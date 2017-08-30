@@ -56,14 +56,8 @@ if ( ! class_exists( 'simple_options' ) ) {
 				return;
 			}
 			global $page;
-			$user_id = get_current_user_id();
-			$boxes = get_user_meta( $user_id, 'closedpostboxes_ultimate_branding', true );
-			$tab = isset( $_REQUEST['tab'] )? $_REQUEST['tab']:'dashboard';
-			if ( isset( $boxes[ $tab ] ) ) {
-				$boxes = $boxes[ $tab ];
-			} else {
-				$boxes = array();
-			}
+
+			$boxes = $this->get_boxes();
 
 			$content = '<div class="meta-box-sortables simple-options">';
 			foreach ( $options as $section_key => $option ) {
@@ -91,7 +85,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 				 * fold
 				 */
 				$content .= '<button type="button" class="handlediv button-link" aria-expanded="true">';
-				$content .= '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s' ), $option['title'] ) . '</span>';
+				$content .= '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s', 'ub' ), $option['title'] ) . '</span>';
 				$content .= '<span class="toggle-indicator" aria-hidden="true"></span>';
 				$content .= '</button>';
 				/**
@@ -187,7 +181,11 @@ if ( ! class_exists( 'simple_options' ) ) {
 								$this->loaded['media'] = true;
 								wp_enqueue_media();
 							}
-							$image_src = wp_get_attachment_image_url( $value );
+							if ( preg_match( '/^\d+$/', $value ) ) {
+								$image_src = wp_get_attachment_image_url( $value );
+							} else if ( is_string( $value ) ) {
+								$image_src = $value;
+							}
 							$content .= '<div class="image-preview-wrapper">';
 							$content .= sprintf(
 								'<img class="image-preview" src="%s" />',
@@ -496,6 +494,22 @@ if ( ! class_exists( 'simple_options' ) ) {
 				}
 			}
 			wp_send_json_error();
+		}
+
+		/**
+		 * get boxes by current user and tab
+		 *
+		 * @since 1.8.9
+		 */
+		public function get_boxes() {
+			$boxes = array();
+			$user_id = get_current_user_id();
+			$boxes = get_user_meta( $user_id, 'closedpostboxes_ultimate_branding', true );
+			$tab = isset( $_REQUEST['tab'] )? $_REQUEST['tab']:'dashboard';
+			if ( isset( $boxes[ $tab ] ) ) {
+				$boxes = $boxes[ $tab ];
+			}
+			return $boxes;
 		}
 	}
 }

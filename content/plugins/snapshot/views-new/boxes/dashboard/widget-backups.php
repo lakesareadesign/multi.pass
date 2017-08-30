@@ -17,9 +17,9 @@
 	$has_backups = !empty( $snapshots );
 ?>
 
-<section class="box wps-widget-backups">
+<section class="wpmud-box wps-widget-backups">
 
-	<div class="box-title<?php if ($has_snapshot_key === true) : echo ' has-button'; else : echo ' has-tag'; endif; ?>">
+	<div class="wpmud-box-title<?php if ($has_snapshot_key === true) : echo ' has-button'; else : echo ' has-tag'; endif; ?>">
 
 		<h3<?php if ( $has_backups && $has_snapshot_key ) { echo ' class="has-count"'; } ?>>
 			<?php esc_html_e('Managed Backups', SNAPSHOT_I18N_DOMAIN); ?>
@@ -44,7 +44,7 @@
 
 	</div>
 
-	<div class="box-content<?php echo $is_client ? ' wps-pro' : ' wps-free'; ?><?php if ( ( $has_snapshot_key === true )&&( $has_backups === true ) ) : echo ' wps-pro-backups'; endif; ?>">
+	<div class="wpmud-box-content<?php echo $is_client ? ' wps-pro' : ' wps-free'; ?><?php if ( ( $has_snapshot_key === true )&&( $has_backups === true ) ) : echo ' wps-pro-backups'; endif; ?>">
 
 		<div class="row">
 

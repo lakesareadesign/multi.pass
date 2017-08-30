@@ -12,14 +12,14 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 	 *
 	 * @since 1.9.5
 	 * @var string $id
-	 */  
+	 */
 	public $id = 'enormail';
 
 	/**
 	 * @since 1.9.5
 	 * @var object $api_instance
 	 * @access private
-	 */  
+	 */
 	private $api_instance = null;
 
 	/**
@@ -28,9 +28,8 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 	 * @since 1.9.5
 	 * @param array $api_key A valid API key to authenticate.
 	 * @return object The API instance.
-	 */  
-	public function get_api( $api_key ) 
-	{
+	 */
+	public function get_api( $api_key ) {
 		if ( $this->api_instance ) {
 			return $this->api_instance;
 		}
@@ -38,12 +37,12 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 		if ( ! class_exists( '\\Enormail\\ApiClient' ) ) {
 			require_once FL_BUILDER_DIR . 'includes/vendor/enormail/autoload.php';
 		}
-		
+
 		$this->api_instance = new \Enormail\ApiClient( $api_key );
-		
+
 		return $this->api_instance;
 	}
-	
+
 	/**
 	 * Test the API connection.
 	 *
@@ -56,19 +55,17 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type array $data An array of data used to make the connection.
 	 * }
-	 */  
-	public function connect( $fields = array() ) 
-	{
-		$response = array( 
+	 */
+	public function connect( $fields = array() ) {
+		$response = array(
 			'error'  => false,
-			'data'   => array()
+			'data'   => array(),
 		);
 
 		// Make sure we have an API key.
 		if ( ! isset( $fields['api_key'] ) || empty( $fields['api_key'] ) ) {
 			$response['error'] = __( 'Error: You must provide an API key.', 'fl-builder' );
-		}
-		// Try to connect and store the connection data.
+		} // End if().
 		else {
 
 			$api = $this->get_api( $fields['api_key'] );
@@ -77,11 +74,12 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 			$api_response = json_decode( $api->test() );
 
 			if ( isset( $api_response->ping ) && 'hello' === $api_response->ping ) {
-				$response['data'] = array('api_key' => $fields['api_key']);
-			}
-			else {
-				$response['error'] = sprintf(__( 'Error: Could not connect to Enormail. %s', 'fl-builder' ), 
-					'('.$api_response->error->http_code .': '. $api_response->error->message.')'
+				$response['data'] = array(
+					'api_key' => $fields['api_key'],
+				);
+			} else {
+				$response['error'] = sprintf(__( 'Error: Could not connect to Enormail. %s', 'fl-builder' ),
+					'(' . $api_response->error->http_code . ': ' . $api_response->error->message . ')'
 				);
 			}
 		}
@@ -94,11 +92,10 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 	 *
 	 * @since 1.9.5
 	 * @return string The connection settings markup.
-	 */  
-	public function render_connect_settings() 
-	{
+	 */
+	public function render_connect_settings() {
 		ob_start();
-		
+
 		FLBuilder::render_settings_field( 'api_key', array(
 			'row_class'     => 'fl-builder-service-connect-row',
 			'class'         => 'fl-builder-service-connect-input',
@@ -106,15 +103,15 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 			'label'         => __( 'API Key', 'fl-builder' ),
 			'help'          => __( 'Found in your Sendy application under Settings.', 'fl-builder' ),
 			'preview'       => array(
-				'type'          => 'none'
-			)
+				'type'          => 'none',
+			),
 		));
 
 		return ob_get_clean();
 	}
 
 	/**
-	 * Render the markup for service specific fields. 
+	 * Render the markup for service specific fields.
 	 *
 	 * @since 1.9.5
 	 * @param string $account The name of the saved account.
@@ -123,48 +120,47 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type string $html The field markup.
 	 * }
-	 */  
-	public function render_fields( $account, $settings ) 
-	{		
+	 */
+	public function render_fields( $account, $settings ) {
 		$account_data   = $this->get_account_data( $account );
 		$api            = $this->get_api( $account_data['api_key'] );
 		$lists          = json_decode( $api->lists->get() );
-		$response       = array( 
-			'error'         => false, 
-			'html'          => '' 
+		$response       = array(
+			'error'         => false,
+			'html'          => '',
 		);
-		
+
 		if ( ! $lists ) {
 			$response['error'] = __( 'Error: Please check your API key.', 'fl-builder' );
-		}
-		else {
+		} else {
 			$response['html'] = $this->render_list_field( $lists, $settings );
 		}
-		
+
 		return $response;
 	}
 
 	/**
-	 * Render markup for the list field. 
+	 * Render markup for the list field.
 	 *
 	 * @since 1.9.5
 	 * @param array $lists List data from the API.
 	 * @param object $settings Saved module settings.
 	 * @return string The markup for the list field.
 	 * @access private
-	 */  
-	private function render_list_field( $lists, $settings ) 
-	{
+	 */
+	private function render_list_field( $lists, $settings ) {
 		ob_start();
-		
-		$options = array( '' => __( 'Choose...', 'fl-builder' ) );
+
+		$options = array(
+			'' => __( 'Choose...', 'fl-builder' ),
+		);
 
 		foreach ( $lists as $list ) {
-			if ( isset($list->listid) ) {
+			if ( isset( $list->listid ) ) {
 				$options[ $list->listid ] = $list->title;
-			}			
+			}
 		}
-				
+
 		FLBuilder::render_settings_field( 'list_id', array(
 			'row_class'     => 'fl-builder-service-field-row',
 			'class'         => 'fl-builder-service-list-select',
@@ -172,14 +168,14 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 			'label'         => _x( 'List', 'An email list from a third party provider.', 'fl-builder' ),
 			'options'       => $options,
 			'preview'       => array(
-				'type'          => 'none'
-			)
-		), $settings); 
-		
+				'type'          => 'none',
+			),
+		), $settings);
+
 		return ob_get_clean();
 	}
 
-	/** 
+	/**
 	 * Subscribe an email address to Sendy.
 	 *
 	 * @since 1.9.5
@@ -189,32 +185,31 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 	 * @return array {
 	 *      @type bool|string $error The error message or false if no error.
 	 * }
-	 */  
-	public function subscribe( $settings, $email, $name = '' )
-	{
+	 */
+	public function subscribe( $settings, $email, $name = '' ) {
 		$account_data = $this->get_account_data( $settings->service_account );
-		$response     = array( 'error' => false );
-		
+		$response     = array(
+			'error' => false,
+		);
+
 		if ( ! $account_data ) {
 			$response['error'] = __( 'There was an error subscribing to Enormail. The account is no longer connected.', 'fl-builder' );
-		}
-		else {
-			
+		} else {
+
 			$api = $this->get_api( $account_data['api_key'] );
 
 			// Search user if already exists
-			$contact = json_decode( $api->contacts->details($settings->list_id, $email) );
+			$contact = json_decode( $api->contacts->details( $settings->list_id, $email ) );
 
 			// Name is required
 			if ( empty( $name ) ) {
-				$name = explode('@', $email)[0];
+				$name = explode( '@', $email )[0];
 			}
 
 			// Add if not exists
-			if ( $contact->code == -1 ) {
+			if ( -1 == $contact->code ) {
 				$result = $api->contacts->add( $settings->list_id, $name, $email );
-			}
-			// Update
+			} // End if().
 			else {
 				$result = $api->contacts->update( $settings->list_id, $name, $email );
 			}
@@ -222,12 +217,12 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 			$get_results = json_decode( $result );
 
 			if ( isset( $get_results->status ) && 'error' === $get_results->status ) {
-				$response['error'] = sprintf(__( 'There was an error subscribing to Enormail. %s', 'fl-builder' ), 
-					'('. $get_results->code .': '. $get_results->message .')'
-				);				
-			}			
+				$response['error'] = sprintf(__( 'There was an error subscribing to Enormail. %s', 'fl-builder' ),
+					'(' . $get_results->code . ': ' . $get_results->message . ')'
+				);
+			}
 		}
-		
+
 		return $response;
 	}
 }

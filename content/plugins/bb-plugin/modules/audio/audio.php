@@ -13,28 +13,26 @@ class FLAudioModule extends FLBuilderModule {
 	/**
 	 * @method __construct
 	 */
-	public function __construct()
-	{
+	public function __construct() {
 		parent::__construct(array(
-			'name'          	=> __('Audio', 'fl-builder'),
-			'description'   	=> __('Render a WordPress audio shortcode.', 'fl-builder'),
-			'category'      	=> __('Basic Modules', 'fl-builder'),
-			'partial_refresh'	=> true
+			'name'          	=> __( 'Audio', 'fl-builder' ),
+			'description'   	=> __( 'Render a WordPress audio shortcode.', 'fl-builder' ),
+			'category'      	=> __( 'Basic Modules', 'fl-builder' ),
+			'partial_refresh'	=> true,
 		));
 	}
 
 	/**
 	 * @method get_data
 	 */
-	public function get_data()
-	{
-		if(!$this->data) {
+	public function get_data() {
+		if ( ! $this->data ) {
 
 			// Get audio data if user selected only one audio file
-			if (is_array($this->settings->audios) && count($this->settings->audios) == 1) {
-				$this->data = FLBuilderPhoto::get_attachment_data($this->settings->audios[0]);
+			if ( is_array( $this->settings->audios ) && count( $this->settings->audios ) == 1 ) {
+				$this->data = FLBuilderPhoto::get_attachment_data( $this->settings->audios[0] );
 
-				if(!$this->data && isset($this->settings->data)) {
+				if ( ! $this->data && isset( $this->settings->data ) ) {
 					$this->data = $this->settings->data;
 				}
 			}
@@ -47,20 +45,18 @@ class FLAudioModule extends FLBuilderModule {
 	 * @method update
 	 * @param $settings {object}
 	 */
-	public function update($settings)
-	{
+	public function update( $settings ) {
 		// Cache the attachment data.
-		if($settings->audio_type == 'media_library') {
+		if ( 'media_library' == $settings->audio_type ) {
 
 			// Get audio data if user selected only one audio file
-			if (is_array($settings->audios) && count($settings->audios) == 1) {
-				$audios = FLBuilderPhoto::get_attachment_data($settings->audios[0]);
+			if ( is_array( $settings->audios ) && count( $settings->audios ) == 1 ) {
+				$audios = FLBuilderPhoto::get_attachment_data( $settings->audios[0] );
 
-				if($audios) {
+				if ( $audios ) {
 					$settings->data = $audios;
 				}
 			}
-			
 		}
 
 		return $settings;
@@ -73,43 +69,43 @@ class FLAudioModule extends FLBuilderModule {
  */
 FLBuilder::register_module('FLAudioModule', array(
 	'general'       => array(
-		'title'         => __('General', 'fl-builder'),
+		'title'         => __( 'General', 'fl-builder' ),
 		'sections'      => array(
 			'general'       => array(
 				'title'         => '',
 				'fields'        => array(
 					'audio_type'       => array(
 						'type'          => 'select',
-						'label'         => __('Audio Type', 'fl-builder'),
+						'label'         => __( 'Audio Type', 'fl-builder' ),
 						'default'       => 'wordpress',
 						'options'       => array(
-							'media_library'     => __('Media Library', 'fl-builder'),
-							'link'             => __('Link', 'fl-builder')
+							'media_library'     => __( 'Media Library', 'fl-builder' ),
+							'link'             => __( 'Link', 'fl-builder' ),
 						),
 						'toggle'        => array(
 							'link'     => array(
-								'fields'      => array('link')
+								'fields'      => array( 'link' ),
 							),
 							'media_library'      => array(
-								'fields'	  => array('audios')
-							)
-						)
+								'fields'	  => array( 'audios' ),
+							),
+						),
 					),
 					'audios'          => array(
 						'type'          => 'multiple-audios',
 						'label'         => __( 'Audio', 'fl-builder' ),
 						'toggle'        => array(
 							'playlist'      => array(
-								'fields'      => array('style', 'tracklist', 'tracknumbers', 'images', 'artists')
+								'fields'      => array( 'style', 'tracklist', 'tracknumbers', 'images', 'artists' ),
 							),
 							'single_audio'     => array(
-								'fields'      => array('autoplay', 'loop')
+								'fields'      => array( 'autoplay', 'loop' ),
 							),
-						)
+						),
 					),
 					'link'       => array(
 						'type'          => 'text',
-						'label'         => __('Link', 'fl-builder'),
+						'label'         => __( 'Link', 'fl-builder' ),
 					),
 
 					/**
@@ -117,27 +113,27 @@ FLBuilder::register_module('FLAudioModule', array(
 					 */
 					'autoplay'       => array(
 						'type'          => 'select',
-						'label'         => __('Auto Play', 'fl-builder'),
+						'label'         => __( 'Auto Play', 'fl-builder' ),
 						'default'       => '0',
 						'options'       => array(
-							'0'             => __('No', 'fl-builder'),
-							'1'             => __('Yes', 'fl-builder')
+							'0'             => __( 'No', 'fl-builder' ),
+							'1'             => __( 'Yes', 'fl-builder' ),
 						),
 						'preview'       => array(
-							'type'          => 'none'
-						)
+							'type'          => 'none',
+						),
 					),
 					'loop'           => array(
 						'type'          => 'select',
-						'label'         => __('Loop', 'fl-builder'),
+						'label'         => __( 'Loop', 'fl-builder' ),
 						'default'       => '0',
 						'options'       => array(
-							'0'             => __('No', 'fl-builder'),
-							'1'             => __('Yes', 'fl-builder')
+							'0'             => __( 'No', 'fl-builder' ),
+							'1'             => __( 'Yes', 'fl-builder' ),
 						),
 						'preview'       => array(
-							'type'          => 'none'
-						)
+							'type'          => 'none',
+						),
 					),
 
 					/**
@@ -145,59 +141,59 @@ FLBuilder::register_module('FLAudioModule', array(
 					 */
 					'style'			=> array(
 						'type'			=> 'select',
-						'label'			=> __('Style', 'fl-builder'),
+						'label'			=> __( 'Style', 'fl-builder' ),
 						'default'		=> 'light',
 						'options'		=> array(
-							'light'			=> __('Light', 'fl-builder'),
-							'dark'			=> __('Dark', 'fl-builder')
-						)
+							'light'			=> __( 'Light', 'fl-builder' ),
+							'dark'			=> __( 'Dark', 'fl-builder' ),
+						),
 					),
 					'tracklist'		=> array(
 						'type'          => 'select',
-						'label'         => __('Show Playlist', 'fl-builder'),
+						'label'         => __( 'Show Playlist', 'fl-builder' ),
 						'default'       => '1',
 						'options'       => array(
-							'0'             => __('No', 'fl-builder'),
-							'1'             => __('Yes', 'fl-builder')
+							'0'             => __( 'No', 'fl-builder' ),
+							'1'             => __( 'Yes', 'fl-builder' ),
 						),
 						'toggle'        => array(
 							'1'      		=> array(
-								'fields'    	=> array('tracknumbers')
+								'fields'    	=> array( 'tracknumbers' ),
 							),
-						)
+						),
 					),
 					'tracknumbers'		=> array(
 						'type'          => 'select',
-						'label'         => __('Show Track Numbers', 'fl-builder'),
+						'label'         => __( 'Show Track Numbers', 'fl-builder' ),
 						'default'       => '1',
 						'options'       => array(
-							'0'             => __('No', 'fl-builder'),
-							'1'             => __('Yes', 'fl-builder')
+							'0'             => __( 'No', 'fl-builder' ),
+							'1'             => __( 'Yes', 'fl-builder' ),
 						),
 						'preview'       => array(
-							'type'          => 'none'
-						)
+							'type'          => 'none',
+						),
 					),
 					'images'		=> array(
 						'type'          => 'select',
-						'label'         => __('Show Thumbnail', 'fl-builder'),
+						'label'         => __( 'Show Thumbnail', 'fl-builder' ),
 						'default'       => '1',
 						'options'       => array(
-							'0'             => __('No', 'fl-builder'),
-							'1'             => __('Yes', 'fl-builder')
-						)
+							'0'             => __( 'No', 'fl-builder' ),
+							'1'             => __( 'Yes', 'fl-builder' ),
+						),
 					),
 					'artists'		=> array(
 						'type'          => 'select',
-						'label'         => __('Show Artist Name', 'fl-builder'),
+						'label'         => __( 'Show Artist Name', 'fl-builder' ),
 						'default'       => '1',
 						'options'       => array(
-							'0'             => __('No', 'fl-builder'),
-							'1'             => __('Yes', 'fl-builder')
-						)
+							'0'             => __( 'No', 'fl-builder' ),
+							'1'             => __( 'Yes', 'fl-builder' ),
+						),
 					),
-				)
-			)
-		)
-	)
+				),
+			),
+		),
+	),
 ));

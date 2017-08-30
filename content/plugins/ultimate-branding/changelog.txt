@@ -5,6 +5,19 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+DATE: 30 Aug, 2017  - VERSION: 1.9.0.1
+- Fixed a problem with "Admin Panel Tips" - single tip was override any post type edit form.
+
+DATE: 21 Aug, 2017  - VERSION: 1.9.0
+==================================
+- Added border & shadow for focused inputs on the login screen.
+- Added folding to "Color Schemes" module.
+- Added new module "Admin Bar Logo" with an ability to change admin bar logo.
+- Added predefined themes for "Login Screen" module: "Black Ice", "Dandelion", "Moon" and "Moss'.
+- Fixed a problem with site icons on the frontend.
+- Fixed a problem with missing custom email template for registration email.
+- Refactored module "Rebranded Meta Widget" into class.
+
 DATE: 17 Jul, 2017  - VERSION: 1.8.9
 ==================================
 - Added ability to parse shortcodes in custom footer & header.
@@ -14,6 +27,7 @@ DATE: 17 Jul, 2017  - VERSION: 1.8.9
 - Added radius for the logo on "Login Screen" module.
 - Fixed a problem with "Remember Me" on module "Login Screen".
 - Fixed missing %s replacement for the error message on "Login Screen" module.
+- FIxed a problem with HTML Email Templates for registration email.
 - Moved information abut inactive modules to the bottom.
 - Removed extra switch for form radius on "Login Screen" module.
 - Rename module "Custom Admin Bar" to "Admin Bar".
@@ -366,4 +380,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 - Initial release of the Ultimate Branding plugin
 
 
-133620-1502132170-au
+133620-1504103048-au

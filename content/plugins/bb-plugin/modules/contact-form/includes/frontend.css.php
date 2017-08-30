@@ -1,5 +1,5 @@
 <?php
-	
+
 FLBuilder::render_module_css('button', $id, array(
 	'bg_color'          => $settings->btn_bg_color,
 	'bg_hover_color'    => $settings->btn_bg_hover_color,
@@ -20,11 +20,11 @@ FLBuilder::render_module_css('button', $id, array(
 	'text_hover_color'  => $settings->btn_text_hover_color,
 	'width'             => $settings->btn_width,
 	'align'				=> $settings->btn_align,
-	'icon_animation'	=> $settings->btn_icon_animation
+	'icon_animation'	=> $settings->btn_icon_animation,
 ));
 ?>
 
-<?php if ('right' == $settings->btn_align): ?>
+<?php if ( 'right' == $settings->btn_align ) : ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-contact-form .fl-send-error,
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-contact-form .fl-success,
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-contact-form .fl-success-none,
@@ -33,7 +33,7 @@ FLBuilder::render_module_css('button', $id, array(
 }
 <?php endif; ?>
 
-<?php if ('center' == $settings->btn_align): ?>
+<?php if ( 'center' == $settings->btn_align ) : ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-contact-form .fl-send-error,
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-contact-form .fl-success,
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-contact-form .fl-success-none,

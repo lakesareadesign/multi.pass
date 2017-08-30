@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Optimize Database after Deleting Revisions
- * @version 4.3
+ * @version 4.4
  */
 /*
 Plugin Name: Optimize Database after Deleting Revisions
@@ -10,7 +10,7 @@ Description: Optimizes the Wordpress Database after Cleaning it out
 Author: CAGE Web Design | Rolf van Gelder, Eindhoven, The Netherlands
 Author URI: http://cagewebdev.com
 Network: True
-Version: 4.3
+Version: 4.4
 */
 
 /********************************************************************************************
@@ -24,8 +24,8 @@ $odb_class = new OptimizeDatabase();
 
 class OptimizeDatabase {
 	// VERSION
-	var $odb_version           = '4.3';
-	var $odb_release_date      = '07/24/2017';
+	var $odb_version           = '4.4';
+	var $odb_release_date      = '08/22/2017';
 
 	// PLUGIN OPTIONS
 	var $odb_rvg_options       = array();
@@ -201,6 +201,28 @@ class OptimizeDatabase {
 			$this->odb_rvg_options['total_savings']    = (int)0;
 		if(!isset($this->odb_rvg_options['version']))
 			$this->odb_rvg_options['version']          = $this->odb_version;
+			
+		// CUSTOM POST TYPES (from v4.4)
+		if(!isset($this->odb_rvg_options['post_types'])) {
+			$this->odb_rvg_options['post_types'] = array();
+			$relevant_pts = $this->odb_utilities_obj->odb_get_relevant_post_types();
+			// (CUSTOM) POST TYPES ARE PER DEFAULT ENABLED		
+			foreach($relevant_pts as $posttype) {
+				$this->odb_rvg_options['post_types'][$posttype] = "Y";
+			} // foreach($relevant_pts as $posttype)
+			
+			if (isset($this->odb_rvg_options['rev_post_type'])) {
+				// UPGRADE FROM A VERSION < 4.4
+				if ($this->odb_rvg_options['rev_post_type'] == 'page') {
+					// PAGES ONLY: DISABLE 'post'
+					$this->odb_rvg_options['post_types']['post'] = "N";
+				} else if ($this->odb_rvg_options['rev_post_type'] == 'post') {
+					// POSTS ONLY: DISABLE 'page'
+					$this->odb_rvg_options['post_types']['page'] = "N";
+				}
+				unset($this->odb_rvg_options['rev_post_type']);
+			} // if (isset($this->odb_rvg_options['rev_post_type']))
+		} // if(!isset($this->odb_rvg_options['post_types']))
 
 		// UPDATE OPTIONS
 		$this->odb_multisite_obj->odb_ms_update_option('odb_rvg_options', $this->odb_rvg_options);

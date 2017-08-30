@@ -4,9 +4,9 @@
 
 	<div class="wps-popup-content">
 
-		<div class="box">
+		<div class="wpmud-box">
 
-			<div class="box-title can-close">
+			<div class="wpmud-box-title can-close">
 
 				<h3><?php echo $modal_title; ?></h3>
 
@@ -14,7 +14,7 @@
 
 			</div>
 
-			<div class="box-content">
+			<div class="wpmud-box-content">
 
 				<div class="row">
 

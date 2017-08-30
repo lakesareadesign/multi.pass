@@ -4,13 +4,13 @@
 </section>
 
 <div id="container" class="snapshot-three wps-page-backups">
-	<section class="box get-started-box">
+	<section class="wpmud-box get-started-box">
 
-		<div class="box-title">
+		<div class="wpmud-box-title">
 			<h3><?php _e( 'Get Started', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 		</div>
 
-		<div class="box-content">
+		<div class="wpmud-box-content">
 			<div class="row">
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 

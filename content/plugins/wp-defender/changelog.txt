@@ -4,6 +4,14 @@ Tested up to: 4.7.4
 
 Change Log:
 
+1.7 - 2017-15-08
+----------------------------------------------------------------------
+- New: Now you can enable 2 factors authentication with Defender and Google Authenticator app, support for iOS and Android
+- New: We can define how long the "Remember me" can take affect, via a new Security Tweak, called "Manage Login Duration"
+- Improvement: IP Lockout logs now have separate tables, better for performance.
+- Fix: Ignore a file in Scanning section sometimes coming back after couple of scans.
+- Other minor enhancements/fixes
+
 1.6.2 - 2017-05-07
 ----------------------------------------------------------------------
 - New: CSV export for Audit Logging.
@@ -181,4 +189,4 @@ Fixed: Scanning was sometimes slow or getting stuck
 - First release
 
 
-133620-1502132187-au
+133620-1504103056-au

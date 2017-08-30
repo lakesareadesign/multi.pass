@@ -1,17 +1,17 @@
 <?php
 
 FLBuilder::register_settings_form('node_template', array(
-	'title' => _x('Save %s', '%s stands for the type of node template being saved.', 'fl-builder'),
+	'title' => _x( 'Save %s', '%s stands for the type of node template being saved.', 'fl-builder' ),
 	'tabs' => array(
 		'general'  => array(
-			'title'         => __('General', 'fl-builder'),
+			'title'         => __( 'General', 'fl-builder' ),
 			'sections'      => array(
 				'general'       => array(
 					'title'         => '',
 					'fields'        => array(
 						'name'          => array(
 							'type'          => 'text',
-							'label'         => _x( 'Name', 'Template name.', 'fl-builder' )
+							'label'         => _x( 'Name', 'Template name.', 'fl-builder' ),
 						),
 						'global'        => array(
 							'type'          => 'select',
@@ -19,13 +19,13 @@ FLBuilder::register_settings_form('node_template', array(
 							'help'          => __( 'Global rows and modules can be added to multiple pages and edited in one place.', 'fl-builder' ),
 							'default'       => '0',
 							'options'       => array(
-								'0'             => __('No', 'fl-builder'),
-								'1'             => __('Yes', 'fl-builder')
-							)
-						)
-					)
-				)
-			)
-		)
-	)
+								'0'             => __( 'No', 'fl-builder' ),
+								'1'             => __( 'Yes', 'fl-builder' ),
+							),
+						),
+					),
+				),
+			),
+		),
+	),
 ));

@@ -13,12 +13,11 @@ final class FLBuilderMultisite {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function init()
-	{
-		add_action('wpmu_new_blog',             __CLASS__ . '::install_for_new_blog', 10, 6);
-		add_filter('wpmu_drop_tables',          __CLASS__ . '::uninstall_on_delete_blog');
-		add_filter('fl_builder_activate',       __CLASS__ . '::activate');
-		add_filter('fl_builder_uninstall',      __CLASS__ . '::uninstall');
+	static public function init() {
+		add_action( 'wpmu_new_blog',             __CLASS__ . '::install_for_new_blog', 10, 6 );
+		add_filter( 'wpmu_drop_tables',          __CLASS__ . '::uninstall_on_delete_blog' );
+		add_filter( 'fl_builder_activate',       __CLASS__ . '::activate' );
+		add_filter( 'fl_builder_uninstall',      __CLASS__ . '::uninstall' );
 	}
 
 	/**
@@ -27,17 +26,15 @@ final class FLBuilderMultisite {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function activate( $activate )
-	{
+	static public function activate( $activate ) {
 		if ( is_network_admin() ) {
 			FLBuilderMultisite::install();
-		}
-		else {
+		} else {
 			FLBuilderAdmin::install();
 		}
-		
+
 		FLBuilderAdmin::trigger_activate_notice();
-		
+
 		return false;
 	}
 
@@ -47,20 +44,19 @@ final class FLBuilderMultisite {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function install() 
-	{
+	static public function install() {
 		global $blog_id;
 		global $wpdb;
-		
+
 		$original_blog_id   = $blog_id;
-		$blog_ids           = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
-		
-		foreach($blog_ids as $id) {
-			switch_to_blog($id);
+		$blog_ids           = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+
+		foreach ( $blog_ids as $id ) {
+			switch_to_blog( $id );
 			FLBuilderAdmin::install();
 		}
-		
-		switch_to_blog($original_blog_id);
+
+		switch_to_blog( $original_blog_id );
 	}
 
 	/**
@@ -75,12 +71,11 @@ final class FLBuilderMultisite {
 	 * @param array $meta
 	 * @return void
 	 */
-	static public function install_for_new_blog($blog_id, $user_id, $domain, $path, $site_id, $meta) 
-	{
+	static public function install_for_new_blog( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
 		global $wpdb;
-		
-		if(is_plugin_active_for_network(FLBuilderModel::plugin_basename())) {
-			switch_to_blog($blog_id);
+
+		if ( is_plugin_active_for_network( FLBuilderModel::plugin_basename() ) ) {
+			switch_to_blog( $blog_id );
 			FLBuilderAdmin::install();
 			restore_current_blog();
 		}
@@ -93,21 +88,20 @@ final class FLBuilderMultisite {
 	 * @since 1.0
 	 * @return void
 	 */
-	static public function uninstall( $uninstall ) 
-	{
+	static public function uninstall( $uninstall ) {
 		global $blog_id;
 		global $wpdb;
-		
+
 		$original_blog_id   = $blog_id;
-		$blog_ids           = $wpdb->get_col("SELECT blog_id FROM $wpdb->blogs");
-		
-		foreach($blog_ids as $id) {
-			switch_to_blog($id);
+		$blog_ids           = $wpdb->get_col( "SELECT blog_id FROM $wpdb->blogs" );
+
+		foreach ( $blog_ids as $id ) {
+			switch_to_blog( $id );
 			FLBuilderAdmin::uninstall();
 		}
-		
-		switch_to_blog($original_blog_id);
-		
+
+		switch_to_blog( $original_blog_id );
+
 		return false;
 	}
 
@@ -117,26 +111,23 @@ final class FLBuilderMultisite {
 	 * @since 1.0
 	 * @return array
 	 */
-	static public function uninstall_on_delete_blog($tables) 
-	{
+	static public function uninstall_on_delete_blog( $tables ) {
 		return $tables;
 	}
-	
-	/** 
+
+	/**
 	 * Checks if a blog on the network exists.
 	 *
 	 * @since 1.5.7
 	 * @param $blog_id The blog ID to check.
 	 * @return bool
 	 */
-	static public function blog_exists( $blog_id )
-	{
+	static public function blog_exists( $blog_id ) {
 		global $wpdb;
-		
+
 		if ( method_exists( $wpdb, 'esc_like' ) ) {
 			$like = esc_sql( $wpdb->esc_like( $blog_id ) );
-		}
-		else {
+		} else {
 			$like = like_escape( esc_sql( $blog_id ) );
 		}
 

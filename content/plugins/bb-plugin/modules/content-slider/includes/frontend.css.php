@@ -8,162 +8,157 @@
 }
 <?php
 
-for($i = 0; $i < count($settings->slides); $i++) {
+for ( $i = 0; $i < count( $settings->slides ); $i++ ) {
 
 	// Make sure we have a slide.
-	if(!is_object($settings->slides[$i])) {
+	if ( ! is_object( $settings->slides[ $i ] ) ) {
 		continue;
 	}
 
-	// Slide Settings 
-	$slide = $settings->slides[$i]; 
-	
+	// Slide Settings
+	$slide = $settings->slides[ $i ];
+
 	// Slide Background Color
-	if($slide->bg_layout == 'color' && !empty($slide->bg_color)) {
-		echo '.fl-node-'. $id .' .fl-slide-'. $i;
-		echo ' { background-color: #'. $slide->bg_color .'; }';
+	if ( 'color' == $slide->bg_layout && ! empty( $slide->bg_color ) ) {
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i;
+		echo ' { background-color: #' . $slide->bg_color . '; }';
 	}
-	
+
 	// Foreground Photo/Video
-	if($slide->content_layout == 'photo' || $slide->content_layout == 'video') {
-	
+	if ( 'photo' == $slide->content_layout || 'video' == $slide->content_layout ) {
+
 		$photo_width = 100 - $slide->text_width;
-		
+
 		// Foreground Photo/Video Width
-		if($slide->text_position != 'center') {
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-photo-wrap ';
-			echo '{ width: '. $photo_width .'%; }';
+		if ( 'center' != $slide->text_position ) {
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-photo-wrap ';
+			echo '{ width: ' . $photo_width . '%; }';
 		}
-		
+
 		// Foreground Photo/Video Margins
-		if($slide->text_position == 'left') {
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-photo ';
-			echo '{ margin-right: '. $slide->text_margin_left .'px; ';
-			echo 'margin-top: '. $slide->text_margin_top .'px; ';
-			echo 'margin-bottom: '. $slide->text_margin_bottom .'px; }'; 
-		}
-		else if($slide->text_position == 'center') {
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-photo ';
-			echo '{ margin-left: '. $slide->text_margin_left .'px; ';
-			echo 'margin-right: '. $slide->text_margin_right .'px; ';
-			echo 'margin-bottom: '. $slide->text_margin_bottom .'px; }'; 
-		}
-		else if($slide->text_position == 'right') {
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-photo ';
-			echo '{ margin-left: '. $slide->text_margin_right .'px; ';
-			echo 'margin-top: '. $slide->text_margin_top .'px; ';
-			echo 'margin-bottom: '. $slide->text_margin_bottom .'px; }'; 
+		if ( 'left' == $slide->text_position ) {
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-photo ';
+			echo '{ margin-right: ' . $slide->text_margin_left . 'px; ';
+			echo 'margin-top: ' . $slide->text_margin_top . 'px; ';
+			echo 'margin-bottom: ' . $slide->text_margin_bottom . 'px; }';
+		} elseif ( 'center' == $slide->text_position ) {
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-photo ';
+			echo '{ margin-left: ' . $slide->text_margin_left . 'px; ';
+			echo 'margin-right: ' . $slide->text_margin_right . 'px; ';
+			echo 'margin-bottom: ' . $slide->text_margin_bottom . 'px; }';
+		} elseif ( 'right' == $slide->text_position ) {
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-photo ';
+			echo '{ margin-left: ' . $slide->text_margin_right . 'px; ';
+			echo 'margin-top: ' . $slide->text_margin_top . 'px; ';
+			echo 'margin-bottom: ' . $slide->text_margin_bottom . 'px; }';
 		}
 	}
-	
+
 	// Text Width and Margins
-	if($slide->content_layout != 'none') {
-	
+	if ( 'none' != $slide->content_layout ) {
+
 		// Content wrap width
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-content-wrap ';
-		echo '{ width: '. $slide->text_width .'%; }';
-		
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-content-wrap ';
+		echo '{ width: ' . $slide->text_width . '%; }';
+
 		// Margins
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-content ';
-		echo '{ margin-right: '. $slide->text_margin_right .'px; ';
-		echo 'margin-left: '. $slide->text_margin_left .'px; ';
-		
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-content ';
+		echo '{ margin-right: ' . $slide->text_margin_right . 'px; ';
+		echo 'margin-left: ' . $slide->text_margin_left . 'px; ';
+
 		// 100% height, don't use top/bottom margins
-		if($slide->text_bg_height == '100%' && !empty($slide->text_bg_color)) {
-		
+		if ( '100%' == $slide->text_bg_height && ! empty( $slide->text_bg_color ) ) {
+
 			// Content height
-			echo ' min-height: '. $settings->height .'px; }';
-			
+			echo ' min-height: ' . $settings->height . 'px; }';
+
 			// Content wrap height
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-content-wrap ';
-			echo '{ min-height: '. $settings->height .'px; }';
-		}
-		// Auto height, use top/bottom margins
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-content-wrap ';
+			echo '{ min-height: ' . $settings->height . 'px; }';
+		} // End if().
 		else {
-			echo 'margin-top: '. $slide->text_margin_top .'px; ';
-			echo 'margin-bottom: '. $slide->text_margin_bottom .'px; }'; 
+			echo 'margin-top: ' . $slide->text_margin_top . 'px; ';
+			echo 'margin-bottom: ' . $slide->text_margin_bottom . 'px; }';
 		}
 	}
-	
+
 	// Text Styles
-	if($slide->title_size == 'custom') {
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-title ';
-		echo '{ font-size: '. $slide->title_custom_size .'px; }';
+	if ( 'custom' == $slide->title_size ) {
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-title ';
+		echo '{ font-size: ' . $slide->title_custom_size . 'px; }';
 	}
-		
+
 	// Text Color
-	if(!empty($slide->text_color)) {
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-title, ';
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text, ';
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text * ';
-		echo '{ color: #'. $slide->text_color .'; }';
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text strong ';
+	if ( ! empty( $slide->text_color ) ) {
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-title, ';
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text, ';
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text * ';
+		echo '{ color: #' . $slide->text_color . '; }';
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text strong ';
 		echo '{ color: inherit; }';
 	}
-	
+
 	// Text BG Color
-	if(!empty($slide->text_bg_color)) {
-		$r = hexdec(substr($slide->text_bg_color,0,2));
-		$g = hexdec(substr($slide->text_bg_color,2,2));
-		$b = hexdec(substr($slide->text_bg_color,4,2));
-		$a = $slide->text_bg_opacity/100;
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-content ';
-		echo '{ background-color: rgba('.$r.','.$g.','.$b.','.$a.'); padding: 30px; }';
+	if ( ! empty( $slide->text_bg_color ) ) {
+		$r = hexdec( substr( $slide->text_bg_color,0,2 ) );
+		$g = hexdec( substr( $slide->text_bg_color,2,2 ) );
+		$b = hexdec( substr( $slide->text_bg_color,4,2 ) );
+		$a = $slide->text_bg_opacity / 100;
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-content ';
+		echo '{ background-color: rgba(' . $r . ',' . $g . ',' . $b . ',' . $a . '); padding: 30px; }';
 	}
-	
+
 	// Text Shadow
-	if($slide->text_shadow) {
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-title, ';
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text ';
+	if ( $slide->text_shadow ) {
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-title, ';
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text ';
 		echo '{ text-shadow: 0 0 5px rgba(0,0,0,0.3); }';
-	}        
-	
+	}
+
 	// Responsive Text Styles
-	if($global_settings->responsive_enabled) {
-		echo '@media (max-width: '. $global_settings->responsive_breakpoint .'px) { ';
-		
+	if ( $global_settings->responsive_enabled ) {
+		echo '@media (max-width: ' . $global_settings->responsive_breakpoint . 'px) { ';
+
 		// Responsive Text Color
-		if(!empty($slide->r_text_color)) {
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-title, ';
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text, ';
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text * ';
-			echo '{ color: #'. $slide->r_text_color .'; }';
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text strong ';
+		if ( ! empty( $slide->r_text_color ) ) {
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-title, ';
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text, ';
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text * ';
+			echo '{ color: #' . $slide->r_text_color . '; }';
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text strong ';
+			echo '{ color: inherit; }';
+		} else {
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-title, ';
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text, ';
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text * ';
 			echo '{ color: inherit; }';
 		}
-		else {
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-title, ';
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text, ';
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text * ';
-			echo '{ color: inherit; }';
-		}
-		
+
 		// Responsive Text BG Color
-		if(!empty($slide->r_text_bg_color)) {
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-content ';
-			echo '{ background-color: #'. $slide->r_text_bg_color .'; }';
-		}
-		else {
-			echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-content ';
+		if ( ! empty( $slide->r_text_bg_color ) ) {
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-content ';
+			echo '{ background-color: #' . $slide->r_text_bg_color . '; }';
+		} else {
+			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-content ';
 			echo '{ background-color: transparent; }';
 		}
-		
+
 		// Responsive Text Shadow
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-title, ';
-		echo '.fl-node-'. $id .' .fl-slide-'. $i .' .fl-slide-text ';
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-title, ';
+		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text ';
 		echo '{ text-shadow: none; }';
-		
+
 		echo ' }';
-	}
-	
+	}// End if().
+
 	// Button Styles
-	if($slide->cta_type == 'button') {
-		
+	if ( 'button' == $slide->cta_type ) {
+
 		if ( ! isset( $slide->btn_style ) ) {
 			$slide->btn_style = 'flat';
 		}
 
-		FLBuilder::render_module_css('button', $id . ' .fl-slide-'. $i, array(
+		FLBuilder::render_module_css('button', $id . ' .fl-slide-' . $i, array(
 			'align'             => '',
 			'bg_color'          => $slide->btn_bg_color,
 			'bg_hover_color'    => $slide->btn_bg_hover_color,
@@ -182,7 +177,7 @@ for($i = 0; $i < count($settings->slides); $i++) {
 			'text'              => $slide->cta_text,
 			'text_color'        => $slide->btn_text_color,
 			'text_hover_color'  => $slide->btn_text_hover_color,
-			'width'             => 'auto'
+			'width'             => 'auto',
 		));
 	}
-}
+}// End for().

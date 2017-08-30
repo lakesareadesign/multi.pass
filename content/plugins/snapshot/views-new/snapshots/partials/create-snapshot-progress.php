@@ -1,8 +1,8 @@
 <div id="container" class="hidden snapshot-three wps-page-builder">
 
-	<section class="box">
+	<section class="wpmud-box">
 
-		<div class="box-title has-button">
+		<div class="wpmud-box-title has-button">
 
 			<div class="wps-title-progress">
 
@@ -20,7 +20,7 @@
 
 		</div>
 
-		<div class="box-content">
+		<div class="wpmud-box-content">
 
 			<div class="row">
 
@@ -48,7 +48,7 @@
 
 							<p><?php _e('Your snapshot is in progress. <strong> You need to keep this page open for the backup to complete. </strong> Once your website has been backed up, it will be uploaded to your destination. If your site is small, this will only take a few minutes, but could take a couple of hours for larger sites.', SNAPSHOT_I18N_DOMAIN); ?></p>
 
-							<div class="box-gray">
+							<div class="wpmud-box-gray">
 
 								<div class="wps-loading-status wps-total-status wps-spinner">
 
@@ -80,7 +80,7 @@
 
 							</div>
 
-							<div class="box-gray">
+							<div class="wpmud-box-gray">
 
 								<div class="wps-loading-status">
 
@@ -110,7 +110,7 @@
 
 							<h4><?php _e('Snapshot Log', SNAPSHOT_I18N_DOMAIN); ?></h4>
 
-							<div id="wps-log-resume" class="box-gray">
+							<div id="wps-log-resume" class="wpmud-box-gray">
 
 								<div class="log-memory">
 
@@ -263,7 +263,7 @@
 
 			</div><?php // .col ?>
 
-		<?php // </div> .box-content ?>
+		<?php // </div> .wpmud-box-content ?>
 
 	</section>
 

@@ -377,7 +377,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 
 					} else {
 						$body = $result['body'];
-						$message = $body->message;
+						$message = $body->Message;
 						if ( strpos( $message, 'AWS4-HMAC-SHA256' ) !== false ) {
 							$this->error_array['errorArray'][] = "Bucket location region is incorrect. Please select the right one.";
 						}

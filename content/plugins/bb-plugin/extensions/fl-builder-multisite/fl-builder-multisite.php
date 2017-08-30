@@ -2,7 +2,7 @@
 
 // Only load for multisite installs.
 if ( ! is_multisite() ) {
-	return;	
+	return;
 }
 
 // Defines

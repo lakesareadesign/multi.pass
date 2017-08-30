@@ -16,8 +16,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @since 1.8
 		 * @return void
 		 */
-		static public function init()
-		{
+		static public function init() {
 			if ( ! function_exists( 'is_plugin_active' ) ) {
 				include_once ABSPATH . 'wp-admin/includes/plugin.php';
 			}
@@ -27,8 +26,8 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			$plugin_dirname = basename( dirname( dirname( __FILE__ ) ) );
 
 			if ( class_exists( 'FLBuilder' ) || ( $plugin_dirname != $lite_dirname && $lite_active ) ) {
-				add_action('admin_notices',           __CLASS__ . '::double_install_admin_notice');
-				add_action('network_admin_notices',   __CLASS__ . '::double_install_admin_notice');
+				add_action( 'admin_notices',           __CLASS__ . '::double_install_admin_notice' );
+				add_action( 'network_admin_notices',   __CLASS__ . '::double_install_admin_notice' );
 				return;
 			}
 
@@ -43,19 +42,18 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @since 1.8
 		 * @return void
 		 */
-		static private function define_constants()
-		{
-			define('FL_BUILDER_VERSION', '1.10.6.5');
-			define('FL_BUILDER_FILE', trailingslashit(dirname(dirname(__FILE__))) . 'fl-builder.php');
-			define('FL_BUILDER_DIR', plugin_dir_path(FL_BUILDER_FILE));
-			define('FL_BUILDER_URL', plugins_url('/', FL_BUILDER_FILE));
-			define('FL_BUILDER_LITE', false);
-			define('FL_BUILDER_SUPPORT_URL', 'https://www.wpbeaverbuilder.com/support/'); // Deprecated, do not use.
-			define('FL_BUILDER_UPGRADE_URL', 'https://www.wpbeaverbuilder.com/'); // Deprecated, do not use.
-			define('FL_BUILDER_STORE_URL', 'https://www.wpbeaverbuilder.com/');
-			define('FL_BUILDER_DEMO_URL', 'http://demos.wpbeaverbuilder.com');
-			define('FL_BUILDER_OLD_DEMO_URL', 'http://demos.fastlinemedia.com');
-			define('FL_BUILDER_DEMO_CACHE_URL', 'http://demos.wpbeaverbuilder.com/wp-content/uploads/bb-plugin/cache/');
+		static private function define_constants() {
+			define( 'FL_BUILDER_VERSION', '1.10.7.1' );
+			define( 'FL_BUILDER_FILE', trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'fl-builder.php' );
+			define( 'FL_BUILDER_DIR', plugin_dir_path( FL_BUILDER_FILE ) );
+			define( 'FL_BUILDER_URL', plugins_url( '/', FL_BUILDER_FILE ) );
+			define( 'FL_BUILDER_LITE', false );
+			define( 'FL_BUILDER_SUPPORT_URL', 'https://www.wpbeaverbuilder.com/support/' ); // Deprecated, do not use.
+			define( 'FL_BUILDER_UPGRADE_URL', 'https://www.wpbeaverbuilder.com/' ); // Deprecated, do not use.
+			define( 'FL_BUILDER_STORE_URL', 'https://www.wpbeaverbuilder.com/' );
+			define( 'FL_BUILDER_DEMO_URL', 'http://demos.wpbeaverbuilder.com' );
+			define( 'FL_BUILDER_OLD_DEMO_URL', 'http://demos.fastlinemedia.com' );
+			define( 'FL_BUILDER_DEMO_CACHE_URL', 'http://demos.wpbeaverbuilder.com/wp-content/uploads/bb-plugin/cache/' );
 		}
 
 		/**
@@ -64,8 +62,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @since 1.8
 		 * @return void
 		 */
-		static private function load_files()
-		{
+		static private function load_files() {
 			/* Classes */
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-admin.php';
@@ -109,16 +106,15 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @access private
 		 * @return void
 		 */
-		static private function check_permissions()
-		{
+		static private function check_permissions() {
 			if ( isset( $_REQUEST['page'] ) && in_array( $_REQUEST['page'], array( 'fl-builder-settings', 'fl-builder-multisite-settings' ) ) ) {
 
 				$wp_upload_dir = wp_upload_dir();
 				$bb_upload_dir = FLBuilderModel::get_upload_dir();
 
 				if ( ! is_writable( $wp_upload_dir['basedir'] ) || ! is_writable( $bb_upload_dir['path'] ) ) {
-					add_action('admin_notices',           __CLASS__ . '::permissions_admin_notice');
-					add_action('network_admin_notices',   __CLASS__ . '::permissions_admin_notice');
+					add_action( 'admin_notices',           __CLASS__ . '::permissions_admin_notice' );
+					add_action( 'network_admin_notices',   __CLASS__ . '::permissions_admin_notice' );
 				}
 			}
 		}
@@ -129,8 +125,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @since 1.8.2
 		 * @return void
 		 */
-		static public function permissions_admin_notice()
-		{
+		static public function permissions_admin_notice() {
 			$message = __( 'Beaver Builder may not be functioning correctly as it does not have permission to write files to the WordPress uploads directory on your server. Please update the WordPress uploads directory permissions before continuing or contact your host for assistance.', 'fl-builder' );
 
 			self::render_admin_notice( $message, 'error' );
@@ -143,8 +138,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @since 1.8
 		 * @return void
 		 */
-		static public function double_install_admin_notice()
-		{
+		static public function double_install_admin_notice() {
 			$message = __( 'You currently have two versions of Beaver Builder active on this site. Please <a href="%s">deactivate one</a> before continuing.', 'fl-builder' );
 
 			self::render_admin_notice( sprintf( $message, admin_url( 'plugins.php' ) ), 'error' );
@@ -159,15 +153,12 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @param string $type
 		 * @return void
 		 */
-		static private function render_admin_notice( $message, $type = 'update' )
-		{
+		static private function render_admin_notice( $message, $type = 'update' ) {
 			if ( ! is_admin() ) {
 				return;
-			}
-			else if ( ! is_user_logged_in() ) {
+			} elseif ( ! is_user_logged_in() ) {
 				return;
-			}
-			else if ( ! current_user_can( 'update_plugins' ) ) {
+			} elseif ( ! current_user_can( 'update_plugins' ) ) {
 				return;
 			}
 
@@ -176,6 +167,6 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			echo '</div>';
 		}
 	}
-}
+}// End if().
 
 FLBuilderLoader::init();

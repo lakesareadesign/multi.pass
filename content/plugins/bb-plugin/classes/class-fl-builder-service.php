@@ -12,9 +12,9 @@ abstract class FLBuilderService {
 	 *
 	 * @since 1.5.4
 	 * @var string $id
-	 */  
+	 */
 	public $id = '';
-	
+
 	/**
 	 * Test the API connection.
 	 *
@@ -24,7 +24,7 @@ abstract class FLBuilderService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type array $data An array of data used to make the connection.
 	 * }
-	 */  
+	 */
 	abstract public function connect( $fields = array() );
 
 	/**
@@ -32,11 +32,11 @@ abstract class FLBuilderService {
 	 *
 	 * @since 1.5.4
 	 * @return string The connection settings markup.
-	 */  
+	 */
 	abstract public function render_connect_settings();
 
 	/**
-	 * Render the markup for service specific fields. 
+	 * Render the markup for service specific fields.
 	 *
 	 * @since 1.5.4
 	 * @param string $account The name of the saved account.
@@ -45,7 +45,7 @@ abstract class FLBuilderService {
 	 *      @type bool|string $error The error message or false if no error.
 	 *      @type string $html The field markup.
 	 * }
-	 */  
+	 */
 	abstract public function render_fields( $account, $settings );
 
 	/**
@@ -54,15 +54,14 @@ abstract class FLBuilderService {
 	 * @since 1.5.4
 	 * @param string $account The account name.
 	 * @return array|bool The account data or false if it doesn't exist.
-	 */  
-	public function get_account_data( $account ) 
-	{
+	 */
+	public function get_account_data( $account ) {
 		$saved_services = FLBuilderModel::get_services();
-		
+
 		if ( isset( $saved_services[ $this->id ] ) && isset( $saved_services[ $this->id ][ $account ] ) ) {
 			return $saved_services[ $this->id ][ $account ];
 		}
-		
+
 		return false;
 	}
 }

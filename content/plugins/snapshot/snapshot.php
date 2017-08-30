@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Snapshot Pro
-Version: 3.1.3
+Version: 3.1.4.1
 Description: This plugin allows you to take quick on-demand backup snapshots of your working WordPress database. You can select from the default WordPress tables as well as custom plugin tables within the database structure. All snapshots are logged, and you can restore the snapshot as needed.
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org/
@@ -97,7 +97,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			$this->plugin_url = plugin_dir_url( __FILE__ );
 
 			$this->DEBUG = false;
-			$this->_settings['SNAPSHOT_VERSION'] = '3.1.3-beta4';
+			$this->_settings['SNAPSHOT_VERSION'] = '3.1.4.1';
 
 			if ( is_multisite() ) {
 				$this->_settings['SNAPSHOT_MENU_URL'] = network_admin_url() . 'admin.php?page=';
@@ -7614,14 +7614,29 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			} else {
 				$destination_key = $data_item['destination'];
 				//echo "destination_key[". $destination_key ."]<br />";
-				if ( isset( $this->config_data['destinations'][ $destination_key ]['directory'] ) ) {
-					$d_directory = $this->config_data['destinations'][ $destination_key ]['directory'];
-					//echo "d_directory[". $d_directory ."]<br />";
-					$backupFolder = str_replace( '[DEST_PATH]', $d_directory, $backupFolder );
-					//echo "#1 backupFolder[". $backupFolder ."]<br />";
-				} else {
-					$backupFolder = str_replace( '[DEST_PATH]', '', $backupFolder );
-					//echo "#2 backupFolder[". $backupFolder ."]<br />";
+				$destmeta = !empty($this->config_data['destinations'][$destination_key])
+					? $this->config_data['destinations'][$destination_key]
+					: array()
+				;
+				// Do not expand DEST_PATH for google drive, it won't work
+				if (!empty($destmeta['type']) && 'google-drive' !== $destmeta['type']) {
+					if ( isset( $this->config_data['destinations'][ $destination_key ]['directory'] ) ) {
+						$d_directory = $this->config_data['destinations'][ $destination_key ]['directory'];
+						//echo "d_directory[". $d_directory ."]<br />";
+						$backupFolder = str_replace( '[DEST_PATH]', $d_directory, $backupFolder );
+						//echo "#1 backupFolder[". $backupFolder ."]<br />";
+					} else {
+						$backupFolder = str_replace( '[DEST_PATH]', '', $backupFolder );
+						//echo "#2 backupFolder[". $backupFolder ."]<br />";
+					}
+				} else if (false !== strpos($backupFolder, '[DEST_PATH]')) {
+					// Google drive doesn't support DEST_PATH expansion like that.
+					// So, let's drop the whole macro and use the default
+					// destination path instead
+					$backupFolder = !empty($this->config_data['destinations'][$destination_key]['directory'])
+						? $this->config_data['destinations'][$destination_key]['directory']
+						: str_replace('[DEST_PATH]', '', $backupFolder)
+					;
 				}
 				//die();
 			}

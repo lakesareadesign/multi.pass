@@ -2,7 +2,7 @@
 /*
 Plugin Name: Rebranded Meta Widget
 Plugin URI: http://premium.wpmudev.org/project/rebranded-meta-widget
-Version: 1.0.2
+Version: 1.0.3
 Description: Simply replaces the default Meta widget in all Multisite blogs with one that has the "Powered By" link branded for your site
 Author: Aaron Edwards (Incsub)
 Author URI: http://premium.wpmudev.org
@@ -11,7 +11,7 @@ WDP ID: 136
  */
 
 /*
-Copyright 2007-2011 Incsub (http://incsub.com)
+Copyright 2007-2017 Incsub (http://incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -27,25 +27,22 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
-//------------------------------------------------------------------------//
-//---Hook-----------------------------------------------------------------//
-//------------------------------------------------------------------------//
 
-add_action( 'widgets_init', 'ub_rmw_register' );
+class rebranded_meta_widget {
 
-add_action( 'ultimatebranding_settings_widgets','ub_rmw_manage_output' );
+	public function __construct() {
+		add_action( 'widgets_init', array( $this, 'ub_rmw_register' ) );
+		add_action( 'ultimatebranding_settings_widgets', array( $this, 'ub_rmw_manage_output' ) );
+	}
 
-//------------------------------------------------------------------------//
-//---Functions------------------------------------------------------------//
-//------------------------------------------------------------------------//
 
-function ub_rmw_register() {
-	unregister_widget( 'WP_Widget_Meta' );
-	register_widget( 'ub_WP_Widget_Rebranded_Meta' );
-}
+	function ub_rmw_register() {
+		unregister_widget( 'WP_Widget_Meta' );
+		register_widget( 'ub_WP_Widget_Rebranded_Meta' );
+	}
 
-function ub_rmw_manage_output() {
-	global $wpdb, $current_site, $page;
+	function ub_rmw_manage_output() {
+		global $wpdb, $current_site, $page;
 
 ?>
 
@@ -54,13 +51,15 @@ function ub_rmw_manage_output() {
         <div class="inside">
             <p class='description'><?php _e( 'The Rebranded Meta Widget is enabled', 'ub' ); ?></p>
 <?php
-	echo "<img src='" . ub_files_url( 'modules/rebranded-meta-widget-files/images/exampleimage.png' ) . "' />";
+		echo "<img src='" . ub_files_url( 'modules/rebranded-meta-widget-files/images/exampleimage.png' ) . "' />";
 ?>
         </div>
     </div>
 
 <?php
+	}
 }
+new rebranded_meta_widget();
 
 class ub_WP_Widget_Rebranded_Meta extends WP_Widget {
 

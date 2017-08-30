@@ -4,14 +4,13 @@
 $post_data = FLBuilderModel::get_post_data();
 
 // Widget slug
-if(isset($settings->widget)) {
+if ( isset( $settings->widget ) ) {
 	$widget_class = $settings->widget;
-}
-else if(isset($post_data['widget'])) {
+} elseif ( isset( $post_data['widget'] ) ) {
 	$widget_class = $post_data['widget'];
 }
 
-if(isset($widget_class) && class_exists($widget_class)) {
+if ( isset( $widget_class ) && class_exists( $widget_class ) ) {
 
 	// Widget instance
 	$widget_instance    = new $widget_class();
@@ -20,8 +19,8 @@ if(isset($widget_class) && class_exists($widget_class)) {
 	$settings_key       = 'widget-' . $widget_instance->id_base;
 	$widget_settings    = array();
 
-	if(isset($settings->$settings_key)) {
-		$widget_settings = (array)$settings->$settings_key;
+	if ( isset( $settings->$settings_key ) ) {
+		$widget_settings = (array) $settings->$settings_key;
 	}
 
 	// Widget title
@@ -37,8 +36,7 @@ if(isset($widget_class) && class_exists($widget_class)) {
 
 	echo '<input type="hidden" name="widget" value="' . $widget_class . '" />';
 	echo '</div>';
-}
-else if(isset($widget_class)) {
+} elseif ( isset( $widget_class ) ) {
 
 	// Widget doesn't exist!
 	echo '<div class="fl-builder-widget-missing">';

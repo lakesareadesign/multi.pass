@@ -53,7 +53,6 @@ class View extends Component {
 	public function render( $view, $params = array() ) {
 		$this->trigger( self::EVENT_BEFORE_RENDER );
 		$view_file = $this->_base_path . DIRECTORY_SEPARATOR . $view . '.php';
-
 		if ( is_file( $view_file ) ) {
 			$content = $this->renderPHPFile( $view_file, $params );
 			$this->trigger( self::EVENT_AFTER_RENDER );

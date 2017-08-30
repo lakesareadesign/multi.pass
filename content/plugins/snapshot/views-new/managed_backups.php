@@ -31,9 +31,9 @@ $model = new Snapshot_Model_Full_Backup();
 
 	<div id="container" class="snapshot-three wps-page-backups">
 
-		<section class="box wps-widget-backups_status">
+		<section class="wpmud-box wps-widget-backups_status">
 
-			<div class="box-content">
+			<div class="wpmud-box-content">
 
 				<div class="wps-backups-summary">
 
@@ -175,11 +175,11 @@ $model = new Snapshot_Model_Full_Backup();
 
 			<div class="wps-managed-backups-pages">
 
-				<section class="box wps-managed-backups-list wps-widget-available_backups<?php if ( $backup_menu !== 'backups' ) {
+				<section class="wpmud-box wps-managed-backups-list wps-widget-available_backups<?php if ( $backup_menu !== 'backups' ) {
 					echo ' hidden';
 				} ?>">
 
-					<div class="box-title has-button">
+					<div class="wpmud-box-title has-button">
 
 						<?php if ( $results_count == 0 ) { ?>
 
@@ -197,7 +197,7 @@ $model = new Snapshot_Model_Full_Backup();
 
 					</div>
 
-					<div class="box-content">
+					<div class="wpmud-box-content">
 
 						<?php if ( $results_count == 0 ) { ?>
 
@@ -374,17 +374,17 @@ $model = new Snapshot_Model_Full_Backup();
 
 				</section><?php // .wps-widget-available_backups ?>
 
-				<section class="box wps-managed-backups-configs wps-widget-backups_settings<?php if ( $backup_menu !== 'settings' ) {
+				<section class="wpmud-box wps-managed-backups-configs wps-widget-backups_settings<?php if ( $backup_menu !== 'settings' ) {
 					echo ' hidden';
 				} ?>">
 
-					<div class="box-title">
+					<div class="wpmud-box-title">
 
 						<h3><?php _e( 'Settings', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 
 					</div>
 
-					<div class="box-content">
+					<div class="wpmud-box-content">
 
 						<div class="row">
 

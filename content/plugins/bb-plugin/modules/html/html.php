@@ -5,16 +5,15 @@
  */
 class FLHtmlModule extends FLBuilderModule {
 
-	/** 
+	/**
 	 * @method __construct
-	 */  
-	public function __construct()
-	{
+	 */
+	public function __construct() {
 		parent::__construct(array(
-			'name'          	=> __('HTML', 'fl-builder'),
-			'description'   	=> __('Display raw HTML code.', 'fl-builder'),
-			'category'      	=> __('Basic Modules', 'fl-builder'),
-			'partial_refresh'	=> true
+			'name'          	=> __( 'HTML', 'fl-builder' ),
+			'description'   	=> __( 'Display raw HTML code.', 'fl-builder' ),
+			'category'      	=> __( 'Basic Modules', 'fl-builder' ),
+			'partial_refresh'	=> true,
 		));
 	}
 }
@@ -24,7 +23,7 @@ class FLHtmlModule extends FLBuilderModule {
  */
 FLBuilder::register_module('FLHtmlModule', array(
 	'general'       => array(
-		'title'         => __('General', 'fl-builder'),
+		'title'         => __( 'General', 'fl-builder' ),
 		'sections'      => array(
 			'general'       => array(
 				'title'         => '',
@@ -36,12 +35,12 @@ FLBuilder::register_module('FLHtmlModule', array(
 						'rows'          => '18',
 						'preview'           => array(
 							'type'              => 'text',
-							'selector'          => '.fl-html'
+							'selector'          => '.fl-html',
 						),
-						'connections'         => array( 'html', 'string' )
-					)
-				)
-			)
-		)
-	)
+						'connections'         => array( 'html', 'string' ),
+					),
+				),
+			),
+		),
+	),
 ));

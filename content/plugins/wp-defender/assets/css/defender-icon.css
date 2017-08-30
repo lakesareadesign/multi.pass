@@ -2,5 +2,19 @@
     display: none;
 }
 
+.def-oval {
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    width: 10px;
+    height: 10px;
+    background-color: #E6E6E6;
+    display: block;
+}
 
-/* 133620-1502132187-au */
+.def-oval.oval-green {
+    background-color: #1ABC9C;
+}
+
+
+/* 133620-1504103056-au */

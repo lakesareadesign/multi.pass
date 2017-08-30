@@ -119,6 +119,37 @@ abstract class Model extends \Hammer\Base\Model {
 	}
 
 	/**
+	 * @param array $attributes
+	 * @param null $orderBy
+	 * @param null $order
+	 * @param null $limit
+	 */
+	public static function deleteAll( $attributes = array(), $orderBy = null, $order = null, $limit = null ) {
+		if ( ! empty( $attributes ) ) {
+			$join = static::buildJoins();
+		} else {
+			$join = array();
+		}
+		$where = static::buildWhere( $attributes );
+		$sql   = "SELECT ID FROM " . self::getWPDB()->posts . ' AS t0 ' . implode( ' ', $join ) . ' ' . implode( ' AND ', $where );
+		if ( ! empty( $orderBy ) && static::buildOrderBy( $orderBy ) != false ) {
+			$sql = $sql . ' ORDER BY ' . static::buildOrderBy( $orderBy );
+			if ( ! empty( $order ) && in_array( strtolower( $order ), array( 'desc', 'asc' ) ) ) {
+				$sql = $sql . ' ' . $order;
+			}
+		}
+		if ( ! empty( $limit ) ) {
+			$sql .= ' LIMIT ' . $limit;
+		}
+
+		$ids = self::getWPDB()->get_col( $sql );
+
+		foreach ( $ids as $id ) {
+			wp_delete_post( $id );
+		}
+	}
+
+	/**
 	 *
 	 * @param $id
 	 *
@@ -206,14 +237,6 @@ abstract class Model extends \Hammer\Base\Model {
 		}
 
 		return $results;
-	}
-
-	private function cacheQuery() {
-
-	}
-
-	private function flushCacheQuery() {
-
 	}
 
 	/**
@@ -330,6 +353,8 @@ abstract class Model extends \Hammer\Base\Model {
 			$i ++;
 		}
 
+		$where = array_filter( $where );
+
 		return $where;
 	}
 
@@ -342,10 +367,13 @@ abstract class Model extends \Hammer\Base\Model {
 			if ( isset( $value['compare'] ) ) {
 				$sql = 't' . $pos . '.' . $field . ' ' . $value['compare'] . ' %s';
 				$sql = $wpdb->prepare( $sql, $value['value'] );
-			} else {
+			} elseif ( ! empty( $value ) ) {
 				$sql = 't' . $pos . "." . $field . " IN (" . implode( ', ', array_fill( 0, count( $value ), '%s' ) ) . ")";
 
 				$sql = call_user_func_array( array( $wpdb, 'prepare' ), array_merge( array( $sql ), $value ) );
+			} else {
+				//this case the in array is empty,
+				$sql = "";
 			}
 
 			return $sql;

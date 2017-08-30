@@ -28,7 +28,7 @@
 					<?php $controller->createNonceField(); ?>
                     <input type="hidden" name="action" value="processHardener"/>
                     <input type="text" placeholder="<?php esc_attr_e( "Enter new username", wp_defender()->domain ) ?>"
-                           name="username" class="block">
+                           name="username" class="block" />
                     <input type="hidden" name="slug" value="<?php echo $controller::$slug ?>"/>
                     <button class="button float-r"
                             type="submit"><?php _e( "Update", wp_defender()->domain ) ?></button>

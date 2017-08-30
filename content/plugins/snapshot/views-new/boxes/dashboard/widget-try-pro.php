@@ -1,12 +1,12 @@
-<section class="box wps-widget-adpro">
+<section class="wpmud-box wps-widget-adpro">
 
-	<div class="box-title">
+	<div class="wpmud-box-title">
 
 		<h3><?php _e('Try Snapshot Pro for free!' , SNAPSHOT_I18N_DOMAIN); ?></h3>
 
 	</div>
 
-	<div class="box-content">
+	<div class="wpmud-box-content">
 
 		<div class="row">
 

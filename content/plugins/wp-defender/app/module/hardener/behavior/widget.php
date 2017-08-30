@@ -31,7 +31,7 @@ class Widget extends Behavior {
             <div class="box-content">
 				<?php $count = count( $issues ); ?>
                 <div class="line <?php echo $count ? 'end' : null ?>">
-					<?php _e( " Defender checks for security tweaks you can make to enhance your website’s
+					<?php _e( "Defender checks for security tweaks you can make to enhance your website’s
                     defense against hackers and bots.", wp_defender()->domain ) ?>
                 </div>
 				<?php if ( $count ): ?>

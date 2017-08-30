@@ -29,6 +29,6 @@ class PersistentDataStoreFactory
             return $store;
         }
 
-        throw new InvalidArgumentException('The persistent data store must be set to null, "session" or be an instance of use \Kunnu\Dropbox\Store\PersistentDataStoreInterface');	     	 	 				 	 	
+        throw new InvalidArgumentException('The persistent data store must be set to null, "session" or be an instance of use \Kunnu\Dropbox\Store\PersistentDataStoreInterface');
     }
 }

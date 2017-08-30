@@ -3,7 +3,7 @@
 /**
  * Plugin Name: WP Defender Pro
  * Plugin URI: https://premium.wpmudev.org/project/wp-defender/
- * Version:     1.6.2
+ * Version:     1.7
  * Description: Get regular security scans, vulnerability reports, safety recommendations and customized hardening for your site in just a few clicks. Defender is the analyst and enforcer who never sleeps.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org/
@@ -112,7 +112,7 @@ class WP_Defender {
 	 */
 	private function includeVendors() {
 		$phpVersion = phpversion();
-		if ( version_compare( $phpVersion, '5.3', '>=' ) &&  ! function_exists( 'initCacheEngine' ) ) {
+		if ( version_compare( $phpVersion, '5.3', '>=' ) && ! function_exists( 'initCacheEngine' ) ) {
 			include_once $this->plugin_path . 'vendor' . DIRECTORY_SEPARATOR . 'hammer' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 		}
 

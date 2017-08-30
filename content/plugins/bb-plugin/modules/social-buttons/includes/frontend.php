@@ -2,7 +2,7 @@
 
 <div class="fl-social-buttons fl-social-buttons-<?php echo $settings->align; ?>">
 
-	<?php if($settings->show_facebook) : ?>
+	<?php if ( $settings->show_facebook ) : ?>
 		<div class="fl-social-button fl-fb">
 			<div class="fb-like"
 					data-href="<?php echo $settings->the_url; ?>"
@@ -14,7 +14,7 @@
 		</div>
 	<?php endif; ?>
 
-	<?php if($settings->show_twitter) : ?>
+	<?php if ( $settings->show_twitter ) : ?>
 		<div class="fl-social-button fl-twitter">
 			<a href="https://twitter.com/share"
 				 class="twitter-share-button"
@@ -24,7 +24,7 @@
 		</div>
 	<?php endif; ?>
 
-	<?php if($settings->show_gplus) : ?>
+	<?php if ( $settings->show_gplus ) : ?>
 		<div class="fl-social-button fl-gplus">
 			<div class="g-plusone"
 					data-annotation="inline"

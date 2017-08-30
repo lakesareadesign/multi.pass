@@ -13,14 +13,13 @@ final class FLBuilderUserTemplatesAdminList {
 	 * @since 1.10
 	 * @return void
 	 */
-	static public function init()
-	{
+	static public function init() {
 		/* Actions */
 		add_action( 'plugins_loaded',                                  __CLASS__ . '::redirect' );
 		add_action( 'wp',                  				               __CLASS__ . '::page_heading' );
 		add_action( 'admin_enqueue_scripts',          	               __CLASS__ . '::admin_enqueue_scripts' );
 		add_action( 'manage_fl-builder-template_posts_custom_column',  __CLASS__ . '::add_column_content', 10, 2 );
-		
+
 		/* Filters */
 		add_filter( 'views_edit-fl-builder-template',                  __CLASS__ . '::modify_views' );
 		add_filter( 'manage_fl-builder-template_posts_columns',        __CLASS__ . '::add_column_headings' );
@@ -33,49 +32,47 @@ final class FLBuilderUserTemplatesAdminList {
 	 * @since 1.10
 	 * @return void
 	 */
-	static public function admin_enqueue_scripts()
-	{
+	static public function admin_enqueue_scripts() {
 		global $pagenow;
-		
+
 		$screen = get_current_screen();
 		$slug    = 'fl-builder-user-templates-admin-';
 		$url     = FL_BUILDER_USER_TEMPLATES_URL;
 		$version = FL_BUILDER_VERSION;
-		
+
 		if ( 'edit.php' == $pagenow && 'fl-builder-template' == $screen->post_type ) {
-			
+
 			wp_enqueue_style( $slug . 'list', $url . 'css/' . $slug . 'list.css', array(), $version );
 			wp_enqueue_script( $slug . 'list', $url . 'js/' . $slug . 'list.js', array(), $version );
-			
+
 			wp_localize_script( $slug . 'list', 'FLBuilderConfig', array(
 				'userTemplateType' => isset( $_GET['fl-builder-template-type'] ) ? $_GET['fl-builder-template-type'] : 'layout',
-				'addNewURL'        => admin_url( '/edit.php?post_type=fl-builder-template&page=fl-builder-add-new' )
+				'addNewURL'        => admin_url( '/edit.php?post_type=fl-builder-template&page=fl-builder-add-new' ),
 			) );
 		}
 	}
 
 	/**
-	 * Redirects the list table to show layout templates if no 
+	 * Redirects the list table to show layout templates if no
 	 * template type is set. We never want to show all templates
 	 * (layouts, rows, modules) in a list table together.
-	 * 
+	 *
 	 * @since 1.10
 	 * @return void
 	 */
-	static public function redirect()
-	{
+	static public function redirect() {
 		global $pagenow;
-		
+
 		$post_type     = isset( $_GET['post_type'] ) ? $_GET['post_type'] : null;
 		$template_type = isset( $_GET['fl-builder-template-type'] ) ? $_GET['fl-builder-template-type'] : null;
 		$page          = isset( $_GET['page'] ) ? $_GET['page'] : null;
-		
+
 		if ( 'edit.php' == $pagenow && 'fl-builder-template' == $post_type && ! $template_type && ! $page ) {
-			
+
 			$url = admin_url( '/edit.php?post_type=fl-builder-template&fl-builder-template-type=layout' );
-			
+
 			wp_redirect( $url );
-			
+
 			exit;
 		}
 	}
@@ -86,23 +83,21 @@ final class FLBuilderUserTemplatesAdminList {
 	 * @since 1.10
 	 * @return void
 	 */
-	static public function page_heading()
-	{
+	static public function page_heading() {
 		global $pagenow;
 		global $wp_post_types;
-		
+
 		if ( ! is_admin() ) {
 			return;
 		}
-		
+
 		$screen = get_current_screen();
-		
+
 		if ( 'edit.php' == $pagenow && isset( $_GET['fl-builder-template-type'] ) ) {
-			
+
 			if ( 'row' == $_GET['fl-builder-template-type'] ) {
 				$wp_post_types['fl-builder-template']->labels->name = __( 'Saved Rows', 'fl-builder' );
-			}
-			else if ( 'module' == $_GET['fl-builder-template-type'] ) {
+			} elseif ( 'module' == $_GET['fl-builder-template-type'] ) {
 				$wp_post_types['fl-builder-template']->labels->name = __( 'Saved Modules', 'fl-builder' );
 			}
 		}
@@ -116,20 +111,19 @@ final class FLBuilderUserTemplatesAdminList {
 	 * @param array $views
 	 * @return array
 	 */
-	static public function modify_views( $views )
-	{
+	static public function modify_views( $views ) {
 		$slug = 'fl-builder-template';
 		$type = isset( $_GET['fl-builder-template-type'] ) ? $_GET['fl-builder-template-type'] : 'layout';
-		
+
 		foreach ( $views as $key => $view ) {
-			
+
 			if ( strstr( $view, $slug ) ) {
 				$view = str_replace( $slug, $slug . '&#038;fl-builder-template-type=' . $type, $view );
 				$view = preg_replace( '/<span(.*)span>/', '', $view );
 				$views[ $key ] = $view;
 			}
 		}
-		
+
 		return $views;
 	}
 
@@ -140,17 +134,16 @@ final class FLBuilderUserTemplatesAdminList {
 	 * @param array $columns
 	 * @return array
 	 */
-	static public function add_column_headings( $columns )
-	{
+	static public function add_column_headings( $columns ) {
 		if ( ! isset( $_GET['fl-builder-template-type'] ) ) {
 			return;
 		}
 		if ( in_array( $_GET['fl-builder-template-type'], array( 'row', 'module' ) ) ) {
-			$columns[ 'fl_global' ] = __( 'Global', 'fl-builder' );
+			$columns['fl_global'] = __( 'Global', 'fl-builder' );
 		}
-		
+
 		unset( $columns['date'] );
-		
+
 		return $columns;
 	}
 
@@ -161,16 +154,14 @@ final class FLBuilderUserTemplatesAdminList {
 	 * @param array $columns
 	 * @return array
 	 */
-	static public function add_column_content( $column, $post_id )
-	{
+	static public function add_column_content( $column, $post_id ) {
 		if ( 'fl_global' != $column ) {
 			return;
 		}
-		
+
 		if ( FLBuilderModel::is_post_global_node_template( $post_id ) ) {
 			echo '<i class="dashicons dashicons-yes"></i>';
-		}
-		else {
+		} else {
 			echo '&#8212;';
 		}
 	}
@@ -182,12 +173,11 @@ final class FLBuilderUserTemplatesAdminList {
 	 * @param array $actions
 	 * @return array
 	 */
-	static public function row_actions( $actions = array() )
-	{
+	static public function row_actions( $actions = array() ) {
 		if ( isset( $_GET['post_type'] ) && 'fl-builder-template' == $_GET['post_type'] ) {
 			unset( $actions['inline hide-if-no-js'] );
 		}
-		
+
 		return $actions;
 	}
 }

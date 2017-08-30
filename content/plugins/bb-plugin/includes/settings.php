@@ -6,42 +6,43 @@
 			<span class="fl-builder-badge fl-builder-badge-<?php echo $form_badge_slug; ?>"><?php echo $form_badge_title; ?></span>
 			<?php endforeach; ?>
 		</h1>
-		<?php if (isset($form['resizable']) && $form['resizable'] === true) : ?>
+		<?php if ( isset( $form['resizable'] ) && true === $form['resizable'] ) : ?>
 			<div class="fl-lightbox-controls"><i class="fa fa-expand"></i></div>
 		<?php endif; ?>
 	</div>
-	<?php if(count($form['tabs']) > 1) : ?>
+	<?php if ( count( $form['tabs'] ) > 1 ) : ?>
 	<div class="fl-builder-settings-tabs">
-		<?php  $i = 0; foreach($form['tabs'] as $id => $tab) : ?>
-		<a href="#fl-builder-settings-tab-<?php echo $id; ?>"<?php if($i == 0) echo ' class="fl-active"'; ?>><?php echo $tab['title']; ?></a>
-		<?php $i++; endforeach; ?>
+		<?php  $i = 0; foreach ( $form['tabs'] as $id => $tab ) : ?>
+		<a href="#fl-builder-settings-tab-<?php echo $id; ?>"<?php if ( 0 == $i ) { echo ' class="fl-active"';} ?>><?php echo $tab['title']; ?></a>
+		<?php $i++;
+endforeach; ?>
 	</div>
 	<?php endif; ?>
 	<div class="fl-builder-settings-fields fl-nanoscroller">
 		<div class="fl-nanoscroller-content">
-			<?php $i = 0; foreach($form['tabs'] as $id => $tab) : // Tabs ?>
-			<div id="fl-builder-settings-tab-<?php echo $id; ?>" class="fl-builder-settings-tab <?php if($i == 0) echo 'fl-active'; ?>">
+			<?php $i = 0; foreach ( $form['tabs'] as $id => $tab ) : // Tabs ?>
+			<div id="fl-builder-settings-tab-<?php echo $id; ?>" class="fl-builder-settings-tab <?php if ( 0 == $i ) { echo 'fl-active';} ?>">
 
-				<?php if(isset($tab['file']) && file_exists($tab['file'])) : // Tab File ?>
+				<?php if ( isset( $tab['file'] ) && file_exists( $tab['file'] ) ) : // Tab File ?>
 
 					<?php include $tab['file']; ?>
 
 				<?php else : ?>
 
-					<?php if(!empty($tab['description'])) : // Tab Description ?>
+					<?php if ( ! empty( $tab['description'] ) ) : // Tab Description ?>
 					<p class="fl-builder-settings-tab-description"><?php echo $tab['description']; ?></p>
 					<?php endif; ?>
 
-					<?php foreach($tab['sections'] as $id => $section) : // Tab Sections ?>
+					<?php foreach ( $tab['sections'] as $id => $section ) : // Tab Sections ?>
 					<div id="fl-builder-settings-section-<?php echo $id; ?>" class="fl-builder-settings-section">
 
-						<?php if(isset($section['file']) && file_exists($section['file'])) : // Section File ?>
+						<?php if ( isset( $section['file'] ) && file_exists( $section['file'] ) ) : // Section File ?>
 
 							<?php include $section['file']; ?>
 
 						<?php else : ?>
 
-							<?php if(!empty($section['title'])) : // Section Title ?>
+							<?php if ( ! empty( $section['title'] ) ) : // Section Title ?>
 							<h3 class="fl-builder-settings-title"><?php echo $section['title']; ?></h3>
 							<?php endif; ?>
 
@@ -52,8 +53,8 @@
 							<table class="fl-form-table">
 								<?php
 
-								foreach($section['fields'] as $name => $field) {  // Fields
-									FLBuilder::render_settings_field($name, $field, $settings);
+								foreach ( $section['fields'] as $name => $field ) {  // Fields
+									FLBuilder::render_settings_field( $name, $field, $settings );
 								}
 
 								?>
@@ -67,14 +68,15 @@
 				<?php endif; ?>
 
 			</div>
-			<?php $i++; endforeach; ?>
+			<?php $i++;
+endforeach; ?>
 		</div>
 	</div>
 	<div class="fl-lightbox-footer">
-		<span class="fl-builder-settings-save fl-builder-button fl-builder-button-large fl-builder-button-primary" href="javascript:void(0);" onclick="return false;"><?php _e('Save', 'fl-builder'); ?></span>
+		<span class="fl-builder-settings-save fl-builder-button fl-builder-button-large fl-builder-button-primary" href="javascript:void(0);" onclick="return false;"><?php _e( 'Save', 'fl-builder' ); ?></span>
 		<?php if ( in_array( 'save-as', $form['buttons'] ) ) : ?>
-		<span class="fl-builder-settings-save-as fl-builder-button fl-builder-button-large" href="javascript:void(0);" onclick="return false;"><?php _e('Save As...', 'fl-builder'); ?></span>
+		<span class="fl-builder-settings-save-as fl-builder-button fl-builder-button-large" href="javascript:void(0);" onclick="return false;"><?php _e( 'Save As...', 'fl-builder' ); ?></span>
 		<?php endif; ?>
-		<span class="fl-builder-settings-cancel fl-builder-button fl-builder-button-large" href="javascript:void(0);" onclick="return false;"><?php _e('Cancel', 'fl-builder'); ?></span>
+		<span class="fl-builder-settings-cancel fl-builder-button fl-builder-button-large" href="javascript:void(0);" onclick="return false;"><?php _e( 'Cancel', 'fl-builder' ); ?></span>
 	</div>
 </form>

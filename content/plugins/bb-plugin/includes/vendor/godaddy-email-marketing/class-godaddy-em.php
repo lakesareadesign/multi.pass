@@ -2,8 +2,8 @@
 
 /**
  * GoDaddy Email Marketing Dispatcher.
- * 
- * A modified version from GoDaddy Email Marketing plugin 
+ *
+ * A modified version from GoDaddy Email Marketing plugin
  * (https://wordpress.org/plugins/godaddy-email-marketing-sign-up-forms/)
  *
  * @since 1.0
@@ -31,7 +31,7 @@ class GoDaddyEM {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param string  $email	The username.
 	 * @param string  $api_key 	The API key.
 	 */
@@ -85,13 +85,13 @@ class GoDaddyEM {
 	 * @return array|false The form fields array or false.
 	 */
 	public static function get_forms() {
-		
+
 		if ( ! self::$api_username ) {
 			return false;
 		}
 
 		$data = self::fetch_forms();
-		
+
 		return $data;
 	}
 
@@ -102,7 +102,7 @@ class GoDaddyEM {
 	 * @return false|object The form fields JSON object or false.
 	 */
 	public static function get_fields( $form_id ) {
-		
+
 		// Fields are not cached. fetch and cache.
 		$response = wp_remote_get( self::get_method_url( 'fields', array(
 			'id' => $form_id,
@@ -113,7 +113,7 @@ class GoDaddyEM {
 			return false;
 		}
 
-		$data = json_decode( wp_remote_retrieve_body( $response ) );		
+		$data = json_decode( wp_remote_retrieve_body( $response ) );
 
 		return $data;
 	}
@@ -203,7 +203,7 @@ class GoDaddyEM {
 		if ( ! self::$api_username || ! self::$api_key ) {
 			return false;
 		}
-		
+
 		if ( isset( $data[ 'form_id' ] ) && isset( $data[ 'email' ] ) ) {
 			$form = self::get_fields( $data[ 'form_id' ] );
 
@@ -214,11 +214,11 @@ class GoDaddyEM {
 				'signup[email]'	=> $data['email']
 			);
 
-			if ( $data[ 'first_name' ] ) {
+			if ( isset( $data[ 'first_name' ] ) ) {
 				$submit_data[ 'signup[first_name]' ] = $data['first_name'];
 			}
 
-			if ( $data[ 'last_name' ] ) {
+			if ( isset( $data[ 'last_name' ] ) ) {
 				$submit_data[ 'signup[last_name]' ] = $data['last_name'];
 			}
 
@@ -235,6 +235,6 @@ class GoDaddyEM {
 			}
 		}
 
-		return false;		
+		return false;
 	}
 }

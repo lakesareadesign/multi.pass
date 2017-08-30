@@ -413,24 +413,27 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 
 		function manage_output() {
 			global $wpdb, $current_site, $page;
-
+			$simple_options = new simple_options();
+			$boxes = $simple_options->get_boxes();
 			$colors = $this->colors();
-
 			$page = $_GET['page'];
-
 			if ( isset( $_GET['error'] ) ) {
 				echo '<div id="message" class="error fade"><p>' . __( 'There was an error during the saving operation, please try again.', 'ub' ) . '</p></div>'; } elseif ( isset( $_GET['updated'] ) ) {
 				echo '<div id="message" class="updated fade"><p>' . __( 'Changes saved.', 'ub' ) . '</p></div>'; }
 ?>
-            <div class='wrap nosubsub'>
-                <div class="icon32" id="icon-themes"><br /></div>
-
+            <div class='wrap nosubsub ultimate-colors meta-box-sortables'>
                 <?php include_once( plugin_dir_path( __FILE__ ) . '/' . $this->dir_name . '-files/global-options.php' ); ?>
 
                 <p class='description'><?php printf( __( 'Here you can customize "%s" color scheme which use can set within your <a href="%s">user profile page</a>', 'ub' ), ub_get_option( 'ucs_color_scheme_name', 'Ultimate' ), get_edit_user_link( get_current_user_id() ) ); ?></p>
-
-                <h2><?php _e( 'Color Scheme Name', 'ub' ); ?></h2>
-                <div class="postbox">
+<?php
+				$id = 'color-scheme-name';
+?>
+    <div class="postbox <?php esc_attr_e( isset( $boxes[ $id ] )? $boxes[ $id ]:'' ); ?>" id="<?php esc_attr_e( $id ); ?>">
+                    <button type="button" class="handlediv button-link" aria-expanded="true">
+                    <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), __( 'Color Scheme Name', 'ub' ) ); ?>'</span>
+                        <span class="toggle-indicator" aria-hidden="true"></span>
+                    </button>
+                    <h2 class="hndle"><?php _e( 'Color Scheme Name', 'ub' ); ?></h2>
                     <div class="inside">
                         <table class="form-table">
                             <tbody>
@@ -445,12 +448,17 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 
 <?php
 foreach ( $colors as $color_section => $color_array ) {
+	$id = sanitize_title( $color_section );
 ?>
-	<h2><?php echo $color_section; ?></h2>
-	<div class="postbox">
-		<div class="inside">
-			<table class="form-table">
-				<tbody>
+<div class="postbox <?php esc_attr_e( isset( $boxes[ $id ] )? $boxes[ $id ]:'' ); ?>" id="<?php esc_attr_e( $id ); ?>">
+<button type="button" class="handlediv button-link" aria-expanded="true">
+<span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), $color_section ); ?>'</span>
+<span class="toggle-indicator" aria-hidden="true"></span>
+</button>
+<h2 class="hndle"><?php echo $color_section; ?></h2>
+<div class="inside">
+<table class="form-table">
+<tbody>
 <?php
 foreach ( $color_array as $property => $value ) {
 ?>
@@ -458,10 +466,10 @@ foreach ( $color_array as $property => $value ) {
 						<th scope="row"><label for="<?php esc_attr_e( $property ); ?>"><?php esc_attr_e( $color_array[ $property ]['title'] ); ?></label></th>
 						<td><input type="text" value="<?php esc_attr_e( $color_array[ $property ]['value'] ); ?>" class="ultimate-color-field" name="<?php echo esc_attr_e( $property ); ?>" /></td>
 					<?php } ?>
-				</tbody>
-			</table>
-		</div>
-	</div>
+</tbody>
+</table>
+</div>
+</div>
 <?php
 }
 				wp_nonce_field( 'ultimatebranding_settings_ultimate_color_schemes' );

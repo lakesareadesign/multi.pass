@@ -53,7 +53,6 @@ class Main extends \WP_Defender\Controller {
 		$this->add_ajax_action( 'ignoreItem', 'ignoreItem' );
 		$this->add_ajax_action( 'unIgnoreItem', 'unIgnoreItem' );
 		$this->add_ajax_action( 'deleteItem', 'deleteItem' );
-		$this->add_ajax_action( 'deleteItem', 'deleteItem' );
 		$this->add_ajax_action( 'resolveItem', 'resolveItem' );
 		$this->add_ajax_action( 'saveScanSettings', 'saveScanSettings' );
 		$this->add_ajax_action( 'scanBulkAction', 'scanBulkAction' );

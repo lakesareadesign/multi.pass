@@ -51,9 +51,9 @@ if ( 'dropbox' === $item['type'] && isset( $_GET['dropbox-authenticated'] ) ) {
 
 <div id="container" class="snapshot-three wps-page-destinations">
 
-    <section id="wps-destinations-wizard" class="box">
+    <section id="wps-destinations-wizard" class="wpmud-box">
 
-        <div class="box-title has-button">
+        <div class="wpmud-box-title has-button">
 
             <h3><?php _e( 'Destination Info', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 
@@ -62,7 +62,7 @@ if ( 'dropbox' === $item['type'] && isset( $_GET['dropbox-authenticated'] ) ) {
 
         </div>
 
-        <div class="box-content">
+        <div class="wpmud-box-content">
 
             <div class="row">
 
@@ -166,7 +166,7 @@ if ( 'dropbox' === $item['type'] && isset( $_GET['dropbox-authenticated'] ) ) {
 										'popup_action_title' => __( 'Remove', SNAPSHOT_I18N_DOMAIN ),
 										'popup_action_url'   => add_query_arg( array(
 											'snapshot-action'       => 'delete',
-											'item'                  => $item_key,
+											'item'                  => sanitize_text_field( $_GET['item'] ),
 											'snapshot-noonce-field' => wp_create_nonce( 'snapshot-delete-destination' ),
 										), WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-destinations' ) ),
 										'popup_cancel_title' => __( 'Cancel', SNAPSHOT_I18N_DOMAIN ),

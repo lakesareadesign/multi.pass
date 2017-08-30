@@ -105,25 +105,26 @@ class Opt_In_HubSpot extends Opt_In_Provider_Abstract  implements  Opt_In_Provid
 		return $err;
 	}
 
-	function get_options( $optin_id = 0 ) {
+	function get_options( $optin_id ) {
 		return array();
 	}
 
-	function get_account_options( $optin_id = 0 ) {
+	function get_account_options( $optin_id ) {
 		$options = array();
 		$email_list = '';
 		$api = $this->api();
 
-		if ( ! empty( $optin_id ) ) {
+		if ( $optin_id ) {
 			$optin = Opt_In_Model::instance()->get( $optin_id );
 			$email_list = $optin->optin_mail_list;
 		}
 		$is_authorize = $api && ! $api->is_error && $api->is_authorized();
 
+		$url = $api->get_authorization_uri( $optin_id );
+		$link = sprintf( '<a href="%1$s" class="hubspot-authorize" data-optin="%2$s">%3$s</a>', $url, $optin_id, __( 'click here', Opt_In::TEXT_DOMAIN ) );
+
 		if ( $api && ! $api->is_error ) {
 			if ( ! $is_authorize ) {
-				$url = $api->get_authorization_uri( $optin_id );
-				$link = sprintf( '<a href="%1$s" class="hubspot-authorize" data-optin="%2$s">%3$s</a>', $url, $optin_id, __( 'click here', Opt_In::TEXT_DOMAIN ) );
 
 				$info = __( 'Please %s to connect to your Hubspot account. You will be asked to give us access to your selected account and will be redirected back to this page.', Opt_In::TEXT_DOMAIN );
 				$info = sprintf( $info, $link );
@@ -133,16 +134,24 @@ class Opt_In_HubSpot extends Opt_In_Provider_Abstract  implements  Opt_In_Provid
 					'for' => '',
 				);
 			} else {
+				$info = __( 'Please %s to reconnect to your Hubspot account. You will be asked to give us access to your selected account and will be redirected back to this page.', Opt_In::TEXT_DOMAIN );
+				$info = sprintf( $info, $link );
+
 				$list = $api->get_contact_list();
 				$options = array(
 					array(
 						'type' => 'label',
-						'for' => 'optin_email_list',
-						'value' => __( 'Choose Contact List', Opt_In::TEXT_DOMAIN ),
+						'value' => $info,
+						'for' => '',
 					),
 					array(
-						'type' => 'select',
-						'id' => 'optin_email_list',
+						'type' => 'label',
+						'for' => 'optin_email_list',
+						'value' => __( 'Choose Contact List. Only static lists will work with Hustle', Opt_In::TEXT_DOMAIN ),
+					),
+					array(
+						'type' 	=> 'select',
+						'id' 	=> 'optin_email_list',
 						'name' => 'optin_email_list',
 						'options' => $list,
 						'selected' => $email_list,
@@ -155,7 +164,7 @@ class Opt_In_HubSpot extends Opt_In_Provider_Abstract  implements  Opt_In_Provid
 		return $options;
 	}
 
-	static function add_custom_field( $field ) {
+	static function add_custom_field( $field, Opt_In_Model $optin ) {
 		$api = self::static_api();
 		$name = $field['name'];
 		$label = $field['label'];

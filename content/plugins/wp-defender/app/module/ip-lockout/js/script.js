@@ -14,6 +14,27 @@ jQuery(function ($) {
             Defender.showNotification('error', data.data.message);
         }
     });
+    setTimeout(function () {
+        if ($('#moving-data').size() > 0) {
+            $('#moving-data').submit();
+        }
+    }, 1000);
+    $('div.iplockout').on('form-submitted', function (e, data, form) {
+        if (form.attr('id') != 'moving-data') {
+            return;
+        }
+        if (data.success == true) {
+            location.reload();
+            Defender.showNotification('success', data.data.message);
+        } else {
+            var progress = data.data.progress;
+            $('.scan-progress-text span').text(progress + '%');
+            $('.scan-progress-bar span').css('width', progress + '%');
+            setTimeout(function () {
+                $('#moving-data').submit();
+            }, 1000);
+        }
+    });
     //media uploader
     var mediaUploader;
     $('.file-picker').click(function () {
@@ -102,6 +123,13 @@ jQuery(function ($) {
         var that = $(this);
         cleaningLog(that);
     });
+    if ($('#defLockoutUpgrade').size() > 0) {
+        $('body').addClass('wpmud');
+        WDP.showOverlay("#defLockoutUpgrade", {
+            title: 'Updating...',
+            class: 'no-close wp-defender'
+        });
+    }
 
     function cleaningLog(button) {
         $.ajax({
@@ -161,7 +189,10 @@ WDIP.formHandler = function () {
                 } else if (data.data != undefined && data.data.url != undefined) {
                     location.href = data.data.url;
                 } else {
-                    that.find('.button').removeAttr('disabled');
+                    var buttons = that.find('.button');
+                    if (buttons.size() > 0) {
+                        buttons.removeAttr('disabled');
+                    }
                     jq('div.iplockout').trigger('form-submitted', [data, that])
                 }
             }
@@ -186,6 +217,7 @@ WDIP.listenFilter = function () {
     inputs.on('click', function () {
         clearTimeout(typingTimer);
     });
+
     //user is "finished typing," do something
     function doneTyping() {
         //build query

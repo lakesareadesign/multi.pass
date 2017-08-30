@@ -49,7 +49,7 @@
                                                 <a href="<?php echo get_permalink($pro->id) ?>"> <?php echo $avatar ?></a>
                                             </div>
                                             <?php
-                                            $text = !empty($pro->short_description) ? $pro->short_description : $pro->biography;									     						
+                                            $text = !empty($pro->short_description) ? $pro->short_description : $pro->biography;
                                             $text = strip_tags($text);
                                             ?>
                                             <div class="jbp_pro_meta hidden-sx hidden-sm">

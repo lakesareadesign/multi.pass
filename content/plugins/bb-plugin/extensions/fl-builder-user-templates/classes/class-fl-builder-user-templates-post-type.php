@@ -13,8 +13,7 @@ final class FLBuilderUserTemplatesPostType {
 	 * @since 1.10
 	 * @return void
 	 */
-	static public function init()
-	{
+	static public function init() {
 		/* Actions */
 		add_action( 'init', __CLASS__ . '::register' );
 		add_action( 'init', __CLASS__ . '::register_taxonomies' );
@@ -26,12 +25,11 @@ final class FLBuilderUserTemplatesPostType {
 	 * @since 1.10
 	 * @return void
 	 */
-	static public function register()
-	{
+	static public function register() {
 		$admin_access 	 = FLBuilderUserAccess::current_user_can( 'builder_admin' );
 		$can_edit 		 = FLBuilderUserAccess::current_user_can( 'unrestricted_editing' );
 		$can_edit_global = FLBuilderUserAccess::current_user_can( 'global_node_editing' );
-		
+
 		$args = apply_filters( 'fl_builder_register_template_post_type_args', array(
 			'public'            => $admin_access && $can_edit ? true : false,
 			'labels'            => array(
@@ -48,12 +46,12 @@ final class FLBuilderUserTemplatesPostType {
 				'search_items'       => _x( 'Search', 'Custom post type label.', 'fl-builder' ),
 				'parent_item_colon'  => _x( 'Parent:', 'Custom post type label.', 'fl-builder' ),
 				'not_found'          => _x( 'Nothing found.', 'Custom post type label.', 'fl-builder' ),
-				'not_found_in_trash' => _x( 'Nothing found in Trash.', 'Custom post type label.', 'fl-builder' )
+				'not_found_in_trash' => _x( 'Nothing found in Trash.', 'Custom post type label.', 'fl-builder' ),
 			),
 			'supports'          => array(
 				'title',
 				'revisions',
-				'page-attributes'
+				'page-attributes',
 			),
 			'taxonomies'		=> array(
 				'fl-builder-template-category'
@@ -61,9 +59,9 @@ final class FLBuilderUserTemplatesPostType {
 			'menu_icon'			=> 'dashicons-welcome-widgets-menus',
 			'menu_position'		=> 64,
 			'publicly_queryable' 	=> $can_edit || $can_edit_global,
-			'exclude_from_search'	=> true
+			'exclude_from_search'	=> true,
 		) );
-		
+
 		register_post_type( 'fl-builder-template', $args );
 	}
 
@@ -73,8 +71,7 @@ final class FLBuilderUserTemplatesPostType {
 	 * @since 1.10
 	 * @return void
 	 */
-	static public function register_taxonomies()
-	{
+	static public function register_taxonomies() {
 		// Register the template category tax.
 		$args = apply_filters( 'fl_builder_register_template_category_args', array(
 			'labels'            => array(
@@ -92,19 +89,19 @@ final class FLBuilderUserTemplatesPostType {
 			),
 			'hierarchical'      => true,
 			'public'            => true,
-			'show_admin_column' => true
+			'show_admin_column' => true,
 		) );
-		
+
 		register_taxonomy( 'fl-builder-template-category', array( 'fl-builder-template', 'fl-theme-layout' ), $args );
-		
+
 		// Register the template type tax.
 		$args = apply_filters( 'fl_builder_register_template_type_args', array(
 			'label'             => _x( 'Type', 'Custom taxonomy label.', 'fl-builder' ),
 			'hierarchical'      => false,
 			'public'            => false,
-			'show_admin_column' => false
+			'show_admin_column' => false,
 		) );
-		
+
 		register_taxonomy( 'fl-builder-template-type', array( 'fl-builder-template' ), $args );
 	}
 }

@@ -10,6 +10,7 @@
  *
  * @version     1.4
  */
+if (!class_exists('GUMP')) {
 class GUMP
 {
     //Singleton instance of GUMP
@@ -2129,3 +2130,4 @@ class GUMP
         }
     }
 } // EOC
+}

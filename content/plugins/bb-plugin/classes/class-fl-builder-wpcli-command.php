@@ -28,7 +28,7 @@ class FLbuilder_WPCLI_Command extends WP_CLI_Command {
 		$network = false;
 		$all     = false;
 
-		if ( isset( $assoc_args['network'] ) && $assoc_args['network'] == true && is_multisite() ) {
+		if ( isset( $assoc_args['network'] ) && true == $assoc_args['network'] && is_multisite() ) {
 			$network = true;
 		}
 
@@ -44,7 +44,7 @@ class FLbuilder_WPCLI_Command extends WP_CLI_Command {
 
 		if ( class_exists( 'FLBuilderModel' ) ) {
 
-			if ( $network == true ) {
+			if ( true == $network ) {
 
 				if ( function_exists( 'get_sites' ) ) {
 					$blogs = get_sites();

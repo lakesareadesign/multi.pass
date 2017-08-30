@@ -1,42 +1,42 @@
 <div class="<?php echo $module->get_classname(); ?>">
-	<?php 
-	
+	<?php
+
 	// Image left
-	$module->render_image('left'); 
-	
+	$module->render_image( 'left' );
+
 	?>
 	<div class="fl-callout-content">
-		<?php 
-		
+		<?php
+
 		// Image above title
-		$module->render_image('above-title'); 
-		
+		$module->render_image( 'above-title' );
+
 		// Title
 		$module->render_title();
-		
+
 		// Image below title
-		$module->render_image('below-title');
-		
+		$module->render_image( 'below-title' );
+
 		?>
 		<div class="fl-callout-text-wrap">
-			<?php 
-			
-			// Text 
+			<?php
+
+			// Text
 			$module->render_text();
-			
+
 			// Link CTA
 			$module->render_link();
-			
-			// Button CTA 
+
+			// Button CTA
 			$module->render_button();
-			
+
 			?>
 		</div> 
 	</div> 
-	<?php 
-	
+	<?php
+
 	// Image right
-	$module->render_image('right'); 
-	
+	$module->render_image( 'right' );
+
 	?>
 </div>

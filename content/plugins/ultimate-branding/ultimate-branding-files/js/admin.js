@@ -529,7 +529,7 @@ jQuery(document).ready(function(){
  * close block
  */
 jQuery(document).ready(function(){
-    jQuery( 'button.handlediv.button-link, .hndle', jQuery('.simple-options' ) ).on( 'click', function(e) {
+    jQuery( 'button.handlediv.button-link, .hndle', jQuery('.simple-options, .ultimate-colors' ) ).on( 'click', function(e) {
         e.preventDefault();
         var target = jQuery(this).parent();
         var form = jQuery(this).closest('form');

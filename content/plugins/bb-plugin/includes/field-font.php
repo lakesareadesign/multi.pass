@@ -1,4 +1,4 @@
-<?php $value = ( array ) $value; // Make sure we have an array and not an object. ?>
+<?php $value = (array) $value; // Make sure we have an array and not an object. ?>
 <div class="fl-font-field">
 	<select name="<?php echo $name . '[][family]'; ?>" class="fl-font-field-font">
 		<?php FLBuilderFonts::display_select_font( $value['family'] ) ?>

@@ -17,10 +17,19 @@ if (isset($_POST['info_update'])) {
 	$current_date     = substr($current_datetime, 0, 8);
 	$current_hour     = substr($current_datetime, 8, 2);
 
-	// var_dump($_POST);
-
-	if(isset($_POST['rvg_odb_rev_post_type'])) $this->odb_rvg_options['rev_post_type'] = sanitize_text_field($_POST['rvg_odb_rev_post_type']);
-		else $this->odb_rvg_options['rev_post_type'] = '';
+	// CUSTOM POST TYPES (from v4.4)
+	$updated_pts   = array();
+	$rel_posttypes = $this->odb_utilities_obj->odb_get_relevant_post_types();
+	// LOOP THROUGH THE RELEVANT POST TYPES
+	foreach ($rel_posttypes as $posttype) {
+		if (isset($_POST['cb_cpt_' . $posttype])) {
+			$updated_pts[$posttype] = "Y";
+		} else {
+			$updated_pts[$posttype] = "N";
+		} // if (isset($_POST['cb_cpt_' . $posttype]))
+	} // foreach ($rel_posttypes as $posttype)
+	// UPDATE OPTIONS
+	$this->odb_rvg_options['post_types'] = $updated_pts;
 
 	if(isset($_POST['rvg_odb_delete_older'])) $this->odb_rvg_options['delete_older'] = sanitize_text_field($_POST['rvg_odb_delete_older']);
 		else $this->odb_rvg_options['delete_older'] = 'N';
@@ -191,16 +200,11 @@ if($this->odb_rvg_options['rvg_revisions'] == "Y") {
 	$cb_keep_revisions = '';
 	$this->odb_rvg_options['nr_of_revisions'] = '';
 	$cb_disabled2 = $d;
-}
+} // if($this->odb_rvg_options['rvg_revisions'] == "Y")
 
-# $cb_delete_older    = ($this->odb_rvg_options['delete_older']     == "Y") ? $c : '';
-# $cb_keep_revisions  = ($this->odb_rvg_options['rvg_revisions']    == "Y") ? $c : '';
-# $cb_disabled1       = ($this->odb_rvg_options['older_than']       != "")  ? $d : '';
-# $cb_disabled2       = ($this->odb_rvg_options['nr_of_revisions']  != "")  ? $d : '';
 $cb_trash           = ($this->odb_rvg_options['clear_trash']      == "Y") ? $c : '';
 $cb_spam            = ($this->odb_rvg_options['clear_spam']       == "Y") ? $c : '';
 $cb_tags            = ($this->odb_rvg_options['clear_tags']       == "Y") ? $c : '';
-$cb_trans           = ($this->odb_rvg_options['clear_transients'] == "Y") ? $c : '';
 $cb_ping            = ($this->odb_rvg_options['clear_pingbacks']  == "Y") ? $c : '';
 $cb_logging         = ($this->odb_rvg_options['logging_on']       == "Y") ? $c : '';
 $cb_adminbar        = ($this->odb_rvg_options['adminbar']         == "Y") ? $c : '';
@@ -223,23 +227,37 @@ echo '
           </div>
           <table border="0" cellspacing="2" cellpadding="5" class="editform" align="center">
 		    <tr>
-              <td width="50%" align="right"><span class="odb-bold">'. __('Delete revisions of',$this->odb_txt_domain).'</span></td>
-              <td width="50%" valign="top"><select name="rvg_odb_rev_post_type" id="rvg_odb_rev_post_type" class="odb-post-type-select">
-                  <option selected="selected" value="">
-                  '.__('POSTS and PAGES',$this->odb_txt_domain).'
-                  </option>
-                  <option value="post">
-                  '.__('POSTS only',$this->odb_txt_domain).'
-                  </option>
-                  <option value="page">
-                  '.__('PAGES only',$this->odb_txt_domain).'
-                  </option>				  	  
-                </select>
-                <script type="text/javascript">
-					jQuery("#rvg_odb_rev_post_type").val("'.$this->odb_rvg_options['rev_post_type'].'");
-			    </script>				
-              </td>		
-			</tr>
+
+              <td align="center" colspan="2"><span class="odb-bold">'. __('Delete revisions for the following (custom) post type(s):',$this->odb_txt_domain).'</span></td>
+			</tr>';
+
+// CUSTOM POST TYPES (from v4.4)
+$rel_posttypes = $this->odb_utilities_obj->odb_get_relevant_post_types();
+
+// LOOP THROUGH THE RELEVANT POST TYPES
+foreach ($rel_posttypes as $posttype) {
+
+	$cb_checked = ' checked';			
+	if (isset($this->odb_rvg_options['post_types'][$posttype]) &&
+		$this->odb_rvg_options['post_types'][$posttype] == 'N') {
+		$cb_checked = '';
+	}
+
+	echo '
+		    <tr>
+              <td width="50%" align="right"><span class="odb-bold">' . $posttype . '</span></td>	
+	';
+	
+	echo '
+              <td width="50%" valign="top">
+                <span class="odb-bold">
+                  <input name="cb_cpt_' . $posttype . '" id="cb_cpt_' . $posttype . '" type="checkbox" value="Y" ' . $cb_checked . ' /></span>			  
+			  </td>
+			</tr>			  
+	';
+} // foreach ($rel_posttypes as $posttype)
+			
+echo '			
 			<tr>
 			  <td width="50%" align="right"><span class="odb-bold">'. __('Delete revisions older than',$this->odb_txt_domain).'</span></td>
 			  <td width="50%" valign="top"><table border="0" cellspacing="0" cellpadding="3">
@@ -291,10 +309,23 @@ echo '
               <td width="50%" valign="top"><input name="rvg_clear_tags" type="checkbox" value="Y" '.$cb_tags.'></td>
             </tr>
             <tr>
-              <td width="50%" align="right" valign="top"><span class="odb-bold">
-                '.__('Delete expired transients',$this->odb_txt_domain).'
+              <td width="50%" align="right"><span class="odb-bold">
+                '.__('Delete transients',$this->odb_txt_domain).'
                 </span></td>
-              <td width="50%" valign="top"><input name="rvg_clear_transients" type="checkbox" value="Y" '.$cb_trans.'></td>
+			  <td width="50%" valign="top"><select name="rvg_clear_transients" id="rvg_clear_transients" class="odb-post-type-select">
+                  <option selected="selected" value="N">
+                  '.__('DO NOT DELETE TRANSIENTS',$this->odb_txt_domain).'
+                  </option>
+                  <option value="Y">
+                  '.__('DELETE EXPIRED TRANSIENTS',$this->odb_txt_domain).'
+                  </option>
+                  <option value="A">
+                  '.__('DELETE ALL TRANSIENTS',$this->odb_txt_domain).'
+                  </option>				  	  
+                </select>
+				<script type="text/javascript">
+					jQuery("#rvg_clear_transients").val("'.$this->odb_rvg_options['clear_transients'].'");
+			    </script></td>
             </tr>
             <tr>
               <td width="50%" align="right" valign="top"><span class="odb-bold">

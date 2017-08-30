@@ -7,6 +7,7 @@ namespace WP_Defender\Module\Scan\Behavior\Pro;
 
 use Hammer\Helper\Log_Helper;
 use WP_Defender\Behavior\Utils;
+use WP_Defender\Component\Error_Code;
 use WP_Defender\Module\Scan\Model\Result_Item;
 
 class Content_Result extends \Hammer\Base\Behavior {
@@ -186,7 +187,10 @@ class Content_Result extends \Hammer\Base\Behavior {
 			$pools   = explode( '/', $revPath );
 			//the path should be first item in pools
 			$path = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pools[0];
-			$this->deleteFolder( $path );
+			$res  = $this->deleteFolder( $path );
+			if ( is_wp_error( $res ) ) {
+				return $res;
+			}
 			$this->getOwner()->delete();
 		} elseif ( strpos( $file, WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'themes' ) === 0 ) {
 			//find the theme
@@ -195,8 +199,12 @@ class Content_Result extends \Hammer\Base\Behavior {
 			//the path should be first item in pools
 			$path = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pools[0];
 		} else {
-			@unlink( $raw['file'] );
-			$this->getOwner()->delete();
+			$res = unlink( $raw['file'] );
+			if ( $res ) {
+				$this->getOwner()->delete();
+			} else {
+				return new \WP_Error( Error_Code::NOT_WRITEABLE, __( "Defender doesn't have enough permission to remove this file", wp_defender()->domain ) );
+			}
 		}
 
 		return true;
@@ -211,12 +219,20 @@ class Content_Result extends \Hammer\Base\Behavior {
 			\RecursiveIteratorIterator::CHILD_FIRST );
 		foreach ( $files as $file ) {
 			if ( $file->isDir() ) {
-				@rmdir( $file->getRealPath() );
+				$res = @rmdir( $file->getRealPath() );
 			} else {
-				@unlink( $file->getRealPath() );
+				$res = @unlink( $file->getRealPath() );
+			}
+			if ( $res == false ) {
+				return new \WP_Error( Error_Code::NOT_WRITEABLE, __( "Defender doesn't have enough permission to remove this file", wp_defender()->domain ) );
 			}
 		}
-		@rmdir( $dir );
+		$res = @rmdir( $dir );
+		if ( $res == false ) {
+			return new \WP_Error( Error_Code::NOT_WRITEABLE, __( "Defender doesn't have enough permission to remove this file", wp_defender()->domain ) );
+		}
+
+		return true;
 	}
 
 	/**

@@ -8,22 +8,16 @@ namespace WP_Defender\Module\Hardener\Model;
 use Hammer\Helper\WP_Helper;
 use WP_Defender\Behavior\Utils;
 use WP_Defender\Module\Hardener\Component\Change_Admin;
-use WP_Defender\Module\Hardener\Component\Change_Admin_Service;
 use WP_Defender\Module\Hardener\Component\DB_Prefix;
-use WP_Defender\Module\Hardener\Component\DB_Prefix_Service;
 use WP_Defender\Module\Hardener\Component\Disable_File_Editor;
-use WP_Defender\Module\Hardener\Component\Disable_File_Editor_Service;
 use WP_Defender\Module\Hardener\Component\Disable_Trackback;
-use WP_Defender\Module\Hardener\Component\Disable_Trackback_Service;
 use WP_Defender\Module\Hardener\Component\Hide_Error;
-use WP_Defender\Module\Hardener\Component\Hide_Error_Service;
+use WP_Defender\Module\Hardener\Component\Login_Duration;
 use WP_Defender\Module\Hardener\Component\PHP_Version;
 use WP_Defender\Module\Hardener\Component\Prevent_Php;
 use WP_Defender\Module\Hardener\Component\Protect_Information;
 use WP_Defender\Module\Hardener\Component\Security_Key;
-use WP_Defender\Module\Hardener\Component\Security_Key_Service;
 use WP_Defender\Module\Hardener\Component\WP_Version;
-use WP_Defender\Module\Hardener\Component\WP_Version_Service;
 use WP_Defender\Module\Hardener\Rule;
 use WP_Defender\Module\Hardener\Rule_Service;
 
@@ -269,7 +263,8 @@ class Settings extends \Hammer\WP\Settings {
 			Hide_Error::$slug          => $init == true ? new Hide_Error() : Hide_Error::getClassName(),
 			Security_Key::$slug        => $init == true ? new Security_Key() : Security_Key::getClassName(),
 			Protect_Information::$slug => $init == true ? new Protect_Information() : Protect_Information::getClassName(),
-			Prevent_Php::$slug         => $init == true ? new Prevent_Php() : Prevent_Php::getClassName()
+			Prevent_Php::$slug         => $init == true ? new Prevent_Php() : Prevent_Php::getClassName(),
+			Login_Duration::$slug      => $init == true ? new Login_Duration() : Login_Duration::getClassName()
 		);
 	}
 

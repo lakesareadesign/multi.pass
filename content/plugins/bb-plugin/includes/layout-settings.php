@@ -1,10 +1,10 @@
 <?php
 
 FLBuilder::register_settings_form('layout', array(
-	'title' => __('Layout CSS / Javascript', 'fl-builder'),
+	'title' => __( 'Layout CSS / Javascript', 'fl-builder' ),
 	'tabs' => array(
 		'css'  => array(
-			'title'         => __('CSS', 'fl-builder'),
+			'title'         => __( 'CSS', 'fl-builder' ),
 			'sections'      => array(
 				'css'  			=> array(
 					'title'         => '',
@@ -15,15 +15,15 @@ FLBuilder::register_settings_form('layout', array(
 							'editor'        => 'css',
 							'rows'          => '18',
 							'preview'           => array(
-								'type'              => 'none'
-							)
-						)
-					)
-				)
-			)
+								'type'              => 'none',
+							),
+						),
+					),
+				),
+			),
 		),
 		'js'  	=> array(
-			'title'         => __('JavaScript', 'fl-builder'),
+			'title'         => __( 'JavaScript', 'fl-builder' ),
 			'sections'      => array(
 				'js'  			=> array(
 					'title'         => '',
@@ -34,12 +34,12 @@ FLBuilder::register_settings_form('layout', array(
 							'editor'        => 'javascript',
 							'rows'          => '18',
 							'preview'           => array(
-								'type'              => 'none'
-							)
-						)
-					)
-				)
-			)
-		)
-	)
+								'type'              => 'none',
+							),
+						),
+					),
+				),
+			),
+		),
+	),
 ));

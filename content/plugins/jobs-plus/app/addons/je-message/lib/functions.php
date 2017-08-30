@@ -114,7 +114,7 @@ if (!function_exists('mm_login_form')) {
          *
          * @param array $defaults An array of default login form arguments.
          */
-        $args = wp_parse_args($args, apply_filters('login_form_defaults', $defaults));
+        $args = wp_parse_args($args, apply_filters('login_form_defaults', $defaults));									     						
 
         /**
          * Filter content to display at the top of the login form.

@@ -32,8 +32,7 @@ final class FLBuilderUserAccess {
 	 * @since 1.10
 	 * @return void
 	 */
-	static public function init()
-	{
+	static public function init() {
 		add_action( 'after_setup_theme', __CLASS__ . '::register_default_settings' );
 	}
 
@@ -45,12 +44,11 @@ final class FLBuilderUserAccess {
 	 * @param array $data The setting data.
 	 * @return void
 	 */
-	static public function register_setting( $key, $data )
-	{
+	static public function register_setting( $key, $data ) {
 		if ( ! isset( $data['group'] ) ) {
 			$data['group'] = __( 'Misc', 'fl-builder' );
 		}
-		if( ! isset( $data['order'] ) ) {
+		if ( ! isset( $data['order'] ) ) {
 			$data['order'] = '10';
 		}
 		self::$registered_settings[ $key ] = $data;
@@ -63,8 +61,7 @@ final class FLBuilderUserAccess {
 	 * @since 1.10
 	 * @return array
 	 */
-	static public function get_registered_settings()
-	{
+	static public function get_registered_settings() {
 		return self::$registered_settings;
 	}
 
@@ -75,8 +72,7 @@ final class FLBuilderUserAccess {
 	 * @since 1.10
 	 * @return array
 	 */
-	static public function get_grouped_registered_settings()
-	{
+	static public function get_grouped_registered_settings() {
 		$groups   = array();
 		$settings = self::$registered_settings;
 
@@ -84,7 +80,7 @@ final class FLBuilderUserAccess {
 		 * Sort the groups based on priority.
 		 * TODO update when were 5.3+ in PHP.
 		 */
-		uasort($settings, create_function( '$a,$b', 'return $a["order"] > $b["order"];' ) );
+		uasort( $settings, create_function( '$a,$b', 'return $a["order"] > $b["order"];' ) );
 
 		foreach ( $settings as $key => $data ) {
 
@@ -103,8 +99,7 @@ final class FLBuilderUserAccess {
 	 * @since 1.10
 	 * @return array
 	 */
-	static public function get_saved_settings()
-	{
+	static public function get_saved_settings() {
 		if ( self::$settings ) {
 			return self::$settings;
 		}
@@ -123,8 +118,7 @@ final class FLBuilderUserAccess {
 			if ( ! isset( $settings[ $key ] ) ) {
 				if ( $ms_support && isset( $ms_settings[ $key ] ) ) {
 					$settings[ $key ] = $ms_settings[ $key ];
-				}
-				else{
+				} else {
 					$settings[ $key ] = array();
 				}
 			}
@@ -135,17 +129,14 @@ final class FLBuilderUserAccess {
 
 					if ( ! isset( $data['default'] ) || ! $data['default'] ) {
 						$settings[ $key ][ $role_key ] = false;
-					}
-					else if ( is_array( $data['default'] ) ) {
+					} elseif ( is_array( $data['default'] ) ) {
 
 						if ( in_array( $role_key, $data['default'] ) ) {
 							$settings[ $key ][ $role_key ] = true;
-						}
-						else {
+						} else {
 							$settings[ $key ][ $role_key ] = false;
 						}
-					}
-					else {
+					} else {
 						$settings[ $key ][ $role_key ] = true;
 					}
 				}
@@ -164,8 +155,7 @@ final class FLBuilderUserAccess {
 	 * @since 1.10
 	 * @return array
 	 */
-	static public function get_raw_settings()
-	{
+	static public function get_raw_settings() {
 		$settings = FLBuilderModel::get_admin_settings_option( '_fl_builder_user_access', true );
 
 		if ( ! is_array( $settings ) ) {
@@ -182,8 +172,7 @@ final class FLBuilderUserAccess {
 	 * @param array $data The user access data to save.
 	 * @return void
 	 */
-	static public function save_settings( $data = array() )
-	{
+	static public function save_settings( $data = array() ) {
 		$roles        = self::get_all_roles();
 		$settings     = array();
 		$ms_support   = FLBuilderAdminSettings::multisite_support();
@@ -220,18 +209,20 @@ final class FLBuilderUserAccess {
 	 * @since 1.10
 	 * @return array
 	 */
-	static public function get_all_roles()
-	{
+	static public function get_all_roles() {
 		if ( ! function_exists( 'get_editable_roles' ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/user.php' );
 		}
 
 		$editable_roles = get_editable_roles();
 		$roles = array();
+		$caps  = apply_filters( 'fl_builder_user_access_capabilities', array( 'edit_posts' ) );
 
 		foreach ( $editable_roles as $role => $data ) {
-			if ( isset( $data['capabilities']['edit_posts'] ) && 1 == $data['capabilities']['edit_posts'] ) {
-				$roles[ $role ] = $data['name'];
+			foreach ( $caps as $cap ) {
+				if ( isset( $data['capabilities'][ $cap ] ) && 1 == $data['capabilities'][ $cap ] ) {
+					$roles[ $role ] = $data['name'];
+				}
 			}
 		}
 
@@ -247,13 +238,20 @@ final class FLBuilderUserAccess {
 	 * @param string $key The feature key to check.
 	 * @return bool
 	 */
-	static public function current_user_can( $key )
-	{
+	static public function current_user_can( $key ) {
 		$user	  = wp_get_current_user();
 		$settings = self::get_saved_settings();
+		$caps     = apply_filters( 'fl_builder_user_access_capabilities', array( 'edit_posts' ) );
+		$user_can = false;
 
 		// Return false for users that can't edit posts.
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		foreach ( $caps as $cap ) {
+			if ( current_user_can( $cap ) ) {
+				$user_can = true;
+			}
+		}
+
+		if ( ! $user_can ) {
 			return false;
 		}
 
@@ -286,14 +284,13 @@ final class FLBuilderUserAccess {
 	 * @private
 	 * @return void
 	 */
-	static function register_default_settings()
-	{
+	static function register_default_settings() {
 		self::register_setting( 'unrestricted_editing', array(
 			'default'     => 'all',
 			'group'       => __( 'Frontend', 'fl-builder' ),
 			'label'       => __( 'Unrestricted Editing', 'fl-builder' ),
 			'description' => __( 'The selected roles will have unrestricted access to all editing features.', 'fl-builder' ),
-			'order'       => '1'
+			'order'       => '1',
 		) );
 	}
 }

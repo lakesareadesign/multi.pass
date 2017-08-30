@@ -20,9 +20,9 @@ $warning = $requirements_test['warning'];
 
 	<div id="container" class="snapshot-three wps-page-wizard">
 
-		<section class="box new-snapshot-main-box">
+		<section class="wpmud-box new-snapshot-main-box">
 
-			<div class="box-title has-button">
+			<div class="wpmud-box-title has-button">
 
 				<h3><?php _e( 'Restore Wizard', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 
@@ -30,13 +30,13 @@ $warning = $requirements_test['warning'];
 
 			</div>
 
-			<div class="box-content">
+			<div class="wpmud-box-content">
 
 				<?php $this->render( "common/requirements-test", false, $requirements_test, false, false ); ?>
 
-				<div class="box-tab configuration-box<?php if ( $all_good ) { echo ' open'; } ?>">
+				<div class="wpmud-box-tab configuration-box<?php if ( $all_good ) { echo ' open'; } ?>">
 
-					<div class="box-tab-title can-toggle">
+					<div class="wpmud-box-tab-title can-toggle">
 
 						<h3>
 							<?php _e( 'Configuration', SNAPSHOT_I18N_DOMAIN ); ?>
@@ -59,7 +59,7 @@ $warning = $requirements_test['warning'];
 
 					<?php if ( $all_good ): ?>
 
-					<div class="box-tab-content">
+					<div class="wpmud-box-tab-content">
 
 						<div id="wps-new-location" class="row">
 
@@ -71,7 +71,7 @@ $warning = $requirements_test['warning'];
 
 							<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-								<div class="box-mask">
+								<div class="wpmud-box-mask">
 
 									<label class="label-title"><?php _e( 'Choose which folder you would like to restore your website to.', SNAPSHOT_I18N_DOMAIN ); ?></label>
 

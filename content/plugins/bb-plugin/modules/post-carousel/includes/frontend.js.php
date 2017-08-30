@@ -16,7 +16,7 @@
 		new FLBuilderPostCarousel({
 			id: '<?php echo $id ?>',
 			layout: '<?php echo $layout ?>',
-		<?php if ( isset( $settings->navigation ) && $settings->navigation == 'yes' ) : ?>
+		<?php if ( isset( $settings->navigation ) && 'yes' == $settings->navigation ) : ?>
 			navigationControls: true,
 		<?php endif; ?>
 			slideWidth: <?php echo $slide_width ?>,
@@ -24,7 +24,7 @@
 			<?php if ( isset( $settings->transition ) ) : ?>
 				mode: 'horizontal',
 			<?php endif; ?>
-			<?php if ( isset( $settings->pagination ) && $settings->pagination == 'no' ) : ?>
+			<?php if ( isset( $settings->pagination ) && 'no' == $settings->pagination ) : ?>
 				pager: false,
 			<?php endif; ?>
 			<?php if ( isset( $settings->auto_play ) ) : ?>

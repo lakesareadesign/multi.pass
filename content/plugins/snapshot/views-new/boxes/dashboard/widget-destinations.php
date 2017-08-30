@@ -19,9 +19,9 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 } ?>
 
-<div class="box wps-widget-destinations">
+<div class="wpmud-box wps-widget-destinations">
 
-	<div class="box-title has-button">
+	<div class="wpmud-box-title has-button">
 
 		<h3 class="has-count"><?php _e( 'Destinations', SNAPSHOT_I18N_DOMAIN ); ?><span class="wps-count"><?php echo count( WPMUDEVSnapshot::instance()->config_data['destinations'] ) ?></span></h3>
 
@@ -29,7 +29,7 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 	</div>
 
-	<div class="box-content">
+	<div class="wpmud-box-content">
 
 		<div class="row">
 

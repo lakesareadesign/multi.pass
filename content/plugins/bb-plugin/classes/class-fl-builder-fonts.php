@@ -70,7 +70,7 @@ final class FLBuilderFonts {
 	 * @return void
 	 */
 	static public function display_select_weight( $font, $weight ) {
-		if ( $font == 'Default' ) {
+		if ( 'Default' == $font ) {
 			echo '<option value="default">' . __( 'Default', 'fl-builder' ) . '</option>';
 		} else {
 			$system_fonts = apply_filters( 'fl_builder_font_families_system', FLBuilderFontFamilies::$system );
@@ -162,7 +162,7 @@ final class FLBuilderFonts {
 		$fields = FLBuilderModel::get_settings_form_fields( $module->form );
 
 		foreach ( $fields as $name => $field ) {
-			if ( $field['type'] == 'font' && isset( $module->settings->$name ) ) {
+			if ( 'font' == $field['type'] && isset( $module->settings->$name ) ) {
 				self::add_font( $module->settings->$name );
 			} elseif ( isset( $field['form'] ) ) {
 				$form = FLBuilderModel::$settings_forms[ $field['form'] ];
@@ -185,7 +185,7 @@ final class FLBuilderFonts {
 		$fields = FLBuilderModel::get_settings_form_fields( $form );
 
 		foreach ( $fields as $name => $field ) {
-			if ( $field['type'] == 'font' && isset( $module->settings->$setting ) ) {
+			if ( 'font' == $field['type'] && isset( $module->settings->$setting ) ) {
 				foreach ( $module->settings->$setting as $key => $val ) {
 					if ( isset( $val->$name ) ) {
 						self::add_font( (array) $val->$name );
@@ -230,7 +230,7 @@ final class FLBuilderFonts {
 	 */
 	static public function add_font( $font ) {
 
-		if ( $font['family'] != 'Default' ) {
+		if ( 'Default' != $font['family'] ) {
 
 			$system_fonts = apply_filters( 'fl_builder_font_families_system', FLBuilderFontFamilies::$system );
 

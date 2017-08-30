@@ -12,7 +12,7 @@
 		this._render();
 		this._bind();
 	};
-	
+
 	/**
 	 * Closes the lightbox of a child element that
 	 * is passed to this method.
@@ -21,14 +21,14 @@
 	 * @static
 	 * @method closeParent
 	 * @param {Object} child An HTML element or jQuery reference to an element.
-	 */ 
+	 */
 	FLLightbox.closeParent = function(child)
 	{
 		var instanceId = $(child).closest('.fl-lightbox-wrap').attr('data-instance-id');
-			
+
 		FLLightbox._instances[instanceId].close();
 	};
-	
+
 	/**
 	 * An object that stores a reference to each
 	 * lightbox instance that is created.
@@ -37,7 +37,7 @@
 	 * @static
 	 * @access private
 	 * @property {Object} _instances
-	 */  
+	 */
 	FLLightbox._instances = {};
 
 	/**
@@ -45,7 +45,7 @@
 	 *
 	 * @since 1.0
 	 * @property {Object} prototype
-	 */  
+	 */
 	FLLightbox.prototype = {
 
 		/**
@@ -55,27 +55,27 @@
 		 * @since 1.0
 		 * @access private
 		 * @property {String} _id
-		 */  
+		 */
 		_id: null,
-		
+
 		/**
 		 * A jQuery reference to the main wrapper div.
 		 *
 		 * @since 1.0
 		 * @access private
 		 * @property {Object} _node
-		 */ 
+		 */
 		_node: null,
-		
+
 		/**
 		 * Flag for whether the lightbox is visible or not.
 		 *
 		 * @since 1.0
 		 * @access private
 		 * @property {Boolean} _visible
-		 */ 
+		 */
 		_visible: false,
-		
+
 		/**
 		 * A timeout used to throttle the resize event.
 		 *
@@ -84,9 +84,9 @@
 		 * @property {Object} _resizeTimer
 		 */
 		_resizeTimer: null,
-		
+
 		/**
-		 * A flag for whether this instance should be 
+		 * A flag for whether this instance should be
 		 * draggable or not.
 		 *
 		 * @since 1.0
@@ -94,7 +94,7 @@
 		 * @property {Boolean} _draggable
 		 */
 		_draggable: false,
-		
+
 		/**
 		 * Default config object.
 		 *
@@ -108,9 +108,9 @@
 			className: '',
 			destroyOnClose: false
 		},
-		
+
 		/**
-		 * Opens the lightbox. You can pass new content to this method. 
+		 * Opens the lightbox. You can pass new content to this method.
 		 * If no content is passed, the previous content will be shown.
 		 *
 		 * @since 1.0
@@ -122,17 +122,17 @@
 			this._node.find('.fl-lightbox').attr( 'style', '' );
 			this._node.show();
 			this._visible = true;
-			
+
 			if(typeof content !== 'undefined') {
 				this.setContent(content);
 			}
 			else {
 				this._resize();
 			}
-			
+
 			this.trigger('open');
 		},
-		
+
 		/**
 		 * Closes the lightbox.
 		 *
@@ -141,15 +141,16 @@
 		 */
 		close: function()
 		{
+			this.trigger('beforeClose');
 			this._node.hide();
 			this._visible = false;
 			this.trigger('close');
-			
+
 			if(this._defaults.destroyOnClose) {
 				this.destroy();
 			}
 		},
-		
+
 		/**
 		 * Adds HTML content to the lightbox replacing any
 		 * previously added content.
@@ -163,7 +164,7 @@
 			this._node.find('.fl-lightbox-content').html(content);
 			this._resize();
 		},
-		
+
 		/**
 		 * Uses the jQuery empty function to remove lightbox
 		 * content and any related events.
@@ -176,7 +177,7 @@
 			this._node.find('.fl-lightbox-content').empty();
 			this._node.find('.fl-lightbox').removeClass('fl-lightbox-expanded');
 		},
-		
+
 		/**
 		 * Bind an event to the lightbox.
 		 *
@@ -189,7 +190,7 @@
 		{
 			this._node.on(event, callback);
 		},
-		
+
 		/**
 		 * Unbind an event from the lightbox.
 		 *
@@ -201,7 +202,7 @@
 		{
 			this._node.off(event);
 		},
-		
+
 		/**
 		 * Trigger an event on the lightbox.
 		 *
@@ -214,7 +215,7 @@
 		{
 			this._node.trigger(event, params);
 		},
-		
+
 		/**
 		 * Enable or disable dragging for the lightbox.
 		 *
@@ -226,19 +227,19 @@
 		{
 			var mask     = this._node.find('.fl-lightbox-mask'),
 				lightbox = this._node.find('.fl-lightbox');
-				
+
 			toggle = typeof toggle === 'undefined' ? false : toggle;
-			
+
 			if(this._draggable) {
 				lightbox.draggable('destroy');
 			}
 
 			if(toggle) {
-			
+
 				this._unbind();
 				this._draggable = true;
 				mask.hide();
-			
+
 				lightbox.draggable({
 					cursor: 'move',
 					handle: toggle.handle || ''
@@ -252,7 +253,7 @@
 
 			this._resize();
 		},
-		
+
 		/**
 		 * Destroy the lightbox by removing all elements, events
 		 * and object references.
@@ -263,22 +264,22 @@
 		destroy: function()
 		{
 			$(window).off('resize.fl-lightbox-' + this._id);
-			
+
 			this._node.empty();
 			this._node.remove();
-			
+
 			FLLightbox._instances[this._id] = 'undefined';
 			try{ delete FLLightbox._instances[this._id]; } catch(e){}
 		},
 
 		/**
 		 * Render the expand/contract of lightbox
-		 * 
+		 *
 		 * @method renderResize
-		 * @param {String}		 
+		 * @param {String}
 		 */
 		renderResize: function(method)
-		{	
+		{
 			if(typeof method !== 'undefined') {
 				var	activeNode 		= this._getActiveNode();
 					lightbox  		= activeNode.find('.fl-lightbox'),
@@ -300,13 +301,13 @@
 					if(method == 'window_resize' && !lightbox.hasClass('fl-lightbox-expanded')) {
 						return false;
 					}
-					
+
 					boxFields.css('height', boxFieldHeight + 'px');
-					
+
 					if(method == 'expand') {
-						lightbox.addClass('fl-lightbox-expanded');	
+						lightbox.addClass('fl-lightbox-expanded');
 						lightbox.draggable('disable');
-					}					
+					}
 
 					if(editorIframeEl.length > 0) {
 						editorIframeEl.css('height', (boxFieldHeight - 145) + 'px');
@@ -319,7 +320,7 @@
 					if(codeField.length > 0) {
 						codeField.css('height', (boxFieldHeight - 60) + 'px');
 					}
-					
+
 				}
 				else {
 					// Contract lightbox
@@ -327,7 +328,7 @@
 
 					lightbox.removeClass('fl-lightbox-expanded');
 					boxFields.removeAttr('style');
-					
+
 					if(editorId !== null) {
 						editorIframeEl.css('height', '232px');
 						editorTextarea.css('height', '232px');
@@ -338,10 +339,10 @@
 					}
 
 					lightbox.draggable('enable');
-				}			
-			}		
+				}
+			}
 		},
-		
+
 		/**
 		 * Initialize this lightbox instance.
 		 *
@@ -354,16 +355,16 @@
 		{
 			var i    = 0,
 				prop = null;
-			
+
 			for(prop in FLLightbox._instances) {
 				i++;
 			}
-			
+
 			this._defaults = $.extend({}, this._defaults, settings);
 			this._id = new Date().getTime() + i;
 			FLLightbox._instances[this._id] = this;
 		},
-		
+
 		/**
 		 * Renders the main wrapper.
 		 *
@@ -374,12 +375,12 @@
 		_render: function()
 		{
 			this._node = $('<div class="fl-lightbox-wrap" data-instance-id="'+ this._id +'"><div class="fl-lightbox-mask"></div><div class="fl-lightbox"><div class="fl-lightbox-content-wrap"><div class="fl-lightbox-content"></div></div></div></div>');
-			
+
 			this._node.addClass(this._defaults.className);
-			
+
 			$('body').append(this._node);
 		},
-		
+
 		/**
 		 * Binds events for this instance.
 		 *
@@ -391,7 +392,7 @@
 		{
 			$(window).on('resize.fl-lightbox-' + this._id, $.proxy(this._delayedResize, this));
 		},
-		
+
 		/**
 		 * Unbinds events for this instance.
 		 *
@@ -403,7 +404,7 @@
 		{
 			$(window).off('resize.fl-lightbox-' + this._id);
 		},
-		
+
 		/**
 		 * Resizes the lightbox after a delay.
 		 *
@@ -414,12 +415,12 @@
 		_delayedResize: function()
 		{
 			clearTimeout(this._resizeTimer);
-			
+
 			this._resizeTimer = setTimeout($.proxy(this._resize, this), 250);
-			
+
 			this.renderResize('window_resize');
 		},
-		
+
 		/**
 		 * Resizes the lightbox.
 		 *
@@ -430,7 +431,7 @@
 		_resize: function()
 		{
 			if(this._visible) {
-			
+
 				var lightbox  = this._node.find('.fl-lightbox'),
 					boxHeight = lightbox.height(),
 					boxWidth  = lightbox.width(),
@@ -439,19 +440,19 @@
 					winWidth  = win.width(),
 					top       = '0px',
 					left      = ((winWidth - boxWidth)/2 - 30) + 'px';
-				
+
 				// Zero out margins and position.
 				lightbox.css({
 					'margin' : '0px',
 					'top'    : 'auto',
 					'left'   : 'auto'
 				});
-				
-				// Get the top position. 
+
+				// Get the top position.
 				if(winHeight - 80 > boxHeight) {
 					top = ((winHeight - boxHeight)/2 - 40) + 'px';
 				}
-				
+
 				// Set the positions.
 				if(this._draggable) {
 					lightbox.css('top', top);
@@ -464,9 +465,9 @@
 				}
 			}
 		},
-		
+
 		/**
-		 * Closes the lightbox when the esc key is pressed. 
+		 * Closes the lightbox when the esc key is pressed.
 		 * Currently not in use.
 		 *
 		 * @since 1.0

@@ -13,8 +13,7 @@ final class FLBuilderUserTemplates {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function init()
-	{
+	static public function init() {
 		/* Actions */
 		add_action( 'plugins_loaded',                                  __CLASS__ . '::init_ajax' );
 		add_action( 'after_setup_theme',                               __CLASS__ . '::register_user_access_settings' );
@@ -45,8 +44,7 @@ final class FLBuilderUserTemplates {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function init_ajax()
-	{
+	static public function init_ajax() {
 		FLBuilderAJAX::add_action( 'render_user_template_settings',    __CLASS__ . '::render_settings' );
 		FLBuilderAJAX::add_action( 'render_node_template_settings',    __CLASS__ . '::render_node_settings', array( 'node_id' ) );
 		FLBuilderAJAX::add_action( 'save_user_template',               'FLBuilderModel::save_user_template', array( 'settings' ) );
@@ -61,14 +59,13 @@ final class FLBuilderUserTemplates {
 	 * @since 1.10
 	 * @return void
 	 */
-	static public function register_user_access_settings()
-	{
+	static public function register_user_access_settings() {
 		FLBuilderUserAccess::register_setting( 'builder_admin', array(
 			'default'     => false,
 			'group'       => __( 'Admin', 'fl-builder' ),
 			'label'       => __( 'Builder Admin', 'fl-builder' ),
 			'description' => __( 'The selected roles will be able to access the builder admin menu.', 'fl-builder' ),
-			'order'       => '100'
+			'order'       => '100',
 		) );
 
 		FLBuilderUserAccess::register_setting( 'global_node_editing', array(
@@ -76,7 +73,7 @@ final class FLBuilderUserTemplates {
 			'group'       => __( 'Frontend', 'fl-builder' ),
 			'label'       => __( 'Global Rows and Modules Editing', 'fl-builder' ),
 			'description' => __( 'The selected roles will be able to edit global rows and modules.', 'fl-builder' ),
-			'order'       => '10'
+			'order'       => '10',
 		) );
 	}
 
@@ -86,8 +83,7 @@ final class FLBuilderUserTemplates {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function load_settings()
-	{
+	static public function load_settings() {
 		require_once FL_BUILDER_USER_TEMPLATES_DIR . 'includes/user-template-settings.php';
 		require_once FL_BUILDER_USER_TEMPLATES_DIR . 'includes/node-template-settings.php';
 	}
@@ -99,11 +95,10 @@ final class FLBuilderUserTemplates {
 	 * @param string $template The current template to be loaded.
 	 * @return string
 	 */
-	static public function template_include( $template )
-	{
+	static public function template_include( $template ) {
 		global $post;
 
-		if ( 'string' == gettype( $template ) && $post && $post->post_type == 'fl-builder-template' ) {
+		if ( 'string' == gettype( $template ) && $post && 'fl-builder-template' == $post->post_type ) {
 
 			$page = locate_template( array( 'page.php' ) );
 
@@ -124,21 +119,17 @@ final class FLBuilderUserTemplates {
 	 * @param bool $has_templates
 	 * @return bool
 	 */
-	static public function has_templates( $has_templates )
-	{
+	static public function has_templates( $has_templates ) {
 		$enabled_templates = FLBuilderModel::get_enabled_templates();
 
-		if ( 'core' == $enabled_templates )  {
+		if ( 'core' == $enabled_templates ) {
 			$templates = FLBuilderModel::get_template_selector_data();
 			return ( count( $templates['templates'] ) > 0 );
-		}
-		else if ( 'user' == $enabled_templates )  {
+		} elseif ( 'user' == $enabled_templates ) {
 			return true;
-		}
-		else if ( 'enabled' == $enabled_templates )  {
+		} elseif ( 'enabled' == $enabled_templates ) {
 			return true;
-		}
-		else if ( 'disabled' == $enabled_templates )  {
+		} elseif ( 'disabled' == $enabled_templates ) {
 			return false;
 		}
 
@@ -153,12 +144,11 @@ final class FLBuilderUserTemplates {
 	 * @param array $data
 	 * @return array
 	 */
-	static public function selector_data( $data )
-	{
-		if ( in_array( FLBuilderModel::get_enabled_templates(), array( 'user', 'disabled' ) ) )  {
+	static public function selector_data( $data ) {
+		if ( in_array( FLBuilderModel::get_enabled_templates(), array( 'user', 'disabled' ) ) ) {
 			$data = array(
 				'templates'   => array(),
-				'categorized' => array()
+				'categorized' => array(),
 			);
 		}
 
@@ -172,17 +162,16 @@ final class FLBuilderUserTemplates {
 	 * @param array $data
 	 * @return array
 	 */
-	static public function selector_filter_data( $data )
-	{
+	static public function selector_filter_data( $data ) {
 		$enabled_templates = FLBuilderModel::get_enabled_templates();
 
-		if ( 'user' == $enabled_templates )  {
-			$data = array( 'yours' => __( 'Your Templates', 'fl-builder' ) );
-		}
-		else if ( 'enabled' == $enabled_templates )  {
+		if ( 'user' == $enabled_templates ) {
+			$data = array(
+				'yours' => __( 'Your Templates', 'fl-builder' ),
+			);
+		} elseif ( 'enabled' == $enabled_templates ) {
 			$data['yours'] = __( 'Your Templates', 'fl-builder' );
-		}
-		else if ( 'disabled' == $enabled_templates )  {
+		} elseif ( 'disabled' == $enabled_templates ) {
 			$data = array();
 		}
 
@@ -195,9 +184,8 @@ final class FLBuilderUserTemplates {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function render_selector_content()
-	{
-		if ( in_array( FLBuilderModel::get_enabled_templates(), array( 'user', 'enabled' ) ) )  {
+	static public function render_selector_content() {
+		if ( in_array( FLBuilderModel::get_enabled_templates(), array( 'user', 'enabled' ) ) ) {
 
 			$user_templates = FLBuilderModel::get_user_templates();
 
@@ -212,11 +200,10 @@ final class FLBuilderUserTemplates {
 	 * @param string $title
 	 * @return string
 	 */
-	static public function ui_bar_title( $title )
-	{
+	static public function ui_bar_title( $title ) {
 		global $wp_the_query;
 
-		if( FLBuilderModel::is_post_user_template() ) {
+		if ( FLBuilderModel::is_post_user_template() ) {
 			$title = sprintf( __( 'Row/Module: %s', 'fl-builder' ), get_the_title( $wp_the_query->post->ID ) );
 		}
 
@@ -230,8 +217,7 @@ final class FLBuilderUserTemplates {
 	 * @param array $buttons
 	 * @return array
 	 */
-	static public function ui_bar_buttons( $buttons )
-	{
+	static public function ui_bar_buttons( $buttons ) {
 		$is_template        = FLBuilderModel::is_post_user_template();
 		$is_row_template    = FLBuilderModel::is_post_user_template( 'row' );
 		$is_module_template = FLBuilderModel::is_post_user_template( 'module' );
@@ -257,13 +243,12 @@ final class FLBuilderUserTemplates {
 	 * @param array $config
 	 * @return array
 	 */
-	static public function ui_js_config( $config )
-	{
+	static public function ui_js_config( $config ) {
 		return array_merge( $config, array(
 			'enabledTemplates'              => FLBuilderModel::get_enabled_templates(),
 			'isUserTemplate'                => FLBuilderModel::is_post_user_template() ? true : false,
 			'userCanEditGlobalTemplates'    => FLBuilderUserAccess::current_user_can( 'global_node_editing' ) ? true : false,
-			'userTemplateType'              => FLBuilderModel::get_user_template_type()
+			'userTemplateType'              => FLBuilderModel::get_user_template_type(),
 		) );
 	}
 
@@ -273,8 +258,7 @@ final class FLBuilderUserTemplates {
 	 * @since 1.6.3
 	 * @return void
 	 */
-	static public function render_ui_panel_node_templates()
-	{
+	static public function render_ui_panel_node_templates() {
 		if ( FLBuilderModel::node_templates_enabled() ) {
 
 			$saved_rows    = FLBuilderModel::get_node_templates( 'row' );
@@ -306,8 +290,7 @@ final class FLBuilderUserTemplates {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function render_ui_js_templates()
-	{
+	static public function render_ui_js_templates() {
 		if ( FLBuilderModel::is_builder_active() ) {
 			include FL_BUILDER_USER_TEMPLATES_DIR . 'includes/ui-js-templates.php';
 		}
@@ -320,8 +303,7 @@ final class FLBuilderUserTemplates {
 	 * @param array $config
 	 * @return array
 	 */
-	static public function settings_form_config( $config )
-	{
+	static public function settings_form_config( $config ) {
 		$is_row    = stristr( $config['class'], 'fl-builder-row-settings' );
 		$is_col    = stristr( $config['class'], 'fl-builder-col-settings' );
 		$is_module = stristr( $config['class'], 'fl-builder-module-settings' );
@@ -333,8 +315,7 @@ final class FLBuilderUserTemplates {
 
 			if ( isset( $post_data['node_id'] ) ) {
 				$global = FLBuilderModel::is_node_global( FLBuilderModel::get_node( $post_data['node_id'] ) );
-			}
-			else if ( isset( $post_data['template_id'] ) ) {
+			} elseif ( isset( $post_data['template_id'] ) ) {
 				$template_post_id = FLBuilderModel::get_node_template_post_id( $post_data['template_id'] );
 				$global = ! $template_post_id ? false : FLBuilderModel::is_post_global_node_template( $template_post_id );
 			}
@@ -356,15 +337,14 @@ final class FLBuilderUserTemplates {
 	 * @since 1.0
 	 * @return array
 	 */
-	static public function render_settings()
-	{
+	static public function render_settings() {
 		$defaults = FLBuilderModel::get_settings_form_defaults( 'user_template' );
 		$form     = FLBuilderModel::get_settings_form( 'user_template' );
 
 		return FLBuilder::render_settings(array(
 			'class'   => 'fl-builder-user-template-settings',
 			'title'   => $form['title'],
-			'tabs'    => $form['tabs']
+			'tabs'    => $form['tabs'],
 		), $defaults);
 	}
 
@@ -375,17 +355,16 @@ final class FLBuilderUserTemplates {
 	 * @param string $node_id The node whose template settings to load.
 	 * @return array
 	 */
-	static public function render_node_settings( $node_id = null )
-	{
+	static public function render_node_settings( $node_id = null ) {
 		$defaults 	= FLBuilderModel::get_settings_form_defaults( 'node_template' );
 		$form     	= FLBuilderModel::get_settings_form( 'node_template' );
 		$node 		= FLBuilderModel::get_node( $node_id );
 
 		return FLBuilder::render_settings(array(
 			'class'   => 'fl-builder-node-template-settings',
-			'attrs'   => 'data-node="'. $node->node .'"',
+			'attrs'   => 'data-node="' . $node->node . '"',
 			'title'   => str_replace( '%s', ucwords( $node->type ), $form['title'] ),
-			'tabs'    => $form['tabs']
+			'tabs'    => $form['tabs'],
 		), $defaults);
 	}
 
@@ -396,8 +375,7 @@ final class FLBuilderUserTemplates {
 	 * @param string $classes
 	 * @return string
 	 */
-	static public function content_classes( $classes )
-	{
+	static public function content_classes( $classes ) {
 		// Add template classes to the content class.
 		if ( FLBuilderModel::is_post_user_template() ) {
 			$classes .= ' fl-builder-template';
@@ -420,8 +398,7 @@ final class FLBuilderUserTemplates {
 	 * @param bool $render
 	 * @return bool
 	 */
-	static public function render_nodes( $render )
-	{
+	static public function render_nodes( $render ) {
 		if ( FLBuilderModel::is_post_user_template( 'module' ) ) {
 			FLBuilder::render_modules();
 			return false;
@@ -438,8 +415,7 @@ final class FLBuilderUserTemplates {
 	 * @param object $row
 	 * @return array
 	 */
-	static public function row_attributes( $attrs, $row )
-	{
+	static public function row_attributes( $attrs, $row ) {
 		$global = FLBuilderModel::is_node_global( $row );
 		$active = FLBuilderModel::is_builder_active();
 
@@ -463,8 +439,7 @@ final class FLBuilderUserTemplates {
 	 * @param object $col
 	 * @return array
 	 */
-	static public function column_attributes( $attrs, $col )
-	{
+	static public function column_attributes( $attrs, $col ) {
 		$global = FLBuilderModel::is_node_global( $col );
 		$active = FLBuilderModel::is_builder_active();
 
@@ -487,8 +462,7 @@ final class FLBuilderUserTemplates {
 	 * @param object $module
 	 * @return array
 	 */
-	static public function module_attributes( $attrs, $module )
-	{
+	static public function module_attributes( $attrs, $module ) {
 		$global = FLBuilderModel::is_node_global( $module );
 		$active = FLBuilderModel::is_builder_active();
 

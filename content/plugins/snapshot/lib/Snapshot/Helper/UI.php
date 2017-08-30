@@ -197,7 +197,7 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 				$selected_destination = "local";
 			}
 			?>
-			<div class="box-gray">
+			<div class="wpmud-box-gray">
 
 				<div class="radio-destination">
 

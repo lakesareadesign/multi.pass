@@ -1720,6 +1720,7 @@ if ( ! function_exists( 'mp_tax_rate' ) ) :
 			$state = mp_get_setting( 'base_province' );
 		}
 
+        /*
 		switch ( $country ) {//mp_get_setting( 'base_country' )
 			case 'US':
 // USA taxes are only for orders delivered inside the state
@@ -1758,6 +1759,9 @@ if ( ! function_exists( 'mp_tax_rate' ) ) :
 				}
 				break;
 		}
+        */
+
+        $tax_rate = (float) mp_get_setting( 'tax->rate' );
 
 		if ( empty( $tax_rate ) ) {
 			$tax_rate = 0;

@@ -110,7 +110,7 @@ class Wdpv_Voting_FiveStarRating {
 
 	private function _user_voted ($user_id, $post_id, $blog_id) {
 		global $wpdb;
-		$where = apply_filters('wdpv-sql-where-user_id_check', "WHERE user_id={$user_id} AND blog_id={$blog_id} AND post_id={$post_id}");
+		$where = apply_filters('wdpv-sql-where-user_id_check', "WHERE user_id={$user_id} AND blog_id={$blog_id} AND post_id={$post_id}");	     	 	 		 		 		
 		$result = $wpdb->get_var("SELECT COUNT(*) FROM " . $wpdb->base_prefix . "wdpv_post_votes {$where}");
 		return $result;
 	}

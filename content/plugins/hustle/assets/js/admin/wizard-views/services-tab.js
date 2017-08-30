@@ -48,8 +48,14 @@ Hustle.define("Optin.Email_Services_Tab", function( $ ) {
             return this;
         },
         toggle_optin_provider_settings: function(){
-            this.$(".wph-label--notice").toggleClass( "hidden",  _.isFalse( this.model.get("test_mode") ) );
-            this.$(".wph-label--notice").siblings().toggleClass( "hidden",  _.isTrue( this.model.get("test_mode") ) );
+			var me = this;
+			this.$(".wph-label--notice").each( function(){
+				var $this = $(this);
+				if ( !$this.hasClass('wph-label--persist_notice') ) {
+					$this.toggleClass( "hidden",  _.isFalse( me.model.get("test_mode") ) );
+					$this.siblings().toggleClass( "hidden",  _.isTrue( me.model.get("test_mode") ) );
+				}
+			} );
             this.$("#optin_new_provider_name").prop("disabled", _.isTrue( this.model.get("test_mode") ) );
         },
         update_model: function(e){

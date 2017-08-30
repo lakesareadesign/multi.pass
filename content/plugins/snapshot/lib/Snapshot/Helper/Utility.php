@@ -505,6 +505,11 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		 * @return array
 		 */
 		public static function scandir( $base = '' ) {
+			if ( defined('SNAPSHOT_IGNORE_SYMLINKS') && SNAPSHOT_IGNORE_SYMLINKS == true) {
+				if ( is_link ( $base ) )
+					return array();
+			}
+
 			if ( ( ! $base ) || ( ! strlen( $base ) ) ) {
 				return array();
 			}

@@ -12,15 +12,15 @@ $custom_directory = $use_folder;
 
 <div id="container" class="snapshot-three wps-page-settings">
 
-	<section class="box">
+	<section class="wpmud-box">
 
-		<div class="box-title">
+		<div class="wpmud-box-title">
 
 			<h3><?php _e('General', SNAPSHOT_I18N_DOMAIN);?> </h3>
 
 		</div>
 
-		<div class="box-content">
+		<div class="wpmud-box-content">
 
 			<form action="?page=snapshot_pro_settings" method="post">
 
@@ -40,7 +40,7 @@ $custom_directory = $use_folder;
 
 					<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-						<div class="box-mask">
+						<div class="wpmud-box-mask">
 
 							<label class="label-title"><?php _e('Choose where your snapshots will be stored whilst they are being uploaded to your third party integrations.', SNAPSHOT_I18N_DOMAIN); ?></label>
 
@@ -76,7 +76,7 @@ $custom_directory = $use_folder;
 
 							</div>
 
-							<div class="box-gray hidden">
+							<div class="wpmud-box-gray hidden">
 
 								<input type="text" name="backupFolder" id="snapshot-settings-backupFolder" value="<?php echo $backup_folder; ?>" placeholder="<?php _e('Enter directory URL here', SNAPSHOT_I18N_DOMAIN);?>" />
 
@@ -100,7 +100,7 @@ $custom_directory = $use_folder;
 
 					<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-						<div class="box-mask">
+						<div class="wpmud-box-mask">
 
 							<label class="label-title"><?php _e('Define specific files or folders you want to exclude from any Snapshot or Full Backup.', SNAPSHOT_I18N_DOMAIN); ?></label>
 
@@ -142,7 +142,7 @@ $custom_directory = $use_folder;
 
 					<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-						<div class="box-mask">
+						<div class="wpmud-box-mask">
 
 							<label class="label-title"><?php _e('Choose how you want Snapshot to handle error conditions during the backup and restore process.', SNAPSHOT_I18N_DOMAIN); ?></label>
 
@@ -174,7 +174,7 @@ $custom_directory = $use_folder;
 
 								</div>
 
-								<div class="box-gray">
+								<div class="wpmud-box-gray">
 
 									<div class="wps-input--item">
 
@@ -224,15 +224,15 @@ $custom_directory = $use_folder;
 	$model = new Snapshot_Model_Full_Backup;
 	$apiKey = isset(WPMUDEVSnapshot::instance()->config_data['config']['secret-key']) ? WPMUDEVSnapshot::instance()->config_data['config']['secret-key'] : $model->get_config('secret-key', ''); ?>
 
-	<section class="box">
+	<section class="wpmud-box">
 
-		<div class="box-title">
+		<div class="wpmud-box-title">
 
 			<h3><?php _e('Full Backups', SNAPSHOT_I18N_DOMAIN);?> </h3>
 
 		</div>
 
-		<div class="box-content">
+		<div class="wpmud-box-content">
 
 			<form method="post" action="?page=snapshot_pro_settings">
 
@@ -252,11 +252,11 @@ $custom_directory = $use_folder;
 
 					<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-						<div class="box-mask">
+						<div class="wpmud-box-mask">
 
 							<label class="label-title"><?php _e('Your Snapshot Key is the secret link between WPMU DEV and your website.', SNAPSHOT_I18N_DOMAIN); ?></label>
 
-							<div class="box-gray">
+							<div class="wpmud-box-gray">
 
 								<div class="wps-input--item">
 

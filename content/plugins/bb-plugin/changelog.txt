@@ -1,7 +1,32 @@
-<h4>1.10.6.5 8/03/2017</h4>
+<h4>1.10.7.1 8/11/2017</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>
-  <li>Fixed Text Editor Module z-index issue introduced in WordPress 4.8.1</li>
+  <li>Fixed malformed From header in Contact Form Module.</li>
+</ul>
+
+<h4>1.10.7 8/08/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+  <li>Safemode for the builder added. If you append <code>&safemode</code> to your url when the builder is active all modules will be safely rendered without content.</li>
+  <li>Added custom field support for Map Module and SmugMug feed urls.</li>
+  <li>Reworked featured image placement options in Posts Module.</li>
+  <li>Updated language files.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+  <li>Fixed Menu Module, mega menu only works with horizontal nav menus.</li>
+  <li>Fixed the missing image alt on Callout Module.</li>
+  <li>Fixed Contact Form Reply-To headers incorrectly set.</li>
+  <li>Fixed an issue with Agency version not being able to rename a child theme if the theme is not network enabled.</li>
+  <li>Fixed a JS error if Countdown Module visibility is set to never.</li>
+  <li>Fixed RTL issues in Post Grid Module.</li>
+  <li>Fixed issue with YouTube background videos showing related content on certain versions of IE.</li>
+  <li>Fixed PHP warning in Subscribe Module.</li>
+  <li>Fixed Posts Module pagination issues.</li>
+  <li>Fixed saving issue. Any modules using non UTF-8 chars would cause a JS fatal error when using `FL_BUILDER_MODSEC_FIX`.</li>
+  <li>Fixed a fatal PHP error when duplicating Woocommerce products.</li>
+  <li>Fixed repeater fields not working when registered in the global settings.</li>
+	<li>Fixed Text Editor Module z-index issue introduced in WordPress 4.8.1</li>
 </ul>
 
 <h4>1.10.6.4 7/28/2017</h4>
@@ -9,6 +34,7 @@
 <ul>
   <li>Fixed PHP error produced by canonical redirection if the post_type is changed to an array by a plugin.</li>
 </ul>
+
 <h4>1.10.6.3 7/05/2017</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>

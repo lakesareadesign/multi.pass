@@ -67,6 +67,7 @@ class Prevent_Php extends Rule {
 	function addHooks() {
 		$this->add_action( 'processingHardener' . self::$slug, 'process', 10, 2 );
 		$this->add_action( 'processRevert' . self::$slug, 'revert' );
+		$this->add_action( 'processUpdate' . self::$slug, 'update', 10, 2 );
 	}
 
 	function process() {
@@ -93,6 +94,36 @@ class Prevent_Php extends Rule {
 			}
 			$settings->setActiveServer( $server );
 			$settings->addToResolved( self::$slug );
+		} else {
+			wp_send_json_error( array(
+				'message' => $ret->get_error_message()
+			) );
+		}
+	}
+
+	function update() {
+		if ( ! $this->verifyNonce() ) {
+			return;
+		}
+		$settings 	= Settings::instance();
+		$server 	= func_get_arg(0); //Get first param
+		$file_paths = func_get_arg(1); //Get second param
+		if ( in_array( $server, array( 'apache', 'litespeed' ) ) ) {
+			$service 	= $this->getApacheService();
+			$service->setHtConfig( $settings->getNewHtConfig() ); //Set the previous template
+			$service->unProtectContentDir(); //revert first
+			$service->setExcludeFilePaths( $file_paths ); //Set the paths
+		} else {
+			$service = $this->getService();
+		}
+		$ret = $service->process();
+		if ( ! is_wp_error( $ret ) ) {
+			if ( in_array( $server, array( 'apache', 'litespeed' ) ) ) {
+				$settings->saveExcludedFilePaths( $service->getExcludedFilePaths() );
+				$settings->saveNewHtConfig( $service->getNewHtConfig() );
+			}
+			$settings->setActiveServer( $server );
+			$settings->save();
 		} else {
 			wp_send_json_error( array(
 				'message' => $ret->get_error_message()

@@ -60,7 +60,7 @@
         </form>
         <div class="presale-text">
             <div>
-				<?php printf( __( "Schedule automated file scanning and email reporting for all your websites. This feature is included in a WPMU DEV membership along with 100+ plugins & themes, 24/7 support and lots of handy site management tools  – <a href=\"%s\">Try it all FREE today!</a>", wp_defender()->domain ), "https://premium.wpmudev.org/project/wp-defender/" ) ?>
+				<?php printf( __( "Schedule automated file scanning and email reporting for all your websites. This feature is included in a WPMU DEV membership along with 100+ plugins & themes, 24/7 support and lots of handy site management tools  – <a href=\"%s\">Try it all FREE today!</a>", wp_defender()->domain ), "https://premium.wpmudev.org/project/wp-defender/?utm_source=defender&utm_medium=plugin&utm_campaign=defender_modal_upgrade" ) ?>
             </div>
         </div>
     </div>

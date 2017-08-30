@@ -2,24 +2,24 @@
 
 	// set defaults
 	$autoplay = ! empty( $settings->speed ) ? $settings->speed * 1000 : '1000';
-	$speed = ! empty( $settings->transitionDuration ) ? $settings->transitionDuration * 1000 : '1000';
+	$speed = ! empty( $settings->transitionDuration ) ? $settings->transitionDuration * 1000 : '1000'; // @codingStandardsIgnoreLine
 
 	?>
 
 (function($) {
 
 	$(function() {
-	
+
 		new FLBuilderPostSlider({
 			id: '<?php echo $id ?>',
-		<?php if ( isset( $settings->navigation ) && $settings->navigation == 'yes' ) : ?>
+		<?php if ( isset( $settings->navigation ) && 'yes' == $settings->navigation ) : ?>
 			navigationControls: true,
 		<?php endif; ?>
 			settings: {
 			<?php if ( isset( $settings->transition ) ) : ?>
 				mode: '<?php echo $settings->transition ?>',
 			<?php endif; ?>
-			<?php if ( isset( $settings->pagination ) && $settings->pagination == 'no' ) : ?>
+			<?php if ( isset( $settings->pagination ) && 'no' == $settings->pagination ) : ?>
 				pager: false,
 			<?php endif; ?>
 			<?php if ( isset( $settings->auto_play ) ) : ?>

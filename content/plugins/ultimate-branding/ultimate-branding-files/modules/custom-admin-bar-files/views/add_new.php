@@ -132,4 +132,4 @@
     </div>
 
 </script>
-<button class="button-secondary" id="ub_add_new_admin_bar">Add New Parent Menu</button>
+<p><button class="button-secondary" id="ub_add_new_admin_bar">Add New Parent Menu</button></p>

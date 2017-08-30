@@ -4,7 +4,14 @@ Build Time:  BUILDTIME
 
 CHANGELOG
 =================================================
+
+= 2.1.0.2 =
+-------------------------------------------------
+* Added: A filter 'coursepress_update_student_progress' to allow turn off student progress update during modules update.
+* Fixed: Problem with upgrade from 1.x to 2.0.
+
 = 2.1.0.1 =
+-------------------------------------------------
 * Fixed: Compatibility with older PHP versions.
 
 = 2.1 =
@@ -698,4 +705,4 @@ Fixed: Preview button.
 * 1.0 First Release.
 
 
-133620-1502132070-au
+133620-1504103008-au

@@ -151,7 +151,7 @@ class Opt_In_Infusionsoft_Api
 			foreach ( $extra_custom_fields as $custom_field ) {
 
 				if ( is_object( $custom_field ) && ! empty( $custom_field->name ) && 'Name' == $custom_field->name ) {
-					$name = $custom_field->value->__toString();
+					$name = (string) $custom_field->value->asXML();
 					array_push( $custom_fields, $name );
 				}
 			}
@@ -383,9 +383,13 @@ class Opt_In_Infusionsoft_XML_Res extends  SimpleXMLElement{
         $lists = array();
 
         for( $i = 0; $i < count( $this->get_value()->data->value ); $i++ ){
-            $list = $this->get_value()->data->value[$i];
-            $lists[ $i ]["label"] = (string) $list->struct->member[0]->value;
-            $lists[ $i ]["value"] = (int) reset( $list->struct->member[1]->value );
+            $list   = $this->get_value()->data->value[$i];
+            $label  = (string) $list->struct->member[0]->value;
+            if ( !empty( $label ) ) {
+                $lists[ $i ]["label"] = $label;
+                $lists[ $i ]["value"] = (int) reset( $list->struct->member[1]->value );
+            }
+
         }
 
         return $lists;

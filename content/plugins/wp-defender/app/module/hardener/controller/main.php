@@ -42,6 +42,7 @@ class Main extends Controller {
 		$this->add_ajax_action( 'processRevert', 'processRevert' );
 		$this->add_ajax_action( 'ignoreHardener', 'ignoreHardener' );
 		$this->add_ajax_action( 'restoreHardener', 'restoreHardener' );
+		$this->add_ajax_action( 'updateHardener', 'updateHardener' );
 	}
 
 	public function restoreHardener() {
@@ -118,6 +119,35 @@ class Main extends Controller {
 			'issues'  => $this->getCount( 'issues' ),
 			'fixed'   => $this->getCount( 'fixed' ),
 			'ignore'  => $this->getCount( 'ignore' )
+		) );
+	}
+
+	/**
+	 * Update Hardener
+	 * Update existing rules
+	 */
+	public function updateHardener() {
+		if ( ! $this->checkPermission() ) {
+			return;
+		}
+
+		$slug 		= HTTP_Helper::retrieve_post( 'slug' );
+		$file_paths = HTTP_Helper::retrieve_post( 'file_paths' ); //File paths to ignore. Apache and litespeed mainly
+		if ( $file_paths ) {
+			$file_paths = sanitize_textarea_field( $file_paths );
+		} else {
+			$file_paths = '';
+		}
+
+		$server = HTTP_Helper::retrieve_post( 'current_server' ); //Current server
+		do_action( "processUpdate" . $slug , $server, $file_paths );
+		//fall back
+		wp_send_json_success( array(
+			'message' => __( "Security tweak successfully updated.", wp_defender()->domain ),
+			'issues'  => $this->getCount( 'issues' ),
+			'fixed'   => $this->getCount( 'fixed' ),
+			'ignore'  => $this->getCount( 'ignore' ),
+			'update'  => false
 		) );
 	}
 

@@ -1,7 +1,7 @@
 <?php
 /************************************************************************************************
  *
- *	DISPLAYER CLASS: DISPLAY CURRENT SETTINGS, BUTTONS, HEADERS
+ *	DISPLAYER CLASS: DISPLAY HEADERS, CURRENT SETTINGS, BUTTONS
  *
  ************************************************************************************************/
 ?>
@@ -58,8 +58,17 @@ class ODB_Displayer {
 		// CURRENT SETTINGS	
 		$trash  = ($odb_class->odb_rvg_options['clear_trash']      == 'Y') ? $y : $n;
 		$spam   = ($odb_class->odb_rvg_options['clear_spam']       == 'Y') ? $y : $n;
-		$tag    = ($odb_class->odb_rvg_options['clear_tags']       == 'Y') ? $y : $n;	
-		$trans  = ($odb_class->odb_rvg_options['clear_transients'] == 'Y') ? $y : $n;
+		$tag    = ($odb_class->odb_rvg_options['clear_tags']       == 'Y') ? $y : $n;
+		
+		if($odb_class->odb_rvg_options['clear_transients'] == 'Y') {
+			$trans = __('DELETE EXPIRED TRANSIENTS', $odb_class->odb_txt_domain);
+		} else if ($odb_class->odb_rvg_options['clear_transients'] == 'A') {
+			$trans = __('DELETE ALL TRANSIENTS', $odb_class->odb_txt_domain);
+		} else {
+			$trans = $n;
+		}
+		
+		//$trans  = ($odb_class->odb_rvg_options['clear_transients'] == 'Y') ? $y : $n;
 		$ping   = ($odb_class->odb_rvg_options['clear_pingbacks']  == 'Y') ? $y : $n;
 		$log    = ($odb_class->odb_rvg_options['logging_on']       == 'Y') ? $y : $n;
 		$innodb = ($odb_class->odb_rvg_options['optimize_innodb']  == 'Y') ? $y : $n;
@@ -86,12 +95,18 @@ class ODB_Displayer {
 		  <br><br>
 		 ';
 
-		if ($odb_class->odb_rvg_options['rev_post_type'] == 'post')
-			$rpt = __("POSTS only", $odb_class->odb_txt_domain);
-		else if ($odb_class->odb_rvg_options['rev_post_type'] == 'page')
-			$rpt = __("PAGES only", $odb_class->odb_txt_domain);
-		else
-			$rpt = __("POSTS and PAGES", $odb_class->odb_txt_domain);
+		// CUSTOM POST TYPES (from v4.4)
+		$rel_posttypes = $odb_class->odb_rvg_options['post_types'];
+		$rpt = '';
+		foreach ($rel_posttypes as $posttype => $value) {
+			if ($value == 'Y') {
+				if ($rpt != '') $rpt .= ', ';
+				$rpt .= strtoupper($posttype);
+			} // if ($value == 'Y')
+		} // foreach($rel_posttypes as $posttypes)
+		
+		if ($rpt == '') $rpt = '(' . __('NONE', $odb_class->odb_txt_domain) . ')';
+			
 		echo '<span class="odb-bold">'.__('Delete revisions of', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$rpt.'</span><br />';
 		 
 		 if($odb_class->odb_rvg_options['delete_older'] == 'Y') {
@@ -106,7 +121,7 @@ class ODB_Displayer {
 		  <span class="odb-bold">'.__('Delete trashed items', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$trash.'</span><br />
 		  <span class="odb-bold">'.__('Delete spammed items', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$spam.'</span><br />
 		  <span class="odb-bold">'.__('Delete unused tags', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$tag.'</span><br />
-		  <span class="odb-bold">'.__('Delete expired transients', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$trans.'</span><br />
+		  <span class="odb-bold">'.__('Delete transients', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$trans.'</span><br />
 		  <span class="odb-bold">'.__('Delete pingbacks and trackbacks', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$ping.'</span><br />
 		  <span class="odb-bold">'.__('Keep a log', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$log.'</span><br />
 		  <span class="odb-bold">'.__('Optimize InnoDB tables', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$innodb.'</span><br />

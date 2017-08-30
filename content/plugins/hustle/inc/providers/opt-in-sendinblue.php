@@ -184,11 +184,13 @@ if( !class_exists("Opt_In_SendinBlue") ) :
 
                     $total = $lists_api['data']['total_list_records'];
 
-                    foreach ( $lists_api['data'] as $lists_data ) {
-						foreach ( $lists_data as $list ) {
-							$lists[ $list['id'] ]['value'] = $list['id'];
-							$lists[ $list['id'] ]['label'] = $list['name'];
-						}
+                    $api_lists = $lists_api['data']['lists'];
+
+                    if ( is_array( $api_lists) ){
+                        foreach ( $api_lists as $list ) {
+                            $lists[ $list['id'] ]['value'] = $list['id'];
+                            $lists[ $list['id'] ]['label'] = $list['name'];
+                        }
                     }
 
                     if ( count( $lists ) >= $total ) {

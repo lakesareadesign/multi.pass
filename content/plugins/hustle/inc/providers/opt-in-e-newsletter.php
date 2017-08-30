@@ -42,7 +42,7 @@ if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
                     $e_newsletter->add_members_to_groups( $insert_data['member_id'], $groups );
 
                     if( isset( $e_newsletter->settings['subscribe_newsletter'] ) && $e_newsletter->settings['subscribe_newsletter'] ) {
-                        $send_details = $e_newsletter->add_send_email_info( $e_newsletter->settings['subscribe_newsletter'], $insert_data['member_id'], 0, 'waiting_send' );
+                        $send_details = $e_newsletter->add_send_email_info( $e_newsletter->settings['subscribe_newsletter'], $insert_data['member_id'], 0, 'waiting_send' );	  	 			 			  	      
                         $e_newsletter->send_email_to_member($send_details['send_id']);
                     }
                 }

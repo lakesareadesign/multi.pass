@@ -1,5 +1,5 @@
-<?php if( $settings->layout == 'grid' ) : ?>
-.fl-node-<?php echo $id; ?> .fl-post-grid-post {    
+<?php if ( 'grid' == $settings->layout ) : ?>
+.fl-node-<?php echo $id; ?> .fl-post-grid-post {
 	margin-bottom: <?php echo $settings->post_spacing; ?>px;
 	width: <?php echo $settings->post_width; ?>px;
 }
@@ -13,7 +13,7 @@
 		width: 100% !important;
 	}
 }
-<?php elseif( $settings->layout == 'columns' ) : ?>
+<?php elseif ( 'columns' == $settings->layout ) : ?>
 .fl-node-<?php echo $id; ?> .fl-post-grid {
 	margin-left: -<?php echo $settings->post_spacing / 2; ?>px;
 	margin-right: -<?php echo $settings->post_spacing / 2; ?>px;

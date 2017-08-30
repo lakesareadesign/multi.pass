@@ -1,7 +1,7 @@
 /*Subsite favicons*/
 #wpadminbar .quicklinks li .blavatar{
-    width: 16px;
-    height: 16px;
+    max-width: 16px;
+    max-height: 16px;
     padding-right: 5px;
     padding-top: 5px;
 }
@@ -42,4 +42,4 @@
 }
 
 
-/* 133620-1502132170-au */
+/* 133620-1504103048-au */

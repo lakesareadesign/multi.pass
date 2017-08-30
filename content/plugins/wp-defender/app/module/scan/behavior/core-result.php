@@ -70,14 +70,20 @@ class Core_Result extends Behavior {
 		//remove the file first
 		$raw = $this->getRaw();
 		if ( $raw['type'] == 'unknown' ) {
-			@unlink( $raw['file'] );
+			$res = unlink( $raw['file'] );
+			if ( $res == false ) {
+				return new \WP_Error( Error_Code::NOT_WRITEABLE, __( "Defender doesn't have enough permission to remove this file", wp_defender()->domain ) );
+			}
 			$this->getOwner()->delete();
 
 			return true;
 		} elseif ( $raw['type'] == 'modified' ) {
 			return new \WP_Error( Error_Code::INVALID, __( "This file can't not remove", wp_defender()->domain ) );
 		} elseif ( $raw['type'] == 'dir' ) {
-			$this->deleteFolder( $raw['file'] );
+			$res = $this->deleteFolder( $raw['file'] );
+			if ( is_wp_error( $res ) ) {
+				return $res;
+			}
 			$this->getOwner()->delete();
 
 			return true;
@@ -90,7 +96,7 @@ class Core_Result extends Behavior {
 	 */
 	public function resolve() {
 		$originSrc = $this->getOriginalSource();
-		$raw = $this->getRaw();
+		$raw       = $this->getRaw();
 		if ( $raw['type'] != 'modified' ) {
 			return new \WP_Error( Error_Code::INVALID, __( "This file is not resolvable", wp_defender()->domain ) );
 		}
@@ -391,11 +397,19 @@ class Core_Result extends Behavior {
 			\RecursiveIteratorIterator::CHILD_FIRST );
 		foreach ( $files as $file ) {
 			if ( $file->isDir() ) {
-				@rmdir( $file->getRealPath() );
+				$res = @rmdir( $file->getRealPath() );
 			} else {
-				@unlink( $file->getRealPath() );
+				$res = @unlink( $file->getRealPath() );
+			}
+			if ( $res == false ) {
+				return new \WP_Error( Error_Code::NOT_WRITEABLE, __( "Defender doesn't have enough permission to remove this file", wp_defender()->domain ) );
 			}
 		}
-		@rmdir( $dir );
+		$res = @rmdir( $dir );
+		if ( $res == false ) {
+			return new \WP_Error( Error_Code::NOT_WRITEABLE, __( "Defender doesn't have enough permission to remove this file", wp_defender()->domain ) );
+		}
+
+		return true;
 	}
 }

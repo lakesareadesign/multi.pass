@@ -33,6 +33,7 @@ class Dashboard extends Controller {
 		$this->add_ajax_action( 'toggleBlacklistWidget', 'toggleBlacklistWidget' );
 		$this->add_ajax_action( 'activateModule', 'activateModule' );
 		$this->add_ajax_action( 'skipActivator', 'skipActivator' );
+		$this->add_action( 'defenderSubmitStats', 'defenderSubmitStats' );
 		$this->add_filter( 'wdp_register_hub_action', 'addMyEndpoint' );
 		add_filter( 'custom_menu_order', '__return_true' );
 		$this->add_filter( 'menu_order', 'menuOrder' );
@@ -73,14 +74,25 @@ class Dashboard extends Controller {
 		return $menu_order;
 	}
 
+	public function defenderSubmitStats() {
+		if ( $this->hasMethod( '_submitStatsToDev' ) ) {
+			$this->_submitStatsToDev();
+		}
+	}
+
 	/**
 	 * @param $actions
 	 *
 	 * @return mixed
 	 */
 	public function addMyEndpoint( $actions ) {
-		$actions['defender_new_scan']      = array( &$this, 'new_scan' );
-		$actions['defender_schedule_scan'] = array( &$this, 'schedule_scan' );
+		$actions['defender_new_scan']         = array( &$this, 'new_scan' );
+		$actions['defender_schedule_scan']    = array( &$this, 'schedule_scan' );
+		$actions['defender_manage_audit_log'] = array( &$this, 'manage_audit_log' );
+		$actions['defender_manage_lockout']   = array( &$this, 'manage_lockout' );
+		$actions['defender_whitelist_ip']     = array( &$this, 'whitelist_ip' );
+		$actions['defender_blacklist_ip']     = array( &$this, 'blacklist_ip' );
+		$actions['defender_get_stats']        = array( &$this, 'get_stats' );
 
 		return $actions;
 	}
@@ -118,6 +130,114 @@ class Dashboard extends Controller {
 		$settings->time      = $time;
 
 		wp_send_json_success();
+	}
+
+	/**
+	 * Hub Audit log endpoint
+	 *
+	 * @param $params
+	 * @param $action
+	 */
+	public function manage_audit_log( $params, $action ) {
+		$response = null;
+		if ( class_exists( '\WP_Defender\Module\Audit\Model\Settings' ) ) {
+			$response = array();
+			$settings = \WP_Defender\Module\Audit\Model\Settings::instance();
+			if ( $settings->enabled == true ) {
+				$settings->enabled   = false;
+				$response['enabled'] = false;
+			} else {
+				$settings->enabled   = true;
+				$response['enabled'] = true;
+			}
+			$settings->save();
+		}
+		wp_send_json_success( $response );
+	}
+
+	/**
+	 * Hub Lockouts endpoint
+	 *
+	 * @param $params
+	 * @param $action
+	 */
+	public function manage_lockout( $params, $action ) {
+		$type     = $params['type'];
+		$settings = \WP_Defender\Module\IP_Lockout\Model\Settings::instance();
+		$response = array();
+		if ( $type == 'login' ) {
+			if ( $settings->login_protection ) {
+				$settings->login_protection = 0;
+				$response[ $type ]          = 'disabled';
+			} else {
+				$settings->login_protection = 1;
+				$response[ $type ]          = 'enabled';
+			}
+			$settings->save();
+		} else if ( $type == '404' ) {
+			if ( $settings->detect_404 ) {
+				$settings->detect_404 = 0;
+				$response[ $type ]    = 'disabled';
+			} else {
+				$settings->detect_404 = 1;
+				$response[ $type ]    = 'enabled';
+			}
+			$settings->save();
+		} else {
+			$response[ $type ] = 'invalid';
+		}
+		wp_send_json_success();
+	}
+
+	/**
+	 * Hub Whitelist IP endpoint
+	 *
+	 * @param $params
+	 * @param $action
+	 */
+	public function whitelist_ip( $params, $action ) {
+		$settings = \WP_Defender\Module\IP_Lockout\Model\Settings::instance();
+		$ip       = $params['ip'];
+		if ( $ip && filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+			$settings->removeIpFromList( $ip, 'blacklist' );
+			$settings->addIpToList( $ip, 'whitelist' );
+		} else {
+			wp_send_json_error();
+		}
+		wp_send_json_success();
+	}
+
+	/**
+	 * Hub Blacklist IP endpoint
+	 *
+	 * @param $params
+	 * @param $action
+	 */
+	public function blacklist_ip( $params, $action ) {
+		$settings = \WP_Defender\Module\IP_Lockout\Model\Settings::instance();
+		$ip       = $params['ip'];
+		if ( $ip && filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+			$settings->removeIpFromList( $ip, 'whitelist' );
+			$settings->addIpToList( $ip, 'blacklist' );
+		} else {
+			wp_send_json_error();
+		}
+		wp_send_json_success();
+	}
+
+	/**
+	 * Hub Stats endpoint
+	 *
+	 * @param $params
+	 * @param $action
+	 */
+	public function get_stats( $params, $action ) {
+		$stats = Utils::instance()->generateStats();
+		wp_send_json_success(
+			array(
+				'stats' => $stats
+			)
+		);
 	}
 
 	public function actionIndex() {

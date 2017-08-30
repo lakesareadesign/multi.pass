@@ -306,7 +306,7 @@ function ub_get_option_name_by_module( $module ) {
  * @since 1.8.7
  */
 function ub_deprecated_module( $deprecated, $substitution, $tab ) {
-	$url = is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' );	   	 		 		 	   		
+	$url = is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' );
 	$url = add_query_arg(
 		array(
 			'page' => 'branding',

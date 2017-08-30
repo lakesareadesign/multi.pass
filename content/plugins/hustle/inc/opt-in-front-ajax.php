@@ -43,6 +43,8 @@ class Opt_In_Front_Ajax {
 
 
         $optin = Opt_In_Model::instance()->get( $data['optin_id'] );
+		$test_mode = (bool) $optin->test_mode;
+		$save_to_collection = (bool) $optin->save_to_collection;
 
         $optin_type = $data["type"];
         $api_result = false;
@@ -52,7 +54,7 @@ class Opt_In_Front_Ajax {
             $this->_hustle->get_e_newsletter()->subscribe( $e_newsletter_data, $optin->get_e_newsletter_groups() );
         }
 
-        if( $optin->save_to_collection && !$optin->test_mode ){ // Save to local collection
+        if( $save_to_collection && !$test_mode ){ // Save to local collection
 			$local_subscription_data = wp_parse_args( $subscribe_data, array(
 				'optin_type' => $optin_type,
 				'time' => current_time( 'timestamp' ),
@@ -72,9 +74,14 @@ class Opt_In_Front_Ajax {
             $provider = Opt_In::get_provider_by_id( $optin->optin_provider );
             $provider = Opt_In::provider_instance( $provider );
 
-            if( !is_subclass_of( $provider, "Opt_In_Provider_Abstract") && !$optin->test_mode )
+            if( !is_subclass_of( $provider, "Opt_In_Provider_Abstract") && !$test_mode )
                wp_send_json_error( __("Invalid provider", Opt_In::TEXT_DOMAIN) );
-        }
+
+        } else if ( $local_save ) {
+			// if no provider and was able to save it locally
+			$this->log_conversion($optin, $data);
+			wp_send_json_success( $local_save );
+		}
 
 
         if( $provider ) {
@@ -83,15 +90,7 @@ class Opt_In_Front_Ajax {
         }
 
         if( ( $api_result && !is_wp_error( $api_result ) ) && ( !$local_save || !is_wp_error( $local_save ) )  ){
-
-            $tracking_types = $optin->get_tracking_types();
-            if ( $tracking_types && ( (bool) $tracking_types[$optin_type] ) ) {
-                $optin->log_conversion( array(
-                    'page_type' => $data['page_type'],
-                    'page_id'   => $data['page_id'],
-                    'optin_id' => $optin->id
-                ), $optin_type );
-            }
+			$this->log_conversion($optin, $data);
             $message = $api_result ? $api_result : $local_save;
             wp_send_json_success( $message );
         }
@@ -135,6 +134,18 @@ class Opt_In_Front_Ajax {
             wp_send_json_success( __("Stats Successfully saved") );
 
     }
+
+	function log_conversion( $optin, $data ) {
+		$optin_type = ( isset( $data['type'] ) ) ? $data['type'] : '';
+		$tracking_types = $optin->get_tracking_types();
+		if ( $tracking_types && ( (bool) $tracking_types[$optin_type] ) ) {
+			$optin->log_conversion( array(
+				'page_type' => $data['page_type'],
+				'page_id'   => $data['page_id'],
+				'optin_id' => $optin->id
+			), $optin_type );
+		}
+	}
 
 	function pre_process_fields( $data ) {
 		$newdata = array();

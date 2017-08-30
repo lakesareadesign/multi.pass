@@ -6,15 +6,12 @@
 
 namespace WP_Defender\Module\IP_Lockout\Model;
 
-use Hammer\Helper\WP_Helper;
-use Hammer\WP\Model;
+use Hammer\Base\DB_Model;
 use WP_Defender\Behavior\Utils;
-use WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api;
-use WP_Defender\Module\IP_Lockout\Component\Logs_Table;
 
-class Log_Model extends Model {
+class Log_Model extends DB_Model {
 	const AUTH_FAIL = 'auth_fail', AUTH_LOCK = 'auth_lock', ERROR_404 = '404_error', LOCKOUT_404 = '404_lockout', ERROR_404_IGNORE = '404_error_ignore';
-	static $post_type = 'wd_iplockout_log';
+	protected static $tableName = 'defender_lockout_log';
 
 	public $id;
 	public $log;
@@ -23,39 +20,6 @@ class Log_Model extends Model {
 	public $user_agent;
 	public $type;
 	public $blog_id;
-
-	protected static function maps() {
-		return array(
-			'id'         => array(
-				'type' => 'wp',
-				'map'  => 'ID'
-			),
-			'log'        => array(
-				'type' => 'meta',
-				'map'  => 'log'
-			),
-			'ip'         => array(
-				'type' => 'meta',
-				'map'  => 'ip'
-			),
-			'date'       => array(
-				'type' => 'meta',
-				'map'  => 'date'
-			),
-			'type'       => array(
-				'type' => 'meta',
-				'map'  => 'type'
-			),
-			'user_agent' => array(
-				'type' => 'meta',
-				'map'  => 'user_agent'
-			),
-			'blog_id'    => array(
-				'type' => 'meta',
-				'map'  => 'blog_id'
-			),
-		);
-	}
 
 	/**
 	 * @return string
@@ -83,9 +47,6 @@ class Log_Model extends Model {
 
 	public function before_insert() {
 		$this->blog_id = get_current_blog_id();
-		//update cache total
-		$cache = WP_Helper::getCache();
-		$cache->increase( Login_Protection_Api::COUNT_TOTAL, 1 );
 	}
 
 	/**

@@ -1,25 +1,27 @@
 <?php $post_id = get_the_id(); ?>
 
-<div class="fl-post-slider-post fl-post-slider-<?php echo $module->get_slider_class( $post_id ) ?><?php if( isset( $settings->show_thumb ) && $settings->show_thumb == 'show' ) echo ' fl-post-slider-has-image'; ?> swiper-slide" itemscope="itemscope" itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+<div class="fl-post-slider-post fl-post-slider-<?php echo $module->get_slider_class( $post_id ) ?><?php if ( isset( $settings->show_thumb ) && 'show' == $settings->show_thumb ) { echo ' fl-post-slider-has-image';} ?> swiper-slide" itemscope="itemscope" itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
 
-	<?php 
-		
+	<?php
+
 		FLPostGridModule::schema_meta();
 
 		// render featured images
-		if( isset( $settings->show_thumb ) && $settings->show_thumb == 'show'){
-			if( has_post_thumbnail( $post_id ) ) echo $module->render_mobile_img( $post_id );
-			if( has_post_thumbnail( $post_id ) ) echo $module->render_img( $post_id );
-		} 
+	if ( isset( $settings->show_thumb ) && 'show' == $settings->show_thumb ) {
+		if ( has_post_thumbnail( $post_id ) ) { echo $module->render_mobile_img( $post_id );
+		}
+		if ( has_post_thumbnail( $post_id ) ) { echo $module->render_img( $post_id );
+		}
+	}
 	?>
 
 	<div class="fl-post-slider-content">
 
 		<?php $module->render_post_title( $post_id ) ?>
 
-		<?php if( $settings->show_author || $settings->show_date || $settings->show_comments ) : ?>
+		<?php if ( $settings->show_author || $settings->show_date || $settings->show_comments ) : ?>
 		<div class="fl-post-slider-feed-meta">
-			<?php if( $settings->show_author ) : ?>
+			<?php if ( $settings->show_author ) : ?>
 				<span class="fl-post-slider-feed-author">
 					<?php
 
@@ -31,36 +33,36 @@
 					?>
 				</span>
 			<?php endif; ?>
-			<?php if( $settings->show_date ) : ?>
-				<?php if( $settings->show_author == 1 ) : ?>
+			<?php if ( $settings->show_date ) : ?>
+				<?php if ( 1 == $settings->show_author ) : ?>
 					<span class="fl-sep"> | </span>
 				<?php endif; ?>
 				<span class="fl-post-slider-feed-date">
-					<?php FLBuilderLoop::post_date($settings->date_format); ?>
+					<?php FLBuilderLoop::post_date( $settings->date_format ); ?>
 				</span>
 			<?php endif; ?>
-			<?php if( $settings->show_comments && comments_open() ) : ?>
-				<?php if( $settings->show_author == 1 || $settings->show_date ) : ?>
+			<?php if ( $settings->show_comments && comments_open() ) : ?>
+				<?php if ( 1 == $settings->show_author || $settings->show_date ) : ?>
 					<span class="fl-sep"> | </span>
 				<?php endif; ?>
 				<span class="fl-post-slider-feed-comments">
-					<?php comments_popup_link(__('0 Comments', 'fl-builder'), __('1 Comment', 'fl-builder'), __('% Comments', 'fl-builder')); ?>
+					<?php comments_popup_link( __( '0 Comments', 'fl-builder' ), __( '1 Comment', 'fl-builder' ), __( '% Comments', 'fl-builder' ) ); ?>
 				</span>
 			<?php endif; ?>
 		</div>
 		<?php endif; ?>
 
-		<?php if( $settings->show_content || $settings->show_more_link  ) : ?>
+		<?php if ( $settings->show_content || $settings->show_more_link ) : ?>
 		<div class="fl-post-slider-feed-content swiper-no-swiping" itemprop="text">
-			<?php if( $settings->show_content ) : ?>
+			<?php if ( $settings->show_content ) : ?>
 			<?php the_excerpt(); ?>
 			<?php endif; ?>
-			<?php if( $settings->show_more_link ) : ?>
+			<?php if ( $settings->show_more_link ) : ?>
 			<a class="fl-post-slider-feed-more" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php echo $settings->more_link_text; ?></a>
 			<?php endif; ?>
 		</div>
 		<?php endif; ?>
-		
+
 	</div>
 
 </div>

@@ -10,9 +10,9 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 	$destinations[ $type ][ $key ] = $item;
 } ?>
 
-<section class="box wpsd-widget-sftp">
+<section class="wpmud-box wpsd-widget-sftp">
 
-	<div class="box-title has-typecon has-button">
+	<div class="wpmud-box-title has-typecon has-button">
 
 		<i class="wps-typecon sftp"></i>
 
@@ -22,7 +22,7 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 	</div>
 
-	<div class="box-content">
+	<div class="wpmud-box-content">
 
 		<div class="row">
 

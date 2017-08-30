@@ -1,8 +1,8 @@
 <div id="container" class="hidden snapshot-three wps-page-builder">
 
-	<section class="box">
+	<section class="wpmud-box">
 
-		<div class="box-title has-button">
+		<div class="wpmud-box-title has-button">
 
 			<div class="wps-title-progress">
 				<h3><?php _e('Restore Wizard', SNAPSHOT_I18N_DOMAIN); ?></h3>
@@ -17,7 +17,7 @@
 
 		</div>
 
-		<div class="box-content">
+		<div class="wpmud-box-content">
 
 			<div class="row">
 
@@ -45,7 +45,7 @@
 
 							<p><?php _e('Your restoration is in progress. If your site is small, this will only take a few minutes, but could take a couple of hours for larger sites.', SNAPSHOT_I18N_DOMAIN); ?></p>
 
-							<div class="box-gray">
+							<div class="wpmud-box-gray">
 
 								<div class="wps-loading-status wps-total-status wps-spinner">
 
@@ -71,7 +71,7 @@
 
 								<h4><?php _e('Restoration Log', SNAPSHOT_I18N_DOMAIN); ?></h4>
 
-								<div id="wps-log-resume" class="box-gray">
+								<div id="wps-log-resume" class="wpmud-box-gray">
 
 									<div class="log-memory">
 
@@ -212,7 +212,7 @@
 
 							</div>
 
-							<div class="box-gray">
+							<div class="wpmud-box-gray">
 
 								<div class="wps-loading-status">
 

@@ -59,6 +59,7 @@ if ( ! class_exists( 'ub_helper' ) ) {
 			$this->set_options();
 			$this->set_data();
 			$simple_options = new simple_options();
+			do_action( 'ub_helper_admin_options_page_before_options', $this->option_name );
 			echo $simple_options->build_options( $this->options, $this->data );
 		}
 
@@ -106,6 +107,53 @@ if ( ! class_exists( 'ub_helper' ) ) {
 			}
 			ub_update_option( $this->option_name , $value );
 			return true;
+		}
+
+		/**
+		 * get base url
+		 *
+		 * @since 1.8.9
+		 */
+		protected function get_base_url() {
+			$url = '';
+			if ( ! is_admin() ) {
+				return $url;
+			}
+			$screen = get_current_screen();
+			if ( ! is_object( $screen ) ) {
+				return $url;
+			}
+			$args = array(
+				'page' => $screen->parent_base,
+			);
+			if ( isset( $_REQUEST['tab'] ) ) {
+				$args['tab'] = $_REQUEST['tab'];
+			}
+			if ( is_network_admin() ) {
+				$url = add_query_arg( $args, network_admin_url( 'admin.php' ) );
+			} else {
+				$url = add_query_arg( $args, admin_url( 'admin.php' ) );
+			}
+			return $url;
+		}
+
+		/**
+		 * Admin notice wrapper
+		 *
+		 * @since 1.8.9
+		 */
+		protected function notice( $message, $class = 'info' ) {
+			$allowed = array( 'error', 'warning', 'success', 'info' );
+			if ( in_array( $class, $allowed ) ) {
+				$class = 'notice-'.$class;
+			} else {
+				$class = '';
+			}
+			printf(
+				'<div class="notice %s"><p>%s</p></div>',
+				esc_attr( $class ),
+				$message
+			);
 		}
 	}
 }

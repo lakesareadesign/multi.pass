@@ -25,7 +25,7 @@ class PagesTest extends MauticApiTestCase
 
     public function testGetListOfSpecificIds()
     {
-        $this->standardTestGetListOfSpecificIds();	  	 			 			  	      
+        $this->standardTestGetListOfSpecificIds();
     }
 
     public function testCreateGetAndDelete()

@@ -23,9 +23,9 @@ if ( ! empty( $item['data_item']['destination-status'] ) ) {
 
 <div id="container" class="snapshot-three wps-page-snapshots">
 
-	<section class="box snapshot-info-box">
+	<section class="wpmud-box snapshot-info-box">
 
-		<div class="box-title has-button">
+		<div class="wpmud-box-title has-button">
 
 			<h3 class="has-button">
 				<?php _e( 'Snapshot Info', SNAPSHOT_I18N_DOMAIN ); ?>
@@ -74,7 +74,7 @@ if ( ! empty( $item['data_item']['destination-status'] ) ) {
 
 		</div>
 
-		<div class="box-content">
+		<div class="wpmud-box-content">
 
 			<div class="row">
 

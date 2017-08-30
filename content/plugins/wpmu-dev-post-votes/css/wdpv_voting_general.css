@@ -19,7 +19,7 @@
 .wdpv_waiting {
 	width: 16px;
 	height: 16px;
-	background: url(../img/loading.gif) top left no-repeat;
+	background: url(../img/loading.gif) top left no-repeat;	     	 	 		 		 		
 	float: left;
 	cursor: pointer;
 }
@@ -76,4 +76,4 @@
 }
 
 
-/* 133620-1443654438-au */
+/* 133620-1504103040-au */

@@ -190,13 +190,13 @@ class Snapshot_Process_Import_Archives {
 </section>
 
 <div id="container" class="snapshot-three wps-page-import">
-	<section class="box">
+	<section class="wpmud-box">
 
-		<div class="box-title">
+		<div class="wpmud-box-title">
 			<h3><?php esc_html_e( 'Local Import', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 		</div>
 
-		<div class="box-content">
+		<div class="wpmud-box-content">
 			<form action="?page=snapshot_pro_import" method="post">
 				<input type="hidden" value="archives-import" name="snapshot-action">
 				<?php wp_nonce_field( 'snapshot-import', 'snapshot-noonce-field' ); ?>
@@ -226,7 +226,7 @@ class Snapshot_Process_Import_Archives {
 					</div>
 
 					<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-						<div class="box-mask">
+						<div class="wpmud-box-mask">
 							<p class="wps-integration-item"><span class="wps-typecon dropbox"></span>Dropbox</p>
 							<p class="wps-integration-item"><span class="wps-typecon amazon"></span>Amazon S3</p>
 						</div>
@@ -240,7 +240,7 @@ class Snapshot_Process_Import_Archives {
 					</div>
 
 					<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-						<div class="box-mask">
+						<div class="wpmud-box-mask">
 							<input id="snapshot-import-archive-remote-url" type="text"
 								   name="snapshot-import-archive-remote-url" class="inline" value=""
 								   placeholder="<?php _e( 'Enter directory', SNAPSHOT_I18N_DOMAIN ); ?>"/>

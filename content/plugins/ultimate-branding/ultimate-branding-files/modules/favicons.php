@@ -41,7 +41,6 @@ class ub_favicons {
 	const FAV_PREFIX = 'ub_favicon';
 
 	function __construct() {
-
 		self::$_default_fav = admin_url() . 'images/w-logo-blue.png';
 
 		// Admin interface
@@ -63,7 +62,8 @@ class ub_favicons {
 		add_action( 'wp_ajax_ub_reset_favicon', array( $this, 'ajax_ub_reset_favicon' ) );
 
 		add_filter( 'clean_url', array( $this, 'clean_url' ), 10, 30 );
-		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 		add_filter( 'upload_mimes', array( $this, 'upload_mimes' ) );
 		/**
 		 * export
@@ -77,9 +77,21 @@ class ub_favicons {
 		add_action( 'manage_sites_custom_column', array( $this, 'manage_sites_custom_column' ), 10, 2 );
 	}
 
-	function enqueue_scripts() {
-		wp_register_style( 'ub_favicons_style', ub_files_url( 'modules/favicons/css/admin.css' )  . '', false, '1.0.0' );
+	function admin_enqueue_scripts() {
+		global $ub_version;
+		wp_register_style( 'ub_favicons_style', ub_files_url( 'modules/favicons/css/admin.css' )  . '', false, $ub_version );
 		wp_enqueue_style( 'ub_favicons_style' );
+	}
+
+	/**
+	 * Front favicon size.
+	 *
+	 * @since 1.9.0
+	 */
+	function enqueue_scripts() {
+		global $ub_version;
+		wp_register_style( 'favicons-front', ub_files_url( 'modules/favicons/css/front.css' )  . '', false, $ub_version );
+		wp_enqueue_style( 'favicons-front' );
 	}
 
 	function ub_favicons() {

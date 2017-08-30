@@ -22,7 +22,28 @@ if ( ! class_exists( 'Snapshot_Helper_Locker' ) ) {
 
 			$this->has_lock = false;
 
-			$this->lock_fp = fopen( $this->lockFileFull, 'c+' );
+			/*
+				c+ mode do not exist on php < 5.2.6
+				https://stackoverflow.com/questions/5682616/fopen-fread-and-flock
+			*/
+
+	        /*
+	          if file exists, open in read+ plus mode so we can try to lock it
+	          -- opening in w+ would truncate the file *before* we could get a lock!
+	        */
+
+	        if( version_compare( PHP_VERSION, '5.2.6' ) >= 0 ) {
+	            $mode = 'c+';
+	        } else {
+	            //'c+' would be the ideal $mode to use, but that's only
+	            //available in PHP >=5.2.6
+
+	            $mode = file_exists( $this->lockFileFull ) ? 'r+' : 'w+';
+	            //there's a small chance of a race condition here
+	            // -- two processes could end up opening the file with 'w+'
+	        }
+
+			$this->lock_fp = @fopen( $this->lockFileFull, $mode );
 			$this->is_locked();
 		}
 
@@ -76,7 +97,7 @@ if ( ! class_exists( 'Snapshot_Helper_Locker' ) ) {
 		}
 
 		function set_locker_info( $locker_info = array() ) {
-// Only the locking process can write to the file.
+			// Only the locking process can write to the file.
 			if ( $this->is_locked() ) {
 				rewind( $this->lock_fp );
 				$locker_info['time_start'] = time();

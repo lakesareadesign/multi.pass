@@ -1,8 +1,8 @@
 <div id="container" class="hidden snapshot-three wps-page-builder">
 
-	<section class="box">
+	<section class="wpmud-box">
 
-		<div class="box-title has-button">
+		<div class="wpmud-box-title has-button">
 
 			<div class="wps-title-progress">
 				<h3><?php _e('Create Backup', SNAPSHOT_I18N_DOMAIN); ?></h3>
@@ -10,7 +10,7 @@
 
 		</div>
 
-		<div class="box-content">
+		<div class="wpmud-box-content">
 			<div class="row">
 
 				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -28,7 +28,7 @@
 
 							<p><?php _e('Your backup is in progress. <strong>You need to keep this page open for the backup to complete.</strong> Once your website has been backed up, it will be uploaded to WPMU DEV servers. If your site is small, this will only take a few minutes, but could take a couple of hours for larger sites.', SNAPSHOT_I18N_DOMAIN); ?></p>
 
-							<div class="box-gray">
+							<div class="wpmud-box-gray">
 
 								<div class="wps-loading-status wps-total-status wps-spinner">
 									<p class="wps-loading-number">0%</p>
@@ -58,7 +58,7 @@
 
 							</div>
 
-							<div class="box-gray">
+							<div class="wpmud-box-gray">
 
 								<div class="wps-loading-status">
 									<p class="wps-loading-number">100%</p>

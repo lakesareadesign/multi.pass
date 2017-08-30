@@ -32,7 +32,7 @@
             </p>
         </div>
         <div class="tc">
-            <a class="button button-green mline" href="https://premium.wpmudev.org/project/wp-defender/"><?php _e( "Get Defender Pro for Free", wp_defender()->domain ) ?></a>
+            <a class="button button-green mline" href="https://premium.wpmudev.org/project/wp-defender/?utm_source=defender&utm_medium=plugin&utm_campaign=defender_modal_upgrade"><?php _e( "Get Defender Pro for Free", wp_defender()->domain ) ?></a>
             <p class="is-marginless"><?php _e( "As part part of a WPMU DEV free trial.", wp_defender()->domain ) ?></p>
         </div>
     </div>

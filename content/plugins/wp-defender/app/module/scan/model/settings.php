@@ -90,10 +90,15 @@ class Settings extends \Hammer\WP\Settings {
 	 * @return array
 	 */
 	public function behaviors() {
-		return array(
-			'pro'   => '\WP_Defender\Module\Scan\Behavior\Pro\Model',
+		$behaviors = array(
 			'utils' => '\WP_Defender\Behavior\Utils'
 		);
+
+		if ( wp_defender()->isFree == false ) {
+			$behaviors['pro'] = '\WP_Defender\Module\Scan\Behavior\Pro\Model';
+		}
+
+		return $behaviors;
 	}
 
 	public function __construct( $id, $is_multi ) {

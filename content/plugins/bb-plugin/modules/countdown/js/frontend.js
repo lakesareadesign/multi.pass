@@ -25,7 +25,7 @@ var FLBuilderCountdownIntervals = FLBuilderCountdownIntervals || [];
 		this.timestamp			 = settings.time;
 		this.type				 = settings.type;
 
-		// initialize the countdown 
+		// initialize the countdown
 		this._initCountdown();
 
 	};
@@ -50,7 +50,7 @@ var FLBuilderCountdownIntervals = FLBuilderCountdownIntervals || [];
 		 *
 		 * @since  1.6.4
 		 * @return {Object}
-		 */	
+		 */
 		_getTimeRemaining: function( endtime ){
 			var t       = Date.parse( endtime ) - Date.parse( new Date() );
 			var seconds = Math.floor( (t/1000) % 60 );
@@ -73,20 +73,20 @@ var FLBuilderCountdownIntervals = FLBuilderCountdownIntervals || [];
 		 * @see    _getTimeRemaining()
 		 * @since  1.6.4
 		 * @return void
-		 */		
+		 */
 		_setTimeRemaining: function(){
 			var t        = this._getTimeRemaining( this.timestamp ),
 				wrappers = {
 					days  	: $( this.dateWrapper ),
 					hours 	: $( this.hoursWrapper ),
 					minutes : $( this.minutesWrapper ),
-					seconds : $( this.secondsWrapper ),	
+					seconds : $( this.secondsWrapper ),
 				},
 				labels = {
 					days  	: this.dateLabel,
 					hours 	: this.hoursLabel,
 					minutes : this.minutesLabel,
-					seconds : this.secondsLabel,	
+					seconds : this.secondsLabel,
 				};
 
 			if( t.total <= 0 ){
@@ -130,7 +130,7 @@ var FLBuilderCountdownIntervals = FLBuilderCountdownIntervals || [];
 
 			    $circle.css({ strokeDashoffset: stroke });
 			} );
-			
+
 		},
 
 		/**
@@ -142,6 +142,10 @@ var FLBuilderCountdownIntervals = FLBuilderCountdownIntervals || [];
 		 */
 		_initCountdown: function(){
 			var self = this;
+
+			if ( 0 === $( this.wrapperClass ).length ) {
+				return;
+			}
 
 			this._setTimeRemaining();
 			if( this.type == 'circle' ){
@@ -157,7 +161,7 @@ var FLBuilderCountdownIntervals = FLBuilderCountdownIntervals || [];
 			}, 1000 );
 
 		},
-	
+
 	};
-		
+
 })(jQuery);

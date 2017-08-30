@@ -1,6 +1,9 @@
 <?php
 
-$settings = wp_parse_args( (array) $settings, array( 'title' => '', 'text' => '' ) );
+$settings = wp_parse_args( (array) $settings, array(
+	'title' => '',
+	'text' => '',
+) );
 $title    = sanitize_text_field( $settings['title'] );
 
 ?>

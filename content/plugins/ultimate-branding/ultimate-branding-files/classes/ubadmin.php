@@ -29,7 +29,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			$this->build = $ub_version;
 
 			$this->set_configuration();
-			$this->debug = defined( 'WP_DEBUG' ) && WP_DEBUG;
+			$this->debug = apply_filters( 'ultimatebranding_debug', defined( 'WP_DEBUG' ) && WP_DEBUG );
 
 			foreach ( $this->configuration as $key => $data ) {
 				if ( ! is_multisite() && isset( $data['network-only'] ) && $data['network-only'] ) {
@@ -1013,6 +1013,12 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 					'module' => 'custom-admin-bar/custom-admin-bar.php',
 					'tab' => 'adminbar',
 					'page_title' => __( 'Admin Bar', 'ub' ),
+				),
+				'admin-bar-logo.php' => array(
+					'module' => 'admin-bar-logo.php',
+					'tab' => 'adminbar',
+					'page_title' => __( 'Admin Bar', 'ub' ),
+					'title' => __( 'Admin Bar Logo', 'ub' ),
 				),
 				'custom-dashboard-welcome.php' => array(
 					'module' => 'custom-dashboard-welcome.php',

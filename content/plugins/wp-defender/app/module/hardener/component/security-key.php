@@ -16,14 +16,19 @@ class Security_Key extends Rule {
 	static $service;
 
 	function getDescription() {
-		$time = Settings::instance()->getDValues( Security_Key_Service::CACHE_KEY );
+		$settings 	= Settings::instance();
+		$time 		= $settings->getDValues( Security_Key_Service::CACHE_KEY );
+		$interval 	= $settings->getDValues( 'securityReminderDuration' );
+		if ( !$interval ) {
+			$interval  = Security_Key_Service::DEFAULT_DAYS;
+		}
 		if ( $time ) {
 			$daysAgo = ( time() - $time ) / ( 60 * 60 * 24 );
 		} else {
 			$daysAgo = null;
 		}
 		$this->renderPartial( 'rules/security-key', array(
-			'interval' => Security_Key_Service::DEFAULT_DAYS,
+			'interval' => $interval,
 			'daysAgo'  => $daysAgo
 		) );
 	}
@@ -52,8 +57,8 @@ class Security_Key extends Rule {
 		$reminder = HTTP_Helper::retrieve_post( 'remind_date', null );
 		if ( $reminder ) {
 			$settings = Settings::instance();
+			$settings->setDValues( 'securityReminderDuration', $reminder );
 			$settings->setDValues( 'securityReminderDate', strtotime( '+' . $reminder, current_time( 'timestamp' ) ) );
-			$settings->save();
 			die;
 		}
 	}

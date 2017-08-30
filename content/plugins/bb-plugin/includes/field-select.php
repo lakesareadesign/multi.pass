@@ -77,8 +77,8 @@ if ( isset( $field['trigger'] ) ) {
 <select name="<?php echo esc_attr( $name ); ?>"<?php echo $atts; ?>>
 
 	<?php
-		
-	// Get the options from a function? 
+
+	// Get the options from a function?
 	if ( is_string( $field['options'] ) ) {
 		$field['options'] = call_user_func( $field['options'] );
 	}
@@ -87,7 +87,7 @@ if ( isset( $field['trigger'] ) ) {
 	foreach ( (array) $field['options'] as $option_key => $option_val ) {
 
 		// Don't display premium options if using lite plugin version
-		if ( is_array( $option_val ) && isset( $option_val['premium' ] ) && $option_val['premium'] && true === FL_BUILDER_LITE ) {
+		if ( is_array( $option_val ) && isset( $option_val['premium'] ) && $option_val['premium'] && true === FL_BUILDER_LITE ) {
 			continue;
 		}
 
@@ -95,32 +95,32 @@ if ( isset( $field['trigger'] ) ) {
 
 			echo '<optgroup label="' . esc_attr( $option_val['label'] ) . '">';
 
-				foreach( (array) $option_val['options'] as $optgroup_option_key => $optgroup_option_val ) {
+			foreach ( (array) $option_val['options'] as $optgroup_option_key => $optgroup_option_val ) {
 
-					// Don't display premium optgroup options if using lite plugin version
-					if ( is_array( $optgroup_option_val ) && isset( $optgroup_option_val['premium' ] ) && $optgroup_option_val['premium'] && true === FL_BUILDER_LITE ) {
-						continue;
-					}
+				// Don't display premium optgroup options if using lite plugin version
+				if ( is_array( $optgroup_option_val ) && isset( $optgroup_option_val['premium'] ) && $optgroup_option_val['premium'] && true === FL_BUILDER_LITE ) {
+					continue;
+				}
 
-					// Is selected?
+				// Is selected?
 
-						$selected = '';
+				$selected = '';
 
-						if ( is_array( $value ) && in_array( $optgroup_option_key, $value ) ) {
-							// Multi select
-							$selected = ' selected="selected"';
-						} elseif ( ! is_array( $value ) && selected( $value, $optgroup_option_key, false ) ) {
-							// Single select
-							$selected = ' selected="selected"';
-						}
+				if ( is_array( $value ) && in_array( $optgroup_option_key, $value ) ) {
+					// Multi select
+					$selected = ' selected="selected"';
+				} elseif ( ! is_array( $value ) && selected( $value, $optgroup_option_key, false ) ) {
+					// Single select
+					$selected = ' selected="selected"';
+				}
 
-					// Option label
-					$label = ( is_array( $optgroup_option_val ) ) ? ( $optgroup_option_val['label'] ) : ( $optgroup_option_val );
+				// Option label
+				$label = ( is_array( $optgroup_option_val ) ) ? ( $optgroup_option_val['label'] ) : ( $optgroup_option_val );
 
-					// Output option
-					echo '<option value="' . esc_attr( $optgroup_option_key ) . '"' . $selected . '>' . esc_html( $label ) . '</option>';
+				// Output option
+				echo '<option value="' . esc_attr( $optgroup_option_key ) . '"' . $selected . '>' . esc_html( $label ) . '</option>';
 
-				} // /foreach
+			} // End foreach().
 
 			echo '</optgroup>';
 
@@ -130,13 +130,13 @@ if ( isset( $field['trigger'] ) ) {
 
 				$selected = '';
 
-				if ( is_array( $value ) && in_array( $option_key, $value ) ) {
-					// Multi select
-					$selected = ' selected="selected"';
-				} elseif ( ! is_array( $value ) && selected( $value, $option_key, false ) ) {
-					// Single select
-					$selected = ' selected="selected"';
-				}
+			if ( is_array( $value ) && in_array( $option_key, $value ) ) {
+				// Multi select
+				$selected = ' selected="selected"';
+			} elseif ( ! is_array( $value ) && selected( $value, $option_key, false ) ) {
+				// Single select
+				$selected = ' selected="selected"';
+			}
 
 			// Option label
 			$label = ( is_array( $option_val ) ) ? ( $option_val['label'] ) : ( $option_val );
@@ -144,9 +144,8 @@ if ( isset( $field['trigger'] ) ) {
 			// Output option
 			echo '<option value="' . esc_attr( $option_key ) . '"' . $selected . '>' . esc_html( $label ) . '</option>';
 
-		}
-
-	} // /foreach
+		}// End if().
+	} // End foreach().
 
 	?>
 

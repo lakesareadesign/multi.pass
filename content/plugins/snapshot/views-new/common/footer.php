@@ -4,12 +4,12 @@
 <script type="text/html" id="ss-modal-template">
 	<div class="ss-modal hidden">
 		<div id="" class="dev-box modal-box">
-			<div class="box-title buttons">
+			<div class="wpmud-box-title buttons">
 				<h3></h3>
 				<div class="ss-icon-close close"></div>
 			</div>
 
-			<div class="box-content"></div>
+			<div class="wpmud-box-content"></div>
 		</div>
 	</div>
 </script>

@@ -176,7 +176,7 @@ if ( ! class_exists( 'Opt_In_Mautic_Api' ) ) :
 		 * @param (array) $field
 		 **/
 		function add_custom_field( $field ) {
-			$fieldApi = $this->api->newApi( 'contactfields', $this->auth, $this->base_url );
+			$fieldApi = $this->api->newApi( 'contactFields', $this->auth, $this->base_url );
 			$res = $fieldApi->create( $field );
 
 			return ! empty( $res ) && ! empty( $res['field'] );

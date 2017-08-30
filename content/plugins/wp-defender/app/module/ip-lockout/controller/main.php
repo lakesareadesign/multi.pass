@@ -8,13 +8,16 @@ namespace WP_Defender\Module\IP_Lockout\Controller;
 use Hammer\Helper\HTTP_Helper;
 use Hammer\Helper\Log_Helper;
 use Hammer\Helper\WP_Helper;
+use WP_Defender\Behavior\Utils;
 use WP_Defender\Controller;
 use WP_Defender\Module\Audit\Component\Audit_API;
 use WP_Defender\Module\IP_Lockout\Behavior\IP_Lockout;
 use WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api;
 use WP_Defender\Module\IP_Lockout\Component\Logs_Table;
 use WP_Defender\Module\IP_Lockout\Model\IP_Model;
+use WP_Defender\Module\IP_Lockout\Model\IP_Model_Legacy;
 use WP_Defender\Module\IP_Lockout\Model\Log_Model;
+use WP_Defender\Module\IP_Lockout\Model\Log_Model_Legacy;
 use WP_Defender\Module\IP_Lockout\Model\Settings;
 use WP_Defender\Vendor\Email_Search;
 
@@ -58,6 +61,7 @@ class Main extends Controller {
 		$this->add_ajax_action( 'lockoutIPAction', 'lockoutIPAction' );
 		$this->add_ajax_action( 'lockoutEmptyLogs', 'lockoutEmptyLogs' );
 		$this->add_ajax_action( 'lockoutSummaryData', 'lockoutSummaryData' );
+		$this->add_ajax_action( 'migrateData', 'movingDataToTable' );
 
 		$this->handleIpAction();
 		$this->handleUserSearch();
@@ -72,8 +76,6 @@ class Main extends Controller {
 			return;
 		}
 
-		$setting = Settings::instance();
-
 		$lockouts = Log_Model::findAll( array(
 			'type' => array(
 				Log_Model::LOCKOUT_404,
@@ -81,9 +83,9 @@ class Main extends Controller {
 			),
 			'date' => array(
 				'compare' => '>=',
-				'value'   => strtotime( 'first day of this month', current_time( 'timestamp' ) )
+				'value'   => strtotime( '-30 days', current_time( 'timestamp' ) )
 			)
-		), 'ID', 'DESC' );
+		), 'id', 'DESC' );
 
 		if ( count( $lockouts ) == 0 ) {
 			$data = array(
@@ -105,7 +107,7 @@ class Main extends Controller {
 		$lockout404ThisWeek   = 0;
 		//time
 		$todayMidnight = strtotime( '-24 hours', current_time( 'timestamp' ) );
-		$firstThisWeek = strtotime( 'monday this week', current_time( 'timestamp' ) );
+		$firstThisWeek = strtotime( '-7 days', current_time( 'timestamp' ) );
 		foreach ( $lockouts as $k => $log ) {
 			//the other as DESC, so first will be last lockout
 			if ( $k == 0 ) {
@@ -142,14 +144,9 @@ class Main extends Controller {
 			return;
 		}
 
-		$perPage = 50;
-
-		$logs = Log_Model::findAll( array(), 'ID', 'ASC', '0,' . $perPage );
-		if ( count( $logs ) ) {
-			foreach ( $logs as $log ) {
-				$log->delete();
-			}
-		} else {
+		$perPage = 500;
+		$count   = Log_Model::deleteAll( array(), '0,' . $perPage );
+		if ( $count == 0 ) {
 			wp_send_json_success( array(
 				'message' => __( "Your logs have been successfully deleted.", wp_defender()->domain )
 			) );
@@ -243,24 +240,17 @@ class Main extends Controller {
 				//if current user can logged in, and no blacklisted we don't need to check the ip
 				return;
 			}
-			global $wpdb;
-			//use raw queries here for faster
-			if ( $this->isActivatedSingle() == false ) {
-				switch_to_blog( 1 );
-			}
-			$sql = "SELECT ID FROM " . $wpdb->posts . " as t0," . $wpdb->postmeta . " as t1 WHERE t0.ID = t1.post_id AND t1.meta_key=%s and t1.meta_value=%s and t0.post_type=%s";
-			$sql = $wpdb->prepare( $sql, "ip", $ip, "wd_ip_lockout" );
-			$ID  = $wpdb->get_var( $sql );
-			if ( $this->isActivatedSingle() == false ) {
-				restore_current_blog();
-			}
-			if ( $ID && is_object( ( $model = IP_Model::findByID( $ID ) ) ) ) {
-				if ( $model->is_locked() ) {
-					$this->renderPartial( 'locked', array(
-						'message' => $model->lockout_message
-					) );
-					die;
-				}
+
+			$model = IP_Model::findOne( array(
+				'ip' => $ip
+			) );
+			if ( is_object( $model ) && $model->is_locked() ) {
+				header('HTTP/1.0 403 Forbidden');
+				header( 'Cache-Control: private' );
+				$this->renderPartial( 'locked', array(
+					'message' => $model->lockout_message
+				) );
+				die;
 			}
 		}
 	}
@@ -302,6 +292,16 @@ class Main extends Controller {
 	 * Handle the logic here
 	 */
 	private function handleIpAction() {
+		if ( get_site_option( 'defenderLockoutNeedUpdateLog' ) == 1 ) {
+			//we are migratng, so no record
+			return;
+		}
+
+		if ( ! Login_Protection_Api::checkIfTableExists() ) {
+			//no table logs, omething happen
+			return;
+		}
+
 		$ip       = $this->getUserIp();
 		$settings = Settings::instance();
 		if ( $settings->report ) {
@@ -315,6 +315,7 @@ class Main extends Controller {
 			wp_clear_scheduled_hook( 'cleanUpOldLog' );
 			wp_schedule_event( time(), 'hourly', 'cleanUpOldLog' );
 		}
+
 		$this->add_action( 'cleanUpOldLog', 'cleanUpOldLog' );
 
 		if ( $settings->isWhitelist( $ip ) ) {
@@ -330,7 +331,7 @@ class Main extends Controller {
 			'54.197.28.242',
 			'54.221.174.186',
 			'54.236.233.244',
-			array_key_exists( 'SERVER_ADDR', $_SERVER ) ? $_SERVER['SERVER_ADDR'] : $_SERVER['LOCAL_ADDR']
+			array_key_exists( 'SERVER_ADDR', $_SERVER ) ? $_SERVER['SERVER_ADDR'] : ( isset( $_SERVER['LOCAL_ADDR'] ) ? $_SERVER['LOCAL_ADDR'] : null )
 		) );
 
 		if ( in_array( $ip, $arr ) ) {
@@ -365,18 +366,13 @@ class Main extends Controller {
 	 * cron for delete old log
 	 */
 	public function cleanUpOldLog() {
-		$logs = Log_Model::findAll( array(
+		$timestamp = Utils::instance()->localToUtc( apply_filters( 'ip_lockout_logs_store_backward', '-' . Settings::instance()->storage_days . ' days' ) );
+		Log_Model::deleteAll( array(
 			'date' => array(
 				'compare' => '<=',
-				'value'   => strtotime( apply_filters( 'ip_lockout_logs_store_backward', '-' . Settings::instance()->storage_days . ' days' ), current_time( 'timestamp' ) )
+				'value'   => $timestamp
 			),
-		), null, null, 500 );
-
-		if ( count( $logs ) ) {
-			foreach ( $logs as $log ) {
-				$log->delete();
-			}
-		}
+		), '0,1000' );
 	}
 
 	/**
@@ -693,10 +689,14 @@ class Main extends Controller {
 	 * Add submit admin page
 	 */
 	public function adminMenu() {
-		$cap = is_multisite() ? 'manage_network_options' : 'manage_options';
+		$cap    = is_multisite() ? 'manage_network_options' : 'manage_options';
+		$action = "actionIndex";
+		if ( get_site_option( 'defenderLockoutNeedUpdateLog' ) == 1 ) {
+			$action = "actionMigration";
+		}
 		add_submenu_page( 'wp-defender', esc_html__( "IP Lockouts", wp_defender()->domain ), esc_html__( "IP Lockouts", wp_defender()->domain ), $cap, $this->slug, array(
 			&$this,
-			'actionIndex'
+			$action
 		) );
 	}
 
@@ -785,6 +785,14 @@ class Main extends Controller {
 		}
 	}
 
+	/**
+	 * Show the updating screen
+	 */
+	public function actionMigration() {
+		$this->layout = null;
+		$this->render( 'migration' );
+	}
+
 	private function _renderSettings() {
 		$this->render( 'settings', array(
 			'settings' => Settings::instance()
@@ -836,6 +844,73 @@ class Main extends Controller {
 		$this->render( $view, array(
 			'settings'     => Settings::instance(),
 			'email_search' => $this->email_search
+		) );
+	}
+
+	public function movingDataToTable() {
+		if ( ! $this->checkPermission() ) {
+			return;
+		}
+		$totalItems = get_site_option( 'defenderLogsTotal' );
+		$params     = array(
+			'date' => array(
+				'compare' => '>=',
+				'value'   => strtotime( '-30 days' )
+			)
+		);
+		if ( $totalItems === false ) {
+			//get the total
+			$totalLogs = Log_Model_Legacy::count( $params );
+			$totalsIPs = IP_Model_Legacy::count();
+			//get the 200 items and import each time
+			update_site_option( 'defenderLogsTotal', $totalLogs + $totalsIPs );
+			//prevent timeout so we end here at the first time
+			wp_send_json_error( array(
+				'progress' => 0
+			) );
+		}
+
+		$logs = Log_Model_Legacy::findAll( $params, 'id', 'DESC', '0,50' );
+		$logs = array_filter( $logs );
+		$ips  = IP_Model_Legacy::findAll( array(), 'id', 'DESC', '0,50' );
+		$ips  = array_filter( $ips );
+		if ( is_array( $logs ) && count( $logs ) ) {
+			foreach ( $logs as $item ) {
+				$model = new Log_Model();
+				$data  = $item->export();
+				unset( $data['id'] );
+				$model->import( $data );
+				$model->save();
+				$item->delete();
+			}
+		}
+
+		if ( is_array( $ips ) && count( $ips ) ) {
+			foreach ( $ips as $item ) {
+				$model = new IP_Model();
+				$data  = $item->export();
+				unset( $data['id'] );
+				$model->import( $data );
+				$model->save();
+				$item->delete();
+			}
+		}
+
+		if ( empty( $logs ) && empty( $ips ) ) {
+			//all moved
+			delete_site_option( 'defenderLogsTotal' );
+			delete_site_option( 'defenderLogsMovedCount' );
+			delete_site_option( 'defenderLockoutNeedUpdateLog' );
+			wp_send_json_success( array(
+				'message' => __( "Thanks for your patience. All sets!", wp_defender()->domain )
+			) );
+		}
+
+		$count = get_site_option( 'defenderLogsMovedCount', 0 );
+		$count += 200;
+		update_site_option( 'defenderLogsMovedCount', $count );
+		wp_send_json_error( array(
+			'progress' => round( ( $count / $totalItems ) * 200, 2 ) > 100 ? 100 : round( ( $count / $totalItems ) * 200, 2 )
 		) );
 	}
 }

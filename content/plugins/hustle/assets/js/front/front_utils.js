@@ -71,7 +71,7 @@ var Optin = Optin || {};
     function add_proper_classes(e, type, $popup, data){
         
         // relocate mailchimp submit button if no groups
-        if ( data.data.optin_provider === 'mailchimp' ) {
+        if ( typeof data !== 'undefined' && typeof data.data !== 'undefined' && data.data.optin_provider === 'mailchimp' ) {
             relocate_mailchimp_button(data);
         }
         
@@ -436,6 +436,7 @@ var Optin = Optin || {};
                 //Mailchimp might not always have groups
                 if( "mailchimp" === optin_data.data.optin_provider
                     && optin_data.provider_args
+                    && ( typeof optin_data.provider_args.group !== 'undefined' )
                 )
                 return true;
 

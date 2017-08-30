@@ -196,6 +196,12 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 						),
 					),
 				),
+				"instructions" => array(
+                    "id"    => "optin_api_instructions",
+                    "for"   => "",
+                    "value" => __( "Ensure you enable API and HTTP Basic Auth in your Mautic configuration API settings. Your Mautic installation URL must start with either http or https", Opt_In::TEXT_DOMAIN ),
+                    "type"  => "label",
+                ),
 			);
 
 			return $options;

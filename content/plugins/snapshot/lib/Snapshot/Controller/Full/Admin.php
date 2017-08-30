@@ -423,6 +423,8 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 			$this->_reenable_cron_backups( $data );
 		}
 
+		$this->_model->update_remote_schedule();
+
 		return true;
 	}
 }

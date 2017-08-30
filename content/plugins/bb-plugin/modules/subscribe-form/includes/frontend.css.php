@@ -9,15 +9,15 @@
 }
 .fl-node-<?php echo $id; ?> .fl-subscribe-form-inline .fl-form-field input,
 .fl-node-<?php echo $id; ?> .fl-subscribe-form-inline .fl-form-field input[type=text] {
-	height: <?php echo ( $settings->btn_padding * 2 )  + ( $settings->btn_font_size + 4 ); ?>px;
+	height: <?php echo ( $settings->btn_padding * 2 ) + ( $settings->btn_font_size + 4 ); ?>px;
 }
 .fl-node-<?php echo $id; ?> .fl-subscribe-form-inline a.fl-button {
-	height: <?php echo ( $settings->btn_padding * 2 )  + ( $settings->btn_font_size + 4 ); ?>px;
+	height: <?php echo ( $settings->btn_padding * 2 ) + ( $settings->btn_font_size + 4 ); ?>px;
 	line-height: <?php echo $settings->btn_font_size; ?>px !important;
 }
 
 <?php
-	
+
 FLBuilder::render_module_css('button', $id, array(
 	'align'             => '',
 	'bg_color'          => $settings->btn_bg_color,
@@ -37,5 +37,5 @@ FLBuilder::render_module_css('button', $id, array(
 	'text'              => $settings->btn_text,
 	'text_color'        => $settings->btn_text_color,
 	'text_hover_color'  => $settings->btn_text_hover_color,
-	'width'             => 'full'
+	'width'             => 'full',
 ));

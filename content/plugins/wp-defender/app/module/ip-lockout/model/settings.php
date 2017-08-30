@@ -302,7 +302,7 @@ class Settings extends \Hammer\WP\Settings {
 		} elseif ( stristr( $ip, '-' ) ) {
 			$ips = explode( '-', $ip );
 			foreach ( $ips as $ip ) {
-				if ( ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) || ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
+				if ( ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV4 ) && ! filter_var( $ip, FILTER_VALIDATE_IP, FILTER_FLAG_IPV6 ) ) {
 					return false;
 				}
 			}

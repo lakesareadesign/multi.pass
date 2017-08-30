@@ -37,9 +37,9 @@ $cron_disabled = $model->get_config( 'disable_cron', false );
 
 	<div id="container" class="snapshot-three wps-page-wizard">
 
-		<section class="box new-snapshot-main-box">
+		<section class="wpmud-box new-snapshot-main-box">
 
-			<div class="box-title has-button">
+			<div class="wpmud-box-title has-button">
 
 				<h3><?php _e( 'Backups Wizard', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 
@@ -47,15 +47,15 @@ $cron_disabled = $model->get_config( 'disable_cron', false );
 
 			</div>
 
-			<div class="box-content">
+			<div class="wpmud-box-content">
 
 				<?php $this->render( "common/requirements-test", false, $requirements_test, false, false ); ?>
 
-				<div class="box-tab configuration-box<?php if ( $all_good ) {
+				<div class="wpmud-box-tab configuration-box<?php if ( $all_good ) {
 					echo ' open';
 				} ?>">
 
-					<div class="box-tab-title can-toggle">
+					<div class="wpmud-box-tab-title can-toggle">
 						<h3><?php _e( 'Configuration', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 						<?php if ( $all_good ): ?>
 							<i class="wps-icon i-arrow-right"></i>
@@ -64,7 +64,7 @@ $cron_disabled = $model->get_config( 'disable_cron', false );
 
 					<?php if ( $all_good ): ?>
 
-						<div class="box-tab-content">
+						<div class="wpmud-box-tab-content">
 
 							<div id="wps-check-notice" class="row">
 
@@ -100,7 +100,7 @@ $cron_disabled = $model->get_config( 'disable_cron', false );
 
 								<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-									<div class="box-mask">
+									<div class="wpmud-box-mask">
 
 										<label class="label-title"><?php
 
@@ -112,7 +112,7 @@ $cron_disabled = $model->get_config( 'disable_cron', false );
 												size_format( $storage->get_total_remote_space() )
 											); ?></label>
 
-										<div class="box-gray">
+										<div class="wpmud-box-gray">
 
 											<div class="radio-destination">
 
@@ -150,7 +150,7 @@ $cron_disabled = $model->get_config( 'disable_cron', false );
 
 								<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-									<div class="box-mask">
+									<div class="wpmud-box-mask">
 
 										<label class="label-title">
 											<?php _e( 'Would you like to schedule managed backups to run regularly or once-off?', SNAPSHOT_I18N_DOMAIN ); ?>
@@ -183,7 +183,7 @@ $cron_disabled = $model->get_config( 'disable_cron', false );
 
 										</div>
 
-										<div id="snapshot-schedule-options-container" class="box-gray">
+										<div id="snapshot-schedule-options-container" class="wpmud-box-gray">
 
 											<h3><?php _e( 'Schedule', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 

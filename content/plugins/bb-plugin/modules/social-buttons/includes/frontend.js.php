@@ -1,4 +1,4 @@
-<?php if(FLBuilderModel::is_builder_active()) : ?>
+<?php if ( FLBuilderModel::is_builder_active() ) : ?>
 
 if(typeof FB != 'undefined') {
 		FB.XFBML.parse();
@@ -9,7 +9,7 @@ jQuery('#fl-gplus-button').remove();
 
 <?php endif; ?>
 
-<?php if ($settings->show_facebook): ?>
+<?php if ( $settings->show_facebook ) : ?>
 
 (function(d, s, id) {
 	var js, fjs = d.getElementsByTagName(s)[0];
@@ -19,11 +19,11 @@ jQuery('#fl-gplus-button').remove();
 	fjs.parentNode.insertBefore(js, fjs);
 }(document, 'script', 'facebook-jssdk'));
 
-<?php endif; if ($settings->show_twitter): ?>
+<?php endif; if ( $settings->show_twitter ) : ?>
 
 !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="https://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
 
-<?php endif; if ($settings->show_gplus): ?>
+<?php endif; if ( $settings->show_gplus ) : ?>
 
 (function() {
 		var po = document.createElement('script'); po.type = 'text/javascript'; po.async = true;

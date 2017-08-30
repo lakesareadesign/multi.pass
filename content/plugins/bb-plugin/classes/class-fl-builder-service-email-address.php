@@ -27,20 +27,20 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 	 *      @type array $data An array of data used to make the connection.
 	 * }
 	 */
-	public function connect( $fields = array() )
-	{
+	public function connect( $fields = array() ) {
 		$response = array(
 			'error'  => false,
-			'data'   => array()
+			'data'   => array(),
 		);
 
 		// Make sure we have an email address.
 		if ( ! isset( $fields['email'] ) || empty( $fields['email'] ) ) {
 			$response['error'] = __( 'Error: You must provide an email address.', 'fl-builder' );
-		}
-		// Store the connection data.
+		} // End if().
 		else {
-			$response['data'] = array( 'email' => $fields['email'] );
+			$response['data'] = array(
+				'email' => $fields['email'],
+			);
 		}
 
 		return $response;
@@ -52,8 +52,7 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 	 * @since 1.6.0
 	 * @return string The connection settings markup.
 	 */
-	public function render_connect_settings()
-	{
+	public function render_connect_settings() {
 		ob_start();
 
 		FLBuilder::render_settings_field( 'email', array(
@@ -62,8 +61,8 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 			'type'          => 'text',
 			'label'         => __( 'Email Address', 'fl-builder' ),
 			'preview'       => array(
-				'type'          => 'none'
-			)
+				'type'          => 'none',
+			),
 		));
 
 		return ob_get_clean();
@@ -80,11 +79,10 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 	 *      @type string $html The field markup.
 	 * }
 	 */
-	public function render_fields( $account, $settings )
-	{
+	public function render_fields( $account, $settings ) {
 		$response = array(
 			'error'  => false,
-			'html'   => ''
+			'html'   => '',
 		);
 
 		return $response;
@@ -101,19 +99,19 @@ final class FLBuilderServiceEmailAddress extends FLBuilderService {
 	 *      @type bool|string $error The error message or false if no error.
 	 * }
 	 */
-	public function subscribe( $settings, $email, $name = false )
-	{
+	public function subscribe( $settings, $email, $name = false ) {
 		$account_data = $this->get_account_data( $settings->service_account );
-		$response     = array( 'error' => false );
+		$response     = array(
+			'error' => false,
+		);
 
 		if ( ! $account_data ) {
 			$response['error'] = __( 'There was an error subscribing. The account is no longer connected.', 'fl-builder' );
-		}
-		else {
+		} else {
 
 			$subject = __( 'Subscribe Form Signup', 'fl-builder' );
 
-			if( $settings->custom_subject ) {
+			if ( $settings->custom_subject ) {
 				$subject = $settings->custom_subject;
 			}
 

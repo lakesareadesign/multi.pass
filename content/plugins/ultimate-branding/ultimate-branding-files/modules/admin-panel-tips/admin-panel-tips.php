@@ -200,33 +200,31 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 				'meta_query' => $meta_query,
 			);
 			$the_query = new WP_Query( $args );
-			if ( $the_query->have_posts() ) {
-				echo '<ul>';
-				while ( $the_query->have_posts() ) {
-					$the_query->the_post();
-					printf( '<div class="updated admin-panel-tips" data-id="%d" data-user-id="%d">', esc_attr( get_the_ID() ), esc_attr( get_current_user_id() ) );
+			if ( $the_query->posts ) {
+				$post = array_shift( $the_query->posts );
+				if ( is_a( $post, 'WP_Post' ) ) {
+					printf( '<div class="updated admin-panel-tips" data-id="%d" data-user-id="%d">', esc_attr( $post->ID ), esc_attr( get_current_user_id() ) );
 					printf(
 						'<p class="apt-action" data-what="dismiss" data-nonce="%s">[ <a href="#" >%s</a> ]</p>',
-						esc_attr( wp_create_nonce( $this->get_nonce_action( 'dismiss', get_the_ID() ) ) ),
+						esc_attr( wp_create_nonce( $this->get_nonce_action( 'dismiss', $post->ID ) ) ),
 						esc_html__( 'Dismiss', 'ub' )
 					);
 					printf(
 						'<p class="apt-action" data-what="hide" data-nonce="%s">[ <a href="#" >%s</a> ]</p>',
-						esc_attr( wp_create_nonce( $this->get_nonce_action( 'hide', get_the_ID() ) ) ),
+						esc_attr( wp_create_nonce( $this->get_nonce_action( 'hide', $post->ID ) ) ),
 						esc_html__( 'Hide', 'ub' )
 					);
 
-					$title = get_the_title();
+					$title = $post->post_title;
 					if ( ! empty( $title ) ) {
 						printf( '<h4>%s</h4>', apply_filters( 'the_title', $title ) );
 					}
-					$content = get_the_content();
+					$content = $post->post_content;
 					if ( ! empty( $content ) ) {
 						printf( '<div class="apt-content">%s</div>', apply_filters( 'the_content', $content ) );
 					}
 					echo '</div>';
 				}
-				wp_reset_postdata();
 			}
 		}
 

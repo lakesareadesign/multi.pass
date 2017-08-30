@@ -40,15 +40,13 @@ class Login_Protection_Api extends Component {
 			}
 		}
 
-		$logs = Log_Model::findAll( array(
+		$attempt = Log_Model::count( array(
 			'ip'      => $log->ip,
 			'type'    => Log_Model::AUTH_FAIL,
 			'blog_id' => get_current_blog_id(),
 			'date'    => array( 'compare' => '>=', 'value' => $after )
 		) );
 
-
-		$attempt = count( $logs );
 		if ( ! is_object( $model ) ) {
 			//no record, create one
 			$model         = new IP_Model();
@@ -173,6 +171,7 @@ class Login_Protection_Api extends Component {
 
 	/**
 	 * @param null $time - unix timestamp
+	 *
 	 * @deprecated
 	 * @return int
 	 */
@@ -190,6 +189,7 @@ class Login_Protection_Api extends Component {
 
 	/**
 	 * @param null $time - unix timestamp
+	 *
 	 * @deprecated
 	 * @return int
 	 */
@@ -283,7 +283,7 @@ class Login_Protection_Api extends Component {
 			$data[] = $line;
 
 		}
-		fclose( $file );
+		fclose( $fp );
 
 		return $data;
 	}
@@ -384,5 +384,56 @@ class Login_Protection_Api extends Component {
 		}
 
 		return false;
+	}
+
+	/**
+	 *
+	 */
+	public static function createTables() {
+		global $wpdb;
+
+		$charsetCollate = $wpdb->get_charset_collate();
+		$tableName1     = $wpdb->base_prefix . 'defender_lockout';
+		$tableName2     = $wpdb->base_prefix . 'defender_lockout_log';
+		$sql            = "CREATE TABLE IF NOT EXISTS `{$tableName1}` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `ip` varchar(255) DEFAULT NULL,
+  `status` varchar(16) DEFAULT NULL,
+  `lockout_message` text,
+  `release_time` int(11) DEFAULT NULL,
+  `lock_time` int(11) DEFAULT NULL,
+  `lock_time_404` int(11) DEFAULT NULL,
+  `attempt` int(11) DEFAULT NULL,
+  `attempt_404` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) $charsetCollate;
+CREATE TABLE `{$tableName2}` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `log` text,
+  `ip` varchar(255) DEFAULT NULL,
+  `date` int(11) DEFAULT NULL,
+  `type` varchar(16) DEFAULT NULL,
+  `user_agent` varchar(255) DEFAULT NULL,
+  `blog_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) $charsetCollate;
+";
+		require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+		dbDelta( $sql );
+	}
+
+	/**
+	 * @return bool
+	 */
+	public static function checkIfTableExists() {
+		global $wpdb;
+		$tableName1 = $wpdb->base_prefix . 'defender_lockout';
+		$tableName2 = $wpdb->base_prefix . 'defender_lockout_log';
+		if ( $wpdb->get_var( "SHOW TABLES LIKE '$tableName1'" ) != $tableName1 ||
+		     $wpdb->get_var( "SHOW TABLES LIKE '$tableName2'" ) != $tableName2 ) {
+			return false;
+		}
+
+		return true;
 	}
 }

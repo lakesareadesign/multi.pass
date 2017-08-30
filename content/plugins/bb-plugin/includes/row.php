@@ -7,7 +7,7 @@
 		foreach ( $groups as $group ) {
 			FLBuilder::render_column_group( $group );
 		}
-		
+
 		?>
 		</div>
 	</div>

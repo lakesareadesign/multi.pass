@@ -1,5 +1,5 @@
-<div class="box-tab requirements-check-box<?php if ( !$all_good || $warning ) { echo ' open'; } ?>">
-	<div class="box-tab-title can-toggle">
+<div class="wpmud-box-tab requirements-check-box<?php if ( !$all_good || $warning ) { echo ' open'; } ?>">
+	<div class="wpmud-box-tab-title can-toggle">
 		<h3><?php _e( 'Requirements Check', SNAPSHOT_I18N_DOMAIN ); ?>
 		<span class="wps-tag wps-tag--<?php if ( !$all_good ) { echo 'red'; } else if ( $warning ) { echo 'yellow'; } else { echo 'green'; } ?>">
 		<?php
@@ -13,9 +13,9 @@
 		</span></h3>
 		<i class="wps-icon i-arrow-right"></i>
 	</div>
-	<div class="box-tab-content">
+	<div class="wpmud-box-tab-content">
 		<div class="wps-requirements-list">
-			<div class="box-gray">
+			<div class="wpmud-box-gray">
 				<table class="wps-table" cellpadding="0" cellspacing="0">
 					<tbody>
 						<tr>

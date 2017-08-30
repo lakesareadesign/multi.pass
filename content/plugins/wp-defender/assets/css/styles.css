@@ -2287,6 +2287,16 @@
       font-family: Roboto, sans-serif; }
       .wp-defender .wpmudev-register div label span {
         font-weight: 400; }
+  .wp-defender .advanced-tools .row > .col-third {
+    width: 25%; }
+  .wp-defender .advanced-tools .row > .col-two-third {
+    width: 75%; }
+  .wp-defender .advanced-tools i.icon-warning:not(.fill-red) {
+    background: url("../img/wpmud-icon-warning-yellow.svg") no-repeat;
+    mask: none;
+    -webkit-mask: none; }
+  .wp-defender .advanced-tools .toggle .toggle-label:after {
+    left: 0; }
   .wp-defender .toggle-row {
     display: none; }
   @media screen and (min-width: 769px) and (max-width: 979px) {
@@ -2373,4 +2383,4 @@
   margin: 0; }
 
 
-/* 133620-1502132187-au */
+/* 133620-1504103056-au */

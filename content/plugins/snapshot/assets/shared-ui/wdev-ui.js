@@ -108,8 +108,8 @@ jQuery(function() {
 			elems = scope.find("button, .button, a[href], [tooltip]");
 
 		// Disable other elements on the page and start loading animation.
-		if (btn.closest(".box").length) {
-			btn.closest(".box").loading(true);
+		if (btn.closest(".wpmud-box").length) {
+			btn.closest(".wpmud-box").loading(true);
 		} else if (btn.find(".spin-on-click")) {
 			spinOnClick.call(btn, ev);
 		} else {
@@ -416,9 +416,9 @@ WDP.prepareOverlay = function() {
 		WDP.overlay.wrapper = jQuery('<div class="dev-overlay"></div>');
 		WDP.overlay.back = jQuery('<div class="back"></div>');
 		WDP.overlay.scroll = jQuery('<div class="box-scroll"></div>');
-		WDP.overlay.box = jQuery('<div class="box"></div>');
-		WDP.overlay.box_title = jQuery('<div class="title"><h3></h3></div>');
-		WDP.overlay.box_content = jQuery('<div class="content"></div>');
+		WDP.overlay.box = jQuery('<div class="wpmud-box"></div>');
+		WDP.overlay.box_title = jQuery('<div class="wpmud-box-title"><h3></h3></div>');
+		WDP.overlay.box_content = jQuery('<div class="wpmud-box-content"></div>');
 		WDP.overlay.close = jQuery('<div class="close" aria-label="Close">&times;</div>');
 
 		WDP.overlay.back.appendTo(WDP.overlay.wrapper);

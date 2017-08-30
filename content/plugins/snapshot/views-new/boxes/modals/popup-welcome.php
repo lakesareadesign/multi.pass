@@ -16,15 +16,15 @@ $plugin->save_config();
 	<div class="wps-popup-mask"></div>
 
 	<div class="wps-popup-content">
-		<div class="box">
-			<div class="box-title has-button can-close">
+		<div class="wpmud-box">
+			<div class="wpmud-box-title has-button can-close">
 				<h3><?php _e('Welcome to Snapshot', SNAPSHOT_I18N_DOMAIN); ?></h3>
 				<a href="#" class="button button-small button-outline button-gray wps-popup-close wps-dismiss-welcome">
 					<?php _e('Skip', SNAPSHOT_I18N_DOMAIN); ?>
 				</a>
 			</div>
 
-			<div class="box-content">
+			<div class="wpmud-box-content">
 				<div class="row">
 
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">

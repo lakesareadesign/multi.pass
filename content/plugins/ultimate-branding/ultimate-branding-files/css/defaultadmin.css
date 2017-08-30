@@ -176,6 +176,9 @@ li.link_row h4{
 .ub-module-info {
     border-left-color: #14568a;
 }
+.tab-login-screen .theme-browser .theme:hover {
+    cursor: inherit;
+}
 
 
-/* 133620-1502132170-au */
+/* 133620-1504103048-au */

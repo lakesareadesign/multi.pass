@@ -2,7 +2,7 @@
 	
 	<?php FLPostGridModule::schema_meta(); ?>
 	
-	<?php if(has_post_thumbnail() && $settings->show_image) : ?>
+	<?php if ( has_post_thumbnail() && $settings->show_image ) : ?>
 	<div class="fl-post-carousel-image">
 		<?php $module->render_img( get_the_id() ) ?>
 	</div>
@@ -14,9 +14,9 @@
 			<a href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php the_title(); ?></a>
 		</h2>
 
-		<?php if($settings->show_author || $settings->show_date) : ?>
+		<?php if ( $settings->show_author || $settings->show_date ) : ?>
 		<div class="fl-post-carousel-meta">
-			<?php if($settings->show_author) : ?>
+			<?php if ( $settings->show_author ) : ?>
 				<span class="fl-post-carousel-author">
 				<?php
 
@@ -28,23 +28,23 @@
 				?>
 				</span>
 			<?php endif; ?>
-			<?php if($settings->show_date) : ?>
-				<?php if($settings->show_author) : ?>
+			<?php if ( $settings->show_date ) : ?>
+				<?php if ( $settings->show_author ) : ?>
 					<span> | </span>
 				<?php endif; ?>
 				<span class="fl-post-feed-date">
-					<?php FLBuilderLoop::post_date($settings->date_format); ?>
+					<?php FLBuilderLoop::post_date( $settings->date_format ); ?>
 				</span>
 			<?php endif; ?>
 		</div>
 		<?php endif; ?>
 
-		<?php if($settings->show_content || $settings->show_more_link) : ?>
+		<?php if ( $settings->show_content || $settings->show_more_link ) : ?>
 		<div class="fl-post-carousel-content">
-			<?php if($settings->show_content) : ?>
+			<?php if ( $settings->show_content ) : ?>
 			<?php the_excerpt(); ?>
 			<?php endif; ?>
-			<?php if($settings->show_more_link) : ?>
+			<?php if ( $settings->show_more_link ) : ?>
 			<a class="fl-post-carousel-more" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php echo $settings->more_link_text; ?></a>
 			<?php endif; ?>
 		</div>

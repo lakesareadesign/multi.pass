@@ -36,7 +36,7 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
      * @param $option_value
      * @return bool
      */
-    function update_option($option_key, $option_value){
+    function update_option( $option_key, $option_value ){
         return update_site_option( self::ID . "_" . $option_key, $option_value);
     }
 
@@ -47,14 +47,14 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
      * @param $default
      * @return mixed
      */
-    function get_option($option_key, $default ){
+    function get_option( $option_key, $default ){
         return get_site_option( self::ID . "_" . $option_key, $default );
     }
 
 	/**
 	 * Helper function get an option in static mode.
 	 **/
-	static function static_get_option( $option_key, $default = '' ) {
+	static function static_get_option( $option_key, $default ) {
 		return get_site_option( self::ID . "_" . $option_key, $default );
 	}
 
@@ -176,7 +176,7 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
 
     function get_options( $optin_id ){
 
-        if( $this->get_option( self::AUTH_CODE ) !== $this->api_key ){
+        if( $this->get_option( self::AUTH_CODE, '' ) !== $this->api_key ){
 
             list($consumerKey, $consumerSecret, $accessToken, $accessSecret) = AWeberAPI::getDataFromAweberID( $this->api_key );
             $this->update_option( self::CONSUMER_KEY, $consumerKey );
@@ -187,10 +187,10 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
             $this->update_option( self::AUTH_CODE, $this->api_key );
 
         }else{
-            $consumerKey = $this->get_option( self::CONSUMER_KEY );
-            $consumerSecret = $this->get_option( self::CONSUMER_SECRET );
-            $accessToken = $this->get_option( self::ACCESS_TOKEN );
-            $accessSecret = $this->get_option( self::ACCESS_SECRET );
+            $consumerKey = $this->get_option( self::CONSUMER_KEY, '' );
+            $consumerSecret = $this->get_option( self::CONSUMER_SECRET, '' );
+            $accessToken = $this->get_option( self::ACCESS_TOKEN, '' );
+            $accessSecret = $this->get_option( self::ACCESS_SECRET, '' );
         }
 
         $account = $this->api( $consumerKey, $consumerSecret )->getAccount( $accessToken, $accessSecret );

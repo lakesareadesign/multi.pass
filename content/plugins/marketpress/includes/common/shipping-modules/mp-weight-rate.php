@@ -23,7 +23,7 @@ class MP_Shipping_Weight_Rate extends MP_Shipping_API {
     //declare here for translation
     $this->public_name = __( 'Weight Rate', 'mp' );
 
-		add_filter( 'wpmudev_field/get_value/shipping[weight_rate][rates]', array( &$this, 'get_rates_value' ), 10, 4 );
+		add_filter( 'wpmudev_field/get_value/shipping[weight_rate][rates]', array( &$this, 'get_rates_value' ), 10, 4 );	     	 	 	    	  
 		add_filter( 'wpmudev_field/sanitize_for_db', array( &$this, 'sanitize_rates' ), 10, 3);
 	}
 

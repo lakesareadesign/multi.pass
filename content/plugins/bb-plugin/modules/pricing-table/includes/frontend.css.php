@@ -5,24 +5,25 @@
 
 <?php
 // Loop through and style each pricing box
-for($i = 0; $i < count($settings->pricing_columns); $i++) :
+for ( $i = 0; $i < count( $settings->pricing_columns ); $i++ ) :
 
-	if(!is_object($settings->pricing_columns[$i])) continue;
+	if ( ! is_object( $settings->pricing_columns[ $i ] ) ) { continue;
+	}
 
 	// Pricing Box Settings
-	$pricing_column = $settings->pricing_columns[$i];
+	$pricing_column = $settings->pricing_columns[ $i ];
 
 ?>
 
 /*Pricing Box Style*/
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> {
-	border: 1px solid #<?php echo FLBuilderColor::adjust_brightness($pricing_column->background, 30, 'darken'); ?>;
+	border: 1px solid #<?php echo FLBuilderColor::adjust_brightness( $pricing_column->background, 30, 'darken' ); ?>;
 	background: #<?php echo $pricing_column->background; ?>;
 	margin-top: <?php echo $pricing_column->margin; ?>px;
 }
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> .fl-pricing-table-inner-wrap {
 	background: #<?php echo $pricing_column->foreground; ?>;
-	border: 1px solid #<?php echo FLBuilderColor::adjust_brightness($pricing_column->background, 30, 'darken'); ?>;
+	border: 1px solid #<?php echo FLBuilderColor::adjust_brightness( $pricing_column->background, 30, 'darken' ); ?>;
 }
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> h2 {
 	font-size: <?php echo $pricing_column->title_size; ?>px;
@@ -32,12 +33,12 @@ for($i = 0; $i < count($settings->pricing_columns); $i++) :
 }
 
 /*Pricing Box Highlight*/
-<?php if ($settings->highlight == 'price') : ?>
+<?php if ( 'price' == $settings->highlight ) : ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table .fl-pricing-table-column-<?php echo $i; ?> .fl-pricing-table-price {
 	background: #<?php echo $pricing_column->column_background; ?>;
 	color: #<?php echo $pricing_column->column_color; ?>;
 }
-<?php elseif ($settings->highlight == 'title') : ?>
+<?php elseif ( 'title' == $settings->highlight ) : ?>
 
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> .fl-pricing-table-title {
 	background: #<?php echo $pricing_column->column_background; ?>;
@@ -46,7 +47,7 @@ for($i = 0; $i < count($settings->pricing_columns); $i++) :
 <?php endif; ?>
 
 /*Fix when price is NOT highlighted*/
-<?php if ($settings->highlight == 'title' || $settings->highlight == 'none') : ?>
+<?php if ( 'title' == $settings->highlight || 'none' == $settings->highlight ) : ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> .fl-pricing-table-price {
 	margin-bottom: 0;
 	padding-bottom: 0;
@@ -57,7 +58,7 @@ for($i = 0; $i < count($settings->pricing_columns); $i++) :
 <?php endif; ?>
 
 /*Fix when NOTHING is highlighted*/
-<?php if ($settings->highlight == 'none') : ?>
+<?php if ( 'none' == $settings->highlight ) : ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> .fl-pricing-table-title {
 	padding-bottom: 0;
 }
@@ -75,8 +76,8 @@ for($i = 0; $i < count($settings->pricing_columns); $i++) :
 	<?php endif; ?>
 
 	<?php if ( empty( $pricing_column->btn_width ) ) : ?>
-	 	display:block;
-	 	margin: 0 30px 5px;
+		 display:block;
+		 margin: 0 30px 5px;
 	<?php endif; ?>
 }
 
@@ -99,7 +100,7 @@ FLBuilder::render_module_css('button', $id . ' .fl-pricing-table-column-' . $i ,
 	'style'             => $pricing_column->btn_style,
 	'text_color'        => $pricing_column->btn_text_color,
 	'text_hover_color'  => $pricing_column->btn_text_hover_color,
-	'width'             => $pricing_column->btn_width
+	'width'             => $pricing_column->btn_width,
 ));
 ?>
 

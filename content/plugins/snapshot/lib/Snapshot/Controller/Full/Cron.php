@@ -261,6 +261,8 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	 * @since v3.0.5-BETA-2
 	 */
 	private function _actually_start_backup () {
+		$this->_ignore_user_abort();
+
 		delete_site_option(self::OPTIONS_FLAG);
 		if ($this->_model->get_config('disable_cron', false)) return false;
 

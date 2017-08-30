@@ -1,10 +1,10 @@
-<div class="box-title buttons">
+<div class="wpmud-box-title buttons">
 
 	<h3>Snapshots</h3>
 
-</div><!-- end .box-title -->
+</div><!-- end .wpmud-box-title -->
 
-<div class="box-content">
+<div class="wpmud-box-content">
 
 	<div class="row">
 
@@ -14,4 +14,4 @@
 
 	</div>
 
-</div><!-- end .box-content -->
+</div><!-- end .wpmud-box-content -->

@@ -15,6 +15,27 @@ class ODB_Utilities {
 
 
 	/********************************************************************************************
+	 *	GET THE (FOR REVISIONS) RELEVANT POST TYPES, INCLUDING CUSTOM POST TYPES (from v4.4)
+	 ********************************************************************************************/
+	function odb_get_relevant_post_types() {
+		$relevant_pts = array();
+		$posttypes    = get_post_types();
+		foreach ($posttypes as $posttype) {
+			// SKIP THE DEFAULT POST TYPES (EXCEPT FOR 'post' AND 'page')
+			if ($posttype != 'attachment' &&
+					$posttype != 'revision' &&
+					$posttype != 'nav_menu_item' &&
+					$posttype != 'custom_css' &&
+					$posttype != 'customize_changeset') {
+				array_push($relevant_pts, $posttype);
+			}
+		} // foreach ($posttypes as $posttype)
+		
+		return $relevant_pts;
+	} // odb_get_relevant_post_types()
+
+
+	/********************************************************************************************
 	 *	FORMAT SIZES FROM BYTES TO KB OR MB
 	 ********************************************************************************************/
 	function odb_format_size($size, $precision=1) {

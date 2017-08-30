@@ -18,7 +18,7 @@
                                     <div class="clear"></div>
                                     <span class="sub"><?php _e( "Lockouts in the past 24 hours", wp_defender()->domain ) ?></span>
                                     <h6 class="lockoutThisMonth">.</h6>
-                                    <span class="sub"><?php _e( "Total lockouts this month", wp_defender()->domain ) ?></span>
+                                    <span class="sub"><?php _e( "Total lockouts in the past 30 days", wp_defender()->domain ) ?></span>
                                 </div>
                             </div>
                             <div class="column is-5">
@@ -31,13 +31,13 @@
                                     </li>
                                     <li>
                                         <div>
-                                            <span class="list-label"><?php _e( "Login lockouts this week", wp_defender()->domain ) ?></span>
+                                            <span class="list-label"><?php _e( "Login lockouts in the past 7 days", wp_defender()->domain ) ?></span>
                                             <span class="list-detail loginLockoutThisWeek">.</span>
                                         </div>
                                     </li>
                                     <li>
                                         <div>
-                                            <span class="list-label"><?php _e( "404 lockouts this week", wp_defender()->domain ) ?></span>
+                                            <span class="list-label"><?php _e( "404 lockouts in the past 7 days", wp_defender()->domain ) ?></span>
                                             <span class="list-detail lockout404ThisWeek">.</span>
                                         </div>
                                     </li>

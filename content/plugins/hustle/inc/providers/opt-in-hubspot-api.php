@@ -195,11 +195,7 @@ class Opt_In_HubSpot_Api extends Opt_In_WPMUDEV_API {
 			     || isset( $body->status ) && 'error' == $body->status )
 				return $body;
 		}
-
-		$error = new WP_Error();
-		$error->add( $response['response']['code'], $response['response']['message'] );
-
-		return $error;
+		return $response;
 	}
 
 	/**
@@ -306,7 +302,7 @@ class Opt_In_HubSpot_Api extends Opt_In_WPMUDEV_API {
 			'count' => 200,
 			'offset' => 0,
 		);
-		$res = $this->send_authenticated_get( 'contacts/v1/lists', $args );
+		$res = $this->send_authenticated_get( 'contacts/v1/lists/static', $args );
 
 		if ( ! is_wp_error( $res ) && ! empty( $res->lists ) )
 			foreach ( $res->lists as $list )

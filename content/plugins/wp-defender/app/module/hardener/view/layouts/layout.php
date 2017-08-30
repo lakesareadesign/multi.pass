@@ -13,7 +13,7 @@
 
                                 </h5>
                                 <?php if ( $controller->getCount( 'issues' ) > 0 ) :
-                                    $hardener_issues = ( $controller->getCount( 'fixed' ) + $controller->getCount( 'ignore' ) ) . '/' . count( \WP_Defender\Module\Hardener\Model\Settings::instance()->getDefinedRules( false ) );
+                                    $hardener_issues = ( $controller->getCount( 'fixed' ) + $controller->getCount( 'ignore' ) ) . '/' . count( \WP_Defender\Module\Hardener\Model\Settings::instance()->getDefinedRules( false ) );	  	 	   	 		 		 				
                                 ?>
                                     <span class="" tooltip="<?php esc_attr_e( sprintf( __('You have actioned %s security tweaks', wp_defender()->domain ), $hardener_issues ) ); ?>">
                                 <?php else : ?>

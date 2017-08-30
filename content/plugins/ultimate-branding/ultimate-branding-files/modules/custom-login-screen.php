@@ -36,7 +36,7 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 		public function __construct() {
 			parent::__construct();
 			$this->set_options();
-			add_action( 'ultimatebranding_settings_login_screen', array( $this, 'admin_options_page' ) );
+			add_action( 'ultimatebranding_settings_login_screen', array( $this, 'module_admin_options_page' ) );
 			add_filter( 'ultimatebranding_settings_login_screen_process', array( $this, 'update' ), 10, 1 );
 			add_action( 'login_head', array( $this, 'output' ), 99 );
 			add_filter( 'login_headerurl', array( $this, 'login_headerurl' ) );
@@ -44,6 +44,7 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 			add_filter( 'wp_login_errors', array( $this, 'wp_login_errors' ) );
 			add_filter( 'gettext', array( $this, 'gettext_login_form_labels' ), 20, 3 );
 			add_filter( 'mime_types', array( $this, 'add_svg_to_allowed_mime_types' ) );
+			add_action( 'ub_helper_admin_options_page_before_options', array( $this, 'before_admin_options_page' ) );
 		}
 
 		public function output() {
@@ -186,6 +187,27 @@ body {
 }
 <?php
 					}
+				}
+
+				/**
+				 * input_border_color_focus
+				 */
+				if ( isset( $v['input_border_color_focus'] ) ) {
+					$color = $v['input_border_color_focus'];
+					$shadow = $this->convert_hex_to_rbg( $color );
+					$shadow = implode( ',', $shadow ).',0.8';
+?>
+.login form input[type=text]:focus,
+.login form input[type=password]:focus,
+.login form input[type=checkbox]:focus,
+.login form input[type=submit]:focus
+{
+    border-color:<?php echo esc_attr( $color ); ?>;
+    -webkit-box-shadow:0 0 2px rgba(<?php echo esc_attr( $shadow ); ?>);
+    -moz-box-shadow:0 0 2px rgba(<?php echo esc_attr( $shadow ); ?>);
+    box-shadow:0 0 2px rgba(<?php echo esc_attr( $shadow ); ?>);
+}
+<?php
 				}
 
 				/**
@@ -440,7 +462,7 @@ body {
 						'logo_bottom_margin' => array(
 							'type' => 'number',
 							'label' => __( 'Logo bottom margin', 'ub' ),
-							'description' => __( 'Default is\'s a good value, but if you want to increase this margin...', 'ub' ),
+							'description' => __( 'The default value will work for most users, but you may change the margin height here.', 'ub' ),
 							'attributes' => array( 'placeholder' => '25' ),
 							'default' => 25,
 							'min' => 0,
@@ -486,6 +508,12 @@ body {
 							'label' => __( 'Label color', 'ub' ),
 							'default' => '#777777',
 						),
+						'input_border_color_focus' => array(
+							'type' => 'color',
+							'label' => __( 'Input border on focus', 'ub' ),
+							'default' => '#5b9dd9',
+							'description' => __( 'Allows changing border &amp; shadow for focused inputs.', 'ub' ),
+						),
 						'form_bg_color' => array(
 							'type' => 'color',
 							'label' => __( 'Background color', 'ub' ),
@@ -526,7 +554,7 @@ body {
 						),
 						'form_button_text_shadow' => array(
 							'type' => 'checkbox',
-							'label' => __( 'Button texr shadow', 'ub' ),
+							'label' => __( 'Button text shadow', 'ub' ),
 							'description' => __( 'Would you like to add button text shadow?', 'ub' ),
 							'options' => array(
 								'on' => __( 'Yes', 'ub' ),
@@ -815,6 +843,205 @@ body {
 		public function add_svg_to_allowed_mime_types( $mimes ) {
 			$mimes['svg'] = 'image/svg+xml';
 			return $mimes;
+		}
+
+
+		/**
+		 * Add button to predefined configuration
+		 *
+		 * @since 1.8.9
+		 */
+		public function before_admin_options_page( $option_name ) {
+			if ( $this->option_name != $option_name ) {
+				return;
+			}
+			$this->set_theme();
+			$button = __( 'Predefined  Configuration', 'ub' );
+			$url = $this->get_base_url();
+			if ( isset( $_REQUEST['panel'] ) && 'predefined' == $_REQUEST['panel'] ) {
+				$url = remove_query_arg( 'panel', $url );
+				$button = __( 'Custom Configuration', 'ub' );
+			} else {
+				$url = add_query_arg( 'panel', 'predefined', $url );
+			}
+			printf(
+				'<p><a href="%s" class="button">%s</a></p>',
+				esc_url( $url ),
+				esc_html( $button )
+			);
+		}
+
+		/**
+		 * handle custom screen
+		 *
+		 * @since 1.8.9
+		 */
+		public function module_admin_options_page() {
+			if ( isset( $_REQUEST['panel'] ) && 'predefined' == $_REQUEST['panel'] ) {
+				$this->themes();
+			} else {
+				$this->admin_options_page();
+			}
+		}
+
+		/**
+		 * handle themes screen
+		 *
+		 * @since 1.8.9
+		 */
+		private function themes() {
+			$this->before_admin_options_page( $this->option_name );
+			add_filter( 'ultimatebranding_settings_panel_show_submit', '__return_false' );
+			printf( '<h2>%s</h2>', __( 'Select predefined login screen', 'ub' ) );
+			$themes = $this->get_themes();
+			if ( false === $themes ) {
+				echo '<div class="ub-module-error"><p>';
+				_e( 'There is no predefined configurations.', 'ub' );
+				echo '</p></div>';
+				return;
+			}
+?>
+
+<div class="theme-browser">
+	<div class="themes wp-clearfix">
+
+<?php
+foreach ( $themes as $theme ) {
+	$aria_action = esc_attr( $theme['id'] . '-action' );
+	$aria_name   = esc_attr( $theme['id'] . '-name' );
+	?>
+<div class="theme" tabindex="0" aria-describedby="<?php echo $aria_action . ' ' . $aria_name; ?>">
+	<?php if ( ! empty( $theme['screenshot'] ) ) { ?>
+		<div class="theme-screenshot">
+			<img src="<?php echo $theme['screenshot']; ?>" alt="" />
+		</div>
+	<?php } else { ?>
+		<div class="theme-screenshot blank"></div>
+	<?php } ?>
+	<div class="theme-author"><?php printf( __( 'By %s', 'ub' ), $theme['Author'] ); ?></div>
+	<h2 class="theme-name" id="<?php echo $aria_name; ?>"><?php echo $theme['Name']; ?></h2>
+	<div class="theme-actions">
+		<?php
+		/* translators: %s: Theme name */
+		$aria_label = sprintf( _x( 'Import settings %s', 'ub' ), '{{ data.name }}' );
+		/**
+	 * import link
+	 */
+		$url = $this->get_base_url();
+		$url = add_query_arg(
+			array(
+			'theme' => $theme['id'],
+			'panel' => 'predefined',
+			),
+			$url
+		);
+		$url = wp_nonce_url( $url, 'import-'.$theme['id'] );
+
+		?>
+        <a class="button activate" href="<?php echo esc_url( $url ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Import settings', 'ub' ); ?></a>
+	</div>
+</div>
+<?php }  ?>
+	</div>
+</div>
+<?php
+		}
+
+		/**
+		 * get themes array
+		 *
+		 * Based on wp-includes/theme.php search_theme_directories() function.
+		 *
+		 * @since 1.8.9
+		 */
+		private function get_themes() {
+			$found_themes = false;
+			$theme_root = dirname( __FILE__ ).'/custom-login-screen/themes/';
+			$dirs = @ scandir( $theme_root );
+			if ( ! $dirs ) {
+				trigger_error( "$theme_root is not readable", E_USER_NOTICE );
+				return $found_themes;
+			}
+
+			$file_headers = array(
+				'Name'        => 'Theme Name',
+				'ThemeURI'    => 'Theme URI',
+				'Description' => 'Description',
+				'Author'      => 'Author',
+				'AuthorURI'   => 'Author URI',
+				'Version'     => 'Version',
+			);
+
+			foreach ( $dirs as $dir ) {
+				if ( ! is_dir( $theme_root . '/' . $dir ) || $dir[0] == '.' || $dir == 'CVS' ) {
+					continue;
+				}
+				if ( file_exists( $theme_root . '/' . $dir . '/style.css' ) ) {
+					// wp-content/themes/a-single-theme
+					// wp-content/themes is $theme_root, a-single-theme is $dir
+					$found_themes[ $dir ] = array(
+						'id' => sanitize_title( $dir ),
+						'theme_file' => $dir . '/style.css',
+						'theme_root' => $theme_root,
+					);
+					foreach ( array( 'png', 'gif', 'jpg', 'jpeg' ) as $ext ) {
+						$file = $theme_root. $dir . "/screenshot.$ext";
+						if ( file_exists( $file ) ) {
+							$found_themes[ $dir ]['screenshot'] = plugins_url( 'themes/'.$dir . "/screenshot.$ext", $theme_root );
+						}
+					}
+					$data = get_file_data( $theme_root.$dir.'/style.css', $file_headers, 'theme' );
+					if ( is_array( $data ) ) {
+						$found_themes[ $dir ] = array_merge( $found_themes[ $dir ], $data );
+					}
+				}
+			}
+			return $found_themes;
+		}
+
+		/**
+		 * import theme data
+		 *
+		 * @since 1.8.9
+		 */
+		private function set_theme() {
+			if ( ! isset( $_REQUEST['theme'] ) ) {
+				return;
+			}
+			if ( ! isset( $_REQUEST['_wpnonce'] ) ) {
+				return;
+			}
+			if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'import-'.$_REQUEST['theme'] ) ) {
+				return;
+			}
+			$id = $_REQUEST['theme'];
+			$themes = $this->get_themes();
+			if ( ! isset( $themes[ $id ] ) ) {
+				$this->notice( __( 'Selected theme was not found!', 'ub' ), 'error' );
+				return;
+			}
+			$theme = $themes[ $id ];
+			$data = include_once( $theme['theme_root'].$id.'/index.php' );
+			if ( empty( $data ) ) {
+				$message = sprintf(
+					__( 'Failed to load "%s" theme configuration!', 'ub' ),
+					$theme['Name']
+				);
+				$this->notice( $message, 'error' );
+				return;
+			}
+			ub_update_option( $this->option_name, $data );
+			$message = '<p>';
+			$message .= sprintf(
+				__( '"%s" theme configuration was successfully loaded!', 'ub' ),
+				sprintf( '<b>%s</b>', esc_html( $theme['Name'] ) )
+			);
+			$message .= '</p>';
+			$message .= '<p>';
+			$message .= __( 'You can change options on "Custom Configuration" panel.', 'ub' );
+			$message .= '</p>';
+
+			$this->notice( $message, 'success' );
 		}
 	}
 

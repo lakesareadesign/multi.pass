@@ -171,7 +171,13 @@ class Apache_Service extends Rule_Service implements IRule_Service {
 			$default = $this->new_htconfig;
 		}
 
-		$htConfig = str_replace( implode( '', $default ), '', $htConfig );
+		//Introduced regex
+		preg_match_all('/## WP Defender(.*?)## WP Defender - End ##/s', $htConfig, $matches);
+		if ( is_array( $matches ) && count( $matches ) > 0 ) {
+			$htConfig = str_replace( implode( '', $matches[0] ), '', $htConfig );
+		} else {
+			$htConfig = str_replace( implode( '', $default ), '', $htConfig );
+		}
 		$htConfig = trim( $htConfig );
 		file_put_contents( $htPath, $htConfig, LOCK_EX );
 	}

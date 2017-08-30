@@ -32,9 +32,9 @@ $warning = $requirements_test['warning'];
 
 	<div id="container" class="snapshot-three wps-page-wizard">
 
-		<section class="box new-snapshot-main-box">
+		<section class="wpmud-box new-snapshot-main-box">
 
-			<div class="box-title has-button">
+			<div class="wpmud-box-title has-button">
 
 				<h3><?php _e( 'Snapshot Wizard', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 
@@ -42,13 +42,13 @@ $warning = $requirements_test['warning'];
 
 			</div>
 
-			<div class="box-content">
+			<div class="wpmud-box-content">
 
 				<?php $this->render( "common/requirements-test", false, $requirements_test, false, false ); ?>
 
-				<div class="box-tab configuration-box<?php if ( $all_good ) { echo ' open'; } ?>">
+				<div class="wpmud-box-tab configuration-box<?php if ( $all_good ) { echo ' open'; } ?>">
 
-					<div class="box-tab-title can-toggle">
+					<div class="wpmud-box-tab-title can-toggle">
 						<h3><?php _e( 'Configuration', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 						<?php if ( $all_good ): ?>
 						<i class="wps-icon i-arrow-right"></i>
@@ -57,7 +57,7 @@ $warning = $requirements_test['warning'];
 
 					<?php if ( $all_good ): ?>
 
-					<div class="box-tab-content">
+					<div class="wpmud-box-tab-content">
 
 						<div id="wps-check-notice" class="row">
 
@@ -98,7 +98,7 @@ $warning = $requirements_test['warning'];
 
 								?>
 
-								<div class="box-mask">
+								<div class="wpmud-box-mask">
 									<div class="wps-subsite-map">
 
 										<?php
@@ -172,7 +172,7 @@ $warning = $requirements_test['warning'];
 										<?php } ?>
 
 									</div><!-- #wps-subsite-map -->
-								</div><!-- #box-mask -->
+								</div><!-- #wpmud-box-mask -->
 							</div>
 
 						</div>
@@ -191,7 +191,7 @@ $warning = $requirements_test['warning'];
 
 							<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-								<div class="box-mask">
+								<div class="wpmud-box-mask">
 
 									<label class="label-title"><?php printf(
 											__( 'Choose where to send this snapshot. Add new destinations via the <a href="%s">Destinations</a> tab.', SNAPSHOT_I18N_DOMAIN ),
@@ -219,6 +219,50 @@ $warning = $requirements_test['warning'];
 
 						</div>
 
+						<div id="wps-custom-directory" class="row">
+							<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+								<label class="label-box" for="snapshot-destination-directory">
+									<?php esc_html_e('Directory (optional)', SNAPSHOT_I18N_DOMAIN); ?>
+								</label>
+							</div>
+							<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+								<input
+									type="text"
+									id="snapshot-destination-directory"
+									name="snapshot-destination-directory"
+									value="<?php
+										echo !empty($item['destination-directory'])
+											? esc_attr($item['destination-directory'])
+											: ''
+										;
+									?>"
+								/>
+								<p>
+									<?php esc_html_e('The optional Directory can be used to override or supplement the selected destination directory value.', SNAPSHOT_I18N_DOMAIN); ?>
+									<?php esc_html_e('If "local server" is selected and if the directory does not start with a forward slash "/" the directory will be relative to the site root', SNAPSHOT_I18N_DOMAIN); ?>
+								</p>
+								<p>
+									<?php esc_html_e('This field supports tokens you can use to create dynamic values.', SNAPSHOT_I18N_DOMAIN); ?>
+									<?php esc_html_e('You can use any combination of the following tokens.', SNAPSHOT_I18N_DOMAIN); ?>
+									<?php esc_html_e('Use the forward slash "/" to separate directory elements.', SNAPSHOT_I18N_DOMAIN); ?>
+								</p>
+								<p>
+									<code>[DEST_PATH]</code> -
+									<?php esc_html_e('This represents the Directory/Bucket used by the selected Backup Destination or if local, the Settings Folder location. This can be used to supplement the value entered into this Snapshot. If [DEST_PATH] is not used the Directory value here will override the complete value from the selected Destination.', SNAPSHOT_I18N_DOMAIN); ?>
+								</p>
+								<p>
+									<code>[SITE_DOMAIN]</code> -
+									<?php esc_html_e('This represents the full domain of the selected site per this snapshot: ', SNAPSHOT_I18N_DOMAIN); ?>
+									<?php echo esc_html('SNAP'); ?>
+								</p>
+								<p>
+									<code>[SNAPSHOT_ID]</code> -
+									<?php esc_html_e('This is the unique ID assigned to this Snapshot: ', SNAPSHOT_I18N_DOMAIN); ?>
+									<?php echo esc_html('SNAPOD'); ?>
+								</p>
+							</div>
+						</div>
+
 						<div id="wps-new-files" class="row">
 
 							<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
@@ -229,7 +273,7 @@ $warning = $requirements_test['warning'];
 
 							<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-								<div class="box-mask">
+								<div class="wpmud-box-mask">
 
 									<label class="label-title"><?php _e( 'Select which files you want to include.', SNAPSHOT_I18N_DOMAIN ); ?></label>
 
@@ -302,7 +346,7 @@ $warning = $requirements_test['warning'];
 
 											<div id="snapshot-selected-files-container"<?php if ( ( $item['files-option'] == "none" ) || ( $item['files-option'] == "all" ) ) { echo ' class="hidden"'; } ?>>
 
-												<ul id="snapshot-select-files-option" class="box-gray">
+												<ul id="snapshot-select-files-option" class="wpmud-box-gray">
 
 													<li class="wps-input--item">
 
@@ -406,7 +450,7 @@ $warning = $requirements_test['warning'];
 
 												<label class="label-title"><?php _e( 'Dropbox Only - Select Archive or Mirroring option for this Snapshot.', SNAPSHOT_I18N_DOMAIN ); ?></label>
 
-												<ul class="box-gray wps-input--group">
+												<ul class="wpmud-box-gray wps-input--group">
 
 													<?php $_is_mirror_disabled = ' disabled="disabled" ';
 
@@ -491,7 +535,7 @@ $warning = $requirements_test['warning'];
 							</div>
 
 							<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
-								<div class="box-mask">
+								<div class="wpmud-box-mask">
 
 									<?php if ( ! isset( $item['blog-id'] ) ) {
 										$item['blog-id'] = $wpdb->blogid;
@@ -563,7 +607,7 @@ $warning = $requirements_test['warning'];
 
 									</div>
 
-									<div id="snapshot-selected-tables-container" class="box-gray" style=" <?php if ( ( $item['tables-option'] == "none" ) || ( $item['tables-option'] == "all" ) ) { echo ' display:none; ';} ?>">
+									<div id="snapshot-selected-tables-container" class="wpmud-box-gray" style=" <?php if ( ( $item['tables-option'] == "none" ) || ( $item['tables-option'] == "all" ) ) { echo ' display:none; ';} ?>">
 
 										<?php
 										$tables_sets_idx = array(
@@ -702,7 +746,7 @@ $warning = $requirements_test['warning'];
 
 							<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-								<div class="box-mask">
+								<div class="wpmud-box-mask">
 
 									<label class="label-title"><?php _e('Would you like to schedule this snapshot to run regularly or once off?', SNAPSHOT_I18N_DOMAIN); ?></label>
 
@@ -738,7 +782,7 @@ $warning = $requirements_test['warning'];
 
 									</div>
 
-									<div id="snapshot-schedule-options-container" class="box-gray">
+									<div id="snapshot-schedule-options-container" class="wpmud-box-gray">
 
 										<h3><?php _e('Schedule', SNAPSHOT_I18N_DOMAIN); ?></h3>
 
@@ -922,7 +966,7 @@ $warning = $requirements_test['warning'];
 
 							<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-								<div class="box-mask">
+								<div class="wpmud-box-mask">
 
 									<label class="label-title"><?php _e('Give your snapshot a nice name!', SNAPSHOT_I18N_DOMAIN); ?></label>
 

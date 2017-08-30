@@ -1,24 +1,24 @@
-<?php if($settings->title_size == 'custom') : ?>
+<?php if ( 'custom' == $settings->title_size ) : ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-cta-title {
 	font-size: <?php echo $settings->title_custom_size; ?>px;
 }
 <?php endif; ?>
-<?php if(!empty($settings->text_color)) : ?>
+<?php if ( ! empty( $settings->text_color ) ) : ?>
 .fl-node-<?php echo $id; ?> {
 	color: #<?php echo $settings->text_color; ?>;
 }
-.fl-node-<?php echo $id; ?> * {    
+.fl-node-<?php echo $id; ?> * {
 	color: #<?php echo $settings->text_color; ?>;
 }
 <?php endif; ?>
-<?php if(!empty($settings->bg_color)) : ?>
+<?php if ( ! empty( $settings->bg_color ) ) : ?>
 .fl-node-<?php echo $id; ?> .fl-module-content {
 	background-color: #<?php echo $settings->bg_color; ?>;
-	background-color: rgba(<?php echo implode(',', FLBuilderColor::hex_to_rgb($settings->bg_color)) ?>, <?php echo $settings->bg_opacity/100; ?>);
+	background-color: rgba(<?php echo implode( ',', FLBuilderColor::hex_to_rgb( $settings->bg_color ) ) ?>, <?php echo $settings->bg_opacity / 100; ?>);
 }
 <?php endif; ?>
-<?php if(is_numeric($settings->spacing)) : ?>
-.fl-node-<?php echo $id; ?> .fl-module-content { 
+<?php if ( is_numeric( $settings->spacing ) ) : ?>
+.fl-node-<?php echo $id; ?> .fl-module-content {
 	padding: <?php echo $settings->spacing; ?>px;
 }
 <?php endif; ?>
@@ -43,5 +43,5 @@ FLBuilder::render_module_css('button', $id, array(
 	'text'              => $settings->btn_text,
 	'text_color'        => $settings->btn_text_color,
 	'text_hover_color'  => $settings->btn_text_hover_color,
-	'width'             => $settings->layout == 'stacked' ? 'auto' : 'full'
+	'width'             => 'stacked' == $settings->layout ? 'auto' : 'full',
 ));

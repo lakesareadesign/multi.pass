@@ -91,7 +91,7 @@ abstract class Event_Abstract extends \Hammer\WP\Component {
 		while ( count( $links ) ) {
 			$link = array_shift( $links );
 			if ( is_array( $obj ) ) {
-				$obj = $obj[ $link ];
+				$obj = @$obj[ $link ];
 			} elseif ( is_object( $obj ) ) {
 				$obj = $obj->$link;
 			} else {

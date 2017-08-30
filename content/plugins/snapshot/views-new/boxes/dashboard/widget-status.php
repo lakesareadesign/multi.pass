@@ -40,9 +40,9 @@ $latest_snapshot = Snapshot_Helper_Utility::latest_backup( $snapshot );
 
 ?>
 
-<section class="wps-backups-status<?php if ( ! $is_client ) : echo ' wps-backups-status-free'; endif; ?> box">
+<section class="wps-backups-status<?php if ( ! $is_client ) : echo ' wps-backups-status-free'; endif; ?> wpmud-box">
 
-	<div class="box-content">
+	<div class="wpmud-box-content">
 		<div class="wps-backups-summary">
 
 			<div class="wps-backups-summary-align">

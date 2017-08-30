@@ -1,7 +1,7 @@
 <div class="wrap fl-builder-template-data-exporter">
 	<h1><?php _e( 'Template Data Exporter', 'fl-builder' ); ?></h1>
 	<p><?php _e( 'This tool exports a special data file that can be used by developers to include templates within their themes and plugins.', 'fl-builder' ); ?></p>
-	<p><?php printf( __('If you need to export templates for import into another site, please use the exporter at <a href="%s">Tools > Export</a>.', 'fl-builder'), admin_url( '/export.php' ) ); ?></p>
+	<p><?php printf( __( 'If you need to export templates for import into another site, please use the exporter at <a href="%s">Tools > Export</a>.', 'fl-builder' ), admin_url( '/export.php' ) ); ?></p>
 	<form method="POST">
 		
 		<?php if ( defined( 'FL_THEME_BUILDER_VERSION' ) ) : ?>

@@ -43,9 +43,9 @@ $warning = $requirements_test['warning'];
 
 	<div id="container" class="snapshot-three wps-page-wizard wps-page-wizard_restore">
 
-		<section class="box new-snapshot-main-box">
+		<section class="wpmud-box new-snapshot-main-box">
 
-			<div class="box-title has-button">
+			<div class="wpmud-box-title has-button">
 				<h3><?php _e( 'Restore Wizard', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 				<a class="button button-small button-outline button-gray"
 				   href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-snapshots' ) ); ?>">
@@ -53,15 +53,15 @@ $warning = $requirements_test['warning'];
 				</a>
 			</div>
 
-			<div class="box-content">
+			<div class="wpmud-box-content">
 
 				<?php $this->render( "common/requirements-test", false, $requirements_test, false, false ); ?>
 
-				<div class="box-tab configuration-box<?php if ( $all_good ) {
+				<div class="wpmud-box-tab configuration-box<?php if ( $all_good ) {
 					echo ' open';
 				} ?>">
 
-					<div class="box-tab-title can-toggle">
+					<div class="wpmud-box-tab-title can-toggle">
 
 						<h3>
 							<?php _e( 'Configuration', SNAPSHOT_I18N_DOMAIN ); ?>
@@ -83,7 +83,7 @@ $warning = $requirements_test['warning'];
 
 					<?php if ( $all_good ): ?>
 
-						<div class="box-tab-content">
+						<div class="wpmud-box-tab-content">
 
 							<div id="wps-restore-subsite" class="row">
 
@@ -121,7 +121,7 @@ $warning = $requirements_test['warning'];
 
 								<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-									<div class="box-mask">
+									<div class="wpmud-box-mask">
 
 										<?php if ( is_multisite() ) { ?>
 											<div class="wps-notice">
@@ -361,7 +361,7 @@ $warning = $requirements_test['warning'];
 
 								<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-									<div class="box-mask">
+									<div class="wpmud-box-mask">
 
 										<label class="label-title"><?php _e( 'Select the archive you wish to restore from.', SNAPSHOT_I18N_DOMAIN ); ?></label>
 
@@ -414,7 +414,7 @@ $warning = $requirements_test['warning'];
 
 								<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-									<div class="box-mask">
+									<div class="wpmud-box-mask">
 										<?php
 										if ( isset( $data_item['files-sections'] ) ) {
 											if ( ( array_search( 'config', $item['data'][ $data_item_key ]['files-sections'] ) !== false )
@@ -486,7 +486,7 @@ $warning = $requirements_test['warning'];
 												<p class="snapshot-error"><?php _e( "Restore Note: The files wp-config.php and .htaccess can only be restored for the primary site. Even then it is not advisable to restore these file for a working Multisite installation.", SNAPSHOT_I18N_DOMAIN ); ?></p>
 											<?php } ?>
 
-											<ul id="snapshot-select-files-option" class="box-gray">
+											<ul id="snapshot-select-files-option" class="wpmud-box-gray">
 												<?php if ( array_search( 'themes', $item['data'][ $data_item_key ]['files-sections'] ) !== false ) { ?>
 													<li id="snapshot-files-option-themes-li" class="wps-input--item">
 														<div class="wps-input--checkbox">
@@ -578,7 +578,7 @@ $warning = $requirements_test['warning'];
 
 								<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-									<div class="box-mask">
+									<div class="wpmud-box-mask">
 
 										<?php if ( is_multisite() && ( isset( $item['data'][ $data_item_key ]['tables-sections']['global'] ) ) && ( count( $item['data'][ $data_item_key ]['tables-sections']['global'] ) ) ) : ?>
 
@@ -641,7 +641,7 @@ $warning = $requirements_test['warning'];
 
 										</div>
 
-										<div id="snapshot-selected-tables-container" class="box-gray" style="display: none;">
+										<div id="snapshot-selected-tables-container" class="wpmud-box-gray" style="display: none;">
 
 											<?php $tables_sets_idx = array(
 												'global' => __( "WordPress Global Tables", SNAPSHOT_I18N_DOMAIN ),
@@ -746,7 +746,7 @@ $warning = $requirements_test['warning'];
 
 								<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-									<div class="box-mask">
+									<div class="wpmud-box-mask">
 
 										<div class="wps-input--item">
 
@@ -783,7 +783,7 @@ $warning = $requirements_test['warning'];
 
 								<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-									<div class="box-mask">
+									<div class="wpmud-box-mask">
 
 										<label class="label-title"><?php _e( 'Select which theme you want to activate when this site is restored.', SNAPSHOT_I18N_DOMAIN ); ?></label>
 

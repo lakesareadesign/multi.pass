@@ -1,6 +1,6 @@
 <?php
 
-if($settings->cta_type == 'button') {
+if ( 'button' == $settings->cta_type ) {
 	FLBuilder::render_module_css('button', $id, array(
 		'align'             => '',
 		'bg_color'          => $settings->btn_bg_color,
@@ -20,11 +20,11 @@ if($settings->cta_type == 'button') {
 		'text'              => $settings->cta_text,
 		'text_color'        => $settings->btn_text_color,
 		'text_hover_color'  => $settings->btn_text_hover_color,
-		'width'             => $settings->btn_width
+		'width'             => $settings->btn_width,
 	));
 }
 
-if($settings->image_type == 'icon') {
+if ( 'icon' == $settings->image_type ) {
 	FLBuilder::render_module_css('icon', $id, array(
 		'align'          => '',
 		'bg_color'       => $settings->icon_bg_color,
@@ -36,12 +36,12 @@ if($settings->image_type == 'icon') {
 		'link_target'    => $settings->link_target,
 		'size'           => $settings->icon_size,
 		'text'           => '',
-		'three_d'        => $settings->icon_3d
+		'three_d'        => $settings->icon_3d,
 	));
 }
 
 ?>
-<?php if($settings->title_size == 'custom') : ?>
+<?php if ( 'custom' == $settings->title_size ) : ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-callout-title {
 	font-size: <?php echo $settings->title_custom_size; ?>px;
 	line-height: <?php echo $settings->title_custom_size; ?>px;

@@ -3,7 +3,7 @@
 Plugin Name: Hustle Pro
 Plugin URI: https://premium.wpmudev.org/project/hustle/
 Description: Start collecting email addresses and quickly grow your mailing list with big bold pop-ups, slide-ins, widgets, or in post opt-in forms.
-Version: 2.1.3.2
+Version: 2.1.5.1
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org
 WDP ID: 1107020
@@ -27,38 +27,55 @@ WDP ID: 1107020
 // | MA 02110-1301 USA                                                    |
 // +----------------------------------------------------------------------+
 
-
-// Deactivate the .org version, if pro version is active
-add_action( 'admin_init', 'deactivate_hustle_org' );
-if ( ! function_exists( 'deactivate_hustle_org' ) ) {
-    function deactivate_hustle_org() {
-        if ( is_plugin_active( 'hustle/opt-in.php' ) && is_plugin_active( 'wordpress-popup/popover.php' ) ) {
-            deactivate_plugins( 'wordpress-popup/popover.php' );
-            //Store in database, in order to show a notice on page load
-            update_site_option( 'hustle_free_deactivated', 1 );
+// Display admin notice about plugin deactivation/activation
+add_action( 'network_admin_notices', 'hustle_activated_deactivated' );
+add_action( 'admin_notices', 'hustle_activated_deactivated' );
+if ( ! function_exists( 'hustle_activated_deactivated' ) ) {
+    function hustle_activated_deactivated() {
+		// for Pro
+        if ( get_site_option( 'hustle_free_deactivated' ) && is_super_admin() ) { ?>
+            <div class="notice notice-success is-dismissible">
+                <p><?php esc_html_e( 'Congratulations! You have activated Hustle Pro! We have automatically deactivated the free version.', 'hustle' ); ?></p>
+            </div> <?php
+            delete_site_option( 'hustle_free_deactivated' );
+        }
+		// for Free
+		if ( get_site_option( 'hustle_free_activated' ) && is_super_admin() ) { ?>
+            <div class="notice notice-error is-dismissible">
+                <p><?php esc_html_e( 'You already have Hustle Pro activated. If you really wish to go back to the free version of Hustle, please deactivate the Pro version first.', 'hustle' ); ?></p>
+            </div> <?php
+            delete_site_option( 'hustle_free_activated' );
         }
     }
 }
 
-// Display admin notice about plugin deactivation
-add_action( 'network_admin_notices', 'hustle_deactivated' );
-add_action( 'admin_notices', 'hustle_deactivated' );
-if ( ! function_exists( 'hustle_deactivated' ) ) {
-    function hustle_deactivated() {
-        if ( get_site_option( 'hustle_free_deactivated' ) && is_super_admin() ) { ?>
-            <div class="notice notice-success is-dismissible">
-                <p><?php esc_html_e( 'Hustle was deactivated. You have Hustle Pro active!', 'hustle' ); ?></p>
-            </div> <?php
-            delete_site_option( 'hustle_free_deactivated' );
-        }
+// Deactivate the .org version, if pro version is active
+add_action( 'activated_plugin', 'hustle_activated', 10, 2 );
+if ( ! function_exists( 'hustle_activated' ) ) {
+    function hustle_activated( $plugin, $network_activation ) {
+
+		if ( is_plugin_active( 'hustle/opt-in.php' ) && is_plugin_active( 'wordpress-popup/popover.php' ) ) {
+
+			// deactivate free version
+			deactivate_plugins( 'wordpress-popup/popover.php' );
+
+			if ( $plugin == 'hustle/opt-in.php' ) {
+				//Store in database about free version deactivated, in order to show a notice on page load
+				update_site_option( 'hustle_free_deactivated', 1 );
+			} else if ( $plugin == 'wordpress-popup/popover.php' ) {
+				//Store in database about free version being activated even pro is already active
+				update_site_option( 'hustle_free_activated', 1 );
+			}
+		}
+
+		hustle_redirect_to_dashboard($network_activation);
     }
 }
 
 // Redirect to dashboard once activated
-add_action( 'activated_plugin', 'hustle_activated', 10, 2 );
-if ( ! function_exists( 'hustle_activated' ) ) {
-    function hustle_activated( $plugin, $network_activation ) {
-        $flag = get_option( 'hustle_activated_flag', false );
+if ( ! function_exists( 'hustle_redirect_to_dashboard' ) ) {
+	function hustle_redirect_to_dashboard( $network_activation ) {
+		$flag = get_option( 'hustle_activated_flag', false );
         delete_option( 'hustle_activated_flag' );
         if ( !$network_activation && $flag ) {
             $screen = get_current_screen();
@@ -68,13 +85,18 @@ if ( ! function_exists( 'hustle_activated' ) ) {
                 exit;
             }
         }
-    }
+	}
 }
 
-if( version_compare(PHP_VERSION, '5.3.2', ">=") )
-    require 'vendor/autoload.php';
-else
-    require 'vendor/autoload_52.php';
+if( version_compare(PHP_VERSION, '5.3.2', ">=") ) {
+	if ( ! class_exists( 'ComposerAutoloaderInitda98371940d11703c56dee923bbb392f' ) ) {
+		require_once 'vendor/autoload.php';
+	}
+} else {
+	if ( ! class_exists( 'ComposerAutoloaderInitdc2feb09422541020a75a34eeac8ae2a' ) ) {
+		require_once 'vendor/autoload_52.php';
+	}
+}
 
 require_once 'lib/wpmu-lib/core.php';
 require_once 'opt-in-static.php';
@@ -124,6 +146,13 @@ class Opt_In extends Opt_In_Static{
             "file_name" => "opt-in-mailchimp.php",
             "class_name" => "Opt_In_Mailchimp"
         ),
+        array(
+            "id" => "constantcontact",
+            "name" => "ConstantContact",
+            "file_name" => "opt-in-constantcontact.php" ,
+            "class_name" => "Opt_In_ConstantContact"
+        ),
+
 		array(
 			'id' => 'convertkit',
 			'name' => 'ConvertKit',
@@ -135,6 +164,12 @@ class Opt_In extends Opt_In_Static{
             "name" => "GetResponse",
             "file_name" => "opt-in-get-response.php",
             "class_name" => "Opt_In_Get_Response"
+        ),
+        array(
+            "id" => "hubspot",
+            "name" => "Hubspot",
+            "file_name" => "opt-in-hubspot.php",
+            "class_name" => "Opt_In_HubSpot",
         ),
         array(
             "id" => "sendy",
@@ -173,7 +208,8 @@ class Opt_In extends Opt_In_Static{
      * these providers will be skipped on PHP version lower than 5.3
      */
     protected $_skip_providers = array(
-        'mautic'
+        'mautic',
+        'constantcontact'
     );
 
     /**
@@ -753,6 +789,12 @@ $legacy_popups = new Hustle_Legacy_Popups( $hustle );
 // Hubspot
 $hustle_hubpost = new Opt_In_HubSpot_Api();
 
+if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
+    //Constant Contact
+    $hustle_constantcontact = new Opt_In_ConstantContact_Api();
+}
+
+
 if( is_admin() ) {
     $optin_admin = new Opt_In_Admin( $hustle, $email_services  );
     new Opt_In_Admin_Ajax( $hustle, $optin_admin );
@@ -796,7 +838,10 @@ if( is_admin() && Opt_In_Utils::_is_free() ) {
     require_once Opt_In::$plugin_path . 'lib/free-dashboard/module.php';
 }
 
-function hustle_activation() {
-    update_option( 'hustle_activated_flag', 1 );
+if ( ! function_exists( 'hustle_activation' ) ) {
+	function hustle_activation() {
+		update_option( 'hustle_activated_flag', 1 );
+	}
 }
+
 register_activation_hook(__FILE__, 'hustle_activation' );

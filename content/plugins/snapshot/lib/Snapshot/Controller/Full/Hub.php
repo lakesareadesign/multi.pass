@@ -325,9 +325,9 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 		}
 
 		$cron->start_backup(); // Now, let's go
-		$cron->force_actual_start();
+		//$cron->force_actual_start();
 		$status = $cron->is_running();
-		Snapshot_Helper_Log::info(sprintf("Remotely triggered backup started: %s", var_export($status,1)), "Remote");
+		Snapshot_Helper_Log::info("Remotely triggered backup started", "Remote");
 
 		return $status;
 	}

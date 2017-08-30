@@ -5,13 +5,13 @@
 
 <div id="container" class="snapshot-three wps-page-backups">
 
-	<section class="box wps-widget-getkey">
+	<section class="wpmud-box wps-widget-getkey">
 
-		<div class="box-title">
+		<div class="wpmud-box-title">
 			<h3><?php _e('Get Started', SNAPSHOT_I18N_DOMAIN); ?></h3>
 		</div>
 
-		<div class="box-content">
+		<div class="wpmud-box-content">
 
 			<div class="row">
 

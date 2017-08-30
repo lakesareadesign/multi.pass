@@ -9,6 +9,7 @@ use Hammer\Base\Behavior;
 use Hammer\Helper\Log_Helper;
 use Hammer\Helper\WP_Helper;
 use WP_Defender\Module\Hardener\Model\Settings;
+use WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api;
 use WP_Defender\Module\Scan\Component\Scan_Api;
 use WP_Defender\Module\Scan\Model\Result_Item;
 
@@ -483,24 +484,39 @@ class Utils extends Behavior {
 	}
 
 	/**
-	 * @return array|void
+	 * Generate Stats
 	 */
-	public function submitStatsToDev() {
-		if ( ! $this->getAPIKey() ) {
-			return;
-		}
+	public function generateStats() {
+		$issues   = array();
+		$ignored  = array();
+		$resolved = array();
 
-		$issues = array();
-		$rules  = Settings::instance()->getIssues();
-		foreach ( $rules as $rule ) {
+		$issue_rules   = Settings::instance()->getIssues();
+		$ignored_rules = Settings::instance()->getIgnore();
+		$fixed_rules   = Settings::instance()->getFixed();
+
+		foreach ( $issue_rules as $rule ) {
 			$issues[] = array(
 				'label' => $rule->getTitle(),
 				'url'   => network_admin_url( 'admin.php?page=wdf-hardener' ) . '#' . $rule::$slug
 			);
 		}
+		foreach ( $ignored_rules as $rule ) {
+			$ignored[] = array(
+				'label' => $rule->getTitle(),
+				'url'   => network_admin_url( 'admin.php?page=wdf-hardener&view=ignored' ) . '#' . $rule::$slug
+			);
+		}
+		foreach ( $fixed_rules as $rule ) {
+			$resolved[] = array(
+				'label' => $rule->getTitle(),
+				'url'   => network_admin_url( 'admin.php?page=wdf-hardener&view=resolved' ) . '#' . $rule::$slug
+			);
+		}
 
-		$model = Scan_Api::getLastScan();
-		$count = 0;
+		$model     = Scan_Api::getLastScan();
+		$count     = 0;
+		$scanItems = array();
 		if ( is_object( $model ) ) {
 			$timestamp = strtotime( $model->dateFinished );
 
@@ -509,6 +525,15 @@ class Utils extends Behavior {
 				'vulnerability_db' => $model->getCount( 'vuln' ),
 				'file_suspicious'  => $model->getCount( 'content' )
 			);
+			foreach ( $model->getItems() as $i => $item ) {
+				if ( $i >= 10 ) {
+					break;
+				}
+				$scanItems[] = array(
+					'file'   => addslashes( $item->getTitle() ),
+					'detail' => addslashes( $item->getIssueDetail() )
+				);
+			}
 
 			$count = $model->countAll( Result_Item::STATUS_ISSUE );
 		} else {
@@ -519,20 +544,47 @@ class Utils extends Behavior {
 				'file_suspicious'  => 0
 			);
 		}
-		$labels = array(
+
+		$res['scan_items'] = $scanItems;
+		$labels            = array(
 			'core_integrity'   => esc_html__( "WordPress Core Integrity", wp_defender()->domain ),
 			'vulnerability_db' => esc_html__( "Plugins & Themes vulnerability", wp_defender()->domain ),
 			'file_suspicious'  => esc_html__( "Suspicious Code", wp_defender()->domain )
 		);
-		$data   = array(
+
+		$lastLockout = Login_Protection_Api::getLastLockout();
+		if ( is_null( $lastLockout ) ) {
+			$lastLockout = __( "Never", wp_defender()->domain );
+		} else {
+			$lastLockout = $lastLockout->date;
+		}
+		$lockoutSettings = \WP_Defender\Module\IP_Lockout\Model\Settings::instance();
+		$after_time      = '';
+		switch ( $lockoutSettings->report_frequency ) {
+			case '1':
+				$after_time = '-24 hours';
+				break;
+			case '7':
+				$after_time = '-7 days';
+				break;
+			case '30':
+				$after_time = '-30 days';
+				break;
+		}
+
+		$data = array(
 			'domain'       => network_home_url(),
 			'timestamp'    => $timestamp,
 			'warnings'     => $count,
 			'cautions'     => count( $issues ),
-			'data_version' => '20160220',
+			'data_version' => '20170801',
 			'scan_data'    => json_encode( array(
 				'scan_result'        => $res,
-				'hardener_result'    => $issues,
+				'hardener_result'    => array(
+					'issues'   => $issues,
+					'ignored'  => $ignored,
+					'resolved' => $resolved
+				),
 				'scan_schedule'      => array(
 					'is_activated' => \WP_Defender\Module\Scan\Model\Settings::instance()->notification,
 					'time'         => \WP_Defender\Module\Scan\Model\Settings::instance()->time,
@@ -546,14 +598,37 @@ class Utils extends Behavior {
 				'hardener_page_url'  => network_admin_url( 'admin.php?page=wdf-hardener' ),
 				'new_scan_url'       => network_admin_url( 'admin.php?page=wdf-scan&wdf-action=new_scan' ),
 				'schedule_scans_url' => network_admin_url( 'admin.php?page=wdf-schedule-scan' ),
-				'settings_page_url'  => network_admin_url( 'admin.php?page=wdf-settings' )
+				'settings_page_url'  => network_admin_url( 'admin.php?page=wdf-settings' ),
+				'last_lockout'       => $lastLockout,
+				'login_lockout'      => Login_Protection_Api::getLoginLockouts( $after_time ),
+				'lockout_404'        => Login_Protection_Api::get404Lockouts( $after_time ),
+				'total_lockout'      => Login_Protection_Api::getAllLockouts( $after_time )
 			) ),
 		);
 
+		return $data;
+	}
+
+	public function _submitStatsToDev() {
+		$data = $this->generateStats();
+
 		$end_point = "https://premium.wpmudev.org/api/defender/v1/scan-results";
-		$this->devCall( $end_point, $data, array(
+		$res       = $this->devCall( $end_point, $data, array(
 			'method' => 'POST'
 		) );
+	}
+
+	/**
+	 * @return array|void
+	 */
+	public function submitStatsToDev() {
+		if ( ! $this->getAPIKey() ) {
+			return;
+		}
+
+		if ( ! wp_next_scheduled( 'defenderSubmitStats' ) ) {
+			wp_schedule_single_event( time(), 'defenderSubmitStats' );
+		}
 	}
 
 	/**
@@ -612,5 +687,25 @@ class Utils extends Behavior {
 			'iis'       => 'IIS',
 			'iis-7'     => 'IIS 7'
 		) );
+	}
+
+	/**
+	 * Get the current page URL
+	 *
+	 * @return String
+	 */
+	public function currentPageURL() {
+		$protocol = "http";
+		if ( is_ssl() ) {
+			$protocol .= "s";
+		}
+		$url = "$protocol://";
+		if ( $_SERVER["SERVER_PORT"] != "80" ) {
+			$url .= $_SERVER["SERVER_NAME"] . ":" . $_SERVER["SERVER_PORT"] . $_SERVER["REQUEST_URI"];
+		} else {
+			$url .= $_SERVER["SERVER_NAME"] . $_SERVER["REQUEST_URI"];
+		}
+
+		return apply_filters( 'defender_current_page_url', $url );
 	}
 }

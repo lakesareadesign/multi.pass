@@ -14,7 +14,7 @@
 	<?php foreach ( $icon_sets as $set_key => $set_data ) : ?>
 	<div class="fl-icons-section fl-<?php echo $set_key; ?>">
 		<h2><?php echo $set_data['name']; ?></h2>
-		<?php foreach( $set_data['icons'] as $icon ) : ?>
+		<?php foreach ( $set_data['icons'] as $icon ) : ?>
 			<?php if ( ! empty( $set_data['prefix'] ) ) : ?>
 			<i class="<?php echo $set_data['prefix'] . ' ' . $icon; ?>"></i>
 			<?php else : ?>
@@ -25,5 +25,5 @@
 	<?php endforeach; ?>
 </div>
 <div class="fl-lightbox-footer fl-icon-selector-footer">
-	<a class="fl-icon-selector-cancel fl-builder-button fl-builder-button-large" href="javascript:void(0);" onclick="return false;"><?php _e('Cancel', 'fl-builder'); ?></a>
+	<a class="fl-icon-selector-cancel fl-builder-button fl-builder-button-large" href="javascript:void(0);" onclick="return false;"><?php _e( 'Cancel', 'fl-builder' ); ?></a>
 </div>

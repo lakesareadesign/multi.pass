@@ -403,6 +403,7 @@ class Opt_In_Admin{
 			'error_log_nonce' => wp_create_nonce( 'optin_get_error_logs' ),
 			'clear_log_nonce' => wp_create_nonce( 'optin_clear_logs' ),
 	        'hubspot_nonce' => wp_create_nonce( 'hustle_hubspot_referrer' ),
+            'constantcontact_nonce' => wp_create_nonce( 'hustle_constantcontact_referrer' ),
         );
 
         if( $this->_is_edit() ){

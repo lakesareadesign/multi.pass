@@ -4,6 +4,36 @@ Author: Marko Miljus (Incsub), Aaron Edwards (Incsub), Hoang Ngo (Incsub), Jonat
 Change Log:
 ----------------------------------------------------------------------
 
+3.2.6
+----------------------------------------------------------------------
+
+- Enhance: Allow users to deselect default template in store settings
+- Fixed: Products that were not sorted correctly before, will be automatically updated to work correctly
+- Fixed: Missing translation strings for field verification on checkout pages
+- Fixed: Taxes for digital and physical products
+- Fixed: Default template styles
+- Fixed: Compatibility with Toolset Types plugin
+- Fixed: Coupon code add-on affecting taxes in cart
+- Fixed: Warning on products page in admin
+- Fixed: Quick setup notice not dismissed first time
+- Fixed: Unable to checkout digital products
+- Fixed: Save changes button in admin appears multiple time when using different translations
+- Fixed: Layout on checkout when billing address does not match shipping address
+
+
+3.2.5
+----------------------------------------------------------------------
+
+- Enhance: Removed @import directives for better compatibility with Hummingbird
+- Enhance: Better support for older PHP versions (5.2 and 5.3)
+- Fixed: Issue with Upfront navigation on single product pages
+- Fixed: Tax rate resetting to 0%
+- Fixed: PHP notices on product pages
+- Fixed: PHP warning during quick setup
+- Fixed: Styles in admin interface
+- Fixed: MarketPress disabling front-end page comments
+- Fixed: Some orders were not changing status to Paid with Stripe payment gateway
+
 3.2.4
 ----------------------------------------------------------------------
 
@@ -1038,4 +1068,4 @@ Adding notice for deprecated gateways Cubepoints, Bitpay, iDEAL, Skrill, Google 
 - Initial Release
 
 
-133620-1502132128-au
+133620-1504103031-au

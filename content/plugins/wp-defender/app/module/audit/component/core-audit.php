@@ -220,7 +220,7 @@ class Core_Audit extends Event_Abstract {
 		if ( ! is_object( $upgrader->skin ) ) {
 			return false;
 		}
-		if ( is_object( $upgrader->skin->api ) ) {
+		if ( @is_object( $upgrader->skin->api ) ) {
 			$name    = $upgrader->skin->api->name;
 			$version = $upgrader->skin->api->version;
 		} elseif ( ! empty( $upgrader->skin->result ) ) {

@@ -17,7 +17,7 @@ use Hammer\Helper\Log_Helper;
 class Settings extends Model {
 	private static $_instance;
 
-	const EVENT_BEFORE_SAVE = 'beforeSave', EVENT_AFTER_SAVE = 'afterSave';
+	const EVENT_BEFORE_SAVE = 'beforeSave', EVENT_AFTER_SAVE = 'afterSave', EVENT_BEFORE_DELETE = 'beforeDelete', EVENT_AFTER_DELETED = 'afterDeleted';
 	/**
 	 * Required, this will be the option name for storing
 	 * @var string
@@ -59,7 +59,9 @@ class Settings extends Model {
 	}
 
 	public function delete() {
+		$this->trigger( self::EVENT_BEFORE_DELETE );
 		$ret = delete_option( $this->id );
 		$ret = delete_site_option( $this->id );
+		$this->trigger( self::EVENT_AFTER_DELETED );
 	}
 }

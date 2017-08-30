@@ -7,7 +7,7 @@ class WD_Main_Activator {
 	public $wp_defender;
 
 	public function __construct( WP_Defender $wp_defender ) {
-		add_action( 'init', array( &$this, 'init' ) );
+		add_action( 'init', array( &$this, 'init' ), 9 );
 		add_action( 'wp_loaded', array( &$this, 'maybeShowUpgradedNotice' ), 9 );
 		add_action( 'activated_plugin', array( &$this, 'redirectToDefender' ) );
 	}
@@ -22,6 +22,13 @@ class WD_Main_Activator {
 		} elseif ( wp_defender()->db_version == "1.5" && version_compare( $db_ver, wp_defender()->db_version, '<' ) ) {
 			$this->maybeUpgrade15();
 		}
+
+		if ( version_compare( $db_ver, '1.7', '<' ) ) {
+			add_site_option( 'defenderLockoutNeedUpdateLog', 1 );
+			\WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::createTables();
+			update_site_option( 'wd_db_version', "1.7" );
+		}
+
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( &$this, 'addSettingsLink' ) );
 		add_action( 'admin_enqueue_scripts', array( &$this, 'register_styles' ) );
 		if ( ! \WP_Defender\Behavior\Utils::instance()->checkRequirement() ) {
@@ -35,6 +42,7 @@ class WD_Main_Activator {
 			\Hammer\Base\Container::instance()->set( 'scan', new \WP_Defender\Module\Scan() );
 			\Hammer\Base\Container::instance()->set( 'audit', new \WP_Defender\Module\Audit() );
 			\Hammer\Base\Container::instance()->set( 'lockout', new \WP_Defender\Module\IP_Lockout() );
+			\Hammer\Base\Container::instance()->set( 'advanced_tool', new \WP_Defender\Module\Advanced_Tools() );
 			//no need to set debug
 			new \WP_Defender\Controller\Debug();
 		}

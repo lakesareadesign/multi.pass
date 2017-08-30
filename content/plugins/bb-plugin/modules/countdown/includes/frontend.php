@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 	$counters = array(
 		'days'		=> array(
@@ -19,17 +19,17 @@
 		),
 	);
 
- ?>
+	?>
 
-<div class="fl-countdown<?php if( $settings->layout == 'default' && $settings->show_separator == 'yes' && isset($settings->separator_type ) ) echo ' fl-countdown-separator-'. $settings->separator_type ?>">
+<div class="fl-countdown<?php if ( 'default' == $settings->layout && 'yes' == $settings->show_separator && isset( $settings->separator_type ) ) { echo ' fl-countdown-separator-' . $settings->separator_type; } ?>">
 
-	<?php foreach( $counters as $class => $label ): ?>
+	<?php foreach ( $counters as $class => $label ) : ?>
 		<div class="fl-countdown-number fl-countdown-<?php echo $class; ?>">
 			<div class="fl-countdown-unit">
 				<span class="fl-countdown-unit-number"></span>
 				<div class="fl-countdown-unit-label" data-label='<?php echo json_encode( $label ); ?>'><?php echo $label['singular']; ?></div>
 			</div>
-			<?php if( $settings->layout == 'circle' ) : ?>
+			<?php if ( 'circle' == $settings->layout ) : ?>
 				<div class="fl-countdown-circle-container">
 					<?php $module->render_circle(); ?>
 				</div>

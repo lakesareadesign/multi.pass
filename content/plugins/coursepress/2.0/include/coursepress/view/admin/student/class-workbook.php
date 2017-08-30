@@ -244,7 +244,7 @@ class CoursePress_View_Admin_Student_Workbook {
 											<td id="instructor-feedback">
 <?php
 										$first_last = CoursePress_Helper_Utility::get_user_name( (int) $feedback['feedback_by'] );
-										echo ! empty( $feedback['feedback'] ) ? '<div class="feedback"><div class="comment">' . $feedback['feedback'] . '</div><div class="instructor"> – <em>' . esc_html( $first_last ) . '</em></div></div>' : '';									   	 	   		
+										echo ! empty( $feedback['feedback'] ) ? '<div class="feedback"><div class="comment">' . $feedback['feedback'] . '</div><div class="instructor"> – <em>' . esc_html( $first_last ) . '</em></div></div>' : '';
 ?>
 											</td>
 										</tr>

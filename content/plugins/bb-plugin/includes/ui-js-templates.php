@@ -2,14 +2,14 @@
 	<div class="fl-row-overlay fl-block-overlay<# if ( data.global ) { #> fl-block-overlay-global<# } #>">
 		<div class="fl-block-overlay-header">
 			<div class="fl-block-overlay-actions">
-				<div class="fl-block-overlay-title"><?php _e('Row', 'fl-builder'); ?></div>
+				<div class="fl-block-overlay-title"><?php _e( 'Row', 'fl-builder' ); ?></div>
 				<# if ( data.global && ! FLBuilderConfig.userCanEditGlobalTemplates ) { #>
-				<i class="fa fa-lock fl-tip" title="<?php _e('Locked', 'fl-builder'); ?>"></i>
+				<i class="fa fa-lock fl-tip" title="<?php _e( 'Locked', 'fl-builder' ); ?>"></i>
 				<# } else { #>
 				<?php if ( ! FLBuilderModel::is_post_user_template( 'row' ) && ! $simple_ui ) : ?>
-				<i class="fl-block-move fa fa-arrows fl-tip" title="<?php _e('Move', 'fl-builder'); ?>"></i>
+				<i class="fl-block-move fa fa-arrows fl-tip" title="<?php _e( 'Move', 'fl-builder' ); ?>"></i>
 				<?php endif; ?>
-				<i class="fl-block-settings fa fa-wrench fl-tip" title="<?php _e('Row Settings', 'fl-builder'); ?>"></i>
+				<i class="fl-block-settings fa fa-wrench fl-tip" title="<?php _e( 'Row Settings', 'fl-builder' ); ?>"></i>
 				<?php if ( ! FLBuilderModel::is_post_user_template( 'row' ) && ! $simple_ui ) : ?>
 				<i class="fl-block-copy fa fa-copy fl-tip" title="<?php _e( 'Duplicate', 'fl-builder' ); ?>"></i>
 				<i class="fl-block-remove fa fa-times fl-tip" title="<?php _e( 'Remove', 'fl-builder' ); ?>"></i>
@@ -27,7 +27,7 @@
 		<div class="fl-block-overlay-header">
 			<div class="fl-block-overlay-actions">
 				<?php if ( ! $simple_ui ) : ?>
-				<i class="fl-block-move fa fa-arrows fl-tip" title="<?php _e('Move', 'fl-builder'); ?>"></i>
+				<i class="fl-block-move fa fa-arrows fl-tip" title="<?php _e( 'Move', 'fl-builder' ); ?>"></i>
 				<span class="fl-builder-has-submenu">
 					<i class="fl-block-settings fa fa-columns fl-tip" title="<?php _e( 'Edit Column', 'fl-builder' ); ?>"></i>
 					<ul class="fl-builder-submenu fl-block-col-submenu">
@@ -78,10 +78,10 @@
 		<div class="fl-block-overlay-header">
 			<div class="fl-block-overlay-actions">
 				<# if ( data.global && ! FLBuilderConfig.userCanEditGlobalTemplates ) { #>
-				<i class="fa fa-lock fl-tip" title="<?php _e('Locked', 'fl-builder'); ?>"></i>
+				<i class="fa fa-lock fl-tip" title="<?php _e( 'Locked', 'fl-builder' ); ?>"></i>
 				<# } else { #>
 				<?php if ( ! FLBuilderModel::is_post_user_template( 'module' ) && ! $simple_ui ) : ?>
-				<i class="fl-block-move fa fa-arrows fl-tip" title="<?php _e('Move', 'fl-builder'); ?>"></i>
+				<i class="fl-block-move fa fa-arrows fl-tip" title="<?php _e( 'Move', 'fl-builder' ); ?>"></i>
 				<?php endif; ?>
 				<i class="fl-block-settings fa fa-wrench fl-tip" title="<?php printf( __( '%s Settings', 'fl-builder' ), '{{data.moduleName}}' ); ?>"></i>
 				<?php if ( ! FLBuilderModel::is_post_user_template( 'module' ) && ! $simple_ui ) : ?>
@@ -158,7 +158,7 @@
 		<# for( var i in data.buttons ) { #>
 		<span class="fl-builder-{{data.buttons[ i ].key}}-button fl-builder-button fl-builder-button-large">{{data.buttons[ i ].label}}</span>
 		<# } #>
-		<span class="fl-builder-cancel-button fl-builder-button fl-builder-button-primary fl-builder-button-large"><?php _e('Cancel', 'fl-builder'); ?></span>
+		<span class="fl-builder-cancel-button fl-builder-button fl-builder-button-primary fl-builder-button-large"><?php _e( 'Cancel', 'fl-builder' ); ?></span>
 	</div>
 </script>
 <!-- #tmpl-fl-actions-lightbox -->
@@ -166,7 +166,7 @@
 <script type="text/html" id="tmpl-fl-alert-lightbox">
 	<div class="fl-lightbox-message">{{{data.message}}}</div>
 	<div class="fl-lightbox-footer">
-		<span class="fl-builder-alert-close fl-builder-button fl-builder-button-large fl-builder-button-primary" href="javascript:void(0);"><?php _e('OK', 'fl-builder'); ?></span>
+		<span class="fl-builder-alert-close fl-builder-button fl-builder-button-large fl-builder-button-primary" href="javascript:void(0);"><?php _e( 'OK', 'fl-builder' ); ?></span>
 	</div>
 </script>
 <!-- #tmpl-fl-alert-lightbox -->
@@ -182,20 +182,20 @@
 
 <script type="text/html" id="tmpl-fl-tour-lightbox">
 	<div class="fl-builder-actions fl-builder-tour-actions">
-		<span class="fl-builder-actions-title"><?php _e('Welcome! It looks like this might be your first time using the builder. Would you like to take a tour?', 'fl-builder'); ?></span>
-		<span class="fl-builder-no-tour-button fl-builder-button fl-builder-button-large"><?php _e('No Thanks', 'fl-builder'); ?></span>
-		<span class="fl-builder-yes-tour-button fl-builder-button fl-builder-button-primary fl-builder-button-large"><?php _e('Yes Please!', 'fl-builder'); ?></span>
+		<span class="fl-builder-actions-title"><?php _e( 'Welcome! It looks like this might be your first time using the builder. Would you like to take a tour?', 'fl-builder' ); ?></span>
+		<span class="fl-builder-no-tour-button fl-builder-button fl-builder-button-large"><?php _e( 'No Thanks', 'fl-builder' ); ?></span>
+		<span class="fl-builder-yes-tour-button fl-builder-button fl-builder-button-primary fl-builder-button-large"><?php _e( 'Yes Please!', 'fl-builder' ); ?></span>
 	</div>
 </script>
 <!-- #tmpl-fl-tour-lightbox -->
 
 <script type="text/html" id="tmpl-fl-video-lightbox">
 	<div class="fl-lightbox-header">
-		<h1><?php _e('Getting Started Video', 'fl-builder'); ?></h1>
+		<h1><?php _e( 'Getting Started Video', 'fl-builder' ); ?></h1>
 	</div>
 	<div class="fl-builder-getting-started-video">{{{data.video}}}</div>
 	<div class="fl-lightbox-footer">
-		<span class="fl-builder-settings-cancel fl-builder-button fl-builder-button-large fl-builder-button-primary" href="javascript:void(0);"><?php _e('Done', 'fl-builder'); ?></span>
+		<span class="fl-builder-settings-cancel fl-builder-button fl-builder-button-large fl-builder-button-primary" href="javascript:void(0);"><?php _e( 'Done', 'fl-builder' ); ?></span>
 	</div>
 </script>
 <!-- #tmpl-fl-video-lightbox -->

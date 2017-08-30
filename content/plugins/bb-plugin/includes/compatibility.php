@@ -12,14 +12,14 @@
 function fl_builder_tinypng_support( $cropped_path ) {
 
 	if ( class_exists( 'Tiny_Settings' ) ) {
-		try{
+		try {
 			$settings = new Tiny_Settings();
 			$settings->xmlrpc_init();
 			$compressor = $settings->get_compressor();
 			if ( $compressor ) {
 				$compressor->compress_file( $cropped_path['path'], false, false );
 			}
-		} catch( Exception $e ) {
+		} catch ( Exception $e ) {
 			//
 		}
 	}
@@ -42,9 +42,8 @@ function fl_builder_wc_memberships_support() {
 				// check if user has access to restricted content
 				if ( ! current_user_can( 'wc_memberships_view_restricted_post_content', $post_id ) ) {
 					$do_render = false;
-				}
-				// check if user has access to delayed content
-				else if ( ! current_user_can( 'wc_memberships_view_delayed_post_content', $post_id ) ) {
+				} // End if().
+				elseif ( ! current_user_can( 'wc_memberships_view_delayed_post_content', $post_id ) ) {
 					$do_render = false;
 				}
 			}
@@ -65,33 +64,33 @@ add_action( 'plugins_loaded', 'fl_builder_wc_memberships_support', 11 );
  */
 function fl_builder_option_tree_support() {
 
-	if ( !function_exists( 'ot_get_media_post_ID' ) ) {
+	if ( ! function_exists( 'ot_get_media_post_ID' ) ) {
 
-		function ot_get_media_post_ID() {
+		function ot_get_media_post_ID() { // @codingStandardsIgnoreLine
 
 			// Option ID
 			$option_id = 'ot_media_post_ID';
 
 			// Get the media post ID
-			$post_ID = get_option( $option_id, false );
+			$post_id = get_option( $option_id, false );
 
 			// Add $post_ID to the DB
-			if ( $post_ID === false ) {
+			if ( false === $post_id ) {
 
 				global $wpdb;
 
 				// Get the media post ID
-				$post_ID = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE `post_title` = 'Media' AND `post_type` = 'option-tree' AND `post_status` = 'private'" );
+				$post_id = $wpdb->get_var( "SELECT ID FROM $wpdb->posts WHERE `post_title` = 'Media' AND `post_type` = 'option-tree' AND `post_status` = 'private'" );
 
 				// Add to the DB
-				add_option( $option_id, $post_ID );
+				add_option( $option_id, $post_id );
 			}
 
-			return $post_ID;
+			return $post_id;
 		}
 	}
 }
-add_action('after_setup_theme', 'fl_builder_option_tree_support');
+add_action( 'after_setup_theme', 'fl_builder_option_tree_support' );
 
 /**
  * If FORCE_SSL_ADMIN is enabled but the frontend is not SSL fixes a CORS error when trying to upload a photo.
@@ -100,9 +99,9 @@ add_action('after_setup_theme', 'fl_builder_option_tree_support');
  * @since 1.10.2
  */
 function fl_admin_ssl_upload_fix() {
-	if( defined( 'FORCE_SSL_ADMIN' ) && ! is_ssl() && is_admin() && defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-		if( isset( $_POST['action'] ) && 'upload-attachment' === $_POST['action'] && true === apply_filters( 'fl_admin_ssl_upload_fix', true ) ) {
-			force_ssl_admin(false);
+	if ( defined( 'FORCE_SSL_ADMIN' ) && ! is_ssl() && is_admin() && defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		if ( isset( $_POST['action'] ) && 'upload-attachment' === $_POST['action'] && true === apply_filters( 'fl_admin_ssl_upload_fix', true ) ) {
+			force_ssl_admin( false );
 		}
 	}
 }
@@ -115,10 +114,10 @@ add_action( 'plugins_loaded', 'fl_admin_ssl_upload_fix', 11 );
  * @param $post The post to check from
  * @return bool
  */
-function fl_builder_bp_pages_support( $is_editable, $post = false ){
+function fl_builder_bp_pages_support( $is_editable, $post = false ) {
 
 	// Frontend check
-	if ( !is_admin() && class_exists( 'BuddyPress' ) && ! bp_is_blog_page() ) {
+	if ( ! is_admin() && class_exists( 'BuddyPress' ) && ! bp_is_blog_page() ) {
 		$is_editable = false;
 	}
 
@@ -127,7 +126,7 @@ function fl_builder_bp_pages_support( $is_editable, $post = false ){
 
 		$bp = buddypress();
 		if ( $bp->pages ) {
-			foreach( $bp->pages as $page ) {
+			foreach ( $bp->pages as $page ) {
 				if ( $post->ID == $page->id ) {
 					$is_editable = false;
 					break;
@@ -151,10 +150,9 @@ function fl_photo_photon_exception( $val, $src, $tag ) {
 	if ( false !== strpos( $src, 'bb-plugin/cache' ) ) {
 
 		// now make sure its a circle cropped image.
-		if( false !== strpos( basename( $src ), '-circle' ) ) {
+		if ( false !== strpos( basename( $src ), '-circle' ) ) {
 			return apply_filters( 'fl_photo_photon_exception', true );
 		}
-
 	}
 	// return original val
 	return $val;
@@ -166,14 +164,14 @@ add_filter( 'jetpack_photon_skip_image', 'fl_photo_photon_exception', 10, 3 );
  */
 function fl_before_sortable_enqueue_callback() {
 
-  if(version_compare( get_bloginfo( 'version' ), '4.5', '<') ) {
-    wp_deregister_script( 'jquery-ui-widget' );
-    wp_deregister_script( 'jquery-ui-mouse' );
-    wp_deregister_script( 'jquery-ui-core' );
-    wp_enqueue_script( 'jquery-ui-core', site_url(  '/wp-includes/js/jquery/ui/core.min.js' ), array('jquery'), '1.8.12' );
-    wp_enqueue_script( 'jquery-ui-widget', site_url(  '/wp-includes/js/jquery/ui/widget.min.js' ), array('jquery'), '1.8.12' );
-    wp_enqueue_script( 'jquery-ui-mouse', site_url(  '/wp-includes/js/jquery/ui/mouse.min.js' ), array('jquery'), '1.8.12' );
-  }
+	if ( version_compare( get_bloginfo( 'version' ), '4.5', '<' ) ) {
+		wp_deregister_script( 'jquery-ui-widget' );
+		wp_deregister_script( 'jquery-ui-mouse' );
+		wp_deregister_script( 'jquery-ui-core' );
+		wp_enqueue_script( 'jquery-ui-core', site_url( '/wp-includes/js/jquery/ui/core.min.js' ), array( 'jquery' ), '1.8.12' );
+		wp_enqueue_script( 'jquery-ui-widget', site_url( '/wp-includes/js/jquery/ui/widget.min.js' ), array( 'jquery' ), '1.8.12' );
+		wp_enqueue_script( 'jquery-ui-mouse', site_url( '/wp-includes/js/jquery/ui/mouse.min.js' ), array( 'jquery' ), '1.8.12' );
+	}
 }
 add_action( 'fl_before_sortable_enqueue', 'fl_before_sortable_enqueue_callback' );
 
@@ -189,7 +187,7 @@ function fl_maybe_fix_unserialize( $data ) {
 	// @codingStandardsIgnoreStart
 	$unserialized = @unserialize( $data );
 	// @codingStandardsIgnoreEnd
-	if( ! $unserialized ) {
+	if ( ! $unserialized ) {
 		$unserialized = unserialize( preg_replace_callback( '!s:(\d+):"(.*?)";!', 'fl_maybe_fix_unserialize_callback', $data ) );
 	}
 	return $unserialized;
@@ -201,5 +199,19 @@ function fl_maybe_fix_unserialize( $data ) {
  * @since 1.10.6
  */
 function fl_maybe_fix_unserialize_callback( $match ) {
-	return ($match[1] == strlen($match[2])) ? $match[0] : 's:' . strlen($match[2]) . ':"' . $match[2] . '";';
+	return ( strlen( $match[2] ) == $match[1] ) ? $match[0] : 's:' . strlen( $match[2] ) . ':"' . $match[2] . '";';
 }
+
+/**
+ * Filter rendered module content and if safemode is active safely display a message.
+ * @since 1.10.7
+ */
+function fl_builder_render_module_content_filter( $contents, $module ) {
+	if ( isset( $_GET['safemode'] ) && FLBuilderModel::is_builder_active() ) {
+		return sprintf( '<h3>[%1$s] %2$s %3$s</h3>', __( 'SAFEMODE', 'fl-builder' ), $module->name, __( 'module', 'fl-builder' ) );
+	} else {
+		return $contents;
+	}
+}
+
+add_filter( 'fl_builder_render_module_content', 'fl_builder_render_module_content_filter', 10, 2 );

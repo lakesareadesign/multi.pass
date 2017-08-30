@@ -21,6 +21,8 @@ if ( ! class_exists( 'UltimateBrandingPublic' ) ) {
 			'ultimate-color-schemes.php' => 'ultimate-color-schemes.php',
 			'signup-password.php' => '/signup-password/signup-password.php',
 			'custom-ms-register-emails.php' => 'custom-ms-register-emails.php',
+			'admin-bar-logo.php' => 'admin-bar-logo.php',
+			'htmlemail.php' => 'htmlemail.php',
 		);
 
 		var $plugin_msg = array();

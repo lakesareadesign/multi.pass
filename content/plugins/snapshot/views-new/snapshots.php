@@ -20,13 +20,13 @@ $data = array(
 
 	<?php if ( $count_all_snapshots == 0 ) { ?>
 
-		<section class="box get-started-box">
+		<section class="wpmud-box get-started-box">
 
-			<div class="box-title">
+			<div class="wpmud-box-title">
 				<h3><?php esc_html_e( 'Get Started', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 			</div>
 
-			<div class="box-content">
+			<div class="wpmud-box-content">
 
 				<div class="row">
 
@@ -52,9 +52,9 @@ $data = array(
 
 	<?php } else { ?>
 
-		<section class="box available-snapshots">
+		<section class="wpmud-box available-snapshots">
 
-			<div class="box-title has-button">
+			<div class="wpmud-box-title has-button">
 
 				<h3><?php _e( 'Available Snapshots', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 
@@ -62,13 +62,13 @@ $data = array(
 
 			</div>
 
-			<div class="box-content">
+			<div class="wpmud-box-content">
 
 				<div class="row">
 
 					<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-						<div class="box-gray">
+						<div class="wpmud-box-gray">
 
 							<form>
 

@@ -4,6 +4,9 @@ Build Time:  2016-04-07T13:37:59.644Z
 
 CHANGELOG
 =================================================
+= 2.1.0.2 =
+* Fixed: Upgrading from 1x to 2x was broken.
+
 = 2.1.0.1 =
 * Fixed: Compatibility with older PHP versions.
 
@@ -698,4 +701,4 @@ Fixed: Preview button.
 * 1.0 First Release.
 
 
-133620-1502132070-au
+133620-1504103008-au

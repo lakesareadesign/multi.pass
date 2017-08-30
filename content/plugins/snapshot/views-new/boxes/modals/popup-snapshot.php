@@ -10,9 +10,9 @@
 
 		<div class="wps-popup-content">
 
-			<div class="box">
+			<div class="wpmud-box">
 
-				<div class="box-title can-close">
+				<div class="wpmud-box-title can-close">
 
 					<h3><?php _e('Add Snapshot Key', SNAPSHOT_I18N_DOMAIN); ?></h3>
 
@@ -20,7 +20,7 @@
 
 				</div>
 
-				<div class="box-content">
+				<div class="wpmud-box-content">
 
 					<div class="row">
 
@@ -46,7 +46,7 @@
 								</div>
 
 								<div class="wps-snapshot-popin-content wps-snapshot-popin-content-step-3 hidden">
-									<div class="wps-snapshot-error box-gray">
+									<div class="wps-snapshot-error wpmud-box-gray">
 										<p><?php printf(__('We couldn’t verify your Snapshot key. Try entering it again, or reset it for this website in <a target="_blank" href="%s">The Hub</a> over at WPMU DEV.', SNAPSHOT_I18N_DOMAIN ), 'https://premium.wpmudev.org/hub/' );?></p>
 									</div>
 								</div>
@@ -60,7 +60,7 @@
 
 							<form method="post" action="?page=snapshot_pro_settings" data-security="<?php echo $ajax_nonce;?>">
 
-								<div class="wps-snapshot-key box-gray">
+								<div class="wps-snapshot-key wpmud-box-gray">
 
 									<input type="text" name="secret-key" id="secret-key" value="<?php echo ( isset( $apiKey ) && !empty( $apiKey ) ) ? $apiKey : '' ?>"  data-url="<?php echo ( isset( $apiKeyUrl ) && !empty( $apiKeyUrl ) ) ? $apiKeyUrl : '' ?>" placeholder="<?php _e('Enter your key here', SNAPSHOT_I18N_DOMAIN); ?>">
 

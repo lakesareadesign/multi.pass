@@ -19,9 +19,9 @@ usort( $snapshots, '__snapshot_sort_snapshots_array' );
 $snapshots = array_slice( $snapshots, 0, 3 );
 ?>
 
-<section class="box wps-widget-snapshots<?php echo empty( $snapshots ) ? '-off' : '-on'; ?>">
+<section class="wpmud-box wps-widget-snapshots<?php echo empty( $snapshots ) ? '-off' : '-on'; ?>">
 
-	<div class="box-title<?php echo empty( $snapshots ) ? ' has-button' : ''; ?>">
+	<div class="wpmud-box-title<?php echo empty( $snapshots ) ? ' has-button' : ''; ?>">
 
 		<h3<?php echo empty( $snapshots ) ? ' class="has-count"' : ''; ?>>
 			<?php _e( 'Snapshots', SNAPSHOT_I18N_DOMAIN ); ?>
@@ -38,7 +38,7 @@ $snapshots = array_slice( $snapshots, 0, 3 );
 
 	</div>
 
-	<div class="box-content">
+	<div class="wpmud-box-content">
 
 		<div class="row">
 

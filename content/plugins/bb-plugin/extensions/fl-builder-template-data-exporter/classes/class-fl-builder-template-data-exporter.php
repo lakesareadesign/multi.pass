@@ -13,8 +13,7 @@ final class FLBuilderTemplateDataExporter {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function init()
-	{
+	static public function init() {
 		add_action( 'plugins_loaded',    __CLASS__ . '::init_hooks' );
 		add_action( 'after_setup_theme', __CLASS__ . '::register_user_access_setting' );
 	}
@@ -25,8 +24,7 @@ final class FLBuilderTemplateDataExporter {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function init_hooks()
-	{
+	static public function init_hooks() {
 		if ( ! is_admin() ) {
 			return;
 		}
@@ -45,14 +43,13 @@ final class FLBuilderTemplateDataExporter {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function register_user_access_setting()
-	{
+	static public function register_user_access_setting() {
 		FLBuilderUserAccess::register_setting( 'template_data_exporter', array(
 			'default'     => false,
 			'group'       => __( 'Admin', 'fl-builder' ),
 			'label'       => __( 'Template Data Exporter', 'fl-builder' ),
 			'description' => __( 'The selected roles will be able to access the template data exporter under Tools > Template Exporter.', 'fl-builder' ),
-			'order'		  => '120'
+			'order'		  => '120',
 		) );
 	}
 
@@ -62,8 +59,7 @@ final class FLBuilderTemplateDataExporter {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function is_enabled()
-	{
+	static public function is_enabled() {
 		return FLBuilderUserAccess::current_user_can( 'template_data_exporter' );
 	}
 
@@ -73,8 +69,7 @@ final class FLBuilderTemplateDataExporter {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function styles_scripts()
-	{
+	static public function styles_scripts() {
 		wp_enqueue_script(
 			'fl-builder-template-data-exporter',
 			FL_BUILDER_TEMPLATE_DATA_EXPORTER_URL . 'js/fl-builder-template-data-exporter.js',
@@ -89,8 +84,7 @@ final class FLBuilderTemplateDataExporter {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function menu()
-	{
+	static public function menu() {
 		if ( self::is_enabled() && current_user_can( 'delete_users' ) ) {
 
 			$title = __( 'Template Exporter', 'fl-builder' );
@@ -108,8 +102,7 @@ final class FLBuilderTemplateDataExporter {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function render()
-	{
+	static public function render() {
 		$theme   = self::get_ui_data( 'theme' );
 		$layouts = self::get_ui_data();
 		$rows    = self::get_ui_data( 'row' );
@@ -124,8 +117,7 @@ final class FLBuilderTemplateDataExporter {
 	 * @since 1.8
 	 * @return void
 	 */
-	static public function export()
-	{
+	static public function export() {
 		if ( ! current_user_can( 'delete_users' ) ) {
 			return;
 		}
@@ -168,8 +160,7 @@ final class FLBuilderTemplateDataExporter {
 	 * @param string $type
 	 * @return array
 	 */
-	static private function get_ui_data( $type = 'layout' )
-	{
+	static private function get_ui_data( $type = 'layout' ) {
 		$templates = array();
 
 		if ( 'theme' == $type ) {
@@ -177,7 +168,7 @@ final class FLBuilderTemplateDataExporter {
 				'post_type'       => 'fl-theme-layout',
 				'orderby'         => 'title',
 				'order'           => 'ASC',
-				'posts_per_page'  => '-1'
+				'posts_per_page'  => '-1',
 			);
 		} else {
 			$args = array(
@@ -189,16 +180,16 @@ final class FLBuilderTemplateDataExporter {
 					array(
 						'taxonomy'  => 'fl-builder-template-type',
 						'field'     => 'slug',
-						'terms'     => $type
-					)
-				)
+						'terms'     => $type,
+					),
+				),
 			);
 		}
 
-		foreach( get_posts( $args ) as $post ) {
+		foreach ( get_posts( $args ) as $post ) {
 			$templates[] = array(
 				'id'   => $post->ID,
-				'name' => $post->post_title
+				'name' => $post->post_title,
 			);
 		}
 
@@ -213,14 +204,13 @@ final class FLBuilderTemplateDataExporter {
 	 * @param array $templates
 	 * @return array
 	 */
-	static private function get_theme_layout_export_data( $templates )
-	{
+	static private function get_theme_layout_export_data( $templates ) {
 		$posts = get_posts( array(
 			'post_type'       => 'fl-theme-layout',
 			'orderby'         => 'menu_order title',
 			'order'           => 'ASC',
 			'posts_per_page'  => '-1',
-			'post__in'        => array_map( 'sanitize_text_field', $_POST['fl-builder-export-theme'] )
+			'post__in'        => array_map( 'sanitize_text_field', $_POST['fl-builder-export-theme'] ),
 		) );
 
 		// Get all theme layouts.
@@ -254,8 +244,7 @@ final class FLBuilderTemplateDataExporter {
 	 * @param array $post_ids
 	 * @return array
 	 */
-	static private function get_template_export_data( $post_ids = array() )
-	{
+	static private function get_template_export_data( $post_ids = array() ) {
 		if ( empty( $post_ids ) ) {
 			return array();
 		}
@@ -265,7 +254,7 @@ final class FLBuilderTemplateDataExporter {
 			'orderby'         => 'menu_order title',
 			'order'           => 'ASC',
 			'posts_per_page'  => '-1',
-			'post__in'        => $post_ids
+			'post__in'        => $post_ids,
 		) );
 
 		return self::get_export_data( $posts );
@@ -279,8 +268,7 @@ final class FLBuilderTemplateDataExporter {
 	 * @param array $posts
 	 * @return array
 	 */
-	static private function get_export_data( $posts )
-	{
+	static private function get_export_data( $posts ) {
 		if ( empty( $posts ) ) {
 			return array();
 		}
@@ -288,7 +276,7 @@ final class FLBuilderTemplateDataExporter {
 		$templates = array();
 		$index     = 0;
 
-		foreach( $posts as $post ) {
+		foreach ( $posts as $post ) {
 
 			// Build the template object.
 			$template             = new StdClass();
@@ -313,8 +301,7 @@ final class FLBuilderTemplateDataExporter {
 
 			if ( 0 === count( $categories ) || is_wp_error( $categories ) ) {
 				$template->categories['uncategorized'] = 'Uncategorized';
-			}
-			else {
+			} else {
 				foreach ( $categories as $category ) {
 					$template->categories[ $category->slug ] = $category->name;
 				}
@@ -328,7 +315,7 @@ final class FLBuilderTemplateDataExporter {
 
 			// Add the template to the templates array.
 			$templates[] = apply_filters( 'fl_builder_exporter_template', $template, $post );
-		}
+		}// End foreach().
 
 		return $templates;
 	}

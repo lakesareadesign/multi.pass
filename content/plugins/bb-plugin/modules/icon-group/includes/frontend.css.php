@@ -11,7 +11,7 @@ FLBuilder::render_module_css('icon', $id, array(
 	'link_target'    => '',
 	'size'           => $settings->size,
 	'text'           => '',
-	'three_d'        => $settings->three_d
+	'three_d'        => $settings->three_d,
 ));
 
 ?>
