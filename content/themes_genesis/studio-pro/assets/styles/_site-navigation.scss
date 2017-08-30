@@ -1,0 +1,344 @@
+/* ## Site Navigation
+--------------------------------------------- */
+
+.genesis-nav-menu {
+    clear: both;
+    line-height: 1;
+    width: 100%;
+    white-space: nowrap;
+    font-size: $font-size-body * .82;
+    font-weight: $font-weight-bold !important;
+    text-transform: uppercase;
+    line-height: 1;
+    @include breakpoint(sm) {
+        font-size: $font-size-body * .75;
+    }
+    .menu-item {
+        display: inline-block;
+        margin-bottom: 0;
+        margin-right: 1em;
+        text-align: left;
+        float: left;
+        position: relative;
+        @include breakpoint(sm) {
+            float: left;
+            text-align: right;
+            padding: 0;
+            width: auto;
+        }
+        .js & {
+            width: 100%;
+            display: block;
+            margin-right: 0;
+            @include breakpoint(sm) {
+                width: auto;
+            }
+        }
+        &:last-of-type a {
+            padding-right: 0;
+        }
+        .responsive & {
+            width: 100%;
+            padding: 0;
+            @include breakpoint(sm) {
+                width: auto;
+            }
+        }
+    }
+    a {
+        text-decoration: none;
+        display: block;
+        padding: 20px 0;
+        color: $color-text;
+        @include breakpoint(sm) {
+            padding: 23px 10px;
+        }
+        @include breakpoint(md) {
+            padding: 23px 20px;
+        }
+    }
+    .menu-item-has-children {
+        >a span {
+            &:after {
+                content: " ";
+                display: none;
+                margin-top: calc(.5em - 2px);
+                margin-left: 4px;
+                float: right;
+                height: 3px;
+                width: 3px;
+                border: 3px solid transparent;
+                border-top-color: $color-text;
+                border-radius: 2px;
+                @include breakpoint(sm) {
+                    display: inline-block;
+                }
+            }
+        }
+    }
+    .sub-menu {
+        display: none;
+        background-color: $color-text;
+        border-radius: 5px;
+        @include breakpoint(sm) {
+            top: 100%;
+            position: absolute;
+            width: 200px;
+            z-index: 99;
+            border: 1px solid $color-border;
+        }
+        &:before {
+            content: " ";
+            display: none;
+            position: absolute;
+            top: -5px;
+            left: 3rem;
+            height: 10px;
+            width: 10px;
+            background-color: $color-text;
+            border-radius: 2px;
+            transform: rotate(45deg);
+            @include breakpoint(sm) {
+                display: block;
+            }
+        }
+        .menu-item {
+            width: 100%;
+            @include breakpoint(sm) {
+                width: 100%;
+            }
+            >a span:after {
+                transform: rotate(-135deg);
+                float: none;
+                margin-top: 0;
+            }
+            a {
+                padding-left: 10px;
+                text-align: left;
+                color: $color-white;
+                white-space: normal;
+                @include breakpoint(sm) {
+                    padding: 20px;
+                    position: relative;
+                    word-wrap: break-word;
+                }
+            }
+        }
+        .sub-menu {
+            padding-left: 1em;
+            @include breakpoint(sm) {
+                margin: -55px 0 0 199px;
+                padding-left: 0;
+                border-left: none;
+                &:before {
+                    display: none;
+                }
+            }
+        }
+    }
+    .menu-item {
+        &:hover,
+        &:focus {
+            > .sub-menu {
+                display: block;
+            }
+        }
+    }
+    >.first>a {
+        padding-left: 0;
+    }
+    >.last>a {
+        padding-right: 0;
+    }
+    >.right {
+        float: right;
+    }
+}
+
+
+/* ## Primary Navigation
+--------------------------------------------- */
+
+.nav-primary {
+    width: 100%;
+    clear: both;
+    top: 100%;
+    left: 0;
+    @include breakpoint(sm) {
+        width: auto;
+        clear: none;
+        float: right;
+        top: auto;
+        left: auto;
+        margin-left: auto;
+    }
+    .js & {
+        background-color: $color-text;
+        box-shadow: -99px 0 0 $color-text, 99px 0 0 $color-text;
+        display: none;
+        padding: 0 5%;
+        position: absolute;
+        @include breakpoint(sm) {
+            background-color: transparent;
+            box-shadow: none;
+            display: block;
+            position: relative;
+            padding: 0;
+        }
+        .menu-item {
+            a {
+                color: $color-white;
+                @include breakpoint(sm) {
+                    color: $color-text;
+                }
+            }
+            .menu-item a {
+                @include breakpoint(sm) {
+                    color: $color-white;
+                }
+            }
+        }
+    }
+    .wrap {
+        padding: 25px 0;
+        max-width: 100%;
+        @include breakpoint(sm) {
+            padding: 0;
+        }
+    }
+    li li {
+        margin-left: 0;
+    }
+    a:hover,
+    a:focus,
+    .current-menu-item>a,
+    .sub-menu .current-menu-item>a:hover,
+    .sub-menu .current-menu-item>a:focus {
+        text-decoration: none;
+        @include gradient-text;
+    }
+}
+
+
+/* ## Footer Navigation
+--------------------------------------------- */
+
+.footer-widgets .menu {
+    text-transform: uppercase;
+    font-size: $font-size-body * .75;
+    >.menu-item {
+        width: 50%;
+        float: left;
+        font-weight: bold;
+    }
+    .sub-menu,
+    .sub-menu-toggle {
+        display: none;
+    }
+}
+
+
+/* ## Responsive Navigation
+--------------------------------------------- */
+
+.menu-toggle {
+    border-width: 0;
+    background-color: transparent;
+    color: $color-text;
+    display: block;
+    margin: 0 auto;
+    overflow: hidden;
+    text-align: center;
+    padding: 20px 25px 20px 0;
+    line-height: 20px;
+    position: absolute;
+    right: 5%;
+    top: 0;
+    z-index: 9;
+    float: right;
+    &:focus,
+    &:active,
+    &:hover {
+        color: $color-text;
+    }
+    .site-header > & {
+        top: 28px;
+    }
+    @include breakpoint(sm) {
+        padding: 30px 30px 30px 0;
+    }
+    @include breakpoint(sm) {
+        display: none;
+    }
+    span {
+        position: absolute;
+        right: 0;
+        width: 20px;
+        height: 2px;
+        background-color: $color-text;
+        display: block;
+        float: left;
+        top: calc(50% - 7px);
+        @include transition;
+        &:nth-of-type(2),
+        &:nth-of-type(3) {
+            top: calc(50% - 1px);
+        }
+        &:nth-of-type(4) {
+            top: calc(50% + 5px);
+        }
+    }
+    &.activated {
+        span {
+            top: calc(50% - 1px);
+            opacity: 0;
+            &:nth-of-type(2) {
+                transform: rotate(45deg);
+                opacity: 1;
+            }
+            &:nth-of-type(3) {
+                transform: rotate(-45deg);
+                opacity: 1;
+            }
+        }
+    }
+    &.toggle-secondary {
+        float: none;
+        margin: 0 auto;
+        @include breakpoint(sm) {
+            padding: 20px 25px 20px 0;
+        }
+    }
+}
+
+.sub-menu-toggle {
+    padding: 1.5em;
+    margin: 0.5em;
+    position: absolute;
+    right: -5%;
+    top: 0;
+    border-width: 0;
+    background-color: transparent;
+    @include breakpoint(sm) {
+        display: none;
+    }
+    &:before {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: calc(50% - 2.5px);
+        right: calc(50% - 5px);
+        width: 0;
+        height: 0;
+        border: 5px solid transparent;
+        border-top: 5px solid $color-white;
+        text-rendering: auto;
+        -webkit-transform: translate(0, 0);
+        -ms-transform: translate(0, 0);
+        transform: translate(0, 0);
+    }
+    &.activated:before {
+        border-top: none;
+        border-bottom: 5px solid $color-white;
+    }
+}

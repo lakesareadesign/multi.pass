@@ -1,0 +1,168 @@
+/* # Variables
+-----------------------------------------------------------------------*/
+
+/* ### Breakpoints */
+
+$breakpoints: ( xs: 600px, sm: 860px, md: 1023px, lg: 1200px, xl: 1340px);
+
+/* ### Colors */
+
+$color-black:  #000000;
+$color-text:   #2A2B33;
+$color-left:   #7A28FF;
+$color-right:  #00A1FF;
+$color-mixed:  #3D64FF;
+$color-gray:   #aeaeb1;
+$color-light:  #f4f5f6;
+$color-white:  #ffffff;
+$color-border: rgba(0, 0, 0, 0.0382);
+
+/* ### Typography */
+
+$font-heading: Montserrat, Helvetica, sans-serif;
+$font-body: Muli, Helvetica, sans-serif;
+$font-size-heading: 20px;
+$font-size-body: 16px;
+$font-weight-bold: 600;
+$font-weight-normal: 400;
+$line-height-heading: 1.382;
+$line-height-body: 1.618;
+
+/* ### Misc */
+
+$site-border: 1px solid $color-border;
+$site-radius: 5px;
+
+
+/* # Mixins
+-----------------------------------------------------------------------*/
+
+
+/* ### Media Queries */
+
+@mixin breakpoint( $breakpoint) {
+    @if map-has-key( $breakpoints, $breakpoint) {
+        @media ( min-width: #{ map-get( $breakpoints, $breakpoint ) }) {
+            @content;
+        }
+    }
+    @else if type_of( $breakpoint)==number and unit( $breakpoint)==px or unit( $breakpoint)==em or unit( $breakpoint)==rem {
+        @media (min-width: $breakpoint) {
+            @content;
+        }
+    }
+    @else {
+        @warn "Unfortunately no value could be retrieved from `#{$breakpoint}`. "+"Please make sure it is defined in `$breakpoints` map, or it is a valid number with supported unit of px, em or rem.";
+    }
+}
+
+
+/* ### Clearfix */
+
+@mixin clearfix {
+    clear: both;
+    &:before,
+    &:after {
+        display: block;
+        content: '';
+    }
+    &:after {
+        clear: both;
+    }
+}
+
+/* ### Flexfix */
+
+@mixin flexfix {
+    &:before,
+    &:after {
+        position: absolute;
+    }
+}
+
+/* ### Screen reader text */
+
+@mixin screen-reader-text {
+    position: absolute !important;
+    clip: rect(0, 0, 0, 0);
+    height: 1px;
+    width: 1px;
+    border: 0;
+    overflow: hidden;
+    &:focus {
+        clip: auto !important;
+        height: auto;
+        width: auto;
+        display: block;
+        font-size: $font-size-body;
+        padding: 15px 23px 14px;
+        color: $color-text;
+        z-index: 100000;
+        text-decoration: none;
+        box-shadow: 0 0 2px 2px rgba(0, 0, 0, .6);
+    }
+}
+
+
+/* ### Transitions */
+
+@mixin transition {
+    -webkit-transition: all .3s ease;
+    -moz-transition: all .3s ease;
+    -o-transition: all .3s ease;
+    transition: all .3s ease;
+}
+
+
+/* ### Gradient */
+
+@mixin overlay {
+    position: relative;
+    * {
+        position: relative;
+        z-index: 1;
+    }
+    &:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        height: 100%;
+        width: 100%;
+        opacity: 0.82;
+        background: mix($color-left, $color-right);
+        background: -moz-linear-gradient(left, $color-left 0%, $color-right 100%);
+        background: -webkit-linear-gradient(left, $color-left 0%, $color-right 100%);
+        background: linear-gradient(to right, $color-left 0%, $color-right 100%);
+        filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7a28ff', endColorstr='#00a1ff', GradientType=1);
+    }
+}
+
+
+/* ### Gradient */
+
+@mixin gradient {
+    background: mix($color-left, $color-right);
+    background: -moz-linear-gradient(left, $color-left 0%, $color-right 100%);
+    background: -webkit-linear-gradient(left, $color-left 0%, $color-right 100%);
+    background: linear-gradient(to right, $color-left 0%, $color-right 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#7a28ff', endColorstr='#00a1ff', GradientType=1);
+}
+
+
+/* ### Gradient Text */
+
+@mixin gradient-text {
+    color: mix($color-left, $color-right);
+    background: -webkit-linear-gradient(#673cf2, #1694ff);
+    background: -moz-linear-gradient(#673cf2, #1694ff);
+    background: -ms-linear-gradient(#673cf2, #1694ff);
+    background: -o-linear-gradient(#673cf2, #1694ff);
+    background: linear-gradient(#673cf2, #1694ff);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-fill-color: transparent;
+}

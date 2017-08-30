@@ -1,0 +1,168 @@
+/* ## Site Footer
+--------------------------------------------- */
+
+.site-footer {
+    background-color: $color-text;
+    line-height: 1.382;
+    font-size: $font-size-body;
+    margin-bottom: -1px;
+    z-index: 1;
+    position: relative;
+    >.wrap {
+        position: relative;
+        >p {
+            max-width: 90%;
+            padding: 5% 0;
+            @include breakpoint(sm) {
+                padding: 50px 0;
+            }
+        }
+    }
+    p {
+        margin-bottom: 0;
+        color: darken($color-white, 30%);
+    }
+    a {
+        color: darken($color-white, 20%);
+        font-weight: bold;
+        &:hover,
+        &:focus {
+            color: $color-white;
+        }
+    }
+    .widget-area {
+        @include breakpoint(sm) {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.back-to-top {
+    position: absolute;
+    right: calc(5% - 5px);
+    bottom: calc(5vw - 5px);
+    width: 4rem;
+    height: 4rem;
+    margin: -1rem;
+    border-radius: 5px;
+    box-shadow: inset 0 0 0 99px rgba(255, 255, 255, 0), 0 5px 20px rgba(0, 0, 0, 0);
+    @include transition;
+    @include breakpoint(sm) {
+        right: 0;
+        bottom: 50px;
+    }
+    &:hover {
+        box-shadow: inset 0 0 0 99px rgba(255, 255, 255, .1), 0 5px 25px rgba(0, 0, 0, 0.23);
+    }
+    &:before {
+        content: " ";
+        display: block;
+        height: 10px;
+        width: 10px;
+        margin: auto;
+        transform: rotate(-45deg);
+        border-top: 2px solid $color-white;
+        border-right: 2px solid $color-white;
+        border-radius: 2px;
+        position: absolute;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+    }
+}
+
+
+/* ## Before Footer
+--------------------------------------------- */
+
+.before-footer {
+    padding: 50px 0;
+    text-align: center;
+    background-position: center;
+    background-size: cover;
+    transition: all .1s ease;
+    position: relative;
+    text-align: center;
+    @include breakpoint(sm) {
+        padding: 100px 0;
+    }
+    &:after {
+        opacity: 0.82;
+    }
+    .widget {
+        margin-bottom: 0;
+    }
+    .simple-social-icons {
+        ul {
+
+            li {
+                margin-right: 1em;
+            }
+        }
+        a {
+            background-color: transparent !important;
+            &:hover {
+                background-color: rgba(white,0.2) !important;
+            }
+        }
+    }
+}
+
+
+/* ## Footer Widgets
+--------------------------------------------- */
+
+.footer-widgets {
+    background-color: $color-text;
+    color: darken($color-white, 30%);
+    >.wrap {
+        padding: 50px 5%;
+        @include breakpoint(sm) {
+            padding: 100px 0;
+            display: flex;
+        }
+    }
+    .widget-area {
+        flex: 1;
+        margin-bottom: 7.5%;
+        @include breakpoint(sm) {
+            margin-bottom: 0;
+        }
+        &:last-of-type {
+            margin-bottom: 0;
+        }
+    }
+    a {
+        color: darken($color-white, 20%);
+        &:hover,
+        &:focus {
+            color: $color-white;
+        }
+    }
+    .widget-title {
+        font-size: $font-size-body * 1.1;
+        margin-bottom: 1.382em;
+        display: block;
+        color: darken($color-white, 10%);
+    }
+    .menu {
+        .menu-item[class^="icon-"] {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            &:before {
+                color: $color-gray;
+                font-size: 1.7rem;
+            }
+            a {
+                font-family: $font-body;
+                font-size: 1.2rem;
+                text-transform: uppercase;
+                margin-left: 1rem;
+                vertical-align: middle;
+            }
+        }
+    }
+}

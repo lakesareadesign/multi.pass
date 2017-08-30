@@ -1,0 +1,94 @@
+/*!
+	Theme Name: Studio Pro
+	Theme URI: http://www.seothemes.com/studio-pro/
+	Description: This is the Studio Pro theme created for the Genesis Framework.
+	Author: Seo Themes
+	Author URI: http://www.seothemes.com/
+	Version: 2.1.3
+	Text Domain: studio-pro
+	Tags: one-column, two-columns, left-sidebar, right-sidebar, accessibility-ready, custom-logo, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready
+	Template: genesis
+	Template Version: 2.4.2
+	License: GPL-2.0+
+	License URI: http://www.gnu.org/licenses/gpl-2.0.html
+*/
+
+/*! # Table of Contents
+
+- Utlities
+	- Variables
+	- Mixins
+- Reset
+	- Baseline Normalize
+	- Box Sizing
+	- Float Clearing
+- Defaults
+	- Typography
+	- Headings
+	- Objects
+	- Forms
+	- Tables
+	- Accessibility
+- Structure and Layout
+	- Site Containers
+	- Content Width
+	- Column Classes
+	- Gallery
+	- Featured Content
+- Common Classes
+	- Avatar
+	- Genesis
+	- Search Form
+	- Titles
+	- WordPress
+- Widgets
+	- Widgets
+	- Front Page
+- Plugins
+	- Easy Widget Columns
+	- Genesis eNews
+	- Genesis Testimonials
+	- Simple Social Icons
+	- WooCommerce
+- Site Header
+	- Before Header
+	- Site Header
+	- Title Area
+	- Widget Area
+	- Hero Section
+- Site Navigation
+	- Site Navigation
+	- Primary Menu
+	- Secondary Menu
+	- Footer Menu
+	- Menu buttons
+- Content Area
+	- Entries
+	- Entry Meta
+	- Pagination
+	- Comments
+	- Sidebars
+- Site Footer
+	- Site Footer
+	- Before Footer
+	- Footer Widgets
+	- After Footer
+- Print Styles
+	- Print Styles
+*/
+
+@import 'utilities';
+@import 'reset';
+@import 'defaults';
+@import 'structure-layout';
+@import 'common-classes';
+@import 'site-header';
+@import 'site-navigation';
+@import 'content-area';
+@import 'widgets';
+@import 'site-footer';
+@import 'plugins';
+@import 'fonts';
+@import 'front-page';
+@import 'woocommerce';
+@import 'print-styles';

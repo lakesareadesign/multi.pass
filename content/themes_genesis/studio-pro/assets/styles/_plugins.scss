@@ -1,0 +1,279 @@
+/* ## Genesis eNews Extended
+--------------------------------------------- */
+
+.enews-widget {
+    input {
+        &[type="email"] {
+            width: calc(80% - 1em);
+            float: left;
+            .footer-widgets & {
+                background: transparent;
+                color: $color-white;
+                &::-moz-placeholder {
+                    color: $color-white;
+                    opacity: 1;
+                }
+                &::-webkit-input-placeholder {
+                    color: $color-white;
+                }
+            }
+        }
+        &[type="submit"] {
+            margin: 0;
+            width: 20%;
+            float: right;
+            padding-left: 0;
+            padding-right: 0;
+            .footer-widgets & {
+                @include gradient;
+            }
+        }
+    }
+}
+
+.enews form+p {
+    margin-top: 24px;
+}
+
+
+/* ## Genesis portfolio pro
+--------------------------------------------- */
+
+.portfolio {
+    .site-inner {
+        padding: 0;
+        background-color: $color-border;
+    }
+    .portfolio-content {
+        background-color: $color-border;
+    }
+    &.full-width-content .content {
+        margin-bottom: 0;
+        max-width: 100%;
+        width: 100%;
+    }
+    .filter {
+        padding: 3rem 0;
+        background-color: $color-white;
+        box-shadow: 0 0 60px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 99;
+        text-align: center;
+        a {
+            margin-right: 3rem;
+            font-family: $font-heading;
+            text-transform: uppercase;
+            font-size: $font-size-body * .8;
+            font-weight: $font-weight-bold;
+            display: inline-block;
+            position: relative;
+            color: lighten( $color-text, 38.2%);
+            @include breakpoint(xs) {
+                float: left;
+            }
+            &.active {
+                color: $color-text;
+            }
+            &:first-of-type {
+                @include breakpoint(xs) {
+                    float: right;
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+    .portfolio-item {
+        margin-bottom: -1px;
+        width: 100%;
+        @include breakpoint(xs) {
+            width: 50%;
+        }
+        @include breakpoint(md) {
+            width: 33.33333333333333333333%;
+        }
+        &:before {
+            content: " ";
+            display: block;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: $color-text;
+            opacity: .1;
+            pointer-events: none;
+            @include transition;
+        }
+        &:hover {
+            &:before {
+                opacity: .9;
+            }
+            .entry-title {
+                opacity: 1;
+                top: 0;
+            }
+        }
+        a,
+        img {
+            margin: 0;
+            border-radius: 0;
+            display: block;
+            min-width: 100%;
+        }
+    }
+    .entry-title {
+        position: absolute;
+        top: 75%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: 0;
+        opacity: 0;
+        color: $color-white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-family: $font-heading;
+        text-transform: uppercase;
+        @include transition;
+    }
+}
+
+
+/* ## Genesis Testimonial Slider
+--------------------------------------------- */
+
+.widget_gts_widget {
+    max-width: 110%;
+    margin: 0 -5%;
+    @include breakpoint(sm) {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+    .wrap {
+        max-width: 100%;
+    }
+}
+
+div.lSSlideOuter {
+    .lSSlideWrapper,
+    .lightSlider {
+        height: 100% !important;
+    }
+    ul.testimonials-list li {
+        position: relative;
+        text-align: left;
+        padding: 0 20px 50px;
+        @include breakpoint(xs) {
+            padding: 0 20px 50px;
+        }
+        img {
+            margin: 0 auto -40px;
+            display: block;
+            position: relative;
+            z-index: 1;
+            width: 80px;
+            height: 80px;
+        }
+        blockquote {
+            margin: 0;
+            position: relative;
+            background-color: $color-white;
+            padding: 60px 30px 80px;
+            border-radius: 6px;
+            color: lighten($color-text, 38.2%);
+            line-height: 1.382;
+            font-size: $font-size-body;
+        }
+        h5 {
+            margin-left: 30px;
+            margin-top: -70px;
+            margin-bottom: 0;
+            font-size: $font-size-body;
+            position: relative;
+            &:before {
+                content: "- ";
+            }
+        }
+        .gts-company {
+            position: relative;
+            margin-left: 30px;
+        }
+    }
+    .gts-rating {
+        position: absolute;
+        z-index: 1;
+        top: 7rem;
+        left: 5rem;
+    }
+    .lSPager.lSpg>li {
+        a {
+            background-color: $color-text;
+            opacity: .382;
+        }
+        &.active a,
+        &:hover a {
+            background-color: $color-text;
+            opacity: 1;
+            box-shadow: 0 0 0 1px $color-text;
+        }
+    }
+}
+
+
+/* ## Simple Social Icons
+--------------------------------------------- */
+
+.simple-social-icons {
+    overflow: hidden;
+    svg {
+        &[class^="social-"],
+        &[class*=" social-"] {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            stroke-width: 0;
+            stroke: currentColor;
+            fill: currentColor;
+        }
+    }
+    ul {
+        margin: -0.5em -0.5em 0 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        li {
+            background: none;
+            border: none;
+            list-style-type: none;
+            margin: 0.5em 0.5em 0 0;
+            padding: 0;
+            a {
+                border: none;
+                -moz-box-sizing: content-box;
+                -webkit-box-sizing: content-box;
+                box-sizing: content-box;
+                display: inline-block;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: normal;
+                height: 1em;
+                line-height: 1em;
+                text-align: center;
+                text-decoration: none;
+                text-transform: none;
+                width: 1em;
+            }
+        }
+        &.aligncenter {
+            justify-content: center;
+        }
+        &.alignleft {
+            justify-content: flex-start;
+        }
+        &.alignright {
+            justify-content: flex-end;
+        }
+    }
+}

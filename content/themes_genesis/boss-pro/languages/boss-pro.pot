@@ -1,0 +1,220 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Boss Pro 1.0.1\n"
+"POT-Creation-Date: 2017-08-10 18:57-0400\n"
+"PO-Revision-Date: 2017-08-10 18:56-0400\n"
+"Last-Translator: Design by Bloom <jtgrauke@gmail.com>\n"
+"Language-Team: Design by Bloom <jtgrauke@gmail.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: front-page.php:55
+msgid "Main Content"
+msgstr ""
+
+#: functions.php:80 functions.php:82
+msgid "Menu"
+msgstr ""
+
+#: functions.php:216
+msgid "Header Menu"
+msgstr ""
+
+#: functions.php:257
+msgid "Front Page 1"
+msgstr ""
+
+#: functions.php:258
+msgid "This is the 1st section on the front page."
+msgstr ""
+
+#: functions.php:262
+msgid "Front Page 2"
+msgstr ""
+
+#: functions.php:263
+msgid "This is the 2nd section on the front page."
+msgstr ""
+
+#: functions.php:267
+msgid "Front Page 3"
+msgstr ""
+
+#: functions.php:268
+msgid "This is the 3rd section on the front page."
+msgstr ""
+
+#: functions.php:272
+msgid "Front Page 4"
+msgstr ""
+
+#: functions.php:273
+msgid "This is the 4th section on the front page."
+msgstr ""
+
+#: functions.php:277
+msgid "Front Page 5"
+msgstr ""
+
+#: functions.php:278
+msgid "This is the 5th section on the front page."
+msgstr ""
+
+#: functions.php:282
+msgid "Front Page 6"
+msgstr ""
+
+#: functions.php:283
+msgid "This is the 6th section on the front page."
+msgstr ""
+
+#: functions.php:287
+msgid "Front Page 7"
+msgstr ""
+
+#: functions.php:288
+msgid "This is the 7th section on the front page."
+msgstr ""
+
+#: functions.php:292
+msgid "Before Blog"
+msgstr ""
+
+#: functions.php:293
+msgid ""
+"This is a widget area right before the first post on every page of your blog."
+msgstr ""
+
+#: inc/customize.php:59
+msgid "Front Page Light Header Image"
+msgstr ""
+
+#: inc/customize.php:60
+msgid ""
+"<p>Upload a version of the logo that will appear on the darker background on "
+"the home page. <strong>Note: you must first upload a logo above for this "
+"option to work.</strong></p>"
+msgstr ""
+
+#: inc/customize.php:68
+msgid "Front Page Images"
+msgstr ""
+
+#: inc/customize.php:69
+msgid ""
+"<p>Use the default images or personalize your site by uploading your own "
+"images for the front page 1, front page 4, and front page 7 widget "
+"backgrounds.</p><p>The default image is <strong>1600 x 1050 pixels</strong>."
+"</p>"
+msgstr ""
+
+#: inc/customize.php:84
+msgid "Page Header Image Upload"
+msgstr ""
+
+#: inc/customize.php:102
+msgid "Front Page 4 Image Upload"
+msgstr ""
+
+#: inc/customize.php:120
+msgid "Front Page 7 Image Upload"
+msgstr ""
+
+#: inc/customize.php:141
+msgid ""
+"Set the default link color. This color is also used as the highlight color "
+"for inputs."
+msgstr ""
+
+#: inc/customize.php:142
+msgid "Link Color"
+msgstr ""
+
+#: inc/customize.php:163
+msgid "Set the default button color."
+msgstr ""
+
+#: inc/customize.php:164
+msgid "Button Color"
+msgstr ""
+
+#: inc/customize.php:185
+msgid "Set the background color for the Front Page 2 widget area."
+msgstr ""
+
+#: inc/customize.php:186
+msgid "Front Page 2 Background Color"
+msgstr ""
+
+#: inc/customize.php:207
+msgid ""
+"Set the light accent color. This shows up in the Front Page 4 card, the "
+"Front Page 6 background color, and the Genesis Recent Posts background color."
+msgstr ""
+
+#: inc/customize.php:208
+msgid "Light Accent Color"
+msgstr ""
+
+#: inc/entry-grid-shortcode.php:59
+#, php-format
+msgid "Permalink to %s"
+msgstr ""
+
+#: inc/woocommerce/woocommerce-notice.php:58
+#, php-format
+msgid ""
+"Please install and activate <a href=\"https://wordpress.org/plugins/genesis-"
+"connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> "
+"to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: inc/woocommerce/woocommerce-notice.php:72
+msgid "install and activate Genesis Connect for WooCommerce"
+msgstr ""
+
+#: inc/woocommerce/woocommerce-notice.php:74
+#, php-format
+msgid "Please %s to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: inc/woocommerce/woocommerce-setup.php:80
+msgid "Previous Page"
+msgstr ""
+
+#: inc/woocommerce/woocommerce-setup.php:81
+msgid "Next Page"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Boss Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/boss/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "This is the Boss Pro Theme created for the Genesis Framework."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Bloom"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://designbybloom.co"
+msgstr ""

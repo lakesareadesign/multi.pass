@@ -1,0 +1,301 @@
+.site-header {
+    position: relative;
+    width: 100%;
+    z-index: 999;
+    top: 0;
+    left: 0;
+    background-color: $color-white;
+    @include transition;
+    >.wrap {
+        position: relative;
+        @include transition;
+        @include breakpoint(sm) {
+            padding: 10px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            @include flexfix;
+        }
+        @include breakpoint(md) {
+            padding: 20px 0;
+        }
+    }
+    &.shrink {
+        background-color: $color-white;
+        box-shadow: 0 0 50px rgba(0, 0, 0, 0.1);
+        >.wrap {
+            padding: 0 5%;
+            @include breakpoint(sm) {
+                padding: 0;
+            }
+        }
+    }
+    .custom-header & {
+        background-size: cover !important;
+        background-position: center !important;
+    }
+}
+
+
+/* ## Title Area
+--------------------------------------------- */
+
+.title-area {
+    padding: 10px 0;
+    margin: 0 auto;
+    float: left;
+    @include breakpoint(sm) {
+        float: left;
+        padding: 10px 0;
+    }
+}
+
+.site-title {
+    font-size: $font-size-heading;
+    font-family: $font-heading;
+    font-weight: $font-weight-bold;
+    line-height: $line-height-heading;
+    text-transform: uppercase;
+    @include breakpoint(md) {
+        text-align: left;
+    }
+    .wp-custom-logo & {
+        @include screen-reader-text;
+    }
+    a {
+        color: $color-text;
+    }
+    a:hover,
+    a:focus {
+        text-decoration: none;
+    }
+}
+
+.site-description {
+    font-size: $font-size-heading * 0.5;
+    line-height: $line-height-heading;
+    @include breakpoint(md) {
+        text-align: left;
+    }
+    .wp-custom-logo & {
+        @include screen-reader-text;
+    }
+}
+
+.site-description,
+.site-title,
+.site-header .widget-area {
+    margin-bottom: 0;
+}
+
+.wp-custom-logo {
+    .title-area {
+        padding: 10px 0;
+        margin: 0;
+        height: 60px;
+        width: 200px;
+        @include transition;
+    }
+    .custom-logo-link {
+        display: block;
+        height: 100%;
+        img {
+            width: auto;
+            height: 100%;
+            margin: 0;
+            vertical-align: middle;
+            display: block;
+        }
+    }
+}
+
+
+/* ## Hero Section
+--------------------------------------------- */
+
+.overlay {
+    @include overlay;
+}
+
+.hero-section {
+    padding: 15% 0;
+    background-position: center;
+    background-size: cover;
+    transition: all .1s ease;
+    position: relative;
+    text-align: center;
+    @include breakpoint(sm) {
+        padding: 100px 0;
+    }
+    * {
+        color: $color-white;
+    }
+    .wrap {
+        position: relative;
+        z-index: 1;
+    }
+    h1 {
+        width: 100%;
+        font-size: 3rem;
+        max-width: 720px;
+        margin: 0 auto;
+        @include breakpoint(xs) {
+            font-size: 3.8rem;
+        }
+        @include breakpoint(sm) {
+            font-size: 4.4rem;
+        }
+    }
+    p,
+    .breadcrumb {
+        padding: .618em 0 0;
+        display: block;
+        clear: both;
+        background: transparent;
+        max-width: 720px;
+        margin: 0 auto;
+        font-size: $font-size-body;
+        @include breakpoint(sm) {
+            float: left;
+            width: auto;
+            clear: none;
+            font-size: $font-size-body * 1.2;
+        }
+    }
+    .button,
+    button {
+        clear: both;
+        margin: 2em auto;
+        text-decoration: none;
+    }
+    p {
+        margin-bottom: 0;
+        @include breakpoint(sm) {
+            float: none;
+            clear: both;
+        }
+    }
+}
+
+.wp-custom-header {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    z-index: 0;
+    overflow: hidden;
+    img,
+    video,
+    iframe {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center center;
+    }
+    iframe {
+        top: -25%;
+        left: -25%;
+        right: -25%;
+        bottom: -25%;
+        margin: auto;
+        height: 150%;
+        width: 150%;
+        max-width: 150%;
+        max-height: none;
+        min-width: 100%;
+        min-height: 56.25vw; // 16:9 aspect ratio.
+        position: absolute;
+    }
+}
+
+.wp-custom-header-video-button {
+    display: none;
+}
+
+
+/* ## Header Widget Area
+--------------------------------------------- */
+
+.header-widget-area {
+    float: right;
+    padding: 10px 0 0 30px;
+    display: none;
+    @include breakpoint(sm) {
+        display: block;
+        padding: 11px 0 10px 10px;
+        order: 4;
+    }
+    @include breakpoint(md) {
+        padding: 11px 0 10px 40px;
+    }
+    .simple-social-icons {
+        ul,
+        li {
+            margin-top: 0;
+        }
+    }
+}
+
+
+/* ## Before Header
+--------------------------------------------- */
+
+.before-header {
+    border-bottom: 1px solid $color-border;
+    font-size: $font-size-body * 0.82;
+    background-color: $color-text;
+    position: relative;
+    width: 100%;
+    z-index: 99;
+    .wrap {
+        position: relative;
+        padding: 3px 5%;
+        @include breakpoint(sm) {
+            padding: 5px 0;
+        }
+    }
+    .widget,
+    .widget-title,
+    p {
+        margin-bottom: 0;
+        font-size: $font-size-body * 0.82;
+        float: left;
+        color: $color-white;
+    }
+}
+
+.close-before-header {
+    background: none !important;
+    color: transparent;
+    float: right;
+    padding: 0;
+    position: relative;
+    width: 2rem;
+    height: 2rem;
+    font-size: 0;
+    display: block;
+    &:before,
+    &:after {
+        content: " ";
+        display: block;
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        height: 15px;
+        width: 2px;
+        background-color: $color-white;
+        transform: rotate(-45deg);
+        margin: auto;
+    }
+    &:after {
+        transform: rotate(45deg);
+    }
+}

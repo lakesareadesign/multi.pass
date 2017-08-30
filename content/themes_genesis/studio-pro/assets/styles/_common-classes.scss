@@ -1,0 +1,171 @@
+/* ## Avatar
+--------------------------------------------- */
+
+.avatar {
+    border-radius: 50%;
+    float: left;
+}
+
+.author-box .avatar,
+.alignleft .avatar {
+    margin-right: 24px;
+}
+
+.alignright .avatar {
+    margin-left: 24px;
+}
+
+.comment .avatar {
+    margin: 0 16px 24px 0;
+}
+
+
+/* ## Titles
+--------------------------------------------- */
+
+.author-box-title {
+    font-size: $font-size-heading;
+}
+
+.entry-title {
+    font-size: $font-size-heading;
+    a {
+        color: $color-text;
+    }
+}
+
+.widget-title {
+    color: $color-text;
+    font-size: $font-size-heading;
+}
+
+
+/* ## Genesis
+--------------------------------------------- */
+
+.breadcrumb {
+    padding: 25px 0;
+    background-color: $color-border;
+    font-size: $font-size-body * .82;
+    @include breakpoint(sm) {
+        padding: 50px 0;
+    }
+}
+
+.after-entry,
+.author-box {
+    font-size: $font-size-body * 1.1;
+    margin-bottom: 5%;
+    @include breakpoint(sm) {
+        margin-bottom: 40px;
+    }
+}
+
+.archive-description p:last-child,
+.author-box p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* ## Search Form
+--------------------------------------------- */
+
+.search-form {
+    display: block;
+    width: 100%;
+    @include clearfix;
+    input[type="search"] {
+        float: left;
+        width: calc(80% - 1rem);
+    }
+    input[type="submit"] {
+        float: right;
+        display: inline-block;
+        width: 20%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .entry-content & {
+        margin-bottom: 40px;
+        width: 50%;
+    }
+}
+
+
+/* ## WordPress
+--------------------------------------------- */
+
+a.aligncenter img {
+    display: block;
+    margin: 0 auto;
+}
+
+a.alignnone {
+    display: inline-block;
+}
+
+.alignleft {
+    float: left;
+    text-align: left;
+}
+
+.alignright {
+    float: right;
+    text-align: right;
+}
+
+a.alignleft,
+a.alignnone,
+a.alignright {
+    max-width: 100%;
+}
+
+img.centered,
+.aligncenter {
+    display: block;
+    margin: 0 auto 24px;
+}
+
+img.alignnone,
+.alignnone {
+    margin-bottom: 12px;
+}
+
+a.alignleft,
+img.alignleft,
+.wp-caption.alignleft {
+    margin: 0 24px 24px 0;
+}
+
+a.alignright,
+img.alignright,
+.wp-caption.alignright {
+    margin: 0 0 24px 24px;
+}
+
+.wp-caption-text {
+    font-size: 14px;
+    font-size: 1.4rem;
+    margin: 0;
+    text-align: center;
+}
+
+.entry-content {
+    p.wp-caption-text {
+        margin-bottom: 0;
+    }
+    .wp-audio-shortcode,
+    .wp-playlist,
+    .wp-video {
+        margin: 0 0 28px;
+    }
+}
+
+a.post-edit-link {
+    display: none;
+}
+
+.sticky,
+.bypostauthor {
+    background-color: transparent;
+}
