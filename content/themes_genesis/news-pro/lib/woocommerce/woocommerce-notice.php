@@ -132,7 +132,7 @@ add_action( 'deactivated_plugin', 'news_reset_woocommerce_notice_on_deactivation
 function news_reset_woocommerce_notice_on_deactivation( $plugin, $network_activation ) {
 
 	// Conditional check to see if we're deactivating WooCommerce or Genesis Connect for WooCommerce.
-	if ( $plugin !== 'woocommerce/woocommerce.php' && $plugin !== 'genesis-connect-woocommerce/genesis-connect-woocommerce.php'  ) {
+	if ( $plugin !== 'woocommerce/woocommerce.php' && $plugin !== 'genesis-connect-woocommerce/genesis-connect-woocommerce.php' ) {
 		return;
 	}
 

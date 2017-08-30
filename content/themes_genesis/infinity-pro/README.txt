@@ -17,7 +17,7 @@ Front Page 5 - This is the front page 5 section.
 Front Page 6 - This is the front page 6 section.
 Front Page 7 - This is the front page 7 section.
 Lead Capture - This is the lead capture section.
-Offscreen Content - This is the offscreen content section
+Offscreen Content - This is the offscreen content section.
 After Entry - This is the after entry section.
 Footer 1 - Footer 1 widget area.
 Footer 2 - Footer 2 widget area.
@@ -53,3 +53,10 @@ CHANGELOG
 
 = 1.1.2 =
 * Fix error thrown when WooCommerce was inactive
+
+= 1.1.3 =
+* Fix product gallery bug in WooCommerce 3.0 update
+* Update media query for menu
+* Update flexible widgets to work with customizer
+* Update responsive menu to 1.1.3
+* Optimize front page images

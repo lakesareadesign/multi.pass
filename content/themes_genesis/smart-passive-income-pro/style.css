@@ -5,7 +5,7 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 1.1.1
+	Version: 1.1.3
 
 	Tags: one-column, two-columns, left-sidebar, right-sidebar, accessibility-ready, custom-colors, custom-header, custom-menu, e-commerce, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, flexible-header, footer-widgets
 
@@ -2171,6 +2171,7 @@ p.entry-meta a:focus {
 		background: transparent !important;
 		border: 0;
 		color: #fff;
+		outline-offset: -1px;
 	}
 
 	.site-header .menu-toggle:focus,
@@ -2190,6 +2191,7 @@ p.entry-meta a:focus {
 		float: right;
 		padding: 10px;
 		position: absolute;
+		outline-offset: -1px;
 		right: 0;
 		top: 0;
 		z-index: 100;

@@ -43,7 +43,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', __( 'Workstation Pro', 'workstation-pro' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/workstation/' );
-define( 'CHILD_THEME_VERSION', '1.1.2' );
+define( 'CHILD_THEME_VERSION', '1.1.3' );
 
 // Enqueue scripts and styles.
 add_action( 'wp_enqueue_scripts', 'workstation_enqueue_scripts_styles' );
@@ -255,7 +255,7 @@ function workstation_close_after_header() {
 // Setup widget counts.
 function workstation_count_widgets( $id ) {
 
-	global $sidebars_widgets;
+	$sidebars_widgets = wp_get_sidebars_widgets();
 
 	if ( isset( $sidebars_widgets[ $id ] ) ) {
 		return count( $sidebars_widgets[ $id ] );

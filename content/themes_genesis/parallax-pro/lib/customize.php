@@ -25,7 +25,8 @@ function parallax_customizer() {
 	$wp_customize->add_section(
 		'parallax-settings',
 		array(
-			'title'    => __( 'Background Images', 'parallax-pro' ),
+			'title'    => __( 'Front Page Background Images', 'parallax-pro' ),
+			'description' => __( '<p>Use the default images or personalize your site by uploading your own images for the front page background images.</p><p>The default images are <strong>1600 x 1050 pixels</strong>.</p>', 'parallax-pro' ),
 			'priority' => 35,
 		)
 	);

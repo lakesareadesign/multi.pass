@@ -43,7 +43,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Smart Passive Income Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/smart-passive-income/' );
-define( 'CHILD_THEME_VERSION', '1.1.1' );
+define( 'CHILD_THEME_VERSION', '1.1.3' );
 
 // Enqueue Scripts and Styles.
 add_action( 'wp_enqueue_scripts', 'spi_enqueue_scripts_styles' );
@@ -207,7 +207,7 @@ function spi_author_gravatar_size( $size ) {
 // Setup widget counts.
 function spi_count_widgets( $id ) {
 
-	global $sidebars_widgets;
+	$sidebars_widgets = wp_get_sidebars_widgets();
 
 	if ( isset( $sidebars_widgets[ $id ] ) ) {
 		return count( $sidebars_widgets[ $id ] );

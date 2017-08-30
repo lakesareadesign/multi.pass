@@ -11,6 +11,15 @@
  * @link    http://my.studiopress.com/themes/atmosphere/
  */
 
+// Add product gallery support.
+if ( class_exists( 'WooCommerce' ) ) {
+
+	add_theme_support( 'wc-product-gallery-lightbox' );
+	add_theme_support( 'wc-product-gallery-slider' );
+	add_theme_support( 'wc-product-gallery-zoom' );
+
+}
+
 add_action( 'wp_enqueue_scripts', 'atmosphere_products_match_height', 99 );
 /**
  * Print an inline script to the footer to keep products the same height.
@@ -65,7 +74,7 @@ function atmosphere_product_archive_columns() {
 	return 3;
 }
 
-add_filter( 'woocommerce_pagination_args', 	'atmosphere_woocommerce_pagination' );
+add_filter( 'woocommerce_pagination_args', 'atmosphere_woocommerce_pagination' );
 /**
  * Update the next and previous arrows to the default Genesis style.
  *

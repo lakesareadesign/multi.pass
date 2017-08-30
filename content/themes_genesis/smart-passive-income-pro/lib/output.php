@@ -135,7 +135,7 @@ function spi_css() {
 		.spi-customized .nav-primary .genesis-nav-menu li.current-menu-item a,
 		.spi-customized .sidebar .enews-widget .widget-title,
 		.spi-customized .site-container button.sub-menu-toggle.sub-menu-toggle:focus,
-		.spi-customized .site-container button.sub-menu-toggle.sub-menu-toggle:hover
+		.spi-customized .site-container button.sub-menu-toggle.sub-menu-toggle:hover,
 		.spi-customized .site-container .nav-primary .genesis-nav-menu > li a:focus,
 		.spi-customized .site-container .nav-primary .genesis-nav-menu > li a:hover {
 			background-color: %1$s;

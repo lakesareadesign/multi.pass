@@ -68,6 +68,29 @@ Loaded on WooCommerce pages */
 }
 
 
+/* WooCommerce Product Gallery
+---------------------------------------------------------------------------------------------------- */
+
+.woocommerce .woocommerce-product-gallery__wrapper {
+  margin: 0;
+}
+
+.woocommerce .woocommerce-product-gallery__trigger {
+  border-width: 0;
+}
+
+.woocommerce .woocommerce-product-gallery {
+	overflow: hidden;
+}
+
+.woocommerce .woocommerce-product-gallery .flex-control-nav {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+
 /* WooCommerce Shop Page
 ---------------------------------------------------------------------------------------------------- */
 
@@ -505,6 +528,10 @@ Loaded on WooCommerce pages */
 .woocommerce-account .woocommerce-MyAccount-navigation {
 	margin-bottom: 20px;
 	width: 100%;
+}
+
+.woocommerce table.my_account_orders .button {
+	margin: 5px;
 }
 
 

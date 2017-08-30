@@ -42,10 +42,6 @@ Loaded on WooCommerce pages */
 	table-layout: fixed;
 }
 
-.post-type-archive-product .content {
-	margin-bottom: 40px;
-}
-
 .woocommerce .products .star-rating {
 	padding: 10px;
 }
@@ -66,6 +62,25 @@ Loaded on WooCommerce pages */
 	-webkit-transition: color 0.2s ease-in-out, background 0.2s ease-in-out;
 	-ms-transition:     color 0.2s ease-in-out, background 0.2s ease-in-out;
 	transition:         color 0.2s ease-in-out, background 0.2s ease-in-out;
+}
+
+
+/* WooCommerce Product Gallery
+---------------------------------------------------------------------------------------------------- */
+
+.woocommerce .woocommerce-product-gallery__trigger {
+  border-width: 0;
+}
+
+.woocommerce .woocommerce-product-gallery {
+	overflow: hidden;
+}
+
+.woocommerce .woocommerce-product-gallery .flex-control-nav {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 
@@ -456,6 +471,10 @@ Loaded on WooCommerce pages */
 .woocommerce-account .woocommerce-MyAccount-navigation {
 	margin-bottom: 20px;
 	width: 100%;
+}
+
+.woocommerce table.my_account_orders .button {
+	margin: 5px;
 }
 
 

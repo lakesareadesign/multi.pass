@@ -68,6 +68,36 @@ Loaded on WooCommerce pages */
 	display: block;
 }
 
+.archive.woocommerce .archive-description,
+.archive.woocommerce-page .archive-description,
+.archive.woocommerce .breadcrumb,
+.archive.woocommerce-page .breadcrumb {
+	margin: -80px -80px 80px;
+}
+
+
+/* WooCommerce Product Gallery
+---------------------------------------------------------------------------------------------------- */
+
+.woocommerce .woocommerce-product-gallery__wrapper {
+  margin: 0;
+}
+
+.woocommerce .woocommerce-product-gallery__trigger {
+  border-width: 0;
+}
+
+.woocommerce .woocommerce-product-gallery {
+	overflow: hidden;
+}
+
+.woocommerce .woocommerce-product-gallery .flex-control-nav {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
 
 /* WooCommerce Shop Page
 ---------------------------------------------------------------------------------------------------- */
@@ -470,6 +500,10 @@ Loaded on WooCommerce pages */
 	width: 100%;
 }
 
+.woocommerce table.my_account_orders .button {
+	margin: 5px;
+}
+
 
 /* WooCommerce Breadcrumb
 ---------------------------------------------------------------------------------------------------- */
@@ -675,6 +709,13 @@ div.woocommerce-info.wc-memberships-restriction-message.wc-memberships-restricte
 		padding: 60px;
 	}
 
+	.archive.woocommerce .archive-description,
+	.archive.woocommerce-page .archive-description,
+	.archive.woocommerce .breadcrumb,
+	.archive.woocommerce-page .breadcrumb {
+		margin: -60px -60px 60px;
+	}
+
 	.content-sidebar.woocommerce div.product .woocommerce-tabs ul.tabs,
 	.sidebar-content.woocommerce div.product .woocommerce-tabs ul.tabs {
 		padding: 0;
@@ -719,7 +760,14 @@ div.woocommerce-info.wc-memberships-restriction-message.wc-memberships-restricte
 @media only screen and (max-width: 980px) {
 
 	.woocommerce .content {
-		padding: 60px;
+		padding: 40px;
+	}
+
+	.archive.woocommerce .archive-description,
+	.archive.woocommerce-page .archive-description,
+	.archive.woocommerce .breadcrumb,
+	.archive.woocommerce-page .breadcrumb {
+		margin: -40px -40px 40px;
 	}
 
 }

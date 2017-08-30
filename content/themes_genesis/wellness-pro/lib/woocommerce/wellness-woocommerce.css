@@ -134,6 +134,10 @@ Loaded with WooCommerce stylesheet */
 /* WooCommerce Product
 ---------------------------------------------------------------------------------------------------- */
 
+.woocommerce.single-product .entry {
+	margin-bottom: 40px;
+}
+
 .woocommerce div.product p.price,
 .woocommerce div.product span.price {
 	color: #5da44f;
@@ -843,11 +847,6 @@ div.woocommerce-info.wc-memberships-restriction-message.wc-memberships-restricte
 		font-family: "dashicons";
 	}
 
-	.woocommerce ul.products li.product,
-	.woocommerce-page ul.products li.product {
-		width: 48%;
-	}
-
 }
 
 @media only screen and (max-width: 860px) {
@@ -894,6 +893,11 @@ div.woocommerce-info.wc-memberships-restriction-message.wc-memberships-restricte
 		content: "\f147";
 		float: right;
 		font-family: "dashicons";
+	}
+
+	.woocommerce ul.products li.product,
+	.woocommerce-page ul.products li.product {
+		width: 48%;
 	}
 
 }

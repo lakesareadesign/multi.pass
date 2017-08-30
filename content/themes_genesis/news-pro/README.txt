@@ -78,3 +78,7 @@ CHANGELOG
 
 = 3.2.1 =
 * Fix error thrown when WooCommerce was inactive
+
+= 3.2.2 =
+* Fix product gallery bug in WooCommerce 3.0 update
+* Update responsive menu to 1.1.3

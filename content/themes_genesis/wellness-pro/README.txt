@@ -59,3 +59,9 @@ CHANGELOG
 = 1.1.3 =
 * Fix product gallery bug in WooCommerce 3.0 update
 * Fix product archive display
+
+= 1.1.4 =
+* Update WooCommerce responsive CSS
+* Update flexible widgets to work with customizer
+* Update responsive menu to 1.1.3
+* Update carrot display on dropdown menus

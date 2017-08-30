@@ -43,7 +43,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Digital Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/digital/' );
-define( 'CHILD_THEME_VERSION', '1.1.2' );
+define( 'CHILD_THEME_VERSION', '1.1.3' );
 
 // Enqueue scripts and styles.
 add_action( 'wp_enqueue_scripts', 'digital_scripts_styles' );
@@ -95,7 +95,7 @@ add_filter( 'genesis_attr_author-archive-description', 'genesis_attributes_scree
 // Add viewport meta tag for mobile browsers.
 add_theme_support( 'genesis-responsive-viewport' );
 
-// Add support for custom header
+// Add support for custom header.
 add_theme_support( 'custom-header', array(
 	'width'           => 600,
 	'height'          => 140,
@@ -235,7 +235,7 @@ function digital_remove_entry_footer() {
 // Setup widget counts.
 function digital_count_widgets( $id ) {
 
-	global $sidebars_widgets;
+	$sidebars_widgets = wp_get_sidebars_widgets();
 
 	if ( isset( $sidebars_widgets[ $id ] ) ) {
 		return count( $sidebars_widgets[ $id ] );

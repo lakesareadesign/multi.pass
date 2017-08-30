@@ -59,3 +59,9 @@ CHANGELOG
 
 = 1.1.2 =
 * Update responsive menu colors
+
+= 1.1.3 =
+* Fix product gallery bug in WooCommerce 3.0 update
+* Fix padding on WooCommerce pages on mobile screens
+* Update flexible widgets to work with customizer
+* Update responsive menu to 1.1.3

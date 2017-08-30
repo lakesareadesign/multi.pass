@@ -28,7 +28,7 @@ Loaded on the front page */
 	color: #fff;
 }
 
-@media only screen and (min-width:800px) {
+@media only screen and (min-width:801px) {
 	.front-page .nav-primary .genesis-nav-menu a {
 		color: #fff;
 	}
@@ -329,6 +329,21 @@ Loaded on the front page */
 	margin-bottom: 0;
 }
 
+.front-page-3 button:focus,
+.front-page-3 button:hover,
+.front-page-3 input:focus[type="button"],
+.front-page-3 input:hover[type="button"],
+.front-page-3 input:focus[type="reset"],
+.front-page-3 input:hover[type="reset"],
+.front-page-3 input:focus[type="submit"],
+.front-page-3 input:hover[type="submit"],
+.front-page-3 .textwidget a.button:focus,
+.front-page-3 .textwidget a.button:hover {
+	background-color: #fff;
+	border: none;
+	color: #000;
+}
+
 
 /* Front Page 4
 ---------------------------------------------------------------------------------------------------- */
@@ -425,6 +440,21 @@ Loaded on the front page */
 	margin-bottom: 0;
 }
 
+.front-page-5 button:focus,
+.front-page-5 button:hover,
+.front-page-5 input:focus[type="button"],
+.front-page-5 input:hover[type="button"],
+.front-page-5 input:focus[type="reset"],
+.front-page-5 input:hover[type="reset"],
+.front-page-5 input:focus[type="submit"],
+.front-page-5 input:hover[type="submit"],
+.front-page-5 .textwidget a.button:focus,
+.front-page-5 .textwidget a.button:hover {
+	background-color: #fff;
+	border: none;
+	color: #000;
+}
+
 
 /* Front Page 6
 ---------------------------------------------------------------------------------------------------- */
@@ -519,6 +549,21 @@ Loaded on the front page */
 
 .front-page-7 p:last-child {
 	margin-bottom: 0;
+}
+
+.front-page-7 button:focus,
+.front-page-7 button:hover,
+.front-page-7 input:focus[type="button"],
+.front-page-7 input:hover[type="button"],
+.front-page-7 input:focus[type="reset"],
+.front-page-7 input:hover[type="reset"],
+.front-page-7 input:focus[type="submit"],
+.front-page-7 input:hover[type="submit"],
+.front-page-7 .textwidget a.button:focus,
+.front-page-7 .textwidget a.button:hover {
+	background-color: #fff;
+	border: none;
+	color: #000;
 }
 
 

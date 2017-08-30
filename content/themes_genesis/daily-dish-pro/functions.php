@@ -43,7 +43,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', __( 'Daily Dish Pro', 'daily-dish-pro' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/daily-dish/' );
-define( 'CHILD_THEME_VERSION', '1.1.1' );
+define( 'CHILD_THEME_VERSION', '1.1.2' );
 
 // Enqueue scripts and styles.
 add_action( 'wp_enqueue_scripts', 'daily_dish_enqueue_scripts_styles' );

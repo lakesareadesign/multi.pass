@@ -22,7 +22,7 @@ jQuery(function( $ ){
 	});
 
 	// Scroll to target function.
-	$( '.front-page-1 a[href*=#]:not([href=#])' ).click(function() {
+	$( '.front-page-1 a[href*="#"]:not([href="#"])' ).click(function() {
 
 		if (location.pathname.replace(/^\//, '') == this.pathname.replace(/^\//, '') && location.hostname == this.hostname) {
 

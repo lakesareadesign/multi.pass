@@ -45,3 +45,12 @@ CHANGELOG
 * Update conditional check for matchHeight on WooCommerce pages
 * Fix minor styling bugs for WooCommerce
 * Update mobile menu submenu label
+
+= 1.1.2 =
+* Fix error thrown when WooCommerce was inactive
+
+= 1.1.3 =
+* Fix product gallery bug in WooCommerce 3.0 update
+* Misc WooCommerce fixes
+* Update flexible widgets to work with customizer
+* Update responsive menu to 1.1.3

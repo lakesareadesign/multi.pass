@@ -70,3 +70,8 @@ CHANGELOG
 
 = 1.1.2 =
 * Fix error thrown when WooCommerce was inactive
+
+= 1.1.3 =
+* Fix product gallery bug in WooCommerce 3.0 update
+* Update flexible widgets to work with customizer
+* Update responsive menu to 1.1.3

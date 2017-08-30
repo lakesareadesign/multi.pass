@@ -43,7 +43,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Parallax Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/parallax/' );
-define( 'CHILD_THEME_VERSION', '1.3.2' );
+define( 'CHILD_THEME_VERSION', '1.3.3' );
 
 // Enqueue scripts and styles.
 add_action( 'wp_enqueue_scripts', 'parallax_enqueue_scripts_styles' );

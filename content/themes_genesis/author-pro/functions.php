@@ -43,7 +43,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', __( 'Author Pro', 'author-pro' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/author/' );
-define( 'CHILD_THEME_VERSION', '1.2.1' );
+define( 'CHILD_THEME_VERSION', '1.2.3' );
 
 // Enqueue scripts and styles.
 add_action( 'wp_enqueue_scripts', 'author_enqueue_scripts_styles' );
@@ -175,7 +175,7 @@ add_action( 'genesis_before_content_sidebar_wrap', 'genesis_do_subnav' );
 // Setup widget counts.
 function author_count_widgets( $id ) {
 
-	global $sidebars_widgets;
+	$sidebars_widgets = wp_get_sidebars_widgets();
 
 	if ( isset( $sidebars_widgets[ $id ] ) ) {
 		return count( $sidebars_widgets[ $id ] );

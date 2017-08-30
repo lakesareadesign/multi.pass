@@ -43,7 +43,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Atmosphere Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/atmosphere/' );
-define( 'CHILD_THEME_VERSION', '1.1.2' );
+define( 'CHILD_THEME_VERSION', '1.1.3' );
 
 // Enqueue scripts and styles.
 add_action( 'wp_enqueue_scripts', 'atmosphere_scripts_styles' );
@@ -251,7 +251,7 @@ function atmosphere_remove_entry_footer() {
 // Setup widget counts.
 function atmosphere_count_widgets( $id ) {
 
-	global $sidebars_widgets;
+	$sidebars_widgets = wp_get_sidebars_widgets();
 
 	if ( isset( $sidebars_widgets[ $id ] ) ) {
 		return count( $sidebars_widgets[ $id ] );

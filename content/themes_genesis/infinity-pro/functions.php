@@ -43,7 +43,7 @@ function infinity_localization_setup(){
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Infinity Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/infinity/' );
-define( 'CHILD_THEME_VERSION', '1.1.2' );
+define( 'CHILD_THEME_VERSION', '1.1.3' );
 
 // Enqueue scripts and styles.
 add_action( 'wp_enqueue_scripts', 'infinity_enqueue_scripts_styles' );
@@ -154,7 +154,7 @@ remove_action( 'genesis_after_header', 'genesis_do_subnav' );
 add_action( 'genesis_footer', 'genesis_do_subnav', 5 );
 
 // Add offscreen content if active.
-add_action( 'genesis_before_header', 'infinity_offscreen_content_output' );
+add_action( 'genesis_after_header', 'infinity_offscreen_content_output' );
 function infinity_offscreen_content_output() {
 
 	$button = '<button class="offscreen-content-toggle"><i class="icon ion-ios-close-empty"></i> <span class="screen-reader-text">' . __( 'Hide Offscreen Content', 'infinity-pro' ) . '</span></button>';
@@ -166,8 +166,8 @@ function infinity_offscreen_content_output() {
 	}
 
 	genesis_widget_area( 'offscreen-content', array(
-		'before' => '<div class="offscreen-content"><div class="offscreen-container"><div class="widget-area">' . $button . '<div class="wrap">',
-		'after'  => '</div></div></div></div>',
+		'before' => '<div class="offscreen-content"><div class="offscreen-container"><div class="widget-area"><div class="wrap">',
+		'after'  => '</div>' . $button . '</div></div></div>',
 	));
 
 }
@@ -205,7 +205,7 @@ function infinity_comments_gravatar( $args ) {
 // Setup widget counts.
 function infinity_count_widgets( $id ) {
 
-	global $sidebars_widgets;
+	$sidebars_widgets = wp_get_sidebars_widgets();
 
 	if ( isset( $sidebars_widgets[ $id ] ) ) {
 		return count( $sidebars_widgets[ $id ] );
