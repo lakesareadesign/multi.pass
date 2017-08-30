@@ -2,7 +2,7 @@
 /**
  * This file adds all the settings for the front page of the Elegance theme.
  *
- * @package      Elegance
+ * @package      elegance
  * @link         http://stephaniehellwig.com/themes
  * @author       Stephanie Hellwig
  * @copyright    Copyright (c) 2016, Stephanie Hellwig, Released 06/04/2016

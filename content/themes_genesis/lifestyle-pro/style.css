@@ -4,7 +4,7 @@
 	Description: Stylish online publishing has never been so easy than with the bright, magazine-style frame and amazing flexibility of the Lifestyle theme.
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
-	Version: 3.2.3
+	Version: 3.2.4
 
 	Tags: one-column, two-columns, three-columns, left-sidebar, right-sidebar, custom-menu, e-commerce, featured-images, footer-widgets, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
 
@@ -1972,7 +1972,7 @@ p.subscribe-to-comments {
 	.genesis-responsive-menu .genesis-nav-menu .sub-menu .sub-menu {
 		margin: 0;
 	}
-	
+
 	.site-header .menu-toggle,
 	.site-header .sub-menu-toggle,
 	.site-header .genesis-nav-menu .sub-menu a {
@@ -1992,7 +1992,7 @@ p.subscribe-to-comments {
 
 	.site-header .genesis-responsive-menu a:focus,
 	.site-header .genesis-responsive-menu a:hover ,
-	.site-header .genesis-nav-menu .current-menu-item > a,	
+	.site-header .genesis-nav-menu .current-menu-item > a,
 	.site-header .genesis-nav-menu .sub-menu a:focus,
 	.site-header .genesis-nav-menu .sub-menu a:hover {
 		color: #ddd;

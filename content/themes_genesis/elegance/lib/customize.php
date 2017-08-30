@@ -3,7 +3,7 @@
 /**
  * This file adds the Customizer to the Elegance Theme.
  *
- * @package      Elegance
+ * @package      elegance
  * @subpackage   Customizations
  * @link         http://stephaniehellwig.com/themes
  * @author       Stephanie Hellwig

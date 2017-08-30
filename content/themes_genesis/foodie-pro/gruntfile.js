@@ -2,6 +2,7 @@ module.exports = function( grunt ) {
 	'use strict';
 
 	require('load-grunt-tasks')(grunt);
+	var autoprefixer = require( 'autoprefixer' );
 
 	grunt.initConfig( {
 		pkg: grunt.file.readJSON( 'package.json' ),
@@ -9,16 +10,15 @@ module.exports = function( grunt ) {
 		makepot: {
 			options: {
 				exclude: [
-					'node_modules/.*',
-					'includes/vendor/class-tgm-plugin-activation.php'
+					'node_modules/.*'
 				],
 				domainPath: '/languages',
 				type: 'wp-theme',
 				processPot: function( pot, options ) {
-					pot.headers['report-msgid-bugs-to'] = 'http://shaybocks.com/';
+					pot.headers['report-msgid-bugs-to'] = 'https://feastdesignco.com/';
 					pot.headers['plural-forms'] = 'nplurals=2; plural=n != 1;';
-					pot.headers['last-translator'] = 'Shay Bocks (http://shaybocks.com)\n';
-					pot.headers['language-team'] = 'Shay Bocks (http://shaybocks.com)\n';
+					pot.headers['last-translator'] = 'Feast Design Co (https://feastdesignco.com)\n';
+					pot.headers['language-team'] = 'Feast Design Co (https://feastdesignco.com)\n';
 					pot.headers['x-poedit-basepath'] = '.\n';
 					pot.headers['x-poedit-language'] = 'English\n';
 					pot.headers['x-poedit-country'] = 'UNITED STATES\n';
@@ -41,9 +41,40 @@ module.exports = function( grunt ) {
 			files: {
 				src: [
 					'**/*.php',
-					'!node_modules/**/*.php',
-					'!includes/vendor/class-tgm-plugin-activation.php'
+					'!node_modules/**/*.php'
 				]
+			}
+		},
+
+		wpcss: {
+			style: {
+				options: {
+					commentSpacing: true,
+					config: 'alphabetical'
+				},
+				src: 'style.css',
+				dest: 'style.css'
+			}
+		},
+
+		postcss: {
+			options: {
+				processors: [
+					autoprefixer( {
+						browsers: [
+							'Android >= 2.1',
+							'Chrome >= 21',
+							'Explorer >= 8',
+							'Firefox >= 17',
+							'Opera >= 12.1',
+							'Safari >= 6.0'
+						]
+					} )
+				]
+			},
+			style: {
+				src: 'style.css',
+				dest: 'style.css'
 			}
 		},
 
@@ -84,6 +115,10 @@ module.exports = function( grunt ) {
 	});
 
 	grunt.registerTask('default', ['watch']);
-	grunt.registerTask('build', ['addtextdomain', 'makepot']);
-
+	grunt.registerTask('build', [
+		'addtextdomain',
+		'makepot',
+		'postcss',
+		'wpcss'
+	]);
 };

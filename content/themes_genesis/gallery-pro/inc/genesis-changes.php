@@ -88,6 +88,8 @@ genesis_unregister_layout( 'sidebar-sidebar-content' );
 //* Remove sidebar/content/sidebar layout
 genesis_unregister_layout( 'sidebar-content-sidebar' );
 
+//* Add Layout options to the Portfolio Plugin
+add_post_type_support( 'portfolio', 'genesis-layouts' );
 
 /**
  * Blog
@@ -183,7 +185,7 @@ add_filter( 'get_the_author_genesis_author_box_single', '__return_true' );
 add_filter ( 'genesis_next_link_text' , 'bbs_next_page_link' );
 function bbs_next_page_link ( $text ) {
 
-    return 'Older Posts <i class="dashicons dashicons-arrow-right"></i>';
+    return 'Older Posts';
 
 }
 
@@ -191,6 +193,6 @@ function bbs_next_page_link ( $text ) {
 add_filter ( 'genesis_prev_link_text' , 'bbs_previous_page_link' );
 function bbs_previous_page_link ( $text ) {
 
-    return '<i class="dashicons dashicons-arrow-left"></i> Newer Posts';
+    return 'Newer Posts';
 
 }

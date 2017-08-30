@@ -1,9 +1,9 @@
 /**
  * Theme Name: Foodie Pro Theme
  * Description: This is the Foodie Pro child theme created for the Genesis Framework.
- * Author: Shay Bocks
- * Author URI: http://shaybocks.com/
- * Version: 3.0.0
+ * Author: Feast Design Co
+ * Author URI: https://feastdesignco.com/
+ * Version: 3.1.0
  *
  * Tags: black, orange, white, one-column, two-columns, three-columns, fixed-width, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
  *
@@ -81,6 +81,7 @@ HTML5 Reset
 /*! normalize.css v3.0.3 | MIT License | github.com/necolas/normalize.css */
 html {
 	font-family: sans-serif;
+
 	-webkit-text-size-adjust: 100%;
 	-ms-text-size-adjust: 100%;
 }
@@ -254,6 +255,7 @@ html input[type="button"],
 input[type="reset"],
 input[type="submit"] {
 	cursor: pointer;
+
 	-webkit-appearance: button;
 }
 
@@ -289,6 +291,7 @@ input[type="search"] {
 	-moz-box-sizing: content-box;
 	-webkit-box-sizing: content-box;
 	box-sizing: content-box;
+
 	-webkit-appearance: textfield;
 }
 
@@ -389,7 +392,7 @@ body {
 	font-family: "Muli", Arial, Helvetica, sans-serif;
 	font-size: 13px;
 	font-weight: 300;
-	letter-spacing: .5px;
+	letter-spacing: 0.5px;
 	line-height: 1.8;
 }
 
@@ -432,12 +435,12 @@ a:focus img {
 
 a:hover,
 a:focus {
-	opacity: .7;
+	opacity: 0.7;
 }
 
 hr {
 	background: transparent;
-    border: 0;
+	border: 0;
 	border-top: 1px solid #eee;
 	color: #fff;
 	margin-bottom: 37px;
@@ -461,7 +464,7 @@ ul {
 blockquote,
 blockquote::before {
 	color: #999;
-    font-size: 17px;
+	font-size: 17px;
 }
 
 blockquote {
@@ -482,7 +485,7 @@ blockquote::before {
 pre {
 	background: #efefef;
 	color: #010101;
-    margin-bottom: 37px;
+	margin-bottom: 37px;
 	overflow: scroll;
 	padding: 37px;
 	white-space: pre;
@@ -491,6 +494,7 @@ pre {
 cite {
 	font-style: normal;
 }
+
 
 /* Headings
 --------------------------------------------- */
@@ -502,9 +506,9 @@ h4,
 h5,
 h6 {
 	font-family: "Karla", Arial, Helvetica, sans-serif;
-    font-weight: 700;
+	font-weight: 700;
 	letter-spacing: 3px;
-    line-height: 1.3;
+	line-height: 1.3;
 	margin: 7px 0 17px;
 	padding: 0;
 	text-transform: uppercase;
@@ -626,7 +630,6 @@ input,
 select,
 textarea {
 	border: 1px solid #eee;
-	-moz-box-shadow: 0 0 0 #fff;
 	-webkit-box-shadow: 0 0 0 #fff;
 	-webkit-box-shadow: 0 0 0 #fff;
 	box-shadow: 0 0 0 #fff;
@@ -658,7 +661,9 @@ button,
 input[type="button"],
 input[type="reset"],
 input[type="submit"],
-.more-from-category a {
+.more-from-category a,
+.sidebar .button,
+.sidebar .more-from-category a {
 	background: #010101;
 	border: 1px solid #010101;
 	-webkit-box-shadow: none;
@@ -666,7 +671,7 @@ input[type="submit"],
 	color: #fff;
 	cursor: pointer;
 	font-family: "Karla", Arial, Helvetica, sans-serif;
-    font-size: 11px;
+	font-size: 11px;
 	font-style: normal;
 	font-weight: 700;
 	letter-spacing: 2px;
@@ -732,10 +737,11 @@ Structure and Layout
 }
 
 .site-inner {
-    background: #fff;
-    margin: 0 auto;
-    padding: 37px;
+	background: #fff;
+	margin: 0 auto;
+	padding: 37px;
 }
+
 
 /* Column Widths and Positions
 --------------------------------------------- */
@@ -867,9 +873,11 @@ Structure and Layout
 	margin-left: 0;
 }
 
+
 /*
 Common Classes
 ---------------------------------------------------------------------------------------------------- */
+
 
 /* WordPress
 --------------------------------------------- */
@@ -879,16 +887,17 @@ Common Classes
 }
 
 .search-form {
-    background: #fff;
-    border: 1px solid #eee;
-    padding: 10px;
+	background: #fff;
+	border: 1px solid #eee;
+	padding: 10px;
 }
 
 .search-form input {
-	background: #fff url('images/search.svg') center right no-repeat;
-    background-size: contain;
-    border: 0;
-    padding: 0;
+	background: #fff url("images/search.svg") center right no-repeat;
+	-webkit-background-size: contain;
+	background-size: contain;
+	border: 0;
+	padding: 0;
 }
 
 .search-form input[type="submit"] {
@@ -899,9 +908,6 @@ Common Classes
 	padding: 0;
 	position: absolute;
 	width: 1px;
-}
-
-.sticky {
 }
 
 img.centered,
@@ -947,9 +953,6 @@ img.alignright,
 	max-width: 100% !important;
 }
 
-.gallery-caption {
-}
-
 .widget_calendar table {
 	width: 100%;
 }
@@ -957,6 +960,7 @@ img.alignright,
 .widget_calendar td {
 	text-align: center;
 }
+
 
 /* Genesis
 --------------------------------------------- */
@@ -981,12 +985,8 @@ img.alignright,
 .author-box-title {
 	color: #111;
 	font-size: 17px;
-	margin-top: 0;
 	margin-bottom: 4px;
-}
-
-.author-box a {
-
+	margin-top: 0;
 }
 
 .author-box p {
@@ -997,11 +997,12 @@ img.alignright,
 	margin-right: 21px;
 }
 
+
 /* Headings
 --------------------------------------------- */
 
 .entry-title {
-    margin: 0 0 17px;
+	margin: 0 0 17px;
 }
 
 h1.entry-title,
@@ -1013,7 +1014,7 @@ h1.entry-title,
 
 .entry-title a:hover,
 .sidebar .widgettitle a:hover {
-    opacity: .7;
+	opacity: 0.7;
 }
 
 .widgettitle {
@@ -1029,49 +1030,56 @@ h1.entry-title,
 	border: none;
 }
 
+
 /* ## Screen reader text
 --------------------------------------------- */
 
 .screen-reader-text,
 .screen-reader-text span,
 .screen-reader-shortcut {
-	position: absolute !important;
-	clip: rect(0, 0, 0, 0);
-	height: 1px;
-	width: 1px;
-	border: 0;
-	overflow: hidden;
-	color: #333;
 	background: #fff;
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	color: #333;
+	height: 1px;
+	overflow: hidden;
+	position: absolute !important;
+	width: 1px;
 }
 
 .screen-reader-text:focus,
 .screen-reader-shortcut:focus,
 .genesis-nav-menu .search input[type="submit"]:focus,
-.widget_search input[type="submit"]:focus  {
+.widget_search input[type="submit"]:focus {
+	-webkit-box-shadow: 0 0 2px 2px rgba(0,0,0,0.6);
+	box-shadow: 0 0 2px 2px rgba(0,0,0,0.6);
 	clip: auto !important;
-	height: auto;
-	width: auto;
 	display: block;
 	font-size: 1em;
 	font-weight: bold;
+	height: auto;
 	padding: 15px 23px 14px;
-	z-index: 100000; /* Above WP toolbar. */
+	/* Above WP toolbar. */
 	text-decoration: none;
-	box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+	width: auto;
+	z-index: 100000;
 }
+
 
 /* # Skip Links
 ---------------------------------------------------------------------------------------------------- */
+
 .genesis-skip-link li {
 	height: 0;
-	width: 0;
 	list-style: none;
+	width: 0;
 }
+
 
 /*
 Widgets
 ---------------------------------------------------------------------------------------------------- */
+
 
 /* Featured Page and Featured Post
 --------------------------------------------- */
@@ -1086,25 +1094,25 @@ Widgets
 }
 
 .sidebar .widget.featured-content {
-    padding-bottom: 0;
+	padding-bottom: 0;
 }
 
 .sidebar .featured-content .entry {
-    border-bottom: 1px solid #eee;
-    padding: 0 0 27px;
+	border-bottom: 1px solid #eee;
+	padding: 0 0 27px;
 }
 
 .sidebar .featured-content .entry:last-child {
-    border-bottom: 0;
-    margin-bottom: 0;
+	border-bottom: 0;
+	margin-bottom: 0;
 }
 
 .sidebar .featured-content .entry-title {
-    font-family: "Muli", Arial, Helvetica, sans-serif;
-    font-size: 13px;
-    font-weight: 600;
-    letter-spacing: .5px;
-    text-transform: none;
+	font-family: "Muli", Arial, Helvetica, sans-serif;
+	font-size: 13px;
+	font-weight: 600;
+	letter-spacing: 0.5px;
+	text-transform: none;
 }
 
 
@@ -1112,21 +1120,24 @@ Widgets
 --------------------------------------------- */
 
 .user-profile .alignleft {
-    margin: -7px 11px 0 0;
+	margin: -7px 11px 0 0;
 }
 
 .user-profile .alignright {
-    margin-left: 7px;
+	margin-left: 7px;
 }
 
-.user-profile .avatar  {
+.user-profile .avatar {
 	border: 3px solid #fff;
+	-webkit-border-radius: 100%;
 	border-radius: 100%;
 }
+
 
 /*
 Plugins
 ---------------------------------------------------------------------------------------------------- */
+
 
 /* Genesis eNews Extended
 --------------------------------------------- */
@@ -1160,7 +1171,7 @@ Plugins
 }
 
 .after-entry .enews-widget {
-    margin-bottom: 37px;
+	margin-bottom: 37px;
 }
 
 .before-header .enews-widget .widgettitle,
@@ -1199,9 +1210,10 @@ Plugins
 .content .enews-widget input[type="submit"] {
 	display: inline;
 	float: right;
-    margin: 0;
+	margin: 0;
 	width: auto;
 }
+
 
 /* Gravity Forms
 --------------------------------------------- */
@@ -1226,6 +1238,7 @@ div.gform_wrapper form li {
 div.gform_wrapper .gform_footer input[type="submit"] {
 	font-size: 12px;
 }
+
 
 /* Instagram
 --------------------------------------------- */
@@ -1254,12 +1267,15 @@ div.gform_wrapper .gform_footer input[type="submit"] {
 	vertical-align: top;
 }
 
+
 /* Simple Social Icons
 --------------------------------------------- */
+
 .simple-social-icons ul li:before {
 	content: none !important;
 	padding-right: 0 !important;
 }
+
 
 /* WooCommerce
 --------------------------------------------- */
@@ -1436,15 +1452,17 @@ div.gform_wrapper .gform_footer input[type="submit"] {
 	text-align: left;
 }
 
+
 /*
 Custom Page Templates
 ---------------------------------------------------------------------------------------------------- */
+
 
 /* Home Page
 --------------------------------------------- */
 
 .home-middle {
-    margin: 0 0 77px;
+	margin: 0 0 77px;
 }
 
 .home-bottom .widgettitle {
@@ -1455,7 +1473,7 @@ Custom Page Templates
 
 .simple-grid .entry-title {
 	font-size: 11px;
-    letter-spacing: 1.5px;
+	letter-spacing: 1.5px;
 }
 
 .one-half .entry-title {
@@ -1467,7 +1485,7 @@ Custom Page Templates
 }
 
 .more-from-category {
-    clear: both;
+	clear: both;
 }
 
 
@@ -1475,7 +1493,7 @@ Custom Page Templates
 --------------------------------------------- */
 
 .recipes-top {
-    border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #eee;
 	padding: 21px 0;
 }
 
@@ -1486,13 +1504,13 @@ Custom Page Templates
 }
 
 .recipes-top .widget:nth-child(3) {
-    margin-right: 0;
+	margin-right: 0;
 }
 
 .recipes-top .search-form {
-    border: 0;
-    border-bottom: 1px solid #eee;
-    padding: 0 11px;
+	border: 0;
+	border-bottom: 1px solid #eee;
+	padding: 0 11px;
 }
 
 .recipes-bottom {
@@ -1506,6 +1524,7 @@ Custom Page Templates
 	overflow: hidden;
 	padding: 20px 0;
 }
+
 
 /*
 Top Ad
@@ -1530,12 +1549,10 @@ Top Ad
 	max-width: 1100px;
 }
 
+
 /*
 Site Header
 ----------------------------------------------------------------------------- */
-
-.site-header {
-}
 
 .site-header .wrap {
 	padding: 17px 0;
@@ -1561,12 +1578,12 @@ Site Header
 }
 
 .site-title {
-    font-size: 37px;
-    font-weight: 600;
-    letter-spacing: 2px;
-    line-height: 0.8;
-    margin: 17px 0;
-    text-transform: uppercase;
+	font-size: 37px;
+	font-weight: 600;
+	letter-spacing: 2px;
+	line-height: 0.8;
+	margin: 17px 0;
+	text-transform: uppercase;
 }
 
 .site-title a {
@@ -1582,18 +1599,18 @@ Site Header
 .site-description {
 	color: #aaa;
 	font-family: "Muli", Arial, Helvetica, sans-serif;
-    font-size: 11px;
+	font-size: 11px;
 	font-weight: 300;
-	letter-spacing: .5px;
+	letter-spacing: 0.5px;
 	margin: 0;
-    text-transform: none;
+	text-transform: none;
 }
 
 /* Full width header, no widgets */
 .header-full-width .title-area,
 .header-full-width .site-title {
 	text-align: center;
-    width: 100%;
+	width: 100%;
 }
 
 .header-image .site-description,
@@ -1607,7 +1624,7 @@ Site Header
 	-webkit-background-size: contain !important;
 	background-size: contain !important;
 	display: block;
-	height: 150px;
+	height: 170px;
 	margin: 10px auto;
 	max-width: 320px;
 	text-indent: -9999px;
@@ -1624,15 +1641,14 @@ Site Header
 .site-header .widget-area,
 .site-header .widget-area .genesis-nav-menu {
 	float: right;
-	text-align: right;
 	max-width: 710px;
+	text-align: right;
 }
 
 .site-header .widget-area .genesis-nav-menu {
-    border: 0;
-    margin: 31px 0 0;
-    padding: 0;
-
+	border: 0;
+	margin: 31px 0 0;
+	padding: 0;
 }
 
 
@@ -1642,12 +1658,12 @@ Site Navigation
 
 .genesis-nav-menu {
 	background: #fff;
-    border-bottom: 1px solid #eee;
+	border-bottom: 1px solid #eee;
 	border-top: 1px solid #eee;
 	clear: both;
-    font-family: 'Karla', Arial, Helvetica, sans-serif;
-	font-size: .001px;
-    font-weight: 600;
+	font-family: "Karla", Arial, Helvetica, sans-serif;
+	font-size: 0.001px;
+	font-weight: 400;
 	letter-spacing: 2px;
 	line-height: 1;
 	padding: 7px 0;
@@ -1659,13 +1675,12 @@ Site Navigation
 	display: inline-block;
 	height: 32px;
 	vertical-align: middle;
-    width: auto;
+	width: auto;
 }
 
 .genesis-nav-menu .menu-item {
 	display: inline-block;
 	font-size: 12px;
-	font-weight: 400;
 	margin: 0;
 	padding: 0;
 	text-align: left;
@@ -1689,7 +1704,7 @@ Site Navigation
 }
 
 .genesis-nav-menu a.last {
-    padding-right: 0;
+	padding-right: 0;
 }
 
 .genesis-nav-menu .sub-menu {
@@ -1729,13 +1744,13 @@ Site Navigation
 .genesis-nav-menu .sub-menu a:focus,
 .genesis-nav-menu .sub-menu .current-menu-item > a:hover,
 .genesis-nav-menu .sub-menu .current-menu-item > a:focus {
-	color: #fff;
 	background: #010101;
+	color: #fff;
 }
 
 .genesis-nav-menu .menu-item:hover > .sub-menu,
 .genesis-nav-menu .menu-item:focus > .sub-menu,
-.genesis-nav-menu .menu-item.menu-item-hover > .sub-menu  {
+.genesis-nav-menu .menu-item.menu-item-hover > .sub-menu {
 	opacity: 1;
 	left: auto;
 }
@@ -1769,23 +1784,24 @@ Site Navigation
 }
 
 .genesis-nav-menu .simple-social-icons {
-    margin: 0 17px;
+	margin: 0 17px;
 }
 
 .genesis-nav-menu .simple-social-icons li {
-    margin: 2px 0 !important;
+	margin: 2px 0 !important;
 }
 
 .genesis-nav-menu .search-form {
 	display: inline-block;
-    margin-left: 27px;
-	width: auto;
+	margin-left: 27px;
 	vertical-align: middle;
+	width: auto;
 }
 
 .sidebar .menu-item a {
 	text-decoration: none;
 }
+
 
 /* Mobile Menu Toggle
 --------------------------------------------- */
@@ -1795,6 +1811,7 @@ Site Navigation
 	display: none;
 	visibility: hidden;
 }
+
 
 /* Site Header Navigation
 --------------------------------------------- */
@@ -1808,6 +1825,7 @@ Site Navigation
 	margin-top: -55px;
 }
 
+
 /* Primary Navigation
 --------------------------------------------- */
 
@@ -1815,12 +1833,6 @@ Site Navigation
 	margin: 0;
 }
 
-.nav-primary a:hover,
-.nav-primary .current-menu-item > a {
-}
-
-.nav-primary .sub-menu a:hover {
-}
 
 /* Secondary Navigation
 --------------------------------------------- */
@@ -1829,17 +1841,11 @@ Site Navigation
 	margin: 0 0 20px;
 }
 
-.nav-secondary a:hover,
-.nav-secondary .current-menu-item > a {
-}
-
-.nav-secondary .sub-menu a:hover {
-}
-
 
 /*
 Content Area
 ---------------------------------------------------------------------------------------------------- */
+
 
 /* Entries
 --------------------------------------------- */
@@ -1880,12 +1886,12 @@ Content Area
 }
 
 .entry-header {
-    color: #aaa;
-    margin: 0 0 37px;
+	color: #aaa;
+	margin: 0 0 37px;
 }
 
 .simple-grid .entry-header {
-    margin: 0 0 17px;
+	margin: 0 0 17px;
 }
 
 .entry-meta {
@@ -1908,14 +1914,15 @@ Content Area
 
 .entry-time:after,
 .entry-author:after {
-    content: "/";
-    margin: 0 17px;
+	content: "/";
+	margin: 0 17px;
 }
 
 .more-link {
-    display: table;
-    margin: 37px 0;
+	display: table;
+	margin: 37px 0;
 }
+
 
 /* Archive Navigation
 --------------------------------------------- */
@@ -1939,12 +1946,12 @@ li.pagination-previous {
 div.pagination-next,
 div.pagination-previous {
 	border: 0 !important;
-    float: left;
-    max-width: 41%;
+	float: left;
+	max-width: 41%;
 }
 
 div.pagination-next {
-    float: right;
+	float: right;
 }
 
 .archive-pagination a {
@@ -1961,7 +1968,7 @@ div.pagination-next {
 }
 
 .pagination {
-    margin: 0 0 37px;
+	margin: 0 0 37px;
 }
 
 
@@ -2000,7 +2007,7 @@ div.pagination-next {
 }
 
 .comment-list {
-    border-top: 1px solid #eee;
+	border-top: 1px solid #eee;
 }
 
 .comment-list li,
@@ -2015,16 +2022,17 @@ div.pagination-next {
 }
 
 .comment-list li.depth-1 {
-    padding: 32px 0;
+	padding: 32px 0;
 }
 
 .comment-header {
-    margin: 0 0 17px;
+	margin: 0 0 17px;
 }
 
 .comment .avatar {
+	-webkit-border-radius: 100%;
 	border-radius: 100%;
-    display: inline;
+	display: inline;
 	float: left;
 	margin: 0 17px 17px 0;
 }
@@ -2041,18 +2049,18 @@ div.pagination-next {
 
 .comment-reply a {
 	color: #aaa;
-    font-size: 11px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
+	font-size: 11px;
+	letter-spacing: 2px;
+	text-transform: uppercase;
 }
 
 .comment-meta {
-    margin: 0;
+	margin: 0;
 }
 
 .comment-time a {
-    color: #aaa;
-    font-size: 11px;
+	color: #aaa;
+	font-size: 11px;
 }
 
 
@@ -2090,7 +2098,7 @@ Sidebars
 
 .sidebar a {
 	color: #010101;
-    font-weight: 600;
+	font-weight: 600;
 }
 
 .cat-item {
@@ -2102,11 +2110,11 @@ Sidebars
 }
 
 .sidebar .widget_search {
-    border: 0;
+	border: 0;
 }
 
 .sidebar a img {
-    margin-bottom: 0;
+	margin-bottom: 0;
 }
 
 
@@ -2116,8 +2124,8 @@ Footer Widgets
 
 .footer-widgets {
 	background: #f7f9fc;
-	display: block;
 	clear: both;
+	display: block;
 	overflow: hidden;
 	padding: 0 0 37px;
 }
@@ -2126,14 +2134,14 @@ Footer Widgets
 .footer-widgets-1,
 .footer-widgets-4 {
 	max-width: 1400px;
-    width: 100%;
+	width: 100%;
 }
 
 .footer-widgets-2,
 .footer-widgets-3 {
 	float: left;
 	margin-left: 2.564102564102564%;
-    padding: 27px 77px;
+	padding: 27px 77px;
 	width: 48.717948717948715%;
 }
 
@@ -2151,9 +2159,6 @@ Footer Widgets
 
 .footer-widgets .widget {
 	margin-bottom: 22px;
-}
-
-.footer-widgets .widgettitle {
 }
 
 .footer-widgets li {
@@ -2208,6 +2213,7 @@ Site Footer
 	margin: 0;
 }
 
+
 /*
 Media Queries
 ----------------------------------------------------------------------------- */
@@ -2228,7 +2234,7 @@ Media Queries
 		max-width: 1040px;
 		overflow: hidden;
 	}
-    
+
 	.content-sidebar-sidebar .content-sidebar-wrap,
 	.sidebar-content-sidebar .content-sidebar-wrap,
 	.sidebar-sidebar-content .content-sidebar-wrap,
@@ -2257,7 +2263,6 @@ Media Queries
 	.sidebar-primary {
 		width: 300px;
 	}
-
 }
 
 @media only screen and (max-width: 1023px) {
@@ -2344,10 +2349,10 @@ Media Queries
 	.footer-widgets-1 {
 		margin: 0;
 	}
-    
-    .before-header .enews-widget p {
-        display: none;
-    }
+
+	.before-header .enews-widget p {
+		display: none;
+	}
 }
 
 @media only screen and (max-width: 940px) {
@@ -2484,7 +2489,7 @@ Media Queries
 	.genesis-nav-menu .sub-menu a:hover,
 	.genesis-nav-menu .sub-menu a:focus {
 		background: #101010;
-        opacity: 1.0;
+		opacity: 1.0;
 	}
 
 	.genesis-nav-menu .sub-menu .sub-menu {
@@ -2498,24 +2503,24 @@ Media Queries
 	.genesis-nav-menu .sub-menu .sub-menu .sub-menu a {
 		padding-left: 40px;
 	}
-	
-	.site-header .widget-area, .site-header .widget-area .genesis-nav-menu {
-	 width: 100%;
-	}
-    
-    .genesis-nav-menu .foodie-social {
-        padding: 11px;
-    }
-    
-    .genesis-nav-menu .simple-social-icons {
-        margin: 0;
-    }
-    
-    .genesis-nav-menu .search-form {
-        border: 0;
-        float: right;
-    }
 
+	.site-header .widget-area,
+	.site-header .widget-area .genesis-nav-menu {
+		width: 100%;
+	}
+
+	.genesis-nav-menu .foodie-social {
+		padding: 11px;
+	}
+
+	.genesis-nav-menu .simple-social-icons {
+		margin: 0;
+	}
+
+	.genesis-nav-menu .search-form {
+		border: 0;
+		float: right;
+	}
 }
 
 @media only screen and (max-width: 767px) {
@@ -2611,27 +2616,28 @@ Media Queries
 	.sidebar .featured-content .entry {
 		text-align: center;
 	}
-    
-    .before-header .enews-widget .widgettitle, 
-    .before-header .enews-widget p, 
-    .before-header .enews-widget form,
-    .before-header .enews-widget form input,
-    .content .enews-widget .widgettitle, 
-    .content .enews-widget p,
-    .content .enews-widget form,
-    .content .enews-widget form input {
-        display: block;
-        float: none;
-        line-height: 1.5;
-        margin: 0 auto 7px;
-        text-align: center;
-        width: 100%;
-    }
-    
-    .before-header .enews-widget input[type="submit"], .home .content .enews-widget input[type="submit"] {
-        display: block;
-        float: none;
-        margin: 0 auto;
-        width: 100%;
-    }
+
+	.before-header .enews-widget .widgettitle,
+	.before-header .enews-widget p,
+	.before-header .enews-widget form,
+	.before-header .enews-widget form input,
+	.content .enews-widget .widgettitle,
+	.content .enews-widget p,
+	.content .enews-widget form,
+	.content .enews-widget form input {
+		display: block;
+		float: none;
+		line-height: 1.5;
+		margin: 0 auto 7px;
+		text-align: center;
+		width: 100%;
+	}
+
+	.before-header .enews-widget input[type="submit"],
+	.home .content .enews-widget input[type="submit"] {
+		display: block;
+		float: none;
+		margin: 0 auto;
+		width: 100%;
+	}
 }

@@ -2,7 +2,7 @@
 /**
  * This file adds the Custom Archives to the Elegance Theme.
  *
- * @package      Elegance
+ * @package      elegance
  * @link         http://stephaniehellwig.com/
  * @author       Stephanie Hellwig
  * @copyright    Copyright (c) 2016, Stephanie Hellwlig, Released 06/04/2016

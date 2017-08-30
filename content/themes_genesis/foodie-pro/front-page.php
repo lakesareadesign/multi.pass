@@ -2,11 +2,10 @@
 /**
  * Home Page Template
  *
- * @package     FoodiePro
- * @subpackage  Genesis
- * @copyright   Copyright (c) 2013, Shay Bocks
- * @license     GPL-2.0+
- * @since       1.0.1
+ * @package   FoodiePro
+ * @copyright Copyright (c) 2017, Feast Design Co.
+ * @license   GPL-2.0+
+ * @since     1.0.1
  */
 
 add_action( 'genesis_meta', 'foodie_pro_home_genesis_meta' );

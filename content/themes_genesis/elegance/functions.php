@@ -2,7 +2,7 @@
 /**
  * This file adds all the functions to the Elegance theme.
  *
- * @package      Elegance
+ * @package      elegance
  * @link         http://stephaniehellwig.com/themes
  * @author       Stephanie Hellwig
  * @copyright    Copyright (c) 2016, Stephanie Hellwig, Released 06/04/2016
@@ -167,7 +167,7 @@ function elegance_custom_footer_creds_text() {
 		echo '<div class="creds"><p>';
 		echo 'Copyright &copy; ';
 		echo date( 'Y' );
-		echo ' &middot; <a target="_blank" href="http://stephaniehellwig.com/themes">elegance theme</a> by <a target="_blank" href="http://www.stephaniehellwig.com">StephanieHellwig.com</a>';
+		echo ' &middot; <a target="_blank" href="http://stephaniehellwig.com/themes">Elegance Theme</a> by <a target="_blank" href="http://www.stephaniehellwig.com">StephanieHellwig.com</a>';
 		echo '</p></div>';
 
 	} else {
@@ -219,38 +219,59 @@ function elegance_left_header_widget() {
 unregister_sidebar( 'header-right' );
 
 genesis_register_sidebar( array(
-	'id'          => 'right-header',
-	'name'        => __( 'Right Header', 'elegance' ),
-	'description' => __( 'Header Right widget area', 'elegance' ),
+    'id'              		=> 'right-header',
+    'name'         	 	=> __( 'Right Header', 'elegance' ),
+    'description'  	=> __( 'Header Right widget area', 'elegance' ),
 ) );
 
 add_action( 'genesis_after_header', 'elegance_right_header_widget', 11 );
-function elegance_right_header_widget() {
-	
-	if( is_active_sidebar( 'right-header' ) ) {
-	 	
-	 	genesis_widget_area( 'right-header', array(
-			'before' => '<div class="right-header widget-area">',
-			'after'	 => '</div>',
+	function elegance_right_header_widget() {
+	if (is_active_sidebar( 'right-header' ) ) {
+ 	genesis_widget_area( 'right-header', array(
+       'before' => '<div class="right-header widget-area">',
+       'after'	 => '</div>',
 		) ); 
 
-	}
+  }
 
 }
 
 //* Hooks widget area before content
 add_action( 'genesis_before_footer', 'elegance_cta_widget', 2 );
 function elegance_cta_widget() {
-	
 	if ( is_front_page() ) {
 		return;
-	} else {
-	    genesis_widget_area( 'cta-widget', array(
-			'before' => '<div class="cta-widget widget-area"><div class="wrap">',
-			'after'  => '</div></div>',
-	    ) );
+	}
+	else {
+
+    genesis_widget_area( 'cta-widget', array(
+		'before' => '<div class="cta-widget widget-area"><div class="wrap">',
+		'after'  => '</div></div>',
+    ) );
+
 	}
 }
+
+//* Add WooCommerce Gallery Options
+add_action( 'after_setup_theme', 'elegance_woo_gallery' );
+function elegance_woo_gallery() {
+	add_theme_support( 'wc-product-gallery-zoom' );
+	add_theme_support( 'wc-product-gallery-lightbox' );
+	add_theme_support( 'wc-product-gallery-slider' );
+}
+ 
+//* Unregister content/sidebar/sidebar layout setting
+genesis_unregister_layout( 'content-sidebar-sidebar' );
+ 
+//* Unregister sidebar/sidebar/content layout setting
+genesis_unregister_layout( 'sidebar-sidebar-content' );
+ 
+//* Unregister sidebar/content/sidebar layout setting
+genesis_unregister_layout( 'sidebar-content-sidebar' );
+
+//* Unregister secondary sidebar
+unregister_sidebar( 'sidebar-alt' );
+ 
 
 //* Register widget areas
 genesis_register_sidebar( array(

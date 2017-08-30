@@ -1,6 +1,6 @@
 === Foodie Pro Genesis 2.0 Child Theme ===
 
-Set up tutorials can be found at http://shaybocks.com/tutorials
+Set up tutorials can be found at https://feastdesignco.com/tutorials
 
 
 === Installation Instructions ===
@@ -13,10 +13,27 @@ Set up tutorials can be found at http://shaybocks.com/tutorials
 
 === Theme Support ===
 
-Please visit http://www.shaybocks.com or http://my.studiopress.com/support for theme support.
+Please visit https://feastdesignco.com/support/ or http://my.studiopress.com/support for theme support.
 
 
 === Changelog ===
+
+= 3.1.0 =
+
+* Added a helpful theme dashboard
+* Improved mobile menu debounce method to reduce conflicts with plugins
+* Improved mobile menu hidden check to reduce conflicts with plugins
+* Fixed a conflict with the Headline Optimizer Plugin
+* Changed after-entry widget area to use the built-in Genesis after-entry widget area
+* Replaced Customizer Library with FeastCo Customizer Library
+* Modernized customizer options to make changing colors and typography less overwhelming
+* Restructured code for better consistency across all Feast themes
+
+= 3.0.0 =
+
+* Overhauled theme styles
+* Removed TGMPA script
+* Various code improvements
 
 = 2.1.9 =
 

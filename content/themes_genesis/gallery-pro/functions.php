@@ -11,8 +11,8 @@ function bbs_child_theme_setup() {
 
     //* Child theme (do not remove)
     define( 'CHILD_THEME_NAME', 'Gallery Pro' );
-    define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/gallery/' );
-    define( 'CHILD_THEME_VERSION', '1.1' );
+    define( 'CHILD_THEME_URL', '//my.studiopress.com/themes/gallery/' );
+    define( 'CHILD_THEME_VERSION', '1.2' );
 
     // Genesis Framework
     include_once( get_template_directory() . '/lib/init.php' );

@@ -1,24 +1,23 @@
 /*
-	Theme Name: elegance Theme
+	Theme Name: Elegance Theme
 	Theme URI: http://www.stephaniehellwig.com/themes
-	Description: elegance is a mobile responsive and HTML5 theme built for the Genesis Framework.
+	Description: Elegance is a mobile responsive and HTML5 Genesis theme built for Photographers.
 	Author: Stephanie Hellwig
 	Author URI: http://www.stephaniehellwig.com/
-	
-	Version: 1.0.1
- 
+
+	Version: 1.2.0
+
 	Tags: one-column, two-columns, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, photography
- 
+
 	Template: genesis
-	Template Version: 2.0.0
- 
+	Template Version: 2.2.6
+
 	License: GPL-2.0+
 	License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-	Text Domain: elegance
 */
- 
- 
+
+
 /* Table of Contents
 
 	- HTML5 Reset
@@ -228,7 +227,7 @@ blockquote {
 
 blockquote::before {
 	content: "\201C";
-	font-family: "Times New Roman", georgia; 
+	font-family: "Times New Roman", georgia;
 	display: block;
 	font-size: 100px;
 	font-size: 10rem;
@@ -237,13 +236,13 @@ blockquote::before {
 	top: -51px;
 	left: -42px;
 	text-align: left;
-	color: #849ea5; 
+	color: #849ea5;
 	opacity: .4;
 }
 
 blockquote::after {
 	content: "\201d";
-	font-family: "Times New Roman", georgia; 
+	font-family: "Times New Roman", georgia;
 	display: block;
 	font-size: 100px;
 	font-size: 10rem;
@@ -252,7 +251,7 @@ blockquote::after {
 	position: relative;
 	top: -85px;
 	text-align: right;
-	color: #849ea5; 
+	color: #849ea5;
 	opacity: .4;
 }
 .entry-content code {
@@ -448,8 +447,8 @@ Structure and Layout
 
 .site-container {
 	background-color: #fff;
-	margin: 19px auto;
-	margin: 1.9rem auto;
+	margin: 0px auto;
+	margin: 0rem auto;
 	max-width: 1140px;
 	overflow: hidden;
 	padding-top: 20px;
@@ -457,6 +456,7 @@ Structure and Layout
 
 .site-inner {
 	clear: both;
+	margin: 45px;
 }
 
 .wrap {
@@ -471,41 +471,17 @@ Structure and Layout
 /* Column Widths and Positions
 --------------------------------------------- */
 
-/* Wrapping div for .content and .sidebar-primary */
 
-.content-sidebar-sidebar .content-sidebar-wrap,
-.sidebar-content-sidebar .content-sidebar-wrap,
-.sidebar-sidebar-content .content-sidebar-wrap {
-	width: 900px;
-}
-
-.content-sidebar-sidebar .content-sidebar-wrap {
-	float: left;
-}
-
-.sidebar-content-sidebar .content-sidebar-wrap,
-.sidebar-sidebar-content .content-sidebar-wrap {
-	float: right;
-}
 
 /* Content */
 
 .content {
 	float: right;
-	width: 800px;
+	width: 630px;
 }
 
-.content-sidebar .content,
-.content-sidebar-sidebar .content,
-.sidebar-content-sidebar .content {
+.content-sidebar .content {
 	float: left;
-	margin-top: 25px;
-}
-
-.content-sidebar-sidebar .content,
-.sidebar-content-sidebar .content,
-.sidebar-sidebar-content .content {
-	width: 575px;
 }
 
 .full-width-content .content {
@@ -516,23 +492,12 @@ Structure and Layout
 
 .sidebar-primary {
 	float: right;
-	width: 300px;
+	width: 350px;
+	padding-top: 15px;
 }
 
-.sidebar-content .sidebar-primary,
-.sidebar-sidebar-content .sidebar-primary {
+.sidebar-content .sidebar-primary {
 	float: left;
-}
-
-/* Secondary Sidebar */
-
-.sidebar-secondary {
-	float: left;
-	width: 164px;
-}
-
-.content-sidebar-sidebar .sidebar-secondary {
-	float: right;
 }
 
 
@@ -860,6 +825,69 @@ Widgets
 /*
 Plugins
 ---------------------------------------------------------------------------------------------------- */
+/* WooCommerce
+--------------------------------------------- */
+.woocommerce #respond input#submit,
+.woocommerce a.button,
+.woocommerce button.button,
+.woocommerce input.button,
+.woocommerce span.onsale {
+  background-color: #829da5 !important;
+}
+
+.woocommerce .woocommerce-message::before,
+.woocommerce .woocommerce-info::before,
+.woocommerce div.product p.price,
+.woocommerce div.product span.price,
+.woocommerce ul.products li.product .price,
+.woocommerce form .form-row .required {
+  color: #829da5 !important;
+}
+.woocommerce #respond input#submit:hover,
+.woocommerce a.button:hover,
+.woocommerce button.button:hover,
+.woocommerce input.button:hover{
+  background-color: #000 !important;
+}
+.woocommerce-message,
+.woocommerce-info {
+    border-top-color: #829da5 !important;
+}
+.woocommerce-checkout #payment{
+  background-color: #fbfbfb !important;
+}
+.woocommerce #respond input#submit, .woocommerce a.button, .woocommerce button.button, .woocommerce input.button {
+  font-family: 'Josefin Sans', sans-serif !important;
+  font-size: 14px !important;
+  font-weight: 400 !important;
+  letter-spacing: 1px !important;
+  text-align: center !important;
+  text-transform: uppercase !important;
+}
+.woocommerce .quantity .qty {
+    width: 2.9em !important;
+    border-radius: 3px !important;
+    padding: 6px !important;
+}
+
+.woocommerce #content table.cart td.actions .input-text,
+.woocommerce table.cart td.actions .input-text,
+.woocommerce-page #content table.cart td.actions .input-text,
+.woocommerce-page table.cart td.actions .input-text {
+    width: 30% !important;
+}
+
+#add_payment_method table.cart td.actions .coupon .input-text,
+.woocommerce-cart table.cart td.actions .coupon .input-text,
+.woocommerce-checkout table.cart td.actions .coupon .input-text {
+	box-sizing: content-box !important;
+	padding: 7px 10px 5px !important;
+	margin: 2px 4px 0 0 !important;
+}
+
+figure.woocommerce-product-gallery__wrapper {
+	margin: 0px;
+}
 
 /* Genesis eNews Extended
 --------------------------------------------- */
@@ -1025,7 +1053,7 @@ img#wpstats {
 
 .entry-content div.sharedaddy .sd-content ul {
 	float: left;
-	
+
 }
 
 .entry-content div.sharedaddy .sd-content li {
@@ -1052,7 +1080,7 @@ img#wpstats {
 }
 
 .proof_gallery .gallery {
-	max-width: 930px;
+	max-width: 850px;
 }
 
 /* Simply Instagram
@@ -1178,7 +1206,7 @@ Site Header
 .site-header .widget-area {
 	width: 100%;
 	float:left;
-	
+
 }
 
 .right-header.widget-area .search-form input[type="search"] {
@@ -1411,8 +1439,8 @@ Site Navigation
 	visibility: hidden;
 }
 
-@media only screen and (max-width: 880px) {
-	
+@media only screen and (max-width: 1139px) {
+
 	p.site-description {
     max-height: 0px;
 	}
@@ -1604,9 +1632,9 @@ Content Area
 	opacity: 0;
 }
 
-/* Custom Archives 
+/* Custom Archives
 ------------------------------------------------------------ */
-	
+
 .posts-archive .post-image.entry-image {
     display: none;
 }
@@ -1704,7 +1732,7 @@ Content Area
 	margin-bottom: 0;
 }
 
-/* Featured Posts section of Home Bottom 
+/* Featured Posts section of Home Bottom
 ------------------------------------------------------- */
 
 .home-bottom {
@@ -1734,7 +1762,7 @@ Content Area
     background-image: none;
     border-bottom: none;
     color: #fff;
-    height: 275px;
+    height: 260px;
     float: left;
     margin: 6px 0px;
     overflow: hidden;
@@ -1793,7 +1821,7 @@ Content Area
 .home-bottom .enews-widget {
 	background: none;
 	padding: 20px 0px;
-	
+
 }
 
 .home-bottom .enews form {
@@ -1828,7 +1856,9 @@ Content Area
 ------------------------------------------------------- */
 .cta-widget {
 	background: #f9f9f9;
-	margin: 17px 0 17px;
+  background-size: cover;
+  background-position: center;
+	margin: 17px 15px 17px;
 	padding: 17px 20px;
 	max-height: 150px;
 }
@@ -1837,6 +1867,10 @@ Content Area
 	text-align: right;
 	width: 90%;
 	margin: 0;
+}
+
+.home .cta-widget {
+    margin: 0 auto !important;
 }
 
 .cta-widget .enews-widget p,
@@ -2076,6 +2110,7 @@ Content Area
 --------------------------------------------- */
 
 .archive-pagination {
+  clear: both;
 	font-size: 14px;
 	font-size: 1.4rem;
 	margin: 40px 0;
@@ -2098,7 +2133,7 @@ Content Area
 
 .archive-pagination li a:hover,
 .archive-pagination li.active a {
-	background-color: #333;
+	background-color: #829da5 !important;
 }
 
 /* Comments
@@ -2312,7 +2347,7 @@ Site Footer
 
 .site-footer a {
 	color: #eee;
-	text-decoration: none;	
+	text-decoration: none;
 }
 
 .site-footer a:hover {
@@ -2348,6 +2383,11 @@ Media Queries
 	.content {
 		width: 550px;
 	}
+	
+	.home-bottom .featuredpost .entry { 
+		width: 33.33%;
+		height: auto;
+	}
 
 	.content-sidebar-sidebar .content,
 	.sidebar-content-sidebar .content,
@@ -2361,26 +2401,22 @@ Media Queries
 	.sidebar-primary {
 		width: 272px;
 	}
-	
+
 	.title-area {
 		border-left: none;
 		border-right: none;
-		min-height: 90px;
+		min-height: 150px;
 	}
-	
+
 	.home-middle-left,
 	.home-middle-right {
 		width: 49%;
 	}
-	
-	.cta-widget {
-		background-image: none !important;
-	}
-	
+
 	.footer-widgets {
 		padding: 0;
 	}
-	
+
 	.home-bottom .wrap {
 		padding-left: 5%;
 		padding-right: 5%;
@@ -2406,6 +2442,7 @@ Media Queries
 	.home-bottom .featuredpost .entry {
 		color: #333;
 		background-color: #fff;
+		height:auto;
 		width: 100%;
 	}
 
@@ -2424,11 +2461,11 @@ Media Queries
 	.home-bottom .featuredpost .entry-title a {
 		color: #6b6b6b;
 	}
-	
+
 	.genesis-nav-menu {
 		font-size: 11px;
 	}
-	
+
 	.genesis-nav-menu a {
 		padding-bottom: 16px;
 	}
@@ -2445,7 +2482,7 @@ Media Queries
 	.wrap {
 		max-width: 772px;
 	}
-	
+
 	.title-area {
 		min-height: 125px;
 	}
@@ -2479,33 +2516,33 @@ Media Queries
 		margin: 0 auto 0;
 		width: 100% !important;
 	}
-	
+
 	.title-area {
 		border-left: none;
 		border-right: none;
 	}
-	
+
 	.site-header {
 		width: 100%;
 	}
-	
+
 	.sidebar {
 		margin-top: 0;
 	}
-	
+
 	.content-sidebar .content,
 	.content-sidebar-sidebar .content,
 	.sidebar-content-sidebar .content {
 		margin-top: 0;
 }
-	
+
 	.nav-primary,
 	.nav-secondary {
 		float: none;
 		margin: 0px 0 5px;
 		border-bottom: none;
 	}
-	
+
 	.header-image .nav-primary,
 	.header-image .nav-secondary {
 		margin: 0;
@@ -2538,7 +2575,7 @@ Media Queries
 		padding: 16px;
 		padding: 1.6rem;
 	}
-	
+
 	.header-left.widget-area {
     	padding-left: 228px;
     	margin-top: 0px;
@@ -2553,7 +2590,7 @@ Media Queries
 		width:100%;
 		float: none;
 	}
-	
+
 	.home-middle .enews-widget input {
     	width: 23%;
 	}
@@ -2577,7 +2614,7 @@ Media Queries
 		padding-top: 12px;
 		padding-top: 1.2rem;
 	}
-	
+
 	.after-entry .enews-widget input,
 	.after-entry .enews-widget input[type="submit"],
 	.home-middle .enews-widget input,
@@ -2663,27 +2700,28 @@ Media Queries
 	.nav-primary .sub-menu .sub-menu {
 		margin: -36px 0 0 174px;
 	}
-	
+
 	.header-left.widget-area {
 		padding-left: 0px;
 		margin: 0 auto;
 	}
-	
+
 	.header-left.widget-area .simple-social-icons .widget-title.widgettitle {
 		display: none;
 	}
-	
+
 	.right-header.widget-area,
 	.header-left.widget-area {
 		display: none;
 	}
-	
+
 	.home-middle-left,
 	.home-middle-right {
 		background: none;
 		float: none;
 		margin: 0;
 		width: 100%;
+		padding: 0px;
 	}
 
 	.entry-title {
@@ -2705,16 +2743,16 @@ Media Queries
 		margin: 0;
 		padding: 0;
 	}
-	
-	
-	
-	
-	
+
+
+
+
+
 	.site-title {
 		font-size: 36px;
 		font-size: 3.6rem;
 	}
-	
+
 	.entry-meta .entry-categories,
 	.entry-meta .entry-tags {
 		text-align: center;
@@ -2727,11 +2765,11 @@ Media Queries
 		margin-bottom: 20px;
 		text-align: center;
 	}
-	
+
 	.home-bottom .featuredpost .entry {
 		overflow: hidden;
 		width: 100%;
 	}
-	
+
 
 }

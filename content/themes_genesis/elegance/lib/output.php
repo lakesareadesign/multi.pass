@@ -3,7 +3,7 @@
 /**
  * This file adds the required CSS for the Customizer for the Elegance Theme.
  *
- * @package      Elegance
+ * @package      elegance
  * @subpackage   Customizations
  * @link         http://stephaniehellwig.com/themes
  * @author       Stephanie Hellwig
@@ -43,27 +43,27 @@ function elegance_css() {
         .content {
 			color: %1$s;
 		}
-		
+
 		*::-moz-placeholder {
 			color: %1$s;
 		}
-			
+
 		', $color_text ) : '';
-		
+
 	$css .= ( elegance_customizer_get_default_links_color() !== $color_links ) ? sprintf( '
 
 		.site-footer a:hover,
 		a,
-		.genesis-nav-menu a:hover, 
+		.genesis-nav-menu a:hover,
 		.genesis-nav-menu .current-menu-item > a,
 		.entry-title a:hover {
 			color: %1$s;
 		}
-		
+
 		', $color_links ) : '';
-		
+
 	$css .= ( elegance_customizer_get_default_titles_color() !== $color_titles ) ? sprintf( '
-		
+
 		.comment-respond h3,
 		.entry-comments h3,
 		.entry-pings h3,
@@ -73,17 +73,17 @@ function elegance_css() {
 		.entry-title a, .sidebar .widget-title a {
 			color: %1$s;
 		}
-		
+
 		', $color_titles ) : '';
-		
+
 	$css .= ( elegance_customizer_get_default_navigation_color() !== $color_navigation ) ? sprintf( '
 
 		.genesis-nav-menu a {
 			color: %1$s;
 		}
-		
+
 		', $color_navigation ) : '';
-	
+
 	$css .= ( elegance_customizer_get_default_accent_color() !== $color_accent ) ? sprintf( '
 
 		h3, .site-title a, .site-title a:hover,
@@ -92,7 +92,7 @@ function elegance_css() {
 		.testimonial_rotator_quote::before {
 			color: %1$s;
 		}
-		
+
 		button, input[type="button"], input[type="reset"], input[type="submit"], .button, .entry-content .button,
 		.archive-pagination li a:hover,
 		.archive-pagination li.active a,
@@ -101,13 +101,32 @@ function elegance_css() {
 		.sidebar .enews-widget input#subbutton,
 		.nav-secondary .sub-menu a:hover,
 		.after-entry .enews-widget input[type="submit"] {
-			background-color: %1$s;
+			background-color: %1$s !important;
 		}
-		
+		.woocommerce #respond input#submit,
+		.woocommerce a.button,
+		.woocommerce button.button,
+		.woocommerce input.button,
+		.woocommerce span.onsale {
+			background-color: %1$s !important;
+		}
+		.woocommerce-message,
+		.woocommerce-info {
+			border-top-color: %1$s !important;
+    }
+		.woocommerce .woocommerce-message::before,
+		.woocommerce .woocommerce-info::before,
+		.woocommerce div.product p.price,
+		.woocommerce div.product span.price,
+		.woocommerce ul.products li.product .price,
+		.woocommerce form .form-row .required {
+			color: %1$s !important;
+		}
+
 		', $color_accent ) : '';
-		
+
 	$css .= ( elegance_customizer_get_default_primary_color() !== $color_primary ) ? sprintf( '
-	
+
 		button:hover,
 		input:hover[type="button"],
 		input:hover[type="reset"],
@@ -120,8 +139,15 @@ function elegance_css() {
 		.after-entry .enews-widget input:hover[type="submit"] {
 			background-color: %1$s !important;
 		}
+		.woocommerce #respond input#submit:hover,
+		.woocommerce a.button:hover,
+		.woocommerce button.button:hover,
+		.woocommerce input.button:hover {
+			background-color: %1$s !important;
+	}
+
 		', $color_primary ) : '';
-		
+
 	$css .= ( elegance_customizer_get_default_line_color() !== $color_line ) ? sprintf( '
 
 		.nav-primary,
@@ -136,9 +162,9 @@ function elegance_css() {
 		.title-area {
 			border-color: %1$s !important;
 		}
-		
+
 		', $color_line ) : '';
-	
+
 	$css .= ( elegance_customizer_get_default_crtext_color() !== $color_crtext ) ? sprintf( '
 
 		.site-footer,
@@ -147,17 +173,17 @@ function elegance_css() {
 		.widget-above-header p {
 			color: %1$s;
 		}
-			
+
 		', $color_crtext ) : '';
-		
+
 	$css .= ( elegance_customizer_get_default_crlinkhvr_color() !== $color_crlinkhvr ) ? sprintf( '
 
 		.site-footer a:hover {
 			color: %1$s ;
 		}
-			
+
 		', $color_crlinkhvr ) : '';
-		
+
 	if( $css ) {
 		wp_add_inline_style( $handle, $css );
 	}
