@@ -26,7 +26,7 @@ class Appointments_Addons_Admin_List_Table extends WP_List_Table {
 	function column_name( $item ) {
 		$actions = array();
 		if ( strtolower( $item->Free ) === 'true' ) {
-			$actions['activate'] = '<a href="http://premium.wpmudev.org/project/appointments-plus/">' . __( 'Upgrade to Appointments+ to activate', 'appointments' ) . '</a>';		   		 	  		  	 	 	
+			$actions['activate'] = '<a href="http://premium.wpmudev.org/project/appointments-plus/">' . __( 'Upgrade to Appointments+ to activate', 'appointments' ) . '</a>';
 		}
 		else {
 			if ( ! $item->active ) {

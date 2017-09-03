@@ -10,6 +10,10 @@ if ( !class_exists('CTA_Post_Type') ) {
 
 	class CTA_Post_Type {
 
+		static $cta_impressions;
+		static $cta_conversions;
+		static $cta_conversion_rate;
+
 		function __construct() {
 			self::load_hooks();
 		}
@@ -151,10 +155,10 @@ if ( !class_exists('CTA_Post_Type') ) {
 				"cb" => "<input type=\"checkbox\" />",
 				"thumbnail-cta" => __( 'Preview', 'inbound-pro' ),
 				"title" => __( 'Call to Action Title', 'inbound-pro' ),
-				"cta_stats" => __( 'Variation Testing Stats', 'inbound-pro' ),
-				"cta_impressions" => __( 'Total<br>Impressions', 'inbound-pro' ),
-				"cta_actions" => __( 'Total<br>Conversions', 'inbound-pro' ),
-				"cta_cr" => __( 'Total<br>Click Through Rate', 'inbound-pro' )
+				"cta_stats" => __( 'Split Testing Results', 'inbound-pro' ),
+				"cta_impressions" => __( 'Overall<br>Impressions', 'inbound-pro' ),
+				"cta_actions" => __( 'Oversall<br>Conversions', 'inbound-pro' ),
+				"cta_cr" => __( 'Overall<br>Conversion Rate', 'inbound-pro' )
 			);
 
 			return $cols;
@@ -189,12 +193,45 @@ if ( !class_exists('CTA_Post_Type') ) {
 			} elseif ("cta_stats" == $column) {
 				self::show_stats_data();
 			} elseif ("cta_impressions" == $column) {
-				echo self::show_aggregated_stats("cta_impressions");
-
+				if (class_exists('Inbound_Analytics')) {
+					self::$cta_impressions = Inbound_Events::get_page_views_by('cta_id' , array('cta_id'=> $post_id) );
+					?>
+					<a href='<?php echo admin_url('index.php?action=inbound_generate_report&obj_key=cta_id&cta_id='.$post_id.'&class=Inbound_Impressions_Report&range=1000&tb_hide_nav=true&TB_iframe=true&width=900&height=600'); ?>' class='thickbox inbound-thickbox'>
+						<?php echo count(self::$cta_impressions); ?>
+					</a>
+					<?php
+				} else {
+					echo self::show_aggregated_stats("cta_impressions");
+				}
 			} elseif ("cta_actions" == $column) {
-				echo self::show_aggregated_stats("cta_actions");
+				if (class_exists('Inbound_Analytics')) {
+					self::$cta_conversions = Inbound_Events::get_cta_conversions('cta_id' , array('cta_id'=> $post_id) );
+					?>
+					<a href='<?php echo admin_url('index.php?action=inbound_generate_report&obj_key=cta_id&cta_id='.$post_id.'&class=Inbound_Events_Report&range=1000&exclude_events=inbound_list_add,inbound_list_remove,inbound_content_click&tb_hide_nav=true&TB_iframe=true&width=900&height=600'); ?>' class='thickbox inbound-thickbox'>
+						<?php echo count(self::$cta_conversions); ?>
+					</a>
+					<?php
+				} else {
+					echo self::show_aggregated_stats("cta_actions");
+				}
+
 			} elseif ("cta_cr" == $column) {
-				echo self::show_aggregated_stats("cta_cr") . "%";
+				if (class_exists('Inbound_Analytics')) {
+					if (count(self::$cta_impressions) != 0) {
+						self::$cta_conversion_rate = count(self::$cta_conversions) / count(self::$cta_impressions);
+					} else {
+						self::$cta_conversion_rate = 0;
+					}
+					self::$cta_conversion_rate = round(self::$cta_conversion_rate,2) * 100;
+					?>
+					<a href='<?php echo admin_url('index.php?action=inbound_generate_report&cta_id='.$post_id.'&class=Inbound_Events_Report&range=1000&tb_hide_nav=true&TB_iframe=true&width=900&height=600'); ?>' class='thickbox inbound-thickbox'>
+						<?php echo self::$cta_conversion_rate.'%' ?>
+					</a>
+					<?php
+				} else {
+					echo self::show_aggregated_stats("cta_cr") . "%";
+				}
+
 			} elseif ("template" == $column) {
 				$template_used = get_post_meta($post->ID, 'wp-cta-selected-template', true);
 				echo $template_used;
@@ -299,7 +336,9 @@ if ( !class_exists('CTA_Post_Type') ) {
 				{
 					$letter = $CTA_Variations->vid_to_letter( $post->ID, $vid ); /* convert to letter */
 					$vid_impressions = get_post_meta($post->ID,'wp-cta-ab-variation-impressions-'.$vid, true); /* get impressions */
-					$vid_conversions = $CTA_Variations->get_conversions($post->ID, $vid);
+					$vid_conversions = get_post_meta($post->ID,'wp-cta-ab-variation-conversions-'.$vid, true);
+					$vid_conversions = ($vid_conversions) ? $vid_conversions : 0;
+
 					$v_status = get_post_meta($post->ID,'cta_ab_variation_status_'.$vid, true); /* Current status */
 
 					if ($i === 0) { $v_status = $first_status; } /* get status of first */
@@ -363,7 +402,9 @@ if ( !class_exists('CTA_Post_Type') ) {
 			}
 		}
 
-		/* Needs Documentation */
+		/**
+		 * Needs Documentation
+		 */
 		public static function show_aggregated_stats($type_of_stat) {
 			global $post, $CTA_Variations;
 

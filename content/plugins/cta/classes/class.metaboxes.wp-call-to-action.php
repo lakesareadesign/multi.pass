@@ -38,7 +38,7 @@ class CTA_Metaboxes {
 		/* Add variation notes input box */
 		add_action( 'edit_form_after_title', array(__CLASS__, 'add_variation_notes'));
 
-		/* Enqueue JS */
+		/* Enqueue admin CTA styles and scripts */
 		add_action( 'admin_enqueue_scripts', array(__CLASS__, 'enqueue_admin_scripts'));
 
 
@@ -152,12 +152,24 @@ class CTA_Metaboxes {
 		/* AB Testing Statistics Box */
 		add_meta_box(
 			'wp_cta_ab_display_stats_metabox',
-			__( 'A/B Testing', 'inbound-pro' ),
+			__( 'Split Testing', 'inbound-pro' ),
 			array(__CLASS__, 'show_stats_metabox'),
 			'wp-call-to-action' ,
 			'side',
 			'high'
 		);
+        
+        /* Inbound Analytics CTA Stats Box */
+		if (class_exists('Inbound_CTA_Quick_View')) {
+			add_meta_box(
+				'wp_cta_display_inbound_analytics_stats_metabox',
+				__('Inbound Analytics', 'inbound-pro'),
+				array(__CLASS__, 'show_analytics_metabox'),
+				'wp-call-to-action',
+				'side',
+				'high'
+			);
+		}
 	}
 
 
@@ -280,11 +292,15 @@ class CTA_Metaboxes {
 			$variation_notes = $CTA_Variations->get_variation_notes($post->ID, $vid);
 			$permalink = $CTA_Variations->get_variation_permalink($post->ID, $vid);
 
-			$impressions = $CTA_Variations->get_impressions($post->ID, $vid);
-			$conversions = $CTA_Variations->get_conversions($post->ID, $vid);
-			$conversion_rate = $CTA_Variations->get_conversion_rate($post->ID, $vid);
+			$impressions = get_post_meta($post->ID,'wp-cta-ab-variation-impressions-'.$vid, true); /* get impressions */
+			$conversions = get_post_meta($post->ID,'wp-cta-ab-variation-conversions-'.$vid, true);
+			$conversions = ($conversions) ? $conversions : 0;
 
-				?>
+			/* get conversion rate */
+			$conversion_rate = ($impressions != 0) ?  $conversions / $impressions : 0;
+			$conversion_rate = round($conversion_rate,2) * 100;
+
+			?>
 
 				<div id="wp-cta-variation-<?php echo $CTA_Variations->vid_to_letter($post->ID, $vid); ?>" class="cta-variation-row variation-<?php echo $status; ?>">
 
@@ -403,6 +419,19 @@ class CTA_Metaboxes {
 
 	}
 
+    /**
+    * Displays a metabox of the total clicks a CTA has,
+    * the top variations by clicks,
+    * and the top posts by clicks of the CTA
+    */
+    public static function show_analytics_metabox(){
+
+		/* sets the default quick view template */
+		$template_class_name = apply_filters('inbound-ananlytics/cta/quick-view', 'Inbound_CTA_Quick_View');
+
+		$template_class = new $template_class_name;
+		$template_class->load_template(array());
+    }
 
 	/**
 	* Display CTA Settings for templates AND extensions
@@ -814,7 +843,7 @@ class CTA_Metaboxes {
 	}
 
 	/**
-	* Enqueues js
+	* Enqueues admin CTA styles and scripts
 	*/
 	public static function enqueue_admin_scripts() {
 		$screen = get_current_screen();
@@ -822,8 +851,11 @@ class CTA_Metaboxes {
 		if (!isset($screen) || $screen->id != 'wp-call-to-action' || $screen->base !='post'){
 			return;
 		}
-
+        
 		wp_enqueue_style('wp-cta-ab-testing-admin-css', WP_CTA_URLPATH . 'assets/css/admin-ab-testing.css');
+        
+        /* enqueue the CTA Inbound Analytics metabox styles*/
+        wp_enqueue_style('wp-cta-inbound-analytics-admin-css', WP_CTA_URLPATH . 'assets/css/admin-cta-inbound-analytics-metabox.css');
 	}
 
 	/**
