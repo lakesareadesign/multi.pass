@@ -1,0 +1,168 @@
+/* Outfitter Pro Front Page
+Loads on the front page */
+
+/* Front Page
+---------------------------------------------------------------------------------------------------- */
+
+.front-page .site-inner .wrap {
+	max-width: 1360px;
+}
+
+.front-page .content .entry {
+	background: none;
+}
+
+.front-page-1 .flexible-widgets.widget-full .widget,
+.front-page-1 .flexible-widgets.widget-area .widget:nth-of-type(1),
+.front-page-2 .flexible-widgets.widget-full .widget,
+.front-page-2 .flexible-widgets.widget-area .widget:nth-of-type(1),
+.front-page-3 .flexible-widgets.widget-full .widget,
+.front-page-3 .flexible-widgets.widget-area .widget:nth-of-type(1) {
+	margin-bottom: 80px;
+}
+
+.front-page-1 .widget-title,
+.front-page-2 .widget-title,
+.front-page-3 .widget-title {
+	color: #000;
+	font-size: 36px;
+	font-size: 3.6rem;
+	line-height: 1.1;
+	letter-spacing: -1px;
+}
+
+/*  Masonry
+--------------------------------------------- */
+
+.front-page .masonry-brick {
+	background-color: #fff;
+	float: left;
+	margin: 0 0 1px !important;
+	padding: 10px;
+	position: relative;
+	width: 33.3333%;
+}
+
+.front-page .masonry-brick:nth-of-type(6n+1),
+.front-page .masonry-brick:nth-of-type(5n) {
+	margin: 0 !important;
+	width: 66.6666%;
+}
+
+/* Featured Content
+--------------------------------------------- */
+
+.front-page .content .featured-content .widget-title {
+	padding: 0 40px;
+}
+
+.front-page .content .featuredpost {
+	padding: 0;
+}
+
+.front-page .content .featuredpost .entry {
+	float: left;
+	margin-bottom: 0;
+	padding: 40px;
+	width: 33.3%;
+}
+
+.front-page .content .featuredpost .entry:nth-of-type(3n+1) {
+	clear: left;
+}
+
+.front-page .content .featured-content .entry-content p {
+	font-size: 16px;
+}
+
+
+/* Front Page 1
+--------------------------------------------- */
+
+.front-page-1 .welcome-button {
+	margin-top: 10px;
+	text-align: center;
+}
+
+
+/* Media Queries
+---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 1023px) {
+
+	.js .masonry-brick,
+	.js .masonry-brick:nth-of-type(5n) {
+		width: 50%;
+		float: none;
+	}
+
+	.js .masonry-brick:nth-of-type(3n+1) {
+		width: 100%;
+	}
+
+	.front-page-1 {
+		text-align: center;
+	}
+
+	.front-page-1 .one-third,
+	.front-page-1 .two-thirds {
+		clear: both;
+		width: 100%;
+	}
+
+	.front-page-1 .welcome-button {
+	margin-top: 30px;
+	}
+
+	.front-page-1 .flexible-widgets.widget-full .widget,
+	.front-page-1 .flexible-widgets.widget-area .widget:nth-of-type(1),
+	.front-page-2 .flexible-widgets.widget-full .widget,
+	.front-page-2 .flexible-widgets.widget-area .widget:nth-of-type(1),
+	.front-page-3 .flexible-widgets.widget-full .widget,
+	.front-page-3 .flexible-widgets.widget-area .widget:nth-of-type(1) {
+		margin-bottom: 40px;
+	}
+
+	.front-page-1 .widget-title,
+	.front-page-2 .widget-title,
+	.front-page-3 .widget-title {
+		font-size: 30px;
+		font-size: 3.0rem;
+	}
+
+	.front-page .content .featuredpost .entry:nth-of-type(2n+1) {
+		clear: left;
+	}
+
+	.front-page .content .featuredpost .entry:nth-of-type(3n+1) {
+		clear: none;
+	}
+
+	.front-page .content .featuredpost .entry {
+		width: 50%;
+	}
+
+}
+
+@media only screen and (max-width: 600px) {
+
+	.js .masonry-brick,
+	.js .masonry-brick:nth-of-type(5n) {
+		width: 100%;
+	}
+
+	.site-inner {
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.front-page .content .featured-content .widget-title {
+		padding: 0 20px;
+	}
+
+	.front-page .content .featured-content .entry {
+		padding: 20px;
+		width: 100%;
+	}
+
+}

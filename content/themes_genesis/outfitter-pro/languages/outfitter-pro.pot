@@ -1,0 +1,214 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Outfitter Pro 1.0.0\n"
+"POT-Creation-Date: 2017-09-01 09:26-0400\n"
+"PO-Revision-Date: 2017-08-31 01:59-0400\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.3\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: front-page.php:65
+msgid "Main Content"
+msgstr ""
+
+#: functions.php:71
+msgid "Submenu"
+msgstr ""
+
+#: functions.php:167
+msgid "Skip to footer"
+msgstr ""
+
+#: functions.php:175
+msgid "Header Menu"
+msgstr ""
+
+#: functions.php:175
+msgid "Footer Menu"
+msgstr ""
+
+#: functions.php:175
+msgid "Off-screen Menu"
+msgstr ""
+
+#: functions.php:230
+msgid "Hide Off-screen Content"
+msgstr ""
+
+#: functions.php:398 functions.php:422
+msgid "Footer"
+msgstr ""
+
+#: functions.php:407
+msgid "Front Page 1"
+msgstr ""
+
+#: functions.php:408
+msgid "This is the front page 1 section."
+msgstr ""
+
+#: functions.php:412
+msgid "Front Page 2"
+msgstr ""
+
+#: functions.php:413
+msgid "This is the front page 2 section."
+msgstr ""
+
+#: functions.php:417
+msgid "Front Page 3"
+msgstr ""
+
+#: functions.php:418
+msgid "This is the front page 3 section."
+msgstr ""
+
+#: functions.php:423
+msgid "This is the footer section."
+msgstr ""
+
+#: functions.php:427
+msgid "Off-Screen Content"
+msgstr ""
+
+#: functions.php:428
+msgid "This is the off-screen content section."
+msgstr ""
+
+#: lib/customize.php:24
+msgid "Personalize the Outfitter Pro theme with these available options."
+msgstr ""
+
+#: lib/customize.php:25
+msgid "Theme Options"
+msgstr ""
+
+#: lib/customize.php:35
+msgid ""
+"Change the link color, hover color for linked titles, and the color of the "
+"hover line effect on menu links and post info links. This option will also "
+"change the base WooCommerce color."
+msgstr ""
+
+#: lib/customize.php:36
+msgid "Link Color"
+msgstr ""
+
+#: lib/customize.php:47
+msgid ""
+"Change the color of buttons using the .primary class and WooCommerce sale "
+"badges and prices."
+msgstr ""
+
+#: lib/customize.php:48
+msgid "Accent Color"
+msgstr ""
+
+#: lib/customize.php:60
+msgid "Show featured image on posts?"
+msgstr ""
+
+#: lib/customize.php:61
+msgid ""
+"Check the box if you would like to display the featured image above the "
+"content on single posts."
+msgstr ""
+
+#: lib/customize.php:75
+msgid "Show Header Search Icon?"
+msgstr ""
+
+#: lib/customize.php:76
+msgid "Check the box to show a search icon in the header menu."
+msgstr ""
+
+#: lib/header-icon-menu.php:132
+msgid "Additional navigation"
+msgstr ""
+
+#: lib/helper-functions.php:76
+msgid "Show Search"
+msgstr ""
+
+#: lib/helper-functions.php:100
+msgid "Show Off-screen Content"
+msgstr ""
+
+#: lib/helper-functions.php:122
+msgid "Hide Search"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-customize.php:46
+msgid "Show Header Cart Icon?"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-customize.php:47
+msgid "Check the box to show a cart icon in the header menu."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-functions.php:56
+msgid "Show Shopping Cart"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-functions.php:66
+msgid "Hide Shopping Cart"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:53
+#, php-format
+msgid ""
+"Please install and activate <a href=\"https://wordpress.org/plugins/genesis-"
+"connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> "
+"to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:67
+msgid "install and activate Genesis Connect for WooCommerce"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:69
+#, php-format
+msgid "Please %s to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:100
+msgid "Previous Page"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:101
+msgid "Next Page"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Outfitter Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/outfitter/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "Outfitter Pro drives sales with a striking storefront display."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
+msgstr ""
