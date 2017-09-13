@@ -2,15 +2,15 @@
 
 /**
  * Mailin REST client
- */ 
-class Mailin
+ */
+class Mailin_Rest
 {
     public $api_key;
     public $base_url;
     public $curl_opts = array();
     public function __construct($base_url,$api_key)
     {
-        if(!function_exists('curl_init')) 
+        if(!function_exists('curl_init'))
         {
             throw new Exception('Mailin requires CURL module');
         }
@@ -47,7 +47,7 @@ class Mailin
     public function get($resource,$input)
     {
         return $this->do_request($resource,"GET",$input);
-    }   
+    }
     public function put($resource,$input)
     {
         return $this->do_request($resource,"PUT",$input);

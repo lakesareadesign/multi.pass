@@ -104,12 +104,11 @@ class FLMenuModule extends FLBuilderModule {
 	public static function sort_nav_objects( $sorted_menu_items, $args ) {
 		$menu_items = array();
 		$parent_items = array();
-
 		foreach ( $sorted_menu_items as $key => $menu_item ) {
 			$classes = (array) $menu_item->classes;
 
 			// Setup classes for current menu item.
-			if ( $menu_item->object_id == self::$fl_builder_page_id ) {
+			if ( $menu_item->ID == self::$fl_builder_page_id ) {
 				$parent_items[ $menu_item->object_id ] = $menu_item->menu_item_parent;
 
 				if ( ! in_array( 'current-menu-item', $classes ) ) {
@@ -542,7 +541,7 @@ class FL_Menu_Module_Walker extends Walker_Nav_Menu {
 
 	function start_el( &$output, $item, $depth = 0, $args = array(), $id = 0 ) {
 
-			$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
+		$indent = ( $depth ) ? str_repeat( "\t", $depth ) : '';
 		$args   = (object) $args;
 
 		$class_names = '';

@@ -23,8 +23,19 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		protected $options;
 		protected $data = null;
 		protected $option_name;
+		protected $url;
 
 		public function __construct() {
+			if ( is_admin() || is_network_admin() ) {
+				global $uba;
+				$this->url = add_query_arg(
+					array(
+						'page' => 'branding',
+						'tab' => $uba->get_current_tab(),
+					),
+					is_network_admin()? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' )
+				);
+			}
 			add_filter( 'ultimate_branding_options_names', array( $this, 'add_option_name' ) );
 		}
 
@@ -35,11 +46,16 @@ if ( ! class_exists( 'ub_helper' ) ) {
 			return $options;
 		}
 
-		protected function get_value( $section, $name = null ) {
+		/**
+		 * @since 1.9.1 added parameter $default
+		 *
+		 * @param mixed $default default value return if we do not have any.
+		 */
+		protected function get_value( $section, $name = null, $default = null ) {
 			$this->set_data();
 			$value = $this->data;
 			if ( empty( $value ) ) {
-				return null;
+				return $default;
 			}
 			if ( isset( $value[ $section ] ) ) {
 				if ( empty( $name ) ) {
@@ -52,7 +68,7 @@ if ( ! class_exists( 'ub_helper' ) ) {
 					return $value[ $section ][ $name ];
 				}
 			}
-			return null;
+			return $default;
 		}
 
 		public function admin_options_page() {
@@ -102,6 +118,13 @@ if ( ! class_exists( 'ub_helper' ) ) {
 							} else {
 								$value[ $section_key ][ $key ] = 'off';
 							}
+							break;
+							/**
+							 * save extra data if field is a wp_editor
+							 */
+						case 'wp_editor':
+							$value[ $section_key ][ $key.'_meta' ] = do_shortcode( $value[ $section_key ][ $key ] );
+							break;
 					}
 				}
 			}

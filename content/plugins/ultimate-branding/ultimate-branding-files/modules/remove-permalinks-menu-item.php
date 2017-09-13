@@ -11,6 +11,13 @@ if ( ! class_exists( 'ub_menu_perlmalinks' ) ) {
 		}
 		public function remove_permalinks_menu_item() {
 			global $submenu;
+			/**
+			 * Check parent menu
+			 */
+			if ( ! isset( $submenu['options-general.php'] ) || ! is_array( $submenu['options-general.php'] ) ) {
+				return;
+			}
+
 			foreach ( $submenu['options-general.php'] as $key => $data ) {
 				if ( 'options-permalink.php' == $data[2] ) {
 					unset( $submenu['options-general.php'][ $key ] );

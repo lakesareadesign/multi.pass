@@ -165,7 +165,13 @@ class ProSites_Gateway_PayPalExpressPro {
 		$site_name = $current_site->site_name;
 		$img_base  = $psts->plugin_url . 'images/';
 
-		$button_url = "https://fpdbs.paypal.com/dynamicimageweb?cmd=_dynamic-image&locale=" . get_locale();
+		// Default button image url.
+		$button_url = "https://www.paypalobjects.com/webstatic/en_US/i/btn/png/gold-rect-paypalcheckout-26px.png";
+		// If the locale based button is selected, get the deprecated locale button.
+		if ( 'locale' === $psts->get_setting( 'pypl_checkout_btn' ) ) {
+			$button_url = "https://fpdbs.paypal.com/dynamicimageweb?cmd=_dynamic-image&locale=" . get_locale();
+		}
+
 		$button_url = apply_filters( 'psts_pypl_checkout_image_url', $button_url );
 
 		$period = isset( $args['period'] ) && ! empty( $args['period'] ) ? $args['period'] : ProSites_Helper_ProSite::default_period();
@@ -625,9 +631,9 @@ class ProSites_Gateway_PayPalExpressPro {
 				if ( $recurring ) {
 					$descAmount = $is_trial ? $initAmountDesc : $initAmountDesc + $paymentAmountInitial;
 					if ( $_POST['period'] == 1 ) {
-						$desc = $site_name . ' ' . $psts->get_level_setting( $_POST['level'], 'name' ) . ': ' . sprintf( __( '%1$s for the first month, then %2$s each month', 'psts' ), $psts->format_currency( $currency, $descAmount ), $psts->format_currency( $currency, $paymentAmountDesc ) );
+						$desc = $site_name . ' ' . $psts->get_level_setting( $_POST['level'], 'name' ) . ': ' . sprintf( __( '%1$s each month, plus a one time %2$s setup fee', 'psts' ), $psts->format_currency( $currency, $paymentAmountDesc ), $psts->format_currency( $currency, $descAmount ) );
 					} else {
-						$desc = $site_name . ' ' . $psts->get_level_setting( $_POST['level'], 'name' ) . ': ' . sprintf( __( '%1$s for the first %2$s month period, then %3$s every %4$s months', 'psts' ), $psts->format_currency( $currency, $descAmount ), $_POST['period'], $psts->format_currency( $currency, $paymentAmountDesc ), $_POST['period'] );
+						$desc = $site_name . ' ' . $psts->get_level_setting( $_POST['level'], 'name' ) . ': ' . sprintf( __( '%1$s every %2$s months, plus a one time %3$s setup fee', 'psts' ), $psts->format_currency( $currency, $paymentAmountDesc ), $_POST['period'], $psts->format_currency( $currency, $descAmount ) );
 					}
 				} else {
 					$descAmount = $paymentAmountDesc + $initAmountDesc;
@@ -1620,7 +1626,14 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 
 		$email = isset( $current_user->user_email ) ? $current_user->user_email : get_blog_option( $blog_id, 'admin_email' );
 
-		wp_mail( $email, __( "Don't forget to cancel your old subscription!", 'psts' ), $message );
+		$headers = array(
+			'content-type' => 'text/html'
+		);
+		add_action('phpmailer_init', 'psts_text_body' );
+
+		wp_mail( $email, __( "Don't forget to cancel your old subscription!", 'psts' ), $message, $headers );
+
+		remove_action('phpmailer_init', 'psts_text_body');
 
 		$psts->log_action( $blog_id, sprintf( __( 'Reminder to cancel previous %s subscription sent to %s', 'psts' ), $old_gateway, get_blog_option( $blog_id, 'admin_email' ) ) );
 	}
@@ -2003,7 +2016,10 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 		}
 
 		wp_enqueue_script( 'jquery' );
-		add_action( 'wp_head', array( &$this, 'checkout_js' ) );
+
+		// Add inline script for checkout page.
+		$inline_script = $this->checkout_js();
+		wp_add_inline_script( 'psts-checkout', $inline_script );
 	}
 
 	function settings() {
@@ -2102,6 +2118,16 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 							<input value="<?php esc_attr_e( $psts->get_setting( "pypl_header_img" ) ); ?>" size="40"
 							       name="psts[pypl_header_img]" type="text"/>
 						</p>
+					</td>
+				</tr>
+				<tr>
+					<th scope="row"
+					    class="psts-help-div psts-paypal-checkout-btn"><?php echo __( 'PayPal Checkout Button', 'psts' ) . $psts->help_text( __( 'Choose whether you want to use checkout button based on the locale or the default English button.', 'psts' ) ); ?></th>
+					<td>
+						<select name="psts[pypl_checkout_btn]" class="chosen">
+							<option value="default" <?php selected( $psts->get_setting( 'pypl_checkout_btn' ), 'default' ); ?>><?php _e( 'Default', 'psts' ) ?></option>
+							<option value="locale" <?php selected( $psts->get_setting( 'pypl_checkout_btn' ), 'locale' ); ?>><?php _e( 'Locale Button', 'psts' ) ?></option>
+						</select>
 					</td>
 				</tr>
 				<tr>
@@ -2790,20 +2816,27 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 		update_blog_option( $from_id, 'psts_paypal_profile_id', $trans_meta );
 	}
 
+	/**
+	 * Inline script for PayPal checkout.
+	 *
+	 * @return string
+	 */
 	function checkout_js() {
-		?>
-		<script type="text/javascript">
-			jQuery(document).ready(function ($) {
+
+		$message = __( 'Please note that if you cancel your subscription you will not be immune to future price increases. The price of un-canceled subscriptions will never go up!\n\nAre you sure you really want to cancel your subscription?\nThis action cannot be undone!', 'psts' );
+		$script = "jQuery(document).ready(function ($) {
 				$('form').submit(function () {
 					$('#cc_paypal_checkout').hide();
 					$('#paypal_processing').show();
 				});
-				$("a#pypl_cancel").click(function (e) {
-					if (!confirm("<?php echo __( 'Please note that if you cancel your subscription you will not be immune to future price increases. The price of un-canceled subscriptions will never go up!\n\nAre you sure you really want to cancel your subscription?\nThis action cannot be undone!', 'psts' ); ?>"))
+				$('a#pypl_cancel').click(function (e) {
+					if (!confirm('" . $message . "')) {
 						e.preventDefault();
+					}
 				});
-			});
-		</script><?php
+			});";
+
+		return $script;
 	}
 
 	/**
@@ -2963,7 +2996,7 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 							$psts->log_action( $blog_id, sprintf( __( 'PayPal IPN "%s" received: %s %s payment received, transaction ID %s', 'psts' ), $payment_status, $psts->format_currency( $currency_code, $payment ), $_POST['txn_type'], $txn_id ) . $profile_string );
 
 							//extend only if a recurring payment, first payments are handled below
-							if ( $_POST['txn_type'] == 'recurring_payment' && ! get_blog_option( $blog_id, 'psts_waiting_step' ) ) {
+							if ( $_POST['txn_type'] == 'recurring_payment' && get_blog_option( $blog_id, 'psts_waiting_step' ) ) {
 								$psts->extend( $blog_id, $period, self::get_slug(), $level, $_POST['mc_gross'] );
 							}
 

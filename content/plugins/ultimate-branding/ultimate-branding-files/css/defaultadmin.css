@@ -20,6 +20,10 @@
     list-style: inherit;
 }
 
+#poststuff form div.postbox div.inside p.description {
+    max-width: 500px;
+}
+
 #poststuff form div.postbox div.inside h3 {
     background: none;
     background-image: none;
@@ -181,4 +185,4 @@ li.link_row h4{
 }
 
 
-/* 133620-1504103048-au */
+/* 133620-1505265128-au */

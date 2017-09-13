@@ -1,5 +1,0 @@
-Library source:
-https://bitbucket.org/mailchimp/mailchimp-api-php/
-
-
-133620-1495482861-au

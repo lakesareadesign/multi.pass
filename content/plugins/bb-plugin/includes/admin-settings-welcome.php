@@ -10,7 +10,7 @@ function fl_welcome_utm( $campaign ) {
 
 $blog_post_url     = FLBuilderModel::get_store_url( 'beaver-builder-1-9-shasta', fl_welcome_utm( 'settings-welcome-blog-post' ) );
 $change_logs_url   = FLBuilderModel::get_store_url( 'change-logs', fl_welcome_utm( 'settings-welcome-change-logs' ) );
-$upgrade_url       = FLBuilderModel::get_store_url( '', fl_welcome_utm( 'settings-welcome-upgrade' ) );
+$upgrade_url       = FLBuilderModel::get_upgrade_url( fl_welcome_utm( 'settings-welcome-upgrade' ) );
 $support_url       = FLBuilderModel::get_store_url( 'beaver-builder-support', fl_welcome_utm( 'settings-welcome-support' ) );
 $faqs_url          = FLBuilderModel::get_store_url( 'frequently-asked-questions', fl_welcome_utm( 'settings-welcome-faqs' ) );
 $forums_url        = FLBuilderModel::get_store_url( 'support', fl_welcome_utm( 'settings-welcome-forums' ) );

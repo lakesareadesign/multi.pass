@@ -365,7 +365,7 @@ class WpmuDev_HelpTooltips {
 					if ($help.is(":visible")) return false;
 
 					if ($("#wpmudev-tooltip").length) $("#wpmudev-tooltip").remove();
-					if (!$("#wpmudev-tooltip").length) $("body").append('<div id="wpmudev-tooltip"><div class="wpmudev-pointer wpmudev-left_pointer"></div><div id="wpmudev-tooltip-source"></div></div>');
+					if (!$("#wpmudev-tooltip").length) $("body").append('<div id="wpmudev-tooltip"><div class="wpmudev-pointer wpmudev-left_pointer"></div><div id="wpmudev-tooltip-source"></div></div>');	     	 	 					  	
 					var $tip = $("#wpmudev-tooltip");
 					if (!$tip.length) return false;
 

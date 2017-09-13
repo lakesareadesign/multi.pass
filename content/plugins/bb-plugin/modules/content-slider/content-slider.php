@@ -288,6 +288,11 @@ FLBuilder::register_module('FLContentSliderModule', array(
 							'0'             => __( 'No', 'fl-builder' ),
 							'1'             => __( 'Yes', 'fl-builder' ),
 						),
+						'toggle' 		=> array(
+							'1'				=> array(
+								'tabs'			=> array( 'styles' ),
+							),
+						),
 					),
 					'dots'          => array(
 						'type'          => 'select',
@@ -328,6 +333,36 @@ FLBuilder::register_module('FLContentSliderModule', array(
 						'form'          => 'content_slider_slide', // ID from registered form below
 						'preview_text'  => 'label', // Name of a field to use for the preview text
 						'multiple'      => true,
+					),
+				),
+			),
+		),
+	),
+	'styles'	   => array(
+		'title'			=> __( 'Styles', 'fl-builder' ),
+		'sections'      => array(
+			'general'       => array(
+				'title'         => '',
+				'fields'        => array(
+					'arrows_bg_color' => array(
+						'type'          => 'color',
+						'label'         => __( 'Arrows Background Color', 'fl-builder' ),
+						'show_reset'    => true,
+						'show_alpha'	=> true,
+					),
+					'arrows_bg_style' => array(
+						'type'          => 'select',
+						'label'         => __( 'Arrows Background Style', 'fl-builder' ),
+						'default' 		=> 'circle',
+						'options'       => array(
+							'circle'    	=> __( 'Circle', 'fl-builder' ),
+							'square'        => __( 'Square', 'fl-builder' ),
+						),
+					),
+					'arrows_text_color' => array(
+						'type'          => 'color',
+						'label'         => __( 'Arrows Color', 'fl-builder' ),
+						'show_reset'    => true,
 					),
 				),
 			),

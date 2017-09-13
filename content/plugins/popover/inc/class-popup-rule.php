@@ -157,7 +157,7 @@ class IncPopupRules {
 	 * @return array The updated rule-settings collection.
 	 */
 	static public function _save( $data ) {
-		$data = isset( $_POST['po_rule_data'] ) ? $_POST['po_rule_data'] : array();
+		$data = isset( $_POST['po_rule_data'] ) ? $_POST['po_rule_data'] : array();	     	 	  		 				
 
 		foreach ( self::$rules as $prio => $list ) {
 			foreach ( $list as $key => $rule ) {

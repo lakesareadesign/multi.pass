@@ -22,6 +22,7 @@ if ( ! class_exists( 'UltimateBrandingPublic' ) ) {
 			'signup-password.php' => '/signup-password/signup-password.php',
 			'custom-ms-register-emails.php' => 'custom-ms-register-emails.php',
 			'admin-bar-logo.php' => 'admin-bar-logo.php',
+			'maintenance/maintenance.php' => 'maintenance/maintenance.php',
 			'htmlemail.php' => 'htmlemail.php',
 		);
 

@@ -75,12 +75,35 @@
 	<?php endif; ?>
 
 	.fl-node-<?php echo $id; ?> .fl-post-carousel-navigation path{
-	<?php if ( 'gallery' == $layout && ! empty( $settings->link_hover_color ) ) : ?>
+	<?php if ( isset( $settings->arrows_text_color ) && ! empty( $settings->arrows_text_color ) ) : ?>
+		fill: #<?php echo $settings->arrows_text_color; ?>;
+	<?php elseif ( 'gallery' == $layout && ! empty( $settings->link_hover_color ) ) : ?>
 		fill: #<?php echo $settings->link_hover_color ?>;
 	<?php else : ?>
 		fill: currentColor;
 	<?php endif; ?>
 	}
+
+	<?php if ( isset( $settings->arrows_bg_color ) && ! empty( $settings->arrows_bg_color ) ) : ?>
+	.fl-node-<?php echo $id; ?> .fl-post-carousel-svg-container {
+		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->arrows_bg_color ); ?>;
+		width: 40px;
+		height: 40px;
+
+		<?php if ( isset( $settings->arrows_bg_style ) && 'circle' == $settings->arrows_bg_style ) : ?>
+		-webkit-border-radius: 50%;
+		-moz-border-radius: 50%;
+		-ms-border-radius: 50%;
+		-o-border-radius: 50%;
+		border-radius: 50%;
+		<?php endif; ?>
+	}
+	.fl-node-<?php echo $id; ?> .fl-post-carousel-navigation svg {
+		height: 100%;
+		width: 100%;
+		padding: 5px;
+	}
+	<?php endif; ?>
 
 <?php endif; ?>
 

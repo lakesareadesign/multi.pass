@@ -150,6 +150,11 @@ final class FLBuilderIcons {
 			}
 		}
 
+		// if there are no registered sets stop here.
+		if ( ! is_array( self::$sets ) ) {
+			return;
+		}
+
 		// Loop through core sets and add icons.
 		foreach ( self::$sets as $set_key => $set_data ) {
 			if ( 'core' == $set_data['type'] ) {

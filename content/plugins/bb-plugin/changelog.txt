@@ -1,3 +1,51 @@
+<h4>1.10.8.2 09/12/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Update language files.</li>
+	<li>Make module frontend filterable.</li>
+	<li>New filters <code>fl_builder_module_frontend_custom_{slug}</code>, <code>fl_builder_module_frontend_file</code>.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed fatal error in debug class if bb-theme is not available.</li>
+	<li>Fixed issue with media uploads if file extension is uppercase.</li>
+	<li>Fixed an issue with Posts Module load more button.</li>
+</ul>
+
+<h4>1.10.8.1 09/07/2017</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a PHP 5.2 issue. Debug class using PHP 5.3 and above code.</li>
+</ul>
+
+<h4>1.10.8 09/06/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+  <li>Added new debug setting in WP admin. Once enabled it allows support staff to see basic server info.</li>
+  <li>Introduce <code>fl_builder_ace_options</code> filter. Allows aces editor options to be filtered.</li>
+  <li>Introduce <code>fl_get_wp_widgets_exclude</code> filter.</li>
+  <li>Added new reCAPTCHA theme to subscribe module.</li>
+  <li>Added nav arrow style options for Post Carousel, Post Slider and Content Slider.</li>
+  <li>Added option Load More Button as another Pagination Style in Post Grid module.</li>
+  <li>Introduce <code>FLBuilder::default_image_html()</code> if no image exists.</li>
+  <li>Google Fonts are now updated whenever we push an update automagically.</li>
+  <li>Updated translation files.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+  <li>Remove WP HTML widget from available widgets in builder.</li>
+  <li>Fixed missing module info when the call_module_delete method is called in FLBuilderModel.</li>
+  <li>Fixed duplicate template id when cloning post using Duplicate posts plugin.</li>
+  <li>Fixed a PHP warning if a settings form contains no tabs.</li>
+  <li>Fixed a PHP warning if a widget is registered non CamelCase.</li>
+  <li>Fixed issue with SendinBlue API, namespace class in case other plugins use same library.</li>
+  <li>Fixed AJAX save issue if no icons are enabled.</li>
+  <li>Fixed Menu Module. Mobile menu was not rendering between 993px and 1007px.</li>
+  <li>Fixed image/video upload validation issues.</li>
+  <li>Fixed a SiteGround Staging issue with thumbnails.</li>
+  <li>Fixed Menu Module. If a page has same ID as a category and both are in a menu, both had current-menu-item class.</li>
+</ul>
+
 <h4>1.10.7.1 8/11/2017</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>

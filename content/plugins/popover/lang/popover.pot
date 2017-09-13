@@ -1,14 +1,14 @@
-# Copyright (C) 2016 WPMU DEV
+# Copyright (C) 2017 WPMU DEV
 # This file is distributed under the same license as the PopUp Pro package.
 msgid ""
 msgstr ""
-"Project-Id-Version: PopUp Pro 4.8.0.0\n"
+"Project-Id-Version: PopUp Pro 4.8.0.1\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/popover\n"
-"POT-Creation-Date: 2016-06-22 11:30:44+00:00\n"
+"POT-Creation-Date: 2017-08-24 22:53:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2016-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n 0.5.3\n"
@@ -80,7 +80,7 @@ msgid "Toggle activation"
 msgstr ""
 
 #: inc/class-popup-admin.php:272 inc/class-popup-admin.php:273
-#: inc/class-popup-posttype.php:77 inc/class-popup-posttype.php:97
+#: inc/class-popup-posttype.php:77 inc/class-popup-posttype.php:109
 msgid "PopUp"
 msgstr ""
 
@@ -240,35 +240,39 @@ msgstr ""
 msgid "%1$s PopUps toggled"
 msgstr ""
 
-#: inc/class-popup-admin.php:1012
+#: inc/class-popup-admin.php:1013
 msgid "PopUp Contents"
 msgstr ""
 
-#: inc/class-popup-admin.php:1021
+#: inc/class-popup-admin.php:1022
 msgid "Appearance"
 msgstr ""
 
-#: inc/class-popup-admin.php:1030
+#: inc/class-popup-admin.php:1031
 msgid "Behavior"
 msgstr ""
 
-#: inc/class-popup-admin.php:1039
+#: inc/class-popup-admin.php:1040
 msgid "Displaying Conditions (optional)"
 msgstr ""
 
-#: inc/class-popup-admin.php:1048
+#: inc/class-popup-admin.php:1049
 msgid "Custom CSS (optional)"
 msgstr ""
 
-#: inc/class-popup-admin.php:1057
+#: inc/class-popup-admin.php:1058
 msgid "Save PopUp"
 msgstr ""
 
-#: inc/class-popup-admin.php:1079
+#: inc/class-popup-admin.php:1067
+msgid "Want More PopUp Power?"
+msgstr ""
+
+#: inc/class-popup-admin.php:1091
 msgid "PopUp Name (not displayed on the PopUp)"
 msgstr ""
 
-#: inc/class-popup-admin.php:1082
+#: inc/class-popup-admin.php:1094
 msgid "Name this PopUp"
 msgstr ""
 
@@ -754,7 +758,7 @@ msgstr ""
 msgid "Global PopUps"
 msgstr ""
 
-#: inc/class-popup-posttype.php:98
+#: inc/class-popup-posttype.php:110
 msgid "Display PopUp messages on your website!"
 msgstr ""
 
@@ -887,12 +891,12 @@ msgstr ""
 msgid "Appear when user clicks on a CSS selector"
 msgstr ""
 
-#: inc/rules/class-popup-rule-events.php:172 views/meta-behavior-premium.php:91
+#: inc/rules/class-popup-rule-events.php:171 views/meta-behavior-premium.php:91
 #: views/meta-behavior.php:96
 msgid ".class or #id"
 msgstr ""
 
-#: inc/rules/class-popup-rule-events.php:179
+#: inc/rules/class-popup-rule-events.php:178
 msgid "Repeated"
 msgstr ""
 
@@ -2511,34 +2515,49 @@ msgstr ""
 msgid "Show this PopUp if all of the following conditions are met"
 msgstr ""
 
-#: views/meta-submitdiv.php:22 views/meta-submitdiv.php:77
-#: views/meta-submitdiv.php:97
+#: views/meta-side-ads.php:10
+msgid "You can now get PopUp Pro…for FREE!"
+msgstr ""
+
+#: views/meta-side-ads.php:12
+msgid ""
+"No obligation, no contract, no catches. You’ll get PopUp Pro plus 100+ WPMU "
+"DEV plugins, Defender, Hummingbird & 24/7 WP support for absolutely nothing "
+"for 14 days."
+msgstr ""
+
+#: views/meta-side-ads.php:14
+msgid "Find Out More"
+msgstr ""
+
+#: views/meta-submitdiv.php:25 views/meta-submitdiv.php:80
+#: views/meta-submitdiv.php:100
 msgid "Save"
 msgstr ""
 
-#: views/meta-submitdiv.php:28
+#: views/meta-submitdiv.php:31
 msgid ""
 "In the free version you can activate 1 PopUp. When you activate this PopUp "
 "then all other PopUps will be deactivated "
 msgstr ""
 
-#: views/meta-submitdiv.php:41
+#: views/meta-submitdiv.php:44
 msgid "Status: <strong>Active</strong>"
 msgstr ""
 
-#: views/meta-submitdiv.php:42
+#: views/meta-submitdiv.php:45
 msgid "Status: Inactive"
 msgstr ""
 
-#: views/meta-submitdiv.php:50 views/meta-submitdiv.php:104
+#: views/meta-submitdiv.php:53 views/meta-submitdiv.php:107
 msgid "Preview PopUp"
 msgstr ""
 
-#: views/meta-submitdiv.php:63 views/meta-submitdiv.php:89
+#: views/meta-submitdiv.php:66 views/meta-submitdiv.php:92
 msgid "Move to Trash"
 msgstr ""
 
-#: views/meta-submitdiv.php:72 views/meta-submitdiv.php:112
+#: views/meta-submitdiv.php:75 views/meta-submitdiv.php:115
 msgid "Duplicate"
 msgstr ""
 

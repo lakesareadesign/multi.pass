@@ -41,7 +41,9 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 		static $Stripe_Loaded = false;
 
 		if ( ! $Stripe_Loaded ) {
-			require_once MS_Plugin::instance()->dir . '/lib/stripe-php/lib/Stripe.php';
+			if ( ! class_exists( 'Stripe' ) ) {
+				require_once MS_Plugin::instance()->dir . '/lib/stripe-php/lib/Stripe.php';
+			}
 
 			do_action(
 				'ms_gateway_stripe_load_stripe_lib_after',
@@ -54,7 +56,7 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 		$this->_gateway = $gateway;
 
 		$secret_key = $this->_gateway->get_secret_key();
-		M2_Stripe::setApiKey( $secret_key );
+		Stripe::setApiKey( $secret_key );
 	}
 
 	/**
@@ -67,12 +69,12 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 	 * @param string $token The credit card token.
 	 */
 	public function get_stripe_customer( $member, $token ) {
-		$customer = $this->find_customer( $member );
+		$customer 	= $this->find_customer( $member );
 
 		if ( empty( $customer ) ) {
-			$customer = M2_Stripe_Customer::create(
+			$customer = Stripe_Customer::create(
 				array(
-					'card' => $token,
+					'card' 	=> $token,
 					'email' => $member->email,
 				)
 			);
@@ -99,11 +101,11 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 	 * @param MS_Model_Member $member The member.
 	 */
 	public function find_customer( $member ) {
-		$customer_id = $member->get_gateway_profile( self::ID, 'customer_id' );
-		$customer = null;
+		$customer_id 	= $member->get_gateway_profile( self::ID, 'customer_id' );
+		$customer 		= null;
 
 		if ( ! empty( $customer_id ) ) {
-			$customer = M2_Stripe_Customer::retrieve( $customer_id );
+			$customer 	= Stripe_Customer::retrieve( $customer_id );
 
 			// Seems like the customer was manually deleted on Stripe website.
 			if ( isset( $customer->deleted ) && $customer->deleted ) {
@@ -137,14 +139,14 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 
 		// Stripe API until version 2015-02-16
 		if ( ! empty( $customer->cards ) ) {
-			$card = $customer->cards->create( array( 'card' => $token ) );
+			$card 					= $customer->cards->create( array( 'card' => $token ) );
 			$customer->default_card = $card->id;
 		}
 
 		// Stripe API since 2015-02-18
 		if ( ! empty( $customer->sources ) ) {
-			$card = $customer->sources->create( array( 'card' => $token ) );
-			$customer->default_source = $card->id;
+			$card 						= $customer->sources->create( array( 'card' => $token ) );
+			$customer->default_source 	= $card->id;
 		}
 
 		if ( $card ) {
@@ -195,18 +197,18 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 	 */
 	public function charge( $customer, $amount, $currency, $description ) {
 
-                $amount = apply_filters(
-                    'ms_gateway_stripe_charge_amount',
-                    $amount,
-                    $currency
-                );
+		$amount = apply_filters(
+			'ms_gateway_stripe_charge_amount',
+			$amount,
+			$currency
+		);
 
-		$charge = M2_Stripe_Charge::create(
+		$charge = Stripe_Charge::create(
 			array(
-				'customer' => $customer->id,
-				'amount' => intval( $amount * 100 ), // Amount in cents!
-				'currency' => strtolower( $currency ),
-				'description' => $description,
+				'customer' 		=> $customer->id,
+				'amount' 		=> intval( $amount * 100 ), // Amount in cents!
+				'currency' 		=> strtolower( $currency ),
+				'description' 	=> $description,
 			)
 		);
 
@@ -244,22 +246,22 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 		 * Check all subscriptions of the customer and find the subscription
 		 * for the specified membership.
 		 */
-		$last_checked = false;
-		$has_more = false;
-		$subscription = false;
+		$last_checked 	= false;
+		$has_more 		= false;
+		$subscription 	= false;
 
 		do {
 			$args = array();
 			if ( $last_checked ) {
 				$args['starting_after'] = $last_checked;
 			}
-			$active_subs = $customer->subscriptions->all( $args );
-			$has_more = $active_subs->has_more;
+			$active_subs 	= $customer->subscriptions->all( $args );
+			$has_more 		= $active_subs->has_more;
 
 			foreach ( $active_subs->data as $sub ) {
 				if ( $sub->plan->id == $plan_id ) {
-					$subscription = $sub;
-					$has_more = false;
+					$subscription 	= $sub;
+					$has_more 		= false;
 					break 2;
 				}
 				$last_checked = $sub->id;
@@ -287,19 +289,19 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 	 */
 	public function subscribe( $customer, $invoice ) {
 		$membership = $invoice->get_membership();
-		$plan_id = MS_Gateway_Stripeplan::get_the_id(
+		$plan_id 	= MS_Gateway_Stripeplan::get_the_id(
 			$membership->id,
 			'plan'
 		);
 
-		$subscription = self::get_subscription( $customer, $membership );
+		$subscription = $this->get_subscription( $customer, $membership );
 
 		/*
 		 * If no active subscription was found for the membership create it.
 		 */
 		if ( ! $subscription ) {
-			$tax_percent = null;
-			$coupon_id = null;
+			$tax_percent 	= null;
+			$coupon_id 		= null;
 
 			if ( is_numeric( $invoice->tax_rate ) && $invoice->tax_rate > 0 ) {
 				$tax_percent = floatval( $invoice->tax_rate );
@@ -312,9 +314,9 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 			}
 
 			$args = array(
-				'plan' => $plan_id,
-				'tax_percent' => $tax_percent,
-				'coupon' => $coupon_id,
+				'plan' 			=> $plan_id,
+				'tax_percent' 	=> $tax_percent,
+				'coupon' 		=> $coupon_id,
 			);
 			$subscription = $customer->subscriptions->create( $args );
 		}
@@ -338,15 +340,15 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 	 * @param array $plan_data The plan-object containing all details for Stripe.
 	 */
 	public function create_or_update_plan( $plan_data ) {
-		$item_id = $plan_data['id'];
-		$all_items = MS_Factory::get_transient( 'ms_stripeplan_plans' );
-		$all_items = lib3()->array->get( $all_items );
+		$item_id 	= $plan_data['id'];
+		$all_items 	= MS_Factory::get_transient( 'ms_stripeplan_plans' );
+		$all_items 	= lib3()->array->get( $all_items );
 
 		if ( ! isset( $all_items[$item_id] )
-			|| ! is_a( $all_items[$item_id], 'M2_Stripe_Plan' )
+			|| ! is_a( $all_items[$item_id], 'Stripe_Plan' )
 		) {
 			try {
-				$item = M2_Stripe_Plan::retrieve( $item_id );
+				$item = Stripe_Plan::retrieve( $item_id );
 			} catch( Exception $e ) {
 				// If the plan does not exist then stripe will throw an Exception.
 				$item = false;
@@ -360,13 +362,13 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 		 * Stripe can only update the plan-name, so we have to delete and
 		 * recreate the plan manually.
 		 */
-		if ( $item && is_a( $item, 'M2_Stripe_Plan' ) ) {
+		if ( $item && is_a( $item, 'Stripe_Plan' ) ) {
 			$item->delete();
 			$all_items[$item_id] = false;
 		}
 
 		if ( $plan_data['amount'] > 0 ) {
-			$item = M2_Stripe_Plan::create( $plan_data );
+			$item = Stripe_Plan::create( $plan_data );
 			$all_items[$item_id] = $item;
 		}
 
@@ -386,15 +388,15 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 	 * @param array $coupon_data The object containing all details for Stripe.
 	 */
 	public function create_or_update_coupon( $coupon_data ) {
-		$item_id = $coupon_data['id'];
-		$all_items = MS_Factory::get_transient( 'ms_stripeplan_plans' );
-		$all_items = lib3()->array->get( $all_items );
+		$item_id 	= $coupon_data['id'];
+		$all_items 	= MS_Factory::get_transient( 'ms_stripeplan_plans' );
+		$all_items 	= lib3()->array->get( $all_items );
 
 		if ( ! isset( $all_items[$item_id] )
-			|| ! is_a( $all_items[$item_id], 'M2_Stripe_Coupon' )
+			|| ! is_a( $all_items[$item_id], 'Stripe_Coupon' )
 		) {
 			try {
-				$item = M2_Stripe_Coupon::retrieve( $item_id );
+				$item = Stripe_Coupon::retrieve( $item_id );
 			} catch( Exception $e ) {
 				// If the coupon does not exist then stripe will throw an Exception.
 				$item = false;
@@ -408,13 +410,13 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 		 * Stripe can only update the coupon-name, so we have to delete and
 		 * recreate the coupon manually.
 		 */
-		if ( $item && is_a( $item, 'M2_Stripe_Coupon' ) ) {
+		if ( $item && is_a( $item, 'Stripe_Coupon' ) ) {
 			$item->delete();
 			$all_items[$item_id] = false;
 		}
 
-		$item = M2_Stripe_Coupon::create( $coupon_data );
-		$all_items[$item_id] = $item;
+		$item 					= Stripe_Coupon::create( $coupon_data );
+		$all_items[$item_id] 	= $item;
 
 		MS_Factory::set_transient(
 			'ms_stripeplan_coupons',

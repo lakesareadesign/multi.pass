@@ -3,6 +3,7 @@
 class Eab_Template {
 
 	public static function get_archive_content ($post, $content=false) {
+
 		$event = ($post instanceof Eab_EventModel) ? $post : new Eab_EventModel($post);
 		if ('incsub_event' != $event->get_type()) return $content;
 
@@ -17,6 +18,14 @@ class Eab_Template {
 		$new_content  = '';
 
 		$new_content .= '<div class="event ' . self::get_status_class($event) . '" itemscope itemtype="http://schema.org/Event">';
+
+		if( !empty( $content['with_thumbnail'] ) && $content['with_thumbnail'] == 'yes' )
+		{
+			$new_content .= '<div class="event_sc_thumb">';
+			$new_content .= get_the_post_thumbnail( $event->get_id() );
+			$new_content .= '</div>';
+		}
+
 		$new_content .= '<meta itemprop="name" content="' . esc_attr($event->get_title()) . '" />';
 		$new_content .= '<a href="' . $link . '" class="wpmudevevents-viewevent">' .
 			__('View event', Eab_EventsHub::TEXT_DOMAIN) .
@@ -50,13 +59,24 @@ class Eab_Template {
 		$show_pay_note = $event->is_premium() && $event->user_is_coming() && !$event->user_paid();
 		$show_pay_note = apply_filters('eab-event-show_pay_note', $show_pay_note, $event->get_id () );
 
-		if ( $show_pay_note	) {
+		$paypal_processing = false;
+		if ( isset( $_GET['paypal_processing'] ) ) {
+			if ( $_GET['paypal_processing'] == 1 ) {
+				// Will show message if user has just returned from a paypal payment as it takes around 10 seconds for the payment to register in the database.
+				$paypal_processing = true;
+			}
+		}
+		if ( $show_pay_note && ! $paypal_processing ) {
 			$new_content .= '<div id="wpmudevevents-payment">';
-			$new_content .= __('You haven\'t paid for this event', Eab_EventsHub::TEXT_DOMAIN).' ';
+			$new_content .= __( 'You haven\'t paid for this event', Eab_EventsHub::TEXT_DOMAIN ) . ' ';
 			$new_content .= self::get_payment_forms($event);
 			$new_content .= '</div>';
-		} else if ($event->is_premium() && $event->user_paid()) {
-			$new_content .= __('You already paid for this event', Eab_EventsHub::TEXT_DOMAIN);
+		} elseif ( $event->is_premium() && $event->user_paid() ) {
+			$new_content .= __( 'You already paid for this event', Eab_EventsHub::TEXT_DOMAIN );
+		} elseif ( $paypal_processing ) {
+			$new_content .= '<div id="wpmudevevents-payment">';
+			$new_content .= __( 'Your payment is being processed. This may take a few minutes to show here.', Eab_EventsHub::TEXT_DOMAIN ) . ' ';
+			$new_content .= '</div>';
 		}
 
 		// Added by Hakan
@@ -102,11 +122,11 @@ class Eab_Template {
 			$content .= '<a href="' .
 				admin_url('admin-ajax.php?action=eab_list_rsvps&pid=' . $event->get_id()) .
 				'" id="wpmudevevents-load-rsvps" class="hide-if-no-js wpmudevevents-viewrsvps wpmudevevents-loadrsvps">' .
-					__('See who has RSVPed', Eab_EventsHub::TEXT_DOMAIN) .
+					apply_filters( 'eab_show_rsvp_text', __('See who has RSVPed', Eab_EventsHub::TEXT_DOMAIN) ) .
 			'</a>';
 			$content .= '&nbsp;';
 			$content .= '<a href="#" id="wpmudevevents-hide-rsvps" class="hide-if-no-js wpmudevevents-viewrsvps wpmudevevents-hidersvps">' .
-				__('Hide who has RSVPed', Eab_EventsHub::TEXT_DOMAIN) .
+				apply_filters( 'eab_hide_rsvp_text', __('Hide who has RSVPed', Eab_EventsHub::TEXT_DOMAIN) ) .
 			'</a>';
 			$content .= '</div>';
 			$content .= '<div id="wpmudevevents-rsvps-response"></div>';
@@ -363,7 +383,7 @@ class Eab_Template {
 		return $content;
 	}
 
-	public static function get_payment_forms ($post) {
+	public static function get_payment_forms ($post ) {
 		global $blog_id, $current_user;
 		$event = ($post instanceof Eab_EventModel) ? $post : new Eab_EventModel($post);
 
@@ -385,7 +405,7 @@ class Eab_Template {
 				admin_url('admin-ajax.php?action=eab_paypal_ipn&blog_id=' . $blog_id . '&booking_id=' . $booking_id) .
 			'" />';
 			$content .= '<input type="hidden" name="amount" value="' . $event->get_price()  .'" />';
-			$content .= '<input type="hidden" name="return" value="' . get_permalink($event->get_id()) . '" />';
+			$content .= '<input type="hidden" name="return" value="' . get_permalink($event->get_id()) . '?paypal_processing=1" />';
 			$content .= '<input type="hidden" name="currency_code" value="' . $data->get_option('currency') . '">';
 			$content .= '<input type="hidden" name="cmd" value="_xclick" />';
 
@@ -557,7 +577,11 @@ class Eab_Template {
 
 		if ($event->has_venue()) {
 			$venue = $event->get_venue_location(Eab_EventModel::VENUE_AS_ADDRESS);
-			$content .= "<div class='wpmudevevents-location' itemprop='location'>{$venue}</div>";
+			$content .= "<div class='wpmudevevents-location' itemprop='location' itemscope itemtype='http://schema.org/Place'>
+                            <span itemprop='name'>{$venue}</span>
+                            <span itemprop='address' itemscope itemtype='http://schema.org/PostalAddress'></span>
+                        </div>";
+
 		}
 		if ($event->is_premium()) {
 			$price = $event->get_price();
@@ -709,7 +733,7 @@ class Eab_Template {
 			$out .= '<article class="eab-event ' . eab_call_template('get_status_class', $event) . '" id="eab-event-' . $event->get_id() . '">' .
 				'<h4>' . $event->get_title() . '</h4>' .
 				'<div class="eab-event-body">' .
-					eab_call_template('get_archive_content', $event) .
+					eab_call_template('get_archive_content', $event, $args) .
 				'</div>' .
 			'</article>';
 		}

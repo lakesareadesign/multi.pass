@@ -106,7 +106,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">16</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">20</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-253905813"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1287431320"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-253905813" class="accordion-body collapse in">
+            <div id="namespace-1287431320" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -191,6 +191,7 @@ accessing the properties.</p>
                         <section class="row-fluid public">
                             <section class="span4">
                                                                     <a href="../classes/MS_Model_Membership.html#method_get_post_type" class="">get_post_type()</a><br />
+                                                                    <a href="../classes/MS_Model_Membership.html#method_get_membership_id" class="">get_membership_id()</a><br />
                                                                     <a href="../classes/MS_Model_Membership.html#method_sort_by_priority" class="">sort_by_priority()</a><br />
                                                                     <a href="../classes/MS_Model_Membership.html#method_is_valid_membership" class="">is_valid_membership()</a><br />
                                                                     <a href="../classes/MS_Model_Membership.html#method_get_base" class="">get_base()</a><br />
@@ -291,7 +292,7 @@ accessing the properties.</p>
                     
                     <dl>
                         <dt>File</dt>
-                            <dd><a href="../files/model.class-ms-model-membership.html"><div class="path-wrapper">model/class-ms-model-membership.php</div></a></dd>
+                            <dd><a href="../files/model.class-ms-model-membership.html"><div class="path-wrapper">model\class-ms-model-membership.php</div></a></dd>
                                                 <dt>Package</dt>
                             <dd><div class="namespace-wrapper">Membership2\Model</div></dd>
                                                 <dt>Class hierarchy</dt>
@@ -1107,7 +1108,7 @@ This membership is assigned when the current membership expires.</p>
             <h1><i class="icon-arrow-down"></i></h1>
                         <dl>
                                                                             <dt>See also</dt>
-                                                                <dd><a href=""><span class="namespace-wrapper"></span></a></dd>
+                                                                <dd><a href=""><span class="namespace-wrapper">\MS_Model_Relationship::check_membership_status()</span></a></dd>
                                                                 </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
@@ -1201,6 +1202,54 @@ the context of a subscription.</p>
                         </th>
                         <td>
                                                                                             
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_get_membership_id" name="method_get_membership_id" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_membership_id()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_membership_id(string  <span class="argument">$name_or_slug</span>) : integer|false</pre>
+                <p><em>Returns the membership-ID that matches the specified Membership name or
+slug.</em></p>
+                <p>If multiple memberships have the same name then the one with the lowest
+ID (= the oldest) will be returned.</p>
+<p>Name or slug are case-IN-sensitive ('slug' and 'SLUG' are identical)
+Wildcards are not allowed, the string must match exactly.</p>
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>string</td>
+                                <td>$name_or_slug </td>
+                                <td><p>The Membership name or slug to search.</p></td>
+                            </tr>
+                                            </table>
+                
+                
+                                    <h4>Returns</h4>
+                    integer|false
+                                            &mdash; <p>The membership ID or false.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.4                                
                                                     </td>
                     </tr>
                             </table>
@@ -3051,7 +3100,7 @@ Null means: Rule not relevant for current page.</p>
             <h3 id="source-view-label">class-ms-model-membership.php</h3>
         </div>
         <div class="modal-body">
-            <pre data-src="../files/model/class-ms-model-membership.php.txt" class="language-php line-numbers"></pre>
+            <pre data-src="../files/model\class-ms-model-membership.php.txt" class="language-php line-numbers"></pre>
         </div>
     </div>
 
@@ -3091,7 +3140,7 @@ Null means: Rule not relevant for current page.</p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on May 2nd, 2017 at 08:57.
+                    on September 7th, 2017 at 17:15.
                 </section>
             </section>
         </section>

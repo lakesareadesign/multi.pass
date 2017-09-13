@@ -33,11 +33,11 @@ final class FLBuilderServiceSendinBlue extends FLBuilderService {
 		if ( $this->api_instance ) {
 			return $this->api_instance;
 		}
-		if ( ! class_exists( 'Mailin' ) ) {
+		if ( ! class_exists( 'Mailin_Rest' ) ) {
 			require_once FL_BUILDER_DIR . 'includes/vendor/sendinblue/Mailin.php';
 		}
 
-		$this->api_instance = new Mailin( 'https://api.sendinblue.com/v2.0', $access_key );
+		$this->api_instance = new Mailin_Rest( 'https://api.sendinblue.com/v2.0', $access_key );
 
 		return $this->api_instance;
 	}

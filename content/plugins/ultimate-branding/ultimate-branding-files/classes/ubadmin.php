@@ -24,12 +24,24 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 
 		private $debug = false;
 
+		/**
+		 * tab
+		 *
+		 * @since 1.9.1
+		 */
+		private $tab = 'dashboard';
+
 		public function __construct() {
 			global $ub_version;
 			$this->build = $ub_version;
 
 			$this->set_configuration();
-			$this->debug = apply_filters( 'ultimatebranding_debug', defined( 'WP_DEBUG' ) && WP_DEBUG );
+
+			/**
+			 * debug only when WP_DEBUG && WPMUDEV_BETATEST
+			 */
+			$debug = defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WPMUDEV_BETATEST' ) && WPMUDEV_BETATEST;
+			$this->debug = apply_filters( 'ultimatebranding_debug', $debug );
 
 			foreach ( $this->configuration as $key => $data ) {
 				if ( ! is_multisite() && isset( $data['network-only'] ) && $data['network-only'] ) {
@@ -48,6 +60,20 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			$this->messages['success'] = __( 'Changes saved.', 'ub' );
 			$this->messages['fail'] = __( 'There was an error, please try again.', 'ub' );
 			$this->messages['reset-section-success'] = __( 'Section was reset to defaults.', 'ub' );
+
+			/**
+			 * Always add this toolbar item, also on front-end.
+			 *
+			 * @since 1.9.1
+			 */
+			add_action( 'admin_bar_menu', array( $this, 'setup_toolbar' ), 999 );
+
+			/**
+			 * set and sanitize tab
+			 *
+			 * @since 1.9.1
+			 */
+			$this->set_and_sanitize_tab();
 		}
 
 		function UltimateBrandingAdmin() {
@@ -184,13 +210,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 
 			do_action( 'ultimatebranding_admin_header_global' );
 
-			$tab = (isset( $_GET['tab'] )) ? $_GET['tab'] : '';
-
-			if ( empty( $tab ) ) {
-				$tab = 'dashboard';
-			}
-
-			do_action( 'ultimatebranding_admin_header_' . $tab );
+			do_action( 'ultimatebranding_admin_header_' . $this->tab );
 
 			$this->update_branding_page();
 		}
@@ -349,19 +369,10 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		}
 
 		function update_branding_page() {
-
 			global $action, $page;
-
 			wp_reset_vars( array( 'action', 'page' ) );
-
 			if ( isset( $_REQUEST['action'] ) && ! empty( $_REQUEST['action'] ) ) {
-
-				$tab = (isset( $_GET['tab'] )) ? $_GET['tab'] : '';
-
-				if ( empty( $tab ) ) {
-					$tab = 'dashboard';
-				}
-				if ( 'dashboard' == $tab ) {
+				if ( 'dashboard' == $this->tab ) {
 					if ( isset( $_GET['action'] ) && isset( $_GET['module'] ) ) {
 						switch ( $_GET['action'] ) {
 							case 'enable': check_admin_referer( 'enable-module-' . $_GET['module'] );
@@ -397,7 +408,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					return;
 				}
 
-				$t = preg_replace( '/-/', '_', $tab );
+				$t = preg_replace( '/-/', '_', $this->tab );
 				/**
 				 * check
 				 */
@@ -409,7 +420,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					$msg = 'success';
 				}
 				wp_safe_redirect( UB_Help::add_query_arg_raw( 'msg', $msg, wp_get_referer() ) );
-				do_action( 'ultimatebranding_settings_update_' . $tab );
+				do_action( 'ultimatebranding_settings_update_' . $this->tab );
 			}
 		}
 
@@ -427,10 +438,6 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		function handle_main_page() {
 			global $action, $page;
 			wp_reset_vars( array( 'action', 'page' ) );
-			$tab = (isset( $_GET['tab'] )) ? $_GET['tab'] : '';
-			if ( empty( $tab ) ) {
-				$tab = 'dashboard';
-			}
 			echo '<div class="wrap nosubsub">';
 			echo '<h3 class="nav-tab-wrapper">';
 			$base_url = $this->get_base_url();
@@ -441,7 +448,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 				'nav-tab',
 				'nav-tab-dashboard',
 			);
-			if ( 'dashboard' == $tab ) {
+			if ( 'dashboard' == $this->tab ) {
 				$classes[] = 'nav-tab-active';
 			}
 			printf(
@@ -477,7 +484,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					'nav-tab',
 					'nav-tab-'.$data['tab'],
 				);
-				if ( $tab == $data['tab'] ) {
+				if ( $this->tab == $data['tab'] ) {
 					$classes[] = 'nav-tab-active';
 				}
 				/**
@@ -497,11 +504,11 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			/**
 			 * tab content
 			 */
-			if ( 'dashboard' == $tab ) {
+			if ( 'dashboard' == $this->tab ) {
 				$this->show_dashboard_page();
 			} else {
 				$module_is_active = false;
-				$modules = $this->get_modules_by_tab( $tab );
+				$modules = $this->get_modules_by_tab( $this->tab );
 				foreach ( $modules as $module ) {
 					if ( isset( $module['tab'] ) ) {
 						$is_active = ub_is_active_module( $module['key'] );
@@ -1197,6 +1204,27 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 					'tab' => 'link-manager',
 					'page_title' => __( 'Link Manager', 'ub' ),
 				),
+				/**
+				 * Coming Soon Page & Maintenance Mode
+				 *
+				 * @since 1.9.1
+				 */
+					'maintenance/maintenance.php' => array(
+					'module' => 'maintenance',
+					'tab' => 'maintenance',
+					'page_title' => __( 'Coming Soon Page & Maintenance Mode', 'ub' ),
+					'menu_title' => __( 'Maintenance', 'ub' ),
+					),
+				/**
+				 * Dashboard widgets
+				 *
+				 * @since 1.9.1
+				 */
+				'dashboard-text-widgets/dashboard-text-widgets.php' => array(
+					'module' => 'dashboard-text-widgets',
+					'tab' => 'dashboard-text-widgets',
+					'page_title' => __( 'Dashboard Text Widgets', 'ub' ),
+				),
 			);
 			/**
 			 * add key to data
@@ -1302,6 +1330,27 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		}
 
 		/**
+		 * Add link to Branding to the WP toolbar; only for multisite
+		 * networks
+		 *
+		 *
+		 * @since 1.9.1
+		 * @param  WP_Admin_Bar $wp_admin_bar The toolbar handler object.
+		 */
+		public function setup_toolbar( $wp_admin_bar ) {
+			if ( is_multisite() ) {
+				$args = array(
+					'id' => 'network-admin-branding',
+					'title' => __( 'Branding', 'ub' ),
+					'href' => add_query_arg( 'page', 'branding', network_admin_url( 'admin.php' ) ),
+					'parent' => 'network-admin',
+				);
+
+				$wp_admin_bar->add_node( $args );
+			}
+		}
+
+		/**
 		 * fake functions to build admin submenu
 		 */
 		public function handle_adminbar_panel() {}
@@ -1323,5 +1372,37 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		public function handle_textchange_panel() {}
 		public function handle_ultimate_color_schemes_panel() {}
 		public function handle_widgets_panel() {}
+		public function handle_maintenance_panel() {}
+		public function handle_dashboard_text_widgets_panel() {}
+
+		/**
+		 * sanitize tab
+		 *
+		 * @since 1.9.1
+		 */
+		private function set_and_sanitize_tab() {
+			$this->tab = 'dashboard';
+			if ( ! isset( $_REQUEST['tab'] ) ) {
+				return;
+			}
+			if ( 'dashboard' == $_REQUEST['tab'] ) {
+				return;
+			}
+			foreach ( $this->configuration  as $module ) {
+				if ( isset( $module['tab'] ) && $_REQUEST['tab'] == $module['tab'] ) {
+					$this->tab = $module['tab'];
+					return;
+				}
+			}
+		}
+
+		/**
+		 * get tab
+		 *
+		 * @since 1.9.1
+		 */
+		public function get_current_tab() {
+			return $this->tab;
+		}
 	}
 }

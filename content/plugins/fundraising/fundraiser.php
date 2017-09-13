@@ -3,7 +3,7 @@
 Plugin Name: Fundraising
 Plugin URI: http://premium.wpmudev.org/project/fundraising/
 Description: Create a fundraising page for any purpose or project.
-Version: 2.6.4.7
+Version: 2.6.4.8
 Text Domain: wdf
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
@@ -895,7 +895,7 @@ class WDF {
 
 		$process_payment = false;
 		global $wdf_gateway_active_plugins;
-		$skip_gateway_form = (isset($_SESSION['wdf_gateway']) && method_exists($wdf_gateway_active_plugins[$_SESSION['wdf_gateway']], 'skip_form') ? $wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form() : (isset($_SESSION['wdf_gateway']) && isset($wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form) ? $wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form : false));	     	 	 				 			
+		$skip_gateway_form = (isset($_SESSION['wdf_gateway']) && method_exists($wdf_gateway_active_plugins[$_SESSION['wdf_gateway']], 'skip_form') ? $wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form() : (isset($_SESSION['wdf_gateway']) && isset($wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form) ? $wdf_gateway_active_plugins[$_SESSION['wdf_gateway']]->skip_form : false));
 
 		if( isset($_POST['wdf_send_donation']) && $skip_gateway_form === true)
 			$process_payment = true;
@@ -1203,7 +1203,10 @@ class WDF {
 			} else if ( $k == 'paypal_email' ) {
 				$new[$k] = is_email($v);
 			} elseif ( $k == 'payment_types' || $k == 'active_gateways' || $k == 'funder_labels' || $k == 'donation_labels' ) {
-				$new[$k] = array_map('esc_attr',$v);
+				$new[$k] = array_map(
+					'esc_attr',
+					empty($v) ? array() : $v
+				);
 			} else {
 
 				if(is_array($v))
@@ -1225,7 +1228,7 @@ class WDF {
 
 	function create_error($msg, $context) {
 		$classes = 'error';
-		$content = 'return $content."<div class=\"'.$classes.'\"><p>' . $msg . '</p></div>";';
+		$content = 'return $content."<div class=\"'.$classes.'\"><p>' . esc_html( $msg ) . '</p></div>";';
 		add_filter('wdf_error_' . $context, create_function('$content', $content));
 		$this->wdf_error = true;
 	}

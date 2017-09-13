@@ -22,31 +22,33 @@
 				required: true
 			}
 		},
-		
+
 		init: function()
 		{
 			var form      = $( '.fl-builder-settings' ),
 				action    = form.find( 'select[name=success_action]' );
-				
+
 			this._actionChanged();
-			
+
 			action.on( 'change', this._actionChanged );
 
 			// Button background color change
-			$( 'input[name=btn_bg_color]' ).on( 'change', this._bgColorChange );			
+			$( 'input[name=btn_bg_color]' ).on( 'change', this._bgColorChange );
 			this._bgColorChange();
 
 			// Toggle reCAPTCHA display
 			this._toggleReCaptcha();
 			$( 'select[name=show_recaptcha]' ).on( 'change', $.proxy( this._toggleReCaptcha, this ) );
 			$( 'input[name=recaptcha_site_key]' ).on( 'change', $.proxy( this._toggleReCaptcha, this ) );
+			$( 'select[name=recaptcha_validate_type]' ).on( 'change', $.proxy( this._toggleReCaptcha, this ) );
+			$( 'select[name=recaptcha_theme]' ).on( 'change', $.proxy( this._toggleReCaptcha, this ) );
 
 			// Render reCAPTCHA after layout rendered via AJAX
 			if ( window.onLoadFLReCaptcha ) {
 				$( FLBuilder._contentClass ).on( 'fl-builder.layout-rendered', onLoadFLReCaptcha );
 			}
 		},
-		
+
 		submit: function()
 		{
 			var form       = $( '.fl-builder-settings' ),
@@ -54,7 +56,7 @@
 				serviceVal = service.val(),
 				account    = form.find( '.fl-builder-service-account-select' ),
 				list       = form.find( '.fl-builder-service-list-select' );
-				
+
 			if ( 0 === account.length ) {
 				FLBuilder.alert( FLBuilderStrings.subscriptionModuleConnectError );
 				return false;
@@ -64,28 +66,28 @@
 				return false;
 			}
 			else if ( ( 0 === list.length || '' == list.val() ) && 'email-address' != serviceVal && 'sendy' != serviceVal ) {
-				
+
 				if ( 'drip' == serviceVal || 'hatchbuck' == serviceVal ) {
-					FLBuilder.alert( FLBuilderStrings.subscriptionModuleTagsError );	
+					FLBuilder.alert( FLBuilderStrings.subscriptionModuleTagsError );
 				}
 				else {
 					FLBuilder.alert( FLBuilderStrings.subscriptionModuleListError );
 				}
-				
+
 				return false;
 			}
-			
+
 			return true;
 		},
-		
+
 		_actionChanged: function()
 		{
 			var form      = $( '.fl-builder-settings' ),
 				action    = form.find( 'select[name=success_action]' ).val(),
 				url       = form.find( 'input[name=success_url]' );
-				
+
 			url.rules('remove');
-				
+
 			if ( 'redirect' == action ) {
 				url.rules( 'add', { required: true } );
 			}
@@ -95,7 +97,7 @@
 		{
 			var bgColor = $( 'input[name=btn_bg_color]' ),
 				style   = $( '#fl-builder-settings-section-btn_style' );
-			
+
 
 			if ( '' == bgColor.val() ) {
 				style.hide();
@@ -107,7 +109,7 @@
 
 		/**
 		 * Custom preview method for reCAPTCHA settings
-		 * 
+		 *
 		 * @param  object event  The event type of where this method been called
 		 * @since 1.9.5
 		 */
@@ -117,14 +119,19 @@
 				nodeId    	= form.attr( 'data-node' ),
 				toggle    	= form.find( 'select[name=show_recaptcha]' ),
 				captchaKey	= form.find( 'input[name=recaptcha_site_key]' ).val(),
+				captType	= form.find( 'select[name=recaptcha_validate_type]' ).val(),
+				theme		= form.find( 'select[name=recaptcha_theme]' ).val(),
 				reCaptcha 	= $( '.fl-node-'+ nodeId ).find( '.fl-grecaptcha' ),
 				reCaptchaId = nodeId +'-fl-grecaptcha',
 				target		= typeof event !== 'undefined' ? $(event.currentTarget) : null,
 				inputEvent	= target != null && typeof target.attr('name') !== typeof undefined && target.attr('name') === 'recaptcha_site_key',
 				selectEvent	= target != null && typeof target.attr('name') !== typeof undefined && target.attr('name') === 'show_recaptcha',
-				scriptTag 	= $('<script>');
+				typeEvent	= target != null && typeof target.attr('name') !== typeof undefined && target.attr('name') === 'recaptcha_validate_type',
+				themeEvent	= target != null && typeof target.attr('name') !== typeof undefined && target.attr('name') === 'recaptcha_theme',
+				scriptTag 	= $('<script>'),
+				isRender 	= false;
 
-			// Add library if not exists		
+			// Add library if not exists
 			if ( 0 === $( 'script#g-recaptcha-api' ).length ) {
 				scriptTag
 					.attr('src', 'https://www.google.com/recaptcha/api.js?onload=onLoadFLReCaptcha&render=explicit')
@@ -139,15 +146,20 @@
 
 				// reCAPTCHA is not yet exists
 				if ( 0 === reCaptcha.length ) {
-					this._renderReCaptcha( nodeId, reCaptchaId, captchaKey );					
+					isRender = true;
 				}
 				// If reCAPTCHA element exists, then reset reCAPTCHA if existing key does not matched with the input value
-				else if ( ( inputEvent || selectEvent ) && reCaptcha.data('sitekey') != captchaKey ) {
+				else if ( ( inputEvent || selectEvent || typeEvent || themeEvent ) && ( reCaptcha.data('sitekey') != captchaKey || 		reCaptcha.data('validate') != captType || reCaptcha.data('theme') != theme )
+				) {
 					reCaptcha.parent().remove();
-					this._renderReCaptcha( nodeId, reCaptchaId, captchaKey );
+					isRender = true;
 				}
 				else {
 					reCaptcha.parent().show();
+				}
+
+				if ( isRender ) {
+					this._renderReCaptcha( nodeId, reCaptchaId, captchaKey, captType, theme );
 				}
 			}
 			else if ( 'show' === toggle.val() && 0 === captchaKey.length && reCaptcha.length > 0 ) {
@@ -159,14 +171,16 @@
 		},
 
 		/**
-		 * Render Google reCAPTCHA  
-		 * 
+		 * Render Google reCAPTCHA
+		 *
 		 * @param  string nodeId  		The current node ID
 		 * @param  string reCaptchaId  	The element ID to render reCAPTCHA
 		 * @param  string reCaptchaKey  The reCAPTCHA Key
+		 * @param  string reCaptType  	Checkbox or invisible
+		 * @param  string theme  		Light or dark
 		 * @since 1.9.5
 		 */
-		_renderReCaptcha: function( nodeId, reCaptchaId, reCaptchaKey )
+		_renderReCaptcha: function( nodeId, reCaptchaId, reCaptchaKey, reCaptType, theme )
 		{
 			var captchaField	= $( '<div class="fl-form-field fl-form-recaptcha">' ),
 				captchaElement 	= $( '<div id="'+ reCaptchaId +'" class="fl-grecaptcha">' ),
@@ -174,8 +188,10 @@
 				widgetID;
 
 			// Append recaptcha element
-			captchaElement.attr('data-sitekey', reCaptchaKey);
-			captchaField.html(captchaElement);
+			captchaElement.attr( 'data-sitekey', reCaptchaKey );
+			captchaElement.attr( 'data-validate', reCaptType );
+			captchaElement.attr( 'data-theme', theme );
+			captchaField.html( captchaElement );
 
 			if ( form.hasClass('fl-subscribe-form-stacked') ) {
 				captchaField.insertBefore( form.find('.fl-form-button') );
@@ -185,9 +201,10 @@
 			}
 
 			// to an appended element
-			widgetID = grecaptcha.render( reCaptchaId, { 
+			widgetID = grecaptcha.render( reCaptchaId, {
 				sitekey : reCaptchaKey,
-				theme	: 'light'
+				size	: reCaptType,
+				theme	: theme
 			});
 			captchaElement.attr('data-widgetid', widgetID);
 		}

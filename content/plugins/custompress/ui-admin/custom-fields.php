@@ -74,7 +74,7 @@ $nonce = wp_create_nonce('reorder_custom_fields');
 
 		<?php
 
-		$prefix = ( empty( $custom_field['field_wp_allow'] ) ) ? '_ct_' : 'ct_';	     	 	 	  	 			
+		$prefix = ( empty( $custom_field['field_wp_allow'] ) ) ? '_ct_' : 'ct_';
 		$fid = $prefix . $custom_field['field_id'];
 		?>
 

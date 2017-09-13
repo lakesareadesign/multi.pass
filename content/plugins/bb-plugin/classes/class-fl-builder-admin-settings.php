@@ -344,6 +344,7 @@ final class FLBuilderAdminSettings {
 		self::save_enabled_icons();
 		self::save_user_access();
 		self::clear_cache();
+		self::debug();
 		self::uninstall();
 
 		// Let extensions hook into saving.
@@ -557,6 +558,27 @@ final class FLBuilderAdminSettings {
 				if ( class_exists( 'FLCustomizer' ) && method_exists( 'FLCustomizer', 'clear_all_css_cache' ) ) {
 					FLCustomizer::clear_all_css_cache();
 				}
+			}
+		}
+	}
+
+	/**
+	 * Enable/disable debug
+	 *
+	 * @since 1.10.7
+	 * @access private
+	 * @return void
+	 */
+	static private function debug() {
+		if ( ! current_user_can( 'delete_users' ) ) {
+			return;
+		} elseif ( isset( $_POST['fl-debug-nonce'] ) && wp_verify_nonce( $_POST['fl-debug-nonce'], 'debug' ) ) {
+			$debugmode = get_option( 'fl_debug_mode', false );
+
+			if ( ! $debugmode ) {
+				update_option( 'fl_debug_mode', md5( rand() ) );
+			} else {
+				delete_option( 'fl_debug_mode' );
 			}
 		}
 	}

@@ -10,7 +10,7 @@
 			<div class="fl-lightbox-controls"><i class="fa fa-expand"></i></div>
 		<?php endif; ?>
 	</div>
-	<?php if ( count( $form['tabs'] ) > 1 ) : ?>
+	<?php if ( isset( $form['tabs'] ) && count( $form['tabs'] ) > 1 ) : ?>
 	<div class="fl-builder-settings-tabs">
 		<?php  $i = 0; foreach ( $form['tabs'] as $id => $tab ) : ?>
 		<a href="#fl-builder-settings-tab-<?php echo $id; ?>"<?php if ( 0 == $i ) { echo ' class="fl-active"';} ?>><?php echo $tab['title']; ?></a>
@@ -20,6 +20,7 @@ endforeach; ?>
 	<?php endif; ?>
 	<div class="fl-builder-settings-fields fl-nanoscroller">
 		<div class="fl-nanoscroller-content">
+		<?php if ( isset( $form['tabs'] ) && count( $form['tabs'] ) > 0 ) : ?>
 			<?php $i = 0; foreach ( $form['tabs'] as $id => $tab ) : // Tabs ?>
 			<div id="fl-builder-settings-tab-<?php echo $id; ?>" class="fl-builder-settings-tab <?php if ( 0 == $i ) { echo 'fl-active';} ?>">
 
@@ -69,7 +70,8 @@ endforeach; ?>
 
 			</div>
 			<?php $i++;
-endforeach; ?>
+			endforeach;
+		endif; ?>
 		</div>
 	</div>
 	<div class="fl-lightbox-footer">

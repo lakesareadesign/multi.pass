@@ -350,14 +350,15 @@ if ( ! class_exists( 'simple_options' ) ) {
 								$field_name = $data['name'];
 							}
 							$content .= sprintf(
-								'<input type="%s" id="%s" name="%s" value="%s" class="%s" id="%s" %s />',
+								'<input type="%s" id="%s" name="%s" value="%s" class="%s" id="%s" %s />%s',
 								esc_attr( $data['type'] ),
 								esc_attr( $html_id ),
 								esc_attr( $field_name ),
 								esc_attr( stripslashes( $value ) ),
 								isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
 								esc_attr( $html_id ),
-								implode( ' ', $extra )
+								implode( ' ', $extra ),
+								isset( $data['after'] ) ? esc_attr( ' '.$data['after'] ) : ''
 							);
 						break;
 					}

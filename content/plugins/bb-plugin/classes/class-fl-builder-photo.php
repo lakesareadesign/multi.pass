@@ -99,19 +99,13 @@ final class FLBuilderPhoto {
 				'thumbnail' => _x( 'Thumbnail', 'Image size.', 'fl-builder' ),
 			);
 
-			// Check the selected value without the protocol so we get a match if
-			// a site has switched to HTTPS since selecting this photo (#641).
-			$selected = str_replace( array( 'http://', 'https://' ), '', $selected );
-
 			foreach ( $photo->sizes as $key => $val ) {
 
 				if ( ! isset( $titles[ $key ] ) ) {
 					$titles[ $key ] = ucwords( str_replace( array( '_', '-' ), ' ', $key ) );
 				}
 
-				$check = str_replace( array( 'http://', 'https://' ), '', $val->url );
-
-				echo '<option value="' . $val->url . '" ' . selected( $selected, $check ) . '>' . $titles[ $key ] . ' - ' . $val->width . ' x ' . $val->height . '</option>';
+				echo '<option value="' . $val->url . '" ' . selected( basename( $selected ), basename( $val->url ) ) . '>' . $titles[ $key ] . ' - ' . $val->width . ' x ' . $val->height . '</option>';
 			}
 		}
 	}

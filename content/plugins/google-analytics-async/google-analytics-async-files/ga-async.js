@@ -6,9 +6,7 @@ var ga_width = 0;
 var ga_date_range = 0;
 var ga_retry = 0;
 
-google.load("visualization", "1", {packages:["corechart"]});
-
-google.setOnLoadCallback(function() {
+function gaa_load_callback () {
 	if( jQuery('#google-analytics-statistics-page').length > 0 || jQuery('#google-analytics-widget').length > 0  ) {
 		if(typeof ga != 'undefined' && typeof ga.type != 'undefined')
 			ga_type = ga.type;
@@ -38,7 +36,11 @@ google.setOnLoadCallback(function() {
 					ga_load_google_analytics();
 		}
 	}
-});
+}
+
+google.load("visualization", "1", {packages:["corechart"], callback: gaa_load_callback});
+google.setOnLoadCallback(gaa_load_callback);
+
 jQuery(document).ready(function() {
 	setInterval(ga_check_width, 200);
 });
@@ -85,7 +87,8 @@ function ga_load_google_analytics() {
 function ga_load_charts(disable) {
 	if(typeof(disable)==='undefined') disable = '';
 
-	if(ga_chart_visitors && disable != 'chart_visitors') {
+	if(ga_chart_visitors && ga_chart_visitors.length > 1 && disable != 'chart_visitors') {
+		console.log(ga_chart_visitors);
 		var data = google.visualization.arrayToDataTable(ga_chart_visitors);
 
 		var options = {

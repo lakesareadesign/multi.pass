@@ -41,9 +41,34 @@ do_action( 'fl_builder_posts_module_after_posts', $settings, $query );
 if ( 'none' != $settings->pagination && $query->have_posts() ) :
 
 ?>
-<div class="fl-builder-pagination"<?php if ( 'scroll' == $settings->pagination ) { echo ' style="display:none;"';} ?>>
+<div class="fl-builder-pagination"<?php if ( in_array( $settings->pagination, array( 'scroll', 'load_more' ) ) ) { echo ' style="display:none;"';} ?>>
 	<?php FLBuilderLoop::pagination( $query ); ?>
 </div>
+<?php if ( 'load_more' == $settings->pagination && $query->max_num_pages > 1 ) : ?>
+<div class="fl-builder-pagination-load-more">
+	<?php
+
+	FLBuilder::render_module_html( 'button', array(
+		'align'             => 'center',
+		'bg_color'          => $settings->more_btn_bg_color,
+		'bg_hover_color'    => $settings->more_btn_bg_hover_color,
+		'border_radius'     => $settings->more_btn_border_radius,
+		'font_size'         => $settings->more_btn_font_size,
+		'icon'              => $settings->more_btn_icon,
+		'icon_position'     => $settings->more_btn_icon_position,
+		'icon_animation'    => $settings->more_btn_icon_animation,
+		'link'              => '#',
+		'link_target'       => '_self',
+		'padding'           => $settings->more_btn_padding,
+		'text'              => $settings->more_btn_text,
+		'text_color'        => $settings->more_btn_text_color,
+		'text_hover_color'  => $settings->more_btn_text_hover_color,
+		'width'             => $settings->more_btn_width,
+	));
+
+	?>
+</div>
+<?php endif; ?>
 <?php endif; ?>
 <?php
 

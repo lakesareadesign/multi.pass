@@ -30,9 +30,9 @@ class MS_Model_Settings extends MS_Model_Option {
 	 *
 	 * @since  1.0.0
 	 */
-	const PROTECTION_MSG_CONTENT = 'content';
-	const PROTECTION_MSG_SHORTCODE = 'shortcode';
-	const PROTECTION_MSG_MORE_TAG = 'more_tag';
+	const PROTECTION_MSG_CONTENT 	= 'content';
+	const PROTECTION_MSG_SHORTCODE 	= 'shortcode';
+	const PROTECTION_MSG_MORE_TAG 	= 'more_tag';
 
 	/**
 	 * ID of the model object.
@@ -132,6 +132,18 @@ class MS_Model_Settings extends MS_Model_Option {
 	 */
 	protected $hide_admin_bar = true;
 
+
+	/**
+	 * Enable use of cron when performing backen actions
+	 *
+	 * Wizard mode.
+	 *
+	 * @since  1.0.0
+	 *
+	 * @var boolean
+	 */
+	protected $enable_cron_use = true;
+
 	/**
 	 * The currency used in the plugin.
 	 *
@@ -185,8 +197,30 @@ class MS_Model_Settings extends MS_Model_Option {
 	 * @var array
 	 */
 	protected $downloads = array(
-		'protection_type' => MS_Rule_Media_Model::PROTECTION_TYPE_COMPLETE,
-		'masked_url' => 'downloads',
+		'protection_type' 	=> MS_Rule_Media_Model::PROTECTION_TYPE_COMPLETE,
+		'masked_url' 		=> 'downloads',
+		'direct_access' 	=> array( 'jpg', 'jpeg', 'png', 'gif', 'mp3', 'ogg' ),
+	);
+
+	/**
+	 * Global payments already set indicator.
+	 *
+	 * @since  1.0.4
+	 *
+	 * @var boolean
+	 */
+	 protected $is_advanced_media_protection = false;
+
+	/**
+	 * Default WP Rest settings
+	 *
+	 * @since 1.0.4
+	 *
+	 * @var array
+	 */
+	protected $wprest = array(
+		'api_namespace' => MS_Addon_WPRest::API_NAMESPACE,
+		'api_passkey' 	=> '123456789'
 	);
 
 	/**
@@ -298,22 +332,22 @@ class MS_Model_Settings extends MS_Model_Option {
 	 * @return string $msg The protection message.
 	 */
 	public function get_protection_message( $type, $membership = null, &$found = null ) {
-		$msg = '';
-		$found = false;
+		$msg 	= '';
+		$found 	= false;
 		if ( self::is_valid_protection_msg_type( $type ) ) {
 			$key = $type;
 
 			if ( $membership ) {
 				if ( $membership instanceof MS_Model_Membership ) {
-					$key_override = $key . '_' . $membership->id;
+					$key_override 	= $key . '_' . $membership->id;
 				} elseif ( is_scalar( $membership ) ) {
-					$key_override = $key . '_' . $membership;
+					$key_override 	= $key . '_' . $membership;
 				} else {
-					$key_override = $key;
+					$key_override 	= $key;
 				}
 				if ( isset( $this->protection_messages[ $key_override ] ) ) {
-					$key = $key_override;
-					$found = true;
+					$key 			= $key_override;
+					$found 			= true;
 				}
 			}
 
@@ -355,8 +389,8 @@ class MS_Model_Settings extends MS_Model_Option {
 	 * @return string Name of the view to display.
 	 */
 	static public function get_special_view() {
-		$settings = MS_Factory::load( 'MS_Model_Settings' );
-		$view = $settings->special_view;
+		$settings 	= MS_Factory::load( 'MS_Model_Settings' );
+		$view 		= $settings->special_view;
 		return $view;
 	}
 
@@ -432,14 +466,14 @@ class MS_Model_Settings extends MS_Model_Option {
 	* @param MS_Model_Membership $membership
 	*
 	* @return bool
-	*
-	public function membership_has_protection_type( $type, $membership ){
-
-		if( ! $type || ! $membership ) return false;
-
-		return isset( $this->protection_messages[ $type . '_' . $membership->id ] );
-
-	}*/
+	*/
+	//public function membership_has_protection_type( $type, $membership ){
+	//
+	//	if( ! $type || ! $membership ) return false;
+	//
+	//	return isset( $this->protection_messages[ $type . '_' . $membership->id ] );
+	//
+	//}
 
 	/**
 	 * Set specific property.
@@ -465,6 +499,7 @@ class MS_Model_Settings extends MS_Model_Option {
 				case 'plugin_enabled':
 				case 'initial_setup':
 				case 'is_first_membership':
+				case 'enable_cron_use':
 				case 'hide_admin_bar':
 					$this->$property = lib3()->is_true( $value );
 					break;
@@ -484,6 +519,29 @@ class MS_Model_Settings extends MS_Model_Option {
 				case 'masked_url':
 					$this->downloads['masked_url'] = sanitize_text_field( $value );
 					break;
+
+				case 'advanced_media_protection':
+					$create_htaccess = lib3()->is_true( $value );
+					if ( $create_htaccess ) {
+						MS_Model_Addon::toggle_media_htaccess( $this );
+					} else {
+						MS_Helper_Media::clear_htaccess();
+					}
+					$this->is_advanced_media_protection = $create_htaccess;
+					break;
+
+				case 'direct_access':
+					$this->downloads['direct_access'] = explode( ",", sanitize_text_field( $value ) );
+					break;
+
+				case 'api_namespace' :
+					$this->wprest['api_namespace'] = sanitize_text_field( $value );
+					break;
+
+				case 'api_passkey' :
+					$this->wprest['api_passkey'] = sanitize_text_field( $value );
+					break;
+
 			}
 		}
 	}

@@ -155,11 +155,21 @@ class MS_Rule_Url_Model extends MS_Rule {
 		$match = false;
 
 		$check_list = lib3()->array->get( $check_list );
+
 		if ( count( $check_list ) ) {
 			$check_list = array_map( 'strtolower', $check_list );
 			$check_list = array_map( 'trim', $check_list );
 
-			$url = strtolower( $url );
+			$url 	= strtolower( $url );
+			$parts 	= parse_url( $url );
+
+			//Remove https port from the url
+			if( ( isset( $parts['port'] ) && isset( $parts['scheme'] ) ) && ( $parts['scheme'] == 'https' && $parts['port'] = '443' ) ) {
+				unset( $parts['port'] ); //remove port
+				$url = MS_Helper_Utility::build_url( $parts );
+			}
+
+
 			foreach ( $check_list as $check ) {
 				if (false === empty($check) && 1 === preg_match( '@' . trim($check) . '@',  $url) ) {
 					$match = true;
@@ -232,13 +242,13 @@ class MS_Rule_Url_Model extends MS_Rule {
 				continue;
 			}
 
-			$content = new StdClass();
-			$content->id = $hash;
-			$content->type = MS_Rule_Url::RULE_ID;
-			$content->name = $protected_urls[$hash];
-			$content->url = $protected_urls[$hash];
-			$content->access = $this->get_rule_value( $content->id );
-			$contents[] = $content;
+			$content 			= new StdClass();
+			$content->id 		= $hash;
+			$content->type 		= MS_Rule_Url::RULE_ID;
+			$content->name 		= $protected_urls[$hash];
+			$content->url 		= $protected_urls[$hash];
+			$content->access 	= $this->get_rule_value( $content->id );
+			$contents[] 		= $content;
 		}
 
 		return apply_filters(
@@ -269,8 +279,8 @@ class MS_Rule_Url_Model extends MS_Rule {
 		if ( empty( $access ) ) {
 			$this->delete_url( $hash );
 		} else {
-			$base_rule = MS_Model_Membership::get_base()->get_rule( $this->rule_type );
-			$url = $base_rule->get_url_from_hash( $hash );
+			$base_rule 	= MS_Model_Membership::get_base()->get_rule( $this->rule_type );
+			$url 		= $base_rule->get_url_from_hash( $hash );
 			$this->add_url( $url );
 		}
 
@@ -365,7 +375,7 @@ class MS_Rule_Url_Model extends MS_Rule {
 		static $Protected_Urls = null;
 
 		if ( null === $Protected_Urls ) {
-			$base_rule = MS_Model_Membership::get_base()->get_rule( $this->rule_type );
+			$base_rule 		= MS_Model_Membership::get_base()->get_rule( $this->rule_type );
 			$Protected_Urls = $base_rule->rule_value;
 		}
 

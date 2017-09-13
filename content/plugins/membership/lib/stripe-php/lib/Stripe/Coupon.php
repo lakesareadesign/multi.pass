@@ -1,6 +1,6 @@
 <?php
 
-class M2_Stripe_Coupon extends M2_Stripe_ApiResource
+class Stripe_Coupon extends Stripe_ApiResource
 {
   /**
    * @param string $id The ID of the coupon to retrieve.
@@ -35,6 +35,15 @@ class M2_Stripe_Coupon extends M2_Stripe_ApiResource
   {
     $class = get_class();
     return self::_scopedDelete($class, $params);
+  }
+
+  /**
+   * @return Stripe_Coupon The saved coupon.
+   */
+  public function save()
+  {
+    $class = get_class();
+    return self::_scopedSave($class);
   }
 
   /**

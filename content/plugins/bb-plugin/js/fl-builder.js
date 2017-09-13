@@ -6221,6 +6221,8 @@
 					library : { type : 'image' },
 					multiple: false
 				});
+				FLBuilder._singlePhotoSelector.on( 'open', FLBuilder._wpmedia_reset_errors );
+				_wpPluploadSettings['defaults']['multipart_params']['fl_upload_type']= 'photo';
 			}
 		},
 
@@ -6522,6 +6524,9 @@
 					library : { type : 'video' },
 					multiple: false
 				});
+
+				FLBuilder._singleVideoSelector.on( 'open', FLBuilder._wpmedia_reset_errors );
+				_wpPluploadSettings['defaults']['multipart_params']['fl_upload_type']= 'video';
 			}
 
 			FLBuilder._singleVideoSelector.once('select', $.proxy(FLBuilder._singleVideoSelected, this));
@@ -7483,8 +7488,18 @@
 		 */
 		_btoa: function(str) {
 			return btoa(encodeURIComponent(str).replace(/%([0-9A-F]{2})/g, function(match, p1) {
-	        return String.fromCharCode('0x' + p1);
-	    }));
+				return String.fromCharCode('0x' + p1);
+			}));
+		},
+
+		/**
+		 * @since 1.10.8
+		 * @access private
+		 * @method _wpmedia_reset_errors
+		 */
+		_wpmedia_reset_errors: function() {
+			$('.upload-error').remove()
+			$('.media-uploader-status' ).removeClass( 'errors' ).hide()
 		},
 
 		/* Lightboxes

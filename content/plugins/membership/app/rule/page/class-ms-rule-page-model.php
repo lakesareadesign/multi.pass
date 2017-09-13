@@ -45,6 +45,52 @@ class MS_Rule_Page_Model extends MS_Rule {
 		parent::protect_content();
 
 		$this->add_filter( 'get_pages', 'protect_pages', 99, 2 );
+		$this->add_filter( 'pre_get_posts', 'hide_pages_from_search', 99 );
+	}
+
+	/**
+	 * Excludes pages from site search by filtering the WP query.
+	 *
+	 * Related Action Hooks:
+	 * - pre_get_posts
+	 *
+	 * @param WP_Query $wp_query The WP_Query object to filter.
+	 */
+	public function hide_pages_from_search( $wp_query ) {
+		if ( !$this->is_frontend_search ( $wp_query ) || !MS_Model_Addon::is_enabled( MS_Model_Addon::ADDON_HIDE_PAGES_FROM_SEARCH ) ) {
+			return;
+		}
+
+		$denied_ids = array();
+		foreach ( $this->rule_value as $id => $value ) {
+			if ( !$this->has_access( $id ) ) {
+				$denied_ids[] = $id;
+			}
+		}
+
+		$denied_ids = array_unique( $denied_ids, SORT_NUMERIC );
+
+		// Tell the WP query which pages are actually off limit for the user.
+		$wp_query->query_vars['post__not_in'] = array_merge(
+			$wp_query->query_vars['post__not_in'],
+			$denied_ids
+		);
+
+		do_action(
+			'ms_rule_page_model_hide_pages_from_search',
+			$wp_query,
+			$this
+		);
+	}
+
+	/**
+	 * Examines the passed WP query object to check if it is for frontend search.
+	 *
+	 * @param $wp_query \WP_Query The query object to examine.
+	 * @return bool
+	 */
+	private function is_frontend_search( $wp_query ) {
+		return !$wp_query->is_admin && $wp_query->is_search();
 	}
 
 	/**
@@ -176,10 +222,10 @@ class MS_Rule_Page_Model extends MS_Rule {
 	 */
 	public function get_content_count( $args = null ) {
 		unset( $args['number'] );
-		$args = $this->get_query_args( $args );
-		$posts = get_pages( $args );
+		$args 	= $this->get_query_args( $args );
+		$posts 	= get_pages( $args );
 
-		$count = count( $posts );
+		$count 	= count( $posts );
 
 		return apply_filters(
 			'ms_rule_page_model_get_content_count',
@@ -204,7 +250,7 @@ class MS_Rule_Page_Model extends MS_Rule {
 		 * manually...
 		 */
 		$offset = absint( $args['offset'] );
-		$limit = $offset + absint( $args['number'] );
+		$limit 	= $offset + absint( $args['number'] );
 		$args['offset'] = 0;
 		$args['number'] = 0;
 
@@ -222,13 +268,13 @@ class MS_Rule_Page_Model extends MS_Rule {
 
 			$parent = get_post( $content->post_parent );
 			for ( $level = 0; $level < 5 && $parent; $level += 1 ) {
-				$name = '&mdash; ' . $name;
+				$name 	= '&mdash; ' . $name;
 				$parent = get_post( $parent->post_parent );
 			}
 
-			$content->id = $content->ID;
-			$content->type = MS_Rule_Page::RULE_ID;
-			$content->name = $name;
+			$content->id 	= $content->ID;
+			$content->type 	= MS_Rule_Page::RULE_ID;
+			$content->name 	= $name;
 			$content->access = $this->get_rule_value( $content->id );
 
 			$contents[ $content->id ] = $content;

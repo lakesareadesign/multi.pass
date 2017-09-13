@@ -1,9 +1,54 @@
 Plugin Name: Membership 2
-Author:      Ashok Kumar Nath, Philipp Stracker
-Build Stamp: 2017-05-02T08:55:55.281Z
+Author:      Paul Kevin, Ashok Kumar Nath, Philipp Stracker
+Build Stamp: 2017-09-07T17:15:26.295Z
 
 Change Log:
 ----------------------------------------------------------------------
+1.1.1
+- Fixed: Menu Protection items not showing to all users except admin
+
+1.1
+- Added: Premium WP Rest Addon
+- Added: Advanced media protection settings
+- Added: New filter ms_frontend_controller_change_signup_url to allow disabling Membership login
+- Added: Column on admin user list with Membership name
+- Added: Added setting to enable or disable cron usage for email sending
+- Added: Emails can now be sent directly or using the WordPress cron
+- Added: Integration with new reCaptcha plugin to the reCaptcha Addon
+- Added: Option for Admin created members to generate an invoice to the membership
+- Added: Option for manual invoice created to keep the expire date of the membership the same
+- Added: Addon to hide protected pages from visitor search
+- Added: Plugin deactivation hook to clear Membership Crons
+- Added: Stripe Plan webhooks
+- Added: Some code refactoring for premium classes
+
+- Fixed: Upgraded Mailchimp API to 3.0
+- Fixed: Multiple Invoice creation
+- Fixed: Default gateway on invoice
+- Fixed: Invoice status not changing for free payments
+- Fixed: Protection with many addons enabled
+- Fixed: Mailchimp list for deactivated users with drop down memberships
+- Fixed: Membership Script and Style conflict on other admin pages
+- Fixed: URL Protection Addon on https
+- Fixed: Media Protection Addon
+- Fixed: Editing Subscription details for administrators.
+- Fixed: Stripe API lib upgraded
+- Fixed: Login and reset password texts in the frontend form
+- Fixed: bbPress dripped membership protection rules
+- Fixed: CPT Addon on free version
+- Fixed: Manually changing status of membership to pending
+- Fixed: Membership Admin edit page Payment options ajax animation
+- Fixed: Javascript web browser console error
+- Fixed: CSS interfering with WP media library
+- Fixed: Authorize.net integration
+- Fixed: PayPal integration with recurring payments
+- Fixed: PayPal invoice creation
+- Fixed: Stripe subscriptions staying active on trial end
+- Fixed: Stripe subscription for renewed and cancelled memberships
+- Fixed: Stripe Subscriptions canceled via Stripe being re-created in the plugin
+- Fixed: Posts from a protected category from being displayed in the search
+- Fixed: Finite Memberships not expired after the expiration date 
+- Fixed: Translation of some hardcoded Strings
 
 1.0.3.5
 ----------------------------------------------------------------------
@@ -694,4 +739,4 @@ Membership2 1.0.0.0
 - Initial version.
 
 
-133620-1495482861-au
+133620-1505265107-au

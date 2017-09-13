@@ -447,7 +447,7 @@ FLBuilder::register_module('FLPostSliderModule', array(
 						),
 						'toggle'		=> array(
 							'yes'			=> array(
-								'fields'		=> ( 'nav_arrow_color' ),
+								'sections'		=> array( 'nav_arrow_color' ),
 							),
 						),
 					),
@@ -777,6 +777,31 @@ FLBuilder::register_module('FLPostSliderModule', array(
 							'auto'          => _x( 'Auto', 'Background height.', 'fl-builder' ),
 							'100%'          => '100%',
 						),
+					),
+				),
+			),
+			'nav_arrow_color' => array(
+				'title'         => 'Nav Arrows',
+				'fields'        => array(
+					'arrows_bg_color' => array(
+						'type'          => 'color',
+						'label'         => __( 'Arrows Background Color', 'fl-builder' ),
+						'show_reset'    => true,
+						'show_alpha'	=> true,
+					),
+					'arrows_bg_style' => array(
+						'type'          => 'select',
+						'label'         => __( 'Arrows Background Style', 'fl-builder' ),
+						'default' 		=> 'circle',
+						'options'       => array(
+							'circle'    	=> __( 'Circle', 'fl-builder' ),
+							'square'        => __( 'Square', 'fl-builder' ),
+						),
+					),
+					'arrows_text_color' => array(
+						'type'          => 'color',
+						'label'         => __( 'Arrows Color', 'fl-builder' ),
+						'show_reset'    => true,
 					),
 				),
 			),

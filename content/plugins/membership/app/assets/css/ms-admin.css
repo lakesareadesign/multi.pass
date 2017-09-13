@@ -2668,6 +2668,9 @@ body #wpwrap .ms-wrap .wpmui-radio-slider-wrapper.inline-label .wpmui-field-labe
   cursor: not-allowed;
   background: rgba(0, 0, 0, 0.1);
 }
+.ms-wrap.ms-addon-list .wpmui-input-direct_access {
+  width: 100%;
+}
 
 /**
  * Settings module.
@@ -3463,4 +3466,4 @@ body #wpwrap .ms-wrap .wpmui-radio-slider-wrapper.inline-label .wpmui-field-labe
 }
 
 
-/* 133620-1495482861-au */
+/* 133620-1505265107-au */

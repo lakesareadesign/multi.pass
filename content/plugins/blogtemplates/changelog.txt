@@ -1,11 +1,17 @@
 Plugin Name: New Blog Templates
 Author: WPMU DEV
 Requires at least: 3.8
-Tested up to: 4.6
+Tested up to: 4.8.1
 
 Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+
+2.8.6 - 2017-09-04
+----------------------------------------------------------------------
+- Fixed: Reset screenshot now removes image from server
+- Fixed: Minor CSS issues
+
 
 2.8.5 - 2017-01-27
 ----------------------------------------------------------------------
@@ -401,4 +407,4 @@ templates in Blogs Directory list
 - Bug fix: blog template admin email exported to new blogs
 
 
-133620-1485823032-au
+133620-1505265114-au

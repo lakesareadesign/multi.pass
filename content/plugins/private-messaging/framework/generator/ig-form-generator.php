@@ -98,7 +98,7 @@ if (!class_exists('IG_Form_Generator')) {
                         </div>';
                     //getting the data
                     $taxonomy = $val['key'];
-                    $terms = ' array_combine(wp_list_pluck(get_terms("' . $taxonomy . '", array("hide_empty" => "false")), "term_id"), wp_list_pluck(get_terms("' . $taxonomy . '", array("hide_empty" => "false")), "name"))';	     	 		 						  		
+                    $terms = ' array_combine(wp_list_pluck(get_terms("' . $taxonomy . '", array("hide_empty" => "false")), "term_id"), wp_list_pluck(get_terms("' . $taxonomy . '", array("hide_empty" => "false")), "name"))';
 
                     $field = sprintf($field, $key, $key, ucwords(str_replace('_', ' ', $key)), $key, $terms, $key, $key);
                 } elseif ($val['type'] == 'meta_array') {

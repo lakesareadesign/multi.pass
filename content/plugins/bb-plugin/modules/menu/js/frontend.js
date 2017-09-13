@@ -15,7 +15,7 @@
 		this.mobileBelowRow		 = settings.mobileBelowRow;
 		this.breakPoints         = settings.breakPoints;
 		this.mobileBreakpoint	 = settings.mobileBreakpoint;
-		this.currentBrowserWidth = $( window ).width();
+		this.currentBrowserWidth = window.innerWidth;
 
 		// initialize the menu
 		this._initMenu();
@@ -23,7 +23,7 @@
 		// check if viewport is resizing
 		$( window ).on( 'resize', $.proxy( function( e ){
 
-			var width = $( window ).width();
+			var width = window.innerWidth;
 
 			// if screen width is resized, reload the menu
 		    if( width != this.currentBrowserWidth ){
@@ -51,7 +51,7 @@
 		 * @return bool
 		 */
 		_isMobile: function(){
-			return $( window ).width() <= this.breakPoints.small ? true : false;
+			return this.currentBrowserWidth <= this.breakPoints.small ? true : false;
 		},
 
 		/**
@@ -61,7 +61,7 @@
 		 * @return bool
 		 */
 		_isMedium: function(){
-			return $( window ).width() <= this.breakPoints.medium ? true : false;
+			return this.currentBrowserWidth <= this.breakPoints.medium ? true : false;
 		},
 
 		/**

@@ -214,30 +214,8 @@ body {
 				 * form_bg_color
 				 * form_bg_transparency
 				 */
-				$change = false;
-				$bg_color = 'none';
-				$bg_transparency = 0;
-				if ( isset( $v['form_bg_color'] ) ) {
-					$bg_color = $v['form_bg_color'];
-					$change = true;
-				}
-				if ( isset( $v['form_bg_transparency'] ) ) {
-					$bg_transparency = $v['form_bg_transparency'];
-					$change = true;
-				}
 
-				if ( $change ) {
-					if ( 'none' != $bg_color ) {
-						echo '.login form {';
-						if ( 0 < $bg_transparency ) {
-							$bg_color = $this->convert_hex_to_rbg( $bg_color );
-							printf( 'background-color: rgba( %s, %0.2f);', implode( ', ', $bg_color ), $bg_transparency / 100 );
-						} else {
-							printf( 'background-color: %s;', $bg_color );
-						}
-						echo '}';
-					}
-				}
+				$this->css_background_transparency( $v, 'form_bg_color', 'form_bg_transparency', '.login form' );
 
 				/**
 				 * form_style
@@ -369,6 +347,48 @@ body {
 				$this->css_color( $v, 'back_to_color_hover', '.login #backtoblog a:hover' );
 			}
 
+			/**
+			 * form_canvas
+			 */
+			if ( isset( $value['form_canvas'] ) ) {
+				echo '#login{';
+				$v = $value['form_canvas'];
+				if ( isset( $v['position'] ) ) {
+					if ( preg_match( '/^(left|right)$/', $v['position'] ) ) {
+						printf( 'margin-%s: 0;', esc_attr( $v['position'] ) );
+					}
+				}
+				if ( isset( $v['padding_top'] ) ) {
+					printf( 'padding-top: %d%%;', $v['padding_top'] );
+				}
+				if ( isset( $v['width'] ) ) {
+					printf( 'width: %dpx;', $v['width'] );
+				}
+				if ( isset( $v['fit'] ) && 'on' == $v['fit'] ) {
+					echo 'position: absolute;';
+					echo 'top: 0;';
+					echo 'bottom: 0;';
+					if ( isset( $v['position'] ) ) {
+						if ( preg_match( '/^(left|right)$/', $v['position'] ) ) {
+							printf( '%s: 0;', esc_attr( $v['position'] ) );
+						}
+					}
+				}
+				echo '}';
+				if ( isset( $v['form_margin'] ) ) {
+					echo '.login form, .login #nav, .login #backtoblog {';
+					printf( 'margin-left: %dpx;', $v['form_margin'] );
+					printf( 'margin-right: %dpx;', $v['form_margin'] );
+					echo '}';
+				}
+				if ( isset( $v['fit'] ) && 'on' == $v['fit'] ) {
+					echo '.login form {';
+					echo 'margin-top:0;';
+					echo '}';
+				}
+				$this->css_background_transparency( $v, 'background_color', 'background_transparency', '#login' );
+			}
+
 			echo '</style>';
 		}
 
@@ -425,15 +445,17 @@ body {
 							'max' => 320,
 							'classes' => array( 'ui-slider' ),
 							'master' => 'logo-related',
+							'after' => __( 'px', 'ub' ),
 						),
 						'logo_transparency' => array(
 							'type' => 'number',
-							'label' => __( 'Logo Transparency', 'ub' ),
+							'label' => __( 'Logo transparency', 'ub' ),
 							'min' => 0,
 							'max' => 100,
 							'default' => 100,
 							'classes' => array( 'ui-slider' ),
 							'master' => 'logo-related',
+							'after' => '%',
 						),
 						'logo_rounded' => array(
 							'type' => 'number',
@@ -444,19 +466,20 @@ body {
 							'min' => 0,
 							'classes' => array( 'ui-slider' ),
 							'master' => 'logo-related',
+							'after' => __( 'px', 'ub' ),
 						),
 						'login_header_url' => array(
 							'type' => 'text',
 							'label' => __( 'Logo URL', 'ub' ),
 							'default' => $login_header_url,
-							'classes' => array( 'logo-related' ),
+							'classes' => array( 'logo-related', 'large-text' ),
 							'master' => 'logo-related',
 						),
 						'login_header_title' => array(
 							'type' => 'text',
 							'label' => __( 'Logo Alt text', 'ub' ),
 							'default' => $login_header_title,
-							'classes' => array( 'logo-related' ),
+							'classes' => array( 'logo-related', 'large-text' ),
 							'master' => 'logo-related',
 						),
 						'logo_bottom_margin' => array(
@@ -468,6 +491,7 @@ body {
 							'min' => 0,
 							'classes' => array( 'ui-slider' ),
 							'master' => 'logo-related',
+							'after' => __( 'px', 'ub' ),
 						),
 						'bg_color' => array(
 							'type' => 'color',
@@ -492,6 +516,7 @@ body {
 							'default' => 0,
 							'min' => 0,
 							'classes' => array( 'ui-slider' ),
+							'after' => __( 'px', 'ub' ),
 						),
 						'show_remember_me' => array(
 							'type' => 'radio',
@@ -521,16 +546,17 @@ body {
 						),
 						'form_bg' => array(
 							'type' => 'media',
-							'label' => __( 'Background Image', 'ub' ),
+							'label' => __( 'Background image', 'ub' ),
 						),
 						'form_bg_transparency' => array(
 							'type' => 'number',
-							'label' => __( 'Background Transparency', 'ub' ),
+							'label' => __( 'Background transparency', 'ub' ),
 							'min' => 0,
 							'max' => 100,
 							'default' => 100,
 							'description' => __( 'It will not affected if you set for background image.', 'ub' ),
 							'classes' => array( 'ui-slider' ),
+							'after' => '%',
 						),
 						'form_style' => array(
 							'type' => 'radio',
@@ -570,6 +596,7 @@ body {
 							'max' => 10,
 							'default' => 1,
 							'classes' => array( 'ui-slider' ),
+							'after' => __( 'px', 'ub' ),
 						),
 						'form_button_shadow' => array(
 							'type' => 'checkbox',
@@ -588,6 +615,7 @@ body {
 							'min' => 0,
 							'default' => 3,
 							'classes' => array( 'ui-slider' ),
+							'after' => __( 'px', 'ub' ),
 						),
 					),
 				),
@@ -674,6 +702,7 @@ body {
 							'max' => 100,
 							'default' => 100,
 							'classes' => array( 'ui-slider' ),
+							'after' => '%',
 						),
 					),
 				),
@@ -724,6 +753,74 @@ body {
 							'type' => 'color',
 							'label' => __( '"Back to" link hover color', 'ub' ),
 							'default' => '#2ea2cc',
+						),
+					),
+				),
+				/**
+				 * Form Position
+				 */
+				'form_canvas' => array(
+					'title' => __( 'Form Canvas & Position', 'ub' ),
+					'fields' => array(
+						'position' => array(
+							'type' => 'radio',
+							'label' => __( 'Position', 'ub' ),
+							'options' => array(
+								'default' => __( 'Default postion', 'ub' ),
+								'left' => __( 'Left', 'ub' ),
+								'right' => __( 'Right', 'ub' ),
+							),
+							'default' => 'default',
+						),
+						'padding_top' => array(
+							'type' => 'number',
+							'label' => __( 'Padding top', 'ub' ),
+							'min' => 0,
+							'max' => 50,
+							'default' => 8,
+							'classes' => array( 'ui-slider' ),
+							'after' => '%',
+						),
+						'width' => array(
+							'type' => 'number',
+							'label' => __( 'Width', 'ub' ),
+							'min' => 200,
+							'max' => 2000,
+							'default' => 320,
+							'classes' => array( 'ui-slider' ),
+							'after' => __( 'px', 'ub' ),
+						),
+						'form_margin' => array(
+							'type' => 'number',
+							'label' => __( 'Form margin', 'ub' ),
+							'min' => 0,
+							'default' => 0,
+							'classes' => array( 'ui-slider' ),
+							'after' => __( 'px', 'ub' ),
+						),
+						'fit' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Fit height', 'ub' ),
+							'options' => array(
+								'off' => __( 'Default', 'ub' ),
+								'on' => __( 'Fit', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+						),
+						'background_color' => array(
+							'type' => 'color',
+							'label' => __( 'Background color', 'ub' ),
+							'default' => 'transparent',
+						),
+						'background_transparency' => array(
+							'type' => 'number',
+							'label' => __( 'Background transparency', 'ub' ),
+							'min' => 0,
+							'max' => 100,
+							'default' => 0,
+							'classes' => array( 'ui-slider' ),
+							'after' => '%',
 						),
 					),
 				),
@@ -813,6 +910,38 @@ body {
 				printf( '%s{background-color:%s}', $selector, $data[ $key ] );
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
 					echo PHP_EOL;
+				}
+			}
+		}
+
+		/**
+		 * Background color with transparency.
+		 *
+		 * @since x.x.x
+		 */
+		private function css_background_transparency( $v, $color, $transparency, $selector ) {
+			$change = false;
+			$bg_color = 'none';
+			$bg_transparency = 0;
+			if ( isset( $v[ $color ] ) ) {
+				$bg_color = $v[ $color ];
+				$change = true;
+			}
+			if ( isset( $v[ $transparency ] ) ) {
+				$bg_transparency = $v[ $transparency ];
+				$change = true;
+			}
+			if ( $change ) {
+				if ( 'none' != $bg_color ) {
+					echo $selector;
+					echo ' {';
+					if ( 0 < $bg_transparency ) {
+						$bg_color = $this->convert_hex_to_rbg( $bg_color );
+						printf( 'background-color: rgba( %s, %0.2f);', implode( ', ', $bg_color ), $bg_transparency / 100 );
+					} else {
+						printf( 'background-color: %s;', $bg_color );
+					}
+					echo '}';
 				}
 			}
 		}

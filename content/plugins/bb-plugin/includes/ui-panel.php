@@ -58,7 +58,7 @@
 
 				<?php if ( true === FL_BUILDER_LITE ) : ?>
 				<div class="fl-builder-modules-cta">
-					<a href="#" onclick="window.open('<?php echo FLBuilderModel::get_store_url( '', array(
+					<a href="#" onclick="window.open('<?php echo FLBuilderModel::get_upgrade_url( array(
 						'utm_medium' => 'bb-lite',
 						'utm_source' => 'builder-ui',
 						'utm_campaign' => 'modules-panel-cta',

@@ -207,7 +207,11 @@ final class FLBuilderModel {
 			$post = get_post( $post_id );
 		}
 
-		return set_url_scheme( add_query_arg( 'fl_builder', '', get_permalink( $post->ID ) ) );
+		preg_match( '/(https?)/', get_bloginfo( 'url' ), $matches );
+
+		$scheme = ( isset( $matches[1] ) ) ? $matches[1] : false;
+
+		return set_url_scheme( add_query_arg( 'fl_builder', '', get_permalink( $post->ID ) ), $scheme );
 	}
 
 	/**
@@ -1400,6 +1404,8 @@ final class FLBuilderModel {
 		if ( 'module' == $node->type && isset( self::$modules[ $node->settings->type ] ) ) {
 			$class = get_class( self::$modules[ $node->settings->type ] );
 			$instance = new $class();
+			$instance->node 	= $node->node;
+			$instance->parent	= $node->parent;
 			$instance->settings = $node->settings;
 			$instance->delete();
 			$instance->remove();
@@ -2844,12 +2850,13 @@ final class FLBuilderModel {
 	 */
 	static public function process_module_settings( $module, $new_settings ) {
 		// Get a new node instance to work with.
-		$class	        = get_class( self::$modules[ $module->settings->type ] );
-		$instance       = new $class();
-		$instance->node = $module->node;
+		$class	        	= get_class( self::$modules[ $module->settings->type ] );
+		$instance       	= new $class();
+		$instance->node 	= $module->node;
+		$instance->parent	= $module->parent;
+		$instance->settings = $module->settings;
 
 		// Run node delete to clear any cache.
-		$instance->settings = $module->settings;
 		$instance->delete();
 
 		// Run node update.
@@ -2918,12 +2925,13 @@ final class FLBuilderModel {
 		$widgets = array();
 
 		// These are known widgets that won't work in the builder.
-		$exclude = array(
+		$exclude = apply_filters( 'fl_get_wp_widgets_exclude', array(
 			'WP_Widget_Media_Audio',
 			'WP_Widget_Media_Image',
 			'WP_Widget_Media_Video',
 			'WP_Widget_Text',
-		);
+			'WP_Widget_Custom_HTML',
+		) );
 
 		foreach ( $wp_widget_factory->widgets as $class => $widget ) {
 			if ( in_array( $class, $exclude ) ) {

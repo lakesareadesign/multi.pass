@@ -3,7 +3,7 @@
 Plugin Name: Scheduled Content
 Description: Allows you to make certain post or page content available only at scheduled periods via a simple shortcode.
 Plugin URI: https://premium.wpmudev.org/project/scheduled-content/
-Version: 1.2.1
+Version: 1.2.2
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org/
 WDP ID: 215
@@ -59,7 +59,7 @@ class ScheduledContent {
 	function localization() {
 		// Load up the localization file if we're using WordPress in a different language
 		// Place it in this plugin's "languages" folder and name it "sc-[value in wp-config].mo"
-		load_plugin_textdomain( 'sc', false, '/scheduled-content/languages/' );
+		load_plugin_textdomain( 'sc', false, dirname(plugin_basename(__FILE__)) . '/languages/' );
 	}
 
 	function shortcode( $atts, $content = null ) {
@@ -168,7 +168,7 @@ class ScheduledContent {
 			$return    = '<p class="scheduled-closed">' . $msg . '</p>';
 			$wpgmt     = ( $wptime == true ) ? "" : " GMT";
 			$var       = 'cd_' . rand();
-			$countdown = '<script language="javascript" src="' . plugins_url( 'scheduled-content/includes/countdown.js' ) . '"></script>
+			$countdown = '<script language="javascript" src="' . plugins_url(dirname(plugin_basename(__FILE__)) . '/includes/countdown.js') . '"></script>
 <div class="scheduled-timer" id="clock_' . $var . '"></div>
 <script language="javascript">
 	var ' . $var . ' = new countdown("' . $var . '");
@@ -204,7 +204,14 @@ class ScheduledContent {
 		<html>
 		<head>
 			<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-			<script type="text/javascript" src="../wp-includes/js/tinymce/tiny_mce_popup.js?ver=327-1235"></script>
+			<?php
+				/**
+				 * TODO: We are including our own copy of tiny_mce_popup.js until this issue is resolved in the core file: https://core.trac.wordpress.org/ticket/41124
+				 */
+			?>
+            <script type="text/javascript"
+                    src="<?php echo plugins_url(dirname(plugin_basename(__FILE__)) . '/includes/tiny_mce_popup.js'); ?>">
+            </script>
 			<script type="text/javascript" src="../wp-includes/js/tinymce/utils/form_utils.js?ver=327-1235"></script>
 			<script type="text/javascript" src="../wp-includes/js/tinymce/utils/editable_selects.js?ver=327-1235"></script>
 
@@ -480,7 +487,7 @@ class ScheduledContent {
 	 * @see    http://codex.wordpress.org/TinyMCE_Custom_Buttons
 	 */
 	function tinymce_add_plugin( $plugin_array ) {
-		$plugin_array['scheduled'] = plugins_url( 'scheduled-content/includes/editor_plugin.js' );
+		$plugin_array['scheduled'] = plugins_url(dirname(plugin_basename(__FILE__)) . '/includes/editor_plugin.js');
 
 		return $plugin_array;
 	}

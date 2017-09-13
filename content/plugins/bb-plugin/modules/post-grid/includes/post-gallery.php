@@ -17,12 +17,21 @@
 			}
 		}
 
-		the_post_thumbnail( 'large', array(
+		global $post;
+		$image = get_the_post_thumbnail( $post, 'large', array(
 			'class' => $class_name,
 		) );
 
-		?>
+		/**
+		 * Either display the thumbnail if availble or show default no-image.
+		 */
+		if ( '' !== $image ) {
+			echo $image;
+		} else {
+			echo FLBuilder::default_image_html( 'fl-post-gallery-img fl-post-gallery-img-horiz wp-post-image' );
+		}
 
+		?>
 		<div class="fl-post-gallery-text-wrap">
 			<div class="fl-post-gallery-text">
 

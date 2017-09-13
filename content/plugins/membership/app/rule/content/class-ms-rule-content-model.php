@@ -42,12 +42,12 @@ class MS_Rule_Content_Model extends MS_Rule {
 	 *
 	 * @since  1.0.0
 	 *
-	 * @var int
+	 * @var String
 	 */
 	const COMMENT_NO_ACCESS = 'cmt_none';
-	const COMMENT_READ = 'cmt_read';
-	const COMMENT_WRITE = 'cmt_full';
-	const MORE_LIMIT = 'no_more';
+	const COMMENT_READ 		= 'cmt_read';
+	const COMMENT_WRITE 	= 'cmt_full';
+	const MORE_LIMIT 		= 'no_more';
 
 	/**
 	 * Flag of the final comment access level.
@@ -113,11 +113,11 @@ class MS_Rule_Content_Model extends MS_Rule {
 		 * This is the access ganted to guests or memberships that do not define
 		 * an explicit comment access rule.
 		 */
-		if ( null === self::$comment_public ) {
+		if ( is_null( self::$comment_public ) ) {
 			$base_rule = MS_Model_Membership::get_base()->get_rule( $this->rule_type );
-			if ( null === $base_rule->get_rule_value( self::COMMENT_WRITE ) ) {
+			if ( is_null( $base_rule->get_rule_value( self::COMMENT_WRITE ) ) ) {
 				self::$comment_public = self::COMMENT_WRITE;
-			} elseif ( null === $base_rule->get_rule_value( self::COMMENT_READ ) ) {
+			} elseif ( is_null( $base_rule->get_rule_value( self::COMMENT_READ ) ) ) {
 				self::$comment_public = self::COMMENT_READ;
 			} else {
 				self::$comment_public = self::COMMENT_NO_ACCESS;
@@ -152,33 +152,32 @@ class MS_Rule_Content_Model extends MS_Rule {
 
 		// ********** READ MORE **********
 
-                if( defined( 'MS_PROTECTED_MESSAGE_REVERSE_RULE' ) && MS_PROTECTED_MESSAGE_REVERSE_RULE ) {
+		if( defined( 'MS_PROTECTED_MESSAGE_REVERSE_RULE' ) && MS_PROTECTED_MESSAGE_REVERSE_RULE ) {
 
-                    $rule = MS_Factory::load( 'MS_Rule_Content_Model' );
-                    $allowed_memberships = $rule->get_memberships( self::MORE_LIMIT );
-                    if( ! is_array( $allowed_memberships ) ) $allowed_memberships = array();
+			$rule = MS_Factory::load( 'MS_Rule_Content_Model' );
+			$allowed_memberships = $rule->get_memberships( self::MORE_LIMIT );
+			if( ! is_array( $allowed_memberships ) ) $allowed_memberships = array();
 
-                    $sorted_membership = array();
-                    foreach( $allowed_memberships as $allowed_membership_id => $allowed_membership_name ) {
-                        $m_obj = MS_Factory::load( 'MS_Model_Membership', $allowed_membership_id );
-                        $key = $m_obj->priority;
+			$sorted_membership = array();
+			foreach( $allowed_memberships as $allowed_membership_id => $allowed_membership_name ) {
+				$m_obj = MS_Factory::load( 'MS_Model_Membership', $allowed_membership_id );
+				$key = $m_obj->priority;
 
-                        while( array_key_exists( $key, $sorted_membership ) ) {
-                            $key++;
-                        }
+				while( array_key_exists( $key, $sorted_membership ) ) {
+					$key++;
+				}
 
-                        $sorted_membership[$key] = $allowed_membership_id;
-                    }
-                    $protected_membership_id = reset( $sorted_membership );
+				$sorted_membership[$key] = $allowed_membership_id;
+			}
+			$protected_membership_id = reset( $sorted_membership );
 
-                }else{
-                    $protected_membership_id = $this->membership_id;
-                }
+		}else{
+			$protected_membership_id = $this->membership_id;
+		}
 
 		$this->protection_message = MS_Plugin::instance()->settings->get_protection_message(
 			MS_Model_Settings::PROTECTION_MSG_MORE_TAG,
-			//$this->membership_id
-                        $protected_membership_id
+			$protected_membership_id
 		);
 
 		if ( ! parent::has_access( self::MORE_LIMIT ) ) {
@@ -383,11 +382,11 @@ class MS_Rule_Content_Model extends MS_Rule {
 				}
 			}
 
-			$content->id = $key;
-			$content->type = MS_Rule_Content::RULE_ID;
-			$content->name = $data->label;
-			$content->post_title = $data->label;
-			$content->access = $this->get_rule_value( $content->id );
+			$content->id 			= $key;
+			$content->type 			= MS_Rule_Content::RULE_ID;
+			$content->name 			= $data->label;
+			$content->post_title 	= $data->label;
+			$content->access 		= $this->get_rule_value( $content->id );
 
 			$contents[ $content->id ] = $content;
 		}

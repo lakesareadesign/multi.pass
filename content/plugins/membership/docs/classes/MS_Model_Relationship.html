@@ -106,7 +106,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">16</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">20</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1743162246"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1425007423"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1743162246" class="accordion-body collapse in">
+            <div id="namespace-1425007423" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -228,6 +228,7 @@ accessing the properties.</p>
                                                                     <a href="../classes/MS_Model_Relationship.html#method_set_gateway" class="">set_gateway()</a><br />
                                                                     <a href="../classes/MS_Model_Relationship.html#method_status_text" class="">status_text()</a><br />
                                                                     <a href="../classes/MS_Model_Relationship.html#method_get_status_description" class="">get_status_description()</a><br />
+                                                                    <a href="../classes/MS_Model_Relationship.html#method_set_recalculate_expire_date" class="">set_recalculate_expire_date()</a><br />
                                                             </section>
                             <section class="span4">
                                                                     <em>No public properties found</em>
@@ -270,6 +271,7 @@ accessing the properties.</p>
                                                             </section>
                             <section class="span4">
                                                                     <a href="../classes/MS_Model_Relationship.html#property_membership" class="">$membership</a><br />
+                                                                    <a href="../classes/MS_Model_Relationship.html#property_recalculate_expire_date" class="">$recalculate_expire_date</a><br />
                                                             </section>
                             <section class="span4">
                                 <em>N/A</em>
@@ -282,7 +284,7 @@ accessing the properties.</p>
                     
                     <dl>
                         <dt>File</dt>
-                            <dd><a href="../files/model.class-ms-model-relationship.html"><div class="path-wrapper">model/class-ms-model-relationship.php</div></a></dd>
+                            <dd><a href="../files/model.class-ms-model-relationship.html"><div class="path-wrapper">model\class-ms-model-relationship.php</div></a></dd>
                                                 <dt>Package</dt>
                             <dd><div class="namespace-wrapper">Membership2\Model</div></dd>
                                                 <dt>Class hierarchy</dt>
@@ -954,6 +956,46 @@ emails to the member.</p>
                                                             </dl>
             <h2>Tags</h2>
             <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="property_recalculate_expire_date" name="property_recalculate_expire_date" class="anchor"></a>
+            <article class="property">
+                <h3 class="private ">$recalculate_expire_date</h3>
+                <pre class="signature">$recalculate_expire_date : Boolean</pre>
+                <p><em>Recalculate the subscription expire date.</em></p>
+                <p>Set to false if you just want to the invoice to change for the current
+invoice</p>
+
+                                <h4>Type</h4>
+                Boolean
+                                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                        <dl>
+                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                            <p>Paul Kevin</p>
+                                                    </td>
+                    </tr>
                                     <tr>
                         <th>
                             since
@@ -1911,10 +1953,18 @@ Default will be calculated based on start_date.</p></td>
             <article class="method">
                 <h3 class="public ">get_invoices()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">get_invoices() : array&lt;mixed,\MS_Model_Invoice&gt;</pre>
+                <pre class="signature" style="margin-right: 54px;">get_invoices(  <span class="argument">$status = &#039;&#039;</span>) : array&lt;mixed,\MS_Model_Invoice&gt;</pre>
                 <p><em>Get a list of all invoices linked to this relationship</em></p>
                 
 
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td></td>
+                                <td>$status </td>
+                                <td></td>
+                            </tr>
+                                            </table>
                 
                 
                                     <h4>Returns</h4>
@@ -2689,6 +2739,49 @@ could also be TRIAL, in which case the returnv alue is false.</p>
         </aside>
     </div>
 
+                                    <div class="row-fluid">
+        <div class="span8 content class">
+            <a id="method_set_recalculate_expire_date" name="method_set_recalculate_expire_date" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">set_recalculate_expire_date()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">set_recalculate_expire_date(Boolean  <span class="argument">$recalculate</span>) </pre>
+                <p><em>Set the expire date recalculation</em></p>
+                
+
+                                    <h4>Parameters</h4>
+                    <table class="table table-condensed table-hover">
+                                                    <tr>
+                                <td>Boolean</td>
+                                <td>$recalculate </td>
+                                <td><ul>
+<li>true to recalculate the expire date</li>
+</ul></td>
+                            </tr>
+                                            </table>
+                
+                
+                				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            author
+                        </th>
+                        <td>
+                                                                                            <p>Paul Kevin</p>
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
                                                                     </div>
     </section>
 
@@ -2698,7 +2791,7 @@ could also be TRIAL, in which case the returnv alue is false.</p>
             <h3 id="source-view-label">class-ms-model-relationship.php</h3>
         </div>
         <div class="modal-body">
-            <pre data-src="../files/model/class-ms-model-relationship.php.txt" class="language-php line-numbers"></pre>
+            <pre data-src="../files/model\class-ms-model-relationship.php.txt" class="language-php line-numbers"></pre>
         </div>
     </div>
 
@@ -2738,7 +2831,7 @@ could also be TRIAL, in which case the returnv alue is false.</p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on May 2nd, 2017 at 08:57.
+                    on September 7th, 2017 at 17:15.
                 </section>
             </section>
         </section>

@@ -269,24 +269,24 @@ class UB_Admin_Bar {
 	 *
 	 * @return array UB_Admin_Bar_Menu|bool false
 	 */
-    public static  function menus() {
-        global $wpdb;
-        $ids = maybe_unserialize( ub_get_option( self::OPTION_KEY ) );
-        $menus = array();
-        if ( $ids ) {
-            foreach ( $ids as $id => $data ) {
-                if ( ! is_array( $data ) ) {
-                    $id = $data;
-                }
-                $composite_id = self::_get_menu_composite_id( $id );
-                if ( $m = ub_get_option( $composite_id )  ) {
-                    $m = maybe_unserialize( $m );
-                    $menus[]  = new UB_Admin_Bar_Menu( $id , $m );
-                }
-            }
-        }
-        return $menus;
-    }
+	public static  function menus() {
+		global $wpdb;
+		$ids = maybe_unserialize( ub_get_option( self::OPTION_KEY ) );
+		$menus = array();
+		if ( $ids ) {
+			foreach ( $ids as $id => $data ) {
+				if ( ! is_array( $data ) ) {
+					$id = $data;
+				}
+				$composite_id = self::_get_menu_composite_id( $id );
+				if ( $m = ub_get_option( $composite_id )  ) {
+					$m = maybe_unserialize( $m );
+					$menus[]  = new UB_Admin_Bar_Menu( $id , $m );
+				}
+			}
+		}
+		return $menus;
+	}
 
 	/**
 	 * Returns menus style
@@ -533,6 +533,9 @@ UBSTYLE;
 		if ( is_array( $menus ) && ! empty( $menus ) ) {
 			foreach ( $menus as $menu ) {
 				$menu_roles = isset( $menu->menu->menu_roles ) ? $menu->menu->menu_roles : array();
+				if ( ! is_array( $menu_roles ) ) {
+					$menu_roles = array();
+				}
 				if (
 					( is_user_logged_in() && self::user_has_access( $menu_roles, true ) )
 					||
@@ -582,6 +585,16 @@ UBSTYLE;
 		if ( version_compare( $version, '3.3', '>=' ) ) {
 			global $wp_admin_bar;
 			$wproles = ub_get_option( 'wdcab' );
+
+			/**
+			 * sanitize
+			 */
+			if ( ! isset( $wproles['wp_menu_roles'] ) || ! is_array( $wproles['wp_menu_roles'] ) ) {
+				$wproles['wp_menu_roles'] = array();
+			}
+			if ( ! isset( $wproles['disabled_menus'] ) || ! is_array( $wproles['disabled_menus'] ) ) {
+				$wproles['disabled_menus'] = array();
+			}
 
 			$hide_from_subscriber = count( $current_user->roles ) === 0 && isset( $wproles['wp_menu_roles'] ) && in_array( 'subscriber', (array) $wproles['wp_menu_roles'] );
 			if (

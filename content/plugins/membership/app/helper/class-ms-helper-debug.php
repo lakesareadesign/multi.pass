@@ -31,7 +31,7 @@ class MS_Helper_Debug extends MS_Helper {
 	 * @since  1.0.0
 	 * @param  mixed $message Array, object or text to output to log.
 	 */
-	public static function log( $message, $echo_file = false ) {
+	public static function debug_log( $message, $echo_file = false ) {
 		if ( ! WP_DEBUG && ! WDEV_DEBUG ) { return; }
 
 		if ( defined( 'DEBUG_BACKTRACE_IGNORE_ARGS' ) ) {
@@ -40,22 +40,22 @@ class MS_Helper_Debug extends MS_Helper {
 			$trace = debug_backtrace();
 		}
 
-		$exception = new Exception();
-		$debug = array_shift( $trace );
-		$caller = array_shift( $trace );
-		$exception = $exception->getTrace();
-		$callee = array_shift( $exception );
+		$exception 	= new Exception();
+		$debug 		= array_shift( $trace );
+		$caller 	= array_shift( $trace );
+		$exception 	= $exception->getTrace();
+		$callee 	= array_shift( $exception );
 
-		$msg = isset( $caller['class'] ) ? $caller['class'] . '[' . $callee['line'] . ']: ' : '';
+		$msg 		= isset( $caller['class'] ) ? $caller['class'] . '[' . $callee['line'] . ']: ' : '';
 
 		if ( is_array( $message ) || is_object( $message ) ) {
-			$msg .= print_r( $message, true );
+			$msg 	.= print_r( $message, true );
 		} else {
-			$msg .= $message;
+			$msg 	.= $message;
 		}
 
 		if ( $echo_file ) {
-			$msg .= "\nIn " . $callee['file'] . ' on line ' . $callee['line'];
+			$msg 	.= "\nIn " . $callee['file'] . ' on line ' . $callee['line'];
 		}
 
 		error_log( $msg );
@@ -92,5 +92,5 @@ class MS_Helper_Debug extends MS_Helper {
 
 }
 
-MS_Helper_Debug::log( '**************************** REQUEST START ****************************' );
-MS_Helper_Debug::log( '***** URL: ' . lib3()->net->current_url() );
+MS_Helper_Debug::debug_log( '**************************** REQUEST START ****************************' );
+MS_Helper_Debug::debug_log( '***** URL: ' . lib3()->net->current_url() );

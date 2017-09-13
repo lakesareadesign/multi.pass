@@ -3,6 +3,29 @@ Author: WPMU DEV
 
 Changelog:
 ----------------------------------------------------------------------
+1.9.6 - 2017-09-08
+----------------------------------------------------------------------
+
+- Added: Option to show event thumb in archive page
+- Added: Option to show event thumb in calendar template - filter added: eab_show_thumb_in_calendar_template
+- Added: Widget added for monthly archive navigation
+- Added: Filter - eab_rsvp_scheduled_rsvp_reset_cron_times to modify the reset settings cron job times
+- Added: No start and end time option in front end editor
+- Added: Sorting and pagination for archive of events
+- Improved: Events Schema Markup for Google Structured Data Testing Tool
+- Updated: Shortcode documentation for network attribute
+- Fixed: RSVP Email settings from name and email were not working
+- Fixed: RSVP Notification Email settings from name and email were not working
+- Fixed: Pagination was not working in eab_shortcode
+- Fixed: FB Integration in Events+ doesn't work after authorization
+- Fixed: FB authenticate reset was not working
+- Fixed: Events+ MarketPress Add-on Breaks Regular Paid Events
+- Fixed: Notice on undefined variable post_type when M2 and E+ are active together
+- Fixed: Remove meta field of the map from event when map is deleted from venue meta field
+- Fixed: eab_expired shortcode doesn't sort by event date but by the time the event was created.
+- Fixed: RSVP Payment status export for manually approved transactions
+
+----------------------------------------------------------------------
 1.9.5 - 2017-03-01
 ----------------------------------------------------------------------
 - Added: Define "EAB_UPCOMING_EVENT_FROM_TODAY" to show *only* upcoming events in upcoming events calendar widget
@@ -393,4 +416,4 @@ Changelog:
 - Initial release.
 
 
-133620-1488397650-au
+133620-1505265085-au

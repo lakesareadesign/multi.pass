@@ -23,7 +23,7 @@ echo 'FLBuilderConfig = ' . json_encode( apply_filters('fl_builder_ui_js_config'
 	'postStatus'                    => get_post_status(),
 	'postType'                      => get_post_type(),
 	'simpleUi'                      => $simple_ui ? true : false,
-	'upgradeUrl'                    => FLBuilderModel::get_store_url( '', array(
+	'upgradeUrl'                    => FLBuilderModel::get_upgrade_url( array(
 		'utm_medium' => ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-demo' ),
 		'utm_source' => 'builder-ui',
 		'utm_campaign' => ( true === FL_BUILDER_LITE ? 'top-panel-cta' : 'demo-cta' ),

@@ -6,7 +6,7 @@ class Stripe_CardError extends Stripe_Error
       $httpBody, $jsonBody
   )
   {
-    parent::__construct($message, $httpStatus, $httpBody, $jsonBody);	     	 	   	  	 	
+    parent::__construct($message, $httpStatus, $httpBody, $jsonBody);
     $this->param = $param;
     $this->code = $code;
   }

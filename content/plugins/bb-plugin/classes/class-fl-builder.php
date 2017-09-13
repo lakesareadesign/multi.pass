@@ -51,7 +51,7 @@ final class FLBuilder {
 		add_action( 'wp_enqueue_scripts',                           __CLASS__ . '::register_layout_styles_scripts' );
 		add_action( 'wp_enqueue_scripts',                           __CLASS__ . '::enqueue_ui_styles_scripts', 11 );
 		add_action( 'wp_enqueue_scripts',                           __CLASS__ . '::enqueue_all_layouts_styles_scripts' );
-		add_action( 'wp_head',         		                       __CLASS__ . '::render_custom_css_for_editing', 999 );
+		add_action( 'wp_head',                                      __CLASS__ . '::render_custom_css_for_editing', 999 );
 		add_action( 'admin_bar_menu',                               __CLASS__ . '::admin_bar_menu', 999 );
 		add_action( 'wp_footer',                                    __CLASS__ . '::include_jquery' );
 		add_action( 'wp_footer',                                    __CLASS__ . '::render_ui' );
@@ -68,6 +68,7 @@ final class FLBuilder {
 		add_filter( 'mce_external_plugins',                         __CLASS__ . '::editor_external_plugins', 9999 );
 		add_filter( 'tiny_mce_before_init',                         __CLASS__ . '::editor_font_sizes' );
 		add_filter( 'the_content',                                  __CLASS__ . '::render_content' );
+		add_filter( 'wp_handle_upload_prefilter',                   __CLASS__ . '::wp_handle_upload_prefilter_filter' );
 	}
 
 	/**
@@ -2769,6 +2770,43 @@ final class FLBuilder {
 			print_r( $arg );
 			error_log( ob_get_clean() );
 		}
+	}
+
+	/**
+	 * Filter WP uploads and check filetype is valid for photo and video modules.
+	 * @since 1.10.8
+	 */
+	static public function wp_handle_upload_prefilter_filter( $file ) {
+
+		$type = isset( $_POST['fl_upload_type'] ) ? $_POST['fl_upload_type'] : false;
+
+		$ext = pathinfo( $file['name'], PATHINFO_EXTENSION );
+
+		$regex = array(
+			'photo' => '#(jpe?g|png|gif|bmp|tiff?)#i',
+			'video' => '#(mp4|m4v|webm)#i',
+		);
+
+		if ( ! $type ) {
+			return $file;
+		}
+
+		$regex = apply_filters( 'fl_module_upload_regex', $regex, $type, $ext, $file );
+
+		if ( ! preg_match( $regex[ $type ], $ext ) ) {
+			$file['error'] = sprintf( __( 'The uploaded file is not a valid %s extension.', 'fl-builder' ), $type );
+		}
+
+		return $file;
+	}
+
+	/**
+	 * Default HTML for no image.
+	 * @since 1.10.8
+	 * @return string
+	 */
+	static public function default_image_html( $classes ) {
+		return sprintf( '<img src="%s" class="%s" />', FL_BUILDER_URL . 'img/no-image.png', $classes );
 	}
 
 	/**

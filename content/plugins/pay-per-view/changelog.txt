@@ -1,5 +1,10 @@
 ==Pay per View==
 
+1.4.6 - 2017-09-04 - Umesh Kumar
+
+- Fixed: Facebook Login not working
+- Fixed: Paypal Payment not working
+
 1.4.5 - 2017-08-02 - Umesh Kumar
 ----------------------------------------------------------------------
 
@@ -95,4 +100,4 @@ V1.0.0:
 - Initial release
 
 
-133620-1502132150-au
+133620-1505265115-au

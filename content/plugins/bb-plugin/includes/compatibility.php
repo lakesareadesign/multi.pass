@@ -215,3 +215,36 @@ function fl_builder_render_module_content_filter( $contents, $module ) {
 }
 
 add_filter( 'fl_builder_render_module_content', 'fl_builder_render_module_content_filter', 10, 2 );
+
+/**
+ * Duplicate posts plugin fixes when cloning BB template.
+ *
+ * @since 1.10.8
+ * @param int $meta_id The newly added meta ID
+ * @param int $object_id ID of the object metadata is for.
+ * @param string $meta_key Metadata key
+ * @param string $meta_value Metadata value
+ * @return void
+ */
+function fl_builder_template_meta_add( $meta_id, $object_id, $meta_key, $meta_value ) {
+	global $pagenow;
+
+	if ( 'admin.php' != $pagenow ) {
+		return;
+	}
+
+	if ( ! isset( $_REQUEST['action'] ) || 'duplicate_post_save_as_new_post' != $_REQUEST['action'] ) {
+		return;
+	}
+
+	$post_type = get_post_type( $object_id );
+	if ( 'fl-builder-template' != $post_type || '_fl_builder_template_id' != $meta_key ) {
+		return;
+	}
+
+	// Generate new template ID;
+	$template_id = FLBuilderModel::generate_node_id();
+
+	update_post_meta( $object_id, '_fl_builder_template_id', $template_id );
+}
+add_action( 'added_post_meta', 'fl_builder_template_meta_add', 10, 4 );

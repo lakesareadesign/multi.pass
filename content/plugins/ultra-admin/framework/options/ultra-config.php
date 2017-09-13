@@ -82,7 +82,7 @@
         // This is where your data is stored in the database and also becomes your global variable name.
         'display_name'         => 'Ultra Admin',
         // Name that appears at the top of your panel
-        'display_version'      => '7.2',
+        'display_version'      => '7.3',
         // Version that appears at the top of your panel
         'menu_type'            => $menu_type,
         //Specify if the admin menu should appear or not. Options: menu or submenu (Under appearance only)
@@ -1477,13 +1477,13 @@
                 'icon' => 'el-icon-css',
                 'fields' => array(
 
-                    array(
+                    /*array(
                         'id' => 'enable-login',
                         'type' => 'switch',
                         'title' => __('Enable Custom Login Screen', 'ultra_framework'),
                         'desc' => __('Check ON to show custom login screen. OFF for default WordPress Login Page.', 'ultra_framework'),
                         'default' => '1'// 1 = on | 0 = off
-                    ),
+                    ),*/
 
 
                     array(

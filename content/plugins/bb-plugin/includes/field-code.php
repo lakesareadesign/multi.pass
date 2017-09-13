@@ -3,6 +3,15 @@
 
 	$editor_id = 'flcode' . time() . '_' . $name;
 	$value     = is_array( $value ) ? htmlspecialchars( json_encode( $value ) ) : htmlspecialchars( $value );
+	$editor_defaults = array(
+		'enableBasicAutocompletion' => 'true',
+		'enableLiveAutocompletion'  => 'true',
+		'enableSnippets' => 'false',
+		'showLineNumbers' => 'false',
+		'showFoldWidgets' => 'false',
+	);
+
+	$editor_opts = wp_parse_args( apply_filters( 'fl_builder_ace_options', $editor_defaults ), $editor_defaults );
 
 	?>
 	<textarea id="<?php echo $editor_id; ?>" name="<?php echo $name; ?>" data-editor="<?php echo $field['editor']; ?>" <?php if ( isset( $field['class'] ) ) { echo ' class="' . $field['class'] . '"';
@@ -31,13 +40,11 @@
 			editor.getSession().setUseWrapMode(true);
 		<?php endif; ?>
 
-		editor.setOptions({
-			enableBasicAutocompletion: true,
-			enableLiveAutocompletion: true,
-			enableSnippets: false,
-			showLineNumbers: false,
-			showFoldWidgets: false
-		});
+		editor.setOptions( {
+			<?php foreach ( $editor_opts as $opt => $val ) {
+				printf( "%s:%s,\n", $opt, $val );
+} ?>
+		} );
 
 			editor.getSession().on('change', function(e) {
 			textarea.val(editor.getSession().getValue()).trigger('change');

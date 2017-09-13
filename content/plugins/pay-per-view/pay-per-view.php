@@ -3,7 +3,7 @@
 Plugin Name: Pay Per View
 Description: Allows protecting posts/pages until visitor pays a nominal price or subscribes to the website.
 Plugin URI: http://premium.wpmudev.org/project/pay-per-view
-Version: 1.4.5
+Version: 1.4.6
 Author: WPMU Dev
 Author URI: http://premium.wpmudev.org/
 TextDomain: ppw
@@ -34,7 +34,7 @@ if ( !class_exists( 'PayPerView' ) ) {
 
 	class PayPerView {
 
-		var $version = "1.4.5";
+		var $version = "1.4.6";
 
 		/**
 		* Constructor
@@ -50,15 +50,15 @@ if ( !class_exists( 'PayPerView' ) ) {
 			$this->date_format     = get_option( 'date_format' );
 			$this->datetime_format = $this->date_format . " " . $this->time_format;
 
+			// Read all options at once
+			$this->options = get_option( 'ppw_options' );
+
 			// We will need sessions
 			if ( ! session_id() ) {
 				@session_start();
 			}
 
 			register_activation_hook( __FILE__, array( $this, 'install' ) );
-
-			// Read all options at once
-			$this->options = get_option( 'ppw_options' );
 
 			// Check if page can be cached
 			add_action( 'template_redirect', array( &$this, 'cachable' ), 1 );
@@ -337,7 +337,7 @@ if ( !class_exists( 'PayPerView' ) ) {
 				$l_name = ! empty( $data->last_name ) ? preg_replace( '/[^_0-9a-z]/i', '_', strtolower( $data->last_name ) ) : '';
 			}
 
-			$name    = !empty( $data->name ) ? preg_replace( '/[^_0-9a-z]/i', '_', strtolower( $data->name ) ) : ( $f_name . '_' . $l_name );
+			$name    = !empty( $data->name ) ? $data->name : ( $f_name . '_' . $l_name );
 			$wp_user = $this->user_from_email( $email, $name );
 
 			$user = get_userdata( $wp_user );
@@ -1028,6 +1028,10 @@ if ( !class_exists( 'PayPerView' ) ) {
 			}
 			// One time view option. Redirection will be handled by Paypal Express gateway
 			if ( $this->options["one_time"] ) {
+				// Store price in session to prevent hacking
+				$_SESSION["ppw_total_amt"] = $price;
+
+				// Build form
 				$content .= '<div class="ppw_inner ppw_inner' . $n . '">';
 				$content .= '<form method="post" action="#">';
 				$content .= '<input type="hidden" name="ppw_content_id" value="' . $id . '" />';
@@ -1179,7 +1183,11 @@ if ( !class_exists( 'PayPerView' ) ) {
 				// Save content and post ids
 				$_SESSION["ppw_content_id"] = $_POST["ppw_content_id"];
 				$_SESSION["ppw_post_id"]    = $_POST["ppw_post_id"];
-				$_SESSION["ppw_total_amt"]  = $_POST["ppw_total_amt"];
+
+				// If we do not have any amount store in session get the one from the form input
+				if( !isset( $_SESSION["ppw_total_amt"] ) && empty( $_SESSION["ppw_total_amt"] ) ) {
+					$_SESSION["ppw_total_amt"]  = $_POST["ppw_total_amt"];
+				}
 
 				// Now start paypal API Call
 				$pp = $this->call_gateway();
@@ -1529,7 +1537,7 @@ if ( !class_exists( 'PayPerView' ) ) {
 
 				#ppw_metabox input {
 					float: right;
-					width: 20%;
+					width: 25%;
 					text-align: right;
 				}
 
@@ -1596,7 +1604,7 @@ if ( !class_exists( 'PayPerView' ) ) {
 			<select name="ppw_method" id="ppw_method">
 				<option value=""><?php _e( "Follow global setting", "ppw" ); ?></option>
 				<option value="automatic" <?php echo $aselect; ?> ><?php echo $automatic_wording; ?></option>
-				<option value="manual" <?php echo $mselect; ?>><?php $manual_wording; ?></option>
+				<option value="manual" <?php echo $mselect; ?>><?php echo $manual_wording; ?></option>
 				<option value="tool" <?php echo $tselect; ?> ><?php echo $tool_wording; ?></option>
 			</select>
 			<label for="ppw_method"><?php
@@ -1616,8 +1624,8 @@ if ( !class_exists( 'PayPerView' ) ) {
 			</div>
 			<div class="ppw_clear ppw_border"></div>
 
-			<input type="text" name="ppw_excerpt" id="ppw_excerpt"
-			       value="<?php echo get_post_meta( $post->ID, 'ppw_excerpt', true ); ?> "/>
+			<input type="number" min="0" step="1" name="ppw_excerpt" id="ppw_excerpt"
+			       value="<?php echo get_post_meta( $post->ID, 'ppw_excerpt', true ); ?>"/>
 			<label for="ppw_excerpt"><?php
 				_e( 'Excerpt length', 'ppw' ); ?>
 			</label>
@@ -1627,7 +1635,7 @@ if ( !class_exists( 'PayPerView' ) ) {
 			</div>
 			<div class="ppw_clear ppw_border"></div>
 
-			<input type="text" name="ppw_price" value="<?php echo get_post_meta( $post->ID, 'ppw_price', true ); ?>"/>
+			<input type="number" min="0" step="0.1" name="ppw_price" value="<?php echo get_post_meta( $post->ID, 'ppw_price', true ); ?>"/>
 			<label for="ppw_price"><?php
 				printf( __( 'Price (%s)', 'ppw' ), $this->options["currency"] ); ?>
 			</label>
@@ -3424,7 +3432,14 @@ if ( !class_exists( 'PayPerView' ) ) {
 				$password = wp_generate_password( 12, false );
 				$username = preg_replace( '/[^_0-9a-z]/i', '_', strtolower( $full_name ) );
 
-				$wp_user = wp_create_user( $username, $password, $email );
+                $new_username = $username;
+                $i = 0;
+                while ( username_exists( $new_username ) ) {
+                        $new_username = $username . $i;
+                        $i++;
+                }
+
+               $wp_user = wp_create_user( $new_username, $password, $email );
 
 				if ( is_wp_error( $wp_user ) ) {
 					return false;

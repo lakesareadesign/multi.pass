@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: share buttons, related content, cookie compliance, eu cookie law, shareaholic, shareholic, sexybookmarks, recommendations, cookie consent, email button, social sharing, social bookmarking, share image, image sharing, follow buttons, floated share buttons, floating share buttons, analytics, social media, social plugin, facebook, twitter, google plus, google bookmarks, gmail, linkedin, pinterest, reddit, tumblr, evernote, digg, delicious, stumbleupon, printfriendly, fancy, amazon, xing, vk, yahoo, mister wong, viadeo, odnoklassniki box.net, diigo, yammer, ycombinator, hotmail, instapaper, mixi, arto, whatsapp, hootsuite, inbound.org, plurk, aim, buffer, meneame, pinboard.in, stumpedia, bitly, blogger, yummly, izeby, kaboodle, weibo, instagram, tinyurl,  typepad, weheartit, flipboard, pocket, wanelo, fark, wykop, symphony, kindle, houzz, youtube, sms, onenote, google classroom, disqus, spotify, zillow, feedly, kik, line, livejournal, baidu
 Requires at least: 3.0
 Tested up to: 4.8
-Stable tag: 8.1.0
+Stable tag: 8.2.0
 
 World's leading all-in-one Content Amplification Platform that helps grow your site traffic, engagement, conversions & monetization for FREE.
 
@@ -19,6 +19,7 @@ Shareaholic is the world's leading **all-in-one Content Amplification Platform**
 * [Promoted Content](http://support.shareaholic.com/hc/en-us/articles/202657036)
 * [Post-Share Follow Buttons](https://blog.shareaholic.com/post-share-follow-buttons/)
 * [EU / UK Cookie Compliance Banner App](https://blog.shareaholic.com/cookie-consent-banner-app/)
+* [Shareaholic Teams](https://blog.shareaholic.com/shareaholic-teams-work-together-to-manage-your-website/)
 * Localized in 15+ languages
 * Official support for WooCommerce
 
@@ -194,8 +195,15 @@ Please see here: [Shareaholic Helpdesk](http://support.shareaholic.com/hc/en-us)
 Please see here: [Usage & Installation Instructions](http://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin)
 
 == Changelog ==
+
+= 8.2.0 =
+* New: **[Share Buttons for Images (Image Sharer)](https://blog.shareaholic.com/new-share-buttons-for-images-plugin/)** enhancements - you can now fully customize where these share buttons appear on your images and exactly how they will look and function, including setting opacity, offsets, icon padding, position, custom icon colors, size, and a lot more. All this, without touching ANY code! Also adds support for Facebook, Google+, Twitter, LinkedIn, Email, Fancy.com, Yummly and Houzz.
+* New: **[Shareaholic Teams](https://blog.shareaholic.com/shareaholic-teams-work-together-to-manage-your-website/)** – multi-user permissions to enable your team to work together to manage your website
+* Enhancement: **[Social Share Count Recovery](https://blog.shareaholic.com/recover-social-share-counts-https/)** - adds support to recover social share counts in case where permalink structure changes
+* Various other performance updates and bug fixes
+
 = 8.1.0 =
-* New: Introducing the Tools Badge! Introducing a brand new way to launch the Shareaholic Console without ever leaving your website! Contains quick-links to your site analytics, help center, and much more to help you manage your site with greater ease. If you'd rather hide this badge or change its location, you can do so from your settings. It is 100% configurable.
+* New: Introducing the **[Tools Badge](https://support.shareaholic.com/hc/en-us/categories/115001014006-Tools-Badge)**! ([learn more](https://support.shareaholic.com/hc/en-us/categories/115001014006-Tools-Badge)) Introducing a brand new way to launch the Shareaholic Console without ever leaving your website! Contains quick-links to your site analytics, help center, and much more to help you manage your site with greater ease. If you'd rather hide this badge or change its location, you can do so from your settings. It is 100% configurable.
 * Bugfix: Resolved the 403 Forbidden error that some admins were getting upon clicking the Dashboard link. Affected only sites on cPanel with mod_security enabled ex. HostGator
 * Enhancement: Google+ share count is now also available to sites that do not enable Server Side Share counts API
 
@@ -628,6 +636,10 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Show Related Posts data status
 
 == Upgrade Notice ==
+
+= 8.2.0 =
+* Must Upgrade! Enhancements to Social Share Count Recovery - adds support for case where permalink structure changes, Share Buttons for Images (Image Sharer) and introducing Teams.
+
 = 8.1.0 =
 New Tools Badge! Introducing a brand new way to launch the Shareaholic Console without ever leaving your website! Contains quick-links to your site analytics, help center, and much more to help you manage your site with greater ease. If you'd rather hide this badge or change its location, you can do so from your settings. It is 100% configurable.
 
@@ -642,69 +654,3 @@ This is a major update with lots of new features and enhancements that you'll lo
 
 = 7.8.0.6 =
 Various enhancements
-
-= 7.8.0.5 =
-Minor enhancements
-
-= 7.8.0.4 =
-Various Share Count updates
-
-= 7.8.0.3 =
-* Bugfix: Fix for Cloudflare compatible
-
-= 7.8.0.2 =
-* Bugfix: Updated Social Counts library to be PHP7 compatible
-
-= 7.8.0.1 =
-* Bugfix: removed call to the Delicious count API in the server-side connectivity check
-
-= 7.8.0.0 =
-Various language localization updates
-
-= 7.7.1.0 =
-* This is a major update with lots of new features and enhancements that you'll love!
-* W3C HTML5 validation fix
-
-= 7.6.2.3 =
-* Bugfix: limit the summary data attribute to at most 500 characters
-* Enhancement: present a plugin review notice to WP admins
-
-= 7.6.2.2 =
-* Enhancement: updated Shareaholic JavaScript snippet - now a lot simpler!
-* Bugfix: added hooks to prevent conflicts with Shortcode UI plugin
-
-= 7.6.2.1 =
-* Bugfix: use different hook to avoid modifying headers after they are sent
-
-= 7.6.2.0 =
-* Enhancement: Show message to users in permalink section in regards to share counts
-
-= 7.6.1.9 =
-* Enhancement: Updated reset plugin routine to not get new key
-
-= 7.6.1.8 =
-* Enhancement: Detect permalink changes in order to serve up-to-date content
-
-= 7.6.1.7 =
-* Bugfix: fix issue with Server side share count option
-
-= 7.6.1.6 =
-* Enhancement: remove analytics option from Advanced Settings page
-
-= 7.6.1.5 =
-* Enhancement: added support for Yummly and Fancy server-side share counts
-
-= 7.6.1.4 =
-Minor enhancements.
-
-= 7.6.1.3 =
-Bug fixes.
-
-= 7.6.1.2 =
-Bug fixes.
-
-= 7.6.1.1 =
-Added Shareaholic navigation bar to the Shareaholic settings pages.
-
-= 7.6.1.0 =
-Fix for security vulnerability. Upgrade immediately.

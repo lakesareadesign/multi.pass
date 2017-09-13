@@ -4,7 +4,7 @@ Plugin Name: Pro Sites
 Plugin URI: https://premium.wpmudev.org/project/pro-sites/
 Description: The ultimate multisite site upgrade plugin, turn regular sites into multiple pro site subscription levels selling access to storage space, premium themes, premium plugins and much more!
 Author: WPMU DEV
-Version: 3.5.5
+Version: 3.5.6
 Author URI: https://premium.wpmudev.org/
 Text Domain: psts
 Domain Path: /pro-sites-files/languages/
@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 class ProSites {
 
-	var $version = '3.5.5';
+	var $version = '3.5.6';
 	var $location;
 	var $language;
 	var $plugin_dir = '';
@@ -146,6 +146,8 @@ class ProSites {
 		// Add Registration AJAX handler
 		ProSites_Model_Registration::add_ajax_hook();
 		add_filter( 'prosite_register_blog_pre_validation', array( 'ProSites_Model_Registration', 'cleanup_unused_user' ), 10, 3 );
+		// NBT support.
+		add_filter( 'nbt_signup_templates', array( 'ProSites_Model_Registration', 'filter_nbt_signup_templates' ) );
 
 		add_action( 'wp_enqueue_scripts', array( &$this, 'registration_page_styles' ) );
 		add_filter( 'update_welcome_email', array( 'ProSites_Helper_Registration', 'alter_welcome_for_existing_users' ), 10, 6 );
@@ -464,6 +466,7 @@ Thanks!", 'psts' ),
 			'uh_message'               => __( 'To enable the embedding html, please upgrade to LEVEL &raquo;', 'psts' ),
 			'co_pricing'               => 'disabled',
 			'plans_table_enabled'      => 'enabled',
+			'subsites_ssl'             => is_ssl() ? 1 : 0,
 		);
 	}
 
@@ -705,7 +708,6 @@ Thanks!", 'psts' ),
 				WHERE blog_ID = %d
 					AND ( gateway = 'Trial' OR gateway = 'trial' )
 					AND expire >= %s
-					AND (term = '' OR term IS NULL)
 				LIMIT 1", $blog_id, time()
 			) );
 
@@ -753,6 +755,7 @@ Thanks!", 'psts' ),
 
 		//get level counts
 		$levels = get_site_option( 'psts_levels' );
+		$level_count = array();
 		for ( $i = 1; $i <= 10; $i ++ ) {
 			$level_count[ $i ] = 0;
 		} //prefill the array
@@ -1245,7 +1248,8 @@ Thanks!", 'psts' ),
 			'button_choose' => __( "Choose Plan", 'psts' ),
 			'button_chosen' => __( "Chosen Plan", 'psts' ),
 			'logged_in' => is_user_logged_in(),
-			'new_blog'  => ProSites_Helper_ProSite::allow_new_blog() ? 'true' : 'false'
+			'new_blog'  => ProSites_Helper_ProSite::allow_new_blog() ? 'true' : 'false',
+			'nbt_update_required' => $this->nbt_update_required(),
 		) );
 
 		if ( ! current_theme_supports( 'psts_style' ) ) {
@@ -1440,6 +1444,8 @@ Thanks!", 'psts' ),
 		);
 		// send emails as html (fixes some formatting issues with currencies)
 		$mail_headers = array( 'Content-Type: text/html' );
+
+		add_action('phpmailer_init', 'psts_text_body' );
 
 		switch ( $action ) {
 			case 'success':
@@ -1636,6 +1642,7 @@ Thanks!", 'psts' ),
 				$this->log_action( $blog_id, sprintf( __( 'Permanent status revoked email sent to %s', 'psts' ), $email ) );
 				break;
 		}
+		remove_action('phpmailer_init', 'psts_text_body');
 	}
 
 	/**
@@ -1802,14 +1809,14 @@ Thanks!", 'psts' ),
 		//append
 		$timestamp = microtime( true );
 
-		//make sure timestamp is unique by padding seconds, or they will be overwritten
-		while ( isset( $log[ $timestamp ] ) ) {
-			$timestamp += 0.0001;
-		}
-
 		if ( ! empty( $blog_id ) ) {
 			//grab data
 			$log = get_blog_option( $blog_id, 'psts_action_log' );
+
+			//make sure timestamp is unique by padding seconds, or they will be overwritten
+			while ( isset( $log[ $timestamp ] ) ) {
+				$timestamp += 0.0001;
+			}
 
 			if ( ! is_array( $log ) ) {
 				$log = array();
@@ -1822,6 +1829,12 @@ Thanks!", 'psts' ),
 		} else {
 
 			$signup_meta                                  = $this->get_signup_meta( $domain );
+
+			//make sure timestamp is unique by padding seconds, or they will be overwritten
+			while ( isset( $signup_meta['psts_action_log'][ $timestamp ] ) ) {
+				$timestamp += 0.0001;
+			}
+
 			$signup_meta['psts_action_log'][ $timestamp ] = $note;
 
 			//Update signup meta
@@ -2101,17 +2114,19 @@ Thanks!", 'psts' ),
 	/**
 	* @param $blog_id
 	* @param $extend Period of Subscription
-	* @param bool|false $gateway (Manual, Trial, Stripe, Paypal)
+	* @param bool|string $gateway (Manual, Trial, Stripe, Paypal)
 	* @param int $level
 	* @param bool|false $amount
 	* @param bool|false $expires
 	* @param bool|true $is_recurring
 	* @param bool|false $manual_notify
+	* @param string $extend_type
     */
-	function extend( $blog_id, $extend, $gateway = false, $level = 1, $amount = false, $expires = false, $is_recurring = true, $manual_notify = false ) {
+	function extend( $blog_id, $extend, $gateway = false, $level = 1, $amount = false, $expires = false, $is_recurring = true, $manual_notify = false, $extend_type = '' ) {
 		global $wpdb, $current_site;
 
 		$gateway = ! empty( $gateway ) ? strtolower( $gateway ) : false;
+
 		$last_gateway = '';
 
 		$now    = time();
@@ -2171,13 +2186,23 @@ Thanks!", 'psts' ),
 
 		$extra_sql = $wpdb->prepare( "expire = %s", $new_expire );
 		$extra_sql .= ( $level ) ? $wpdb->prepare( ", level = %d", $level ) : '';
-		if( 'manual' === $gateway && $exists ) {
+		if ( 'manual' === $gateway && $exists ) {
 			$last_gateway = ProSites_Helper_ProSite::last_gateway( $blog_id );
 			$last_gateway = ! empty( $last_gateway ) ? strtolower( $last_gateway ) : '';
-			$extra_sql .= ( $gateway ) ? $wpdb->prepare( ", gateway = %s", $last_gateway ) : $wpdb->prepare( ", gateway = %s", $gateway );
+			//control whether we are upgrading the user or extending trial period
+			if ( 'manual' === $extend_type && $last_gateway != 'trial' ){
+				$new_gateway = ( $last_gateway == $gateway ) ? 'manual': $last_gateway;
+			} elseif ( 'manual' === $extend_type && 'trial' === $last_gateway ){
+				$new_gateway = 'manual';
+			} else {
+				$new_gateway = 'trial';
+			}
+
+			$extra_sql .= ", gateway = '" . $new_gateway . "'";
 		} else {
 			$extra_sql .= ( $gateway ) ? $wpdb->prepare( ", gateway = %s", $gateway ) : '';
 		}
+
 		$extra_sql .= ( $amount ) ? $wpdb->prepare( ", amount = %s", $amount ) : '';
 		$extra_sql .= ( $term ) ? $wpdb->prepare( ", term = %d", $term ) : '';
 		$extra_sql .= $wpdb->prepare( ", is_recurring = %d", $is_recurring );
@@ -2592,6 +2617,14 @@ Thanks!", 'psts' ),
 	 * Register PSTS Style
 	 */
 	function register_psts_style() {
+
+		global $pagenow;
+
+		// Do not load Pro Sites scripts/styles all over admin.
+		if ( 'admin.php' !== $pagenow || ! isset( $_GET['page'] ) || 0 !== strpos( $_GET['page'], 'psts' ) ) {
+			return;
+		}
+
 		wp_register_style( 'psts-style', $this->plugin_url . 'css/psts-admin.css' );
 
 		//Check if chosen css is already registered
@@ -2840,28 +2873,23 @@ try{
 
 		} else if ( $this->get_setting( 'ga_ecommerce' ) == 'new' ) {
 
-			$js = '<script type="text/javascript">
-_gaq.push(["_addTrans",
-	"' . $order_id . '",          // order ID - required
-	"' . esc_js( $store_name ) . '",// affiliation or store name
-	"' . $amount . '",            // total - required
-	"",                       // tax
-	"",                       // shipping
-	"' . esc_js( $city ) . '",      // city
-	"' . esc_js( $state ) . '",     // state or province
-	"' . esc_js( $country ) . '"    // country
-]);
-_gaq.push(["_addItem",
-	"' . $order_id . '",    // order ID - necessary to associate item with transaction
-	"' . $sku . '",         // SKU/code - required
-	"' . esc_js( $name ) . '",// product name
-	"' . $category . '",    // category
-	"' . $amount . '",      // unit price - required
-	"1"                 // quantity - required
-]);
-_gaq.push(["_trackTrans"]);
-</script>
-';
+			$js = '<script>
+					ga("require", "ecommerce");
+					ga("ecommerce:addTransaction", {
+						"id": "' . $order_id . '",
+						"affiliation": "' . esc_js( $store_name ) . '",
+						"revenue": "' . $amount . '",
+					});
+					ga("ecommerce:addItem", {
+						"id": "' . $order_id . '",
+						"name": "' . esc_js( $name ) . '",
+						"sku": "' . $sku . '",
+						"category": "' . $category . '",
+						"price": "' . $amount . '",
+						"quantity": "1",
+					});
+					ga("ecommerce:send");
+				</script>';
 
 		}
 
@@ -2901,7 +2929,9 @@ _gaq.push(["_trackTrans"]);
 				$days   = $_POST['extend_days'];
 				$extend = strtotime( "+$months Months $days Days" ) - time();
 			}
-			$this->extend( (int) $_POST['bid'], $extend, 'manual', $_POST['extend_level'], false, false, true, true );
+			// Get the extension type from post.
+			$extend_type = empty( $_POST['extend_type'] ) ? 'manual' : esc_attr( $_POST['extend_type'] );
+			$this->extend( (int) $_POST['bid'], $extend, 'manual', $_POST['extend_level'], false, false, true, true, $extend_type );
 			echo '<div id="message" class="updated fade"><p>' . __( 'Site Extended.', 'psts' ) . '</p></div>';
 		}
 
@@ -3173,6 +3203,24 @@ _gaq.push(["_trackTrans"]);
 											<br/><?php _e( 'Choose what level the site should have access to.', 'psts' ); ?>
 										</td>
 									</tr>
+									<tr valign="top">
+										<th scope="row"><?php _e( 'Extend as', 'psts' ) ?></th>
+										<td>
+										<?php
+											$gateway = $wpdb->get_var( $wpdb->prepare( "
+												SELECT gateway
+												FROM {$wpdb->base_prefix}pro_sites
+												WHERE blog_ID = %d", $blog_id
+											) );
+
+											?>
+											<select name="extend_type">
+												<option value="trial" <?php selected( $gateway,'trial' ); ?>><?php echo ProSites_Helper_Gateway::get_nice_name( 'trial' ); ?></option>
+												<option value="manual" <?php selected( $gateway != 'trial' ); ?>><?php _e( 'Manual', 'psts' ); ?></option>
+											</select>
+											<br/><?php _e( 'Choose whether to keep the user on trial or upgrade as paid member.', 'psts' ); ?>
+										</td>
+									</tr>
 									<?php
 									$active_gateways = (array) $this->get_setting('gateways_enabled');
 									$stripe_active =  array_search('ProSites_Gateway_Stripe', $active_gateways);
@@ -3301,7 +3349,7 @@ _gaq.push(["_trackTrans"]);
 
 function admin_stats() {
 	global $wpdb;
-	$pro_sites = $level_counts = $term_1 = $term_12 = $term_3 = '';
+	$pro_sites = $level_counts = $term_1 = $term_12 = $term_3 = array();
 	$term_manual = $daily_stats_levels = '';
 	if ( ! is_super_admin() ) {
 		echo "<p>" . __( 'Nice Try...', 'psts' ) . "</p>"; //If accessed properly, this message doesn't appear.
@@ -3437,7 +3485,8 @@ if ( $active_pro_sites ) {
 	$date = date( 'Y-m-d', strtotime( '-' . PSTS_STATS_MONTHS . ' months', time() ) );
 	$days = $wpdb->get_results( "SELECT * FROM {$wpdb->base_prefix}pro_sites_daily_stats WHERE date >= '$date' ORDER BY date", ARRAY_A );
 	if ( $days ) {
-		$level_count = array();
+		$level_count = $pro_sites = $term_1 = $term_3 = $term_12 = $term_manual = array();
+
 		foreach ( $days as $day => $nums ) {
 			$day_code = strtotime( $nums['date'] ) * 1000;
 
@@ -3454,11 +3503,11 @@ if ( $active_pro_sites ) {
 				}
 			}
 		}
-		$pro_sites   = implode( ', ', (array) $pro_sites );
-		$term_1      = implode( ', ', (array) $term_1 );
-		$term_3      = implode( ', ', (array) $term_3 );
-		$term_12     = implode( ', ', (array) $term_12 );
-		$term_manual = implode( ', ', (array) $term_manual );
+		$pro_sites   = implode( ', ', $pro_sites );
+		$term_1      = implode( ', ', $term_1 );
+		$term_3      = implode( ', ', $term_3 );
+		$term_12     = implode( ', ', $term_12 );
+		$term_manual = implode( ', ', $term_manual );
 		foreach ( $level_count as $level => $data ) {
 			$level_counts[ $level ] = implode( ', ', (array) $data );
 		}
@@ -4527,12 +4576,13 @@ function admin_modules() {
 
 		//make sure logged in, Or if user comes just after signup, check session for domain name
 		$session_data = ProSites_Helper_Session::session( 'new_blog_details' );
+		// Get the registration settings of network.
+		$registration = get_site_option('registration');
 
-		if( ! is_user_logged_in() || ( ProSites_Helper_ProSite::allow_new_blog() && isset( $_GET['action'] ) && 'new_blog' == $_GET['action'] ) || isset( $_POST['level'] ) || ! empty( $session_data ) )  {
+		if( ! is_user_logged_in() || ( ProSites_Helper_ProSite::allow_new_blog() && isset( $_GET['action'] ) && 'new_blog' == $_GET['action'] ) || isset( $_POST['level'] ) || ! empty( $session_data['username'] ) )  {
 
 			$show_signup = $this->get_setting( 'show_signup' );
-			$registeration = get_site_option('registration');
-			$show_signup = 'all' == $registeration ? $show_signup : false;
+			$show_signup = 'all' == $registration ? $show_signup : false;
 
 			if( ! is_user_logged_in() && ! $show_signup ) {
 				$content .= '<p>' . __( 'You must first login before you can choose a site to upgrade:', 'psts' ) . '</p>';
@@ -4635,6 +4685,10 @@ function admin_modules() {
 			}
 		}
 
+		//Check if multiple signups are allowed
+		$allow_multi = $this->get_setting('multiple_signup');
+		$allow_multi = 'all' == $registration || 'blog' == $registration ? $allow_multi : false;
+
 		if ( $blog_id ) {
 
 			//check for admin permissions for this blog
@@ -4655,6 +4709,10 @@ function admin_modules() {
 				$content .= '<p><a href="' . $this->checkout_url() . '">&laquo; ' . __( 'Choose a different site', 'psts' ) . '</a></p>';
 
 				return $content;
+			}
+
+			if( $allow_multi ) {
+				$content .= '<div class="psts-signup-another"><a href="' . esc_url( $this->checkout_url() . '?action=new_blog' ) . '">' . esc_html__( 'Sign up for another site.', 'psts' ) . '</a>' . '</div>';
 			}
 
 			//this is the main hook for new checkout page
@@ -4701,11 +4759,6 @@ function admin_modules() {
 
 			//show message if no valid blogs
 			$session_domain = ProSites_Helper_Session::session( 'domain' );
-
-			//Check if multiple signups are allowed
-			$allow_multi = $this->get_setting('multiple_signup');
-			$registeration = get_site_option('registration');
-			$allow_multi = 'all' == $registeration || 'blog' == $registeration ? $allow_multi : false;
 
 			//Check if user has signed up for a site already
 			$current_user = wp_get_current_user();
@@ -5233,7 +5286,8 @@ function admin_modules() {
 			'style' => $allowed_atts,
 		);
 
-		return wp_kses( $content, $allowed );
+		$allowedposthtml =  wp_kses_allowed_html( 'post' );
+		return wp_kses( $content, array_merge($allowed, $allowedposthtml) );
 	}
 
 	function registration_page_styles() {
@@ -5358,6 +5412,37 @@ function admin_modules() {
         restore_current_blog();
     }
 
+	/**
+	 * Check if it is required to update the blog templates or plans.
+	 *
+	 * This is to add New Blog Templates support with Premium Plugins Manager
+	 * and Premium Plugins.
+	 *
+	 * @return bool
+	 */
+    public function nbt_update_required() {
+
+		// If NBT is not active, no need to update.
+		if ( ! class_exists( 'blog_templates' ) ) {
+			return false;
+		}
+
+		// If no templates are set inn NBT, no need to update.
+		$nbt_model = nbt_get_model();
+		$templates = $nbt_model->get_templates();
+		if ( empty( $templates ) ) {
+			return false;
+		}
+
+		// Update if Premium Plugins Manager or Premium Plugins or Premium Themes modules are active along with NBT.
+		$modules_enabled = (array) $this->get_setting( 'modules_enabled' );
+		if ( in_array( 'ProSites_Module_Plugins_Manager', $modules_enabled ) || in_array( 'ProSites_Module_Plugins', $modules_enabled ) || in_array( 'ProSites_Module_PremiumThemes', $modules_enabled ) ) {
+			return true;
+		}
+
+		return false;
+    }
+
 }
 
 //End of class
@@ -5456,4 +5541,8 @@ function supporter_get_expire( $blog_id = false ) {
 	global $psts;
 
 	return $psts->get_expire( $blog_id );
+}
+
+function psts_text_body($phpmailer) {
+	$phpmailer->AltBody = strip_tags($phpmailer->Body);
 }

@@ -59,4 +59,15 @@ final class FLBuilderColor {
 
 		return $r_hex . $g_hex . $b_hex;
 	}
+
+	/**
+	 * Returns RGB or hex color value.
+	 *
+	 * @since 1.10.8
+	 * @param string $color A color to check.
+	 * @return string
+	 */
+	static public function hex_or_rgb( $color ) {
+		return strpos( $color, 'rgb' ) !== false ? $color : '#' . $color;
+	}
 }

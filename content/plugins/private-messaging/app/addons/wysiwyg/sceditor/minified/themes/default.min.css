@@ -546,7 +546,7 @@ div.sceditor-group {
     opacity: .3
 }
 
-.text .sceditor-button, .text .sceditor-button div, .sceditor-button.text, .sceditor-button.text div, .text-icon .sceditor-button, .text-icon .sceditor-button div, .sceditor-button.text-icon, .sceditor-button.text-icon div {	     	 		 						  		
+.text .sceditor-button, .text .sceditor-button div, .sceditor-button.text, .sceditor-button.text div, .text-icon .sceditor-button, .text-icon .sceditor-button div, .sceditor-button.text-icon, .sceditor-button.text-icon div {
     width: auto;
     overflow: visible;
     line-height: 16px;
@@ -583,4 +583,4 @@ div.sceditor-group {
 }
 
 
-/* 133620-1483063265-au */
+/* 133620-1505265118-au */

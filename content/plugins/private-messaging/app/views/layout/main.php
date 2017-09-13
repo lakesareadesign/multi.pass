@@ -109,7 +109,7 @@
                 url: '<?php echo admin_url('admin-ajax.php') ?>',
                 data: $(that).find(":input").serialize(),
                 beforeSend: function () {
-                    that.parent().parent().find('button').attr('disabled', 'disabled');
+                    that.parent().parent().find('button').attr('disabled', 'disabled');	     	 		 						  		
                 },
                 success: function (data) {
                     that.find('.form-group').removeClass('has-error has-success');

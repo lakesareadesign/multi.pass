@@ -25,10 +25,10 @@ function ultra_core(){
 
     $globalmsg = "";
 
-    $login_screen = "custom"; 
+    /*$login_screen = "custom"; 
     if(isset($ultraadmin['enable-login']) && $ultraadmin['enable-login'] != "1" && $ultraadmin['enable-login'] == "0" && !$ultraadmin['enable-login']){ 
         $login_screen = "default"; 
-    }
+    }*/
 
 
     /*----------- Check Permissions - Start ---------------*/
@@ -95,7 +95,7 @@ function ultra_core(){
                 remove_action("admin_color_scheme_picker", "admin_color_scheme_picker");
             }
 
-            if($login_screen == "custom" && $loginside)
+            if($loginside)
             {
                 add_action('login_enqueue_scripts', 'ultra_custom_login',99);
                 add_filter( 'login_headerurl', 'ultra_custom_loginlogo_url' );

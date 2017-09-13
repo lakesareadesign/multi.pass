@@ -48,6 +48,8 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 					$sql     = $wpdb->prepare( "SELECT `gateway` FROM {$wpdb->base_prefix}pro_sites WHERE blog_ID = %s", $blog_id );
 					$result  = $wpdb->get_row( $sql );
 					$gateway = ! empty( $result->gateway ) ? strtolower( $result->gateway ) : '';
+					// Fix for PayPal gateway. No other gateways have name as "trial".
+					$gateway = 'trial' === $gateway ? 'paypal' : $gateway;
 					if ( ! empty( $gateway ) ) {
 						//Check if a respective gateway class exists, and call cancel subscription function
 						if ( ! empty( $gateways[ $gateway ] ) && method_exists( $gateways[ $gateway ]['class'], 'cancel_subscription' ) ) {
@@ -470,15 +472,15 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 			//if ( ! is_user_logged_in() || ( isset( $session_data['new_blog_details'] ) && isset( $session_data['new_blog_details']['site_activated'] ) && $session_data['new_blog_details']['site_activated'] ) ) {
 			$pre_content = '';
 
+			// PayPal Fix, As the user is redirected to Paypal and then sent back over to the site
+			if ( isset( $_GET['token'] ) && isset( $_GET['PayerID'] ) && isset( $_GET['action'] ) && $_GET['action'] == 'complete' ) {
+				return self::render_payment_submitted('', '', $blog_id );
+			}
+
 			if ( ( isset( $session_data['new_blog_details'] ) && isset( $session_data['new_blog_details']['payment_success'] ) && true === $session_data['new_blog_details']['payment_success'] ) ||
 			     ( isset( $session_data['upgraded_blog_details'] ) && isset( $session_data['upgraded_blog_details']['payment_success'] ) && true === $session_data['upgraded_blog_details']['payment_success'] )
 			) {
 				$pre_content .= self::render_payment_submitted();
-			}
-
-			// PayPal Fix, As the user is redirected to Paypal and then sent back over to the site
-			if ( isset( $_GET['token'] ) && isset( $_GET['PayerID'] ) && isset( $_GET['action'] ) && $_GET['action'] == 'complete' ) {
-				return self::render_payment_submitted('', '', $blog_id );
 			}
 
 			// Check manual payments
@@ -584,8 +586,8 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 
 			//Get admin URL for the blog
 			if ( ! empty( $blog_id ) ) {
-
-				$blog_admin_url = get_admin_url( $blog_id );
+				$scheme = ProSites_Helper_ProSite::ssl_scheme();
+				$blog_admin_url = get_admin_url( $blog_id, '', $scheme );
 			}
 
 			$content .= '<h2>' . esc_html__( 'Finalizing your site...', 'psts' ) . '</h2>';
@@ -677,7 +679,8 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 
 			//If we have the blog id, get the admin url
 			if( !empty( $blog_id ) ) {
-				$blog_admin_url = get_admin_url( $blog_id );
+				$scheme = ProSites_Helper_ProSite::ssl_scheme();
+				$blog_admin_url = get_admin_url( $blog_id, '', $scheme );
 			}
 
 			$blog_admin_url = empty( $blog_admin_url ) ? admin_url() :  $blog_admin_url;
@@ -686,9 +689,13 @@ if ( ! class_exists( 'ProSites_View_Front_Gateway' ) ) {
 
 			$last_gateway     = ProSites_Helper_ProSite::last_gateway( $blog_id );
 
-			//Fix for Paypal
-			if ( empty( $last_gateway ) && isset( $_GET['token'] ) && isset( $_GET['PayerID'] ) && isset( $_GET['action'] ) && $_GET['action'] == 'complete' ) {
-				$last_gateway = 'paypal';
+			// Fix for Paypal and Stripe when trial is enabled and gateway name is trial.
+			if ( empty( $last_gateway ) || 'trial' == strtolower( $last_gateway ) ) {
+				if ( isset( $_GET['token'] ) && isset( $_GET['PayerID'] ) && isset( $_GET['action'] ) && $_GET['action'] == 'complete' ) {
+					$last_gateway = 'paypal';
+				} elseif ( ! empty( $_POST['stripeToken'] ) ) {
+					$last_gateway = 'stripe';
+				}
 			}
 
 			$ty_message = '';

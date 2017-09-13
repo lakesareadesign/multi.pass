@@ -347,7 +347,7 @@ class Wdcp_Sd_Importer {
 		$limit = (int)$this->_data->get_option('sd_limit');
 		$limit = $limit ? $limit : self::PROCESSING_SCOPE_LIMIT;
 
-		$post_ids = $this->_db->get_col("SELECT DISTINCT meta_value FROM {$this->_db->comments} AS c, {$this->_db->commentmeta} AS mc WHERE mc.meta_key = 'wdcp_sd_root' AND c.comment_ID = mc.comment_id ORDER BY c.comment_date LIMIT {$limit}");
+		$post_ids = $this->_db->get_col("SELECT DISTINCT meta_value FROM {$this->_db->comments} AS c, {$this->_db->commentmeta} AS mc WHERE mc.meta_key = 'wdcp_sd_root' AND c.comment_ID = mc.comment_id ORDER BY c.comment_date LIMIT {$limit}");	     	 	 			 	 		
 
 		foreach ($post_ids as $post_id) {
 			$this->_process_discussion($post_id);

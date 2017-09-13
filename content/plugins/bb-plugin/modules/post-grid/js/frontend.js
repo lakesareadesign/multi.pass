@@ -28,6 +28,8 @@
 		wrapperClass    : '',
 		postClass       : '',
 		gallery         : null,
+		currPage		: 1,
+		totalPages		: 1,
 
 		_hasPosts: function()
 		{
@@ -111,8 +113,19 @@
 
 		_initInfiniteScroll: function()
 		{
-			if(this.settings.pagination == 'scroll' && typeof FLBuilder === 'undefined') {
+			var isScroll = 'scroll' == this.settings.pagination || 'load_more' == this.settings.pagination,
+				pages	 = $( this.nodeClass + ' .fl-builder-pagination' ).find( 'li .page-numbers:not(.next)' );
+
+			if( pages.length > 1) {
+				this.totalPages = parseInt( pages.last().text() );
+			}
+
+			if( isScroll && this.totalPages > 1 && 'undefined' === typeof FLBuilder ) {
 				this._infiniteScroll();
+
+				if( 'load_more' == this.settings.pagination ) {
+					this._infiniteScrollLoadMore();
+				}
 			}
 		},
 
@@ -173,6 +186,29 @@
 			else if(this.settings.layout == 'gallery') {
 				this.gallery.resize();
 				elements.css('visibility', 'visible');
+			}
+
+			this.currPage++;
+
+			this._removeLoadMoreButton();
+		},
+
+		_infiniteScrollLoadMore: function()
+		{
+			var wrap = $( this.wrapperClass );
+
+			$( window ).unbind( '.infscr' );
+
+			$(this.nodeClass + ' .fl-builder-pagination-load-more .fl-button').on( 'click', function(){
+				wrap.infinitescroll( 'retrieve' );
+				return false;
+			});
+		},
+
+		_removeLoadMoreButton: function()
+		{
+			if ( 'load_more' == this.settings.pagination && this.totalPages == this.currPage ) {
+				$( this.nodeClass + ' .fl-builder-pagination-load-more' ).remove();
 			}
 		}
 	};

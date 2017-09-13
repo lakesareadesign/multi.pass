@@ -67,10 +67,18 @@ class MS_View_Shortcode_Login extends MS_View {
 				$redirect_login = MS_Helper_Utility::get_current_url();
 			}
 
+			//Filter to use ajax login
+			$ajax_login = apply_filters( 'ms_shortcode_ajax_login', true );
+
 			// Build the Login Form.
 			$res_form .= $prefix;
-			$res_form .= $this->login_form( $redirect_login );
-			$res_form .= $this->lostpass_form();
+			if ( $ajax_login ) {
+				$res_form .= $this->login_form( $redirect_login );
+				$res_form .= $this->lostpass_form();
+			} else {
+				$res_form .= wp_login_form( array( 'echo' => false, 'redirect' => $redirect_login ) );
+				$res_form .= '<br/><a href="'.wp_lostpassword_url( get_bloginfo('url') ).'" title="'.__( 'Lost Password', 'membership2' ).'">'.__( 'Lost Password', 'membership2' ).'</a>';
+			}
 
 			// Wrap form in optional wrappers.
 			if ( ! empty( $wrapwith ) ) {
@@ -126,10 +134,11 @@ class MS_View_Shortcode_Login extends MS_View {
 			lib3()->ui->data(
 				'ms_ajax_login',
 				array(
-					//'ajaxurl' => admin_url( 'admin-ajax.php' ),
-					'ajaxurl' => admin_url( 'admin-ajax.php', is_ssl() ? 'https' : 'http' ),
-					'loadingmessage' => __( 'Please wait...', 'membership2' ),
-					'errormessage' => __( 'Request failed, please try again.', 'membership2' ),
+					'loginmessage' 		=> __( 'Please log in to access this page.', 'membership2' ),
+					'resetmessage' 		=> __( 'Please enter your details to reset your password', 'membership2' ),
+					'ajaxurl' 			=> admin_url( 'admin-ajax.php', is_ssl() ? 'https' : 'http' ),
+					'loadingmessage' 	=> __( 'Please wait...', 'membership2' ),
+					'errormessage' 		=> __( 'Request failed, please try again.', 'membership2' ),
 				)
 			);
 		}
@@ -167,7 +176,7 @@ class MS_View_Shortcode_Login extends MS_View {
 		?>
 		<legend><?php echo esc_html( $title ); ?></legend>
 		<?php if ( $show_note ) : ?>
-		<div class="ms-alert-box ms-alert-error">
+		<div class="ms-alert-box ms-alert-error ms-auth-header">
 			<?php _e( 'Please log in to access this page.', 'membership2' ); ?>
 		</div>
 		<?php endif;
@@ -190,19 +199,19 @@ class MS_View_Shortcode_Login extends MS_View {
 		}
 
 		$defaults = array(
-			'redirect_login' => $redirect_to,
-			'label_username' => __( 'Username', 'membership2' ),
-			'label_password' => __( 'Password', 'membership2' ),
-			'label_remember' => __( 'Remember Me', 'membership2' ),
-			'label_log_in' => __( 'Log In', 'membership2' ),
-			'id_login_form' => 'loginform',
-			'id_username' => 'user_login',
-			'id_password' => 'user_pass',
-			'id_remember' => 'rememberme',
-			'id_login' => 'wp-submit',
-			'show_remember' => true,
-			'value_username' => '',
-			'value_remember' => false, // Set this to true to default the "Remember me" checkbox to checked
+			'redirect_login' 	=> $redirect_to,
+			'label_username' 	=> __( 'Username', 'membership2' ),
+			'label_password' 	=> __( 'Password', 'membership2' ),
+			'label_remember' 	=> __( 'Remember Me', 'membership2' ),
+			'label_log_in' 		=> __( 'Log In', 'membership2' ),
+			'id_login_form' 	=> 'loginform',
+			'id_username'		=> 'user_login',
+			'id_password' 		=> 'user_pass',
+			'id_remember' 		=> 'rememberme',
+			'id_login' 			=> 'wp-submit',
+			'show_remember' 	=> true,
+			'value_username' 	=> '',
+			'value_remember' 	=> false, // Set this to true to default the "Remember me" checkbox to checked
 		);
 
 		/**
@@ -235,11 +244,11 @@ class MS_View_Shortcode_Login extends MS_View {
 		ob_start();
 		?>
 		<form
-			name="<?php echo esc_attr( $id_login_form ); ?>"
-			id="<?php echo esc_attr( $id_login_form ); ?>"
+			name="<?php esc_attr_e( $id_login_form ); ?>"
+			id="<?php esc_attr_e( $id_login_form ); ?>"
 			action="login" method="post"
-			class="<?php echo esc_attr( $form_class ); ?>"
-			style="<?php echo esc_attr( $show_form ); ?>">
+			class="<?php esc_attr_e( $form_class ); ?>"
+			style="<?php esc_attr_e( $show_form ); ?>">
 
 			<div class="form">
 				<?php wp_nonce_field( 'ms-ajax-login' ); ?>
@@ -249,29 +258,29 @@ class MS_View_Shortcode_Login extends MS_View {
 				<?php endif; ?>
 				<p class="login-username ms-field">
 					<?php if ( $show_labels ) : ?>
-						<label for="<?php echo esc_attr( $id_username ); ?>">
+						<label for="<?php esc_attr_e( $id_username ); ?>">
 						<?php echo esc_html( $label_username ); ?>
 						</label>
 					<?php endif; ?>
 					<input
 						type="text"
 						name="log"
-						id="<?php echo esc_attr( $id_username ); ?>"
+						id="<?php esc_attr_e( $id_username ); ?>"
 						class="input focus"
-						value="<?php echo esc_attr( $value_username ); ?>"
+						value="<?php esc_attr_e( $value_username ); ?>"
 						size="20"
 						placeholder="<?php echo esc_html( $label_username ); ?>">
 				</p>
 				<p class="login-password ms-field">
 					<?php if ( $show_labels ) : ?>
-						<label for="<?php echo esc_attr( $id_password ); ?>">
+						<label for="<?php esc_attr_e( $id_password ); ?>">
 						<?php echo esc_html( $label_password ); ?>
 						</label>
 					<?php endif; ?>
 					<input
 						type="password"
 						name="pwd"
-						id="<?php echo esc_attr( $id_password ); ?>"
+						id="<?php esc_attr_e( $id_password ); ?>"
 						class="input"
 						value=""
 						size="20"
@@ -290,10 +299,10 @@ class MS_View_Shortcode_Login extends MS_View {
 					<input
 						name="rememberme"
 						type="checkbox"
-						id="<?php echo esc_attr( $id_remember ); ?>"
+						id="<?php esc_attr_e( $id_remember ); ?>"
 						value="forever"
 						<?php checked( $value_remember ); ?> />
-					<label for="<?php echo esc_attr( $id_remember ); ?>">
+					<label for="<?php esc_attr_e( $id_remember ); ?>">
 						<?php echo esc_html( $label_remember ); ?>
 					</label>
 				</p>
@@ -303,9 +312,9 @@ class MS_View_Shortcode_Login extends MS_View {
 					<input
 						type="submit"
 						name="wp-submit"
-						id="<?php echo esc_attr( $id_login ); ?>"
+						id="<?php esc_attr_e( $id_login ); ?>"
 						class="button-primary"
-						value="<?php echo esc_attr( $label_log_in ); ?>" />
+						value="<?php esc_attr_e( $label_log_in ); ?>" />
 					<input type="hidden" name="redirect_to" value="<?php echo esc_url( $redirect_login ); ?>" />
 				</p>
 				<?php echo apply_filters( 'login_form_bottom', '', $args ); ?>
@@ -344,12 +353,12 @@ class MS_View_Shortcode_Login extends MS_View {
 	 */
 	private function lostpass_form() {
 		$defaults = array(
-			'label_lost_username' => __( 'Username or E-mail', 'membership2' ),
-			'label_lostpass' => __( 'Reset Password', 'membership2' ),
-			'id_lost_form' => 'lostpasswordform',
-			'id_lost_username' => 'user_login',
-			'id_lostpass' => 'wp-submit',
-			'value_username' => '',
+			'label_lost_username' 	=> __( 'Username or E-mail', 'membership2' ),
+			'label_lostpass' 		=> __( 'Reset Password', 'membership2' ),
+			'id_lost_form' 			=> 'lostpasswordform',
+			'id_lost_username' 		=> 'user_login',
+			'id_lostpass' 			=> 'wp-submit',
+			'value_username' 		=> '',
 		);
 
 		/**
@@ -377,12 +386,12 @@ class MS_View_Shortcode_Login extends MS_View {
 		do_action( 'lost_password' );
 		?>
 		<form
-			name="<?php echo esc_attr( $id_lost_form ); ?>"
-			id="<?php echo esc_attr( $id_lost_form ); ?>"
+			name="<?php esc_attr_e( $id_lost_form ); ?>"
+			id="<?php esc_attr_e( $id_lost_form ); ?>"
 			action="lostpassword"
 			method="post"
-			class="<?php echo esc_attr( $form_class ); ?>"
-			style="<?php echo esc_attr( $show_form ); ?>">
+			class="<?php esc_attr_e( $form_class ); ?>"
+			style="<?php esc_attr_e( $show_form ); ?>">
 			<div class="form">
 				<?php wp_nonce_field( 'ms-ajax-lostpass' ); ?>
 				<?php echo apply_filters( 'lostpass_form_top', '', $args ); ?>
@@ -391,16 +400,16 @@ class MS_View_Shortcode_Login extends MS_View {
 				<?php endif; ?>
 				<p class="lostpassword-username ms-field">
 					<?php if ( $show_labels ) : ?>
-						<label for="<?php echo esc_attr( $id_lost_username ); ?>" >
+						<label for="<?php esc_attr_e( $id_lost_username ); ?>" >
 						<?php echo esc_html( $label_lost_username ); ?>
 						</label>
 					<?php endif; ?>
 					<input
 						type="text"
 						name="user_login"
-						id="<?php echo esc_attr( $id_lost_username ); ?>"
+						id="<?php esc_attr_e( $id_lost_username ); ?>"
 						class="input focus"
-						value="<?php echo esc_attr( $value_username ); ?>"
+						value="<?php esc_attr_e( $value_username ); ?>"
 						size="20"
 						placeholder="<?php echo esc_html( $label_lost_username ); ?>" />
 				</p>
@@ -421,9 +430,9 @@ class MS_View_Shortcode_Login extends MS_View {
 					<input
 						type="submit"
 						name="wp-submit"
-						id="<?php echo esc_attr( $id_lostpass ); ?>"
+						id="<?php esc_attr_e( $id_lostpass ); ?>"
 						class="button-primary"
-						value="<?php echo esc_attr( $label_lostpass ); ?>" />
+						value="<?php esc_attr_e( $label_lostpass ); ?>" />
 				</p>
 				<?php echo apply_filters( 'lostpass_form_bottom', '', $args ); ?>
 			<?php if ( 'bottom' === $nav_pos ) : ?>
@@ -564,6 +573,11 @@ class MS_View_Shortcode_Login extends MS_View {
 					)
 				);
 
+				$url = apply_filters(
+					'ms_sc_login_pw_reset_url',
+					$url
+				);
+
 				$Reset_Result = sprintf(
 					'[ms-note type="warning"]%s[/ms-note]<a href="%s">%s</a>',
 					$err_msg->get_error_message(),
@@ -579,6 +593,11 @@ class MS_View_Shortcode_Login extends MS_View {
 				// All done! Show success message and link to login form
 				$url = esc_url_raw(
 					remove_query_arg( array( 'action', 'key', 'login' ) )
+				);
+
+				$url = apply_filters(
+					'ms_sc_login_new_login_url',
+					$url
 				);
 
 				$Reset_Result = sprintf(
@@ -605,13 +624,13 @@ class MS_View_Shortcode_Login extends MS_View {
 				<form name="resetpassform" id="resetpassform"
 					action="" method="post" autocomplete="off" class="ms-form">
 					<input type="hidden" id="user_login"
-						value="<?php echo esc_attr( $rp_login ); ?>" autocomplete="off"/>
+						value="<?php esc_attr_e( $rp_login ); ?>" autocomplete="off"/>
 
 					<p class="user-pass1-wrap">
 						<label for="pass1"><?php _e( 'New password' ) ?></label><br />
 						<div class="wp-pwd">
 							<span class="password-input-wrapper">
-								<input type="password" data-reveal="1" data-pw="<?php echo esc_attr( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off" aria-describedby="pass-strength-result" />
+								<input type="password" data-reveal="1" data-pw="<?php esc_attr_e( wp_generate_password( 16 ) ); ?>" name="pass1" id="pass1" class="input" size="20" value="" autocomplete="off" aria-describedby="pass-strength-result" />
 							</span>
 							<div id="pass-strength-result" class="hide-if-no-js" aria-live="polite"><?php _e( 'Strength indicator' ); ?></div>
 						</div>
@@ -630,7 +649,7 @@ class MS_View_Shortcode_Login extends MS_View {
 					do_action( 'resetpass_form', $user );
 					?>
 					<p class="submit">
-						<input type="hidden" name="rp_key" value="<?php echo esc_attr( $rp_key ); ?>" />
+						<input type="hidden" name="rp_key" value="<?php esc_attr_e( $rp_key ); ?>" />
 
 						<button type="submit" name="wp-submit" id="wp-submit"
 						class="button button-primary button-large">

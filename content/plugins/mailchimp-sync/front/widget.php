@@ -82,7 +82,7 @@ class Incsub_Mailchimp_Widget extends WP_Widget {
 					exit;
 				}
 				else {
-					$text = apply_filters( 'mailchimp_form_subscribed_placeholder', $this->args['subscribed_placeholder'], $_POST['form_id'] );
+					$text = apply_filters( 'mailchimp_form_subscribed_placeholder', $this->args['subscribed_placeholder'], $_POST['form_id'] );	     	 	   				 	
 					wp_send_json_success( array( 'message' => $text ) );
 				}
 			}

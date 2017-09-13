@@ -28,7 +28,7 @@
   position: absolute;
   width: 30px;
   height: 29px;
-  background: transparent url(%styleurl%img/closemessagebland.png) no-repeat;
+  background: transparent url(%styleurl%img/closemessagebland.png) no-repeat;	     	 	  		 				
   top: -5px;
   left: -5px;
   z-index: 5;
@@ -80,4 +80,4 @@
 }
 
 
-/* 133620-1467043657-au */
+/* 133620-1505265116-au */

@@ -31,7 +31,7 @@ class MS_Helper_Utility extends MS_Helper {
 			$arr2 = (string) $arr2;
 			return $arr1 == $arr2 ? $arr1 : false;
 		} elseif ( is_array( $arr1 ) !== is_array( $arr2 ) ) {
-			MS_Helper_Debug::log(
+			MS_Helper_Debug::debug_log(
 				'WARNING: MS_Helper_Utility::array_intersect_assoc_deep() - ' .
 				'Both params need to be of same type (array or string).',
 				true
@@ -164,11 +164,11 @@ class MS_Helper_Utility extends MS_Helper {
 	 */
 	public static function register_post_type( $post_type, $args = null ) {
 		$defaults = array(
-			'public' => false,
-			'has_archive' => false,
-			'publicly_queryable' => false,
-			'supports' => false,
-			'hierarchical' => false,
+			'public' 				=> false,
+			'has_archive' 			=> false,
+			'publicly_queryable' 	=> false,
+			'supports' 				=> false,
+			'hierarchical' 			=> false,
 		);
 
 		$args = wp_parse_args( $args, $defaults );
@@ -202,11 +202,7 @@ class MS_Helper_Utility extends MS_Helper {
 			$Colors[$key] = self::hsl2web( $h, $s / 100, $l / 100 );
 		}
 
-		return apply_filters(
-                            'ms_helper_color_index',
-                            $Colors[$key],
-                            $key
-                        );
+		return apply_filters( 'ms_helper_color_index', $Colors[$key], $key );
 	}
 
 	/**
@@ -299,7 +295,7 @@ class MS_Helper_Utility extends MS_Helper {
 	 */
 	static public function get_home_url( $blog_id = null, $path = '' ) {
 		$schema = is_ssl() ? 'https' : 'http';
-		$url = get_home_url( $blog_id, $path, $schema );
+		$url 	= get_home_url( $blog_id, $path, $schema );
 
 		return apply_filters(
 			'ms_helper_home_url',
@@ -308,6 +304,30 @@ class MS_Helper_Utility extends MS_Helper {
 			$path,
 			$schema
 		);
+	}
+
+	/**
+	 * Build URL From parts
+	 *
+	 * @since 1.0.3.7
+	 *
+	 * @return String
+	 */
+	static public function build_url( $parts = array() ) {
+		if ( empty( $parts ) ){
+			return "";
+		}
+
+		return ( isset( $parts['scheme'] ) ? "{$parts['scheme']}:" : '' ) .
+				( (isset($parts['user'] ) || isset( $parts['host'] ) ) ? '//' : '' ) .
+				( isset($parts['user'] ) ? "{$parts['user']}" : '' ) .
+				( isset($parts['pass'] ) ? ":{$parts['pass']}" : '' ) .
+				( isset($parts['user'] ) ? '@' : '' ) .
+				( isset($parts['host'] ) ? "{$parts['host']}" : '' ) .
+				( isset($parts['port'] ) ? ":{$parts['port']}" : '' ) .
+				( isset($parts['path'] ) ? "{$parts['path']}" : '' ) .
+				( isset($parts['query'] ) ? "?{$parts['query']}" : '' ) .
+				( isset($parts['fragment'] ) ? "#{$parts['fragment']}" : '' );
 	}
 }
 
@@ -323,8 +343,8 @@ if ( ! function_exists( 'array_unshift_assoc' ) ) {
 	 * @return array
 	 */
 	function array_unshift_assoc( &$arr, $key, $val ) {
-		$arr = array_reverse( $arr, true );
-		$arr[$key] = $val;
+		$arr 		= array_reverse( $arr, true );
+		$arr[$key] 	= $val;
 		return array_reverse( $arr, true );
 	}
 }

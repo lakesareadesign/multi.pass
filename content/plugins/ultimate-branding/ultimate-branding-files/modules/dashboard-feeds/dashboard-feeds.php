@@ -384,6 +384,7 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 
 		public function admin_options_page() {
 			global $wp_version, $ub_version;
+			add_filter( 'ultimatebranding_settings_panel_show_submit', '__return_false' );
 			$version_compare = version_compare( $wp_version, '3.7.1' );
 
 			$_SHOW_LISTING = true;
@@ -703,8 +704,6 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 		function get_df_feed_widgets_items() {
 			if ( is_multisite() ) {
 				global $current_blog;
-				//echo "current_blog<pre>"; print_r($current_blog); echo "</pre>";
-
 				if ( $current_blog->site_id == $current_blog->blog_id ) {
 					$df_widgets = get_blog_option( $current_blog->site_id, 'wpmudev_df_widget_options' );
 					if ( ! is_array( $df_widgets ) ) {
@@ -716,7 +715,6 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 			} else {
 				$df_widgets = get_option( 'wpmudev_df_widget_options' );
 			}
-
 			return $df_widgets;
 		}
 
@@ -827,11 +825,11 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds_List_Table' ) ) {
 
 			$columns = array();
 
-			$columns['title']		= __( 'Title', 		'dashboard-feeds' );
-			//$columns['number']        =   __('ID',            'dashboard-feeds');
-			$columns['feedurl']		= __( 'Feed URL', 		'dashboard-feeds' );
-			$columns['siteurl']		= __( 'Site URL', 		'dashboard-feeds' );
-			$columns['meta']		= __( 'Meta', 			'dashboard-feeds' );
+			$columns['title']		= __( 'Title', 		'ub' );
+			//$columns['number']        =   __('ID',            'ub');
+			$columns['feedurl']		= __( 'Feed URL', 		'ub' );
+			$columns['siteurl']		= __( 'Site URL', 		'ub' );
+			$columns['meta']		= __( 'Meta', 			'ub' );
 
 	        return $columns;
 	    }

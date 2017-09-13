@@ -290,6 +290,18 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 */
 	private $membership;
 
+	/**
+	 *
+	 * Recalculate the subscription expire date.
+	 * Set to false if you just want to the invoice to change for the current
+	 * invoice
+	 *
+	 * @author Paul Kevin
+	 * @since 1.0.3.6
+	 * @var Boolean
+	 */
+	private $recalculate_expire_date = true;
+
 	//
 	//
 	//
@@ -315,8 +327,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 */
 	public static function get_register_post_type_args() {
 		$args = array(
-			'label' => __( 'Membership2 Subscriptions', 'membership2' ),
-                        'exclude_from_search' => true
+			'label' 				=> __( 'Membership2 Subscriptions', 'membership2' ),
+            'exclude_from_search' 	=> true
 		);
 
 		return apply_filters(
@@ -353,14 +365,14 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 */
 	public static function get_status_types() {
 		$status_types = array(
-			self::STATUS_PENDING => __( 'Pending', 'membership2' ),
-			self::STATUS_ACTIVE => __( 'Active', 'membership2' ),
-			self::STATUS_TRIAL => __( 'Trial', 'membership2' ),
-			self::STATUS_TRIAL_EXPIRED => __( 'Trial Expired', 'membership2' ),
-			self::STATUS_EXPIRED => __( 'Expired', 'membership2' ),
-			self::STATUS_DEACTIVATED => __( 'Deactivated', 'membership2' ),
-			self::STATUS_CANCELED => __( 'Canceled', 'membership2' ),
-			self::STATUS_WAITING => __( 'Not yet active', 'membership2' ),
+			self::STATUS_PENDING 		=> __( 'Pending', 'membership2' ),
+			self::STATUS_ACTIVE 		=> __( 'Active', 'membership2' ),
+			self::STATUS_TRIAL 			=> __( 'Trial', 'membership2' ),
+			self::STATUS_TRIAL_EXPIRED 	=> __( 'Trial Expired', 'membership2' ),
+			self::STATUS_EXPIRED 		=> __( 'Expired', 'membership2' ),
+			self::STATUS_DEACTIVATED 	=> __( 'Deactivated', 'membership2' ),
+			self::STATUS_CANCELED 		=> __( 'Canceled', 'membership2' ),
+			self::STATUS_WAITING 		=> __( 'Not yet active', 'membership2' ),
 		);
 
 		return apply_filters(
@@ -386,10 +398,10 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 * @return MS_Model_Relationship The created relationship.
 	 */
 	public static function create_ms_relationship(
-		$membership_id = 0,
-		$user_id = 0,
-		$gateway_id = 'admin',
-		$move_from_id = 0
+		$membership_id 	= 0,
+		$user_id 		= 0,
+		$gateway_id 	= 'admin',
+		$move_from_id 	= 0
 	) {
 		do_action(
 			'ms_model_relationship_create_ms_relationship_before',
@@ -408,7 +420,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			);
 		} else {
 			$subscription = null;
-			MS_Helper_Debug::log(
+			MS_Helper_Debug::debug_log(
 				'Invalid membership_id: ' .
 				"$membership_id, ms_relationship not created for $user_id, $gateway_id, $move_from_id"
 			);
@@ -439,24 +451,23 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 		// Try to reuse existing db record to keep history.
 		$subscription = self::get_subscription( $user_id, $membership_id );
 
-                /*if( $subscription instanceof MS_Model_Relationship )
-                {
-                        $invoice = $subscription->get_current_invoice();
-                        $membership = MS_Factory::load( 'MS_Model_Membership', $membership_id );
-                        $invoice->amount = $membership->price;
-                        $invoice->save();
-                }*/
+		/*if( $subscription instanceof MS_Model_Relationship ) {
+			$invoice = $subscription->get_current_invoice();
+			$membership = MS_Factory::load( 'MS_Model_Membership', $membership_id );
+			$invoice->amount = $membership->price;
+			$invoice->save();
+		}*/
 
 		if ( 'simulation' == $gateway_id ) {
-			$is_simulated = true;
-			$gateway_id = 'admin';
-			$subscription = false;
+			$is_simulated 	= true;
+			$gateway_id 	= 'admin';
+			$subscription 	= false;
 		}
 
 		// Not found, create a new one.
 		if ( empty( $subscription ) ) {
-			$subscription = MS_Factory::create( 'MS_Model_Relationship' );
-			$subscription->status = self::STATUS_PENDING;
+			$subscription 				= MS_Factory::create( 'MS_Model_Relationship' );
+			$subscription->status 		= self::STATUS_PENDING;
 			$subscription->is_simulated = $is_simulated;
 
 			if ( $is_simulated ) {
@@ -465,11 +476,11 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 		}
 
 		// Always update these fields.
-		$subscription->membership_id = $membership_id;
-		$subscription->user_id = $user_id;
-		$subscription->move_from_id = $move_from_id;
+		$subscription->membership_id 	= $membership_id;
+		$subscription->user_id 			= $user_id;
+		$subscription->move_from_id 	= $move_from_id;
 		$subscription->set_gateway( $gateway_id );
-		$subscription->expire_date = '';
+		$subscription->expire_date 		= '';
 
 		// Set initial state.
 		switch ( $subscription->status ) {
@@ -492,14 +503,14 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			case self::STATUS_PENDING:
 			default:
 				// Initial status
-				$subscription->name = "user_id: $user_id, membership_id: $membership_id";
-				$subscription->description = $subscription->name;
-				$subscription->trial_period_completed = false;
+				$subscription->name 					= "user_id: $user_id, membership_id: $membership_id";
+				$subscription->description 				= $subscription->name;
+				$subscription->trial_period_completed 	= false;
 				break;
 		}
 
 		$subscription->config_period();
-		$membership = $subscription->get_membership();
+		$membership 				= $subscription->get_membership();
 		$subscription->payment_type = $membership->payment_type;
 
 		if ( 'admin' == $gateway_id ) {
@@ -532,8 +543,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 */
 	public static function get_subscription_ids( $args = null ) {
 		static $Subscription_IDs = array();
-		$args = self::get_query_args( $args );
-		$key = md5( json_encode( $args ) );
+		$args 	= self::get_query_args( $args );
+		$key 	= md5( json_encode( $args ) );
 
 		if ( ! isset( $Subscription_IDs[ $key ] ) ) {
 			$Subscription_IDs[ $key ] = array();
@@ -647,8 +658,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 * @return int The membership relationship count.
 	 */
 	public static function get_subscription_count( $args = null ) {
-		$ids = self::get_subscription_ids( $args );
-		$count = count( $ids );
+		$ids 	= self::get_subscription_ids( $args );
+		$count 	= count( $ids );
 
 		return apply_filters(
 			'ms_model_relationship_get_subscription_count',
@@ -671,16 +682,16 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			'ms_model_relationship_get_subscription_args',
 			self::get_query_args(
 				array(
-					'user_id' => $user_id,
+					'user_id' 		=> $user_id,
 					'membership_id' => $membership_id,
-					'status' => 'all',
+					'status' 		=> 'all',
 				)
 			)
 		);
 
 		MS_Factory::select_blog();
-		$query = new WP_Query( $args );
-		$post = $query->posts;
+		$query 	= new WP_Query( $args );
+		$post 	= $query->posts;
 		MS_Factory::revert_blog();
 
 		$subscription = null;
@@ -715,10 +726,10 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 		$defaults = apply_filters(
 			'ms_model_relationship_get_query_args_defaults',
 			array(
-				'post_type' => self::get_post_type(),
-				'post_status' => 'any',
-				'fields' => 'ids',
-				'nopaging' => true,
+				'post_type' 	=> self::get_post_type(),
+				'post_status' 	=> 'any',
+				'fields' 		=> 'ids',
+				'nopaging' 		=> true,
 			)
 		);
 
@@ -732,7 +743,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 
 		if ( ! empty( $args['membership_id'] ) ) {
 			$args['meta_query']['membership_id'] = array(
-				'key' => 'membership_id',
+				'key' 	=> 'membership_id',
 				'value' => $args['membership_id'],
 			);
 			unset( $args['membership_id'] );
@@ -740,7 +751,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 
 		if ( ! empty( $args['gateway_id'] ) ) {
 			$args['meta_query']['gateway_id'] = array(
-				'key' => 'gateway_id',
+				'key' 	=> 'gateway_id',
 				'value' => $args['gateway_id'],
 			);
 			unset( $args['gateway_id'] );
@@ -753,17 +764,17 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			switch ( $args['status'] ) {
 				case 'valid':
 					$args['meta_query']['status'] = array(
-						'key' => 'status',
-						'value' => self::STATUS_DEACTIVATED,
-						'compare' => 'NOT LIKE',
+						'key' 		=> 'status',
+						'value' 	=> self::STATUS_DEACTIVATED,
+						'compare' 	=> 'NOT LIKE',
 					);
 					break;
 
 				case 'exp':
 					$args['meta_query']['status'] = array(
-						'key' => 'status',
-						'value' => array( self::STATUS_TRIAL_EXPIRED, self::STATUS_EXPIRED ),
-						'compare' => 'IN',
+						'key' 		=> 'status',
+						'value' 	=> array( self::STATUS_TRIAL_EXPIRED, self::STATUS_EXPIRED ),
+						'compare' 	=> 'IN',
 					);
 					break;
 
@@ -773,9 +784,9 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 
 				default:
 					$args['meta_query']['status'] = array(
-						'key' => 'status',
-						'value' => $args['status'],
-						'compare' => '=',
+						'key' 		=> 'status',
+						'value' 	=> $args['status'],
+						'compare' 	=> '=',
 					);
 					break;
 			}
@@ -784,9 +795,9 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			unset( $args['status'] );
 		} else {
 			$args['meta_query']['status'] = array(
-				'key' => 'status',
-				'value' => array( self::STATUS_DEACTIVATED, self::STATUS_PENDING ),
-				'compare' => 'NOT IN',
+				'key' 		=> 'status',
+				'value' 	=> array( self::STATUS_DEACTIVATED, self::STATUS_PENDING ),
+				'compare' 	=> 'NOT IN',
 			);
 		}
 
@@ -843,7 +854,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 				MS_Model_Event::save_event( MS_Model_Event::TYPE_MS_CANCELED, $this );
 			}
 		} catch ( Exception $e ) {
-			MS_Helper_Debug::log( '[Error canceling membership]: '. $e->getMessage() );
+			MS_Helper_Debug::debug_log( '[Error canceling membership]: '. $e->getMessage() );
 		}
 
 		do_action(
@@ -888,7 +899,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 				$this
 			);
 		} catch ( Exception $e ) {
-			MS_Helper_Debug::log(
+			MS_Helper_Debug::debug_log(
 				'[Error deactivating membership]: '. $e->getMessage()
 			);
 		}
@@ -930,7 +941,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 * @internal
 	 */
 	public function remove_unpaid_invoices() {
-		$invoices = $this->get_invoices();
+		$invoices = $this->get_invoices( 'paid' );
 
 		foreach ( $invoices as $invoice ) {
 			if ( 'paid' != $invoice->status ) {
@@ -996,7 +1007,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 * @return bool
 	 */
 	public function is_expired() {
-		$result = false;
+		$result 	= false;
 
 		if ( self::STATUS_EXPIRED == $this->status ) {
 			$result = true;
@@ -1222,15 +1233,15 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 				$this->start_date,
 				$this->trial_expire_date
 			);
-			if ( ! $valid_date ) {
+			if ( ! $valid_date && $this->recalculate_expire_date ) {
 				$expire_date = $this->calc_expire_date( $this->start_date );
 			}
 		} else {
 			// Do NOT set any expire-date when subscription is not active!
-			$expire_date = '';
+			$expire_date 	= '';
 		}
 
-		$this->expire_date = apply_filters(
+		$this->expire_date 	= apply_filters(
 			'ms_model_relationship_set_expire_date',
 			$expire_date,
 			$this
@@ -1249,8 +1260,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 * @return string The calculated trial expire date.
 	 */
 	public function calc_trial_expire_date( $start_date = null ) {
-		$membership = $this->get_membership();
-		$trial_expire_date = null;
+		$membership 		= $this->get_membership();
+		$trial_expire_date 	= null;
 
 		if ( empty( $start_date ) ) {
 			$start_date = $this->start_date;
@@ -1308,11 +1319,11 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 * @return string The calculated expire date.
 	 */
 	public function calc_expire_date( $start_date = null, $paid = false ) {
-		$membership = $this->get_membership();
-		$gateway = $this->get_gateway();
+		$membership 	= $this->get_membership();
+		$gateway 		= $this->get_gateway();
 
-		$start_date = $this->calc_trial_expire_date( $start_date );
-		$expire_date = null;
+		$start_date 	= $this->calc_trial_expire_date( $start_date );
+		$expire_date 	= null;
 
 		/*
 		 * When in trial period and gateway does not send automatic recurring
@@ -1339,6 +1350,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			}
 		} else {
 			if ( $paid ) {
+
 				/*
 				 * Always extend the membership from current date or later, even if
 				 * the specified start-date is in the past.
@@ -1351,6 +1363,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 				if ( MS_Helper_Period::is_after( $today, $start_date ) ) {
 					$start_date = $today;
 				}
+				//$this->log( 'calc_expire_date :: Today '.$today );
+				//$this->log( 'calc_expire_date :: Start Date '.$start_date  );
 			}
 
 			/*
@@ -1364,19 +1378,24 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 					break;
 
 				case MS_Model_Membership::PAYMENT_TYPE_FINITE:
-					$period_unit = MS_Helper_Period::get_period_value(
-						$membership->period,
-						'period_unit'
-					);
-					$period_type = MS_Helper_Period::get_period_value(
-						$membership->period,
-						'period_type'
-					);
-					$expire_date = MS_Helper_Period::add_interval(
-						$period_unit,
-						$period_type,
-						$start_date
-					);
+					if ( $this->recalculate_expire_date ) {
+						$period_unit = MS_Helper_Period::get_period_value(
+							$membership->period,
+							'period_unit'
+						);
+						$period_type = MS_Helper_Period::get_period_value(
+							$membership->period,
+							'period_type'
+						);
+						$expire_date = MS_Helper_Period::add_interval(
+							$period_unit,
+							$period_type,
+							$start_date
+						);
+					} else {
+						$expire_date = $this->expire_date;
+					}
+					//$this->log( 'calc_expire_date :: New Expire Date '.$expire_date  );
 					break;
 
 				case MS_Model_Membership::PAYMENT_TYPE_DATE_RANGE:
@@ -1384,19 +1403,23 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 					break;
 
 				case MS_Model_Membership::PAYMENT_TYPE_RECURRING:
-					$period_unit = MS_Helper_Period::get_period_value(
-						$membership->pay_cycle_period,
-						'period_unit'
-					);
-					$period_type = MS_Helper_Period::get_period_value(
-						$membership->pay_cycle_period,
-						'period_type'
-					);
-					$expire_date = MS_Helper_Period::add_interval(
-						$period_unit,
-						$period_type,
-						$start_date
-					);
+					if ( $this->recalculate_expire_date ) {
+						$period_unit = MS_Helper_Period::get_period_value(
+							$membership->pay_cycle_period,
+							'period_unit'
+						);
+						$period_type = MS_Helper_Period::get_period_value(
+							$membership->pay_cycle_period,
+							'period_type'
+						);
+						$expire_date = MS_Helper_Period::add_interval(
+							$period_unit,
+							$period_type,
+							$start_date
+						);
+					} else {
+						$expire_date = $this->expire_date;
+					}
 					break;
 			}
 		}
@@ -1625,18 +1648,25 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	 *
 	 * @return MS_Model_Invoice[] List of invoices.
 	 */
-	public function get_invoices() {
-		$invoices = MS_Model_Invoice::get_invoices(
-			array(
-				'nopaging' => true,
-				'meta_query' => array(
+	public function get_invoices( $status = '' ) {
+		$args = array(
+			'nopaging' 		=> true,
+			'meta_query' 	=> array(
 					array(
 						'key'   => 'ms_relationship_id',
 						'value' => $this->id,
-					),
-				),
-			)
+					)
+			),
 		);
+
+		if ( !empty( $status ) ) {
+			$args['meta_query'][] = array(
+				'key'   	=> 'status',
+				'value' 	=> $status,
+				'compare' 	=> '!=',
+			);
+		}
+		$invoices = MS_Model_Invoice::get_invoices( $args );
 
 		return apply_filters(
 			'ms_model_relationship_get_invoices',
@@ -1656,8 +1686,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	public function first_unpaid_invoice() {
 		$invoice_id = 0;
 
-		// Try to find the first unpaid invoice for the subscription.
-		$invoices = $this->get_invoices();
+		// list all unpaid invoices where status != paid
+		$invoices = $this->get_invoices( 'paid' );
 		foreach ( $invoices as $invoice ) {
 			if ( ! $invoice->is_paid() ) {
 				$invoice_id = $invoice->id;
@@ -1667,7 +1697,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 
 		// If no unpaid invoice was found: Create one.
 		if ( ! $invoice_id ) {
-			$invoice = $this->get_next_invoice();
+			$invoice 	= $this->get_next_invoice();
 			$invoice_id = $invoice->id;
 		}
 
@@ -1885,12 +1915,21 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 					}
 				}
 
+				//$this->recalculate_expire_date = false;
+
+				if ( empty( $this->expire_date ) || strtotime( $this->start_date ) > strtotime( $this->expire_date ) ) {
+					$expire_date = $this->calc_expire_date( MS_Helper_Period::current_time() );
+				} else {
+					$expire_date = $this->expire_date;
+				}
+
+
 				$desc .= sprintf(
 					$lbl,
 					$currency,
 					$total_price,
-					MS_Helper_Period::format_date( $this->calc_expire_date( MS_Helper_Period::current_time() ) ),
-					$this->calc_expire_date( MS_Helper_Period::current_time() )
+					MS_Helper_Period::format_date( $expire_date ),
+					$expire_date
 				);
 				break;
 
@@ -1974,13 +2013,12 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 						$lbl = __( 'on %4$s', 'membership2' );
 					}
 				} else {
-					$trial_price = __( 'nothing', 'membership2' );
-					//$lbl = __( 'The trial period of %1$s is for free.', 'membership2' );
-										$lbl = __( 'Your %1$s free trial ends on %5$s and then you will be billed.', 'membership2' );
+					$trial_price 	= __( 'nothing', 'membership2' );
+					$lbl 			= __( 'Your %1$s free trial ends on %5$s and then you will be billed.', 'membership2' );
 				}
 			} else {
-				$trial_price = MS_Helper_Billing::format_price( $trial_price );
-				$lbl = __( 'For the trial period of %1$s you only pay <span class="price">%2$s %3$s</span>.', 'membership2' );
+				$trial_price 	= MS_Helper_Billing::format_price( $trial_price );
+				$lbl 			= __( 'For the trial period of %1$s you only pay <span class="price">%2$s %3$s</span>.', 'membership2' );
 			}
 
 			$desc .= sprintf(
@@ -2030,10 +2068,10 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 
 		if ( $amount > 0 ) {
 			$this->payments[] = array(
-				'date' => MS_Helper_Period::current_date( MS_Helper_Period::DATE_TIME_FORMAT ),
-				'amount' => $amount,
-				'gateway' => $gateway,
-				'external_id' => $external_id,
+				'date' 			=> MS_Helper_Period::current_date( MS_Helper_Period::DATE_TIME_FORMAT ),
+				'amount' 		=> $amount,
+				'gateway' 		=> $gateway,
+				'external_id'	=> $external_id,
 			);
 		}
 
@@ -2055,10 +2093,11 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 
 			$this->set_status( self::STATUS_TRIAL );
 		} else {
+
 			/*
 			 * Important:
-			 * FIRST set the SUBSCRIPTION STATUS, otherwise the expire date is
-			 * based on start_date instead of trial_expire_date!
+			 * FIRST set the EXPIRE DATE, otherwise  %ms-expiry-date% doesn't available
+			 *  for Subscription - Completed with payment Message emails
 			 */
 			$this->set_status( self::STATUS_ACTIVE );
 
@@ -2077,33 +2116,36 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 		// Thanks for paying or for starting your trial period!
 		// You're officially active :)
 		$member = $this->get_member();
-		$member->is_member = true;
+		if ( $member ) {
+			$member->is_member = true;
 
-		if ( self::STATUS_ACTIVE == $this->status ) {
-			/**
-			 * Make sure the new subscription is instantly available in the
-			 * member object.
-			 *
-			 * Before version 1.0.1.2 the new subscription was available in the
-			 * member object after the next page refresh.
-			 *
-			 * @since 1.0.1.2
-			 */
-			$found = false;
-			$subscriptions = $member->subscriptions;
-			foreach ( $subscriptions as $sub ) {
-				if ( $sub->membership_id == $this->membership_id ) {
-					$found = true;
-					break;
+			if ( self::STATUS_ACTIVE == $this->status ) {
+				/**
+					* Make sure the new subscription is instantly available in the
+					* member object.
+					*
+					* Before version 1.0.1.2 the new subscription was available in the
+					* member object after the next page refresh.
+					*
+					* @since 1.0.1.2
+					*/
+				$found 			= false;
+				$subscriptions 	= $member->subscriptions;
+				foreach ( $subscriptions as $sub ) {
+					if ( $sub->membership_id == $this->membership_id ) {
+						$found = true;
+						break;
+					}
+				}
+				if ( ! $found ) {
+					$subscriptions[] 		= $this;
+					$member->subscriptions 	= $subscriptions;
 				}
 			}
-			if ( ! $found ) {
-				$subscriptions[] = $this;
-				$member->subscriptions = $subscriptions;
-			}
+
+			$member->save();
 		}
 
-		$member->save();
 
 		// Return true if the subscription is active.
 		$paid_status = array(
@@ -2224,6 +2266,14 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 		// Do not set subscription to "No Gateway".
 		if ( ! $new_gateway ) { return; }
 
+		//Incase the gateway is admin, we need to st it to the default active gateway
+		if ( $new_gateway == 'admin' ) {
+			$gateway_names = MS_Model_Gateway::get_gateway_names( true );
+			if ( count ( $gateway_names ) == 1 ) {
+				$new_gateway = key( $gateway_names );
+			}
+		}
+
 		// No change needed. Skip.
 		if ( $new_gateway == $old_gateway ) { return; }
 
@@ -2300,10 +2350,10 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			return $set_status;
 		}
 
-		$membership = $this->get_membership();
-		$calc_status = null;
-		$debug_msg = array();
-		$check_trial = $this->is_trial_eligible();
+		$membership 	= $this->get_membership();
+		$calc_status 	= null;
+		$debug_msg 		= array();
+		$check_trial 	= $this->is_trial_eligible();
 
 		if ( ! empty( $this->payments ) ) {
 			/*
@@ -2343,27 +2393,27 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 				$debug_msg[] = '[Not TRIAL-EXPIRED: Trial-Expire date not reached]';
 			}
 		} elseif ( ! $calc_status && $debug ) {
-			$debug_msg[] = '[Skipped TRIAL status]';
+			$debug_msg[] 	= '[Skipped TRIAL status]';
 		}
 
 		// Status an only become active when added by admin or invoice is paid.
 		$can_activate = false;
 		if ( 'admin' == $this->gateway_id ) {
-			$can_activate = true;
-			$debug_msg[] = '[Can activate: Admin gateway]';
+			$can_activate 	= true;
+			$debug_msg[] 	= '[Can activate: Admin gateway]';
 		} elseif ( $membership->is_free() ) {
-			$can_activate = true;
-			$debug_msg[] = '[Can activate: Free membership]';
+			$can_activate 	= true;
+			$debug_msg[] 	= '[Can activate: Free membership]';
 		} elseif ( ! empty( $this->source ) ) {
-			$can_activate = true;
-			$debug_msg[] = '[Can activate: Imported subscription]';
+			$can_activate 	= true;
+			$debug_msg[] 	= '[Can activate: Imported subscription]';
 		} else {
-			$valid_payment = false;
+			$valid_payment 	= false;
 			// Check if there is *any* payment, no matter what abount.
 			foreach ( $this->get_payments() as $payment ) {
 				if ( $payment['amount'] > 0 ) {
-					$valid_payment = true;
-					$debug_msg[] = '[Can activate: Payment found]';
+					$valid_payment 	= true;
+					$debug_msg[] 	= '[Can activate: Payment found]';
 					break;
 				}
 			}
@@ -2374,8 +2424,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 					if ( ! $invoice ) { continue; }
 					if ( $invoice->uses_trial ) { continue; }
 					if ( $invoice->is_paid() ) {
-						$valid_payment = true;
-						$debug_msg[] = '[Can activate: Paid invoice found]';
+						$valid_payment 	= true;
+						$debug_msg[] 	= '[Can activate: Paid invoice found]';
 						break;
 					}
 				}
@@ -2711,7 +2761,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 		}
 
 		$membership = $this->get_membership();
-		$comms = MS_Model_Communication::get_communications( $membership );
+		$comms 		= MS_Model_Communication::get_communications( $membership );
 
 		// Check first (invitation code) data really exist
 		$invitation_code = $membership->get_custom_data( 'no_invitation' );
@@ -2720,16 +2770,16 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 			$is_public = true;
 		} else {
 			//now we can check if requires invitation code
-			$is_public = lib3()->is_true($invitation_code);
+			$is_public = lib3()->is_true( $invitation_code );
 		}
 
 		// Collection of all day-values.
 		$days = (object) array(
-			'remaining' => $this->get_remaining_period(),
-			'remaining_trial' => $this->get_remaining_trial_period(),
-			'invoice_before' => 5,
-			'deactivate_expired_after' => 30,
-			'deactivate_trial_expired_after' => 5,
+			'remaining' 						=> $this->get_remaining_period(),
+			'remaining_trial' 					=> $this->get_remaining_trial_period(),
+			'invoice_before' 					=> 5,
+			'deactivate_expired_after' 			=> 30,
+			'deactivate_trial_expired_after' 	=> 5,
 		);
 
 		//@todo create settings to configure the following day-values via UI.
@@ -2875,7 +2925,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 						default:
 							// Either keep the current expire date (if valid) or
 							// calculate a new expire date, based on current date.
-							if ( ! $this->expire_date ) {
+							if ( ! $this->expire_date && $this->recalculate_expire_date ) {
 								$this->expire_date = $this->calc_expire_date(
 									MS_Helper_Period::current_date()
 								);
@@ -2891,8 +2941,13 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 					$next_status = $this->calculate_status();
 				}
 
+				if ( !empty( $this->expire_date ) && $this->payment_type === MS_Model_Membership::PAYMENT_TYPE_FINITE ) {
+					$this->recalculate_expire_date = false;
+					$days->remaining = $this->get_remaining_period( 0 );
+				}
+
 				$deactivate = false;
-				$invoice = null;
+				$invoice 	= null;
 				$auto_renew = false;
 
 				/*
@@ -2985,8 +3040,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 					}
 
 					// Before payment due.
-					$comm = $comms[ MS_Model_Communication::COMM_TYPE_BEFORE_PAYMENT_DUE ];
-					$comm_days = MS_Helper_Period::get_period_in_days(
+					$comm 		= $comms[ MS_Model_Communication::COMM_TYPE_BEFORE_PAYMENT_DUE ];
+					$comm_days 	= MS_Helper_Period::get_period_in_days(
 						$comm->period['period_unit'],
 						$comm->period['period_type']
 					);
@@ -3003,8 +3058,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 					}
 
 					// After payment due event
-					$comm = $comms[ MS_Model_Communication::COMM_TYPE_AFTER_PAYMENT_DUE ];
-					$comm_days = MS_Helper_Period::get_period_in_days(
+					$comm 		= $comms[ MS_Model_Communication::COMM_TYPE_AFTER_PAYMENT_DUE ];
+					$comm_days 	= MS_Helper_Period::get_period_in_days(
 						$comm->period['period_unit'],
 						$comm->period['period_type']
 					);
@@ -3050,12 +3105,18 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 
 					// if there was another membership configured when this membership ends
 					$new_membership_id = (int) $membership->on_end_membership_id;
-					if ( $days->remaining == 0 && $new_membership_id > 0 ) {
+					if ( $days->remaining <= 0 && $new_membership_id > 0 ) {
 						$deactivate = true;
 					}
 				}
 
 				$next_status = $this->calculate_status( null );
+
+				if ( $membership->payment_type == MS_Model_Membership::PAYMENT_TYPE_FINITE ) {
+					if ( !empty( $this->expire_date ) && strtotime( $this->expire_date ) < strtotime( MS_Helper_Period::current_date() ) ) {
+						$next_status = self::STATUS_EXPIRED;
+					}
+				}
 
 				/*
 				 * When the subscription expires the first time then create a
@@ -3091,11 +3152,14 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 						/*
 						 * If the new membership is paid we want that the user
 						 * confirms the payment in his account. So we set it
-						 * to "Pending" first.
+						 * to "Pending" first. If its free we set it as active
 						 */
 						if ( ! $new_membership->is_free() ) {
 							$new_subscription->status = self::STATUS_PENDING;
-						}
+						} else {
+							$new_subscription->status = self::STATUS_ACTIVE;
+                        }
+                        $new_subscription->save();
 					}
 				}
 				break;
@@ -3121,8 +3185,8 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 				}
 
 				if ( $deactivate ) {
-					$member = $this->get_member();
-					$member->is_member = false;
+					$member 			= $this->get_member();
+					$member->is_member 	= false;
 					$member->save();
 				}
 				break;
@@ -3149,6 +3213,16 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 	}
 
 	/**
+	 * Set the expire date recalculation
+	 *
+	 * @param Boolean $recalculate - true to recalculate the expire date
+	 * @author Paul Kevin
+	 */
+	public function set_recalculate_expire_date( $recalculate ) {
+		$this->recalculate_expire_date = $recalculate;
+	}
+
+	/**
 	 * Returns property.
 	 *
 	 * @since  1.0.0
@@ -3167,7 +3241,7 @@ class MS_Model_Relationship extends MS_Model_CustomPostType {
 
 			default:
 				if ( ! property_exists( $this, $property ) ) {
-					MS_Helper_Debug::log( 'Property does not exist: ' . $property );
+					MS_Helper_Debug::debug_log( 'Property does not exist: ' . $property );
 				} else {
 					$value = $this->$property;
 				}

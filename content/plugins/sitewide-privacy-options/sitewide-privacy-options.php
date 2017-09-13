@@ -5,7 +5,7 @@ Plugin URI: http://premium.wpmudev.org/project/sitewide-privacy-options-for-word
 Description: Adds more levels of privacy and allows you to control them across all sites - or allow users to override them.
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org
-Version: 1.1.8.6
+Version: 1.1.9
 Network: true
 WDP ID: 52
 License: GNU General Public License (Version 2 - GPLv2)
@@ -118,7 +118,7 @@ function additional_privacy_admin_init() {
                 }
                 ?>
                         window.location ='<?php echo ($blog_count > $blogs_completed)?
-                            network_admin_url('settings.php?privacy_update_all_blogs=step&offset='.($blogs_completed+1)):
+                            network_admin_url('settings.php?privacy_update_all_blogs=step&offset='.($blogs_completed)):
                             network_admin_url('settings.php?privacy_update_all_blogs=complete&message=blog_settings_updated&offset='.$blogs_completed); ?>';
 
                         document.cookie="privacy_update_all_blogs=<?php echo ($blog_count > $blogs_completed)?1:0; ?>";
@@ -598,14 +598,16 @@ function additional_privacy() {
 
 function additional_privacy_set_default($blog_id, $user_id) {
 	global $wpdb;
-	$privacy_default = get_site_option('privacy_default');
-        if (!$privacy_default) {
-            $privacy_default = 1;
-        }
-        if (get_blog_option($blog_id, "blog_public", 2) == 2) {
-            update_blog_option($blog_id, "blog_public", $privacy_default);
-            update_blog_status($blog_id, "public", $privacy_default);
-        }
+	$allowed_public_vals = array( 1, 0, -1, -2, -3 ); // We don't use -4 value which is for using password to access site
+    	$privacy_default = get_site_option('privacy_default');
+    	if ( empty( $privacy_default ) || ! in_array( $privacy_default, $allowed_public_vals ) ) {
+        	return;
+    	}
+
+    	if ( get_blog_option( $blog_id, "blog_public", 2 ) != $privacy_default ) {
+        	update_blog_option( $blog_id, "blog_public", $privacy_default );
+        	update_blog_status( $blog_id, "public", $privacy_default );
+    	}
 }
 
 function additional_privacy_site_admin_options_process() {
@@ -624,7 +626,7 @@ function additional_privacy_site_admin_options_process() {
     update_site_option( 'privacy_available' , $_POST['privacy_available'] );
 
     if ( isset( $_POST['privacy_update_all_blogs'] ) &&  $_POST['privacy_update_all_blogs'] == 'update' )  {
-        $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->blogs} SET public = %d WHERE blog_id != '1' AND active = 1 AND deleted = 0 AND spam = 0 ", $_POST['privacy_default'] ) );
+        $wpdb->query( $wpdb->prepare( "UPDATE {$wpdb->blogs} SET public = %d WHERE blog_id != '1' AND archived = 0 AND deleted = 0 AND spam = 0 ", $_POST['privacy_default'] ) );
         setcookie('privacy_update_all_blogs', "1");
     }
 }
@@ -926,7 +928,7 @@ function additional_privacy_site_admin_options() {
 if ( !function_exists( 'wdp_un_check' ) ) {
     function wdp_un_check() {
         if ( !class_exists('WPMUDEV_Update_Notifications') && current_user_can('edit_users') )
-            echo '<div class="error fade"><p>' . __('Please install the latest version of <a href="http://premium.wpmudev.org/project/update-notifications/" title="Download Now &raquo;">our free Update Notifications plugin</a> which helps you stay up-to-date with the most stable, secure versions of WPMU DEV themes and plugins. <a href="http://premium.wpmudev.org/wpmu-dev/update-notifications-plugin-information/">More information &raquo;</a>', 'wpmudev') . '</a></p></div>';	     	 	   	 	   
+            echo '<div class="error fade"><p>' . __('Please install the latest version of <a href="http://premium.wpmudev.org/project/update-notifications/" title="Download Now &raquo;">our free Update Notifications plugin</a> which helps you stay up-to-date with the most stable, secure versions of WPMU DEV themes and plugins. <a href="http://premium.wpmudev.org/wpmu-dev/update-notifications-plugin-information/">More information &raquo;</a>', 'wpmudev') . '</a></p></div>';
     }
     add_action( 'admin_notices', 'wdp_un_check', 5 );
     add_action( 'network_admin_notices', 'wdp_un_check', 5 );

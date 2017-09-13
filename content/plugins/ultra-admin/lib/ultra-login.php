@@ -27,7 +27,7 @@ function ultra_custom_login() {
     /*text, backgrounds, link color*/
     echo ultra_css_background("body, #wp-auth-check-wrap #wp-auth-check", "login-background","","","imp") . "\n";
     echo ultra_css_background(".login form", "login-form-background","","","imp") . "\n";
-    echo ultra_link_color(".login #backtoblog a, .login #nav a, .login a", "login-link-color") . "\n";
+    echo ultra_link_color("body.login #backtoblog a, body.login #nav a, body.login a", "login-link-color") . "\n";
     echo ultra_css_color(".login, .login form label, .login form, .login .message", "login-text-color") . "\n";
 
     /*login button*/

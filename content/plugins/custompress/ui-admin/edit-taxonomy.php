@@ -6,7 +6,7 @@ $post_types = get_post_types('','names');
 if(is_network_admin()){
 	$taxonomy = $this->network_taxonomies[$_GET['ct_edit_taxonomy']]['args'];
 } else {
-	$taxonomy = isset( $this->taxonomies[$_GET['ct_edit_taxonomy']]['args'] ) ? $this->taxonomies[$_GET['ct_edit_taxonomy']]['args'] : array();
+	$taxonomy = isset( $this->taxonomies[$_GET['ct_edit_taxonomy']]['args'] ) ? $this->taxonomies[$_GET['ct_edit_taxonomy']]['args'] : array();	     	 	 	  	 			
 }
 
 if( !isset( $taxonomy['rewrite']['ep_mask'] ) ) {

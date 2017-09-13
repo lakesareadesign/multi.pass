@@ -4,9 +4,24 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+DATE: 4 Sep, 2017  - VERSION: 1.9.1.1
+==================================
+- Fixed error when Admin bar and Admin Bar logo are both active
+
+
+DATE: 4 Sep, 2017  - VERSION: 1.9.1
+==================================
+- Added "Form Canvas & Position" for "Login Screen" module.
+- Added new module "Coming Soon Page & Maintenance Mode" with an ability to close public part of a site.
+- Added new module "Dashboard Text Widgets", you can create text widgets for Admin Dashboard.
+- Added sanitization in "Admin Bar" module to avoid not array checking.
+- Debug information was hidden. Now for debug, you must use both WP_DEBUG and WPMUDEV_BETATEST.
+- Fixed conflict with the plugin "New Blog Templates" and module "Admin Bar".
+- Fixed warning in module "Remove Permalinks Menu Item".
 
 DATE: 30 Aug, 2017  - VERSION: 1.9.0.1
-- Fixed a problem with "Admin Panel Tips" - single tip was override any post type edit form.
+==================================
+- Fixed a problem with "Admin Panel Tips" - single tip was overridden any post type edit form.
 
 DATE: 21 Aug, 2017  - VERSION: 1.9.0
 ==================================
@@ -380,4 +395,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 - Initial release of the Ultimate Branding plugin
 
 
-133620-1504103048-au
+133620-1505265128-au

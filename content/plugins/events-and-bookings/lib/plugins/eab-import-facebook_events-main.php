@@ -217,18 +217,18 @@ class Eab_Calendars_FacebookEventsImporter {
 		<div class="eab-settings-settings_item" style="line-height:1.8em">
                         <table cellpadding="5" cellspacing="5" width="100%">
                                 <tr>
-                                        <td>
+                                        <td valign="top" width="400">
                                                 <label style="width: 100%" for="incsub_event-fbe_importer-client_id" id="incsub_event_label-fbe_importer-client_id"><?php _e('App ID', Eab_EventsHub::TEXT_DOMAIN); ?> <?php echo $tips->add_tip(__('Enter your App ID number here.', Eab_EventsHub::TEXT_DOMAIN)); ?></label>
                                         </td>
-                                        <td>
+                                        <td valign="top">
                                                 <input type="text" size="85" id="incsub_event-fbe_importer-client_id" name="fbe_importer[client_id]" value="<?php print $api_key; ?>" />
                                         </td>
                                 </tr>
                                 <tr>
-                                        <td>
+                                        <td valign="top">
                                                 <label style="width: 100%" for="incsub_event-fbe_importer-client_id" id="incsub_event_label-fbe_importer-client_id"><?php _e('App secret', Eab_EventsHub::TEXT_DOMAIN); ?> <?php echo $tips->add_tip(__('Enter your App secret number here.', Eab_EventsHub::TEXT_DOMAIN)); ?></label>
                                         </td>
-                                        <td>
+                                        <td valign="top">
                                                 <input type="text" size="85" id="incsub_event-fbe_importer-client_id" name="fbe_importer[client_secret]" value="<?php print $api_secret; ?>" />
                                         </td>
                                 </tr>
@@ -303,7 +303,9 @@ function authenticate () {
 $(function () {
 	$("#fbe_import-authenticate").on("click", authenticate);
 	$("#fbe_import-reset").on("click", function () {
-		$.post(ajaxurl, {"action": "eab_fbe_import_reset"}, window.location.reload);
+		$.post(ajaxurl, {"action": "eab_fbe_import_reset"}, function() {
+			window.location.reload();
+		});
 		return false;
 	});
 	$("#fbe_import-resync").on("click", function () {
@@ -316,13 +318,13 @@ $(function () {
 <?php
 	}
 
-	function save_settings ($options) {
-		$options['fbe_importer-client_id'] = $_POST['fbe_importer']['client_id'];
-		$options['fbe_importer-client_secret'] = $_POST['fbe_importer']['client_secret'];
-		$options['fbe_importer-fb_user'] = $_POST['fbe_importer']['fb_user'];
-		$options['fbe_importer-run_each'] = $_POST['fbe_importer']['run_each'];
-		$options['fbe_importer-sync_calendars'] = $_POST['fbe_importer']['sync_calendars'];
-		$options['fbe_importer-calendar_author'] = $_POST['fbe_importer']['calendar_author'];
+	function save_settings ( $options ) {
+		$options['fbe_importer-client_id'] 			= $_POST['fbe_importer']['client_id'];
+		$options['fbe_importer-client_secret'] 		= $_POST['fbe_importer']['client_secret'];
+		$options['fbe_importer-fb_user'] 			= isset( $_POST['fbe_importer']['fb_user'] ) ? $_POST['fbe_importer']['fb_user'] : '';
+		$options['fbe_importer-run_each'] 			= isset( $_POST['fbe_importer']['run_each'] ) ? $_POST['fbe_importer']['run_each'] : '';
+		$options['fbe_importer-sync_calendars'] 	= isset( $_POST['fbe_importer']['sync_calendars'] ) ? $_POST['fbe_importer']['sync_calendars'] : '';
+		$options['fbe_importer-calendar_author'] 	= isset( $_POST['fbe_importer']['calendar_author'] ) ? $_POST['fbe_importer']['calendar_author'] : '';
 		return $options;
 	}
 

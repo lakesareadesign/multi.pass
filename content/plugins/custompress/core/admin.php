@@ -424,6 +424,8 @@ class CustomPress_Core_Admin extends CustomPress_Content_Types {
 				'rewrite'             => (bool) $params['rewrite'],
 				'query_var'           => (bool) $params['query_var'],
 				'can_export'          => (bool) $params['can_export'],
+				'show_in_rest'        => (bool) $params['show_in_rest'],
+				'rest_base'           => empty( $params['rest_base'] ) ? strtolower( $params['post_type'] ) : $params['rest_base'],
 				'cf_columns'          => isset( $params['cf_columns'] ) ? $params['cf_columns'] : '',
 				);
 

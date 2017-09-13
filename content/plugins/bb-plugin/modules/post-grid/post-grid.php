@@ -32,7 +32,7 @@ class FLPostGridModule extends FLBuilderModule {
 		if ( FLBuilderModel::is_builder_active() || 'gallery' == $this->settings->layout ) {
 			$this->add_js( 'fl-gallery-grid' );
 		}
-		if ( FLBuilderModel::is_builder_active() || 'scroll' == $this->settings->pagination ) {
+		if ( FLBuilderModel::is_builder_active() || 'scroll' == $this->settings->pagination || 'load_more' == $this->settings->pagination ) {
 			$this->add_js( 'jquery-infinitescroll' );
 		}
 
@@ -779,6 +779,102 @@ FLBuilder::register_module('FLPostGridModule', array(
 					),
 				),
 			),
+			'load_more_general' => array(
+				'title'         => __( 'Load More Button', 'fl-builder' ),
+				'fields'        => array(
+					'more_btn_text' => array(
+						'type'          => 'text',
+						'label'         => __( 'Button Text', 'fl-builder' ),
+						'default'       => __( 'Load More', 'fl-builder' ),
+					),
+					'more_btn_icon'      => array(
+						'type'          => 'icon',
+						'label'         => __( 'Button Icon', 'fl-builder' ),
+						'show_remove'   => true,
+					),
+					'more_btn_icon_position' => array(
+						'type'          => 'select',
+						'label'         => __( 'Icon Position', 'fl-builder' ),
+						'default'       => 'before',
+						'options'       => array(
+							'before'        => __( 'Before Text', 'fl-builder' ),
+							'after'         => __( 'After Text', 'fl-builder' ),
+						),
+					),
+					'more_btn_icon_animation' => array(
+						'type'          => 'select',
+						'label'         => __( 'Icon Visibility', 'fl-builder' ),
+						'default'       => 'disable',
+						'options'       => array(
+							'disable'        => __( 'Always Visible', 'fl-builder' ),
+							'enable'         => __( 'Fade In On Hover', 'fl-builder' ),
+						),
+					),
+					'more_btn_bg_color'  => array(
+						'type'          => 'color',
+						'label'         => __( 'Background Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+					),
+					'more_btn_bg_hover_color' => array(
+						'type'          => 'color',
+						'label'         => __( 'Background Hover Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'preview'       => array(
+							'type'          => 'none',
+						),
+					),
+					'more_btn_text_color' => array(
+						'type'          => 'color',
+						'label'         => __( 'Text Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+					),
+					'more_btn_text_hover_color' => array(
+						'type'          => 'color',
+						'label'         => __( 'Text Hover Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'preview'       => array(
+							'type'          => 'none',
+						),
+					),
+					'more_btn_font_size' => array(
+						'type'          => 'text',
+						'label'         => __( 'Font Size', 'fl-builder' ),
+						'default'       => '14',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px',
+					),
+					'more_btn_padding'   => array(
+						'type'          => 'text',
+						'label'         => __( 'Padding', 'fl-builder' ),
+						'default'       => '10',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px',
+					),
+					'more_btn_border_radius' => array(
+						'type'          => 'text',
+						'label'         => __( 'Round Corners', 'fl-builder' ),
+						'default'       => '4',
+						'maxlength'     => '3',
+						'size'          => '4',
+						'description'   => 'px',
+					),
+					'more_btn_width'	 => array(
+						'type'		  => 'select',
+						'label'		  => __( 'Width', 'fl-builder' ),
+						'default'		  => 'auto',
+						'options'		  => array(
+							'auto'		   => _x( 'Auto', 'Width.', 'fl-builder' ),
+							'full'		   => __( 'Full Width', 'fl-builder' ),
+						),
+					),
+				),
+			),
 		),
 	),
 	'content'   => array(
@@ -798,7 +894,13 @@ FLBuilder::register_module('FLPostGridModule', array(
 						'options'       => array(
 							'numbers'       => __( 'Numbers', 'fl-builder' ),
 							'scroll'        => __( 'Scroll', 'fl-builder' ),
+							'load_more'     => __( 'Load More Button', 'fl-builder' ),
 							'none'          => _x( 'None', 'Pagination style.', 'fl-builder' ),
+						),
+						'toggle' 		=> array(
+							'load_more' 	=> array(
+								'sections' 		=> array( 'load_more_general' ),
+							),
 						),
 					),
 					'posts_per_page' => array(

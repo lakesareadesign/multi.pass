@@ -18,10 +18,12 @@ class MS_Controller_Settings extends MS_Controller {
 	 *
 	 * @var string
 	 */
-	const AJAX_ACTION_TOGGLE_SETTINGS = 'toggle_settings';
-	const AJAX_ACTION_UPDATE_SETTING = 'update_setting';
-	const AJAX_ACTION_UPDATE_CUSTOM_SETTING = 'update_custom_setting';
-	const AJAX_ACTION_UPDATE_PROTECTION_MSG = 'update_protection_msg';
+	const AJAX_ACTION_TOGGLE_SETTINGS 			= 'toggle_settings';
+	const AJAX_ACTION_UPDATE_SETTING 			= 'update_setting';
+	const AJAX_ACTION_UPDATE_CUSTOM_SETTING 	= 'update_custom_setting';
+	const AJAX_ACTION_UPDATE_PROTECTION_MSG 	= 'update_protection_msg';
+	const AJAX_ACTION_TOGGLE_CRON 				= 'toggle_cron';
+	const AJAX_ACTION_TOGGLE_PROTECTION_FILE 	= 'toggle_protection_file';
 
 	/**
 	 * Settings tabs.
@@ -30,11 +32,12 @@ class MS_Controller_Settings extends MS_Controller {
 	 *
 	 * @var   string
 	 */
-	const TAB_GENERAL = 'general';
-	const TAB_PAYMENT = 'payment';
-	const TAB_MESSAGES = 'messages';
-	const TAB_EMAILS = 'emails';
-	const TAB_IMPORT = 'import';
+	const TAB_GENERAL 	= 'general';
+	const TAB_PAYMENT 	= 'payment';
+	const TAB_MESSAGES 	= 'messages';
+	const TAB_EMAILS 	= 'emails';
+	const TAB_MEDIA 	= 'media';
+	const TAB_IMPORT 	= 'import';
 
 	/**
 	 * The current active tab in the vertical navigation.
@@ -76,6 +79,8 @@ class MS_Controller_Settings extends MS_Controller {
 		$this->add_ajax_action( self::AJAX_ACTION_UPDATE_SETTING, 'ajax_action_update_setting' );
 		$this->add_ajax_action( self::AJAX_ACTION_UPDATE_CUSTOM_SETTING, 'ajax_action_update_custom_setting' );
 		$this->add_ajax_action( self::AJAX_ACTION_UPDATE_PROTECTION_MSG, 'ajax_action_update_protection_msg' );
+		$this->add_ajax_action( self::AJAX_ACTION_TOGGLE_CRON, 'ajax_action_toggle_cron' );
+		$this->add_ajax_action( self::AJAX_ACTION_TOGGLE_PROTECTION_FILE, 'ajax_action_toggle_protection_file' );
 
 	}
 
@@ -176,13 +181,13 @@ class MS_Controller_Settings extends MS_Controller {
 			$settings = $this->get_model();
 			lib3()->array->strip_slashes( $_POST, 'value' );
 
-			$settings->set_custom_setting(
-				$_POST['group'],
-				$_POST['field'],
-				$_POST['value']
-			);
+			$group = $_POST['group'];
+			$field = $_POST['field'];
+			$value = $_POST['value'];
+			$settings->set_custom_setting( $group, $field, $value );
 			$settings->save();
 			$msg = MS_Helper_Settings::SETTINGS_MSG_UPDATED;
+
 		}
 
 		wp_die( $msg );
@@ -271,11 +276,11 @@ class MS_Controller_Settings extends MS_Controller {
 		// Create special pages.
 		MS_Model_Pages::create_missing_pages();
 
-		$pg_prot_cont = MS_Model_Pages::get_page( MS_Model_Pages::MS_PAGE_PROTECTED_CONTENT );
-		$pg_acco = MS_Model_Pages::get_page( MS_Model_Pages::MS_PAGE_ACCOUNT );
-		$pg_regi = MS_Model_Pages::get_page( MS_Model_Pages::MS_PAGE_REGISTER );
-		$pg_regi_comp = MS_Model_Pages::get_page( MS_Model_Pages::MS_PAGE_REG_COMPLETE );
-		$pg_memb = MS_Model_Pages::get_page( MS_Model_Pages::MS_PAGE_MEMBERSHIPS );
+		$pg_prot_cont 	= MS_Model_Pages::get_page( MS_Model_Pages::MS_PAGE_PROTECTED_CONTENT );
+		$pg_acco 		= MS_Model_Pages::get_page( MS_Model_Pages::MS_PAGE_ACCOUNT );
+		$pg_regi 		= MS_Model_Pages::get_page( MS_Model_Pages::MS_PAGE_REGISTER );
+		$pg_regi_comp 	= MS_Model_Pages::get_page( MS_Model_Pages::MS_PAGE_REG_COMPLETE );
+		$pg_memb 		= MS_Model_Pages::get_page( MS_Model_Pages::MS_PAGE_MEMBERSHIPS );
 
 		// Publish special pages.
 		// Tip: Only pages must be published that are added to the menu.
@@ -321,10 +326,17 @@ class MS_Controller_Settings extends MS_Controller {
 			self::TAB_EMAILS => array(
 				'title' => __( 'Automated Email Responses', 'membership2' ),
 			),
+			self::TAB_MEDIA => array(
+				'title' => __( 'Advanced Media Protection', 'membership2' ),
+			),
 			self::TAB_IMPORT => array(
 				'title' => __( 'Import Tool', 'membership2' ),
 			),
 		);
+		$settings = $this->get_model();
+		if ( ! MS_Model_Addon::is_enabled( MS_Addon_Mediafiles::ID ) || !$settings->is_advanced_media_protection ) {
+			unset( $tabs[self::TAB_MEDIA] );
+		}
 
 		$def_key = MS_Controller_Plugin::MENU_SLUG . '-settings';
 		lib3()->array->equip_get( 'page' );
@@ -392,8 +404,8 @@ class MS_Controller_Settings extends MS_Controller {
 	public function admin_settings_manager() {
 		MS_Helper_Settings::print_admin_message();
 		$this->get_active_tab();
-		$msg = 0;
-		$redirect = false;
+		$msg 		= 0;
+		$redirect 	= false;
 
 		if ( $this->is_admin_user() ) {
 			if ( $this->verify_nonce() || $this->verify_nonce( null, 'GET' ) ) {
@@ -472,12 +484,12 @@ class MS_Controller_Settings extends MS_Controller {
 
 		do_action( $hook );
 
-		$view = MS_Factory::create( 'MS_View_Settings_Edit' );
-		$view = apply_filters( $hook . '_view', $view );
+		$view 				= MS_Factory::create( 'MS_View_Settings_Edit' );
+		$view 				= apply_filters( $hook . '_view', $view );
 
-		$data = array();
-		$data['tabs'] = $this->get_tabs();
-		$data['settings'] = $this->get_model();
+		$data 				= array();
+		$data['tabs'] 		= $this->get_tabs();
+		$data['settings'] 	= $this->get_model();
 
 		$data['message'] = self::_message();
 
@@ -596,5 +608,44 @@ class MS_Controller_Settings extends MS_Controller {
 
 		lib3()->ui->data( 'ms_data', $data );
 		wp_enqueue_script( 'ms-admin' );
+	}
+
+	/**
+	 * Toggle Cron once enabled or disabled
+	 *
+	 * This actions is called once the switch in the settings is toggled
+	 * It calls th action in MS_Model_Plugin
+	 *
+	 * @since 1.0.3.6
+	 */
+	public function ajax_action_toggle_cron(){
+		if ( $this->verify_nonce( 'toggle_settings' )
+			&& $this->is_admin_user()
+		) {
+			do_action( 'ms_toggle_cron', null );
+			wp_send_json_success();
+		}
+		wp_send_json_error();
+
+	}
+
+	/**
+	 * Toggle protection file creation or update
+	 * This creates or modifies the .htaccess file in the uploads directory
+	 *
+	 * @since 1.0.4
+	 */
+	public function ajax_action_toggle_protection_file() {
+		$msg = MS_Helper_Settings::SETTINGS_MSG_NOT_UPDATED;
+		if ( $this->verify_nonce( 'toggle_protection_file' )
+			&& $this->is_admin_user()
+		) {
+			$response = MS_Helper_Media::clear_htaccess();
+			if ( !is_wp_error( $response ) ) {
+				MS_Model_Addon::toggle_media_htaccess();
+				$msg = MS_Helper_Settings::SETTINGS_MSG_UPDATED;
+			}
+		}
+		wp_die( $msg );
 	}
 }

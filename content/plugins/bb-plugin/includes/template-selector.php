@@ -21,7 +21,7 @@
 				<?php if ( FLBuilderModel::has_templates() ) : ?>
 				<div class="fl-builder-settings-message fl-builder-templates-cta">
 					<p><?php _e( 'Save and reuse your layouts or kick-start your creativity with even more professionally designed templates.', 'fl-builder' ); ?></p>
-					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_store_url( '', array(
+					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_upgrade_url( array(
 						'utm_medium' => 'bb-lite',
 						'utm_source' => 'builder-ui',
 						'utm_campaign' => 'templates-cta',
@@ -30,7 +30,7 @@
 				<?php else : ?>
 				<div class="fl-builder-settings-message fl-builder-templates-cta">
 					<p><?php _e( 'Save and reuse your layouts or kick-start your creativity with dozens of professionally designed templates.', 'fl-builder' ); ?></p>
-					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_store_url( '', array(
+					<a class="fl-builder-upgrade-button fl-builder-button" href="<?php echo FLBuilderModel::get_upgrade_url( array(
 						'utm_medium' => 'bb-lite',
 						'utm_source' => 'builder-ui',
 						'utm_campaign' => 'templates-cta',
