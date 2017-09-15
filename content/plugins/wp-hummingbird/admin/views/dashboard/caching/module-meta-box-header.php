@@ -4,8 +4,8 @@
  *
  * @package Hummingbird
  *
- * @var bool   $cf_active   CloudFlare status.
- * @var int    $cf_current  Current CloudFlare caching value.
+ * @var bool   $cf_active   Cloudflare status.
+ * @var int    $cf_current  Current Cloudflare caching value.
  * @var int    $issues      Number of issues.
  * @var string $title       Module title.
  */

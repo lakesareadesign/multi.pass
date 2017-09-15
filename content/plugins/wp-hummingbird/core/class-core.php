@@ -30,8 +30,8 @@ class WP_Hummingbird_Core {
 
 		if ( wphb_can_execute_php() ) {
 			$minify = wphb_get_setting( 'minify' );
-			if ( ( is_multisite() && ( ( 'super-admins' === $minify && is_super_admin() ) || ( true === $minify ) ) )
-			     || ( ! is_multisite() && current_user_can( wphb_get_admin_capability() ) ) ) {
+			if ( ( is_multisite() && ( ( 'super-admins' === $minify && is_super_admin() ) || ( true === $minify && current_user_can( wphb_get_admin_capability() ) ) ) )
+				|| ( ! is_multisite() && current_user_can( wphb_get_admin_capability() ) ) ) {
 				add_action( 'admin_bar_menu', array( $this, 'admin_bar_menu' ), 100 );
 			}
 		}

@@ -5,8 +5,18 @@
  */
 class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 
+	/**
+	 * Module slug.
+	 *
+	 * @var string
+	 */
 	protected $transient_slug = 'caching';
 
+	/**
+	 * Analyze data. Overwrites parent method.
+	 *
+	 * @return array
+	 */
 	public function analize_data() {
 
 		$files = array(
@@ -64,6 +74,7 @@ class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 			}
 		} // End foreach().
 
+		// If tests fail for some reason, we fallback to an API check.
 		if ( $try_api ) {
 			// Get the API results.
 			$api = wphb_get_api();
@@ -75,7 +86,7 @@ class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 					$results[ $type ] = absint( $api_results[ $type ] );
 				}
 			}
-		}
+		} // End if().
 
 		do_action( 'wphb_caching_analize_data', $results );
 
@@ -92,13 +103,10 @@ class WP_Hummingbird_Module_Caching extends WP_Hummingbird_Module_Server {
 		$apache_modules = array();
 		if ( function_exists( 'php_sapi_name' ) ) {
 			$sapi_name = php_sapi_name();
-		}
-
-		if ( function_exists( 'php_sapi_name' ) ) {
 			$apache_modules = apache_get_modules();
 		}
 
-		return in_array( 'mod_expires', $apache_modules );
+		return in_array( 'mod_expires', $apache_modules, true );
 
 	}
 
@@ -128,7 +136,7 @@ location ~* \.(css)$ {
     expires %%CSS%%;
 }
 
-location ~* \.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav|mp4|m4v|ogg|webm|aac)$ {
+location ~* \.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav|mp4|m4v|ogg|webm|aac|eot|ttf|otf|woff|svg)$ {
     expires %%MEDIA%%;
 }
 
@@ -175,7 +183,7 @@ ExpiresDefault %%ASSETS%%
 ExpiresDefault %%CSS%%
 </FilesMatch>
 
-<FilesMatch "\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav|mp4|m4v|ogg|webm|aac)$">
+<FilesMatch "\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav|mp4|m4v|ogg|webm|aac|eot|ttf|otf|woff|svg)$">
 ExpiresDefault %%MEDIA%%
 </FilesMatch>
 
@@ -193,7 +201,7 @@ ExpiresDefault %%IMAGES%%
    Header set Cache-Control "max-age=%%CSS_HEAD%%"
   </FilesMatch>
 
-  <FilesMatch "\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav|mp4|m4v|ogg|webm|aac)$">
+  <FilesMatch "\.(flv|ico|pdf|avi|mov|ppt|doc|mp3|wmv|wav|mp4|m4v|ogg|webm|aac|eot|ttf|otf|woff|svg)$">
    Header set Cache-Control "max-age=%%MEDIA_HEAD%%"
   </FilesMatch>
 

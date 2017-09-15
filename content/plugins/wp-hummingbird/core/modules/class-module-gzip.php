@@ -5,8 +5,18 @@
  */
 class WP_Hummingbird_Module_GZip extends WP_Hummingbird_Module_Server {
 
+	/**
+	 * Module slug.
+	 *
+	 * @var string
+	 */
 	protected $transient_slug = 'gzip';
 
+	/**
+	 * Analyze data. Overwrites parent method.
+	 *
+	 * @return array
+	 */
 	public function analize_data() {
 		$files = array(
 			'HTML'       => add_query_arg( 'avoid-minify', 'true', get_home_url() ),
@@ -49,7 +59,11 @@ class WP_Hummingbird_Module_GZip extends WP_Hummingbird_Module_Server {
 		return $results;
 	}
 
-
+	/**
+	 * Code to use on Nginx servers.
+	 *
+	 * @return string
+	 */
 	public function get_nginx_code() {
 		return '
 # Enable Gzip compression
@@ -69,13 +83,18 @@ gzip_types
     application/rss+xml
     application/vnd.ms-fontobject
     application/x-font-ttf
+    application/x-font-opentype
+    application/x-font-truetype
     application/x-javascript
     application/x-web-app-manifest+json
     application/xhtml+xml
     application/xml
+    font/eot
     font/opentype
+    font/otf
     image/svg+xml
     image/x-icon
+    image/vnd.microsoft.icon
     text/css
     text/plain
     text/javascript
@@ -85,6 +104,11 @@ gzip_types
 gzip_disable  "MSIE [1-6]\.(?!.*SV1)";';
 	}
 
+	/**
+	 * Code to use on Apache servers.
+	 *
+	 * @return string
+	 */
 	public function get_apache_code() {
 		return '
 <IfModule mod_deflate.c>
@@ -106,12 +130,15 @@ gzip_disable  "MSIE [1-6]\.(?!.*SV1)";';
                                       "application/vnd.geo+json" \
                                       "application/vnd.ms-fontobject" \
                                       "application/x-font-ttf" \
+                                      "application/x-font-opentype" \
+                                      "application/x-font-truetype" \
                                       "application/x-javascript" \
                                       "application/x-web-app-manifest+json" \
                                       "application/xhtml+xml" \
                                       "application/xml" \
                                       "font/eot" \
                                       "font/opentype" \
+                                      "font/otf" \
                                       "image/bmp" \
                                       "image/svg+xml" \
                                       "image/vnd.microsoft.icon" \
@@ -136,14 +163,29 @@ gzip_disable  "MSIE [1-6]\.(?!.*SV1)";';
 </IfModule>';
 	}
 
+	/**
+	 * Code to use on LiteSpeed servers.
+	 *
+	 * @return string
+	 */
 	public function get_litespeed_code() {
 		return $this->get_apache_code();
 	}
 
+	/**
+	 * IIS code.
+	 *
+	 * @return string
+	 */
 	public function get_iis_code() {
 		return '';
 	}
 
+	/**
+	 * IIS 7 code.
+	 *
+	 * @return string
+	 */
 	public function get_iis_7_code() {
 		return '';
 	}

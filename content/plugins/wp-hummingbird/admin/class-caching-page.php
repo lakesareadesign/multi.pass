@@ -19,7 +19,7 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 	/**
 	 * Number of issues.
 	 *
-	 * If CloudFlare is enabled will calculate number of issues for it, if not - number of local issues.
+	 * If Cloudflare is enabled will calculate number of issues for it, if not - number of local issues.
 	 *
 	 * @since 1.5.3
 	 * @var   int $issues  Default 0.
@@ -35,7 +35,7 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 	private $expires;
 
 	/**
-	 * CloudFlare status.
+	 * Cloudflare status.
 	 *
 	 * @since  1.5.3
 	 * @var    bool $cloudflare  Default false.
@@ -44,7 +44,7 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 	private $cloudflare = false;
 
 	/**
-	 * CloudFlare expiration value.
+	 * Cloudflare expiration value.
 	 *
 	 * TODO: maybe we can delete this, as it is used only once in the header of a meta box.
 	 *
@@ -55,7 +55,7 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 	private $expiration = 0;
 
 	/**
-	 * WP_Hummingbird_Performance_Report_Page constructor.
+	 * WP_Hummingbird_Admin_Page constructor.
 	 *
 	 * @param string $slug        The slug name to refer to this menu by (should be unique for this menu).
 	 * @param string $page_title  The text to be displayed in the title tags of the page when the menu is selected.
@@ -82,9 +82,9 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 		);
 
 		/**
-		 * Check CloudFlare status.
+		 * Check Cloudflare status.
 		 *
-		 * If CloudFlare is active, we store the values of CLoudFlare caching settings to the report variable.
+		 * If Cloudflare is active, we store the values of CLoudFlare caching settings to the report variable.
 		 * Else - we store the local setting in the report variable. That way we don't have to query and check
 		 * later on what report to show to the user.
 		 *
@@ -94,7 +94,7 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 		$this->cloudflare = wphb_cloudflare_is_active();
 		if ( $this->cloudflare ) {
 			$this->expiration = $cf_module->get_caching_expiration();
-			// Fill the report with values from CloudFlare.
+			// Fill the report with values from Cloudflare.
 			$this->report = array_fill_keys( array_keys( $this->expires ), $this->expiration );
 		} else {
 			// Get latest local report.
@@ -137,7 +137,7 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 		}
 
 		switch ( $type ) {
-			// Deactivate CloudFlare.
+			// Deactivate Cloudflare.
 			case 'cf-deactivate':
 				wphb_cloudflare_disconnect();
 				break;
@@ -187,11 +187,11 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 		</div>
 
 		<div class="wphb-notice wphb-notice-success hidden" id="wphb-notice-code-snippet-htaccess-updated">
-			<p><?php esc_html_e( 'Apache <strong>.htaccess</strong> file updated. Please, wait while Hummingbird recheck expirations...', 'wphb' ); ?></p>
+			<p><?php esc_html_e( 'Apache .htaccess file updated. Please, wait while Hummingbird recheck expirations...', 'wphb' ); ?></p>
 		</div>
 
 		<div class="wphb-notice wphb-notice-success hidden" id="wphb-notice-cloudflare-purge-cache">
-			<p><?php esc_html_e( 'CloudFlare cache successfully purged. Please wait 30 seconds for the purge to complete.', 'wphb' ); ?></p>
+			<p><?php esc_html_e( 'Cloudflare cache successfully purged. Please wait 30 seconds for the purge to complete.', 'wphb' ); ?></p>
 		</div>
 
 		<?php
@@ -228,7 +228,49 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 	public function register_meta_boxes() {
 		$redirect = false;
 
-		if ( isset( $_GET['enable'] ) && current_user_can( wphb_get_admin_capability() ) ) {
+		// Process form submit from expiry settings.
+		if ( isset( $_POST['submit'] ) ) { // Input var ok.
+
+			check_admin_referer( 'wphb-caching' );
+
+			if ( isset( $_POST['expiry-set-type'] ) && 'all' === sanitize_text_field( wp_unslash( $_POST['expiry-set-type'] ) ) ) { // Input var ok.
+				$this->caching_set_expiration( 'all', $_POST['set-expiry-all'] );
+			} else {
+				$this->caching_set_expiration( 'javascript', $_POST['set-expiry-javascript'] );
+				$this->caching_set_expiration( 'css', $_POST['set-expiry-css'] );
+				$this->caching_set_expiration( 'media', $_POST['set-expiry-media'] );
+				$this->caching_set_expiration( 'images', $_POST['set-expiry-images'] );
+			}
+
+			$response = $this->caching_reload_snippet();
+
+			$redirect_to = remove_query_arg( array(
+				'run',
+				'enable',
+				'disable',
+				'caching-updated',
+				'cache-disabled',
+				'htaccess-error',
+			) );
+			if ( 'apache' === $response['type'] && $response['updatedFile'] ) {
+				$redirect_to = add_query_arg( array(
+					'run'               => true,
+					'caching-updated'   => true,
+				), $redirect_to );
+			} elseif ( 'apache' === $response['type'] && ! $response['updatedFile'] ) {
+				$redirect_to = add_query_arg( 'htaccess-error', true, $redirect_to );
+			} else {
+				$redirect_to = add_query_arg( array(
+					'run'               => true,
+					'caching-updated'   => true,
+				), $redirect_to );
+			}
+
+			wp_safe_redirect( $redirect_to );
+			exit;
+		} // End if().
+
+		if ( isset( $_GET['enable'] ) && current_user_can( wphb_get_admin_capability() ) ) { // Input var ok.
 			// Enable caching in .htaccess (only for apache servers).
 			$result = wphb_save_htaccess( 'caching' );
 			if ( $result ) {
@@ -259,7 +301,7 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 			}
 		}
 
-		if ( isset( $_GET['disable'] ) && current_user_can( wphb_get_admin_capability() ) ) {
+		if ( isset( $_GET['disable'] ) && current_user_can( wphb_get_admin_capability() ) ) { // Input var ok.
 			// Disable caching in htaccess (only for apache servers).
 			$result = wphb_unsave_htaccess( 'caching' );
 			if ( $result ) {
@@ -290,13 +332,13 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 			}
 		}
 
-		if ( isset( $_GET['run'] ) && current_user_can( wphb_get_admin_capability() ) ) {
+		if ( isset( $_GET['run'] ) && current_user_can( wphb_get_admin_capability() ) ) { // Input var ok.
 			// Force a refresh of the data.
 			wphb_get_caching_status( true );
 			$redirect = true;
 		}
 
-		if ( isset( $_GET['run'] ) && isset( $_GET['type'] ) ) {
+		if ( isset( $_GET['run'] ) && isset( $_GET['type'] ) ) { // Input var ok.
 			$this->run_actions( $_GET['type'] );
 		}
 
@@ -537,7 +579,7 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 		$htaccess_written = wphb_is_htaccess_written( 'caching' );
 		$already_enabled = $this->is_caching_fully_enabled() && ! $htaccess_written;
 
-		// CloudFlare deactivate URL.
+		// Cloudflare deactivate URL.
 		$deactivate_url = add_query_arg( array(
 			'type' => 'cf-deactivate',
 			'run'  => 'true',
@@ -554,11 +596,33 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 			'disable' => 'true',
 		));
 
+		$expiry_selects = false;
+		// Default to show Cloudflare or Apache if set up.
+		$server_type = wphb_get_server_type();
+		if ( $this->cloudflare ) {
+			$server_type = 'cloudflare';
+			// If htaccess has been written, remove it.
+			if ( wphb_is_htaccess_writable() && $htaccess_written ) {
+				$result = wphb_unsave_htaccess( 'caching' );
+				if ( $result ) {
+					wphb_get_caching_status( true );
+				}
+			}
+			$expiry_selects = true;
+		} elseif ( wphb_is_htaccess_writable() && $htaccess_written ) {
+			if ( 'LiteSpeed' !== $server_type ) {
+				$server_type = 'apache';
+			}
+			$expiry_selects = true;
+		}
+
+		$all_expiry = ( count( array_unique( $this->expires ) ) === 1 );
+
 		$this->view( 'caching/browser-caching-configure-meta-box', array(
 			'results'           => $this->report,
 			'human_results'     => array_map( 'wphb_human_read_time_diff', $this->report ),
 			'expires'           => $this->expires,
-			'server_type'       => wphb_get_server_type(),
+			'server_type'       => $server_type,
 			'snippets'          => $snippets,
 			'htaccess_written'  => $htaccess_written,
 			'htaccess_writable' => wphb_is_htaccess_writable(),
@@ -568,6 +632,8 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 			'cf_disable_url'    => $deactivate_url,
 			'enable_link'       => $enable_link,
 			'disable_link'      => $disable_link,
+			'all_expiry'        => $all_expiry,
+			'expiry_selects'    => $expiry_selects,
 		));
 	}
 
@@ -632,4 +698,70 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 		));
 	}
 
+	/**
+	 * Set expiration for browser caching.
+	 *
+	 * @since 1.6.1
+	 * @param string $type   Expiry type.
+	 * @param string $value  Expiry value.
+	 */
+	public function caching_set_expiration( $type, $value ) {
+		if ( ! current_user_can( wphb_get_admin_capability() ) ) {
+			return;
+		}
+
+		$type  = sanitize_text_field( wp_unslash( $type ) ); // Input var okay.
+		$value = sanitize_text_field( wp_unslash( $value ) ); // Input var okay.
+
+		$frequencies = wphb_get_caching_frequencies();
+
+		if ( ! isset( $frequencies[ $value ] ) ) {
+			die();
+		}
+
+		$options = wphb_get_settings();
+		if ( 'all' === $type ) {
+			$options['caching_expiry_css']        = $value;
+			$options['caching_expiry_javascript'] = $value;
+			$options['caching_expiry_media']      = $value;
+			$options['caching_expiry_images']     = $value;
+		} else {
+			$options[ 'caching_expiry_' . $type ] = $value;
+		}
+
+		wphb_update_settings( $options );
+	}
+
+	/**
+	 * Reload snippet after new expiration interval has been selected.
+	 *
+	 * @since 1.6.1
+	 * @return array|void
+	 */
+	public function caching_reload_snippet() {
+		if ( ! current_user_can( wphb_get_admin_capability() ) ) {
+			return;
+		}
+
+		if ( ! isset( $_POST['hb_server_type'] ) ) { // Input var okay.
+			die();
+		}
+
+		$type = sanitize_text_field( wp_unslash( $_POST['hb_server_type'] ) ); // Input var okay.
+
+		$code = wphb_get_code_snippet( 'caching', $type );
+
+		$updated_file = false;
+		if ( true === wphb_is_htaccess_written( 'caching' ) && 'apache' === $type ) {
+			$updated_file = wphb_unsave_htaccess( 'caching' );
+			$updated_file = wphb_save_htaccess( 'caching' );
+		}
+		$response = array(
+			'type' => $type,
+			'code' => $code,
+			'updatedFile' => $updated_file,
+		);
+
+		return $response;
+	}
 }

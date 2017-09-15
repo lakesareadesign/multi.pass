@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 8.2.0
+ * @version 8.3.0
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related content
 Plugin URI: https://shareaholic.com/publishers/
 Description: The world's leading all-in-one Content Amplification Platform that helps grow your website traffic, engagement, conversions & monetization. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 8.2.0
+Version: 8.3.0
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -63,7 +63,7 @@ if (!class_exists('Shareaholic')) {
     const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
     const REC_API_URL = 'http://recommendations.shareaholic.com';
 
-    const VERSION = '8.2.0';
+    const VERSION = '8.3.0';
 
     /**
      * Starts off as false so that ::get_instance() returns
@@ -104,6 +104,8 @@ if (!class_exists('Shareaholic')) {
       add_action('init',                array('ShareaholicPublic', 'init'));
       add_action('after_setup_theme',   array('ShareaholicPublic', 'after_setup_theme'));
       add_action('the_content',         array('ShareaholicPublic', 'draw_canvases'));
+      add_action('the_excerpt',         array('ShareaholicPublic', 'draw_canvases'));
+      
       add_action('wp_head',             array('ShareaholicPublic', 'wp_head'), 6);
       add_shortcode('shareaholic',      array('ShareaholicPublic', 'shortcode'));
 
@@ -145,7 +147,7 @@ if (!class_exists('Shareaholic')) {
       // use the admin notice API
       add_action('admin_notices', array('ShareaholicAdmin', 'admin_notices'));
 
-      // ShortCode UI specific hooks to prevent duplicate app rendering
+      // ShortCode UI plugin specific hooks to prevent duplicate app rendering
       // https://wordpress.org/support/topic/custom-post-type-exclude-issue?replies=10#post-3370550
       add_action('scui_external_hooks_remove', array($this, 'remove_apps'));
       add_action('scui_external_hooks_return', array($this, 'return_apps'));
@@ -153,10 +155,12 @@ if (!class_exists('Shareaholic')) {
 
     public static function remove_apps() {
       remove_filter('the_content', array('ShareaholicPublic', 'draw_canvases'));
+      remove_filter('the_excerpt', array('ShareaholicPublic', 'draw_canvases'));
     }
 
     public static function return_apps() {
       add_filter('the_content', array('ShareaholicPublic', 'draw_canvases'));
+      add_filter('the_excerpt', array('ShareaholicPublic', 'draw_canvases'));
     }
 
     /**

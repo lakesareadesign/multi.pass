@@ -21,8 +21,9 @@ abstract class WP_Hummingbird_Module_Server extends WP_Hummingbird_Module {
 	 * @return mixed Analysis data
 	 */
 	public function get_analysis_data( $force = false ) {
-		if ( ! $this->transient_slug )
+		if ( ! $this->transient_slug ) {
 			return false;
+		}
 
 		$transient = 'wphb-' . $this->transient_slug . '-data';
 		$results = get_site_option( $transient );

@@ -42,9 +42,17 @@
 					<span><?php esc_html_e( 'Minify', 'wphb' ); ?></span>
 				</label>
 
-				<input type="checkbox" class="toggle-checkbox filter-toggles filter-combine" name="filter-combine" id="filter-combine">
+				<?php
+				$tooltip = __( 'Combine this file with others if possible', 'wphb' );
+				$is_ssl = wphb_is_ssl();
+				if ( $is_ssl ) {
+					$tooltip = __( 'This file can’t be combined', 'wphb' );
+					$dont_combine = true;
+				}
+				?>
+				<input type="checkbox" class="toggle-checkbox filter-toggles filter-combine" name="filter-combine" id="filter-combine" <?php echo disabled( $is_ssl ); ?>>
 				<label for="filter-combine" class="toggle-label">
-					<span class="toggle tooltip-l" tooltip="<?php esc_attr_e( 'Combine this file with others if possible', 'wphb' ); ?>"></span>
+					<span class="toggle tooltip-l" tooltip="<?php echo esc_attr( $tooltip ); ?>"></span>
 					<i class="hb-icon-minify-combine"></i>
 					<span><?php esc_html_e( 'Combine', 'wphb' ); ?></span>
 				</label>

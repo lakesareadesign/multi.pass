@@ -84,7 +84,7 @@ class ShareaholicUtilities {
     return array(
       'disable_admin_bar_menu' => 'off',
       'disable_debug_info' => 'off',
-      'disable_internal_share_counts_api' => 'off',
+      'disable_internal_share_counts_api' => 'on',
       'api_key' => '',
       'verification_key' => '',
     );

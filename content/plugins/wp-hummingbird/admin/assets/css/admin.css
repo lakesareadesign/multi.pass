@@ -456,7 +456,7 @@ button.notice-dismiss {
 .wpmud .dev-list > li .list-label {
 	font-size: 13px;
 	font-weight: 500;
-	line-height: 30px;
+	line-height: 21px;
 	padding: 15px 10px 15px 0
 }
 .wpmud .dev-list > li .list-data {
@@ -1105,6 +1105,9 @@ button.notice-dismiss {
 .wpmud .wphb-notice:not(.notice) p:last-of-type {
 	margin: 0;
 }
+.wpmud .wphb-notice:not(.notice) .buttons {
+	margin: 10px 30px 0;
+}
 .wpmud .wphb-notice p a {
 	font-weight: 500;
 }
@@ -1161,7 +1164,8 @@ button.notice-dismiss {
 .wpmud .wphb-notice-success p:first-child:before,
 .wpmud .wphb-notice-error p:first-child:before,
 .wpmud .wphb-notice-warning p:first-child:before,
-.wpmud .wphb-notice-blue p:first-child:before {
+.wpmud .wphb-notice-blue p:first-child:before,
+.wpmud .wphb-notice-blue-info p:first-child:before {
 	font-family: 'hummingbird', sans-serif;
 	font-size: 20px;
 	vertical-align: middle;
@@ -1186,7 +1190,8 @@ button.notice-dismiss {
 	background-color: #FFF5D5;
 	color: #333333;
 }
-.wpmud .wphb-notice-blue {
+.wpmud .wphb-notice-blue,
+.wpmud .wphb-notice-blue-info {
 	background-color: #E1F6FF;
 	margin-top: 30px;
 }
@@ -1214,6 +1219,10 @@ button.notice-dismiss {
 }
 .wpmud .wphb-notice-blue p:before {
 	content: '\e903';
+	color: #17A8E3;
+}
+.wpmud .wphb-notice-blue-info p:before {
+	content: '\e902';
 	color: #17A8E3;
 }
 .wpmud .dev-overlay .wphb-notice-warning p {
@@ -2144,6 +2153,7 @@ button.notice-dismiss {
 }
 .wpmud div.wphb-block-entry {
 	width: 100%;
+	min-height: 172px;
 }
 .wpmud .wphb-block-entry-third span.not-present {
 	font-size: 55px;
@@ -2565,6 +2575,7 @@ only screen and (                min-resolution: 2dppx) {
 .wpmud .wrap-wphb-performance .scan-settings .buttons {
 	margin-top: 30px;
 }
+.wpmud .wrap-wphb-caching .list-results,
 .wpmud .wrap-wphb-performance .list-results {
 	max-height: 200px;
 	overflow-y: scroll;
@@ -3036,6 +3047,13 @@ only screen and (                min-resolution: 2dppx) {
 	margin-top: 0;
 }
 
+.wpmud .wphb-server-instructions .tabs {
+	margin: 0;
+}
+.wpmud .wphb-server-instructions .tabs .tab .content {
+	padding: 30px 30px 0;
+}
+
 .wpmud .wphb-code-snippet .button {
 	position: absolute;
 	left: 100%;
@@ -3124,7 +3142,7 @@ only screen and (                min-resolution: 2dppx) {
 		margin-left: 20px;
 	}
 	.wpmud .wphb-filename-info {
-		max-width: 350px;
+		max-width: 349px;
 	}
 }
 
@@ -3278,10 +3296,10 @@ only screen and (                min-resolution: 2dppx) {
 	/* Box: Content w/Image (left) */
 	.wpmud .content-box-two-cols-image-left .wphb-block-entry {
 		text-align: center;
+		min-height: 100%;
 	}
 	.wpmud .content-box-two-cols-image-left .wphb-block-entry-image {
-		float: none;
-		margin-bottom: 30px;
+		display: none;
 	}
 	.wpmud .wphb-block-entry-third {
 		width: 49%;
@@ -3842,4 +3860,4 @@ only screen and (                min-resolution: 2dppx) {
 }
 
 
-/* 133620-1502132191-au */
+/* 133620-1505438678-au */

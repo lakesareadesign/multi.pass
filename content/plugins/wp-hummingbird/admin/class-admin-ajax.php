@@ -19,11 +19,11 @@ class WP_Hummingbird_Admin_AJAX {
 		add_action( 'wp_ajax_wphb_caching_set_server_type', array( $this, 'caching_set_server_type' ) );
 		// Reload snippet.
 		add_action( 'wp_ajax_wphb_caching_reload_snippet', array( $this, 'caching_reload_snippet' ) );
-		// CloudFlare connect.
+		// Cloudflare connect.
 		add_action( 'wp_ajax_wphb_cloudflare_connect', array( $this, 'cloudflare_connect' ) );
-		// CloudFlare expirtion cache.
+		// Cloudflare expirtion cache.
 		add_action( 'wp_ajax_wphb_cloudflare_set_expiry', array( $this, 'cloudflare_set_expiry' ) );
-		// CloudFlare purge cache.
+		// Cloudflare purge cache.
 		add_action( 'wp_ajax_wphb_cloudflare_purge_cache', array( $this, 'cloudflare_purge_cache' ) );
 		// Activate network minification.
 		add_action( 'wp_ajax_wphb_dash_toggle_network_minification', array( $this, 'dash_toggle_network_minification' ) );
@@ -41,7 +41,8 @@ class WP_Hummingbird_Admin_AJAX {
 		add_action( 'wp_ajax_wphb_minification_cancel_scan', array( $this, 'minification_cancel_scan' ) );
 		// Delete scan
 		add_action( 'wp_ajax_wphb_minification_finish_scan', array( $this, 'minification_finish_scan' ) );
-
+		// Dismiss notice.
+		add_action( 'wp_ajax_wphb_notice_dismiss', array( $this, 'notice_dismiss' ) );
 	}
 
 	/**
@@ -365,7 +366,7 @@ class WP_Hummingbird_Admin_AJAX {
 		}
 
 		wp_send_json_success( array(
-			'show_cdn' => $cdn_modal
+			'show_cdn' => $cdn_modal,
 		));
 	}
 
@@ -382,7 +383,7 @@ class WP_Hummingbird_Admin_AJAX {
 	}
 
 	/**
-	 * Connect to CloudFlare.
+	 * Connect to Cloudflare.
 	 */
 	public function cloudflare_connect() {
 		check_ajax_referer( 'wphb-fetch', 'nonce' );
@@ -460,7 +461,7 @@ class WP_Hummingbird_Admin_AJAX {
 
 				if ( empty( $settings['cloudflare-zone'] ) ) {
 					wp_send_json_error( array(
-						'message' => __( 'Please, select a CloudFlare zone. Normally, this is your website', 'wphb' ),
+						'message' => __( 'Please, select a Cloudflare zone. Normally, this is your website', 'wphb' ),
 					));
 				}
 
@@ -509,7 +510,7 @@ class WP_Hummingbird_Admin_AJAX {
 	}
 
 	/**
-	 * Set expiration for CloudFlare cache.
+	 * Set expiration for Cloudflare cache.
 	 */
 	public function cloudflare_set_expiry() {
 		check_ajax_referer( 'wphb-fetch', 'nonce' );
@@ -529,7 +530,7 @@ class WP_Hummingbird_Admin_AJAX {
 	}
 
 	/**
-	 * Purge CloudFlare cache.
+	 * Purge Cloudflare cache.
 	 */
 	public function cloudflare_purge_cache() {
 		check_ajax_referer( 'wphb-fetch', 'nonce' );
@@ -541,6 +542,27 @@ class WP_Hummingbird_Admin_AJAX {
 		/** @var WP_Hummingbird_Module_Cloudflare $cf */
 		$cf = wphb_get_module( 'cloudflare' );
 		$cf->purge_cache();
+
+		wp_send_json_success();
+	}
+
+	/**
+	 * Dismiss notice.
+	 *
+	 * @since 1.6.1
+	 */
+	public function notice_dismiss() {
+		check_ajax_referer( 'wphb-fetch', 'nonce' );
+
+		if ( ! current_user_can( wphb_get_admin_capability() ) ) {
+			return;
+		}
+
+		$notice_id = sanitize_text_field( wp_unslash( $_POST['id'] ) );
+
+		//update_user_meta( get_current_user_id(), 'wphb-notice-' . $notice_id . '-dismissed', 'true' );
+		//delete_site_option( 'wphb-notice-' . $notice . '-show' );
+		update_option( 'wphb-notice-' . $notice_id . '-dismissed', 'true' );
 
 		wp_send_json_success();
 	}

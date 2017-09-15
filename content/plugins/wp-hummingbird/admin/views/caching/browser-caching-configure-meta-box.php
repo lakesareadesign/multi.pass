@@ -7,19 +7,21 @@
  * @var array  $results            Current report.
  * @var array  $human_results      Current report in readable format.
  * @var array  $expires            Current expiration value settings.
- * @var bool   $cf_active          CloudFlare status.
- * @var int    $cf_current         CloudFlare expiration value.
- * @var string $cf_disable_url     CloudFlare deactivate URL.
+ * @var bool  $expiry_selects     Expiry selects.
+ * @var bool   $cf_active          Cloudflare status.
+ * @var int    $cf_current         Cloudflare expiration value.
+ * @var string $cf_disable_url     Cloudflare deactivate URL.
  * @var string $server_type        Current server type.
  * @var array  $snippets           Code snippets for servers.
  * @var bool   $htaccess_written   File .htaccess is written.
  * @var bool   $htaccess_writable  File .htaccess is writable.
  * @var bool   $already_enabled    Caching is enabled.
+ * @var bool   $all_expiry         All expiry values the same.
  * @var string $enable_link        Activate automatic caching link.
  * @var string $disable_link       Disable automatic caching link.
  */
 
-?>
+if ( $expiry_selects ) : ?>
 <div class="row settings-form with-bottom-border">
 	<div class="col-third">
 		<strong><?php esc_html_e( 'Expiry Settings', 'wphb' ) ?></strong>
@@ -28,58 +30,67 @@
 		</span>
 	</div><!-- end col-third -->
 	<div class="col-two-third">
-
-		<?php if ( ! $cf_active ) : ?>
-			<div class="wphb-radio-group">
-				<input type="radio" name="expiry-set-type" id="expiry-all-types" checked="checked">
-				<label for="expiry-all-types"><?php esc_html_e( 'Apply for all cache types', 'wphb' ); ?></label>
-			</div>
-			<div class="wphb-radio-group">
-				<input type="radio" name="expiry-set-type" id="expiry-single-type">
-				<label for="expiry-single-type"><?php esc_html_e( 'Apply for each cache type', 'wphb' ); ?></label>
-			</div>
-		<?php endif; ?>
-
-		<div class="wphb-border-frame with-padding">
-			<small>
-				<?php esc_html_e( 'Please choose your desired expiry time. Google recommends 8 days as a good benchmark.', 'wphb' ); ?>
-			</small>
+		<form action="" method="post">
+			<input type="hidden" class="hb-server-type" name="hb_server_type" value="<?php echo esc_attr( $server_type ); ?>">
 			<?php if ( ! $cf_active ) : ?>
-				<div data="expiry-all-types">
-					<label><?php esc_html_e( 'All types', 'wphb' ); ?></label>
-					<?php
-					wphb_get_caching_frequencies_dropdown( array(
-						'name'      => 'wphb-caching-all-set-expiry-select-css',
-						'class'     => 'wphb-expiry-select',
-						'selected'  => $expires['css'],
-						'data-type' => 'all',
-					)); ?>
+				<div class="wphb-radio-group">
+					<input type="radio" name="expiry-set-type" id="expiry-all-types" value="all" <?php checked( $all_expiry ); ?>>
+					<label for="expiry-all-types"><?php esc_html_e( 'Apply for all cache types', 'wphb' ); ?></label>
 				</div>
-				<div class="hidden" data="expiry-single-type">
-					<?php foreach ( $human_results as $type => $result ) : ?>
-						<label><?php echo esc_html( $type ); ?></label>
+				<div class="wphb-radio-group">
+					<input type="radio" name="expiry-set-type" id="expiry-single-type" value="single" <?php checked( ! $all_expiry ); ?>>
+					<label for="expiry-single-type"><?php esc_html_e( 'Apply for each cache type', 'wphb' ); ?></label>
+				</div>
+			<?php endif; ?>
+
+			<div class="wphb-border-frame with-padding">
+				<small>
+					<?php esc_html_e( 'Please choose your desired expiry time. Google recommends 8 days as a good benchmark.', 'wphb' ); ?>
+				</small>
+				<?php if ( ! $cf_active ) : ?>
+					<div data="expiry-all-types">
+						<label><?php esc_html_e( 'All types', 'wphb' ); ?></label>
 						<?php
 						wphb_get_caching_frequencies_dropdown( array(
-							'name'      => 'wphb-caching-summary-set-expiry-select-css',
+							'name'      => 'set-expiry-all',
 							'class'     => 'wphb-expiry-select',
-							'selected'  => $expires[ $type ],
-							'data-type' => $type,
+							'selected'  => $expires['css'],
+							'data-type' => 'all',
 						));
-					endforeach; ?>
-				</div>
-			<?php elseif ( $cf_active ) : ?>
-				<label><?php esc_html_e( 'Choose expiry', 'wphb' ); ?></label>
-				<?php
-				wphb_get_caching_cloudflare_frequencies_dropdown( array(
-					'name'     => 'wphb-caching-cloudflare-summary-set-expiry',
-					'class'    => 'wphb-expiry-select',
-					'selected' => $cf_current,
-				));
-			endif; ?>
-		</div><!-- end wphb-border-frame -->
-
+						?>
+					</div>
+					<div class="hidden" data="expiry-single-type">
+						<?php foreach ( $human_results as $type => $result ) : ?>
+							<label><?php echo esc_html( $type ); ?></label>
+							<?php
+							wphb_get_caching_frequencies_dropdown( array(
+								'name'      => 'set-expiry-' . $type,
+								'class'     => 'wphb-expiry-select',
+								'selected'  => $expires[ $type ],
+								'data-type' => $type,
+							));
+						endforeach;
+						?>
+					</div>
+				<?php elseif ( $cf_active ) : ?>
+					<label><?php esc_html_e( 'Choose expiry', 'wphb' ); ?></label>
+					<?php
+					wphb_get_caching_cloudflare_frequencies_dropdown( array(
+						'name'     => 'wphb-caching-cloudflare-summary-set-expiry',
+						'class'    => 'wphb-expiry-select',
+						'selected' => $cf_current,
+					));
+				endif;
+				?>
+			</div><!-- end wphb-border-frame -->
+			<div class="buttons alignright">
+				<input type="submit" class="button button-large" name="submit" value="<?php esc_attr_e( 'Save Changes', 'wphb' ); ?>"/>
+			</div>
+			<?php wp_nonce_field( 'wphb-caching' ); ?>
+		</form>
 	</div><!-- end col-two-third -->
 </div><!-- end row -->
+<?php endif; ?>
 
 <div class="row settings-form">
 	<div class="col-third">
@@ -96,7 +107,7 @@
 
 		if ( ! $cf_active ) : ?>
 			<span class="sub">
-				<?php esc_html_e( 'Using CloudFlare?', 'wphb' ); ?>
+				<?php esc_html_e( 'Using Cloudflare?', 'wphb' ); ?>
 				<a href="#" id="connect-cloudflare-link">
 					<?php esc_html_e( 'Connect account', 'wphb' ); ?>
 				</a>
@@ -113,7 +124,7 @@
 				<div class="tabs">
 					<div class="tab">
 						<label for="apache-config-auto"><?php esc_html_e( 'Automatic', 'wphb' ); ?></label>
-						<input type="radio" name="apache-config-type" id="apache-config-auto">
+						<input type="radio" name="apache-config-type" id="apache-config-auto" checked>
 						<div class="content">
 						<span class="sub">
 							<?php esc_html_e( 'Hummingbird can automatically apply browser caching for Apache servers by writing your .htaccess file. Alternately, switch to Manual to apply these rules yourself.', 'wphb' ); ?>
@@ -268,9 +279,9 @@
 				<?php else : ?>
 					<p><?php
 						printf(
-						/* translators: %s: Link to TechNet */
-							__( 'For IIS servers, <a href="%s">visit Microsoft TechNet</a>', 'wphb' ),
-							'https://www.microsoft.com/technet/prodtechnol/WindowsServer2003/Library/IIS/25d2170b-09c0-45fd-8da4-898cf9a7d568.mspx?mfr=true' ); ?>
+							/* translators: %s: Link to TechNet */
+							__( 'For IIS servers, <a href="%s" target="_blank">visit Microsoft TechNet</a>', 'wphb' ),
+						'https://www.microsoft.com/technet/prodtechnol/WindowsServer2003/Library/IIS/25d2170b-09c0-45fd-8da4-898cf9a7d568.mspx?mfr=true' ); ?>
 					</p>
 				<?php endif; ?>
 			</div>
@@ -283,9 +294,9 @@
 				<?php else : ?>
 					<p><?php
 						printf(
-						/* translators: %s: Link to TechNet */
-							__( 'For IIS 7 servers, <a href="%s">visit Microsoft TechNet</a>', 'wphb' ),
-							'https://technet.microsoft.com/en-us/library/cc771003(v=ws.10).aspx' ); ?>
+							/* translators: %s: Link to TechNet */
+							__( 'For IIS 7 servers, <a href="%s" target="_blank">visit Microsoft TechNet</a>', 'wphb' ),
+						'https://technet.microsoft.com/en-us/library/cc771003(v=ws.10).aspx' ); ?>
 					</p>
 				<?php endif; ?>
 			</div>
@@ -293,7 +304,7 @@
 
 		<div id="wphb-server-instructions-cloudflare" class="wphb-server-instructions hidden" data-server="cloudflare">
 			<span class="sub">
-				<?php esc_html_e( 'Hummingbird can control your CloudFlare Browser Cache settings from here. Simply add your CloudFlare API details and configure away.', 'wphb' ); ?>
+				<?php esc_html_e( 'Hummingbird can control your Cloudflare Browser Cache settings from here. Simply add your Cloudflare API details and configure away.', 'wphb' ); ?>
 			</span>
 			<?php
 			/* @var WP_Hummingbird_Module_Cloudflare $cf_module */
@@ -325,22 +336,22 @@
 			<script type="text/template" id="cloudflare-step-credentials">
 				<div class="cloudflare-step">
 					<form class="wphb-border-frame with-padding" action="" method="post" id="cloudflare-credentials">
-						<label for="cloudflare-email"><?php esc_html_e( 'CloudFlare account email', 'wphb' ); ?>
+						<label for="cloudflare-email"><?php esc_html_e( 'Cloudflare account email', 'wphb' ); ?>
 							<input type="text" autocomplete="off" value="{{ data.email }}" name="cloudflare-email" id="cloudflare-email" placeholder="<?php esc_attr_e( 'Enter email address', 'wphb' ); ?>">
 						</label>
 
-						<label for="cloudflare-api-key"><?php esc_html_e( 'CloudFlare Global API Key', 'wphb' ); ?>
+						<label for="cloudflare-api-key"><?php esc_html_e( 'Cloudflare Global API Key', 'wphb' ); ?>
 							<input type="text" autocomplete="off" value="{{ data.apiKey }}" name="cloudflare-api-key" id="cloudflare-api-key" placeholder="<?php esc_attr_e( 'Enter your 37 digit API key', 'wphb' ); ?>">
 						</label>
 
 						<p class="cloudflare-submit">
 							<span class="spinner cloudflare-spinner"></span>
-							<input type="submit" class="button button-large" value="<?php echo esc_attr( _x( 'Connect', 'Connect to CloufFlare button text', 'wphb' ) ); ?>">
+							<input type="submit" class="button button-large" value="<?php echo esc_attr( _x( 'Connect', 'Connect to Cloudflare button text', 'wphb' ) ); ?>">
 						</p>
 						<p id="cloudflare-how-to-title"><a href="#cloudflare-how-to"><?php esc_html_e( 'Need help getting your API Key?', 'wphb' ); ?></a></p>
 						<div class="clear"></div>
 						<ol id="cloudflare-how-to" class="wphb-block-content-blue">
-							<li><?php printf( __( '<a target="_blank" href="%s">Log in</a> to your CloudFlare account.', 'wphb' ), 'https://www.cloudflare.com/a/login' ); ?></li>
+							<li><?php printf( __( '<a target="_blank" href="%s">Log in</a> to your Cloudflare account.', 'wphb' ), 'https://www.cloudflare.com/a/login' ); ?></li>
 							<li><?php esc_html_e( 'Go to My Settings.', 'wphb' ); ?></li>
 							<li><?php esc_html_e( 'Scroll down to API Key.', 'wphb' ); ?></li>
 							<li><?php esc_html_e( "Click 'View API Key' button and copy your API identifier.", 'wphb' ); ?></li>
@@ -353,25 +364,41 @@
 				<div class="cloudflare-step">
 					<form action="" method="post" id="cloudflare-zone">
 						<# if ( ! data.zones.length ) { #>
-							<p><?php esc_html_e( 'It appears you have no active zones available. Double check your domain has been added to CloudFlare and try again.', 'wphb' ); ?></p>
+							<p><?php _e( 'It appears you have no active zones available. Double check your domain has been added to Cloudflare and try again.', 'wphb' ); ?></p>
 							<p class="cloudflare-submit">
 								<a href="<?php echo esc_url( wphb_get_admin_menu_url( 'caching' ) ); ?>&reload=<?php echo time(); ?>#wphb-box-dashboard-cloudflare" class="button"><?php esc_html_e( 'Re-Check', 'wphb' ); ?></a>
 							</p>
-							<# } else { #>
+						<# } else { #>
+							<# var zone = false; #>
+							<# for( var i = 0, len = data.zones.length; i < len; i++ ) { #>
+								<# if( data.zones[i].label === window.location.hostname ) { #>
+									<# zone = true; #>
+									<# break; #>
+								<# } #>
+							<# } #>
+							<# if ( zone ) { #>
 								<p>
-									<label for="cloudflare-zone"><?php esc_html_e( 'Select the domain that matches this website', 'wphb' ); ?></label>
+									<label for="cloudflare-zone"><?php _e( 'Select the domain that matches this website', 'wphb' ); ?></label>
 									<select name="cloudflare-zone" id="cloudflare-zone">
-										<option value=""><?php esc_html_e( 'Select domain', 'wphb' ); ?></option>
+										<option value=""><?php _e( 'Select domain', 'wphb' ); ?></option>
 										<# for ( i in data.zones ) { #>
 											<option value="{{ data.zones[i].value }}">{{{ data.zones[i].label }}}</option>
-											<# } #>
+										<# } #>
 									</select>
+								</p>
 								<p class="cloudflare-submit">
 									<span class="spinner cloudflare-spinner"></span>
-									<input type="submit" class="button" value="<?php esc_attr_e( 'Enable CloudFlare', 'wphb' ); ?>">
+									<input type="submit" class="button" value="<?php esc_attr_e( 'Enable Cloudflare', 'wphb' ); ?>">
 								</p>
-								<# } #>
-									<div class="clear"></div>
+							<# } else { #>
+								<p><?php _e( 'It appears you have no active zones available. Double check your domain has been added to Cloudflare and try again.', 'wphb' ); ?></p>
+								<p class="cloudflare-submit">
+									<a href="<?php echo esc_url( $cf_disable_url ); ?>" class="cloudflare-deactivate button button-ghost button"><?php esc_attr_e( 'Deactivate', 'wphb' ); ?></a>
+									<a href="<?php echo esc_url( wphb_get_admin_menu_url( 'caching' ) ); ?>&reload=<?php echo time(); ?>#wphb-box-dashboard-cloudflare" class="button"><?php esc_html_e( 'Re-Check', 'wphb' ); ?></a>
+								</p>
+							<# } #>
+						<# } #>
+						<div class="clear"></div>
 					</form>
 				</div>
 			</script>
@@ -379,17 +406,17 @@
 			<script type="text/template" id="cloudflare-step-final">
 				<div class="cloudflare-step">
 					<div class="wphb-caching-success wphb-notice wphb-notice-blue">
-						<p><?php esc_html_e( 'CloudFlare is connected for this domain. Adjust your expiry settings and save your settings to update your CloudFlare cache settings.', 'wphb' ); ?></p>
+						<p><?php esc_html_e( 'Cloudflare is connected for this domain. Adjust your expiry settings and save your settings to update your Cloudflare cache settings.', 'wphb' ); ?></p>
 					</div>
 					<p class="cloudflare-data">
 						<?php
 						$cf_zone_name = wphb_get_setting( 'cloudflare-zone-name' );
 						if ( ! empty( $cf_zone_name ) ) : ?>
-							<span><strong><?php _ex( 'Zone', 'CloudFlare Zone', 'wphb' ); ?>:</strong> {{ data.zoneName }}</span>
+							<span><strong><?php _ex( 'Zone', 'Cloudflare Zone', 'wphb' ); ?>:</strong> {{ data.zoneName }}</span>
 						<?php endif;
 						$cf_plan = $cf_module->get_plan();
 						if ( ! empty( $cf_plan ) ) : ?>
-							<span><strong><?php _ex( 'Plan', 'CloudFlare Plan', 'wphb' ); ?>:</strong> {{ data.plan }}</span>
+							<span><strong><?php _ex( 'Plan', 'Cloudflare Plan', 'wphb' ); ?>:</strong> {{ data.plan }}</span>
 						<?php endif; ?>
 					</p>
 					<div class="wphb-border-frame with-padding">
@@ -423,6 +450,17 @@
 			if ( window.WPHB_Admin ) {
 				window.WPHB_Admin.getModule( 'cloudflare' );
 			}
+			//jq.on('click', '.tab > input[type=radio]', updateHash);
+			//jQuery('.tab > input[type=radio]').trigger('wpmu:change')
+			var content = jQuery('.tab > #apache-config-manual');
+			window.console.log( content );
+			content.trigger('click')
 		});
 	</script>
 <?php endif; ?>
+<script>
+	jQuery(window).load(function() {
+		var caching = window.WPHB_Admin.getModule( 'caching' );
+		caching.updateTabSize();
+	});
+</script>

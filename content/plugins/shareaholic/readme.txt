@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags: share buttons, related content, cookie compliance, eu cookie law, shareaholic, shareholic, sexybookmarks, recommendations, cookie consent, email button, social sharing, social bookmarking, share image, image sharing, follow buttons, floated share buttons, floating share buttons, analytics, social media, social plugin, facebook, twitter, google plus, google bookmarks, gmail, linkedin, pinterest, reddit, tumblr, evernote, digg, delicious, stumbleupon, printfriendly, fancy, amazon, xing, vk, yahoo, mister wong, viadeo, odnoklassniki box.net, diigo, yammer, ycombinator, hotmail, instapaper, mixi, arto, whatsapp, hootsuite, inbound.org, plurk, aim, buffer, meneame, pinboard.in, stumpedia, bitly, blogger, yummly, izeby, kaboodle, weibo, instagram, tinyurl,  typepad, weheartit, flipboard, pocket, wanelo, fark, wykop, symphony, kindle, houzz, youtube, sms, onenote, google classroom, disqus, spotify, zillow, feedly, kik, line, livejournal, baidu
 Requires at least: 3.0
 Tested up to: 4.8
-Stable tag: 8.2.0
+Stable tag: 8.3.0
 
 World's leading all-in-one Content Amplification Platform that helps grow your site traffic, engagement, conversions & monetization for FREE.
 
@@ -195,6 +195,10 @@ Please see here: [Shareaholic Helpdesk](http://support.shareaholic.com/hc/en-us)
 Please see here: [Usage & Installation Instructions](http://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin)
 
 == Changelog ==
+
+= 8.3.0 =
+* Bugfix: Fixed issue where Share Buttons and Related Content apps were not showing after excerpts
+* Various other performance updates and bug fixes
 
 = 8.2.0 =
 * New: **[Share Buttons for Images (Image Sharer)](https://blog.shareaholic.com/new-share-buttons-for-images-plugin/)** enhancements - you can now fully customize where these share buttons appear on your images and exactly how they will look and function, including setting opacity, offsets, icon padding, position, custom icon colors, size, and a lot more. All this, without touching ANY code! Also adds support for Facebook, Google+, Twitter, LinkedIn, Email, Fancy.com, Yummly and Houzz.
@@ -636,6 +640,9 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Show Related Posts data status
 
 == Upgrade Notice ==
+
+= 8.3.0 =
+Various enhancements
 
 = 8.2.0 =
 * Must Upgrade! Enhancements to Social Share Count Recovery - adds support for case where permalink structure changes, Share Buttons for Images (Image Sharer) and introducing Teams.

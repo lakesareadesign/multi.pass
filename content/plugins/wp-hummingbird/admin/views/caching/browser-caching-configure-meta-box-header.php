@@ -5,7 +5,7 @@
  * @package Hummingbird
  *
  * @var string $title      Title of the module.
- * @var bool   $cf_active  CloudFlare status.
+ * @var bool   $cf_active  Cloudflare status.
  */
 
 ?>
@@ -13,7 +13,7 @@
 <?php if ( ! $cf_active ) : ?>
 	<div class="buttons buttons-group">
 		<p class="wphb-label-notice-inline hide-to-mobile">
-			<?php esc_html_e( 'Using CloudFlare?', 'wphb' ); ?>
+			<?php esc_html_e( 'Using Cloudflare?', 'wphb' ); ?>
 			<a href="#" id="connect-cloudflare-link">
 				<?php esc_html_e( 'Connect account', 'wphb' ); ?>
 			</a>

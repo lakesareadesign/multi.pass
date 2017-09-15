@@ -5,8 +5,8 @@
  * @package Hummingbird
  *
  * @var int    $caching_issues  Number of issues.
- * @var bool   $cf_active       CloudFlare status.
- * @var int    $cf_current      CloudFlare expiry settings.
+ * @var bool   $cf_active       Cloudflare status.
+ * @var int    $cf_current      Cloudflare expiry settings.
  * @var int    $gzip_issues     Number of gzip issues.
  * @var object $last_report     Last report object.
  * @var bool   $uptime_active   Uptime status.
@@ -95,6 +95,8 @@
 						<a target="_blank" class="button button-disabled" id="dash-uptime-inactive">
 							<?php esc_html_e( 'Uptime Inactive', 'wphb' ); ?>
 						</a>
+					<?php elseif ( empty( $site_date ) ) :
+						esc_html_e( 'Website is reported down', 'wphb' ); ?>
 					<?php else :
 						echo esc_html( $site_date );
 					endif; ?>

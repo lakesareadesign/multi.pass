@@ -279,7 +279,7 @@ class WP_Hummingbird_Module_Cloudflare extends WP_Hummingbird_Module {
 	}
 
 	/**
-	 * Get a list of CloudFlare zones
+	 * Get a list of Cloudflare zones
 	 *
 	 * @return WP_Error|array
 	 */
@@ -341,7 +341,7 @@ class WP_Hummingbird_Module_Cloudflare extends WP_Hummingbird_Module {
 		$value = absint( $value );
 		$freqs = wphb_get_caching_cloudflare_frequencies();
 		if ( ! $value || ! array_key_exists( $value, $freqs ) ) {
-			return new WP_Error( 'cf_invalid_value', __( 'Invalid CloudFlare expiration value', 'wphb' ) );
+			return new WP_Error( 'cf_invalid_value', __( 'Invalid Cloudflare expiration value', 'wphb' ) );
 		}
 
 		return $api->cloudflare->set_caching_expiration( $zone, $value );

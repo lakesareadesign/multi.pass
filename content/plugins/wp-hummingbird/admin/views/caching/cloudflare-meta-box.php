@@ -32,25 +32,25 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 <script type="text/template" id="cloudflare-step-credentials">
 	<div class="cloudflare-step">
 
-		<p><?php _e( 'Hummingbird can control your CloudFlare Browser Cache settings from here. Simply add your CloudFlare API details and configure away.', 'wphb' ); ?></p>
+		<p><?php _e( 'Hummingbird can control your Cloudflare Browser Cache settings from here. Simply add your Cloudflare API details and configure away.', 'wphb' ); ?></p>
 
 		<form class="wphb-border-frame with-padding" action="" method="post" id="cloudflare-credentials">
-			<label for="cloudflare-email"><?php _e( 'CloudFlare email', 'wphb' ); ?>
-				<input type="text" autocomplete="off" value="{{ data.email }}" name="cloudflare-email" id="cloudflare-email" placeholder="<?php _e( 'Your CloudFlare account email', 'wphb' ); ?>">
+			<label for="cloudflare-email"><?php _e( 'Cloudflare email', 'wphb' ); ?>
+				<input type="text" autocomplete="off" value="{{ data.email }}" name="cloudflare-email" id="cloudflare-email" placeholder="<?php _e( 'Your Cloudflare account email', 'wphb' ); ?>">
 			</label>
 
-			<label for="cloudflare-api-key"><?php _e( 'CloudFlare Global API Key', 'wphb' ); ?>
+			<label for="cloudflare-api-key"><?php _e( 'Cloudflare Global API Key', 'wphb' ); ?>
 				<input type="text" autocomplete="off" value="{{ data.apiKey }}" name="cloudflare-api-key" id="cloudflare-api-key" placeholder="<?php _e( 'Enter your 37 digit API key', 'wphb' ); ?>">
 			</label>
 
 			<p class="cloudflare-submit">
 				<span class="spinner cloudflare-spinner"></span>
-				<input type="submit" class="button" value="<?php echo esc_attr( _x( 'Connect', 'Connect to CloufFlare button text', 'wphb' ) ); ?>">
+				<input type="submit" class="button" value="<?php echo esc_attr( _x( 'Connect', 'Connect to Cloudflare button text', 'wphb' ) ); ?>">
 			</p>
 			<p id="cloudflare-how-to-title"><a href="#cloudflare-how-to"><?php _e( 'Need help getting your API Key?', 'wphb' ); ?></a></p>
 			<div class="clear"></div>
 			<ol id="cloudflare-how-to" class="wphb-block-content-blue">
-				<li><?php printf( __( '<a target="_blank" href="%s">Log in</a> to your CloudFlare account.', 'wphb' ), 'https://www.cloudflare.com/a/login' ); ?></li>
+				<li><?php printf( __( '<a target="_blank" href="%s">Log in</a> to your Cloudflare account.', 'wphb' ), 'https://www.cloudflare.com/a/login' ); ?></li>
 				<li><?php _e( 'Go to My Settings.', 'wphb' ); ?></li>
 				<li><?php _e( 'Scroll down to API Key.', 'wphb' ); ?></li>
 				<li><?php _e( "Click 'View API Key' button and copy your API identifier.", 'wphb' ); ?></li>
@@ -63,7 +63,7 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 	<div class="cloudflare-step">
 		<form action="" method="post" id="cloudflare-zone">
 			<# if ( ! data.zones.length ) { #>
-				<p><?php _e( 'It appears you have no active zones available. Double check your domain has been added to CloudFlare and try again.', 'wphb' ); ?></p>
+				<p><?php _e( 'It appears you have no active zones available. Double check your domain has been added to Cloudflare and try again.', 'wphb' ); ?></p>
 				<p class="cloudflare-submit">
 					<a href="<?php echo esc_url( wphb_get_admin_menu_url( 'caching' ) ); ?>&reload=<?php echo time(); ?>#wphb-box-dashboard-cloudflare" class="button"><?php esc_html_e( 'Re-Check', 'wphb' ); ?></a>
 				</p>
@@ -78,7 +78,7 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 					</select>
 				<p class="cloudflare-submit">
 					<span class="spinner cloudflare-spinner"></span>
-					<input type="submit" class="button" value="<?php esc_attr_e( 'Enable CloudFlare', 'wphb' ); ?>">
+					<input type="submit" class="button" value="<?php esc_attr_e( 'Enable Cloudflare', 'wphb' ); ?>">
 				</p>
 			<# } #>
 			<div class="clear"></div>
@@ -89,21 +89,21 @@ $cloudflare_js_settings = wp_json_encode( $cloudflare_js_settings );
 <script type="text/template" id="cloudflare-step-final">
 	<div class="cloudflare-step">
 		<div class="wphb-notice wphb-notice-blue">
-			<p><?php esc_html_e( 'CloudFlare is active on this domain. The settings you choose here will also update CloudFlare settings.', 'wphb' ); ?></p>
+			<p><?php esc_html_e( 'Cloudflare is active on this domain. The settings you choose here will also update Cloudflare settings.', 'wphb' ); ?></p>
 		</div>
 		<p class="cloudflare-data">
 			<?php
 			$zone_name = wphb_get_setting( 'cloudflare-zone-name' );
 			if ( ! empty( $zone_name ) ) : ?>
-				<span><strong><?php _ex( 'Zone', 'CloudFlare Zone', 'wphb' ); ?>:</strong> {{ data.zoneName }}</span>
+				<span><strong><?php _ex( 'Zone', 'Cloudflare Zone', 'wphb' ); ?>:</strong> {{ data.zoneName }}</span>
 			<?php endif;
 			$plan = $cf_module->get_plan();
 			if ( ! empty( $plan ) ) : ?>
-				<span><strong><?php _ex( 'Plan', 'CloudFlare Plan', 'wphb' ); ?>:</strong> {{ data.plan }}</span>
+				<span><strong><?php _ex( 'Plan', 'Cloudflare Plan', 'wphb' ); ?>:</strong> {{ data.plan }}</span>
 			<?php endif; ?>
 		</p>
 		<hr>
-		<p class="cloudflare-clear-cache-text"><?php esc_html_e( 'Made changes to your website? Use Purge Cache button to clear CloudFlare\'s cache', 'wphb' ); ?></p class="cloudflare-clear-cache-text">
+		<p class="cloudflare-clear-cache-text"><?php esc_html_e( 'Made changes to your website? Use Purge Cache button to clear Cloudflare\'s cache', 'wphb' ); ?></p class="cloudflare-clear-cache-text">
 		<p class="cloudflare-clear-cache">
 			<input type="submit" class="button button-ghost" value="<?php esc_attr_e( 'Purge Cache', 'wphb' ); ?>">
 			<span class="spinner cloudflare-spinner"></span>

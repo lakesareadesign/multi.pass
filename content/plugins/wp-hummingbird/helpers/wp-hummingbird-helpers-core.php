@@ -86,7 +86,7 @@ function wphb_get_servers() {
 		'nginx'      => 'NGINX',
 		'iis'        => 'IIS',
 		'iis-7'      => 'IIS 7',
-		'cloudflare' => 'CloudFlare',
+		'cloudflare' => 'Cloudflare',
 	);
 }
 
@@ -94,7 +94,7 @@ function wphb_get_servers() {
  * Get servers dropdown
  *
  * @param array $args
- * @param bool  $cloudflare  Add CloudFlare to the server list.
+ * @param bool  $cloudflare  Add Cloudflare to the server list.
  */
 function wphb_get_servers_dropdown( $args = array(), $cloudflare = true ) {
 

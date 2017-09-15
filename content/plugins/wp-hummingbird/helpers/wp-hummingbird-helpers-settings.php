@@ -39,10 +39,10 @@ function wphb_get_setting( $option_name ) {
  */
 function wphb_get_default_settings() {
 	$defaults = array(
-		'minify' => false,
-		'caching' => false,
-		'uptime' => false,
-		'use_cdn' => false,
+		'minify'         => false,
+		'caching'        => false,
+		'uptime'         => false,
+		'use_cdn'        => false,
 		'gravatar_cache' => false,
 
 		// Only for multisites. Toggles minification in a subsite
@@ -51,23 +51,38 @@ function wphb_get_default_settings() {
 		// Only for multisite.
 		'minify-cdn' => false,
 
-		'block' => array( 'scripts' => array(), 'styles' => array() ),
-		'dont_minify' => array( 'scripts' => array(), 'styles' => array() ),
-		'combine' => array( 'scripts' => array(), 'styles' => array() ),
-		'position' => array( 'scripts' => array(), 'styles' => array() ),
-		'defer' => array( 'scripts' => array(), 'styles' => array() ),
-		'caching_expiry_css' => '8d/A691200',
+		'block' => array(
+			'scripts' => array(),
+			'styles'  => array(),
+		),
+		'dont_minify' => array(
+			'scripts' => array(),
+			'styles'  => array(),
+		),
+		'combine' => array(
+			'scripts' => array(),
+			'styles'  => array(),
+		),
+		'position' => array(
+			'scripts' => array(),
+			'styles'  => array(),
+		),
+		'defer' => array(
+			'scripts' => array(),
+			'styles'  => array(),
+		),
+		'caching_expiry_css'        => '8d/A691200',
 		'caching_expiry_javascript' => '8d/A691200',
-		'caching_expiry_media' => '8d/A691200',
-		'caching_expiry_images' => '8d/A691200',
+		'caching_expiry_media'      => '8d/A691200',
+		'caching_expiry_images'     => '8d/A691200',
 
-		'cloudflare-email' => '',
-		'cloudflare-api-key' => '',
-		'cloudflare-zone' => '',
-		'cloudflare-zone-name' => '',
-		'cloudflare-connected' => false,
-		'cloudflare-plan' => false,
-		'cloudflare-page-rules' => array(),
+		'cloudflare-email'          => '',
+		'cloudflare-api-key'        => '',
+		'cloudflare-zone'           => '',
+		'cloudflare-zone-name'      => '',
+		'cloudflare-connected'      => false,
+		'cloudflare-plan'           => false,
+		'cloudflare-page-rules'     => array(),
 		'cloudflare-caching-expiry' => 691200,
 	);
 

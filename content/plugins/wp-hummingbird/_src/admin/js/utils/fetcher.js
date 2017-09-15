@@ -20,21 +20,23 @@ function Fetcher() {
     }
 
     const methods = {
-        /**
-         * Caching module actions.
+		/**
+         * Notices actions.
+		 */
+		notice: {
+			/**
+             * Dismiss notice
+			 * @param id Notice id.
+			 */
+			dismiss: ( id ) => {
+		        const action = actionPrefix + 'notice_dismiss';
+		        return request( action, { id }, 'POST' );
+            }
+        },
+		/**
+		 * Caching module actions.
          */
         caching: {
-            /**
-             * Set expiration for browser caching.
-             *
-             * @param type File type.
-             * @param value Expiry value.
-             */
-            setExpiration: ( type, value ) => {
-                const action = actionPrefix + 'caching_set_expiration';
-                return request( action, { type, value }, 'POST' );
-            },
-
             /**
              * Set server type.
              *
@@ -64,7 +66,7 @@ function Fetcher() {
          */
         cloudflare: {
 			/**
-			 * Connect to CloudFlare.
+			 * Connect to Cloudflare.
 			 *
 			 * @param step
 			 * @param formData
@@ -79,7 +81,7 @@ function Fetcher() {
             },
 
             /**
-             * Set expiry for CloudFlare cache.
+             * Set expiry for Cloudflare cache.
              *
              * @param value Expiry value.
              */
@@ -89,7 +91,7 @@ function Fetcher() {
             },
 
 			/**
-             * Purge CloudFlare cache.
+             * Purge Cloudflare cache.
 			 */
 			purgeCache: () => {
                 const action = actionPrefix + 'cloudflare_purge_cache';

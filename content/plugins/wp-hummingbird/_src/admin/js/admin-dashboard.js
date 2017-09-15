@@ -80,7 +80,7 @@ import Fetcher from './utils/fetcher';
 			window.WDP.showOverlay("#run-performance-test-modal", { class: 'wphb-modal small wphb-progress-modal no-close' } );
 
 			// Run performance test
-			const module = WPHB_Admin.getModule('performance');
+			const module = window.WPHB_Admin.getModule('performance');
 			module.performanceTest( this.strings.finishedTestURLsLink );
         }
     };

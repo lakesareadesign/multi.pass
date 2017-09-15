@@ -3,7 +3,7 @@
 		<input type="button" class="button button-ghost" id="cancel-minification-check" value="<?php esc_attr_e( 'Cancel', 'wphb' ); ?>">
 	</div>
 	<div class="wphb-dialog-content">
-		<p><?php esc_html_e( 'Hummingbird will combine your files as best it can, however, depending on your settings, combining all your files might not be possible. What you see here is the best output Hummingbird can muster!', 'wphb' ); ?></p>
+		<p><?php esc_html_e( 'Hummingbird is currently checking which files your website is outputting. She will give you the controls to compress, combine, move and defer loading of files to help reduce your page loads times.', 'wphb' ); ?></p>
 
 		<div class="wphb-block-test" id="check-files-modal-content">
 			<div class="wphb-scan-progress">

@@ -34,7 +34,7 @@ if ( ! is_multisite() ) {
 	wphb_enable_cdn_modal();
 }
 
-if ( $checking_files || isset( $_GET['wphb-cache-cleared'] ) ): // Show the progress bar if we are still checking files. ?>
+if ( $checking_files || isset( $_GET['wphb-cache-cleared'] ) ) : // Show the progress bar if we are still checking files. ?>
 	<script>
 		jQuery(document).ready( function() {
 			window.WPHB_Admin.getModule( 'minification' );

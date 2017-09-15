@@ -7,7 +7,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Class WP_Hummingbird_Hub_Endpoints
  *
- * Manage WPMU DEV Hub API enpoints
+ * Manage WPMU DEV Hub API endpoints
  */
 class WP_Hummingbird_Hub_Endpoints {
 
@@ -16,7 +16,7 @@ class WP_Hummingbird_Hub_Endpoints {
 	 *
 	 * @var array
 	 */
-	private $endpoints = array( 'get' );
+	private $endpoints = array( 'get', 'performance' );
 
 	/**
 	 * Hub Endpoints Initialize
@@ -73,13 +73,21 @@ class WP_Hummingbird_Hub_Endpoints {
 	 *
 	 * @param array  $params  Parameters.
 	 * @param string $action  Action.
+	 * @return void|WP_Error
 	 */
 	public function action_get( $params, $action ) {
-
 		$result = array();
 
-		// Gzip.
+		/**
+		 * Gzip
+		 */
 		$status = wphb_get_gzip_status();
+
+		// Refresh gzip status if no data is present.
+		if ( false === $status ) {
+			$status = wphb_get_gzip_status( true );
+		}
+
 		if ( ! is_array( $status ) ) {
 			$result['gzip'] = new WP_Error( 'gzip-status-not-found', 'There is not Gzip data yet' );
 		} else {
@@ -89,8 +97,16 @@ class WP_Hummingbird_Hub_Endpoints {
 			}
 		}
 
-		// Caching.
+		/**
+		 * Caching
+		 */
 		$status = wphb_get_caching_status();
+
+		// Refresh caching status if no data is present.
+		if ( false === $status ) {
+			$status = wphb_get_caching_status( true );
+		}
+
 		if ( ! is_array( $status ) ) {
 			$result['browser-caching'] = new WP_Error( 'browser-caching-status-not-found', 'There is not Browser Caching data yet' );
 		} else {
@@ -100,25 +116,13 @@ class WP_Hummingbird_Hub_Endpoints {
 			}
 		}
 
-		// Minification.
+		/**
+		 * Minification
+		 */
 		$collection = wphb_minification_get_resources_collection();
 		if ( empty( $collection ) ) {
 			$result['minify'] = new WP_Error( 'minify-status-not-found', 'There is not Minification data yet' );
 		} else {
-			// Remove those assets that we don't want to display.
-			/*
-			foreach ( $collection['styles'] as $key => $item ) {
-				if ( ! apply_filters( 'wphb_minification_display_enqueued_file', true, $item, 'styles' ) ) {
-					unset( $collection['styles'][ $key ] );
-				}
-			}
-			foreach ( $collection['scripts'] as $key => $item ) {
-				if ( ! apply_filters( 'wphb_minification_display_enqueued_file', true, $item, 'scripts' ) ) {
-					unset( $collection['scripts'][ $key ] );
-				}
-			}
-			*/
-
 			$original_size_styles  = array_sum( wp_list_pluck( $collection['styles'], 'original_size' ) );
 			$original_size_scripts = array_sum( wp_list_pluck( $collection['scripts'], 'original_size' ) );
 			$original_size = $original_size_scripts + $original_size_styles;
@@ -147,6 +151,18 @@ class WP_Hummingbird_Hub_Endpoints {
 
 		$result = (object) $result;
 		wp_send_json_success( $result );
+	}
+
+	/**
+	 * Update performance scan from the Hub.
+	 *
+	 * @since 1.6.1
+	 * @param array  $params  Parameters.
+	 * @param string $action  Action.
+	 */
+	public function action_performance( $params, $action ) {
+		// Refresh report if run from the Hub.
+		wphb_performance_refresh_report();
 	}
 
 }

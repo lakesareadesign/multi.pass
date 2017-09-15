@@ -75,7 +75,7 @@ wpmdb.mediaFiles = {
 	var hide_show_options = function( unavailable ) {
 		var mig_type = wpmdb_migration_type();
 
-		if ( -1 !== $.inArray( mig_type, [ 'savefile', 'find_replace' ] ) ) {
+		if ( -1 !== $.inArray( mig_type, [ 'savefile', 'find_replace', 'import' ] ) ) {
 			$( '.media-files-options' ).hide();
 			return;
 		}
@@ -614,7 +614,7 @@ wpmdb.mediaFiles = {
 	}
 
 	function maybe_add_mf_progress_stage( args ) {
-		if ( true === is_media_migration() && 'savefile' !== wpmdb_migration_type() ) {
+		if ( true === is_media_migration() && -1 === $.inArray( wpmdb_migration_type(), [ 'savefile', 'find_replace', 'import' ] ) ) {
 			wpmdb.current_migration.model.addStage( 'media', [], args.dataType, {
 				strings: {
 					itemsName: wpmdb_strings.files
@@ -625,7 +625,7 @@ wpmdb.mediaFiles = {
 
 	$( document ).ready( function() {
 
-		if ( -1 !== $.inArray( wpmdb_migration_type(), [ 'savefile', 'find_replace' ] ) ) {
+		if ( -1 !== $.inArray( wpmdb_migration_type(), [ 'savefile', 'find_replace', 'import' ] ) ) {
 			$( '.media-files-options' ).hide();
 		}
 
@@ -645,7 +645,7 @@ wpmdb.mediaFiles = {
 		} );
 
 		$.wpmdb.add_filter( 'wpmdb_before_migration_complete_hooks', function( hooks ) {
-			if ( false === is_media_migration() || 'savefile' === wpmdb_migration_type() ) {
+			if ( false === is_media_migration() || -1 === $.inArray( wpmdb_migration_type(), [ 'push', 'pull' ] ) ) {
 				return hooks;
 			}
 			hooks.push( wpmdb.functions.prepare_remove_all_files );

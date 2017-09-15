@@ -8,7 +8,6 @@ function wphb_filter_resource_block( $value, $handle, $type ) {
 		return true;
 	}
 
-
 	return $value;
 }
 
@@ -50,8 +49,9 @@ function wphb_filter_resource_to_footer( $value, $handle, $type ) {
 	$options = wphb_get_settings();
 	$to_footer = $options['position'][ $type ];
 
-	if ( array_key_exists( $handle, $to_footer ) && $to_footer[ $handle ] === 'footer' )
+	if ( array_key_exists( $handle, $to_footer ) && 'footer' === $to_footer[ $handle ] ) {
 		return true;
+	}
 
 	return $value;
 }
@@ -59,8 +59,9 @@ function wphb_filter_resource_to_footer( $value, $handle, $type ) {
 add_filter( 'wp_hummingbird_is_active_module_caching', 'wphb_caching_module_status' );
 function wphb_caching_module_status( $current ) {
 	$options = wphb_get_settings();
-	if ( ! $options['caching'] )
+	if ( ! $options['caching'] ) {
 		return false;
+	}
 
 	return $current;
 }
@@ -68,8 +69,9 @@ function wphb_caching_module_status( $current ) {
 add_filter( 'wp_hummingbird_is_active_module_uptime', 'wphb_uptime_module_status' );
 function wphb_uptime_module_status( $current ) {
 	$options = wphb_get_settings();
-	if ( ! $options['uptime'] )
+	if ( ! $options['uptime'] ) {
 		return false;
+	}
 
 	return $current;
 }
@@ -84,8 +86,7 @@ function wphb_minify_module_status( $current ) {
 
 	if ( is_multisite() ) {
 		$current = $options['minify-blog'];
-	}
-	else {
+	} else {
 		$current = $options['minify'];
 	}
 
@@ -95,8 +96,9 @@ function wphb_minify_module_status( $current ) {
 add_filter( 'wp_hummingbird_is_active_module_gravatar', 'wphb_gravatar_module_status' );
 function wphb_gravatar_module_status( $current ) {
 	$options = wphb_get_settings();
-	if ( ! $options['gravatar_cache'] )
+	if ( ! $options['gravatar_cache'] ) {
 		return false;
+	}
 
 	return $current;
 }

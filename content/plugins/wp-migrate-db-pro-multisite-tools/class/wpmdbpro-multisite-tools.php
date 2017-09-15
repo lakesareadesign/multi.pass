@@ -1,6 +1,7 @@
 <?php
 
 class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
+
 	protected $wpmdbpro;
 	protected $accepted_fields;
 
@@ -11,7 +12,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		parent::__construct( $plugin_file_path );
 		$this->plugin_slug    = 'wp-migrate-db-pro-multisite-tools';
 		$this->plugin_version = $GLOBALS['wpmdb_meta']['wp-migrate-db-pro-multisite-tools']['version'];
-		if ( ! $this->meets_version_requirements( '1.7.1' ) ) {
+		if ( ! $this->meets_version_requirements( '1.8' ) ) {
 			return;
 		}
 
@@ -42,6 +43,8 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		add_filter( 'wpmdb_preserved_options_data', array( $this, 'filter_preserved_options_data' ), 10, 2 );
 		add_filter( 'wpmdb_get_alter_queries', array( $this, 'filter_get_alter_queries' ) );
 		add_filter( 'wpmdb_replace_site_urls', array( $this, 'filter_replace_site_urls' ) );
+		add_filter( 'wpmdb_backup_header_url', array( $this, 'filter_backup_header_url' ) );
+		add_filter( 'wpmdb_backup_header_included_tables', array( $this, 'filter_backup_header_tables' ) );
 
 		global $wpmdbpro;
 		$this->wpmdbpro = $wpmdbpro;
@@ -842,14 +845,8 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	public function filter_preserved_options( $preserved_options, $intent = '' ) {
 		$blog_id = $this->selected_subsite();
 
-		if ( 1 > $blog_id || 'push' !== $intent ) {
-			return $preserved_options;
-		}
-
-		$keep_active_plugins = $this->profile_value( 'keep_active_plugins' );
-
-		if ( empty( $keep_active_plugins ) ) {
-			$preserved_options[] = 'active_plugins';
+		if ( 0 < $blog_id && 'push' === $intent ) {
+			$preserved_options = $this->wpmdbpro->preserve_active_plugins_option( $preserved_options );
 		}
 
 		return $preserved_options;
@@ -866,43 +863,8 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	public function filter_preserved_options_data( $preserved_options_data, $intent = '' ) {
 		$blog_id = $this->selected_subsite();
 
-		$keep_active_plugins = $this->profile_value( 'keep_active_plugins' );
-
-		if ( 1 > $blog_id || 'push' !== $intent || ! empty( $keep_active_plugins ) ) {
-			return $preserved_options_data;
-		}
-
-		if ( ! empty( $preserved_options_data ) ) {
-			foreach ( $preserved_options_data as $table => $data ) {
-				foreach ( $data as $key => $option ) {
-					if ( 'active_plugins' === $option['option_name'] ) {
-						global $wpdb;
-
-						$table_name       = esc_sql( $table );
-						$option_value     = unserialize( $option['option_value'] );
-						$migrated_plugins = array();
-						$wpmdb_plugins    = array();
-
-						if ( $result = $wpdb->get_var( "SELECT option_value FROM $table_name WHERE option_name = 'active_plugins'" )  ) {
-							$unserialized = unserialize( $result );
-							if ( is_array( $unserialized ) ) {
-								$migrated_plugins = $unserialized;
-							}
-						}
-
-						foreach ( $option_value as $plugin_key => $plugin ) {
-							if ( 0 === strpos( $plugin, 'wp-migrate-db' ) ) {
-								$wpmdb_plugins[] = $plugin;
-							}
-						}
-
-						$merged_plugins                           = array_unique( array_merge( $wpmdb_plugins, $migrated_plugins ) );
-						$option['option_value']                   = serialize( $merged_plugins );
-						$preserved_options_data[ $table ][ $key ] = $option;
-						break;
-					}
-				}
-			}
+		if ( 0 < $blog_id && 'push' === $intent ) {
+			$preserved_options_data = $this->wpmdbpro->preserve_wpmdb_plugins( $preserved_options_data );
 		}
 
 		return $preserved_options_data;
@@ -1052,34 +1014,74 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		return $queries;
 	}
 
+
 	/**
 	 * Filters the URLs used by WPMDB_Replace.
 	 *
 	 * @param array $site_urls
 	 *
+	 * @TODO add unit tests for this method
 	 * @return array
 	 */
 	function filter_replace_site_urls( $site_urls ) {
 		if ( isset( $this->form_data['mst_select_subsite'] ) && '1' === $this->form_data['mst_select_subsite'] ) {
+
 			$selected_subsite_id = $this->form_data['mst_selected_subsite'];
 
-			$which = ( 'pull' === $this->state_data['intent'] ) ? 'remote' : 'local';
+			foreach ( array( 'local', 'remote' ) as $which ) {
+				if ( isset( $this->state_data['site_details'][ $which ]['subsites_info'][ $selected_subsite_id ] ) ) {
 
-			if ( isset( $this->state_data['site_details'][ $which ]['subsites_info'][ $selected_subsite_id ] ) ) {
+					$subsite_base = $this->state_data['site_details'][ $which ]['subsites_info'][ $selected_subsite_id ];
+					$subsite_url  = $subsite_base['site_url'];
 
-				$subsite_base = $this->state_data['site_details'][ $which ]['subsites_info'][ $selected_subsite_id ];
-				$subsite_url  = $subsite_base['site_url'];
+					// Use home_url if it's set.
+					if ( isset( $subsite_base['home_url'] ) ) {
+						$subsite_url = $subsite_base['home_url'];
+					}
 
-				// Use home_url if it's set.
-				if ( isset( $subsite_base['home_url'] ) ) {
-					$subsite_url = $subsite_base['home_url'];
+					$site_urls[ $which ] = $subsite_url;
 				}
-
-				$site_urls[ $which ] = $subsite_url;
 			}
 		}
 
 		return $site_urls;
+	}
+
+	/**
+	 * Updates the URL in the export header for MST exports
+	 *
+	 * @param string $url
+	 *
+	 * @return string
+	 */
+	function filter_backup_header_url( $url ) {
+		$selected_subsite = $this->selected_subsite();
+
+		if ( 0 !== $selected_subsite &&
+			'backup' !== $this->state_data['stage'] &&
+			isset( $this->state_data['site_details']['local']['subsites_info'][ $selected_subsite ] ) ) {
+				$subsite_base = $this->state_data['site_details']['local']['subsites_info'][ $selected_subsite ];
+				$url          = $subsite_base['home_url'];
+		}
+
+		return $url;
+	}
+
+	/**
+	 * @param array $tables
+	 *
+	 * @return array
+	 */
+	function filter_backup_header_tables( $tables ) {
+		if ( ! is_multisite() || 'backup' === $this->state_data['stage'] ) {
+			return $tables;
+		}
+
+		foreach ( $tables as $key => $table ) {
+			$tables[ $key ] = $this->filter_target_table_name( $table, 'savefile', 'migrate' );
+		}
+
+		return $tables;
 	}
 
 	/**

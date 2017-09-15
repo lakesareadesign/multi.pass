@@ -1,8 +1,28 @@
 Plugin Name: Hummingbird Pro
 Author: Ignacio Cruz, Ricardo Freitas, Anton Vanyukov
-Tested up to: 4.7.5
+Tested up to: 4.8.1
 
 Change Log:
+
+= 1.6.1 ( 2017-09-13 ) =
+- New: Add font types to browser and cache rules
+- New: Automatic detection of HTTP/2 and disable of combine function in minification
+- Enhance: Add a button to the cache page for saving settings (instead of ajax)
+- Enhance: Add a scrollbar to expiry settings dropdown
+- Enhance: Better sync between Hummingbird and the Hub
+- Enhance: Improve error and zone handling for Cloudflare
+- Enhance: Links to support articles will now open in a new window
+- Enhance: Gravatar caching will respect the classes of original HTML elements
+- Enhance: Accessibility on hidden form elements
+- Enhance: Gzip module page layout
+- Enhance: Add Gravatar support when using get_avatar_url()
+- Fix: Uninstall will clean out all the database rows, created by the plugin
+- Fix: Layout issues on caching page
+- Fix: Notice styles
+- Fix: Do not cache Gravatars in admin
+- Fix: Update translation strings
+- Fix: Minification link visible in admin bar for non-admins in multisite
+- Fix: Incorrect date on dashboard and Uptime module when site is down
 
 = 1.6.0 ( 2017-08-07 ) =
 - New: Gravatar caching
@@ -29,7 +49,7 @@ Change Log:
 - Fix: Cron reports were stuck on a loop on some WordPress installations
 - Fix: Issue with reports and calculating UTC time
 - Fix: Minification was duplicating inline styles
-- Fix: IE incompatibility in magnification screen
+- Fix: IE incompatibility in minification screen
 - Fix: Compatibility with Contact Form 7
 - Fix: Mobile menus not working on Performance and Minification pages
 - Enhance: Remove jQuery and jQuery migrate from minification process
@@ -79,7 +99,7 @@ Change Log:
 - Enhance: Do not combine assets by default
 - Enhance: Uptime data is synced with WPMU DEV servers every 3 minutes
 - Enhance: Minification stats calculations improvements
-- Enhance: CloudFlare admin menu has been removed and integrated into Browser Cache screen
+- Enhance: Cloudflare admin menu has been removed and integrated into Browser Cache screen
 - Fix: When performance test is run for the first time, previous score improvement was "Pending"
 - Fix: stylesheets with @import directives were always displayed as "Pending"
 - Fix: Various minor improvements and bug fixes
@@ -96,7 +116,7 @@ Change Log:
 - Fix: Keep handle name when only one handle is enqueued in a group for better compatibility with wp_script_is function
 - Fix: add_inline_scripts/styles did not work for plugins that inject inlines too late
 - Fix: Sometimes assets are not enqueued under https if the site is SSL
-- Enhance: CloudFlare box - Show a message if there are no zones available
+- Enhance: Cloudflare box - Show a message if there are no zones available
 - Some other minor fixes/improvements
 
 = 1.4.1 ( 2017-01-12 ) =
@@ -108,7 +128,7 @@ Change Log:
 - New: Brand new minification engine
 - New: Minified files are now processed in WPMUDEV's servers
 - New: Users can use WPMUDEV's CDN to store minified files
-- New: Clear CloudFlare cache feature
+- New: Clear Cloudflare cache feature
 - Fix: PHP code in stylesheets could potentially be exposed
 - Enhancement: stylesheets with @import directives are not minified anymore due to multiple issues that were causing
 - Some admin styles improvements
@@ -121,24 +141,24 @@ Change Log:
 
 = 1.3.4 ( 2016-10-03 ) =
 - PHP 5.3 required for minification
-- Fix: Javascript improvements in CloudFlare box
+- Fix: Javascript improvements in Cloudflare box
 - Fix: Missing Hummingbird icon in admin bar
-- Enhancement: CloudFlare now auto selects domain
+- Enhancement: Cloudflare now auto selects domain
 - Enhancement: Improved caching detection
 - Other minor improvements
 
 = 1.3.3 ( 2016-09-02 ) =
-- Fix: Parse error in CloudFlare module when ASP tags detection was active in PHP
+- Fix: Parse error in Cloudflare module when ASP tags detection was active in PHP
 
 = 1.3.2 ( 2016-08-22 ) =
-- Fix: Error when detecting CloudFlare on activation
+- Fix: Error when detecting Cloudflare on activation
 
 = 1.3.1 ( 2016-08-17 ) =
-- Fix: CloudFlare was only showing 20 sites max
+- Fix: Cloudflare was only showing 20 sites max
 - Fix: Parse error in PHP < 5.3 installations
 
 = 1.3 ( 2016-08-15 ) =
-- New: CloudFlare integration
+- New: Cloudflare integration
 - New: LiteSpeed server detection
 - Enhance: Clear minification cache when a plugin/theme is activated/deactivated
 - Enhance: New better Javascript compressor
@@ -219,4 +239,4 @@ Enhance: Search by extension in minification page
 - First release
 
 
-133620-1502132191-au
+133620-1505438678-au

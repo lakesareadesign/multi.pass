@@ -5,7 +5,7 @@
 		<div class="content">
 			<img class="wphb-image wphb-image-center wphb-image-icon-content-top"
 			     src="<?php echo wphb_plugin_url() . 'admin/assets/image/hummingbird-circle@1x.jpg'; ?>"
-			     alt="<?php esc_attr_e( "Let's see what we can improve!", 'wphb' ); ?>">
+				 alt="<?php esc_attr_e( "Let's see what we can improve!", 'wphb' ); ?>">
 
 			<p><?php _e( 'For us to know what to improve we need to test your website. All testing is done in the background via our <br> secure servers. Once complete, we\'ll give you a list of things to improve, and how to do it.', 'wphb' ); ?></p>
 			<div class="buttons">

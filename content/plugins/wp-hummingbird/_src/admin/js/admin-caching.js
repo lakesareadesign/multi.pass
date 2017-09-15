@@ -9,14 +9,10 @@ import Fetcher from './utils/fetcher';
         selectedServer: '',
         $serverSelector: null,
         $serverInstructions: [],
-        $expirySelectors: [],
         $snippets: [],
 
         init: function () {
             let self                    = this,
-                cachingMetabox          = $('#wphb-box-caching-settings'),
-                cachingContent          = cachingMetabox.find('.settings-form'),
-                cachingContentSpinner   = cachingContent.find('.spinner'),
                 cloudflareLink          = $('#wphb-box-caching-settings #connect-cloudflare-link');
 
 			new Clipboard('.wphb-code-snippet .button');
@@ -28,6 +24,7 @@ import Fetcher from './utils/fetcher';
                 e.preventDefault();
 				$('#wphb-server-type').val('cloudflare').trigger('wpmu:change');
 				self.hideCurrentInstructions();
+                self.setServer('cloudflare');
 				self.showServerInstructions('cloudflare');
 				self.selectedServer = 'cloudflare';
 				$('html, body').animate({ scrollTop: $('#cloudflare-steps').offset().top }, 'slow');
@@ -35,7 +32,6 @@ import Fetcher from './utils/fetcher';
 
             this.$serverSelector = $( '#wphb-server-type' );
             this.selectedServer  = this.$serverSelector.val();
-            //this.$spinner = $('#wphb-box-caching-enable .spinner');
 
             self.$snippets.apache    = $('#wphb-code-snippet-apache').find('pre').first();
 			self.$snippets.LiteSpeed    = $('#wphb-code-snippet-litespeed').find('pre').first();
@@ -46,33 +42,6 @@ import Fetcher from './utils/fetcher';
                 self.$serverInstructions[ $(this).data('server') ] = $(this);
             });
 
-            let expirySelectors = $( '.wphb-expiry-select' );
-
-            expirySelectors.each( function() {
-                const type = $(this).data('type');
-                if ( type ) {
-                    $(this).change( function() {
-                        //self.$spinner.css( 'visibility', 'visible' );
-                        cachingContent.find('.wphb-content').hide();
-                        cachingContentSpinner.fadeIn();
-                        $('.wphb-notice').hide();
-
-                        // Expiration selector has changed
-                        ( function( element ) {
-                            const value = $( element ).val();
-                            // Change the plugin settings
-                            Fetcher.caching.setExpiration( type, value )
-                                .then( () => {
-                                    // And reload the code snippet
-                                    self.reloadSnippets();
-                                });
-                            return false;
-                        })( this );
-                    });
-                }
-
-            });
-
             this.showServerInstructions( this.selectedServer );
 
             this.$serverSelector.change( function() {
@@ -81,15 +50,31 @@ import Fetcher from './utils/fetcher';
                 self.showServerInstructions( value );
                 self.setServer(value);
                 self.selectedServer = value;
+				// Update tab size on select change.
+                self.updateTabSize();
+                $('.hb-server-type').val( value );
             });
 
-            $("input[name='expiry-set-type']").on( 'click', function () {
+            let expiryInput = $("input[name='expiry-set-type']");
+            let expirySettingsForm = $('.settings-form');
+			expiryInput.each( function () {
+                if ( this.checked ) {
+                    if ( 'expiry-all-types' === $(this).attr('id') ) {
+						expirySettingsForm.find( "[data='expiry-single-type']" ).hide();
+						expirySettingsForm.find( "[data='expiry-all-types']" ).show();
+                    } else if ( 'expiry-single-type' === $(this).attr('id') ) {
+						expirySettingsForm.find( "[data='expiry-all-types']" ).hide();
+						expirySettingsForm.find( "[data='expiry-single-type']" ).show();
+                    }
+                }
+            });
+			expiryInput.on( 'click', function () {
                 if ( 'expiry-all-types' === $(this).attr('id') ) {
-					$('.settings-form').find( "[data='expiry-single-type']" ).hide();
-					$('.settings-form').find( "[data='expiry-all-types']" ).show();
+					expirySettingsForm.find( "[data='expiry-single-type']" ).hide();
+					expirySettingsForm.find( "[data='expiry-all-types']" ).show();
                 } else if ( 'expiry-single-type' === $(this).attr('id') ) {
-					$('.settings-form').find( "[data='expiry-all-types']" ).hide();
-					$('.settings-form').find( "[data='expiry-single-type']" ).show();
+					expirySettingsForm.find( "[data='expiry-all-types']" ).hide();
+					expirySettingsForm.find( "[data='expiry-single-type']" ).show();
                 }
 			});
 
@@ -98,6 +83,14 @@ import Fetcher from './utils/fetcher';
 
         setServer: function( value ) {
             Fetcher.caching.setServer( value );
+        },
+
+		updateTabSize: function() {
+			let jq      = $( '#wphb-server-instructions-' + this.selectedServer.toLowerCase() ).find( '.tabs' ),
+                current = jq.find('.tab > input:checked').parent(),
+				content = current.find('.content');
+
+			jq.height( content.outerHeight() + current.outerHeight() - 6 );
         },
 
         hideCurrentInstructions: function() {
@@ -152,7 +145,6 @@ import Fetcher from './utils/fetcher';
                                 $( '#wphb-notice-code-snippet-updated' ).show();
                                 location.href = self.strings.recheckURL + '&caching-updated=true';
                             }
-                            //self.$spinner.css( 'visibility', 'hidden' );
                         });
                 }
             }

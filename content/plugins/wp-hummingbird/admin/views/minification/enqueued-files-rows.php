@@ -12,6 +12,8 @@
  * @var string      $full_src           File URL.
  * @var array       $item               File info.
  * @var bool|string $original_size      False if no original size. Or size.
+ * @var bool        $is_ssl             True if site is ssl.
+ * @var bool        $minified_file      True if site is file is already minified.
  * @var string      $position           File position. Possible values: '' or 'footer'.
  * @var string      $rel_src            Relative path to file.
  * @var bool|array  $row_error          False if no error, or array with error.
@@ -64,12 +66,17 @@
 			<strong><?php esc_html_e( 'Configuration', 'wphb' ); ?></strong>
 			<div class="tooltip-box">
 				<div class="checkbox-group">
-					<?php $tooltip = __( 'Compress this file to reduce it’s filesize', 'wphb' );
+					<?php
+					$tooltip = __( 'Compress this file to reduce it’s filesize', 'wphb' );
 					if ( in_array( 'minify', $disable_switchers, true ) && ! in_array( $item['handle'], $options['block'][ $type ], true ) ) {
 						$tooltip = __( 'This file can’t be minified', 'wphb' );
 						$dont_minify = true;
-					} ?>
-					<input type="checkbox" <?php disabled( in_array( 'minify', $disable_switchers, true ) || in_array( $item['handle'], $options['block'][ $type ], true ) ); ?>
+					}
+					if ( $minified_file ) {
+						$tooltip = __( 'This file is already minified', 'wphb' );
+					}
+					?>
+					<input type="checkbox" <?php disabled( in_array( 'minify', $disable_switchers, true ) || in_array( $item['handle'], $options['block'][ $type ], true ) || $minified_file ); ?>
 						   id="wphb-minification-minify-<?php echo esc_attr( $ext . '-' . $item['handle'] ); ?>"
 						   class="toggle-checkbox toggle-minify"
 						   name="<?php echo esc_attr( $base_name ); ?>[minify]" <?php checked( in_array( $item['handle'], $options['dont_minify'][ $type ], true ), false ); ?>>
@@ -78,12 +85,14 @@
 						<i class="hb-icon-minify"></i>
 						<span><?php esc_html_e( 'Minify', 'wphb' ); ?></span>
 					</label>
-					<?php $tooltip = __( 'Combine this file with others if possible', 'wphb' );
-					if ( in_array( 'combine', $disable_switchers, true ) && ! in_array( $item['handle'], $options['block'][ $type ], true ) ) {
+					<?php
+					$tooltip = __( 'Combine this file with others if possible', 'wphb' );
+					if ( in_array( 'combine', $disable_switchers, true ) && ! in_array( $item['handle'], $options['block'][ $type ], true ) || $is_ssl ) {
 						$tooltip = __( 'This file can’t be combined', 'wphb' );
 						$dont_combine = true;
-					} ?>
-					<input type="checkbox" <?php disabled( in_array( 'combine', $disable_switchers, true ) || in_array( $item['handle'], $options['block'][ $type ], true ) ); ?>
+					}
+					?>
+					<input type="checkbox" <?php disabled( in_array( 'combine', $disable_switchers, true ) || in_array( $item['handle'], $options['block'][ $type ], true ) || $is_ssl ); ?>
 						   class="toggle-checkbox toggle-combine" name="<?php echo esc_attr( $base_name ); ?>[combine]"
 						   id="wphb-minification-combine-<?php echo esc_attr( $ext . '-' . $item['handle'] ); ?>" <?php checked( in_array( $item['handle'], $options['combine'][ $type ], true ) ); ?>>
 					<label for="wphb-minification-combine-<?php echo esc_attr( $ext . '-' . $item['handle'] ); ?>" class="toggle-label">
@@ -126,6 +135,8 @@
 						<span style="width: 80%"></span>
 					</div>
 				</div>
+			<?php elseif ( $minified_file ) : ?>
+				<span class="tooltip tooltip-s" tooltip="<?php esc_attr_e( 'This file is already minified', 'wphb' ); ?>"><?php esc_html_e( 'Ignored', 'wphb' ); ?></span>
 			<?php elseif ( isset( $dont_minify ) && isset( $dont_combine ) && ! in_array( $item['handle'], $options['block'][ $type ], true ) ) : ?>
 				<span class="tooltip tooltip-s" tooltip="<?php esc_attr_e( 'This file type cannot be minified and will be left alone', 'wphb' ); ?>"><?php esc_html_e( 'Ignored', 'wphb' ); ?></span>
 			<?php elseif ( in_array( $item['handle'], $options['block'][ $type ], true ) ) : ?>

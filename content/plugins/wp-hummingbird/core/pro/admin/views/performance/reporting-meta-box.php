@@ -2,46 +2,50 @@
 	<form method="post" class="scan-frm scan-settings">
 		<div class="row with-bottom-border">
 			<div class="col-third">
-				<strong><?php _e( "Schedule Scans", 'wphb' ) ?></strong>
+				<strong><?php esc_html_e( 'Schedule Scans', 'wphb' ) ?></strong>
 				<span class="sub">
-                    <?php _e( "Configure Hummingbird to automatically and regularly test your website and email you reports.", 'wphb' ) ?>
-                </span>
+					<?php esc_html_e( 'Configure Hummingbird to automatically and regularly test your website and email you reports.', 'wphb' ); ?>
+				</span>
 			</div><!-- end col-third -->
 			<div class="col-two-third">
-                <span class="toggle">
-                    <input type="hidden" name="email-notifications" value="0"/>
-                    <input type="checkbox" class="toggle-checkbox" name="email-notifications" value="1"
-                           id="chk1" <?php checked( 1, $notification ); ?> <?php disabled( ! wphb_is_member() ); ?>/>
-                    <label class="toggle-label" for="chk1"></label>
-                </span>
-				<label><?php _e( "Run regular scans & reports", 'wphb' ) ?></label>
+				<span class="toggle">
+					<input type="hidden" name="email-notifications" value="0"/>
+					<input type="checkbox" class="toggle-checkbox" name="email-notifications" value="1"
+						   id="chk1" <?php checked( 1, $notification ); ?> <?php disabled( ! wphb_is_member() ); ?>/>
+					<label class="toggle-label" for="chk1"></label>
+				</span>
+				<label><?php esc_html_e( 'Run regular scans & reports', 'wphb' ) ?></label>
 				<div class="clear mline"></div>
 				<div class="wphb-border-frame with-padding schedule-box">
-					<strong><?php _e( "Schedule", 'wphb' ) ?></strong>
-					<label><?php _e( "Frequency", 'wphb' ) ?></label>
+					<strong><?php esc_html_e( 'Schedule', 'wphb' ) ?></strong>
+					<label><?php esc_html_e( 'Frequency', 'wphb' ) ?></label>
 					<select name="email-frequency" <?php disabled( ! wphb_is_member() ); ?>>
-						<option <?php selected( 1, $frequency ) ?>
-							value="1"><?php _e( "Daily", 'wphb' ) ?></option>
-						<option <?php selected( 7, $frequency ) ?>
-							value="7"><?php _e( "Weekly", 'wphb' ) ?></option>
-						<option <?php selected( 30, $frequency ) ?>
-							value="30"><?php _e( "Monthly", 'wphb' ) ?></option>
+						<option <?php selected( 1, $frequency ) ?> value="1">
+							<?php esc_html_e( 'Daily', 'wphb' ) ?>
+						</option>
+						<option <?php selected( 7, $frequency ) ?> value="7">
+							<?php esc_html_e( 'Weekly', 'wphb' ) ?>
+						</option>
+						<option <?php selected( 30, $frequency ) ?> value="30">
+							<?php esc_html_e( 'Monthly', 'wphb' ) ?>
+						</option>
 					</select>
 					<div class="days-container">
-						<label><?php _e( "Day of the week", 'wphb' ) ?></label>
+						<label><?php esc_html_e( 'Day of the week', 'wphb' ) ?></label>
 						<select name="email-day" <?php disabled( ! wphb_is_member() ); ?>>
-							<?php foreach ( wphb_get_days_of_week() as $day ): ?>
+							<?php foreach ( wphb_get_days_of_week() as $day ) : ?>
 								<option <?php selected( $day, $send_day ) ?>
-									value="<?php echo $day ?>"><?php echo ucfirst( $day ) ?></option>
+										value="<?php echo $day ?>"><?php echo ucfirst( $day ) ?></option>
 							<?php endforeach; ?>
 						</select>
 					</div>
-					<label><?php _e( "Time of day", 'wphb' ) ?></label>
+					<label><?php esc_html_e( 'Time of day', 'wphb' ) ?></label>
 					<select name="email-time" <?php disabled( ! wphb_is_member() ); ?>>
-						<?php foreach ( wphb_get_times() as $time ): ?>
-							<option <?php selected( $time, $send_time ) ?>
-								value="<?php echo $time ?>"><?php echo strftime( '%I:%M %p', strtotime( $time ) ) ?></option>
-						<?php endforeach;; ?>
+						<?php foreach ( wphb_get_times() as $time ) : ?>
+							<option <?php selected( $time, $send_time ) ?> value="<?php echo $time ?>">
+								<?php echo strftime( '%I:%M %p', strtotime( $time ) ); ?>
+							</option>
+						<?php endforeach; ?>
 					</select>
 				</div><!-- end well -->
 			</div><!-- end col-two-third -->
@@ -49,9 +53,9 @@
 
 		<div class="row with-bottom-border">
 			<div class="col-third">
-				<strong><?php _e( 'Email Recipients', 'wphb' ) ?></strong>
+				<strong><?php esc_html_e( 'Email Recipients', 'wphb' ) ?></strong>
 				<span class="sub">
-					<?php _e( 'Choose which of your website’s users will receive the test results in their inbox.', 'wphb' ) ?>
+					<?php esc_html_e( 'Choose which of your website’s users will receive the test results in their inbox.', 'wphb' ) ?>
 				</span>
 			</div><!-- end col-third -->
 			<div class="col-two-third">
@@ -102,18 +106,22 @@
 								type="email"
 							<?php disabled( ! wphb_is_member() ); ?>
 						/>
-						<button type="submit" <?php disabled( ! wphb_is_member() ); ?> id="add-receipt" class="button button-notice button-large <?php echo ( ! wphb_is_member() ) ? 'disabled' : ''; ?>"><i class="wdv-icon wdv-icon-plus"></i></button>
+						<button type="submit" <?php disabled( ! wphb_is_member() ); ?> id="add-receipt" class="button button-notice button-large <?php echo ( ! wphb_is_member() ) ? 'disabled' : ''; ?>">
+							<i class="wdv-icon wdv-icon-plus"></i>
+						</button>
 					</div>
 				</div><!-- end receipt -->
 			</div><!-- end col-two-third -->
 		</div><!-- end row -->
 
-		<?php if ( wphb_is_member() ): ?>
-            <div class="clear line"></div>
-            <div class="buttons alignright">
-                <button class="button button-large"><?php _e( "Update Settings", 'wphb' ) ?></button>
-            </div>
-            <div class="clear"></div>
-        <?php endif; ?>
+		<?php if ( wphb_is_member() ) : ?>
+			<div class="clear line"></div>
+			<div class="buttons alignright">
+				<button class="button button-large">
+					<?php esc_html_e( 'Update Settings', 'wphb' ) ?>
+				</button>
+			</div>
+			<div class="clear"></div>
+		<?php endif; ?>
 	</form>
 </div>

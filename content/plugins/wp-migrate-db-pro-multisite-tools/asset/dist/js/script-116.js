@@ -51,6 +51,14 @@ wpmdb.mst = {
 			return;
 		}
 
+		// MST not supported for imports
+		// TODO: Remove this test if MST is to support import migrations.
+		if ( 'import' === wpmdb_migration_type() ) {
+			disable_mst_options();
+			$mst_options.hide();
+			return;
+		}
+
 		// For Pull/Push remote should be a single site install.
 		// TODO: Remove this test if MST is to manage subsite to subsite.
 		if ( 'savefile' !== wpmdb_migration_type() &&
@@ -355,7 +363,7 @@ wpmdb.mst = {
 	}
 
 	function filter_backup_selected_tables( selected_tables ) {
-		if ( doing_mst_select_subsite() ) {
+		if ( doing_mst_select_subsite() && 'find_replace' !== wpmdb_migration_type() ) {
 			var selected_subsite = get_selected_subsite();
 
 			// If dealing with non-primary subsite tables and a single site install, we may need to adjust table names to be backed up.

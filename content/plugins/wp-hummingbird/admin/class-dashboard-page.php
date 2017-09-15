@@ -47,7 +47,7 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 		}
 
 		if ( isset( $_GET['wphb-cache-cleared-with-cloudflare'] ) ) {
-			$this->show_notice( 'updated', __( 'Your local and CloudFlare caches have been successfully cleared. Your assets will regenerate the next time someone visits your website.', 'wphb' ), 'success', true );
+			$this->show_notice( 'updated', __( 'Your local and Cloudflare caches have been successfully cleared. Your assets will regenerate the next time someone visits your website.', 'wphb' ), 'success', true );
 		}
 		?>
 		<section id="header">
@@ -79,6 +79,12 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 	 */
 	private function run_actions( $type ) {
 
+		check_admin_referer( 'wphb-run-dashboard' );
+
+		if ( ! current_user_can( wphb_get_admin_capability() ) ) {
+			return;
+		}
+
 		// Check if Uptime is active in the server.
 		if ( wphb_is_uptime_remotely_enabled() ) {
 			wphb_uptime_enable_locally();
@@ -86,16 +92,10 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 			wphb_uptime_disable_locally();
 		}
 
-		check_admin_referer( 'wphb-run-dashboard' );
-
-		if ( ! current_user_can( wphb_get_admin_capability() ) ) {
-			return;
-		}
-
 		if ( 'performance' === $type ) {
 			// Start performance test.
 			wphb_performance_init_scan();
-			wp_safe_redirect( remove_query_arg( array( 'run', '_wpnonce' ) ) );
+			wp_safe_redirect( remove_query_arg( array( 'run', '_wpnonce' ), wphb_get_admin_menu_url( 'performance' ) ) );
 			exit;
 		}
 
@@ -130,6 +130,13 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 
 		/* Performance */
 		$last_report = wphb_performance_get_last_report();
+
+		// Check to see if there's a fresh report on the server.
+		if ( false === $last_report ) {
+			wphb_performance_refresh_report();
+			$last_report = wphb_performance_get_last_report();
+		}
+
 		if ( wphb_performance_is_doing_report() ) {
 			$this->add_meta_box( 'dashboard/performance/running-test', __( 'Performance test in progress', 'wphb' ), null, null, null, 'box-dashboard-left' );
 		} elseif ( ! wphb_performance_is_doing_report() && $last_report && ! is_wp_error( $last_report ) ) {
@@ -238,7 +245,7 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 			$uptime_report = wphb_uptime_get_last_report( 'week' );
 		}
 		$site_date = '';
-		if ( wphb_is_member() && isset( $uptime_report->up_since ) ) {
+		if ( wphb_is_member() && isset( $uptime_report->up_since ) && false !== $uptime_report->up_since ) {
 			$gmt_date = date( 'Y-m-d H:i:s', $uptime_report->up_since );
 			$site_date = get_date_from_gmt( $gmt_date, get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
 		}
@@ -489,13 +496,11 @@ class WP_Hummingbird_Dashboard_Page extends WP_Hummingbird_Admin_Page {
 		$report = $report->data;
 		$viewreport_link = wphb_get_admin_menu_url( 'performance' );
 
-        $settings = wphb_get_settings();
-        if ( wphb_is_member() ) {
-            $notifications = $settings['email-notifications'];
-        } else {
-            $notifications = false;
-        }
-
+		$settings = wphb_get_settings();
+		$notifications = false;
+		if ( wphb_is_member() && isset( $settings['email-notifications'] ) ) {
+			$notifications = $settings['email-notifications'];
+		}
 
         $args = compact( 'report', 'viewreport_link', 'notifications' );
 		$this->view( 'dashboard/performance/module-meta-box', $args );

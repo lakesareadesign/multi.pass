@@ -99,8 +99,7 @@ class WP_Hummingbird_Admin {
 					|| ( true === $minify )
 				) {
 					$this->pages['wphb-minification'] = new WP_Hummingbird_Minification_Page( 'wphb-minification', __( 'Minification', 'wphb' ), __( 'Hummingbird', 'wphb' ), false );
-				}
-				elseif ( isset( $_GET['page'] ) && 'wphb-minification' === $_GET['page'] ) {
+				} elseif ( isset( $_GET['page'] ) && 'wphb-minification' === $_GET['page'] ) {
 					// Minification is off, and is a network, let's redirect to network admin
 					$url = network_admin_url( 'admin.php?page=wphb#wphb-box-dashboard-minification-network-module' );
 					$url = add_query_arg( 'minify-instructions', 'true', $url );
@@ -108,9 +107,7 @@ class WP_Hummingbird_Admin {
 					exit;
 				}
 			}
-
 		}
-
 	}
 
 	public function add_network_menu_pages() {
@@ -164,7 +161,7 @@ class WP_Hummingbird_Admin {
 		?>
 		<script>
 			jQuery( document ).ready( function() {
-				var module = WPHB_Admin.getModule( 'minification' );
+				var module = window.WPHB_Admin.getModule( 'minification' );
                 module.scanner.scan();
 				module.minificationStarted = true;
 			});
@@ -209,7 +206,7 @@ class WP_Hummingbird_Admin {
 		?>
 		<script>
 			jQuery( document ).ready( function() {
-				var module = WPHB_Admin.getModule( 'performance' );
+				var module = window.WPHB_Admin.getModule( 'performance' );
 				module.performanceTest( '<?php echo $redirect; ?>' );
 			});
 		</script>

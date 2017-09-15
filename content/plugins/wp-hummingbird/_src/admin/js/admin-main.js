@@ -1,3 +1,5 @@
+import Fetcher from './utils/fetcher';
+
 ( function( $ ) {
     'use strict';
 
@@ -6,12 +8,19 @@
         // Common functionality to all screens
         init: function() {
 
+            // Mobile navigation links.
 			$('body').on('change', '.mobile-nav', function () {
 				let url = $(this).val();
 				if (url.length > 0) {
 					location.href = url;
 				}
 			});
+
+			// Dismiss notice via an ajax call.
+			$('#wphb-dismissable').on('click', '.close', function() {
+			    const notice_id = $(this).parent().attr('data-id');
+			    Fetcher.notice.dismiss( notice_id );
+            });
 
             function updatePerformanceGraph($wrap){
                 let $item = $wrap.find('.wphb-score-result-label'),

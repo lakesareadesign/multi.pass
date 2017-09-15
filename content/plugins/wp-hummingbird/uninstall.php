@@ -38,6 +38,7 @@ foreach ( $option_names as $name ) {
 delete_option( 'wphb_process_queue' );
 delete_transient( 'wphb-minification-errors' );
 delete_option( 'wphb-minify-server-errors' );
+delete_option( 'wphb-minification-files-scanned' );
 
 delete_option( 'wphb_settings' );
 delete_site_option( 'wphb_settings' );
@@ -47,8 +48,18 @@ delete_site_option( 'wphb-pro' );
 
 delete_site_option( 'wphb-is-cloudflare' );
 delete_site_option( 'wphb-quick-setup' );
-delete_site_option( 'wphb-notice-free-rated-show' );
 delete_site_option( 'wphb-free-install-date' );
+
+delete_site_option( 'wphb-caching-data' );
+delete_site_option( 'wphb-gzip-data' );
+delete_site_option( 'wphb-server-type' );
+
+// Clean notices.
+delete_site_option( 'wphb-notice-free-rated-show' );
+delete_site_option( 'wphb-notice-http2-info-dismissed' );
+
+// Clean all cron.
+wp_clear_scheduled_hook( 'wphb_performance_scan' );
 
 if ( ! class_exists( 'WP_Hummingbird_Filesystem' ) ) {
 	include_once( plugin_dir_path( __FILE__ ) . '/core/class-filesystem.php' );

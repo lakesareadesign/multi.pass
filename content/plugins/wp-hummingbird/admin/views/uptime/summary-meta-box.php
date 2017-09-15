@@ -49,11 +49,19 @@
 			<li>
 				<span class="list-label"><?php _e( 'Up Since', 'wphb' ); ?></span>
 				<span class="list-detail">
-					<?php
+					<?php $site_date = '';
+					if ( $uptime_stats->up_since ) {
 						$gmt_date = date( 'Y-m-d H:i:s', $uptime_stats->up_since );
 						$site_date = get_date_from_gmt( $gmt_date, get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
-					?>
-					<div class="wphb-dash-numbers"><?php echo $site_date; ?></div>
+					} ?>
+					<div class="wphb-dash-numbers">
+						<?php
+						if ( empty( $site_date ) ) {
+							esc_html_e( 'Website is reported down', 'wphb' );
+						} else {
+							echo $site_date;
+						} ?>
+					</div>
 				</span>
 			</li>
 		</ul>

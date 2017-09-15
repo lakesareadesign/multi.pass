@@ -179,14 +179,14 @@ class ShareaholicPublic {
       global $post;
       
       // Article Publish and Modified Time
-      $article_published_time = strtotime($post->post_date_gmt);
-      $article_modified_time = strtotime(get_lastpostmodified('GMT'));
+      $article_published_time = get_the_date( DATE_W3C );
+      $article_modified_time = get_the_modified_date( DATE_W3C );
     
       if (!empty($article_published_time)) {
-        echo "<meta name='shareaholic:article_published_time' content='" . date('c', $article_published_time) . "' />\n";
+        echo "<meta name='shareaholic:article_published_time' content='" . $article_published_time . "' />\n";
       }
       if (!empty($article_modified_time)) {
-        echo "<meta name='shareaholic:article_modified_time' content='" . date('c', $article_modified_time) . "' />\n";
+        echo "<meta name='shareaholic:article_modified_time' content='" . $article_modified_time . "' />\n";
       }
       
       // Article Visibility
@@ -346,14 +346,14 @@ class ShareaholicPublic {
             $settings[$app]["{$page_type}_above_content"] == 'on') {
           // share_buttons_post_above_content
           $id = $settings['location_name_ids'][$app]["{$page_type}_above_content"];
-          $content = self::canvas($id, $app) . $content;
+          $content = self::canvas($id, $app, "{$page_type}_above_content") . $content;
         }
 
         if (isset($settings[$app]["{$page_type}_below_content"]) &&
             $settings[$app]["{$page_type}_below_content"] == 'on') {
           // share_buttons_post_below_content
           $id = $settings['location_name_ids'][$app]["{$page_type}_below_content"];
-          $content .= self::canvas($id, $app);
+          $content .= self::canvas($id, $app, "{$page_type}_below_content");
         }
       }
     }
@@ -375,7 +375,7 @@ class ShareaholicPublic {
    * @param string $link url
    * @param string $summary summary text for URL
    */
-  public static function canvas($id, $app, $title = NULL, $link = NULL, $summary = NULL) {
+  public static function canvas($id, $app, $id_name, $title = NULL, $link = NULL, $summary = NULL) {
     global $post, $wp_query;
     $page_type = ShareaholicUtilities::page_type();
     $is_list_page = $page_type == 'index' || $page_type == 'category';
@@ -402,6 +402,7 @@ class ShareaholicPublic {
     
     $canvas = "<div class='shareaholic-canvas'
       data-app-id='$id'
+      data-app-id-name='$id_name'
       data-app='$app'
       data-title='$title'
       data-link='$link'
@@ -768,8 +769,8 @@ class ShareaholicPublic {
         'post_tags' => $tags,
         'post_categories' => $categories,
         'post_language' => get_bloginfo('language'),
-        'post_published' => date('c', strtotime($post->post_date_gmt)),
-        'post_updated' => date('c', strtotime(get_lastpostmodified('GMT'))),
+        'post_published' => get_the_date( DATE_W3C ),
+        'post_updated' => get_the_modified_date( DATE_W3C ),
         'post_visibility' => $post->post_status,
       ),
       'post_stats' => array(

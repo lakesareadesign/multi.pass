@@ -36,8 +36,9 @@ class WP_Hummingbird_Module_Gravatar extends WP_Hummingbird_Module {
 			$this->error = $this->filesystem->status;
 		}
 
-		if ( $this->is_active() && ! is_wp_error( $this->error ) ) {
-			add_filter( 'get_avatar', array( $this, 'get_cached_avatar' ), 10, 5 );
+		if ( $this->is_active() && ! is_wp_error( $this->error ) && ! is_admin() ) {
+			//add_filter( 'get_avatar', array( $this, 'get_cached_avatar' ), 10, 6 );
+			add_filter( 'get_avatar_data', array( $this, 'get_avatar_data' ), 10, 2 );
 		}
 	}
 
@@ -136,7 +137,7 @@ class WP_Hummingbird_Module_Gravatar extends WP_Hummingbird_Module {
 			$file = $email_hash . 'x' . $size . '.jpg';
 			return $this->filesystem->write( $file, $remote_avatar['body'] );
 		} else {
-			return new WP_Error( 'gravatar-not-found', __( 'Error fetching Gravatar. Gravatar not found.', 'wphb' ) );
+			return new WP_Error( 'gravatar-not-found', __( 'Error fetching Gravatar. Gravatar not found.', 'wphb' ) );	  	 	   	 		 		 		 	
 		}
 	}
 
@@ -207,7 +208,7 @@ class WP_Hummingbird_Module_Gravatar extends WP_Hummingbird_Module {
 	}
 
 	/**
-	 * Get cached avatar
+	 * Get cached avatar.
 	 *
 	 * @param  string $image        Image source.
 	 * @param  mixed  $id_or_email  The Gravatar to retrieve a URL for. Accepts a user_id, gravatar md5 hash,
@@ -215,15 +216,12 @@ class WP_Hummingbird_Module_Gravatar extends WP_Hummingbird_Module {
 	 * @param  int    $size         Image size.
 	 * @param  bool   $default      Not used. URL for an image, defaults to the "Mystery Person".
 	 * @param  string $alt          Alternate text to use in the avatar image tag.
+	 * @param  array  $args         Arguments passed to get_avatar_url(), after processing.
 	 * @return string $image        Image source.
 	 * @since  1.6.0
-	 * TODO: handle $default unset avatars
+	 * @deprecated 1.6.1
 	 */
-	public function get_cached_avatar( $image, $id_or_email, $size, $default, $alt ) {
-		if ( ! current_user_can( wphb_get_admin_capability() ) ) {
-			return false;
-		}
-
+	public function get_cached_avatar( $image, $id_or_email, $size, $default, $alt, $args ) {
 		$email_hash = $this->get_email_hash( $id_or_email );
 
 		// Avatar file names for normal and retina.
@@ -258,9 +256,64 @@ class WP_Hummingbird_Module_Gravatar extends WP_Hummingbird_Module {
 		$src = $this->filesystem->baseurl . $gravatar_dir . $images['normal']['file'];
 		$srcset = $this->filesystem->baseurl . $gravatar_dir . $images['retina']['file'];
 
-		$image = "<img alt='{$alt}' src='{$src}' srcset='$srcset 2x' class='avatar avatar-{$size} photo' height='{$size}' width='{$size}' />";
+		$class = array( 'avatar', 'avatar-' . (int) $size, 'photo' );
 
-		return $image;
+		if ( $args['class'] ) {
+			if ( is_array( $args['class'] ) ) {
+				$class = array_merge( $class, $args['class'] );
+			} else {
+				$class[] = $args['class'];
+			}
+		}
+
+		$avatar = sprintf(
+			"<img alt='%s' src='%s' srcset='%s' class='%s' height='%d' width='%d'/>",
+			esc_attr( $alt ),
+			esc_url( $src ),
+			esc_attr( "$srcset 2x" ),
+			esc_attr( join( ' ', $class ) ),
+			(int) $size,
+			(int) $size
+		);
+
+		return $avatar;
+	}
+
+	/**
+	 * Get avatar url.
+	 *
+	 * @since  1.6.1
+	 * @param  array  $args        Arguments passed to get_avatar_data(), after processing.
+	 * @param  mixed  $id_or_email The Gravatar to retrieve. Accepts a user_id, gravatar md5 hash,
+	 *                             user email, WP_User object, WP_Post object, or WP_Comment object.
+	 * @return mixed
+	 */
+	public function get_avatar_data( $args, $id_or_email ) {
+		$email_hash = $this->get_email_hash( $id_or_email );
+
+		if ( ! $args['found_avatar'] ) {
+			return $args;
+		}
+
+		// Try to save the avatar.
+		$file = $email_hash . 'x' . $args['size'] . '.jpg';
+
+		if ( ! $this->filesystem->find( $file ) && isset( $args['url'] ) ) {
+			$remote_avatar = wp_remote_get( $args['url'] );
+			$file_write = $this->filesystem->write( $file, $remote_avatar['body'] );
+
+			// If error creating file - log and return original image.
+			if ( is_wp_error( $file_write ) ) {
+				self::log( $file_write->get_error_message() );
+				$this->error = $file_write;
+				return $args;
+			}
+		}
+
+		$gravatar_dir = trailingslashit( substr( $file, 0, 3 ) );
+		$args['url'] = $this->filesystem->baseurl . $gravatar_dir . $file;
+
+		return $args;
 	}
 
 	/**

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: wp-migrate-db-pro-multisite-tools\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2016-12-15 11:23-0800\n"
+"POT-Creation-Date: 2017-09-14 15:18+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -38,36 +38,36 @@ msgstr ""
 msgid "A valid prefix must be supplied to make use of the prefix option"
 msgstr ""
 
-#: class/wpmdbpro-multisite-tools.php:235
+#: class/wpmdbpro-multisite-tools.php:238
 msgid "Migration failed"
 msgstr ""
 
-#: class/wpmdbpro-multisite-tools.php:236
+#: class/wpmdbpro-multisite-tools.php:239
 msgid "Please select a subsite."
 msgstr ""
 
-#: class/wpmdbpro-multisite-tools.php:237
+#: class/wpmdbpro-multisite-tools.php:240
 msgid "Please enter a new table prefix."
 msgstr ""
 
-#: class/wpmdbpro-multisite-tools.php:238
+#: class/wpmdbpro-multisite-tools.php:241
 msgid ""
 "Please only enter letters, numbers or underscores for the new table prefix."
 msgstr ""
 
-#: class/wpmdbpro-multisite-tools.php:239
+#: class/wpmdbpro-multisite-tools.php:242
 msgid "Export a subsite as a single site install"
 msgstr ""
 
-#: class/wpmdbpro-multisite-tools.php:240
+#: class/wpmdbpro-multisite-tools.php:243
 msgid "Pull into a specific subsite"
 msgstr ""
 
-#: class/wpmdbpro-multisite-tools.php:241
+#: class/wpmdbpro-multisite-tools.php:244
 msgid "Push a specific subsite"
 msgstr ""
 
-#: class/wpmdbpro-multisite-tools.php:242
+#: class/wpmdbpro-multisite-tools.php:245
 msgid "Run a find/replace on a specific subsite"
 msgstr ""
 

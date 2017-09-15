@@ -133,9 +133,12 @@ class WP_Hummingbird_GZIP_Page extends WP_Hummingbird_Admin_Page {
 	public function gzip_summary_metabox_header() {
 		$recheck_url = add_query_arg( 'run', 'true' );
 		$recheck_url = remove_query_arg( 'htaccess-error', $recheck_url );
+		$status = wphb_get_gzip_status();
+		$full_enabled = array_sum( $status ) === 3;
 		$this->view( 'gzip/summary-meta-box-header', array(
-			'recheck_url' => $recheck_url,
-			'title'       => __( 'Summary', 'wphb' ),
+			'recheck_url'  => $recheck_url,
+			'title'        => __( 'Summary', 'wphb' ),
+			'full_enabled' => $full_enabled,
 		));
 	}
 

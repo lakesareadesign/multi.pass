@@ -380,7 +380,7 @@ function wphb_smush_get_install_url() {
 }
 
 /**
- * Check if CloudFlare enabled.
+ * Check if Cloudflare enabled.
  *
  * @param bool $force  Force new check.
  */
@@ -389,7 +389,7 @@ function wphb_has_cloudflare( $force = false ) {
 }
 
 /**
- * Check if CloudFlare is active
+ * Check if Cloudflare is active
  *
  * @return bool
  *
@@ -407,7 +407,7 @@ function wphb_cloudflare_is_active() {
 }
 
 /**
- * Check if CloudFlare is disconnected.
+ * Check if Cloudflare is disconnected.
  */
 function wphb_cloudflare_disconnect() {
 	/* @var WP_Hummingbird_Module_Cloudflare $cloudflare */
