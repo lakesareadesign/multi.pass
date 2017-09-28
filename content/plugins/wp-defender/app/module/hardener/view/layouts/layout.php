@@ -13,14 +13,14 @@
 
                                 </h5>
                                 <?php if ( $controller->getCount( 'issues' ) > 0 ) :
-                                    $hardener_issues = ( $controller->getCount( 'fixed' ) + $controller->getCount( 'ignore' ) ) . '/' . count( \WP_Defender\Module\Hardener\Model\Settings::instance()->getDefinedRules( false ) );	  	 	   	 		 		 				
+                                    $hardener_issues = ( $controller->getCount( 'fixed' ) + $controller->getCount( 'ignore' ) ) . '/' . count( \WP_Defender\Module\Hardener\Model\Settings::instance()->getDefinedRules( false ) );
                                 ?>
-                                    <span class="" tooltip="<?php esc_attr_e( sprintf( __('You have actioned %s security tweaks', wp_defender()->domain ), $hardener_issues ) ); ?>">
+                                    <span class="" tooltip="<?php esc_attr_e( sprintf( __('You have actioned %s security tweaks.', wp_defender()->domain ), $hardener_issues ) ); ?>">
                                 <?php else : ?>
-                                    <span class="" tooltip="<?php esc_attr_e( 'You have no outstanding security issues', wp_defender()->domain ); ?>">
+                                    <span class="" tooltip="<?php esc_attr_e( 'You have no outstanding security issues.', wp_defender()->domain ); ?>">
                                 <?php endif; ?>
 									<?php
-									$icon = $controller->getCount( 'issues' ) == 0 ? ' <i class="def-icon icon-tick icon-active"></i>' : ' <i class="def-icon icon-warning"></i>';
+									$icon = $controller->getCount( 'issues' ) == 0 ? ' <i class="def-icon icon-tick icon-active" aria-hidden="true"></i>' : ' <i class="def-icon icon-warning" aria-hidden="true"></i>';
 									echo $icon;
 									?>
                                 </span>
@@ -53,51 +53,55 @@
             </div>
             <div class="row">
                 <div class="col-third">
-                    <ul class="inner-nav is-hidden-mobile">
-                        <li>
-                            <a class="<?php echo \Hammer\Helper\HTTP_Helper::retrieve_get( 'view', false ) == false ? 'active' : null ?>"
-                               href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener' ) ?>">
-								<?php _e( "Issues", wp_defender()->domain ) ?>
-                                <?php
-                                    $tooltip = '';
-                                    if ( $controller->getCount( 'issues' ) > 0 ) :
-                                        $tooltip = 'tooltip="'.esc_attr( sprintf( __('You have %d security tweak(s) needing attention', wp_defender()->domain ), $controller->getCount( 'issues' ) ) ).'"';
-                                    endif;
-                                ?>
-                                <span class="def-tag count-issues tag-yellow <?php echo $controller->getCount( 'issues' ) == 0 ? 'wd-hide' : null ?>" <?php echo $tooltip; ?>><?php echo $controller->getCount( 'issues' ) ?></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="<?php echo $controller->isView( 'resolved' ) ? 'active' : null ?>"
-                               href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener&view=resolved' ) ?>">
-								<?php _e( "Resolved", wp_defender()->domain ) ?>
-                                <span class="count-resolved <?php echo $controller->getCount( 'fixed' ) == 0 ? 'wd-hide' : null ?>"><?php echo $controller->getCount( 'fixed' ) ?></span>
-                            </a>
-                        </li>
-                        <li>
-                            <a class="<?php echo $controller->isView( 'ignored' ) ? 'active' : null ?>"
-                               href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener&view=ignored' ) ?>">
-								<?php _e( "Ignored", wp_defender()->domain ) ?>
-                                <span class="count-ignored <?php echo $controller->getCount( 'ignore' ) == 0 ? 'wd-hide' : null ?>"><?php echo $controller->getCount( 'ignore' ) ?></span>
-                            </a>
-                        </li>
-                        <!--                        <li>-->
-                        <!--                            <a class="-->
-						<?php //echo $controller->isView( 'notification' ) ? 'active' : null ?><!--"-->
-                        <!--                               href="-->
-						<?php //echo network_admin_url( 'admin.php?page=wdf-hardener&view=notification' ) ?><!--">-->
-						<?php //_e( "Notifications", wp_defender()->domain ) ?><!--</a>-->
-                        <!--                        </li>-->
-                    </ul>
+					<nav role="navigation" aria-label="Filters">
+						<ul class="inner-nav is-hidden-mobile">
+							<li>
+								<a class="<?php echo \Hammer\Helper\HTTP_Helper::retrieve_get( 'view', false ) == false ? 'active' : null ?>"
+								href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener' ) ?>">
+									<?php _e( "Issues", wp_defender()->domain ) ?>
+									<?php
+										$tooltip = '';
+										if ( $controller->getCount( 'issues' ) > 0 ) :
+											$tooltip = 'tooltip="'.esc_attr( sprintf( __('You have %d security tweak(s) needing attention.', wp_defender()->domain ), $controller->getCount( 'issues' ) ) ).'"';
+										endif;
+									?>
+									<span class="def-tag count-issues tag-yellow <?php echo $controller->getCount( 'issues' ) == 0 ? 'wd-hide' : null ?>" <?php echo $tooltip; ?>><?php echo $controller->getCount( 'issues' ) ?></span>
+								</a>
+							</li>
+							<li>
+								<a class="<?php echo $controller->isView( 'resolved' ) ? 'active' : null ?>"
+								href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener&view=resolved' ) ?>">
+									<?php _e( "Resolved", wp_defender()->domain ) ?>
+									<span class="count-resolved <?php echo $controller->getCount( 'fixed' ) == 0 ? 'wd-hide' : null ?>"><?php echo $controller->getCount( 'fixed' ) ?></span>
+								</a>
+							</li>
+							<li>
+								<a class="<?php echo $controller->isView( 'ignored' ) ? 'active' : null ?>"
+								href="<?php echo network_admin_url( 'admin.php?page=wdf-hardener&view=ignored' ) ?>">
+									<?php _e( "Ignored", wp_defender()->domain ) ?>
+									<span class="count-ignored <?php echo $controller->getCount( 'ignore' ) == 0 ? 'wd-hide' : null ?>"><?php echo $controller->getCount( 'ignore' ) ?></span>
+								</a>
+							</li>
+							<!--                        <li>-->
+							<!--                            <a class="-->
+							<?php //echo $controller->isView( 'notification' ) ? 'active' : null ?><!--"-->
+							<!--                               href="-->
+							<?php //echo network_admin_url( 'admin.php?page=wdf-hardener&view=notification' ) ?><!--">-->
+							<?php //_e( "Notifications", wp_defender()->domain ) ?><!--</a>-->
+							<!--                        </li>-->
+						</ul>
+					</nav>
                     <div class="is-hidden-tablet mline">
-                        <select class="mobile-nav">
-                            <option <?php selected( '', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
-                                    value="<?php echo network_admin_url( 'admin.php?page=wdf-hardener' ) ?>"><?php _e( "Issues", wp_defender()->domain ) ?></option>
-                            <option <?php selected( 'resolved', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
-                                    value="<?php echo network_admin_url( 'admin.php?page=wdf-hardener&view=resolved' ) ?>"><?php _e( "Resolved", wp_defender()->domain ) ?></option>
-                            <option <?php selected( 'ignored', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
-                                    value="<?php echo network_admin_url( 'admin.php?page=wdf-hardener&view=ignored' ) ?>"><?php _e( "Ignored", wp_defender()->domain ) ?></option>
-                        </select>
+						<nav role="navigation" aria-label="Filters">
+							<select class="mobile-nav">
+								<option <?php selected( '', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
+										value="<?php echo network_admin_url( 'admin.php?page=wdf-hardener' ) ?>"><?php _e( "Issues", wp_defender()->domain ) ?></option>
+								<option <?php selected( 'resolved', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
+										value="<?php echo network_admin_url( 'admin.php?page=wdf-hardener&view=resolved' ) ?>"><?php _e( "Resolved", wp_defender()->domain ) ?></option>
+								<option <?php selected( 'ignored', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
+										value="<?php echo network_admin_url( 'admin.php?page=wdf-hardener&view=ignored' ) ?>"><?php _e( "Ignored", wp_defender()->domain ) ?></option>
+							</select>
+						</nav>
                     </div>
                 </div>
                 <div class="col-two-third">

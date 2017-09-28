@@ -14,7 +14,7 @@
 		} else {
 			?>
             <div class="well well-blue with-cap">
-                <i class="def-icon icon-warning"></i>
+                <i class="def-icon icon-warning"  aria-hidden="true"></i>
 				<?php _e( "You haven't ignored any suspicious files yet. Ignored files appear here and can be restored at any times.", wp_defender()->domain ) ?>
             </div>
 			<?php

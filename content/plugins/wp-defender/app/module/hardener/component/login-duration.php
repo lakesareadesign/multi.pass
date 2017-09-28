@@ -79,7 +79,7 @@ class Login_Duration extends Rule {
 		}
 		$service 	= $this->getService();
 		$duration 	= HTTP_Helper::retrieve_post( 'duration' );
-		if ( is_numeric( $duration ) ) {
+		if ( is_numeric( $duration ) && intval( $duration ) > 0 ) {
 			$service->setDuration( $duration );
 			$ret = $service->process();
 			if ( ! is_wp_error( $ret ) ) {
@@ -91,7 +91,7 @@ class Login_Duration extends Rule {
 			}
 		} else {
 			wp_send_json_error( array(
-				'message' => __( 'Duration can only be a number', wp_defender()->domain )
+				'message' => __( 'Duration can only be a number and greater than 0', wp_defender()->domain )
 			) );
 		}
 	}
@@ -123,8 +123,12 @@ class Login_Duration extends Rule {
 				$last_login_time 	= get_user_meta( $user_id, 'last_login_time', true );
 				$login_period 		= $this->getService()->getDuration( true );
 				if ( $last_login_time ) {
-					$diff = strtotime( $current_time ) - strtotime( $last_login_time );
-					if( $diff > $login_period ) {
+					$current_time 		= strtotime( $current_time );
+					$last_login_time 	= strtotime( $last_login_time );
+					$diff 				= $current_time - $last_login_time ;
+					//Check if the current and login times are not the same
+					//so we dont kick out someone who set it to 0
+					if( ( $current_time != $last_login_time ) && $diff > $login_period ) {
 						$current_url = Utils::instance()->currentPageURL();
 						$after_logout_payload = array( 'redirect_to' => $current_url, 'msg'=>'session_expired' );
 						if ( is_multisite() ) {

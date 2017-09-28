@@ -40,7 +40,22 @@ jQuery(function ($) {
         if ( $('.hardener-instructions-apache-litespeed').length ) {
             $('.hardener-update-frm [name="file_paths"]').val(text_val);
         }
-    });
+	});
+	
+	/**
+	 * Validate that the number put is greater than 0 and is actually a number
+	 */
+	$(document).on('keyup keypress paste','.defender-login-duration', function(){
+		var text_val = $(this).val();
+		if( /^-?[0-9]+$/i.test(text_val)){
+			//is integer
+			if(text_val <= 0){
+				$(this).val('');
+			}
+		} else{
+            $(this).val('');
+		}
+	});
 
     /**
      * Pevent PHP update posts toggle

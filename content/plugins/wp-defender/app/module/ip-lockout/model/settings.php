@@ -50,6 +50,10 @@ class Settings extends \Hammer\WP\Settings {
 	public $report_receipts = array();
 	public $lastReportSent;
 
+	public $cooldown_enabled = false;
+	public $cooldown_number_lockout = '3';
+	public $cooldown_period = '24';
+
 	public $cache = array();
 
 	public function __construct( $id, $isMulti ) {
@@ -81,7 +85,8 @@ class Settings extends \Hammer\WP\Settings {
 					'login_protection_login_attempt',
 					'login_protection_lockout_timeframe',
 					'detect_404_threshold',
-					'detect_404_timeframe'
+					'detect_404_timeframe',
+					'storage_days',
 				),
 				'integer',
 			)
@@ -104,6 +109,7 @@ class Settings extends \Hammer\WP\Settings {
 	public function get404Ignorelist() {
 		$arr = array_filter( explode( PHP_EOL, $this->detect_404_ignored_filetypes ) );
 		$arr = array_map( 'trim', $arr );
+		$arr = array_map( 'strtolower', $arr );
 
 		return $arr;
 	}

@@ -191,7 +191,6 @@ class WPMUDEV_Dashboard_Ui {
 
 			// Force refresh of all data during first redirect.
 			WPMUDEV_Dashboard::$site->set_option( 'refresh_remote_flag', 1 );
-			WPMUDEV_Dashboard::$site->set_option( 'refresh_local_flag', 1 );
 			WPMUDEV_Dashboard::$site->set_option( 'refresh_profile_flag', 1 );
 
 			header( 'X-Redirect-From: UI first_redirect' );
@@ -1283,7 +1282,6 @@ class WPMUDEV_Dashboard_Ui {
 
 		if ( ! isset( $_GET['fetch_menu'] ) || 1 != $_GET['fetch_menu'] ) {
 			// When Plugins page is opened we always scan local folders for changes.
-			WPMUDEV_Dashboard::$site->set_option( 'refresh_local_flag', 1 );
 			WPMUDEV_Dashboard::$site->refresh_local_projects( 'remote' );
 		}
 
@@ -1327,7 +1325,6 @@ class WPMUDEV_Dashboard_Ui {
 
 		if ( ! isset( $_GET['fetch_menu'] ) || 1 != $_GET['fetch_menu'] ) {
 			// When Themes page is opened we always scan local folders for changes.
-			WPMUDEV_Dashboard::$site->set_option( 'refresh_local_flag', 1 );
 			WPMUDEV_Dashboard::$site->refresh_local_projects( 'remote' );
 		}
 

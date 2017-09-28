@@ -221,7 +221,7 @@ do_action( 'login_header' );
 	?>
     <form method="post"
           action="<?php echo esc_url( add_query_arg( 'action', 'defenderVerifyOTP', site_url( 'wp-login.php', 'login_post' ) ) ); ?>">
-        <p><?php _e( "Enter 6 digit passcode", wp_defender()->domain ) ?></p>
+        <p><?php _e( "Open the Google Authenticator app and enter the 6 digit passcode.", wp_defender()->domain ) ?></p>
         <input type="text" value="" name="otp">
         <button class="button button-primary float-r"
                 type="submit"><?php _e( "Authenticate", wp_defender()->domain ) ?></button>

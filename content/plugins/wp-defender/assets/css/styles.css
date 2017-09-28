@@ -1749,6 +1749,13 @@
     .wp-defender .table tbody tr:last-child th, .wp-defender .table tbody tr:last-child td {
       border-bottom: none;
       padding-bottom: 0; }
+  .wp-defender strong.small {
+    color: #888;
+    font-size: 12px;
+    font-weight: bold;
+    line-height: 22px; }
+  .wp-defender .wd-select-inline {
+    display: inline-block; }
   .wp-defender .def-dashboard .hardener-widget .dev-list {
     margin: 0 0 30px; }
     .wp-defender .def-dashboard .hardener-widget .dev-list a {
@@ -2249,11 +2256,7 @@
     .wp-defender .iplockout .bulk-nav .bulk-action p {
       line-height: 42px; }
   .wp-defender .iplockout .well.schedule-box strong {
-    font-weight: bold;
-    color: #333;
-    font-family: "Roboto Condensed", sans-serif;
-    font-size: 13px;
-    text-transform: uppercase; }
+    color: #888; }
   .wp-defender .iplockout .well.schedule-box .columns {
     border-bottom: 0;
     margin-bottom: 0;
@@ -2297,6 +2300,19 @@
     -webkit-mask: none; }
   .wp-defender .advanced-tools .toggle .toggle-label:after {
     left: 0; }
+  .wp-defender .advanced-tools .at-line {
+    margin-top: 15px; }
+    .wp-defender .advanced-tools .at-line strong {
+      color: #333333;
+      font-size: 13px;
+      font-weight: 500;
+      line-height: 30px; }
+    .wp-defender .advanced-tools .at-line span {
+      display: block;
+      color: #888888;
+      font-size: 13px;
+      line-height: 22px;
+      margin-bottom: 10px; }
   .wp-defender .toggle-row {
     display: none; }
   @media screen and (min-width: 769px) and (max-width: 979px) {
@@ -2383,4 +2399,4 @@
   margin: 0; }
 
 
-/* 133620-1504103056-au */
+/* 133620-1506614225-au */

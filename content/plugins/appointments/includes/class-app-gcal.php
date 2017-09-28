@@ -8,8 +8,6 @@
  */
 class Appointments_Google_Calendar {
 
-	public $api_manager = false;
-
 	public $errors = array();
 
 	public $admin;
@@ -27,12 +25,6 @@ class Appointments_Google_Calendar {
 	public function __construct() {
 		if ( ! apply_filters( 'appointments_load_gcal', true ) ) {
 			return;
-		}
-		$appointments = appointments();
-
-		// Try to start a session. If cannot, log it.
-		if ( ! session_id() && ! @session_start() ) {
-			$appointments->log( __( 'Session could not be started. This may indicate a theme issue.', 'appointments' ) );
 		}
 
 		if ( ! defined( 'APP_GCAL_MAX_RESULTS_LIMIT' ) ) {
@@ -55,6 +47,26 @@ class Appointments_Google_Calendar {
 			$this->api_mode = $options['gcal_api_mode'];
 		}
 
+		$this->setup_cron();
+
+		// Appointments Hooks
+		$this->add_appointments_hooks();
+
+		if ( isset( $_GET['gcal-sync-now'] ) && is_admin() && App_Roles::current_user_can( 'manage_options', App_Roles::CTX_STAFF ) ) {
+			$this->maybe_sync();
+		}
+	}
+
+	public function __get( $name ) {
+		if ( 'api_manager' === $name && empty( $this->api_manager ) ) {
+			$this->load_api();
+			return $this->api_manager;
+		}
+		return null;
+	}
+
+	public function load_api() {
+		$options = appointments_get_options();
 		include_once( 'gcal/class-app-gcal-api-manager.php' );
 		$this->api_manager = new Appointments_Google_Calendar_API_Manager();
 
@@ -98,22 +110,9 @@ class Appointments_Google_Calendar {
 		$this->api_manager->set_default_credentials( $default_creds );
 
 		add_action( 'shutdown', array( $this, 'save_new_token' ) );
-
-		// Appointments Hooks
-		$this->add_appointments_hooks();
-
-		$this->setup_cron();
-
-		if ( isset( $_GET['gcal-sync-now'] ) && is_admin() && App_Roles::current_user_can( 'manage_options', App_Roles::CTX_STAFF ) ) {
-			$this->maybe_sync();
-		}
 	}
 
 	public function add_appointments_hooks() {
-		if ( ! $this->is_connected() ) {
-			return;
-		}
-
 		add_action( 'wpmudev_appointments_insert_appointment', array( $this, 'on_insert_appointment' ), 200 );
 		add_action( 'wpmudev_appointments_update_appointment', array( $this, 'on_update_appointment' ), 200, 3 );
 		add_action( 'appointments_delete_appointment', array( $this, 'on_delete_appointment' ) );
@@ -129,13 +128,34 @@ class Appointments_Google_Calendar {
 		add_filter( 'cron_schedules', array( $this, 'cron_schedules' ) );
 
 		$sync_modes = array( 'sync', 'gcal2app' );
+		// Schedule a cron.
 		if ( in_array( $this->get_api_mode(), $sync_modes ) ) {
 			$scheduled = wp_next_scheduled( 'appointments_gcal_sync' );
 			if ( ! $scheduled ) {
 				wp_schedule_event( current_time( 'timestamp' ) + 600, 'app-gcal', 'appointments_gcal_sync' );
 			}
-		}
-		else {
+		} elseif ( $this->workers_allowed() ) { // Schedule cron if admin has allowed workers to set up gcal sync.
+			$workers = appointments_get_workers();
+
+			foreach ( $workers as $worker ) {
+				$switched = $this->switch_to_worker( $worker->ID );
+				if ( $switched ) {
+					if ( in_array( $this->get_api_mode(), $sync_modes ) ) {
+						$scheduled = wp_next_scheduled( 'appointments_gcal_sync' );
+						if ( ! $scheduled ) {
+							wp_schedule_event( current_time( 'timestamp' ) + 600, 'app-gcal', 'appointments_gcal_sync' );
+							$this->restore_to_default();
+							return;
+						} else {
+							// Don't need to keep looping through workers if cron already scheduled.
+							$this->restore_to_default();
+							return;
+						}
+					}
+					$this->restore_to_default();
+				}
+			}
+		} else {
 			$scheduled = wp_next_scheduled( 'appointments_gcal_sync' );
 			if ( $scheduled ) {
 				wp_unschedule_event( $scheduled, 'appointments_gcal_sync' );
@@ -720,6 +740,9 @@ class Appointments_Google_Calendar {
 
 	// Appointments Hooks
 	public function on_insert_appointment( $app_id ) {
+		if ( ! $this->is_connected() ) {
+			return;
+		}
 
 		$app = appointments_get_appointment( $app_id );
 		if ( $app->gcal_ID ) {
@@ -746,12 +769,20 @@ class Appointments_Google_Calendar {
 	}
 
 	public function on_delete_appointment( $app ) {
+		if ( ! $this->is_connected() ) {
+			return;
+		}
+
 		if ( $app->gcal_ID ) {
 			$this->delete_event( $app->gcal_ID );
 		}
 	}
 
 	public function on_update_appointment( $app_id, $args, $old_app ) {
+		if ( ! $this->is_connected() ) {
+			return;
+		}
+
 		$app = appointments_get_appointment( $app_id );
 
 		if ( ! $app->gcal_ID ) {

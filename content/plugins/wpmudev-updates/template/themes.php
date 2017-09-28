@@ -20,7 +20,8 @@ $this->render_header( $page_title );
 ?>
 <div class="row row-space">
 	<div class="col-half">
-		<input type="search" placeholder="<?php esc_attr_e( 'Search themes', 'wpmudev' ) ?>" class="search" data-no-empty-msg="true" />
+		<label for="search-themes-id" class="wpdui-sr-only"><?php esc_html_e( 'Search themes', 'wpmudev' ); ?></label>
+		<input type="search" id="search-themes-id" placeholder="<?php esc_attr_e( 'Search themes', 'wpmudev' ) ?>" class="search" data-no-empty-msg="true" />
 	</div>
 	<div class="col-half tr">
 		<span class="input-group">

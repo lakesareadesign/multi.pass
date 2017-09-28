@@ -18,7 +18,7 @@
 				if ( count( $issues ) == 0 ) {
 					?>
                     <div class="well well-green with-cap">
-                        <i class="def-icon icon-tick"></i>
+                        <i class="def-icon icon-tick" aria-hidden="true"></i>
 						<?php _e( "You have actioned all available security tweaks. Great work!", wp_defender()->domain ) ?>
                     </div>
 					<?php

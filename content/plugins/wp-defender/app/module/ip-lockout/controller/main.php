@@ -245,7 +245,7 @@ class Main extends Controller {
 				'ip' => $ip
 			) );
 			if ( is_object( $model ) && $model->is_locked() ) {
-				header('HTTP/1.0 403 Forbidden');
+				header( 'HTTP/1.0 403 Forbidden' );
 				header( 'Cache-Control: private' );
 				$this->renderPartial( 'locked', array(
 					'message' => $model->lockout_message
@@ -304,7 +304,7 @@ class Main extends Controller {
 
 		$ip       = $this->getUserIp();
 		$settings = Settings::instance();
-		if ( $settings->report ) {
+		if ( $settings->report && $this->hasMethod( 'lockoutReportCron' ) ) {
 			//report
 			$this->add_action( 'lockoutReportCron', 'lockoutReportCron' );
 		}
@@ -383,6 +383,9 @@ class Main extends Controller {
 	 */
 	public function lockout404Notification( $model, $uri ) {
 		$settings = Settings::instance();
+		if ( ! Login_Protection_Api::maybeSendNotification( '404', $model, $settings ) ) {
+			return;
+		}
 		foreach ( $settings->receipts as $user_id ) {
 			$user = get_user_by( 'id', $user_id );
 			if ( is_object( $user ) ) {
@@ -406,6 +409,9 @@ class Main extends Controller {
 	 */
 	public function lockoutLoginNotification( IP_Model $model, $force, $blacklist ) {
 		$settings = Settings::instance();
+		if ( ! Login_Protection_Api::maybeSendNotification( 'login', $model, $settings ) ) {
+			return;
+		}
 		foreach ( $settings->receipts as $user_id ) {
 			$user = get_user_by( 'id', $user_id );
 			if ( is_object( $user ) ) {
@@ -453,7 +459,12 @@ class Main extends Controller {
 				return;
 			}
 
-			$uri = $_SERVER['REQUEST_URI'];
+			$uri    = $_SERVER['REQUEST_URI'];
+			$absUrl = parse_url( get_site_url(), PHP_URL_PATH );
+			if ( strpos( $uri, $absUrl ) === 0 ) {
+				$uri = substr( $uri, strlen( $absUrl ) );
+			}
+			$uri = rtrim( $uri, '/' );
 			if ( in_array( $uri, $settings->get404Whitelist() ) ) {
 				//it is white list, just return
 				return;
@@ -464,7 +475,7 @@ class Main extends Controller {
 			$model             = new Log_Model();
 			$model->ip         = $this->getUserIp();
 			$model->user_agent = $_SERVER['HTTP_USER_AGENT'];
-			$model->log        = esc_url( $_SERVER['REQUEST_URI'] );
+			$model->log        = esc_url( $uri );
 			$model->date       = time();
 			if ( strlen( $ext ) > 0 && in_array( $ext, $settings->get404Ignorelist() ) ) {
 				$model->type = Log_Model::ERROR_404_IGNORE;
@@ -487,6 +498,7 @@ class Main extends Controller {
 		$model->log        = sprintf( esc_html__( "Failed login attempt with username %s", wp_defender()->domain ), $username );
 		$model->date       = time();
 		$model->type       = 'auth_fail';
+		$model->tried      = $username;
 		$model->save();
 
 		$settings         = Settings::instance();

@@ -20,6 +20,7 @@ class Log_Model extends DB_Model {
 	public $user_agent;
 	public $type;
 	public $blog_id;
+	public $tried;
 
 	/**
 	 * @return string

@@ -63,20 +63,21 @@ jQuery(function ($) {
         var start = moment().subtract(7, 'days');
         var end = moment();
         var maxDate = end;
-        var minDate = moment().subtract(90, 'days');
+        var minDate = moment().subtract(1, 'years');
         $('#wd_range_from').daterangepicker({
             //startDate: start,
             //endDate: end,
             autoApply: true,
             maxDate: maxDate,
             minDate: minDate,
+            "linkedCalendars": false,
             showDropdowns: false,
             applyClass: 'wd-hide',
             cancelClass: 'wd-hide',
             alwaysShowCalendars: true,
             opens: 'center',
             dateLimit: {
-                days: 14
+                days: 90
             },
             locale: {
                 "format": "MM/DD/YYYY",
@@ -209,7 +210,16 @@ WDAudit.formHandler = function () {
                 that.find('.button').attr('disabled', 'disabled');
             },
             success: function (data) {
-                if (data.data.reload != undefined) {
+				if (data.data != undefined && data.data.notification != undefined){
+					if(data.data.notification == 0){
+						jq('.defender-audit-frequency').html(data.data.text);
+						jq('.defender-audit-schedule').html('');
+					} else {
+						jq('.defender-audit-frequency').html(data.data.frequency);
+						jq('.defender-audit-schedule').html(data.data.schedule);
+					}
+				}
+                if (data.data != undefined && data.data.reload != undefined) {
                     Defender.showNotification('success', data.data.message);
                     location.reload();
                 } else if (data.data != undefined && data.data.url != undefined) {

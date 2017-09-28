@@ -23,7 +23,7 @@
                 </div>
 			<?php else: ?>
                 <div class="well well-blue with-cap">
-                    <i class="def-icon icon-warning"></i>
+                    <i class="def-icon icon-warning" aria-hidden="true"></i>
 					<?php _e( "You haven't ignored any issues yet. You can ignore any security tweaks you don't want to be warned about by clicking 'Ignore' inside the issue description.", wp_defender()->domain ) ?>
                 </div>
 			<?php endif; ?>

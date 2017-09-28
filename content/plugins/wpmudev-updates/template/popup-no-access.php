@@ -66,7 +66,7 @@ if ( $auto_show ) {
 		<?php esc_html_e( 'Upgrade Membership', 'wpmudev' ); ?>
 	</a>
 	</p>
-	<div class="dev-man">
+	<div aria-hidden="true" class="dev-man">
 		<img src="<?php echo esc_url( $url_devman ); ?>" />
 	</div>
 	<?php if ( $auto_show && $is_logged_in ) : ?>
@@ -75,7 +75,7 @@ if ( $auto_show ) {
 		<?php
 		printf(
 			esc_html__( 'You can also %srefresh%s your membership status or %slogin%s to a different account.', 'wpmudev' ),
-			'<a href="' . esc_url( $url_refresh ) . '"class="has-spinner"><i class="wdv-icon wdv-icon-refresh spin-on-click"></i> ',
+			'<a href="' . esc_url( $url_refresh ) . '"class="has-spinner"><i aria-hidden="true" class="wdv-icon wdv-icon-refresh spin-on-click"></i> ',
 			'</a>',
 			'<a href="' . esc_url( $url_logout ) . '">',
 			'</a>'

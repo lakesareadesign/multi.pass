@@ -157,19 +157,18 @@ class Users_Audit extends Event_Abstract {
 	public static function profile_update_callback() {
 		$args         = func_get_args();
 		$user_id      = $args[1]['user_id'];
-		$old_data     = $args[1]['old_user_data'];
 		$current_user = get_user_by( 'id', $user_id );
-		$current_arr  = $current_user->to_array();
-		$old_arr      = $old_data->to_array();
-
-		if ( count( array_diff( $old_arr, $current_arr ) ) == 0 ) {
-			return false;
-		}
 
 		if ( get_current_user_id() == $user_id ) {
-			return sprintf( esc_html__( "User %s updated his/her profile", wp_defender()->domain ), $current_user->user_nicename );
+			return array(
+				sprintf( esc_html__( "User %s updated his/her profile", wp_defender()->domain ), $current_user->user_nicename ),
+				Audit_API::ACTION_UPDATED
+			);
 		} else {
-			return sprintf( esc_html__( "%s updated user %s's profile information", wp_defender()->domain ), Utils::instance()->getDisplayName( get_current_user_id() ), $current_user->user_nicename );
+			return array(
+				sprintf( esc_html__( "%s updated user %s's profile information", wp_defender()->domain ), Utils::instance()->getDisplayName( get_current_user_id() ), $current_user->user_nicename ),
+				Audit_API::ACTION_UPDATED
+			);
 		}
 	}
 

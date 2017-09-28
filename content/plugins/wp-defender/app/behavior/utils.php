@@ -8,6 +8,7 @@ namespace WP_Defender\Behavior;
 use Hammer\Base\Behavior;
 use Hammer\Helper\Log_Helper;
 use Hammer\Helper\WP_Helper;
+use WP_Defender\Module\Advanced_Tools\Model\Auth_Settings;
 use WP_Defender\Module\Hardener\Model\Settings;
 use WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api;
 use WP_Defender\Module\Scan\Component\Scan_Api;
@@ -100,9 +101,13 @@ class Utils extends Behavior {
 				//this is version 4+
 				//instanize once
 				\WPMUDEV_Dashboard::instance();
-				$api_key = \WPMUDEV_Dashboard::$api->get_key();
+				$membeshipStatus = \WPMUDEV_Dashboard::$api->get_membership_data();
 
-				return $api_key;
+				if ( $membeshipStatus['membership'] != 'free' ) {
+					return \WPMUDEV_Dashboard::$api->get_key();
+				} else {
+					return false;
+				}
 			} else {
 				global $wpmudev_un;
 				$api_key = $wpmudev_un->get_apikey();
@@ -336,7 +341,13 @@ class Utils extends Behavior {
 		$offset = implode( ':', $timezone );
 		list( $hours, $minutes ) = explode( ':', $offset );
 		$seconds = $hours * 60 * 60 + $minutes * 60;
-		$tz      = timezone_name_from_abbr( '', $seconds, 1 );
+		$lc      = localtime( time(), true );
+		if ( isset( $lc['tm_isdst'] ) ) {
+			$isdst = $lc['tm_isdst'];
+		} else {
+			$isdst = 0;
+		}
+		$tz = timezone_name_from_abbr( '', $seconds, $isdst );
 		if ( $tz === false ) {
 			$tz = timezone_name_from_abbr( '', $seconds, 0 );
 		}
@@ -362,13 +373,129 @@ class Utils extends Behavior {
 	}
 
 	/**
+	 * Validates that the IP that made the request is from cloudflare
+	 *
+	 * @param String $ip - the ip to check
+	 *
+	 * @return bool
+	 */
+	private function _validateCloudflareIP( $ip ) {
+		$cloudflare_ips = array(
+			'199.27.128.0/21',
+			'173.245.48.0/20',
+			'103.21.244.0/22',
+			'103.22.200.0/22',
+			'103.31.4.0/22',
+			'141.101.64.0/18',
+			'108.162.192.0/18',
+			'190.93.240.0/20',
+			'188.114.96.0/20',
+			'197.234.240.0/22',
+			'198.41.128.0/17',
+			'162.158.0.0/15',
+			'104.16.0.0/12',
+		);
+		$is_cf_ip       = false;
+		foreach ( $cloudflare_ips as $cloudflare_ip ) {
+			if ( $this->_cloudflareIpInRange( $ip, $cloudflare_ip ) ) {
+				$is_cf_ip = true;
+				break;
+			}
+		}
+
+		return $is_cf_ip;
+	}
+
+	/**
+	 * Check if the cloudflare IP is in range
+	 *
+	 * @param String $ip - the current IP
+	 * @param String $range - the allowed range of cloudflare ips
+	 *
+	 * @return bool
+	 */
+	function _cloudflareIpInRange( $ip, $range ) {
+		if ( strpos( $range, '/' ) == false ) {
+			$range .= '/32';
+		}
+
+		// $range is in IP/CIDR format eg 127.0.0.1/24
+		list( $range, $netmask ) = explode( '/', $range, 2 );
+		$range_decimal    = ip2long( $range );
+		$ip_decimal       = ip2long( $ip );
+		$wildcard_decimal = pow( 2, ( 32 - $netmask ) ) - 1;
+		$netmask_decimal  = ~$wildcard_decimal;
+
+		return ( ( $ip_decimal & $netmask_decimal ) == ( $range_decimal & $netmask_decimal ) );
+	}
+
+	/**
+	 * Check if there are any cloudflare headers in the request
+	 *
+	 * @return bool
+	 */
+	function _cloudflareRequestsCheck() {
+		$flag = true;
+
+		if ( ! isset( $_SERVER['HTTP_CF_CONNECTING_IP'] ) ) {
+			$flag = false;
+		}
+		if ( ! isset( $_SERVER['HTTP_CF_IPCOUNTRY'] ) ) {
+			$flag = false;
+		}
+		if ( ! isset( $_SERVER['HTTP_CF_RAY'] ) ) {
+			$flag = false;
+		}
+		if ( ! isset( $_SERVER['HTTP_CF_VISITOR'] ) ) {
+			$flag = false;
+		}
+
+		return $flag;
+	}
+
+	/**
+	 * Check if the request is from cloudflare. If it is, we get the IP
+	 *
+	 * @return bool
+	 */
+	function isCloudflare() {
+		if ( isset( $_SERVER['HTTP_CLIENT_IP'] ) ) {
+			$ip = $_SERVER['HTTP_CLIENT_IP'];
+		} elseif ( isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ) {
+			$ip = $_SERVER['HTTP_X_FORWARDED_FOR'];
+		} else {
+			$ip = $_SERVER['REMOTE_ADDR'];
+		}
+		if ( isset( $ip ) ) {
+			$request_check = $this->_cloudflareRequestsCheck();
+			if ( ! $request_check ) {
+				return false;
+			}
+
+			$ip_check = $this->_validateCloudflareIP( $ip );
+
+			return $ip_check;
+		}
+
+		return false;
+	}
+
+	/**
 	 * A shorhand function to get user IP
 	 * @return mixed|string
 	 */
 	public function getUserIp() {
-		$client      = isset( $_SERVER['HTTP_CLIENT_IP'] ) ? $_SERVER['HTTP_CLIENT_IP'] : null;
-		$forward     = isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : null;
-		$remote      = isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : null;
+		$client  = isset( $_SERVER['HTTP_CLIENT_IP'] ) ? $_SERVER['HTTP_CLIENT_IP'] : null;
+		$forward = isset( $_SERVER['HTTP_X_FORWARDED_FOR'] ) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : null;
+		$is_cf   = $this->isCloudflare(); //Check if request is from CloudFlare
+		if ( $is_cf ) {
+			$cf_ip = $_SERVER['HTTP_CF_CONNECTING_IP']; //We already make sure this is set in the checks
+			if ( filter_var( $cf_ip, FILTER_VALIDATE_IP ) ) {
+				return apply_filters( 'defender_user_ip', $cf_ip );
+			}
+		} else {
+			$remote = isset( $_SERVER['REMOTE_ADDR'] ) ? $_SERVER['REMOTE_ADDR'] : null;
+		}
 		$client_real = isset( $_SERVER['HTTP_X_REAL_IP'] ) ? $_SERVER['HTTP_X_REAL_IP'] : null;
 		$ret         = $remote;
 		if ( filter_var( $client, FILTER_VALIDATE_IP ) ) {
@@ -412,8 +539,14 @@ class Utils extends Behavior {
 		return new Utils();
 	}
 
-	public function determineServer() {
-		$url         = home_url();
+	/**
+	 * Determine the server
+	 * Incase we are using a hybrid server and need to know where static files are houses, pass true as a param
+	 *
+	 * @param $useStaticPath - use static path instead of home url. This is the path to Defender changelog
+	 */
+	public function determineServer( $useStaticPath = false ) {
+		$url         = ( $useStaticPath ) ? wp_defender()->getPluginUrl() . 'changelog.txt' : home_url();
 		$server_type = get_site_transient( 'wd_util_server' );
 		if ( ! is_array( $server_type ) ) {
 			$server_type = array();
@@ -485,6 +618,8 @@ class Utils extends Behavior {
 
 	/**
 	 * Generate Stats
+	 *
+	 * @return Array
 	 */
 	public function generateStats() {
 		$issues   = array();
@@ -535,14 +670,16 @@ class Utils extends Behavior {
 				);
 			}
 
-			$count = $model->countAll( Result_Item::STATUS_ISSUE );
+			$count                 = $model->countAll( Result_Item::STATUS_ISSUE );
+			$res['last_completed'] = $model->dateFinished;
 		} else {
-			$timestamp = '';
-			$res       = array(
+			$timestamp             = '';
+			$res                   = array(
 				'core_integrity'   => 0,
 				'vulnerability_db' => 0,
 				'file_suspicious'  => 0
 			);
+			$res['last_completed'] = null;
 		}
 
 		$res['scan_items'] = $scanItems;
@@ -559,6 +696,7 @@ class Utils extends Behavior {
 			$lastLockout = $lastLockout->date;
 		}
 		$lockoutSettings = \WP_Defender\Module\IP_Lockout\Model\Settings::instance();
+		$scanSettings    = \WP_Defender\Module\Scan\Model\Settings::instance();
 		$after_time      = '';
 		switch ( $lockoutSettings->report_frequency ) {
 			case '1':
@@ -579,30 +717,33 @@ class Utils extends Behavior {
 			'cautions'     => count( $issues ),
 			'data_version' => '20170801',
 			'scan_data'    => json_encode( array(
-				'scan_result'        => $res,
-				'hardener_result'    => array(
+				'scan_result'           => $res,
+				'hardener_result'       => array(
 					'issues'   => $issues,
 					'ignored'  => $ignored,
 					'resolved' => $resolved
 				),
-				'scan_schedule'      => array(
-					'is_activated' => \WP_Defender\Module\Scan\Model\Settings::instance()->notification,
-					'time'         => \WP_Defender\Module\Scan\Model\Settings::instance()->time,
-					'day'          => \WP_Defender\Module\Scan\Model\Settings::instance()->day,
-					'frequency'    => \WP_Defender\Module\Scan\Model\Settings::instance()->frequency
+				'scan_schedule'         => array(
+					'is_activated' => $scanSettings->notification,
+					'time'         => $scanSettings->time,
+					'day'          => $scanSettings->day,
+					'frequency'    => $scanSettings->frequency
 				),
-				'audit_enabled'      => \WP_Defender\Module\Audit\Model\Settings::instance()->enabled,
-				'audit_page_url'     => network_admin_url( 'admin.php?page=wdf-logging' ),
-				'labels'             => $labels,
-				'scan_page_url'      => network_admin_url( 'admin.php?page=wdf-scan' ),
-				'hardener_page_url'  => network_admin_url( 'admin.php?page=wdf-hardener' ),
-				'new_scan_url'       => network_admin_url( 'admin.php?page=wdf-scan&wdf-action=new_scan' ),
-				'schedule_scans_url' => network_admin_url( 'admin.php?page=wdf-schedule-scan' ),
-				'settings_page_url'  => network_admin_url( 'admin.php?page=wdf-settings' ),
-				'last_lockout'       => $lastLockout,
-				'login_lockout'      => Login_Protection_Api::getLoginLockouts( $after_time ),
-				'lockout_404'        => Login_Protection_Api::get404Lockouts( $after_time ),
-				'total_lockout'      => Login_Protection_Api::getAllLockouts( $after_time )
+				'audit_enabled'         => \WP_Defender\Module\Audit\Model\Settings::instance()->enabled,
+				'audit_page_url'        => network_admin_url( 'admin.php?page=wdf-logging' ),
+				'labels'                => $labels,
+				'scan_page_url'         => network_admin_url( 'admin.php?page=wdf-scan' ),
+				'hardener_page_url'     => network_admin_url( 'admin.php?page=wdf-hardener' ),
+				'new_scan_url'          => network_admin_url( 'admin.php?page=wdf-scan&wdf-action=new_scan' ),
+				'schedule_scans_url'    => network_admin_url( 'admin.php?page=wdf-schedule-scan' ),
+				'settings_page_url'     => network_admin_url( 'admin.php?page=wdf-settings' ),
+				'last_lockout'          => $lastLockout,
+				'login_lockout_enabled' => $lockoutSettings->login_protection,
+				'login_lockout'         => Login_Protection_Api::getLoginLockouts( $after_time ),
+				'lockout_404_enabled'   => $lockoutSettings->detect_404,
+				'lockout_404'           => Login_Protection_Api::get404Lockouts( $after_time ),
+				'total_lockout'         => Login_Protection_Api::getAllLockouts( $after_time ),
+				'multi_factors_auth'    => Auth_Settings::instance()->enabled
 			) ),
 		);
 

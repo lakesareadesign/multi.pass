@@ -26,7 +26,7 @@
     <div class="well mline">
         <div class="scan-progress">
             <div class="scan-progress-text">
-                <img src="<?php echo wp_defender()->getPluginUrl() ?>assets/img/loading.gif" width="18"
+                <img aria-hidden="true" src="<?php echo wp_defender()->getPluginUrl() ?>assets/img/loading.gif" width="18"
                      height="18"/>
                 <span><?php echo $percent ?>%</span>
             </div>

@@ -1,9 +1,9 @@
 <div class="rule closed" id="disable-file-editor">
     <div class="rule-title">
 		<?php if ( $controller->check() == false ): ?>
-            <i class="def-icon icon-warning"></i>
+            <i class="def-icon icon-warning" aria-hidden="true"></i>
 		<?php else: ?>
-            <i class="def-icon icon-tick"></i>
+            <i class="def-icon icon-tick" aria-hidden="true"></i>
 		<?php endif; ?>
 		<?php _e( "Prevent Information Disclosure", wp_defender()->domain ) ?>
     </div>
@@ -28,14 +28,7 @@
 			<?php else:
                 $servers        = \WP_Defender\Behavior\Utils::instance()->serverTypes();
                 $setting        = \WP_Defender\Module\Hardener\Model\Settings::instance();
-                global $is_nginx, $is_IIS, $is_iis7;
-                if ( $is_nginx ) {
-                    $setting->active_server = 'nginx';
-                } else if ( $is_IIS ) {
-                    $setting->active_server = 'iis';
-                } else if ( $is_iis7 ) {
-                    $setting->active_server = 'iis-7';
-                }
+				$setting->active_server = \WP_Defender\Behavior\Utils::instance()->determineServer( true );
             ?>
                 <div class="columns">
                     <div class="column is-one-third">

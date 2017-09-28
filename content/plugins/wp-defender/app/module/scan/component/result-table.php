@@ -91,7 +91,7 @@ class Result_Table extends \WP_List_Table {
 			<?php wp_nonce_field( 'unIgnoreItem' ) ?>
             <button type="submit" tooltip="<?php esc_attr_e( "Restore File", wp_defender()->domain ) ?>"
                     class="button button-small">
-                <i class="wdv-icon wdv-icon-fw wdv-icon-refresh"></i>
+                <i class="wdv-icon wdv-icon-fw wdv-icon-refresh" aria-hidden="true"></i>
             </button>
         </form>
 		<?php
@@ -151,7 +151,7 @@ class Result_Table extends \WP_List_Table {
 	public function column_col_action( Result_Item $item ) {
 		$content = $item->renderDialog();
 
-		$content .= '<a href="#dia_' . $item->id . '" rel="dialog" tooltip="' . esc_attr__( "Fix Issue", wp_defender()->domain ) . '" class="fix">
+		$content .= '<a href="#dia_' . $item->id . '" rel="dialog" role="button" tooltip="' . esc_attr__( "Fix Issue", wp_defender()->domain ) . '" class="fix">
                         <img src="' . wp_defender()->getPluginUrl() . 'assets/img/icon-fix.svg">
                     </a>';
 

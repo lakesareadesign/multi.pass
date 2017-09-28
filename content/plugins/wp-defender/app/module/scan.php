@@ -16,6 +16,10 @@ class Scan extends Module {
 
 	private function _registerPostTpe() {
 		register_post_type( 'wdf_scan', array(
+			'labels'              => array(
+				'name'          => __( "Scans", wp_defender()->domain ),
+				'singular_name' => __( "Scan", wp_defender()->domain )
+			),
 			'capability_type'     => array( 'wdf_scan', 'wdf_scans' ),
 			'supports'            => array( '' ),
 			'hierarchical'        => false,
@@ -31,6 +35,10 @@ class Scan extends Module {
 			'rewrite'             => false,
 		) );
 		register_post_type( 'wdf_scan_item', array(
+			'labels'              => array(
+				'name'          => __( "Scan Items", wp_defender()->domain ),
+				'singular_name' => __( "Scan Item", wp_defender()->domain )
+			),
 			'capability_type'     => array( 'wdf_scan_item', 'wdf_scan_items' ),
 			'supports'            => array( '' ),
 			'hierarchical'        => false,

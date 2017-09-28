@@ -5,7 +5,15 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
-4.3.2 - 7/28/2017 - Aaron & Ricardo
+4.4 - 9/21/2017 - Aaron & Alex
+----------------------------------------------------------------------
+- Add WP core upgrade support from Hub/Automate
+- Improve Hub remote call error responses
+- Switch background Dashboard autoupdates to use core method
+- Fix some syncing cache issues delaying the detection of available updates
+- Accessibility improvements for screenreaders
+
+4.3.2 - 7/31/2017 - Aaron & Ricardo
 ----------------------------------------------------------------------
 - Make Hub initiated actions faster/more efficient by only syncing details when necessary
 - Improve debug log detail for Hub initiated actions
@@ -455,4 +463,4 @@ Added option to disable admin notices.
 Initial Release.
 
 
-133620-1502132195-au
+133620-1506614230-au

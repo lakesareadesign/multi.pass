@@ -1262,9 +1262,6 @@ class WPMUDEV_Dashboard_Api {
 					continue;
 				}
 
-				// Schedule auto-upgrade if that feature is enabled.
-				WPMUDEV_Dashboard::$upgrader->maybe_auto_upgrade( $item );
-
 				/**
 				 * Allows excluding certain projects from update notifications.
 				 *

@@ -59,7 +59,7 @@ abstract class Stripe_Util
         $class = $types[$resp['object']];
       else
         $class = 'Stripe_Object';
-      return Stripe_Object::scopedConstructFrom($class, $resp, $apiKey);
+      return Stripe_Object::scopedConstructFrom($class, $resp, $apiKey);	     	 	 	    	  
     } else {
       return $resp;
     }

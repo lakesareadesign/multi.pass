@@ -34,7 +34,8 @@ class Hide_Error_Service extends Rule_Service implements IRule_Service {
 			if ( $isLog == 1 ) {
 				ini_set( 'log_errors', 1 );
 			}
-			if ( strpos( $body, ABSPATH . 'wp-includes/theme-compat/embed.php' ) !== false ) {
+			if ( strpos( $body, ABSPATH . 'wp-includes/theme-compat/embed.php' ) !== false ||
+					WP_DEBUG == true && ( ! defined( 'WP_DEBUG_DISPLAY' ) || WP_DEBUG_DISPLAY != false )) {
 				$altCache->set( 'Hide_Error_Service', 0 );
 
 				return false;

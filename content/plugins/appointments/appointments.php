@@ -3,7 +3,7 @@
 Plugin Name: Appointments+
 Description: Lets you accept appointments from front end and manage or create them from admin side
 Plugin URI: http://premium.wpmudev.org/project/appointments-plus/
-Version: 2.2.1
+Version: 2.2.2
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
 Textdomain: appointments
@@ -32,7 +32,7 @@ if ( !class_exists( 'Appointments' ) ) {
 
 class Appointments {
 
-	public $version = "2.2.1";
+	public $version = "2.2.2";
 	public $db_version;
 
 	public $timetables = array();
@@ -771,7 +771,7 @@ class Appointments {
 		if ( !$page )
 			return $text;
 
-		$text = get_the_excerpt( $page_id );
+		$text = $page->post_excerpt;
 		if ( empty( $text ) ) {
 			$text = $page->post_content;
 		}
@@ -1002,12 +1002,12 @@ class Appointments {
 
 	/**
 	 * Helper function to create a time table for monthly schedule
+	 *
+	 * @since 2.2.1 Added `hide_today` argument.
 	 */
-	function get_timetable( $day_start, $capacity, $schedule_key=false ) {
+	function get_timetable( $day_start, $capacity, $schedule_key=false, $hide_today = false ) {
 		$local_time = current_time( 'timestamp' );
-
 		$data = $this->_get_timetable_slots( $day_start, $capacity, $schedule_key );
-
 		// We need this only for the first timetable
 		// Otherwise $time will be calculated from $day_start
 		if ( isset( $_GET["wcalendar"] ) && (int)$_GET['wcalendar'] ) {
@@ -1016,13 +1016,11 @@ class Appointments {
 		else {
 			$time = $local_time;
 		}
-
 		// Are we looking to today?
-		// If today is a working day, shows its free times by default
-		if ( date( 'Ymd', $day_start ) == date( 'Ymd', $time ) ) {
+		// If today is a working day, shows its free times by default unless user hides it
+		$style = ' style="display:none"';
+		if ( date( 'Ymd', $day_start ) == date( 'Ymd', $time ) && ! $hide_today ) {
 			$style = '';
-		} else {
-			$style = ' style="display:none"';
 		}
 
 		$ret  = '';
@@ -1357,36 +1355,20 @@ class Appointments {
 	/**
 	 * Check if this is an exceptional working day
 	 * Optionally a worker is selectable ( $w != 0 )
+	 *
+	 * @deprecated since 2.2
+	 *
 	 * @return bool
 	 */
 	function is_exceptional_working_day( $ccs, $cce, $w=0 ) {
-		// A worker can be forced
-		if ( !$w )
-			$w = $this->worker;
-		$is_working_day = false;
-		$result = appointments_get_worker_exceptions( $w, 'open', $this->location );
-		if ( $result != null  && strpos( $result->days, date( 'Y-m-d', $ccs ) ) !== false )
-			$is_working_day = true;
-
-		return apply_filters( 'app_is_exceptional_working_day', $is_working_day, $ccs, $cce, $this->service, $w );
-	}
-
-	/**
-	 * Check if today is holiday
-	 * Optionally a worker is selectable ( $w != 0 )
-	 * @return bool
-	 *
-	 * @deprecated since 2.1
-	 */
-	function is_holiday( $ccs, $cce, $w=0 ) {
-		_deprecated_function( __FUNCTION__, '2.0.6', 'appointments_is_worker_holiday' );
+		_deprecated_function( __FUNCTION__, '2.2', 'appointments_is_exceptional_working_day' );
 
 		// A worker can be forced
-		if ( ! $w ) {
+		if ( !$w ) {
 			$w = $this->worker;
 		}
 
-		return appointments_is_worker_holiday( $w, $ccs, $cce );
+		return appointments_is_exceptional_working_day( $ccs, $cce, $w );
 	}
 
 	/**
@@ -1407,19 +1389,16 @@ class Appointments {
 	 * Check if a specific worker is working at this time slot
 	 * @return bool
 	 * @since 1.2.2
+	 *
+	 * @deprecated since 2.2
 	 */
 	function is_working( $ccs, $cse, $w ) {
-		if ( $this->is_exceptional_working_day( $ccs, $cse, $w ) ) {
-			return true;
-		}
-		if ( appointments_is_worker_holiday( $ccs, $cse, $w ) ) {
-			return false;
-		}
-		if ( $this->is_break( $ccs, $cse, $w ) ) {
-			return false;
+		_deprecated_function( __FUNCTION__, '2.2', 'appointments_is_working' );
+		if ( ! $w ) {
+			$w = $this->worker;
 		}
 
-		return true;
+		return appointments_is_working( $ccs, $cse, $w, $this->location );
 	}
 
 	/**
@@ -1461,14 +1440,23 @@ class Appointments {
 			else
 				$allow_overwork_break = false;
 
+			// The same for break time
+			if ( isset( $this->options["allow_overwork"] ) && 'yes' == $this->options["allow_overwork"] )
+				$allow_overwork = true;
+			else
+				$allow_overwork = false;
+
 			// Check for further appointments or breaks on this day, if this is a lasting appointment
 			if ( $duration > $this->get_min_time() ) {
 				$step = ceil( $duration/$this->get_min_time() );
 				$min_secs = $this->get_min_time() *60;
 				if ( $step < 20 ) { // Let's not exaggerate !
 					for ( $n =1; $n < $step; $n++ ) {
-						if ( $this->is_busy( $ccs + $n * $min_secs, $ccs + ($n+1) * $min_secs, $capacity ) )
-							return false; // There is an appointment in the predeeding times
+						if ( !$allow_overwork) {
+							if ( $this->is_busy( $ccs + $n * $min_secs, $ccs + ($n+1) * $min_secs, $capacity ) ) {
+								return false; // There is an appointment in the predeeding times
+							}
+						}
 						// We can check breaks here too
 						if ( !$allow_overwork_break ) {
 							if ( $this->is_break( $ccs + $n * $min_secs, $ccs + ($n+1) * $min_secs ) )
@@ -1491,13 +1479,9 @@ class Appointments {
 					wp_cache_set( 'app-open_times-for-' . $this->worker, $days );
 				}
 			}
-			if (!is_array($days) || empty($days)) return true;
-
-			// If overwork is allowed, lets mark this
-			if ( isset( $this->options["allow_overwork"] ) && 'yes' == $this->options["allow_overwork"] )
-				$allow_overwork = true;
-			else
-				$allow_overwork = false;
+			if (!is_array($days) || empty($days)) {
+				return true;
+			}
 
 			// What is the name of this day?
 			$this_days_name = date("l", $ccs );
@@ -1510,27 +1494,26 @@ class Appointments {
 				// // Jose's fix pt1 (c19c7d65bb860a265ceb7f6a6075ae668bd60100)
 				//if ( $day_name == $this_days_name && isset( $day["active"] ) && 'yes' == $day["active"] ) {
 				if ( $day_name == $this_days_name ) {
-
 					// Special case: End time is 00:00
 					$end_mil = $this->to_military( $day["end"] );
-					if ( '00:00' == $end_mil )
+					if ( '00:00' == $end_mil ) {
 						$end_mil = '24:00';
-
+					}
 					if ( $allow_overwork ) {
-						if ( $ccs >= $this->str2time( $this_day, $end_mil ) )
+						if ( $ccs >= $this->str2time( $this_day, $end_mil ) ) {
 							return false;
+						}
 					}
 					else {
-						if (  $css_plus_duration > $this->str2time( $this_day, $end_mil ) )
+						if (  $css_plus_duration > $this->str2time( $this_day, $end_mil ) ) {
 							return false;
+						}
 					}
-
 					// We need to check a special case where schedule starts on eg 4pm, but our work starts on 4:30pm.
 					if ( $ccs < strtotime( $this_day . " " . $this->to_military( $day["start"] ) , $this->local_time ) )
 						return false;
 				}
 			}
-
 		}
 		return true;
 	}
@@ -2349,58 +2332,7 @@ class Appointments {
 		return $date;
 	}
 
-	/**
-	 *	Get transaction records
-	 *  Modified from Membership plugin by Barry
-	 *
-	 * @deprecated since 2.0
-	 */
-	function get_transactions($type, $startat, $num) {
-		_deprecated_function( __FUNCTION__, '2.0', 'appointments_get_transactions()' );
-		$args = array(
-			'type' => $type,
-			'offset' => $startat,
-			'per_page' => $num
-		);
-		return appointments_get_transactions( $args );
-	}
 
-	/**
-	 * Find if a Paypal transaction is duplicate or not
-	 *
-	 * @deprecated since 2.0
-	 */
-	function duplicate_transaction($app_id, $amount, $currency, $timestamp, $paypal_ID, $status, $note,$content=0) {
-		_deprecated_function( __FUNCTION__, '2.0', 'appointments_is_transaction_duplicated()' );
-		return appointments_is_transaction_duplicated( $app_id, $timestamp, $paypal_ID );
-	}
-
-	/**
-	 * Save a Paypal transaction to the database
-	 *
-	 * @deprecated since 2.0
-	 */
-	function record_transaction($app_id, $amount, $currency, $timestamp, $paypal_id, $status, $note) {
-		_deprecated_function( __FUNCTION__, '2.0', 'appointments_update_transaction() or appointments_insert_transaction()' );
-		$args = array(
-			'app_ID' => $app_id,
-			'paypal_ID' => $paypal_id,
-			'stamp' => $timestamp,
-			'currency' => $currency,
-			'status' => $status,
-			'total_amount' => (int) round($amount * 100),
-			'note' => $note
-		);
-
-		if ( $transaction = appointments_get_transaction_by_paypal_id( $paypal_id ) ) {
-			// Update
-			appointments_update_transaction( $transaction->transaction_ID, $args );
-		}
-		else {
-			// Insert
-			appointments_insert_transaction( $args );
-		}
-	}
 }
 }
 

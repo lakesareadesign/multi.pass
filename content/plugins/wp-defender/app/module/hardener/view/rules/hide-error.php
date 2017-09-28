@@ -1,9 +1,9 @@
 <div class="rule closed" id="disable-file-editor">
     <div class="rule-title">
 		<?php if ( $controller->check() == false ): ?>
-            <i class="def-icon icon-warning"></i>
+            <i class="def-icon icon-warning" aria-hidden="true"></i>
 		<?php else: ?>
-            <i class="def-icon icon-tick"></i>
+            <i class="def-icon icon-tick" aria-hidden="true"></i>
 		<?php endif; ?>
 		<?php _e( "Hide error reporting", wp_defender()->domain ) ?>
     </div>
@@ -37,7 +37,7 @@
 				//php debug is turn off, however the error still dsplay, need to show user about this
 				else: ?>
                     <p class="line">
-						<?php _e( "We attempted to disable the WP_DEBUG setting to prevent code errors displaying but it’s being overridden by your server config. Please contact your hosting provider and ask them to set WP_DEBUG to false.", wp_defender()->domain ) ?>
+						<?php _e( "We attempted to disable the display_errors setting to prevent code errors displaying but it’s being overridden by your server config. Please contact your hosting provider and ask them to set display_errors to false.", wp_defender()->domain ) ?>
                     </p>
 					<?php $controller->showIgnoreForm() ?>
 				<?php endif; ?>

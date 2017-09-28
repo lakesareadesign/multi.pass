@@ -178,14 +178,17 @@ class Appointments_AJAX {
 
 
 		if ( $update_result ) {
-			// Log change of status
-			if ( $data['status'] != $app_orig_status ) {
-				$appointments->log( sprintf( __('Status changed from %s to %s by %s for appointment ID:%d','appointments'), $app_orig_status, $data["status"], $current_user->user_login, $app->ID ) );
-			}
 			$result = array(
 				'app_id' => $app->ID,
 				'message' => __('<span style="color:green;font-weight:bold">Changes saved.</span>', 'appointments'),
 			);
+			// Log change of status
+			if ( $data['status'] != $app_orig_status ) {
+				$appointments->log( sprintf( __('Status changed from %s to %s by %s for appointment ID:%d','appointments'), $app_orig_status, $data["status"], $current_user->user_login, $app->ID ) );
+				// Result includes reload of page to show updated statuses.
+				$result[ 'reload' ] = true;
+			}
+
 		} else if ( $insert_result ) {
 			$result = array(
 				'app_id' => $app->ID,
@@ -344,7 +347,7 @@ class Appointments_AJAX {
 		$price = $appointments->get_price();
 		$price = apply_filters('app_post_confirmation_price', $price, $service, $worker, $start, $end);
 		$paypal_price = $appointments->get_price(true);
-		$paypal_price = apply_filters('app_post_confirmation_paypal_price', $paypal_price, $service, $worker, $start, $end);
+		$paypal_price = apply_filters('app_post_confirmation_paypal_price', number_format( str_replace( ',', '', $paypal_price ), 2, ".", "" ), $service, $worker, $start, $end);
 
 		// Break here - is the appointment free and, if so, shall we auto-confirm?
 		if (
@@ -1007,6 +1010,7 @@ class Appointments_AJAX {
 		foreach ( $apps as $app ) {
 			$raw = $app;
 			array_walk( $app, array( &$this, 'export_helper' ) );
+            $app = $this->sort_app_columns( $app, $columns );
 			$app = apply_filters( 'app-export-appointment', $app, $raw );
 			if ( ! empty( $app ) ) {
 				fputcsv( $file, (array)$app );
@@ -1031,6 +1035,31 @@ class Appointments_AJAX {
 		fclose($file);
 		die($output);
 	}
+
+    /**
+    * Sorting the appointment columns so they match the csv columns. Usefull when locations addon enabled
+    * @since 2.2.1
+    */
+    function sort_app_columns( $app, $columns ){
+
+        $sorted_app = array();
+        $app_array = array_change_key_case( (array)$app, CASE_LOWER );
+
+        foreach( $columns as $column ){
+
+            if( isset( $app_array[ $column ] ) ){
+                $sorted_app[ $column ] = $app_array[ $column ];
+            }
+            else{
+                $sorted_app[ $column ] = '';
+            }
+
+        }
+
+        return $sorted_app;
+
+    }
+
 
 	/**
 	 * Helper function for export

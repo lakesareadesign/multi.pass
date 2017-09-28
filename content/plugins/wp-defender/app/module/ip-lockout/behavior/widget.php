@@ -23,7 +23,7 @@ class Widget extends Behavior {
                 <span class="span-icon icon-lockout"></span>
                 <h3><?php _e( "IP LOCKOUTS", wp_defender()->domain ) ?></h3>
             </div>
-            <div class="box-content">
+            <div class="box-content advanced-tools">
                 <div class="line">
 					<?php _e( "Protect your login area by automatically locking out any suspicious behavior.", wp_defender()->domain ) ?>
                 </div>

@@ -187,9 +187,9 @@ if ( $res->is_active && $res->url->config ) {
 /*
 if ( 'plugin' == $res->type && $res->is_active && defined( 'DOING_AJAX' ) && DOING_AJAX ) {
 	$minor_actions[] = sprintf(
-		'<span tooltip="%s" class="tooltip-l"><a href="#reload" class="reload-page">%s %s</a></span>',
+		'<span tooltip="%s" class="tooltip-l"><a role="button" href="#reload" class="reload-page">%s %s</a></span>',
 		__( 'Maybe this plugin added a new menu item. Reload the page to see it', 'wpmudev' ),
-		'<i class="wdv-icon wdv-icon-refresh spin-on-click"></i>',
+		'<i aria-hidden="true" class="wdv-icon wdv-icon-refresh spin-on-click"></i>',
 		__( 'Reload page', 'wpmudev' )
 	);
 }
@@ -230,7 +230,7 @@ if ( $action_ajax && empty( $action_url ) ) {
 <div class="project-inner">
 	<div class="show-info">
 	<h4><?php echo esc_html( $res->name ); ?></h4>
-	<div class="project-image">
+	<div aria-hidden="true" class="project-image">
 		<span class="img" style="background-image: url(<?php echo esc_url( $res->url->thumbnail ); ?>), url(<?php echo esc_url( $url_spinner ); ?>);">
 		</span>
 	</div>
@@ -272,13 +272,13 @@ if ( $action_ajax && empty( $action_url ) ) {
 	<?php if ( $show_badge ) : ?>
 	<span class="badge badge-<?php echo esc_attr( $show_badge ); ?>">
 		<?php if ( 'plugin' == $show_badge ) { ?>
-		<i class="dev-icon dev-icon-plugin"></i>
+		<i aria-hidden="true" class="dev-icon dev-icon-plugin"></i>
 		<?php } elseif ( 'theme' == $show_badge ) { ?>
-		<i class="dev-icon dev-icon-theme"></i>
+		<i aria-hidden="true" class="dev-icon dev-icon-theme"></i>
 		<?php } elseif ( 'warning' == $show_badge ) { ?>
-		<i class="dashicons dashicons-warning"></i>
+		<i aria-hidden="true" class="dashicons dashicons-warning"></i>
 		<?php } elseif ( 'active-theme' == $show_badge ) { ?>
-		<i class="dev-icon dev-icon-radio_checked"></i>
+		<i aria-hidden="true" class="dev-icon dev-icon-radio_checked"></i>
 		<?php } ?>
 	</span>
 	<?php endif; ?>

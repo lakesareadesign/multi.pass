@@ -82,7 +82,7 @@ class Settings extends \Hammer\WP\Settings {
 	/**
 	 * @var string
 	 */
-	public $time = '04:00';
+	public $time = '0:00';
 
 	public $lastReportSent;
 

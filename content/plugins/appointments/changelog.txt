@@ -1,5 +1,14 @@
-2017-08-31 - 2.2.1
+2017-09-20 - 2.2.2
+-------------------------------
+- Allow Service Description Page featured imaged to be used as Product variation thumbnail (MarketPress integration).
+- Fixed a problem with the abandoned orders in admin.
+- Fixed issue with comma as thousand separators when using PayPal.
+- Fixed problem with duplicated page description.
+- Fixed security issue (vulnerability) with data stored on a browser.
+- Fixed weekly calendar hours for a worker.
 
+2017-09-01 - 2.2.1
+-------------------------------
 - Added new function: appointments_is_working().
 - Added shortcode option in app_monthly_schedule to give user option to hide today's times and force a user to click on a date before showing times.
 - Added sort CSV columns for appointments export.
@@ -824,4 +833,4 @@ V1.0.0:
 - Initial release
 
 
-133620-1504460719-au
+133620-1506613805-au

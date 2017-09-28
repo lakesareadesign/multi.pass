@@ -73,7 +73,7 @@ $username = isset( $credentials['username'] ) ? $credentials['username'] : '';
 		</div>
 
 		<div class="col-buttons">
-			<a href="#close" class="close wpmudui-btn"><?php _e( 'Cancel', 'wpmudev' ); ?></a>
+			<a role="button" href="#close" class="close wpmudui-btn"><?php _e( 'Cancel', 'wpmudev' ); ?></a>
 			<button><?php _e( 'Okay, continue!', 'wpmudev' ); ?></button>
 			<br><br><small><?php _e( 'We will remember these details for 15 minutes in case you want to install or, update something else.', 'wpmudev' ); ?></small>
 		</div>

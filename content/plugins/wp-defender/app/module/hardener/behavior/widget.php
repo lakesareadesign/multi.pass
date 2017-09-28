@@ -15,13 +15,13 @@ class Widget extends Behavior {
 		?>
         <div class="dev-box hardener-widget">
             <div class="box-title">
-                <span class="span-icon hardener-icon"></span>
+                <span class="span-icon hardener-icon" aria-hidden="true"></span>
                 <h3><?php _e( "Security Tweaks", wp_defender()->domain ) ?>
 					<?php
                     $hardener_issues = count( Settings::instance()->issues );
                     if ( $hardener_issues ): ?>
                         <span class="def-tag tag-yellow"
-                        tooltip="<?php esc_attr_e( sprintf( __('You have %d security tweak(s) needing attention', wp_defender()->domain ), $hardener_issues ) ); ?>">
+                        tooltip="<?php esc_attr_e( sprintf( __('You have %d security tweak(s) needing attention.', wp_defender()->domain ), $hardener_issues ) ); ?>">
                         <?php
                         echo $hardener_issues ?>
                     </span>

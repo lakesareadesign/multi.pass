@@ -425,7 +425,7 @@ class Main extends Controller {
 	 * Enqueue scripts & styles
 	 */
 	public function scripts() {
-		if ( $this->isInPage() ) {
+		if ( $this->isInPage() || $this->isDashboard() ) {
 			\WDEV_Plugin_Ui::load( wp_defender()->getPluginUrl() . 'shared-ui/' );
 			wp_enqueue_script( 'defender' );
 			wp_enqueue_style( 'defender' );

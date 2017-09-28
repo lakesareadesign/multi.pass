@@ -30,9 +30,10 @@
                                             <?php
                                             $settings = \WP_Defender\Module\Audit\Model\Settings::instance();
                                             if ( $settings->notification == true ) {
-	                                            echo ucfirst( \WP_Defender\Behavior\Utils::instance()->frequencyToText( $settings->frequency ) );
-	                                            ?>
-                                                <p class="sub">
+	                                            ?> <span
+                                                        class="defender-audit-frequency"><?php echo ucfirst( \WP_Defender\Behavior\Utils::instance()->frequencyToText( $settings->frequency ) );
+		                                            ?></span>
+                                                <p class="sub defender-audit-schedule">
                                                     <?php
                                                     if ( $settings->frequency == 1 ) {
 	                                                    printf( __( "at %s", wp_defender()->domain ),

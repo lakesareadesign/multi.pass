@@ -24,9 +24,16 @@ class WD_Main_Activator {
 		}
 
 		if ( version_compare( $db_ver, '1.7', '<' ) ) {
-			add_site_option( 'defenderLockoutNeedUpdateLog', 1 );
-			\WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::createTables();
-			update_site_option( 'wd_db_version', "1.7" );
+			if (! \WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::checkIfTableExists() ) {
+				add_site_option( 'defenderLockoutNeedUpdateLog', 1 );
+				\WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::createTables();
+				update_site_option( 'wd_db_version', "1.7" );
+			}
+		}
+
+		if ( version_compare( $db_ver, '1.7.1', '<' ) ) {
+			\WP_Defender\Module\IP_Lockout\Component\Login_Protection_Api::alterTableFor171();
+			update_site_option( 'wd_db_version', "1.7.1" );
 		}
 
 		add_filter( 'plugin_action_links_' . plugin_basename( __FILE__ ), array( &$this, 'addSettingsLink' ) );

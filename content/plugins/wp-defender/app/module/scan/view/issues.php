@@ -33,7 +33,7 @@
 		} else {
 			?>
             <div class="well well-green with-cap">
-                <i class="def-icon icon-tick"></i>
+                <i class="def-icon icon-tick" aria-hidden="true"></i>
 				<?php _e( "Your code is currently clean! There were no issues found during the last scan, though you can always perform a new scan anytime.", wp_defender()->domain ) ?>
             </div>
 			<?php

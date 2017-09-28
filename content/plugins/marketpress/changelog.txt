@@ -4,6 +4,15 @@ Author: Marko Miljus (Incsub), Aaron Edwards (Incsub), Hoang Ngo (Incsub), Jonat
 Change Log:
 ----------------------------------------------------------------------
 
+3.2.7
+----------------------------------------------------------------------
+
+- Enhance: Update translation strings
+- Fixed: Potential php object injection vulnerability
+- Fixed: On some occasions products not added to cart when Hummingbird is enabled
+- Fixed: Digital products not downloading after payment
+- Fixed: Variation images not showing in custom template files
+
 3.2.6
 ----------------------------------------------------------------------
 
@@ -1068,4 +1077,4 @@ Adding notice for deprecated gateways Cubepoints, Bitpay, iDEAL, Skrill, Google 
 - Initial Release
 
 
-133620-1504103031-au
+133620-1506613822-au

@@ -199,6 +199,9 @@ class Content_Result extends \Hammer\Base\Behavior {
 			//the path should be first item in pools
 			$path = WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'plugins' . DIRECTORY_SEPARATOR . $pools[0];
 		} else {
+			if ( $file == ABSPATH . 'wp-config.php' ) {
+				return new \WP_Error( Error_Code::NOT_WRITEABLE, __( "wp-config.php can't be removed. Please remove the suspicious code manually.", wp_defender()->domain ) );
+			}
 			$res = unlink( $raw['file'] );
 			if ( $res ) {
 				$this->getOwner()->delete();

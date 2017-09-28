@@ -55,8 +55,10 @@ $time_format = get_option( 'time_format' );
 
 <div class="row row-space">
 	<form id="support-search" action="<?php echo esc_url( $url_search ); ?>" target="_blank" method="GET">
+		<label for="support-search-id" class="wpdui-sr-only"><?php esc_attr_e( 'Search WPMU DEV support resources', 'wpmudev' ); ?></label>
 		<input
 			name="q"
+			id="support-search-id"
 			type="search"
 			data-no-empty-msg="true"
 			placeholder="<?php esc_attr_e( 'Search WPMU DEV support resources', 'wpmudev' ); ?>" />
@@ -79,11 +81,11 @@ $time_format = get_option( 'time_format' );
 		<div class="box-content">
 			<?php if ( empty( $open_threads ) ) : ?>
 			<div class="tc">
-			<span class="icon icon-big icon-support"></span>
+			<span aria-hidden="true" class="icon icon-big icon-support"></span>
 			<h4>
 				<?php esc_html_e( 'You have no support tickets, woop!', 'wpmudev' ); ?>
 			</h4>
-			<p class="space-b">
+			<p aria-hidden="true" class="space-b">
 				<?php esc_html_e( 'When you ask a support question, it will appear here. You can also access this in the WPMU DEV Hub.', 'wpmudev' ); ?>
 			</p>
 			<p>
@@ -138,8 +140,8 @@ $time_format = get_option( 'time_format' );
 					<?php esc_html_e( 'Revoke', 'wpmudev' ); ?>
 				</a>
 				<?php endif; ?>
-				<a href="#access-info" rel="dialog" tooltip="<?php esc_attr_e( 'Security details', 'wpmudev' ); ?>" class="tooltip-<?php echo is_rtl() ? 'left' : 'right' ?> tooltip-s button button-text button-small">
-					<i class="dev-icon dev-icon-info"></i>
+				<a role="button" href="#access-info" rel="dialog" tooltip="<?php esc_attr_e( 'Security details', 'wpmudev' ); ?>" class="tooltip-<?php echo is_rtl() ? 'left' : 'right' ?> tooltip-s button button-text button-small">
+					<i aria-hidden="true" class="dev-icon dev-icon-info"></i>
 				</a>
 			</span>
 			<h3><?php esc_html_e( 'Support Access', 'wpmudev' ); ?></h3>
@@ -154,7 +156,7 @@ $time_format = get_option( 'time_format' );
 			</a>
 			<?php else : ?>
 			<div class="active-staff-access tc tooltip-l" tooltip="<?php echo esc_html( __( 'Expires:', 'wpmudev' ) . ' ' . date( get_option( 'date_format') . ' ' . get_option( 'time_format'), $staff_login->expires ) ); ?>">
-				<i class="dev-icon dev-icon-lock"></i>
+				<i aria-hidden="true" class="dev-icon dev-icon-lock"></i>
 				<?php
 				printf(
 					esc_html__( 'Access active for %1$s', 'wpmudev' ),
@@ -165,10 +167,10 @@ $time_format = get_option( 'time_format' );
 			<form class="staff-notes <?php echo esc_attr( $notes_class ); ?>" method="POST" action="<?php echo esc_url( $urls->support_url ); ?>">
 				<input type="hidden" name="action" value="staff-note" />
 				<?php wp_nonce_field( 'staff-note', 'hash' ) ?>
-				<p>
+				<label for="support-staff-notes-id">
 				<?php esc_html_e( 'If you think it would help, leave our support heroes a quick message to let them know the details of your issue.', 'wpmudev' ); ?>
-				</p>
-				<textarea name="notes"><?php echo esc_textarea( $notes ); ?></textarea>
+				</label>
+				<textarea id="support-staff-notes-id" name="notes"><?php echo esc_textarea( $notes ); ?></textarea>
 				<button class="wpmudui-btn is-brand float-r one-click">
 					<?php esc_html_e( 'Save', 'wpmudev' ); ?>
 				</button>

@@ -25,14 +25,13 @@
                     <div class="clear mline"></div>
                     <div class="feature-pre-require">
                         <div></div>
-                        <a href="#pro-feature" rel="dialog" class="button button-small button-pre"
+                        <a href="#pro-feature" role="button" rel="dialog" class="button button-small button-pre"
 						tooltip="<?php esc_attr_e( "Try Defender Pro free today", wp_defender()->domain ) ?>" >
 						<?php _e( "Pro Feature", wp_defender()->domain ) ?></a>
-                        <span class="toggle">
-                        <input type="checkbox" class="toggle-checkbox" value="1"
-                               id="scan-vuln"/>
-                        <label class="toggle-label" for="scan-vuln"></label>
-                            </span>
+                        <span class="toggle" aria-hidden="true" role="presentation">
+                        	<input role="presentation" type="checkbox" class="toggle-checkbox" value="1" id="scan-vuln"/>
+                        	<label class="toggle-label" aria-hidden="true" for="scan-vuln"></label>
+                        </span>
                         <label for="scan-vuln"><?php _e( "Plugins & Themes", wp_defender()->domain ) ?></label>
                         <span class="sub inpos">
                         <?php _e( "Defender looks for publicly reported vulnerabilities in your installed plugins and themes.", wp_defender()->domain ) ?>
@@ -41,14 +40,13 @@
                     <div class="clear mline"></div>
                     <div class="feature-pre-require">
                         <div></div>
-                        <a href="#pro-feature" rel="dialog" class="button button-small button-pre"
+                        <a href="#pro-feature" role="button" rel="dialog" class="button button-small button-pre"
 						tooltip="<?php esc_attr_e( "Try Defender Pro free today", wp_defender()->domain ) ?>">
 							<?php _e( "Pro Feature", wp_defender()->domain ) ?></a>
-                        <span class="toggle">
-                        <input type="checkbox" class="toggle-checkbox" value="1"
-                               id="scan-content"/>
-                        <label class="toggle-label" for="scan-content"></label>
-                    </span>
+                        <span class="toggle" aria-hidden="true" role="presentation">
+							<input role="presentation" type="checkbox" class="toggle-checkbox" value="1" id="scan-content"/>
+							<label class="toggle-label" aria-hidden="true" for="scan-content"></label>
+                   		 </span>
                         <label for="scan-content"><?php _e( "Suspicious Code", wp_defender()->domain ) ?></label>
                         <span class="sub inpos">
                         <?php _e( "Defender looks inside all of your files for suspicious and potentially harmful code.", wp_defender()->domain ) ?>
@@ -58,7 +56,7 @@
                 <div class="clear"></div>
                 <div class="presale-text">
                     <div>
-			            <?php printf( __( "Defenders scans through every line of code on your website, searching for anything suspicious. This feature is included when you join WPMU DEV, along with 100+ plugins and themes, 24/7 support and lots of handy site management tools.  – <a href=\"%s\">Try it all FREE today!
+			            <?php printf( __( "Defenders scans through every line of code on your website, searching for anything suspicious. This feature is included when you join WPMU DEV, along with 100+ plugins and themes, 24/7 support and lots of handy site management tools.  – <a href=\"%s\" role='button'>Try it all FREE today!
                         </a>", wp_defender()->domain ), "https://premium.wpmudev.org/project/wp-defender/?utm_source=defender&utm_medium=plugin&utm_campaign=defender_modal_upgrade" ) ?>
                     </div>
                 </div>
@@ -83,11 +81,11 @@
                     </span>
                 </div>
                 <div class="column">
-                    <span class="toggle">
+                    <span class="toggle" aria-hidden="true" role="presentation">
                         <input type="hidden" name="always_send" value="0"/>
-                        <input type="checkbox" name="always_send" class="toggle-checkbox" value="1"
+                        <input type="checkbox" role="presentation" name="always_send" class="toggle-checkbox" value="1"
                                id="always_send" <?php checked( true, $setting->always_send ) ?>/>
-                        <label class="toggle-label" for="always_send"></label>
+                        <label class="toggle-label" aria-hidden="true" for="always_send"></label>
                     </span>
                     <label><?php _e( "Send all scan report emails", wp_defender()->domain ) ?></label>
                 </div>
@@ -113,7 +111,7 @@
                             <div>
                                 <span class="list-label"><?php _e( "When an issue is found", wp_defender()->domain ) ?></span>
                                 <span class="list-detail tr">
-                                    <a href="#issue-found" rel="dialog"><?php _e( "Edit", wp_defender()->domain ) ?></a></span>
+                                    <a href="#issue-found" rel="dialog" role='button'><?php _e( "Edit", wp_defender()->domain ) ?></a></span>
                             </div>
                         </li>
                         <li>
@@ -121,7 +119,7 @@
                                 <span class="list-label"><?php _e( "When no issues are found", wp_defender()->domain ) ?></span>
                                 <span class="list-detail tr">
                                     <a href="#all-ok"
-                                       rel="dialog"><?php _e( "Edit", wp_defender()->domain ) ?></a></span>
+                                       rel="dialog" role='button'><?php _e( "Edit", wp_defender()->domain ) ?></a></span>
                             </div>
                         </li>
                     </ul>

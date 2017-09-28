@@ -193,13 +193,13 @@ $dlg_id = 'dlg-' . md5( time() . '-' . $pid );
 				if ( 0 === $version_check ) {
 					$badge = sprintf(
 						'<div class="current-version">%s %s</div>',
-						'<i class="wdv-icon wdv-icon-ok"></i>',
+						'<i aria-hidden="true" class="wdv-icon wdv-icon-ok"></i>',
 						__( 'Current', 'wpmudev' )
 					);
 				} elseif ( 1 === $version_check ) {
 					$badge = sprintf(
 						'<div class="new-version">%s %s</div>',
-						'<i class="wdv-icon wdv-icon-star"></i>',
+						'<i aria-hidden="true" class="wdv-icon wdv-icon-star"></i>',
 						__( 'New', 'wpmudev' )
 					);
 				}
@@ -234,7 +234,7 @@ $dlg_id = 'dlg-' . md5( time() . '-' . $pid );
 				if ( 1 == $detail_level ) {
 					printf(
 						'<li class="toggle-details">
-						<a href="#" class="for-intro">%s</a><a href="#" class="for-detail">%s</a>
+						<a role="button" href="#" class="for-intro">%s</a><a href="#" class="for-detail">%s</a>
 						</li>',
 						esc_html__( 'Show all changes', 'wpmudev' ),
 						esc_html__( 'Hide details', 'wpmudev' )

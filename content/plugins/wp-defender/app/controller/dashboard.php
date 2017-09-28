@@ -360,6 +360,7 @@ class Dashboard extends Controller {
 			'audit'     => wp_defender()->isFree ? '\WP_Defender\Module\Audit\Behavior\Audit_Free' : '\WP_Defender\Module\Audit\Behavior\Audit',
 			'blacklist' => wp_defender()->isFree ? '\WP_Defender\Behavior\Blacklist_Free' : '\WP_Defender\Behavior\Blacklist',
 			'report'    => wp_defender()->isFree ? '\WP_Defender\Behavior\Report_Free' : '\WP_Defender\Behavior\Report',
+			'at'        => '\WP_Defender\Module\Advanced_Tools\Behavior\AT_Widget'
 		);
 	}
 }

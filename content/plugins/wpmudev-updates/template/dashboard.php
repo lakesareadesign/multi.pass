@@ -124,50 +124,50 @@ $this->render_header( $page_title );
 				<ul class="wpmudui-products-list is-tools">
 					<li class="wpmudui-product-list__item">
 						<div class="wpmudui-product-list__info">
-							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>/image/tools/the-hub.png');"></div>
+							<div aria-hidden="true" class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>image/tools/the-hub.png');"></div>
 							<div class="wpmudui-product-list__details">
 								<h4><?php esc_html_e( 'The Hub', 'wpmudev' ); ?></h4>
 								<p><?php esc_html_e( 'Manage all your websites updates &amp; more in one place.', 'wpmudev' ); ?></p>
 							</div>
 						</div>
 						<div class="wpmudui-product-list__cta">
-							<a href="<?php echo esc_url( $hub_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'Go to The Hub', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
+							<a href="<?php echo esc_url( $hub_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'Go to The Hub', 'wpmudev' ); ?>"><i aria-hidden="true" class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
 						</div>
 					</li>
 					<li class="wpmudui-product-list__item">
 						<div class="wpmudui-product-list__info">
-							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>/image/tools/support.png');"></div>
+							<div aria-hidden="true" class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>image/tools/support.png');"></div>
 							<div class="wpmudui-product-list__details">
 								<h4><?php esc_html_e( 'Support', 'wpmudev' ); ?></h4>
 								<p><?php esc_html_e( 'Get 24/7 expert WordPress support for any issue.', 'wpmudev' ); ?></p>
 							</div>
 						</div>
 						<div class="wpmudui-product-list__cta">
-							<a href="<?php echo esc_url( $real_support_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'Get Support', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
+							<a href="<?php echo esc_url( $real_support_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'Get Support', 'wpmudev' ); ?>"><i aria-hidden="true" class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
 						</div>
 					</li>
 					<li class="wpmudui-product-list__item">
 						<div class="wpmudui-product-list__info">
-							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>/image/tools/community.png');"></div>
+							<div aria-hidden="true" class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>image/tools/community.png');"></div>
 							<div class="wpmudui-product-list__details">
 								<h4><?php esc_html_e( 'Community', 'wpmudev' ); ?></h4>
 								<p><?php esc_html_e( 'Discuss your favorite topics with other developers.', 'wpmudev' ); ?></p>
 							</div>
 						</div>
 						<div class="wpmudui-product-list__cta">
-							<a href="<?php echo esc_url( $community_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'View Forums', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
+							<a href="<?php echo esc_url( $community_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'View Forums', 'wpmudev' ); ?>"><i aria-hidden="true" class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
 						</div>
 					</li>
 					<li class="wpmudui-product-list__item">
 						<div class="wpmudui-product-list__info">
-							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>/image/tools/learn.png');"></div>
+							<div aria-hidden="true" class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( WPMUDEV_Dashboard::$site->plugin_url ); ?>image/tools/learn.png');"></div>
 							<div class="wpmudui-product-list__details">
 								<h4><?php esc_html_e( 'Learn', 'wpmudev' ); ?></h4>
 								<p><?php esc_html_e( 'Become an expert by taking an Academy course.', 'wpmudev' ); ?></p>
 							</div>
 						</div>
 						<div class="wpmudui-product-list__cta">
-							<a href="<?php echo esc_url( $learn_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'Go to The Academy', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
+							<a href="<?php echo esc_url( $learn_url ); ?>" class="wpmudui-product-list__btn is-external" tooltip="<?php esc_html_e( 'Go to The Academy', 'wpmudev' ); ?>"><i aria-hidden="true" class="wpmudui-fi wpmudui-fi-arrow-right"></i></a>
 						</div>
 					</li>
 				</ul>
@@ -193,7 +193,7 @@ $this->render_header( $page_title );
 						$url .= '#pid=' . $item['id'];
 						?>
 						<div class="wpmudui-product-list__info">
-							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( $item['thumbnail'] ); ?>');"></div>
+							<div aria-hidden="true" class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( $item['thumbnail'] ); ?>');"></div>
 							<div class="wpmudui-product-list__details">
 								<h4><?php esc_html_e( $item['name'] ); ?></h4>
 								<p><?php esc_html_e( $item['short_description'] ); ?></p>
@@ -203,7 +203,7 @@ $this->render_header( $page_title );
 							<?php
                             $res = WPMUDEV_Dashboard::$site->get_project_infos( $item['id'] );
                             if ( $res->is_compatible ) { ?>
-                                <a href="<?php echo esc_url( $url ); ?>" class="wpmudui-product-list__btn" tooltip="<?php esc_html_e( 'View theme info', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-plus"></i></a>
+                                <a href="<?php echo esc_url( $url ); ?>" class="wpmudui-product-list__btn" tooltip="<?php esc_html_e( 'View theme info', 'wpmudev' ); ?>"><i aria-hidden="true" class="wpmudui-fi wpmudui-fi-plus"></i></a>
                             <?php } ?>
 						</div>
 					</li>
@@ -235,7 +235,7 @@ $this->render_header( $page_title );
 						$url .= '#pid=' . $my_project->pid;
 						?>
 						<div class="wpmudui-product-list__info">
-							<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( $my_project->url->thumbnail ); ?>');">
+							<div aria-hidden="true" class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( $my_project->url->thumbnail ); ?>');">
 							</div>
 							<div class="wpmudui-product-list__details">
 								<h4><?php echo esc_html( $my_project->name ); ?></h4>
@@ -243,7 +243,7 @@ $this->render_header( $page_title );
 							</div>
 						</div>
 						<div class="wpmudui-product-list__cta">
-							<a href="<?php echo esc_url( $url ); ?>" class="wpmudui-product-list__btn" tooltip="<?php esc_html_e( 'View plugin info', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-plus"></i></a>
+							<a href="<?php echo esc_url( $url ); ?>" class="wpmudui-product-list__btn" tooltip="<?php esc_html_e( 'View plugin info', 'wpmudev' ); ?>"><i aria-hidden="true" class="wpmudui-fi wpmudui-fi-plus"></i></a>
 						</div>
 					</li>
 				</ul>
@@ -267,7 +267,7 @@ $this->render_header( $page_title );
 					$url .= '#pid=' . $item['id'];
 					?>
 					<div class="wpmudui-product-list__info">
-						<div class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( $item['thumbnail'] ); ?>');">
+						<div aria-hidden="true" class="wpmudui-product-list__avatar" style="background-image: url('<?php echo esc_url( $item['thumbnail'] ); ?>');">
 						</div>
 						<div class="wpmudui-product-list__details">
 							<h4><?php esc_html_e( $item['name'] ); ?></h4>
@@ -278,7 +278,7 @@ $this->render_header( $page_title );
 						<?php
                         $res = WPMUDEV_Dashboard::$site->get_project_infos( $item['id'] );
                         if ( $res->is_compatible ) { ?>
-                            <a href="<?php echo esc_url( $url ); ?>" class="wpmudui-product-list__btn" tooltip="<?php esc_html_e( 'View plugin info', 'wpmudev' ); ?>"><i class="wpmudui-fi wpmudui-fi-plus"></i></a>
+                            <a href="<?php echo esc_url( $url ); ?>" class="wpmudui-product-list__btn" tooltip="<?php esc_html_e( 'View plugin info', 'wpmudev' ); ?>"><i aria-hidden="true" class="wpmudui-fi wpmudui-fi-plus"></i></a>
                         <?php } ?>
 					</div>
 				</li>
@@ -297,7 +297,7 @@ $this->render_header( $page_title );
 <?php if ( isset( $_GET['synced'] ) ) { //auto show modal after login redirect ?>
 <dialog id="confirmation-modal" title="You’re connected!" class="no-close wpmudui wpmudui-modal has-bottom-hero auto-show">
 	<div class="wpmudui-alert is-success">
-		<p><i class="wpmudui-fi wpmudui-fi-circle-tick"></i> <?php esc_html_e( 'Great, your website is now synced to the WPMU DEV Hub!', 'wpmudev' ); ?></p>
+		<p><i aria-hidden="true" class="wpmudui-fi wpmudui-fi-circle-tick"></i> <?php esc_html_e( 'Great, your website is now synced to the WPMU DEV Hub!', 'wpmudev' ); ?></p>
 	</div>
 	<p><?php printf( __( 'Keep this plugin installed to access Pro-only features, 24/7 support and <a href="%s" target=_blank">use the Hub</a> to manage all your websites in one handy place.', 'wpmudev' ), $hub_url ); ?></p>
 	<p class="wpmdui-ctn-right">

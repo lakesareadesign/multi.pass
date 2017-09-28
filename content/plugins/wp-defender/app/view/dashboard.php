@@ -11,27 +11,32 @@
 									$countAll = $hCount + $sCount;
 									echo $countAll;
 									?></h5>
-	                            <?php if ( $countAll == 0 ): ?>
-                                        <span class="" tooltip="<?php esc_attr_e( 'You have no outstanding security issues', wp_defender()->domain ); ?>">
-                                        <i class="def-icon icon-tick"></i>
-	                                <?php else: ?>
-                                        <?php
-                                        if ( $sCount > 0 && $hCount > 0 ) :
-                                        ?>
-                                            <span class="" tooltip="<?php esc_attr_e( sprintf( __('You have %d security tweak(s)  and %d suspicious file(s) needing attention', wp_defender()->domain ), $hCount, $sCount ) ); ?>">
+								<?php if ( $countAll == 0 ): ?>
+                                <span class=""
+                                      tooltip="<?php esc_attr_e( 'You have no outstanding security issues.', wp_defender()->domain ); ?>">
+                                        <i class="def-icon icon-tick" aria-hidden="true"></i>
+									<?php else: ?>
+									<?php
+									if ( $sCount > 0 && $hCount > 0 ) :
+									?>
+                                    <span class=""
+                                          tooltip="<?php esc_attr_e( sprintf( __( 'You have %d security tweak(s)  and %d suspicious file(s) needing attention.', wp_defender()->domain ), $hCount, $sCount ) ); ?>">
                                         <?php elseif ( $hCount > 0 ): ?>
-                                            <span class="" tooltip="<?php esc_attr_e( sprintf( __('You have %d security tweak(s) needing attention', wp_defender()->domain ), $hCount ) ); ?>">
+                                        <span class=""
+                                              tooltip="<?php esc_attr_e( sprintf( __( 'You have %d security tweak(s) needing attention.', wp_defender()->domain ), $hCount ) ); ?>">
                                         <?php elseif ( $sCount > 0 ): ?>
-                                            <span class="" tooltip="<?php esc_attr_e( sprintf( __('You have %d suspicious file(s) needing attention', wp_defender()->domain ), $sCount ) ); ?>">
+                                            <span class=""
+                                                  tooltip="<?php esc_attr_e( sprintf( __( 'You have %d suspicious file(s) needing attention.', wp_defender()->domain ), $sCount ) ); ?>">
                                         <?php else: ?>
-                                            <span class="" tooltip="<?php esc_attr_e( 'You have no outstanding security issues', wp_defender()->domain ); ?>">
+                                                <span class=""
+                                                      tooltip="<?php esc_attr_e( 'You have no outstanding security issues.', wp_defender()->domain ); ?>">
                                         <?php endif; ?>
-                                        <i class="def-icon icon-warning icon-yellow <?php echo $sCount > 0 ? 'fill-red' : null ?>"></i>
-	                                <?php endif; ?>
+                                                    <i class="def-icon icon-warning icon-yellow <?php echo $sCount > 0 ? 'fill-red' : null ?>" aria-hidden="true"></i>
+													<?php endif; ?>
                                 </span>
                                 <div class="clear"></div>
                                 <span class="sub"><?php
-									_e( "security issues", wp_defender()->domain ) ?></span>
+	                                _e( "security issues", wp_defender()->domain ) ?></span>
                             </div>
                         </div>
                         <div class="column is-5">
@@ -72,6 +77,7 @@
 					<?php echo $controller->renderHardenerWidget() ?>
 					<?php $controller->renderBlacklistWidget() ?>
 					<?php $controller->renderAuditWidget() ?>
+					<?php $controller->renderATWidget() ?>
 					<?php if ( wp_defender()->isFree ): ?>
                         <div class="dev-box dev-team">
                             <div class="box-title">

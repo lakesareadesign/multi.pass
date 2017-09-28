@@ -68,7 +68,7 @@ if ( is_array( $res->features ) && ! empty( $res->features ) ) {
 		<?php if ( $res->is_licensed ) : ?>
 			<?php if ( $res->is_installed ) { // IS INSTALLED ?>
 				<?php if ( $res->has_update ) { // HAS UPDATES ?>
-					<a href="#update=<?php echo esc_attr($pid); ?>" class="wpmudui-btn is-sm is-brand update-project">
+					<a role="button" href="#update=<?php echo esc_attr($pid); ?>" class="wpmudui-btn is-sm is-brand update-project">
 						<?php esc_html_e( 'Update', 'wpmudev' ); ?>
 					</a>
 				<?php } elseif ( $res->is_active && $res->url->config ) { // HAS CONFIG ?>
@@ -104,13 +104,13 @@ if ( is_array( $res->features ) && ! empty( $res->features ) ) {
 					<?php } ?>
 			<?php } ?>
 		<?php else : ?>
-			<a href="#upgrade" class="wpmudui-btn is-sm" rel="dialog">
+			<a role="button" href="#upgrade" class="wpmudui-btn is-sm" rel="dialog">
 				<?php esc_html_e( 'Upgrade', 'wpmudev' ); ?>
 			</a>
 		<?php endif; ?>
 		</div>
 
-	<div class="slider <?php echo esc_attr( $slider_class ); ?>">
+	<div aria-hidden="true" class="slider <?php echo esc_attr( $slider_class ); ?>">
 		<ul class="slider-big">
 			<?php foreach ( $gallery_items as $key => $item ) : ?>
 			<li class="item-<?php echo esc_attr( $key ); ?> <?php echo esc_attr( $item['type'] ); ?>"
@@ -144,7 +144,7 @@ if ( is_array( $res->features ) && ! empty( $res->features ) ) {
 		<p><?php echo esc_html( $res->info ); ?></p>
 		<p><a href="<?php echo esc_url( $res->url->website ); ?>" target="_blank">
 			<?php esc_html_e( 'More information on WPMU DEV', 'wpmudev' ); ?>
-			<i class="wdv-icon wdv-icon-arrow-right"></i>
+			<i aria-hidden="true" class="wdv-icon wdv-icon-arrow-right"></i>
 		</a></p>
 	</section>
 
@@ -158,7 +158,7 @@ if ( is_array( $res->features ) && ! empty( $res->features ) ) {
 				</ul><ul>
 				<?php endif; ?>
 			<li>
-				<i class="dev-icon dev-icon-radio_checked"></i>
+				<i aria-hidden="true" class="dev-icon dev-icon-radio_checked"></i>
 				<?php echo $feature; ?>
 			</li>
 			<?php endforeach; ?>
@@ -167,8 +167,8 @@ if ( is_array( $res->features ) && ! empty( $res->features ) ) {
 	</section>
 
 	<div class="row-sep">
-		<a href="#changelog" class="show-project-changelog button button-small button-light">
-			<span class="loading-icon"></span>
+		<a role="button" href="#changelog" class="show-project-changelog button button-small button-light">
+			<span aria-hidden="true" class="loading-icon"></span>
 			<?php esc_html_e( 'Show changelog', 'wpmudev' ); ?>
 		</a>
 	</div>

@@ -43,7 +43,6 @@ class Content_Scan extends Behavior {
 		try {
 			$ret = $this->_scan_a_file( $current );
 		} catch ( \Exception $e ) {
-			var_dump( $e->getMessage() );
 			$ret = false;
 		}
 		$end  = microtime( true );

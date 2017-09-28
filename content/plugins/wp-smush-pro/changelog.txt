@@ -5,6 +5,19 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+= 2.7.5 =
+
+* Update:
+    * UI/UX has been updated for Bulk Smush page
+
+* Fixed:
+    * Start from latest image while Bulk Smushing
+    * S3 config error if AWS keys are defined in wp-config.php
+    * NextGen smush page not working properly
+    * Do not redirect to settings page on activation is WP CLI is installed
+    * Fixed a bunch of Notices/Errors
+
+
 = 2.7.4.1 =
 
 * Fixed:
@@ -355,4 +368,4 @@ Change Log:
 - First release
 
 
-133620-1502132200-au
+133620-1506614232-au

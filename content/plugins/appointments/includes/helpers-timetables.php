@@ -47,6 +47,121 @@ function appointments_is_worker_holiday( $worker_id, $start, $end, $location = f
 
 
 /**
+ * Check if an interval is available
+ *
+ * @param int $start
+ * @param int $end
+ * @param int $worker_id Worker ID or 0 to check agains the main working days
+ *
+ * @return bool
+ */
+function appointments_is_available_time( $start, $end, $worker_id = 0, $location = 0 ) {
+	$days = array();
+
+	if ( $start > $end ) {
+		// Swap variables
+		$start ^= $end ^= $start ^= $end;
+	}
+
+	$result_days = appointments_get_worker_working_hours( 'open', $worker_id, $location );
+	if ( $result_days && is_object( $result_days ) && ! empty( $result_days->hours ) ) {
+		$days = $result_days->hours;
+	}
+
+	if ( is_array( $days ) && ! empty( $days ) ) {
+		// Filter days. Just get the correspondant weekday and if it's active
+		$active_day = wp_list_filter(
+			$days,
+			array(
+				'weekday_number' => date( "N", $start ),
+				'active'         => 'yes'
+			)
+		);
+		if ( empty( $active_day ) ) {
+			return false;
+		}
+		// Results must only contain one result, let's get that result.
+		$active_day = current( $active_day );
+
+		// The worker is working this weekday. Let's check the interval.
+		$start_active_datetime = strtotime( date( 'Y-m-d', $start ) . ' ' . $active_day['start'] . ':00' );
+		if ( $active_day['end'] === '00:00' ) {
+			// This means that the end time is on the next day.
+			$end_active_datetime = strtotime( date( 'Y-m-d 00:00:00', strtotime( '+1 day', $start ) ) );
+		} else {
+			$end_active_datetime = strtotime( date( 'Y-m-d', $start ) . ' ' . $active_day['end'] . ':00' );
+		}
+
+		if (
+			$start >= $start_active_datetime // The start time is greater than the active day start time
+			&& $end <= $end_active_datetime // The end time is less than the active day end time. At this point we know that the searched dates are inside the interval.
+		) {
+			return true;
+		}
+
+		$options = get_option( 'appointments_options' );
+		if ( isset( $options['allow_overwork'] ) && 'yes' === $options['allow_overwork'] ) {
+			if ( ! $end <= $end_active_datetime && $start >= $start_active_datetime ) {
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+/**
+ * Check if a specific worker is working at this time slot
+ *
+ * @param int $start
+ * @param int $end
+ * @param int $worker_id
+ * @param mixed $location
+ *
+ * @return bool
+ */
+function appointments_is_working( $start, $end, $worker_id, $location = 0 ) {
+
+	if ( appointments_is_exceptional_working_day( $start, $end, $worker_id ) ) {
+		return true;
+	}
+	if ( appointments_is_worker_holiday( $worker_id, $start, $end, $location ) ) {
+		return false;
+	}
+	if ( appointments_is_interval_break( $start, $end, $worker_id, $location ) ) {
+		return false;
+	}
+
+	if ( appointments_is_available_time( $start, $end, $worker_id, $location ) ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
+ * Check if this is an exceptional working day
+ * Optionally a worker is selectable ( $w != 0 )
+ *
+ * @param int $start
+ * @param int $end
+ * @param int $worker_id
+ * @param int $location
+ *
+ * @return bool
+ */
+function appointments_is_exceptional_working_day( $start, $end, $worker_id = 0, $location = 0 ) {
+	$is_working_day = false;
+	$result = appointments_get_worker_exceptions( $worker_id, 'open', $location );
+	if ( $result != null && strpos( $result->days, date( 'Y-m-d', $start ) ) !== false ) {
+		$is_working_day = true;
+	}
+
+	return apply_filters( 'app_is_exceptional_working_day', $is_working_day, $start, $end, 0, $worker_id );
+}
+
+
+/**
  * Check if an interval is a break
  *
  * @param int $start
@@ -183,50 +298,10 @@ function appointments_get_available_workers_for_interval( $start, $end, $service
 			continue;
 		}
 
-		// Try getting cached preprocessed hours
-		$days = array();
-		$result_days = appointments_get_worker_working_hours( 'open', $worker->ID, $location );
-		if ( $result_days && is_object( $result_days ) && ! empty( $result_days->hours ) ) {
-			$days = $result_days->hours;
+		if ( appointments_is_available_time( $start, $end, $worker->ID, $location ) ) {
+			$capacity_available++;
 		}
 
-		if ( ! is_array( $days ) || empty( $days ) ) {
-			continue;
-		}
-
-
-		if ( is_array( $days ) ) {
-			// Filter days. Just get the correspondant weekday and if it's active
-			$active_day = wp_list_filter(
-				$days,
-				array(
-					'weekday_number' => date( "N", $start ),
-					'active'         => 'yes'
-				)
-			);
-			if ( ! empty( $active_day ) ) {
-				// Results must only contain one result, let's get that result
-				$active_day = current( $active_day );
-
-				// The worker is working this weekday. Let's check the interval
-				$start_active_datetime = strtotime( date( 'Y-m-d', $start ) . ' ' . $active_day['start'] . ':00' );
-				if ( $active_day['end'] === '00:00' ) {
-					// This means that the end time is on the next day
-					$end_active_datetime = strtotime( date( 'Y-m-d 00:00:00', strtotime( '+1 day', $start ) ) );
-				}
-				else {
-					$end_active_datetime   = strtotime( date( 'Y-m-d', $start ) . ' ' . $active_day['end'] . ':00' );
-				}
-
-				if (
-					$start >= $start_active_datetime // The start time is greater than the active day start time
-					&& $end <= $end_active_datetime // The end time is less than the active day end time. At this point we know that the searched dates are inside the interval
-				) {
-					$capacity_available++;
-				}
-			}
-			unset( $active_day );
-		}
 	}
 
 	// We have to check service capacity too

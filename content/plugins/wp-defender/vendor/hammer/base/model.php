@@ -2,6 +2,7 @@
 /**
  * Author: Hoang Ngo
  */
+
 namespace Hammer\Base;
 
 class Model extends Component {
@@ -69,6 +70,9 @@ class Model extends Component {
 		}
 
 		if ( ! empty( $validators ) ) {
+			if ( ! class_exists( 'GUMP', false ) ) {
+				require_once dirname( __DIR__ ) . '/vendor/wixel/gump/gump.class.php';
+			}
 			\GUMP::set_field_names( $this->getAttributeLabels() );
 			$gump = new \GUMP();
 			foreach ( $validators as $key => $rule ) {

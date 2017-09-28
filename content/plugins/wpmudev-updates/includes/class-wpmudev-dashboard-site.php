@@ -293,7 +293,6 @@ class WPMUDEV_Dashboard_Site {
 	 * Function contains a complete list of all used Dashboard settings.
 	 *
 	 * @since  4.0.0
-	 * @internal
 	 * @param  string $action Can be set to 'reset' to overwrite all plugin
 	 *                options with the initial value (as if plugin was just
 	 *                installed for the first time).
@@ -305,7 +304,6 @@ class WPMUDEV_Dashboard_Site {
 			'limit_to_user' => '',
 			'remote_access' => '',
 			'refresh_remote_flag' => 0,
-			'refresh_local_flag' => 0,
 			'refresh_profile_flag' => 0,
 			'updates_data' => '',
 			'profile_data' => '',
@@ -314,11 +312,9 @@ class WPMUDEV_Dashboard_Site {
 			'last_run_updates' => 0,
 			'last_run_profile' => 0,
 			'last_check_upfront' => 0,
-			'last_check_autoupdate' => 0,
 			'staff_notes' => '',
 			'redirected_v4' => 0, // We want to redirect all users after first v4 activation!
 			'autoupdate_dashboard' => 1,
-			'autoupdate_schedule' => array(),
 			'notifications' => array(),
 			// 'blog_active_projects' => array(), // Only used on multisite. Not finished.
 			'auth_user' => null, // NULL means: Ignore during 'reset' action.
@@ -566,10 +562,8 @@ class WPMUDEV_Dashboard_Site {
 			// Tab: Plugins
 			// Function to check for updates again.
 			case 'check-updates':
-				WPMUDEV_Dashboard::$site->set_option( 'refresh_remote_flag', 1 );
-				WPMUDEV_Dashboard::$site->set_option( 'refresh_local_flag', 1 );
 				WPMUDEV_Dashboard::$site->set_option( 'refresh_profile_flag', 1 );
-				WPMUDEV_Dashboard::$site->set_option( 'updates_available', false );
+				WPMUDEV_Dashboard::$site->refresh_local_projects( 'remote' );
 				$success = 'SILENT';
 				break;
 		}
@@ -698,10 +692,8 @@ class WPMUDEV_Dashboard_Site {
 					break;
 
 				case 'check-updates':
-					WPMUDEV_Dashboard::$site->set_option( 'refresh_remote_flag', 1 );
-					WPMUDEV_Dashboard::$site->set_option( 'refresh_local_flag', 1 );
 					WPMUDEV_Dashboard::$site->set_option( 'refresh_profile_flag', 1 );
-					WPMUDEV_Dashboard::$site->set_option( 'updates_available', false );
+					WPMUDEV_Dashboard::$site->refresh_local_projects( 'remote' );
 					$this->send_json_success();
 					break;
 
@@ -2141,7 +2133,6 @@ class WPMUDEV_Dashboard_Site {
 	 * changes found it will trigger remote api check and calculate upgrades as well.
 	 *
 	 * @since  1.0.0
-	 * @internal
 	 * @param  string $check Either 'local' or 'remote'. Local will only scan
 	 *                the local FS for changes. Remote will also query the API
 	 *                and schedule updates.
@@ -2161,6 +2152,11 @@ class WPMUDEV_Dashboard_Site {
 		if ( 'remote' == $check || $md5_db != $md5_fs ) {
 			self::$_cache_themeupdates = false;
 			self::$_cache_pluginupdates = false;
+			$this->set_transient(
+				'local_projects',
+				$local_projects,
+				5 * MINUTE_IN_SECONDS
+			);
 			$this->set_option( 'updates_available', false );
 			$data = WPMUDEV_Dashboard::$api->refresh_membership_data( $local_projects );
 
@@ -2631,12 +2627,14 @@ class WPMUDEV_Dashboard_Site {
 
 					// Build plugin class.
 					$object = (object) array(
-						'url' => $plugin['url'],
-						'slug' => $local['slug'],
+						'id'          => "wpmudev/plugins/$id",
+						'slug'        => $local['slug'],
+						'plugin'      => $plugin['filename'],
 						'new_version' => $plugin['new_version'],
-						'package' => $package,
-						'autoupdate' => $autoupdate,
-						'tested' => $cur_wp_version,
+						'url'         => $plugin['url'],
+						'package'     => $package,
+						'autoupdate'  => $autoupdate,
+						'tested'      => $cur_wp_version,
 					);
 
 					// Add update information to response.
@@ -2696,6 +2694,9 @@ class WPMUDEV_Dashboard_Site {
 
 					// Build theme listing.
 					$object = array();
+					$object['pid'] = $id; //we add this so we can detect it later when wp core autoupdater triggers
+					$object['theme'] = $theme_slug;
+					$object['new_version'] = $theme['new_version'];
 					$object['url'] = add_query_arg(
 						array(
 							'action' => 'wdp-changelog',
@@ -2704,9 +2705,7 @@ class WPMUDEV_Dashboard_Site {
 						),
 						admin_url( 'admin-ajax.php' )
 					);
-					$object['new_version'] = $theme['new_version'];
 					$object['package'] = WPMUDEV_Dashboard::$api->rest_url_auth( 'download/' . $id );
-					$object['theme'] = $theme_slug;
 					$object['tested'] = $cur_wp_version;
 
 					// Add changes back into response.

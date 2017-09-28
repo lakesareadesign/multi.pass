@@ -23,17 +23,17 @@
                                 <div>
                                     <h5 class="def-issues def-issues-top-left"><?php echo $countAll = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_ISSUE ) ?></h5>
                                     <?php if ( $countAll > 0 ) : ?>
-                                    <span class="def-issues-top-left-icon" tooltip="<?php esc_attr_e( sprintf( __('You have %d suspicious file(s) needing attention', wp_defender()->domain ), $countAll ) ); ?>">
+                                    <span class="def-issues-top-left-icon" tooltip="<?php esc_attr_e( sprintf( __('You have %d suspicious file(s) needing attention.', wp_defender()->domain ), $countAll ) ); ?>">
                                     <?php else: ?>
-                                    <span class="def-issues-top-left-icon" tooltip="<?php esc_attr_e( 'Your code is clean, the skies are clear', wp_defender()->domain ); ?>">
+                                    <span class="def-issues-top-left-icon" tooltip="<?php esc_attr_e( 'Your code is clean, the skies are clear.', wp_defender()->domain ); ?>">
                                     <?php endif; ?>
 									<?php
-									$icon = $countAll == 0 ? ' <i class="def-icon icon-tick"></i>' : ' <i class="def-icon icon-warning fill-red"></i>';
+									$icon = $countAll == 0 ? ' <i class="def-icon icon-tick" aria-hidden="true"></i>' : ' <i class="def-icon icon-warning fill-red" aria-hidden="true"></i>';
 									echo $icon;
 									?>
                                 </span>
                                     <div class="clear"></div>
-                                    <span class="sub"><?php _e( "File scanning issues need attention", wp_defender()->domain ) ?></span>
+                                    <span class="sub"><?php _e( "File scanning issues need attention.", wp_defender()->domain ) ?></span>
                                     <div class="clear mline"></div>
                                     <strong><?php echo $lastScanDate ?></strong>
                                     <span class="sub"><?php _e( "Last scan", wp_defender()->domain ) ?></span>
@@ -88,65 +88,69 @@
                 </div>
                 <div class="row">
                     <div class="col-third">
-                        <ul class="inner-nav is-hidden-mobile">
-                            <li class="issues-nav">
-                                <a class="<?php echo \Hammer\Helper\HTTP_Helper::retrieve_get( 'view', false ) == false ? 'active' : null ?>"
-                                   href="<?php echo network_admin_url( 'admin.php?page=wdf-scan' ) ?>">
-									<?php _e( "Issues", wp_defender()->domain ) ?>
-									<?php
-									$issues = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_ISSUE );
-									$tooltip = '';
-                                    if ( $issues > 0 ) :
-                                        $tooltip = 'tooltip="' . esc_attr( sprintf( __("You have %d suspicious file(s) needing attention", wp_defender()->domain ), $countAll ) ) . '"';
-                                    endif;
-                                    echo $issues > 0 ? '<span class="def-tag tag-error def-issues-below" ' . $tooltip . '>' . $issues . '</span>' : '' ?>
-                                </a>
-                            </li>
-                            <!--                            <li>-->
-                            <!--                                <a class="-->
-							<?php //echo $controller->isView( 'cleaned' ) ? 'active' : null ?><!--"-->
-                            <!--                                   href="-->
-							<?php //echo network_admin_url( 'admin.php?page=wdf-scan&view=cleaned' ) ?><!--">--><?php //_e( "Cleaned", wp_defender()->domain ) ?>
-                            <!--                                    <span>-->
-                            <!--                                        --><?php
-							//                                        $issues = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_FIXED );
-							//                                        echo $issues > 0 ? $issues : '' ?>
-                            <!--                                    </span>-->
-                            <!--                                </a>-->
-                            <!--                            </li>-->
-                            <li>
-                                <a class="<?php echo $controller->isView( 'ignored' ) ? 'active' : null ?>"
-                                   href="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=ignored' ) ?>">
-									<?php _e( "Ignored", wp_defender()->domain ) ?>
-                                    <span class="def-ignored">
-                                        <?php
-                                        $issues = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_IGNORED );
-                                        echo $issues > 0 ? $issues : '' ?>
-                                    </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a class="<?php echo $controller->isView( 'settings' ) ? 'active' : null ?>"
-                                   href="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=settings' ) ?>">
-									<?php _e( "Settings", wp_defender()->domain ) ?></a>
-                            </li>
-                            <li>
-                                <a class="<?php echo $controller->isView( 'reporting' ) ? 'active' : null ?>"
-                                   href="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=reporting' ) ?>">
-									<?php _e( "Reporting", wp_defender()->domain ) ?></a>
-                            </li>
-                        </ul>
+						<nav role="navigation" aria-label="Filters">
+							<ul class="inner-nav is-hidden-mobile">
+								<li class="issues-nav">
+									<a class="<?php echo \Hammer\Helper\HTTP_Helper::retrieve_get( 'view', false ) == false ? 'active' : null ?>"
+									href="<?php echo network_admin_url( 'admin.php?page=wdf-scan' ) ?>">
+										<?php _e( "Issues", wp_defender()->domain ) ?>
+										<?php
+										$issues = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_ISSUE );
+										$tooltip = '';
+										if ( $issues > 0 ) :
+											$tooltip = 'tooltip="' . esc_attr( sprintf( __("You have %d suspicious file(s) needing attention", wp_defender()->domain ), $countAll ) ) . '"';
+										endif;
+										echo $issues > 0 ? '<span class="def-tag tag-error def-issues-below" ' . $tooltip . '>' . $issues . '</span>' : '' ?>
+									</a>
+								</li>
+								<!--                            <li>-->
+								<!--                                <a class="-->
+								<?php //echo $controller->isView( 'cleaned' ) ? 'active' : null ?><!--"-->
+								<!--                                   href="-->
+								<?php //echo network_admin_url( 'admin.php?page=wdf-scan&view=cleaned' ) ?><!--">--><?php //_e( "Cleaned", wp_defender()->domain ) ?>
+								<!--                                    <span>-->
+								<!--                                        --><?php
+								//                                        $issues = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_FIXED );
+								//                                        echo $issues > 0 ? $issues : '' ?>
+								<!--                                    </span>-->
+								<!--                                </a>-->
+								<!--                            </li>-->
+								<li>
+									<a class="<?php echo $controller->isView( 'ignored' ) ? 'active' : null ?>"
+									href="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=ignored' ) ?>">
+										<?php _e( "Ignored", wp_defender()->domain ) ?>
+										<span class="def-ignored">
+											<?php
+											$issues = $model->countAll( \WP_Defender\Module\Scan\Model\Result_Item::STATUS_IGNORED );
+											echo $issues > 0 ? $issues : '' ?>
+										</span>
+									</a>
+								</li>
+								<li>
+									<a class="<?php echo $controller->isView( 'settings' ) ? 'active' : null ?>"
+									href="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=settings' ) ?>">
+										<?php _e( "Settings", wp_defender()->domain ) ?></a>
+								</li>
+								<li>
+									<a class="<?php echo $controller->isView( 'reporting' ) ? 'active' : null ?>"
+									href="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=reporting' ) ?>">
+										<?php _e( "Reporting", wp_defender()->domain ) ?></a>
+								</li>
+							</ul>
+						</nav>
                         <div class="is-hidden-tablet mline">
-                            <select class="mobile-nav">
-                                <option <?php selected( '', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
-                                        value="<?php echo network_admin_url( 'admin.php?page=wdf-scan' ) ?>"><?php _e( "Issues", wp_defender()->domain ) ?></option>
-                                <option <?php selected( 'ignored', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
-                                        value="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=ignored' ) ?>"><?php _e( "Ignored", wp_defender()->domain ) ?></option>
-                                <option <?php selected( 'settings', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
-                                        value="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=settings' ) ?>"><?php _e( "Settings", wp_defender()->domain ) ?></option>
-                                <option <?php selected( 'reporting', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
-                                        value="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=reporting' ) ?>"><?php _e( "Reporting", wp_defender()->domain ) ?></option>
-                            </select>
+							<nav role="navigation" aria-label="Filters">
+								<select class="mobile-nav">
+									<option <?php selected( '', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
+											value="<?php echo network_admin_url( 'admin.php?page=wdf-scan' ) ?>"><?php _e( "Issues", wp_defender()->domain ) ?></option>
+									<option <?php selected( 'ignored', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
+											value="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=ignored' ) ?>"><?php _e( "Ignored", wp_defender()->domain ) ?></option>
+									<option <?php selected( 'settings', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
+											value="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=settings' ) ?>"><?php _e( "Settings", wp_defender()->domain ) ?></option>
+									<option <?php selected( 'reporting', \Hammer\Helper\HTTP_Helper::retrieve_get( 'view' ) ) ?>
+											value="<?php echo network_admin_url( 'admin.php?page=wdf-scan&view=reporting' ) ?>"><?php _e( "Reporting", wp_defender()->domain ) ?></option>
+								</select>
+							</nav>
                         </div>
                     </div>
                     <div class="col-two-third">

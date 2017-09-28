@@ -53,12 +53,12 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 				switch ( $membership_type ) {
 					case 'full':
 						_e( 'Full', 'wpmudev' );
-						echo '<i class="status-ok dev-icon dev-icon-radio_checked"></i>';
+						echo '<i aria-hidden="true" class="status-ok dev-icon dev-icon-radio_checked"></i>';
 						break;
 
 					case 'single':
 						_e( 'Single', 'wpmudev' );
-						echo '<i class="status-ok dev-icon dev-icon-radio_checked"></i>';
+						echo '<i aria-hidden="true" class="status-ok dev-icon dev-icon-radio_checked"></i>';
 						break;
 
 					default:
@@ -85,7 +85,7 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 			<span class="value">
 				Staff-Hero
 				<span class="status-ok" tooltip="<?php echo "Your duty is no easy one:\n\nHelp members in need...\nMake stranges smile...\nFight evil...\nSave kittens!"; ?>">
-					<i class="dev-icon dev-icon-logo_alt"></i>
+					<i aria-hidden="true" class="dev-icon dev-icon-logo_alt"></i>
 				</span>
 			</span>
 		</div>
@@ -188,7 +188,8 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 				<span class="list-detail">
 					<?php if ( $can_manage_users && ! $user['is_me'] ) : ?>
 					<a href="<?php echo esc_url( $remove_url ); ?>" class="one-click button button-text show-on-hover">
-						<i class="dashicons dashicons-no-alt"></i>
+						<span class="wpdui-sr-only">Remove user</span>
+						<i aria-hidden="true" class="dashicons dashicons-no-alt"></i>
 					</a>
 					<?php endif; ?>
 				</span>
@@ -215,6 +216,7 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 					<input type="hidden" name="action" value="admin-add" />
 					<?php wp_nonce_field( 'admin-add', 'hash' ) ?>
 					<span class="list-label" style="width: 100%">
+						<label for="user-search" class="wpdui-sr-only"><?php esc_attr_e( "Type an admin user's name", 'wpmudev' ); ?></label>
 						<input
 							type="search"
 							name="user"

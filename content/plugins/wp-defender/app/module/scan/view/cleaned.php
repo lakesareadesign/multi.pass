@@ -11,7 +11,7 @@
 		} else {
 			?>
             <div class="well well-blue with-cap">
-                <i class="def-icon icon-warning"></i>
+                <i class="def-icon icon-warning"  aria-hidden="true"></i>
 				<?php _e( "You haven't cleaned any suspicious files yet. When this action is available, any cleaned files will appear here.", wp_defender()->domain ) ?>
             </div>
 			<?php

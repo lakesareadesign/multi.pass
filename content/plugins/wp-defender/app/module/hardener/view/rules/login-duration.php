@@ -1,9 +1,9 @@
 <div class="rule closed" id="login-duration">
     <div class="rule-title">
 		<?php if ( $controller->check() == false ): ?>
-            <i class="def-icon icon-warning"></i>
+            <i class="def-icon icon-warning" aria-hidden="true"></i>
 		<?php else: ?>
-            <i class="def-icon icon-tick"></i>
+            <i class="def-icon icon-tick" aria-hidden="true"></i>
 		<?php endif; ?>
 		<?php echo $controller->getTitle() ?>
     </div>
@@ -38,7 +38,7 @@
                             <?php $controller->createNonceField(); ?>
                             <input type="hidden" name="action" value="processHardener"/>
                             <input type="text" placeholder="<?php esc_attr_e( "Enter number of days", wp_defender()->domain ) ?>"
-                                name="duration" class="block" />
+                                name="duration" class="block defender-login-duration" />
                             <input type="hidden" name="slug" value="<?php echo $controller::$slug ?>"/>
                             <button class="button float-r"
                                     type="submit"><?php _e( "Update", wp_defender()->domain ) ?></button>

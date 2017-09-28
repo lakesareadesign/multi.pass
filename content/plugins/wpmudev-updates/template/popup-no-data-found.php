@@ -32,7 +32,7 @@
 		);
 	} else {
 		// No project found but user is not logged in.
-		$url_fix_it = add_query_arg( 'clear_key', '1', WPMUDEV_Dashboard::$ui->page_urls->dashboard_url );	     	 	  		 	 		
+		$url_fix_it = add_query_arg( 'clear_key', '1', WPMUDEV_Dashboard::$ui->page_urls->dashboard_url );
 
 		printf(
 			'<p>%s</p><p>%s</p>',
@@ -57,6 +57,6 @@
 	);
 	?>
 	</small></p>
-	<span class="the-hero"><i class="dev-icon dev-icon-devman"></i></span>
+	<span aria-hidden="true" class="the-hero"><i class="dev-icon dev-icon-devman"></i></span>
 </div>
 </dialog>

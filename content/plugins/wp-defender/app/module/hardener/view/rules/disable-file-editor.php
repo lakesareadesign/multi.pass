@@ -1,9 +1,9 @@
 <div class="rule closed" id="disable_file_editor">
     <div class="rule-title">
 		<?php if ( $controller->check() == false ): ?>
-            <i class="def-icon icon-warning"></i>
+            <i class="def-icon icon-warning" aria-hidden="true"></i>
 		<?php else: ?>
-            <i class="def-icon icon-tick"></i>
+            <i class="def-icon icon-tick" aria-hidden="true"></i>
 		<?php endif; ?>
 		<?php _e( "Disable the file editor", wp_defender()->domain ) ?>
     </div>

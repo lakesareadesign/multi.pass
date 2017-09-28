@@ -62,8 +62,7 @@ class ShareaholicPublic {
    * Inserts the script code snippet into the head of the page
    */
   public static function script_tag() {
-    if (ShareaholicUtilities::has_accepted_terms_of_service() &&
-        ShareaholicUtilities::get_or_create_api_key()) {
+    if (ShareaholicUtilities::has_accepted_terms_of_service() && ShareaholicUtilities::get_or_create_api_key()) {
       ShareaholicUtilities::load_template('script_tag', array(
         'api_key' => ShareaholicUtilities::get_option('api_key'),
         'base_settings' => ShareaholicPublicJS::get_base_settings(),
@@ -124,10 +123,10 @@ class ShareaholicPublic {
       } else {
         $id = $post->ID;
       }
-      
+            
       // Get post tags
       $keywords = implode(', ' , ShareaholicUtilities::permalink_keywords($id));
-             
+
       // Get post categories
       $categories_array = get_the_category($id);
       $categories = '';
@@ -143,11 +142,11 @@ class ShareaholicPublic {
        $categories = trim($output, $separator);
       }      
       
-      // Merge post tags and categories
+      // Merge post tags, categories and post type
       if ($keywords != ''){
-        $keywords .= ', '.$categories;
+        $keywords .= ', '.$categories.', '.$post->post_type;
       } else {
-        $keywords .= $categories;
+        $keywords .= $categories.', '.$post->post_type;
       }
             
       // Encode, lowercase & trim appropriately
@@ -170,7 +169,7 @@ class ShareaholicPublic {
    */
   private static function draw_article_meta_tag() {
     
-    if (in_array(ShareaholicUtilities::page_type(), array('index', 'category'))) {
+    if (in_array(ShareaholicUtilities::page_type(), array('index', 'category')) || is_404()) {
         echo "<meta name='shareaholic:article_visibility' content='private' />\n";
         return;
     }
@@ -255,7 +254,7 @@ class ShareaholicPublic {
    */
   private static function draw_plugin_version_meta_tag() {
       echo "<meta name='shareaholic:wp_version' content='" . ShareaholicUtilities::get_version() . "' />\n";
-  }  
+  }
   
   /**
    * Draws Shareaholic site name meta tag.
@@ -550,6 +549,7 @@ class ShareaholicPublic {
     
     $info = array(
   	'plugin_version' => Shareaholic::VERSION,
+  	'plugin_version_in_db' => ShareaholicUtilities::get_version(),
   	'site_id' => ShareaholicUtilities::get_option('api_key'),
   	'domain' => get_bloginfo('url'),
   	'language' => get_bloginfo('language'),

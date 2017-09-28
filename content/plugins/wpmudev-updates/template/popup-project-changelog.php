@@ -26,12 +26,12 @@ $dlg_id = 'dlg-' . md5( time() . '-' . $pid );
 <div class="title-action" data-project="<?php echo esc_attr( $pid ); ?>">
 	<?php if ( $item->is_licensed ) : ?>
 		<?php if ( $item->is_installed && $item->has_update ) { ?>
-		<a href="#update" class="wpmudui-btn is-sm is-brand show-project-update">
+		<a role="button" href="#update" class="wpmudui-btn is-sm is-brand show-project-update">
 			<?php esc_html_e( 'Update available', 'wpmudev' ); ?>
 		</a>
 		<?php } ?>
 	<?php else : ?>
-		<a href="#upgrade" class="wpmudui-btn is-sm is-brand" rel="dialog">
+		<a role="button" href="#upgrade" class="wpmudui-btn is-sm is-brand" rel="dialog">
 			<?php esc_html_e( 'Upgrade', 'wpmudev' ); ?>
 		</a>
 	<?php endif; ?>
@@ -57,13 +57,13 @@ $dlg_id = 'dlg-' . md5( time() . '-' . $pid );
 			if ( 0 === $version_check ) {
 				$badge = sprintf(
 					'<div class="current-version">%s %s</div>',
-					'<i class="wdv-icon wdv-icon-ok"></i>',
+					'<i aria-hidden="true" class="wdv-icon wdv-icon-ok"></i>',
 					__( 'Current', 'wpmudev' )
 				);
 			} elseif ( 1 === $version_check ) {
 				$badge = sprintf(
 					'<div class="new-version">%s %s</div>',
-					'<i class="wdv-icon wdv-icon-star"></i>',
+					'<i aria-hidden="true" class="wdv-icon wdv-icon-star"></i>',
 					__( 'New', 'wpmudev' )
 				);
 			}
@@ -98,7 +98,7 @@ $dlg_id = 'dlg-' . md5( time() . '-' . $pid );
 			if ( 1 == $detail_level ) {
 				printf(
 					'<li class="toggle-details">
-					<a href="#" class="for-intro">%s</a><a href="#" class="for-detail">%s</a>
+					<a role="button" href="#" class="for-intro">%s</a><a href="#" class="for-detail">%s</a>
 					</li>',
 					esc_html__( 'Show all changes', 'wpmudev' ),
 					esc_html__( 'Hide details', 'wpmudev' )
