@@ -147,16 +147,16 @@ function genesis_update_check() {
 }
 
 /**
- * Upgrade the database to version 2503.
+ * Upgrade the database to version 2504.
  *
  * @since 2.5.2
  */
-function genesis_upgrade_2503() {
+function genesis_upgrade_2504() {
 
 	// Update Settings.
 	genesis_update_settings( array(
-		'theme_version' => '2.5.2',
-		'db_version'    => '2503',
+		'theme_version' => '2.5.3',
+		'db_version'    => '2504',
 		'upgrade'       => 1,
 	) );
 
@@ -599,9 +599,9 @@ function genesis_upgrade() {
 		genesis_upgrade_2501();
 	}
 
-	// UPDATE DB TO VERSION 2503.
-	if ( genesis_get_option( 'db_version', null, false ) < '2503' ) {
-		genesis_upgrade_2503();
+	// UPDATE DB TO VERSION 2504.
+	if ( genesis_get_option( 'db_version', null, false ) < '2504' ) {
+		genesis_upgrade_2504();
 	}
 
 	do_action( 'genesis_upgrade' );

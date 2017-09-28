@@ -152,10 +152,10 @@ function genesis_constants() {
 
 	// Define Theme Info Constants.
 	define( 'PARENT_THEME_NAME', 'Genesis' );
-	define( 'PARENT_THEME_VERSION', '2.5.2' );
+	define( 'PARENT_THEME_VERSION', '2.5.3' );
 	define( 'PARENT_THEME_BRANCH', '2.5' );
-	define( 'PARENT_DB_VERSION', '2502' );
-	define( 'PARENT_THEME_RELEASE_DATE', date_i18n( 'F j, Y', '1496966400' ) );
+	define( 'PARENT_DB_VERSION', '2503' );
+	define( 'PARENT_THEME_RELEASE_DATE', date_i18n( 'F j, Y', '1506470400' ) );
 
 	// Define Parent and Child Directory Location and URL Constants.
 	define( 'PARENT_DIR', get_template_directory() );

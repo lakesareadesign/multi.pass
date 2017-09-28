@@ -95,7 +95,7 @@ class Genesis_Admin_Settings extends Genesis_Admin_Boxes {
 				'breadcrumb_page'           => 0,
 				'breadcrumb_archive'        => 0,
 				'breadcrumb_404'            => 0,
-				'breadcrumb_attachment'		=> 0,
+				'breadcrumb_attachment'     => 0,
 				'content_archive'           => 'full',
 				'content_archive_thumbnail' => 0,
 				'image_size'                => '',
@@ -330,17 +330,17 @@ class Genesis_Admin_Settings extends Genesis_Admin_Boxes {
 	 */
 	public function save( $new_value, $old_value ) {
 
-		// Prevent filtering during upgrade
+		// Prevent filtering during upgrade.
 		if ( isset( $new_value['upgrade'] ) ) {
 			unset( $new_value['upgrade'] );
 			return $new_value;
 		}
 
-		if ( ! empty( $new_value['header_scripts'] ) ) {
+		if ( $new_value['header_scripts'] !== $old_value['header_scripts'] ) {
 			$new_value['header_scripts'] = wp_slash( $new_value['header_scripts'] );
 		}
 
-		if ( ! empty( $new_value['footer_scripts'] ) ) {
+		if ( $new_value['footer_scripts'] !== $old_value['footer_scripts'] ) {
 			$new_value['footer_scripts'] = wp_slash( $new_value['footer_scripts'] );
 		}
 
