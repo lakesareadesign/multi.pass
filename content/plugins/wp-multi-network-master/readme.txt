@@ -3,7 +3,7 @@ Contributors: johnjamesjacoby, ddean, BrianLayman, rmccue
 Tags: network, networks, blog, blogs, site, sites, domain, domains, mapping, domain mapping, fun
 Requires at least: 4.6
 Tested up to: 4.7
-Stable tag: 1.8.1
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=9Q4F4EL5YJ62J
@@ -54,11 +54,25 @@ If you disable it on one of your networks, any new site you create on that netwo
 
 Just leave this plugin network-activated (or in mu-plugins) and it will take care of everything.
 
+= Can I achieve a multi-level URL path structure domain/network/site with subfolder network? =
+
+To achieve nested folder paths in this fashion network1/site1, network1/site2 etc,
+please follow the steps in https://paulund.co.uk/wordpress-multisite-nested-paths to construct a custom sunrise.php (Thanks to https://paulund.co.uk for providing these steps).
+
 = Where can I find documentation? =
 
 Not much to talk about really. Check the code for details!
 
 == Changelog ==
+
+= 2.1.0 =
+* Add nonce checks to forms
+* Add validation & output sanitization to form fields
+
+= 2.0.0 =
+* WordPress 4.6 minimum version bump
+* Caching improvements for WordPress 4.6
+* Refactor list tables & admin method code
 
 = 1.8.1 =
 * Fix site reassignment metabox from moving sites incorrectly
