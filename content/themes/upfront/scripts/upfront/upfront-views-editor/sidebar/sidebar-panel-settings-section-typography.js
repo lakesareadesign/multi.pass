@@ -41,7 +41,7 @@
 					rootEl: this.$el,
 					model: this.model
 				});
-				
+
 				var me = this;
 				// When color spectrum is shown, set positions
 				Upfront.Events.on("color:spectrum:show", function() {
