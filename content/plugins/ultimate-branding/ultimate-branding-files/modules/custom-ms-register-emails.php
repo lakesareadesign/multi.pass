@@ -47,6 +47,18 @@ if ( ! class_exists( 'ub_custom_ms_register_emails' ) ) {
 			add_filter( 'wpmu_signup_user_notification_subject', array( $this, 'wpmu_signup_user_notification_subject' ), 10, 5 );
 		}
 
+		/**
+		 * modify option name
+		 *
+		 * @since 1.9.2
+		 */
+		public function get_module_option_name( $option_name, $module ) {
+			if ( is_string( $module ) && 'custom-ms-register-emails' == $module ) {
+				return $this->option_name;
+			}
+			return $option_name;
+		}
+
 		public function wpmu_signup_blog_notification_email( $email, $domain, $path, $title, $user_login, $user_email, $key, $meta ) {
 			$this->set_data();
 			if ( 'on' == $this->get_value( 'wpmu_signup_blog_notification', 'status' ) ) {

@@ -155,11 +155,8 @@ class Su_Generator {
 			$return .= apply_filters( 'su/generator/breadcrumbs', '<a href="javascript:void(0);" class="su-generator-home" title="' . __( 'Click to return to the shortcodes list', 'shortcodes-ultimate' ) . '">' . __( 'All shortcodes', 'shortcodes-ultimate' ) . '</a> &rarr; <span>' . $shortcode['name'] . '</span> <small class="alignright">' . $shortcode['desc'] . '</small><div class="su-generator-clear"></div>' );
 			$return .= '</div>';
 			// Shortcode note
-			if ( isset( $shortcode['note'] ) || isset( $shortcode['example'] ) ) {
-				$return .= '<div class="su-generator-note"><i class="fa fa-info-circle"></i><div class="su-generator-note-content">';
-				if ( isset( $shortcode['note'] ) ) $return .= wpautop( $shortcode['note'] );
-				if ( isset( $shortcode['example'] ) ) $return .= wpautop( '<a href="' . admin_url( 'admin.php?page=shortcodes-ultimate-examples&example=' . $shortcode['example'] ) . '" target="_blank">' . __( 'Examples of use', 'shortcodes-ultimate' ) . ' &rarr;</a>' );
-				$return .= '</div></div>';
+			if ( isset( $shortcode['note'] ) ) {
+				$return .= '<div class="su-generator-note"><i class="fa fa-info-circle"></i><div class="su-generator-note-content">' . wpautop( $shortcode['note'] ) . '</div></div>';
 			}
 			// Shortcode has atts
 			if ( isset( $shortcode['atts'] ) && count( $shortcode['atts'] ) ) {
@@ -184,8 +181,16 @@ class Su_Generator {
 			if ( $shortcode['type'] == 'single' ) $return .= '<input type="hidden" name="su-generator-content" id="su-generator-content" value="false" />';
 			// Wrapping shortcode
 			else {
+
+				if ( !isset( $shortcode['content'] ) ) {
+					$shortcode['content'] = '';
+				}
+
+				if ( is_array( $shortcode['content'] ) ) {
+					$shortcode['content'] = self::get_shortcode_code( $shortcode['content'] );
+				}
+
 				// Prepare shortcode content
-				$shortcode['content'] = ( isset( $shortcode['content'] ) ) ? $shortcode['content'] : '';
 				$return .= '<div class="su-generator-attr-container"><h5>' . __( 'Content', 'shortcodes-ultimate' ) . '</h5><textarea name="su-generator-content" id="su-generator-content" rows="5">' . esc_attr( str_replace( array( '%prefix_', '__' ), su_cmpt(), $shortcode['content'] ) ) . '</textarea></div>';
 			}
 			$return .= '<div id="su-generator-preview"></div>';
@@ -355,6 +360,101 @@ class Su_Generator {
 		if ( is_array( $presets ) && isset( $presets[$id]['settings'] ) ) $data = $presets[$id]['settings'];
 		// Print results
 		die( json_encode( $data ) );
+	}
+
+	/**
+	 * Helper function to create shortcode code with default settings.
+	 *
+	 * Example output: "[su_button color="#ff0000" ... ] Click me [/su_button]".
+	 *
+	 * @param mixed   $args Array with settings
+	 * @since  5.0.0
+	 * @return string      Shortcode code
+	 */
+	public static function get_shortcode_code( $args ) {
+
+		$defaults = array(
+			'id'     => '',
+			'number' => 1,
+			'nested' => false,
+		);
+
+		// Accept shortcode ID as a string
+		if ( is_string( $args ) ) {
+			$args = array( 'id' => $args );
+		}
+
+		$args = wp_parse_args( $args, $defaults );
+
+		// Check shortcode ID
+		if ( empty( $args['id'] ) ) {
+			return '';
+		}
+
+		// Get shortcode data
+		$shortcode = Su_Data::shortcodes( $args['id'] );
+
+		// Prepare shortcode prefix
+		$prefix = get_option( 'su_option_prefix' );
+
+		// Prepare attributes container
+		$attributes = '';
+
+		// Loop through attributes
+		foreach ( $shortcode['atts'] as $attr_id => $attribute ) {
+
+			// Skip hidden attributes
+			if ( isset( $attribute['hidden'] ) && $attribute['hidden'] ) {
+				continue;
+			}
+
+			// Add attribute
+			$attributes .= sprintf( ' %s="%s"', esc_html( $attr_id ), esc_attr( $attribute['default'] ) );
+
+		}
+
+		// Create opening tag with attributes
+		$output = "[{$prefix}{$args['id']}{$attributes}]";
+
+		// Indent nested shortcodes
+		if ( $args['nested'] ) {
+			$output = "\t" . $output;
+		}
+
+		// Insert shortcode content
+		if ( isset( $shortcode['content'] ) ) {
+
+			if ( is_string( $shortcode['content'] ) ) {
+				$output .= $shortcode['content'];
+			}
+
+			// Create complex content
+			else if ( is_array( $shortcode['content'] ) && $args['id'] !== $shortcode['content']['id'] ) {
+
+					$shortcode['content']['nested'] = true;
+					$output .= $this->get_shortcode_code( $shortcode['content'] );
+
+				}
+
+		}
+
+		// Add closing tag
+		if ( isset( $shortcode['type'] ) && $shortcode['type'] === 'wrap' ) {
+			$output .= "[/{$prefix}{$args['id']}]";
+		}
+
+		// Repeat shortcode
+		if ( $args['number'] > 1 ) {
+			$output = implode( "\n", array_fill( 0, $args['number'], $output ) );
+		}
+
+		// Add line breaks around nested shortcodes
+		if ( $args['nested'] ) {
+			$output = "\n{$output}\n";
+		}
+
+		return $output;
+
 	}
 }
 

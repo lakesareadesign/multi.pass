@@ -471,7 +471,7 @@ class CoursePress_Admin_Forums extends CoursePress_Admin_Controller_Menu {
 		 */
 		$email_notification = get_post_meta( $post->ID, 'email_notification', true );
 		printf( '<h4>%s</h4>', __( 'Enable email notification', 'cp' ) );
-		printf( '<input type="checkbox" name="email_notification" value="yes" %s id="meta_email_notification" />', checked( $email_notification, 'yes', false ) );
+		printf( '<input type="checkbox" name="email_notification" value="yes" %s id="meta_email_notification" />', checked( $email_notification, 'yes', false ) );									   	 	   		
 		printf( ' <label for="meta_email_notification">%s</label>', __( 'Enable email notification', 'cp' ) );
 		/**
 		 * thread_comments_depth

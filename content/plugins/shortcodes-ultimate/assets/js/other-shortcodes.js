@@ -131,7 +131,7 @@ jQuery(document).ready(function($) {
 			config.hide = {
 				fixed: true,
 				delay: 600
-			}
+			};
 		}
 		$tt.qtip(config);
 	});

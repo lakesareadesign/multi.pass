@@ -253,14 +253,32 @@ jQuery(document).ready(function($){
     function set_active_level( level ) {
         $( '.level-select-bar [name=current_level]').val( level );
     }
+    
+    function escapeHtml(text) {
+        var map = {
+            '&': '&amp;',
+            '<': '&lt;',
+            '>': '&gt;',
+            '"': '&quot;',
+            "'": '&#039;'
+        };
+
+        return text.replace(/[&<>"']/g, function(m) { return map[m]; });
+    }
 
     /* ---- ---- ---- ADD FEATURES BUTTON ---- ---- ---- */
     $( '#add-feature-button').click( function( e ) {
-        var no_features = $('.no-features').hide().detach();
         var name = $('[name=new-feature-name]').val();
         var description = $('[name=new-feature-description]').val();
         var text = $('[name=new-feature-text]').val();
         var levels = $('[name=new-feature-levels]').val();
+
+        // Do not add if values are empty.
+        if ( name === '' && description === '' && text === '' ) {
+            return false;
+        }
+
+        var no_features = $('.no-features').hide().detach();
 
         // Get the following with script translation
         var save_action = 'save';
@@ -312,7 +330,7 @@ jQuery(document).ready(function($){
         feature_description += '<div class="edit-box" style="display:none">';
         feature_description += '<textarea class="editor" name="psts[feature_table][' + key + '][description]">' + description + '</textarea><br />';
         feature_description += '<span><a class="save-link">' + save_action + '</a> <a style="margin-left: 10px;" class="reset-link">' + reset_action + '</a></span></div>';
-		feature_description += '<input type="hidden" value="' + description + '" />';
+		feature_description += '<input type="hidden" value="' + escapeHtml( description ) + '" />';
 		
         var feature_indicator = '<td scope="row" class="level-settings">';
         for( var i = 1; i <= levels ; i++ ) {
@@ -342,6 +360,9 @@ jQuery(document).ready(function($){
                 jQuery(this).trigger('chosen:updated')
             });
         }
+
+        // Clear inputs.
+        $( this ).parents('tr').find('input[type=text], textarea').val('');
 
         set_inline_editing();
         switch_level( get_active_level() );

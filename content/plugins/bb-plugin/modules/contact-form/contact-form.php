@@ -176,6 +176,16 @@ FLBuilder::register_module('FLContactFormModule', array(
 							'show'	   => __( 'Show', 'fl-builder' ),
 							'hide'	   => __( 'Hide', 'fl-builder' ),
 						),
+						'toggle'		=> array(
+							'show'			=> array(
+								'fields'		=> array( 'name_placeholder' ),
+							),
+						),
+					),
+					'name_placeholder'	=> array(
+						'type'		=> 'text',
+						'label'		=> __( 'Name Field Placeholder', 'fl-builder' ),
+						'default'	=> __( 'Your name', 'fl-builder' ),
 					),
 					'subject_toggle'	=> array(
 						'type'		  => 'select',
@@ -186,10 +196,18 @@ FLBuilder::register_module('FLContactFormModule', array(
 							'hide'	   => __( 'Hide', 'fl-builder' ),
 						),
 						'toggle'		=> array(
+							'show'			=> array(
+								'fields'		=> array( 'subject_placeholder' ),
+							),
 							'hide'			=> array(
 								'fields'		=> array( 'subject_hidden' ),
 							),
 						),
+					),
+					'subject_placeholder'	=> array(
+						'type'		=> 'text',
+						'label'		=> __( 'Subject Field Placeholder', 'fl-builder' ),
+						'default'	=> __( 'Subject', 'fl-builder' ),
 					),
 					'subject_hidden'   => array(
 						'type'		  => 'text',
@@ -205,6 +223,16 @@ FLBuilder::register_module('FLContactFormModule', array(
 							'show'	   => __( 'Show', 'fl-builder' ),
 							'hide'	   => __( 'Hide', 'fl-builder' ),
 						),
+						'toggle'		=> array(
+							'show'			=> array(
+								'fields'		=> array( 'email_placeholder' ),
+							),
+						),
+					),
+					'email_placeholder'	=> array(
+						'type'		=> 'text',
+						'label'		=> __( 'Email Field Placeholder', 'fl-builder' ),
+						'default'	=> __( 'Your email', 'fl-builder' ),
 					),
 					'phone_toggle'	  => array(
 						'type'		  => 'select',
@@ -214,6 +242,21 @@ FLBuilder::register_module('FLContactFormModule', array(
 							'show'	   => __( 'Show', 'fl-builder' ),
 							'hide'	   => __( 'Hide', 'fl-builder' ),
 						),
+						'toggle'		=> array(
+							'show'			=> array(
+								'fields'		=> array( 'phone_placeholder' ),
+							),
+						),
+					),
+					'phone_placeholder'	=> array(
+						'type'		=> 'text',
+						'label'		=> __( 'Phone Field Placeholder', 'fl-builder' ),
+						'default'	=> __( 'Your phone', 'fl-builder' ),
+						),
+					'message_placeholder'	=> array(
+						'type'		=> 'text',
+						'label'		=> __( 'Your Message Placeholder', 'fl-builder' ),
+						'default'	=> __( 'Your message', 'fl-builder' ),
 					),
 				),
 			),

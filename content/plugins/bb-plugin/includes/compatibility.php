@@ -248,3 +248,27 @@ function fl_builder_template_meta_add( $meta_id, $object_id, $meta_key, $meta_va
 	update_post_meta( $object_id, '_fl_builder_template_id', $template_id );
 }
 add_action( 'added_post_meta', 'fl_builder_template_meta_add', 10, 4 );
+
+/**
+ * Stop bw-minify from optimizing when builder is open.
+ * @since 1.10.9
+ */
+function fl_bwp_minify_is_loadable_filter( $args ) {
+	if ( FLBuilderModel::is_builder_active() ) {
+		return false;
+	}
+	return $args;
+}
+add_filter( 'bwp_minify_is_loadable', 'fl_bwp_minify_is_loadable_filter' );
+
+/**
+ * Stop autoptimize from optimizing when builder is open.
+ * @since 1.10.9
+ */
+function fl_autoptimize_filter_noptimize_filter( $args ) {
+	if ( FLBuilderModel::is_builder_active() ) {
+		return true;
+	}
+	return $args;
+}
+add_filter( 'autoptimize_filter_noptimize', 'fl_autoptimize_filter_noptimize_filter' );

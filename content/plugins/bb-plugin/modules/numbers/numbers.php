@@ -25,10 +25,12 @@ class FLNumbersModule extends FLBuilderModule {
 		$type   = $this->settings->number_type ? $this->settings->number_type : 'percent';
 		$prefix = 'percent' == $type ? '' : $this->settings->number_prefix;
 		$suffix = 'percent' == $type ? '%' : $this->settings->number_suffix;
-		$start  = '<script>jQuery( ".fl-node-' . $this->node . ' .fl-number-int" ).html( "0" );</script>';
+		$start  = 'jQuery( ".fl-node-' . $this->node . ' .fl-number-int" ).html( "0" );';
 		$nojs   = '<noscript>' . number_format( $number ) . '</noscript>';
 
-		echo '<div class="fl-number-string">' . $prefix . '<span class="fl-number-int">' . $start . $nojs . '</span>' . $suffix . '</div>';
+		wp_add_inline_script( 'jquery-waypoints', $start, 'after' );
+
+		echo '<div class="fl-number-string">' . $prefix . '<span class="fl-number-int">' . $nojs . '</span>' . $suffix . '</div>';
 	}
 
 	public function render_circle_bar() {
@@ -46,6 +48,33 @@ class FLNumbersModule extends FLBuilderModule {
 		$html .= '</div>';
 
 		echo $html;
+	}
+
+	public function get_i18n_number_format() {
+		global $wp_locale;
+
+		$format_decimal   = '.';
+		$format_thousands = ',';
+
+		if ( $wp_locale ) {
+			$i18n_decimal = $wp_locale->number_format['decimal_point'];
+
+			// French and Norwegian uses SPACE (&nbsp;) as thousands separator.
+			$i18n_thousand = str_replace( '&nbsp;', ' ', $wp_locale->number_format['thousands_sep'] );
+
+			if ( ! empty( $i18n_decimal ) ) {
+				$format_decimal = $i18n_decimal;
+			}
+
+			if ( ! empty( $i18n_thousand ) ) {
+				$format_thousands = $i18n_thousand;
+			}
+		}
+
+		return array(
+			'decimal'   => $format_decimal,
+			'thousands' => $format_thousands,
+		);
 	}
 
 }

@@ -27,6 +27,7 @@ class Su_Generator_Views {
 	}
 
 	public static function select( $id, $field ) {
+
 		// Multiple selects
 		$multiple = ( isset( $field['multiple'] ) ) ? ' multiple' : '';
 		$return = '<select name="' . $id . '" id="su-generator-attr-' . $id . '" class="su-generator-attr"' . $multiple . '>';
@@ -39,6 +40,53 @@ class Su_Generator_Views {
 		}
 		$return .= '</select>';
 		return $return;
+
+	}
+
+	public static function post_type( $id, $field ) {
+
+		// Get post types
+		$types = get_post_types( array(), 'objects', 'or' );
+
+		// Prepare empty array for values
+		$field['values'] = array();
+
+		// Fill the array
+		foreach( $types as $type ) {
+			$field['values'][$type->name] = $type->label;
+		}
+
+		// Create select
+		return self::select( $id, $field );
+
+	}
+
+	public static function taxonomy( $id, $field ) {
+
+		// Get taxonomies
+		$taxonomies = get_taxonomies( array(), 'objects', 'or' );
+
+		// Prepare empty array for values
+		$field['values'] = array();
+
+		// Fill the array
+		foreach( $taxonomies as $taxonomy ) {
+			$field['values'][$taxonomy->name] = $taxonomy->label;
+		}
+
+		// Create select
+		return self::select( $id, $field );
+
+	}
+
+	public static function term( $id, $field ) {
+
+		// Get categories
+		$field['values'] = Su_Tools::get_terms( 'category' );
+
+		// Create select
+		return self::select( $id, $field );
+
 	}
 
 	public static function bool( $id, $field ) {
@@ -146,6 +194,14 @@ class Su_Generator_Views {
 				'style'    => 'display:none'
 			) );
 		$return = '<div class="su-generator-isp">' . $sources . '<div class="su-generator-isp-source su-generator-isp-source-media"><div class="su-generator-clearfix"><a href="javascript:;" class="button button-primary su-generator-isp-add-media"><i class="fa fa-plus"></i>&nbsp;&nbsp;' . __( 'Add images', 'shortcodes-ultimate' ) . '</a></div><div class="su-generator-isp-images su-generator-clearfix"><em class="description">' . __( 'Click the button above and select images.<br>You can select multimple images with Ctrl (Cmd) key', 'shortcodes-ultimate' ) . '</em></div></div><div class="su-generator-isp-source su-generator-isp-source-category"><em class="description">' . __( 'Select categories to retrieve posts from.<br>You can select multiple categories with Ctrl (Cmd) key', 'shortcodes-ultimate' ) . '</em>' . $categories . '</div><div class="su-generator-isp-source su-generator-isp-source-taxonomy"><em class="description">' . __( 'Select taxonomy and it\'s terms.<br>You can select multiple terms with Ctrl (Cmd) key', 'shortcodes-ultimate' ) . '</em>' . $taxonomies . $terms . '</div><input type="hidden" name="' . $id . '" value="' . $field['default'] . '" id="su-generator-attr-' . $id . '" class="su-generator-attr" /></div>';
+		return $return;
+	}
+
+	public static function extra_css_class( $id, $field ) {
+		$field = wp_parse_args( $field, array(
+			'default' => ''
+		) );
+		$return = '<input type="text" name="' . $id . '" value="' . esc_attr( $field['default'] ) . '" id="su-generator-attr-' . $id . '" class="su-generator-attr" />';
 		return $return;
 	}
 

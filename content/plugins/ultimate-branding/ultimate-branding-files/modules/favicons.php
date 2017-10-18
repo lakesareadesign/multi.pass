@@ -89,6 +89,9 @@ class ub_favicons {
 	 * @since 1.9.0
 	 */
 	function enqueue_scripts() {
+		if ( ! is_user_logged_in() ) {
+			return;
+		}
 		global $ub_version;
 		wp_register_style( 'favicons-front', ub_files_url( 'modules/favicons/css/front.css' )  . '', false, $ub_version );
 		wp_enqueue_style( 'favicons-front' );

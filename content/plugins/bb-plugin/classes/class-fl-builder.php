@@ -325,7 +325,7 @@ final class FLBuilder {
 		$ver     = FL_BUILDER_VERSION;
 		$css_url = plugins_url( '/css/', FL_BUILDER_FILE );
 		$js_url  = plugins_url( '/js/', FL_BUILDER_FILE );
-		$min     = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
+		$min     = ( self::is_debug() ) ? '' : '.min';
 
 		// Register additional CSS
 		wp_register_style( 'fl-slideshow',           $css_url . 'fl-slideshow.css', array( 'yui3' ), $ver );
@@ -412,6 +412,7 @@ final class FLBuilder {
 				if ( 'slideshow' == $row->settings->bg_type ) {
 					wp_enqueue_script( 'yui3' );
 					wp_enqueue_script( 'fl-slideshow' );
+					wp_enqueue_script( 'jquery-imagesloaded' );
 					wp_enqueue_style( 'fl-slideshow' );
 				} elseif ( 'video' == $row->settings->bg_type ) {
 					wp_enqueue_script( 'jquery-imagesloaded' );
@@ -498,7 +499,7 @@ final class FLBuilder {
 		}
 
 		// Render if the file doesn't exist.
-		if ( ! file_exists( $path ) || $rerender || ( defined( 'WP_DEBUG' ) && WP_DEBUG ) ) {
+		if ( ! file_exists( $path ) || $rerender || self::is_debug() ) {
 			call_user_func_array( array( 'FLBuilder', 'render_' . $type ), array( $global ) );
 		}
 
@@ -551,7 +552,7 @@ final class FLBuilder {
 			wp_enqueue_style( 'bootstrap-tour',          $css_url . 'bootstrap-tour-standalone.min.css', array(), $ver );
 
 			// Enqueue individual builder styles if WP_DEBUG is on.
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( self::is_debug() ) {
 				wp_enqueue_style( 'fl-color-picker',         $css_url . 'fl-color-picker.css', array(), $ver );
 				wp_enqueue_style( 'fl-lightbox',             $css_url . 'fl-lightbox.css', array(), $ver );
 				wp_enqueue_style( 'fl-icon-selector',        $css_url . 'fl-icon-selector.css', array(), $ver );
@@ -599,7 +600,7 @@ final class FLBuilder {
 			wp_enqueue_script( 'ace-language-tools', 		$js_url . 'ace/ext-language_tools.js', array(), $ver );
 
 			// Enqueue individual builder scripts if WP_DEBUG is on.
-			if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			if ( self::is_debug() ) {
 				wp_enqueue_script( 'fl-color-picker',        			$js_url . 'fl-color-picker.js', array(), $ver );
 				wp_enqueue_script( 'fl-lightbox',            			$js_url . 'fl-lightbox.js', array(), $ver );
 				wp_enqueue_script( 'fl-icon-selector',       			$js_url . 'fl-icon-selector.js', array(), $ver );
@@ -1971,6 +1972,12 @@ final class FLBuilder {
 	/**
 	 * Renders the CSS for a single module.
 	 *
+	 * NOTE: This is not used to render CSS for modules in the FLBuilder::render_css
+	 * method. Instead it is used to render CSS for one module inside of another.
+	 * For example, you can use this along with FLBuilder::render_module_html to
+	 * render a button module inside of a callout module. If you need to filter the
+	 * CSS for the layout, consider using the fl_builder_render_css filter instead.
+	 *
 	 * @since 1.0
 	 * @param string $type The type of module.
 	 * @param object $id A module node ID.
@@ -1988,7 +1995,12 @@ final class FLBuilder {
 		$module = new $class();
 		$module->settings = $settings;
 
+		// CSS
+		ob_start();
 		include $module->dir . 'includes/frontend.css.php';
+		$css = ob_get_clean();
+
+		echo apply_filters( 'fl_builder_render_module_css', $css, $module );
 	}
 
 	/**
@@ -2144,7 +2156,7 @@ final class FLBuilder {
 		// Save the css
 		$css = apply_filters( 'fl_builder_render_css', $css, $nodes, $global_settings, $include_global );
 
-		if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+		if ( ! self::is_debug() ) {
 			$css = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
 			$css = str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    ' ), '', $css );
 		}
@@ -2249,17 +2261,19 @@ final class FLBuilder {
 		}// End if().
 
 		// Default page heading
-		if ( ! $global_settings->show_default_heading && ! empty( $global_settings->default_heading_selector ) ) {
-			$heading_selector = esc_attr( $global_settings->default_heading_selector );
+		if ( FLBuilderModel::is_builder_enabled() ) {
+			if ( ! $global_settings->show_default_heading && ! empty( $global_settings->default_heading_selector ) ) {
+				$heading_selector = esc_attr( $global_settings->default_heading_selector );
 
-			// If the value starts with `body` or `.fl-builder` selector, we use custom selectors
-			if ( 0 === strpos( $heading_selector, 'body' ) || 0 === strpos( $heading_selector, '.fl-builder' ) ) {
-				$css .= $heading_selector;
-			} else {
-				$css .= '.page ' . $heading_selector . ', .single-fl-builder-template ' . $heading_selector;
+				// If the value starts with `body` or `.fl-builder` selector, we use custom selectors
+				if ( 0 === strpos( $heading_selector, 'body' ) || 0 === strpos( $heading_selector, '.fl-builder' ) ) {
+					$css .= $heading_selector;
+				} else {
+					$css .= '.page ' . $heading_selector . ', .single-fl-builder-template ' . $heading_selector;
+				}
+
+				$css .= ' { display:none; }';
 			}
-
-			$css .= ' { display:none; }';
 		}
 
 		return $css;
@@ -2572,7 +2586,7 @@ final class FLBuilder {
 		// Save the JS.
 		if ( ! empty( $js ) ) {
 
-			if ( ! defined( 'WP_DEBUG' ) || ! WP_DEBUG ) {
+			if ( ! self::is_debug() ) {
 				try {
 					$min = FLJSMin::minify( $js );
 				} catch ( Exception $e ) {}
@@ -2807,6 +2821,22 @@ final class FLBuilder {
 	 */
 	static public function default_image_html( $classes ) {
 		return sprintf( '<img src="%s" class="%s" />', FL_BUILDER_URL . 'img/no-image.png', $classes );
+	}
+
+	/**
+	 * Check if debug is enabled.
+	 * @since 1.10.8.2
+	 * @return bool
+	 */
+	static public function is_debug() {
+
+		$debug = false;
+
+		if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+			$debug = true;
+		}
+
+		return apply_filters( 'fl_is_debug', $debug );
 	}
 
 	/**

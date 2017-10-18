@@ -226,7 +226,7 @@ class CoursePress_Template_Communication {
 		);
 		$content .= '<div class="discussion-section">
 				<label><span>' .
-				esc_html( 'This discussion is about ', 'cp' ) .
+				esc_html__( 'This discussion is about ', 'cp' ) .
 				CoursePress_Helper_UI::get_unit_dropdown( 'unitID', 'unit_id', $course_id, false, $options_unit ) .
 				'</span></label>
 			</div>

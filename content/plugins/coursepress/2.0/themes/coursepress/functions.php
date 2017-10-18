@@ -287,7 +287,20 @@ if ( ! function_exists( 'coursepress_filter_search' ) ) :
 		if ( is_admin() ) { return $query; }
 
 		// On front-end we always search for post and course items!
-		$query->set( 'post_type', array( 'post', 'course' ) );
+		$current_types = $query->get('post_type');
+		if ( !empty( $current_types ) ) {
+			$current_types = (array) $current_types;
+		}
+
+		$added_types = array( 'post', 'course' );
+		if ( empty( $current_types ) ) {
+			$new_types = $added_types;
+		} elseif ( in_array( 'post', $current_types ) ) {
+			$new_types = array_unique( array_merge( $current_types, $added_types ) );
+		}
+		if ( isset( $new_types ) ) {
+			$query->set( 'post_type', $new_types );
+		}
 
 		return $query;
 	}

@@ -28,9 +28,9 @@
 			// if screen width is resized, reload the menu
 		    if( width != this.currentBrowserWidth ){
 
+				this.currentBrowserWidth = width;
 				this._initMenu();
  				this._clickOrHover();
-		    	this.currentBrowserWidth = width;
 			}
 
 		}, this ) );
@@ -90,6 +90,7 @@
 		 * @see    this._menuOnCLick()
 		 * @see    this._clickOrHover()
 		 * @see    this._submenuOnRight()
+		 * @see    this._submenuRowZindexFix()
 		 * @see    this._toggleForMobile()
 		 * @since  1.6.1
 		 * @return void
@@ -110,6 +111,7 @@
 			} else {
 				$( this.wrapperClass ).off( 'click' );
 				this._submenuOnRight();
+				this._submenuRowZindexFix();
 			}
 
 			if( this.mobileToggle != 'expanded' ){
@@ -166,10 +168,10 @@
 				if ($(this.wrapperClass).hasClass('fl-menu-accordion-collapse')) {
 
 					if ( !$link.parents('.menu-item').hasClass('fl-active') ) {
-						$('.fl-active', this.wrapperClass).not($link).removeClass('fl-active');
+						$('.menu .fl-active', this.wrapperClass).not($link).removeClass('fl-active');
 					}
 					else if ($link.parents('.menu-item').hasClass('fl-active') && $link.parent('.sub-menu').length) {
-						$('.fl-active', this.wrapperClass).not($link).not($activeParent).removeClass('fl-active');
+						$('.menu .fl-active', this.wrapperClass).not($link).not($activeParent).removeClass('fl-active');
 					}
 
 					$('.sub-menu', this.wrapperClass).not($subMenu).not($subMenuParents).slideUp('normal');
@@ -278,6 +280,37 @@
 					$( e.currentTarget ).removeClass( 'fl-menu-submenu-right' );
 				}, this ) );
 
+		},
+
+		/**
+		 * Logic to prevent submenus to go behind the next overlay row.
+		 *
+		 * @since  1.10.9
+		 * @return void
+		 */
+		_submenuRowZindexFix: function( e ){
+
+			$( this.wrapperClass )
+				.on( 'mouseenter', 'ul.menu > .fl-has-submenu', $.proxy( function( e ){
+
+					if( $ ( e.currentTarget ).find('.sub-menu').length === 0 ) {
+						return;
+					}
+
+					$( this.nodeClass )
+						.closest( '.fl-row' )
+						.find( '.fl-row-content' )
+						.css( 'z-index', '10' );
+
+				}, this ) )
+				.on( 'mouseleave', 'ul.menu > .fl-has-submenu', $.proxy( function( e ){
+
+					$( this.nodeClass )
+						.closest( '.fl-row' )
+						.find( '.fl-row-content' )
+						.css( 'z-index', '' );
+
+				}, this ) );
 		},
 
 		/**

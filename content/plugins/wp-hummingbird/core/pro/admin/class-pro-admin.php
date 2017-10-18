@@ -68,10 +68,28 @@ class WP_Hummingbird_Pro_Admin {
 	public function reporting_metabox() {
 		$settings = wphb_get_settings();
 
+		$week_days = array(
+			'Monday',
+			'Tuesday',
+			'Wednesday',
+			'Thursday',
+			'Friday',
+			'Saturday',
+			'Sunday',
+		);
+
+		$hour = mt_rand( 0, 23 );
+
 		$notification = wphb_is_member() ? $settings['email-notifications'] : false;
 		$frequency = wphb_is_member() ? $settings['email-frequency'] : 7;
-		$send_day = wphb_is_member() ? $settings['email-day'] : 'Monday';
-		$send_time = wphb_is_member() ? $settings['email-time'] : '1:00';
+		$send_day = wphb_is_member() ? $settings['email-day'] : $week_days[ array_rand( $week_days, 1 ) ];
+		$send_time = $hour . ':00';
+		if ( wphb_is_member() ) {
+			// Remove the minutes from the hour to not confuse the user.
+			$send_time = explode( ':', $settings['email-time'] );
+			$send_time[1] = '00';
+			$send_time = implode( ':', $send_time );
+		}
 		$recipients = wphb_is_member() ? $settings['email-recipients'] : array();
 
 		$args = compact( 'notification', 'frequency', 'send_day', 'send_time', 'recipients' );

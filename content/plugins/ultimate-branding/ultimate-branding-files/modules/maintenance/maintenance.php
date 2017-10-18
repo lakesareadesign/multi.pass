@@ -29,9 +29,20 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 			$this->set_options();
 			add_action( 'ultimatebranding_settings_maintenance', array( $this, 'admin_options_page' ) );
 			add_filter( 'ultimatebranding_settings_maintenance_process', array( $this, 'update' ), 10, 1 );
-
 			add_action( 'template_redirect', array( $this, 'render' ),0 );
 			add_filter( 'rest_authentication_errors', array( $this, 'only_allow_logged_in_rest_access' ) );
+		}
+
+		/**
+		 * modify option name
+		 *
+		 * @since 1.9.2
+		 */
+		public function get_module_option_name( $option_name, $module ) {
+			if ( is_string( $module ) && 'maintenance' == $module ) {
+				return $this->option_name;
+			}
+			return $option_name;
 		}
 
 		protected function set_options() {
@@ -230,7 +241,7 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 						continue;
 					}
 					$re = sprintf( '/{%s_%s}/', $section, $name );
-					$template = preg_replace( $re, $value, $template );
+					$template = preg_replace( $re, stripcslashes( $value ), $template );
 				}
 			}
 			/**

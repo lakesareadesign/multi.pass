@@ -1294,7 +1294,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 						'default' => __( 'Access Course', 'cp' ),
 					),
 					'list_page' => array(
-						'content' => __( 'Show button to course details..', 'cp' ),
+						'content' => __( 'Show button to course details.', 'cp' ),
 						'default' => 'false',
 					),
 					'not_started_text' => array(
@@ -1422,7 +1422,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 						'default' => 'empty',
 					),
 					'completed_label' => array(
-						'content' => __( 'Label for completed courses list..', 'cp' ),
+						'content' => __( 'Label for completed courses list.', 'cp' ),
 						'default' => __( 'Completed courses', 'cp' ),
 					),
 					'context' => array(

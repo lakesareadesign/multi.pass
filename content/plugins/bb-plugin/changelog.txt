@@ -1,3 +1,45 @@
+<h4>1.10.9.1 10/12/17</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed hide page title in global settings.</li>
+</ul>
+
+<h4>1.10.9 10/10/17</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Disable Auto-Optimize when the builder is active.</li>
+	<li>Numbers Module now supports decimals.</li>
+	<li>New filter <code>fl_builder_render_module_css</code>.</li>
+	<li>New filter <code>fl_is_debug</code>. This allows developers to run site with no caching without having to use WP_DEBUG.</li>
+	<li>Plugin info lightbox and plugin updates list are now white labeled correctly.</li>
+	<li>Contact Form Module placeholders are now configurable.</li>
+	<li>Added Themer field connection to video lightbox URL.</li>
+	<li>Updated language files.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed an issue with Contact Form Module reCAPTCHA when cURL is not available.</li>
+	<li>Fixed possible JS error when more than one video is set to autoplay.</li>
+	<li>Fixed some PHP warnings in WP admin area on Windows servers.</li>
+	<li>Fixed an importer issue when PHP PCRE limit is set too low.</li>
+	<li>Fixed an issue where pages that are not under builder control inherit global settings when a theme layout is on the page.</li>
+	<li>Fixed issue with row background not waiting for images to be loaded before starting slideshow effect.</li>
+	<li>Fixed Menus Module disappearing on device orientation change.</li>
+	<li>Fixed module positioning issue with multiple nested columns.</li>
+	<li>Fixed row background video issues with Safari.</li>
+	<li>Fixed possible JS issue in Numbers Module, switched to using wp_add_inline_script()</li>
+	<li>Fixed possible XSS exploit on links that use _blank by adding noopener to rel.</li>
+	<li>Fixed the active class on hamburger toggle. Making sure that active class toggles only when clicking the hamburger icon.</li>
+	<li>Fixed issue with custom width for column not working if equal height is enabled.</li>
+	<li>Fixed submenu hover when the next row is using background overlay.</li>
+</ul>
+
+<h4>1.10.8.3 09/29/17</h4>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed a minor security issue with <code>fl_builder_export_templates_data</code> action.</li>
+</ul>
+
 <h4>1.10.8.2 09/12/2017</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

@@ -187,7 +187,7 @@ class FLContentSliderModule extends FLBuilderModule {
 				'icon_position'     => isset( $slide->btn_icon_position ) ? $slide->btn_icon_position : 'before',
 				'icon_animation'    => isset( $slide->btn_icon_animation ) ? $slide->btn_icon_animation : 'before',
 				'link'              => $slide->link,
-				'link_nofollow'		=> isset( $slide->link_nofollow ) ? $slide->link_nofollow : 'no',
+				'link_nofollow'     => isset( $slide->link_nofollow ) ? $slide->link_nofollow : 'no',
 				'link_target'       => $slide->link_target,
 				'padding'           => $slide->btn_padding,
 				'style'             => ( isset( $slide->btn_3d ) && $slide->btn_3d ) ? 'gradient' : $slide->btn_style,

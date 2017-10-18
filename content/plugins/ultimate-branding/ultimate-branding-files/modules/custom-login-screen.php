@@ -47,6 +47,18 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 			add_action( 'ub_helper_admin_options_page_before_options', array( $this, 'before_admin_options_page' ) );
 		}
 
+		/**
+		 * modify option name
+		 *
+		 * @since 1.9.2
+		 */
+		public function get_module_option_name( $option_name, $module ) {
+			if ( is_string( $module ) && 'login-screen' == $module ) {
+				return $this->option_name;
+			}
+			return $option_name;
+		}
+
 		public function output() {
 			$this->proceed_gettext = true;
 			$value = ub_get_option( $this->option_name );

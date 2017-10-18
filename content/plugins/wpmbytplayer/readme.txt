@@ -3,8 +3,8 @@
 Contributors: pupunzi
 Tags: video player, youtube, full background, video, HTML5, flash, mov, jquery, pupunzi, mb.components, cover video, embed, embed videos, embed youtube, embedding, plugin, shortcode, video cover, video HTML5, youtube, youtube embed, youtube player, youtube videos
 Requires at least: 3.0
-Tested up to: 4.7
-Stable tag:  3.1.4
+Tested up to: 4.8
+Stable tag:  3.1.55
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DSHAHSJJCQ53Y
 License: GPLv2 or later
 
@@ -28,10 +28,10 @@ note:
 If you don't want ADs on your background video and you are the owner of it you can disable this on your Youtube channel as explained here: http://candidio.com/blog/how-to-remove-ads-from-your-youtube-videos .
 
 
-* demo: http://pupunzi.com/mb.components/mb.YTPlayer/demo/demo.html
-* video: http://www.youtube.com/watch?v=lTW937ld02Y
-* pupunzi blog: http://pupunzi.open-lab.com
-* pupunzi site: http://pupunzi.com
+* demo: <a href="http://pupunzi.com/mb.components/mb.YTPlayer/demo/demo.html" target="_blank">See the Youtube background video in action!</a>
+* video: <a href="http://www.youtube.com/watch?v=lTW937ld02Y" target="_blank">See a short video tutorial</a>
+* pupunzi blog: <a href="http://pupunzi.open-lab.com" target="_blank">Go to my blog</a>
+* pupunzi site: <a href="http://pupunzi.com" target="_blank">Go to my site</a>
 
 This plug in has been tested successfully on:
 
@@ -107,6 +107,12 @@ The mb.YTPlayer doesn't work on any mobile devices (iOs, Android, Windows, etc.)
 Adding a background image to the body as mobile devices fallback is a good practice and it will also prevent unwanted white flickering on desktop browsers when the video is buffering.
 
 == Changelog ==
+
+= 3.1.55 =
+Bug fix: Fixed a bug introduced with the latest 3.1.5 release that was pewventing controls to work as aspected.
+
+= 3.1.5 =
+New feature: Now you can have the background video also on mobile devices.
 
 = 3.1.4 =
 Updates: Added a new option to remember the video time elapse next time you enter the page.

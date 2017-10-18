@@ -68,12 +68,23 @@ class WP_Hummingbird_Module_Reporting_Cron extends WP_Hummingbird_Module {
 	 * @since  1.5.0
 	 */
 	public function add_default_options( $settings ) {
+		$week_days = array(
+			'Monday',
+			'Tuesday',
+			'Wednesday',
+			'Thursday',
+			'Friday',
+			'Saturday',
+			'Sunday',
+		);
+
+		$hour = mt_rand( 0, 23 );
 
 		$settings['email-notifications'] = false;
 		$settings['email-recipients'] = array();
 		$settings['email-frequency'] = 7;
-		$settings['email-day'] = ( '1' === get_option( 'start_of_week' ) ) ? 'Monday' : 'Sunday';
-		$settings['email-time'] = '1:00';
+		$settings['email-day'] = $week_days[ array_rand( $week_days, 1 ) ];
+		$settings['email-time'] = $hour . ':00';
 
 		return $settings;
 
@@ -154,8 +165,8 @@ class WP_Hummingbird_Module_Reporting_Cron extends WP_Hummingbird_Module {
 		if ( $clear_cron ) {
 			wp_clear_scheduled_hook( 'wphb_performance_scan' );
 		}
-
 		$settings = wphb_get_settings();
+
 		switch ( $settings['email-frequency'] ) {
 			case '1':
 				// Check if the time is over or not, then send the date.

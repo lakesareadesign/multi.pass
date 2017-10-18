@@ -710,7 +710,7 @@ function wphb_get_days_of_week() {
 function wphb_get_times() {
 	$data = array();
 	for ( $i = 0; $i < 24; $i ++ ) {
-		foreach ( apply_filters( 'wphb_scan_get_times_interval', array( '00', '30' ) ) as $min ) {
+		foreach ( apply_filters( 'wphb_scan_get_times_interval', array( '00' ) ) as $min ) {
 			$time          = $i . ':' . $min;
 			$data[ $time ] = apply_filters( 'wphb_scan_get_times_hour_min', $time );
 		}

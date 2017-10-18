@@ -3,7 +3,7 @@
 Class Name: Simple Options
 Class URI: http://iworks.pl/
 Description: Simple option class to manage options.
-Version: 1.0.1
+Version: 1.0.2
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GPLv2 or later
@@ -27,12 +27,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 == CHANGELOG ==
 
-= 1.0.1 =
+= 1.0.2 =
+- Move section description into "inside" div.
 
+= 1.0.1 =
 - Added description for section without fields.
 
 = 1.0.0 =
-
 - Init version.
 
  */
@@ -92,10 +93,16 @@ if ( ! class_exists( 'simple_options' ) ) {
 				 * Section title
 				 */
 				$content .= sprintf( ' <h2 class="hndle">%s</h2>', $option['title'] );
+				/**
+				 * open inside
+				 */
+				$content .= '<div class="inside">';
+				/**
+				 * add description
+				 */
 				if ( isset( $option['description'] ) && ! empty( $option['description'] ) ) {
 					$content .= sprintf( '<p class="description">%s</p>', $option['description'] );
 				}
-				$content .= '<div class="inside">';
 				/**
 				 * table
 				 */
@@ -473,24 +480,30 @@ if ( ! class_exists( 'simple_options' ) ) {
 			if ( isset( $_REQUEST['section'] ) && isset( $_REQUEST['tab'] ) && isset( $_REQUEST['nonce'] ) ) {
 				if ( wp_verify_nonce( $_REQUEST['nonce'], 'reset-section-'.$_REQUEST['section'] ) ) {
 					$option_name = ub_get_option_name_by_module( $_REQUEST['tab'] );
-					if ( 'unknown' != $option_name ) {
+					$success = false;
+					if ( 'unknown' == $option_name ) {
+						$success = apply_filters( 'ultimatebranding_reset_section', $success, $_REQUEST['tab'], $_REQUEST['section'] );
+					} else {
 						$value = ub_get_option( $option_name );
 						if ( isset( $value[ $_REQUEST['section'] ] ) ) {
 							unset( $value[ $_REQUEST['section'] ] );
 							ub_update_option( $option_name , $value );
-							$admin = isset( $_REQUEST['network'] ) && $_REQUEST['network'] ? network_admin_url( 'admin.php' ):admin_url( 'admin.php' );
-							$data = array(
-								'redirect' => add_query_arg(
-									array(
-										'msg' => 'reset-section-success',
-										'page' => 'branding',
-										'tab' => $_REQUEST['tab'],
-									),
-									$admin
-								),
-							);
-							wp_send_json_success( $data );
+							$success = true;
 						}
+					}
+					if ( $success ) {
+						$admin = isset( $_REQUEST['network'] ) && $_REQUEST['network'] ? network_admin_url( 'admin.php' ):admin_url( 'admin.php' );
+						$data = array(
+							'redirect' => add_query_arg(
+								array(
+									'msg' => 'reset-section-success',
+									'page' => 'branding',
+									'tab' => $_REQUEST['tab'],
+								),
+								$admin
+							),
+						);
+						wp_send_json_success( $data );
 					}
 				}
 			}

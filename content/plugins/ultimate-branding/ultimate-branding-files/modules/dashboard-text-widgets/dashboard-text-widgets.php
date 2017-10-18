@@ -58,7 +58,7 @@ if ( ! class_exists( 'ub_dashboard_text_widgets' ) ) {
 			} else if ( (isset( $_GET['act'] )) && ($_GET['act'] == 'edit') ) {
 				if ( (isset( $_GET['number'] )) && ( ! empty( $_GET['number'] )) ) {
 					$df_widgets = $this->get_items();
-					$df_item_number 		= esc_attr( $_GET['number'] );
+					$df_item_number = esc_attr( $_GET['number'] );
 					if ( isset( $df_widgets[ $df_item_number ] ) ) {
 						$df_widgets[ $df_item_number ]['number'] = $df_item_number;
 
@@ -120,7 +120,7 @@ if ( ( ! $df_widgets) || ( ! is_array( $df_widgets )) ) {
 			} else {
 				$widget_options['number'] = '0';
 			}
-			$widget_options['title'] = isset( $widget_options['title'] )? $widget_options['title']:'';
+			$widget_options['title'] = stripslashes( isset( $widget_options['title'] )? $widget_options['title']:'' );
 			$widget_options['content'] = isset( $widget_options['content'] )? $widget_options['content']:'';
 			$widget_options['show-on'] = isset( $widget_options['show-on'] )? $widget_options['show-on']:array();
 			$widget_options['show-on']['site'] = isset( $widget_options['show-on']['site'] )? $widget_options['show-on']['site']:'on';
@@ -319,15 +319,31 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Text_Widget' ) ) {
 			}
 			$this->widget_options = $options;
 			wp_add_dashboard_widget( $this->widget_id,
-				$this->widget_options['title'],
+				stripslashes( $this->widget_options['title'] ),
 				array( &$this, 'wp_dashboard_widget_display' )
 			);
+			add_action( 'admin_enqueue_scripts', array( $this, 'load_style' ) );
 		}
+
+		/**
+		 * Load styles.
+		 *
+		 * @since 1.9.2
+		 */
+		public function load_style() {
+			global $ub_version;
+			wp_register_style( __CLASS__, plugins_url( 'dashboard-text-widgets-admin.css', __FILE__ ), false, $ub_version );
+			wp_enqueue_style( __CLASS__ );
+		}
+
 		function wp_dashboard_widget_display() {
-			echo '<div class="rss-widget">';
-			echo$this->widget_options['content_parse'];
-			echo '</div>';
+			$content = $this->widget_options['content'];
+			if ( isset( $this->widget_options['content_parse'] ) ) {
+				$content = $this->widget_options['content_parse'];
+			}
+			printf ( '<div class="ub-widget">%s</div>', stripslashes( $content ) );
 		}
+
 		function wp_dashboard_widget_controls() {
 			wp_widget_rss_form( $this->widget_options );
 		}

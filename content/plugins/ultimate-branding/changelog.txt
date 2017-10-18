@@ -1,13 +1,26 @@
-﻿Plugin Name: Ultimate Branding
+Plugin Name: Ultimate Branding
 Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve Bailovity (Incsub), Sam Najian (Incsub), Joseph Fusco (Incsub), Marcin Pietrzak (Incsub)
 
 Change Log:
 ----------------------------------------------------------------------
-----------------------------------------------------------------------
+
+DATE: 09 Oct, 2017  - VERSION: 1.9.2
+==================================
+- Added new module "Image Upload Size" to allow setup upload limit per role.
+- Added ability to import custom admin bar menus.
+- Fixed a problem with warnings in "Email Template" module.
+- Fixed display problem of Dashboard Feeds when feed URL contains some special characters.
+- Fixed display problem of Dashboard Feeds when the title is empty.
+- Fixed incompatibility with iThemes sync.
+- Fixed problem with "reset section to default" for module "Comming Soon Page & Maintenance Mode".
+- Fixed problem with slashes for module "Comming Soon Page & Maintenance Mode".
+- Fixed quotes problem in modules: "Admin Panel Tips" and "Dashboard Text Widgets".
+- Improved CSS styles loading - now we avoid to load two of them when it is not necessary.
+- Removed "Save Changes" button from "Export & Import" module.
+
 DATE: 4 Sep, 2017  - VERSION: 1.9.1.1
 ==================================
 - Fixed error when Admin bar and Admin Bar logo are both active
-
 
 DATE: 4 Sep, 2017  - VERSION: 1.9.1
 ==================================
@@ -167,11 +180,9 @@ DATE: 22 APR, 2015  - VERSION: 1.8.1
 - Fixed: Vulnerability in add_query_arg and remove_query_arg
 - Fixed: double “pages” in admin export page
 
-
 DATE: 23 Jan, 2015  - VERSION: 1.8.0.4
 ==================================
 1) Fixed bug in text change module
-
 
 DATE: 19 Jan, 2015  - VERSION: 1.8.0.3
 ==================================
@@ -182,7 +193,6 @@ DATE: 18 Jan, 2015  - VERSION: 1.8.0.2
 1) Fixed bug in text change for replacing punctuations
 2) Fixed bug in contextual help content
 3) Added visual editor to help content
-
 
 DATE: 18 Oct, 2014  - VERSION: 1.8.0.1
 ==================================
@@ -199,8 +209,6 @@ DATE: 13 Sept, 2014  - VERSION: 1.8
 6) Fixed bug caused by some servers that fail to return image sizes ( Login Image )
 7) Added “Admin Message”
 
-
-
 DATE: 26 Jun, 2014  - VERSION: 1.7.2.1
 ==================================
 1) Accepting relative image url as login image
@@ -214,7 +222,6 @@ DATE: 13 May, 2014  - VERSION: 1.7.2
 - Added ability to reorder custom menus as well as default menus ( Custom Admin Bar )
 - Fixed default style for images used as link title ( Custom Admin Bar )
 
-
 DATE: 07 May, 2014  - VERSION: 1.7.1
 ==================================
 - Added default style for image in menu title ( Custom Admin Bar )
@@ -223,12 +230,9 @@ DATE: 07 May, 2014  - VERSION: 1.7.1
 - Fixed issue with added custom menus not showing on sub sites ( Custom Admin Bar )
 - Added better support for older php versions ( v5.2.17+ )
 
-
-
 DATE: 06 May, 2014  - VERSION: 1.7.0.1
 ==================================
 - Fixed problem with png images in menu title
-
 
 DATE: 06 May, 2014  - VERSION: 1.7
 ==================================
@@ -277,11 +281,9 @@ DATE: 27 NOV, 2013 - VERSION: 1.5.3
 - Updated Login Image module (2.0.3) - added check for backwards compatibility
 - Fixed issue with media browse button caused by browser cache
 
-
 DATE: 26 NOV, 2013 - VERSION: 1.5.2
 ==================================
 - Fixed issues with failure responses on requested URL in login image module
-
 
 DATE: 25 NOV, 2013 - VERSION: 1.5.0
 ==================================
@@ -395,4 +397,5 @@ DATE: 09 JUN, 2012 - VERSION: 1
 - Initial release of the Ultimate Branding plugin
 
 
-133620-1505265128-au
+
+133620-1508360138-au

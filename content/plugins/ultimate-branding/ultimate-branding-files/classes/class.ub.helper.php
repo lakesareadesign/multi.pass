@@ -24,19 +24,22 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		protected $data = null;
 		protected $option_name;
 		protected $url;
-
 		public function __construct() {
-			if ( is_admin() || is_network_admin() ) {
+			if ( is_admin() ) {
 				global $uba;
+				$params = array(
+					'page' => 'branding',
+				);
+				if ( is_a( $uba, 'UltimateBrandingAdmin' ) ) {
+					$params['tab'] = $uba->get_current_tab();
+				}
 				$this->url = add_query_arg(
-					array(
-						'page' => 'branding',
-						'tab' => $uba->get_current_tab(),
-					),
-					is_network_admin()? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' )
+					$params,
+					is_network_admin() ? network_admin_url( 'admin.php' ) : admin_url( 'admin.php' )
 				);
 			}
 			add_filter( 'ultimate_branding_options_names', array( $this, 'add_option_name' ) );
+			add_filter( 'ultimate_branding_get_option_name', array( $this, 'get_module_option_name' ), 10, 2 );
 		}
 
 		public function add_option_name( $options ) {
@@ -177,6 +180,25 @@ if ( ! class_exists( 'ub_helper' ) ) {
 				esc_attr( $class ),
 				$message
 			);
+		}
+
+		/**
+		 * Handle filter for option name, it should be overwrite by module
+		 * method.
+		 *
+		 * @since 1.9.2
+		 */
+		public function get_module_option_name( $option_name, $module ) {
+			return $option_name;
+		}
+
+		/**
+		 * Remove "Save Changes" button from page.
+		 *
+		 * @since 1.9.2
+		 */
+		public function disable_save() {
+			add_filter( 'ultimatebranding_settings_panel_show_submit', '__return_false' );
 		}
 	}
 }

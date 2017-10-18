@@ -183,8 +183,7 @@ final class FLUpdater {
 			$info->last_updated		= $response->last_updated;
 			$info->download_link	= $response->package;
 			$info->sections 		= (array) $response->sections;
-
-			return $info;
+			return apply_filters( 'fl_plugin_info_data', $info, $response );
 		}
 
 		return $false;

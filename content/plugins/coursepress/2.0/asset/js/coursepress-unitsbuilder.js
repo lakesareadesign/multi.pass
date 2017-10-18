@@ -1,4 +1,4 @@
-/*! CoursePress - v2.0.8
+/*! CoursePress - v2.1.1
  * https://premium.wpmudev.org/project/coursepress-pro/
  * Copyright (c) 2017; * Licensed GPLv2+ */
 /*global tinyMCEPreInit*/
@@ -74,7 +74,21 @@ var CoursePress = CoursePress || {};
 				} );
 
 				$( this ).accordion( 'refresh' );
-			}
+
+				// Fix for TinyMCE breaking after sorting the unit module.
+                var editor_tabs = this.getElementsByClassName('wp-editor-tabs');
+                $.each( editor_tabs, function( index, editor_tab ){
+                    while (editor_tab.hasChildNodes()) {
+                        editor_tab.removeChild(editor_tab.lastChild);
+                    }
+                });
+                var editors = document.querySelectorAll('textarea[id^="post_content_"]');
+                $.each( editors, function( index, editor ) {
+                    tinymce.execCommand("mceRemoveEditor", true, editor.id);
+                    tinymce.execCommand("mceAddEditor", true, editor.id);
+                })
+
+            }
 		} );
 
 		// Sortable Tabs

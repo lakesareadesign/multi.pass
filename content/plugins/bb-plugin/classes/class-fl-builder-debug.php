@@ -106,6 +106,12 @@ final class FL_Debug {
 		self::register( 'wp_debug', $args );
 
 		$args = array(
+			'name' => 'FL Debug',
+			'data' => FLBuilder::is_debug() ? 'Yes' : 'No',
+		);
+		self::register( 'fl_debug', $args );
+
+		$args = array(
 			'name' => 'SSL Enabled',
 			'data' => is_ssl() ? 'Yes' : 'No',
 		);
@@ -211,6 +217,18 @@ final class FL_Debug {
 			'data' => ( $curl ) ? sprintf( '%s - %s', $curl['version'], $curl['ssl_version'] ) : 'Not Enabled.',
 		);
 		self::register( 'curl', $args );
+
+		$args = array(
+			'name' => 'PCRE Backtrack Limit ( default 1000000 )',
+			'data' => self::safe_ini_get( 'pcre.backtrack_limit' ),
+		);
+		self::register( 'backtrack', $args );
+
+		$args = array(
+			'name' => 'PCRE Recursion Limit ( default 100000 )',
+			'data' => self::safe_ini_get( 'pcre.recursion_limit' ),
+		);
+		self::register( 'recursion', $args );
 
 		$args = array(
 			'name' => 'BB Products',

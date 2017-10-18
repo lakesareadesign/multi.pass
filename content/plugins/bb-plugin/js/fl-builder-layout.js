@@ -599,7 +599,12 @@
 				fallback  	= wrap.data( 'fallback' ),
 				fallbackTag = '';
 
-			if ( '' !== fallback ) {
+			source.remove();
+
+			if ( vid.find( 'source' ).length ) {
+				// Don't show the fallback if we still have other sources to check.
+				return;
+			} else if ( '' !== fallback ) {
 				fallbackTag = $( '<div></div>' );
 				fallbackTag.addClass( 'fl-bg-video-fallback' );
 				fallbackTag.css( 'background-image', 'url(' + fallback + ')' );

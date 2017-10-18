@@ -1,47 +1,42 @@
 === Shortcodes Ultimate ===
-Contributors: madfork, gn_themes
-License: GPL
+Contributors: gn_themes
+License: GPLv3
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MMA2VA7JDXWDY
-Tags: shortcode, shortcodes, short code, video, responsive, responsive video, youtube, vimeo, audio, mp3, tab, tabs, button, buttons, jquery, box, boxes, toggle, spoiler, column, columns, services, service, pullquote, list, lists, images, image, links, fancy, fancy link, fancy links, fancy buttons, jquery tabs, accordion, slider, plugin, admin, gallery, bloginfo, list pages, sub pages, navigation, siblings pages, children pages, permalink, permalinks, feed, document, member, members, guests, membership, documents, carousel, rss, touch, icon, icons, trl, right-to-left, multilingual, lang, international
+Tags: shortcode, toggle, columns, button, slider, video, map, visual, responsive, shortcodes, youtube, vimeo, audio, mp3, tabs, jquery, box, accordion, toggle, pullquote, list, image, gallery, navigation, permalink, feed, rss, members, membership, guests, carousel, icons, rtl, multilingual
 Requires at least: 3.5
 Tested up to: 4.8
 Stable tag: trunk
 
-Supercharge your WordPress theme with mega pack of shortcodes
+A comprehensive collection of visual components for your site
 
 
 == Description ==
 
-[Shortcodes Ultimate](http://gndev.info/shortcodes-ultimate/) is WordPress plugin that provides mega pack of shortcodes. This is really premium plugin that you can get absolutely for free!
+[Shortcodes Ultimate](https://getshortcodes.com/) is a comprehensive collection of various visual and functional elements, which you can use in the post editor, text widgets or even in template files. Using Shortcodes Ultimate you can easily create tabs, buttons, boxes, sliders and carousels, responsive videos and much, much more.
 
-With this plugin you can easily create tabs, buttons, boxes, different sliders, responsive videos and much, much more. Turn your free theme to premium in just a few clicks. Using Shortcodes Ultimate you can quickly and easily retrieve premium themes features and display it on your site. See screenshots for more information.
-
-= Premium Add-ons =
-* [Extra Shortcodes](http://gndev.info/shortcodes-ultimate/extra/) - 15+ additional shortcodes
-* [Additional Skins](http://gndev.info/shortcodes-ultimate/skins/) - 60+ additional skins for plugin shortcodes
-* [Shortcode Creator](http://gndev.info/shortcodes-ultimate/maker/) - allows you to create your own custom shortcodes
-* __[Add-ons Bundle](http://gndev.info/shortcodes-ultimate/add-ons-bundle/)__ - All-in-one, $15 OFF!
-
-= Features =
-* 50+ amazing shortcodes
-* Shortcode Generator
-* Modern design
-* Fully responsive
-* CSS3-powered
+= Feature highlights =
+* [50+ beautiful shortcodes](https://getshortcodes.com/shortcodes/)
+* 1-click shortcode insertion with live preview
+* Works with any theme
+* Modern responsive design
 * Custom CSS editor
 * Custom widget
-* Multilingual
+* Translated into 8 languages
 * RTL support
-* Works with any theme
-* Easily extendable
+* Powerful API
 
-= Never stop learning =
+= Want more? Check out premium add-ons! =
+* [Extra Shortcodes](https://getshortcodes.com/add-ons/extra-shortcodes/) - 15+ additional shortcodes
+* [Additional Skins](https://getshortcodes.com/add-ons/additional-skins/) - 60+ additional skins for plugin shortcodes
+* [Shortcode Creator](https://getshortcodes.com/add-ons/shortcode-creator/) - allows you to create your own custom shortcodes
+* __[Add-ons Bundle](https://getshortcodes.com/add-ons/add-ons-bundle/)__ - All-in-one!
 
+= Reviews by professionals =
 * [40+ Reasons Shortcodes Ultimate Is A Must Have Plugin](http://www.the-best-web-hosting-service.com/blog/2014/01/ultimateshortcodesreview/)
 * [Show Me the Shortcode](http://thewpchick.com/show-shortcode/) + Video
 * [Shortcodes Ultimate: Ultimatize your written content](http://wisdmlabs.com/blog/how-to-style-wordpress-themes-with-shortcodes-ultimate/)
 * [Shortcodes Ultimate Plugin Review](http://kevindankowebdesign.com/shortcodes-ultimate-plugin-review/)
-* [Add 4s0+ New Layout Features To WordPress with Shortcodes Ultimate](http://www.makeuseof.com/tag/add-40-new-layout-features-wordpress-shortcodes-ultimate/)
+* [Add 40+ New Layout Features To WordPress with Shortcodes Ultimate](http://www.makeuseof.com/tag/add-40-new-layout-features-wordpress-shortcodes-ultimate/)
 * [Shortcodes Ultimate – Free Shortcode Plugin For WordPress](http://www.wordpress-masterclass.com/shortcodes-ultimate-free-shortcode-plugin-for-wordpress/)
 * (Video) [Supercharge WordPress With A Mega Pack Of Shortcodes!](https://www.youtube.com/watch?v=h5hlJb0mSSY)
 * (Video) [Shortcodes Ultimate Tutorial](http://www.youtube.com/watch?v=IjmaXz-b55I)
@@ -51,64 +46,92 @@ With this plugin you can easily create tabs, buttons, boxes, different sliders, 
 * (RU) [Shortcodes Ultimate — плагин неограниченных возможностей](http://altacademic.ru/shortcodes-ultimate/)
 * (RU) [Шорткоды Wordpress](http://somemoreinfo.ru/shortkody-wordpress-ot-anoxina/)
 
-= Requirements =
-* WordPress 3.5+
-* PHP 5.1+
-
-= Got a bug or suggestion? =
-* [Support forum](http://wordpress.org/support/plugin/shortcodes-ultimate/)
-* [Documentation](http://gndev.info/kb/)
-* [Contact author](http://gndev.info/feedback/) (please *DO NOT* use this form for support requests)
-
-= Bundled translations =
-* Ru, [Vladimir Anokhin](http://gndev.info/)
-* Fr, [Nicolas Leclerc](http://etic-studio.fr/)
-* Gr, [Kleanthis Manolopoulos](mailto:akis_manolopoulos_at_hotmail_dot_com)
-* Ja, [Stranger](#)
-* Sk, [Patrik Žec (PATWIST)](http://patwist.com/)
-* Cz, [Punc00](http://nuze.cz/)
-* Se, [Javier Marcilla](http://ninjaseo.es/)
-
-Have a translation? [Contact me](http://gndev.info/feedback/)
-
-= Thanks =
+= Thanks to these great guys for contribution =
 * Dmitry Semenov - [Magnific Popup jQuery plugin](http://dimsemenov.com/plugins/magnific-popup/)
 * Craig Thompson - [qTip jQuery plugin](http://qtip2.com/)
 * Vladimir Kharlampidi - [Swiper jQuery plugin](http://www.idangero.us/sliders/swiper/)
 * Dave Gandy - [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
 * James Smith - [Simple Slider jQuery plugin](http://loopj.com/jquery-simple-slider/)
 
+= Translators =
+* pt_br: [Ibidem Translations](http://www.ibidem-translations.com/)
+* fr_fr: [Nicolas Leclerc](http://etic-studio.fr/)
+* el_gr: [Kleanthis Manolopoulos](mailto:akis_manolopoulos_at_hotmail_dot_com)
+* sk_sk: [Patrik Žec (PATWIST)](http://patwist.com/)
+* cs_cz: [Punc00](http://nuze.cz/)
+* sv_se: [Javier Marcilla](http://ninjaseo.es/)
 
 == Installation ==
 
-Unzip plugin files and upload them under your '/wp-content/plugins/' directory.
+Unzip plugin file and upload "shortcodes-ultimate" folder under your "/wp-content/plugins/" directory.
 
 Resulted names will be:
-  './wp-content/plugins/shortcodes-ultimate/*'
+"/wp-content/plugins/shortcodes-ultimate/**"
 
-Activate plugin at "Plugins" administration page.
+Activate the plugin at "Dashboard – Plugins" administration page.
 
-
-== Upgrade Notice ==
-
-Upgrade normally
+[Complete installation guide](http://docs.getshortcodes.com/article/13-plugin-installation).
 
 
 == Screenshots ==
 
-1. Generator button
-2. Shortcode Generator
-3. Super powerful buttons. Unlimited colors, sizes, icons and much more
+1. Insert Shortcode button added above the post editor
+2. Insert Shortcode window
+3. Variations of [button] shortcode
 4. Tabs, spoilers, quotes/testimonials, boxes, notes
-5. Touch-enabled slider and carousel, custom gallery
+5. Image slider, carousel and custom gallery
 
 
 == Frequently Asked Questions ==
 
-[Visit knowledge base](http://gndev.info/kb/)
+= How this plugin works =
+[How Shortcodes Ultimate plugin works](http://docs.getshortcodes.com/article/36-shortcodes-ultimate)
+
+= Shortcodes do not work. Why? =
+The most common reasons of this issue are listed [here](http://docs.getshortcodes.com/article/41-shortcodes-do-not-work).
+
+= Insert shortcode button do not work. Why? =
+The most common reasons of this issue are listed [here](http://docs.getshortcodes.com/article/42-insert-shortcode-button-do-not-work).
+
+= Can I remove default shortcodes? =
+Yes, you can remove default shortcodes using 'su/data/shortcodes' filter. Tutorial: [How to remove default shortcodes](http://docs.getshortcodes.com/article/51-how-to-remove-default-shortcodes).
+
+= Can I create custom shortcodes? =
+Yes, you can create custom shortcodes using 'su/data/shortcodes' filter. Tutorial: [How to add custom shortcodes](http://docs.getshortcodes.com/article/45-how-to-add-custom-shortcodes).
+Alternatively, you can use [Shortcode Creator add-on](https://getshortcodes.com/add-ons/shortcode-creator/).
+
+= Can I use shortcodes in template files? =
+Yes! [How to use shortcodes in template files](http://docs.getshortcodes.com/article/52-using-of-shortcodes-in-template-files).
+
+= Will this plugin work with my theme? =
+Yes! Shortcodes Ultimate is designed to work with any theme, but your theme must include very basic things: 'wp_head' and 'wp_footer' template tags. Sometimes, the plugin may not work properly because of javascript errors caused by third-party plugins/themes.
+
+= Where can I report a bug? =
+You should [create an issue at GitHub](https://github.com/gndev/shortcodes-ultimate/) or [open new support ticket](https://getshortcodes.com/account/open-support-ticket/) (for premium add-ons only).
+
+= Where to find additional information? =
+Plugin has comprehensive [documentation](http://docs.getshortcodes.com/).
+Also, you can find more answers at [support page](https://getshortcodes.com/support/).
+
+= Where can I get support or talk to other users? =
+If you get stuck, you can ask for help in [official plugin forum](https://wordpress.org/support/plugin/shortcodes-ultimate).
+For help with premium add-ons, please [open new support ticket](https://getshortcodes.com/account/open-support-ticket/).
 
 
 == Changelog ==
+
+= 5.0.0 =
+* Read [this blog post](https://vanokhin.com/whats-new-in-shortcodes-ultimate-5/) to learn more about update
+* New project website [getshortcodes.com](https://getshortcodes.com/)
+* New documentation [docs.getshortcodes.com](http://docs.getshortcodes.com/)
+* Added: 'Available shortcodes' admin menu
+* Removed: 'Examples' admin menu
+* Removed: 'Cheatsheet' admin menu
+* Fixed: [feed] shortcode (now it uses SimplePie)
+* Changed default content for [tabs], [row] and [accordion] shortcodes
+* Fixed: [user] shortcode works when user is not logged in
+* Changed: Security improvement. Plugin will now strip all HTML tags from Custom CSS code
+* Minor improvements and fixes
 
 = 4.10.2 =
 * Improved: compatibility with PHP7 ([user] and [post] shortcodes)

@@ -46,6 +46,7 @@ class UB_Admin_Bar {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enque_general_scripts' ) );
 		add_action( 'init', array( $this, 'try_to_show_admin_bar' ) );
 		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
+		add_action( 'ultimate_branding_import', array( $this, 'import' ) );
 	}
 
 	public function try_to_show_admin_bar() {
@@ -205,10 +206,8 @@ class UB_Admin_Bar {
 			}
 			ub_update_option( self::OPTION_KEY, $saved_ids );
 		}
-
 		return ! in_array( false, $result );
 	}
-
 
 	/**
 	 * Inserts new menu
@@ -657,6 +656,12 @@ UBSTYLE;
 	 * Enqueues general scripts
 	 */
 	public function enque_general_scripts() {
+		/**
+		 * Avoid to load when we do not need it.
+		 */
+		if ( ! is_admin() && 1 !== (int) UB_Admin_Bar_Forms::get_option( 'show_toolbar_for_non_logged' ) ) {
+			return;
+		}
 		global $ub_version;
 		wp_enqueue_style( 'ub_adminbar_general_styles',  ub_files_url( 'modules/custom-admin-bar-files/css/general.css' ), array(), $ub_version );
 	}
@@ -671,6 +676,9 @@ UBSTYLE;
 	 * @access public
 	 */
 	function print_style_tag() {
+		if ( ! is_admin() && 1 !== (int) UB_Admin_Bar_Forms::get_option( 'show_toolbar_for_non_logged' ) ) {
+			return;
+		}
 ?>
         <style type="text/css" id="custom-admin-bar-css">
             <?php echo self::styles();?>
@@ -698,6 +706,26 @@ UBSTYLE;
 			$data['modules'][ self::OPTION_KEY ][ $menu_id ] = ub_get_option( $id );
 		}
 		return $data;
+	}
+
+	/**
+	 * Handle custom import.
+	 *
+	 * @since 1.9.2
+	 *
+	 * @param array $data Import array.
+	 */
+	public function import( $data ) {
+		if ( isset( $data['ub_admin_bar_menus'] ) && is_array( $data['ub_admin_bar_menus'] ) ) {
+			$menus = $data['ub_admin_bar_menus'];
+			$ub_admin_bar_menus = array();
+			foreach ( $menus as $id => $menu ) {
+				$key = sprintf( 'ub_admin_bar_menu_%d', $id );
+				ub_update_option( $key, $menu );
+				$ub_admin_bar_menus[] = $id;
+			}
+			ub_update_option( 'ub_admin_bar_menus', $ub_admin_bar_menus );
+		}
 	}
 }
 

@@ -51,7 +51,7 @@ box-shadow: inset 0 1px 0 <?php echo ub_get_option( 'ucs_primary_button_backgrou
 background: <?php echo ub_get_option( 'ucs_primary_button_hover_background_color', '#EFC94C' ); ?>;
 border-color: <?php echo ub_get_option( 'ucs_primary_button_hover_background_color', '#EFC94C' ); ?>;
 color: <?php echo ub_get_option( 'ucs_primary_button_hover_text_color', '#fff' ); ?>;
--webkit-box-shadow: inset 0 1px 0 <?php echo ub_get_option( 'ucs_primary_button_hover_background_color', '#EFC94C' ); ?>, 0 1px 0 rgba(0, 0, 0, 0.15);	   	 		 		 	   		
+-webkit-box-shadow: inset 0 1px 0 <?php echo ub_get_option( 'ucs_primary_button_hover_background_color', '#EFC94C' ); ?>, 0 1px 0 rgba(0, 0, 0, 0.15);
 box-shadow: inset 0 1px 0 <?php echo ub_get_option( 'ucs_primary_button_hover_background_color', '#EFC94C' ); ?>, 0 1px 0 rgba(0, 0, 0, 0.15); }
 
 .wp-core-ui .button-primary:active {

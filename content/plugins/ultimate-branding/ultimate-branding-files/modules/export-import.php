@@ -31,6 +31,7 @@ if ( ! class_exists( 'ub_export_import' ) ) {
 
 		public function __construct() {
 			add_action( 'ultimatebranding_settings_export_import', array( $this, 'admin_options_page' ) );
+			add_action( 'ultimatebranding_settings_export_import', array( $this, 'disable_save' ) );
 			add_action( 'ultimatebranding_settings_export_import_process', array( $this, 'update' ) );
 			add_filter( 'ultimatebranding_settings_export_import_messages', array( $this, 'import_messages' ) );
 		}
@@ -73,6 +74,7 @@ if ( ! class_exists( 'ub_export_import' ) ) {
 				$import_id = $import['id'];
 				$filename = $import['file'];
 				$file_content = file_get_contents( $filename );
+
 				$options = json_decode( $file_content, true );
 				if ( ! is_array( $options ) ) {
 					return;
@@ -84,6 +86,12 @@ if ( ! class_exists( 'ub_export_import' ) ) {
 					foreach ( $options['modules'] as $meta_key => $meta_value ) {
 						ub_update_option( $meta_key, $meta_value );
 					}
+					/**
+					 * Action allow to handle custom import data.
+					 *
+					 * @since 1.9.2
+					 */
+					do_action( 'ultimate_branding_import', $options['modules'] );
 				}
 				return true;
 			}

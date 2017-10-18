@@ -110,11 +110,11 @@ if ( ! class_exists( 'Black_Studio_TinyMCE_Compatibility_Plugins' ) ) {
 		 * @since 2.3.0
 		 */
 		public function wpml_widget_before( $args, $instance ) {
-			if( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
+			if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
 				// Avoid native WPML string translation of widget titles 
 				// For widgets inserted in pages built with Page Builder (SiteOrigin panels) and also when WPML Widgets is active
 				if ( false !== has_filter( 'widget_title', 'icl_sw_filters_widget_title' ) ) {
-					if ( isset( $instance['panels_info'] ) || is_plugin_active( 'wpml-widgets/wpml-widgets.php' ) ) {
+					if ( isset( $instance['panels_info'] ) || isset( $instance['wp_page_widget'] ) || is_plugin_active( 'wpml-widgets/wpml-widgets.php' ) ) {
 						remove_filter( 'widget_title', 'icl_sw_filters_widget_title', 0 );
 					}
 				}
@@ -138,9 +138,9 @@ if ( ! class_exists( 'Black_Studio_TinyMCE_Compatibility_Plugins' ) ) {
 		 * @since 2.3.0
 		 */
 		public function wpml_widget_after( $args, $instance ) {
-			if( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
+			if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) ) {
 				if ( false === has_filter( 'widget_title', 'icl_sw_filters_widget_title' ) && function_exists( 'icl_sw_filters_widget_title' ) ) {
-					if ( isset( $instance['panels_info'] ) || is_plugin_active( 'wpml-widgets/wpml-widgets.php' ) ) {
+					if ( isset( $instance['panels_info'] ) || isset( $instance['wp_page_widget'] ) || is_plugin_active( 'wpml-widgets/wpml-widgets.php' ) ) {
 						add_filter( 'widget_title', 'icl_sw_filters_widget_title', 0 );
 					}
 				}
@@ -162,9 +162,10 @@ if ( ! class_exists( 'Black_Studio_TinyMCE_Compatibility_Plugins' ) ) {
 		 * @since 2.0.0
 		 */
 		public function wpml_widget_update( $instance, $widget ) {
-			if( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) && ! is_plugin_active( 'wpml-widgets/wpml-widgets.php' ) ) {
+			if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) && ! is_plugin_active( 'wpml-widgets/wpml-widgets.php' ) ) {
 				if ( function_exists( 'icl_register_string' ) && ! empty( $widget->number ) ) {
-					if ( ! isset( $instance['panels_info'] ) ) { // Avoid translation of Page Builder (SiteOrigin panels) widgets
+					// Avoid translation of Page Builder (SiteOrigin panels) and WP Page Widget widgets
+					if ( ! isset( $instance['panels_info'] ) && ! isset( $instance['wp_page_widget'] ) ) {
 						icl_register_string( 'Widgets', 'widget body - ' . $widget->id_base . '-' . $widget->number, $instance['text'] );
 					}
 				}
@@ -185,11 +186,11 @@ if ( ! class_exists( 'Black_Studio_TinyMCE_Compatibility_Plugins' ) ) {
 		 * @since 2.0.0
 		 */
 		public function wpml_widget_text( $text, $instance = null, $widget = null ) {
-			if( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) && ! is_plugin_active( 'wpml-widgets/wpml-widgets.php' ) ) {
+			if ( is_plugin_active( 'sitepress-multilingual-cms/sitepress.php' ) && ! is_plugin_active( 'wpml-widgets/wpml-widgets.php' ) ) {
 				if ( bstw()->check_widget( $widget ) && ! empty( $instance ) ) {
 					if ( function_exists( 'icl_t' ) ) {
-						// Avoid translation of Page Builder (SiteOrigin panels) widgets
-						if ( ! isset( $instance['panels_info'] ) ) { 
+						// Avoid translation of Page Builder (SiteOrigin panels) and WP Page Widget widgets 
+						if ( ! isset( $instance['panels_info'] ) && ! isset( $instance['wp_page_widget'] ) ) { 
 							$text = icl_t( 'Widgets', 'widget body - ' . $widget->id_base . '-' . $widget->number, $text );
 						}
 					}
@@ -207,7 +208,7 @@ if ( ! class_exists( 'Black_Studio_TinyMCE_Compatibility_Plugins' ) ) {
 		 * @since 2.0.0
 		 */
 		public function wp_page_widget() {
-			add_action( 'admin_init', array( $this, 'wp_page_widget_admin_init' ) );
+			add_action( 'init', array( $this, 'wp_page_widget_init' ), 0 );
 		}
 
 		/**
@@ -221,10 +222,11 @@ if ( ! class_exists( 'Black_Studio_TinyMCE_Compatibility_Plugins' ) ) {
 		 * @return void
 		 * @since 2.0.0
 		 */
-		public function wp_page_widget_admin_init() {
+		public function wp_page_widget_init() {
 			if ( is_admin() && is_plugin_active( 'wp-page-widget/wp-page-widgets.php' ) && version_compare( get_bloginfo( 'version' ), '3.3', '>=' ) ) {
 				add_filter( 'black_studio_tinymce_enable_pages', array( $this, 'wp_page_widget_enable_pages' ) );
 				add_action( 'admin_print_scripts', array( $this, 'wp_page_widget_enqueue_script' ) );
+				add_filter( 'black_studio_tinymce_widget_update', array( $this, 'wp_page_widget_add_data' ), 10, 2 );
 			}
 		}
 
@@ -245,6 +247,23 @@ if ( ! class_exists( 'Black_Studio_TinyMCE_Compatibility_Plugins' ) ) {
 				$pages[] = 'admin.php';
 			}
 			return $pages;
+		}
+
+		/**
+		 * Add WP Page Widget marker
+		 *
+		 * @param mixed[] $instance
+		 * @param object $widget
+		 * @return mixed[]
+		 * @since 2.5.0
+		 */
+		public function wp_page_widget_add_data( $instance, $widget ) {
+			if ( bstw()->check_widget( $widget ) && ! empty( $instance ) ) {
+				if ( isset( $_POST['action'] ) && 'pw-save-widget' == $_POST['action'] ) {
+					$instance['wp_page_widget'] = true;
+				}
+			}
+			return $instance;
 		}
 
 		/**
@@ -310,15 +329,15 @@ if ( ! class_exists( 'Black_Studio_TinyMCE_Compatibility_Plugins' ) ) {
 		/**
 		 * Remove widget number to prevent translation when using Page Builder (SiteOrigin Panels) + WPML String Translation
 		 *
-		 * @param object $the_widget
+		 * @param object $widget
 		 * @return object
 		 * @since 2.0.0
 		 */
-		public function siteorigin_panels_widget_object( $the_widget ) {
-			if ( isset( $the_widget->id_base ) && 'black-studio-tinymce' == $the_widget->id_base ) {
-				$the_widget->number = '';
+		public function siteorigin_panels_widget_object( $widget ) {
+			if ( isset( $widget->id_base ) && 'black-studio-tinymce' == $widget->id_base ) {
+				$widget->number = '';
 			}
-			return $the_widget;
+			return $widget;
 		}
 
 		/**
@@ -406,6 +425,33 @@ if ( ! class_exists( 'Black_Studio_TinyMCE_Compatibility_Plugins' ) ) {
 		 */
 		public function jetpack_after_the_deadline_load() {
 			add_filter( 'atd_load_scripts', '__return_true' );
+		}
+
+		/**
+		 * Compatibility for Elementor plugin
+		 *
+		 * @uses add_filter()
+		 *
+		 * @return void
+		 * @since 2.5.0
+		 */
+		public function elementor() {
+			if ( is_admin() && isset( $_GET['action'] ) && 'elementor' == $_GET['action'] ) {
+				add_filter( 'black_studio_tinymce_enable', '__return_false', 100 );
+				add_action( 'widgets_init', array( $this, 'elementor_unregister_widget' ), 20 );
+			}
+		}
+		
+		/**
+		 * Unregister Widget for Elementor plugin
+		 *
+		 * @uses unregister_widget()
+		 *
+		 * @return void
+		 * @since 2.5.1
+		 */
+		public function elementor_unregister_widget() {
+			unregister_widget( 'WP_Widget_Black_Studio_TinyMCE' );
 		}
 
 	} // END class Black_Studio_TinyMCE_Compatibility_Plugins

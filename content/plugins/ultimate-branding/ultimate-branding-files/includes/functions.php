@@ -290,14 +290,11 @@ function ub_wp_upload_dir() {
 	return $bdir;
 }
 
+/**
+ * Returns option name from module name.
+ */
 function ub_get_option_name_by_module( $module ) {
-	switch ( $module ) {
-		case 'login-screen':
-		return 'global_login_screen';
-		case 'custom-ms-register-emails':
-		return 'global_ms_register_mails';
-	}
-	return 'unknown';
+	return apply_filters( 'ultimate_branding_get_option_name', 'unknown', $module );
 }
 
 /**

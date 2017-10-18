@@ -41,7 +41,7 @@ class CoursePress_View_Admin_Setting_MarketPress {
 	public static function add_tabs( $tabs ) {
 		$tabs['marketpress'] = array(
 			'title' => __( 'MarketPress', 'cp' ),
-			'description' => __( 'Allow to integrate MarketPress to sell courses..', 'cp' ),
+			'description' => __( 'Allow to integrate MarketPress to sell courses...', 'cp' ),
 			'order' => 69,
 		);
 

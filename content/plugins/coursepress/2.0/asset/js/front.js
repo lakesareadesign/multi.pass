@@ -1,4 +1,4 @@
-/*! CoursePress - v2.0.8
+/*! CoursePress - v2.1.1
  * https://premium.wpmudev.org/project/coursepress-pro/
  * Copyright (c) 2017; * Licensed GPLv2+ */
 var CoursePress = {};
@@ -462,8 +462,8 @@ CoursePress.removeErrorHint = function() {
 	 */
 	CoursePress.procederDataLink = function( e ) {
 		var target = e.currentTarget;
-		if ( $( target ).attr( 'data-link' ) ) {
-			window.location.href = $( target ).attr( 'data-link' );
+		if ( $( target ).data( 'link' ) ) {
+			window.location.href = $( target ).data( 'link' );
 		}
 	}
 
@@ -471,7 +471,7 @@ CoursePress.removeErrorHint = function() {
 $(document)
 	.ready( CoursePress.unitProgressInit ) // Call unit progress init
 	.on( 'focus', '.cp-mask .has-error, .cp .has-error', CoursePress.removeErrorHint )
-	.on( "click", ".single_show_cart_button", CoursePress.procederDataLink );
+	.on( "click", ".single_show_cart_button, .featured-course-link button", CoursePress.procederDataLink );
 
 })(jQuery);
 
@@ -595,6 +595,10 @@ $(document)
 	CoursePress.MediaElements = function( container ) {
 		if ( $.fn.mediaelementplayer ) {
 			var media = $( 'audio,video', container );
+
+			if(videojs.getPlayers()) {
+				var player = videojs(media[0].id);
+			}
 
 			if ( media.length > 0 ) {
 				media.mediaelementplayer();
@@ -785,6 +789,7 @@ $(document)
 
 		responseDiv.hide();
 		elementsDiv.show();
+		CoursePress.timer( parentDiv );
 
 		return false;
 	};

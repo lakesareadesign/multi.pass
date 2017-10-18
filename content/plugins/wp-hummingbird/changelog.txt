@@ -1,8 +1,11 @@
 Plugin Name: Hummingbird Pro
 Author: Ignacio Cruz, Ricardo Freitas, Anton Vanyukov
-Tested up to: 4.8.1
+Tested up to: 4.8.2
 
 Change Log:
+
+= 1.6.2 ( 2017-10-02 ) =
+- Fix: API spamming issue
 
 = 1.6.1 ( 2017-09-13 ) =
 - New: Add font types to browser and cache rules
@@ -239,4 +242,4 @@ Enhance: Search by extension in minification page
 - First release
 
 
-133620-1505438678-au
+133620-1508360046-au

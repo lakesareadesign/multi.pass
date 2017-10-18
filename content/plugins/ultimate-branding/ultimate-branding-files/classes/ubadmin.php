@@ -57,7 +57,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			 * default messages
 			 */
 			$this->messages = array();
-			$this->messages['success'] = __( 'Changes saved.', 'ub' );
+			$this->messages['success'] = __( 'Success! Your changes were sucessfully saved!', 'ub' );
 			$this->messages['fail'] = __( 'There was an error, please try again.', 'ub' );
 			$this->messages['reset-section-success'] = __( 'Section was reset to defaults.', 'ub' );
 
@@ -100,6 +100,13 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 								case 'login-image.php': ub_update_option( 'ub_login_image_dir', get_option( 'ub_login_image_dir' ) );
 									ub_update_option( 'ub_login_image_url', get_option( 'ub_login_image_url' ) );
 							break;
+
+								case 'image-upload-size.php':
+									$roles = wp_roles()->get_names();
+									foreach ( $roles as $role ) {
+										ub_update_option( 'ub_img_upload_filesize_' . $role, get_option( 'ub_img_upload_filesize_' . $role ) );
+									}
+								break;
 
 								case 'custom-admin-bar.php':
 									ub_update_option( 'wdcab', get_option( 'wdcab' ) );
@@ -407,13 +414,11 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					}
 					return;
 				}
-
 				$t = preg_replace( '/-/', '_', $this->tab );
 				/**
 				 * check
 				 */
 				check_admin_referer( 'ultimatebranding_settings_'.$t );
-
 				$msg = 'fail';
 				$result = apply_filters( 'ultimatebranding_settings_'.$t.'_process', true );
 				if ( $result ) {
@@ -1123,6 +1128,17 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 					'title' => __( 'Login Image', 'ub' ),
 				),
 				/**
+				 * Images: Image upload size
+				 *
+				 * @since 1.9.2
+				 */
+				'image-upload-size.php' => array(
+					'module' => 'image-upload-size.php',
+					'tab' => 'images',
+					'page_title' => __( 'Images', 'ub' ),
+					'title' => __( 'Limit Image Upload Filesize', 'ub' ),
+				),
+				/**
 				 * Email Template
 				 *
 				 * @since 1.8.4
@@ -1215,16 +1231,16 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 					'page_title' => __( 'Coming Soon Page & Maintenance Mode', 'ub' ),
 					'menu_title' => __( 'Maintenance', 'ub' ),
 					),
-				/**
+					/**
 				 * Dashboard widgets
 				 *
 				 * @since 1.9.1
 				 */
-				'dashboard-text-widgets/dashboard-text-widgets.php' => array(
+					'dashboard-text-widgets/dashboard-text-widgets.php' => array(
 					'module' => 'dashboard-text-widgets',
 					'tab' => 'dashboard-text-widgets',
 					'page_title' => __( 'Dashboard Text Widgets', 'ub' ),
-				),
+					),
 			);
 			/**
 			 * add key to data

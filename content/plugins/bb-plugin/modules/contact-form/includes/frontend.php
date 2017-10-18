@@ -4,7 +4,7 @@
 	<div class="fl-input-group fl-name">
 		<label for="fl-name"><?php _ex( 'Name', 'Contact form field label.', 'fl-builder' );?></label>
 		<span class="fl-contact-error"><?php _e( 'Please enter your name.', 'fl-builder' );?></span>
-		<input type="text" id="fl-name" name="fl-name" value="" placeholder="<?php esc_attr_e( 'Your name', 'fl-builder' ); ?>" />
+		<input type="text" id="fl-name" name="fl-name" value="" placeholder="<?php echo esc_attr( $settings->name_placeholder ); ?>" />
 	</div>
 	<?php endif; ?>
 
@@ -12,7 +12,7 @@
 	<div class="fl-input-group fl-subject">
 		<label for="fl-subject"><?php _e( 'Subject', 'fl-builder' );?></label>
 		<span class="fl-contact-error"><?php _e( 'Please enter a subject.', 'fl-builder' );?></span>
-		<input type="text" id="fl-subject" name="fl-subject" value="" placeholder="<?php esc_attr_e( 'Subject', 'fl-builder' ); ?>" />
+		<input type="text" id="fl-subject" name="fl-subject" value="" placeholder="<?php echo esc_attr( $settings->subject_placeholder ); ?>" />
 	</div>
 	<?php endif; ?>
 
@@ -20,7 +20,7 @@
 	<div class="fl-input-group fl-email">
 		<label for="fl-email"><?php _e( 'Email', 'fl-builder' );?></label>
 		<span class="fl-contact-error"><?php _e( 'Please enter a valid email.', 'fl-builder' );?></span>
-		<input type="email" id="fl-email" name="fl-email" value="" placeholder="<?php esc_attr_e( 'Your email', 'fl-builder' ); ?>" />
+		<input type="email" id="fl-email" name="fl-email" value="" placeholder="<?php echo esc_attr( $settings->email_placeholder ); ?>" />
 	</div>
 	<?php endif; ?>
 
@@ -28,14 +28,14 @@
 	<div class="fl-input-group fl-phone">
 		<label for="fl-phone"><?php _e( 'Phone', 'fl-builder' );?></label>
 		<span class="fl-contact-error"><?php _e( 'Please enter a valid phone number.', 'fl-builder' );?></span>
-		<input type="tel" id="fl-phone" name="fl-phone" value="" placeholder="<?php esc_attr_e( 'Your phone', 'fl-builder' ); ?>" />
+		<input type="tel" id="fl-phone" name="fl-phone" value="" placeholder="<?php echo esc_attr( $settings->phone_placeholder ); ?>" />
 	</div>
 	<?php endif; ?>
 
 	<div class="fl-input-group fl-message">
 		<label for="fl-message"><?php _e( 'Your Message', 'fl-builder' );?></label>
 		<span class="fl-contact-error"><?php _e( 'Please enter a message.', 'fl-builder' );?></span>
-		<textarea id="fl-message" name="fl-message" placeholder="<?php esc_attr_e( 'Your message', 'fl-builder' ); ?>"></textarea>
+		<textarea id="fl-message" name="fl-message" placeholder="<?php echo esc_attr( $settings->message_placeholder ); ?>"></textarea>
 	</div>
 
 	<?php

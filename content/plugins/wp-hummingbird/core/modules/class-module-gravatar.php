@@ -137,7 +137,7 @@ class WP_Hummingbird_Module_Gravatar extends WP_Hummingbird_Module {
 			$file = $email_hash . 'x' . $size . '.jpg';
 			return $this->filesystem->write( $file, $remote_avatar['body'] );
 		} else {
-			return new WP_Error( 'gravatar-not-found', __( 'Error fetching Gravatar. Gravatar not found.', 'wphb' ) );	  	 	   	 		 		 		 	
+			return new WP_Error( 'gravatar-not-found', __( 'Error fetching Gravatar. Gravatar not found.', 'wphb' ) );
 		}
 	}
 

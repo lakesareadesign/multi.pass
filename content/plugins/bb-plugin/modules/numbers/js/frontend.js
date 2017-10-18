@@ -1,7 +1,7 @@
 var FLBuilderNumber;
 
 (function($) {
-	
+
 	/**
 	 * Class for Number Counter Module
 	 *
@@ -23,11 +23,11 @@ var FLBuilderNumber;
 		this.animated            = false;
 		this.format 			 = settings.format;
 
-		// initialize the menu 
+		// initialize the menu
 		this._initNumber();
-		
+
 	};
-	
+
 	FLBuilderNumber.prototype = {
 		nodeClass               : '',
 		wrapperClass            : '',
@@ -95,7 +95,7 @@ var FLBuilderNumber;
 			        duration: this.speed,
 			        easing: 'swing',
 			        step: function ( now, fx ) {
-			        	$string.text( self._formatNumber( Math.ceil(now) ) );
+						$string.text( self._formatNumber( now, fx ) );
 			        },
 			        complete: function() {
 			        	self.animated = true;
@@ -111,12 +111,12 @@ var FLBuilderNumber;
 				circle = Math.PI*(r*2),
 				val    = this.number,
 				max    = this.type == 'percent' ? 100 : this.max;
-   
+
 			if (val < 0) { val = 0;}
 			if (val > max) { val = max;}
-			
+
 			if( this.type == 'percent' ){
-				var pct = ( ( 100 - val ) /100) * circle;			
+				var pct = ( ( 100 - val ) /100) * circle;
 			} else {
 				var pct = ( 1 - ( val / max ) ) * circle;
 			}
@@ -127,7 +127,7 @@ var FLBuilderNumber;
 		        duration: this.speed,
 		        easing: 'swing'
 		    });
-			
+
 		},
 
 		_triggerBar: function(){
@@ -149,21 +149,30 @@ var FLBuilderNumber;
 
 		},
 
-		_formatNumber: function( n ){
-			var rgx	= /(\d+)(\d{3})/;
+		_formatNumber: function( n, fx ){
+			var rgx	= /(\d+)(\d{3})/,
+				num = fx.end.toString().split('.'),
+				decLimit = 0;
+
+			if ( 1 == num.length ) {
+				n = parseInt( n );
+			}
+			else if ( num.length > 1 ) {
+				decLimit = num[1].length > 2 ? 2 : num[1].length;
+			}
 
             n += '';
             x  = n.split('.');
 			x1 = x[0];
-			x2 = x.length > 1 ? parseFloat(parseFloat('.' + x[1]).toFixed(2)) : '';
-			x2 = x2 ? this.format.decimal + x2.toString().split('.').pop() : '';
-			
-			while (rgx.test(x1)) {
+			x2 = x.length > 1 ? parseFloat( parseFloat( '.' + x[1] ).toFixed( decLimit ) ) : '';
+			x2 = '' != x2 ? this.format.decimal + x2.toString().split('.').pop() : '';
+
+			while ( rgx.test( x1 ) ) {
 				x1 = x1.replace(rgx, '$1' + this.format.thousands_sep + '$2');
 			}
-			
+
 			return x1 + x2;
 		},
 	};
-		
+
 })(jQuery);

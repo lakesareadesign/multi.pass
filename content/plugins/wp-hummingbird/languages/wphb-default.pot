@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Hummingbird Pro package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Hummingbird Pro 1.6.1\n"
+"Project-Id-Version: Hummingbird Pro 1.6.2\n"
 "Report-Msgid-Bugs-To: https://wpmudev.org\n"
-"POT-Creation-Date: 2017-09-13 06:48:48+00:00\n"
+"POT-Creation-Date: 2017-10-02 07:17:54+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -237,7 +237,7 @@ msgid "Caching is enabled but you aren't using our recommended value"
 msgstr ""
 
 #: admin/class-dashboard-page.php:579 core/pro/admin/class-pro-admin.php:55
-#: core/pro/admin/class-pro-admin.php:87
+#: core/pro/admin/class-pro-admin.php:105
 msgid "Reports"
 msgstr ""
 
@@ -1948,17 +1948,17 @@ msgstr ""
 msgid "Minify callback does not exist"
 msgstr ""
 
-#: core/pro/admin/class-pro-admin.php:123
+#: core/pro/admin/class-pro-admin.php:141
 #: core/pro/admin/views/performance/reporting-meta-box.php:24
 msgid "Daily"
 msgstr ""
 
-#: core/pro/admin/class-pro-admin.php:126
+#: core/pro/admin/class-pro-admin.php:144
 #: core/pro/admin/views/performance/reporting-meta-box.php:27
 msgid "Weekly"
 msgstr ""
 
-#: core/pro/admin/class-pro-admin.php:129
+#: core/pro/admin/class-pro-admin.php:147
 #: core/pro/admin/views/performance/reporting-meta-box.php:30
 msgid "Monthly"
 msgstr ""
@@ -2041,7 +2041,7 @@ msgstr ""
 msgid "Update Settings"
 msgstr ""
 
-#: core/pro/class-pro-ajax.php:82
+#: core/pro/class-pro-ajax.php:88
 msgid "Please, insert a valid email."
 msgstr ""
 

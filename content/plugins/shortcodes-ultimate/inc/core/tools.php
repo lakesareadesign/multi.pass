@@ -577,10 +577,10 @@ add_action( 'delete_attachment', 'su_delete_resized_images' );
 
 class Su_Tools {
 	function __construct() {
-		add_action( 'wp_ajax_su_example_preview', array( __CLASS__, 'example' ) );
-		add_action( 'su/update',                  array( __CLASS__, 'reset_examples' ) );
-		add_action( 'su/activation',              array( __CLASS__, 'reset_examples' ) );
-		add_action( 'sunrise/page/before',        array( __CLASS__, 'reset_examples' ) );
+		// add_action( 'wp_ajax_su_example_preview', array( __CLASS__, 'example' ) );
+		// add_action( 'su/update',                  array( __CLASS__, 'reset_examples' ) );
+		// add_action( 'su/activation',              array( __CLASS__, 'reset_examples' ) );
+		// add_action( 'sunrise/page/before',        array( __CLASS__, 'reset_examples' ) );
 
 		add_filter( 'attachment_fields_to_edit',  array( __CLASS__, 'slide_link_input' ), null, 2 );
 		add_filter( 'attachment_fields_to_save',  array( __CLASS__, 'slide_link_save' ), null, 2 );
@@ -757,76 +757,51 @@ class Su_Tools {
 		return $slides;
 	}
 
-	public static function example() {
-		// Check authentication
-		self::access();
-		// Check nonce
-		if ( !isset( $_REQUEST['nonce'] ) || !wp_verify_nonce( $_REQUEST['nonce'], 'su_examples_nonce' ) ) return;
-		// Check incoming data
-		if ( !isset( $_REQUEST['id'] ) ) return;
-		// Set example ID
-		$id = sanitize_key( $_REQUEST['id'] );
-		// Check for cache
-		$output = get_transient( 'su/examples/render/' . $id );
-		if ( $output && SU_ENABLE_CACHE ) echo $output;
-		// Cache not found
-		else {
-			ob_start();
-			// Prepare data
-			$code = self::get_example_code( $id );
-			// Check for code
-			if ( !$code ) die( '<p class="su-examples-error">' . __( 'Example code does not found, please check it later', 'shortcodes-ultimate' ) . '</p>' );
-			// Split code
-			$chunks = explode( '-----', $code );
-			// Show snippets
-			do_action( 'su/examples/preview/before' );
-			foreach ( $chunks as $chunk ) {
-				// Clean-up new lines
-				$chunk = trim( $chunk, "\n\r" );
-				// Calc textarea rows
-				$rows = substr_count( $chunk, "\n" );
-				$rows = ( $rows < 4 ) ? '4' : (string) ( $rows + 1 );
-				$rows = ( $rows > 20 ) ? '20' : (string) ( $rows + 1 );
-				echo wpautop( do_shortcode( $chunk ) );
-				echo '<div style="clear:both"></div>';
-				echo '<div class="su-examples-code"><span class="su-examples-get-code button"><i class="fa fa-code"></i>&nbsp;&nbsp;' . __( 'Get the code', 'shortcodes-ultimate' ) . '</span><textarea rows="' . $rows . '">' . esc_textarea( $chunk ) . '</textarea></div>';
-			}
-			do_action( 'su/examples/preview/after' );
-			$output = ob_get_contents();
-			ob_end_clean();
-			set_transient( 'su/examples/render/' . $id, $output );
-			echo $output;
-		}
-		die();
-	}
-
-	public static function get_example_code( $id ) {
-
-		$examples = Su_Data::examples();
-		$code;
-
-		foreach( $examples as $group ) {
-			foreach( $group['items'] as $example ) {
-				if ( isset( $example['id'], $example['code'] ) && $example['id'] === $id ) {
-					$code = $example['code'];
-					break 2;
-				}
-			}
-		}
-
-		if ( ! file_exists( $code ) ) {
-			return false;
-		}
-
-		$code = file_get_contents( $code );
-		$code = str_replace( array( "\t", '%su_' ), array( '  ', su_cmpt() ), $code );
-
-		return $code;
-
-	}
+	// public static function example() {
+	// 	// Check authentication
+	// 	self::access();
+	// 	// Check nonce
+	// 	if ( !isset( $_REQUEST['nonce'] ) || !wp_verify_nonce( $_REQUEST['nonce'], 'su_examples_nonce' ) ) return;
+	// 	// Check incoming data
+	// 	if ( !isset( $_REQUEST['code'] ) || !isset( $_REQUEST['id'] ) ) return;
+	// 	// Check for cache
+	// 	$output = get_transient( 'su/examples/render/' . sanitize_key( $_REQUEST['id'] ) );
+	// 	if ( $output && SU_ENABLE_CACHE ) echo $output;
+	// 	// Cache not found
+	// 	else {
+	// 		ob_start();
+	// 		// Prepare data
+	// 		$code = file_get_contents( sanitize_text_field( $_REQUEST['code'] ) );
+	// 		// Check for code
+	// 		if ( !$code ) die( '<p class="su-examples-error">' . __( 'Example code does not found, please check it later', 'shortcodes-ultimate' ) . '</p>' );
+	// 		// Clean-up the code
+	// 		$code = str_replace( array( "\t", '%su_' ), array( '  ', su_cmpt() ), $code );
+	// 		// Split code
+	// 		$chunks = explode( '-----', $code );
+	// 		// Show snippets
+	// 		do_action( 'su/examples/preview/before' );
+	// 		foreach ( $chunks as $chunk ) {
+	// 			// Clean-up new lines
+	// 			$chunk = trim( $chunk, "\n\r" );
+	// 			// Calc textarea rows
+	// 			$rows = substr_count( $chunk, "\n" );
+	// 			$rows = ( $rows < 4 ) ? '4' : (string) ( $rows + 1 );
+	// 			$rows = ( $rows > 20 ) ? '20' : (string) ( $rows + 1 );
+	// 			echo wpautop( do_shortcode( $chunk ) );
+	// 			echo '<div style="clear:both"></div>';
+	// 			echo '<div class="su-examples-code"><span class="su-examples-get-code button"><i class="fa fa-code"></i>&nbsp;&nbsp;' . __( 'Get the code', 'shortcodes-ultimate' ) . '</span><textarea rows="' . $rows . '">' . esc_textarea( $chunk ) . '</textarea></div>';
+	// 		}
+	// 		do_action( 'su/examples/preview/after' );
+	// 		$output = ob_get_contents();
+	// 		ob_end_clean();
+	// 		set_transient( 'su/examples/render/' . sanitize_key( $_REQUEST['id'] ), $output );
+	// 		echo $output;
+	// 	}
+	// 	die();
+	// }
 
 	public static function reset_examples() {
-		foreach ( (array) Su_Data::examples() as $example ) foreach ( (array) $example['items'] as $item ) delete_transient( 'su/examples/render/' . $item['id'] );
+		// foreach ( (array) Su_Data::examples() as $example ) foreach ( (array) $example['items'] as $item ) delete_transient( 'su/examples/render/' . $item['id'] );
 	}
 
 	public static function do_attr( $value ) {

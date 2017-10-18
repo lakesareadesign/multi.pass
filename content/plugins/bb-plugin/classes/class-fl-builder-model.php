@@ -1351,7 +1351,7 @@ final class FLBuilderModel {
 		unset( $data[ $node_id ] );
 
 		// Reorder sibling nodes.
-		$siblings = self::get_nodes( $node->type, $node->parent );
+		$siblings = self::get_nodes( null, $node->parent );
 		$position = 0;
 
 		foreach ( $siblings as $sibling_id => $sibling ) {

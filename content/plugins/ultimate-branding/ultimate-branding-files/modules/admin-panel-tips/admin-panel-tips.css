@@ -2,6 +2,11 @@
     float: right;
     font-size: 0.9em;
 }
+.admin-panel-tips .apt-content:after {
+    content: "";
+    display: block;
+    clear: both;
+}
 
 
-/* 133620-1505265128-au */
+/* 133620-1508360138-au */

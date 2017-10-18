@@ -1423,7 +1423,7 @@ class Su_Shortcodes {
 		// Define current user ID
 		if ( !$atts['user_id'] ) $atts['user_id'] = get_current_user_id();
 		// Check user ID
-		if ( !is_numeric( $atts['user_id'] ) || $atts['user_id'] < 1 ) return sprintf( '<p class="su-error">User: %s</p>', __( 'user ID is incorrect', 'shortcodes-ultimate' ) );
+		if ( !is_numeric( $atts['user_id'] ) || $atts['user_id'] < 0 ) return sprintf( '<p class="su-error">User: %s</p>', __( 'user ID is incorrect', 'shortcodes-ultimate' ) );
 		// Get user data
 		$user = get_user_by( 'id', $atts['user_id'] );
 		// Get user data if user was found

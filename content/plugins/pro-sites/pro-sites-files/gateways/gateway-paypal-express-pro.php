@@ -545,7 +545,7 @@ class ProSites_Gateway_PayPalExpressPro {
 				ProSites_Helper_Registration::activate_blog( $process_data['activation_key'], $is_trial, $process_data[ $signup_type ]['period'], $process_data[ $signup_type ]['level'] );
 
 				//Set complete message
-				self::$complete_message = __( 'Your trial blog has been setup at <a href="' . $esc_domain . '">' . $esc_domain . '</a>', 'psts' );
+				self::$complete_message = sprintf( __( 'Your trial blog has been setup at <a href="%1$s">%1$s</a>', 'psts' ), $esc_domain );
 
 				return;
 			}
@@ -758,8 +758,8 @@ class ProSites_Gateway_PayPalExpressPro {
 						$updated = array(
 							'render'      => true,
 							'blog_id'     => $blog_id,
-							'level'       => $_POST['level'],
-							'period'      => $_POST['period'],
+							'level'       => (int) $_POST['level'],
+							'period'      => (int) $_POST['period'],
 							'prev_level'  => ! empty( $current->level ) ? $current->level : '',
 							'prev_period' => ! empty( $current->term ) ? $current->term : '',
 						);
@@ -803,8 +803,8 @@ class ProSites_Gateway_PayPalExpressPro {
 							$updated = array(
 								'render'      => true,
 								'blog_id'     => $blog_id,
-								'level'       => $_POST['level'],
-								'period'      => $_POST['period'],
+								'level'       => (int) $_POST['level'],
+								'period'      => (int) $_POST['period'],
 								'prev_level'  => ! empty( $current->level ) ? $current->level : '',
 								'prev_period' => ! empty( $current->term ) ? $current->term : '',
 							);
@@ -875,8 +875,8 @@ class ProSites_Gateway_PayPalExpressPro {
 						$updated = array(
 							'render'      => true,
 							'blog_id'     => $blog_id,
-							'level'       => $_POST['level'],
-							'period'      => $_POST['period'],
+							'level'       => (int) $_POST['level'],
+							'period'      => (int) $_POST['period'],
 							'prev_level'  => ! empty( $current->level ) ? $current->level : '',
 							'prev_period' => ! empty( $current->term ) ? $current->term : '',
 						);
@@ -1134,8 +1134,8 @@ class ProSites_Gateway_PayPalExpressPro {
 								$updated = array(
 									'render'      => true,
 									'blog_id'     => $blog_id,
-									'level'       => $_POST['level'],
-									'period'      => $_POST['period'],
+									'level'       => (int) $_POST['level'],
+									'period'      => (int) $_POST['period'],
 									'prev_level'  => ! empty( $current->level ) ? $current->level : '',
 									'prev_period' => ! empty( $current->term ) ? $current->term : '',
 								);
@@ -1235,8 +1235,8 @@ class ProSites_Gateway_PayPalExpressPro {
 							$updated = array(
 								'render'      => true,
 								'blog_id'     => $blog_id,
-								'level'       => $_POST['level'],
-								'period'      => $_POST['period'],
+								'level'       => (int) $_POST['level'],
+								'period'      => (int) $_POST['period'],
 								'prev_level'  => ! empty( $current->level ) ? $current->level : '',
 								'prev_period' => ! empty( $current->term ) ? $current->term : '',
 							);
@@ -1554,6 +1554,7 @@ class ProSites_Gateway_PayPalExpressPro {
 	 * @return bool|void
 	 */
 	public static function update_session_vars( $process_data, $data = array() ) {
+
 		if ( empty( $process_data ) || empty( $data ) || empty( $data['blog_id'] ) ) {
 			return false;
 		}
@@ -1605,23 +1606,16 @@ class ProSites_Gateway_PayPalExpressPro {
 
 		//show instructions for old gateways
 		if ( $old_gateway == 'PayPal' ) {
-			$message = sprintf( __( "Thank you for modifying your subscription!
-
-We want to remind you that because of billing system upgrades, we were unable to cancel your old subscription automatically, so it is important that you cancel the old one yourself in your PayPal account, otherwise the old payments will continue along with new ones!
-
-Cancel your subscription in your PayPal account:
-%s
-
-You can also cancel following these steps:
-https://www.paypal.com/webapps/helpcenter/article/?articleID=94044#canceling_recurring_paymemt_subscription_automatic_billing", 'psts' ), 'https://www.paypal.com/cgi-bin/webscr?cmd=_subscr-find&alias=' . urlencode( get_site_option( "supporter_paypal_email" ) ) );
+			$message = __( "Thank you for modifying your subscription!\n\n", 'psts' );
+			$message .= __( "We want to remind you that because of billing system upgrades, we were unable to cancel your old subscription automatically, so it is important that you cancel the old one yourself in your PayPal account, otherwise the old payments will continue along with new ones!\n\n", 'psts' );
+			$message .= __( "Cancel your subscription in your PayPal account:\n", 'psts' );
+			$message .= sprintf( __( "https://www.paypal.com/cgi-bin/webscr?cmd=_subscr-find&alias=%s\n\n", 'psts' ), urlencode( get_site_option( "supporter_paypal_email" ) ) );
+			$message .= sprintf( __( "You can also cancel following these steps:\n%s", 'psts' ), 'https://www.paypal.com/webapps/helpcenter/article/?articleID=94044#canceling_recurring_paymemt_subscription_automatic_billing' );
 		} else if ( $old_gateway == 'Amazon' ) {
-			$message = __( "Thank you for modifying your subscription!
-
-We want to remind you that because of billing system upgrades, we were unable to cancel your old subscription automatically, so it is important that you cancel the old one yourself in your Amazon Payments account, otherwise the old payments will continue along with new ones!
-
-To cancel your subscription:
-
-Simply go to https://payments.amazon.com/, click Your Account at the top of the page, log in to your Amazon Payments account (if asked), and then click the Your Subscriptions link. This page displays your subscriptions, showing the most recent, active subscription at the top. To view the details of a specific subscription, click Details. Then cancel your subscription by clicking the Cancel Subscription button on the Subscription Details page.", 'psts' );
+			$message = __( "Thank you for modifying your subscription!\n\n", 'psts' );
+			$message .= __( "We want to remind you that because of billing system upgrades, we were unable to cancel your old subscription automatically, so it is important that you cancel the old one yourself in your Amazon Payments account, otherwise the old payments will continue along with new ones!\n\n", 'psts' );
+			$message .= __( "To cancel your subscription:\n", 'psts' );
+			$message .= __( "Simply go to https://payments.amazon.com/, click Your Account at the top of the page, log in to your Amazon Payments account (if asked), and then click the Your Subscriptions link. This page displays your subscriptions, showing the most recent, active subscription at the top. To view the details of a specific subscription, click Details. Then cancel your subscription by clicking the Cancel Subscription button on the Subscription Details page.", 'psts' );
 		}
 
 		$email = isset( $current_user->user_email ) ? $current_user->user_email : get_blog_option( $blog_id, 'admin_email' );
@@ -2017,9 +2011,7 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 
 		wp_enqueue_script( 'jquery' );
 
-		// Add inline script for checkout page.
-		$inline_script = $this->checkout_js();
-		wp_add_inline_script( 'psts-checkout', $inline_script );
+		wp_localize_script( 'psts-checkout', 'paypal_checkout', array( 'cancel_message' => true ) );
 	}
 
 	function settings() {
@@ -2814,29 +2806,6 @@ Simply go to https://payments.amazon.com/, click Your Account at the top of the 
 		unset( $trans_meta[ $profile_id ] );
 
 		update_blog_option( $from_id, 'psts_paypal_profile_id', $trans_meta );
-	}
-
-	/**
-	 * Inline script for PayPal checkout.
-	 *
-	 * @return string
-	 */
-	function checkout_js() {
-
-		$message = __( 'Please note that if you cancel your subscription you will not be immune to future price increases. The price of un-canceled subscriptions will never go up!\n\nAre you sure you really want to cancel your subscription?\nThis action cannot be undone!', 'psts' );
-		$script = "jQuery(document).ready(function ($) {
-				$('form').submit(function () {
-					$('#cc_paypal_checkout').hide();
-					$('#paypal_processing').show();
-				});
-				$('a#pypl_cancel').click(function (e) {
-					if (!confirm('" . $message . "')) {
-						e.preventDefault();
-					}
-				});
-			});";
-
-		return $script;
 	}
 
 	/**

@@ -411,7 +411,7 @@ class ShareaholicUtilities {
     } elseif ($env === 'staging') {
       return '//d2062rwknz205x.cloudfront.net/' . $asset;
     } else {
-      return '//dsms0mj1bbhn4.cloudfront.net/' . $asset;
+      return '//apps.shareaholic.com/' . $asset;
     }
   }
 
@@ -437,7 +437,7 @@ class ShareaholicUtilities {
     } elseif (preg_match('/stageaholic/', Shareaholic::URL)) {
       return 'https://d2062rwknz205x.cloudfront.net/' . $asset;
     } else {
-      return 'https://dsms0mj1bbhn4.cloudfront.net/' . $asset;
+      return 'https://apps.shareaholic.com/' . $asset;
     }
   }
 

@@ -37,6 +37,12 @@ class WP_Hummingbird_Pro_AJAX {
 		$settings['email-frequency'] = intval( $data['email-frequency'] );
 		$settings['email-day'] = sanitize_text_field( $data['email-day'] );
 		$settings['email-time'] = sanitize_text_field( $data['email-time'] );
+
+		// Randomize the minutes, so we don't spam the API.
+		$email_time = explode( ':', $settings['email-time'] );
+		$email_time[1] = sprintf( '%02d', mt_rand( 0, 59 ) );
+		$settings['email-time'] = implode( ':', $email_time );
+
 		$settings['email-recipients'] = array();
 
 		if ( isset( $data['email-recipients'] ) ) {

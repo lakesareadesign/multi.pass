@@ -67,12 +67,10 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 			$js_commands = '';
 
 			// We only want to add this for the Dashboard and/or Network Dashboard screens
-			$screen 	= get_current_screen();
+			$screen = get_current_screen();
 			if ( ($screen->id != 'dashboard') && ($screen->id != 'dashboard-network') ) { return; }
 
 			$df_settings = $this->get_df_widget_settings();
-			//echo "df_settings<pre>"; print_r($df_settings); echo "</pre>";
-			//die();
 
 			if ( is_multisite() ) {
 				$df_widgets = $this->get_df_feed_widgets_items();
@@ -157,8 +155,6 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 			if ( isset( $_POST['df-form-submit'] ) ) {
 
 				if ( (isset( $_GET['subpage'] )) && ($_GET['subpage'] == 'general-settings') ) {
-					//echo "_POST<pre>"; print_r($_POST); echo "</pre>";
-					//die();
 
 					if ( isset( $_POST['df_settings'] ) ) {
 						$df_settings = $this->get_df_widget_settings();
@@ -247,10 +243,6 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 													die();
 
 					} else {
-						//$df_widgets = $this->get_df_feed_widgets_items();
-						//echo "df_widgets<pre>"; print_r($df_widgets); echo "</pre>";
-						//echo "_POST<pre>"; print_r($_POST); echo "</pre>";
-						//die();
 
 						foreach ( $_POST['widget-rss'] as $widget_id => $widget_options ) {
 							// We want to remove the existing widget item. Then readd.
@@ -455,7 +447,7 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 						}
 						?>
 				 		<?php
-							$df_widgets = $this->get_df_feed_widgets_items(); //get_option('wpmudev_df_widget_options');
+							$df_widgets = $this->get_df_feed_widgets_items();
 						if ( ( ! $df_widgets) || ( ! is_array( $df_widgets )) ) {
 							$df_widgets = array(); }
 
@@ -646,12 +638,6 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 			if ( ( ! $df_widgets) || ( ! is_array( $df_widgets )) ) {
 				$df_widgets = array(); }
 
-			//echo "df_widgets<pre>"; print_r($df_widgets); echo "</pre>";
-			//if (0 >= $version_compare) {
-			//} else {
-			//  $df_widgets_current = $this->convert_legacy_wordpress_widgets($df_widgets_current);
-			//}
-
 			foreach ( $df_widgets as $widget_id => $widget_options ) {
 				// IF we still have them, ignore.
 				if ( 0 >= $version_compare ) {
@@ -723,12 +709,16 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 				global $current_blog;
 
 				if ( is_array( $df_widgets ) ) {
-					update_blog_option( $current_blog->site_id, 'wpmudev_df_widget_options', $df_widgets ); } else {
-					delete_blog_option( $current_blog->site_id, 'wpmudev_df_widget_options' ); }
+					update_blog_option( $current_blog->site_id, 'wpmudev_df_widget_options', $df_widgets );
+				} else {
+					delete_blog_option( $current_blog->site_id, 'wpmudev_df_widget_options' );
+				}
 			} else {
 				if ( is_array( $df_widgets ) ) {
-					update_option( 'wpmudev_df_widget_options', $df_widgets ); } else {
-					delete_option( 'wpmudev_df_widget_options' ); }
+					update_option( 'wpmudev_df_widget_options', $df_widgets );
+				} else {
+					delete_option( 'wpmudev_df_widget_options' );
+				}
 			}
 		}
 
@@ -745,28 +735,30 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 					$df_settings = get_blog_option( $current_blog->site_id, 'dashboard_widget_settings' );
 				}
 			} else {
-				//echo "in non-MS<br />";
 				$df_settings = get_option( 'dashboard_widget_settings', array() );
 			}
 
 			if ( ! isset( $df_settings['wordpress-feed-widget'] ) ) {
-				$df_settings['wordpress-feed-widget'] = array(); }
+				$df_settings['wordpress-feed-widget'] = array();
+			}
 			if ( ! isset( $df_settings['wordpress-feed-widget']['site'] ) ) {
-				$df_settings['wordpress-feed-widget']['site'] = 'on'; }
+				$df_settings['wordpress-feed-widget']['site'] = 'on';
+			}
 			if ( ! isset( $df_settings['wordpress-feed-widget']['network'] ) ) {
-				$df_settings['wordpress-feed-widget']['network'] = 'on'; }
+				$df_settings['wordpress-feed-widget']['network'] = 'on';
+			}
 
-			//echo "df_settings<pre>"; print_r($df_settings); echo "</pre>";
 			return $df_settings;
 		}
 
 		function set_df_widget_settings( $df_settings ) {
 			if ( is_multisite() ) {
 				global $current_blog;
-
 				if ( is_array( $df_settings ) ) {
-					update_blog_option( $current_blog->site_id, 'dashboard_widget_settings', $df_settings ); } else {
-					delete_blog_option( $current_blog->site_id, 'dashboard_widget_settings' ); }
+					update_blog_option( $current_blog->site_id, 'dashboard_widget_settings', $df_settings );
+				} else {
+					delete_blog_option( $current_blog->site_id, 'dashboard_widget_settings' );
+				}
 			} else {
 				if ( is_array( $df_settings ) ) {
 					update_option( 'dashboard_widget_settings', $df_settings );
@@ -932,31 +924,23 @@ if ( count( $row_actions ) ) {
 	    function prepare_items( $df_items = array() ) {
 	        $columns 	= $this->get_columns();
 			$hidden 	= $this->get_hidden_columns();
-			//$hidden       = array();
-	        //$sortable     = $this->get_sortable_columns();
 			$sortable	= array();
 	        $this->_column_headers = array( $columns, $hidden, $sortable );
-
 			foreach ( $df_items as $df_key => $df_item ) {
 				if ( ! isset( $df_items[ $df_key ]['number'] ) ) {
 					$df_items[ $df_key ]['number'] = $df_key;
 				}
 			}
-			//echo "df_items<pre>"; print_r($df_items); echo "</pre>";
-
 			$per_page = get_user_meta( get_current_user_id(), 'wpmudev_dashboard_feeds_items_per_page', true );
 			if ( ( ! $per_page) || ($per_page < 1) ) {
 				$per_page = 15;
 			}
-
 			$current_page = $this->get_pagenum();
-
 			if ( count( $df_items ) > $per_page ) {
 				$this->items = array_slice( $df_items, (($current_page - 1) * intval( $per_page )), intval( $per_page ), true );
 			} else {
 				$this->items = $df_items;
 			}
-
 			$this->set_pagination_args(
 				array(
 					'total_items' => count( $df_items ),                  			// WE have to calculate the total number of items
@@ -979,23 +963,42 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feed_Widget' ) ) {
 		}
 
 		function WPMUDEV_Dashboard_Feed_Widget() {
-	        $this->__construct();
-	    }
+			$this->__construct();
+		}
 
 		function init( $options_set = '', $options = array() ) {
 			if ( empty( $options_set ) ) { return; }
 			if ( empty( $options ) ) { return; }
-
 			if ( strlen( $options_set ) ) {
 				$this->widget_id = 'wpmudev_dashboard_item_'. $options_set;
 				$options['number'] = $options_set;
 			}
-
 			$this->widget_options = $options;
-			wp_add_dashboard_widget( $this->widget_id,
-				$this->widget_options['title'],
+			/**
+			 * setup widget title if is not defined
+			 */
+			$title = $this->widget_options['title'];
+			if ( empty( $title ) ) {
+				if ( ! empty( $this->widget_options['link'] ) ) {
+					$title = $this->widget_options['link'];
+				}
+				if ( empty( $title ) ) {
+					$title = $this->widget_options['url'];
+				}
+				$title = preg_replace( '/^[^\/]+\/\//', '', $title );
+				$title = preg_replace( '/\/.*/', '', $title );
+			}
+			if ( empty( $title ) ) {
+				$title = __( '[no title]', 'ub' );
+			}
+			/**
+			 * Decode url
+			 */
+			$this->widget_options['url'] = htmlspecialchars_decode( $this->widget_options['url'] );
+			wp_add_dashboard_widget(
+				$this->widget_id,
+				$title,
 				array( &$this, 'wp_dashboard_widget_display' )
-				/* array(&$this, 'wp_dashboard_widget_controls')  */
 			);
 		}
 

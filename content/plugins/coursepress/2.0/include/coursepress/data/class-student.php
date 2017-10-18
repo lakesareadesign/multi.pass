@@ -396,16 +396,15 @@ class CoursePress_Data_Student {
 		}
 
 		if ( ! $refresh ) {
-            /**
-             * Check answer freshness.
-             */
-            $is_new_answer = self::check_is_new_answer($student_id, $course_id, $unit_id, $module_id, $response, $data);
+			/**
+			 * Check answer freshness.
+			 */
+			$is_new_answer = self::check_is_new_answer( $student_id, $course_id, $unit_id, $module_id, $response, $data );
 
-            if (false == $is_new_answer) {
-                return;
-            }
-
-        }
+			if ( false == $is_new_answer ) {
+				return;
+			}
+		}
 		$grade = - 1;
 
 		// Auto-grade the easy ones
@@ -426,7 +425,7 @@ class CoursePress_Data_Student {
 							$correct++;
 						} else {
 						    $wrong++;
-                        }
+						}
 					}
 				}
 				if ( 0 > $correct ) {
@@ -439,7 +438,7 @@ class CoursePress_Data_Student {
 
 					if ( $wrong > 0 ) {
 					    $grade -= $ratio * $wrong;
-                    }
+					}
 				}
 
 				break;
@@ -1289,6 +1288,11 @@ class CoursePress_Data_Student {
 							true
 						);
 					} else {
+						$student_progress = CoursePress_Helper_Utility::set_array_value(
+							$student_progress,
+							'completion/failed',
+							false
+						);
 						$is_completed = true;
 					}
 				}
@@ -1381,6 +1385,9 @@ class CoursePress_Data_Student {
 		);
 	}
 
+	/**
+	 * Check unit for mantadory.
+	 */
 	public static function is_mandatory_done( $student_id, $course_id, $unit_id, &$data = false ) {
 		if ( false === $data ) {
 			$data = self::get_completion_data( $student_id, $course_id );
@@ -1389,16 +1396,24 @@ class CoursePress_Data_Student {
 		 * Sanitize $unit_id
 		 */
 		if ( ! empty( $unit_id ) && is_numeric( $unit_id ) ) {
-		    $all_mandatory = CoursePress_Helper_Utility::get_array_val(
-		        $data,
-                'completion/' . $unit_id . '/all_mandatory'
-            );
-			$completed = CoursePress_Helper_Utility::get_array_val(
+			/**
+			 * boolean value!
+			 */
+			$all_mandatory = CoursePress_Helper_Utility::get_array_val(
 				$data,
-				'completion/' . $unit_id . '/completed_mandatory'
+				'completion/' . $unit_id . '/all_mandatory'
 			);
-
-			return (int) $all_mandatory == (int) $completed;
+			if ( $all_mandatory ) {
+				$required_steps = CoursePress_Helper_Utility::get_array_val(
+					$data,
+					'completion/' . $unit_id . '/required_steps'
+				);
+				$completed = CoursePress_Helper_Utility::get_array_val(
+					$data,
+					'completion/' . $unit_id . '/completed_mandatory'
+				);
+				return (int) $completed == (int) $required_steps;
+			}
 		}
 		return false;
 	}
@@ -1479,7 +1494,7 @@ class CoursePress_Data_Student {
 
 		$email_args = array();
 		$email_args['email'] = $student_data->user_email;
-		$email_args['first_name'] = $student_data->first_name;
+		$email_args['first_name'] = empty( $student_data->first_name ) && empty( $student_data->last_name ) ? $student_data->display_name : $student_data->first_name;
 		$email_args['last_name'] = $student_data->last_name;
 		$email_args['fields'] = array();
 		$email_args['fields']['student_id'] = $student_id;
@@ -2237,8 +2252,8 @@ class CoursePress_Data_Student {
 				$is_assessable = ! empty( $attributes['assessable'] );
 
 				// Don't validate none mandatory modules
-				if ( ! preg_match( '%input%', $attributes['module_type'] ) )
-					continue;
+				if ( ! preg_match( '%input%', $attributes['module_type'] ) ) {
+					continue; }
 
 				$completed = CoursePress_Data_Student::is_module_completed( $course_id, $unit_id, $module->ID, $student_id );
 				$completed = cp_is_true( $completed );
@@ -2251,8 +2266,8 @@ class CoursePress_Data_Student {
 
 				if ( ! empty( $response ) && ! $correct && $is_mandatory && $is_assessable ) {
 				    if ( ! in_array( $attributes['module_type'], array( 'input-text', 'input-textarea', 'input-upload', 'input-form' ) ) ) {
-                        $incomplete++;
-                    }
+						$incomplete++;
+					}
 				}
 			}
 		}

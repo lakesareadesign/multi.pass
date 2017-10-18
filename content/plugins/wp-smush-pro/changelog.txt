@@ -7,6 +7,10 @@ Change Log:
 
 = 2.7.5 =
 
+* Security: Fixed path traversal vulnerability. Thanks Ricardo Sánchez (@neorichi) for responsible disclosure.
+
+= 2.7.5 =
+
 * Update:
     * UI/UX has been updated for Bulk Smush page
 
@@ -14,7 +18,7 @@ Change Log:
     * Start from latest image while Bulk Smushing
     * S3 config error if AWS keys are defined in wp-config.php
     * NextGen smush page not working properly
-    * Do not redirect to settings page on activation is WP CLI is installed
+    * Do not redirect to settings page on activation if WP CLI is installed
     * Fixed a bunch of Notices/Errors
 
 
@@ -368,4 +372,4 @@ Change Log:
 - First release
 
 
-133620-1506614232-au
+133620-1508360158-au

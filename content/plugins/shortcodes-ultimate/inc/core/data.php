@@ -54,75 +54,12 @@ class Su_Data {
 	}
 
 	/**
-	 * Examples section
-	 */
-	public static function examples() {
-		return apply_filters( 'su/data/examples', array(
-				'basic' => array(
-					'title' => __( 'Basic examples', 'shortcodes-ultimate' ),
-					'items' => array(
-						array(
-							'name' => __( 'Accordions, spoilers, different styles, anchors', 'shortcodes-ultimate' ),
-							'id'   => 'spoilers',
-							'code' => plugin_dir_path( SU_PLUGIN_FILE ) . '/inc/examples/spoilers.example',
-							'icon' => 'tasks'
-						),
-						array(
-							'name' => __( 'Tabs, vertical tabs, tab anchors', 'shortcodes-ultimate' ),
-							'id'   => 'tabs',
-							'code' => plugin_dir_path( SU_PLUGIN_FILE ) . '/inc/examples/tabs.example',
-							'icon' => 'folder'
-						),
-						array(
-							'name' => __( 'Column layouts', 'shortcodes-ultimate' ),
-							'id'   => 'columns',
-							'code' => plugin_dir_path( SU_PLUGIN_FILE ) . '/inc/examples/columns.example',
-							'icon' => 'th-large'
-						),
-						array(
-							'name' => __( 'Media elements, YouTube, Vimeo, Screenr and self-hosted videos, audio player', 'shortcodes-ultimate' ),
-							'id'   => 'media',
-							'code' => plugin_dir_path( SU_PLUGIN_FILE ) . '/inc/examples/media.example',
-							'icon' => 'play-circle'
-						),
-						array(
-							'name' => __( 'Unlimited buttons', 'shortcodes-ultimate' ),
-							'id'   => 'buttons',
-							'code' => plugin_dir_path( SU_PLUGIN_FILE ) . '/inc/examples/buttons.example',
-							'icon' => 'heart'
-						),
-						array(
-							'name' => __( 'Animations', 'shortcodes-ultimate' ),
-							'id'   => 'animations',
-							'code' => plugin_dir_path( SU_PLUGIN_FILE ) . '/inc/examples/animations.example',
-							'icon' => 'bolt'
-						),
-					)
-				),
-				'advanced' => array(
-					'title' => __( 'Advanced examples', 'shortcodes-ultimate' ),
-					'items' => array(
-						array(
-							'name' => __( 'Interacting with posts shortcode', 'shortcodes-ultimate' ),
-							'id' => 'posts',
-							'code' => plugin_dir_path( SU_PLUGIN_FILE ) . '/inc/examples/posts.example',
-							'icon' => 'list'
-						),
-						array(
-							'name' => __( 'Nested shortcodes, shortcodes inside of attributes', 'shortcodes-ultimate' ),
-							'id' => 'nested',
-							'code' => plugin_dir_path( SU_PLUGIN_FILE ) . '/inc/examples/nested.example',
-							'icon' => 'indent'
-						),
-					)
-				),
-			) );
-	}
-
-	/**
 	 * Shortcodes
 	 */
 	public static function shortcodes( $shortcode = false ) {
+
+		$images_url = plugin_dir_url( SU_PLUGIN_FILE ) . 'admin/images/shortcodes/';
+
 		$shortcodes = apply_filters( 'su/data/shortcodes', array(
 				// heading
 				'heading' => array(
@@ -169,20 +106,23 @@ class Su_Data {
 							'desc' => __( 'Bottom margin (pixels)', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Heading text', 'shortcodes-ultimate' ),
 					'desc' => __( 'Styled heading', 'shortcodes-ultimate' ),
-					'icon' => 'h-square'
+					'icon' => 'h-square',
+					'image' => $images_url . 'heading.svg',
 				),
 				// tabs
 				'tabs' => array(
 					'name' => __( 'Tabs', 'shortcodes-ultimate' ),
 					'type' => 'wrap',
 					'group' => 'box',
+					'required_child' => 'tab',
 					'atts' => array(
 						'style' => array(
 							'type' => 'select',
@@ -206,29 +146,35 @@ class Su_Data {
 							'type' => 'bool',
 							'default' => 'no',
 							'name' => __( 'Vertical', 'shortcodes-ultimate' ),
-							'desc' => __( 'Show tabs vertically', 'shortcodes-ultimate' )
+							'desc' => __( 'Align tabs vertically', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
-					'content' => __( "[%prefix_tab title=\"Title 1\"]Content 1[/%prefix_tab]\n[%prefix_tab title=\"Title 2\"]Content 2[/%prefix_tab]\n[%prefix_tab title=\"Title 3\"]Content 3[/%prefix_tab]", 'shortcodes-ultimate' ),
+					'content' => array(
+						'id'     => 'tab',
+						'number' => 3,
+					),
 					'desc' => __( 'Tabs container', 'shortcodes-ultimate' ),
 					'example' => 'tabs',
-					'icon' => 'list-alt'
+					'icon' => 'list-alt',
+					'image' => $images_url . 'tabs.svg',
 				),
 				// tab
 				'tab' => array(
 					'name' => __( 'Tab', 'shortcodes-ultimate' ),
 					'type' => 'wrap',
 					'group' => 'box',
+					'required_parent' => 'tabs',
 					'atts' => array(
 						'title' => array(
 							'default' => __( 'Tab name', 'shortcodes-ultimate' ),
 							'name' => __( 'Title', 'shortcodes-ultimate' ),
-							'desc' => __( 'Enter tab name', 'shortcodes-ultimate' )
+							'desc' => __( 'Tab title', 'shortcodes-ultimate' )
 						),
 						'disabled' => array(
 							'type' => 'bool',
@@ -239,34 +185,36 @@ class Su_Data {
 						'anchor' => array(
 							'default' => '',
 							'name' => __( 'Anchor', 'shortcodes-ultimate' ),
-							'desc' => __( 'You can use unique anchor for this tab to access it with hash in page url. For example: type here <b%value>Hello</b> and then use url like http://example.com/page-url#Hello. This tab will be activated and scrolled in', 'shortcodes-ultimate' )
+							'desc' => __( 'You can use unique anchor for this tab to access it with hash in page url. For example: use <b%value>Hello</b> and then navigate to url like http://example.com/page-url#Hello. This tab will be activated and scrolled in', 'shortcodes-ultimate' )
 						),
 						'url' => array(
 							'default' => '',
 							'name' => __( 'URL', 'shortcodes-ultimate' ),
-							'desc' => __( 'You can link this tab to any webpage. Enter here full URL to switch this tab into link', 'shortcodes-ultimate' )
+							'desc' => __( 'Link tab to any webpage. Use full URL to turn the tab title into link', 'shortcodes-ultimate' )
 						),
 						'target' => array(
 							'type' => 'select',
 							'values' => array(
-								'self'  => __( 'Open link in same window/tab', 'shortcodes-ultimate' ),
-								'blank' => __( 'Open link in new window/tab', 'shortcodes-ultimate' )
+								'self'  => __( 'Open in same tab', 'shortcodes-ultimate' ),
+								'blank' => __( 'Open in new tab', 'shortcodes-ultimate' )
 							),
 							'default' => 'blank',
 							'name' => __( 'Link target', 'shortcodes-ultimate' ),
 							'desc' => __( 'Choose how to open the custom tab link', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Tab content', 'shortcodes-ultimate' ),
 					'desc' => __( 'Single tab', 'shortcodes-ultimate' ),
 					'note' => __( 'Did you know that you need to wrap single tabs with [tabs] shortcode?', 'shortcodes-ultimate' ),
 					'example' => 'tabs',
-					'icon' => 'list-alt'
+					'icon' => 'list-alt',
+					'image' => $images_url . 'tab.svg',
 				),
 				// spoiler
 				'spoiler' => array(
@@ -322,34 +270,42 @@ class Su_Data {
 							'desc' => __( 'You can use unique anchor for this spoiler to access it with hash in page url. For example: type here <b%value>Hello</b> and then use url like http://example.com/page-url#Hello. This spoiler will be open and scrolled in', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Hidden content', 'shortcodes-ultimate' ),
 					'desc' => __( 'Spoiler with hidden content', 'shortcodes-ultimate' ),
 					'note' => __( 'Did you know that you can wrap multiple spoilers with [accordion] shortcode to create accordion effect?', 'shortcodes-ultimate' ),
 					'example' => 'spoilers',
-					'icon' => 'list-ul'
+					'icon' => 'list-ul',
+					'image' => $images_url . 'spoiler.svg',
 				),
 				// accordion
 				'accordion' => array(
 					'name' => __( 'Accordion', 'shortcodes-ultimate' ),
 					'type' => 'wrap',
 					'group' => 'box',
+					'required_child' => 'spoiler',
 					'atts' => array(
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
-					'content' => __( "[%prefix_spoiler]Content[/%prefix_spoiler]\n[%prefix_spoiler]Content[/%prefix_spoiler]\n[%prefix_spoiler]Content[/%prefix_spoiler]", 'shortcodes-ultimate' ),
+					'content' => array(
+						'id'     => 'spoiler',
+						'number' => 3,
+					),
 					'desc' => __( 'Accordion with spoilers', 'shortcodes-ultimate' ),
 					'note' => __( 'Did you know that you can wrap multiple spoilers with [accordion] shortcode to create accordion effect?', 'shortcodes-ultimate' ),
 					'example' => 'spoilers',
-					'icon' => 'list'
+					'icon' => 'list',
+					'image' => $images_url . 'accordion.svg',
 				),
 				// divider
 				'divider' => array(
@@ -413,13 +369,15 @@ class Su_Data {
 							'desc' => __( 'Adjust the top and bottom margins of this divider (in pixels)', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Content divider with optional TOP link', 'shortcodes-ultimate' ),
-					'icon' => 'ellipsis-h'
+					'icon' => 'ellipsis-h',
+					'image' => $images_url . 'divider.svg',
 				),
 				// spacer
 				'spacer' => array(
@@ -437,13 +395,15 @@ class Su_Data {
 							'desc' => __( 'Height of the spacer in pixels', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Empty space with adjustable height', 'shortcodes-ultimate' ),
-					'icon' => 'arrows-v'
+					'icon' => 'arrows-v',
+					'image' => $images_url . 'spacer.svg',
 				),
 				// highlight
 				'highlight' => array(
@@ -465,14 +425,16 @@ class Su_Data {
 							'name' => __( 'Text color', 'shortcodes-ultimate' ), 'desc' => __( 'Highlighted text color', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Highlighted text', 'shortcodes-ultimate' ),
 					'desc' => __( 'Highlighted text', 'shortcodes-ultimate' ),
-					'icon' => 'pencil'
+					'icon' => 'pencil',
+					'image' => $images_url . 'highlight.svg',
 				),
 				// label
 				'label' => array(
@@ -495,14 +457,16 @@ class Su_Data {
 							'desc' => __( 'Style of the label', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Label', 'shortcodes-ultimate' ),
 					'desc' => __( 'Styled label', 'shortcodes-ultimate' ),
-					'icon' => 'tag'
+					'icon' => 'tag',
+					'image' => $images_url . 'label.svg',
 				),
 				// quote
 				'quote' => array(
@@ -531,14 +495,16 @@ class Su_Data {
 							'desc' => __( 'Url of the quote author. Leave empty to disable link', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Quote', 'shortcodes-ultimate' ),
 					'desc' => __( 'Blockquote alternative', 'shortcodes-ultimate' ),
-					'icon' => 'quote-right'
+					'icon' => 'quote-right',
+					'image' => $images_url . 'quote.svg',
 				),
 				// pullquote
 				'pullquote' => array(
@@ -556,14 +522,16 @@ class Su_Data {
 							'name' => __( 'Align', 'shortcodes-ultimate' ), 'desc' => __( 'Pullquote alignment (float)', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Pullquote', 'shortcodes-ultimate' ),
 					'desc' => __( 'Pullquote', 'shortcodes-ultimate' ),
-					'icon' => 'quote-left'
+					'icon' => 'quote-left',
+					'image' => $images_url . 'pullquote.svg',
 				),
 				// dropcap
 				'dropcap' => array(
@@ -592,37 +560,40 @@ class Su_Data {
 							'desc' => __( 'Choose dropcap size', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'D', 'shortcodes-ultimate' ),
 					'desc' => __( 'Dropcap', 'shortcodes-ultimate' ),
-					'icon' => 'bold'
+					'icon' => 'bold',
+					'image' => $images_url . 'dropcap.svg',
 				),
 				// frame
 				'frame' => array(
+					'deprecated' => true,
 					'name' => __( 'Frame', 'shortcodes-ultimate' ),
 					'type' => 'wrap',
 					'group' => 'content',
 					'atts' => array(
-						'align' => array(
-							'type' => 'select',
-							'values' => array(
-								'left' => __( 'Left', 'shortcodes-ultimate' ),
-								'center' => __( 'Center', 'shortcodes-ultimate' ),
-								'right' => __( 'Right', 'shortcodes-ultimate' )
-							),
-							'default' => 'left',
-							'name' => __( 'Align', 'shortcodes-ultimate' ),
-							'desc' => __( 'Frame alignment', 'shortcodes-ultimate' )
-						),
-						'class' => array(
-							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+					 'align' => array(
+					  'type' => 'select',
+					  'values' => array(
+					   'left' => __( 'Left', 'shortcodes-ultimate' ),
+					   'center' => __( 'Center', 'shortcodes-ultimate' ),
+					   'right' => __( 'Right', 'shortcodes-ultimate' )
+					  ),
+					  'default' => 'left',
+					  'name' => __( 'Align', 'shortcodes-ultimate' ),
+					  'desc' => __( 'Frame alignment', 'shortcodes-ultimate' )
+					 ),
+					 'class' => array(
+					  'default' => '',
+					  'name' => __( 'Class', 'shortcodes-ultimate' ),
+					  'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
+					 )
 					),
 					'content' => '<img src="http://lorempixel.com/g/400/200/" />',
 					'desc' => __( 'Styled image frame', 'shortcodes-ultimate' ),
@@ -630,25 +601,33 @@ class Su_Data {
 				),
 				// row
 				'row' => array(
-					'name' => __( 'Row', 'shortcodes-ultimate' ),
+					'name' => __( 'Columns', 'shortcodes-ultimate' ),
 					'type' => 'wrap',
 					'group' => 'box',
+					'required_child' => 'column',
+					'article' => 'http://docs.getshortcodes.com/article/44-row-column',
 					'atts' => array(
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
-					'content' => __( "[%prefix_column size=\"1/3\"]Content[/%prefix_column]\n[%prefix_column size=\"1/3\"]Content[/%prefix_column]\n[%prefix_column size=\"1/3\"]Content[/%prefix_column]", 'shortcodes-ultimate' ),
+					'content' => array(
+						'id'     => 'column',
+						'number' => 2,
+					),
 					'desc' => __( 'Row for flexible columns', 'shortcodes-ultimate' ),
-					'icon' => 'columns'
+					'icon' => 'columns',
+					'image' => $images_url . 'row.svg',
 				),
 				// column
 				'column' => array(
 					'name' => __( 'Column', 'shortcodes-ultimate' ),
 					'type' => 'wrap',
 					'group' => 'box',
+					'required_parent' => 'row',
 					'atts' => array(
 						'size' => array(
 							'type' => 'select',
@@ -677,16 +656,18 @@ class Su_Data {
 							'desc' => __( 'Is this column centered on the page', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Column content', 'shortcodes-ultimate' ),
 					'desc' => __( 'Flexible and responsive columns', 'shortcodes-ultimate' ),
 					'note' => __( 'Did you know that you need to wrap columns with [row] shortcode?', 'shortcodes-ultimate' ),
 					'example' => 'columns',
-					'icon' => 'columns'
+					'icon' => 'columns',
+					'image' => $images_url . 'column.svg',
 				),
 				// list
 				'list' => array(
@@ -707,14 +688,16 @@ class Su_Data {
 							'desc' => __( 'This color will be applied to the selected icon. Does not works with uploaded icons', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( "<ul>\n<li>List item</li>\n<li>List item</li>\n<li>List item</li>\n</ul>", 'shortcodes-ultimate' ),
 					'desc' => __( 'Styled unordered list', 'shortcodes-ultimate' ),
-					'icon' => 'list-ol'
+					'icon' => 'list-ol',
+					'image' => $images_url . 'list.svg',
 				),
 				// button
 				'button' => array(
@@ -731,8 +714,8 @@ class Su_Data {
 						'target' => array(
 							'type' => 'select',
 							'values' => array(
-								'self' => __( 'Same tab', 'shortcodes-ultimate' ),
-								'blank' => __( 'New tab', 'shortcodes-ultimate' )
+								'self' => __( 'Open in same tab', 'shortcodes-ultimate' ),
+								'blank' => __( 'Open in new tab', 'shortcodes-ultimate' )
 							),
 							'default' => 'self',
 							'name' => __( 'Target', 'shortcodes-ultimate' ),
@@ -839,15 +822,17 @@ class Su_Data {
 							'desc' => __( 'Here you can add value for the title attribute', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Button text', 'shortcodes-ultimate' ),
 					'desc' => __( 'Styled button', 'shortcodes-ultimate' ),
 					'example' => 'buttons',
-					'icon' => 'heart'
+					'icon' => 'heart',
+					'image' => $images_url . 'button.svg',
 				),
 				// service
 				'service' => array(
@@ -883,14 +868,16 @@ class Su_Data {
 							'desc' => __( 'Size of the uploaded icon in pixels', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Service description', 'shortcodes-ultimate' ),
 					'desc' => __( 'Service box with title', 'shortcodes-ultimate' ),
-					'icon' => 'check-square-o'
+					'icon' => 'check-square-o',
+					'image' => $images_url . 'service.svg',
 				),
 				// box
 				'box' => array(
@@ -939,14 +926,16 @@ class Su_Data {
 							'desc' => __( 'Box corners radius', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Box content', 'shortcodes-ultimate' ),
 					'desc' => __( 'Colored box with caption', 'shortcodes-ultimate' ),
-					'icon' => 'list-alt'
+					'icon' => 'list-alt',
+					'image' => $images_url . 'box.svg',
 				),
 				// note
 				'note' => array(
@@ -976,14 +965,16 @@ class Su_Data {
 							'name' => __( 'Radius', 'shortcodes-ultimate' ), 'desc' => __( 'Note corners radius', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Note text', 'shortcodes-ultimate' ),
 					'desc' => __( 'Colored box', 'shortcodes-ultimate' ),
-					'icon' => 'list-alt'
+					'icon' => 'list-alt',
+					'image' => $images_url . 'note.svg',
 				),
 				// expand
 				'expand' => array(
@@ -1067,20 +1058,24 @@ class Su_Data {
 							'desc' => __( 'Add an icon to the less link', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'This text block can be expanded', 'shortcodes-ultimate' ),
 					'desc' => __( 'Expandable text block', 'shortcodes-ultimate' ),
-					'icon' => 'sort-amount-asc'
+					'icon' => 'sort-amount-asc',
+					'image' => $images_url . 'expand.svg',
 				),
 				// lightbox
 				'lightbox' => array(
 					'name' => __( 'Lightbox', 'shortcodes-ultimate' ),
 					'type' => 'wrap',
 					'group' => 'gallery',
+					'possible_sibling' => 'lightbox_content',
+					'article' => 'http://docs.getshortcodes.com/article/76-how-to-use-lightbox-shortcode',
 					'atts' => array(
 						'type' => array(
 							'type' => 'select',
@@ -1099,20 +1094,24 @@ class Su_Data {
 							'desc' => __( 'Insert here URL or CSS selector. Use URL for Iframe and Image content types. Use CSS selector for Inline content type.<br />Example values:<br /><b%value>http://www.youtube.com/watch?v=XXXXXXXXX</b> - YouTube video (iframe)<br /><b%value>http://example.com/wp-content/uploads/image.jpg</b> - uploaded image (image)<br /><b%value>http://example.com/</b> - any web page (iframe)<br /><b%value>#my-custom-popup</b> - any HTML content (inline)', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
-					'content' => __( '[%prefix_button] Click Here to Watch the Video [/%prefix_button]', 'shortcodes-ultimate' ),
+					'content' => __( 'Click here to open lightbox', 'shortcodes-ultimate' ),
 					'desc' => __( 'Lightbox window with custom content', 'shortcodes-ultimate' ),
-					'icon' => 'external-link'
+					'icon' => 'external-link',
+					'image' => $images_url . 'lightbox.svg',
 				),
 				// lightbox content
 				'lightbox_content' => array(
 					'name' => __( 'Lightbox content', 'shortcodes-ultimate' ),
 					'type' => 'wrap',
 					'group' => 'gallery',
+					'required_sibling' => 'lightbox',
+					'article' => 'http://docs.getshortcodes.com/article/76-how-to-use-lightbox-shortcode',
 					'atts' => array(
 						'id' => array(
 							'default' => '',
@@ -1178,14 +1177,16 @@ class Su_Data {
 							'desc' => __( 'Adjust the shadow for content box', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Inline content', 'shortcodes-ultimate' ),
 					'desc' => __( 'Inline content for lightbox', 'shortcodes-ultimate' ),
-					'icon' => 'external-link'
+					'icon' => 'external-link',
+					'image' => $images_url . 'lightbox_content.svg',
 				),
 				// tooltip
 				'tooltip' => array(
@@ -1280,14 +1281,16 @@ class Su_Data {
 							'desc' => __( 'Show close button', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
-					'content' => __( '[%prefix_button] Hover me to open tooltip [/%prefix_button]', 'shortcodes-ultimate' ),
+					'content' => __( 'Hover me to open tooltip', 'shortcodes-ultimate' ),
 					'desc' => __( 'Tooltip window with custom content', 'shortcodes-ultimate' ),
-					'icon' => 'comment-o'
+					'icon' => 'comment-o',
+					'image' => $images_url . 'tooltip.svg',
 				),
 				// private
 				'private' => array(
@@ -1296,14 +1299,16 @@ class Su_Data {
 					'group' => 'other',
 					'atts' => array(
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Private note text', 'shortcodes-ultimate' ),
 					'desc' => __( 'Private note for post authors', 'shortcodes-ultimate' ),
-					'icon' => 'lock'
+					'icon' => 'lock',
+					'image' => $images_url . 'private.svg',
 				),
 				// youtube
 				'youtube' => array(
@@ -1348,18 +1353,20 @@ class Su_Data {
 							'desc' => __( 'Play video automatically when page is loaded', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'YouTube video', 'shortcodes-ultimate' ),
 					'example' => 'media',
-					'icon' => 'youtube-play'
+					'icon' => 'youtube-play',
+					'image' => $images_url . 'youtube.svg',
 				),
 				// youtube_advanced
 				'youtube_advanced' => array(
-					'name' => __( 'YouTube Advanced', 'shortcodes-ultimate' ),
+					'name' => __( 'YouTube advanced', 'shortcodes-ultimate' ),
 					'type' => 'single',
 					'group' => 'media',
 					'atts' => array(
@@ -1478,14 +1485,16 @@ class Su_Data {
 							'desc'    => sprintf( __( 'Here you can specify wmode value for the embed URL. %s Example values: %s, %s', 'shortcodes-ultimate' ), '<br>', '<b%value>transparent</b>', '<b%value>opaque</b>' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'YouTube video player with advanced settings', 'shortcodes-ultimate' ),
 					'example' => 'media',
-					'icon' => 'youtube-play'
+					'icon' => 'youtube-play',
+					'image' => $images_url . 'youtube_advanced.svg',
 				),
 				// vimeo
 				'vimeo' => array(
@@ -1529,55 +1538,58 @@ class Su_Data {
 							'desc' => __( 'Play video automatically when page is loaded', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Vimeo video', 'shortcodes-ultimate' ),
 					'example' => 'media',
-					'icon' => 'youtube-play'
+					'icon' => 'youtube-play',
+					'image' => $images_url . 'vimeo.svg',
 				),
 				// screenr
 				'screenr' => array(
+					'deprecated' => true,
 					'name' => __( 'Screenr', 'shortcodes-ultimate' ),
 					'type' => 'single',
 					'group' => 'media',
 					'atts' => array(
-						'url' => array(
-							'default' => '',
-							'name' => __( 'Url', 'shortcodes-ultimate' ),
-							'desc' => __( 'Url of Screenr page with video', 'shortcodes-ultimate' )
-						),
-						'width' => array(
-							'type' => 'slider',
-							'min' => 200,
-							'max' => 1600,
-							'step' => 20,
-							'default' => 600,
-							'name' => __( 'Width', 'shortcodes-ultimate' ),
-							'desc' => __( 'Player width', 'shortcodes-ultimate' )
-						),
-						'height' => array(
-							'type' => 'slider',
-							'min' => 200,
-							'max' => 1600,
-							'step' => 20,
-							'default' => 400,
-							'name' => __( 'Height', 'shortcodes-ultimate' ),
-							'desc' => __( 'Player height', 'shortcodes-ultimate' )
-						),
-						'responsive' => array(
-							'type' => 'bool',
-							'default' => 'yes',
-							'name' => __( 'Responsive', 'shortcodes-ultimate' ),
-							'desc' => __( 'Ignore width and height parameters and make player responsive', 'shortcodes-ultimate' )
-						),
-						'class' => array(
-							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+					 'url' => array(
+					  'default' => '',
+					  'name' => __( 'Url', 'shortcodes-ultimate' ),
+					  'desc' => __( 'Url of Screenr page with video', 'shortcodes-ultimate' )
+					 ),
+					 'width' => array(
+					  'type' => 'slider',
+					  'min' => 200,
+					  'max' => 1600,
+					  'step' => 20,
+					  'default' => 600,
+					  'name' => __( 'Width', 'shortcodes-ultimate' ),
+					  'desc' => __( 'Player width', 'shortcodes-ultimate' )
+					 ),
+					 'height' => array(
+					  'type' => 'slider',
+					  'min' => 200,
+					  'max' => 1600,
+					  'step' => 20,
+					  'default' => 400,
+					  'name' => __( 'Height', 'shortcodes-ultimate' ),
+					  'desc' => __( 'Player height', 'shortcodes-ultimate' )
+					 ),
+					 'responsive' => array(
+					  'type' => 'bool',
+					  'default' => 'yes',
+					  'name' => __( 'Responsive', 'shortcodes-ultimate' ),
+					  'desc' => __( 'Ignore width and height parameters and make player responsive', 'shortcodes-ultimate' )
+					 ),
+					 'class' => array(
+					  'default' => '',
+					  'name' => __( 'Class', 'shortcodes-ultimate' ),
+					  'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
+					 )
 					),
 					'desc' => __( 'Screenr video', 'shortcodes-ultimate' ),
 					'icon' => 'youtube-play'
@@ -1673,13 +1685,15 @@ class Su_Data {
 							'desc' => __( 'Show videos info (title/author) on the start screen', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Dailymotion video', 'shortcodes-ultimate' ),
-					'icon' => 'youtube-play'
+					'icon' => 'youtube-play',
+					'image' => $images_url . 'dailymotion.svg',
 				),
 				// audio
 				'audio' => array(
@@ -1712,14 +1726,16 @@ class Su_Data {
 							'desc' => __( 'Repeat when playback is ended', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Custom audio player', 'shortcodes-ultimate' ),
 					'example' => 'media',
-					'icon' => 'play-circle'
+					'icon' => 'play-circle',
+					'image' => $images_url . 'audio.svg',
 				),
 				// video
 				'video' => array(
@@ -1782,19 +1798,21 @@ class Su_Data {
 							'desc' => __( 'Repeat when playback is ended', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Custom video player', 'shortcodes-ultimate' ),
 					'example' => 'media',
-					'icon' => 'play-circle'
+					'icon' => 'play-circle',
+					'image' => $images_url . 'video.svg',
 				),
 				// table
 				'table' => array(
 					'name' => __( 'Table', 'shortcodes-ultimate' ),
-					'type' => 'mixed',
+					'type' => 'wrap',
 					'group' => 'content',
 					'atts' => array(
 						'url' => array(
@@ -1804,14 +1822,16 @@ class Su_Data {
 							'desc' => __( 'Upload CSV file if you want to create HTML-table from file', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( "<table>\n<tr>\n\t<td>Table</td>\n\t<td>Table</td>\n</tr>\n<tr>\n\t<td>Table</td>\n\t<td>Table</td>\n</tr>\n</table>", 'shortcodes-ultimate' ),
 					'desc' => __( 'Styled table from HTML or CSV file', 'shortcodes-ultimate' ),
-					'icon' => 'table'
+					'icon' => 'table',
+					'image' => $images_url . 'table.svg',
 				),
 				// permalink
 				'permalink' => array(
@@ -1827,22 +1847,24 @@ class Su_Data {
 						'target' => array(
 							'type' => 'select',
 							'values' => array(
-								'self' => __( 'Same tab', 'shortcodes-ultimate' ),
-								'blank' => __( 'New tab', 'shortcodes-ultimate' )
+								'self' => __( 'Open in same tab', 'shortcodes-ultimate' ),
+								'blank' => __( 'Open in new tab', 'shortcodes-ultimate' )
 							),
 							'default' => 'self',
 							'name' => __( 'Target', 'shortcodes-ultimate' ),
-							'desc' => __( 'Link target. blank - link will be opened in new window/tab', 'shortcodes-ultimate' )
+							'desc' => __( 'Link target', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => '',
 					'desc' => __( 'Permalink to specified post/page', 'shortcodes-ultimate' ),
-					'icon' => 'link'
+					'icon' => 'link',
+					'image' => $images_url . 'permalink.svg',
 				),
 				// members
 				'members' => array(
@@ -1868,14 +1890,16 @@ class Su_Data {
 							'name' => __( 'Login link url', 'shortcodes-ultimate' ), 'desc' => __( 'Login link url', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Content for logged members', 'shortcodes-ultimate' ),
 					'desc' => __( 'Content for logged in members only', 'shortcodes-ultimate' ),
-					'icon' => 'lock'
+					'icon' => 'lock',
+					'image' => $images_url . 'members.svg',
 				),
 				// guests
 				'guests' => array(
@@ -1884,18 +1908,20 @@ class Su_Data {
 					'group' => 'other',
 					'atts' => array(
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
-					'content' => __( 'Content for guests', 'shortcodes-ultimate' ),
+					'content' => __( 'This content will be available only for non-logged visitors', 'shortcodes-ultimate' ),
 					'desc' => __( 'Content for guests only', 'shortcodes-ultimate' ),
-					'icon' => 'user'
+					'icon' => 'user',
+					'image' => $images_url . 'guests.svg',
 				),
 				// feed
 				'feed' => array(
-					'name' => __( 'RSS Feed', 'shortcodes-ultimate' ),
+					'name' => __( 'RSS feed', 'shortcodes-ultimate' ),
 					'type' => 'single',
 					'group' => 'content other',
 					'atts' => array(
@@ -1914,13 +1940,15 @@ class Su_Data {
 							'name' => __( 'Limit', 'shortcodes-ultimate' ), 'desc' => __( 'Number of items to show', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Feed grabber', 'shortcodes-ultimate' ),
-					'icon' => 'rss'
+					'icon' => 'rss',
+					'image' => $images_url . 'feed.svg',
 				),
 				// menu
 				'menu' => array(
@@ -1934,13 +1962,15 @@ class Su_Data {
 							'name' => __( 'Menu name', 'shortcodes-ultimate' ), 'desc' => __( 'Custom menu name. Ex: Main menu', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Custom menu by name', 'shortcodes-ultimate' ),
-					'icon' => 'bars'
+					'icon' => 'bars',
+					'image' => $images_url . 'menu.svg',
 				),
 				// subpages
 				'subpages' => array(
@@ -1961,13 +1991,15 @@ class Su_Data {
 							'desc' => __( 'ID of the parent page. Leave blank to use current page', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'List of sub pages', 'shortcodes-ultimate' ),
-					'icon' => 'bars'
+					'icon' => 'bars',
+					'image' => $images_url . 'subpages.svg',
 				),
 				// siblings
 				'siblings' => array(
@@ -1982,13 +2014,15 @@ class Su_Data {
 							'desc' => __( 'Max depth level', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'List of cureent page siblings', 'shortcodes-ultimate' ),
-					'icon' => 'bars'
+					'icon' => 'bars',
+					'image' => $images_url . 'siblings.svg',
 				),
 				// document
 				'document' => array(
@@ -2027,17 +2061,19 @@ class Su_Data {
 							'desc' => __( 'Ignore width and height parameters and make viewer responsive', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Document viewer by Google', 'shortcodes-ultimate' ),
-					'icon' => 'file-text'
+					'icon' => 'file-text',
+					'image' => $images_url . 'document.svg',
 				),
 				// gmap
 				'gmap' => array(
-					'name' => __( 'Gmap', 'shortcodes-ultimate' ),
+					'name' => __( 'Google map', 'shortcodes-ultimate' ),
 					'type' => 'single',
 					'group' => 'media',
 					'atts' => array(
@@ -2072,13 +2108,15 @@ class Su_Data {
 							'desc' => __( 'Address for the marker. You can type it in any language', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Maps by Google', 'shortcodes-ultimate' ),
-					'icon' => 'globe'
+					'icon' => 'globe',
+					'image' => $images_url . 'gmap.svg',
 				),
 				// slider
 				'slider' => array(
@@ -2118,8 +2156,8 @@ class Su_Data {
 						'target' => array(
 							'type' => 'select',
 							'values' => array(
-								'self' => __( 'Same window', 'shortcodes-ultimate' ),
-								'blank' => __( 'New window', 'shortcodes-ultimate' )
+								'self' => __( 'Open in same tab', 'shortcodes-ultimate' ),
+								'blank' => __( 'Open in new tab', 'shortcodes-ultimate' )
 							),
 							'default' => 'self',
 							'name' => __( 'Links target', 'shortcodes-ultimate' ),
@@ -2191,13 +2229,15 @@ class Su_Data {
 							'name' => __( 'Speed', 'shortcodes-ultimate' ), 'desc' => __( 'Specify animation speed', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Customizable image slider', 'shortcodes-ultimate' ),
-					'icon' => 'picture-o'
+					'icon' => 'picture-o',
+					'image' => $images_url . 'slider.svg',
 				),
 				// carousel
 				'carousel' => array(
@@ -2237,8 +2277,8 @@ class Su_Data {
 						'target' => array(
 							'type' => 'select',
 							'values' => array(
-								'self' => __( 'Same window', 'shortcodes-ultimate' ),
-								'blank' => __( 'New window', 'shortcodes-ultimate' )
+								'self' => __( 'Open in same tab', 'shortcodes-ultimate' ),
+								'blank' => __( 'Open in new tab', 'shortcodes-ultimate' )
 							),
 							'default' => 'self',
 							'name' => __( 'Links target', 'shortcodes-ultimate' ),
@@ -2329,13 +2369,15 @@ class Su_Data {
 							'name' => __( 'Speed', 'shortcodes-ultimate' ), 'desc' => __( 'Specify animation speed', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Customizable image carousel', 'shortcodes-ultimate' ),
-					'icon' => 'picture-o'
+					'icon' => 'picture-o',
+					'image' => $images_url . 'carousel.svg',
 				),
 				// custom_gallery
 				'custom_gallery' => array(
@@ -2375,8 +2417,8 @@ class Su_Data {
 						'target' => array(
 							'type' => 'select',
 							'values' => array(
-								'self' => __( 'Same window', 'shortcodes-ultimate' ),
-								'blank' => __( 'New window', 'shortcodes-ultimate' )
+								'self' => __( 'Open in same tab', 'shortcodes-ultimate' ),
+								'blank' => __( 'Open in new tab', 'shortcodes-ultimate' )
 							),
 							'default' => 'self',
 							'name' => __( 'Links target', 'shortcodes-ultimate' ),
@@ -2410,23 +2452,26 @@ class Su_Data {
 							'desc' => __( 'Title display mode', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Customizable image gallery', 'shortcodes-ultimate' ),
-					'icon' => 'picture-o'
+					'icon' => 'picture-o',
+					'image' => $images_url . 'custom_gallery.svg',
 				),
 				// posts
 				'posts' => array(
 					'name' => __( 'Posts', 'shortcodes-ultimate' ),
 					'type' => 'single',
 					'group' => 'other',
+					'article' => 'http://docs.getshortcodes.com/article/43-posts',
 					'atts' => array(
 						'template' => array(
 							'default' => 'templates/default-loop.php', 'name' => __( 'Template', 'shortcodes-ultimate' ),
-							'desc' => __( '<b>Do not change this field value if you do not understand description below.</b><br/>Relative path to the template file. Default templates is placed under the plugin directory (templates folder). You can copy it under your theme directory and modify as you want. You can use following default templates that already available in the plugin directory:<br/><b%value>templates/default-loop.php</b> - posts loop<br/><b%value>templates/teaser-loop.php</b> - posts loop with thumbnail and title<br/><b%value>templates/single-post.php</b> - single post template<br/><b%value>templates/list-loop.php</b> - unordered list with posts titles', 'shortcodes-ultimate' )
+							'desc' => __( 'Relative path to the template file. Default templates placed in the plugin directory (templates folder). You can copy them under your theme directory and modify as you want. You can use following default templates that already available in the plugin directory:<br/><b%value>templates/default-loop.php</b> - posts loop<br/><b%value>templates/teaser-loop.php</b> - posts loop with thumbnail and title<br/><b%value>templates/single-post.php</b> - single post template<br/><b%value>templates/list-loop.php</b> - unordered list with posts titles', 'shortcodes-ultimate' )
 						),
 						'id' => array(
 							'default' => '',
@@ -2443,41 +2488,46 @@ class Su_Data {
 							'desc' => __( 'Specify number of posts that you want to show. Enter -1 to get all posts', 'shortcodes-ultimate' )
 						),
 						'post_type' => array(
-							'type' => 'select',
+							'type' => 'post_type',
 							'multiple' => true,
-							'values' => Su_Tools::get_types(),
+							'values' => array(),
 							'default' => 'post',
 							'name' => __( 'Post types', 'shortcodes-ultimate' ),
 							'desc' => __( 'Select post types. Hold Ctrl key to select multiple post types', 'shortcodes-ultimate' )
 						),
 						'taxonomy' => array(
-							'type' => 'select',
-							'values' => Su_Tools::get_taxonomies(),
+							'type' => 'taxonomy',
+							'values' => array(),
 							'default' => 'category',
 							'name' => __( 'Taxonomy', 'shortcodes-ultimate' ),
 							'desc' => __( 'Select taxonomy to show posts from', 'shortcodes-ultimate' )
 						),
 						'tax_term' => array(
-							'type' => 'select',
+							'type' => 'term',
 							'multiple' => true,
-							'values' => Su_Tools::get_terms( 'category' ),
+							'values' => array(),
 							'default' => '',
 							'name' => __( 'Terms', 'shortcodes-ultimate' ),
 							'desc' => __( 'Select terms to show posts from', 'shortcodes-ultimate' )
 						),
 						'tax_operator' => array(
 							'type' => 'select',
-							'values' => array( 'IN', 'NOT IN', 'AND' ),
-							'default' => 'IN', 'name' => __( 'Taxonomy term operator', 'shortcodes-ultimate' ),
-							'desc' => __( 'IN - posts that have any of selected categories terms<br/>NOT IN - posts that is does not have any of selected terms<br/>AND - posts that have all selected terms', 'shortcodes-ultimate' )
+							'values' => array(
+									'IN'     => __( 'IN - posts that have any of selected categories terms', 'shortcodes-ultimate' ),
+									'NOT IN' => __( 'NOT IN - posts that is does not have any of selected terms', 'shortcodes-ultimate' ),
+									'AND'    => __( 'AND - posts that have all selected terms', 'shortcodes-ultimate' ),
+							),
+							'default' => 'IN',
+							'name' => __( 'Taxonomy term operator', 'shortcodes-ultimate' ),
+							'desc' => __( 'Operator to test', 'shortcodes-ultimate' )
 						),
 						// 'author' => array(
-						// 	'type' => 'select',
-						// 	'multiple' => true,
-						// 	'values' => Su_Tools::get_users(),
-						// 	'default' => 'default',
-						// 	'name' => __( 'Authors', 'shortcodes-ultimate' ),
-						// 	'desc' => __( 'Choose the authors whose posts you want to show. Enter here comma-separated list of users (IDs). Example: 1,7,18', 'shortcodes-ultimate' )
+						//  'type' => 'select',
+						//  'multiple' => true,
+						//  'values' => Su_Tools::get_users(),
+						//  'default' => 'default',
+						//  'name' => __( 'Authors', 'shortcodes-ultimate' ),
+						//  'desc' => __( 'Choose the authors whose posts you want to show. Enter here comma-separated list of users (IDs). Example: 1,7,18', 'shortcodes-ultimate' )
 						// ),
 						'author' => array(
 							'default' => '',
@@ -2554,7 +2604,8 @@ class Su_Data {
 						)
 					),
 					'desc' => __( 'Custom posts query with customizable template', 'shortcodes-ultimate' ),
-					'icon' => 'th-list'
+					'icon' => 'th-list',
+					'image' => $images_url . 'posts.svg',
 				),
 				// dummy_text
 				'dummy_text' => array(
@@ -2589,13 +2640,15 @@ class Su_Data {
 							'desc' => __( 'Generated text will be cached. Be careful with this option. If you disable it and insert many dummy_text shortcodes the page load time will be highly increased', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Text placeholder', 'shortcodes-ultimate' ),
-					'icon' => 'text-height'
+					'icon' => 'text-height',
+					'image' => $images_url . 'dummy_text.svg',
 				),
 				// dummy_image
 				'dummy_image' => array(
@@ -2644,13 +2697,15 @@ class Su_Data {
 							'desc' => __( 'Select the theme for this image', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Image placeholder with random image', 'shortcodes-ultimate' ),
-					'icon' => 'picture-o'
+					'icon' => 'picture-o',
+					'image' => $images_url . 'dummy_image.svg',
 				),
 				// animate
 				'animate' => array(
@@ -2690,19 +2745,21 @@ class Su_Data {
 							'desc' => __( 'This parameter determines what HTML tag will be used for animation wrapper. Turn this option to YES and animated element will be wrapped in SPAN instead of DIV. Useful for inline animations, like buttons', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'content' => __( 'Animated content', 'shortcodes-ultimate' ),
 					'desc' => __( 'Wrapper for animation. Any nested element will be animated', 'shortcodes-ultimate' ),
 					'example' => 'animations',
-					'icon' => 'bolt'
+					'icon' => 'bolt',
+					'image' => $images_url . 'animate.svg',
 				),
 				// meta
 				'meta' => array(
-					'name' => __( 'Meta', 'shortcodes-ultimate' ),
+					'name' => __( 'Meta data', 'shortcodes-ultimate' ),
 					'type' => 'single',
 					'group' => 'data',
 					'atts' => array(
@@ -2738,11 +2795,12 @@ class Su_Data {
 						)
 					),
 					'desc' => __( 'Post meta', 'shortcodes-ultimate' ),
-					'icon' => 'info-circle'
+					'icon' => 'info-circle',
+					'image' => $images_url . 'meta.svg',
 				),
 				// user
 				'user' => array(
-					'name' => __( 'User', 'shortcodes-ultimate' ),
+					'name' => __( 'User data', 'shortcodes-ultimate' ),
 					'type' => 'single',
 					'group' => 'data',
 					'atts' => array(
@@ -2790,11 +2848,12 @@ class Su_Data {
 						)
 					),
 					'desc' => __( 'User data', 'shortcodes-ultimate' ),
-					'icon' => 'info-circle'
+					'icon' => 'info-circle',
+					'image' => $images_url . 'user.svg',
 				),
 				// post
 				'post' => array(
-					'name' => __( 'Post', 'shortcodes-ultimate' ),
+					'name' => __( 'Post data', 'shortcodes-ultimate' ),
 					'type' => 'single',
 					'group' => 'data',
 					'atts' => array(
@@ -2853,40 +2912,41 @@ class Su_Data {
 						)
 					),
 					'desc' => __( 'Post data', 'shortcodes-ultimate' ),
-					'icon' => 'info-circle'
+					'icon' => 'info-circle',
+					'image' => $images_url . 'post.svg',
 				),
 				// post_terms
 				// 'post_terms' => array(
-				// 	'name' => __( 'Post terms', 'shortcodes-ultimate' ),
-				// 	'type' => 'single',
-				// 	'group' => 'data',
-				// 	'atts' => array(
-				// 		'post_id' => array(
-				// 			'default' => '',
-				// 			'name' => __( 'Post ID', 'shortcodes-ultimate' ),
-				// 			'desc' => __( 'You can specify custom post ID. Leave this field empty to use an ID of the current post. Current post ID may not work in Live Preview mode', 'shortcodes-ultimate' )
-				// 		),
-				// 		'links' => array(
-				// 			'type' => 'bool',
-				// 			'default' => 'yes',
-				// 			'name' => __( 'Show links', 'shortcodes-ultimate' ),
-				// 			'desc' => __( 'Show terms names as hyperlinks', 'shortcodes-ultimate' )
-				// 		),
-				// 		'format' => array(
-				// 			'type' => 'select',
-				// 			'values' => array(
-				// 				'text' => __( 'Terms separated by commas', 'shortcodes-ultimate' ),
-				// 				'br' => __( 'Terms separated by new lines', 'shortcodes-ultimate' ),
-				// 				'ul' => __( 'Unordered list', 'shortcodes-ultimate' ),
-				// 				'ol' => __( 'Ordered list', 'shortcodes-ultimate' ),
-				// 			),
-				// 			'default' => 'text',
-				// 			'name' => __( 'Format', 'shortcodes-ultimate' ),
-				// 			'desc' => __( 'Choose how to output the terms', 'shortcodes-ultimate' )
-				// 		),
-				// 	),
-				// 	'desc' => __( 'Terms list', 'shortcodes-ultimate' ),
-				// 	'icon' => 'info-circle'
+				//  'name' => __( 'Post terms', 'shortcodes-ultimate' ),
+				//  'type' => 'single',
+				//  'group' => 'data',
+				//  'atts' => array(
+				//   'post_id' => array(
+				//    'default' => '',
+				//    'name' => __( 'Post ID', 'shortcodes-ultimate' ),
+				//    'desc' => __( 'You can specify custom post ID. Leave this field empty to use an ID of the current post. Current post ID may not work in Live Preview mode', 'shortcodes-ultimate' )
+				//   ),
+				//   'links' => array(
+				//    'type' => 'bool',
+				//    'default' => 'yes',
+				//    'name' => __( 'Show links', 'shortcodes-ultimate' ),
+				//    'desc' => __( 'Show terms names as hyperlinks', 'shortcodes-ultimate' )
+				//   ),
+				//   'format' => array(
+				//    'type' => 'select',
+				//    'values' => array(
+				//     'text' => __( 'Terms separated by commas', 'shortcodes-ultimate' ),
+				//     'br' => __( 'Terms separated by new lines', 'shortcodes-ultimate' ),
+				//     'ul' => __( 'Unordered list', 'shortcodes-ultimate' ),
+				//     'ol' => __( 'Ordered list', 'shortcodes-ultimate' ),
+				//    ),
+				//    'default' => 'text',
+				//    'name' => __( 'Format', 'shortcodes-ultimate' ),
+				//    'desc' => __( 'Choose how to output the terms', 'shortcodes-ultimate' )
+				//   ),
+				//  ),
+				//  'desc' => __( 'Terms list', 'shortcodes-ultimate' ),
+				//  'icon' => 'info-circle'
 				// ),
 				// template
 				'template' => array(
@@ -2901,7 +2961,8 @@ class Su_Data {
 						)
 					),
 					'desc' => __( 'Theme template', 'shortcodes-ultimate' ),
-					'icon' => 'puzzle-piece'
+					'icon' => 'puzzle-piece',
+					'image' => $images_url . 'template.svg',
 				),
 				// qrcode
 				'qrcode' => array(
@@ -2957,8 +3018,8 @@ class Su_Data {
 						'target' => array(
 							'type' => 'select',
 							'values' => array(
-								'self' => __( 'Open link in same window/tab', 'shortcodes-ultimate' ),
-								'blank' => __( 'Open link in new window/tab', 'shortcodes-ultimate' ),
+								'self' => __( 'Open in same tab', 'shortcodes-ultimate' ),
+								'blank' => __( 'Open in new tab', 'shortcodes-ultimate' ),
 							),
 							'default' => 'blank',
 							'name' => __( 'Link target', 'shortcodes-ultimate' ),
@@ -2977,13 +3038,15 @@ class Su_Data {
 							'desc' => __( 'Pick a background color', 'shortcodes-ultimate' )
 						),
 						'class' => array(
+							'type' => 'extra_css_class',
+							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
+							'desc' => __( 'Additional CSS class name(s) separated by space(s)', 'shortcodes-ultimate' ),
 							'default' => '',
-							'name' => __( 'Class', 'shortcodes-ultimate' ),
-							'desc' => __( 'Extra CSS class', 'shortcodes-ultimate' )
-						)
+						),
 					),
 					'desc' => __( 'Advanced QR code generator', 'shortcodes-ultimate' ),
-					'icon' => 'qrcode'
+					'icon' => 'qrcode',
+					'image' => $images_url . 'qrcode.svg',
 				),
 				// scheduler
 				'scheduler' => array(
@@ -3025,7 +3088,8 @@ class Su_Data {
 					'content' => __( 'Scheduled content', 'shortcodes-ultimate' ),
 					'desc' => __( 'Allows to show the content only at the specified time period', 'shortcodes-ultimate' ),
 					'note' => __( 'This shortcode allows you to show content only at the specified time.', 'shortcodes-ultimate' ) . '<br><br>' . __( 'Please pay special attention to the descriptions, which are located below each text field. It will save you a lot of time', 'shortcodes-ultimate' ) . '<br><br>' . __( 'By default, the content of this shortcode will be visible all the time. By using fields below, you can add some limitations. For example, if you type 1-5 in the Days of the week field, content will be only shown from Monday to Friday. Using the same principles, you can limit content visibility from years to seconds.', 'shortcodes-ultimate' ),
-					'icon' => 'clock-o'
+					'icon' => 'clock-o',
+					'image' => $images_url . 'scheduler.svg',
 				),
 			) );
 		// Return result

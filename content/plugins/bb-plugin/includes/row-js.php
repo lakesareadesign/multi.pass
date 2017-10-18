@@ -32,7 +32,9 @@ YUI({'logExclude': { 'yui': true } }).use('fl-slideshow', function(Y) {
 		oldSlideshow.remove(true);
 	}
 
-	newSlideshow.render('.fl-node-<?php echo $id; ?> .fl-bg-slideshow');
+	jQuery( '.fl-node-<?php echo $id; ?>' ).imagesLoaded( function(){
+		newSlideshow.render('.fl-node-<?php echo $id; ?> .fl-bg-slideshow');
+	} );
 });
 <?php
 

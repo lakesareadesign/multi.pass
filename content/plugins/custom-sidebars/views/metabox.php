@@ -49,7 +49,7 @@ if ( $is_front || $is_blog ) : ?>
 <?php
 		if ( ! empty( $sidebars ) ) :
 			global $wp_registered_sidebars;
-			$available = CustomSidebars::sort_sidebars_by_name( $wp_registered_sidebars );							 			 	 	 		  
+			$available = CustomSidebars::sort_sidebars_by_name( $wp_registered_sidebars );
 			foreach ( $sidebars as $s ) : ?>
 			<?php $sb_name = $available[ $s ]['name']; ?>
 			<p>

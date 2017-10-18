@@ -393,7 +393,7 @@ EO_ADMIN_JS;
 	}
 
 	public function mark_successful_save ($result) {
-		if (!empty($result['message'])) $result['message'] = __('<span style="color:green;font-weight:bold">Changes saved.</span>', 'appointments');
+		if (!empty($result['message'])) $result['message'] = __('<span style="color:green;font-weight:bold">Changes saved.</span>', 'appointments');		   		 	  		  	 	 	
 		return $result;
 	}
 

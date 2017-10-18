@@ -982,9 +982,9 @@ class ub_html_emailer {
 				update_option( 'html_template', $template );
 				update_option( 'modify_html_email', $modify_html_email );
 			}
-
-			echo '<div class="updated"><p>' . esc_html__( 'Success! Your changes were sucessfully saved!', 'htmlemail' ) . '</p></div>';
+			return true;
 		}
+		return false;
 	}
 
 	/**

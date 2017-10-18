@@ -8,6 +8,7 @@ if ( ! class_exists( 'UltimateBrandingPublic' ) ) {
 		// The modules in the public class are only those that need to be loaded on the public side of the site as well
 		var $modules = array(
 			'login-image.php' => 'login-image/login-image.php',
+			'image-upload-size.php' => 'image-upload-size.php',
 			'custom-admin-bar.php' => 'custom-admin-bar/custom-admin-bar.php',
 			'custom-email-from.php' => 'custom-email-from/custom-email-from.php',
 			'global-footer-content.php' => 'global-footer-content/global-footer-content.php',

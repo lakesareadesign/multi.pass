@@ -32,7 +32,7 @@ get_header();
                 </div>
                 <div class="total-course-grade">
                     <?php
-                    $total_grade = do_shortcode( sprintf( '[course_progress course_id="%s"]', $course_id ) );									   	 	   		
+                    $total_grade = do_shortcode( sprintf( '[course_progress course_id="%s"]', $course_id ) );
                     printf( '<span class="total-grade">%s: %d%%</span>', __( 'Total'), $total_grade );
                     ?>
                 </div>

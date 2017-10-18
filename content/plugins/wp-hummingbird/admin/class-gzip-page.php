@@ -13,7 +13,7 @@ class WP_Hummingbird_GZIP_Page extends WP_Hummingbird_Admin_Page {
 	public function render_header() {
 
 		if ( isset( $_GET['htaccess-error'] ) ) {
-			$this->show_notice( 'error', __( 'Hummingbird could not update or write your .htaccess file. Please, make .htaccess writable or paste the code yourself.', 'wphb' ), 'error', true );
+			$this->show_notice( 'error', __( 'Hummingbird could not update or write your .htaccess file. Please, make .htaccess writable or paste the code yourself.', 'wphb' ), 'error', true );	  	 	   	 		 		 		 	
 		}
 
 		if ( isset( $_GET['gzip-enabled'] ) ) {

@@ -449,6 +449,6 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 				),
 			),
 		),
-		'description'   => sprintf( __( 'Please register keys for your website at the <a%s>Google Admin Console</a>', 'fl-builder' ), ' href="https://www.google.com/recaptcha/admin" target="_blank"' ),
+		'description'   => sprintf( __( 'Please register keys for your website at the <a%s>Google Admin Console</a>', 'fl-builder' ), ' href="https://www.google.com/recaptcha/admin" target="_blank" rel="noopener"' ),
 	),
 ));

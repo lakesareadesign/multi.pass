@@ -130,37 +130,37 @@ class CoursePress_Template_Module {
 				break;
 
 			case 'input-form':
-					if ( ! empty( $attributes['questions'] ) ) {
-						$questions = $attributes['questions'];
+				if ( ! empty( $attributes['questions'] ) ) {
+					$questions = $attributes['questions'];
 
-						foreach ( $questions as $q_index => $question ) {
-							$student_response = ! empty( $response[ $q_index ] ) ? $response[ $q_index ] : '';
-							$format = '<div class="cp-q"><hr /><p class="description cp-question">%s</p>';
-							$content .= sprintf( $format, esc_html( $question['question'] ) );
-							$content .= '<ul>';
+					foreach ( $questions as $q_index => $question ) {
+						$student_response = ! empty( $response[ $q_index ] ) ? $response[ $q_index ] : '';
+						$format = '<div class="cp-q"><hr /><p class="description cp-question">%s</p>';
+						$content .= sprintf( $format, esc_html( $question['question'] ) );
+						$content .= '<ul>';
 
-							if ( 'selectable' == $question['type'] ) {
-								$options = $question['options']['answers'];
-								$checked = $question['options']['checked'];
+						if ( 'selectable' == $question['type'] ) {
+							$options = $question['options']['answers'];
+							$checked = $question['options']['checked'];
 
-								foreach ( $options as $ai => $answer ) {
-									if ( $student_response == $ai ) {
-										$the_answer = ! empty( $checked[ $ai ] );
+							foreach ( $options as $ai => $answer ) {
+								if ( $student_response == $ai ) {
+									$the_answer = ! empty( $checked[ $ai ] );
 
-										if ( $the_answer === $student_response ) {
-											$student_answer = '<span class="chosen-answer correct"></span>';
-										} else {
-											$student_answer = '<span class="chosen-answer incorrect"></span>';
-										}
-										$content .= sprintf( '<li>%s %s</li>', $student_answer, $answer );
+									if ( $the_answer === $student_response ) {
+										$student_answer = '<span class="chosen-answer correct"></span>';
+									} else {
+										$student_answer = '<span class="chosen-answer incorrect"></span>';
 									}
+									$content .= sprintf( '<li>%s %s</li>', $student_answer, $answer );
 								}
-							} else {
-								$content .= sprintf( '<li>%s</li>', esc_html( $student_response ) );
 							}
-							$content .= '</ul></div>';
+						} else {
+							$content .= sprintf( '<li>%s</li>', esc_html( $student_response ) );
 						}
+						$content .= '</ul></div>';
 					}
+				}
 				break;
 		}
 
@@ -194,7 +194,7 @@ class CoursePress_Template_Module {
 					$status = __( 'Pass', 'cp' );
 				} else {
 				    $status = __( 'Failed', 'cp' );
-                }
+				}
 			} else {
 				$status = __( 'Non Gradable', 'cp' );
 			}
@@ -577,7 +577,7 @@ class CoursePress_Template_Module {
 					width="<?php echo $player_width; ?>"
 					height="<?php echo $player_height; ?>"
 					src="<?php echo $url; ?>"
-					data-setup='<?php echo CoursePress_Helper_Utility::create_video_js_setup_data($url, $data); ?>'
+					data-setup='<?php echo CoursePress_Helper_Utility::create_video_js_setup_data( $url, $data ); ?>'
 					<?php echo $controls; ?>
 					<?php echo $autoplay; ?>
 					<?php echo $loop; ?>>
@@ -697,18 +697,37 @@ class CoursePress_Template_Module {
 		return '<hr />';
 	}
 
-	private static function comment_form( $post_id ) {
+	private static function comment_form( $post_id, $attributes = false ) {
+		if ( ! is_user_logged_in() ) {
+			return '';
+		}
 		$enrolled = false;
-		if ( is_user_logged_in() ) {
-			$student_id = get_current_user_id();
-			$course_id = CoursePress_Data_Module::get_course_id_by_module( $post_id );
-			$enrolled = CoursePress_Data_Course::student_enrolled( $student_id, $course_id );
+		$student_id = get_current_user_id();
+		$course_id = CoursePress_Data_Module::get_course_id_by_module( $post_id );
+		$enrolled = CoursePress_Data_Course::student_enrolled( $student_id, $course_id );
+		/**
+		 * Instructor as enrolled user.
+		 */
+		if ( false == $enrolled ) {
+			$instructors = array_filter( CoursePress_Data_Course::get_instructors( $course_id ) );
+			if ( in_array( $student_id, $instructors ) ) {
+				$enrolled = true;
+			}
+		}
+		/**
+		 * Author as enrolled user.
+		 */
+		if ( false == $enrolled ) {
+			$enrolled = CoursePress_Data_Capabilities::can_update_course( $course_id );
 		}
 		if ( false == $enrolled ) {
 			return '';
 		}
 
+		$attributes = false === $attributes ? self::attributes( $module->ID ) : $attributes;
+
 		ob_start();
+
 		$form_class = array( 'comment-form', 'cp-comment-form' );
 		$comment_order = get_option( 'comment_order' );
 		$form_class[] = 'comment-form-' . $comment_order;
@@ -739,6 +758,25 @@ class CoursePress_Template_Module {
 			array( '<div', '</div>' ),
 			$comment_form
 		);
+
+		/**
+		 * remove required="required" from textarea
+		 */
+		$mandatory = false;
+		if ( isset( $attributes['mandatory'] ) ) {
+			$mandatory = cp_is_true( $attributes['mandatory'] );
+		}
+		if ( false === $mandatory ) {
+			$pattern = '/(<textarea[^>]+>)/';
+			preg_match( $pattern, $comment_form, $matches );
+			if ( 2 == sizeof( $matches ) ) {
+				$replacement = $matches[1];
+				$replacement = preg_replace( '/ required(="[^"]+")?/', '', $replacement );
+				$replacement = preg_replace( '/ aria-required="true"/', '', $replacement );
+				$comment_form = preg_replace( $pattern, $replacement, $comment_form );
+			}
+		}
+
 		remove_filter( 'comment_form_submit_button', array( 'CoursePress_Template_Discussion', 'add_subscribe_button' ) );
 		return $comment_form;
 	}
@@ -809,7 +847,7 @@ class CoursePress_Template_Module {
 
 		$content = '';
 
-		$content .= self::comment_form( $module->ID );
+		$content .= self::comment_form( $module->ID, $attributes );
 		$content .= self::comment_list( $module->ID );
 
 		// Remove comment filters, etc
@@ -1143,8 +1181,8 @@ class CoursePress_Template_Module {
 		}
 
 		if ( ! empty( $form_result['pending'] ) ) {
-            $template = sprintf( '<div class="module-form-message">%s</div>', $form_result['message'] );
-        } else {
+			$template = sprintf( '<div class="module-form-message">%s</div>', $form_result['message'] );
+		} else {
 
 		    /*
             $form_passed = !empty($form_result['passed']);
@@ -1164,7 +1202,7 @@ class CoursePress_Template_Module {
                 </div>
             </div>';
 		    */
-        }
+		}
 
 		$attributes = array(
 			'course_id' => $course_id,

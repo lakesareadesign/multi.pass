@@ -385,6 +385,42 @@ class WYSIJA_help_user extends WYSIJA_object {
         return $user_id;
     }
 
+    function throttleRepeatedSubscriptions() {
+      $model_user = WYSIJA::get('user', 'model');
+
+      $subscription_limit_enabled = apply_filters('wysija_subscription_limit_enabled', true);
+
+      if ($subscription_limit_enabled && !is_user_logged_in()) {
+        $subscription_limit_window = apply_filters('wysija_subscription_limit_window', DAY_IN_SECONDS);
+        $subscription_limit_base = apply_filters('wysija_subscription_limit_base', MINUTE_IN_SECONDS);
+
+        $subscriber_ip = $this->getIP();
+        if (!empty($subscriber_ip)) {
+          $subscription_count = $model_user->query(
+            'get_row',
+            'SELECT COUNT(*) as row_count FROM ' . $model_user->getSelectTableName() . '
+             WHERE `ip` = "' . $subscriber_ip . '" AND `created_at` >= (UNIX_TIMESTAMP() - ' . (int) $subscription_limit_window . ')'
+          );
+
+          if (isset($subscription_count['row_count']) && $subscription_count['row_count'] > 0) {
+            $timeout = $subscription_limit_base * pow(2, $subscription_count['row_count'] - 1);
+            $existing_user = $model_user->query(
+              'get_row',
+              'SELECT COUNT(*) as row_count
+               FROM ' . $model_user->getSelectTableName() . '
+               WHERE `ip` = "' . $subscriber_ip . '" AND `created_at` >= (UNIX_TIMESTAMP() - ' . (int) $timeout . ') LIMIT 1'
+            );
+            if (!empty($existing_user['row_count'])) {
+              $this->error( sprintf(__( 'You need to wait %s seconds before subscribing again.' , WYSIJA ), $timeout) , true);
+              return false;
+            }
+          }
+        }
+      }
+
+      return true;
+    }
+
     /**
      * send auto nl based on the params passed
      * @staticvar type $emails

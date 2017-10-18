@@ -105,6 +105,11 @@
 		.fl-builder-content .fl-node-<?php echo $col->node; ?> {
 			max-width: none;
 			width: <?php echo $col->settings->custom_medium_size; ?>% !important;
+			-webkit-box-flex: 0 1 auto;
+			-moz-box-flex: 0 1 auto;
+			-webkit-flex: 0 1 auto;
+			-ms-flex: 0 1 auto;
+			flex: 0 1 auto;
 		}
 	}
 	<?php endif; ?>

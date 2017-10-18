@@ -193,6 +193,10 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 					self::upgrade_1_5_5();
 				}
 
+				if ( version_compare( $version, '1.6.2', '<' ) ) {
+					self::upgrade_1_6_2();
+				}
+
 				update_site_option( 'wphb_version', WPHB_VERSION );
 			} // End if().
 		}
@@ -359,5 +363,14 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 			wphb_clear_minification_cache( false );
 		}
 
+		private static function upgrade_1_6_2() {
+			// Update API schedules.
+			$options = wphb_get_settings();
+			$email_time = explode( ':', $options['email-time'] );
+			$email_time[1] = sprintf( '%02d', mt_rand( 0, 59 ) );
+			$options['email-time'] = implode( ':', $email_time );
+			wphb_update_settings( $options );
+		}
+
 	}
-}
+} // End if().

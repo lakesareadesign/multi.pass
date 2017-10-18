@@ -63,6 +63,7 @@ final class FLBuilderLoop {
 		// Actions
 		add_action( 'fl_builder_before_control_suggest', __CLASS__ . '::render_match_select', 10, 4 );
 		add_action( 'init', 							 __CLASS__ . '::init_rewrite_rules', 20 );
+		add_action( 'fl_builder_activated',              __CLASS__ . '::init_rewrite_rules', 10 );
 		add_action( 'registered_post_type',  			 __CLASS__ . '::post_type_rewrite_rules', 10, 2 );
 		add_action( 'registered_taxonomy',  			 __CLASS__ . '::taxonomy_rewrite_rules', 10, 3 );
 		add_action( 'wp_loaded',  			 			 __CLASS__ . '::flush_rewrite_rules', 1 );
