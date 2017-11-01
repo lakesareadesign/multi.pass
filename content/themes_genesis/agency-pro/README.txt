@@ -1,11 +1,11 @@
 AGENCY PRO THEME
-http://my.studiopress.com/themes/agency/
+https://my.studiopress.com/themes/agency/
 
 INSTALL
 1. Upload the Agency Pro theme folder via FTP to your wp-content/themes/ directory. (The Genesis parent theme needs to be in the wp-content/themes/ directory as well.)
 2. Go to your WordPress dashboard and select Appearance.
 3. Activate the Agency Pro theme.
-4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/setup/agency--pro-theme/.
+4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit https://my.studiopress.com/documentation/agency--pro-theme/.
 
 WIDGET AREAS
 Primary Sidebar - This is the primary sidebar if you are using the Content/Sidebar, Sidebar/Content, Content/Sidebar/Sidebar, Sidebar/Sidebar/Content or Sidebar/Content/Sidebar Site Layout option.
@@ -28,9 +28,12 @@ LOCALIZATION
 The Agency Pro theme is translation ready.  More information about the translation process can be found here:http://codex.wordpress.org/Translating_WordPress/
 
 SUPPORT
-Please visit http://my.studiopress.com/help/ for theme support.
+Please visit https://my.studiopress.com/help/ for theme support.
 
 CHANGELOG
+
+= 3.0.0 =
+* Version initial release
 
 = 3.0.1 =
 * Remove rem units
@@ -65,3 +68,11 @@ CHANGELOG
 * Adjust search button for screen readers
 * Adjust featured image alignnone margin
 * Remove the word Navigation from menu names
+
+= 3.1.5 =
+* Update eNews Widget styling
+* Remove deprecated theme tags
+* Update documentation
+* Update jquery.scrollTo.min.js and jquery.localScroll.min.js to latest versions
+* Update text domain to standards
+* Optimize front page image

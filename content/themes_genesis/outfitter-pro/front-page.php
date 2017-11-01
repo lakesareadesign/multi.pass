@@ -4,10 +4,10 @@
  *
  * This file adds the front page to the Outfitter Pro Theme.
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
 add_action( 'genesis_meta', 'outfitter_front_page_genesis_meta' );
@@ -22,6 +22,9 @@ function outfitter_front_page_genesis_meta() {
 
 		// Enqueues scripts.
 		add_action( 'wp_enqueue_scripts', 'outfitter_enqueue_front_script_styles' );
+		
+		// Removes the full-with-narrow body class.
+		remove_filter( 'body_class', 'outfitter_narrow_body_class' );
 
 		// Adds the front-page body class.
 		add_filter( 'body_class', 'outfitter_body_class' );

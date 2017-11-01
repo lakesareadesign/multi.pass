@@ -1,18 +1,20 @@
 /*
-	Theme Name: Modern Portfolio Pro Theme
-	Theme URI: http://my.studiopress.com/themes/modern-portfolio/
-	Description: A mobile responsive and HTML5 theme built for the Genesis Framework.
+	Theme Name: Modern Portfolio Pro
+	Theme URI: https://my.studiopress.com/themes/modern-portfolio/
+	Description: Put the focus on your images with the smart minimalism of the Modern Portfolio theme, a flexible, mobile-responsive layout. 
 	Author: StudioPress
-	Author URI: http://www.studiopress.com/
-	Version: 2.1
+	Author URI: https://www.studiopress.com/
+	Version: 2.1.2
 
-	Tags: black, white, one-column, two-columns, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, premise-landing-page
+	Tags: one-column, two-columns, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
 	Template: genesis
 	Template Version: 2.1
 
 	License: GPL-2.0+
 	License URI: http://www.opensource.org/licenses/gpl-license.php
+
+	Text Domain: modern-portfolio-pro
 */
 
 
@@ -200,6 +202,11 @@ ul {
 	padding: 0;
 }
 
+mark {
+	background: #ddd;
+	color: #000;
+}
+
 blockquote,
 blockquote::before {
 	color: #999;
@@ -226,6 +233,15 @@ blockquote::before {
 
 cite {
 	font-style: normal;
+}
+
+hr {
+	border: 0;
+	border-collapse: collapse;
+	border-bottom: 1px solid #222;
+	clear: left;
+	margin: 0 0 40px;
+	padding-top: 20px;
 }
 
 /* Headings
@@ -283,11 +299,6 @@ video,
 
 img {
 	height: auto;
-}
-
-.featured-content img,
-.gallery img {
-	width: auto; /* IE8 */
 }
 
 #blog img,
@@ -418,9 +429,10 @@ input[type="submit"] {
 	display: block;
 	font-size: 16px;
 	padding: 16px 24px;
-	width: auto;
 	text-align: center;
 	text-decoration: none;
+	white-space: normal;
+	width: auto;
 }
 
 .button:hover,
@@ -433,6 +445,14 @@ input:hover[type="submit"] {
 	color: #fff;
 }
 
+button.small,
+input[type="button"].small,
+input[type="reset"].small,
+input[type="submit"].small,
+.button.small {
+	padding: 8px 12px;
+}
+
 .entry-content .button:hover {
 	color: #fff;
 }
@@ -443,9 +463,30 @@ input:hover[type="submit"] {
 	display: inline-block;
 }
 
+.site-container button:disabled,
+.site-container button:disabled:hover,
+.site-container input:disabled,
+.site-container input:disabled:hover,
+.site-container input[type="button"]:disabled,
+.site-container input[type="button"]:disabled:hover,
+.site-container input[type="reset"]:disabled,
+.site-container input[type="reset"]:disabled:hover,
+.site-container input[type="submit"]:disabled,
+.site-container input[type="submit"]:disabled:hover {
+    background-color: #ddd;
+	border-width: 0;
+    color: #777;
+    cursor: not-allowed;
+}
+
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button {
 	display: none;
+}
+
+.error404 .entry-content input[type="search"],
+.post-password-form input[type="password"] {
+	margin-bottom: 15px;
 }
 
 #services a.button {
@@ -705,6 +746,12 @@ img.alignright,
 	text-align: center;
 }
 
+.wp-audio-shortcode,
+.wp-playlist,
+.wp-video {
+	margin: 0 0 28px;
+}
+
 /* Genesis
 --------------------------------------------- */
 
@@ -823,14 +870,6 @@ Plugins
 /* Genesis eNews Extended
 --------------------------------------------- */
 
-.enews-widget {
-	color: #fff;
-}
-
-.enews-widget .widget-title {
-	color: #fff;
-}
-
 .enews-widget input {
 	margin-bottom: 12px;
 }
@@ -840,21 +879,40 @@ Plugins
 }
 
 .enews-widget input[type="submit"] {
-	background-color: #27b4b2;
-	color: #fff;
 	margin: 0;
 	width: 100%;
-}
-
-.enews-widget input:hover[type="submit"],
-#services a.button:hover {
-	background-color: #fff;
-	color: #222;
 }
 
 .enews form + p,
 .enews form + p:last-child {
 	margin-top: 24px;
+}
+
+.sidebar .enews {
+	background-color: #222;
+	color: #fff;
+	margin-bottom: 8px;
+	padding: 32px;
+}
+
+.sidebar .widget.enews-widget::after {
+	border-bottom: none;
+	padding-bottom: 0;
+}
+
+.sidebar .enews-widget .widget-title {
+	color: #fff;
+}
+
+.sidebar .enews-widget input[type="submit"] {
+	background-color: #27b4b2;
+	color: #fff;
+}
+
+.sidebar .enews-widget input:hover[type="submit"],
+#services a.button:hover {
+	background-color: #fff;
+	color: #222;
 }
 
 /* Genesis Latest Tweets
@@ -1272,6 +1330,7 @@ Content Area
 }
 
 .entry-content .search-form {
+	margin-bottom: 40px;
 	width: 50%;
 }
 
@@ -1479,18 +1538,6 @@ Sidebars
 	width: 20%;
 }
 
-.sidebar .enews {
-	background-color: #222;
-	margin-bottom: 8px;
-	padding: 32px;
-}
-
-.sidebar .widget.enews-widget::after {
-	border-bottom: none;
-	padding-bottom: 0;
-}
-
-
 
 /*
 Footer Widgets
@@ -1634,7 +1681,7 @@ Theme Colors
 	color: #222;
 }
 
-.modern-portfolio-pro-blue .enews-widget input[type="submit"],
+.modern-portfolio-pro-blue .sidebar .enews-widget input[type="submit"],
 .modern-portfolio-pro-blue .genesis-nav-menu li.highlight-menu-item a:hover,
 .modern-portfolio-pro-blue .archive-pagination li a:hover,
 .modern-portfolio-pro-blue .archive-pagination li.active a,
@@ -1648,7 +1695,7 @@ Theme Colors
 	background-color: #13b4f2;
 }
 
-.modern-portfolio-pro-blue .enews-widget input:hover[type="submit"],
+.modern-portfolio-pro-blue .sidebar .enews-widget input:hover[type="submit"],
 .modern-portfolio-pro-blue #services a.button:hover {
 	background-color: #fff;
 }
@@ -1702,7 +1749,7 @@ Theme Colors
 	color: #222;
 }
 
-.modern-portfolio-pro-orange .enews-widget input[type="submit"],
+.modern-portfolio-pro-orange .sidebar .enews-widget input[type="submit"],
 .modern-portfolio-pro-orange .genesis-nav-menu li.highlight-menu-item a:hover,
 .modern-portfolio-pro-orange .archive-pagination li a:hover,
 .modern-portfolio-pro-orange .archive-pagination li.active a,
@@ -1716,7 +1763,7 @@ Theme Colors
 	background-color: #ff8748;
 }
 
-.modern-portfolio-pro-orange .enews-widget input:hover[type="submit"],
+.modern-portfolio-pro-orange .sidebar .enews-widget input:hover[type="submit"],
 .modern-portfolio-pro-orange #services a.button:hover {
 	background-color: #fff;
 }
@@ -1771,7 +1818,7 @@ Theme Colors
 	color: #222;
 }
 
-.modern-portfolio-pro-purple .enews-widget input[type="submit"],
+.modern-portfolio-pro-purple .sidebar .enews-widget input[type="submit"],
 .modern-portfolio-pro-purple .genesis-nav-menu li.highlight-menu-item a:hover,
 .modern-portfolio-pro-purple .archive-pagination li a:hover,
 .modern-portfolio-pro-purple .archive-pagination li.active a,
@@ -1785,7 +1832,7 @@ Theme Colors
 	background-color: #a83d7e;
 }
 
-.modern-portfolio-pro-purple .enews-widget input:hover[type="submit"],
+.modern-portfolio-pro-purple .sidebar .enews-widget input:hover[type="submit"],
 .modern-portfolio-pro-purple #services a.button:hover {
 	background-color: #fff;
 }
@@ -1840,7 +1887,7 @@ Theme Colors
 	color: #222;
 }
 
-.modern-portfolio-pro-red .enews-widget input[type="submit"],
+.modern-portfolio-pro-red .sidebar .enews-widget input[type="submit"],
 .modern-portfolio-pro-red .genesis-nav-menu li.highlight-menu-item a:hover,
 .modern-portfolio-pro-red .archive-pagination li a:hover,
 .modern-portfolio-pro-red .archive-pagination li.active a,
@@ -1854,7 +1901,7 @@ Theme Colors
 	background-color: #fd5452;
 }
 
-.modern-portfolio-pro-red .enews-widget input:hover[type="submit"],
+.modern-portfolio-pro-red .sidebar .enews-widget input:hover[type="submit"],
 .modern-portfolio-pro-red #services a.button:hover {
 	background-color: #fff;
 }

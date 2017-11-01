@@ -4,10 +4,10 @@
  *
  * This file adds the Customizer additions to the Outfitter Pro Theme.
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
 add_action( 'customize_register', 'outfitter_customizer_register' );

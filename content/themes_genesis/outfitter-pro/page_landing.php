@@ -6,17 +6,25 @@
  *
  * Template Name: Landing
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
-// Adds the landing page body class to the head.
 add_filter( 'body_class', 'outfitter_add_body_class' );
+/**
+ * Adds the landing page body class to the head.
+ *
+ * @since 1.0.0
+ *
+ * @param array $classes Current list of classes.
+ * @return array New classes.
+ */
 function outfitter_add_body_class( $classes ) {
 
 	$classes[] = 'landing-page';
+
 	return $classes;
 
 }
@@ -24,8 +32,12 @@ function outfitter_add_body_class( $classes ) {
 // Removes skip links.
 remove_action ( 'genesis_before_header', 'genesis_skip_links', 5 );
 
-// Dequeues the skip links script.
 add_action( 'wp_enqueue_scripts', 'outfitter_dequeue_skip_links' );
+/**
+ * Dequeues the skip links and top banner scripts.
+ *
+ * @since 1.0.0
+ */
 function outfitter_dequeue_skip_links() {
 
 	wp_dequeue_script( 'skip-links' );

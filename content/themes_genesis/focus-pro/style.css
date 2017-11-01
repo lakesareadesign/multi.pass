@@ -1,12 +1,12 @@
 /*
-	Theme Name: Focus Pro Theme
+	Theme Name: Focus Pro
 	Theme URI: http://my.studiopress.com/themes/focus/
 	Description: We're living in the Age of Distraction, with unlimited options pulling your readers in countless directions. It's time to focus...
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
-	Version: 3.1.1
+	Version: 3.1.3
  
-	Tags: blue, green, white, one-column, two-columns, three-columns, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, premise-landing-page
+	Tags: one-column, two-columns, three-columns, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
  
 	Template: genesis
 	Template Version: 2.1
@@ -201,6 +201,11 @@ ul {
 	padding: 0;
 }
 
+mark {
+	background: #ddd;
+	color: #000;
+}
+
 blockquote,
 blockquote::before {
 	color: #999;
@@ -227,6 +232,15 @@ blockquote::before {
 
 cite {
 	font-style: normal;
+}
+
+hr {
+	border: 0;
+	border-collapse: collapse;
+	border-bottom: 1px solid #ddd;
+	clear: left;
+	margin: 0 0 40px;
+	padding-top: 20px;
 }
 
 /* Headings
@@ -284,11 +298,6 @@ video,
 
 img {
 	height: auto;
-}
-
-.featured-content img,
-.gallery img {
-	width: auto; /* IE8 */
 }
 
 /* Gallery
@@ -407,6 +416,7 @@ input[type="submit"],
 	font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	padding: 16px 24px;
 	text-transform: uppercase;
+	white-space: normal;
 	width: auto;
 }
 
@@ -420,13 +430,42 @@ input:hover[type="submit"],
 	color: #fff;
 }
 
+button.small,
+input[type="button"].small,
+input[type="reset"].small,
+input[type="submit"].small,
+.button.small {
+	padding: 8px 12px;
+}
+
 .button {
 	display: inline-block;
+}
+
+.site-container button:disabled,
+.site-container button:disabled:hover,
+.site-container input:disabled,
+.site-container input:disabled:hover,
+.site-container input[type="button"]:disabled,
+.site-container input[type="button"]:disabled:hover,
+.site-container input[type="reset"]:disabled,
+.site-container input[type="reset"]:disabled:hover,
+.site-container input[type="submit"]:disabled,
+.site-container input[type="submit"]:disabled:hover {
+    background-color: #ddd;
+	border-width: 0;
+    color: #777;
+    cursor: not-allowed;
 }
 
 input[type="search"]::-webkit-search-cancel-button,
 input[type="search"]::-webkit-search-results-button {
 	display: none;
+}
+
+.error404 .entry-content input[type="search"],
+.post-password-form input[type="password"] {
+	margin-bottom: 15px;
 }
 
 /* Tables
@@ -654,7 +693,7 @@ img.centered,
 	margin: 0 auto 24px;
 }
 
-a.alignnone img,
+a.alignnone,
 img.alignnone {
 	margin-bottom: 12px;
 }
@@ -679,13 +718,13 @@ a.alignnone {
 	display: inline-block;
 }
 
-a.alignleft img,
+a.alignleft,
 img.alignleft,
 .wp-caption.alignleft {
 	margin: 0 24px 24px 0;
 }
 
-a.alignright img,
+a.alignright,
 img.alignright,
 .wp-caption.alignright {
 	margin: 0 0 24px 24px;
@@ -710,6 +749,12 @@ img.alignright,
 .widget_calendar td,
 .widget_calendar th {
 	text-align: center;
+}
+
+.wp-audio-shortcode,
+.wp-playlist,
+.wp-video {
+	margin: 0 0 28px;
 }
 
 /* Genesis
@@ -815,6 +860,7 @@ Plugins
 --------------------------------------------- */
 
 .enews-widget {
+	background-color: #f0f4f6;
 	color: #fff;
 	font-family: 'Economica', sans-serif;
 	overflow: hidden;
@@ -864,6 +910,15 @@ Plugins
 .enews-widget input[type="submit"] {
 	margin: 0;
 	width: 100%;
+}
+
+.widget.enews-widget input:hover[type="submit"] {
+	background-color: #fff;
+	color: #244c5f;
+}
+
+.after-entry .widget:last-child.enews-widget {
+	margin: -20px;
 }
 
 /* Genesis Latest Tweets
@@ -1237,6 +1292,7 @@ Content Area
 }
 
 .entry-content .search-form {
+	margin-bottom: 30px;
 	width: 50%;
 }
 
@@ -1280,7 +1336,7 @@ Content Area
 .after-entry {
 	background-color: #f0f4f6;
 	clear: both;
-	margin: 20px 0;
+	margin-bottom: 40px;
 	overflow: hidden;
 	padding: 20px;
 }
@@ -1492,15 +1548,6 @@ Sidebars
 	vertical-align: top;
 }
 
-.sidebar .enews-widget {
-	background-color: #f0f4f6;
-}
-
-.sidebar .enews-widget input:hover[type="submit"] {
-	background-color: #fff;
-	color: #244c5f;
-}
-
 
 /*
 Footer Widgets
@@ -1635,7 +1682,7 @@ Theme Colors
 .focus-pro-brown .footer-widgets li::before,
 .focus-pro-brown .nav-primary,
 .focus-pro-brown .nav-secondary,
-.focus-pro-brown .sidebar .enews-widget,
+.focus-pro-brown .enews-widget,
 .focus-pro-brown .sidebar li::before,
 .focus-pro-brown .site-header  .genesis-nav-menu .current-menu-item > a,
 .focus-pro-brown .site-header .genesis-nav-menu a:hover {
@@ -1736,7 +1783,7 @@ Theme Colors
 .focus-pro-gray .footer-widgets li::before,
 .focus-pro-gray .nav-primary,
 .focus-pro-gray .nav-secondary,
-.focus-pro-gray .sidebar .enews-widget,
+.focus-pro-gray .enews-widget,
 .focus-pro-gray .sidebar li::before,
 .focus-pro-gray .site-header  .genesis-nav-menu .current-menu-item > a,
 .focus-pro-gray .site-header .genesis-nav-menu a:hover {

@@ -4,10 +4,10 @@
  *
  * This file adds the required WooCommerce setup functions to the Outfitter Pro Theme.
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
 // Includes the customizer settings for the WooCommerce plugin.
@@ -93,7 +93,8 @@ add_filter( 'woocommerce_pagination_args', 	'outfitter_woocommerce_pagination' )
  *
  * @since 1.0.0
  *
- * @return string New next and previous text string.
+ * @param array $args The pagination arguments.
+ * @return array Arguments with modified next and previous text strings.
  */
 function outfitter_woocommerce_pagination( $args ) {
 

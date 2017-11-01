@@ -573,7 +573,7 @@
 		<link>http://demo.studiopress.com/centric/?attachment_id=434</link>
 		<pubDate>Tue, 04 Jun 2013 01:08:12 +0000</pubDate>
 		<dc:creator><![CDATA[bgardner]]></dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/wordpress.png</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/wordpress.png</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -589,7 +589,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/wordpress.png</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/wordpress.png</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attached_file</wp:meta_key>
 			<wp:meta_value><![CDATA[2013/06/wordpress.png]]></wp:meta_value>
@@ -604,7 +604,7 @@
 		<link>http://demo.studiopress.com/centric/search-engine-optimized/centric-featured-pages-1/</link>
 		<pubDate>Mon, 24 Feb 2014 21:23:44 +0000</pubDate>
 		<dc:creator><![CDATA[lmancke]]></dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/centric/centric-featured-pages-1.png</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/centric/centric-featured-pages-1.png</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -620,7 +620,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/centric/centric-featured-pages-1.png</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/centric/centric-featured-pages-1.png</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attachment_metadata</wp:meta_key>
 			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:960;s:6:"height";i:700;s:4:"file";s:36:"2014/01/centric-featured-pages-1.png";s:5:"sizes";a:4:{s:9:"thumbnail";a:4:{s:4:"file";s:36:"centric-featured-pages-1-150x150.png";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:9:"image/png";}s:6:"medium";a:4:{s:4:"file";s:36:"centric-featured-pages-1-300x218.png";s:5:"width";i:300;s:6:"height";i:218;s:9:"mime-type";s:9:"image/png";}s:5:"image";a:4:{s:4:"file";s:36:"centric-featured-pages-1-960x650.png";s:5:"width";i:960;s:6:"height";i:650;s:9:"mime-type";s:9:"image/png";}s:13:"featured-post";a:4:{s:4:"file";s:36:"centric-featured-pages-1-400x300.png";s:5:"width";i:400;s:6:"height";i:300;s:9:"mime-type";s:9:"image/png";}}s:10:"image_meta";a:10:{s:8:"aperture";i:0;s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";i:0;s:9:"copyright";s:0:"";s:12:"focal_length";i:0;s:3:"iso";i:0;s:13:"shutter_speed";i:0;s:5:"title";s:0:"";}}]]></wp:meta_value>
@@ -639,7 +639,7 @@
 		<link>http://demo.studiopress.com/centric/responsive-html5-design/centric-featured-pages-2/</link>
 		<pubDate>Mon, 24 Feb 2014 21:24:54 +0000</pubDate>
 		<dc:creator><![CDATA[lmancke]]></dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/centric/centric-featured-pages-2.png</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/centric/centric-featured-pages-2.png</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -655,7 +655,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/centric/centric-featured-pages-2.png</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/centric/centric-featured-pages-2.png</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attachment_image_alt</wp:meta_key>
 			<wp:meta_value><![CDATA[HTML5 Design]]></wp:meta_value>
@@ -674,7 +674,7 @@
 		<link>http://demo.studiopress.com/centric/customizable-and-fast/centric-featured-pages-3/</link>
 		<pubDate>Mon, 24 Feb 2014 21:26:37 +0000</pubDate>
 		<dc:creator><![CDATA[lmancke]]></dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/centric/centric-featured-pages-3.png</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/centric/centric-featured-pages-3.png</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -690,7 +690,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/centric/centric-featured-pages-3.png</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/centric/centric-featured-pages-3.png</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attachment_image_alt</wp:meta_key>
 			<wp:meta_value><![CDATA[Customizable and Fast]]></wp:meta_value>
@@ -709,7 +709,7 @@
 		<link>http://demo.studiopress.com/centric/airtight-security/centric-featured-posts-3/</link>
 		<pubDate>Mon, 24 Feb 2014 21:28:11 +0000</pubDate>
 		<dc:creator><![CDATA[lmancke]]></dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/centric/centric-featured-posts-3.png</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/centric/centric-featured-posts-3.png</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -725,7 +725,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/centric/centric-featured-posts-3.png</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/centric/centric-featured-posts-3.png</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attachment_image_alt</wp:meta_key>
 			<wp:meta_value><![CDATA[Airtight Security]]></wp:meta_value>
@@ -744,7 +744,7 @@
 		<link>http://demo.studiopress.com/centric/7-unique-color-styles/centric-featured-posts-2/</link>
 		<pubDate>Mon, 24 Feb 2014 21:29:53 +0000</pubDate>
 		<dc:creator><![CDATA[lmancke]]></dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/centric/centric-featured-posts-2.png</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/centric/centric-featured-posts-2.png</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -760,7 +760,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/centric/centric-featured-posts-2.png</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/centric/centric-featured-posts-2.png</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attachment_metadata</wp:meta_key>
 			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:960;s:6:"height";i:700;s:4:"file";s:36:"2014/01/centric-featured-posts-2.png";s:5:"sizes";a:4:{s:9:"thumbnail";a:4:{s:4:"file";s:36:"centric-featured-posts-2-150x150.png";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:9:"image/png";}s:6:"medium";a:4:{s:4:"file";s:36:"centric-featured-posts-2-300x218.png";s:5:"width";i:300;s:6:"height";i:218;s:9:"mime-type";s:9:"image/png";}s:5:"image";a:4:{s:4:"file";s:36:"centric-featured-posts-2-960x650.png";s:5:"width";i:960;s:6:"height";i:650;s:9:"mime-type";s:9:"image/png";}s:13:"featured-post";a:4:{s:4:"file";s:36:"centric-featured-posts-2-400x300.png";s:5:"width";i:400;s:6:"height";i:300;s:9:"mime-type";s:9:"image/png";}}s:10:"image_meta";a:10:{s:8:"aperture";i:0;s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";i:0;s:9:"copyright";s:0:"";s:12:"focal_length";i:0;s:3:"iso";i:0;s:13:"shutter_speed";i:0;s:5:"title";s:0:"";}}]]></wp:meta_value>
@@ -779,7 +779,7 @@
 		<link>http://demo.studiopress.com/centric/unlimited-everything/centric-featured-posts-1/</link>
 		<pubDate>Mon, 24 Feb 2014 21:31:22 +0000</pubDate>
 		<dc:creator><![CDATA[lmancke]]></dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/centric/centric-featured-posts-1.png</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/centric/centric-featured-posts-1.png</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -795,7 +795,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/centric/centric-featured-posts-1.png</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/centric/centric-featured-posts-1.png</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attachment_metadata</wp:meta_key>
 			<wp:meta_value><![CDATA[a:5:{s:5:"width";i:960;s:6:"height";i:698;s:4:"file";s:36:"2014/01/centric-featured-posts-1.png";s:5:"sizes";a:4:{s:9:"thumbnail";a:4:{s:4:"file";s:36:"centric-featured-posts-1-150x150.png";s:5:"width";i:150;s:6:"height";i:150;s:9:"mime-type";s:9:"image/png";}s:6:"medium";a:4:{s:4:"file";s:36:"centric-featured-posts-1-300x218.png";s:5:"width";i:300;s:6:"height";i:218;s:9:"mime-type";s:9:"image/png";}s:5:"image";a:4:{s:4:"file";s:36:"centric-featured-posts-1-960x650.png";s:5:"width";i:960;s:6:"height";i:650;s:9:"mime-type";s:9:"image/png";}s:13:"featured-post";a:4:{s:4:"file";s:36:"centric-featured-posts-1-400x300.png";s:5:"width";i:400;s:6:"height";i:300;s:9:"mime-type";s:9:"image/png";}}s:10:"image_meta";a:10:{s:8:"aperture";i:0;s:6:"credit";s:0:"";s:6:"camera";s:0:"";s:7:"caption";s:0:"";s:17:"created_timestamp";i:0;s:9:"copyright";s:0:"";s:12:"focal_length";i:0;s:3:"iso";i:0;s:13:"shutter_speed";i:0;s:5:"title";s:0:"";}}]]></wp:meta_value>
@@ -2951,7 +2951,7 @@
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://my.studiopress.com/]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://my.studiopress.com/]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -3006,7 +3006,7 @@
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://my.studiopress.com/themes/centric/]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://my.studiopress.com/themes/centric/]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -3472,7 +3472,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://my.studiopress.com/genesis-beginners-guide/]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://my.studiopress.com/genesis-beginners-guide/]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -3527,7 +3527,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://my.studiopress.com/snippets/]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://my.studiopress.com/snippets/]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -3582,7 +3582,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://www.studiopress.com/plugins]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://www.studiopress.com/plugins]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -3633,7 +3633,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://my.studiopress.com/themes/genesis/]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://my.studiopress.com/themes/genesis/]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_xfn</wp:meta_key>
@@ -3692,7 +3692,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://my.studiopress.com/pro-plus/]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://my.studiopress.com/pro-plus/]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -3747,7 +3747,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://my.studiopress.com/themes/]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://my.studiopress.com/themes/]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -3802,7 +3802,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://www.studiopress.com/get-started]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://www.studiopress.com/get-started]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -3857,7 +3857,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://www.studiopress.com/faqs]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://www.studiopress.com/faqs]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -3912,7 +3912,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://www.studiopress.com/]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://www.studiopress.com/]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -3967,7 +3967,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://www.studiopress.com/theme/centric]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://www.studiopress.com/theme/centric]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -4247,7 +4247,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<description></description>
 		<content:encoded><![CDATA[[gravityform id=1 name=ContactForm title=false description=false]
 
-* This contact form was developed with a third party plugin called <a href="http://www.studiopress.com/go/gravity">Gravity Forms</a> and is not included in the Genesis Framework. It is for display on this demo site - though we highly recommend using it.]]></content:encoded>
+* This contact form was developed with a third party plugin called <a href="https://www.studiopress.com/go/gravity">Gravity Forms</a> and is not included in the Genesis Framework. It is for display on this demo site - though we highly recommend using it.]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>83</wp:post_id>
 		<wp:post_date>2010-08-15 19:13:33</wp:post_date>
@@ -4570,7 +4570,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator><![CDATA[bgardner]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=13</guid>
 		<description></description>
-		<content:encoded><![CDATA[[caption id="" align="aligncenter" width="142" caption="Here's a sample caption with an image centered."]<img alt="Here's a sample caption with a sample image centered." src="http://www.studiopress.com/images/wordpress.png" width="142" height="142" />[/caption]
+		<content:encoded><![CDATA[[caption id="" align="aligncenter" width="142" caption="Here's a sample caption with an image centered."]<img alt="Here's a sample caption with a sample image centered." src="https://www.studiopress.com/images/wordpress.png" width="142" height="142" />[/caption]
 
 This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.
 
@@ -4610,7 +4610,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator><![CDATA[bgardner]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=16</guid>
 		<description></description>
-		<content:encoded><![CDATA[[caption id="" align="alignright" width="142" caption="Here's a sample caption with an image aligned right."]<img alt="Here's a sample caption with a sample image aligned right." src="http://www.studiopress.com/images/wordpress.png" width="142" height="142" />[/caption]
+		<content:encoded><![CDATA[[caption id="" align="alignright" width="142" caption="Here's a sample caption with an image aligned right."]<img alt="Here's a sample caption with a sample image aligned right." src="https://www.studiopress.com/images/wordpress.png" width="142" height="142" />[/caption]
 
 This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like.
 
@@ -4918,7 +4918,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<dc:creator><![CDATA[bgardner]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=18</guid>
 		<description></description>
-		<content:encoded><![CDATA[[caption id="" align="alignleft" width="142" caption="Here&#039;s a sample caption with an image aligned left."]<img alt="Heres a sample caption, with a sample image aligned left." src="http://www.studiopress.com/images/wordpress.png" width="142" height="142" />[/caption]
+		<content:encoded><![CDATA[[caption id="" align="alignleft" width="142" caption="Here&#039;s a sample caption with an image aligned left."]<img alt="Heres a sample caption, with a sample image aligned left." src="https://www.studiopress.com/images/wordpress.png" width="142" height="142" />[/caption]
 
 This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like.
 

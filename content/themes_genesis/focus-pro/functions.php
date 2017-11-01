@@ -9,9 +9,9 @@ include_once( get_stylesheet_directory() . '/lib/theme-defaults.php' );
 load_child_theme_textdomain( 'focus', apply_filters( 'child_theme_textdomain', get_stylesheet_directory() . '/languages', 'focus' ) );
 
 //* Child theme (do not remove)
-define( 'CHILD_THEME_NAME', __( 'Focus Pro Theme', 'focus' ) );
+define( 'CHILD_THEME_NAME', __( 'Focus Pro', 'focus' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/focus/' );
-define( 'CHILD_THEME_VERSION', '3.1.1' );
+define( 'CHILD_THEME_VERSION', '3.1.3' );
 
 //* Add HTML5 markup structure
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
@@ -23,7 +23,7 @@ add_theme_support( 'genesis-responsive-viewport' );
 add_action( 'wp_enqueue_scripts', 'focus_load_scripts' );
 function focus_load_scripts() {
 
-	wp_enqueue_script( 'focus-responsive-menu', get_bloginfo( 'stylesheet_directory' ) . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
+	wp_enqueue_script( 'focus-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
 	
 	wp_enqueue_style( 'dashicons' );
 	
@@ -51,6 +51,9 @@ add_theme_support( 'genesis-style-selector', array(
 	'focus-pro-brown' => __( 'Focus Pro Brown', 'focus' ),
 	'focus-pro-gray'  => __( 'Focus Pro Gray', 'focus' ),
 ) );
+
+//* Rename menus
+add_theme_support( 'genesis-menus', array( 'primary' => __( 'Before Header Menu', 'focus' ), 'secondary' => __( 'After Header Menu', 'focus' ) ) );
 
 //* Reposition the primary navigation
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
@@ -91,15 +94,6 @@ function focus_author_box_gravatar_size( $size ) {
 
     return '80';
     
-}
-
-//* Remove comment form allowed tags
-add_filter( 'comment_form_defaults', 'focus_remove_comment_form_allowed_tags' );
-function focus_remove_comment_form_allowed_tags( $defaults ) {
-	
-	$defaults['comment_notes_after'] = '';
-	return $defaults;
-
 }
 
 //* Add support for 3-column footer widgets

@@ -1,0 +1,124 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Centric Pro 1.1.2\n"
+"POT-Creation-Date: 2017-10-28 08:25-0400\n"
+"PO-Revision-Date: 2016-05-01 10:38-0400\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.4\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;"
+"_n_noop:1,2;_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: functions.php:32
+msgid "Centric Theme"
+msgstr ""
+
+#: functions.php:85
+msgid "Centric Charcoal"
+msgstr ""
+
+#: functions.php:86
+msgid "Centric Green"
+msgstr ""
+
+#: functions.php:87
+msgid "Centric Orange"
+msgstr ""
+
+#: functions.php:88
+msgid "Centric Purple"
+msgstr ""
+
+#: functions.php:89
+msgid "Centric Red"
+msgstr ""
+
+#: functions.php:90
+msgid "Centric Yellow"
+msgstr ""
+
+#: functions.php:99
+msgid "After Header Menu"
+msgstr ""
+
+#: functions.php:215
+msgid "Home 1"
+msgstr ""
+
+#: functions.php:216
+msgid "This is the first section of the home page."
+msgstr ""
+
+#: functions.php:220
+msgid "Home 2"
+msgstr ""
+
+#: functions.php:221
+msgid "This is the second section of the home page."
+msgstr ""
+
+#: functions.php:225
+msgid "Home 3"
+msgstr ""
+
+#: functions.php:226
+msgid "This is the third section of the home page."
+msgstr ""
+
+#: functions.php:230
+msgid "Home 4"
+msgstr ""
+
+#: functions.php:231
+msgid "This is the fourth section of the home page."
+msgstr ""
+
+#: functions.php:235
+msgid "Home 5"
+msgstr ""
+
+#: functions.php:236
+msgid "This is the fifth section of the home page."
+msgstr ""
+
+#: functions.php:240
+msgid "Home 6"
+msgstr ""
+
+#: functions.php:241
+msgid "This is the sixth section of the home page."
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Centric Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "https://my.studiopress.com/themes/centric/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid ""
+"Centric is the antidote for the short attention spans. Your bounce rates "
+"will never be the same with a web design that draws readers in and delivers "
+"them down your page."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://www.studiopress.com/"
+msgstr ""

@@ -1,6 +1,16 @@
 <?php
+/**
+ * eleven40 Pro.
+ *
+ * This file adds the home page to the eleven40 Pro Theme.
+ *
+ * @package eleven40
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    http://my.studiopress.com/themes/eleven40/
+ */
 
-//* Add Genesis grid loop
+// Add Genesis grid loop.
 remove_action( 'genesis_loop', 'genesis_do_loop' );
 add_action( 'genesis_loop', 'eleven40_grid_loop_helper' );
 function eleven40_grid_loop_helper() {
@@ -22,5 +32,5 @@ function eleven40_grid_loop_helper() {
 
 }
 
-//* Run the Genesis loop
+// Run the Genesis loop.
 genesis();

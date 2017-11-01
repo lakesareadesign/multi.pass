@@ -1,11 +1,11 @@
 MODERN PORTFOLIO PRO THEME
-http://my.studiopress.com/themes/modern-portfolio/
+https://my.studiopress.com/themes/modern-portfolio/
 
 INSTALL
 1. Upload the Modern Portfolio Pro theme folder via FTP to your wp-content/themes/ directory. (The Genesis parent theme needs to be in the wp-content/themes/ directory as well.)
 2. Go to your WordPress dashboard and select Appearance.
 3. Activate the Modern Portfolio Pro theme.
-4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/setup/modern-portfolio/.
+4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit https://my.studiopress.com/documentation/modern-portfolio/.
 
 WIDGET AREAS
 Primary Sidebar - This is the primary sidebar if you are using the Content/Sidebar or Sidebar/Content Site Layout option.
@@ -28,7 +28,7 @@ LOCALIZATION
 The Modern Portfolio Pro theme is translation ready.  More information about the translation process can be found here: http://codex.wordpress.org/Translating_WordPress/
 
 SUPPORT
-Please visit http://my.studiopress.com/help/ for theme support.
+Please visit https://my.studiopress.com/help/ for theme support.
 
 CHANGELOG
 
@@ -39,3 +39,18 @@ CHANGELOG
 * Update responsive menu
 * Use theme supports for after entry widget
 * HTML5 Galleries
+
+= 2.1.1 =
+* Remove obsolete comments filter
+* Remove IE8 CSS fix for images
+* Add hr tag styling
+* Add small and disabled button styles
+* Update menu names in admin
+
+= 2.1.2 =
+* Update eNews Widget styling
+* Remove deprecated theme tags
+* Update 404 page styles
+* Update jquery.scrollTo.min.js and jquery.localScroll.min.js to latest versions
+* Update text domain
+* Improve documentation

@@ -4,10 +4,10 @@
  *
  * This defines the helper functions for use in the Outfitter Pro Theme.
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
 /**
@@ -67,9 +67,9 @@ function outfitter_customizer_get_default_image_setting() {
 /**
  * Outputs the header search form toggle button.
  *
- * @return string HTML output of the Show Search button.
- *
  * @since 1.0.0
+ *
+ * @return string HTML output of the Show Search button.
  */
 function outfitter_get_header_search_toggle() {
 
@@ -91,9 +91,9 @@ function outfitter_do_header_search_icon( ) {
 /**
  * Outputs the off-screen button.
  *
- * @return string HTML output of the Show Off-Screen Content button.
- *
  * @since 1.0.0
+ *
+ * @return string HTML output of the Show Off-Screen Content button.
  */
 function outfitter_get_off_screen_toggle() {
 

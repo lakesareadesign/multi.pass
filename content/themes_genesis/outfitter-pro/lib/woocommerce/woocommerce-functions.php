@@ -4,10 +4,10 @@
  *
  * This defines the WooCommerce functions for use in the Outfitter Pro Theme.
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
 add_action( 'wp_enqueue_scripts', 'outfitter_woocommerce_scripts' );
@@ -44,9 +44,9 @@ function outfitter_products_match_height() {
 /**
  * Outputs the WooCommerce cart button.
  *
- * @return string HTML output of the Show Cart button.
- *
  * @since 1.0.0
+ *
+ * @return string HTML output of the Show Cart button.
  */
 function outfitter_get_off_screen_cart_toggle() {
 
@@ -57,8 +57,14 @@ function outfitter_get_off_screen_cart_toggle() {
 
 }
 
-// Adds Mini Cart.
 add_action( 'genesis_after_header', 'outfitter_off_screen_woocommerce_cart_output' );
+/**
+ * Add the Mini Cart, which is accessible by clicking the cart icon appended to the menu.
+ *
+ * @since 1.0.0
+ *
+ * @param array $args Arguments to use when fetching the mini-cart.php template.
+ */
 function outfitter_off_screen_woocommerce_cart_output( $args = array() ) {
 
 	if ( class_exists( 'WooCommerce' ) && current_theme_supports( 'woocommerce' ) ) {
@@ -81,15 +87,26 @@ function outfitter_off_screen_woocommerce_cart_output( $args = array() ) {
 
 }
 
-// Function to print a cart icon menu item.
+/**
+ * Output a cart icon menu item.
+ *
+ * @since 1.0.0
+ */
 function outfitter_do_woocommerce_cart_icon() {
 
 	printf( '<li class="menu-item menu-item-has-toggle cart-item">%s</li>', outfitter_get_off_screen_cart_toggle() );
 
 }
 
-// Adds product-has-gallery class to products that have a gallery.
 add_filter( 'post_class', 'product_has_gallery' );
+/**
+ * Adds product-has-gallery class to products that have a gallery.
+ *
+ * @since 1.0.0
+ *
+ * @param array $classes The original post classes.
+ * @return string The updated post class list.
+ */
 function product_has_gallery( $classes ) {
 
 	global $product;
@@ -98,7 +115,7 @@ function product_has_gallery( $classes ) {
 
 	if ( ! is_admin() ) {
 
-		if ( $post_type == 'product' ) {
+		if ( 'product' === $post_type ) {
 
 			$attachment_ids = $product->get_gallery_image_ids();
 
@@ -113,8 +130,12 @@ function product_has_gallery( $classes ) {
 
 }
 
-// Displays the second thumbnails for products.
 add_action( 'woocommerce_before_shop_loop_item_title', 'product_woocommerce_second_product_thumbnail', 11 );
+/**
+ * Displays the second thumbnails for products.
+ *
+ * @since 1.0.0
+ */
 function product_woocommerce_second_product_thumbnail() {
 
 	global $product, $woocommerce;
@@ -123,7 +144,32 @@ function product_woocommerce_second_product_thumbnail() {
 
 	if ( $attachment_ids ) {
 		$secondary_image_id = $attachment_ids['0'];
-		echo wp_get_attachment_image( $secondary_image_id, 'shop_catalog', '', $attr = array( 'class' => 'secondary-image attachment-shop-catalog' ) );
+		echo wp_get_attachment_image( $secondary_image_id, 'shop_catalog', '', array(
+			'class' => 'secondary-image attachment-shop-catalog',
+		) );
 	}
+
+}
+
+add_filter( 'woocommerce_add_to_cart_fragments', 'outfitter_cart_count_fragments', 10, 1 );
+/**
+ * Add HTML fragments to be auto-updated by WooCommerce during AJAX refresh.
+ *
+ * @since 1.0.1
+ *
+ * @param array $fragments The HTML fragments. The key is the CSS selector and the value is the HTML to replace it.
+ * @return array The HTML fragments including sections specific to Outfitter.
+ */
+function outfitter_cart_count_fragments( $fragments ) {
+
+	$menu_cart_count_link = outfitter_get_off_screen_cart_toggle();
+	$mini_cart = wc_get_template_html( 'cart/mini-cart.php', array(
+		'list_class' => '',
+	) );
+
+	$fragments['.genesis-nav-menu .toggle-off-screen-cart'] = $menu_cart_count_link;
+	$fragments['.off-screen-cart .widget_shopping_cart'] = '<section class="widget woocommerce widget_shopping_cart">' . $mini_cart . '</section>';
+
+	return $fragments;
 
 }

@@ -4,10 +4,10 @@
  *
  * This file adds the default theme settings to the Outfitter Pro Theme.
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
 add_filter( 'genesis_theme_settings_defaults', 'outfitter_theme_defaults' );
@@ -15,6 +15,9 @@ add_filter( 'genesis_theme_settings_defaults', 'outfitter_theme_defaults' );
  * Updates theme settings on reset.
  *
  * @since 1.0.0
+ *
+ * @param array $defaults Default theme settings.
+ * @return array Modified defaults.
  */
 function outfitter_theme_defaults( $defaults ) {
 

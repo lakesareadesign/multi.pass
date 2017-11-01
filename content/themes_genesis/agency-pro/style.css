@@ -1,23 +1,23 @@
 /*
 	Theme Name: Agency Pro
-	Theme URI: http://my.studiopress.com/themes/agency/
+	Theme URI: https://my.studiopress.com/themes/agency/
 	Description: Represent your professional services with confidence and clarity by harnessing the streamlined professionalism of the Agency theme.
 	Author: StudioPress
-	Author URI: http://www.studiopress.com/
-	Version: 3.1.4
+	Author URI: https://www.studiopress.com/
+	Version: 3.1.5
  
-	Tags: black, orange, white, one-column, two-columns, three-columns, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
+	Tags: one-column, two-columns, three-columns, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
  
 	Template: genesis
 	Template Version: 2.1
  
 	License: GPL-2.0+
 	License URI: http://www.opensource.org/licenses/gpl-license.php
+
+	Text Domain: agency-pro
 */
 
-
 /* Table of Contents
-
 	- HTML5 Reset
 		- Baseline Normalize
 		- Box Sizing
@@ -75,17 +75,15 @@
 		- max-width: 782px
 		- max-width: 680px
 		- max-width: 480px
-
 */
 
 
-/*
-HTML5 Reset
+/* HTML5 Reset
 ---------------------------------------------------------------------------------------------------- */
 
 /* Baseline Reset (normalize.css 2.1.2)
-	normalize.css v2.1.2 | MIT License | git.io/normalize
 --------------------------------------------- */
+/* normalize.css v2.1.2 | MIT License | git.io/normalize */
 
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden]{display:none}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}a:focus{outline:thin dotted}a:active,a:hover{outline:0}h1{font-size:2em;margin:.67em 0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:bold}dfn{font-style:italic}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}mark{background:#ff0;color:#000}code,kbd,pre,samp{font-family:monospace,serif;font-size:1em}pre{white-space:pre-wrap}q{quotes:"\201C" "\201D" "\2018" "\2019"}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-0.5em}sub{bottom:-0.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:0}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}button,input{line-height:normal}button,select{text-transform:none}button,html input[type="button"],input[type="reset"],input[type="submit"]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}input[type="checkbox"],input[type="radio"]{box-sizing:border-box;padding:0}input[type="search"]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type="search"]::-webkit-search-cancel-button,input[type="search"]::-webkit-search-decoration{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}
 
@@ -138,8 +136,7 @@ input[type="search"] {
 }
 
 
-/*
-Defaults
+/* Defaults
 ---------------------------------------------------------------------------------------------------- */
 
 /* Typographical Elements
@@ -206,6 +203,11 @@ ol,
 ul {
 	margin: 0;
 	padding: 0;
+}
+
+mark {
+	background: #ddd;
+	color: #000;
 }
 
 blockquote,
@@ -536,8 +538,7 @@ td {
 }
 
 
-/*
-Structure and Layout
+/* Structure and Layout
 ---------------------------------------------------------------------------------------------------- */
 
 /* Site Containers
@@ -630,8 +631,8 @@ Structure and Layout
 }
 
 /* Column Classes
-	Link: http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css
 --------------------------------------------- */
+/* Link: http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css */
 
 .five-sixths,
 .four-sixths,
@@ -686,8 +687,7 @@ Structure and Layout
 }
 
 
-/*
-Common Classes
+/* Common Classes
 ---------------------------------------------------------------------------------------------------- */
 
 /* WordPress
@@ -855,8 +855,7 @@ img.alignright,
 }
 
 
-/*
-Widgets
+/* Widgets
 ---------------------------------------------------------------------------------------------------- */
 
 .widget {
@@ -896,16 +895,11 @@ a.more-link {
 	text-transform: uppercase;
 }
 
-/*
-Plugins
+/* Plugins
 ---------------------------------------------------------------------------------------------------- */
 
 /* Genesis eNews Extended
 --------------------------------------------- */
-
-.enews-widget {
-	color: #999;
-}
 
 .enews-widget input {
 	margin-bottom: 16px;
@@ -924,6 +918,15 @@ Plugins
 
 .enews-widget input:hover[type="submit"] {
 	background-color: #d7c603;
+	color: #fff;
+}
+
+.sidebar .widget.enews-widget {
+	background-color: #333;
+	color: #999;
+}
+
+.sidebar .enews-widget .widget-title {
 	color: #fff;
 }
 
@@ -966,8 +969,7 @@ img#wpstats {
 }
 
 
-/*
-Site Header
+/* Site Header
 ---------------------------------------------------------------------------------------------------- */
 
 .site-header {
@@ -1071,8 +1073,7 @@ Site Header
 }
 
 
-/*
-Site Navigation
+/* Site Navigation
 ---------------------------------------------------------------------------------------------------- */
 
 .genesis-nav-menu {
@@ -1228,8 +1229,8 @@ Site Navigation
 	text-align: center;
 }
 
-/*
-Content Area
+
+/* Content Area
 ---------------------------------------------------------------------------------------------------- */
 
 /* Home Page
@@ -1381,11 +1382,11 @@ Content Area
 .home-middle .featuredpost a.hover img,
 .home-middle .featuredpost img:hover,
 .home-middle .featuredpost .entry.focused img {
-	  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
-	  filter: alpha(opacity=10);
-	  -moz-opacity: 0.1;
-	  -khtml-opacity: 0.1;
-	  opacity: 0.1;
+	-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=10)";
+	filter: alpha(opacity=10);
+	-moz-opacity: 0.1;
+	-khtml-opacity: 0.1;
+	opacity: 0.1;
 }
 
 .home-middle .featured-content.featuredpost {
@@ -1634,8 +1635,7 @@ li.comment {
 }
 
 
-/*
-Sidebars
+/* Sidebars
 ---------------------------------------------------------------------------------------------------- */
 
 .sidebar {
@@ -1662,17 +1662,8 @@ Sidebars
 	padding: 40px;
 }
 
-.sidebar .enews-widget {
-	background-color: #333;
-}
 
-.sidebar .enews-widget .widget-title {
-	color: #fff;
-}
-
-
-/*
-Footer Widgets
+/* Footer Widgets
 ---------------------------------------------------------------------------------------------------- */
 
 .footer-widgets {
@@ -1719,8 +1710,7 @@ Footer Widgets
 }
 
 
-/*
-Site Footer
+/* Site Footer
 ---------------------------------------------------------------------------------------------------- */
 
 .site-footer {
@@ -1746,8 +1736,8 @@ Site Footer
 	margin-bottom: 0;
 }
 
-/*
-Theme Colors
+
+/* Theme Colors
 ---------------------------------------------------------------------------------------------------- */
 
 /* Agency Pro Blue
@@ -1971,8 +1961,7 @@ body.agency-pro-red {
 }
 
 
-/*
-Media Queries
+/* Media Queries
 ---------------------------------------------------------------------------------------------------- */
 
 @media only screen and (max-width: 1180px) {
@@ -1991,7 +1980,7 @@ Media Queries
 	.content {
 		width: 620px;
 	}
-	
+
 	.site-header .widget-area {
 		width: 660px;
 	}
@@ -2008,11 +1997,11 @@ Media Queries
 	.sidebar-primary {
 		width: 300px;
 	}
-	
+
 	.agency-pro-home .home-middle .featuredpost .entry {
 		min-height: 320px;
 	}
-	
+
 	.agency-pro-home .home-bottom .featuredpost .entry {
 		min-height: 360px;
 	}
@@ -2042,7 +2031,7 @@ Media Queries
 	.title-area {
 		width: 100%;
 	}
-	
+
 	.site-container {
 		padding-top: 105px;
 	}
@@ -2089,34 +2078,34 @@ Media Queries
 	.footer-widgets-1 {
 		margin: 0;
 	}
-	
+
 	.home-bottom .featured-content .post:nth-of-type(3n+1),
 	.home-middle .featured-content .post:nth-of-type(3n+1) {
 	  clear: none;
 	}
-	
+
 	.home-bottom .featured-content .post:nth-of-type(2n+1),
 	.home-middle .featured-content .post:nth-of-type(2n+1) {
 	  clear: left;
 	}
-	
+
 	.agency-pro-home .content .featuredpost .entry {
 		min-height: 380px;
 		width: 50%;
 	}
-	
+
 	.genesis-nav-menu a {
 		padding: 10px 12px 12px;
 	}
-	
+
 	.genesis-nav-menu .sub-menu .sub-menu {
 		margin-top: -42px;
 	}
-	
+
 	.genesis-nav-menu .sub-menu a {
 		padding: 12px;
 	}
-	
+
 }
 
 @media only screen and (max-width: 800px) {
@@ -2135,36 +2124,36 @@ Media Queries
 		margin: 0;
 		width: 100%;
 	}
-	
+
 	.agency-pro-home .wrap {
 		max-width: 640px;
 	}
-	
+
 	.agency-pro-home .home-middle .featuredpost .entry {
 		min-height: 320px;
 	}
-	
+
 	.entry-title {
 		font-size: 30px;
 	}
-	
+
 	.site-inner {
 		padding: 5%;
 	}
-	
+
 }
 
 @media only screen and (max-width:782px) {
 
-    .admin-bar .site-header {
-        top: 46px;
-        z-index: 499;
-    }
-    
+	.admin-bar .site-header {
+		top: 46px;
+		z-index: 499;
+	}
+
 }
 
 @media only screen and (max-width: 680px) {
-	
+
 	.header-full-width .site-container,
 	.site-container {
 		padding: 0;
@@ -2177,7 +2166,7 @@ Media Queries
 	.wrap {
 		width: 90%;
 	}
-	
+
 	.agency-pro-home .content .wrap {
 		max-width: 380px;
 	}
@@ -2186,33 +2175,33 @@ Media Queries
 		min-height: 380px;
 		width: 100%;
 	}
-	
+
 	.agency-pro-home .content .featured-content .entry-header {
 		clear: both;
 	}
-	
+
 	.home-top .widget-title {
 		font-size: 48px;
 	}
-	
+
 	.nav-secondary .genesis-nav-menu a {
 		font-size: 12px;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu > .menu-item > .sub-menu,
 	.genesis-nav-menu.responsive-menu {
 		display: none;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu .menu-item,
 	.responsive-menu-icon {
 		display: block;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu .menu-item:hover {
 		position: static;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu li a,
 	.genesis-nav-menu.responsive-menu li a:hover {
 		border: none;
@@ -2221,15 +2210,15 @@ Media Queries
 		padding: 18px 20px;
 		text-transform: none;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu .menu-item-has-children {
 		cursor: pointer;	
 	}
-	
+
 	.genesis-nav-menu.responsive-menu .menu-item-has-children > a {
 		margin-right: 60px;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu > .menu-item-has-children:before {
 		content: "\f347";
 		float: right;
@@ -2240,11 +2229,11 @@ Media Queries
 		text-align: right;
 		z-index: 9999;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu .menu-open.menu-item-has-children:before {
 		content: "\f343";
 	}
-	
+
 	.genesis-nav-menu.responsive-menu .sub-menu {
 		border: none;
 		left: auto;
@@ -2263,7 +2252,7 @@ Media Queries
 	.genesis-nav-menu.responsive-menu .sub-menu .sub-menu {
 		margin: 0;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu .sub-menu li a,
 	.genesis-nav-menu.responsive-menu .sub-menu li a:hover {
 		padding: 12px 20px;
@@ -2271,7 +2260,7 @@ Media Queries
 		text-transform: none;
 		width: 100%;
 	}
-	
+
 	.genesis-nav-menu.responsive-menu .current-menu-item > a,
 	.genesis-nav-menu.responsive-menu .sub-menu a,
 	.genesis-nav-menu.responsive-menu .sub-menu a:hover,
@@ -2284,7 +2273,7 @@ Media Queries
 }
 
 @media only screen and (max-width: 480px) {
-	
+
 	.home-middle .featuredpost img.entry-image {
 		position: relative;
 	}
@@ -2293,13 +2282,13 @@ Media Queries
 	.home-middle .featuredpost .entry a.hover img,
 	.home-middle .featuredpost .entry img:hover,
 	.home-middle .featuredpost .entry.focused img {
-		  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
-		  filter: alpha(opacity=90);
-		  -moz-opacity: 0.9;
-		  -khtml-opacity: 0.9;
-		  opacity: 0.9;
+		-ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=90)";
+		filter: alpha(opacity=90);
+		-moz-opacity: 0.9;
+		-khtml-opacity: 0.9;
+		opacity: 0.9;
 	}
-	
+
 	.header-image .site-title a {
 		background-size: contain !important;
 	}

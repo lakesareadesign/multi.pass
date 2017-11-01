@@ -4,19 +4,20 @@
  *
  * This file adds the WooCommerce styles and the custom CSS to the Outfitter Pro Theme's custom WooCommerce stylesheet.
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
 add_filter( 'woocommerce_enqueue_styles', 'outfitter_woocommerce_styles' );
 /**
- * Enqueues the theme's custom WooCommerce styles to the WooCommerce plugin.
+ * Enqueues the theme's custom WooCommerce styles.
  *
  * @since 1.0.0
  *
- * @return array Required values for the theme's WooCommerce stylesheet.
+ * @param array $enqueue_styles Existing enqueued WooCommerce styles.
+ * @return array WooCommerce styles with the addition of the child theme file.
  */
 function outfitter_woocommerce_styles( $enqueue_styles ) {
 
@@ -80,6 +81,7 @@ function outfitter_woocommerce_css() {
 			color: %2$s;
 		}
 
+		ul.woocommerce-error,
 		.woocommerce-error,
 		.woocommerce-info,
 		.woocommerce-message {

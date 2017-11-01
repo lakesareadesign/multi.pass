@@ -4,16 +4,16 @@
  *
  * This file adds the required CSS to the front end to the Outfitter Pro Theme.
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
 add_action( 'wp_enqueue_scripts', 'outfitter_css', 99 );
 /**
  * Checks the settings for the link color and accent color.
- * If any of these value are set the appropriate CSS is output.
+ * If any of these values are set the appropriate CSS is output.
  *
  * @since 1.0.0
  */

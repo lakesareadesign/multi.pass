@@ -1,7 +1,7 @@
 /**
  * This script adds notice dismissal to the Outfitter Pro theme.
  *
- * @package Outfitter_Pro\JS
+ * @package Outfitter\JS
  * @author StudioPress
  * @license GPL-2.0+
  */

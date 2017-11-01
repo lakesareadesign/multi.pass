@@ -1,3 +1,11 @@
+/**
+ * This script adds the responsive menu to the Agency Pro theme.
+ *
+ * @package Agency\JS
+ * @author StudioPress
+ * @license GPL-2.0+
+ */
+
 jQuery(function( $ ){
 
 	$("header .genesis-nav-menu, .nav-primary .genesis-nav-menu").addClass("responsive-menu").before('<div class="responsive-menu-icon"></div>');

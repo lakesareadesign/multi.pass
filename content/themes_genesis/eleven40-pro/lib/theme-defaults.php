@@ -1,7 +1,21 @@
 <?php
+/**
+ * eleven40 Pro.
+ *
+ * This file adds the default theme settings to the eleven40 Pro Theme.
+ *
+ * @package eleven40
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    http://my.studiopress.com/themes/eleven40/
+ */
 
-//* Eleven40 Theme Setting Defaults
 add_filter( 'genesis_theme_settings_defaults', 'eleven40_theme_defaults' );
+/**
+ * Updates theme settings on reset.
+ *
+ * @since 2.1.1
+ */
 function eleven40_theme_defaults( $defaults ) {
 
 	$defaults['blog_cat_num']              = 5;
@@ -16,26 +30,18 @@ function eleven40_theme_defaults( $defaults ) {
 
 }
 
-//* Eleven40 Theme Setup
 add_action( 'after_switch_theme', 'eleven40_theme_setting_defaults' );
+/**
+ * Updates theme settings on activation.
+ *
+ * @since 2.1.1
+ */
 function eleven40_theme_setting_defaults() {
 
 	if( function_exists( 'genesis_update_settings' ) ) {
 
 		genesis_update_settings( array(
-			'blog_cat_num'              => 5,	
-			'content_archive'           => 'full',
-			'content_archive_limit'     => 0,
-			'content_archive_thumbnail' => 0,
-			'image_alignment'           => 'alignleft',
-			'posts_nav'                 => 'numeric',
-			'site_layout'               => 'sidebar-content-sidebar',
-		) );
-		
-	} else {
-	
-		_genesis_update_settings( array(
-			'blog_cat_num'              => 5,	
+			'blog_cat_num'              => 5,
 			'content_archive'           => 'full',
 			'content_archive_limit'     => 0,
 			'content_archive_thumbnail' => 0,
@@ -50,8 +56,12 @@ function eleven40_theme_setting_defaults() {
 
 }
 
-//* Simple Social Icon Defaults
 add_filter( 'simple_social_default_styles', 'eleven40_social_default_styles' );
+/**
+* Updates Simple Social Icon settings.
+*
+* @since 2.1.1
+*/
 function eleven40_social_default_styles( $defaults ) {
 
 	$args = array(
@@ -63,9 +73,9 @@ function eleven40_social_default_styles( $defaults ) {
 		'icon_color_hover'       => '#ffffff',
 		'size'                   => 36,
 	);
-		
+
 	$args = wp_parse_args( $args, $defaults );
-	
+
 	return $args;
-	
+
 }

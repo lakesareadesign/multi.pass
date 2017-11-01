@@ -1,22 +1,28 @@
 <?php
-/* 
- * Adds the required CSS to the front end.
+/**
+ * Cafe Pro.
+ *
+ * This file adds the required CSS to the front end to the Cafe Pro Theme.
+ *
+ * @package Cafe
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    https://my.studiopress.com/themes/cafe/
  */
 
 add_action( 'wp_enqueue_scripts', 'cafe_css' );
 /**
-* Checks the settings for the images and background colors for each image
-* If any of these value are set the appropriate CSS is output
+* Checks the settings for the images and background colors for each image.
+* If any of these value are set the appropriate CSS is output.
 *
-* @since 1.0
+* @since 1.0.0
 */
 function cafe_css() {
 
-	$handle  = defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
-	
+	$handle = defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
+
 	$color = get_theme_mod( 'cafe_accent_color', cafe_customizer_get_default_accent_color() );
-	
-	$opts = apply_filters( 'cafe_images', array( 'header', '2', '4' ) );
+	$opts  = apply_filters( 'cafe_images', array( 'header', '2', '4' ) );
 
 	$settings = array();
 

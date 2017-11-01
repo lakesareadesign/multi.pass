@@ -4,10 +4,10 @@
  *
  * This file adds the Genesis Connect for WooCommerce notice to the Outfitter Pro Theme.
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
 add_action( 'admin_print_styles', 'outfitter_remove_woocommerce_notice' );
@@ -50,6 +50,7 @@ function outfitter_woocommerce_theme_notice() {
 	if ( get_user_option( 'outfitter_woocommerce_message_dismissed', get_current_user_id() ) ) {
 		return;
 	}
+
 	$notice_html = sprintf( __( 'Please install and activate <a href="https://wordpress.org/plugins/genesis-connect-woocommerce/" target="_blank">Genesis Connect for WooCommerce</a> to <strong>enable WooCommerce support for %s</strong>.', 'outfitter-pro' ), esc_html( CHILD_THEME_NAME ) );
 
 	if ( current_user_can( 'install_plugins' ) ) {
@@ -66,6 +67,7 @@ function outfitter_woocommerce_theme_notice() {
 			'install-plugin_' . $plugin_slug
 		), __( 'install and activate Genesis Connect for WooCommerce', 'outfitter-pro' ) );
 
+		/* translators: 1: plugin install prompt presented as link, 2: child theme name */
 		$notice_html = sprintf( __( 'Please %s to <strong>enable WooCommerce support for %s</strong>.', 'outfitter-pro' ), $install_link, esc_html( CHILD_THEME_NAME ) );
 	}
 
@@ -125,13 +127,14 @@ add_action( 'deactivated_plugin', 'outfitter_reset_woocommerce_notice_on_deactiv
  *
  * @since 1.0.0
  *
- * @param string $plugin The plugin slug.
- * @param $network_activation.
+ * @param string $plugin               Path to the main plugin file from plugins directory.
+ * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network.
+ *                                     or just the current site. Multisite only. Default false.
  */
-function outfitter_reset_woocommerce_notice_on_deactivation( $plugin, $network_activation ) {
+function outfitter_reset_woocommerce_notice_on_deactivation( $plugin, $network_deactivating ) {
 
 	// Conditional checks to see if we're deactivating WooCommerce or Genesis Connect for WooCommerce.
-	if ( $plugin !== 'woocommerce/woocommerce.php' && $plugin !== 'genesis-connect-woocommerce/genesis-connect-woocommerce.php'  ) {
+	if ( 'woocommerce/woocommerce.php' !== $plugin && 'genesis-connect-woocommerce/genesis-connect-woocommerce.php' !== $plugin ) {
 		return;
 	}
 

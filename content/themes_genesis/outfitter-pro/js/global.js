@@ -1,7 +1,7 @@
 /**
  * This script adds the jquery effects to the Outfitter Pro Theme.
  *
- * @package Outfitter_Pro\JS
+ * @package Outfitter\JS
  * @author StudioPress
  * @license GPL-2.0+
  */

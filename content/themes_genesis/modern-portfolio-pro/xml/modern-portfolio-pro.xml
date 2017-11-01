@@ -76,7 +76,7 @@
 		<link>http://demo.studiopress.com/modern-portfolio/portfolio-1/portfolio-1-2/</link>
 		<pubDate>Thu, 17 Jan 2013 18:11:25 +0000</pubDate>
 		<dc:creator>lmancke</dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/demo.jpg</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/demo.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -92,7 +92,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/demo.jpg</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/demo.jpg</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attached_file</wp:meta_key>
 			<wp:meta_value><![CDATA[2013/01/demo.jpg]]></wp:meta_value>
@@ -107,7 +107,7 @@
 		<link>http://demo.studiopress.com/modern-portfolio/portfolio-2/portfolio-2-2/</link>
 		<pubDate>Thu, 17 Jan 2013 18:11:42 +0000</pubDate>
 		<dc:creator>lmancke</dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/demo.jpg</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/demo.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -123,7 +123,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/demo.jpg</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/demo.jpg</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attached_file</wp:meta_key>
 			<wp:meta_value><![CDATA[2013/01/demo.jpg]]></wp:meta_value>
@@ -138,7 +138,7 @@
 		<link>http://demo.studiopress.com/modern-portfolio/portfolio-3/portfolio-3-2/</link>
 		<pubDate>Thu, 17 Jan 2013 18:11:51 +0000</pubDate>
 		<dc:creator>lmancke</dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/demo.jpg</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/demo.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -154,7 +154,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/demo.jpg</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/demo.jpg</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attached_file</wp:meta_key>
 			<wp:meta_value><![CDATA[2013/01/demo.jpg]]></wp:meta_value>
@@ -169,7 +169,7 @@
 		<link>http://demo.studiopress.com/modern-portfolio/portfolio-4/portfolio-4-2/</link>
 		<pubDate>Thu, 17 Jan 2013 18:11:58 +0000</pubDate>
 		<dc:creator>lmancke</dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/demo.jpg</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/demo.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -185,7 +185,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/demo.jpg</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/demo.jpg</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attached_file</wp:meta_key>
 			<wp:meta_value><![CDATA[2013/01/demo.jpg]]></wp:meta_value>
@@ -200,7 +200,7 @@
 		<link>http://demo.studiopress.com/modern-portfolio/portfolio-5/portfolio-5-2/</link>
 		<pubDate>Thu, 17 Jan 2013 18:12:27 +0000</pubDate>
 		<dc:creator>lmancke</dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/demo.jpg</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/demo.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -216,7 +216,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/demo.jpg</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/demo.jpg</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attached_file</wp:meta_key>
 			<wp:meta_value><![CDATA[2013/01/demo.jpg]]></wp:meta_value>
@@ -231,7 +231,7 @@
 		<link>http://demo.studiopress.com/modern-portfolio/portfolio-6/portfolio-6-2/</link>
 		<pubDate>Thu, 17 Jan 2013 18:12:37 +0000</pubDate>
 		<dc:creator>lmancke</dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/demo.jpg</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/demo.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -247,7 +247,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/demo.jpg</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/demo.jpg</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attached_file</wp:meta_key>
 			<wp:meta_value><![CDATA[2013/01/demo.jpg]]></wp:meta_value>
@@ -262,7 +262,7 @@
 		<link>http://demo.studiopress.com/modern-portfolio/blog-2/featured-2/</link>
 		<pubDate>Fri, 01 Feb 2013 15:10:08 +0000</pubDate>
 		<dc:creator>lmancke</dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/demo.jpg</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/demo.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -278,7 +278,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/demo.jpg</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/demo.jpg</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attached_file</wp:meta_key>
 			<wp:meta_value><![CDATA[2013/01/demo.jpg]]></wp:meta_value>
@@ -293,7 +293,7 @@
 		<link>http://demo.studiopress.com/modern-portfolio/blog-3/featured-3/</link>
 		<pubDate>Fri, 01 Feb 2013 15:11:13 +0000</pubDate>
 		<dc:creator>lmancke</dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/demo.jpg</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/demo.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -309,7 +309,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/demo.jpg</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/demo.jpg</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attached_file</wp:meta_key>
 			<wp:meta_value><![CDATA[2013/01/demo.jpg]]></wp:meta_value>
@@ -324,7 +324,7 @@
 		<link>http://demo.studiopress.com/modern-portfolio/blog-1/featured-1/</link>
 		<pubDate>Fri, 01 Feb 2013 15:12:18 +0000</pubDate>
 		<dc:creator>lmancke</dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/demo.jpg</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/demo.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -340,7 +340,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/demo.jpg</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/demo.jpg</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attached_file</wp:meta_key>
 			<wp:meta_value><![CDATA[2013/01/demo.jpg]]></wp:meta_value>
@@ -402,7 +402,7 @@
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key>_menu_item_url</wp:meta_key>
-			<wp:meta_value><![CDATA[http://my.studiopress.com/themes/modern-portfolio/]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://my.studiopress.com/themes/modern-portfolio/]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -3226,7 +3226,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<description></description>
 		<content:encoded><![CDATA[[gravityform id=1 name=ContactForm title=false description=false]
 
-* This contact form was developed with a third party plugin called <a href="http://www.studiopress.com/go/gravity">Gravity Forms</a> and is not included in the Genesis Framework. It is for display only - though I highly recommend using it.]]></content:encoded>
+* This contact form was developed with a third party plugin called <a href="https://www.studiopress.com/go/gravity">Gravity Forms</a> and is not included in the Genesis Framework. It is for display only - though I highly recommend using it.]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>83</wp:post_id>
 		<wp:post_date>2010-08-15 19:13:33</wp:post_date>
@@ -3794,7 +3794,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator>bgardner</dc:creator>
 		<guid isPermaLink="false">http://demo.briangardner.com/absence/?p=275</guid>
 		<description></description>
-		<content:encoded><![CDATA[<img src="http://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #3" />
+		<content:encoded><![CDATA[<img src="https://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #3" />
 
 <strong>All images &copy; Copyright 2013 -- Ismael Burciaga, <a href="http://burciagraphy.com/">Burciagraphy</a></strong>.
 
@@ -3843,7 +3843,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator>bgardner</dc:creator>
 		<guid isPermaLink="false">http://demo.briangardner.com/absence/?p=277</guid>
 		<description></description>
-		<content:encoded><![CDATA[<img src="http://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #2" />
+		<content:encoded><![CDATA[<img src="https://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #2" />
 
 <strong>All images &copy; Copyright 2013 -- Ismael Burciaga, <a href="http://burciagraphy.com/">Burciagraphy</a></strong>.
 
@@ -3892,7 +3892,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator>bgardner</dc:creator>
 		<guid isPermaLink="false">http://demo.briangardner.com/absence/?p=279</guid>
 		<description></description>
-		<content:encoded><![CDATA[<img src="http://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #1" />
+		<content:encoded><![CDATA[<img src="https://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #1" />
 
 <strong>All images &copy; Copyright 2013 -- Ismael Burciaga, <a href="http://burciagraphy.com/">Burciagraphy</a></strong>.
 
@@ -3942,7 +3942,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator>bgardner</dc:creator>
 		<guid isPermaLink="false">http://demo.briangardner.com/absence/?p=281</guid>
 		<description></description>
-		<content:encoded><![CDATA[<img src="http://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #4" />
+		<content:encoded><![CDATA[<img src="https://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #4" />
 
 <strong>All images &copy; Copyright 2013 -- Ismael Burciaga, <a href="http://burciagraphy.com/">Burciagraphy</a></strong>.
 
@@ -3991,7 +3991,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator>bgardner</dc:creator>
 		<guid isPermaLink="false">http://demo.briangardner.com/absence/?p=289</guid>
 		<description></description>
-		<content:encoded><![CDATA[<img src="http://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #5" />
+		<content:encoded><![CDATA[<img src="https://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #5" />
 
 <strong>All images &copy; Copyright 2013 -- Ismael Burciaga, <a href="http://burciagraphy.com/">Burciagraphy</a></strong>.
 
@@ -4032,7 +4032,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator>bgardner</dc:creator>
 		<guid isPermaLink="false">http://demo.briangardner.com/absence/?p=291</guid>
 		<description></description>
-		<content:encoded><![CDATA[<img src="http://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #6" />
+		<content:encoded><![CDATA[<img src="https://www.studiopress.com/images/demo.jpg" alt="Sample Portfolio Post #6" />
 
 <strong>All images &copy; Copyright 2013 -- Ismael Burciaga, <a href="http://burciagraphy.com/">Burciagraphy</a></strong>.
 
@@ -4133,7 +4133,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<dc:creator>bgardner</dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/modern-portfolio/?p=375</guid>
 		<description></description>
-		<content:encoded><![CDATA[<img src="http://www.studiopress.com/images/demo.jpg" alt="This is a Sample Blog Post #3" />
+		<content:encoded><![CDATA[<img src="https://www.studiopress.com/images/demo.jpg" alt="This is a Sample Blog Post #3" />
 
 This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.
 
@@ -4180,7 +4180,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator>bgardner</dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/modern-portfolio/?p=378</guid>
 		<description></description>
-		<content:encoded><![CDATA[<img src="http://www.studiopress.com/images/demo.jpg" alt="This is a Sample Blog Post #2" />
+		<content:encoded><![CDATA[<img src="https://www.studiopress.com/images/demo.jpg" alt="This is a Sample Blog Post #2" />
 
 This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.
 
@@ -4219,7 +4219,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<dc:creator>bgardner</dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/modern-portfolio/?p=380</guid>
 		<description></description>
-		<content:encoded><![CDATA[<img src="http://www.studiopress.com/images/demo.jpg" alt="This is a Sample Blog Post #1" />
+		<content:encoded><![CDATA[<img src="https://www.studiopress.com/images/demo.jpg" alt="This is a Sample Blog Post #1" />
 
 This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.
 

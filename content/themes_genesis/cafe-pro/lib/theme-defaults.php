@@ -1,7 +1,24 @@
 <?php
+/**
+ * Cafe Pro.
+ *
+ * This file adds the default theme settings to the Cafe Pro Theme.
+ *
+ * @package Cafe
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    https://my.studiopress.com/themes/cafe/
+ */
 
-//* Cafe Theme Setting Defaults
 add_filter( 'genesis_theme_settings_defaults', 'cafe_theme_defaults' );
+/**
+ * Updates theme settings on reset.
+ *
+ * @since 1.0.0
+ *
+ * @param array $defaults Default theme settings.
+ * @return array Modified defaults.
+ */
 function cafe_theme_defaults( $defaults ) {
 
 	$defaults['blog_cat_num']              = 4;
@@ -16,14 +33,18 @@ function cafe_theme_defaults( $defaults ) {
 
 }
 
-//* Cafe Theme Setup
 add_action( 'after_switch_theme', 'cafe_theme_setting_defaults' );
+/**
+ * Updates theme settings on activation.
+ *
+ * @since 1.0.0
+ */
 function cafe_theme_setting_defaults() {
 
 	if( function_exists( 'genesis_update_settings' ) ) {
 
 		genesis_update_settings( array(
-			'blog_cat_num'              => 4,	
+			'blog_cat_num'              => 4,
 			'content_archive'           => 'full',
 			'content_archive_limit'     => 0,
 			'content_archive_thumbnail' => 0,
@@ -31,15 +52,19 @@ function cafe_theme_setting_defaults() {
 			'posts_nav'                 => 'numeric',
 			'site_layout'               => 'content-sidebar',
 		) );
-	
-	} 
+
+	}
 
 	update_option( 'posts_per_page', 4 );
 
 }
 
-//* Simple Social Icon Defaults
 add_filter( 'simple_social_default_styles', 'cafe_social_default_styles' );
+/**
+ * Updates Simple Social Icon settings on activation.
+ *
+ * @since 1.0.0
+ */
 function cafe_social_default_styles( $defaults ) {
 
 	$args = array(
@@ -51,9 +76,9 @@ function cafe_social_default_styles( $defaults ) {
 		'icon_color_hover'       => '#ffffff',
 		'size'                   => 36,
 		);
-		
+
 	$args = wp_parse_args( $args, $defaults );
-	
+
 	return $args;
-	
+
 }

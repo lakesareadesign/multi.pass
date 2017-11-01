@@ -962,6 +962,7 @@ Loads on WooCommerce pages */
 	line-height: .9;
 }
 
+ul.woocommerce-error,
 .woocommerce-error,
 .woocommerce-info,
 .woocommerce-message {

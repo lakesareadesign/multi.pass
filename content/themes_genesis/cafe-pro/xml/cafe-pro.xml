@@ -58,7 +58,7 @@
 		<link>http://demo.studiopress.com/cafe/?attachment_id=434</link>
 		<pubDate>Tue, 04 Jun 2013 01:08:12 +0000</pubDate>
 		<dc:creator><![CDATA[studiopresscomments]]></dc:creator>
-		<guid isPermaLink="false">http://www.studiopress.com/images/wordpress.png</guid>
+		<guid isPermaLink="false">https://www.studiopress.com/images/wordpress.png</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -74,7 +74,7 @@
 		<wp:post_type>attachment</wp:post_type>
 		<wp:post_password></wp:post_password>
 		<wp:is_sticky>0</wp:is_sticky>
-		<wp:attachment_url>http://www.studiopress.com/images/wordpress.png</wp:attachment_url>
+		<wp:attachment_url>https://www.studiopress.com/images/wordpress.png</wp:attachment_url>
 		<wp:postmeta>
 			<wp:meta_key>_wp_attached_file</wp:meta_key>
 			<wp:meta_value><![CDATA[2013/06/wordpress.png]]></wp:meta_value>

@@ -1,3 +1,11 @@
+/**
+ * This script adds the responsive menu to the eleven40 Pro theme.
+ *
+ * @package eleven40\JS
+ * @author StudioPress
+ * @license GPL-2.0+
+ */
+
 jQuery(function( $ ){
 
 	$(".nav-primary .genesis-nav-menu").addClass("responsive-menu").before('<div class="responsive-menu-icon"></div>');

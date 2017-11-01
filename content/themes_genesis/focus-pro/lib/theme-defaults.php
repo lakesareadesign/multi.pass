@@ -4,7 +4,7 @@
 add_filter( 'genesis_theme_settings_defaults', 'focus_theme_defaults' );
 function focus_theme_defaults( $defaults ) {
 
-	$defaults['blog_cat_num']              = 3;
+	$defaults['blog_cat_num']              = 4;
 	$defaults['content_archive']           = 'full';
 	$defaults['content_archive_limit']     = 0;
 	$defaults['content_archive_thumbnail'] = 0;
@@ -23,7 +23,7 @@ function focus_theme_setting_defaults() {
 	if( function_exists( 'genesis_update_settings' ) ) {
 
 		genesis_update_settings( array(
-			'blog_cat_num'              => 3,	
+			'blog_cat_num'              => 4,	
 			'content_archive'           => 'full',
 			'content_archive_limit'     => 0,
 			'content_archive_thumbnail' => 0,
@@ -32,18 +32,6 @@ function focus_theme_setting_defaults() {
 			'site_layout'               => 'content-sidebar',
 		) );
 	
-	} else {
-		
-		_genesis_update_settings( array(
-			'blog_cat_num'              => 3,	
-			'content_archive'           => 'full',
-			'content_archive_limit'     => 0,
-			'content_archive_thumbnail' => 0,
-			'image_alignment'           => 'alignleft',
-			'posts_nav'                 => 'numeric',
-			'site_layout'               => 'content-sidebar',
-		) );
-		
 	}
 
 	update_option( 'posts_per_page', 4 );

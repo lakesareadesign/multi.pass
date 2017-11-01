@@ -4,10 +4,10 @@
  *
  * This file adds functions to the Outfitter Pro Theme.
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
 // Starts the engine.
@@ -20,7 +20,7 @@ add_action( 'after_setup_theme', 'outfitter_localization_setup' );
 /**
  * Sets localization (do not remove).
  *
- * @return void
+ * @since 1.0.0
  */
 function outfitter_localization_setup(){
 	load_child_theme_textdomain( 'outfitter-pro', get_stylesheet_directory() . '/languages' );
@@ -43,11 +43,15 @@ include_once( get_stylesheet_directory() . '/lib/header-icon-menu.php' );
 
 // Defines the child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Outfitter Pro' );
-define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/outfitter/' );
-define( 'CHILD_THEME_VERSION', '1.0.0' );
+define( 'CHILD_THEME_URL', 'https://my.studiopress.com/themes/outfitter/' );
+define( 'CHILD_THEME_VERSION', '1.0.1' );
 
-// Enqueues scripts and styles.
 add_action( 'wp_enqueue_scripts', 'outfitter_enqueue_scripts_styles' );
+/**
+ * Enqueues scripts and styles.
+ *
+ * @since 1.0.0
+ */
 function outfitter_enqueue_scripts_styles() {
 
 	wp_enqueue_style( 'outfitter-fonts', '//fonts.googleapis.com/css?family=Prompt:500,700|Noto+Sans:400,700', array(), CHILD_THEME_VERSION );
@@ -62,7 +66,11 @@ function outfitter_enqueue_scripts_styles() {
 
 }
 
-// Defines the responsive menu settings.
+/**
+ * Defines the responsive menu settings.
+ *
+ * @since 1.0.0
+ */
 function outfitter_responsive_menu_settings() {
 
 	$settings = array(
@@ -129,16 +137,28 @@ genesis_unregister_layout( 'sidebar-sidebar-content' );
 remove_filter( 'genesis_nav_items', 'genesis_nav_right', 10, 2 );
 remove_filter( 'wp_nav_menu_items', 'genesis_nav_right', 10, 2 );
 
-// Removes navigation meta box.
 add_action( 'genesis_theme_settings_metaboxes', 'outfitter_remove_genesis_metaboxes' );
+/**
+ * Removes navigation meta box.
+ *
+ * @since 1.0.0
+ *
+ * @param string $_genesis_theme_settings_pagehook The page hook name.
+ */
 function outfitter_remove_genesis_metaboxes( $_genesis_theme_settings_pagehook ) {
 
 	remove_meta_box( 'genesis-theme-settings-nav', $_genesis_theme_settings_pagehook, 'main' );
 
 }
 
-//* Remove unused sections from Theme Customizer
 add_action( 'customize_register', 'outfitter_customize_register', 16 );
+/**
+ * Removes unused sections from Theme Customizer.
+ *
+ * @since 1.0.0
+ *
+ * @param WP_Customize_Manager $wp_customize Customizer object.
+ */
 function outfitter_customize_register( $wp_customize ) {
 
 	$wp_customize->remove_control( 'genesis_image_alignment' );
@@ -149,10 +169,10 @@ add_filter( 'genesis_skip_links_output', 'outfitter_skip_links_output' );
 /**
  * Removes skip link for primary navigation and adds skip link for footer widgets.
  *
+ * @since 1.0.0
+ *
  * @param array $links
  * @return array
- *
- * @since 1.0.0
  */
 function outfitter_skip_links_output( $links ) {
 
@@ -172,7 +192,11 @@ function outfitter_skip_links_output( $links ) {
 }
 
 // Renames primary and secondary navigation menus.
-add_theme_support( 'genesis-menus', array( 'primary' => __( 'Header Menu', 'outfitter-pro' ), 'secondary' => __( 'Footer Menu', 'outfitter-pro' ), 'off-screen' => __( 'Off-screen Menu', 'outfitter-pro' ) ) );
+add_theme_support( 'genesis-menus', array( 
+	'primary'    => __( 'Header Menu', 'outfitter-pro' ),
+	'secondary'  => __( 'Footer Menu', 'outfitter-pro' ),
+	'off-screen' => __( 'Off-screen Menu', 'outfitter-pro' ),
+) );
 
 // Repositions primary navigation menu.
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
@@ -186,10 +210,10 @@ add_filter( 'wp_nav_menu_args', 'outfitter_limit_menu_args' );
 /**
  * Reduces the header and off screen navigation menus to one level depth.
  *
+ * @since 1.0.0
+ *
  * @param array $args
  * @return array $args
- *
- * @since 1.0.0
  */
 function outfitter_limit_menu_args( $args ) {
 
@@ -204,8 +228,6 @@ function outfitter_limit_menu_args( $args ) {
 add_action( 'genesis_after_header', 'outfitter_off_screen_widget_area' );
 /**
  * Adds off-screen content icon if widget area is active.
- *
- * @return void
  *
  * @since 1.0.0
  */
@@ -245,8 +267,15 @@ add_action( 'genesis_entry_header', 'genesis_do_post_image', 1 );
 add_filter( 'genesis_markup_entry-image-link_open', 'outfitter_custom_archive_image_open' );
 add_filter( 'genesis_markup_entry-image-link_close', 'outfitter_custom_archive_image_close' );
 
-// Sets classes for the Featured Image.
 add_filter( 'genesis_attr_entry-image', 'outfitter_image_alignment' );
+/**
+ * Sets classes for the Featured Image.
+ *
+ * @since 1.0.0
+ *
+ * @param array $attributes The image attributes.
+ * @return array The modified image attributes.
+ */
 function outfitter_image_alignment( $attributes ) {
 
 	$attributes['class'] = 'aligncenter post-image entry-image';
@@ -256,8 +285,12 @@ function outfitter_image_alignment( $attributes ) {
 
 }
 
-// Adds featured image above the entry content.
 add_action( 'genesis_entry_header', 'outfitter_featured_image', 1 );
+/**
+ * Adds featured image above the entry content.
+ *
+ * @since 1.0.0
+ */
 function outfitter_featured_image() {
 
 	$add_single_image = get_theme_mod( 'outfitter_single_image_setting', outfitter_customizer_get_default_image_setting() );
@@ -269,10 +302,8 @@ function outfitter_featured_image() {
 			'attr'    => array ( 'alt' => the_title_attribute( 'echo=0' ), 'class' => 'aligncenter' ),
 		) );
 
-	if ( is_singular( 'post' ) && ( 1 === $add_single_image ) ) {
-		if ( $image ) {
-			printf( '<div class="featured-image">%s</div>', $image );
-		}
+	if ( $add_single_image && $image && is_singular( 'post' ) ) {
+		printf( '<div class="featured-image">%s</div>', $image );
 	}
 
 }
@@ -281,20 +312,36 @@ function outfitter_featured_image() {
 remove_action( 'genesis_entry_header', 'genesis_post_info', 12 );
 add_action( 'genesis_entry_header', 'genesis_post_info', 5 );
 
-// Customizes the entry meta in the entry header.
 add_filter( 'genesis_post_info', 'outfitter_post_info_filter' );
+/**
+ * Modifies the meta information in the entry header.
+ *
+ * @since 1.0.0
+ *
+ * @param string $post_info Current post info.
+ * @return string New post info.
+ */
 function outfitter_post_info_filter( $post_info ) {
 
 	$post_info = '[post_date]';
+
 	return $post_info;
 
 }
 
-// Customizes the entry meta in the entry footer.
 add_filter( 'genesis_post_meta', 'outfitter_post_meta_filter' );
+/**
+ * Modifies the meta information in the entry footer.
+ *
+ * @since 1.0.0
+ *
+ * @param string $post_meta Current post meta.
+ * @return string New post meta.
+ */
 function outfitter_post_meta_filter( $post_meta ) {
 
 	$post_meta = '[post_author_posts_link before="Article by<br />"] [post_comments before="Comments<br />"] [post_categories before="Category<br />"] [post_tags before="Tags<br />"] [post_edit]';
+
 	return $post_meta;
 
 }
@@ -312,8 +359,6 @@ add_action( 'genesis_entry_header', 'genesis_do_author_box_single', 51 );
 add_action( 'genesis_before_entry', 'outfitter_entry_wrappers' );
 /**
  * Adds wrappers to the entry.
- *
- * @return void
  *
  * @since 1.0.0
  */
@@ -339,24 +384,65 @@ function outfitter_entry_wrappers() {
 
 }
 
-// Modifies the size of the Gravatar in the author box.
+add_filter( 'body_class', 'outfitter_narrow_body_class' );
+/**
+ * Conditionally add a class to control the content width.
+ *
+ * @param array $classes
+ * @return array $classes
+ *
+ * @since 1.0.1
+ */
+function outfitter_narrow_body_class( $classes ) {
+
+	if ( in_array( 'full-width-content', $classes, true ) && ( ! is_page_template( 'page_blog.php' ) && is_page() ) ) {
+		$classes[] = 'full-width-narrow';
+	}
+
+	return $classes;
+
+}
+
 add_filter( 'genesis_author_box_gravatar_size', 'outfitter_author_box_gravatar' );
+/**
+ * Modifies the size of the Gravatar in the author box.
+ *
+ * @since 1.0.0
+ *
+ * @param int $size Current Gravatar size.
+ * @return int New size.
+ */
 function outfitter_author_box_gravatar( $size ) {
 
 	return 90;
 
 }
 
-// Modifies the size of the Gravatar in the entry comments.
 add_filter( 'genesis_comment_list_args', 'outfitter_comments_gravatar' );
+/**
+ * Modifies the size of the Gravatar in the entry comments.
+ *
+ * @since 1.0.0
+ *
+ * @param array $args The comment list arguments.
+ * @return array Arguments with new avatar size.
+ */
 function outfitter_comments_gravatar( $args ) {
 
 	$args['avatar_size'] = 60;
+
 	return $args;
 
 }
 
-// Sets up the widget counts.
+/**
+ * Count used widgets in given sidebar.
+ *
+ * @since 1.0.0
+ *
+ * @param string $id The sidebar ID.
+ * @return int|void The number of widgets, or nothing.
+ */
 function outfitter_count_widgets( $id ) {
 
 	$sidebars_widgets = wp_get_sidebars_widgets();
@@ -367,20 +453,27 @@ function outfitter_count_widgets( $id ) {
 
 }
 
-// Calculates the widget count.
+/**
+ * Outputs class names based on widget count.
+ *
+ * @since 1.0.0
+ *
+ * @param string $id The widget ID.
+ * @return string The class.
+ */
 function outfitter_widget_area_class( $id ) {
 
 	$count = outfitter_count_widgets( $id );
 
 	$class = '';
 
-	if ( $count == 1 ) {
+	if ( 1 === $count ) {
 		$class .= ' widget-full';
-	} elseif ( $count % 3 == 1 ) {
+	} elseif ( 1 === $count % 3 ) {
 		$class .= ' widget-thirds';
-	} elseif ( $count % 4 == 1 ) {
+	} elseif ( 1 === $count % 4 ) {
 		$class .= ' widget-fourths';
-	} elseif ( $count % 2 == 0 ) {
+	} elseif ( 0 === $count % 2 ) {
 		$class .= ' widget-halves uneven';
 	} else {
 		$class .= ' widget-halves';
@@ -390,8 +483,12 @@ function outfitter_widget_area_class( $id ) {
 
 }
 
-// Adds the flexible footer widget area.
 add_action( 'genesis_before_footer', 'outfitter_footer_widgets' );
+/**
+ * Adds the flexible footer widget area.
+ *
+ * @since 1.0.0
+ */
 function outfitter_footer_widgets() {
 
 	genesis_widget_area( 'outfitter-footer', array(

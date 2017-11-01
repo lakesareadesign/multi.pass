@@ -1,7 +1,15 @@
+/**
+ * This script adds the global jquery effects to the Cafe Pro Theme.
+ *
+ * @package Cafe\JS
+ * @author StudioPress
+ * @license GPL-2.0+
+ */
+
 jQuery(function( $ ){
 
 	$('.site-header').addClass('front-page-header');
-	
+
 	$('.footer-widgets').prop('id', 'footer-widgets');
 
 	$(".nav-primary .genesis-nav-menu, .nav-secondary .genesis-nav-menu").addClass("responsive-menu").before('<div class="responsive-menu-icon"></div>');
@@ -24,13 +32,13 @@ jQuery(function( $ ){
 			$(this).parent().toggleClass("menu-open");
 		});
 	});
-	
-	// Local Scroll Speed
+
+	// Local Scroll Speed.
 	$.localScroll({
 		duration: 750
 	});
 
-	// Sticky Navigation
+	// Sticky Navigation.
 	var headerHeight = $('.site-header').innerHeight();
 	var beforeheaderHeight = $('.before-header').outerHeight();
 	var abovenavHeight = headerHeight + beforeheaderHeight - 1;
@@ -44,9 +52,9 @@ jQuery(function( $ ){
 		} else {
 
 			$('.nav-primary').removeClass('fixed');
-			
+
 		}
-		
+
 	});
 
 });

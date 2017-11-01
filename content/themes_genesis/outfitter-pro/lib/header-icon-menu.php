@@ -4,17 +4,15 @@
  *
  * This file sets up the header icon menu with custom markup.
  *
- * @package Outfitter_Pro
+ * @package Outfitter
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/outfitter/
+ * @link    https://my.studiopress.com/themes/outfitter/
  */
 
 add_action( 'genesis_meta', 'outfitter_setup_header_icons' );
 /**
  * Sets up the header icon menu markup, if any.
- *
- * @return void
  *
  * @since 1.0.0
  */
@@ -119,12 +117,15 @@ function outfitter_header_icons_markup_close() {
 
 }
 
+add_filter( 'genesis_attr_nav-header-icons', 'outfitter_header_icons_nav_attr' );
 /**
  * Adds appropriate attributes to the header icon navigation element.
  *
  * @since 1.0.0
+ *
+ * @param array $attr The navigation element attributes.
+ * @return array The modified navigation element attributes.
  */
-add_filter( 'genesis_attr_nav-header-icons', 'outfitter_header_icons_nav_attr' );
 function outfitter_header_icons_nav_attr( $attr ) {
 
 	$attr['itemtype']   = 'https://schema.org/SiteNavigationElement';
@@ -135,12 +136,15 @@ function outfitter_header_icons_nav_attr( $attr ) {
 
 }
 
+add_filter( 'genesis_attr_menu-header-icons', 'outfitter_header_icons_menu_attr' );
 /**
  * Adds appropriate attributes to the header icon menu element.
  *
  * @since 1.0.0
+ *
+ * @param array $attr The navigation element attributes.
+ * @return array The modified navigation element attributes.
  */
-add_filter( 'genesis_attr_menu-header-icons', 'outfitter_header_icons_menu_attr' );
 function outfitter_header_icons_menu_attr( $attr ) {
 
 	$attr['id']    = 'menu-header-icons-navigation';

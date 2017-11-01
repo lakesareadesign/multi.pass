@@ -1,7 +1,7 @@
 /**
  * This script adds the WooCommerce jquery effects to the Outfitter Pro theme.
  *
- * @package Outfitter_Pro\JS
+ * @package Outfitter\JS
  * @author StudioPress
  * @license GPL-2.0+
  */
@@ -15,7 +15,7 @@
 	$(document).ready(function() {
 
 		// Toggles the off-screen cart content on click.
-		$( '.toggle-off-screen-cart' ).click(function() {
+		$( document ).on( 'click', '.toggle-off-screen-cart', function() {
 			__toggleOffscreenCartContent();
 		});
 

@@ -2,15 +2,15 @@
 msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"Project-Id-Version: Agency Pro\n"
-"POT-Creation-Date: 2016-04-25 09:08-0400\n"
+"Project-Id-Version: Agency Pro 3.1.5\n"
+"POT-Creation-Date: 2017-10-27 18:02-0400\n"
 "PO-Revision-Date: 2016-04-25 09:08-0400\n"
 "Last-Translator: StudioPress <translations@studiopress.com>\n"
 "Language-Team: StudioPress <translations@studiopress.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.7\n"
+"X-Generator: Poedit 2.0.4\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: style.css\n"
 "X-Poedit-SourceCharset: UTF-8\n"
@@ -20,79 +20,76 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: functions.php:15
-msgid "Agency Pro Theme"
+#. Theme Name of the plugin/theme
+#: functions.php:33
+msgid "Agency Pro"
 msgstr ""
 
-#: functions.php:73
+#: functions.php:91
 msgid "Agency Pro Blue"
 msgstr ""
 
-#: functions.php:74
+#: functions.php:92
 msgid "Agency Pro Green"
 msgstr ""
 
-#: functions.php:75
+#: functions.php:93
 msgid "Agency Pro Orange"
 msgstr ""
 
-#: functions.php:76
+#: functions.php:94
 msgid "Agency Pro Red"
 msgstr ""
 
-#: functions.php:97
+#: functions.php:115
 msgid "After Header Menu"
 msgstr ""
 
-#: functions.php:97
+#: functions.php:115
 msgid "Footer Menu"
 msgstr ""
 
-#: functions.php:124
+#: functions.php:142
 msgid "Home Top"
 msgstr ""
 
-#: functions.php:125
+#: functions.php:143
 msgid "This is the top section of the homepage."
 msgstr ""
 
-#: functions.php:129
+#: functions.php:147
 msgid "Home Middle"
 msgstr ""
 
-#: functions.php:130
+#: functions.php:148
 msgid "This is the middle section of the homepage."
 msgstr ""
 
-#: functions.php:134
+#: functions.php:152
 msgid "Home Bottom"
 msgstr ""
 
-#: functions.php:135
+#: functions.php:153
 msgid "This is the bottom section of the homepage."
 msgstr ""
 
-#: lib/customize.php:25
+#: lib/customize.php:26
 msgid "Backstretch Image"
 msgstr ""
 
-#: lib/customize.php:26
+#: lib/customize.php:27
 msgid ""
 "<p>Use the included default image or personalize your site by uploading your "
 "own image for the background.</p><p>The default image is <strong>1600 x 1000 "
 "pixels</strong>.</p>"
 msgstr ""
 
-#: lib/customize.php:41
+#: lib/customize.php:42
 msgid "Backstretch Image Upload"
 msgstr ""
 
-#. Theme Name of the plugin/theme
-msgid "Agency Pro"
-msgstr ""
-
 #. Theme URI of the plugin/theme
-msgid "http://my.studiopress.com/themes/agency/"
+msgid "https://my.studiopress.com/themes/agency/"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -106,5 +103,5 @@ msgid "StudioPress"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "http://www.studiopress.com/"
+msgid "https://www.studiopress.com/"
 msgstr ""

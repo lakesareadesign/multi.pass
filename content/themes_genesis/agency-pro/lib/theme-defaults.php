@@ -1,7 +1,21 @@
 <?php
+/**
+ * Agency Pro.
+ *
+ * This file adds the default theme settings to the Agency Pro Theme.
+ *
+ * @package Agency
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    https://my.studiopress.com/themes/agency/
+ */
 
-//* Agency Theme Setting Defaults
 add_filter( 'genesis_theme_settings_defaults', 'agency_theme_defaults' );
+/**
+* Updates theme settings on reset.
+*
+* @since 3.1.0
+*/
 function agency_theme_defaults( $defaults ) {
 
 	$defaults['blog_cat_num']              = 10;
@@ -16,8 +30,12 @@ function agency_theme_defaults( $defaults ) {
 
 }
 
-//* Agency Theme Setup
 add_action( 'after_switch_theme', 'agency_theme_setting_defaults' );
+/**
+* Updates theme settings on activation.
+*
+* @since 3.1.0
+*/
 function agency_theme_setting_defaults() {
 
 	if ( function_exists( 'genesis_update_settings' ) ) {
@@ -38,8 +56,12 @@ function agency_theme_setting_defaults() {
 
 }
 
-//* Simple Social Icon Defaults
 add_filter( 'simple_social_default_styles', 'agency_social_default_styles' );
+/**
+* Updates Simple Social Icon settings on activation.
+*
+* @since 3.1.0
+*/
 function agency_social_default_styles( $defaults ) {
 
 	$args = array(
@@ -51,9 +73,9 @@ function agency_social_default_styles( $defaults ) {
 		'icon_color_hover'       => '#222222',
 		'size'                   => 36,
 	);
-		
+
 	$args = wp_parse_args( $args, $defaults );
-	
+
 	return $args;
-	
+
 }
