@@ -181,19 +181,6 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				return;
 			}
 
-			$title = $this->get_value( 'document', 'title' );
-			$content = $this->get_value( 'document', 'content' );
-
-			if ( empty( $title ) && empty( $content ) ) {
-				$message = __( 'Please configure "Coming Soon Page" first!', 'ub' );
-				if ( 'maintenance' == $status ) {
-					$message = __( 'Please configure "Maintenance Page" first!', 'ub' );
-				}
-				$err = new WP_Error( 'error', $message );
-				echo $err->get_error_message();
-				exit();
-			}
-
 			// set headers
 			if ( 'maintenance' == $status ) {
 				header( 'HTTP/1.1 503 Service Temporarily Unavailable' );
@@ -231,6 +218,19 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 			$template = $this->get_default_template();
 
 			$this->set_data();
+
+			/**
+			 * Add defaults.
+			 */
+			if ( empty( $this->data['document']['title'] ) && empty( $this->data['document']['content'] ) ) {
+				$this->data['document']['title'] = __( 'We&rsquo;ll be back soon!', 'ub' );
+				$this->data['document']['content'] = __( 'Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment. We&rsquo;ll be back online shortly!', 'ub' );
+				if ( 'coming-soon' == $status ) {
+					$this->data['document']['title'] = __( 'Coming Soon', 'ub' );
+					$this->data['document']['content'] = __( 'Stay tuned!', 'ub' );
+				}
+				$this->data['document']['content_meta'] = $this->data['document']['content'];
+			}
 
 			foreach ( $this->data as $section => $data ) {
 				foreach ( $data as $name => $value ) {
@@ -272,6 +272,19 @@ body {
 			$logo = '';
 			$show = $this->get_value( 'logo', 'show', false );
 			if ( 'on' == $show ) {
+				/**
+				 * Logo position
+				 */
+				$position = $this->get_value( 'logo', 'position', false );
+				$margin = '0 auto';
+				switch ( $position ) {
+					case 'left':
+						$margin = '0 auto 0 0';
+					break;
+					case 'right':
+						$margin = '0 0 0 auto';
+					break;
+				}
 				$image_meta = $this->get_value( 'logo', 'image_meta' );
 				if ( is_array( $image_meta ) && 4 == count( $image_meta ) ) {
 					$width = $this->get_value( 'logo', 'width' );
@@ -286,9 +299,9 @@ body {
     width: %dpx;
     height: %dpx;
     display: block;
-    margin: 5px auto;
+    margin: %s;
 }
-', esc_url( $image_meta[0] ), $width, $height );
+', esc_url( $image_meta[0] ), $width, $height, $margin );
 					$logo = '<div id="logo"></div>';
 				}
 			}

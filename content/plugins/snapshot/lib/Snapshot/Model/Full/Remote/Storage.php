@@ -59,6 +59,15 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	}
 
 	/**
+	 * Gets maximum number of automate-initiated backups to keep around
+	 *
+	 * @return int
+	 */
+	public function get_max_automate_backups_limit () {
+		return 3;
+	}
+
+	/**
 	 * Sets the current maximum backups limit
 	 *
 	 * @param int $limit Limit to set
@@ -275,21 +284,50 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 * @return array List of files to remove from remote storage
 	 */
 	public function get_backup_rotation_list( $path ) {
-		$raw_list = $this->get_remote_list();
+		$candidate_list = $this->get_remote_list();
+		$automated_list = $raw_list = array();
+
+		// First, separate automated from regular full backups
+		foreach ($candidate_list as $item) {
+			if (Snapshot_Helper_Backup::is_automated_backup($item['name'])) {
+				$automated_list[] = $item;
+			} else {
+				$raw_list[] = $item;
+			}
+		}
+
+		// Now, if we have more than N automated backups:
+		// Drop oldest ones
+		$max_automated = $this->get_max_automate_backups_limit();
+		if (Snapshot_Controller_Full_Hub::get()->is_doing_automated_backup()) $max_automated--; // Drop one more to make room for automate
+		$remove_automated = array();
+		if (count($automated_list) > $max_automated) {
+			$oldest = $this->_get_oldest_filename($automated_list);
+			if (!empty($oldest)) $remove_automated[] = $oldest;
+			$safety = 0;
+			while (count($automated_list) - count($remove_automated) > $max_automated) {
+				$safety++;
+				if ($safety > 20) break;
+				$oldest = $this->_get_newer_filename($automated_list, $oldest);
+				if (empty($oldest)) break;
+				$remove_automated[] = $oldest;
+			}
+		}
 
 		$to_remove = array();
 
 		$count = count( $raw_list );
 		$max_limit = $this->get_max_backups_limit();
+		if (Snapshot_Controller_Full_Hub::get()->is_doing_automated_backup()) $max_limit++; // We're not particularly interested in user ones if doing automated
 
 		// No other remote backups - all good
 		if ( ! $count ) {
-			return $to_remove;
+			return $remove_automated; // There might be automate ones though
 		}
 
 		// We're under limit, nothing to clean up
 		if ( $max_limit > $count ) {
-			return $to_remove;
+			return $remove_automated; // We may still need to clean up automated ones though
 		}
 
 		// Keep dropping oldest ones until we're good to go
@@ -297,7 +335,7 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		if ( ! empty( $oldest ) ) {
 			$to_remove[] = $oldest;
 			if ( $max_limit > $count - count( $to_remove ) ) {
-				return $to_remove;
+				return array_merge($to_remove, $remove_automated);
 			}
 		}
 
@@ -314,7 +352,7 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 			} // We're good to go
 		}
 
-		return $to_remove;
+		return array_merge($to_remove, $remove_automated);
 	}
 
 	/**
@@ -574,22 +612,37 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 				$this->refresh_backups_list();
 				$backups = Snapshot_Model_Transient::get_any( $this->get_filter( "backups" ), false );
 			}
-			if ( ! empty( $backups ) && is_array( $backups ) && count( $backups ) >= $this->get_max_backups_limit() ) {
-				Snapshot_Helper_Log::info( "More than upper limit backups (" .
-				                           count( $backups ) . '/' . $this->get_max_backups_limit() .
-				                           "), removing some", "Remote" );
+
+			// Separate backups by initiator
+			$user_initiated = 0;
+			$automate_initiated = 0;
+
+			if (Snapshot_Controller_Full_Hub::get()->is_doing_automated_backup()) $automate_initiated++; // Drop one more to make room for automate
+			else $user_initiated++;
+
+			if (!empty($backups) && is_array($backups)) foreach ($backups as $idx => $bkp) {
+				if (Snapshot_Helper_Backup::is_automated_backup($bkp['name'])) $automate_initiated++;
+				else $user_initiated++;
+			}
+
+			if ($automate_initiated > $this->get_max_automate_backups_limit() || $user_initiated > $this->get_max_backups_limit()) {
+				Snapshot_Helper_Log::info(sprintf(
+					'More than upper limit backups u(%d/%d) -- a(%d/%d) -- removing some.',
+					$user_initiated, $this->get_max_backups_limit(),
+					$automate_initiated, $this->get_max_automate_backups_limit()
+				), 'Remote');
 				$status = $this->rotate_backups( $path );
 				return $status
 					? false // Not done in this pass
 					: true // We had an error, clean up and rely on error set in removal
-					;
+				;
 			} else {
 				if ( empty( $backups ) && is_array( $backups ) ) {
 					Snapshot_Helper_Log::info( 'Apparently no remote backups, no need to rotate', 'Remote' );
 				} else if ( empty( $backups ) && ! is_array( $backups ) ) {
 					Snapshot_Helper_Log::info( 'Skip rotate, cache needs update', 'Remote' );
 				} else if ( ! empty( $backups ) ) {
-					Snapshot_Helper_Log::info( sprintf( 'Skip rotate, backups count in check: %d', count( $backups ) ), 'Remote' );
+					Snapshot_Helper_Log::info( sprintf( 'Skip rotate, backups count in check: u%d + a%d', $user_initiated, $automate_initiated ), 'Remote' );
 				}
 			}
 		} else {

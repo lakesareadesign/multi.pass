@@ -2,8 +2,8 @@
 Contributors: nathanrice, studiopress
 Tags: social media, social networking, social profiles
 Requires at least: 3.0
-Tested up to: 4.2.2
-Stable tag: 1.2.2
+Tested up to: 4.8.3
+Stable tag: 1.2.3
 
 This plugin/widget allows you to insert icon links to your social profiles in any widgetized area.
 
@@ -56,3 +56,7 @@ You can adjust that code to suite your needs, depending on your situation.
 
 = 1.2.2 =
 * PHP7 compatibility
+
+= 1.2.3 =
+* Fixed undefined index warning
+* Fixed spacing in widget form

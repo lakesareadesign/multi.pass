@@ -1350,8 +1350,14 @@ final class FLBuilderModel {
 		// Delete the node.
 		unset( $data[ $node_id ] );
 
+		// Get the sibling nodes.
+		if ( 'row' === $node->type ) {
+			$siblings = self::get_nodes( 'row' );
+		} else {
+			$siblings = self::get_nodes( null, $node->parent );
+		}
+
 		// Reorder sibling nodes.
-		$siblings = self::get_nodes( null, $node->parent );
 		$position = 0;
 
 		foreach ( $siblings as $sibling_id => $sibling ) {
@@ -2059,12 +2065,15 @@ final class FLBuilderModel {
 		}
 
 		// Find the sibling column to absorb this resize.
-		if ( 0 === $pos ) {
-			$sibling = $cols[1];
-		} elseif ( $pos == $num_cols - 1 ) {
-			$sibling = $cols[ $num_cols - 2 ];
-		} else {
-			$sibling = $cols[ $pos + 1 ];
+		for ( $i = 0; $i < count( $cols ); $i++ ) {
+			if ( $col->node == $cols[ $i ]->node ) {
+				if ( isset( $cols[ $i + 1 ] ) ) {
+					$sibling = $cols[ $i + 1 ];
+				} else {
+					$sibling = $cols[ $i - 1 ];
+				}
+				break;
+			}
 		}
 
 		// Find other siblings.

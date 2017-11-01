@@ -32,9 +32,9 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		private $tab = 'dashboard';
 
 		public function __construct() {
+			ub_set_ub_version();
 			global $ub_version;
 			$this->build = $ub_version;
-
 			$this->set_configuration();
 
 			/**
@@ -49,6 +49,14 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 				}
 				$this->modules[ $key ] = $data['module'];
 			}
+			/**
+			 * Filter allow to turn off available modules.
+			 *
+			 * @since 1.9.4
+			 *
+			 * @param array $modules available modules array.
+			 */
+			$this->modules = apply_filters( 'ultimatebranding_available_modules', $this->modules );
 
 			add_action( 'plugins_loaded', array( $this, 'load_modules' ) );
 			add_action( 'plugins_loaded', array( $this, 'setup_translation' ) );
@@ -74,10 +82,6 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			 * @since 1.9.1
 			 */
 			$this->set_and_sanitize_tab();
-		}
-
-		function UltimateBrandingAdmin() {
-			$this->__construct();
 		}
 
 		function transfer_old_settings() {
@@ -443,7 +447,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		function handle_main_page() {
 			global $action, $page;
 			wp_reset_vars( array( 'action', 'page' ) );
-			echo '<div class="wrap nosubsub">';
+			echo '<div class="wrap nosubsub ultimate-branding">';
 			echo '<h3 class="nav-tab-wrapper">';
 			$base_url = $this->get_base_url();
 			/**
@@ -493,11 +497,17 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					$classes[] = 'nav-tab-active';
 				}
 				/**
-				 * exceptions
+				 * Allow to modify url in tab.
+				 *
+				 * @since 1.9.3
+				 *
+				 * @param string $url URL of a tab.
+				 * @param array $data Module data.
 				 */
-				if ( 'admin-panel-tips' == $key && ! is_multisite() ) {
-					$url = add_query_arg( 'post_type', 'admin_panel_tip', admin_url( 'edit.php' ) );
-				}
+				$url = apply_filters( 'ultimate_branding_module_url', $url, $data );
+				/**
+				 * echo
+				 */
 				printf(
 					'<a href="%s" class="%s">%s</a>',
 					esc_url( $url ),
@@ -757,7 +767,12 @@ if ( ! empty( $this->modules ) ) {
 		protected function get_enqueue_handle( $module_name, $file_name ) {
 			return $module_name . '-' . str_replace( '.', '-', $file_name );
 		}
+
 		public function register_modules_js() {
+			if ( empty( $this->build ) ) {
+				global $ub_version;
+				$this->build = $ub_version;
+			}
 			foreach ( $this->js_files as $module_name => $files ) {
 				foreach ( $files as $file_name ) {
 					$file_path = ub_files_url( 'modules/' . $module_name . '-files/js/'. $file_name . '.js' );
@@ -772,6 +787,10 @@ if ( ! empty( $this->modules ) ) {
 		}
 
 		public function register_modules_css() {
+			if ( empty( $this->build ) ) {
+				global $ub_version;
+				$this->build = $ub_version;
+			}
 			foreach ( $this->css_files as $module_name => $files ) {
 				foreach ( $files as $file_name ) {
 					$file_path = ub_files_url( 'modules/' . $module_name . '-files/css/'. $file_name . '.css' );
@@ -833,12 +852,12 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 
 
 		/**
-		 * Custom MS emails
+		 * Custom MS e-mails
 		 *
 		 * @since 1.8.6
 		 */
 		function handle_custom_ms_register_emails_panel() {
-			$title = __( 'Custom MS Registered emails', 'ub' );
+			$title = __( 'Custom MS Registered e-mails', 'ub' );
 			$this->panel( $title, 'custom_ms_register_emails' );
 		}
 
@@ -1009,239 +1028,7 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		 * @since 1.8.7
 		 */
 		private function set_configuration() {
-			$this->configuration = array(
-				'admin-footer-text.php' => array(
-					'module' => 'admin-footer-text/admin-footer-text.php',
-					'tab' => 'footer',
-					'page_title' => __( 'Footer Content', 'ub' ),
-					'title' => __( 'Admin Footer Content', 'ub' ),
-				),
-				'admin-help-content.php' => array(
-					'module' => 'admin-help-content/admin-help-content.php',
-					'tab' => 'help',
-					'page_title' => __( 'Help Content', 'ub' ),
-				),
-				'custom-admin-bar.php' => array(
-					'module' => 'custom-admin-bar/custom-admin-bar.php',
-					'tab' => 'adminbar',
-					'page_title' => __( 'Admin Bar', 'ub' ),
-				),
-				'admin-bar-logo.php' => array(
-					'module' => 'admin-bar-logo.php',
-					'tab' => 'adminbar',
-					'page_title' => __( 'Admin Bar', 'ub' ),
-					'title' => __( 'Admin Bar Logo', 'ub' ),
-				),
-				'custom-dashboard-welcome.php' => array(
-					'module' => 'custom-dashboard-welcome.php',
-					'tab' => 'widgets',
-					'page_title' => __( 'Widgets', 'ub' ),
-					'title' => __( 'Dashboard Welcome', 'ub' ),
-				),
-				'custom-email-from.php' => array(
-					'module' => 'custom-email-from/custom-email-from.php',
-					'tab' => 'from-email',
-					'page_title' => __( 'E-mail From', 'ub' ),
-				),
-				'global-footer-content.php' => array(
-					'module' => 'global-footer-content/global-footer-content.php',
-					'tab' => 'footer',
-					'page_title' => __( 'Footer Content', 'ub' ),
-					'title' => __( 'Global Footer Content', 'ub' ),
-				),
-				'global-header-content.php' => array(
-					'module' => 'global-header-content/global-header-content.php',
-					'tab' => 'header',
-					'page_title' => __( 'Header Content', 'ub' ),
-				),
-				'rebranded-meta-widget.php' => array(
-					'module' => 'rebranded-meta-widget/rebranded-meta-widget.php',
-					'tab' => 'widgets',
-					'page_title' => __( 'Widgets', 'ub' ),
-					'title' => __( 'Rebranded Meta Widget', 'ub' ),
-				),
-				'remove-dashboard-link-for-users-without-site.php' => array(
-					'module' => 'remove-dashboard-link-for-users-without-site/remove-dashboard-link-for-users-without-site.php',
-				),
-				'remove-permalinks-menu-item.php' => array(
-					'module' => 'remove-permalinks-menu-item/remove-permalinks-menu-item.php',
-					'tab' => 'permalinks',
-					'page_title' => __( 'Permalinks Menu', 'ub' ),
-				),
-				'remove-wp-dashboard-widgets.php' => array(
-					'module' => 'remove-wp-dashboard-widgets/remove-wp-dashboard-widgets.php',
-					'tab' => 'widgets',
-					'page_title' => __( 'Widgets', 'ub' ),
-					'title' => __( 'Remove WP Dashboard Widgets', 'ub' ),
-				),
-				'signup-password.php' => array(
-					'module' => '/signup-password/signup-password.php',
-					'tab' => 'signuppassword',
-					'page_title' => __( 'Signup Password', 'ub' ),
-				),
-				'site-generator-replacement.php' => array(
-					'module' => 'site-generator-replacement/site-generator-replacement.php',
-					'tab' => 'sitegenerator',
-					'page_title' => __( 'Site Generator', 'ub' ),
-				),
-				'site-wide-text-change.php' => array(
-					'module' => 'site-wide-text-change/site-wide-text-change.php',
-					'tab' => 'textchange',
-					'page_title' => __( 'Network Wide Text Change', 'ub' ),
-					'menu_title' => __( 'Text Change', 'ub' ),
-				),
-				'custom-admin-css.php' => array(
-					'module' => 'custom-admin-css.php',
-					'tab' => 'css',
-					'menu_title' => __( 'CSS', 'ub' ),
-					'page_title' => __( 'Cascading Style Sheets', 'ub' ),
-				),
-				'custom-login-css.php' => array(
-					'module' => 'custom-login-css.php',
-					'tab' => 'css',
-					'page_title' => __( 'Cascading Style Sheets', 'ub' ),
-					'menu_title' => __( 'CSS', 'ub' ),
-				),
-				'ultimate-color-schemes.php' => array(
-					'module' => 'ultimate-color-schemes.php',
-					'tab' => 'ultimate-color-schemes',
-					'page_title' => __( 'Color Schemes', 'ub' ),
-				),
-				'admin-message.php' => array(
-					'module' => 'admin-message.php',
-					'tab' => 'admin-message',
-					'page_title' => __( 'Admin Message', 'ub' ),
-				),
-				/**
-				 * Images
-				 */
-				'favicons.php' => array(
-					'module' => 'favicons.php',
-					'tab' => 'images',
-					'page_title' => __( 'Images', 'ub' ),
-					'title' => __( 'Multisite Favicons', 'ub' ),
-				),
-				'login-image.php' => array(
-					'module' => 'login-image/login-image.php',
-					'tab' => 'images',
-					'page_title' => __( 'Images', 'ub' ),
-					'title' => __( 'Login Image', 'ub' ),
-				),
-				/**
-				 * Images: Image upload size
-				 *
-				 * @since 1.9.2
-				 */
-				'image-upload-size.php' => array(
-					'module' => 'image-upload-size.php',
-					'tab' => 'images',
-					'page_title' => __( 'Images', 'ub' ),
-					'title' => __( 'Limit Image Upload Filesize', 'ub' ),
-				),
-				/**
-				 * Email Template
-				 *
-				 * @since 1.8.4
-				 */
-				'htmlemail.php' => array(
-					'module' => 'htmlemail',
-					'tab' => 'htmlemail',
-					'page_title' => __( 'Email Template', 'ub' ),
-				),
-				/**
-				 * Custom Login Screen
-				 *
-				 * @since 1.8.5
-				 */
-				'custom-login-screen.php' => array(
-					'module' => 'custom-login-screen.php',
-					'tab' => 'login-screen',
-					'page_title' => __( 'Login screen', 'ub' ),
-				),
-				/**
-				 * Custom MS email content
-				 *
-				 * @since 1.8.6
-				 */
-				'custom-ms-register-emails.php' => array(
-					'module' => 'custom-ms-register-emails.php',
-					'network-only' => true,
-					'tab' => 'custom-ms-register-emails',
-					'page_title' => __( 'MultiSite Registration emails', 'ub' ),
-					'menu_title' => __( 'Registration emails', 'ub' ),
-				),
-				/**
-				 * Export - Import
-				 *
-				 * @since 1.8.6
-				 */
-				'export-import.php' => array(
-					'module' => 'export-import.php',
-					'tab' => 'export-import',
-					'page_title' => __( 'Export & Import Ultimate Branding configuration', 'ub' ),
-					'menu_title' => __( 'Export/Import', 'ub' ),
-				),
-				'admin-panel-tips/admin-panel-tips.php' => array(
-					'module' => 'admin-panel-tip',
-					'show-on-single' => true,
-					'tab' => 'admin-panel-tips',
-					'page_title' => __( 'Admin Panel Tips', 'ub' ),
-					'menu_title' => __( 'Tips', 'ub' ),
-				),
-				/**
-				 * Comments Control
-				 *
-				 * @since 1.8.6
-				 */
-				'comments-control.php' => array(
-					'module' => 'comments-control.php',
-					'network-only' => true,
-					'tab' => 'comments-control',
-					'page_title' => __( 'Comments Control', 'ub' ),
-				),
-				/**
-				 * Dashboard Feeds
-				 *
-				 * @since 1.8.6
-				 */
-				'dashboard-feeds/dashboard-feeds.php' => array(
-					'module' => 'dashboard-feeds',
-					'network-only' => true,
-					'tab' => 'dashboard-feeds',
-					'page_title' => __( 'Dashboard Feeds', 'ub' ),
-				),
-				/**
-				 * Link Manager
-				 *
-				 * @since 1.8.6
-				 */
-				'link-manager.php' => array(
-					'module' => 'link-manager',
-					'tab' => 'link-manager',
-					'page_title' => __( 'Link Manager', 'ub' ),
-				),
-				/**
-				 * Coming Soon Page & Maintenance Mode
-				 *
-				 * @since 1.9.1
-				 */
-					'maintenance/maintenance.php' => array(
-					'module' => 'maintenance',
-					'tab' => 'maintenance',
-					'page_title' => __( 'Coming Soon Page & Maintenance Mode', 'ub' ),
-					'menu_title' => __( 'Maintenance', 'ub' ),
-					),
-					/**
-				 * Dashboard widgets
-				 *
-				 * @since 1.9.1
-				 */
-					'dashboard-text-widgets/dashboard-text-widgets.php' => array(
-					'module' => 'dashboard-text-widgets',
-					'tab' => 'dashboard-text-widgets',
-					'page_title' => __( 'Dashboard Text Widgets', 'ub' ),
-					),
-			);
+			$this->configuration = ub_get_modules_list();
 			/**
 			 * add key to data
 			 */
@@ -1251,6 +1038,13 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 					$this->configuration[ $key ]['menu_title'] = $data['page_title'];
 				}
 			}
+			/**
+			 * check modules to off
+			 */
+			$this->configuration = apply_filters( 'ultimatebranding_available_modules', $this->configuration );
+			/**
+			 * sort
+			 */
 			uasort( $this->configuration, array( $this, 'sort_configuration' ) );
 		}
 

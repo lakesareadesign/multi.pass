@@ -20,3 +20,5 @@ Tips and Tricks
 ==================
 
 [Additional Usage Tips](https://github.com/copyblogger/genesis-simple-share/wiki/Usage-Tips)
+
+

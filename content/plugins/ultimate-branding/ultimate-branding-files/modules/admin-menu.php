@@ -114,10 +114,6 @@ class ub_admin_menu extends ub_helper {
 		// }
 	}
 
-	function ub_admin_menu() {
-		$this->__construct();
-	}
-
 	function update_admin_menu_options() {
 		global $wp_roles;
 

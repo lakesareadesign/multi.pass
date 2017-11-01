@@ -51,10 +51,6 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 			add_filter( 'ultimatebranding_settings_dashboard_feeds_messages', array( $this, 'messages' ) );
 		}
 
-		function WPMUDEV_Dashboard_Feeds() {
-	        $this->__construct();
-		}
-
 		public function messages( $messages ) {
 			$messages['success-add'] 				= __( 'The Feed item has been added.', 'ub' );
 			$messages['success-update'] 				= __( 'The Feed item has been updated.', 'ub' );

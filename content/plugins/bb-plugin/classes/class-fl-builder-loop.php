@@ -287,10 +287,6 @@ final class FLBuilderLoop {
 	 * @return void
 	 */
 	static public function init_rewrite_rules() {
-		$custom_paged = self::get_custom_paged();
-		if ( empty( $custom_paged ) && ! is_admin() ) {
-			return;
-		}
 
 		$fronts = self::get_rewrite_fronts();
 		$paged_regex = self::$paged_regex_base;
@@ -317,9 +313,6 @@ final class FLBuilderLoop {
 
 			// Post single - Numeric permastruct (/archives/%post_id%)
 			$fronts['default'] . '([0-9]+)/' . $paged_regex . '/?([0-9]{1,})/?$' => 'index.php?p=$matches[1]&flpaged=$matches[2]',
-
-			// CPT single
-			'(.+?)/([^/]+)/' . $paged_regex . '/?([0-9]{1,})/?$' => 'index.php?post_type=$matches[1]&name=$matches[2]&flpaged=$matches[3]',
 
 			// Page
 			'(.?.+?)/' . $paged_regex . '/?([0-9]{1,})/?$' => 'index.php?pagename=$matches[1]&flpaged=$matches[2]',

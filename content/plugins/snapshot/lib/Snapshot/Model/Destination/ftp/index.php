@@ -468,7 +468,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 			}
 
 			if ( ( isset( $d_info['password'] ) ) && ( strlen( $d_info['password'] ) ) ) {
-				$this->destination_info['password'] = esc_attr( $d_info['password'] );
+				$this->destination_info['password'] = html_entity_decode( $d_info['password'] );
 			}
 
 

@@ -47,10 +47,6 @@ class ub_site_generator_replacement {
 		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
 	}
 
-	function ub_site_generator_replacement() {
-		$this->__construct();
-	}
-
 	function site_generator_replacement_content( $gen, $type ) {
 
 		if ( is_multisite() ) {

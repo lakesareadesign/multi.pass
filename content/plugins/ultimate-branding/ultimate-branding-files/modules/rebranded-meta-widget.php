@@ -69,15 +69,6 @@ class ub_WP_Widget_Rebranded_Meta extends WP_Widget {
 
 	}
 
-	/**
-	 * Provide back-compat
-	 *
-	 *
-	 */
-	function ub_WP_Widget_Rebranded_Meta() {
-		$this->__construct();
-	}
-
 	function widget( $args, $instance ) {
 
 		global $current_site;

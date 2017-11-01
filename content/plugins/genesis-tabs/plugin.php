@@ -6,7 +6,7 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 0.9.3
+	Version: 0.9.4
 
 	License: GNU General Public License v2.0 (or later)
 	License URI: http://www.opensource.org/licenses/gpl-license.php
@@ -21,24 +21,20 @@ register_activation_hook( __FILE__, 'genesis_tabs_activation_check' );
  */
 function genesis_tabs_activation_check() {
 
-		$latest = '1.7.1';
-
-		$theme_info = get_theme_data( TEMPLATEPATH . '/style.css' );
+		$latest  = '2.5.0';
+		$genesis = wp_get_theme( 'genesis' );
 
 		if ( 'genesis' != basename( TEMPLATEPATH ) ) {
 	        deactivate_plugins( plugin_basename( __FILE__ ) ); /** Deactivate ourself */
 			wp_die( sprintf( __( 'Sorry, you can\'t activate unless you have installed <a href="%s">Genesis</a>', 'apl' ), 'http://www.studiopress.com/themes/genesis' ) );
 		}
 
-		if ( version_compare( $theme_info['Version'], $latest, '<' ) ) {
+		if ( version_compare( $genesis->get( 'Version' ), $latest, '<' ) ) {
 			deactivate_plugins( plugin_basename( __FILE__ ) ); /** Deactivate ourself */
 			wp_die( sprintf( __( 'Sorry, you cannot activate without <a href="%s">Genesis %s</a> or greater', 'apl' ), 'http://www.studiopress.com/support/showthread.php?t=19576', $latest ) );
 		}
 
 }
-
-/** Initialize Genesis Tabs */
-add_action( 'after_setup_theme', array( 'Genesis_Tabs', 'init' ) );
 
 /**
  * Simple class to handle all the non-widget aspects of the plugin
@@ -49,30 +45,30 @@ add_action( 'after_setup_theme', array( 'Genesis_Tabs', 'init' ) );
 class Genesis_Tabs {
 
 	/** Faux Constructor */
-	function init() {
+	public function init() {
 
-		add_action( 'widgets_init', array( __CLASS__, 'register_widget' ) );
+		add_action( 'widgets_init', array( $this, 'register_widget' ) );
 
-		add_action( 'wp_print_styles', array( __CLASS__, 'register_styles' ) );
-		add_action( 'wp_enqueue_scripts', array( __CLASS__, 'register_scripts' ) );
+		add_action( 'wp_print_styles', array( $this, 'register_styles' ) );
+		add_action( 'wp_enqueue_scripts', array( $this, 'register_scripts' ) );
 
-		add_action( 'wp_footer', array( __CLASS__, 'footer_js' ), 20 );
+		add_action( 'wp_footer', array( $this, 'footer_js' ), 20 );
 
 	}
 
-	function register_widget() {
+	public function register_widget() {
 		register_widget( 'Genesis_Tabs_Widget' );
 	}
 
-	function register_scripts() {
+	public function register_scripts() {
 		wp_enqueue_script( 'jquery-ui-tabs' );
 	}
 
-	function register_styles() {
+	public function register_styles() {
 		wp_enqueue_style('genesis-tabs-stylesheet', plugins_url( 'style.css', __FILE__ ), false, '');
 	}
 
-	function footer_js() {
+	public function footer_js() {
 		echo '<script type="text/javascript">jQuery(document).ready(function($) { $(".ui-tabs").tabs(); });</script>' . "\n";
 	}
 
@@ -122,7 +118,7 @@ class Genesis_Tabs_Widget extends WP_Widget {
 		) );
 
 		echo $before_widget;
-		
+
 			// Output Widget Title
 			if ( ! empty( $instance['title'] ) )
 				echo $before_title . apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base ) . $after_title;
@@ -255,7 +251,7 @@ class Genesis_Tabs_Widget extends WP_Widget {
 		<p><input id="<?php echo $this->get_field_id( 'show_image' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'show_image' ); ?>" value="1" <?php checked( 1, $instance['show_image'] ); ?>/> <label for="<?php echo $this->get_field_id( 'show_image' ); ?>"><?php _e( 'Show Featured Image', 'genesis' ); ?></label></p>
 
 		<p><label for="<?php echo $this->get_field_id( 'image_size' ); ?>"><?php _e( 'Image Size', 'genesis' ); ?>:</label>
-		<?php $sizes = genesis_get_additional_image_sizes(); ?>
+		<?php $sizes = wp_get_additional_image_sizes(); ?>
 		<select id="<?php echo $this->get_field_id( 'image_size' ); ?>" name="<?php echo $this->get_field_name( 'image_size' ); ?>">
 			<option value="thumbnail">thumbnail (<?php echo get_option( 'thumbnail_size_w' ); ?>x<?php echo get_option( 'thumbnail_size_h' ); ?>)</option>
 			<?php
@@ -304,3 +300,25 @@ class Genesis_Tabs_Widget extends WP_Widget {
 	<?php
 	}
 }
+
+/**
+ * Helper function to retrieve the static object without using globals.
+ *
+ * @since 0.9.4
+ */
+function Genesis_Tabs() {
+
+	static $object;
+
+	if ( null == $object ) {
+		$object = new Genesis_Tabs;
+	}
+
+	return $object;
+
+}
+
+/**
+ * Initialize the object on `after_setup_theme`.
+ */
+add_action( 'after_setup_theme', array( Genesis_Tabs(), 'init' ) );

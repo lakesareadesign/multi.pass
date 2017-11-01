@@ -183,7 +183,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 					$message = '';
 					$error_message = $e->getMessage();
 					if ( ! empty( $error_message ) ) {
-						$message = json_decode( $eerror_message );
+						$message = json_decode( $error_message );
 						if ( $message && isset( $message->error_description ) ) {
 							$message = $message->error_description;
 						} else {
@@ -457,19 +457,19 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			}
 
 			if ( isset( $d_info['tokens']['request']['token'] ) ) {
-				$this->destination_info['tokens']['request']['token'] = esc_attr( $d_info['tokens']['request']['token'] );
+				$this->destination_info['tokens']['request']['token'] = html_entity_decode( $d_info['tokens']['request']['token'] );
 			}
 
 			if ( isset( $d_info['tokens']['request']['token_secret'] ) ) {
-				$this->destination_info['tokens']['request']['token_secret'] = esc_attr( $d_info['tokens']['request']['token_secret'] );
+				$this->destination_info['tokens']['request']['token_secret'] = html_entity_decode( $d_info['tokens']['request']['token_secret'] );
 			}
 
 			if ( isset( $d_info['tokens']['access']['token'] ) ) {
-				$this->destination_info['tokens']['access']['token'] = esc_attr( $d_info['tokens']['access']['token'] );
+				$this->destination_info['tokens']['access']['token'] = html_entity_decode( $d_info['tokens']['access']['token'] );
 			}
 
 			if ( isset( $d_info['tokens']['access']['token_secret'] ) ) {
-				$this->destination_info['tokens']['access']['token_secret'] = esc_attr( $d_info['tokens']['access']['token_secret'] );
+				$this->destination_info['tokens']['access']['token_secret'] = html_entity_decode( $d_info['tokens']['access']['token_secret'] );
 			}
 
 			if ( isset( $d_info['tokens']['access']['access_token'] ) ) {

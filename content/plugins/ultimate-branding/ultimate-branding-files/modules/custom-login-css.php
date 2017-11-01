@@ -34,10 +34,6 @@ class ub_custom_login_css extends ub_helper {
 		add_action( 'login_head', array( &$this, 'custom_login_css_output' ), 99 );
 	}
 
-	function ub_custom_login_css() {
-		$this->__construct();
-	}
-
 	function update_custom_login_css( $status ) {
 
 		$logincss = $_POST['logincss'];

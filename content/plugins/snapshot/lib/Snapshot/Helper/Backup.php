@@ -131,10 +131,24 @@ class Snapshot_Helper_Backup {
 		}
 		return (bool)preg_match(
 			'/' .
-				preg_quote(Snapshot_Helper_Backup::FINAL_PREFIX, '/') . '-' . $timestamp . '-full-[A-Za-z0-9]+\.zip$' .
+				preg_quote(Snapshot_Helper_Backup::FINAL_PREFIX, '/') . '-' . $timestamp . '-(full|automated)-[A-Za-z0-9]+\.zip$' .
 			'/',
 			$filename
 		);
+	}
+
+	/**
+	 * Checks if a given archive name is a full *and* automated backup
+	 *
+	 * @param string $filename Filename to check
+	 * @param int $timestamp Optional timestamp
+	 *
+	 * @return bool
+	 */
+	public static function is_automated_backup ($filename, $timestamp=false) {
+		if (!self::is_full_backup($filename, $timestamp)) return false;
+
+		return (bool)preg_match('/-automated-/', $filename);
 	}
 
 	/**
@@ -220,6 +234,7 @@ class Snapshot_Helper_Backup {
 	public function get_total_steps_estimate () {
 		$size = 0;
 		if (empty($this->_queues)) return $size;
+		if ($this->will_do_system_backup()) return 2; // Two steps: FS and DB
 
 		foreach ($this->_queues as $queue) {
 			$size += $queue->get_total_steps();
@@ -314,7 +329,11 @@ class Snapshot_Helper_Backup {
 
 		if (empty($filename)) {
 			$intermediate_path = $this->get_archive_path($this->_idx);
-			$filename = self::FINAL_PREFIX . '-' . $this->get_timestamp() . '-' . $this->_idx . '-' . Snapshot_Helper_Utility::get_file_checksum($intermediate_path) . '.zip';
+			$type = Snapshot_Controller_Full_Hub::get()->is_doing_automated_backup()
+				? 'automated'
+				: $this->_idx
+			;
+			$filename = self::FINAL_PREFIX . '-' . $this->get_timestamp() . '-' . $type . '-' . Snapshot_Helper_Utility::get_file_checksum($intermediate_path) . '.zip';
 		}
 
 		return $filename;
@@ -388,11 +407,58 @@ class Snapshot_Helper_Backup {
 	}
 
 	/**
+	 * Checks to determine if we're to do backup using syscalls
+	 *
+	 * @uses SNAPSHOT_ATTEMPT_SYSTEM_BACKUP define state to allow/disallow
+	 *
+	 * @return bool
+	 */
+	public function will_do_system_backup () {
+		// First up, are we expected to try system backup?
+		if (!(defined('SNAPSHOT_ATTEMPT_SYSTEM_BACKUP') && SNAPSHOT_ATTEMPT_SYSTEM_BACKUP)) return false;
+		return $this->supports_system_backup();
+	}
+
+	/**
+	 * Checks whether we're able to use system tools to perform backup
+	 *
+	 * @uses SNAPSHOT_NO_SYSTEM_BACKUP define to shortcircuit detection
+	 *
+	 * @return bool
+	 */
+	public function supports_system_backup () {
+		if (defined('SNAPSHOT_NO_SYSTEM_BACKUP') && SNAPSHOT_NO_SYSTEM_BACKUP) {
+			return false;
+		}
+
+		if (
+			!Snapshot_Helper_System::is_available('escapeshellarg')
+			||
+			!Snapshot_Helper_System::is_available('escapeshellcmd')
+			||
+			!Snapshot_Helper_System::is_available('exec')
+		) return false;
+
+		return Snapshot_Helper_System::has_command('zip')
+			&& Snapshot_Helper_System::has_command('ln')
+			&& Snapshot_Helper_System::has_command('rm')
+			&& Snapshot_Helper_System::has_command('mysqldump')
+		;
+	}
+
+	/**
 	 * Process the entire files queue, working directly with archive
 	 *
 	 * @return bool
 	 */
 	public function process_files () {
+		if ($this->will_do_system_backup()) {
+			return $this->process_archive_system();
+		} else {
+			Snapshot_Helper_Log::warn("Unable to perform requested system backup, proceeding with builtin");
+			// Carry on as normal...
+		}
+
 		$path = $this->get_archive_path($this->_idx);
 
 		$zip = Snapshot_Helper_Zip::get($path);
@@ -422,6 +488,237 @@ class Snapshot_Helper_Backup {
 		}
 
 		return $status;
+	}
+
+	/**
+	 * Iterates through queues and processes them through syscalls
+	 *
+	 * @return bool
+	 */
+	public function process_archive_system () {
+		Snapshot_Helper_Log::info("Attempting system backup");
+
+		// This will potentially take a while, so let's extend
+		// the time we're allowed to run
+		if (!function_exists('ini_get')) {
+			Snapshot_Helper_Log::warn("Could not probe for safe mode");
+		} else {
+			if (!!ini_get('safe_mode')) {
+				Snapshot_Helper_Log::warn("Safe mode is on, will not attempt extending exec time");
+			} else {
+				if (!function_exists('set_time_limit')) {
+					Snapshot_Helper_Log::warn("Unable to extend exec time limit");
+				} else if (set_time_limit(0)) {
+					Snapshot_Helper_Log::info("Removed exec time limit constraint");
+				} else {
+					Snapshot_Helper_Log::warn("Unable to remove exec time constraint");
+				}
+			}
+		}
+
+		$queues = is_array($this->_queues) ? $this->_queues : array();
+		$status = false;
+
+		foreach ($queues as $queue) {
+			if ($queue->is_done()) continue;
+
+			if ($queue instanceof Snapshot_Model_Queue_Fileset) {
+				$status = $this->system_process_files($queue);
+				if ($status) $queue->set_done();
+				break;
+			}
+
+			if ($queue instanceof Snapshot_Model_Queue_Tableset) {
+				$status = $this->system_process_tables($queue);
+				if ($status) $queue->set_done();
+				break;
+			}
+		}
+
+		return $status;
+	}
+
+	/**
+	 * Renders and packs up tableset from queue using syscalls
+	 *
+	 * Requires zip and mysqldump system utilities
+	 *
+	 * @param Snapshot_Model_Queue_Tableset $queue Queue to process
+	 *
+	 * @return bool
+	 */
+	public function system_process_tables ($queue) {
+		if (!($queue instanceof Snapshot_Model_Queue_Tableset)) return false;
+
+		$tables = $queue->get_sources();
+		if (empty($tables)) return true; // Nothing to do here
+
+		$dump_path = Snapshot_Helper_System::get_command('mysqldump');
+		if (empty($dump_path)) return false;
+
+		$zip_path = Snapshot_Helper_System::get_command('zip');
+		if (empty($zip_path)) return false;
+
+		$backup_path = $this->get_path($this->_idx);
+		$db_name = escapeshellcmd(DB_NAME);
+		$db_user = escapeshellcmd(DB_USER);
+		$db_pass = escapeshellcmd(DB_PASSWORD);
+
+		$connection = '';
+		if (Snapshot_Helper_System::is_socket_connection(DB_HOST)) {
+			$db_socket = escapeshellcmd(Snapshot_Helper_System::get_raw_db_mode(DB_HOST));
+
+			$connection = "--socket={$db_socket}";
+		} else {
+			$db_host = escapeshellcmd(Snapshot_Helper_System::get_db_host(DB_HOST));
+			$db_port = escapeshellcmd(Snapshot_Helper_System::get_db_port(DB_HOST));
+
+			$connection = "-h{$db_host} -P{$db_port}";
+		}
+
+		$include_sqls = array();
+		foreach ($tables as $table) {
+			$table = escapeshellcmd($table);
+			$tblfile = "{$table}.sql";
+
+			// Go to where we need to be first
+			$command = "cd {$backup_path}";
+			// Actual mysqldump command string
+			$command .= " && {$dump_path} {$connection} -u{$db_user}";
+			if (!empty($db_pass)) $command .= " -p{$db_pass}";
+			$command .= " {$db_name} {$table} > {$tblfile}";
+
+			$status = Snapshot_Helper_System::run(
+				$command,
+				sprintf("dump table %s to file %s", $table, $tblfile)
+			);
+			if (is_wp_error($status)) {
+				Snapshot_Helper_System::run(
+					"cd {$backup_path} && rm {$tblfile}",
+					"clean up"
+				); // Attempt cleanup
+			} else {
+				$include_sqls[] = $tblfile;
+			}
+		}
+
+		if (empty($include_sqls)) {
+			Snapshot_Helper_Log::error("No table files rendered, nothing to back up");
+			return false;
+		}
+
+		// We're here, let's add to the archive
+		$archive = $this->get_archive_name();
+		$all_sql_files = join(' ', $include_sqls);
+
+		$command = "cd {$backup_path}";
+		$command .= " && {$zip_path} {$archive} {$all_sql_files}";
+		$command .= " && rm {$all_sql_files}";
+
+		$status = Snapshot_Helper_System::run($command, "back up rendered SQL files");
+		if (is_wp_error($status)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Packs up fileset from queue using syscalls
+	 *
+	 * Requires zip and ln system utilities
+	 *
+	 * @uses SNAPSHOT_SYSTEM_ZIP_ONLY define to force alternative zip-only based workflow
+	 *
+	 * @param Snapshot_Model_Queue_Fileset $queue Queue to process
+	 *
+	 * @return bool
+	 */
+	public function system_process_files ($queue) {
+		if (!($queue instanceof Snapshot_Model_Queue_Fileset)) return false;
+
+		$src = $queue->get_current_source_type();
+		$source = Snapshot_Model_Fileset::get_source($src);
+
+		$zip_path = Snapshot_Helper_System::get_command('zip');
+		if (empty($zip_path)) return false;
+
+		$ln_path = Snapshot_Helper_System::get_command('ln');
+		if (empty($ln_path)) return false;
+
+		$find_path = Snapshot_Helper_System::get_command('find');
+		$has_find = !empty($find_path) && !(defined('SNAPSHOT_SYSTEM_ZIP_ONLY') && SNAPSHOT_SYSTEM_ZIP_ONLY);
+
+		$backup_path = $this->get_path($this->_idx);
+		$source_root = $source->get_root();
+		$target_prefix = $queue->get_prefix();
+		$archive = $this->get_archive_name();
+		$exclusions = $this->get_system_exclusion_paths($source, $has_find);
+
+		// Start by cleaning up everything
+		$command = "cd {$backup_path} && rm -f ./*";
+		// Add symbolic link to target prefix directory
+		// This is to force processed files into proper zipped structure
+		$command .= " && ln -s {$source_root} {$target_prefix}";
+		// Actual zip command
+		if ($has_find) {
+			Snapshot_Helper_Log::info("Attempt backing up everything using find (quicker)");
+			$max_size = Snapshot_Model_Queue_Fileset::get_size_threshold();
+			$command .= " && {$find_path} -L www";
+			if (!empty($exclusions)) $command .= ' ' . join(' ', $exclusions);
+			if (!empty($max_size)) $command .= ' -not \( -type f -size +' . $max_size . 'c -prune \)';
+			$command .= ' -print';
+			$command .= " | {$zip_path} {$archive} -@";
+		} else {
+			// No find - process files via zip utility
+			// This can take _a while_ to work through
+			$command .= " && {$zip_path} -r {$archive} .";
+			if (!empty($exclusions)) $command .= ' ' . join(' ', $exclusions);
+		}
+		// Clean up - remove symlink
+		$command .= " && rm {$target_prefix}";
+
+		$status = Snapshot_Helper_System::run($command, "clean up initially and back up files");
+		if (is_wp_error($status)) {
+			Snapshot_Helper_System::run(
+				"cd {$backup_path} && rm -f ./*",
+				"clean up"
+			); // Attempt cleanup
+			return false;
+		}
+
+		return true;
+	}
+
+	/**
+	 * Gets exclusion paths converted to be source-relative
+	 *
+	 * Used for system files processing (i.e. zip utility call)
+	 *
+	 * @param Snapshot_Model_Fileset $source Instance object
+	 * @param bool $format Optional format parameter -
+	 *                     (bool)true for find
+	 *                     (bool)false for zip
+	 *
+	 * @return array
+	 */
+	public function get_system_exclusion_paths ($source, $format=false) {
+		$raw_exclusions = Snapshot_Model_Fileset::get_excluded_paths();
+		$exclusions = array();
+
+		foreach ($raw_exclusions as $excl) {
+			$excl =  preg_replace(
+				'/' . preg_quote(trailingslashit($source->get_root()), '/') . '/',
+				'',
+				$excl
+			);
+			if (empty($excl)) continue;
+			$exclusions[] = $format
+				? '-not \( -path \'*' . escapeshellcmd(trailingslashit($excl)) . '*\' -prune \)'
+				: '-x ' . escapeshellarg('*' . trailingslashit($excl) . '*')
+			;
+		}
+		return $exclusions;
 	}
 
 	/**
@@ -463,17 +760,31 @@ class Snapshot_Helper_Backup {
 	/**
 	 * Create a manifest file for this backup
 	 *
-	 * @return bool
+	 * @param string $path Path to create the file in
+	 * @return string File path
 	 */
-	private function _create_manifest () {
-		$archive = $this->get_archive_path($this->_idx);
-		$zip = Snapshot_Helper_Zip::get($archive);
-
+	public function create_manifest_file ($path='') {
 		$manifest = $this->get_manifest();
-		$path = trailingslashit($this->get_path($this->_idx));
+		$path = !empty($path) ? $path : trailingslashit($this->get_path($this->_idx));
 		$file = $path . Snapshot_Model_Manifest::get_file_name();
 
 		file_put_contents($file, $manifest->get_flat());
+
+		return $file;
+	}
+
+	/**
+	 * Creates and packs manifest file
+	 *
+	 * @return bool
+	 */
+	private function _create_manifest () {
+		$path = trailingslashit($this->get_path($this->_idx));
+		$archive = $this->get_archive_path($this->_idx);
+		$zip = Snapshot_Helper_Zip::get($archive);
+
+		$file = $this->create_manifest_file($path);
+		if (!file_exists($file)) return false;
 
 		$zip->set_root($path);
 		$status = $zip->add(array($file));

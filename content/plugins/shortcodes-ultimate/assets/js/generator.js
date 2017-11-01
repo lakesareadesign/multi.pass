@@ -219,7 +219,10 @@ jQuery(document).ready(function($) {
 				// Insert new HTML
 				$settings.html(data);
 				// Apply selected text to the content field
-				if (typeof mce_selection !== 'undefined' && mce_selection !== '') $('#su-generator-content').val(mce_selection);
+				var $content = $('#su-generator-content');
+				if (typeof mce_selection !== 'undefined' && mce_selection !== '' && $content.attr('type') !== 'hidden') {
+					$content.val(mce_selection);
+				}
 				// Init range pickers
 				$('.su-generator-range-picker').each(function(index) {
 					var $picker = $(this),
@@ -634,7 +637,10 @@ jQuery(document).ready(function($) {
 						// Set new settings
 						set(data);
 						// Apply selected text to the content field
-						if (typeof mce_selection !== 'undefined' && mce_selection !== '') $('#su-generator-content').val(mce_selection);
+						var $content = $('#su-generator-content');
+						if (typeof mce_selection !== 'undefined' && mce_selection !== '' && $content.attr('type') !== 'hidden') {
+							$content.val(mce_selection);
+						}
 					},
 					dataType: 'json'
 				});

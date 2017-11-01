@@ -102,6 +102,20 @@ abstract class Snapshot_Model_Queue {
 	}
 
 	/**
+	 * Gets next undone source type
+	 *
+	 * @return string|false Source type as string, or (bool)false
+	 */
+	public function get_current_source_type () {
+		$src = $this->_get_next_source();
+
+		return empty($src)
+			? false
+			: $src
+		;
+	}
+
+	/**
 	 * Add a source to current queue
 	 *
 	 * @param string $src Source to be processed in chunks
@@ -158,6 +172,20 @@ abstract class Snapshot_Model_Queue {
 	public function is_done () {
 		$src = $this->_get_next_source();
 		return empty($src);
+	}
+
+	/**
+	 * Sets all sources as done
+	 *
+	 * @return bool
+	 */
+	public function set_done () {
+		$sources = $this->_get('sources', array());
+		foreach ($sources as $idx => $info) {
+			$sources[$idx] = is_array($sources[$idx]) ? $sources[$idx] : array();
+			$sources[$idx]['done'] = true;
+		}
+		return $this->_set('sources', $sources);
 	}
 
 	/**

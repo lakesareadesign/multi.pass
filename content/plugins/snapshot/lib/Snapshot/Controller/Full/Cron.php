@@ -75,7 +75,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 
 		if (defined('WPE_APIKEY')) {
 			// Pretty ugly, so only do this if we really have to
-			//add_filter('cron_request', array($this, 'set_auth_cookies')); // We don't do this anymore
+			add_filter('cron_request', array($this, 'set_auth_cookies')); // We don't do this anymore
 			// We now have cron requests dispatch the actual processings,
 			// so the cron jobs themselves don't need to auth at all
 			$status = true;
@@ -91,6 +91,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	 */
 	public function stop () {
 		delete_site_option(self::OPTIONS_FLAG);
+		Snapshot_Controller_Full_Hub::get()->clear_flag();
 
 		$this->_unschedule_backup_starting();
 		$this->_unschedule_backup_processing();
@@ -431,6 +432,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 			Snapshot_Helper_Log::note("Rescheduling backup finalization", "Cron");
 			$this->_schedule_immediate_backup_finish();
 		} else {
+			Snapshot_Controller_Full_Hub::get()->clear_flag();
 			$this->_unschedule_backup_processing(); // Just for good measure, we're done here
 			Snapshot_Helper_Log::info("Backup finished", "Cron");
 		}
@@ -805,13 +807,13 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	private function _schedule_backup_local_rotation () {
 		$rotate_action = $this->get_filter('rotate_local_backups');
 		add_action($rotate_action, array($this, 'rotate_local_backups'));
-		if (!wp_next_scheduled($rotate_action)) {
+		$next_run = wp_next_scheduled($rotate_action);
+		if (empty($next_run)) {
 			$now = Snapshot_Model_Time::get()->get_utc_time();
-			$next_event = Snapshot_Model_Time::get()->to_utc_time(strtotime(date("Y-m-d 00:00:00", $now), $now) + 100);
-			if ($now > $next_event) $next_event += DAY_IN_SECONDS;
 
 			wp_schedule_event($now, $this->get_filter('daily'), $rotate_action);
 		}
+
 		return true;
 	}
 

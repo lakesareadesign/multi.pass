@@ -25,7 +25,7 @@ if (array_key_exists( 'menu_structure', wpui_get_roles_cap($wpui_user_role))) {
 				foreach((array)$wpui_admin_menu_numeric_only_value as $_wpui_admin_menu_numeric_only_key=>$_wpui_admin_menu_numeric_only_value){
 					foreach((array)$_wpui_admin_menu_numeric_only_value as $__wpui_admin_menu_numeric_only_key=>$__wpui_admin_menu_numeric_only_value){
 						foreach((array)$__wpui_admin_menu_numeric_only_value as $___wpui_admin_menu_numeric_only_key=>$___wpui_admin_menu_numeric_only_value){
-							remove_submenu_page( $_wpui_admin_menu_numeric_only_key, $___wpui_admin_menu_numeric_only_value);
+							remove_submenu_page( esc_attr($_wpui_admin_menu_numeric_only_key), esc_attr($___wpui_admin_menu_numeric_only_value));
 						}
 					}
 				}
@@ -54,7 +54,7 @@ if (array_key_exists( 'menu_structure', wpui_get_roles_cap($wpui_user_role))) {
 		global $submenu;
 
 		$wpui_admin_menu_option = get_option("wpui_admin_menu_option_name");
-		
+
 		if ($wpui_admin_menu_option) {
 			if ( ! empty ( $wpui_admin_menu_option ) ) {
 				foreach ((array)$wpui_admin_menu_option as $wpui_admin_menu_key => $wpui_admin_menu_value) {

@@ -104,7 +104,7 @@ if ( ! class_exists( 'ub_comments_control' ) ) {
 						'blacklist' => array(
 							'type' => 'textarea',
 							'label' => __( 'IP blacklist', 'ub' ),
-							'description' => __( 'IPs for which comments will not be throttled. One IP per line or comma separated.', 'ub' ),
+							'description' => __( 'IPs for which comments will be throttled. One IP per line or comma separated.', 'ub' ),
 							'classes' => array( 'large-text' ),
 						),
 					),

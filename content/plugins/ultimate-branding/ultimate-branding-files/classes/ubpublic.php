@@ -30,13 +30,10 @@ if ( ! class_exists( 'UltimateBrandingPublic' ) ) {
 		var $plugin_msg = array();
 
 		function __construct() {
+			ub_set_ub_version();
 			global $ub_version;
 			$this->build = $ub_version;
 			add_action( 'plugins_loaded', array( $this, 'load_modules' ) );
-		}
-
-		function UltimateBrandingPublic() {
-			$this->__construct();
 		}
 
 		/**

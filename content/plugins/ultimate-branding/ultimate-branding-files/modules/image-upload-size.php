@@ -53,8 +53,8 @@ if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 			$this->roles = wp_roles()->get_names();
 			$this->options = array(
 				'limit' => array(
-					'title' => __( 'Set Limit', 'ub' ),
-					'description' => __( 'When you set 0, then will be used default WordPress upload limit.', 'ub' ),
+					'title' => __( 'Set Image filesize Limit', 'ub' ) . ' - ' . __( 'Default WP upload limit: ' ) . round($this->get_wp_limit() / 1000) . __('Mb', 'ub'),
+					'description' => __( 'Entering 0 will set the Default WordPress upload limit.', 'ub' ),
 					'fields' => array(),
 				),
 			);
@@ -68,7 +68,7 @@ if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 				if ( ! $role->has_cap( 'upload_files' ) ) {
 					continue;
 				}
-				$option_name = $this->get_name( $title );
+				$option_name = $this->get_name( $slug );
 				$this->options['limit']['fields'][ $slug ] = array(
 					'type' => 'number',
 					'label' => $title,
@@ -113,9 +113,9 @@ if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 				$role = strtolower( $role );
 				if ( in_array( $role, $current_user->roles ) ) {
 					$option_name = $this->get_name( $role );
-					if ( ! empty( ub_get_option( $option_name, false ) )
-						&& 0 !== ub_get_option( $option_name, false ) ) {
-						$role_limit = ub_get_option( $option_name, false );
+					$value = ub_get_option( $option_name, false );
+					if ( ! empty( $value ) && 0 !== $value ) {
+						$role_limit = $value;
 						if ( $role_limit > $limit ) {
 							$limit = $role_limit;
 						}
@@ -143,8 +143,8 @@ if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 		 */
 		public function export( $data ) {
 			$options = array();
-			foreach ( $this->roles as $role ) {
-				$options[ $role ] = $this->get_name( $role );
+			foreach ( $this->roles as $slug => $title ) {
+				$options[ $slug ] = $this->get_name( $slug );
 			}
 			foreach ( $options as $key => $val ) {
 				$data['modules'][ $val ] = ub_get_option( $val );
@@ -167,8 +167,8 @@ if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 		 * @since 1.9.2
 		 */
 		public function reset() {
-			foreach ( $this->roles as $role ) {
-				$option_name = $this->get_name( $role );
+			foreach ( $this->roles as $slug => $title ) {
+				$option_name = $this->get_name( $slug );
 				ub_delete_option( $option_name );
 			}
 			return true;

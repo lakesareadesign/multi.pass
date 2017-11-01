@@ -468,7 +468,9 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 			// Finally, if we cannot adjust the timeout and the current timeout is less than 30 seconds we throw a warning to the user.
 			if ( $current_timeout < 30 ) {
 				return false;
-			}
+			} else {
+				return true;
+                        }
 		}
 
 		/**
@@ -2047,13 +2049,14 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		 * @return Array
 		 */
 		public static function check_system_requirements($requirements = array()) {
+			$current_timeout = (int)ini_get( 'max_execution_time' );
 			$defaults = array(
 				'PhpVersion' => array(
 					'test' => version_compare(PHP_VERSION, '5.2') >= 0,
 					'value' => PHP_VERSION
 				),
 				'MaxExecTime' => array(
-					'test' => 0 === (int)ini_get('max_execution_time') || (int)ini_get('max_execution_time') >= 150,
+					'test' => 0 >= $current_timeout || $current_timeout >= 150,
 					'value' => (int)ini_get('max_execution_time'),
 					'warning' => true
 				),
@@ -2061,7 +2064,9 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 					'test' => (bool)function_exists('mysqli_connect'),
 				),
 				'Zip' => array(
-					'test' => class_exists('ZipArchive')
+					'test' => defined('SNAPSHOT_FORCE_ZIP_LIBRARY') && 'pclzip' === SNAPSHOT_FORCE_ZIP_LIBRARY
+						? true
+						: class_exists('ZipArchive')
 				)
 			);
 

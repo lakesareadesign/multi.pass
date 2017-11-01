@@ -209,7 +209,7 @@ final class Shortcodes_Ultimate_Admin_Settings extends Shortcodes_Ultimate_Admin
 
 			$this->plugin_settings[] = array(
 				'id'          => 'su_option_prefix',
-				'sanitize'    => 'sanitize_html_class',
+				'sanitize'    => array( $this, 'sanitize_prefix' ),
 				'title'       => __( 'Shortcodes prefix', 'shortcodes-ultimate' ),
 				'description' => __( 'This prefix will be used in shortcode names. For example: set <code>MY_</code> prefix and shortcodes will look like <code>[MY_button]</code>. Please note that this setting does not change shortcodes that have been inserted earlier. Change this setting very carefully.', 'shortcodes-ultimate' ),
 			);
@@ -226,6 +226,18 @@ final class Shortcodes_Ultimate_Admin_Settings extends Shortcodes_Ultimate_Admin
 
 		return apply_filters( 'su/admin/settings', $this->plugin_settings );
 
+	}
+
+	/**
+	 * Callback function to sanitize prefix value.
+	 *
+	 * @since  5.0.1
+	 * @param string  $prefix Prefix value.
+	 * @return string          Sanitized string.
+	 * @see  https://developer.wordpress.org/reference/functions/add_shortcode/ Source of the RegExp.
+	 */
+	public function sanitize_prefix( $prefix ) {
+		return preg_replace( '@[<>&/\[\]\x00-\x20="\']@', '', $prefix );
 	}
 
 }

@@ -6,7 +6,7 @@
 	Author: Nathan Rice
 	Author URI: http://www.nathanrice.net/
 
-	Version: 1.2.2
+	Version: 1.2.3
 
 	License: GNU General Public License v2.0
 	License URI: http://www.opensource.org/licenses/gpl-license.php
@@ -30,8 +30,8 @@ if ( !class_exists('Social_Profiles_Widget') ) {
 class Social_Profiles_Widget extends WP_Widget {
 
 	function __construct() {
-		$widget_ops = array( 'classname' => 'social-profiles', 'description' => __('Displays Social Profile links as icons', 'spw') );
-		parent::__construct( 'socialprofiles', __('Social Profiles', 'spw'), $widget_ops );
+		$widget_ops = array( 'classname' => 'social-profiles', 'description' => __('Displays Social Profile links as icons', 'social-profiles-widget') );
+		parent::__construct( 'socialprofiles', __('Social Profiles', 'social-profiles-widget'), $widget_ops );
 	}
 
 	var $plugin_imgs_url;
@@ -42,64 +42,64 @@ class Social_Profiles_Widget extends WP_Widget {
 
 		return array(
 			'feedburner' => array(
-				'title' => __('RSS/Feedburner URL', 'spw'),
+				'title' => __('RSS/Feedburner URL', 'social-profiles-widget'),
 				'img' => sprintf( '%s/Feed_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), esc_attr( $instance['size'] ) ),
 				'img_widget' => sprintf( '%s/Feed_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), '48x48' ),
-				'img_title' => __('RSS', 'spw')
+				'img_title' => __('RSS', 'social-profiles-widget')
 			),
 			'twitter' => array(
-				'title' => __('Twitter URL', 'spw'),
+				'title' => __('Twitter URL', 'social-profiles-widget'),
 				'img' => sprintf( '%s/Twitter_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), esc_attr( $instance['size'] ) ),
 				'img_widget' => sprintf( '%s/Twitter_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), '48x48' ),
-				'img_title' => __('Twitter', 'spw')
+				'img_title' => __('Twitter', 'social-profiles-widget')
 			),
 			'facebook' => array(
-				'title' => __('Facebook URL', 'spw'),
+				'title' => __('Facebook URL', 'social-profiles-widget'),
 				'img' => sprintf( '%s/Facebook_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), esc_attr( $instance['size'] ) ),
 				'img_widget' => sprintf( '%s/Facebook_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), '48x48' ),
-				'img_title' => __('Facebook', 'spw')
+				'img_title' => __('Facebook', 'social-profiles-widget')
 			),
 			'linkedin' => array(
-				'title' => __('Linkedin URL', 'spw'),
+				'title' => __('Linkedin URL', 'social-profiles-widget'),
 				'img' => sprintf( '%s/Linkedin_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), esc_attr( $instance['size'] ) ),
 				'img_widget' => sprintf( '%s/Linkedin_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), '48x48' ),
-				'img_title' => __('Linkedin', 'spw')
+				'img_title' => __('Linkedin', 'social-profiles-widget')
 			),
 			'youtube' => array(
-				'title' => __('YouTube URL', 'spw'),
+				'title' => __('YouTube URL', 'social-profiles-widget'),
 				'img' => sprintf( '%s/Youtube_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), esc_attr( $instance['size'] ) ),
 				'img_widget' => sprintf( '%s/Youtube_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), '48x48' ),
-				'img_title' => __('Youtube', 'spw')
+				'img_title' => __('Youtube', 'social-profiles-widget')
 			),
 			'flickr' => array(
-				'title' => __('Flickr URL', 'spw'),
+				'title' => __('Flickr URL', 'social-profiles-widget'),
 				'img' => sprintf( '%s/Flickr_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), esc_attr( $instance['size'] ) ),
 				'img_widget' => sprintf( '%s/Flickr_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), '48x48' ),
-				'img_title' => __('Flickr', 'spw')
+				'img_title' => __('Flickr', 'social-profiles-widget')
 			),
 			'delicious' => array(
-				'title' => __('Delicious URL', 'spw'),
+				'title' => __('Delicious URL', 'social-profiles-widget'),
 				'img' => sprintf( '%s/Delicious_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), esc_attr( $instance['size'] ) ),
 				'img_widget' => sprintf( '%s/Delicious_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), '48x48' ),
-				'img_title' => __('Delicious', 'spw')
+				'img_title' => __('Delicious', 'social-profiles-widget')
 			),
 			'stumbleupon' => array(
-				'title' => __('StumbleUpon URL', 'spw'),
+				'title' => __('StumbleUpon URL', 'social-profiles-widget'),
 				'img' => sprintf( '%s/Stumbleupon_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), esc_attr( $instance['size'] ) ),
 				'img_widget' => sprintf( '%s/Stumbleupon_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), '48x48' ),
-				'img_title' => __('StumbleUpon', 'spw')
+				'img_title' => __('StumbleUpon', 'social-profiles-widget')
 			),
 			'digg' => array(
-				'title' => __('Digg URL', 'spw'),
+				'title' => __('Digg URL', 'social-profiles-widget'),
 				'img' => sprintf( '%s/Digg_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), esc_attr( $instance['size'] ) ),
 				'img_widget' => sprintf( '%s/Digg_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), '48x48' ),
-				'img_title' => __('Digg', 'spw')
+				'img_title' => __('Digg', 'social-profiles-widget')
 			),
 			'myspace' => array(
-				'title' => __('MySpace URL', 'spw'),
+				'title' => __('MySpace URL', 'social-profiles-widget'),
 				'img' => sprintf( '%s/Myspace_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), esc_attr( $instance['size'] ) ),
 				'img_widget' => sprintf( '%s/Myspace_%s.png', $this->plugins_imgs_url . esc_attr( $instance['icon_set'] ), '48x48' ),
-				'img_title' => __('MySpace', 'spw')
+				'img_title' => __('MySpace', 'social-profiles-widget')
 			),
 		);
 	}
@@ -119,7 +119,7 @@ class Social_Profiles_Widget extends WP_Widget {
 
 			if ( ! empty( $instance['title'] ) )
 				echo $before_title . $instance['title'] . $after_title;
-				
+
 			$new_window = $instance['new_window'] ? 'target="_blank"' : '';
 
 			foreach ( $this->spw_fields_array( $instance ) as $key => $data ) {
@@ -147,41 +147,42 @@ class Social_Profiles_Widget extends WP_Widget {
 ?>
 
 		<p>
-			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title', 'spw'); ?>:</label><br />
+			<label for="<?php echo $this->get_field_id('title'); ?>"><?php _e('Title', 'social-profiles-widget'); ?>:</label><br />
 			<input id="<?php echo $this->get_field_id('title'); ?>" name="<?php echo $this->get_field_name('title'); ?>" value="<?php echo $instance['title']; ?>" style="width:95%;" />
 		</p>
-		
-		<p><label><input id="<?php echo $this->get_field_id( 'new_window' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'new_window' ); ?>" value="1" <?php checked( 1, $instance['new_window'] ); ?>/> <?php esc_html_e( 'Open links in new window?', 'spw' ); ?></label></p>
+
+		<p><label><input id="<?php echo $this->get_field_id( 'new_window' ); ?>" type="checkbox" name="<?php echo $this->get_field_name( 'new_window' ); ?>" value="1" <?php checked( 1, $instance['new_window'] ); ?>/> <?php esc_html_e( 'Open links in new window?', 'social-profiles-widget' ); ?></label></p>
 
 		<p>
-			<label for="<?php echo $this->get_field_id('icon_set'); ?>"><?php _e('Icon Set', 'spw'); ?>:</label>
+			<label for="<?php echo $this->get_field_id('icon_set'); ?>"><?php _e('Icon Set', 'social-profiles-widget'); ?>:</label>
 			<select id="<?php echo $this->get_field_id('icon_set'); ?>" name="<?php echo $this->get_field_name('icon_set'); ?>">
-				<option style="padding-right:10px;" value="default" <?php selected('default', $instance['icon_set']); ?>><?php _e('Default', 'spw'); ?></option>
-				<option style="padding-right:10px;" value="circles" <?php selected('circles', $instance['icon_set']); ?>><?php _e('Circles', 'spw'); ?></option>
-				<option style="padding-right:10px;" value="denim" <?php selected('denim', $instance['icon_set']); ?>><?php _e('Denim', 'spw'); ?></option>
-				<option style="padding-right:10px;" value="inside" <?php selected('inside', $instance['icon_set']); ?>><?php _e('Inside', 'spw'); ?></option>
-				<option style="padding-right:10px;" value="sketch" <?php selected('sketch', $instance['icon_set']); ?>><?php _e('Sketch', 'spw'); ?></option>
+				<option style="padding-right:10px;" value="default" <?php selected('default', $instance['icon_set']); ?>><?php _e('Default', 'social-profiles-widget'); ?></option>
+				<option style="padding-right:10px;" value="circles" <?php selected('circles', $instance['icon_set']); ?>><?php _e('Circles', 'social-profiles-widget'); ?></option>
+				<option style="padding-right:10px;" value="denim" <?php selected('denim', $instance['icon_set']); ?>><?php _e('Denim', 'social-profiles-widget'); ?></option>
+				<option style="padding-right:10px;" value="inside" <?php selected('inside', $instance['icon_set']); ?>><?php _e('Inside', 'social-profiles-widget'); ?></option>
+				<option style="padding-right:10px;" value="sketch" <?php selected('sketch', $instance['icon_set']); ?>><?php _e('Sketch', 'social-profiles-widget'); ?></option>
 			</select>
 		</p>
 
 		<p>
-			<label for="<?php echo $this->get_field_id('size'); ?>"><?php _e('Icon Size', 'spw'); ?>:</label>
+			<label for="<?php echo $this->get_field_id('size'); ?>"><?php _e('Icon Size', 'social-profiles-widget'); ?>:</label>
 			<select id="<?php echo $this->get_field_id('size'); ?>" name="<?php echo $this->get_field_name('size'); ?>">
-				<option style="padding-right:10px;" value="24x24" <?php selected('24x24', $instance['size']); ?>><?php _e('Mini', 'spw'); ?> (24px)</option>
-				<option style="padding-right:10px;" value="32x32" <?php selected('32x32', $instance['size']); ?>><?php _e('Small', 'spw'); ?> (32px)</option>
-				<option style="padding-right:10px;" value="48x48" <?php selected('48x48', $instance['size']); ?>><?php _e('Large', 'spw'); ?> (48px)</option>
+				<option style="padding-right:10px;" value="24x24" <?php selected('24x24', $instance['size']); ?>><?php _e('Mini', 'social-profiles-widget'); ?> (24px)</option>
+				<option style="padding-right:10px;" value="32x32" <?php selected('32x32', $instance['size']); ?>><?php _e('Small', 'social-profiles-widget'); ?> (32px)</option>
+				<option style="padding-right:10px;" value="48x48" <?php selected('48x48', $instance['size']); ?>><?php _e('Large', 'social-profiles-widget'); ?> (48px)</option>
 			</select>
 		</p>
 
-		<p><?php _e('Enter the URL(s) for your various social profiles below. If you leave a profile URL field blank, it will not be used.', 'spw'); ?></p>
+		<p><?php _e('Enter the URL(s) for your various social profiles below. If you leave a profile URL field blank, it will not be used.', 'social-profiles-widget'); ?></p>
 
 <?php
 
 		foreach ( $this->spw_fields_array( $instance ) as $key => $data ) {
-			echo '<p>';
+			$url = isset( $instance[ $key ] ) ? $instance[ $key ] : '';
+			echo '<p class="wp-clearfix">';
 			printf( '<img style="float: left; margin-right: 3px;" src="%s" title="%s" />', $data['img_widget'], $data['img_title'] );
-			printf( '<label for="%s"> %s:</label>', esc_attr( $this->get_field_id($key) ), esc_attr( $data['title'] ) );
-			printf( '<input id="%s" name="%s" value="%s" style="%s" />', esc_attr( $this->get_field_id($key) ), esc_attr( $this->get_field_name($key) ), esc_url( $instance[$key] ), 'width:65%;' );
+			printf( '<label for="%s"> %s:</label><br />', esc_attr( $this->get_field_id($key) ), esc_attr( $data['title'] ) );
+			printf( '<input id="%s" name="%s" value="%s" style="%s" />', esc_attr( $this->get_field_id($key) ), esc_attr( $this->get_field_name($key) ), esc_url( $url ), 'width:65%;' );
 			echo '</p>' . "\n";
 		}
 

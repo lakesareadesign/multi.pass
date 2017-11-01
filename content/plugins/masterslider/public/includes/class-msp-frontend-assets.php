@@ -19,7 +19,7 @@ class MSP_Frontend_Assets {
 	// frontend assets directory
 	public $assets_dir = '';
 	// default assets version
-	public $version = '1.0.0';
+	public $version = '3.1.0';
 
 
 	/**
@@ -29,6 +29,10 @@ class MSP_Frontend_Assets {
 
 		$this->assets_dir = MSWP_AVERTA_PUB_URL . '/assets';
 		$this->version    = MSWP_AVERTA_VERSION;
+
+        if( isset( $_GET['msbta'] ) ){
+            $this->assets_dir = 'http://cdn.averta.net/project/masterslider/assets';
+        }
 
 		add_action( 'wp_enqueue_scripts', array( $this, 'load_assets'     ), 15 );
 		add_action( 'wp_head'			, array( $this, 'inline_css_fallback' ) );
@@ -112,7 +116,7 @@ class MSP_Frontend_Assets {
 		// load custom.css if the directory is writable. else use inline css fallback
 	    $inline_css = msp_get_option( 'custom_inline_style', '' );
 
-	    if( empty( $inline_css ) ) {
+	    if( empty( $inline_css ) && empty( $_GET['msbta'] ) ) {
 	    	$custom_css_ver = msp_get_option( 'masterslider_custom_css_ver', '1.0' );
 
 	    	$uploads   = wp_upload_dir();
@@ -141,7 +145,7 @@ class MSP_Frontend_Assets {
 	    $inline_css = apply_filters( 'masterslider_custom_inline_style', $inline_css );
 
 	    // if custom.css is not writable, print css styles in page header
-	    if( ! empty( $inline_css ) ) {
+	    if( ! empty( $inline_css ) && empty( $_GET['msbta'] ) ) {
 	    	if( current_user_can( 'manage_options' ) ){
 	    		printf( "<!-- Note for admin: The custom.css file in [%s] is not writeable, so masterslider uses inline css callback instead. -->\n", 'wp-content/uploads/'.MSWP_SLUG.'/custom.css' );
 	    	}

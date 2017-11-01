@@ -1,7 +1,7 @@
 === Shortcodes Ultimate ===
 Contributors: gn_themes
 License: GPLv3
-Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MMA2VA7JDXWDY
+Donate link: https://paypal.me/anovladimir
 Tags: shortcode, toggle, columns, button, slider, video, map, visual, responsive, shortcodes, youtube, vimeo, audio, mp3, tabs, jquery, box, accordion, toggle, pullquote, list, image, gallery, navigation, permalink, feed, rss, members, membership, guests, carousel, icons, rtl, multilingual
 Requires at least: 3.5
 Tested up to: 4.8
@@ -119,6 +119,17 @@ For help with premium add-ons, please [open new support ticket](https://getshort
 
 
 == Changelog ==
+
+= 5.0.1 =
+* Fixed: serious security vulnerability, which allows attacker to run any code using filter in meta, post, or user shortcodes. Thanks to Robert L Mathews.
+* Fixed: changed admin menu position (it was replacing 'Settings' menu on some installations)
+* Fixed: shortcodes prefix field now accepts special characters
+* Fixed: old bug when unwanted code parts was added with shortcode
+* Fixed: bug, where backslashes were removed from custom CSS code
+* Added: new attribute 'ID' for [button] shortcode
+* Added: new filter 'su/slides_query', which can be used to modify posts query for slider, carousel and custom_gallery shortcodes
+* Added: new filter 'su/assets/custom_css/template' to filter custom css output
+* Minor fixes
 
 = 5.0.0 =
 * Read [this blog post](https://vanokhin.com/whats-new-in-shortcodes-ultimate-5/) to learn more about update

@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bb-plugin\n"
 "Report-Msgid-Bugs-To: hello@wpbeaverbuilder.com\n"
-"POT-Creation-Date: 2017-10-05 22:26:00+00:00\n"
+"POT-Creation-Date: 2017-10-26 16:19:11+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -30,7 +30,7 @@ msgstr ""
 
 #: classes/class-fl-builder-admin-settings.php:158
 #: classes/class-fl-builder-admin-settings.php:222
-#: classes/class-fl-builder-model.php:5176
+#: classes/class-fl-builder-model.php:5185
 #: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:119
 #: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:236
 #: includes/updater/classes/class-fl-updater.php:283
@@ -175,8 +175,8 @@ msgid ""
 "Please <a href=\"%s\">deactivate one</a> before continuing."
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2463
-#: classes/class-fl-builder-model.php:2534 modules/audio/audio.php:20
+#: classes/class-fl-builder-model.php:2472
+#: classes/class-fl-builder-model.php:2543 modules/audio/audio.php:20
 #: modules/button/button.php:15 modules/heading/heading.php:15
 #: modules/html/html.php:15 modules/photo/photo.php:26
 #: modules/rich-text/rich-text.php:15 modules/separator/separator.php:15
@@ -184,8 +184,8 @@ msgstr ""
 msgid "Basic Modules"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2464
-#: classes/class-fl-builder-model.php:2535 modules/accordion/accordion.php:15
+#: classes/class-fl-builder-model.php:2473
+#: classes/class-fl-builder-model.php:2544 modules/accordion/accordion.php:15
 #: modules/callout/callout.php:15 modules/contact-form/contact-form.php:15
 #: modules/content-slider/content-slider.php:15
 #: modules/countdown/countdown.php:15 modules/cta/cta.php:15
@@ -203,20 +203,20 @@ msgstr ""
 msgid "Advanced Modules"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2465
-#: classes/class-fl-builder-model.php:2536
+#: classes/class-fl-builder-model.php:2474
+#: classes/class-fl-builder-model.php:2545
 msgid "Other Modules"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2466
-#: classes/class-fl-builder-model.php:2537
+#: classes/class-fl-builder-model.php:2475
+#: classes/class-fl-builder-model.php:2546
 #: extensions/fl-builder-user-templates/includes/admin-add-new-form.php:42
 #: includes/admin-settings-modules.php:32 includes/ui-panel.php:41
 #: modules/widget/widget.php:15
 msgid "WordPress Widgets"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:5028
+#: classes/class-fl-builder-model.php:5037
 #: extensions/fl-builder-core-templates-admin/includes/core-template-settings.php:20
 #: extensions/fl-builder-user-templates/includes/node-template-settings.php:7
 #: extensions/fl-builder-user-templates/includes/user-template-settings.php:7
@@ -241,11 +241,11 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:5029
+#: classes/class-fl-builder-model.php:5038
 msgid "Landing Pages"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:5030
+#: classes/class-fl-builder-model.php:5039
 msgid "Content Pages"
 msgstr ""
 
@@ -6511,26 +6511,26 @@ msgctxt "Plugin action link label."
 msgid "Upgrade"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2353
+#: classes/class-fl-builder-model.php:2362
 msgctxt "%s stands for the module filename"
 msgid ""
 "A module with the filename %s.php already exists! Please namespace your "
 "module filenames to ensure compatibility with Beaver Builder."
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2380
+#: classes/class-fl-builder-model.php:2389
 msgctxt "%s stands for the module alias key"
 msgid ""
 "The module alias %s already exists! Please namespace your module aliases to "
 "ensure compatibility with Beaver Builder."
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3298
+#: classes/class-fl-builder-model.php:3307
 msgctxt "%s stands for post/page title."
 msgid "Copy of %s"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3926
+#: classes/class-fl-builder-model.php:3935
 msgctxt "Default user template category."
 msgid "Uncategorized"
 msgstr ""

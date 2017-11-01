@@ -35,7 +35,7 @@ if ( ! class_exists( 'ub_admin_bar_logo' ) ) {
 			parent::__construct();
 			$this->set_options();
 			add_action( 'ultimatebranding_settings_adminbar', array( $this, 'admin_options_page' ) );
-			add_filter( 'ultimatebranding_settings_adminbar_process', array( $this, 'update' ), 10, 1 );	   	 		 		 	   		
+			add_filter( 'ultimatebranding_settings_adminbar_process', array( $this, 'update' ), 10, 1 );
 			add_action( 'admin_print_styles', array( $this, 'output' ) );
 			add_action( 'wp_head', array( $this, 'output' ) );
 		}
@@ -49,6 +49,7 @@ if ( ! class_exists( 'ub_admin_bar_logo' ) ) {
 			$this->options = array(
 				'admin_bar_logo' => array(
 					'title' => __( 'Admin Bar Logo', 'ub' ),
+					'hide-reset' => true,
 					'fields' => array(
 						'logo_upload' => array(
 							'type' => 'media',

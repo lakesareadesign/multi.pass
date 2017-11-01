@@ -80,11 +80,7 @@ class ub_Ahc_AdminHelpContent extends ub_helper {
 	 * @since 2.0.2
 	 */
 	function enqueue_admin_scripts() {
-		wp_enqueue_script( 'ub_adminhelp_js', ub_files_url( 'modules/admin-help-content-files/js/main.js' ), array(), null, true );
-	}
-
-	function ub_Ahc_AdminHelpContent() {
-		$this->__construct();
+		wp_enqueue_script( 'ub_adminhelp_js', ub_files_url( 'modules/admin-help-content-files/js/main.js' ), array(), $this->build, true );
 	}
 
 	/**

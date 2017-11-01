@@ -405,11 +405,11 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				}
 
 				if ( isset( $d_info['awskey'] ) ) {
-					$this->destination_info['awskey'] = esc_attr( $d_info['awskey'] );
+					$this->destination_info['awskey'] = html_entity_decode( $d_info['awskey'] );
 				}
 
 				if ( ( isset( $d_info['secretkey'] ) ) && ( strlen( $d_info['secretkey'] ) ) ) {
-					$this->destination_info['secretkey'] = esc_attr( $d_info['secretkey'] );
+					$this->destination_info['secretkey'] = html_entity_decode( $d_info['secretkey'] );
 				}
 
 				if ( ( isset( $d_info['ssl'] ) ) && ( strlen( $d_info['ssl'] ) ) ) {

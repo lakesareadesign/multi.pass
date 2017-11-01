@@ -612,11 +612,12 @@ JQUERY;
     }
   }
 
-  public static function admin_notices() {
-    global $pagenow;
-    if ($pagenow == 'options-permalink.php') {
-      $css_class = 'error';
-      $message = 'WARNING: Updating your permalink structure will reset the social share counts for your pages. <a href="https://shareaholic.com/plans">Upgrade to Shareaholic Premium</a> to enable <a href="https://support.shareaholic.com/hc/en-us/articles/115002083586">Share Count Recovery</a>.';
+  public static function admin_notices() {    
+    $current_screen = get_current_screen();
+    
+    if ($current_screen->id === 'options-permalink' || $current_screen->id === 'options-general') {
+      $css_class = 'notice notice-warning is-dismissible';
+      $message = 'WARNING: Updating your URL or permalink structure will reset the social share counts for your pages. <a href="https://shareaholic.com/plans">Upgrade to Shareaholic Premium</a> to enable <a href="https://support.shareaholic.com/hc/en-us/articles/115002083586">Share Count Recovery</a>.';
       echo "<div class='$css_class'><p style='font-weight: bold;'>";
       _e($message, 'Shareaholic');
       echo '</p></div>';

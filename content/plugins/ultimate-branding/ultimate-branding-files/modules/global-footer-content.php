@@ -28,10 +28,6 @@ class ub_global_footer_content extends ub_helper {
 		wp_enqueue_script( 'ub_global_footer_js', ub_files_url( 'modules/global-footer-content-files/js/main.js' ), array(), $ub_version, true );
 	}
 
-	public function ub_global_footer_content() {
-		$this->__construct();
-	}
-
 	public function update_global_footer_options( $status ) {
 
 		$global_footer = $_POST['ub_global_footer'];

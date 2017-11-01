@@ -5,31 +5,19 @@ if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 }
 
 function set_ub_url( $base ) {
-
 	global $UB_url;
-
+	$UB_url = plugin_dir_url( $base );
 	if ( defined( 'WPMU_PLUGIN_URL' ) && defined( 'WPMU_PLUGIN_DIR' ) && file_exists( WPMU_PLUGIN_DIR . '/' . basename( $base ) ) ) {
 		$UB_url = trailingslashit( WPMU_PLUGIN_URL );
-	} elseif ( defined( 'WP_PLUGIN_URL' ) && defined( 'WP_PLUGIN_DIR' ) && file_exists( WP_PLUGIN_DIR . '/ultimate-branding/' . basename( $base ) ) ) {
-		$UB_url = trailingslashit( WP_PLUGIN_URL . '/ultimate-branding' );
-	} else {
-		$UB_url = trailingslashit( WP_PLUGIN_URL . '/ultimate-branding' );
 	}
-
 }
 
 function set_ub_dir( $base ) {
-
 	global $UB_dir;
-
+	$UB_dir = plugin_dir_path( $base );
 	if ( defined( 'WPMU_PLUGIN_DIR' ) && file_exists( WPMU_PLUGIN_DIR . '/' . basename( $base ) ) ) {
 		$UB_dir = trailingslashit( WPMU_PLUGIN_DIR );
-	} elseif ( defined( 'WP_PLUGIN_DIR' ) && file_exists( WP_PLUGIN_DIR . '/ultimate-branding/' . basename( $base ) ) ) {
-		$UB_dir = trailingslashit( WP_PLUGIN_DIR . '/ultimate-branding' );
-	} else {
-		$UB_dir = trailingslashit( WP_PLUGIN_DIR . '/ultimate-branding' );
 	}
-
 }
 
 function ub_get_url_valid_shema( $url ) {
@@ -105,7 +93,16 @@ function ub_delete_option( $option ) {
 }
 
 function get_ub_activated_modules() {
-	return ub_get_option( 'ultimatebranding_activated_modules', array() );
+	$modules = ub_get_option( 'ultimatebranding_activated_modules', array() );
+	/**
+	 * Filter allow to turn on/off modules.
+	 *
+	 * @since 1.9.4
+	 *
+	 * @param array $modules Active modules array.
+	 */
+	$modules = apply_filters( 'ultimatebranding_activated_modules', $modules );
+	return $modules;
 }
 
 function update_ub_activated_modules( $data ) {
@@ -113,82 +110,16 @@ function update_ub_activated_modules( $data ) {
 }
 
 function ub_load_single_module( $module ) {
-	$modules = get_ub_modules();
+	$modules = ub_get_modules_list( 'keys' );
 	if ( in_array( $module, $modules ) ) {
 		include_once( ub_files_dir( 'modules/' . $module ) );
 	}
 
 }
 
-function get_ub_modules() {
-	$dir = ub_files_dir( 'modules' );
-	if ( is_dir( $dir ) ) {
-		if ( $dh = opendir( $dir ) ) {
-			$mub_modules = array();
-			while ( ( $module = readdir( $dh ) ) !== false ) {
-				if ( substr( $module, -4 ) == '.php' ) {
-					$ub_modules[] = $module;
-				} else if ( is_file( $dir.'/'.$module.'/'.$module.'.php' ) ) {
-					$ub_modules[] = $module.'/'.$module.'.php';
-				}
-			}
-			closedir( $dh );
-			sort( $ub_modules );
-
-			return apply_filters( 'ultimatebranding_available_modules', $ub_modules );
-		}
-	}
-	return false;
-}
-
-function load_ub_modules() {
-	$modules = get_ub_activated_modules();
-	if ( is_dir( ub_files_dir( 'modules' ) ) ) {
-		if ( $dh = opendir( ub_files_dir( 'modules' ) ) ) {
-			$ub_modules = array();
-			while ( ( $module = readdir( $dh ) ) !== false ) {
-				if ( substr( $module, -4 ) == '.php' ) {
-					$ub_modules[] = $module;
-				}
-			}
-			closedir( $dh );
-			sort( $ub_modules );
-			$ub_modules = apply_filters( 'ultimatebranding_available_modules', $ub_modules );
-			foreach ( $ub_modules as $ub_module ) {
-				if ( in_array( $ub_module, $modules ) ) {
-					include_once( ub_files_dir( 'modules/' . $ub_module ) );
-				}
-			}
-		}
-	}
-	do_action( 'ultimatebranding_modules_loaded' );
-}
-
-function load_all_ub_modules() {
-	if ( is_dir( ub_files_dir( 'modules' ) ) ) {
-		if ( $dh = opendir( ub_files_dir( 'modules' ) ) ) {
-			$ub_modules = array();
-			while ( ( $module = readdir( $dh ) ) !== false ) {				if ( substr( $module, -4 ) == '.php' ) {
-					$ub_modules[] = $module; }
-			}
-			closedir( $dh );
-			sort( $ub_modules );
-
-			$ub_modules = apply_filters( 'ultimatebranding_available_modules', $ub_modules );
-
-			foreach ( $ub_modules as $ub_module ) {
-				include_once( ub_files_dir( 'modules/' . $ub_module ) ); }
-		}
-	}
-
-	do_action( 'ultimatebranding_modules_loaded' );
-}
-
 function ub_has_menu( $menuhook ) {
 	global $submenu;
-
 	$menu = (isset( $submenu['branding'] )) ? $submenu['branding'] : false;
-
 	if ( is_array( $menu ) ) {
 		foreach ( $menu as $key => $m ) {
 			if ( $m[2] == $menuhook ) {
@@ -196,7 +127,6 @@ function ub_has_menu( $menuhook ) {
 			}
 		}
 	}
-
 	// if we are still here then we didn't find anything
 	return false;
 }
@@ -329,13 +259,13 @@ function ub_register_activation_hook() {
 	$version = ub_get_option( 'ub_version' );
 	$compare = version_compare( $version, '1.8.8', '<' );
 	/**
-	 * Turn off plugin "HTML Email Template" and turn on module.
+	 * Turn off plugin "HTML E-mail Template" and turn on module.
 	 *
 	 * @since 1.8.8
 	 */
 	if ( 0 < $compare ) {
 		/**
-		 * Turn off "HTML Email Templates" plugin and turn on "HTML Email
+		 * Turn off "HTML E-mail Templates" plugin and turn on "HTML E-mail
 		 * Templates" module instead.
 		 */
 		$turn_on_module_htmlemail = false;

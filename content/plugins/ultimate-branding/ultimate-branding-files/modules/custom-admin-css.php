@@ -36,10 +36,6 @@ class ub_custom_admin_css extends ub_helper {
 		add_action( 'admin_head', array( &$this, 'custom_admin_css_output' ), 99 );
 	}
 
-	function ub_custom_admin_css() {
-		$this->__construct();
-	}
-
 	function update_custom_admin_css( $status ) {
 
 		$admincss = $_POST['admincss'];

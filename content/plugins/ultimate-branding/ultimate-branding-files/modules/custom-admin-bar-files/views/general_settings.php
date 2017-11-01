@@ -68,17 +68,16 @@
                             <textarea style="display: none" type="text" name="ub_admin_bar_style" id="ub_admin_bar_style_input"><?php echo UB_Admin_Bar::styles( true );  ?></textarea>
                             <div id="ub_admin_bar_style_editor" data-input="#ub_admin_bar_style_input"  class="ub_css_editor"><?php echo UB_Admin_Bar::styles( true );  ?></div>
                             <p class="description">
-                                <?php _e( "Styles defined here only apply to the admin bar, no other part of WordPress will be affected. Leave empty if no change to the default style is being made. Please don't use more than one selector for each set of rules", 'ub' ); ?>
-
+                                <?php _e( "Styles defined here only apply to the admin bar, no other part of WordPress will be affected. Leave empty if no change to the default style is being made. Please don't use more than one selector for each set of rules.", 'ub' ); ?>
                             </p>
                             <p class="description">
-                                <?php _e( 'Style <code>.ub_admin_bar_image</code> to change styling of images in the admin bar', 'ub' ); ?>
+                                <?php _e( 'Style <code>.ab-item .dashicons</code> to change styling of images in the admin bar.', 'ub' ); ?>
                             </p>
                             <p class="description">
-                                <?php _e( 'Style <code>#wpadminbar</code> to change color or other styling of the admin bar', 'ub' ); ?>
+                                <?php _e( 'Style <code>#wpadminbar</code> to change color or other styling of the admin bar.', 'ub' ); ?>
                             </p>
                             <p class="description">
-                                <?php _e( 'Style <code>.ab-label</code> and <code>.ab-item</code> to change font  or other styling of the links in admin bar', 'ub' ); ?>
+                                <?php _e( 'Style <code>.ab-item</code> to change font  or other styling of the links in admin bar.', 'ub' ); ?>
                             </p>
                         </td>
                     </tr>

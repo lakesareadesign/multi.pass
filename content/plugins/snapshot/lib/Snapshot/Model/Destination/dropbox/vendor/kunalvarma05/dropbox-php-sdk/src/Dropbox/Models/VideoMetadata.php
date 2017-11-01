@@ -19,7 +19,7 @@ class VideoMetadata extends MediaMetadata
     public function __construct(array $data)
     {
         parent::__construct($data);
-        $this->duration = $this->getDataProperty('duration');	     	 	 				 	 	
+        $this->duration = $this->getDataProperty('duration');
     }
 
     /**

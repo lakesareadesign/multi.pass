@@ -13,7 +13,7 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 	public function snapshots() {
 
 		if ( isset( $_REQUEST['snapshot-action'] ) && 'new' === $_REQUEST['snapshot-action'] ) {
-			$this->render( 'snapshots/new-snapshot' );
+			$this->render( 'snapshots/snapshot', false, array( 'action' => 'add', 'item' => array() ) );
 			return;
 		}
 
@@ -33,19 +33,19 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 				case 'backup':
 					$force_backup = true;
 				case 'edit':
-					$this->render( "snapshots/edit-snapshot", false, array( 'item' => $item, 'force_backup' => $force_backup ) );
+					$this->render( 'snapshots/snapshot', false, array( 'action' => 'update', 'item' => $item, 'force_backup' => $force_backup ) );
 					break;
 
 				case 'restore':
 					if ( ( isset( $_GET['snapshot-data-item'] ) ) && ( isset( $item['data'][ intval( $_GET['snapshot-data-item'] ) ] ) ) ) {
 						$data_item_key = intval( $_GET['snapshot-data-item'] );
-						$this->render( "snapshots/restore", false, array( 'item' => $item, 'data_item_key' => $data_item_key ) );
+						$this->render( 'snapshots/restore', false, array( 'item' => $item, 'data_item_key' => $data_item_key ) );
 					} else {
-						$this->render( "snapshots/item", false, array( 'item' => $item ) );
+						$this->render( 'snapshots/item', false, array( 'item' => $item ) );
 					}
 					break;
 				default:
-					$this->render( "snapshots/item", false, array( 'item' => $item ) );
+					$this->render( 'snapshots/item', false, array( 'item' => $item ) );
 			}
 
 
@@ -224,7 +224,7 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 	 */
 	public function render( $file, $deprecated = false, $params = array(), $return = false, $footer = true ) {
 
-		$template_filename = "views-new/$file.php";
+		$template_filename = "views/$file.php";
 		$template_file = plugin_dir_url( plugin_basename( __FILE__ ) ) . $template_filename;
 
 		if ( ! file_exists( $template_file ) ) {

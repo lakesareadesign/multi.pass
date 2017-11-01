@@ -69,15 +69,6 @@ class ub_Login_Image {
 		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
 	}
 
-	/*
-      function add_delete_page_style(){
-      add_action('wp_admin_css', array(&$this, 'stylesheet'));
-    } */
-
-	function ub_Login_Image() {
-		$this->__construct();
-	}
-
 	/**
 	 * Add site admin page
 	 * */

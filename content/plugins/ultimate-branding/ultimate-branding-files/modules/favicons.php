@@ -97,10 +97,6 @@ class ub_favicons {
 		wp_enqueue_style( 'favicons-front' );
 	}
 
-	function ub_favicons() {
-		$this->__construct();
-	}
-
 	/**
 	 * Returns valid schema
 	 *

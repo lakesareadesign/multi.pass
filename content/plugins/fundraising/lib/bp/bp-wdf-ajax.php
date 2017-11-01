@@ -39,7 +39,7 @@ function wdf_friends_ajax_addremove_friend() {
 		if ( !friends_remove_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {
 			echo __( 'Friendship could not be canceled.', 'bp-component' );
 		} else {
-			echo '<a id="friend-' . $_POST['fid'] . '" class="add" rel="add" title="' . __( 'Add Friend', 'wdf' ) . '" href="' . $bp->loggedin_user->domain . $bp['friends']['slug'] . '/add-friend/' . $_POST['fid'] . '">' . __( 'Add Friend', 'wdf' ) . '</a>';
+			echo '<a id="friend-' . $_POST['fid'] . '" class="add" rel="add" title="' . __( 'Add Friend', 'wdf' ) . '" href="' . $bp->loggedin_user->domain . $bp['friends']['slug'] . '/add-friend/' . $_POST['fid'] . '">' . __( 'Add Friend', 'wdf' ) . '</a>';	     	 	 				 			
 		}
 
 	} else if ( 'not_friends' == BP_Friends_Friendship::check_is_friend( $bp->loggedin_user->id, $_POST['fid'] ) ) {

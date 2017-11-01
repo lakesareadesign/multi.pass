@@ -9,12 +9,10 @@
  * @copyright Copyright © 2015 averta
  */
 
+do_action( 'masterslider_panel_header' );
 ?>
 
 <!-- markup for slider panel page here. -->
-<div id="msp-header">
-    <div class="msp-logo"><a href="?page=masterslider"><img src="<?php echo MSWP_AVERTA_ADMIN_URL . '/views/slider-panel'; ?>/images/masterslider.gif" ></a></div>
-</div>
 <div id="panelLoading" class="msp-loading">
     <img src="<?php echo MSWP_AVERTA_ADMIN_URL . '/views/slider-panel'; ?>/images/loading.gif">
     <?php _e('Loading data...', MSWP_TEXT_DOMAIN); ?>

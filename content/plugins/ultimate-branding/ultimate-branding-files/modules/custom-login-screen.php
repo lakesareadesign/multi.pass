@@ -33,6 +33,16 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 		private $patterns = array();
 		protected $option_name = 'global_login_screen';
 
+		/**
+		 * predefined login themes
+		 */
+		private $dirs = array(
+			'black-ice',
+			'dandelion',
+			'moon',
+			'moss',
+		);
+
 		public function __construct() {
 			parent::__construct();
 			$this->set_options();
@@ -640,7 +650,7 @@ body {
 						'label_username' => array(
 							'type' => 'text',
 							'label' => __( 'Label username text', 'ub' ),
-							'default' => __( 'Username or Email Address', 'ub' ),
+							'default' => __( 'Username or E-mail Address', 'ub' ),
 						),
 						'label_password' => array(
 							'type' => 'text',
@@ -1096,14 +1106,10 @@ foreach ( $themes as $theme ) {
 		 * @since 1.8.9
 		 */
 		private function get_themes() {
-			$found_themes = false;
-			$theme_root = dirname( __FILE__ ).'/custom-login-screen/themes/';
-			$dirs = @ scandir( $theme_root );
-			if ( ! $dirs ) {
-				trigger_error( "$theme_root is not readable", E_USER_NOTICE );
-				return $found_themes;
+			if ( empty( $this->dirs ) ) {
+				return false;
 			}
-
+			$found_themes = array();
 			$file_headers = array(
 				'Name'        => 'Theme Name',
 				'ThemeURI'    => 'Theme URI',
@@ -1112,8 +1118,8 @@ foreach ( $themes as $theme ) {
 				'AuthorURI'   => 'Author URI',
 				'Version'     => 'Version',
 			);
-
-			foreach ( $dirs as $dir ) {
+			$theme_root = dirname( __FILE__ ).'/custom-login-screen/themes/';
+			foreach ( $this->dirs as $dir ) {
 				if ( ! is_dir( $theme_root . '/' . $dir ) || $dir[0] == '.' || $dir == 'CVS' ) {
 					continue;
 				}

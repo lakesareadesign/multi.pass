@@ -10,10 +10,6 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			//$this->set_global_sidebar_content();
 		}
 
-		function UB_Help( &$screen = false ) {
-			$this->__construct( $screen );
-		}
-
 		function attach() {
 			if ( preg_match( '/^toplevel_page_branding/', $this->screen->id ) ) {
 				if ( ! isset( $_GET['tab'] ) ) {

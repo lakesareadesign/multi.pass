@@ -32,13 +32,8 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 
 	class Ultimate_Color_Schemes {
 
-		var $version = '1.0';
 		var $name = 'Color Schemes';
 		var $dir_name = 'ultimate-color-schemes';
-
-		function WP_Constructor() {
-			$this->__construct();
-		}
 
 		function __construct() {
 			$this->name = __( 'Color Schemes', 'ub' );
@@ -121,11 +116,10 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 		}
 
 		function admin_header_actions() {
-			global $wp_version;
-
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
-			wp_enqueue_script( 'ucs-admin', plugins_url( '/' . $this->dir_name . '-files/js/admin.js', __FILE__ ), array( 'wp-color-picker' ), false, true );
+			global $ub_version;
+			wp_enqueue_script( 'ucs-admin', plugins_url( '/' . $this->dir_name . '-files/js/admin.js', __FILE__ ), array( 'wp-color-picker' ), $ub_version, true );
 		}
 
 		function process() {

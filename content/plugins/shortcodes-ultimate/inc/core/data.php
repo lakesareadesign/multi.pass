@@ -821,6 +821,11 @@ class Su_Data {
 							'name' => __( 'Title attribute', 'shortcodes-ultimate' ),
 							'desc' => __( 'Here you can add value for the title attribute', 'shortcodes-ultimate' )
 						),
+						'id' => array(
+							'default' => '',
+							'name' => __( 'Button ID', 'shortcodes-ultimate' ),
+							'desc' => __( 'Custom value for the ID attribute', 'shortcodes-ultimate' )
+						),
 						'class' => array(
 							'type' => 'extra_css_class',
 							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
@@ -2791,7 +2796,7 @@ class Su_Data {
 						'filter' => array(
 							'default' => '',
 							'name' => __( 'Filter', 'shortcodes-ultimate' ),
-							'desc' => __( 'You can apply custom filter to the retrieved value. Enter here function name. Your function must accept one argument and return modified value. Example function: ', 'shortcodes-ultimate' ) . "<br /><pre><code style='display:block;padding:5px'>function my_custom_filter( \$value ) {\n\treturn 'Value is: ' . \$value;\n}</code></pre>"
+							'desc' => __( 'You can apply custom filter to the retrieved value. Enter here function name. Your function must accept one argument and return modified value. Name of your function must include word <b>filter</b>. Example function: ', 'shortcodes-ultimate' ) . "<br /><pre><code style='display:block;padding:5px'>function my_custom_filter( \$value ) {\n\treturn 'Value is: ' . \$value;\n}</code></pre>"
 						)
 					),
 					'desc' => __( 'Post meta', 'shortcodes-ultimate' ),
@@ -2844,7 +2849,7 @@ class Su_Data {
 						'filter' => array(
 							'default' => '',
 							'name' => __( 'Filter', 'shortcodes-ultimate' ),
-							'desc' => __( 'You can apply custom filter to the retrieved value. Enter here function name. Your function must accept one argument and return modified value. Example function: ', 'shortcodes-ultimate' ) . "<br /><pre><code style='display:block;padding:5px'>function my_custom_filter( \$value ) {\n\treturn 'Value is: ' . \$value;\n}</code></pre>"
+							'desc' => __( 'You can apply custom filter to the retrieved value. Enter here function name. Your function must accept one argument and return modified value. Name of your function must include word <b>filter</b>. Example function: ', 'shortcodes-ultimate' ) . "<br /><pre><code style='display:block;padding:5px'>function my_custom_filter( \$value ) {\n\treturn 'Value is: ' . \$value;\n}</code></pre>"
 						)
 					),
 					'desc' => __( 'User data', 'shortcodes-ultimate' ),
@@ -2908,7 +2913,7 @@ class Su_Data {
 						'filter' => array(
 							'default' => '',
 							'name' => __( 'Filter', 'shortcodes-ultimate' ),
-							'desc' => __( 'You can apply custom filter to the retrieved value. Enter here function name. Your function must accept one argument and return modified value. Example function: ', 'shortcodes-ultimate' ) . "<br /><pre><code style='display:block;padding:5px'>function my_custom_filter( \$value ) {\n\treturn 'Value is: ' . \$value;\n}</code></pre>"
+							'desc' => __( 'You can apply custom filter to the retrieved value. Enter here function name. Your function must accept one argument and return modified value. Name of your function must include word <b>filter</b>. Example function: ', 'shortcodes-ultimate' ) . "<br /><pre><code style='display:block;padding:5px'>function my_custom_filter( \$value ) {\n\treturn 'Value is: ' . \$value;\n}</code></pre>"
 						)
 					),
 					'desc' => __( 'Post data', 'shortcodes-ultimate' ),

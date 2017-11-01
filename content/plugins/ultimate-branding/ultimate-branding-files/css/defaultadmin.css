@@ -150,6 +150,10 @@ li.link_row h4{
 .simple-option-number .ui-slider span.ui-slider-handle {
     background-color: #0073aa;
 }
+div#limit .simple-option-number .ui-slider.small-text {
+    width: 100px;
+}
+
 .simple-option-checkbox .switch-button-background.checked {
     background-color: #085;
 }
@@ -183,6 +187,9 @@ li.link_row h4{
 .tab-login-screen .theme-browser .theme:hover {
     cursor: inherit;
 }
+.wrap.ultimate-branding .nav-tab-wrapper {
+    clear: both;
+}
 
 
-/* 133620-1508360138-au */
+/* 133620-1509559935-au */

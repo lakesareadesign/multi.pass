@@ -5,6 +5,11 @@ Contributors: Cole Stevenson, Jose Jaureguiberry
 
 == Changelog ==
 
+= 2.6.4.9 =
+Fixed remaining deprecated constructors
+Fixed rewards count on pledge status change
+Improved UX for configuring simple donations with goals
+
 = 2.6.4.8 =
 Fixed issue causing redirects to a blank page when pledge is submitted
 Fixed issue forcing no funding goal for advanced crowd funding
@@ -292,4 +297,4 @@ New custom template structure for your theme
 Addition of several action and filter hooks for external plugins or theme function files.
 
 
-133620-1505265087-au
+133620-1509559897-au

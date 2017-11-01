@@ -153,12 +153,39 @@ class Su_Assets {
 	 * Print custom CSS
 	 */
 	public static function custom_css() {
+
 		// Get custom CSS and apply filters to it
-		$custom_css = apply_filters( 'su/assets/custom_css', str_replace( '&#039;', '\'', html_entity_decode( (string) get_option( 'su_option_custom-css' ) ) ) );
-		// Print CSS if exists
-		if ( $custom_css ) echo "\n\n<!-- Shortcodes Ultimate custom CSS - begin -->\n<style type='text/css'>\n" . stripslashes( str_replace( array( '%theme_url%', '%home_url%', '%plugin_url%' ), array( trailingslashit( get_stylesheet_directory_uri() ), trailingslashit( get_option( 'home' ) ), trailingslashit( plugins_url( '', SU_PLUGIN_FILE ) ) ), $custom_css ) ) . "\n</style>\n<!-- Shortcodes Ultimate custom CSS - end -->\n\n";
+		$custom_css = apply_filters( 'su/assets/custom_css', get_option( 'su_option_custom-css' ) );
+
+		if ( empty( $custom_css ) ) {
+			return;
+		}
+
+		$template = '%1$s<!-- %2$s - %3$s -->%1$s<style type="text/css">%1$s%5$s%1$s</style>%1$s<!-- %2$s - %4$s -->%1$s';
+		$template = apply_filters( 'su/assets/custom_css/template', $template );
+
+		$custom_css = str_replace(
+			array( '%theme_url%', '%home_url%', '%plugin_url%' ),
+			array(
+				trailingslashit( get_stylesheet_directory_uri() ),
+				trailingslashit( get_option( 'home' ) ),
+				trailingslashit( plugins_url( '', SU_PLUGIN_FILE ) ),
+			),
+			$custom_css
+		);
+
+		printf(
+			$template,
+			PHP_EOL,
+			'Shortcodes Ultimate custom CSS',
+			'start',
+			'end',
+			strip_tags( $custom_css )
+		);
+
 		// Hook
 		do_action( 'su/assets/custom_css/after' );
+
 	}
 
 	/**

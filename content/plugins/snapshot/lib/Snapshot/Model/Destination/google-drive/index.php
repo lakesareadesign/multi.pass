@@ -9,7 +9,7 @@ if ( ! defined( 'WPMUDEV_SNAPSHOT_DESTINATION_GOOGLE_DRIVE_LOAD_LIB' ) ) {
 }
 
 if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpversion(), '5.2', '>' )
-     && stristr( WPMUDEV_SNAPSHOT_DESTINATIONS_EXCLUDE, 'SnapshotDestinationGoogleDrive' ) === false ) {
+	 && stristr( WPMUDEV_SNAPSHOT_DESTINATIONS_EXCLUDE, 'SnapshotDestinationGoogleDrive' ) === false ) {
 
 	if ( WPMUDEV_SNAPSHOT_DESTINATION_GOOGLE_DRIVE_LOAD_LIB == 'head' ) {
 		set_include_path( dirname( __FILE__ ) . PATH_SEPARATOR . get_include_path() );
@@ -236,7 +236,9 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 				$this->error_array['errorStatus'] = true;
 //				$this->error_array['errorArray'][] 		= sprintf(__("Error: Could not connect to %s :", SNAPSHOT_I18N_DOMAIN), $this->name_display) . $e->getMessage();
 
-				$this->snapshot_logger->log_message( sprintf( __( "Error: Could not connect to %s: Error: %s", SNAPSHOT_I18N_DOMAIN ), $this->name_display, $e ) );
+				if ( isset( $this->snapshot_logger ) ) {
+					$this->snapshot_logger->log_message( sprintf( __( "Error: Could not connect to %s: Error: %s", SNAPSHOT_I18N_DOMAIN ), $this->name_display, $e ) );
+				}
 
 				//echo "error_array<pre>"; print_r($error_array); echo "</pre>";
 				return false;
@@ -386,9 +388,16 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			$this->destination_info = $this->load_fields( $d_info, $this->destination_info );
 
 			$text_fields = array( 'type', 'name', 'directory', 'clientid', 'clientsecret', 'redirecturi', 'access_token' );
+			$special_fields = array( 'clientsecret', 'access_token' );
 
 			foreach ( $text_fields as $field ) {
-				$this->destination_info[ $field ] = empty( $d_info[ $field ] ) ? '' : sanitize_text_field( stripslashes( $d_info[ $field ] ) );
+				if ( empty( $d_info[ $field ] ) ) {
+					$this->destination_info[ $field ] =  '';
+				} elseif ( in_array( $field, $special_fields) ) {
+					$this->destination_info[ $field ] =  $d_info[ $field ];
+				} else {
+					$this->destination_info[ $field ] =  sanitize_text_field( stripslashes( $d_info[ $field ] ) );
+				}
 			}
 		}
 
@@ -522,7 +531,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 				<div class="tablenav">
 					<div class="alignleft actions">
 						<input class="button-secondary" type="submit"
-						       value="<?php _e( 'Delete Destination', SNAPSHOT_I18N_DOMAIN ); ?>"/>
+							   value="<?php _e( 'Delete Destination', SNAPSHOT_I18N_DOMAIN ); ?>"/>
 					</div>
 				</div>
 				<?php
@@ -557,7 +566,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 
 				<div class="inside">
 					<input type="hidden" name="snapshot-destination[type]" id="snapshot-destination-type"
-					       value="<?php echo $this->name_slug; ?>"/>
+						   value="<?php echo $this->name_slug; ?>"/>
 					<?php
 					if ( ( ! isset( $_GET['item'] ) ) || ( empty( $item['name'] ) ) ) {
 						$form_step = 1;
@@ -582,13 +591,13 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 							<td>
 								<?php if ( $form_step == 1 ) { ?>
 									<input type="text" name="snapshot-destination[name]" id="snapshot-destination-name"
-									       value="<?php if ( isset( $item['name'] ) ) {
-										       echo stripslashes( sanitize_text_field( $item['name'] ) );
-									       } ?>"/>
+										   value="<?php if ( isset( $item['name'] ) ) {
+											   echo stripslashes( sanitize_text_field( $item['name'] ) );
+										   } ?>"/>
 								<?php } else if ( $form_step > 1 ) {
 									echo stripslashes( sanitize_text_field( $item['name'] ) )
 									?><input type="hidden" name="snapshot-destination[name]"
-									         id="snapshot-destination-name" value="<?php if ( isset( $item['name'] ) ) {
+											 id="snapshot-destination-name" value="<?php if ( isset( $item['name'] ) ) {
 										echo stripslashes( sanitize_text_field( $item['name'] ) );
 									} ?>" /><?php
 								} ?>
@@ -599,10 +608,10 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 										for="snapshot-destination-directory"><?php _e( 'Directory ID (optional)', SNAPSHOT_I18N_DOMAIN ); ?></label>
 							</th>
 							<td style="width:40%"><input type="text" name="snapshot-destination[directory]"
-							                             id="snapshot-destination-directory"
-							                             value="<?php if ( isset( $item['directory'] ) ) {
-								                             echo $item['directory'];
-							                             } ?>"/><br/>
+														 id="snapshot-destination-directory"
+														 value="<?php if ( isset( $item['directory'] ) ) {
+															 echo $item['directory'];
+														 } ?>"/><br/>
 
 								<p class="description"><?php echo sprintf( __( 'Note: This is not a traditional directory path like /usr/local/path but a unique ID assigned by Google for the directory with your Drive. See the instructions to the right on how to obtain the Directory ID.', SNAPSHOT_I18N_DOMAIN ) ) ?></p>
 							</td>
@@ -628,10 +637,10 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 											for="snapshot-destination-clientid"><?php _e( 'Client ID', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td style="width:40%"><input type="text" name="snapshot-destination[clientid]"
-								                             id="snapshot-destination-clientid"
-								                             value="<?php if ( isset( $item['clientid'] ) ) {
-									                             echo sanitize_text_field( $item['clientid'] );
-								                             } ?>"/></td>
+															 id="snapshot-destination-clientid"
+															 value="<?php if ( isset( $item['clientid'] ) ) {
+																 echo sanitize_text_field( $item['clientid'] );
+															 } ?>"/></td>
 								<td rowspan="3" style="width: 50%">
 									<p><?php _e( 'Instructions', SNAPSHOT_I18N_DOMAIN ) ?></p>
 									<ol>
@@ -648,10 +657,10 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 											for="snapshot-destination-clientsecret"><?php _e( 'Client Secret', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td><input type="password" name="snapshot-destination[clientsecret]"
-								           id="snapshot-destination-clientsecret"
-								           value="<?php if ( isset( $item['clientsecret'] ) ) {
-									           echo sanitize_text_field( $item['clientsecret'] );
-								           } ?>"/></td>
+										   id="snapshot-destination-clientsecret"
+										   value="<?php if ( isset( $item['clientsecret'] ) ) {
+											   echo sanitize_text_field( $item['clientsecret'] );
+										   } ?>"/></td>
 							</tr>
 
 							<tr class="form-field">
@@ -685,7 +694,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 									echo $item['redirecturi'];
 									?>
 									<input type="hidden" name="snapshot-destination[redirecturi]" id="snapshot-destination-redirecturi"
-									       value="<?php echo sanitize_text_field( $item['redirecturi'] ) ?>"/>
+										   value="<?php echo sanitize_text_field( $item['redirecturi'] ) ?>"/>
 
 								</td>
 							</tr>
@@ -716,8 +725,8 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 												?>
 												<p><?php _e( 'Success. The Google Access Token has been received. <strong>You must save this form one last time to retain the token.</strong> The stored token will be used in the future when connecting to Google', SNAPSHOT_I18N_DOMAIN ); ?></p>
 												<input type="hidden" name="snapshot-destination[access_token]"
-												       id="snapshot-destination-access_token"
-												       value="<?php echo urlencode( $this->destination_info['access_token'] ) ?>" /><?php
+													   id="snapshot-destination-access_token"
+													   value="<?php echo urlencode( $this->destination_info['access_token'] ) ?>" /><?php
 											}
 										}
 									} else {
@@ -731,7 +740,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 										if ( ! empty( $auth_url ) ) {
 
 											?><a id="snapshot-destination-authorize-connection" class="button-secondary"
-											     href="<?php echo $auth_url; ?>"><?php echo $auth_button_label ?></a><?php
+												 href="<?php echo $auth_url; ?>"><?php echo $auth_button_label ?></a><?php
 										} else {
 											_e( 'Unable to obtain Authorization URL from Google', SNAPSHOT_I18N_DOMAIN );
 										}
@@ -750,8 +759,8 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 							<strong><?php _e( 'You must save this form one last time to retain the token.', SNAPSHOT_I18N_DOMAIN ); ?></strong>
 						</p>
 						<input type="hidden" name="snapshot-destination[access_token]"
-						       id="snapshot-destination-access_token"
-						       value="<?php echo urlencode( $this->destination_info['access_token'] ) ?>"/>
+							   id="snapshot-destination-access_token"
+							   value="<?php echo urlencode( $this->destination_info['access_token'] ) ?>"/>
 						<?php
 
 					}

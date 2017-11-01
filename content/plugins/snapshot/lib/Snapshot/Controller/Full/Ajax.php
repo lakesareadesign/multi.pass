@@ -47,7 +47,15 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 
 		add_action( 'wp_ajax_snapshot-full_backup-restore', array( $this, 'json_start_restore' ) );
 
+		add_action( 'wp_ajax_snapshot-full_backup-exchange_key', array( $this, 'json_remote_key_exchange' ) );
+		add_action( 'wp_ajax_snapshot-full_backup-deactivate', array( $this, 'json_deactivate' ) );
+
 		add_site_option( self::OPTIONS_FLAG, '' );
+	}
+
+	public function json_deactivate () {
+		if (!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())) die; // Only some users can reload
+		return wp_send_json_success(Snapshot_Controller_Full_Admin::get()->deactivate());
 	}
 
 	/**
@@ -70,6 +78,26 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 		}
 
 		die($response);
+	}
+
+	/**
+	 * Sets up backup key exchange
+	 */
+	public function json_remote_key_exchange () {
+		if (!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())) die; // Only some users can reload
+
+		$rmt = Snapshot_Model_Full_Remote_Key::get();
+
+		$token = $rmt->get_remote_key();
+		if (empty($token)) return wp_send_json_error(__('Unable to get exchange token', SNAPSHOT_I18N_DOMAIN));
+
+		$key = $rmt->get_remote_key($token);
+		if (empty($key)) return wp_send_json_error(__('Unable to exchange key', SNAPSHOT_I18N_DOMAIN));
+
+		$status = $rmt->set_key($key);
+		if ($status) $this->_model->set_config( 'active', true ); // Also activate
+
+		return wp_send_json_success($status);
 	}
 
 	/**

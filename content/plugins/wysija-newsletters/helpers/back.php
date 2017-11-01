@@ -555,7 +555,7 @@ class WYSIJA_help_back extends WYSIJA_help{
         if(get_user_option('rich_editing') == 'true') {
          add_filter("mce_external_plugins", array($this,"addRichPlugin"));
          add_filter('mce_buttons', array($this,'addRichButton1'),999);
-         $myStyleUrl = "../../plugins/wysija-newsletters/css/tmce/style.css";
+         $myStyleUrl = WYSIJA_URL."css/tmce/style.css";
          add_editor_style($myStyleUrl);
          //add_filter('tiny_mce_before_init', array($this,'TMCEinnercss'),12 );
          wp_enqueue_style('custom_TMCE_admin_css', WYSIJA_URL.'css/tmce/panelbtns.css');

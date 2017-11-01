@@ -150,7 +150,7 @@ final class Shortcodes_Ultimate_Admin_Addons extends Shortcodes_Ultimate_Admin {
 
 		$response = wp_remote_get(
 			$this->addons_api_url,
-			array( 'timeout' => 10 )
+			array( 'timeout' => 10, 'sslverify' => false, )
 		);
 		$response = json_decode( wp_remote_retrieve_body( $response ), true );
 

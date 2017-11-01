@@ -1,5 +1,6 @@
 <?php
-    msp_get_panel_header();
+
+    do_action( 'masterslider_panel_header' );
 
     // Display sliders list
 	$slider_table_list = new MSP_List_Table();
@@ -60,8 +61,10 @@
 	    	$starter_fields   = msp_get_slider_starter_fields();
 
 	    	foreach ( $starter_sections as $starter_section ) {
+
+                ob_start();
 		    	?>
-		    	<div class="msp-dialog-inner-title ui-helper-clearfix msp-type-<? echo esc_attr( $starter_section['id'] ); ?>">
+		    	<div class="msp-dialog-inner-title ui-helper-clearfix msp-type-<?php echo esc_attr( $starter_section['id'] ); ?>">
 
                 <?php
                 if( ! empty( $starter_section['title'] ) ) {
@@ -71,6 +74,9 @@
                 }
 
                 echo "</div>";
+
+                // make the section titles filterable
+                echo apply_filters( 'masterslider_sample_sliders_section_markup_' . esc_attr( $starter_section['id'] ) , ob_get_clean() );
 
 		    	$section_id = $starter_section['id'];
 	    		$section_fields = isset( $starter_fields[ $section_id ] ) ? $starter_fields[ $starter_section['id'] ] : array();

@@ -218,3 +218,6 @@ function msp_flush_cashe_after_publishing_new_post( $post_id, $post, $update ) {
     msp_flush_all_sliders_cache( array( 'post', 'wc-product' ) );
 }
 add_action( 'save_post', 'msp_flush_cashe_after_publishing_new_post', 10, 3 );
+
+
+add_action( 'masterslider_panel_header', 'msp_get_panel_header' );

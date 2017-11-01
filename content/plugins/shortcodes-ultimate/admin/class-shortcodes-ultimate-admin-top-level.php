@@ -43,7 +43,7 @@ final class Shortcodes_Ultimate_Admin_Top_Level extends Shortcodes_Ultimate_Admi
 			'shortcodes-ultimate',
 			'__return_false',
 			$icon,
-			'80'
+			'80.11'
 		);
 
 	}

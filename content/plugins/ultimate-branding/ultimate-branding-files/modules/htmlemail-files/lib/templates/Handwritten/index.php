@@ -1,7 +1,7 @@
 <?php
 /* You can define default values for things like Background Colors and Link Colors */
 
-define( 'BUILDER_DEFAULT_EMAIL_TITLE', 'Default Email Title' );
+define( 'BUILDER_DEFAULT_EMAIL_TITLE', 'Default E-mail Title' );
 
 define( 'BUILDER_DEFAULT_BG_COLOR','#F5ECC5' );
 

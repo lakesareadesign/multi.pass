@@ -113,6 +113,25 @@ abstract class Snapshot_Model_Fileset {
 	}
 
 	/**
+	 * Fetches the list of excluded paths
+	 *
+	 * @return array
+	 */
+	public static function get_excluded_paths () {
+		$config = WPMUDEVSnapshot::instance()->config_data['config'];
+		$exclusion = !empty($config['filesIgnore']) ? $config['filesIgnore'] : array();
+		$exclusion = !empty($exclusion) && is_array($exclusion)
+			? array_values(array_unique(array_filter(array_map('trim', $exclusion))))
+			: array()
+		;
+
+		// Always include backup base folder
+		$exclusion[] = WPMUDEVSnapshot::instance()->get_setting('backupBaseFolderFull');
+
+		return $exclusion;
+	}
+
+	/**
 	 * Post-process sources file list.
 	 *
 	 * Use mainly to apply file exclusion list.
@@ -124,13 +143,7 @@ abstract class Snapshot_Model_Fileset {
 	protected function _process_file_list ($files) {
 		if (empty($files)) return array();
 
-		$config = WPMUDEVSnapshot::instance()->config_data['config'];
-		$exclusion = !empty($config['filesIgnore']) ? $config['filesIgnore'] : array();
-		$exclusion = !empty($exclusion) && is_array($exclusion)
-			? array_values(array_unique(array_filter(array_map('trim', $exclusion))))
-			: array()
-		;
-
+		$exclusion = self::get_excluded_paths();
 		foreach ($files as $idx => $file) {
 			foreach ($exclusion as $excl) {
 				if (!stristr($file, $excl)) continue;

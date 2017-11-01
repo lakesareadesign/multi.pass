@@ -17,7 +17,7 @@ global $post, $woocommerce, $product;
 <div class="images ms-product-slider">
 
 	<?php
-	$attachment_ids = $product->get_gallery_attachment_ids();
+	$attachment_ids = $product->get_gallery_image_ids();
 
 	$image_count  = has_post_thumbnail() ? 1 : 0;
 	$image_count += count( $attachment_ids );
@@ -36,9 +36,9 @@ global $post, $woocommerce, $product;
 		$slider_params = array(
 
 			'id'            => $post->ID,     // slider id
-			'uid'           => '',      // an unique and temporary id 
+			'uid'           => '',      // an unique and temporary id
 			'class'         => '',      // a class that adds to slider wrapper
-			'margin'        => 0,  
+			'margin'        => 0,
 
 			'inline_style'  => '',
 			'bg_color'      => '',
@@ -61,7 +61,7 @@ global $post, $woocommerce, $product;
 			'crop' 			 => 'false', // Automatically crop slide images?
 
 			'autoplay'      => 'false', // Enables the autoplay slideshow
-			'loop'          => 'false', // 
+			'loop'          => 'false', //
 			'shuffle'       => 'false', // Enables the shuffle slide order
 			'preload'       =>  2,
 
@@ -75,7 +75,7 @@ global $post, $woocommerce, $product;
 			'height_limit'  => 'false', // It force the slide to use max height value as its base specified height value.
 			'auto_height'   => 'false',
 			'smooth_height' => 'true',
-			
+
 			'end_pause'     => 'false',
 			'over_pause'    => 'false',
 
@@ -111,7 +111,7 @@ global $post, $woocommerce, $product;
 			'bullets_align'    => 'bottom',
 			'bullets_margin'   => '',
 			'bullets_hideunder'=> '',
-			
+
 			'thumbs'           => 'false',  // display thumbnails?
 			'thumbs_autohide'  => 'false',   // auto hide thumbs?
 			'thumbs_overvideo' => 'true',   // visible over slide video while playing?
@@ -154,7 +154,7 @@ global $post, $woocommerce, $product;
 			'timebar_color'    => '#FFFFFF',
 			'timebar_hideunder'=> '',
 			'timebar_width' 	 => '',
-			
+
 
 			'slideinfo'          => 'false',   // display timebar?
 			'slideinfo_autohide' => 'true',   // auto hide timebar?
@@ -189,7 +189,7 @@ global $post, $woocommerce, $product;
 			$image_link  = wp_get_attachment_url( get_post_thumbnail_id() );
 			$image_src   = msp_get_the_resized_image_src( $image_link, $slide_image_dimensions['width'], $slide_image_dimensions['height'], $slide_image_dimensions['crop'] );
 
-			$attachment_count = count( $product->get_gallery_attachment_ids() );
+			$attachment_count = count( $product->get_gallery_image_ids() );
 
 			if ( $attachment_count > 0 ) {
 				$gallery = "&#91;product-gallery&#93;";
@@ -197,7 +197,7 @@ global $post, $woocommerce, $product;
 				$gallery = '';
 			}
 
-			$slide_options = array( 
+			$slide_options = array(
 				'src'       => $image_src,
 				'css_class' => 'woocommerce-main-image zoom ms-zoom',
 
@@ -212,7 +212,7 @@ global $post, $woocommerce, $product;
 				'webm'		=> '', // self host video bg
 				'ogg'			=> '', // self host video bg
 
-				'autopause' => 'false', 
+				'autopause' => 'false',
 				'mute'		=> 'true',
 				'loop' 		=> 'true',
 
@@ -220,7 +220,7 @@ global $post, $woocommerce, $product;
 				'crop_height' => '', // empty means auto
 
 				'thumb' 	=> '',
-				'delay'     => '', // data-delay 
+				'delay'     => '', // data-delay
 				'bgalign'	=> ''  // data-fill-mode
 			);
 
@@ -254,7 +254,7 @@ global $post, $woocommerce, $product;
 				$image_title = esc_attr( get_the_title( $attachment_id ) );
 				$image_src   = msp_get_the_resized_image_src( $image_link, $slide_image_dimensions['width'], $slide_image_dimensions['height'], $slide_image_dimensions['crop'] );
 
-				$attachment_count = count( $product->get_gallery_attachment_ids() );
+				$attachment_count = count( $product->get_gallery_image_ids() );
 
 				if ( $attachment_count > 0 ) {
 					$gallery = "&#91;product-gallery&#93;";
@@ -263,7 +263,7 @@ global $post, $woocommerce, $product;
 				}
 
 
-				$slide_options = array( 
+				$slide_options = array(
 					'src'       => $image_src,
 					'css_class' => 'zoom ms-zoom',
 
@@ -278,7 +278,7 @@ global $post, $woocommerce, $product;
 					'webm'		=> '', // self host video bg
 					'ogg'			=> '', // self host video bg
 
-					'autopause' => 'false', 
+					'autopause' => 'false',
 					'mute'		=> 'true',
 					'loop' 		=> 'true',
 
@@ -286,7 +286,7 @@ global $post, $woocommerce, $product;
 					'crop_height' => '', // empty means auto
 
 					'thumb' 	=> '',
-					'delay'     => '', // data-delay 
+					'delay'     => '', // data-delay
 					'bgalign'	=> ''  // data-fill-mode
 				);
 
@@ -325,7 +325,7 @@ global $post, $woocommerce, $product;
 			) );
 
 			echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<a href="%s" itemprop="image" class="woocommerce-main-image zoom" title="%s" data-rel="prettyPhoto">%s</a>', $image_link, $image_title, $image ), $post->ID );
-					
+
 		} else {
 
 			$image       = wp_get_attachment_image( $attachment_ids[0], apply_filters( 'single_product_large_thumbnail_size', 'shop_single' ) );
@@ -338,8 +338,8 @@ global $post, $woocommerce, $product;
 	} else {
 		echo apply_filters( 'woocommerce_single_product_image_html', sprintf( '<img src="%s" alt="Placeholder" />', wc_placeholder_img_src() ), $post->ID );
 	}
-		
-	do_action( 'woocommerce_product_thumbnails' ); 
+
+	do_action( 'woocommerce_product_thumbnails' );
 	?>
 
 </div>

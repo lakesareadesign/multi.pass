@@ -36,10 +36,6 @@ class ub_global_header_content extends ub_helper {
 		add_action( 'wp_footer', array( $this, 'global_header_content_output' ) );
 	}
 
-	function ub_global_header_content() {
-		$this->__construct();
-	}
-
 	function update_global_header_options( $status ) {
 
 		$global_header_content = $_POST[ $this->option_name ];

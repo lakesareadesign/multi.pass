@@ -482,10 +482,12 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 			__('Invalid endpoint', SNAPSHOT_I18N_DOMAIN)
 		);
 
-		if (Snapshot_Model_Transient::get($this->get_filter('api_error'), false)) return new WP_Error(
-			$this->get_filter('connection_error_cache'),
-			__('Persistent connection error', SNAPSHOT_I18N_DOMAIN)
-		);
+		if (Snapshot_Model_Transient::get($this->get_filter('api_error'), false)) {
+			return new WP_Error(
+				$this->get_filter('connection_error_cache'),
+				__('Persistent connection error', SNAPSHOT_I18N_DOMAIN)
+			);
+		}
 
 		$remote_host = $this->get_dev_remote_host();
 

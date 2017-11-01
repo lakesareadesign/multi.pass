@@ -2636,8 +2636,9 @@ class wpui_options
     //Admin Menu
     public function wpui_admin_menu_callback()
     {
-        global $menu, $submenu, $pagenow;
+        $menu = get_option('wpui_admin_menu_default_option_name');
 
+        global $submenu, $pagenow;
         ?>
         <form method="post">
             <p><input type="hidden" name="wpui_action" value="reset_menus" /></p>
@@ -2671,7 +2672,6 @@ class wpui_options
             }
             $menu = wpui_admin_menu_order($wpui_admin_menu_custom_list_default, $wpui_admin_menu_custom_list_order);
         }
-
         echo '<br/><br/><hr>';
         echo '<div class="metabox-holder">';
             echo '<div id="side-sortables" class="accordion-container">';

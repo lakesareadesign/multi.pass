@@ -27,15 +27,10 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 		private $admin_url = '';
 		private $post_type = 'admin_panel_tip';
 		private $meta_field_name = '_ub_page';
+		protected $tab_name = 'admin-panel-tips';
 
 		public function __construct() {
-			$this->admin_url = add_query_arg(
-				array(
-					'page' => 'branding',
-					'tab' => 'admin-panel-tips',
-				),
-				is_network_admin()? network_admin_url( 'admin.php' ): admin_url( 'admin.php' )
-			);
+			$this->admin_url = $this->get_admin_url();
 			add_action( 'save_post', array( $this, 'save_post' ), 10, 3 );
 			add_action( 'admin_notices', array( $this, 'output' ) );
 			add_action( 'profile_personal_options', array( $this, 'profile_option_output' ) );
@@ -43,6 +38,7 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 			add_action( 'wp_ajax_ub_admin_panel_tips', array( $this, 'ajax' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'ultimatebranding_settings_admin_panel_tips', array( $this, 'admin_options_page' ) );
+			add_filter( 'ultimate_branding_module_url', array( $this, 'change_tab_url' ), 10, 2 );
 			add_action( 'init', array( $this, 'custom_post_type' ), 0 );
 			/**
 			 * Where to display?
@@ -67,6 +63,12 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 
 		public function custom_post_type() {
 			if ( ! is_admin() ) {
+				return;
+			}
+			/**
+			 * Do not load on multisite network admin
+			 */
+			if ( is_multisite() && is_network_admin() ) {
 				return;
 			}
 			$labels = array(
@@ -314,7 +316,6 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 
 		function where_to_display__get_meta( $value ) {
 			global $post;
-
 			$field = get_post_meta( $post->ID, $value, true );
 			if ( ! empty( $field ) ) {
 				return is_array( $field ) ? stripslashes_deep( $field ) : stripslashes( wp_kses_decode_entities( $field ) );
@@ -374,8 +375,64 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 			}
 			echo '</ul>';
 		}
-	}
 
+		/**
+		 * Function return better tab url, handle filter.
+		 *
+		 * @since 1.9.3
+		 *
+		 * @param string $url Imput url.
+		 * @param array $module Module deta.
+		 *
+		 * @return string URL.
+		 */
+		public function change_tab_url( $url, $module ) {
+			if ( is_array( $module ) && isset( $module['module'] ) && 'admin-panel-tip' == $module['module'] ) {
+				if ( is_multisite() ) {
+					if ( ! is_network_admin() ) {
+						$url = $this->get_admin_url();
+					}
+				} else {
+					$url = $this->get_admin_url();
+				}
+			}
+			return $url;
+		}
+
+		/**
+		 * get admin url
+		 *
+		 * @since 1.9.3
+		 *
+		 * @return string Admin url for module.
+		 */
+		private function get_admin_url() {
+			$admin_url = add_query_arg(
+				array(
+					'page' => 'branding',
+					'tab' => $this->tab_name,
+				),
+				is_network_admin()? network_admin_url( 'admin.php' ): admin_url( 'admin.php' )
+			);
+			$link_to_post_type = false;
+			if ( is_multisite() ) {
+				if ( is_network_admin() ) {
+					$link_to_post_type = true;
+				}
+			} else {
+				$link_to_post_type = true;
+			}
+			if ( $link_to_post_type ) {
+				$admin_url = add_query_arg(
+					array(
+						'post_type' => $this->post_type,
+					),
+					admin_url( 'edit.php' )
+				);
+			}
+			return $admin_url;
+		}
+	}
 }
 
 new ub_admin_panel_tips();

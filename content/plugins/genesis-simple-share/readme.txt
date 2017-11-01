@@ -2,8 +2,8 @@
 Contributors: nathanrice, studiopress, wpmuguru, nick_thegeek, bgardner
 Tags: genesis, share, share buttons, facebook, twitter, pinterest, stumbleupon, linkedin, social
 Requires at least: 3.7
-Tested up to: 4.6
-Stable tag: 1.0.9
+Tested up to: 4.8.3
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -30,6 +30,17 @@ https://github.com/copyblogger/genesis-simple-share/wiki/Usage-Tips
 
 
 == Changelog ==
+
+= 1.1.1 =
+* Add missing asset files.
+
+= 1.1.0 =
+* Added: Setting for hiding the count
+* Added: Post meta option to specify share URL
+* Added: Fix for changing to HTTPS
+* Fixed: Count is now hidden on GooglePlus button because g+ has dropped this feature
+* Fixed: Conflicts when waypoint script is not correctly loaded in some pages
+* Improved: Now uses SASS to build CSS and GULP to minify JS and CSS so files are smaller and load more quickly
 
 = 1.0.9 =
 * Fixed: Facebook count continues to work after recent Facebook API changes.

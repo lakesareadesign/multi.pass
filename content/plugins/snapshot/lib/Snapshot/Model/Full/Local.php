@@ -2,6 +2,8 @@
 
 class Snapshot_Model_Full_Local extends Snapshot_Model_Full_Abstract {
 
+	const MAX_BACKUPS = 3;
+
 	/**
 	 * Gets model type
 	 *
@@ -68,7 +70,7 @@ class Snapshot_Model_Full_Local extends Snapshot_Model_Full_Abstract {
 	 * @param int $timestamp Timestamp for backup to resolve
 	 *
 	 * @return bool
-	 */
+	 _*/
 	public function has_backup ($timestamp) {
 		$path = $this->get_backup($timestamp);
 		return !empty($path);
@@ -84,26 +86,41 @@ class Snapshot_Model_Full_Local extends Snapshot_Model_Full_Abstract {
 		$raw_list = $this->_get_raw_backup_items();
 		$count = count($raw_list);
 
-		$max_items = 0;
+		$max_items = defined('SNAPSHOT_MAX_LOCAL_MANAGED_BACKUPS') && SNAPSHOT_MAX_LOCAL_MANAGED_BACKUPS
+			? (int)constant(SNAPSHOT_MAX_LOCAL_MANAGED_BACKUPS)
+			: self::MAX_BACKUPS
+		;
 
 		if (empty($max_items) || $count <= $max_items) return true; // Already there
 
-		$oldest = false;
-		for ($i=0; $i<50; $i++) {
-			$item = $this->_get_oldest_file_item($raw_list, $oldest);
-			if (empty($item)) break; // No more oldest files
+		Snapshot_Helper_Log::info("Preparing to rotate local backups: {$max_items} to keep around");
+
+		$max_removal = count($raw_list) - $max_items;
+		$oldest_item = $this->_get_oldest_file_item($raw_list);
+		$oldest = !empty($oldest_item)
+			? $oldest_item['name']
+			: false
+		;
+		foreach (range(1, $max_removal) as $idx) {
+			$item = $this->_get_newer_file_item($raw_list, $oldest);
+			if (empty($item)) {
+				break; // No more oldest files
+			}
 
 			$oldest = $item['name'];
 
 			$to_remove[] = $item['timestamp'];
-			if ($count - count($to_remove) < $max_items) break; // We're good to go
 		}
 
 		if (empty($to_remove)) return true; // Done already
 
 		$status = true;
 		foreach ($to_remove as $rmv) {
-			if (!$this->delete_backup($rmv)) $status = false;
+			Snapshot_Helper_Log::note("Removing local backup item {$rmv}");
+			if (!$this->delete_backup($rmv)) {
+				Snapshot_Helper_Log::error("Error rotating local backup item {$rmv}");
+				$status = false;
+			}
 		}
 
 		return $status;

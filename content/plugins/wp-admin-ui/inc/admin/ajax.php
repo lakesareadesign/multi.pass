@@ -25,9 +25,17 @@ add_action('wp_ajax_wpui_menu_update_order', 'wpui_menu_save_order');
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //Reset menu
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+function wpui_menu_default() {
+	if (isset($_GET['page']) && (($_GET['page'] == 'wpui-admin-menu'))) {
+		global $menu;
+		update_option('wpui_admin_menu_default_option_name', $menu);
+	}
+}
+add_action('admin_menu', 'wpui_menu_default');
+
 function wpui_menu_reset_order() {
-	global $wpdb;
-    $wpdb->query("DELETE FROM $wpdb->options WHERE option_name LIKE 'wpui_admin_menu_%' ");
+	delete_option('wpui_admin_menu_list_option_name');
+	delete_option('wpui_admin_menu_option_name');
 	die();
 }
 add_action('wp_ajax_wpui_menu_reset_order', 'wpui_menu_reset_order');

@@ -1,5 +1,5 @@
 /**
- * JS for HTML Email templates Plugin
+ * JS for HTML E-mail templates Plugin
  */
 /**
  * Load the SLider
@@ -130,7 +130,7 @@ jQuery( document ).ready( function($) {
     jQuery('.specify_email').click( function() {
        jQuery('.preview-email').toggle();
     });
-    //Send previe email using ajax
+    //Send previe e-mail using ajax
     jQuery('input[name="preview_html_email"]').on( 'click', function(e){
 
        //Do not submit form

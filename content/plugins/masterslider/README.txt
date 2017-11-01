@@ -1,3 +1,12 @@
+=== Master Slider WordPress Plugin ===
+Contributors: averta
+Tags: slider, image slider, slideshow, video gallery,
+Requires PHP: 5.3
+Requires at least: 4.6
+Tested up to: 4.8.3
+Stable tag: 3.2.2
+License URI: LICENSE.txt
+
 == Description ==
 
 - A premium responsive image and content slider with super smooth hardware accelerated transitions, layer, hotspot and video support

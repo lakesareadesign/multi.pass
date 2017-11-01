@@ -42,7 +42,7 @@ jQuery(document).ready(function(){
             _ajax_nonce: wpuiAjaxResetMenu.wpui_nonce,
             success : function( data ) {   
                 var data = {
-                    'action': 'wpui_menu_reset_order' 
+                    'action': 'wpui_menu_reset_order',
                 };
                 jQuery.post(ajaxurl, data, function(response){
                     window.location.reload(true);

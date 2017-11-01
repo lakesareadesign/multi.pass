@@ -3,7 +3,7 @@
 Class Name: Simple Options
 Class URI: http://iworks.pl/
 Description: Simple option class to manage options.
-Version: 1.0.2
+Version: 1.0.3
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GPLv2 or later
@@ -26,6 +26,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 == CHANGELOG ==
+
+= 1.0.3 =
+- Added extra $value sanitization for wp_editor and textarea.
+- Clean up "checkbox" input type.
 
 = 1.0.2 =
 - Move section description into "inside" div.
@@ -270,13 +274,12 @@ if ( ! class_exists( 'simple_options' ) ) {
 									$value = 1;
 								}
 								$content .= sprintf(
-									'<input type="%s" id="%s" name="simple_options[%s][%s]" value="1" class="%s" id="%s" data-on="%s" data-off="%s" %s %s />',
+									'<input type="%s" id="%s" name="simple_options[%s][%s]" value="1" class="%s" data-on="%s" data-off="%s" %s %s />',
 									esc_attr( $data['type'] ),
 									esc_attr( $html_id ),
 									esc_attr( $section_key ),
 									esc_attr( $id ),
 									isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
-									esc_attr( $html_id ),
 									esc_attr( $data['options']['on'] ),
 									esc_attr( $data['options']['off'] ),
 									checked( 1, $value, false ),
@@ -284,14 +287,12 @@ if ( ! class_exists( 'simple_options' ) ) {
 								);
 							} else {
 								$content .= sprintf(
-									'<label><input type="%s" id="%s" name="simple_options[%s][%s]" value="1" class="%s" id="%s" %s %s %s /> %s</label>',
+									'<label><input type="%s" id="%s" name="simple_options[%s][%s]" value="1" class="%s" %s %s /> %s</label>',
 									esc_attr( $data['type'] ),
 									esc_attr( $html_id ),
 									esc_attr( $section_key ),
 									esc_attr( $id ),
-									esc_attr( stripslashes( $value ) ),
 									isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
-									esc_attr( $html_id ),
 									checked( 1, $value, false ),
 									$slave,
 									esc_html( isset( $data['checkbox_label'] )? $data['checkbox_label']:'' )
@@ -300,6 +301,9 @@ if ( ! class_exists( 'simple_options' ) ) {
 						break;
 
 						case 'textarea':
+							if ( ! is_string( $value ) ) {
+								$value = '';
+							}
 							$content .= sprintf(
 								'<textarea id="%s" name="simple_options[%s][%s]" class="%s" id="%s">%s</textarea>',
 								esc_attr( $html_id ),
@@ -312,6 +316,9 @@ if ( ! class_exists( 'simple_options' ) ) {
 						break;
 
 						case 'wp_editor':
+							if ( ! is_string( $value ) ) {
+								$value = '';
+							}
 							$field_name = sprintf( 'simple_options[%s][%s]', $section_key, $id );
 							$wp_editor_id = sprintf( 'simple_options_%s_%s', $section_key, $id );
 							$args = array( 'textarea_name' => $field_name, 'textarea_rows' => 9, 'teeny' => true );

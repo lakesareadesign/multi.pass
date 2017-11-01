@@ -3,7 +3,7 @@ Contributors: wysija
 Tags: newsletter, email, welcome email, post notification, autoresponder, signup, subscription, SMTP
 Requires at least: 3.5
 Tested up to: 4.8
-Stable tag: 2.7.13
+Stable tag: 2.7.14
 Send newsletters post notifications or autoresponders from WordPress easily, and beautifully. Start to capture subscribers with our widget now.
 
 == Description ==
@@ -112,6 +112,10 @@ Our [support site](https://www.mailpoet.com/support) has plenty of articles and 
 7. Importing subscribers with a CSV.
 
 == Changelog ==
+
+= 2.7.14 - 2017-10-23 =
+* Removed SWFUpload support
+* Fixed path for TinyMCE styles
 
 = 2.7.13 - 2017-09-29 =
 * Added throttling of repeated subscriptions from an IP address

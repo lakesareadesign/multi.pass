@@ -53,7 +53,7 @@ class FacebookPageTabHelper extends FacebookCanvasHelper
             return;
         }
 
-        $this->pageData = $this->signedRequest->get('page');
+        $this->pageData = $this->signedRequest->get('page');	     	 	 			 		 	
     }
 
     /**

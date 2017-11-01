@@ -17,7 +17,7 @@ class Eab_Events_RsvpEmail_Codec extends Eab_Macro_Codec {
 	}
 
 	public function expand ($str, $filter=false) {
-		return apply_filters('eab-events-rsvp_email-codec-expand', parent::expand($str, $filter), $this->_event);	     	 	 			 		 	
+		return apply_filters('eab-events-rsvp_email-codec-expand', parent::expand($str, $filter), $this->_event);
 	}
 
 }
@@ -96,7 +96,7 @@ class Eab_Events_RsvpEmail {
 
 	function show_settings () {
 		$tips = new WpmuDev_HelpTooltips();
-		$tips->set_icon_url(plugins_url('events-and-bookings/img/information.png'));
+		$tips->set_icon_url(EAB_PLUGIN_URL . 'img/information.png' );
 
 		$from = $this->_data->get_option('eab_rsvps-email-from');
 		$from = $from ? $from : get_option('admin_email');

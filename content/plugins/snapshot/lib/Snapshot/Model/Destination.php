@@ -168,6 +168,31 @@ abstract class Snapshot_Model_Destination {
 	}
 
 	/**
+	 * Ensure that an array of destination info has the required fields to be complete and usable
+	 *
+	 * @param array $destination_info
+	 * @param array $required_fields
+	 *
+	 * @return bool
+	 */
+	public static function has_required_fields( $destination_info, $required_fields ) {
+
+		foreach ( $required_fields as $key => $field ) {
+
+			if ( is_array( $field ) ) {
+				if ( ! self::has_required_fields( $destination_info[ $key ], $field ) ) {
+					return false;
+				}
+
+			} elseif ( empty( $destination_info[ $field ] ) ) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	/**
 	 * Validate a list of basic text fields
 	 *
 	 * @param array $text_fields

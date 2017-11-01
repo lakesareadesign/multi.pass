@@ -316,6 +316,7 @@ class Su_Shortcodes {
 				'onclick'     => '',
 				'rel'         => '',
 				'title'       => '',
+				'id'          => '',
 				'class'       => ''
 			), $atts, 'button' );
 
@@ -437,8 +438,10 @@ class Su_Shortcodes {
 		$atts['rel'] = ( $atts['rel'] ) ? ' rel="' . $atts['rel'] . '"' : '';
 		// Prepare title attribute
 		$atts['title'] = ( $atts['title'] ) ? ' title="' . $atts['title'] . '"' : '';
+		// Add ID attribute
+		$atts['id'] = ! empty( $atts['id'] ) ? sprintf( ' id="%s"', esc_attr( $atts['id'] ) ) : '';
 		su_query_asset( 'css', 'su-content-shortcodes' );
-		return $before . '<a href="' . su_scattr( $atts['url'] ) . '" class="' . implode( $classes, ' ' ) . '" style="' . implode( $a_css, ';' ) . '" target="_' . $atts['target'] . '"' . $atts['onclick'] . $atts['rel'] . $atts['title'] . '><span style="' . implode( $span_css, ';' ) . '">' . do_shortcode( stripcslashes( $content ) ) . $desc . '</span></a>' . $after;
+		return $before . '<a href="' . su_scattr( $atts['url'] ) . '" class="' . implode( $classes, ' ' ) . '" style="' . implode( $a_css, ';' ) . '" target="_' . $atts['target'] . '"' . $atts['onclick'] . $atts['rel'] . $atts['title'] . $atts['id'] . '><span style="' . implode( $span_css, ';' ) . '">' . do_shortcode( stripcslashes( $content ) ) . $desc . '</span></a>' . $after;
 	}
 
 	public static function service( $atts = null, $content = null ) {
@@ -1404,7 +1407,13 @@ class Su_Shortcodes {
 		// Set default value if meta is empty
 		if ( !$meta ) $meta = $atts['default'];
 		// Apply cutom filter
-		if ( $atts['filter'] && function_exists( $atts['filter'] ) ) $meta = call_user_func( $atts['filter'], $meta );
+		if (
+			$atts['filter'] &&
+			Su_Tools::is_valid_filter( $atts['filter'] ) &&
+			function_exists( $atts['filter'] )
+		) {
+			$meta = call_user_func( $atts['filter'], $meta );
+		}
 		// Return result
 		return ( $meta ) ? $atts['before'] . $meta . $atts['after'] : '';
 	}
@@ -1429,7 +1438,13 @@ class Su_Shortcodes {
 		// Get user data if user was found
 		$user = ( $user && isset( $user->data->{$atts['field']} ) ) ? $user->data->{$atts['field']} : $atts['default'];
 		// Apply cutom filter
-		if ( $atts['filter'] && function_exists( $atts['filter'] ) ) $user = call_user_func( $atts['filter'], $user );
+		if (
+			$atts['filter'] &&
+			Su_Tools::is_valid_filter( $atts['filter'] ) &&
+			function_exists( $atts['filter'] )
+		) {
+			$user = call_user_func( $atts['filter'], $user );
+		}
 		// Return result
 		return ( $user ) ? $atts['before'] . $user . $atts['after'] : '';
 	}
@@ -1452,7 +1467,13 @@ class Su_Shortcodes {
 		// Set default value if meta is empty
 		$post = ( empty( $post ) || empty( $post->{$atts['field']} ) ) ? $atts['default'] : $post->{$atts['field']};
 		// Apply cutom filter
-		if ( $atts['filter'] && function_exists( $atts['filter'] ) ) $post = call_user_func( $atts['filter'], $post );
+		if (
+			$atts['filter'] &&
+			Su_Tools::is_valid_filter( $atts['filter'] ) &&
+			function_exists( $atts['filter'] )
+		) {
+			$post = call_user_func( $atts['filter'], $post );
+		}
 		// Return result
 		return ( $post ) ? $atts['before'] . $post . $atts['after'] : '';
 	}

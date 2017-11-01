@@ -237,7 +237,7 @@
 				.restore-info-root .step.requirements .requirements-process.final article div.response .result.pass {
 					color: rgb(26, 188, 156);
 				}
-					.restore-info-root .step.requirements .requirements-process.final article div.response .result.pass:after {
+					.restore-info-root .step.requirements .requirements-process.final article div.response .result.pass:after {	     	 	 				 	 	
 						display: block;
 						position: absolute;
 						top: 0;
@@ -561,4 +561,4 @@
 }
 
 
-/* 133620-1504103042-au */
+/* 133620-1509559918-au */

@@ -1,3 +1,10 @@
+<h4>1.10.9.2 10/26/17</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed error when saving column settings after deleting a row.</li>
+	<li>Fixed post module pagination not working if multiple post modules are on the same page.</li>
+</ul>
+
 <h4>1.10.9.1 10/12/17</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

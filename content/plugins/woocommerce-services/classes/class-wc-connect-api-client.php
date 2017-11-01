@@ -283,6 +283,10 @@ if ( ! class_exists( 'WC_Connect_API_Client' ) ) {
 			return $this->request( 'POST', '/stripe/account', $request );
 		}
 
+		public function get_stripe_account_details() {
+			return $this->request( 'GET', '/stripe/account' );
+		}
+
 		public function get_stripe_oauth_init( $return_url ) {
 			$request = array(
 				'returnUrl' => $return_url,
@@ -297,6 +301,9 @@ if ( ! class_exists( 'WC_Connect_API_Client' ) ) {
 			return $this->request( 'POST', '/stripe/oauth-keys', $request );
 		}
 
+		public function deauthorize_stripe_account() {
+			return $this->request( 'POST', '/stripe/account/deauthorize' );
+		}
 		/**
 		 * Sends a request to the WooCommerce Services Server
 		 *
@@ -457,9 +464,11 @@ if ( ! class_exists( 'WC_Connect_API_Client' ) ) {
 				'base_postcode' => WC()->countries->get_base_postcode(),
 				'currency' => get_woocommerce_currency(),
 				'dimension_unit' => strtolower( get_option( 'woocommerce_dimension_unit' ) ),
-				'jetpack_version' => JETPACK__VERSION,
-				'wc_version' => WC()->version,
 				'weight_unit' => strtolower( get_option( 'woocommerce_weight_unit' ) ),
+				'wcs_version' => WC_Connect_Loader::get_wcs_version(),
+				'jetpack_version' => JETPACK__VERSION,
+				'is_atomic' => WC_Connect_Jetpack::is_atomic_site(),
+				'wc_version' => WC()->version,
 				'wp_version' => get_bloginfo( 'version' ),
 				'last_services_update' => WC_Connect_Options::get_option( 'services_last_update', 0 ),
 				'last_heartbeat' => WC_Connect_Options::get_option( 'last_heartbeat', 0 ),

@@ -2,9 +2,9 @@
 Contributors: rainbowgeek
 Donate link: https://wpadminui.net/
 Tags: admin, ui, custom admin, admin menu, admin bar, metaboxes, widget, columns, profil, color schemes, dashboard, third party plugin
-Requires at least: 4.0+
+Requires at least: 4.5+
 Tested up to: 4.8
-Stable tag: 1.9.3
+Stable tag: 1.9.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,10 @@ Check our FAQ on <a href="http://www.wpadminui.net/support/faq/" target="_blank"
 11. WP Admin UI Import / Export 
 
 == Changelog ==
+= 1.9.4 =
+* FIX Rename / hide / order admin menu
+* FIX Compatibility with WooCommerce
+* FIX Plugin licence updater
 = 1.9.3 =
 * NEW Add fix return path in Mails settings (PRO)
 * INFO Check WP 4.8 compatibility

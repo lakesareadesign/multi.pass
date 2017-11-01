@@ -2,8 +2,8 @@
 Contributors: shareaholic
 Tags: share buttons, related content, cookie compliance, eu cookie law, shareaholic, shareholic, sexybookmarks, recommendations, cookie consent, email button, social sharing, social bookmarking, share image, image sharing, follow buttons, floated share buttons, floating share buttons, analytics, social media, social plugin, facebook, twitter, google plus, google bookmarks, gmail, linkedin, pinterest, reddit, tumblr, evernote, digg, delicious, stumbleupon, printfriendly, fancy, amazon, xing, vk, yahoo, mister wong, viadeo, odnoklassniki box.net, diigo, yammer, ycombinator, hotmail, instapaper, mixi, arto, whatsapp, hootsuite, inbound.org, plurk, aim, buffer, meneame, pinboard.in, stumpedia, bitly, blogger, yummly, izeby, kaboodle, weibo, instagram, tinyurl,  typepad, weheartit, flipboard, pocket, wanelo, fark, wykop, symphony, kindle, houzz, youtube, sms, onenote, google classroom, disqus, spotify, zillow, feedly, kik, line, livejournal, baidu
 Requires at least: 3.0
-Tested up to: 4.8
-Stable tag: 8.5.0
+Tested up to: 4.9
+Stable tag: 8.5.3
 
 World's leading all-in-one Content Amplification Platform that helps grow your site traffic, engagement, conversions & monetization for FREE.
 
@@ -195,6 +195,18 @@ Please see here: [Shareaholic Helpdesk](http://support.shareaholic.com/hc/en-us)
 Please see here: [Usage & Installation Instructions](http://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin)
 
 == Changelog ==
+= 8.5.3 (2017-10-28) =
+* Critical Update: It has come to our notice that some hosting companies are **incorrectly** flagging "index.html" as malware. This is a standard file and there is absolutely no reason to panic or be concerned. This update fixes the cause of the false positive. Please upgrade ASAP as a precaution.
+
+= 8.5.2 (2017-10-27) =
+* Bugfix: Show [Social Share Count Recovery](https://blog.shareaholic.com/recover-social-share-counts-https/) notice only on specific admin pages
+* Various performance updates and bug fixes
+
+= 8.5.1 (2017-10-23) =
+* Bugfix: Fixed misalignment issue with Floated Share Buttons
+* Bugfix: Fixed issue with single page apps (JavaScript rendered pages) not updating share count on page change
+* Various performance updates and bug fixes
+
 = 8.5.0 (2017-10-02) =
 * Enhancement: **[Social Share Count Recovery](https://blog.shareaholic.com/recover-social-share-counts-https/)** - adds support to recover social share counts in case where permalink structure changes
 * Various performance updates
@@ -663,6 +675,15 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Show Related Posts data status
 
 == Upgrade Notice ==
+= 8.5.3 =
+* Some hosting companies are incorrectly flagging "index.html" as malware. This is a standard file and there is absolutely no reason to panic or be concerned. This update fixes the cause of the false positive. Please upgrade ASAP as a precaution.
+
+= 8.5.2 =
+* Various performance updates and bug fixes
+
+= 8.5.1 =
+* Various performance updates and bug fixes
+
 = 8.5.0 =
 Various enhancements and Social Share Count Recovery in cases where permalink structure changes 
 

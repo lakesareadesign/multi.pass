@@ -24,7 +24,14 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		protected $data = null;
 		protected $option_name;
 		protected $url;
+		protected $build;
+		protected $tab_name;
+
 		public function __construct() {
+			if ( empty( $this->build ) ) {
+				global $ub_version;
+				$this->build = $ub_version;
+			}
 			if ( is_admin() ) {
 				global $uba;
 				$params = array(

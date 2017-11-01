@@ -1,6 +1,6 @@
 <?php
 /*
-  Plugin Name:  Dashbord Text Widgets
+  Plugin Name:  Dashboard Text Widgets
   Description: Enables the Dashboard text widgets.
  */
 
@@ -19,10 +19,16 @@ if ( ! class_exists( 'ub_dashboard_text_widgets' ) ) {
 
 		public function update( $status ) {
 			if ( isset( $_POST['widget'] ) && is_array( $_POST['widget'] ) && isset( $_POST['widget']['number'] ) ) {
+				$args = array();
 				$widgets = $this->get_items();
 				$id = intval( $_POST['widget']['number'] );
 				if ( ! isset( $widgets[ $id ] ) ) {
 					$id = ( is_array( $widgets )? max( array_keys( $widgets ) ):0 ) + 1;
+					$args = array(
+						'msg' => 'success',
+						'number' => $id,
+						'act' => 'edit',
+					);
 				}
 				$widgets[ $id ] = array(
 					'title' => isset( $_POST['widget']['title'] )? $_POST['widget']['title']:'',
@@ -34,6 +40,11 @@ if ( ! class_exists( 'ub_dashboard_text_widgets' ) ) {
 					),
 				);
 				ub_update_option( $this->option_name, $widgets );
+				if ( empty( $args ) ) {
+					return true;
+				}
+				wp_safe_redirect( UB_Help::add_query_arg_raw( $args, wp_get_referer() ) );
+				exit;
 			}
 		}
 
@@ -341,7 +352,7 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Text_Widget' ) ) {
 			if ( isset( $this->widget_options['content_parse'] ) ) {
 				$content = $this->widget_options['content_parse'];
 			}
-			printf ( '<div class="ub-widget">%s</div>', stripslashes( $content ) );
+			printf( '<div class="ub-widget">%s</div>', stripslashes( $content ) );
 		}
 
 		function wp_dashboard_widget_controls() {

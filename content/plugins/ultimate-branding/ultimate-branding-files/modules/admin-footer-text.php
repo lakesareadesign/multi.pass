@@ -54,10 +54,6 @@ class ub_Admin_Footer_Text extends ub_helper {
 		add_action( 'init', array( &$this, 'initialise_plugin' ) );
 	}
 
-	function ub_Admin_Footer_Text() {
-		$this->__construct();
-	}
-
 	function initialise_plugin() {
 
 		add_action( 'ultimatebranding_settings_footer', array( $this, 'output_admin_options' ) );
