@@ -82,7 +82,7 @@ class Agm_Cm_PublicPages {
 	}
 
 	public function load_scripts() {
-		lib3()->ui->add( AGM_PLUGIN_URL . 'js/user/center-map.min.js', 'front' );	     	 	 		  		  
+		lib3()->ui->add( AGM_PLUGIN_URL . 'js/user/center-map.min.js', 'front' );
 	}
 
 	public function prepare_for_load( $options, $raw ) {

@@ -42,7 +42,7 @@ if (!class_exists('ALTERADMINMENU')) {
 
         function add_admin_menu_management_menu()
         {
-            add_submenu_page( 'alter-options', __('Manage Admin menu', 'alter'), __('Manage Admin menu', 'alter'), 'manage_options', 'admin_menu_management', array($this, 'alter_admin_menu_management') );
+            add_submenu_page( ALTER_MENU_SLUG , __('Manage Admin menu', 'alter'), __('Manage Admin menu', 'alter'), 'manage_options', 'admin_menu_management', array($this, 'alter_admin_menu_management') );
         }
 
         function load_menu_assets($nowpage)
@@ -75,7 +75,7 @@ if (!class_exists('ALTERADMINMENU')) {
         {
           if(!empty($this->aof_options['disable_menu_customize']) && $this->aof_options['disable_menu_customize'] == 1) {
             echo '<div style="background:#ff3131;color:#ffffff;padding:25px;margin:25px 15px;">Alter menu customization is disabled. To enable menu customization ';
-            echo '<a style="color:#262d25" href="' . admin_url() . 'admin.php?page=alter-options"><strong>';
+            echo '<a style="color:#262d25" href="' . admin_url() . 'admin.php?page='. ALTER_MENU_SLUG .'"><strong>';
             echo __('Click here ', 'alter');
             echo '</strong></a></div>';
               return;
@@ -85,7 +85,7 @@ if (!class_exists('ALTERADMINMENU')) {
                 <h2><?php _e('Manage Admin Menu', 'alter'); ?></h2>
                 <div id="message" class="updated below-h2"><p>
                 <?php _e('By default, all menu items will be shown to administrator users. ', 'alter');
-                echo '<a href="' . admin_url() . 'admin.php?page=alter-options"><strong>';
+                echo '<a href="' . admin_url() . 'admin.php?page='. ALTER_MENU_SLUG .'"><strong>';
                 echo __('Click here ', 'alter');
                 echo '</strong></a>';
                 echo __('to customize who can access to all menu items.', 'alter');

@@ -1,8 +1,15 @@
-Plugin Name: Google Maps
+Plugin Name: Google Maps Pro
 Author: Ve Bailovity (Incsub), Philipp Stracker (Incsub)
 
 Change Log:
 ----------------------------------------------------------------------
+
+2.9.4
+----------------------------------------------------------------------
+- Fix: PHP Notice on Events Map Options
+- Fix: Google Maps Marker cluster causing a JS error
+- Fix: Geotagging limit
+- Fix: PHP notice with missing geotagging results
 
 2.9.3
 ----------------------------------------------------------------------
@@ -293,4 +300,4 @@ Change Log:
 - Saving maps in Street View
 
 
-133620-1492560725-au
+133620-1510183718-au

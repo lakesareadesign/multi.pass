@@ -27,22 +27,6 @@ if (!class_exists('ALTERWIDGETS')) {
         public function initialize_dash_widgets() {
             global $wp_meta_boxes;
 
-            // $alter_widgets_list = $wp_meta_boxes['dashboard'];
-            // $alter_the_Widgets = array();
-            // if (!is_array($alter_widgets_list['normal']['core'])) {
-            //     $alter_widgets_list = array('normal'=>array('core'=>array()), 'side'=>array('core'=>array()));
-            // }
-            // foreach ($alter_widgets_list['normal']['core'] as $key=>$data) {
-            //     $key = $key . "|normal";
-            //     $widget_title = preg_replace("/Configure/", "", strip_tags($data['title']));
-            //     $alter_the_Widgets[] = array($key, $widget_title);
-            // }
-            // foreach ($alter_widgets_list['side']['core'] as $key=>$data) {
-            //     $key = $key . "|side";
-            //     $widget_title = preg_replace("/Configure/", "", strip_tags($data['title']));
-            //     $alter_the_Widgets[] = array($key, $widget_title);
-            // }
-
             $context = array("normal","side","advanced");
             $priority =array("high","low","default","core");
 
@@ -121,7 +105,7 @@ if (!class_exists('ALTERWIDGETS')) {
         }
 
         function add_dash_widgets_menu() {
-            add_submenu_page( 'alter-options', __('Add Widgets', 'alter'), __('Add Widgets', 'alter'), 'manage_options', 'alter_add_dash_widgets', array($this, 'add_dash_widgets_page') );
+            add_submenu_page( ALTER_MENU_SLUG , __('Add Widgets', 'alter'), __('Add Widgets', 'alter'), 'manage_options', 'alter_add_dash_widgets', array($this, 'add_dash_widgets_page') );
         }
 
         function add_dash_widgets_page() {
@@ -265,7 +249,7 @@ if (!class_exists('ALTERWIDGETS')) {
                                 </div>
                             </div>
                             <input type="hidden" name="alter_add_widgets" value="1" />
-                            <input type="submit" name="submit" value="Save Now" class="save button button-primary button-hero" />
+                            <input type="submit" name="submit" value="<?php _e('Save Now', 'alter'); ?>" class="save button button-primary button-hero" />
                         </form>
                     </div>
 <?php

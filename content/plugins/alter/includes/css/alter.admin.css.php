@@ -38,13 +38,21 @@ div#wpadminbar li#wp-admin-bar-alter_admin_title {
 #wpadminbar .ab-submenu .ab-item:hover, #wpadminbar .quicklinks .menupop ul.ab-submenu li a:hover, #wpadminbar .quicklinks .menupop ul.ab-submenu li a.ab-item:hover { color: <?php echo $this->aof_options['admin_bar_sbmenu_link_hover_color']; ?>;}
 
 .quicklinks li.alter_admin_title a { <?php if($this->aof_options['logo_top_margin'] != 0) echo 'margin-top:-' . $this->aof_options['logo_top_margin'] . 'px !important;'; if($this->aof_options['logo_bottom_margin'] != 0) echo 'margin-top:' . $this->aof_options['logo_bottom_margin'] . 'px !important;'; ?>}
-.quicklinks li.alter_admin_title a{ margin-left:20px !important; outline:none; border:none; }
+.quicklinks li.alter_admin_title a{ outline:none; border:none; }
 <?php
-$admin_logo = $this->aof_options['admin_logo'];
-$admin_logo_url = (is_numeric($admin_logo)) ? $this->alter_get_image_url($admin_logo) : $admin_logo;
-if(!empty($admin_logo_url)){ ?>
+if(!empty($this->aof_options['admin_external_logo_url']) && filter_var($this->aof_options['admin_external_logo_url'], FILTER_VALIDATE_URL)) {
+  $adminbar_logo = esc_url( $this->aof_options['admin_external_logo_url']);
+}
+else {
+  $adminbar_logo = (is_numeric($this->aof_options['admin_logo'])) ? $this->alter_get_image_url($this->aof_options['admin_logo']) : $this->aof_options['admin_logo'];
+}
+
+if(!empty($adminbar_logo)){
+  $hor_position = (empty($this->aof_options['logo_position']) || $this->aof_options['logo_position'] == 1) ?
+  "20px" : $this->aof_options['logo_position'];
+  ?>
 .quicklinks li.alter_admin_title a, .quicklinks li.alter_admin_title a:hover, .quicklinks li.alter_admin_title a:focus {
-    background:url(<?php echo $admin_logo_url;  ?>) left 4px no-repeat !important; text-indent:-9999px !important; width: auto;
+    background:url(<?php echo $adminbar_logo;  ?>) <?php echo $hor_position; ?> center no-repeat !important; text-indent:-9999px !important; width: auto;
     <?php if(!empty($this->aof_options['logo_autofit'])){ ?>
     background-size: contain!important;
     <?php } else { ?>
@@ -149,6 +157,34 @@ div.updated #bulk-titles div a:before, .notice-dismiss:before, .tagchecklist spa
 div.updated a { color: <?php echo $this->aof_options['msgbox_link_color']; ?>; }
 div.updated a:hover { color: <?php echo $this->aof_options['msgbox_link_hover_color']; ?>; }
 
+.notice-error, div.error, #setting-error-tgmpa {
+  border-left-color: <?php echo $this->aof_options['error_border_color']; ?>;
+  background: <?php echo $this->aof_options['error_box_color']; ?>;
+  color: <?php echo $this->aof_options['error_text_color']; ?>;
+}
+
+.notice-error a, div.error a, #setting-error-tgmpa a {
+  color: <?php echo $this->aof_options['error_link_color']; ?>;
+}
+
+.notice-error a:hover, div.error a:hover, #setting-error-tgmpa a:hover {
+  color: <?php echo $this->aof_options['error_link_hover_color']; ?>;
+}
+
+.notice-warning, div.notice.notice-warning {
+  border-left-color: <?php echo $this->aof_options['warn_border_color']; ?>;
+  background: <?php echo $this->aof_options['warn_box_color']; ?>;
+  color: <?php echo $this->aof_options['warn_text_color']; ?>;
+}
+
+.notice-warning a, div.notice.notice-warning a {
+  color: <?php echo $this->aof_options['warn_link_color']; ?>;
+}
+
+.notice-warning a:hover, div.notice.notice-warning a:hover {
+  color: <?php echo $this->aof_options['warn_link_hover_color']; ?>;
+}
+
 
 <?php if($this->aof_options['design_type'] == 1) { ?>
 .wp-core-ui .button-primary, .postbox,.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button, .wp-core-ui .button-secondary, .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover, #wpadminbar .menupop .ab-sub-wrapper, #wpadminbar .shortlink-input, .theme-browser .theme, .wrap .add-new-h2, .wrap .page-title-action,.wrap .add-new-h2:hover, .wrap .page-title-action:hover, .wrap .add-new-h2:active {
@@ -163,7 +199,6 @@ input[type=checkbox], input[type=radio], #update-nag, .update-nag, .wp-list-tabl
 	-moz-box-shadow: none !important;
 	box-shadow: none !important;
 }
-body #dashboard-widgets .postbox form .submit { padding: 10px 0 !important; }
 <?php }
 echo $this->aof_options['admin_page_custom_css'];
 ?>

@@ -19,7 +19,7 @@ class ALTERTHENES extends ALTER
 
     function alter_themes_menu()
     {
-      add_submenu_page( 'alter-options', __('Alter Themes', 'alter'), __('Alter Themes', 'alter'), 'manage_options', 'alter_themes', array($this,'alter_theme_content') );
+      add_submenu_page( ALTER_MENU_SLUG , __('Alter Themes', 'alter'), __('Alter Themes', 'alter'), 'manage_options', 'alter_themes', array($this,'alter_theme_content') );
     }
 
     function alter_theme_content()
@@ -73,7 +73,7 @@ class ALTERTHENES extends ALTER
     ?>
 
         </div>
-        <input type="submit" class="button button-primary" name="submit" value="Import Theme" />
+        <input type="submit" class="button button-primary" name="submit" value="<?php echo __('Import Theme', 'alter'); ?>" />
         <?php wp_nonce_field('alter_import_theme_nonce','alter_import_theme_field'); ?>
       </form>
     </div>

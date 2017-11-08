@@ -16,11 +16,16 @@ $output .= '@font-face {
 $login_bg_img = (!empty($this->aof_options['login_bg_img'])) ? $this->aof_options['login_bg_img'] : "";
 $admin_login_logo = (!empty($this->aof_options['admin_login_logo'])) ? $this->aof_options['admin_login_logo'] : "";
 
+if(!empty($this->aof_options['login_external_logo_url']) && filter_var($this->aof_options['login_external_logo_url'], FILTER_VALIDATE_URL)) {
+  $login_logo = esc_url( $this->aof_options['login_external_logo_url']);
+}
+else {
+  $login_logo = (is_numeric($admin_login_logo)) ? $this->alter_get_image_url($admin_login_logo) : $admin_login_logo;
+}
 
-$login_logo = (is_numeric($admin_login_logo)) ? $this->alter_get_image_url($admin_login_logo) : $admin_login_logo;
 $login_logo_bg = (!empty($this->aof_options['login_logo_bg_color'])) ? $this->alter_hex2rgba($this->aof_options['login_logo_bg_color'], 0.5) : "rgba(0, 250, 0, 0.5)";
 $form_bg_color = (!empty($this->aof_options['login_formbg_color'])) ? $this->alter_hex2rgba($this->aof_options['login_formbg_color'], 0.5) : "rgba(66,49,67,0.5)";
-$form_width = (empty($this->aof_options['login_form_width_in_px']) || $this->aof_options['login_form_width_in_px'] < 550) ? "760" : $this->aof_options['login_form_width_in_px'];
+$form_width = (empty($this->aof_options['login_form_width_in_px']) || $this->aof_options['login_form_width_in_px'] < 480) ? "760" : $this->aof_options['login_form_width_in_px'];
 $inp_plholder_color = (!empty($this->aof_options['login_inputs_plholder_color'])) ? $this->aof_options['login_inputs_plholder_color'] : "#5f6f82";
 $logo_top_margin = (!empty($this->aof_options['login_logo_top_margin'])) ? $this->aof_options['login_logo_top_margin'] : "80";
 $login_button_color = (!empty($this->aof_options['login_button_color'])) ? $this->aof_options['login_button_color'] : "#122133";
@@ -110,6 +115,12 @@ $login_button_text_color = (!empty($this->aof_options['login_button_text_color']
 }
 ';
 
+if($form_width < 550) {
+  $output .= '.login h1 {
+    width:220px;
+  }';
+}
+
 if(!empty($login_logo)) {
   $login_logo_size = (!empty($this->aof_options['admin_logo_resize'])) ? $this->aof_options['admin_logo_size_percent']."%" : "auto";
 $output .= '.login h1 a {
@@ -171,6 +182,25 @@ $output .= '.login #login_error{
   line-height: 1;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.alter-icon-email::before {
+    color: #b2acb2;
+    content: "&";
+    font-family: "linea-basic-10";
+    font-style: normal;
+    font-variant: normal;
+    font-weight: 400;
+    line-height: 1;
+    position: absolute;
+    text-transform: none;
+    top: 16px;
+}
+.alter-icon-email {
+    font-size: 16px;
+    position: absolute;
+    text-align: left;
+    width: 20px;
 }
 
 form label[for=user_login], form label[for=user_pass] {
@@ -296,6 +326,17 @@ form input:-moz-placeholder           {
   width:100%;
 }
 
+.login .message {
+  position: relative;
+  width: auto;
+  margin-left: 0;
+  text-align: center;
+  z-index: 9;
+  border-left: none;
+  padding: 8px;
+  margin-bottom: 0
+}
+
 @media only screen and (max-height: 760px) {
   body {
     min-height: 560px;
@@ -360,6 +401,13 @@ form input:-moz-placeholder           {
   }
 }
 
+body #dashboard-widgets .postbox form .submit { padding: 10px 0 !important; }
+  @media (max-width:860px) {
+  .login .message {
+  position: relative;
+  }
+}
+
 ';
 
 $output .= 'form#loginform .button-primary, form#registerform .button-primary, .button-primary {
@@ -409,6 +457,49 @@ $output .= '.login .message, .button-primary, .wp-core-ui .button-primary, .wp-c
 
 } //end of design_type
 
+if($this->aof_options['login_form_style'] == 2) {
+  $output .= '
+  .alter-form-container { top: 24%; }
+  @media only screen and (max-width: 640px) {
+    .alter-form-container { top: 12%; }
+  }
+  .login h1 {
+    float: none;
+    height: auto;
+    padding-top: 0;
+    width: auto;
+    background-color: rgb(28, 19, 30);
+    }
+    #login {
+    height: auto;
+    background-color: rgb(66, 49, 67);
+    }
+    .login #nav {
+    margin-top: 0;
+    }
+    .form-bg {
+    display: none;
+    }
+
+    .login #login_error {
+        margin-left: auto;
+        padding: 4px;
+        position: relative;
+        width: auto;
+    }
+
+    @media only screen and (max-width: 640px) {
+    .alter-form-container {
+    width: 400px; }
+    }
+    @media only screen and (max-width: 500px) {
+    .alter-form-container {
+    width: 300px; }
+  }
+  #login { padding-bottom: 20px; }
+';
+}
+
 //Message box
 $output .= 'div.updated, .login #login_error, .login .message { border-left: 4px solid '. $this->aof_options['msgbox_border_color'] .';
   background-color: '. $this->aof_options['msg_box_color'] .'; color: '. $this->aof_options['msgbox_text_color'] .'; }
@@ -419,4 +510,8 @@ $output .= $this->aof_options['login_custom_css'];
 
 echo $this->alterCompress_css($output);
 ?>
+
+
+/* New Login Styles */
+
 </style>

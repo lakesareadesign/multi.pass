@@ -400,11 +400,30 @@ JQUERY;
           $_POST[$app] = array();
         }
       }
-
+        
+      foreach (array('share_buttons_display_on_excerpts', 'recommendations_display_on_excerpts') as $setting) {
+        if (isset($settings[$setting]) &&
+            !isset($_POST['shareaholic'][$setting]) &&
+            $settings[$setting] == 'on') {
+          $_POST['shareaholic'][$setting] = 'off';
+        } elseif (!isset($_POST['shareaholic'][$setting])) {
+          $_POST['shareaholic'][$setting] = array();
+        }
+      }
+      
+      // Save "Locations" related preferences
       ShareaholicUtilities::update_options(array(
         'share_buttons' => $_POST['share_buttons'],
-        'recommendations' => $_POST['recommendations'],
+        'recommendations' => $_POST['recommendations']
       ));
+      
+      // Save "Excerpts" related preferences
+      if (isset($_POST['shareaholic']['share_buttons_display_on_excerpts'])) {
+        ShareaholicUtilities::update_options(array('share_buttons_display_on_excerpts' => $_POST['shareaholic']['share_buttons_display_on_excerpts']));
+      }
+      if (isset($_POST['shareaholic']['recommendations_display_on_excerpts'])) {
+        ShareaholicUtilities::update_options(array('recommendations_display_on_excerpts' => $_POST['shareaholic']['recommendations_display_on_excerpts']));
+      }
 
       ShareaholicUtilities::log_event("UpdatedSettings");
       // clear cache after settings update

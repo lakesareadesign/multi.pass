@@ -340,7 +340,7 @@ function ultra_adminmenu_neworder() {
 
     $new = array();
     $subnew = array();
-    $ret = "";
+    $ret = array();
 
     $neworder = ultra_get_option("ultraadmin_menuorder","");
     $newsuborder = ultra_get_option("ultraadmin_submenuorder","");

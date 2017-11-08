@@ -82,7 +82,7 @@
         // This is where your data is stored in the database and also becomes your global variable name.
         'display_name'         => 'Ultra Admin',
         // Name that appears at the top of your panel
-        'display_version'      => '7.3',
+        'display_version'      => '7.4',
         // Version that appears at the top of your panel
         'menu_type'            => $menu_type,
         //Specify if the admin menu should appear or not. Options: menu or submenu (Under appearance only)

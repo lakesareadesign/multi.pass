@@ -69,7 +69,7 @@ class WP_Hummingbird_Module_Uptime extends WP_Hummingbird_Module {
 
 		$api = wphb_get_api();
 		$result = $api->uptime->is_enabled();
-		set_site_transient( 'wphb-uptime-remotely-enabled', $result ? 'yes' : 'no', 180 ); // save for 3 minutes
+		set_site_transient( 'wphb-uptime-remotely-enabled', $result ? 'yes' : 'no', 300 ); // save for 5 minutes
 		return $result;
 	}
 

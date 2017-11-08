@@ -70,6 +70,7 @@ function get_aof_options() {
       'dash' => __( 'Dashboard Widgets', 'alter' ),
       'adminbar' => __( 'Adminbar Options', 'alter' ),
       'adminop' => __( 'Button/Metabox colors', 'alter' ),
+      'messagebox' => __( 'Message Colors', 'alter' ),
       'adminmenu' => __( 'Admin menu Colors', 'alter' ),
       'footer' => __( 'Footer Options', 'alter' ),
       );
@@ -272,6 +273,17 @@ function get_aof_options() {
       );
 
   $panel_fields[] = array(
+      'name' => __( 'Login Style', 'alter' ),
+      'id' => 'login_form_style',
+      'type' => 'radio',
+      'options' => array(
+          '1' => __( 'Wide Transparent (New)', 'alter' ),
+          '2' => __( 'Default style', 'alter' ),
+      ),
+      'default' => '1',
+      );
+
+  $panel_fields[] = array(
       'name' => __( 'Background color', 'alter' ),
       'id' => 'login_bg_color',
       'type' => 'wpcolor',
@@ -322,16 +334,24 @@ function get_aof_options() {
       'id' => 'login_form_width_in_px',
       'type' => 'number',
       'default' => '760',
-      'min' => '550',
+      'min' => '480',
       'max' => '900',
-      );
+      'desc' => __( 'Recommended minimum width for Wide style is 550px.', 'alter' ),
+  );
+
+  $panel_fields[] = array(
+      'name' => __( 'External Logo url', 'alter' ),
+      'id' => 'login_external_logo_url',
+      'type' => 'text',
+      'desc' => __( 'Load image from external source.', 'alter' ),
+  );
 
   $panel_fields[] = array(
       'name' => __( 'Upload Logo', 'alter' ),
       'id' => 'admin_login_logo',
       'type' => 'upload',
       'desc' => __( 'Image to be displayed on login page. Maximum width should be under 450pixels.', 'alter' ),
-      );
+  );
 
   $panel_fields[] = array(
       'name' => __( 'Resize Logo?', 'alter' ),
@@ -362,7 +382,7 @@ function get_aof_options() {
       'id' => 'login_logo_url',
       'type' => 'text',
       'default' => get_bloginfo('url'),
-      );
+  );
 
   $panel_fields[] = array(
       'name' => __( 'Logo background color', 'alter' ),
@@ -557,7 +577,14 @@ function get_aof_options() {
   $panel_fields[] = array(
       'name' => __( 'Adminbar Options', 'alter' ),
       'type' => 'openTab'
-      );
+  );
+
+  $panel_fields[] = array(
+      'name' => __( 'External Logo url', 'alter' ),
+      'id' => 'admin_external_logo_url',
+      'type' => 'text',
+      'desc' => __( 'Load image from external source.', 'alter' ),
+  );
 
   $panel_fields[] = array(
       'name' => __( 'Upload Logo', 'alter' ),
@@ -573,6 +600,18 @@ function get_aof_options() {
       'default' => false,
       'desc' => __( 'Select to autofit logo in to admin bar.', 'alter' ),
       );
+
+  $panel_fields[] = array(
+      'name' => __( 'Logo horizontal position', 'alter' ),
+      'id' => 'logo_position',
+      'options' => array(
+          '20px' => __( 'Left', 'alter' ),
+          'center' => __( 'Center', 'alter' ),
+      ),
+      'type' => 'radio',
+      'default' => '20px',
+      'desc' => __( 'Select logo position.', 'alter' ),
+  );
 
   $panel_fields[] = array(
       'name' => __( 'Move logo Top by', 'alter' ),
@@ -666,7 +705,7 @@ function get_aof_options() {
 
 
 
-  //Admin Options
+  //Buttons Options
   $panel_fields[] = array(
       'name' => __( 'Button/Metabox Colors', 'alter' ),
       'type' => 'openTab'
@@ -849,8 +888,14 @@ function get_aof_options() {
       'default' => '#ffffff',
       );
 
+  //Message color Options
   $panel_fields[] = array(
-      'name' => __( 'Message box (Post/Page updates)', 'alter' ),
+      'name' => __( 'Message Colors', 'alter' ),
+      'type' => 'openTab'
+  );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message box (Updates)', 'alter' ),
       'type' => 'title',
       );
 
@@ -888,6 +933,87 @@ function get_aof_options() {
       'type' => 'wpcolor',
       'default' => '#e5e5e5',
       );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message box (Warnings)', 'alter' ),
+      'type' => 'title',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message box color', 'alter' ),
+      'id' => 'warn_box_color',
+      'type' => 'wpcolor',
+      'default' => '#f0f3ed',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message text color', 'alter' ),
+      'id' => 'warn_text_color',
+      'type' => 'wpcolor',
+      'default' => '#2f2d2d',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message box border color', 'alter' ),
+      'id' => 'warn_border_color',
+      'type' => 'wpcolor',
+      'default' => '#c79b84',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message link color', 'alter' ),
+      'id' => 'warn_link_color',
+      'type' => 'wpcolor',
+      'default' => '#000000',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message link hover color', 'alter' ),
+      'id' => 'warn_link_hover_color',
+      'type' => 'wpcolor',
+      'default' => '#323232',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message box (Error)', 'alter' ),
+      'type' => 'title',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message box color', 'alter' ),
+      'id' => 'error_box_color',
+      'type' => 'wpcolor',
+      'default' => '#ce642f',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message text color', 'alter' ),
+      'id' => 'error_text_color',
+      'type' => 'wpcolor',
+      'default' => '#ffffff',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message box border color', 'alter' ),
+      'id' => 'error_border_color',
+      'type' => 'wpcolor',
+      'default' => '#ce642f',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message link color', 'alter' ),
+      'id' => 'error_link_color',
+      'type' => 'wpcolor',
+      'default' => '#f2f2f2',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Message link hover color', 'alter' ),
+      'id' => 'error_link_hover_color',
+      'type' => 'wpcolor',
+      'default' => '#d8d8d8',
+      );
+
 
   //Admin menu Options
   $panel_fields[] = array(

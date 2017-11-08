@@ -37,7 +37,9 @@ class WYSIJA_control_back_subscribers extends WYSIJA_control_front{
         $helperUser=WYSIJA::get('user','helper');
         if(!$helperUser->checkData($data))return false;
         if(!$helperUser->throttleRepeatedSubscriptions($data))return false;
-        $helperUser->addSubscriber($data);
+        if($helperUser->addSubscriber($data)) {
+          $helperUser->storeSubscriberIP();
+        }
 
         return true;
     }

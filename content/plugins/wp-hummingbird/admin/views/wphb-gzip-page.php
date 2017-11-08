@@ -1,6 +1,6 @@
 <div class="row">
-	<div class="col-half"><?php $this->do_meta_boxes( 'box-gzip-left' ); ?></div>
-	<div class="col-half"><?php $this->do_meta_boxes( 'box-gzip-right' ); ?></div>
+	<?php $this->do_meta_boxes( 'box-gzip-top' ); ?>
+	<?php $this->do_meta_boxes( 'box-gzip-bottom' ); ?>
 </div>
 
 <script>

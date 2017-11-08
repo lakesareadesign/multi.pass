@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Optimize Database after Deleting Revisions
- * @version 4.4
+ * @version 4.4.1
  */
 /*
 Plugin Name: Optimize Database after Deleting Revisions
@@ -10,7 +10,7 @@ Description: Optimizes the Wordpress Database after Cleaning it out
 Author: CAGE Web Design | Rolf van Gelder, Eindhoven, The Netherlands
 Author URI: http://cagewebdev.com
 Network: True
-Version: 4.4
+Version: 4.4.1
 */
 
 /********************************************************************************************
@@ -24,8 +24,8 @@ $odb_class = new OptimizeDatabase();
 
 class OptimizeDatabase {
 	// VERSION
-	var $odb_version           = '4.4';
-	var $odb_release_date      = '08/22/2017';
+	var $odb_version           = '4.4.1';
+	var $odb_release_date      = '11/06/2017';
 
 	// PLUGIN OPTIONS
 	var $odb_rvg_options       = array();

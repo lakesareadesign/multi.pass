@@ -22,11 +22,11 @@ if (isset($_POST['info_update'])) {
 	$rel_posttypes = $this->odb_utilities_obj->odb_get_relevant_post_types();
 	// LOOP THROUGH THE RELEVANT POST TYPES
 	foreach ($rel_posttypes as $posttype) {
-		if (isset($_POST['cb_cpt_' . $posttype])) {
+		if (isset($_POST['rvg_cb_cpt_' . $posttype])) {
 			$updated_pts[$posttype] = "Y";
 		} else {
 			$updated_pts[$posttype] = "N";
-		} // if (isset($_POST['cb_cpt_' . $posttype]))
+		} // if (isset($_POST['rvg_cb_cpt_' . $posttype]))
 	} // foreach ($rel_posttypes as $posttype)
 	// UPDATE OPTIONS
 	$this->odb_rvg_options['post_types'] = $updated_pts;
@@ -251,7 +251,7 @@ foreach ($rel_posttypes as $posttype) {
 	echo '
               <td width="50%" valign="top">
                 <span class="odb-bold">
-                  <input name="cb_cpt_' . $posttype . '" id="cb_cpt_' . $posttype . '" type="checkbox" value="Y" ' . $cb_checked . ' /></span>			  
+                  <input name="rvg_cb_cpt_' . $posttype . '" id="rvg_cb_cpt_' . $posttype . '" type="checkbox" value="Y" ' . $cb_checked . ' /></span>			  
 			  </td>
 			</tr>			  
 	';

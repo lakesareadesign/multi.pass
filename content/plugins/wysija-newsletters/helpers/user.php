@@ -386,29 +386,30 @@ class WYSIJA_help_user extends WYSIJA_object {
     }
 
     function throttleRepeatedSubscriptions() {
-      $model_user = WYSIJA::get('user', 'model');
+      $model_subscriber_ip = WYSIJA::get('subscriber_ip', 'model');
 
       $subscription_limit_enabled = apply_filters('wysija_subscription_limit_enabled', true);
 
-      if ($subscription_limit_enabled && !is_user_logged_in()) {
-        $subscription_limit_window = apply_filters('wysija_subscription_limit_window', DAY_IN_SECONDS);
-        $subscription_limit_base = apply_filters('wysija_subscription_limit_base', MINUTE_IN_SECONDS);
+      $subscription_limit_window = apply_filters('wysija_subscription_limit_window', DAY_IN_SECONDS);
+      $subscription_limit_base = apply_filters('wysija_subscription_limit_base', MINUTE_IN_SECONDS);
 
-        $subscriber_ip = $this->getIP();
+      $subscriber_ip = $this->getIPForThrottling();
+
+      if ($subscription_limit_enabled && !is_user_logged_in()) {
         if (!empty($subscriber_ip)) {
-          $subscription_count = $model_user->query(
+          $subscription_count = $model_subscriber_ip->query(
             'get_row',
-            'SELECT COUNT(*) as row_count FROM ' . $model_user->getSelectTableName() . '
-             WHERE `ip` = "' . $subscriber_ip . '" AND `created_at` >= (UNIX_TIMESTAMP() - ' . (int) $subscription_limit_window . ')'
+            'SELECT COUNT(*) as row_count FROM ' . $model_subscriber_ip->getSelectTableName() . '
+             WHERE `ip` = "' . $subscriber_ip . '" AND `created_at` >= NOW() - INTERVAL ' . (int) $subscription_limit_window . ' SECOND'
           );
 
           if (isset($subscription_count['row_count']) && $subscription_count['row_count'] > 0) {
             $timeout = $subscription_limit_base * pow(2, $subscription_count['row_count'] - 1);
-            $existing_user = $model_user->query(
+            $existing_user = $model_subscriber_ip->query(
               'get_row',
               'SELECT COUNT(*) as row_count
-               FROM ' . $model_user->getSelectTableName() . '
-               WHERE `ip` = "' . $subscriber_ip . '" AND `created_at` >= (UNIX_TIMESTAMP() - ' . (int) $timeout . ') LIMIT 1'
+               FROM ' . $model_subscriber_ip->getSelectTableName() . '
+               WHERE `ip` = "' . $subscriber_ip . '" AND `created_at` >= NOW() - INTERVAL ' . (int) $timeout . ' SECOND LIMIT 1'
             );
             if (!empty($existing_user['row_count'])) {
               $this->error( sprintf(__( 'You need to wait %s seconds before subscribing again.' , WYSIJA ), $timeout) , true);
@@ -418,7 +419,27 @@ class WYSIJA_help_user extends WYSIJA_object {
         }
       }
 
+      // Purge old IP addresses
+      $model_subscriber_ip->query(
+        'DELETE FROM ' . $model_subscriber_ip->getSelectTableName() . '
+        WHERE `created_at` < NOW() - INTERVAL ' . (int) $subscription_limit_window . ' SECOND'
+      );
+
       return true;
+    }
+
+    function storeSubscriberIP() {
+      global $wpdb;
+
+      $model_subscriber_ip = WYSIJA::get('subscriber_ip', 'model');
+      $subscriber_ip = $this->getIPForThrottling();
+
+      if (!empty($subscriber_ip)) {
+        $wpdb->insert(
+          $model_subscriber_ip->getSelectTableName(),
+          array('ip' => $subscriber_ip)
+        );
+      }
     }
 
     /**
@@ -1072,6 +1093,17 @@ class WYSIJA_help_user extends WYSIJA_object {
         if (empty($ip))
             $ip = '127.0.0.1';
         return strip_tags($ip);
+    }
+
+    // More secure IP check
+    function getIPForThrottling() {
+        $ip = '';
+
+        if (!empty($_SERVER['REMOTE_ADDR']) AND strlen($_SERVER['REMOTE_ADDR']) > 6) {
+            $ip = strip_tags($_SERVER['REMOTE_ADDR']);
+        }//endif
+
+        return $ip;
     }
 
     /**

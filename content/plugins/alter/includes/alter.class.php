@@ -45,7 +45,7 @@ if (!class_exists('ALTER')) {
 	    add_filter('login_headertitle', array($this, 'alter_login_title'));
 	    add_action('admin_head', array($this, 'generalFns'));
 
-	    add_action('admin_bar_menu', array($this, 'update_avatar_size'), 99 );
+	    add_action('admin_bar_menu', array($this, 'update_avatar_size'), 5 );
 	    add_action('plugins_loaded',array($this, 'save_change_texts'));
       add_action('alter_data_saved',array($this, 'get_admin_users'));
       add_action('aof_save_data', array($this, 'save_additional_data'));
@@ -119,18 +119,13 @@ if (!class_exists('ALTER')) {
       if($this->aof_options['disable_update_emails'] == 1)
         add_filter( 'auto_core_update_send_email', '__return_false' );
 
-      if($this->aof_options['email_settings'] != 3) {
-        add_filter( 'wp_mail_from', array($this, 'custom_email_addr') );
-        add_filter( 'wp_mail_from_name', array($this, 'custom_email_name') );
-      }
-
       if($this->aof_options['hide_profile_color_picker'] == 1) {
         remove_action( 'admin_color_scheme_picker', 'admin_color_scheme_picker' );
       }
       register_nav_menus(array(
         'alter_add_adminbar_menu' => 'Adminbar Menu'
       ));
-      add_filter('gettext', array($this, 'change_admin_texts'), 99999, 3);
+      add_filter('gettext_with_context', array($this, 'change_admin_texts'), 99999, 3);
 	}
 
   function alter_login_form_wrap_start() {
@@ -249,8 +244,8 @@ if (!class_exists('ALTER')) {
 	}
 
   function change_admin_texts($translated_text, $default_text, $domain) {
-      if(!is_admin())
-          return $translated_text;
+      //if(!is_admin())
+          //return $translated_text;
       $change_texts = (isset($this->aof_options['change_text'])) ? $this->aof_options['change_text'] : "";
       if(!empty($change_texts) && is_array($change_texts)) {
           foreach ($change_texts as $findandreplace) {
@@ -268,11 +263,11 @@ if (!class_exists('ALTER')) {
 	function wps_sub_menus()
 	{
 	    //add options page to sort and remove admin menus.
-      add_submenu_page( 'alter-options', __('Change Text', 'alter'), __('Change Text', 'alter'), 'manage_options', 'alter_change_text', array($this, 'alterChangetext') );
+      add_submenu_page( ALTER_MENU_SLUG, __('Change Text', 'alter'), __('Change Text', 'alter'), 'manage_options', 'alter_change_text', array($this, 'alterChangetext') );
 
 	    //Remove Alter menu
 	    if( defined('HIDE_ALTER_OPTION_LINK') || (!current_user_can('manage_network')) && defined('NETWORK_ADMIN_CONTROL') )
-		    remove_menu_page('alter-options');
+		    remove_menu_page(ALTER_MENU_SLUG);
 	}
 
   function alterChangetext() {
@@ -362,7 +357,7 @@ if (!class_exists('ALTER')) {
                 </div>
             </div>
             <input type="hidden" name="alter_change_text" value="1" />
-            <input type="submit" name="submit" value="Save Now" class="save button button-primary button-hero" />
+            <input type="submit" name="submit" value="<?php _e('Save Now', 'alter'); ?>" class="save button button-primary button-hero" />
         </form>
     </div>
   <?php
@@ -404,7 +399,7 @@ if (!class_exists('ALTER')) {
       else return $url;
   }
 
-	public function login_footer_content()
+	function login_footer_content()
 	{
     if($this->aof_options['disable_styles_login'] != 1) {
       $login_footer_content = $this->aof_options['login_footer_content'];
@@ -418,35 +413,35 @@ if (!class_exists('ALTER')) {
     }
 	}
 
-	public function alter_custom_footer_content()
+	function alter_custom_footer_content()
 	{
     echo $this->aof_options['admin_footer_txt'];
 	}
 
-	public function alter_remove_wp_version()
+	function alter_remove_wp_version()
 	{
 		return '';
 	}
 
 	//admin bar customization
-	public function alter_remove_admin_bar_items()
+	function alter_remove_admin_bar_items()
 	{
       global $wp_admin_bar;
       if(isset($this->aof_options['remove_adminbar_items']) && !empty($this->aof_options['remove_adminbar_items'])){
-          foreach ($this->aof_options['remove_adminbar_items'] as $hide_bar_menu) {
-                  $wp_admin_bar->remove_menu($hide_bar_menu);
-          }
+        foreach ($this->aof_options['remove_adminbar_items'] as $hide_bar_menu) {
+          $wp_admin_bar->remove_menu($hide_bar_menu);
+        }
       }
 	}
 
 	public function alter_add_title_menu($wp_admin_bar) {
       $admin_logo = $this->aof_options['admin_logo'];
       if(!empty($admin_logo)) {
-              $wp_admin_bar->add_node( array(
-                      'id'    => 'alter_admin_title',
-                      'href'  => admin_url(),
-                      'meta'  => array( 'class' => 'alter_admin_title' )
-              ) );
+        $wp_admin_bar->add_node( array(
+          'id'    => 'alter_admin_title',
+          'href'  => admin_url(),
+          'meta'  => array( 'class' => 'alter_admin_title' )
+        ) );
       }
 	}
 

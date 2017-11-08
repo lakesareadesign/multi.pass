@@ -7,9 +7,9 @@ Tags: database, delete, revisions, optimize, post, posts, page, pages, clean, cl
 Author URI: http://cagewebdev.com
 Author: CAGE Web Design | Rolf van Gelder, Eindhoven, The Netherlands
 Requires at least: 2.8
-Tested up to: 4.8.1
-Stable tag: 4.4
-Version: 4.4
+Tested up to: 4.8.3
+Stable tag: 4.4.1
+Version: 4.4.1
 License: GPLv2 or later
 
 == Description ==
@@ -102,6 +102,9 @@ http://cagewebdev.com/wordpress-plugins/
 * If you run the plugin from any of the sites, it will cleanup ALL the sites in the network!
 
 == Changelog ==
+= 4.4.1 [11/06/2017] =
+* BUG FIX: Bug in counting excluded tables fixed
+
 = 4.4 [08/22/2017] =
 * NEW: New options to delete revisions of posts, pages and / or specific custom post types
 

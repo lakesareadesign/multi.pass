@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: Alter - White Label Wordpress\n"
-"POT-Creation-Date: 2017-05-12 14:33+0530\n"
-"PO-Revision-Date: 2017-05-12 14:35+0530\n"
+"POT-Creation-Date: 2017-11-05 21:13+0530\n"
+"PO-Revision-Date: 2017-11-05 21:13+0530\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: en\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.1\n"
+"X-Generator: Poedit 2.0.3\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-WPHeader: alter.php\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
@@ -93,6 +93,10 @@ msgstr ""
 msgid "Error: Settings not saved."
 msgstr ""
 
+#: includes/alter-adminbar.class.php:22
+msgid "Manage Admin bar"
+msgstr ""
+
 #: includes/alter-import-export.class.php:24
 msgid "Import/Export"
 msgstr ""
@@ -117,6 +121,10 @@ msgstr ""
 msgid "By resetting all settings will be deleted!"
 msgstr ""
 
+#: includes/alter-import-export.class.php:57
+msgid "Reset All Settings"
+msgstr ""
+
 #: includes/alter-import-export.class.php:61
 msgid "Export Settings"
 msgstr ""
@@ -126,560 +134,642 @@ msgid "Save the below contents to a text file."
 msgstr ""
 
 #: includes/alter-import-export.class.php:67
+#: includes/alter-import-export.class.php:72
 msgid "Import Settings"
 msgstr ""
 
-#: includes/alter-options.php:71 includes/alter-options.php:84
+#: includes/alter-options.php:68 includes/alter-options.php:82
 msgid "General Options"
 msgstr ""
 
-#: includes/alter-options.php:72 includes/alter-options.php:258
+#: includes/alter-options.php:69 includes/alter-options.php:256
 msgid "Login Options"
 msgstr ""
 
-#: includes/alter-options.php:73 includes/alter-options.php:544
+#: includes/alter-options.php:70 includes/alter-options.php:561
 msgid "Dashboard Widgets"
 msgstr ""
 
-#: includes/alter-options.php:74 includes/alter-options.php:561
+#: includes/alter-options.php:71 includes/alter-options.php:578
 msgid "Adminbar Options"
 msgstr ""
 
-#: includes/alter-options.php:75
+#: includes/alter-options.php:72
 msgid "Button/Metabox colors"
 msgstr ""
 
-#: includes/alter-options.php:76 includes/alter-options.php:873
+#: includes/alter-options.php:73 includes/alter-options.php:893
+msgid "Message Colors"
+msgstr ""
+
+#: includes/alter-options.php:74 includes/alter-options.php:1020
 msgid "Admin menu Colors"
 msgstr ""
 
-#: includes/alter-options.php:77 includes/alter-options.php:980
+#: includes/alter-options.php:75 includes/alter-options.php:1127
 msgid "Footer Options"
 msgstr ""
 
-#: includes/alter-options.php:89
+#: includes/alter-options.php:87
 msgid "Enable/Disable admin pages styles"
 msgstr ""
 
-#: includes/alter-options.php:94
+#: includes/alter-options.php:92
 msgid "Disable Alter styles for admin pages."
 msgstr ""
 
-#: includes/alter-options.php:97
+#: includes/alter-options.php:95
 msgid "Check to disable custom admin styles."
 msgstr ""
 
-#: includes/alter-options.php:102
+#: includes/alter-options.php:100
 msgid "Choose design type"
 msgstr ""
 
-#: includes/alter-options.php:106
+#: includes/alter-options.php:104
 msgid "Flat design"
 msgstr ""
 
-#: includes/alter-options.php:107
+#: includes/alter-options.php:105
 msgid "Default design"
 msgstr ""
 
-#: includes/alter-options.php:113
+#: includes/alter-options.php:111
 msgid "Page background color"
 msgstr ""
 
-#: includes/alter-options.php:118 includes/alter-options.php:278
+#: includes/alter-options.php:116 includes/alter-options.php:287
 msgid "Background color"
 msgstr ""
 
-#: includes/alter-options.php:125
+#: includes/alter-options.php:123
 msgid "Heading H1 color"
 msgstr ""
 
-#: includes/alter-options.php:132
+#: includes/alter-options.php:130
 msgid "Heading H2 color"
 msgstr ""
 
-#: includes/alter-options.php:139
+#: includes/alter-options.php:137
 msgid "Heading H3 color"
 msgstr ""
 
-#: includes/alter-options.php:146
+#: includes/alter-options.php:144
 msgid "Heading H4 color"
 msgstr ""
 
-#: includes/alter-options.php:153
+#: includes/alter-options.php:151
 msgid "Heading H5 color"
 msgstr ""
 
-#: includes/alter-options.php:160
+#: includes/alter-options.php:158
 msgid "Heading H6 color"
 msgstr ""
 
-#: includes/alter-options.php:167
+#: includes/alter-options.php:165
 msgid "Remove unwanted items"
 msgstr ""
 
-#: includes/alter-options.php:170 includes/alter-options.php:553
+#: includes/alter-options.php:168 includes/alter-options.php:570
 msgid "Select whichever you want to remove."
 msgstr ""
 
-#: includes/alter-options.php:172
+#: includes/alter-options.php:170
 msgid "Wordpress Help tab."
 msgstr ""
 
-#: includes/alter-options.php:173
+#: includes/alter-options.php:171
 msgid "Screen Options."
 msgstr ""
 
-#: includes/alter-options.php:174
+#: includes/alter-options.php:172
 msgid "Wordpress update notifications."
 msgstr ""
 
-#: includes/alter-options.php:175
+#: includes/alter-options.php:173
 msgid "Plugin update notifications from plugins page."
 msgstr ""
 
-#: includes/alter-options.php:180
+#: includes/alter-options.php:178
 msgid "Disable automatic updates"
 msgstr ""
 
-#: includes/alter-options.php:183
+#: includes/alter-options.php:181
 msgid "Select to disable all automatic background updates."
 msgstr ""
 
-#: includes/alter-options.php:188
+#: includes/alter-options.php:186
 msgid "Disable update emails"
 msgstr ""
 
-#: includes/alter-options.php:191
+#: includes/alter-options.php:189
 msgid "Select to disable emails regarding automatic updates."
 msgstr ""
 
-#: includes/alter-options.php:196
+#: includes/alter-options.php:194
 msgid "Hide Admin bar"
 msgstr ""
 
-#: includes/alter-options.php:199
+#: includes/alter-options.php:197
 msgid "Select to hideadmin bar on frontend."
 msgstr ""
 
-#: includes/alter-options.php:204
+#: includes/alter-options.php:202
 msgid "Hide Color picker from user profile"
 msgstr ""
 
-#: includes/alter-options.php:207
+#: includes/alter-options.php:205
 msgid "Select to hide Color picker from user profile."
 msgstr ""
 
-#: includes/alter-options.php:212
+#: includes/alter-options.php:210
 msgid "Menu Customization options"
 msgstr ""
 
-#: includes/alter-options.php:217
+#: includes/alter-options.php:215
 msgid "Disable Menu customization"
 msgstr ""
 
-#: includes/alter-options.php:220
+#: includes/alter-options.php:218
 msgid "Select to disable Alter menu customization feature."
 msgstr ""
 
-#: includes/alter-options.php:225
+#: includes/alter-options.php:223
 msgid "Menu display"
 msgstr ""
 
-#: includes/alter-options.php:229
+#: includes/alter-options.php:227
 msgid "Show all Menu links to all admin users"
 msgstr ""
 
-#: includes/alter-options.php:230
+#: includes/alter-options.php:228
 msgid "Show all Menu links to specific admin users"
 msgstr ""
 
-#: includes/alter-options.php:236
+#: includes/alter-options.php:234
 msgid "Select Privilege users"
 msgstr ""
 
-#: includes/alter-options.php:239
+#: includes/alter-options.php:237
 msgid "Select admin users who can have access to all menu items."
 msgstr ""
 
-#: includes/alter-options.php:245 includes/alter-options.php:531
+#: includes/alter-options.php:243 includes/alter-options.php:548
 msgid "Custom CSS"
 msgstr ""
 
-#: includes/alter-options.php:250
+#: includes/alter-options.php:248
 msgid "Custom CSS for Admin pages"
 msgstr ""
 
-#: includes/alter-options.php:264
+#: includes/alter-options.php:262
 msgid ""
 "Login page styles are disabled. Your customization would not work. Please "
 "enable it to display Alter custom styles."
 msgstr ""
 
-#: includes/alter-options.php:270
+#: includes/alter-options.php:268
 msgid "Disable Alter styles for login page."
 msgstr ""
 
-#: includes/alter-options.php:273 includes/alter-options.php:294
+#: includes/alter-options.php:271 includes/alter-options.php:303
 msgid "Check to disable"
 msgstr ""
 
-#: includes/alter-options.php:285
+#: includes/alter-options.php:276
+msgid "Login Style"
+msgstr ""
+
+#: includes/alter-options.php:280
+msgid "Wide Transparent (New)"
+msgstr ""
+
+#: includes/alter-options.php:281
+msgid "Default style"
+msgstr ""
+
+#: includes/alter-options.php:294
 msgid "Background image"
 msgstr ""
 
-#: includes/alter-options.php:291
+#: includes/alter-options.php:300
 msgid "Disable background image"
 msgstr ""
 
-#: includes/alter-options.php:307
+#: includes/alter-options.php:316
 msgid "Scale background image"
 msgstr ""
 
-#: includes/alter-options.php:310
+#: includes/alter-options.php:319
 msgid "Scale image to fit Screen size."
 msgstr ""
 
-#: includes/alter-options.php:324
+#: includes/alter-options.php:333
 msgid "Login Form Width in px"
 msgstr ""
 
-#: includes/alter-options.php:333 includes/alter-options.php:566
+#: includes/alter-options.php:339
+msgid "Recommended minimum width for Wide style is 550px."
+msgstr ""
+
+#: includes/alter-options.php:343 includes/alter-options.php:583
+msgid "External Logo url"
+msgstr ""
+
+#: includes/alter-options.php:346 includes/alter-options.php:586
+msgid "Load image from external source."
+msgstr ""
+
+#: includes/alter-options.php:350 includes/alter-options.php:590
 msgid "Upload Logo"
 msgstr ""
 
-#: includes/alter-options.php:336
+#: includes/alter-options.php:353
 msgid ""
 "Image to be displayed on login page. Maximum width should be under 450pixels."
 msgstr ""
 
-#: includes/alter-options.php:340
+#: includes/alter-options.php:357
 msgid "Resize Logo?"
 msgstr ""
 
-#: includes/alter-options.php:344
+#: includes/alter-options.php:361
 msgid "Select to resize logo size."
 msgstr ""
 
-#: includes/alter-options.php:348
+#: includes/alter-options.php:365
 msgid "Set Logo size in %"
 msgstr ""
 
-#: includes/alter-options.php:356
+#: includes/alter-options.php:373
 msgid "Logo Height"
 msgstr ""
 
-#: includes/alter-options.php:364
+#: includes/alter-options.php:381
 msgid "Logo url"
 msgstr ""
 
-#: includes/alter-options.php:371 includes/alter-options.php:591
+#: includes/alter-options.php:388 includes/alter-options.php:635
 msgid "Logo background color"
 msgstr ""
 
-#: includes/alter-options.php:378
+#: includes/alter-options.php:395
 msgid "Top margin for Logo"
 msgstr ""
 
-#: includes/alter-options.php:394
+#: includes/alter-options.php:411
 msgid "Login form background color"
 msgstr ""
 
-#: includes/alter-options.php:401
+#: includes/alter-options.php:418
 msgid "Login button color"
 msgstr ""
 
-#: includes/alter-options.php:408
+#: includes/alter-options.php:425
 msgid "Login button hover color"
 msgstr ""
 
-#: includes/alter-options.php:415
+#: includes/alter-options.php:432
 msgid "Login button text color"
 msgstr ""
 
-#: includes/alter-options.php:445
+#: includes/alter-options.php:462
 msgid "Form inputs text color"
 msgstr ""
 
-#: includes/alter-options.php:452
+#: includes/alter-options.php:469
 msgid "Form inputs placeholder text color"
 msgstr ""
 
-#: includes/alter-options.php:459
+#: includes/alter-options.php:476
 msgid "Form inputs border color"
 msgstr ""
 
-#: includes/alter-options.php:488
+#: includes/alter-options.php:505
 msgid "Form text color"
 msgstr ""
 
-#: includes/alter-options.php:495
+#: includes/alter-options.php:512
 msgid "Form link color"
 msgstr ""
 
-#: includes/alter-options.php:502
+#: includes/alter-options.php:519
 msgid "Form link hover color"
 msgstr ""
 
-#: includes/alter-options.php:509
+#: includes/alter-options.php:526
 msgid "Hide Back to blog link"
 msgstr ""
 
-#: includes/alter-options.php:513 includes/alter-options.php:521
+#: includes/alter-options.php:530 includes/alter-options.php:538
 msgid "select to hide"
 msgstr ""
 
-#: includes/alter-options.php:517
+#: includes/alter-options.php:534
 msgid "Hide Remember me"
 msgstr ""
 
-#: includes/alter-options.php:525
+#: includes/alter-options.php:542
 msgid "Custom Footer content"
 msgstr ""
 
-#: includes/alter-options.php:536
+#: includes/alter-options.php:553
 msgid "Custom CSS for Login page"
 msgstr ""
 
-#: includes/alter-options.php:550
+#: includes/alter-options.php:567
 msgid "Remove unwanted Widgets"
 msgstr ""
 
-#: includes/alter-options.php:569
+#: includes/alter-options.php:593
 msgid "Image to be displayed in all pages. Maximum size 200x50 pixels."
 msgstr ""
 
-#: includes/alter-options.php:573
-msgid "Move logo Top by"
+#: includes/alter-options.php:597
+msgid "Autofit logo"
 msgstr ""
 
-#: includes/alter-options.php:576 includes/alter-options.php:585
-msgid "Can be used in case of logo position haven't matched the menu position."
-msgstr ""
-
-#: includes/alter-options.php:582
-msgid "Move logo Bottom by"
-msgstr ""
-
-#: includes/alter-options.php:598
-msgid "Admin bar color"
+#: includes/alter-options.php:601
+msgid "Select to autofit logo in to admin bar."
 msgstr ""
 
 #: includes/alter-options.php:605
-msgid "Menu Link color"
+msgid "Logo horizontal position"
 msgstr ""
 
-#: includes/alter-options.php:612
-msgid "Menu Link hover color"
+#: includes/alter-options.php:608 includes/alter.widgets.class.php:146
+#: includes/alter.widgets.class.php:208
+msgid "Left"
 msgstr ""
 
-#: includes/alter-options.php:619
-msgid "Menu Link background hover color"
+#: includes/alter-options.php:609
+msgid "Center"
+msgstr ""
+
+#: includes/alter-options.php:613
+msgid "Select logo position."
+msgstr ""
+
+#: includes/alter-options.php:617
+msgid "Move logo Top by"
+msgstr ""
+
+#: includes/alter-options.php:620 includes/alter-options.php:629
+msgid "Can be used in case of logo position haven't matched the menu position."
 msgstr ""
 
 #: includes/alter-options.php:626
+msgid "Move logo Bottom by"
+msgstr ""
+
+#: includes/alter-options.php:642
+msgid "Admin bar color"
+msgstr ""
+
+#: includes/alter-options.php:649
+msgid "Menu Link color"
+msgstr ""
+
+#: includes/alter-options.php:656
+msgid "Menu Link hover color"
+msgstr ""
+
+#: includes/alter-options.php:663
+msgid "Menu Link background hover color"
+msgstr ""
+
+#: includes/alter-options.php:670
 msgid "Submenu Link color"
 msgstr ""
 
-#: includes/alter-options.php:633
+#: includes/alter-options.php:677
 msgid "Submenu Link hover color"
 msgstr ""
 
-#: includes/alter-options.php:640
+#: includes/alter-options.php:684
+msgid "Enable Admin bar shadow"
+msgstr ""
+
+#: includes/alter-options.php:691
+msgid "Enable Admin bar Logo shadow"
+msgstr ""
+
+#: includes/alter-options.php:695
+msgid ""
+"Using this option you can enable shadow only for Logo by disabling Admin bar "
+"shadow.\n"
+"      Logo shadow cannot be removed if Admin bar shadow option is enabled."
+msgstr ""
+
+#: includes/alter-options.php:700
 msgid "Remove items from Admin bar"
 msgstr ""
 
-#: includes/alter-options.php:650
+#: includes/alter-options.php:710
 msgid "Button/Metabox Colors"
 msgstr ""
 
-#: includes/alter-options.php:656 includes/alter-options.php:879
+#: includes/alter-options.php:716 includes/alter-options.php:1026
 msgid ""
 "Admin styles are disabled. Your customization would not work. Please enable "
 "it to display Alter custom styles."
 msgstr ""
 
-#: includes/alter-options.php:662
+#: includes/alter-options.php:722
 msgid "Primary button colors"
 msgstr ""
 
-#: includes/alter-options.php:667
+#: includes/alter-options.php:727
 msgid "Button background  color"
 msgstr ""
 
-#: includes/alter-options.php:675 includes/alter-options.php:740
+#: includes/alter-options.php:735 includes/alter-options.php:800
 msgid "Button border color"
 msgstr ""
 
-#: includes/alter-options.php:682 includes/alter-options.php:747
+#: includes/alter-options.php:742 includes/alter-options.php:807
 msgid "Button shadow color"
 msgstr ""
 
-#: includes/alter-options.php:690 includes/alter-options.php:755
+#: includes/alter-options.php:750 includes/alter-options.php:815
 msgid "Button text color"
 msgstr ""
 
-#: includes/alter-options.php:697 includes/alter-options.php:762
+#: includes/alter-options.php:757 includes/alter-options.php:822
 msgid "Button hover background color"
 msgstr ""
 
-#: includes/alter-options.php:705 includes/alter-options.php:770
+#: includes/alter-options.php:765 includes/alter-options.php:830
 msgid "Button hover border color"
 msgstr ""
 
-#: includes/alter-options.php:712 includes/alter-options.php:777
+#: includes/alter-options.php:772 includes/alter-options.php:837
 msgid "Button hover shadow color"
 msgstr ""
 
-#: includes/alter-options.php:720 includes/alter-options.php:785
+#: includes/alter-options.php:780 includes/alter-options.php:845
 msgid "Button hover text color"
 msgstr ""
 
-#: includes/alter-options.php:727
+#: includes/alter-options.php:787
 msgid "Secondary button colors"
 msgstr ""
 
-#: includes/alter-options.php:732
+#: includes/alter-options.php:792
 msgid "Button background color"
 msgstr ""
 
-#: includes/alter-options.php:792
+#: includes/alter-options.php:852
 msgid "Metabox Colors"
 msgstr ""
 
-#: includes/alter-options.php:797
+#: includes/alter-options.php:857
 msgid "Metabox header box"
 msgstr ""
 
-#: includes/alter-options.php:804
+#: includes/alter-options.php:864
 msgid "Metabox header box border"
 msgstr ""
 
-#: includes/alter-options.php:811
+#: includes/alter-options.php:871
 msgid "Metabox header Click button color"
 msgstr ""
 
-#: includes/alter-options.php:818
+#: includes/alter-options.php:878
 msgid "Metabox header Click button hover color"
 msgstr ""
 
-#: includes/alter-options.php:825
+#: includes/alter-options.php:885
 msgid "Metabox header text color"
 msgstr ""
 
-#: includes/alter-options.php:832
-msgid "Message box (Post/Page updates)"
+#: includes/alter-options.php:898
+msgid "Message box (Updates)"
 msgstr ""
 
-#: includes/alter-options.php:837
+#: includes/alter-options.php:903 includes/alter-options.php:943
+#: includes/alter-options.php:983
 msgid "Message box color"
 msgstr ""
 
-#: includes/alter-options.php:844
+#: includes/alter-options.php:910 includes/alter-options.php:950
+#: includes/alter-options.php:990
 msgid "Message text color"
 msgstr ""
 
-#: includes/alter-options.php:851
+#: includes/alter-options.php:917 includes/alter-options.php:957
+#: includes/alter-options.php:997
 msgid "Message box border color"
 msgstr ""
 
-#: includes/alter-options.php:858
+#: includes/alter-options.php:924 includes/alter-options.php:964
+#: includes/alter-options.php:1004
 msgid "Message link color"
 msgstr ""
 
-#: includes/alter-options.php:865
+#: includes/alter-options.php:931 includes/alter-options.php:971
+#: includes/alter-options.php:1011
 msgid "Message link hover color"
 msgstr ""
 
-#: includes/alter-options.php:885
+#: includes/alter-options.php:938
+msgid "Message box (Warnings)"
+msgstr ""
+
+#: includes/alter-options.php:978
+msgid "Message box (Error)"
+msgstr ""
+
+#: includes/alter-options.php:1032
 msgid "Admin menu width"
 msgstr ""
 
-#: includes/alter-options.php:894
+#: includes/alter-options.php:1041
 msgid "Admin Menu Color options"
 msgstr ""
 
-#: includes/alter-options.php:899
+#: includes/alter-options.php:1046
 msgid "Left menu wrap color"
 msgstr ""
 
-#: includes/alter-options.php:906
+#: includes/alter-options.php:1053
 msgid "Submenu wrap color"
 msgstr ""
 
-#: includes/alter-options.php:913
+#: includes/alter-options.php:1060
 msgid "Menu text color"
 msgstr ""
 
-#: includes/alter-options.php:920
+#: includes/alter-options.php:1067
 msgid "Menu hover color"
 msgstr ""
 
-#: includes/alter-options.php:927
+#: includes/alter-options.php:1074
 msgid "Menu hover text color"
 msgstr ""
 
-#: includes/alter-options.php:934
+#: includes/alter-options.php:1081
 msgid "Active Menu color"
 msgstr ""
 
-#: includes/alter-options.php:941
+#: includes/alter-options.php:1088
 msgid "Active Menu text color"
 msgstr ""
 
-#: includes/alter-options.php:948
+#: includes/alter-options.php:1095
 msgid "Active submenu text color"
 msgstr ""
 
-#: includes/alter-options.php:955
+#: includes/alter-options.php:1102
 msgid "Menu separator line color"
 msgstr ""
 
-#: includes/alter-options.php:962
+#: includes/alter-options.php:1109
 msgid "Updates Count notification background"
 msgstr ""
 
-#: includes/alter-options.php:969
+#: includes/alter-options.php:1116
 msgid "Updates Count text color"
 msgstr ""
 
-#: includes/alter-options.php:985
+#: includes/alter-options.php:1132
 msgid "Footer Text"
 msgstr ""
 
-#: includes/alter-options.php:988
+#: includes/alter-options.php:1135
 msgid "Put any text you want to show on admin footer."
 msgstr ""
 
-#: includes/alter-options.php:994
+#: includes/alter-options.php:1141
 msgid "Email Options"
 msgstr ""
 
-#: includes/alter-options.php:999
+#: includes/alter-options.php:1146
 msgid "White Label emails"
 msgstr ""
 
-#: includes/alter-options.php:1002
+#: includes/alter-options.php:1149
 msgid "Disable White Label emails"
 msgstr ""
 
-#: includes/alter-options.php:1003
+#: includes/alter-options.php:1150
 #, php-format
 msgid "Set Email address as <strong> %1$s </strong> From name as <strong> %2$s"
 msgstr ""
 
-#: includes/alter-options.php:1004
+#: includes/alter-options.php:1151
 msgid "Set different"
 msgstr ""
 
-#: includes/alter-options.php:1011
+#: includes/alter-options.php:1158
 msgid "Email From address"
 msgstr ""
 
-#: includes/alter-options.php:1014
+#: includes/alter-options.php:1161
 msgid "Enter valid email address"
 msgstr ""
 
-#: includes/alter-options.php:1018
+#: includes/alter-options.php:1165
 msgid "Email From name"
 msgstr ""
 
@@ -691,36 +781,40 @@ msgstr ""
 msgid "Visit Knowledgebase"
 msgstr ""
 
-#: includes/alter.class.php:271
+#: includes/alter.class.php:266
 msgid "Change Text"
 msgstr ""
 
-#: includes/alter.class.php:281
+#: includes/alter.class.php:276
 msgid "Change text on admin pages"
 msgstr ""
 
-#: includes/alter.class.php:291 includes/alter.class.php:327
-#: includes/alter.widgets.class.php:142 includes/alter.widgets.class.php:204
+#: includes/alter.class.php:286 includes/alter.class.php:322
+#: includes/alter.widgets.class.php:126 includes/alter.widgets.class.php:188
 msgid "Remove"
 msgstr ""
 
-#: includes/alter.class.php:294 includes/alter.class.php:330
+#: includes/alter.class.php:289 includes/alter.class.php:325
 msgid "Text to find"
 msgstr ""
 
-#: includes/alter.class.php:303 includes/alter.class.php:339
+#: includes/alter.class.php:298 includes/alter.class.php:334
 msgid "Text to replace"
 msgstr ""
 
-#: includes/alter.class.php:313 includes/alter.class.php:349
+#: includes/alter.class.php:308 includes/alter.class.php:344
 msgid "Case sensitive?"
 msgstr ""
 
-#: includes/alter.class.php:361
+#: includes/alter.class.php:356
 msgid "Add text"
 msgstr ""
 
-#: includes/alter.class.php:506
+#: includes/alter.class.php:360 includes/alter.widgets.class.php:252
+msgid "Save Now"
+msgstr ""
+
+#: includes/alter.class.php:501
 #, php-format
 msgid "Howdy, %1$s"
 msgstr ""
@@ -840,51 +934,51 @@ msgstr ""
 msgid "theme Imported!"
 msgstr ""
 
-#: includes/alter.widgets.class.php:124
+#: includes/alter.themes.class.php:76
+msgid "Import Theme"
+msgstr ""
+
+#: includes/alter.widgets.class.php:108
 msgid "Add Widgets"
 msgstr ""
 
-#: includes/alter.widgets.class.php:130
+#: includes/alter.widgets.class.php:114
 msgid "Add Custom Dashboard Widgets"
 msgstr ""
 
-#: includes/alter.widgets.class.php:145 includes/alter.widgets.class.php:207
+#: includes/alter.widgets.class.php:129 includes/alter.widgets.class.php:191
 msgid "Widget type"
 msgstr ""
 
-#: includes/alter.widgets.class.php:149 includes/alter.widgets.class.php:211
+#: includes/alter.widgets.class.php:133 includes/alter.widgets.class.php:195
 msgid "Custom content"
 msgstr ""
 
-#: includes/alter.widgets.class.php:150 includes/alter.widgets.class.php:212
+#: includes/alter.widgets.class.php:134 includes/alter.widgets.class.php:196
 msgid "RSS"
 msgstr ""
 
-#: includes/alter.widgets.class.php:157 includes/alter.widgets.class.php:219
+#: includes/alter.widgets.class.php:141 includes/alter.widgets.class.php:203
 msgid "Widget position"
 msgstr ""
 
-#: includes/alter.widgets.class.php:162 includes/alter.widgets.class.php:224
-msgid "Left"
-msgstr ""
-
-#: includes/alter.widgets.class.php:163 includes/alter.widgets.class.php:225
+#: includes/alter.widgets.class.php:147 includes/alter.widgets.class.php:209
 msgid "Right"
 msgstr ""
 
-#: includes/alter.widgets.class.php:170 includes/alter.widgets.class.php:232
+#: includes/alter.widgets.class.php:154 includes/alter.widgets.class.php:216
 msgid "Widget title"
 msgstr ""
 
-#: includes/alter.widgets.class.php:180 includes/alter.widgets.class.php:242
+#: includes/alter.widgets.class.php:164 includes/alter.widgets.class.php:226
 msgid "Widget RSS url"
 msgstr ""
 
-#: includes/alter.widgets.class.php:190 includes/alter.widgets.class.php:252
+#: includes/alter.widgets.class.php:174 includes/alter.widgets.class.php:236
 msgid "Widget content (Accepts WP shortcodes)"
 msgstr ""
 
-#: includes/alter.widgets.class.php:264
+#: includes/alter.widgets.class.php:248
 msgid "Add new widget"
 msgstr ""
 

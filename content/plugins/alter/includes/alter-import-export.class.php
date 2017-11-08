@@ -54,7 +54,7 @@ if (!class_exists('ALTER_IMP_EXP')) {
                     <form name="alter_master_reset_form" method="post" onsubmit="return confirm('Do you really want to Reset?');">
                     <input type="hidden" name="reset_to_default" value="alter_master_reset" />
                     <?php wp_nonce_field('alter_reset_nonce','alter_reset_field'); ?>
-                    <input class="button button-primary button-hero" type="submit" value="Reset All Settings" />
+                    <input class="button button-primary button-hero" type="submit" value="<?php echo __('Reset All Settings', 'alter'); ?>" />
                     </form>
                 </div>
 
@@ -69,7 +69,7 @@ if (!class_exists('ALTER_IMP_EXP')) {
                 <form name="alter_import_settings_form" method="post" action="">
                         <input type="hidden" name="alter_import_settings" value="1" />
                         <textarea class="widefat" name="alter_import_settings_data" rows="10" ></textarea><br /><br />
-                        <input class="button button-primary button-hero" type="submit" value="Import Settings" />
+                        <input class="button button-primary button-hero" type="submit" value="<?php echo __('Import Settings', 'alter'); ?>" />
                 <?php wp_nonce_field('alter_import_settings_nonce','alter_import_settings_field'); ?>
                 </form>
                 </div>
