@@ -22,7 +22,7 @@ final class FLThemeCompat {
 	 */
 	static function fix_cred_preview( $show_full ) {
 
-		if( isset( $_REQUEST['cred_form_preview'] ) ) {
+		if ( isset( $_REQUEST['cred_form_preview'] ) ) {
 			return true;
 		}
 		return $show_full;

@@ -14,16 +14,16 @@ FLCustomizer::add_panel('fl-code', array(
 				'fl-css-code' => array(
 					'setting'   => array(
 						'default'   => '',
-						'transport' => 'postMessage'
+						'transport' => 'postMessage',
 					),
 					'control'   => array(
-						'description'   => __('CSS entered in the box below will be rendered within &lt;style&gt; tags.', 'fl-automator'),
+						'description'   => __( 'CSS entered in the box below will be rendered within &lt;style&gt; tags.', 'fl-automator' ),
 						'class'         => 'FLCustomizerControl',
 						'type'          => 'code',
-						'mode'          => 'css'
-					)
-				)
-			)
+						'mode'          => 'css',
+					),
+				),
+			),
 		),
 
 		/* JavaScript Section */
@@ -35,17 +35,17 @@ FLCustomizer::add_panel('fl-code', array(
 				'fl-js-code' => array(
 					'setting'   => array(
 						'default'   => '',
-						'transport' => 'postMessage'
+						'transport' => 'postMessage',
 					),
 					'control'   => array(
-						'description'   	=> __('JavaScript entered in the box below will be rendered within &lt;script&gt; tags.', 'fl-automator'),
+						'description'   	=> __( 'JavaScript entered in the box below will be rendered within &lt;script&gt; tags.', 'fl-automator' ),
 						'class'         	=> 'FLCustomizerControl',
 						'type'          	=> 'code',
 						'mode'          	=> 'javascript',
-						'preview_button' 	=> true
-					)
-				)
-			)
+						'preview_button' 	=> true,
+					),
+				),
+			),
 		),
 
 		/* Head Section */
@@ -57,16 +57,16 @@ FLCustomizer::add_panel('fl-code', array(
 				'fl-head-code' => array(
 					'setting'   => array(
 						'default'   => '',
-						'transport' => 'postMessage'
+						'transport' => 'postMessage',
 					),
 					'control'   => array(
-						'description'   	=> __('Code entered in the box below will be rendered within the page &lt;head&gt; tag.', 'fl-automator'),
+						'description'   	=> __( 'Code entered in the box below will be rendered within the page &lt;head&gt; tag.', 'fl-automator' ),
 						'class'         	=> 'FLCustomizerControl',
 						'type'          	=> 'code',
-						'preview_button' 	=> true
-					)
-				)
-			)
+						'preview_button' 	=> true,
+					),
+				),
+			),
 		),
 
 		/* Header Section */
@@ -78,16 +78,16 @@ FLCustomizer::add_panel('fl-code', array(
 				'fl-header-code' => array(
 					'setting'   => array(
 						'default'   => '',
-						'transport' => 'postMessage'
+						'transport' => 'postMessage',
 					),
 					'control'   => array(
-						'description'   	=> __('Code entered in the box below will be rendered directly after the opening &lt;body&gt; tag.', 'fl-automator'),
+						'description'   	=> __( 'Code entered in the box below will be rendered directly after the opening &lt;body&gt; tag.', 'fl-automator' ),
 						'class'         	=> 'FLCustomizerControl',
 						'type'          	=> 'code',
-						'preview_button' 	=> true
-					)
-				)
-			)
+						'preview_button' 	=> true,
+					),
+				),
+			),
 		),
 
 		/* Footer Section */
@@ -99,16 +99,16 @@ FLCustomizer::add_panel('fl-code', array(
 				'fl-footer-code' => array(
 					'setting'   => array(
 						'default'   => '',
-						'transport' => 'postMessage'
+						'transport' => 'postMessage',
 					),
 					'control'   => array(
-						'description'   	=> __('Code entered in the box below will be rendered directly before the closing &lt;body&gt; tag.', 'fl-automator'),
+						'description'   	=> __( 'Code entered in the box below will be rendered directly before the closing &lt;body&gt; tag.', 'fl-automator' ),
 						'class'         	=> 'FLCustomizerControl',
 						'type'          	=> 'code',
-						'preview_button' 	=> true
-					)
-				)
-			)
-		)
-	)
+						'preview_button' 	=> true,
+					),
+				),
+			),
+		),
+	),
 ));

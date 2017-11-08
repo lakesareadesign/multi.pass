@@ -126,7 +126,12 @@ final class FLTheme {
 	 * @return void
 	 */
 	static public function enqueue_scripts() {
-		$min     = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
+
+		if ( method_exists( 'FLBuilder', 'is_debug' ) ) {
+			$min = ( FLBuilder::is_debug() ) ? '' : '.min';
+		} else {
+			$min = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
+		}
 
 		// Fonts
 		wp_enqueue_style( 'font-awesome', FL_THEME_URL . '/css/font-awesome.min.css', array(), FL_THEME_VERSION );
@@ -201,7 +206,7 @@ final class FLTheme {
 		));
 
 		// Footer Widgets
-		if ( $footer_widgets_display != 'disabled' ) {
+		if ( 'disabled' != $footer_widgets_display ) {
 			register_sidebars( 4, array(
 				'name'          => _x( 'Footer Column %d', 'Sidebar title. %d stands for the order number of the auto-created sidebar, 4 in total.', 'fl-automator' ),
 				'id'            => 'footer-col',
@@ -213,7 +218,7 @@ final class FLTheme {
 		}
 
 		// WooCommerce Sidebar
-		if ( $woo_layout != 'no-sidebar' && self::is_plugin_active( 'woocommerce' ) ) {
+		if ( 'no-sidebar' != $woo_layout && self::is_plugin_active( 'woocommerce' ) ) {
 			register_sidebar( array(
 				'name'          => __( 'WooCommerce Sidebar', 'fl-automator' ),
 				'id'            => 'woo-sidebar',
@@ -298,7 +303,7 @@ final class FLTheme {
 		self::add_font( $settings['fl-heading-font-family'], $settings['fl-heading-font-weight'] );
 		self::add_font( $settings['fl-nav-font-family'], $settings['fl-nav-font-weight'] );
 
-		if ( $settings['fl-logo-type'] == 'text' ) {
+		if ( 'text' == $settings['fl-logo-type'] ) {
 			self::add_font( $settings['fl-logo-font-family'], $settings['fl-logo-font-weight'] );
 		}
 
@@ -465,6 +470,11 @@ final class FLTheme {
 			$classes[] = 'fl-submenu-indicator';
 		}
 
+		// Submenu Toggle
+		if ( self::get_setting( 'fl-nav-submenu-toggle' ) == 'enable' ) {
+			$classes[] = 'fl-submenu-toggle';
+		}
+
 		return $classes;
 	}
 
@@ -528,7 +538,7 @@ final class FLTheme {
 		$top_bar_layout  = self::get_setting( 'fl-topbar-layout' );
 		$top_bar_enabled = apply_filters( 'fl_topbar_enabled', true );
 
-		if ( $top_bar_layout != 'none' && $top_bar_enabled ) {
+		if ( 'none' != $top_bar_layout && $top_bar_enabled ) {
 			get_template_part( 'includes/top-bar' );
 		}
 	}
@@ -619,10 +629,10 @@ final class FLTheme {
 
 		do_action( 'fl_header_content_open' );
 
-		if ( $layout == 'text' || $layout == 'social-text' ) {
+		if ( 'text' == $layout || 'social-text' == $layout ) {
 			echo '<div class="fl-page-header-text">' . do_shortcode( $text ) . '</div>';
 		}
-		if ( $layout == 'social' || $layout == 'social-text' ) {
+		if ( 'social' == $layout || 'social-text' == $layout ) {
 			self::social_icons();
 		}
 
@@ -633,26 +643,32 @@ final class FLTheme {
 	 * Renders the header logo text or image.
 	 *
 	 * @since 1.0
+	 * @deprecated 1.6.3 Use 'fl_logo_text' instead
 	 * @return void
 	 */
 	static public function logo() {
 		$logo_type      = self::get_setting( 'fl-logo-type' );
 		$logo_image     = self::get_setting( 'fl-logo-image' );
 		$logo_retina    = self::get_setting( 'fl-logo-image-retina' );
-		$logo_text      = apply_filters( 'fl-logo-text', self::get_setting( 'fl-logo-text' ) );
 		$sticky_logo    = self::get_setting( 'fl-sticky-header-logo' );
 		$header_fixed   = self::get_setting( 'fl-fixed-header' );
+
+		if ( function_exists( 'apply_filters_deprecated' ) ) {
+			$logo_text    = apply_filters_deprecated( 'fl-logo-text', array( self::get_setting( 'fl-logo-text' ) ), '1.6.3', 'fl_logo_text' );
+		} else {
+			$logo_text    = apply_filters( 'fl-logo-text', self::get_setting( 'fl-logo-text' ) ); // @codingStandardsIgnoreLine
+		}
 
 		if ( ! $sticky_logo ) {
 			$sticky_logo = $logo_image;
 		}
 
-		if ( $logo_type == 'image' ) {
+		if ( 'image' == $logo_type ) {
 			$logo_text = get_bloginfo( 'name' );
 			echo '<img class="fl-logo-img" itemscope itemtype="http://schema.org/ImageObject" src="' . $logo_image . '"';
 			echo ' data-retina="' . $logo_retina . '"';
 			echo ' alt="' . esc_attr( $logo_text ) . '" />';
-			if ( $header_fixed == 'fadein' ) {
+			if ( 'fadein' == $header_fixed ) {
 				echo '<img class="sticky-logo fl-logo-img" itemscope itemtype="http://schema.org/ImageObject" src="' . $sticky_logo . '"';
 				echo ' alt="' . esc_attr( $logo_text ) . '" />';
 			}
@@ -671,7 +687,7 @@ final class FLTheme {
 	static public function nav_search() {
 		$nav_search = self::get_setting( 'fl-header-nav-search' );
 
-		if ( $nav_search == 'visible' ) {
+		if ( 'visible' == $nav_search ) {
 			get_template_part( 'includes/nav-search' );
 		}
 	}
@@ -740,7 +756,7 @@ final class FLTheme {
 		$footer_layout  = self::get_setting( 'fl-footer-layout' );
 		$footer_enabled = apply_filters( 'fl_footer_enabled', true );
 
-		return $footer_enabled && ( self::has_footer_widgets() || $footer_layout != 'none' );
+		return $footer_enabled && ( self::has_footer_widgets() || 'none' != $footer_layout );
 	}
 
 	/**
@@ -764,13 +780,13 @@ final class FLTheme {
 	static public function has_footer_widgets() {
 		$show = self::get_setting( 'fl-footer-widgets-display' );
 
-		if ( $show == 'disabled' || ( ! is_front_page() && $show == 'home') ) {
+		if ( 'disabled' == $show || ( ! is_front_page() && 'home' == $show ) ) {
 			return false;
 		}
 
 		for ( $i = 1; $i <= 4; $i++ ) {
 
-			$id = $i == 1 ? 'footer-col' : 'footer-col-' . $i;
+			$id = 1 == $i ? 'footer-col' : 'footer-col-' . $i;
 
 			if ( is_active_sidebar( $id ) ) {
 				return true;
@@ -792,7 +808,7 @@ final class FLTheme {
 
 		for ( $i = 1; $i <= 4; $i++ ) {
 
-			$id = $i == 1 ? 'footer-col' : 'footer-col-' . $i;
+			$id = 1 == $i ? 'footer-col' : 'footer-col-' . $i;
 
 			if ( is_active_sidebar( $id ) ) {
 				$active[] = $id;
@@ -820,7 +836,7 @@ final class FLTheme {
 	static public function footer() {
 		$footer_layout = self::get_setting( 'fl-footer-layout' );
 
-		if ( $footer_layout != 'none' ) {
+		if ( 'none' != $footer_layout ) {
 			get_template_part( 'includes/footer' );
 		}
 	}
@@ -896,7 +912,6 @@ final class FLTheme {
 		$is_woo       	= ('woo' == $section && class_exists( 'WooCommerce' )) ? true : false;
 		$show_sidebar 	= false;
 		$get_post_type 	= get_query_var( 'post_type' );
-
 		if ( in_array( 'single', $locations ) && is_single() ) {
 			$show_sidebar = true;
 
@@ -906,7 +921,6 @@ final class FLTheme {
 				$show_sidebar = false;
 			}
 		}
-
 		if ( in_array( 'blog', $locations ) && is_home() ) {
 			$show_sidebar = true;
 		}
@@ -925,8 +939,17 @@ final class FLTheme {
 			}
 		}
 
-		if ( is_page() && 'tpl-sidebar.php' === basename( get_page_template() ) ) {
-			$show_sidebar = true;
+		// do we show sidebars on pages?
+		// @since 1.6.3
+		if ( is_page() ) {
+			$page_template = basename( get_page_template() );
+			switch ( $page_template ) {
+				case 'tpl-full-width.php' :
+					$show_sidebar = false;
+				break;
+				default :
+					$show_sidebar = true;
+			}
 		}
 
 		if ( $is_woo && is_shop() && in_array( 'shop', $locations ) ) {
@@ -956,9 +979,9 @@ final class FLTheme {
 		$sidebar_size = self::get_setting( 'fl-' . $section . '-sidebar-size' );
 		$content_size = '8';
 
-		if ( $sidebar_size == '2' ) {
+		if ( '2' == $sidebar_size ) {
 			$content_size = '10';
-		} elseif ( $sidebar_size == '3' ) {
+		} elseif ( '3' == $sidebar_size ) {
 			$content_size = '9';
 		}
 
@@ -1074,10 +1097,10 @@ final class FLTheme {
 		global $post;
 
 		$settings       = self::get_settings();
-		$show_author    = $settings['fl-blog-post-author'] == 'visible' ? true : false;
-		$show_date      = $settings['fl-blog-post-date'] == 'visible' ? true : false;
+		$show_author    = 'visible' == $settings['fl-blog-post-author'] ? true : false;
+		$show_date      = 'visible' == $settings['fl-blog-post-date']   ? true : false;
 		$comments       = comments_open() || '0' != get_comments_number();
-		$comment_count  = $settings['fl-blog-comment-count'] == 'visible' ? true : false;
+		$comment_count  = 'visible' == $settings['fl-blog-comment-count'] ? true : false;
 
 		include locate_template( 'includes/post-top-meta.php' );
 	}
@@ -1091,8 +1114,8 @@ final class FLTheme {
 	static public function post_bottom_meta() {
 		$settings  = self::get_settings();
 		$show_full = $settings['fl-archive-show-full'];
-		$show_cats = $settings['fl-posts-show-cats'] == 'visible' ? true : false;
-		$show_tags = $settings['fl-posts-show-tags'] == 'visible' && get_the_tags() ? true : false;
+		$show_cats = 'visible' == $settings['fl-posts-show-cats'] ? true : false;
+		$show_tags = 'visible' == $settings['fl-posts-show-tags'] && get_the_tags() ? true : false;
 		$comments  = comments_open() || '0' != get_comments_number();
 
 		include locate_template( 'includes/post-bottom-meta.php' );
@@ -1201,7 +1224,7 @@ final class FLTheme {
 	 */
 	static public function woocommerce_wrapper_start() {
 		$layout = self::get_setting( 'fl-woo-layout' );
-		$col_size = $layout == 'no-sidebar' ? '12' : '8';
+		$col_size = ( 'no-sidebar' == $layout ) ? '12' : '8';
 
 		echo '<div class="container">';
 		echo '<div class="row">';

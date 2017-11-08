@@ -1,3 +1,24 @@
+<h4>1.6.3 - 11/08/2017</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>New filter <code>fl_theme_compile_less</code>. Accepts array of files to be passed to lessc.</li>
+	<li>Added screen reader accessibility for social icons.</li>
+	<li>Added toggle logic for sub-menu on mobile devices.</li>
+	<li>Added Events Calendar support; CSS for archives.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Removed duplicate class attribute from nav search.</li>
+	<li>Fixed multiple current menu items. Made sure there is only one current menu item specified in the nav.</li>
+	<li>Fixed the Themer footer layout for vertical nav.</li>
+	<li>Changed width for post header and comments. It should now use the Content Width from customizer setting.</li>
+	<li>Fixed various WooCommerce styling issues.</li>
+	<li>Fixed various MegaMenu issues.</li>
+	<li>Fixed issue with WooCommerce remove from cart being hidden on mobile.</li>
+	<li>Fixed sidebar issue on pages using custom template files.</li>
+	<li>Deprecated <code>fl-logo-text</code> filter, use <code>fl_logo_text</code> instead.</li>
+</ul>
+
 <h4>1.6.2 - 08/17/2017</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

@@ -167,14 +167,16 @@ It's being used in the theme.less for media queries when enabled in the customiz
 					color: @mobile-nav-fg-hover-color;
 				}
 			}
-
-			ul.sub-menu li {
-				border-color: @mobile-nav-btn-color;
-				a {
-					color: @mobile-nav-fg-link-color;
-					&:hover {
-						color: @mobile-nav-fg-hover-color;
-					}
+			> li.current-menu-item ~ li.current-menu-item > a {
+				color: @mobile-nav-fg-link-color;
+			}
+		}
+		ul.sub-menu li {
+			border-color: @mobile-nav-btn-color;
+			a {
+				color: @mobile-nav-fg-link-color;
+				&:hover {
+					color: @mobile-nav-fg-hover-color;
 				}
 			}
 		}
@@ -231,6 +233,36 @@ It's being used in the theme.less for media queries when enabled in the customiz
 			&.fl-mobile-sub-menu-open {
 				ul.sub-menu {
 					position: static;
+				}
+			}
+		}
+	}
+
+	/* Nav Submenu Toggle
+	----------------------------------------------------------- */
+	.fl-submenu-toggle & {
+		.fl-page-nav ul.navbar-nav {
+			.sub-menu {
+				position: absolute;
+			}
+			li {
+				&.menu-item-has-children > a:after {
+					content: '\f107';
+					font-family: FontAwesome;
+					float: right;
+				}
+				&.fl-mobile-sub-menu-open {
+					> a:after {
+						content: '\f106';
+						font-family: FontAwesome;
+						float: right;
+					}
+					> ul.sub-menu {
+						position: static;
+					}
+				}
+				a {
+					padding: 15px;
 				}
 			}
 		}
@@ -406,6 +438,9 @@ when not( @bg-image = none ) {
 		&.current-menu-item > a {
 			color: @fg-hover-color;
 		}
+	}
+	.navbar-nav li.current-menu-item ~ li.current-menu-item > a {
+		color: @fg-color;
 	}
 }
 

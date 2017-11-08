@@ -2,8 +2,8 @@
 
 WARNING! DO NOT EDIT THEME FILES IF YOU PLAN ON UPDATING!
 
-Theme files will be overwritten and your changes will be lost 
-when updating. Instead, add custom code in the admin under 
+Theme files will be overwritten and your changes will be lost
+when updating. Instead, add custom code in the admin under
 Appearance > Theme Settings > Code or create a child theme.
 
 */
@@ -21,13 +21,13 @@ div.woocommerce h3 {
 
 .woocommerce,
 .woocommerce-page {
-	
+
 	/* General
 	----------------------------------------------------------- */
 
 	ul.products li.product .price,
 	.woocommerce-breadcrumb,
-	div.product span.price, 
+	div.product span.price,
 	div.product p.price,
 	div.product .stock {
 		color: @text-color;
@@ -42,11 +42,11 @@ div.woocommerce h3 {
 	}
 	.product .price ins {
 		text-decoration: none;
-	}   
+	}
 
 	/* Columns
 	----------------------------------------------------------- */
-	
+
 	.col2-set {
 		.col-1,
 		.col-2 {
@@ -59,10 +59,10 @@ div.woocommerce h3 {
 			width: 100%;
 		}
 	}
-	
+
 	/* Lightbox
 	----------------------------------------------------------- */
-	
+
 	.ppt,
 	.pp_description {
 		display: none !important;
@@ -99,11 +99,11 @@ div.woocommerce h3 {
 
 	/* Buttons
 	----------------------------------------------------------- */
-	
-	a.button, 
-	button.button, 
-	input.button, 
-	#respond input#submit, 
+
+	a.button,
+	button.button,
+	input.button,
+	#respond input#submit,
 	#content input.button {
 		background: @content-bg-color-2;
 		color: @text-color;
@@ -155,7 +155,7 @@ div.woocommerce h3 {
 
 	/* Forms
 	----------------------------------------------------------- */
-	
+
 	form .form-row input.input-text,
 	form .form-row textarea,
 	form .form-row select,
@@ -191,12 +191,12 @@ div.woocommerce h3 {
 	form .form-row textarea {
 		height: 160px;
 	}
-	form.login, 
-	form.checkout_coupon, 
+	form.login,
+	form.checkout_coupon,
 	form.register {
 		border: 1px solid @border-color;
 	}
-	
+
 	/* Select2 Styles */
 	.chzn-container-active .chzn-single {
 		border: 1px solid @accent-color;
@@ -208,7 +208,7 @@ div.woocommerce h3 {
 			color: @accent-fg-color;
 		}
 	}
-	
+
 	/* Categories
 	----------------------------------------------------------- */
 
@@ -293,7 +293,7 @@ div.woocommerce h3 {
 					padding: 6px 10px;
 				}
 				a:hover,
-				span.current {                  
+				span.current {
 					border-color: @border-color;
 					color: @accent-fg-color;
 					background: @accent-color;
@@ -301,10 +301,10 @@ div.woocommerce h3 {
 			}
 		}
 	}
-	
+
 	/* Single Products
 	----------------------------------------------------------- */
-	
+
 	.product_meta {
 		border-top: 1px solid @border-color;
 		padding-top: 10px;
@@ -322,7 +322,7 @@ div.woocommerce h3 {
 			text-shadow: none;
 			.fl-box-shadow(none);
 		}
-		.plus, 
+		.plus,
 		.minus {
 			background: @content-bg-color !important;
 			border-color: @border-color-2;
@@ -355,7 +355,7 @@ div.woocommerce h3 {
 		.related.products {
 			clear: both;
 		}
-		span.price del, 
+		span.price del,
 		p.price del {
 			font-size: inherit;
 		}
@@ -464,9 +464,9 @@ div.woocommerce h3 {
 			padding-top: 20px;
 		}
 	}
-	table.shop_attributes td, 
+	table.shop_attributes td,
 	table.shop_attributes th,
-	table.shop_attributes .alt td, 
+	table.shop_attributes .alt td,
 	table.shop_attributes .alt th  {
 		background: none;
 		border-bottom: 1px solid @border-color;
@@ -480,26 +480,27 @@ div.woocommerce h3 {
 	.label, .value {
 	  white-space: normal;
 	}
-		
+
 	/* Cart
 	----------------------------------------------------------- */
-	
+
 	table.cart {
-		th.product-quantity {
-			text-align: center;
-		}
-		.product-remove,
-		.product-thumbnail,
-		.product-price {
-			display: none;
-		}
-		a.remove {
-			color: fade(@text-color, 50%);
-			&:hover {
-				background-color: transparent;
-				color: @text-color;
-			}
-		}
+		// NOTE removed to fix woo3.0
+		// th.product-quantity {
+		// 	text-align: center;
+		// }
+		// .product-remove,
+		// .product-thumbnail,
+		// .product-price {
+		// 	display: none;
+		// }
+		// a.remove {
+		// 	color: fade(@text-color, 50%);
+		// 	&:hover {
+		// 		background-color: transparent;
+		// 		//color: @text-color;
+		// 	}
+		// }
 		td.actions {
 			.button {
 				display: block;
@@ -535,6 +536,9 @@ div.woocommerce h3 {
 			}
 		}
 	}
+
+
+
 	.cart-collaterals {
 		h2 {
 			font-size: 18px;
@@ -546,7 +550,7 @@ div.woocommerce h3 {
 		}
 		.cart_totals table {
 			width: 100%;
-			th, 
+			th,
 			td {
 				border-top: none;
 				border-bottom: 1px solid @border-color;
@@ -570,7 +574,7 @@ div.woocommerce h3 {
 
 	/* Checkout
 	----------------------------------------------------------- */
-	
+
 	.checkout {
 		#shiptobilling {
 			float: none;
@@ -588,7 +592,7 @@ div.woocommerce h3 {
 	table.shop_table {
 		background: @content-bg-color-2;
 		border: 1px solid @border-color;
-		padding: 10px;
+		// padding: 10px; // NOTE removed to fix woo3.0
 		.fl-border-radius(6px);
 		th,
 		td {
@@ -640,11 +644,11 @@ div.woocommerce h3 {
 
 	/* Order Received
 	----------------------------------------------------------- */
-	
+
 	.order_details {
 		background: @content-bg-color-2;
 		border: 1px solid @border-color;
-		padding: 0;
+		//padding: 0; // NOTE removed to fix woo3.0
 		.fl-border-radius(6px);
 		li {
 			border: none;
@@ -661,9 +665,13 @@ div.woocommerce h3 {
 		}
 	}
 
+	.woocommerce-order-overview.woocommerce-thankyou-order-details {
+		padding-left: 20px;
+	}
+
 	/* Customer Details
 	----------------------------------------------------------- */
-	
+
 	.customer_details,
 	.addresses address {
 		border-top: 1px solid @border-color;
@@ -686,7 +694,7 @@ div.woocommerce h3 {
 
 	/* My Account
 	----------------------------------------------------------- */
-	
+
 	.woocommerce-MyAccount-navigation {
 		ul {
 			list-style-type: none;
@@ -704,10 +712,10 @@ div.woocommerce h3 {
 			}
 		}
 	}
-	
+
 	/* Alerts
 	----------------------------------------------------------- */
-	
+
 	.woocommerce-message,
 	.woocommerce-info,
 	.woocommerce-error {
@@ -748,10 +756,10 @@ div.woocommerce h3 {
 			color: #b84048;
 		}
 	}
-	
+
 	/* General
 	----------------------------------------------------------- */
-	
+
 	ul.product_list_widget {
 		li {
 			clear: both;
@@ -794,7 +802,7 @@ div.woocommerce h3 {
 
 		/* Columns
 		----------------------------------------------------------- */
-		
+
 		.col2-set {
 			.col-1,
 			.col-2 {
@@ -870,7 +878,7 @@ div.woocommerce h3 {
 
 		/* Categories
 		----------------------------------------------------------- */
-		
+
 		ul.products,
 		.related ul.products,
 		.upsells.products ul.products,
@@ -894,7 +902,7 @@ div.woocommerce h3 {
 
 		/* Single Products
 		----------------------------------------------------------- */
-		
+
 		div.product {
 			div.images {
 				float: left;
@@ -933,10 +941,10 @@ div.woocommerce h3 {
 		.upsells.products h2 {
 			max-width: none;
 		}
-		
+
 		/* Cart
 		----------------------------------------------------------- */
-		
+
 		table.cart {
 			.product-remove,
 			.product-thumbnail,
@@ -976,7 +984,7 @@ div.woocommerce h3 {
 
 		/* Order Received
 		----------------------------------------------------------- */
-		
+
 		.order_details {
 			li {
 				border: none;
@@ -984,10 +992,10 @@ div.woocommerce h3 {
 				float: left;
 			}
 		}
-	
+
 		/* Alerts
 		----------------------------------------------------------- */
-		
+
 		.woocommerce-message,
 		.woocommerce-info,
 		.woocommerce-error {

@@ -11,7 +11,7 @@ Appearance > Theme Settings > Code or create a child theme.
 */
 
 // Defines
-define( 'FL_THEME_VERSION', '1.6.2' );
+define( 'FL_THEME_VERSION', '1.6.3' );
 define( 'FL_THEME_DIR', get_template_directory() );
 define( 'FL_THEME_URL', get_template_directory_uri() );
 
@@ -69,8 +69,9 @@ function archive_post_image_sizes() {
 	$options = array();
 	$image_sizes = get_intermediate_image_sizes();
 	if ( count( $image_sizes ) ) {
-		foreach ( $image_sizes as $image_size )
-		$options[$image_size] = $image_size;
+		foreach ( $image_sizes as $image_size ) {
+			$options[ $image_size ] = $image_size;
+		}
 	}
 
 	return $options;
@@ -86,8 +87,9 @@ function single_post_image_sizes() {
 	$options = array();
 	$image_sizes = get_intermediate_image_sizes();
 	if ( count( $image_sizes ) ) {
-		foreach ( $image_sizes as $image_size )
-		$options[$image_size] = $image_size;
+		foreach ( $image_sizes as $image_size ) {
+			$options[ $image_size ] = $image_size;
+		}
 	}
 
 	return $options;

@@ -13,10 +13,9 @@ class FLTheme_WPCLI_Command extends WP_CLI_Command {
 	 * 1. wp beaver theme clearcache
 	 * 		- Clears and rebuilds the Beaver Theme CSS.
 	*/
-	public function clearcache( $args, $assoc_args )
-	{
+	public function clearcache( $args, $assoc_args ) {
 		FLCustomizer::refresh_css();
-		WP_CLI::success( "Rebuilt the theme cache" );
+		WP_CLI::success( 'Rebuilt the theme cache' );
 	}
 }
 

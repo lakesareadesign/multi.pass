@@ -410,9 +410,16 @@ img {
 	cursor: default;
 }
 
-ul.navbar-nav li.mega-menu {
+.fl-page-header[class*=" fl-page-nav-toggle-visible"] ul.navbar-nav li.mega-menu {
 	.hide-heading > a {
 		display: none;
+	}
+	.mega-menu-spacer {
+		background: none;
+		display: block;
+		left: 0;
+		position: absolute;
+		width: 100%;
 	}
 }
 
@@ -1561,7 +1568,7 @@ img.mfp-img {
 
 	.fl-submenu-indicator {
 		.fl-page-nav {
-			ul.navbar-nav > li.menu-item-has-children > a:after {
+			ul.navbar-nav li.menu-item-has-children > a:after {
 				content: '\f107';
 				font-family: FontAwesome;
 				float: right;
@@ -1652,6 +1659,9 @@ img.mfp-img {
 			&.current-menu-item > a {
 				color: @accent-hover-color;
 			}
+		}
+		.navbar-nav li.current-menu-item ~ li.current-menu-item > a {
+			color: @text-color;
 		}
 	}
 	.fl-page-nav-wrap {
@@ -2354,12 +2364,14 @@ img.mfp-img {
 	}
 	.fl-nav-vertical-left .fl-page-bar,
 	.fl-nav-vertical-left .fl-page-content,
-	.fl-nav-vertical-left .fl-page-footer-wrap {
+	.fl-nav-vertical-left .fl-page-footer-wrap,
+	.fl-nav-vertical-left footer.fl-builder-content {
 		margin-left: @vertical-header-width;
 	}
 	.fl-nav-vertical-right .fl-page-bar,
 	.fl-nav-vertical-right .fl-page-content,
-	.fl-nav-vertical-right .fl-page-footer-wrap {
+	.fl-nav-vertical-right .fl-page-footer-wrap,
+	.fl-nav-vertical-right footer.fl-builder-content {
 		margin-right: @vertical-header-width;
 	}
 	.page-template-tpl-no-header-footer.fl-nav-vertical .fl-page-content {
@@ -2983,7 +2995,7 @@ img.mfp-img {
 			.fl-post-header,
 			.fl-comments {
 				margin: 0 auto;
-				width: 1020px;
+				width: @content-width;
 			}
 		}
 	}

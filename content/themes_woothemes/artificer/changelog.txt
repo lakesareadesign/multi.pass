@@ -1,8 +1,12 @@
 *** Artificer Changelog ***
 
+2017.11.03 - version 1.3.23
+* Fix - Replaces WooCommerce cart deprecated functions.
+  includes/theme-woocommerce.php
+
 2017.06.23 - version 1.3.22
 * Fix - Fix homepage featured products query.
-  index.php 
+  index.php
 * Fix - Remove scribble image.
   style.css,
   styles/*.css

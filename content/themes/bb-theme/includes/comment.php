@@ -3,7 +3,7 @@
 
 		<div class="comment-meta">
 			<span class="comment-avatar">
-				<?php echo get_avatar( $comment, $size = '80' ); ?>
+				<?php echo get_avatar( $comment, 80 ); ?>
 			</span>
 			<?php
 				/* translators: 1: comment author name, 2: date, 3: time */
@@ -13,8 +13,8 @@
 		</div><!-- .comment-meta -->
 
 		<div class="comment-content clearfix">
-			<?php if('0' == $comment->comment_approved) : ?>
-				<p class="comment-moderation"><?php esc_html_e('Your comment is awaiting moderation.', 'fl-automator') ?></p>
+			<?php if ( '0' == $comment->comment_approved ) : ?>
+				<p class="comment-moderation"><?php esc_html_e( 'Your comment is awaiting moderation.', 'fl-automator' ) ?></p>
 			<?php endif; ?>
 			<?php comment_text(); ?>
 			<?php edit_comment_link( esc_html_x( '(Edit)', 'Comment edit link text.', 'fl-automator' ), ' ' ); ?>
@@ -23,15 +23,14 @@
 		<?php
 
 		$comment_reply_link = get_comment_reply_link(array_merge($args, array(
-			'reply_text' => esc_attr__('Reply', 'fl-automator'),
+			'reply_text' => esc_attr__( 'Reply', 'fl-automator' ),
 			'depth'      => (int) $depth,
-			'max_depth'  => (int) $args['max_depth']
+			'max_depth'  => (int) $args['max_depth'],
 		)));
 
-		if($comment_reply_link) {
+		if ( $comment_reply_link ) {
 			echo '<div class="comment-reply-link">' . $comment_reply_link . '</div>';
-		}
-		else {
+		} else {
 			echo '<br /><br />';
 		}
 

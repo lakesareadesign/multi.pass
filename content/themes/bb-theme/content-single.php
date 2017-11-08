@@ -1,15 +1,17 @@
 <?php
 
-$show_thumbs = FLTheme::get_setting('fl-posts-show-thumbs');
-$thumb_size   = FLTheme::get_setting('fl-posts-thumb-size');
+$show_thumbs = FLTheme::get_setting( 'fl-posts-show-thumbs' );
+$thumb_size   = FLTheme::get_setting( 'fl-posts-thumb-size' );
 ?>
-<?php do_action('fl_before_post'); ?>
+<?php do_action( 'fl_before_post' ); ?>
 <article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope itemtype="http://schema.org/BlogPosting">
 
-	<?php if(has_post_thumbnail() && !empty($show_thumbs)) : ?>
-		<?php if($show_thumbs == 'above-title') : ?>
+	<?php if ( has_post_thumbnail() && ! empty( $show_thumbs ) ) : ?>
+		<?php if ( 'above-title' == $show_thumbs ) : ?>
 		<div class="fl-post-thumb">
-			<?php the_post_thumbnail('large', array('itemprop' => 'image')); ?>
+			<?php the_post_thumbnail( 'large', array(
+				'itemprop' => 'image',
+			) ); ?>
 		</div>
 		<?php endif; ?>
 	<?php endif; ?>
@@ -22,19 +24,19 @@ $thumb_size   = FLTheme::get_setting('fl-posts-thumb-size');
 		<?php FLTheme::post_top_meta(); ?>
 	</header><!-- .fl-post-header -->
 
-	<?php if(has_post_thumbnail() && !empty($show_thumbs)) : ?>
-		<?php if($show_thumbs == 'above') : ?>
+	<?php if ( has_post_thumbnail() && ! empty( $show_thumbs ) ) : ?>
+		<?php if ( 'above' == $show_thumbs ) : ?>
 		<div class="fl-post-thumb">
-			<?php the_post_thumbnail('large'); ?>
+			<?php the_post_thumbnail( 'large' ); ?>
 		</div>
 		<?php endif; ?>
 
-		<?php if($show_thumbs == 'beside') : ?>
+		<?php if ( 'beside' == $show_thumbs ) : ?>
 			<div class="row">
 				<div class="fl-post-image-<?php echo $show_thumbs; ?>">
 					<div class="fl-post-thumb">
 						<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">
-							<?php the_post_thumbnail($thumb_size); ?>
+							<?php the_post_thumbnail( $thumb_size ); ?>
 						</a>
 					</div>
 				</div>
@@ -42,7 +44,7 @@ $thumb_size   = FLTheme::get_setting('fl-posts-thumb-size');
 		<?php endif; ?>
 	<?php endif; ?>
 
-	<?php do_action('fl_before_post_content'); ?>
+	<?php do_action( 'fl_before_post_content' ); ?>
 
 	<div class="fl-post-content clearfix" itemprop="text">
 		<?php
@@ -52,24 +54,24 @@ $thumb_size   = FLTheme::get_setting('fl-posts-thumb-size');
 		wp_link_pages( array(
 			'before'         => '<div class="fl-post-page-nav">' . _x( 'Pages:', 'Text before page links on paginated post.', 'fl-automator' ),
 			'after'          => '</div>',
-			'next_or_number' => 'number'
+			'next_or_number' => 'number',
 		) );
 
 		?>
 	</div><!-- .fl-post-content -->
 
-	<?php if(has_post_thumbnail() && $show_thumbs == 'beside') : ?>
+	<?php if ( has_post_thumbnail() && 'beside' == $show_thumbs ) : ?>
 		</div>
 	</div>
 	<?php endif; ?>
 
 	<?php FLTheme::post_bottom_meta(); ?>
 	<?php FLTheme::post_navigation(); ?>
-	<?php do_action('fl_after_post_content'); ?>
+	<?php do_action( 'fl_after_post_content' ); ?>
 
 </article>
 <?php comments_template(); ?>
 
-<?php do_action('fl_after_post'); ?>
+<?php do_action( 'fl_after_post' ); ?>
 
 <!-- .fl-post -->

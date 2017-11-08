@@ -1,10 +1,10 @@
 <?php
 
 // Wrapper
-if($show_author || $show_date || $comments) {
-	
+if ( $show_author || $show_date || $comments ) {
+
 	echo '<div class="fl-post-meta fl-post-meta-top">';
-	
+
 	do_action( 'fl_post_top_meta_open' );
 }
 
@@ -16,9 +16,9 @@ if ( $show_author ) {
 }
 
 // Date
-if($show_date) {
+if ( $show_date ) {
 
-	if($show_author) {
+	if ( $show_author ) {
 		echo '<span class="fl-sep"> | </span>';
 	}
 
@@ -26,22 +26,22 @@ if($show_date) {
 }
 
 // Comments
-if($comments && $comment_count) {
+if ( $comments && $comment_count ) {
 
-	if($show_author || $show_date) {
+	if ( $show_author || $show_date ) {
 		echo '<span class="fl-sep"> | </span>';
 	}
 
 	echo '<span class="fl-comments-popup-link">';
-	comments_popup_link('0 <i class="fa fa-comment"></i>', '1 <i class="fa fa-comment"></i>', '% <i class="fa fa-comment"></i>');
+	comments_popup_link( '0 <i class="fa fa-comment"></i>', '1 <i class="fa fa-comment"></i>', '% <i class="fa fa-comment"></i>' );
 	echo '</span>';
 }
 
 // Close Wrapper
-if($show_author || $show_date || $comments) {
-	
+if ( $show_author || $show_date || $comments ) {
+
 	do_action( 'fl_post_top_meta_close' );
-	
+
 	echo '</div>';
 }
 

@@ -1,25 +1,25 @@
 ( function( $ ){
-	
+
 	/* Internal shorthand */
 	var api = wp.customize;
 
 	/**
 	 * Helper class for live Customizer previews.
-	 * 
+	 *
 	 * @since 1.2.0
 	 * @class FLCustomizerPreview
 	 */
 	FLCustomizerPreview = {
-		
+
 		/**
 		 * An instance of FLStyleSheet for live previews.
 		 *
 		 * @since 1.2.0
 		 * @access private
 		 * @property {FLStyleSheet} _styleSheet
-		 */  
+		 */
 		_styleSheet: null,
-		
+
 		/**
 		 * Initializes all live Customizer previews.
 		 *
@@ -30,7 +30,7 @@
 		{
 			// Create the stylesheet.
 			this._styleSheet = new FLStyleSheet();
-			
+
 			// Bind CSS callbacks.
 			this._css( 'fl-body-bg-image', 'body', 'background-image', 'url({val})', 'none' );
 			this._css( 'fl-body-bg-repeat', 'body', 'background-repeat' );
@@ -79,8 +79,8 @@
 			this._css( 'fl-footer-bg-attachment', '.fl-page-footer', 'background-attachment' );
 			this._css( 'fl-footer-bg-size', '.fl-page-footer', 'background-size' );
 			this._css( 'fl-vertical-header-width', '.fl-page-header-vertical', 'width', '{val}px', '230px', 'int' );
-			this._css( 'fl-vertical-header-width', '.fl-nav-vertical-left .fl-page-bar, .fl-nav-vertical-left .fl-page-content, .fl-nav-vertical-left .fl-page-footer-wrap', 'margin-left', '{val}px', '230px', 'int' );
-			this._css( 'fl-vertical-header-width', '.fl-nav-vertical-right .fl-page-bar, .fl-nav-vertical-right .fl-page-content, .fl-nav-vertical-right .fl-page-footer-wrap', 'margin-right', '{val}px', '230px', 'int' );
+			this._css( 'fl-vertical-header-width', '.fl-nav-vertical-left .fl-page-bar, .fl-nav-vertical-left .fl-page-content, .fl-nav-vertical-left .fl-page-footer-wrap, .fl-nav-vertical-left footer.fl-builder-content', 'margin-left', '{val}px', '230px', 'int' );
+			this._css( 'fl-vertical-header-width', '.fl-nav-vertical-right .fl-page-bar, .fl-nav-vertical-right .fl-page-content, .fl-nav-vertical-right .fl-page-footer-wrap, .fl-nav-vertical-right footer.fl-builder-content', 'margin-right', '{val}px', '230px', 'int' );
 			this._css( 'fl-header-padding', '.fl-page-header-vertical .fl-page-header-logo, .fl-page-header-vertical .fl-page-nav-collapse ul.navbar-nav > li > a, .fl-page-header-vertical .fl-page-nav-search a.fa-search', 'padding-left', '{val}px', '30px', 'int' );
 			this._css( 'fl-header-padding', '.fl-page-header-vertical .fl-page-header-logo, .fl-page-header-vertical .fl-page-nav-collapse ul.navbar-nav > li > a, .fl-page-header-vertical .fl-page-nav-search a.fa-search', 'padding-right', '{val}px', '30px', 'int' );
 			this._css( 'fl-header-logo-top-spacing', '.fl-nav-vertical .fl-page-header-vertical .fl-page-header-container', 'padding-top', '{val}px', '50px', 'int' );
@@ -108,18 +108,18 @@
 
 
 
-		
+
 			// Bind HTML callbacks.
 			this._html( 'fl-topbar-col1-text', '.fl-page-bar-text-1' );
 			this._html( 'fl-topbar-col2-text', '.fl-page-bar-text-2' );
 			this._html( 'fl-logo-text', '.fl-logo-text' );
 			this._html( 'fl-footer-col1-text', '.fl-page-footer-text-1' );
 			this._html( 'fl-footer-col2-text', '.fl-page-footer-text-2' );
-			
+
 			// Bind custom callbacks.
 			this._bind( 'fl-css-code', this._cssCodeChanged );
 		},
-		
+
 		/**
 		 * Binds a callback function to be fired when a setting changes.
 		 *
@@ -137,7 +137,7 @@
 				});
 			});
 		},
-		
+
 		/**
 		 * Applies a CSS preview when a setting changes.
 		 *
@@ -154,27 +154,27 @@
 		_css: function( key, selector, property, format, fallback, sanitizeCallback )
 		{
 			api( key, function( val ) {
-				
+
 				val.bind( function( newVal ) {
-					
+
 					switch ( sanitizeCallback ) {
 						case 'int':
 						newVal = FLCustomizerPreview._sanitizeInt( newVal );
 						break;
 					}
-					
+
 					if ( 'undefined' != typeof fallback && null != fallback && '' == newVal ) {
 						newVal = fallback;
 					}
 					else if ( 'undefined' != typeof format && null != format ) {
 						newVal = format.replace( '{val}', newVal );
 					}
-					
+
 					FLCustomizerPreview._styleSheet.updateRule( selector, property, newVal );
 				});
 			});
 		},
-		
+
 		/**
 		 * Applies an HTML preview when a setting changes.
 		 *
@@ -192,7 +192,7 @@
 				});
 			});
 		},
-		
+
 		/**
 		 * Makes sure a value is a number.
 		 *
@@ -205,24 +205,24 @@
 		_sanitizeInt: function( val )
 		{
 			var number = parseInt( val );
-			
+
 			return isNaN( number ) ? 0 : number;
 		},
-		
+
 		/**
 		 * Callback for when the custom CSS field is changed.
 		 *
 		 * @since 1.3.3
 		 * @access private
 		 * @method _cssCodeChanged
-		 * @param {String} val 
+		 * @param {String} val
 		 */
 		_cssCodeChanged: function( val )
 		{
 			$( '#fl-theme-custom-css' ).html( val );
 		},
 	};
-	
+
 	$( function() { FLCustomizerPreview.init(); } );
-	
+
 })( jQuery );

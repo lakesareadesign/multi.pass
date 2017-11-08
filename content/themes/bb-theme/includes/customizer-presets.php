@@ -4,7 +4,7 @@
 FLCustomizer::add_preset('default', array(
 	'name'      => 'Default',
 	'skin'      => 'default',
-	'settings'  => array()
+	'settings'  => array(),
 ));
 
 /* Default Dark */
@@ -34,8 +34,8 @@ FLCustomizer::add_preset('default-dark', array(
 		'fl-footer-bg-color'			=> '#282a2e',
 		'fl-footer-text-color'			=> '#a6a6a6',
 		'fl-footer-link-color'			=> '#95bf48',
-		'fl-footer-hover-color'			=> '#95bf48'
-	)
+		'fl-footer-hover-color'			=> '#95bf48',
+	),
 ));
 
 /* Classic */
@@ -60,8 +60,8 @@ FLCustomizer::add_preset('classic', array(
 		'fl-footer-widgets-link-color'	=> '#483182',
 		'fl-footer-widgets-hover-color'	=> '#483182',
 		'fl-footer-link-color'			=> '#483182',
-		'fl-footer-hover-color'			=> '#483182'
-	)
+		'fl-footer-hover-color'			=> '#483182',
+	),
 ));
 
 /* Modern */
@@ -89,8 +89,8 @@ FLCustomizer::add_preset('modern', array(
 		'fl-footer-widgets-hover-color'	=> '#cf6713',
 		'fl-footer-text-color'			=> '#a6a6a6',
 		'fl-footer-link-color'			=> '#a6a6a6',
-		'fl-footer-hover-color'			=> '#ffffff'
-	)
+		'fl-footer-hover-color'			=> '#ffffff',
+	),
 ));
 
 /* Bold */
@@ -118,8 +118,8 @@ FLCustomizer::add_preset('bold', array(
 		'fl-footer-bg-color'           	=> '#428bca',
 		'fl-footer-text-color'			=> '#c2d2e0',
 		'fl-footer-link-color'			=> '#c2d2e0',
-		'fl-footer-hover-color'			=> '#ffffff'
-	)
+		'fl-footer-hover-color'			=> '#ffffff',
+	),
 ));
 
 /* Stripe */
@@ -137,8 +137,8 @@ FLCustomizer::add_preset('stripe', array(
 		'fl-footer-bg-color'           	=> '#385f82',
 		'fl-footer-text-color'			=> '#c4cfda',
 		'fl-footer-link-color'			=> '#c4cfda',
-		'fl-footer-hover-color'			=> '#ffffff'
-	)
+		'fl-footer-hover-color'			=> '#ffffff',
+	),
 ));
 
 /* Deluxe */
@@ -173,9 +173,9 @@ FLCustomizer::add_preset('deluxe', array(
 		'fl-footer-bg-gradient' 		=> '0',
 		'fl-footer-text-color'			=> '#d5dce0',
 		'fl-footer-link-color'			=> '#d5dce0',
-		'fl-footer-hover-color'			=> '#ffffff'
-		
-	)
+		'fl-footer-hover-color'			=> '#ffffff',
+
+	),
 ));
 
 /* Premier */
@@ -207,8 +207,8 @@ FLCustomizer::add_preset('premier', array(
 		'fl-footer-bg-color'           	=> '#ffffff',
 		'fl-footer-text-color'			=> '#a6a6a6',
 		'fl-footer-link-color'			=> '#a6a6a6',
-		'fl-footer-hover-color'			=> '#ffffff'
-	)
+		'fl-footer-hover-color'			=> '#ffffff',
+	),
 ));
 
 /* Dusk */
@@ -243,8 +243,8 @@ FLCustomizer::add_preset('dusk', array(
 		'fl-footer-bg-color'           	=> '#ffffff',
 		'fl-footer-text-color'			=> '#999999',
 		'fl-footer-link-color'			=> '#cc3f26',
-		'fl-footer-hover-color'			=> '#cc3f26'
-	)
+		'fl-footer-hover-color'			=> '#cc3f26',
+	),
 ));
 
 /* Midnight */
@@ -276,6 +276,6 @@ FLCustomizer::add_preset('midnight', array(
 		'fl-footer-bg-color'           	=> '#ffffff',
 		'fl-footer-text-color'			=> '#999999',
 		'fl-footer-link-color'			=> '#999999',
-		'fl-footer-hover-color'			=> '#428bca'
-	)
+		'fl-footer-hover-color'			=> '#428bca',
+	),
 ));

@@ -22,7 +22,7 @@
 									'theme_location' => 'header',
 									'items_wrap' => '<ul id="%1$s" class="nav navbar-nav navbar-right %2$s">%3$s</ul>',
 									'container' => false,
-									'fallback_cb' => 'FLTheme::nav_menu_fallback'
+									'fallback_cb' => 'FLTheme::nav_menu_fallback',
 								));
 
 								?>

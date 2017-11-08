@@ -3,15 +3,16 @@
 <div class="container">
 	<div class="row">
 		
-		<?php FLTheme::sidebar('left'); ?>
+		<?php FLTheme::sidebar( 'left' ); ?>
 		
 		<div class="fl-content <?php FLTheme::content_class(); ?>">
-			<?php if(have_posts()) : while(have_posts()) : the_post(); ?>
-				<?php get_template_part('content', 'single'); ?>
-			<?php endwhile; endif; ?>
+			<?php if ( have_posts() ) : while ( have_posts() ) : the_post(); ?>
+				<?php get_template_part( 'content', 'single' ); ?>
+			<?php endwhile;
+endif; ?>
 		</div>
 		
-		<?php FLTheme::sidebar('right'); ?>
+		<?php FLTheme::sidebar( 'right' ); ?>
 		
 	</div>
 </div>

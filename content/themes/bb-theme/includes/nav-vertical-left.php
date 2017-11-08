@@ -13,13 +13,13 @@
 							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".fl-page-nav-collapse">
 								<span><?php FLTheme::nav_toggle_text(); ?></span>
 							</button>
-							<div class="fl-page-nav-collapse collapse navbar-collapse item-<?php echo FLTheme::get_setting('fl-nav-item-align'); ?>">
+							<div class="fl-page-nav-collapse collapse navbar-collapse item-<?php echo FLTheme::get_setting( 'fl-nav-item-align' ); ?>">
 								<?php
 								wp_nav_menu(array(
 									'theme_location' => 'header',
 									'items_wrap' => '<ul id="%1$s" class="nav navbar-nav navbar-vertical navbar-vertical-left %2$s">%3$s</ul>',
 									'container' => false,
-									'fallback_cb' => 'FLTheme::nav_menu_fallback'
+									'fallback_cb' => 'FLTheme::nav_menu_fallback',
 								));
 
 								FLTheme::nav_search();

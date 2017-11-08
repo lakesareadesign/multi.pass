@@ -1,42 +1,46 @@
 <?php
 
-if(!comments_open() && '0' == get_comments_number()) {
+if ( ! comments_open() && '0' == get_comments_number() ) {
 	return;
 }
-if(post_password_required()) {
+if ( post_password_required() ) {
 	return;
 }
 
 ?>
 <div class="fl-comments">
-	
+
 	<?php do_action( 'fl_comments_open' ); ?>
 
-	<?php if(have_comments()) : ?>
+	<?php if ( have_comments() ) : ?>
 	<div class="fl-comments-list">
 
 		<h3 class="fl-comments-list-title"><?php
 
-			if ( $num_comments = get_comments_number() ) {
+		$num_comments = get_comments_number();
 
-				printf(
-					esc_html( _nx( '%1$s Comment', '%1$s Comments', get_comments_number(), 'Comments list title.', 'fl-automator' ) ),
-					number_format_i18n( $num_comments )
-				);
+		if ( $num_comments ) {
 
-			} else {
+			printf(
+				esc_html( _nx( '%1$s Comment', '%1$s Comments', get_comments_number(), 'Comments list title.', 'fl-automator' ) ),
+				number_format_i18n( $num_comments )
+			);
 
-				_e( 'No Comments', 'fl-automator' );
+		} else {
 
-			}
+			_e( 'No Comments', 'fl-automator' );
+
+		}
 
 		?></h3>
 
 		<ol id="comments">
-		<?php wp_list_comments(array('callback' => 'FLTheme::display_comment')); ?>
+		<?php wp_list_comments( array(
+			'callback' => 'FLTheme::display_comment',
+		) ); ?>
 		</ol>
 
-		<?php if(get_comment_pages_count() > 1) : ?>
+		<?php if ( get_comment_pages_count() > 1 ) : ?>
 		<nav class="fl-comments-list-nav clearfix">
 			<div class="fl-comments-list-prev"><?php previous_comments_link() ?></div>
 			<div class="fl-comments-list-next"><?php next_comments_link() ?></div>
@@ -45,8 +49,8 @@ if(post_password_required()) {
 
 	</div>
 	<?php endif; ?>
-	<?php 
-	
+	<?php
+
 	comment_form( array(
 		'id_form'               => 'fl-comment-form',
 		'class_form'            => 'fl-comment-form',
@@ -77,7 +81,7 @@ if(post_password_required()) {
 										<input type="text" name="email" class="form-control" value="' . $comment_author_email . '" tabindex="2"' . ( $req ? ' aria-required="true"' : '' ) . ' /><br />',
 
 			'url'                    => '<label for="url">' . _x( 'Website', 'Comment form label: comment author website.', 'fl-automator' ) . '</label>
-										<input type="text" name="url" class="form-control" value="' . $comment_author_url . '" tabindex="3" /><br />'
+										<input type="text" name="url" class="form-control" value="' . $comment_author_url . '" tabindex="3" /><br />',
 		) ),
 	) );
 

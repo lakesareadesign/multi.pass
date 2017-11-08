@@ -45,7 +45,7 @@ final class FLCustomizer {
 	static private $_in_customizer_preview = false;
 
 	/**
-	 * The prefix for the option that is stored in the 
+	 * The prefix for the option that is stored in the
 	 * database for the cached CSS file key.
 	 *
 	 * @since 1.2.0
@@ -62,8 +62,7 @@ final class FLCustomizer {
 	 * @param array $data The panel data.
 	 * @return void
 	 */
-	static public function add_panel( $key, $data )
-	{
+	static public function add_panel( $key, $data ) {
 		self::$_panels[ $key ] = $data;
 	}
 
@@ -75,8 +74,7 @@ final class FLCustomizer {
 	 * @param array $data An array of settings for the preset.
 	 * @return void
 	 */
-	static public function add_preset( $key, $data )
-	{
+	static public function add_preset( $key, $data ) {
 		self::$_presets[ $key ] = $data;
 	}
 
@@ -87,16 +85,15 @@ final class FLCustomizer {
 	 * @param string $key The key of the preset to remove.
 	 * @return void
 	 */
-	static public function remove_preset( $key )
-	{
-		if ( empty($key) )
-		return;
+	static public function remove_preset( $key ) {
+		if ( empty( $key ) ) {
+			return;
+		}
 
 		if ( is_array( $key ) ) {
 			$keys = $key;
-		}
-		else if ( is_string( $key ) ) {
-			$keys = array_map( 'trim', explode(',', $key) );
+		} elseif ( is_string( $key ) ) {
+			$keys = array_map( 'trim', explode( ',', $key ) );
 		}
 
 		foreach ( (array) $keys as $k ) {
@@ -107,14 +104,13 @@ final class FLCustomizer {
 	}
 
 	/**
-	 * Called by the customize_preview_init action to initialize 
+	 * Called by the customize_preview_init action to initialize
 	 * a Customizer preview.
 	 *
 	 * @since 1.2.0
 	 * @return void
 	 */
-	static public function preview_init()
-	{
+	static public function preview_init() {
 		self::$_in_customizer_preview = true;
 
 		self::refresh_css();
@@ -124,14 +120,13 @@ final class FLCustomizer {
 	}
 
 	/**
-	 * Called by the customize_controls_enqueue_scripts action to enqueue 
+	 * Called by the customize_controls_enqueue_scripts action to enqueue
 	 * styles and scripts for the Customizer.
 	 *
 	 * @since 1.2.0
 	 * @return void
 	 */
-	static public function controls_enqueue_scripts()
-	{
+	static public function controls_enqueue_scripts() {
 		wp_enqueue_style( 'fl-customizer', FL_THEME_URL . '/css/customizer.css', array(), FL_THEME_VERSION );
 		wp_enqueue_script( 'fl-customizer-toggles', FL_THEME_URL . '/js/customizer-toggles.js', array(), FL_THEME_VERSION, true );
 		wp_enqueue_script( 'fl-customizer', FL_THEME_URL . '/js/customizer.js', array(), FL_THEME_VERSION, true );
@@ -140,14 +135,13 @@ final class FLCustomizer {
 	}
 
 	/**
-	 * Called by the customize_controls_print_footer_scripts action to 
+	 * Called by the customize_controls_print_footer_scripts action to
 	 * print scripts in the footer for the Customizer.
 	 *
 	 * @since 1.2.0
 	 * @return void
 	 */
-	static public function controls_print_footer_scripts()
-	{
+	static public function controls_print_footer_scripts() {
 		// Opening script tag
 		echo '<script>';
 
@@ -171,8 +165,7 @@ final class FLCustomizer {
 	 * @since 1.2.0
 	 * @return void
 	 */
-	static public function register( $customizer )
-	{
+	static public function register( $customizer ) {
 		require_once FL_THEME_DIR . '/classes/class-fl-customizer-control.php';
 
 		self::_register_presets( $customizer );
@@ -189,8 +182,7 @@ final class FLCustomizer {
 	 * @since 1.2.0
 	 * @return void
 	 */
-	static public function save( $customizer )
-	{
+	static public function save( $customizer ) {
 		self::refresh_css();
 	}
 
@@ -200,16 +192,14 @@ final class FLCustomizer {
 	 * @since 1.2.0
 	 * @return array
 	 */
-	static public function get_mods()
-	{
+	static public function get_mods() {
 		// We don't have mods yet, get them from the database.
 		if ( ! self::$_mods ) {
 
 			// Get preset preview mods.
 			if ( self::is_preset_preview() ) {
 				$mods = self::_get_preset_preview_mods();
-			}
-			// Get saved mods.
+			} // End if().
 			else {
 
 				// Get the settings.
@@ -224,8 +214,7 @@ final class FLCustomizer {
 				$mods = self::_get_default_mods();
 				update_option( 'theme_mods_' . get_option( 'stylesheet' ), $mods );
 			}
-		}
-		// We have cached the mods already.
+		} // End if().
 		else {
 			$mods = self::$_mods;
 		}
@@ -248,8 +237,7 @@ final class FLCustomizer {
 	 * @since 1.2.0
 	 * @return string
 	 */
-	static public function css_url()
-	{
+	static public function css_url() {
 		// Get the cache dir and css key.
 		$cache_dir = self::get_cache_dir();
 		$css_slug  = self::_css_slug();
@@ -279,8 +267,7 @@ final class FLCustomizer {
 	 * @since 1.2.0
 	 * @return void
 	 */
-	static public function refresh_css()
-	{
+	static public function refresh_css() {
 		self::_clear_css_cache();
 		self::_compile_css();
 	}
@@ -291,15 +278,13 @@ final class FLCustomizer {
 	 * @since 1.2.0
 	 * @return bool
 	 */
-	static public function is_preset_preview()
-	{
+	static public function is_preset_preview() {
 		if ( ! isset( $_GET['fl-preview'] ) ) {
 			return false;
 		}
 		if ( ! isset( self::$_presets[ $_GET['fl-preview'] ] ) ) {
 			return false;
-		}
-		else if ( current_user_can('manage_options') || self::_is_demo_server() ) {
+		} elseif ( current_user_can( 'manage_options' ) || self::_is_demo_server() ) {
 			return true;
 		}
 
@@ -312,8 +297,7 @@ final class FLCustomizer {
 	 * @since 1.2.0
 	 * @return bool
 	 */
-	static public function is_customizer_preview()
-	{
+	static public function is_customizer_preview() {
 		return self::$_in_customizer_preview;
 	}
 
@@ -323,8 +307,7 @@ final class FLCustomizer {
 	 * @since 1.2.0
 	 * @return int
 	 */
-	static public function sanitize_number( $val )
-	{
+	static public function sanitize_number( $val ) {
 		return is_numeric( $val ) ? $val : 0;
 	}
 
@@ -334,11 +317,10 @@ final class FLCustomizer {
 	 * @since 1.5.3
 	 * @return array
 	 */
-	static public function sanitize_checkbox_multiple( $val )
-	{
-		$multi_values = !is_array( $val ) ? explode( ',', $val ) : $val;
+	static public function sanitize_checkbox_multiple( $val ) {
+		$multi_values = ! is_array( $val ) ? explode( ',', $val ) : $val;
 
-    	return !empty( $multi_values ) ? array_map( 'sanitize_text_field', $multi_values ) : array();
+		return ! empty( $multi_values ) ? array_map( 'sanitize_text_field', $multi_values ) : array();
 	}
 
 	/**
@@ -347,8 +329,7 @@ final class FLCustomizer {
 	 * @since 1.2.0
 	 * @return array
 	 */
-	static public function get_cache_dir()
-	{
+	static public function get_cache_dir() {
 		$dir_name   = basename( FL_THEME_DIR );
 		$wp_info    = wp_upload_dir();
 
@@ -360,7 +341,7 @@ final class FLCustomizer {
 		// Build the paths.
 		$dir_info   = array(
 			'path'      => $wp_info['basedir'] . '/' . $dir_name . '/',
-			'url'       => $wp_info['baseurl'] . '/' . $dir_name . '/'
+			'url'       => $wp_info['baseurl'] . '/' . $dir_name . '/',
 		);
 
 		// Create the cache dir if it doesn't exist.
@@ -377,8 +358,7 @@ final class FLCustomizer {
 	 * @since 1.5.2
 	 * @return void
 	 */
-	static public function clear_all_css_cache()
-	{
+	static public function clear_all_css_cache() {
 		self::_clear_css_cache( true );
 	}
 
@@ -390,17 +370,16 @@ final class FLCustomizer {
 	 * @param object $customizer An instance of WP_Customize_Manager.
 	 * @return void
 	 */
-	static private function _register_presets( $customizer )
-	{
+	static private function _register_presets( $customizer ) {
 		// Presets section
 		$customizer->add_section( 'fl-presets', array(
 			'title'    => _x( 'Presets', 'Customizer section title. Theme design/style presets.', 'fl-automator' ),
-			'priority' => 0
+			'priority' => 0,
 		) );
 
 		// Presets setting
 		$customizer->add_setting( 'fl-preset', array(
-			'default' => 'default'
+			'default' => 'default',
 		));
 
 		// Presets choices
@@ -416,7 +395,7 @@ final class FLCustomizer {
 			'settings'      => 'fl-preset',
 			'description'   => __( 'Start by selecting a preset for your theme.', 'fl-automator' ),
 			'type'          => 'select',
-			'choices'       => $choices
+			'choices'       => $choices,
 		)));
 	}
 
@@ -428,8 +407,7 @@ final class FLCustomizer {
 	 * @param object $customizer An instance of WP_Customize_Manager.
 	 * @return void
 	 */
-	static private function _register_panels( $customizer )
-	{
+	static private function _register_panels( $customizer ) {
 		$panel_priority     = 1;
 		$section_priority   = 1;
 		$option_priority    = 1;
@@ -441,7 +419,7 @@ final class FLCustomizer {
 			if ( self::_has_panel_support() ) {
 				$customizer->add_panel( $panel_key, array(
 					'title'    => $panel_data['title'],
-					'priority' => $panel_priority
+					'priority' => $panel_priority,
 				));
 			}
 
@@ -452,7 +430,7 @@ final class FLCustomizer {
 			if ( isset( $panel_data['sections'] ) ) {
 
 				foreach ( $panel_data['sections'] as $section_key => $section_data ) {
-			
+
 					// Make sure this section should be registered.
 					if ( isset( $section_data['disable'] ) && true === $section_data['disable'] ) {
 						continue;
@@ -462,7 +440,7 @@ final class FLCustomizer {
 					$customizer->add_section( $section_key, array(
 						'panel'    => $panel_key,
 						'title'    => $section_data['title'],
-						'priority' => $section_priority
+						'priority' => $section_priority,
 					));
 
 					// Increment section priority
@@ -475,7 +453,9 @@ final class FLCustomizer {
 
 							// Add setting
 							if ( ! isset( $option_data['setting'] ) ) {
-								$option_data['setting'] = array( 'default' => '' );
+								$option_data['setting'] = array(
+									'default' => '',
+								);
 							}
 
 							$customizer->add_setting( $option_key, $option_data['setting'] );
@@ -495,14 +475,14 @@ final class FLCustomizer {
 						// Reset option priority
 						$option_priority = 0;
 					}
-				}
+				}// End foreach().
 
 				// Reset section priority on if we have panel support.
 				if ( self::_has_panel_support() ) {
 					$section_priority = 0;
 				}
-			}
-		}
+			}// End if().
+		}// End foreach().
 	}
 
 	/**
@@ -513,18 +493,17 @@ final class FLCustomizer {
 	 * @param object $customizer An instance of WP_Customize_Manager.
 	 * @return void
 	 */
-	static private function _register_export_import_section( $customizer )
-	{
+	static private function _register_export_import_section( $customizer ) {
 		if ( ! class_exists( 'CEI_Core' ) && current_user_can( 'install_plugins' ) ) {
 
 			$customizer->add_section( 'fl-export-import', array(
 				'title'    => _x( 'Export/Import', 'Customizer section title.', 'fl-automator' ),
-				'priority' => 10000000
+				'priority' => 10000000,
 			) );
 
 			$customizer->add_setting( 'fl-export-import', array(
 				'default' => '',
-				'type'    => 'none'
+				'type'    => 'none',
 			));
 
 			$customizer->add_control( new FLCustomizerControl(
@@ -533,7 +512,7 @@ final class FLCustomizer {
 				array(
 					'section'       => 'fl-export-import',
 					'type'          => 'export-import',
-					'priority'      => 1
+					'priority'      => 1,
 				)
 			));
 		}
@@ -546,8 +525,7 @@ final class FLCustomizer {
 	 * @access private
 	 * @return bool
 	 */
-	static private function _has_panel_support()
-	{
+	static private function _has_panel_support() {
 		return method_exists( 'WP_Customize_Manager' , 'add_panel' );
 	}
 
@@ -559,8 +537,7 @@ final class FLCustomizer {
 	 * @param object $customizer An instance of WP_Customize_Manager.
 	 * @return void
 	 */
-	static private function _move_builtin_sections( $customizer )
-	{
+	static private function _move_builtin_sections( $customizer ) {
 		$title_tagline      = $customizer->get_section( 'title_tagline' );
 		$nav                = $customizer->get_section( 'nav' );
 		$static_front_page  = $customizer->get_section( 'static_front_page' );
@@ -576,8 +553,7 @@ final class FLCustomizer {
 			if ( is_object( $static_front_page ) ) {
 				$static_front_page->panel = 'fl-settings';
 			}
-		}
-		else {
+		} else {
 			if ( is_object( $title_tagline ) ) {
 				$title_tagline->priority = 10000;
 			}
@@ -598,8 +574,7 @@ final class FLCustomizer {
 	 * @param object $customizer An instance of WP_Customize_Manager.
 	 * @return boolean
 	 */
-	static private function _remove_sections( $customizer )
-	{
+	static private function _remove_sections( $customizer ) {
 		// Remove CSS Code if WP core 'Additional CSS' is available since 4.7.0
 		if ( function_exists( 'wp_get_custom_css_post' ) ) {
 			$customizer->remove_section( 'fl-css-code-section' );
@@ -613,8 +588,7 @@ final class FLCustomizer {
 	 * @access private
 	 * @return array
 	 */
-	static private function _get_default_mods()
-	{
+	static private function _get_default_mods() {
 		$mods = array();
 
 		// Loop through the panels.
@@ -648,8 +622,7 @@ final class FLCustomizer {
 	 * @access private
 	 * @return array
 	 */
-	static private function _get_default_preset_mods()
-	{
+	static private function _get_default_preset_mods() {
 		$keys       = array();
 		$defaults   = self::_get_default_mods();
 		$mods       = array();
@@ -681,18 +654,16 @@ final class FLCustomizer {
 	 * @access private
 	 * @return array|bool
 	 */
-	static private function _get_preset_preview_mods()
-	{
+	static private function _get_preset_preview_mods() {
 		if ( self::is_preset_preview() ) {
 
 			$preset_slug                       = $_GET['fl-preview'];
 			$preset                            = self::$_presets[ $preset_slug ];
 			$preset['settings']['fl-preset']   = $_GET['fl-preview'];
 
-			if ( current_user_can('manage_options' ) ) {
+			if ( current_user_can( 'manage_options' ) ) {
 				return self::_merge_mods( 'saved', $preset['settings'] );
-			}
-			else if ( self::_is_demo_server() ) {
+			} elseif ( self::_is_demo_server() ) {
 				return self::_merge_mods( 'default', $preset['settings'] );
 			}
 
@@ -707,8 +678,7 @@ final class FLCustomizer {
 	 * @access private
 	 * @return bool
 	 */
-	static private function _is_demo_server()
-	{
+	static private function _is_demo_server() {
 		return stristr( $_SERVER['HTTP_HOST'], 'demos.wpbeaverbuilder.com' );
 	}
 
@@ -722,15 +692,12 @@ final class FLCustomizer {
 	 * @param array $mods The mods array to merge with.
 	 * @return array|bool
 	 */
-	static private function _merge_mods( $merge_with = 'default', $mods = null )
-	{
+	static private function _merge_mods( $merge_with = 'default', $mods = null ) {
 		if ( ! $mods ) {
 			return false;
-		}
-		else if ( $merge_with == 'default' ) {
+		} elseif ( 'default' == $merge_with ) {
 			$new_mods = self::_get_default_mods();
-		}
-		else if ( $merge_with == 'saved' ) {
+		} elseif ( 'saved' == $merge_with ) {
 			$new_mods = get_theme_mods();
 			$new_mods = self::_merge_mods( 'default', $new_mods );
 		}
@@ -752,8 +719,7 @@ final class FLCustomizer {
 	 * @param bool $all
 	 * @return void
 	 */
-	static private function _clear_css_cache( $all = false )
-	{
+	static private function _clear_css_cache( $all = false ) {
 		$dir_name   = basename( FL_THEME_DIR );
 		$cache_dir  = self::get_cache_dir();
 		$css_slug   = $all ? '' : self::_css_slug() . '-';
@@ -777,15 +743,12 @@ final class FLCustomizer {
 	 * @access private
 	 * @return string
 	 */
-	static private function _css_slug()
-	{
+	static private function _css_slug() {
 		if ( self::is_preset_preview() ) {
 			$slug = 'preview-' . $_GET['fl-preview'];
-		}
-		else if ( self::is_customizer_preview() ) {
+		} elseif ( self::is_customizer_preview() ) {
 			$slug = 'customizer';
-		}
-		else {
+		} else {
 			$slug = 'skin';
 		}
 
@@ -799,8 +762,7 @@ final class FLCustomizer {
 	 * @access private
 	 * @return void
 	 */
-	static private function _compile_css()
-	{
+	static private function _compile_css() {
 		$theme_info   = wp_get_theme();
 		$mods         = self::get_mods();
 		$preset       = isset( $mods['fl-preset'] ) ? $mods['fl-preset'] : 'default';
@@ -809,31 +771,48 @@ final class FLCustomizer {
 		$css_slug     = self::_css_slug();
 		$css          = '';
 		$filename     = $cache_dir['path'] . $css_slug . '-' . $new_css_key . '.css';
+		$paths = array();
 
 		// Theme stylesheet
-		$css .= file_get_contents( FL_THEME_DIR . '/less/theme.less' );
+		$paths[] = FL_THEME_DIR . '/less/theme.less';
 
 		// WooCommerce
 		if ( 'disabled' != $mods['fl-woo-css'] ) {
-			$css .= file_get_contents( FL_THEME_DIR . '/less/woocommerce.less' );
+			$paths[] = FL_THEME_DIR . '/less/woocommerce.less';
 		}
+
+		// Events Calendar
+		$css .= file_get_contents( FL_THEME_DIR . '/less/the-events-calendar.less' );
 
 		// Skin
 		if ( isset( self::$_presets[ $preset ]['skin'] ) ) {
-		
+
 			$skin = self::$_presets[ $preset ]['skin'];
-			
+
 			if ( stristr( $skin, '.css' ) || stristr( $skin, '.less' ) ) {
 				$skin_file = $skin;
-			}
-			else {
+			} else {
 				$skin_file = FL_THEME_DIR . '/less/skin-' . $skin . '.less';
 			}
-			
+
 			if ( file_exists( $skin_file ) ) {
-				$css .= file_get_contents( $skin_file );
+				$paths[] = $skin_file;
 			}
 		}
+
+		// Filter the array of paths
+		$paths = apply_filters( 'fl_theme_compile_less_paths', $paths );
+
+		// Loop over paths and get contents
+		$css = '';
+		foreach ( $paths as $path ) {
+			if ( file_exists( $path ) ) {
+				$css .= file_get_contents( $path );
+			}
+		}
+
+		// Filter less before compiling
+		$css = apply_filters( 'fl_theme_compile_less', $css );
 
 		// Replace {FL_THEME_URL} placeholder.
 		$css = str_replace( '{FL_THEME_URL}', FL_THEME_URL, $css );
@@ -842,8 +821,10 @@ final class FLCustomizer {
 		$css = self::_compile_less( $css );
 
 		// Compress
-		$css = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
-		$css = str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    ' ), '', $css );
+		if ( ! WP_DEBUG ) {
+			$css = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
+			$css = str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    ' ), '', $css );
+		}
 
 		// Save the new css.
 		file_put_contents( $filename, $css );
@@ -865,8 +846,7 @@ final class FLCustomizer {
 	 * @param string $css The LESS CSS to compile.
 	 * @return string
 	 */
-	static private function _compile_less( $css )
-	{
+	static private function _compile_less( $css ) {
 		if ( ! class_exists( 'lessc' ) ) {
 			require_once FL_THEME_DIR . '/classes/class-lessc.php';
 		}
@@ -894,8 +874,7 @@ final class FLCustomizer {
 	 * @access private
 	 * @return string
 	 */
-	static private function _get_less_vars()
-	{
+	static private function _get_less_vars() {
 		$mods                                   = self::get_mods();
 		$defaults   							= self::_get_default_mods();
 		$vars                                   = array();
@@ -962,7 +941,7 @@ final class FLCustomizer {
 		$vars['logo-font']                      = self::_get_font_family_string( $mods['fl-logo-font-family'] );
 		$vars['logo-weight']                    = $mods['fl-logo-font-weight'];
 		$vars['logo-size']                      = $mods['fl-logo-font-size'] . 'px';
-		
+
 		// Top Bar Background Image
 		$vars['topbar-bg-image']                = empty( $mods['fl-topbar-bg-image'] ) ? 'none' : 'url(' . $mods['fl-topbar-bg-image'] . ')';
 		$vars['topbar-bg-repeat']               = $mods['fl-topbar-bg-repeat'];
@@ -989,7 +968,7 @@ final class FLCustomizer {
 
 		// Header Colors
 		$vars['header-bg-color']				= FLColor::hex_or_transparent( $mods['fl-header-bg-color'] );
-		$vars['header-bg-opacity']				= FLColor::clean_opa( $mods['fl-header-bg-opacity'] );		
+		$vars['header-bg-opacity']				= FLColor::clean_opa( $mods['fl-header-bg-opacity'] );
 		$vars['header-bg-grad']                 = $mods['fl-header-bg-gradient'] ? 10 : 0;
 		$vars['header-border-color']        	= FLColor::similar( array( 10, 13, 19 ), array( $vars['header-bg-color'], $vars['body-bg-color'] ) );
 		$vars['header-fg-color']                = FLColor::hex( array( $mods['fl-header-text-color'], $vars['text-color'] ) );
@@ -999,16 +978,16 @@ final class FLCustomizer {
 
 		// Vertical Header
 		$vars['vertical-header-width']          = $mods['fl-vertical-header-width'] . 'px';
-		
+
 		// Fixed Header Background Color
 		$vars['fixed-header-bg-color']          = FLColor::hex( array( $vars['header-bg-color'], $vars['body-bg-color'] ) );
-		
+
 		// Nav Fonts
 		$vars['nav-font-family']                = self::_get_font_family_string( $mods['fl-nav-font-family'] );
 		$vars['nav-font-weight']                = $mods['fl-nav-font-weight'];
 		$vars['nav-font-format']                = $mods['fl-nav-font-format'];
 		$vars['nav-font-size']                  = $mods['fl-nav-font-size'] . 'px';
-		
+
 		// Nav Background Image
 		$vars['nav-bg-image']                	= empty( $mods['fl-nav-bg-image'] ) ? 'none' : 'url(' . $mods['fl-nav-bg-image'] . ')';
 		$vars['nav-bg-repeat']               	= $mods['fl-nav-bg-repeat'];
@@ -1020,42 +999,39 @@ final class FLCustomizer {
 		$nav_shadow_size                        = $mods['fl-nav-shadow-size'];
 		$nav_shadow_color                       = $mods['fl-nav-shadow-color'];
 		$vars['nav-shadow']                     = $nav_shadow_size ? '0 0 ' . $nav_shadow_size . 'px ' . $nav_shadow_color : 'none';
-		
+
 		// Nav Layout
 		$vars['nav-item-spacing']               = $mods['fl-nav-item-spacing'] . 'px';
 		$vars['nav-menu-top-spacing']           = $mods['fl-nav-menu-top-spacing'] . 'px';
 		$vars['header-logo-top-spacing']        = $mods['fl-header-logo-top-spacing'] . 'px';
 
 		// Right Nav, Left Nav, Vertical Nav, Centered Inline Logo Nav Colors
-		if ( 'right'                == $mods['fl-header-layout'] ||
-			 'left'                 == $mods['fl-header-layout'] ||
-			 'vertical-left'        == $mods['fl-header-layout'] ||
-			 'vertical-right'       == $mods['fl-header-layout'] ||
-		     'centered-inline-logo' == $mods['fl-header-layout']
-		   )
-		{
+		if ( 'right' == $mods['fl-header-layout'] ||
+			 'left' == $mods['fl-header-layout'] ||
+			 'vertical-left' == $mods['fl-header-layout'] ||
+			 'vertical-right' == $mods['fl-header-layout'] ||
+			 'centered-inline-logo' == $mods['fl-header-layout']
+		   ) {
 			$vars['nav-bg-color']               = $vars['header-bg-color'];
 			$vars['nav-bg-grad']                = 0;
 			$vars['nav-border-color']           = $vars['header-border-color'];
 			$vars['nav-fg-color']               = $vars['header-fg-color'];
 			$vars['nav-fg-link-color']          = $vars['header-fg-link-color'];
 			$vars['nav-fg-hover-color']         = $vars['header-fg-hover-color'];
-		}
-		
-		// Bottom and Centered Nav Colors
+		} // End if().
 		else {
 			$vars['nav-bg-color']				= FLColor::hex_or_transparent( $mods['fl-nav-bg-color'] );
-			$vars['nav-bg-opacity']			= FLColor::clean_opa( $mods['fl-nav-bg-opacity'] );	
+			$vars['nav-bg-opacity']			= FLColor::clean_opa( $mods['fl-nav-bg-opacity'] );
 			$vars['nav-bg-grad']                = $mods['fl-nav-bg-gradient'] ? 5 : 0;
 			$vars['nav-border-color']        	= FLColor::similar( array( 10, 13, 19 ), array( $vars['nav-bg-color'], $vars['body-bg-color'] ) );
 			$vars['nav-fg-color']               = FLColor::hex( array( $mods['fl-nav-link-color'], $vars['text-color'] ) );
 			$vars['nav-fg-link-color']          = FLColor::hex( array( $mods['fl-nav-link-color'], $vars['text-color'] ) );
 			$vars['nav-fg-hover-color']         = FLColor::hex( array( $mods['fl-nav-hover-color'], $vars['nav-fg-color'] ) );
 		}
-		
+
 		// Nav Dropdown Colors
 		$vars['nav-dropdown-bg-color']			= FLColor::hex( array( $vars['nav-bg-color'], $vars['body-bg-color'] ) );
-		
+
 		// Mobile Nav Colors
 		$vars['mobile-nav-btn-color']       	= FLColor::similar( array( 10, 13, 19 ), array( $vars['header-bg-color'], $vars['body-bg-color'] ) );
 		$vars['mobile-nav-fg-color']        	= $vars['header-fg-color'];
@@ -1064,7 +1040,7 @@ final class FLCustomizer {
 
 		// Content Width
 		$vars['content-width']                  = $mods['fl-content-width'] . 'px';
-		
+
 		// Content Background Image
 		$vars['content-bg-image']               = empty( $mods['fl-content-bg-image'] ) ? 'none' : 'url(' . $mods['fl-content-bg-image'] . ')';
 		$vars['content-bg-repeat']              = $mods['fl-content-bg-repeat'];
@@ -1075,15 +1051,14 @@ final class FLCustomizer {
 		// Content Colors
 		$vars['content-bg-color']               = FLColor::hex( $mods['fl-content-bg-color'] );
 		$vars['content-bg-opacity']				= FLColor::clean_opa( $mods['fl-content-bg-opacity'] );
-		
+
 		if ( ! FLColor::is_hex( $vars['content-bg-color'] ) ) {
 			$vars['content-bg-color-2']         = $vars['body-bg-color-2'];
 			$vars['content-bg-color-3']         = $vars['body-bg-color-3'];
 			$vars['border-color']               = $vars['body-border-color'];
 			$vars['border-color-2']             = $vars['body-border-color-2'];
 			$vars['content-fg-color']           = $vars['body-fg-color'];
-		}
-		else {
+		} else {
 			$vars['content-bg-color-2']         = FLColor::similar( array( 1, 4, 13 ), $vars['content-bg-color'] );
 			$vars['content-bg-color-3']         = FLColor::similar( array( 3, 9, 18 ), $vars['content-bg-color'] );
 			$vars['border-color']               = FLColor::similar( array( 10, 9, 19 ), $vars['content-bg-color'] );
@@ -1100,13 +1075,13 @@ final class FLCustomizer {
 		if ( 'custom' == $mods['fl-woo-sidebar-size'] && 'no-sidebar' != $mods['fl-woo-layout'] ) {
 			$vars['custom-woo-sidebar-size']    = $mods['fl-woo-custom-sidebar-size'] . '%';
 		}
-		
+
 		// Inputs Colors
 		$vars['input-bg-color']               	= FLColor::hex( array( $vars['content-bg-color-2'], $vars['body-bg-color-2'], '#fcfcfc' ) );
 		$vars['input-bg-focus-color']           = FLColor::hex( array( $vars['content-bg-color'], $vars['body-bg-color'], '#ffffff' ) );
 		$vars['input-border-color']             = FLColor::hex( array( $vars['border-color'], $vars['body-border-color'], '#e6e6e6' ) );
 		$vars['input-border-focus-color']       = FLColor::hex( array( $vars['border-color-2'], $vars['body-border-color-2'], '#cccccc' ) );
-		
+
 		// Footer Widget Background Image
 		$vars['footer-widgets-bg-image']        = empty( $mods['fl-footer-widgets-bg-image'] ) ? 'none' : 'url(' . $mods['fl-footer-widgets-bg-image'] . ')';
 		$vars['footer-widgets-bg-repeat']       = $mods['fl-footer-widgets-bg-repeat'];
@@ -1122,7 +1097,7 @@ final class FLCustomizer {
 		$vars['footer-widgets-fg-color']        = FLColor::hex( array( $mods['fl-footer-widgets-text-color'], $vars['text-color'] ) );
 		$vars['footer-widgets-fg-link-color']   = FLColor::hex( array( $mods['fl-footer-widgets-link-color'], $vars['footer-widgets-fg-color'] ) );
 		$vars['footer-widgets-fg-hover-color']  = FLColor::hex( array( $mods['fl-footer-widgets-hover-color'], $vars['footer-widgets-fg-color'] ) );
-		
+
 		// Footer Background Image
 		$vars['footer-bg-image']        		= empty( $mods['fl-footer-bg-image'] ) ? 'none' : 'url(' . $mods['fl-footer-bg-image'] . ')';
 		$vars['footer-bg-repeat']       		= $mods['fl-footer-bg-repeat'];
@@ -1138,13 +1113,13 @@ final class FLCustomizer {
 		$vars['footer-fg-color']        		= FLColor::hex( array( $mods['fl-footer-text-color'], $vars['text-color'] ) );
 		$vars['footer-fg-link-color']           = FLColor::hex( array( $mods['fl-footer-link-color'], $vars['footer-fg-color'] ) );
 		$vars['footer-fg-hover-color']          = FLColor::hex( array( $mods['fl-footer-hover-color'], $vars['footer-fg-color'] ) );
-		
+
 		// WooCommerce
 		if ( FLTheme::is_plugin_active( 'woocommerce' ) ) {
-			$vars['woo-cats-add-button']        = $mods['fl-woo-cart-button'] == 'hidden' ? 'none' : 'inline-block';
+			$vars['woo-cats-add-button']        = 'hidden' == $mods['fl-woo-cart-button'] ? 'none' : 'inline-block';
 		}
-		
-		// Let developers add their own vars. 
+
+		// Let developers add their own vars.
 		$vars = apply_filters( 'fl_less_vars', $vars );
 
 		// Build the vars string
@@ -1164,14 +1139,12 @@ final class FLCustomizer {
 	 * @param string $font The font key.
 	 * @return string
 	 */
-	static private function _get_font_family_string( $font )
-	{
+	static private function _get_font_family_string( $font ) {
 		$string = '';
 		$system = FLFontFamilies::get_system();
 		if ( isset( $system[ $font ] ) ) {
 			$string = $font . ', ' . $system[ $font ]['fallback'];
-		}
-		else {
+		} else {
 			$string = '"' . $font . '", sans-serif';
 		}
 
@@ -1186,8 +1159,7 @@ final class FLCustomizer {
 	 * @param array $matches
 	 * @return string
 	 */
-	static private function _preg_replace_less( $matches )
-	{
+	static private function _preg_replace_less( $matches ) {
 		if ( ! empty( $matches[1] ) ) {
 			return 'filter: ~"' . $matches[1] . '";';
 		}

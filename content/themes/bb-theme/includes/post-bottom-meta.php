@@ -1,10 +1,10 @@
 <?php
 
 // Only show if we're showing the full post.
-if($show_full || is_single()) {
+if ( $show_full || is_single() ) {
 
 	// Wrapper
-	if($show_cats || $show_tags || $comments) {
+	if ( $show_cats || $show_tags || $comments ) {
 
 		echo '<div class="fl-post-meta fl-post-meta-bottom">';
 
@@ -12,7 +12,7 @@ if($show_full || is_single()) {
 	}
 
 	// Categories and Tags
-	if($show_cats || $show_tags) {
+	if ( $show_cats || $show_tags ) {
 
 		$tags = get_the_tag_list( '', ', ' );
 		$cats = get_the_category_list( ', ' );
@@ -40,10 +40,10 @@ if($show_full || is_single()) {
 	}
 
 	// Close Wrapper
-	if($show_cats || $show_tags || $comments) {
+	if ( $show_cats || $show_tags || $comments ) {
 
 		do_action( 'fl_post_bottom_meta_close' );
 
 		echo '</div>';
 	}
-}
+}// End if().

@@ -2,7 +2,7 @@
 	<div class="fl-page-header-wrap">
 		<div class="fl-page-header-container container">
 			<div class="fl-page-header-row row">
-				<div class="fl-page-header-logo fl-inline-logo-<?php echo FLTheme::get_setting('fl-inline-logo-side'); ?> col-sm-12" itemscope="itemscope" itemtype="http://schema.org/Organization">
+				<div class="fl-page-header-logo fl-inline-logo-<?php echo FLTheme::get_setting( 'fl-inline-logo-side' ); ?> col-sm-12" itemscope="itemscope" itemtype="http://schema.org/Organization">
 					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" itemprop="url"><?php FLTheme::logo(); ?></a>
 				</div>
 				<div class="fl-page-nav-col col-sm-12">
@@ -18,7 +18,7 @@
 									'theme_location' => 'header',
 									'items_wrap' => '<ul id="%1$s" class="nav navbar-nav %2$s">%3$s</ul>',
 									'container' => false,
-									'fallback_cb' => 'FLTheme::nav_menu_fallback'
+									'fallback_cb' => 'FLTheme::nav_menu_fallback',
 								));
 
 								FLTheme::nav_search();
