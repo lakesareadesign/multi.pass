@@ -1,3 +1,6 @@
 [submodule "cms"]
 	path = cms
 	url = git@github.com:lakesareadesign/WordPress.git
+[submodule "multi-network"]
+	path = content/plugins/wp-multi-network
+	url = git@github.com:lakesareadesign/wp-multi-network.git
