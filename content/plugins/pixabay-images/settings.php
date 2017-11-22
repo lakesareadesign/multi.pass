@@ -13,6 +13,7 @@ function register_pixabay_images_options(){
     register_setting('pixabay_images_options', 'pixabay_images_options', 'pixabay_images_options_validate');
     add_settings_section('pixabay_images_options_section', '', '', 'pixabay_images_settings');
     add_settings_field('language-id', __('Language', 'pixabay_images'), 'pixabay_images_render_language', 'pixabay_images_settings', 'pixabay_images_options_section');
+    add_settings_field('safesearch-id', 'SafeSearch', 'pixabay_images_render_safesearch', 'pixabay_images_settings', 'pixabay_images_options_section');
     add_settings_field('attribution-id', __('Attribution', 'pixabay_images'), 'pixabay_images_render_attribution', 'pixabay_images_settings', 'pixabay_images_options_section');
     add_settings_field('button-id', __('Button', 'pixabay_images'), 'pixabay_images_render_button', 'pixabay_images_settings', 'pixabay_images_options_section');
 }
@@ -26,6 +27,11 @@ function pixabay_images_render_language(){
     echo '<select name="pixabay_images_options[language]">';
     foreach ($pixabay_images_gallery_languages as $k => $v) { echo '<option value="'.$k.'"'.($options['language']==$k?' selected="selected"':'').'>'.$v.'</option>'; }
     echo '</select>';
+}
+
+function pixabay_images_render_safesearch(){
+    $options = get_option('pixabay_images_options');
+    echo '<label><input name="pixabay_images_options[safesearch]" value="true" type="checkbox"'.($options['safesearch']=='true'?' checked="checked"':'').'> '.__('Exclude inappropriate or explicit images', 'pixabay_images').'</label>';
 }
 
 function pixabay_images_render_attribution(){
@@ -63,6 +69,7 @@ function pixabay_images_options_validate($input){
     global $pixabay_images_gallery_languages;
     $options = get_option('pixabay_images_options');
     if ($pixabay_images_gallery_languages[$input['language']]) $options['language'] = $input['language'];
+    if ($input['safesearch']) $options['safesearch'] = 'true'; else $options['safesearch'] = 'false';
     if ($input['attribution']) $options['attribution'] = 'true'; else $options['attribution'] = 'false';
     if ($input['button']) $options['button'] = 'true'; else $options['button'] = 'false';
     return $options;

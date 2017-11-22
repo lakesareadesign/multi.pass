@@ -269,7 +269,12 @@ if ( ! class_exists( 'WP_Hummingbird_Filesystem' ) ) {
 			// Determine path for Gravatar module.
 			if ( $gravatar ) {
 				// If Gravatar cache, we need to use first three letters of hash as a directory.
-				$hash = trailingslashit( substr( $file, 0, 3 ) );
+				$hash = '';
+				// No need for a hash if we're just adding a blank index.html file.
+				if ( 'index.html' !== $file ) {
+					$hash = trailingslashit( substr( $file, 0, 3 ) );
+				}
+
 				$path = $this->gravatar_dir . $hash;
 			} else {
 				// Determin path for page caching module.

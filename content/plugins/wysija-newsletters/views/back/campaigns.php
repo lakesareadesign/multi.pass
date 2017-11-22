@@ -2887,6 +2887,16 @@ $this->replace_link_shortcode(
 
 					<h1><?php echo sprintf(__('You\'ve updated to %1$s', WYSIJA), '<span class="version">MailPoet '.WYSIJA::get_version())."</span>"; ?></h1>
 
+          <div class="error"><p><?php
+            echo $this->replace_link_shortcode(
+                    $this->replace_link_shortcode(
+                      __('Having spam issues with MailPoet 2 subscription forms? Upgrade to [link]MailPoet 3[/link] or [link]enable Captcha[/link].', WYSIJA),
+                      admin_url('plugin-install.php?s=mailpoet&tab=search&type=author')
+                    ),
+                    admin_url('admin.php?page=wysija_config#tab-advanced')
+                  );
+            ?></p></div>
+
 					<div class="about-text"><?php echo $data['abouttext'] ?></div>
 					<?php
 					foreach ($data['sections'] as $section) {

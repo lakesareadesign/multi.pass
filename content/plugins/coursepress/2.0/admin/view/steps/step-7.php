@@ -92,6 +92,31 @@
 					?></td>
 				</tr>
 				<tr>
+					<td style="width:20%;"><label><?php _e( 'Logo', 'cp' ); ?></label></td>
+					<td><?php
+						echo CoursePress_Helper_UI::browse_media_field(
+							'meta_certificate_logo',
+							'meta_certificate_logo',
+							array(
+								'placeholder' => __( 'Choose logo image', 'cp' ),
+								'type' => 'image',
+								'value' => $certificate['logo'],
+							)
+						);
+						?></td>
+				</tr>
+				<tr>
+					<td><label><?php _e( 'Logo Position', 'cp' ); ?></label></td>
+					<td>
+						<?php _e( 'X', 'cp' ); ?>:
+						<input type="number" class="small-text" name="meta_logo_position[x]" value="<?php echo esc_attr( $certificate['logo_position']['x'] ); ?>" />
+						<?php _e( 'Y', 'cp' ); ?>:
+						<input type="number" class="small-text" name="meta_logo_position[y]" value="<?php echo esc_attr( $certificate['logo_position']['y'] ); ?>" />
+						<?php _e( 'Width', 'cp' ); ?>:
+						<input type="number" class="small-text" name="meta_logo_position[width]" value="<?php echo esc_attr( $certificate['logo_position']['width'] ); ?>" />
+					</td>
+				</tr>
+				<tr>
 					<td><label><?php _e( 'Content Margin', 'cp' ); ?></label></td>
 					<td>
 						<?php _e( 'Top', 'cp' ); ?>:

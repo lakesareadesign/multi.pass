@@ -32,15 +32,7 @@
 		return inputsObject;
 	}
 
-	/**
-	 * Extend the tabs toggle function to check the license
-	 * if the support tab is clicked
-	 *
-	 * @type {as3cf.tabs.toggle}
-	 */
-	var orginalToggle = as3cf.tabs.toggle;
-	as3cf.tabs.toggle = function( hash ) {
-		orginalToggle( hash );
+	$( document ).on( 'as3cf.tabRendered', function( event, hash ) {
 		if ( 'support' === hash ) {
 			if ( '1' === as3cfpro.strings.has_licence ) {
 				checkLicence();
@@ -52,7 +44,7 @@
 		}
 
 		toggleSidebarTools( hash );
-	};
+	} );
 
 	/**
 	 * Extend the buckets set method to refresh the media upload notice
@@ -260,7 +252,7 @@
 			$( '.as3cf-pro-license-notice' ).remove();
 			$( '.licence-status' ).empty().removeClass( 'success' );
 			doingLicenceRegistrationAjax = true;
-			$( '.button.register-licence' ).attr( 'disabled', true );
+			$( '.button.register-licence' ).prop( 'disabled', true );
 			$( '.button.register-licence' ).after( '<img src="' + as3cfpro.spinnerUrl + '" alt="" class="register-licence-ajax-spinner general-spinner" />' );
 
 			$.ajax( {
@@ -277,11 +269,11 @@
 					doingLicenceRegistrationAjax = false;
 					$( '.register-licence-ajax-spinner' ).remove();
 					$( '.licence-status' ).html( as3cfpro.strings.register_license_problem );
-					$( '.button.register-licence' ).attr( 'disabled', false );
+					$( '.button.register-licence' ).prop( 'disabled', false );
 				},
 				success: function( data ) {
 					doingLicenceRegistrationAjax = false;
-					$( '.button.register-licence' ).attr( 'disabled', false );
+					$( '.button.register-licence' ).prop( 'disabled', false );
 					$( '.register-licence-ajax-spinner' ).remove();
 
 					if ( 'object' === typeof data.htmlErrors && data.htmlErrors.length ) {

@@ -2,9 +2,9 @@
 
 /*
 Plugin Name: Pixabay Images
-Plugin URI: https://pixabay.com/blog/posts/p-36/
+Plugin URI: https://pixabay.com/blog/posts/p-136/
 Description: Find quality public domain images from Pixabay and upload them with just one click.
-Version: 3.0
+Version: 3.1
 Author: Simon Steinberger
 Author URI: https://pixabay.com/users/Simon/
 License: GPLv2
@@ -99,6 +99,7 @@ function media_pixabay_images_tab() {
 
             var post_id = <?=absint($_REQUEST['post_id']) ?>,
                 lang = '<?= $pixabay_images_settings['language']?$pixabay_images_settings['language']:substr(get_locale(), 0, 2) ?>',
+                safesearch = '<?= $pixabay_images_settings['safesearch']=='true'?'true':'false' ?>',
                 per_page = 30, form = jQuery('#pixabay_images_form'), hits, q, image_type, orientation;
 
             form.submit(function(e){
@@ -116,7 +117,7 @@ function media_pixabay_images_tab() {
 
             function call_api(q, p){
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'https://pixabay.com/api/?key=27347-23fd1708b1c4f768195a5093b&response_group=high_resolution&lang='+lang+'&image_type='+image_type+'&orientation='+orientation+'&per_page='+per_page+'&page='+p+'&search_term='+encodeURIComponent(q));
+                xhr.open('GET', 'https://pixabay.com/api/?key=27347-23fd1708b1c4f768195a5093b&response_group=high_resolution&lang='+lang+'&safesearch='+safesearch+'&image_type='+image_type+'&orientation='+orientation+'&per_page='+per_page+'&page='+p+'&search_term='+encodeURIComponent(q));
                 xhr.onreadystatechange = function(){
                     if (this.status == 200 && this.readyState == 4) {
                         var data = JSON.parse(this.responseText);
@@ -186,15 +187,8 @@ if (isset($_POST['pixabay_upload'])) {
     $post_id = absint($_REQUEST['post_id']);
     $pixabay_images_settings = get_option('pixabay_images_options');
 
-    // parse image_url
-    $url = str_replace('https:', 'http:', $_POST['image_url']);
-    $parsed_url = parse_url($url);
-    if(strcmp($parsed_url['host'], 'pixabay.com')) {
-        die('Error: Invalid host in URL (must be pixabay.com)');
-    }
-
     // get image file
-	$response = wp_remote_get($url);
+	$response = wp_remote_get($_POST['image_url']);
 	if (is_wp_error($response)) die('Error: '.$response->get_error_message());
 
 	$q_tags = explode(' ' , $_POST['q']);
@@ -205,7 +199,7 @@ if (isset($_POST['pixabay_upload'])) {
 		$v = str_replace("/", "", $v);
 		$q_tags[$k] = trim($v);
 	}
-    $path_info = pathinfo($url);
+    $path_info = pathinfo($_POST['image_url']);
 	$file_name = sanitize_file_name(implode('_', $q_tags).'_'.time().'.'.$path_info['extension']);
 
 	$wp_upload_dir = wp_upload_dir();

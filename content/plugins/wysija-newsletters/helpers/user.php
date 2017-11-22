@@ -102,8 +102,44 @@ class WYSIJA_help_user extends WYSIJA_object {
             }
         }
 
-
         return true;
+    }
+
+    function isCaptchaEnabled() {
+      $config = WYSIJA::get('config', 'model');
+      return $config->getValue('recaptcha');
+    }
+
+    function verifyCaptcha($data) {
+      $config = WYSIJA::get('config', 'model');
+
+      if(!$this->isCaptchaEnabled()) {
+        return true;
+      }
+
+      if(isset($data['g-recaptcha-response'])) {
+        $response = json_decode(
+          wp_remote_retrieve_body(
+            wp_remote_post(
+              'https://www.google.com/recaptcha/api/siteverify',
+              array(
+                'body' => array(
+                  'secret' => $config->getValue('recaptcha_secret'),
+                  'response' => $data['g-recaptcha-response']
+                )
+              )
+            )
+          ),
+          true
+        );
+
+        if(!empty($response["success"])) {
+          return true;
+        }
+      }
+
+      $this->error( __( 'Please enter CAPTCHA correctly.' , WYSIJA ) , true);
+      return false;
     }
 
     /**

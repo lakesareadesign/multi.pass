@@ -328,7 +328,7 @@ abstract class Modal_Tool extends Tool {
 		}
 
 		// No files to process, gracefully die
-		if ( 0 === (int) $this->progress['total_files'] ) {
+		if ( 0 === (int) $this->progress['total_files'] && empty( $this->progress['more_blogs'] ) ) {
 			wp_send_json_error( __( 'No files to process.', 'amazon-s3-and-cloudfront' ) );
 		}
 
@@ -692,7 +692,7 @@ abstract class Modal_Tool extends Tool {
 	public function load_assets() {
 		if ( ! self::$assets_loaded ) {
 			$this->as3cf->enqueue_style( 'as3cf-pro-tool-styles', 'assets/css/pro/tool', array( 'as3cf-pro-styles' ) );
-			$this->as3cf->enqueue_script( 'as3cf-pro-tool-script', 'assets/js/pro/tool', array( 'as3cf-pro-script' ) );
+			$this->as3cf->enqueue_script( 'as3cf-pro-tool-script', 'assets/js/pro/tool', array( 'as3cf-pro-script', 'underscore' ) );
 
 			self::$assets_loaded = true;
 		}

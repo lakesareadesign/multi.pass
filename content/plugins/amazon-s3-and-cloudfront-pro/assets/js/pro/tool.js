@@ -20,6 +20,13 @@
 		timerCount: 0,
 
 		/**
+		 * Current interval start in seconds since UNIX epoch.
+		 *
+		 * {int}
+		 */
+		intervalStart: 0,
+
+		/**
 		 * Elapsed interval
 		 *
 		 * {number}
@@ -333,6 +340,7 @@
 		 */
 		setupCounter: function() {
 			this.timerCount = 0;
+			this.intervalStart = Date.now() / 1000;
 			this.$counterDisplay = $( '.timer' );
 			this.elapsedInterval = setInterval( this.count, 1000 );
 		},
@@ -343,7 +351,9 @@
 		count: function() {
 			var self = as3cfpro.tool;
 
-			self.timerCount = self.timerCount + 1;
+			// Add current interval length to total second count.
+			self.timerCount = Math.round( self.timerCount + ( Date.now() / 1000 ) - self.intervalStart );
+			self.intervalStart = Date.now() / 1000;
 			self.displayCount();
 		},
 
@@ -362,7 +372,7 @@
 		/**
 		 * Format a number with comma thousand separator
 		 *
-		 * @param {number}
+		 * @param {number} number
 		 * @returns {string}
 		 */
 		numberFormat: function( number ) {
@@ -414,12 +424,13 @@
 				this.showSpinner();
 				$( '.pause-resume' ).html( this.getString( 'pause' ) );
 				// Resume the timer
+				this.intervalStart = Date.now() / 1000;
 				this.elapsedInterval = setInterval( this.count, 1000 );
 				this.executeNextStep();
 			} else {
 				this.processPaused = true;
 				this.doingAjax = false;
-				this.disableElements( '.pause-resume' );
+				this.disableElements( '.upload-control' );
 			}
 
 			this.updateProgressMessage();
@@ -599,7 +610,7 @@
 			}
 
 			var $notice = $( '#' + as3cfpro.settings.errors_key_prefix + id );
-			var tab = $( '#' + this.ID ).attr( 'data-tab' );
+			var tab = $( '#' + this.ID ).data( 'tab' );
 
 			if ( $notice.length ) {
 				$notice.remove();
@@ -628,6 +639,10 @@
 				return;
 			}
 
+			var blogsToSend = as3cfpro.tool.sliceObject( blogs, 0, 500 );
+			var blogsToHold = as3cfpro.tool.sliceObject( blogs, 500 );
+			progress.more_blogs = Object.keys( blogsToHold ).length;
+
 			$.ajax( {
 				url: ajaxurl,
 				type: 'POST',
@@ -635,8 +650,8 @@
 				cache: false,
 				data: {
 					action: self.getAjaxAction( 'calculate_items' ),
-					blogs: blogs,
-					progress: progress,
+					blogs: blogsToSend,
+					progress: self.prepareProgressForPost( progress ),
 					nonce: self.getAjaxNonce( 'calculate_items' )
 				},
 				error: function( jqXHR, textStatus, errorThrown ) {
@@ -647,6 +662,10 @@
 				success: function( data ) {
 					if ( self.isError( data ) ) {
 						return;
+					}
+
+					if ( false === _.isEmpty( blogsToHold ) ) {
+						data.blogs = _.extend( data.blogs, blogsToHold );
 					}
 
 					self.nextStepInProcess = { fn: self.calculateItemsRecursive, args: [ data.blogs, data.progress ] };
@@ -680,7 +699,7 @@
 				cache: false,
 				data: {
 					action: self.getAjaxAction( 'process_items' ),
-					progress: progress,
+					progress: self.prepareProgressForPost( progress ),
 					nonce: self.getAjaxNonce( 'process_items' )
 				},
 				error: function( jqXHR, textStatus, errorThrown ) {
@@ -811,7 +830,7 @@
 				clearInterval( self.elapsedInterval );
 				$( '.progress-text' ).html( self.getString( 'paused' ) );
 				$( '.pause-resume' ).html( self.getString( 'resume' ) );
-				this.enableElements( '.pause-resume' );
+				this.enableElements( '.upload-control' );
 			} else if ( true === self.processCancelled ) {
 				$( '.progress-text' ).html( self.getString( 'process_cancelled' ) );
 				self.processCompleteEvents();
@@ -1034,6 +1053,50 @@
 			} );
 
 			return $.post( ajaxurl, data );
+		},
+
+		/**
+		 * Prepare progress data for submit to the server.
+		 *
+		 * @param {Object} progress
+		 *
+		 * @returns {Object} Copy of input progress, prepared for POST to the server.
+		 */
+		prepareProgressForPost: function( progress ) {
+			return _.omit( progress, [ 'errors', 'errorsHtml' ] );
+		},
+
+		/**
+		 * Array.slice ... but for Object!
+		 *
+		 * @param {object} obj
+		 * @param {int} start
+		 * @param {int} end - Optional
+		 * @returns {object}
+		 *
+		 * Note: Explicitly not extending Object.prototype because jQuery throws a wobbly.
+		 */
+		sliceObject: function( obj, start, end ) {
+			var sliced = {};
+
+			// Shortcut out if start is too large.
+			if ( start >= obj.length ) {
+				return sliced;
+			}
+
+			// If end not set we're going to end.
+			if ( undefined === end ) {
+				end = Object.keys( obj ).length;
+			}
+
+			var keys = Object.keys( obj ).slice( start, end );
+			var values = Object.values( obj ).slice( start, end );
+
+			return keys.reduce( function( obj, key, idx ) {
+				obj[ key ] = values[ idx ];
+
+				return obj;
+			}, {} );
 		}
 	};
 

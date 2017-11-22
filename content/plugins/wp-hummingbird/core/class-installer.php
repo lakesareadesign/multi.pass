@@ -85,6 +85,7 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 			}
 
 			// Remove advanced-cache.php files and clear cache.
+			wphb_update_setting( 'page_cache', false );
 			/* @var WP_Hummingbird_Module_Page_Caching $module */
 			$module = wphb_get_module( 'page-caching' );
 			$module->cleanup();
@@ -136,15 +137,15 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 				}
 
 				if ( version_compare( $version, '1.1', '<' ) ) {
-					$options = wphb_get_settings();
+					$options  = wphb_get_settings();
 					$defaults = wphb_get_default_settings();
 
 					if ( isset( $options['caching_expiry_css/javascript'] ) ) {
-						$options['caching_expiry_css'] = $options['caching_expiry_css/javascript'];
+						$options['caching_expiry_css']        = $options['caching_expiry_css/javascript'];
 						$options['caching_expiry_javascript'] = $options['caching_expiry_css/javascript'];
 						unset( $options['caching_expiry_css/javascript'] );
 					} else {
-						$options['caching_expiry_css'] = $defaults['caching_expiry_css'];
+						$options['caching_expiry_css']        = $defaults['caching_expiry_css'];
 						$options['caching_expiry_javascript'] = $defaults['caching_expiry_javascript'];
 					}
 
@@ -194,6 +195,10 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 
 				if ( version_compare( $version, '1.6.2', '<' ) ) {
 					self::upgrade_1_6_2();
+				}
+
+				if ( version_compare( $version, '1.7.0.3', '<' ) ) {
+					self::upgrade_1_7_0_3();
 				}
 
 				update_site_option( 'wphb_version', WPHB_VERSION );
@@ -371,6 +376,24 @@ if ( ! class_exists( 'WP_Hummingbird_Installer' ) ) {
 			$email_time[1] = sprintf( '%02d', mt_rand( 0, 59 ) );
 			$options['email-time'] = implode( ':', $email_time );
 			wphb_update_settings( $options );
+		}
+
+		/**
+		 * Add debug_log setting to page caching config file.
+		 */
+		private static function upgrade_1_7_0_3() {
+			$config_file = WP_CONTENT_DIR . '/wphb-cache/wphb-cache.php';
+			if ( ! file_exists( $config_file ) ) {
+				return;
+			}
+
+			$settings = json_decode( file_get_contents( $config_file ), true );
+			if ( isset( $settings['settings']['debug_log'] ) ) {
+				return;
+			}
+
+			$settings['settings']['debug_log'] = 0;
+			@file_put_contents( $config_file, json_encode( $settings ) );
 		}
 
 	}

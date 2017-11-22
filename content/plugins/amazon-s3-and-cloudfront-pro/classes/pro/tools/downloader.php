@@ -27,6 +27,10 @@ class Downloader extends Modal_Tool {
 	public function init() {
 		parent::init();
 
+		if ( ! $this->as3cf->is_pro_plugin_setup() ) {
+			return;
+		}
+
 		$this->maybe_render_deactivate_prompt();
 	}
 
@@ -36,8 +40,7 @@ class Downloader extends Modal_Tool {
 	 * @return array|bool
 	 */
 	protected function get_sidebar_block_args() {
-		if ( ! $this->as3cf->is_plugin_setup() ) {
-			// Don't show tool if not setup
+		if ( ! $this->as3cf->is_pro_plugin_setup() ) {
 			return false;
 		}
 

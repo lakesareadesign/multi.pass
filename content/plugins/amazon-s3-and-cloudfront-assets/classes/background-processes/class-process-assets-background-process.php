@@ -30,4 +30,11 @@ class AS3CF_Process_Assets_Background_Process extends AS3CF_Background_Process {
 		// Remainder of files to be processed.
 		return $item;
 	}
+
+	/**
+	 * Override to prevent the health check cron from being cleared.
+	 */
+	protected function clear_cron_healthcheck() {
+
+	}
 }

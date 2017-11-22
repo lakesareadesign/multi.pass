@@ -104,7 +104,7 @@
 		this.$noticeContainer.find( '.as3cf-license-notice' ).remove();
 		this.$noticeContainer.append(
 			'<div class="as3cf-license-notice update-message notice inline notice-warning notice-alt">' +
-				'<p>' + html + this.checkAgainLink() + '</p>' +
+				'<p class="as3cf-before">' + html + this.checkAgainLink() + '</p>' +
 			'</div>'
 		);
 	};

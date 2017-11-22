@@ -3,8 +3,8 @@ Contributors: SimonStone, byrev
 Donate link: http://byrev.org/donate.php
 Tags: images, photos, pictures, cliparts, clip arts, illustrations, vectors, vector graphics, stock photos, stock images, stock pictures, royalty-free, public domain, pd, copyright-free, free, free images, cc0, cc, creative commons, commercial use, insert, search, upload, media
 Requires at least: 3.5.1
-Tested up to: 4.8.1
-Stable tag: 3.0
+Tested up to: 4.9
+Stable tag: 3.1
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Find quality CC0 Public Domain images for commercial use, and add them to your b
 
 == Description ==
 
-[Pixabay Images](https://pixabay.com/blog/posts/p-50/) is a WordPress plugin that let's you pick CC0 public domain pictures from [Pixabay](https://pixabay.com/) and insert them with just a click anywhere on your blog. The images are safe to use, and paying attribution or linking back to the source is not required.
+[Pixabay Images](https://pixabay.com/blog/posts/p-136/) is a WordPress plugin that let's you pick CC0 public domain pictures from [Pixabay](https://pixabay.com/) and insert them with just a click anywhere on your blog. The images are safe to use, and paying attribution or linking back to the source is not required.
 
 Features include:
 
@@ -23,7 +23,7 @@ Features include:
 * Use of standard media dialogue for inserting images.
 * Unobtrusive integration into WordPress.
 
-For more information, check out [Pixabay.com](https://pixabay.com/blog/posts/p-50/).
+For more information, check out [Pixabay.com](https://pixabay.com/blog/posts/p-136/).
 
 == Installation ==
 
@@ -155,6 +155,12 @@ The plugin works on all modern browsers; Internet Explorer version 9 or higer is
 * Modernized layout and improved handling.
 * Endless scroll for search results.
 * Larger preview images.
+
+= 3.1 =
+
+* Compatibility tested for WordPress 4.9
+* Included SafeSearch filter in settings
+* Fixed https://wordpress.org/support/topic/error-file-attachment-metadata-error-3/
 
 == Upgrade Notice ==
 

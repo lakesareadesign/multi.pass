@@ -24,10 +24,27 @@ class Remove_Local_Files extends Background_Tool {
 	public function init() {
 		parent::init();
 
+		if ( ! $this->as3cf->is_pro_plugin_setup() ) {
+			return;
+		}
+
 		add_action( 'as3cfpro_load_assets', array( $this, 'load_assets' ) );
 		add_action( 'as3cf_form_hidden_fields', array( $this, 'render_hidden_field' ) );
 		add_action( 'as3cf_after_settings', array( $this, 'render_modal' ) );
 		add_action( 'as3cf_pre_save_settings', array( $this, 'maybe_start_tool_on_settings_save' ) );
+	}
+
+	/**
+	 * Get the details for the sidebar block
+	 *
+	 * @return array|bool
+	 */
+	protected function get_sidebar_block_args() {
+		if ( ! $this->as3cf->is_pro_plugin_setup() ) {
+			return false;
+		}
+
+		return parent::get_sidebar_block_args();
 	}
 
 	/**

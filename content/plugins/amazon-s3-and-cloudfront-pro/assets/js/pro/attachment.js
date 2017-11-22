@@ -6,8 +6,12 @@
 			e.preventDefault();
 
 			var toggle = $( '#as3cfpro-toggle-acl' );
-			var currentACL = toggle.attr( 'data-currentACL' );
+			var currentACL = toggle.data( 'currentacl' );
 			var newACL = as3cfpro_media.settings.private_acl;
+
+			if ( -1 === as3cfpro_media.actions.indexOf( 'update_acl' ) ) {
+				return;
+			}
 
 			toggle.hide();
 			toggle.after( '<span id="as3cfpro-updating">' + as3cfpro_media.strings.updating_acl + '</span>' );
@@ -18,7 +22,7 @@
 
 			wp.ajax.send( 'as3cfpro_update_acl', {
 				data: {
-					_nonce: as3cfpro_media.nonces.update_acl,
+					_ajax_nonce: as3cfpro_media.nonces.singular_update_acl,
 					id: as3cfpro_media.settings.post_id,
 					acl: newACL
 				}
@@ -28,7 +32,7 @@
 
 				toggle.text( response.acl_display );
 				toggle.attr( 'title', response.title );
-				toggle.attr( 'data-currentACL', response.acl );
+				toggle.data( 'currentacl', response.acl );
 				toggle.show();
 			} ).fail( function( response ) {
 				$( '#as3cfpro-updating' ).remove();

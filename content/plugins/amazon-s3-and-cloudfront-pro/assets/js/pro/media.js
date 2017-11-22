@@ -68,10 +68,9 @@
 				}
 			}
 
-			var nonce = as3cfpro_media.nonces[ this.options.action + '_media' ];
-
 			var payload = {
-				_nonce: nonce,
+				_ajax_nonce: as3cfpro_media.nonces[ this.options.scope + '_' + this.options.action ],
+				scope: this.options.scope,
 				s3_action: this.options.action,
 				ids: _.pluck( models, 'id' )
 			};
@@ -108,7 +107,7 @@
 		returnS3Action: function( response ) {
 			if ( response && '' !== response ) {
 				$( '.as3cf-notice' ).remove();
-				$( '#wp-media-grid h2' ).after( response );
+				$( '#wp-media-grid h1' ).after( response );
 			}
 
 			this.controller.trigger( 'selection:action:done' );
@@ -161,55 +160,18 @@
 		createToolbar: function() {
 			wpAttachmentsBrowser.prototype.createToolbar.call( this );
 
-			this.toolbar.set( 'copyS3SelectedButton', new media.view.s3Button( {
-				action: 'copy',
-				controller: this.controller,
-				priority: -60
-			} ).render() );
-
-			this.toolbar.set( 'removeS3SelectedButton', new media.view.s3Button( {
-				action: 'remove',
-				controller: this.controller,
-				priority: -60,
-				confirm: 'bulk_local_warning'
-			} ).render() );
-
-			this.toolbar.set( 'downloadS3SelectedButton', new media.view.s3Button( {
-				action: 'download',
-				controller: this.controller,
-				priority: -60
-			} ).render() );
-
+			_( as3cfpro_media.actions.bulk ).each( function( action ) {
+				this.toolbar.set( action + 'S3SelectedButton', new media.view.s3Button( {
+					action: action,
+					scope: 'bulk',
+					controller: this.controller,
+					priority: -60
+				} ).render() );
+			}.bind( this ) );
 		}
 	} );
 
 	$( document ).ready( function() {
-		/**
-		 * Add bulk action to the select
-		 *
-		 * @param string action
-		 */
-		function addBulkAction( action ) {
-			var bulkAction = '<option value="bulk_as3cfpro_' + action + '">' + as3cfpro_media.strings[ action ] + '</option>';
-
-			$( 'select[name^="action"] option:last-child' ).after( bulkAction );
-		}
-
-		/**
-		 * Add new items to the Bulk Actions using Javascript.
-		 *
-		 * A last minute change to the "bulk_actions-xxxxx" filter in 3.1 made it not
-		 * possible to add items using that filter.
-		 */
-		function addMediaBulkActions() {
-			addBulkAction( 'copy' );
-			addBulkAction( 'remove' );
-			addBulkAction( 'download' );
-		}
-
-		// Load up the bulk actions
-		addMediaBulkActions();
-
 		// Ask for confirmation when trying to remove attachment from S3 when the local file is missing
 		$( 'body' ).on( 'click', '.as3cfpro_remove a.local-warning', function( event ) {
 			if ( confirm( as3cfpro_media.strings.local_warning ) ) {

@@ -17,12 +17,9 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 		parent::__construct( $slug, $page_title, $menu_title, $parent, $render );
 
 		$this->tabs = array(
-			'files' => __( 'Files', 'wphb' ),
+			'files'    => __( 'Files', 'wphb' ),
+			'settings' => __( 'Settings', 'wphb' ),
 		);
-
-		if ( ! is_multisite() ) {
-			$this->tabs['settings'] = __( 'Settings', 'wphb' );
-		}
 
 		add_filter( 'wphb_admin_after_tab_' . $this->get_slug(), array( $this, 'after_tab' ) );
 	}
@@ -308,9 +305,7 @@ class WP_Hummingbird_Minification_Page extends WP_Hummingbird_Admin_Page {
 
 			$this->add_meta_box( 'minification/enqueued-files', __( 'Files', 'wphb' ), array( $this, 'enqueued_files_metabox' ), null, null, 'main', array( 'box_content_class' => 'box-content', 'box_footer_class' => 'box-footer') );
 
-			if ( ! is_multisite() ) {
-				$this->add_meta_box( 'minification/advanced-settings', __( 'Advanced Settings', 'wphb' ), array( $this, 'advanced_settings_metabox' ), array( $this, 'advanced_settings_metabox_header' ), null, 'settings', array( 'box_content_class' => 'box-content', 'box_footer_class' => 'box-footer') );
-			}
+			$this->add_meta_box( 'minification/advanced-settings', __( 'Advanced Settings', 'wphb' ), array( $this, 'advanced_settings_metabox' ), array( $this, 'advanced_settings_metabox_header' ), null, 'settings', array( 'box_content_class' => 'box-content', 'box_footer_class' => 'box-footer') );
 		}
 	}
 

@@ -32,10 +32,8 @@ class WP_Hummingbird_Module_Gravatar extends WP_Hummingbird_Module {
 			$this->error = $wphb_fs->status;
 		}
 
-		$wphb_fs->write( 'index.html', '', true );
-
-
 		if ( $this->is_active() && ! is_wp_error( $this->error ) && ! is_admin() ) {
+			$wphb_fs->write( 'index.html', '', true );
 			//add_filter( 'get_avatar', array( $this, 'get_cached_avatar' ), 10, 6 );
 			add_filter( 'get_avatar_data', array( $this, 'get_avatar_data' ), 10, 2 );
 		}

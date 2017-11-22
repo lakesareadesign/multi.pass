@@ -125,9 +125,21 @@
 				<input type="checkbox" class="toggle-checkbox" name="settings[clear-update]" value="1" id="clear-update" <?php checked( $settings['settings']['clear_update'] ); ?>>
 				<label class="toggle-label small" for="clear-update" aria-hidden="true"></label>
 			</span>
-			<label for="clear-update"><?php esc_html_e( 'Clear cache when post/page is updated', 'wphb' ); ?></label>
+			<label for="clear-update"><?php esc_html_e( 'Clear full cache when post/page is updated', 'wphb' ); ?></label>
 			<span class="sub">
-				<?php esc_html_e( 'If one of your pages or posts gets updated, we’ll regenerate the cache for that page instantly.', 'wphb' ); ?>
+				<?php esc_html_e( 'If one of your pages or posts gets updated, turning this setting on will also regenerate all cached archives and taxonomies for all post types.', 'wphb' ); ?>
+			</span>
+			<div class="clear mline"></div>
+
+			<span class="toggle">
+				<input type="hidden" name="debug-log" value="0">
+				<input type="checkbox" class="toggle-checkbox" name="settings[debug-log]" value="1" id="debug-log" <?php checked( $settings['settings']['debug_log'] ); ?>>
+				<label class="toggle-label small" for="debug-log" aria-hidden="true"></label>
+			</span>
+			<label for="clear-update"><?php esc_html_e( 'Enable debug log', 'wphb' ); ?></label>
+			<span class="sub">
+				<?php esc_html_e( 'Debug log will be located in ', 'wphb' ); ?>
+				<?php echo WP_CONTENT_DIR . '/wp-content/wphb-cache/page-caching.log'; ?>
 			</span>
 
 		</div><!-- end col-two-third -->

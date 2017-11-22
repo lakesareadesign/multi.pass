@@ -22,6 +22,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	public $minify;
 
 	protected $slug = 'amazon-s3-and-cloudfront-assets';
+	protected $plugin_slug = 'amazon-s3-and-cloudfront-assets';
 	protected $plugin_prefix = 'as3cf_assets';
 	protected $default_tab = 'assets';
 	protected $scanning_lock_key = 'as3cf-assets-scanning';
@@ -1075,7 +1076,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 	 * @return array
 	 */
 	private function get_found_files_by_location( $location, $saved_files ) {
-		$path           = trailingslashit( $location['path'] );
+		$path           = trailingslashit( wp_normalize_path( $location['path'] ) );
 		$url            = trailingslashit( $location['url'] );
 		$extensions     = $this->get_file_extensions( $location );
 		$exclusions     = isset( $location['exclude'] ) ? $location['exclude'] : array();
@@ -1084,6 +1085,7 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 		$found_files    = array();
 
 		foreach ( $location_files as $file => $object ) {
+			$file = wp_normalize_path( $file );
 			$details = array(
 				'url'           => str_replace( $path, $url, $file ),
 				'base'          => str_replace( $path, '', $file ),
@@ -2035,7 +2037,9 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			$base_url  = untrailingslashit( $this->get_url_without_scheme( $wp_scripts->base_url ) );
 		}
 
-		return str_replace( $base_url, $base_path, $url );
+		$path = str_replace( $base_url, $base_path, $url );
+
+		return wp_normalize_path( $path );
 	}
 
 	/**
@@ -2543,6 +2547,9 @@ class Amazon_S3_And_CloudFront_Assets extends Amazon_S3_And_CloudFront_Pro {
 			$output .= 'Scanning Cron: ';
 			$output .= ( wp_next_scheduled( $this->scanning_cron_hook ) ) ? 'On' : 'Off';
 		}
+		$output .= "\r\n";
+		$output .= 'AS3CF_ASSETS_BUCKET: ';
+		$output .= esc_html( ( defined( 'AS3CF_ASSETS_BUCKET' ) ) ? AS3CF_ASSETS_BUCKET : 'Not defined' );
 		$output .= "\r\n";
 		$output .= 'Bucket: ';
 		$output .= $this->get_setting( 'bucket' );

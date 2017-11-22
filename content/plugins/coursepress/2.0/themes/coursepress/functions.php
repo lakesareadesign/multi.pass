@@ -285,7 +285,13 @@ if ( ! function_exists( 'coursepress_filter_search' ) ) :
 	function coursepress_filter_search( $query ) {
 		if ( ! $query->is_search ) { return $query; }
 		if ( is_admin() ) { return $query; }
-
+		// Bail if it is a bbpress topic-reply query.
+		if ( function_exists('bbp_get_topic_post_type') &&
+			(in_array( bbp_get_topic_post_type(), (array)$query->get( 'post_type' ) )
+			|| in_array( bbp_get_reply_post_type(), (array)$query->get( 'post_type' ) ) )
+		) {
+			return $query;
+		}
 		// On front-end we always search for post and course items!
 		$current_types = $query->get('post_type');
 		if ( !empty( $current_types ) ) {

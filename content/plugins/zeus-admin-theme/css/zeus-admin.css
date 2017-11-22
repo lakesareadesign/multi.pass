@@ -11,7 +11,11 @@ html {
 */
 
 #adminmenu, #adminmenu .wp-submenu, #adminmenuback, #adminmenuwrap {
-    background-color: #272c30;
+    background: #22282d; /* Old browsers */
+    background: -moz-linear-gradient(top, #22282d 0%, #131519 100%); /* FF3.6-15 */
+    background: -webkit-linear-gradient(top, #22282d 0%,#131519 100%); /* Chrome10-25,Safari5.1-6 */
+    background: linear-gradient(to bottom, #22282d 0%,#131519 100%); /* W3C, IE10+, FF16+, Chrome26+, Opera12+, Safari7+ */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#22282d', endColorstr='#131519',GradientType=0 ); /* IE6-9 */
     width: 200px;
 }
 

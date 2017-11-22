@@ -8,11 +8,11 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	/**
 	 * @param string $plugin_file_path
 	 */
-	function __construct( $plugin_file_path ) {
+	public function __construct( $plugin_file_path ) {
 		parent::__construct( $plugin_file_path );
 		$this->plugin_slug    = 'wp-migrate-db-pro-multisite-tools';
 		$this->plugin_version = $GLOBALS['wpmdb_meta']['wp-migrate-db-pro-multisite-tools']['version'];
-		if ( ! $this->meets_version_requirements( '1.8' ) ) {
+		if ( ! $this->meets_version_requirements( '1.8.1' ) ) {
 			return;
 		}
 
@@ -31,6 +31,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		add_filter( 'wpmdb_accepted_profile_fields', array( $this, 'accepted_profile_fields' ) );
 		add_filter( 'wpmdb_establish_remote_connection_data', array( $this, 'establish_remote_connection_data' ) );
 		add_filter( 'wpmdb_data', array( $this, 'js_variables' ) );
+		add_filter( 'wpmdb_key_rules', array( $this, 'filter_key_rules'), 10, 2 );
 
 		add_filter( 'wpmdb_exclude_table', array( $this, 'filter_table_for_subsite' ), 10, 2 );
 		add_filter( 'wpmdb_tables', array( $this, 'filter_tables_for_subsite' ), 10, 2 );
@@ -45,6 +46,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		add_filter( 'wpmdb_replace_site_urls', array( $this, 'filter_replace_site_urls' ) );
 		add_filter( 'wpmdb_backup_header_url', array( $this, 'filter_backup_header_url' ) );
 		add_filter( 'wpmdb_backup_header_included_tables', array( $this, 'filter_backup_header_tables' ) );
+		add_filter( 'wpmdb_backup_header_is_subsite_export', array( $this, 'filter_backup_header_is_subsite_export' ) );
 
 		global $wpmdbpro;
 		$this->wpmdbpro = $wpmdbpro;
@@ -169,6 +171,14 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 			$blog_id = $loaded_profile['mst_selected_subsite'];
 		}
 
+		// Early in a push or pull migration selected subsite might just be injected in ajax params.
+		if ( empty( $blog_id ) &&
+		     ! empty( $this->state_data['mst_select_subsite'] ) &&
+		     ! empty( $this->state_data['mst_selected_subsite'] )
+		) {
+			$blog_id = $this->get_subsite_id( $this->state_data['mst_selected_subsite'] );
+		}
+
 		// If on multisite we can check that selected blog exists as all scenarios would require it.
 		if ( 1 < $blog_id && is_multisite() && ! $this->subsite_exists( $blog_id ) ) {
 			$blog_id = 0;
@@ -217,7 +227,21 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	 * @return array
 	 */
 	public function js_variables( $data ) {
+		global $loaded_profile;
+
 		$data['mst_version'] = $this->plugin_version;
+
+		// Track originally selected subsite.
+		if ( empty( $loaded_profile ) && ! empty( $data['profile'] ) && is_numeric( $data['profile'] ) ) {
+			$loaded_profile = $this->wpmdbpro->get_profile( $data['profile'] );
+		}
+
+		if ( ! empty( $loaded_profile['mst_select_subsite'] ) &&
+		     ! empty( $loaded_profile['mst_selected_subsite'] ) &&
+		     is_numeric( $loaded_profile['mst_selected_subsite'] )
+		) {
+			$data['mst_selected_subsite'] = (int) $loaded_profile['mst_selected_subsite'];
+		}
 
 		return $data;
 	}
@@ -241,8 +265,11 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 			'new_prefix_contents'         => __( 'Please only enter letters, numbers or underscores for the new table prefix.', 'wp-migrate-db-pro-multisite-tools' ),
 			'export_subsite_option'       => __( 'Export a subsite as a single site install', 'wp-migrate-db-pro-multisite-tools' ),
 			'pull_subsite_option'         => __( 'Pull into a specific subsite', 'wp-migrate-db-pro-multisite-tools' ),
+			'pull_from_subsite_option'    => __( 'Pull from a specific subsite', 'wp-migrate-db-pro-multisite-tools' ),
 			'push_subsite_option'         => __( 'Push a specific subsite', 'wp-migrate-db-pro-multisite-tools' ),
+			'push_to_subsite_option'      => __( 'Push to a specific subsite', 'wp-migrate-db-pro-multisite-tools' ),
 			'find_replace_subsite_option' => __( 'Run a find/replace on a specific subsite', 'wp-migrate-db-pro-multisite-tools' ),
+			'select_subsite'              => __( 'Select a subsite', 'wp-migrate-db-pro-multisite-tools' ),
 		);
 
 		return $strings;
@@ -278,8 +305,6 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 			$src,
 			array(
 				'jquery',
-				'wp-migrate-db-pro-common',
-				'wp-migrate-db-pro-hook',
 				'wp-migrate-db-pro-script',
 			),
 			$version,
@@ -525,11 +550,6 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	 * @return array
 	 */
 	public function filter_find_and_replace( $tmp_find_replace_pairs, $intent, $site_url ) {
-		// TODO: Remove this condition when MST usable from single site install.
-		if ( ! is_multisite() ) {
-			return $tmp_find_replace_pairs;
-		}
-
 		$blog_id = $this->selected_subsite();
 
 		if ( 1 > $blog_id ) {
@@ -567,7 +587,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 			if ( ! empty( $target_site_url ) ) {
 				$target_uploads_baseurl = $target_site_url . substr( $source_uploads_baseurl, strlen( $source_site_url ) );
 
-				if ( ! empty( $source_short_basedir ) ) {
+				if ( ! empty( $source_short_basedir ) && 'savefile' === $intent ) {
 					$target_uploads_baseurl = substr( untrailingslashit( $target_uploads_baseurl ), 0, -strlen( untrailingslashit( $source_short_basedir ) ) );
 				}
 			}
@@ -585,6 +605,9 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		if ( ! empty( $target_uploads_baseurl ) ) {
 			$target_site_url        = '//' . untrailingslashit( $this->scheme_less_url( $target_site_url ) );
 			$target_uploads_baseurl = '//' . untrailingslashit( $this->scheme_less_url( $target_uploads_baseurl ) );
+
+			$target_site_url = apply_filters( 'wpmdb_mst_target_site_url', $target_site_url );
+			$target_uploads_baseurl = apply_filters( 'wpmdb_mst_target_uploads_baseurl', $target_uploads_baseurl );
 
 			// As we're appending to the find/replace rows, we need to use the already replaced values for altering uploads url.
 			$old_uploads_url                            = substr_replace( $source_uploads_baseurl, $target_site_url, 0, strlen( $source_site_url ) );
@@ -662,6 +685,8 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	 * @param WPMDBPro_Media_Files_Base $wpmdbmf
 	 *
 	 * @return string
+	 *
+	 * TODO: Update for multisite <=> multisite (blog_ids)
 	 */
 	public function filter_mf_destination_file_path( $file_path, $intent, $wpmdbmf ) {
 		$blog_id = $this->selected_subsite( $wpmdbmf );
@@ -670,21 +695,34 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 			return $file_path;
 		}
 
-		if ( ! is_multisite() && 'push' === $intent && ! empty( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) ) {
-			$file_path = substr_replace( $file_path, '', 0, strlen( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) );
+		$source = '';
+		$target = '';
+		if ( 'push' === $intent ) {
+			if ( ! is_multisite() && ! empty( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) ) {
+				$source = $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'];
+			}
+			if ( is_multisite() && ! empty( $this->state_data['site_details']['remote']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) ) {
+				$target = $this->state_data['site_details']['remote']['subsites_info'][ $blog_id ]['uploads']['short_basedir'];
+			}
+		}
+
+		if ( ! empty( $source ) || ! empty( $target ) ) {
+			$file_path = substr_replace( $file_path, $target, 0, strlen( $source ) );
 		}
 
 		return $file_path;
 	}
 
 	/**
-	 * Alter given destination file path depending on local and remote site setup.
+	 * On source site, alter remote file path to local equivalent before checking whether it exists locally.
 	 *
 	 * @param string                    $file
 	 * @param string                    $intent
 	 * @param WPMDBPro_Media_Files_Base $wpmdbmf
 	 *
 	 * @return string
+	 *
+	 * TODO: Update for multisite <=> multisite (blog_ids)
 	 */
 	public function filter_mf_file_not_on_local( $file, $intent, $wpmdbmf ) {
 		$blog_id = $this->selected_subsite( $wpmdbmf );
@@ -693,16 +731,21 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 			return $file;
 		}
 
-		if ( is_multisite() && 'push' === $intent &&
-		     $this->state_data['site_details']['local']['is_multisite'] !== $this->state_data['site_details']['remote']['is_multisite'] &&
-		     ! empty( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] )
-		) {
-			$file = $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] . $file;
-		} elseif ( ! is_multisite() && 'pull' === $intent &&
-		           $this->state_data['site_details']['local']['is_multisite'] !== $this->state_data['site_details']['remote']['is_multisite'] &&
-		           ! empty( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] )
-		) {
-			$file = substr( $file, strlen( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) );
+		$local  = empty( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) ? '' : $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'];
+		$remote = empty( $this->state_data['site_details']['remote']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) ? '' : $this->state_data['site_details']['remote']['subsites_info'][ $blog_id ]['uploads']['short_basedir'];
+
+		if ( 'push' === $intent ) {
+			if ( empty( $remote ) ) {
+				$file = $local . $file; // Target: Single
+			} else {
+				$file = substr_replace( $file, $local, 0, strlen( $remote ) ); // Target: MS
+			}
+		} elseif ( 'pull' === $intent ) {
+			if ( empty( $local ) ) {
+				$file = $remote . $file; // Target: Single
+			} else {
+				$file = substr_replace( $file, $remote, 0, strlen( $local ) ); // Target: MS
+			}
 		}
 
 		return $file;
@@ -715,7 +758,9 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	 * @param string                    $intent
 	 * @param WPMDBPro_Media_Files_Base $wpmdbmf
 	 *
-	 * @return string
+	 * @return array
+	 *
+	 * TODO: Update for multisite <=> multisite (blog_ids)
 	 */
 	public function filter_mf_get_remote_attachment_batch_response( $response, $intent, $wpmdbmf ) {
 		$blog_id = $this->selected_subsite( $wpmdbmf );
@@ -724,29 +769,67 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 			return $response;
 		}
 
-		if ( is_multisite() && 'pull' === $intent &&
+		if ( 'pull' === $intent &&
 		     $this->state_data['site_details']['local']['is_multisite'] !== $this->state_data['site_details']['remote']['is_multisite']
 		) {
 			$remote_attachments = unserialize( stripslashes( $response['remote_attachments'] ) );
 
-			if ( ! empty( $remote_attachments[1] ) ) {
-				foreach ( $remote_attachments[1] as $index => $attachment ) {
+			$blog_idx = 'true' === $this->state_data['site_details']['remote']['is_multisite'] ? $blog_id : 1;
+
+			if ( ! empty( $remote_attachments[ $blog_idx ] ) ) {
+				foreach ( $remote_attachments[ $blog_idx ] as $index => $attachment ) {
 					$attachment['blog_id'] = $blog_id;
-					$attachment['file']    = ltrim( trailingslashit( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) . $attachment['file'], '/' );
+					$attachment['file']    = $this->alter_pulled_file_path( $attachment['file'], $blog_id );
 
 					if ( ! empty( $attachment['sizes'] ) ) {
 						foreach ( $attachment['sizes'] as $size_idx => $size ) {
-							$attachment['sizes'][ $size_idx ]['file'] = ltrim( trailingslashit( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) . $size['file'], '/' );
+							$attachment['sizes'][ $size_idx ]['file'] = $this->alter_pulled_file_path( $size['file'], $blog_id );
 						}
 					}
 
-					$remote_attachments[1][ $index ] = $attachment;
+					$remote_attachments[ $blog_idx ][ $index ] = $attachment;
 				}
 			}
 			$response['remote_attachments'] = addslashes( serialize( $remote_attachments ) );
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Alter file path pulled from remote to local equivalent.
+	 *
+	 * @param string  $file
+	 * @param integer $blog_id
+	 *
+	 * @return string TODO: Update for multisite <=> multisite (blog_ids)
+	 *
+	 * @throws Exception
+	 *
+	 * TODO: Update for multisite <=> multisite (blog_ids)
+	 */
+	private function alter_pulled_file_path( $file, $blog_id ) {
+		if ( 1 > $blog_id ) {
+			return $file;
+		}
+
+		if ( $this->state_data['site_details']['local']['is_multisite'] !== $this->state_data['site_details']['remote']['is_multisite'] ) {
+			if ( is_multisite() ) {
+				if ( isset( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) ) {
+					$file = ltrim( trailingslashit( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) . $file, '/' );
+				} else {
+					throw new Exception( __( 'Expected local subsite "short_basedir" missing from `state_data`.', 'wp-migrate-db-pro-multisite-tools' ) );
+				}
+			} else {
+				if ( isset( $this->state_data['site_details']['remote']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) ) {
+					$file = substr( $file, strlen( $this->state_data['site_details']['remote']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) );
+				} else {
+					throw new Exception( __( 'Expected remote subsite "short_basedir" missing from `state_data`.', 'wp-migrate-db-pro-multisite-tools' ) );
+				}
+			}
+		}
+
+		return $file;
 	}
 
 	/**
@@ -757,6 +840,8 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	 * @param WPMDBPro_Media_Files_Base $wpmdbmf
 	 *
 	 * @return string
+	 *
+	 * TODO: Update for multisite <=> multisite (blog_ids)
 	 */
 	public function filter_mf_file_to_download( $file, $intent, $wpmdbmf ) {
 		$blog_id = $this->selected_subsite( $wpmdbmf );
@@ -765,11 +850,14 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 			return $file;
 		}
 
-		if ( is_multisite() && 'pull' === $intent &&
-		     $this->state_data['site_details']['local']['is_multisite'] !== $this->state_data['site_details']['remote']['is_multisite'] &&
-		     ! empty( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] )
+		if ( 'pull' === $intent &&
+		     $this->state_data['site_details']['local']['is_multisite'] !== $this->state_data['site_details']['remote']['is_multisite']
 		) {
-			$file = substr( $file, strlen( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) );
+			if ( is_multisite() ) {
+				$file = substr( $file, strlen( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) );
+			} else {
+				$file = $this->state_data['site_details']['remote']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] . $file;
+			}
 		}
 
 		return $file;
@@ -777,6 +865,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 
 	/**
 	 * Should the given file be excluded from removal?
+	 * Protects media files on non-target subsites from removal.
 	 *
 	 * @param bool                      $value
 	 * @param string                    $upload_dir
@@ -784,6 +873,8 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	 * @param WPMDBPro_Media_Files_Base $wpmdbmf
 	 *
 	 * @return bool
+	 *
+	 * TODO: Update for multisite <=> multisite (blog_ids)
 	 */
 	public function filter_mf_exclude_local_media_file_from_removal( $value, $upload_dir, $short_file_path, $wpmdbmf ) {
 		// Already excluded, don't override.
@@ -797,11 +888,13 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 			return $value;
 		}
 
-		if ( is_multisite() && 'pull' === $this->state_data['intent'] &&
-		     ! empty( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['basedir'] )
+		$target = ( 'pull' === $this->state_data['intent'] ) ? 'local' : 'remote';
+
+		if ( is_multisite() &&
+		     ! empty( $this->state_data['site_details'][ $target ]['subsites_info'][ $blog_id ]['uploads']['basedir'] )
 		) {
 			$file_given  = $upload_dir . $short_file_path;
-			$file_munged = trailingslashit( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['basedir'] ) . substr( $short_file_path, strlen( $this->state_data['site_details']['local']['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) );
+			$file_munged = trailingslashit( $this->state_data['site_details'][ $target ]['subsites_info'][ $blog_id ]['uploads']['basedir'] ) . substr( $short_file_path, strlen( $this->state_data['site_details'][ $target ]['subsites_info'][ $blog_id ]['uploads']['short_basedir'] ) );
 
 			if ( $file_given !== $file_munged ) {
 				$value = true;
@@ -845,7 +938,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	public function filter_preserved_options( $preserved_options, $intent = '' ) {
 		$blog_id = $this->selected_subsite();
 
-		if ( 0 < $blog_id && 'push' === $intent ) {
+		if ( 0 < $blog_id && in_array( $intent, array( 'push', 'pull' ) ) ) {
 			$preserved_options = $this->wpmdbpro->preserve_active_plugins_option( $preserved_options );
 		}
 
@@ -863,7 +956,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	public function filter_preserved_options_data( $preserved_options_data, $intent = '' ) {
 		$blog_id = $this->selected_subsite();
 
-		if ( 0 < $blog_id && 'push' === $intent ) {
+		if ( 0 < $blog_id && in_array( $intent, array( 'push', 'pull' ) ) ) {
 			$preserved_options_data = $this->wpmdbpro->preserve_wpmdb_plugins( $preserved_options_data );
 		}
 
@@ -922,9 +1015,10 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 
 			// Find users that already exist and update their content to adopt existing user id and remove from import.
 			if ( ! empty( $source_users_table ) ) {
-				$updated_user_ids        = array();
-				$temp_prefix             = $this->state_data['temp_prefix'];
-				$temp_source_users_table = $temp_prefix . $source_users_table;
+				$updated_user_ids           = array();
+				$temp_prefix                = $this->state_data['temp_prefix'];
+				$temp_source_users_table    = $temp_prefix . $source_users_table;
+				$temp_source_usermeta_table = $temp_prefix . $source_usermeta_table;
 
 				$sql = "
 					SELECT source.id AS source_id, target.id AS target_id FROM `{$temp_source_users_table}` AS source, `{$target_users_table}` AS target
@@ -934,9 +1028,18 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 
 				$user_ids_to_update = $wpdb->get_results( $sql, ARRAY_A );
 
+				//If users match from both sites
 				if ( ! empty( $user_ids_to_update ) ) {
 					foreach ( $user_ids_to_update as $user_ids ) {
 						$blogs_of_user = get_blogs_of_user( $user_ids['target_id'] );
+
+						// Log user for exclusion from import.
+						$updated_user_ids[] = $user_ids['source_id'];
+
+						//Add new blog capabilities to imported users
+						if ( null !== $source_usermeta_table && ! array_key_exists( $blog_id, $blogs_of_user ) ) {
+							$queries = $this->update_usermeta_for_imported_users( $queries, $user_ids, $temp_source_usermeta_table, $target_usermeta_table, $blog_id );
+						}
 
 						if ( empty( $blogs_of_user ) || array_key_exists( $blog_id, $blogs_of_user ) ) {
 							// Only update content ownership if user id has changed.
@@ -959,9 +1062,6 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 								";
 								}
 							}
-
-							// Log user for exclusion from import.
-							$updated_user_ids[] = $user_ids['source_id'];
 						}
 					}
 				}
@@ -970,7 +1070,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 
 				$where = '';
 				if ( ! empty( $updated_user_ids ) ) {
-					$where = 'WHERE u2.id NOT IN (' . join( ',', $updated_user_ids ) . ')';
+					$where = 'WHERE u2.id NOT IN (' . implode( ',', $updated_user_ids ) . ')';
 				}
 				$queries[]['query'] = "INSERT INTO `{$target_users_table}` (user_login, user_pass, user_nicename, user_email, user_url, user_registered, user_activation_key, user_status, display_name, wpmdb_user_id)
 					SELECT u2.user_login, u2.user_pass, u2.user_nicename, u2.user_email, u2.user_url, u2.user_registered, u2.user_activation_key, u2.user_status, u2.display_name, u2.id
@@ -1084,6 +1184,10 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		return $tables;
 	}
 
+	function filter_backup_header_is_subsite_export() {
+		return 0 === $this->selected_subsite() ? 'false' : 'true';
+	}
+
 	/**
 	 * Does the passed subsite (ID) exist?
 	 *
@@ -1114,5 +1218,63 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Allow MST params to be passed to certain ajax endpoints.
+	 *
+	 * @param array  $rules
+	 * @param string $context
+	 *
+	 * @return mixed
+	 */
+	public function filter_key_rules( $rules, $context ) {
+		switch ( $context ) {
+			case 'ajax_verify_connection_to_remote_site':
+			case 'respond_to_verify_connection_to_remote_site':
+				$rules['mst_select_subsite']   = 'positive_int';
+				$rules['mst_selected_subsite'] = 'string';
+		}
+
+		return $rules;
+	}
+
+	/**
+	 * @param array  $queries
+	 * @param array  $user_ids
+	 * @param string $temp_source_usermeta_table
+	 * @param string $target_usermeta_table
+	 * @param int    $blog_id
+	 *
+	 * @return array
+	 */
+	protected function update_usermeta_for_imported_users( $queries, $user_ids, $temp_source_usermeta_table, $target_usermeta_table, $blog_id ) {
+		global $wpdb;
+
+		$blog_id_string = 1 === (int) $blog_id ? 'wp_' : "wp_{$blog_id}_";
+
+		$sql = "SELECT meta_value as value
+			FROM `{$temp_source_usermeta_table}`
+			WHERE ( meta_key = '{$blog_id_string}user_level' OR meta_key = '{$blog_id_string}capabilities' )
+			AND user_id={$user_ids['source_id']}
+			ORDER BY meta_key";
+
+		$result = $wpdb->get_results( $sql, OBJECT );
+
+		if ( $result ) {
+			//User level
+			$queries[]['query'] = "
+				INSERT INTO `{$target_usermeta_table}` (user_id, meta_key, meta_value)
+				VALUES ({$user_ids['target_id']}, '{$blog_id_string}user_level', {$result[1]->value} );
+				\n";
+
+			//Capabilities
+			$queries[]['query'] = "
+				INSERT INTO `{$target_usermeta_table}`(user_id, meta_key, meta_value)
+				VALUES ({$user_ids['target_id']}, '{$blog_id_string}capabilities', '{$result[0]->value}')
+				;\n";
+		}
+
+		return $queries;
 	}
 }

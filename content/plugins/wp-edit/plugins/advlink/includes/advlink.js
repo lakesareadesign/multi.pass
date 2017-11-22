@@ -144,17 +144,17 @@ jQuery(document).ready(function($) {
 	
 	
 	// Style checkboxes with jquery UI button
-	$( "#advlink_nofollow" ).button();
+	//$( "#advlink_nofollow" ).button();
 	
 	// Adjust button text based on click state
 	$( "#advlink_nofollow" ).click(function() {
 		
 		isset_advlink = $(this).is(':checked');
 		if(isset_advlink == true) {
-			$('#advlink_nofollow_label > span').html('On');
+			$('#advlink_nofollow_label').html('On');
 		}
 		else {
-			$('#advlink_nofollow_label > span').html('Off');
+			$('#advlink_nofollow_label').html('Off');
 		}
 	});
 	

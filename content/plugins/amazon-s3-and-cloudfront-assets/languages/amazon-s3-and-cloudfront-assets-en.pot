@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: amazon-s3-and-cloudfront-assets\n"
 "Report-Msgid-Bugs-To: nom@deliciousbrains.com\n"
-"POT-Creation-Date: 2017-07-11 14:44+0100\n"
+"POT-Creation-Date: 2017-11-17 16:22+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,61 +17,61 @@ msgstr ""
 "Content-Type: text/plain; charset=CHARSET\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: classes/amazon-s3-and-cloudfront-assets.php:127
+#: classes/amazon-s3-and-cloudfront-assets.php:128
 msgid "Error getting new key: "
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:128
+#: classes/amazon-s3-and-cloudfront-assets.php:129
 #: classes/tools/process-assets.php:129
 msgid "No CSS or JS is being served because \"Copy & Serve\" is off."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:151
+#: classes/amazon-s3-and-cloudfront-assets.php:152
 msgctxt "Show the Assets settings tab"
 msgid "Assets"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:796
+#: classes/amazon-s3-and-cloudfront-assets.php:797
 #, php-format
 msgid "AS3CF Assets -  S3 Upload every %d Minutes"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1441
+#: classes/amazon-s3-and-cloudfront-assets.php:1443
 #, php-format
 msgid "File does not exist - %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1453
+#: classes/amazon-s3-and-cloudfront-assets.php:1455
 #, php-format
 msgid "Error uploading %s to S3: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:1487
+#: classes/amazon-s3-and-cloudfront-assets.php:1489
 #, php-format
 msgid "Error uploading body to S3: %s"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2434
+#: classes/amazon-s3-and-cloudfront-assets.php:2438
 msgid "Gzip Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2435
+#: classes/amazon-s3-and-cloudfront-assets.php:2439
 msgid "There were errors when attempting to compress your assets."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2438
+#: classes/amazon-s3-and-cloudfront-assets.php:2442
 msgid "Minify Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2439
+#: classes/amazon-s3-and-cloudfront-assets.php:2443
 msgid "There were errors when attempting to minify your assets."
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2443
+#: classes/amazon-s3-and-cloudfront-assets.php:2447
 msgid "Upload Error"
 msgstr ""
 
-#: classes/amazon-s3-and-cloudfront-assets.php:2444
+#: classes/amazon-s3-and-cloudfront-assets.php:2448
 msgid "There were errors when attempting to upload your assets to S3."
 msgstr ""
 

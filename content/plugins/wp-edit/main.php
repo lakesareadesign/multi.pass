@@ -3,7 +3,7 @@
  * Plugin Name: WP Edit
  * Plugin URI: https://wpeditpro.com
  * Description: Ultimate WordPress Content Editing.
- * Version: 4.0.1
+ * Version: 4.0.2
  * Author: Josh Lobe
  * Author URI: https://wpeditpro.com
  * License: GPL2

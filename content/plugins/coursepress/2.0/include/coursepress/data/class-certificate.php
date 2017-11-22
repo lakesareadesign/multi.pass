@@ -403,8 +403,18 @@ class CoursePress_Data_Certificate {
 			$orientation = CoursePress_Helper_Utility::get_array_val( $settings, 'orientation' );
 			$margins = (array) CoursePress_Helper_Utility::get_array_val( $settings, 'margin' );
 			$filename = self::get_pdf_file_name( $course_id, $student_id, 'no-base-dir' );
-			$logo = array();
 			$text_color = $text_color = CoursePress_Helper_Utility::convert_hex_color_to_rgb( CoursePress_Core::get_setting( 'basic_certificate/text_color' ), array() );
+			$logo = array();
+			$logo_image = CoursePress_Helper_Utility::get_array_val( $settings, 'logo_image' );
+			if ( ! empty( $logo_image  ) ) {
+				$logo_positions = CoursePress_Helper_Utility::get_array_val( $settings, 'logo' );
+				$logo  = array(
+					'file' => $logo_image,
+					'x'	=> $logo_positions['x'],
+					'y'	=> $logo_positions['y'],
+					'w'	=> $logo_positions['width'],
+				);
+			}
 			/**
 			 * Is certificate overrided?
 			 */
@@ -412,7 +422,17 @@ class CoursePress_Data_Certificate {
 				$margins = CoursePress_Data_Course::get_setting( $course_id, 'cert_margin', array() );
 				$orientation = CoursePress_Data_Course::get_setting( $course_id, 'page_orientation', 'L' );
 				$background = CoursePress_Data_Course::get_setting( $course_id, 'certificate_background', '' );
-                $text_color = CoursePress_Helper_Utility::convert_hex_color_to_rgb(CoursePress_Data_Course::get_setting($course_id, 'cert_text_color'), $text_color);
+				$text_color = CoursePress_Helper_Utility::convert_hex_color_to_rgb( CoursePress_Data_Course::get_setting( $course_id, 'cert_text_color' ), $text_color );
+				$certificate_logo = CoursePress_Data_Course::get_setting( $course_id, 'certificate_logo', '' );
+				if ( ! empty( $certificate_logo ) ) {
+					$logo_positions = CoursePress_Data_Course::get_setting( $course_id, 'logo_position', '' );
+					$logo  = array(
+						'file' => $certificate_logo,
+						'x'    => $logo_positions['x'],
+						'y'    => $logo_positions['y'],
+						'w'    => $logo_positions['width'],
+					);
+				}
 			} else {
 				/**
 				 * Use CP defaults?

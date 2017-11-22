@@ -1,11 +1,11 @@
 <?php
 /*
 Plugin Name: WP Migrate DB Pro Multisite Tools
-Plugin URI: http://deliciousbrains.com/wp-migrate-db-pro/
+Plugin URI: https://deliciousbrains.com/wp-migrate-db-pro/
 Description: An extension to WP Migrate DB Pro, supporting Multisite migrations.
 Author: Delicious Brains
-Version: 1.1.6
-Author URI: http://deliciousbrains.com
+Version: 1.2
+Author URI: https://deliciousbrains.com
 Network: True
 */
 

@@ -203,18 +203,12 @@ function wphb_unsave_htaccess( $module ) {
  */
 function wphb_log( $message, $module ) {
 	if ( defined( 'WP_DEBUG_LOG' ) && WP_DEBUG_LOG ) {
-		/*
-		$date = current_time( 'mysql' );
-		if ( ! is_string( $message ) || is_array( $message ) || is_object( $message ) ) {
-			$message = print_r( $message, true );
+		// If wphb-cache dir does not exist and unable to create it - eixt.
+		if ( ! is_dir( WP_CONTENT_DIR . '/wphb-cache/' ) ) {
+			if ( ! mkdir( WP_CONTENT_DIR . '/wphb-cache/' ) ) {
+				return;
+			}
 		}
-
-		$message = '[' . $date . '] ' . $message;
-		$fs = WP_Hummingbird_Filesystem::instance();
-		$file = $fs->basedir . $module . '.log';
-		$fs->write( $file );
-		file_put_contents( $file, $message . "\n", FILE_APPEND );
-		*/
 
 		if ( ! is_string( $message ) || is_array( $message ) || is_object( $message ) ) {
 			$message = print_r( $message, true );
@@ -223,6 +217,17 @@ function wphb_log( $message, $module ) {
 		$message = '[' . date( 'H:i:s' ) . '] ' . $message . PHP_EOL;
 
 		if ( 'page-caching' === $module ) {
+
+			$config_file = WP_CONTENT_DIR . '/wphb-cache/wphb-cache.php';
+			if ( ! file_exists( $config_file ) ) {
+				return;
+			}
+			$settings = json_decode( file_get_contents( $config_file ), true );
+
+			if ( ! (bool) $settings['settings']['debug_log'] ) {
+				return;
+			}
+
 			$file = WP_CONTENT_DIR . '/wphb-cache/' . $module . '.log';
 			error_log( $message, 3, $file );
 		} else {

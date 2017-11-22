@@ -190,7 +190,7 @@ class Appointments_Admin {
 		_appointments_enqueue_jquery_ui_datepicker();
 		wp_enqueue_script( 'jquery-colorpicker', $appointments->plugin_url . '/js/colorpicker.js', array( 'jquery' ), $appointments->version );
 		wp_enqueue_script( 'app-multi-datepicker', appointments_plugin_url() . 'admin/js/admin-multidatepicker.js', array( 'jquery-ui-datepicker' ), appointments_get_db_version(), true );
-		wp_enqueue_script( 'jquery-multiselect', $appointments->plugin_url . '/bower_components/jquery-ui-multiselect-widget/src/jquery.multiselect.min.js', array( 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-position' ), $appointments->version );
+		wp_enqueue_script( 'jquery-multiselect', $appointments->plugin_url . '/includes/external/jquery-ui-multiselect-widget/src/jquery.multiselect.min.js', array( 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-position' ), '2.0.1' );
 		// Make a locale check to update locale_error flag
 
 		if ( empty( $appointments->options['disable_js_check_admin'] ) ) {
@@ -267,7 +267,7 @@ class Appointments_Admin {
 				if ( appointments_get_workers() && ! appointments_get_workers_by_service( $result->ID ) && ! $dismissed ) {
 					echo '<div class="error"><p>' .
 					     __( '<b>[Appointments+]</b> One of your services does not have a service provider assigned. Delete services you are not using.', 'appointments' ) .
-					     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a title="'.__( 'Dismiss this notice for this session', 'appointments' ).'" href="' . $_SERVER['REQUEST_URI'] . '&app_dismiss=1"><small>'.__( 'Dismiss', 'appointments' ).'</small></a>'.
+					     '&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a title="'.__( 'Dismiss this notice for this session', 'appointments' ).'" href="' . esc_url( add_query_arg( 'app_dismiss', '1' ) ) . '"><small>'.__( 'Dismiss', 'appointments' ).'</small></a>'.
 					     '</p></div>';
 					$r = true;
 					break;

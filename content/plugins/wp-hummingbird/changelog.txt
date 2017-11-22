@@ -4,10 +4,19 @@ Tested up to: 4.8.3
 
 Change Log:
 
+= 1.7.0.3 ( 2017-11-14 ) =
+- New: Debugging option for page caching
+- New: Support for DONOTCACHEPAGE
+- Fix: Ability to disable minification on multisite
+- Fix: Rating message shown on Pro version and without a 7 day delay
+- Enhance: Description on clear cache notice
+- Enhance: Better support for clearing cache for post/page taxonomies
+- Enhance: Do not try to cache pages if advanced-cache.php can't load page caching class
+
 = 1.7.0.2 ( 2017-11-07 ) =
-Fix: Clear cache notices will not auto activate minification
-Fix: Inability to update performance reports settings
-Enhance: Improve page caching descriptions
+- Fix: Clear cache notices will not auto activate minification
+- Fix: Inability to update performance reports settings
+- Enhance: Improve page caching descriptions
 
 = 1.7.0.1 ( 2017-11-02 ) =
 -Fix: White screen when trying to clear cache after plugin/theme update on multisite install
@@ -265,4 +274,4 @@ Enhance: Search by extension in minification page
 - First release
 
 
-133620-1510183729-au
+133620-1511326264-au

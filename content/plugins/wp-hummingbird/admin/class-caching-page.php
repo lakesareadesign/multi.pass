@@ -151,12 +151,13 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 			}
 
 			$cache_settings = array();
-			if ( isset( $_POST['settings'] ) && is_array( $_POST['settings'] ) ) {
+			//if ( isset( $_POST['settings'] ) && is_array( $_POST['settings'] ) ) {
 				$form_data = $_POST['settings'];
 				$cache_settings['logged_in']    = isset( $form_data['logged-in'] ) ? absint( $form_data['logged-in'] ) : 0;
 				$cache_settings['url_queries']  = isset( $form_data['url-queries'] ) ? absint( $form_data['url-queries'] ) : 0;
 				$cache_settings['clear_update'] = isset( $form_data['clear-update'] ) ? absint( $form_data['clear-update'] ) : 0;
-			}
+				$cache_settings['debug_log']    = isset( $form_data['debug-log'] ) ? absint( $form_data['debug-log'] ) : 0;
+			//}
 
 			$url_strings = '';
 			if ( isset( $_POST['url_strings'] ) ) {
@@ -178,7 +179,7 @@ class WP_Hummingbird_Caching_Page extends WP_Hummingbird_Admin_Page {
 			/* @var WP_Hummingbird_Module_Page_Caching $module */
 			$module = wphb_get_module( 'page-caching' );
 			$module->save_settings( $settings );
-		}
+		} // End if().
 
 		// Process form submit from expiry settings.
 		if ( isset( $form ) && 'expiry-settings' === $form ) {

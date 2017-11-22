@@ -309,7 +309,7 @@ class WP_Hummingbird_Admin_Notices {
 	 * @since 1.5.4
 	 */
 	public function free_version_rate() {
-		if ( ! array_key_exists( 'hummingbird-performance/wp-hummingbird.php', $this->plugins ) ) {
+		if ( get_site_option( 'wphb-pro' ) && wphb_is_member() ) {
 			return;
 		}
 
@@ -326,7 +326,7 @@ class WP_Hummingbird_Admin_Notices {
 
 		$this->show_notice(
 			'free-rated',
-			__( "We've spent countless hours developing this free plugin for you, and we would really appreciate it if you dropped us a quick rating!", 'wphb' ),
+			__( "We've spent countless hours developing Hummingbird and making it free for you to use. We would really appreciate it if you dropped us a quick rating!", 'wphb' ),
 			'<a href="https://wordpress.org/support/plugin/hummingbird-performance/reviews/" class="button" target="_blank">' . __( 'Rate Hummingbird', 'wphb' ) . '</a>'
 		);
 	}
@@ -364,6 +364,13 @@ class WP_Hummingbird_Admin_Notices {
 				),
 				wphb_get_admin_menu_url( 'minification' )
 			);
+
+			$text = __( "We've noticed you've made changes to your website and have Hummingbird's Minification feature active. You might want to clear cache to avoid any issues.", 'wphb' );
+
+			if ( $caching_active ) {
+				$text = __( "We've noticed you've made changes to your website and have Hummingbird's Minification and Page Caching features active. You might want to clear cache to avoid any issues.", 'wphb' );
+			}
+
 		} elseif ( $caching_active ) {
 			// Clear cache button link
 			$clear_cache_url = add_query_arg(
@@ -374,11 +381,13 @@ class WP_Hummingbird_Admin_Notices {
 				wphb_get_admin_menu_url( 'caching' ) . '&view=main'
 			);
 			$clear_cache_url = wp_nonce_url( $clear_cache_url, 'wphb-run-caching' );
+
+			$text = __( "We've noticed you've made changes to your website and have Hummingbird's Page Caching feature active. You might want to clear cache to avoid any issues.", 'wphb' );
 		}
 
 		$this->show_notice(
 			'cache-cleaned',
-			__( "We've noticed you've made changes to your website so you might want to clear Hummingbird's cache to avoid any issues.", 'wphb' ),
+			$text,
 			'<a href="' . esc_url( $clear_cache_url ) . '" class="button">' . __( 'Clear Cache', 'wphb' ) . '</a>'
 		);
 	}

@@ -10,14 +10,17 @@ if ( $this->is_valid_licence() ) {
 	if ( isset( $loaded_profile['select_subsite'] ) ) {
 		$loaded_profile['mst_selected_subsite'] = $loaded_profile['select_subsite'];
 	}
+	if ( isset( $loaded_profile['mst_select_subsite'] ) ) {
+		$this->wpmdbpro->lock_url_find_replace_row = true;
+	}
 	?>
 	<div class="option-section mst-options">
 
 		<label class="mst checkbox-label" for="mst-select-subsite">
 			<input type="checkbox" name="mst_select_subsite" value="1" data-available="1" id="mst-select-subsite"<?php echo( isset( $loaded_profile['mst_select_subsite'] ) ? ' checked="checked"' : '' ); ?> />
 			<span class="action-text savefile"><?php echo $this->get_string( 'export_subsite_option' ); ?></span>
-			<span class="action-text pull" style="display: none;"><?php echo $this->get_string( 'pull_subsite_option' ); ?></span>
-			<span class="action-text push" style="display: none;"><?php echo $this->get_string( 'push_subsite_option' ); ?></span>
+			<span class="action-text pull" style="display: none;"><?php echo is_multisite() ? $this->get_string( 'pull_subsite_option' ) : $this->get_string( 'pull_from_subsite_option' ); ?></span>
+			<span class="action-text push" style="display: none;"><?php echo is_multisite() ? $this->get_string( 'push_subsite_option' ) : $this->get_string( 'push_to_subsite_option' ); ?></span>
 			<span class="action-text find_replace" style="display:none;"><?php echo $this->get_string( 'find_replace_subsite_option' ); ?></span>
 		</label>
 
@@ -26,18 +29,22 @@ if ( $this->is_valid_licence() ) {
 				<?php
 				printf(
 					'<option value="">%1$s</option>',
-					esc_html( '-- ' . __( 'Select a subsite', 'wp-migrate-db-pro-multisite-tools' ) . ' --' )
+					esc_html( '-- ' . $this->get_string( 'select_subsite' ) . ' --' )
 				);
-				foreach ( $this->subsites_list() as $blog_id => $subsite_path ) {
-					$selected = '';
-					if ( ! empty( $loaded_profile['mst_selected_subsite'] ) && $blog_id == $loaded_profile['mst_selected_subsite'] ) {
-						$selected = ' selected="selected"';
+				$subsites = $this->subsites_list();
+
+				if ( ! empty( $subsites ) ) {
+					foreach ( $subsites as $blog_id => $subsite_path ) {
+						$selected = '';
+						if ( ! empty( $loaded_profile['mst_selected_subsite'] ) && $blog_id == $loaded_profile['mst_selected_subsite'] ) {
+							$selected = ' selected="selected"';
+						}
+						printf(
+							'<option value="%1$s"' . $selected . '>%2$s</option>',
+							esc_attr( $blog_id ),
+							esc_html( $subsite_path )
+						);
 					}
-					printf(
-						'<option value="%1$s"' . $selected . '>%2$s</option>',
-						esc_attr( $blog_id ),
-						esc_html( $subsite_path )
-					);
 				}
 				?>
 			</select>

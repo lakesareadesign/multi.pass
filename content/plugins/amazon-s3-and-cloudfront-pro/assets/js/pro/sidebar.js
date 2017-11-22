@@ -240,9 +240,9 @@
 			var toolTab = $block.data( 'tab' );
 
 			if ( status.should_render ) {
-				$block.attr( 'data-render', 1 );
+				$block.data( 'render', 1 );
 			} else {
-				$block.attr( 'data-render', 0 );
+				$block.data( 'render', 0 );
 			}
 
 			if ( status.should_render && activeTab === toolTab ) {
@@ -448,10 +448,23 @@
 
 			// Listen for status change events for this tool, and update accordingly
 			$( '.as3cf-sidebar.pro' ).on( 'status-change', function( event, status, tool ) {
+				var percentage = 0;
+
 				if ( tool === data.slug && $pie.length ) {
-					var percentage = Math.floor( ( status.total_on_s3 / status.total_items ) * 100 );
+
+					// Only calculate percentage if total_items > 0 to prevent division by zero.
+					if ( status.total_items > 0 ) {
+						percentage = ( status.total_on_s3 / status.total_items ) * 100;
+					}
+
+					if ( 0 < percentage && percentage < 1 ) {
+						percentage = 1;
+					} else {
+						percentage = Math.floor( percentage );
+					}
+
 					// The percentage attribute is used in some css selectors so it must be synced as well.
-					$pie.attr( 'data-percentage', percentage );
+					$pie.data( 'percentage', percentage );
 					updateTitle( percentage );
 					updateBtn( percentage );
 					chart.render( percentage );

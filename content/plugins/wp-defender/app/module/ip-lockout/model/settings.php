@@ -28,7 +28,7 @@ class Settings extends \Hammer\WP\Settings {
 	public $detect_404_lockout_duration = 300;
 	public $detect_404_whitelist;
 	public $detect_404_ignored_filetypes;
-	public $detect_404_lockout_message = "You have been locked out due to too many attempts to access a file that doesn’t exist.";
+	public $detect_404_lockout_message = "You have been locked out due to too many attempts to access a file that doesn’t exist.";	  	 	   	 		 		 				
 	public $detect_404_lockout_ban = false;
 	public $detect_404_logged = true;
 

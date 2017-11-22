@@ -48,7 +48,7 @@ function wphb_clear_minification_cache( $clear_settings = true ) {
  * Delete all the pending process queue for minification
  */
 function wphb_delete_pending_process_queue() {
-	WP_Hummingbird_Module_Minify::clear_pending_process_queue();
+	WP_Hummingbird_Module_Minify::clear_pending_process_queue();	  	 	   	 		 		 		 	
 }
 
 

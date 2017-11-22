@@ -17,7 +17,7 @@
 				<?php
 				printf(
 					/* translators: %s: Number of inactive types */
-					__( '%s of your compression types are inactive.', 'wphb' ), absint( $inactive_types ) );	  	 	   	 		 		 		 	
+					__( '%s of your compression types are inactive.', 'wphb' ), absint( $inactive_types ) );
 				?>
 			</p>
 		</div>

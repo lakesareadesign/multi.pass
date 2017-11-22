@@ -289,7 +289,7 @@ class Woocommerce extends Integration {
 				if ( $bucket_setting === $atts['bucket'] ) {
 					$region = $this->as3cf->get_setting( 'region' );
 				} else {
-					$region = $this->as3cf->get_bucket_region( $atts['bucket'] );
+					$region = $this->as3cf->get_bucket_region( $atts['bucket'], true );
 				}
 
 				try {

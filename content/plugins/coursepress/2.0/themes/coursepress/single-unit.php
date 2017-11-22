@@ -15,7 +15,7 @@ $paged = ! empty( $wp->query_vars['paged'] ) ? absint( $wp->query_vars['paged'] 
 // Redirect to the parent course page if not enrolled or not preview unit/page.
 while ( have_posts() ) :
 	the_post();
-	cp_can_access_course( $course_id, get_the_ID() );
+	CoursePress_Data_Course::previewability( $course_id );
 endwhile;
 
 get_header();

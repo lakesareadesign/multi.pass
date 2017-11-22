@@ -146,7 +146,7 @@ class Wpml extends Integration {
 		update_post_meta( $attachment_id, 'amazonS3_info', maybe_unserialize( $original_attachment->meta_value ) );
 		$this->duplicate_filesize_total( $original_attachment->ID, $attachment_id );
 
-		// Abort upload with error message
-		return __( 'S3 metadata added to duplicated WPML attachment, no need to upload again.', 'as3cf' );
+		// Abort upload
+		return true;
 	}
 }

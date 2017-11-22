@@ -27,6 +27,7 @@ class Enable_Media_Replace extends Integration {
 		add_filter( 'as3cf_get_attachment_s3_info', array( $this, 'update_file_prefix_on_replace' ), 10, 2 );
 		add_filter( 'as3cf_pre_update_attachment_metadata', array( $this, 'remove_existing_s3_files_before_replace' ), 10, 4 );
 		add_filter( 'emr_unfiltered_get_attached_file', '__return_false' );
+		add_filter( 'emr_unique_filename', array( $this, 'ensure_unique_filename' ), 10, 3 );
 	}
 
 	/**
@@ -109,8 +110,9 @@ class Enable_Media_Replace extends Integration {
 			return $file;
 		}
 
-		// upload attachment to S3
-		$this->as3cf->upload_attachment_to_s3( $attachment_id, null, $file );
+		if ( $this->as3cf->get_attachment_s3_info( $attachment_id ) ) {
+			$this->as3cf->upload_attachment_to_s3( $attachment_id, null, $file );
+		}
 
 		return $file;
 	}
@@ -181,4 +183,16 @@ class Enable_Media_Replace extends Integration {
 		return $s3object;
 	}
 
+	/**
+	 * Ensure the generated filename for an image replaced with a new image is unique.
+	 *
+	 * @param string $filename  File name that should be unique.
+	 * @param string $path      Absolute path to where the file will go.
+	 * @param int    $id        Attachment ID.
+	 *
+	 * @return string
+	 */
+	public function ensure_unique_filename( $filename, $path, $id ) {
+		return $this->as3cf->filter_unique_filename( $filename, $id );
+	}
 }

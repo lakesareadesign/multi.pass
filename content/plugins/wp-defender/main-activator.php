@@ -82,7 +82,7 @@ class WD_Main_Activator {
 
 	public function showUpgradedNotification() {
 		$class   = 'notice notice-info is-dismissible';
-		$message = __( "We noticed you have both the free and pro versions of Defender installed, so we've automatically deactivated the free version for you.", wp_defender()->domain );	  	 	   	 		 		 				
+		$message = __( "We noticed you have both the free and pro versions of Defender installed, so we've automatically deactivated the free version for you.", wp_defender()->domain );
 		printf( '<div class="%1$s"><p>%2$s</p></div>', esc_attr( $class ), $message );
 		delete_site_option( 'defenderJustUpgrade' );
 	}

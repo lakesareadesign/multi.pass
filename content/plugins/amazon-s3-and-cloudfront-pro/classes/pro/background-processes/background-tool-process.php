@@ -273,7 +273,13 @@ abstract class Background_Tool_Process extends AS3CF_Background_Process {
 		$keys = array();
 
 		foreach ( $regions as $region ) {
-			$region['s3client']->execute( $region['commands'] );
+			try {
+				/* @var \Guzzle\Service\Command\CommandInterface $region['s3client'] */
+				$region['s3client']->execute( $region['commands'] );
+			} catch ( \Exception $e ) {
+				AS3CF_Error::log( get_class( $e ) . ' exception caught when executing ListObjects: ' . $e->getMessage() );
+				continue;
+			}
 
 			foreach ( $region['commands'] as $attachment_id => $command ) {
 				$found_keys = $command->getResult()->getPath( 'Contents/*/Key' );

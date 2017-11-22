@@ -24,10 +24,27 @@ class Copy_Buckets extends Background_Tool {
 	public function init() {
 		parent::init();
 
+		if ( ! $this->as3cf->is_pro_plugin_setup() ) {
+			return;
+		}
+
 		// Prompt
 		add_action( 'as3cfpro_load_assets', array( $this, 'load_assets' ) );
 		add_action( 'as3cf_after_settings', array( $this, 'render_modal' ) );
 		add_filter( 'as3cfpro_js_strings', array( $this, 'add_js_strings' ) );
+	}
+
+	/**
+	 * Get the details for the sidebar block
+	 *
+	 * @return array|bool
+	 */
+	protected function get_sidebar_block_args() {
+		if ( ! $this->as3cf->is_pro_plugin_setup() ) {
+			return false;
+		}
+
+		return parent::get_sidebar_block_args();
 	}
 
 	/**

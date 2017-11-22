@@ -1,6 +1,5 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: Pixabay Images WordPress Plugin\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -23,8 +22,14 @@ msgstr "Postavke"
 msgid "Search"
 msgstr "Traži"
 
+msgid "Search for \"red roses\", \"flowers -red\", \"city OR town\", etc."
+msgstr ""
+
 msgid "All"
 msgstr "Svi"
+
+msgid "Exclude inappropriate or explicit images"
+msgstr "Vylúčiť obmedzené obrázky"
 
 msgid "Insert image credits"
 msgstr "Unesi ko je zaslužan za sliku"

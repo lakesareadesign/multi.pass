@@ -125,7 +125,8 @@ if (!class_exists('ALTER')) {
       register_nav_menus(array(
         'alter_add_adminbar_menu' => 'Adminbar Menu'
       ));
-      add_filter('gettext_with_context', array($this, 'change_admin_texts'), 99999, 3);
+      add_filter('gettext', array($this, 'change_admin_texts'), 99999, 3);
+      //add_filter('gettext_with_context', array($this, 'change_admin_texts'), 99999, 3);
 	}
 
   function alter_login_form_wrap_start() {
@@ -435,8 +436,7 @@ if (!class_exists('ALTER')) {
 	}
 
 	public function alter_add_title_menu($wp_admin_bar) {
-      $admin_logo = $this->aof_options['admin_logo'];
-      if(!empty($admin_logo)) {
+      if(!empty($this->aof_options['admin_logo']) || !empty($this->aof_options['admin_external_logo_url'])) {
         $wp_admin_bar->add_node( array(
           'id'    => 'alter_admin_title',
           'href'  => admin_url(),
