@@ -3,7 +3,7 @@
  * Plugin Name: Genesis Sandbox Featured Content Widget
  * Plugin URI: https://wpsmith.net/
  * Description: Based on the Genesis Featured Widget Amplified for additional functionality which allows support for custom post types, taxonomies, and extends the flexibility of the widget via action hooks to allow the elements to be re-positioned or other elements to be added.
- * Version: 1.1.8
+ * Version: 1.2.6
  * Author: Travis Smith
  * Author URI: http://wpsmith.net/
  *
@@ -24,14 +24,12 @@
  * @author     Travis Smith
  * @license    http://www.opensource.org/licenses/gpl-license.php GPL v2.0 (or later)
  * @link       http://wpsmith.net/
- * @since      1.1.0
- */
-
+*/
 /** Exit if accessed directly */
 if ( ! defined( 'ABSPATH' ) ) exit( 'Cheatin&#8217; uh?' );
 
 define( 'GSFC_PLUGIN_NAME', basename( dirname( __FILE__ ) ) );
-define( 'GSFC_PLUGIN_VERSION', '1.1.0' );
+define( 'GSFC_PLUGIN_VERSION', '1.2.2' );
 
 /** Load textdomain for translation */
 load_plugin_textdomain( 'gsfc', false, basename( dirname( __FILE__ ) ) . '/languages/' );
@@ -83,6 +81,9 @@ function gsfc_widgets_init() {
     if ( class_exists( 'Premise_Base' ) && !is_admin() ) {
         return;
     }
+	   if ( ! function_exists( 'genesis_get_option' ) ) {
+		      return;
+	   }
     $gfwa = genesis_get_option( 'gsfc_gfwa' );
     if ( class_exists( 'Genesis_Featured_Widget_Amplified' ) && $gfwa ) {
         unregister_widget( 'Genesis_Featured_Widget_Amplified' );

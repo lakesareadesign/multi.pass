@@ -66,7 +66,6 @@ if ( ! class_exists( 'ub_export_import' ) ) {
 				if ( ! empty( $file['error'] ) ) {
 					return;
 				}
-
 				if ( ! preg_match( '/json$/i', $file['name'] ) ) {
 					return;
 				}
@@ -74,7 +73,6 @@ if ( ! class_exists( 'ub_export_import' ) ) {
 				$import_id = $import['id'];
 				$filename = $import['file'];
 				$file_content = file_get_contents( $filename );
-
 				$options = json_decode( $file_content, true );
 				if ( ! is_array( $options ) ) {
 					return;
@@ -143,6 +141,15 @@ if ( ! class_exists( 'ub_export_import' ) ) {
 			header( 'Content-Description: File Transfer' );
 			header( 'Content-Disposition: attachment; filename=' . $wp_filename );
 			header( 'Content-Type: text/json; charset=' . get_option( 'blog_charset' ), true );
+			/**
+			 * Check PHP version, for PHP < 3 do not add options
+			 */
+			$version = phpversion();
+			$compare = version_compare( $version, '5.3', '<' );
+			if ( $compare ) {
+				echo json_encode( $data );
+				exit;
+			}
 			$option = defined( 'JSON_PRETTY_PRINT' )? JSON_PRETTY_PRINT : null;
 			echo json_encode( $data, $option );
 			exit;

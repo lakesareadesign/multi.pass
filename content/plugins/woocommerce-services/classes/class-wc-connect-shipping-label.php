@@ -25,22 +25,27 @@ if ( ! class_exists( 'WC_Connect_Shipping_Label' ) ) {
 		protected $payment_methods_store;
 
 		/**
-		 * @var array array of currently unsupported US states
+		 * @var array array of currently supported countries
 		 */
-		private $unsupported_states = array( 'AA', 'AE', 'AP' );
+		private $supported_countries = array( 'US', 'PR' );
+
+		/**
+		 * @var array array of currently unsupported states, by country
+		 */
+		private $unsupported_states = array(
+			'US' => array( 'AA', 'AE', 'AP' ),
+		);
 
 		private $show_metabox = null;
 
 		public function __construct(
 			WC_Connect_API_Client $api_client,
 			WC_Connect_Service_Settings_Store $settings_store,
-			WC_Connect_Service_Schemas_Store $service_schemas_store,
-			WC_Connect_Payment_Methods_Store $payment_methods_store
+			WC_Connect_Service_Schemas_Store $service_schemas_store
 		) {
 			$this->api_client = $api_client;
 			$this->settings_store = $settings_store;
 			$this->service_schemas_store = $service_schemas_store;
-			$this->payment_methods_store = $payment_methods_store;
 		}
 
 		public function get_item_data( WC_Order $order, $item ) {
@@ -230,48 +235,6 @@ if ( ! class_exists( 'WC_Connect_Shipping_Label' ) ) {
 			return $items;
 		}
 
-		protected function get_all_packages() {
-			$custom_packages = $this->settings_store->get_packages();
-
-			$formatted_packages = array();
-
-			foreach ( $custom_packages as $package ) {
-				$package_id = $package['name'];
-				$formatted_packages[ $package_id ] = $package;
-			}
-
-			$predefined_packages_schema = $this->service_schemas_store->get_predefined_packages_schema();
-			$enabled_predefined_packages = $this->settings_store->get_predefined_packages();
-
-			foreach ( $predefined_packages_schema as $service_id => $service_predefined_packages_schema ) {
-				$service_enabled_predefined_packages = isset( $enabled_predefined_packages[ $service_id ] ) ? $enabled_predefined_packages[ $service_id ] : array();
-				foreach ( $service_predefined_packages_schema as $group ) {
-					foreach ( $group->definitions as $package ) {
-						if ( ! $package->is_flat_rate && ! in_array( $package->id, $service_enabled_predefined_packages ) ) {
-							continue;
-						}
-
-						$formatted_packages[ $package->id ] = $package;
-					}
-				}
-			}
-
-			return ( object ) $formatted_packages;
-		}
-
-		protected function get_flat_rate_packages_groups() {
-			$predefined_packages_schema = $this->service_schemas_store->get_predefined_packages_schema();
-			$groups = array();
-
-			foreach ( $predefined_packages_schema as $service_id => $service_predefined_packages_schema ) {
-				foreach ( $service_predefined_packages_schema as $group_id => $group ) {
-					$groups[ $group_id ] = $group->title;
-				}
-			}
-
-			return $groups;
-		}
-
 		public function get_selected_rates( WC_Order $order ) {
 			$shipping_methods = $order->get_shipping_methods();
 			$shipping_method = reset( $shipping_methods );
@@ -327,8 +290,6 @@ if ( ! class_exists( 'WC_Connect_Shipping_Label' ) ) {
 		protected function get_form_data( WC_Order $order ) {
 			$order_id               = WC_Connect_Compatibility::instance()->get_order_id( $order );
 			$selected_packages      = $this->get_selected_packages( $order );
-			$all_packages           = $this->get_all_packages();
-			$flat_rate_groups       = $this->get_flat_rate_packages_groups();
 			$is_packed              = ( false !== $this->get_packaging_metadata( $order ) );
 			$origin                 = $this->get_origin_address();
 			$selected_rates         = $this->get_selected_rates( $order );
@@ -340,7 +301,7 @@ if ( ! class_exists( 'WC_Connect_Shipping_Label' ) ) {
 
 			$destination_normalized = ( bool ) get_post_meta( $order_id, '_wc_connect_destination_normalized', true );
 
-			$form_data = compact( 'is_packed', 'selected_packages', 'all_packages', 'flat_rate_groups', 'origin', 'destination', 'destination_normalized' );
+			$form_data = compact( 'is_packed', 'selected_packages', 'origin', 'destination', 'destination_normalized' );
 
 			$form_data['rates'] = array(
 				'selected'  => (object) $selected_rates,
@@ -351,21 +312,53 @@ if ( ! class_exists( 'WC_Connect_Shipping_Label' ) ) {
 			return $form_data;
 		}
 
+		private function is_supported_state( $country_code, $state_code ) {
+			if ( ! $country_code || ! $state_code ) {
+				return true;
+			}
+
+			if ( ! array_key_exists( $country_code, $this->unsupported_states ) ) {
+				return true;
+			}
+
+			return ! in_array( $state_code, $this->unsupported_states[ $country_code ] );
+		}
+
+		private function is_supported_address( $address ) {
+			$country_code = $address['country'];
+			if ( ! $country_code ) {
+				return true;
+			}
+
+			if ( ! in_array( $country_code, $this->supported_countries ) ) {
+				return false;
+			}
+
+			$state_code = $address['state'];
+			return $this->is_supported_state( $country_code, $state_code );
+		}
+
 		protected function get_states_map() {
 			$result = array();
-			foreach ( WC()->countries->get_countries() as $code => $name ) {
-				$result[ $code ] = array( 'name' => html_entity_decode( $name ) );
-			}
-			foreach ( WC()->countries->get_states() as $country => $states ) {
-				$result[ $country ]['states'] = array();
-				foreach ( $states as $code => $name ) {
-					if ( 'US' === $country && in_array( $code, $this->unsupported_states ) ) {
-						continue;
-					}
+			$all_countries = WC()->countries->get_countries();
 
-					$result[ $country ]['states'][ $code ] = html_entity_decode( $name );
+			foreach ( $this->supported_countries as $country_code ) {
+				$country_data = array( 'name' => html_entity_decode( $all_countries[ $country_code ] ) );
+				$states = WC()->countries->get_states( $country_code );
+
+				if ( $states ) {
+					$country_data['states'] = array();
+					foreach ( $states as $state_code => $name ) {
+						if ( ! $this->is_supported_state( $country_code, $state_code ) ) {
+						  continue;
+						}
+						$country_data['states'][ $state_code ] = html_entity_decode( $name );
+					}
 				}
+
+				$result[ $country_code ] = $country_data;
 			}
+
 			return $result;
 		}
 
@@ -396,8 +389,7 @@ if ( ! class_exists( 'WC_Connect_Shipping_Label' ) ) {
 			}
 
 			$dest_address = $order->get_address( 'shipping' );
-			if ( ( $dest_address['country'] && 'US' !== $dest_address['country'] )
-				|| in_array( $dest_address['state'], $this->unsupported_states ) ) {
+			if ( ! $this->is_supported_address( $dest_address ) ) {
 				return false;
 			}
 
@@ -417,36 +409,6 @@ if ( ! class_exists( 'WC_Connect_Shipping_Label' ) ) {
 			return false;
 		}
 
-		public function get_selected_payment_method() {
-			// Account settings contains the payment method id
-			$account_settings = $this->settings_store->get_account_settings();
-
-			// No selected payment method case
-			if ( ! isset( $account_settings['selected_payment_method_id'] ) ) {
-				return null;
-			}
-
-			$selected_payment_method_id = $account_settings['selected_payment_method_id'];
-
-			// Get all known payment methods
-			$payment_methods = $this->payment_methods_store->get_payment_methods();
-
-			// Find the selected payment method and return the card digits (e.g. "4242")
-			foreach ( (array) $payment_methods as $payment_method ) {
-				if ( ! property_exists( $payment_method, 'payment_method_id' ) ) {
-					continue;
-				}
-
-				if ( $selected_payment_method_id != $payment_method->payment_method_id ) {
-					continue;
-				}
-
-				return property_exists( $payment_method, 'card_digits' ) ? $payment_method->card_digits : null;
-			}
-
-			return null;
-		}
-
 		public function get_label_payload( $post_order_or_id ) {
 			$order = wc_get_order( $post_order_or_id );
 			if ( ! $order ) {
@@ -457,13 +419,12 @@ if ( ! class_exists( 'WC_Connect_Shipping_Label' ) ) {
 
 			$order_id = WC_Connect_Compatibility::instance()->get_order_id( $order );
 			$payload = array(
-				'orderId'                 => $order_id,
-				'paperSize'               => $this->settings_store->get_preferred_paper_size(),
-				'formData'                => $this->get_form_data( $order ),
-				'paymentMethod'           => $this->get_selected_payment_method(),
-				'numPaymentMethods'       => count( $this->payment_methods_store->get_payment_methods() ),
-				'labelsData'              => $this->settings_store->get_label_order_meta_data( $order_id ),
-				'enabled'                 => $account_settings[ 'enabled' ],
+				'orderId'            => $order_id,
+				'paperSize'          => $this->settings_store->get_preferred_paper_size(),
+				'formData'           => $this->get_form_data( $order ),
+				'labelsData'         => $this->settings_store->get_label_order_meta_data( $order_id ),
+				//for backwards compatibility, still disable the country dropdown for calypso users with older plugin versions
+				'canChangeCountries' => true,
 			);
 
 			$store_options = $this->settings_store->get_store_options();
@@ -475,11 +436,10 @@ if ( ! class_exists( 'WC_Connect_Shipping_Label' ) ) {
 
 		public function meta_box( $post ) {
 			$order = wc_get_order( $post );
-
-			$payload = $this->get_label_payload( $order );
-			if ( ! $payload ) {
-				return;
-			}
+			$order_id = WC_Connect_Compatibility::instance()->get_order_id( $order );
+			$payload = array(
+				'orderId' => $order_id,
+			);
 
 			do_action( 'enqueue_wc_connect_script', 'wc-connect-create-shipping-label', $payload );
 		}

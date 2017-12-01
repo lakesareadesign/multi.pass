@@ -52,8 +52,11 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 			add_filter( 'login_headerurl', array( $this, 'login_headerurl' ) );
 			add_filter( 'login_headertitle', array( $this, 'login_headertitle' ) );
 			add_filter( 'wp_login_errors', array( $this, 'wp_login_errors' ) );
+			add_filter( 'wp_login_errors', array( $this, 'set_remember_me' ) );
 			add_filter( 'gettext', array( $this, 'gettext_login_form_labels' ), 20, 3 );
 			add_filter( 'mime_types', array( $this, 'add_svg_to_allowed_mime_types' ) );
+			add_filter( 'logout_redirect', array( $this, 'logout_redirect' ), 99, 3 );
+			add_filter( 'login_redirect', array( $this, 'login_redirect' ), 99, 3 );
 			add_action( 'ub_helper_admin_options_page_before_options', array( $this, 'before_admin_options_page' ) );
 		}
 
@@ -254,7 +257,10 @@ body {
 				/**
 				 * form_button_color
 				 */
-				$this->css_background_color( $v, 'form_button_color', '.login form .button,.login form .button:hover' );
+				$this->css_background_color( $v, 'form_button_color', '.login form .button' );
+				$this->css_background_color( $v, 'form_button_color_active', '.login form .button:active' );
+				$this->css_background_color( $v, 'form_button_color_focus', '.login form .button:focus' );
+				$this->css_background_color( $v, 'form_button_color_hover', '.login form .button:hover' );
 				/**
 				 * form_button_text_color
 				 */
@@ -542,13 +548,26 @@ body {
 						),
 						'show_remember_me' => array(
 							'type' => 'radio',
-							'label' => __( '"Remember Me" checkbox', 'ub' ),
+							'label' => __( 'Show "Remember Me" checkbox', 'ub' ),
 							'description' => __( 'Would you like to show the "Remember Me" checkbox?', 'ub' ),
 							'options' => array(
 								'on' => __( 'Show "Remember Me" checkbox.', 'ub' ),
 								'off' => __( 'Hide "Remember Me" checkbox.', 'ub' ),
 							),
 							'default' => 'on',
+							'slave-class' => 'remember-me-related',
+						),
+						'check_remember_me' => array(
+							'label' => __( 'Check "Remember Me" checkbox', 'ub' ),
+							'type' => 'checkbox',
+							'description' => __( 'Check by defulat "Remember Me" checkbox', 'ub' ),
+							'options' => array(
+								'on' => __( 'Checked', 'ub' ),
+								'off' => __( 'Unchecked', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+							'master' => 'remember-me-related',
 						),
 						'label_color' => array(
 							'type' => 'color',
@@ -595,9 +614,24 @@ body {
 							'label' => __( 'Button color', 'ub' ),
 							'default' => '#2ea2cc',
 						),
-						'form_button_text_color' => array(
+						'form_button_color_active' => array(
 							'type' => 'color',
-							'label' => __( 'Button Text color', 'ub' ),
+							'label' => __( 'Button color on active', 'ub' ),
+							'default' => '#0073aa',
+						),
+						'form_button_color_focus' => array(
+							'type' => 'color',
+							'label' => __( 'Button color on focus', 'ub' ),
+							'default' => '#5b9dd92',
+						),
+						'form_button_text_color_focus' => array(
+							'type' => 'color',
+							'label' => __( 'Button Text color focus', 'ub' ),
+							'default' => '#ffffff',
+						),
+						'form_button_text_color_hover' => array(
+							'type' => 'color',
+							'label' => __( 'Button Text color hover', 'ub' ),
 							'default' => '#ffffff',
 						),
 						'form_button_text_shadow' => array(
@@ -843,6 +877,46 @@ body {
 							'default' => 0,
 							'classes' => array( 'ui-slider' ),
 							'after' => '%',
+						),
+					),
+				),
+				/**
+				 * Redirects
+				 */
+				'redirect' => array(
+					'title' => __( 'Redirects', 'ub' ),
+					'fields' => array(
+						'login' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Login', 'ub' ),
+							'options' => array(
+								'on' => __( 'On', 'ub' ),
+								'off' => __( 'Off', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+							'slave-class' => 'login-related',
+						),
+						'login_url' => array(
+							'type' => 'url',
+							'label' => __( 'Login URL', 'ub' ),
+							'master' => 'login-related',
+						),
+						'logout' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Logout', 'ub' ),
+							'options' => array(
+								'on' => __( 'On', 'ub' ),
+								'off' => __( 'Off', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+							'slave-class' => 'logout-related',
+						),
+						'logout_url' => array(
+							'type' => 'url',
+							'label' => __( 'Logout URL', 'ub' ),
+							'master' => 'logout-related',
 						),
 					),
 				),
@@ -1189,6 +1263,50 @@ foreach ( $themes as $theme ) {
 			$message .= '</p>';
 
 			$this->notice( $message, 'success' );
+		}
+
+		/**
+		 *
+		 * @since 1.9.4
+		 */
+		public function set_remember_me( $errors ) {
+			$value = $this->get_value( 'form', 'check_remember_me' );
+			if ( 'on' === $value ) {
+				$_POST['rememberme'] = 1;
+			}
+			return $errors;
+		}
+
+		/**
+		 * login_redirect
+		 *
+		 * @since 1.9.4
+		 */
+		public function login_redirect( $redirect_to, $requested_redirect_to, $user ) {
+			$value = $this->get_value( 'redirect', 'login' );
+			if ( 'on' === $value ) {
+				$value = $this->get_value( 'redirect', 'login_url' );
+				if ( ! empty( $value ) ) {
+					$redirect_to = $value;
+				}
+			}
+			return $redirect_to;
+		}
+
+		/**
+		 * logout_redirect
+		 *
+		 * @since 1.9.4
+		 */
+		public function logout_redirect( $redirect_to, $requested_redirect_to, $user ) {
+			$value = $this->get_value( 'redirect', 'logout' );
+			if ( 'on' === $value ) {
+				$value = $this->get_value( 'redirect', 'logout_url' );
+				if ( ! empty( $value ) ) {
+					$redirect_to = $value;
+				}
+			}
+			return $redirect_to;
 		}
 	}
 

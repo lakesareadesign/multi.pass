@@ -42,13 +42,17 @@ var _inboundPageTracking = (function(_inbound) {
                 return false; // in admin
             }
 
-            this.CheckTimeOut();
-            // Set up options and defaults
+            var pageRevisit = this.isRevisit(Pages);
+
+            /* Trigger page view*/
+            this.triggerPageView(pageRevisit);
+
+            /* Set up options and defaults */
             options = options || {};
             reportInterval = parseInt(options.reportInterval, 10) || 10;
             idleTimeout = parseInt(options.idleTimeout, 10) || 3;
 
-            // Basic activity event listeners
+            /*  Basic activity event listeners */
             utils.addListener(document, 'keydown', utils.throttle(_inbound.PageTracking.pingSession, 1000));
             utils.addListener(document, 'click', utils.throttle(_inbound.PageTracking.pingSession, 1000));
             utils.addListener(window, 'mousemove', utils.throttle(_inbound.PageTracking.pingSession, 1000));
@@ -299,85 +303,60 @@ var _inboundPageTracking = (function(_inbound) {
 
             _inbound.totalStorage(lsType, Pages);
 
-            this.storePageView();
-
-        },
+            /* Let's try and fire this last - also defines what constitutes a bounce -  */
+            var stored = false;
+            document.onreadystatechange = function () {
+                if (document.readyState !== 'loading' && stored === false) {
+                    _inbound.PageTracking.storePageView();
+                }
+            }
+        }
+        ,
         CheckTimeOut: function() {
 
-            var pageRevisit = this.isRevisit(Pages),
-                status,
-                timeout;
-
-            /* Default */
-            if (pageRevisit) {
-
-                var prev = Pages[id].length - 1,
-                    lastView = Pages[id][prev],
-                    timeDiff = Math.abs(new Date(lastView).getTime() - new Date(timeNow).getTime());
-
-                timeout = timeDiff > analyticsTimeout;
-
-                if (timeout) {
-                    status = 'Timeout Happened. Page view fired';
-                    this.triggerPageView(pageRevisit);
-                } else {
-                    time_left = Math.abs((analyticsTimeout - timeDiff)) * 0.001;
-                    status = analyticsTimeout / 1000 + ' sec timeout not done: ' + time_left + " seconds left";
-                }
-
-            } else {
-                /*! Page never seen before save view */
-                this.triggerPageView(pageRevisit);
-            }
 
             _inbound.deBugger('pages', status);
         },
         storePageView: function() {
-            var stored = false;
 
             /* ignore if page tracking off and page is not a landing page */
             if ( inbound_settings.page_tracking == 'off' && inbound_settings.post_type != 'landing-page' ) {
                 return;
             }
 
-            /* Let's try and fire this last - also defines what constitutes a bounce -  */
-            document.onreadystatechange = function(){
+            setTimeout(function(){
+                var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
+                var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
+                var ctas_loaded = _inbound.totalStorage('wp_cta_loaded');
+                var ctas_impressions = _inbound.totalStorage('wp_cta_impressions');
+                stored = true;
 
-                if(document.readyState !== 'loading' && stored === false){
-                    setTimeout(function(){
-                        var leadID = ( _inbound.Utils.readCookie('wp_lead_id') ) ? _inbound.Utils.readCookie('wp_lead_id') : '';
-                        var lead_uid = ( _inbound.Utils.readCookie('wp_lead_uid') ) ? _inbound.Utils.readCookie('wp_lead_uid') : '';
-                        var ctas_loaded = _inbound.totalStorage('wp_cta_loaded');
-                        var ctas_impressions = _inbound.totalStorage('wp_cta_impressions');
-                        stored = true;
+                /* now reset impressions */
+                _inbound.totalStorage('wp_cta_impressions' , {} );
 
-                        /* now reset impressions */
-                        _inbound.totalStorage('wp_cta_impressions' , {} );
+                var data = {
+                    action: 'inbound_track_lead',
+                    wp_lead_uid: lead_uid,
+                    wp_lead_id: leadID,
+                    page_id: inbound_settings.post_id,
+                    variation_id: inbound_settings.variation_id,
+                    post_type: inbound_settings.post_type,
+                    current_url: window.location.href,
+                    page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
+                    cta_impressions : JSON.stringify(ctas_impressions),
+                    cta_history : JSON.stringify(ctas_loaded),
+                    json: '0'
+                };
 
-                        var data = {
-                            action: 'inbound_track_lead',
-                            wp_lead_uid: lead_uid,
-                            wp_lead_id: leadID,
-                            page_id: inbound_settings.post_id,
-                            variation_id: inbound_settings.variation_id,
-                            post_type: inbound_settings.post_type,
-                            current_url: window.location.href,
-                            page_views: JSON.stringify(_inbound.PageTracking.getPageViews()),
-                            cta_impressions : JSON.stringify(ctas_impressions),
-                            cta_history : JSON.stringify(ctas_loaded),
-                            json: '0'
-                        };
+                var firePageCallback = function(leadID) {
+                    //_inbound.Events.page_view_saved(leadID);
+                };
+                //_inbound.Utils.doAjax(data, firePageCallback);
 
-                        var firePageCallback = function(leadID) {
-                            //_inbound.Events.page_view_saved(leadID);
-                        };
-                        //_inbound.Utils.doAjax(data, firePageCallback);
+                _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
 
-                        _inbound.Utils.ajaxPost(inbound_settings.admin_url, data, firePageCallback);
+            } , 200 );
 
-                    } , 200 );
-                }
-            }
         }
         /*! GA functions
         function log_event(category, action, label) {

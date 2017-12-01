@@ -1,5 +1,3 @@
-<h2><?php _e( 'Global Options', 'ub' ); ?></h2>
-
 <p class="description"><?php _e( 'Check which color schemes will be visible within the User Profile. At least two color schemes have to be visible in order to see it as an option on the User Profile page.', 'ub' ); ?></p>
 
 <div class="postbox">
@@ -20,7 +18,7 @@
 
 							foreach ( $_wp_admin_css_colors as $color => $color_info ) :
 								?>
-                                <div class="color-option">
+                                <div class="color-option" style="vertical-align:top">
                                     <input name="ucs_visible_color_schemes[]" id="admin_color_<?php echo esc_attr( $color ); ?>" type="checkbox" value="<?php echo esc_attr( $color ); ?>" class="tog" <?php echo ($visible_colors == false || in_array( $color, $visible_colors ) ? 'checked' : ''); ?> />
                                     <label for="admin_color_<?php echo esc_attr( $color ); ?>"><?php echo esc_html( $color_info->name ); ?></label>
                                     <table class="color-palette">
@@ -34,6 +32,23 @@
 											?>
                                         </tr>
                                     </table>
+<?php
+if ( 'wpi_custom_scheme' == $color ) {
+	$url = add_query_arg(
+		array(
+		'page' => 'branding',
+		'tab' => 'ultimate-color-schemes',
+		'edit' => 1,
+		),
+		network_admin_url( 'admin.php' )
+	);
+	printf(
+		'<p><a href="%s">%s</a></p>',
+		esc_url( $url ),
+		esc_html( sprintf( _x( 'Customize "%s" scheme', 'Label for link to edit custom theme', 'ub' ), $color_info->name ) )
+	);
+}
+?>
                                 </div>
                                 <?php
 							endforeach;
@@ -90,13 +105,3 @@
         </table>
     </div>
 </div>
-
-<?php
-if ( has_filter( 'ultimatebranding_settings_ultimate_color_schemes_process' ) ) {
-	?>
-    <p class="submit">
-        <input type="submit" name="Submit" class="button-primary" value="<?php esc_attr_e( 'Save Changes', 'ub' ); ?>" />
-    </p>
-    <?php
-}
-?>

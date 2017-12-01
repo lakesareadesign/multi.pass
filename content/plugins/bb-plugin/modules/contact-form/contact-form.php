@@ -497,10 +497,12 @@ FLBuilder::register_module('FLContactFormModule', array(
 							'show'	   => __( 'Show', 'fl-builder' ),
 							'hide'	   => __( 'Hide', 'fl-builder' ),
 						),
-						'help' 			=> __( 'If you want to show this field, please provide valid Site and Secret Keys.', 'fl-builder' ),
-						'preview'		  => array(
-							'type'		   => 'none',
+						'toggle' 		=> array(
+							'show'        => array(
+								'fields' 	=> array( 'recaptcha_site_key', 'recaptcha_secret_key', 'recaptcha_validate_type', 'recaptcha_theme' ),
+							),
 						),
+						'help' 			=> __( 'If you want to show this field, please provide valid Site and Secret Keys.', 'fl-builder' ),
 					),
 					'recaptcha_site_key'		=> array(
 						'type'			=> 'text',
@@ -516,6 +518,31 @@ FLBuilder::register_module('FLContactFormModule', array(
 						'default'		  => '',
 						'preview'		  => array(
 							'type'		   => 'none',
+						),
+					),
+					'recaptcha_validate_type' => array(
+						'type'          		=> 'select',
+						'label'         		=> __( 'Validate Type', 'fl-builder' ),
+						'default'       		=> 'normal',
+						'options'       		=> array(
+							'normal'  				=> __( '"I\'m not a robot" checkbox', 'fl-builder' ),
+							'invisible'     		=> __( 'Invisible', 'fl-builder' ),
+						),
+						'help' 					=> __( 'Validate users with checkbox or in the background.<br />Note: Checkbox and Invisible types use seperate API keys.', 'fl-builder' ),
+						'preview'      		 	=> array(
+							'type'          		=> 'none',
+						),
+					),
+					'recaptcha_theme'   => array(
+						'type'          	=> 'select',
+						'label'         	=> __( 'Theme', 'fl-builder' ),
+						'default'       	=> 'light',
+						'options'       	=> array(
+							'light'  			=> __( 'Light', 'fl-builder' ),
+							'dark'     			=> __( 'Dark', 'fl-builder' ),
+						),
+						'preview'      		 	=> array(
+							'type'          		=> 'none',
 						),
 					),
 				),

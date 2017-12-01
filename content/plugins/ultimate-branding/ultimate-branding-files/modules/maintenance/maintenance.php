@@ -23,14 +23,18 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 
 	class ub_maintenance extends ub_helper {
 		protected $option_name = 'ub_maintenance';
+		private $current_sites = array();
 
 		public function __construct() {
 			parent::__construct();
+			$this->module = 'maintenance';
 			$this->set_options();
 			add_action( 'ultimatebranding_settings_maintenance', array( $this, 'admin_options_page' ) );
 			add_filter( 'ultimatebranding_settings_maintenance_process', array( $this, 'update' ), 10, 1 );
-			add_action( 'template_redirect', array( $this, 'render' ),0 );
+			add_action( 'template_redirect', array( $this, 'render' ), 0 );
 			add_filter( 'rest_authentication_errors', array( $this, 'only_allow_logged_in_rest_access' ) );
+			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( 'wp_ajax_ultimatebranding_maintenance_search_sites', array( $this, 'search_sites' ) );
 		}
 
 		/**
@@ -39,21 +43,20 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 		 * @since 1.9.2
 		 */
 		public function get_module_option_name( $option_name, $module ) {
-			if ( is_string( $module ) && 'maintenance' == $module ) {
+			if ( is_string( $module ) && $this->module == $module ) {
 				return $this->option_name;
 			}
 			return $option_name;
 		}
 
 		protected function set_options() {
-
 			$description = array(
 				__( 'A Coming Soon should be used when a domain is new and you are building out the site.', 'ub' ),
 				__( 'Maintenance should only be used when your established site is truly down for maintenance.', 'ub' ),
 				__( 'Maintenance Mode returns a special header code (503) to notify search engines that your site is currently down so it does not negatively affect your site’s reputation.', 'ub' ),
 			);
 
-			$this->options = array(
+			$options = array(
 				'mode' => array(
 					'title' => __( 'Working mode', 'ub' ),
 					'fields' => array(
@@ -67,6 +70,32 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 							),
 							'default' => 'off',
 							'description' => implode( ' ', $description ),
+						),
+					),
+				),
+				'document' => array(
+					'title' => __( 'Document', 'ub' ),
+					'fields' => array(
+						'title' => array(
+							'type' => 'text',
+							'label' => __( 'Title', 'ub' ),
+							'description' => __( 'Enter a headline for your page.', 'ub' ),
+						),
+						'content' => array(
+							'type' => 'wp_editor',
+							'label' => __( 'content', 'ub' ),
+						),
+						'background' => array(
+							'type' => 'color',
+							'label' => __( 'Background color', 'ub' ),
+							'default' => '#f1f1f1',
+						),
+						'width' => array(
+							'type' => 'number',
+							'label' => __( 'Content width', 'ub' ),
+							'default' => 600,
+							'min' => 0,
+							'classes' => array( 'ui-slider' ),
 						),
 					),
 				),
@@ -127,38 +156,111 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 						),
 					),
 				),
-				'document' => array(
-					'title' => __( 'Document', 'ub' ),
+			);
+			/**
+			 * multisite options
+			 */
+			if ( is_multisite() ) {
+				$options['mode']['fields']['sites'] = array(
+					'type' => 'radio',
+					'label' => __( 'Apply to', 'ub' ),
+					'options' => array(
+						'all' => __( 'All sites', 'ub' ),
+						'selected' => __( 'Selected sites', 'ub' ),
+					),
+					'default' => 'all',
+				);
+				$nonce_action = $this->get_nonce_action_name( $this->module );
+				$args = array();
+				$sites = $this->get_current_sites();
+				if ( ! empty( $sites ) ) {
+					$args = array( 'site__not_in' => $sites );
+				}
+				$options['sites'] = array(
+					'title' => __( 'Sites', 'ub' ),
+					'master' => array(
+						'section' => 'mode',
+						'field' => 'sites',
+						'value' => 'selected',
+					),
 					'fields' => array(
-						'title' => array(
-							'type' => 'text',
-							'label' => __( 'Title', 'ub' ),
-							'description' => __( 'Enter a headline for your page.', 'ub' ),
+						'sites_html' => array(
+							'type' => 'description',
+							'label' => __( 'Sites added', 'ub' ),
+							'value' => $this->get_current_set_sites(),
 						),
-						'content' => array(
-							'type' => 'wp_editor',
-							'label' => __( 'content', 'ub' ),
+						'sites' => array(
+							'type' => 'select',
+							'label' => __( 'Add a site', 'ub' ),
+							'multiple' => 'multiple',
+							'options' => $this->get_sites( $args ),
+							'classes' => array( 'ub-select2' ),
+							'after' => sprintf( ' <button class="ub-button ub-add-site">%s</button>', esc_html__( 'Add site', 'ub' ) ),
 						),
-						'background' => array(
-							'type' => 'color',
-							'label' => __( 'Background color', 'ub' ),
-							'default' => '#f1f1f1',
-						),
-						'width' => array(
-							'type' => 'number',
-							'label' => __( 'Content width', 'ub' ),
-							'default' => 600,
-							'min' => 0,
-							'classes' => array( 'ui-slider' ),
+						'list' => array(
+							'type' => 'hidden',
+							'multiple' => true,
+							'skip_value' => true,
 						),
 					),
-				),
+				);
+			}
+			$this->options = $options;
+		}
+
+		/**
+		 * get current sites html
+		 */
+		private function get_current_set_sites() {
+			$content = '<ul id="ub_maintenance_selcted_sites">';
+			$sites = $this->get_current_sites();
+			if ( ! empty( $sites ) ) {
+				$sites = get_sites( array( 'site__in' => $sites ) );
+				foreach ( $sites as $site ) {
+					$content .= sprintf( '<li id="site-%d">', esc_attr( $site->blog_id ) );
+					$content .= sprintf( '<input type="hidden" name="simple_options[sites][list][]" value="%d" />', esc_attr( $site->blog_id ) );
+					$blog = get_blog_details( $site->blog_id );
+					$content .= esc_html( sprintf( '%s (%s)', $blog->blogname, $blog->siteurl ) );
+					$content .= sprintf( ' <a href="#">%s</a>', esc_html__( 'remove site', 'ub' ) );
+					$content .= '</li>';
+				}
+			}
+			$content .= '</ul>';
+			return $content;
+		}
+		/**
+		 * get and set current sites
+		 */
+		private function get_current_sites() {
+			if ( empty( $this->current_sites ) ) {
+				$sites = $this->get_value( 'sites', 'list' );
+				if ( ! empty( $sites ) ) {
+					$this->current_sites = array_filter( $sites );
+				}
+			}
+			return $this->current_sites;
+		}
+		/**
+		 * Wraper for get_sites() wp-ms-function function.
+		 */
+		private function get_sites( $args = array() ) {
+			$results = array(
+				'-1' => esc_html__( 'Select a site', 'ub' ),
 			);
+			$sites = get_sites( $args );
+			if ( empty( $sites ) ) {
+				return array();
+			}
+			foreach ( $sites as $site ) {
+				$blog = get_blog_details( $site->blog_id );
+				$results[ $blog->blog_id ] = esc_html( sprintf( '%s (%s)', $blog->blogname, $blog->siteurl ) );
+			}
+			return $results;
 		}
 		/**
 		 * Display the default template
 		 */
-		function get_default_template() {
+		public function get_default_template() {
 			$file = file_get_contents( dirname( __FILE__ ).'/template.html' );
 			return $file;
 		}
@@ -174,14 +276,29 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				return;
 			}
 			/**
+			 * check sites options
+			 */
+			$sites = $this->get_value( 'mode', 'sites' );
+			if ( 'selected' == $sites ) {
+				$sites = $this->get_current_sites();
+				if ( empty( $sites ) ) {
+					return;
+				}
+				$blog_id = get_current_blog_id();
+				if ( ! in_array( $blog_id, $sites ) ) {
+					return;
+				}
+			}
+			/**
 			 * check status
 			 */
 			$status = $this->get_value( 'mode', 'mode' );
 			if ( 'off' == $status ) {
 				return;
 			}
-
-			// set headers
+			/**
+			 *  set headers
+			 */
 			if ( 'maintenance' == $status ) {
 				header( 'HTTP/1.1 503 Service Temporarily Unavailable' );
 				header( 'Status: 503 Service Temporarily Unavailable' );
@@ -192,7 +309,6 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 					exit();
 				}
 			}
-
 			// Prevetn Plugins from caching
 			// Disable caching plugins. This should take care of:
 			//   - W3 Total Cache
@@ -318,13 +434,75 @@ body {
 		function only_allow_logged_in_rest_access( $access ) {
 			$current_WP_version = get_bloginfo( 'version' );
 			if ( version_compare( $current_WP_version, '4.7', '>=' ) ) {
-
 				if ( ! is_user_logged_in() ) {
 					return new WP_Error( 'rest_cannot_access', __( 'Only authenticated users can access the REST API.', 'coming-soon' ), array( 'status' => rest_authorization_required_code() ) );
 				}
 			}
 			return $access;
+		}
 
+		/**
+		 * enqueue_scripts
+		 */
+		public function enqueue_scripts() {
+			$tab = get_query_var( 'ultimate_branding_tab' );
+			if ( $this->module != $tab ) {
+				return;
+			}
+			/**
+			 * module js
+			 */
+			$file = ub_files_url( 'modules/maintenance/maintenance.js' );
+			wp_register_script( __CLASS__, $file, array( 'jquery' ), $this->build, true );
+			$localize = array(
+				'remove' => __( 'remove site', 'ub' ),
+			);
+			wp_localize_script( __CLASS__, __CLASS__, $localize );
+			/**
+			 * jQuery select2
+			 */
+			$version = '4.0.4';
+			$file = ub_url( 'external/select2/select2.min.js' );
+			wp_enqueue_script( 'select2', $file, array( __CLASS__, 'jquery' ), $version, true );
+			$file = ub_url( 'external/select2/select2.min.css' );
+			wp_enqueue_style( 'select2', $file, array(), $version );
+		}
+
+		public function search_sites() {
+			if ( ! is_multisite() ) {
+				wp_send_json_error();
+			}
+			$user_id = isset( $_REQUEST['user_id'] )? $_REQUEST['user_id']:0;
+			$search = isset( $_REQUEST['q'] )? $_REQUEST['q']:null;
+			$nonce = isset( $_REQUEST['_wpnonce'] )? $_REQUEST['_wpnonce']:null;
+			/**
+			 * check values
+			 */
+			if ( empty( $search ) || empty( $nonce ) ) {
+				wp_send_json_error();
+			}
+			/**
+			 * Check nonce
+			 */
+			$nonce_action = $this->get_nonce_action_name( $this->module, $user_id );
+			$verify = wp_verify_nonce( $nonce, $nonce_action );
+			if ( ! $verify ) {
+				wp_send_json_error();
+			}
+			$args = array(
+				'search' => $search,
+			);
+			$results = array();
+			$sites = get_sites( $args );
+			foreach ( $sites as $site ) {
+				$blog = get_blog_details( $site->blog_id );
+				$results[] = array(
+					'blog_id' => $blog->blog_id,
+					'blogname' => $blog->blogname,
+					'siteurl' => $blog->siteurl,
+				);
+			}
+			wp_send_json_success( $results );
 		}
 	}
 }

@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the Ultimate Branding package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Ultimate Branding 1.9.3.beta.3\n"
+"Project-Id-Version: Ultimate Branding 1.9.4\n"
 "Report-Msgid-Bugs-To: http://wordpress.org/support/plugin/ultimate-branding\n"
-"POT-Creation-Date: 2017-10-30 08:57:24+00:00\n"
+"POT-Creation-Date: 2017-11-28 08:31:24+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -116,9 +116,9 @@ msgid "Hide details"
 msgstr ""
 
 #: ultimate-branding-files/classes/class.help.php:82
-#: ultimate-branding-files/classes/ubadmin.php:310
-#: ultimate-branding-files/classes/ubadmin.php:311
-#: ultimate-branding-files/classes/ubadmin.php:467
+#: ultimate-branding-files/classes/ubadmin.php:312
+#: ultimate-branding-files/classes/ubadmin.php:313
+#: ultimate-branding-files/classes/ubadmin.php:469
 msgid "Dashboard"
 msgstr ""
 
@@ -171,44 +171,44 @@ msgstr ""
 msgid "Custom CSS"
 msgstr ""
 
-#: ultimate-branding-files/classes/class.simple.options.php:93
-#: ultimate-branding-files/modules/ultimate-color-schemes.php:427
-#: ultimate-branding-files/modules/ultimate-color-schemes.php:449
+#: ultimate-branding-files/classes/class.simple.options.php:128
+#: ultimate-branding-files/modules/ultimate-color-schemes.php:435
+#: ultimate-branding-files/modules/ultimate-color-schemes.php:457
 msgid "Toggle panel: %s"
 msgstr ""
 
-#: ultimate-branding-files/classes/class.simple.options.php:209
+#: ultimate-branding-files/classes/class.simple.options.php:265
 msgid "reset"
 msgstr ""
 
-#: ultimate-branding-files/classes/class.simple.options.php:213
+#: ultimate-branding-files/classes/class.simple.options.php:269
 #: ultimate-branding-files/modules/favicons/UB_Blog_Favicons.php:153
 #: ultimate-branding-files/modules/favicons.php:228
 #: ultimate-branding-files/modules/login-image.php:267
 msgid "Browse"
 msgstr ""
 
-#: ultimate-branding-files/classes/class.simple.options.php:267
+#: ultimate-branding-files/classes/class.simple.options.php:323
 msgid "on"
 msgstr ""
 
-#: ultimate-branding-files/classes/class.simple.options.php:268
+#: ultimate-branding-files/classes/class.simple.options.php:324
 msgid "off"
 msgstr ""
 
-#: ultimate-branding-files/classes/class.simple.options.php:408
+#: ultimate-branding-files/classes/class.simple.options.php:490
 msgid "Default is: <code><strong>%s</strong></code>"
 msgstr ""
 
-#: ultimate-branding-files/classes/class.simple.options.php:413
+#: ultimate-branding-files/classes/class.simple.options.php:495
 msgid "Default color is: <code><strong>%s</strong></code>"
 msgstr ""
 
-#: ultimate-branding-files/classes/class.simple.options.php:439
+#: ultimate-branding-files/classes/class.simple.options.php:523
 msgid "Are you sure to reset \"%s\" section?"
 msgstr ""
 
-#: ultimate-branding-files/classes/class.simple.options.php:444
+#: ultimate-branding-files/classes/class.simple.options.php:528
 msgid "reset section to default"
 msgstr ""
 
@@ -225,125 +225,125 @@ msgstr ""
 msgid "Section was reset to defaults."
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:261
+#: ultimate-branding-files/classes/ubadmin.php:263
 msgid "<b>[Ultimate Branding]</b> Plugin only works in Multisite."
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:270
+#: ultimate-branding-files/classes/ubadmin.php:272
 msgid ""
 "<b>[Ultimate Branding]</b> Please deactivate the following plugin(s) to make "
 "Ultimate Branding work: %s"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:280
-#: ultimate-branding-files/classes/ubadmin.php:281
-#: ultimate-branding-files/classes/ubadmin.php:301
-#: ultimate-branding-files/classes/ubadmin.php:302
-#: ultimate-branding-files/classes/ubadmin.php:556
-#: ultimate-branding-files/classes/ubadmin.php:591
-#: ultimate-branding-files/classes/ubadmin.php:1154
+#: ultimate-branding-files/classes/ubadmin.php:282
+#: ultimate-branding-files/classes/ubadmin.php:283
+#: ultimate-branding-files/classes/ubadmin.php:303
+#: ultimate-branding-files/classes/ubadmin.php:304
+#: ultimate-branding-files/classes/ubadmin.php:558
+#: ultimate-branding-files/classes/ubadmin.php:593
+#: ultimate-branding-files/classes/ubadmin.php:1156
 msgid "Branding"
 msgstr ""
 
-#. #-#-#-#-#  ultimate_branding.pot (Ultimate Branding 1.9.3.beta.3)  #-#-#-#-#
+#. #-#-#-#-#  ultimate_branding.pot (Ultimate Branding 1.9.4)  #-#-#-#-#
 #. Plugin Name of the plugin/theme
-#: ultimate-branding-files/classes/ubadmin.php:442
+#: ultimate-branding-files/classes/ubadmin.php:444
 msgid "Ultimate Branding"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:544
+#: ultimate-branding-files/classes/ubadmin.php:546
 msgid "Unknown module"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:546
+#: ultimate-branding-files/classes/ubadmin.php:548
 msgid "Cheatin&#8217; uh?"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:576
+#: ultimate-branding-files/classes/ubadmin.php:578
 msgid "Notifications"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:579
+#: ultimate-branding-files/classes/ubadmin.php:581
 msgid ""
 "Please deactivate the following plugin(s) to make Ultimate Branding to work:"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:614
+#: ultimate-branding-files/classes/ubadmin.php:616
 msgid "Module Status"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:651
-#: ultimate-branding-files/classes/ubadmin.php:655
+#: ultimate-branding-files/classes/ubadmin.php:653
+#: ultimate-branding-files/classes/ubadmin.php:657
 msgid "Available Modules"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:652
-#: ultimate-branding-files/classes/ubadmin.php:656
-#: ultimate-branding-files/classes/ubadmin.php:706
+#: ultimate-branding-files/classes/ubadmin.php:654
+#: ultimate-branding-files/classes/ubadmin.php:658
+#: ultimate-branding-files/classes/ubadmin.php:708
 msgid "Enable"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:652
-#: ultimate-branding-files/classes/ubadmin.php:656
+#: ultimate-branding-files/classes/ubadmin.php:654
+#: ultimate-branding-files/classes/ubadmin.php:658
 msgid "Disable All"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:706
+#: ultimate-branding-files/classes/ubadmin.php:708
 msgid "Disable"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:715
+#: ultimate-branding-files/classes/ubadmin.php:717
 msgid "No modules avaiable."
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:803
-#: ultimate-branding-files/classes/ubadmin.php:815
+#: ultimate-branding-files/classes/ubadmin.php:805
+#: ultimate-branding-files/classes/ubadmin.php:817
 #: ultimate-branding-files/includes/config.php:123
 #: ultimate-branding-files/modules/admin-message.php:78
 msgid "Admin Message"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:809
+#: ultimate-branding-files/classes/ubadmin.php:811
 msgid "Settings saved."
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:810
+#: ultimate-branding-files/classes/ubadmin.php:812
 msgid "Settings cleared."
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:811
+#: ultimate-branding-files/classes/ubadmin.php:813
 msgid "Settings could not be saved."
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:841
-#: ultimate-branding-files/classes/ubadmin.php:959
+#: ultimate-branding-files/classes/ubadmin.php:843
+#: ultimate-branding-files/classes/ubadmin.php:961
 #: ultimate-branding-files/modules/ultimate-color-schemes-files/global-options.php:98
 msgid "Save Changes"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:842
+#: ultimate-branding-files/classes/ubadmin.php:844
 msgid "Reset"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:860
+#: ultimate-branding-files/classes/ubadmin.php:862
 msgid "Custom MS Registered e-mails"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:870
+#: ultimate-branding-files/classes/ubadmin.php:872
 #: ultimate-branding-files/includes/config.php:191
 msgid "Export & Import Ultimate Branding configuration"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:881
+#: ultimate-branding-files/classes/ubadmin.php:883
 #: ultimate-branding-files/includes/config.php:231
 msgid "Link Manager"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:1106
+#: ultimate-branding-files/classes/ubadmin.php:1108
 msgid "This module is not active!"
 msgstr ""
 
-#: ultimate-branding-files/classes/ubadmin.php:1109
+#: ultimate-branding-files/classes/ubadmin.php:1111
 msgid "Turn on %s module."
 msgstr ""
 
@@ -764,7 +764,7 @@ msgid "Coming Soon Page & Maintenance Mode"
 msgstr ""
 
 #: ultimate-branding-files/includes/config.php:242
-#: ultimate-branding-files/modules/maintenance/maintenance.php:66
+#: ultimate-branding-files/modules/maintenance/maintenance.php:69
 msgid "Maintenance"
 msgstr ""
 
@@ -777,13 +777,13 @@ msgid "%s module is deprecated. Please use %s module."
 msgstr ""
 
 #: ultimate-branding-files/modules/admin-bar-logo.php:56
-#: ultimate-branding-files/modules/custom-login-screen.php:458
-#: ultimate-branding-files/modules/maintenance/maintenance.php:90
+#: ultimate-branding-files/modules/custom-login-screen.php:464
+#: ultimate-branding-files/modules/maintenance/maintenance.php:119
 msgid "Logo image"
 msgstr ""
 
 #: ultimate-branding-files/modules/admin-bar-logo.php:57
-#: ultimate-branding-files/modules/maintenance/maintenance.php:91
+#: ultimate-branding-files/modules/maintenance/maintenance.php:120
 msgid "Upload your own logo."
 msgstr ""
 
@@ -894,7 +894,7 @@ msgstr ""
 #: ultimate-branding-files/modules/admin-panel-tips/admin-panel-tips.php:58
 #: ultimate-branding-files/modules/link-manager.php:20
 #: ultimate-branding-files/modules/remove-permalinks-menu-item.php:35
-#: ultimate-branding-files/modules/signup-password.php:58
+#: ultimate-branding-files/modules/signup-password.php:71
 msgid "Description"
 msgstr ""
 
@@ -930,7 +930,7 @@ msgstr ""
 
 #: ultimate-branding-files/modules/admin-panel-tips/admin-panel-tips.php:84
 #: ultimate-branding-files/modules/custom-admin-bar-files/inc/UB_Admin_Bar_Forms.php:373
-#: ultimate-branding-files/modules/site-wide-text-change.php:472
+#: ultimate-branding-files/modules/site-wide-text-change.php:477
 msgid "Add New"
 msgstr ""
 
@@ -1007,10 +1007,10 @@ msgid "Tip Description"
 msgstr ""
 
 #: ultimate-branding-files/modules/admin-panel-tips/admin-panel-tips.php:217
-#: ultimate-branding-files/modules/custom-login-screen.php:450
-#: ultimate-branding-files/modules/custom-login-screen.php:743
-#: ultimate-branding-files/modules/custom-login-screen.php:754
-#: ultimate-branding-files/modules/maintenance/maintenance.php:82
+#: ultimate-branding-files/modules/custom-login-screen.php:456
+#: ultimate-branding-files/modules/custom-login-screen.php:777
+#: ultimate-branding-files/modules/custom-login-screen.php:788
+#: ultimate-branding-files/modules/maintenance/maintenance.php:111
 msgid "Hide"
 msgstr ""
 
@@ -1020,8 +1020,8 @@ msgstr ""
 
 #: ultimate-branding-files/modules/admin-panel-tips/admin-panel-tips.php:243
 #: ultimate-branding-files/modules/custom-admin-bar-files/inc/UB_Admin_Bar_Forms.php:314
-#: ultimate-branding-files/modules/custom-login-screen.php:608
-#: ultimate-branding-files/modules/custom-login-screen.php:628
+#: ultimate-branding-files/modules/custom-login-screen.php:642
+#: ultimate-branding-files/modules/custom-login-screen.php:662
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:151
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:182
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:213
@@ -1033,8 +1033,8 @@ msgstr ""
 
 #: ultimate-branding-files/modules/admin-panel-tips/admin-panel-tips.php:244
 #: ultimate-branding-files/modules/custom-admin-bar-files/inc/UB_Admin_Bar_Forms.php:315
-#: ultimate-branding-files/modules/custom-login-screen.php:609
-#: ultimate-branding-files/modules/custom-login-screen.php:629
+#: ultimate-branding-files/modules/custom-login-screen.php:643
+#: ultimate-branding-files/modules/custom-login-screen.php:663
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:152
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:183
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:214
@@ -1053,7 +1053,7 @@ msgid "Allow to choose where this tip should be shown:"
 msgstr ""
 
 #: ultimate-branding-files/modules/admin-panel-tips/admin-panel-tips.php:361
-msgid "Everywhere"
+msgid "Everywhere (except Branding)"
 msgstr ""
 
 #: ultimate-branding-files/modules/comments-control.php:95
@@ -1427,434 +1427,493 @@ msgid ""
 "site."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:419
+#: ultimate-branding-files/modules/custom-login-screen.php:425
 msgid "https://wordpress.org/"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:420
+#: ultimate-branding-files/modules/custom-login-screen.php:426
 msgid "Powered by WordPress"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:430
+#: ultimate-branding-files/modules/custom-login-screen.php:436
 msgid "<strong>ERROR</strong>: Invalid username."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:432
-#: ultimate-branding-files/modules/custom-login-screen.php:437
+#: ultimate-branding-files/modules/custom-login-screen.php:438
+#: ultimate-branding-files/modules/custom-login-screen.php:443
 msgid "Lost your password?"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:435
+#: ultimate-branding-files/modules/custom-login-screen.php:441
 msgid ""
 "<strong>ERROR</strong>: The password you entered for the username %s is "
 "incorrect."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:442
+#: ultimate-branding-files/modules/custom-login-screen.php:448
 msgid "Logo & Background"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:446
-#: ultimate-branding-files/modules/maintenance/maintenance.php:74
-#: ultimate-branding-files/modules/maintenance/maintenance.php:78
+#: ultimate-branding-files/modules/custom-login-screen.php:452
+#: ultimate-branding-files/modules/maintenance/maintenance.php:103
+#: ultimate-branding-files/modules/maintenance/maintenance.php:107
 msgid "Logo"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:447
-#: ultimate-branding-files/modules/maintenance/maintenance.php:79
+#: ultimate-branding-files/modules/custom-login-screen.php:453
+#: ultimate-branding-files/modules/maintenance/maintenance.php:108
 msgid "Would you like to show the logo?"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:449
-#: ultimate-branding-files/modules/custom-login-screen.php:742
-#: ultimate-branding-files/modules/custom-login-screen.php:753
-#: ultimate-branding-files/modules/maintenance/maintenance.php:81
+#: ultimate-branding-files/modules/custom-login-screen.php:455
+#: ultimate-branding-files/modules/custom-login-screen.php:776
+#: ultimate-branding-files/modules/custom-login-screen.php:787
+#: ultimate-branding-files/modules/maintenance/maintenance.php:110
 msgid "Show"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:459
+#: ultimate-branding-files/modules/custom-login-screen.php:465
 msgid "Upload your own logo. Max width: 320px"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:464
-#: ultimate-branding-files/modules/maintenance/maintenance.php:96
+#: ultimate-branding-files/modules/custom-login-screen.php:470
+#: ultimate-branding-files/modules/maintenance/maintenance.php:125
 msgid "Logo width"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:470
-#: ultimate-branding-files/modules/custom-login-screen.php:491
-#: ultimate-branding-files/modules/custom-login-screen.php:516
-#: ultimate-branding-files/modules/custom-login-screen.php:541
-#: ultimate-branding-files/modules/custom-login-screen.php:621
-#: ultimate-branding-files/modules/custom-login-screen.php:640
-#: ultimate-branding-files/modules/custom-login-screen.php:813
-#: ultimate-branding-files/modules/custom-login-screen.php:821
+#: ultimate-branding-files/modules/custom-login-screen.php:476
+#: ultimate-branding-files/modules/custom-login-screen.php:497
+#: ultimate-branding-files/modules/custom-login-screen.php:522
+#: ultimate-branding-files/modules/custom-login-screen.php:547
+#: ultimate-branding-files/modules/custom-login-screen.php:655
+#: ultimate-branding-files/modules/custom-login-screen.php:674
+#: ultimate-branding-files/modules/custom-login-screen.php:847
+#: ultimate-branding-files/modules/custom-login-screen.php:855
 msgid "px"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:474
+#: ultimate-branding-files/modules/custom-login-screen.php:480
 msgid "Logo transparency"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:484
+#: ultimate-branding-files/modules/custom-login-screen.php:490
 msgid "Logo radius corners"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:485
-#: ultimate-branding-files/modules/custom-login-screen.php:536
+#: ultimate-branding-files/modules/custom-login-screen.php:491
+#: ultimate-branding-files/modules/custom-login-screen.php:542
 msgid "How much would you like to round the border?"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:495
+#: ultimate-branding-files/modules/custom-login-screen.php:501
 msgid "Logo URL"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:502
+#: ultimate-branding-files/modules/custom-login-screen.php:508
 msgid "Logo Alt text"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:509
+#: ultimate-branding-files/modules/custom-login-screen.php:515
 msgid "Logo bottom margin"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:510
+#: ultimate-branding-files/modules/custom-login-screen.php:516
 msgid ""
 "The default value will work for most users, but you may change the margin "
 "height here."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:520
-#: ultimate-branding-files/modules/custom-login-screen.php:566
-#: ultimate-branding-files/modules/custom-login-screen.php:697
-#: ultimate-branding-files/modules/custom-login-screen.php:835
-#: ultimate-branding-files/modules/maintenance/maintenance.php:120
-#: ultimate-branding-files/modules/maintenance/maintenance.php:144
+#: ultimate-branding-files/modules/custom-login-screen.php:526
+#: ultimate-branding-files/modules/custom-login-screen.php:585
+#: ultimate-branding-files/modules/custom-login-screen.php:731
+#: ultimate-branding-files/modules/custom-login-screen.php:869
+#: ultimate-branding-files/modules/maintenance/maintenance.php:90
+#: ultimate-branding-files/modules/maintenance/maintenance.php:149
 msgid "Background color"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:525
-#: ultimate-branding-files/modules/maintenance/maintenance.php:125
+#: ultimate-branding-files/modules/custom-login-screen.php:531
+#: ultimate-branding-files/modules/maintenance/maintenance.php:154
 msgid "Background Image"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:526
-#: ultimate-branding-files/modules/maintenance/maintenance.php:126
+#: ultimate-branding-files/modules/custom-login-screen.php:532
+#: ultimate-branding-files/modules/maintenance/maintenance.php:155
 msgid ""
 "You can upload a background image here. The image will stretch to fit the "
 "page, and will automatically resize as the window size changes. You'll have "
 "the best results by using images with a minimum width of 1024px."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:531
+#: ultimate-branding-files/modules/custom-login-screen.php:537
 msgid "Form"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:535
+#: ultimate-branding-files/modules/custom-login-screen.php:541
 msgid "Radius form corner"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:545
-msgid "\"Remember Me\" checkbox"
+#: ultimate-branding-files/modules/custom-login-screen.php:551
+msgid "Show \"Remember Me\" checkbox"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:546
+#: ultimate-branding-files/modules/custom-login-screen.php:552
 msgid "Would you like to show the \"Remember Me\" checkbox?"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:548
+#: ultimate-branding-files/modules/custom-login-screen.php:554
 msgid "Show \"Remember Me\" checkbox."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:549
+#: ultimate-branding-files/modules/custom-login-screen.php:555
 msgid "Hide \"Remember Me\" checkbox."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:555
+#: ultimate-branding-files/modules/custom-login-screen.php:561
+msgid "Check \"Remember Me\" checkbox"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:563
+msgid "Check by defulat \"Remember Me\" checkbox"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:565
+msgid "Checked"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:566
+msgid "Unchecked"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:574
 msgid "Label color"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:560
+#: ultimate-branding-files/modules/custom-login-screen.php:579
 msgid "Input border on focus"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:562
+#: ultimate-branding-files/modules/custom-login-screen.php:581
 msgid "Allows changing border &amp; shadow for focused inputs."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:571
+#: ultimate-branding-files/modules/custom-login-screen.php:590
 #: ultimate-branding-files/modules/htmlemail-files/htmlemail.php:860
 msgid "Background image"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:575
-#: ultimate-branding-files/modules/custom-login-screen.php:840
+#: ultimate-branding-files/modules/custom-login-screen.php:594
+#: ultimate-branding-files/modules/custom-login-screen.php:874
 msgid "Background transparency"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:579
+#: ultimate-branding-files/modules/custom-login-screen.php:598
 msgid "It will not affected if you set for background image."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:585
+#: ultimate-branding-files/modules/custom-login-screen.php:604
 msgid "Form Style"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:587
+#: ultimate-branding-files/modules/custom-login-screen.php:606
 msgid "Flat"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:588
+#: ultimate-branding-files/modules/custom-login-screen.php:607
 msgid "Shadowed Box"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:590
+#: ultimate-branding-files/modules/custom-login-screen.php:609
 msgid "Choose the style of the form."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:595
+#: ultimate-branding-files/modules/custom-login-screen.php:614
 msgid "Button color"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:600
-msgid "Button Text color"
+#: ultimate-branding-files/modules/custom-login-screen.php:619
+msgid "Button color on active"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:605
+#: ultimate-branding-files/modules/custom-login-screen.php:624
+msgid "Button color on focus"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:629
+msgid "Button Text color focus"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:634
+msgid "Button Text color hover"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:639
 msgid "Button text shadow"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:606
+#: ultimate-branding-files/modules/custom-login-screen.php:640
 msgid "Would you like to add button text shadow?"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:616
+#: ultimate-branding-files/modules/custom-login-screen.php:650
 msgid "Button border width"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:625
+#: ultimate-branding-files/modules/custom-login-screen.php:659
 msgid "Form button shadow"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:626
+#: ultimate-branding-files/modules/custom-login-screen.php:660
 msgid "Would you like to add button shadow?"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:636
+#: ultimate-branding-files/modules/custom-login-screen.php:670
 msgid "Button radius corners"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:648
+#: ultimate-branding-files/modules/custom-login-screen.php:682
 msgid "Form labels"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:652
+#: ultimate-branding-files/modules/custom-login-screen.php:686
 msgid "Label username text"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:653
+#: ultimate-branding-files/modules/custom-login-screen.php:687
 msgid "Username or E-mail Address"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:657
+#: ultimate-branding-files/modules/custom-login-screen.php:691
 msgid "Label password text"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:658
-#: ultimate-branding-files/modules/signup-password.php:256
+#: ultimate-branding-files/modules/custom-login-screen.php:692
+#: ultimate-branding-files/modules/signup-password.php:269
 msgid "Password"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:662
+#: ultimate-branding-files/modules/custom-login-screen.php:696
 msgid "Login button text"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:663
+#: ultimate-branding-files/modules/custom-login-screen.php:697
 msgid "Log In"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:671
+#: ultimate-branding-files/modules/custom-login-screen.php:705
 msgid "Error messages"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:675
+#: ultimate-branding-files/modules/custom-login-screen.php:709
 msgid "Empty username"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:676
+#: ultimate-branding-files/modules/custom-login-screen.php:710
 msgid "<strong>ERROR</strong>: The username field is empty."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:680
+#: ultimate-branding-files/modules/custom-login-screen.php:714
 msgid "Invalid username"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:681
+#: ultimate-branding-files/modules/custom-login-screen.php:715
 msgid "Use \"WP_LOSTPASSWORD_URL\" placeholder to replace it by WordPress."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:686
+#: ultimate-branding-files/modules/custom-login-screen.php:720
 msgid "Empty password"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:687
+#: ultimate-branding-files/modules/custom-login-screen.php:721
 msgid "<strong>ERROR</strong>: The password field is empty."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:691
+#: ultimate-branding-files/modules/custom-login-screen.php:725
 msgid "Invalid password"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:692
+#: ultimate-branding-files/modules/custom-login-screen.php:726
 msgid ""
 "Use \"WP_LOSTPASSWORD_URL\", \"USERNAME\" placeholder to replace it by "
 "WordPress."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:702
+#: ultimate-branding-files/modules/custom-login-screen.php:736
 msgid "Border color"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:707
+#: ultimate-branding-files/modules/custom-login-screen.php:741
 msgid "Text color"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:712
+#: ultimate-branding-files/modules/custom-login-screen.php:746
 msgid "Link color"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:717
+#: ultimate-branding-files/modules/custom-login-screen.php:751
 msgid "Hover link color"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:722
+#: ultimate-branding-files/modules/custom-login-screen.php:756
 msgid "Transparency"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:735
+#: ultimate-branding-files/modules/custom-login-screen.php:769
 msgid "Below Form Links"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:739
+#: ultimate-branding-files/modules/custom-login-screen.php:773
 msgid "\"Register | Lost your password?\" links"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:740
+#: ultimate-branding-files/modules/custom-login-screen.php:774
 msgid "Would you like to show the \"Register | Lost your password?\" links?"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:750
+#: ultimate-branding-files/modules/custom-login-screen.php:784
 msgid "\"Back to\" link"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:751
+#: ultimate-branding-files/modules/custom-login-screen.php:785
 msgid "Would you like to show the \"&larr; Back to\" link?"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:761
+#: ultimate-branding-files/modules/custom-login-screen.php:795
 msgid "\"Register | Lost your password?\" links color"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:766
+#: ultimate-branding-files/modules/custom-login-screen.php:800
 msgid "\"Register | Lost your password?\" link hover color"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:771
+#: ultimate-branding-files/modules/custom-login-screen.php:805
 msgid "\"Back to\" link color"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:776
+#: ultimate-branding-files/modules/custom-login-screen.php:810
 msgid "\"Back to\" link hover color"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:785
+#: ultimate-branding-files/modules/custom-login-screen.php:819
 msgid "Form Canvas & Position"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:789
+#: ultimate-branding-files/modules/custom-login-screen.php:823
 msgid "Position"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:791
+#: ultimate-branding-files/modules/custom-login-screen.php:825
 msgid "Default postion"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:792
-#: ultimate-branding-files/modules/maintenance/maintenance.php:106
+#: ultimate-branding-files/modules/custom-login-screen.php:826
+#: ultimate-branding-files/modules/maintenance/maintenance.php:135
 msgid "Left"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:793
-#: ultimate-branding-files/modules/maintenance/maintenance.php:108
+#: ultimate-branding-files/modules/custom-login-screen.php:827
+#: ultimate-branding-files/modules/maintenance/maintenance.php:137
 msgid "Right"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:799
+#: ultimate-branding-files/modules/custom-login-screen.php:833
 msgid "Padding top"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:808
+#: ultimate-branding-files/modules/custom-login-screen.php:842
 msgid "Width"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:817
+#: ultimate-branding-files/modules/custom-login-screen.php:851
 msgid "Form margin"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:825
+#: ultimate-branding-files/modules/custom-login-screen.php:859
 msgid "Fit height"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:827
+#: ultimate-branding-files/modules/custom-login-screen.php:861
 msgid "Default"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:828
+#: ultimate-branding-files/modules/custom-login-screen.php:862
 msgid "Fit"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:1010
+#: ultimate-branding-files/modules/custom-login-screen.php:887
+msgid "Redirects"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:891
+msgid "Login"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:893
+#: ultimate-branding-files/modules/custom-login-screen.php:909
+msgid "On"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:894
+#: ultimate-branding-files/modules/custom-login-screen.php:910
+#: ultimate-branding-files/modules/maintenance/maintenance.php:67
+msgid "Off"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:902
+msgid "Login URL"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:907
+msgid "Logout"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:918
+msgid "Logout URL"
+msgstr ""
+
+#: ultimate-branding-files/modules/custom-login-screen.php:1084
 msgid "Predefined  Configuration"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:1014
+#: ultimate-branding-files/modules/custom-login-screen.php:1088
 msgid "Custom Configuration"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:1046
+#: ultimate-branding-files/modules/custom-login-screen.php:1120
 msgid "Select predefined login screen"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:1050
+#: ultimate-branding-files/modules/custom-login-screen.php:1124
 msgid "There is no predefined configurations."
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:1072
+#: ultimate-branding-files/modules/custom-login-screen.php:1146
 msgid "By %s"
 msgstr ""
 
 #. translators: %s: Theme name
-#: ultimate-branding-files/modules/custom-login-screen.php:1077
+#: ultimate-branding-files/modules/custom-login-screen.php:1151
 msgctxt "ub"
 msgid "Import settings %s"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:1092
+#: ultimate-branding-files/modules/custom-login-screen.php:1166
 msgid "Import settings"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:1167
+#: ultimate-branding-files/modules/custom-login-screen.php:1241
 msgid "Selected theme was not found!"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:1174
+#: ultimate-branding-files/modules/custom-login-screen.php:1248
 msgid "Failed to load \"%s\" theme configuration!"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:1183
+#: ultimate-branding-files/modules/custom-login-screen.php:1257
 msgid "\"%s\" theme configuration was successfully loaded!"
 msgstr ""
 
-#: ultimate-branding-files/modules/custom-login-screen.php:1188
+#: ultimate-branding-files/modules/custom-login-screen.php:1262
 msgid "You can change options on \"Custom Configuration\" panel."
 msgstr ""
 
@@ -2071,7 +2130,7 @@ msgstr ""
 
 #: ultimate-branding-files/modules/dashboard-feeds/dashboard-feeds.php:816
 #: ultimate-branding-files/modules/dashboard-text-widgets/dashboard-text-widgets.php:253
-#: ultimate-branding-files/modules/maintenance/maintenance.php:135
+#: ultimate-branding-files/modules/maintenance/maintenance.php:81
 msgid "Title"
 msgstr ""
 
@@ -2160,64 +2219,64 @@ msgstr ""
 msgid "Show this feed on Network Dashboard."
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:159
+#: ultimate-branding-files/modules/export-import.php:168
 msgid "Import Configuration"
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:173
+#: ultimate-branding-files/modules/export-import.php:182
 msgid "Upload file and import"
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:180
+#: ultimate-branding-files/modules/export-import.php:189
 msgid "Export Configuration"
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:190
+#: ultimate-branding-files/modules/export-import.php:199
 msgid "Add debug information"
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:191
+#: ultimate-branding-files/modules/export-import.php:200
 msgid ""
 "Check this to allow export debug information about installed themes and "
 "plugins."
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:195
+#: ultimate-branding-files/modules/export-import.php:204
 msgid "Export"
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:210
+#: ultimate-branding-files/modules/export-import.php:219
 msgid ""
 "Howdy! Upload your JSON file and we&#8217;ll import Ultimate Branding "
 "configuration."
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:211
+#: ultimate-branding-files/modules/export-import.php:220
 msgid ""
 "Choose a JSON (.json) file to upload, then click Upload file and import."
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:222
+#: ultimate-branding-files/modules/export-import.php:231
 msgid ""
 "When you click the button below Ultimate Branding will create an JSON file "
 "for you to save to your computer."
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:223
+#: ultimate-branding-files/modules/export-import.php:232
 msgid "This format will contain your Ultimate Branding settings."
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:224
+#: ultimate-branding-files/modules/export-import.php:233
 msgid ""
 "Once you&#8217;ve saved the download file, you can use the Import function "
 "in another WordPress installation to import the configuration from this site."
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:229
+#: ultimate-branding-files/modules/export-import.php:238
 msgid "Ultimate Branding settings was imported successfully."
 msgstr ""
 
-#: ultimate-branding-files/modules/export-import.php:230
+#: ultimate-branding-files/modules/export-import.php:239
 msgid "There was an error during import settings, please try again."
 msgstr ""
 
@@ -2241,7 +2300,7 @@ msgstr ""
 
 #: ultimate-branding-files/modules/favicons.php:164
 #: ultimate-branding-files/modules/login-image.php:216
-#: ultimate-branding-files/modules/ultimate-color-schemes.php:416
+#: ultimate-branding-files/modules/ultimate-color-schemes.php:415
 msgid "Changes saved."
 msgstr ""
 
@@ -2684,7 +2743,7 @@ msgstr ""
 
 #: ultimate-branding-files/modules/link-manager.php:16
 #: ultimate-branding-files/modules/remove-permalinks-menu-item.php:31
-#: ultimate-branding-files/modules/signup-password.php:54
+#: ultimate-branding-files/modules/signup-password.php:67
 msgid "This module has no configuration."
 msgstr ""
 
@@ -2708,85 +2767,118 @@ msgstr ""
 msgid "Login Image Height"
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:51
+#: ultimate-branding-files/modules/maintenance/maintenance.php:54
 msgid ""
 "A Coming Soon should be used when a domain is new and you are building out "
 "the site."
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:52
+#: ultimate-branding-files/modules/maintenance/maintenance.php:55
 msgid ""
 "Maintenance should only be used when your established site is truly down for "
 "maintenance."
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:53
+#: ultimate-branding-files/modules/maintenance/maintenance.php:56
 msgid ""
 "Maintenance Mode returns a special header code (503) to notify search "
 "engines that your site is currently down so it does not negatively affect "
 "your site’s reputation."
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:58
+#: ultimate-branding-files/modules/maintenance/maintenance.php:61
 msgid "Working mode"
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:62
+#: ultimate-branding-files/modules/maintenance/maintenance.php:65
 msgid "Mode"
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:64
-msgid "Off"
-msgstr ""
-
-#: ultimate-branding-files/modules/maintenance/maintenance.php:65
-#: ultimate-branding-files/modules/maintenance/maintenance.php:229
+#: ultimate-branding-files/modules/maintenance/maintenance.php:68
+#: ultimate-branding-files/modules/maintenance/maintenance.php:345
 msgid "Coming Soon"
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:104
-msgid "Logo Position"
-msgstr ""
-
-#: ultimate-branding-files/modules/maintenance/maintenance.php:107
-msgid "Center"
-msgstr ""
-
-#: ultimate-branding-files/modules/maintenance/maintenance.php:116
-msgid "Background"
-msgstr ""
-
-#: ultimate-branding-files/modules/maintenance/maintenance.php:131
+#: ultimate-branding-files/modules/maintenance/maintenance.php:77
 msgid "Document"
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:136
+#: ultimate-branding-files/modules/maintenance/maintenance.php:82
 msgid "Enter a headline for your page."
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:140
+#: ultimate-branding-files/modules/maintenance/maintenance.php:86
 msgid "content"
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:149
+#: ultimate-branding-files/modules/maintenance/maintenance.php:95
 msgid "Content width"
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:226
+#: ultimate-branding-files/modules/maintenance/maintenance.php:133
+msgid "Logo Position"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:136
+msgid "Center"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:145
+msgid "Background"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:166
+msgid "Apply to"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:168
+msgid "All sites"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:169
+msgid "Selected sites"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:180
+msgid "Sites"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:189
+msgid "Sites added"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:194
+msgid "Add a site"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:198
+msgid "Add site"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:224
+#: ultimate-branding-files/modules/maintenance/maintenance.php:458
+msgid "remove site"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:248
+msgid "Select a site"
+msgstr ""
+
+#: ultimate-branding-files/modules/maintenance/maintenance.php:342
 msgid "We&rsquo;ll be back soon!"
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:227
+#: ultimate-branding-files/modules/maintenance/maintenance.php:343
 msgid ""
 "Sorry for the inconvenience but we&rsquo;re performing some maintenance at "
 "the moment. We&rsquo;ll be back online shortly!"
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:230
+#: ultimate-branding-files/modules/maintenance/maintenance.php:346
 msgid "Stay tuned!"
 msgstr ""
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:310
+#: ultimate-branding-files/modules/maintenance/maintenance.php:438
 msgid "Only authenticated users can access the REST API."
 msgstr ""
 
@@ -2878,20 +2970,43 @@ msgstr ""
 msgid "The Signup Password module is active, but registration is disabled."
 msgstr ""
 
-#: ultimate-branding-files/modules/signup-password.php:124
+#: ultimate-branding-files/modules/signup-password.php:59
+msgid ""
+"You are using WordPress %s and email to user will be incorrect, becouse "
+"filter \"wpmu_signup_password_encrypt\" was introduced in WordPress 4.9. "
+"Please upgrade your WordPress instalation."
+msgstr ""
+
+#: ultimate-branding-files/modules/signup-password.php:137
 msgid "Passwords do not match."
 msgstr ""
 
-#: ultimate-branding-files/modules/signup-password.php:263
+#: ultimate-branding-files/modules/signup-password.php:276
 msgid "Leave fields blank for a random password to be generated."
 msgstr ""
 
-#: ultimate-branding-files/modules/signup-password.php:266
+#: ultimate-branding-files/modules/signup-password.php:279
 msgid "Confirm Password"
 msgstr ""
 
-#: ultimate-branding-files/modules/signup-password.php:268
+#: ultimate-branding-files/modules/signup-password.php:281
 msgid "Type your new password again."
+msgstr ""
+
+#: ultimate-branding-files/modules/signup-password.php:318
+msgid ""
+"Howdy USERNAME,\n"
+"\n"
+"Your new account is set up.\n"
+"\n"
+"You can log in with the following information:\n"
+"Username: USERNAME\n"
+"Password: PASSWORD\n"
+"LOGINLINK\n"
+"\n"
+"Thanks!\n"
+"\n"
+"--The Team @ SITE_NAME"
 msgstr ""
 
 #: ultimate-branding-files/modules/site-generator-replacement.php:136
@@ -3040,26 +3155,26 @@ msgid ""
 "Please note that user will see forced color scheme instead if you set it."
 msgstr ""
 
-#: ultimate-branding-files/modules/ultimate-color-schemes.php:415
+#: ultimate-branding-files/modules/ultimate-color-schemes.php:413
 msgid "There was an error during the saving operation, please try again."
 msgstr ""
 
-#: ultimate-branding-files/modules/ultimate-color-schemes.php:421
+#: ultimate-branding-files/modules/ultimate-color-schemes.php:429
 msgid ""
 "Here you can customize \"%s\" color scheme which use can set within your <a "
 "href=\"%s\">user profile page</a>"
 msgstr ""
 
-#: ultimate-branding-files/modules/ultimate-color-schemes.php:427
-#: ultimate-branding-files/modules/ultimate-color-schemes.php:430
+#: ultimate-branding-files/modules/ultimate-color-schemes.php:435
+#: ultimate-branding-files/modules/ultimate-color-schemes.php:438
 msgid "Color Scheme Name"
 msgstr ""
 
-#: ultimate-branding-files/modules/ultimate-color-schemes.php:435
+#: ultimate-branding-files/modules/ultimate-color-schemes.php:443
 msgid "Name"
 msgstr ""
 
-#: ultimate-branding-files/modules/ultimate-color-schemes.php:471
+#: ultimate-branding-files/modules/ultimate-color-schemes.php:479
 msgid "Reset Scheme Colors"
 msgstr ""
 

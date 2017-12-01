@@ -190,6 +190,10 @@ div#limit .simple-option-number .ui-slider.small-text {
 .wrap.ultimate-branding .nav-tab-wrapper {
     clear: both;
 }
+.simple-option-select2 select {
+    min-width: 300px;
+    width: 40%;
+}
 
 
-/* 133620-1509559935-au */
+/* 133620-1512159726-au */

@@ -478,7 +478,6 @@ jQuery(document).ready(function($){
         return false;
     });
 });
-
 /**
  * Switch button
  */
@@ -543,4 +542,74 @@ jQuery(document).ready(function(){
         });
     });
 });
-
+/**
+ * slave sections
+ */
+jQuery(document).ready(function($){
+    $('.simple-options .postbox.section-is-slave').each( function() {
+        var $this = $(this);
+        var section = $this.data('master-section');
+        var field = $this.data('master-field');
+        var value = $this.data('master-value');
+        $('[name="simple_options['+section+']['+field+']"]').on( 'change', function() {
+            if ( $(this).val() == value ) {
+                $this.show();
+            } else {
+                $this.hide();
+            }
+        });
+    });
+});
+/**
+ * Simple Options: select2
+ */
+jQuery(document).ready(function($){
+    if (jQuery.fn.select2) {
+        $('.ub-select2').select2();
+        $('.ub-select2-ajax').select2({
+            ajax: {
+                url: ajaxurl,
+                dataType: 'json',
+                delay: 250,
+                data: function( params ) {
+                    var query = {
+                        user_id: $(this).data('user-id'),
+                        _wpnonce: $(this).data('nonce'),
+                        action: $(this).data('action'),
+                        page: params.page,
+                        q: params.term
+                    }
+                    return query;
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            minimumInputLength: 1,
+            escapeMarkup: function (markup) { return markup; },
+            templateResult: UltimateBrandingPublicFormatSite,
+            templateSelection: UltimateBrandingPublicFormatSiteSelection
+        });
+    }
+    function UltimateBrandingPublicFormatSite(site) {
+        if (site.loading) {
+            return site.text;
+        }
+        var markup = "<div class='select2-result-site clearfix'>";
+        markup += "<div class='select2-result-site__blogname'>" + site.blogname + "</div>";
+        markup += "<div class='select2-result-site__siteurl'>" + site.siteurl + "</div>";
+        markup += "</div>";
+        return markup;
+    }
+    function UltimateBrandingPublicFormatSiteSelection (site) {
+        console.log(site);
+        return site.blog_id;
+    }
+});

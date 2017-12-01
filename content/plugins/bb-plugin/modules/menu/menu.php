@@ -553,7 +553,8 @@ class FL_Menu_Module_Walker extends Walker_Nav_Menu {
 		$class_names = join( ' ', apply_filters( 'nav_menu_css_class', array_filter( $classes ), $item, $args, $depth ) );
 		$class_names = ' class="' . esc_attr( $class_names ) . $submenu . '"';
 
-		$output .= $indent . '<li id="menu-item-' . $item->ID . '"' . $value . $class_names . '>';
+		$item_id = apply_filters( 'fl_builder_menu_item_id', 'menu-item-' . $item->ID, $item, $depth );
+		$output .= $indent . '<li id="' . $item_id . '"' . $value . $class_names . '>';
 
 		$attributes = ! empty( $item->attr_title ) ? ' title="' . esc_attr( $item->attr_title ) . '"' : '';
 		$attributes .= ! empty( $item->target ) ? ' target="' . esc_attr( $item->target ) . '"' : '';

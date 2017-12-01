@@ -162,7 +162,7 @@ if (array_key_exists( 'at_a_glance_users', wpui_get_roles_cap($wpui_user_role)))
 		    $wpui_get_users = $wpdb->get_var("SELECT COUNT(ID) FROM $wpdb->users");
 			?>
 			<li class="users-count">
-				<a href="<?php echo admin_url( 'users.php'); ?>"><?php echo $wpui_get_users; ?><?php _e(' Users','wpui'); ?></a>
+				<a href="<?php echo admin_url( 'users.php'); ?>"><?php echo $wpui_get_users; ?> <?php _e('Users','wpui'); ?></a>
 			</li>
 			<?php 
 		}

@@ -596,8 +596,9 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 	protected function maybe_set_item_meta_data( $item, $posted ) {
 		if ( ! empty( $posted['meta_data'] ) && is_array( $posted['meta_data'] ) ) {
 			foreach ( $posted['meta_data'] as $meta ) {
-				if ( isset( $meta['key'], $meta['value'] ) ) {
-					$item->update_meta_data( $meta['key'], $meta['value'], isset( $meta['id'] ) ? $meta['id'] : '' );
+				if ( isset( $meta['key'] ) ) {
+					$value = isset( $meta['value'] ) ? $meta['value'] : null;
+					$item->update_meta_data( $meta['key'], $value, isset( $meta['id'] ) ? $meta['id'] : '' );
 				}
 			}
 		}
@@ -1117,7 +1118,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 							),
 							'value' => array(
 								'description' => __( 'Meta value.', 'woocommerce' ),
-								'type'        => 'string',
+								'type'        => 'mixed',
 								'context'     => array( 'view', 'edit' ),
 							),
 						),
@@ -1138,12 +1139,12 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 							),
 							'name' => array(
 								'description' => __( 'Product name.', 'woocommerce' ),
-								'type'        => 'string',
+								'type'        => 'mixed',
 								'context'     => array( 'view', 'edit' ),
 							),
 							'product_id' => array(
 								'description' => __( 'Product ID.', 'woocommerce' ),
-								'type'        => 'integer',
+								'type'        => 'mixed',
 								'context'     => array( 'view', 'edit' ),
 							),
 							'variation_id' => array(
@@ -1158,7 +1159,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 							),
 							'tax_class' => array(
 								'description' => __( 'Tax class of product.', 'woocommerce' ),
-								'type'        => 'integer',
+								'type'        => 'string',
 								'context'     => array( 'view', 'edit' ),
 							),
 							'subtotal' => array(
@@ -1229,7 +1230,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 										),
 										'value' => array(
 											'description' => __( 'Meta value.', 'woocommerce' ),
-											'type'        => 'string',
+											'type'        => 'mixed',
 											'context'     => array( 'view', 'edit' ),
 										),
 									),
@@ -1243,7 +1244,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 							),
 							'price' => array(
 								'description' => __( 'Product price.', 'woocommerce' ),
-								'type'        => 'string',
+								'type'        => 'number',
 								'context'     => array( 'view', 'edit' ),
 								'readonly'    => true,
 							),
@@ -1320,7 +1321,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 										),
 										'value' => array(
 											'description' => __( 'Meta value.', 'woocommerce' ),
-											'type'        => 'string',
+											'type'        => 'mixed',
 											'context'     => array( 'view', 'edit' ),
 										),
 									),
@@ -1344,12 +1345,12 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 							),
 							'method_title' => array(
 								'description' => __( 'Shipping method name.', 'woocommerce' ),
-								'type'        => 'string',
+								'type'        => 'mixed',
 								'context'     => array( 'view', 'edit' ),
 							),
 							'method_id' => array(
 								'description' => __( 'Shipping method ID.', 'woocommerce' ),
-								'type'        => 'string',
+								'type'        => 'mixed',
 								'context'     => array( 'view', 'edit' ),
 							),
 							'total' => array(
@@ -1406,7 +1407,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 										),
 										'value' => array(
 											'description' => __( 'Meta value.', 'woocommerce' ),
-											'type'        => 'string',
+											'type'        => 'mixed',
 											'context'     => array( 'view', 'edit' ),
 										),
 									),
@@ -1430,7 +1431,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 							),
 							'name' => array(
 								'description' => __( 'Fee name.', 'woocommerce' ),
-								'type'        => 'string',
+								'type'        => 'mixed',
 								'context'     => array( 'view', 'edit' ),
 							),
 							'tax_class' => array(
@@ -1504,7 +1505,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 										),
 										'value' => array(
 											'description' => __( 'Meta value.', 'woocommerce' ),
-											'type'        => 'string',
+											'type'        => 'mixed',
 											'context'     => array( 'view', 'edit' ),
 										),
 									),
@@ -1528,7 +1529,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 							),
 							'code' => array(
 								'description' => __( 'Coupon code.', 'woocommerce' ),
-								'type'        => 'string',
+								'type'        => 'mixed',
 								'context'     => array( 'view', 'edit' ),
 							),
 							'discount' => array(
@@ -1562,7 +1563,7 @@ class WC_REST_Orders_Controller extends WC_REST_Legacy_Orders_Controller {
 										),
 										'value' => array(
 											'description' => __( 'Meta value.', 'woocommerce' ),
-											'type'        => 'string',
+											'type'        => 'mixed',
 											'context'     => array( 'view', 'edit' ),
 										),
 									),

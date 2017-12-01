@@ -155,14 +155,12 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					}
 				}
 			}
-
 		}
 
 		function initialise_ub() {
 			global $blog_id;
 			// For this version only really - to bring settings across from the old storage locations
 			$this->transfer_old_settings();
-
 			if ( ! is_multisite() ) {
 				if ( UB_HIDE_ADMIN_MENU != true ) {
 					add_action( 'admin_menu', array( $this, 'network_admin_page' ) );
@@ -181,15 +179,19 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					}
 				}
 			}
-
 			// Header actions
 			add_action( 'load-toplevel_page_branding', array( $this, 'add_admin_header_branding' ) );
+			/**
+			 * set ultimate_branding_tab
+			 *
+			 * @since 1.9.4
+			 */
+			set_query_var( 'ultimate_branding_tab', $this->tab );
 		}
 
 		function setup_translation() {
 			// Load up the localization file if we're using WordPress in a different language
 			// Place it in this plugin's "languages" folder and name it "mp-[value in wp-config].mo"
-
 			load_plugin_textdomain( 'ub', false, '/ultimate-branding/ultimate-branding-files/languages/' );
 		}
 

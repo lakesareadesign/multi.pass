@@ -714,6 +714,8 @@
 				vidWidth 	= video[0].videoWidth,
 				vidHeight 	= video[0].videoHeight,
 				newHeight   = Math.round(vidHeight * wrapWidth/vidWidth),
+				newWidth    = wrapWidth,
+				newLeft     = 0,
 				newTop 		= 0;
 
 			if(newHeight < wrapHeight) {
@@ -897,8 +899,7 @@
 				loc     = window.location,
 				id      = null,
 				element = null;
-
-			if ( 'undefined' != typeof href && href.indexOf( '#' ) > -1 ) {
+			if ( 'undefined' != typeof href && href.indexOf( '#' ) > -1 && link.closest('svg').length < 1 ) {
 
 				if ( loc.pathname.replace( /^\//, '' ) == this.pathname.replace( /^\//, '' ) && loc.hostname == this.hostname ) {
 

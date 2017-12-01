@@ -358,10 +358,16 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 				'<li><label><input type="checkbox" name="%s[]" value="everywhere" %s/> %s</label>',
 				esc_attr( $this->meta_field_name ),
 				checked( $checked, true, false ),
-				esc_html__( 'Everywhere', 'ub' )
+				esc_html__( 'Everywhere (except Branding)', 'ub' )
 			);
 			foreach ( $menu as $one ) {
 				if ( empty( $one[0] ) ) {
+					continue;
+				}
+				/**
+				 * disalow on branding pages
+				 */
+				if ( 'branding' == $one[2] ) {
 					continue;
 				}
 				$checked = in_array( $one[2], $current );

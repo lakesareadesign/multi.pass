@@ -164,12 +164,12 @@ class GS_Featured_Content extends WP_Widget {
         
         //* Do Post Image
         add_filter( 'genesis_attr_gsfc-entry-image-widget', array( 'GS_Featured_Content', 'attributes_gsfc_entry_image_widget' ) );
-        add_action( 'gsfc_before_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
+        add_action( 'gsfc_before_post_content', array( 'GS_Featured_Content', 'do_post_image' ), 4 );
         add_action( 'gsfc_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
         add_action( 'gsfc_after_post_content', array( 'GS_Featured_Content', 'do_post_image' ) );
         
         //* Do before widget post content
-        add_action( 'gsfc_before_post_content', array( 'GS_Featured_Content', 'do_gravatar' ) );
+        add_action( 'gsfc_before_post_content', array( 'GS_Featured_Content', 'do_gravatar' ), 4 );
         add_action( 'gsfc_before_post_content', array( 'GS_Featured_Content', 'do_post_title' ) );
         
         //* Maybe Linkify Widget Title
@@ -226,7 +226,7 @@ class GS_Featured_Content extends WP_Widget {
     }
     
     /**
-     * Adds all Widget's Actions at once for easy removal.
+     * Sets excerpt length.
      *
      * @param int $length Current excerpt length.
      * @return int Maybe new excerpt length.
@@ -238,7 +238,7 @@ class GS_Featured_Content extends WP_Widget {
     }
     
     /**
-     * Adds all Widget's Actions at once for easy removal.
+     * Adds plugin CSS.
      */
     public static function enqueue_style( $instance ) {
         if ( is_admin() ) return;
@@ -311,12 +311,13 @@ class GS_Featured_Content extends WP_Widget {
      * @return array $classes Modified array of post classes.
      */
     public static function post_class( $classes ) {
-        global $gs_counter;
-        $classes[] = sprintf( 'gs-%s', $gs_counter + 1 );
-        $classes[] = $gs_counter + 1 & 1 ? 'gs-odd' : 'gs-even';
-        $classes[] = 'gs-featured-content-entry';
-        
-        //* First Class
+		    global $gs_counter;
+		    $classes[] = sprintf( 'gs-%s', $gs_counter + 1 );
+		    $classes[] = $gs_counter + 1 & 1 ? 'gs-odd' : 'gs-even';
+		    $classes[] = $gs_counter == 4 ? 'gs-odd' : 'gs-even';
+		    $classes[] = 'gs-featured-content-entry';
+
+		    //* First Class
         if ( GS_Featured_Content::has_value( 'column_class' ) && ( 0 == $gs_counter || 0 == $gs_counter % GS_Featured_Content::get_col_class_num( GS_Featured_Content::$widget_instance['column_class'] ) ) )
             $classes[] = 'first';
         
@@ -340,7 +341,7 @@ class GS_Featured_Content extends WP_Widget {
     }
     
     /**
-     * Inserts Post Image
+     * Outputs post info/byline.
      *
      * @param array $instance The settings for the particular instance of the widget.
      */
@@ -373,7 +374,7 @@ class GS_Featured_Content extends WP_Widget {
 
         global $post;
 
-        $attributes['class']    = sprintf( 'entry-image attachment-%s %s', $post->post_type, $attributes['align'] );
+        $attributes['class']    = sprintf( 'entry-image attachment-%s gsfc-%s', $post->post_type, $attributes['align'] );
         unset( $attributes['align'] );
         $attributes['itemprop'] = 'image';
 
@@ -403,7 +404,7 @@ class GS_Featured_Content extends WP_Widget {
 				'attr'    => genesis_parse_attr( 'gsfc-entry-image-widget', array( 'align' => $align, ) ),
 			) );
         
-        $image = $instance['link_image'] == 1 ? sprintf( '<a href="%s" title="%s" class="%s">%s</a>', $link, the_title_attribute( 'echo=0' ), $align, $image ) : $image;
+        $image = $instance['link_image'] == 1 && ! empty( $image ) ? sprintf( '<a href="%s" title="%s" class="%s">%s</a>', $link, the_title_attribute( 'echo=0' ), $align, $image ) : $image;
         
         GS_Featured_Content::maybe_echo( $instance, 'gsfc_before_post_content', 'image_position', 'before-title', $image );
         GS_Featured_Content::maybe_echo( $instance, 'gsfc_post_content', 'image_position', 'after-title', $image );
@@ -463,7 +464,7 @@ class GS_Featured_Content extends WP_Widget {
     }
     
     /**
-     * Outputs Post Title if option is selects
+     * Outputs Post Title if option is selected.
      *
      * @param array $instance The settings for the particular instance of the widget.
      */
@@ -494,7 +495,7 @@ class GS_Featured_Content extends WP_Widget {
     }
     
     /**
-     * Outputs the selected content option if any
+     * Outputs the selected content option, if any.
      *
      * @param array $instance The settings for the particular instance of the widget.
      */
@@ -530,7 +531,7 @@ class GS_Featured_Content extends WP_Widget {
     }
 
     /**
-     * Outputs post meta if option is selected and anything is in the post meta field
+     * Outputs post meta if option is selected and anything is in the post meta field.
      *
      * @param array $instance The settings for the particular instance of the widget.
      */
@@ -609,7 +610,7 @@ function gsfcSave(t) {
     }
     
     /**
-     * Sanitizies transient name (to less than 40 characters)
+     * Sanitizes transient name (to less than 40 characters)
      * 
      * @param string $name Transient name. 
      * @return string $name Maybe modified transient name.
@@ -879,7 +880,7 @@ function gsfcSave(t) {
      * @return array Array of image size options.
      */    
     public static function get_image_size_options() {
-        $sizes = genesis_get_additional_image_sizes();
+        $sizes = genesis_get_image_sizes();
         $image_size_opt['thumbnail'] = 'thumbnail ('. get_option( 'thumbnail_size_w' ) . 'x' . get_option( 'thumbnail_size_h' ) . ')';
 		foreach( ( array )$sizes as $name => $size ) 
 			$image_size_opt[ $name ] = esc_html( $name ) . ' (' . $size['width'] . 'x' . $size['height'] . ')';
@@ -1143,7 +1144,7 @@ function gsfcSave(t) {
                     'one-third'     => __( 'One Third', 'gsfc' ),
                     'one-fourth'    => __( 'One Fourth', 'gsfc' ),
                     'one-fifth'     => __( 'One Fifth', 'gsfc' ),
-                    'one-sixith'    => __( 'One Sixth', 'gsfc' ),
+                    'one-sixth'    => __( 'One Sixth', 'gsfc' ),
                     'two-thirds'    => __( 'Two Thirds', 'gsfc' ),
                     'three-fourths' => __( 'Three Fourths', 'gsfc' ),
                     'two-fifths'    => __( 'Two Fifths', 'gsfc' ),
@@ -1761,7 +1762,7 @@ function gsfcSave(t) {
 							break;
 							
 						case 'checkbox' :
-                            printf( '<input type="checkbox" id="%1$s" name="%2$s" value="1" class="widget-control-save" %3$s />',
+                            printf( '<input type="checkbox" id="%1$s" name="%2$s" value="1" onchange="gsfcSave(this)" %3$s />',
                                 $obj->get_field_id( $field_id ),
                                 $obj->get_field_name( $field_id ),
                                 checked( 1, $instance[$field_id], false )
@@ -1882,7 +1883,7 @@ function gsfcSave(t) {
      * @return string Imploded array.
      */
     public static function data_implode( $a ) {
-        if ( is_array( $a ) && !empty( $a ) )
+        if ( is_array( $a ) && !empty( $a ) && 2 <= count( $a ) && is_string( $a[0] ) && is_string( $a[1] ) )
             return sprintf( ' data-requires-key="%s" data-requires-val="%s"', $a[0], $a[1] );
         else
             return '';

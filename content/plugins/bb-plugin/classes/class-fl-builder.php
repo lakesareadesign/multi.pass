@@ -24,6 +24,17 @@ final class FLBuilder {
 	static private $template_dir = 'fl-builder/includes';
 
 	/**
+	 * An array of asset paths that have already been rendered. This is
+	 * used to ensure that the same asset isn't rendered twice on the same
+	 * page. That typically can happen when you do things like insert the
+	 * same layout twice using the fl_builder_insert_layout shortcode.
+	 *
+	 * @since 2.0
+	 * @var bool $rendered_assets
+	 */
+	static private $rendered_assets = array();
+
+	/**
 	 * An array of which global assets have already been enqueued. This is
 	 * used to ensure that only one copy of either the global CSS or JS is
 	 * ever loaded on the page at one time.
@@ -499,8 +510,9 @@ final class FLBuilder {
 		}
 
 		// Render if the file doesn't exist.
-		if ( ! file_exists( $path ) || $rerender || self::is_debug() ) {
+		if ( ! in_array( $path, self::$rendered_assets ) && ( ! file_exists( $path ) || $rerender || self::is_debug() ) ) {
 			call_user_func_array( array( 'FLBuilder', 'render_' . $type ), array( $global ) );
+			self::$rendered_assets[] = $path;
 		}
 
 		// Don't enqueue if we don't have a file after trying to render.

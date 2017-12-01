@@ -779,6 +779,57 @@ FLBuilder::register_module('FLPostGridModule', array(
 					),
 				),
 			),
+		),
+	),
+	'content'   => array(
+		'title'         => __( 'Content', 'fl-builder' ),
+		'file'          => FL_BUILDER_DIR . 'includes/loop-settings.php',
+	),
+	'pagination' => array(
+		'title'      => __( 'Pagination', 'fl-builder' ),
+		'sections'   => array(
+			'pagination'   => array(
+				'title'         => __( 'Pagination', 'fl-builder' ),
+				'fields'        => array(
+					'pagination'     => array(
+						'type'          => 'select',
+						'label'         => __( 'Pagination Style', 'fl-builder' ),
+						'default'       => 'numbers',
+						'options'       => array(
+							'numbers'       => __( 'Numbers', 'fl-builder' ),
+							'scroll'        => __( 'Scroll', 'fl-builder' ),
+							'load_more'     => __( 'Load More Button', 'fl-builder' ),
+							'none'          => _x( 'None', 'Pagination style.', 'fl-builder' ),
+						),
+						'toggle' 		=> array(
+							'load_more' 	=> array(
+								'sections' 		=> array( 'load_more_general' ),
+							),
+						),
+					),
+					'posts_per_page' => array(
+						'type'          => 'text',
+						'label'         => __( 'Posts Per Page', 'fl-builder' ),
+						'default'       => '10',
+						'size'          => '4',
+					),
+					'no_results_message' => array(
+						'type' 				=> 'text',
+						'label'				=> __( 'No Results Message', 'fl-builder' ),
+						'default'			=> __( "Sorry, we couldn't find any posts. Please try a different search.", 'fl-builder' ),
+					),
+					'show_search'    => array(
+						'type'          => 'select',
+						'label'         => __( 'Show Search', 'fl-builder' ),
+						'default'       => '1',
+						'options'       => array(
+							'1'             => __( 'Show', 'fl-builder' ),
+							'0'             => __( 'Hide', 'fl-builder' ),
+						),
+						'help'          => __( 'Shows the search form if no posts are found.' ),
+					),
+				),
+			),
 			'load_more_general' => array(
 				'title'         => __( 'Load More Button', 'fl-builder' ),
 				'fields'        => array(
@@ -872,57 +923,6 @@ FLBuilder::register_module('FLPostGridModule', array(
 							'auto'		   => _x( 'Auto', 'Width.', 'fl-builder' ),
 							'full'		   => __( 'Full Width', 'fl-builder' ),
 						),
-					),
-				),
-			),
-		),
-	),
-	'content'   => array(
-		'title'         => __( 'Content', 'fl-builder' ),
-		'file'          => FL_BUILDER_DIR . 'includes/loop-settings.php',
-	),
-	'pagination' => array(
-		'title'      => __( 'Pagination', 'fl-builder' ),
-		'sections'   => array(
-			'pagination'   => array(
-				'title'         => __( 'Pagination', 'fl-builder' ),
-				'fields'        => array(
-					'pagination'     => array(
-						'type'          => 'select',
-						'label'         => __( 'Pagination Style', 'fl-builder' ),
-						'default'       => 'numbers',
-						'options'       => array(
-							'numbers'       => __( 'Numbers', 'fl-builder' ),
-							'scroll'        => __( 'Scroll', 'fl-builder' ),
-							'load_more'     => __( 'Load More Button', 'fl-builder' ),
-							'none'          => _x( 'None', 'Pagination style.', 'fl-builder' ),
-						),
-						'toggle' 		=> array(
-							'load_more' 	=> array(
-								'sections' 		=> array( 'load_more_general' ),
-							),
-						),
-					),
-					'posts_per_page' => array(
-						'type'          => 'text',
-						'label'         => __( 'Posts Per Page', 'fl-builder' ),
-						'default'       => '10',
-						'size'          => '4',
-					),
-					'no_results_message' => array(
-						'type' 				=> 'text',
-						'label'				=> __( 'No Results Message', 'fl-builder' ),
-						'default'			=> __( "Sorry, we couldn't find any posts. Please try a different search.", 'fl-builder' ),
-					),
-					'show_search'    => array(
-						'type'          => 'select',
-						'label'         => __( 'Show Search', 'fl-builder' ),
-						'default'       => '1',
-						'options'       => array(
-							'1'             => __( 'Show', 'fl-builder' ),
-							'0'             => __( 'Hide', 'fl-builder' ),
-						),
-						'help'          => __( 'Shows the search form if no posts are found.' ),
 					),
 				),
 			),

@@ -3,7 +3,7 @@
 Class Name: Simple Options
 Class URI: http://iworks.pl/
 Description: Simple option class to manage options.
-Version: 1.0.3
+Version: 1.0.4
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GPLv2 or later
@@ -26,6 +26,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 == CHANGELOG ==
+
+= 1.0.4 =
+- Added slave sections.
+- Added select & select2 type.
+- Added 'before' & 'after' parameter.
+- Added 'skip_value' parameter to allow print mempty value.
+- Fixed "hidden" field - remove TR/TD wraper.
 
 = 1.0.3 =
 - Added extra $value sanitization for wp_editor and textarea.
@@ -60,10 +67,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 			if ( empty( $options ) ) {
 				return;
 			}
-			global $page;
-
 			$boxes = $this->get_boxes();
-
 			$content = '<div class="meta-box-sortables simple-options">';
 			foreach ( $options as $section_key => $option ) {
 				if ( ! isset( $option['fields'] ) ) {
@@ -81,10 +85,41 @@ if ( ! class_exists( 'simple_options' ) ) {
 				if ( empty( $option['fields'] ) ) {
 					continue;
 				}
+				/**
+				 * extra & classes
+				 */
+				$classes = array( 'postbox' );
+				$extra = array();
+				if ( isset( $option['master'] ) ) {
+					$master_fields = array(
+						'section' => '',
+						'field' => '',
+						'value' => '',
+					);
+					foreach ( $master_fields as $master_field => $master_value ) {
+						if ( isset( $option['master'][ $master_field ] ) ) {
+							$master_value = $option['master'][ $master_field ];
+						}
+						$master_fields[ $master_field ] = $master_value;
+						$extra[] = sprintf( 'data-master-%s="%s"', $master_field, esc_attr( $master_value ) );
+					}
+					$value = $this->get_single_value( $options, $input, $master_fields['section'], $master_fields['field'] );
+					$classes[] = 'section-is-slave';
+					if ( $master_fields['value'] != $value ) {
+						$classes[] = 'hidden';
+					}
+				}
+				if ( isset( $boxes[ $section_key ] ) ) {
+					$classes[] = $boxes[ $section_key ];
+				}
+				/**
+				 * postbox
+				 */
 				$content .= sprintf(
-					'<div class="postbox %s" id="%s">',
-					isset( $boxes[ $section_key ] )? esc_attr( $boxes[ $section_key ] ):'',
-					esc_attr( $section_key )
+					'<div class="postbox %s" id="%s" %s>',
+					esc_attr( implode( ' ', $classes ) ),
+					esc_attr( $section_key ),
+					implode( ' ', $extra )
 				);
 				/**
 				 * fold
@@ -137,46 +172,66 @@ if ( ! class_exists( 'simple_options' ) ) {
 						$data['classes'][] = 'large-text';
 					}
 					/**
+					 * html5.data
+					 */
+					$extra = array();
+					if ( isset( $data['data'] ) ) {
+						foreach ( $data['data'] as $data_key => $data_value ) {
+							$extra[] = sprintf( 'data-%s="%s"', esc_html( $data_key ), esc_attr( $data_value ) );
+						}
+					}
+					/**
 					 * begin table row
 					 */
-					$content .= sprintf(
-						'<tr class="simple-option simple-option-%s %s">',
-						esc_attr( $data['type'] ),
-						isset( $data['master'] )? esc_attr( $data['master'] ):''
-					);
-					/**
-					 * TH
-					 */
-					$show = true;
-					if ( isset( $option['hide-th'] ) && true === $option['hide-th'] ) {
-						$show = false;
-					}
-					if ( isset( $data['hide-th'] ) && true === $data['hide-th'] ) {
-						$show = false;
-					}
-					if ( $show ) {
+					if ( 'hidden' !== $data['type'] ) {
 						$content .= sprintf(
-							'<th scope="row"><label for="%s">%s</label></th>',
-							esc_attr( $html_id ),
-							isset( $data['label'] )? esc_html( $data['label'] ):'&nbsp;'
+							'<tr class="simple-option simple-option-%s %s">',
+							esc_attr( $data['type'] ),
+							isset( $data['master'] )? esc_attr( $data['master'] ):''
 						);
+						/**
+						 * TH
+						 */
+						$show = true;
+						if ( isset( $option['hide-th'] ) && true === $option['hide-th'] ) {
+							$show = false;
+						}
+						if ( isset( $data['hide-th'] ) && true === $data['hide-th'] ) {
+							$show = false;
+						}
+						if ( $show ) {
+							$content .= sprintf(
+								'<th scope="row"><label for="%s">%s</label></th>',
+								esc_attr( $html_id ),
+								isset( $data['label'] )? esc_html( $data['label'] ):'&nbsp;'
+							);
+						}
+						if ( isset( $data['hide-th'] ) && true === $data['hide-th'] ) {
+							$content .= '<td colspan="2">';
+						} else {
+							$content .= '<td>';
+						}
 					}
-					if ( isset( $data['hide-th'] ) && true === $data['hide-th'] ) {
-						$content .= '<td colspan="2">';
-					} else {
-						$content .= '<td>';
+
+					/**
+					 * field name
+					 */
+					$field_name = sprintf( 'simple_options[%s][%s]', $section_key, $id );
+					if ( isset( $data['multiple'] ) && $data['multiple'] ) {
+						$field_name .= '[]';
+					}
+					if ( isset( $data['name'] ) ) {
+						$field_name = $data['name'];
 					}
 					/**
 					 * value
 					 */
-					$value = '';
-					if ( isset( $data['value'] ) ) {
-						$value = $data['value'];
-					} else {
-						$value = isset( $data['default'] )? $data['default']:'';
-						if ( isset( $input[ $section_key ] ) && isset( $input[ $section_key ][ $id ] ) ) {
-							$value = $input[ $section_key ][ $id ];
-						}
+					$value = $this->get_single_value( $options, $input, $section_key, $id );
+					/**
+					 * before
+					 */
+					if ( isset( $data['before'] ) ) {
+						$content .= $data['before'];
 					}
 					/**
 					 * produce
@@ -192,6 +247,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 								$this->loaded['media'] = true;
 								wp_enqueue_media();
 							}
+							$image_src = '';
 							if ( preg_match( '/^\d+$/', $value ) ) {
 								$image_src = wp_get_attachment_image_url( $value );
 							} else if ( is_string( $value ) ) {
@@ -319,7 +375,6 @@ if ( ! class_exists( 'simple_options' ) ) {
 							if ( ! is_string( $value ) ) {
 								$value = '';
 							}
-							$field_name = sprintf( 'simple_options[%s][%s]', $section_key, $id );
 							$wp_editor_id = sprintf( 'simple_options_%s_%s', $section_key, $id );
 							$args = array( 'textarea_name' => $field_name, 'textarea_rows' => 9, 'teeny' => true );
 							ob_start();
@@ -328,8 +383,41 @@ if ( ! class_exists( 'simple_options' ) ) {
 							ob_end_clean();
 						break;
 
+						/**
+						 * select && select2
+						 *
+						 * @since 1.9.4
+						 */
+						case 'select':
+						case 'select2':
+							if ( isset( $options['multiple'] ) && $options['multiple'] ) {
+								$extra[] = 'multiple="multiple"';
+							}
+							if ( 'select2' == $data['type'] ) {
+								$data['classes'][] = 'ub-select2-ajax';
+							}
+							$select_options = '';
+							if ( isset( $data['options'] ) && is_array( $data['options'] ) ) {
+								foreach ( $data['options'] as $option_value => $option_label ) {
+									$select_options .= sprintf(
+										'<option value="%s" %s>%s</option>',
+										esc_attr( $option_value ),
+										'',
+										esc_html( $option_label )
+									);
+								}
+							}
+							$content .= sprintf(
+								'<select id="%s" name="%s" class="%s" %s>%s</select>',
+								esc_attr( $html_id ),
+								esc_attr( $field_name ),
+								isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
+								implode( ' ', $extra ),
+								$select_options
+							);
+						break;
+
 						default:
-							$extra = array();
 							switch ( $data['type'] ) {
 								case 'number':
 									$data['classes'][] = 'small-text';
@@ -351,31 +439,25 @@ if ( ! class_exists( 'simple_options' ) ) {
 									}
 								break;
 							}
-							/**
-							 * html5.data
-							 */
-							if ( isset( $data['data'] ) ) {
-								foreach ( $data['data'] as $data_key => $data_value ) {
-									$extra[] = sprintf( 'data-%s="%s"', esc_html( $data_key ), esc_attr( $data_value ) );
-								}
-							}
-							$field_name = sprintf( 'simple_options[%s][%s]', $section_key, $id );
-							if ( isset( $data['name'] ) ) {
-								$field_name = $data['name'];
-							}
 							$content .= sprintf(
-								'<input type="%s" id="%s" name="%s" value="%s" class="%s" id="%s" %s />%s',
+								'<input type="%s" id="%s" name="%s" value="%s" class="%s" id="%s" %s />',
 								esc_attr( $data['type'] ),
 								esc_attr( $html_id ),
 								esc_attr( $field_name ),
 								esc_attr( stripslashes( $value ) ),
 								isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
 								esc_attr( $html_id ),
-								implode( ' ', $extra ),
-								isset( $data['after'] ) ? esc_attr( ' '.$data['after'] ) : ''
+								implode( ' ', $extra )
 							);
 						break;
 					}
+					/**
+					 * after
+					 */
+					if ( isset( $data['after'] ) ) {
+						$content .= $data['after'];
+					}
+
 					if ( in_array( 'ui-slider', $data['classes'] ) ) {
 						$ui_slider_data = array(
 							'data-target-id' => esc_attr( $html_id ),
@@ -416,8 +498,10 @@ if ( ! class_exists( 'simple_options' ) ) {
 						}
 						$content .= sprintf( '<p class="description description-default">%s</p>', $message );
 					}
-					$content .= '</td>';
-					$content .= '</tr>';
+					if ( 'hidden' !== $data['type'] ) {
+						$content .= '</td>';
+						$content .= '</tr>';
+					}
 				}
 				$content .= '</tbody>';
 				/**
@@ -531,6 +615,38 @@ if ( ! class_exists( 'simple_options' ) ) {
 				$boxes = $boxes[ $tab ];
 			}
 			return $boxes;
+		}
+
+		/**
+		 * get value of specyfic key
+		 *
+		 * @since 1.9.4
+		 */
+		private function get_single_value( $options, $input, $section, $field ) {
+			$value = null;
+			if ( isset( $input[ $section ] ) && isset( $input[ $section ][ $field ] ) ) {
+				$value = $input[ $section ][ $field ];
+			} else if (
+				isset( $options[ $section ] )
+				&& isset( $options[ $section ]['fields'] )
+				&& isset( $options[ $section ]['fields'][ $field ] )
+			) {
+				if ( isset( $options[ $section ]['fields'][ $field ]['value'] ) ) {
+					$value = $options[ $section ]['fields'][ $field ]['value'];
+				} else if ( isset( $options[ $section ]['fields'][ $field ]['default'] ) ) {
+					$value = $options[ $section ]['fields'][ $field ]['default'];
+				}
+			}
+			/**
+			 * skip value
+			 */
+			if (
+				isset( $options[ $section ]['fields'][ $field ]['skip_value'] )
+				&& $options[ $section ]['fields'][ $field ]['skip_value']
+			) {
+				$value = '';
+			}
+			return $value;
 		}
 	}
 }

@@ -2637,7 +2637,6 @@ class wpui_options
     public function wpui_admin_menu_callback()
     {
         $menu = get_option('wpui_admin_menu_default_option_name');
-
         global $submenu, $pagenow;
         ?>
         <form method="post">

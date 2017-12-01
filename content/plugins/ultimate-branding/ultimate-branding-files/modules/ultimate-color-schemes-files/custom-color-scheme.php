@@ -1,6 +1,6 @@
 /* General */
 
-html {
+html, body {
 background: <?php echo ub_get_option( 'ucs_background_color', '#f1f1f1' ); ?>; }
 
 /* Links */

@@ -532,7 +532,7 @@ class ub_html_emailer {
 
 		//Replace BLOG_URL with actual URL as DOM compatibility escapes img src
 		$content = preg_replace( '/{BLOG_URL}/', $blog_url . '/', $content );
-		$style   = isset( $contents_parts['default_style'] ) ? $contents_parts['default_style'] . $contents_parts['style'] . $contents_parts['style_header'] : $contents_parts['style'] . $contents_parts['style_header'];	   	 		 		 	   		
+		$style   = isset( $contents_parts['default_style'] ) ? $contents_parts['default_style'] . $contents_parts['style'] . $contents_parts['style_header'] : $contents_parts['style'] . $contents_parts['style_header'];
 		//Do the inline styling
 		$content = $this->do_inline_styles( $content, $style );
 

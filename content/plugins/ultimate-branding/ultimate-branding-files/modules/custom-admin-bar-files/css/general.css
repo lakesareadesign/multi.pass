@@ -43,6 +43,9 @@ li[id^="wp-admin-bar-ub_admin_bar_"]{
     margin-top: 5px;
     margin-right: 5px;
 }
+#wpadminbar .ub_admin_bar_image {
+    max-height: 100%;
+}
 .ub_adminbar_text{
     height: 26px;
     line-height: 26px;
@@ -100,4 +103,4 @@ li[id^="wp-admin-bar-ub_admin_bar_"]{
 }
 
 
-/* 133620-1509559935-au */
+/* 133620-1512159726-au */

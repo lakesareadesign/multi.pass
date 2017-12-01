@@ -27,6 +27,13 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		protected $build;
 		protected $tab_name;
 
+		/**
+		 * Module name
+		 *
+		 * @since 1.9.4
+		 */
+		protected $module = 'ub_helper';
+
 		public function __construct() {
 			if ( empty( $this->build ) ) {
 				global $ub_version;
@@ -46,7 +53,7 @@ if ( ! class_exists( 'ub_helper' ) ) {
 				);
 			}
 			add_filter( 'ultimate_branding_options_names', array( $this, 'add_option_name' ) );
-			add_filter( 'ultimate_branding_get_option_name', array( $this, 'get_module_option_name' ), 10, 2 );
+			add_filter( 'ultimate_branding_get_option_name', array( $this, 'get_module_option_name' ), 10, 2 );	   	 		 		 	   		
 		}
 
 		public function add_option_name( $options ) {
@@ -206,6 +213,28 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		 */
 		public function disable_save() {
 			add_filter( 'ultimatebranding_settings_panel_show_submit', '__return_false' );
+		}
+
+		/**
+		 * get nonce action
+		 *
+		 * @since 1.9.4
+		 *
+		 * @param string $name nonce name
+		 * @param integer $user_id User ID.
+		 * @return nonce action name
+		 */
+		protected function get_nonce_action_name( $name = 'default', $user_id = 0 ) {
+			if ( 0 === $user_id ) {
+				$user_id = get_current_user_id();
+			}
+			$nonce_action = sprintf(
+				'%s_%s_%d',
+				__CLASS__,
+				$name,
+				$user_id
+			);
+			return $nonce_action;
 		}
 	}
 }

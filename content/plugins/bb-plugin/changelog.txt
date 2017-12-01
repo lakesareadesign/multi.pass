@@ -1,3 +1,30 @@
+<h4>1.11.1 11/29/17</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed issue with ScrollTo links.</li>
+</ul>
+
+<h4>1.11 11/28/17</h4>
+<p><strong>This will be the final 1.x release before 2.x is made available to all customers via remote update.</strong></p>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added new invisible theme type to Contact Form reCAPTCHA.</li>
+	<li>New filter <code>fl_builder_menu_item_id</code>.</li>
+	<li>Changed MailChimp double opt-in to default to Off, inline with MailChimps API.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed PHP notice in <code>fl_builder_user_access_capabilities</code> filter.</li>
+	<li>Fixed Content Slider CTA not working on mobile.</li>
+	<li>Fixed ScrollTo links not working if an SVG on the page contains a link.</li>
+	<li>Fixed responsive menu no working if used in a widget.</li>
+	<li>Fixed javascript error when row background contains a video URL.</li>
+	<li>Fixed javascript issues when layout shortcode is used twice or more on a page.</li>
+	<li>Fixed PHP notice when using PHP 7.1 and posts module.</li>
+	<li>Fixed Post Module style tab being hidden if using a custom layout.</li>
+	<li>Fixed missing space causing broken markup in Photo Module.</li>
+</ul>
+
 <h4>1.10.9.2 10/26/17</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

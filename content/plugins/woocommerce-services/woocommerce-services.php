@@ -7,7 +7,7 @@
  * Author URI: https://woocommerce.com/
  * Text Domain: woocommerce-services
  * Domain Path: /i18n/languages/
- * Version: 1.8.3
+ * Version: 1.9.0
  *
  * Copyright (c) 2017 Automattic
  *
@@ -193,6 +193,12 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 		static function get_wcs_version() {
 			$plugin_data = get_file_data( __FILE__, array( 'Version' => 'Version' ) );
 			return $plugin_data[ 'Version' ];
+		}
+
+		function wpcom_static_url($file) {
+			$i = hexdec( substr( md5( $file ), -1 ) ) % 2;
+			$url = 'http://s' . $i . '.wp.com' . $file;
+			return set_url_scheme( $url );
 		}
 
 		public function __construct() {
@@ -560,7 +566,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			$settings_store        = new WC_Connect_Service_Settings_Store( $schemas_store, $api_client, $logger );
 			$payment_methods_store = new WC_Connect_Payment_Methods_Store( $settings_store, $api_client, $logger );
 			$tracks                = new WC_Connect_Tracks( $logger, __FILE__ );
-			$shipping_label        = new WC_Connect_Shipping_Label( $api_client, $settings_store, $schemas_store, $payment_methods_store );
+			$shipping_label        = new WC_Connect_Shipping_Label( $api_client, $settings_store, $schemas_store );
 			$nux                   = new WC_Connect_Nux( $tracks, $shipping_label );
 			$taxjar                = new WC_Connect_TaxJar_Integration( $api_client, $logger );
 			$options               = new WC_Connect_Options();
@@ -587,7 +593,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			new WC_Connect_Debug_Tools( $this->api_client );
 
 			require_once( plugin_basename( 'classes/class-wc-connect-settings-pages.php' ) );
-			$settings_pages = new WC_Connect_Settings_Pages( $this->payment_methods_store, $this->service_settings_store, $this->service_schemas_store );
+			$settings_pages = new WC_Connect_Settings_Pages();
 			$this->set_settings_pages( $settings_pages );
 
 			$schema = $this->get_service_schemas_store();
@@ -636,6 +642,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			add_action( 'enqueue_wc_connect_script', array( $this, 'enqueue_wc_connect_script' ), 10, 2 );
 			add_action( 'admin_init', array( $this, 'load_admin_dependencies' ) );
 			add_filter( 'wc_connect_shipping_service_settings', array( $this, 'shipping_service_settings' ), 10, 3 );
+			add_action( 'woocommerce_email_after_order_table', array( $this, 'add_tracking_info_to_emails' ), 10, 3 );
 
 			$tracks = $this->get_tracks();
 			$tracks->init();
@@ -829,6 +836,98 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 		}
 
 		/**
+		 * Add tracking info (if available) to completed emails using the woocommerce_email_after_order_table hook
+		 *
+		 * @param $order
+		 * @param $sent_to_admin
+		 * @param $plain_text
+		 */
+		public function add_tracking_info_to_emails( $order, $sent_to_admin, $plain_text ) {
+			$id = WC_Connect_Compatibility::instance()->get_order_id( $order );
+
+			// Abort if no id was passed or if the order is not marked as 'completed'
+			if ( ! $id || ! $order->has_status( 'completed' ) ) {
+				return;
+			}
+
+			$labels = $this->service_settings_store->get_label_order_meta_data( $id );
+
+			// Abort if there are no labels
+			if ( empty( $labels ) ) {
+				return;
+			}
+
+			$markup = '';
+			$link_color = get_option( 'woocommerce_email_text_color' );
+
+			// Generate a table row for each label
+			foreach ( $labels as $label ) {
+				$carrier = $label['carrier_id'];
+				$carrier_label = strtoupper( $carrier );
+				$tracking = $label['tracking'];
+				$error = array_key_exists( 'error', $label );
+				$refunded = array_key_exists( 'refund', $label );
+
+				// If the label has an error or is refunded, move to the next label
+				if ( $error || $refunded ) {
+					continue;
+				}
+
+				if ( $plain_text ) {
+					// Should look like '- USPS: 9405536897846173912345' in plain text mode
+					$markup .= '- ' . $carrier_label . ': ' . $tracking . "\n";
+					continue;
+				}
+
+				$markup .= '<tr>';
+				$markup .= '<td class="td" scope="col">' . esc_html( $carrier_label ) . '</td>';
+
+				switch ( $carrier ) {
+					case 'fedex':
+						$tracking_url = 'https://www.fedex.com/apps/fedextrack/?action=track&tracknumbers=' . $tracking;
+						break;
+					case 'usps':
+						$tracking_url = 'https://tools.usps.com/go/TrackConfirmAction.action?tLabels=' . $tracking;
+						break;
+				}
+
+				$markup .= '<td class="td" scope="col">';
+				$markup .= '<a href="' . esc_url( $tracking_url ) . '" style="color: ' . esc_attr( $link_color ) . '">' . esc_html( $tracking ) . '</a>';
+				$markup .= '</td>';
+				$markup .= '</tr>';
+			}
+
+			// Abort if all labels are refunded
+			if ( empty( $markup ) ) {
+				return;
+			}
+
+			if ( $plain_text ) {
+				echo "\n=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n\n";
+				echo mb_strtoupper( __( 'Tracking', 'woocommerce-services' ), 'UTF-8' ) . "\n\n";
+				echo $markup;
+				return;
+			}
+
+			?>
+				<div style="font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif; margin-bottom: 40px;">
+					<h2><?php echo __( 'Tracking', 'woocommerce-services' ); ?></h2>
+					<table class="td" cellspacing="0" cellpadding="6" style="margin-top: 10px; width: 100%;">
+						<thead>
+							<tr>
+								<th class="td" scope="col"><?php echo __( 'Provider', 'woocommerce-services' ); ?></th>
+								<th class="td" scope="col"><?php echo __( 'Tracking number', 'woocommerce-services' ); ?></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php echo $markup; ?>
+						</tbody>
+					</table>
+				</div>
+			<?php
+		}
+
+		/**
 		 * Hook fetching the available services from the connect server
 		 */
 		public function schedule_service_schemas_fetch() {
@@ -939,7 +1038,9 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			$plugin_data = get_plugin_data( __FILE__, false, false );
 			$plugin_version = $plugin_data[ 'Version' ];
 
-			wp_register_style( 'wc_connect_admin', $this->wc_connect_base_url . 'woocommerce-services.css', array(), $plugin_version );
+			// Use the same version as Jetpack
+			wp_register_style( 'noticons', $this->wpcom_static_url( '/i/noticons/noticons.css' ), array(), JETPACK__VERSION . '-' . gmdate( 'oW' ) );
+			wp_register_style( 'wc_connect_admin', $this->wc_connect_base_url . 'woocommerce-services.css', array( 'noticons' ), $plugin_version );
 			wp_register_script( 'wc_connect_admin', $this->wc_connect_base_url . 'woocommerce-services.js', array(), $plugin_version );
 			wp_register_script( 'wc_services_admin_pointers', $this->wc_connect_base_url . 'woocommerce-services-admin-pointers.js', array( 'wp-pointer', 'jquery' ), $plugin_version );
 			wp_register_style( 'wc_connect_banner', $this->wc_connect_base_url . 'woocommerce-services-banner.css', array(), $plugin_version );
@@ -1082,7 +1183,7 @@ if ( ! class_exists( 'WC_Connect_Loader' ) ) {
 			) );
 
 			?>
-				<div class="wcc-root <?php echo esc_attr( $root_view ) ?>" data-args="<?php echo esc_attr( wp_json_encode( $extra_args ) ) ?>">
+				<div class="wcc-root woocommerce <?php echo esc_attr( $root_view ) ?>" data-args="<?php echo esc_attr( wp_json_encode( $extra_args ) ) ?>">
 					<span class="form-troubles" style="opacity: 0">
 						<?php printf( __( 'Section not loading? Visit the <a href="%s">status page</a> for troubleshooting steps.', 'woocommerce-services' ), $debug_page_uri ); ?>
 					</span>

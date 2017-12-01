@@ -175,7 +175,10 @@ class UB_Admin_Bar_Menu {
 	 */
 	public function get_title_image() {
 		if ( $this->is_image ) {
-			return "<img  class='ub_admin_bar_image' src='{$this->menu->title}' />";
+			return sprintf(
+				'<span class="ab-item"><img  class="ub_admin_bar_image" src="%s" /></span>',
+				esc_url_raw( $this->menu->title )
+			);
 		}
 		$icon = $this->use_icon ? "<span class='dashicons dashicons-{$this->icon}'></span>" : '';
 		$title_class = $this->use_icon ? 'ub_adminbar_text has_icon' : 'ub_adminbar_text';

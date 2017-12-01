@@ -4,7 +4,7 @@
 Plugin Name: WP Admin UI
 Plugin URI: http://wpadminui.net/
 Description: The best plugin to customize WordPress administration in seconds.
-Version: 1.9.4
+Version: 1.9.5
 Author: Benjamin DENIS
 Author URI: http://wpadminui.net/
 License: GPLv2
@@ -50,7 +50,7 @@ register_deactivation_hook(__FILE__, 'wpui_deactivation');
 //Define
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-define( 'WPUI_VERSION', '1.9.4' ); 
+define( 'WPUI_VERSION', '1.9.5' ); 
 define( 'WPUI_AUTHOR', 'Benjamin Denis' ); 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////

@@ -68,9 +68,7 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 
 		function force_admin_scheme_color( $result, $option, $user ) {
 			global $_wp_admin_css_colors;
-
 			$force_color = ub_get_option( 'ucs_force_color_scheme', false );
-
 			if ( $force_color && $force_color !== 'false' ) {
 				return $force_color;
 			} else {
@@ -132,14 +130,13 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 					}
 				}
 				wp_redirect( 'admin.php?page=branding&tab=ultimate-color-schemes' );
-			} elseif ( isset( $_POST['ucs_color_scheme_name'] ) ) {
+			} else {
 				foreach ( $_POST as $key => $value ) {
 					if ( preg_match( '/^ucs_/', $key ) ) {
 						ub_update_option( $key, $value );
 					}
 				}
 			}
-
 			return true;
 		}
 
@@ -405,20 +402,29 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 			return $colors;
 		}
 
-		function manage_output() {
-			global $wpdb, $current_site, $page;
+		public function manage_output() {
+			echo '<div class="wrap nosubsub ultimate-colors meta-box-sortables">';
+			if ( isset( $_REQUEST['edit'] ) ) {
+				$this->manage_output_edit_color();
+			} else {
+					include_once( plugin_dir_path( __FILE__ ) . '/' . $this->dir_name . '-files/global-options.php' );
+			}
+			echo '</div>';
+		}
+
+		/**
+		 * Edit custom color scheme
+		 *
+		 * @since 1.9.4
+		 */
+		public function manage_output_edit_color() {
+			$color_scheme_name = ub_get_option( 'ucs_color_scheme_name', 'Ultimate' );
 			$simple_options = new simple_options();
 			$boxes = $simple_options->get_boxes();
 			$colors = $this->colors();
 			$page = $_GET['page'];
-			if ( isset( $_GET['error'] ) ) {
-				echo '<div id="message" class="error fade"><p>' . __( 'There was an error during the saving operation, please try again.', 'ub' ) . '</p></div>'; } elseif ( isset( $_GET['updated'] ) ) {
-				echo '<div id="message" class="updated fade"><p>' . __( 'Changes saved.', 'ub' ) . '</p></div>'; }
 ?>
-            <div class='wrap nosubsub ultimate-colors meta-box-sortables'>
-                <?php include_once( plugin_dir_path( __FILE__ ) . '/' . $this->dir_name . '-files/global-options.php' ); ?>
-
-                <p class='description'><?php printf( __( 'Here you can customize "%s" color scheme which use can set within your <a href="%s">user profile page</a>', 'ub' ), ub_get_option( 'ucs_color_scheme_name', 'Ultimate' ), get_edit_user_link( get_current_user_id() ) ); ?></p>
+                <p class='description'><?php printf( __( 'Here you can customize "%s" color scheme which use can set within your <a href="%s">user profile page</a>', 'ub' ), esc_html( $color_scheme_name ), get_edit_user_link( get_current_user_id() ) ); ?></p>
 <?php
 				$id = 'color-scheme-name';
 ?>
@@ -433,7 +439,7 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
                             <tbody>
                                 <tr valign="top">
                                     <th scope="row"><label for="ucs_color_scheme_name"><?php _e( 'Name', 'ub' ); ?></label></th>
-                                    <td><input type="text" value="<?php esc_attr_e( ub_get_option( 'ucs_color_scheme_name', 'Ultimate' ) ); ?>" name="ucs_color_scheme_name" /></td>
+                                    <td><input type="text" value="<?php echo esc_attr( $color_scheme_name ); ?>" name="ucs_color_scheme_name" /></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -469,8 +475,6 @@ foreach ( $color_array as $property => $value ) {
 				wp_nonce_field( 'ultimatebranding_settings_ultimate_color_schemes' );
 ?>
                 <p class='description'><a href='<?php echo wp_nonce_url( 'admin.php?page=' . $page . '&amp;tab=ultimate-color-schemes&amp;reset=yes&amp;action=process', 'ultimatebranding_settings_ultimate_color_schemes' ) ?>'><?php _e( 'Reset Scheme Colors', 'ub' ) ?></a></p>
-            </div>
-
 <?php
 		}
 

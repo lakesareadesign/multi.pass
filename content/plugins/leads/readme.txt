@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools
 Requires at least: 3.8
-Tested up to: 4.8.1
-Stable Tag: 3.2.1
+Tested up to: 4.8.2
+Stable Tag: 3.2.2
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -63,10 +63,6 @@ We built Lead Management as a framework! You can use our extendable framework to
  |
 [Follow on Twitter ](https://twitter.com/inboundnow "Follow us for notifications")
 
-== Installation ==
-
-1. Upload `leads` folder to the `/wp-content/plugins/` directory
-1. Activate the plugin through the 'Plugins' menu in WordPress
 
 == Frequently Asked Questions ==
 
@@ -91,6 +87,9 @@ We built Lead Management as a framework! You can use our extendable framework to
 17. Here’s a better look at our new lead notification email sent to administrators.
 
 == Changelog ==
+
+= 3.2.2 =
+* Adding sanitations for better security.
 
 = 3.2.1 =
 * Adding methods to Inbound_Events shared class

@@ -99,7 +99,7 @@
     margin-top: 4px;
     margin-bottom: 0;
 }
-.action-wrapper .button-primary, .action-wrapper .button-secondary, .action-wrapper #preview_template {
+.action-wrapper .button-primary, .action-wrapper .button-secondary, .action-wrapper #preview_template {	   	 		 		 	   		
     float: left;
 }
 .action-wrapper .button-secondary, .action-wrapper #preview_template {
@@ -187,4 +187,4 @@ li .step-count {
 }
 
 
-/* 133620-1509559935-au */
+/* 133620-1512159726-au */

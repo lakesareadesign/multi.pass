@@ -31,7 +31,7 @@ function wpui_menu_default() {
 		update_option('wpui_admin_menu_default_option_name', $menu);
 	}
 }
-add_action('admin_menu', 'wpui_menu_default');
+add_action('admin_menu', 'wpui_menu_default', 999);
 
 function wpui_menu_reset_order() {
 	delete_option('wpui_admin_menu_list_option_name');

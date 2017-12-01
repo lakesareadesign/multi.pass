@@ -326,7 +326,7 @@
 
 			if( this._isMenuToggle() ){
 
-				if ( this.mobileBelowRow ) {
+				if ( this._isMobileBelowRowEnabled() ) {
 					this._placeMobileMenuBelowRow();
 					$wrapper = $( this.wrapperClass );
 					$menu    = $( this.nodeClass + '-clone' );
@@ -371,7 +371,7 @@
 			}
 			else {
 
-				if ( this.mobileBelowRow ) {
+				if ( this._isMobileBelowRowEnabled() ) {
 					this._removeMenuFromBelowRow();
 				}
 
@@ -394,7 +394,6 @@
 			var module     = $( this.nodeClass ),
 				rowContent = module.closest( '.fl-row-content' ),
 				rowWidth   = rowContent.width(),
-				rowOffset  = rowContent.offset().left,
 				megas      = module.find( '.mega-menu' ),
 				disabled   = module.find( '.mega-menu-disabled' ),
 				isToggle   = this._isMenuToggle();
@@ -408,6 +407,16 @@
 				module.find( 'li.mega-menu > ul.sub-menu' ).css( 'width', rowWidth + 'px' );
 				rowContent.css( 'position', 'relative' );
 			}
+		},
+
+		/**
+		 * Check to see if Below Row should be enabled.
+		 *
+		 * @since  	1.11
+		 * @return boolean
+		 */
+		_isMobileBelowRowEnabled: function() {
+			return this.mobileBelowRow && $( this.nodeClass ).closest( '.fl-col' ).length;
 		},
 
 		/**

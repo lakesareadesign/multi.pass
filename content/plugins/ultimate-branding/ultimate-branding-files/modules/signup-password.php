@@ -20,7 +20,6 @@ if ( ! class_exists( 'ub_Signup_Password existed ub_helper' ) ) {
 		}
 
 		function initialise_plugin() {
-
 			//add_action('init', 'wpmu_signup_password_init');
 			add_action( 'template_redirect', array( &$this, 'wpmu_signup_password_init_sessions' ) );
 			add_action( 'wp_footer', array( &$this, 'wpmu_signup_password_stylesheet' ) );
@@ -31,6 +30,7 @@ if ( ! class_exists( 'ub_Signup_Password existed ub_helper' ) ) {
 			add_filter( 'signup_blogform', array( &$this, 'wpmu_signup_password_fields_pass_through' ) );
 			add_filter( 'add_signup_meta', array( &$this, 'wpmu_signup_password_meta_filter' ), 99 );
 			add_filter( 'random_password', array( &$this, 'wpmu_signup_password_random_password_filter' ) );
+			add_filter( 'wp_new_user_notification_email', array( $this, 'new_user_notification_email' ), 10, 3 );
 		}
 
 		protected function set_options() {
@@ -50,6 +50,19 @@ if ( ! class_exists( 'ub_Signup_Password existed ub_helper' ) ) {
 				}
 			}
 			$description = '<ul>';
+			/**
+			 * message abut filter
+			 */
+			$wp_version = get_bloginfo( 'version' );
+			$compare = version_compare( $wp_version, '4.9', '<' );
+			if ( $compare ) {
+				$text = __( 'You are using WordPress %s and email to user will be incorrect, becouse filter "wpmu_signup_password_encrypt" was introduced in WordPress 4.9. Please upgrade your WordPress instalation.', 'ub' );
+				$text = sprintf( $text, $wp_version );
+				$description .= sprintf( '<li><strong>%s</strong></li>', $text );
+			}
+			/**
+			 * other messages
+			 */
 			$description .= sprintf( '<li>%s</li>', $message );
 			$description .= sprintf( '<li>%s</li>', __( 'This module has no configuration.', 'ub' ) );
 			$description .= '</ul>';
@@ -294,6 +307,32 @@ if ( $error ) {
 				return true; }
 
 			return false;
+		}
+
+		/**
+		 * new user notification email
+		 *
+		 * @since 1.9.4
+		 */
+		public function new_user_notification_email( $email, $user, $blogname ) {
+			$text = __( 'Howdy USERNAME,
+
+Your new account is set up.
+
+You can log in with the following information:
+Username: USERNAME
+Password: PASSWORD
+LOGINLINK
+
+Thanks!
+
+--The Team @ SITE_NAME', 'ub' );
+			$text = preg_replace( '/USERNAME/', $user->user_login, $text );
+			$text = preg_replace( '/PASSWORD/', $_REQUEST['password_1'], $text );
+			$text = preg_replace( '/LOGINLINK/', network_site_url( 'wp-login.php' ), $text );
+			$text = preg_replace( '/SITE_NAME/', $blogname, $text );
+			$email['message'] = $text;
+			return $email;
 		}
 	}
 }

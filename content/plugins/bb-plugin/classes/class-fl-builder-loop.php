@@ -272,7 +272,7 @@ final class FLBuilderLoop {
 	 */
 	static public function found_posts( $found_posts, $query ) {
 		if ( isset( $query->query ) && isset( $query->query['fl_builder_loop'] ) ) {
-			return $found_posts - $query->query['fl_original_offset'];
+			return (int) $found_posts - (int) $query->query['fl_original_offset'];
 		}
 
 		return $found_posts;

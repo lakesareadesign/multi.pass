@@ -676,8 +676,11 @@ UBSTYLE;
 	 * @access public
 	 */
 	function print_style_tag() {
-		if ( ! is_admin() && 1 !== (int) UB_Admin_Bar_Forms::get_option( 'show_toolbar_for_non_logged' ) ) {
-			return;
+		if ( ! is_user_logged_in() ) {
+			$show = (int) UB_Admin_Bar_Forms::get_option( 'show_toolbar_for_non_logged' );
+			if ( 1 !== $show ) {
+				return;
+			}
 		}
 ?>
         <style type="text/css" id="custom-admin-bar-css">

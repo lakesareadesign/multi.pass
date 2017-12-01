@@ -43,7 +43,7 @@
 	?>
 	<div class="fl-input-group fl-recaptcha">
 		<span class="fl-contact-error"><?php _e( 'Please check the captcha to verify you are not a robot.', 'fl-builder' );?></span>
-		<div id="<?php echo $id; ?>-fl-grecaptcha" class="fl-grecaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"></div>
+		<div id="<?php echo $id; ?>-fl-grecaptcha" class="fl-grecaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"<?php if ( isset( $settings->recaptcha_validate_type ) ) { echo ' data-validate="' . $settings->recaptcha_validate_type . '"';} ?><?php if ( isset( $settings->recaptcha_theme ) ) { echo ' data-theme="' . $settings->recaptcha_theme . '"';} ?>></div>
 	   </div>
 	<?php endif; ?>
 

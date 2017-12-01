@@ -340,8 +340,9 @@ class ub_Site_Wide_Text_Change {
 	function replace_text( $transtext, $normtext, $domain ) {
 		$tt = $this->get_translation_ops();
 		$admin_front = true;
-		if( !is_array( $tt ) )
-			return $transtext;
+		if( !is_array( $tt ) ) {
+            return $transtext;
+        }
 		$toprocess = array();
 		if( isset( $tt['domain-' . $domain]['find'] ) && isset( $tt['domain-']['find'] ) ){
 			$toprocess =  (array) $tt['domain-' . $domain]['find'] + (array) $tt['domain-']['find'];
@@ -434,7 +435,9 @@ class ub_Site_Wide_Text_Change {
 			"*",
 			"$",
 			"€",
-			"£"
+            "£",
+            '$',
+            '%',
 		), array(
 			"\?",
 			"\!",
@@ -442,6 +445,8 @@ class ub_Site_Wide_Text_Change {
 			"\$",
 			"\€",
 			"\£",
+            '\$',
+            '\%',
 		), $string );
 		return $string;
 	}
