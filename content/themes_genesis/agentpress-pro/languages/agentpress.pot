@@ -1,29 +1,30 @@
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: AgentPress Pro Theme for Genesis Framework\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-07-23 09:53-0500\n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Language: en_US\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: AgentPress Pro\n"
+"POT-Creation-Date: 2016-05-01 09:59-0400\n"
+"PO-Revision-Date: 2016-05-01 09:59-0400\n"
+"Last-Translator: StudioPress <translations@studiopress.com>\n"
+"Language-Team: StudioPress <translations@studiopress.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=(n != 1);\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_noop:1,2;"
-"_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1,2\n"
-"X-Textdomain-Support: yes\n"
+"X-Generator: Poedit 1.8.7\n"
 "X-Poedit-Basepath: ..\n"
-"X-Generator: Poedit 1.6.7\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
 "X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: archive-listing.php:82 taxonomy.php:82
+#: archive-listing.php:86 taxonomy.php:86
 msgid "View Listing"
 msgstr ""
 
-#: archive-listing.php:91 taxonomy.php:91
+#: archive-listing.php:95 taxonomy.php:95
 msgid "Sorry, no properties matched your criteria."
 msgstr ""
 
@@ -83,73 +84,81 @@ msgstr ""
 msgid "Basement:"
 msgstr ""
 
-#: functions.php:172
+#: functions.php:94
+msgid "Before Header Menu"
+msgstr ""
+
+#: functions.php:94
+msgid "Footer Menu"
+msgstr ""
+
+#: functions.php:168
 msgid "Home - Featured"
 msgstr ""
 
-#: functions.php:173
+#: functions.php:169
 msgid "This is the featured section at the top of the homepage."
 msgstr ""
 
-#: functions.php:177
+#: functions.php:173
 msgid "Home - Top"
 msgstr ""
 
-#: functions.php:178
+#: functions.php:174
 msgid "This is the top section of the content area on the homepage."
 msgstr ""
 
-#: functions.php:182
+#: functions.php:178
 msgid "Home - Middle 1"
 msgstr ""
 
-#: functions.php:183
+#: functions.php:179
 msgid ""
 "This is first widget-area in the middle section of the content area on the "
 "homepage."
 msgstr ""
 
-#: functions.php:187
+#: functions.php:183
 msgid "Home - Middle 2"
 msgstr ""
 
-#: functions.php:188
+#: functions.php:184
 msgid ""
 "This is second widget-area in the middle section of the content area on the "
 "homepage."
 msgstr ""
 
-#: functions.php:192
+#: functions.php:188
 msgid "Home - Middle 3"
 msgstr ""
 
-#: functions.php:193
+#: functions.php:189
 msgid ""
 "This is third widget-area in the middle section of the content area on the "
 "homepage."
 msgstr ""
 
-#: functions.php:197
+#: functions.php:193
 msgid "Home - Bottom"
 msgstr ""
 
-#: functions.php:198
+#: functions.php:194
 msgid "This is the bottom section of the content area on the homepage."
 msgstr ""
 
-#: functions.php:202
+#: functions.php:198
 msgid "Listings Archive"
 msgstr ""
 
-#: functions.php:203
+#: functions.php:199
 msgid "This is the widget-area at the top of the listings archive."
 msgstr ""
 
-#: functions.php:207
+#: functions.php:203
 msgid "Disclaimer"
 msgstr ""
 
-#: functions.php:208
+#: functions.php:204
 msgid "This is the disclaimer section of the footer."
 msgstr ""
 
@@ -163,6 +172,26 @@ msgid ""
 "The image used on the demo is <strong>1600 x 870 pixels</strong>.</p>"
 msgstr ""
 
-#: lib/customize.php:32
+#: lib/customize.php:33
 msgid "Home Image Upload"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "AgentPress Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "http://my.studiopress.com/themes/agentpress/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "A mobile responsive and HTML5 theme built for the Genesis Framework."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "http://www.studiopress.com/"
 msgstr ""

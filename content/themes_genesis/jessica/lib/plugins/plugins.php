@@ -51,7 +51,7 @@ function wsm_register_required_plugins() {
 			'required' 				=> false, // If false, the plugin is only 'recommended' instead of required
 			'force_activation' 		=> false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
 			'force_deactivation' 	=> false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins
-            'external_url'       => 'http://www.web-savvy-marketing.com/go/soliloquy/', // If set, overrides default API URL and points to an external URL.
+            'external_url'       => 'https://9seeds.com/soliloquy/', // If set, overrides default API URL and points to an external URL.
 		),
 
 	);

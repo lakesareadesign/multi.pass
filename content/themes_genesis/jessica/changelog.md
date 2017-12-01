@@ -1,5 +1,16 @@
 # Jessica Changelog
 
+## 1.3.4 - 19 Sept 2017
+* Changed update URL domain to https://9seeds.com
+* Changed cache name to make updates from previous versions run more smoothly
+* Disabled SSL for cURL, for servers which can't cURL from SSL sites
+* Changed URL domain in "Update Downloads and Instructions" to https://9seeds.com
+### Files Modified
+* /style.css
+* /lib/functions/update.php
+---
+
+
 ## 1.3.2 - 11 Apr 2017
 * Change CSS for WooCommerce compatibility 
 * Fix WooCommerce gallery display issue    
@@ -214,7 +225,7 @@
 ---
 
 ## 1.1.5 - 21 Feb 2015
-* Fix CSS bug in main navigation hover state (See this Forum topic for more info: http://www.web-savvy-marketing.com/forum/jessica-instructions/prevent-main-navigation-movement-on-hover/ )  
+* Fix CSS bug in main navigation hover state (See this Forum topic for more info: https://9seeds.com/forum/jessica-instructions/prevent-main-navigation-movement-on-hover/ )  
 
 ### Files Modified
 * /style.css   

@@ -5,7 +5,7 @@ INSTALL
 1. Upload the AgentPress Pro theme folder via FTP to your wp-content/themes/ directory. (The Genesis parent theme needs to be in the wp-content/themes/ directory as well.)
 2. Go to your WordPress dashboard and select Appearance.
 3. Activate the AgentPress Pro theme.
-4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/setup/agentpress-theme/.
+4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking. To set up the theme like the demo, please visit http://my.studiopress.com/documentation/agentpress-pro-theme/.
 
 WIDGET AREAS
 Header Right - This is the widgeted area that appears after the title area section of the header.
@@ -35,9 +35,29 @@ The AgentPress Pro theme is translation ready.  More information about the trans
 SUPPORT
 Please visit http://my.studiopress.com/help/ for theme support.
 
-= 3.1 =
+CHANGELOG
+
+= 3.0.0 =
+* Version initial release
+
+= 3.1.0 =
 * Update theme setting defaults
 * Use theme supports for after entry widget
 
 = 3.1.1 =
 * Relocate archive intro text on listing pages
+
+= 3.1.2 =
+* Rename menus to reflect location
+* Remove IE8 CSS fix for images
+* Remove obsolete comments filter
+* Gallery Improvements
+* Add screen reader text CSS
+* Add 404 page input margin
+* Add hr tag CSS
+
+= 3.1.3 =
+* Update eNews Widget styling
+* Remove deprecated theme tags
+* Update documentation
+* Update 404 page styles

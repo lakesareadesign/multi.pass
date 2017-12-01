@@ -55,7 +55,7 @@ class Jessica_Settings extends Genesis_Admin_Boxes {
 		$default_settings = array(
 			'wsm_top_search' => 0,
 			'wsm_copyright' => 'My Name, All Rights Reserved',
-			'wsm_credit' => 'WordPress Theme by Web Savvy Marketing',
+			'wsm_credit' => 'WordPress Theme by 9seeds',
 		);
 
 		// Create the Admin Page

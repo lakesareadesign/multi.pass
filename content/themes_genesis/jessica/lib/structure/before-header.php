@@ -8,8 +8,8 @@
  *
  * @category     Jessica
  * @package      Admin
- * @author       Web Savvy Marketing
- * @copyright    Copyright (c) 2012, Web Savvy Marketing
+ * @author       9seeds
+ * @copyright    Copyright (c) 2012, 9seeds
  * @license      http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since        1.0.0
  *

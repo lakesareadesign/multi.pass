@@ -1,3 +1,11 @@
+/**
+ * This script adds the accessibility-ready responsive menu to the AgentPress Pro theme.
+ *
+ * @package AgentPress\JS
+ * @author StudioPress
+ * @license GPL-2.0+
+ */
+
 jQuery(function( $ ){
 
 	$("header .genesis-nav-menu, .nav-primary .genesis-nav-menu").addClass("responsive-menu").before('<div class="responsive-menu-icon"></div>');

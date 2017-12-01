@@ -6,8 +6,8 @@
  *
  * @category     jessica
  * @package      Admin
- * @author       Web Savvy Marketing
- * @copyright    Copyright (c) 2012, Web Savvy Marketing
+ * @author       9seeds
+ * @copyright    Copyright (c) 2012, 9seeds
  * @license      http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since        1.0.0
  */
@@ -20,14 +20,14 @@
 function jessica_init() {
 	// Child theme (do not remove)
 	define( 'CHILD_THEME_NAME', 'Jessica' );
-	define( 'CHILD_THEME_URL', 'http://www.web-savvy-marketing.com/store/' );
+	define( 'CHILD_THEME_URL', 'https://9seeds.com/store/' );
 	define( 'CHILD_THEME_VERSION', wp_get_theme()->get( 'Version' ) );
 	define( 'JESSICA_SETTINGS_FIELD', 'jessica-settings' );
 	define( 'SOLILOQUY_LICENSE_KEY', 'YinP3ZMcnSl0kc+QbvQnzyXBfKRYyPm8p1DJfsC5nLY=' );
 
 	// Developer Information (do not remove)
-	define( 'CHILD_DEVELOPER', 'Web Savvy Marketing' );
-	define( 'CHILD_DEVELOPER_URL', 'http://www.web-savvy-marketing.com/'  );
+	define( 'CHILD_DEVELOPER', '9seeds' );
+	define( 'CHILD_DEVELOPER_URL', 'https://9seeds.com/'  );
 
 	/** Define Directory Location Constants */
 	if ( ! defined( 'CHILD_DIR' ) )

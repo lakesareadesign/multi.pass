@@ -6,7 +6,7 @@
  *
  * @category     Jessica
  * @package      Structure
- * @author       Web Savvy Marketing
+ * @author       9seeds
  * @license      http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since        1.0.0
  */

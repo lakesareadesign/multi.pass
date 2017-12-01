@@ -1,13 +1,13 @@
 /*
-	Theme Name: AgentPress Pro Theme
+	Theme Name: AgentPress Pro
 	Theme URI: http://my.studiopress.com/themes/agentpress/
 	Description: A mobile responsive and HTML5 theme built for the Genesis Framework.
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 	
-	Version: 3.1.1
+	Version: 3.1.3
 
-	Tags: develop, blue, brown, gold, gray, green, red, white, one-column, two-columns, three-columns, responsive-layout, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, premise-landing-page
+	Tags: develop, one-column, two-columns, three-columns, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
 	Template: genesis
 	Template Version: 2.1
@@ -16,9 +16,7 @@
 	License URI: http://www.opensource.org/licenses/gpl-license.php
 */
 
-
 /* Table of Contents
-
 	- HTML5 Reset
 		- Baseline Normalize
 		- Box Sizing
@@ -31,6 +29,7 @@
 		- Gallery
 		- Forms
 		- Tables
+		- Screen Reader Text
 	- Structure and Layout
 		- Site Containers
 		- Column Widths and Positions
@@ -74,17 +73,15 @@
 		- Max-width: 1139px
 		- Max-width: 1023px
 		- Max-width: 768px
-
 */
 
 
-/*
-HTML5 Reset
+/* HTML5 Reset
 ---------------------------------------------------------------------------------------------------- */
 
 /* Baseline Normalize
-	normalize.css v2.1.3 | MIT License | git.io/normalize
 --------------------------------------------- */
+/* normalize.css v2.1.3 | MIT License | git.io/normalize */
 
 article,aside,details,figcaption,figure,footer,header,hgroup,main,nav,section,summary{display:block}audio,canvas,video{display:inline-block}audio:not([controls]){display:none;height:0}[hidden],template{display:none}html{font-family:sans-serif;-ms-text-size-adjust:100%;-webkit-text-size-adjust:100%}body{margin:0}a{background:transparent}a:focus{outline:thin dotted}a:active,a:hover{outline:0}h1{font-size:2em;margin:.67em 0}abbr[title]{border-bottom:1px dotted}b,strong{font-weight:700}dfn{font-style:italic}hr{-moz-box-sizing:content-box;box-sizing:content-box;height:0}mark{background:#ff0;color:#000}code,kbd,pre,samp{font-family:monospace,serif;font-size:1em}pre{white-space:pre-wrap}q{quotes:"\201C" "\201D" "\2018" "\2019"}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sup{top:-.5em}sub{bottom:-.25em}img{border:0}svg:not(:root){overflow:hidden}figure{margin:0}fieldset{border:1px solid silver;margin:0 2px;padding:.35em .625em .75em}legend{border:0;padding:0}button,input,select,textarea{font-family:inherit;font-size:100%;margin:0}button,input{line-height:normal}button,select{text-transform:none}button,html input[type=button],input[type=reset],input[type=submit]{-webkit-appearance:button;cursor:pointer}button[disabled],html input[disabled]{cursor:default}input[type=checkbox],input[type=radio]{box-sizing:border-box;padding:0}input[type=search]{-webkit-appearance:textfield;-moz-box-sizing:content-box;-webkit-box-sizing:content-box;box-sizing:content-box}input[type=search]::-webkit-search-cancel-button,input[type=search]::-webkit-search-decoration{-webkit-appearance:none}button::-moz-focus-inner,input::-moz-focus-inner{border:0;padding:0}textarea{overflow:auto;vertical-align:top}table{border-collapse:collapse;border-spacing:0}
 
@@ -113,6 +110,7 @@ input[type="search"] {
 .site-footer:before,
 .site-header:before,
 .site-inner:before,
+.widget:before,
 .wrap:before {
 	content: " ";
 	display: table;
@@ -130,6 +128,7 @@ input[type="search"] {
 .site-footer:after,
 .site-header:after,
 .site-inner:after,
+.widget:after,
 .wrap:after {
 	clear: both;
 	content: " ";
@@ -137,8 +136,7 @@ input[type="search"] {
 }
 
 
-/*
-Defaults
+/* Defaults
 ---------------------------------------------------------------------------------------------------- */
 
 /* Typographical Elements
@@ -214,6 +212,11 @@ i {
 	font-style: italic;
 }
 
+mark {
+	background: #ddd;
+	color: #000;
+}
+
 blockquote {
 	margin: 40px;
 }
@@ -228,6 +231,13 @@ blockquote::before {
 	top: -10px;
 }
 
+hr {
+	border: 0;
+	border-collapse: collapse;
+	border-top: 1px solid #777;
+	clear: both;
+	margin: 40px 0;
+}
 
 /* Headings
 --------------------------------------------- */
@@ -294,11 +304,6 @@ img {
 	height: auto;
 }
 
-.featured-content img,
-.gallery img {
-	width: auto;
-}
-
 /* Gallery
 --------------------------------------------- */
 
@@ -311,6 +316,10 @@ img {
 	float: left;
 	margin: 0;
 	text-align: center;
+}
+
+.gallery-columns-1 .gallery-item {
+	width: 100%;
 }
 
 .gallery-columns-2 .gallery-item {
@@ -343,6 +352,17 @@ img {
 
 .gallery-columns-9 .gallery-item {
 	width: 11.1111%;
+}
+
+.gallery-columns-2 .gallery-item:nth-child(2n+1),
+.gallery-columns-3 .gallery-item:nth-child(3n+1),
+.gallery-columns-4 .gallery-item:nth-child(4n+1),
+.gallery-columns-5 .gallery-item:nth-child(5n+1),
+.gallery-columns-6 .gallery-item:nth-child(6n+1),
+.gallery-columns-7 .gallery-item:nth-child(7n+1),
+.gallery-columns-8 .gallery-item:nth-child(8n+1),
+.gallery-columns-9 .gallery-item:nth-child(9n+1) {
+	clear: left;
 }
 
 .gallery .gallery-item img {
@@ -405,6 +425,7 @@ input[type="submit"],
 	line-height: 1;
 	padding: 20px 24px;
 	text-transform: uppercase;
+	white-space: normal;
 	width: auto;
 }
 
@@ -420,6 +441,30 @@ input:hover[type="submit"],
 
 .widget-area .widget .button {
 	color: #fff;
+}
+
+button.small,
+input[type="button"].small,
+input[type="reset"].small,
+input[type="submit"].small,
+.button.small {
+	padding: 8px 16px;
+}
+
+.site-container button:disabled,
+.site-container button:disabled:hover,
+.site-container input:disabled,
+.site-container input:disabled:hover,
+.site-container input[type="button"]:disabled,
+.site-container input[type="button"]:disabled:hover,
+.site-container input[type="reset"]:disabled,
+.site-container input[type="reset"]:disabled:hover,
+.site-container input[type="submit"]:disabled,
+.site-container input[type="submit"]:disabled:hover {
+	background-color: #ddd;
+	border-width: 0;
+	color: #777;
+	cursor: not-allowed;
 }
 
 .button {
@@ -467,9 +512,40 @@ th {
 	font-weight: 400;
 }
 
+/* Screen reader text
+--------------------------------------------- */
 
-/*
-Structure and Layout
+.screen-reader-text,
+.screen-reader-text span,
+.screen-reader-shortcut {
+	border: 0;
+	clip: rect(0, 0, 0, 0);
+	height: 1px;
+	overflow: hidden;
+	position: absolute !important;
+	width: 1px;
+}
+
+.screen-reader-text:focus,
+.screen-reader-shortcut:focus,
+.genesis-nav-menu .search input[type="submit"]:focus,
+.widget_search input[type="submit"]:focus  {
+	background: #fff;
+	box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+	clip: auto !important;
+	color: #333;
+	display: block;
+	font-size: 1em;
+	font-weight: bold;
+	height: auto;
+	padding: 15px 23px 14px;
+	text-decoration: none;
+	width: auto;
+	z-index: 100000; /* Above WP toolbar. */
+}
+
+
+/* Structure and Layout
 ---------------------------------------------------------------------------------------------------- */
 
 /* Site Containers
@@ -561,8 +637,8 @@ Structure and Layout
 }
 
 /* Column Classes
-	Link: http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css
 --------------------------------------------- */
+/* Link: http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css */
 
 .five-sixths,
 .four-sixths,
@@ -623,8 +699,7 @@ Structure and Layout
 }
 
 
-/*
-Common Classes
+/* Common Classes
 ---------------------------------------------------------------------------------------------------- */
 
 /* Avatar
@@ -699,7 +774,17 @@ Common Classes
 
 .entry-content .search-form,
 .site-header .search-form {
+	margin-bottom: 40px;
 	width: 50%;
+}
+
+.entry-content .search-form input {
+	margin-bottom: 20px;
+}
+
+.post-password-form input[type="submit"],
+.search-form input[type="submit"] {
+	margin-top: 12px;
 }
 
 .genesis-nav-menu .search input[type="submit"],
@@ -738,10 +823,10 @@ Common Classes
 	font-size: 20px;
 }
 
-.enews-widget .widget-title,
 .full-width .widget-title,
 .property-search .widget-title,
-.sidebar .widget-title {
+.sidebar .widget-title,
+.widget-area .enews-widget .widget-title {
 	background-color: #d23836;
 	color: #fff;
 	font-weight: 700;
@@ -850,9 +935,14 @@ img.alignright,
 	margin-bottom: 0;
 }
 
+.wp-audio-shortcode,
+.wp-playlist,
+.wp-video {
+	margin: 0 0 28px;
+}
 
-/*
-Widgets
+
+/* Widgets
 ---------------------------------------------------------------------------------------------------- */
 
 .widget {
@@ -917,8 +1007,7 @@ Widgets
 }
 
 
-/*
-Plugins
+/* Plugins
 ---------------------------------------------------------------------------------------------------- */
 
 /* AgentPress Listings
@@ -959,10 +1048,6 @@ Plugins
 }
 
 .listing-text {
-	-moz-transform:    rotate(45deg);
-	-ms-transform:     rotate(45deg);
-	-o-transform:      rotate(45deg);
-	-webkit-transform: rotate(45deg);
 	background-color: #d23836;
 	color: #fff;
 	font-size: 9px;
@@ -974,6 +1059,10 @@ Plugins
 	text-align: center;
 	text-transform: uppercase;
 	top: 30px;
+	-moz-transform:    rotate(45deg);
+	-ms-transform:     rotate(45deg);
+	-o-transform:      rotate(45deg);
+	-webkit-transform: rotate(45deg);
 	width: 160px;
 }
 
@@ -1008,9 +1097,12 @@ Plugins
 	padding: 40px;
 }
 
-.enews-widget input {
+.widget-area .enews-widget input {
 	border: none;
 	font-size: 16px;
+}
+
+.enews-widget input {
 	margin-bottom: 16px;
 }
 
@@ -1031,8 +1123,7 @@ Plugins
 }
 
 
-/*
-Site Header
+/* Site Header
 ---------------------------------------------------------------------------------------------------- */
 
 .site-header .wrap {
@@ -1126,8 +1217,7 @@ Site Header
 }
 
 
-/*
-Site Navigation
+/* Site Navigation
 ---------------------------------------------------------------------------------------------------- */
 
 .genesis-nav-menu {
@@ -1295,8 +1385,7 @@ Site Navigation
 	text-align: center;
 }
 
-/*
-Content Area
+/* Content Area
 ---------------------------------------------------------------------------------------------------- */
 
 /* Home Page
@@ -1732,8 +1821,7 @@ li.comment {
 }
 
 
-/*
-Sidebars
+/* Sidebars
 ---------------------------------------------------------------------------------------------------- */
 
 .sidebar {
@@ -1758,8 +1846,7 @@ Sidebars
 }
 
 
-/*
-Footer Widgets
+/* Footer Widgets
 ---------------------------------------------------------------------------------------------------- */
 
 .footer-widgets {
@@ -1800,8 +1887,7 @@ Footer Widgets
 }
 
 
-/*
-Site Footer
+/* Site Footer
 ---------------------------------------------------------------------------------------------------- */
 
 .site-footer {
@@ -1829,8 +1915,7 @@ Site Footer
 }
 
 
-/*
-Theme Colors
+/* Theme Colors
 ---------------------------------------------------------------------------------------------------- */
 
 /* AgentPress Pro Blue
@@ -1888,14 +1973,14 @@ Theme Colors
 .agentpress-pro-blue .home-middle-1 input:hover[type="reset"],
 .agentpress-pro-blue .home-middle-1 input:hover[type="submit"],
 .agentpress-pro-blue .site-header .wrap,
-.agentpress-pro-blue .widget.enews-widget,
+.agentpress-pro-blue .widget-area .widget.enews-widget,
 .agentpress-pro-blue .widget.property-search {
 	background-color: #263844;
 }
 
 .agentpress-pro-blue .breadcrumb,
 .agentpress-pro-blue .button,
-.agentpress-pro-blue .enews-widget .widget-title,
+.agentpress-pro-blue .widget-area .enews-widget .widget-title,
 .agentpress-pro-blue .full-width .more-from-category a,
 .agentpress-pro-blue .home-middle-1 .widget,
 .agentpress-pro-blue .listing-text,
@@ -1971,14 +2056,14 @@ Theme Colors
 .agentpress-pro-gold .home-middle-1 input:hover[type="reset"],
 .agentpress-pro-gold .home-middle-1 input:hover[type="submit"],
 .agentpress-pro-gold .site-header .wrap,
-.agentpress-pro-gold .widget.enews-widget,
+.agentpress-pro-gold .widget-area .widget.enews-widget,
 .agentpress-pro-gold .widget.property-search {
 	background-color: #333;
 }
 
 .agentpress-pro-gold .breadcrumb,
 .agentpress-pro-gold .button,
-.agentpress-pro-gold .enews-widget .widget-title,
+.agentpress-pro-gold .widget-area .enews-widget .widget-title,
 .agentpress-pro-gold .full-width .more-from-category a,
 .agentpress-pro-gold .home-middle-1 .widget,
 .agentpress-pro-gold .listing-text,
@@ -2054,14 +2139,14 @@ Theme Colors
 .agentpress-pro-green .home-middle-1 input:hover[type="reset"],
 .agentpress-pro-green .home-middle-1 input:hover[type="submit"],
 .agentpress-pro-green .site-header .wrap,
-.agentpress-pro-green .widget.enews-widget,
+.agentpress-pro-green .widget-area .widget.enews-widget,
 .agentpress-pro-green .widget.property-search {
 	background-color: #494241;
 }
 
 .agentpress-pro-green .breadcrumb,
 .agentpress-pro-green .button,
-.agentpress-pro-green .enews-widget .widget-title,
+.agentpress-pro-green .widget-area .enews-widget .widget-title,
 .agentpress-pro-green .full-width .more-from-category a,
 .agentpress-pro-green .home-middle-1 .widget,
 .agentpress-pro-green .listing-text,
@@ -2084,16 +2169,8 @@ Theme Colors
 }
 
 
-/*
-Media Queries
+/* Media Queries
 ---------------------------------------------------------------------------------------------------- */
-
-@media only screen and (-webkit-min-device-pixel-ratio: 1.5),
-	only screen and (-moz-min-device-pixel-ratio: 1.5),
-	only screen and (-o-min-device-pixel-ratio: 3/2),
-	only screen and (min-device-pixel-ratio: 1.5) {
-
-}
 
 @media only screen and (max-width: 1360px) {
 
@@ -2538,7 +2615,7 @@ Media Queries
 	.archive-description,
 	.author-box,
 	.comment-respond,
-	.enews-widget .widget-title,
+	.widget-area .enews-widget .widget-title,
 	.entry-comments,
 	.entry-pings,
 	.entry,

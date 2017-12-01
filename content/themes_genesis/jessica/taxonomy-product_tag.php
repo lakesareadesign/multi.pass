@@ -2,7 +2,7 @@
 /**
  * The custom product tag archive template for Genesis
  *
- * @author 		Web Savvy Markeint
+ * @author 		9seeds
  * @package 	Jessica
  * @version     1.6.4
  */

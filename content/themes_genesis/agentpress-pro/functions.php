@@ -1,48 +1,59 @@
 <?php
-//* Start the engine
+/**
+ * AgentPress Pro.
+ *
+ * This file adds the functions to the AgentPress Pro Theme.
+ *
+ * @package AgentPress
+ * @author  StudioPress
+ * @license GPL-2.0+
+ * @link    http://my.studiopress.com/themes/agencypress/
+ */
+
+// Start the engine.
 include_once( get_template_directory() . '/lib/init.php' );
 
-//* Setup Theme
+// Setup Theme.
 include_once( get_stylesheet_directory() . '/lib/theme-defaults.php' );
 
-//* Set Localization (do not remove)
+// Set Localization (do not remove).
 load_child_theme_textdomain( 'agentpress', apply_filters( 'child_theme_textdomain', get_stylesheet_directory() . '/languages', 'agentpress' ) );
 
-//* Add Image upload to WordPress Theme Customizer
+// Add Image upload to WordPress Theme Customizer.
 require_once( get_stylesheet_directory() . '/lib/customize.php' );
 
-//* Child theme (do not remove)
-define( 'CHILD_THEME_NAME', __( 'AgentPress Pro Theme', 'agentpress' ) );
+// Child theme (do not remove).
+define( 'CHILD_THEME_NAME', __( 'AgentPress Pro', 'agentpress' ) );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/agentpress/' );
-define( 'CHILD_THEME_VERSION', '3.1.1' );
+define( 'CHILD_THEME_VERSION', '3.1.3' );
 
-//* Add HTML5 markup structure
+// Add HTML5 markup structure.
 add_theme_support( 'html5', array( 'search-form', 'comment-form', 'comment-list', 'gallery', 'caption' ) );
 
-//* Add viewport meta tag for mobile browsers
+// Add viewport meta tag for mobile browsers.
 add_theme_support( 'genesis-responsive-viewport' );
 
-//* Enqueue Google fonts
+// Enqueue Google fonts.
 add_action( 'wp_enqueue_scripts', 'agentpress_google_fonts' );
 function agentpress_google_fonts() {
 
 	wp_enqueue_style( 'google-fonts', '//fonts.googleapis.com/css?family=Lato:300,700|Roboto:700,300,400', array(), CHILD_THEME_VERSION );
-		
+
 }
 
-//* Enqueue Scripts
+// Enqueue Scripts.
 add_action( 'wp_enqueue_scripts', 'agentpress_scripts' );
 function agentpress_scripts() {
 
 	wp_enqueue_style( 'dashicons' );
-	wp_enqueue_script( 'agentpress-responsive-menu', get_bloginfo( 'stylesheet_directory' ) . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
-		
+	wp_enqueue_script( 'agentpress-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menu.js', array( 'jquery' ), '1.0.0' );
+
 }
 
-//* Add new image sizes
+// Add new image sizes.
 add_image_size( 'properties', 500, 300, TRUE );
 
-//* Add support for custom header
+// Add support for custom header.
 add_theme_support( 'custom-header', array(
 	'header-selector' => '.site-title a',
 	'header-text'     => false,
@@ -50,7 +61,7 @@ add_theme_support( 'custom-header', array(
 	'width'           => 320,
 ) );
 
-//* Add support for structural wraps
+// Add support for structural wraps.
 add_theme_support( 'genesis-structural-wraps', array(
 	'header',
 	'nav',
@@ -60,70 +71,67 @@ add_theme_support( 'genesis-structural-wraps', array(
 	'footer',
 ) );
 
-//* Add support for additional color style options
+// Add support for additional color style options.
 add_theme_support( 'genesis-style-selector', array(
 	'agentpress-pro-blue'  => __( 'AgentPress Pro Blue', 'agentpress' ),
 	'agentpress-pro-gold'  => __( 'AgentPress Pro Gold', 'agentpress' ),
 	'agentpress-pro-green' => __( 'AgentPress Pro Green', 'agentpress' ),
 ) );
 
-//* Filter the property details array
+// Filter the property details array.
 add_filter( 'agentpress_property_details', 'agentpress_property_details_filter' );
 function agentpress_property_details_filter( $details ) {
 
-    $details['col1'] = array( 
-        __( 'Price:', 'agentpress' )   => '_listing_price', 
-        __( 'Address:', 'agentpress' ) => '_listing_address', 
-        __( 'City:', 'agentpress' )    => '_listing_city', 
-        __( 'State:', 'agentpress' )   => '_listing_state', 
-        __( 'ZIP:', 'agentpress' )     => '_listing_zip',
-    );
-    $details['col2'] = array( 
-        __( 'MLS #:', 'agentpress' )       => '_listing_mls', 
-        __( 'Square Feet:', 'agentpress' ) => '_listing_sqft', 
-        __( 'Bedrooms:', 'agentpress' )    => '_listing_bedrooms', 
-        __( 'Bathrooms:', 'agentpress' )   => '_listing_bathrooms', 
-        __( 'Basement:', 'agentpress' )    => '_listing_basement',
-    );
+	$details['col1'] = array( 
+		__( 'Price:', 'agentpress' )   => '_listing_price', 
+		__( 'Address:', 'agentpress' ) => '_listing_address', 
+		__( 'City:', 'agentpress' )    => '_listing_city', 
+		__( 'State:', 'agentpress' )   => '_listing_state', 
+		__( 'ZIP:', 'agentpress' )     => '_listing_zip',
+	);
 
-    return $details;
+	$details['col2'] = array( 
+		__( 'MLS #:', 'agentpress' )       => '_listing_mls', 
+		__( 'Square Feet:', 'agentpress' ) => '_listing_sqft', 
+		__( 'Bedrooms:', 'agentpress' )    => '_listing_bedrooms', 
+		__( 'Bathrooms:', 'agentpress' )   => '_listing_bathrooms', 
+		__( 'Basement:', 'agentpress' )    => '_listing_basement',
+	);
+
+	return $details;
 
 }
 
-//* Reposition the primary navigation
+// Rename primary and secondary navigation menus.
+add_theme_support( 'genesis-menus' , array( 'primary' => __( 'Before Header Menu', 'agentpress' ), 'secondary' => __( 'Footer Menu', 'agentpress' ) ) );
+
+// Reposition the primary navigation.
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
 add_action( 'genesis_before_header', 'genesis_do_nav' );
 
-//* Reposition the secondary navigation menu
+// Reposition the secondary navigation menu.
 remove_action( 'genesis_after_header', 'genesis_do_subnav' );
 add_action( 'genesis_footer', 'genesis_do_subnav', 7 );
 
-//* Reduce the secondary navigation menu to one level depth
+// Reduce the secondary navigation menu to one level depth.
 add_filter( 'wp_nav_menu_args', 'agentpress_secondary_menu_args' );
-function agentpress_secondary_menu_args( $args ){
+function agentpress_secondary_menu_args( $args ) {
 
-	if( 'secondary' != $args['theme_location'] )
-	return $args;
+	if ( 'secondary' != $args['theme_location'] ) {
+		return $args;
+	}
 
 	$args['depth'] = 1;
+
 	return $args;
 
 }
 
-//* Reposition the breadcrumbs
+// Reposition the breadcrumbs.
 remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
 add_action( 'genesis_before_content_sidebar_wrap', 'genesis_do_breadcrumbs' );
 
-//* Remove comment form allowed tags
-add_filter( 'comment_form_defaults', 'agentpress_remove_comment_form_allowed_tags' );
-function agentpress_remove_comment_form_allowed_tags( $defaults ) {
-	
-	$defaults['comment_notes_after'] = '';
-	return $defaults;
-
-}
-
-//* Add Discliamer to Footer
+// Add Discliamer to Footer.
 add_action( 'genesis_footer', 'agentpress_disclaimer' );
 	function agentpress_disclaimer() {
 		genesis_widget_area( 'disclaimer', array(
@@ -132,7 +140,7 @@ add_action( 'genesis_footer', 'agentpress_disclaimer' );
 		) );
 }
 
-//* Customize Listings
+// Customize Listings.
 add_action( 'genesis_before', 'agentpress_listing_styles' );
 function agentpress_listing_styles() {
 	if ( is_singular( 'listing' ) || is_post_type_archive( 'listing' ) ) {
@@ -143,30 +151,30 @@ function agentpress_listing_styles() {
 	}
 }
 
-//* Add Default Image for Listings
+// Add Default Image for Listings.
 add_filter( 'genesis_get_image', 'agentpress_default_image', 10, 2 );
 function agentpress_default_image( $output, $args ) {
-    global $post;
+	global $post;
 
-    if( 'listing' == get_post_type() && ! $output && $args['size'] == 'properties' && $args['format'] == 'html' ) {
+	if ( 'listing' == get_post_type() && ! $output && $args['size'] == 'properties' && $args['format'] == 'html' ) {
 
-        $output = sprintf( '<img class="attachment-properties" src="%s" alt="%s" />', get_stylesheet_directory_uri() .'/images/default-listing.png', get_the_title( $post->ID ) );
+		$output = sprintf( '<img class="attachment-properties" src="%s" alt="%s" />', get_stylesheet_directory_uri() .'/images/default-listing.png', get_the_title( $post->ID ) );
 
-    }
-    return $output;
+	}
+	return $output;
 }
 
-//* Add support for 2-column footer widgets
+// Add support for 2-column footer widgets.
 add_theme_support( 'genesis-footer-widgets', 2 );
 
-//* Add support for after entry widget
+// Add support for after entry widget.
 add_theme_support( 'genesis-after-entry-widget-area' );
 
-//* Relocate after entry widget
+// Relocate after entry widget.
 remove_action( 'genesis_after_entry', 'genesis_after_entry_widget_area' );
 add_action( 'genesis_after_entry', 'genesis_after_entry_widget_area', 5 );
 
-//* Register widget areas
+// Register widget areas.
 genesis_register_sidebar( array(
 	'id'          => 'home-featured',
 	'name'        => __( 'Home - Featured', 'agentpress' ),

@@ -1,0 +1,158 @@
+/* ## Simple Social Icons
+--------------------------------------------- */
+
+.simple-social-icons {
+    overflow: hidden;
+    svg {
+        &[class^="social-"],
+        &[class*=" social-"] {
+            display: inline-block;
+            width: 1em;
+            height: 1em;
+            stroke-width: 0;
+            stroke: currentColor;
+            fill: currentColor;
+        }
+    }
+    ul {
+        margin: -0.5em -0.5em 0 0;
+        padding: 0;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: flex-start;
+        li {
+            background: none;
+            border: none;
+            list-style-type: none;
+            margin: 0.5em 0.5em 0 0;
+            padding: 0;
+            a {
+                border: none;
+                -moz-box-sizing: content-box;
+                -webkit-box-sizing: content-box;
+                box-sizing: content-box;
+                display: inline-block;
+                font-style: normal;
+                font-variant: normal;
+                font-weight: normal;
+                height: 1em;
+                line-height: 1em;
+                text-align: center;
+                text-decoration: none;
+                text-transform: none;
+                width: 1em;
+            }
+        }
+        &.aligncenter {
+            justify-content: center;
+        }
+        &.alignleft {
+            justify-content: flex-start;
+        }
+        &.alignright {
+            justify-content: flex-end;
+        }
+    }
+}
+
+
+/* ## Genesis Testimonial Slider
+--------------------------------------------- */
+
+div.lSSlideOuter {
+    .lSPager.lSpg>li {
+        margin: 1em 0 0;
+        line-height: 0.16rem;
+        a {
+            opacity: 0.382;
+            background-color: $dark;
+            overflow: visible;
+        }
+        &.active a,
+        &:hover a {
+            opacity: 0.618;
+            background-color: $dark;
+            transform: scale(1.2);
+        }
+    }
+    ul.testimonials-list {
+        color: $gray;
+        display: block;
+        font-size: 1.6rem;
+        li {
+            text-align: left;
+        }
+    }
+}
+
+
+/* ## Genesis eNews Extended
+--------------------------------------------- */
+
+.enews {
+    input {
+        margin-bottom: 0.5em;
+    }
+}
+
+
+/* ## Business Profile
+--------------------------------------------- */
+
+.bp-contact-card {
+    .hero-section & {
+        text-align: center;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        >div {
+            margin: 2em 1em 0;
+            width: 100%;
+            text-align: center;
+            @include breakpoint(sm) {
+                width: auto;
+            }
+        }
+        a {
+            color: $border;
+            text-decoration: none;
+        }
+    }
+    .bp-directions,
+    .bp-phone,
+    .bp-contact,
+    .bp-booking,
+    .bp-opening-hours-brief,
+    .bp-opening-hours .bp-title {
+        text-align: left;
+        &:before {
+            font-family: 'Fontawesome';
+            width: 1em;
+            line-height: 0.9;
+        }
+    }
+    .bp-opening-hours .bp-title {
+        margin-bottom: 1rem;
+    }
+    .bp-directions {
+        &:before {
+            content: "\f27d";
+        }
+    }
+    .bp-phone {
+        &:before {
+            content: "\f2b3";
+        }
+    }
+    .bp-contact {
+        &:before {
+            content: "\f1c6";
+        }
+    }
+    .bp-opening-hours-brief,
+    .bp-opening-hours .bp-title {
+        &:before {
+            content: "\f18f";
+        }
+    }
+}
