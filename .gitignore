@@ -27,6 +27,7 @@ stats/
 .bash_profile
 
 content/cache
+content/wphb-cache/
 content/w3tc-config
 content/plugins/w3tc-wp-loader.php
 content/object-cache.php
@@ -36,6 +37,7 @@ content/mu-plugins/query-monitor
 content/mu-plugins/genesis-visual-hook-guide
 content/mu-plugins/dev_tools_loading.php
 content/mu-plugins/debug-this
-git n permissions cheater.txt
 content/mu-plugins/theme-check
 content/plugins/developer
+content/plugins/wp-defender/app/module/audit/test
+git n permissions cheater.txt
