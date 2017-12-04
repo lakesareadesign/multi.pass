@@ -114,17 +114,17 @@ function wpmudev_vids_help( $old_help, $screen_id, $screen ) {
 
 function wpmudev_vids_help_js() {
 	?>
-	<script type="text/javascript">
-		(function ($) {
-			var $video = $('#tab-panel-wpmudev_vids iframe');
-			$('[aria-controls="tab-panel-wpmudev_vids"]').one('click', function () {
-				$video.each(function () {
-					$(this).attr('src', $(this).attr('data-src'));
+    <script type="text/javascript">
+			(function ($) {
+				var $video = $('#tab-panel-wpmudev_vids iframe');
+				$('[aria-controls="tab-panel-wpmudev_vids"]').one('click', function () {
+					$video.each(function () {
+						$(this).attr('src', $(this).attr('data-src'));
+					});
 				});
-			});
-		})(jQuery);
-	</script>
-<?php
+			})(jQuery);
+    </script>
+	<?php
 }
 
 add_action( 'admin_footer', 'wpmudev_vids_help_js' );

@@ -2,16 +2,16 @@
 /*
 Plugin Name: WPMU DEV Videos
 Plugin URI: https://premium.wpmudev.org/project/unbranded-video-tutorials/
-Description: A simple way to integrate WPMU DEV's over 40 unbranded support videos into your websites. Simply activate this plugin, then configure where and how you want to display the video tutorials.
+Description: A simple way to integrate WPMU DEV's over 40 unbranded support videos into your websites.
 Author: WPMU DEV
-Version: 1.5.3
+Version: 1.5.5
 Author URI: https://premium.wpmudev.org/
 Network: true
 WDP ID: 248
 */
 
 /*
-Copyright 2007-2016 Incsub (http://incsub.com)
+Copyright 2007-2017 Incsub (http://incsub.com)
 Author - Aaron Edwards
 Contributors - Jeffri, Joshua Dailey
 
@@ -35,7 +35,7 @@ class WPMUDEV_Videos {
 	//---Config---------------------------------------------------------------//
 	//------------------------------------------------------------------------//
 
-	var $version = '1.5.3';
+	var $version = '1.5.4';
 	var $api_url = 'https://premium.wpmudev.org/video-api-register.php';
 	var $video_list;
 	var $video_cats;
@@ -73,7 +73,7 @@ class WPMUDEV_Videos {
 			'categories'                   => __( 'Categories', 'wpmudev_vids' ),
 			'change-password'              => __( 'Changing Your Password', 'wpmudev_vids' ),
 			'comments'                     => __( 'Managing Comments', 'wpmudev_vids' ),
-			'dashboard'               	   => __( 'The Dashboard', 'wpmudev_vids' ),
+			'dashboard'                    => __( 'The Dashboard', 'wpmudev_vids' ),
 			'delete-image'                 => __( 'Deleting Images', 'wpmudev_vids' ),
 			'edit-image'                   => __( 'Editing Images', 'wpmudev_vids' ),
 			'edit-text'                    => __( 'Editing Text', 'wpmudev_vids' ),
@@ -105,8 +105,8 @@ class WPMUDEV_Videos {
 
 		if ( ! is_multisite() ) {
 			$this->video_list['running-updates'] = __( 'Running Updates', 'wpmudev_vids' );
-			$this->video_list['install-themes'] = __( 'Install a Theme', 'wpmudev_vids' );
-			$this->video_list['install-plugin'] = __( 'Install and Configure a Plugin', 'wpmudev_vids' );
+			$this->video_list['install-themes']  = __( 'Install a Theme', 'wpmudev_vids' );
+			$this->video_list['install-plugin']  = __( 'Install and Configure a Plugin', 'wpmudev_vids' );
 		}
 
 		//videos by category
@@ -168,18 +168,21 @@ class WPMUDEV_Videos {
 			),
 			'other'      => array(
 				'name' => __( 'Users, Tools, and Settings', 'wpmudev_vids' ),
-				'list' => array( 'create-edit-user', 'tools', 'settings', 'running-updates', 'install-themes', 'install-plugin' )
+				'list' => array(
+					'create-edit-user',
+					'tools',
+					'settings',
+					'running-updates',
+					'install-themes',
+					'install-plugin'
+				)
 			)
 		);
 
 	}
 
-	//------------------------------------------------------------------------//
-	//---Functions------------------------------------------------------------//
-	//------------------------------------------------------------------------//
-
-	//an easy way to get to our settings array without undefined indexes
-	function get_setting( $key, $default = null ) {
+	// an easy way to get to our settings array without undefined indexes.
+	public function get_setting( $key, $default = null ) {
 		$settings = get_site_option( 'wpmudev_vids_settings' );
 		$setting  = isset( $settings[ $key ] ) ? $settings[ $key ] : $default;
 
@@ -204,39 +207,41 @@ class WPMUDEV_Videos {
 		if ( ! WPMUDEV_VIDS_HIDE_SETTINGS ) {
 			if ( is_multisite() && is_network_admin() ) {
 				$page = add_submenu_page( 'settings.php', __( 'WPMU DEV Videos', 'wpmudev_vids' ), __( 'WPMU DEV Videos', 'wpmudev_vids' ), 'manage_network_options', 'wpmudev-videos', array(
-						&$this,
-						'settings_output'
-					) );
+					&$this,
+					'settings_output'
+				) );
 			} else if ( ! is_multisite() ) {
 				$page = add_submenu_page( 'options-general.php', __( 'WPMU DEV Videos', 'wpmudev_vids' ), __( 'WPMU DEV Videos', 'wpmudev_vids' ), 'manage_options', 'wpmudev-videos', array(
-						&$this,
-						'settings_output'
-					) );
+					&$this,
+					'settings_output'
+				) );
 			}
 		}
 
 		if ( ! is_network_admin() ) {
-			if ( $this->get_setting( 'menu_location' ) == 'dashboard' ) {
-				$page = add_submenu_page( 'index.php', $this->get_setting( 'menu_title' ), $this->get_setting( 'menu_title' ), 'read', 'video-tuts', array(
-						&$this,
-						'page_output'
-					) );
+			if ( $this->get_setting( 'menu_location', 'dashboard' ) == 'dashboard' ) {
+				$page           = add_submenu_page( 'index.php', $this->get_setting( 'menu_title' ), $this->get_setting( 'menu_title' ), 'read', 'video-tuts', array(
+					&$this,
+					'page_output'
+				) );
 				$this->page_url = admin_url( "index.php?page=video-tuts" );
 			} else if ( $this->get_setting( 'menu_location' ) == 'support_system' ) {
-				$page = add_submenu_page( 'ticket-manager', $this->get_setting( 'menu_title' ), $this->get_setting( 'menu_title' ), 'read', 'video-tuts', array(
-						&$this,
-						'page_output'
-					) );
+				$page           = add_submenu_page( 'ticket-manager', $this->get_setting( 'menu_title' ), $this->get_setting( 'menu_title' ), 'read', 'video-tuts', array(
+					&$this,
+					'page_output'
+				) );
 				$this->page_url = admin_url( "admin.php?page=video-tuts" );
 			} else if ( $this->get_setting( 'menu_location' ) == 'top' ) {
-				$icon = version_compare( $wp_version, '3.8', '>=' ) ? 'dashicons-format-video' : plugins_url( 'includes/icon.png', __FILE__ );
-				$page = add_menu_page( $this->get_setting( 'menu_title' ), $this->get_setting( 'menu_title' ), 'read', 'video-tuts', array(
-						&$this,
-						'page_output'
-					), $icon, 57.24 );
+				$icon           = version_compare( $wp_version, '3.8', '>=' ) ? 'dashicons-format-video' : plugins_url( 'includes/icon.png', __FILE__ );
+				$page           = add_menu_page( $this->get_setting( 'menu_title' ), $this->get_setting( 'menu_title' ), 'read', 'video-tuts', array(
+					&$this,
+					'page_output'
+				), $icon, 57.24 );
 				$this->page_url = admin_url( "admin.php?page=video-tuts" );
 			}
-			add_action( 'admin_print_scripts-' . $page, array( &$this, 'masonry_script' ) );
+			if ( isset( $page ) ) {
+				add_action( 'admin_print_scripts-' . $page, array( &$this, 'masonry_script' ) );
+			}
 		}
 	}
 
@@ -244,22 +249,22 @@ class WPMUDEV_Videos {
 		wp_enqueue_script( 'jquery-masonry' );
 	}
 
-	function wpmudev_videos_settings_styles () {
+	function wpmudev_videos_settings_styles() {
 		$screen = get_current_screen();
 
-		if ( is_object($screen) && ( 'settings_page_wpmudev-videos' == $screen->id || 'settings_page_wpmudev-videos-network' == $screen->id ) ) {
-			wp_enqueue_style( 'wpmudev-videos-stylesheet', plugins_url('/includes/stylesheet.css', __FILE__) );
+		if ( is_object( $screen ) && ( 'settings_page_wpmudev-videos' == $screen->id || 'settings_page_wpmudev-videos-network' == $screen->id ) ) {
+			wp_enqueue_style( 'wpmudev-videos-stylesheet', plugins_url( '/includes/stylesheet.css', __FILE__ ) );
 		}
 	}
 
 	function handle_shortcode( $atts ) {
 		extract( shortcode_atts( array(
-					'video'      => false,
-					'group'      => false,
-					'show_title' => true,
-					'width'      => 500,
-					'height'     => false
-				), $atts ) );
+			'video'      => false,
+			'group'      => false,
+			'show_title' => true,
+			'width'      => 500,
+			'height'     => false
+		), $atts ) );
 
 		if ( ! $height ) {
 			$height = ceil( ( $width * 9 ) / 16 );
@@ -286,6 +291,10 @@ class WPMUDEV_Videos {
 		}
 	}
 
+	function get_apikey() {
+		return ( defined( 'WPMUDEV_APIKEY' ) && WPMUDEV_APIKEY ) ? WPMUDEV_APIKEY : get_site_option( 'wpmudev_apikey' );
+	}
+
 	function create_embed_url( $video, $autoplay = false ) {
 		//create ssl url
 		$url = is_ssl() ? 'https://premium.wpmudev.org/video/' . urlencode( $video ) : 'http://premium.wpmudev.org/video/' . urlencode( $video );
@@ -300,13 +309,19 @@ class WPMUDEV_Videos {
 		//used to sign video embed urls with a 10 minute expiring signature when domain mapping is on
 		$site_id   = $this->get_setting( 'site_id' );
 		$expire    = strtotime( "+10 Minutes" );
-		$api_key   = get_site_option( 'wpmudev_apikey' );
+		$api_key   = $this->get_apikey();
 		$signature = hash_hmac( "sha1", $site_id . $expire, $api_key );
 
 		return add_query_arg( array( 'id' => $site_id, 'expire' => $expire, 'signature' => $signature ), $url );
 	}
 
 	function is_mapped() {
+
+		//As of WP 4.9 Referrer-Policy:same-origin is sent in admin, so we have to use mapping mode now always
+        if ( is_admin() ) {
+	        return true;
+        }
+
 		//allow users of other domain mapping plugins to turn on support
 		if ( defined( 'WPMUDEV_VIDS_DOMAIN_MAPPED' ) ) {
 			return true;
@@ -322,9 +337,9 @@ class WPMUDEV_Videos {
 		return false;
 	}
 
-	//------------------------------------------------------------------------//
-	//---Page Output Functions------------------------------------------------//
-	//------------------------------------------------------------------------//
+//------------------------------------------------------------------------//
+//---Page Output Functions------------------------------------------------//
+//------------------------------------------------------------------------//
 
 	function settings_output() {
 		global $wpdb, $current_site;
@@ -340,176 +355,172 @@ class WPMUDEV_Videos {
 
 			update_site_option( 'wpmudev_vids_settings', $_POST['wpmudev_vids'] );
 
-			if ( ! empty( $_POST['wpmudev_apikey'] ) ) {
-				update_site_option( 'wpmudev_apikey', $_POST['wpmudev_apikey'] );
-			}
-
 			echo '<div class="updated fade"><p>' . __( 'Settings saved.', 'wpmudev_vids' ) . '</p></div>';
 		}
 		?>
-		<div class="wrap">
-			<h2><?php _e( 'WPMU DEV Video Settings', 'wpmudev_vids' ) ?></h2>
+        <div class="wrap">
+            <h2><?php _e( 'WPMU DEV Video Settings', 'wpmudev_vids' ) ?></h2>
 
-			<form action="" method="post">
-				<div id="poststuff" class="metabox-holder">
+	        <?php if ( empty( $this->get_apikey() ) ) { ?>
+                <div class="notice error"><p><?php _e( 'Please install and login to the <a href="https://premium.wpmudev.org/project/wpmu-dev-dashboard/" target="_blank">WPMU DEV Dashboard plugin</a> to enable video tutorials.', 'wpmudev_vids' ); ?></p></div>
+	        <?php } ?>
 
-					<div class="postbox">
-						<h3 class='hndle' style="cursor:default;"><span><?php _e( 'Display Settings', 'wpmudev_vids' ) ?></span>
-						</h3>
+            <form action="" method="post">
+                <div id="poststuff" class="metabox-holder">
 
-						<div class="inside">
-							<table class="form-table">
-								<tr>
-									<th scope="row"><?php _e( 'Register This Domain', 'wpmudev_vids' ) ?></th>
-									<td>
+                    <div class="postbox">
+                        <h3 class='hndle' style="cursor:default;">
+                            <span><?php _e( 'Display Settings', 'wpmudev_vids' ) ?></span>
+                        </h3>
+
+                        <div class="inside">
+                            <table class="form-table">
+                                <tr>
+                                    <th scope="row"><?php _e( 'Register This Domain', 'wpmudev_vids' ) ?></th>
+                                    <td>
 										<?php
 										$result = wp_remote_get( $this->api_url . '?domain_id=' . network_site_url() );
 										if ( is_wp_error( $result ) ) {
 											echo '<div class="error"><p>' . sprintf( __( 'Whoops, your server is having trouble connecting to the WPMU DEV API! If this problem continues, please contact your host and ask them to "make sure php and any firewall is configured to allow an HTTP GET call via curl or fsockopen to %s.', 'wpmudev_vids' ), $this->api_url ) . '</p></div>';
 										} else if ( ! is_numeric( $result['body'] ) ) {
 											?>
-											<span
-												class="description"><?php printf( __( 'Please register this domain "%s" below: ', 'wpmudev_vids' ), network_site_url() ); ?></span>
-											<iframe src="<?php echo $this->api_url . '?new_domain=' . network_site_url(); ?>" width="100%"
-											        height="150"></iframe>
-											<input type="submit" class="button-primary" name="save_settings"
-											       value="<?php _e( 'Now Confirm Registration', 'wpmudev_vids' ) ?>"/>
+                                            <span
+                                                    class="description"><?php printf( __( 'Please register this domain "%s" below: ', 'wpmudev_vids' ), network_site_url() ); ?></span>
+                                            <iframe src="<?php echo $this->api_url . '?new_domain=' . network_site_url(); ?>"
+                                                    width="100%"
+                                                    height="150"></iframe>
+                                            <input type="submit" class="button-primary" name="save_settings"
+                                                   value="<?php _e( 'Now Confirm Registration', 'wpmudev_vids' ) ?>"/>
 											<?php
 											$site_id = '';
 										} else {
 											$site_id = intval( $result['body'] );
 											?>
-											<strong><?php printf( __( 'Successfully Registered! Video Site ID: %s', 'wpmudev_vids' ), $site_id ); ?></strong>
-											<input name="wpmudev_vids[site_id]"
-											       value="<?php echo esc_attr( $this->get_setting( 'site_id', $site_id ) ); ?>"
-											       type="hidden"/>
+                                            <strong><?php printf( __( 'Successfully Registered! Video Site ID: %s', 'wpmudev_vids' ), $site_id ); ?></strong>
+                                            <input name="wpmudev_vids[site_id]"
+                                                   value="<?php echo esc_attr( $this->get_setting( 'site_id', $site_id ) ); ?>"
+                                                   type="hidden"/>
 										<?php } ?>
-									</td>
-								</tr>
-								<?php if ( $this->is_mapped() ) { ?>
-									<tr>
-										<th scope="row"><?php _e( 'WPMU DEV API Key', 'wpmudev_vids' ) ?></th>
-										<td>
-											<span
-												class="description"><?php _e( 'For compatibility with your current Domain Mapping settings you must enter your <a href="http://premium.wpmudev.org/wp-admin/profile.php?page=vidapi" target="_blank">WPMU DEV API Key</a>:', 'wpmudev_vids' ); ?></span><br/>
-											<label><input size="45" name="wpmudev_apikey"
-											              value="<?php echo esc_attr( get_site_option( 'wpmudev_apikey' ) ); ?>" type="text"
-											              placeholder="<?php _e( 'Enter your WPMU DEV API Key', 'wpmudev_vids' ) ?>"/></label>
-										</td>
-									</tr>
-								<?php } ?>
-								<tr>
-									<th scope="row"><?php _e( 'Add Videos to Contextual Help', 'wpmudev_vids' ) ?></th>
-									<td>
-										<label><input value="1" name="wpmudev_vids[contextual_help]"
-										              type="radio"<?php checked( $this->get_setting( 'contextual_help', 1 ), 1 ) ?> /> <?php _e( 'Yes', 'wpmudev_vids' ) ?>
-										</label>
-										<label><input value="0" name="wpmudev_vids[contextual_help]"
-										              type="radio"<?php checked( $this->get_setting( 'contextual_help', 1 ), 0 ) ?> /> <?php _e( 'No', 'wpmudev_vids' ) ?>
-										</label>
-										<br/><span
-											class="description"><?php _e( 'This will add the appropriate video tutorials to the help dropdowns on WordPress admin screens.', 'wpmudev_vids' ) ?></span>
-									</td>
-								</tr>
-								<tr>
-									<th scope="row"><?php _e( 'Menu Location', 'wpmudev_vids' ) ?></th>
-									<td>
-										<select name="wpmudev_vids[menu_location]">
-											<option
-												value="dashboard"<?php selected( $this->get_setting( 'menu_location' ), 'dashboard' ) ?>><?php _e( 'Dashboard', 'wpmudev_vids' ) ?></option>
-											<option
-												value="top"<?php selected( $this->get_setting( 'menu_location' ), 'top' ) ?>><?php _e( 'Top Level', 'wpmudev_vids' ) ?></option>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><?php _e( 'Add Videos to Contextual Help', 'wpmudev_vids' ) ?></th>
+                                    <td>
+                                        <label><input value="1" name="wpmudev_vids[contextual_help]"
+                                                      type="radio"<?php checked( $this->get_setting( 'contextual_help', 1 ), 1 ) ?> /> <?php _e( 'Yes', 'wpmudev_vids' ) ?>
+                                        </label>
+                                        <label><input value="0" name="wpmudev_vids[contextual_help]"
+                                                      type="radio"<?php checked( $this->get_setting( 'contextual_help', 1 ), 0 ) ?> /> <?php _e( 'No', 'wpmudev_vids' ) ?>
+                                        </label>
+                                        <br/><span
+                                                class="description"><?php _e( 'This will add the appropriate video tutorials to the help dropdowns on WordPress admin screens.', 'wpmudev_vids' ) ?></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><?php _e( 'Menu Location', 'wpmudev_vids' ) ?></th>
+                                    <td>
+                                        <select name="wpmudev_vids[menu_location]">
+                                            <option
+                                                    value="dashboard"<?php selected( $this->get_setting( 'menu_location' ), 'dashboard' ) ?>><?php _e( 'Dashboard', 'wpmudev_vids' ) ?></option>
+                                            <option
+                                                    value="top"<?php selected( $this->get_setting( 'menu_location' ), 'top' ) ?>><?php _e( 'Top Level', 'wpmudev_vids' ) ?></option>
 											<?php if ( function_exists( 'incsub_support' ) ) { ?>
-												<option
-													value="support_system"<?php selected( $this->get_setting( 'menu_location' ), 'support_system' ) ?>><?php _e( 'Support System Plugin', 'wpmudev_vids' ) ?></option>
+                                                <option
+                                                        value="support_system"<?php selected( $this->get_setting( 'menu_location' ), 'support_system' ) ?>><?php _e( 'Support System Plugin', 'wpmudev_vids' ) ?></option>
 											<?php } ?>
-											<option
-												value="none"<?php selected( $this->get_setting( 'menu_location' ), 'none' ) ?>><?php _e( 'No Menu', 'wpmudev_vids' ) ?></option>
-										</select>
-										<br/><span
-											class="description"><?php _e( 'What part of the admin menu should the video tutorial page be added?', 'wpmudev_vids' ) ?></span>
-									</td>
-								</tr>
-								<tr>
-									<th scope="row"><?php _e( 'Menu Title', 'wpmudev_vids' ) ?></th>
-									<td>
-										<label><input size="25" name="wpmudev_vids[menu_title]"
-										              value="<?php esc_attr_e( $this->get_setting( 'menu_title', __( 'Video Tutorials', 'wpmudev_vids' ) ) ); ?>"
-										              type="text"/></label>
-										<br/><span
-											class="description"><?php _e( 'Sets the menu title for the video tutorial page.', 'wpmudev_vids' ) ?></span>
-									</td>
-								</tr>
-								<tr>
-									<th scope="row"><?php _e( 'Hide Videos', 'wpmudev_vids' ) ?></th>
-									<td class="wpmudev-hide-videos">
+                                            <option
+                                                    value="none"<?php selected( $this->get_setting( 'menu_location' ), 'none' ) ?>><?php _e( 'No Menu', 'wpmudev_vids' ) ?></option>
+                                        </select>
+                                        <br/><span
+                                                class="description"><?php _e( 'What part of the admin menu should the video tutorial page be added?', 'wpmudev_vids' ) ?></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><?php _e( 'Menu Title', 'wpmudev_vids' ) ?></th>
+                                    <td>
+                                        <label><input size="25" name="wpmudev_vids[menu_title]"
+                                                      value="<?php esc_attr_e( $this->get_setting( 'menu_title', __( 'Video Tutorials', 'wpmudev_vids' ) ) ); ?>"
+                                                      type="text"/></label>
+                                        <br/><span
+                                                class="description"><?php _e( 'Sets the menu title for the video tutorial page.', 'wpmudev_vids' ) ?></span>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <th scope="row"><?php _e( 'Hide Videos', 'wpmudev_vids' ) ?></th>
+                                    <td class="wpmudev-hide-videos">
 										<span
-											class="description"><?php _e( 'Check any videos here that you want to hide from users on the videos page or in group shortcodes.', 'wpmudev_vids' ) ?></span><br/>
+                                                class="description"><?php _e( 'Check any videos here that you want to hide from users on the videos page or in group shortcodes.', 'wpmudev_vids' ) ?></span><br/>
 										<?php
 										$hidden = $this->get_setting( 'hide' );
 										foreach ( $this->video_list as $key => $label ) {
 											$checked = isset( $hidden[ $key ] ) ? ' checked="checked"' : '';
 											?>
-											<label><input name="wpmudev_vids[hide][<?php echo $key; ?>]" value="1"
-											              type="checkbox"<?php echo $checked; ?> /> <?php esc_attr_e( $label ); ?></label>
+                                            <label><input name="wpmudev_vids[hide][<?php echo $key; ?>]" value="1"
+                                                          type="checkbox"<?php echo $checked; ?> /> <?php esc_attr_e( $label ); ?>
+                                            </label>
 										<?php } ?>
-									</td>
-								</tr>
-							</table>
-							<p class="submit">
-								<input type="submit" class="button-primary" name="save_settings"
-								       value="<?php _e( 'Save Changes', 'wpmudev_vids' ) ?>"/>
-							</p>
-						</div>
-					</div>
+                                    </td>
+                                </tr>
+                            </table>
+                            <p class="submit">
+                                <input type="submit" class="button-primary" name="save_settings"
+                                       value="<?php _e( 'Save Changes', 'wpmudev_vids' ) ?>"/>
+                            </p>
+                        </div>
+                    </div>
 
-					<div class="postbox">
-						<h3 class='hndle' style="cursor:default;"><span><?php _e( 'Shortcodes', 'wpmudev_vids' ) ?></span></h3>
+                    <div class="postbox">
+                        <h3 class='hndle' style="cursor:default;">
+                            <span><?php _e( 'Shortcodes', 'wpmudev_vids' ) ?></span>
+                        </h3>
 
-						<div class="inside">
-							<p><?php _e( 'These shortcodes allow you to easily embed video tutorials in posts and pages on your sites. Simply type or paste them into your post or page content where you would like them to appear. Also properly handles SSL protected pages. You may also pass "width" and/or "height" arguments to customize the size of the videos.', 'wpmudev_vids' ) ?></p>
-							<table class="form-table">
+                        <div class="inside">
+                            <p><?php _e( 'These shortcodes allow you to easily embed video tutorials in posts and pages on your sites. Simply type or paste them into your post or page content where you would like them to appear. Also properly handles SSL protected pages. You may also pass "width" and/or "height" arguments to customize the size of the videos.', 'wpmudev_vids' ) ?></p>
+                            <table class="form-table">
 								<?php foreach ( $this->video_list as $url => $label ) { ?>
-									<tr>
-										<th scope="row"><?php esc_attr_e( $label ); ?></th>
-										<td>
-											<strong>[wpmudev-video video="<?php echo $url; ?>"]</strong>
-										</td>
-									</tr>
+                                    <tr>
+                                        <th scope="row"><?php esc_attr_e( $label ); ?></th>
+                                        <td>
+                                            <strong>[wpmudev-video video="<?php echo $url; ?>"]</strong>
+                                        </td>
+                                    </tr>
 								<?php } ?>
-							</table>
-							<h2><?php _e( 'Group Shortcodes', 'wpmudev_vids' ) ?> - <span
-									class="description"><?php _e( 'These shortcodes allow you to embed a whole group of videos at a time.', 'wpmudev_vids' ) ?></span>
-							</h2>
-							<table class="form-table">
+                            </table>
+                            <h2><?php _e( 'Group Shortcodes', 'wpmudev_vids' ) ?> - <span
+                                        class="description"><?php _e( 'These shortcodes allow you to embed a whole group of videos at a time.', 'wpmudev_vids' ) ?></span>
+                            </h2>
+                            <table class="form-table">
 								<?php foreach ( $this->video_cats as $url => $group ) { ?>
-									<tr>
-										<th scope="row"><?php echo esc_attr( $group['name'] ); ?></th>
-										<td>
-											<strong>[wpmudev-video group="<?php echo $url; ?>" show_title="1"]</strong> or <strong>[wpmudev-video
-												group="<?php echo $url; ?>" show_title="0"]</strong>
-											<br><small>
-											<?php
-											$list = array();
-											foreach( $group['list'] as $video ) {
-												if ( isset( $this->video_list[ $video ] ) && ! isset( $hidden[ $video ] ) ) { //only display if existing and not hidden
-													$list[] = $this->video_list[ $video ];
+                                    <tr>
+                                        <th scope="row"><?php echo esc_attr( $group['name'] ); ?></th>
+                                        <td>
+                                            <strong>[wpmudev-video group="<?php echo $url; ?>" show_title="1"]</strong>
+                                            or
+                                            <strong>[wpmudev-video
+                                                group="<?php echo $url; ?>" show_title="0"]</strong>
+                                            <br>
+                                            <small>
+												<?php
+												$list = array();
+												foreach ( $group['list'] as $video ) {
+													if ( isset( $this->video_list[ $video ] ) && ! isset( $hidden[ $video ] ) ) { //only display if existing and not hidden
+														$list[] = $this->video_list[ $video ];
+													}
 												}
-											}
-											echo implode( ', ', $list );
-											?>
-											</small>
-										</td>
-									</tr>
+												echo implode( ', ', $list );
+												?>
+                                            </small>
+                                        </td>
+                                    </tr>
 								<?php } ?>
-							</table>
-						</div>
-					</div>
+                            </table>
+                        </div>
+                    </div>
 
-				</div>
-			</form>
-		</div>
-	<?php
+                </div>
+            </form>
+        </div>
+		<?php
 	}
 
 	function page_output() {
@@ -531,11 +542,11 @@ class WPMUDEV_Videos {
 		 * Video list filter.
 		 *
 		 * Use this hook to add your custom videos to the $this->video_list array in the same format
-         *  like 'slug' => 'label'. Example `return $video_list['newslug'] = 'Label';`
+		 *  like 'slug' => 'label'. Example `return $video_list['newslug'] = 'Label';`
 		 *
 		 * @since 1.5
 		 *
-		 * @param array $this->video_list Registered videos.
+		 * @param array $this ->video_list Registered videos.
 		 */
 		$this->video_list = apply_filters( 'wpmudev_vids_list', $this->video_list );
 
@@ -546,21 +557,25 @@ class WPMUDEV_Videos {
 		 *
 		 * @since 1.5
 		 *
-		 * @param array $this->video_cats Registered video categories.
+		 * @param array $this ->video_cats Registered video categories.
 		 */
 		$this->video_cats = apply_filters( 'wpmudev_vids_categories', $this->video_cats );
 		?>
-		<style type="text/css">#poststuff .postbox .inside iframe { display:block;margin:0 auto;box-shadow:30px 0 50px -30px #222, -30px 0 50px -30px #222; }</style>
-		<div class="wrap">
-			<h2><?php echo $this->get_setting( 'menu_title' ); ?></h2>
+        <style type="text/css">#poststuff .postbox .inside iframe {
+                display: block;
+                margin: 0 auto;
+                box-shadow: 30px 0 50px -30px #222, -30px 0 50px -30px #222;
+            }</style>
+        <div class="wrap">
+            <h2><?php echo $this->get_setting( 'menu_title' ); ?></h2>
 
-				<?php if ( isset( $_GET['vid'] ) && isset( $this->video_list[ $_GET['vid'] ] ) ) { ?>
-				<div id="poststuff" class="metabox-holder">
-					<div class="postbox">
-						<h3 class='hndle' style="cursor:default;">
-							<span><?php esc_attr_e( $this->video_list[ $_GET['vid'] ] ); ?></span></h3>
+			<?php if ( isset( $_GET['vid'] ) && isset( $this->video_list[ $_GET['vid'] ] ) ) { ?>
+                <div id="poststuff" class="metabox-holder">
+                    <div class="postbox">
+                        <h3 class='hndle' style="cursor:default;">
+                            <span><?php esc_attr_e( $this->video_list[ $_GET['vid'] ] ); ?></span></h3>
 
-						<div class="inside">
+                        <div class="inside">
 							<?php
 							$video_html = '<iframe src="' . $this->create_embed_url( $_GET['vid'], true ) . '" frameborder="0" width="600"
 							        height="338" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
@@ -577,27 +592,28 @@ class WPMUDEV_Videos {
 							 */
 							echo apply_filters( 'wpmudev_vids_embed_html', $video_html, $_GET['vid'] );
 							?>
-						</div>
-					</div>
-				</div>
-				<?php } ?>
+                        </div>
+                    </div>
+                </div>
+			<?php } ?>
 
-			<h3><?php _e( 'Select a Video Tutorial', 'wpmudev_vids' ) ?></h3>
+            <h3><?php _e( 'Select a Video Tutorial', 'wpmudev_vids' ) ?></h3>
 
-			<div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "columWidth": 190 }'>
+            <div class="grid js-masonry" data-masonry-options='{ "itemSelector": ".grid-item", "columWidth": 190 }'>
 				<?php foreach ( $this->video_cats as $cat ) {
 					//skip if no vids in category
 					if ( count( $cat['list'] ) == 0 ) {
 						continue;
 					}
 					?>
-					<table class='widefat grid-item' style="width: 19%; float: left; margin-right: 1%;margin-bottom: 10px;clear: none;">
-						<thead>
-						<tr>
-							<th scope='col'><?php echo $cat['name']; ?></th>
-						</tr>
-						</thead>
-						<tbody id='the-list'>
+                    <table class='widefat grid-item'
+                           style="width: 19%; float: left; margin-right: 1%;margin-bottom: 10px;clear: none;">
+                        <thead>
+                        <tr>
+                            <th scope='col'><?php echo $cat['name']; ?></th>
+                        </tr>
+                        </thead>
+                        <tbody id='the-list'>
 						<?php
 						$class = '';
 						foreach ( $cat['list'] as $video ) {
@@ -613,14 +629,14 @@ class WPMUDEV_Videos {
 							//=========================================================//
 						}
 						?>
-						</tbody>
-					</table>
+                        </tbody>
+                    </table>
 				<?php } ?>
-				<div class="clear"></div>
-			</div>
+                <div class="clear"></div>
+            </div>
 
-		</div>
-	<?php
+        </div>
+		<?php
 	}
 
 }

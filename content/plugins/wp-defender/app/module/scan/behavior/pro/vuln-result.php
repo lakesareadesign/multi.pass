@@ -170,7 +170,7 @@ class Vuln_Result extends \Hammer\Base\Behavior {
 						<?php else: ?>
 							<?php
 							if ( $raw['type'] == 'wordpress' ) {
-								_e( "This is a known issue identified by WordPress. When a security release is available we recommend you update your WordPress core to the latest version to make sure protected from this vulnerability.", wp_defender()->domain );
+								_e( "This is a known issue identified by WordPress. When a security release is available we recommend you update your WordPress core to the latest version to make sure protected from this vulnerability.", wp_defender()->domain );	  	 	   	 		 		 				
 							}
 							?>
 						<?php endif; ?>
