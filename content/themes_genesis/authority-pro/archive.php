@@ -10,7 +10,7 @@
  * @link    https://my.studiopress.com/themes/authority/
  */
 
-// Move the archive description boxes.
+// Moves the archive description boxes.
 remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
 remove_action( 'genesis_before_loop', 'genesis_do_author_title_description', 15 );
 remove_action( 'genesis_before_loop', 'genesis_do_author_box_archive', 15 );

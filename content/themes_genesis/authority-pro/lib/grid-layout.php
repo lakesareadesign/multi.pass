@@ -129,7 +129,7 @@ function authority_grid_content_archive() {
 }
 
 /**
- * Removes skip link for primary navigation and adds skip link for footer widgets.
+ * Removes skip link for primary navigation and primary sidebar and adds skip link for footer widgets.
  *
  * @since 1.0.0
  *

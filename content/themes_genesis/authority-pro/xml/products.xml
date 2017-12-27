@@ -27,13 +27,13 @@
 
 <channel>
 	<title>Genesis Framework</title>
-	<link>https://demo.studiopress.com/genesis-sample</link>
+	<link>https://demo.studiopress.com/authority</link>
 	<description>Supports HTML5 &#38; Responsive Design</description>
 	<pubDate>Tue, 09 May 2017 22:10:16 +0000</pubDate>
 	<language>en-US</language>
 	<wp:wxr_version>1.2</wp:wxr_version>
 	<wp:base_site_url>http://demo.studiopress.com/</wp:base_site_url>
-	<wp:base_blog_url>https://demo.studiopress.com/genesis-sample</wp:base_blog_url>
+	<wp:base_blog_url>https://demo.studiopress.com/authority</wp:base_blog_url>
 
 	<wp:author><wp:author_id>1</wp:author_id><wp:author_login><![CDATA[admin]]></wp:author_login><wp:author_email><![CDATA[demo-comments@studiopress.com]]></wp:author_email><wp:author_display_name><![CDATA[Brian Gardner]]></wp:author_display_name><wp:author_first_name><![CDATA[Brian]]></wp:author_first_name><wp:author_last_name><![CDATA[Gardner]]></wp:author_last_name></wp:author>
 
@@ -42,15 +42,15 @@
 
 	<item>
 		<title>Smokin’ Amp</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/amp/</link>
+		<link>https://demo.studiopress.com/authority/product/amp/</link>
 		<pubDate>Sat, 10 Sep 2016 23:34:23 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://themedemo.me/infinity/?post_type=product&#038;p=849</guid>
+		<guid isPermaLink="false">http://demo.studiopress.com/authority/?post_type=product&#038;p=849</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is a product description and should be used to highlight features. This is the perfect place to market your product and convince your site visitors to make the purchase. After all, you want to make some money, right?
 
 Our shop is built with the popular WooCommerce plugin for WordPress.]]></content:encoded>
-		<excerpt:encoded><![CDATA[This is production short description.]]></excerpt:encoded>
+		<excerpt:encoded><![CDATA[This is the product short description.]]></excerpt:encoded>
 		<wp:post_id>849</wp:post_id>
 		<wp:post_date><![CDATA[2016-09-10 23:34:23]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2016-09-10 23:34:23]]></wp:post_date_gmt>
@@ -220,48 +220,18 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 			<wp:meta_key><![CDATA[_wc_review_count]]></wp:meta_key>
 			<wp:meta_value><![CDATA[0]]></wp:meta_value>
 		</wp:postmeta>
-		<wp:comment>
-			<wp:comment_id>6296</wp:comment_id>
-			<wp:comment_author><![CDATA[Juan Antonio Romero Altamirano]]></wp:comment_author>
-			<wp:comment_author_email><![CDATA[j.romeroooo.at@gmail.com]]></wp:comment_author_email>
-			<wp:comment_author_url></wp:comment_author_url>
-			<wp:comment_author_IP><![CDATA[77.228.124.7]]></wp:comment_author_IP>
-			<wp:comment_date><![CDATA[2017-04-02 08:54:54]]></wp:comment_date>
-			<wp:comment_date_gmt><![CDATA[2017-04-02 08:54:54]]></wp:comment_date_gmt>
-			<wp:comment_content><![CDATA[jkhyjb,nlhluhmu]]></wp:comment_content>
-			<wp:comment_approved><![CDATA[0]]></wp:comment_approved>
-			<wp:comment_type><![CDATA[]]></wp:comment_type>
-			<wp:comment_parent>0</wp:comment_parent>
-			<wp:comment_user_id>0</wp:comment_user_id>
-			<wp:commentmeta>
-				<wp:meta_key><![CDATA[akismet_result]]></wp:meta_key>
-				<wp:meta_value><![CDATA[false]]></wp:meta_value>
-			</wp:commentmeta>
-			<wp:commentmeta>
-				<wp:meta_key><![CDATA[akismet_history]]></wp:meta_key>
-				<wp:meta_value><![CDATA[a:2:{s:4:"time";d:1491123294.8791329860687255859375;s:5:"event";s:9:"check-ham";}]]></wp:meta_value>
-			</wp:commentmeta>
-			<wp:commentmeta>
-				<wp:meta_key><![CDATA[rating]]></wp:meta_key>
-				<wp:meta_value><![CDATA[5]]></wp:meta_value>
-			</wp:commentmeta>
-			<wp:commentmeta>
-				<wp:meta_key><![CDATA[verified]]></wp:meta_key>
-				<wp:meta_value><![CDATA[0]]></wp:meta_value>
-			</wp:commentmeta>
-		</wp:comment>
 	</item>
 	<item>
 		<title>Vintage Film Camera</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/camera/</link>
+		<link>https://demo.studiopress.com/authority/product/camera/</link>
 		<pubDate>Tue, 13 Sep 2016 18:15:50 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://themedemo.me/infinity/?post_type=product&#038;p=894</guid>
+		<guid isPermaLink="false">http://demo.studiopress.com/authority/?post_type=product&#038;p=894</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is a product description and should be used to highlight features. This is the perfect place to market your product and convince your site visitors to make the purchase. After all, you want to make some money, right?
 
 Our shop is built with the popular WooCommerce plugin for WordPress.]]></content:encoded>
-		<excerpt:encoded><![CDATA[This is production short description.]]></excerpt:encoded>
+		<excerpt:encoded><![CDATA[This is the product short description.]]></excerpt:encoded>
 		<wp:post_id>894</wp:post_id>
 		<wp:post_date><![CDATA[2016-09-13 18:15:50]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2016-09-13 18:15:50]]></wp:post_date_gmt>
@@ -426,15 +396,15 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>Dipped Tripod Stool</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/stool/</link>
+		<link>https://demo.studiopress.com/authority/product/stool/</link>
 		<pubDate>Tue, 13 Sep 2016 18:16:34 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://themedemo.me/infinity/?post_type=product&#038;p=896</guid>
+		<guid isPermaLink="false">http://demo.studiopress.com/authority/?post_type=product&#038;p=896</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is a product description and should be used to highlight features. This is the perfect place to market your product and convince your site visitors to make the purchase. After all, you want to make some money, right?
 
 Our shop is built with the popular WooCommerce plugin for WordPress.]]></content:encoded>
-		<excerpt:encoded><![CDATA[This is production short description.]]></excerpt:encoded>
+		<excerpt:encoded><![CDATA[This is the product short description.]]></excerpt:encoded>
 		<wp:post_id>896</wp:post_id>
 		<wp:post_date><![CDATA[2016-09-13 18:16:34]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2016-09-13 18:16:34]]></wp:post_date_gmt>
@@ -599,15 +569,15 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>Never Settle Mug</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/mug/</link>
+		<link>https://demo.studiopress.com/authority/product/mug/</link>
 		<pubDate>Tue, 13 Sep 2016 18:17:10 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://themedemo.me/infinity/?post_type=product&#038;p=898</guid>
+		<guid isPermaLink="false">http://demo.studiopress.com/authority/?post_type=product&#038;p=898</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is a product description and should be used to highlight features. This is the perfect place to market your product and convince your site visitors to make the purchase. After all, you want to make some money, right?
 
 Our shop is built with the popular WooCommerce plugin for WordPress.]]></content:encoded>
-		<excerpt:encoded><![CDATA[This is production short description.]]></excerpt:encoded>
+		<excerpt:encoded><![CDATA[This is the product short description.]]></excerpt:encoded>
 		<wp:post_id>898</wp:post_id>
 		<wp:post_date><![CDATA[2016-09-13 18:17:10]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2016-09-13 18:17:10]]></wp:post_date_gmt>
@@ -776,15 +746,15 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>School House Clock</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/clock/</link>
+		<link>https://demo.studiopress.com/authority/product/clock/</link>
 		<pubDate>Tue, 13 Sep 2016 18:18:00 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://themedemo.me/infinity/?post_type=product&#038;p=899</guid>
+		<guid isPermaLink="false">http://demo.studiopress.com/authority/?post_type=product&#038;p=899</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is a product description and should be used to highlight features. This is the perfect place to market your product and convince your site visitors to make the purchase. After all, you want to make some money, right?
 
 Our shop is built with the popular WooCommerce plugin for WordPress.]]></content:encoded>
-		<excerpt:encoded><![CDATA[This is production short description.]]></excerpt:encoded>
+		<excerpt:encoded><![CDATA[This is the product short description.]]></excerpt:encoded>
 		<wp:post_id>899</wp:post_id>
 		<wp:post_date><![CDATA[2016-09-13 18:18:00]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2016-09-13 18:18:00]]></wp:post_date_gmt>
@@ -949,15 +919,15 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>Index Card Catalog</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/box/</link>
+		<link>https://demo.studiopress.com/authority/product/box/</link>
 		<pubDate>Wed, 21 Sep 2016 21:47:52 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://themedemo.me/infinity/?post_type=product&#038;p=939</guid>
+		<guid isPermaLink="false">http://demo.studiopress.com/authority/?post_type=product&#038;p=939</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is a product description and should be used to highlight features. This is the perfect place to market your product and convince your site visitors to make the purchase. After all, you want to make some money, right?
 
 Our shop is built with the popular WooCommerce plugin for WordPress.]]></content:encoded>
-		<excerpt:encoded><![CDATA[This is production short description.]]></excerpt:encoded>
+		<excerpt:encoded><![CDATA[This is the product short description.]]></excerpt:encoded>
 		<wp:post_id>939</wp:post_id>
 		<wp:post_date><![CDATA[2016-09-21 21:47:52]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2016-09-21 21:47:52]]></wp:post_date_gmt>
@@ -1126,10 +1096,10 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>Vintage Fan</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/fan/</link>
+		<link>https://demo.studiopress.com/authority/product/fan/</link>
 		<pubDate>Wed, 21 Sep 2016 21:49:24 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://themedemo.me/infinity/?post_type=product&#038;p=941</guid>
+		<guid isPermaLink="false">http://demo.studiopress.com/authority/?post_type=product&#038;p=941</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is a product description and should be used to highlight features. This is the perfect place to market your product and convince your site visitors to make the purchase. After all, you want to make some money, right?
 
@@ -1299,15 +1269,15 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>Vintage Phone</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/phone/</link>
+		<link>https://demo.studiopress.com/authority/product/phone/</link>
 		<pubDate>Wed, 21 Sep 2016 21:50:21 +0000</pubDate>
 		<dc:creator><![CDATA[admin]]></dc:creator>
-		<guid isPermaLink="false">http://themedemo.me/infinity/?post_type=product&#038;p=943</guid>
+		<guid isPermaLink="false">http://demo.studiopress.com/authority/?post_type=product&#038;p=943</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is a product description and should be used to highlight features. This is the perfect place to market your product and convince your site visitors to make the purchase. After all, you want to make some money, right?
 
 Our shop is built with the popular WooCommerce plugin for WordPress.]]></content:encoded>
-		<excerpt:encoded><![CDATA[This is production short description.]]></excerpt:encoded>
+		<excerpt:encoded><![CDATA[This is the product short description.]]></excerpt:encoded>
 		<wp:post_id>943</wp:post_id>
 		<wp:post_date><![CDATA[2016-09-21 21:50:21]]></wp:post_date>
 		<wp:post_date_gmt><![CDATA[2016-09-21 21:50:21]]></wp:post_date_gmt>
@@ -1512,7 +1482,7 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>product-amp</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/phone/product-amp/</link>
+		<link>https://demo.studiopress.com/authority/product/phone/product-amp/</link>
 		<pubDate>Mon, 30 Jan 2017 13:32:46 +0000</pubDate>
 		<dc:creator><![CDATA[ckoepke]]></dc:creator>
 		<guid isPermaLink="false">https://www.studiopress.com/images/products/product-amp.jpg</guid>
@@ -1543,7 +1513,7 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>product-box</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/phone/product-box/</link>
+		<link>https://demo.studiopress.com/authority/product/phone/product-box/</link>
 		<pubDate>Mon, 30 Jan 2017 13:32:48 +0000</pubDate>
 		<dc:creator><![CDATA[ckoepke]]></dc:creator>
 		<guid isPermaLink="false">https://www.studiopress.com/images/products/product-box.jpg</guid>
@@ -1574,7 +1544,7 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>product-camera</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/phone/product-camera/</link>
+		<link>https://demo.studiopress.com/authority/product/phone/product-camera/</link>
 		<pubDate>Mon, 30 Jan 2017 13:32:50 +0000</pubDate>
 		<dc:creator><![CDATA[ckoepke]]></dc:creator>
 		<guid isPermaLink="false">https://www.studiopress.com/images/products/product-camera.jpg</guid>
@@ -1605,7 +1575,7 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>product-clock</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/phone/product-clock/</link>
+		<link>https://demo.studiopress.com/authority/product/phone/product-clock/</link>
 		<pubDate>Mon, 30 Jan 2017 13:32:51 +0000</pubDate>
 		<dc:creator><![CDATA[ckoepke]]></dc:creator>
 		<guid isPermaLink="false">https://www.studiopress.com/images/products/product-clock.jpg</guid>
@@ -1636,7 +1606,7 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>product-fan</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/phone/product-fan/</link>
+		<link>https://demo.studiopress.com/authority/product/phone/product-fan/</link>
 		<pubDate>Mon, 30 Jan 2017 13:32:53 +0000</pubDate>
 		<dc:creator><![CDATA[ckoepke]]></dc:creator>
 		<guid isPermaLink="false">https://www.studiopress.com/images/products/product-fan.jpg</guid>
@@ -1667,7 +1637,7 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>product-mug</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/phone/product-mug/</link>
+		<link>https://demo.studiopress.com/authority/product/phone/product-mug/</link>
 		<pubDate>Mon, 30 Jan 2017 13:32:54 +0000</pubDate>
 		<dc:creator><![CDATA[ckoepke]]></dc:creator>
 		<guid isPermaLink="false">https://www.studiopress.com/images/products/product-mug.jpg</guid>
@@ -1698,7 +1668,7 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>product-phone</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/phone/product-phone/</link>
+		<link>https://demo.studiopress.com/authority/product/phone/product-phone/</link>
 		<pubDate>Mon, 30 Jan 2017 13:32:56 +0000</pubDate>
 		<dc:creator><![CDATA[ckoepke]]></dc:creator>
 		<guid isPermaLink="false">https://www.studiopress.com/images/products/product-phone.jpg</guid>
@@ -1729,7 +1699,7 @@ Our shop is built with the popular WooCommerce plugin for WordPress.]]></content
 	</item>
 	<item>
 		<title>product-stool</title>
-		<link>https://demo.studiopress.com/genesis-sample/product/phone/product-stool/</link>
+		<link>https://demo.studiopress.com/authority/product/phone/product-stool/</link>
 		<pubDate>Mon, 30 Jan 2017 13:32:57 +0000</pubDate>
 		<dc:creator><![CDATA[ckoepke]]></dc:creator>
 		<guid isPermaLink="false">https://www.studiopress.com/images/products/product-stool.jpg</guid>

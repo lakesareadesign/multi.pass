@@ -106,7 +106,7 @@ function authority_customizer_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_control( 'authority-top-banner-text', array(
-		'description' => __( 'Change the top banner text for the front page hero section (allows HTML).', 'authority-pro' ),
+		'description' => __( 'Change the text for the dismissible banner (allows HTML).', 'authority-pro' ),
 		'label'       => __( 'Top Banner Text', 'authority-pro' ),
 		'section'     => 'authority-top-banner-settings',
 		'settings'    => 'authority-top-banner-text',
@@ -230,7 +230,7 @@ function authority_customizer_register( $wp_customize ) {
 	// Logo header.
 	$wp_customize->add_setting( 'authority-hero-logo-heading', array(
 		'default'           => authority_get_default_hero_logo_heading(),
-		'sanitize_callback' => 'esc_html',
+		'sanitize_callback' => 'wp_kses_post',
 		'transport'         => isset( $wp_customize->selective_refresh ) ? 'postMessage' : 'refresh',
 	) );
 

@@ -294,7 +294,7 @@
 				if ( $( 'body' ).hasClass( 'fl-submenu-toggle' ) ) {
 					subMenus = nav.find('> ul li').has('ul.sub-menu');
 				}
-				subMenus.find('> a').on('click', FLTheme._navItemClickMobile);
+				subMenus.find('> a').off().on('click', FLTheme._navItemClickMobile);
 
 				nav.find('.menu').on('click', '.menu-item > a[href*="#"]', FLTheme._toggleForMobile);
 				subToggles.off('click', FLTheme._navSubMenuToggleClick);

@@ -98,7 +98,7 @@ if ( $portrait_url ) {
 if ( $logos ) {
 
 	if ( $logo_header ) {
-		echo '<div class="hero-logos-header">' . esc_html( $logo_header ) . '</div>';
+		echo '<div class="hero-logos-header">' . $logo_header . '</div>';
 	}
 
 	echo '<div class="hero-section-logos wrap">';

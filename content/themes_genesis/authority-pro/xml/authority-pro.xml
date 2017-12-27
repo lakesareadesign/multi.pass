@@ -35,8 +35,7 @@
 	<wp:base_site_url>http://demo.studiopress.com/</wp:base_site_url>
 	<wp:base_blog_url>https://demo.studiopress.com/authority</wp:base_blog_url>
 
-	<wp:author><wp:author_id>1</wp:author_id><wp:author_login><![CDATA[admin]]></wp:author_login><wp:author_email><![CDATA[demo-comments@studiopress.com]]></wp:author_email><wp:author_display_name><![CDATA[Brian Gardner]]></wp:author_display_name><wp:author_first_name><![CDATA[Brian]]></wp:author_first_name><wp:author_last_name><![CDATA[Gardner]]></wp:author_last_name></wp:author>
-	<wp:author><wp:author_id>133</wp:author_id><wp:author_login><![CDATA[melyssa]]></wp:author_login><wp:author_email><![CDATA[melyssa@themedemo.me]]></wp:author_email><wp:author_display_name><![CDATA[Melyssa]]></wp:author_display_name><wp:author_first_name><![CDATA[Melyssa]]></wp:author_first_name><wp:author_last_name><![CDATA[]]></wp:author_last_name></wp:author>
+	<wp:author><wp:author_id>1</wp:author_id><wp:author_login><![CDATA[admin]]></wp:author_login><wp:author_email><![CDATA[demo-comments@studiopress.com]]></wp:author_email><wp:author_display_name><![CDATA[StudioPress]]></wp:author_display_name><wp:author_first_name><![CDATA[StudioPress]]></wp:author_first_name><wp:author_last_name><![CDATA[]]></wp:author_last_name></wp:author>
 
 	<wp:category>
 		<wp:term_id>3</wp:term_id>
@@ -2285,7 +2284,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -2317,7 +2316,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -2373,7 +2372,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -2417,7 +2416,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -2461,7 +2460,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -2511,7 +2510,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -2541,7 +2540,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -2699,7 +2698,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -2745,7 +2744,7 @@ This is an example of a WordPress page, you could edit this to put information s
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -2831,7 +2830,7 @@ WordPress has support for threaded comments. This is where you reply to a commen
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -2887,7 +2886,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[subtitle]]></wp:meta_key>
@@ -2947,7 +2946,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[subtitle]]></wp:meta_key>
@@ -3007,7 +3006,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[subtitle]]></wp:meta_key>
@@ -3544,7 +3543,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<category domain="category" nicename="blog"><![CDATA[Blog]]></category>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_old_slug]]></wp:meta_key>
@@ -3596,7 +3595,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<category domain="post_tag" nicename="ordered-lists"><![CDATA[Ordered Lists]]></category>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_old_slug]]></wp:meta_key>
@@ -3648,7 +3647,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<category domain="post_tag" nicename="unordered-lists"><![CDATA[Unordered Lists]]></category>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_old_slug]]></wp:meta_key>
@@ -4059,7 +4058,7 @@ This is an example of a WordPress post, you could edit this to put information a
 			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
 			<wp:comment_type><![CDATA[]]></wp:comment_type>
 			<wp:comment_parent>0</wp:comment_parent>
-			<wp:comment_user_id>133</wp:comment_user_id>
+			<wp:comment_user_id>1</wp:comment_user_id>
 		</wp:comment>
 		<wp:comment>
 			<wp:comment_id>3</wp:comment_id>
@@ -4073,7 +4072,7 @@ This is an example of a WordPress post, you could edit this to put information a
 			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
 			<wp:comment_type><![CDATA[]]></wp:comment_type>
 			<wp:comment_parent>2</wp:comment_parent>
-			<wp:comment_user_id>133</wp:comment_user_id>
+			<wp:comment_user_id>1</wp:comment_user_id>
 		</wp:comment>
 		<wp:comment>
 			<wp:comment_id>4</wp:comment_id>
@@ -4087,7 +4086,7 @@ This is an example of a WordPress post, you could edit this to put information a
 			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
 			<wp:comment_type><![CDATA[]]></wp:comment_type>
 			<wp:comment_parent>0</wp:comment_parent>
-			<wp:comment_user_id>133</wp:comment_user_id>
+			<wp:comment_user_id>1</wp:comment_user_id>
 		</wp:comment>
 		<wp:comment>
 			<wp:comment_id>5</wp:comment_id>
@@ -4101,7 +4100,7 @@ This is an example of a WordPress post, you could edit this to put information a
 			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
 			<wp:comment_type><![CDATA[]]></wp:comment_type>
 			<wp:comment_parent>4</wp:comment_parent>
-			<wp:comment_user_id>133</wp:comment_user_id>
+			<wp:comment_user_id>1</wp:comment_user_id>
 		</wp:comment>
 		<wp:comment>
 			<wp:comment_id>6</wp:comment_id>
@@ -4115,7 +4114,7 @@ This is an example of a WordPress post, you could edit this to put information a
 			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
 			<wp:comment_type><![CDATA[]]></wp:comment_type>
 			<wp:comment_parent>5</wp:comment_parent>
-			<wp:comment_user_id>133</wp:comment_user_id>
+			<wp:comment_user_id>1</wp:comment_user_id>
 		</wp:comment>
 		<wp:comment>
 			<wp:comment_id>7</wp:comment_id>
@@ -4129,7 +4128,7 @@ This is an example of a WordPress post, you could edit this to put information a
 			<wp:comment_approved><![CDATA[1]]></wp:comment_approved>
 			<wp:comment_type><![CDATA[]]></wp:comment_type>
 			<wp:comment_parent>0</wp:comment_parent>
-			<wp:comment_user_id>133</wp:comment_user_id>
+			<wp:comment_user_id>1</wp:comment_user_id>
 		</wp:comment>
 		<wp:comment>
 			<wp:comment_id>8</wp:comment_id>
@@ -4314,7 +4313,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<category domain="category" nicename="sub-category-33"><![CDATA[Sub Category 3.3]]></category>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_old_slug]]></wp:meta_key>
@@ -4352,7 +4351,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_genesis_scripts_body_position]]></wp:meta_key>
@@ -4398,7 +4397,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -4448,7 +4447,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -4498,7 +4497,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>
@@ -4715,7 +4714,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<wp:is_sticky>0</wp:is_sticky>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_edit_last]]></wp:meta_key>
-			<wp:meta_value><![CDATA[133]]></wp:meta_value>
+			<wp:meta_value><![CDATA[1]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_wp_page_template]]></wp:meta_key>

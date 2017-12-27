@@ -2,15 +2,15 @@
 msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"Project-Id-Version: Authority Pro 1.0.1\n"
-"POT-Creation-Date: 2017-10-28 08:03-0400\n"
+"Project-Id-Version: Authority Pro 1.0.2\n"
+"POT-Creation-Date: 2017-12-20 10:22-0500\n"
 "PO-Revision-Date: 2017-10-25 01:04-0400\n"
 "Last-Translator: StudioPress <translations@studiopress.com>\n"
 "Language-Team: StudioPress <translations@studiopress.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.4\n"
+"X-Generator: Poedit 2.0.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: style.css\n"
@@ -189,8 +189,7 @@ msgid "Show Top Banner?"
 msgstr ""
 
 #: lib/customizer/customize.php:109
-msgid ""
-"Change the top banner text for the front page hero section (allows HTML)."
+msgid "Change the text for the dismissible banner (allows HTML)."
 msgstr ""
 
 #: lib/customizer/customize.php:110

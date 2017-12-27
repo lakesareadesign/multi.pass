@@ -41,7 +41,7 @@ include_once( get_stylesheet_directory() . '/lib/featured-images.php' );
 // Includes subtitle markup and filters.
 include_once( get_stylesheet_directory() . '/lib/subtitles.php' );
 
-// Includes subtitle markup and filters.
+// Adds the grid layout.
 include_once( get_stylesheet_directory() . '/lib/grid-layout.php' );
 
 // Adds WooCommerce support.
@@ -56,7 +56,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Defines the child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Authority Pro' );
 define( 'CHILD_THEME_URL', 'https://my.studiopress.com/themes/authority/' );
-define( 'CHILD_THEME_VERSION', '1.0.1' );
+define( 'CHILD_THEME_VERSION', '1.0.2' );
 
 add_action( 'wp_enqueue_scripts', 'authority_enqueue_scripts_styles' );
 /**
@@ -82,7 +82,7 @@ function authority_enqueue_scripts_styles() {
 
 }
 
-add_action( 'body_class', 'top_banner_classes' );
+add_action( 'body_class', 'authority_top_banner_classes' );
 /**
  * Adds top-banner body classes.
  *
@@ -91,7 +91,7 @@ add_action( 'body_class', 'top_banner_classes' );
  * @param array $classes Current classes.
  * @return array The new classes.
  */
-function top_banner_classes( $classes ) {
+function authority_top_banner_classes( $classes ) {
 
 	if ( get_theme_mod( 'authority-top-banner-visibility', true ) ) {
 
@@ -379,7 +379,7 @@ function authority_comments_gravatar( $args ) {
 }
 
 /**
- * Count used widgets in given sidebar.
+ * Counts used widgets in given sidebar.
  *
  * @since 1.0.0
  *

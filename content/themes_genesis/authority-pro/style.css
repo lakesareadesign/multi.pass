@@ -5,7 +5,7 @@
 	Author: StudioPress
 	Author URI: https://www.studiopress.com/
 
-	Version: 1.0.1
+	Version: 1.0.2
 
 	Tags: one-column, two-columns, left-sidebar, right-sidebar, e-commerce, accessibility-ready, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
@@ -99,8 +99,8 @@ input[type="search"] {
 }
 
 *,
-*:before,
-*:after {
+*::before,
+*::after {
 	box-sizing: inherit;
 }
 
@@ -108,38 +108,38 @@ input[type="search"] {
 /* Float Clearing
 --------------------------------------------- */
 
-.author-box:before,
-.clearfix:before,
-.entry:before,
-.entry-content:before,
-.footer-widgets:before,
-.nav-primary:before,
-.nav-secondary:before,
-.pagination:before,
-.site-container:before,
-.site-footer:before,
-.site-header:before,
-.site-inner:before,
-.widget:before,
-.wrap:before {
+.author-box::before,
+.clearfix::before,
+.entry::before,
+.entry-content::before,
+.footer-widgets::before,
+.nav-primary::before,
+.nav-secondary::before,
+.pagination::before,
+.site-container::before,
+.site-footer::before,
+.site-header::before,
+.site-inner::before,
+.widget::before,
+.wrap::before {
 	content: " ";
 	display: table;
 }
 
-.author-box:after,
-.clearfix:after,
-.entry:after,
-.entry-content:after,
-.footer-widgets:after,
-.nav-primary:after,
-.nav-secondary:after,
-.pagination:after,
-.site-container:after,
-.site-footer:after,
-.site-header:after,
-.site-inner:after,
-.widget:after,
-.wrap:after {
+.author-box::after,
+.clearfix::after,
+.entry::after,
+.entry-content::after,
+.footer-widgets::after,
+.nav-primary::after,
+.nav-secondary::after,
+.pagination::after,
+.site-container::after,
+.site-footer::after,
+.site-header::after,
+.site-inner::after,
+.widget::after,
+.wrap::after {
 	clear: both;
 	content: " ";
 	display: table;
@@ -195,8 +195,8 @@ a {
 	text-decoration: underline;
 }
 
-a:hover,
-a:focus {
+a:focus,
+a:hover {
 	color: #333;
 	text-decoration: none;
 }
@@ -441,8 +441,8 @@ figure {
 	padding: 4px;
 }
 
-.gallery img:hover,
-.gallery img:focus {
+.gallery img:focus,
+.gallery img:hover {
 	border: 1px solid #999;
 }
 
@@ -561,10 +561,15 @@ input[type="submit"].secondary,
 	color: #f4f4f4;
 }
 
+button.secondary:focus,
 button.secondary:hover,
+input[type="button"].secondary:focus,
 input[type="button"].secondary:hover,
+input[type="reset"].secondary:focus,
 input[type="reset"].secondary:hover,
+input[type="submit"].secondary:focus,
 input[type="submit"].secondary:hover,
+.button.secondary:focus,
 .button.secondary:hover {
 	background-color: #333;
 	border-color: #333;
@@ -977,8 +982,8 @@ th:first-child {
 	text-decoration: none;
 }
 
-.entry-title a:hover,
-.entry-title a:focus {
+.entry-title a:focus,
+.entry-title a:hover {
 	color: #000cff;
 }
 
@@ -1398,8 +1403,8 @@ img.alignright,
 }
 
 .site-title a,
-.site-title a:hover,
-.site-title a:focus {
+.site-title a:focus,
+.site-title a:hover {
 	color: #111;
 	text-decoration: none;
 }
@@ -1463,11 +1468,11 @@ img.alignright,
 	margin-left: 20px;
 }
 
-.genesis-nav-menu a:hover,
 .genesis-nav-menu a:focus,
+.genesis-nav-menu a:hover,
 .genesis-nav-menu .current-menu-item > a,
-.genesis-nav-menu .sub-menu .current-menu-item > a:hover,
-.genesis-nav-menu .sub-menu .current-menu-item > a:focus  {
+.genesis-nav-menu .sub-menu .current-menu-item > a:focus,
+.genesis-nav-menu .sub-menu .current-menu-item > a:hover {
 	color: #000cff;
 	text-decoration: none;
 }
@@ -1699,7 +1704,9 @@ img.alignright,
 	transform: translate3d(0,0,0);
 }
 
+.authority-featured-image a:focus img,
 .authority-featured-image a:hover img,
+.featuredpost .has-post-thumbnail > a:focus img,
 .featuredpost .has-post-thumbnail > a:hover img {
 	box-shadow: 0 6px 15px rgba(0,0,0,.30);
 	transform: translate3d(0,10px,0);
@@ -1904,8 +1911,8 @@ p.center {
 	padding: 6px 20px;
 }
 
-.archive-pagination a:hover,
 .archive-pagination a:focus,
+.archive-pagination a:hover,
 .archive-pagination .active a {
 	background-color: #000cff;
 	color: #fff;
@@ -2311,6 +2318,10 @@ p.center {
 	.site-header .title-area,
 	.site-title {
 		text-align: center;
+	}
+
+	.header-image .site-title > a {
+		background-position: center !important;
 	}
 
 	/* Genesis Responsive Menus */
@@ -2764,8 +2775,8 @@ p.center {
 @media print {
 
 	*,
-	*:before,
-	*:after {
+	*::before,
+	*::after {
 		background: transparent !important;
 		box-shadow: none !important;
 		color: #000 !important;
@@ -2777,17 +2788,17 @@ p.center {
 		text-decoration: underline;
 	}
 
-	a[href]:after {
+	a[href]::after {
 		content: " (" attr(href) ")";
 	}
 
-	abbr[title]:after {
+	abbr[title]::after {
 		content: " (" attr(title) ")";
 	}
 
-	a[href^="javascript:"]:after,
-	a[href^="#"]:after,
-	.site-title > a:after {
+	a[href^="javascript:"]::after,
+	a[href^="#"]::after,
+	.site-title > a::after {
 		content: "";
 	}
 

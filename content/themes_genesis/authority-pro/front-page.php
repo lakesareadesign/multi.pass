@@ -18,10 +18,10 @@ add_action( 'genesis_meta', 'authority_front_page_genesis_meta' );
  */
 function authority_front_page_genesis_meta() {
 
-	// Screen reader text for skip link.
+	// Screen reader text.
 	add_action( 'genesis_before_loop', 'authority_print_screen_reader' );
 
-	// Output hero if set to visible.
+	// Outputs hero if set to visible.
 	$hero = get_theme_mod( 'authority-show-hero-section', true );
 
 	if ( $hero ) {
@@ -65,7 +65,7 @@ function authority_front_page_genesis_meta() {
  */
 function authority_enqueue_hero_styles() {
 
-	wp_enqueue_style( 'authority-hero-styles', get_stylesheet_directory_uri() . '/css/style-hero.css' );
+	wp_enqueue_style( 'authority-hero-styles', get_stylesheet_directory_uri() . '/css/style-hero.css', array(), CHILD_THEME_VERSION );
 	wp_enqueue_script( 'authority-hero-js', get_stylesheet_directory_uri() . '/js/hero.js', array( 'jquery' ), CHILD_THEME_VERSION, true );
 
 }
@@ -77,7 +77,7 @@ function authority_enqueue_hero_styles() {
  */
 function authority_enqueue_front_styles() {
 
-	wp_enqueue_style( 'authority-front-styles', get_stylesheet_directory_uri() . '/css/style-front.css' );
+	wp_enqueue_style( 'authority-front-styles', get_stylesheet_directory_uri() . '/css/style-front.css', array(), CHILD_THEME_VERSION );
 	wp_enqueue_script( 'authority-front-js', get_stylesheet_directory_uri() . '/js/front.js', array( 'jquery' ), CHILD_THEME_VERSION, true );
 
 }

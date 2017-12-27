@@ -108,6 +108,31 @@ Loads on WooCommerce pages */
 }
 
 
+/* WooCommerce Product Gallery
+---------------------------------------------------------------------------------------------------- */
+
+.woocommerce .woocommerce-product-gallery__wrapper {
+	margin: 0;
+}
+
+.woocommerce .pswp button:focus,
+.woocommerce .pswp button:hover,
+.woocommerce .woocommerce-product-gallery__trigger {
+	border-width: 0;
+}
+
+.woocommerce .woocommerce-product-gallery {
+	overflow: hidden;
+}
+
+.woocommerce .woocommerce-product-gallery .flex-control-nav {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+
 /* WooCommerce Shop Page
 ---------------------------------------------------------------------------------------------------- */
 
@@ -368,12 +393,66 @@ Loads on WooCommerce pages */
 .woocommerce #respond input#submit:hover,
 .woocommerce #respond input#submit.alt:focus,
 .woocommerce #respond input#submit.alt:hover {
-	background: #000BE6;
-	border-color: #000BE6;
+	background: #000be6;
+	border-color: #000be6;
 	box-shadow: 0 6px 16px rgba(0,0,0,.24);
 	color: #f4f4f4;
 	text-decoration: none;
 	transform: translate3d(0,-3px,0);
+}
+
+.woocommerce button.primary,
+.woocommerce input[type="button"].primary,
+.woocommerce input[type="reset"].primary,
+.woocommerce input[type="submit"].primary,
+.woocommerce .button.primary {
+	background-color: #000cff;
+	color: #f4f4f4;
+}
+
+.woocommerce button.secondary,
+.woocommerce input[type="button"].secondary,
+.woocommerce input[type="reset"].secondary,
+.woocommerce input[type="submit"].secondary,
+.woocommerce .button.secondary {
+	background-color: #111;
+	border-color: #111;
+	color: #f4f4f4;
+}
+
+.woocommerce button.secondary:focus,
+.woocommerce button.secondary:hover,
+.woocommerce input[type="button"].secondary:focus,
+.woocommerce input[type="button"].secondary:hover,
+.woocommerce input[type="reset"].secondary:focus,
+.woocommerce input[type="reset"].secondary:hover,
+.woocommerce input[type="submit"].secondary:focus,
+.woocommerce input[type="submit"].secondary:hover,
+.woocommerce .button.secondary:focus,
+.woocommerce .button.secondary:hover {
+	background-color: #333;
+	border-color: #333;
+	color: #f4f4f4;
+}
+
+.woocommerce a.button.small,
+.woocommerce button.small,
+.woocommerce input[type="button"].small,
+.woocommerce input[type="reset"].small,
+.woocommerce input[type="submit"].small {
+	font-size: 14px;
+	font-size: 1.4rem;
+	padding: 9px 24px;
+}
+
+.woocommerce a.button.large,
+.woocommerce button.large,
+.woocommerce input[type="button"].large,
+.woocommerce input[type="reset"].large,
+.woocommerce input[type="submit"].large {
+	font-size: 20px;
+	font-size: 2rem;
+	padding: 24px;
 }
 
 .woocommerce #reviews #comment {

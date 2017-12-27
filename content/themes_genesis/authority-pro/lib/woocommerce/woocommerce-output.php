@@ -134,6 +134,15 @@ function authority_woocommerce_css() {
 			border-color: %3$s;
 		}
 
+		.woocommerce button.primary,
+		.woocommerce input[type="button"].primary,
+		.woocommerce input[type="reset"].primary,
+		.woocommerce input[type="submit"].primary,
+		.woocommerce .button.primary {
+			background-color: %1$s;
+			color: %2$s;
+		}
+
 		ul.woocommerce-error,
 		.woocommerce-error,
 		.woocommerce-info,

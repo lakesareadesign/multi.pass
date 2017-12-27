@@ -81,7 +81,9 @@ add_action( 'wp_ajax_authority_dismiss_woocommerce_notice', 'authority_dismiss_w
  * @since 1.1.0
  */
 function authority_dismiss_woocommerce_notice() {
+
 	update_user_option( get_current_user_id(), 'authority_woocommerce_message_dismissed', 1 );
+
 }
 
 add_action( 'admin_enqueue_scripts', 'authority_notice_script' );
@@ -91,7 +93,9 @@ add_action( 'admin_enqueue_scripts', 'authority_notice_script' );
  * @since 1.1.0
  */
 function authority_notice_script() {
+
 	wp_enqueue_script( 'authority_notice_script', get_stylesheet_directory_uri() . '/lib/woocommerce/js/notice-update.js', array( 'jquery' ), '1.0', true );
+
 }
 
 add_action( 'switch_theme', 'authority_reset_woocommerce_notice', 10, 2 );
@@ -108,6 +112,7 @@ function authority_reset_woocommerce_notice() {
 		'meta_key'   => $wpdb->prefix . 'authority_woocommerce_message_dismissed',
 		'meta_value' => 1,
 	);
+
 	$users = get_users( $args );
 
 	foreach ( $users as $user ) {

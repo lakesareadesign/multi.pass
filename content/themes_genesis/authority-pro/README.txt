@@ -27,9 +27,18 @@ Please visit https://my.studiopress.com/help/ for theme support.
 CHANGELOG
 
 = 1.0.0 =
-* Initial release
+* Initial release.
 
 = 1.0.1 =
 * Documentation updates.
 * Widen front page widget sections when a full width static page is set.
 * Remove unnecessary Cookie dependency from hero.js and front.js to ensure both files execute if the top banner is turned off and WooCommerce is not installed.
+
+= 1.0.2 =
+* Documentation updates.
+* Improved link focus.
+* Make button effects consistent in widgets on WooCommerce pages.
+* Update customizer text for Top Banner.
+* Standards improvements.
+* Adjust logo position when cropped.
+* Allow HTML in front page logo heading.
