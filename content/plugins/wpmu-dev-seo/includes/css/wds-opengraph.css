@@ -1,72 +1,60 @@
 .og-image.item img {
-	max-width: 100%;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
 }
 .og-images .item {
-	width: 100px;
-	float: left;
-	height: 100px;
-	overflow: hidden;
-	position: relative;
-	text-align: center;
-	border: 2px dashed #eee;
-	margin-right: 5px;
+	border-radius: 4px;
+    box-shadow: 0 0 2px rgba(0, 0, 0, 0.3);
+    float: left;
+    height: 40px;
+    margin-right: 10px;
+	margin-bottom: 10px;
+    overflow: hidden;
+    position: relative;
+    text-align: center;
+    width: 40px;
 }
 .og-images .item:hover {
 	background: #f0f0f0;
 }
 .item.og-image a.remove-action {
-	display: none;
+	position: absolute;
+	top: 0;
+	background: rgba(0,0,0,0.8);
+	color: white;
+	text-align: center;
+	font-size: 16px;
+	text-decoration: none;
+    line-height: 42px;
+	height: 40px;
+	width: 40px;
+	opacity: 0;
+	left: 0;
+	transition: all 0.25s ease 0s;
 }
 .item.og-image:hover a.remove-action {
-	position: absolute;
-	top: 3px;
-	right: 3px;
-	height: 24px;
-	line-height: 24px;
-	width: 24px;
-	display: block;
-	background: #D0021B;
-	color: white;
-	border-radius: 24px;
-	text-align: center;
-	font-size: 24px;
-	text-decoration: none;
+	opacity: 1;
+}
+.fields.og-images .add-action-wrapper.item {
+    background-color: #FAFAFA;
+	border: 1px solid #DDDDDD;
+	box-shadow: none;
 }
 .fields.og-images .add-action-wrapper a {
-	font-size: 50px;
-	color: #bada55;
-	text-decoration: none;
-	line-height: 100px;
-}
-
-/**
- * Toggleable fieldsets
- *
- * As used by OpenGraph
- */
-fieldset.toggleable .inside {
+	color: #888888;
+    font-size: 16px;
+    line-height: 42px;
+    text-decoration: none;
+	height: 40px;
+	width: 40px;
 	display: block;
 }
-fieldset.toggleable legend:after {
-	content: " [-]";
-}
-fieldset.toggleable.inactive .inside {
-	display: none;
-}
-fieldset.toggleable.inactive legend:after {
-	content: " [+]";
-}
-fieldset.toggleable legend {
-	cursor: pointer;
-	color: #BABABA;
-	font-size: 15px;
-	font-weight: 500;
-	font-family: 'Roboto', sans-serif;
-	transition: color .4s;
-}
-fieldset.toggleable legend:hover {
-	color: #808080;
+
+.fields.og-images .add-action-wrapper a:hover {	     	 	 	  		 		
+	color: #333;
+	background: #ffffff;
 }
 
 
-/* 133620-1497045162-au */
+/* 133620-1514407110-au */

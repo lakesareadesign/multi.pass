@@ -17,9 +17,10 @@ class FLMenuModule extends FLBuilderModule {
 		parent::__construct(array(
 			'name'          	=> __( 'Menu', 'fl-builder' ),
 			'description'   	=> __( 'Renders a WordPress menu.', 'fl-builder' ),
-			'category'      	=> __( 'Advanced Modules', 'fl-builder' ),
+			'category'      	=> __( 'Actions', 'fl-builder' ),
 			'partial_refresh'	=> true,
 			'editor_export' 	=> false,
+			'icon'				=> 'hamburger-menu.svg',
 		));
 
 		add_action( 'pre_get_posts', 		__CLASS__ . '::set_pre_get_posts_query', 10, 2 );

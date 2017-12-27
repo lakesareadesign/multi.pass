@@ -58,7 +58,7 @@ class WDS_Seomoz_Results
 	 */
 	public function urlmetrics_box($post) {
 
-		global $wds_options;
+		$wds_options = WDS_Settings::get_options();
 
 		$page       = str_replace( '/', '%252F', untrailingslashit( str_replace( 'http://', '', get_permalink( $post->ID ) ) ) );
 		$seomozapi  = new SEOMozAPI( $wds_options['access-id'], $wds_options['secret-key'] );

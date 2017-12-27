@@ -1,5 +1,5 @@
 <div class="insert-macro">
-  	<button class="button-fields-trigger" id="toogle-macro-list-">{{- Wds.l10n('macros', 'Insert Macro') }} <i class="dev-icon dev-icon-caret_down"></i></button>
+  	<button class="button-fields-trigger" data-content="{{- Wds.l10n('macros', 'Insert dynamic macro') }}" id="toogle-macro-list-"><i class="wds-icon-plus"></i></button>
 	<div class="macro-list" style="display: none">
 		<ul>
 		{{ _.each(macros, function (desc, macro) { }}

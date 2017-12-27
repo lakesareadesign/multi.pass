@@ -137,22 +137,19 @@ jQuery(document).ready(function($) {
 	});
 
 	// Expand
-	$('.su-expand').each(function() {
+	$('body:not(.su-other-shortcodes-loaded)').on('click', '.su-expand-link', function() {
 		var $this = $(this),
-			$content = $this.children('.su-expand-content'),
-			$more = $this.children('.su-expand-link-more'),
-			$less = $this.children('.su-expand-link-less'),
-			data = $this.data(),
-			col = 'su-expand-collapsed';
+			$container = $this.parents('.su-expand'),
+			$content = $container.children('.su-expand-content');
 
-		$more.on('click', function(e) {
+		if ($container.hasClass('su-expand-collapsed')) {
 			$content.css('max-height', 'none');
-			$this.removeClass(col);
-		});
-		$less.on('click', function(e) {
-			$content.css('max-height', data.height + 'px');
-			$this.addClass(col);
-		});
+		}
+		else {
+			$content.css('max-height', $container.data('height') + 'px');
+		}
+
+		$container.toggleClass('su-expand-collapsed');
 	});
 
 	function is_transition_supported() {

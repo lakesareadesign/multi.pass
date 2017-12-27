@@ -14,11 +14,14 @@ class MetaSlider {
 
     public $id = 0; // slider ID
     public $identifier = 0; // unique identifier
-    public $slides = array(); //slides belonging to this slider
+    public $slides = array(); // slides belonging to this slider
     public $settings = array(); // slider settings
 
     /**
      * Constructor
+     *
+     * @param int   $id                 Slider ID
+     * @param array $shortcode_settings Short code settings
      */
     public function __construct( $id, $shortcode_settings ) {
         $this->id = $id;
@@ -56,7 +59,7 @@ class MetaSlider {
     /**
      * Return an individual setting
      *
-     * @param string  $name Name of the setting
+     * @param string $name Name of the setting
      * @return string setting value or 'false'
      */
     public function get_setting( $name ) {
@@ -128,6 +131,7 @@ class MetaSlider {
 
     /**
      * The main query for extracting the slides for the slideshow
+     *
      * @return WP_Query
      */
     public function get_slides() {
@@ -248,7 +252,7 @@ class MetaSlider {
      */
     private function get_container_class() {
 
-        //Add the version to the class name (if possible)
+        // Add the version to the class name (if possible)
         $version_string = str_replace('.', '-', urlencode(METASLIDER_VERSION));
         $version_string .= defined('METASLIDERPRO_VERSION') ? ' ml-slider-pro-' . str_replace('.', '-', urlencode(METASLIDERPRO_VERSION)) : '';
         $class = "ml-slider-{$version_string} metaslider metaslider-{$this->get_setting('type')} metaslider-{$this->id} ml-slider";
@@ -320,15 +324,6 @@ class MetaSlider {
         $timer .= "\n            var slider = !window.jQuery ? window.setTimeout(timer_{$this->identifier}, 100) : !jQuery.isReady ? window.setTimeout(timer_{$this->identifier}, 1) : {$this->identifier}(window.jQuery);";
         $timer .= "\n        };";
         $timer .= "\n        timer_" . $identifier . "();";
-
-        /*$timer = "\n        var timer_{$this->identifier} = function() {
-            if ( typeof window.jQuery === 'undefined' ) {
-                window.setTimeout(timer_metaslider_{$this->identifier}, 100);
-            } else {
-                window.jQuery(function() { {$this->identifier}(window.jQuery) });
-            }
-        };
-        timer_{$this->identifier}();";*/
 
         $init = apply_filters("metaslider_timer", $timer, $this->identifier);
 
@@ -446,16 +441,24 @@ class MetaSlider {
 
     /**
      * Polyfill to handle the wp_add_inline_script() function.
+     *
+     * @param  string $handle   [description]
+     * @param  array  $data     [description]
+     * @param  string $position [description]
+     * @return array
      */
     public function wp_add_inline_script($handle, $data, $position = 'after') {
         if (function_exists('wp_add_inline_script')) return wp_add_inline_script($handle, $data, $position);
         global $wp_scripts;
         if (!$data) return false;
-        if ('after' !== $position) $position = 'before';
 
-        $script  = (array) $wp_scripts->get_data($handle, $position);
-        $script[] = $data;
-        return $wp_scripts->add_data($handle, $position, $script);
+        // First fetch any existing scripts
+        $script = $wp_scripts->get_data($handle, 'data');
+
+        // Append to the end
+        $script .= $data;
+
+        return $wp_scripts->add_data($handle, 'data', $script);
     }
 
     /**

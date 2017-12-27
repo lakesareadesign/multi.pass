@@ -349,12 +349,22 @@
 /*		Table
 ---------------------------------------------------------------*/
 
+.su-table {
+	width: 100%;
+	margin-bottom: 1.5em;
+}
 .su-table table {
 	width: 100% !important;
-	margin: 0 0 1.5em 0 !important;
+	margin: 0 !important;
 	border-collapse: collapse !important;
 	font-size: 1em !important;
 	border: 1px solid #ccc !important;
+}
+.su-table.su-table-responsive {
+	overflow-x: auto;
+}
+.su-table.su-table-responsive table {
+	width: auto !important;
 }
 .su-table th {
 	text-align: center !important;

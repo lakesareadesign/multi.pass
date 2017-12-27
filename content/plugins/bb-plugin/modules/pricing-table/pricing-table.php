@@ -12,8 +12,9 @@ class FLPricingTableModule extends FLBuilderModule {
 		parent::__construct(array(
 			'name'          	=> __( 'Pricing Table', 'fl-builder' ),
 			'description'   	=> __( 'A simple pricing table generator.', 'fl-builder' ),
-			'category'      	=> __( 'Advanced Modules', 'fl-builder' ),
+			'category'      	=> __( 'Layout', 'fl-builder' ),
 			'partial_refresh'	=> true,
+			'icon'				=> 'editor-table.svg',
 		));
 	}
 

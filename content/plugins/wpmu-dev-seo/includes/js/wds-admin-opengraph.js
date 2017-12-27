@@ -9,7 +9,7 @@
 		var template = '<div class="og-image item">' +
 			'<img src="{{= url }}" />' +
 			'<input type="hidden" value="{{= url }}" name="{{= name }}" />' +
-			'<a href="#remove" class="remove-action">&times;</a>' +
+			'<a href="#remove" class="remove-action"><i class="wds-icon-close"></i></a>' +
 		'</div>';
 
 		var init = function () {
@@ -79,22 +79,8 @@
 		$(".fields.og-images").each(function (idx, el) {
 			var imgs = new Wds.OgImage($(el));
 		});
-		$("fieldset.toggleable legend").off("click").on("click", function (e) {
-			if (e && e.stopPropagation) e.stopPropagation();
-			if (e && e.preventDefault) e.preventDefault();
 
-			$(this).closest("fieldset").toggleClass("inactive");
-
-			// So this is pretty horrible, but we have to work around the
-			// DEV ui library inflexibility. So, retrigger the current
-			// vertical tab click, in order to force it to recalculate heights.
-			// Only do it if we really need to, though.
-			if ($(".vertical-tabs").length) {
-				$(".vertical-tabs .tab>:radio:checked").trigger("click");
-			}
-
-			return false;
-		});
+		window.Wds.hook_toggleables();
 	}
 
 	$(init);

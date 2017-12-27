@@ -716,11 +716,19 @@ if (!class_exists('ALTER')) {
 .quicklinks li.alter_admin_title { width: 200px !important; }
 .quicklinks li.alter_admin_title a{ margin-left:20px !important; outline:none; border:none;}
 <?php
-$admin_logo = $this->aof_options['admin_logo'];
-$admin_logo_url = (is_numeric($admin_logo)) ? $this->alter_get_image_url($admin_logo) : $admin_logo;
-if(!empty($admin_logo_url)){ ?>
+if(!empty($this->aof_options['admin_external_logo_url']) && filter_var($this->aof_options['admin_external_logo_url'], FILTER_VALIDATE_URL)) {
+  $adminbar_logo = esc_url( $this->aof_options['admin_external_logo_url']);
+}
+else {
+  $adminbar_logo = (is_numeric($this->aof_options['admin_logo'])) ? $this->alter_get_image_url($this->aof_options['admin_logo']) : $this->aof_options['admin_logo'];
+}
+
+if(!empty($adminbar_logo)){
+  $hor_position = (empty($this->aof_options['logo_position']) || $this->aof_options['logo_position'] == 1) ?
+  "20px" : $this->aof_options['logo_position'];
+  ?>
 .quicklinks li.alter_admin_title a, .quicklinks li.alter_admin_title a:hover, .quicklinks li.alter_admin_title a:focus {
-    background:url(<?php echo $admin_logo_url;  ?>) left 0px no-repeat !important; text-indent:-9999px !important; width: auto; background-size: contain !important;
+    background:url(<?php echo $adminbar_logo;  ?>) <?php echo $hor_position; ?> center no-repeat !important; text-indent:-9999px !important; width: auto;background-size: contain!important;
 }
 <?php } ?>
 #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar>a img {width: 20px; height: 20px; border-radius: 100px; -moz-border-radius: 100px; -webkit-border-radius: 100px; border: none; }

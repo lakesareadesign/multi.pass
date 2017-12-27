@@ -1,6 +1,63 @@
 jQuery(function($) {
     
-        /*
+        /**
+         * Allow the user to click on the element to select it.
+         *
+         * @param string elm Element The html element to be selected
+         */
+        var metaslider_select_text = function (elm) {
+            var range;
+            var selection;
+
+            // Most browsers will be able to select the text
+            if (window.getSelection) {
+                selection = window.getSelection();
+                range = document.createRange();
+                range.selectNodeContents(elm);
+                selection.removeAllRanges();
+                selection.addRange(range);
+            } else if (document.body.createTextRange) {
+                range = document.body.createTextRange();
+                range.moveToElementText(elm);
+                range.select();
+            }
+
+            // Some browsers will be able to copy the text too!
+            try {
+                if (document.execCommand('copy')) {
+                    var notice = new MS_Notification(metaslider.success_language, metaslider.copied_language, undefined, 'is-success');
+                    notice.fire(2000);
+                }
+            } catch (err) {
+                console.log('MetaSlider: Couldn\'t copy the text');
+            }
+        };
+
+        // Select the shortcode on click
+        $('.ms-shortcode').on('click', function () {
+            metaslider_select_text(this);
+        });
+
+        // Select the entire codeblock when the button is clicked
+        $('.ms-copy-all').on('click', function (event) {
+            event.preventDefault();
+            metaslider_select_text(document.getElementById('ms-entire-code'));
+        });
+
+        /**
+         * Filter out spaces when copying the shortcode.
+         */
+        document.getElementById('ms-entire-code')
+                .addEventListener('copy', function(event) {
+            var text = window.getSelection()
+                .toString().split("'").map(function(string, index) {
+                    return (index === 1) ? string.replace(/\s/g, '').replace('ri', 'r i') : string;
+            }).join("'");
+            event.clipboardData.setData('text/plain', text);
+            event.preventDefault()
+        });
+
+        /**
          * UI for adding a slide. Managed through the WP media upload UI
          * Event managed here.
          */
@@ -29,7 +86,7 @@ jQuery(function($) {
             $.ajax({
                 url: metaslider.ajaxurl, 
                 data: data,
-                method: 'POST',
+                type: 'POST',
                 beforeSend: function() { MetaSlider_Helpers.loading(true); },
                 complete: function() {MetaSlider_Helpers.loading(false); },
                 error: function(response) {    
@@ -37,10 +94,10 @@ jQuery(function($) {
                 },
                 success: function(response) {
     
-                    /*
-                    * Echo Slide on success
-                    * TODO: instead have it return data and use JS to render it
-                    */           
+                    /**
+                     * Echo Slide on success
+                     * TODO: instead have it return data and use JS to render it
+                     */
                     $(".metaslider .left table").append(response);
                     MetaSlider_Helpers.loading(false)
                     $(".metaslider .left table").trigger('resizeSlides');
@@ -48,13 +105,13 @@ jQuery(function($) {
             });
         });
     
-        /*
-         * UI for changing slide image. Managed through the WP media upload UI
+        /**
+         * I for changing slide image. Managed through the WP media upload UI
          * Initialized dynamically due to multiple slides.
          */
         var update_slide_frame;
     
-        /*
+        /**
          * Opens the UI for the slide selection.
          */
         $('.metaslider').on('click', '.add-slide', function(event){
@@ -72,8 +129,8 @@ jQuery(function($) {
         $('.metaslider').on('click', '.update-image', function(event) {
             event.preventDefault();
             var $this = $(this);
-    
-            /*
+            
+            /**
              * Opens up a media window showing images
              */
             update_slide_frame = wp.media.frames.file_frame = wp.media({
@@ -84,7 +141,7 @@ jQuery(function($) {
                 }
             }).open();
     
-            /*
+            /**
              * Handles changing an image in DB and UI
              */
             update_slide_frame.on('select', function() {
@@ -108,7 +165,7 @@ jQuery(function($) {
                 $.ajax({
                     url: metaslider.ajaxurl, 
                     data: data,
-                    method: 'POST',
+                    type: 'POST',
                     beforeSend: function() { MetaSlider_Helpers.loading(true); },
                     complete: function() {MetaSlider_Helpers.loading(false); },
                     error: function(response) {    
@@ -116,7 +173,7 @@ jQuery(function($) {
                     },
                     success: function(response) {
     
-                        /*
+                       /**
                         * Updates the image on success
                         */
                         $('#slide-' + $this.data('slideId') + ' .thumb')
@@ -153,7 +210,7 @@ jQuery(function($) {
             $.ajax({
                 url: metaslider.ajaxurl, 
                 data: data,
-                method: 'POST',
+                type: 'POST',
                 error: function(response) {
 
                     // Delete failed. Remove delete state UI
@@ -233,7 +290,7 @@ jQuery(function($) {
             $.ajax({
                 url: metaslider.ajaxurl, 
                 data: data,
-                method: 'POST',
+                type: 'POST',
                 error: function(response) {
                     
                     // Undelete failed. Remove delete state UI
@@ -556,7 +613,6 @@ jQuery(function($) {
         });
 
     // UI/Feedback
-
     // Events for the slideshow title
     $('.metaslider .nav-tab-active input[name="title"]').on('focusin', function() {
 
@@ -594,6 +650,9 @@ var MetaSlider_Helpers = {
 
     /**
      * Various helper functions to use throughout
+     *
+     * @param  string string A string to capitalise
+     * @return string Returns capitalised string
      */
     capitalize: function(string) {
         return string.replace(/\b\w/g, function(l){ return l.toUpperCase(); });
@@ -601,9 +660,10 @@ var MetaSlider_Helpers = {
 
     /**
      * Sets some basic loading state UI elements of the app. Currently,
-     * it only enables or disables the input and shows a loading spinner.
-     * @property {boolean} state 
-     */    
+     * it only enables or disables the input and shows a loading spinner.#
+     *
+     * @param boolean state UI Elemetns
+     */
     loading: function(state) {
         if (state) {
             jQuery(".metaslider .spinner").show().css('visibility', 'visible');
@@ -656,7 +716,6 @@ var MS_Notification = function(message, submessage, image, _classname) {
     }
 
     // TODO add an option for svg
-    
     // If an extra class is set, set it
     ('undefined' !== typeof _classname) && this.notice.addClass(_classname);
     
@@ -677,8 +736,9 @@ MS_Notification.prototype.hide = function() {
 
 /**
  * Launch a notification and add a click event
- * @param int delay the time in milliseconds
- * @param string callback a method on the object or anon function
+ *
+ * @param int      delay    the time in milliseconds
+ * @param Function callback a method on the object or anon function
  */
 MS_Notification.prototype.fire = function(delay, callback) {
     var _this = this;

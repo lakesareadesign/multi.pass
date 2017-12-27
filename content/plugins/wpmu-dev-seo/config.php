@@ -7,7 +7,7 @@
  */
 
 // you can override this in wp-config.php to enable blog-by-blog settings in multisite
-if ( !defined( 'WDS_SITEWIDE' ) ) define( 'WDS_SITEWIDE', true );
+if ( !defined( 'WDS_SITEWIDE' ) ) define( 'WDS_SITEWIDE', get_site_option('wds_sitewide_mode', true) );
 
 // you can override this in wp-config.php to enable more posts in the sitemap, but you may need alot of memory
 if ( ! defined( 'WDS_SITEMAP_POST_LIMIT' ) ) define( 'WDS_SITEMAP_POST_LIMIT', 1000 );
@@ -39,6 +39,9 @@ if ( ! defined( 'WDS_SITEMAP_SKIP_ADMIN_UPDATE' ) ) define( 'WDS_SITEMAP_SKIP_AD
 
 if ( ! defined( 'WDS_EXPERIMENTAL_FEATURES_ON' ) ) define( 'WDS_EXPERIMENTAL_FEATURES_ON', false );
 if ( ! defined( 'WDS_ENABLE_LOGGING' ) ) define( 'WDS_ENABLE_LOGGING', false );
+
+if ( ! defined( 'WDS_WHITELABEL_ON' ) ) define( 'WDS_WHITELABEL_ON', false );
+if ( ! defined( 'WDS_OMIT_PORT_MATCHES' ) ) define( 'WDS_OMIT_PORT_MATCHES', false );
 
 /**
  * Setup plugin path and url.

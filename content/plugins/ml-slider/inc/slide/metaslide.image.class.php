@@ -25,8 +25,8 @@ class MetaImageSlide extends MetaSlide {
      * Currently this is used via an ajax call, but plans to keep this only called
      * by PHP methods, such as in an import situation.
      *
-     * @param int $slider_id  The id of the slider
-     * @param array $data The data information for the new slide
+     * @param int   $slider_id The id of the slider
+     * @param array $data      The data information for the new slide
      *
      * @return int | WP_error The status message and if success, the count
      */
@@ -59,8 +59,8 @@ class MetaImageSlide extends MetaSlide {
      * Adds a single slide.
      * TODO refactor and put this in a Slider class
      *
-     * @param int $slider_id  The id of the slider
-     * @param array $data The data information for the new slide
+     * @param int   $slider_id The id of the slider
+     * @param array $data      The data information for the new slide
      *
      * @return string | WP_error The status message and if success, echo string for now
      */
@@ -108,7 +108,12 @@ class MetaImageSlide extends MetaSlide {
             ), 401);
         }
 
-        // TODO create a slide object class with data requirements and types
+        /**
+         * TODO create a slide object class with data requirements and types
+         *
+         * @param  int $image_id Image ID
+         * @return array
+         */
         function make_image_slide_data($image_id) {
             return array(
                 'type' => 'image',
@@ -122,13 +127,11 @@ class MetaImageSlide extends MetaSlide {
 
         // TODO for now leave these out since it "echos" the slide...
         // if (is_wp_error($result)) {
-        //     return wp_send_json_error(array(
-        //         'messages' => $result->get_error_messages()
-        //     ), 409);
+        // return wp_send_json_error(array(
+        // 'messages' => $result->get_error_messages()
+        // ), 409);
         // }
-
         // return wp_send_json_success($result, 200);
-
     }
 
 
@@ -389,6 +392,7 @@ class MetaImageSlide extends MetaSlide {
     /**
      * Generate nivo slider markup
      *
+     * @param  string $slide html
      * @return string slide html
      */
     private function get_nivo_slider_markup( $slide ) {
@@ -423,6 +427,7 @@ class MetaImageSlide extends MetaSlide {
     /**
      * Generate flex slider markup
      *
+     * @param  string $slide html
      * @return string slide html
      */
     private function get_flex_slider_markup( $slide ) {
@@ -487,6 +492,10 @@ class MetaImageSlide extends MetaSlide {
     /**
      * Calculate the correct width (for vertical alignment) or top margin (for horizontal alignment)
      * so that images are never stretched above the height set in the slideshow settings
+     *
+     * @param  array $atts  Attributes
+     * @param  array $slide Slide details
+     * @return string
      */
     private function flex_smart_pad( $atts, $slide ) {
 
@@ -525,6 +534,7 @@ class MetaImageSlide extends MetaSlide {
     /**
      * Generate coin slider markup
      *
+     * @param  string $slide html
      * @return string slide html
      */
     private function get_coin_slider_markup( $slide ) {
@@ -559,6 +569,7 @@ class MetaImageSlide extends MetaSlide {
     /**
      * Generate responsive slides markup
      *
+     * @param  string $slide html
      * @return string slide html
      */
     private function get_responsive_slides_markup( $slide ) {
@@ -594,6 +605,8 @@ class MetaImageSlide extends MetaSlide {
 
     /**
      * Save
+     *
+     * @param  array $fields Fields to save
      */
     protected function save( $fields ) {
 

@@ -62,8 +62,8 @@
 			 * Initialize pair from DOM container element
 			 */
 			function init_from_element () {
-				var $kws = $el_or_keywords.find(":text:first"),
-					$lnk = $el_or_keywords.find(":text:last")
+				var $kws = $el_or_keywords.find(".wds-pair-keyword-field"),
+					$lnk = $el_or_keywords.find(".wds-pair-url-field")
 				;
 				return init_from_source(
 					_.map($kws.val().split(','), $.trim),
@@ -92,6 +92,7 @@
 			var _pairs = [],
 				_template = Wds.tpl_compile(Wds.template('keywords', 'custom')),
 				_pair_template = Wds.tpl_compile(Wds.template('keywords', 'pairs')),
+				_form_template = Wds.tpl_compile(Wds.template('keywords', 'form')),
 				_$textarea = $root.find("textarea"),
 				_$group = $root.find(".wds-replaceable")
 			;
@@ -134,42 +135,83 @@
 				},
 
 				/**
-				 * New pair click listener
+				 * Opens form dialog when adding new entry or editing an existing one
 				 *
 				 * @param {Object} e Event
 				 */
-				add: function (e) {
-					var pair = new Wds.Keywords.Pair();
-					add_pair(pair);
-					sync();
+				open_form: function (e) {
+					if (!e) {
+						return false;
+					}
+
+					var $this = $(e.target),
+						overlay_selector = "#wds-custom-keywords",
+						updated_form;
+
+					if ($this.is('[href="#edit"]')) {
+						var $el = $this.closest(".wds-keyword-pair"),
+							$keywords = $el.find(".wds-pair-keyword-field"),
+							$url = $el.find(".wds-pair-url-field"),
+							keywords = $.trim($keywords.val()),
+							url = $.trim($url.val());
+
+						updated_form = _form_template({keywords: keywords, url: url, idx: $el.data('idx')});
+					}
+					else {
+						updated_form = _form_template({keywords: '', url: '', idx: 0});
+					}
+
+					$(overlay_selector).replaceWith(updated_form);
+					WDP.showOverlay(overlay_selector, {});
+
+					WDP.overlay.box_content.on("click.wds-custom-keywords-modal", ".wds-action-button", _handlers.add_update);
+					WDP.overlay.box_content.on("click.wds-custom-keywords-modal", ".wds-cancel-button", WDP.closeOverlay);
 					return _handlers.stop(e);
 				},
 
 				/**
-				 * Existing pair change listener
+				 * Adds or updates pairs.
 				 *
 				 * @param {Object} e Event
 				 */
-				update: function (e) {
-					var $box = $(e.target).closest(".wds-keyword-pair"),
-						idx = parseInt($box.attr("data-idx"), 10) || false,
-						pair = new Wds.Keywords.Pair($box)
-					;
+				add_update: function (e) {
+					var $button = $(e.target),
+						$el = $button.closest('.wds-modal'),
+						$keywords = $el.find('input.wds-custom-keywords'),
+						$url = $el.find('input.wds-custom-url'),
+						$idx = $el.find('input.wds-custom-idx'),
+						keywords = $.trim($keywords.val()),
+						url = $.trim($url.val()),
+						idx = parseInt($idx.val());
 
-					if (idx && pair.is_valid()) {
-						update_pair(idx-1, pair);
-						sync();
+					if (idx > 0) {
+						var $new_box = $(_pair_template({
+							idx: idx,
+							url: url,
+							keywords: keywords
+						}));
+
+						$(".wds-keyword-pair[data-idx='" + idx + "']").replaceWith($new_box);
+
+						var existing_pair = new Wds.Keywords.Pair($new_box);
+						if (idx && existing_pair.is_valid()) {
+							update_pair(idx - 1, existing_pair);
+						}
 					}
+					else {
+						if (keywords) {
+							keywords = _.map(keywords.split(','), $.trim);
+						}
 
+						var new_pair = new Wds.Keywords.Pair(keywords, url);
+						if (new_pair.is_valid()) {
+							add_pair(new_pair);
+						}
+					}
+					sync();
+
+					WDP.closeOverlay();
 					return _handlers.stop(e);
-
-				},
-
-				show_button_overlay: function (e) {
-					$root.find(".wds-overlay").show();
-				},
-				hide_button_overlay: function (e) {
-					$root.find(".wds-overlay").hide();
 				}
 			};
 
@@ -182,20 +224,13 @@
 				render();
 
 				$root.on('click', 'a[href="#remove"]', _handlers.remove);
-				$root.on('click', 'button', _handlers.add);
-				$root.on('change', '.wds-keyword-pair :text', _handlers.update);
-				$root.on('mouseenter', '.wds-keyword-pair-new', _handlers.show_button_overlay);
-				$root.on('mouseleave', '.wds-keyword-pairs', _handlers.hide_button_overlay);
+				$root.on('click', 'a[href="#edit"]', _handlers.open_form);
+				$root.on('click', 'button', _handlers.open_form);
 			}
 
 			function render () {
 				var out = '',
-					$target = $root.find(".wds-keyword-pairs"),
-					template_pair = _pair_template({
-						idx: 0,
-						url: '',
-						keywords: ''
-					})
+					$target = $root.find(".wds-keyword-pairs")
 				;
 				$target.remove();
 				_.each(_pairs, function (pair, idx) {
@@ -208,10 +243,13 @@
 				_$group
 					.hide()
 					.after(_template({
-						pairs: out,
-						template_pair: template_pair
+						pairs: out
 					}))
 				;
+
+				$("body").append(_form_template({keywords: '', url: '', idx: 0}));
+
+				window.Wds.readjust_vertical_tabs_height();
 			}
 
 			/**

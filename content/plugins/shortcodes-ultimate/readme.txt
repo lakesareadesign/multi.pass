@@ -4,7 +4,7 @@ License: GPLv3
 Donate link: https://paypal.me/anovladimir
 Tags: shortcode, toggle, columns, button, slider, video, map, visual, responsive, shortcodes, youtube, vimeo, audio, mp3, tabs, jquery, box, accordion, toggle, pullquote, list, image, gallery, navigation, permalink, feed, rss, members, membership, guests, carousel, icons, rtl, multilingual
 Requires at least: 3.5
-Tested up to: 4.8
+Tested up to: 4.9
 Stable tag: trunk
 
 A comprehensive collection of visual components for your site
@@ -19,53 +19,38 @@ A comprehensive collection of visual components for your site
 * 1-click shortcode insertion with live preview
 * Works with any theme
 * Modern responsive design
+* [Comprehensive documentation](http://docs.getshortcodes.com/)
 * Custom CSS editor
 * Custom widget
-* Translated into 8 languages
+* Translated into 9 languages
 * RTL support
 * Powerful API
 
-= Want more? Check out premium add-ons! =
+= Check out premium add-ons! =
 * [Extra Shortcodes](https://getshortcodes.com/add-ons/extra-shortcodes/) - 15+ additional shortcodes
 * [Additional Skins](https://getshortcodes.com/add-ons/additional-skins/) - 60+ additional skins for plugin shortcodes
 * [Shortcode Creator](https://getshortcodes.com/add-ons/shortcode-creator/) - allows you to create your own custom shortcodes
 * __[Add-ons Bundle](https://getshortcodes.com/add-ons/add-ons-bundle/)__ - All-in-one!
 
-= Reviews by professionals =
-* [40+ Reasons Shortcodes Ultimate Is A Must Have Plugin](http://www.the-best-web-hosting-service.com/blog/2014/01/ultimateshortcodesreview/)
-* [Show Me the Shortcode](http://thewpchick.com/show-shortcode/) + Video
-* [Shortcodes Ultimate: Ultimatize your written content](http://wisdmlabs.com/blog/how-to-style-wordpress-themes-with-shortcodes-ultimate/)
-* [Shortcodes Ultimate Plugin Review](http://kevindankowebdesign.com/shortcodes-ultimate-plugin-review/)
-* [Add 40+ New Layout Features To WordPress with Shortcodes Ultimate](http://www.makeuseof.com/tag/add-40-new-layout-features-wordpress-shortcodes-ultimate/)
-* [Shortcodes Ultimate – Free Shortcode Plugin For WordPress](http://www.wordpress-masterclass.com/shortcodes-ultimate-free-shortcode-plugin-for-wordpress/)
-* (Video) [Supercharge WordPress With A Mega Pack Of Shortcodes!](https://www.youtube.com/watch?v=h5hlJb0mSSY)
-* (Video) [Shortcodes Ultimate Tutorial](http://www.youtube.com/watch?v=IjmaXz-b55I)
-* (Video) [How to use special widget](http://www.youtube.com/watch?v=YU3Zu6C5ZfA)
-* (Video) [How to create image gallery](http://www.youtube.com/watch?v=kCWyO2F7jTw)
-* (RU) [Обзор плагина Shortcodes Ultimate](http://rad-dom.ru/shortcodes-ultimate/)
-* (RU) [Shortcodes Ultimate — плагин неограниченных возможностей](http://altacademic.ru/shortcodes-ultimate/)
-* (RU) [Шорткоды Wordpress](http://somemoreinfo.ru/shortkody-wordpress-ot-anoxina/)
-
 = Thanks to these great guys for contribution =
+* [Detailed reviews by advanced users](http://docs.getshortcodes.com/article/84-external-resources)
 * Dmitry Semenov - [Magnific Popup jQuery plugin](http://dimsemenov.com/plugins/magnific-popup/)
 * Craig Thompson - [qTip jQuery plugin](http://qtip2.com/)
 * Vladimir Kharlampidi - [Swiper jQuery plugin](http://www.idangero.us/sliders/swiper/)
 * Dave Gandy - [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
 * James Smith - [Simple Slider jQuery plugin](http://loopj.com/jquery-simple-slider/)
-
-= Translators =
-* pt_br: [Ibidem Translations](http://www.ibidem-translations.com/)
-* fr_fr: [Nicolas Leclerc](http://etic-studio.fr/)
-* el_gr: [Kleanthis Manolopoulos](mailto:akis_manolopoulos_at_hotmail_dot_com)
-* sk_sk: [Patrik Žec (PATWIST)](http://patwist.com/)
-* cs_cz: [Punc00](http://nuze.cz/)
-* sv_se: [Javier Marcilla](http://ninjaseo.es/)
+* pt_br locale: [Ibidem Translations](http://www.ibidem-translations.com/)
+* fr_fr locale: [Nicolas Leclerc](http://etic-studio.fr/)
+* el_gr locale: [Kleanthis Manolopoulos](mailto:akis_manolopoulos_at_hotmail_dot_com)
+* sk_sk locale: [Patrik Žec (PATWIST)](http://patwist.com/)
+* cs_cz locale: [Punc00](http://nuze.cz/)
+* sv_se locale: [Javier Marcilla](http://ninjaseo.es/)
 
 == Installation ==
 
 Unzip plugin file and upload "shortcodes-ultimate" folder under your "/wp-content/plugins/" directory.
 
-Resulted names will be:
+Resulted plugin path should be:
 "/wp-content/plugins/shortcodes-ultimate/**"
 
 Activate the plugin at "Dashboard – Plugins" administration page.
@@ -75,17 +60,17 @@ Activate the plugin at "Dashboard – Plugins" administration page.
 
 == Screenshots ==
 
-1. Insert Shortcode button added above the post editor
-2. Insert Shortcode window
-3. Variations of [button] shortcode
-4. Tabs, spoilers, quotes/testimonials, boxes, notes
-5. Image slider, carousel and custom gallery
+1. Insert Shortcode button added above the editor
+2. Shortcode insertion window
+3. Shortcode settings
+4. Shortcodes: button, tabs, box, carousel
+5. Shortcodes: spoiler, service, list, columns, note
 
 
 == Frequently Asked Questions ==
 
 = How this plugin works =
-[How Shortcodes Ultimate plugin works](http://docs.getshortcodes.com/article/36-shortcodes-ultimate)
+[How Shortcodes Ultimate plugin works](http://docs.getshortcodes.com/article/36-shortcodes-ultimate).
 
 = Shortcodes do not work. Why? =
 The most common reasons of this issue are listed [here](http://docs.getshortcodes.com/article/41-shortcodes-do-not-work).
@@ -119,6 +104,16 @@ For help with premium add-ons, please [open new support ticket](https://getshort
 
 
 == Changelog ==
+
+= 5.0.2 =
+* Fixed: an issue where RTL stylesheet won't displayed if custom CSS field is empty
+* Fixed: icon sizes at 'Dashboard - Available Shortcodes' page
+* Fixed: [expand] shortcode now works when loaded through AJAX
+* Fixed: border-radius on [box] shortcode
+* Fixed: compatibility with 'Plugin Organizer'
+* Updated: OwlCarousel jQuery plugin
+* Added: new attribute 'responsive' for table shortcode: [su_table responsive="no|yes"]
+* Added: new attribute 'playsinline' for youtube_advanced shortcode: [su_youtube_advanced playsinline="no|yes"]
 
 = 5.0.1 =
 * Fixed: serious security vulnerability, which allows attacker to run any code using filter in meta, post, or user shortcodes. Thanks to Robert L Mathews.

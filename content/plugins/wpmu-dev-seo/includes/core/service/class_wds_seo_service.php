@@ -13,7 +13,7 @@ class WDS_Seo_Service extends WDS_Service {
 	}
 
 	public function is_cacheable_verb ($verb) {
-		return in_array($verb, array('start', 'result'));
+		return false;
 	}
 
 	public function get_service_base_url () {
@@ -54,8 +54,6 @@ class WDS_Seo_Service extends WDS_Service {
 			$verb .
 			$query_url
 		;
-		if (empty($verb)) return false;
-		return trailingslashit(trailingslashit($this->get_service_base_url()) . $verb);
 	}
 
 	public function get_request_arguments ($verb) {
@@ -101,58 +99,91 @@ class WDS_Seo_Service extends WDS_Service {
 	}
 
 	/**
+	 * Checks whether a call is currently being processed
+	 *
+	 * @return bool
+	 */
+	public function in_progress () {
+		$flag = $this->get_progress_flag();
+
+		$expected_timeout = intval($flag) + (HOUR_IN_SECONDS / 4);
+		if (!empty($flag) && is_numeric($flag) && time() > $expected_timeout) {
+			// Over timeout threshold, clear flag forcefully
+			$this->stop();
+		}
+
+		return !!$flag;
+	}
+
+	/**
+	 * Gets progress flag state
+	 *
+	 * @return bool
+	 */
+	public function get_progress_flag () {
+		return get_option($this->get_filter('seo-progress'), false);
+	}
+
+	/**
+	 * Sets progress flag state
+	 *
+	 * param bool $flag Whether the service check is in progress
+	 *
+	 * @return bool
+	 */
+	public function set_progress_flag ($flag) {
+		if (!empty($flag)) $flag = time();
+
+		return !!update_option($this->get_filter('seo-progress'), $flag);
+	}
+
+	/**
+	 * Stops expecting response
+	 *
+	 * @return bool
+	 */
+	public function stop () {
+		$this->set_progress_flag(false);
+		return true;
+	}
+
+	/**
 	 * Public wrapper for start service method call
 	 *
-	 * @return mixed Service response hash on success, (bool)false on failure
+	 * @return mixed Service response hash on success, (bool) on failure
 	 */
 	public function start () {
+		if ($this->in_progress()) return true; // Already in progress
+
 		WDS_Logger::debug('Starting a new crawl');
 		$result = $this->request('start');
 		if ($result) {
-			$this->_clear_result();
+			// Let's check if we're all good here first!
+			if (!empty($result['data']['status']) && (int)$result['data']['status'] > 399) {
+				// So we had an error API side that's been handled. We're not progressing anymore.
+				// Also, let's preserve previous results.
+				$this->stop();
+				WDS_Logger::debug('API-side isssue, properly handled API side: ' . $result['data']['status']);
+			} else {
+				// Also, preserve last crawl time if there isn't one
+				$this->set_last_run_timestamp();
+
+				// So crawl start successfully sent.
+				// Clear previous results in anticipation
+				// and mark ourselves as ready to receive status updates
+				$this->_clear_result();
+				$this->set_progress_flag(true);
+				WDS_Logger::debug('Crawl started');
+			}
+		} else {
+			$this->stop();
 		}
 
 		return $result;
 	}
 
 	private function _clear_result () {
-		$this->clear_cached('result');
-		delete_option($this->get_filter('seo-service-result'));
-	}
-
-	private function _get_result () {
-		$result = get_option($this->get_filter('seo-service-result'), false);
-		if (false === $result) {
-			$result = $this->get_cached('result');
-		}
-		return $result;
-	}
-
-	/**
-	 * Public result getter
-	 *
-	 * @return mixed result
-	 */
-	public function get_result () {
-		return $this->_get_result();
-	}
-
-	/**
-	 * Sets result to new value
-	 *
-	 * Sets both cache and permanent result
-	 *
-	 * @return bool
-	 */
-	public function set_result ($result) {
-		$this->set_cached('result', $result);
-
-		// Also clear ignores cache, we're dealing with the new result
-		if (!class_exists('WDS_Model_Ignores')) require_once(WDS_PLUGIN_DIR . 'core/class_wds_model_ignores.php');
-		$ignores = new WDS_Model_Ignores;
-		$ignores->clear();
-
-		return !!update_option($this->get_filter('seo-service-result'), $result);
+		return !!delete_option($this->get_filter('seo-service-result'));
 	}
 
 	/**
@@ -161,11 +192,15 @@ class WDS_Seo_Service extends WDS_Service {
 	 * @return mixed Service response hash on success, (bool)false on failure
 	 */
 	public function status () {
-		$result = $this->_get_result();
-		$result = !empty($result)
-			? $result
-			: $this->request('status')
-		;
+		$result = false;
+
+		WDS_Logger::debug('Requesting crawl status');
+		$result = $this->request('status');
+		// On success, extend the ping time a bit
+		if (!empty($result)) {
+			WDS_Logger::debug('Got status, extending run time');
+			$this->set_progress_flag(true);
+		}
 
 		return $result;
 	}
@@ -176,12 +211,89 @@ class WDS_Seo_Service extends WDS_Service {
 	 * @return mixed Service response hash on success, (bool)false on failure
 	 */
 	public function result () {
-		$result = $this->request('result');
-		if (!empty($result)) {
-			$this->set_result($result);
+		$result = false;
+
+		if ($this->in_progress()) {
+			WDS_Logger::debug('Requesting live crawl result');
+			$result = $this->request('result');
+			if (!empty($result)) {
+				$this->set_result($result);
+				$this->set_progress_flag(false);
+				$this->set_last_run_timestamp();
+				WDS_Logger::debug('Live crawl result obtained. Stopping.');
+			}
+		} else {
+			WDS_Logger::debug('Requesting cached crawl result');
+			$result = $this->get_result();
+			if (empty($result)) {
+				WDS_Logger::debug('No cached crawl result. Extending runtime and trying again.');
+				$this->set_progress_flag(true);
+				return $this->result();
+			}
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Public result getter
+	 *
+	 * @return mixed result
+	 */
+	public function get_result () {
+		$result = get_option($this->get_filter('seo-service-result'), false);
+		return $result;
+	}
+
+	/**
+	 * Sets result to new value
+	 *
+	 * Sets both cache and permanent result
+	 *
+	 * @return bool
+	 */
+	public function set_result ($result) {
+		return !!update_option($this->get_filter('seo-service-result'), $result);
+	}
+
+	/**
+	 * Returns last service run time
+	 *
+	 * Returns either time embedded in results, or the timestamp
+	 * from the results service, whichever is greater.
+	 *
+	 * @return int UNIX timestamp
+	 */
+	public function get_last_run_timestamp () {
+		$recorded = (int)get_option($this->get_filter('seo-service-last_runtime'), 0);
+
+		$raw = $this->get_result();
+		$embedded = !empty($raw['end']) ? (int)$raw['end'] : 0;
+		if (empty($embedded) && !empty($raw['issues']['previous']['timestamp'])) {
+			$embedded = (int)$raw['issues']['previous']['timestamp'];
+		}
+
+		return max($recorded, $embedded);
+	}
+
+	/**
+	 * Sets service last run time
+	 *
+	 * Attempts to use embedded result, and falls back
+	 * to current timestamp
+	 *
+	 * @return bool
+	 */
+	public function set_last_run_timestamp () {
+		$raw = $this->get_result();
+		$timestamp = !empty($raw['end']) ? (int)$raw['end'] : 0;
+		if (empty($timestamp) && !empty($raw['issues']['previous']['timestamp'])) {
+			$timestamp = (int)$raw['issues']['previous']['timestamp'];
+		}
+
+		if (empty($timestamp)) $timestamp = time();
+
+		return !!update_option($this->get_filter('seo-service-last_runtime'), $timestamp);
 	}
 
 	public function handle_error_response ($response) {

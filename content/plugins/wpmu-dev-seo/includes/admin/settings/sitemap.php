@@ -60,20 +60,78 @@ class WDS_Sitemap_Settings extends WDS_Settings_Admin {
 		// BuddyPress-specific
 		$bpo = $this->_get_buddyress_template_values();
 		if (!empty($bpo['exclude_groups']) && is_array($bpo['exclude_groups'])) {
-			$input['exclude_bp_groups'] = is_array($input['exclude_bp_groups']) ? $input['exclude_bp_groups'] : array();
+			$input['exclude_bp_groups'] = !empty($input['exclude_bp_groups']) && is_array($input['exclude_bp_groups']) ? $input['exclude_bp_groups'] : array();
 			foreach ($bpo['exclude_groups'] as $slug => $name) {
 				$key = "sitemap-buddypress-{$slug}";
-				$result[$key] = in_array($slug, $input['exclude_bp_groups']);
+				$result[$key] = in_array($key, $input['exclude_bp_groups']);
 			}
 		}
 
 		if (!empty($bpo['exclude_roles']) && is_array($bpo['exclude_roles'])) {
-			$input['exclude_bp_roles'] = is_array($input['exclude_bp_roles']) ? $input['exclude_bp_roles'] : array();
+			$input['exclude_bp_roles'] = isset($input['exclude_bp_roles']) && is_array($input['exclude_bp_roles']) ? $input['exclude_bp_roles'] : array();
 			foreach ($bpo['exclude_roles'] as $slug => $name) {
 				$key = "sitemap-buddypress-roles-{$slug}";
-				$result[$key] = in_array($slug, $input['exclude_bp_roles']);
+				$result[$key] = in_array($key, $input['exclude_bp_roles']);
 			}
 		}
+
+		// Meta tags
+		if (!empty($input['verification-google-meta'])) {
+			$result['verification-google-meta'] = $input['verification-google-meta'];
+			$result['verification-google'] = false;
+		}
+		if (!empty($input['verification-bing-meta'])) {
+			$result['verification-bing-meta'] = $input['verification-bing-meta'];
+			$result['verification-bing'] = false;
+		}
+
+		$custom_values_key = 'additional-metas';
+		if (!empty($input[ $custom_values_key ]) && is_array($input[ $custom_values_key ])) {
+			$result[ $custom_values_key ] = $input[ $custom_values_key ];
+		}
+
+		$result = $this->_validate_crawler_settings($input, $result);
+
+		if (isset($input['extra_sitemap_urls'])) {
+			$extra_urls = explode("\n", $input['extra_sitemap_urls']);
+			$sanitized_extra_urls = array();
+			foreach ($extra_urls as $extra_url) {
+				if(trim($extra_url))
+				{
+					$sanitized_extra_urls[] = esc_url($extra_url);
+				}
+			}
+			WDS_XML_Sitemap::set_extra_urls($sanitized_extra_urls);
+
+			unset($input['extra_sitemap_urls']);
+		}
+
+		return $result;
+	}
+
+	private function _validate_crawler_settings ($input, $result) {
+		if (empty($input['crawler-cron-enable'])) {
+			$result['crawler-cron-enable'] = false;
+			return $result;
+		} else $result['crawler-cron-enable'] = true;
+
+		$frequency = !empty($input['crawler-frequency'])
+			? WDS_Controller_Cron::get()->get_valid_frequency($input['crawler-frequency'])
+			: WDS_Controller_Cron::get()->get_default_frequency()
+		;
+		$result['crawler-frequency'] = $frequency;
+
+		$dow = isset($input['crawler-dow']) && is_numeric($input['crawler-dow'])
+			? (int)$input['crawler-dow']
+			: 0
+		;
+		$result['crawler-dow'] = in_array($dow, range(0,6)) ? $dow : 0;
+
+		$tod = isset($input['crawler-tod']) && is_numeric($input['crawler-tod'])
+			? (int)$input['crawler-tod']
+			: 0
+		;
+		$result['crawler-tod'] = in_array($tod, range(0,23)) ? $tod : 0;
 
 		return $result;
 	}
@@ -85,6 +143,8 @@ class WDS_Sitemap_Settings extends WDS_Settings_Admin {
 		$this->action_url  = admin_url( 'options.php' );
 		$this->title       = __( 'Sitemap', 'wds' );
 		$this->page_title  = __( 'SmartCrawl Wizard: Sitemap', 'wds' );
+
+		add_action('wp_ajax_wds-toggle-sitemap-status', array($this, 'json_toggle_sitemap_status'));
 
 		parent::init();
 	}
@@ -103,7 +163,7 @@ class WDS_Sitemap_Settings extends WDS_Settings_Admin {
 		)) as $post_type) {
 			if (in_array($post_type, array('revision', 'nav_menu_item', 'attachment'))) continue;
 			$pt = get_post_type_object($post_type);
-			$options['post_types-' . $post_type . '-not_in_sitemap'] = $pt->labels->name;
+			$options['post_types-' . $post_type . '-not_in_sitemap'] = $pt;
 		}
 
 		return $options;
@@ -123,10 +183,30 @@ class WDS_Sitemap_Settings extends WDS_Settings_Admin {
 		)) as $taxonomy) {
 			if (in_array($taxonomy, array('nav_menu', 'link_category', 'post_format'))) continue;
 			$tax = get_taxonomy($taxonomy);
-			$options['taxonomies-' . $taxonomy . '-not_in_sitemap'] = $tax->labels->name;
+			$options['taxonomies-' . $taxonomy . '-not_in_sitemap'] = $tax;
 		}
 
 		return $options;
+	}
+
+	public function run_crawl () {
+		if (current_user_can('manage_options')) {
+			$service = WDS_Service::get(WDS_Service::SERVICE_SEO);
+			$service->start();
+		}
+		wp_safe_redirect(esc_url(remove_query_arg('run-crawl')));
+		die;
+	}
+
+	/**
+	 * Process run action
+	 *
+	 * @return void
+	 */
+	public function process_run_action () {
+		if (!empty($_GET['run-crawl'])) {
+			return $this->run_crawl();
+		}
 	}
 
 	/**
@@ -152,11 +232,11 @@ class WDS_Sitemap_Settings extends WDS_Settings_Admin {
 			),
 		);
 
-		foreach ($this->_get_post_types_options() as $opt => $name) {
-			$arguments['post_types'][$opt] = $name;
+		foreach ($this->_get_post_types_options() as $opt => $post_type) {
+			$arguments['post_types'][$opt] = $post_type;
 		}
-		foreach ($this->_get_taxonomies_options() as $opt => $name) {
-			$arguments['taxonomies'][$opt] = $name;
+		foreach ($this->_get_taxonomies_options() as $opt => $taxonomy) {
+			$arguments['taxonomies'][$opt] = $taxonomy;
 		}
 
 		$arguments['google_msg'] = !empty($wds_options['verification-google'])
@@ -170,8 +250,18 @@ class WDS_Sitemap_Settings extends WDS_Settings_Admin {
 
 		$arguments['wds_buddypress'] = $this->_get_buddyress_template_values();
 
+		$arguments['active_tab'] = $this->_get_last_active_tab('tab_sitemap');
+
+		$extra_urls = WDS_XML_Sitemap::get_extra_urls();
+		if (is_array($extra_urls)) {
+			$arguments['extra_urls'] = !empty($extra_urls)
+				? implode("\n", $extra_urls)
+				: ''
+			;
+		}
+
 		wp_enqueue_script('wds-admin-sitemaps');
-		$this->_render_page('sitemap-settings', $arguments);
+		$this->_render_page('sitemap/sitemap-settings', $arguments);
 	}
 
 	/**
@@ -264,17 +354,14 @@ class WDS_Sitemap_Settings extends WDS_Settings_Admin {
 			$this->options['sitemap-buddypress-profiles'] = 0;
 		}
 
-		// if ( empty($this->options['newssitemappath']) ) {
-		// 	$this->options['newssitemappath'] = $path . 'news_sitemap.xml';
-		// }
+		if (empty($this->options['verification-google-meta'])) $this->options['verification-google-meta'] = '';
+		if (empty($this->options['verification-bing-meta'])) $this->options['verification-bing-meta'] = '';
+		if (empty($this->options['additional-metas'])) $this->options['additiona-metas'] = array();
 
-		// if ( empty($this->options['newssitemapurl']) ) {
-		// 	$this->options['newssitemapurl'] = get_bloginfo( 'url' ) . '/news_sitemap.xml';
-		// }
-
-		// if ( empty($this->options['enablexmlsitemap']) ) {
-		// 	$this->options['enablexmlsitemap'] = 1;
-		// }
+		if (!isset($this->options['crawler-cron-enable'])) $this->options['crawler-cron-enable'] = false;
+		if (!isset($this->options['crawler-frequency'])) $this->options['crawler-frequency'] = WDS_Controller_Cron::get()->get_default_frequency();
+		if (!isset($this->options['crawler-dow'])) $this->options['crawler-dow'] = 0;
+		if (!isset($this->options['crawler-tod'])) $this->options['crawler-tod'] = 0;
 
 		if( is_multisite() && WDS_SITEWIDE ) {
 			update_site_option( $this->option_name, $this->options );
@@ -283,4 +370,22 @@ class WDS_Sitemap_Settings extends WDS_Settings_Admin {
 		}
 	}
 
+	public function json_toggle_sitemap_status()
+	{
+		$data = stripslashes_deep($_POST);
+		$status = (bool)wds_get_array_value($data, 'sitemap_active');
+		$return = array('success' => false);
+
+		if ($status === null) {
+			wp_send_json($return);
+			return;
+		}
+
+		$options = self::get_specific_options('wds_settings_options');
+		$options['sitemap'] = $status;
+		self::update_specific_options('wds_settings_options', $options);
+
+		$return['success'] = true;
+		wp_send_json($return);
+	}
 }

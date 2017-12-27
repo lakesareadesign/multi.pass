@@ -1,5 +1,5 @@
 <?php defined( 'ABSPATH' ) or exit; ?>
-<?php $addons = $this->get_plugin_addons(); ?>
+<?php $addons = $this->get_addons(); ?>
 
 <div id="su_admin_addons" class="wrap su-admin-addons wp-clearfix">
 

@@ -52,79 +52,111 @@ class WDS_Autolinks_Settings extends WDS_Settings_Admin {
 	 * @return array Validated input
 	 */
 	public function validate ($input) {
+		$save_redirects = isset($input['save_redirects']) && $input['save_redirects'];
+		if ($save_redirects) {
+			$this->save_redirects($input);
+
+			$result = self::get_specific_options($this->option_name);
+
+			if (isset($input['redirect-attachments'])) {
+				$result['redirect-attachments'] = !empty($input['redirect-attachments']);
+			}
+			if (isset($input['redirect-attachments-images_only'])) {
+				$result['redirect-attachments-images_only'] = !empty($input['redirect-attachments-images_only']);
+			}
+
+			if (isset($input['redirections-code'])) {
+				$this->_validate_and_save_extra_options($input);
+			}
+
+			return $result;
+		}
+
+		$service = $this->get_site_service();
+
 		$result = array();
 
 		if (!empty($input['wds_autolinks-setup'])) $result['wds_autolinks-setup'] = true;
 
-		// Booleans
-		$booleans = array(
-			'comment',
-			'onlysingle',
-			'allowfeed',
-			'casesens',
-			'customkey_preventduplicatelink',
-			'target_blank',
-			'rel_nofollow',
-			'allow_empty_tax',
-			'excludeheading',
-		);
+		if ($service->is_member()) {
+			// Booleans
+			$booleans = array(
+				'comment',
+				'onlysingle',
+				'allowfeed',
+				'casesens',
+				'customkey_preventduplicatelink',
+				'target_blank',
+				'rel_nofollow',
+				'allow_empty_tax',
+				'excludeheading',
+			);
 
-		foreach ($booleans as $bool) {
-			if (!empty($input[$bool])) $result[$bool] = true;
-		}
-
-		// Boolean Arrays
-		$input['insert_links_in'] = is_array($input['insert_links_in']) ? $input['insert_links_in'] : array();
-		$input['insert_links_to'] = is_array($input['insert_links_to']) ? $input['insert_links_to'] : array();
-		foreach (array_keys(self::get_post_types()) as $post_type) {
-			$result[$post_type] = in_array($post_type, $input['insert_links_in']);
-			$result["l{$post_type}"] = in_array("l{$post_type}", $input['insert_links_to']);
-		}
-		foreach (get_taxonomies() as $taxonomy) {
-			$tax = get_taxonomy($taxonomy);
-			$key = strtolower($tax->labels->name);
-			$result["l{$key}"] = in_array("l{$key}", $input['insert_links_to']);
-		}
-
-		// Numerics
-		$numeric = array(
-			'cpt_char_limit',
-			'tax_char_limit',
-			'link_limit',
-			'single_link_limit',
-		);
-		foreach ($numeric as $num) {
-			if (isset($input[$num])) {
-				if (is_numeric($input[$num])) $result[$num] = (int)$input[$num];
-				else if (!empty($input[$num])) add_settings_error($num, $num, __('Limit values must be numeric'));
+			foreach ($booleans as $bool) {
+				if (!empty($input[$bool])) $result[$bool] = true;
 			}
-		}
 
-		// Strings
-		$strings = array(
-			'ignore',
-			'ignorepost',
-		);
-		foreach ($strings as $str) {
-			if (isset($input[$str])) $result[$str] = sanitize_text_field($input[$str]);
-		}
-
-		// Custom keywords, they need newlines
-		if (isset($input['customkey'])) {
-			$str = wp_check_invalid_utf8($input['customkey']);
-			$str = wp_pre_kses_less_than($str);
-			$str = wp_strip_all_tags($str);
-			$result['customkey'] = $str;
-
-			$found = false;
-			while ( preg_match('/%[a-f0-9]{2}/i', $str, $match) ) {
-				$str = str_replace($match[0], '', $str);
-				$found = true;
+			// Boolean Arrays
+			$post_type_names = array_keys(self::get_post_types());
+			foreach (array_merge($post_type_names, array('comment')) as $post_type) {
+				$result[$post_type] = in_array($post_type, $input);
 			}
-			if ($found) $str = trim(preg_replace('/ +/', ' ', $str));
+			foreach ($post_type_names as $post_type) {
+				$result["l{$post_type}"] = in_array("l{$post_type}", $input);
+			}
+			foreach (get_taxonomies() as $taxonomy) {
+				$tax = get_taxonomy($taxonomy);
+				$key = strtolower($tax->labels->name);
+				$result["l{$key}"] = in_array("l{$key}", $input);
+			}
+
+			// Numerics
+			$numeric = array(
+				'cpt_char_limit',
+				'tax_char_limit',
+				'link_limit',
+				'single_link_limit',
+			);
+			foreach ($numeric as $num) {
+				if (isset($input[$num])) {
+					if (is_numeric($input[$num])) $result[$num] = (int)$input[$num];
+					else if (!empty($input[$num])) add_settings_error($num, $num, __('Limit values must be numeric'));
+				}
+			}
+
+			// Strings
+			$strings = array(
+				'ignore',
+				'ignorepost',
+			);
+			foreach ($strings as $str) {
+				if (isset($input[$str])) $result[$str] = sanitize_text_field($input[$str]);
+			}
+
+			// Custom keywords, they need newlines
+			if (isset($input['customkey'])) {
+				$str = wp_check_invalid_utf8($input['customkey']);
+				$str = wp_pre_kses_less_than($str);
+				$str = wp_strip_all_tags($str);
+				$result['customkey'] = $str;
+
+				$found = false;
+				while ( preg_match('/%[a-f0-9]{2}/i', $str, $match) ) {
+					$str = str_replace($match[0], '', $str);
+					$found = true;
+				}
+				if ($found) $str = trim(preg_replace('/ +/', ' ', $str));
+			}
 		}
 
 		return $result;
+	}
+
+	private function _validate_and_save_extra_options($input)
+	{
+		$settings = WDS_Settings::get_specific_options('wds_settings_options');
+		$settings['redirections-code'] = (int)$input['redirections-code'];
+		WDS_Settings::update_specific_options('wds_settings_options', $settings);
 	}
 
 	public function init () {
@@ -132,14 +164,27 @@ class WDS_Autolinks_Settings extends WDS_Settings_Admin {
 		$this->name = WDS_Settings::COMP_AUTOLINKS;
 		$this->slug = WDS_Settings::TAB_AUTOLINKS;
 		$this->action_url = admin_url( 'options.php' );
-		$this->title = __( 'Automatic Links', 'wds' );
-		$this->page_title = __( 'SmartCrawl Wizard: Automatic Links', 'wds' );
+		$this->title = __( 'Advanced Tools', 'wds' );
+		$this->page_title = __( 'SmartCrawl Wizard: Advanced Tools', 'wds' );
 
 		add_action('wp_ajax_wds-load_exclusion-post_data', array($this, 'json_load_post'));
 		add_action('wp_ajax_wds-load_exclusion_posts-posts_data-specific', array($this, 'json_load_posts_specific'));
 		add_action('wp_ajax_wds-load_exclusion_posts-posts_data-paged', array($this, 'json_load_posts_paged'));
+		add_action('admin_init', array($this, 'reset_moz_api_credentials'));
 
 		parent::init();
+	}
+
+	public function reset_moz_api_credentials()
+	{
+		if (isset($_POST['reset-moz-credentials']) && $_POST['reset-moz-credentials']) {
+			$options = self::get_specific_options('wds_settings_options');
+			unset($options['access-id']);
+			unset($options['secret-key']);
+			self::update_specific_options('wds_settings_options', $options);
+
+			wp_redirect(esc_url_raw(wp_get_referer()));
+		}
 	}
 
 	/**
@@ -302,20 +347,18 @@ class WDS_Autolinks_Settings extends WDS_Settings_Admin {
 				$taxonomies["l{$key}"] = $tax->labels->name;
 			}
 		}
+		$redirection_model = new WDS_Model_Redirection;
+		$arguments['redirections'] = $redirection_model->get_all_redirections();
+		$arguments['redirection_types'] = $redirection_model->get_all_redirection_types();
+
 		$arguments['linkto'] = array_merge( $post_types, $taxonomies );
 		$arguments['insert']['comment'] = __( 'Comments' , 'wds');
 
-		$arguments['reduce_load'] = array(
-			'onlysingle'                     => __( 'Process only single posts and pages' , 'wds' ),
-			'allowfeed'                      => __( 'Process RSS feeds' , 'wds' ),
-			'casesens'                       => __( 'Case sensitive matching' , 'wds' ),
-			'customkey_preventduplicatelink' => __( 'Prevent duplicate links' , 'wds' ),
-			'target_blank'                   => __( 'Open links in new tab/window', 'wds' ),
-			'rel_nofollow'                   => __( 'Autolinks nofollow', 'wds' ),
-		);
+		$arguments['active_tab'] = $this->_get_last_active_tab('tab_automatic_linking');
 
 		wp_enqueue_script('wds-admin-autolinks');
-		$this->_render_page('autolinks-settings', $arguments);
+		wp_enqueue_script('wds-admin-redirects');
+		$this->_render_page('advanced-tools/advanced-tools-settings', $arguments);
 	}
 
 	/**
@@ -341,12 +384,75 @@ class WDS_Autolinks_Settings extends WDS_Settings_Admin {
 			$this->options['customkey'] = '';
 		}
 
+		if (empty($this->options['cpt_char_limit'])) {
+			$this->options['cpt_char_limit'] = '';
+		}
+
+		if (empty($this->options['tax_char_limit'])) {
+			$this->options['tax_char_limit'] = '';
+		}
+
+		if (empty($this->options['link_limit'])) {
+			$this->options['link_limit'] = '';
+		}
+
+		if (empty($this->options['single_link_limit'])) {
+			$this->options['single_link_limit'] = '';
+		}
+
 		if( is_multisite() && WDS_SITEWIDE ) {
 			update_site_option( $this->option_name, $this->options );
 		} else {
 			update_option( $this->option_name, $this->options );
 		}
+	}
 
+	/**
+	 * @param $input
+	 * @return mixed
+	 */
+	public function save_redirects($input) {
+		$urls = !empty($input['urls']) && is_array($input['urls'])
+			? $input['urls']
+			: array();
+		$redirection_model = new WDS_Model_Redirection;
+
+		$new_urls = array();
+		$new_types = array();
+		foreach ($urls as $index => $url_details) {
+			$source = wds_get_array_value($url_details, 'source');
+			$source = trim(esc_url($source));
+
+			$destination = wds_get_array_value($url_details, 'destination');
+			$destination = trim(esc_url($destination));
+
+			if(!trim($source) || !trim($destination)) {
+				continue;
+			}
+			if (!preg_match('/^https?:\/\//', $source)) $source = home_url($source);
+			if (!preg_match('/^https?:\/\//', $destination)) $destination = home_url($destination);
+
+			$new_urls[ $source ] = $destination;
+
+			$type = wds_get_array_value($url_details, 'type');
+			$status = $redirection_model->get_valid_redirection_status_type($type);
+
+			$new_types[ $source ] = $status;
+		}
+		$redirection_model->set_all_redirections($new_urls);
+		$redirection_model->set_all_redirection_types($new_types);
+	}
+
+	/**
+	 * @return object
+	 */
+	private function get_site_service()
+	{
+		if (!class_exists('WDS_Service')) {
+			require_once(WDS_PLUGIN_DIR . 'core/class_wds_service.php');
+		}
+		$service = WDS_Service::get(WDS_Service::SERVICE_SITE);
+		return $service;
 	}
 
 }

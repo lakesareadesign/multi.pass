@@ -2,7 +2,7 @@
 /**
  * Outputs OG tags to the page
  */
-class Wds_OpenGraph_Printer {
+class WDS_OpenGraph_Printer {
 
 	/**
 	 * Singleton instance holder
@@ -10,6 +10,7 @@ class Wds_OpenGraph_Printer {
 	private static $_instance;
 
 	private $_is_running = false;
+	private $_is_done = false;
 
 	public function __construct () {
 	}
@@ -17,7 +18,7 @@ class Wds_OpenGraph_Printer {
 	/**
 	 * Singleton instance getter
 	 *
-	 * @return object Wds_OpenGraph_Printer instance
+	 * @return WDS_OpenGraph_Printer instance
 	 */
 	public static function get () {
 		if (empty(self::$_instance)) {
@@ -39,7 +40,8 @@ class Wds_OpenGraph_Printer {
 			return true;
 		}
 
-		add_action('wp_head', array($this, 'dispatch_og_tags_injection'));
+		add_action('wp_head', array($this, 'dispatch_og_tags_injection'), 50);
+		add_action('wds_head-after_output', array($this, 'dispatch_og_tags_injection'));
 
 		$this->_is_running = true;
 	}
@@ -48,6 +50,14 @@ class Wds_OpenGraph_Printer {
 	 * First-line dispatching of OG tags injection
 	 */
 	public function dispatch_og_tags_injection () {
+		if (!!$this->_is_done) return false;
+
+		$settings = WDS_Settings::get_component_options(WDS_Settings::COMP_SOCIAL);
+		if (empty($settings['og-enable'])) return false;
+		$this->inject_global_tags();
+
+		$this->_is_done = true;
+
 		return is_singular()
 			? $this->inject_specific_og_tags()
 			: $this->inject_generic_og_tags()
@@ -55,38 +65,102 @@ class Wds_OpenGraph_Printer {
 	}
 
 	/**
+	 * Injects globally valid tags - regardless of context
+	 */
+	public function inject_global_tags () {
+		$settings = WDS_Settings::get_component_options(WDS_Settings::COMP_SOCIAL);
+		if (!empty($settings['fb-app-id'])) {
+			$this->print_og_tag('fb:app_id', $settings['fb-app-id']);
+		}
+	}
+
+	public function get_post_images () {
+		$raw = wds_get_value('opengraph');
+		return !empty($raw['images']) ? $raw['images'] : array();
+	}
+
+	public function get_tag_value ($suffix) {
+		$raw = wds_get_value('opengraph');
+		$post = get_post();
+		return empty($raw[$suffix])
+			? $this->get_generic_og_tag_value("og-{$suffix}", get_post_type($post))
+			: $raw[$suffix]
+		;
+	}
+
+	/**
 	 * Attempt to use post-specific meta setup to resolve tag values
+	 *
 	 * Fallback to generic, global values
+	 *
+	 * @return void
 	 */
 	public function inject_specific_og_tags () {
 		$post = get_post();
 		if (!is_object($post) || empty($post->ID)) return false;
 
+		// Check custom values for OG disabled per post first
 		$raw = wds_get_value('opengraph');
-		if (empty($raw)) return $this->inject_generic_og_tags();
+		if (!is_array($raw)) $raw = array();
+		if (!empty($raw['disabled'])) return false; // Bail out, no OG here
+
+		if (isset($raw['disabled'])) unset($raw['disabled']); // So we can carry on with the logic
+
+		$image_urls = array();
 
 		// Attempt to use featured image, if any
+		// Do this first, so we can fall back to generic stuff
+		// if needs be
 		if (has_post_thumbnail($post)) {
 			$url = get_the_post_thumbnail_url();
-			if (!empty($url)) $this->print_og_tag("og:image", $url);
+			if (!empty($url)) {
+				$this->print_og_tag("og:image", $url);
+				$image_urls[] = $url;
+			}
 		}
 
+		$raw = array_filter($raw);
+		if (empty($raw)) return $this->inject_generic_og_tags();
+
 		// Separately process any other images
-		$images = !empty($raw['images']) ? $raw['images'] : array();
+		$images = $this->get_post_images();
 		unset($raw['images']);
 		foreach ($images as $img) {
+			if (in_array($img, $image_urls)) continue; // Do not double-print images
 			$this->print_og_tag('og:image', $img);
+			$image_urls[] = $img;
 		}
 
 		$supported_keys = array('title', 'description', 'images');
 		foreach ($supported_keys as $key) {
-			$value = empty($raw[$key])
-				? $this->get_generic_og_tag_value("og-{$key}", get_post_type($post))
-				: $raw[$key]
-			;
+			$value = $this->get_tag_value($key);
 			if (empty($value)) continue;
 
+			if ('images' === $key) {
+				if (is_array($value)) {
+					$clean = array();
+					foreach ($value as $img) {
+						if (in_array($img, $image_urls)) continue; // Do not double-print images
+						$clean[] = $img;
+						$image_urls[] = $img;
+					}
+					$value = $clean;
+				} else if (!empty($value)) {
+					if (in_array($value, $image_urls)) continue; // Do not double-print images
+					$image_urls[] = $value;
+				}
+			}
+
 			$this->print_og_tag("og:{$key}", $value);
+		}
+
+		$date = get_the_date("Y-m-d\TH:i:s", $post);
+		$this->print_og_tag('article:published_time', $date);
+
+		$user_id = $post->post_author;
+		if (!empty($user_id)) {
+			$user = WDS_Model_User::get($user_id);
+			$this->print_og_tag('article:author', $user->get_full_name());
 		}
 	}
 
@@ -118,16 +192,41 @@ class Wds_OpenGraph_Printer {
 			return false; // We don't know what to do here
 		}
 
+		$wds_options = WDS_Settings::get_options();
+		if(empty($wds_options["og-active-{$type}"]) || !$wds_options["og-active-{$type}"]) {
+			return false;
+		}
+
 		foreach ($keys as $key) {
 			$this->print_og_tag($key, $this->get_generic_og_tag_value($key, $type));
 		}
 	}
 
+	/**
+	 * Gets a generic OG tag value
+	 *
+	 * Value will be resolved to what's in OG settings, or
+	 * alternatively will fall back to title/description
+	 * resolution for those tags specifically.
+	 *
+	 * @param string $key OG tag internal key representation
+	 * @param string $type Entity type
+	 *
+	 * @return string|bool Either a resolved tag value, or false on failure
+	 */
 	public function get_generic_og_tag_value ($key, $type) {
 		if (empty($key) || empty($type)) return false;
 
-		$wds_options = get_wds_options();
-		if (empty($wds_options["{$key}-{$type}"])) return false;
+		$wds_options = WDS_Settings::get_options();
+		if (empty($wds_options["{$key}-{$type}"])) {
+			$value = false;
+			if (class_exists('WDS_OnPage') && 'og-title' === $key) {
+				$value = WDS_OnPage::get()->get_title();
+			} else if (class_exists('WDS_OnPage') && 'og-description' === $key) {
+				$value = WDS_OnPage::get()->get_description();
+			}
+			return $value;
+		}
 
 		return $wds_options["{$key}-{$type}"];
 	}
@@ -176,6 +275,6 @@ class Wds_OpenGraph_Printer {
 		$value = wds_replace_vars($value, get_queried_object());
 		$value = wp_strip_all_tags($value);
 
-		return '<meta property="' . esc_attr($tag) . '" content="' . esc_attr($value) . '" />';
+		return '<meta property="' . esc_attr($tag) . '" content="' . esc_attr($value) . '" />' . "\n";
 	}
 }

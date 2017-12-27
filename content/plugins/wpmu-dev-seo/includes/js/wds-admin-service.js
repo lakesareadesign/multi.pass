@@ -389,7 +389,7 @@
 							(data || {}).status || '0',
 							10
 						);
-						if (status > 0) return _handlers.ignore_sitemap(e);
+						//if (status > 0) return _handlers.ignore_sitemap(e);
 					});
 					return _handlers.stop(e);
 				},
@@ -405,7 +405,6 @@
 							.closest(".wds-service-issue").addClass("wds-expanded")
 						;
 					} else {
-						$tgt.blur();
 						$issues
 							.removeClass("wds-expanded").hide()
 							.closest(".wds-service-issue").removeClass("wds-expanded")
@@ -432,7 +431,7 @@
 					.on("click", ".wds-issue-actions-options a[href='#list']", _handlers.list_occurences)
 
 					.off("click", ".wds-issue-actions-options a[href='#redirect']")
-					.on("click", ".wds-issue-actions-options a[href='#redirect']", _handlers.redirect)
+					.on("click", ".wds-issue-actions-options a[href='#redirect']", _handlers.ignore)
 
 					.off("click", ".wds-issue-actions-options a[href='#ignore']")
 					.on("click", ".wds-issue-actions-options a[href='#ignore']", _handlers.ignore)

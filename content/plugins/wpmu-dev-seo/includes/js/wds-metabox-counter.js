@@ -39,7 +39,7 @@ function checkMetaLength () {
 	var txt = $('#wds_metadesc').val()
 		res = txt ? txt.length : false
 	;
-	if (!__LAX_ENFORCEMENT && res > __WDS_META_COUNT) {
+	if (__LAX_ENFORCEMENT && res > __WDS_META_COUNT) {
 		$('#wds_metadesc').val( $('#wds_metadesc').val().substr(0, __WDS_META_COUNT) );
 		return false;
 	}

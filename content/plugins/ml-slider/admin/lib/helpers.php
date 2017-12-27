@@ -4,7 +4,8 @@ if (!defined('ABSPATH')) die('No direct access.');
 
 /**
  * Will be truthy if the plugin is installed
- * @param string name of the plugin 'ml-slider'
+ *
+ * @param  string $name name of the plugin 'ml-slider'
  * @return bool|string - will return path, ex. 'ml-slider/ml-slider.php'
  */
 function metaslider_is_plugin_installed($name) {
@@ -15,24 +16,25 @@ function metaslider_is_plugin_installed($name) {
 	return false;
 }
 /**
-* checks if metaslider pro is installed
-*
-* @return bool
-*/
+ * checks if metaslider pro is installed
+ *
+ * @return bool
+ */
 function metaslider_is_pro_installed() {
     return (bool) metaslider_is_plugin_installed('ml-slider-pro');
 }
 
 /**
-* Will be true if the plugin is active
-*
-* @return bool
-*/
+ * Will be true if the plugin is active
+ *
+ * @return bool
+ */
 function metaslider_is_pro_active() {
     return is_plugin_active(metaslider_is_plugin_installed('ml-slider-pro'));
 }
 /**
  * Returns true if the user does not have the pro version installed
+ *
  * @return bool
  */
 function metaslider_sees_upgrade_page() {
@@ -41,6 +43,7 @@ function metaslider_sees_upgrade_page() {
 
 /**
  * Returns true if the user does not have the pro version installed
+ *
  * @return bool
  */
 function metaslider_sees_call_to_action() {
@@ -48,11 +51,12 @@ function metaslider_sees_call_to_action() {
 }
 
 /**
-* Returns true if the user is ready to see notices. Exceptions include
-* when they have no slideshows (first start) and while on the initial tour. 
-*
-* @return bool
-*/
+ * Returns true if the user is ready to see notices. Exceptions include
+ * when they have no slideshows (first start) and while on the initial tour. 
+ *
+ * @param  array $plugin Plugin details
+ * @return boolean
+ */
 function metaslider_sees_notices($plugin) {
 
     // If no slideshows, don't show an ad
@@ -66,20 +70,21 @@ function metaslider_sees_notices($plugin) {
 }
 
 /**
-* Returns true if the user is on the specified admin page 
-*
-* @return bool
-*/
+ * Returns true if the user is on the specified admin page
+ *
+ * @param  string $page_name Admin page name
+ * @return boolean
+ */
 function metaslider_is_on_admin_page($page_name = 'admin.php') {
     global $pagenow;
     return ($pagenow == $page_name);
 }
 
 /**
-* Returns the upgrade link
-*
-* @return string
-*/
+ * Returns the upgrade link
+ *
+ * @return string
+ */
 function metaslider_get_upgrade_link() {
     return apply_filters('metaslider_hoplink', esc_url(
         add_query_arg(array(
@@ -93,7 +98,8 @@ function metaslider_get_upgrade_link() {
 
 /**
  * Returns an array of the trashed slides
- * @param $slider
+ *
+ * @param int $slider_id Slider ID
  * @return array
  */
 function metaslider_has_trashed_slides($slider_id) {
@@ -117,7 +123,8 @@ function metaslider_has_trashed_slides($slider_id) {
 
 /**
  * Returns whether we are looking at trashed slides
- * @param int $slider - the id
+ *
+ * @param int $slider_id - the id
  * @return bool
  */
 function metaslider_viewing_trashed_slides($slider_id) {
@@ -133,6 +140,7 @@ function metaslider_viewing_trashed_slides($slider_id) {
 
 /**
  * Returns whether we are looking at a trashed slide
+ *
  * @param object $slide a slide object
  * @return bool
  */

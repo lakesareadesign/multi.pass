@@ -1,29 +1,35 @@
 <?php
-
-/*
+/**
  * Entry point for building the wordpress admin pages.
  * Temporarily extends the MetaSlider Class until more refactoring can be done.
  */
-
 Class MetaSlider_Admin_Pages extends MetaSliderPlugin {
 
     /**
-     * @property string $capability - The minimum capability to view the admin page
+     * The minimum capability to view the admin page
+     *
+     * @var string $capability
      */
     private $capability;
 
     /**
-     * @property object $plugin - The MetaSlider plugin class
+     * The MetaSlider plugin class
+     *
+     * @var object $plugin
      */
     private $plugin;
     
-    /*
-     * @property string $current_page - The current admin page
+    /**
+     * The current admin page
+     *
+     * @var string $current_page
      */
     private $current_page;
 
     /**
      * Sets up the notices, security and loads assets for the admin page
+     *
+     * @param array $plugin Plugin details
      */
     public function __construct($plugin) {
         $this->plugin = $plugin;
@@ -75,6 +81,8 @@ Class MetaSlider_Admin_Pages extends MetaSliderPlugin {
             'restore_language' => __("Undo", "ml-slider"),
             'restored_language' => __("Slide restored", "ml-slider"),
             'deleted_language' => __("Slide deleted", "ml-slider"),
+            'success_language' => __("Success", "ml-slider"),
+            'copied_language' => __("Item was copied to your clipboard", "ml-slider"),
             'click_to_undo_language' => __("Press to undo", "ml-slider"),
             'ajaxurl' => admin_url('admin-ajax.php'),
             'update_image' => __("Select replacement image", "ml-slider"),
@@ -124,8 +132,9 @@ Class MetaSlider_Admin_Pages extends MetaSliderPlugin {
     
     /**
      * Method to add pages
-     * @param string $title - The title of the page
-     * @param string $slug - The slug used for the page
+     *
+     * @param string $title  - The title of the page
+     * @param string $slug   - The slug used for the page
      * @param string $parent - Setting a parent will make this page a submenu item
      */
     public function add_page($title, $slug = '', $parent = '') {

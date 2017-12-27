@@ -12,8 +12,9 @@ class FLCountdownModule extends FLBuilderModule {
 		parent::__construct(array(
 			'name'          	=> __( 'Countdown', 'fl-builder' ),
 			'description'   	=> __( 'Render a Countdown module.', 'fl-builder' ),
-			'category'      	=> __( 'Advanced Modules', 'fl-builder' ),
+			'category'      	=> __( 'Info', 'fl-builder' ),
 			'partial_refresh'	=> true,
+			'icon'				=> 'clock.svg',
 		));
 	}
 

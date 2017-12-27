@@ -1092,7 +1092,7 @@ function get_aof_options() {
       );
 
   $panel_fields[] = array(
-      'name' => __( 'Active submenu text color', 'alter' ),
+      'name' => __( 'Submenu text color', 'alter' ),
       'id' => 'submenu_active_text_color',
       'type' => 'wpcolor',
       'default' => '#ffffff',

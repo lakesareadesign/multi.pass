@@ -7,9 +7,9 @@ Tags: database, delete, revisions, optimize, post, posts, page, pages, clean, cl
 Author URI: http://cagewebdev.com
 Author: CAGE Web Design | Rolf van Gelder, Eindhoven, The Netherlands
 Requires at least: 2.8
-Tested up to: 4.8.3
-Stable tag: 4.4.1
-Version: 4.4.1
+Tested up to: 4.9.1
+Stable tag: 4.4.2
+Version: 4.4.2
 License: GPLv2 or later
 
 == Description ==
@@ -102,6 +102,10 @@ http://cagewebdev.com/wordpress-plugins/
 * If you run the plugin from any of the sites, it will cleanup ALL the sites in the network!
 
 == Changelog ==
+= 4.4.2 [12/14/2017] =
+* NEW: Skip standard posttype 'oembed_cache'
+* BUG FIX: Hide the settings link (plugin page) for multi site sites (except for the main network site)
+
 = 4.4.1 [11/06/2017] =
 * BUG FIX: Bug in counting excluded tables fixed
 

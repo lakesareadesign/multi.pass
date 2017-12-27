@@ -60,6 +60,9 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 		);
 		foreach (get_post_types(array('public' => true)) as $pt) {
 			$strings[] = $pt;
+			// Allow post types robots noindex/nofollow
+			if (isset($input["meta_robots-noindex-{$pt}"])) $result["meta_robots-noindex-{$pt}"] = true;
+			if (isset($input["meta_robots-nofollow-{$pt}"])) $result["meta_robots-nofollow-{$pt}"] = true;
 		}
 		$strings = array_merge($strings, array_values($tax_options));
 		$strings = array_merge($strings, array_values($other_options));
@@ -71,6 +74,9 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 
 
 			// OpenGraph
+			if (isset($input["og-active-{$str}"])) {
+				$result["og-active-{$str}"] = (boolean) $input["og-active-{$str}"];
+			}
 			if (isset($input["og-title-{$str}"])) {
 				$result["og-title-{$str}"] = $this->_sanitize_preserve_macros($input["og-title-{$str}"]);
 			}
@@ -93,6 +99,22 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 			$result["keywords-home"] = $this->_sanitize_preserve_macros($input["keywords-home"]);
 		}
 
+		$result["enable-author-archive"] = isset($input["enable-author-archive"])
+			? (boolean) $input["enable-author-archive"]
+			: false
+		;
+		$result["enable-date-archive"] = isset($input["enable-date-archive"])
+			? (boolean) $input["enable-date-archive"]
+			: false
+		;
+
+		if (isset($input["preset-separator"])) {
+			$result["preset-separator"] = sanitize_text_field($input["preset-separator"]);
+		}
+
+		if (isset($input["separator"])) {
+			$result["separator"] = sanitize_text_field($input["separator"]);
+		}
 
 		return $result;
 	}
@@ -150,13 +172,13 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 		$warnings = array();
 
 		switch ($src_type) {
-			case "tab_search-page":
-				set_query_var('s', 'test');
-			case "tab_author-archive":
+			case "search-page":
+				set_query_var('s', 'Example search phrase');
+			case "author-archive":
 				set_query_var('author', get_current_user_id());
-			case "tab_date-archive":
-			case "tab_homepage":
-			case "tab_404-page":
+			case "date-archive":
+			case "homepage":
+			case "404-page":
 				$title = wds_replace_vars($src_title);
 				$description = wds_replace_vars($src_meta);
 				$updated = true;
@@ -167,55 +189,68 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 				if (strlen($description) > WDS_METADESC_LENGTH_CHAR_COUNT_LIMIT) {
 					$warnings['description'] = __('Your description seems to be a bit on the long side, consider trimming it', 'wds');
 				}
-
 				break;
-			case "tab_post-categories":
-				$tax = $this->_get_random_term('category');
-				if (!empty($tax)) {
-					$title = wds_replace_vars($src_title, $tax);
-					$description = wds_replace_vars($src_meta, $tax);
-					$link = get_term_link($tax['term_id'], 'category');
+
+			case "bp-group":
+				$group = $this->_get_random_bp_group();
+				if (!empty($group)) {
+					$title = wds_replace_vars($src_title, (array) $group);
+					$description = wds_replace_vars($src_meta, (array) $group);
+					$link = bp_get_group_permalink($group);
 				}
 				$updated = true;
 				break;
-			case "tab_post-tags":
-				$tax = $this->_get_random_term('post_tag');
-				if (!empty($tax)) {
-					$title = wds_replace_vars($src_title, $tax);
-					$description = wds_replace_vars($src_meta, $tax);
-					$link = get_term_link($tax['term_id'], 'post_tag');
-				}
+
+			case "bp-profile":
+				$bp_profile_args = array(
+					'full_name' => bp_get_loggedin_user_fullname(),
+					'username' => bp_get_loggedin_user_username()
+				);
+
+				$title = wds_replace_vars($src_title, $bp_profile_args);
+				$description = wds_replace_vars($src_meta, $bp_profile_args);
+				$link = bp_loggedin_user_domain();
 				$updated = true;
 				break;
 		}
 
 		// Custom post type?
-		if (!$updated) foreach (get_post_types(array('public' => true)) as $type) {
-			if ("tab_{$type}" !== $src_type) continue;
-			$updated = true;
-			$post = $this->_get_random_post($type);
-			if (!empty($post)) {
-				$title = wds_replace_vars($src_title, $post);
-				$description = wds_replace_vars($src_meta, $post);
-				$link = get_permalink($post['ID']);
+		if (!$updated) {
+			foreach (get_post_types(array('public' => true)) as $type) {
+				if ($type !== $src_type) {
+					continue;
+				}
+
+				$updated = true;
+				$post = $this->_get_random_post($type);
+				if (!empty($post)) {
+					$title = wds_replace_vars($src_title, $post);
+					$description = wds_replace_vars($src_meta, $post);
+					$link = get_permalink($post['ID']);
+				}
 			}
 		}
 
 		// Custom taxonomy?
-		if (!$updated) foreach (get_taxonomies(array( '_builtin' => false )) as $tax) {
-			if ("tab_{$tax}" !== $src_type) continue;
-			$updated = true;
-			$term = $this->_get_random_term($tax);
-			if (!empty($term)) {
-				$title = wds_replace_vars($src_title, $term);
-				$description = wds_replace_vars($src_meta, $term);
-				$link = get_term_link($term['term_id'], $tax);
+		if (!$updated) {
+			foreach (get_taxonomies() as $tax) {
+				if ($tax !== $src_type) {
+					continue;
+				}
+
+				$updated = true;
+				$term = $this->_get_random_term($tax);
+				if (!empty($term)) {
+					$title = wds_replace_vars($src_title, $term);
+					$description = wds_replace_vars($src_meta, $term);
+					$link = get_term_link($term['term_id'], $tax);
+				}
 			}
 		}
 
 		wp_send_json(array(
 			'status' => $updated,
-			'markup' => $this->_load('onpage-preview', array(
+			'markup' => $this->_load('onpage/onpage-preview', array(
 				'link' => $link,
 				'title' => $title,
 				'description' => $description,
@@ -254,17 +289,20 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 	 *
 	 * @return array
 	 */
-	private function _get_random_term ($type='category') {
-		$q = get_terms(array(
-			'taxonomy' => $type,
-		));
-		if (empty($q)) return array();
+	private function _get_random_term($type = 'category')
+	{
+		$terms = get_terms(
+			array(
+				'taxonomy'   => $type,
+				'hide_empty' => 0
+			)
+		);
+		if (empty($terms)) {
+			return array();
+		}
 
-		$idx = rand(0, count($q));
-		return !empty($q[$idx])
-			? (array)$q[$idx]
-			: array()
-		;
+		shuffle($terms);
+		return (array)$terms[0];
 	}
 
 	/**
@@ -273,51 +311,78 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 	 * @return array List of known macros
 	 */
 	public static function get_macros () {
-		return array(
-			'%%date%%' => __( 'Date of the post/page', 'wds' ),
-			'%%title%%' => __( 'Title of the post/page', 'wds' ),
-			'%%sitename%%' => __( 'Site\'s name', 'wds' ),
-			'%%sitedesc%%' => __( 'Site\'s tagline / description', 'wds' ),
-			'%%excerpt%%' => __( 'Post/page excerpt (or auto-generated if it does not exist)', 'wds' ),
-			'%%excerpt_only%%' => __( 'Post/page excerpt (without auto-generation)', 'wds' ),
-			'%%tag%%' => __( 'Current tag/tags', 'wds' ),
-			'%%category%%' => __( 'Post categories (comma separated)', 'wds' ),
-			'%%category_description%%' => __( 'Category description', 'wds' ),
-			'%%tag_description%%' => __( 'Tag description', 'wds' ),
-			'%%term_description%%' => __( 'Term description', 'wds' ),
-			'%%term_title%%' => __( 'Term name', 'wds' ),
-			'%%modified%%' => __( 'Post/page modified time', 'wds' ),
-			'%%id%%' => __( 'Post/page ID', 'wds' ),
-			'%%name%%' => __( 'Post/page author\'s \'nicename\'', 'wds' ),
-			'%%userid%%' => __( 'Post/page author\'s userid', 'wds' ),
-			'%%searchphrase%%' => __( 'Current search phrase', 'wds' ),
-			'%%currenttime%%' => __( 'Current time', 'wds' ),
-			'%%currentdate%%' => __( 'Current date', 'wds' ),
-			'%%currentmonth%%' => __( 'Current month', 'wds' ),
-			'%%currentyear%%' => __( 'Current year', 'wds' ),
-			'%%page%%' => __( 'Current page number (i.e. page 2 of 4)', 'wds' ),
-			'%%pagetotal%%' => __( 'Current page total', 'wds' ),
-			'%%pagenumber%%' => __( 'Current page number', 'wds' ),
-			'%%caption%%' => __( 'Attachment caption', 'wds' ),
-			'%%spell_pagenumber%%' => __( 'Current page number, spelled out as numeral in English', 'wds' ),
-			'%%spell_pagetotal%%' => __( 'Current page total, spelled out as numeral in English', 'wds' ),
-			'%%spell_page%%' => __( 'Current page number, spelled out as numeral in English', 'wds' ),
+		$macros = array(
+			'%%sep%%'                  => __('Separator', 'wds'),
+			'%%date%%'                 => __('Date of the post/page', 'wds'),
+			'%%title%%'                => __('Title of the post/page', 'wds'),
+			'%%sitename%%'             => __('Site\'s name', 'wds'),
+			'%%sitedesc%%'             => __('Site\'s tagline / description', 'wds'),
+			'%%excerpt%%'              => __('Post/page excerpt (or auto-generated if it does not exist)', 'wds'),
+			'%%excerpt_only%%'         => __('Post/page excerpt (without auto-generation)', 'wds'),
+			'%%tag%%'                  => __('Current tag/tags', 'wds'),
+			'%%category%%'             => __('Post categories (comma separated)', 'wds'),
+			'%%category_description%%' => __('Category description', 'wds'),
+			'%%tag_description%%'      => __('Tag description', 'wds'),
+			'%%term_description%%'     => __('Term description', 'wds'),
+			'%%term_title%%'           => __('Term name', 'wds'),
+			'%%modified%%'             => __('Post/page modified time', 'wds'),
+			'%%id%%'                   => __('Post/page ID', 'wds'),
+			'%%name%%'                 => __('Post/page author\'s \'nicename\'', 'wds'),
+			'%%userid%%'               => __('Post/page author\'s userid', 'wds'),
+			'%%searchphrase%%'         => __('Current search phrase', 'wds'),
+			'%%currenttime%%'          => __('Current time', 'wds'),
+			'%%currentdate%%'          => __('Current date', 'wds'),
+			'%%currentmonth%%'         => __('Current month', 'wds'),
+			'%%currentyear%%'          => __('Current year', 'wds'),
+			'%%page%%'                 => __('Current page number (i.e. page 2 of 4)', 'wds'),
+			'%%pagetotal%%'            => __('Current page total', 'wds'),
+			'%%pagenumber%%'           => __('Current page number', 'wds'),
+			'%%caption%%'              => __('Attachment caption', 'wds'),
+			'%%spell_pagenumber%%'     => __('Current page number, spelled out as numeral in English', 'wds'),
+			'%%spell_pagetotal%%'      => __('Current page total, spelled out as numeral in English', 'wds'),
+			'%%spell_page%%'           => __('Current page number, spelled out as numeral in English', 'wds'),
 		);
+
+		if (defined('BP_VERSION')) {
+			$macros['%%bp_group_name%%'] = __('BuddyPress group name', 'wds');
+			$macros['%%bp_group_description%%'] = __('BuddyPress group description', 'wds');
+			$macros['%%bp_user_username%%'] = __('BuddyPress username', 'wds');
+			$macros['%%bp_user_full_name%%'] = __("BuddyPress user's full name", 'wds');
+		}
+
+		return $macros;
 	}
 
 	/**
 	 * Spawns a set of robots options for a given type
 	 *
 	 * @param string $type Archives type to generate the robots options for
+	 * @param bool $include_subsequent_pages_option Whether to include the subsequent pages option.
 	 *
 	 * @return array Generated meta robots option array
 	 */
-	public static function get_robots_options_for ($type) {
-		return array(
-			"meta_robots-noindex-{$type}" => __( 'Noindex', 'wds' ),
-			"meta_robots-nofollow-{$type}" => __( 'Nofollow', 'wds' ),
-			"meta_robots-{$type}-subsequent_pages" => __( 'Leave the first page alone, but apply to subsequent pages', 'wds' ),
+	public static function get_robots_options_for($type, $include_subsequent_pages_option = true)
+	{
+		$options = array(
+			"meta_robots-noindex-{$type}"          => array(
+				'label'       => __('Noindex', 'wds'),
+				'description' => __('Disabling indexing means that this content will not be indexed and searchable in search engines.', 'wds')
+			),
+			"meta_robots-nofollow-{$type}"         => array(
+				'label'       => __('Nofollow', 'wds'),
+				'description' => __('Disabling following means search engines will not follow and crawl links it finds in this content.', 'wds')
+			)
 		);
+
+		if($include_subsequent_pages_option)
+		{
+			$options["meta_robots-{$type}-subsequent_pages"] = array(
+				'label'       => __('Apply to all pages except the first', 'wds'),
+				'description' => __('If you select this option, the first page will be left alone, but the indexing settings will be applied to subsequent pages.', 'wds')
+			);
+		}
+
+		return $options;
 	}
 
 	/**
@@ -382,10 +447,13 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 			if (empty($arguments[$option])) $arguments[$option] = self::get_robots_options_for($value);
 		}
 
-		$arguments['meta_robots_search'] = array(
-			"meta_robots-noindex-search" => __('Noindex', 'wds'),
-			"meta_robots-nofollow-search" => __('Nofollow', 'wds'),
+		$arguments['meta_robots_search'] = self::get_robots_options_for('search', false);
+
+		// Allow for post type options
+		$arguments['post_robots'] = array(
+			'attachment' => self::get_robots_options_for('attachment', false),
 		);
+
 		$arguments['radio_options'] = array(
 			__( 'No', 'wds' ),
 			__( 'Yes', 'wds' ),
@@ -396,8 +464,16 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 			'ping-bing' => __('Bing', 'wds'),
 		);
 
+		$arguments['separators'] = wds_get_separators();
+
+		$arguments['show_homepage_options'] = $this->_show_homepage_options();
+		$arguments['homepage_title'] = $this->_get_homepage_title($wds_options);
+		$arguments['homepage_description'] = $this->_get_homepage_description($wds_options);
+
+		$arguments['active_tab'] = $this->_get_last_active_tab('tab_homepage');
+
 		wp_enqueue_script('wds-admin-onpage');
-		$this->_render_page('onpage-settings', $arguments);
+		$this->_render_page('onpage/onpage-settings', $arguments);
 	}
 
 	/**
@@ -437,14 +513,13 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 
 		foreach ( get_post_types(array('public' => true)) as $posttype ) {
 			if ( in_array( $posttype, array( 'revision', 'nav_menu_item' ) ) ) continue;
-			if ( isset( $wds_options['redirectattachment'] ) && $wds_options['redirectattachment'] && $posttype == 'attachment' ) continue;
 			if (preg_match('/^upfront_/', $posttype)) continue;
 
 			$type_obj = get_post_type_object( $posttype );
 			if ( ! is_object( $type_obj ) ) continue;
 
 			if ( empty($this->options['title-' . $posttype]) ) {
-				$this->options['title-' . $posttype] = '%%title%% | %%sitename%%';
+				$this->options['title-' . $posttype] = '%%title%% %%sep%% %%sitename%%';
 			}
 
 			if ( empty($this->options['metadesc-' . $posttype]) ) {
@@ -463,14 +538,14 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 		}
 
 		$other_types = array(
-			'category'                  => array( 'title' => '%%category%% | %%sitename%%', 'desc' => '%%category_description%%' ),
-			'post_tag'                  => array( 'title' => '%%tag%% | %%sitename%%', 'desc' => '%%tag_description%%' ),
-			'author'                    => array( 'title' => '%%name%% | %%sitename%%', 'desc' => '' ),
-			'date'                      => array( 'title' => '%%currentdate%% | %%sitename%%', 'desc' => '' ),
-			'search'                    => array( 'title' => '%%searchphrase%% | %%sitename%%', 'desc' => '' ),
-			'404'                       => array( 'title' => 'Page not found | %%sitename%%', 'desc' => '' ),
-			'bp_groups'                 => array( 'title' => '%%bp_group_name%% | %%sitename%%', 'desc' => '%%bp_group_description%%' ),
-			'bp_profile'                => array( 'title' => '%%bp_user_username%% | %%sitename%%', 'desc' => '%%bp_user_full_name%%' ),
+			'category'                  => array( 'title' => '%%category%% %%sep%% %%sitename%%', 'desc' => '%%category_description%%' ),
+			'post_tag'                  => array( 'title' => '%%tag%% %%sep%% %%sitename%%', 'desc' => '%%tag_description%%' ),
+			'author'                    => array( 'title' => '%%name%% %%sep%% %%sitename%%', 'desc' => '' ),
+			'date'                      => array( 'title' => '%%currentdate%% %%sep%% %%sitename%%', 'desc' => '' ),
+			'search'                    => array( 'title' => '%%searchphrase%% %%sep%% %%sitename%%', 'desc' => '' ),
+			'404'                       => array( 'title' => 'Page not found %%sep%% %%sitename%%', 'desc' => '' ),
+			'bp_groups'                 => array( 'title' => '%%bp_group_name%% %%sep%% %%sitename%%', 'desc' => '%%bp_group_description%%' ),
+			'bp_profile'                => array( 'title' => '%%bp_user_username%% %%sep%% %%sitename%%', 'desc' => '%%bp_user_full_name%%' ),
 			'mp_marketplace-base'       => array( 'title' => '', 'desc' => '' ),
 			'mp_marketplace-categories' => array( 'title' => '', 'desc' => '' ),
 			'mp_marketplace-tags'       => array( 'title' => '', 'desc' => '' ),
@@ -486,6 +561,22 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 			}
 		}
 
+		if (!isset($this->options['preset-separator'])) {
+			$this->options['preset-separator'] = 'pipe';
+		}
+
+		if (!isset($this->options['separator'])) {
+			$this->options['separator'] = '';
+		}
+
+		if (!isset($this->options['enable-author-archive'])) {
+			$this->options['enable-author-archive'] = true;
+		}
+
+		if (!isset($this->options['enable-date-archive'])) {
+			$this->options['enable-date-archive'] = true;
+		}
+
 		if( is_multisite() && WDS_SITEWIDE ) {
 			update_site_option( $this->option_name, $this->options );
 		} else {
@@ -494,4 +585,62 @@ class WDS_Onpage_Settings extends WDS_Settings_Admin {
 
 	}
 
+	private function _show_homepage_options()
+	{
+		if (is_multisite()) {
+			$show_homepage_options = WDS_SITEWIDE || 'posts' == get_site_option('show_on_front');
+		} else {
+			$show_homepage_options = 'posts' == get_option('show_on_front');
+		}
+
+		return $show_homepage_options;
+	}
+
+	private function _get_homepage_title($options)
+	{
+		$front_page_id = (int)get_option('page_on_front');
+
+		if (!$this->_show_homepage_options() && $front_page_id) {
+
+			$homepage_title = wds_get_value('title', $front_page_id);
+			if (empty($homepage_title)) {
+				$front_page = get_post($front_page_id);
+				$homepage_title = $front_page->post_title;
+			}
+
+			return $homepage_title;
+		} else {
+			return $options['title-home'];
+		}
+	}
+
+	private function _get_homepage_description($options)
+	{
+		$front_page_id = (int)get_option('page_on_front');
+
+		if (!$this->_show_homepage_options() && $front_page_id) {
+			$homepage_description = wds_get_value('metadesc', $front_page_id);
+			if (empty($homepage_description)) {
+				$front_page = get_post($front_page_id);
+				$homepage_description = substr(strip_tags($front_page->post_content), 0, 130);
+			}
+
+			return $homepage_description;
+		} else {
+			return $options['metadesc-home'];
+		}
+	}
+
+	private function _get_random_bp_group()
+	{
+		$groups = groups_get_groups(array(
+			'orderby'  => 'random',
+			'per_page' => 1
+		));
+
+		$total = isset($groups['total']) ? $groups['total'] : 0;
+		$groups = isset($groups['groups']) ? $groups['groups'] : array();
+
+		return $total > 0 ? $groups[0] : null;
+	}
 }

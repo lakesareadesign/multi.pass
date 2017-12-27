@@ -66,6 +66,7 @@ ul#wp-admin-bar-root-default, ul.ab-top-menu {}
 .wp-admin embed, .wp-admin iframe, .wp-admin object, .wp-admin video {max-width: 100% !important; max-height: 100% !important; vertical-align: middle}
 .redirect_users_to div.custom_url {display: none;}
 div.updated {margin-left:0;}
+.wp-picker-container .wp-color-result.button,.wp-picker-container .wp-color-result.button:hover,.wp-picker-container .wp-color-result.button:focus{border: 1px solid #d5d5d5 !important;}
 
 /* Clears shit */
 .clearfix:before,

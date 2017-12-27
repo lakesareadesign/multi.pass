@@ -15,6 +15,9 @@ class MetaNivoSlider extends MetaSlider {
 
     /**
      * Constructor
+     *
+     * @param int   $id                 ID
+     * @param array $shortcode_settings Short Settings
      */
     public function __construct( $id, $shortcode_settings ) {
         parent::__construct( $id, $shortcode_settings );
@@ -26,6 +29,10 @@ class MetaNivoSlider extends MetaSlider {
      * Other slides use "AutoPlay = true" (true autoplays the slideshow)
      * Nivo slider uses "ManualAvance = false" (ie, false autoplays the slideshow)
      * Take care of the manualAdvance parameter here.
+     *
+     * @param array $options   Options for autoplay
+     * @param array $slider_id Slider ID
+     * @param array $settings  Settings
      */
     public function set_autoplay_parameter( $options, $slider_id, $settings ) {
         global $wp_filter;
@@ -48,6 +55,7 @@ class MetaNivoSlider extends MetaSlider {
      * Detect whether thie slide supports the requested setting,
      * and if so, the name to use for the setting in the Javascript parameters
      *
+     * @param  array $param Parameters
      * @return false (parameter not supported) or parameter name (parameter supported)
      */
     protected function get_param( $param ) {
@@ -74,7 +82,7 @@ class MetaNivoSlider extends MetaSlider {
     }
 
     /**
-     *
+     * enqueue scripts
      */
     public function enqueue_scripts() {
         parent::enqueue_scripts();
@@ -86,7 +94,9 @@ class MetaNivoSlider extends MetaSlider {
     }
 
     /**
+     * Get the theme
      *
+     * @return string
      */
     private function get_theme() {
         $theme = $this->get_setting( 'theme' );

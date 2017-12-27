@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Optimize Database after Deleting Revisions
- * @version 4.4.1
+ * @version 4.4.2
  */
 /*
 Plugin Name: Optimize Database after Deleting Revisions
@@ -10,7 +10,7 @@ Description: Optimizes the Wordpress Database after Cleaning it out
 Author: CAGE Web Design | Rolf van Gelder, Eindhoven, The Netherlands
 Author URI: http://cagewebdev.com
 Network: True
-Version: 4.4.1
+Version: 4.4.2
 */
 
 /********************************************************************************************
@@ -24,8 +24,8 @@ $odb_class = new OptimizeDatabase();
 
 class OptimizeDatabase {
 	// VERSION
-	var $odb_version           = '4.4.1';
-	var $odb_release_date      = '11/06/2017';
+	var $odb_version           = '4.4.2';
+	var $odb_release_date      = '12/14/2017';
 
 	// PLUGIN OPTIONS
 	var $odb_rvg_options       = array();
@@ -350,10 +350,14 @@ class OptimizeDatabase {
 				// v4.1: PLUGIN ONLY CAN BE USED ON THE MAIN SITE (NOT ON THE SUB SITES)
 				add_action('admin_menu', array(&$this, 'odb_admin_tools'));
 				add_action('admin_menu', array(&$this, 'odb_admin_settings'));
+				// ADD 'SETTINGS' LINK TO THE MAIN PLUGIN PAGE
+				add_filter('plugin_action_links_'.plugin_basename(__FILE__), array(&$this, 'odb_settings_link'));				
 			} // if ($blog_id == 1)
 		} else {
 			add_action('admin_menu', array(&$this, 'odb_admin_tools'));
 			add_action('admin_menu', array(&$this, 'odb_admin_settings'));
+			// ADD 'SETTINGS' LINK TO THE MAIN PLUGIN PAGE
+			add_filter('plugin_action_links_'.plugin_basename(__FILE__), array(&$this, 'odb_settings_link'));				
 		} // if (is_multisite())
 		
 		// ICON MODE: ADD ICON TO ADMIN MENU
@@ -361,10 +365,7 @@ class OptimizeDatabase {
 			add_action('admin_menu', array(&$this, 'odb_admin_icon'));
 			add_action('admin_menu', array(&$this, 'odb_register_options'));
 		}
-		
-		// ADD 'SETTINGS' LINK TO THE MAIN PLUGIN PAGE
-		add_filter('plugin_action_links_'.plugin_basename(__FILE__), array(&$this, 'odb_settings_link'));
-		
+
 		// ADD THE '1 CLICK OPTIMIZE DATABASE' ITEM TO THE ADMIN BAR (IF ACTIVATED)
 		if($this->odb_rvg_options['adminbar'] == 'Y')
 			add_action('wp_before_admin_bar_render', array(&$this, 'odb_admin_bar'));

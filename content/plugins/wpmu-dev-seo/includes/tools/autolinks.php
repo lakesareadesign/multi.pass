@@ -18,7 +18,16 @@ class WPS_AutoLinks {
 	var $settings = array();
 
 	function __construct() {
-		global $wds_options;
+		if (!class_exists('WDS_Service')) {
+			require_once(WDS_PLUGIN_DIR . 'core/class_wds_service.php');
+		}
+		if (WDS_Service::get(WDS_Service::SERVICE_SITE)->is_member()) {
+			$this->init();
+		}
+	}
+
+	public function init () {
+		$wds_options = WDS_Settings::get_options();
 
 		$this->settings = $wds_options;
 		// Set autolinks filter ordering to *after* shortcode processing
@@ -365,6 +374,9 @@ class WPS_AutoLinks {
 	function the_content_filter($text) {
         $post_type = get_post_type();
         if (empty($this->settings[$post_type])) return $text;
+
+		$exclude = wds_get_value('autolinks-exclude');
+		if (!empty($exclude)) return $text; // Explicitly excluded from autollink processing
 
 		$result = $this->process_text($text, 0);
 

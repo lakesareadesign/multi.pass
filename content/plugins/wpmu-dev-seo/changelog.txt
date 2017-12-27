@@ -4,6 +4,38 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+2.1.0.1 - 2017-12-18
+----------------------------------------------------------------------
+- Fix: Jetpack compatibility issue
+
+2.1 - 2017-12-18
+----------------------------------------------------------------------
+- Add: complete redesign
+- Add: macros separator support
+- Add: getting started wizard
+- Add: improved OpenGraph controls
+- Add: Twitter cards support
+- Add: schema support
+- Add: Pinterest verification support
+- Add: custom meta elements support
+- Add: linked social accounts support
+- Add: WP Checkup service integration
+- Add: scheduled crawl and checkup support
+- Add: SEO analysis check per post
+- Add: per post readability analysis
+- Add: per post autolinks toggle
+- Add: improved keywords handling with focus keywords
+- Add: ability to import and export settings
+- Add: allow sitemode switching in admin area on network setups
+- Add: attachment page noindex/redirection
+
+- Fix: improved previews
+- Fix: OpenGraph compatibility issue with Jetpack
+- Fix: sitemaps issue with alternate cron
+- Fix: additional checks for sitemaps read/write
+- Fix: HHVM compatibility
+- Fix: improve site owner permissions on network setups
+
 2.0.1 - 2017-06-07
 ----------------------------------------------------------------------
 - Add: ability to ignore issues
@@ -11,7 +43,7 @@ Change Log:
 - Add: option to skip strict description check
 - Fix: homepage keywords saving issue
 - Fix: MarketPress coupons conflict
-- Fix: various string typos
+- Fix: typos
 - Fix: improve admin toolbar item and allow suppression
 - Fix: front-end templating deprecated tags conflict
 - Fix: WooCommerce shop page empty SEO details overrides
@@ -364,4 +396,4 @@ exist yet
 - Initial Release.
 
 
-133620-1497045162-au
+133620-1514407110-au

@@ -19,7 +19,7 @@ class WDS_Taxonomy {
 	}
 
 	public function term_additions_form( $term, $taxonomy ) {
-		global $wds_options;
+		$wds_options = WDS_Settings::get_options();
 		$tax_meta = get_option( 'wds_taxonomy_meta' );
 
 		if ( isset( $tax_meta[ $taxonomy ][ $term->term_id ] ) ) {
@@ -43,7 +43,7 @@ class WDS_Taxonomy {
 	}
 
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
-		global $wds_options;
+		$wds_options = WDS_Settings::get_options();
 
 		$tax_meta = get_option( 'wds_taxonomy_meta' );
 

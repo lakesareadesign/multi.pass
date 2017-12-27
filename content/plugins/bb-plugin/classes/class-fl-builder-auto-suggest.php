@@ -79,6 +79,23 @@ final class FLBuilderAutoSuggest {
 	}
 
 	/**
+	 * Returns the values for all suggest fields in a settings form.
+	 *
+	 * @since 2.0
+	 * @param array $fields
+	 * @return array
+	 */
+	static public function get_values( $fields ) {
+		$values = array();
+
+		foreach ( $fields as $field ) {
+			$values[ $field['name'] ] = self::get_value( $field['action'], $field['value'], $field['data'] );
+		}
+
+		return $values;
+	}
+
+	/**
 	 * Returns the SQL escaped like value for auto suggest queries.
 	 *
 	 * @since 1.2.3

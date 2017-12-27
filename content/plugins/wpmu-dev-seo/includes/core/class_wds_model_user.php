@@ -26,9 +26,22 @@ class WDS_Model_User extends WDS_Model {
 	}
 
 	/**
+	 * Fetches the site owner user (one of)
+	 *
+	 * @return WDS_Model_User Owner user reference
+	 */
+	public static function owner () {
+		$admins = get_users(array(
+			'role' => 'administrator',
+			'fields' => 'ID'
+		));
+		return self::get(reset($admins));
+	}
+
+	/**
 	 * Particular user convenience factory method
 	 *
-	 * @param int $user_id User ID
+	 * @param int|string $user_id User ID, or login|email
 	 *
 	 * @return WDS_Model_User Particular user instance
 	 */
@@ -40,6 +53,12 @@ class WDS_Model_User extends WDS_Model {
 		if (!empty($user_id) && is_numeric($user_id)) {
 			$this->_user_id = (int)$user_id;
 			$this->_user = new WP_User($user_id);
+		} else if (!empty($user_id)) {
+			$user = new WP_User($user_id);
+			if (!empty($user->ID) && is_numeric($user->ID)) {
+				$this->_user_id = $user->ID;
+				$this->_user = $user;
+			}
 		} else {
 			$this->_user_id = false;
 			$this->_user = new WP_User;
@@ -72,6 +91,34 @@ class WDS_Model_User extends WDS_Model {
 			$this->_user_id
 		);
 	}
+
+	/**
+	 * Gets user full name
+	 *
+	 * Falls back to display name
+	 *
+	 * @return string Full name
+	 */
+	public function get_full_name () {
+		$name = '';
+
+		// Try full first
+		$first = get_user_meta($this->get_id(), 'first_name', true);
+		$last = get_user_meta($this->get_id(), 'last_name', true);
+		if (!empty($first) && !empty($last)) {
+			$name = "{$first} {$last}";
+		}
+
+		// Fall back to display name
+		if (empty($name)) $name = $this->_user->display_name;
+
+		return apply_filters(
+			$this->get_filter('full_name'),
+			$name,
+			$first, $last
+		);
+	}
+
 
 	/**
 	 * Returns user display name
@@ -107,6 +154,30 @@ class WDS_Model_User extends WDS_Model {
 			$name,
 			$this->_user_id
 		);
+	}
+
+	/**
+	 * Gets user URL
+	 *
+	 * Falls back to posts URL
+	 *
+	 * @return string User URL
+	 */
+	public function get_user_url () {
+		$url = get_user_meta($this->get_id(), 'url', true);
+		if (empty($url)) {
+			$url = get_author_posts_url($this->get_id());
+		}
+
+		return apply_filters($this->get_filter('user_url'), $url, $this->get_id());
+	}
+
+	public function get_user_urls () {
+		$urls = array();
+
+		// TODO: fetch user URLs
+
+		return $urls;
 	}
 
 	public function get_type () { return 'user'; }

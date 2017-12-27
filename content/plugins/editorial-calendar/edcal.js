@@ -236,7 +236,7 @@ var edcal = {
              return;
          }
 
-        edcal.addFeedbackSection();
+        //edcal.addFeedbackSection();
         
         var draftsDrawerVisible = jQuery.cookie('edcal_drafts_drawer');
         if (draftsDrawerVisible === 'true') {
@@ -1168,7 +1168,7 @@ var edcal = {
              return false;
          }
 
-         edcal.output('savePost(' + post.date + ', ' + post.title + ')');
+         //edcal.output('savePost(' + post.date + ', ' + post.title + ')');
 
          jQuery('#edit-slug-buttons').addClass('tiploading');
 
@@ -1455,7 +1455,7 @@ var edcal = {
      * Removes a post from the HTML and the posts cache.
      */
     removePostItem: function(/*string*/ dayobjId, /*string*/ postId) {
-         edcal.output('removePostItem(' + dayobjId + ', ' + postId + ')');
+         //edcal.output('removePostItem(' + dayobjId + ', ' + postId + ')');
          if (edcal.findPostForId(dayobjId, postId)) {
              for (var i = 0; i < edcal.posts[dayobjId].length; i++) {
                  if (edcal.posts[dayobjId][i] && 'post-' + edcal.posts[dayobjId][i].id === postId) {
@@ -2123,7 +2123,7 @@ var edcal = {
        the specified post on the server.
      */
     changeDate: function(/*string*/ newdate, /*Post*/ post, /*function*/ callback) {
-         edcal.output('changeDate(' + newdate + ', ' + post + ')');
+         //edcal.output('changeDate(' + newdate + ', ' + post + ')');
          var move_to_drawer = newdate === edcal.NO_DATE;
          var move_from_drawer = post.date_gmt === edcal.NO_DATE;
          var newdateFormatted = move_to_drawer ? '0000-00-00' : edcal.getDayFromDayId(newdate).toString(edcal.wp_dateFormat);
@@ -2153,8 +2153,8 @@ var edcal = {
             // dataType: 'text',
             dataType: 'json',
             success: function(res) {
-                edcal.output('res.post.date='+res.post.date);
-                edcal.output(res.post);
+                //edcal.output('res.post.date='+res.post.date);
+                //edcal.output(res.post);
                 // console.log(res.post);
                 if (res.error) {
                     /*

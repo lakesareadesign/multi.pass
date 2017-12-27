@@ -31,16 +31,16 @@ class wpui_options
     public function add_plugin_page()
     {
         add_menu_page('WP UI Option Page', 'WP Admin UI', 'manage_options', 'wpui-option', array( $this, 'create_admin_page' ), 'dashicons-admin-generic', 90);
-        add_submenu_page('wpui-option', __('Login','wpui'), __('Login','wpui'), 'manage_options', 'wpui-login', array( $this, 'wpui_login_page' ));
-        add_submenu_page('wpui-option', __('Global','wpui'), __('Global','wpui'), 'manage_options', 'wpui-global', array( $this, 'wpui_global_page'));
-        add_submenu_page('wpui-option', __('Dashboard','wpui'), __('Dashboard','wpui'), 'manage_options', 'wpui-dashboard', array( $this,'wpui_dashboard_page'));
-        add_submenu_page('wpui-option', __('Admin Menu','wpui'), __('Admin Menu','wpui'), 'manage_options', 'wpui-admin-menu', array( $this,'wpui_admin_menu_page'));
-        add_submenu_page('wpui-option', __('Admin Bar','wpui'), __('Admin Bar','wpui'), 'manage_options', 'wpui-admin-bar', array( $this,'wpui_admin_bar_page'));
-        add_submenu_page('wpui-option', __('Editor','wpui'), __('Editor','wpui'), 'manage_options', 'wpui-editor', array( $this,'wpui_editor_page'));
-        add_submenu_page('wpui-option', __('Media Library','wpui'), __('Media Library','wpui'), 'manage_options', 'wpui-library', array( $this,'wpui_library_page'));
-        add_submenu_page('wpui-option', __('Profil','wpui'), __('Profil','wpui'), 'manage_options', 'wpui-profil', array( $this,'wpui_profil_page'));
-        add_submenu_page('wpui-option', __('Role Manager','wpui'), __('Role Manager','wpui'), 'manage_options', 'wpui-roles', array( $this,'wpui_roles_page'));
-        add_submenu_page('wpui-option', __('Import / Export / Reset settings','wpui'), __('Import / Export / Reset','wpui'), 'manage_options', 'wpui-import-export', array( $this,'wpui_import_export_page'));
+        add_submenu_page('wpui-option', __('Login','wp-admin-ui'), __('Login','wp-admin-ui'), 'manage_options', 'wpui-login', array( $this, 'wpui_login_page' ));
+        add_submenu_page('wpui-option', __('Global','wp-admin-ui'), __('Global','wp-admin-ui'), 'manage_options', 'wpui-global', array( $this, 'wpui_global_page'));
+        add_submenu_page('wpui-option', __('Dashboard','wp-admin-ui'), __('Dashboard','wp-admin-ui'), 'manage_options', 'wpui-dashboard', array( $this,'wpui_dashboard_page'));
+        add_submenu_page('wpui-option', __('Admin Menu','wp-admin-ui'), __('Admin Menu','wp-admin-ui'), 'manage_options', 'wpui-admin-menu', array( $this,'wpui_admin_menu_page'));
+        add_submenu_page('wpui-option', __('Admin Bar','wp-admin-ui'), __('Admin Bar','wp-admin-ui'), 'manage_options', 'wpui-admin-bar', array( $this,'wpui_admin_bar_page'));
+        add_submenu_page('wpui-option', __('Editor','wp-admin-ui'), __('Editor','wp-admin-ui'), 'manage_options', 'wpui-editor', array( $this,'wpui_editor_page'));
+        add_submenu_page('wpui-option', __('Media Library','wp-admin-ui'), __('Media Library','wp-admin-ui'), 'manage_options', 'wpui-library', array( $this,'wpui_library_page'));
+        add_submenu_page('wpui-option', __('Profil','wp-admin-ui'), __('Profil','wp-admin-ui'), 'manage_options', 'wpui-profil', array( $this,'wpui_profil_page'));
+        add_submenu_page('wpui-option', __('Role Manager','wp-admin-ui'), __('Role Manager','wp-admin-ui'), 'manage_options', 'wpui-roles', array( $this,'wpui_roles_page'));
+        add_submenu_page('wpui-option', __('Import / Export / Reset settings','wp-admin-ui'), __('Import / Export / Reset','wp-admin-ui'), 'manage_options', 'wpui-import-export', array( $this,'wpui_import_export_page'));
     }
 
     function wpui_login_page(){
@@ -74,11 +74,11 @@ class wpui_options
          <?php 
             
             $plugin_settings_tabs = array(
-                'tab_wpui_global_display' => __( "Display", "wpui" ), 
-                'tab_wpui_global_advanced' => __( "Advanced", "wpui" ), 
-                'tab_wpui_global_updates' => __( "Updates", "wpui" ), 
-                'tab_wpui_global_front' => __( "Front", "wpui" ), 
-                'tab_wpui_global_debug' => __( "Debug", "wpui" ), 
+                'tab_wpui_global_display' => __( "Display", "wp-admin-ui" ), 
+                'tab_wpui_global_advanced' => __( "Advanced", "wp-admin-ui" ), 
+                'tab_wpui_global_updates' => __( "Updates", "wp-admin-ui" ), 
+                'tab_wpui_global_front' => __( "Front", "wp-admin-ui" ), 
+                'tab_wpui_global_debug' => __( "Debug", "wp-admin-ui" ), 
             );
 
             echo '<h2 class="nav-tab-wrapper">';
@@ -169,8 +169,8 @@ class wpui_options
          <?php 
             
             $plugin_settings_tabs = array(
-                'tab_wpui_library_base' => __( "Base", "wpui" ), 
-                'tab_wpui_library_filters' => __( "Filters", "wpui" ), 
+                'tab_wpui_library_base' => __( "Base", "wp-admin-ui" ), 
+                'tab_wpui_library_filters' => __( "Filters", "wp-admin-ui" ), 
             );
 
             echo '<h2 class="nav-tab-wrapper">';
@@ -223,27 +223,27 @@ class wpui_options
         $tag = version_compare( $wp_version, '4.4' ) >= 0 ? 'h1' : 'h2';
         echo '<'.$tag.'>'.$title.'</'.$tag.'>';
         ?>
-        <h3><span><?php _e( 'Import / Export Settings', 'wpui' ); ?></span></h3>
-        <?php print __('Import / Export WP Admin UI settings from site to site', 'wpui'); ?>
+        <h3><span><?php _e( 'Import / Export Settings', 'wp-admin-ui' ); ?></span></h3>
+        <?php print __('Import / Export WP Admin UI settings from site to site', 'wp-admin-ui'); ?>
         <div class="metabox-holder">
             <div class="postbox">
-                <h3><span><?php _e( 'Export Settings', 'wpui' ); ?></span></h3>
+                <h3><span><?php _e( 'Export Settings', 'wp-admin-ui' ); ?></span></h3>
                 <div class="inside">
-                    <p><?php _e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'wpui' ); ?></p>
+                    <p><?php _e( 'Export the plugin settings for this site as a .json file. This allows you to easily import the configuration into another site.', 'wp-admin-ui' ); ?></p>
                     <form method="post">
                         <p><input type="hidden" name="wpui_action" value="export_settings" /></p>
                         <p>
                             <?php wp_nonce_field( 'wpui_export_nonce', 'wpui_export_nonce' ); ?>
-                            <?php submit_button( __( 'Export', 'wpui' ), 'secondary', 'submit', false ); ?>
+                            <?php submit_button( __( 'Export', 'wp-admin-ui' ), 'secondary', 'submit', false ); ?>
                         </p>
                     </form>
                 </div><!-- .inside -->
             </div><!-- .postbox -->
 
             <div class="postbox">
-                <h3><span><?php _e( 'Import Settings', 'wpui' ); ?></span></h3>
+                <h3><span><?php _e( 'Import Settings', 'wp-admin-ui' ); ?></span></h3>
                 <div class="inside">
-                    <p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'wpui' ); ?></p>
+                    <p><?php _e( 'Import the plugin settings from a .json file. This file can be obtained by exporting the settings on another site using the form above.', 'wp-admin-ui' ); ?></p>
                     <form method="post" enctype="multipart/form-data">
                         <p>
                             <input type="file" name="import_file"/>
@@ -251,21 +251,21 @@ class wpui_options
                         <p>
                             <input type="hidden" name="wpui_action" value="import_settings" />
                             <?php wp_nonce_field( 'wpui_import_nonce', 'wpui_import_nonce' ); ?>
-                            <?php submit_button( __( 'Import', 'wpui' ), 'secondary', 'submit', false ); ?>
+                            <?php submit_button( __( 'Import', 'wp-admin-ui' ), 'secondary', 'submit', false ); ?>
                         </p>
                     </form>
                 </div><!-- .inside -->
             </div><!-- .postbox -->
 
             <div class="postbox">
-                <h3><span><?php _e( 'Reset All Settings', 'wpui' ); ?></span></h3>
+                <h3><span><?php _e( 'Reset All Settings', 'wp-admin-ui' ); ?></span></h3>
                 <div class="inside">
-                    <p style="color:red"><?php _e( '<strong>WARNING:</strong> Delete all options related to WP Admin UI in your database.', 'wpui' ); ?></p>
+                    <p style="color:red"><?php _e( '<strong>WARNING:</strong> Delete all options related to WP Admin UI in your database.', 'wp-admin-ui' ); ?></p>
                      <form method="post" enctype="multipart/form-data">
                         <p>
                             <input type="hidden" name="wpui_action" value="reset_settings" />
                             <?php wp_nonce_field( 'wpui_reset_nonce', 'wpui_reset_nonce' ); ?>
-                            <?php submit_button( __( 'Reset settings', 'wpui' ), 'secondary', 'submit', false ); ?>
+                            <?php submit_button( __( 'Reset settings', 'wp-admin-ui' ), 'secondary', 'submit', false ); ?>
                         </p>
                     </form>
                 </div><!-- .inside -->
@@ -286,11 +286,11 @@ class wpui_options
             <div id="wpui-header">
 				<div id="wpui-admin">
 					<h1>
-						<span class="screen-reader-text"><?php _e( 'WP Admin UI', 'wpui' ); ?></span>
+						<span class="screen-reader-text"><?php _e( 'WP Admin UI', 'wp-admin-ui' ); ?></span>
                         <?php if ( is_plugin_active( 'wp-admin-ui-pro/wpadminui-pro.php' ) ) { ?>
                             <span class="wpui-info-version">
                                 <strong>
-                                    <?php _e('PRO', 'wpui'); ?>
+                                    <?php _e('PRO', 'wp-admin-ui'); ?>
                                     <?php echo WPUIPRO_VERSION; ?>
                                 </strong>
                             </span>
@@ -300,10 +300,10 @@ class wpui_options
 					</h1>
 					<div id="wpui-notice">
                         <a href="http://wp-alacarte.com/" target="_blank"><img class="wpalacarte-banner" width="300" height="250" src="<?php echo plugins_url('assets/img/wpalacarte-300x250-EN@2x.png', dirname(dirname(__FILE__))); ?>" /></a>
-						<h2><?php _e( 'The ultimate plugin to customize, manage and optimize your WordPress backend!', 'wpui' ); ?></h2>
+						<h2><?php _e( 'The ultimate plugin to customize, manage and optimize your WordPress backend!', 'wp-admin-ui' ); ?></h2>
                         <p class="small">
                             <span class="dashicons dashicons-wordpress"></span>
-                            <?php _e( 'You like WP Admin UI? Don\'t forget to rate it 5 stars!', 'wpui' ); ?>
+                            <?php _e( 'You like WP Admin UI? Don\'t forget to rate it 5 stars!', 'wp-admin-ui' ); ?>
 
                             <div class="wporg-ratings rating-stars">
                                 <a href="//wordpress.org/support/view/plugin-reviews/wp-admin-ui?rate=1#postform" data-rating="1" title="" target="_blank"><span class="dashicons dashicons-star-filled" style="color:#e6b800 !important;"></span></a>
@@ -332,11 +332,11 @@ class wpui_options
                             </script>
                         </p>
 						<p class="small">
-							<a href="http://twitter.com/wpcloudy" target="_blank"><div class="dashicons dashicons-twitter"></div><?php _e( 'Follow us on Twitter!', 'wpui' ); ?></a>
+							<a href="http://twitter.com/wpcloudy" target="_blank"><div class="dashicons dashicons-twitter"></div><?php _e( 'Follow us on Twitter!', 'wp-admin-ui' ); ?></a>
                             &nbsp;
-                            <a href="http://www.wpadminui.net/" target="_blank"><div class="dashicons dashicons-info"></div><?php _e( 'Our website', 'wpui' ); ?></a>
+                            <a href="http://www.wpadminui.net/" target="_blank"><div class="dashicons dashicons-info"></div><?php _e( 'Our website', 'wp-admin-ui' ); ?></a>
                             &nbsp;
-                            <a href="http://www.wpadminui.net/support" target="_blank"><div class="dashicons dashicons-sos"></div><?php _e( 'Knowledge base', 'wpui' ); ?></a>
+                            <a href="http://www.wpadminui.net/support" target="_blank"><div class="dashicons dashicons-sos"></div><?php _e( 'Knowledge base', 'wp-admin-ui' ); ?></a>
 						</p>
 					</div>
                     <table class="wpui-page-list" cellspacing="16">
@@ -347,9 +347,9 @@ class wpui_options
                                         <span class="dashicons dashicons-lock"></span>
                                     </div>
                                     <span class="inner">
-                                        <h4><?php _e('Login','wpui'); ?></h4>
-                                        <p><?php _e('Custom logo, custom background image, custom css...','wpui'); ?></p>
-                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-login' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                        <h4><?php _e('Login','wp-admin-ui'); ?></h4>
+                                        <p><?php _e('Custom logo, custom background image, custom css...','wp-admin-ui'); ?></p>
+                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-login' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                     </span>
                                 </td>
                                 <td>
@@ -357,9 +357,9 @@ class wpui_options
                                         <span class="dashicons dashicons-admin-site"></span>                                    
                                     </div>
                                     <span class="inner">
-                                        <h4><?php _e('Global','wpui'); ?></h4>
-                                        <p><?php _e('Custom footer credits, remove screen options, revisions...','wpui'); ?></p>
-                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-global' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                        <h4><?php _e('Global','wp-admin-ui'); ?></h4>
+                                        <p><?php _e('Custom footer credits, remove screen options, revisions...','wp-admin-ui'); ?></p>
+                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-global' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                     </span>
                                 </td>
                                 <td>
@@ -367,9 +367,9 @@ class wpui_options
                                         <span class="dashicons dashicons-dashboard"></span>                                    
                                     </div>
                                     <span class="inner">
-                                        <h4><?php _e('Dashboard','wpui'); ?></h4>
-                                        <p><?php _e('Remove widgets, remove welcome panel...','wpui'); ?></p>
-                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-dashboard' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                        <h4><?php _e('Dashboard','wp-admin-ui'); ?></h4>
+                                        <p><?php _e('Remove widgets, remove welcome panel...','wp-admin-ui'); ?></p>
+                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-dashboard' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                     </span>
                                 </td>
                                 <td>
@@ -377,9 +377,9 @@ class wpui_options
                                         <span class="dashicons dashicons-menu"></span>                                   
                                     </div>
                                     <span class="inner">
-                                        <h4><?php _e('Admin Menu','wpui'); ?></h4>
-                                        <p><?php _e('Hide menus/submenus, reorder them with drag and drop...','wpui'); ?></p>
-                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-admin-menu' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                        <h4><?php _e('Admin Menu','wp-admin-ui'); ?></h4>
+                                        <p><?php _e('Hide menus/submenus, reorder them with drag and drop...','wp-admin-ui'); ?></p>
+                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-admin-menu' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                     </span>
                                 </td>
                             </tr>
@@ -389,9 +389,9 @@ class wpui_options
                                         <span class="dashicons dashicons-plus"></span>                                   
                                     </div>
                                     <span class="inner">
-                                        <h4><?php _e('Admin Bar','wpui'); ?></h4>
-                                        <p><?php _e('Remove items in admin bar...','wpui'); ?></p>
-                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-admin-bar' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                        <h4><?php _e('Admin Bar','wp-admin-ui'); ?></h4>
+                                        <p><?php _e('Remove items in admin bar...','wp-admin-ui'); ?></p>
+                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-admin-bar' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                     </span>
                                 </td>
                                 <td>
@@ -399,9 +399,9 @@ class wpui_options
                                         <span class="dashicons dashicons-editor-kitchensink"></span>                                   
                                     </div>
                                     <span class="inner">
-                                        <h4><?php _e('Editor','wpui'); ?></h4>
-                                        <p><?php _e('Full TinyMCE, add new buttons, add quicktags...','wpui'); ?></p>
-                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-editor' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                        <h4><?php _e('Editor','wp-admin-ui'); ?></h4>
+                                        <p><?php _e('Full TinyMCE, add new buttons, add quicktags...','wp-admin-ui'); ?></p>
+                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-editor' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                     </span>
                                 </td>
                                 <?php if ( is_plugin_active( 'wp-admin-ui-pro/wpadminui-pro.php' ) ) { ?>
@@ -410,9 +410,9 @@ class wpui_options
                                             <span class="dashicons dashicons-index-card"></span>                                 
                                         </div> 
                                         <span class="inner">
-                                            <h4><?php _e('Metaboxes','wpui'); ?></h4>
-                                            <p><?php _e('Hide metaboxes from your custom post types...','wpui'); ?></p>
-                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-metaboxes' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                            <h4><?php _e('Metaboxes','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Hide metaboxes from your custom post types...','wp-admin-ui'); ?></p>
+                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-metaboxes' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                         </span>
                                     </td>
                                 <?php } else { ?>
@@ -421,9 +421,9 @@ class wpui_options
                                             <span class="dashicons dashicons-index-card"></span>                                    
                                         </div>
                                         <span class="inner">
-                                            <h4><?php _e('Metaboxes','wpui'); ?></h4>
-                                            <p><?php _e('Hide metaboxes...','wpui'); ?></p>
-                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wpui'); ?></a>                                        
+                                            <h4><?php _e('Metaboxes','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Hide metaboxes...','wp-admin-ui'); ?></p>
+                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wp-admin-ui'); ?></a>                                        
                                         </span>
                                     </td>
                                 <?php } ?>
@@ -433,9 +433,9 @@ class wpui_options
                                             <span class="dashicons dashicons-list-view"></span>                                  
                                         </div>
                                         <span class="inner">
-                                            <h4><?php _e('Columns','wpui'); ?></h4>
-                                            <p><?php _e('Hide columns from list view, add post ID column...','wpui'); ?></p>
-                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-columns' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                            <h4><?php _e('Columns','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Hide columns from list view, add post ID column...','wp-admin-ui'); ?></p>
+                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-columns' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                         </span>
                                     </td>
                                 <?php } else { ?>
@@ -444,9 +444,9 @@ class wpui_options
                                             <span class="dashicons dashicons-list-view"></span>                                   
                                         </div>
                                         <span class="inner">
-                                            <h4><?php _e('Columns','wpui'); ?></h4>
-                                            <p><?php _e('Hide columns from list view, add post ID column...','wpui'); ?></p>
-                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wpui'); ?></a>
+                                            <h4><?php _e('Columns','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Hide columns from list view, add post ID column...','wp-admin-ui'); ?></p>
+                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wp-admin-ui'); ?></a>
                                         </span>
                                     </td>
                                 <?php } ?>
@@ -457,9 +457,9 @@ class wpui_options
                                         <span class="dashicons dashicons-admin-media"></span>                                    
                                     </div>
                                     <span class="inner">
-                                        <h4><?php _e('Library','wpui'); ?></h4>
-                                        <p><?php _e('JPEG quality, add filters type (PDF, DOCX...)','wpui'); ?></p>
-                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-library' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                        <h4><?php _e('Library','wp-admin-ui'); ?></h4>
+                                        <p><?php _e('JPEG quality, add filters type (PDF, DOCX...)','wp-admin-ui'); ?></p>
+                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-library' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                     </span>
                                 </td>
                                 <td>
@@ -467,9 +467,9 @@ class wpui_options
                                         <span class="dashicons dashicons-admin-users"></span>                                    
                                     </div>
                                     <span class="inner">
-                                        <h4><?php _e('Profil','wpui'); ?></h4>
-                                        <p><?php _e('Color scheme, add custom field in profil...','wpui'); ?></p>
-                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-profil' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                        <h4><?php _e('Profil','wp-admin-ui'); ?></h4>
+                                        <p><?php _e('Color scheme, add custom field in profil...','wp-admin-ui'); ?></p>
+                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-profil' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                     </span>
                                 </td>
                                 <?php if ( is_plugin_active( 'wp-admin-ui-pro/wpadminui-pro.php' ) ) { ?>
@@ -478,9 +478,9 @@ class wpui_options
                                             <span class="dashicons dashicons-admin-plugins"></span>                                    
                                         </div>
                                         <span class="inner">
-                                            <h4><?php _e('Plugins','wpui'); ?></h4>
-                                            <p><?php _e('Remove WP SEO notifications, WPML Ads, WooThemes updater...','wpui'); ?></p>
-                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-plugins' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                            <h4><?php _e('Plugins','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Remove WP SEO notifications, WPML Ads, WooThemes updater...','wp-admin-ui'); ?></p>
+                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-plugins' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                         </span>
                                     </td>
                                 <?php } else { ?>
@@ -489,9 +489,9 @@ class wpui_options
                                             <span class="dashicons dashicons-admin-plugins"></span>                                    
                                         </div>
                                         <span class="inner">
-                                            <h4><?php _e('Plugins','wpui'); ?></h4>
-                                            <p><?php _e('Remove WP SEO notifications, WPML Ads, WooThemes updater plugin...','wpui'); ?></p>
-                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wpui'); ?></a>
+                                            <h4><?php _e('Plugins','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Remove WP SEO notifications, WPML Ads, WooThemes updater plugin...','wp-admin-ui'); ?></p>
+                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wp-admin-ui'); ?></a>
                                         </span>
                                     </td>
                                 <?php } ?>
@@ -501,9 +501,9 @@ class wpui_options
                                             <span class="dashicons dashicons-admin-appearance"></span>                                    
                                         </div>
                                         <span class="inner">
-                                            <h4><?php _e('Themes','wpui'); ?></h4>
-                                            <p><?php _e('Create your own admin theme, or choose a preset one.','wpui'); ?></p>
-                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-themes' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                            <h4><?php _e('Themes','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Create your own admin theme, or choose a preset one.','wp-admin-ui'); ?></p>
+                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-themes' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                         </span>
                                     </td>
                                 <?php } else { ?>
@@ -512,9 +512,9 @@ class wpui_options
                                             <span class="dashicons dashicons-admin-appearance"></span>                                    
                                         </div>
                                         <span class="inner">
-                                            <h4><?php _e('Themes','wpui'); ?></h4>
-                                            <p><?php _e('Create your own admin theme, or choose a preset one.','wpui'); ?></p>
-                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wpui'); ?></a>
+                                            <h4><?php _e('Themes','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Create your own admin theme, or choose a preset one.','wp-admin-ui'); ?></p>
+                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wp-admin-ui'); ?></a>
                                         </span>
                                     </td>
                                 <?php } ?>
@@ -526,9 +526,9 @@ class wpui_options
                                             <span class="dashicons dashicons-email-alt"></span>                                  
                                         </div>
                                         <span class="inner">
-                                            <h4><?php _e('Mails','wpui'); ?></h4>
-                                            <p><?php _e('Optimize WP Mails','wpui'); ?></p>
-                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-mails' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                            <h4><?php _e('Mails','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Optimize WP Mails','wp-admin-ui'); ?></p>
+                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-mails' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                         </span>
                                     </td>
                                 <?php } else { ?>
@@ -537,9 +537,9 @@ class wpui_options
                                             <span class="dashicons dashicons-email-alt"></span>                                   
                                         </div>
                                         <span class="inner">
-                                            <h4><?php _e('Mails','wpui'); ?></h4>
-                                            <p><?php _e('Optimize WP Mails','wpui'); ?></p>
-                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wpui'); ?></a>
+                                            <h4><?php _e('Mails','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Optimize WP Mails','wp-admin-ui'); ?></p>
+                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wp-admin-ui'); ?></a>
                                         </span>
                                     </td>
                                 <?php } ?>
@@ -549,9 +549,9 @@ class wpui_options
                                             <span class="dashicons dashicons-cart"></span>                                  
                                         </div>
                                         <span class="inner">
-                                            <h4><?php _e('WooCommerce','wpui'); ?></h4>
-                                            <p><?php _e('Customize WooCommerce','wpui'); ?></p>
-                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-woocommerce' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                            <h4><?php _e('WooCommerce','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Customize WooCommerce','wp-admin-ui'); ?></p>
+                                            <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-woocommerce' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                         </span>
                                     </td>
                                 <?php } else { ?>
@@ -560,9 +560,9 @@ class wpui_options
                                             <span class="dashicons dashicons-cart"></span>                                   
                                         </div>
                                         <span class="inner">
-                                            <h4><?php _e('WooCommerce','wpui'); ?></h4>
-                                            <p><?php _e('Customize WooCommerce','wpui'); ?></p>
-                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wpui'); ?></a>
+                                            <h4><?php _e('WooCommerce','wp-admin-ui'); ?></h4>
+                                            <p><?php _e('Customize WooCommerce','wp-admin-ui'); ?></p>
+                                            <a class="button-primary" href="http://wpadminui.net/pro" target="_blank"><span class="dashicons dashicons-cart"></span><?php _e('Get it','wp-admin-ui'); ?></a>
                                         </span>
                                     </td>
                                 <?php } ?>
@@ -571,9 +571,9 @@ class wpui_options
                                         <span class="dashicons dashicons-groups"></span>                                    
                                     </div>
                                     <span class="inner">
-                                        <h4><?php _e('Role manager','wpui'); ?></h4>
-                                        <p><?php _e('Apply WP Admin UI settings to specific roles.','wpui'); ?></p>
-                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-roles' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                        <h4><?php _e('Role manager','wp-admin-ui'); ?></h4>
+                                        <p><?php _e('Apply WP Admin UI settings to specific roles.','wp-admin-ui'); ?></p>
+                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-roles' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                     </span>
                                 </td>
                                 <td>
@@ -581,9 +581,9 @@ class wpui_options
                                         <span class="dashicons dashicons-admin-settings"></span>                                   
                                     </div>
                                     <span class="inner">
-                                        <h4><?php _e('Import / Export / Reset','wpui'); ?></h4>
-                                        <p><?php _e('Import / export WP Admin UI settings from site to site.','wpui'); ?></p>
-                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-import-export' ); ?>"><?php _e('Manage','wpui'); ?></a>
+                                        <h4><?php _e('Import / Export / Reset','wp-admin-ui'); ?></h4>
+                                        <p><?php _e('Import / export WP Admin UI settings from site to site.','wp-admin-ui'); ?></p>
+                                        <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-import-export' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                     </span>
                                 </td>
                             </tr>
@@ -668,14 +668,14 @@ class wpui_options
 		//LOGIN SECTION============================================================================
 		add_settings_section( 
             'wpui_setting_section_login', // ID
-            __("Login settings","wpui"), // Title
+            __("Login settings","wp-admin-ui"), // Title
             array( $this, 'print_section_info_login' ), // Callback
             'wpui-settings-admin-login' // Page 
         ); 	
 
         add_settings_field(
             'wpui_login_custom_css', // ID
-           __("Custom login CSS","wpui"), // Title
+           __("Custom login CSS","wp-admin-ui"), // Title
             array( $this, 'wpui_login_custom_css_callback' ), // Callback
             'wpui-settings-admin-login', // Page
             'wpui_setting_section_login' // Section                  
@@ -683,7 +683,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_login_logo_url', // ID
-           __("Custom logo url","wpui"), // Title
+           __("Custom logo url","wp-admin-ui"), // Title
             array( $this, 'wpui_login_logo_url_callback' ), // Callback
             'wpui-settings-admin-login', // Page
             'wpui_setting_section_login' // Section           
@@ -691,7 +691,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_login_logo', // ID
-           __("Custom logo (recommanded width: 320px, height: 75px","wpui"), // Title
+           __("Custom logo (recommanded width: 320px, height: 75px","wp-admin-ui"), // Title
             array( $this, 'wpui_login_logo_callback' ), // Callback
             'wpui-settings-admin-login', // Page
             'wpui_setting_section_login' // Section           
@@ -699,7 +699,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_login_custom_logo_title', // ID
-           __("Custom logo title","wpui"), // Title
+           __("Custom logo title","wp-admin-ui"), // Title
             array( $this, 'wpui_login_custom_logo_title_callback' ), // Callback
             'wpui-settings-admin-login', // Page
             'wpui_setting_section_login' // Section           
@@ -707,7 +707,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_login_custom_bg_img', // ID
-           __("Custom background image","wpui"), // Title
+           __("Custom background image","wp-admin-ui"), // Title
             array( $this, 'wpui_login_custom_bg_img_callback' ), // Callback
             'wpui-settings-admin-login', // Page
             'wpui_setting_section_login' // Section           
@@ -715,7 +715,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_login_always_checked', // ID
-           __("Always checked remember me","wpui"), // Title
+           __("Always checked remember me","wp-admin-ui"), // Title
             array( $this, 'wpui_login_always_checked_callback' ), // Callback
             'wpui-settings-admin-login', // Page
             'wpui_setting_section_login' // Section           
@@ -723,7 +723,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_login_error_message', // ID
-           __("Remove error message for security","wpui"), // Title
+           __("Remove error message for security","wp-admin-ui"), // Title
             array( $this, 'wpui_login_error_message_callback' ), // Callback
             'wpui-settings-admin-login', // Page
             'wpui_setting_section_login' // Section           
@@ -731,7 +731,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_login_shake_effect', // ID
-           __("Disable Shake Effect if wrong login","wpui"), // Title
+           __("Disable Shake Effect if wrong login","wp-admin-ui"), // Title
             array( $this, 'wpui_login_shake_effect_callback' ), // Callback
             'wpui-settings-admin-login', // Page
             'wpui_setting_section_login' // Section           
@@ -739,7 +739,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_login_logout_redirect', // ID
-            __("Redirect users to a specific url after logout","wpui"), // Title
+            __("Redirect users to a specific url after logout","wp-admin-ui"), // Title
             array( $this, 'wpui_login_logout_redirect_callback' ), // Callback
             'wpui-settings-admin-login', // Page
             'wpui_setting_section_login' // Section  
@@ -747,7 +747,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_login_register_redirect', // ID
-            __("Redirect users to a specific url after registration","wpui"), // Title
+            __("Redirect users to a specific url after registration","wp-admin-ui"), // Title
             array( $this, 'wpui_login_register_redirect_callback' ), // Callback
             'wpui-settings-admin-login', // Page
             'wpui_setting_section_login' // Section  
@@ -755,7 +755,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_login_disable_email', // ID
-            __("Disable login by email for users","wpui"), // Title
+            __("Disable login by email for users","wp-admin-ui"), // Title
             array( $this, 'wpui_login_disable_email_callback' ), // Callback
             'wpui-settings-admin-login', // Page
             'wpui_setting_section_login' // Section  
@@ -765,7 +765,7 @@ class wpui_options
         add_settings_section( 
             'wpui_setting_section_global_display', // ID
             '',
-            //__("Display","wpui"), // Title
+            //__("Display","wp-admin-ui"), // Title
             array( $this, 'print_section_info_global' ), // Callback
             'wpui-settings-admin-global-display' // Page
         );  
@@ -773,7 +773,7 @@ class wpui_options
         add_settings_section( 
             'wpui_setting_section_global_advanced', // ID
             '',
-            //__("Advanced","wpui"), // Title
+            //__("Advanced","wp-admin-ui"), // Title
             array( $this, 'print_section_info_global' ), // Callback
             'wpui-settings-admin-global-advanced' // Page
         ); 
@@ -781,7 +781,7 @@ class wpui_options
         add_settings_section( 
             'wpui_setting_section_global_updates', // ID
             '',
-            //__("Updates","wpui"), // Title
+            //__("Updates","wp-admin-ui"), // Title
             array( $this, 'print_section_info_global' ), // Callback
             'wpui-settings-admin-global-updates' // Page
         ); 
@@ -789,7 +789,7 @@ class wpui_options
         add_settings_section( 
             'wpui_setting_section_global_front', // ID
             'These settings apply to the entire site, visitors AND connected users.',
-            //__("Front","wpui"), // Title
+            //__("Front","wp-admin-ui"), // Title
             array( $this, 'print_section_info_global' ), // Callback
             'wpui-settings-admin-global-front' // Page
         ); 
@@ -797,14 +797,14 @@ class wpui_options
         add_settings_section( 
             'wpui_setting_section_global_debug', // ID
             '',
-            //__("Debug","wpui"), // Title
+            //__("Debug","wp-admin-ui"), // Title
             array( $this, 'print_section_info_global' ), // Callback
             'wpui-settings-admin-global-debug' // Page
         ); 
 
         add_settings_field(
             'wpui_global_custom_css', // ID
-           __("Custom admin CSS","wpui"), // Title
+           __("Custom admin CSS","wp-admin-ui"), // Title
             array( $this, 'wpui_global_custom_css_callback' ), // Callback
             'wpui-settings-admin-global-display', // Page
             'wpui_setting_section_global_display' // Section           
@@ -812,7 +812,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_version_footer', // ID
-           __("Remove WordPress version in footer","wpui"), // Title
+           __("Remove WordPress version in footer","wp-admin-ui"), // Title
             array( $this, 'wpui_global_version_footer_callback' ), // Callback
             'wpui-settings-admin-global-display', // Page
             'wpui_setting_section_global_display' // Section  
@@ -820,7 +820,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_custom_version_footer', // ID
-           __("Custom WordPress version in footer","wpui"), // Title
+           __("Custom WordPress version in footer","wp-admin-ui"), // Title
             array( $this, 'wpui_global_custom_version_footer_callback' ), // Callback
             'wpui-settings-admin-global-display', // Page
             'wpui_setting_section_global_display' // Section           
@@ -828,7 +828,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_credits_footer', // ID
-           __("Remove WordPress credits in footer","wpui"), // Title
+           __("Remove WordPress credits in footer","wp-admin-ui"), // Title
             array( $this, 'wpui_global_credits_footer_callback' ), // Callback
             'wpui-settings-admin-global-display', // Page
             'wpui_setting_section_global_display' // Section           
@@ -836,7 +836,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_custom_credits_footer', // ID
-           __("Custom WordPress credits in footer","wpui"), // Title
+           __("Custom WordPress credits in footer","wp-admin-ui"), // Title
             array( $this, 'wpui_global_custom_credits_footer_callback' ), // Callback
             'wpui-settings-admin-global-display', // Page
             'wpui_setting_section_global_display' // Section            
@@ -844,7 +844,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_custom_favicon', // ID
-           __("Custom favicon in admin","wpui"), // Title
+           __("Custom favicon in admin","wp-admin-ui"), // Title
             array( $this, 'wpui_global_custom_favicon_callback' ), // Callback
             'wpui-settings-admin-global-display', // Page
             'wpui_setting_section_global_display' // Section            
@@ -852,7 +852,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_help_tab', // ID
-           __("Remove help tab","wpui"), // Title
+           __("Remove help tab","wp-admin-ui"), // Title
             array( $this, 'wpui_global_help_tab_callback' ), // Callback
             'wpui-settings-admin-global-display', // Page
             'wpui_setting_section_global_display' // Section           
@@ -860,7 +860,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_screen_options_tab', // ID
-           __("Remove screen options tab","wpui"), // Title
+           __("Remove screen options tab","wp-admin-ui"), // Title
             array( $this, 'wpui_global_screen_options_tab_callback' ), // Callback
             'wpui-settings-admin-global-display', // Page
             'wpui_setting_section_global_display' // Section           
@@ -868,7 +868,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_open_sans', // ID
-            __("Disable Open Sans loading from Google","wpui"), // Title
+            __("Disable Open Sans loading from Google","wp-admin-ui"), // Title
             array( $this, 'wpui_global_open_sans_callback' ), // Callback
             'wpui-settings-admin-global-display', // Page
             'wpui_setting_section_global_display' // Section  
@@ -876,7 +876,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_custom_avatar', // ID
-           __("Define a new avatar for comments","wpui"), // Title
+           __("Define a new avatar for comments","wp-admin-ui"), // Title
             array( $this, 'wpui_global_custom_avatar_callback' ), // Callback
             'wpui-settings-admin-global-display', // Page
             'wpui_setting_section_global_display' // Section            
@@ -884,7 +884,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_password_notification', // ID
-           __("Hide autogenerated password message","wpui"), // Title
+           __("Hide autogenerated password message","wp-admin-ui"), // Title
             array( $this, 'wpui_global_password_notification_callback' ), // Callback
             'wpui-settings-admin-global-advanced', // Page
             'wpui_setting_section_global_advanced' // Section            
@@ -892,7 +892,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_edit_per_page', // ID
-           __("Number of items per page in list view (default 20)","wpui"), // Title
+           __("Number of items per page in list view (default 20)","wp-admin-ui"), // Title
             array( $this, 'wpui_global_edit_per_page_callback' ), // Callback
             'wpui-settings-admin-global-advanced', // Page
             'wpui_setting_section_global_advanced' // Section          
@@ -900,7 +900,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_default_view_mode', // ID
-            __("Define default view mode in view list","wpui"), // Title
+            __("Define default view mode in view list","wp-admin-ui"), // Title
             array( $this, 'wpui_global_default_view_mode_callback' ), // Callback
             'wpui-settings-admin-global-advanced', // Page
             'wpui_setting_section_global_advanced' // Section  
@@ -908,7 +908,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_disable_file_editor', // ID
-            __("Disable file editor for themes and plugins","wpui"), // Title
+            __("Disable file editor for themes and plugins","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_file_editor_callback' ), // Callback
             'wpui-settings-admin-global-advanced', // Page
             'wpui_setting_section_global_advanced' // Section  
@@ -916,7 +916,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_global_disable_file_mods', // ID
-            __("Disable Plugin and Theme Update, and Installation","wpui"), // Title
+            __("Disable Plugin and Theme Update, and Installation","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_file_mods_callback' ), // Callback
             'wpui-settings-admin-global-advanced', // Page
             'wpui_setting_section_global_advanced' // Section  
@@ -924,7 +924,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_block_admin', // ID
-            __("Block WordPress admin for specific user roles","wpui"), // Title
+            __("Block WordPress admin for specific user roles","wp-admin-ui"), // Title
             array( $this, 'wpui_global_block_admin_callback' ), // Callback
             'wpui-settings-admin-global-advanced', // Page
             'wpui_setting_section_global_advanced' // Section  
@@ -932,7 +932,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_global_update_notification', // ID
-           __("Disable WordPress updates notifications","wpui"), // Title
+           __("Disable WordPress updates notifications","wp-admin-ui"), // Title
             array( $this, 'wpui_global_update_notification_callback' ), // Callback
             'wpui-settings-admin-global-updates', // Page
             'wpui_setting_section_global_updates' // Section            
@@ -940,7 +940,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_disable_all_wp_udpates', // ID
-            __("Disable all updates","wpui"), // Title
+            __("Disable all updates","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_all_wp_udpates_callback' ), // Callback
             'wpui-settings-admin-global-updates', // Page
             'wpui_setting_section_global_updates' // Section  
@@ -948,7 +948,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_global_disable_core_udpates', // ID
-            __("Disable core updates","wpui"), // Title
+            __("Disable core updates","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_core_udpates_callback' ), // Callback
             'wpui-settings-admin-global-updates', // Page
             'wpui_setting_section_global_updates' // Section  
@@ -956,7 +956,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_global_disable_core_dev_udpates', // ID
-            __("Disable core development updates","wpui"), // Title
+            __("Disable core development updates","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_core_dev_udpates_callback' ), // Callback
             'wpui-settings-admin-global-updates', // Page
             'wpui_setting_section_global_updates' // Section  
@@ -964,7 +964,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_global_disable_core_minor_udpates', // ID
-            __("Disable minor core updates","wpui"), // Title
+            __("Disable minor core updates","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_core_minor_udpates_callback' ), // Callback
             'wpui-settings-admin-global-updates', // Page
             'wpui_setting_section_global_updates' // Section  
@@ -972,7 +972,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_global_disable_core_major_udpates', // ID
-            __("Disable major core updates","wpui"), // Title
+            __("Disable major core updates","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_core_major_udpates_callback' ), // Callback
             'wpui-settings-admin-global-updates', // Page
             'wpui_setting_section_global_updates' // Section  
@@ -980,7 +980,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_global_enable_core_vcs_udpates', // ID
-            __("Enable automatic updates on Versioning Control System (GIT/SVN)","wpui"), // Title
+            __("Enable automatic updates on Versioning Control System (GIT/SVN)","wp-admin-ui"), // Title
             array( $this, 'wpui_global_enable_core_vcs_udpates_callback' ), // Callback
             'wpui-settings-admin-global-updates', // Page
             'wpui_setting_section_global_updates' // Section  
@@ -988,7 +988,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_global_disable_plugin_udpates', // ID
-            __("Disable automatic updates for all plugins","wpui"), // Title
+            __("Disable automatic updates for all plugins","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_plugin_udpates_callback' ), // Callback
             'wpui-settings-admin-global-updates', // Page
             'wpui_setting_section_global_updates' // Section  
@@ -996,7 +996,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_global_disable_theme_udpates', // ID
-            __("Disable automatic updates for all themes","wpui"), // Title
+            __("Disable automatic updates for all themes","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_theme_udpates_callback' ), // Callback
             'wpui-settings-admin-global-updates', // Page
             'wpui_setting_section_global_updates' // Section  
@@ -1004,7 +1004,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_global_disable_translation_udpates', // ID
-            __("Disable automatic updates for all translations","wpui"), // Title
+            __("Disable automatic updates for all translations","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_translation_udpates_callback' ), // Callback
             'wpui-settings-admin-global-updates', // Page
             'wpui_setting_section_global_updates' // Section  
@@ -1012,7 +1012,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_global_disable_email_udpates', // ID
-            __("Disable update emails notifications","wpui"), // Title
+            __("Disable update emails notifications","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_email_udpates_callback' ), // Callback
             'wpui-settings-admin-global-updates', // Page
             'wpui_setting_section_global_updates' // Section  
@@ -1020,7 +1020,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_disable_emoji', // ID
-            __("Disable Emoji support for old browsers","wpui"), // Title
+            __("Disable Emoji support for old browsers","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_emoji_callback' ), // Callback
             'wpui-settings-admin-global-front', // Page
             'wpui_setting_section_global_front' // Section  
@@ -1028,7 +1028,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_disable_json_rest_api', // ID
-            __("Disable JSON REST API","wpui"), // Title
+            __("Disable JSON REST API","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_json_rest_api_callback' ), // Callback
             'wpui-settings-admin-global-front', // Page
             'wpui_setting_section_global_front' // Section  
@@ -1036,7 +1036,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_disable_xmlrpc', // ID
-            __("Disable XML RPC","wpui"), // Title
+            __("Disable XML RPC","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_xmlrpc_callback' ), // Callback
             'wpui-settings-admin-global-front', // Page
             'wpui_setting_section_global_front' // Section  
@@ -1044,7 +1044,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_global_disable_js_concatenation', // ID
-            __("Disable JS/CSS concatenation","wpui"), // Title
+            __("Disable JS/CSS concatenation","wp-admin-ui"), // Title
             array( $this, 'wpui_global_disable_js_concatenation_callback' ), // Callback
             'wpui-settings-admin-global-debug', // Page
             'wpui_setting_section_global_debug' // Section  
@@ -1053,14 +1053,14 @@ class wpui_options
         //DASHBOARD SECTION============================================================================
         add_settings_section( 
             'wpui_setting_section_dashboard', // ID
-            __("Dashboard settings","wpui"), // Title
+            __("Dashboard settings","wp-admin-ui"), // Title
             array( $this, 'print_section_info_dashboard' ), // Callback
             'wpui-settings-admin-dashboard' // Page
         );  
 
         add_settings_field(
             'wpui_dashboard_welcome_panel', // ID
-           __("Remove Welcome Panel","wpui"), // Title
+           __("Remove Welcome Panel","wp-admin-ui"), // Title
             array( $this, 'wpui_dashboard_welcome_panel_callback' ), // Callback
             'wpui-settings-admin-dashboard', // Page
             'wpui_setting_section_dashboard' // Section           
@@ -1068,7 +1068,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_dashboard_single_column', // ID
-           __("Display Dashboard in a single column","wpui"), // Title
+           __("Display Dashboard in a single column","wp-admin-ui"), // Title
             array( $this, 'wpui_dashboard_single_column_callback' ), // Callback
             'wpui-settings-admin-dashboard', // Page
             'wpui_setting_section_dashboard' // Section           
@@ -1076,7 +1076,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_dashboard_list_widgets', // ID
-           __("Remove dashboard widgets","wpui"), // Title
+           __("Remove dashboard widgets","wp-admin-ui"), // Title
             array( $this, 'wpui_dashboard_list_widgets_callback' ), // Callback
             'wpui-settings-admin-dashboard', // Page
             'wpui_setting_section_dashboard' // Section           
@@ -1084,7 +1084,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_dashboard_drag_and_drop_widgets', // ID
-           __("Disable drag and drop for dashboard widgets (block disabling widgets from Screen options too)","wpui"), // Title
+           __("Disable drag and drop for dashboard widgets (block disabling widgets from Screen options too)","wp-admin-ui"), // Title
             array( $this, 'wpui_dashboard_drag_and_drop_widgets_callback' ), // Callback
             'wpui-settings-admin-dashboard', // Page
             'wpui_setting_section_dashboard' // Section           
@@ -1092,7 +1092,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_dashboard_at_a_glance_cpt', // ID
-           __("Display all custom post types in At a glance dashboard widget","wpui"), // Title
+           __("Display all custom post types in At a glance dashboard widget","wp-admin-ui"), // Title
             array( $this, 'wpui_dashboard_at_a_glance_cpt_callback' ), // Callback
             'wpui-settings-admin-dashboard', // Page
             'wpui_setting_section_dashboard' // Section           
@@ -1100,7 +1100,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_dashboard_users_at_a_glance', // ID
-           __("Display number of users in At a glance dashboard widget","wpui"), // Title
+           __("Display number of users in At a glance dashboard widget","wp-admin-ui"), // Title
             array( $this, 'wpui_dashboard_users_at_a_glance_callback' ), // Callback
             'wpui-settings-admin-dashboard', // Page
             'wpui_setting_section_dashboard' // Section           
@@ -1108,7 +1108,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_dashboard_custom_widget_title', // ID
-           __("Display your custom widget title","wpui"), // Title
+           __("Display your custom widget title","wp-admin-ui"), // Title
             array( $this, 'wpui_dashboard_custom_widget_title_callback' ), // Callback
             'wpui-settings-admin-dashboard', // Page
             'wpui_setting_section_dashboard' // Section           
@@ -1116,7 +1116,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_dashboard_custom_widget', // ID
-           __("Display your custom widget","wpui"), // Title
+           __("Display your custom widget","wp-admin-ui"), // Title
             array( $this, 'wpui_dashboard_custom_widget_callback' ), // Callback
             'wpui-settings-admin-dashboard', // Page
             'wpui_setting_section_dashboard' // Section           
@@ -1125,14 +1125,14 @@ class wpui_options
         //ADMIN MENU SECTION===========================================================================
         add_settings_section( 
             'wpui_setting_section_admin_menu', // ID
-            __("Admin menu settings","wpui"), // Title
+            __("Admin menu settings","wp-admin-ui"), // Title
             array( $this, 'print_section_info_admin_menu' ), // Callback
             'wpui-settings-admin-menu' // Page
         ); 
 
         add_settings_field(
             'wpui_admin_menu', // ID
-           __("Menu Structure","wpui"), // Title
+           __("Menu Structure","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_menu_callback' ), // Callback
             'wpui-settings-admin-menu', // Page
             'wpui_setting_section_admin_menu' // Section           
@@ -1140,7 +1140,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_menu_all_settings', // ID
-           __("Display all settings in menu","wpui"), // Title
+           __("Display all settings in menu","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_menu_all_settings_callback' ), // Callback
             'wpui-settings-admin-menu', // Page
             'wpui_setting_section_admin_menu' // Section           
@@ -1149,14 +1149,14 @@ class wpui_options
         //ADMIN BAR SECTION============================================================================
         add_settings_section( 
             'wpui_setting_section_admin_bar', // ID
-            __("Admin bar settings","wpui"), // Title
+            __("Admin bar settings","wp-admin-ui"), // Title
             array( $this, 'print_section_info_admin_bar' ), // Callback
             'wpui-settings-admin-bar' // Page
         );  
 
         add_settings_field(
             'wpui_admin_bar_wp_logo', // ID
-           __("Remove WordPress logo in admin bar","wpui"), // Title
+           __("Remove WordPress logo in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_wp_logo_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1164,7 +1164,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_custom_logo', // ID
-           __("Custom logo in admin bar","wpui"), // Title
+           __("Custom logo in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_custom_logo_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1172,7 +1172,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_site_name', // ID
-           __("Remove Site Name in admin bar","wpui"), // Title
+           __("Remove Site Name in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_site_name_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1180,7 +1180,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_my_account', // ID
-           __("Remove My Account in admin bar","wpui"), // Title
+           __("Remove My Account in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_my_account_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1188,7 +1188,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_menu_toggle', // ID
-           __("Remove Menu Toggle in admin bar","wpui"), // Title
+           __("Remove Menu Toggle in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_menu_toggle_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1196,7 +1196,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_edit', // ID
-           __("Remove Edit in admin bar","wpui"), // Title
+           __("Remove Edit in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_edit_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1204,7 +1204,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_view', // ID
-           __("Remove View in admin bar","wpui"), // Title
+           __("Remove View in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_view_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1212,7 +1212,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_preview', // ID
-           __("Remove Preview in admin bar","wpui"), // Title
+           __("Remove Preview in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_preview_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1220,7 +1220,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_comments', // ID
-           __("Remove Comments in admin bar","wpui"), // Title
+           __("Remove Comments in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_comments_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1228,7 +1228,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_new_content', // ID
-           __("Remove New Content in admin bar","wpui"), // Title
+           __("Remove New Content in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_new_content_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1236,7 +1236,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_view_site', // ID
-           __("Remove View Site in admin bar","wpui"), // Title
+           __("Remove View Site in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_view_site_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1244,7 +1244,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_updates', // ID
-           __("Remove Updates in admin bar","wpui"), // Title
+           __("Remove Updates in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_updates_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1252,7 +1252,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_customize', // ID
-           __("Remove customize in admin bar","wpui"), // Title
+           __("Remove customize in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_customize_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1260,7 +1260,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_search', // ID
-           __("Remove search in admin bar","wpui"), // Title
+           __("Remove search in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_search_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1268,7 +1268,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_howdy', // ID
-           __("Remove Howdy in admin bar","wpui"), // Title
+           __("Remove Howdy in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_howdy_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1276,7 +1276,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_wpui', // ID
-           __("Remove WP Admin UI in admin bar","wpui"), // Title
+           __("Remove WP Admin UI in admin bar","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_wpui_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1284,7 +1284,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_bar_disable', // ID
-           __("Disable admin bar in front-end","wpui"), // Title
+           __("Disable admin bar in front-end","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_bar_disable_callback' ), // Callback
             'wpui-settings-admin-bar', // Page
             'wpui_setting_section_admin_bar' // Section           
@@ -1293,14 +1293,14 @@ class wpui_options
         //EDITOR SECTION===============================================================================
         add_settings_section( 
             'wpui_setting_section_editor', // ID
-            __("Editor settings","wpui"), // Title
+            __("Editor settings","wp-admin-ui"), // Title
             array( $this, 'print_section_info_editor' ), // Callback
             'wpui-settings-admin-editor' // Page
         );  
 
         add_settings_field(
             'wpui_admin_editor_full_tinymce', // ID
-           __("Enable Full TinyMCE by default","wpui"), // Title
+           __("Enable Full TinyMCE by default","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_full_tinymce_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1308,7 +1308,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_font_size', // ID
-           __("Add Font Size select","wpui"), // Title
+           __("Add Font Size select","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_font_size_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1316,7 +1316,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_font_family', // ID
-           __("Add Font Family select","wpui"), // Title
+           __("Add Font Family select","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_font_family_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1324,7 +1324,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_custom_fonts', // ID
-           __("Add custom Fonts select","wpui"), // Title
+           __("Add custom Fonts select","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_custom_fonts_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1332,7 +1332,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_formats_select', // ID
-           __("Add Formats select (styles)","wpui"), // Title
+           __("Add Formats select (styles)","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_formats_select_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1340,7 +1340,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_get_shortlink', // ID
-           __("Remove Get Shortlink button","wpui"), // Title
+           __("Remove Get Shortlink button","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_get_shortlink_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1348,7 +1348,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_get_shortlink', // ID
-           __("Remove Get Shortlink button","wpui"), // Title
+           __("Remove Get Shortlink button","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_get_shortlink_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1356,7 +1356,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_btn_newdocument', // ID
-           __("Add New Document button","wpui"), // Title
+           __("Add New Document button","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_btn_newdocument_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1364,7 +1364,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_btn_cut', // ID
-           __("Add Cut button","wpui"), // Title
+           __("Add Cut button","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_btn_cut_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1372,7 +1372,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_btn_copy', // ID
-           __("Add Copy button","wpui"), // Title
+           __("Add Copy button","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_btn_copy_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1380,7 +1380,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_btn_paste', // ID
-           __("Add Paste button","wpui"), // Title
+           __("Add Paste button","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_btn_paste_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1388,7 +1388,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_btn_backcolor', // ID
-           __("Add Backcolor button","wpui"), // Title
+           __("Add Backcolor button","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_btn_backcolor_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1396,7 +1396,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_media_insert', // ID
-           __("Remove Insert Media in Media Modal","wpui"), // Title
+           __("Remove Insert Media in Media Modal","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_media_insert_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1404,7 +1404,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_admin_editor_media_upload', // ID
-           __("Remove Upload Files in Media Modal","wpui"), // Title
+           __("Remove Upload Files in Media Modal","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_media_upload_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1412,7 +1412,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_admin_editor_media_library', // ID
-           __("Remove Media Library in Media Modal","wpui"), // Title
+           __("Remove Media Library in Media Modal","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_media_library_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1420,7 +1420,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_admin_editor_media_gallery', // ID
-           __("Remove Create Gallery in Media Modal","wpui"), // Title
+           __("Remove Create Gallery in Media Modal","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_media_gallery_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1428,7 +1428,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_admin_editor_media_playlist', // ID
-           __("Remove Create Playlist in Media Modal","wpui"), // Title
+           __("Remove Create Playlist in Media Modal","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_media_playlist_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1436,7 +1436,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_media_featured_img', // ID
-           __("Remove Set Featured Image in Media Modal","wpui"), // Title
+           __("Remove Set Featured Image in Media Modal","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_media_featured_img_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1444,7 +1444,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_admin_editor_media_insert_url', // ID
-           __("Remove Insert From URL in Media Modal","wpui"), // Title
+           __("Remove Insert From URL in Media Modal","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_media_insert_url_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section           
@@ -1452,7 +1452,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_quicktags_p', // ID
-            __("Add \"p\" quicktags in Text Editor","wpui"), // Title
+            __("Add \"p\" quicktags in Text Editor","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_quicktags_p_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section
@@ -1460,7 +1460,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_admin_editor_quicktags_hr', // ID
-            __("Add \"hr\" quicktags in Text Editor","wpui"), // Title
+            __("Add \"hr\" quicktags in Text Editor","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_quicktags_hr_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section
@@ -1468,7 +1468,7 @@ class wpui_options
         
         add_settings_field(
             'wpui_admin_editor_quicktags_pre', // ID
-            __("Add \"pre\" quicktags in Text Editor","wpui"), // Title
+            __("Add \"pre\" quicktags in Text Editor","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_quicktags_pre_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section
@@ -1476,7 +1476,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_formatting_shortcuts', // ID
-            __("Disable formatting_shortcuts in Text Editor","wpui"), // Title
+            __("Disable formatting_shortcuts in Text Editor","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_formatting_shortcuts_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section
@@ -1484,7 +1484,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_img_def_align', // ID
-            __("Set a default image alignment in Text Editor","wpui"), // Title
+            __("Set a default image alignment in Text Editor","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_img_def_align_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section
@@ -1492,7 +1492,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_img_def_link', // ID
-            __("Set a default link type on images in Text Editor","wpui"), // Title
+            __("Set a default link type on images in Text Editor","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_img_def_link_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section
@@ -1500,7 +1500,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_admin_editor_img_def_size', // ID
-            __("Set a default image size in Text Editor","wpui"), // Title
+            __("Set a default image size in Text Editor","wp-admin-ui"), // Title
             array( $this, 'wpui_admin_editor_img_def_size_callback' ), // Callback
             'wpui-settings-admin-editor', // Page
             'wpui_setting_section_editor' // Section
@@ -1509,14 +1509,14 @@ class wpui_options
         //Profil SECTION==================================================================================
         add_settings_section( 
             'wpui_setting_section_profil', // ID
-            __("Profil settings","wpui"), // Title
+            __("Profil settings","wp-admin-ui"), // Title
             array( $this, 'print_section_info_profil' ), // Callback
             'wpui-settings-admin-profil' // Page
         );  
 
         add_settings_field(
             'wpui_profil_visual_editor', // ID
-           __("Remove Disable the visual editor when writing","wpui"), // Title
+           __("Remove Disable the visual editor when writing","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_visual_editor_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1524,7 +1524,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_admin_color_scheme', // ID
-           __("Remove Admin Color Scheme","wpui"), // Title
+           __("Remove Admin Color Scheme","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_admin_color_scheme_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1532,7 +1532,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_default_color_scheme', // ID
-           __("Set a default admin color scheme","wpui"), // Title
+           __("Set a default admin color scheme","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_default_color_scheme_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1540,7 +1540,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_keyword_shortcuts', // ID
-           __("Remove Enable Keyboard Shortcuts for comment moderation","wpui"), // Title
+           __("Remove Enable Keyboard Shortcuts for comment moderation","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_keyword_shortcuts_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1548,7 +1548,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_show_toolbar', // ID
-           __("Remove Show Toolbar when viewing site","wpui"), // Title
+           __("Remove Show Toolbar when viewing site","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_show_toolbar_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1557,7 +1557,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_facebook_field', // ID
-           __("Add Facebook field in user profil","wpui"), // Title
+           __("Add Facebook field in user profil","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_facebook_field_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1565,7 +1565,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_twitter_field', // ID
-           __("Add Twitter field in user profil","wpui"), // Title
+           __("Add Twitter field in user profil","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_twitter_field_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1573,7 +1573,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_instagram_field', // ID
-           __("Add Instagram field in user profil","wpui"), // Title
+           __("Add Instagram field in user profil","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_instagram_field_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1581,7 +1581,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_linkedin_field', // ID
-           __("Add LinkedIn field in user profil","wpui"), // Title
+           __("Add LinkedIn field in user profil","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_linkedin_field_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1592,7 +1592,7 @@ class wpui_options
         add_settings_section( 
             'wpui_setting_section_library_base', // ID
             '',
-            //__("Base","wpui"), // Title
+            //__("Base","wp-admin-ui"), // Title
             array( $this, 'print_section_info_library' ), // Callback
             'wpui-settings-admin-library-base' // Page
         );  
@@ -1600,14 +1600,14 @@ class wpui_options
         add_settings_section( 
             'wpui_setting_section_library_filters', // ID
             '',
-            //__("Advanced","wpui"), // Title
+            //__("Advanced","wp-admin-ui"), // Title
             array( $this, 'print_section_info_library' ), // Callback
             'wpui-settings-admin-library-filters' // Page
         ); 
 
         add_settings_field(
             'wpui_library_jpeg_quality', // ID
-           __("Define JPG image quality (default 90%)","wpui"), // Title
+           __("Define JPG image quality (default 82%)","wp-admin-ui"), // Title
             array( $this, 'wpui_library_jpeg_quality_callback' ), // Callback
             'wpui-settings-admin-library-base', // Page
             'wpui_setting_section_library_base' // Section            
@@ -1615,7 +1615,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_clean_filename', // ID
-           __("Clean filenames when uploading files to WordPress","wpui"), // Title
+           __("Clean filenames when uploading files to WordPress","wp-admin-ui"), // Title
             array( $this, 'wpui_library_clean_filename_callback' ), // Callback
             'wpui-settings-admin-library-base', // Page
             'wpui_setting_section_library_base' // Section          
@@ -1623,7 +1623,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_svg_mimes_type', // ID
-           __("Allow SVG file in media library","wpui"), // Title
+           __("Allow SVG file in media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_svg_mimes_type_callback' ), // Callback
             'wpui-settings-admin-library-base', // Page
             'wpui_setting_section_library_base' // Section           
@@ -1631,7 +1631,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_url_col', // ID
-           __("Add URL column in media library","wpui"), // Title
+           __("Add URL column in media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_url_col_callback' ), // Callback
             'wpui-settings-admin-library-base', // Page
             'wpui_setting_section_library_base' // Section           
@@ -1639,7 +1639,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_dimensions_col', // ID
-           __("Add dimensions column in media library","wpui"), // Title
+           __("Add dimensions column in media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_dimensions_col_callback' ), // Callback
             'wpui-settings-admin-library-base', // Page
             'wpui_setting_section_library_base' // Section           
@@ -1647,7 +1647,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_exif_col', // ID
-           __("Add EXIF metadata column in media library","wpui"), // Title
+           __("Add EXIF metadata column in media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_exif_col_callback' ), // Callback
             'wpui-settings-admin-library-base', // Page
             'wpui_setting_section_library_base' // Section           
@@ -1655,7 +1655,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_id_col', // ID
-           __("Add ID column in media library","wpui"), // Title
+           __("Add ID column in media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_id_col_callback' ), // Callback
             'wpui-settings-admin-library-base', // Page
             'wpui_setting_section_library_base' // Section          
@@ -1663,7 +1663,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_pdf', // ID
-           __("Add PDF filtering to media library","wpui"), // Title
+           __("Add PDF filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_pdf_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section           
@@ -1671,7 +1671,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_zip', // ID
-           __("Add ZIP filtering to media library","wpui"), // Title
+           __("Add ZIP filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_zip_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section            
@@ -1679,7 +1679,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_rar', // ID
-           __("Add RAR filtering to media library","wpui"), // Title
+           __("Add RAR filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_rar_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section             
@@ -1687,7 +1687,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_7z', // ID
-           __("Add 7Z filtering to media library","wpui"), // Title
+           __("Add 7Z filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_7z_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section             
@@ -1695,7 +1695,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_tar', // ID
-           __("Add TAR filtering to media library","wpui"), // Title
+           __("Add TAR filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_tar_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section             
@@ -1703,7 +1703,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_swf', // ID
-           __("Add SWF filtering to media library","wpui"), // Title
+           __("Add SWF filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_swf_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section             
@@ -1711,7 +1711,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_doc', // ID
-           __("Add DOC filtering to media library","wpui"), // Title
+           __("Add DOC filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_doc_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section            
@@ -1719,7 +1719,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_docx', // ID
-           __("Add DOCX filtering to media library","wpui"), // Title
+           __("Add DOCX filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_docx_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section             
@@ -1727,7 +1727,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_ppt', // ID
-           __("Add PPT filtering to media library","wpui"), // Title
+           __("Add PPT filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_ppt_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section            
@@ -1735,7 +1735,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_pptx', // ID
-           __("Add PPTX filtering to media library","wpui"), // Title
+           __("Add PPTX filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_pptx_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section            
@@ -1743,7 +1743,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_xls', // ID
-           __("Add XLS filtering to media library","wpui"), // Title
+           __("Add XLS filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_xls_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section             
@@ -1751,7 +1751,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_library_filters_xlsx', // ID
-           __("Add XLSX filtering to media library","wpui"), // Title
+           __("Add XLSX filtering to media library","wp-admin-ui"), // Title
             array( $this, 'wpui_library_filters_xlsx_callback' ), // Callback
             'wpui-settings-admin-library-filters', // Page
             'wpui_setting_section_library_filters' // Section             
@@ -1760,14 +1760,14 @@ class wpui_options
         //Roles SECTION============================================================================================
         add_settings_section( 
             'wpui_setting_section_roles', // ID
-            __("Roles settings","wpui"), // Title
+            __("Roles settings","wp-admin-ui"), // Title
             array( $this, 'print_section_info_roles' ), // Callback
             'wpui-settings-admin-roles' // Page
         );  
 
         add_settings_field(
             'wpui_roles_list_role', // ID
-           __("&nbsp;","wpui"), // Title
+           __("&nbsp;","wp-admin-ui"), // Title
             array( $this, 'wpui_roles_list_role_callback' ), // Callback
             'wpui-settings-admin-roles', // Page
             'wpui_setting_section_roles' // Section            
@@ -1829,7 +1829,7 @@ class wpui_options
 	 
 	public function print_section_info_login()
     {
-        print __('<p>Customize your login screen</p>', 'wpui');
+        print __('<p>Customize your login screen</p>', 'wp-admin-ui');
     }
 
     public function print_section_info_global()
@@ -1838,37 +1838,37 @@ class wpui_options
 
     public function print_section_info_dashboard()
     {
-        print __('<p>Customize your Dashboard</p>', 'wpui');
+        print __('<p>Customize your Dashboard</p>', 'wp-admin-ui');
     }
 
     public function print_section_info_admin_menu()
     {
-        print __('<p>Drag each item into the order you prefer.<br />Click the arrow on the right of the item to reveal submenus.<br />Check an item to <strong>HIDE</strong> in WP admin.<br /><strong>NOTE:</strong> Admin Menu Settings does not apply to this specific page to avoid conflicts.<br /><span style="color:red"><strong>WARNING:</strong> Be careful if you hide WP Admin UI menu for admins too!</span></p>', 'wpui');
+        print __('<p>Drag each item into the order you prefer.<br />Click the arrow on the right of the item to reveal submenus.<br />Check an item to <strong>HIDE</strong> in WP admin.<br /><strong>NOTE:</strong> Admin Menu Settings does not apply to this specific page to avoid conflicts.<br /><span style="color:red"><strong>WARNING:</strong> Be careful if you hide WP Admin UI menu for admins too!</span></p>', 'wp-admin-ui');
     }
 
     public function print_section_info_admin_bar()
     {
-        print __('<p>Customize your Admin bar</p>', 'wpui');
+        print __('<p>Customize your Admin bar</p>', 'wp-admin-ui');
     }
 
     public function print_section_info_editor()
     {
-        print __('<p>Customize TINY MCE Editor</p>', 'wpui');
+        print __('<p>Customize TINY MCE Editor</p>', 'wp-admin-ui');
     }
 
     public function print_section_info_profil()
     {
-        print __('<p>Manage Profil</p>', 'wpui');
+        print __('<p>Manage Profil</p>', 'wp-admin-ui');
     }
 
     public function print_section_info_library()
     {
-        print __('<p>Customize your Media Library</p>', 'wpui');
+        print __('<p>Customize your Media Library</p>', 'wp-admin-ui');
     }
 
     public function print_section_info_roles()
     {
-        print __('<p>Apply settings for specific Roles</p>', 'wpui');
+        print __('<p>Apply settings for specific Roles</p>', 'wp-admin-ui');
     }
 
     /** 
@@ -1889,7 +1889,7 @@ class wpui_options
     public function wpui_login_logo_url_callback()
     {
         printf(
-        '<input name="wpui_login_option_name[wpui_login_logo_url]" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Link URL when you click on the logo, default WordPress.org','wpui').'"></span>',
+        '<input name="wpui_login_option_name[wpui_login_logo_url]" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Link URL when you click on the logo, default WordPress.org','wp-admin-ui').'"></span>',
         esc_attr( $this->options['wpui_login_logo_url'])
         
         );
@@ -1899,7 +1899,7 @@ class wpui_options
     public function wpui_login_logo_callback()
     {
         printf(
-        '<input name="wpui_login_option_name[wpui_login_logo]" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Image URL of your custom logo','wpui').'"></span>',
+        '<input name="wpui_login_option_name[wpui_login_logo]" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Image URL of your custom logo','wp-admin-ui').'"></span>',
         esc_attr( $this->options['wpui_login_logo'])
         
         );
@@ -1909,7 +1909,7 @@ class wpui_options
     public function wpui_login_custom_logo_title_callback()
     {
         printf(
-        '<input name="wpui_login_option_name[wpui_login_custom_logo_title]" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Default: Powered by WordPress.org','wpui').'"></span>',
+        '<input name="wpui_login_option_name[wpui_login_custom_logo_title]" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Default: Powered by WordPress.org','wp-admin-ui').'"></span>',
         esc_attr( $this->options['wpui_login_custom_logo_title'])
         
         );
@@ -1935,7 +1935,7 @@ class wpui_options
         echo '<input id="wpui_login_always_checked" name="wpui_login_option_name[wpui_login_always_checked]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_login_always_checked">'. __( 'Always checked remember me', 'wpui' ) .'</label>';
+        echo '<label for="wpui_login_always_checked">'. __( 'Always checked remember me', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_login_always_checked'])) {
             esc_attr( $this->options['wpui_login_always_checked']);
@@ -1951,7 +1951,7 @@ class wpui_options
         echo '<input id="wpui_login_error_message" name="wpui_login_option_name[wpui_login_error_message]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_login_error_message">'. __( 'Remove error message for security', 'wpui' ) .'</label>';
+        echo '<label for="wpui_login_error_message">'. __( 'Remove error message for security', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_login_error_message'])) {
             esc_attr( $this->options['wpui_login_error_message']);
@@ -1967,7 +1967,7 @@ class wpui_options
         echo '<input id="wpui_login_shake_effect" name="wpui_login_option_name[wpui_login_shake_effect]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_login_shake_effect">'. __( 'Disable Shake Effect if wrong login', 'wpui' ) .'</label>';
+        echo '<label for="wpui_login_shake_effect">'. __( 'Disable Shake Effect if wrong login', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_login_shake_effect'])) {
             esc_attr( $this->options['wpui_login_shake_effect']);
@@ -1977,7 +1977,7 @@ class wpui_options
     public function wpui_login_logout_redirect_callback()
     {
         printf(
-        '<input name="wpui_login_option_name[wpui_login_logout_redirect]" placeholder="http://example.com/" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Eg: http://example.com/','wpui').'"></span>',
+        '<input name="wpui_login_option_name[wpui_login_logout_redirect]" placeholder="http://example.com/" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Eg: http://example.com/','wp-admin-ui').'"></span>',
         esc_attr( $this->options['wpui_login_logout_redirect'])
         );
     }    
@@ -1985,7 +1985,7 @@ class wpui_options
     public function wpui_login_register_redirect_callback()
     {
         printf(
-        '<input name="wpui_login_option_name[wpui_login_register_redirect]" placeholder="http://example.com/thank-you" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Eg: http://example.com/thank-you','wpui').'"></span>',
+        '<input name="wpui_login_option_name[wpui_login_register_redirect]" placeholder="http://example.com/thank-you" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Eg: http://example.com/thank-you','wp-admin-ui').'"></span>',
         esc_attr( $this->options['wpui_login_register_redirect'])
         );
     }  
@@ -1999,7 +1999,7 @@ class wpui_options
         echo '<input id="wpui_login_disable_email" name="wpui_login_option_name[wpui_login_disable_email]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_login_disable_email">'. __( 'Disable login by Email for users', 'wpui' ) .'</label>';
+        echo '<label for="wpui_login_disable_email">'. __( 'Disable login by Email for users', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_login_disable_email'])) {
             esc_attr( $this->options['wpui_login_disable_email']);
@@ -2025,7 +2025,7 @@ class wpui_options
         echo '<input id="wpui_global_version_footer" name="wpui_global_option_name[wpui_global_version_footer]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_global_version_footer">'. __( 'Remove WordPress version in footer', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_version_footer">'. __( 'Remove WordPress version in footer', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_global_version_footer'])) {
             esc_attr( $this->options['wpui_global_version_footer']);
@@ -2049,7 +2049,7 @@ class wpui_options
         echo '<input id="wpui_global_credits_footer" name="wpui_global_option_name[wpui_global_credits_footer]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_global_credits_footer">'. __( 'Remove WordPress credits in footer', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_credits_footer">'. __( 'Remove WordPress credits in footer', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_global_credits_footer'])) {
             esc_attr( $this->options['wpui_global_credits_footer']);
@@ -2083,7 +2083,7 @@ class wpui_options
         echo '<input id="wpui_global_help_tab" name="wpui_global_option_name[wpui_global_help_tab]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_global_help_tab">'. __( 'Remove help tab', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_help_tab">'. __( 'Remove help tab', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_global_help_tab'])) {
             esc_attr( $this->options['wpui_global_help_tab']);
@@ -2099,7 +2099,7 @@ class wpui_options
         echo '<input id="wpui_global_screen_options_tab" name="wpui_global_option_name[wpui_global_screen_options_tab]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_global_screen_options_tab">'. __( 'Remove screen options tab', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_screen_options_tab">'. __( 'Remove screen options tab', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_global_screen_options_tab'])) {
             esc_attr( $this->options['wpui_global_screen_options_tab']);
@@ -2115,7 +2115,7 @@ class wpui_options
         echo '<input id="wpui_global_update_notification" name="wpui_global_option_name[wpui_global_update_notification]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_global_update_notification">'. __( 'Remove WordPress update notifications', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_update_notification">'. __( 'Remove WordPress update notifications', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_global_update_notification'])) {
             esc_attr( $this->options['wpui_global_update_notification']);
@@ -2131,7 +2131,7 @@ class wpui_options
         echo '<input id="wpui_global_password_notification" name="wpui_global_option_name[wpui_global_password_notification]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_global_password_notification">'. __( 'Hide autogenerated password message', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_password_notification">'. __( 'Hide autogenerated password message', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_global_password_notification'])) {
             esc_attr( $this->options['wpui_global_password_notification']);
@@ -2141,7 +2141,7 @@ class wpui_options
     public function wpui_global_edit_per_page_callback()
     {
         printf(
-        '<input name="wpui_global_option_name[wpui_global_edit_per_page]" type="number" min="1" max="250" value="%s" /><span class="dashicons dashicons-info" title="'.__('Users who have defined their own settings will be overwritten','wpui').'"></span>',
+        '<input name="wpui_global_option_name[wpui_global_edit_per_page]" type="number" min="1" max="250" value="%s" /><span class="dashicons dashicons-info" title="'.__('Users who have defined their own settings will be overwritten','wp-admin-ui').'"></span>',
         esc_attr( $this->options['wpui_global_edit_per_page'])
         
         );
@@ -2162,7 +2162,7 @@ class wpui_options
         if ('list' == $check) echo 'checked="yes"'; 
         echo ' value="list"/>';
         
-        echo '<label for="wpui_global_default_view_mode_none">'. __( 'List view mode (default)', 'wpui' ) .'</label><span class="dashicons dashicons-info" title="'.__('Users who have defined their own settings will NOT be overwritten','wpui').'"></span>';
+        echo '<label for="wpui_global_default_view_mode_none">'. __( 'List view mode (default)', 'wp-admin-ui' ) .'</label><span class="dashicons dashicons-info" title="'.__('Users who have defined their own settings will NOT be overwritten','wp-admin-ui').'"></span>';
         
         echo '<br><br>';
 
@@ -2170,7 +2170,7 @@ class wpui_options
         if ('excerpt' == $check) echo 'checked="yes"'; 
         echo ' value="excerpt"/>';
         
-        echo '<label for="wpui_global_default_view_mode_default">'. __( 'Excerpt view mode', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_default_view_mode_default">'. __( 'Excerpt view mode', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_global_default_view_mode'])) {
             esc_attr( $this->options['wpui_global_default_view_mode']);
@@ -2186,7 +2186,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_file_editor" name="wpui_global_option_name[wpui_global_disable_file_editor]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
 	    echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_file_editor">'. __( 'Disable file editor', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_file_editor">'. __( 'Disable file editor', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_file_editor'])) {
             esc_attr( $this->options['wpui_global_disable_file_editor']);
@@ -2202,7 +2202,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_file_mods" name="wpui_global_option_name[wpui_global_disable_file_mods]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';        
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_file_mods">'. __( 'Disable file modifications', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_file_mods">'. __( 'Disable file modifications', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_file_mods'])) {
             esc_attr( $this->options['wpui_global_disable_file_mods']);
@@ -2218,7 +2218,7 @@ class wpui_options
         echo '<input id="wpui_global_block_admin" name="wpui_global_option_name[wpui_global_block_admin]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';        
         echo ' value="1"/>';
-        echo '<label for="wpui_global_block_admin">'. __( 'Block WordPress backend for specific roles', 'wpui' ) .'<span class="dashicons dashicons-info" title="'.__('Don\'t forget to assign this option to specific user roles in the Role manager page','wpui').'"></span></label>';
+        echo '<label for="wpui_global_block_admin">'. __( 'Block WordPress backend for specific roles', 'wp-admin-ui' ) .'<span class="dashicons dashicons-info" title="'.__('Don\'t forget to assign this option to specific user roles in the Role manager page','wp-admin-ui').'"></span></label>';
     
         if (isset($this->options['wpui_global_block_admin'])) {
             esc_attr( $this->options['wpui_global_block_admin']);
@@ -2234,7 +2234,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_all_wp_udpates" name="wpui_global_option_name[wpui_global_disable_all_wp_udpates]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_all_wp_udpates">'. __( 'Disable all WordPress updates', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_all_wp_udpates">'. __( 'Disable all WordPress updates', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_all_wp_udpates'])) {
             esc_attr( $this->options['wpui_global_disable_all_wp_udpates']);
@@ -2250,7 +2250,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_core_udpates" name="wpui_global_option_name[wpui_global_disable_core_udpates]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_core_udpates">'. __( 'Disable WordPress core updates', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_core_udpates">'. __( 'Disable WordPress core updates', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_core_udpates'])) {
             esc_attr( $this->options['wpui_global_disable_core_udpates']);
@@ -2266,7 +2266,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_core_dev_udpates" name="wpui_global_option_name[wpui_global_disable_core_dev_udpates]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_core_dev_udpates">'. __( 'Disable WordPress core updates', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_core_dev_udpates">'. __( 'Disable WordPress core updates', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_core_dev_udpates'])) {
             esc_attr( $this->options['wpui_global_disable_core_dev_udpates']);
@@ -2282,7 +2282,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_core_minor_udpates" name="wpui_global_option_name[wpui_global_disable_core_minor_udpates]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_core_minor_udpates">'. __( 'Disable WordPress core minor updates', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_core_minor_udpates">'. __( 'Disable WordPress core minor updates', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_core_minor_udpates'])) {
             esc_attr( $this->options['wpui_global_disable_core_minor_udpates']);
@@ -2298,7 +2298,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_core_major_udpates" name="wpui_global_option_name[wpui_global_disable_core_major_udpates]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_core_major_udpates">'. __( 'Disable WordPress core major updates', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_core_major_udpates">'. __( 'Disable WordPress core major updates', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_core_major_udpates'])) {
             esc_attr( $this->options['wpui_global_disable_core_major_udpates']);
@@ -2314,7 +2314,7 @@ class wpui_options
         echo '<input id="wpui_global_enable_core_vcs_udpates" name="wpui_global_option_name[wpui_global_enable_core_vcs_udpates]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_enable_core_vcs_udpates">'. __( 'Enable core updates on a VCS', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_enable_core_vcs_udpates">'. __( 'Enable core updates on a VCS', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_enable_core_vcs_udpates'])) {
             esc_attr( $this->options['wpui_global_enable_core_vcs_udpates']);
@@ -2330,7 +2330,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_plugin_udpates" name="wpui_global_option_name[wpui_global_disable_plugin_udpates]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_plugin_udpates">'. __( 'Disable all plugins updates', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_plugin_udpates">'. __( 'Disable all plugins updates', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_plugin_udpates'])) {
             esc_attr( $this->options['wpui_global_disable_plugin_udpates']);
@@ -2346,7 +2346,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_theme_udpates" name="wpui_global_option_name[wpui_global_disable_theme_udpates]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_theme_udpates">'. __( 'Disable all themes updates', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_theme_udpates">'. __( 'Disable all themes updates', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_theme_udpates'])) {
             esc_attr( $this->options['wpui_global_disable_theme_udpates']);
@@ -2362,7 +2362,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_translation_udpates" name="wpui_global_option_name[wpui_global_disable_translation_udpates]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_translation_udpates">'. __( 'Disable all translations updates', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_translation_udpates">'. __( 'Disable all translations updates', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_translation_udpates'])) {
             esc_attr( $this->options['wpui_global_disable_translation_udpates']);
@@ -2378,7 +2378,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_email_udpates" name="wpui_global_option_name[wpui_global_disable_email_udpates]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_email_udpates">'. __( 'Disable emails notifications', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_email_udpates">'. __( 'Disable emails notifications', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_email_udpates'])) {
             esc_attr( $this->options['wpui_global_disable_email_udpates']);
@@ -2394,7 +2394,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_emoji" name="wpui_global_option_name[wpui_global_disable_emoji]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_emoji">'. __( 'Disable Emoji support for old browsers (improve performances)', 'wpui' ) .'</label><span class="dashicons dashicons-info" title="'.__('Emojis will still continue to work with modern browsers. This setting applies to every user/visitor in front AND backend.','wpui').'"></span>';
+        echo '<label for="wpui_global_disable_emoji">'. __( 'Disable Emoji support for old browsers (improve performances)', 'wp-admin-ui' ) .'</label><span class="dashicons dashicons-info" title="'.__('Emojis will still continue to work with modern browsers. This setting applies to every user/visitor in front AND backend.','wp-admin-ui').'"></span>';
     
         if (isset($this->options['wpui_global_disable_emoji'])) {
             esc_attr( $this->options['wpui_global_disable_emoji']);
@@ -2410,7 +2410,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_json_rest_api" name="wpui_global_option_name[wpui_global_disable_json_rest_api]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';        
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_json_rest_api">'. __( 'Disable JSON REST API', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_json_rest_api">'. __( 'Disable JSON REST API', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_json_rest_api'])) {
             esc_attr( $this->options['wpui_global_disable_json_rest_api']);
@@ -2426,7 +2426,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_xmlrpc" name="wpui_global_option_name[wpui_global_disable_xmlrpc]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';        
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_xmlrpc">'. __( 'Disable XML RPC', 'wpui' ) .'<span class="dashicons dashicons-info" title="'.__('Disable XML RPC is strongly recommended for security reasons!','wpui').'"></span></label>';
+        echo '<label for="wpui_global_disable_xmlrpc">'. __( 'Disable XML RPC', 'wp-admin-ui' ) .'<span class="dashicons dashicons-info" title="'.__('Disable XML RPC is strongly recommended for security reasons!','wp-admin-ui').'"></span></label>';
     
         if (isset($this->options['wpui_global_disable_xmlrpc'])) {
             esc_attr( $this->options['wpui_global_disable_xmlrpc']);
@@ -2442,7 +2442,7 @@ class wpui_options
         echo '<input id="wpui_global_disable_js_concatenation" name="wpui_global_option_name[wpui_global_disable_js_concatenation]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_global_disable_js_concatenation">'. __( 'Disable JS/CSS concatenation', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_disable_js_concatenation">'. __( 'Disable JS/CSS concatenation', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_global_disable_js_concatenation'])) {
             esc_attr( $this->options['wpui_global_disable_js_concatenation']);
@@ -2458,7 +2458,7 @@ class wpui_options
         echo '<input id="wpui_global_open_sans" name="wpui_global_option_name[wpui_global_open_sans]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_global_open_sans">'. __( 'Disable Open Sans', 'wpui' ) .'</label>';
+        echo '<label for="wpui_global_open_sans">'. __( 'Disable Open Sans', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_global_open_sans'])) {
             esc_attr( $this->options['wpui_global_open_sans']);
@@ -2468,7 +2468,7 @@ class wpui_options
     public function wpui_global_custom_avatar_callback()
     {
         printf(
-        '<input name="wpui_global_option_name[wpui_global_custom_avatar]" placeholder="'.__('Enter your avatar url','wpui').'" type="text" value="%s" />',
+        '<input name="wpui_global_option_name[wpui_global_custom_avatar]" placeholder="'.__('Enter your avatar url','wp-admin-ui').'" type="text" value="%s" />',
         esc_attr( $this->options['wpui_global_custom_avatar'])
         
         );
@@ -2484,7 +2484,7 @@ class wpui_options
         echo '<input id="wpui_dashboard_welcome_panel" name="wpui_dashboard_option_name[wpui_dashboard_welcome_panel]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_dashboard_welcome_panel">'. __( 'Remove Welcome Panel', 'wpui' ) .'</label>';
+        echo '<label for="wpui_dashboard_welcome_panel">'. __( 'Remove Welcome Panel', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_dashboard_welcome_panel'])) {
             esc_attr( $this->options['wpui_dashboard_welcome_panel']);
@@ -2500,7 +2500,7 @@ class wpui_options
         echo '<input id="wpui_dashboard_single_column" name="wpui_dashboard_option_name[wpui_dashboard_single_column]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_dashboard_single_column">'. __( 'Display dashboard widgets in a single column', 'wpui' ) .'</label>';
+        echo '<label for="wpui_dashboard_single_column">'. __( 'Display dashboard widgets in a single column', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_dashboard_single_column'])) {
             esc_attr( $this->options['wpui_dashboard_single_column']);
@@ -2550,7 +2550,7 @@ class wpui_options
         <form method="post">
             <?php 
                 if (!get_option( 'wpui_dashboard_list_all_widgets')) {
-                    '<p>'._e('You need to Refresh in order to initialize the dashboard widgets list.','wpui').'</p>';
+                    '<p>'._e('You need to Refresh in order to initialize the dashboard widgets list.','wp-admin-ui').'</p>';
                 }
             ?>
             <p><input type="hidden" name="wpui_action" value="refresh_metaboxes" /></p>
@@ -2576,7 +2576,7 @@ class wpui_options
         echo '<input id="wpui_dashboard_drag_and_drop_widgets" name="wpui_dashboard_option_name[wpui_dashboard_widgets_drag_and_drop]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_dashboard_drag_and_drop_widgets">'. __( 'Disable Drag and drop for dashboard widgets', 'wpui' ) .'</label>';
+        echo '<label for="wpui_dashboard_drag_and_drop_widgets">'. __( 'Disable Drag and drop for dashboard widgets', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_dashboard_widgets_drag_and_drop'])) {
             esc_attr( $this->options['wpui_dashboard_widgets_drag_and_drop']);
@@ -2592,7 +2592,7 @@ class wpui_options
         echo '<input id="wpui_dashboard_at_a_glance_cpt" name="wpui_dashboard_option_name[wpui_dashboard_at_a_glance_cpt]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_dashboard_at_a_glance_cpt">'. __( 'Display all custom post types in At a glance dashboard widget', 'wpui' ) .'</label>';
+        echo '<label for="wpui_dashboard_at_a_glance_cpt">'. __( 'Display all custom post types in At a glance dashboard widget', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_dashboard_at_a_glance_cpt'])) {
             esc_attr( $this->options['wpui_dashboard_at_a_glance_cpt']);
@@ -2608,7 +2608,7 @@ class wpui_options
         echo '<input id="wpui_dashboard_users_at_a_glance" name="wpui_dashboard_option_name[wpui_dashboard_users_at_a_glance]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_dashboard_users_at_a_glance">'. __( 'Display number of users in At a glance dashboard widget', 'wpui' ) .'</label>';
+        echo '<label for="wpui_dashboard_users_at_a_glance">'. __( 'Display number of users in At a glance dashboard widget', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_dashboard_users_at_a_glance'])) {
             esc_attr( $this->options['wpui_dashboard_users_at_a_glance']);
@@ -2618,7 +2618,7 @@ class wpui_options
     public function wpui_dashboard_custom_widget_title_callback()
     {
         printf(
-        '<input name="wpui_dashboard_option_name[wpui_dashboard_custom_widget_title]" placeholder="'.__('My widget title','wpui').'" type="text" value="%s" />',
+        '<input name="wpui_dashboard_option_name[wpui_dashboard_custom_widget_title]" placeholder="'.__('My widget title','wp-admin-ui').'" type="text" value="%s" />',
         esc_attr( $this->options['wpui_dashboard_custom_widget_title'])
         
         );
@@ -2695,7 +2695,7 @@ class wpui_options
                                             echo '<span class="';
                                             if ($menu_item[2] == $check) echo 'dashicons dashicons-hidden';
                                             echo '"></span>'. $menu_item[0] .'</label>';
-                                            echo '<input placeholder="'.__("Enter your own menu name","wpui").'" class="wpui-admin-menu-input" name="wpui_admin_menu_option_name[wpui_admin_menu]['.$menu_key.'][0]" type="text" value="'.$options['wpui_admin_menu'][$menu_key][0].'" />';
+                                            echo '<input placeholder="'.__("Enter your own menu name","wp-admin-ui").'" class="wpui-admin-menu-input" name="wpui_admin_menu_option_name[wpui_admin_menu]['.$menu_key.'][0]" type="text" value="'.$options['wpui_admin_menu'][$menu_key][0].'" />';
                                             if (isset($this->options['wpui_admin_menu'][$menu_key][0])) {
                                                 esc_attr( $this->options['wpui_admin_menu'][$menu_key][0]);
                                             }
@@ -2724,7 +2724,7 @@ class wpui_options
                                                     echo '<span class="';
                                                     if ($submenu_item[2] == $check) echo 'dashicons dashicons-hidden';
                                                     echo '"></span>'.$submenu_item[0].'</label>';
-                                                    echo '<input placeholder="'.__("Enter your own menu name","wpui").'" class="wpui-admin-menu-input" name="wpui_admin_menu_option_name[wpui_admin_menu]['.$menu_key.']['.$menu_item[2].'][0]['.$submenu_key.']" type="text" value="'.$check2.'" />';
+                                                    echo '<input placeholder="'.__("Enter your own menu name","wp-admin-ui").'" class="wpui-admin-menu-input" name="wpui_admin_menu_option_name[wpui_admin_menu]['.$menu_key.']['.$menu_item[2].'][0]['.$submenu_key.']" type="text" value="'.$check2.'" />';
                                                     if (isset($this->options['wpui_admin_menu'][$menu_key][$menu_item[2]][0][$submenu_key])) {
                                                         esc_attr( $this->options['wpui_admin_menu'][$menu_key][$menu_item[2]][0][$submenu_key]);
                                                     }
@@ -2756,7 +2756,7 @@ class wpui_options
         echo '<input id="wpui_admin_menu_all_settings" name="wpui_admin_menu_option_name[wpui_admin_menu_all_settings]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_menu_all_settings">'. __( 'Display all settings (required manage_options capability)', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_menu_all_settings">'. __( 'Display all settings (required manage_options capability)', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_menu_all_settings'])) {
             esc_attr( $this->options['wpui_admin_menu_all_settings']);
@@ -2773,7 +2773,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_wp_logo" name="wpui_admin_bar_option_name[wpui_admin_bar_wp_logo]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_wp_logo">'. __( 'Remove WordPress logo in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_wp_logo">'. __( 'Remove WordPress logo in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_wp_logo'])) {
             esc_attr( $this->options['wpui_admin_bar_wp_logo']);
@@ -2783,7 +2783,7 @@ class wpui_options
     public function wpui_admin_bar_custom_logo_callback()
     {
         printf(
-        '<input name="wpui_admin_bar_option_name[wpui_admin_bar_custom_logo]" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Recommended size: 32x32 pixels','wpui').'"></span>',
+        '<input name="wpui_admin_bar_option_name[wpui_admin_bar_custom_logo]" type="text" value="%s" /><span class="dashicons dashicons-info" title="'.__('Recommended size: 32x32 pixels','wp-admin-ui').'"></span>',
         esc_attr( $this->options['wpui_admin_bar_custom_logo'])
         
         );
@@ -2798,7 +2798,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_site_name" name="wpui_admin_bar_option_name[wpui_admin_bar_site_name]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_site_name">'. __( 'Remove Site Name in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_site_name">'. __( 'Remove Site Name in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_site_name'])) {
             esc_attr( $this->options['wpui_admin_bar_site_name']);
@@ -2814,7 +2814,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_my_account" name="wpui_admin_bar_option_name[wpui_admin_bar_my_account]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_my_account">'. __( 'Remove My Account in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_my_account">'. __( 'Remove My Account in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_my_account'])) {
             esc_attr( $this->options['wpui_admin_bar_my_account']);
@@ -2830,7 +2830,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_menu_toggle" name="wpui_admin_bar_option_name[wpui_admin_bar_menu_toggle]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_menu_toggle">'. __( 'Remove Menu Toggle (hamburger icon in responsive mode)', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_menu_toggle">'. __( 'Remove Menu Toggle (hamburger icon in responsive mode)', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_menu_toggle'])) {
             esc_attr( $this->options['wpui_admin_bar_menu_toggle']);
@@ -2846,7 +2846,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_edit" name="wpui_admin_bar_option_name[wpui_admin_bar_edit]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_edit">'. __( 'Remove Edit in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_edit">'. __( 'Remove Edit in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_edit'])) {
             esc_attr( $this->options['wpui_admin_bar_edit']);
@@ -2862,7 +2862,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_preview" name="wpui_admin_bar_option_name[wpui_admin_bar_preview]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_preview">'. __( 'Remove Preview in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_preview">'. __( 'Remove Preview in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_preview'])) {
             esc_attr( $this->options['wpui_admin_bar_preview']);
@@ -2878,7 +2878,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_view" name="wpui_admin_bar_option_name[wpui_admin_bar_view]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_view">'. __( 'Remove View in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_view">'. __( 'Remove View in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_view'])) {
             esc_attr( $this->options['wpui_admin_bar_view']);
@@ -2894,7 +2894,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_comments" name="wpui_admin_bar_option_name[wpui_admin_bar_comments]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_comments">'. __( 'Remove Comments in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_comments">'. __( 'Remove Comments in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_comments'])) {
             esc_attr( $this->options['wpui_admin_bar_comments']);
@@ -2910,7 +2910,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_new_content" name="wpui_admin_bar_option_name[wpui_admin_bar_new_content]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_new_content">'. __( 'Remove New Content in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_new_content">'. __( 'Remove New Content in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_new_content'])) {
             esc_attr( $this->options['wpui_admin_bar_new_content']);
@@ -2926,7 +2926,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_view_site" name="wpui_admin_bar_option_name[wpui_admin_bar_view_site]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_view_site">'. __( 'Remove View Site in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_view_site">'. __( 'Remove View Site in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_view_site'])) {
             esc_attr( $this->options['wpui_admin_bar_view_site']);
@@ -2942,7 +2942,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_updates" name="wpui_admin_bar_option_name[wpui_admin_bar_updates]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_updates">'. __( 'Remove Updates in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_updates">'. __( 'Remove Updates in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_updates'])) {
             esc_attr( $this->options['wpui_admin_bar_updates']);
@@ -2958,7 +2958,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_customize" name="wpui_admin_bar_option_name[wpui_admin_bar_customize]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_customize">'. __( 'Remove customize in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_customize">'. __( 'Remove customize in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_customize'])) {
             esc_attr( $this->options['wpui_admin_bar_customize']);
@@ -2974,7 +2974,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_search" name="wpui_admin_bar_option_name[wpui_admin_bar_search]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_search">'. __( 'Remove search in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_search">'. __( 'Remove search in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_search'])) {
             esc_attr( $this->options['wpui_admin_bar_search']);
@@ -2990,7 +2990,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_howdy" name="wpui_admin_bar_option_name[wpui_admin_bar_howdy]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_howdy">'. __( 'Remove Howdy in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_howdy">'. __( 'Remove Howdy in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_howdy'])) {
             esc_attr( $this->options['wpui_admin_bar_howdy']);
@@ -3006,7 +3006,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_wpui" name="wpui_admin_bar_option_name[wpui_admin_bar_wpui]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_wpui">'. __( 'Remove WP Admin UI in admin bar', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_wpui">'. __( 'Remove WP Admin UI in admin bar', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_wpui'])) {
             esc_attr( $this->options['wpui_admin_bar_wpui']);
@@ -3022,7 +3022,7 @@ class wpui_options
         echo '<input id="wpui_admin_bar_disable" name="wpui_admin_bar_option_name[wpui_admin_bar_disable]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_bar_disable">'. __( 'Disable admin bar in front-end', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_bar_disable">'. __( 'Disable admin bar in front-end', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_bar_disable'])) {
             esc_attr( $this->options['wpui_admin_bar_disable']);
@@ -3039,7 +3039,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_full_tinymce" name="wpui_editor_option_name[wpui_admin_editor_full_tinymce]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_full_tinymce">'. __( 'Enable full TinyMCE by default', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_full_tinymce">'. __( 'Enable full TinyMCE by default', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_full_tinymce'])) {
             esc_attr( $this->options['wpui_admin_editor_full_tinymce']);
@@ -3055,7 +3055,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_font_size" name="wpui_editor_option_name[wpui_admin_editor_font_size]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_font_size">'. __( 'Add Font Size select', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_font_size">'. __( 'Add Font Size select', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_font_size'])) {
             esc_attr( $this->options['wpui_admin_editor_font_size']);
@@ -3071,7 +3071,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_font_family" name="wpui_editor_option_name[wpui_admin_editor_font_family]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_font_family">'. __( 'Add Font Family select', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_font_family">'. __( 'Add Font Family select', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_font_family'])) {
             esc_attr( $this->options['wpui_admin_editor_font_family']);
@@ -3087,7 +3087,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_custom_fonts" name="wpui_editor_option_name[wpui_admin_editor_custom_fonts]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_custom_fonts">'. __( 'Add Custom Fonts select', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_custom_fonts">'. __( 'Add Custom Fonts select', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_custom_fonts'])) {
             esc_attr( $this->options['wpui_admin_editor_custom_fonts']);
@@ -3103,7 +3103,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_formats_select" name="wpui_editor_option_name[wpui_admin_editor_formats_select]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_formats_select">'. __( 'Add Formats select (styles)', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_formats_select">'. __( 'Add Formats select (styles)', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_formats_select'])) {
             esc_attr( $this->options['wpui_admin_editor_formats_select']);
@@ -3119,7 +3119,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_get_shortlink" name="wpui_editor_option_name[wpui_admin_editor_get_shortlink]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_get_shortlink">'. __( 'Remove Get shortlink button', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_get_shortlink">'. __( 'Remove Get shortlink button', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_get_shortlink'])) {
             esc_attr( $this->options['wpui_admin_editor_get_shortlink']);
@@ -3135,7 +3135,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_btn_newdocument" name="wpui_editor_option_name[wpui_admin_editor_btn_newdocument]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_btn_newdocument">'. __( ' Add New Document button', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_btn_newdocument">'. __( ' Add New Document button', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_btn_newdocument'])) {
             esc_attr( $this->options['wpui_admin_editor_btn_newdocument']);
@@ -3151,7 +3151,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_btn_cut" name="wpui_editor_option_name[wpui_admin_editor_btn_cut]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_btn_cut">'. __( ' Add Cut button', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_btn_cut">'. __( ' Add Cut button', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_btn_cut'])) {
             esc_attr( $this->options['wpui_admin_editor_btn_cut']);
@@ -3167,7 +3167,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_btn_copy" name="wpui_editor_option_name[wpui_admin_editor_btn_copy]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_btn_copy">'. __( ' Add Copy button', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_btn_copy">'. __( ' Add Copy button', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_btn_copy'])) {
             esc_attr( $this->options['wpui_admin_editor_btn_copy']);
@@ -3183,7 +3183,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_btn_paste" name="wpui_editor_option_name[wpui_admin_editor_btn_paste]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_btn_paste">'. __( ' Add Paste button', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_btn_paste">'. __( ' Add Paste button', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_btn_paste'])) {
             esc_attr( $this->options['wpui_admin_editor_btn_paste']);
@@ -3199,7 +3199,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_btn_backcolor" name="wpui_editor_option_name[wpui_admin_editor_btn_backcolor]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_btn_backcolor">'. __( ' Add Backcolor button', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_btn_backcolor">'. __( ' Add Backcolor button', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_btn_backcolor'])) {
             esc_attr( $this->options['wpui_admin_editor_btn_backcolor']);
@@ -3215,7 +3215,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_media_insert" name="wpui_editor_option_name[wpui_admin_editor_media_insert]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_media_insert">'. __( 'Remove Insert Media in Media Modal', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_media_insert">'. __( 'Remove Insert Media in Media Modal', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_media_insert'])) {
             esc_attr( $this->options['wpui_admin_editor_media_insert']);
@@ -3231,7 +3231,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_media_upload" name="wpui_editor_option_name[wpui_admin_editor_media_upload]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_media_upload">'. __( 'Remove Upload Files in Media Modal', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_media_upload">'. __( 'Remove Upload Files in Media Modal', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_media_upload'])) {
             esc_attr( $this->options['wpui_admin_editor_media_upload']);
@@ -3247,7 +3247,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_media_library" name="wpui_editor_option_name[wpui_admin_editor_media_library]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_media_library">'. __( 'Remove Media Library in Media Modal', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_media_library">'. __( 'Remove Media Library in Media Modal', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_media_library'])) {
             esc_attr( $this->options['wpui_admin_editor_media_library']);
@@ -3263,7 +3263,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_media_gallery" name="wpui_editor_option_name[wpui_admin_editor_media_gallery]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_media_gallery">'. __( 'Remove Create Gallery in Media Modal', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_media_gallery">'. __( 'Remove Create Gallery in Media Modal', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_media_gallery'])) {
             esc_attr( $this->options['wpui_admin_editor_media_gallery']);
@@ -3279,7 +3279,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_media_playlist" name="wpui_editor_option_name[wpui_admin_editor_media_playlist]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_media_playlist">'. __( 'Remove Create Playlist in Media Modal', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_media_playlist">'. __( 'Remove Create Playlist in Media Modal', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_media_playlist'])) {
             esc_attr( $this->options['wpui_admin_editor_media_playlist']);
@@ -3295,7 +3295,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_media_featured_img" name="wpui_editor_option_name[wpui_admin_editor_media_featured_img]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_media_featured_img">'. __( 'Remove Set Featured Image in Media Modal', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_media_featured_img">'. __( 'Remove Set Featured Image in Media Modal', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_media_featured_img'])) {
             esc_attr( $this->options['wpui_admin_editor_media_featured_img']);
@@ -3311,7 +3311,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_media_insert_url" name="wpui_editor_option_name[wpui_admin_editor_media_insert_url]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_media_insert_url">'. __( 'Remove Insert From URL in Media Modal', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_media_insert_url">'. __( 'Remove Insert From URL in Media Modal', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_admin_editor_media_insert_url'])) {
             esc_attr( $this->options['wpui_admin_editor_media_insert_url']);
@@ -3327,7 +3327,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_quicktags_p" name="wpui_editor_option_name[wpui_admin_editor_quicktags_p]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_quicktags_p">'. __( 'Add Paragraph tag in text editor', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_quicktags_p">'. __( 'Add Paragraph tag in text editor', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_admin_editor_quicktags_p'])) {
             esc_attr( $this->options['wpui_admin_editor_quicktags_p']);
@@ -3343,7 +3343,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_quicktags_hr" name="wpui_editor_option_name[wpui_admin_editor_quicktags_hr]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_quicktags_hr">'. __( 'Add HR tag in text editor', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_quicktags_hr">'. __( 'Add HR tag in text editor', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_admin_editor_quicktags_hr'])) {
             esc_attr( $this->options['wpui_admin_editor_quicktags_hr']);
@@ -3359,7 +3359,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_quicktags_pre" name="wpui_editor_option_name[wpui_admin_editor_quicktags_pre]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_quicktags_pre">'. __( 'Add PRE tag in text editor', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_quicktags_pre">'. __( 'Add PRE tag in text editor', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_admin_editor_quicktags_pre'])) {
             esc_attr( $this->options['wpui_admin_editor_quicktags_pre']);
@@ -3375,7 +3375,7 @@ class wpui_options
         echo '<input id="wpui_admin_editor_formatting_shortcuts" name="wpui_editor_option_name[wpui_admin_editor_formatting_shortcuts]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"';
         echo ' value="1"/>';
-        echo '<label for="wpui_admin_editor_formatting_shortcuts">'. __( 'Disable WP formatting shortcuts in text editor', 'wpui' ) .'</label>';
+        echo '<label for="wpui_admin_editor_formatting_shortcuts">'. __( 'Disable WP formatting shortcuts in text editor', 'wp-admin-ui' ) .'</label>';
     
         if (isset($this->options['wpui_admin_editor_formatting_shortcuts'])) {
             esc_attr( $this->options['wpui_admin_editor_formatting_shortcuts']);
@@ -3391,16 +3391,16 @@ class wpui_options
         echo '<select id="wpui_admin_editor_img_def_align" name="wpui_editor_option_name[wpui_admin_editor_img_def_align]">';
             echo ' <option '; 
                 if ('left' == $selected) echo 'selected="selected"'; 
-                echo ' value="left">'. __("Left","wpui") .'</option>';
+                echo ' value="left">'. __("Left","wp-admin-ui") .'</option>';
             echo '<option '; 
                 if ('center' == $selected) echo 'selected="selected"'; 
-                echo ' value="center">'. __("Center","wpui") .'</option>';
+                echo ' value="center">'. __("Center","wp-admin-ui") .'</option>';
             echo '<option '; 
                 if ('right' == $selected) echo 'selected="selected"'; 
-                echo ' value="right">'. __("Right","wpui") .'</option>';
+                echo ' value="right">'. __("Right","wp-admin-ui") .'</option>';
             echo '<option '; 
                 if ('none' == $selected) echo 'selected="selected"'; 
-                echo ' value="none">'. __("None","wpui") .'</option>';
+                echo ' value="none">'. __("None","wp-admin-ui") .'</option>';
         echo '</select>';
 
         if (isset($this->options['wpui_admin_editor_img_def_align'])) {
@@ -3417,16 +3417,16 @@ class wpui_options
         echo '<select id="wpui_admin_editor_img_def_link" name="wpui_editor_option_name[wpui_admin_editor_img_def_link]">';
             echo ' <option '; 
                 if ('file' == $selected) echo 'selected="selected"'; 
-                echo ' value="file">'. __("File","wpui") .'</option>';
+                echo ' value="file">'. __("File","wp-admin-ui") .'</option>';
             echo '<option '; 
                 if ('custom' == $selected) echo 'selected="selected"'; 
-                echo ' value="custom">'. __("Custom","wpui") .'</option>';
+                echo ' value="custom">'. __("Custom","wp-admin-ui") .'</option>';
             echo '<option '; 
                 if ('post' == $selected) echo 'selected="selected"'; 
-                echo ' value="post">'. __("Post","wpui") .'</option>';
+                echo ' value="post">'. __("Post","wp-admin-ui") .'</option>';
             echo '<option '; 
                 if ('none' == $selected) echo 'selected="selected"'; 
-                echo ' value="none">'. __("None","wpui") .'</option>';
+                echo ' value="none">'. __("None","wp-admin-ui") .'</option>';
         echo '</select>';
 
         if (isset($this->options['wpui_admin_editor_img_def_link'])) {
@@ -3442,9 +3442,8 @@ class wpui_options
 
         echo '<select id="wpui_admin_editor_img_def_size" name="wpui_editor_option_name[wpui_admin_editor_img_def_size]">';
             
-            if (function_exists(get_intermediate_image_sizes)) {
+            if (function_exists('get_intermediate_image_sizes')) {
                 get_intermediate_image_sizes();
-                print_r(get_intermediate_image_sizes());
             }
             if (get_intermediate_image_sizes()) {
                 foreach (get_intermediate_image_sizes() as $get_intermediate_image_sizes_key => $get_intermediate_image_sizes_value) {
@@ -3471,7 +3470,7 @@ class wpui_options
         echo '<input id="wpui_profil_visual_editor" name="wpui_profil_option_name[wpui_profil_visual_editor]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_visual_editor">'. __( 'Remove Disable the visual editor when writing', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_visual_editor">'. __( 'Remove Disable the visual editor when writing', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_profil_visual_editor'])) {
             esc_attr( $this->options['wpui_profil_visual_editor']);
@@ -3487,7 +3486,7 @@ class wpui_options
         echo '<input id="wpui_profil_admin_color_scheme" name="wpui_profil_option_name[wpui_profil_admin_color_scheme]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_admin_color_scheme">'. __( 'Remove Admin Color Scheme', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_admin_color_scheme">'. __( 'Remove Admin Color Scheme', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_profil_admin_color_scheme'])) {
             esc_attr( $this->options['wpui_profil_admin_color_scheme']);
@@ -3506,14 +3505,14 @@ class wpui_options
         }
 
         echo '<p>';
-            _e('<strong>WARNING:</strong> To apply color scheme properly, set in the role manager, what role should apply this setting, then define the default color scheme and save. If a user has already changed its color scheme, it will be erased by the selected one.','wpui');
+            _e('<strong>WARNING:</strong> To apply color scheme properly, set in the role manager, what role should apply this setting, then define the default color scheme and save. If a user has already changed its color scheme, it will be erased by the selected one.','wp-admin-ui');
         echo '</p><br/>';
 
         echo '<input id="wpui_profil_default_color_scheme_none" name="wpui_profil_option_name[wpui_profil_default_color_scheme]" type="radio"';
         if ('none' == $check) echo 'checked="yes"'; 
         echo ' value="none"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_none">'. __( 'None', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_none">'. __( 'None', 'wp-admin-ui' ) .'</label>';
         
         echo '<br><br>';
 
@@ -3521,7 +3520,7 @@ class wpui_options
         if ('default' == $check) echo 'checked="yes"'; 
         echo ' value="default"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_default">'. __( 'Default', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_default">'. __( 'Default', 'wp-admin-ui' ) .'</label>';
         
         echo '<br><br>';
         
@@ -3529,7 +3528,7 @@ class wpui_options
         if ('light' == $check) echo 'checked="yes"'; 
         echo ' value="light"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_light">'. __( 'Light', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_light">'. __( 'Light', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3537,7 +3536,7 @@ class wpui_options
         if ('blue' == $check) echo 'checked="yes"'; 
         echo ' value="blue"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_blue">'. __( 'Blue', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_blue">'. __( 'Blue', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3545,7 +3544,7 @@ class wpui_options
         if ('coffee' == $check) echo 'checked="yes"'; 
         echo ' value="coffee"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_coffee">'. __( 'Coffee', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_coffee">'. __( 'Coffee', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3553,7 +3552,7 @@ class wpui_options
         if ('ectoplasm' == $check) echo 'checked="yes"'; 
         echo ' value="ectoplasm"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_ectoplasm">'. __( 'Ectoplasm', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_ectoplasm">'. __( 'Ectoplasm', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3561,7 +3560,7 @@ class wpui_options
         if ('midnight' == $check) echo 'checked="yes"'; 
         echo ' value="midnight"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_midnight">'. __( 'Midnight', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_midnight">'. __( 'Midnight', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3569,7 +3568,7 @@ class wpui_options
         if ('ocean' == $check) echo 'checked="yes"'; 
         echo ' value="ocean"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_ocean">'. __( 'Ocean', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_ocean">'. __( 'Ocean', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3577,7 +3576,7 @@ class wpui_options
         if ('sunrise' == $check) echo 'checked="yes"'; 
         echo ' value="sunrise"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_sunrise">'. __( 'Sunrise', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_sunrise">'. __( 'Sunrise', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3585,7 +3584,7 @@ class wpui_options
         if ('wpui-one' == $check) echo 'checked="yes"'; 
         echo ' value="wpui-one"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_wpui_one">'. __( 'WPUI Algua', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_wpui_one">'. __( 'WPUI Algua', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3593,7 +3592,7 @@ class wpui_options
         if ('wpui-two' == $check) echo 'checked="yes"'; 
         echo ' value="wpui-two"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_wpui_two">'. __( 'WPUI Dark', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_wpui_two">'. __( 'WPUI Dark', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3601,7 +3600,7 @@ class wpui_options
         if ('wpui-third' == $check) echo 'checked="yes"'; 
         echo ' value="wpui-third"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_wpui_third">'. __( 'WPUI Teal', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_wpui_third">'. __( 'WPUI Teal', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3609,7 +3608,7 @@ class wpui_options
         if ('wpui-four' == $check) echo 'checked="yes"'; 
         echo ' value="wpui-four"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_wpui_four">'. __( 'WPUI Ice', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_wpui_four">'. __( 'WPUI Ice', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3617,7 +3616,7 @@ class wpui_options
         if ('wpui-five' == $check) echo 'checked="yes"'; 
         echo ' value="wpui-five"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_wpui_five">'. __( 'WPUI Army', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_wpui_five">'. __( 'WPUI Army', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3625,7 +3624,7 @@ class wpui_options
         if ('wpui-six' == $check) echo 'checked="yes"'; 
         echo ' value="wpui-six"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_wpui_six">'. __( 'WPUI Bayonne', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_wpui_six">'. __( 'WPUI Bayonne', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3633,7 +3632,7 @@ class wpui_options
         if ('wpui-seven' == $check) echo 'checked="yes"'; 
         echo ' value="wpui-seven"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_wpui_seven">'. __( 'WPUI Fashion', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_wpui_seven">'. __( 'WPUI Fashion', 'wp-admin-ui' ) .'</label>';
 
         echo '<br><br>';
         
@@ -3641,7 +3640,7 @@ class wpui_options
         if ('wpui-eight' == $check) echo 'checked="yes"'; 
         echo ' value="wpui-eight"/>';
         
-        echo '<label for="wpui_profil_default_color_scheme_wpui_eight">'. __( 'WPUI Cafe', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_default_color_scheme_wpui_eight">'. __( 'WPUI Cafe', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_profil_default_color_scheme'])) {
             esc_attr( $this->options['wpui_profil_default_color_scheme']);
@@ -3684,7 +3683,7 @@ class wpui_options
         echo '<input id="wpui_profil_keyword_shortcuts" name="wpui_profil_option_name[wpui_profil_keyword_shortcuts]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_keyword_shortcuts">'. __( 'Remove Enable Keyboard Shortcuts for comment moderation', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_keyword_shortcuts">'. __( 'Remove Enable Keyboard Shortcuts for comment moderation', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_profil_keyword_shortcuts'])) {
             esc_attr( $this->options['wpui_profil_keyword_shortcuts']);
@@ -3700,7 +3699,7 @@ class wpui_options
         echo '<input id="wpui_profil_show_toolbar" name="wpui_profil_option_name[wpui_profil_show_toolbar]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_show_toolbar">'. __( 'Remove Show Toolbar when viewing site', 'wpui' ) .'</label>';
+        echo '<label for="wpui_profil_show_toolbar">'. __( 'Remove Show Toolbar when viewing site', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_profil_show_toolbar'])) {
             esc_attr( $this->options['wpui_profil_show_toolbar']);
@@ -3716,7 +3715,7 @@ class wpui_options
         echo '<input id="wpui_profil_facebook_field" name="wpui_profil_option_name[wpui_profil_facebook_field]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_facebook_field">'. __( 'Add Facebook field in user profil', 'wpui' ) .'</label>  <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-facebook\'); to retreive this value in front-end','wpui').'"></span>';
+        echo '<label for="wpui_profil_facebook_field">'. __( 'Add Facebook field in user profil', 'wp-admin-ui' ) .'</label>  <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-facebook\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
         
         if (isset($this->options['wpui_profil_facebook_field'])) {
             esc_attr( $this->options['wpui_profil_facebook_field']);
@@ -3732,7 +3731,7 @@ class wpui_options
         echo '<input id="wpui_profil_twitter_field" name="wpui_profil_option_name[wpui_profil_twitter_field]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_twitter_field">'. __( 'Add Twitter field in user profil', 'wpui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-twitter\'); to retreive this value in front-end','wpui').'"></span>';
+        echo '<label for="wpui_profil_twitter_field">'. __( 'Add Twitter field in user profil', 'wp-admin-ui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-twitter\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
         
         if (isset($this->options['wpui_profil_twitter_field'])) {
             esc_attr( $this->options['wpui_profil_twitter_field']);
@@ -3748,7 +3747,7 @@ class wpui_options
         echo '<input id="wpui_profil_instagram_field" name="wpui_profil_option_name[wpui_profil_instagram_field]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_instagram_field">'. __( 'Add Instagram field in user profil', 'wpui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-instagram\'); to retreive this value in front-end','wpui').'"></span>';
+        echo '<label for="wpui_profil_instagram_field">'. __( 'Add Instagram field in user profil', 'wp-admin-ui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-instagram\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
         
         if (isset($this->options['wpui_profil_instagram_field'])) {
             esc_attr( $this->options['wpui_profil_instagram_field']);
@@ -3764,7 +3763,7 @@ class wpui_options
         echo '<input id="wpui_profil_linkedin_field" name="wpui_profil_option_name[wpui_profil_linkedin_field]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_linkedin_field">'. __( 'Add LinkedIn field in user profil', 'wpui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-linkedin\'); to retreive this value in front-end','wpui').'"></span>';
+        echo '<label for="wpui_profil_linkedin_field">'. __( 'Add LinkedIn field in user profil', 'wp-admin-ui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-linkedin\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
         
         if (isset($this->options['wpui_profil_linkedin_field'])) {
             esc_attr( $this->options['wpui_profil_linkedin_field']);
@@ -3775,7 +3774,7 @@ class wpui_options
     public function wpui_library_jpeg_quality_callback()
     {
         printf(
-        '<input name="wpui_library_option_name[wpui_library_jpeg_quality]" type="number" min="1" max="100" value="%s" /><span class="dashicons dashicons-info" title="'.__('Existing images must be regenerate to apply new image quality.','wpui').'"></span>',
+        '<input name="wpui_library_option_name[wpui_library_jpeg_quality]" type="number" min="1" max="100" value="%s" /><span class="dashicons dashicons-info" title="'.__('Existing images must be regenerate to apply new image quality.','wp-admin-ui').'"></span>',
         esc_attr( $this->options['wpui_library_jpeg_quality'])
         
         );
@@ -3791,7 +3790,7 @@ class wpui_options
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
         
-        echo '<label for="wpui_library_clean_filename">'. __( 'Clean filenames when upload files to media library', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_clean_filename">'. __( 'Clean filenames when upload files to media library', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_clean_filename'])) {
             esc_attr( $this->options['wpui_library_clean_filename']);
@@ -3808,7 +3807,7 @@ class wpui_options
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
         
-        echo '<label for="wpui_library_svg">'. __( 'Allow SVG file in media library (can present a security risk)', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_svg">'. __( 'Allow SVG file in media library (can present a security risk)', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_svg'])) {
             esc_attr( $this->options['wpui_library_svg']);
@@ -3825,7 +3824,7 @@ class wpui_options
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
         
-        echo '<label for="wpui_library_url_col">'. __( 'Add URL column in media library', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_url_col">'. __( 'Add URL column in media library', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_url_col'])) {
             esc_attr( $this->options['wpui_library_url_col']);
@@ -3842,7 +3841,7 @@ class wpui_options
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
         
-        echo '<label for="wpui_library_dimensions_col">'. __( 'Add dimensions column in media library', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_dimensions_col">'. __( 'Add dimensions column in media library', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_dimensions_col'])) {
             esc_attr( $this->options['wpui_library_dimensions_col']);
@@ -3859,7 +3858,7 @@ class wpui_options
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
         
-        echo '<label for="wpui_library_exif_col">'. __( 'Add EXIF metadata column in media library', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_exif_col">'. __( 'Add EXIF metadata column in media library', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_exif_col'])) {
             esc_attr( $this->options['wpui_library_exif_col']);
@@ -3876,7 +3875,7 @@ class wpui_options
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
         
-        echo '<label for="wpui_library_id_col">'. __( 'Add ID column in media library', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_id_col">'. __( 'Add ID column in media library', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_id_col'])) {
             esc_attr( $this->options['wpui_library_id_col']);
@@ -3896,11 +3895,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_pdf" name="wpui_library_option_name[wpui_library_filters_pdf]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/pdf', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_pdf">'. __( 'Add PDF filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_pdf">'. __( 'Add PDF filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_pdf'])) {
             esc_attr( $this->options['wpui_library_filters_pdf']);
@@ -3922,11 +3921,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_zip" name="wpui_library_option_name[wpui_library_filters_zip]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/zip', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_zip">'. __( 'Add ZIP filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_zip">'. __( 'Add ZIP filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_zip'])) {
             esc_attr( $this->options['wpui_library_filters_zip']);
@@ -3948,11 +3947,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_rar" name="wpui_library_option_name[wpui_library_filters_rar]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/rar', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_rar">'. __( 'Add RAR filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_rar">'. __( 'Add RAR filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_rar'])) {
             esc_attr( $this->options['wpui_library_filters_rar']);
@@ -3974,11 +3973,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_7z" name="wpui_library_option_name[wpui_library_filters_7z]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/x-7z-compressed', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_7z">'. __( 'Add 7Z filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_7z">'. __( 'Add 7Z filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_7z'])) {
             esc_attr( $this->options['wpui_library_filters_7z']);
@@ -4000,11 +3999,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_tar" name="wpui_library_option_name[wpui_library_filters_tar]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/x-tar', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_tar">'. __( 'Add TAR filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_tar">'. __( 'Add TAR filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_tar'])) {
             esc_attr( $this->options['wpui_library_filters_tar']);
@@ -4026,11 +4025,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_swf" name="wpui_library_option_name[wpui_library_filters_swf]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/x-shockwave-flash', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_swf">'. __( 'Add SWF filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_swf">'. __( 'Add SWF filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_swf'])) {
             esc_attr( $this->options['wpui_library_filters_swf']);
@@ -4052,11 +4051,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_doc" name="wpui_library_option_name[wpui_library_filters_doc]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/msword', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_doc">'. __( 'Add DOC filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_doc">'. __( 'Add DOC filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_doc'])) {
             esc_attr( $this->options['wpui_library_filters_doc']);
@@ -4078,11 +4077,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_docx" name="wpui_library_option_name[wpui_library_filters_docx]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/vnd.openxmlformats-officedocument.wordprocessingml.document', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_docx">'. __( 'Add DOCX filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_docx">'. __( 'Add DOCX filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_docx'])) {
             esc_attr( $this->options['wpui_library_filters_docx']);
@@ -4104,11 +4103,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_ppt" name="wpui_library_option_name[wpui_library_filters_ppt]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/vnd.ms-powerpoint', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_ppt">'. __( 'Add PPT filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_ppt">'. __( 'Add PPT filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_ppt'])) {
             esc_attr( $this->options['wpui_library_filters_ppt']);
@@ -4130,11 +4129,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_pptx" name="wpui_library_option_name[wpui_library_filters_pptx]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/vnd.openxmlformats-officedocument.presentationml.presentation', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_pptx">'. __( 'Add PPTX filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_pptx">'. __( 'Add PPTX filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_pptx'])) {
             esc_attr( $this->options['wpui_library_filters_pptx']);
@@ -4156,11 +4155,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_xls" name="wpui_library_option_name[wpui_library_filters_xls]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/vnd.ms-excel', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_xls">'. __( 'Add XLS filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_xls">'. __( 'Add XLS filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_xls'])) {
             esc_attr( $this->options['wpui_library_filters_xls']);
@@ -4182,11 +4181,11 @@ class wpui_options
         echo '<input id="wpui_library_filters_xlsx" name="wpui_library_option_name[wpui_library_filters_xlsx]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         if (array_key_exists('application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', get_post_mime_types())) {
-            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wpui').'"></span>';
+            echo ' value="0" disabled/><span class="dashicons dashicons-info" title="'.__('This option can not be changed because it\'s bypassed by a plugin, a mu-plugin or your theme.','wp-admin-ui').'"></span>';
         } else {
             echo ' value="1"/>';
         }
-        echo '<label for="wpui_library_filters_xlsx">'. __( 'Add XLSX filter', 'wpui' ) .'</label>';
+        echo '<label for="wpui_library_filters_xlsx">'. __( 'Add XLSX filter', 'wp-admin-ui' ) .'</label>';
         
         if (isset($this->options['wpui_library_filters_xlsx'])) {
             esc_attr( $this->options['wpui_library_filters_xlsx']);
@@ -4203,155 +4202,155 @@ class wpui_options
             
             $wpui_all_settings = array(
                 'Global' => array(
-                    'custom_admin_css' => __('Custom admin CSS','wpui'),
-                    'remove_wp_version' => __('Remove WordPress version in footer','wpui'),
-                    'custom_wp_version' => __('Custom WordPress version in footer','wpui'),
-                    'remove_wp_credits' => __('Remove WordPress credits in footer','wpui'),
-                    'custom_wp_credits' => __('Custom WordPress credits in footer','wpui'),
-                    'custom_favicon' => __('Custom favicon in admin','wpui'),
-                    'remove_help_tab' => __('Remove help tab','wpui'),
-                    'remove_screen_tab' => __('Remove screen options tab','wpui'),
-                    'disable_wp_update_notifications' => __('Disable WordPress updates notifications','wpui'),
-                    'hide_pwd_msg' => __('Hide autogenerated password message','wpui'),
-                    'items_per_page_list' => __('Number of items per page in list view (default 20)','wpui'),
-                    'view_mode' => __('Define default view mode in list view (default list view mode)','wpui'),
-                    'disable_file_editor' => __('Disable file editor for themes and plugins','wpui'),
-                    'disable_plugin_theme_update_installation' => __('Disable Plugin and Theme Update, and Installation','wpui'),
-                    'block_admin' => __('Block WordPress admin for user roles','wpui'),
-                    'disable_all_updates' => __('Disable all updates','wpui'),
-                    'disable_core_updates' => __('Disable core updates','wpui'),
-                    'disable_core_dev_updates' => __('Disable core development updates','wpui'),
-                    'disable_minor_core_updates' => __('Disable minor core updates','wpui'),
-                    'disable_major_core_updates' => __('Disable major core updates','wpui'),
-                    'enable_updates_vcs' => __('Enable automatic updates on Versioning Control System (GIT/SVN)','wpui'),
-                    'disable_automatic_plugins_updates' => __('Disable automatic updates for all plugins','wpui'),
-                    'disable_automatic_themes_updates' => __('Disable automatic updates for all themes','wpui'),
-                    'disable_automatic_translations_updates' => __('Disable automatic updates for all translations','wpui'),
-                    'disable_updates_emails' => __('Disable update emails notifications','wpui'),
-                    'disable_js_concatenation' => __('Disable JS concatenation','wpui'),
-                    'disable_open_sans' => __('Disable Open Sans loading from Google','wpui'),
-                    'custom_avatar' => __('Enable custom avatar','wpui'),
+                    'custom_admin_css' => __('Custom admin CSS','wp-admin-ui'),
+                    'remove_wp_version' => __('Remove WordPress version in footer','wp-admin-ui'),
+                    'custom_wp_version' => __('Custom WordPress version in footer','wp-admin-ui'),
+                    'remove_wp_credits' => __('Remove WordPress credits in footer','wp-admin-ui'),
+                    'custom_wp_credits' => __('Custom WordPress credits in footer','wp-admin-ui'),
+                    'custom_favicon' => __('Custom favicon in admin','wp-admin-ui'),
+                    'remove_help_tab' => __('Remove help tab','wp-admin-ui'),
+                    'remove_screen_tab' => __('Remove screen options tab','wp-admin-ui'),
+                    'disable_wp_update_notifications' => __('Disable WordPress updates notifications','wp-admin-ui'),
+                    'hide_pwd_msg' => __('Hide autogenerated password message','wp-admin-ui'),
+                    'items_per_page_list' => __('Number of items per page in list view (default 20)','wp-admin-ui'),
+                    'view_mode' => __('Define default view mode in list view (default list view mode)','wp-admin-ui'),
+                    'disable_file_editor' => __('Disable file editor for themes and plugins','wp-admin-ui'),
+                    'disable_plugin_theme_update_installation' => __('Disable Plugin and Theme Update, and Installation','wp-admin-ui'),
+                    'block_admin' => __('Block WordPress admin for user roles','wp-admin-ui'),
+                    'disable_all_updates' => __('Disable all updates','wp-admin-ui'),
+                    'disable_core_updates' => __('Disable core updates','wp-admin-ui'),
+                    'disable_core_dev_updates' => __('Disable core development updates','wp-admin-ui'),
+                    'disable_minor_core_updates' => __('Disable minor core updates','wp-admin-ui'),
+                    'disable_major_core_updates' => __('Disable major core updates','wp-admin-ui'),
+                    'enable_updates_vcs' => __('Enable automatic updates on Versioning Control System (GIT/SVN)','wp-admin-ui'),
+                    'disable_automatic_plugins_updates' => __('Disable automatic updates for all plugins','wp-admin-ui'),
+                    'disable_automatic_themes_updates' => __('Disable automatic updates for all themes','wp-admin-ui'),
+                    'disable_automatic_translations_updates' => __('Disable automatic updates for all translations','wp-admin-ui'),
+                    'disable_updates_emails' => __('Disable update emails notifications','wp-admin-ui'),
+                    'disable_js_concatenation' => __('Disable JS concatenation','wp-admin-ui'),
+                    'disable_open_sans' => __('Disable Open Sans loading from Google','wp-admin-ui'),
+                    'custom_avatar' => __('Enable custom avatar','wp-admin-ui'),
                     ), 
                 'Dashboard' => array(
-                    'remove_welcome_panel' => __('Remove Welcome Panel','wpui'),
-                    'display_single_column' => __('Display Dashboard in a single column','wpui'),
-                    'listing_widgets' => __('Remove dashboard widgets','wpui'),
-                    'remove_widgets_drag_and_drop' => __('Disable drag and drop for dashboard widgets','wpui'),
-                    'at_a_glance_cpt' => __('Display all custom post types in At a glance dashboard widget','wpui'),
-                    'at_a_glance_users' => __('Display number of users in At a glance dashboard widget','wpui'),
-                    'custom_widget' => __('Display a custom widget in Dashboard','wpui'),
+                    'remove_welcome_panel' => __('Remove Welcome Panel','wp-admin-ui'),
+                    'display_single_column' => __('Display Dashboard in a single column','wp-admin-ui'),
+                    'listing_widgets' => __('Remove dashboard widgets','wp-admin-ui'),
+                    'remove_widgets_drag_and_drop' => __('Disable drag and drop for dashboard widgets','wp-admin-ui'),
+                    'at_a_glance_cpt' => __('Display all custom post types in At a glance dashboard widget','wp-admin-ui'),
+                    'at_a_glance_users' => __('Display number of users in At a glance dashboard widget','wp-admin-ui'),
+                    'custom_widget' => __('Display a custom widget in Dashboard','wp-admin-ui'),
                     ),
                 'Admin Menu' => array(
-                    'menu_structure' => __('Menu Structure','wpui'),
-                    'menu_all_settings' => __('Display all settings in menu','wpui'),
+                    'menu_structure' => __('Menu Structure','wp-admin-ui'),
+                    'menu_all_settings' => __('Display all settings in menu','wp-admin-ui'),
                     ),
                 'Admin Bar' => array(
-                    'remove_wp_logo' => __('Remove WordPress logo in admin bar','wpui'),
-                    'custom_wp_logo' => __('Custom logo in admin bar','wpui'),
-                    'remove_site_name' => __('Remove Site Name in admin bar','wpui'),
-                    'remove_my_account' => __('Remove My Account in admin bar','wpui'),
-                    'remove_menu_toggle' => __('Remove Menu Toggle in admin bar','wpui'),
-                    'remove_edit' => __('Remove Edit in admin bar','wpui'),
-                    'remove_view' => __('Remove View in admin bar','wpui'),
-                    'remove_preview' => __('Remove Preview in admin bar','wpui'),
-                    'remove_comments' => __('Remove Comments in admin bar','wpui'),
-                    'remove_new_content' => __('Remove New Content in admin bar','wpui'),
-                    'remove_view_site' => __('Remove View Site in admin bar','wpui'),
-                    'remove_updates' => __('Remove Updates in admin bar','wpui'),
-                    'remove_customize' => __('Remove customize in admin bar','wpui'),
-                    'remove_search' => __('Remove search in admin bar','wpui'),
-                    'remove_howdy' => __('Remove Howdy in admin bar','wpui'),
-                    'remove_wpui' => __('Remove WP Admin UI in admin bar','wpui'),
-                    'disable_admin_bar' => __('Disable admin bar in front-end','wpui'),
+                    'remove_wp_logo' => __('Remove WordPress logo in admin bar','wp-admin-ui'),
+                    'custom_wp_logo' => __('Custom logo in admin bar','wp-admin-ui'),
+                    'remove_site_name' => __('Remove Site Name in admin bar','wp-admin-ui'),
+                    'remove_my_account' => __('Remove My Account in admin bar','wp-admin-ui'),
+                    'remove_menu_toggle' => __('Remove Menu Toggle in admin bar','wp-admin-ui'),
+                    'remove_edit' => __('Remove Edit in admin bar','wp-admin-ui'),
+                    'remove_view' => __('Remove View in admin bar','wp-admin-ui'),
+                    'remove_preview' => __('Remove Preview in admin bar','wp-admin-ui'),
+                    'remove_comments' => __('Remove Comments in admin bar','wp-admin-ui'),
+                    'remove_new_content' => __('Remove New Content in admin bar','wp-admin-ui'),
+                    'remove_view_site' => __('Remove View Site in admin bar','wp-admin-ui'),
+                    'remove_updates' => __('Remove Updates in admin bar','wp-admin-ui'),
+                    'remove_customize' => __('Remove customize in admin bar','wp-admin-ui'),
+                    'remove_search' => __('Remove search in admin bar','wp-admin-ui'),
+                    'remove_howdy' => __('Remove Howdy in admin bar','wp-admin-ui'),
+                    'remove_wpui' => __('Remove WP Admin UI in admin bar','wp-admin-ui'),
+                    'disable_admin_bar' => __('Disable admin bar in front-end','wp-admin-ui'),
                     ),
                 'Editor' => array(
-                    'enable_full_tinymce' => __('Enable Full TinyMCE by default','wpui'),
-                    'font_size_select' => __('Add Font Size select','wpui'),
-                    'font_family_select' => __('Add Font Family select','wpui'),
-                    'custom_fonts_select' => __('Add custom Fonts select','wpui'),
-                    'formats_select' => __('Add Formats select (styles)','wpui'),
-                    'remove_get_shortlink' => __('Remove Get Shortlink button','wpui'),
-                    'new_doc_btn' => __('Add New Document button','wpui'),
-                    'cut_btn' => __('Add Cut button','wpui'),
-                    'copy_btn' => __('Add Copy button','wpui'),
-                    'paste_btn' => __('Add Paste button','wpui'),
-                    'backcolor_btn' => __('Add Backcolor button','wpui'),
-                    'remove_insert_media_modal' => __('Remove Insert Media in Media Modal','wpui'),
-                    'remove_upload_media_modal' => __('Remove Upload Files in Media Modal','wpui'),
-                    'remove_library_media_modal' => __('Remove Media Library in Media Modal','wpui'),
-                    'remove_gallery_media_modal' => __('Remove Create Gallery in Media Modal','wpui'),
-                    'remove_playlist_media_modal' => __('Remove Create Playlist in Media Modal','wpui'),
-                    'remove_set_featured_media_modal' => __('Remove Set Featured Image in Media Modal','wpui'),
-                    'remove_insert_url_media_modal' => __('Remove Insert From URL in Media Modal','wpui'),
-                    'p_quicktags' => __('Add "p" quicktags in Text Editor','wpui'),
-                    'hr_quicktags' => __('Add "hr" quicktags in Text Editor','wpui'),
-                    'pre_quicktags' => __('Add "pre" quicktags in Text Editor','wpui'),
-                    'formatting_shortcuts' => __('Disable formatting_shortcuts in Text Editor','wpui'),
-                    'img_default_align' => __('Set a default image alignment in Text Editor','wpui'),
-                    'img_defaut_link_type' => __('Set a default link type on images in Text Editor','wpui'),
-                    'img_default_size' => __('Set a default image size in Text Editor','wpui'),
+                    'enable_full_tinymce' => __('Enable Full TinyMCE by default','wp-admin-ui'),
+                    'font_size_select' => __('Add Font Size select','wp-admin-ui'),
+                    'font_family_select' => __('Add Font Family select','wp-admin-ui'),
+                    'custom_fonts_select' => __('Add custom Fonts select','wp-admin-ui'),
+                    'formats_select' => __('Add Formats select (styles)','wp-admin-ui'),
+                    'remove_get_shortlink' => __('Remove Get Shortlink button','wp-admin-ui'),
+                    'new_doc_btn' => __('Add New Document button','wp-admin-ui'),
+                    'cut_btn' => __('Add Cut button','wp-admin-ui'),
+                    'copy_btn' => __('Add Copy button','wp-admin-ui'),
+                    'paste_btn' => __('Add Paste button','wp-admin-ui'),
+                    'backcolor_btn' => __('Add Backcolor button','wp-admin-ui'),
+                    'remove_insert_media_modal' => __('Remove Insert Media in Media Modal','wp-admin-ui'),
+                    'remove_upload_media_modal' => __('Remove Upload Files in Media Modal','wp-admin-ui'),
+                    'remove_library_media_modal' => __('Remove Media Library in Media Modal','wp-admin-ui'),
+                    'remove_gallery_media_modal' => __('Remove Create Gallery in Media Modal','wp-admin-ui'),
+                    'remove_playlist_media_modal' => __('Remove Create Playlist in Media Modal','wp-admin-ui'),
+                    'remove_set_featured_media_modal' => __('Remove Set Featured Image in Media Modal','wp-admin-ui'),
+                    'remove_insert_url_media_modal' => __('Remove Insert From URL in Media Modal','wp-admin-ui'),
+                    'p_quicktags' => __('Add "p" quicktags in Text Editor','wp-admin-ui'),
+                    'hr_quicktags' => __('Add "hr" quicktags in Text Editor','wp-admin-ui'),
+                    'pre_quicktags' => __('Add "pre" quicktags in Text Editor','wp-admin-ui'),
+                    'formatting_shortcuts' => __('Disable formatting_shortcuts in Text Editor','wp-admin-ui'),
+                    'img_default_align' => __('Set a default image alignment in Text Editor','wp-admin-ui'),
+                    'img_defaut_link_type' => __('Set a default link type on images in Text Editor','wp-admin-ui'),
+                    'img_default_size' => __('Set a default image size in Text Editor','wp-admin-ui'),
                     ),
                 'Metaboxes (PRO only)' => array(
-                    'listing_metaboxes' => __('Remove metaboxes','wpui'),
+                    'listing_metaboxes' => __('Remove metaboxes','wp-admin-ui'),
                     ),
                 'Columns (PRO Only)' => array(
-                    'listing_columns' => __('Remove columns','wpui'),
-                    'columns_show_id' => __('Show post ID column','wpui'),
-                    'columns_show_thumb' => __('Show Thumbnail column','wpui'),
-                    'columns_show_template' => __('Show Page Template column','wpui'),
+                    'listing_columns' => __('Remove columns','wp-admin-ui'),
+                    'columns_show_id' => __('Show post ID column','wp-admin-ui'),
+                    'columns_show_thumb' => __('Show Thumbnail column','wp-admin-ui'),
+                    'columns_show_template' => __('Show Page Template column','wp-admin-ui'),
                     ),
                 'Media Library' => array(
-                    'jpg_quality' => __('Define JPG image quality (default 90%)','wpui'),
-                    'clean_filenames' => __('Clean filenames when uploading files to media library','wpui'),
-                    'svg_mimes_type' => __('Allow SVG file in media library','wpui'),
-                    'url_col' => __('Add URL column in media library','wpui'),
-                    'dimensions_col' => __('Add Dimensions column in media library','wpui'),
-                    'exif_col' => __('Add EXIF metadata column in media library','wpui'),
-                    'id_col' => __('Add ID column in media library','wpui'),
-                    'pdf_filter' => __('Add PDF filtering to media library','wpui'),
-                    'zip_filter' => __('Add ZIP filtering to media library','wpui'),
-                    'rar_filter' => __('Add RAR filtering to media library','wpui'),
-                    '7z_filter' => __('Add 7Z filtering to media library','wpui'),
-                    'tar_filter' => __('Add TAR filtering to media library','wpui'),
-                    'swf_filter' => __('Add SWF filtering to media library','wpui'),
-                    'doc_filter' => __('Add DOC filtering to media library','wpui'),
-                    'docx_filter' => __('Add DOCX filtering to media library','wpui'),
-                    'ppt_filter' => __('Add PPT filtering to media library','wpui'),
-                    'pptx_filter' => __('Add PPTX filtering to media library','wpui'),
-                    'xls_filter' => __('Add XLS filtering to media library','wpui'),
-                    'xlsx_filter' => __('Add XLSX filtering to media library','wpui'),
+                    'jpg_quality' => __('Define JPG image quality (default 82%)','wp-admin-ui'),
+                    'clean_filenames' => __('Clean filenames when uploading files to media library','wp-admin-ui'),
+                    'svg_mimes_type' => __('Allow SVG file in media library','wp-admin-ui'),
+                    'url_col' => __('Add URL column in media library','wp-admin-ui'),
+                    'dimensions_col' => __('Add Dimensions column in media library','wp-admin-ui'),
+                    'exif_col' => __('Add EXIF metadata column in media library','wp-admin-ui'),
+                    'id_col' => __('Add ID column in media library','wp-admin-ui'),
+                    'pdf_filter' => __('Add PDF filtering to media library','wp-admin-ui'),
+                    'zip_filter' => __('Add ZIP filtering to media library','wp-admin-ui'),
+                    'rar_filter' => __('Add RAR filtering to media library','wp-admin-ui'),
+                    '7z_filter' => __('Add 7Z filtering to media library','wp-admin-ui'),
+                    'tar_filter' => __('Add TAR filtering to media library','wp-admin-ui'),
+                    'swf_filter' => __('Add SWF filtering to media library','wp-admin-ui'),
+                    'doc_filter' => __('Add DOC filtering to media library','wp-admin-ui'),
+                    'docx_filter' => __('Add DOCX filtering to media library','wp-admin-ui'),
+                    'ppt_filter' => __('Add PPT filtering to media library','wp-admin-ui'),
+                    'pptx_filter' => __('Add PPTX filtering to media library','wp-admin-ui'),
+                    'xls_filter' => __('Add XLS filtering to media library','wp-admin-ui'),
+                    'xlsx_filter' => __('Add XLSX filtering to media library','wp-admin-ui'),
                     ),
                 'Profil' => array(
-                    'remove_disable_visual_editor' => __('Remove Disable the visual editor when writing','wpui'),
-                    'remove_admin_color_scheme' => __('Remove Admin Color Scheme','wpui'),
-                    'default_admin_color_scheme' => __('Set a default admin color scheme','wpui'),
-                    'remove_enable_keyboard_shortcuts' => __('Remove Enable Keyboard Shortcuts for comment moderation','wpui'),
-                    'remove_show_toolbar' => __('Remove Show Toolbar when viewing site','wpui'),
-                    'add_facebook_field' => __('Add Facebook field in Profil','wpui'),
-                    'add_twitter_field' => __('Add Twitter field in Profil','wpui'),
-                    'add_instagram_field' => __('Add Instagram field in Profil','wpui'),
-                    'add_linkedin_field' => __('Add LinkedIn field in Profil','wpui'),
+                    'remove_disable_visual_editor' => __('Remove Disable the visual editor when writing','wp-admin-ui'),
+                    'remove_admin_color_scheme' => __('Remove Admin Color Scheme','wp-admin-ui'),
+                    'default_admin_color_scheme' => __('Set a default admin color scheme','wp-admin-ui'),
+                    'remove_enable_keyboard_shortcuts' => __('Remove Enable Keyboard Shortcuts for comment moderation','wp-admin-ui'),
+                    'remove_show_toolbar' => __('Remove Show Toolbar when viewing site','wp-admin-ui'),
+                    'add_facebook_field' => __('Add Facebook field in Profil','wp-admin-ui'),
+                    'add_twitter_field' => __('Add Twitter field in Profil','wp-admin-ui'),
+                    'add_instagram_field' => __('Add Instagram field in Profil','wp-admin-ui'),
+                    'add_linkedin_field' => __('Add LinkedIn field in Profil','wp-admin-ui'),
                     ),
                 'Plugins (PRO Only)' => array(
-                    'remove_wp_seo_cols' => __('Remove WP SEO columns in list view','wpui'),
-                    'remove_wpseo_admin_bar' => __('Remove WP SEO in admin bar','wpui'),
-                    'move_wp_seo_cols' => __('Move WP SEO Metabox to low position','wpui'),
-                    'remove_wp_seo_notices' => __('Remove WP SEO admin notices','wpui'),
-                    'remove_aio_seo_notices' => __('Remove All In One SEO admin notices','wpui'),
-                    'remove_wpml_ad' => __('Remove WPML advert in publish metabox','wpui'),
-                    'remove_wpml_admin_bar' => __('Remove WPML in admin bar','wpui'),
-                    'remove_wpml_dashboard' => __('Remove WPML in dashboard widget','wpui'),
-                    'remove_woothemes_installer' => __('Remove Install the WooThemes Updater plugin','wpui'),
-                    'field_visibility_gravity_forms' => __('Enable field label visibility in Gravity Forms','wpui'),
-                    'jetpack_just_in_time' => __('Disable Just in Time messages from Jetpack','wpui'),
+                    'remove_wp_seo_cols' => __('Remove WP SEO columns in list view','wp-admin-ui'),
+                    'remove_wpseo_admin_bar' => __('Remove WP SEO in admin bar','wp-admin-ui'),
+                    'move_wp_seo_cols' => __('Move WP SEO Metabox to low position','wp-admin-ui'),
+                    'remove_wp_seo_notices' => __('Remove WP SEO admin notices','wp-admin-ui'),
+                    'remove_aio_seo_notices' => __('Remove All In One SEO admin notices','wp-admin-ui'),
+                    'remove_wpml_ad' => __('Remove WPML advert in publish metabox','wp-admin-ui'),
+                    'remove_wpml_admin_bar' => __('Remove WPML in admin bar','wp-admin-ui'),
+                    'remove_wpml_dashboard' => __('Remove WPML in dashboard widget','wp-admin-ui'),
+                    'remove_woothemes_installer' => __('Remove Install the WooThemes Updater plugin','wp-admin-ui'),
+                    'field_visibility_gravity_forms' => __('Enable field label visibility in Gravity Forms','wp-admin-ui'),
+                    'jetpack_just_in_time' => __('Disable Just in Time messages from Jetpack','wp-admin-ui'),
                     ),
                 'WooCommerce (PRO Only)' => array(
-                    'remove_woo_downloadable_product' => __('Remove downloadable / virtual product checkboxe','wpui'),
-                    'remove_woo_product_data' => __('Remove product data type in select (simple product, grouped product...)','wpui'),
-                    'remove_woo_product_data_tabs' => __('Remove product data tabs (general, inventory, shipping...)','wpui'),
+                    'remove_woo_downloadable_product' => __('Remove downloadable / virtual product checkboxe','wp-admin-ui'),
+                    'remove_woo_product_data' => __('Remove product data type in select (simple product, grouped product...)','wp-admin-ui'),
+                    'remove_woo_product_data_tabs' => __('Remove product data tabs (general, inventory, shipping...)','wp-admin-ui'),
                     ),
                 'Themes (PRO Only)' => array(
-                    'wpui-custom-themes' => __('Enable custom admin Themes','wpui'),
+                    'wpui-custom-themes' => __('Enable custom admin Themes','wp-admin-ui'),
                     ),
             );
 
@@ -4381,7 +4380,7 @@ class wpui_options
                         </script>
                     ';
                     echo '<td><label for="wpui_roles_list_role_'.$wpui_role_key.'">'.translate_user_role($wpui_role_value).'<br> <small>('.$wpui_role_value.')</small></label><br/>
-                    <input type="checkbox" name="wpui_roles_list_role_'.$wpui_role_key.'" onClick="toggle_'.$wpui_role_key.'(this)" /><span class="screen-reader-text">'. __('Toggle All','wpui').'</span></td>';
+                    <input type="checkbox" name="wpui_roles_list_role_'.$wpui_role_key.'" onClick="toggle_'.$wpui_role_key.'(this)" /><span class="screen-reader-text">'. __('Toggle All','wp-admin-ui').'</span></td>';
                 }
                 echo '</tr>';
                 

@@ -20,6 +20,7 @@ YUI({'logExclude': { 'yui': true } }).use('fl-slideshow', function(Y) {
 			loadingImageEnabled : false,
 			randomize           : <?php echo $settings->ss_randomize; ?>,
 			responsiveThreshold : 0,
+			touchSupport        : false,
 			source              : [{<?php echo $source; ?>}],
 			speed               : <?php echo $settings->ss_speed * 1000; ?>,
 			stretchy            : true,

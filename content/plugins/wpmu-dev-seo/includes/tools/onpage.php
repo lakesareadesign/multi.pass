@@ -7,15 +7,27 @@
 
 class WDS_OnPage {
 
-	public function __construct () {
+	private static $_instance;
+
+	private $_is_running = false;
+
+	public static function get () {
+		if (empty(self::$_instance)) {
+			self::$_instance = new self;
+		}
+		return self::$_instance;
+	}
+
+	private function __construct () {
 		if (defined('SF_PREFIX') && function_exists('sf_get_option')) {
 			add_action('template_redirect', array($this, 'postpone_for_simplepress'), 1);
 			return;
 		}
-		$this->_init();
 	}
 
-	function _init () {
+	public function run () {
+		if ($this->_is_running) return false;
+
 		$options = WDS_Settings::get_options();
 
 		remove_action('wp_head', 'rel_canonical');
@@ -39,6 +51,7 @@ class WDS_OnPage {
 		if (!empty($options['general-suppress-redundant_canonical'])) {
 			if (!defined('WDS_SUPPRESS_REDUNDANT_CANONICAL')) define('WDS_SUPPRESS_REDUNDANT_CANONICAL', true);
 		}
+		$this->_is_running = true;
 	}
 
 	/**
@@ -70,9 +83,19 @@ class WDS_OnPage {
 		} else {
 			$active_handlers = array();
 		}
-		if (count($active_handlers) > 0 && preg_match('/::wds_process_title_buffer$/', trim($active_handlers[count($active_handlers) - 1]))) {
-			ob_end_flush();
+		if (count($active_handlers) > 0) {
+			$offset = count($active_handlers) - 1;
+			$handler = !empty($active_handlers[$offset]) && is_string($active_handlers[$offset])
+				? trim($active_handlers[$offset])
+				: ''
+			;
+			if (preg_match('/::wds_process_title_buffer$/', $handler)) {
+				ob_end_flush();
+			}
 		}
+		/* if (count($active_handlers) > 0 && preg_match('/::wds_process_title_buffer$/', trim($active_handlers[count($active_handlers) - 1]))) { */
+		/* 	ob_end_flush(); */
+		/* } */
 	}
 
 	/**
@@ -96,87 +119,112 @@ class WDS_OnPage {
 		return preg_replace('/__WDS_NL__/', "\n", preg_replace('/__WDS_DOLLAR__/', '\$', $head));
 	}
 
-	function wds_title( $title, $sep = '', $seplocation = '', $postid = '' ) {
-		global $post, $wp_query;
-		if ( empty($post) && is_singular() ) {
-			$post = get_post($postid);
+	public function get_resolver () {
+		if (!class_exists('WDS_Endpoint_Resolver')) require_once(WDS_PLUGIN_DIR . '/core/class_wds_endpoint_resolver.php');
+		return WDS_Endpoint_Resolver::resolve();
+	}
+
+	private function get_request_param($key)
+	{
+		$data = stripslashes_deep($_POST);
+		return sanitize_text_field(
+			wds_get_array_value($data, $key)
+		);
+	}
+
+	/**
+	 * Gets resolved title
+	 *
+	 * @param string $title Optional seed title
+	 *
+	 * @return string Resolved title
+	 */
+	public function get_title ($title='') {
+		$request_title = $this->get_request_param('wds_title');
+		if (!empty($request_title)) {
+			return $request_title;
 		}
 
-		//global $wds_options;
-		$wds_options = get_wds_options();
+		$resolver = $this->get_resolver();
 
-		if ( is_front_page() && 'posts' == get_option('show_on_front') ) {
+		$post = $resolver->get_context();
+		$wp_query = $resolver->get_query_context();
+
+		if (empty($title)) $title = get_the_title($post);
+		$wds_options = WDS_Settings::get_options();
+
+		$location = $resolver->get_location();
+
+		if ( WDS_Endpoint_Resolver::L_BLOG_HOME === $location ) {
 			$title = wds_replace_vars($wds_options['title-home'], (array) $post );
-		} else if ( is_home() && 'posts' != get_option('show_on_front') ) {
+		} else if ( WDS_Endpoint_Resolver::L_STATIC_HOME === $location ) {
 			$post = get_post(get_option('page_for_posts'));
 			$fixed_title = wds_get_value('title');
 			if ( $fixed_title ) {
-				$title = $fixed_title;
+				$title = wds_replace_vars($fixed_title, (array)$post);
 			} else if (!empty($post->post_type) && isset($wds_options['title-'.$post->post_type]) && !empty($wds_options['title-'.$post->post_type]) ) {
 				$title = wds_replace_vars($wds_options['title-'.$post->post_type], (array) $post );
 			}
-		} else if ( is_category() || is_tag() || is_tax() ) {
+		} else if ( WDS_Endpoint_Resolver::L_TAX_ARCHIVE === $location ) {
 			$term = $wp_query->get_queried_object();
 			$title = wds_get_term_meta( $term, $term->taxonomy, 'wds_title' );
 			if ( !$title && isset($wds_options['title-'.$term->taxonomy]) && !empty($wds_options['title-'.$term->taxonomy]) )
 				$title = wds_replace_vars($wds_options['title-'.$term->taxonomy], (array) $term );
-		} else if ( is_search() && isset($wds_options['title-search']) && !empty($wds_options['title-search']) ) {
+		} else if ( WDS_Endpoint_Resolver::L_SEARCH === $location && !empty($wds_options['title-search']) ) {
 			$title = wds_replace_vars($wds_options['title-search'], (array) $wp_query->get_queried_object() );
-		} else if ( is_author() ) {
+		} else if ( WDS_Endpoint_Resolver::L_AUTHOR_ARCHIVE === $location ) {
 			$author_id = get_query_var('author');
 			$title = get_the_author_meta('wds_title', $author_id);
 			if ( empty($title) && isset($wds_options['title-author']) && !empty($wds_options['title-author']) ) {
 				$title = wds_replace_vars($wds_options['title-author'], array() );
 			}
-		} else if ( is_archive() && isset($wds_options['title-archive']) && !empty($wds_options['title-archive']) ) {
+		} else if ( WDS_Endpoint_Resolver::L_ARCHIVE === $location && !empty($wds_options['title-archive']) ) {
 			$title = wds_replace_vars($wds_options['title-archive'], array('post_title' => $title) );
-		} else if ( is_404() && isset($wds_options['title-404']) && !empty($wds_options['title-404']) ) {
+		} else if ( WDS_Endpoint_Resolver::L_404 === $location && !empty($wds_options['title-404']) ) {
 			$title = wds_replace_vars($wds_options['title-404'], array('post_title' => $title) );
-		} else if (function_exists('groups_get_current_group') && 'groups' == bp_current_component() && $group = groups_get_current_group()) {
+		} else if ( WDS_Endpoint_Resolver::L_BP_GROUPS === $location ) {
 			$title = wds_replace_vars($wds_options['title-bp_groups'], array(
 				'name' => $group->name,
 				'description' => $group->description
 			));
-		} else if (function_exists('bp_current_component') && 'profile' == bp_current_component()) {
+		} else if ( WDS_Endpoint_Resolver::L_BP_PROFILE === $location ) {
 			$title = wds_replace_vars($wds_options['title-bp_profile'], array(
 				'full_name' => bp_get_displayed_user_fullname(),
 				'username' => bp_get_displayed_user_username(),
 			));
-		} else if ( is_singular() ) {
-			if (class_exists('MarketPress_MS') && 'mp_global_products' == $wp_query->get('pagename')) {
-				// Global MarketPress products
-				if (!empty($wds_options['title-mp_marketplace-base'])) $title = wds_replace_vars($wds_options['title-mp_marketplace-base']);
-			} else if (class_exists('MarketPress_MS') && in_array($wp_query->get('pagename'), array('mp_global_tags', 'mp_global_categories'))) {
-				// Global MarketPress Tags / Categories
-				$mp_term = $wp_query->get('global_taxonomy');
-				$args = array();
-				$raw_title = 'mp_global_tags' == $wp_query->get('pagename')
-					? $wds_options['title-mp_marketplace-tags']
-					: $wds_options['title-mp_marketplace-categories']
-				;
-				if (!empty($mp_term)) {
-					$mp_term_name = wds_get_mp_global_term_name($mp_term);
-					if (!empty($mp_term_name)) $args['name'] = $mp_term_name;
-				}
-				if (!empty($raw_title)) $title = wds_replace_vars($raw_title, $args);
-			} else {
-				$object = get_queried_object();
-				$post_id = !empty($post->ID)
-					? $post->ID
-					: (!empty($object->ID) ? $object->ID : false)
-				;
-				$fixed_title = wds_get_value('title', $post_id);
-				if ( $fixed_title ) {
-					$title = $fixed_title;
-				} else if (!empty($post->post_type) && isset($wds_options['title-'.$post->post_type]) && !empty($wds_options['title-'.$post->post_type]) ) {
-					$title = wds_replace_vars($wds_options['title-'.$post->post_type], (array) $post );
-				}
-			} // end singular fallback
-		} else if (function_exists('is_shop') && is_shop() && function_exists('woocommerce_get_page_id')) { // WooCommerce shop page
+		} else if ( WDS_Endpoint_Resolver::L_MP_GPRODS === $location ) {
+			// Global MarketPress products
+			if (!empty($wds_options['title-mp_marketplace-base'])) $title = wds_replace_vars($wds_options['title-mp_marketplace-base']);
+		} else if (WDS_Endpoint_Resolver::L_MP_GTAX === $location) {
+			// Global MarketPress Tags / Categories
+			$mp_term = $wp_query->get('global_taxonomy');
+			$args = array();
+			$raw_title = 'mp_global_tags' == $wp_query->get('pagename')
+				? $wds_options['title-mp_marketplace-tags']
+				: $wds_options['title-mp_marketplace-categories']
+			;
+			if (!empty($mp_term)) {
+				$mp_term_name = wds_get_mp_global_term_name($mp_term);
+				if (!empty($mp_term_name)) $args['name'] = $mp_term_name;
+			}
+			if (!empty($raw_title)) $title = wds_replace_vars($raw_title, $args);
+		} else if ( WDS_Endpoint_Resolver::L_SINGULAR === $location ) {
+			$object = get_queried_object();
+			$post_id = !empty($post->ID)
+				? $post->ID
+				: (!empty($object->ID) ? $object->ID : false)
+			;
+			$fixed_title = wds_get_value('title', $post_id);
+			if ( $fixed_title ) {
+				$title = wds_replace_vars($fixed_title, (array)$post);
+			} else if (!empty($post->post_type) && isset($wds_options['title-'.$post->post_type]) && !empty($wds_options['title-'.$post->post_type]) ) {
+				$title = wds_replace_vars($wds_options['title-'.$post->post_type], (array) $post );
+			}
+		} else if ( WDS_Endpoint_Resolver::L_WOO_SHOP === $location ) { // WooCommerce shop page
 			$post_id = woocommerce_get_page_id('shop');
 			$fixed_title = wds_get_value('title', $post_id);
 			if ( $fixed_title ) {
-				$title = $fixed_title;
+				$title = wds_replace_vars($fixed_title, (array)$post);
 			} /*else if (
 				!empty($post->post_type) &&
 				isset($wds_options['title-'.$post->post_type]) &&
@@ -186,42 +234,180 @@ class WDS_OnPage {
 			}*/
 		}
 
+		return $title;
+	}
+
+
+	/**
+	 * Gets resolved description
+	 *
+	 * @param string $metadesc Optional seed metadesc
+	 *
+	 * @return string Resolved description
+	 */
+	public function get_description ($metadesc='') {
+		$request_description = $this->get_request_param('wds_description');
+		if (!empty($request_description)) {
+			return $request_description;
+		}
+
+		$resolver = $this->get_resolver();
+
+		$post = $resolver->get_context();
+		$wp_query = $resolver->get_query_context();
+
+		if (empty($metadesc) && is_object($post)) {
+			$metadesc = wds_get_trimmed_excerpt($post->post_excerpt, $post->post_content);
+		}
+		$location = $resolver->get_location();
+		$wds_options = WDS_Settings::get_options();
+
+		if ( WDS_Endpoint_Resolver::L_BP_GROUPS === $location ) { // BP group?
+			$optvar = !empty($wds_options['metadesc-bp_groups']) ? $wds_options['metadesc-bp_groups'] : '';
+			$metadesc = wds_replace_vars($optvar, array(
+				'name' => $group->name,
+				'description' => $group->description
+			));
+		} else if ( WDS_Endpoint_Resolver::L_BP_PROFILE === $location ) {
+			$optvar = !empty($wds_options['metadesc-bp_profile']) ? $wds_options['metadesc-bp_profile'] : '';
+			$metadesc = wds_replace_vars($optvar, array(
+				'full_name' => bp_get_displayed_user_fullname(),
+				'username' => bp_get_displayed_user_username(),
+			));
+		} else if ( WDS_Endpoint_Resolver::L_MP_GPRODS === $location ) {
+			// Global MarketPress products
+			if (!empty($wds_options['metadesc-mp_marketplace-base'])) $metadesc = wds_replace_vars($wds_options['metadesc-mp_marketplace-base']);
+		} else if ( WDS_Endpoint_Resolver::L_MP_GTAX === $location ) {
+			// Global MarketPress Tags / Categories
+			$mp_term = $wp_query->get('global_taxonomy');
+			$args = array();
+			$raw_metadesc = 'mp_global_tags' == $wp_query->get('pagename')
+				? $wds_options['metadesc-mp_marketplace-tags']
+				: $wds_options['metadesc-mp_marketplace-categories']
+			;
+			if (!empty($mp_term)) {
+				$mp_term_name = wds_get_mp_global_term_name($mp_term);
+				if (!empty($mp_term_name)) $args['name'] = $mp_term_name;
+			}
+			if (!empty($raw_metadesc)) $metadesc = wds_replace_vars($raw_metadesc, $args);
+		} else if ( WDS_Endpoint_Resolver::L_SINGULAR === $location ) {
+			$object = get_queried_object();
+			$post_id = !empty($post->ID)
+				? $post->ID
+				: (!empty($object->ID) ? $object->ID : false)
+			;
+			$stored = wds_get_value('metadesc', $post_id);
+			if (empty($stored) && is_object($post)) {
+				$optvar = !empty($wds_options['metadesc-'.$post->post_type]) ? $wds_options['metadesc-'.$post->post_type] : '';
+				$stored = wds_replace_vars($optvar, (array) $post );
+			} else if (!empty($stored)) {
+				$stored = wds_replace_vars($stored, (array)$post);
+			}
+			if (!empty($stored)) $metadesc = $stored;
+		} else if ( WDS_Endpoint_Resolver::L_WOO_SHOP === $location ) { // WooCommerce shop page
+			$post_id = woocommerce_get_page_id('shop');
+			$metadesc = wds_get_value('metadesc', $post_id);
+			if (is_object($post)) $metadesc = wds_replace_vars($metadesc, (array)$post);
+		} else if ( WDS_Endpoint_Resolver::L_BLOG_HOME === $location && isset($wds_options['metadesc-home']) ) {
+			$metadesc = wds_replace_vars($wds_options['metadesc-home'], array() );
+		} else if ( WDS_Endpoint_Resolver::L_STATIC_HOME === $location ) {
+			$npost = get_post( get_option('page_for_posts') );
+			$metadesc = is_object($npost) && !empty($npost->ID)
+				? wds_get_value('metadesc', $npost->ID)
+				: wds_get_value('metadesc')
+			;
+			if (is_object($npost)) $metadesc = wds_replace_vars($metadesc, (array)$npost);
+			if ( ($metadesc == '' || !$metadesc) && is_object($npost) &&  isset($wds_options['metadesc-'.$npost->post_type]) ) {
+				$metadesc = wds_replace_vars($wds_options['metadesc-'.$npost->post_type], (array) $npost );
+			}
+		} else if ( WDS_Endpoint_Resolver::L_TAX_ARCHIVE === $location ) {
+			$term = $wp_query->get_queried_object();
+
+			$metadesc = wds_get_term_meta( $term, $term->taxonomy, 'wds_desc' );
+			if ( !$metadesc && isset($wds_options['metadesc-'.$term->taxonomy])) {
+				$metadesc = wds_replace_vars($wds_options['metadesc-'.$term->taxonomy], (array) $term );
+			}
+		} else if ( WDS_Endpoint_Resolver::L_AUTHOR_ARCHIVE === $location ) {
+			$author_id = get_query_var('author');
+			$metadesc = get_the_author_meta('wds_metadesc', $author_id);
+		}
+
+
+		return strip_tags(stripslashes($metadesc));
+	}
+
+	function wds_title( $title, $sep = '', $seplocation = '', $postid = '' ) {
+		$title = $this->get_title($title);
 		return esc_html( strip_tags( stripslashes( apply_filters('wds_title', $title) ) ) );
 	}
 
 	function wds_head() {
-		global $wds_options;
 		global $wp_query, $paged;
+		$wds_options = WDS_Settings::get_options();
 
 		$this->wds_stop_title_buffer(); // STOP processing the buffer.
 
 		$robots = '';
 
+		if (!wds_is_switch_active('WDS_WHITELABEL_ON')) {
+			echo "<!-- SEO meta tags powered by SmartCrawl https://premium.wpmudev.org/project/smartcrawl-wordpress-seo/ -->\n";
+		}
 		$this->wds_canonical();
 		$this->wds_rel_links();
 		$this->wds_robots();
 		$this->wds_metadesc();
 		$this->wds_meta_keywords();
 
-		// Verification codes
-		if (!empty($wds_options['verification-google'])) {
-			if (
-				// No specificity
-				empty($wds_options['verification-pages'])
-				||
-				// Front-page only
-				!empty($wds_options['verification-pages']) && 'home' === $wds_options['verification-pages'] && is_front_page()
-			) echo '<meta name="google-site-verification" content="' . esc_attr($wds_options['verification-google']) . '" />' . "\n";
+		$metas = $this->get_meta_tags();
+		foreach ($metas as $meta) {
+			echo "{$meta}\n";
 		}
-		if (!empty($wds_options['verification-bing'])) {
-			if (
-				// No specificity
-				empty($wds_options['verification-pages'])
-				||
-				// Front-page only
-				!empty($wds_options['verification-pages']) && 'home' === $wds_options['verification-pages'] && is_front_page()
-			) echo '<meta name="msvalidate.01" content="' . esc_attr($wds_options['verification-bing']) . '" />' . "\n";
+
+		do_action('wds_head-after_output');
+
+		if (!wds_is_switch_active('WDS_WHITELABEL_ON')) {
+			echo "<!-- /SEO -->\n";
 		}
+	}
+
+	public function get_meta_tags () {
+		$wds_options = WDS_Settings::get_options();
+		$metas = array();
+
+		$include_verifications = (bool)(
+			empty($wds_options['verification-pages'])
+			|| (
+				!empty($wds_options['verification-pages'])
+				&&
+				'home' === $wds_options['verification-pages']
+				&&
+				is_front_page()
+			)
+		);
+
+		if (!empty($wds_options['verification-google']) && $include_verifications) {
+			$metas['google'] = '<meta name="google-site-verification" content="' .
+				esc_attr($wds_options['verification-google']) . '" />';
+		}
+		if (!empty($wds_options['verification-bing']) && $include_verifications) {
+			$metas['bing'] = '<meta name="msvalidate.01" content="' .
+				esc_attr($wds_options['verification-bing']) . '" />';
+		}
+
+		// Full meta overrides
+		if (!empty($wds_options['verification-google-meta']) && $include_verifications) {
+			$metas['google'] = $wds_options['verification-google-meta'];
+		}
+		if (!empty($wds_options['verification-bing-meta']) && $include_verifications) {
+			$metas['bing'] = $wds_options['verification-bing-meta'];
+		}
+
+		$additional = !empty($wds_options['additional-metas']) ? $wds_options['additional-metas'] : array();
+		if (!is_array($additional)) $additional = array();
+
+		foreach ($additional as $meta) $metas[] = $meta;
+
+		return $metas;
 	}
 
 	/**
@@ -299,7 +485,7 @@ class WDS_OnPage {
 		}
 
 		if (!empty($canonical)) {
-			echo "\t" .
+			echo "" .
 				'<link rel="canonical" href="' . esc_attr($canonical) . '" />' .
 			"\n";
 		}
@@ -308,8 +494,8 @@ class WDS_OnPage {
 	}
 
 	function wds_rel_links () {
-		global $wds_options;
 		global $wp_query, $paged;
+		$wds_options = WDS_Settings::get_options();
 
 		if (!$wp_query->max_num_pages) return false; // Short out on missing max page number
 
@@ -340,7 +526,7 @@ class WDS_OnPage {
 					: (($paged > 2) ? trailingslashit($prev) . 'page/' . ($paged-1) : $prev)
 				;
 				$prev = trailingslashit($prev);
-				echo "\t<link rel='prev' href='{$prev}' />\n";
+				echo "<link rel='prev' href='{$prev}' />\n";
 			}
 			$is_paged = (int)$paged ? (int)$paged : 1;
 			if ($is_paged && $is_paged < $wp_query->max_num_pages) {
@@ -355,14 +541,14 @@ class WDS_OnPage {
 					: trailingslashit($next) . 'page/' . $next_page
 				;
 				$next = trailingslashit($next);
-				echo "\t<link rel='next' href='{$next}' />\n";
+				echo "<link rel='next' href='{$next}' />\n";
 			}
 		}
 	}
 
 	function wds_robots () {
-		global $wds_options;
 		global $wp_query, $paged;
+		$wds_options = WDS_Settings::get_options();
 
 		if (!apply_filters('wds_process_robots', true)) return false; // Allow optional filtering out
 
@@ -377,9 +563,29 @@ class WDS_OnPage {
 			if ($current_comments_page) {
 				$robots = 'noindex,';
 			} else {
-				$robots = wds_get_value('meta-robots-noindex') ? 'noindex,' : 'index,';
+				/* $robots = wds_get_value('meta-robots-noindex') ? 'noindex,' : 'index,'; */
+				$noindex = wds_get_value('meta-robots-noindex');
+				// Allow global per-type noindex support
+				if (empty($noindex)) {
+					$type = get_post_type();
+					if (!empty($type) && isset($wds_options["meta_robots-noindex-{$type}"])) {
+						$noindex = $wds_options["meta_robots-noindex-{$type}"];
+					}
+				}
+				$robots = !empty($noindex) ? 'noindex,' : 'index,';
 			}
-			$robots .= wds_get_value('meta-robots-nofollow') ? 'nofollow' : 'follow';
+
+			/* $robots .= wds_get_value('meta-robots-nofollow') ? 'nofollow' : 'follow'; */
+			$nofollow = wds_get_value('meta-robots-nofollow');
+			// Allow globale per-type nofollow support
+			if (empty($nofollow)) {
+				$type = get_post_type();
+				if (!empty($type) && isset($wds_options["meta_robots-nofollow-{$type}"])) {
+					$nofollow = $wds_options["meta_robots-nofollow-{$type}"];
+				}
+			}
+			$robots .= !empty($nofollow) ? 'nofollow' : 'follow';
+
 			if ( wds_get_value('meta-robots-adv') && wds_get_value('meta-robots-adv') != 'none' ) {
 				$robots .= ','.wds_get_value('meta-robots-adv');
 			}
@@ -420,7 +626,12 @@ class WDS_OnPage {
 				if (is_author()) $taxonomy = 'author';
 				if (is_date()) $taxonomy = 'date';
 			}
-			if ($taxonomy) {
+
+			if ('author' === $taxonomy && empty($wds_options['enable-author-archive'])) {
+				$robots = 'noindex,follow';
+			} else if ('date' === $taxonomy && empty($wds_options['enable-date-archive'])) {
+				$robots = 'noindex,follow';
+			} else if ($taxonomy) {
 				$global_noindex = !empty($wds_options['meta_robots-noindex-' . $taxonomy])
 					? $wds_options['meta_robots-noindex-' . $taxonomy]
 					: false
@@ -466,105 +677,124 @@ class WDS_OnPage {
 
 		$robots = rtrim($robots,',');
 		if ($robots != '' && 1 == (int)get_option('blog_public')) {
-			echo "\t".'<meta name="robots" content="'.$robots.'"/>'."\n";
+			echo '<meta name="robots" content="'.$robots.'"/>'."\n";
 		}
 
 	}
 
 	function wds_metadesc() {
 		if (is_admin()) return false;
-		global $post, $wp_query;
-		//global $wds_options;
-		$wds_options = get_wds_options();
 
-		if (is_singular()) {
-			if (function_exists('groups_get_current_group') && 'groups' == bp_current_component() && $group = groups_get_current_group()) { // BP group?
-				$optvar = !empty($wds_options['metadesc-bp_groups']) ? $wds_options['metadesc-bp_groups'] : '';
-				$metadesc = wds_replace_vars($optvar, array(
-					'name' => $group->name,
-					'description' => $group->description
-				));
-			} else if (function_exists('bp_current_component') && 'profile' == bp_current_component()) {
-				$optvar = !empty($wds_options['metadesc-bp_profile']) ? $wds_options['metadesc-bp_profile'] : '';
-				$metadesc = wds_replace_vars($optvar, array(
-					'full_name' => bp_get_displayed_user_fullname(),
-					'username' => bp_get_displayed_user_username(),
-				));
-			} else if (class_exists('MarketPress_MS') && 'mp_global_products' == $wp_query->get('pagename')) {
-				// Global MarketPress products
-				if (!empty($wds_options['metadesc-mp_marketplace-base'])) $metadesc = wds_replace_vars($wds_options['metadesc-mp_marketplace-base']);
-			} else if (class_exists('MarketPress_MS') && in_array($wp_query->get('pagename'), array('mp_global_tags', 'mp_global_categories'))) {
-				// Global MarketPress Tags / Categories
-				$mp_term = $wp_query->get('global_taxonomy');
-				$args = array();
-				$raw_metadesc = 'mp_global_tags' == $wp_query->get('pagename')
-					? $wds_options['metadesc-mp_marketplace-tags']
-					: $wds_options['metadesc-mp_marketplace-categories']
-				;
-				if (!empty($mp_term)) {
-					$mp_term_name = wds_get_mp_global_term_name($mp_term);
-					if (!empty($mp_term_name)) $args['name'] = $mp_term_name;
-				}
-				if (!empty($raw_metadesc)) $metadesc = wds_replace_vars($raw_metadesc, $args);
-			} else {
-				$object = get_queried_object();
-				$post_id = !empty($post->ID)
-					? $post->ID
-					: (!empty($object->ID) ? $object->ID : false)
-				;
-				$metadesc = wds_get_value('metadesc', $post_id);
-				if (empty($metadesc)) {
-					$optvar = !empty($wds_options['metadesc-'.$post->post_type]) ? $wds_options['metadesc-'.$post->post_type] : '';
-					$metadesc = wds_replace_vars($optvar, (array) $post );
-				}
-			}
-		} else if (function_exists('is_shop') && is_shop() && function_exists('woocommerce_get_page_id')) { // WooCommerce shop page
-			$post_id = woocommerce_get_page_id('shop');
-			$metadesc = wds_get_value('metadesc', $post_id);
-			/*if (empty($metadesc)) {
-				$optvar = !empty($wds_options['metadesc-'.$post->post_type]) ? $wds_options['metadesc-'.$post->post_type] : '';
-				$metadesc = wds_replace_vars($optvar, (array) $post );
-			}*/
-		} else {
-			if ( is_home() && 'posts' == get_option('show_on_front') && isset($wds_options['metadesc-home']) ) {
-				$metadesc = wds_replace_vars($wds_options['metadesc-home'], array() );
-			} else if ( is_home() && 'posts' != get_option('show_on_front') ) {
-				$npost = get_post( get_option('page_for_posts') );
-				$metadesc = is_object($npost) && !empty($npost->ID)
-					? wds_get_value('metadesc', $npost->ID)
-					: wds_get_value('metadesc')
-				;
-				if ( ($metadesc == '' || !$metadesc) && is_object($npost) &&  isset($wds_options['metadesc-'.$npost->post_type]) ) {
-					$metadesc = wds_replace_vars($wds_options['metadesc-'.$npost->post_type], (array) $npost );
-				}
-			} else if ( is_category() || is_tag() || is_tax() ) {
-				$term = $wp_query->get_queried_object();
-
-				$metadesc = wds_get_term_meta( $term, $term->taxonomy, 'wds_desc' );
-				if ( !$metadesc && isset($wds_options['metadesc-'.$term->taxonomy])) {
-					$metadesc = wds_replace_vars($wds_options['metadesc-'.$term->taxonomy], (array) $term );
-				}
-			} else if ( is_author() ) {
-				$author_id = get_query_var('author');
-				$metadesc = get_the_author_meta('wds_metadesc', $author_id);
-			} else if (function_exists('groups_get_current_group') && 'groups' == bp_current_component() && $group = groups_get_current_group()) { // BP group?
-				$optvar = !empty($wds_options['metadesc-bp_groups']) ? $wds_options['metadesc-bp_groups'] : '';
-				$metadesc = wds_replace_vars($optvar, array(
-					'name' => $group->name,
-					'description' => $group->description
-				));
-			} else if (function_exists('bp_current_component') && 'profile' == bp_current_component()) {
-				$optvar = !empty($wds_options['metadesc-bp_profile']) ? $wds_options['metadesc-bp_profile'] : '';
-				$metadesc = wds_replace_vars($optvar, array(
-					'full_name' => bp_get_displayed_user_fullname(),
-					'username' => bp_get_displayed_user_username(),
-				));
-			}
-		}
+		$metadesc = $this->get_description();
 
 		if (!empty($metadesc)) {
-			echo "\t".'<meta name="description" content="'. esc_attr( strip_tags( stripslashes( apply_filters('wds_metadesc', $metadesc) ) ) ).'" />'."\n";
+			echo '<meta name="description" content="'.
+				esc_attr( strip_tags( stripslashes( apply_filters('wds_metadesc', $metadesc) ) ) )
+			.'" />' . "\n";
 		}
+	}
+
+	/**
+	 * Gets a list of keywords for current resolved endpoint
+	 *
+	 * @param string $location Resolved location to get keywords for
+	 * @param WP_Post $post Post context for location
+	 *
+	 * @return array A list of keywords
+	 */
+	public function get_keywords ($location=false, $post=false) {
+		$resolver = $this->get_resolver();
+		$wds_options = WDS_Settings::get_options();
+
+		if (empty($location)) $location = $resolver->get_location();
+		if (empty($post)) $post = $resolver->get_context();
+
+		$metakey = '';
+		$extra = array();
+
+		if (WDS_Endpoint_Resolver::L_BLOG_HOME === $location && isset($wds_options['keywords-home'])) {
+			$metakey = wds_replace_vars($wds_options['keywords-home'], (array) $post );
+		} else if (WDS_Endpoint_Resolver::L_WOO_SHOP === $location) {
+			$post_id = woocommerce_get_page_id('shop');
+			$metakey = wds_get_value('keywords', $post_id);
+			$use_tags = wds_get_value('tags_to_keywords', $post_id);
+			$metakey = $use_tags ? $this->_tags_to_keywords($metakey) : $metakey;
+		} else {
+			$metakey = $resolver->is_singular($location) ? wds_get_value('keywords', $post->ID) : false;
+			if ($resolver->is_singular($location)) {
+				if (wds_get_value('tags_to_keywords', $post->ID)) $extra = array_merge($extra, $this->get_tag_keywords($post));
+				$extra = array_merge($extra, $this->get_focus_keywords($post));
+			}
+		}
+
+		$keywords = array_filter(array_unique(array_merge(
+			$this->keywords_string_to_array($metakey),
+			$extra
+		)));
+
+		return $keywords;
+	}
+
+	/**
+	 * Gets a list of focus keywords for a given post
+	 *
+	 * Defaults to currently resolved post if no post given.
+	 *
+	 * @param WP_Post $post Optional post
+	 *
+	 * @return array A list of focus keywords
+	 */
+	public function get_focus_keywords ($post=false) {
+		$result = array();
+		if (empty($post)) {
+			$post = $this->get_resolver()->get_context();
+		}
+		if (!is_object($post) || !($post instanceof WP_Post)) return $result;
+
+		$request_keywords = $this->get_request_param('wds_focus_keywords');
+		$focus_keywords = !empty($request_keywords) ? $request_keywords : wds_get_value('focus-keywords', $post->ID);
+		$result = $this->keywords_string_to_array($focus_keywords);
+
+		return $result;
+	}
+
+	/**
+	 * Gets list of post tags
+	 *
+	 * Defaults to currently resolved post if no post given.
+	 *
+	 * @param WP_Post $post Post object instance
+	 *
+	 * @return array List of tags
+	 */
+	public function get_tag_keywords ($post=false) {
+		$tags = array();
+		if (empty($post)) {
+			$post = $this->get_resolver()->get_context();
+		}
+		if (!is_object($post) || !($post instanceof WP_Post)) return $tags;
+
+		$raw_tags = get_the_tags($post->ID);
+		if ($raw_tags) foreach($raw_tags as $tag) {
+			$tags[] = $tag->name;
+		}
+
+		return $tags;
+	}
+
+	/**
+	 * Converts a comma-separated string of keywords into an array
+	 *
+	 * @param string $kws Keywords string
+	 *
+	 * @return array List of keywords
+	 */
+	public function keywords_string_to_array ($kws) {
+		$kw_array = $kws ? explode(',', trim($kws)) : array();
+		$kw_array = is_array($kw_array) ? $kw_array : array();
+		$kw_array = array_map('trim', $kw_array);
+
+		return array_filter(array_unique($kw_array));
 	}
 
 	/**
@@ -575,48 +805,16 @@ class WDS_OnPage {
 
 		if (!apply_filters('wds_process_keywords', true)) return false; // Allow optional filtering out
 
-		global $post;
-		global $wds_options;
-		$metakey = false;
-		if (is_home() && 'posts' == get_option('show_on_front') && isset($wds_options['keywords-home'])) {
-			$metakey = wds_replace_vars($wds_options['keywords-home'], (array) $post );
-		} else if (function_exists('is_shop') && is_shop() && function_exists('woocommerce_get_page_id')) { // WooCommerce shop page
-			$post_id = woocommerce_get_page_id('shop');
-			$metakey = wds_get_value('keywords', $post_id);
-			$use_tags = wds_get_value('tags_to_keywords', $post_id);
-			$metakey = $use_tags ? $this->_tags_to_keywords($metakey) : $metakey;
-		} else {
-			$metakey = is_singular() ? wds_get_value('keywords') : false;
-			$use_tags = is_singular() ? wds_get_value('tags_to_keywords') : false;
-			$metakey = $use_tags ? $this->_tags_to_keywords($metakey) : $metakey;
-		}
-		if ($metakey) echo "\t".'<meta name="keywords" content="'. esc_attr(stripslashes($metakey)).'" />'."\n";
+		$keywords = $this->get_keywords();
+		if (empty($keywords)) return false;
+
+		echo '<meta name="keywords" content="' . esc_attr(stripslashes(join(',', $keywords))) . '" />'."\n";
 
 		// News keywords
-		$news_meta = is_singular() ? stripslashes(wds_get_value('news_keywords')) : false;
+		$resolver = $this->get_resolver();
+		$news_meta = $resolver->is_singular() ? stripslashes(wds_get_value('news_keywords')) : false;
 		$news_meta = trim(preg_replace('/\s\s+/', ' ', preg_replace('/[^-_,a-z0-9 ]/i', ' ', $news_meta)));
-		if ($news_meta) echo "\t".'<meta name="news_keywords" content="'. esc_attr($news_meta).'" />'."\n";
-	}
-
-	/**
-	 * Merges keywords (if any) and tags (if any) into one keyword string.
-	 * Returned string is checked for duplicates.
-	 *
-	 * @access private
-	 * @return mixed Keyword string if we found anything, false otherwise.
-	 */
-	function _tags_to_keywords ($kws) {
-		$kw_array = $kws ? explode(',', trim($kws)) : array();
-		$kw_array = is_array($kw_array) ? $kw_array : array();
-		$kw_array = array_map('trim', $kw_array);
-
-		$tags = array();
-		$raw_tags = get_the_tags();
-		if ($raw_tags) foreach($raw_tags as $tag) {
-			$tags[] = $tag->name;
-		}
-		$result = array_filter(array_unique(array_merge($kw_array, $tags)));
-		return count($result) ? join(',', $result) : false;
+		if ($news_meta) echo '<meta name="news_keywords" content="'. esc_attr($news_meta).'" />'."\n";
 	}
 
 	function wds_page_redirect( $input ) {
@@ -631,4 +829,4 @@ class WDS_OnPage {
 	}
 }
 
-$wds_onpage = new WDS_OnPage;
+$wds_onpage = WDS_OnPage::get()->run();

@@ -160,7 +160,7 @@ if (wpui_login_error_message() == '1') {
 	add_filter('login_errors','wpui_login_custom_error_message');
 
 	function wpui_login_custom_error_message($error){
-		$error = __('Your credentials are incorrect','wpui');
+		$error = __('Your credentials are incorrect','wp-admin-ui');
 		return $error;
 	}
 }

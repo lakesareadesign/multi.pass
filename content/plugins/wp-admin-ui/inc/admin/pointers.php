@@ -29,7 +29,7 @@ add_action( 'admin_enqueue_scripts', 'wpui_enqueue_pointer_script_style' );
 function wpui_pointer_print_scripts() {
 
 	$pointer_content  = "<h3>WP Admin UI</h3>";
-	$pointer_content .= "<p>".esc_attr__('Before starting: define which roles to apply settings using Role Manager page.','wpui')."</p>";
+	$pointer_content .= "<p>".esc_attr__('Before starting: define which roles to apply settings using Role Manager page.','wp-admin-ui')."</p>";
 	?>
 	
 	<script type="text/javascript">

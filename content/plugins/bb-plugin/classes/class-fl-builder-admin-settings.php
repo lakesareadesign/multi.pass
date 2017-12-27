@@ -559,6 +559,7 @@ final class FLBuilderAdminSettings {
 					FLCustomizer::clear_all_css_cache();
 				}
 			}
+			do_action( 'fl_builder_cache_cleared' );
 		}
 	}
 

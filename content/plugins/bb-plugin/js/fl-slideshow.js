@@ -7317,7 +7317,7 @@ Y.namespace('FL').Slideshow = Y.Base.create('fl-slideshow', Y.FL.SlideshowBase, 
 				upsize: this.get('upsize'),
 				showVideoButton: this.get('navOverlay')
 			},
-			touchSupport: true
+			touchSupport: this.get('touchSupport')
 		});
 		
 		this.add(this.frame);
@@ -8987,6 +8987,18 @@ Y.namespace('FL').Slideshow = Y.Base.create('fl-slideshow', Y.FL.SlideshowBase, 
 		 * @default true
 		 */
 		tweetButtonEnabled: {
+			value: true
+		},
+
+		/**
+		 * Whether to use touch gestures, when available,
+		 * to transition between images or not.
+		 *
+		 * @attribute touchSupport
+		 * @type Boolean
+		 * @default true
+		 */
+		touchSupport: {
 			value: true
 		}
 	}

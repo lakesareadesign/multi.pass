@@ -100,7 +100,6 @@ abstract class Updraft_Notices_1_0 {
 	 * @param  Boolean $html_allowed a boolean value to indicate if HTML can be used or not
 	 * @param  String  $url          the url to use
 	 * @param  Boolean $https        a boolean value to indicate if https should be used or not
-	 * @param  String  $website_home a string to be displayed
 	 * @return String                returns a string of the completed url
 	 */
 	protected function url_end($html_allowed, $url, $https = false) {

@@ -12,8 +12,9 @@ class FLCalloutModule extends FLBuilderModule {
 		parent::__construct(array(
 			'name'          	=> __( 'Callout', 'fl-builder' ),
 			'description'   	=> __( 'A heading and snippet of text with an optional link, icon and image.', 'fl-builder' ),
-			'category'      	=> __( 'Advanced Modules', 'fl-builder' ),
+			'category'      	=> __( 'Actions', 'fl-builder' ),
 			'partial_refresh'	=> true,
+			'icon'				=> 'megaphone.svg',
 		));
 	}
 
@@ -289,6 +290,7 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'maxlength'         => '3',
 						'size'              => '4',
 						'description'       => 'px',
+						'sanitize'			=> 'absint',
 					),
 				),
 			),

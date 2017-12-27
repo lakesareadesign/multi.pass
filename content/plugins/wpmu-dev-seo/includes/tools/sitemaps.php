@@ -36,7 +36,7 @@ class WDS_XML_Sitemap {
 	}
 
 	public function generate_sitemap () {
-		global $wds_options;
+		$wds_options = WDS_Settings::get_options();
 
 		WDS_Logger::info('(Re)generating sitemap');
 
@@ -57,6 +57,7 @@ class WDS_XML_Sitemap {
 		$image_schema_url = 'http://www.google.com/schemas/sitemap-image/1.1';
 		$image_schema = !empty($wds_options['sitemap-images']) ? "xmlns:image='{$image_schema_url}'" : '';
 		$map .= "<urlset xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xsi:schemaLocation='http://www.sitemaps.org/schemas/sitemap/0.9 http://www.sitemaps.org/schemas/sitemap/0.9/sitemap.xsd' xmlns='http://www.sitemaps.org/schemas/sitemap/0.9' {$image_schema}>\n";
+
 		foreach ($this->_items as $item) {
 			$map .= "<url>\n";
 			foreach ($item as $key => $val) {
@@ -113,7 +114,7 @@ class WDS_XML_Sitemap {
 			return false;
 		}
 
-		global $wds_options;
+		$wds_options = WDS_Settings::get_options();
 		if (!@$wds_options['sitemapurl']) return false;
 
 		$result = array();
@@ -154,19 +155,42 @@ class WDS_XML_Sitemap {
 		return (bool)(is_multisite() && (is_admin() || is_network_admin()) && class_exists('domain_map'));
 	}
 
-	private function _get_stylesheet ($xsl) {
-        $plugin_host = parse_url(WDS_PLUGIN_URL, PHP_URL_HOST);
-        $protocol = ( is_ssl() || force_ssl_admin() ) ? 'https://' : 'http://';
-        $xsl_host = preg_replace('~' . preg_quote($protocol . $plugin_host . '/') . '~', '', WDS_PLUGIN_URL);
+	private function _get_stylesheet($xsl) {
 		if (is_multisite() && defined('SUBDOMAIN_INSTALL') && !SUBDOMAIN_INSTALL) {
+			$plugin_host = parse_url(WDS_PLUGIN_URL, PHP_URL_HOST);
+			$protocol = (is_ssl() || force_ssl_admin()) ? 'https://' : 'http://';
+			$xsl_host = preg_replace('~' . preg_quote($protocol . $plugin_host . '/') . '~', '', WDS_PLUGIN_URL);
 			$xsl_host = '../' . $xsl_host;
+			return "<?xml-stylesheet type='text/xml' href='{$xsl_host}admin/templates/xsl/{$xsl}.xsl'?>\n";
+		} else {
+			$plugin_dir_url = plugin_dir_url(dirname(__FILE__));
+			return "<?xml-stylesheet type='text/xml' href='{$plugin_dir_url}admin/templates/xsl/{$xsl}.xsl'?>\n";
 		}
-		return "<?xml-stylesheet type='text/xml' href='{$xsl_host}admin/templates/xsl/{$xsl}.xsl'?>\n";
+	}
+
+	/**
+	 * Check whether the sitemap output file is writable.
+	 *
+	 * @return bool
+	 */
+	public static function is_sitemap_path_writable () {
+		$file = wds_get_sitemap_path();
+
+		if (file_exists($file)) {
+			$fp = @fopen($file, 'a');
+			if ($fp) {
+				fclose($fp);
+				return true;
+			}
+			return false;
+		}
+
+		return is_writable(dirname($file));
 	}
 
 	private function _write_sitemap ($map) {
 		$file = wds_get_sitemap_path();
-		$status = !!file_put_contents($file, $map);
+		$status = !!@file_put_contents($file, $map);
 		if (!$status) {
 			WDS_Logger::error("Failed writing sitemap file to [{$file}]");
 		}
@@ -316,7 +340,7 @@ class WDS_XML_Sitemap {
 	 */
 	private function _load_buddypress_group_items () {
 		if (!function_exists('groups_get_groups')) return false; // No BuddyPress Groups, bail out.
-		global $wds_options;
+		$wds_options = WDS_Settings::get_options();
 		if (!defined('BP_VERSION')) return false; // Nothing to do
 		if (!(int)@$wds_options['sitemap-buddypress-groups']) return false; // Nothing to do
 
@@ -346,7 +370,7 @@ class WDS_XML_Sitemap {
 	 * Loads BuddyPress profile items.
 	 */
 	private function _load_buddypress_profile_items () {
-		global $wds_options;
+		$wds_options = WDS_Settings::get_options();
 		if (!defined('BP_VERSION')) return false; // Nothing to do
 		if (!function_exists('bp_core_get_users')) return false;
 		if (!(int)@$wds_options['sitemap-buddypress-profiles']) return false; // Nothing to do
@@ -374,7 +398,7 @@ class WDS_XML_Sitemap {
 	 * Loads posts into the sitemap.
 	 */
 	private function _load_post_items () {
-		global $wds_options;
+		$wds_options = WDS_Settings::get_options();
 
 		$get_content = !empty($wds_options['sitemap-images']) ? 'post_content,' : '';
 
@@ -445,7 +469,7 @@ class WDS_XML_Sitemap {
 	private function _load_taxonomy_items () {
 		if (wds_is_switch_active('WDS_SITEMAP_SKIP_TAXONOMIES')) return false;
 
-		global $wds_options;
+		$wds_options = WDS_Settings::get_options();
 
 		$tax = array();
 		$raw = get_taxonomies(array(
@@ -456,6 +480,8 @@ class WDS_XML_Sitemap {
 			if (!empty($wds_options['taxonomies-' . $taxonomy->name . '-not_in_sitemap'])) continue;
 			$tax[] = $taxonomy->name;
 		}
+		if (empty($tax)) return true; // All done here
+
 		$terms = get_terms($tax, array('hide_empty' => true));
 
 		foreach ($terms as $term) {
@@ -501,7 +527,7 @@ function wds_xml_sitemap_init() {
 	global $plugin_page;
 
 	if( class_exists('WDS_Settings') && isset( $plugin_page ) && WDS_Settings::TAB_SITEMAP === $plugin_page ) {
-		$wds_xml = new WDS_XML_Sitemap();
+		if (WDS_Settings::get_setting('sitemap')) $wds_xml = new WDS_XML_Sitemap();
 	}
 }
 add_action( 'admin_init', 'wds_xml_sitemap_init' );
@@ -510,7 +536,7 @@ add_action( 'admin_init', 'wds_xml_sitemap_init' );
  * Fetch the actual sitemap path, to the best of our abilities.
  */
 function wds_get_sitemap_path () {
-	global $wds_options;
+	$wds_options = WDS_Settings::get_options();
 
 	$dir = wp_upload_dir();
 	$path = !empty($wds_options['sitemappath']) ? $wds_options['sitemappath'] : false; // First thing first, try the sitewide option
@@ -536,8 +562,8 @@ function wds_get_sitemap_path () {
  * Fetch sitemap URL in an uniform fashion.
  */
 function wds_get_sitemap_url () {
-	global $wds_options;
-	$sitemap_options = is_network_admin() ? $wds_options : get_option('wds_sitemap_options');
+	$wds_options = WDS_Settings::get_options();
+	$sitemap_options = (is_multisite() && is_main_site()) ? $wds_options : get_option('wds_sitemap_options');
 	$sitemap_url = !empty($sitemap_options['sitemapurl']) ? $sitemap_options['sitemapurl'] : false;
 
 	if (is_multisite() && class_exists('domain_map')) {

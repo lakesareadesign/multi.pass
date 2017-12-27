@@ -10,11 +10,12 @@ class FLContactFormModule extends FLBuilderModule {
 	 */
 	public function __construct() {
 		parent::__construct(array(
-			'name'				=> __( 'Contact Form', 'fl-builder' ),
-			'description'		=> __( 'A very simple contact form.', 'fl-builder' ),
-			'category'			=> __( 'Advanced Modules', 'fl-builder' ),
-			'editor_export'		=> false,
+			'name'           	=> __( 'Contact Form', 'fl-builder' ),
+			'description'    	=> __( 'A very simple contact form.', 'fl-builder' ),
+			'category'       	=> __( 'Actions', 'fl-builder' ),
+			'editor_export'  	=> false,
 			'partial_refresh'	=> true,
+			'icon'				=> 'editor-table.svg',
 		));
 
 		add_action( 'wp_ajax_fl_builder_email', array( $this, 'send_mail' ) );
@@ -102,7 +103,7 @@ class FLContactFormModule extends FLBuilderModule {
 			if ( isset( $settings->recaptcha_toggle ) && 'show' == $settings->recaptcha_toggle && $recaptcha_response ) {
 				if ( ! empty( $settings->recaptcha_secret_key ) && ! empty( $settings->recaptcha_site_key ) ) {
 					if ( version_compare( phpversion(), '5.3', '>=' ) ) {
-						include $module->dir . 'includes/validate-recaptcha.php';
+						include FLBuilderModel::$modules['contact-form']->dir . 'includes/validate-recaptcha.php';
 					} else {
 						$response['error'] = false;
 					}

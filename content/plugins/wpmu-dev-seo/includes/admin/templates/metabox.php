@@ -81,13 +81,20 @@ if ($post->post_type == 'post') {
 
 <?php
 	$title_placeholder = wds_get_seo_title();
-	if(!$title_placeholder)
-		$title_placeholder = '';
+	if(!$title_placeholder) $title_placeholder = '';
 
 	$desc_placeholder = wds_get_seo_desc();
-	if(!$desc_placeholder)
-		$desc_placeholder = '';
+	if(!$desc_placeholder) $desc_placeholder = '';
 ?>
+
+<?php if (apply_filters('wds-metabox-visible_parts-focus_area', true)) { ?>
+	<tr>
+		<th valign='top'><label for='wds_focus'><?php esc_html_e('Focus keywords' , 'wds'); ?></label></th>
+		<td valign='top'>
+			<input type='text' class='widefat' id='wds_focus' name='wds_focus' value='<?php echo esc_html(wds_get_value('focus-keywords')); ?>' class='wds' /><br />
+		</td>
+	</tr>
+<?php } ?>
 
 <?php if (apply_filters('wds-metabox-visible_parts-title_area', true)) { ?>
 	<tr>
@@ -284,3 +291,5 @@ if ($post->post_type == 'post') {
 	</tr>
 
 </table>
+
+<?php do_action('wds-editor-metabox-after', $post); ?>

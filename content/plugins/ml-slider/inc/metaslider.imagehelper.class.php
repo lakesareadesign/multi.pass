@@ -17,24 +17,28 @@ class MetaSliderImageHelper {
     private $use_image_editor;
 
     /**
-     * @property integer $slide_id The ID of the image
-	 */
+     * The ID of the image
+     *
+     * @var integer
+     */
 	private $slide_id;
 		
     /**
-     * @property integer $image_id The ID of the image
-	 */		
+     * The ID of the image
+     *
+     * @var integer
+     */
     public $image_id;
 
     /**
      * Constructor
      *
-     * @param integer $slide_id   - The ID of the current slide
-     * @param integer $width      - Required width of image
-     * @param integer $height     - Required height of image
-     * @param string  $crop_type  - The method used for cropping
+     * @param integer $slide_id         - The ID of the current slide
+     * @param integer $width            - Required width of image
+     * @param integer $height           - Required height of image
+     * @param string  $crop_type        - The method used for cropping
      * @param bool    $use_image_editor - Whether to use the image editor
-     * @param integer $image_id   - used when the slide in admin is a looped item (i.e. post type)
+     * @param integer $image_id         - used when the slide in admin is a looped item (i.e. post type)
      */
     public function __construct($slide_id, $width, $height, $crop_type, $use_image_editor = true, $image_id = null) {
         // There's a chance that $slide_id might be an $image_id 
@@ -61,7 +65,7 @@ class MetaSliderImageHelper {
      * Add in backwards compatibility for old versions of MS Pro
      * 'true' = smart, 'false' = standard, 'disabled' = disabled
      *
-     * @param string $crop_type
+     * @param string $crop_type Crop type
      */
     private function set_crop_type( $crop_type ) {
 
@@ -87,13 +91,12 @@ class MetaSliderImageHelper {
 
     /**
      * Return the crop dimensions.
-     *
      * Smart Crop: If the image is smaller than the container width or height, then return
      * dimensions that respect the container size ratio. This ensures image displays in a
      * sane manner in responsive sliders
      *
-     * @param integer $image_width
-     * @param integer $image_height
+     * @param integer $image_width  Image Width
+     * @param integer $image_height Image height
      * @return array image dimensions
      */
     private function get_crop_dimensions( $image_width, $image_height ) {
@@ -140,7 +143,6 @@ class MetaSliderImageHelper {
         if ( $image_width < $container_width && $image_height < $container_height ) {
             if ( $container_width > $container_height ) {
                 // wide
-
                 if ( $image_width > $image_height ) {
                     // wide
                     $new_slide_height = $image_height;
@@ -214,7 +216,7 @@ class MetaSliderImageHelper {
     /**
      * Return the image URL, crop the image to the correct dimensions if required
      *
-     * @param bool $force_resize
+     * @param bool $force_resize Force resize of image
      * @return string resized image URL
      */
     function get_image_url( $force_resize = false ) {
@@ -308,8 +310,9 @@ class MetaSliderImageHelper {
     /**
      * Use WP_Image_Editor to create a resized image and return the URL for that image
      *
-     * @param array   $orig_size
-     * @param array   $dest_size
+     * @param array $orig_size      Original image size
+     * @param array $dest_size      Destination image size
+     * @param array $dest_file_name Destination file name
      * @return string
      */
     private function resize_image($orig_size, $dest_size, $dest_file_name) {

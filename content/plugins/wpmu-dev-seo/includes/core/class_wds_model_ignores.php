@@ -67,6 +67,32 @@ class WDS_Model_Ignores extends WDS_Model {
 	}
 
 	/**
+	 * Removes ignored item from ignores list
+	 *
+	 * @param string $key Item key to remove from ignores
+	 *
+	 * @return bool Status
+	 */
+	public function unset_ignore ($key) {
+		if (empty($key)) return false;
+		if (!$this->is_valid_ignore_key($key)) return false;
+
+		$index = array_search($key, $this->_ignores);
+		if($index !== false)
+		{
+			unset($this->_ignores[$index]);
+		}
+
+		$this->_ignores = array_filter(array_unique($this->_ignores));
+
+		$status = wds_is_switch_active('WDS_SITEWIDE')
+			? update_site_option(self::IGNORES_STORAGE, $this->_ignores)
+			: update_option(self::IGNORES_STORAGE, $this->_ignores)
+		;
+		return $status;
+	}
+
+	/**
 	 * Check if a string is valid ignored issue identifier
 	 *
 	 * @param string $key String to check

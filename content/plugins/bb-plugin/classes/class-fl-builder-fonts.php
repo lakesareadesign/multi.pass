@@ -47,17 +47,17 @@ final class FLBuilderFonts {
 		$system_fonts = apply_filters( 'fl_builder_font_families_system', FLBuilderFontFamilies::$system );
 		$google_fonts = apply_filters( 'fl_builder_font_families_google', FLBuilderFontFamilies::google() );
 
-		echo '<option value="Default" ' . selected( 'Default', $font ) . '>' . __( 'Default', 'fl-builder' ) . '</option>';
+		echo '<option value="Default" ' . selected( 'Default', $font, false ) . '>' . __( 'Default', 'fl-builder' ) . '</option>';
 		echo '<optgroup label="System">';
 
 		foreach ( $system_fonts as $name => $variants ) {
-			echo '<option value="' . $name . '" ' . selected( $name, $font ) . '>' . $name . '</option>';
+			echo '<option value="' . $name . '" ' . selected( $name, $font, false ) . '>' . $name . '</option>';
 		}
 
 		echo '<optgroup label="Google">';
 
 		foreach ( $google_fonts as $name => $variants ) {
-			echo '<option value="' . $name . '" ' . selected( $name, $font ) . '>' . $name . '</option>';
+			echo '<option value="' . $name . '" ' . selected( $name, $font, false ) . '>' . $name . '</option>';
 		}
 	}
 
@@ -71,19 +71,18 @@ final class FLBuilderFonts {
 	 */
 	static public function display_select_weight( $font, $weight ) {
 		if ( 'Default' == $font ) {
-			echo '<option value="default">' . __( 'Default', 'fl-builder' ) . '</option>';
+			echo '<option value="default" selected="selected">' . __( 'Default', 'fl-builder' ) . '</option>';
 		} else {
 			$system_fonts = apply_filters( 'fl_builder_font_families_system', FLBuilderFontFamilies::$system );
 			$google_fonts = apply_filters( 'fl_builder_font_families_google', FLBuilderFontFamilies::google() );
 
 			if ( array_key_exists( $font, $system_fonts ) ) {
 				foreach ( $system_fonts[ $font ]['weights'] as $variant ) {
-					echo '<option value="' . $variant . '" ' . selected( $variant, $weight ) . '>' . FLBuilderFonts::get_weight_string( $variant ) . '</option>';
+					echo '<option value="' . $variant . '" ' . selected( $variant, $weight, false ) . '>' . FLBuilderFonts::get_weight_string( $variant ) . '</option>';
 				}
 			} else {
 				foreach ( $google_fonts[ $font ] as $variant ) {
-
-					echo '<option value="' . $variant . '" ' . selected( $variant, $weight ) . '>' . FLBuilderFonts::get_weight_string( $variant ) . '</option>';
+					echo '<option value="' . $variant . '" ' . selected( $variant, $weight, false ) . '>' . FLBuilderFonts::get_weight_string( $variant ) . '</option>';
 				}
 			}
 		}
@@ -459,5 +458,4 @@ final class FLBuilderFontFamilies {
 			),
 		),
 	);
-
 }

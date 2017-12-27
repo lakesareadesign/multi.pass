@@ -13,6 +13,7 @@ class WDS_Settings_Redirections extends WDS_Settings_Admin {
 	}
 
 	public function validate ($input) {
+		$result = array();
 		$urls = !empty($input['urls']) && is_array($input['urls'])
 			? $input['urls']
 			: array()
@@ -38,6 +39,7 @@ class WDS_Settings_Redirections extends WDS_Settings_Admin {
 		$rtypes = $rmodel->get_all_redirection_types();
 		foreach ($urls as $source => $redir) {
 			$source = esc_url($source);
+			$redir = esc_url($redir);
 			if ('delete' === $bulk_action) {
 				if (in_array($source, $bulk)) {
 					if (!empty($raw[$source])) unset($raw[$source]);
@@ -45,7 +47,9 @@ class WDS_Settings_Redirections extends WDS_Settings_Admin {
 					continue;
 				}
 			}
-			$raw[$source] = esc_url($redir);
+			if (!preg_match('/^https?:\/\//', $source)) $source = home_url($source);
+			if (!preg_match('/^https?:\/\//', $redir)) $redir = home_url($redir);
+			$raw[$source] = $redir;
 		}
 		$rmodel->set_all_redirections($raw);
 		if ('delete' === $bulk_action) $rmodel->set_all_redirection_types($rtypes);
@@ -107,6 +111,7 @@ class WDS_Settings_Redirections extends WDS_Settings_Admin {
 	}
 
 	public function defaults () {
+		if (!is_array($this->options)) $this->options = array();
 		if ( empty($this->options['redirections-code']) ) {
 			$this->options['redirections-code'] = 301;
 		}

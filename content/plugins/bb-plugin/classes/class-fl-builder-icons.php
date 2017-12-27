@@ -24,19 +24,21 @@ final class FLBuilderIcons {
 	 * @return array An array of data for each icon set.
 	 */
 	static public function get_sets() {
+		$switched = false;
 		// Return the sets if already registered.
 		if ( self::$sets ) {
 			return self::$sets;
 		}
-
+		global $blog_id;
 		// Check to see if we should pull sets from the main site.
 		if ( is_multisite() ) {
 
-			$blog_id		= defined( 'BLOG_ID_CURRENT_SITE' ) ? BLOG_ID_CURRENT_SITE : 1;
+			$id		= defined( 'BLOG_ID_CURRENT_SITE' ) ? BLOG_ID_CURRENT_SITE : 1;
 			$enabled_icons	= get_option( '_fl_builder_enabled_icons' );
 
-			if ( empty( $enabled_icons ) ) {
-				switch_to_blog( $blog_id );
+			if ( ( $id != $blog_id ) || empty( $enabled_icons ) ) {
+				switch_to_blog( $id );
+				$switched = true;
 			}
 		}
 
@@ -45,7 +47,7 @@ final class FLBuilderIcons {
 		self::register_core_sets();
 
 		// Revert to the current site if we pulled from the main site.
-		if ( is_multisite() && empty( $enabled_icons ) ) {
+		if ( is_multisite() && $switched ) {
 			restore_current_blog();
 		}
 

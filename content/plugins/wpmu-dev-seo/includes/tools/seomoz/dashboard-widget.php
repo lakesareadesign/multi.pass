@@ -44,8 +44,7 @@ class WDS_Seomoz_Dashboard_Widget
 	 * Widget
 	 */
 	public static function widget () {
-
-		global $wds_options;
+		$wds_options = WDS_Settings::get_options();
 
 		if( empty( $wds_options['access-id'] ) || empty( $wds_options['secret-key'] ) ) {
 			_e( '<p>Moz credentials not properly set up.</p>', 'wds' );

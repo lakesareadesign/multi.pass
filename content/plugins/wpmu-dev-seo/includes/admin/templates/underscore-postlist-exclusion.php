@@ -1,11 +1,16 @@
 <div class="wds-postlist-list wds-postlist-list-exclude">
-	<p class="wds-list-label">{{= Wds.l10n('postlist', 'Exclude Posts, Pages and CPTs') }}</p>
 {{ if (loaded) { }}
-	<ul class="wds-postlist {{= (!!posts ? '' : 'wds-postlist-empty_list') }}">
+	<table class="wds-postlist wds-list-table {{= (!!posts ? '' : 'wds-postlist-empty_list') }}">
+		<tr>
+			<th>{{= Wds.l10n('postlist', 'Post') }}</th>
+			<th colspan="2">{{= Wds.l10n('postlist', 'Post Type') }}</th>
+		</tr>
 		{{= posts }}
-	</ul>
+	</table>
 {{ } else { }}
 	<p><i>Loading posts, please hold on</i></p>
 {{ } }}
-	<a href="#wds-postlist-selector" rel="dialog" class="button button-cta-dark">{{= Wds.l10n('postlist', 'Add Posts, Pages and CPTs') }}</a>
+	<div class="wds-postlist-add-post">
+		<a href="#wds-postlist-selector" rel="dialog" class="button button-dark">{{= Wds.l10n('postlist', 'Add Posts') }}</a>
+	</div>
 </div>

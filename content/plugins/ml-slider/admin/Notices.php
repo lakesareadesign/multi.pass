@@ -4,19 +4,28 @@ if (!defined('ABSPATH')) die('No direct access allowed');
 
 if (!class_exists('Updraft_Notices_1_0')) require_once(METASLIDER_PATH.'admin/lib/Updraft_Notices.php');
 
+/**
+ * Meta Slider notices
+ */
 class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
-	 * @var object $ads - all ads
+	 * All Ads
+	 *
+	 * @var object $ads
 	 */
     protected $ads;
     
 	/**
+	 * Notices content
+	 *
 	 * @var object $notices_content
 	 */
 	protected $notices_content;
 
     /**
+     * Plugin details
+     *
 	 * @var object $plugin
 	 */
 	protected $plugin;
@@ -24,6 +33,8 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
 	 * Populates ad content and loads assets
+	 *
+	 * @param array $plugin Plugin details
 	 */
 	public function __construct($plugin) {
         $this->ads = $this->is_metasliderpro_installed() ? $this->pro_notices() : $this->lite_notices();
@@ -60,6 +71,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	/**
      * Returns notices that free/lite users should see. dismiss_time should match the key
      * hide_time is in weeks. Use a string to hide for 9999 weeks.
+     *
 	 * @return array returns an array of notices
 	 */
 	protected function lite_notices() {
@@ -162,6 +174,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
     
 	/**
 	 * Premium user notices, if any. 
+     *
 	 * @return string
 	 */
     protected function pro_notices() {
@@ -182,6 +195,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	/**
 	 * Seasonal Notices. Note that if dismissed, they will stay dismissed for 9999 weeks
      * Each year the key and dismiss time should be updated
+     *
 	 * @return string
 	 */
     protected function seasonal_notices() {
@@ -256,6 +270,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
 	 * These appear inside a mega ad. 
+     *
 	 * @return string
 	 */
     protected function mega_notice_parts() {
@@ -268,18 +283,18 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
                 'button_meta' => 'ml-slider',
 			),
 			// 'wpo_pro' => array(
-			// 	'title' => __('WP-Optimize Premium'), 
-			// 	'text' => __('offers unparalleled choice and flexibility, allowing you to select one or a combination of over a dozen optimization options.', 'ml-slider'),
-			// 	'image' => '',
-			// 	'button_link' => 'https://getwpo.com?utm_source=metaslider-plugin-page&utm_medium=banner',
-            //     'button_meta' => 'ml-slider',
+			// 'title' => __('WP-Optimize Premium'), 
+			// 'text' => __('offers unparalleled choice and flexibility, allowing you to select one or a combination of over a dozen optimization options.', 'ml-slider'),
+			// 'image' => '',
+			// 'button_link' => 'https://getwpo.com?utm_source=metaslider-plugin-page&utm_medium=banner',
+            // 'button_meta' => 'ml-slider',
 			// ),
 			// 'udp_pro' => array(
-			// 	'title' => __('UpdraftPlus Premium'), 
-			// 	'text' => __('provides personal support, the ability to copy sites, more storage destinations, encrypted backups for security, multiple backup destinations, better reporting, no adverts and plenty more.', 'ml-slider'),
-			// 	'image' => '',
-			// 	'button_link' => 'https://updraftplus.com?utm_source=metaslider-plugin-page&utm_medium=banner',
-            //     'button_meta' => 'ml-slider',
+			// 'title' => __('UpdraftPlus Premium'), 
+			// 'text' => __('provides personal support, the ability to copy sites, more storage destinations, encrypted backups for security, multiple backup destinations, better reporting, no adverts and plenty more.', 'ml-slider'),
+			// 'image' => '',
+			// 'button_link' => 'https://updraftplus.com?utm_source=metaslider-plugin-page&utm_medium=banner',
+            // 'button_meta' => 'ml-slider',
 			// ),
 			'udp' => array(
 				'title' => __('UpdraftPlus'), 
@@ -315,6 +330,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	/**
      * Check to disable ads on the Pro version. The parent function returns 
      * false if installed, so this is reversed and shouldn't be used for the validity function
+     *
 	 * @return bool 
 	 */
 	protected function is_metasliderpro_installed() {
@@ -323,6 +339,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
 	 * Check to see if UpdraftPlus is installed
+     *
 	 * @return bool 
 	 */
 	protected function is_updraftplus_installed() {
@@ -331,6 +348,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
 	 * Check to see if UpdraftPlus is installed
+     *
 	 * @return bool 
 	 */
 	protected function is_keyy_installed() {
@@ -339,6 +357,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
     
 	/**
 	 * Check to see if UpdraftCentral is installed
+     *
 	 * @return bool 
 	 */
 	protected function is_updraftcentral_installed() {
@@ -347,8 +366,9 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
 	 * Checks if the user agent isn't set as en_GB or en_US, and if the language file doesn't exist
-	 * @param  string $plugin_base_dir
-	 * @param  string $product_name
+     *
+	 * @param  string $plugin_base_dir The plguin base directory
+	 * @param  string $product_name    Product name
 	 * @return bool
 	 */
 	protected function translation_needed($plugin_base_dir = null, $product_name = null) {
@@ -357,6 +377,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	
 	/**
 	 * This method checks to see if the ad has been dismissed
+     *
 	 * @param string $ad_identifier - identifier for the ad
 	 * @return bool returns true when we dont want to show the ad
 	 */
@@ -366,6 +387,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	
 	/**
 	 * Returns all active seasonal ads
+     *
 	 * @return array
 	 */
 	protected function valid_seasonal_notices() {
@@ -389,6 +411,8 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
     /**
 	 * The logic is handled elsewhere. This being true does not skip
      * the seasonal notices. Overrides parent function
+     *
+     * @param array $notice_data Notice data
 	 * @return array
 	 */
     protected function skip_seasonal_notices($notice_data) {
@@ -397,6 +421,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
 	 * Checks whether this is an ad page - hard-coded
+     *
 	 * @return bool 
 	 */
 	protected function is_page_with_ads() {
@@ -413,6 +438,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	/**
      * This method checks to see if the ad waiting period is over (2 weeks)
      * If not, it will set a two week time
+     *
 	 * @return bool returns true when we dont want to show the ad
 	 */
 	protected function ad_delay_has_finished() {
@@ -425,12 +451,9 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
         // Disable this for now so that after a dismiss, ads hide for 24 hours
         // if (get_option("ms_ads_first_seen_on")) {
-
-        //     // They have seen ads before which means the delay is over
-        //     return true;
+        // They have seen ads before which means the delay is over
+        // return true;
         // }
-
-        
         $delay = get_option("ms_hide_all_ads_until");
 
         // Only start the timer if they see a page that has ads
@@ -465,7 +488,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 		return false;
     }
     
-    /*
+    /**
      * Method to handle dashboard notices
      */
     public function show_dashboard_notices() {
@@ -474,8 +497,8 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
             // Override the delay to show the thankyou notice on activation
             // if (!empty($_GET['ms_activated'])) {
-	        //     $lite_notices = $this->lite_notices();
-	        //     $this->notices_content['thankyou'] = $lite_notices['thankyou'];
+	        // $lite_notices = $this->lite_notices();
+	        // $this->notices_content['thankyou'] = $lite_notices['thankyou'];
             // }
             echo $this->do_notice(false, 'dashboard', true); 
         }
@@ -483,9 +506,10 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
 	 * Selects the template and returns or displays the notice
-	 * @param array $notice_information - variable names/values to pass through to the template
-	 * @param bool $return_instead_of_echo - whether to 
-	 * @param string $position - where the notice is being displayed
+     *
+	 * @param array  $notice_information     - variable names/values to pass through to the template
+	 * @param bool   $return_instead_of_echo - whether to 
+	 * @param string $position               - where the notice is being displayed
 	 * @return null|string - depending on the value of $return_instead_of_echo
 	 */
 	protected function render_specified_notice($notice_information, $return_instead_of_echo = false, $position = 'header') {
@@ -499,9 +523,10 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
 	 * Displays or returns the template
-	 * @param string $path file name of the template
-	 * @param bool $return_instead_of_echo 
-	 * @param array $args
+     *
+	 * @param string $path                   file name of the template
+	 * @param bool   $return_instead_of_echo Return the template instead of printing
+	 * @param array  $args                   template arguments
 	 * @return null|string
 	 */
 	public function include_template($path, $return_instead_of_echo = false, $args = array()) {
@@ -518,6 +543,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
 	 * Builds a link based on the type of notice being requested
+     *
 	 * @param string $link - the URL to link to
 	 * @param string $type - which notice is being displayed
 	 * @return string - the resulting HTML
@@ -542,6 +568,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
 	 * Handles any notice related ajax calls
+     *
 	 * @return string - (JSON) Sends a success response unless an error is encountered
 	 */
 	public function ajax_notice_handler() {
@@ -572,7 +599,9 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
   
 	/**
      * Returns the available ads that havent been dismissed by the user
-	 * @param string|array the location for the ad
+     *
+	 * @param string|array $location     the location for the ad
+	 * @param boolean      $bypass_delay Bypass the ad delay
 	 * @return array the identifier for the ad
 	 */
 	public function active_ads($location = 'header', $bypass_delay = false) {
@@ -604,7 +633,8 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
   
 	/**
      * Returns all possible ads or the specified identifier
-     * @param string $ad_identifier
+     *
+     * @param string $ad_identifier Ad Identifier
 	 * @return string|null the data of the ad
 	 */
 	public function get_ad($ad_identifier = null) {
@@ -614,7 +644,8 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
   
 	/**
      * Checks if the ad identifier exists in any of the ads above
-     * @param string $ad_identifier
+     *
+     * @param string $ad_identifier Ad Identifier
 	 * @return bool the data of the ad
 	 */
 	public function ad_exists($ad_identifier) {
@@ -624,8 +655,9 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
 	/**
      * Updates the stored value for how long to hide the ads
-     * @param string $ad_identifier
-     * @param int|string time in weeks or a string to show
+     *
+     * @param string     $ad_identifier Ad Identifier
+     * @param int|string $weeks         time in weeks or a string to show
 	 * @return bool|WP_Error whether the update was a success
 	 */
 	public function dismiss_ad($ad_identifier, $weeks) {

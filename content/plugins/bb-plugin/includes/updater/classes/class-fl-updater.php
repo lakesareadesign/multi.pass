@@ -56,7 +56,7 @@ final class FLUpdater {
 
 		if ( 'plugin' == $settings['type'] ) {
 			add_filter( 'pre_set_site_transient_update_plugins', array( $this, 'update_check' ) );
-			add_filter( 'plugins_api', array( $this, 'plugin_info' ), 10, 3 );
+			add_filter( 'plugins_api', array( $this, 'plugin_info' ), 99, 3 );
 			add_action( 'in_plugin_update_message-' . self::get_plugin_file( $settings['slug'] ), array( $this, 'update_message' ), 1, 2 );
 		} elseif ( 'theme' == $settings['type'] ) {
 			add_filter( 'pre_set_site_transient_update_themes', array( $this, 'update_check' ) );

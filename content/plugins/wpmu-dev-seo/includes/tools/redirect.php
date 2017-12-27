@@ -23,6 +23,11 @@ class WDS_Redirection_Front {
 
 	private function _add_hooks () {
 		add_action('wp', array($this, 'intercept'));
+
+		$opts = WDS_Settings::get_options();
+		if (!empty($opts['redirect-attachments'])) {
+			add_action('template_redirect', array($this, 'redirect_attachments'));
+		}
 	}
 
 	/**
@@ -39,6 +44,40 @@ class WDS_Redirection_Front {
 			$this->_get_redirection_status($source)
 		);
 		die;
+	}
+
+	/**
+	 * Redirects attachments to parent post
+	 *
+	 * If we can't determine parent post type,
+	 * we at least throw the noindex header.
+	 *
+	 * Respects the `redirect-attachment-images_only` sub-option,
+	 *
+	 * @return void
+	 */
+	public function redirect_attachments () {
+		if (!is_attachment()) return;
+
+		$opts = WDS_Settings::get_options();
+		if (!empty($opts['redirect-attachments-images_only'])) {
+			$type = get_post_mime_type();
+			if (!preg_match('/^image\//', $type)) return;
+		}
+
+		$post = get_post();
+		$parent_id = is_object($post) && !empty($post->post_parent)
+			? $post->post_parent
+			: false
+		;
+
+		if (!empty($parent_id)) {
+			wp_safe_redirect(get_permalink($parent_id), 301);
+			die;
+		}
+
+		// No parent post, let's noidex
+		header('X-Robots-Tag: noindex', true);
 	}
 
 	/**

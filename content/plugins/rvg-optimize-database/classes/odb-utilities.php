@@ -26,7 +26,9 @@ class ODB_Utilities {
 					$posttype != 'revision' &&
 					$posttype != 'nav_menu_item' &&
 					$posttype != 'custom_css' &&
-					$posttype != 'customize_changeset') {
+					$posttype != 'customize_changeset' &&
+					// v4.4.2
+					$posttype != 'oembed_cache') {
 				array_push($relevant_pts, $posttype);
 			}
 		} // foreach ($posttypes as $posttype)

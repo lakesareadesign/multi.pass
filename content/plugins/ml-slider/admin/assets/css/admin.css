@@ -799,6 +799,7 @@ textarea:-ms-input-placeholder {
     margin: 0 auto;
 }
 .metaslider-ui .metaslider-inner {
+    background: rgba(224, 224, 224, 0.25);
     border: 1px solid #ccc;
     border-top: 0;
     box-sizing: border-box;
@@ -818,21 +819,52 @@ textarea:-ms-input-placeholder {
     font-weight: normal;
     margin: 0 0.5rem 0 0;
 }
-.metaslider-ui .slider-title .metaslider-shortcode {
-    border: 0;
-    white-space: nowrap;
-    min-width: 250px;
-    box-shadow: none;
-    font-family: monospace;
-    margin: 0;
-    color: #de6826;
-    cursor: pointer;
-}
+
 .metaslider-ui .slider-title .add-slide {
     padding-top: 1px !important;
     position: absolute !important;
     right: 0px;
     top: 12px;
+}
+
+/* Shortcode Instructions */
+.metaslider-ui .metaslider-shortcode {
+    padding: 7px 7px 7px 12px;
+    line-height: 15px;
+    margin: 0;
+    color: #cccccc;
+}
+.metaslider-ui .metaslider-shortcode .ms-shortcode::-moz-selection,
+.metaslider-ui .metaslider-shortcode pre::-moz-selection {
+    color: #444;
+    background: #acd8fc;
+}
+.metaslider-ui .metaslider-shortcode .ms-shortcode::selection,
+.metaslider-ui .metaslider-shortcode pre::selection {
+    color: #444;
+    background: #acd8fc;
+}
+.metaslider-ui .metaslider-shortcode p {
+    margin-top:0;
+    color: #444;
+}
+.metaslider-ui .metaslider-shortcode .ms-shortcode {
+    color: #de6826;
+    cursor: pointer;
+}
+.metaslider-ui .metaslider-shortcode .ml-button.ms-copy-all {
+    position: relative;
+    color: #0073aa;
+    padding: 0;
+    float: right;
+}
+.metaslider-ui .metaslider-shortcode .ml-button.ms-copy-all:hover {
+    color: #de6826;
+}
+.metaslider-ui .metaslider-shortcode .ml-button.ms-copy-all i {
+    position: relative;
+    top: 2px;
+    left: -2px;
 }
 
 /* Slide Listing */
@@ -977,6 +1009,14 @@ textarea:-ms-input-placeholder {
 }
 
 /* Navigation */
+.nav-tab-wrapper {
+    border-bottom: 1px solid #ccc;
+    margin: 0;
+    padding-top: 9px;
+    padding-bottom: 0;
+    line-height: inherit;
+    overflow: hidden;
+}
 .metaslider-ui .nav-tab * {
     box-sizing: border-box;
 }
@@ -988,8 +1028,9 @@ textarea:-ms-input-placeholder {
     padding: 0.5rem;
     max-width: 100px;
     text-overflow: ellipsis;
-    overflow: hidden;
+    /* overflow: hidden; */
     outline: 0;
+    float: left;
 }
 
 .metaslider-ui .nav-tab:active,
@@ -1203,6 +1244,10 @@ textarea:-ms-input-placeholder {
     line-height: 1;
 }
 
+input[type="radio"] {
+    margin-right: 4px;
+}
+
 .metaslider-ui .settings .disabled {
     color:#bbb;
     font-style: italic;
@@ -1210,6 +1255,12 @@ textarea:-ms-input-placeholder {
 
 .metaslider-ui .settings .disabled input {
     border-color: #bbb;
+}
+
+.wp-clearfix:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 /* Grid and add-on page */
@@ -1352,7 +1403,7 @@ textarea:-ms-input-placeholder {
 .metaslider-ui .restore-slide-link:hover span {
     color: #de6826;
 }
-.metaslider-ui .restore-slide-link svg {
+.metaslider-ui .restore-slide-link i {
     position: relative;
     top: 2px;
     left: -2px;

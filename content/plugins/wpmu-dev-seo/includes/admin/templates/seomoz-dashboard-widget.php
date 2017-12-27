@@ -1,4 +1,4 @@
-<table class="wds-data-table">
+<table class="wds-list-table wds-moz-table">
 	<thead>
 		<tr>
 			<th class="label"><?php _e( 'Metric' , 'wds'); ?></th>

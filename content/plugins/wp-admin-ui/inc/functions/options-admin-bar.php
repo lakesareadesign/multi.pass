@@ -321,7 +321,7 @@ function wpui_admin_bar_remove_items( $wp_admin_bar ) {
 	if (function_exists('wpui_admin_bar_howdy')) {
 		if (wpui_admin_bar_howdy() == '1') {
 			$wpui_my_account = $wp_admin_bar->get_node('my-account');
-		    $wpui_custom_title = str_replace( __('Howdy,', 'wpui'), '', $wpui_my_account->title );
+		    $wpui_custom_title = str_replace( __('Howdy,', 'wp-admin-ui'), '', $wpui_my_account->title );
 		    $wp_admin_bar->add_node( array(
 		        'id' => 'my-account',
 		        'title' => '<span class="dashicons dashicons-admin-users" style="font: 400 20px/1 dashicons;top:2px;position:relative;padding: 4px 0;"></span>',

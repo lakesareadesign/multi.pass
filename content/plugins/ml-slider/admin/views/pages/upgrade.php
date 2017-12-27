@@ -10,6 +10,7 @@ foreach ($our_plugins as $plugin) {
 // If they have any plugins missing, make room for ads
 $width = (in_array(false, $installed_plugins, true)) ? 'metaslider_half_width' : ''
 ?>
+<div>
 <div class="metaslider_col <?php echo $width; ?>">
 	<h2 class="ms-addon-headers">MetaSlider <?php _e("Comparison Chart", 'ml-slider');?></h2>
 	<table class="metaslider_feat_table">
@@ -166,4 +167,5 @@ $width = (in_array(false, $installed_plugins, true)) ? 'metaslider_half_width' :
 		</div>
     </div>
     <?php } ?>
+</div>
 </div>

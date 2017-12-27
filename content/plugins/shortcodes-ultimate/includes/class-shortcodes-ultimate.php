@@ -152,11 +152,9 @@ class Shortcodes_Ultimate {
 		 */
 		$addons = new Shortcodes_Ultimate_Admin_Addons( $this->plugin_file, $this->plugin_version );
 
-		add_action( 'admin_menu',                       array( $addons, 'admin_menu' ), 30     );
-		add_action( 'admin_enqueue_scripts',            array( $addons, 'enqueue_scripts' )    );
-		add_action( 'current_screen',                   array( $addons, 'add_help_tab' )       );
-		add_action( 'admin_post_su_activate_license',   array( $addons, 'activate_license' )   );
-		add_action( 'admin_post_su_deactivate_license', array( $addons, 'deactivate_license' ) );
+		add_action( 'admin_menu',            array( $addons, 'admin_menu' ), 30  );
+		add_action( 'admin_enqueue_scripts', array( $addons, 'enqueue_scripts' ) );
+		add_action( 'current_screen',        array( $addons, 'add_help_tab' )    );
 
 
 		/**

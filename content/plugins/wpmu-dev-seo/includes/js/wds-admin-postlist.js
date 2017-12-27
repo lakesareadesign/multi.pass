@@ -334,7 +334,7 @@
 				;
 
 				// Deal with the WDP weirdness
-				if ((WDP.overlay || {}).box_content) {
+				if ((WDP.overlay || {}).box_content && (WDP.overlay || {}).box_content.find('.wds-postlist-selector').length > 0) {
 					WDP.overlay.box_content.html($("#" + get_selector()).html());
 					WDP.overlay.box_content
 						.off("click.wds-selector", ".wds-postlist-selector+.buttons button")
@@ -560,7 +560,7 @@
 				},
 
 				remove: function (e) {
-					var id = parseInt($(e.target).closest('li').attr('data-id'), 10) || 0;
+					var id = parseInt($(e.target).closest('tr').attr('data-id'), 10) || 0;
 					if (!id) return _handlers.stop();
 
 					_list.remove(id);
@@ -618,6 +618,8 @@
 				$root.append(
 					_list_template({posts: out, loaded: _loaded})
 				);
+
+				window.Wds.readjust_vertical_tabs_height();
 			};
 
 			/**

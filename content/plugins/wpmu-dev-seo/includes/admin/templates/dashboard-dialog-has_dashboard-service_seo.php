@@ -110,7 +110,7 @@
 						if ($report->has_issues('5xx')) {
 							$this->_render('dashboard-report-issue', array(
 								'type' => '5xx',
-								'msg' => __('URLs that result in a server error (500 etc)', 'wds'),
+								'msg' => __('URLs that result in server error (500 etc)', 'wds'),
 								'report' => $report,
 								'issues' => $report->get_issues_by_type('5xx'),
 								'redirections' => $redirections,
@@ -119,7 +119,7 @@
 						if ($report->has_issues('4xx')) {
 							$this->_render('dashboard-report-issue', array(
 								'type' => '4xx',
-								'msg' => __('URLs that result in a soft error (404 etc)', 'wds'),
+								'msg' => __('URLs that result in soft error (404 etc)', 'wds'),
 								'report' => $report,
 								'issues' => $report->get_issues_by_type('4xx'),
 								'redirections' => $redirections,

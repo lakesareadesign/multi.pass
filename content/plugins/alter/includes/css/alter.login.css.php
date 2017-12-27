@@ -23,8 +23,13 @@ else {
   $login_logo = (is_numeric($admin_login_logo)) ? $this->alter_get_image_url($admin_login_logo) : $admin_login_logo;
 }
 
-$login_logo_bg = (!empty($this->aof_options['login_logo_bg_color'])) ? $this->alter_hex2rgba($this->aof_options['login_logo_bg_color'], 0.5) : "rgba(0, 250, 0, 0.5)";
-$form_bg_color = (!empty($this->aof_options['login_formbg_color'])) ? $this->alter_hex2rgba($this->aof_options['login_formbg_color'], 0.5) : "rgba(66,49,67,0.5)";
+$bg_opacity = 0.5;
+if($this->aof_options['login_form_style'] == 2) {
+  $bg_opacity = 1;
+}
+
+$login_logo_bg = (!empty($this->aof_options['login_logo_bg_color'])) ? $this->alter_hex2rgba($this->aof_options['login_logo_bg_color'], $bg_opacity) : "rgba(0, 250, 0, $bg_opacity)";
+$form_bg_color = (!empty($this->aof_options['login_formbg_color'])) ? $this->alter_hex2rgba($this->aof_options['login_formbg_color'], $bg_opacity) : "rgba(66,49,67, $bg_opacity)";
 $form_width = (empty($this->aof_options['login_form_width_in_px']) || $this->aof_options['login_form_width_in_px'] < 480) ? "760" : $this->aof_options['login_form_width_in_px'];
 $inp_plholder_color = (!empty($this->aof_options['login_inputs_plholder_color'])) ? $this->aof_options['login_inputs_plholder_color'] : "#5f6f82";
 $logo_top_margin = (!empty($this->aof_options['login_logo_top_margin'])) ? $this->aof_options['login_logo_top_margin'] : "80";
@@ -468,11 +473,9 @@ if($this->aof_options['login_form_style'] == 2) {
     height: auto;
     padding-top: 0;
     width: auto;
-    background-color: rgb(28, 19, 30);
     }
     #login {
     height: auto;
-    background-color: rgb(66, 49, 67);
     }
     .login #nav {
     margin-top: 0;

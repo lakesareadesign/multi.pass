@@ -10,9 +10,11 @@ class FLNumbersModule extends FLBuilderModule {
 	 */
 	public function __construct() {
 		parent::__construct(array(
-			'name'          => __( 'Number Counter', 'fl-builder' ),
-			'description'   => __( 'Renders an animated number counter.', 'fl-builder' ),
-			'category'      => __( 'Advanced Modules', 'fl-builder' ),
+			'name'          	=> __( 'Number Counter', 'fl-builder' ),
+			'description'   	=> __( 'Renders an animated number counter.', 'fl-builder' ),
+			'category'      	=> __( 'Info', 'fl-builder' ),
+			'partial_refresh'	=> true,
+			'icon'				=> 'chart-bar.svg',
 		));
 
 		$this->add_js( 'jquery-waypoints' );

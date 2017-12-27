@@ -5,16 +5,20 @@
 			widgetID;
 
 		if ( reCaptchaFields.length > 0 ) {
-			reCaptchaFields.each(function(){
+			reCaptchaFields.each( function( i ){
 				var self 		= $( this ),
-				 	attrWidget 	= self.attr('data-widgetid');
+				 	attrWidget 	= self.attr('data-widgetid'),
+					newID       = $(this).attr('id') + '-' + i;
 
 				// Avoid re-rendering as it's throwing API error
 				if ( (typeof attrWidget !== typeof undefined && attrWidget !== false) ) {
 					return;
 				}
 				else {
-					widgetID = grecaptcha.render( $(this).attr('id'), {
+					// Increment ID to avoid conflict with the same form.
+					self.attr( 'id', newID );
+
+					widgetID = grecaptcha.render( newID, {
 						sitekey : self.data( 'sitekey' ),
 						theme	: self.data( 'theme' ),
 						size    : self.data( 'validate' ),
@@ -26,8 +30,6 @@
 								if ( 'invisible' == self.data( 'validate' ) ) {
 									self.closest( '.fl-contact-form' ).find( 'a.fl-button' ).trigger( 'click' );
 								}
-
-								grecaptcha.reset( widgetID );
 							}
 						}
 					});
@@ -64,7 +66,7 @@
 				phone			= $(this.nodeClass + ' .fl-phone input'),
 				subject	  		= $(this.nodeClass + ' .fl-subject input'),
 				message	  		= $(this.nodeClass + ' .fl-message textarea'),
-				reCaptchaField  = $('#'+ this.settings.id + '-fl-grecaptcha'),
+				reCaptchaField	= $(this.nodeClass + ' .fl-grecaptcha'),
 				reCaptchaValue	= reCaptchaField.data( 'fl-grecaptcha-response' ),
 				ajaxData 		= null,
 				ajaxurl	  		= FLBuilderLayoutConfig.paths.wpAjaxUrl,

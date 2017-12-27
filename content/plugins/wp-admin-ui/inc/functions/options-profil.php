@@ -200,7 +200,7 @@ if (array_key_exists( 'add_facebook_field', wpui_get_roles_cap($wpui_user_role))
 	if (wpui_profil_facebook_field() == '1') {
 		function wpui_profil_add_facebook_field($profile_fields) {
 
-			$profile_fields['wpui-facebook'] = __('Facebook URL','wpui');
+			$profile_fields['wpui-facebook'] = __('Facebook URL','wp-admin-ui');
 			
 			return $profile_fields;
 		}
@@ -224,7 +224,7 @@ if (array_key_exists( 'add_twitter_field', wpui_get_roles_cap($wpui_user_role)))
 	if (wpui_profil_twitter_field() == '1') {
 		function wpui_profil_add_twitter_field($profile_fields) {
 
-			$profile_fields['wpui-twitter'] = __('Twitter URL','wpui');
+			$profile_fields['wpui-twitter'] = __('Twitter URL','wp-admin-ui');
 			
 			return $profile_fields;
 		}
@@ -248,7 +248,7 @@ if (array_key_exists( 'add_instagram_field', wpui_get_roles_cap($wpui_user_role)
 	if (wpui_profil_instagram_field() == '1') {
 		function wpui_profil_add_instagram_field($profile_fields) {
 
-			$profile_fields['wpui-instagram'] = __('Instagram URL','wpui');
+			$profile_fields['wpui-instagram'] = __('Instagram URL','wp-admin-ui');
 			
 			return $profile_fields;
 		}
@@ -272,7 +272,7 @@ if (array_key_exists( 'add_linkedin_field', wpui_get_roles_cap($wpui_user_role))
 	if (wpui_profil_linkedin_field() == '1') {
 		function wpui_profil_add_linkedin_field($profile_fields) {
 
-			$profile_fields['wpui-linkedin'] = __('LinkedIn URL','wpui');
+			$profile_fields['wpui-linkedin'] = __('LinkedIn URL','wp-admin-ui');
 			
 			return $profile_fields;
 		}

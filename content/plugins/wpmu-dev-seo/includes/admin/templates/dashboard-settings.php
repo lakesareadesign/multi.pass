@@ -129,7 +129,6 @@
 					<?php
 						foreach( get_post_types(array('public' => true)) as $posttype ) {
 							if ( in_array( $posttype, array( 'revision', 'nav_menu_item' ) ) ) continue;
-							if ( isset( $wds_options['redirectattachment'] ) && $wds_options['redirectattachment'] && $posttype == 'attachment' ) continue;
 
 							$type_obj = get_post_type_object( $posttype );
 							if ( ! is_object( $type_obj ) ) continue;
@@ -234,3 +233,5 @@
 	</div>
 
 </div><!-- end container -->
+
+<?php do_action('wds-dshboard-after_settings'); ?>

@@ -16,37 +16,40 @@
 			}
 
 			function bind () {
-				$field.on("focus", on_focus);
-				return me;
-			}
-			function unbind () {
-				$field.on("focus", on_focus);
-				return me;
-			}
-
-			function on_focus () {
 				var $input = $field,
 					box = get_template(),
 					$box
 				;
-				$root
-					.find('.insert-macro').remove().end()
-					.find('.has-trigger-button').removeClass('has-trigger-button').end()
-				;
 				$input
 					.after(
 						Wds.tpl_compile(box)(_.extend({}, _wds_macros))
-						//_.template(box)(_.extend({}, _wds_macros))
 					)
 					.closest(".fields").addClass('has-trigger-button')
 				;
 				$box = $input.parent().find('.insert-macro button');
 				if (!$box.length) return false;
 
+				Wds.qtips($box);
+
 				$box
 					.off("click", on_macros_toggle)
 					.on("click", on_macros_toggle)
 				;
+			}
+
+			function hide_other_lists($current_list, $current_hub) {
+				$current_list.addClass('current');
+				$current_hub.addClass('current');
+
+				$root.find('.insert-macro.is-open').not('.current').removeClass('is-open');
+				var $list = $root.find('.macro-list').not('.current');
+				$list
+					.hide()
+					.find("li").off("click", on_macro_select)
+				;
+
+				$current_list.removeClass('current');
+				$current_hub.removeClass('current');
 			}
 
 			function on_macros_toggle (e) {
@@ -56,6 +59,9 @@
 				var $list = $field.parent().find(".macro-list"),
 					$hub = $field.parent().find(".insert-macro")
 				;
+
+				hide_other_lists($list, $hub);
+
 				if (!$list.length) return false;
 
 				if ($list.is(":visible")) {
@@ -87,6 +93,8 @@
 					$field.val(
 						$.trim($field.val()) + ' ' + macro
 					);
+
+					$field.trigger('change');
 				}
 
 				on_macros_toggle();
@@ -97,8 +105,7 @@
 			init();
 
 			return {
-				bind: bind,
-				unbind: unbind
+				bind: bind
 			};
 		},
 		all: function ($root) {

@@ -461,7 +461,7 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 
 		// <img> tag
 		if ( strpos( $image, '/' ) !== false ) {
-			$template = '<img src="%1$s" alt="" width="%1$s" height="%1$s">';
+			$template = '<img src="%1$s" alt="" width="%2$s" height="%2$s">';
 		}
 
 		// <i> FontAwesome tag

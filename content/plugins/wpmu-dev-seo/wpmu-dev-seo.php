@@ -3,7 +3,7 @@
 * Plugin Name: SmartCrawl
 * Plugin URI: http://premium.wpmudev.org/project/wpmu-dev-seo/
 * Description: Every SEO option that a site requires, in one easy bundle.
-* Version: 2.0.1
+* Version: 2.1.0.1
 * Network: true
 * Text Domain: wds
 * Author: WPMU DEV
@@ -30,7 +30,7 @@
 */
 
 
-define( 'WDS_VERSION', '2.0.1' );
+define( 'WDS_VERSION', '2.1.0.1' );
 
 class WDS_Loader {
 
@@ -56,7 +56,35 @@ class WDS_Loader {
 	 *
 	 * @return void
 	 */
-	public static function activate () {}
+	public static function activate () {
+		require_once ( plugin_dir_path( __FILE__ ) . 'config.php' );
+
+		// Init plugin
+		require_once( WDS_PLUGIN_DIR . 'init.php' );
+
+		require_once (WDS_PLUGIN_DIR . 'admin/settings.php');
+
+		require_once (WDS_PLUGIN_DIR . 'admin/settings/dashboard.php');
+		WDS_Settings_Dashboard::get_instance()->defaults();
+
+		require_once(WDS_PLUGIN_DIR . 'admin/settings/checkup.php');
+		WDS_Checkup_Settings::get_instance()->defaults();
+
+		require_once(WDS_PLUGIN_DIR . 'admin/settings/onpage.php');
+		WDS_Onpage_Settings::get_instance()->defaults();
+
+		require_once(WDS_PLUGIN_DIR . 'admin/settings/social.php');
+		WDS_Social_Settings::get_instance()->defaults();
+
+		require_once(WDS_PLUGIN_DIR . 'admin/settings/sitemap.php');
+		WDS_Sitemap_Settings::get_instance()->defaults();
+
+		require_once(WDS_PLUGIN_DIR . 'admin/settings/autolinks.php');
+		WDS_Autolinks_Settings::get_instance()->defaults();
+
+		require_once(WDS_PLUGIN_DIR . 'admin/settings/settings.php');
+		WDS_Settings_Settings::get_instance()->defaults();
+	}
 
 	/**
 	 * Deactivate the plugin

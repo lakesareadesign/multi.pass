@@ -26,14 +26,17 @@ class MetaSlide {
 
     /**
      * Set the slide
+     *
+     * @param int $id ID
      */
     public function set_slide( $id ) {
         $this->slide = get_post( $id );
     }
 
-
     /**
      * Set the slide (that this slide belongs to)
+     *
+     * @param int $id ID
      */
     public function set_slider( $id ) {
         $this->slider = get_post( $id );
@@ -44,6 +47,8 @@ class MetaSlide {
     /**
      * Return the HTML for the slide
      *
+     * @param  int $slide_id  Slide ID
+     * @param  int $slider_id Slider ID
      * @return array complete array of slides
      */
     public function get_slide( $slide_id, $slider_id ) {
@@ -52,9 +57,12 @@ class MetaSlide {
         return $this->get_slide_html();
     }
 
-
     /**
      * Save the slide
+     *
+     * @param  int    $slide_id  Slide ID
+     * @param  int    $slider_id Slider ID
+     * @param  string $fields    SLider fields
      */
     public function save_slide( $slide_id, $slider_id, $fields ) {
         $this->set_slider( $slider_id );
@@ -72,7 +80,6 @@ class MetaSlide {
      * @return array|WP_error The status message and if success, the thumbnail link
      */
     protected function update_slide_image($slide_id, $image_id) {
-
         /*
         * Verifies that the $image_id is an actual image
         */        
@@ -153,9 +160,12 @@ class MetaSlide {
 
     }
 
-
     /**
      * Check if a slide already exists in a slideshow
+     *
+     * @param  string $slider_id Slider ID
+     * @param  string $slide_id  SLide ID
+     * @return string
      */
     public function slide_exists_in_slideshow( $slider_id, $slide_id ) {
 
@@ -163,9 +173,12 @@ class MetaSlide {
 
     }
 
-
     /**
      * Check if a slide has already been assigned to a slideshow
+     *
+     * @param  string $slider_id Slider ID
+     * @param  string $slide_id  SLide ID
+     * @return string
      */
     public function slide_is_unassigned_or_image_slide( $slider_id, $slide_id ) {
 
@@ -179,7 +192,7 @@ class MetaSlide {
     /**
      * Build image HTML
      *
-     * @param array   $attributes
+     * @param array $attributes Anchor attributes
      * @return string image HTML
      */
     public function build_image_tag( $attributes ) {
@@ -204,7 +217,8 @@ class MetaSlide {
     /**
      * Build image HTML
      *
-     * @param array   $attributes
+     * @param array  $attributes Anchor attributes
+     * @param string $content    Anchor contents
      * @return string image HTML
      */
     public function build_anchor_tag( $attributes, $content ) {
@@ -228,9 +242,9 @@ class MetaSlide {
      * Create a new post for a slide. Tag a featured image to it.
      *
      * @since 3.4
-     * @param string $media_id - Media File ID to use for the slide
-     * @param string $type - the slide type identifier
-     * @param int $slider_id - the parent slideshow ID
+     * @param string $media_id  - Media File ID to use for the slide
+     * @param string $type      - the slide type identifier
+     * @param int    $slider_id - the parent slideshow ID
      * @return int $slide_id - the ID of the newly created slide
      */
      public function insert_slide($media_id, $type, $slider_id) {
@@ -326,6 +340,7 @@ class MetaSlide {
 
     /**
      * Generate the HTML for the delete button
+     *
      * @return string
      */
     public function get_delete_button_html() {
@@ -334,6 +349,7 @@ class MetaSlide {
 
     /**
      * Generate the HTML for the undelete button
+     *
      * @return string
      */
     public function get_undelete_button_html() {
@@ -342,6 +358,7 @@ class MetaSlide {
 
     /**
      * Generate the HTML for the perminant button
+     *
      * @return string
      */
     public function get_perminant_delete_button_html() {
@@ -353,6 +370,7 @@ class MetaSlide {
 
     /**
      * Generates the HTML for the update slide image button
+     *
      * @return string The html for the edit button on a slide image
      */
     public function get_update_image_button_html() {
@@ -439,6 +457,10 @@ class MetaSlide {
      * If the meta doesn't exist, add it
      * If the meta exists, but the value is empty, delete it
      * If the meta exists, update it
+     *
+     * @param int    $post_id Post ID
+     * @param string $name    SLider Name
+     * @param int    $value   Slaider Value
      */
     public function add_or_update_or_delete_meta( $post_id, $name, $value ) {
 
@@ -462,7 +484,8 @@ class MetaSlide {
     /**
      * Detect a [metaslider] or [ml-slider] shortcode in the slide caption, which has an ID that matches the current slideshow ID
      *
-     * @param $content string
+     * @param string $content Content for shortcode
+     * @return  boolean
      */
     protected function detect_self_metaslider_shortcode( $content ) {
         $pattern = get_shortcode_regex();

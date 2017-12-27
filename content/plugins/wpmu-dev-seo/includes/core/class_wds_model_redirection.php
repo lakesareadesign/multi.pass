@@ -3,6 +3,7 @@
 class WDS_Model_Redirection extends WDS_Model {
 
 	const OPTIONS_KEY = 'wds-redirections';
+	const OPTIONS_KEY_TYPES = 'wds-redirections-types';
 
 	const TYPE_301 = 301;
 	const TYPE_302 = 302;
@@ -96,8 +97,8 @@ class WDS_Model_Redirection extends WDS_Model {
 	public function get_all_redirection_types () {
 		$is_sitewide = is_multisite() && defined('WDS_SITEWIDE') && WDS_SITEWIDE;
 		$types = $is_sitewide
-			? get_site_option(self::OPTIONS_KEY . '-types')
-			: get_option(self::OPTIONS_KEY . '-types')
+			? get_site_option(self::OPTIONS_KEY_TYPES)
+			: get_option(self::OPTIONS_KEY_TYPES)
 		;
 		if (!is_array($types)) $types = array();
 
@@ -142,8 +143,8 @@ class WDS_Model_Redirection extends WDS_Model {
 		);
 
 		return $is_sitewide
-			? update_site_option(self::OPTIONS_KEY . '-types', $types)
-			: update_option(self::OPTIONS_KEY . '-types', $types)
+			? update_site_option(self::OPTIONS_KEY_TYPES, $types)
+			: update_option(self::OPTIONS_KEY_TYPES, $types)
 		;
 	}
 
@@ -202,7 +203,12 @@ class WDS_Model_Redirection extends WDS_Model {
 	public function get_current_url () {
 		$protocol = is_ssl() ? 'https:' : 'http:';
 		$domain = $_SERVER['HTTP_HOST'];
-		$port = 80 !== (int)$_SERVER['SERVER_PORT'] ? ':' . (int)$_SERVER['SERVER_PORT'] : '';
+
+		$port = (int)$_SERVER['SERVER_PORT'] ? ':' . (int)$_SERVER['SERVER_PORT'] : '';
+		if (is_ssl() && 443 === (int)$_SERVER['SERVER_PORT']) $port = '';
+		if (!is_ssl() && 80 === (int)$_SERVER['SERVER_PORT']) $port = '';
+		if (wds_is_switch_active('WDS_OMIT_PORT_MATCHES')) $port = '';
+
 		$request = $_SERVER['REQUEST_URI'];
 
 		$source = $protocol . '//' . $domain . $port . $request;

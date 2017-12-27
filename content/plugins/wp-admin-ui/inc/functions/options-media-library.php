@@ -158,7 +158,7 @@ if (array_key_exists( 'exif_col', wpui_get_roles_cap($wpui_user_role))) {
 
     if (wpui_library_exif_col() !='') {
 		function wpui_media_col_exif($defaults){
-		    $defaults['wpui_exif'] = __('EXIF', 'wpui');
+		    $defaults['wpui_exif'] = __('EXIF', 'wp-admin-ui');
 		    return $defaults;
 		}
 		function wpui_shutter_speed($meta) {
@@ -167,14 +167,14 @@ if (array_key_exists( 'exif_col', wpui_get_roles_cap($wpui_user_role))) {
 		     	or number_format((1 / $meta['image_meta']['shutter_speed']), 1) == 1.5
 		     	or number_format((1 / $meta['image_meta']['shutter_speed']), 1) == 1.6
 		     	or number_format((1 / $meta['image_meta']['shutter_speed']), 1) == 2.5){
-		        	return "1/" . number_format((1 / $meta['image_meta']['shutter_speed']), 1, '.', '') . __(' second', 'wpui');
+		        	return "1/" . number_format((1 / $meta['image_meta']['shutter_speed']), 1, '.', '') . __(' second', 'wp-admin-ui');
 		     	}
 		     	else {
-		       		return "1/" . number_format((1 / $meta['image_meta']['shutter_speed']), 0, '.', '') . __(' second', 'wpui');
+		       		return "1/" . number_format((1 / $meta['image_meta']['shutter_speed']), 0, '.', '') . __(' second', 'wp-admin-ui');
 		     	}
 		  	}
 		  	else {
-		    	return $meta['image_meta']['shutter_speed'] . __(' seconds', 'wpui');
+		    	return $meta['image_meta']['shutter_speed'] . __(' seconds', 'wp-admin-ui');
 		   	}
 		}
 		function wpui_media_col_exif_display($column_name, $id){

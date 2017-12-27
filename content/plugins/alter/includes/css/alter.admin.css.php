@@ -120,7 +120,7 @@ if(!empty($adminbar_logo)){
 }
 #adminmenu li a:focus div.wp-menu-image:before, #adminmenu li.opensub div.wp-menu-image:before, #adminmenu li:hover div.wp-menu-image:before,
 #adminmenu .opensub .wp-submenu li.current a, #adminmenu .wp-submenu li.current, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current a {color: <?php echo $this->aof_options['menu_hover_text_color']; ?>;}
-#adminmenu .wp-submenu li.current a {color: <?php echo $this->aof_options['submenu_active_text_color']; ?>;}
+#adminmenu .wp-submenu li.current a, #adminmenu .wp-menu-open .wp-submenu li a, #adminmenu .wp-submenu a {color: <?php echo $this->aof_options['submenu_active_text_color']; ?>;}
 #adminmenu li.wp-has-current-submenu > a.menu-top, #adminmenu li.wp-has-current-submenu div.wp-menu-image:before,
 #adminmenu li.wp-has-current-submenu:hover > a.menu-top, #adminmenu li.wp-has-current-submenu:hover div.wp-menu-image:before { color: <?php echo $this->aof_options['menu_active_text_color']; ?>;}
 
@@ -130,7 +130,8 @@ if(!empty($adminbar_logo)){
 
 #adminmenu li.wp-has-current-submenu a.wp-has-current-submenu, #adminmenu li.current a.menu-top, .folded #adminmenu li.wp-has-current-submenu, .folded #adminmenu li.current.menu-top, #adminmenu .wp-menu-arrow, #adminmenu .wp-has-current-submenu .wp-submenu .wp-submenu-head, #adminmenu .wp-menu-arrow div { background: <?php echo $this->aof_options['active_menu_color']; ?>; }
 
-#adminmenu .wp-submenu li.current a:focus, #adminmenu .wp-submenu li.current a:hover, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current a { color: <?php echo $this->aof_options['menu_hover_text_color']; ?>; }
+#adminmenu .wp-menu-open li a:focus, #adminmenu .wp-menu-open li a:hover, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu li.current a
+{ color: <?php echo $this->aof_options['menu_hover_text_color']; ?>; }
 
 #adminmenu .wp-has-current-submenu .wp-submenu, .no-js li.wp-has-current-submenu:hover .wp-submenu, #adminmenu a.wp-has-current-submenu:focus+.wp-submenu, #adminmenu .wp-has-current-submenu .wp-submenu.sub-open, #adminmenu .wp-has-current-submenu.opensub .wp-submenu, #adminmenu .wp-not-current-submenu .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu{ background: <?php echo $this->aof_options['sub_nav_wrap_color']; ?>; }
 

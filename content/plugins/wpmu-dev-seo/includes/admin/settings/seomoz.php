@@ -22,7 +22,7 @@ class WDS_Seomoz_Settings extends WDS_Settings_Admin {
 		$this->slug            = WDS_Settings::TAB_SEOMOZ;
 		$this->action_url      = admin_url( 'options.php' );
 		$this->title           = __( 'Moz', 'wds' );
-		$this->page_title      = __( 'SmartCrawl Wizard: Moz', 'wds' );	     	 	 	  		 		
+		$this->page_title      = __( 'SmartCrawl Wizard: Moz', 'wds' );
 
 		parent::init();
 	}

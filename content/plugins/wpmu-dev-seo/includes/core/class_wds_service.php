@@ -57,6 +57,8 @@ abstract class WDS_Service {
 
 	const SERVICE_UPTIME = 'uptime';
 	const SERVICE_SEO = 'seo';
+	const SERVICE_CHECKUP = 'checkup';
+	const SERVICE_SITE = 'site';
 
 	private $_errors = array();
 
@@ -68,7 +70,7 @@ abstract class WDS_Service {
 	 * @return object WDS_Service Service instance
 	 */
 	public static function get ($type) {
-		$type = !empty($type) && in_array($type, array(self::SERVICE_SEO, self::SERVICE_UPTIME))
+		$type = !empty($type) && in_array($type, array(self::SERVICE_SEO, self::SERVICE_UPTIME, self::SERVICE_CHECKUP, self::SERVICE_SITE))
 			? $type
 			: self::SERVICE_SEO
 		;
@@ -76,6 +78,12 @@ abstract class WDS_Service {
 		if ($type === self::SERVICE_UPTIME) {
 			$class_name = 'WDS_Uptime_Service';
 			$file_name = 'class_wds_uptime_service';
+		} else if ($type === self::SERVICE_CHECKUP) {
+			$class_name = 'WDS_Checkup_Service';
+			$file_name = 'class_wds_checkup_service';
+		} else if ($type === self::SERVICE_SITE) {
+			$class_name = 'WDS_Site_Service';
+			$file_name = 'class_wds_site_service';
 		} else {
 			$class_name = 'WDS_Seo_Service';
 			$file_name = 'class_wds_seo_service';
@@ -136,9 +144,10 @@ abstract class WDS_Service {
 	 * @return bool
 	 */
 	public function is_dahsboard_active () {
+		$installed = is_admin() ? class_exists('WPMUDEV_Dashboard') : true;
 		return (bool)apply_filters(
 			$this->get_filter('is_dahsboard_active'),
-			class_exists('WPMUDEV_Dashboard')
+			$installed
 		);
 	}
 
@@ -167,6 +176,19 @@ abstract class WDS_Service {
 			$this->get_filter('api_key'),
 			get_site_option('wpmudev_apikey', false)
 		);
+	}
+
+	/**
+	 * Checks whether the account has current paid plan with us
+	 *
+	 * @return bool
+	 */
+	public function is_member () {
+		if (!$this->is_dahsboard_active() || !$this->has_dashboard_key()) return false; // No sense in checking further
+
+		if (is_admin() && !function_exists('is_wpmudev_member')) return false;
+
+		return is_admin() ? is_wpmudev_member() : true;
 	}
 
 	/**

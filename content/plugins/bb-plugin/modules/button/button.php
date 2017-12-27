@@ -12,8 +12,9 @@ class FLButtonModule extends FLBuilderModule {
 		parent::__construct(array(
 			'name'          	=> __( 'Button', 'fl-builder' ),
 			'description'   	=> __( 'A simple call to action button.', 'fl-builder' ),
-			'category'      	=> __( 'Basic Modules', 'fl-builder' ),
+			'category'      	=> __( 'Basic', 'fl-builder' ),
 			'partial_refresh'	=> true,
+			'icon'				=> 'button.svg',
 		));
 	}
 
@@ -289,6 +290,7 @@ FLBuilder::register_module('FLButtonModule', array(
 						'maxlength'     => '3',
 						'size'          => '5',
 						'placeholder'   => '0',
+						'sanitize'		=> 'absint',
 					),
 					'bg_opacity'    => array(
 						'type'          => 'text',
@@ -298,6 +300,7 @@ FLBuilder::register_module('FLButtonModule', array(
 						'maxlength'     => '3',
 						'size'          => '5',
 						'placeholder'   => '0',
+						'sanitize'		=> 'absint',
 					),
 					'bg_hover_opacity'    => array(
 						'type'          => 'text',
@@ -307,6 +310,7 @@ FLBuilder::register_module('FLButtonModule', array(
 						'maxlength'     => '3',
 						'size'          => '5',
 						'placeholder'   => '0',
+						'sanitize'		=> 'absint',
 					),
 					'button_transition'         => array(
 						'type'          => 'select',
@@ -366,6 +370,7 @@ FLBuilder::register_module('FLButtonModule', array(
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
+						'sanitize'		=> 'absint',
 					),
 					'padding'       => array(
 						'type'          => 'text',
@@ -374,6 +379,7 @@ FLBuilder::register_module('FLButtonModule', array(
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
+						'sanitize'		=> 'absint',
 					),
 					'border_radius' => array(
 						'type'          => 'text',
@@ -382,6 +388,7 @@ FLBuilder::register_module('FLButtonModule', array(
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
+						'sanitize'		=> 'absint',
 					),
 				),
 			),

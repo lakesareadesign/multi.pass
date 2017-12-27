@@ -12,8 +12,9 @@ class FLHtmlModule extends FLBuilderModule {
 		parent::__construct(array(
 			'name'          	=> __( 'HTML', 'fl-builder' ),
 			'description'   	=> __( 'Display raw HTML code.', 'fl-builder' ),
-			'category'      	=> __( 'Basic Modules', 'fl-builder' ),
+			'category'      	=> __( 'Basic', 'fl-builder' ),
 			'partial_refresh'	=> true,
+			'icon'				=> 'editor-code.svg',
 		));
 	}
 }

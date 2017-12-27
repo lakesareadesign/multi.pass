@@ -1,10 +1,10 @@
 === WP Admin UI ===
 Contributors: rainbowgeek
-Donate link: https://wpadminui.net/
+Donate link: http://wpadminui.net/
 Tags: admin, ui, custom admin, admin menu, admin bar, metaboxes, widget, columns, profil, color schemes, dashboard, third party plugin
 Requires at least: 4.5+
 Tested up to: 4.9
-Stable tag: 1.9.5
+Stable tag: 1.9.7
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -85,6 +85,13 @@ Check our FAQ on <a href="http://www.wpadminui.net/support/faq/" target="_blank"
 11. WP Admin UI Import / Export 
 
 == Changelog ==
+= 1.9.7 =
+* FIX Text-domain
+* FIX Some translations
+* FIX Remove print_r
+* FIX Notice function_exists
+= 1.9.6 =
+* FIX WooCommerce tabs
 = 1.9.5 =
 * FIX Menu detection
 = 1.9.4 =

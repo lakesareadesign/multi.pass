@@ -26,7 +26,7 @@ class MetaSliderSystemCheck {
         $this->checkWordPressVersion();
         $this->checkImageLibrary();
         $this->checkRoleScoper();
-        //$this->checkWpFooter();
+        // $this->checkWpFooter();
         $this->updateSystemCheck();
     }
 
@@ -148,6 +148,9 @@ class MetaSliderSystemCheck {
 
     /**
      * Print a warning message to the screen
+     *
+     * @param string $message Warning message to be shown
+     * @param string $key     Message Key
      */
     private function printMessage( $message, $key ) {
         $nonce = wp_create_nonce( "metaslider-dismiss-{$key}" );

@@ -12,9 +12,10 @@ class FLPostGridModule extends FLBuilderModule {
 		parent::__construct(array(
 			'name'          	=> __( 'Posts', 'fl-builder' ),
 			'description'   	=> __( 'Display a grid of your WordPress posts.', 'fl-builder' ),
-			'category'      	=> __( 'Advanced Modules', 'fl-builder' ),
+			'category'      	=> __( 'Posts', 'fl-builder' ),
 			'editor_export' 	=> false,
 			'partial_refresh'	=> true,
+			'icon'				=> 'schedule.svg',
 		));
 	}
 
@@ -174,13 +175,13 @@ class FLPostGridModule extends FLBuilderModule {
 	 */
 	public function render_excerpt() {
 		if ( ! empty( $this->settings->content_length ) ) {
-			add_filter( 'excerpt_length', array( $this, 'set_custom_excerpt_length' ) );
+			add_filter( 'excerpt_length', array( $this, 'set_custom_excerpt_length' ), 9999 );
 		}
 
 		the_excerpt();
 
 		if ( ! empty( $this->settings->content_length ) ) {
-			remove_filter( 'excerpt_length', array( $this, 'set_custom_excerpt_length' ) );
+			remove_filter( 'excerpt_length', array( $this, 'set_custom_excerpt_length' ), 9999 );
 		}
 	}
 

@@ -43,7 +43,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @return void
 		 */
 		static private function define_constants() {
-			define( 'FL_BUILDER_VERSION', '1.11.1' );
+			define( 'FL_BUILDER_VERSION', '2.0.3.2' );
 			define( 'FL_BUILDER_FILE', trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'fl-builder.php' );
 			define( 'FL_BUILDER_DIR', plugin_dir_path( FL_BUILDER_FILE ) );
 			define( 'FL_BUILDER_URL', plugins_url( '/', FL_BUILDER_FILE ) );
@@ -82,11 +82,15 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-model.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-module.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-photo.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-revisions.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-services.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-shortcodes.php';
-			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-update.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-timezones.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-ui-content-panel.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-ui-settings-forms.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-update.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-user-access.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-user-settings.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-utils.php';
 
 			/* WP CLI Commands */

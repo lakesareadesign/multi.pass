@@ -272,3 +272,14 @@ function fl_autoptimize_filter_noptimize_filter( $args ) {
 	return $args;
 }
 add_filter( 'autoptimize_filter_noptimize', 'fl_autoptimize_filter_noptimize_filter' );
+
+/**
+ * Plugin Enjoy Instagram loads its js and css on all frontend pages breaking the builder.
+ * @since 2.0.1
+ */
+add_action( 'template_redirect', 'fix_aggiungi_script_instafeed_owl', 1000 );
+function fix_aggiungi_script_instafeed_owl() {
+	if ( FLBuilderModel::is_builder_active() ) {
+		remove_action( 'wp_enqueue_scripts', 'aggiungi_script_instafeed_owl' );
+	}
+}

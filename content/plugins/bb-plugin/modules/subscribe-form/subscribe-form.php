@@ -16,9 +16,10 @@ class FLSubscribeFormModule extends FLBuilderModule {
 		parent::__construct( array(
 			'name'          	=> __( 'Subscribe Form', 'fl-builder' ),
 			'description'   	=> __( 'Adds a simple subscribe form to your layout.', 'fl-builder' ),
-			'category'      	=> __( 'Advanced Modules', 'fl-builder' ),
+			'category'      	=> __( 'Actions', 'fl-builder' ),
 			'editor_export' 	=> false,
 			'partial_refresh'	=> true,
+			'icon'				=> 'editor-table.svg',
 		));
 
 		add_action( 'wp_ajax_fl_builder_subscribe_form_submit', array( $this, 'submit' ) );
@@ -150,8 +151,11 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 		'sections'      => array(
 			'service'       => array(
 				'title'         => '',
-				'file'          => FL_BUILDER_DIR . 'includes/service-settings.php',
 				'services'      => 'autoresponder',
+				'template'		=> array(
+					'id'			=> 'fl-builder-service-settings',
+					'file'          => FL_BUILDER_DIR . 'includes/ui-service-settings.php',
+				),
 			),
 			'structure'        => array(
 				'title'         => __( 'Structure', 'fl-builder' ),
@@ -363,6 +367,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
+						'sanitize'		=> 'absint',
 					),
 					'btn_padding'   => array(
 						'type'          => 'text',
@@ -371,6 +376,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
+						'sanitize'		=> 'absint',
 					),
 					'btn_border_radius' => array(
 						'type'          => 'text',
@@ -379,6 +385,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => 'px',
+						'sanitize'		=> 'absint',
 					),
 				),
 			),

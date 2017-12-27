@@ -1,6 +1,8 @@
 <?php
 
-class WDS_Metabox {
+if (!class_exists('WDS_Renderable')) require_once(WDS_PLUGIN_DIR . '/core/class_wds_renderable.php');
+
+class WDS_Metabox extends WDS_Renderable{
 
 	public function __construct() {
 
@@ -28,13 +30,37 @@ class WDS_Metabox {
 
 		add_action('admin_print_scripts-post.php', array($this, 'js_load_scripts'));
 		add_action('admin_print_scripts-post-new.php', array($this, 'js_load_scripts'));
+		add_action('wp_ajax_wds-metabox-preview', array($this, 'json_create_preview'));
+	}
 
+	public function json_create_preview()
+	{
+		$data = stripslashes_deep($_POST);
+		$title = wds_get_array_value($data, 'title');
+		$description = wds_get_array_value($data, 'description');
+		$post_id = wds_get_array_value($data, 'post_id');
+		$result = array('success' => false);
+
+		if (is_null($title) || is_null($description) || is_null($post_id)) {
+			wp_send_json($result);
+			return;
+		}
+
+		$result['success'] = true;
+		$result['markup'] = $this->_load('metabox/metabox-preview', array(
+			'post'        => get_post($post_id),
+			'title'       => $title,
+			'description' => $description
+		));
+
+		wp_send_json($result);
 	}
 
 	public function js_load_scripts () {
 		$options = Wds_Settings::get_options();
+		$version = WDS_Loader::get_version();
 
-		wp_enqueue_script('wds_metabox_counter', WDS_PLUGIN_URL . '/js/wds-metabox-counter.js');
+		wp_enqueue_script('wds_metabox_counter', WDS_PLUGIN_URL . '/js/wds-metabox-counter.js', array(), $version);
 		wp_localize_script('wds_metabox_counter', 'l10nWdsCounters', array(
 			"title_length" => __("{TOTAL_LEFT} characters left", 'wds'),
 			"title_longer" => __("Over {MAX_COUNT} characters ({CURRENT_COUNT})", 'wds'),
@@ -45,42 +71,56 @@ class WDS_Metabox {
 			'main_title_warning' => !(defined('WDS_MAIN_TITLE_LENGTH_WARNING_HIDE') && WDS_MAIN_TITLE_LENGTH_WARNING_HIDE),
 			'lax_enforcement' => (isset($options['metabox-lax_enforcement']) ? !!$options['metabox-lax_enforcement'] : false),
 		));
-		wp_enqueue_script('wds_metabox_onpage', WDS_PLUGIN_URL . '/js/wds-metabox.js');
-
 		WDS_Settings_Admin::register_global_admin_scripts();
-		wp_enqueue_script('wds-admin-opengraph');
+		wp_enqueue_script('wds_metabox_onpage', WDS_PLUGIN_URL . '/js/wds-metabox.js', array('wds-select2'), $version);
 
+		WDS_Settings_Admin::enqueue_shared_ui(false);
+
+		wp_enqueue_script('wds-admin-opengraph');
 		wp_enqueue_style('wds-admin-opengraph');
+		wp_enqueue_style('wds-select2');
+		wp_enqueue_style('wds-app');
 	}
 
+	public function admin_body_class($string)
+	{
+		return str_replace('wpmud', '', $string);
+	}
 
 	public function wds_meta_boxes() {
 		global $post;
 
-		$ri_value  = (int)wds_get_value('meta-robots-noindex');
-		$rf_value  = (int)wds_get_value('meta-robots-nofollow');
-		$adv_value = explode(',', wds_get_value('meta-robots-adv'));
-		$advanced  = array(
-			"noodp"     => __( 'NO ODP (Block Open Directory Project description of the page)' , 'wds'),
-			"noydir"    => __( 'NO YDIR (Don\'t display the Yahoo! Directory titles and abstracts)' , 'wds'),
-			"noarchive" => __( 'No Archive' , 'wds'),
-			"nosnippet" => __( 'No Snippet' , 'wds'),
+		$robots_noindex_value = (int)wds_get_value('meta-robots-noindex');
+		$robots_nofollow_value = (int)wds_get_value('meta-robots-nofollow');
+		$advanced_value = explode(',', wds_get_value('meta-robots-adv'));
+		$advanced_options = array(
+			"noodp"     => __('NO ODP (Block Open Directory Project description of the page)', 'wds'),
+			"noydir"    => __('NO YDIR (Don\'t display the Yahoo! Directory titles and abstracts)', 'wds'),
+			"noarchive" => __('No Archive', 'wds'),
+			"nosnippet" => __('No Snippet', 'wds'),
 		);
-		$options   = array(
-			""    => __( 'Automatic prioritization' , 'wds'),
-			"1"   => __( '1 - Highest priority' , 'wds'),
+		$sitemap_priority_options = array(
+			""    => __('Automatic prioritization', 'wds'),
+			"1"   => __('1 - Highest priority', 'wds'),
 			"0.9" => "0.9",
-			"0.8" => "0.8 - " . __( 'High priority (root pages default)' , 'wds'),
+			"0.8" => "0.8 - " . __('High priority (root pages default)', 'wds'),
 			"0.7" => "0.7",
-			"0.6" => "0.6 - " . __( 'Secondary priority (subpages default)' , 'wds'),
-			"0.5" => "0.5 - " . __( 'Medium priority' , 'wds'),
+			"0.6" => "0.6 - " . __('Secondary priority (subpages default)', 'wds'),
+			"0.5" => "0.5 - " . __('Medium priority', 'wds'),
 			"0.4" => "0.4",
 			"0.3" => "0.3",
 			"0.2" => "0.2",
-			"0.1" => "0.1 - " . __( 'Lowest priority' , 'wds'),
+			"0.1" => "0.1 - " . __('Lowest priority', 'wds'),
 		);
 
-		include WDS_PLUGIN_DIR . 'admin/templates/metabox.php';
+		$this->_render('metabox/metabox-main', array(
+			'post'                     => $post,
+			'robots_noindex_value'     => $robots_noindex_value,
+			'robots_nofollow_value'    => $robots_nofollow_value,
+			'advanced_value'           => $advanced_value,
+			'advanced_options'         => $advanced_options,
+			'sitemap_priority_options' => $sitemap_priority_options
+		));
 	}
 
 	public function wds_create_meta_box() {
@@ -110,10 +150,20 @@ class WDS_Metabox {
 		if ('page' === $post_type_rq && !current_user_can('edit_page', $post_id)) return $post_id;
 		else if (!current_user_can( 'edit_post', $post_id )) return $post_id;
 
+		$ptype = !empty($post_type_rq)
+			? $post_type_rq
+			: (!empty($post->post_type) ? $post->post_type : false)
+		;
+		// Do not process post stuff for non-public post types
+		if (!in_array($ptype, get_post_types(array('public'=>true)))) {
+			return $post_id;
+		}
+
 		if (!empty($_POST['wds-opengraph'])) {
 			$input = stripslashes_deep($_POST['wds-opengraph']);
-
 			$result = array();
+
+			$result['disabled'] = !empty($input['disabled']);
 			if (!empty($input['title'])) $result['title'] = wp_strip_all_tags($input['title']);
 			if (!empty($input['description'])) $result['description'] = wp_strip_all_tags($input['description']);
 			if (!empty($input['og-images']) && is_array($input['og-images'])) {
@@ -127,10 +177,29 @@ class WDS_Metabox {
 			if (!empty($result)) {
 				update_post_meta($post_id, '_wds_opengraph', $result);
 			}
-			unset($_POST['wds-opengraph']);
+		}
+
+		if (!empty($_POST['wds-twitter'])) {
+			$input = stripslashes_deep($_POST['wds-twitter']);
+			$twitter = array();
+
+			$twitter['disabled'] = !empty($input['disabled']);
+			$twitter['use_og'] = !empty($input['use_og']);
+			if (!empty($input['title'])) $twitter['title'] = wp_strip_all_tags($input['title']);
+			if (!empty($input['description'])) $twitter['description'] = wp_strip_all_tags($input['description']);
+
+			if (!empty($twitter)) {
+				update_post_meta($post_id, '_wds_twitter', $twitter);
+			}
+		}
+
+		if (isset($_POST['wds_focus'])) {
+			$focus = stripslashes_deep($_POST['wds_focus']);
+			update_post_meta($post_id, '_wds_focus-keywords', wp_strip_all_tags($focus));
 		}
 
 		foreach ($_POST as $key=>$value) {
+			if (in_array($key, array('wds-opengraph', 'wds_focus', 'wds-twitter'))) continue; // We already handled those
 			if (!preg_match('/^wds_/', $key)) continue;
 
 			$id = "_{$key}";
@@ -139,6 +208,23 @@ class WDS_Metabox {
 
 			if ($data) update_post_meta($post_id, $id, $data);
 			else delete_post_meta($post_id, $id);
+		}
+
+		/**
+		 * If the user un-checks a checkbox and saves the post, the value for that checkbox will not be included inside $_POST array
+		 * so we may have to delete the corresponding meta value manually.
+		 */
+		$checkbox_meta_items = array(
+			'wds_tags_to_keywords',
+			'wds_meta-robots-noindex',
+			'wds_meta-robots-nofollow',
+			'wds_meta-robots-adv',
+			'wds_autolinks-exclude',
+		);
+		foreach ($checkbox_meta_items as $item) {
+			if (!isset($_POST[ $item ])) {
+				delete_post_meta($post_id, "_{$item}");
+			}
 		}
 
 		do_action('wds_saved_postdata');
@@ -203,9 +289,9 @@ class WDS_Metabox {
 		$post = get_post($postid);
 		$fixed_title = wds_get_value('title', $post->ID);
 		if ($fixed_title) {
-			return $fixed_title;
+			return wds_replace_vars($fixed_title, (array)$post);
 		} else {
-			global $wds_options;
+			$wds_options = WDS_Settings::get_options();
 			if (!empty($wds_options['title-'.$post->post_type]))
 				return wds_replace_vars($wds_options['title-'.$post->post_type], (array) $post );
 			else
@@ -221,20 +307,22 @@ class WDS_Metabox {
 	}
 
 	public function wds_quick_edit_javascript () {
-		include WDS_PLUGIN_DIR . 'admin/templates/quick-edit-javascript.php';
-
+		$this->_render('quick-edit-javascript');
 	}
 
 	public function json_wds_postmeta () {
 		$id = (int)$_POST['id'];
+		$post = get_post($id);
 		die(json_encode(array(
-			"title" => wds_get_value('title', $id),
-			"description" => wds_get_value('metadesc', $id),
+			"title" => wds_replace_vars(wds_get_value('title', $id), (array)$post),
+			"description" => wds_replace_vars(wds_get_value('metadesc', $id), (array)$post),
+			'focus' => wds_get_value('focus-keywords', $id),
+			'keywords' => wds_get_value('keywords', $id),
 		)));
 	}
 
 	public function wds_metabox_live_update () {
-		global $wds_options;
+		$wds_options = WDS_Settings::get_options();
 
 		$id = (int)$_POST['id'];
 		$post = get_post( $id );
@@ -256,6 +344,8 @@ class WDS_Metabox {
 		wp_send_json(array(
 			"title" => $title,
 			"description" => $description,
+			'focus' => wds_get_value('focus-keywords', $id),
+			'keywords' => wds_get_value('keywords', $id),
 		));
 
 		die();
@@ -263,18 +353,22 @@ class WDS_Metabox {
 
 	private function _title_qe_box ($t) {
 		global $post;
-
-		include WDS_PLUGIN_DIR . 'admin/templates/quick-edit-title.php';
-
+		$this->_render('quick-edit-title', array(
+			'post' => $post
+		));
 	}
 
 	private function _robots_qe_box () {
 		global $post;
-
-		include WDS_PLUGIN_DIR . 'admin/templates/quick-edit-robots.php';
-
+		$this->_render('quick-edit-robots', array(
+			'post' => $post
+		));
 	}
 
+	protected function _get_view_defaults()
+	{
+		return array();
+	}
 }
 
 $wds_metabox = new WDS_Metabox();

@@ -194,4 +194,16 @@ final class FLBuilderUtils {
 		return $video_data;
 	}
 
+	/**
+	 * Use mb_strtolower() if available.s
+	 * @since 2.0.2
+	 */
+	static public function strtolower( $text, $encoding = 'UTF-8' ) {
+
+		if ( function_exists( 'mb_strtolower' ) ) {
+			return mb_strtolower( $text, $encoding );
+		}
+		return strtolower( $text );
+	}
+
 }

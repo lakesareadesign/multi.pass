@@ -23,40 +23,6 @@ function wds_set_value ($meta, $val, $post_id) {
 }
 
 
-function get_wds_options () {
-	if( is_multisite() && WDS_SITEWIDE ) {
-		return array_merge(
-			(array) get_site_option( 'wds_settings_options' ),
-			(array) get_site_option( 'wds_autolinks_options' ),
-			(array) get_site_option( 'wds_onpage_options' ),
-			// (array) get_site_option( 'wds_sitemaps_options' ), // Removed plural
-			(array) get_site_option( 'wds_sitemap_options' ) // Added singular
-			// (array) get_site_option( 'wds_seomoz_options' )
-		);
-	} else if ( is_multisite() && ! WDS_SITEWIDE ) {
-		$settings = (array) (wds_is_allowed_tab('wds_settings') ? get_option('wds_settings_options') : get_site_option('wds_settings_options'));
-		$autolinks = (array) (wds_is_allowed_tab('wds_autolinks') ? get_option('wds_autolinks_options') : get_site_option('wds_autolinks_options'));
-		$onpage = (array) (wds_is_allowed_tab('wds_onpage') ? get_option('wds_onpage_options') : get_site_option('wds_onpage_options'));
-		$sitemap = (array) (wds_is_allowed_tab('wds_sitemap') ? get_option('wds_sitemap_options') : get_site_option('wds_sitemap_options'));
-		// $seomoz = (array) (wds_is_allowed_tab('wds_seomoz') ? get_option('wds_seomoz_options') : get_site_option('wds_seomoz_options'));
-		return array_merge(
-			$settings,
-			$autolinks,
-			$onpage,
-			$sitemap
-			// $seomoz
-		);
-	} else {
-		return array_merge(
-			(array) get_option( 'wds_settings_options' ),
-			(array) get_option( 'wds_autolinks_options' ),
-			(array) get_option( 'wds_onpage_options' ),
-			// (array) get_option( 'wds_sitemaps_options' ), // Removed plural
-			(array) get_option( 'wds_sitemap_options' ) // Added singular
-			// (array) get_option( 'wds_seomoz_options' )
-		);
-	}
-}
 
 function wds_replace_vars ($string, $args=array()) {
 	global $wp_query;
@@ -83,6 +49,10 @@ function wds_replace_vars ($string, $args=array()) {
 
 	$r = wp_parse_args($args, $defaults);
 
+	$wds_options = WDS_Settings::get_options();
+	$preset_sep = !empty($wds_options['preset-separator']) ? $wds_options['preset-separator'] : 'pipe';
+	$separator = !empty($wds_options['separator']) ? $wds_options['separator'] : wds_get_separators($preset_sep);
+
 	$replacements = array(
 		'%%date%%' 					=> $r['post_date'],
 		'%%title%%'					=> stripslashes($r['post_title']),
@@ -90,7 +60,7 @@ function wds_replace_vars ($string, $args=array()) {
 		'%%sitedesc%%'				=> get_bloginfo('description'),
 		'%%excerpt%%'				=> wds_get_trimmed_excerpt($r['post_excerpt'], $r['post_content']),
 		'%%excerpt_only%%'			=> $r['post_excerpt'],
-		'%%category%%'				=> (get_the_category_list('','',$r['ID']) != '') ? get_the_category_list('','',$r['ID']) : $r['name'],
+		'%%category%%'				=> (get_the_category_list(', ','',$r['ID']) != '') ? strip_tags(get_the_category_list(', ','',$r['ID'])) : $r['name'],
 		'%%category_description%%'	=> !empty($r['taxonomy']) ? trim(strip_tags(get_term_field( 'description', $r['term_id'], $r['taxonomy'] ))) : '',
 		'%%tag_description%%'		=> !empty($r['taxonomy']) ? trim(strip_tags(get_term_field( 'description', $r['term_id'], $r['taxonomy'] ))) : '',
 		'%%term_description%%'		=> !empty($r['taxonomy']) ? trim(strip_tags(get_term_field( 'description', $r['term_id'], $r['taxonomy'] ))) : '',
@@ -116,6 +86,7 @@ function wds_replace_vars ($string, $args=array()) {
 		'%%bp_group_description%%'	=> wds_get_trimmed_excerpt('', $r['description']),
 		'%%bp_user_username%%'	=> $r['username'],
 		'%%bp_user_full_name%%'	=> $r['full_name'],
+		'%%sep%%' 					=> $separator,
 	);
 
 	foreach ($replacements as $var => $repl) {
@@ -126,13 +97,39 @@ function wds_replace_vars ($string, $args=array()) {
 	return $string;
 }
 
+function wds_get_separators($key = null)
+{
+	$separators = array(
+		'dot'           => '·',
+		'dot-l'         => '•',
+		'dash'          => '-',
+		'dash-l'        => '—',
+		'pipe'          => '|',
+		'forward-slash' => '/',
+		'back-slash'    => '\\',
+		'tilde'         => '~',
+		'greater-than'  => '>',
+		'less-than'     => '<',
+		'caret-right'   => '›',
+		'caret-left'    => '‹',
+		'arrow-right'   => '→',
+		'arrow-left'    => '←'
+	);
+
+	if ($key === null || empty($separators[ $key ])) {
+		return $separators;
+	} else {
+		return $separators[ $key ];
+	}
+}
+
 /**
  * Returns the post title meta using options set by user on wds_onpage
  *
  * @return string/false
  */
 function wds_get_seo_title ($post=false) {
-	global $wds_options;
+	$wds_options = WDS_Settings::get_options();
 
 	if (!$post) {
 		global $post;
@@ -153,7 +150,7 @@ function wds_get_seo_title ($post=false) {
  */
 
 function wds_get_seo_desc ($post=false) {
-	global $wds_options;
+	$wds_options = WDS_Settings::get_options();
 
 	if (!$post) {
 		global $post;
@@ -291,7 +288,7 @@ add_filter( 'blog_template_exclude_settings', 'wds_blog_template_settings' );
  * @return bool
  */
 function user_can_see_seo_metabox () {
-	global $wds_options;
+	$wds_options = WDS_Settings::get_options();
 	$capability = (defined('WDS_SEO_METABOX_ROLE') && WDS_SEO_METABOX_ROLE)
 		? WDS_SEO_METABOX_ROLE
 		: (!empty($wds_options['seo_metabox_permission_level']) ? $wds_options['seo_metabox_permission_level'] : false)
@@ -317,7 +314,7 @@ function user_can_see_seo_metabox () {
  * @return bool
  */
 function user_can_see_urlmetrics_metabox () {
-	global $wds_options;
+	$wds_options = WDS_Settings::get_options();
 	$capability = (defined('WDS_URLMETRICS_METABOX_ROLE') && WDS_URLMETRICS_METABOX_ROLE)
 		? WDS_URLMETRICS_METABOX_ROLE
 		: (!empty($wds_options['urlmetrics_metabox_permission_level']) ? $wds_options['urlmetrics_metabox_permission_level'] : false)
@@ -343,7 +340,7 @@ function user_can_see_urlmetrics_metabox () {
  * @return bool
  */
 function user_can_see_seo_metabox_301_redirect () {
-	global $wds_options;
+	$wds_options = WDS_Settings::get_options();
 	$capability = (defined('WDS_SEO_METABOX_301_ROLE') && WDS_SEO_METABOX_301_ROLE)
 		? WDS_SEO_METABOX_301_ROLE
 		: (!empty($wds_options['seo_metabox_301_permission_level']) ? $wds_options['seo_metabox_301_permission_level'] : false)
@@ -370,7 +367,7 @@ function user_can_see_seo_metabox_301_redirect () {
  * DEPRECATED as of version 1.0.9
  */
 function wds_process_default_hidden_meta_boxes ($arg) {
-	global $wds_options;
+	$wds_options = WDS_Settings::get_options();
 	$arg[] = 'wds-wds-meta-box';
 	$arg[] = 'wds_seomoz_urlmetrics';
 	return $arg;
@@ -502,4 +499,66 @@ function wds_get_mp_global_term_name ($mp_term) {
 	}
 
 	return $mp_term_name;
+}
+
+/**
+ * Get a value from an array. If nothing is found for the provided keys, returns null.
+ *
+ * @param $array array The array to search (haystack).
+ * @param $key array|string The key to use for the search.
+ *
+ * @return null|mixed The array value found or null if nothing found.
+ */
+function wds_get_array_value($array, $key)
+{
+	if (!is_array($key)) {
+		$key = array($key);
+	}
+
+	if (!is_array($array)) {
+		return NULL;
+	}
+
+	$value = $array;
+	foreach ($key as $key_part) {
+		$value = isset($value[ $key_part ]) ? $value[ $key_part ] : NULL;
+	}
+
+	return $value;
+}
+
+/**
+ * Inserts a value in the given array.
+ *
+ * @param $value mixed The value to insert.
+ * @param $array array The array in which the value is to be inserted. Passed by reference.
+ * @param $keys array|string Key specifying the place where the new value is to be inserted.
+ */
+function wds_put_array_value($value, &$array, $keys)
+{
+	if (!is_array($keys)) {
+		$keys = array($keys);
+	}
+
+	$pointer = &$array;
+	foreach ($keys as $key) {
+		if (!isset($pointer[ $key ]))
+			$pointer[ $key ] = array();
+		$pointer = &$pointer[ $key ];
+	}
+	$pointer = $value;
+}
+
+function wds_get_post_or_latest_revision($post_id)
+{
+	$data = stripslashes_deep($_POST);
+	$is_auto_save = (bool)wds_get_array_value($data, 'autosave_update');
+	if ($is_auto_save) {
+		$post_revisions = wp_get_post_revisions($post_id);
+		if (count($post_revisions)) {
+			return array_shift($post_revisions);
+		}
+	}
+
+	return get_post($post_id);
 }

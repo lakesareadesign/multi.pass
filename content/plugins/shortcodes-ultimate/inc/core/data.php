@@ -1489,6 +1489,12 @@ class Su_Data {
 							'name'    => __( 'WMode', 'shortcodes-ultimate' ),
 							'desc'    => sprintf( __( 'Here you can specify wmode value for the embed URL. %s Example values: %s, %s', 'shortcodes-ultimate' ), '<br>', '<b%value>transparent</b>', '<b%value>opaque</b>' )
 						),
+						'playsinline' => array(
+							'type' => 'bool',
+							'default' => 'no',
+							'name' => __( 'Plays inline', 'shortcodes-ultimate' ),
+							'desc' => __( 'This parameter controls whether videos play inline or fullscreen in an HTML5 player on iOS', 'shortcodes-ultimate' )
+						),
 						'class' => array(
 							'type' => 'extra_css_class',
 							'name' => __( 'Extra CSS class', 'shortcodes-ultimate' ),
@@ -1825,6 +1831,12 @@ class Su_Data {
 							'default' => '',
 							'name' => __( 'CSV file', 'shortcodes-ultimate' ),
 							'desc' => __( 'Upload CSV file if you want to create HTML-table from file', 'shortcodes-ultimate' )
+						),
+						'responsive' => array(
+							'type' => 'bool',
+							'default' => 'no',
+							'name' => __( 'Responsive', 'shortcodes-ultimate' ),
+							'desc' => __( 'Add horizontal scrollbar if table width larger than page width', 'shortcodes-ultimate' )
 						),
 						'class' => array(
 							'type' => 'extra_css_class',

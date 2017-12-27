@@ -1,18 +1,17 @@
 <?php
-
 /*
 Plugin Name: WP Admin UI
 Plugin URI: http://wpadminui.net/
 Description: The best plugin to customize WordPress administration in seconds.
-Version: 1.9.5
+Version: 1.9.7
 Author: Benjamin DENIS
 Author URI: http://wpadminui.net/
 License: GPLv2
-Text Domain: wpui
+Text Domain: wp-admin-ui
 Domain Path: /languages
 */
 
-/*  Copyright 2015 - 2017 - Benjamin DENIS  (email : contact@wpadminui.net)
+/*  Copyright 2015 - 2018 - Benjamin DENIS  (email : contact@wpadminui.net)
 
     This program is free software; you can redistribute it and/or modify
     it under the terms of the GNU General Public License, version 2, as 
@@ -50,14 +49,14 @@ register_deactivation_hook(__FILE__, 'wpui_deactivation');
 //Define
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-define( 'WPUI_VERSION', '1.9.5' ); 
+define( 'WPUI_VERSION', '1.9.7' ); 
 define( 'WPUI_AUTHOR', 'Benjamin Denis' ); 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //WPUI INIT = Admin + Core + Menu Ajax + Translation
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 function wpui_init() {
-    load_plugin_textdomain( 'wpui', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+    load_plugin_textdomain( 'wp-admin-ui', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
 
     global $pagenow; 
     
@@ -175,7 +174,7 @@ function wpui_plugin_action_links($links, $file) {
     }
 
     if ($file == $this_plugin) {
-        $settings_link = '<a href="' . get_bloginfo('wpurl') . '/wp-admin/admin.php?page=wpui-option">'.__("Settings","wpui").'</a>';
+        $settings_link = '<a href="' . get_bloginfo('wpurl') . '/wp-admin/admin.php?page=wpui-option">'.__("Settings","wp-admin-ui").'</a>';
         array_unshift($links, $settings_link);
     }
 

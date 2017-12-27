@@ -48,9 +48,8 @@ class Su_Assets {
 		wp_register_script( 'simpleslider', plugins_url( 'assets/js/simpleslider.js', SU_PLUGIN_FILE ), array( 'jquery' ), '1.0.0', true );
 		wp_register_style( 'simpleslider', plugins_url( 'assets/css/simpleslider.css', SU_PLUGIN_FILE ), false, '1.0.0', 'all' );
 		// Owl Carousel
-		wp_register_script( 'owl-carousel', plugins_url( 'assets/js/owl-carousel.js', SU_PLUGIN_FILE ), array( 'jquery' ), '1.3.2', true );
-		wp_register_style( 'owl-carousel', plugins_url( 'assets/css/owl-carousel.css', SU_PLUGIN_FILE ), false, '1.3.2', 'all' );
-		wp_register_style( 'owl-carousel-transitions', plugins_url( 'assets/css/owl-carousel-transitions.css', SU_PLUGIN_FILE ), false, '1.3.2', 'all' );
+		wp_register_script( 'owl-carousel', plugins_url( 'assets/js/owl-carousel.js', SU_PLUGIN_FILE ), array( 'jquery' ), '2.2.1', true );
+		wp_register_style( 'owl-carousel', plugins_url( 'assets/css/owl-carousel.css', SU_PLUGIN_FILE ), false, '2.2.1', 'all' );
 		// Font Awesome
 		wp_register_style( 'font-awesome', '//netdna.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css', false, '4.4.0', 'all' );
 		// Animate.css
@@ -155,33 +154,33 @@ class Su_Assets {
 	public static function custom_css() {
 
 		// Get custom CSS and apply filters to it
-		$custom_css = apply_filters( 'su/assets/custom_css', get_option( 'su_option_custom-css' ) );
-
-		if ( empty( $custom_css ) ) {
-			return;
-		}
+		$custom_css = (string) apply_filters( 'su/assets/custom_css', get_option( 'su_option_custom-css' ) );
 
 		$template = '%1$s<!-- %2$s - %3$s -->%1$s<style type="text/css">%1$s%5$s%1$s</style>%1$s<!-- %2$s - %4$s -->%1$s';
 		$template = apply_filters( 'su/assets/custom_css/template', $template );
 
-		$custom_css = str_replace(
-			array( '%theme_url%', '%home_url%', '%plugin_url%' ),
-			array(
-				trailingslashit( get_stylesheet_directory_uri() ),
-				trailingslashit( get_option( 'home' ) ),
-				trailingslashit( plugins_url( '', SU_PLUGIN_FILE ) ),
-			),
-			$custom_css
-		);
+		if ( ! empty( $custom_css ) ) {
 
-		printf(
-			$template,
-			PHP_EOL,
-			'Shortcodes Ultimate custom CSS',
-			'start',
-			'end',
-			strip_tags( $custom_css )
-		);
+			$custom_css = str_replace(
+				array( '%theme_url%', '%home_url%', '%plugin_url%' ),
+				array(
+					trailingslashit( get_stylesheet_directory_uri() ),
+					trailingslashit( get_option( 'home' ) ),
+					trailingslashit( plugins_url( '', SU_PLUGIN_FILE ) ),
+				),
+				$custom_css
+			);
+
+			printf(
+				$template,
+				PHP_EOL,
+				'Shortcodes Ultimate custom CSS',
+				'start',
+				'end',
+				strip_tags( $custom_css )
+			);
+
+		}
 
 		// Hook
 		do_action( 'su/assets/custom_css/after' );
