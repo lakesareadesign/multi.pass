@@ -7,7 +7,7 @@
  * @package Daily Dish Pro
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/daily-dish/
+ * @link    https://my.studiopress.com/themes/daily-dish/
  */
 
 add_action( 'customize_register', 'daily_dish_customizer_register' );
@@ -19,6 +19,12 @@ add_action( 'customize_register', 'daily_dish_customizer_register' );
  * @param WP_Customize_Manager $wp_customize Customizer object.
  */
 function daily_dish_customizer_register( $wp_customize ) {
+
+	$wp_customize->add_section( 'daily_dish_theme_options', array(
+		'description' => __( 'Personalize the Daily Dish Pro theme with these available options.', 'daily-dish-pro' ),
+		'title'       => __( 'Daily Dish Pro Settings', 'daily-dish-pro' ),
+		'priority'    => 80,
+	) );
 
 	$wp_customize->add_setting(
 		'daily_dish_link_color',
@@ -59,6 +65,27 @@ function daily_dish_customizer_register( $wp_customize ) {
 				'section'     => 'colors',
 				'settings'    => 'daily_dish_accent_color',
 			)
+		)
+	);
+
+	// Add control for search option.
+	$wp_customize->add_setting(
+		'daily_dish_header_search',
+		array(
+			'default'           => daily_dish_customizer_get_default_search_setting(),
+			'sanitize_callback' => 'absint',
+		)
+	);
+
+	// Add setting for search option.
+	$wp_customize->add_control(
+		'daily_dish_header_search',
+		array(
+			'label'       => __( 'Show Menu Search Icon?', 'daily-dish-pro' ),
+			'description' => __( 'Check the box to show a search icon in the menu.', 'daily-dish-pro' ),
+			'section'     => 'daily_dish_theme_options',
+			'type'        => 'checkbox',
+			'settings'    => 'daily_dish_header_search',
 		)
 	);
 

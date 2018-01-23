@@ -2,16 +2,17 @@
 msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"Project-Id-Version: Daily Dish Pro 1.1.1\n"
-"POT-Creation-Date: 2017-01-29 17:34-0500\n"
-"PO-Revision-Date: 2017-01-29 17:33-0500\n"
+"Project-Id-Version: Daily Dish Pro 2.0.0\n"
+"POT-Creation-Date: 2018-01-17 11:47-0500\n"
+"PO-Revision-Date: 2018-01-16 16:17-0500\n"
 "Last-Translator: StudioPress <translations@studiopress.com>\n"
 "Language-Team: StudioPress <translations@studiopress.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 1.8.11\n"
+"X-Generator: Poedit 2.0.5\n"
 "X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
 "X-Poedit-WPHeader: style.css\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
@@ -20,101 +21,125 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Poedit-SearchPathExcluded-0: *.js\n"
 
-#: front-page.php:50
+#: front-page.php:62
 msgid "Main Content"
 msgstr ""
 
 #. Theme Name of the plugin/theme
-#: functions.php:44
+#: functions.php:48
 msgid "Daily Dish Pro"
 msgstr ""
 
-#: functions.php:69
+#: functions.php:85
 msgid "Menu"
 msgstr ""
 
-#: functions.php:70
+#: functions.php:87
 msgid "Submenu"
 msgstr ""
 
-#: functions.php:126
+#: functions.php:161
 msgid "Before Header Menu"
 msgstr ""
 
-#: functions.php:126
+#: functions.php:162
 msgid "After Header Menu"
 msgstr ""
 
-#: functions.php:231
+#: functions.php:346
 msgid "Before Header"
 msgstr ""
 
-#: functions.php:232
+#: functions.php:347
 msgid "Widgets in this section will display before the header on every page."
 msgstr ""
 
-#: functions.php:236
+#: functions.php:351
 msgid "Home - Top"
 msgstr ""
 
-#: functions.php:237
+#: functions.php:352
 msgid "Widgets in this section will display at the top of the homepage."
 msgstr ""
 
-#: functions.php:241
+#: functions.php:356
 msgid "Home - Middle"
 msgstr ""
 
-#: functions.php:242
+#: functions.php:357
 msgid "Widgets in this section will display in the middle of the homepage."
 msgstr ""
 
-#: functions.php:246
+#: functions.php:361
 msgid "Home - Bottom"
 msgstr ""
 
-#: functions.php:247
+#: functions.php:362
 msgid "Widgets in this section will display at the bottom of the homepage."
 msgstr ""
 
-#: functions.php:251
-msgid "Before Footer Widgets"
+#: functions.php:366
+msgid "Before Footer"
 msgstr ""
 
-#: functions.php:252
+#: functions.php:367
 msgid ""
 "Widgets in this section will display before the footer widgets on every page."
 msgstr ""
 
-#: functions.php:256
+#: functions.php:371
 msgid "After Footer"
 msgstr ""
 
-#: functions.php:257
+#: functions.php:372
 msgid "Widgets in this section will display at the bottom of every page."
 msgstr ""
 
-#: lib/customize.php:36
+#: lib/customize.php:24
+msgid "Personalize the Daily Dish Pro theme with these available options."
+msgstr ""
+
+#: lib/customize.php:25
+msgid "Daily Dish Pro Settings"
+msgstr ""
+
+#: lib/customize.php:42
 msgid ""
 "Change the color for links, menu links on a light background, the hover "
 "color for linked titles, and more."
 msgstr ""
 
-#: lib/customize.php:37
+#: lib/customize.php:43
 msgid "Link Color"
 msgstr ""
 
-#: lib/customize.php:57
+#: lib/customize.php:63
 msgid ""
 "Change the color for button hovers, menu links on a dark background, and "
 "more."
 msgstr ""
 
-#: lib/customize.php:58
+#: lib/customize.php:64
 msgid "Accent Color"
 msgstr ""
 
-#: lib/theme-defaults.php:65 lib/theme-defaults.php:97
+#: lib/customize.php:84
+msgid "Show Menu Search Icon?"
+msgstr ""
+
+#: lib/customize.php:85
+msgid "Check the box to show a search icon in the menu."
+msgstr ""
+
+#: lib/helper-functions.php:78
+msgid "Show Search"
+msgstr ""
+
+#: lib/helper-functions.php:88
+msgid "Hide Search"
+msgstr ""
+
+#: lib/theme-defaults.php:68 lib/theme-defaults.php:103
 msgid "Continue Reading&hellip;"
 msgstr ""
 
@@ -132,23 +157,23 @@ msgstr ""
 
 #: lib/woocommerce/woocommerce-notice.php:69
 #, php-format
-msgid "Please %s to <strong>enable WooCommerce support for %s</strong>."
+msgid "Please %1$s to <strong>enable WooCommerce support for %2$s</strong>."
 msgstr ""
 
-#: lib/woocommerce/woocommerce-setup.php:86
+#: lib/woocommerce/woocommerce-setup.php:95
 msgid "Previous Page"
 msgstr ""
 
-#: lib/woocommerce/woocommerce-setup.php:87
+#: lib/woocommerce/woocommerce-setup.php:96
 msgid "Next Page"
 msgstr ""
 
 #. Theme URI of the plugin/theme
-msgid "http://my.studiopress.com/themes/daily-dish/"
+msgid "https://my.studiopress.com/themes/daily-dish/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "Mobile Responsive & Tastefully Simple"
+msgid "A mouth-watering moble responsive food-blogging theme."
 msgstr ""
 
 #. Author of the plugin/theme
@@ -156,5 +181,5 @@ msgid "StudioPress"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "http://www.studiopress.com/"
+msgid "https://www.studiopress.com/"
 msgstr ""

@@ -7,16 +7,17 @@
  * @package Daily Dish
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/daily-dish/
+ * @link    https://my.studiopress.com/themes/daily-dish/
  */
 
 add_filter( 'woocommerce_enqueue_styles', 'daily_dish_woocommerce_styles' );
 /**
  * Enqueue the theme's custom WooCommerce styles to the WooCommerce plugin.
  *
+ * @param array $enqueue_styles The WooCommerce styles to enqueue.
  * @since 1.1.0
  *
- * @return array Required values for the theme's WooCommerce stylesheet.
+ * @return array Modified WooCommerce styles to enqueue.
  */
 function daily_dish_woocommerce_styles( $enqueue_styles ) {
 
@@ -45,7 +46,7 @@ function daily_dish_woocommerce_css() {
 	}
 
 
-	$color_link = get_theme_mod( 'daily_dish_link_color', daily_dish_customizer_get_default_link_color() );
+	$color_link   = get_theme_mod( 'daily_dish_link_color', daily_dish_customizer_get_default_link_color() );
 	$color_accent = get_theme_mod( 'daily_dish_accent_color', daily_dish_customizer_get_default_accent_color() );
 
 	$woo_css = '';
@@ -100,6 +101,7 @@ function daily_dish_woocommerce_css() {
 			color: %2$s;
 		}
 
+		ul.woocommerce-error,
 		.woocommerce-error,
 		.woocommerce-info,
 		.woocommerce-message {

@@ -41,3 +41,7 @@ CHANGELOG
 = 1.0.2 =
 * Allow HTML in Hero Logos Heading Text setting.
 * Resolve Hero Logos Heading Text front end display.
+
+= 1.0.3 =
+* Add missing comma to customizer CSS output.
+* Update customizer text for video embeds.

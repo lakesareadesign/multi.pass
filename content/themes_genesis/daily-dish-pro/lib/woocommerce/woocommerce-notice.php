@@ -7,7 +7,7 @@
  * @package Daily Dish
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/daily-dish/
+ * @link    https://my.studiopress.com/themes/daily-dish/
  */
 
 add_action( 'admin_print_styles', 'daily_dish_remove_woocommerce_notice' );
@@ -66,7 +66,7 @@ function daily_dish_woocommerce_theme_notice() {
 			'install-plugin_' . $plugin_slug
 		), __( 'install and activate Genesis Connect for WooCommerce', 'daily-dish-pro' ) );
 
-		$notice_html = sprintf( __( 'Please %s to <strong>enable WooCommerce support for %s</strong>.', 'daily-dish-pro' ), $install_link, esc_html( CHILD_THEME_NAME ) );
+		$notice_html = sprintf( __( 'Please %1$s to <strong>enable WooCommerce support for %2$s</strong>.', 'daily-dish-pro' ), $install_link, esc_html( CHILD_THEME_NAME ) );
 	}
 
 	echo '<div class="notice notice-info is-dismissible daily-dish-woocommerce-notice"><p>' . $notice_html . '</p></div>';
@@ -90,7 +90,7 @@ add_action( 'admin_enqueue_scripts', 'daily_dish_notice_script' );
  * @since 1.1.0
  */
 function daily_dish_notice_script() {
-	wp_enqueue_script( 'daily_dish_notice_script', get_stylesheet_directory_uri() . '/lib/woocommerce/js/notice-update.js', array( 'jquery' ), '1.0', true  );
+	wp_enqueue_script( 'daily_dish_notice_script', get_stylesheet_directory_uri() . '/lib/woocommerce/js/notice-update.js', array( 'jquery' ), '1.0', true );
 }
 
 add_action( 'switch_theme', 'daily_dish_reset_woocommerce_notice', 10, 2 );
@@ -103,7 +103,7 @@ function daily_dish_reset_woocommerce_notice() {
 
 	global $wpdb;
 
-	$args = array(
+	$args  = array(
 		'meta_key'   => $wpdb->prefix . 'daily_dish_woocommerce_message_dismissed',
 		'meta_value' => 1,
 	);
@@ -122,9 +122,9 @@ add_action( 'deactivated_plugin', 'daily_dish_reset_woocommerce_notice_on_deacti
  * @since 1.1.0
  *
  * @param string $plugin The plugin slug.
- * @param $network_activation.
+ * @param bool   $network_deactivating Whether the plugin is deactivated for all sites in the network. or just the current site.
  */
-function daily_dish_reset_woocommerce_notice_on_deactivation( $plugin, $network_activation ) {
+function daily_dish_reset_woocommerce_notice_on_deactivation( $plugin, $network_deactivating ) {
 
 	// Conditional check to see if we're deactivating WooCommerce or Genesis Connect for WooCommerce.
 	if ( $plugin !== 'woocommerce/woocommerce.php' && $plugin !== 'genesis-connect-woocommerce/genesis-connect-woocommerce.php' ) {

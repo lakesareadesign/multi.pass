@@ -9,11 +9,18 @@
  * @package Daily Dish Pro
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/daily-dish/
+ * @link    https://my.studiopress.com/themes/daily-dish/
  */
 
-// Add landing body class to the head.
 add_filter( 'body_class', 'daily_dish_add_body_class' );
+/**
+ * Add landing body class to head.
+ *
+ * @param array $classes Current body classes.
+ * @since 1.0.0
+ *
+ * @return array Modified body classes.
+ */
 function daily_dish_add_body_class( $classes ) {
 
 	$classes[] = 'daily-dish-landing';
@@ -23,10 +30,14 @@ function daily_dish_add_body_class( $classes ) {
 }
 
 // Remove Skip Links.
-remove_action ( 'genesis_before_header', 'genesis_skip_links', 5 );
+remove_action( 'genesis_before_header', 'genesis_skip_links', 5 );
 
-// Dequeue Skip Links Script.
 add_action( 'wp_enqueue_scripts', 'daily_dish_dequeue_skip_links' );
+/**
+ * Dequeue Skip Links Script.
+ *
+ * @since 1.0.0
+ */
 function daily_dish_dequeue_skip_links() {
 	wp_dequeue_script( 'skip-links' );
 }
@@ -48,6 +59,9 @@ remove_theme_support( 'genesis-menus' );
 // Remove breadcrumbs.
 remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
 
+// Remove before header widget area before site container.
+remove_action( 'genesis_before', 'daily_dish_before_header' );
+
 // Remove before footer widget area.
 remove_action( 'genesis_before_footer', 'daily_dish_before_footer_widgets', 5 );
 
@@ -61,6 +75,9 @@ remove_action( 'genesis_footer', 'genesis_footer_markup_close', 15 );
 
 // Remove after footer widget area.
 remove_action( 'genesis_after_footer', 'daily_dish_after_footer' );
+
+// Remove after footer widget after site container.
+remove_action( 'genesis_after', 'daily_dish_after_footer' );
 
 // Run the Genesis loop.
 genesis();

@@ -7,7 +7,7 @@
  * @package Daily Dish Pro
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/daily-dish/
+ * @link    https://my.studiopress.com/themes/daily-dish/
  */
 
 add_action( 'wp_enqueue_scripts', 'daily_dish_css' );
@@ -21,7 +21,7 @@ function daily_dish_css() {
 
 	$handle = defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
 
-	$color_link = get_theme_mod( 'daily_dish_link_color', daily_dish_customizer_get_default_link_color() );
+	$color_link   = get_theme_mod( 'daily_dish_link_color', daily_dish_customizer_get_default_link_color() );
 	$color_accent = get_theme_mod( 'daily_dish_accent_color', daily_dish_customizer_get_default_accent_color() );
 
 	$css = '';
@@ -29,6 +29,8 @@ function daily_dish_css() {
 	$css .= ( daily_dish_customizer_get_default_link_color() !== $color_link ) ? sprintf( '
 
 		a,
+		p.entry-meta a:focus,
+		p.entry-meta a:hover,
 		.breadcrumb a:focus,
 		.breadcrumb a:hover,
 		.entry-title a:focus,
@@ -70,15 +72,26 @@ function daily_dish_css() {
 
 	$css .= ( daily_dish_customizer_get_default_accent_color() !== $color_accent ) ? sprintf( '
 
-		button,
-		input:hover[type="button"],
-		input:hover[type="reset"],
-		input:hover[type="submit"],
+		button:focus,
+		button:hover,
+		button.secondary,
+		input[type="button"].secondary,
+		input[type="button"]:focus,
+		input[type="button"]:hover,
+		input[type="reset"]:focus,
+		input[type="reset"]:hover,
+		input[type="reset"].secondary,
+		input[type="submit"]:focus,
+		input[type="submit"]:hover,
+		input[type="submit"].secondary,
 		.archive-pagination li a:focus,
 		.archive-pagination li a:hover,
 		.archive-pagination .active a,
 		.button:focus,
 		.button:hover,
+		.button.secondary,
+		.entry-content .button:focus,
+		.entry-content .button:hover,
 		.enews-widget input[type="submit"]:focus,
 		.enews-widget input[type="submit"]:hover {
 			background-color: %1$s;

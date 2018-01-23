@@ -276,7 +276,7 @@ function academy_customizer_register( $wp_customize ) {
 	) );
 
 	$wp_customize->add_control( 'academy-hero-hosted-video', array(
-		'description'     => sprintf( '<p>%s</p><p>%s</p>', __( 'If you are using a video that is hosted with a third party service (examples: YouTube, Vimeo, Wistia, etc.), enter the video URL here. If you will be hosting the video on your site instead, leave this field empty.', 'academy-pro' ), __( 'Example: https://player.vimeo.com/video/228990326', 'academy-pro' ) ),
+		'description'     => sprintf( '<p>%s</p><p>%s</p>', __( 'If you are using a video that is hosted with a third party service (examples: YouTube, Vimeo, etc.), enter the video URL here. If you will be hosting the video on your site instead, leave this field empty.', 'academy-pro' ), __( 'Example: https://player.vimeo.com/video/228990326', 'academy-pro' ) ),
 		'label'       => __( 'Hosted Video URL', 'academy-pro' ),
 		'section'     => 'academy-settings-video',
 		'settings'    => 'academy-hero-hosted-video',

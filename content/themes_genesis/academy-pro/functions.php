@@ -51,7 +51,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Defines the child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Academy Pro' );
 define( 'CHILD_THEME_URL', 'https://my.studiopress.com/themes/academy/' );
-define( 'CHILD_THEME_VERSION', '1.0.2' );
+define( 'CHILD_THEME_VERSION', '1.0.3' );
 
 add_action( 'wp_enqueue_scripts', 'academy_enqueue_scripts_styles' );
 /**

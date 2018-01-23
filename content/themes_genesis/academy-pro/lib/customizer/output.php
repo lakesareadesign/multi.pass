@@ -35,9 +35,9 @@ function academy_css() {
 			background: %1$s;
 		}
 
-		.hero-section-column.right::before,
 		.front-page-5 .widget.widget_media_image .widget-wrap::before,
-		.front-page-3 .widget-area::before {
+		.front-page-3 .widget-area::before,
+		.hero-section-column.right::before {
 			border-color: %1$s;
 		}
 
@@ -57,6 +57,17 @@ function academy_css() {
 
 		a,
 		h4,
+		button.secondary:focus,
+		button.secondary:hover,
+		input[type="button"].secondary:focus,
+		input[type="button"].secondary:hover,
+		input[type="reset"].secondary:focus,
+		input[type="reset"].secondary:hover,
+		input[type="submit"].secondary:focus,
+		input[type="submit"].secondary:hover,
+		.button.secondary:focus,
+		.button.secondary:hover,
+		.menu > .highlight > a:hover,
 		.site-title a:focus,
 		.site-title a:hover,
 		.entry-title a:focus,
@@ -68,20 +79,6 @@ function academy_css() {
 		.genesis-nav-menu .sub-menu .current-menu-item > a:hover,
 		.genesis-responsive-menu .genesis-nav-menu a:focus,
 		.genesis-responsive-menu .genesis-nav-menu a:hover,
-		.sub-menu-toggle:focus,
-		.sub-menu-toggle:hover,
-		.button.secondary:focus,
-		.button.secondary:hover,
-		button.secondary:focus,
-		button.secondary:hover,
-		input[type="button"].secondary:focus,
-		input[type="button"].secondary:hover,
-		input[type="reset"].secondary:focus,
-		input[type="reset"].secondary:hover,
-		input[type="submit"].secondary:focus,
-		input[type="submit"].secondary:hover,
-		.sidebar a:not(.button):focus,
-		.sidebar a:not(.button):hover,
 		.gs-faq button:focus,
 		.gs-faq button:hover,
 		.gs-faq button.gs-faq--expanded:focus,
@@ -91,7 +88,11 @@ function academy_css() {
 		.entry-footer .entry-meta .entry-tags a:hover,
 		.entry-footer .entry-meta .entry-terms a:focus,
 		.entry-footer .entry-meta .entry-terms a:hover,
-		.sp-icon-accent {
+		.sidebar a:not(.button):focus,
+		.sidebar a:not(.button):hover,
+		.sp-icon-accent,
+		.sub-menu-toggle:focus,
+		.sub-menu-toggle:hover {
 			color: %1$s;
 		}
 
@@ -108,19 +109,15 @@ function academy_css() {
 		}
 
 		.academy-top-banner,
-		.sidebar .enews-widget input[type="submit"],
-		.enews-widget input[type="submit"] {
+		.enews-widget input[type="submit"],
+		.sidebar .enews-widget input[type="submit"] {
 			background-color: %1$s;
 		}
 
-		.menu-toggle:focus,
-		.menu-toggle:hover,
-		.menu > .highlight > a:focus
-		.menu > .highlight > a:hover,
-		button.text:focus,
-		button.text:hover,
 		a.more-link.button.text:focus,
 		a.more-link.button.text:hover,
+		button.text:focus,
+		button.text:hover,
 		input[type="button"].text:focus,
 		input[type="button"].text:hover,
 		input[type="reset"].text:focus,
@@ -131,41 +128,45 @@ function academy_css() {
 		.button.text:hover,
 		.comment-reply-link:focus,
 		.comment-reply-link:hover,
-		.footer-cta::before {
+		.footer-cta::before,
+		.menu-toggle:focus,
+		.menu-toggle:hover,
+		.menu > .highlight > a:focus,
+		.menu > .highlight > a:hover {
 			border-color: %1$s;
 			color: %1$s;
 		}
 
-		.menu-toggle,
-		.site-title a,
-		.site-title a:focus,
-		.site-title a:hover,
-		.menu > .highlight > a,
-		.button.secondary,
+		a.more-link.button.text,
 		button.secondary,
+		button.text,
 		input[type="button"].secondary,
 		input[type="reset"].secondary,
 		input[type="submit"].secondary,
-		button.text,
+		input:focus,
 		input[type="button"].text,
 		input[type="reset"].text,
 		input[type="submit"].text,
-		.button.text,
-		a.more-link.button.text,
-		input:focus,
 		textarea:focus,
-		.comment-reply-link,
-		.single-featured-image::before,
-		.gravatar-wrap::before,
 		.archive-pagination a:focus,
 		.archive-pagination a:hover,
 		.archive-pagination .active a,
-		.genesis-responsive-menu .genesis-nav-menu .sub-menu a:focus,
-		.genesis-responsive-menu .genesis-nav-menu .sub-menu a:hover,
-		.pricing-table .featured,
+		.button.secondary,
+		.button.text,
+		.comment-reply-link,
 		.entry-footer .entry-meta .entry-categories a,
 		.entry-footer .entry-meta .entry-tags a,
-		.entry-footer .entry-meta .entry-terms a {
+		.entry-footer .entry-meta .entry-terms a,
+		.genesis-responsive-menu .genesis-nav-menu .sub-menu a:focus,
+		.genesis-responsive-menu .genesis-nav-menu .sub-menu a:hover,
+		.gravatar-wrap::before,
+		.menu-toggle,
+		.menu > .highlight > a,
+		.pricing-table .featured,
+		.single-featured-image::before,
+		.site-title a,
+		.site-title a:focus,
+		.site-title a:hover {
 			border-color: %1$s;
 		}
 

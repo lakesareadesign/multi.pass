@@ -7,7 +7,7 @@
  * @package Daily Dish
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/daily-dish/
+ * @link    https://my.studiopress.com/themes/daily-dish/
  */
 
 // Add product gallery support.
@@ -58,13 +58,12 @@ function daily_dish_woocommerce_breakpoint() {
 		),
 	);
 
-	if ( in_array( $current, $layouts['two-sidebar'] ) ) {
+	if ( in_array( $current, $layouts['two-sidebar'], true ) ) {
 		return '2000px'; // Return a high number to initiate mobile styles on desktop.
 	}
-	if ( in_array( $current, $layouts['one-sidebar'] ) ) {
+	if ( in_array( $current, $layouts['one-sidebar'], true ) ) {
 		return '1200px';
-	}
-	else {
+	} else {
 		return '860px';
 	}
 
@@ -86,9 +85,10 @@ add_filter( 'woocommerce_pagination_args', 	'daily_dish_woocommerce_pagination' 
 /**
  * Update the next and previous arrows to the default Genesis style.
  *
+ * @param array $args The previous and next text arguments.
  * @since 1.1.0
  *
- * @return string New next and previous text string.
+ * @return array New next and previous text arguments.
  */
 function daily_dish_woocommerce_pagination( $args ) {
 
@@ -109,7 +109,7 @@ function daily_dish_woocommerce_image_dimensions_after_theme_setup() {
 
 	global $pagenow;
 
-	if ( ! isset( $_GET['activated'] ) || $pagenow != 'themes.php' || ! class_exists( 'WooCommerce' ) ) {
+	if ( ! isset( $_GET['activated'] ) || $pagenow !== 'themes.php' || ! class_exists( 'WooCommerce' ) ) {
 		return;
 	}
 
@@ -121,6 +121,7 @@ add_action( 'activated_plugin', 'daily_dish_woocommerce_image_dimensions_after_w
 /**
  * Define the WooCommerce image sizes on WooCommerce activation.
  *
+ * @param string $plugin Path to the main plugin file from plugins directory.
  * @since 1.1.0
  */
 function daily_dish_woocommerce_image_dimensions_after_woo_activation( $plugin ) {
@@ -141,20 +142,20 @@ function daily_dish_woocommerce_image_dimensions_after_woo_activation( $plugin )
  */
 function daily_dish_update_woocommerce_image_dimensions() {
 
-	$catalog = array(
-		'width'  => '415', // px
-		'height' => '415', // px
-		'crop'   => 1,     // true
+	$catalog   = array(
+		'width'  => '415', // px.
+		'height' => '415', // px.
+		'crop'   => 1,     // true.
 	);
-	$single = array(
-		'width'  => '690', // px
-		'height' => '690', // px
-		'crop'   => 1,     // true
+	$single    = array(
+		'width'  => '690', // px.
+		'height' => '690', // px.
+		'crop'   => 1,     // true.
 	);
 	$thumbnail = array(
-		'width'  => '180', // px
-		'height' => '180', // px
-		'crop'   => 1,     // true
+		'width'  => '180', // px.
+		'height' => '180', // px.
+		'crop'   => 1,     // true.
 	);
 
 	// Image sizes.

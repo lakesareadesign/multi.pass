@@ -7,14 +7,17 @@
  * @package Daily Dish Pro
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/daily-dish/
+ * @link    https://my.studiopress.com/themes/daily-dish/
  */
 
 add_filter( 'genesis_theme_settings_defaults', 'daily_dish_theme_defaults' );
 /**
  * Updates theme settings on reset.
  *
+ * @param array $defaults Theme settings defaults.
  * @since 1.0.0
+ *
+ * @return array Modified theme defaults.
  */
 function daily_dish_theme_defaults( $defaults ) {
 
@@ -38,7 +41,7 @@ add_action( 'after_switch_theme', 'daily_dish_theme_setting_defaults' );
  */
 function daily_dish_theme_setting_defaults() {
 
-	if( function_exists( 'genesis_update_settings' ) ) {
+	if ( function_exists( 'genesis_update_settings' ) ) {
 
 		genesis_update_settings( array(
 			'blog_cat_num'              => 5,
@@ -80,7 +83,10 @@ add_filter( 'genesis_responsive_slider_settings_defaults', 'daily_dish_responsiv
 /**
  * Set Genesis Responsive Slider defaults.
  *
+ * @param array $defaults Slider defaults.
  * @since 1.0.0
+ *
+ * @return array Modified defaults.
  */
 function daily_dish_responsive_slider_defaults( $defaults ) {
 
@@ -110,14 +116,17 @@ add_filter( 'simple_social_default_styles', 'daily_dish_social_default_styles' )
 /**
  * Set Simple Social Icon defaults.
  *
+ * @param array $defaults Social style defaults.
  * @since 1.0.0
+ *
+ * @return array Modified social style defaults.
  */
 function daily_dish_social_default_styles( $defaults ) {
 
 	$args = array(
 		'alignment'              => 'alignleft',
 		'background_color'       => '#f5f5f5',
-		'background_color_hover' => '#e14d43',
+		'background_color_hover' => '#d9037f',
 		'border_radius'          => 0,
 		'icon_color'             => '#000000',
 		'icon_color_hover'       => '#ffffff',

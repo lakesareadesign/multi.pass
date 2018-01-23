@@ -2,9 +2,9 @@
 msgid ""
 msgstr ""
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"Project-Id-Version: Academy Pro 1.0.2\n"
-"POT-Creation-Date: 2017-12-12 13:05-0500\n"
-"PO-Revision-Date: 2017-12-12 13:04-0500\n"
+"Project-Id-Version: Academy Pro 1.0.3\n"
+"POT-Creation-Date: 2018-01-04 08:57-0500\n"
+"PO-Revision-Date: 2018-01-04 08:57-0500\n"
 "Last-Translator: StudioPress <translations@studiopress.com>\n"
 "Language-Team: StudioPress <translations@studiopress.com>\n"
 "MIME-Version: 1.0\n"
@@ -265,8 +265,8 @@ msgstr ""
 #: lib/customizer/customize.php:279
 msgid ""
 "If you are using a video that is hosted with a third party service "
-"(examples: YouTube, Vimeo, Wistia, etc.), enter the video URL here. If you "
-"will be hosting the video on your site instead, leave this field empty."
+"(examples: YouTube, Vimeo, etc.), enter the video URL here. If you will be "
+"hosting the video on your site instead, leave this field empty."
 msgstr ""
 
 #: lib/customizer/customize.php:279

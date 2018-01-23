@@ -10,10 +10,10 @@ Loads on WooCommerce pages */
 	width: 100%;
 }
 
-.woocommerce #content div.product div.summary,
 .woocommerce div.product div.summary,
-.woocommerce-page #content div.product div.summary,
-.woocommerce-page div.product div.summary {
+.woocommerce-page div.product div.summary,
+.woocommerce #content div.product div.summary,
+.woocommerce-page #content div.product div.summary {
 	width: 40%;
 }
 
@@ -31,13 +31,13 @@ Loads on WooCommerce pages */
 	padding: 0;
 }
 
-.woocommerce abbr.required,
-.woocommerce ins {
+.woocommerce ins,
+.woocommerce abbr.required {
 	text-decoration: none;
 }
 
 .woocommerce span.onsale {
-	background-color: #E22C2F;
+	background-color: #e22c2f;
 	border-radius: 100px;
 	line-height: 1.75;
 	min-height: auto;
@@ -67,14 +67,14 @@ Loads on WooCommerce pages */
 	display: block;
 }
 
-.woocommerce.sidebar-content .breadcrumb,
-.woocommerce.content-sidebar .breadcrumb {
+.woocommerce.content-sidebar .breadcrumb,
+.woocommerce.sidebar-content .breadcrumb {
 	margin: 0 auto 20px auto;
 	text-align: left;
 }
 
-.woocommerce.sidebar-content .page-title,
-.woocommerce.content-sidebar .page-title {
+.woocommerce.content-sidebar .page-title,
+.woocommerce.sidebar-content .page-title {
 	text-align: left;
 }
 
@@ -130,8 +130,8 @@ Loads on WooCommerce pages */
 }
 
 .woocommerce.content-sidebar ul.products li.product,
-.woocommerce-page.content-sidebar ul.products li.product,
 .woocommerce.sidebar-content ul.products li.product,
+.woocommerce-page.content-sidebar ul.products li.product,
 .woocommerce-page.sidebar-content ul.products li.product {
 	width: 48%;
 }
@@ -176,9 +176,9 @@ Loads on WooCommerce pages */
 	margin: 0 auto 10px auto;
 }
 
+.woocommerce ul.products li.product h3,
 .woocommerce ul.products li.product .woocommerce-loop-category__title,
-.woocommerce ul.products li.product .woocommerce-loop-product__title,
-.woocommerce ul.products li.product h3 {
+.woocommerce ul.products li.product .woocommerce-loop-product__title {
 	color: #222;
 	font-size: 20px;
 	font-size: 2rem;
@@ -237,11 +237,12 @@ Loads on WooCommerce pages */
 
 .woocommerce div.product p.price,
 .woocommerce div.product span.price {
-	color: #E22C2F;
+	color: #e22c2f;
 }
 
-.woocommerce ul.products li.product .price,
-.woocommerce div.product p.price, .woocommerce div.product span.price {
+.woocommerce div.product p.price,
+.woocommerce div.product span.price,
+.woocommerce ul.products li.product .price {
 	font-family: 'Merriweather', serif;
 	font-size: 20px;
 	font-size: 2rem;
@@ -262,8 +263,8 @@ Loads on WooCommerce pages */
 	table-layout: fixed;
 }
 
-.woocommerce div.product .product_title,
-.full-width-content.woocommerce .content .entry .entry-title {
+.full-width-content.woocommerce .content .entry .entry-title,
+.woocommerce div.product .product_title {
 	margin-bottom: 20px;
 	padding: 0;
 	text-align: left;
@@ -488,12 +489,12 @@ Loads on WooCommerce pages */
 	-moz-outline-radius: 100px;
 }
 
+.woocommerce a.button.secondary,
 .woocommerce button.secondary,
 .woocommerce input[type="button"].secondary,
 .woocommerce input[type="reset"].secondary,
 .woocommerce input[type="submit"].secondary,
-.woocommerce .button.secondary,
-.woocommerce a.button.secondary {
+.woocommerce .button.secondary {
 	background-color: #fff;
 	border: 2px solid #e22c2f;
 	border-radius: 100px;
@@ -502,6 +503,8 @@ Loads on WooCommerce pages */
 	-moz-outline-radius: 100px;
 }
 
+.woocommerce a.button.secondary:focus,
+.woocommerce a.button.secondary:hover,
 .woocommerce button.secondary:focus,
 .woocommerce button.secondary:hover,
 .woocommerce input[type="button"].secondary:focus,
@@ -511,20 +514,18 @@ Loads on WooCommerce pages */
 .woocommerce input[type="submit"].secondary:focus,
 .woocommerce input[type="submit"].secondary:hover,
 .woocommerce .button.secondary:focus,
-.woocommerce .button.secondary:hover,
-.woocommerce a.button.secondary:focus,
-.woocommerce a.button.secondary:hover {
+.woocommerce .button.secondary:hover {
 	background-color: #fff;
 	box-shadow: none;
 	color: #e22c2f;
 }
 
+.woocommerce a.button.text,
 .woocommerce button.text,
 .woocommerce input[type="button"].text,
 .woocommerce input[type="reset"].text,
 .woocommerce input[type="submit"].text,
-.woocommerce .button.text,
-.woocommerce a.button.text {
+.woocommerce .button.text {
 	background-color: transparent;
 	box-shadow: none;
 	border-bottom: 2px solid #e22c2f;
@@ -542,6 +543,8 @@ Loads on WooCommerce pages */
 	text-transform: uppercase;
 }
 
+.woocommerce a.button.text:focus,
+.woocommerce a.button.text:hover,
 .woocommerce button.text:focus,
 .woocommerce button.text:hover,
 .woocommerce input[type="button"].text:focus,
@@ -551,9 +554,7 @@ Loads on WooCommerce pages */
 .woocommerce input[type="submit"].text:focus,
 .woocommerce input[type="submit"].text:hover,
 .woocommerce .button.text:focus,
-.woocommerce .button.text:hover,
-.woocommerce a.button.text:focus,
-.woocommerce a.button.text:hover {
+.woocommerce .button.text:hover {
 	background-color: transparent;
 	box-shadow: none;
 	border-bottom: 2px solid #e22c2f;
@@ -562,7 +563,6 @@ Loads on WooCommerce pages */
 	padding: 16px 0 6px 0;
 	-moz-outline-radius: 0;
 }
-
 
 .woocommerce #reviews #comment {
 	height: 150px;
@@ -960,10 +960,10 @@ div.woocommerce-info.wc-memberships-restriction-message.wc-memberships-restricte
 
 @media only screen and (max-width: 1023px) {
 
-	.woocommerce #content div.product div.summary,
 	.woocommerce div.product div.summary,
-	.woocommerce-page #content div.product div.summary,
-	.woocommerce-page div.product div.summary {
+	.woocommerce #content div.product div.summary,
+	.woocommerce-page div.product div.summary,
+	.woocommerce-page #content div.product div.summary {
 		width: 100%;
 	}
 

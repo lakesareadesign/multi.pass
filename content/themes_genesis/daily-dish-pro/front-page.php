@@ -7,13 +7,14 @@
  * @package Daily Dish Pro
  * @author  StudioPress
  * @license GPL-2.0+
- * @link    http://my.studiopress.com/themes/daily-dish/
+ * @link    https://my.studiopress.com/themes/daily-dish/
  */
 
 add_action( 'genesis_meta', 'daily_dish_home_genesis_meta' );
 /**
  * Add widget support for homepage. If no widgets active, display the default loop.
  *
+ * @since 1.0.0
  */
 function daily_dish_home_genesis_meta() {
 
@@ -35,19 +36,30 @@ function daily_dish_home_genesis_meta() {
 
 }
 
-// Define daily-dish-home body class.
+/**
+ * Define daily-dish-home body class.
+ *
+ * @param array $classes Current body classes.
+ * @since 1.0.0
+ *
+ * @return array Modified body classes.
+ */
 function daily_dish_body_class( $classes ) {
 
 	$classes[] = 'daily-dish-home';
-	
+
 	return $classes;
 
 }
 
-// Output the front page widget areas.
+/**
+ * Output front page widget areas.
+ *
+ * @since 1.0.0
+ */
 function daily_dish_homepage_widgets() {
 
-echo '<h2 class="screen-reader-text">' . __( 'Main Content', 'daily-dish-pro' ) . '</h2>';
+	echo '<h2 class="screen-reader-text">' . __( 'Main Content', 'daily-dish-pro' ) . '</h2>';
 
 	genesis_widget_area( 'home-top', array(
 		'before' => '<div class="home-top widget-area">',
@@ -66,5 +78,5 @@ echo '<h2 class="screen-reader-text">' . __( 'Main Content', 'daily-dish-pro' ) 
 
 }
 
-// Run the Genesis loop.
+// Run Genesis loop.
 genesis();
