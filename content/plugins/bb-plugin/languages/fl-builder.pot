@@ -1,14 +1,14 @@
-# Copyright (C) 2017 The Beaver Builder Team
+# Copyright (C) 2018 The Beaver Builder Team
 # This file is distributed under the GNU General Public License v2.0.
 msgid ""
 msgstr ""
 "Project-Id-Version: bb-plugin\n"
 "Report-Msgid-Bugs-To: hello@wpbeaverbuilder.com\n"
-"POT-Creation-Date: 2017-12-20 20:06:38+00:00\n"
+"POT-Creation-Date: 2018-01-16 21:19:15+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n 0.5.4\n"
@@ -30,7 +30,7 @@ msgstr ""
 
 #: classes/class-fl-builder-admin-settings.php:158
 #: classes/class-fl-builder-admin-settings.php:222
-#: classes/class-fl-builder-model.php:5717
+#: classes/class-fl-builder-model.php:5720
 #: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:121
 #: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:238
 #: includes/updater/classes/class-fl-updater.php:283
@@ -70,7 +70,7 @@ msgid "Icons"
 msgstr ""
 
 #: classes/class-fl-builder-admin-settings.php:192
-#: classes/class-fl-builder.php:892
+#: classes/class-fl-builder.php:899
 msgid "Tools"
 msgstr ""
 
@@ -244,58 +244,58 @@ msgid "Other"
 msgstr ""
 
 #: classes/class-fl-builder-model.php:2672
-#: classes/class-fl-builder-model.php:2806
-#: classes/class-fl-builder-model.php:3226
+#: classes/class-fl-builder-model.php:2807
+#: classes/class-fl-builder-model.php:3227
 #: extensions/fl-builder-user-templates/includes/admin-add-new-form.php:42
 #: includes/admin-settings-modules.php:32 includes/ui-js-config.php:194
 #: modules/widget/widget.php:15 modules/widget/widget.php:16
 msgid "WordPress Widgets"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3264
+#: classes/class-fl-builder-model.php:3265
 msgid "1 Column"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3269
+#: classes/class-fl-builder-model.php:3270
 msgid "2 Columns"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3274
+#: classes/class-fl-builder-model.php:3275
 msgid "3 Columns"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3279
+#: classes/class-fl-builder-model.php:3280
 msgid "4 Columns"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3284
+#: classes/class-fl-builder-model.php:3285
 msgid "5 Columns"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3289
+#: classes/class-fl-builder-model.php:3290
 msgid "6 Columns"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3294
+#: classes/class-fl-builder-model.php:3295
 msgid "Left Sidebar"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3299
+#: classes/class-fl-builder-model.php:3300
 msgid "Right Sidebar"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3304
+#: classes/class-fl-builder-model.php:3305
 msgid "Left & Right Sidebar"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:4319
-#: classes/class-fl-builder-model.php:4357
-#: classes/class-fl-builder-model.php:4426
-#: classes/class-fl-builder-model.php:5589 includes/ui-js-config.php:176
+#: classes/class-fl-builder-model.php:4322
+#: classes/class-fl-builder-model.php:4360
+#: classes/class-fl-builder-model.php:4429
+#: classes/class-fl-builder-model.php:5592 includes/ui-js-config.php:176
 msgid "Uncategorized"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:5544
+#: classes/class-fl-builder-model.php:5547
 #: extensions/fl-builder-core-templates-admin/includes/core-template-settings.php:20
 #: extensions/fl-builder-user-templates/includes/node-template-settings.php:6
 #: extensions/fl-builder-user-templates/includes/user-template-settings.php:7
@@ -320,11 +320,11 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:5545 includes/ui-js-config.php:204
+#: classes/class-fl-builder-model.php:5548 includes/ui-js-config.php:204
 msgid "Landing Pages"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:5546 includes/ui-js-config.php:207
+#: classes/class-fl-builder-model.php:5549 includes/ui-js-config.php:207
 msgid "Content Pages"
 msgstr ""
 
@@ -429,8 +429,9 @@ msgstr ""
 #: classes/class-fl-builder-service-mailerlite.php:161
 #: classes/class-fl-builder-service-mailpoet.php:110
 #: classes/class-fl-builder-service-mailrelay.php:183
+#: classes/class-fl-builder-service-mautic.php:210
 #: classes/class-fl-builder-service-sendinblue.php:154
-#: classes/class-fl-builder-services.php:335
+#: classes/class-fl-builder-services.php:340
 #: extensions/fl-builder-user-templates/includes/admin-add-new-form.php:26
 #: extensions/fl-builder-user-templates/includes/admin-add-new-form.php:40
 #: includes/ui-service-settings.php:7 modules/woocommerce/woocommerce.php:58
@@ -1043,6 +1044,72 @@ msgstr ""
 msgid "There was an error subscribing to Mailrelay. %s"
 msgstr ""
 
+#: classes/class-fl-builder-service-mautic.php:73
+msgid "Error: You must provide your Mautic installation URL."
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:77
+msgid "Error: You must provide you Mautic app username."
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:81
+msgid "Error: You must provide your Mautic app user password."
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:109
+msgid "Error: Could not connect to Mautic. %s"
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:129
+#: classes/class-fl-builder-service-sendy.php:114
+msgid "Installation URL"
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:130
+msgid ""
+"The URL where your Mautic application is installed (e.g. "
+"http://mautic.mywebsite.com)."
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:131
+msgid ""
+"API should be enabled in your Mautic application.\n"
+"\t\t\t\t\tGo to Mautic Configuration / API Settings and set `API enabled` "
+"to `Yes`, set `Enable HTTP basic auth` to `Yes` . Save changes."
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:142
+msgid "Mautic Username"
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:143
+msgid ""
+"Username from your Mautic application. Make sure it has `Full system "
+"access`. Best practise would be to set up a new user for each external site."
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:153
+msgid "Mautic Password"
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:154
+msgid "Password associated with the username. Make this a Long passPhrase."
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:189
+msgid "Error: Please check your API credentials."
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:249
+msgid ""
+"There was an error subscribing to Mautic. The account is no longer "
+"connected."
+msgstr ""
+
+#: classes/class-fl-builder-service-mautic.php:281
+msgid "There was an error subscribing to Mautic. %s"
+msgstr ""
+
 #: classes/class-fl-builder-service-sendinblue.php:65
 msgid "Error: You must provide an Access Key."
 msgstr ""
@@ -1093,10 +1160,6 @@ msgstr ""
 msgid "Error: Could not connect to Sendy. %s"
 msgstr ""
 
-#: classes/class-fl-builder-service-sendy.php:114
-msgid "Installation URL"
-msgstr ""
-
 #: classes/class-fl-builder-service-sendy.php:115
 msgid ""
 "The URL where your Sendy application is installed (e.g. "
@@ -1121,25 +1184,25 @@ msgstr ""
 msgid "There was an error subscribing to Sendy. %s"
 msgstr ""
 
-#: classes/class-fl-builder-services.php:300
+#: classes/class-fl-builder-services.php:305
 msgid "Account Name"
 msgstr ""
 
-#: classes/class-fl-builder-services.php:301
+#: classes/class-fl-builder-services.php:306
 msgid ""
 "Used to identify this connection within the accounts list and can be "
 "anything you like."
 msgstr ""
 
-#: classes/class-fl-builder-services.php:314
+#: classes/class-fl-builder-services.php:319
 msgid "Connect"
 msgstr ""
 
-#: classes/class-fl-builder-services.php:343
+#: classes/class-fl-builder-services.php:348
 msgid "Add Account..."
 msgstr ""
 
-#: classes/class-fl-builder-services.php:350
+#: classes/class-fl-builder-services.php:355
 msgid "Account"
 msgstr ""
 
@@ -1227,85 +1290,85 @@ msgstr ""
 msgid "Rebuilt the theme cache"
 msgstr ""
 
-#: classes/class-fl-builder.php:884
+#: classes/class-fl-builder.php:891
 msgid "Unnamed Menu"
 msgstr ""
 
-#: classes/class-fl-builder.php:900
+#: classes/class-fl-builder.php:907
 #: extensions/fl-builder-user-templates/includes/user-template-settings.php:4
 #: includes/ui-js-config.php:133
 msgid "Save Template"
 msgstr ""
 
-#: classes/class-fl-builder.php:908
+#: classes/class-fl-builder.php:915
 msgid "Duplicate Layout"
 msgstr ""
 
-#: classes/class-fl-builder.php:914
+#: classes/class-fl-builder.php:921
 msgid "Preview Layout"
 msgstr ""
 
-#: classes/class-fl-builder.php:925
+#: classes/class-fl-builder.php:932
 msgid "Layout CSS & Javascript"
 msgstr ""
 
-#: classes/class-fl-builder.php:932 includes/global-settings.php:4
+#: classes/class-fl-builder.php:939 includes/global-settings.php:4
 #: includes/ui-js-config.php:85
 msgid "Global Settings"
 msgstr ""
 
-#: classes/class-fl-builder.php:943
+#: classes/class-fl-builder.php:950
 msgid "Change UI Brightness"
 msgstr ""
 
-#: classes/class-fl-builder.php:950 classes/class-fl-builder.php:973
+#: classes/class-fl-builder.php:957 classes/class-fl-builder.php:980
 msgid "WordPress Admin"
 msgstr ""
 
-#: classes/class-fl-builder.php:957 classes/class-fl-builder.php:1027
+#: classes/class-fl-builder.php:964 classes/class-fl-builder.php:1034
 msgid "Help"
 msgstr ""
 
-#: classes/class-fl-builder.php:964
+#: classes/class-fl-builder.php:971
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: classes/class-fl-builder.php:1002 includes/ui-js-config.php:99
+#: classes/class-fl-builder.php:1009 includes/ui-js-config.php:99
 msgid "Manage Templates"
 msgstr ""
 
-#: classes/class-fl-builder.php:1016
+#: classes/class-fl-builder.php:1023
 msgid "Customize Theme"
 msgstr ""
 
-#: classes/class-fl-builder.php:1046
+#: classes/class-fl-builder.php:1053
 msgid "Take A Tour"
 msgstr ""
 
-#: classes/class-fl-builder.php:1054
+#: classes/class-fl-builder.php:1061
 msgid "View Knowledge Base"
 msgstr ""
 
-#: classes/class-fl-builder.php:1062
+#: classes/class-fl-builder.php:1069
 #: extensions/fl-builder-white-label/includes/admin-settings-help-button.php:59
 #: includes/ui-js-config.php:173
 msgid "Contact Support"
 msgstr ""
 
-#: classes/class-fl-builder.php:1248
+#: classes/class-fl-builder.php:1255
 msgid "Upgrade Today <i class=\"fa fa-external-link-square\"></i>"
 msgstr ""
 
-#: classes/class-fl-builder.php:1252
+#: classes/class-fl-builder.php:1259
 msgid "Buy Now <i class=\"fa fa-external-link-square\"></i>"
 msgstr ""
 
-#: classes/class-fl-builder.php:1256 includes/ui-js-config.php:80
+#: classes/class-fl-builder.php:1263 includes/ui-js-config.php:80
 #: includes/ui-js-templates.php:262
 msgid "Done"
 msgstr ""
 
-#: classes/class-fl-builder.php:2936
+#: classes/class-fl-builder.php:2943
 msgid "The uploaded file is not a valid %s extension."
 msgstr ""
 
@@ -1492,7 +1555,7 @@ msgstr ""
 
 #: extensions/fl-builder-core-templates-admin/includes/admin-core-templates.php:48
 #: extensions/fl-builder-user-templates/classes/class-fl-builder-user-templates-admin-edit.php:84
-#: includes/ui-bar.php:27 includes/ui-field-photo.php:44
+#: includes/ui-field-photo.php:44
 msgid "Edit"
 msgstr ""
 
@@ -1926,7 +1989,7 @@ msgid ""
 "Enable or disable icon sets using the options below or upload a custom icon "
 "set. Instructions on how to generate your own custom icon sets can be read "
 "<a "
-"href=\"http://kb.wpbeaverbuilder.com/article/110-enable-disable-or-import-"
+"href=\"https://kb.wpbeaverbuilder.com/article/110-enable-disable-or-import-"
 "new-icon-sets\" target=\"_blank\">here</a>."
 msgstr ""
 
@@ -3191,6 +3254,10 @@ msgstr ""
 
 #: includes/ui-bar.php:14
 msgid "Publish"
+msgstr ""
+
+#: includes/ui-bar.php:27
+msgid "Continue Editing"
 msgstr ""
 
 #: includes/ui-bar.php:32
@@ -5336,6 +5403,10 @@ msgstr ""
 msgid "Photo Link"
 msgstr ""
 
+#: modules/gallery/gallery.php:317
+msgid "Lightbox Photo Size"
+msgstr ""
+
 #: modules/heading/heading.php:14
 msgid "Display a title/page heading."
 msgstr ""
@@ -6430,7 +6501,7 @@ msgstr ""
 msgid "Something went wrong. Please check your entries and try again."
 msgstr ""
 
-#: modules/subscribe-form/includes/validate-recaptcha.php:11
+#: modules/subscribe-form/includes/validate-recaptcha.php:16
 msgid "reCAPTCHA Error: "
 msgstr ""
 
@@ -6764,12 +6835,12 @@ msgid ""
 "ensure compatibility with Beaver Builder."
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3700
+#: classes/class-fl-builder-model.php:3701
 msgctxt "%s stands for post/page title."
 msgid "Copy of %s"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:4374
+#: classes/class-fl-builder-model.php:4377
 msgctxt "Default user template category."
 msgid "Uncategorized"
 msgstr ""
@@ -6828,6 +6899,7 @@ msgstr ""
 #: classes/class-fl-builder-service-mailchimp.php:181
 #: classes/class-fl-builder-service-mailerlite.php:173
 #: classes/class-fl-builder-service-mailpoet.php:121
+#: classes/class-fl-builder-service-mautic.php:221
 #: classes/class-fl-builder-service-sendinblue.php:165
 msgctxt "An email list from a third party provider."
 msgid "List"
@@ -6873,22 +6945,22 @@ msgctxt "A list of subscribers group from a Mailrelay account."
 msgid "Group"
 msgstr ""
 
-#: classes/class-fl-builder-services.php:215
+#: classes/class-fl-builder-services.php:220
 msgctxt "Third party service such as MailChimp."
 msgid "Error: Missing service type."
 msgstr ""
 
-#: classes/class-fl-builder-services.php:217
+#: classes/class-fl-builder-services.php:222
 msgctxt "Connection data such as an API key."
 msgid "Error: Missing service data."
 msgstr ""
 
-#: classes/class-fl-builder-services.php:219
+#: classes/class-fl-builder-services.php:224
 msgctxt "Account name for a third party service such as MailChimp."
 msgid "Error: Missing account name."
 msgstr ""
 
-#: classes/class-fl-builder-services.php:228
+#: classes/class-fl-builder-services.php:233
 msgctxt "Account name for a third party service such as MailChimp."
 msgid "Error: An account with that name already exists."
 msgstr ""
@@ -6909,82 +6981,82 @@ msgctxt "current blog name"
 msgid "Rebuilt the theme cache for blog %s"
 msgstr ""
 
-#: classes/class-fl-builder.php:993
+#: classes/class-fl-builder.php:1000
 msgctxt "label for the WordPress Dashboard link"
 msgid "Dashboard"
 msgstr ""
 
-#: classes/class-fl-builder.php:1083
+#: classes/class-fl-builder.php:1090
 msgctxt "A keyboard shortcut with no label given"
 msgid "Untitled Shortcut"
 msgstr ""
 
-#: classes/class-fl-builder.php:1091
+#: classes/class-fl-builder.php:1098
 msgctxt "Keyboard action to show modules tab"
 msgid "Open Modules Tab"
 msgstr ""
 
-#: classes/class-fl-builder.php:1095
+#: classes/class-fl-builder.php:1102
 msgctxt "Keyboard action to show rows tab"
 msgid "Open Rows Tab"
 msgstr ""
 
-#: classes/class-fl-builder.php:1099
+#: classes/class-fl-builder.php:1106
 msgctxt "Keyboard action to show templates tab"
 msgid "Open Templates Tab"
 msgstr ""
 
-#: classes/class-fl-builder.php:1103
+#: classes/class-fl-builder.php:1110
 msgctxt "Keyboard action to show saved tab"
 msgid "Open Saved Tab"
 msgstr ""
 
-#: classes/class-fl-builder.php:1108
+#: classes/class-fl-builder.php:1115
 msgctxt "Keyboard action to open save template form"
 msgid "Save New Template"
 msgstr ""
 
-#: classes/class-fl-builder.php:1113
+#: classes/class-fl-builder.php:1120
 msgctxt "Keyboard action to toggle preview mode"
 msgid "Toggle Preview Mode"
 msgstr ""
 
-#: classes/class-fl-builder.php:1117
+#: classes/class-fl-builder.php:1124
 msgctxt "Keyboard action to open the global settings panel"
 msgid "Open Global Settings"
 msgstr ""
 
-#: classes/class-fl-builder.php:1121
+#: classes/class-fl-builder.php:1128
 msgctxt "Keyboard action to open the layout settings panel"
 msgid "Open Layout Settings"
 msgstr ""
 
-#: classes/class-fl-builder.php:1125
+#: classes/class-fl-builder.php:1132
 msgctxt "Keyboard action to switch between light and dark UI brightness"
 msgid "Change UI Brightness"
 msgstr ""
 
-#: classes/class-fl-builder.php:1129
+#: classes/class-fl-builder.php:1136
 msgctxt "Keyboard action to open the module search panel"
 msgid "Display Module Search"
 msgstr ""
 
-#: classes/class-fl-builder.php:1134
+#: classes/class-fl-builder.php:1141
 msgctxt "Keyboard action to save changes"
 msgid "Save Layout"
 msgstr ""
 
-#: classes/class-fl-builder.php:1139
+#: classes/class-fl-builder.php:1146
 msgctxt "Keyboard action to publish any pending changes"
 msgid "Publish changes without leaving builder"
 msgstr ""
 
-#: classes/class-fl-builder.php:1144
+#: classes/class-fl-builder.php:1151
 msgctxt "Keyboard action to dismiss the current task or panel"
 msgid "Dismiss Active Panel"
 msgstr ""
 
-#: classes/class-fl-builder.php:1226
+#: classes/class-fl-builder.php:1233
 msgctxt "Currently editing message"
 msgid "Currently Editing %s"
 msgstr ""

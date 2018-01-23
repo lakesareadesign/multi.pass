@@ -164,7 +164,7 @@ final class FLBuilderLoop {
 		}
 
 		// Build the query args.
-		$args = apply_filters( 'fl_builder_loop_query_args', array(
+		$args = array(
 			'paged'          => $paged,
 			'posts_per_page' => $posts_per_page,
 			'post_type'      => $post_type,
@@ -179,7 +179,7 @@ final class FLBuilderLoop {
 			'fl_builder_loop'     => true,
 			'fields'              => $fields,
 			'settings'            => $settings,
-		) );
+		);
 
 		// Order by meta value arg.
 		if ( strstr( $order_by, 'meta_value' ) ) {
@@ -294,6 +294,8 @@ final class FLBuilderLoop {
 				$args[ $arg ] = explode( ',', $settings->{'posts_' . $post_type} );
 			}
 		}
+
+		$args = apply_filters( 'fl_builder_loop_query_args', $args );
 
 		// Build the query.
 		$query = new WP_Query( $args );

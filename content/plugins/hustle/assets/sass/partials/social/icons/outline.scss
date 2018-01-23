@@ -1,0 +1,170 @@
+$color-white: #FFFFFF;
+
+// Social Colors
+$color-facebook: #2D5F9A;
+$color-twitter: #00C3F3;
+$color-google: #D73D32;
+$color-pinterest: #CD252B;
+$color-reddit: #FF5700;
+$color-linkedin: #0077B5;
+$color-vkontakte: #507299;
+$color-fivehundredpx: #000000;
+$color-houzz: #9bc545;
+$color-instagram: #d03c77;
+$color-twitch: #6441a4;
+$color-youtube: #f00;
+$color-telegram: #0693ec;
+
+.hustle-icon-outline  {
+	border-radius: 40px;
+
+	.hustle-icon {
+		width: 16px;
+		height: 16px;
+	}
+
+	// Colorize Social Icons
+	&.hustle-icon-facebook {
+		border-color: $color-facebook;
+
+		.hustle-icon-path {
+			fill: $color-facebook;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-twitter {
+		border-color: $color-twitter;
+
+		.hustle-icon-path {
+			fill: $color-twitter;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-google {
+		border-color: $color-google;
+
+		.hustle-icon-path {
+			fill: $color-google;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-pinterest {
+		border-color: $color-pinterest;
+
+		.hustle-icon-path {
+			fill: $color-pinterest;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-reddit {
+		border-color: $color-reddit;
+
+		.hustle-icon-path {
+			fill: $color-reddit;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-linkedin {
+		border-color: $color-linkedin;
+
+		.hustle-icon-path {
+			fill: $color-linkedin;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-vkontakte {
+		border-color: $color-vkontakte;
+
+		.hustle-icon-path {
+			fill: $color-vkontakte;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-fivehundredpx {
+		border-color: $color-fivehundredpx;
+
+		.hustle-icon-path {
+			fill: $color-fivehundredpx;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-houzz {
+		border-color: $color-houzz;
+
+		.hustle-icon-path {
+			fill: $color-houzz;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-instagram {
+		border-color: $color-instagram;
+
+		.hustle-icon-path {
+			fill: $color-instagram;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-twitch {
+		border-color: $color-twitch;
+
+		.hustle-icon-path {
+			fill: $color-twitch;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-youtube {
+		border-color: $color-youtube;
+
+		.hustle-icon-path {
+			fill: $color-youtube;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-telegram {
+		border-color: $color-telegram;
+
+		.hustle-icon-path {
+			fill: $color-telegram;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+}

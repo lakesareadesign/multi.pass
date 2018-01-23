@@ -2,8 +2,8 @@
 
 class Opt_In_Condition_Posts extends Opt_In_Condition_Abstract implements Opt_In_Condition_Interface
 {
-    function is_allowed(Hustle_Model $optin){
-        global $post;
+	function is_allowed(Hustle_Model $optin){
+		global $post;
 
 		if ( !isset( $this->args->posts ) || empty( $this->args->posts ) ) {
 			if ( !isset($this->args->filter_type) || $this->args->filter_type == "except" ) {
@@ -19,30 +19,30 @@ class Opt_In_Condition_Posts extends Opt_In_Condition_Abstract implements Opt_In
 			}
 		}
 
-        switch( $this->args->filter_type ){
-            case  "only":
-                if( !isset( $post ) || !( $post instanceof WP_Post ) || $post->post_type !== "post" ) return false;
+		switch( $this->args->filter_type ){
+			case  "only":
+				if( !isset( $post ) || !( $post instanceof WP_Post ) || $post->post_type !== "post" ) return false;
 
 				return in_array( $post->ID, (array) $this->args->posts );
 
-                break;
-            case "except":
-                if( !isset( $post ) || !( $post instanceof WP_Post ) || $post->post_type !== "post" ) return true;
+				break;
+			case "except":
+				if( !isset( $post ) || !( $post instanceof WP_Post ) || $post->post_type !== "post" ) return true;
 
-                return !in_array( $post->ID, (array) $this->args->posts );
+				return !in_array( $post->ID, (array) $this->args->posts );
 
-                break;
+				break;
 
-            default:
-                return true;
-                break;
-        }
-    }
+			default:
+				return true;
+				break;
+		}
+	}
 
 
-    function label(){
-		if ( isset( $this->args->posts ) && !empty( $this->args->posts ) ) {
-			$total = count($this->args->posts);
+	function label(){
+		if ( isset( $this->args->posts ) && !empty( $this->args->posts ) && is_array( $this->args->posts ) ) {
+			$total = count( $this->args->posts );
 			switch( $this->args->filter_type ){
 				case  "only":
 					return ( in_array("all", $this->args->posts) )
@@ -64,5 +64,5 @@ class Opt_In_Condition_Posts extends Opt_In_Condition_Abstract implements Opt_In
 				? __("All posts", Opt_In::TEXT_DOMAIN)
 				: __("No posts", Opt_In::TEXT_DOMAIN);
 		}
-    }
+	}
 }

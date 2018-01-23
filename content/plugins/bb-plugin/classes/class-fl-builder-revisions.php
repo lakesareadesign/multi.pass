@@ -71,7 +71,7 @@ final class FLBuilderRevisions {
 				if ( ! isset( $config['authors'][ $revision->post_author ] ) ) {
 					$config['authors'][ $revision->post_author ] = array(
 						'name'   => get_the_author_meta( 'display_name', $revision->post_author ),
-						'avatar' => get_avatar( $revision->post_author, 30 ),
+						'avatar' => sprintf( '<img height="30" width="30" class="avatar avatar-30 photo" src="%s" />', esc_url( get_avatar_url( $revision->post_author, 30 ) ) ),
 					);
 				}
 			}

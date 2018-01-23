@@ -28,14 +28,26 @@ class ComposerStaticInitda98371940d11703c56dee923bbb392f
         ),
     );
 
-    public static $fallbackDirsPsr4 = array (
-        0 => __DIR__ . '/..' . '/aweber/aweber/aweber_api',
-    );
-
     public static $classMap = array (
+        'AWeberAPI' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/aweber.php',
+        'AWeberAPIBase' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/aweber.php',
+        'AWeberAPIException' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/exceptions.php',
+        'AWeberCollection' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/aweber_collection.php',
+        'AWeberEntry' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/aweber_entry.php',
+        'AWeberEntryDataArray' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/aweber_entry_data_array.php',
+        'AWeberException' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/exceptions.php',
+        'AWeberMethodNotImplemented' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/exceptions.php',
+        'AWeberOAuthAdapter' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/oauth_adapter.php',
+        'AWeberOAuthDataMissing' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/exceptions.php',
+        'AWeberOAuthException' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/exceptions.php',
+        'AWeberResourceNotImplemented' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/exceptions.php',
+        'AWeberResponse' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/aweber_response.php',
+        'AWeberResponseError' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/exceptions.php',
+        'AWeberServiceProvider' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/aweber.php',
         'CS_REST_Administrators' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_administrators.php',
         'CS_REST_Campaigns' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_campaigns.php',
         'CS_REST_Clients' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_clients.php',
+        'CS_REST_Events' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_events.php',
         'CS_REST_General' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_general.php',
         'CS_REST_Lists' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_lists.php',
         'CS_REST_People' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_people.php',
@@ -45,6 +57,12 @@ class ComposerStaticInitda98371940d11703c56dee923bbb392f
         'CS_REST_Transactional_ClassicEmail' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_transactional_classicemail.php',
         'CS_REST_Transactional_SmartEmail' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_transactional_smartemail.php',
         'CS_REST_Transactional_Timeline' => __DIR__ . '/..' . '/campaignmonitor/createsend-php/csrest_transactional_timeline.php',
+        'CurlInterface' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/curl_object.php',
+        'CurlObject' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/curl_object.php',
+        'CurlResponse' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/curl_response.php',
+        'OAuthApplication' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/oauth_application.php',
+        'OAuthServiceProvider' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/oauth_application.php',
+        'OAuthUser' => __DIR__ . '/..' . '/aweber/aweber/aweber_api/oauth_application.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
@@ -52,7 +70,6 @@ class ComposerStaticInitda98371940d11703c56dee923bbb392f
         return \Closure::bind(function () use ($loader) {
             $loader->prefixLengthsPsr4 = ComposerStaticInitda98371940d11703c56dee923bbb392f::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInitda98371940d11703c56dee923bbb392f::$prefixDirsPsr4;
-            $loader->fallbackDirsPsr4 = ComposerStaticInitda98371940d11703c56dee923bbb392f::$fallbackDirsPsr4;
             $loader->classMap = ComposerStaticInitda98371940d11703c56dee923bbb392f::$classMap;
 
         }, null, ClassLoader::class);

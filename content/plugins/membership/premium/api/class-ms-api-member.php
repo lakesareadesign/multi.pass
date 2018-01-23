@@ -52,28 +52,25 @@ class MS_Api_Member extends MS_Api {
 
         register_rest_route( $namepace, self::BASE_API_ROUTE . 'list', array(
 			'method' 				=> WP_REST_Server::READABLE,
-			'callback' 				=> array( $this, 'list' ),
+			'callback' 				=> array( $this, 'list_members' ),
 			'permission_callback' 	=> array( $this, 'validate_request' ),
             'args' 					=> array(
 				'per_page' 		=> array(
 					'required' 			=> false,
 					'sanitize_callback' => 'sanitize_text_field',
 					'type' 				=> 'int',
-                    'validate_callback' => 'is_numeric',
 					'description' 		=> __( 'Results per page. Defaults to 10' ),
 				),
                 'page' 		    => array(
 					'required' 			=> true,
 					'sanitize_callback' => 'sanitize_text_field',
 					'type' 				=> 'int',
-                    'validate_callback' => 'is_numeric',
 					'description' 		=> __( 'Current page' ),
 				),
-                'status' 	=> array(
+                'member_status' 	=> array(
 					'required' 			=> false,
 					'sanitize_callback' => 'sanitize_text_field',
 					'type' 				=> 'String',
-                    'validate_callback' => 'is_string',
 					'description' 		=> __( 'Membership status. Eg pending, waiting, active, trial, canceled, trial_expired, expired, deactivated' ),
 				),
 			)
@@ -82,10 +79,10 @@ class MS_Api_Member extends MS_Api {
 
         register_rest_route( $namepace, self::BASE_API_ROUTE . 'count', array(
 			'method' 				=> WP_REST_Server::READABLE,
-			'callback' 				=> array( $this, 'count' ),
+			'callback' 				=> array( $this, 'count_members' ),
 			'permission_callback' 	=> array( $this, 'validate_request' ),
             'args' 					=> array(
-                'status' 	=> array(
+                'member_status' 	=> array(
 					'required' 			=> false,
 					'sanitize_callback' => 'sanitize_text_field',
 					'type' 				=> 'String',
@@ -104,7 +101,6 @@ class MS_Api_Member extends MS_Api {
 					'required' 			=> true,
 					'sanitize_callback' => 'sanitize_text_field',
 					'type' 				=> 'int',
-                    'validate_callback' => 'is_numeric',
 					'description' 		=> __( 'The user id' ),
 				),
 			)
@@ -120,14 +116,12 @@ class MS_Api_Member extends MS_Api {
 						'required' 			=> true,
 						'sanitize_callback' => 'sanitize_text_field',
 						'type' 				=> 'int',
-                        'validate_callback' => 'is_numeric',
 						'description' 		=> __( 'The user id' ),
 					),
 					'membership_id' => array(
 						'required' 			=> true,
 						'sanitize_callback' => 'sanitize_text_field',
 						'type' 				=> 'int',
-                        'validate_callback' => 'is_numeric',
 						'description' 		=> __( 'The Membership ID' ),
 					),
 				)
@@ -141,14 +135,12 @@ class MS_Api_Member extends MS_Api {
 						'required' 			=> true,
 						'sanitize_callback' => 'sanitize_text_field',
 						'type' 				=> 'int',
-                        'validate_callback' => 'is_numeric',
 						'description' 		=> __( 'The user id' ),
 					),
 					'membership_id' => array(
 						'required' 			=> true,
 						'sanitize_callback' => 'sanitize_text_field',
 						'type' 				=> 'int',
-                        'validate_callback' => 'is_numeric',
 						'description' 		=> __( 'The Membership ID' ),
 					),
 				)
@@ -163,10 +155,10 @@ class MS_Api_Member extends MS_Api {
 	 *
 	 * @return MS_Model_Member[] List of all available Memberships.
 	 */
-    function list( $request ) {
+    function list_members( $request ) {
         $per_page 	= $request->get_param( 'per_page' );
         $page 	    = $request->get_param( 'page' );
-        $status 	= $request->get_param( 'status' );
+        $status 	= $request->get_param( 'member_status' );
         if ( empty( $per_page ) ) {
             $per_page = 10;
         }
@@ -190,8 +182,8 @@ class MS_Api_Member extends MS_Api {
      *
      * @return Long count of all members
      */
-    function count( $request ) {
-        $status = $request->get_param( 'status' );
+    function count_members( $request ) {
+        $status = $request->get_param( 'member_status' );
         if ( empty( $status ) ) {
             $status = MS_Model_Relationship::STATUS_ACTIVE;
         }
@@ -230,7 +222,7 @@ class MS_Api_Member extends MS_Api {
         $user_id 		= $request->get_param( 'user_id' );
 		$membership_id 	= $request->get_param( 'membership_id' );
 		$membership 	= MS_Factory::load( 'MS_Model_Membership', intval( $membership_id ) );
-		$member = MS_Factory::load( 'MS_Model_Member', $user_id );
+		$member 		= MS_Factory::load( 'MS_Model_Member', $user_id );
 		if ( $member ) {
 			$subscription = $member->add_membership( $membership->id, '' );
 
@@ -257,7 +249,7 @@ class MS_Api_Member extends MS_Api {
 		$membership_id 	= $request->get_param( 'membership_id' );
 		$membership 	= MS_Factory::load( 'MS_Model_Membership', intval( $membership_id ) );
 
-		$member = MS_Factory::load( 'MS_Model_Member', $user_id );
+		$member 		= MS_Factory::load( 'MS_Model_Member', $user_id );
 		if ( $member && $member->has_membership( $membership->id ) ) {
 			$subscription = $member->get_subscription( $membership->id );
 			return $subcription;

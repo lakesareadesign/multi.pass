@@ -77,7 +77,7 @@ if ( ! class_exists( 'Opt_In_Mautic_Api' ) ) :
 		 * @param (associative_array) $data			An array of contact details to add.
 		 * @return Returns contact ID on success or WP_Error.
 		 **/
-		function add_contact( $data, Opt_In_Model $optin ) {
+		function add_contact( $data, Hustle_Module_Model $module ) {
 			$contactApi = $this->api->newApi( 'contacts', $this->auth, $this->base_url );
 			$err = new WP_Error();
 
@@ -104,7 +104,7 @@ if ( ! class_exists( 'Opt_In_Mautic_Api' ) ) :
 						if ( $found_missing > 0 ) {
 							$data['error'] = __( 'Some fields are not added.', Opt_In::TEXT_DOMAIN );
 							unset( $data['ipAddress'] );
-							$optin->log_error( $data );
+							$module->log_error( $data );
 						}
 					}
 

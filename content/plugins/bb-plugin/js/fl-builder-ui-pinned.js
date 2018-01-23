@@ -15,7 +15,7 @@
 		 */
 		init: function() {
 
-			if ( 'module' === FLBuilderConfig.userTemplateType ) {
+			if ( 'module' === FLBuilderConfig.userTemplateType || FLBuilderConfig.simpleUi ) {
 				return;
 			}
 
@@ -392,7 +392,8 @@
 				var wrapper  = $( this ),
 					lightbox = wrapper.find( '.fl-lightbox' ),
 					top		 = 0,
-					left	 = 0;
+					left	 = 0,
+					right	 = 0;
 
 				lightbox.draggable( 'enable' );
 				lightbox.resizable( 'enable' );
@@ -402,10 +403,10 @@
 				if ( lightbox.is( ':visible' ) ) {
 					top = parseInt( panel.css( 'top' ) ) - parseInt( wrapper.css( 'top' ) ) - parseInt( wrapper.css( 'padding-top' ) );
 					left = parseInt( panel.css( 'left' ) ) - parseInt( wrapper.css( 'padding-left' ) );
-					lightbox.css( {
-						top  : ( top < 0 ? 0 : top ) + 'px',
-						left : left + 'px',
-					} );
+					right = parseInt( panel.css( 'right' ) ) - parseInt( wrapper.css( 'padding-right' ) );
+
+					lightbox.css( 'top', ( top < 0 ? 0 : top ) + 'px' );
+					lightbox.css( ( FLBuilderConfig.isRtl ? 'right' : 'left' ), ( FLBuilderConfig.isRtl ? right : left ) + 'px' );
 					lightbox.addClass( 'fl-lightbox-prevent-animation' );
 					body.removeClass( 'fl-builder-content-panel-is-showing' );
 					FLBuilder.ContentPanel.isShowing = false;

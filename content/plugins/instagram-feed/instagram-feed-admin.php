@@ -511,32 +511,32 @@ function sb_instagram_settings_page() {
             </p>
             <table class="form-table">
                 <tbody>
-                    <tr valign="top" class="sbi_pro">
-                        <th scope="row"><label><?php _e('Media Type to Display'); ?></label></th>
-                        <td>
-                            <select name="sb_instagram_media_type" disabled>
-                                <option value="all"><?php _e('All'); ?></option>
-                                <option value="photos"><?php _e('Photos only'); ?></option>
-                                <option value="videos"><?php _e('Videos only'); ?></option>
-                            </select>
-                        </td>
-                    </tr>
+                <tr valign="top" class="sbi_pro">
+                    <th scope="row"><label><?php _e('Media Type to Display'); ?></label></th>
+                    <td>
+                        <select name="sb_instagram_media_type" disabled>
+                            <option value="all"><?php _e('All'); ?></option>
+                            <option value="photos"><?php _e('Photos only'); ?></option>
+                            <option value="videos"><?php _e('Videos only'); ?></option>
+                        </select>
+                    </td>
+                </tr>
 
-                    <tr valign="top" class="sbi_pro">
-                        <th scope="row"><label><?php _e("Enable Pop-up Lightbox", 'instagram-feed'); ?></label></th>
-                        <td>
-                            <input type="checkbox" name="sb_instagram_captionlinks" id="sb_instagram_captionlinks" disabled />
-                        </td>
-                    </tr>
+                <tr valign="top" class="sbi_pro">
+                    <th scope="row"><label><?php _e("Enable Pop-up Lightbox", 'instagram-feed'); ?></label></th>
+                    <td>
+                        <input type="checkbox" name="sb_instagram_captionlinks" id="sb_instagram_captionlinks" disabled />
+                    </td>
+                </tr>
 
-                    <tr valign="top" class="sbi_pro">
-                        <th scope="row"><label><?php _e("Link Posts to URL in Caption (Shoppable feed)"); ?></label></th>
-                        <td>
-                            <input type="checkbox" name="sb_instagram_captionlinks" id="sb_instagram_captionlinks" disabled />
-                            &nbsp;<a class="sbi_tooltip_link sbi_pro" href="JavaScript:void(0);"><?php _e("What will this do?"); ?></a>
-                            <p class="sbi_tooltip"><?php _e("Checking this box will change the link for each post to any url included in the caption for that Instagram post. The lightbox will be disabled. Visit <a href='https://smashballoon.com/make-a-shoppable-feed'>this link</a> to learn how this works."); ?></p>
-                        </td>
-                    </tr>
+                <tr valign="top" class="sbi_pro">
+                    <th scope="row"><label><?php _e("Link Posts to URL in Caption (Shoppable feed)"); ?></label></th>
+                    <td>
+                        <input type="checkbox" name="sb_instagram_captionlinks" id="sb_instagram_captionlinks" disabled />
+                        &nbsp;<a class="sbi_tooltip_link sbi_pro" href="JavaScript:void(0);"><?php _e("What will this do?"); ?></a>
+                        <p class="sbi_tooltip"><?php _e("Checking this box will change the link for each post to any url included in the caption for that Instagram post. The lightbox will be disabled. Visit <a href='https://smashballoon.com/make-a-shoppable-feed'>this link</a> to learn how this works."); ?></p>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -1693,7 +1693,6 @@ function sbi_auto_save_tokens() {
         $options['sb_instagram_at'] = isset( $_POST['access_token'] ) ? sanitize_text_field( $_POST['access_token'] ) : '';
 
         update_option( 'sb_instagram_settings', $options );
-        echo $_POST['access_token'];
     }
     die();
 }

@@ -3,31 +3,28 @@
 
 class Hustle_Dashboard_Data
 {
-    var $optins = array();
-    var $custom_contents = array();
-    var $social_sharing = array();
-    var $data_exists = false;
 
-    var $active_modules = 0;
-    var $active_optin_modules = array();
-    var $inactive_optin_modules = array();
-    var $active_cc_modules = array();
-    var $inactive_cc_modules = array();
-    var $all_modules = 0;
+	const CURRENT_COLOR_INDEX = 'hustle_color_index';
+	const MODULE_GRAPH_COLOR = 'graph_color';
 
-    var $conversions_today = 0;
-    var $most_converted_optin = '-';
+	var $modules = array();
+	var $popups = array();
+	var $slideins = array();
+	var $embeds = array();
+	var $social_sharings = array();
+	var $active_modules = array();
+	var $top_active_modules = array();
+	var $today_total_conversions = 0;
+	var $conversions_today = 0;
+	var $most_converted_module = '-';
+	var $ss_share_stats_data = array();
+	var $ss_total_share_stats = 0;
+	var $graph_date_conversions = array();
+	var $graph_dates = array();
 
-    var $has_optins = false;
-    var $has_custom_content = false;
-    var $has_social_sharing = false;
-    var $has_social_rewards = true; // set to true just to avoid showing it in the dashboard as this is not a feature for 2.0
-
-    var $optins_conversions = array();
-
-    var $color = 0;
-    var $types = array();
-    var  $colors = array(
+	var $color = 0;
+	var $types = array();
+	var  $colors = array(
 		'#FF0000',
 		'#FFFF00',
 		'#00EAFF',
@@ -50,199 +47,159 @@ class Hustle_Dashboard_Data
 		'#6B238F',
 		'#4F8F23',
 		'#000000',
-    );
+	);
 
-    var  $conversion_data;
-    var $ss_share_stats_data = array();
-    var $ss_total_share_stats = 0;
 
-    function __construct()
-    {
-        $this->_prepare_data();
-        $this->has_optins = $this->optins !== array();
-    }
+	function __construct()
+	{
+		$this->_prepare_data();
+	}
 
-    private function _prepare_data(){
-        $opt_col_instance = Opt_In_Collection::instance();
-        $cc_col_instance = Hustle_Custom_Content_Collection::instance();
-        $ss_col_instance = Hustle_Social_Sharing_Collection::instance();
+	private function _prepare_data() {
+		$module_instance = Hustle_Module_Collection::instance();
 
-        $this->optins = $opt_col_instance->get_all_optins( null, array() );
-        $this->all_modules = count( $this->optins );
+		$this->popups = $module_instance->get_all( null, array( 'module_type' => 'popup' ) );
+		$this->slideins = $module_instance->get_all( null, array( 'module_type' => 'slidein' ) );
+		$this->embeds = $module_instance->get_all( null, array( 'module_type' => 'embedded' ) );
+		$this->social_sharings = $module_instance->get_all( null, array( 'module_type' => 'social_sharing' ) );
 
-        $this->custom_contents = $cc_col_instance->get_all( null );
-        $this->all_modules += count( $this->custom_contents );
+		$this->active_modules = $module_instance->get_all(true, array(
+			'except_types' => array( 'social_sharing' )
+		));
 
-        $this->social_sharing = $ss_col_instance->get_all( null );
-        if ( count($this->social_sharing) > 0 ) {
-            $this->has_social_sharing = true;
-            $this->ss_share_stats_data = $ss_col_instance->get_share_stats(0,5);
-            $this->ss_total_share_stats = $ss_col_instance->get_total_share_stats();
-        }
+		if ( is_array( $this->social_sharings ) && count( $this->social_sharings ) ) {
+			$this->ss_share_stats_data = $module_instance->get_share_stats(0,5);
+			$this->ss_total_share_stats = $module_instance->get_total_share_stats();
+		}
 
-        $this->types = $types = array(
-            'after_content' => __('AFTER CONTENT', Opt_In::TEXT_DOMAIN),
-            'popup' => __('Pop-up', Opt_In::TEXT_DOMAIN),
-            'slide_in' => __('Slide-in', Opt_In::TEXT_DOMAIN),
-            'shortcode' => __('Shortcode', Opt_In::TEXT_DOMAIN),
-            'widget' => __('Widget', Opt_In::TEXT_DOMAIN)
-        );
-
-		$active_optins = array();
 		$end_day = strtotime( 'now' );
 		$first_day = strtotime( "-1 month" );
-		$last_week = $end_day - WEEK_IN_SECONDS;
-		$first_month = date( 'Ymd', $first_day );
-		$last_month = date( 'Ymd', $end_day );
-		$most_conversions = array();
-        $merged_optins = array_merge( $this->optins, $this->custom_contents );
+		$last_week = date( 'Ymd', ( $end_day - WEEK_IN_SECONDS) );
+		$prev_month = date( 'Ymd', $first_day );
+		$today = date( 'Ymd', $end_day );
 
-        foreach ( $merged_optins as $key => $optin ) {
+		$today_total_conversions = $module_instance->get_today_total_conversion( $today );
+		$this->today_total_conversions = ( empty($today_total_conversions) ) ? 0 : $this->_parse_today_conversions($today_total_conversions);
+		$top_conversions = $module_instance->get_top_module_conversion_without_ss( $prev_month, $today, 0, 5 );
+		$most_converted = $module_instance->get_top_module_conversion_without_ss( null, null, 0, 1 );
+		$this->most_converted_module = ( empty($most_converted) ) ? '-' : $this->_parse_most_converted($most_converted);
 
-            if( $optin->active ){
-                $this->active_modules++;
-				if ( $optin->get_module_type() === "custom_content" ) {
-					array_push($this->active_cc_modules, $optin);
-				} else {
-                    array_push($this->active_optin_modules, $optin);
-                }
-            } else {
-				if ( $optin->get_module_type() === "custom_content" ) {
-					array_push($this->inactive_cc_modules, $optin);
-				} else {
-					array_push($this->inactive_optin_modules, $optin);
+		// to be replaced
+		$temp_index = 0;
+		$this->color = (int) get_option( self::CURRENT_COLOR_INDEX, 0 );
+
+		foreach( $top_conversions as $t ) {
+			$module = Hustle_Module_Model::instance()->get( $t->module_id );
+			$is_active = (bool) $module->active;
+
+			if ( $is_active ) {
+
+				$past_week = $module->get_module_conversion( $last_week, $today, false );
+				$past_week = empty($past_week) ? 0 : $this->_parse_total_conversion($past_week);
+
+				$all_time = $module->get_statistics($module->module_type)->conversions_count;
+				$conversion_list = $module->get_module_conversion( $prev_month, $today, true );
+
+				if ( !empty($conversion_list) ) {
+					$conversion_list = $this->_parse_dates_for_graph($conversion_list);
 				}
-                continue;
-            }
 
-			$daily_chart = array();
-			$has_today = false;
-			$has_firstday = false;
-            foreach ( $types as $type_key => $type ) {
-                if( !$optin->has_type( $type_key ) ) continue; // make sure this module has the type
+				$total_views = $module->get_statistics($module->module_type)->views_count;
+				$rate = $module->get_statistics($module->module_type)->conversion_rate;
 
-                if ( $optin->get_module_type() === 'custom_content' ) {
-                    $type_stats = $optin->get_stats($type_key);
-                } elseif( $optin->get_module_type() === 'optin' ) {
-                    $type_stats = $optin->{$type_key};
-                } else {
-                    $type_stats = $optin->get_statistics($type_key);
-                }
+				if( is_array( $this->colors ) && ( $this->color >= count( $this->colors ) ) ) $this->color = 0;
 
-                if ( !$this->data_exists && intval( $type_stats->views_count ) > 0 ) {
-                    $this->data_exists = true;
-                }
+				$color = $module->get_meta( self::MODULE_GRAPH_COLOR );
 
-                $conversion_array = $type_stats->conversion_data;
+				if ( empty( $color ) ) {
+					$color = $this->colors[ $this->color ];
+					$module->update_meta( self::MODULE_GRAPH_COLOR, $color );
+					$this->color++;
+				}
 
-                if( !isset( $this->optins_conversions[ $optin->optin_name ] ) ) {
-					$active_optins[ $optin->optin_name ] = $optin;
-
-                    $this->optins_conversions[ $optin->optin_name ] = array(
-                        'week' => 0,
-                        'month' => 0,
-                        'all' => 0,
-                        'total_views' => 0,
-                        'rate' => 0.0,
-                        'chart_data' => array(),
-                        'color' => '',
-                        "module_type" => $optin->module_type
-                    );
-
-                }
-
-                foreach ( $conversion_array as $item ) {
-
-                    $conversion_data = json_decode( $item->meta_value );
-					$datetime = $conversion_data->date;
-					$month = date( 'Ymd', $datetime );
-					$day = date( 'Ymd', $datetime );
-
-					if ( $month >= $first_month && $month <= $last_month ) {
-						$this->optins_conversions[ $optin->optin_name ]['month']++;
-
-						if ( $datetime >= $last_week ) {
-							$this->optins_conversions[ $optin->optin_name ]['week']++;
-						}
-
-						$daily = date( 'Ymd', $datetime );
-						$offset = array( 'x' => $datetime * 1000, 'y' => 1 );
-
-						if ( isset( $daily_chart[ $daily ] ) ) {
-							$daily_chart[ $daily ]['y']++;
-						} else {
-							$daily_chart[ $daily ] = $offset;
-						}
-
-						if ( date( 'Ymd', $first_day ) == $day ) {
-							$has_firstday = true;
-						}
-
-						if ( $day == date( 'Ymd', $end_day ) ) {
-							$has_today = true;
-							$this->conversions_today++;
-						}
-					}
-
-					if ( ! isset( $most_conversions[ $optin->optin_name ] ) ) {
-						$most_conversions[ $optin->optin_name ] = 0;
-					}
-					$most_conversions[ $optin->optin_name ]++;
-
-                    $this->optins_conversions[ $optin->optin_name ]['all']++;
-
-                }
-
-                $this->optins_conversions[ $optin->optin_name ]['total_views'] += $type_stats->views_count;
-
-            }
-
-			$daily_chart = array_filter( array_values( $daily_chart ) );
-			// Set the beginning date if no beginning date found
-			if ( ! $has_firstday ) {
-				array_unshift( $daily_chart, array( 'x' => $first_day * 1000, 'y' => 0 ) );
+				array_push( $this->top_active_modules, wp_parse_args(
+					$module->get_data(),
+					array(
+						'module_id' => $t->module_id,
+						'past_week' => $past_week,
+						'past_month' => $t->conversions,
+						'all_time' => $all_time,
+						'conversion_list' => $conversion_list,
+						'total_views' => $total_views,
+						'rate' => $rate,
+						'color' => $color,
+					)
+				) );
 			}
-
-			$this->optins_conversions[ $optin->optin_name ]['chart_data'] = $daily_chart;
-
-            $this->optins_conversions[ $optin->optin_name ]['rate'] = $this->optins_conversions[ $optin->optin_name ]['total_views'] ? round( ( $this->optins_conversions[ $optin->optin_name ]['all'] / $this->optins_conversions[ $optin->optin_name ]['total_views'] ) * 100, 2 ) : 0;
-        }
-
-		if ( ! empty( $most_conversions ) ) {
-			$values = array_values( $most_conversions );
-			$max = max( $values );
-			$this->most_converted_optin = array_search( $max, $most_conversions );
 		}
-		// Sort conversions per month
-		uasort( $this->optins_conversions, array( __CLASS__, 'uasort' ) );
-		$data = array_reverse( $this->optins_conversions, true );
 
-		$best_optins = array();
-		$amount = 1;
-		$this->color = (int) get_option( 'hustle_color_index', 0 );
-
-		foreach ( $data as $optin_name => $conversions ) {
-			if ( $amount > 5 ) continue;
-
-			if( $this->color >= count( $this->colors ) ) $this->color = 0;
-
-			$optin = $active_optins[ $optin_name ];
-			$color = $optin->get_meta( 'graph_color' );
-
-			if ( empty( $color ) ) {
-				$color = $this->colors[ $this->color ];
-				$optin->update_meta( 'graph_color', $color );
-				$this->color++;
-			}
-
-			$conversions['color'] = $color;
-			$best_optins[ $optin_name ] = $conversions;
-			$amount++;
-		}
 		// Update color index
-		update_option( 'hustle_color_index', $this->color );
-		$this->conversion_data = $best_optins;
-    }
+		update_option( self::CURRENT_COLOR_INDEX, $this->color );
+
+		// parse data for graph
+		if ( !empty( $this->graph_dates ) ) {
+			$this->_parse_conversions_for_graph($this->top_active_modules);
+		}
+	}
+
+	private function _parse_total_conversion( $conversions ) {
+		$sum = 0;
+		foreach( $conversions as $conversion ) {
+			$sum += (int) $conversion->conversions;
+		}
+		return $sum;
+	}
+
+	private function _parse_most_converted( $most_converted ) {
+		$module_id = 0;
+		if ( isset($most_converted[0]) && isset($most_converted[0]->module_id) ) {
+			$module_id = $most_converted[0]->module_id;
+		}
+		if ( $module_id ) {
+			$module = Hustle_Module_Model::instance()->get( $module_id );
+			return $module->module_name;
+		}
+		return '-';
+	}
+
+	private function _parse_today_conversions( $today_conversions ) {
+		$total = 0;
+		if ( isset($today_conversions->conversions) ) {
+			$total = (int) $today_conversions->conversions;
+		}
+		return $total;
+	}
+
+	private function _parse_conversions_for_graph( $top_active_modules ) {
+		$this->graph_date_conversions = array();
+		foreach( $this->graph_dates as $key => $dates ) {
+			$conversions = array();
+			foreach( $top_active_modules as $module ) {
+				if ( isset( $module['conversion_list'] ) ) {
+					if ( array_key_exists( $key, $module['conversion_list'] ) ) {
+						$total_module_conversion = $module['conversion_list'][$key]['conversions'];
+						array_push( $conversions, (int) $total_module_conversion );
+					} else {
+						array_push( $conversions, 0 );
+					}
+				}
+			}
+			$this->graph_date_conversions[ $key ] = array(
+				'formatted' => $dates,
+				'conversions' => $conversions,
+			);
+		}
+	}
+
+	private function _parse_dates_for_graph( $conversions ) {
+		$updated_conversions = array();
+		foreach( $conversions as $key => $conversion ) {
+			$format_date = substr($conversion['dates'], 0, 4) . '-' . substr($conversion['dates'], 4, 2) . '-' . substr($conversion['dates'], 6, 2);
+			$this->graph_dates[ $conversion['dates'] ] = $format_date;
+			$updated_conversions[ $conversion['dates'] ] = $conversion;
+		}
+		return $updated_conversions;
+	}
 
 	public static function uasort( $a, $b ) {
 		if ( $a['month'] == $b['month'] ) {

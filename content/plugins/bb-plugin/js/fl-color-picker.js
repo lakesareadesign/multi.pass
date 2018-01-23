@@ -1089,7 +1089,8 @@ var FLBuilderColorPicker;
 				debounceTimeout = 100,
 				callback = function( event ){
 					var color = new Color( input.val() ),
-						val = input.val().replace( /^#/, '' );
+						val = input.val().replace( /^#/, '' ),
+						isPickerEmpty = self._currentElement.hasClass( 'fl-color-picker-empty' );
 
 					input.removeClass( 'iris-error' );
 					// we gave a bad color
@@ -1100,7 +1101,7 @@ var FLBuilderColorPicker;
 						}
 					} else {
 
-						if ( color.toString() !== self._color.toString() ) {
+						if ( color.toString() !== self._color.toString() || ( '' !== self._color.toString() && isPickerEmpty ) ) {
 
 							if( event.type === 'keyup' ){
 								if( val.match( /^[0-9a-fA-F]{3}$/ ) )

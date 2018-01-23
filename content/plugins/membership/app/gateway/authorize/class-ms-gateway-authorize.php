@@ -186,6 +186,7 @@ class MS_Gateway_Authorize extends MS_Gateway {
 		$success 		= false;
 		$notes 			= '';
 		$amount 		= 0;
+		$external_id	= null;
 		$subscription 	= $invoice->get_subscription();
 
 		do_action(
@@ -224,7 +225,7 @@ class MS_Gateway_Authorize extends MS_Gateway {
 			$response = $this->get_cim()->createCustomerProfileTransaction(
 				'AuthCapture',
 				$cim_transaction,
-				'x_duplicate_window='.$duplicate_window
+				'x_duplicate_window='.$duplicate_window.'&'
 			);
 
 			if ( ! empty( $response->xml )

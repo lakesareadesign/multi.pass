@@ -68,7 +68,7 @@
 
 						<input type="radio" id="wpoi-{{type}}-trigger_on_time_immediately" value="immediately" name="wpoi-{{type}}-on_time" data-attribute="on_time" {{_.checked(on_time, "immediately" )}}>
 
-						<label class="wph-icon i-check" for="wpoi-{{type}}-trigger_on_time_immediately"></label>
+						<label class="wpdui-fi wpdui-fi-check" for="wpoi-{{type}}-trigger_on_time_immediately"></label>
 
 					</div>
 
@@ -82,15 +82,11 @@
 
 						<input type="radio" id="wpoi-{{type}}-trigger_on_time_time" value="time" name="wpoi-{{type}}-on_time" data-attribute="on_time" {{_.checked(on_time, "time" )}}>
 
-						<label class="wph-icon i-check" for="wpoi-{{type}}-trigger_on_time_time"></label>
+						<label class="wpdui-fi wpdui-fi-check" for="wpoi-{{type}}-trigger_on_time_time"></label>
 
 					</div>
 
-					<div class="wph-input--number">
-
-						<input type="number" min="0" step="1" value="{{on_time_delay}}" data-attribute="on_time_delay">
-
-					</div>
+					<input class="wpmudev-input_number" type="number" min="0" step="1" value="{{on_time_delay}}" data-attribute="on_time_delay">
 
 					<select data-attribute="on_time_unit" class="wpmuiSelect">
 
@@ -114,15 +110,11 @@
 
 						<input type="radio" id="wpoi-{{type}}-appear-scrolled" value="scrolled" name="wpoi-{{type}}-appear" data-attribute="on_scroll" {{_.checked(on_scroll, "scrolled")}}>
 
-						<label class="wph-icon i-check" for="wpoi-{{type}}-appear-scrolled"></label>
+						<label class="wpdui-fi wpdui-fi-check" for="wpoi-{{type}}-appear-scrolled"></label>
 
 					</div>
 
-					<div class="wph-input--number">
-
-						<input min="0" type="number" max="100" name="" value="{{on_scroll_page_percent}}"  data-attribute="on_scroll_page_percent">
-
-					</div>
+					<input min="0" type="number" max="100" name="" value="{{on_scroll_page_percent}}"  data-attribute="on_scroll_page_percent" class="wpmudev-input_number">
 
 					<label for="wpoi-{{type}}-appear-scrolled" class="wph-label--alt"><?php _e("% of the page has been scrolled", Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -136,7 +128,7 @@
 
 						<input type="radio" id="wpoi-{{type}}-appear-selector" name="wpoi-{{type}}-appear" value="selector" data-attribute="on_scroll" {{_.checked(on_scroll, "selector")}}>
 
-						<label class="wph-icon i-check" for="wpoi-{{type}}-appear-selector"></label>
+						<label class="wpdui-fi wpdui-fi-check" for="wpoi-{{type}}-appear-selector"></label>
 
 					</div>
 
@@ -207,7 +199,7 @@
 
 						<input type="radio" id="wpoi-{{type}}-trigger-on-adblock-immediately" value="false" name="wpoi-{{type}}-trigger-on-adblock-delayed" data-attribute="on_adblock_delayed" {{_.checked(on_adblock_delayed, false )}}>
 
-						<label for="wpoi-{{type}}-trigger-on-adblock-immediately" class="wph-icon i-check"></label>
+						<label for="wpoi-{{type}}-trigger-on-adblock-immediately" class="wpdui-fi wpdui-fi-check"></label>
 
 					</div>
 
@@ -221,15 +213,11 @@
 
 						<input type="radio" id="wpoi-{{type}}-trigger-on-adblock-delayed" value="true" name="wpoi-{{type}}-trigger-on-adblock-delayed" data-attribute="on_adblock_delayed" {{_.checked(on_adblock_delayed, true )}}>
 
-						<label class="wph-icon i-check" for="wpoi-{{type}}-trigger-on-adblock-delayed"></label>
+						<label class="wpdui-fi wpdui-fi-check" for="wpoi-{{type}}-trigger-on-adblock-delayed"></label>
 
 					</div>
 
-					<div class="wph-input--number">
-
-						<input min="0" type="number" name="" class="wpoi_trigger_on_adblock_timed_val" value="{{on_adblock_delayed_time}}"  data-attribute="on_adblock_delayed_time">
-
-					</div>
+					<input min="0" type="number" name="" class="wpoi_trigger_on_adblock_timed_val" value="{{on_adblock_delayed_time}}"  data-attribute="on_adblock_delayed_time" class="wpmudev-input_number">
 
 					<select data-attribute="on_adblock_delayed_unit" class="wpoi_trigger_on_adblock_delayed_unit wpmuiSelect">
 						<option {{_.selected(on_adblock_delayed_unit, "seconds")}} value="seconds"><?php _e("Seconds", Opt_In::TEXT_DOMAIN); ?></option>

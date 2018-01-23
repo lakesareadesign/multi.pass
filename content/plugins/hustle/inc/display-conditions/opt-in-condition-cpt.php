@@ -2,8 +2,8 @@
 
 class Opt_In_Condition_Cpt extends Opt_In_Condition_Abstract implements Opt_In_Condition_Interface
 {
-    function is_allowed(Hustle_Model $optin){
-        global $post;
+	function is_allowed(Hustle_Model $optin){
+		global $post;
 
 		if ( !isset( $this->args->selected_cpts ) || empty( $this->args->selected_cpts ) ) {
 			if ( !isset($this->args->filter_type) || $this->args->filter_type == "except" ) {
@@ -19,33 +19,92 @@ class Opt_In_Condition_Cpt extends Opt_In_Condition_Abstract implements Opt_In_C
 			}
 		}
 
-        switch( $this->args->filter_type ){
-            case  "only":
-                if( !isset( $post ) || !( $post instanceof WP_Post ) || $post->post_type !== $this->args->post_type ) return false;
+		switch( $this->args->filter_type ){
+			case  "only":
 
+				// handle ms_membership
+				if ( $this->args->post_type === 'ms_membership' && defined( 'MS_PLUGIN' ) ) {
+
+					// if no membership set
+					if ( empty($this->args->selected_cpts) ) {
+						return true;
+					} else {
+						$current_user = wp_get_current_user();
+						$user_meta = get_user_meta( $current_user->ID );
+						if ( $current_user->ID === 0 ) {
+							return false;
+						} else {
+							$member_allowed = false;
+
+							if ( isset( $user_meta['ms_subscriptions'] ) && isset( $user_meta['ms_subscriptions'][0] ) ) {
+								$subscriptions = unserialize($user_meta['ms_subscriptions'][0]);
+								foreach( $subscriptions as $subcription ) {
+									if ( in_array( $subcription->membership_id, (array) $this->args->selected_cpts ) ) {
+										$member_allowed = true;
+										break;
+									}
+								}
+							}
+							return $member_allowed;
+						}
+					}
+				}
+
+				// handle other custom post types
+				if( !isset( $post ) || !( $post instanceof WP_Post ) || $post->post_type !== $this->args->post_type ) return false;
 				return in_array( $post->ID, (array) $this->args->selected_cpts );
 
-                break;
-            case "except":
-                if( !isset( $post ) || !( $post instanceof WP_Post ) || $post->post_type !== $this->args->post_type ) return true;
+				break;
 
-                return !in_array( $post->ID, (array) $this->args->selected_cpts );
+			case "except":
 
-                break;
+				// handle ms_membership
+				if ( $this->args->post_type === 'ms_membership' && defined( 'MS_PLUGIN' ) ) {
 
-            default:
-                return true;
-                break;
-        }
-    }
+					// if no membership set
+					if ( empty($this->args->selected_cpts) ) {
+						return true;
+					} else {
+						$current_user = wp_get_current_user();
+						$user_meta = get_user_meta( $current_user->ID );
+						if ( $current_user->ID === 0 ) {
+							return true;
+						} else {
+							$member_allowed = true;
+
+							if ( isset( $user_meta['ms_subscriptions'] ) && isset( $user_meta['ms_subscriptions'][0] ) ) {
+								$subscriptions = unserialize($user_meta['ms_subscriptions'][0]);
+								foreach( $subscriptions as $subcription ) {
+									if ( in_array( $subcription->membership_id, (array) $this->args->selected_cpts ) ) {
+										$member_allowed = false;
+										break;
+									}
+								}
+							}
+							return $member_allowed;
+						}
+					}
+				}
+
+				if( !isset( $post ) || !( $post instanceof WP_Post ) || $post->post_type !== $this->args->post_type ) return true;
+
+				return !in_array( $post->ID, (array) $this->args->selected_cpts );
+
+				break;
+
+			default:
+				return true;
+				break;
+		}
+	}
 
 
-    function label(){
+	function label(){
 		$post_type_label = ( isset( $this->args->post_type_label ) )
 			? strtolower( $this->args->post_type_label )
 			: "";
-		if ( isset( $this->args->selected_cpts ) && !empty( $this->args->selected_cpts ) ) {
-			$total = count($this->args->selected_cpts);
+		if ( isset( $this->args->selected_cpts ) && !empty( $this->args->selected_cpts ) && is_array( $this->args->selected_cpts ) ) {
+			$total = count( $this->args->selected_cpts );
 			switch( $this->args->filter_type ){
 				case  "only":
 					return ( in_array("all", $this->args->selected_cpts) )
@@ -67,5 +126,5 @@ class Opt_In_Condition_Cpt extends Opt_In_Condition_Abstract implements Opt_In_C
 				? __("All ", Opt_In::TEXT_DOMAIN) . $post_type_label
 				: __("No ", Opt_In::TEXT_DOMAIN) . $post_type_label;
 		}
-    }
+	}
 }

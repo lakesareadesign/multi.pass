@@ -5,6 +5,9 @@
 	Developer: Diobeth Ray Villasencio
 	Location: Cebu, Philippines
 
+	Developer: Daniel Shepard
+	Location: USA
+
 	Developer: Leighton Sapir
 	Location: Cuenca, Ecuador
 
@@ -15,4 +18,4 @@
     Location: Melbourne, Australia
 
 
-133620-1504103019-au
+133620-1516736059-au

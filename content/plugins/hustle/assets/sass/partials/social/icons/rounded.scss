@@ -1,0 +1,274 @@
+$color-white: #FFFFFF;
+
+// Social Colors
+$color-facebook: #2D5F9A;
+$color-twitter: #00C3F3;
+$color-google: #D73D32;
+$color-pinterest: #CD252B;
+$color-reddit: #FF5700;
+$color-linkedin: #0077B5;
+$color-vkontakte: #507299;
+$color-fivehundredpx: #000000;
+$color-houzz: #9bc545;
+$color-instagram: #d03c77;
+$color-twitch: #6441a4;
+$color-youtube: #f00;
+$color-telegram: #0693ec;
+
+.hustle-icon-rounded {
+	position: relative;
+	border-radius: 40px;
+
+	.hustle-icon {
+		width: 18px;
+		height: 18px;
+	}
+
+	// IF has "inline" counter disabled
+	&:not(.hustle-social-inline) {
+
+		.hustle-icon-container {
+			width: auto;
+			height: 30px;
+			position: absolute;
+			top: -1px;
+			right: -1px;
+			left: -1px;
+			border-radius: 40px;
+		}
+
+		.hustle-shares-counter {
+			margin-top: 28px;
+		}
+	}
+
+	// IF has "inline" counter enabled
+	&.hustle-social-inline {
+
+		.hustle-icon-container {
+			width: 30px;
+			height: 30px;
+			position: absolute;
+			top: -1px;
+			right: -1px;
+			left: -1px;
+			border-radius: 40px;
+		}
+
+		.hustle-shares-counter {
+			margin-left: 28px;
+		}
+	}
+
+	// Colorize Social Icons
+	&.hustle-icon-facebook {
+		border-color: $color-facebook;
+
+		.hustle-icon-container {
+			background: $color-facebook;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-twitter {
+		border-color: $color-twitter;
+
+		.hustle-icon-container {
+			background: $color-twitter;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-google {
+		border-color: $color-google;
+
+		.hustle-icon-container {
+			background: $color-google;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-pinterest {
+		border-color: $color-pinterest;
+
+		.hustle-icon-container {
+			background: $color-pinterest;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-reddit {
+		border-color: $color-reddit;
+
+		.hustle-icon-container {
+			background: $color-reddit;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-linkedin {
+		border-color: $color-linkedin;
+
+		.hustle-icon-container {
+			background: $color-linkedin;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-vkontakte {
+		border-color: $color-vkontakte;
+
+		.hustle-icon-container {
+			background: $color-vkontakte;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}    
+	&.hustle-icon-fivehundredpx {
+		border-color: $color-fivehundredpx;
+
+		.hustle-icon-container {
+			background: $color-fivehundredpx;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-fivehundredpx {
+		border-color: $color-fivehundredpx;
+
+		.hustle-icon-container {
+			background: $color-fivehundredpx;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-houzz {
+		border-color: $color-houzz;
+
+		.hustle-icon-container {
+			background: $color-houzz;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-instagram {
+		border-color: $color-instagram;
+
+		.hustle-icon-container {
+			background: $color-instagram;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-twitch {
+		border-color: $color-twitch;
+
+		.hustle-icon-container {
+			background: $color-twitch;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-youtube {
+		border-color: $color-youtube;
+
+		.hustle-icon-container {
+			background: $color-youtube;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+	&.hustle-icon-telegram {
+		border-color: $color-telegram;
+
+		.hustle-icon-container {
+			background: $color-telegram;
+		}
+
+		.hustle-icon .hustle-icon-path {
+			fill: $color-white;
+		}
+
+		.hustle-shares-counter {
+			color: $color-white;
+		}
+	}
+}

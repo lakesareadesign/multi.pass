@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Optimize Database after Deleting Revisions
- * @version 4.4.2
+ * @version 4.5
  */
 /*
 Plugin Name: Optimize Database after Deleting Revisions
@@ -10,7 +10,7 @@ Description: Optimizes the Wordpress Database after Cleaning it out
 Author: CAGE Web Design | Rolf van Gelder, Eindhoven, The Netherlands
 Author URI: http://cagewebdev.com
 Network: True
-Version: 4.4.2
+Version: 4.5
 */
 
 /********************************************************************************************
@@ -24,8 +24,8 @@ $odb_class = new OptimizeDatabase();
 
 class OptimizeDatabase {
 	// VERSION
-	var $odb_version           = '4.4.2';
-	var $odb_release_date      = '12/14/2017';
+	var $odb_version           = '4.5';
+	var $odb_release_date      = '01/08/2018';
 
 	// PLUGIN OPTIONS
 	var $odb_rvg_options       = array();
@@ -47,6 +47,11 @@ class OptimizeDatabase {
 	
 	// LOCALIZATION
 	var $odb_txt_domain        = 'rvg-optimize-database';
+
+	// CURRENT SITE DATE (yyyymmddHHiiss) AND UNIX TIMESTAMP, BASED ON TIMEZONE OF THE SITE
+	// v4.4.3
+	var $odb_current_date;
+	var $odb_timestamp;
 	
 	// PLUGIN
 	var $odb_plugin_url;
@@ -555,7 +560,7 @@ class OptimizeDatabase {
 				echo "<div class='updated odb-bold'><p>".
 					__('Optimize Database after Deleting Revisions LOG FILE HAS BEEN DELETED', $this->odb_txt_domain);
 				echo "</p></div>";			
-			}
+			} // if($action == "delete_log")
 		} // if(isset($_REQUEST['action']))
 		
 		if(!$scheduler) {
@@ -579,7 +584,7 @@ class OptimizeDatabase {
 			$this->odb_displayer_obj->display_start_buttons($action);
 			 
 			 // REGISTER THE LAST RUN
-			$this->odb_rvg_options['last_run'] = Date('M j, Y @ H:i');
+			$this->odb_rvg_options['last_run'] = current_time('M j, Y @ H:i', 0);
 			$this->odb_multisite_obj->odb_ms_update_option('odb_rvg_options', $this->odb_rvg_options);
 			// DELETE REDUNDANT DATA
 			$this->odb_cleaner_obj->odb_run_cleaner($scheduler);

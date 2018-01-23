@@ -1,47 +1,38 @@
-<div id="wph-welcome" class="box can-close" data-nonce="<?php echo wp_create_nonce('hustle_new_welcome_notice'); ?>">
+<div class="wpmudev-row">
 
-	<div class="box-title">
+	<div class="wpmudev-col col-12">
 
-		<h3><?php _e('Welcome to Hustle 2.0', Opt_In::TEXT_DOMAIN); ?></h3>
+		<div id="wph-welcome" class="wpmudev-box wpmudev-box-close" data-nonce="<?php echo wp_create_nonce('hustle_new_welcome_notice'); ?>">
 
-		<span class="wph-icon i-close"></span>
+			<div class="wpmudev-box-head">
 
-	</div>
+				<h2><?php _e( "Welcome to Hustle 3.0", Opt_In::TEXT_DOMAIN ); ?></h2>
 
-	<div class="box-content">
-
-		<div class="row">
-
-			<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
-
-				<div class="wph-howdy"></div>
+				<?php $this->render("general/icons/icon-close" ); ?>
 
 			</div>
 
-			<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+			<div class="wpmudev-box-body wpmudev-box-hero">
 
-				<div class="content-800">
+				<div class="wpmudev-box-character" aria-hidden="true"><?php $this->render("general/characters/character-one" ); ?></div>
 
-					<h2><?php _e('Let\'s get you started', Opt_In::TEXT_DOMAIN); ?></h2>
+				<div class="wpmudev-box-content">
 
-					<h6><?php _e('First, choose what type of marketing material you want to set-up.', Opt_In::TEXT_DOMAIN); ?></h6>
+					<h2><?php _e( "LET'S GET YOU STARTED", Opt_In::TEXT_DOMAIN ); ?></h2>
+
+					<p><?php _e( "First, choose what type of marketing material you want to set-up.", Opt_In::TEXT_DOMAIN ); ?></p>
 
 					<ul>
-
-						<li><?php _e('Email opt-ins – perfect for collecting your visitor\'s email addresses.', Opt_In::TEXT_DOMAIN); ?></li>
-
-						<li><?php _e('Custom Content – create any kind of pop-up, slide-in, widget or shortcode. e.g., an ad.', Opt_In::TEXT_DOMAIN); ?></li>
-
-                        <li><?php _e('Social Sharing – add social network shares to your website, as a floating social bar or widgets & shortcodes.', Opt_In::TEXT_DOMAIN); ?></li>
-
+						<li><?php _e( "Email opt ins – perfect for collecting your visitors' email addresses.", Opt_In::TEXT_DOMAIN ); ?></li>
+						<li><?php _e( "Custom Content – create any kind of pop-up, slide-in, widget or shortcode. e.g. An Ad.", Opt_In::TEXT_DOMAIN ); ?></li>
 					</ul>
 
 				</div>
 
 			</div>
 
-		</div>
+		</div><?php // .wpmudev-box ?>
 
-	</div>
+	</div><?php // .wpmudev-col ?>
 
-</div>
+</div><?php // .wpmudev-row ?>

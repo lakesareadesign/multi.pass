@@ -53,7 +53,8 @@ class Opt_In_HubSpot extends Opt_In_Provider_Abstract  implements  Opt_In_Provid
 		return get_site_option( self::ID . "_" . $option_key, $default );
 	}
 
-	function subscribe( Opt_In_Model $optin, array $data ) {
+	function subscribe( Hustle_Module_Model $module, array $data ) {
+		$email_list = self::_get_email_list( $module );
 		$err = new WP_Error();
 		$err->add( 'something_wrong', __( 'Something went wrong. Please try again', Opt_In::TEXT_DOMAIN ) );
 
@@ -71,11 +72,11 @@ class Opt_In_HubSpot extends Opt_In_Provider_Abstract  implements  Opt_In_Provid
 					$add_to_list = true;
 
 				if ( $add_to_list ) {
-					$res = $api->add_to_contact_list( $contact_id, $data['email'], $optin->optin_mail_list );
+					$res = $api->add_to_contact_list( $contact_id, $data['email'], $email_list );
 
 					if ( false === $res ) {
 						$data['error'] = __( 'Unable to add this contact to contact list.', Opt_In::TEXT_DOMAIN );
-						$optin->log_error($data);
+						$module->log_error($data);
 					}
 				}
 				$err->add( 'something_wrong', __( 'This email has already subscribe.', Opt_In::TEXT_DOMAIN ) );
@@ -85,19 +86,19 @@ class Opt_In_HubSpot extends Opt_In_Provider_Abstract  implements  Opt_In_Provid
 				if ( ! is_object( $res ) && (int) $res > 0 ) {
 					$contact_id = $res;
 					// Add new contact to contact list
-					$res = $api->add_to_contact_list( $contact_id, $data['email'], $optin->optin_mail_list );
+					$res = $api->add_to_contact_list( $contact_id, $data['email'], $email_list );
 
 					if ( false === $res ) {
 						$data['error'] = __( 'Unable to add this contact to contact list.', Opt_In::TEXT_DOMAIN );
-						$optin->log_error($data);
+						$module->log_error($data);
 					}
 					return true;
 				} elseif( is_wp_error( $res ) ) {
 					$data['error'] = $res->get_error_message();
-					$optin->log_error( $data );
+					$module->log_error( $data );
 				} elseif ( isset( $res->status ) && 'error' == $res->status ) {
 					$data['error'] = $res->message;
-					$optin->log_error($data);
+					$module->log_error($data);
 				}
 			}
 		}
@@ -105,57 +106,56 @@ class Opt_In_HubSpot extends Opt_In_Provider_Abstract  implements  Opt_In_Provid
 		return $err;
 	}
 
-	function get_options( $optin_id ) {
+	function get_options( $module_id ) {
 		return array();
 	}
 
-	function get_account_options( $optin_id ) {
+	function get_account_options( $module_id ) {
 		$options = array();
 		$email_list = '';
 		$api = $this->api();
 
-		if ( $optin_id ) {
-			$optin = Opt_In_Model::instance()->get( $optin_id );
-			$email_list = $optin->optin_mail_list;
+		if ( $module_id ) {
+			$module 	= Hustle_Module_Model::instance()->get( $module_id );
+			$email_list = self::_get_email_list( $module );
 		}
 		$is_authorize = $api && ! $api->is_error && $api->is_authorized();
 
-		$url = $api->get_authorization_uri( $optin_id );
-		$link = sprintf( '<a href="%1$s" class="hubspot-authorize" data-optin="%2$s">%3$s</a>', $url, $optin_id, __( 'click here', Opt_In::TEXT_DOMAIN ) );
+		$url 	= $api->get_authorization_uri( $module_id , true, $this->current_page );
+		$link 	= sprintf( '<a href="%1$s" class="hubspot-authorize" data-optin="%2$s">%3$s</a>', $url, $module_id, __( 'click here', Opt_In::TEXT_DOMAIN ) );
 
 		if ( $api && ! $api->is_error ) {
 			if ( ! $is_authorize ) {
-
 				$info = __( 'Please %s to connect to your Hubspot account. You will be asked to give us access to your selected account and will be redirected back to this page.', Opt_In::TEXT_DOMAIN );
 				$info = sprintf( $info, $link );
 				$options['info'] = array(
-					'type' => 'label',
+					'type' 	=> 'label',
 					'value' => $info,
-					'for' => '',
+					'for' 	=> '',
 				);
 			} else {
 				$info = __( 'Please %s to reconnect to your Hubspot account. You will be asked to give us access to your selected account and will be redirected back to this page.', Opt_In::TEXT_DOMAIN );
 				$info = sprintf( $info, $link );
-
 				$list = $api->get_contact_list();
 				$options = array(
 					array(
-						'type' => 'label',
+						'type' 	=> 'label',
 						'value' => $info,
-						'for' => '',
+						'for' 	=> '',
 					),
 					array(
-						'type' => 'label',
-						'for' => 'optin_email_list',
-						'value' => __( 'Choose Contact List. Only static lists will work with Hustle', Opt_In::TEXT_DOMAIN ),
+						'type' 	=> 'label',
+						'class'	=> 'wpmudev-label--loading',
+						'for' 	=> 'optin_email_list',
+						"value" => "<span class='wpmudev-loading-text'>" . __( "Fetch Lists", Opt_In::TEXT_DOMAIN ) . "</span>",
 					),
 					array(
-						'type' 	=> 'select',
-						'id' 	=> 'optin_email_list',
-						'name' => 'optin_email_list',
-						'options' => $list,
-						'selected' => $email_list,
-						'class' => 'wpmuiSelect',
+						'type' 		=> 'select',
+						'id' 		=> 'wph-email-provider-lists',
+						'name' 		=> 'optin_email_list',
+						'options' 	=> $list,
+						'selected' 	=> $email_list,
+						'class'     => "wpmudev-select"
 					)
 				);
 			}
@@ -164,44 +164,79 @@ class Opt_In_HubSpot extends Opt_In_Provider_Abstract  implements  Opt_In_Provid
 		return $options;
 	}
 
-	static function add_custom_field( $field, Opt_In_Model $optin ) {
-		$api = self::static_api();
-		$name = $field['name'];
-		$label = $field['label'];
-		$exist = false;
+	/**
+	 * Get Provider Details
+	 * General function to get provider details from database based on key
+	 *
+	 * @param Hustle_Module_Model $module
+	 * @param String $field - the field name
+	 *
+	 * @return String
+	 */
+	private static function _get_provider_details( Hustle_Module_Model $module, $field ) {
+		$details = '';
+		$name = self::ID;
+		if ( !is_null( $module->content->email_services )
+			&& isset( $module->content->email_services[$name] )
+			&& isset( $module->content->email_services[$name][$field] ) ) {
+
+			$details = $module->content->email_services[$name][$field];
+		}
+		return $details;
+	}
+
+	private static function _get_email_list( Hustle_Module_Model $module ) {
+		return self::_get_provider_details( $module, 'list_id' );
+	}
+
+	static function add_custom_field( $fields, $module_id ) {
+		$api 	= self::static_api();
+		$exist 	= false;
 
 		if ( $api && ! $api->is_error ) {
 			// Get the existing fields
 			$props = $api->get_properties();
 
+			$new_fields = array();
+
 			if ( ! empty( $props ) ) {
 				// Check for existing property
-				foreach ( $props as $property_name => $property_label )
-					if ( $name == $property_name || $label == $property_label ) {
-						$field['name'] = $property_name;
-						$field['label'] = $property_label;
-						$exist = true;
-						continue;
+				foreach ( $props as $property_name => $property_label ){
+					foreach ( $fields as $field ) {
+						$name 	= $field['name'];
+						$label 	= $field['label'];
+						if ( $name != $property_name || $label != $property_label ) {
+							$new_field = array(
+								'name' => $property_name,
+								'label' => $property_label
+							);
+							$new_fields[] = $new_field;
+						}
 					}
+				}
+
 			}
 
-			if ( ! $exist ) {
-				// Add the new field as property
-				$property = array(
-					'name' => $name,
-					'label' => $label,
-					'type' => 'string',
-					'fieldType' => 'text',
-					'groupName' => 'contactinformation',
-				);
+			if ( ! empty( $new_fields ) ) {
+				foreach ( $new_fields as $field ) {
+					// Add the new field as property
+					$property = array(
+						'name' => $field['name'],
+						'label' => $field['label'],
+						'type' => 'string',
+						'fieldType' => 'text',
+						'groupName' => 'contactinformation',
+					);
 
-				if ( $api->add_property( $property ) )
-					$exist = true;
+					if ( $api->add_property( $property ) )
+						$exist = true;
+				}
+
 			}
 		}
 
 		if ( $exist )
-			return array( 'success' => true, 'field' => $field );
+			return array( 'success' => true, 'field' => $fields );
 		else
 			return array( 'error' => true, 'code' => 'cannot_create_custom_field' );
 	}

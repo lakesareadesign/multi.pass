@@ -3,13 +3,13 @@
 Plugin Name: Instagram Feed
 Plugin URI: https://smashballoon.com/instagram-feed
 Description: Display beautifully clean, customizable, and responsive Instagram feeds
-Version: 1.5.1
+Version: 1.6
 Author: Smash Balloon
 Author URI: https://smashballoon.com/
 License: GPLv2 or later
 Text Domain: instagram-feed
 
-Copyright 2017  Smash Balloon LLC (email : hey@smashballoon.com)
+Copyright 2018  Smash Balloon LLC (email : hey@smashballoon.com)
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or
@@ -23,11 +23,12 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'SBIVER', '1.5.1' );
+define( 'SBIVER', '1.6' );
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
+
 //Include admin
-include dirname( __FILE__ ) .'/instagram-feed-admin.php';
+if ( is_admin() ) include dirname( __FILE__ ) .'/instagram-feed-admin.php';
 
 // Add shortcodes
 add_shortcode('instagram-feed', 'display_instagram');
@@ -198,7 +199,7 @@ function display_instagram($atts, $content = null) {
     $sb_instagram_content .= '>';
 
     //Load More button
-    if( $sb_instagram_show_btn && !$sb_instagram_error ) $sb_instagram_content .= '<a class="sbi_load_btn" href="javascript:void(0);" '.$sb_instagram_button_styles.'>' . esc_html( stripslashes( $sb_instagram_load_btn_text ) ).'</a>';
+    if( $sb_instagram_show_btn && !$sb_instagram_error ) $sb_instagram_content .= '<a class="sbi_load_btn" href="javascript:void(0);" '.$sb_instagram_button_styles.'><span class="sbi_btn_text">' . esc_html( stripslashes( $sb_instagram_load_btn_text ) ).'</span><i class="fa fa-spinner fa-pulse" aria-hidden="true" style="display:none;"></i></a>';
 
     //Follow button
     if( $sb_instagram_show_follow_btn && !$sb_instagram_error ) $sb_instagram_content .= $sb_instagram_follow_btn_html;

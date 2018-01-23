@@ -38,7 +38,7 @@ class wpui_options
         add_submenu_page('wpui-option', __('Admin Bar','wp-admin-ui'), __('Admin Bar','wp-admin-ui'), 'manage_options', 'wpui-admin-bar', array( $this,'wpui_admin_bar_page'));
         add_submenu_page('wpui-option', __('Editor','wp-admin-ui'), __('Editor','wp-admin-ui'), 'manage_options', 'wpui-editor', array( $this,'wpui_editor_page'));
         add_submenu_page('wpui-option', __('Media Library','wp-admin-ui'), __('Media Library','wp-admin-ui'), 'manage_options', 'wpui-library', array( $this,'wpui_library_page'));
-        add_submenu_page('wpui-option', __('Profil','wp-admin-ui'), __('Profil','wp-admin-ui'), 'manage_options', 'wpui-profil', array( $this,'wpui_profil_page'));
+        add_submenu_page('wpui-option', __('Profile','wp-admin-ui'), __('Profile','wp-admin-ui'), 'manage_options', 'wpui-profil', array( $this,'wpui_profil_page'));
         add_submenu_page('wpui-option', __('Role Manager','wp-admin-ui'), __('Role Manager','wp-admin-ui'), 'manage_options', 'wpui-roles', array( $this,'wpui_roles_page'));
         add_submenu_page('wpui-option', __('Import / Export / Reset settings','wp-admin-ui'), __('Import / Export / Reset','wp-admin-ui'), 'manage_options', 'wpui-import-export', array( $this,'wpui_import_export_page'));
     }
@@ -467,8 +467,8 @@ class wpui_options
                                         <span class="dashicons dashicons-admin-users"></span>                                    
                                     </div>
                                     <span class="inner">
-                                        <h4><?php _e('Profil','wp-admin-ui'); ?></h4>
-                                        <p><?php _e('Color scheme, add custom field in profil...','wp-admin-ui'); ?></p>
+                                        <h4><?php _e('Profile','wp-admin-ui'); ?></h4>
+                                        <p><?php _e('Color scheme, add custom field in profile...','wp-admin-ui'); ?></p>
                                         <a class="button-secondary" href="<?php echo admin_url( 'admin.php?page=wpui-profil' ); ?>"><?php _e('Manage','wp-admin-ui'); ?></a>
                                     </span>
                                 </td>
@@ -1506,10 +1506,10 @@ class wpui_options
             'wpui_setting_section_editor' // Section
         );
 
-        //Profil SECTION==================================================================================
+        //Profile SECTION==================================================================================
         add_settings_section( 
             'wpui_setting_section_profil', // ID
-            __("Profil settings","wp-admin-ui"), // Title
+            __("Profile settings","wp-admin-ui"), // Title
             array( $this, 'print_section_info_profil' ), // Callback
             'wpui-settings-admin-profil' // Page
         );  
@@ -1557,7 +1557,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_facebook_field', // ID
-           __("Add Facebook field in user profil","wp-admin-ui"), // Title
+           __("Add Facebook field in user profile","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_facebook_field_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1565,7 +1565,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_twitter_field', // ID
-           __("Add Twitter field in user profil","wp-admin-ui"), // Title
+           __("Add Twitter field in user profile","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_twitter_field_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1573,7 +1573,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_instagram_field', // ID
-           __("Add Instagram field in user profil","wp-admin-ui"), // Title
+           __("Add Instagram field in user profile","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_instagram_field_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1581,7 +1581,7 @@ class wpui_options
 
         add_settings_field(
             'wpui_profil_linkedin_field', // ID
-           __("Add LinkedIn field in user profil","wp-admin-ui"), // Title
+           __("Add LinkedIn field in user profile","wp-admin-ui"), // Title
             array( $this, 'wpui_profil_linkedin_field_callback' ), // Callback
             'wpui-settings-admin-profil', // Page
             'wpui_setting_section_profil' // Section            
@@ -1829,7 +1829,7 @@ class wpui_options
 	 
 	public function print_section_info_login()
     {
-        print __('<p>Customize your login screen</p>', 'wp-admin-ui');
+        echo '<p>'.__('Customize your login screen', 'wp-admin-ui').'</p>';
     }
 
     public function print_section_info_global()
@@ -1838,37 +1838,37 @@ class wpui_options
 
     public function print_section_info_dashboard()
     {
-        print __('<p>Customize your Dashboard</p>', 'wp-admin-ui');
+        echo '<p>'.__('Customize your Dashboard', 'wp-admin-ui').'</p>';
     }
 
     public function print_section_info_admin_menu()
     {
-        print __('<p>Drag each item into the order you prefer.<br />Click the arrow on the right of the item to reveal submenus.<br />Check an item to <strong>HIDE</strong> in WP admin.<br /><strong>NOTE:</strong> Admin Menu Settings does not apply to this specific page to avoid conflicts.<br /><span style="color:red"><strong>WARNING:</strong> Be careful if you hide WP Admin UI menu for admins too!</span></p>', 'wp-admin-ui');
+        echo '<p>'.__('Drag each item into the order you prefer.<br>Click the arrow on the right of the item to reveal submenus.<br>Check an item to <strong>HIDE</strong> in WP admin.<br><strong>NOTE:</strong> Admin Menu Settings does not apply to this specific page to avoid conflicts.<br><span style="color:red"><strong>WARNING:</strong> Be careful if you hide WP Admin UI menu for admins too!</span>', 'wp-admin-ui').'</p>';
     }
 
     public function print_section_info_admin_bar()
     {
-        print __('<p>Customize your Admin bar</p>', 'wp-admin-ui');
+        echo '<p>'.__('Customize your Admin bar', 'wp-admin-ui').'</p>';
     }
 
     public function print_section_info_editor()
     {
-        print __('<p>Customize TINY MCE Editor</p>', 'wp-admin-ui');
+        echo '<p>'.__('Customize TINY MCE Editor', 'wp-admin-ui').'</p>';
     }
 
     public function print_section_info_profil()
     {
-        print __('<p>Manage Profil</p>', 'wp-admin-ui');
+        echo '<p>'.__('Manage Profile', 'wp-admin-ui').'</p>';
     }
 
     public function print_section_info_library()
     {
-        print __('<p>Customize your Media Library</p>', 'wp-admin-ui');
+        echo '<p>'.__('Customize your Media Library', 'wp-admin-ui').'</p>';
     }
 
     public function print_section_info_roles()
     {
-        print __('<p>Apply settings for specific Roles</p>', 'wp-admin-ui');
+        echo '<p>'.__('Apply settings for specific Roles', 'wp-admin-ui').'</p>';
     }
 
     /** 
@@ -2640,10 +2640,9 @@ class wpui_options
         global $submenu, $pagenow;
         ?>
         <form method="post">
-            <p><input type="hidden" name="wpui_action" value="reset_menus" /></p>
             <p>
-                <?php wp_nonce_field( 'wpui_reset_menus_nonce', 'wpui_reset_menus_nonce' ); ?>
-
+                <input type="hidden" name="wpui_action" value="reset_menus" />
+                <?php wp_nonce_field( 'wpui_menu_reset_order', 'wpui_reset_menus_nonce' ); ?>
                 <input name="wpui-reset" id="wpui-reset" class="button" value="Reset" type="button">
                 <span class="spinner"></span>
             </p>
@@ -3460,7 +3459,7 @@ class wpui_options
         }
     }
 
-    //Profil
+    //Profile
     public function wpui_profil_visual_editor_callback()
     {
         $options = get_option( 'wpui_profil_option_name' );  
@@ -3715,7 +3714,7 @@ class wpui_options
         echo '<input id="wpui_profil_facebook_field" name="wpui_profil_option_name[wpui_profil_facebook_field]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_facebook_field">'. __( 'Add Facebook field in user profil', 'wp-admin-ui' ) .'</label>  <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-facebook\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
+        echo '<label for="wpui_profil_facebook_field">'. __( 'Add Facebook field in user profile', 'wp-admin-ui' ) .'</label>  <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-facebook\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
         
         if (isset($this->options['wpui_profil_facebook_field'])) {
             esc_attr( $this->options['wpui_profil_facebook_field']);
@@ -3731,7 +3730,7 @@ class wpui_options
         echo '<input id="wpui_profil_twitter_field" name="wpui_profil_option_name[wpui_profil_twitter_field]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_twitter_field">'. __( 'Add Twitter field in user profil', 'wp-admin-ui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-twitter\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
+        echo '<label for="wpui_profil_twitter_field">'. __( 'Add Twitter field in user profile', 'wp-admin-ui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-twitter\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
         
         if (isset($this->options['wpui_profil_twitter_field'])) {
             esc_attr( $this->options['wpui_profil_twitter_field']);
@@ -3747,7 +3746,7 @@ class wpui_options
         echo '<input id="wpui_profil_instagram_field" name="wpui_profil_option_name[wpui_profil_instagram_field]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_instagram_field">'. __( 'Add Instagram field in user profil', 'wp-admin-ui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-instagram\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
+        echo '<label for="wpui_profil_instagram_field">'. __( 'Add Instagram field in user profile', 'wp-admin-ui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-instagram\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
         
         if (isset($this->options['wpui_profil_instagram_field'])) {
             esc_attr( $this->options['wpui_profil_instagram_field']);
@@ -3763,7 +3762,7 @@ class wpui_options
         echo '<input id="wpui_profil_linkedin_field" name="wpui_profil_option_name[wpui_profil_linkedin_field]" type="checkbox"';
         if ('1' == $check) echo 'checked="yes"'; 
         echo ' value="1"/>';
-        echo '<label for="wpui_profil_linkedin_field">'. __( 'Add LinkedIn field in user profil', 'wp-admin-ui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-linkedin\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
+        echo '<label for="wpui_profil_linkedin_field">'. __( 'Add LinkedIn field in user profile', 'wp-admin-ui' ) .'</label> <span class="dashicons dashicons-info" title="'.__('Use get_the_author_meta(\'wpui-linkedin\'); to retreive this value in front-end','wp-admin-ui').'"></span>';
         
         if (isset($this->options['wpui_profil_linkedin_field'])) {
             esc_attr( $this->options['wpui_profil_linkedin_field']);
@@ -4320,16 +4319,16 @@ class wpui_options
                     'xls_filter' => __('Add XLS filtering to media library','wp-admin-ui'),
                     'xlsx_filter' => __('Add XLSX filtering to media library','wp-admin-ui'),
                     ),
-                'Profil' => array(
+                'Profile' => array(
                     'remove_disable_visual_editor' => __('Remove Disable the visual editor when writing','wp-admin-ui'),
                     'remove_admin_color_scheme' => __('Remove Admin Color Scheme','wp-admin-ui'),
                     'default_admin_color_scheme' => __('Set a default admin color scheme','wp-admin-ui'),
                     'remove_enable_keyboard_shortcuts' => __('Remove Enable Keyboard Shortcuts for comment moderation','wp-admin-ui'),
                     'remove_show_toolbar' => __('Remove Show Toolbar when viewing site','wp-admin-ui'),
-                    'add_facebook_field' => __('Add Facebook field in Profil','wp-admin-ui'),
-                    'add_twitter_field' => __('Add Twitter field in Profil','wp-admin-ui'),
-                    'add_instagram_field' => __('Add Instagram field in Profil','wp-admin-ui'),
-                    'add_linkedin_field' => __('Add LinkedIn field in Profil','wp-admin-ui'),
+                    'add_facebook_field' => __('Add Facebook field in Profile','wp-admin-ui'),
+                    'add_twitter_field' => __('Add Twitter field in Profile','wp-admin-ui'),
+                    'add_instagram_field' => __('Add Instagram field in Profile','wp-admin-ui'),
+                    'add_linkedin_field' => __('Add LinkedIn field in Profile','wp-admin-ui'),
                     ),
                 'Plugins (PRO Only)' => array(
                     'remove_wp_seo_cols' => __('Remove WP SEO columns in list view','wp-admin-ui'),

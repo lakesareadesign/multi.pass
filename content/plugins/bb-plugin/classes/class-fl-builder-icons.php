@@ -36,7 +36,7 @@ final class FLBuilderIcons {
 			$id		= defined( 'BLOG_ID_CURRENT_SITE' ) ? BLOG_ID_CURRENT_SITE : 1;
 			$enabled_icons	= get_option( '_fl_builder_enabled_icons' );
 
-			if ( ( $id != $blog_id ) || empty( $enabled_icons ) ) {
+			if ( ( $id != $blog_id ) && empty( $enabled_icons ) ) {
 				switch_to_blog( $id );
 				$switched = true;
 			}

@@ -18,5 +18,5 @@
 		data-wrap="<# if ( data.field.wrap ) { #>1<# } else { #>0<# } #>"
 		<# if ( data.field.className ) { #>class="{{data.field.className}}" <# } #>
 		<# if ( data.field.rows ) { #>rows="{{data.field.rows}}" <# } #>
-	>{{{data.value}}}</textarea>
+	>{{data.value}}</textarea>
 </div>

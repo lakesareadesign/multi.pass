@@ -147,7 +147,8 @@ if(!sbi_js_exists){
                     after: function() {
 
                         $self.find('.sbi_loader').remove();
-
+                        $self.find('.sbi_load_btn .fa-spinner').hide();
+                        $self.find('.sbi_load_btn .sbi_btn_text').css('opacity', 1);
                         /* Load more button */
                         if (this.hasNext()) morePosts.push('1');
 
@@ -157,7 +158,6 @@ if(!sbi_js_exists){
                             $loadBtn.hide();
                             $self.css('padding-bottom', 0);
                         }
-
 
                         // Call Custom JS if it exists
                         if (typeof sbi_custom_js == 'function') setTimeout(function(){ sbi_custom_js(); }, 100);
@@ -323,6 +323,8 @@ if(!sbi_js_exists){
                 });
 
                 $loadBtn.click(function() {
+                    jQuery(this).find('.fa-spinner').show();
+                    jQuery(this).find('.sbi_btn_text').css('opacity', 0);
                     userFeed.next();
                 });
 

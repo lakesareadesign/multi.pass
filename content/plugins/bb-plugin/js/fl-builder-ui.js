@@ -1002,6 +1002,10 @@
 
             if (originalPosition !== currentPosition) {
 
+                if ( FLBuilderConfig.isRtl ) {
+                    edge = ( 'w' == edge ) ? 'e' : 'w'; // Flip the direction
+                }
+
                 if (originalPosition > currentPosition) {
                     if (edge === 'w') {
                         this.drag.operation = '+';

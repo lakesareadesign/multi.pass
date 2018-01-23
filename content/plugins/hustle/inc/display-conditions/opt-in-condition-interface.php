@@ -7,5 +7,5 @@
  */
 interface Opt_In_Condition_Interface
 {
-    function is_allowed( Hustle_Model $optin );
+	function is_allowed( Hustle_Model $optin );
 }

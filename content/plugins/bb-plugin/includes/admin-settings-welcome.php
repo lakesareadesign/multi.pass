@@ -14,7 +14,7 @@ $upgrade_url       = FLBuilderModel::get_upgrade_url( fl_welcome_utm( 'settings-
 $support_url       = FLBuilderModel::get_store_url( 'beaver-builder-support', fl_welcome_utm( 'settings-welcome-support' ) );
 $faqs_url          = FLBuilderModel::get_store_url( 'frequently-asked-questions', fl_welcome_utm( 'settings-welcome-faqs' ) );
 $forums_url        = FLBuilderModel::get_store_url( 'support', fl_welcome_utm( 'settings-welcome-forums' ) );
-$docs_url          = 'http://kb.wpbeaverbuilder.com/';
+$docs_url          = 'https://kb.wpbeaverbuilder.com/';
 $fb_url            = 'https://www.facebook.com/groups/beaverbuilders/';
 
 ?>

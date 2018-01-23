@@ -106,7 +106,7 @@
                         <ul class="dropdown-menu">
                             <li>
                                 <a href="../reports/errors.html">
-                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">20</span>
+                                                                                                                                                                                                                                                                                                                                                                                                                            <i class="icon-list-alt"></i>&#160;Errors <span class="label label-info pull-right">22</span>
                                 </a>
                             </li>
                             <li>
@@ -136,10 +136,10 @@
                                 <div class="accordion" style="margin-bottom: 0">
         <div class="accordion-group">
             <div class="accordion-heading">
-                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-1425007423"></a>
+                                    <a class="accordion-toggle " data-toggle="collapse" data-target="#namespace-553232841"></a>
                                 <a href="../namespaces/default.html" style="margin-left: 30px; padding-left: 0">\</a>
             </div>
-            <div id="namespace-1425007423" class="accordion-body collapse in">
+            <div id="namespace-553232841" class="accordion-body collapse in">
                 <div class="accordion-inner">
 
                     
@@ -212,6 +212,7 @@ accessing the properties.</p>
                                                                     <a href="../classes/MS_Model_Relationship.html#method_get_next_invoice" class="">get_next_invoice()</a><br />
                                                                     <a href="../classes/MS_Model_Relationship.html#method_get_previous_invoice" class="">get_previous_invoice()</a><br />
                                                                     <a href="../classes/MS_Model_Relationship.html#method_get_invoices" class="">get_invoices()</a><br />
+                                                                    <a href="../classes/MS_Model_Relationship.html#method_get_pending_invoices" class="">get_pending_invoices()</a><br />
                                                                     <a href="../classes/MS_Model_Relationship.html#method_first_unpaid_invoice" class="">first_unpaid_invoice()</a><br />
                                                                     <a href="../classes/MS_Model_Relationship.html#method_get_membership" class="">get_membership()</a><br />
                                                                     <a href="../classes/MS_Model_Relationship.html#method_is_base" class="">is_base()</a><br />
@@ -2001,6 +2002,50 @@ Default will be calculated based on start_date.</p></td>
 
                                     <div class="row-fluid">
         <div class="span8 content class">
+            <a id="method_get_pending_invoices" name="method_get_pending_invoices" class="anchor"></a>
+            <article class="method">
+                <h3 class="public ">get_pending_invoices()</h3>
+                <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
+                <pre class="signature" style="margin-right: 54px;">get_pending_invoices() : array&lt;mixed,\MS_Model_Invoice&gt;</pre>
+                <p><em>Get a list of all pending invoices</em></p>
+                
+
+                
+                
+                                    <h4>Returns</h4>
+                    array&lt;mixed,\MS_Model_Invoice&gt;
+                                            &mdash; <p>List of invoices.</p>
+                                    				
+                            </article>
+        </div>
+        <aside class="span4 detailsbar">
+            <h1><i class="icon-arrow-down"></i></h1>
+                                                            <dl>
+                                                                            </dl>
+            <h2>Tags</h2>
+            <table class="table table-condensed">
+                                    <tr>
+                        <th>
+                            since
+                        </th>
+                        <td>
+                                                            1.0.0                                
+                                                    </td>
+                    </tr>
+                                    <tr>
+                        <th>
+                            api
+                        </th>
+                        <td>
+                                                                                            
+                                                    </td>
+                    </tr>
+                            </table>
+        </aside>
+    </div>
+
+                                    <div class="row-fluid">
+        <div class="span8 content class">
             <a id="method_first_unpaid_invoice" name="method_first_unpaid_invoice" class="anchor"></a>
             <article class="method">
                 <h3 class="public ">first_unpaid_invoice()</h3>
@@ -2617,7 +2662,7 @@ could also be TRIAL, in which case the returnv alue is false.</p>
             <article class="method">
                 <h3 class="public ">set_gateway()</h3>
                 <a href="#source-view" role="button" class="pull-right btn" data-toggle="modal" style="font-size: 1.1em; padding: 9px 14px"><i class="icon-code"></i></a>
-                <pre class="signature" style="margin-right: 54px;">set_gateway(string  <span class="argument">$new_gateway</span>) </pre>
+                <pre class="signature" style="margin-right: 54px;">set_gateway(string  <span class="argument">$new_gateway</span>,   <span class="argument">$force_admin = false</span>) </pre>
                 <p><em>Change subscription to display a different payment gateway.</em></p>
                 <p>We do some validation here, to avoid &quot;No Gateway&quot; notifications...</p>
 
@@ -2627,6 +2672,11 @@ could also be TRIAL, in which case the returnv alue is false.</p>
                                 <td>string</td>
                                 <td>$new_gateway </td>
                                 <td><p>The new payment-gateway ID.</p></td>
+                            </tr>
+                                                    <tr>
+                                <td></td>
+                                <td>$force_admin </td>
+                                <td></td>
                             </tr>
                                             </table>
                 
@@ -2831,7 +2881,7 @@ could also be TRIAL, in which case the returnv alue is false.</p>
                 <section class="span10 offset1">
                     <hr />
                     Documentation is powered by <a href="http://www.phpdoc.org/">phpDocumentor </a> and authored
-                    on September 7th, 2017 at 17:15.
+                    on January 4th, 2018 at 18:48.
                 </section>
             </section>
         </section>

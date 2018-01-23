@@ -115,6 +115,11 @@ final class FLBuilderServices {
 			'name'              => 'Mailrelay',
 			'class'             => 'FLBuilderServiceMailrelay',
 		),
+		'mautic'            => array(
+			'type'              => 'autoresponder',
+			'name'              => 'Mautic',
+			'class'             => 'FLBuilderServiceMautic',
+		),
 		'sendinblue'        => array(
 			'type'              => 'autoresponder',
 			'name'              => 'SendinBlue',

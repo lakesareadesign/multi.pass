@@ -196,7 +196,7 @@ final class FLBuilder {
 
 		wp_editor( '{FL_EDITOR_CONTENT}', 'flbuildereditor', array(
 			'media_buttons' => true,
-			'wpautop' 		=> true,
+			'wpautop'       => false,
 			'textarea_rows' => 16,
 		) );
 
@@ -690,6 +690,7 @@ final class FLBuilder {
 				}
 			}
 		}// End if().
+		wp_add_inline_style( 'admin-bar', '#wp-admin-bar-fl-builder-frontend-edit-link .ab-icon:before { content: "\f116" !important; top: 2px; margin-right: 3px; }' );
 	}
 
 	/**
@@ -750,6 +751,12 @@ final class FLBuilder {
 			if ( FLBuilderModel::layout_has_drafted_changes() ) {
 				$classes[] = 'fl-builder--layout-has-drafted-changes';
 			}
+
+			if ( is_rtl() ) {
+				$classes[] = 'fl-builder-direction-rtl';
+			} else {
+				$classes[] = 'fl-builder-direction-ltr';
+			}
 		}
 
 		return $classes;
@@ -772,7 +779,7 @@ final class FLBuilder {
 
 			$wp_admin_bar->add_node( array(
 				'id'    => 'fl-builder-frontend-edit-link',
-				'title' => '<style> #wp-admin-bar-fl-builder-frontend-edit-link .ab-icon:before { content: "\f116" !important; top: 2px; margin-right: 3px; } </style><span class="ab-icon"></span>' . FLBuilderModel::get_branding() . $dot,
+				'title' => '<span class="ab-icon"></span>' . FLBuilderModel::get_branding() . $dot,
 				'href'  => FLBuilderModel::get_edit_url( $wp_the_query->post->ID ),
 			));
 		}

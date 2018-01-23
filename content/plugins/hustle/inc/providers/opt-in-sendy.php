@@ -6,77 +6,53 @@ if( !class_exists("Opt_In_Sendy") ):
 
 class Opt_In_Sendy extends Opt_In_Provider_Abstract implements  Opt_In_Provider_Interface {
 
-    const ID = "sendy";
-    const NAME = "Sendy";
+	const ID = "sendy";
+	const NAME = "Sendy";
 
+	static function instance(){
+		return new self;
+	}
 
-    /**
-     * @var $api GetResponse
-     */
-    protected  static $api;
+	/**
+	 * Updates api option
+	 *
+	 * @param $option_key
+	 * @param $option_value
+	 * @return bool
+	 */
+	function update_option( $option_key, $option_value ) {
+		return update_site_option( self::ID . "_" . $option_key, $option_value );
+	}
 
-    protected  static $errors;
+	/**
+	 * Retrieves api option from db
+	 *
+	 * @param $option_key
+	 * @param $default
+	 * @return mixed
+	 */
+	function get_option( $option_key, $default ) {
+		return get_site_option( self::ID . "_" . $option_key, $default );
+	}
 
+	/**
+	 * Adds contact to the the campaign
+	 *
+	 * @param Hustle_Module_Model $module
+	 * @param array $data
+	 * @return array|mixed|object|WP_Error
+	 */
+	public function subscribe( Hustle_Module_Model $module, array $data ) {
+		$api_key    		= self::_get_api_key( $module );
+		$email_list 		= self::_get_email_list( $module );
+		$installation_url 	= self::_get_api_url( $module );
 
-    static function instance(){
-        return new self;
-    }
-
-    /**
-     * Updates api option
-     *
-     * @param $option_key
-     * @param $option_value
-     * @return bool
-     */
-    function update_option($option_key, $option_value){
-        return update_site_option( self::ID . "_" . $option_key, $option_value);
-    }
-
-    /**
-     * Retrieves api option from db
-     *
-     * @param $option_key
-     * @param $default
-     * @return mixed
-     */
-    function get_option($option_key, $default){
-        return get_site_option( self::ID . "_" . $option_key, $default );
-    }
-
-    /**
-     * @param $api_key
-     * @return Opt_In_Get_Response_Api
-     */
-    protected static function api( $api_key ){
-
-        if( empty( self::$api ) ){
-            try {
-                self::$api = new Opt_In_Sendy_Api( $api_key, array("debug" => true) );
-                self::$errors = array();
-            } catch (Exception $e) {
-                self::$errors = array("api_error" => $e) ;
-            }
-
-        }
-
-        return self::$api;
-    }
-
-    /**
-     * Adds contact to the the campaign
-     *
-     * @param Opt_In_Model $optin
-     * @param array $data
-     * @return array|mixed|object|WP_Error
-     */
-    public function subscribe( Opt_In_Model $optin, array $data ){
-        $err = new WP_Error();
-        $_data = array(
-            "boolian" => false,
-            "list" => $optin->optin_mail_list
-        );
-        $_data['email'] =  $data['email'];
+		$err 				= new WP_Error();
+		$_data = array(
+			"boolian" => false,
+			"list" => $email_list
+		);
+		$_data['email'] =  $data['email'];
 
 		$name = array();
 
@@ -93,8 +69,8 @@ class Opt_In_Sendy extends Opt_In_Provider_Abstract implements  Opt_In_Provider_
 			$name['last_name'] = $data['l_name']; // Legacy
 		}
 
-        if( count( $name ) )
-            $_data['name'] = implode(" ", $name);
+		if( count( $name ) )
+			$_data['name'] = implode(" ", $name);
 
 		// Add extra fields
 		$extra_fields = array_diff_key( $data, array(
@@ -110,150 +86,196 @@ class Opt_In_Sendy extends Opt_In_Provider_Abstract implements  Opt_In_Provider_
 			$_data = array_merge( $_data, $extra_fields );
 		}
 
-        if( $optin->provider_args && !empty( $optin->provider_args->installation_url ) )
-            $url = trailingslashit( $optin->provider_args->installation_url ) . "subscribe";
-        else
-            return $err;
+		if ( !empty( $installation_url ) ) {
+			$url = trailingslashit( $installation_url ) . "subscribe";
+		} else {
+			$err->add( 'broke', __( 'Empty installation url', Opt_In::TEXT_DOMAIN ) );
+			return $err;
+		}
 
-        $res = wp_remote_post( $url, array(
-            "header" => 'Content-type: application/x-www-form-urlencoded',
-            "body" => $_data
-        ));
+		$res = wp_remote_post( $url, array(
+			"header" => 'Content-type: application/x-www-form-urlencoded',
+			"body" => $_data
+		));
 
-        if( $res['response']['code'] <= 204 ){
-            return true;
-        }else{
-            $err->add( $res['response']['code'], $res['response']['message']  );
-            return $err;
-        }
-    }
+		if ( is_wp_error( $res ) ) {
+			return $res;
+		}
 
-    /**
-     * Retrieves initial options of the GetResponse account with the given api_key
-     *
-     * @param $optin_id
-     * @return array
-     */
-    function get_options( $optin_id ){
-        return array();
-    }
+		if ( $res['response']['code'] <= 204 ) {
+			return true;
+		} else {
+			$err->add( $res['response']['code'], $res['response']['message']  );
+			return $err;
+		}
+	}
 
-    /**
-     * Returns initial account options
-     *
-     * @param $optin_id
-     * @return array
-     */
-    function get_account_options( $optin_id ){
-        return array(
-            "label" => array(
-                "id" => "optin_api_key_label",
-                "for" => "optin_api_key",
-                "value" => __("Enter your API key:", Opt_In::TEXT_DOMAIN),
-                "type" => "label",
-            ),
-            "api_wrapper" => array(
-                "id" => "wpoi-sendy-api-text",
-                "class" => "wpoi-get-lists",
-                "type" => "wrapper",
-                "elements" => array(
-                    "api_key" => array(
-                        "id" => "optin_api_key",
-                        "name" => "optin_api_key",
-                        "type" => "text",
-                        "default" => "",
-                        "value" => "",
-                        "placeholder" => "",
-                    ),
-                )
-            ),
+	/**
+	 * Retrieves initial options of the GetResponse account with the given api_key
+	 *
+	 * @param $module_id
+	 * @return array
+	 */
+	function get_options( $module_id ) {
+		return array();
+	}
 
-            "choose_email_list_label" => array(
-                "id" => "optin_email_list_label",
-                "for" => "wpoi-sendy-get-lists",
-                "value" => __("Enter list id:", Opt_In::TEXT_DOMAIN),
-                "type" => "label",
-            ),
-            "list_wrapper" => array(
-                "id" => "wpoi-sendy-get-lists",
-                "class" => "wpoi-get-lists",
-                "type" => "wrapper",
-                "elements" => array(
-                    "choose_email_list" => array(
-                        "type" => 'text',
-                        'name' => "optin_email_list",
-                        'id' => "optin_email_list",
-                        'value' => "",
-                        "placeholder" => "",
-                    ),
-                )
-            ),
+	/**
+	 * Returns initial account options
+	 *
+	 * @param $module_id
+	 * @return array
+	 */
+	function get_account_options( $module_id ) {
+		$module     		= Hustle_Module_Model::instance()->get( $module_id );
+		$api_key    		= self::_get_api_key( $module );
+		$email_list 		= self::_get_email_list( $module );
+		$installation_url 	= self::_get_api_url( $module );
 
-            "installation_url_label" => array(
-                "id" => "optin_installation_url_label",
-                "for" => "optin_installation_url",
-                "value" => __("Enter Sendy installation URL:", Opt_In::TEXT_DOMAIN),
-                "type" => "label",
-            ),
-            "installation_wrapper" => array(
-                "id" => "wpoi-sendy-installation-url",
-                "class" => "wpoi-sendy-installation-url",
-                "type" => "wrapper",
-                "elements" => array(
-                    "installation_url" => array(
-                        "id" => "optin_sendy_installation_url",
-                        "name" => "optin_sendy_installation_url",
-                        "type" => "text",
-                        "default" => "",
-                        "value" => "",
-                        "placeholder" => "",
-                    ),
-                )
-            ),
+		return array(
+			"label" => array(
+				"id"    => "optin_api_key_label",
+				"for"   => "optin_api_key",
+				"value" => __("Enter your API key:", Opt_In::TEXT_DOMAIN),
+				"type"  => "label",
+			),
+			"api_wrapper" => array(
+				"id"    => "wpoi-sendy-api-text",
+				"class" => "wpmudev-provider-group",
+				"type"  => "wrapper",
+				"elements" => array(
+					"api_key" => array(
+						"id"            => "optin_api_key",
+						"name"          => "optin_api_key",
+						"type"          => "text",
+						"default"       => "",
+						"value"         => $api_key,
+						"placeholder"   => "",
+						"class"         => "wpmudev-input_text"
+					),
+				)
+			),
 
-            "instructions" => array(
-                "id" => "optin_api_instructions",
-                "for" => "",
-                "value" => __("Log in to your Sendy installation to get your API Key and list id.", Opt_In::TEXT_DOMAIN),
-                "type" => "label",
-            ),
-        );
-    }
+			"choose_email_list_label" => array(
+				"id"    => "optin_email_list_label",
+				"for"   => "wpoi-sendy-get-lists",
+				"value" => __("Enter list id:", Opt_In::TEXT_DOMAIN),
+				"type"  => "label",
+			),
+			"list_wrapper" => array(
+				"id"    => "wpoi-sendy-get-lists",
+				"class" => "wpmudev-provider-group",
+				"type"  => "wrapper",
+				"elements" => array(
+					"choose_email_list" => array(
+						"type"          => 'text',
+						'name'          => "optin_email_list",
+						'id'            => "optin_email_list",
+						'value'         => $email_list,
+						"placeholder"   => "",
+						"class"         => "wpmudev-input_text"
+					),
+				)
+			),
 
-    function exclude_args_fields() {
-        return array( 'api_key', 'installation_url', 'email_list' );
-    }
+			"installation_url_label" => array(
+				"id"    => "optin_installation_url_label",
+				"for"   => "optin_installation_url",
+				"value" => __("Enter Sendy installation URL:", Opt_In::TEXT_DOMAIN),
+				"type"  => "label",
+			),
+			"installation_wrapper" => array(
+				"id"    => "wpoi-sendy-installation-url",
+				"class" => "wpmudev-provider-group",
+				"type"  => "wrapper",
+				"elements" => array(
+					"installation_url" => array(
+						"id"            => "optin_sendy_installation_url",
+						"name"          => "optin_sendy_installation_url",
+						"type"          => "text",
+						"default"       => "",
+						"value"         => $installation_url,
+						"placeholder"   => "",
+						"class"         => "wpmudev-input_text"
+					),
+				)
+			),
 
-    function is_authorized(){
-        return true;
-    }
+			"instructions" => array(
+				"id"    => "optin_api_instructions",
+				"for"   => "",
+				"value" => __("Log in to your Sendy installation to get your API Key and list id.", Opt_In::TEXT_DOMAIN),
+				"type"  => "small",
+			),
+		);
+	}
 
-    /**
-     *
-     *
-     * @param $optin Opt_In_Model
-     * @return bool
-     */
-    public static function show_selected_list( $val, $optin ){
-        if( $optin->optin_provider === "sendy" )
-            return false;
+	/**
+	* Get Provider Details
+	* General function to get provider details from database based on key
+	*
+	* @param Hustle_Module_Model $module
+	* @param String $field - the field name
+	*
+	* @return String
+	*/
+	private static function _get_provider_details( Hustle_Module_Model $module, $field ) {
+		$details = '';
+		$name = self::ID;
+		if ( !is_null( $module->content->email_services )
+			&& isset( $module->content->email_services[$name] )
+			&& isset( $module->content->email_services[$name][$field] ) ) {
 
-        return true;
-    }
+			$details = $module->content->email_services[$name][$field];
+		}
+		return $details;
+	}
 
-    public static function add_values_to_previous_optins( $option, $optin  ){
-        if( $optin->optin_provider !== "sendy" ) return $option;
+	private static function _get_api_url( Hustle_Module_Model $module ) {
+		return self::_get_provider_details( $module, 'installation_url' );
+	}
 
-        if(  $option['id'] === "wpoi-sendy-get-lists" ){
-            $option['elements']['choose_email_list']['value'] = $optin->optin_mail_list;
-        }
+	private static function _get_api_key( Hustle_Module_Model $module ) {
+		return self::_get_provider_details( $module, 'api_key' );
+	}
 
-        if( $option['id'] === "wpoi-sendy-installation-url" && isset( $optin->provider_args->installation_url ) ){
-            $option['elements']['installation_url']['value'] = $optin->provider_args->installation_url;
-        }
+	private static function _get_email_list( Hustle_Module_Model $module ) {
+		return self::_get_provider_details( $module, 'list_id' );
+	}
 
-        return $option;
-    }
+	function is_authorized(){
+		return true;
+	}
+
+	/**
+	 *
+	 *
+	 * @param $module Hustle_Module_Model
+	 * @return bool
+	 */
+	public static function show_selected_list( $val, $module ){
+		if( $module->content->active_email_service === self::ID )
+			return false;
+
+		return true;
+	}
+
+	public static function add_values_to_previous_optins( $option, $module  ){
+		if( $module->content->active_email_service !== self::ID ) return $option;
+
+		$list   = self::_get_email_list( $module );
+		$url    = self::_get_api_url( $module );
+
+		if(  $option['id'] === "wpoi-sendy-get-lists" ){
+			$option['elements']['choose_email_list']['value'] = $list;
+		}
+
+		if( $option['id'] === "wpoi-sendy-installation-url" && isset( $url ) ){
+			$option['elements']['installation_url']['value'] = $url;
+		}
+
+		return $option;
+	}
 }
 
 add_filter("wpoi_optin_sendy_show_selected_list",  array( "Opt_In_Sendy", "show_selected_list" ), 10, 2 );

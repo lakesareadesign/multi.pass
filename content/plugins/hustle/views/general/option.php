@@ -1,7 +1,7 @@
 <?php
 $type = strtolower( $type );
 $type_class = 'optin_' .  $type . '_' . $type . ' ' . $type;
-
+$for = ( isset($for) ) ? $for : '';
 ?>
 
 <?php if( "label" === $type  ): // label ?>
@@ -10,6 +10,10 @@ $type_class = 'optin_' .  $type . '_' . $type . ' ' . $type;
 <?php elseif( "notice" === $type  ): // Type textarea ?>
 	<label <?php Opt_In::render_attributes( isset( $attributes ) ? $attributes : array() ); ?> class="<?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>"><span><?php echo $value; ?> </span></label>
 
+<?php elseif( "small" === $type  ): // small label ?>
+    <p><small <?php Opt_In::render_attributes( isset( $attributes ) ? $attributes : array() ); ?> for="<?php echo esc_attr( $for ); ?>"><?php echo $value; ?> </small></p>
+
+
 <?php elseif( "textarea" === $type  ): // Type textarea ?>
     <textarea <?php Opt_In::render_attributes( isset( $attributes ) ? $attributes : array() ); ?> name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>" cols="30" rows="10"><?php echo esc_textarea( $value ? $value : $default ); ?></textarea>
 
@@ -17,9 +21,10 @@ $type_class = 'optin_' .  $type . '_' . $type . ' ' . $type;
 <?php elseif( "select" === $type  ): // type select  ?>
     <select name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ) ?>" <?php Opt_In::render_attributes( isset( $attributes ) ? $attributes : array() ); ?> class="<?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>" >
         <?php foreach( $options as $option ):
-            $option = (array) $option;
+			$option = (array) $option;
+			$value 	= isset( $option['value'] ) ? $option['value'] : '';
             ?>
-            <option <?php selected($selected, $option['value']); ?> value="<?php echo esc_attr( $option['value'] ); ?>"><?php echo esc_attr( $option['label'] ); ?></option>
+            <option <?php selected( $selected, $value ); ?> value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $option['label'] ); ?></option>
         <?php endforeach; ?>
     </select>
 
@@ -49,25 +54,38 @@ $type_class = 'optin_' .  $type . '_' . $type . ' ' . $type;
 
     if( isset( $selected ) )
         $_selected = $selected;
-    foreach( $options as $option):
-        $option = (array) $option;
-        $id =  esc_attr( $id . "-" . str_replace( " ", "-", strtolower( $option['value'] ) ) );
-        $label_before = isset( $label_before ) ? $label_before : false;
 
-        ?>
-        <div class="wph-label--radio">
-            <?php if( $label_before ): ?>
-                <label for="<?php echo $id ?>"><?php echo $option['label']; ?></label>
-            <?php endif; ?>
-            <?php if( !$label_before ): ?>
-                <label for="<?php echo $id ?>"><?php echo  $option['label']; ?></label>
-            <?php endif; ?>
-            <div class="wph-input--radio">
-	            <input value="<?php echo esc_attr( $option['value']  ); ?>" type="radio" id="<?php echo $id; ?>" name="<?php echo esc_attr( $name ) ?>" <?php selected( $_selected, $option['value'] ) ?> <?php Opt_In::render_attributes( isset( $item_attributes ) ? $item_attributes :  array()  ); ?> >
-	            <label class="wph-icon i-check" for="<?php echo $id ?>"></label>
+    echo '<div class="wpmudev-options-list">';
+
+        foreach( $options as $option):
+            $option = (array) $option;
+            $id =  esc_attr( $id . "-" . str_replace( " ", "-", strtolower( $option['value'] ) ) );
+            $label_before = isset( $label_before ) ? $label_before : false;
+            ?>
+
+            <div class="wpmudev-options-item">
+
+                <div class="wpmudev-input_radio">
+
+                    <input value="<?php echo esc_attr( $option['value']  ); ?>" type="radio" id="<?php echo $id; ?>" name="<?php echo esc_attr( $name ) ?>" <?php selected( $_selected, $option['value'] ) ?> <?php Opt_In::render_attributes( isset( $item_attributes ) ? $item_attributes :  array()  ); ?> >
+
+                    <label for="<?php echo $id ?>" class="wpdui-fi wpdui-fi-check"></label>
+
+                </div>
+
+                <?php if( $label_before ): ?>
+                    <label for="<?php echo $id ?>" class="wpmudev-helper"><?php echo $option['label']; ?></label>
+                <?php endif; ?>
+
+                <?php if( !$label_before ): ?>
+                    <label for="<?php echo $id ?>" class="wpmudev-helper"><?php echo  $option['label']; ?></label>
+                <?php endif; ?>
+
             </div>
-        </div>
-    <?php endforeach; ?>
+
+        <?php endforeach;
+
+    echo '</div>'; ?>
 
 <?php elseif( "checkboxes" === $type ): // Radios type ?>
     <?php
@@ -79,25 +97,42 @@ $type_class = 'optin_' .  $type . '_' . $type . ' ' . $type;
     if( isset( $selected ) )
         $_selected = $selected;
 
-    foreach( $options as $option):
-        $option = (array) $option;
-        $id =  esc_attr( $id . "-" . str_replace( " ", "-", strtolower( $option['value'] ) ) );
-        $label_before = isset( $label_before ) ? $label_before : false;
-        $checked = is_array( $_selected ) ? in_array( $option['value'], $_selected ) ? checked(true, true, false) : "" : checked( $_selected, $option['value'], false );
-        ?>
-        <div class="wph-label--checkbox">
-            <?php if( $label_before ): ?>
-                <label for="<?php echo $id ?>"><?php echo $option['label']; ?></label>
-            <?php endif; ?>
-            <?php if( !$label_before ): ?>
-                <label for="<?php echo $id ?>"><?php echo  $option['label']; ?></label>
-            <?php endif; ?>
-            <div class="wph-input--checkbox">
-	            <input value="<?php echo esc_attr( $option['value']  ); ?>" type="checkbox" id="<?php echo $id; ?>" name="<?php echo esc_attr( $name ) ?>" <?php echo $checked; ?> <?php Opt_In::render_attributes( isset( $item_attributes ) ? $item_attributes :  array()  ); ?> >
-	            <label class="wph-icon i-check" for="<?php echo $id ?>"></label>
+    echo '<div class="wpmudev-options-list">';
+
+        foreach ( $options as $option):
+            $option = (array) $option;
+            $id =  esc_attr( $id . "-" . str_replace( " ", "-", strtolower( $option['value'] ) ) );
+            $label_before = isset( $label_before ) ? $label_before : false;
+            $checked = is_array( $_selected ) ? in_array( $option['value'], $_selected ) ? checked(true, true, false) : "" : checked( $_selected, $option['value'], false );
+            ?>
+
+            <div class="wpmudev-options-item">
+
+                <div class="wpmudev-input_checkbox">
+
+                    <input value="<?php echo esc_attr( $option['value']  ); ?>" type="checkbox" id="<?php echo $id; ?>" name="<?php echo esc_attr( $name ) ?>" <?php echo $checked; ?> <?php Opt_In::render_attributes( isset( $item_attributes ) ? $item_attributes :  array()  ); ?> >
+
+                    <label for="<?php echo $id ?>" class="wpdui-fi wpdui-fi-check"></label>
+
+                </div>
+
+                <?php if( $label_before ): ?>
+                    <label for="<?php echo $id ?>" class="wpmudev-helper"><?php echo $option['label']; ?></label>
+                <?php endif; ?>
+
+                <?php if( !$label_before ): ?>
+                    <label for="<?php echo $id ?>" class="wpmudev-helper"><?php echo  $option['label']; ?></label>
+                <?php endif; ?>
+
             </div>
-        </div>
-    <?php endforeach; ?>
+
+        <?php endforeach;
+
+    echo '</div>'; ?>
+
+<?php elseif( "ajax_button" === $type  ): // button that is not an input submit ?>
+    <button class="<?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>"><?php echo $value; ?></button>
+
 <?php else: ?>
     <input <?php Opt_In::render_attributes( isset( $attributes ) ? $attributes : array() ); ?> type="<?php echo esc_attr( $type ); ?>" value="<?php echo esc_attr( $value ); ?>" class="<?php echo esc_attr( $type_class ); ?> <?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>" name="<?php echo esc_attr( $name ); ?>" placeholder="<?php echo isset($placeholder ) ? esc_attr($placeholder)  : ''; ?>" id="<?php echo isset( $id ) ? esc_attr( $id ) : ''; ?>"  />
 <?php endif?>

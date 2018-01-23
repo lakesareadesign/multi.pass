@@ -211,17 +211,16 @@ class MS_Helper_ListTable_Member extends MS_Helper_ListTable {
 		return apply_filters( 'ms_helper_listable_member_prepare_args', $args, $status );
 	}
 
-        public function column_default( $member, $column_name )
-        {
-            $html = '';
+    public function column_default( $member, $column_name ) {
+		$html = '';
 
-            return apply_filters(
-                'ms_helper_listtable_member_default_value',
-                $html,
-                $member,
-                $column_name
-            );
-        }
+		return apply_filters(
+			'ms_helper_listtable_member_default_value',
+			$html,
+			$member,
+			$column_name
+		);
+	}
 
 	/**
 	 * Display checkbox column.
@@ -272,7 +271,7 @@ class MS_Helper_ListTable_Member extends MS_Helper_ListTable {
 	 */
 	public function column_username( $member ) {
 		$actions = array();
-		if ( !user_can( $member->id, 'administrator' ) ) {
+		if ( !MS_Model_Member::is_admin_user( $member->id ) ) {
 			$actions['edit'] = sprintf(
 				'<a href="%s">%s</a>',
 				MS_Controller_Plugin::get_admin_url(

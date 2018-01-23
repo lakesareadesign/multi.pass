@@ -100,7 +100,7 @@ class FLSubscribeFormModule extends FLBuilderModule {
 
 				if ( ! empty( $settings->recaptcha_secret_key ) && ! empty( $settings->recaptcha_site_key ) ) {
 					if ( version_compare( phpversion(), '5.3', '>=' ) ) {
-						include $module->dir . 'includes/validate-recaptcha.php';
+						include FLBuilderModel::$modules['subscribe-form']->dir . 'includes/validate-recaptcha.php';
 					} else {
 						$result['error'] = false;
 					}

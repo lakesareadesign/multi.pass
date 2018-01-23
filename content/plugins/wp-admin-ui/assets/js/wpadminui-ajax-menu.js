@@ -39,14 +39,12 @@ jQuery(document).ready(function(){
         jQuery.ajax({
             method : 'POST',
             url : wpuiAjaxResetMenu.wpui_post_url,
-            _ajax_nonce: wpuiAjaxResetMenu.wpui_nonce,
-            success : function( data ) {   
-                var data = {
-                    'action': 'wpui_menu_reset_order',
-                };
-                jQuery.post(ajaxurl, data, function(response){
-                    window.location.reload(true);
-                });
+            data : {
+                action: 'wpui_menu_reset_order',
+                _ajax_nonce: wpuiAjaxResetMenu.wpui_nonce,
+            },
+            success : function( data ) {
+                window.location.reload(true);
             },
         });
     });

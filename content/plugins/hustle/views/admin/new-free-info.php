@@ -1,48 +1,44 @@
-<div id="hust-optin-wizar" class="hustle-two">
+<main id="wpmudev-hustle" class="wpmudev-ui wpmudev-hustle-free-wizard-view">
 
-	<div id="container">
+	<header id="wpmudev-hustle-title">
 
-		<header id="header">
+		<h1><?php echo $page_title; ?></h1>
 
-			<h1><?php echo $page_title; ?></h1>
+	</header>
 
-		</header>
+	<section id="wpmudev-hustle-content">
 
-		<section id="wph-free--message">
+		<div class="row">
 
-			<div class="row">
+			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-				<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+				<section class="wpmudev-box">
 
-					<section id="wph-woop" class="box">
+					<div class="wpmudev-box-head">
 
-						<div class="box-title">
+						<h3><?php _e('UPGRADE TO SUPER HUSTLE', Opt_In::TEXT_DOMAIN); ?></h3>
 
-							<h3><?php _e('UPGRADE TO SUPER HUSTLE', Opt_In::TEXT_DOMAIN); ?></h3>
+					</div>
 
-						</div>
+					<div class="wpmudev-box-body">
 
-						<div class="box-content">
+						<div class="row">
 
-							<div class="row">
+							<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-								<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
+								<div class="wph-howdy"></div>
 
-									<div class="wph-howdy"></div>
+							</div>
 
-								</div>
+							<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
 
-								<div class="col-xs-12 col-sm-9 col-md-9 col-lg-9">
+								<div class="content-800">
 
-									<div class="content-800">
+									<h2><?php _e('Ready to unlock the full magic of Hustle?', Opt_In::TEXT_DOMAIN); ?></h2>
 
-										<h2><?php _e('Ready to unlock the full magic of Hustle?', Opt_In::TEXT_DOMAIN); ?></h2>
+									<h6><?php _e('Thank you for installing Hustle! To help you get started, we\'ve put together some free guides on email marketing... Spam-free, promise!', Opt_In::TEXT_DOMAIN); ?></h6>
 
-										<h6><?php _e('Thank you for installing Hustle! To help you get started, we\'ve put together some free guides on email marketing... Spam-free, promise!', Opt_In::TEXT_DOMAIN); ?></h6>
-
-										<p><a href="https://premium.wpmudev.org/project/hustle/" target="_blank" class="wph-button wph-button--inline wph-button--filled wph-button--blue"><?php _e('Get Free Guides', Opt_In::TEXT_DOMAIN); ?></a></p>
-
-									</div>
+									<p><a href="https://premium.wpmudev.org/project/hustle/" target="_blank" class="wph-button wph-button--inline wph-button--filled wph-button--blue"><?php _e('Get Free Guides', Opt_In::TEXT_DOMAIN); ?></a></p>
 
 								</div>
 
@@ -50,14 +46,14 @@
 
 						</div>
 
-					</section>
+					</div>
 
-				</div>
+				</section>
 
 			</div>
 
-		</section>
+		</div>
 
-	</div>
+	</section>
 
-</div>
+</main>

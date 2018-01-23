@@ -22,7 +22,7 @@ class Stripe_BalanceTransaction extends Stripe_ApiResource
   public static function retrieve($id, $apiKey=null)
   {
     $class = get_class();
-    return self::_scopedRetrieve($class, $id, $apiKey);
+    return self::_scopedRetrieve($class, $id, $apiKey);	     	 	   	  	 	
   }
 
   /**

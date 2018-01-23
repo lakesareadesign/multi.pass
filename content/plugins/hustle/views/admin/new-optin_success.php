@@ -1,7 +1,6 @@
 <?php
 /**
- * @var $this Opt_In_Admin
- * @var $optin Opt_In_Model
+ *
  */
 ?>
 <div id="wpoi-complete-message" style="display: none;">

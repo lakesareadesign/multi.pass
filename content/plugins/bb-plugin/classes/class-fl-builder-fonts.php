@@ -264,7 +264,7 @@ final class FLBuilderFonts {
 		// Check for any enqueued `fonts.googleapis.com` from BB theme or plugin
 		if ( isset( $wp_styles->queue ) ) {
 
-			$google_fonts_domain = '//fonts.googleapis.com/css';
+			$google_fonts_domain = 'https://fonts.googleapis.com/css';
 			$enqueued_google_fonts = array();
 			$families = array();
 			$subsets = array();

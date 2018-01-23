@@ -8,8 +8,8 @@ Author URI: http://cagewebdev.com
 Author: CAGE Web Design | Rolf van Gelder, Eindhoven, The Netherlands
 Requires at least: 2.8
 Tested up to: 4.9.1
-Stable tag: 4.4.2
-Version: 4.4.2
+Stable tag: 4.5
+Version: 4.5
 License: GPLv2 or later
 
 == Description ==
@@ -102,6 +102,12 @@ http://cagewebdev.com/wordpress-plugins/
 * If you run the plugin from any of the sites, it will cleanup ALL the sites in the network!
 
 == Changelog ==
+= 4.5 [01/08/2018] =
+* CHANGE: Revamped and improved the scheduler code
+
+= 4.4.3 [01/06/2018] =
+* BUG FIX: Fixed some scheduler time issues
+
 = 4.4.2 [12/14/2017] =
 * NEW: Skip standard posttype 'oembed_cache'
 * BUG FIX: Hide the settings link (plugin page) for multi site sites (except for the main network site)

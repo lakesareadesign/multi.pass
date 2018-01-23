@@ -657,6 +657,7 @@ class MS_Addon_Coupon extends MS_Addon {
 			$discount = $coupon->get_discount_value( $subscription );
 			$invoice->coupon_id = $coupon->id;
 			$invoice->discount = $discount;
+			$invoice->duration = $coupon->duration;
 
 			$note = sprintf(
 				__( 'Apply Coupon "%s": Discount %s %s!', 'membership2' ),
@@ -727,6 +728,8 @@ class MS_Addon_Coupon extends MS_Addon {
 			);
 
 			if ( ! $coupon || ! $coupon->is_valid( $membership->id ) ) return $desc;
+
+			if ( MS_Model_Membership::PAYMENT_TYPE_RECURRING === $membership->payment_type && MS_Addon_Coupon_Model::DURATION_ONCE !== $invoice->duration ) return $desc;
 
 			$lbl = '';
 			if ( $membership->pay_cycle_repetitions > 1 ) {

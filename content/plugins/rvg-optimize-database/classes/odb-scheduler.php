@@ -7,6 +7,7 @@
 ?>
 <?php
 class ODB_Scheduler {
+	
 	/********************************************************************************************
 	 *	CONSTRUCTOR
 	 ********************************************************************************************/	
@@ -88,33 +89,44 @@ class ODB_Scheduler {
 
 
 	/*******************************************************************************
-	 * 	CALCULATE SCHEDULE TIME
+	 * 	CALCULATE SCHEDULE TIME, BASED ON THE SCHEDULE TYPE
+	 *
+	 *	v4.5	Fixed time issues
 	 *******************************************************************************/	
 	function odb_calculate_time() {
 		global $odb_class;
+
+		// CURRENT TIME (WITH TIMEZONE)
+		$timestamp = current_time('timestamp', 1);
+		// YYYYMMDDHHMMSS
+		$ymdhis    = date('YmdHis', $timestamp);
+
+		// CHOP TIME, YYYYMMDD
+		$current_date = substr($ymdhis, 0, 8);
+		$current_hour = substr($ymdhis, 8, 2);
 	
 		if ($odb_class->odb_rvg_options['schedule_type'] == 'daily' ||
 				$odb_class->odb_rvg_options['schedule_type'] == 'weekly' ||
 				$odb_class->odb_rvg_options['schedule_type'] == 'monthly'
 				) {
-			// 'daily' OR 'weekly'
-			$current_datetime = Date('YmdHis');
-			$current_date     = substr($current_datetime, 0, 8);
-			$current_hour     = substr($current_datetime, 8, 2);
-					
-			if($odb_class->odb_rvg_options['schedule_hour'] <= $current_hour)
+			// 'daily', 'weekly' OR 'monthly'
+			if($odb_class->odb_rvg_options['schedule_hour'] <= $current_hour) {
 				// NEXT RUN WILL BE TOMORROW
 				$date = date('YmdHis', strtotime($current_date.$odb_class->odb_rvg_options['schedule_hour'].'0000'.' + 1 day'));
-			else
+			} else {
 				// NEXT RUN WILL BE TODAY
 				$date = $current_date.$odb_class->odb_rvg_options['schedule_hour'].'0000';
-			$time = strtotime($date);
-		}
-		else
+			} // if($odb_class->odb_rvg_options['schedule_hour'] <= $current_hour)
+		} else {
 			// 'hourly' OR 'twicedaily'
-			$time = time();
+			
+			// ADD ONE HOUR TO THE CURRENT TIME: IT WILL RUN THE NEXT FULL HOUR (16:00 FOR INSTANCE)
+			$ts   = $timestamp + 3600;
+			$date = date('YmdH0000', $ts);
+		} // if ($odb_class->odb_rvg_options['schedule_type'] == 'daily' ...
 		
-		return $time;
+		// CONVERT TO TIMESTAMP
+		return strtotime($date);
 	} // odb_calculate_time()
 } // ODB_Scheduler
 ?>

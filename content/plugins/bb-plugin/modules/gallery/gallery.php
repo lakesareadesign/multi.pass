@@ -303,9 +303,19 @@ FLBuilder::register_module('FLGalleryModule', array(
 							'lightbox'      => __( 'Lightbox', 'fl-builder' ),
 							'link'          => __( 'Photo Link', 'fl-builder' ),
 						),
+						'toggle'		=> array(
+							'lightbox'		=> array(
+								'fields' => array( 'lightbox_image_size' ),
+							),
+						),
 						'preview'       => array(
 							'type'          => 'none',
 						),
+					),
+					'lightbox_image_size' => array(
+						'type' 			=> 'photo-sizes',
+						'label'			=> __( 'Lightbox Photo Size', 'fl-builder' ),
+						'default'		=> 'large',
 					),
 				),
 			),

@@ -66,7 +66,7 @@ class MS_Rule_Post_ListTable extends MS_Helper_ListTable_Rule {
 	}
 
 	public function column_post_date( $item, $column_name ) {
-		return MS_Helper_Period::format_date( $item->post_date );	   	 	 		 	  					  
+		return MS_Helper_Period::format_date( $item->post_date );
 	}
 
 	/**

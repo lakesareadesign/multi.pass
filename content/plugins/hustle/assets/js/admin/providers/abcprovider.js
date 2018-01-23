@@ -52,7 +52,7 @@
 			 */
 			clear_provider_args: function() {
 				if ( me.id === Optin.step.services.model.previousAttributes().optin_provider &&
-                    me.id !== Optin.step.services.model.get('optin_provider') ) {
+					me.id !== Optin.step.services.model.get('optin_provider') ) {
 					Optin.step.services.provider_args.clear( {silent: true} );
 				}
 			},

@@ -4,7 +4,6 @@ defined( 'ABSPATH' ) or die( 'Please don&rsquo;t call the plugin directly. Thank
 //Menu order
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 function wpui_menu_save_order() {
-	
 	$wpui_admin_menu_custom_list = get_option( 'wpui_admin_menu_list_option_name' );
 	
 	$list = $wpui_admin_menu_custom_list;
@@ -34,6 +33,8 @@ function wpui_menu_default() {
 add_action('admin_menu', 'wpui_menu_default', 999);
 
 function wpui_menu_reset_order() {
+	check_ajax_referer( 'wpui_reset_menus_nonce', $_POST['_ajax_nonce'], true );
+	
 	delete_option('wpui_admin_menu_list_option_name');
 	delete_option('wpui_admin_menu_option_name');
 	die();

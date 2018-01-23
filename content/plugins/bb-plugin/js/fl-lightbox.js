@@ -218,7 +218,7 @@
 				return;
 			}
 
-			this.trigger('beforeClose');
+			this.trigger('beforeCloseLightbox');
 			this._unbind();
 			this._node.hide();
 			this._visible = false;

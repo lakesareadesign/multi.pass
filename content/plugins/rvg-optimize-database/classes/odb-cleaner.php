@@ -40,7 +40,8 @@ class ODB_Cleaner {
 	
 		// TIMESTAMP FOR LOG FILE
 		$ct = ($scheduler) ? ' (cron)' : '';
-		$current_datetime = Date('m/d/YH:i:s');
+		// v4.5
+		$current_datetime = current_time('m/d/YH:i:s', 0);
 		$odb_class->log_arr = array("time" => substr($current_datetime, 0, 10).'<br>'.substr($current_datetime,10).$ct);
 
 		$odb_class->log_arr["after"]      = 0;

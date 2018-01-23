@@ -111,6 +111,18 @@ class MS_Controller_Member extends MS_Controller {
 			'remove_membership_from_user'
 		);
 
+
+		$this->add_action(
+			'ms_bulk_actions_table_nav_members',
+			'members_export_button'
+		);
+
+
+		$this->add_action(
+			'admin_action_membership_export_csv',
+			'membership_export_csv'
+		);
+
 		$this->add_filter( 'set-screen-option', array($this, 'members_admin_page_set_screen_option' ) , 10, 3 );
 
 		$this->add_filter( 'manage_users_columns', array($this, 'manage_users_columns' ) , 10, 1 );
@@ -136,6 +148,23 @@ class MS_Controller_Member extends MS_Controller {
 			$this->run_action( 'admin_print_scripts-' . $hook, 'enqueue_scripts_' . $key );
 			$this->run_action( 'admin_print_styles-' . $hook, 'enqueue_styles' );
 		}
+	}
+
+
+	/**
+	 * Export members as CSV
+	 * Exports data of the current page on the members list
+	 *
+	 * @return csv file
+	 */
+	public function membership_export_csv() {
+		if ( empty( $_REQUEST['_wpnonce'] ) ) { return; }
+
+
+		if ( ! wp_verify_nonce( $_REQUEST['_wpnonce'], 'csv_export' ) ) { return; }
+
+		$handler = MS_Factory::create( 'MS_Model_Report_Members' );
+		$handler->process();
 	}
 
 	/**
@@ -395,8 +424,21 @@ class MS_Controller_Member extends MS_Controller {
 					foreach ( $memberships as $membership_id ) {
 						if ( empty( $_POST['mem_' . $membership_id] ) ) { continue; }
 
-						$subscription = $user->get_subscription( $membership_id );
-						$data = $_POST['mem_' . $membership_id];
+						$subscription 	= $user->get_subscription( $membership_id );
+						$data 			= $_POST['mem_' . $membership_id];
+
+						$invoice 		= $subscription->get_current_invoice( false );
+						if ( $invoice ) {
+							if ( $data['status'] === MS_Model_Relationship::STATUS_ACTIVE ) {
+								$invoice->status = MS_Model_Invoice::STATUS_PAID;
+								$invoice->save();
+							} else if ( $data['status'] === MS_Model_Relationship::STATUS_CANCELED ) {
+								if ( $invoice->status !== MS_Model_Invoice::STATUS_PAID ) {
+									$invoice->status = MS_Model_Invoice::STATUS_PENDING;
+									$invoice->save();
+								}
+							}
+						}
 
 						$subscription->start_date 	= $data['start'];
 						$subscription->expire_date 	= $data['expire'];
@@ -409,31 +451,35 @@ class MS_Controller_Member extends MS_Controller {
 				if ( self::validate_required( $fields_subscribe, 'POST' ) ) {
 					$subscribe_to 	= $_POST['subscribe'];
 
-					if ( MS_Model_Addon::is_enabled( MS_Model_Addon::ADDON_MULTI_MEMBERSHIPS ) ) {
-						// Memberships is an array.
-						foreach ( $subscribe_to as $membership_id ) {
-							$user->add_membership( $membership_id, 'admin' );
-						}
-					} else {
-						// Memberships is a single ID.
-						foreach ( $user->subscriptions as $subscription ) {
-							$subscription->deactivate_membership( false );
-						}
-						$user->add_membership( $subscribe_to, 'admin' );
+					if ( !empty( $subscribe_to ) ) {
+						if ( MS_Model_Addon::is_enabled( MS_Model_Addon::ADDON_MULTI_MEMBERSHIPS ) ) {
+							// Memberships is an array.
+							foreach ( $subscribe_to as $membership_id ) {
+								$user->add_membership( $membership_id, 'admin' );
+							}
+						} else {
+							// Memberships is a single ID.
+							foreach ( $user->subscriptions as $subscription ) {
+								$subscription->deactivate_membership( false );
+							}
+							$user->add_membership( $subscribe_to, 'admin' );
 
-						if ( isset ( $_POST['create_invoice'] ) && $_POST['create_invoice'] ) {
-							//Get the payment mode for the membership
-							$subscription 		= $user->get_subscription( $subscribe_to );
-							$subscription->set_recalculate_expire_date( false ); //Dont adjust the subscription expire date
-							$invoice 			= $subscription->get_current_invoice();
-							$this->payment_info .= sprintf(
-								'<div class="ms-manual-price">%s: <span class="ms-price">%s%s</span></div>',
-								__( 'Total value', 'membership2' ),
-								$invoice->currency,
-								$invoice->total
-							);
-							$invoice->status = MS_Model_Invoice::STATUS_BILLED;
-							$invoice->save();
+							if ( isset ( $_POST['create_invoice'] ) && $_POST['create_invoice'] ) {
+								//Get the payment mode for the membership
+								$subscription 		= $user->get_subscription( $subscribe_to );
+								if ( $subscription && $subscription->id > 0 ) {
+									$subscription->set_recalculate_expire_date( false ); //Dont adjust the subscription expire date
+									$invoice 			= $subscription->get_current_invoice();
+									$invoice->payment_info .= sprintf(
+										'<div class="ms-manual-price">%s: <span class="ms-price">%s%s</span></div>',
+										__( 'Total value', 'membership2' ),
+										$invoice->currency,
+										$invoice->total
+									);
+									$invoice->status = MS_Model_Invoice::STATUS_BILLED;
+									$invoice->save();
+								}
+							}
 						}
 					}
 				}
@@ -457,11 +503,37 @@ class MS_Controller_Member extends MS_Controller {
 	 * @since  1.0.0
 	 */
 	public function admin_page() {
-		$data = array();
-
-		$view = MS_Factory::create( 'MS_View_Member_List' );
-		$view->data = apply_filters( 'ms_view_member_list_data', $data );
+		$data 		= array();
+		$view 		= MS_Factory::create( 'MS_View_Member_List' );
+		$view->data = apply_filters( 'ms_view_member_list_data', $data, $this );
 		$view->render();
+	}
+
+	/**
+	 * Generate the Export button on the Members list view
+	 *
+	 * @since 1.1.3
+	 *
+	 * @return String
+	 */
+	public function members_export_button() {
+		$status 	= $_REQUEST['status'];
+		if ( empty( $status ) ) {
+			$status = MS_Model_Relationship::STATUS_ACTIVE;
+		}
+		$url = 'admin.php?action=membership_export_csv&status='.$status;
+		if ( isset( $_REQUEST['membership_id'] ) ) {
+			$url .= '&membership_id=' . $_REQUEST['membership_id'];
+		}
+		$url 		= wp_nonce_url( admin_url( $url ), 'csv_export' );
+		$csv_button = array(
+			'id' 	=> 'csv_ms_button',
+			'type' 	=> MS_Helper_Html::TYPE_HTML_LINK,
+			'url' 	=> $url,
+			'value' => __( 'Export List as CSV', 'membership2' ),
+			'class' => 'button button-primary action-button export_csv_memberships_button',
+		);
+		MS_Helper_Html::html_element( $csv_button );
 	}
 
 	/**
@@ -620,9 +692,9 @@ class MS_Controller_Member extends MS_Controller {
 				),
 				'orderby' => 'display_name',
 			);
-			$users = get_users( $args );
-                        $admins = get_users( array( 'role' => 'administrator' ) );
-                        $users = array_udiff( $users, $admins, array( $this, 'compare_objects' ) );
+			$users 	= get_users( $args );
+			$admins = get_users( array( 'role' => 'administrator' ) );
+			$users 	= array_udiff( $users, $admins, array( $this, 'compare_objects' ) );
 
 			if ( count( $users ) > $items_per_page ) {
 				$res->more = true;

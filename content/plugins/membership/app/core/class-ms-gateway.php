@@ -288,8 +288,8 @@ class MS_Gateway extends MS_Model_Option {
 			$this
 		);
 
-		$invoice = $subscription->get_current_invoice();
-		$invoice->gateway_id = self::ID;
+		$invoice		 		= $subscription->get_current_invoice();
+		$invoice->gateway_id 	= $this->id;
 		$invoice->save();
 
 		// The default handler only processes free subscriptions.
@@ -396,6 +396,22 @@ class MS_Gateway extends MS_Model_Option {
 
 		return apply_filters(
 			'ms_gateway_get_return_url',
+			$url,
+			$this
+		);
+	}
+
+	/**
+	 * Url that fires handle_webhook of this gateway (IPN).
+	 *
+	 * @since  1.1.2
+	 * @return string The webhook url.
+	 */
+	public function get_webhook_url() {
+		$url = MS_Helper_Utility::home_url( '/ms-web-hook/' . $this->id );
+
+		return apply_filters(
+			'ms_gateway_get_webhook_url',
 			$url,
 			$this
 		);

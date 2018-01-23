@@ -3315,7 +3315,7 @@
 					nodeId    : nodeId,
 					className : 'fl-builder-row-settings',
 					attrs     : 'data-node="' + nodeId + '"',
-					buttons   : ! global ? ['save-as'] : [],
+					buttons   : ! global && ! FLBuilderConfig.lite && ! FLBuilderConfig.simpleUi ? ['save-as'] : [],
 					badges    : global ? [ FLBuilderStrings.global ] : [],
 					settings  : FLBuilderSettingsConfig.nodes[ nodeId ],
 					preview	  : {
@@ -4372,9 +4372,10 @@
 		{
 			// Setup resize vars.
 			var data 			= FLBuilder._colResizeData,
+				directionRef	= FLBuilderConfig.isRtl ? 'w' : 'e',
 				overlay 		= data.handle.closest( '.fl-block-overlay' ),
 				change 			= ( data.offset - ui.position.left ) / data.groupWidth,
-				colWidth 		= 'e' == data.direction ? ( data.colWidth - change ) * 100 : ( data.colWidth + change ) * 100,
+				colWidth 		= directionRef == data.direction ? ( data.colWidth - change ) * 100 : ( data.colWidth + change ) * 100,
 				colRound 		= Math.round( colWidth * 100 ) / 100,
 				siblingWidth	= data.availWidth - colWidth,
 				siblingRound	= Math.round( siblingWidth * 100 ) / 100,
@@ -4392,7 +4393,7 @@
 			}
 
 			// Set the feedback values.
-			if ( 'e' == data.direction ) {
+			if ( directionRef == data.direction ) {
 				data.feedbackLeft.html( colRound.toFixed( 1 ) + '%'  ).show();
 				data.feedbackRight.html( siblingRound.toFixed( 1 ) + '%'  ).show();
 			}
@@ -5030,7 +5031,7 @@
 				nodeId    : data.nodeId,
 				className : 'fl-builder-module-settings fl-builder-' + data.type + '-settings',
 				attrs     : 'data-node="' + data.nodeId + '" data-parent="' + data.parentId + '" data-type="' + data.type + '"',
-				buttons   : ! data.global ? ['save-as'] : [],
+				buttons   : ! data.global && ! FLBuilderConfig.lite && ! FLBuilderConfig.simpleUi ? ['save-as'] : [],
 				badges    : data.global ? [ FLBuilderStrings.global ] : [],
 				settings  : settings ? settings : FLBuilderSettingsConfig.defaults.modules[ data.type ],
 				legacy    : data.legacy,
@@ -8101,10 +8102,10 @@
 
 			// Prevent ModSecurity false positives if our fix is enabled.
 			if ( 'undefined' != typeof data.settings ) {
-				data.settings = FLBuilder._ajaxModSecFix( data.settings );
+				data.settings = FLBuilder._ajaxModSecFix( $.extend( true, {}, data.settings ) );
 			}
 			if ( 'undefined' != typeof data.node_settings ) {
-				data.node_settings = FLBuilder._ajaxModSecFix( data.node_settings );
+				data.node_settings = FLBuilder._ajaxModSecFix( $.extend( true, {}, data.node_settings ) );
 			}
 
 			// Store the data in a single variable to avoid conflicts.
@@ -8354,7 +8355,7 @@
 
 			FLBuilder._lightbox.on('resized', FLBuilder._calculateSettingsTabsOverflow);
 			FLBuilder._lightbox.on('close', FLBuilder._lightboxClosed);
-			FLBuilder._lightbox.on('beforeClose', FLBuilder._destroyEditorFields);
+			FLBuilder._lightbox.on('beforeCloseLightbox', FLBuilder._destroyEditorFields);
 
 			/* Actions lightbox */
 			FLBuilder._actionsLightbox = new FLLightbox({

@@ -280,6 +280,14 @@
   width: 100%;
   text-align: center;
 }
+#sb_instagram #sbi_load .fa-spinner{
+  display: none;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -8px 0 0 -7px;
+  font-size: 15px;
+}
 #sb_instagram #sbi_load .sbi_load_btn,
 #sb_instagram .sbi_follow_btn a{
   display: -moz-inline-stack;
@@ -305,6 +313,9 @@
   -webkit-box-sizing: border-box;
   -moz-box-sizing: border-box;
   box-sizing: border-box;
+}
+#sb_instagram #sbi_load .sbi_load_btn {
+  position: relative;
 }
 /* Follow button */
 #sb_instagram .sbi_follow_btn{

@@ -3,65 +3,61 @@
  * @var Opt_In_Admin $this
  */
 ?>
-<div id="hustle-settings" class="hustle-two">
 
-	<div id="container"<?php if ( count( $modules ) == 0 ) : ''; else : echo ' class="container-980"'; endif; ?>>
+<?php if ( count( $modules ) == 0 ) : ?>
 
-		<header id="header">
+	<?php $this->render( "admin/settings/welcome", array( 'user_name' => $user_name ) ); ?>
 
-			<h1><?php _e('Settings', Opt_In::TEXT_DOMAIN); ?></h1>
+<?php else : ?>
+
+	<main id="wpmudev-hustle" class="wpmudev-ui wpmudev-hustle-popup-wizard-view">
+
+		<header id="wpmudev-hustle-title">
+
+			<h1><?php _e( "Settings", Opt_In::TEXT_DOMAIN ); ?></h1>
 
 		</header>
 
-		<section>
+		<section id="wpmudev-hustle-content" class="wpmudev-container">
 
-			<?php if ( count( $modules ) == 0 ) : ?>
+			<div class="wpmudev-row">
 
-				<?php $this->render("admin/settings/settings-welcome", array(
-                    'user_name' => $user_name
-                )); ?>
+				<div id="wpmudev-settings-activity" class="wpmudev-col col-12 col-sm-6">
 
-			<?php else : ?>
+					<?php $this->render( "admin/settings/widget-modules", array(
+						"modules" => $modules,
+						"modules_state_toggle_nonce" => $modules_state_toggle_nonce
+					) ); ?>
 
-				<div class="row">
+				</div><?php // #wpmudev-settings-activity ?>
 
-					<section class="col-xs-12 col-sm-12 col-md-12 col-lg-6">
+				<?php if ( $is_e_newsletter_active ){ ?>
 
-						<?php if ( $is_e_newsletter_active ){ ?>
+					<div id="wpmudev-settings-enews" class="wpmudev-col col-12 col-sm-6">
 
-							<div id="enews-sync-box" class="box content-box">
+						<div id="wpmudev-settings-widget-enews" class="wpmudev-box wpmudev-box-close">
 
-								<?php $this->render( "admin/settings/e-news-sync-front", array(
-									"optins" => $optins,
-									"enews_sync_state_toggle_nonce" => $enews_sync_state_toggle_nonce,
-									"enews_sync_setup_nonce" => $enews_sync_setup_nonce
-								) ); ?>
+							<?php $this->render( "admin/settings/widget-enews", array(
+								"modules" => $modules,
+								"enews_sync_state_toggle_nonce" => $enews_sync_state_toggle_nonce,
+								"enews_sync_setup_nonce" => $enews_sync_setup_nonce,
+								"enews_double_optin_state_toggle_nonce" => $enews_double_optin_state_toggle_nonce
+							) ); ?>
 
-							</div>
-
-							<?php $this->render("admin/settings/e-news-sync-back"); ?>
-
-						<?php } ?>
-
-						<div class="box content-box" id="modules-activity">
-
-							<?php
-								$this->render( "admin/settings/modules", array(
-									"modules" => $modules,
-									"modules_state_toggle_nonce" => $modules_state_toggle_nonce
-								) );
-							?>
+							<?php $this->render("admin/settings/widget-enews_sync"); ?>
 
 						</div>
 
-					</section>
+					</div>
 
-				</div>
+				<?php } ?>
 
-			<?php endif; ?>
+			</div><?php // .wpmudev-row ?>
 
 		</section>
 
-	</div>
+		<?php $this->render( "admin/commons/footer", array() ); ?>
 
-</div>
+	</main>
+
+<?php endif; ?>

@@ -122,6 +122,12 @@
 			max-width: none;
 			width: <?php echo $col->settings->custom_responsive_size; ?>% !important;
 		}
+
+		<?php if ( 'reversed' == $col->settings->responsive_order ) : ?>
+		.fl-col-group-custom-width.fl-col-group-responsive-reversed .fl-node-<?php echo $col->node; ?>  {
+			flex-basis: <?php echo $col->settings->custom_responsive_size; ?>%;
+		}
+		<?php endif; ?>
 	}
 	<?php endif; ?>
 

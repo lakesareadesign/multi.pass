@@ -6877,9 +6877,7 @@ Y.namespace('FL').Slideshow = Y.Base.create('fl-slideshow', Y.FL.SlideshowBase, 
 		
 		// Nav buttons not needed for touch
 		if(this._isMobile()) {
-			this._removeNavButton('prev');
 			this._removeNavButton('prevPage');
-			this._removeNavButton('next');
 			this._removeNavButton('nextPage');
 			this._removeNavButton('fullscreen');
 		}
@@ -7402,8 +7400,8 @@ Y.namespace('FL').Slideshow = Y.Base.create('fl-slideshow', Y.FL.SlideshowBase, 
 	_initMiniNav: function()
 	{
 		var buttons = [];
-		
-		if(!('ontouchstart' in window)) {
+
+		if(this._hasNavButton('prev')) {
 			buttons.push('prev');
 		}
 		if(this._hasNavButton('thumbs') || this.get('navType') == 'thumbs') {
@@ -7424,7 +7422,7 @@ Y.namespace('FL').Slideshow = Y.Base.create('fl-slideshow', Y.FL.SlideshowBase, 
 		if(this._hasNavButton('fullscreen') && !('ontouchstart' in window)) {
 			buttons.push('fullscreen');
 		}
-		if(!('ontouchstart' in window)) {
+		if(this._hasNavButton('next')) {
 			buttons.push('next');
 		}
 		

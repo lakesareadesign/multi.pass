@@ -188,6 +188,10 @@
 				elements.css('visibility', 'visible');
 			}
 
+			if( 'load_more' == this.settings.pagination ) {
+				$( '#infscr-loading' ).appendTo( this.wrapperClass );
+			}
+
 			this.currPage++;
 
 			this._removeLoadMoreButton();

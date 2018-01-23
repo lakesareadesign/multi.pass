@@ -11,7 +11,7 @@ if ( $query->have_posts() ) :
 	$paged = ( FLBuilderLoop::get_paged() > 0 ) ? ' fl-paged-scroll-to' : '';
 
 ?>
-<div class="fl-post-<?php echo $module->get_layout_slug() . $paged; ?>" itemscope="itemscope" itemtype="http://schema.org/Blog">
+<div class="fl-post-<?php echo $module->get_layout_slug() . $paged; ?>" itemscope="itemscope" itemtype="https://schema.org/Blog">
 	<?php
 
 	while ( $query->have_posts() ) {

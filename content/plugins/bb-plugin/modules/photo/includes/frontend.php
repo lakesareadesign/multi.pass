@@ -10,7 +10,7 @@ $filetype = pathinfo( $src, PATHINFO_EXTENSION );
 $rel      = ( ! empty( $link ) && '_blank' == $settings->link_target ) ? ' rel="noopener"' : '';
 
 ?>
-<div class="fl-photo<?php if ( ! empty( $settings->crop ) ) { echo ' fl-photo-crop-' . $settings->crop ;} ?> fl-photo-align-<?php echo $settings->align; ?>" itemscope itemtype="http://schema.org/ImageObject">
+<div class="fl-photo<?php if ( ! empty( $settings->crop ) ) { echo ' fl-photo-crop-' . $settings->crop ;} ?> fl-photo-align-<?php echo $settings->align; ?>" itemscope itemtype="https://schema.org/ImageObject">
 	<div class="fl-photo-content fl-photo-img-<?php echo $filetype; ?>">
 		<?php if ( ! empty( $link ) ) : ?>
 		<a href="<?php echo $link; ?>" target="<?php echo $settings->link_target; ?>"<?php echo $rel; ?> itemprop="url">

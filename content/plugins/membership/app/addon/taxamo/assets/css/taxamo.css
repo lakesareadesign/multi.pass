@@ -13,7 +13,7 @@
 	background: #000;
 	z-index: 30000000;
 	background-color: rgba(0, 0, 0, 0.678);
-	background: -webkit-radial-gradient(50% 50%, ellipse closest-corner, rgba(0, 0, 0, 0.55) 1%, rgba(0, 0, 0, 0.9) 100%);
+	background: -webkit-radial-gradient(50% 50%, ellipse closest-corner, rgba(0, 0, 0, 0.55) 1%, rgba(0, 0, 0, 0.9) 100%);	   	 	 		 	  					  
 	background: radial-gradient(50% 50%, ellipse closest-corner, rgba(0,0,0,0.55) 1%, rgba(0,0,0,0.9) 100%);
 	filter: alpha(opacity = 90);
 	background: -moz-radial-gradient(50% 50%, ellipse closest-corner, rgba(0,0,0,0.55) 1%, rgba(0,0,0,0.9) 100%);
@@ -353,4 +353,4 @@ body.ms-tax-is-loading .ms-tax-loading-overlay {
 }
 
 
-/* 133620-1505265107-au */
+/* 133620-1516736108-au */

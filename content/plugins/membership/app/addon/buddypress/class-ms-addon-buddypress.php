@@ -260,7 +260,7 @@ class MS_Addon_BuddyPress extends MS_Addon {
 	static public function buddypress_active() {
 		global $bp;
 
-		return ( ! empty( $bp ) && function_exists( 'bp_buffer_template_part' ) );
+		return ( ! empty( $bp ) && function_exists( 'bp_buffer_template_part' ) && function_exists( 'buddypress' ) );
 	}
 
 	/**
@@ -545,9 +545,13 @@ class MS_Addon_BuddyPress extends MS_Addon {
 		if ( ! empty( $bp->signup->errors ) ) {
 			// There is error, so show errors using action hook
 			foreach ( (array) $bp->signup->errors as $fieldname => $error_message ) {
-				add_action( 'bp_' . $fieldname . '_errors', create_function( '', 'echo apply_filters(\'bp_members_signup_error_message\', "<div class=\"error\">" . stripslashes( \'' . addslashes( $error_message ) . '\' ) . "</div>" );' ) );
+				$this->add_action( 'bp_' . $fieldname . '_errors', '_bp_errors' );
 			}
 		}
+	}
+
+	function _bp_errors( $error_message ) {
+		echo apply_filters( 'bp_members_signup_error_message', '<div class="error">' . stripslashes( addslashes( $error_message ) ) . '</div>' );
 	}
 
 

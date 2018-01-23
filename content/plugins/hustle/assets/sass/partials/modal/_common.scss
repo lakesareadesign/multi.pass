@@ -1,0 +1,40 @@
+/* Disable scrolling */
+html.hustle-no-scroll, html.hustle-no-scroll body {
+	overflow: hidden;
+}
+
+.hustle-modal {
+	width: 100%;
+	max-width: 800px;
+	opacity: 0;
+	flex: 0 0 auto;
+	position: relative;
+	box-sizing: border-box;
+
+	* {
+		box-sizing: border-box;
+		text-rendering: geometricPrecision;
+		-webkit-font-smoothing: antialiased;
+	}
+
+	.hustle-sr-only {
+		width: 1px !important;
+		height: 1px !important;
+		overflow: hidden !important;
+		position: absolute !important;
+		margin: 0 !important;
+		padding: 0 !important;
+		border: 0 !important;
+		clip: rect(0,0,0,0) !important;
+	}
+
+	&.hustle-modal-image_only {
+		width: auto;
+		max-width: 100%;
+	}
+
+	&.hustle-modal-static {
+		opacity: 1;
+		position: relative;
+	}
+}

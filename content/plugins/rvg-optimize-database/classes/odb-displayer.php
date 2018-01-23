@@ -50,8 +50,6 @@ class ODB_Displayer {
 	function display_current_settings() {
 		global $odb_class;
 		
-		$current_hour = Date('H:i');
-		
 		$y = __('YES', $odb_class->odb_txt_domain);
 		$n = __('NO',  $odb_class->odb_txt_domain);
 		
@@ -107,34 +105,37 @@ class ODB_Displayer {
 		
 		if ($rpt == '') $rpt = '(' . __('NONE', $odb_class->odb_txt_domain) . ')';
 			
-		echo '<span class="odb-bold">'.__('Delete revisions of', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$rpt.'</span><br />';
+		echo '<span class="odb-bold">'.__('Delete revisions of', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$rpt.'</span><br>';
 		 
 		 if($odb_class->odb_rvg_options['delete_older'] == 'Y') {
-			 echo '<span class="odb-bold">'.__('Delete revisions older than', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$odb_class->odb_rvg_options['older_than'].' '.__("days", $odb_class->odb_txt_domain).'</span><br />';
+			 echo '<span class="odb-bold">'.__('Delete revisions older than', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$odb_class->odb_rvg_options['older_than'].' '.__("days", $odb_class->odb_txt_domain).'</span><br>';
 		 }
 		 
 		 if($odb_class->odb_rvg_options['rvg_revisions'] == 'Y') {
-			 echo '<span class="odb-bold">'.__('Maximum number of - most recent - revisions to keep per post / page', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$odb_class->odb_rvg_options['nr_of_revisions'].'</span><br />';
+			 echo '<span class="odb-bold">'.__('Maximum number of - most recent - revisions to keep per post / page', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$odb_class->odb_rvg_options['nr_of_revisions'].'</span><br>';
 		 }
 		 
 		 echo '
-		  <span class="odb-bold">'.__('Delete trashed items', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$trash.'</span><br />
-		  <span class="odb-bold">'.__('Delete spammed items', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$spam.'</span><br />
-		  <span class="odb-bold">'.__('Delete unused tags', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$tag.'</span><br />
-		  <span class="odb-bold">'.__('Delete transients', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$trans.'</span><br />
-		  <span class="odb-bold">'.__('Delete pingbacks and trackbacks', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$ping.'</span><br />
-		  <span class="odb-bold">'.__('Keep a log', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$log.'</span><br />
-		  <span class="odb-bold">'.__('Optimize InnoDB tables', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$innodb.'</span><br />
-		  <span class="odb-bold">'.__('Last run', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$odb_class->odb_rvg_options['last_run'].' '.__('hrs', $odb_class->odb_txt_domain).'</span><br />
-		  <span class="odb-bold">'.__('Number of excluded tables', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.count($odb_class->odb_rvg_excluded_tabs).'</span><br />
-		  <span class="odb-bold">'.__('Scheduler', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$schedule.'</span><br />
+		  <span class="odb-bold">'.__('Delete trashed items', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$trash.'</span><br>
+		  <span class="odb-bold">'.__('Delete spammed items', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$spam.'</span><br>
+		  <span class="odb-bold">'.__('Delete unused tags', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$tag.'</span><br>
+		  <span class="odb-bold">'.__('Delete transients', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$trans.'</span><br>
+		  <span class="odb-bold">'.__('Delete pingbacks and trackbacks', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$ping.'</span><br>
+		  <span class="odb-bold">'.__('Keep a log', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$log.'</span><br>
+		  <span class="odb-bold">'.__('Optimize InnoDB tables', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$innodb.'</span><br>
+		  <span class="odb-bold">'.__('Number of excluded tables', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.count($odb_class->odb_rvg_excluded_tabs).'</span><br>
+		  <span class="odb-bold">'.__('Last run', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$odb_class->odb_rvg_options['last_run'].' '.__('hrs', $odb_class->odb_txt_domain).'</span><br>
+		  <span class="odb-bold">'.__('Scheduler', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$schedule.'</span><br>
 		';
 		
 		if($odb_class->odb_rvg_options['schedule_type'] != '') {
-			$timestamp = wp_next_scheduled('odb_scheduler');
-			$nextrun   = Date('M j, Y @ H:i', $timestamp);
+			// v4.5
+			$current_timestamp = current_time('timestamp', 1);
+			$cron_timestamp    = wp_next_scheduled('odb_scheduler');
+			$diff_secs         = $cron_timestamp - $current_timestamp;
+			$nextrun           = $this->secondsToTime($diff_secs) . '<br>';
 			echo '
-		  <span class="odb-bold">'.__('Next scheduled run',$odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$nextrun.' '.__('hrs', $odb_class->odb_txt_domain).' ('.__('current server time', $odb_class->odb_txt_domain).': '.$current_hour.' '.__('hrs', $odb_class->odb_txt_domain).')</span><br>
+		  <span class="odb-bold">'.__('Next scheduled run',$odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$nextrun.'</span><br>
 			';
 		} // if($odb_class->odb_rvg_options['schedule_type'] != '')
 		
@@ -143,6 +144,16 @@ class ODB_Displayer {
 		</div><!-- /odb-current-settings -->
 		';		
 	} // display_current_settings()
+
+
+	/********************************************************************************************
+	 *	CONVERT SECONDS TO DAYS, HOURS, MINUTES AND SECONDS
+	 ********************************************************************************************/
+	function secondsToTime($seconds) {
+		$dtF = new \DateTime('@0');
+		$dtT = new \DateTime("@$seconds");
+		return $dtF->diff($dtT)->format('%a days, %h hours, %i minutes and %s seconds');
+	} // secondsToTime()
 	
 
 	/********************************************************************************************

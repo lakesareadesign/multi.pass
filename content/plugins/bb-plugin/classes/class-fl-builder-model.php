@@ -2784,7 +2784,7 @@ final class FLBuilderModel {
 			$config->kind = 'module';
 			$config->isWidget = false; // @codingStandardsIgnoreLine
 			$config->isAlias = true; // @codingStandardsIgnoreLine
-			$config->group = $config->group ? array( strtolower( str_replace( ' ', '', $config->group ) ) ) : array( 'standard' );
+			$config->group = $config->group ? array( sanitize_key( $config->group ) ) : array( 'standard' );
 
 			$modules[] = $config;
 		}
@@ -2803,7 +2803,8 @@ final class FLBuilderModel {
 				$data->isWidget = true; // @codingStandardsIgnoreLine
 				$data->isAlias = false; // @codingStandardsIgnoreLine
 				$data->description = isset( $widget->widget_options['description'] ) ? $widget->widget_options['description'] : '';
-				$data->group = array( strtolower( str_replace( ' ', '', __( 'WordPress Widgets', 'fl-builder' ) ) ) );
+
+				$data->group = array( sanitize_key( __( 'WordPress Widgets', 'fl-builder' ) ) );
 
 				if ( ! isset( $widget->icon ) ) {
 					$data->icon = FLBuilderModule::get_widget_icon();
@@ -4213,6 +4214,8 @@ final class FLBuilderModel {
 		if ( strstr( $post_status, 'draft' ) ) {
 			self::save_layout( false );
 		}
+
+		do_action( 'fl_builder_after_save_draft', $post_id, $post_status );
 	}
 
 	/**

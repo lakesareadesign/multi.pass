@@ -1,4 +1,4 @@
-<script id="wpoi-wizard-popup-conditions" type="text/template">
+<script id="wph-wizard-module-conditions" type="text/template">
 
 	<div class="wph-conditions--side">
 
@@ -14,7 +14,13 @@
 
 		<div class="wph-conditions--items">
 
-			<p class="wph-conditions--empty"><?php _e("No Conditions applied. Currently this {{type_name}} will be shown everywhere across your site.", Opt_In::TEXT_DOMAIN); ?></p>
+			<div class="wph-conditions--empty">
+
+				<p><?php _e("No Conditions applied.", Opt_In::TEXT_DOMAIN); ?></p>
+
+				<p><?php _e("Currently this {{type_name}} will be shown everywhere across your site.", Opt_In::TEXT_DOMAIN); ?></p>
+
+			</div>
 
 		</div>
 
@@ -22,13 +28,13 @@
 
 </script>
 
-<script id="wpoi-wizard-popup-conditions-handle" type="text/template">
+<script id="wph-wizard-module-conditions-handle" type="text/template">
 
-	<div class="wph-conditions--item {{active_class}}" id="{{cid}}" data-id="{{id}}">{{label}}<span class="dashicons-before {{icon_class}}"></span></div>
+	<div class="wph-conditions--item {{active_class}}" id="{{cid}}" data-id="{{id}}">{{label}}<div class="wph-conditions-icon {{icon_class}}"><?php $this->render( "general/icons/icon-plus", array() ); ?></div></div>
 
 </script>
 
-<script id="wpoi-wizard-popup-conditions-item" type="text/template">
+<script id="wph-wizard-module-conditions-item" type="text/template">
 
 	<header>
 
@@ -48,7 +54,7 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Shows the {{type_name}} if the user has only seen it less than a specific number of times.", Opt_In::TEXT_DOMAIN); ?></label>
+		<h4><?php _e("Shows the {{type_name}} if the user has only seen it less than a specific number of times.", Opt_In::TEXT_DOMAIN); ?></h4>
 
 	</div>
 
@@ -58,11 +64,7 @@
 
 			<label for="shown_less_than_value" class="wph-label--alt"><?php _e("Display {{type_name}} this often:", Opt_In::TEXT_DOMAIN); ?></label>
 
-			<div class="wph-input--number">
-
-				<input type="number" id="shown_less_than_value" class="inp-small" name="" data-attribute="less_than" min="1" max="999" maxlength="3" placeholder="10" value="{{less_than}}">
-
-			</div>
+			<input type="number" id="shown_less_than_value" class="wpmudev-input_number inp-small" name="" data-attribute="less_than" min="1" max="999" maxlength="3" placeholder="10" value="{{less_than}}">
 
 		</div>
 
@@ -74,7 +76,7 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Shows the Pop-up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></label>
+		<h4><?php _e("Shows the Pop-up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></h4>
 
 	</div>
 
@@ -82,7 +84,7 @@
 
 		<label for="from_specific_ref_refs" class="wph-label--alt"><strong><?php _e('Referrers. Can be full URL or a pattern like ".example.com" (one per line):', Opt_In::TEXT_DOMAIN); ?></strong></label>
 
-		<textarea name="" id="from_specific_ref_refs" data-attribute="refs" class="block">{{{refs}}}</textarea>
+		<textarea class="wpmudev-textarea" name="" id="from_specific_ref_refs" data-attribute="refs" class="block">{{{refs}}}</textarea>
 
 	</div>
 
@@ -92,7 +94,7 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Hides the Pop-up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></label>
+		<h4><?php _e("Hides the Pop-up if the user arrived via a specific referrer.", Opt_In::TEXT_DOMAIN); ?></h4>
 
 	</div>
 
@@ -100,7 +102,7 @@
 
 		<label for="from_specific_ref_refs" class="wph-label--alt"><strong><?php _e('Referrers. Can be full URL or a pattern like ".example.com" (one per line):', Opt_In::TEXT_DOMAIN); ?></strong></label>
 
-		<textarea name="" id="from_specific_ref_refs" data-attribute="refs" class="block">{{{refs}}}</textarea>
+		<textarea class="wpmudev-textarea" name="" id="from_specific_ref_refs" data-attribute="refs" class="block">{{{refs}}}</textarea>
 
 	</div>
 
@@ -110,7 +112,7 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Shows the {{type_name}} if the user is on a certain URL.", Opt_In::TEXT_DOMAIN); ?></label>
+		<h4><?php _e("Shows the {{type_name}} if the user is on a certain URL.", Opt_In::TEXT_DOMAIN); ?></h4>
 
 	</div>
 
@@ -118,9 +120,9 @@
 
 		<label for="on_specific_url_urls" class="wph-label--alt"><strong><?php _e("Show on these URLs (one per line):", Opt_In::TEXT_DOMAIN); ?></strong></label>
 
-		<textarea name="" id="on_specific_url_urls" class="block" data-attribute="urls" >{{{ urls }}}</textarea>
+		<textarea class="wpmudev-textarea" name="" id="on_specific_url_urls" class="block" data-attribute="urls" >{{{ urls }}}</textarea>
 
-		<label class="wph-label--legend"><?php _e('URLs should not include "http://" or "https://"', Opt_In::TEXT_DOMAIN); ?></label>
+		<label class="wpmudev-helper"><?php _e('URLs should not include "http://" or "https://"', Opt_In::TEXT_DOMAIN); ?></label>
 
 	</div>
 
@@ -130,7 +132,7 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Shows the {{type_name}} if the user is not on a certain URL.", Opt_In::TEXT_DOMAIN) ?></label>
+		<h4><?php _e("Shows the {{type_name}} if the user is not on a certain URL.", Opt_In::TEXT_DOMAIN) ?></h4>
 
 	</div>
 
@@ -138,9 +140,9 @@
 
 		<label for="not_on_specific_url_urls" class="wph-label--alt"><strong><?php _e("Not on these URLs (one per line):", Opt_In::TEXT_DOMAIN); ?></strong></label>
 
-		<textarea name="" id="not_on_specific_url_urls_urls" data-attribute="urls" class="block">{{{ urls }}}</textarea>
+		<textarea class="wpmudev-textarea" name="" id="not_on_specific_url_urls_urls" data-attribute="urls" class="block">{{{ urls }}}</textarea>
 
-		<label class="wph-label--legend"><?php _e('URLs should not include "http://" or "https://"', Opt_In::TEXT_DOMAIN); ?></label>
+		<label class="wpmudev-helper"><?php _e('URLs should not include "http://" or "https://"', Opt_In::TEXT_DOMAIN); ?></label>
 
 	</div>
 
@@ -150,7 +152,7 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Shows the {{type_name}} if the user is in a certain country.", Opt_In::TEXT_DOMAIN); ?></label>
+		<h4><?php _e("Shows the {{type_name}} if the user is in a certain country.", Opt_In::TEXT_DOMAIN); ?></h4>
 
 	</div>
 
@@ -172,7 +174,7 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Shows the {{type_name}} if the user is not in a certain country.", Opt_In::TEXT_DOMAIN); ?></label>
+		<h4><?php _e("Shows the {{type_name}} if the user is not in a certain country.", Opt_In::TEXT_DOMAIN); ?></h4>
 
 	</div>
 
@@ -198,25 +200,25 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
+		<h4><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></h4>
 
-		<div class="tabs">
+		<div class="wpmudev-tabs">
 
-			<ul class="tabs-header">
+			<ul class="wpmudev-tabs-menu">
 
-				<li class="{{_.class( filter_type == "except", "current" )}}">
-
-					<label for="{{type}}-filter_type-posts-except"><?php _e("All Posts Except", Opt_In::TEXT_DOMAIN); ?></label>
+				<li class="wpmudev-tabs-menu_item {{_.class( filter_type == "except", "current" )}}">
 
 					<input type="radio" value="except" data-attribute="filter_type" id="{{type}}-filter_type-posts-except" name="{{type}}-filter_type-posts" {{_.checked(filter_type, 'except')}}>
 
+					<label for="{{type}}-filter_type-posts-except"><?php _e("All Posts Except", Opt_In::TEXT_DOMAIN); ?></label>
+
 				</li>
 
-				<li class="{{_.class( filter_type == "only", "current" )}}" >
-
-					<label for="{{type}}-filter_type-posts-only"><?php _e("Only These Posts", Opt_In::TEXT_DOMAIN); ?></label>
+				<li class="wpmudev-tabs-menu_item {{_.class( filter_type == "only", "current" )}}" >
 
 					<input type="radio" value="only" data-attribute="filter_type" id="{{type}}-filter_type-posts-only" name="{{type}}-filter_type-posts" {{_.checked(filter_type, 'only')}}>
+
+					<label for="{{type}}-filter_type-posts-only"><?php _e("Only These Posts", Opt_In::TEXT_DOMAIN); ?></label>
 
 				</li>
 
@@ -242,25 +244,25 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
+		<h4><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></h4>
 
-		<div class="tabs">
+		<div class="wpmudev-tabs">
 
-			<ul class="tabs-header">
+			<ul class="wpmudev-tabs-menu">
 
-				<li class="{{_.class( filter_type == "except", "current" )}}">
-
-					<label for="{{type}}-filter_type-{{post_type}}-except"><?php _e("All {{post_type_label}} Except", Opt_In::TEXT_DOMAIN); ?></label>
+				<li class="wpmudev-tabs-menu_item {{_.class( filter_type == "except", "current" )}}">
 
 					<input type="radio" value="except" data-attribute="filter_type" id="{{type}}-filter_type-{{post_type}}-except" name="{{type}}-filter_type-{{post_type}}" {{_.checked(filter_type, 'except')}}>
 
+					<label for="{{type}}-filter_type-{{post_type}}-except"><?php _e("All {{post_type_label}} Except", Opt_In::TEXT_DOMAIN); ?></label>
+
 				</li>
 
-				<li class="{{_.class( filter_type == "only", "current" )}}" >
-
-					<label for="{{type}}-filter_type-{{post_type}}-only"><?php _e("Only These {{post_type_label}}", Opt_In::TEXT_DOMAIN); ?></label>
+				<li class="wpmudev-tabs-menu_item {{_.class( filter_type == "only", "current" )}}" >
 
 					<input type="radio" value="only" data-attribute="filter_type" id="{{type}}-filter_type-{{post_type}}-only" name="{{type}}-filter_type-{{post_type}}" {{_.checked(filter_type, 'only')}}>
+
+					<label for="{{type}}-filter_type-{{post_type}}-only"><?php _e("Only These {{post_type_label}}", Opt_In::TEXT_DOMAIN); ?></label>
 
 				</li>
 
@@ -286,25 +288,25 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
+		<h4><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></h4>
 
-		<div class="tabs">
+		<div class="wpmudev-tabs">
 
-			<ul class="tabs-header">
+			<ul class="wpmudev-tabs-menu">
 
-				<li class="{{_.class( filter_type == "except", "current" )}}">
-
-					<label for="{{type}}-filter_type-pages-except"><?php _e("All Pages Except", Opt_In::TEXT_DOMAIN); ?></label>
+				<li class="wpmudev-tabs-menu_item {{_.class( filter_type == "except", "current" )}}">
 
 					<input type="radio" value="except" data-attribute="filter_type" id="{{type}}-filter_type-pages-except" name="{{type}}-filter_type-pages" {{_.checked(filter_type, 'except')}}>
 
+					<label for="{{type}}-filter_type-pages-except"><?php _e("All Pages Except", Opt_In::TEXT_DOMAIN); ?></label>
+
 				</li>
 
-				<li class="{{_.class( filter_type == "only", "current" )}}" >
-
-					<label for="{{type}}-filter_type-pages-only"><?php _e("Only These Pages", Opt_In::TEXT_DOMAIN); ?></label>
+				<li class="wpmudev-tabs-menu_item {{_.class( filter_type == "only", "current" )}}" >
 
 					<input type="radio" value="only" data-attribute="filter_type" id="{{type}}-filter_type-pages-only" name="{{type}}-filter_type-pages" {{_.checked(filter_type, 'only')}}>
+
+					<label for="{{type}}-filter_type-pages-only"><?php _e("Only These Pages", Opt_In::TEXT_DOMAIN); ?></label>
 
 				</li>
 
@@ -330,26 +332,26 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
+		<h4><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></h4>
 
-		<div class="tabs">
+		<div class="wpmudev-tabs">
 
-			<ul class="tabs-header">
+			<ul class="wpmudev-tabs-menu">
 
-				<li class="{{_.class( filter_type == "except", "current" )}}">
-
-					<label for="{{type}}-filter_type-categories-except"><?php _e("All Categories Except", Opt_In::TEXT_DOMAIN); ?></label>
+				<li class="wpmudev-tabs-menu_item {{_.class( filter_type == "except", "current" )}}">
 
 					<input type="radio" value="except" data-attribute="filter_type" id="{{type}}-filter_type-categories-except" name="{{type}}-filter_type-categories" {{_.checked(filter_type, 'except')}}>
+
+					<label for="{{type}}-filter_type-categories-except"><?php _e("All Categories Except", Opt_In::TEXT_DOMAIN); ?></label>
 
 				</li>
 
 
-				<li class="{{_.class( filter_type == "only", "current" )}}" >
-
-					<label for="{{type}}-filter_type-categories-only"><?php _e("Only These Categories", Opt_In::TEXT_DOMAIN); ?></label>
+				<li class="wpmudev-tabs-menu_item {{_.class( filter_type == "only", "current" )}}" >
 
 					<input type="radio" value="only" data-attribute="filter_type" id="{{type}}-filter_type-categories-only" name="{{type}}-filter_type-categories" {{_.checked(filter_type, 'only')}}>
+
+					<label for="{{type}}-filter_type-categories-only"><?php _e("Only These Categories", Opt_In::TEXT_DOMAIN); ?></label>
 
 				</li>
 
@@ -375,25 +377,25 @@
 
 	<div class="rule-description">
 
-		<label><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></label>
+		<h4><?php _e("Show this module for", Opt_In::TEXT_DOMAIN); ?></h4>
 
-		<div class="tabs">
+		<div class="wpmudev-tabs">
 
-			<ul class="tabs-header">
+			<ul class="wpmudev-tabs-menu">
 
-				<li class="{{_.class( filter_type == "except", "current" )}}">
-
-					<label for="{{type}}-filter_type-tags-except"><?php _e("All Tags Except", Opt_In::TEXT_DOMAIN); ?></label>
+				<li class="wpmudev-tabs-menu_item {{_.class( filter_type == "except", "current" )}}">
 
 					<input type="radio" value="except" data-attribute="filter_type" id="{{type}}-filter_type-tags-except" name="{{type}}-filter_type-tags" {{_.checked(filter_type, 'except')}}>
 
+					<label for="{{type}}-filter_type-tags-except"><?php _e("All Tags Except", Opt_In::TEXT_DOMAIN); ?></label>
+
 				</li>
 
-				<li class="{{_.class( filter_type == "only", "current" )}}" >
-
-					<label for="{{type}}-filter_type-tags-only"><?php _e("Only These Tags", Opt_In::TEXT_DOMAIN); ?></label>
+				<li class="wpmudev-tabs-menu_item {{_.class( filter_type == "only", "current" )}}" >
 
 					<input type="radio" value="only" data-attribute="filter_type" id="{{type}}-filter_type-tags-only" name="{{type}}-filter_type-tags" {{_.checked(filter_type, 'only')}}>
+
+					<label for="{{type}}-filter_type-tags-only"><?php _e("Only These Tags", Opt_In::TEXT_DOMAIN); ?></label>
 
 				</li>
 

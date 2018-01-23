@@ -2,8 +2,8 @@
 /**
  * Plugin Name: Membership 2 Pro
  * Plugin URI:  https://premium.wpmudev.org/project/membership/
- * Version:     1.1.1
- * Build Stamp: 2017-09-07T17:15:26.295Z
+ * Version:     1.1.2
+ * Build Stamp: 2018-01-04T18:43:49.568Z
  * Description: The most powerful, easy to use and flexible membership plugin for WordPress sites available.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org/
@@ -20,7 +20,7 @@
  *
  * @copyright Incsub (http://incsub.com/)
  *
- * Authors: Philipp Stracker, Fabio Jun Onishi, Victor Ivanov, Jack Kitterhing, Rheinard Korf, Ashok Kumar Nath
+ * Authors: Philipp Stracker, Fabio Jun Onishi, Victor Ivanov, Jack Kitterhing, Rheinard Korf, Ashok Kumar Nath, Paul Kevin
  * Contributors: Joji Mori, Patrick Cohen
  *
  * @license http://opensource.org/licenses/GPL-2.0 GNU General Public License, version 2 (GPL-2.0)
@@ -70,7 +70,7 @@ function membership2_init_app() {
 	 *
 	 * @since  1.0.0
 	 */
-	define( 'MS_PLUGIN_VERSION', '1.1.1' );
+	define( 'MS_PLUGIN_VERSION', '1.1.2' );
 
 	/**
 	 * Free or pro plugin?
@@ -209,7 +209,6 @@ function membership2_init_app() {
 	 * @since  1.0.0
 	 */
 	MS_Plugin::instance();
-
 
 	/**
 	 * Ajax Logins
