@@ -6,7 +6,7 @@ $size       = isset( $size ) ? $size : '4';
 $display    = isset( $display ) ? $display : 'desktop';
 
 ?>
-<div class="fl-sidebar fl-sidebar-<?php echo $position; ?> fl-sidebar-display-<?php echo $display; ?> col-md-<?php echo $size; ?>" itemscope="itemscope" itemtype="http://schema.org/WPSideBar">
+<div class="fl-sidebar fl-sidebar-<?php echo $position; ?> fl-sidebar-display-<?php echo $display; ?> col-md-<?php echo $size; ?>" itemscope="itemscope" itemtype="https://schema.org/WPSideBar">
 	<?php do_action( 'fl_sidebar_open' ); ?>
 	<?php dynamic_sidebar( $section . '-sidebar' ); ?>
 	<?php do_action( 'fl_sidebar_close' ); ?>

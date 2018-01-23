@@ -8,7 +8,7 @@
 	if ( FLTheme::has_footer() ) :
 
 	?>
-	<footer class="fl-page-footer-wrap" itemscope="itemscope" itemtype="http://schema.org/WPFooter">
+	<footer class="fl-page-footer-wrap" itemscope="itemscope" itemtype="https://schema.org/WPFooter">
 		<?php
 
 		do_action( 'fl_footer_wrap_open' );

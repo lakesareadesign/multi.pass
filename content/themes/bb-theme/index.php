@@ -5,7 +5,7 @@
 
 		<?php FLTheme::sidebar( 'left' ); ?>
 
-		<div class="fl-content <?php FLTheme::content_class(); ?>" itemscope="itemscope" itemtype="http://schema.org/Blog">
+		<div class="fl-content <?php FLTheme::content_class(); ?>" itemscope="itemscope" itemtype="https://schema.org/Blog">
 
 			<?php FLTheme::archive_page_header(); ?>
 

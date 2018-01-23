@@ -287,7 +287,7 @@
 				subToggles = nav.find('li').has('> ul.sub-menu').find('> a'),
 				subMenus   = nav.find('> ul > li').has('ul.sub-menu');
 
-			if( $( '.fl-page-nav .navbar-toggle' ).is( ':visible' ) && pageNav.hasClass('fl-page-header-primary') ) {
+			if( $( '.fl-page-nav .navbar-toggle' ).is( ':visible' ) ) {
 				navItems.off('mouseenter mouseleave');
 
 				// Toggle submenu
@@ -612,7 +612,7 @@
 				$('.fl-page-header-primary .fl-page-nav-col').insertBefore('.fl-page-header-primary .fl-page-logo-wrap');
 			}
 
-			if($('.fl-page-header-fixed').length != 0) {
+			if($('.fl-page-header-fixed').length != 0 && ! $('.fl-page-header-fixed').hasClass('fl-page-nav-toggle-visible-always') ) {
 				$('.fl-page-header-fixed .fl-page-fixed-nav-wrap').insertBefore('.fl-page-header-fixed .fl-page-logo-wrap');
 			}
 		},
@@ -881,7 +881,7 @@
 		_megaMenu: function()
 		{
 			var win      			= $(window),
-				pageHeaderMenu 		= $('.fl-page-header-primary'),
+				pageHeaderMenu 		= $('.fl-page-header'),
 				menuContainer 		= pageHeaderMenu.find('.fl-page-header-container'),
 				menuWidthLimit 		= menuContainer.outerWidth(),
 				megaItem			= null,

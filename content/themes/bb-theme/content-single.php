@@ -4,7 +4,7 @@ $show_thumbs = FLTheme::get_setting( 'fl-posts-show-thumbs' );
 $thumb_size   = FLTheme::get_setting( 'fl-posts-thumb-size' );
 ?>
 <?php do_action( 'fl_before_post' ); ?>
-<article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope itemtype="http://schema.org/BlogPosting">
+<article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope itemtype="https://schema.org/BlogPosting">
 
 	<?php if ( has_post_thumbnail() && ! empty( $show_thumbs ) ) : ?>
 		<?php if ( 'above-title' == $show_thumbs ) : ?>

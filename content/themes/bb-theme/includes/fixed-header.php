@@ -1,4 +1,4 @@
-<header class="fl-page-header fl-page-header-fixed fl-page-nav-right">
+<header class="fl-page-header fl-page-header-fixed fl-page-nav-right fl-page-nav-toggle-<?php echo FLTheme::get_setting( 'fl-mobile-nav-toggle' ) ?> fl-page-nav-toggle-visible-<?php echo FLTheme::get_setting( 'fl-nav-breakpoint' ) ?>">
 	<div class="fl-page-header-wrap">
 		<div class="fl-page-header-container container">
 			<div class="fl-page-header-row row">
@@ -9,7 +9,10 @@
 				</div>
 				<div class="fl-page-fixed-nav-wrap col-md-9 col-sm-12">
 					<div class="fl-page-nav-wrap">
-						<nav class="fl-page-nav fl-nav navbar navbar-default">
+						<nav class="fl-page-nav fl-nav navbar navbar-default" role="navigation" aria-label="<?php echo esc_attr( FLTheme::get_nav_locations( 'header' ) ); ?>">
+							<button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".fl-page-nav-collapse">
+								<span><?php FLTheme::nav_toggle_text(); ?></span>
+							</button>
 							<div class="fl-page-nav-collapse collapse navbar-collapse">
 								<?php
 

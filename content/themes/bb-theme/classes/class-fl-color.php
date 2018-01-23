@@ -36,8 +36,7 @@ final class FLColor {
 		// No hex. Return transparent.
 		if ( ! self::is_hex( $hex ) ) {
 			return 'transparent';
-		} // End if().
-		elseif ( is_string( $hex ) ) {
+		} elseif ( is_string( $hex ) ) {
 			return strstr( $hex, '#' ) ? $hex : '#' . $hex;
 		} // Hex is an array. Return first that's not false.
 		elseif ( is_array( $hex ) ) {
@@ -113,8 +112,7 @@ final class FLColor {
 		if ( $yiq >= 128 ) {
 			$level  = $levels[0];
 			$func   = 'darken';
-		} // End if().
-		elseif ( $yiq >= 6 ) {
+		} elseif ( $yiq >= 6 ) {
 			$level  = $levels[1];
 			$func   = 'lighten';
 		} // Color is black or close to it, lighten new color.

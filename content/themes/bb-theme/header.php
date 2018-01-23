@@ -5,7 +5,7 @@
 <meta charset="<?php bloginfo( 'charset' ); ?>" />
 <?php echo apply_filters( 'fl_theme_viewport', "<meta name='viewport' content='width=device-width, initial-scale=1.0' />\n" ); ?>
 <?php echo apply_filters( 'fl_theme_xua_compatible', "<meta http-equiv='X-UA-Compatible' content='IE=edge' />\n" ); ?>
-<link rel="profile" href="http://gmpg.org/xfn/11" />
+<link rel="profile" href="https://gmpg.org/xfn/11" />
 <link rel="pingback" href="<?php bloginfo( 'pingback_url' ); ?>" />
 <?php FLTheme::title(); ?>
 <?php FLTheme::favicon(); ?>
@@ -23,7 +23,7 @@ FLTheme::head();
 ?>
 </head>
 
-<body <?php body_class(); ?> itemscope="itemscope" itemtype="http://schema.org/WebPage">
+<body <?php body_class(); ?> itemscope="itemscope" itemtype="https://schema.org/WebPage">
 <?php
 
 FLTheme::header_code();

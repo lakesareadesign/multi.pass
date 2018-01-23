@@ -1,3 +1,32 @@
+<h4>1.6.4.1 - 01/15/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed Font Weight dropdown in theme customizer.</li>
+</ul>
+
+<h4>1.6.4 - 01/10/2018</h4>
+
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Changed <code>gmpg.org</code> and <code>schema.org</code> links to https.</li>
+	<li>Added indentation to product categories widget.</li>
+	<li>Added <code>fl_theme_add_panel_data</code> filter to allow users to change the customizer panels just before render.</li>
+	<li>Add role and aria-label to <code><nav></code> elements.</li>
+	<li>Clear theme cache when theme is updated.</li>
+	<li>GoogleFonts array is now updated on every release automatically.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Hamburger menu now uses header layout padding to determine its position.</li>
+	<li>Removed WooCommerce styles from less compile if the plugin is not active.</li>
+	<li>Fixed hamburger menu position when fixed, shrink and sticky header options are used.</li>
+	<li>Fixed the submenu link color on the responsive nav. Uses header style for link color instead of the nav style.</li>
+	<li>Fixed a possible customizer js error when fonts are added then removed via php filters.</li>
+	<li>Fixed header background color on nav background for fixed header.</li>
+	<li>Removed bottom margin wrongfully added to widgets module by the theme.</li>
+	<li>Fixed a spacing issue when hovering mega menu item.</li>
+</ul>
+
 <h4>1.6.3.1 - 12/07/2017</h4>
 
 <p><strong>Bug Fixes</strong></p>

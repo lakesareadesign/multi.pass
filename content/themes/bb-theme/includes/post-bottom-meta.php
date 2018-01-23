@@ -46,4 +46,4 @@ if ( $show_full || is_single() ) {
 
 		echo '</div>';
 	}
-}// End if().
+}

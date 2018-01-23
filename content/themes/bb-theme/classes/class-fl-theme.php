@@ -93,11 +93,7 @@ final class FLTheme {
 		add_theme_support( 'woocommerce' );
 
 		// Nav menus
-		register_nav_menus(array(
-			'bar'     => __( 'Top Bar Menu', 'fl-automator' ),
-			'header'  => __( 'Header Menu', 'fl-automator' ),
-			'footer'  => __( 'Footer Menu', 'fl-automator' ),
-		));
+		register_nav_menus( self::get_nav_locations() );
 
 		// Include customizer settings.
 		require_once FL_THEME_DIR . '/includes/customizer-panel-general.php';
@@ -117,6 +113,25 @@ final class FLTheme {
 			add_theme_support( 'wc-product-gallery-lightbox' );
 			add_theme_support( 'wc-product-gallery-slider' );
 		}
+	}
+
+	/**
+	 * Return array of possible menu locations.
+	 * @since 1.6.4
+	 */
+	static public function get_nav_locations( $location = false ) {
+
+		$locations = array(
+			'bar'     => __( 'Top Bar Menu', 'fl-automator' ),
+			'header'  => __( 'Header Menu', 'fl-automator' ),
+			'footer'  => __( 'Footer Menu', 'fl-automator' ),
+		);
+
+		if ( $location && isset( $locations[ $location ] ) ) {
+			return $locations[ $location ];
+		}
+
+		return $locations;
 	}
 
 	/**
@@ -319,7 +334,7 @@ final class FLTheme {
 	 * @return void
 	 */
 	static public function add_font( $name, $variants = array() ) {
-		$google_fonts_domain = apply_filters( 'fl_theme_google_fonts_domain', '//fonts.googleapis.com/' );
+		$google_fonts_domain = apply_filters( 'fl_theme_google_fonts_domain', 'https://fonts.googleapis.com/' );
 		$google_url = $google_fonts_domain . 'css?family=';
 
 		if ( isset( self::$fonts[ $name ] ) ) {
@@ -665,11 +680,11 @@ final class FLTheme {
 
 		if ( 'image' == $logo_type ) {
 			$logo_text = get_bloginfo( 'name' );
-			echo '<img class="fl-logo-img" itemscope itemtype="http://schema.org/ImageObject" src="' . $logo_image . '"';
+			echo '<img class="fl-logo-img" itemscope itemtype="https://schema.org/ImageObject" src="' . $logo_image . '"';
 			echo ' data-retina="' . $logo_retina . '"';
 			echo ' alt="' . esc_attr( $logo_text ) . '" />';
 			if ( 'fadein' == $header_fixed ) {
-				echo '<img class="sticky-logo fl-logo-img" itemscope itemtype="http://schema.org/ImageObject" src="' . $sticky_logo . '"';
+				echo '<img class="sticky-logo fl-logo-img" itemscope itemtype="https://schema.org/ImageObject" src="' . $sticky_logo . '"';
 				echo ' alt="' . esc_attr( $logo_text ) . '" />';
 			}
 			echo '<meta itemprop="name" content="' . esc_attr( $logo_text ) . '" />';
@@ -1006,8 +1021,7 @@ final class FLTheme {
 		// Category
 		if ( is_category() ) {
 			$page_title = single_cat_title( '', false );
-		} // End if().
-		elseif ( is_tag() ) {
+		} elseif ( is_tag() ) {
 			$page_title = sprintf( _x( 'Posts Tagged &#8216;%s&#8217;', 'Archive title: tag.', 'fl-automator' ), single_tag_title( '', false ) );
 		} // Day
 		elseif ( is_day() ) {
@@ -1146,7 +1160,7 @@ final class FLTheme {
 		echo '</div>';
 
 		// Author Schema Meta
-		echo '<div itemscope itemprop="author" itemtype="http://schema.org/Person">';
+		echo '<div itemscope itemprop="author" itemtype="https://schema.org/Person">';
 		echo '<meta itemprop="url" content="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '" />';
 		echo '<meta itemprop="name" content="' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '" />';
 		echo '</div>';
@@ -1157,7 +1171,7 @@ final class FLTheme {
 			$image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
 
 			if ( is_array( $image ) ) {
-				echo '<div itemscope itemprop="image" itemtype="http://schema.org/ImageObject">';
+				echo '<div itemscope itemprop="image" itemtype="https://schema.org/ImageObject">';
 				echo '<meta itemprop="url" content="' . $image[0] . '" />';
 				echo '<meta itemprop="width" content="' . $image[1] . '" />';
 				echo '<meta itemprop="height" content="' . $image[2] . '" />';
@@ -1166,8 +1180,8 @@ final class FLTheme {
 		}
 
 		// Comment Schema Meta
-		echo '<div itemprop="interactionStatistic" itemscope itemtype="http://schema.org/InteractionCounter">';
-		echo '<meta itemprop="interactionType" content="http://schema.org/CommentAction" />';
+		echo '<div itemprop="interactionStatistic" itemscope itemtype="https://schema.org/InteractionCounter">';
+		echo '<meta itemprop="interactionType" content="https://schema.org/CommentAction" />';
 		echo '<meta itemprop="userInteractionCount" content="' . wp_count_comments( get_the_ID() )->approved . '" />';
 		echo '</div>';
 	}

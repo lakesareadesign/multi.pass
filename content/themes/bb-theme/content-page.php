@@ -1,5 +1,5 @@
 <?php do_action( 'fl_before_post' ); ?>
-<article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope="itemscope" itemtype="http://schema.org/CreativeWork">
+<article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope="itemscope" itemtype="https://schema.org/CreativeWork">
 
 	<?php if ( FLTheme::show_post_header() ) : ?>
 	<header class="fl-post-header">

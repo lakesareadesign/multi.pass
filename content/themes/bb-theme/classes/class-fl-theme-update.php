@@ -14,6 +14,9 @@ final class FLThemeUpdate {
 	 * @return void
 	 */
 	static public function init() {
+
+		add_action( 'fl_theme_updated', array( 'FLCustomizer', 'refresh_css' ) );
+
 		// Export CSS Code if user is using WP > 4.7 and custom css exists.
 		self::wp_4_7_export_css();
 
@@ -40,10 +43,7 @@ final class FLThemeUpdate {
 			self::v_1_3_1();
 		}
 
-		// Update to 1.6 or greater.
-		if ( version_compare( $saved_version, '1.6', '<' ) ) {
-			self::v_1_6();
-		}
+		do_action( 'fl_theme_updated' );
 
 		// Update the saved version number.
 		update_option( '_fl_automator_version', FL_THEME_VERSION );
@@ -258,17 +258,6 @@ final class FLThemeUpdate {
 		set_theme_mod( 'fl-' . $slug . '-text-color', $text );
 		set_theme_mod( 'fl-' . $slug . '-link-color', $link );
 		set_theme_mod( 'fl-' . $slug . '-hover-color', $link );
-	}
-
-	/**
-	 * Flushes compiled css on update to 1.6.
-	 *
-	 * @since 1.6
-	 * @access private
-	 * @return void
-	 */
-	static private function v_1_6() {
-		FLCustomizer::refresh_css();
 	}
 
 	/**

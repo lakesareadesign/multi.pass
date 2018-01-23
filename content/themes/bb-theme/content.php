@@ -6,7 +6,7 @@ $more_text   = FLTheme::get_setting( 'fl-archive-readmore-text' );
 $thumb_size   = FLTheme::get_setting( 'fl-archive-thumb-size' );
 
 do_action( 'fl_before_post' ); ?>
-<article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope="itemscope" itemtype="http://schema.org/BlogPosting">
+<article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope="itemscope" itemtype="https://schema.org/BlogPosting">
 
 	<?php if ( has_post_thumbnail() && ! empty( $show_thumbs ) ) : ?>
 		<?php if ( 'above-title' == $show_thumbs ) : ?>

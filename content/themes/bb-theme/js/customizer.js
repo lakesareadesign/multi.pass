@@ -164,9 +164,12 @@
 			else if ( 'undefined' != typeof FLFontFamilies.google[ fontValue ] ) {
 				weightObject = FLFontFamilies.google[ fontValue ];
 			}
-			
+			else {
+				return false;
+			}
+
 			for ( ; i < weightObject.length; i++ ) {
-				
+
 				if ( 0 === i && -1 === $.inArray( weightValue, weightObject ) ) {
 					weightValue = weightObject[ 0 ];
 					selected 	= ' selected="selected"';

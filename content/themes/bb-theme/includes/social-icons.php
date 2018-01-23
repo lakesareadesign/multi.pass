@@ -44,8 +44,8 @@ foreach ( $icons as $icon ) {
 				);
 			}
 		}
-	}// End if().
-}// End foreach().
+	}
+}
 
 ?>
 </div>

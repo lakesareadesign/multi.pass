@@ -63,7 +63,7 @@ final class FLCustomizer {
 	 * @return void
 	 */
 	static public function add_panel( $key, $data ) {
-		self::$_panels[ $key ] = $data;
+		self::$_panels[ $key ] = apply_filters( 'fl_theme_add_panel_data', $data, $key );
 	}
 
 	/**
@@ -199,8 +199,7 @@ final class FLCustomizer {
 			// Get preset preview mods.
 			if ( self::is_preset_preview() ) {
 				$mods = self::_get_preset_preview_mods();
-			} // End if().
-			else {
+			} else {
 
 				// Get the settings.
 				$mods = get_theme_mods();
@@ -214,8 +213,7 @@ final class FLCustomizer {
 				$mods = self::_get_default_mods();
 				update_option( 'theme_mods_' . get_option( 'stylesheet' ), $mods );
 			}
-		} // End if().
-		else {
+		} else {
 			$mods = self::$_mods;
 		}
 
@@ -475,14 +473,14 @@ final class FLCustomizer {
 						// Reset option priority
 						$option_priority = 0;
 					}
-				}// End foreach().
+				}
 
 				// Reset section priority on if we have panel support.
 				if ( self::_has_panel_support() ) {
 					$section_priority = 0;
 				}
-			}// End if().
-		}// End foreach().
+			}
+		}
 	}
 
 	/**
@@ -777,7 +775,7 @@ final class FLCustomizer {
 		$paths[] = FL_THEME_DIR . '/less/theme.less';
 
 		// WooCommerce
-		if ( 'disabled' != $mods['fl-woo-css'] ) {
+		if ( 'disabled' != $mods['fl-woo-css'] && class_exists( 'WooCommerce' ) ) {
 			$paths[] = FL_THEME_DIR . '/less/woocommerce.less';
 		}
 
@@ -1018,8 +1016,7 @@ final class FLCustomizer {
 			$vars['nav-fg-color']               = $vars['header-fg-color'];
 			$vars['nav-fg-link-color']          = $vars['header-fg-link-color'];
 			$vars['nav-fg-hover-color']         = $vars['header-fg-hover-color'];
-		} // End if().
-		else {
+		} else {
 			$vars['nav-bg-color']				= FLColor::hex_or_transparent( $mods['fl-nav-bg-color'] );
 			$vars['nav-bg-opacity']			= FLColor::clean_opa( $mods['fl-nav-bg-opacity'] );
 			$vars['nav-bg-grad']                = $mods['fl-nav-bg-gradient'] ? 5 : 0;

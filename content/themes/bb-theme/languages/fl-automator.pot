@@ -1,14 +1,14 @@
-# Copyright (C) 2017 The Beaver Builder Team
+# Copyright (C) 2018 The Beaver Builder Team
 # This file is distributed under the GNU General Public License v2.0.
 msgid ""
 msgstr ""
 "Project-Id-Version: bb-theme\n"
 "Report-Msgid-Bugs-To: hello@wpbeaverbuilder.com\n"
-"POT-Creation-Date: 2017-12-07 20:03:01+00:00\n"
+"POT-Creation-Date: 2018-01-10 22:17:19+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n 0.5.4\n"
@@ -26,51 +26,51 @@ msgid ""
 "proceed."
 msgstr ""
 
-#: classes/class-fl-customizer.php:396
+#: classes/class-fl-customizer.php:394
 msgid "Start by selecting a preset for your theme."
 msgstr ""
 
-#: classes/class-fl-theme-update.php:294
+#: classes/class-fl-theme-update.php:283
 msgid "CSS Migrated from BB theme:"
 msgstr ""
 
-#: classes/class-fl-theme.php:97
+#: classes/class-fl-theme.php:125
 msgid "Top Bar Menu"
 msgstr ""
 
-#: classes/class-fl-theme.php:98
+#: classes/class-fl-theme.php:126
 msgid "Header Menu"
 msgstr ""
 
-#: classes/class-fl-theme.php:99
+#: classes/class-fl-theme.php:127
 msgid "Footer Menu"
 msgstr ""
 
-#: classes/class-fl-theme.php:200
+#: classes/class-fl-theme.php:215
 msgid "Primary Sidebar"
 msgstr ""
 
-#: classes/class-fl-theme.php:223
+#: classes/class-fl-theme.php:238
 msgid "WooCommerce Sidebar"
 msgstr ""
 
-#: classes/class-fl-theme.php:234
+#: classes/class-fl-theme.php:249
 msgid "After Post Widget"
 msgstr ""
 
-#: classes/class-fl-theme.php:492
+#: classes/class-fl-theme.php:507
 msgid "Choose Menu"
 msgstr ""
 
-#: classes/class-fl-theme.php:492
+#: classes/class-fl-theme.php:507
 msgid "Home"
 msgstr ""
 
-#: classes/class-fl-theme.php:1053
+#: classes/class-fl-theme.php:1067
 msgid "&laquo; Newer Posts"
 msgstr ""
 
-#: classes/class-fl-theme.php:1054
+#: classes/class-fl-theme.php:1068
 msgid "Older Posts &raquo;"
 msgstr ""
 
@@ -1123,12 +1123,12 @@ msgctxt "...a plugin."
 msgid "Install &amp; Activate"
 msgstr ""
 
-#: classes/class-fl-customizer.php:376
+#: classes/class-fl-customizer.php:374
 msgctxt "Customizer section title. Theme design/style presets."
 msgid "Presets"
 msgstr ""
 
-#: classes/class-fl-customizer.php:500
+#: classes/class-fl-customizer.php:498
 msgctxt "Customizer section title."
 msgid "Export/Import"
 msgstr ""
@@ -1283,49 +1283,49 @@ msgctxt "Customizer section title."
 msgid "Favicons"
 msgstr ""
 
-#: classes/class-fl-theme.php:211
+#: classes/class-fl-theme.php:226
 msgctxt ""
 "Sidebar title. %d stands for the order number of the auto-created sidebar, "
 "4 in total."
 msgid "Footer Column %d"
 msgstr ""
 
-#: classes/class-fl-theme.php:707
+#: classes/class-fl-theme.php:722
 msgctxt "Mobile navigation toggle button text."
 msgid "Menu"
 msgstr ""
 
-#: classes/class-fl-theme.php:1011
+#: classes/class-fl-theme.php:1025
 msgctxt "Archive title: tag."
 msgid "Posts Tagged &#8216;%s&#8217;"
 msgstr ""
 
-#: classes/class-fl-theme.php:1014
+#: classes/class-fl-theme.php:1028
 msgctxt "Archive title: day."
 msgid "Archive for %s"
 msgstr ""
 
-#: classes/class-fl-theme.php:1017
+#: classes/class-fl-theme.php:1031
 msgctxt "Archive title: month."
 msgid "Archive for %s"
 msgstr ""
 
-#: classes/class-fl-theme.php:1020
+#: classes/class-fl-theme.php:1034
 msgctxt "Archive title: year."
 msgid "Archive for %s"
 msgstr ""
 
-#: classes/class-fl-theme.php:1023
+#: classes/class-fl-theme.php:1037
 msgctxt "Archive title: author."
 msgid "Posts by %s"
 msgstr ""
 
-#: classes/class-fl-theme.php:1026
+#: classes/class-fl-theme.php:1040
 msgctxt "Search results title."
 msgid "Search results for: %s"
 msgstr ""
 
-#: classes/class-fl-theme.php:1029
+#: classes/class-fl-theme.php:1043
 msgctxt "Archive title: paged archive."
 msgid "Archives"
 msgstr ""

@@ -320,7 +320,7 @@ img {
 .fl-page-header-fixed {
 	display: none;
 	left: 0;
-	position: fixed;
+	position: fixed!important;
 	top: 0;
 	width: 100%;
 	z-index: 100;
@@ -336,6 +336,17 @@ img {
 		padding-bottom: 8px;
 		padding-top: 8px;
 	}
+	&.fl-page-header.fl-page-nav-toggle-visible-always {
+		.fl-page-header-row .fl-page-header-logo {
+			padding-bottom: 0;
+		}
+		.fl-page-nav-collapse {
+			margin-top: 20px;
+		}
+		.fl-page-nav .navbar-toggle {
+			top: 15px;
+		}
+	}
 	.fl-logo-img {
 		max-height: 46px !important;
 		width: auto !important;
@@ -345,6 +356,9 @@ img {
 	}
 	.fl-page-nav-wrap .navbar-nav > li > a {
 		padding: 10px @nav-item-spacing;
+	}
+	.fl-page-nav ul.sub-menu {
+		background-color: fade(@fixed-header-bg-color, @header-bg-opacity);
 	}
 }
 .admin-bar .fl-page-nav-right.fl-page-header-fixed,
@@ -414,13 +428,13 @@ img {
 	.hide-heading > a {
 		display: none;
 	}
-	.mega-menu-spacer {
-		background: none;
-		display: block;
-		left: 0;
-		position: absolute;
-		width: 100%;
-	}
+}
+.mega-menu-spacer {
+	background: none;
+	display: block;
+	left: 0;
+	position: absolute;
+	width: 100%;
 }
 
 /* Responsive Nav Breakpoint Toggle
@@ -1283,6 +1297,9 @@ a img.aligncenter {
 
 .fl-widget {
 	margin-bottom: 40px;
+	.fl-module-widget & {
+		margin-bottom: 0;
+	}
 	.fl-widget-title {
 		margin-bottom: 20px;
 	}
@@ -2588,7 +2605,7 @@ img.mfp-img {
 
 	/* Fade In Fixed Header */
 	.fl-nav-left {
-		.fl-page-header-fixed {
+		.fl-page-header-fixed:not(.fl-page-nav-toggle-visible-always) {
 			ul.navbar-nav {
 				float: left !important;
 				> li:first-child a {
