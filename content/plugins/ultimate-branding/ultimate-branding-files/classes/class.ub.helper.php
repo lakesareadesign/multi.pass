@@ -53,7 +53,7 @@ if ( ! class_exists( 'ub_helper' ) ) {
 				);
 			}
 			add_filter( 'ultimate_branding_options_names', array( $this, 'add_option_name' ) );
-			add_filter( 'ultimate_branding_get_option_name', array( $this, 'get_module_option_name' ), 10, 2 );	   	 		 		 	   		
+			add_filter( 'ultimate_branding_get_option_name', array( $this, 'get_module_option_name' ), 10, 2 );
 		}
 
 		public function add_option_name( $options ) {
@@ -68,10 +68,32 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		 *
 		 * @param mixed $default default value return if we do not have any.
 		 */
-		protected function get_value( $section, $name = null, $default = null ) {
+		protected function get_value( $section = null, $name = null, $default = null ) {
 			$this->set_data();
 			$value = $this->data;
+			if ( null == $section ) {
+				return $value;;
+			}
+			if ( null == $name && isset( $value[ $section ] ) ) {
+				return $value[ $section ];
+			}
 			if ( empty( $value ) ) {
+				/**
+				 * If default is empty, then try to return default defined by
+				 * configuration.
+				 *
+				 * @since 1.9.5
+				 */
+				if (
+					empty( $default )
+					&& isset( $this->options )
+					&& isset( $this->options[ $section ] )
+					&& isset( $this->options[ $section ]['fields'] )
+					&& isset( $this->options[ $section ]['fields'][ $name ] )
+					&& isset( $this->options[ $section ]['fields'][ $name ]['default'] )
+				) {
+					$default = $this->options[ $section ]['fields'][ $name ]['default'];
+				}
 				return $default;
 			}
 			if ( isset( $value[ $section ] ) ) {
@@ -120,6 +142,9 @@ if ( ! class_exists( 'ub_helper' ) ) {
 					continue;
 				}
 				foreach ( $section_data['fields'] as $key => $data ) {
+					if ( ! isset( $data['type'] ) ) {
+						$data['type'] = 'text';
+					}
 					switch ( $data['type'] ) {
 						case 'media':
 							if ( isset( $value[ $section_key ][ $key ] ) ) {
@@ -145,6 +170,15 @@ if ( ! class_exists( 'ub_helper' ) ) {
 					}
 				}
 			}
+			return $this->update_value( $value );
+		}
+
+		/**
+		 * Update whole value
+		 *
+		 * @since 1.9.5
+		 */
+		protected function update_value( $value ) {
 			ub_update_option( $this->option_name , $value );
 			return true;
 		}

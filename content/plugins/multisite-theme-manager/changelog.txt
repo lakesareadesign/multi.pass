@@ -4,6 +4,13 @@ Lead developer: Maniu
 
 == Changelog ==
 
+= 1.1.6 =
+* Fixed customizer JS bug
+* Improved compatibility with WP 4.9
+
+= 1.1.5 =
+* Fixed compatibility with WP 4.9
+
 = 1.1.4 =
 * Improved frontend themes showcase
 * Fixed small themes admin page issues
@@ -49,4 +56,4 @@ Lead developer: Maniu
 * Initial Release
 
 
-133620-1483063257-au
+133620-1517280961-au

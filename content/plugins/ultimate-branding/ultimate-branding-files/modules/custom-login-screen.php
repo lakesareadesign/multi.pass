@@ -58,6 +58,30 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 			add_filter( 'logout_redirect', array( $this, 'logout_redirect' ), 99, 3 );
 			add_filter( 'login_redirect', array( $this, 'login_redirect' ), 99, 3 );
 			add_action( 'ub_helper_admin_options_page_before_options', array( $this, 'before_admin_options_page' ) );
+
+			/**
+			 * Signup Password
+			 *
+			 * Add password field on register form
+			 *
+			 * @since 1.9.5
+			 */
+			add_action( 'init', array( $this, 'signup_password_init' ) );
+		}
+
+		/**
+		 * Load signup password submodule.
+		 *
+		 * @since 1.9.5
+		 */
+		public function signup_password_init() {
+			$value = $this->get_value( 'form', 'signup_password', 'off' );
+			if ( 'on' != $value ) {
+				return;
+			}
+			$file = ub_files_dir( 'modules/custom-login-screen/signup-password.php' );
+			include_once $file;
+			new ub_signup_password();
 		}
 
 		/**
@@ -568,6 +592,17 @@ body {
 							'default' => 'off',
 							'classes' => array( 'switch-button' ),
 							'master' => 'remember-me-related',
+						),
+						'signup_password' => array(
+							'label' => __( 'Signup Password', 'ub' ),
+							'type' => 'checkbox',
+							'description' => __( 'Add password field on register screen.', 'ub' ),
+							'options' => array(
+								'on' => __( 'Show', 'ub' ),
+								'off' => __( 'Hide', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
 						),
 						'label_color' => array(
 							'type' => 'color',

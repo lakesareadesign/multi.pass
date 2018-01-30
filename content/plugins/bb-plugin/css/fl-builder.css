@@ -2252,8 +2252,6 @@ button.fl-builder-button.fl-builder-bar-title-caret:focus {
 .fl-block-overlay-actions {
 	background: #00A0D2;
 	float: left;
-	display: flex;
-	flex-direction: row;
 	height: 30px;
 	margin: -1px -1px 0;
 	padding: 0 4px;
@@ -2328,6 +2326,10 @@ button.fl-builder-button.fl-builder-bar-title-caret:focus {
 	top: -33px;
 	right: 0;
 	z-index: 100006;
+}
+.fl-row-overlay.fl-row-menu-active,
+.fl-row-overlay.fl-row-menu-active.fl-block-overlay.fl-block-overlay-global {
+	z-index: 100007;
 }
 .fl-row-full-width .fl-row-overlay {
 	left: 2px;
@@ -3838,6 +3840,9 @@ i.fl-field-responsive-toggle:hover {
 }
 .fl-builder-settings .mce-menubtn.mce-fixed-width button {
 	width: 100px;
+}
+.fl-builder-settings .mce-menubtn.mce-fixed-width span {
+	width: 100%;
 }
 .mce-close:hover,
 .mce-close:active,

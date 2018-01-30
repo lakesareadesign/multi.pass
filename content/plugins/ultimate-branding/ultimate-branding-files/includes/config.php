@@ -84,11 +84,6 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'page_title' => __( 'Widgets', 'ub' ),
 			'title' => __( 'Remove WP Dashboard Widgets', 'ub' ),
 		),
-		'signup-password.php' => array(
-			'module' => 'signup-password/signup-password.php',
-			'tab' => 'signuppassword',
-			'page_title' => __( 'Signup Password', 'ub' ),
-		),
 		'site-generator-replacement.php' => array(
 			'module' => 'site-generator-replacement/site-generator-replacement.php',
 			'tab' => 'sitegenerator',

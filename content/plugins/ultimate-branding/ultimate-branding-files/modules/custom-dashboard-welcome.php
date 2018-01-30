@@ -45,7 +45,7 @@ class UB_Custom_Dashboard_Welcome extends ub_helper{
 	 *
 	 * @since 1.2
 	 */
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 		$this->set_options();
 		add_filter( 'get_user_metadata', array( $this, 'ub_remove_dashboard_welcome' ) , 10, 4 );
@@ -55,7 +55,7 @@ class UB_Custom_Dashboard_Welcome extends ub_helper{
 		add_action( 'ultimatebranding_settings_widgets', array( $this, 'admin_options_page' ) );
 		add_filter( 'ultimatebranding_settings_widgets_process', array( $this, 'update' ) );
 		$this->_message = $this->_get_message();
-		if ( ! empty( $this->_message ) ) {
+		if ( ! empty( $this->_message ) && is_string( $this->_message ) ) {
 			add_action( 'welcome_panel', array( $this, 'render_custom_message' ) );
 		}
 	}
@@ -86,7 +86,7 @@ class UB_Custom_Dashboard_Welcome extends ub_helper{
 	 *
 	 * @return bool
 	 */
-	function ub_remove_dashboard_welcome( $value, $object_id, $meta_key, $single ) {
+	public function ub_remove_dashboard_welcome( $value, $object_id, $meta_key, $single ) {
 		global $wp_version;
 		if ( version_compare( $wp_version, '3.5', '>=' ) ) {
 			remove_action( 'welcome_panel', 'wp_welcome_panel' );
@@ -105,7 +105,7 @@ class UB_Custom_Dashboard_Welcome extends ub_helper{
 	 * @since 1.2
 	 * @return bool
 	 */
-	function process( $status ) {
+	public function process( $status ) {
 		$this->_save_message( $_POST['custom_admin_welcome_message'] );
 		return $status && true;
 	}
@@ -115,7 +115,7 @@ class UB_Custom_Dashboard_Welcome extends ub_helper{
 	 *
 	 * @since 1.2
 	 */
-	function render_custom_message() {
+	public function render_custom_message() {
 		$proceed_shortcodes = $this->get_value( 'dashboard_widget', 'shortocode' );
 		$content = stripslashes( $this->_message );
 		if ( 'on' == $proceed_shortcodes ) {
@@ -123,7 +123,6 @@ class UB_Custom_Dashboard_Welcome extends ub_helper{
 		}
 		echo wpautop( $content );
 	}
-
 
 	/**
 	 * Set options

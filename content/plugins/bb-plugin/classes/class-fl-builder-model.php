@@ -2355,6 +2355,7 @@ final class FLBuilderModel {
 		$col		 = self::get_node( $node_id );
 		$new_col_id	 = self::generate_node_id();
 		$nodes		 = self::get_nodes( null, $col );
+		$parent		 = self::get_node_parent( $node_id );
 		$new_nodes	 = array();
 
 		// Add the new column.
@@ -2364,8 +2365,15 @@ final class FLBuilderModel {
 
 		// Unset column template data.
 		if ( isset( $layout_data[ $new_col_id ]->template_id ) ) {
-			unset( $layout_data[ $new_col_id ]->template_id );
-			unset( $layout_data[ $new_col_id ]->template_node_id );
+
+			// Check if parent is a global node.
+			if ( self::is_node_global( $parent ) ) {
+				$layout_data[ $new_col_id ]->template_node_id = $new_col_id;
+			} else {
+				unset( $layout_data[ $new_col_id ]->template_id );
+				unset( $layout_data[ $new_col_id ]->template_node_id );
+
+			}
 			unset( $layout_data[ $new_col_id ]->template_root_node );
 		}
 
@@ -2412,8 +2420,13 @@ final class FLBuilderModel {
 				$new_nodes[ $child_node_id ]->parent = $new_col_id;
 			}
 			if ( isset( $new_nodes[ $child_node_id ]->template_id ) ) {
-				unset( $new_nodes[ $child_node_id ]->template_id );
-				unset( $new_nodes[ $child_node_id ]->template_node_id );
+				// Check if the column is global.
+				if ( $layout_data[ $new_col_id ]->template_node_id ) {
+					$new_nodes[ $child_node_id ]->template_node_id = $child_node_id;
+				} else {
+					unset( $new_nodes[ $child_node_id ]->template_id );
+					unset( $new_nodes[ $child_node_id ]->template_node_id );
+				}
 			}
 		}
 
@@ -3446,7 +3459,7 @@ final class FLBuilderModel {
 			$responsive_name   = '';
 
 			if ( $is_multiple && $supports_multiple ) {
-				$defaults->$name = array( $default );
+				$defaults->$name = is_array( $default ) ? $default : array( $default );
 			} elseif ( $responsive ) {
 
 				foreach ( array( 'default', 'medium', 'responsive' ) as $device ) {

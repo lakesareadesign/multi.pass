@@ -509,7 +509,10 @@
 		 */
 		closeOnDeleteNode: function( e, nodeId )
 		{
-			if ( $( '.fl-builder-settings[data-node="' + nodeId + '"]' ).length ) {
+			var settings = $( '.fl-builder-settings[data-node]' ),
+				selector = FLBuilder._contentClass + ' .fl-node-' + settings.data( 'node' );
+
+			if ( settings.length && ! $( selector ).length ) {
 				FLLightbox.closeAll();
 			}
 		},

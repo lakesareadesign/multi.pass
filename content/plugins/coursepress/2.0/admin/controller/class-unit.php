@@ -124,7 +124,7 @@ class CoursePress_Admin_Controller_Unit {
 					</div>
 				</div>
 				<div class="unit-buttons">
-					<div class="button unit-save-button">' . __( 'Save Whole Units', 'cp' ) . '</div>
+					<div class="button unit-save-button disabled">' . __( 'Save Whole Units', 'cp' ) . '</div>
 					<a href="#" data-href="'. esc_attr( CoursePress_Data_Course::get_course_url( $course_id ) ) . CoursePress_Core::get_slug( 'units/' ) . '" class="button button-preview" target="_blank">'. __( 'Preview', 'cp' ) . '</a>
 					<div class="button unit-delete-button"><i class="fa fa-trash-o"></i> ' . __( 'Delete Unit', 'cp' ) . '</div></div>
 				</script>
@@ -188,7 +188,7 @@ class CoursePress_Admin_Controller_Unit {
 			',
 			'unit_builder_footer' => '
 				<script type="text/template" id="unit-builder-footer-template">
-				<div class="button unit-save-button">' . __( 'Save Whole Units', 'cp' ) . '</div>
+				<div class="button unit-save-button disabled">' . __( 'Save Whole Units', 'cp' ) . '</div>
 				<a href="#" data-href="'. esc_attr( CoursePress_Data_Course::get_course_url( $course_id ) ) . CoursePress_Core::get_slug( 'units/' ) . '" class="button button-preview" target="_blank">'. __( 'Preview', 'cp' ) . '</a>
 				<!-- <a class="button button-preview" href="#">'. __( 'Preview', 'cp' ) . '</a> -->
 				' .

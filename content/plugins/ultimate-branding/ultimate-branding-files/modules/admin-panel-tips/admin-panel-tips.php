@@ -198,9 +198,16 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 				'posts_per_page' => 1,
 				'post_type' => $this->post_type,
 				'post_status' => 'publish',
-				'post__not_in' => get_user_meta( get_current_user_id(), 'tips_dismissed', true ),
 				'meta_query' => $meta_query,
 			);
+			$post__not_in = get_user_meta( get_current_user_id(), 'tips_dismissed', true );
+			if ( ! empty( $post__not_in ) ) {
+				if ( ! is_array( $post__not_in ) ) {
+					$post__not_in = array( $post__not_in );
+				}
+				$args['post__not_in'] = $post__not_in;
+			}
+
 			$the_query = new WP_Query( $args );
 			if ( $the_query->posts ) {
 				$post = array_shift( $the_query->posts );
@@ -216,7 +223,6 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 						esc_attr( wp_create_nonce( $this->get_nonce_action( 'hide', $post->ID ) ) ),
 						esc_html__( 'Hide', 'ub' )
 					);
-
 					$title = $post->post_title;
 					if ( ! empty( $title ) ) {
 						printf( '<h4>%s</h4>', apply_filters( 'the_title', $title ) );
@@ -227,6 +233,7 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 					}
 					echo '</div>';
 				}
+				wp_reset_postdata();
 			}
 		}
 

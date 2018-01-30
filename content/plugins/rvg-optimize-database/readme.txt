@@ -7,9 +7,9 @@ Tags: database, delete, revisions, optimize, post, posts, page, pages, clean, cl
 Author URI: http://cagewebdev.com
 Author: CAGE Web Design | Rolf van Gelder, Eindhoven, The Netherlands
 Requires at least: 2.8
-Tested up to: 4.9.1
-Stable tag: 4.5
-Version: 4.5
+Tested up to: 4.9.2
+Stable tag: 4.5.1
+Version: 4.5.1
 License: GPLv2 or later
 
 == Description ==
@@ -61,6 +61,7 @@ Then, start the .php file from your crontab!<br>
 * Danish [da_DK] - translated by Alexander Leo-Hansen - http://alexanderleohansen.dk
 * Dutch [nl_NL] - translated by Rolf van Gelder, CAGE Web Design - http://cagewebdev.com
 * English [en_US] - translated by Rolf van Gelder, CAGE Web Design - http://cagewebdev.com
+* French [fr_FR] - translated by Guillaume Blet - http://www.mycinetheque.fr
 * German [de_DE] - translated by the.mnbvcx
 * Indonesian [id_ID] - translated by ChameleonJohn.com
 * Italian [it_IT] - translated by Fabio Marzocca
@@ -102,6 +103,11 @@ http://cagewebdev.com/wordpress-plugins/
 * If you run the plugin from any of the sites, it will cleanup ALL the sites in the network!
 
 == Changelog ==
+= 4.5.1 [01/29/2018] =
+* NEW: Added last run seconds
+* NEW: French translation added
+* BUG FIX: Fixed a typo ('DELETEED')
+
 = 4.5 [01/08/2018] =
 * CHANGE: Revamped and improved the scheduler code
 

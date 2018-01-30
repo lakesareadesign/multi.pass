@@ -316,8 +316,8 @@ if ( ! class_exists( 'simple_options' ) ) {
 							if ( in_array( 'switch-button', $data['classes'] ) ) {
 								if ( ! isset( $this->loaded['switch-button'] ) ) {
 									$this->loaded['switch-button'] = true;
-									wp_enqueue_script( 'custom-ligin-screen-jquery-switch-button', ub_files_url( 'js/vendor/jquery.switch_button.js' ), array( 'jquery' ), '1.12.1' );
-									wp_enqueue_style( 'custom-ligin-screen-jquery-switch-button', ub_files_url( 'css/vendor/jquery.switch_button.css' ), array(), '1.12.1' );
+									wp_enqueue_script( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/js/vendor/jquery.switch_button.js' ), array( 'jquery' ), '1.12.1' );
+									wp_enqueue_style( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/css/vendor/jquery.switch_button.css' ), array(), '1.12.1' );
 									$i18n = array(
 									'labels' => array(
 										'label_on' => __( 'on', 'ub' ),
@@ -419,6 +419,38 @@ if ( ! class_exists( 'simple_options' ) ) {
 
 						default:
 							switch ( $data['type'] ) {
+								case 'date':
+									$data['type'] = 'text';
+									$data['classes'][] = 'datepicker';
+									if ( ! isset( $this->loaded['ui-datepicker'] ) ) {
+										$this->loaded['ui-datepicker'] = true;
+										wp_enqueue_script( 'jquery-ui-datepicker' );
+										wp_localize_jquery_ui_datepicker();
+										$this->enqueue_jquery_style();
+									}
+									if ( ! isset( $data['data'] ) ) {
+										$data['data'] = array();
+									}
+									$alt = 'datepicker-'.md5( serialize( $data ) );
+									$extra[] = sprintf( 'data-alt="%s"', esc_attr( $alt ) );
+									if ( ! isset( $data['after'] ) ) {
+										$data['after'] = '';
+									}
+									$data['after'] .= sprintf(
+										'<input type="hidden" name="%s[alt]" id="%s" />',
+										esc_attr( $field_name ),
+										esc_attr( $alt )
+									);
+									$field_name .= '[human]';
+									if ( is_array( $value ) ) {
+										if ( isset( $value['alt'] ) ) {
+											$value = date_i18n( get_option( 'date_format' ), strtotime( $value['alt'] ) );
+										} else {
+											$value = '';
+										}
+									}
+
+								break;
 								case 'number':
 									$data['classes'][] = 'small-text';
 									if ( isset( $data['min'] ) ) {
@@ -475,7 +507,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 						if ( ! isset( $this->loaded['ui-slider'] ) ) {
 							$this->loaded['ui-slider'] = true;
 							wp_enqueue_script( 'jquery-ui-slider' );
-							wp_enqueue_style( 'custom-ligin-screen-jquery-ui-slider', ub_files_url( 'css/vendor/jquery-ui-slider.css' ), array(), '1.12.1' );
+							$this->enqueue_jquery_style();
 						}
 					}
 					if ( isset( $data['description'] ) && ! empty( $data['description'] ) ) {
@@ -647,6 +679,18 @@ if ( ! class_exists( 'simple_options' ) ) {
 				$value = '';
 			}
 			return $value;
+		}
+
+		/**
+		 * Enqueue custom jQuery UI css
+		 */
+		private function enqueue_jquery_style() {
+			$key = 'ub-jquery-ui';
+			if ( isset( $this->loaded[ $key ] ) ) {
+				return;
+			}
+			wp_enqueue_style( $key, ub_url( 'assets/css/vendor/jquery-ui.min.css' ), array(), '1.12.1' );
+			$this->loaded[ $key ] = true;
 		}
 	}
 }

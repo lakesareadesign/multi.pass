@@ -4,27 +4,9 @@ if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
 	require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
 }
 
-function set_ub_url( $base ) {
-	global $UB_url;
-	$UB_url = plugin_dir_url( $base );
-	if ( defined( 'WPMU_PLUGIN_URL' ) && defined( 'WPMU_PLUGIN_DIR' ) && file_exists( WPMU_PLUGIN_DIR . '/' . basename( $base ) ) ) {
-		$UB_url = trailingslashit( WPMU_PLUGIN_URL );
-	}
-}
-
-function set_ub_dir( $base ) {
-	global $UB_dir;
-	$UB_dir = plugin_dir_path( $base );
-	if ( defined( 'WPMU_PLUGIN_DIR' ) && file_exists( WPMU_PLUGIN_DIR . '/' . basename( $base ) ) ) {
-		$UB_dir = trailingslashit( WPMU_PLUGIN_DIR );
-	}
-}
-
 function ub_get_url_valid_shema( $url ) {
 	$valid_url = $url;
-
 	$v_valid_url = parse_url( $url );
-
 	if ( isset( $v_valid_url['scheme'] ) && $v_valid_url['scheme'] === 'https' ) {
 		if ( ! is_ssl() ) {
 			$valid_url = str_replace( 'https', 'http', $valid_url );
@@ -34,23 +16,17 @@ function ub_get_url_valid_shema( $url ) {
 			$valid_url = str_replace( 'http', 'https', $valid_url );
 		}
 	}
-
 	return $valid_url;
 }
 
 function ub_url( $extended ) {
-
 	global $UB_url;
-
 	return ub_get_url_valid_shema( $UB_url ) . $extended;
 }
 
 function ub_dir( $extended ) {
-
 	global $UB_dir;
-
 	return $UB_dir . $extended;
-
 }
 
 function ub_files_url( $extended ) {
@@ -62,7 +38,6 @@ function ub_files_dir( $extended ) {
 }
 
 // modules loading code
-
 function ub_is_active_module( $module ) {
 	$modules = get_ub_activated_modules();
 	return ( in_array( $module, array_keys( $modules ) ) );
@@ -299,4 +274,54 @@ function ub_register_activation_hook() {
 	$data = get_plugin_data( $file );
 	ub_update_option( 'ub_version', $data['Version'] );
 }
+/**
+ * Set required Ultimate Branding defaults.
+ *
+ * @since 1.9.5
+ */
+function set_ultimate_branding( $base ) {
+	global $UB_dir, $UB_url;
+	/**
+	 * Set UB_dir
+	 */
+	$UB_dir = plugin_dir_path( $base );
+	if ( defined( 'WPMU_PLUGIN_DIR' ) && file_exists( WPMU_PLUGIN_DIR . '/' . basename( $base ) ) ) {
+		$UB_dir = trailingslashit( WPMU_PLUGIN_DIR );
+	}
+	/**
+	 * set $UB_url
+	 */
+	global $UB_url;
+	$UB_url = plugin_dir_url( $base );
+	if ( defined( 'WPMU_PLUGIN_URL' ) && defined( 'WPMU_PLUGIN_DIR' ) && file_exists( WPMU_PLUGIN_DIR . '/' . basename( $base ) ) ) {
+		$UB_url = trailingslashit( WPMU_PLUGIN_URL );
+	}
+	/**
+	 * include dir
+	 */
+	$include_dir = $UB_dir.'/ultimate-branding-files/classes';
+	/**
+	 * load files
+	 */
+	require_once( $include_dir . '/ubadmin.php' );
+	if ( is_admin() ) {
+		// Add in the contextual help
+		require_once( $include_dir . '/class.help.php' );
+		include_once( $include_dir . '/class.simple.options.php' );
+		// Include the admin class
+		$uba = new UltimateBrandingAdmin();
+	} else {
+		// Include the public class
+		require_once( $include_dir . '/ubpublic.php' );
+		$ubp = new UltimateBrandingPublic();
+	}
 
+	/**
+	 * handle ajax
+	 */
+	if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
+		include_once( $include_dir . '/class.simple.options.php' );
+		new simple_options;
+	}
+
+}

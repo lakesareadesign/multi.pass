@@ -4,6 +4,22 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log:
 ----------------------------------------------------------------------
 
+=======
+DATE: 29 Jan, 2018  - VERSION: 1.9.5.1
+==================================
+- Fixed problem with a strange directory in plugins folder after an update.
+
+DATE: 29 Jan, 2018  - VERSION: 1.9.5
+==================================
+- Added backlink on "Edit Ultimate Color Schema" on "Color Schemes" module.
+- Added "Facebook", "Twitter" and "G+" link to "Coming Soon Page & Maintenance Mode" module.
+- Added timer to "Coming Soon Page & Maintenance Mode" module.
+- Improved default value for modules configuration. Props for Trinetta.
+- Improved UX on "Admin Bar" configuration screen.
+- Improved WP query in "Admin Tips" module to avoid conflicts with another plugin.
+- Refactored plugin main file and plugin load configuration.
+- Removed module "Signup Password" and move functionality to "Login Screen" module.
+
 DATE: 28 Nov, 2017  - VERSION: 1.9.4
 ==================================
 - Added filters "ultimatebranding_available_modules" and "ultimatebranding_activated_modules".
@@ -433,4 +449,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 
 
 
-133620-1512159726-au
+133620-1517280971-au

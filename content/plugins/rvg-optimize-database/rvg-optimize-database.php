@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Optimize Database after Deleting Revisions
- * @version 4.5
+ * @version 4.5.1
  */
 /*
 Plugin Name: Optimize Database after Deleting Revisions
@@ -10,7 +10,7 @@ Description: Optimizes the Wordpress Database after Cleaning it out
 Author: CAGE Web Design | Rolf van Gelder, Eindhoven, The Netherlands
 Author URI: http://cagewebdev.com
 Network: True
-Version: 4.5
+Version: 4.5.1
 */
 
 /********************************************************************************************
@@ -24,8 +24,8 @@ $odb_class = new OptimizeDatabase();
 
 class OptimizeDatabase {
 	// VERSION
-	var $odb_version           = '4.5';
-	var $odb_release_date      = '01/08/2018';
+	var $odb_version           = '4.5.1';
+	var $odb_release_date      = '01/29/2018';
 
 	// PLUGIN OPTIONS
 	var $odb_rvg_options       = array();
@@ -52,6 +52,7 @@ class OptimizeDatabase {
 	// v4.4.3
 	var $odb_current_date;
 	var $odb_timestamp;
+	var $odb_last_run_seconds;
 	
 	// PLUGIN
 	var $odb_plugin_url;
@@ -189,6 +190,9 @@ class OptimizeDatabase {
 			
 		if(!isset($this->odb_rvg_options['last_run']))
 			$this->odb_rvg_options['last_run']         = '';
+		// v4.5.1
+		if(!isset($this->odb_rvg_options['last_run_seconds']))
+			$this->odb_rvg_options['last_run_seconds'] = '';			
 		if(!isset($this->odb_rvg_options['logging_on']))
 			$this->odb_rvg_options['logging_on']       = 'N';
 		if(!isset($this->odb_rvg_options['nr_of_revisions']))
@@ -585,7 +589,6 @@ class OptimizeDatabase {
 			 
 			 // REGISTER THE LAST RUN
 			$this->odb_rvg_options['last_run'] = current_time('M j, Y @ H:i', 0);
-			$this->odb_multisite_obj->odb_ms_update_option('odb_rvg_options', $this->odb_rvg_options);
 			// DELETE REDUNDANT DATA
 			$this->odb_cleaner_obj->odb_run_cleaner($scheduler);
 			// OPTIMIZE DATABASE TABLES
@@ -594,6 +597,10 @@ class OptimizeDatabase {
 			$this->odb_cleaner_obj->odb_savings($scheduler);
 			// SHOW 'DONE' PARAGRAPH
 			if(!$scheduler) $this->odb_cleaner_obj->odb_done();
+			
+			$this->odb_rvg_options['last_run_seconds'] = $this->odb_last_run_seconds;
+			
+			$this->odb_multisite_obj->odb_ms_update_option('odb_rvg_options', $this->odb_rvg_options);
 		}  // if($action != 'run')
 		// v4.1.10: DONE: HIDE RUNNING INDICATOR
 		echo "<script>jQuery('#odb-running').hide();</script>";

@@ -77,7 +77,6 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 					'title' => __( 'Document', 'ub' ),
 					'fields' => array(
 						'title' => array(
-							'type' => 'text',
 							'label' => __( 'Title', 'ub' ),
 							'description' => __( 'Enter a headline for your page.', 'ub' ),
 						),
@@ -95,6 +94,7 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 							'label' => __( 'Content width', 'ub' ),
 							'default' => 600,
 							'min' => 0,
+							'max' => 2000,
 							'classes' => array( 'ui-slider' ),
 						),
 					),
@@ -154,6 +154,53 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 							'label' => __( 'Background Image', 'ub' ),
 							'description' => __( 'You can upload a background image here. The image will stretch to fit the page, and will automatically resize as the window size changes. You\'ll have the best results by using images with a minimum width of 1024px.', 'ub' ),
 						),
+					),
+				),
+				'timer' => array(
+					'title' => __( 'Timer', 'ub' ),
+					'fields' => array(
+						'use' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Use Timer', 'ub' ),
+							'description' => __( 'Would you like to use timer?', 'ub' ),
+							'options' => array(
+								'on' => __( 'On', 'ub' ),
+								'off' => __( 'Off', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+							'slave-class' => 'timer-related',
+						),
+						'show' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Show on front-end', 'ub' ),
+							'description' => __( 'Would you like to show the timer?', 'ub' ),
+							'options' => array(
+								'on' => __( 'Show', 'ub' ),
+								'off' => __( 'Hide', 'ub' ),
+							),
+							'default' => 'on',
+							'classes' => array( 'switch-button' ),
+							'master' => 'timer-related',
+						),
+						'till_date' => array(
+							'type' => 'date',
+							'label' => __( 'Till date', 'ub' ),
+							'master' => 'timer-related',
+						),
+						'till_time' => array(
+							'type' => 'time',
+							'label' => __( 'Till time', 'ub' ),
+							'master' => 'timer-related',
+						),
+					),
+				),
+				'social_media' => array(
+					'title' => __( 'Social Media', 'ub' ),
+					'fields' => array(
+						'facebook' => array( 'label' => __( 'Facebook', 'ub' ) ),
+						'googleplus' => array( 'label' => __( 'G+', 'ub' ) ),
+						'twitter' => array( 'label' => __( 'Twitter', 'ub' ) ),
 					),
 				),
 			);
@@ -297,6 +344,28 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				return;
 			}
 			/**
+			 * check timer
+			 */
+			$v = $this->get_value( 'timer' );
+			if (
+				isset( $v['use'] )
+				&& 'on' == $v['use']
+				&& isset( $v['show'] )
+				&& 'on' == $v['show']
+				&& isset( $v['till_date'] )
+				&& isset( $v['till_date']['alt'] )
+			) {
+				$date = $v['till_date']['alt'].' '.(isset( $v['till_time'] )? $v['till_time']:'00:00');
+				$distance = strtotime( $date ) - time();
+				if ( 0 > $distance ) {
+					$value = $this->get_value();
+					$value['mode']['mode'] = 'off';
+					$this->update_value( $value );
+					return;
+				}
+			}
+
+			/**
 			 *  set headers
 			 */
 			if ( 'maintenance' == $status ) {
@@ -335,6 +404,8 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 
 			$this->set_data();
 
+			$body_classes = array();
+
 			/**
 			 * Add defaults.
 			 */
@@ -360,6 +431,82 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 					$template = preg_replace( $re, stripcslashes( $value ), $template );
 				}
 			}
+			/**
+			 * javascript
+			 */
+			$head = '';
+			$v = $this->get_value( 'timer' );
+			if (
+				isset( $v['use'] )
+				&& 'on' == $v['use']
+				&& isset( $v['show'] )
+				&& 'on' == $v['show']
+				&& isset( $v['till_date'] )
+				&& isset( $v['till_date']['alt'] )
+			) {
+				$date = $v['till_date']['alt'].' '.(isset( $v['till_time'] )? $v['till_time']:'00:00');
+				$distance = strtotime( $date ) - time();
+				$body_classes[] = 'has-counter';
+				$head .= '
+<script type="text/javascript">
+var distance = '.$distance.';
+var ultimate_branding_counter = setInterval(function() {
+    var days = Math.floor( distance / ( 60 * 60 * 24));
+    var hours = Math.floor((distance % ( 60 * 60 * 24)) / ( 60 * 60));
+    var minutes = Math.floor((distance % ( 60 * 60)) / ( 60));
+    var seconds = Math.floor((distance % ( 60)));
+    var value = "";
+    if ( 0 < days ) {
+        value += days + "'._x( 'd', 'day letter of timer', 'ub' ).'" + " ";
+    }
+    if ( 0 < hours ) {
+        value += hours + "'._x( 'h', 'hour letter of timer', 'ub' ).'" + " ";
+    }
+    if ( 0 < minutes ) {
+        value += minutes + "'._x( 'm', 'minute letter of timer', 'ub' ).'" + " ";
+    }
+    if ( 0 < seconds ) {
+        value += seconds + "'._x( 's', 'second letter of timer', 'ub' ).'";
+    }
+    if ( "" == value ) {
+        value = "'.__( 'We are back now!', 'ub' ).'";
+    }
+    document.getElementById("counter").innerHTML = value;
+    if (distance < 0) {
+        window.location.reload();
+    }
+    distance--;
+}, 1000);
+</script>';
+			}
+			/**
+			 * social_media
+			 */
+			$social_media = '';
+			$v = $this->get_value( 'social_media' );
+			if ( ! empty( $v ) ) {
+				foreach ( $v as $key => $url ) {
+					if ( empty( $url ) ) {
+						continue;
+					}
+					$social_media .= sprintf(
+						'<li><a href="%s"><span class="dashicons dashicons-%s"></span>',
+						esc_url( $url ),
+						esc_attr( $key )
+					);
+				}
+				if ( ! empty( $social_media ) ) {
+					$body_classes[] = 'has-social';
+					$social_media = '<ul>'.$social_media.'</ul>';
+					$head .= '<link rel="stylesheet" id="dashicons-css" href="/wp-includes/css/dashicons.css" type="text/css" media="all" />';
+				}
+			}
+			$template = preg_replace( '/{social_media}/', $social_media, $template );
+
+			/**
+			 * head
+			 */
+			$template = preg_replace( '/{head}/', $head, $template );
 			/**
 			 * css
 			 */
@@ -426,6 +573,11 @@ body {
 			 * replace css
 			 */
 			$template = preg_replace( '/{css}/', $css, $template );
+			/**
+			 * body classes
+			 */
+			$template = preg_replace( '/{body_class}/', implode( ' ', $body_classes ), $template );
+
 			echo $template;
 			exit();
 

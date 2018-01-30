@@ -28,10 +28,24 @@
                             <?php UB_Admin_Bar_Forms::create_show_box() ?>
                         </td>
                     </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
                     <?php if ( $enable_hiding_default_bars ) :  ?>
+<div class="postbox-container">
+    <div class="meta-box-sortables not-sortable">
+        <div class="postbox">
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle" style='cursor:auto;'>
+                <span><?php _e( 'Hide WordPress Menu Items','ub' ); ?></span>
+            </h3>
+            <div class="inside">
+                <table class="form-table">
                     <tr>
                         <th scope="row">
-                            <?php  _e( 'Hide WordPress Menu Items', 'ub' ) ?>
+                            <?php  _e( 'Menu Items', 'ub' ) ?>
                         </th>
                         <td>
                             <?php UB_Admin_Bar_Forms::create_disable_box() ?>
@@ -45,7 +59,21 @@
                             <?php UB_Admin_Bar_Forms::create_roles_box( 'wp_menu_roles' ) ?>
                         </td>
                     </tr>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
                     <?php endif; ?>
+<div class="postbox-container">
+    <div class="meta-box-sortables not-sortable">
+        <div class="postbox">
+            <div class="handlediv" title="Click to toggle"><br></div>
+            <h3 class="hndle" style='cursor:auto;'>
+                <span><?php _e( 'Advance Settings','ub' ); ?></span>
+            </h3>
+            <div class="inside">
+                <table class="form-table">
                     <tr>
                         <th scope="row">
                             <?php  _e( 'Reorder Admin Bar Menus', 'ub' ) ?>
@@ -82,8 +110,6 @@
                         </td>
                     </tr>
                 </table>
-
-
             </div>
         </div>
     </div>

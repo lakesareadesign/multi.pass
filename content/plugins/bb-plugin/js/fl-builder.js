@@ -613,12 +613,10 @@
 		 */
 		_bindEvents: function()
 		{
-
 			/* Links */
 			$excludedLinks = $('.fl-builder-bar a, .fl-builder--content-library-panel a, .fl-page-nav .nav a'); // links in ui shouldn't be disabled.
 			$('a').not($excludedLinks).on('click', FLBuilder._preventDefault);
 			$('.fl-page-nav .nav a').on('click', FLBuilder._headerLinkClicked);
-
 			$('body').delegate('button.fl-builder-button', 'mouseup', this._buttonMouseUp.bind(this) );
 
 			/* Heartbeat */
@@ -642,7 +640,6 @@
 			$('body').delegate('.fl-builder-node-template-delete', 'mousedown', FLBuilder._stopPropagation);
 			$('body').delegate('.fl-builder-node-template-edit', 'click', FLBuilder._editNodeTemplateClicked);
 			$('body').delegate('.fl-builder-node-template-delete', 'click', FLBuilder._deleteNodeTemplateClicked);
-
 			$('body').delegate('.fl-builder-block', 'mousedown', FLBuilder._blockDragInit );
 			$('body').on('mouseup', FLBuilder._blockDragCancel);
 
@@ -681,6 +678,9 @@
 
 			/* Alert Lightbox */
 			$('body').delegate('.fl-builder-alert-close', 'click', FLBuilder._alertClose);
+
+			/* General Overlays */
+			$('body').delegate('.fl-block-overlay', 'contextmenu', FLBuilder._removeAllOverlays);
 
 			/* Rows */
 			$('body').delegate('.fl-row-overlay .fl-block-remove', 'click', FLBuilder._deleteRowClicked);
@@ -992,6 +992,8 @@
 				parent.addClass( 'fl-builder-submenu-open' );
 			}
 
+			submenu.closest('.fl-row-overlay').addClass('fl-row-menu-active');
+
 			FLBuilder._hideTipTips();
 			e.preventDefault();
 			e.stopPropagation();
@@ -1050,6 +1052,8 @@
 					body.removeClass( 'fl-builder-submenu-open' );
 					menu.closest( '.fl-builder-has-submenu' ).removeClass( 'fl-builder-submenu-open' );
 				}, 500 );
+
+			menu.closest('.fl-row-overlay').removeClass('fl-row-menu-active');
 
 			menu.data( 'timeout', timeout );
 		},

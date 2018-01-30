@@ -196,7 +196,7 @@ final class FLBuilder {
 
 		wp_editor( '{FL_EDITOR_CONTENT}', 'flbuildereditor', array(
 			'media_buttons' => true,
-			'wpautop'       => false,
+			'wpautop'       => true,
 			'textarea_rows' => 16,
 		) );
 

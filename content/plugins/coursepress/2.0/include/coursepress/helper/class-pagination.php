@@ -195,7 +195,7 @@ class CoursePress_Helper_Pagination {
 
 			if ( $this->page ) {
 				if ( $this->page < $counter - 1 ) {
-					$this->pagination .= '&nbsp;<a href="' . $this->get_pagenum_link( $next ) . '" class="next-page">&rsaquo;</a>&nbsp;<a href="' . $this->get_pagenum_link( $lastpage ) . '" class="last-page">&raquo;</a>';
+					$this->pagination .= '&nbsp;<a href="' . $this->get_pagenum_link( $next ) . '" class="next-page">&rsaquo;</a>&nbsp;<a href="' . $this->get_pagenum_link( $lastpage ) . '" class="last-page">&raquo;</a>';									   	 	   		
 				} else {
 					$this->pagination .= '&nbsp;<a class="next-page disabled">&rsaquo;</a>&nbsp;<a class="last-page disabled">&raquo;</a>';
 				}

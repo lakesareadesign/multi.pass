@@ -189,7 +189,7 @@ class ODB_Cleaner {
 	<table border="0" cellspacing="8" cellpadding="2" class="odb-result-table">
 	  <tr>
 		<td colspan="4"><div class="odb-found">
-			<?php _e('DELETEED SPAMMED ITEMS', $odb_class->odb_txt_domain);?>
+			<?php _e('DELETED SPAMMED ITEMS', $odb_class->odb_txt_domain);?>
 		  </div></td>
 	  </tr>
 	  <tr>
@@ -479,6 +479,8 @@ class ODB_Cleaner {
 		<br />
 		<span class="odb-padding-left"><?php _e('Optimization took', $odb_class->odb_txt_domain)?>&nbsp;<strong><?php echo $total_time;?></strong>&nbsp;<?php _e('seconds', $odb_class->odb_txt_domain)?>.</span>
 		<?php
+		// v4.5.1
+		$odb_class->odb_last_run_seconds = $total_time;
 		if(file_exists($odb_class->odb_plugin_path.'logs/rvg-optimize-db-log.html'))
 		{
 		?>

@@ -1,17 +1,62 @@
-/* Selecting valid menu item based on the current tab */
+/*! Ultimate Branding - v1.9.5.1
+ * https://premium.wpmudev.org/project/ultimate-branding/
+ * Copyright (c) 2018; * Licensed GPLv2+ */
+/* global window, jQuery, ace */
 
+jQuery( window.document ).ready(function($){
+    "use strict";
+    $('.ub_color_picker').wpColorPicker();
+    $(".ub_css_editor").each(function(){
+        var editor = ace.edit(this.id);
+        $(this).data("editor", editor);
+        editor.setTheme("ace/theme/monokai");
+        editor.getSession().setMode("ace/mode/css");
+        editor.getSession().setUseWrapMode(true);
+        editor.getSession().setUseWrapMode(false);
+    });
+    $(".ub_css_editor").each(function(){
+        var self = this,
+            $input = $( $(this).data("input") );
+        $(this).data("editor").getSession().on('change', function () {
+            $input.val( $(self).data("editor").getSession().getValue()  );
+        });
+    });
+});
 
-jQuery(document).ready(function() {
-    if (ub_admin.current_menu_sub_item !== null) {
-        jQuery('#adminmenu .wp-submenu li.current').removeClass("current");
-        jQuery('a[href="admin.php?page=branding&tab=' + ub_admin.current_menu_sub_item + '"]').parent().addClass("current");
+/* global window, jQuery, ace */
+
+jQuery( window.document ).ready(function($){
+    "use strict";
+    if ( $.fn.datepicker ) {
+        $('.simple-option input.datepicker').each( function() {
+            $(this).datepicker({
+                altFormat: 'yy-mm-dd',
+                altField: '#'+$(this).data('alt')
+            });
+        });
     }
 });
 
-/* Native WP media for custom login image module */
+/* global window, jQuery */
 
-jQuery(document).ready(function($)
-{
+jQuery( window.document ).ready(function(){
+    jQuery( 'form.tab-export-import #simple_options_import_file').on( 'change', function(e) {
+        var target = jQuery( 'form.tab-export-import #simple_options_import_button');
+        if ( '' === jQuery(this).val() ) {
+            target.attr( 'disabled' );
+        } else {
+            var re = /json$/i;
+            if ( re.test(jQuery(this).val()) ) {
+                target.removeAttr( 'disabled' );
+            }
+        }
+    });
+});
+
+/* global window, jQuery, wp, ajaxurl, wp_media_post_id */
+
+jQuery( window.document ).ready(function($) {
+    "use strict";
     var $main_fav_image = $("#ub_main_site_favicon"),
         $main_favicon = $('#wp_favicon'),
         $main_fav_id = $('#wp_favicon_id'),
@@ -33,7 +78,7 @@ jQuery(document).ready(function($)
         $login_image.unbind( "change" );
         $login_image.on("change", function(){
             var $this = $(this),
-                temp = new Image(),
+                temp = new window.Image(),
                 $temp = $( temp ),
                 $spinner = $(".spinner").first().clone()
                 ;
@@ -116,7 +161,7 @@ jQuery(document).ready(function($)
          */
         wp.media.string.props = function(props, attachment){
             var $spinner = $(".spinner").first().clone(),
-                temp_image = new Image(),
+                temp_image = new window.Image(),
                 $temp_image = $(temp_image),
                 $image = $('#wp_login_image_el'),
                 $url = $('#wp_login_image')
@@ -128,8 +173,9 @@ jQuery(document).ready(function($)
             $temp_image.appendTo("body").hide();
             temp_image.src = props.url;
 
-            if( !$image.find(".spinner").length )
+            if( !$image.find(".spinner").length ) {
                 $image.before( $spinner.show() );
+            }
 
             $image.hide();
 
@@ -188,7 +234,7 @@ jQuery(document).ready(function($)
      * Browses and sets the proper favicon for each sub-site
      *
      */
-    $(document).on("click", '.ub_favicons_browse', function(e)
+    $( window.document ).on("click", '.ub_favicons_browse', function(e)
     {
         e.preventDefault();
 
@@ -223,7 +269,7 @@ jQuery(document).ready(function($)
          */
         wp.media.string.props = function(props, attachment){
             var $spinner = $(".spinner").first().clone(),
-                temp_image = new Image(),
+                temp_image = new window.Image(),
                 $temp_image = $(temp_image);
 
             /**
@@ -232,8 +278,9 @@ jQuery(document).ready(function($)
             $temp_image.appendTo("body").hide();
             temp_image.src = props.url;
 
-            if( !$image.find(".spinner").length )
+            if( !$image.find(".spinner").length ) {
                 $image.before( $spinner.show() );
+            }
 
             $image.hide();
 
@@ -259,9 +306,9 @@ jQuery(document).ready(function($)
             $image = $tr.find(".ub_favicons_fav"),
             val = $(this).val();
 
-        if( val.length < 3 )
+        if( val.length < 3 ) {
             val = $image.data("default");
-
+        }
 
         $image.prop("src", val);
         $id.val("");
@@ -271,7 +318,7 @@ jQuery(document).ready(function($)
     /**
      * Save blogs favicon
      */
-    $(document).on("click",".ub_favicons_save", function(e) {
+    $( window.document ).on("click",".ub_favicons_save", function(e) {
         var $this = $(this),
             $tr = $this.closest("tr"),
             $inputs = $tr.find("input"),
@@ -304,7 +351,7 @@ jQuery(document).ready(function($)
     /**
      * Reset blog's favicon
      */
-    $(document).on("click", ".ub_favicons_reset", function(e){
+    $( window.document ).on("click", ".ub_favicons_reset", function(e){
         var $this = $(this),
             $tr = $this.closest("tr"),
             $image = $tr.find(".ub_favicons_fav"),
@@ -328,49 +375,16 @@ jQuery(document).ready(function($)
                     $image.prop("src", res.data.fav);
                     $url.val("");
                 }
-            },
-            error: function(){
-
             }
         });
-    })
-
+    });
 });
 
 /**
- * Color picker
+ * universal media
  */
-jQuery(document).ready(function($){
-    $('.ub_color_picker').wpColorPicker();
 
-
-    $(".ub_css_editor").each(function(){
-        var editor = ace.edit(this.id);
-
-        $(this).data("editor", editor);
-        editor.setTheme("ace/theme/monokai");
-        editor.getSession().setMode("ace/mode/css");
-        editor.getSession().setUseWrapMode(true);
-        editor.getSession().setUseWrapMode(false);
-
-       // editor
-    });
-
-    $(".ub_css_editor").each(function(){
-        var self = this,
-            $input = $( $(this).data("input") );
-        $(this).data("editor").getSession().on('change', function () {
-            $input.val( $(self).data("editor").getSession().getValue()  );
-        });
-    });
-
-
-});
-
-/**
- * universal media 
- */
-jQuery( document ).ready( function( $ ) {
+jQuery( window.document ).ready( function( $ ) {
 
     jQuery(".simple-option-media .image-reset").on("click", function( event ){
         var container = $(this).closest(".simple-option-media");
@@ -382,8 +396,8 @@ jQuery( document ).ready( function( $ ) {
     jQuery('.simple-option-media .button-select-image').on('click', function( event ){
         var file_frame;
         var wp_media_post_id;
-        var set_to_post_id = $('.attachment-id', container ).val();
         var container = $(this).closest('.simple-option-media');
+        var set_to_post_id = $('.attachment-id', container ).val();
 
         event.preventDefault();
         // If the media frame already exists, reopen it.
@@ -410,7 +424,7 @@ jQuery( document ).ready( function( $ ) {
         // When an image is selected, run a callback.
         file_frame.on( 'select', function() {
             // We set multiple to false so only get one image from the uploader
-            attachment = file_frame.state().get('selection').first().toJSON();
+            var attachment = file_frame.state().get('selection').first().toJSON();
 
             // Do something with attachment.id and/or attachment.url here
             $('.image-preview', container ).attr( 'src', attachment.url ).css( 'width', 'auto' );
@@ -431,10 +445,20 @@ jQuery( document ).ready( function( $ ) {
     });
 });
 
-/**
- * Simpel Options
- */
-jQuery(document).ready(function($){
+/* global window, jQuery */
+
+jQuery( window.document ).ready(function() {
+    "use strict";
+    if ( window.ub_admin.current_menu_sub_item !== null) {
+        jQuery('#adminmenu .wp-submenu li.current').removeClass("current");
+        jQuery('a[href="admin.php?page=branding&tab=' + window.ub_admin.current_menu_sub_item + '"]').parent().addClass("current");
+    }
+});
+
+/* global window, jQuery, ajaxurl */
+
+jQuery( window.document ).ready(function($){
+    "use strict";
     /**
      * Slider widget
      */
@@ -468,7 +492,7 @@ jQuery(document).ready(function($){
             'network': $(this).data('network'),
             'section': $(this).data('section')
         };
-        if ( confirm( $(this).data('question') ) ) {
+        if ( window.confirm( $(this).data('question') ) ) {
             jQuery.post(ajaxurl, data, function(response) {
                 if ( response.success ) {
                     window.location.href = response.data.redirect;
@@ -478,10 +502,11 @@ jQuery(document).ready(function($){
         return false;
     });
 });
-/**
- * Switch button
- */
-jQuery(document).ready(function(){
+
+/* global window, jQuery, switch_button */
+
+jQuery( window.document ).ready(function(){
+    "use strict";
     if ( jQuery.fn.switchButton ) {
         var ultimate_branding_admin_check_slaves  = function() {
             jQuery('.simple-option .master-field' ).each( function() {
@@ -508,26 +533,14 @@ jQuery(document).ready(function(){
         });
     }
 });
-/**
- * export
- */
-jQuery(document).ready(function(){
-    jQuery( 'form.tab-export-import #simple_options_import_file').on( 'change', function(e) {
-        var target = jQuery( 'form.tab-export-import #simple_options_import_button');
-        if ( '' == jQuery(this).val() ) {
-            target.attr( 'disabled' );
-        } else {
-            var re = /json$/i;
-            if ( re.test(jQuery(this).val()) ) {
-                target.removeAttr( 'disabled' );
-            }
-        }
-    });
-});
+
+
+/* global wp, window, wp_media_post_id, jQuery, ajaxurl, ace, switch_button */
+
 /**
  * close block
  */
-jQuery(document).ready(function(){
+jQuery( window.document ).ready(function(){
     jQuery( 'button.handlediv.button-link, .hndle', jQuery('.simple-options, .ultimate-colors' ) ).on( 'click', function(e) {
         e.preventDefault();
         var target = jQuery(this).parent();
@@ -545,14 +558,14 @@ jQuery(document).ready(function(){
 /**
  * slave sections
  */
-jQuery(document).ready(function($){
+jQuery( window.document ).ready(function($){
     $('.simple-options .postbox.section-is-slave').each( function() {
         var $this = $(this);
         var section = $this.data('master-section');
         var field = $this.data('master-field');
         var value = $this.data('master-value');
         $('[name="simple_options['+section+']['+field+']"]').on( 'change', function() {
-            if ( $(this).val() == value ) {
+            if ( $(this).val() === value ) {
                 $this.show();
             } else {
                 $this.hide();
@@ -563,7 +576,20 @@ jQuery(document).ready(function($){
 /**
  * Simple Options: select2
  */
-jQuery(document).ready(function($){
+jQuery( window.document ).ready(function($){
+    function UltimateBrandingPublicFormatSite(site) {
+        if (site.loading) {
+            return site.text;
+        }
+        var markup = "<div class='select2-result-site clearfix'>";
+        markup += "<div class='select2-result-site__blogname'>" + site.blogname + "</div>";
+        markup += "<div class='select2-result-site__siteurl'>" + site.siteurl + "</div>";
+        markup += "</div>";
+        return markup;
+    }
+    function UltimateBrandingPublicFormatSiteSelection (site) {
+        return site.blog_id;
+    }
     if (jQuery.fn.select2) {
         $('.ub-select2').select2();
         $('.ub-select2-ajax').select2({
@@ -578,7 +604,7 @@ jQuery(document).ready(function($){
                         action: $(this).data('action'),
                         page: params.page,
                         q: params.term
-                    }
+                    };
                     return query;
                 },
                 processResults: function (data, params) {
@@ -597,19 +623,5 @@ jQuery(document).ready(function($){
             templateResult: UltimateBrandingPublicFormatSite,
             templateSelection: UltimateBrandingPublicFormatSiteSelection
         });
-    }
-    function UltimateBrandingPublicFormatSite(site) {
-        if (site.loading) {
-            return site.text;
-        }
-        var markup = "<div class='select2-result-site clearfix'>";
-        markup += "<div class='select2-result-site__blogname'>" + site.blogname + "</div>";
-        markup += "<div class='select2-result-site__siteurl'>" + site.siteurl + "</div>";
-        markup += "</div>";
-        return markup;
-    }
-    function UltimateBrandingPublicFormatSiteSelection (site) {
-        console.log(site);
-        return site.blog_id;
     }
 });

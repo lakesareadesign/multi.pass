@@ -106,29 +106,25 @@
         width: 70%
     }
 
-    .submenu-main-container .submenu-item {
-        text-indent: 100%;
-        white-space: nowrap;
-        overflow: hidden;
-        width: 32px;
-    }
-
     .submenu-main-container .submenu-item:last-of-type,
     .submenu-main-container .submenu-item:last-child {
         margin-right:0;
     }
 
-    .submenu-main-container .submenu-item a {
-        width:32px;
-        height: 32px;
-        background-size: 32px 32px;
-        margin-right:15px;
-        padding: 0 15px;
-    }
-
     #mobile_menu:last-child,
     .mobile_menu:last-child{
         display: none !important;
+    }
+}
+
+@media screen and ( max-width: 400px ) {
+    .cp-submenu .submenu,
+    .cp-submenu .submenu .submenu-item {
+        display: block;
+        float: none;
+    }
+    .cp-submenu .submenu .submenu-item {
+        padding: 5px 0;
     }
 }
 
@@ -156,4 +152,4 @@
 }
 
 
-/* 133620-1511326253-au */
+/* 133620-1517280947-au */

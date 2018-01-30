@@ -1,6 +1,6 @@
-/*! CoursePress - v2.1.2
+/*! CoursePress - v2.1.4
  * https://premium.wpmudev.org/project/coursepress-pro/
- * Copyright (c) 2017; * Licensed GPLv2+ */
+ * Copyright (c) 2018; * Licensed GPLv2+ */
 /*global tinyMCEPreInit*/
 /*global _coursepress*/
 
@@ -1454,8 +1454,11 @@ var CoursePress = CoursePress || {};
 		fetchModules: function( unit_id, page ) {
 
 			this.module_collection.url = _coursepress._ajax_url + '?action=unit_builder&task=modules&course_id=' + _coursepress.course_id + '&unit_id=' + unit_id + '&page=' + page;
-			this.module_collection.fetch();
-
+			this.module_collection.fetch({
+				success: function() {
+					this.$('.unit-save-button').removeClass( 'disabled' );
+				}
+			});
 			// Get the number of pages
 			var meta = this.unit_collection._byId[ this.activeUnitRef ].get( 'meta' );
 			this.totalPages = meta[ 'page_title' ] ? meta[ 'page_title' ].length : 1;
@@ -1467,6 +1470,9 @@ var CoursePress = CoursePress || {};
 			return unit_caps[cap];
 		},
 		saveUnit: function( e ) {
+			if ( $(e.target).hasClass('disabled' ) ) {
+				return;
+			}
 			CoursePress.Helpers.Module.save_unit( e );
 		},
 		toggleUnitState: function( e ) {
@@ -2272,8 +2278,8 @@ var CoursePress = CoursePress || {};
 				this.$( '.unit-builder-modules' )
 					.replaceWith( this.modulesView.render( this.parentView.module_collection.models ).el );
 
-				this.$( '.unit-builder-footer' )
-					.append( this.footerView.render().el );
+				this.$( '.unit-builder-footer' ).append( this.footerView.render().el );
+				this.$('.unit-save-button').removeClass( 'disabled' );
 
 				CoursePress.Helpers.Module.refresh_ui();
 				this.updateSectionEditor();

@@ -1,3 +1,22 @@
+<h4>2.0.4.2 - 01/29/2018</h4>
+<p><strong>Hotfix</strong></p>
+<ul>
+	<li>Fixed row overlay menus showing behind the row content.</li>
+	<li>Fixed duplicated columns in global rows not rendering.</li>
+	<li>Fixed overlay overflow menu not working for small columns.</li>
+	<li>Fixed TinyMCE button issues with pinned settings.</li>
+	<li>Fixed Siteground caching breaking the builder's settings JS.</li>
+	<li>Allow multiple defaults for repeater fields.</li>
+	<li>Remove node overlays when right clicking so nodes can be inspected.</li>
+	<li>Removed history manipulation when publishing until we have a more robust/consistent solution.</li>
+</ul>
+
+<h4>2.0.4.1 - 01/25/2018</h4>
+<p><strong>Hotfix</strong></p>
+<ul>
+	<li>Fixed an autop issue introduced in 2.0.4.</li>
+</ul>
+
 <h4>2.0.4 - 01/17/2018</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

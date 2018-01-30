@@ -124,8 +124,8 @@ class ODB_Displayer {
 		  <span class="odb-bold">'.__('Keep a log', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$log.'</span><br>
 		  <span class="odb-bold">'.__('Optimize InnoDB tables', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$innodb.'</span><br>
 		  <span class="odb-bold">'.__('Number of excluded tables', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.count($odb_class->odb_rvg_excluded_tabs).'</span><br>
-		  <span class="odb-bold">'.__('Last run', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$odb_class->odb_rvg_options['last_run'].' '.__('hrs', $odb_class->odb_txt_domain).'</span><br>
-		  <span class="odb-bold">'.__('Scheduler', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$schedule.'</span><br>
+		  <span class="odb-bold">'.__('Last run', $odb_class->odb_txt_domain) . ':</span> <span class="odb-bold odb-blue">'.$odb_class->odb_rvg_options['last_run'] . ' ' . __('hrs', $odb_class->odb_txt_domain). ' (' . __('in', $odb_class->odb_txt_domain) . ' ' .$odb_class->odb_rvg_options['last_run_seconds'] . ' ' . __('seconds', $odb_class->odb_txt_domain) . ')</span><br>
+		  <span class="odb-bold">' . __('Scheduler', $odb_class->odb_txt_domain) . ':</span> <span class="odb-bold odb-blue">' . $schedule . '</span><br>
 		';
 		
 		if($odb_class->odb_rvg_options['schedule_type'] != '') {

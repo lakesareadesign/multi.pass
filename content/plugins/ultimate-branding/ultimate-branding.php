@@ -4,12 +4,12 @@ Plugin Name: Ultimate Branding
 Plugin URI: https://premium.wpmudev.org/project/ultimate-branding/
 Description: A complete white-label and branding solution for multisite. Login images, favicons, remove WordPress links and branding, and much more.
 Author: WPMU DEV
-Version: 1.9.4
+Version: 1.9.5.1
 Author URI: http://premium.wpmudev.org/
 Text_domain: ub
 WDP ID: 9135
 
-Copyright 2009-2017 Incsub (http://incsub.com)
+Copyright 2009-2018 Incsub (http://incsub.com)
 
 Lead Developer - Sam Najian (Incsub)
 
@@ -41,30 +41,8 @@ require_once( 'ultimate-branding-files/includes/functions.php' );
 require_once( 'ultimate-branding-files/classes/class.ub.helper.php' );
 
 // Set up my location
-set_ub_url( __FILE__ );
-set_ub_dir( __FILE__ );
+set_ultimate_branding( __FILE__ );
 
-require_once( 'ultimate-branding-files/classes/ubadmin.php' );
-
-if ( is_admin() ) {
-	// Add in the contextual help
-	require_once( 'ultimate-branding-files/classes/class.help.php' );
-	include_once( 'ultimate-branding-files/classes/class.simple.options.php' );
-	// Include the admin class
-	$uba = new UltimateBrandingAdmin();
-} else {
-	// Include the public class
-	require_once( 'ultimate-branding-files/classes/ubpublic.php' );
-	$ubp = new UltimateBrandingPublic();
-}
-
-/**
- * handle ajax
- */
-if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-	include_once( 'ultimate-branding-files/classes/class.simple.options.php' );
-	new simple_options;
-}
 /**
  * set ub Version
  */

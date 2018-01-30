@@ -61,6 +61,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			add_action( 'plugins_loaded', array( $this, 'load_modules' ) );
 			add_action( 'plugins_loaded', array( $this, 'setup_translation' ) );
 			add_action( 'init', array( $this, 'initialise_ub' ) );
+			add_action( 'current_screen', array( $this, 'show_messages' ) );
 			/**
 			 * default messages
 			 */
@@ -84,7 +85,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			$this->set_and_sanitize_tab();
 		}
 
-		function transfer_old_settings() {
+		public function transfer_old_settings() {
 			$modules = ub_get_option( 'ultimatebranding_activated_modules', array() );
 			if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
 				// Check for the original settings and if there are none, but there are some in the old location then move them across
@@ -155,6 +156,63 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					}
 				}
 			}
+			/**
+			 * Transfer modules to settings
+			 *
+			 * @since 1.9.5
+			 */
+			if ( ! empty( $modules ) ) {
+				/**
+				 * Transfer "Signup Password" module.
+				 */
+				if ( isset( $modules['signup-password.php'] ) && 'yes' == $modules['signup-password.php'] ) {
+					unset( $modules['signup-password.php'] );
+					$modules['custom-login-screen.php'] = 'yes';
+					$option = ub_get_option( 'global_login_screen', array() );
+					if ( ! isset( $option['form'] ) ) {
+						$option['form'] = array();
+					}
+					$option['form']['signup_password'] = 'on';
+					ub_update_option( 'global_login_screen', $option );
+					ub_update_option( 'ultimatebranding_activated_modules', $modules );
+					$messages = ub_get_option( 'ultimatebranding_messages', array() );
+					$message = array(
+						'class' => 'success',
+						'message' => __( 'Module "Signup Password" was turned off and is no longer used. Now you can change it in "Login Screen" module in section "Form".', 'ub' ),
+					);
+					if ( ! in_array( $message, $messages ) ) {
+						$messages[] = $message;
+						ub_update_option( 'ultimatebranding_messages', $messages );
+					}
+				}
+			}
+		}
+
+		/**
+		 * Print admin notice from option.
+		 *
+		 * @since 1.9.5
+		 */
+		public function show_messages() {
+			$screen = get_current_screen();
+			if ( ! preg_match( '/^toplevel_page_branding/', $screen->id ) ) {
+				return;
+			}
+			$messages = ub_get_option( 'ultimatebranding_messages', array() );
+			if ( empty( $messages ) ) {
+				return;
+			}
+			foreach ( $messages as $message ) {
+				if ( ! isset( $message['message'] ) || empty( $message['message'] ) ) {
+					continue;
+				}
+				printf(
+					'<div class="notice notice-%s"><p>%s</p></div>',
+					esc_attr( isset( $message['class'] )? $message['class']:'success' ),
+					$message['message']
+				);
+			}
+			ub_delete_option( 'ultimatebranding_messages' );
 		}
 
 		function initialise_ub() {
@@ -192,7 +250,8 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		function setup_translation() {
 			// Load up the localization file if we're using WordPress in a different language
 			// Place it in this plugin's "languages" folder and name it "mp-[value in wp-config].mo"
-			load_plugin_textdomain( 'ub', false, '/ultimate-branding/ultimate-branding-files/languages/' );
+			$dir = sprintf( '/%s/languages', basename( ub_dir( '' ) ) );
+			load_plugin_textdomain( 'ub', false, $dir );
 		}
 
 		function add_admin_header_core() {
@@ -203,13 +262,15 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			$this->help = new UB_Help( $screen );
 			$this->help->attach();
 			// Add in the core CSS file
-			wp_enqueue_style( 'defaultadmincss', ub_files_url( 'css/defaultadmin.css' ), array(), $this->build );
+			$file = sprintf( 'assets/css/ultimate-branding-admin%s.css', defined( 'WP_DEBUG' ) && WP_DEBUG ? '':'.min' );
+			wp_enqueue_style( 'ultimate-branding-admin', ub_url( $file ), array(), $this->build );
 			wp_enqueue_script( array(
 				'jquery-ui-sortable',
 			) );
-			wp_enqueue_script( 'ub_ace', ub_files_url( 'js/vendor/ace.js' ), array(), $this->build, true );
-			wp_enqueue_script( 'ub_ace', ub_files_url( 'js/vendor/mode-css.js' ), array(), $this->build, true );
-			wp_enqueue_script( 'ub_admin', ub_files_url( 'js/admin.js' ), array(), $this->build, true );
+			wp_enqueue_script( 'ub_ace', ub_url( 'assets/js/vendor/ace.js' ), array(), $this->build, true );
+			wp_enqueue_script( 'ub_ace', ub_url( 'assets/js/vendor/mode-css.js' ), array(), $this->build, true );
+			$file = sprintf( 'assets/js/ultimate-branding-admin%s.js', defined( 'WP_DEBUG' ) && WP_DEBUG ? '':'.min' );
+			wp_enqueue_script( 'ub_admin', ub_url( $file ), array(), $this->build, true );
 			wp_enqueue_script( 'jquery-effects-highlight' );
 			wp_enqueue_style( 'wp-color-picker' );
 			wp_enqueue_script( 'wp-color-picker' );
@@ -450,7 +511,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			global $action, $page;
 			wp_reset_vars( array( 'action', 'page' ) );
 			echo '<div class="wrap nosubsub ultimate-branding">';
-			echo '<h3 class="nav-tab-wrapper">';
+			echo '<h2 class="nav-tab-wrapper">';
 			$base_url = $this->get_base_url();
 			/**
 			 * dashboard link
@@ -517,7 +578,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					esc_html( isset( $data['menu_title'] )? $data['menu_title']:$data['page_title'] )
 				);
 			}
-			echo '</h3>';
+			echo '</h2>';
 			/**
 			 * tab content
 			 */
@@ -575,7 +636,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 if ( ! empty( $this->plugin_msg ) ) {
 ?>
 <div class="postbox " id="">
-<h3 class="hndle"><span><?php _e( 'Notifications', 'ub' ); ?></span></h3>
+<h2 class="hndle"><span><?php _e( 'Notifications', 'ub' ); ?></span></h2>
 <div class="inside">
 <?php
 	_e( 'Please deactivate the following plugin(s) to make Ultimate Branding to work:', 'ub' );
@@ -590,7 +651,7 @@ if ( ! empty( $this->plugin_msg ) ) {
 ?>
 
                     <div class="postbox " id="">
-                        <h3 class="hndle"><span><?php _e( 'Branding', 'ub' ); ?></span></h3>
+                        <h2 class="hndle"><span><?php _e( 'Branding', 'ub' ); ?></span></h2>
                         <div class="inside">
 <?php
 			include_once( ub_files_dir( 'help/dashboard.help.php' ) );
@@ -613,7 +674,7 @@ if ( ! empty( $this->plugin_msg ) ) {
 ?>
 
                     <div class="postbox " id="dashboard_quick_press">
-                        <h3 class="hndle"><span><?php _e( 'Module Status', 'ub' ); ?></span></h3>
+                        <h2 class="hndle"><span><?php _e( 'Module Status', 'ub' ); ?></span></h2>
                         <div class="inside">
                             <?php $this->show_module_status(); ?>
                             <br class="clear">
@@ -1157,7 +1218,6 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 					'href' => add_query_arg( 'page', 'branding', network_admin_url( 'admin.php' ) ),
 					'parent' => 'network-admin',
 				);
-
 				$wp_admin_bar->add_node( $args );
 			}
 		}
@@ -1179,7 +1239,6 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		public function handle_images_panel() {}
 		public function handle_login_screen_panel() {}
 		public function handle_permalinks_panel() {}
-		public function handle_signuppassword_panel() {}
 		public function handle_sitegenerator_panel() {}
 		public function handle_textchange_panel() {}
 		public function handle_ultimate_color_schemes_panel() {}

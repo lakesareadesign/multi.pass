@@ -559,7 +559,7 @@ class Google_Service_AdExchangeSeller_AccountsCustomchannels_Resource extends Go
    */
   public function get($accountId, $adClientId, $customChannelId, $optParams = array())
   {
-    $params = array('accountId' => $accountId, 'adClientId' => $adClientId, 'customChannelId' => $customChannelId);		   		 	  		  	 	 	
+    $params = array('accountId' => $accountId, 'adClientId' => $adClientId, 'customChannelId' => $customChannelId);
     $params = array_merge($params, $optParams);
     return $this->call('get', array($params), "Google_Service_AdExchangeSeller_CustomChannel");
   }

@@ -283,3 +283,14 @@ function fix_aggiungi_script_instafeed_owl() {
 		remove_action( 'wp_enqueue_scripts', 'aggiungi_script_instafeed_owl' );
 	}
 }
+
+/**
+* Siteground cache captures shutdown and breaks our dynamic js loading.
+* @since 2.0.4.2
+*/
+add_action( 'plugins_loaded', 'fl_fix_sg_cache', 9 );
+function fl_fix_sg_cache() {
+	if ( isset( $_GET['fl_builder_load_settings_config'] ) ) {
+		remove_action( 'plugins_loaded', 'sg_cachepress_start' );
+	}
+}
