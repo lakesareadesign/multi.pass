@@ -16,5 +16,5 @@ if ( data.field.rows ) {
 
 #>
 <div class="fl-editor-field" data-name="{{data.name}}" data-wpautop="{{wpautop}}" data-buttons="{{buttons}}" data-rows="{{rows}}">
-	<textarea>{{{data.value}}}</textarea>
+	<textarea>{{data.value}}</textarea>
 </div>

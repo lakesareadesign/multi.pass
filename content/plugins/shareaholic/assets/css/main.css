@@ -51,11 +51,12 @@ body {
 }
 
 h3 {
-  clear:both;
+  clear: both;
 }
 
 .clear {
-  clear:both
+  clear: both !important;
+  height: auto !important;
 }
 
 #app_settings {
@@ -501,7 +502,6 @@ i.icon {
   -ms-border-radius: 50%;
   -o-border-radius: 50%;
   border-radius: 50%;
-  display: block;
   color: white;
   margin: 0 auto 12px;
   font-size: 34px;

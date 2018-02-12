@@ -37,7 +37,7 @@ class Disable_File_Editor_Service extends Rule_Service implements IRule_Service 
 			//no defined, we just need to inject
 			$hook_line = $this->findDefaultHookLine( $config );
 			if ( $hook_line === false ) {
-				return new \WP_Error( Error_Code::UNKNOWN_WPCONFIG, __( "Defender can't recognize your wp-config.php, please revert it to original state for further process.", wp_defender()->domain ) );	  	 	   	 		 		 				
+				return new \WP_Error( Error_Code::UNKNOWN_WPCONFIG, __( "Defender can't recognize your wp-config.php, please revert it to original state for further process.", wp_defender()->domain ) );
 			}
 			$config = Array_Helper::injectLine( $config, $hook_line + 1, PHP_EOL . "define( 'DISALLOW_FILE_EDIT', true );" . PHP_EOL );
 

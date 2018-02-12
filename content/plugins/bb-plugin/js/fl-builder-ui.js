@@ -508,6 +508,7 @@
             $('html').removeClass('fl-builder-edit').addClass('fl-builder-show-admin-bar');
             $('body').removeClass('fl-builder-edit');
             $('#wpadminbar a').attr('tabindex', null );
+			$( FLBuilder._contentClass ).removeClass( 'fl-builder-content-editing' );
             this.hideMainToolbar();
             FLBuilder.ContentPanel.hide();
             FLBuilderLayout.init();
@@ -526,6 +527,7 @@
             $('html').addClass('fl-builder-edit').removeClass('fl-builder-show-admin-bar');
             $('body').addClass('fl-builder-edit');
             $('#wpadminbar a').attr('tabindex', '-1');
+			$( FLBuilder._contentClass ).addClass( 'fl-builder-content-editing' );
             this.showMainToolbar();
 
             e.preventDefault();
@@ -670,6 +672,47 @@
         */
         unmuteToolbar: function() {
             this.$mainToolbarContent.removeClass('is-muted');
+        },
+    };
+
+	/**
+    * Browser history logic.
+    */
+	var BrowserState = {
+
+        isEditing: true,
+
+        /**
+         * Init the browser state controller
+         *
+         * @return void
+         */
+        init: function() {
+
+            if ( history.pushState ) {
+                FLBuilder.addHook('endEditingSession', this.onLeaveBuilder.bind(this) );
+                FLBuilder.addHook('restartEditingSession', this.onEnterBuilder.bind(this) );
+            }
+        },
+
+        /**
+         * Handle restarting the edit session.
+         *
+         * @return void
+         */
+        onEnterBuilder: function() {
+            history.replaceState( {}, document.title, FLBuilderConfig.editUrl );
+            this.isEditing = true;
+        },
+
+        /**
+         * Handle exiting the builder.
+         *
+         * @return void
+         */
+        onLeaveBuilder: function() {
+            history.replaceState( {}, document.title, FLBuilderConfig.url );
+            this.isEditing = false;
         },
     };
 
@@ -1124,6 +1167,7 @@
         KeyShortcuts.init();
         KeyShortcutsUI.init();
         EditingUI.init();
+        BrowserState.init();
         RowResize.init();
         PublishActions.init();
 

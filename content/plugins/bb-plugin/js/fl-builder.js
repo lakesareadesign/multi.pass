@@ -7774,10 +7774,11 @@
 				init     = null,
 				wrap     = null;
 
-			html = html.replace( /flbuildereditor/g , editorId ).replace( '{FL_EDITOR_CONTENT}' , textarea.val() );
+			html = html.replace( /flbuildereditor/g , editorId );
 			config = JSON.parse( JSON.stringify( config ).replace( /flbuildereditor/g , editorId ) );
 
 			textarea.after( html ).remove();
+			$( 'textarea#' + editorId ).val( textarea.val() )
 
 			if ( undefined !== typeof tinymce && undefined !== config.mceInit[ editorId ] ) {
 
@@ -7891,7 +7892,7 @@
 				setting   = field.attr( 'data-name' ),
 				editor    = typeof tinyMCE == 'undefined' ? false : tinyMCE.get( id ),
 				hidden    = textarea.siblings( 'textarea[name="' + setting + '"]' ),
-				wpautop   = field.attr( 'data-wpautop' );
+				wpautop   = field.data( 'wpautop' );
 
 			// Add a hidden textarea if we don't have one.
 			if ( 0 === hidden.length ) {

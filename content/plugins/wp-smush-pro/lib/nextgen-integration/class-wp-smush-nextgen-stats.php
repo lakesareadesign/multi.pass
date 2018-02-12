@@ -318,7 +318,7 @@ if ( ! class_exists( 'WpSmushNextGenStats' ) ) {
 				$smush_stats['size_after'] = ! empty( $smush_stats['size_after'] ) ? ( $smush_stats['size_after'] + $stats['size_after'] ) : $stats['size_after'];
 
 				//Compression Percentage
-				$smush_stats['percent'] = ! empty( $smush_stats['size_before'] ) && !empty( $smush_stats['size_after'] ) && $smush_stats['size_before'] > 0 ? ( $smush_stats['bytes'] / $smush_stats['size_before'] ) * 100 : $stats['percent'];								 	 	   		   
+				$smush_stats['percent'] = ! empty( $smush_stats['size_before'] ) && !empty( $smush_stats['size_after'] ) && $smush_stats['size_before'] > 0 ? ( $smush_stats['bytes'] / $smush_stats['size_before'] ) * 100 : $stats['percent'];
 			}
 
 			update_option( 'wp_smush_stats_nextgen', $smush_stats, false );
@@ -467,9 +467,17 @@ if ( ! class_exists( 'WpSmushNextGenStats' ) ) {
 				if ( $size_value->bytes > 0 ) {
 					$stats .= '<tr>
 					<td>' . strtoupper( $size_key ) . '</td>
-					<td>' . size_format( $size_value->bytes, 1 ) . ' ( ' . $size_value->percent . '% )</td>
-				</tr>';
+					<td>' . size_format( $size_value->bytes, 1 );
+
 				}
+
+				//Add percentage if set
+				if ( isset( $size_value->percent ) && $size_value->percent > 0 ) {
+					$stats .= " ( $size_value->percent% )";
+				}
+
+				$stats .='</td>
+				</tr>';
 			}
 			$stats .= '</tbody>
 				</table>

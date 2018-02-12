@@ -10,10 +10,11 @@
 }
 
 #toplevel_page_wphb-minification .wp-menu-image:before,
+#toplevel_page_wphb-performance .wp-menu-image:before,
 #toplevel_page_wphb .wp-menu-image:before {
     font-family: 'wphb';
     content: "\e900";
 }
 
 
-/* 133620-1516736051-au */
+/* 133620-1518452107-au */

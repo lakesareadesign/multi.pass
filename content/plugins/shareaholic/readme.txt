@@ -1,16 +1,92 @@
-=== Shareaholic | share buttons, related posts, social analytics & more ===
+=== WordPress Social Tools, Related Content, Monetization - Shareaholic ===
 Contributors: shareaholic
-Tags: share buttons, related content, cookie compliance, eu cookie law, shareaholic, shareholic, sexybookmarks, recommendations, cookie consent, email button, social sharing, social bookmarking, share image, image sharing, follow buttons, floated share buttons, floating share buttons, analytics, social media, social plugin, GDPR compliance, GDPR, facebook, twitter, google plus, google bookmarks, gmail, linkedin, pinterest, reddit, tumblr, evernote, digg, delicious, stumbleupon, printfriendly, fancy, amazon, xing, vk, yahoo, mister wong, viadeo, odnoklassniki box.net, diigo, yammer, ycombinator, hotmail, instapaper, mixi, arto, whatsapp, hootsuite, inbound.org, plurk, aim, buffer, meneame, pinboard.in, stumpedia, bitly, blogger, yummly, izeby, kaboodle, weibo, instagram, tinyurl,  typepad, weheartit, flipboard, pocket, wanelo, fark, wykop, symphony, kindle, houzz, youtube, sms, onenote, google classroom, disqus, spotify, zillow, feedly, kik, line, livejournal, baidu
+Tags:  Social Tools, Related Posts, Google Analytics, Share Buttons, Social Sharing, Image Sharing, Related Content, woocommerce, typepad, amazon, analytics, arto, baidu, bitly, blogger, buffer, cookie compliance, cookie consent, delicious, digg, diigo, disqus, email button, eu cookie law, evernote, facebook, facebook sharing, fancy, fark, feedly, flipboard, floated share buttons, floating share buttons, follow buttons, GDPR, gmail, google bookmarks, google classroom, google plus, hootsuite, hotmail, houzz, inbound.org, instagram, instagram sharing, instapaper, izeby, kaboodle, kik, kindle, line, linkedin, livejournal, meneame, mister wong, mixi, odnoklassniki, box.net, onenote, pinboard.in, pinterest, pinterest sharing, plurk, pocket, printfriendly, recommendations, reddit, sexybookmarks, share buttons, share image, shareaholic, shareholic, sms, social bookmarking, social media, social plugin, social share buttons, spotify, stumbleupon, stumpedia, symphony, tinyurl, tumblr, twitter, viadeo, vk, wanelo, weheartit, weibo, whatsapp, wykop, xing, yahoo, yammer, ycombinator, hacker news, youtube, yummly, zillow
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 8.6.1
+Stable tag: 8.6.5
 
-World's leading all-in-one Content Amplification Platform that helps grow your site traffic, engagement, conversions & monetization for FREE.
+Consolidate plugins with a high-speed suite of social tools: social share buttons, related content, related posts, ad monetization & Google Analytics.
+
 
 == Description ==
 
-Shareaholic is the world's leading **all-in-one Content Amplification Platform**, which includes related content recommendations, social sharing, following, social analytics and site monetization apps such as promoted content, native ads and affiliate links. This module makes it a snap for any website — big or small — to engage and grow their traffic, market their content, gain insights, and monetize their audience, all from one powerful but easy-to-use dashboard. All our Apps are designed to work well together, on any website.
+Shareaholic is the **world's leading suite of social, analytics, monetization, and share button tools**. Included in the plugin are related content and related post recommendations, social share buttons, Google Analytics social data, and a variety of ad monetization options.
 
+Our plugin and suite of tools make it easy for any website — big or small — to engage and grow their traffic, market their content, gain insight, and monetize their audience. And it all lives in one simple dashboard. Built on lightweight JavaScript, our functionality is highly customizable, without hurting your page load speed. In fact, we’re recognized by WP Engine as being a [“Essential Speed Friendly Social Media & SEO Toolkit”](https://wpengine.com/solution-center/shareaholic-the-essential-social-media-toolkit/).
+
+Our single plugin combines the functionality of many social, content, and monetization plugins including: JetPack, Contextual Related Posts (CRP), SocialWarfare, Yet Another Related Posts Plugin (YARPP), AddThis, AddToAny, and many others.
+
+= Social Media Share Buttons =
+
+Make it easy for your visitors to share social content with their friends with Shareaholic’s award-winning Social Media Share Buttons. This is the ultimate set of Social Tools for your website.
+
+[Demo](https://shareaholic.com/publishers/sharing/) 
+
+* [Free] Official Share Counters and Share Buttons for Twitter, Facebook, LinkedIn, Pinterest, Buffer, Google Plus, and more
+* [Free] [Automatic & official integration](http://support.shareaholic.com/hc/en-us/articles/205181045-) with Google Analytics and URL shortener
+* [Free] Full support for: Facebook share sharing, Twitter sharing, Pinterest sharing, Instagram sharing, Google Plus sharing, Reddit sharing, LinkedIn sharing, Gmail sharing, Delicious sharing, OneNote sharing, Evernote sharing, Stumbleupon sharing, Digg sharing, Tumblr sharing, Hootsuite sharing, Buffer sharing, Fancy sharing, Wanelo sharing, Yummly sharing, WeHeartIt sharing, Flipboard sharing, Printfriendly sharing, Amazon Wishlist sharing, Instapaper sharing, Pocket sharing, Odnoklassniki sharing, Houzz sharing, Hacker News sharing, Inbound.org sharing, Vk sharing, etc
+* [Free] Supports theme features such as HTML5 & XHTML, widgets, plugins, infinite scroll, post formats, and mobile optimization
+* [Free] Supported URL Shorteners: Bitly (including custom tracking), J.mp, TinyURL, Goo.gl, Shr.lc
+* [Free] Vector share buttons & follow buttons (SVG icons)
+* [Learn More](https://shareaholic.com/publishers/sharing)
+
+= Share Count Recovery =
+
+* [Pro] Never worry about losing your share counts when you change URLs, adjust your site taxonomy, or switch to HTTPS. Our proprietary technology ensures that no matter how your URLs change, your share counts stay the same.
+* [Learn More](https://support.shareaholic.com/hc/en-us/articles/115002083586-)
+
+= Share Buttons for Images =
+
+* [Free] Automatically add Pinterest’s “Pin It” button and other social share buttons directly onto the images on your site to increase outbound traffic to your social sites, and inbound traffic to your website. 
+* [Free] Includes integrated share buttons for Facebook, Twitter, LinkedIn, Google+, and more!
+* [Learn more](https://blog.shareaholic.com/image-share-buttons/)
+
+= Floating Share Buttons =
+
+* [Free] Increase social sharing by 2x or more by adding our Share Button plugin that hovers on the side of the page, rather than in the page content.
+* [Learn more](https://blog.shareaholic.com/floating-share-buttons/)
+
+= Related Content =
+
+* [Free] Increases pageviews, engagement, and time on site by highlighting related content & related posts that may not otherwise be discovered on your site. Shareaholic is not just yet another related content plugin. It’s simple installation & content dashboard allows you quickly customize what content is delivered and where on your site. You’ll be using well-engineered and optimized code that won’t slow or block your pages from loading.
+* [Free] Help your users rediscover your entire content by including related posts on all of your pages.
+* [Free] Choose between several themes to seamlessly match your site’s theme, design, and personality.
+* [Free] Automatically utilizes post keywords specified in the “All in One SEO Pack”, “WordPress SEO by Yoast”, “Add Meta Tags”, and other plugins.
+* [Free] Promote and advertise your content and products across our network using our Related Content Advertising Tools
+* [Free] Optimized for mobile devices like the iPhone, iPod touch, iPad, Android mobile phones, and more.
+* [Learn More](https://shareaholic.com/publishers/recommendations)
+
+= Social Analytics =
+
+* Shareaholic is proud to be an official Google Analytics Technology Partner.
+* [Free] Shareaholic provides you with important actionable metrics including insights into popular pages on your website, referral channels, and top refrerrers who are spreading your web pages on the internet on your behalf, bringing more traffic and new visitors to your site.
+* [Free] Shareaholic automatically and seamlessly integrates with Google Analytics, including UTM tracking parameters, to provide Google Analytics social data in your Shareaholic dashboard and Shareaholic data in your Google Analytics dashboard.
+* [Free] See social and page analytics by content, author, and custom tags.
+* [Free] Discover how visitors find each story, product, author, and section, so you can build distribution strategies that work.
+* [Free] Measure author performance and focus on authors who get the best results.
+* [Free] Check whether your campaigns are targeting Verified Human audiences who are actually capable of purchasing your product or service
+* [Learn more about our Social and Google Analytics integrations](https://shareaholic.com/publishers/analytics)
+
+= Follow Buttons =
+
+* [Free] Grow your social following and page views with our easily customizable social plugin and tools for adding social follow buttons directly to your page.
+* [Free] Supported services include: Facebook, Twitter, Instagram, YouTube, LinkedIn ,Spotify ,Google+ ,Pinterest, Etsy, BuzzFeed, iTunes, Tumblr, Vimeo, eBay, 500px, about.me, Baidu, Behance, Better Business Bureau, Bloglovin, Disqus, Dribbble, Feedly, Flickr, Foursquare, Github, Google Classroom, Houzz, LinkedIn Company, LiveJournal, Odnoklassniki, Polyvore, RSS, Skype, SlideShare, SoundCloud, Stack Overflow, StumbleUpon, Tripadvisor, Vine, VK, Yelp, Zillow
+* [Learn More](https://shareaholic.com/publishers/)
+
+= Monetize your Site =
+
+* [Affiliate Links](https://support.shareaholic.com/hc/en-us/articles/202938373-How-does-the-Affiliate-Links-app-work-): Automatically turn your site’s existing links into rewards. Clicks that turn into purchases from our ever-expanding universe of 35,000+ retailers, turn into commissions for you with zero additional effort.
+* [Outstream Video](https://support.shareaholic.com/hc/en-us/articles/207147336-Your-Options-to-Monetize-Your-Website-Earn-Revenue-with-Ads): Monetize your content with highly viewable and in-demand video ads through Outstream video units that appear between paragraphs on your pages. 
+* [Promoted Native Content](https://support.shareaholic.com/hc/en-us/articles/207147336-Your-Options-to-Monetize-Your-Website-Earn-Revenue-with-Ads): Generate revenue with targeted content recommendations from our sponsored content marketplace. Each time your readers click through to sponsored articles, you make money.
+
+= Additional features =
+
+* **100% Customizable** - Choose from several themes to match your site’s design or personalize your own to create a custom look.
+* **Mobile Optimized** - Responsive and retina display friendly. Shareaholic will work and look great on all mobile devices and tablets.
+* **Built for Scale** - It doesn't matter if your website generates 1 or a 100 million views. Shareaholic scales to any size and will work just as well.
+* **[Monetize](https://support.shareaholic.com/hc/en-us/articles/207147336-Your-Options-to-Monetize-Your-Website-Earn-Revenue-with-Ads)** - Make money with minimal effort while retaining full control at all times.
+* **[Fast & Secure](http://support.shareaholic.com/hc/en-us/articles/204339849-)** - We use industry best practices to make our code as fast and unobtrusive as possible, meaning – for example – that the performance impact is comparable to adding Google Analytics to your site. Because all of the processing and collection runs on our servers and not yours, it doesn’t cause any additional load on your hosting account. In addition, our JavaScript is hosted on Amazon’s CDN to make fetching it as blazing fast and reliable as possible. In fact, it’s one of the fastest proven analytics systems, hosted or not hosted, that you can use.
+* **Integrations** -  We're officially partnered with GoDaddy, WP Engine, Siteground, Cloudflare, Google & others to ensure that your site is safe, stable, and speedy.
 
 = Recent Updates =
 
@@ -24,71 +100,7 @@ Shareaholic is the world's leading **all-in-one Content Amplification Platform**
 * Official support for WooCommerce
 
 > <strong>Support</strong><br>
-> One on one email support is available. Visit our [Support Center](http://support.shareaholic.com/). Rest easy knowing real people are ready to help you. Everyone on our Customer Care team is an experienced Shareaholic user.
-
-= Share Buttons =
-
-Make it 1-click easy for your visitors to share your content with their friends with Shareaholic's award winning Share Buttons. This is the ultimate Social Media Widget for your website.
-
-* Vector share & follow buttons (SVG icons)
-* Official Share Counters for Twitter, Facebook, LinkedIn, Pinterest, Buffer, Google Plus, and more
-* Official support for Google's URL shortener (goo.gl) and Google Analytics
-* Supported URL Shorteners: Bitly (including custom tracking), J.mp, TinyURL, Goo.gl, Shr.lc
-* Full support for: Facebook, Twitter, Pinterest, Google Plus, Reddit, LinkedIn, Gmail, Delicious, OneNote, Evernote, Stumbleupon, Digg, Tumblr, Hootsuite, Buffer, Fancy, Wanelo, Yummly, WeHeartIt, Flipboard, Printfriendly, Amazon Wishlist, Instapaper, Pocket, Odnoklassniki, Houzz, Hacker News, Inbound.org, Vk, etc
-* Automatic Google Analytics integration ([setup guide](http://support.shareaholic.com/hc/en-us/articles/205181045-))
-* Supports theme features such as HTML5 & XHTML, widgets, infinite scroll, post formats
-
-[Share Buttons](https://shareaholic.com/publishers/sharing/) (demo)
-
-= Share Buttons for Images (Pinterest "pin it" button for images) =
-
-Get more shares and viral traffic by adding smart share buttons to the images on your website and making them easy to share.
-
-[Learn more](https://blog.shareaholic.com/image-share-buttons/)
-
-= Floating Share Buttons =
-
-Increase sharing engagement by 2x or more by Share Buttons that hover on the side of the page, rather than in the page content.
-
-[Learn more](https://blog.shareaholic.com/floating-share-buttons/)
-
-= Related Content =
-
-Increases pageviews, engagement and time on site by highlighting relevant content that may not otherwise be discovered from across your site. Shareaholic is not just yet another related posts content plugin. It involves a simple installation that's easy to update and tweak. You'll be using well-engineered and optimized code that won't slow or block your pages from loading.
-
-* Choose between several themes to seamlessly match your site's theme, design and personality. and customize every pixel if you'd like
-* Make money by displaying sponsored content, at the bottom of your posts, in the sidebar, or both
-* Easily promote your product or service on thousands of blogs and websites
-* Automatically utilizes post keywords specified in the "All in One SEO Pack", "WordPress SEO by Yoast", "Add Meta Tags", and other plugins
-* Optimized for mobile devices like the iPhone, iPod touch, iPad, Android mobile phones, and more
-
-= Social Analytics =
-
-Provides you with important actionable metrics including insights into popular pages on your website, referral channels, and who are making referrals and spreading your webpages on the internet on your behalf bringing you back more traffic and new visitors.
-
-[Learn more](https://shareaholic.com/publishers/analytics)
-
-= Affiliate Links =
-
-Automagically turn your site’s existing links into rewards. Clicks that turn into purchases from our ever-expanding universe of 35,000+ retailers, turn into commissions for you with zero additional effort.
-
-[Learn more](http://support.shareaholic.com/hc/en-us/articles/202938373-How-does-the-Affiliate-Links-app-work-)
-
-= Follow Buttons =
-
-Will help you get more followers and grow your social influence on Facebook, Twitter, Pinterest, Instagram and many other social networks. 
-
-Supported services include: Facebook, Twitter, Vine, Pinterest, YouTube, Google+, LinkedIn, SlideShare, Instagram, VK, RSS feed, Github, Stackoverflow, Dribbble, Behance, 500px, iTunes, Houzz, Flickr, Foursquare, Yelp, Bloglovin, Etsy, TripAdvisor, About.me, Polyvore, Soundcloud, eBay, Better Business Bureau (BBB), Skype, Zillow, Disqus, Spotify, Feedly, LiveJournal
-
-[Learn more](https://shareaholic.com/publishers)
-
-= Additional features =
-
-* **100% Customizable** - Choose from several themes to match your site’s design or personalize your own to create a custom look.
-* **Mobile Optimized** - Responsive and retina display friendly. Shareaholic will work and look great on all mobile devices and tablets.
-* **Built for Scale** - It doesn't matter if your website generates 1 view or 100 million. Shareaholic scales to any size and will work just as well.
-* **Generate Revenue** - Make money with minimal effort while retaining full control at all times.
-* **[Fast & Secure](http://support.shareaholic.com/hc/en-us/articles/204339849-)** - We use industry best practices to make our code as fast and unobtrusive as possible, meaning - for example - that the performance impact is comparable to adding Google Analytics to your site. Because all of the processing and collection runs on our servers and not yours, it doesn't cause any additional load on your hosting account. In addition, our JavaScript is hosted on Amazon's CDN to make fetching it as blazing fast and reliable as possible. In fact, it's one of the fastest proven analytics system, hosted or not hosted, that you can use.
+> One on one email support is available. Visit our [Support Center](http://support.shareaholic.com/) or [reach out to our team directly](https://shareaholic.com/help/message). Rest easy knowing real people are ready to help you. Everyone on our Customer Care team is an experienced Shareaholic user and you can even [upgrade to pro](https://shareaholic.com/plans/) for access to a dedicated account manager.
 
 = You're in Great Company =
 
@@ -125,17 +137,23 @@ Shareaholic is used all over the world. Our goal is to support Shareaholic in th
 * Spanish - Spain (es_ES) by [David Marco Busto](http://alfabetadigital.com)
 * Romanian (ro_RO)
 * Malay – Bahasa Melayu (ms_MY) by [Lela Iskandar Suhaimi](http://www.jomjalan.com.my/)
-* Contribute a translation! -- we would appreciate your help in translating Shareaholic into even more languages! It doesn’t take much to get started. Instructions: https://shareaholic.com/tools/wordpress/translate
+* Contribute a translation! -- we would appreciate your help in translating Shareaholic into even more languages! It doesn’t take much to get started. Instructions: https://translate.wordpress.org/projects/wp-plugins/shareaholic
+
+== Social Platform Integrations == 
+
+* Social Follow Buttons: Facebook follow buttons, Twitter follow buttons, Instagram follow buttons, YouTube follow buttons, LinkedIn, Spotify, Google+, Pinterest follow buttons, Etsy, BuzzFeed, iTunes, Tumblr, Vimeo, eBay, 500px, about.me, Baidu, Behance, Better Business Bureau (BBB), Bloglovin, Disqus, Dribbble, Feedly, Flickr, Foursquare, Github, Google Classroom, Houzz, LinkedIn, LiveJournal, Odnoklassniki (OK), Polyvore, RSS, Skype, SlideShare, SoundCloud, Stack Overflow, StumbleUpon, Tripadvisor, Vine, VK, Yelp, Zillow
+
+* Social Share Buttons: Facebook share buttons, LinkedIn share buttons, Pinterest share buttons, Reddit share buttons, Skype share buttons, SMS share button, StumbleUpon share buttons, Tumblr share buttons, Twitter share buttons, WhatsApp share buttons, Amazon Kindle share buttons, Amazon share buttons, Amazon Wish List, AOL Mail, Arto, Baidu, Bit.ly, Blogger Post, Box, Buffer, Delicious, Digg, Diigo, Diigolet, Email This, Evernote, Facebook Send, Fancy, Fark, Flipboard share buttons, GMail share buttons, Google Bookmarks, Google Classroom, Google Mail, Google+, HootSuite share buttons, Houzz share buttons, Inbound.org, Instapaper, iZeby, Kaboodle, Kik, Line share buttons, LinkedIn share buttons, Mail, Meneame, Microsoft OneNote, Mister-Wong, Mixi, MSDN, Odnoklassniki (OK), Outlook, Pinboard.in, Pinterest, Plurk, Pocket share buttons, Print share buttons, PrintFriendly share buttons, Read Later share buttons, Reddit share buttons, Sina Weibo, Skype share buttons, SMS, Soup.io, Stumpedia, Symphony, Techmeme, TinyURL, TypePad Post, Viadeo, Vkontakte (VK), Wanelo, We Heart It, WhatsApp,Windows Live Favorites, WordPress share buttons, Wykop, Xing, Yahoo Bookmarks, Yahoo Messenger, Yahoo! Mail, Yammer, YC Hacker News, Yummly share buttons
 
 == Screenshots ==
 
-1. An 100% integrated and customizable approach - all the tools and apps you need in one robust plugin! Whether you want to get people sharing, grow your fans, make money, or know who's reading your content, we'll help you get it done. De-clutter your WordPress installation.
-2. Related Content configuration panel - Drive pageviews and increase time on site with this tool.
-3. Share Buttons configuration panel - Make it easy for your visitors to share your site's content via social networks, email, blogs, IM, and more.
-4. You're in great company - Gizmo Gadget  
-5. You're in great company - Your Lighter Side
-6. You're in great company - Guilty Kitchen
-7. You're in great company - Career Girl
+1. An easy to install plugin for all of you social sharing, related content, ad monetization, and Google Analytics needs. We have share buttons for Facebook, Twitter, Instagram, Pinterest, LinkedIn, Google+, and many more within a single social dashboard. We also offer monetization tools for affiliate links, outstream video ads, native ads, and related posts.
+2. Easily add related content and related post sections to your site to drive increased page views and time on site. 
+3. Add and customize your share buttons to maximize you social sharing on Facebook, Twitter, Instagram, Pinterest, LinkedIn, Google+, and many more.
+4. Because most everyone in our demographic uses ad-blocker, Related Content is a great way to suggest other products they may like because it’s relevant to the post they are reading.
+5. I love that Related Content is already included in the Shareaholic WordPress plugin because it keeps my blog uncluttered and my page load time to a minimum.
+6. Since installing Related Content, I’ve loved seeing more traffic on my older posts.
+7. Because I produce a ton of content every day, I rely on Related Content to pull posts for my readers that they wouldn’t find on their own.
 
 == Installation ==
 
@@ -159,30 +177,34 @@ Shareaholic is used all over the world. Our goal is to support Shareaholic in th
 
 = Shareaholic Shortcode Support / Manual Usage =
 
-You can place Share Buttons, Related Content and any other Shareaholic app manually wherever you're like. Simply insert the following Shortcode where you want the corresponding app to appear:
+You can place Share Buttons, Related Content and any other Shareaholic apps manually wherever you're like in your theme. Simply insert the following Shortcode where you want the corresponding app to appear:
 
-`[shareaholic app="share_buttons" id="<insert shareaholic app ID here>"]`
-`[shareaholic app="recommendations" id="<insert shareaholic app ID here>"]`
-`[shareaholic app="ad_spaces" id="<insert shareaholic app ID here>"]`
-`[shareaholic app="follow_buttons" id="<insert shareaholic app ID here>"]`
+`[shareaholic app="share_buttons" id="<Insert Shareaholic App ID here>"]`
+`[shareaholic app="recommendations" id="<Insert Shareaholic App ID here>"]`
+`[shareaholic app="ad_spaces" id="<Insert Shareaholic App ID here>"]`
+`[shareaholic app="follow_buttons" id="<Insert Shareaholic App ID here>"]`
 `[shareaholic app="total_share_count"]`
 
-Notes: optionally, you can also specify `title`, `link` or `summary` as Shareaholic shortcode parameters. If you don't specify these optional  parameters, the shortcode will automatically determine these values.
+Grab the corresponding App ID from your Shareaholic Dashboard for the App you want to manually insert into your theme. If you prefer, you can also use the `App Name` instead of the `App ID`. This can be very useful for multi-site installations and theme developers who would like to bundle Shareaholic. For example:
 
-Example:
+`[shareaholic app="share_buttons" id_name="post_below_content"]`
 
-`[shareaholic app="recommendations" id="<insert shareaholic app ID here>" title="About Me" link="http://mysite.com/about"]`
+If both `id` and `id_name` are defined, `id` will take priority.
 
 In your PHP / theme template code, you would add:
 
-`<?php echo do_shortcode ('[shareaholic app="share_buttons" id="<insert shareaholic app ID here>"]'); ?>`
-`<?php echo do_shortcode ('[shareaholic app="recommendations" id="<insert shareaholic app ID here>"]'); ?>`
-`<?php echo do_shortcode ('[shareaholic app="ad_spaces" id="<insert shareaholic app ID here>"]'); ?>`
-`<?php echo do_shortcode ('[shareaholic app="follow_buttons" id="<insert shareaholic app ID here>"]'); ?>`
+`<?php echo do_shortcode ('[shareaholic app="share_buttons" id="<Insert Shareaholic App ID here>"]'); ?>`
+`<?php echo do_shortcode ('[shareaholic app="recommendations" id="<Insert Shareaholic App ID here>"]'); ?>`
+`<?php echo do_shortcode ('[shareaholic app="ad_spaces" id="<Insert Shareaholic App ID here"]'); ?>`
+`<?php echo do_shortcode ('[shareaholic app="follow_buttons" id="Insert Shareaholic App ID here"]'); ?>`
 
-Grab the corresponding App ID from your Shareaholic Dashboard for the App you want to manually insert into your theme. If use double quotes ("'s) in your title or summary, make sure to encode them properly as `&quot;`
+Note: optionally, you can specify `title`, `link` or `summary` as Shareaholic shortcode parameters. If you don't specify these optional parameters, the shortcode will automatically determine these values.
 
-Shareaholic Shortcode's are full featured and support all available configuration options available. Enjoy!
+Example:
+
+`[shareaholic app="share_buttons" id="<insert shareaholic app ID here>" title="About Me" link="http://mysite.com/about" summary="This is me"]`
+
+If use double quotes ("'s) in your title or summary, make sure to encode them properly as `&quot;`. Shareaholic Shortcode's are full featured and support all available configuration options available. Enjoy!
 
 [General information about shortcodes and WordPress](https://codex.wordpress.org/Shortcode)
 
@@ -195,6 +217,21 @@ Please see here: [Shareaholic Helpdesk](http://support.shareaholic.com/hc/en-us)
 Please see here: [Usage & Installation Instructions](http://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin)
 
 == Changelog ==
+
+= 8.6.5 (2018-02-07) =
+* Bugfix: Fixes 'Trying to get property of non-object' exception
+
+= 8.6.4 (2018-02-06) =
+* Bugfix: Styling fixes for Advanced Settings section
+* Bugfix: Fixes 'Missing argument' warning
+* Enhancements: Various improvements to the [Shareaholic shortcode](https://wordpress.org/plugins/shareaholic/#installation)
+
+= 8.6.3 (2018-02-06) =
+* Bugfix: We've further improved the server connectivity check. If you've been getting the 'retry' error message after installing Shareaholic, this one is for you.
+
+= 8.6.2 (2018-02-05) =
+* Enhancement: We've improved the server connectivity check. If you've been getting the 'retry' error message after installing Shareaholic, this one is for you.
+
 = 8.6.1 (2017-11-07) =
 * New: Option to show or hide share buttons, related content, etc on excerpts
 
@@ -681,6 +718,9 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Show Related Posts data status
 
 == Upgrade Notice ==
+= 8.6.5 =
+We've improved the server connectivity check. If you've been getting the 'retry' error message after installing Shareaholic, this one is for you.
+
 = 8.6.1 =
 New option to show or hide share buttons, related content, etc on excerpts
 

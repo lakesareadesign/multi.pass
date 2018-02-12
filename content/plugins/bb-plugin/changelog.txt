@@ -1,3 +1,16 @@
+<h4>2.0.4.4 - 02/05/2018</h4>
+<p><strong>Hotfix</strong></p>
+<ul>
+	<li>Fixed bug in HTML and Rich Text modules, <code>&nbsp;</code> was being stripped when changing to raw text mode.</li>
+</ul>
+
+<h4>2.0.4.3 - 01/31/2018</h4>
+<p><strong>Hotfix</strong></p>
+<ul>
+	<li>Fixed fl_builder showing in the URL after publish causing the builder to relaunch when refreshing.</li>
+	<li>Fixed Responsive Display setting not being respected after publishing.</li>
+</ul>
+
 <h4>2.0.4.2 - 01/29/2018</h4>
 <p><strong>Hotfix</strong></p>
 <ul>

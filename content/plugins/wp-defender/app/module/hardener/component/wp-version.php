@@ -27,7 +27,7 @@ class WP_Version extends Rule {
 	}
 
 	public function getTitle() {
-		return __( "Update WordPress to latest version", wp_defender()->domain );
+		return __( "Update WordPress to latest version", wp_defender()->domain );	  	 	   	 		 		 				
 	}
 
 	function addHooks() {

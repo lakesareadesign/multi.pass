@@ -114,7 +114,7 @@ abstract class TheLib {
 		} else {
 			$use_session = true;
 		}
-		$use_session = apply_filters( 'wdev_lib-use_session', $use_session );
+		$use_session = apply_filters( 'wdev_lib-use_session', $use_session );							 			 	 	 		  
 
 		if ( ! session_id() ) {
 			if ( ! $use_session ) { return false; }

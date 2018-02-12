@@ -108,6 +108,8 @@
          */
         isUpdatingLayout: function( action ) {
 
+            if ( this.isPublishingLayout() ) return false;
+
             if ( action.startsWith('render') ) {
                 if ( action.startsWith('render_new') ) { return true; }
                 return false;

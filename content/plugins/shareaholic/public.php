@@ -80,17 +80,21 @@ class ShareaholicPublic {
   public static function shortcode($attributes, $content = NULL) {
     extract(shortcode_atts(array(
       "id" => NULL,
+      "id_name" => NULL,
       "app" => 'share_buttons',
       "title" => NULL,
       "link" => NULL,
       "summary" => NULL
     ), $attributes, 'shareaholic'));
     
-    if (isset($attributes['title'])) $title = esc_attr(trim($attributes['title']));  
+    if (isset($attributes['id'])) $id = trim($attributes['id']);
+    if (isset($attributes['id_name'])) $id_name = trim($attributes['id_name']);
+    if (isset($attributes['app'])) $app = trim($attributes['app']);
+    if (isset($attributes['title'])) $title = esc_attr(trim($attributes['title']));
     if (isset($attributes['link'])) $link = trim($attributes['link']);
     if (isset($attributes['summary'])) $summary = esc_attr(trim($attributes['summary']));  
     
-    return self::canvas($attributes['id'], $attributes['app'], $title, $link, $summary);
+    return self::canvas($id, $app, $id_name, $title, $link, $summary);
   }
   
   
@@ -336,7 +340,6 @@ class ShareaholicPublic {
    * @return string          the content
    */
   public static function draw_canvases($content) {
-    global $post;
     $settings = ShareaholicUtilities::get_settings();
     $page_type = ShareaholicUtilities::page_type();
     foreach (array('share_buttons', 'recommendations') as $app) {
@@ -347,7 +350,7 @@ class ShareaholicPublic {
       }
         
       // check individual post prefs
-      if (!get_post_meta($post->ID, "shareaholic_disable_{$app}", true)) {
+      if (!get_post_meta(get_the_ID(), "shareaholic_disable_{$app}", true)) {
         // check if ABOVE location is turned on
         if (isset($settings[$app]["{$page_type}_above_content"]) && $settings[$app]["{$page_type}_above_content"] == 'on') {
           $id = $settings['location_name_ids'][$app]["{$page_type}_above_content"];
@@ -372,12 +375,13 @@ class ShareaholicPublic {
    * by the shortcode static function in global_functions.php.
    *
    * @param string $id  the location id for configuration
+   * @param string $id_name  the location id name for configuration
    * @param string $app the type of app
    * @param string $title the title of URL
    * @param string $link url
    * @param string $summary summary text for URL
    */
-  public static function canvas($id, $app, $id_name, $title = NULL, $link = NULL, $summary = NULL) {
+  public static function canvas($id = NULL, $app, $id_name = NULL, $title = NULL, $link = NULL, $summary = NULL) {
     global $post, $wp_query;
     $page_type = ShareaholicUtilities::page_type();
     $is_list_page = $page_type == 'index' || $page_type == 'category';
@@ -403,12 +407,23 @@ class ShareaholicPublic {
     }
     
     $canvas = "<div class='shareaholic-canvas'
-      data-app-id='$id'
-      data-app-id-name='$id_name'
       data-app='$app'
       data-title='$title'
-      data-link='$link'
-      data-summary='$summary'></div>";
+      data-link='$link'";
+      
+      if ($summary != NULL) {
+        $canvas .= " data-summary='$summary'";
+      }
+      
+      if ($id != NULL) {
+        $canvas .= " data-app-id='$id'";
+      }
+            
+      if ($id_name != NULL) {
+        $canvas .= " data-app-id-name='$id_name'";
+      }
+      
+      $canvas .="></div>";
 
     return trim(preg_replace('/\s+/', ' ', $canvas));
   }

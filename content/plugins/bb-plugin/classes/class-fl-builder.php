@@ -2121,7 +2121,7 @@ final class FLBuilder {
 		include $module->dir . 'includes/frontend.css.php';
 		$css = ob_get_clean();
 
-		echo apply_filters( 'fl_builder_render_module_css', $css, $module );
+		echo apply_filters( 'fl_builder_render_module_css', $css, $module, $id );
 	}
 
 	/**

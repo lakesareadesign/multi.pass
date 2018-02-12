@@ -24,7 +24,7 @@ if ( $is_front || $is_blog ) {
 	<?php endforeach;
 } else {
 	global $wp_registered_sidebars;
-	$available = CustomSidebars::sort_sidebars_by_name( $wp_registered_sidebars );							 			 	 	 		  
+	$available = CustomSidebars::sort_sidebars_by_name( $wp_registered_sidebars );
 	$content = '';
 	foreach ( $sidebars as $s ) {
 		$sb_name = $available[ $s ]['name'];

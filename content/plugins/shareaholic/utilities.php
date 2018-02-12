@@ -658,7 +658,9 @@ class ShareaholicUtilities {
    */
   public static function get_or_create_api_key() {
     $api_key = self::get_option('api_key');
-    if ($api_key) {
+    
+    // ensure api key set is atleast 30 characters, if not, retry to set new api key
+    if ($api_key && (strlen($api_key) > 30)) {
       return $api_key;
     }
 
@@ -708,7 +710,7 @@ class ShareaholicUtilities {
         $data,
         'json'
       );
-      
+            
       if ($response && preg_match('/20*/', $response['response']['code'])) {
         self::update_options(array(
           'api_key' => $response['body']['api_key'],
@@ -1384,9 +1386,9 @@ class ShareaholicUtilities {
    public static function connectivity_check() {
   	$health_check_url = Shareaholic::API_URL . "/haproxy_health_check";
     $response = ShareaholicCurl::get($health_check_url);
-    $body = $response['body'];
     if(is_array($response) && array_key_exists('body', $response)) {
-      if ($body == "OK"){
+      $response_code = wp_remote_retrieve_response_code($response);
+      if ($response_code == "200"){
         return "SUCCESS";
       } else {
         return "FAIL";

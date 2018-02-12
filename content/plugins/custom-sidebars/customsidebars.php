@@ -3,7 +3,7 @@
  * Plugin Name: Custom Sidebars Pro
  * Plugin URI:  http://premium.wpmudev.org/project/custom-sidebars/
  * Description: Allows you to create widgetized areas and custom sidebars. Replace whole sidebars or single widgets for specific posts and pages.
- * Version:     3.1.1
+ * Version:     3.1.2
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org/
  * Textdomain:  custom-sidebars
@@ -35,6 +35,13 @@ http://arqex.com/
 
 function inc_sidebars_init() {
 	if ( class_exists( 'CustomSidebars' ) ) {
+		return false;
+	}
+
+	/**
+	 * Do not load plugin when saving file in WP Editor
+	 */
+	if ( isset( $_REQUEST['action'] ) && 'edit-theme-plugin-file' == $_REQUEST['action'] ) {
 		return false;
 	}
 
