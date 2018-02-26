@@ -1,7 +1,7 @@
 (function($,doc,win){
 	"use strict";
 	if( inc_opt.is_upfront ) return;
-	
+
 	Optin.Module_log_cta_conversion = Backbone.Model.extend({
 		url: inc_opt.ajaxurl + '?action=hustle_cta_converted',
 		defaults: {
@@ -89,7 +89,7 @@
 				|| ( 'exit_intent' === this.appear_after && _.isTrue( this.settings.triggers.on_exit_intent_per_session ) ) ) {
 				this.should_remove = true;
 			}
-			
+
 			if ( !this.should_display() ) {
 				return;
 			}
@@ -135,22 +135,22 @@
 		},
 
 		render: function() {
-			
+
 			var template = ( parseInt(this.data.content.use_email_collection, 10) )
 				? Optin.template("wpmudev-hustle-modal-with-optin-tpl")
 				: Optin.template("wpmudev-hustle-modal-without-optin-tpl");
-			
+
 			var html = template( this.data );
-			
+
 			this.$el.addClass( 'module_id_' + this.module_id );
 			this.$el.html( html );
-			
+
 			// supply with provider args
 			if ( typeof this.data.content.args !== 'undefined' && typeof this.data.content.active_email_service !== 'undefined' ) {
 				var provider_template = Optin.template( 'optin-'+ this.data.content.active_email_service +'-args-tpl' ),
 					provider_content = provider_template(this.data.content.args),
 					$target_provider_container = this.$('.hustle-modal-provider-args-container');
-					
+
 				if ( $target_provider_container.length ) {
 					$target_provider_container.html(provider_content);
 				}
@@ -162,7 +162,7 @@
 			this.$el.on( 'hide', $.proxy( this, 'on_module_hide' ) );
 			this.$el.data(this.data);
 			this.html = this.$el.html();
-			
+
 			// Prepare display
 			this.prepare_display();
 
@@ -173,7 +173,7 @@
 
 			return this;
 		},
-		
+
 		prepare_display: function() {
 			var me = this;
 
@@ -190,18 +190,18 @@
 
 		display: function() {
 			var me = this;
-			
+
 			if( this.$el.is( '.' + this.showClass ) ) {
 				// If already shown, return
 				return;
 			}
-			
+
 			this.$el.removeClass( this.settings.animation_out );
 			this.add_mask();
 			this.$el.trigger( 'show', this );
 			// Add escape key listener.
 			$(document).on( 'keydown', $.proxy( this.escape_key, this ) );
-			
+
 			// only use the `on_submit` for module with no collection,
 			// meaning a form shortcode was added on the module content
 			if ( !parseInt(this.data.content.use_email_collection, 10) ) {
@@ -217,7 +217,7 @@
 				} else {
 					// do nothing used for ajax forms
 				}
-				
+
 			}
 		},
 
@@ -226,15 +226,19 @@
 			  no_scroll = _.isFalse(this.settings.allow_scroll_page),
 			  no_bg_click = _.isFalse(this.settings.not_close_on_background_click);
 
-			// Only add mask to popups.
-			if (this.data.module_type !== 'popup') {
+			if (
+				// Only add mask to popups.
+				this.data.module_type !== 'popup'
+				// Do not duplicate mask.
+				|| this.$el.find('.wph-modal-mask').length > 0
+			) {
 				return;
 			}
 
 			if ( no_scroll ) {
 			  $('html').addClass('hustle-no-scroll');
 			}
-			
+
 			this.mask = $( '<div class="' + this.maskClass + ' ">' );
 			this.mask.insertBefore(this.$el.find('.hustle-modal'));
 
@@ -244,9 +248,9 @@
 		},
 
 		time_trigger: function() {
-			
+
 			if ( _.isTrue( this.triggers.on_time ) ) {
-				
+
 				var delay = parseInt( this.triggers.on_time_delay, 10 ) * 1000;
 
 				if( 'minutes' === this.triggers.on_time_unit ) {
@@ -256,7 +260,7 @@
 				}
 				// Display after a certain time.
 				_.delay( $.proxy( this, 'display' ), delay );
-				
+
 			} else {
 				this.display();
 			}
@@ -265,7 +269,7 @@
 		click_trigger: function() {
 			var me = this,
 				selector = '';
-			
+
 			if( "" !== (selector = $.trim( this.triggers.on_click_element ) )  ){
 				var $clickable = $(selector);
 
@@ -276,7 +280,7 @@
 					} );
 				}
 			}
-			
+
 			// Clickable button added with shortcode
 			$(doc).on("click", ".hustle_module_shortcode_trigger", function(e){
 				e.preventDefault();
@@ -329,10 +333,10 @@
 			var me = this,
 				delay = 0
 			;
-				
+
 			// handle delay
 			if ( _.isTrue( this.triggers.on_exit_intent_delayed ) ) {
-				
+
 				delay = parseInt( this.triggers.on_exit_intent_delayed_time, 10 ) * 1000;
 
 				if(  'minutes' === this.triggers.on_exit_intent_delayed_time ) {
@@ -341,7 +345,7 @@
 					delay *= ( 60 * 60 );
 				}
 			}
-			
+
 			// handle per session
 			if ( _.isTrue( this.triggers.on_exit_intent_per_session ) ) {
 				$(doc).one("mouseleave", _.debounce( function(e){
@@ -357,7 +361,7 @@
 			$( 'html' ).on( 'mousemove', _.debounce(function(e) {
 				me.reset_exit_timer();
 			}, 300));
-			
+
 			// Timer variable to be set or reset.
 			this.exit_timer = null;
 			// When user moves cursor back into window, reset timer.
@@ -377,7 +381,7 @@
 					me.exit_timer = null;
 					// Display module
 					me.display();
-				
+
 				}, delay);
 			}
 		},
@@ -386,7 +390,7 @@
 			var adblock = ! $('#hustle_optin_adBlock_detector').length;
 
 			if ( adblock && _.isTrue( this.triggers.on_adblock ) ) {
-				if( _.isFalse( this.triggers.on_adblock_delayed ) ){ 
+				if( _.isFalse( this.triggers.on_adblock_delayed ) ){
 					this.display();
 				} else {
 					var delay = parseInt( this.triggers.on_adblock_delayed_time, 10 ) * 1000;
@@ -413,39 +417,40 @@
 		on_module_hide: function() {
 			$(document).trigger("wpoi:hide", [this.type, this.$el, this.opt ]);
 		},
-		
+
 		on_animation_in: function() {
 			var me = this,
 				$modal = this.$el.find('.hustle-modal'),
 				animation_in = this.data.settings.animation_in;
-				
+
 			if (this.$el.hasClass('wph-modal-active') && $modal.hasClass('hustle-animated')) {
 				setTimeout( function() {
 					if (animation_in === 'no_animation') {
 						$modal.addClass('hustle-modal-static');
 					} else {
-						$modal.addClass('hustle-animate-' + animation_in );	
+						$modal.addClass('hustle-animate-' + animation_in );
 					}
 					me.apply_custom_size();
 				}, 100);
 			} else {
+				$modal.addClass('hustle-modal-static');
 				// Apply custom size regardless of no animation.
 				me.apply_custom_size();
 			}
 		},
-		
+
 		apply_custom_size: function() {
 			Optin.apply_custom_size(this.data, this.$el);
 		},
-		
+
 		close: function(e) {
 			if ( typeof e !== 'undefined' ) {
 				e.stopPropagation();
 			}
-			
+
 			// clear any running interval
 			this.clear_running_compat_interval();
-			
+
 			var me = this,
 				$modal = this.$el.find('.hustle-modal'),
 				animation_in_class = 'hustle-animate-' + this.data.settings.animation_in,
@@ -456,11 +461,11 @@
 			if ( $modal.hasClass('hustle-animated') ) {
 
 				if ( this.data.settings.animation_in === 'no_animation' ) {
-					$modal.removeClass('hustle-modal-static').addClass(animation_out_class);					
+					$modal.removeClass('hustle-modal-static').addClass(animation_out_class);
 				} else {
-					$modal.removeClass(animation_in_class).addClass(animation_out_class);					
+					$modal.removeClass(animation_in_class).addClass(animation_out_class);
 				}
-				
+
 				if ( this.data.settings.animation_out === 'fadeOut' ) {
 					time_out = 305;
 				}
@@ -470,7 +475,7 @@
 				if ( this.data.settings.animation_out === 'bounceOut' ) {
 					time_out = 755;
 				}
-				
+
 				setTimeout(function(){
 					me.$el.removeClass('wph-modal-active');
 					$modal.removeClass(animation_out_class);
@@ -482,12 +487,12 @@
 				$modal.removeClass('hustle-modal-static');
 				me.$el.removeClass('wph-modal-active');
 			}
-	
+
 			// Allow scrolling if previously disabled.
 			$('html').removeClass('hustle-no-scroll');
 			// Get rid of escape key listener.
 			$(document).off( 'keydown', $.proxy( me.escape_key, this ) );
-			
+
 			// save cookies for 'after_close' property
 			if ( this.settings.after_close === 'no_show_on_post' ) {
 				if ( parseInt( inc_opt.page_id, 10 ) > 0 ) {
@@ -506,21 +511,21 @@
 		redirect_form_submit: function(e){
 			var self = this,
 				$form = $(e.target);
-				
+
 			window.location.replace( $form.attr("action") );
 		},
 		/**
-		* Some form plugins have their own form submit listener, 
+		* Some form plugins have their own form submit listener,
 		* so have to tackle each one of them and apply the `on_submit` close behavior
 		*/
 		handle_compatibility: function() {
-			
+
 			// e-newsletter, when a shortcode was added on module content
 			var me = this,
 				$enewsletter_form = this.$el.find('form#subscribes_form'),
 				enewsletter_waited = 1000,
 				enewsletter_max_wait = 216000000; // 1 hour
-				
+
 			if ( $enewsletter_form.length ) {
 				me.wait_enewsletter_result = setInterval(function(){
 					enewsletter_waited += 1000;
@@ -536,7 +541,7 @@
 			if ( typeof this.wait_enewsletter_result !== 'undefined' ) {
 				clearInterval(this.wait_enewsletter_result);
 			}
-			
+
 		},
 		cta_clicked: function(e) {
 			if ( this.module_type !== 'embedded' && typeof Optin.Module_log_cta_conversion != 'undefined' ) {
@@ -548,5 +553,5 @@
 			}
 		}
 	});
-	
+
 }(jQuery,document,window));

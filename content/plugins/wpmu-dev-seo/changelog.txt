@@ -1,8 +1,37 @@
-Plugin Name: WPMU DEV SEO
+Plugin Name: SmartCrawl SEO
 
 Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
+
+2.1.1 - 2017-02-07
+----------------------------------------------------------------------
+- New: make Analysis dash widget results numeric and items clickable.
+- New: add OpenGraph and Twitter options for taxonomies.
+- New: exclude full URLs from sitemap.
+- New: grey out deactivated modules in site owner permissions.
+- New: enable styled sitemap on fresh setups.
+
+- Fix: increase recommended description  length from 160 to 230 chars.
+- Fix: redirection resolution on archive pages.
+- Fix: spelling and grammar issues.
+- Fix: UI and styling issues.
+- Fix: checkup scan tracking auto-update.
+- Fix: update option label copies.
+- Fix: update info links.
+- Fix: admin menu style issues in Firefox.
+- Fix: background color style issues.
+- Fix: conflict with Divi theme.
+- Fix: configuring links destinations when sitewide mode is active.
+- Fix: unifiy analysis status results.
+- Fix: BBPress compatibility issue with generated URLs.
+- Fix: update error strings on import/export issues.
+- Fix: sitemap items listed twice in audit report.
+- Fix: title tag on custom post type archives issue.
+- Fix: conflict with Movedo theme.
+- Fix: do not calculate disabled analysis results.
+- Fix: empty ignore URLs list clears sitemaps.
+- Fix: user name not shown for reporting.
 
 2.1.0.1 - 2017-12-18
 ----------------------------------------------------------------------
@@ -396,4 +425,4 @@ exist yet
 - Initial Release.
 
 
-133620-1514407110-au
+133620-1519672634-au

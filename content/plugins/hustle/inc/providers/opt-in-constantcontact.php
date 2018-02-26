@@ -102,7 +102,6 @@ class Opt_In_ConstantContact extends Opt_In_Provider_Abstract  implements  Opt_I
 			) );
 			$custom_fields = array_filter( $custom_fields );
 
-
 			if ( is_object( $existing_contact ) ) {
 				$response = $api->updateSubscription( $existing_contact, $first_name, $last_name, $email_list, $custom_fields );
 			} else {

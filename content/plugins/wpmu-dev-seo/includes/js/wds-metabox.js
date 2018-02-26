@@ -48,8 +48,12 @@
 			$(this).addClass('active');
 		});
 
-		Wds.optimum_length_indicator($('#wds_title'), 50, 70);
-		Wds.optimum_length_indicator($('#wds_metadesc'), 135, 160);
+		var tlimit = (l10nWdsCounters || {}).title_limit || 70;
+		Wds.optimum_length_indicator($('#wds_title'), 50, parseInt(tlimit, 10));
+
+		var mlimit = (l10nWdsCounters || {}).metad_limit || 160;
+		Wds.optimum_length_indicator($('#wds_metadesc'), 135, parseInt(mlimit, 10));
+
 		Wds.hook_toggleables();
 		Wds.accordion();
 	}

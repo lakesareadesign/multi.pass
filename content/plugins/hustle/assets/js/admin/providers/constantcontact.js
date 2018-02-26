@@ -103,8 +103,4 @@
 		});
 	});
 
-	
-
-	
-
 }(jQuery,document,window));

@@ -1,6 +1,14 @@
 <?php
+/**
+ * Abstractions related to checks
+ *
+ * @package wpmu-dev-seo
+ */
 
-abstract class WDS_Check_Abstract {
+/**
+ * Check abstraction class
+ */
+abstract class Smartcrawl_Check_Abstract {
 
 	/**
 	 * Applies the check
@@ -23,7 +31,9 @@ abstract class WDS_Check_Abstract {
 	 *
 	 * @return string
 	 */
-	public function get_recommendation () { return ''; }
+	public function get_recommendation() {
+		return '';
+	}
 
 	/**
 	 * More info getter
@@ -32,10 +42,9 @@ abstract class WDS_Check_Abstract {
 	 *
 	 * @return string
 	 */
-	public function get_more_info () { return ''; }
-
-
-
+	public function get_more_info() {
+		return '';
+	}
 
 	/**
 	 * Holds subject reference
@@ -69,22 +78,22 @@ abstract class WDS_Check_Abstract {
 	 *
 	 * Accepts optional current working markup parameter
 	 *
-	 * @param string $markup Current working markup (optional)
+	 * @param string $markup Current working markup (optional).
 	 */
-	public function __construct ($markup='') {
-		$this->set_subject($markup);
+	public function __construct( $markup = '' ) {
+		$this->set_subject( $markup );
 	}
 
 	/**
 	 * Sets working markup
 	 *
-	 * @param string|WP_Post $markup Markup to work with
+	 * @param string|WP_Post $subject Markup to work with.
 	 *
 	 * @return bool
 	 */
-	public function set_subject ($subject='') {
-		return is_string($subject) || (is_object($subject) && $subject instanceof WP_Post)
-			? !!$this->_subject = $subject
+	public function set_subject( $subject = '' ) {
+		return is_string( $subject ) || (is_object( $subject ) && $subject instanceof WP_Post)
+			? ! ! $this->_subject = $subject
 			: false
 		;
 	}
@@ -94,7 +103,7 @@ abstract class WDS_Check_Abstract {
 	 *
 	 * @return string Working markup
 	 */
-	public function get_markup () {
+	public function get_markup() {
 		return $this->_subject;
 	}
 
@@ -105,17 +114,17 @@ abstract class WDS_Check_Abstract {
 	 * abstracting away key phrases and normalizing everything
 	 * to a list of words which can be checked.
 	 *
-	 * @param array $keywords List of expected keywords
+	 * @param array $keywords List of expected keywords.
 	 *
 	 * @return bool
 	 */
-	public function set_focus ($keywords=array()) {
+	public function set_focus( $keywords = array() ) {
 		$kwds = array();
-		foreach ($keywords as $k) {
-			$kwds = array_merge($kwds, WDS_String::keywords($k));
+		foreach ( $keywords as $k ) {
+			$kwds = array_merge( $kwds, Smartcrawl_String::keywords( $k ) );
 		}
 		$this->_raw_focus_keywords = $keywords;
-		return !!$this->_focus = array_unique(array_keys($kwds));
+		return ! ! $this->_focus = array_unique( array_keys( $kwds ) );
 	}
 
 	/**
@@ -123,8 +132,8 @@ abstract class WDS_Check_Abstract {
 	 *
 	 * @return array
 	 */
-	public function get_focus () {
-		return (array)$this->_focus;
+	public function get_focus() {
+		return (array) $this->_focus;
 	}
 
 	/**
@@ -132,28 +141,28 @@ abstract class WDS_Check_Abstract {
 	 *
 	 * @return array
 	 */
-	public function get_raw_focus () {
-		return (array)$this->_raw_focus_keywords;
+	public function get_raw_focus() {
+		return (array) $this->_raw_focus_keywords;
 	}
 
 	/**
 	 * Checks if subject string length is within constraints
 	 *
-	 * @param string $str Subject string
-	 * @param int $min Optional minimum length
-	 * @param int $max Optional maximum length
+	 * @param string $str Subject string.
+	 * @param int    $min Optional minimum length.
+	 * @param int    $max Optional maximum length.
 	 *
 	 * @return bool|int (bool)true if within constraints
 	 *                  negative integer if shorter than $min
 	 *                  positive integer if longer than $max
 	 */
-	public function is_within_char_length ($str, $min, $max) {
+	public function is_within_char_length( $str, $min, $max ) {
 		$str = '' . $str;
-		$min = (int)$min;
-		$max = (int)$max;
+		$min = (int) $min;
+		$max = (int) $max;
 
-		if ($min && WDS_String::len($str) < $min) return -1;
-		if ($max && WDS_String::len($str) > $max) return 1;
+		if ( $min && Smartcrawl_String::len( $str ) < $min ) { return -1; }
+		if ( $max && Smartcrawl_String::len( $str ) > $max ) { return 1; }
 
 		return true;
 	}
@@ -161,35 +170,48 @@ abstract class WDS_Check_Abstract {
 	/**
 	 * Checks whether we have some keywords in place
 	 *
-	 * @param string $str Subject string
+	 * @param string $str Subject string.
 	 *
 	 * @return bool
 	 */
-	public function has_focus ($str) {
-		$kws = WDS_String::keywords($str);
+	public function has_focus( $str ) {
+		$kws = Smartcrawl_String::keywords( $str );
 		$expected = $this->get_focus();
 
-		if (empty($expected)) return true; // We don't seem to have any focus keywords, so... yeah
+		if ( empty( $expected ) ) { return true; } // We don't seem to have any focus keywords, so... yeah.
+		$diff = array_diff( $expected, array_keys( $kws ) );
 
-		$diff = array_diff($expected, array_keys($kws));
-
-		return count($expected) !== count($diff);
+		return count( $expected ) !== count( $diff );
 	}
 
 }
 
 
-abstract class WDS_Check_Post_Abstract extends WDS_Check_Abstract {
+/**
+ * Post-specific check abstraction class
+ */
+abstract class Smartcrawl_Check_Post_Abstract extends Smartcrawl_Check_Abstract {
 
-	public function get_markup () {
+	/**
+	 * Gets post content markup
+	 *
+	 * @return string Decorated markup
+	 */
+	public function get_markup() {
 		$subject = parent::get_markup();
-		return is_object($subject)
-			? apply_filters('the_content', $subject->post_content)
-			: $subject
-		;
+
+		if ( is_object( $subject ) ) {
+			if ( ! class_exists( 'Smartcrawl_Html' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_html.php' ); }
+			return Smartcrawl_Html::decorate( $subject->post_content );
+		}
+
+		return $subject;
 	}
 
-	public function get_subject () {
+	/**
+	 * Gets subject directly
+	 */
+	public function get_subject() {
 		$subject = parent::get_markup();
 		return $subject;
 	}

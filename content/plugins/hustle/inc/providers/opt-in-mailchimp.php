@@ -142,7 +142,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 				}
 				$existing_member = $this->get_member( $email, $module, $data );
 				if ( $existing_member ) {
-					$member_interests = (array) $existing_member->interests;
+					$member_interests = isset($existing_member->interests) ? (array) $existing_member->interests : array();
 					$can_subscribe = false;
 					if ( isset( $subscribe_data['interests'] ) ){
 						$local_interest_keys = array_keys( $subscribe_data['interests'] );

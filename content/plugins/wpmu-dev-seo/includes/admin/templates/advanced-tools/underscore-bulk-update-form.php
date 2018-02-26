@@ -28,9 +28,9 @@
 
 		<input type="hidden" value="{{- indices }}"/>
 		<div class="wds-box-footer">
-			<button type="button" class="wds-cancel-button button button-dark-o"><?php esc_html_e('Cancel', 'wds'); ?></button>
+			<button type="button" class="wds-cancel-button button button-dark-o"><?php esc_html_e( 'Cancel', 'wds' ); ?></button>
 			{{ if(indices) { }}
-				<button type="button" class="wds-action-button button"><?php esc_html_e('Update', 'wds'); ?></button>
+				<button type="button" class="wds-action-button button"><?php esc_html_e( 'Update', 'wds' ); ?></button>
 			{{ } }}
 		</div>
 	</form>

@@ -569,7 +569,7 @@
 		// Check if there are any ordered sections before looping over everything
 		if (!_.isUndefined(data.orderedSectionNames)) {
 
-			for( var i in data.orderedSectionNames ) {
+			for( var i = 0; i < data.orderedSectionNames.length; i++ ) {
 				var title = data.orderedSectionNames[i],
 					modules = groupedModules.categorized[title],
 					slug = title.replace(/\s+/g, '-').toLowerCase();

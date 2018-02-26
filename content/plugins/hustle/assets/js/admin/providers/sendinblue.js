@@ -86,12 +86,10 @@
 						data = $form.serialize(),
 						$placeholder = $("#optin-provider-account-options");
 
-
 					$placeholder.html( $( "#wpoi_loading_indicator" ).html() );
 
 					data += "&action=refresh_provider_account_details&load_more=true";
 					data += "&optin=sendinblue";
-
 
 					$.post(ajaxurl, data, function( response ){
 

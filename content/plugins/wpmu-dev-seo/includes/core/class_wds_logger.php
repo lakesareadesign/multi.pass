@@ -1,6 +1,6 @@
 <?php
 
-class WDS_Logger {
+class Smartcrawl_Logger {
 
 	const L_DEBUG = 10;
 	const L_INFO = 20;
@@ -17,16 +17,16 @@ class WDS_Logger {
 
 	private static $_instance;
 
-	private function __construct () {}
-	private function __clone () {}
+	private function __construct() {}
+	private function __clone() {}
 
 	/**
 	 * Singleton instance getter
 	 *
-	 * @return WDS_Logger instance
+	 * @return Smartcrawl_Logger instance
 	 */
-	public static function get () {
-		if (empty(self::$_instance)) {
+	public static function get() {
+		if ( empty( self::$_instance ) ) {
 			self::$_instance = new self;
 		}
 		return self::$_instance;
@@ -37,13 +37,13 @@ class WDS_Logger {
 	 *
 	 * @return array List of levels and descriptions hash
 	 */
-	public static function get_known_levels () {
+	public static function get_known_levels() {
 		return array(
-			self::L_DEBUG => __('Debug (verbose procedural data)', 'wds'),
-			self::L_INFO => __('Info (verbose informal data)', 'wds'),
-			self::L_NOTICE => __('Notice (attention might be needed)', 'wds'),
-			self::L_WARNING => __('Warning (something non-critical went wrong)', 'wds'),
-			self::L_ERROR => __('Error (critical issue)', 'wds'),
+			self::L_DEBUG => __( 'Debug (verbose procedural data)', 'wds' ),
+			self::L_INFO => __( 'Info (verbose informal data)', 'wds' ),
+			self::L_NOTICE => __( 'Notice (attention might be needed)', 'wds' ),
+			self::L_WARNING => __( 'Warning (something non-critical went wrong)', 'wds' ),
+			self::L_ERROR => __( 'Error (critical issue)', 'wds' ),
 		);
 	}
 
@@ -52,22 +52,27 @@ class WDS_Logger {
 	 *
 	 * @return int Current level
 	 */
-	public static function get_log_level () {
-		$level = defined('WDS_DEBUG_LOG_LEVEL') && is_numeric(WDS_DEBUG_LOG_LEVEL)
-			? WDS_DEBUG_LOG_LEVEL
+	public static function get_log_level() {
+		$level = defined( 'SMARTCRAWL_DEBUG_LOG_LEVEL' ) && is_numeric( SMARTCRAWL_DEBUG_LOG_LEVEL )
+			? SMARTCRAWL_DEBUG_LOG_LEVEL
 			: self::L_DEFAULT
 		;
-		return (int)apply_filters(
+		return (int) apply_filters(
 			'wds-log-level',
 			$level
 		);
 	}
 
-	public static function debug ($message) { return self::get()->log(self::L_DEBUG, $message); }
-	public static function info ($message) { return self::get()->log(self::L_INFO, $message); }
-	public static function notice ($message) { return self::get()->log(self::L_NOTICE, $message); }
-	public static function warning ($message) { return self::get()->log(self::L_WARNING, $message); }
-	public static function error ($message) { return self::get()->log(self::L_ERROR, $message); }
+	public static function debug( $message ) {
+		return self::get()->log( self::L_DEBUG, $message ); }
+	public static function info( $message ) {
+		return self::get()->log( self::L_INFO, $message ); }
+	public static function notice( $message ) {
+		return self::get()->log( self::L_NOTICE, $message ); }
+	public static function warning( $message ) {
+		return self::get()->log( self::L_WARNING, $message ); }
+	public static function error( $message ) {
+		return self::get()->log( self::L_ERROR, $message ); }
 
 	/**
 	 * Logging function
@@ -76,27 +81,27 @@ class WDS_Logger {
 	 * an appropriate action - logs the message
 	 * or not.
 	 *
-	 * @param int $level Log level that the message belongs to (see constants)
+	 * @param int    $level Log level that the message belongs to (see constants)
 	 * @param string $message Message to log
 	 *
 	 * @return bool|int Operation status, or (int)log level if we're above listening
 	 */
-	public function log ($level, $message) {
-		if (!wds_is_switch_active('WDS_ENABLE_LOGGING')) return false; // Require explicit logging
-		if (!is_numeric($level)) return false;
+	public function log( $level, $message ) {
+		if ( ! smartcrawl_is_switch_active( 'SMARTCRAWL_ENABLE_LOGGING' ) ) { return false; // Require explicit logging
+		}		if ( ! is_numeric( $level ) ) { return false; }
 
-		$level = (int)$level;
-		if (!in_array($level, array_keys(self::get_known_levels()))) return false;
+		$level = (int) $level;
+		if ( ! in_array( $level, array_keys( self::get_known_levels() ) ) ) { return false; }
 
-		if (!$this->is_logging($level)) return $level;
+		if ( ! $this->is_logging( $level ) ) { return $level; }
 
 		$file = $this->get_log_file();
-		if (empty($file)) return false;
+		if ( empty( $file ) ) { return false; }
 
-		$timestamp = date('Y-m-d H:i:s');
+		$timestamp = date( 'Y-m-d H:i:s' );
 
 		$line = "[{$timestamp}][{$level}] {$message}\n";
-		return !!file_put_contents($file, $line, FILE_APPEND|LOCK_EX);
+		return ! ! file_put_contents( $file, $line, FILE_APPEND | LOCK_EX );
 	}
 
 	/**
@@ -106,10 +111,10 @@ class WDS_Logger {
 	 *
 	 * @return bool Logging or not
 	 */
-	public function is_logging ($level) {
+	public function is_logging( $level ) {
 		$current = self::get_log_level();
 
-		return (int)$level >= $current;
+		return (int) $level >= $current;
 	}
 
 	/**
@@ -117,12 +122,12 @@ class WDS_Logger {
 	 *
 	 * @return string Log file path
 	 */
-	public function get_log_file_path () {
+	public function get_log_file_path() {
 		$data = wp_upload_dir();
-		if (empty($data['basedir'])) return false;
+		if ( empty( $data['basedir'] ) ) { return false; }
 
-		$file = trailingslashit($data['basedir']) . 'wds-seo-log.php';
-		return wp_normalize_path($file);
+		$file = trailingslashit( $data['basedir'] ) . 'wds-seo-log.php';
+		return wp_normalize_path( $file );
 	}
 
 	/**
@@ -130,12 +135,12 @@ class WDS_Logger {
 	 *
 	 * @return string Log file path
 	 */
-	public function get_log_file () {
+	public function get_log_file() {
 		$file = $this->get_log_file_path();
 
-		if (!file_exists($file)) $this->create_log();
+		if ( ! file_exists( $file ) ) { $this->create_log(); }
 
-		return file_exists($file) && is_readable($file)
+		return file_exists( $file ) && is_readable( $file )
 			? $file
 			: false
 		;
@@ -146,12 +151,12 @@ class WDS_Logger {
 	 *
 	 * @return bool Operation status
 	 */
-	public function create_log () {
+	public function create_log() {
 		$file = $this->get_log_file_path();
 
-		if (file_exists($file) && is_writable($file)) return true;
+		if ( file_exists( $file ) && is_writable( $file ) ) { return true; }
 
-		return !!file_put_contents($file, "<?php die(); ?>\n");
+		return ! ! file_put_contents( $file, "<?php die(); ?>\n" );
 	}
 
 	/**
@@ -159,10 +164,10 @@ class WDS_Logger {
 	 *
 	 * @return bool Operation status
 	 */
-	public function remove_log () {
+	public function remove_log() {
 		$file = $this->get_log_file_path();
 
-		if (file_exists($file) && is_writable($file)) return @unlink($file);
+		if ( file_exists( $file ) && is_writable( $file ) ) { return @unlink( $file ); }
 
 		return true;
 	}
@@ -172,7 +177,7 @@ class WDS_Logger {
 	 *
 	 * @return bool Operation status
 	 */
-	public function reset_log () {
+	public function reset_log() {
 		return $this->remove_log() && $this->create_log();
 	}
 }

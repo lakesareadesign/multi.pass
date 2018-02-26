@@ -41,7 +41,7 @@ if (array_key_exists( 'clean_filenames', wpui_get_roles_cap($wpui_user_role))) {
 			
 			/* @author 	Mickael Gris */
 			/* Force the file name in UTF-8 (encoding Windows / OS X / Linux) */
-			$filemane = mb_convert_encoding($filename, "UTF-8");
+			$filename = mb_convert_encoding($filename, "UTF-8");
 
 			$char_not_clean = array('/À/','/Á/','/Â/','/Ã/','/Ä/','/Å/','/Ç/','/È/','/É/','/Ê/','/Ë/','/Ì/','/Í/','/Î/','/Ï/','/Ò/','/Ó/','/Ô/','/Õ/','/Ö/','/Ù/','/Ú/','/Û/','/Ü/','/Ý/','/à/','/á/','/â/','/ã/','/ä/','/å/','/ç/','/è/','/é/','/ê/','/ë/','/ì/','/í/','/î/','/ï/','/ð/','/ò/','/ó/','/ô/','/õ/','/ö/','/ù/','/ú/','/û/','/ü/','/ý/','/ÿ/', '/©/');
 			$clean = array('a','a','a','a','a','a','a','c','e','e','e','e','i','i','i','i','o','o','o','o','o','u','u','u','u','y','a','a','a','a','a','a','c','e','e','e','e','i','i','i','i','o','o','o','o','o','o','u','u','u','u','y','y','copy');

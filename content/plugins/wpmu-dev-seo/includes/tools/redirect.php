@@ -1,47 +1,47 @@
 <?php
 
-class WDS_Redirection_Front {
+class Smartcrawl_Redirection_Front {
 
 	private static $_instance;
 	private $_model;
 
-	private function __construct () {
-		$this->_model = new WDS_Model_Redirection;
+	private function __construct() {
+		$this->_model = new Smartcrawl_Model_Redirection;
 	}
-	private function __clone () {}
+	private function __clone() {}
 
-	public static function get () {
-		if (empty(self::$_instance)) {
+	public static function get() {
+		if ( empty( self::$_instance ) ) {
 			self::$_instance = new self;
 		}
 		return self::$_instance;
 	}
 
-	public static function serve () {
+	public static function serve() {
 		self::get()->_add_hooks();
 	}
 
-	private function _add_hooks () {
-		add_action('wp', array($this, 'intercept'));
+	private function _add_hooks() {
+		add_action( 'wp', array( $this, 'intercept' ) );
 
-		$opts = WDS_Settings::get_options();
-		if (!empty($opts['redirect-attachments'])) {
-			add_action('template_redirect', array($this, 'redirect_attachments'));
+		$opts = Smartcrawl_Settings::get_options();
+		if ( ! empty( $opts['redirect-attachments'] ) ) {
+			add_action( 'template_redirect', array( $this, 'redirect_attachments' ) );
 		}
 	}
 
 	/**
 	 * Intercept the page and redirect if needs be
 	 */
-	public function intercept () {
+	public function intercept() {
 		$source = $this->_model->get_current_url();
-		$redirection = $this->_model->get_redirection($source);
-		if (empty($redirection)) return false;
+		$redirection = $this->_model->get_redirection( $source );
+		if ( empty( $redirection ) ) { return false; }
 
 		// We're here, so redirect
 		wp_redirect(
-			$this->_to_safe_redirection($redirection, $source),
-			$this->_get_redirection_status($source)
+			$this->_to_safe_redirection( $redirection, $source ),
+			$this->_get_redirection_status( $source )
 		);
 		die;
 	}
@@ -56,28 +56,28 @@ class WDS_Redirection_Front {
 	 *
 	 * @return void
 	 */
-	public function redirect_attachments () {
-		if (!is_attachment()) return;
+	public function redirect_attachments() {
+		if ( ! is_attachment() ) { return; }
 
-		$opts = WDS_Settings::get_options();
-		if (!empty($opts['redirect-attachments-images_only'])) {
+		$opts = Smartcrawl_Settings::get_options();
+		if ( ! empty( $opts['redirect-attachments-images_only'] ) ) {
 			$type = get_post_mime_type();
-			if (!preg_match('/^image\//', $type)) return;
+			if ( ! preg_match( '/^image\//', $type ) ) { return; }
 		}
 
 		$post = get_post();
-		$parent_id = is_object($post) && !empty($post->post_parent)
+		$parent_id = is_object( $post ) && ! empty( $post->post_parent )
 			? $post->post_parent
 			: false
 		;
 
-		if (!empty($parent_id)) {
-			wp_safe_redirect(get_permalink($parent_id), 301);
+		if ( ! empty( $parent_id ) ) {
+			wp_safe_redirect( get_permalink( $parent_id ), 301 );
 			die;
 		}
 
 		// No parent post, let's noidex
-		header('X-Robots-Tag: noindex', true);
+		header( 'X-Robots-Tag: noindex', true );
 	}
 
 	/**
@@ -87,15 +87,15 @@ class WDS_Redirection_Front {
 	 *
 	 * @return int
 	 */
-	private function _get_redirection_status ($source=false) {
+	private function _get_redirection_status( $source = false ) {
 		$status_code = $this->_model->get_default_redirection_status_type();
-		if (!empty($source)) {
-			$item_status = $this->_model->get_redirection_type($source);
-			if (!empty($item_status) && is_numeric($item_status)) $status_code = (int)$item_status;
+		if ( ! empty( $source ) ) {
+			$item_status = $this->_model->get_redirection_type( $source );
+			if ( ! empty( $item_status ) && is_numeric( $item_status ) ) { $status_code = (int) $item_status; }
 		}
-		if ($status_code > 399 || $status_code < 300) $status_code = WDS_Model_Redirection::DEFAULT_STATUS_TYPE;
+		if ( $status_code > 399 || $status_code < 300 ) { $status_code = Smartcrawl_Model_Redirection::DEFAULT_STATUS_TYPE; }
 
-		return (int)$status_code;
+		return (int) $status_code;
 	}
 
 	/**
@@ -106,16 +106,16 @@ class WDS_Redirection_Front {
 	 *
 	 * @return string Safe redirection URL
 	 */
-	private function _to_safe_redirection ($redirection, $source=false) {
+	private function _to_safe_redirection( $redirection, $source = false ) {
 		$fallback = home_url();
 
-		$status = $this->_get_redirection_status($source);
+		$status = $this->_get_redirection_status( $source );
 
-		$redirection = wp_sanitize_redirect($redirection);
-		$redirection = wp_validate_redirect($redirection, apply_filters('wp_safe_redirect_fallback', $fallback, $status));
+		$redirection = wp_sanitize_redirect( $redirection );
+		$redirection = wp_validate_redirect( $redirection, apply_filters( 'wp_safe_redirect_fallback', $fallback, $status ) );
 
 		return $redirection;
 	}
 
 }
-WDS_Redirection_Front::serve();
+Smartcrawl_Redirection_Front::serve();

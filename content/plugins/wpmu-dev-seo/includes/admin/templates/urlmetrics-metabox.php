@@ -15,7 +15,7 @@
 		</tr>
 		<tr>
 			<th><?php esc_html_e( 'mozRank' , 'wds' ); ?></th>
-			<td><p><?php echo '<b>' . __( '10-point score:' , 'wds' ) . '</b> <a href="http://www.opensiteexplorer.org/links?site=' . $page . '" target="_blank">' . ( ! empty( $urlmetrics->umrp ) ? $urlmetrics->umrp : '' ) . '</a><br /><br /><b>' . __( 'Raw score:' , 'wds' ) . '</b> <a href="http://www.opensiteexplorer.org/links?site=' . $page . '" target="_blank">' . (!empty($urlmetrics->umrr) ? $urlmetrics->umrr : '' ); ?></a></p></td>
+			<td><p><?php echo '<b>' . __( '10-point score:' , 'wds' ) . '</b> <a href="http://www.opensiteexplorer.org/links?site=' . $page . '" target="_blank">' . ( ! empty( $urlmetrics->umrp ) ? $urlmetrics->umrp : '' ) . '</a><br /><br /><b>' . __( 'Raw score:' , 'wds' ) . '</b> <a href="http://www.opensiteexplorer.org/links?site=' . $page . '" target="_blank">' . ( ! empty( $urlmetrics->umrr ) ? $urlmetrics->umrr : '' ); ?></a></p></td>
 		</tr>
 		<tr>
 			<th><?php esc_html_e( 'Page Authority' , 'wds' ); ?></th>
@@ -23,4 +23,4 @@
 		</tr>
 	</tbody>
 </table>
-<p><a href="http://moz.com/" target="_blank"><img src="<?php echo WDS_PLUGIN_URL; ?>images/linkscape-logo.png" title="<?php esc_html_e( 'Moz Linkscape API' , 'wds' ); ?>" /></a></p>
+<p><a href="http://moz.com/" target="_blank"><img src="<?php echo SMARTCRAWL_PLUGIN_URL; ?>images/linkscape-logo.png" title="<?php esc_html_e( 'Moz Linkscape API' , 'wds' ); ?>" /></a></p>

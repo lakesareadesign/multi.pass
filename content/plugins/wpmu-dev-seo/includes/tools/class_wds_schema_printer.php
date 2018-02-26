@@ -1,11 +1,11 @@
 <?php
 
-if (!class_exists('WDS_Work_Unit')) require_once(WDS_PLUGIN_DIR . '/core/class_wds_work_unit.php');
+if ( ! class_exists( 'Smartcrawl_Work_Unit' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_work_unit.php' ); }
 
 /**
  * Outputs JSON+LD schema.org data to the page
  */
-class WDS_Schema_Printer extends WDS_WorkUnit {
+class Smartcrawl_Schema_Printer extends Smartcrawl_WorkUnit {
 
 	const PERSON = 'Person';
 	const WEBSITE = 'WebSite';
@@ -21,16 +21,16 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	private $_is_running = false;
 	private $_is_done = false;
 
-	public function __construct () {
+	public function __construct() {
 	}
 
 	/**
 	 * Singleton instance getter
 	 *
-	 * @return object WDS_Schema_Printer instance
+	 * @return object Smartcrawl_Schema_Printer instance
 	 */
-	public static function get () {
-		if (empty(self::$_instance)) {
+	public static function get() {
+		if ( empty( self::$_instance ) ) {
 			self::$_instance = new self;
 		}
 		return self::$_instance;
@@ -39,20 +39,20 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	/**
 	 * Boot the hooking part
 	 */
-	public static function run () {
+	public static function run() {
 		self::get()->_add_hooks();
 	}
 
-	private function _add_hooks () {
+	private function _add_hooks() {
 		// Do not double-bind
-		if ($this->apply_filters('is_running', $this->_is_running)) {
+		if ( $this->apply_filters( 'is_running', $this->_is_running ) ) {
 			return true;
 		}
 
-		add_action('wp_head', array($this, 'dispatch_schema_injection'), 50);
-		add_action('wds_head-after_output', array($this, 'dispatch_schema_injection'));
+		add_action( 'wp_head', array( $this, 'dispatch_schema_injection' ), 50 );
+		add_action( 'wds_head-after_output', array( $this, 'dispatch_schema_injection' ) );
 
-		add_filter('wds-schema-data', array($this, 'dispatch_schema_data'));
+		add_filter( 'wds-schema-data', array( $this, 'dispatch_schema_data' ) );
 
 		$this->_is_running = true;
 	}
@@ -60,22 +60,22 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	/**
 	 * First-line dispatching of schema tags injection
 	 */
-	public function dispatch_schema_injection () {
-		if (!!$this->_is_done) return false;
+	public function dispatch_schema_injection() {
+		if ( ! ! $this->_is_done ) { return false; }
 
-		$social = WDS_Settings::get_component_options(WDS_Settings::COMP_SOCIAL);
-		if (!empty($social['disable-schema'])) {
+		$social = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_SOCIAL );
+		if ( ! empty( $social['disable-schema'] ) ) {
 			$this->_is_done = true;
 			return false; // Disabled
 		}
 
 		$data = array();
-		$data = apply_filters('wds-schema-data', $data);
+		$data = apply_filters( 'wds-schema-data', $data );
 
-		if (empty($data)) return false;
+		if ( empty( $data ) ) { return false; }
 
-		$schema = wp_json_encode($data);
-		if (empty($schema)) return false;
+		$schema = wp_json_encode( $data );
+		if ( empty( $schema ) ) { return false; }
 
 		$this->_is_done = true;
 
@@ -91,15 +91,15 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	 *
 	 * @return array Schema data
 	 */
-	public function dispatch_schema_data ($data=array()) {
+	public function dispatch_schema_data( $data = array() ) {
 		// First up, global stuff
 		$site = $this->get_site_schema_data();
-		if (!empty($site)) $data[] = $site;
+		if ( ! empty( $site ) ) { $data[] = $site; }
 
 		// Next up, individual (if applicable)
-		if ($this->apply_filters('is_singular', is_singular())) {
-			$post = $this->get_post_schema_data($this->apply_filters('post', get_post()));
-			if (!empty($post)) $data[] = $post;
+		if ( $this->apply_filters( 'is_singular', is_singular() ) ) {
+			$post = $this->get_post_schema_data( $this->apply_filters( 'post', get_post() ) );
+			if ( ! empty( $post ) ) { $data[] = $post; }
 		}
 
 		return $data;
@@ -112,44 +112,39 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	 *
 	 * @return array Owner schema data
 	 */
-	public function get_owner_schema_data ($context=true) {
+	public function get_owner_schema_data( $context = true ) {
 		$data = array();
-		$social = WDS_Settings::get_component_options(WDS_Settings::COMP_SOCIAL);
-		$social = is_array($social) ? $social : array();
+		$social = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_SOCIAL );
+		$social = is_array( $social ) ? $social : array();
 
 		// address
 		// brand
-
-		//$data['email'] = get_option('admin_email');
-
+		// $data['email'] = get_option('admin_email');
 		// logo
 		// subOrganization
 		// description
-
-		$type = !empty($social['schema_type']) && self::PERSON === $social['schema_type']
+		$type = ! empty( $social['schema_type'] ) && self::PERSON === $social['schema_type']
 			? self::PERSON
 			: self::ORGANIZATION
 		;
 
-		if (self::PERSON === $type) {
-			$data['name'] = !empty($social['override_name'])
+		if ( self::PERSON === $type ) {
+			$data['name'] = ! empty( $social['override_name'] )
 				? $social['override_name']
-				: $this->get_full_name(WDS_Model_User::owner())
-			;
+				: $this->get_full_name( Smartcrawl_Model_User::owner() );
 		} else {
-			$data['name'] = !empty($social['organization_name'])
+			$data['name'] = ! empty( $social['organization_name'] )
 				? $social['organization_name']
-				: get_bloginfo('name')
-			;
+				: get_bloginfo( 'name' );
 		}
 
 		$urls = array();
-		foreach ($social as $key => $value) {
-			if (preg_match('/_url$/', $key) && !empty($value)) $urls[] = $value;
+		foreach ( $social as $key => $value ) {
+			if ( preg_match( '/_url$/', $key ) && ! empty( $value ) ) { $urls[] = $value; }
 		}
-		if (!empty($urls)) $data['sameAs'] = $urls;
+		if ( ! empty( $urls ) ) { $data['sameAs'] = $urls; }
 
-		return (array)$this->create_schema($type, $this->apply_filters('owner-data', $data), $context);
+		return (array) $this->create_schema( $type, $this->apply_filters( 'owner-data', $data ), $context );
 	}
 
 	/**
@@ -159,15 +154,15 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	 *
 	 * @return array
 	 */
-	public function get_site_logo () {
-		$admin = WDS_Model_User::owner();
-		$aid = !empty($admin->ID) ? $admin->ID : '';
-		$url = get_avatar_url($aid, array(60, 60));
+	public function get_site_logo() {
+		$admin = Smartcrawl_Model_User::owner();
+		$aid = ! empty( $admin->ID ) ? $admin->ID : '';
+		$url = get_avatar_url( $aid, array( 60, 60 ) );
 
-		$social = WDS_Settings::get_component_options(WDS_Settings::COMP_SOCIAL);
-		$social = is_array($social) ? $social : array();
-		if (!empty($social['schema_type']) && self::PERSON !== $social['schema_type']) {
-			if (!empty($social['organization_logo'])) $url = esc_url($social['organization_logo']);
+		$social = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_SOCIAL );
+		$social = is_array( $social ) ? $social : array();
+		if ( ! empty( $social['schema_type'] ) && self::PERSON !== $social['schema_type'] ) {
+			if ( ! empty( $social['organization_logo'] ) ) { $url = esc_url( $social['organization_logo'] ); }
 		}
 
 		return $this->apply_filters('site-logo', array(
@@ -183,46 +178,45 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	 *
 	 * @return array Site schema data
 	 */
-	public function get_site_schema_data () {
+	public function get_site_schema_data() {
 		$data = array();
-		$social = WDS_Settings::get_component_options(WDS_Settings::COMP_SOCIAL);
-		$social = is_array($social) ? $social : array();
+		$social = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_SOCIAL );
+		$social = is_array( $social ) ? $social : array();
 
-		$description = get_bloginfo('description');
-		$data['about'] = (string)$this->apply_filters('site-data-about', $description);
-		$data['description'] = (string)$this->apply_filters('site-data-description', $description);
+		$description = get_bloginfo( 'description' );
+		$data['about'] = (string) $this->apply_filters( 'site-data-about', $description );
+		$data['description'] = (string) $this->apply_filters( 'site-data-description', $description );
 
 		$data['dateModified'] = get_lastpostdate();
 
-		$data['encoding'] = get_bloginfo('charset');
+		$data['encoding'] = get_bloginfo( 'charset' );
 
-		$headline = get_bloginfo('name');
-		$name = !empty($social['sitename']) ? $social['sitename'] : $headline;
-		$data['name'] = (string)$this->apply_filters('site-data-name', $name);
-		$data['headline'] = (string)$this->apply_filters('site-data-headline', $headline);
+		$headline = get_bloginfo( 'name' );
+		$name = ! empty( $social['sitename'] ) ? $social['sitename'] : $headline;
+		$data['name'] = (string) $this->apply_filters( 'site-data-name', $name );
+		$data['headline'] = (string) $this->apply_filters( 'site-data-headline', $headline );
 
-		$data['inLanguage'] = get_bloginfo('language');
+		$data['inLanguage'] = get_bloginfo( 'language' );
 
 		$data['url'] = site_url();
 
-		$data['publisher'] = $this->get_owner_schema_data(false);
+		$data['publisher'] = $this->get_owner_schema_data( false );
 
-		$keywords = WDS_OnPage::get()->get_keywords(WDS_Endpoint_Resolver::L_BLOG_HOME);
-		if (!empty($keywords)) $data['keywords'] = join(',', $keywords);
+		$keywords = Smartcrawl_OnPage::get()->get_keywords( Smartcrawl_Endpoint_Resolver::L_BLOG_HOME );
+		if ( ! empty( $keywords ) ) { $data['keywords'] = join( ',', $keywords ); }
 
 		// thumbnailUrl | image
 		// potentialAction
-
-		return (array)$this->create_schema(self::WEBSITE, $this->apply_filters('site-data', $data));
+		return (array) $this->create_schema( self::WEBSITE, $this->apply_filters( 'site-data', $data ) );
 	}
 
-	public function get_article_publisher () {
-		$social = WDS_Settings::get_component_options(WDS_Settings::COMP_SOCIAL);
-		$social = is_array($social) ? $social : array();
+	public function get_article_publisher() {
+		$social = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_SOCIAL );
+		$social = is_array( $social ) ? $social : array();
 
-		$data = $this->get_owner_schema_data(false);
+		$data = $this->get_owner_schema_data( false );
 
-		if (!empty($social['schema_type']) && self::PERSON === $social['schema_type']) {
+		if ( ! empty( $social['schema_type'] ) && self::PERSON === $social['schema_type'] ) {
 			$data['@type'] = self::ORGANIZATION;
 		} else {
 		}
@@ -238,39 +232,38 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	 *
 	 * @return array Post schema data
 	 */
-	public function get_post_schema_data ($post) {
+	public function get_post_schema_data( $post ) {
 		$data = array();
-		if (!is_object($post) || !($post instanceof WP_Post)) return $data;
+		if ( ! is_object( $post ) || ! ($post instanceof WP_Post) ) { return $data; }
 
 		// pageStart/pageEnd
 		// wordCount
+		$data['author'] = $this->get_author_schema_data( $post, false );
 
-		$data['author'] = $this->get_author_schema_data($post, false);
+		$data['commentCount'] = get_comments_number( $post->ID );
 
-		$data['commentCount'] = get_comments_number($post->ID);
+		$data['dateModified'] = get_the_modified_date( 'Y-m-d\TH:i:s', $post );
+		$data['datePublished'] = get_the_date( 'Y-m-d\TH:i:s', $post );
 
-		$data['dateModified'] = get_the_modified_date("Y-m-d\TH:i:s", $post);
-		$data['datePublished'] = get_the_date("Y-m-d\TH:i:s", $post);
+		$post_title = get_the_title( $post );
+		$data['name'] = (string) $this->apply_filters( 'post-data-name', $post_title, $post );
 
-		$post_title = get_the_title($post);
-		$data['name'] = (string)$this->apply_filters('post-data-name', $post_title, $post);
+		$title = Smartcrawl_OnPage::get()->get_title( $post_title );
+		$data['headline'] = (string) $this->apply_filters( 'post-data-headline', $title, $post );
 
-		$title = WDS_OnPage::get()->get_title($post_title);
-		$data['headline'] = (string)$this->apply_filters('post-data-headline', $title, $post);
+		$keywords = Smartcrawl_OnPage::get()->get_keywords( Smartcrawl_Endpoint_Resolver::L_SINGULAR, $post );
+		if ( ! empty( $keywords ) ) { $data['keywords'] = join( ',', $keywords ); }
 
-		$keywords = WDS_OnPage::get()->get_keywords(WDS_Endpoint_Resolver::L_SINGULAR, $post);
-		if (!empty($keywords)) $data['keywords'] = join(',', $keywords);
+		$data['publisher'] = $this->get_article_publisher( false );
+		$data['mainEntityOfPage'] = get_permalink( $post->ID );
 
-		$data['publisher'] = $this->get_article_publisher(false);
-		$data['mainEntityOfPage'] = get_permalink($post->ID);
-
-		if (has_post_thumbnail($post)) {
+		if ( has_post_thumbnail( $post ) ) {
 			$thumb = ''; $height = 0; $width = 0;
-			$tid = get_post_thumbnail_id($post);
-			if (!empty($tid)) {
-				list($thumb, $width, $height) = wp_get_attachment_image_src($tid, array(700, 700));
-				$data['thumbnailUrl'] = (string)$this->apply_filters('post-data-thumbnailUrl', $thumb);
-				$data['image'] = (array)$this->apply_filters(
+			$tid = get_post_thumbnail_id( $post );
+			if ( ! empty( $tid ) ) {
+				list($thumb, $width, $height) = wp_get_attachment_image_src( $tid, array( 700, 700 ) );
+				$data['thumbnailUrl'] = (string) $this->apply_filters( 'post-data-thumbnailUrl', $thumb );
+				$data['image'] = (array) $this->apply_filters(
 					'post-data-image',
 					$this->create_schema(self::IMAGE, array(
 						'url' => $thumb,
@@ -282,74 +275,73 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 			}
 		}
 
-		$fallback = wds_get_trimmed_excerpt($post->post_excerpt, $post->post_content);
-		$description = WDS_OnPage::get()->get_description($fallback);
-		$data['description'] = !empty($description) ? $description : $fallback;
+		$fallback = smartcrawl_get_trimmed_excerpt( $post->post_excerpt, $post->post_content );
+		$description = Smartcrawl_OnPage::get()->get_description( $fallback );
+		$data['description'] = ! empty( $description ) ? $description : $fallback;
 
-		$data['url'] = get_the_permalink($post->ID);
+		$data['url'] = get_the_permalink( $post->ID );
 
-		return (array)$this->create_schema(self::ARTICLE, $this->apply_filters('post-data', $data, $post));
+		return (array) $this->create_schema( self::ARTICLE, $this->apply_filters( 'post-data', $data, $post ) );
 	}
 
 	/**
 	 * Gets schema data for post author
 	 *
 	 * @param WP_Post $post Post to get the data for
-	 * @param bool $context Include schema context, defaults to true
+	 * @param bool    $context Include schema context, defaults to true
 	 *
 	 * @return array User schema data
 	 */
-	public function get_author_schema_data ($post, $context=true) {
+	public function get_author_schema_data( $post, $context = true ) {
 		$data = array();
-		if (!is_object($post) || !($post instanceof WP_Post)) return $data;
+		if ( ! is_object( $post ) || ! ($post instanceof WP_Post) ) { return $data; }
 
 		$user_id = $post->post_author;
-		if (empty($user_id)) return $data;
+		if ( empty( $user_id ) ) { return $data; }
 
-		$user = new WP_User($user_id);
+		$user = new WP_User( $user_id );
 
-		return (array)$this->get_user_schema_data($user, $context);
+		return (array) $this->get_user_schema_data( $user, $context );
 	}
 
 	/**
 	 * Gets schema data for user
 	 *
 	 * @param WP_User $user User to create schema data for
-	 * @param bool $context Include schema context, defaults to true
+	 * @param bool    $context Include schema context, defaults to true
 	 *
 	 * @return array User schema data
 	 */
-	public function get_user_schema_data ($user, $context=true) {
-		if (!is_object($user) || !($user instanceof WP_User)) return array();
-		$data['name'] = $this->get_full_name($user);
-		$data['url'] = $this->get_user_url($user);
-		//$data['email'] = $user->user_email;
+	public function get_user_schema_data( $user, $context = true ) {
+		if ( ! is_object( $user ) || ! ($user instanceof WP_User) ) { return array(); }
+		$data['name'] = $this->get_full_name( $user );
+		$data['url'] = $this->get_user_url( $user );
+		// $data['email'] = $user->user_email;
+		$urls = $this->get_user_urls( $user );
+		if ( ! empty( $urls ) ) { $data['sameAs'] = $urls; }
 
-		$urls = $this->get_user_urls($user);
-		if (!empty($urls)) $data['sameAs'] = $urls;
-
-		return (array)$this->create_schema(self::PERSON, $this->apply_filters('user-data', $data, $user), $context);
+		return (array) $this->create_schema( self::PERSON, $this->apply_filters( 'user-data', $data, $user ), $context );
 	}
 
 	/**
 	 * Wraps up generic schema data
 	 *
 	 * @param string $type Schema type
-	 * @param array $data Raw schema point data
-	 * @param bool $context Include context - defaults to true
+	 * @param array  $data Raw schema point data
+	 * @param bool   $context Include context - defaults to true
 	 *
 	 * @return array Augumeted schema data
 	 */
-	public function create_schema ($type, $data, $context=true) {
-		if (!is_array($data)) return array();
-		if (empty($data)) return $data;
+	public function create_schema( $type, $data, $context = true ) {
+		if ( ! is_array( $data ) ) { return array(); }
+		if ( empty( $data ) ) { return $data; }
 
-		if (!in_array($type, $this->get_schema_types())) return $data;
+		if ( ! in_array( $type, $this->get_schema_types() ) ) { return $data; }
 
-		if (!empty($context)) $data['@context'] = 'http://schema.org';
+		if ( ! empty( $context ) ) { $data['@context'] = 'http://schema.org'; }
 		$data['@type'] = $type;
 
-		ksort($data);
+		ksort( $data );
 
 		return $data;
 	}
@@ -359,7 +351,7 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	 *
 	 * @return array List of schema types
 	 */
-	public function get_schema_types () {
+	public function get_schema_types() {
 		return array(
 			self::PERSON,
 			self::WEBSITE,
@@ -374,24 +366,23 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	 *
 	 * Falls back to display name
 	 *
-	 * @param WP_User|WDS_Model_User User object
+	 * @param WP_User|Smartcrawl_Model_User User object
 	 *
 	 * @return string Full name
 	 */
-	public function get_full_name ($user) {
+	public function get_full_name( $user ) {
 		$name = '';
-		if (!is_object($user) || (
-			!($user instanceof WP_User)
+		if ( ! is_object( $user ) || (
+			! ($user instanceof WP_User)
 			&&
-			!($user instanceof WDS_Model_User)
-		)) return $name;
+			! ($user instanceof Smartcrawl_Model_User)
+		) ) { return $name; }
 
-		if (!($user instanceof WDS_Model_User)) $model = WDS_Model_User::get($user->ID);
-		else $model = $user;
+		if ( ! ($user instanceof Smartcrawl_Model_User) ) { $model = Smartcrawl_Model_User::get( $user->ID ); } else { $model = $user; }
 
 		$name = $model->get_full_name();
 
-		return $this->apply_filters('user-full_name', $name, $user);
+		return $this->apply_filters( 'user-full_name', $name, $user );
 	}
 
 	/**
@@ -403,14 +394,14 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	 *
 	 * @return string User URL
 	 */
-	public function get_user_url ($user) {
+	public function get_user_url( $user ) {
 		$url = '';
-		if (!is_object($user) || !($user instanceof WP_User)) return $url;
-		$model = WDS_Model_User::get($user->ID);
+		if ( ! is_object( $user ) || ! ($user instanceof WP_User) ) { return $url; }
+		$model = Smartcrawl_Model_User::get( $user->ID );
 
 		$url = $model->get_user_url();
 
-		return $this->apply_filters('user-url', $url, $user);
+		return $this->apply_filters( 'user-url', $url, $user );
 	}
 
 	/**
@@ -420,16 +411,17 @@ class WDS_Schema_Printer extends WDS_WorkUnit {
 	 *
 	 * @return array Known user ULRs
 	 */
-	public function get_user_urls ($user) {
+	public function get_user_urls( $user ) {
 		$urls = array();
-		if (!is_object($user) || !($user instanceof WP_User)) return $urls;
-		$model = WDS_Model_User::get($user->ID);
+		if ( ! is_object( $user ) || ! ($user instanceof WP_User) ) { return $urls; }
+		$model = Smartcrawl_Model_User::get( $user->ID );
 
 		$url = $model->get_user_urls();
 
-		return $this->apply_filters('user-urls', $urls, $user);
+		return $this->apply_filters( 'user-urls', $urls, $user );
 	}
 
-	public function get_filter_prefix () { return 'wds-schema'; }
+	public function get_filter_prefix() {
+		return 'wds-schema'; }
 
 }

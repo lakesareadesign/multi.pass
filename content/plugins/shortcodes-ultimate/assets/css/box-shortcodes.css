@@ -297,6 +297,18 @@
 	border-left: 5px solid #eee;
 }
 
+@media screen and (max-width: 48em) {
+	.su-pullquote {
+		width: auto;
+	}
+	.su-pullquote-align-left,
+	.su-pullquote-align-right {
+		float: none;
+		margin: 1.5em 0;
+		padding: 0.5em 1em;
+	}
+}
+
 /*		Row + Column
 ---------------------------------------------------------------*/
 

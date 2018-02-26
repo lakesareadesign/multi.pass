@@ -181,6 +181,10 @@ if ( ! class_exists( 'Opt_In_ConvertKit' ) ) :
 			return true;
 		}
 
+		function exclude_args_fields() {
+			return array( 'api_key', 'api_secret' );
+		}
+
 		/**
 		 * Prevents default selected list from showing
 		 *

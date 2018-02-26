@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bb-plugin\n"
 "Report-Msgid-Bugs-To: hello@wpbeaverbuilder.com\n"
-"POT-Creation-Date: 2018-01-31 16:38:01+00:00\n"
+"POT-Creation-Date: 2018-02-15 18:59:08+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -31,9 +31,10 @@ msgstr ""
 #: classes/class-fl-builder-admin-settings.php:158
 #: classes/class-fl-builder-admin-settings.php:222
 #: classes/class-fl-builder-model.php:5733
-#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:121
-#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:238
-#: includes/updater/classes/class-fl-updater.php:283
+#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:122
+#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:239
+#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:464
+#: includes/updater/classes/class-fl-updater.php:288
 msgid "Page Builder"
 msgstr ""
 
@@ -118,18 +119,18 @@ msgid "Page Builder activated! <a%s>Click here</a> to get started."
 msgstr ""
 
 #: classes/class-fl-builder-debug.php:51 modules/button/button.php:321
-#: modules/callout/callout.php:618 modules/contact-form/contact-form.php:432
+#: modules/callout/callout.php:618 modules/contact-form/contact-form.php:430
 #: modules/content-slider/content-slider.php:819 modules/cta/cta.php:382
 #: modules/pricing-table/pricing-table.php:333
-#: modules/subscribe-form/subscribe-form.php:355
+#: modules/subscribe-form/subscribe-form.php:353
 msgid "Enabled"
 msgstr ""
 
 #: classes/class-fl-builder-debug.php:51 modules/button/button.php:320
-#: modules/callout/callout.php:617 modules/contact-form/contact-form.php:431
+#: modules/callout/callout.php:617 modules/contact-form/contact-form.php:429
 #: modules/content-slider/content-slider.php:818 modules/cta/cta.php:381
 #: modules/pricing-table/pricing-table.php:332
-#: modules/subscribe-form/subscribe-form.php:354
+#: modules/subscribe-form/subscribe-form.php:352
 msgid "Disabled"
 msgstr ""
 
@@ -178,7 +179,7 @@ msgid ""
 msgstr ""
 
 #: classes/class-fl-builder-model.php:2661
-#: classes/class-fl-builder-module.php:352 modules/audio/audio.php:20
+#: classes/class-fl-builder-module.php:351 modules/audio/audio.php:20
 #: modules/button/button.php:15 modules/heading/heading.php:15
 #: modules/html/html.php:15 modules/photo/photo.php:26
 #: modules/rich-text/rich-text.php:15 modules/separator/separator.php:15
@@ -211,7 +212,7 @@ msgstr ""
 #: modules/post-grid/post-grid.php:275 modules/post-grid/post-grid.php:282
 #: modules/post-slider/post-slider.php:461
 #: modules/pricing-table/pricing-table.php:15 modules/sidebar/sidebar.php:15
-#: modules/subscribe-form/subscribe-form.php:165 modules/tabs/tabs.php:15
+#: modules/subscribe-form/subscribe-form.php:163 modules/tabs/tabs.php:15
 #: modules/tabs/tabs.php:53 modules/testimonials/testimonials.php:38
 #: modules/woocommerce/woocommerce.php:55
 msgid "Layout"
@@ -232,7 +233,7 @@ msgid "Posts"
 msgstr ""
 
 #: classes/class-fl-builder-model.php:2667
-#: classes/class-fl-builder-module.php:354 includes/column-settings.php:317
+#: classes/class-fl-builder-module.php:353 includes/column-settings.php:317
 #: includes/module-settings.php:6 includes/row-settings.php:582
 #: modules/content-slider/content-slider.php:327
 msgid "Advanced"
@@ -301,7 +302,7 @@ msgstr ""
 #: extensions/fl-builder-user-templates/includes/user-template-settings.php:7
 #: includes/global-settings.php:7 modules/accordion/accordion.php:122
 #: modules/audio/audio.php:73 modules/button/button.php:88
-#: modules/callout/callout.php:200 modules/contact-form/contact-form.php:156
+#: modules/callout/callout.php:200 modules/contact-form/contact-form.php:154
 #: modules/content-slider/content-slider.php:227
 #: modules/content-slider/content-slider.php:399
 #: modules/countdown/countdown.php:81 modules/cta/cta.php:69
@@ -313,7 +314,7 @@ msgstr ""
 #: modules/rich-text/rich-text.php:27 modules/separator/separator.php:28
 #: modules/sidebar/sidebar.php:28 modules/slideshow/slideshow.php:249
 #: modules/social-buttons/social-buttons.php:61
-#: modules/subscribe-form/subscribe-form.php:150 modules/tabs/tabs.php:78
+#: modules/subscribe-form/subscribe-form.php:148 modules/tabs/tabs.php:78
 #: modules/testimonials/testimonials.php:31
 #: modules/testimonials/testimonials.php:212 modules/video/video.php:80
 #: modules/widget/widget.php:80 modules/woocommerce/woocommerce.php:48
@@ -328,11 +329,11 @@ msgstr ""
 msgid "Content Pages"
 msgstr ""
 
-#: classes/class-fl-builder-module.php:351
+#: classes/class-fl-builder-module.php:350
 msgid "Basic Modules"
 msgstr ""
 
-#: classes/class-fl-builder-module.php:353
+#: classes/class-fl-builder-module.php:352
 msgid "Advanced Modules"
 msgstr ""
 
@@ -676,7 +677,7 @@ msgid "There was an error subscribing. The account is no longer connected."
 msgstr ""
 
 #: classes/class-fl-builder-service-email-address.php:112
-#: modules/subscribe-form/subscribe-form.php:189
+#: modules/subscribe-form/subscribe-form.php:187
 msgid "Subscribe Form Signup"
 msgstr ""
 
@@ -690,7 +691,7 @@ msgid "Name"
 msgstr ""
 
 #: classes/class-fl-builder-service-email-address.php:127
-#: modules/subscribe-form/subscribe-form.php:136
+#: modules/subscribe-form/subscribe-form.php:134
 msgid "There was an error subscribing. Please try again."
 msgstr ""
 
@@ -1368,7 +1369,7 @@ msgstr ""
 msgid "Done"
 msgstr ""
 
-#: classes/class-fl-builder.php:2943
+#: classes/class-fl-builder.php:2948
 msgid "The uploaded file is not a valid %s extension."
 msgstr ""
 
@@ -1856,19 +1857,19 @@ msgid ""
 "<strong>Templates &rarr; Saved Templates</strong>."
 msgstr ""
 
-#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:57
+#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:58
 msgid "Branding"
 msgstr ""
 
-#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:63
+#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:64
 msgid "Help Button"
 msgstr ""
 
-#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:193
+#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:194
 msgid "Error! Please enter an iframe for the video embed code."
 msgstr ""
 
-#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:210
+#: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:211
 msgid "Error! You must have at least one feature of the help button enabled."
 msgstr ""
 
@@ -2348,7 +2349,7 @@ msgstr ""
 #: modules/audio/audio.php:145 modules/button/button.php:230
 #: modules/button/button.php:268 modules/button/button.php:272
 #: modules/callout/callout.php:235 modules/callout/callout.php:572
-#: modules/contact-form/contact-form.php:386
+#: modules/contact-form/contact-form.php:384
 #: modules/content-slider/content-slider.php:511
 #: modules/content-slider/content-slider.php:773
 #: modules/countdown/countdown.php:141 modules/cta/cta.php:106
@@ -2361,7 +2362,7 @@ msgstr ""
 #: modules/pricing-table/pricing-table.php:287
 #: modules/pricing-table/pricing-table.php:392
 #: modules/separator/separator.php:107
-#: modules/subscribe-form/subscribe-form.php:309 modules/tabs/tabs.php:46
+#: modules/subscribe-form/subscribe-form.php:307 modules/tabs/tabs.php:46
 msgid "Style"
 msgstr ""
 
@@ -2391,7 +2392,7 @@ msgstr ""
 #: includes/column-settings.php:47 includes/column-settings.php:181
 #: includes/row-settings.php:79 includes/row-settings.php:207
 #: modules/button/button.php:361 modules/callout/callout.php:245
-#: modules/contact-form/contact-form.php:455
+#: modules/contact-form/contact-form.php:453
 #: modules/content-slider/content-slider.php:563 modules/cta/cta.php:131
 #: modules/heading/heading.php:93 modules/heading/heading.php:222
 #: modules/icon/icon.php:137 modules/icon/icon.php:167
@@ -2450,14 +2451,14 @@ msgstr ""
 
 #: includes/column-settings.php:120 includes/row-settings.php:459
 #: modules/button/button.php:237 modules/callout/callout.php:400
-#: modules/callout/callout.php:537 modules/contact-form/contact-form.php:351
+#: modules/callout/callout.php:537 modules/contact-form/contact-form.php:349
 #: modules/content-slider/content-slider.php:448
 #: modules/content-slider/content-slider.php:746 modules/cta/cta.php:202
 #: modules/cta/cta.php:301 modules/icon/icon.php:98
 #: modules/icon-group/icon-group.php:65 modules/icon-group/icon-group.php:177
 #: modules/post-grid/post-grid.php:867
 #: modules/pricing-table/pricing-table.php:258
-#: modules/subscribe-form/subscribe-form.php:274
+#: modules/subscribe-form/subscribe-form.php:272
 msgid "Background Color"
 msgstr ""
 
@@ -2595,7 +2596,7 @@ msgid ""
 msgstr ""
 
 #: includes/column-settings.php:299 includes/row-settings.php:17
-#: modules/button/button.php:331 modules/contact-form/contact-form.php:442
+#: modules/button/button.php:331 modules/contact-form/contact-form.php:440
 #: modules/content-slider/content-slider.php:569
 #: modules/post-grid/post-grid.php:921
 #: modules/pricing-table/pricing-table.php:343
@@ -2618,11 +2619,11 @@ msgstr ""
 
 #: includes/column-settings.php:334 includes/global-settings.php:50
 #: includes/row-settings.php:604 modules/button/button.php:377
-#: modules/callout/callout.php:645 modules/contact-form/contact-form.php:469
+#: modules/callout/callout.php:645 modules/contact-form/contact-form.php:467
 #: modules/content-slider/content-slider.php:837 modules/cta/cta.php:400
 #: modules/post-grid/post-grid.php:905
 #: modules/pricing-table/pricing-table.php:373
-#: modules/subscribe-form/subscribe-form.php:374
+#: modules/subscribe-form/subscribe-form.php:372
 msgid "Padding"
 msgstr ""
 
@@ -2661,7 +2662,7 @@ msgid "Medium Devices Only"
 msgstr ""
 
 #: includes/column-settings.php:355 includes/module-settings.php:39
-#: includes/row-settings.php:630
+#: includes/row-settings.php:630 modules/menu/menu.php:273
 msgid "Medium &amp; Small Devices Only"
 msgstr ""
 
@@ -2839,7 +2840,7 @@ msgstr ""
 #: includes/global-settings.php:73 includes/global-settings.php:87
 #: includes/row-settings.php:21 includes/row-settings.php:39
 #: modules/button/button.php:335 modules/callout/callout.php:632
-#: modules/contact-form/contact-form.php:446
+#: modules/contact-form/contact-form.php:444
 #: modules/post-grid/post-grid.php:925
 #: modules/pricing-table/pricing-table.php:347
 #: modules/separator/separator.php:77
@@ -2991,7 +2992,7 @@ msgid "Colors"
 msgstr ""
 
 #: includes/row-settings.php:93 modules/button/button.php:252
-#: modules/callout/callout.php:552 modules/contact-form/contact-form.php:366
+#: modules/callout/callout.php:552 modules/contact-form/contact-form.php:364
 #: modules/content-slider/content-slider.php:614
 #: modules/content-slider/content-slider.php:757
 #: modules/content-slider/content-slider.php:888
@@ -3000,7 +3001,7 @@ msgstr ""
 #: modules/numbers/numbers.php:207 modules/post-carousel/post-carousel.php:425
 #: modules/post-grid/post-grid.php:882 modules/post-slider/post-slider.php:713
 #: modules/pricing-table/pricing-table.php:270
-#: modules/subscribe-form/subscribe-form.php:289
+#: modules/subscribe-form/subscribe-form.php:287
 msgid "Text Color"
 msgstr ""
 
@@ -3109,13 +3110,13 @@ msgid "Speed"
 msgstr ""
 
 #: includes/row-settings.php:389 modules/button/button.php:317
-#: modules/callout/callout.php:614 modules/contact-form/contact-form.php:428
+#: modules/callout/callout.php:614 modules/contact-form/contact-form.php:426
 #: modules/content-slider/content-slider.php:276
 #: modules/content-slider/content-slider.php:815 modules/cta/cta.php:378
 #: modules/post-slider/post-slider.php:407
 #: modules/pricing-table/pricing-table.php:329
 #: modules/slideshow/slideshow.php:386
-#: modules/subscribe-form/subscribe-form.php:351
+#: modules/subscribe-form/subscribe-form.php:349
 #: modules/testimonials/testimonials.php:101
 msgid "Transition"
 msgstr ""
@@ -3265,7 +3266,7 @@ msgid "Apply"
 msgstr ""
 
 #: includes/ui-field-dimension.php:39 modules/button/button.php:363
-#: modules/callout/callout.php:247 modules/contact-form/contact-form.php:456
+#: modules/callout/callout.php:247 modules/contact-form/contact-form.php:454
 #: modules/content-slider/content-slider.php:564 modules/cta/cta.php:132
 #: modules/heading/heading.php:94 modules/heading/heading.php:223
 #: modules/icon/icon.php:139 modules/icon/icon.php:168
@@ -3279,7 +3280,7 @@ msgid "Right"
 msgstr ""
 
 #: includes/ui-field-dimension.php:57 modules/button/button.php:362
-#: modules/callout/callout.php:246 modules/contact-form/contact-form.php:454
+#: modules/callout/callout.php:246 modules/contact-form/contact-form.php:452
 #: modules/content-slider/content-slider.php:562 modules/cta/cta.php:130
 #: modules/heading/heading.php:92 modules/heading/heading.php:221
 #: modules/icon/icon.php:138 modules/icon/icon.php:166
@@ -4007,15 +4008,15 @@ msgstr ""
 msgid "Service"
 msgstr ""
 
-#: includes/updater/classes/class-fl-updater.php:346
+#: includes/updater/classes/class-fl-updater.php:351
 msgid "<strong>UPDATE UNAVAILABLE!</strong>"
 msgstr ""
 
-#: includes/updater/classes/class-fl-updater.php:348
+#: includes/updater/classes/class-fl-updater.php:353
 msgid "Please subscribe to enable automatic updates for this plugin."
 msgstr ""
 
-#: includes/updater/classes/class-fl-updater.php:352
+#: includes/updater/classes/class-fl-updater.php:357
 #: includes/updater/includes/form.php:14
 msgid "Subscribe Now"
 msgstr ""
@@ -4190,13 +4191,13 @@ msgstr ""
 msgid "Loop"
 msgstr ""
 
-#: modules/audio/audio.php:148 modules/contact-form/contact-form.php:542
-#: modules/subscribe-form/subscribe-form.php:449
+#: modules/audio/audio.php:148 modules/contact-form/contact-form.php:540
+#: modules/subscribe-form/subscribe-form.php:447
 msgid "Light"
 msgstr ""
 
-#: modules/audio/audio.php:149 modules/contact-form/contact-form.php:543
-#: modules/subscribe-form/subscribe-form.php:450
+#: modules/audio/audio.php:149 modules/contact-form/contact-form.php:541
+#: modules/subscribe-form/subscribe-form.php:448
 msgid "Dark"
 msgstr ""
 
@@ -4217,10 +4218,10 @@ msgid "Show Artist Name"
 msgstr ""
 
 #: modules/button/button.php:13 modules/callout/callout.php:488
-#: modules/contact-form/contact-form.php:311
+#: modules/contact-form/contact-form.php:309
 #: modules/content-slider/content-slider.php:699 modules/cta/cta.php:219
 #: modules/pricing-table/pricing-table.php:190
-#: modules/subscribe-form/subscribe-form.php:234
+#: modules/subscribe-form/subscribe-form.php:232
 msgid "Button"
 msgstr ""
 
@@ -4239,54 +4240,54 @@ msgstr ""
 msgid "Icon"
 msgstr ""
 
-#: modules/button/button.php:110 modules/contact-form/contact-form.php:328
+#: modules/button/button.php:110 modules/contact-form/contact-form.php:326
 #: modules/cta/cta.php:241 modules/post-grid/post-grid.php:849
-#: modules/subscribe-form/subscribe-form.php:251
+#: modules/subscribe-form/subscribe-form.php:249
 msgid "Icon Position"
 msgstr ""
 
 #: modules/button/button.php:113 modules/callout/callout.php:517
-#: modules/contact-form/contact-form.php:331
+#: modules/contact-form/contact-form.php:329
 #: modules/content-slider/content-slider.php:726 modules/cta/cta.php:244
 #: modules/post-grid/post-grid.php:852
 #: modules/pricing-table/pricing-table.php:238
-#: modules/subscribe-form/subscribe-form.php:254
+#: modules/subscribe-form/subscribe-form.php:252
 msgid "Before Text"
 msgstr ""
 
 #: modules/button/button.php:114 modules/callout/callout.php:518
-#: modules/contact-form/contact-form.php:332
+#: modules/contact-form/contact-form.php:330
 #: modules/content-slider/content-slider.php:727 modules/cta/cta.php:245
 #: modules/post-grid/post-grid.php:853
 #: modules/pricing-table/pricing-table.php:239
-#: modules/subscribe-form/subscribe-form.php:255
+#: modules/subscribe-form/subscribe-form.php:253
 msgid "After Text"
 msgstr ""
 
 #: modules/button/button.php:119 modules/callout/callout.php:523
-#: modules/contact-form/contact-form.php:337
+#: modules/contact-form/contact-form.php:335
 #: modules/content-slider/content-slider.php:732 modules/cta/cta.php:250
 #: modules/post-grid/post-grid.php:858
 #: modules/pricing-table/pricing-table.php:244
-#: modules/subscribe-form/subscribe-form.php:260
+#: modules/subscribe-form/subscribe-form.php:258
 msgid "Icon Visibility"
 msgstr ""
 
 #: modules/button/button.php:122 modules/callout/callout.php:526
-#: modules/contact-form/contact-form.php:340
+#: modules/contact-form/contact-form.php:338
 #: modules/content-slider/content-slider.php:735 modules/cta/cta.php:253
 #: modules/post-grid/post-grid.php:861
 #: modules/pricing-table/pricing-table.php:247
-#: modules/subscribe-form/subscribe-form.php:263
+#: modules/subscribe-form/subscribe-form.php:261
 msgid "Always Visible"
 msgstr ""
 
 #: modules/button/button.php:123 modules/callout/callout.php:527
-#: modules/contact-form/contact-form.php:341
+#: modules/contact-form/contact-form.php:339
 #: modules/content-slider/content-slider.php:736 modules/cta/cta.php:254
 #: modules/post-grid/post-grid.php:862
 #: modules/pricing-table/pricing-table.php:248
-#: modules/subscribe-form/subscribe-form.php:264
+#: modules/subscribe-form/subscribe-form.php:262
 msgid "Fade In On Hover"
 msgstr ""
 
@@ -4356,78 +4357,78 @@ msgid "Video Link"
 msgstr ""
 
 #: modules/button/button.php:243 modules/callout/callout.php:405
-#: modules/callout/callout.php:543 modules/contact-form/contact-form.php:357
+#: modules/callout/callout.php:543 modules/contact-form/contact-form.php:355
 #: modules/content-slider/content-slider.php:752 modules/cta/cta.php:307
 #: modules/icon/icon.php:103 modules/icon-group/icon-group.php:70
 #: modules/icon-group/icon-group.php:182 modules/post-grid/post-grid.php:873
 #: modules/pricing-table/pricing-table.php:264
-#: modules/subscribe-form/subscribe-form.php:280
+#: modules/subscribe-form/subscribe-form.php:278
 msgid "Background Hover Color"
 msgstr ""
 
 #: modules/button/button.php:258 modules/callout/callout.php:558
-#: modules/contact-form/contact-form.php:372
+#: modules/contact-form/contact-form.php:370
 #: modules/content-slider/content-slider.php:763 modules/cta/cta.php:322
 #: modules/post-grid/post-grid.php:888
 #: modules/pricing-table/pricing-table.php:276
-#: modules/subscribe-form/subscribe-form.php:295
+#: modules/subscribe-form/subscribe-form.php:293
 msgid "Text Hover Color"
 msgstr ""
 
 #: modules/button/button.php:275 modules/callout/callout.php:575
-#: modules/contact-form/contact-form.php:389
+#: modules/contact-form/contact-form.php:387
 #: modules/content-slider/content-slider.php:776 modules/cta/cta.php:339
 #: modules/pricing-table/pricing-table.php:290
-#: modules/subscribe-form/subscribe-form.php:312
+#: modules/subscribe-form/subscribe-form.php:310
 msgid "Flat"
 msgstr ""
 
 #: modules/button/button.php:276 modules/callout/callout.php:413
-#: modules/callout/callout.php:576 modules/contact-form/contact-form.php:390
+#: modules/callout/callout.php:576 modules/contact-form/contact-form.php:388
 #: modules/content-slider/content-slider.php:777 modules/cta/cta.php:340
 #: modules/icon/icon.php:111 modules/icon-group/icon-group.php:78
 #: modules/pricing-table/pricing-table.php:291
-#: modules/subscribe-form/subscribe-form.php:313
+#: modules/subscribe-form/subscribe-form.php:311
 msgid "Gradient"
 msgstr ""
 
 #: modules/button/button.php:277 modules/callout/callout.php:577
-#: modules/contact-form/contact-form.php:391
+#: modules/contact-form/contact-form.php:389
 #: modules/content-slider/content-slider.php:778 modules/cta/cta.php:341
 #: modules/pricing-table/pricing-table.php:292
-#: modules/subscribe-form/subscribe-form.php:314
+#: modules/subscribe-form/subscribe-form.php:312
 msgid "Transparent"
 msgstr ""
 
 #: modules/button/button.php:287 modules/callout/callout.php:587
-#: modules/contact-form/contact-form.php:401
+#: modules/contact-form/contact-form.php:399
 #: modules/content-slider/content-slider.php:788 modules/cta/cta.php:351
 #: modules/pricing-table/pricing-table.php:99
 #: modules/pricing-table/pricing-table.php:302
-#: modules/subscribe-form/subscribe-form.php:324
+#: modules/subscribe-form/subscribe-form.php:322
 msgid "Border Size"
 msgstr ""
 
 #: modules/button/button.php:297 modules/callout/callout.php:596
-#: modules/contact-form/contact-form.php:410
+#: modules/contact-form/contact-form.php:408
 #: modules/content-slider/content-slider.php:797 modules/cta/cta.php:208
 #: modules/cta/cta.php:360 modules/pricing-table/pricing-table.php:311
-#: modules/subscribe-form/subscribe-form.php:333
+#: modules/subscribe-form/subscribe-form.php:331
 msgid "Background Opacity"
 msgstr ""
 
 #: modules/button/button.php:307 modules/callout/callout.php:605
-#: modules/contact-form/contact-form.php:419
+#: modules/contact-form/contact-form.php:417
 #: modules/content-slider/content-slider.php:806 modules/cta/cta.php:369
 #: modules/pricing-table/pricing-table.php:320
-#: modules/subscribe-form/subscribe-form.php:342
+#: modules/subscribe-form/subscribe-form.php:340
 msgid "Background Hover Opacity"
 msgstr ""
 
 #: modules/button/button.php:327 modules/callout/callout.php:238
 #: modules/cta/cta.php:109 modules/heading/heading.php:85
 #: modules/icon/icon.php:121 modules/icon-group/icon-group.php:88
-#: modules/subscribe-form/subscribe-form.php:161
+#: modules/subscribe-form/subscribe-form.php:159
 msgid "Structure"
 msgstr ""
 
@@ -4435,7 +4436,7 @@ msgstr ""
 msgid "Custom Width"
 msgstr ""
 
-#: modules/button/button.php:358 modules/contact-form/contact-form.php:451
+#: modules/button/button.php:358 modules/contact-form/contact-form.php:449
 #: modules/cta/cta.php:127 modules/heading/heading.php:89
 #: modules/heading/heading.php:201 modules/icon/icon.php:134
 #: modules/icon/icon.php:149 modules/icon-group/icon-group.php:109
@@ -4445,20 +4446,20 @@ msgid "Alignment"
 msgstr ""
 
 #: modules/button/button.php:368 modules/callout/callout.php:637
-#: modules/contact-form/contact-form.php:461
+#: modules/contact-form/contact-form.php:459
 #: modules/content-slider/content-slider.php:829 modules/cta/cta.php:392
 #: modules/heading/heading.php:129 modules/heading/heading.php:231
 #: modules/post-grid/post-grid.php:897
 #: modules/pricing-table/pricing-table.php:365
-#: modules/subscribe-form/subscribe-form.php:365
+#: modules/subscribe-form/subscribe-form.php:363
 msgid "Font Size"
 msgstr ""
 
 #: modules/button/button.php:386 modules/callout/callout.php:653
-#: modules/contact-form/contact-form.php:477 modules/cta/cta.php:408
+#: modules/contact-form/contact-form.php:475 modules/cta/cta.php:408
 #: modules/post-grid/post-grid.php:913
 #: modules/pricing-table/pricing-table.php:381
-#: modules/subscribe-form/subscribe-form.php:383
+#: modules/subscribe-form/subscribe-form.php:381
 msgid "Round Corners"
 msgstr ""
 
@@ -4622,11 +4623,11 @@ msgstr ""
 msgid "Read More"
 msgstr ""
 
-#: modules/callout/callout.php:509 modules/contact-form/contact-form.php:323
+#: modules/callout/callout.php:509 modules/contact-form/contact-form.php:321
 #: modules/content-slider/content-slider.php:718
 #: modules/post-grid/post-grid.php:844
 #: modules/pricing-table/pricing-table.php:230
-#: modules/subscribe-form/subscribe-form.php:246
+#: modules/subscribe-form/subscribe-form.php:244
 msgid "Button Icon"
 msgstr ""
 
@@ -4636,24 +4637,24 @@ msgstr ""
 msgid "Button Icon Position"
 msgstr ""
 
-#: modules/callout/callout.php:533 modules/contact-form/contact-form.php:347
+#: modules/callout/callout.php:533 modules/contact-form/contact-form.php:345
 #: modules/content-slider/content-slider.php:742 modules/cta/cta.php:297
 #: modules/pricing-table/pricing-table.php:254
-#: modules/subscribe-form/subscribe-form.php:270
+#: modules/subscribe-form/subscribe-form.php:268
 msgid "Button Colors"
 msgstr ""
 
-#: modules/callout/callout.php:568 modules/contact-form/contact-form.php:382
+#: modules/callout/callout.php:568 modules/contact-form/contact-form.php:380
 #: modules/content-slider/content-slider.php:769 modules/cta/cta.php:332
 #: modules/pricing-table/pricing-table.php:283
-#: modules/subscribe-form/subscribe-form.php:305
+#: modules/subscribe-form/subscribe-form.php:303
 msgid "Button Style"
 msgstr ""
 
-#: modules/callout/callout.php:624 modules/contact-form/contact-form.php:438
+#: modules/callout/callout.php:624 modules/contact-form/contact-form.php:436
 #: modules/content-slider/content-slider.php:825 modules/cta/cta.php:388
 #: modules/pricing-table/pricing-table.php:339
-#: modules/subscribe-form/subscribe-form.php:361
+#: modules/subscribe-form/subscribe-form.php:359
 msgid "Button Structure"
 msgstr ""
 
@@ -4669,50 +4670,50 @@ msgstr ""
 msgid "A very simple contact form."
 msgstr ""
 
-#: modules/contact-form/contact-form.php:72
+#: modules/contact-form/contact-form.php:70
 msgid "Contact Form Submission"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:77
+#: modules/contact-form/contact-form.php:75
 #: modules/contact-form/includes/frontend.php:82
 msgid "Message failed. Please try again."
 msgstr ""
 
-#: modules/contact-form/contact-form.php:113
-#: modules/subscribe-form/subscribe-form.php:108
+#: modules/contact-form/contact-form.php:111
+#: modules/subscribe-form/subscribe-form.php:106
 msgid "Your reCAPTCHA Site or Secret Key is missing!"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:138
+#: modules/contact-form/contact-form.php:136
 msgid "Message"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:143
+#: modules/contact-form/contact-form.php:141
 msgid "Sent!"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:163
+#: modules/contact-form/contact-form.php:161
 msgid "Send To Email"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:165
+#: modules/contact-form/contact-form.php:163
 msgid "example@mail.com"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:166
+#: modules/contact-form/contact-form.php:164
 msgid "The contact form will send to this e-mail. Defaults to the admin email."
 msgstr ""
 
-#: modules/contact-form/contact-form.php:174
-#: modules/subscribe-form/subscribe-form.php:174
+#: modules/contact-form/contact-form.php:172
+#: modules/subscribe-form/subscribe-form.php:172
 msgid "Name Field"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:177
-#: modules/contact-form/contact-form.php:196
-#: modules/contact-form/contact-form.php:224
-#: modules/contact-form/contact-form.php:243
-#: modules/contact-form/contact-form.php:498
+#: modules/contact-form/contact-form.php:175
+#: modules/contact-form/contact-form.php:194
+#: modules/contact-form/contact-form.php:222
+#: modules/contact-form/contact-form.php:241
+#: modules/contact-form/contact-form.php:496
 #: modules/post-carousel/post-carousel.php:273
 #: modules/post-carousel/post-carousel.php:351
 #: modules/post-carousel/post-carousel.php:360
@@ -4728,16 +4729,16 @@ msgstr ""
 #: modules/post-slider/post-slider.php:570
 #: modules/post-slider/post-slider.php:584
 #: modules/post-slider/post-slider.php:593
-#: modules/subscribe-form/subscribe-form.php:177
-#: modules/subscribe-form/subscribe-form.php:405
+#: modules/subscribe-form/subscribe-form.php:175
+#: modules/subscribe-form/subscribe-form.php:403
 msgid "Show"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:178
-#: modules/contact-form/contact-form.php:197
-#: modules/contact-form/contact-form.php:225
-#: modules/contact-form/contact-form.php:244
-#: modules/contact-form/contact-form.php:499
+#: modules/contact-form/contact-form.php:176
+#: modules/contact-form/contact-form.php:195
+#: modules/contact-form/contact-form.php:223
+#: modules/contact-form/contact-form.php:242
+#: modules/contact-form/contact-form.php:497
 #: modules/post-carousel/post-carousel.php:274
 #: modules/post-carousel/post-carousel.php:352
 #: modules/post-carousel/post-carousel.php:361
@@ -4753,168 +4754,168 @@ msgstr ""
 #: modules/post-slider/post-slider.php:571
 #: modules/post-slider/post-slider.php:585
 #: modules/post-slider/post-slider.php:594
-#: modules/subscribe-form/subscribe-form.php:178
-#: modules/subscribe-form/subscribe-form.php:406
+#: modules/subscribe-form/subscribe-form.php:176
+#: modules/subscribe-form/subscribe-form.php:404
 msgid "Hide"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:188
+#: modules/contact-form/contact-form.php:186
 msgid "Name Field Placeholder"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:189
+#: modules/contact-form/contact-form.php:187
 msgid "Your name"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:193
+#: modules/contact-form/contact-form.php:191
 msgid "Subject Field"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:210
+#: modules/contact-form/contact-form.php:208
 msgid "Subject Field Placeholder"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:211
+#: modules/contact-form/contact-form.php:209
 #: modules/contact-form/includes/frontend.php:13
 msgid "Subject"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:215
+#: modules/contact-form/contact-form.php:213
 msgid "Email Subject"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:217
+#: modules/contact-form/contact-form.php:215
 msgid ""
 "You can choose the subject of the email. Defaults to Contact Form "
 "Submission."
 msgstr ""
 
-#: modules/contact-form/contact-form.php:221
+#: modules/contact-form/contact-form.php:219
 msgid "Email Field"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:235
+#: modules/contact-form/contact-form.php:233
 msgid "Email Field Placeholder"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:236
+#: modules/contact-form/contact-form.php:234
 msgid "Your email"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:240
+#: modules/contact-form/contact-form.php:238
 msgid "Phone Field"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:254
+#: modules/contact-form/contact-form.php:252
 msgid "Phone Field Placeholder"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:255
+#: modules/contact-form/contact-form.php:253
 msgid "Your phone"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:259
+#: modules/contact-form/contact-form.php:257
 msgid "Your Message Placeholder"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:260
+#: modules/contact-form/contact-form.php:258
 msgid "Your message"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:265
-#: modules/subscribe-form/subscribe-form.php:184
+#: modules/contact-form/contact-form.php:263
+#: modules/subscribe-form/subscribe-form.php:182
 msgid "Success"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:269
-#: modules/subscribe-form/subscribe-form.php:193
+#: modules/contact-form/contact-form.php:267
+#: modules/subscribe-form/subscribe-form.php:191
 msgid "Success Action"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:271 modules/menu/menu.php:197
+#: modules/contact-form/contact-form.php:269 modules/menu/menu.php:197
 #: modules/menu/menu.php:235 modules/menu/menu.php:433
 #: modules/pricing-table/pricing-table.php:85
 #: modules/pricing-table/pricing-table.php:114
 msgid "None"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:272
-#: modules/subscribe-form/subscribe-form.php:195
+#: modules/contact-form/contact-form.php:270
+#: modules/subscribe-form/subscribe-form.php:193
 msgid "Show Message"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:273
-#: modules/subscribe-form/subscribe-form.php:196
+#: modules/contact-form/contact-form.php:271
+#: modules/subscribe-form/subscribe-form.php:194
 msgid "Redirect"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:292
+#: modules/contact-form/contact-form.php:290
 msgid "Thanks for your message! We’ll be in touch soon."
 msgstr ""
 
-#: modules/contact-form/contact-form.php:300
-#: modules/subscribe-form/subscribe-form.php:223
+#: modules/contact-form/contact-form.php:298
+#: modules/subscribe-form/subscribe-form.php:221
 msgid "Success URL"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:318
+#: modules/contact-form/contact-form.php:316
 #: modules/post-grid/post-grid.php:839
 #: modules/pricing-table/pricing-table.php:197
-#: modules/subscribe-form/subscribe-form.php:241
+#: modules/subscribe-form/subscribe-form.php:239
 msgid "Button Text"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:319
+#: modules/contact-form/contact-form.php:317
 msgid "Send"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:488
-#: modules/subscribe-form/subscribe-form.php:395
+#: modules/contact-form/contact-form.php:486
+#: modules/subscribe-form/subscribe-form.php:393
 msgid "reCAPTCHA"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:506
-#: modules/subscribe-form/subscribe-form.php:413
+#: modules/contact-form/contact-form.php:504
+#: modules/subscribe-form/subscribe-form.php:411
 msgid "If you want to show this field, please provide valid Site and Secret Keys."
 msgstr ""
 
-#: modules/contact-form/contact-form.php:510
-#: modules/subscribe-form/subscribe-form.php:417
+#: modules/contact-form/contact-form.php:508
+#: modules/subscribe-form/subscribe-form.php:415
 msgid "Site Key"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:518
-#: modules/subscribe-form/subscribe-form.php:425
+#: modules/contact-form/contact-form.php:516
+#: modules/subscribe-form/subscribe-form.php:423
 msgid "Secret Key"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:526
-#: modules/subscribe-form/subscribe-form.php:433
+#: modules/contact-form/contact-form.php:524
+#: modules/subscribe-form/subscribe-form.php:431
 msgid "Validate Type"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:529
-#: modules/subscribe-form/subscribe-form.php:436
+#: modules/contact-form/contact-form.php:527
+#: modules/subscribe-form/subscribe-form.php:434
 msgid "\"I'm not a robot\" checkbox"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:530
-#: modules/subscribe-form/subscribe-form.php:437
+#: modules/contact-form/contact-form.php:528
+#: modules/subscribe-form/subscribe-form.php:435
 msgid "Invisible"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:532
+#: modules/contact-form/contact-form.php:530
 msgid ""
 "Validate users with checkbox or in the background.<br />Note: Checkbox and "
 "Invisible types use seperate API keys."
 msgstr ""
 
-#: modules/contact-form/contact-form.php:539
-#: modules/subscribe-form/subscribe-form.php:446
+#: modules/contact-form/contact-form.php:537
+#: modules/subscribe-form/subscribe-form.php:444
 msgid "Theme"
 msgstr ""
 
-#: modules/contact-form/contact-form.php:552
+#: modules/contact-form/contact-form.php:550
 msgid "Please register keys for your website at the <a%s>Google Admin Console</a>."
 msgstr ""
 
@@ -5347,11 +5348,11 @@ msgid "Drop us a line today for a free quote!"
 msgstr ""
 
 #: modules/cta/cta.php:116 modules/menu/menu.php:254
-#: modules/subscribe-form/subscribe-form.php:169
+#: modules/subscribe-form/subscribe-form.php:167
 msgid "Inline"
 msgstr ""
 
-#: modules/cta/cta.php:117 modules/subscribe-form/subscribe-form.php:168
+#: modules/cta/cta.php:117 modules/subscribe-form/subscribe-form.php:166
 msgid "Stacked"
 msgstr ""
 
@@ -5565,10 +5566,6 @@ msgstr ""
 
 #: modules/menu/menu.php:269
 msgid "Responsive Breakpoint"
-msgstr ""
-
-#: modules/menu/menu.php:273
-msgid "Medium & Small Devices Only"
 msgstr ""
 
 #: modules/menu/menu.php:289
@@ -6513,27 +6510,27 @@ msgstr ""
 msgid "Adds a simple subscribe form to your layout."
 msgstr ""
 
-#: modules/subscribe-form/subscribe-form.php:188
+#: modules/subscribe-form/subscribe-form.php:186
 msgid "Notification Subject"
 msgstr ""
 
-#: modules/subscribe-form/subscribe-form.php:215
+#: modules/subscribe-form/subscribe-form.php:213
 msgid "Thanks for subscribing! Please check your email for further instructions."
 msgstr ""
 
-#: modules/subscribe-form/subscribe-form.php:242
+#: modules/subscribe-form/subscribe-form.php:240
 msgid "Subscribe!"
 msgstr ""
 
-#: modules/subscribe-form/subscribe-form.php:402
+#: modules/subscribe-form/subscribe-form.php:400
 msgid "reCAPTCHA Field"
 msgstr ""
 
-#: modules/subscribe-form/subscribe-form.php:439
+#: modules/subscribe-form/subscribe-form.php:437
 msgid "Validate users with checkbox or in the background."
 msgstr ""
 
-#: modules/subscribe-form/subscribe-form.php:459
+#: modules/subscribe-form/subscribe-form.php:457
 msgid "Please register keys for your website at the <a%s>Google Admin Console</a>"
 msgstr ""
 
@@ -7593,7 +7590,7 @@ msgid "Large"
 msgstr ""
 
 #: modules/button/button.php:334 modules/callout/callout.php:631
-#: modules/contact-form/contact-form.php:445
+#: modules/contact-form/contact-form.php:443
 #: modules/post-grid/post-grid.php:924
 #: modules/pricing-table/pricing-table.php:346
 msgctxt "Width."

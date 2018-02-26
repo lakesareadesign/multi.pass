@@ -1,1 +1,1 @@
-<?php $this->_render('sitemap/sitemap-crawl-content'); ?>
+<?php $this->_render( 'sitemap/sitemap-crawl-content' );

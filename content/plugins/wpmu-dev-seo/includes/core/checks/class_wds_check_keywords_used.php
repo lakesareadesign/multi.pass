@@ -1,8 +1,8 @@
 <?php
 
-if (!class_exists('WDS_Check_Abstract')) require_once(dirname(__FILE__) . '/class_wds_check_abstract.php');
+if ( ! class_exists( 'Smartcrawl_Check_Abstract' ) ) { require_once( dirname( __FILE__ ) . '/class_wds_check_abstract.php' ); }
 
-class WDS_Check_Keywords_Used extends WDS_Check_Post_Abstract {
+class Smartcrawl_Check_Keywords_Used extends Smartcrawl_Check_Post_Abstract {
 
 	/**
 	 * Holds post IDs where the focus keywords have been used before
@@ -18,30 +18,29 @@ class WDS_Check_Keywords_Used extends WDS_Check_Post_Abstract {
 	 */
 	private $_state;
 
-	public function get_status_msg () {
+	public function get_status_msg() {
 		return $this->_state === false
-			? __('Keywords have been previously used before', 'wds')
-			: __('Keywords have not been used before', 'wds')
-		;
+			? __( 'Keywords have been previously used before', 'wds' )
+			: __( 'Keywords have not been used before', 'wds' );
 	}
 
-	public function apply () {
-		$queries = array('relation' => 'OR');
+	public function apply() {
+		$queries = array( 'relation' => 'OR' );
 		$kws = $this->get_focus();
-		if (empty($kws)) return true;
+		if ( empty( $kws ) ) { return true; }
 
-		foreach ($kws as $kw) {
+		foreach ( $kws as $kw ) {
 			$queries[] = array(
 				'key' => '_wds_focus-keywords',
 				'value' => $kw,
-				'compare' => 'LIKE'
+				'compare' => 'LIKE',
 			);
 		}
 
 		$post_id = $this->get_post_id();
 		$post_ids[] = $post_id;
-		if (wp_is_post_revision($post_id)) {
-			$post_ids[] = wp_is_post_revision($post_id);
+		if ( wp_is_post_revision( $post_id ) ) {
+			$post_ids[] = wp_is_post_revision( $post_id );
 		}
 
 		$query = new WP_Query(array(
@@ -50,48 +49,45 @@ class WDS_Check_Keywords_Used extends WDS_Check_Post_Abstract {
 			'post__not_in' => $post_ids,
 			'meta_query' => array(
 				$queries,
-			)
+			),
 		));
 
 		$this->_state = $query->post_count <= 0;
 
-		if (!$this->_state) {
+		if ( ! $this->_state ) {
 			$this->_pids = $query->posts;
 			return false;
 		}
 		return true;
 	}
 
-	public function get_post_id () {
+	public function get_post_id() {
 		$subject = $this->get_subject();
-		return is_object($subject) ? $subject->ID : $subject;
+		return is_object( $subject ) ? $subject->ID : $subject;
 	}
 
-	public function get_recommendation()
-	{
-		if($this->_state) {
-			$message = __("Focus keywords are intended to be unique so you're less likely to write duplicate content. So far all your focus keywords are unique, way to go!", 'wds');
-		}
-		else {
-			$message = __("Focus keywords are intended to be unique so you're less likely to write duplicate content. Consider changing the focus keywords to something unique.", 'wds');
+	public function get_recommendation() {
+		if ( $this->_state ) {
+			$message = __( "Focus keywords are intended to be unique so you're less likely to write duplicate content. So far all your focus keywords are unique, way to go!", 'wds' );
+		} else {
+			$message = __( "Focus keywords are intended to be unique so you're less likely to write duplicate content. Consider changing the focus keywords to something unique.", 'wds' );
 		}
 
 		return $message;
 	}
 
-	public function get_more_info()
-	{
+	public function get_more_info() {
 		ob_start();
 		?>
-			<?php _e("Whilst duplicate content isn't technically penalized it presents three rather niggly issues for search engines:", 'wds'); ?><br/><br/>
+			<?php _e( "Whilst duplicate content isn't technically penalized it presents three rather niggly issues for search engines:", 'wds' ); ?><br/><br/>
 
-			<?php _e("1. It's unclear which versions to include/exclude from their indexes.", 'wds'); ?><br/>
-			<?php _e("2. They don't know whether to direct the link metrics (trust, authority, anchor text, link equity, etc.) to one page, or keep it separated between multiple versions.", 'wds'); ?><br/>
-			<?php _e("3. The engie is unsure which versions to rank for query results.", 'wds'); ?><br/><br/>
+			<?php _e( "1. It's unclear which versions to include/exclude from their indexes.", 'wds' ); ?><br/>
+			<?php _e( "2. They don't know whether to direct the link metrics (trust, authority, anchor text, link equity, etc.) to one page, or keep it separated between multiple versions.", 'wds' ); ?><br/>
+			<?php _e( '3. The engie is unsure which versions to rank for query results.', 'wds' ); ?><br/><br/>
 
-			<?php _e("So whilst there's no direct penalty, if your content isn't unique then search engine algorithms could be filtering out your articles from their results. The easiest way to make sure this doesn't happen is to try and make each of your posts and pages as unique as possible, hence specifying different focus keywords for each article you write.", 'wds'); ?><br/><br/>
+			<?php _e( "So whilst there's no direct penalty, if your content isn't unique then search engine algorithms could be filtering out your articles from their results. The easiest way to make sure this doesn't happen is to try and make each of your posts and pages as unique as possible, hence specifying different focus keywords for each article you write.", 'wds' ); ?><br/><br/>
 
-			<?php _e("Note: If you happen to have two pages with the same content, it's important to tell search engines which one to show in search results using the Canonical URL feature. You can read more about this <a href='https://premium.wpmudev.org/blog/wordpress-canonicalization-guide/' target='_blank'>here</a>.", 'wds'); ?>
+			<?php _e( "Note: If you happen to have two pages with the same content, it's important to tell search engines which one to show in search results using the Canonical URL feature. You can read more about this <a href='https://premium.wpmudev.org/blog/wordpress-canonicalization-guide/' target='_blank'>here</a>.", 'wds' ); ?>
 		<?php
 		return ob_get_clean();
 	}

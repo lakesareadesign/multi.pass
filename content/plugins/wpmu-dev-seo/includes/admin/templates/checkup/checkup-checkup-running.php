@@ -1,16 +1,16 @@
 <?php
 
-	$service = WDS_Service::get(WDS_Service::SERVICE_CHECKUP);
+	$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
 	$percentage = $service->status();
-	$progress = (int)$percentage;
+	$progress = (int) $percentage;
 
-	if ($progress > 100) $progress = 100;
+if ( $progress > 100 ) { $progress = 100; }
 
 	$this->_render('progress-bar', array(
-		'progress' => $progress
+		'progress' => $progress,
 	));
 ?>
 
 <div class="wds-checkup-progress-notice">
-	<?php $this->_render('progress-notice'); ?>
+	<?php $this->_render( 'progress-notice' ); ?>
 </div>

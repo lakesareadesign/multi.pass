@@ -404,7 +404,7 @@ class Hustle_Module_Decorator extends Opt_In
 			'optin_input' => '.hustle-modal .hustle-modal-optin_field',
 			'optin_input_icon' => '.hustle-modal-optin_field label .hustle-modal-optin_icon .hustle-icon path',
 			'optin_placeholder' => '.hustle-modal-optin_form .hustle-modal-optin_field label .hustle-modal-optin_placeholder',
-			'optin_button' => '.hustle-modal .hustle-modal-optin_button button',
+			'optin_button' => '.hustle-modal form .hustle-modal-optin_button button',
 			'optin_success_content' => '.hustle-modal .hustle-modal-success .hustle-modal-success_message, .hustle-modal .hustle-modal-success .hustle-modal-success_message *',
 			'optin_success_tick' => '.hustle-modal .hustle-modal-success .hustle-modal-success_icon .hustle-icon path',
 			'optin_submit_failure' => '.hustle-modal .hustle-modal-optin_form .wpoi-submit-failure',

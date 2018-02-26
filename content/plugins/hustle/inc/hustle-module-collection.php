@@ -302,7 +302,6 @@ class Hustle_Module_Collection extends Hustle_Collection
 				$optin->error_logs = ( isset( $optin->error_logs[0] ) ) ? $optin->error_logs[0] : '';
 
 				$optin->subscription = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'subscription' ) );
-				$optin->subscription = ( isset( $optin->subscription[0] ) ) ? $optin->subscription[0] : '';
 			}
 
 		}

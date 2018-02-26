@@ -1,8 +1,18 @@
 <?php
+/**
+ * Main settings class file
+ *
+ * @package wpmu-dev-seo
+ */
 
-if (!class_exists('WDS_Renderable')) require_once(WDS_PLUGIN_DIR . '/core/class_wds_renderable.php');
+if ( ! class_exists( 'Smartcrawl_Renderable' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_renderable.php' ); }
 
-abstract class WDS_Settings extends WDS_Renderable {
+/**
+ * Settings hub class
+ *
+ * Used for getting/setting component and global settings.
+ */
+abstract class Smartcrawl_Settings extends Smartcrawl_Renderable {
 
 	const COMP_AUTOLINKS = 'autolinks';
 	const COMP_ONPAGE = 'onpage';
@@ -36,8 +46,8 @@ abstract class WDS_Settings extends WDS_Renderable {
 	 *
 	 * @return array Options array
 	 */
-	public static function get_options () {
-		if (empty(self::$_all_options)) {
+	public static function get_options() {
+		if ( empty( self::$_all_options ) ) {
 			self::$_all_options = self::_populate_options();
 		}
 		return self::$_all_options;
@@ -50,38 +60,32 @@ abstract class WDS_Settings extends WDS_Renderable {
 	 *
 	 * @return array
 	 */
-	private static function _populate_options () {
-		$settings = is_multisite() && wds_is_switch_active('WDS_SITEWIDE') || !wds_is_allowed_tab(self::TAB_SETTINGS)
+	private static function _populate_options() {
+		$settings = is_multisite() && smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' ) || ! smartcrawl_is_allowed_tab( self::TAB_SETTINGS )
 			? self::get_sitewide_settings()
-			: self::get_local_settings()
-		;
-		$autolinks = is_multisite() && wds_is_switch_active('WDS_SITEWIDE') || !wds_is_allowed_tab(self::TAB_AUTOLINKS)
-			? get_site_option(self::TAB_AUTOLINKS . '_options', array())
-			: get_option(self::TAB_AUTOLINKS . '_options', array())
-		;
-		$onpage = is_multisite() && wds_is_switch_active('WDS_SITEWIDE') || !wds_is_allowed_tab(self::TAB_ONPAGE)
-			? get_site_option(self::TAB_ONPAGE . '_options', array())
-			: get_option(self::TAB_ONPAGE . '_options', array())
-		;
-		$sitemap = is_multisite() && wds_is_switch_active('WDS_SITEWIDE') || !wds_is_allowed_tab(self::TAB_SITEMAP)
-			? get_site_option(self::TAB_SITEMAP . '_options', array())
-			: get_option(self::TAB_SITEMAP . '_options', array())
-		;
-		$social = is_multisite() && wds_is_switch_active('WDS_SITEWIDE') || !wds_is_allowed_tab(self::TAB_SOCIAL)
-			? get_site_option(self::TAB_SOCIAL . '_options', array())
-			: get_option(self::TAB_SOCIAL . '_options', array())
-		;
-		$checkup = is_multisite() && wds_is_switch_active('WDS_SITEWIDE') || !wds_is_allowed_tab(self::TAB_CHECKUP)
-			? get_site_option(self::TAB_CHECKUP . '_options', array())
-			: get_option(self::TAB_CHECKUP . '_options', array())
-		;
+			: self::get_local_settings();
+		$autolinks = is_multisite() && smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' ) || ! smartcrawl_is_allowed_tab( self::TAB_AUTOLINKS )
+			? get_site_option( self::TAB_AUTOLINKS . '_options', array() )
+			: get_option( self::TAB_AUTOLINKS . '_options', array() );
+		$onpage = is_multisite() && smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' ) || ! smartcrawl_is_allowed_tab( self::TAB_ONPAGE )
+			? get_site_option( self::TAB_ONPAGE . '_options', array() )
+			: get_option( self::TAB_ONPAGE . '_options', array() );
+		$sitemap = is_multisite() && smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' ) || ! smartcrawl_is_allowed_tab( self::TAB_SITEMAP )
+			? get_site_option( self::TAB_SITEMAP . '_options', array() )
+			: get_option( self::TAB_SITEMAP . '_options', array() );
+		$social = is_multisite() && smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' ) || ! smartcrawl_is_allowed_tab( self::TAB_SOCIAL )
+			? get_site_option( self::TAB_SOCIAL . '_options', array() )
+			: get_option( self::TAB_SOCIAL . '_options', array() );
+		$checkup = is_multisite() && smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' ) || ! smartcrawl_is_allowed_tab( self::TAB_CHECKUP )
+			? get_site_option( self::TAB_CHECKUP . '_options', array() )
+			: get_option( self::TAB_CHECKUP . '_options', array() );
 		return array_merge(
-			(array)$settings,
-			(array)$autolinks,
-			(array)$onpage,
-			(array)$sitemap,
-			(array)$social,
-			(array)$checkup
+			(array) $settings,
+			(array) $autolinks,
+			(array) $onpage,
+			(array) $sitemap,
+			(array) $social,
+			(array) $checkup
 		);
 	}
 
@@ -90,12 +94,12 @@ abstract class WDS_Settings extends WDS_Renderable {
 	 *
 	 * @return array Reset options
 	 */
-	public static function reset_options () {
+	public static function reset_options() {
 		$list = self::get_known_tabs();
 
-		foreach ($list as $item) {
-			delete_site_option("{$item}_options");
-			delete_option("{$item}_options");
+		foreach ( $list as $item ) {
+			delete_site_option( "{$item}_options" );
+			delete_option( "{$item}_options" );
 		}
 
 		self::$_all_options = array();
@@ -107,8 +111,8 @@ abstract class WDS_Settings extends WDS_Renderable {
 	 *
 	 * @return array
 	 */
-	public static function get_sitewide_settings () {
-		return get_site_option('wds_settings_options', array());
+	public static function get_sitewide_settings() {
+		return get_site_option( 'wds_settings_options', array() );
 	}
 
 	/**
@@ -116,29 +120,29 @@ abstract class WDS_Settings extends WDS_Renderable {
 	 *
 	 * @return array
 	 */
-	public static function get_local_settings () {
-		return get_option('wds_settings_options', array());
+	public static function get_local_settings() {
+		return get_option( 'wds_settings_options', array() );
 	}
 
 	/**
 	 * Gets contextual per-blog option or sitewide fallback
 	 *
-	 * @param string $key Option name to check
-	 * @param mixed $fallback What to return on failure
+	 * @param string $key Option name to check.
+	 * @param mixed  $fallback What to return on failure.
 	 *
 	 * @return mixed Value or falback
 	 */
-	public static function get_setting ($key, $fallback=false) {
+	public static function get_setting( $key, $fallback = false ) {
 		$options = self::get_sitewide_settings();
-		$value = isset($options[$key])
-			? $options[$key]
+		$value = isset( $options[ $key ] )
+			? $options[ $key ]
 			: $fallback
 		;
 
-		if (!(defined('WDS_SITEWIDE') && WDS_SITEWIDE)) {
+		if ( ! (defined( 'SMARTCRAWL_SITEWIDE' ) && SMARTCRAWL_SITEWIDE) ) {
 			$options = self::get_local_settings();
-			$value = isset($options[$key])
-				? $options[$key]
+			$value = isset( $options[ $key ] )
+				? $options[ $key ]
 				: $value
 			;
 		}
@@ -151,18 +155,23 @@ abstract class WDS_Settings extends WDS_Renderable {
 	 *
 	 * @return array Known components
 	 */
-	public static function get_known_components () {
+	public static function get_known_components() {
 		return array(
-			self::COMP_AUTOLINKS => __('Advanced Tools' , 'wds'),
-			self::COMP_ONPAGE => __('Title & Meta Optimization' , 'wds'),
-			self::COMP_SEOMOZ => __('Moz Report' , 'wds'),
-			self::COMP_SOCIAL => __('Social' , 'wds'),
-			self::COMP_SITEMAP => __('XML Sitemap' , 'wds'),
-			self::COMP_CHECKUP => __('SEO Checkup', 'wds'),
+			self::COMP_AUTOLINKS => __( 'Advanced Tools' , 'wds' ),
+			self::COMP_ONPAGE => __( 'Title & Meta Optimization' , 'wds' ),
+			self::COMP_SEOMOZ => __( 'Moz Report' , 'wds' ),
+			self::COMP_SOCIAL => __( 'Social' , 'wds' ),
+			self::COMP_SITEMAP => __( 'XML Sitemap' , 'wds' ),
+			self::COMP_CHECKUP => __( 'SEO Checkup', 'wds' ),
 		);
 	}
 
-	public static function get_known_tabs () {
+	/**
+	 * Gets a list of known tabs
+	 *
+	 * @return array
+	 */
+	public static function get_known_tabs() {
 		return array(
 			self::TAB_DASHBOARD,
 			self::TAB_SEOMOZ,
@@ -181,7 +190,7 @@ abstract class WDS_Settings extends WDS_Renderable {
 	 *
 	 * @return array Known components
 	 */
-	public static function get_all_components () {
+	public static function get_all_components() {
 		return array(
 			self::COMP_AUTOLINKS,
 			self::COMP_ONPAGE,
@@ -196,74 +205,72 @@ abstract class WDS_Settings extends WDS_Renderable {
 	/**
 	 * Gets component-specific options
 	 *
-	 * @param string $component One of the known components (use class constants pl0x)
+	 * @param string $component One of the known components (use class constants pl0x).
 	 *
 	 * @return array Component-specific options
 	 */
-	public static function get_component_options ($component) {
-		if (empty($component)) return array();
-		if (!in_array($component, self::get_all_components())) return array();
+	public static function get_component_options( $component ) {
+		if ( empty( $component ) ) { return array(); }
+		if ( ! in_array( $component, self::get_all_components() ) ) { return array(); }
 
 		$options_key = "wds_{$component}_options";
-		return self::get_specific_options($options_key);
+		return self::get_specific_options( $options_key );
 	}
 
 	/**
 	 * Gets component-specific options
 	 *
-	 * @param string $options_key Specific options key we're after
+	 * @param string $options_key Specific options key we're after.
 	 *
 	 * @return array Options
 	 */
-	public static function get_specific_options ($options_key) {
-		if (empty($options_key)) return array();
+	public static function get_specific_options( $options_key ) {
+		if ( empty( $options_key ) ) { return array(); }
 
-		$options = is_multisite() && wds_is_switch_active('WDS_SITEWIDE')
-			? get_site_option($options_key)
-			: get_option($options_key)
-		;
+		$options = is_multisite() && smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' )
+			? get_site_option( $options_key )
+			: get_option( $options_key );
 		return $options;
 	}
 
 	/**
 	 * Updates component-specific options
 	 *
-	 * @param string $component One of the known components (use class constants pl0x)
-	 * @param array $options Specific options we want to save
+	 * @param string $component One of the known components (use class constants pl0x).
+	 * @param array  $options Specific options we want to save.
 	 */
-	public static function update_component_options ($component, $options) {
-		if (empty($component)) return array();
-		if (!in_array($component, self::get_all_components())) return array();
+	public static function update_component_options( $component, $options ) {
+		if ( empty( $component ) ) { return array(); }
+		if ( ! in_array( $component, self::get_all_components() ) ) { return array(); }
 
 		$options_key = "wds_{$component}_options";
-		return self::update_specific_options($options_key, $options);
+		return self::update_specific_options( $options_key, $options );
 	}
 
 	/**
 	 * Updates component-specific options
 	 *
-	 * @param string $options_key Specific options key we're after
-	 * @param array $options Specific options we want to save
+	 * @param string $option_key Specific options key we're after.
+	 * @param array  $options Specific options we want to save.
 	 */
-	public static function update_specific_options ($option_key, $options) {
-		return is_multisite() && wds_is_switch_active('WDS_SITEWIDE')
-			? update_site_option($option_key, $options)
-			: update_option($option_key, $options)
-		;
+	public static function update_specific_options( $option_key, $options ) {
+		return is_multisite() && smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' )
+			? update_site_option( $option_key, $options )
+			: update_option( $option_key, $options );
 	}
 
 	/**
 	 * Filter name getter
 	 *
-	 * @param string $suffix Action suffix
+	 * @param string $suffix Action suffix.
 	 *
 	 * @return string Final filter name
 	 */
-	public function get_filter ($suffix) {
-		if (empty($suffix)) return false;
-		if (!is_string($suffix)) return false;
+	public function get_filter( $suffix ) {
+		if ( empty( $suffix ) ) { return false; }
+		if ( ! is_string( $suffix ) ) { return false; }
 
-		$component = !empty($this->name) || !in_array($this->name, array_keys(self::get_known_components()))
+		$component = ! empty( $this->name ) || ! in_array( $this->name, array_keys( self::get_known_components() ) )
 			? $this->name
 			: 'general'
 		;

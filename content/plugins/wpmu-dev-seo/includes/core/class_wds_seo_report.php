@@ -1,8 +1,8 @@
 <?php
 
-if (!class_exists('WDS_Model_Ignores')) require_once('class_wds_model_ignores.php');
+if ( ! class_exists( 'Smartcrawl_Model_Ignores' ) ) { require_once( 'class_wds_model_ignores.php' ); }
 
-class WDS_SeoReport {
+class Smartcrawl_SeoReport {
 
 	private static $_instance;
 
@@ -16,11 +16,11 @@ class WDS_SeoReport {
 
 	private $_sitemap_issues = 0;
 
-	private function __construct () {}
-	private function __clone () {}
+	private function __construct() {}
+	private function __clone() {}
 
-	public static function get () {
-		if (empty(self::$_instance)) self::$_instance = new self;
+	public static function get() {
+		if ( empty( self::$_instance ) ) { self::$_instance = new self; }
 		return self::$_instance;
 	}
 
@@ -29,20 +29,20 @@ class WDS_SeoReport {
 	 *
 	 * @param array $raw Raw crawl report, as returned by service
 	 *
-	 * @return object WDS_SeoReport instance
+	 * @return object Smartcrawl_SeoReport instance
 	 */
-	public static function build ($raw) {
-		if (!is_array($raw)) $raw = array();
+	public static function build( $raw ) {
+		if ( ! is_array( $raw ) ) { $raw = array(); }
 		$me = self::get();
 
-		$issues = !empty($raw['issues'])
+		$issues = ! empty( $raw['issues'] )
 			? $raw['issues']
 			: array()
 		;
-		if (isset($issues['issues']) && is_array($issues['issues'])) $issues = $issues['issues'];
+		if ( isset( $issues['issues'] ) && is_array( $issues['issues'] ) ) { $issues = $issues['issues']; }
 
-		$me->build_meta($raw);
-		$me->build_issues($issues);
+		$me->build_meta( $raw );
+		$me->build_issues( $issues );
 
 		return $me;
 	}
@@ -52,24 +52,25 @@ class WDS_SeoReport {
 	 *
 	 * @param array $raw Raw crawl report, as returned by service
 	 *
-	 * @return object WDS_SeoReport instance
+	 * @return object Smartcrawl_SeoReport instance
 	 */
-	public function build_meta ($raw) {
-		$sitemap_total = !empty($raw['sitemap_total'])
+	public function build_meta( $raw ) {
+		$sitemap_total = ! empty( $raw['sitemap_total'] )
 			? $raw['sitemap_total']
-			: (!empty($raw['issues']['sitemap_total']) ? $raw['issues']['sitemap_total'] : 0)
+			: ( ! empty( $raw['issues']['sitemap_total'] ) ? $raw['issues']['sitemap_total'] : 0)
 		;
-		$discovered = !empty($raw['discovered'])
+		$discovered = ! empty( $raw['discovered'] )
 			? $raw['discovered']
-			: (!empty($raw['issues']['discovered']) ? $raw['issues']['discovered'] : 0)
+			: ( ! empty( $raw['issues']['discovered'] ) ? $raw['issues']['discovered'] : 0)
 		;
 
-		if (!empty($raw['issues']['messages'])) foreach ($raw['issues']['messages'] as $msg) {
-			$this->_state_messages[] = $msg;
+		if ( ! empty( $raw['issues']['messages'] ) ) { foreach ( $raw['issues']['messages'] as $msg ) {
+				$this->_state_messages[] = $msg;
+		}
 		}
 
-		$total = isset($raw['total'])
-			? (int)$raw['total']
+		$total = isset( $raw['total'] )
+			? (int) $raw['total']
 			: 0
 		;
 
@@ -85,35 +86,36 @@ class WDS_SeoReport {
 	 *
 	 * @param array $raw Raw issues list, as returned by service
 	 *
-	 * @return object WDS_SeoReport instance
+	 * @return object Smartcrawl_SeoReport instance
 	 */
-	public function build_issues ($raw) {
-		if (!is_array($raw)) $raw = array();
+	public function build_issues( $raw ) {
+		if ( ! is_array( $raw ) ) { $raw = array(); }
 
-		foreach ($raw as $type => $items) {
-			if (!is_array($items) || empty($items)) continue;
-			if (!in_array($type, array_keys($this->_by_type))) $this->_by_type[$type] = array();
-			foreach ($items as $item) {
-				$key = $this->get_item_key($item, $type);
-				if (empty($key)) continue; // Invalid key
-
+		foreach ( $raw as $type => $items ) {
+			if ( ! is_array( $items ) || empty( $items ) ) { continue; }
+			if ( ! in_array( $type, array_keys( $this->_by_type ) ) ) { $this->_by_type[ $type ] = array(); }
+			foreach ( $items as $item ) {
+				$key = $this->get_item_key( $item, $type );
+				if ( empty( $key ) ) { continue; // Invalid key
+				}
 				$item['type'] = $type;
 
-				$this->_items[$key] = $item;
-				$this->_by_type[$type][] = $key;
+				$this->_items[ $key ] = $item;
+				$this->_by_type[ $type ][] = $key;
 			}
 		}
 
 		// Special case sitemap issues reporting
-		if (!empty($raw['sitemap']) && is_numeric($raw['sitemap'])) {
-			$this->_sitemap_issues = (int)$raw['sitemap'];
+		if ( ! empty( $raw['sitemap'] ) && is_numeric( $raw['sitemap'] ) ) {
+			$this->_sitemap_issues = (int) $raw['sitemap'];
 		}
 
-		if (empty($this->_state_messages) && !empty($raw['messages'])) foreach ($raw['messages'] as $msg) {
-			$this->_state_messages[] = $msg;
+		if ( empty( $this->_state_messages ) && ! empty( $raw['messages'] ) ) { foreach ( $raw['messages'] as $msg ) {
+				$this->_state_messages[] = $msg;
+		}
 		}
 
-		$this->_ignores = new WDS_Model_Ignores();
+		$this->_ignores = new Smartcrawl_Model_Ignores();
 
 		return $this;
 	}
@@ -121,18 +123,18 @@ class WDS_SeoReport {
 	/**
 	 * Creates an unique key for a corresponding item
 	 *
-	 * @param array $item Item to create the key for
+	 * @param array  $item Item to create the key for
 	 * @param string $type Optional item type
 	 *
 	 * @return string Unique key
 	 */
-	public function get_item_key ($item, $type=false) {
-		if (!is_array($item)) return false;
-		if (empty($item['path'])) return false;
+	public function get_item_key( $item, $type = false ) {
+		if ( ! is_array( $item ) ) { return false; }
+		if ( empty( $item['path'] ) ) { return false; }
 
-		if (empty($type)) $type = 'generic';
+		if ( empty( $type ) ) { $type = 'generic'; }
 
-		return md5("{$type}-{$item['path']}");
+		return md5( "{$type}-{$item['path']}" );
 	}
 
 	/**
@@ -140,8 +142,8 @@ class WDS_SeoReport {
 	 *
 	 * @return array List of known issue types identifiers
 	 */
-	public function get_issue_types () {
-		return array_keys($this->_by_type);
+	public function get_issue_types() {
+		return array_keys( $this->_by_type );
 	}
 
 	/**
@@ -151,13 +153,13 @@ class WDS_SeoReport {
 	 *
 	 * @return array List of all known issues
 	 */
-	public function get_all_issues ($include_ignored=false) {
-		$all = array_keys($this->_items);
-		if (!empty($include_ignored)) return $all;
+	public function get_all_issues( $include_ignored = false ) {
+		$all = array_keys( $this->_items );
+		if ( ! empty( $include_ignored ) ) { return $all; }
 
 		$result = array();
-		foreach ($all as $issue) {
-			if (!$this->is_ignored_issue($issue)) $result[] = $issue;
+		foreach ( $all as $issue ) {
+			if ( ! $this->is_ignored_issue( $issue ) ) { $result[] = $issue; }
 		}
 		return $result;
 	}
@@ -167,7 +169,7 @@ class WDS_SeoReport {
 	 *
 	 * @return array List of ignored items unique IDs
 	 */
-	public function get_ignored_issues () {
+	public function get_ignored_issues() {
 		return $this->_ignores->get_all();
 	}
 
@@ -179,39 +181,38 @@ class WDS_SeoReport {
 	 *
 	 * @return int Ignored issues count
 	 */
-	public function get_ignored_issues_count ($type=false) {
-		$issues = empty($type)
-			? $this->get_all_issues(true)
-			: $this->get_issues_by_type($type, true)
-		;
+	public function get_ignored_issues_count( $type = false ) {
+		$issues = empty( $type )
+			? $this->get_all_issues( true )
+			: $this->get_issues_by_type( $type, true );
 		$count = 0;
 
-		foreach ($issues as $key) {
-			if ($this->is_ignored_issue($key)) $count++;
+		foreach ( $issues as $key ) {
+			if ( $this->is_ignored_issue( $key ) ) { $count++; }
 		}
 
-		return (int)$count;
+		return (int) $count;
 	}
 
 	/**
 	 * Gets issues for a specific issue type
 	 *
 	 * @param string $type Type identifier
-	 * @param bool $include_ignored Whether to include ignored items (default: no)
+	 * @param bool   $include_ignored Whether to include ignored items (default: no)
 	 *
 	 * @return array List of issues for this type
 	 */
-	public function get_issues_by_type ($type, $include_ignored=false) {
-		$issues = !empty($this->_by_type[$type]) && is_array($this->_by_type[$type])
-			? $this->_by_type[$type]
+	public function get_issues_by_type( $type, $include_ignored = false ) {
+		$issues = ! empty( $this->_by_type[ $type ] ) && is_array( $this->_by_type[ $type ] )
+			? $this->_by_type[ $type ]
 			: array()
 		;
 
-		if (!empty($include_ignored)) return $issues;
+		if ( ! empty( $include_ignored ) ) { return $issues; }
 
 		$result = array();
-		foreach ($issues as $issue) {
-			if (!$this->is_ignored_issue($issue)) $result[] = $issue;
+		foreach ( $issues as $issue ) {
+			if ( ! $this->is_ignored_issue( $issue ) ) { $result[] = $issue; }
 		}
 
 		return $result;
@@ -222,16 +223,15 @@ class WDS_SeoReport {
 	 *
 	 * @param string $type Optional issue type
 	 *                     - if omitted, all issues are counted
-	 * @param bool $include_ignored Whether to include ignored items (default: no)
+	 * @param bool   $include_ignored Whether to include ignored items (default: no)
 	 *
 	 * @return int Issues count
 	 */
-	public function get_issues_count ($type=false, $include_ignored=false) {
-		$issues = empty($type)
-			? $this->get_all_issues($include_ignored)
-			: $this->get_issues_by_type($type, $include_ignored)
-		;
-		return (int)count($issues);
+	public function get_issues_count( $type = false, $include_ignored = false ) {
+		$issues = empty( $type )
+			? $this->get_all_issues( $include_ignored )
+			: $this->get_issues_by_type( $type, $include_ignored );
+		return (int) count( $issues );
 	}
 
 	/**
@@ -242,8 +242,8 @@ class WDS_SeoReport {
 	 *
 	 * @return bool
 	 */
-	public function has_issues ($type=false) {
-		return $this->get_issues_count($type) > 0;
+	public function has_issues( $type = false ) {
+		return $this->get_issues_count( $type ) > 0;
 	}
 
 	/**
@@ -251,7 +251,7 @@ class WDS_SeoReport {
 	 *
 	 * @return bool
 	 */
-	public function has_ignored_issues () {
+	public function has_ignored_issues() {
 		return $this->get_ignored_issues_count() > 0;
 	}
 
@@ -260,10 +260,10 @@ class WDS_SeoReport {
 	 *
 	 * @return int Count
 	 */
-	public function get_sitemap_misses () {
-		$count = (int)$this->_sitemap_issues;
+	public function get_sitemap_misses() {
+		$count = (int) $this->_sitemap_issues;
 		return 0 === $count
-			? (int)$this->get_issues_count('sitemap')
+			? (int) $this->get_issues_count( 'sitemap' )
 			: $count
 		;
 	}
@@ -272,12 +272,12 @@ class WDS_SeoReport {
 	 * Gets a meta key value
 	 *
 	 * @param string $key Meta key to check
-	 * @param mixed $fallback What to return instead if there's no such key
+	 * @param mixed  $fallback What to return instead if there's no such key
 	 *
 	 * @return mixed Meta value
 	 */
-	public function get_meta ($key, $fallback=false) {
-		if ($this->has_meta($key)) return $this->_meta[$key];
+	public function get_meta( $key, $fallback = false ) {
+		if ( $this->has_meta( $key ) ) { return $this->_meta[ $key ]; }
 		return $fallback;
 	}
 
@@ -288,8 +288,8 @@ class WDS_SeoReport {
 	 *
 	 * @return bool
 	 */
-	public function has_meta ($key) {
-		return isset($this->_meta[$key]);
+	public function has_meta( $key ) {
+		return isset( $this->_meta[ $key ] );
 	}
 
 	/**
@@ -299,9 +299,9 @@ class WDS_SeoReport {
 	 *
 	 * @return array Issue info hash
 	 */
-	public function get_issue ($key) {
-		return !empty($this->_items[$key]) && is_array($this->_items[$key])
-			? $this->_items[$key]
+	public function get_issue( $key ) {
+		return ! empty( $this->_items[ $key ] ) && is_array( $this->_items[ $key ] )
+			? $this->_items[ $key ]
 			: array()
 		;
 	}
@@ -311,8 +311,8 @@ class WDS_SeoReport {
 	 *
 	 * @return bool
 	 */
-	public function is_ignored_issue ($key) {
-		return (bool)$this->_ignores->is_ignored($key);
+	public function is_ignored_issue( $key ) {
+		return (bool) $this->_ignores->is_ignored( $key );
 	}
 
 	/**
@@ -320,8 +320,8 @@ class WDS_SeoReport {
 	 *
 	 * @return array
 	 */
-	public function get_state_messages () {
-		return !empty($this->_state_messages) && is_array($this->_state_messages)
+	public function get_state_messages() {
+		return ! empty( $this->_state_messages ) && is_array( $this->_state_messages )
 			? $this->_state_messages
 			: array()
 		;
@@ -332,8 +332,8 @@ class WDS_SeoReport {
 	 *
 	 * @return bool
 	 */
-	public function has_state_messages () {
-		return !empty($this->_state_messages);
+	public function has_state_messages() {
+		return ! empty( $this->_state_messages );
 	}
 
 

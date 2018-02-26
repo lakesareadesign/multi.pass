@@ -3,7 +3,7 @@
 Plugin Name: WP Admin UI
 Plugin URI: http://wpadminui.net/
 Description: The best plugin to customize WordPress administration in seconds.
-Version: 1.9.7.1
+Version: 1.9.8.1
 Author: Benjamin DENIS
 Author URI: http://wpadminui.net/
 License: GPLv2
@@ -49,7 +49,7 @@ register_deactivation_hook(__FILE__, 'wpui_deactivation');
 //Define
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-define( 'WPUI_VERSION', '1.9.7.1' ); 
+define( 'WPUI_VERSION', '1.9.8.1' ); 
 define( 'WPUI_AUTHOR', 'Benjamin Denis' ); 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,10 +57,8 @@ define( 'WPUI_AUTHOR', 'Benjamin Denis' );
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 function wpui_init() {
     load_plugin_textdomain( 'wp-admin-ui', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-
-    global $pagenow; 
     
-    if ( in_array( $GLOBALS['pagenow'], array('wp-login.php', 'wp-register.php') ) ) {
+    if ( (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] == wp_login_url() ) {
         require_once ( dirname( __FILE__ ) . '/inc/functions/options-login.php'); //Login
     }
     

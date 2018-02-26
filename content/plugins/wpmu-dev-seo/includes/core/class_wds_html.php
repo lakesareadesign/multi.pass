@@ -1,6 +1,6 @@
 <?php
 
-class WDS_Html {
+class Smartcrawl_Html {
 
 	const NODE_CONTENT = 'innertext';
 
@@ -35,7 +35,7 @@ class WDS_Html {
 	 *
 	 * @return array List of charmap replacements as utf8 code => replacement pairs
 	 */
-	public static function get_decode_charmap () {
+	public static function get_decode_charmap() {
 		return self::$_charmap;
 	}
 
@@ -46,11 +46,11 @@ class WDS_Html {
 	 *
 	 * @return string Decoded fragment
 	 */
-	public static function decode ($html) {
-		$str = html_entity_decode($html, ENT_QUOTES, 'UTF-8');
+	public static function decode( $html ) {
+		$str = html_entity_decode( $html, ENT_QUOTES, 'UTF-8' );
 
-		foreach (self::get_decode_charmap() as $utf8 => $rpl) {
-			$str = preg_replace('/\x{' . $utf8 . '}/u', $rpl, $str);
+		foreach ( self::get_decode_charmap() as $utf8 => $rpl ) {
+			$str = preg_replace( '/\x{' . $utf8 . '}/u', $rpl, $str );
 		}
 
 		return $str;
@@ -66,13 +66,16 @@ class WDS_Html {
 	 *
 	 * @return string Decorated markup
 	 */
-	public static function decorate ($html) {
-		$html = do_shortcode($html);
-		$html = capital_P_dangit($html);
-		$html = convert_smilies($html);
-		$html = wptexturize($html);
-		$html = wpautop($html);
-		$html = shortcode_unautop($html);
+	public static function decorate( $html ) {
+		// $html = do_shortcode($html);   // Do NOT!!! do shortcode expansion.
+		// It will break shortcode layout themes (e.g. Divi).
+		$html = strip_shortcodes( $html ); // Let's strip them instead.
+
+		$html = capital_P_dangit( $html );
+		$html = convert_smilies( $html );
+		$html = wptexturize( $html );
+		$html = wpautop( $html );
+		$html = shortcode_unautop( $html );
 
 		return $html;
 	}
@@ -84,11 +87,11 @@ class WDS_Html {
 	 *
 	 * @return string Plaintext
 	 */
-	public static function plaintext ($html) {
-		$html = preg_replace('/.*<body[^>]*?>/s', '', $html);
-		$html = preg_replace('/<\/body>.*/', '', $html);
-		$html = self::decorate($html);
-		$text = self::decode(wp_strip_all_tags($html));
+	public static function plaintext( $html ) {
+		$html = preg_replace( '/.*<body[^>]*?>/s', '', $html );
+		$html = preg_replace( '/<\/body>.*/', '', $html );
+		$html = self::decorate( $html );
+		$text = self::decode( wp_strip_all_tags( $html ) );
 		return $text;
 	}
 
@@ -99,19 +102,19 @@ class WDS_Html {
 	 *
 	 * @return object simple_html_dom object instance
 	 */
-	public static function get_dom ($html='') {
-		if (!class_exists('simple_html_dom')) {
-			require_once(WDS_PLUGIN_DIR . '/external/simple_html_dom.php');
+	public static function get_dom( $html = '' ) {
+		if ( ! class_exists( 'simple_html_dom' ) ) {
+			require_once( SMARTCRAWL_PLUGIN_DIR . '/external/simple_html_dom.php' );
 		}
-		if (empty($html)) return new simple_html_dom;
+		if ( empty( $html ) ) { return new simple_html_dom; }
 
-		$key = md5($html);
-		if (!empty(self::$_doms_cache[$key])) return self::$_doms_cache[$key];
+		$key = md5( $html );
+		if ( ! empty( self::$_doms_cache[ $key ] ) ) { return self::$_doms_cache[ $key ]; }
 
-		self::$_doms_cache[$key] = new simple_html_dom;
-		self::$_doms_cache[$key]->load($html);
+		self::$_doms_cache[ $key ] = new simple_html_dom;
+		self::$_doms_cache[ $key ]->load( $html );
 
-		return self::$_doms_cache[$key];
+		return self::$_doms_cache[ $key ];
 	}
 
 	/**
@@ -122,11 +125,11 @@ class WDS_Html {
 	 *
 	 * @return array Selected DOM nodes
 	 */
-	public static function find ($selector, $html) {
-		if (empty($html) || empty($selector)) return array();
+	public static function find( $selector, $html ) {
+		if ( empty( $html ) || empty( $selector ) ) { return array(); }
 
-		$ret = self::get_dom($html)->find($selector);
-		return !empty($ret)
+		$ret = self::get_dom( $html )->find( $selector );
+		return ! empty( $ret )
 			? $ret
 			: array()
 		;
@@ -141,13 +144,13 @@ class WDS_Html {
 	 *
 	 * @return array A map of node => attribute pairs
 	 */
-	public static function find_attributes ($selector, $attr, $html) {
-		$nodes = self::find($selector, $html);
-		if (empty($nodes)) return array();
+	public static function find_attributes( $selector, $attr, $html ) {
+		$nodes = self::find( $selector, $html );
+		if ( empty( $nodes ) ) { return array(); }
 
 		return array_combine(
 			$nodes,
-			wp_list_pluck($nodes, $attr)
+			wp_list_pluck( $nodes, $attr )
 		);
 	}
 
@@ -159,8 +162,8 @@ class WDS_Html {
 	 *
 	 * @return array A map of node => content pairs
 	 */
-	public static function find_content ($selector, $html) {
-		return self::find_attributes($selector, self::NODE_CONTENT, $html);
+	public static function find_content( $selector, $html ) {
+		return self::find_attributes( $selector, self::NODE_CONTENT, $html );
 	}
 
 	/**
@@ -171,8 +174,8 @@ class WDS_Html {
 	 *
 	 * @return array A map of node => markup pairs
 	 */
-	public static function find_markup ($selector, $html) {
-		return self::find_attributes($selector, self::NODE_MARKUP, $html);
+	public static function find_markup( $selector, $html ) {
+		return self::find_attributes( $selector, self::NODE_MARKUP, $html );
 	}
 
 	/**
@@ -183,9 +186,9 @@ class WDS_Html {
 	 *
 	 * @return string Attribute value
 	 */
-	public static function get_attribute ($node, $attr) {
-		if (!is_object($node)) return '';
-		if (empty($attr)) return '';
+	public static function get_attribute( $node, $attr ) {
+		if ( ! is_object( $node ) ) { return ''; }
+		if ( empty( $attr ) ) { return ''; }
 
 		return '' . $node->$attr;
 	}

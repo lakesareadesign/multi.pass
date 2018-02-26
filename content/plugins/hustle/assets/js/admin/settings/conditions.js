@@ -58,7 +58,7 @@
 		},
 		render: function(){
 			this.$el.html('');
-			
+
 			var html = this._template(_.extend({}, {
 					title: this.get_title(),
 					body: this.get_body(),
@@ -70,6 +70,11 @@
 
 			this.$el.html( html );
 
+			$('.wph-conditions--box .wph-conditions--item:not(:last-child)')
+				.removeClass( "wph-conditions--open" )
+				.addClass( "wph-conditions--closed" );
+			$('.wph-conditions--box .wph-conditions--item:not(:last-child) section').hide();
+			
 			if( this.rendered && typeof this.rendered === "function")
 				this.rendered.apply(this, arguments);
 
@@ -85,7 +90,7 @@
 			this.data = this.model.get( this.condition_id  );
 			this.data[ attribute ] = val;
 			this.model.set(this.condition_id , this.data );
-			
+
 		},
 		get_attribute: function(attribute){
 			var data = this.model.get( this.condition_id );
@@ -107,12 +112,12 @@
 				attribute = el.getAttribute("data-attribute"),
 				$el = $(el),
 				val = $el.is(".js-wpoi-select") ? $el.val() : e.target.value;
-				
+
 			// skip for input search
 			if ( $el.is(".select2-search__field") ) return false;
-			
+
 			var updated = this.update_attribute( attribute, val );
-			
+
 			this.refresh_label();
 			return updated;
 		},
@@ -143,7 +148,7 @@
 				val.splice( val.indexOf( "all" ), 1 );
 			else
 				val = ( val || [] ).concat( [e.params.args.data.id ] );
-			
+
 			if( !val || !val.length )
 				val = [ e.params.args.data.id ];
 		}
@@ -213,7 +218,7 @@
 			.on('select2:selecting', either_all_or_others )
 			.on('select2:selecting', reanable_scroll )
 			.on('select2:unselecting', reanable_scroll);
-			
+
 		}
 	}) );
 
@@ -270,7 +275,7 @@
 
 		}
 	}));
-	
+
 	/**
 	 * Custom Post Types
 	 */
@@ -348,7 +353,7 @@
 		get_header: function(){
 			this.update_label();
 			this.trigger("change:update_label", this);
-			
+
 			if( _.contains(  this.get_attribute( "categories" ), "all" ) )
 				return this.get_attribute("filter_type") === "only" ? optin_vars.messages.condition_labels.all_categories : optin_vars.messages.condition_labels.no_categories;
 
@@ -434,7 +439,7 @@
 			.on('select2:unselecting', reanable_scroll);
 		}
 	}));
-	
+
 	Optin.View.Conditions.only_on_not_found = Condition_Base.extend({
 		condition_id: "only_on_not_found",
 		disable: ['posts','pages','categories','tags'],

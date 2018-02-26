@@ -34,5 +34,4 @@ abstract class Opt_In_Provider_Abstract{
 	 */
 	abstract function get_option( $option_key, $default );
 
-
 }

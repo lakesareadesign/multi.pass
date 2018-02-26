@@ -1,3 +1,32 @@
+<h4>2.0.5 - 02/15/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Plugin Icons are now shown in the updates core page.</li>
+	<li>Global JS is not included if safe mode is enabled.</li>
+	<li>Added url connection to HTML module.</li>
+	<li>Updated translation files.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed Custom module SVG icons not displaying.</li>
+	<li>Fixed issue with GoDaddy stock photo dropdown hidden in Lite version.</li>
+	<li>Fixed Load More button on Posts Module when there are 1000s of posts.</li>
+	<li>Fixed row background fallback image on row backgrounds on mobile for Youtube and Vimeo.</li>
+	<li>Fixed conflict with Button Module Lightbox and contact form.</li>
+	<li>Fixed missing trailing slash in paths passed to <code>fl_builder_locate_template_order</code> filter.</li>
+	<li>Fixed undefined variable in Post Slider module.</li>
+	<li>Fixed column width on column parent settings not working.</li>
+	<li>Fixed Posts Module pagination when order is set to author.</li>
+	<li>Fixed Number Counter module issue with DE lang.</li>
+	<li>Fixed SmugMug links, they now use https.</li>
+	<li>Fixed mobile stuttering issue in Number Counter module.</li>
+	<li>Fixed shortcodes being rendered twice when other plugins filter the_content.</li>
+	<li>Fixed issue where poorly coded themes styles were overriding the WP Core media modal.</li>
+	<li>Fixed sub menu styles when more than one menu is on the page.</li>
+	<li>Fixed rows set to mobile only displaying on desktop on IE11.</li>
+	<li>Fixed the nested columns equal alignment on IE 11.</li>
+</ul>
+
 <h4>2.0.4.4 - 02/05/2018</h4>
 <p><strong>Hotfix</strong></p>
 <ul>

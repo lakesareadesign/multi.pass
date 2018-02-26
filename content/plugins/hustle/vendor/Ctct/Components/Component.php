@@ -16,6 +16,6 @@ abstract class Component
      */
     protected static function getValue(array $array, $item, $default = null)
     {
-        return (isset($array[$item])) ? $array[$item] : $default;	  	 			 			  	      
+        return (isset($array[$item])) ? $array[$item] : $default;
     }
 }

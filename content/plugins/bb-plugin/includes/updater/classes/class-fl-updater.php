@@ -128,6 +128,11 @@ final class FLUpdater {
 					$transient->response[ $plugin ]->url 			= $response->homepage;
 					$transient->response[ $plugin ]->package 		= $response->package;
 					$transient->response[ $plugin ]->tested 		= $response->tested;
+					$transient->response[ $plugin ]->icons = apply_filters( 'fl_updater_icon', array(
+						'1x' => FL_BUILDER_URL . 'img/beaver-128.png',
+						'2x' => FL_BUILDER_URL . 'img/beaver-256.png',
+						'default' => FL_BUILDER_URL . 'img/beaver-256.png',
+					), $response, $this->settings );
 
 					if ( empty( $response->package ) ) {
 						$transient->response[ $plugin ]->upgrade_notice = FLUpdater::get_update_error_message();
@@ -342,7 +347,7 @@ final class FLUpdater {
 	 */
 	static private function get_update_error_message( $plugin_data = null ) {
 		$message  = '';
-		$message .= '<p style="padding:10px 20px; margin-top: 10px; background: #d54e21; color: #fff;">';
+		$message .= '<span style="display:block;padding:10px 20px;margin:10px 0; background: #d54e21; color: #fff;">';
 		$message .= __( '<strong>UPDATE UNAVAILABLE!</strong>', 'fl-builder' );
 		$message .= '&nbsp;&nbsp;&nbsp;';
 		$message .= __( 'Please subscribe to enable automatic updates for this plugin.', 'fl-builder' );
@@ -352,9 +357,7 @@ final class FLUpdater {
 			$message .= __( 'Subscribe Now', 'fl-builder' );
 			$message .= ' &raquo;</a>';
 		}
-
-		$message .= '</p>';
-
+		$message .= '</span>';
 		return $message;
 	}
 

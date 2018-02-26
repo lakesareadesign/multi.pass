@@ -115,7 +115,7 @@ class Opt_In_Activecampaign_Api
 	 * @return array|mixed|object|WP_Error
 	 */
 	public function subscribe( $list, array $data, Hustle_Module_Model $module, $origData ){
-		if ( false === $this->email_exist( $data['email'] ) ) {
+		if ( false === $this->email_exist( $data['email'], $list ) ) {
 			if ( (int) $list > 0 ) {
 				$data['p'] = array( $list => $list );
 				$data['status'] = array( $list => 1 );
@@ -133,7 +133,7 @@ class Opt_In_Activecampaign_Api
 			if ( is_array( $res ) && isset( $res['result_code'] ) ){
 				if( $res['result_code'] == 'FAILED' ){
 					$origData['error'] = ! empty( $res['result_message'] ) ? $res['result_message'] : __( 'Unexpected error occurred.', Opt_In::TEXT_DOMAIN );
-			        $module->log_error( $origData );
+					$module->log_error( $origData );
 				}
 			}
 
@@ -145,10 +145,26 @@ class Opt_In_Activecampaign_Api
 		}
 	}
 
-	function email_exist( $email ) {
+	function email_exist( $email, $list_id ) {
 		$res = $this->_post( 'contact_view_email', array( 'email' => $email ) );
 
-		return ! empty( $res ) && ! empty( $res['id'] ) ? true : false;
+		// See if duplicate exists.
+		if (
+			! empty( $res )
+			&& ! empty( $res['id'])
+			&& !empty($res['lists'])
+		) {
+			// Also make sure duplicate is in active list.
+			foreach ($res['lists'] as $response_list) {
+				if ($response_list['listid'] === $list_id) {
+					// Duplicate exists.
+					return true;
+				}
+			}
+		}
+
+		// Otherwise assume no duplicate.
+		return false;
 	}
 
 	function add_custom_fields( $custom_fields, $list, Hustle_Module_Model $module ) {

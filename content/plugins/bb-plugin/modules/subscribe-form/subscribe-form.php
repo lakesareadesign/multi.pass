@@ -37,12 +37,10 @@ class FLSubscribeFormModule extends FLBuilderModule {
 			) {
 
 			$site_lang = substr( get_locale(), 0, 2 );
-			$post_id    = FLBuilderModel::get_post_id();
-
 			$this->add_js(
 				'g-recaptcha',
 				'https://www.google.com/recaptcha/api.js?onload=onLoadFLReCaptcha&render=explicit&hl=' . $site_lang,
-				array( 'fl-builder-layout-' . $post_id ),
+				array(),
 				'2.0',
 				true
 			);

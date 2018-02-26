@@ -1,12 +1,12 @@
 <?php
 
-class WDS_Controller_Onboard extends WDS_Renderable {
+class Smartcrawl_Controller_Onboard extends Smartcrawl_Renderable {
 
 	private static $_instance;
 
 	private $_is_running = false;
 
-	public function _get_view_defaults () {}
+	public function _get_view_defaults() {}
 
 	/**
 	 * Boot controller listeners
@@ -15,16 +15,16 @@ class WDS_Controller_Onboard extends WDS_Renderable {
 	 *
 	 * @return bool Status
 	 */
-	public static function serve () {
+	public static function serve() {
 		$me = self::get();
-		if ($me->is_running()) return false;
+		if ( $me->is_running() ) { return false; }
 
 		return $me->_add_hooks();
 	}
 
-	public static function stop () {
+	public static function stop() {
 		$me = self::get();
-		if (!$me->is_running()) return false;
+		if ( ! $me->is_running() ) { return false; }
 
 		return $me->_remove_hooks();
 	}
@@ -32,10 +32,10 @@ class WDS_Controller_Onboard extends WDS_Renderable {
 	/**
 	 * Obtain instance without booting up
 	 *
-	 * @return WDS_Controller_IO instance
+	 * @return Smartcrawl_Controller_IO instance
 	 */
-	public static function get () {
-		if (empty(self::$_instance)) self::$_instance = new self;
+	public static function get() {
+		if ( empty( self::$_instance ) ) { self::$_instance = new self; }
 		return self::$_instance;
 	}
 
@@ -44,10 +44,10 @@ class WDS_Controller_Onboard extends WDS_Renderable {
 	 *
 	 * @return bool
 	 */
-	private function _add_hooks () {
-		add_action('admin_init', array($this, 'dispatch_actions'));
+	private function _add_hooks() {
+		add_action( 'admin_init', array( $this, 'dispatch_actions' ) );
 
-		return !!$this->_is_running = true;
+		return ! ! $this->_is_running = true;
 	}
 
 	/**
@@ -55,10 +55,10 @@ class WDS_Controller_Onboard extends WDS_Renderable {
 	 *
 	 * @return bool
 	 */
-	private function _remove_hooks () {
-		remove_action('admin_init', array($this, 'dispatch_actions'));
+	private function _remove_hooks() {
+		remove_action( 'admin_init', array( $this, 'dispatch_actions' ) );
 
-		return !$this->_is_running = false;
+		return ! $this->_is_running = false;
 	}
 
 	/**
@@ -66,7 +66,7 @@ class WDS_Controller_Onboard extends WDS_Renderable {
 	 *
 	 * @return bool Status
 	 */
-	public function is_running () {
+	public function is_running() {
 		return $this->_is_running;
 	}
 
@@ -75,65 +75,68 @@ class WDS_Controller_Onboard extends WDS_Renderable {
 	 *
 	 * @return bool
 	 */
-	public function dispatch_actions () {
-		add_action('wds-dshboard-after_settings', array($this, 'add_onboarding'));
+	public function dispatch_actions() {
+		add_action( 'wds-dshboard-after_settings', array( $this, 'add_onboarding' ) );
 
-		add_action('wp_ajax_wds-boarding-toggle', array($this, 'process_boarding_action'));
-		add_action('wp_ajax_wds-boarding-skip', array($this, 'process_boarding_skip'));
+		add_action( 'wp_ajax_wds-boarding-toggle', array( $this, 'process_boarding_action' ) );
+		add_action( 'wp_ajax_wds-boarding-skip', array( $this, 'process_boarding_skip' ) );
 	}
 
-	public function process_boarding_skip () {
-		update_site_option('wds-onboarding-done', true);
+	public function process_boarding_skip() {
+		update_site_option( 'wds-onboarding-done', true );
 		return wp_send_json_success();
 	}
 
-	public function process_boarding_action () {
-		$data = stripslashes_deep($_POST);
-		$target = !empty($data['target']) ? $data['target'] : false;
+	public function process_boarding_action() {
+		$data = stripslashes_deep( $_POST );
+		$target = ! empty( $data['target'] ) ? sanitize_key( $data['target'] ) : false;
 
-		if (!current_user_can('manage_options')) return wp_send_json_error();
+		if ( ! current_user_can( 'manage_options' ) ) { return wp_send_json_error(); }
 
 		// Throw the switch on onboarding
-		update_site_option('wds-onboarding-done', true);
+		update_site_option( 'wds-onboarding-done', true );
 
-		switch ($target) {
+		switch ( $target ) {
 			case 'checkup-enable':
-				$opts = WDS_Settings::get_specific_options('wds_settings_options');
+				$opts = Smartcrawl_Settings::get_specific_options( 'wds_settings_options' );
 				$opts['checkup'] = true;
-				WDS_Settings::update_specific_options('wds_settings_options', $opts);
+				Smartcrawl_Settings::update_specific_options( 'wds_settings_options', $opts );
 
-				$opts = WDS_Settings::get_component_options(WDS_Settings::COMP_CHECKUP);
-				$opts['checkup-cron-enable'] = true;
-				WDS_Settings::update_component_options(WDS_Settings::COMP_CHECKUP, $opts);
+				if ( Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SITE )->is_member() ) {
+					$opts = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_CHECKUP );
+					$opts['checkup-cron-enable'] = true;
+					Smartcrawl_Settings::update_component_options( Smartcrawl_Settings::COMP_CHECKUP, $opts );
+				}
 
-				$service = WDS_Service::get(WDS_Service::SERVICE_CHECKUP);
-				$service->start();
+				$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
+				$result = $service->start();
+				if ( ! $result ) { $service->start(); }
 
 				return wp_send_json_success();
 			case 'checkup-run':
-				$service = WDS_Service::get(WDS_Service::SERVICE_CHECKUP);
+				$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
 				$service->start();
 				return wp_send_json_success();
 			case 'analysis-enable':
-				$opts = WDS_Settings::get_specific_options('wds_settings_options');
+				$opts = Smartcrawl_Settings::get_specific_options( 'wds_settings_options' );
 				$opts['analysis-seo'] = true;
 				$opts['analysis-readability'] = true;
-				WDS_Settings::update_specific_options('wds_settings_options', $opts);
+				Smartcrawl_Settings::update_specific_options( 'wds_settings_options', $opts );
 				return wp_send_json_success();
 			case 'opengraph-enable':
-				$opts = WDS_Settings::get_component_options(WDS_Settings::COMP_SOCIAL);
+				$opts = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_SOCIAL );
 				$opts['og-enable'] = true;
-				WDS_Settings::update_component_options(WDS_Settings::COMP_SOCIAL, $opts);
+				Smartcrawl_Settings::update_component_options( Smartcrawl_Settings::COMP_SOCIAL, $opts );
 				return wp_send_json_success();
 			case 'sitemaps-enable':
-				$opts = WDS_Settings::get_specific_options('wds_settings_options');
+				$opts = Smartcrawl_Settings::get_specific_options( 'wds_settings_options' );
 				$opts['sitemap'] = true;
-				WDS_Settings::update_specific_options('wds_settings_options', $opts);
+				Smartcrawl_Settings::update_specific_options( 'wds_settings_options', $opts );
 				return wp_send_json_success();
 			case 'twitter-enable':
-				$opts = WDS_Settings::get_component_options(WDS_Settings::COMP_SOCIAL);
+				$opts = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_SOCIAL );
 				$opts['twitter-card-enable'] = true;
-				WDS_Settings::update_component_options(WDS_Settings::COMP_SOCIAL, $opts);
+				Smartcrawl_Settings::update_component_options( Smartcrawl_Settings::COMP_SOCIAL, $opts );
 				return wp_send_json_success();
 			default:
 				return wp_send_json_error();
@@ -141,20 +144,20 @@ class WDS_Controller_Onboard extends WDS_Renderable {
 		return wp_send_json_error();
 	}
 
-	public function add_onboarding () {
-		if (get_site_option('wds-onboarding-done', false)) return false;
+	public function add_onboarding() {
+		if ( get_site_option( 'wds-onboarding-done', false ) ) { return false; }
 
-		$version = WDS_Loader::get_version();
-		wp_enqueue_script('wds-onboard', WDS_PLUGIN_URL . 'js/wds-admin-onboard.js', array('wds-admin'), $version);
+		$version = Smartcrawl_Loader::get_version();
+		wp_enqueue_script( 'wds-onboard', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-onboard.js', array( 'wds-admin' ), $version );
 		wp_localize_script('wds-onboard', '_wds_onboard', array(
 			'templates' => array(
-				'progress' => $this->_load('dashboard/onboard-progress'),
+				'progress' => $this->_load( 'dashboard/onboard-progress' ),
 			),
 			'strings' => array(
-				'All done' => __('All done, please hold on...', 'wds'),
+				'All done' => __( 'All done, please hold on...', 'wds' ),
 			),
 		));
 
-		$this->_render('dashboard/onboarding');
+		$this->_render( 'dashboard/onboarding' );
 	}
 }

@@ -33,7 +33,8 @@ class MP_Installer {
 	 * @access public
 	 */
 	private function __construct() {
-		add_action( 'init', array( &$this, 'run' ) );
+		$this->run();
+
 		add_action( 'after_switch_theme', array( &$this, 'add_admin_store_caps' ) );
 		add_action( 'admin_notices', array( &$this, 'db_update_notice' ) );
 		add_action( 'admin_menu', array( &$this, 'add_menu_items' ), 99 );
@@ -42,6 +43,8 @@ class MP_Installer {
 			&$this,
 			'enqueue_db_update_scripts',
 		) );
+		// Give admin role all store capabilities
+		add_action( 'init', array( $this, 'add_admin_store_caps' ) );
 	}
 
 	/**
@@ -691,6 +694,9 @@ class MP_Installer {
 		// Create/update product attributes table
 		$this->create_product_attributes_table();
 
+		// Add "term_order" to $wpdb->terms table
+		$this->add_term_order_column();
+
 		//If current MP version equals to old version skip importer
 		if ( MP_VERSION == $old_version && 0 == $force_upgrade ) {
 			return;
@@ -741,15 +747,15 @@ class MP_Installer {
 			if ( version_compare( $old_version, '3.2.6', '<' ) || ( false !== $force_version && version_compare( $force_version, '3.2.6', '<' ) ) ) {
 				$this->update_326();
 			}
+
+			// 3.2.8 update.
+			if ( version_compare( $old_version, '3.2.8', '<' ) || ( false !== $force_version && version_compare( $force_version, '3.2.8', '<' ) ) ) {
+				$this->upgrade_328();
+			}
 		} // End if().
 
 		// Update settings
 		update_option( 'mp_settings', $settings );
-
-		// Give admin role all store capabilities
-		$this->add_admin_store_caps();
-		// Add "term_order" to $wpdb->terms table
-		$this->add_term_order_column();
 
 		// Only run these on first install
 		if ( empty( $old_settings ) ) {
@@ -1411,6 +1417,34 @@ class MP_Installer {
 
 			if ( isset( $price ) ) {
 				update_post_meta( $product_id, 'sort_price', $price );
+			}
+		}
+	}
+
+
+	/**
+	 * Update to version 3.2.8.
+	 *
+	 * Adds enabled options for sending all notification types.
+	 *
+	 * @since 3.2.8
+	 * @access private
+	 */
+	private function upgrade_328() {
+		$settings = get_option( 'mp_settings' );
+		//only if this setting is overwritten
+		if ( $settings ) {
+			$notification_kinds = array(
+				'new_order',
+				'new_order_mixed',
+				'new_order_downloads',
+				'order_shipped',
+				'order_shipped_mixed',
+				'order_shipped_downloads',
+				'admin_order',
+			);
+			foreach ( $notification_kinds as $kind ) {
+				mp_update_setting( 'email->' . $kind . '->send_email', 1 );
 			}
 		}
 	}

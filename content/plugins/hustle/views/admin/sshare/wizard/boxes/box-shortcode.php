@@ -33,7 +33,7 @@ function wpmudev_copy_field($field_value) {
 
         <label><?php _e( "Shortcode", Opt_In::TEXT_DOMAIN ); ?></label>
 
-        <?php wpmudev_copy_field("[wd_hustle id=". $module->shortcode_id ." type=social_sharing]"); ?>
+        <?php wpmudev_copy_field("[wd_hustle id='". $module->shortcode_id ."' type='social_sharing']"); ?>
 
 	</div>
 

@@ -291,14 +291,14 @@ final class FL_Debug {
 		}
 
 		$args = array(
-			'name' => 'Licence',
+			'name' => 'License',
 			'data' => self::divider(),
 		);
-		self::register( 'licence', $args );
+		self::register( 'license', $args );
 
 		if ( true === FL_BUILDER_LITE ) {
 			$args = array(
-				'name' => 'Beaver Builder Licence',
+				'name' => 'Beaver Builder License',
 				'data' => 'Lite version detected',
 			);
 			self::register( 'bb_sub_lite', $args );
@@ -306,14 +306,14 @@ final class FL_Debug {
 		} else {
 			$subscription = FLUpdater::get_subscription_info();
 			$args = array(
-				'name' => 'Beaver Builder Licence',
+				'name' => 'Beaver Builder License',
 				'data' => ( $subscription->active ) ? 'Active' : 'Not Active',
 			);
 			self::register( 'bb_sub', $args );
 
 			if ( isset( $subscription->error ) ) {
 				$args = array(
-					'name' => 'Licence Error',
+					'name' => 'License Error',
 					'data' => $subscription->error,
 				);
 				self::register( 'bb_sub_err', $args );

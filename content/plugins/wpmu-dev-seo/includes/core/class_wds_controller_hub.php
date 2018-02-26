@@ -1,13 +1,13 @@
 <?php
 
-class WDS_Controller_Hub {
+class Smartcrawl_Controller_Hub {
 
 
 	private static $_instance;
 
 	private $_is_running = false;
 
-	private function __construct () {}
+	private function __construct() {}
 
 	/**
 	 * Boot controller listeners
@@ -16,9 +16,9 @@ class WDS_Controller_Hub {
 	 *
 	 * @return bool Status
 	 */
-	public static function serve () {
-		$me = WDS_Controller_Hub::get();
-		if ($me->is_running()) return false;
+	public static function serve() {
+		$me = Smartcrawl_Controller_Hub::get();
+		if ( $me->is_running() ) { return false; }
 
 		$me->_add_hooks();
 		return true;
@@ -27,18 +27,18 @@ class WDS_Controller_Hub {
 	/**
 	 * Obtain instance without booting up
 	 *
-	 * @return WDS_Controller_Hub instance
+	 * @return Smartcrawl_Controller_Hub instance
 	 */
-	public static function get () {
-		if (empty(self::$_instance)) self::$_instance = new self;
+	public static function get() {
+		if ( empty( self::$_instance ) ) { self::$_instance = new self; }
 		return self::$_instance;
 	}
 
 	/**
 	 * Bind listening actions
 	 */
-	private function _add_hooks () {
-		add_filter('wdp_register_hub_action', array($this, 'register_hub_actions'));
+	private function _add_hooks() {
+		add_filter( 'wdp_register_hub_action', array( $this, 'register_hub_actions' ) );
 
 		$this->_is_running = true;
 	}
@@ -48,7 +48,7 @@ class WDS_Controller_Hub {
 	 *
 	 * @return bool Status
 	 */
-	public function is_running () {
+	public function is_running() {
 		return $this->_is_running;
 	}
 
@@ -59,15 +59,14 @@ class WDS_Controller_Hub {
 	 *
 	 * @return array Augmented actions
 	 */
-	public function register_hub_actions ($actions) {
-		if (!is_array($actions)) return $actions;
+	public function register_hub_actions( $actions ) {
+		if ( ! is_array( $actions ) ) { return $actions; }
 
-		$actions['wds-sync-ignores'] = array($this, 'json_sync_ignores_list');
-		$actions['wds-purge-ignores'] = array($this, 'json_purge_ignores_list');
+		$actions['wds-sync-ignores'] = array( $this, 'json_sync_ignores_list' );
+		$actions['wds-purge-ignores'] = array( $this, 'json_purge_ignores_list' );
 
-		$actions['wds-sync-extras'] = array($this, 'json_sync_extras_list');
-		$actions['wds-purge-extras'] = array($this, 'json_purge_extras_list');
-
+		$actions['wds-sync-extras'] = array( $this, 'json_sync_extras_list' );
+		$actions['wds-purge-extras'] = array( $this, 'json_purge_extras_list' );
 
 		return $actions;
 	}
@@ -82,19 +81,19 @@ class WDS_Controller_Hub {
 	 *
 	 * @return bool Status
 	 */
-	public function sync_ignores_list ($params=array(), $action='') {
-		if (!class_exists('WDS_Model_Ignores')) require_once(WDS_PLUGIN_DIR . 'core/class_wds_model_ignores.php');
-		$ignores = new WDS_Model_Ignores;
+	public function sync_ignores_list( $params = array(), $action = '' ) {
+		if ( ! class_exists( 'Smartcrawl_Model_Ignores' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . 'core/class_wds_model_ignores.php' ); }
+		$ignores = new Smartcrawl_Model_Ignores;
 
-		$data = stripslashes_deep((array)$params);
-		if (empty($data['issue_ids']) || !is_array($data['issue_ids'])) {
+		$data = stripslashes_deep( (array) $params );
+		if ( empty( $data['issue_ids'] ) || ! is_array( $data['issue_ids'] ) ) {
 			return false;
 		}
 
 		$status = true;
-		foreach ($data['issue_ids'] as $issue_id) {
-			$tmp = $ignores->set_ignore($issue_id);
-			if (!$tmp) $status = false;
+		foreach ( $data['issue_ids'] as $issue_id ) {
+			$tmp = $ignores->set_ignore( $issue_id );
+			if ( ! $tmp ) { $status = false; }
 		}
 
 		return $status;
@@ -108,13 +107,12 @@ class WDS_Controller_Hub {
 	 * @param object $params Hub-provided parameters
 	 * @param string $action Action called
 	 */
-	public function json_sync_ignores_list ($params=array(), $action='') {
-		WDS_Logger::info('Received ignores syncing request');
-		$status = $this->sync_ignores_list($params, $action);
-		return !empty($status)
+	public function json_sync_ignores_list( $params = array(), $action = '' ) {
+		Smartcrawl_Logger::info( 'Received ignores syncing request' );
+		$status = $this->sync_ignores_list( $params, $action );
+		return ! empty( $status )
 			? wp_send_json_success()
-			: wp_send_json_error()
-		;
+			: wp_send_json_error();
 	}
 
 	/**
@@ -127,9 +125,9 @@ class WDS_Controller_Hub {
 	 *
 	 * @return bool Status
 	 */
-	public function purge_ignores_list ($params=array(), $action='') {
-		if (!class_exists('WDS_Model_Ignores')) require_once(WDS_PLUGIN_DIR . 'core/class_wds_model_ignores.php');
-		$ignores = new WDS_Model_Ignores;
+	public function purge_ignores_list( $params = array(), $action = '' ) {
+		if ( ! class_exists( 'Smartcrawl_Model_Ignores' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . 'core/class_wds_model_ignores.php' ); }
+		$ignores = new Smartcrawl_Model_Ignores;
 
 		return $ignores->clear();
 	}
@@ -142,13 +140,12 @@ class WDS_Controller_Hub {
 	 * @param object $params Hub-provided parameters
 	 * @param string $action Action called
 	 */
-	public function json_purge_ignores_list ($params=array(), $action='') {
-		WDS_Logger::info('Received ignores purging request');
-		$status = $this->purge_ignores_list($params, $action);
-		return !empty($status)
+	public function json_purge_ignores_list( $params = array(), $action = '' ) {
+		Smartcrawl_Logger::info( 'Received ignores purging request' );
+		$status = $this->purge_ignores_list( $params, $action );
+		return ! empty( $status )
 			? wp_send_json_success()
-			: wp_send_json_error()
-		;
+			: wp_send_json_error();
 	}
 
 	/**
@@ -161,19 +158,19 @@ class WDS_Controller_Hub {
 	 *
 	 * @return bool Status
 	 */
-	public function sync_extras_list ($params=array(), $action='') {
-		if (!class_exists('WDS_XML_Sitemap')) require_once(WDS_PLUGIN_DIR . 'tools/sitemaps.php');
-		$data = stripslashes_deep((array)$params);
-		if (empty($data['urls']) || !is_array($data['urls'])) {
+	public function sync_extras_list( $params = array(), $action = '' ) {
+		if ( ! class_exists( 'Smartcrawl_Xml_Sitemap' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . 'tools/sitemaps.php' ); }
+		$data = stripslashes_deep( (array) $params );
+		if ( empty( $data['urls'] ) || ! is_array( $data['urls'] ) ) {
 			return false;
 		}
 
-		$existing = WDS_XML_Sitemap::get_extra_urls();
-		foreach ($data['urls'] as $url) {
-			$existing[] = esc_url($url);
+		$existing = Smartcrawl_Xml_Sitemap::get_extra_urls();
+		foreach ( $data['urls'] as $url ) {
+			$existing[] = esc_url( $url );
 		}
 
-		return WDS_XML_Sitemap::set_extra_urls($existing);
+		return Smartcrawl_Xml_Sitemap::set_extra_urls( $existing );
 	}
 
 	/**
@@ -184,13 +181,12 @@ class WDS_Controller_Hub {
 	 * @param object $params Hub-provided parameters
 	 * @param string $action Action called
 	 */
-	public function json_sync_extras_list ($params=array(), $action='') {
-		WDS_Logger::info('Received extras syncing request');
-		$status = $this->sync_extras_list($params, $action);
-		return !empty($status)
+	public function json_sync_extras_list( $params = array(), $action = '' ) {
+		Smartcrawl_Logger::info( 'Received extras syncing request' );
+		$status = $this->sync_extras_list( $params, $action );
+		return ! empty( $status )
 			? wp_send_json_success()
-			: wp_send_json_error()
-		;
+			: wp_send_json_error();
 	}
 
 	/**
@@ -203,9 +199,9 @@ class WDS_Controller_Hub {
 	 *
 	 * @return bool Status
 	 */
-	public function purge_extras_list ($params=array(), $action='') {
-		if (!class_exists('WDS_XML_Sitemap')) require_once(WDS_PLUGIN_DIR . 'tools/sitemaps.php');
-		return WDS_XML_Sitemap::set_extra_urls(array());
+	public function purge_extras_list( $params = array(), $action = '' ) {
+		if ( ! class_exists( 'Smartcrawl_Xml_Sitemap' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . 'tools/sitemaps.php' ); }
+		return Smartcrawl_Xml_Sitemap::set_extra_urls( array() );
 	}
 
 	/**
@@ -216,12 +212,11 @@ class WDS_Controller_Hub {
 	 * @param object $params Hub-provided parameters
 	 * @param string $action Action called
 	 */
-	public function json_purge_extras_list ($params=array(), $action='') {
-		$status = $this->purge_extras_list($params, $action);
-		return !empty($status)
+	public function json_purge_extras_list( $params = array(), $action = '' ) {
+		$status = $this->purge_extras_list( $params, $action );
+		return ! empty( $status )
 			? wp_send_json_success()
-			: wp_send_json_error()
-		;
+			: wp_send_json_error();
 	}
 
 

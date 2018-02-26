@@ -61,8 +61,8 @@ class FLNumbersModule extends FLBuilderModule {
 		if ( $wp_locale ) {
 			$i18n_decimal = $wp_locale->number_format['decimal_point'];
 
-			// French and Norwegian uses SPACE (&nbsp;) as thousands separator.
-			$i18n_thousand = str_replace( '&nbsp;', ' ', $wp_locale->number_format['thousands_sep'] );
+			// French and Norwegian uses SPACE (&nbsp;) as thousands separator. Deutsch(Schweiz) uses single quote.
+			$i18n_thousand = str_replace( array( '&nbsp;', "'" ), array( ' ', "\\'" ), $wp_locale->number_format['thousands_sep'] );
 
 			if ( ! empty( $i18n_decimal ) ) {
 				$format_decimal = $i18n_decimal;

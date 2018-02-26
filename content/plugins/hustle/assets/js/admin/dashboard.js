@@ -31,29 +31,29 @@ Hustle.define("Dashboard.View", function($, doc, win){
 			"click .wpmudev-box-action": "hide"
 		},
 		initialize: function( opts ){
-			
+
 			if ( !_.isEmpty( optin_vars.top_active_modules ) && typeof google !== 'undefined' ) {
 				google.charts.load('current', {packages: ['corechart', 'line']});
 				google.charts.setOnLoadCallback(this.drawLineStyles);
 			}
-			
+
 			return this.render();
 		},
 		drawLineStyles: function() {
 			var data = new google.visualization.DataTable();
 			data.addColumn('date', 'Day');
-			
+
 			var colors_arr = [];
-			
+
 			_.each( optin_vars.top_active_modules, function( module, key ) {
 				data.addColumn( 'number', module.module_name );
 				colors_arr.push(module.color);
 			} );
-			
+
 			if ( _.isEmpty( optin_vars.graph_date_conversions ) ) {
 				return;
 			}
-			
+
 			_.each( optin_vars.graph_date_conversions, function( date_conversion, key ) {
 				var date_data = [ new Date( date_conversion['formatted'] ) ];
 				_.each( date_conversion['conversions'], function( conversion ) {
@@ -61,7 +61,7 @@ Hustle.define("Dashboard.View", function($, doc, win){
 				} );
 				data.addRows([date_data]);
 			} );
-			
+
 			var options = {
 			  curveType: 'function',
 			  legend: { position: 'none' },
@@ -125,10 +125,10 @@ Hustle.define("Dashboard.View", function($, doc, win){
 			$(".can-close .wph-icon.i-close").on('click', this.close);
 			$(".can-hide .wpmudev-box-action").on('click', this.hide);
 			$("a#sshare_view_all_stats").on('click', this.toggle_sshare_modal);
-			$(".wpmudev-box-head .wpmudev-icon.wpmudev-i_close").on('click', this.toggle_sshare_modal);
+			$(".wpmudev-box-head .wpmudev-icon.wpmudev-i_close").on('click', this.close);
 			$("#wpmudev-dashboard-widget-modules .wpmudev-box-head").on('click', this.toggle_module_accordion);
 			this.handle_sshare_modal_pagination();
-			
+
 			var canvas = $("#conversions_chart");
 			if( !canvas.length ) return;
 
@@ -136,34 +136,34 @@ Hustle.define("Dashboard.View", function($, doc, win){
 				// setting canvas height
 				var $module_table = canvas.closest('#wph-module-stats').find('table.wph-table.wph-module--stats'),
 					module_table_height = $module_table.outerHeight();
-				
+
 				if ( module_table_height > 230 ) {
 					canvas.attr('height', module_table_height);
 				} else {
 					canvas.attr('height', 230);
 				}
-				
+
 				// sort the dates properly
 				for( var key in this.chart_data.datasets ) {
 					if ( this.chart_data.datasets[key].data ) {
 						this.chart_data.datasets[key].data = _.sortBy(this.chart_data.datasets[key].data, "x");
 					}
 				}
-				
+
 				// rendering the chart
 				this.conversions_chart = new Chart(canvas, {
 					type: 'line',
 					data: this.chart_data,
 					options: this.chart_options
 				});
-				
+
 			} else {
 				canvas.parent()
 					.css('height', '100%')
 					.css('width', '100%')
 					.css('display', 'table')
 				;
-				
+
 				var $no_data = $('<div class="graph-no-data">' + optin_vars.messages.dashboard.not_enough_data + '</div>');
 				$no_data
 					.css('display', 'table-cell')
@@ -178,7 +178,7 @@ Hustle.define("Dashboard.View", function($, doc, win){
 				$body = $this.parents('.wpmudev-box').find(".wpmudev-box-body"),
 				$head = $this.parents('.wpmudev-box').find(".wpmudev-box-head")
 			;
-				
+
 			$body.slideToggle( 'fast', function(){
 				$head.toggleClass('wpmudev-collapsed');
 				$body.toggleClass('wpmudev-hidden');
@@ -187,7 +187,7 @@ Hustle.define("Dashboard.View", function($, doc, win){
 		close: function(e){
 			e.preventDefault();
 			// var $parent_section = $(e.target).closest('.content-box').remove();
-			var $parent_container = $(e.target).closest('.row'),
+			var $parent_container = $(e.target).closest('.wpmudev-row'),
 				$parent_section = $(e.target).closest('#wph-welcome'),
 				nonce = $parent_section.data("nonce")
 			;
@@ -216,7 +216,7 @@ Hustle.define("Dashboard.View", function($, doc, win){
 				value = $this.find('input').val(),
 				$target = $("#wph-"+ value +"-overview"),
 				$li = $this.parent();
-			
+
 			$(".wph-modules-overview").not($target).removeClass("current");
 			$target.addClass("current");
 			$(".tabs-header li").not($li).removeClass("current");
@@ -236,7 +236,7 @@ Hustle.define("Dashboard.View", function($, doc, win){
 		sshare_modal_prev: function(e) {
 			e.preventDefault();
 			e.stopImmediatePropagation();
-			
+
 			var $li = $(e.target).closest('li'),
 				$ul = $li.parent(),
 				nonce = $ul.data('nonce'),
@@ -246,17 +246,17 @@ Hustle.define("Dashboard.View", function($, doc, win){
 				total = parseInt($ul.data('total')),
 				current_page = parseInt($current.data('page')),
 				prev_target = parseInt($li.data('page'));
-				
+
 			// update current page
 			$current.data('page', prev_target);
-			
+
 			// update next link
 			var $new_next_html = $next.find('svg');
 			$next.data( 'page', current_page );
 			if ( $new_next_html.length ) {
 				$next.html('<a href="#">'+ $new_next_html[0].outerHTML +'</a>');
 			}
-			
+
 			if ( prev_target == 1 ) {
 				// disable prev button
 				var $new_html = $li.find('svg');
@@ -273,7 +273,7 @@ Hustle.define("Dashboard.View", function($, doc, win){
 				var page_number_html = '<li class="wph-link wph-sshare--page_number" data-page="'+ current_page +'"><a href="#">'+ current_page +'</a></li>';
 				$(page_number_html).insertAfter($current);
 			}
-			
+
 			$current.find('span').text(prev_target);
 			$li.data('page', prev_target - 1);
 			this.handle_sshare_modal_pagination();
@@ -282,7 +282,7 @@ Hustle.define("Dashboard.View", function($, doc, win){
 		sshare_modal_next: function(e) {
 			e.preventDefault();
 			e.stopImmediatePropagation();
-			
+
 			var $li = $(e.target).closest('li'),
 				$ul = $li.parent(),
 				nonce = $ul.data('nonce'),
@@ -292,17 +292,17 @@ Hustle.define("Dashboard.View", function($, doc, win){
 				total = parseInt($ul.data('total')),
 				current_page = parseInt($current.data('page')),
 				next_target = parseInt($li.data('page'));
-			
+
 			// update current page
 			$current.data('page', next_target);
-			
+
 			// update prev link
 			var $new_prev_html = $prev.find('svg');
 			$prev.data( 'page', current_page );
 			if ( $new_prev_html.length ) {
 				$prev.html('<a href="#">'+ $new_prev_html[0].outerHTML +'</a>');
 			}
-			
+
 			if ( next_target < total ) {
 				// update page number
 				if ( $page_number.length ) {
@@ -319,7 +319,7 @@ Hustle.define("Dashboard.View", function($, doc, win){
 					$li.html('<span>' + $new_html[0].outerHTML + '</span>');
 				}
 			}
-			
+
 			$current.find('span').text(next_target);
 			this.handle_sshare_modal_pagination();
 			this.sshare_show_page_content(next_target, nonce);
@@ -327,19 +327,19 @@ Hustle.define("Dashboard.View", function($, doc, win){
 		sshare_modal_goto: function(e) {
 			e.preventDefault();
 			e.stopImmediatePropagation();
-			
+
 			var $li = $(e.target).closest('li'),
 				$ul = $li.parent();
-			
+
 			// fire the next button click event
 			$ul.find("li.wph-sshare--next_page a").click();
 		},
 		sshare_show_page_content: function(page, nonce){
 			var ss_modal_template = Optin.template('wpmudev-hustle-sshare-stats-modal-tpl'),
 				$table_items = $('#wph-comulative-shares-modal table.wpmudev-table-paginated tbody');
-			
+
 			$table_items.html('<div class="wph-sshare--loading_stats"><span class="on-action">Loading...</span></div>');
-			
+
 			$.ajax({
 				url: ajaxurl,
 				type: "POST",
@@ -351,7 +351,7 @@ Hustle.define("Dashboard.View", function($, doc, win){
 				complete: function(resp){
 					var data = resp.responseJSON.data,
 						items_html = ss_modal_template( _.extend( {}, data ) );
-						
+
 					$table_items.html(items_html);
 				}
 			});

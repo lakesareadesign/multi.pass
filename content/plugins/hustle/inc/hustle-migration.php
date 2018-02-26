@@ -98,7 +98,11 @@ class Hustle_Migration
 					$module->add_meta( 'track_types', $optin->track_types );
 					$module->add_meta( 'test_types', $optin->test_types );
 					$module->add_meta( 'error_logs', $optin->error_logs );
-					$module->add_meta( 'subscription', $optin->subscription );
+
+					// pop-up subscriptions
+					foreach( $optin->subscription as $subscription) {
+						$module->add_meta( 'subscription', $subscription);
+					}
 
 					// pop-up views
 					foreach( $optin->popup_views as $view ) {
@@ -121,6 +125,14 @@ class Hustle_Migration
 				}
 				$module->save();
 
+				// Change slide_in value to slidein.
+				$track_types = json_decode($optin->track_types, true);
+				if ( isset($track_types['slide_in']) ) {
+					$track_types['slidein'] = $track_types['slide_in'];
+					unset($track_types['slide_in']);
+					$optin->track_types = json_encode($track_types);
+				}
+
 				// save to meta table
 				$module->add_meta( $this->_hustle->get_const_var( "KEY_CONTENT", $module ), $this->_parse_optin_content($optin) );
 				$module->add_meta( $this->_hustle->get_const_var( "KEY_DESIGN", $module ), $this->_parse_optin_design($optin) );
@@ -130,8 +142,11 @@ class Hustle_Migration
 				$module->add_meta( 'track_types', $optin->track_types );
 				$module->add_meta( 'test_types', $optin->test_types );
 				$module->add_meta( 'error_logs', $optin->error_logs );
-				$module->add_meta( 'subscription', $optin->subscription );
 
+				// slide-in subscriptions
+				foreach( $optin->subscription as $subscription) {
+					$module->add_meta( 'subscription', $subscription);
+				}
 				// slide-in views
 				foreach( $optin->slidein_views as $view ) {
 					$module->add_meta( 'slidein_view', $view );
@@ -164,8 +179,11 @@ class Hustle_Migration
 				$module->add_meta( 'track_types', $optin->track_types );
 				$module->add_meta( 'test_types', $optin->test_types );
 				$module->add_meta( 'error_logs', $optin->error_logs );
-				$module->add_meta( 'subscription', $optin->subscription );
 
+				// embed subscriptions
+				foreach( $optin->subscription as $subscription) {
+					$module->add_meta( 'subscription', $subscription);
+				}
 				// shortcode views
 				foreach( $optin->shortcode_views as $view ) {
 					$module->add_meta( 'shortcode_view', $view );
@@ -300,12 +318,15 @@ class Hustle_Migration
 				$input_icons = '';
 			}
 
+			// Map CSS to new classes.
+			$custom_css = $this->_map_optin_css($optin_design->css);
+
 			$design = array(
 				'form_layout' => $form_layout,
 				'feature_image_position' => ( isset( $optin_design->image_location ) ) ? $optin_design->image_location : 'left',
 				'feature_image_fit' => 'cover',
 				'customize_css' => ( isset( $optin_design->customize_css ) ) ? $optin_design->customize_css : '',
-				'custom_css' => ( isset( $optin_design->custom_css ) ) ? $optin_design->custom_css : '',
+				'custom_css' => $custom_css,
 				'form_fields_icon' => $input_icons,
 
 			);
@@ -374,7 +395,6 @@ class Hustle_Migration
 			}
 
 		}
-
 
 		return json_encode($design);
 	}
@@ -514,6 +534,115 @@ class Hustle_Migration
 		return $embed_settings;
 	}
 
+	// Take old classes and replace them with new.
+	private function _map_optin_css($custom_css) {
+		if ( ! empty( $custom_css ) ) {
+			$custom_css = str_replace( '#popup', '', $custom_css );
+
+			$css1 = explode( '}', $custom_css );
+			$css1 = array_filter( $css1 );
+
+			foreach( $css1 as $pos => $css2 ) {
+				$css1[ $pos ] = substr( $css2, 0, strrpos( $css2, '{') );
+			}
+
+			if ( count( $css1 ) > 0 ) {
+				foreach ( $css1 as $css3 ) {
+					$css4 = explode( ',', $css3 );
+					$css4 = array_filter( $css4 );
+
+					foreach ( $css4 as $css ) {
+						$selector = $css;
+						$css_1 = $css;
+
+						// Main class.
+						if ( preg_match( '|.wpoi-hustle|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-hustle', '.hustle-modal', $css_1 );
+						}
+
+						// Container.
+						if ( preg_match( '|.wpoi-optin|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-optin', '.hustle-modal-body', $css_1 );
+						}
+
+						// Form.
+						if ( preg_match( '|.wpoi-form|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-form', '.hustle-modal-optin_form', $css_1 );
+						}
+
+						// First Name.
+						if ( preg_match( '|.wpoi-subscribe-fname|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-subscribe-fname', '.hustle-modal-optin_field input[name="first_name"]', $css_1 );
+						}
+
+						// Last Name.
+						if ( preg_match( '|.wpoi-subscribe-lname|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-subscribe-lname', '.hustle-modal-optin_field input[name="last_name"]', $css_1 );
+						}
+
+						// Email.
+						if ( preg_match( '|.wpoi-subscribe-email|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-subscribe-email', '.hustle-modal-optin_field input[name="email"]', $css_1 );
+						}
+
+						// Button.
+						if ( preg_match( '|.wpoi-subscribe-send|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-subscribe-send', '.hustle-modal-optin_button button', $css_1 );
+						}
+
+						// Title.
+						if ( preg_match( '|.wpoi-title|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-title', '.hustle-modal-title', $css_1 );
+						}
+
+						// Message.
+						if ( preg_match( '|.wpoi-message|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-message', '.hustle-modal-article', $css_1 );
+						}
+
+						// Layout One.
+						if ( preg_match( '|.wpoi-layout-one|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-hustle .wpoi-layout-one', '.hustle-modal-one', $css_1 );
+							$css_1 = str_replace( '.wpoi-layout-one', '.hustle-modal-one', $css_1 );
+						}
+
+						// Layout Two.
+						if ( preg_match( '|.wpoi-layout-two|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-hustle .wpoi-layout-two', '.hustle-modal-two', $css_1 );
+							$css_1 = str_replace( '.wpoi-layout-two', '.hustle-modal-two', $css_1 );
+						}
+
+						// Layout Three.
+						if ( preg_match( '|.wpoi-layout-three|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-hustle .wpoi-layout-three', '.hustle-modal-three', $css_1 );
+							$css_1 = str_replace( '.wpoi-layout-three', '.hustle-modal-three', $css_1 );
+						}
+
+						// Layout Four.
+						if ( preg_match( '|.wpoi-layout-four|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-hustle .wpoi-layout-four', '.hustle-modal-four', $css_1 );
+							$css_1 = str_replace( '.wpoi-layout-four', '.hustle-modal-four', $css_1 );
+						}
+
+						// Column.
+						if ( preg_match( '|.wpoi-col|', $css_1 ) ) {
+							$css_1 = str_replace( '.wpoi-container .wpoi-col', '.hustle-modal-body', $css_1 );
+							$css_1 = str_replace( '.wpoi-col', '.hustle-modal-body', $css_1 );
+						}
+
+						$css = $css_1;
+
+						$custom_css = str_replace( $selector, $css, $custom_css );
+					}
+				}
+			}
+		} else {
+			$custom_css = '';
+		}
+		return $custom_css;
+
+	}
+
 	private function _migrate_custom_content($cc) {
 
 		//don't migrate the modules that don't belong to the blog requesting the migration (useful on MU)
@@ -566,6 +695,14 @@ class Hustle_Migration
 					$module->active = ( $slide_in->enabled === '1' ) ? '1' : '0';
 				}
 				$module->save();
+
+				// Change slide_in value to slidein.
+				$track_types = json_decode($cc->track_types, true);
+				if ( isset($track_types['slide_in']) ) {
+					$track_types['slidein'] = $track_types['slide_in'];
+					unset($track_types['slide_in']);
+					$cc->track_types = json_encode($track_types);
+				}
 
 				// save to meta table
 				$module->add_meta( $this->_hustle->get_const_var( "KEY_CONTENT", $module ), $this->_parse_cc_content($cc) );
@@ -696,6 +833,8 @@ class Hustle_Migration
 				$subtitle_color = '';
 			}
 
+			$custom_css = $this->_map_cc_css($cc_design->custom_css);
+
 			$design = array(
 				'feature_image_fit' => 'cover',
 				'feature_image_position' => ( isset( $cc_design->image_position ) ) ? $cc_design->image_position : 'left',
@@ -728,7 +867,7 @@ class Hustle_Migration
 				'custom_height' => $cc_design->custom_height,
 				'custom_width' => $cc_design->custom_width,
 				'customize_css' => $cc_design->customize_css,
-				'custom_css' => $cc_design->custom_css,
+				'custom_css' => $custom_css,
 			);
 		}
 
@@ -841,6 +980,81 @@ class Hustle_Migration
 		}
 		return $embed_settings;
 	}
+
+	// Take old classes and replace them with new.
+	private function _map_cc_css($custom_css) {
+		if ( ! empty( $custom_css ) ) {
+			$custom_css = str_replace( '#popup', '', $custom_css );
+
+			$css1 = explode( '}', $custom_css );
+			$css1 = array_filter( $css1 );
+
+			foreach( $css1 as $pos => $css2 ) {
+				$css1[ $pos ] = substr( $css2, 0, strrpos( $css2, '{') );
+			}
+
+			if ( count( $css1 ) > 0 ) {
+				foreach ( $css1 as $css3 ) {
+					$css4 = explode( ',', $css3 );
+					$css4 = array_filter( $css4 );
+
+					foreach ( $css4 as $css ) {
+						$selector = $css;
+						$css_1 = $css;
+
+						// Container.
+						if ( preg_match( '|.wph-modal.wph-modal-container .wph-modal--content|', $css_1 ) ) {
+							$css_1 = str_replace( '.wph-modal.wph-modal-container .wph-modal--content', '.hustle-modal .hustle-modal-body', $css_1 );
+						}
+
+						// Title.
+						if ( preg_match( '|.wph-modal.wph-modal-container.wph-customize-css h2.wph-modal--title|', $css_1 ) ) {
+							$css_1 = str_replace( '.wph-modal.wph-modal-container.wph-customize-css h2.wph-modal--title', '.hustle-modal-title', $css_1 );
+						}
+
+						// Subtitle.
+						if ( preg_match( '|.wph-modal.wph-modal-container.wph-customize-css .wph-modal--content h4.wph-modal--subtitle|', $css_1 ) ) {
+							$css_1 = str_replace( '.wph-modal.wph-modal-container.wph-customize-css .wph-modal--content h4.wph-modal--subtitle', '.hustle-modal-subtitle', $css_1 );
+						}
+
+						// Content.
+						if ( preg_match( '|.wph-modal .wph-modal--content .wph-modal--message|', $css_1 ) ) {
+							$css_1 = str_replace( '.wph-modal .wph-modal--content .wph-modal--message', '.hustle-modal-message', $css_1 );
+						}
+
+						// Image Container.
+						if ( preg_match( '|.wph-modal .wph-modal--content .wph-modal--image|', $css_1 ) ) {
+							$css_1 = str_replace( '.wph-modal .wph-modal--content .wph-modal--image', '.hustle-modal .hustle-modal-image', $css_1 );
+						}
+
+						// Image.
+						if ( preg_match( '|.wph-modal.wph-modal-container.wph-customize-css .wph-modal--content .wph-modal--image img|', $css_1 ) ) {
+							$css_1 = str_replace( '.wph-modal.wph-modal-container.wph-customize-css .wph-modal--content .wph-modal--image img', '.hustle-modal .hustle-modal-image .hustle-modal-feat_image, .hustle-modal .hustle-modal-image img', $css_1 );
+						}
+
+						// Button.
+						if ( preg_match( '|.wph-modal .wph-modal--cta|', $css_1 ) ) {
+							$css_1 = str_replace( '.wph-modal .wph-modal--cta', '.hustle-modal .hustle-modal-optin_form .hustle-modal-optin_button button', $css_1 );
+						}
+
+						// Main Container if still unchanged.
+						if ( preg_match( '|.wph-modal|', $css_1 ) ) {
+							$css_1 = str_replace( '.wph-modal', '.hustle-modal', $css_1 );
+						}
+
+						$css = $css_1;
+
+						$custom_css = str_replace( $selector, $css, $custom_css );
+					}
+				}
+			}
+		} else {
+			$custom_css = '';
+		}
+		return $custom_css;
+
+	}
+
 
 	private function _migrate_social_sharing($module) {
 

@@ -1,8 +1,16 @@
 <?php
+/**
+ * Checks hub
+ *
+ * @package wpmu-dev-seo
+ */
 
-if (!class_exists('WDS_WorkUnit')) require_once (dirname(__FILE__) . '/class_wds_work_unit.php');
+if ( ! class_exists( 'Smartcrawl_WorkUnit' ) ) { require_once( dirname( __FILE__ ) . '/class_wds_work_unit.php' ); }
 
-class WDS_Checks extends WDS_WorkUnit {
+/**
+ * Checks dispatcher class
+ */
+class Smartcrawl_Checks extends Smartcrawl_WorkUnit {
 
 	const ENDPOINT = 'endpoint';
 	const POST = 'post';
@@ -12,8 +20,7 @@ class WDS_Checks extends WDS_WorkUnit {
 	 *
 	 * @var array
 	 */
-	private $_endpoint_checks = array(
-	);
+	private $_endpoint_checks = array();
 
 	/**
 	 * Holds reference to checks that deal with raw post data
@@ -55,26 +62,26 @@ class WDS_Checks extends WDS_WorkUnit {
 	/**
 	 * Sets internal post ID
 	 *
-	 * @param int $post_id Post ID to check
+	 * @param int $post_id Post ID to check.
 	 *
 	 * @return bool Status
 	 */
-	public function set_post_id ($post_id) {
-		return !!$this->_post_id = (int)$post_id;
+	public function set_post_id( $post_id ) {
+		return ! ! $this->_post_id = (int) $post_id;
 	}
 
 	/**
 	 * Gets the list of checks to be performed
 	 *
-	 * @param string $which Which checks to perform
+	 * @param string $which Which checks to perform.
 	 *
 	 * @return array List of check IDs
 	 */
-	public function get_checks ($which=false) {
-		if (self::ENDPOINT === $which) return $this->_endpoint_checks;
-		if (self::POST === $which) return $this->_post_checks;
+	public function get_checks( $which = false ) {
+		if ( self::ENDPOINT === $which ) { return $this->_endpoint_checks; }
+		if ( self::POST === $which ) { return $this->_post_checks; }
 
-		return array_merge($this->_endpoint_checks, $this->_post_checks);
+		return array_merge( $this->_endpoint_checks, $this->_post_checks );
 	}
 
 	/**
@@ -82,16 +89,16 @@ class WDS_Checks extends WDS_WorkUnit {
 	 *
 	 * Applies all queued checks to the subject post
 	 *
-	 * @param int $post_id ID of the post to check
+	 * @param int $post_id ID of the post to check.
 	 *
-	 * @return object WDS_Checks instance
+	 * @return object Smartcrawl_Checks instance
 	 */
-	public static function apply ($post_id) {
+	public static function apply( $post_id ) {
 		$me = new self;
-		$me->set_post_id($post_id);
+		$me->set_post_id( $post_id );
 
-		if (!class_exists('WDS_Html')) require_once(WDS_PLUGIN_DIR . '/core/class_wds_html.php');
-		if (!class_exists('WDS_String')) require_once(WDS_PLUGIN_DIR . '/core/class_wds_string.php');
+		if ( ! class_exists( 'Smartcrawl_Html' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_html.php' ); }
+		if ( ! class_exists( 'Smartcrawl_String' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_string.php' ); }
 
 		$post_status = $me->apply_post_checks();
 		$endpoint_status = $me->apply_endpoint_checks();
@@ -104,7 +111,7 @@ class WDS_Checks extends WDS_WorkUnit {
 	 *
 	 * @return array
 	 */
-	public function get_applied_checks () {
+	public function get_applied_checks() {
 		return $this->_applied_checks;
 	}
 
@@ -113,9 +120,9 @@ class WDS_Checks extends WDS_WorkUnit {
 	 *
 	 * @return bool
 	 */
-	public function get_status () {
+	public function get_status() {
 		$errors = $this->get_errors();
-		return empty($errors);
+		return empty( $errors );
 	}
 
 	/**
@@ -125,12 +132,12 @@ class WDS_Checks extends WDS_WorkUnit {
 	 *
 	 * @return int Success percentage
 	 */
-	public function get_percentage () {
-		if ($this->get_status()) return 100;
+	public function get_percentage() {
+		if ( $this->get_status() ) { return 100; }
 
-		$cnum = count($this->get_checks());
-		$enum = count($this->get_errors());
-		$err = (int)(($enum / $cnum) * 100);
+		$cnum = count( $this->get_checks() );
+		$enum = count( $this->get_errors() );
+		$err = (int) (($enum / $cnum) * 100);
 
 		return 100 - $err;
 	}
@@ -140,13 +147,13 @@ class WDS_Checks extends WDS_WorkUnit {
 	 *
 	 * @return bool Overall status
 	 */
-	public function apply_post_checks () {
+	public function apply_post_checks() {
 		$subject = $this->apply_filters(
 			'subject-post',
 			false
 		);
-		if (empty($subject)) $subject = get_post($this->_post_id);
-		return $this->apply_checks($this->_post_checks, $subject);
+		if ( empty( $subject ) ) { $subject = get_post( $this->_post_id ); }
+		return $this->apply_checks( $this->_post_checks, $subject );
 	}
 
 	/**
@@ -154,49 +161,49 @@ class WDS_Checks extends WDS_WorkUnit {
 	 *
 	 * @return bool Overall status
 	 */
-	public function apply_endpoint_checks () {
-		if (empty($this->_endpoint_checks)) return true;
+	public function apply_endpoint_checks() {
+		if ( empty( $this->_endpoint_checks ) ) { return true; }
 
 		$subject = $this->apply_filters(
 			'subject-endpoint',
 			false
 		);
-		if (empty($subject)) $subject = $this->get_endpoint_content();
-		if (false === $subject) {
-			$this->add_error('checks', __('We encountered an error fetching your content', 'wds'));
+		if ( empty( $subject ) ) { $subject = $this->get_endpoint_content(); }
+		if ( false === $subject ) {
+			$this->add_error( 'checks', __( 'We encountered an error fetching your content', 'wds' ) );
 			return false;
 		}
 
-		return $this->apply_checks($this->_endpoint_checks, $subject);
+		return $this->apply_checks( $this->_endpoint_checks, $subject );
 	}
 
 	/**
 	 * Applies the checks in queue
 	 *
-	 * @param array $checks A list of checks to apply
-	 * @param mixed $sunject Subject to apply the checks to
+	 * @param array $checks A list of checks to apply.
+	 * @param mixed $subject Subject to apply the checks to.
 	 *
 	 * @return bool Overall status
 	 */
-	public function apply_checks ($checks, $subject) {
+	public function apply_checks( $checks, $subject ) {
 		$overall_result = true;
 
 		$keywords = $this->get_focus();
-		foreach ($checks as $check_id) {
-			$check = $this->get_check($check_id);
-			$check->set_subject($subject);
-			$check->set_focus($keywords);
+		foreach ( $checks as $check_id ) {
+			$check = $this->get_check( $check_id );
+			$check->set_subject( $subject );
+			$check->set_focus( $keywords );
 
-			$is_ignored = $this->is_ignored_check($check_id);
+			$is_ignored = $this->is_ignored_check( $check_id );
 			$result = true;
-			if (!$is_ignored) {
+			if ( ! $is_ignored ) {
 				$result = $check->apply();
-				if (!$result) {
+				if ( ! $result ) {
 					$overall_result = false;
-					$this->add_error($check_id, $check->get_status_msg());
+					$this->add_error( $check_id, $check->get_status_msg() );
 				}
 			}
-			$this->_applied_checks[$check_id] = array(
+			$this->_applied_checks[ $check_id ] = array(
 				'status' => $result,
 				'check' => $check,
 				'ignored' => $is_ignored,
@@ -209,20 +216,20 @@ class WDS_Checks extends WDS_WorkUnit {
 	/**
 	 * Instantiates check according to check ID
 	 *
-	 * @param string $check_id Check to be instantiated
+	 * @param string $check_id Check to be instantiated.
 	 *
-	 * @return bool|object WDS_Check_abstract object instance on success,
+	 * @return bool|object Smartcrawl_Check_abstract object instance on success,
 	 *                     (bool)false on failure
 	 */
-	public function get_check ($check_id) {
+	public function get_check( $check_id ) {
 		$fname = "class_wds_check_{$check_id}";
-		$cname = "WDS_Check_{$check_id}";
-		if (!class_exists($cname)) {
-			$fullpath = WDS_PLUGIN_DIR . '/core/checks/' . $fname . '.php';
-			if (!file_exists($fullpath)) return false;
+		$cname = "Smartcrawl_Check_{$check_id}";
+		if ( ! class_exists( $cname ) ) {
+			$fullpath = SMARTCRAWL_PLUGIN_DIR . '/core/checks/' . $fname . '.php';
+			if ( ! file_exists( $fullpath ) ) { return false; }
 			require_once $fullpath;
 		}
-		if (!class_exists($cname)) return false;
+		if ( ! class_exists( $cname ) ) { return false; }
 
 		return new $cname;
 	}
@@ -233,20 +240,19 @@ class WDS_Checks extends WDS_WorkUnit {
 	 * @return bool|string Endpoint content as string, or
 	 *                     (bool)false if something went wrong
 	 */
-	public function get_endpoint_content () {
+	public function get_endpoint_content() {
 		$content = false;
-		if (empty($this->_post_id)) return $content;
+		if ( empty( $this->_post_id ) ) { return $content; }
 
-		$permalink = get_permalink($this->_post_id);
-		if (empty($permalink)) return false;
+		$permalink = get_permalink( $this->_post_id );
+		if ( empty( $permalink ) ) { return false; }
 
-		$response = wp_remote_get($permalink, array(
-		));
+		$response = wp_remote_get( $permalink, array() );
 
-		if (is_wp_error($response)) return false;
-		if (200 !== wp_remote_retrieve_response_code($response)) return false;
+		if ( is_wp_error( $response ) ) { return false; }
+		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) { return false; }
 
-		$content = wp_remote_retrieve_body($response);
+		$content = wp_remote_retrieve_body( $response );
 		return $content;
 	}
 
@@ -255,11 +261,11 @@ class WDS_Checks extends WDS_WorkUnit {
 	 *
 	 * @return array A list of expected keywords
 	 */
-	public function get_focus () {
-		$post = get_post($this->_post_id);
-		if (!class_exists('WDS_OnPage')) require_once(WDS_PLUGIN_DIR . '/tools/onpage.php');
-		$keywords = WDS_OnPage::get()->get_focus_keywords($post);
-		return (array)$this->apply_filters(
+	public function get_focus() {
+		$post = get_post( $this->_post_id );
+		if ( ! class_exists( 'Smartcrawl_OnPage' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/tools/onpage.php' ); }
+		$keywords = Smartcrawl_OnPage::get()->get_focus_keywords( $post );
+		return (array) $this->apply_filters(
 			'focus',
 			$keywords, $this->_post_id
 		);
@@ -270,11 +276,13 @@ class WDS_Checks extends WDS_WorkUnit {
 	 *
 	 * Ignored checks are skipped in analysis
 	 *
+	 * @param int $post_id Post ID.
+	 *
 	 * @return array A list of check IDs
 	 */
-	public static function get_ignored_checks ($post_id) {
-		$ignored = get_post_meta($post_id, '_wds_ignored_checks', true);
-		return is_array($ignored) && !empty($ignored)
+	public static function get_ignored_checks( $post_id ) {
+		$ignored = get_post_meta( $post_id, '_wds_ignored_checks', true );
+		return is_array( $ignored ) && ! empty( $ignored )
 			? $ignored
 			: array()
 		;
@@ -283,66 +291,80 @@ class WDS_Checks extends WDS_WorkUnit {
 	/**
 	 * Updates a list of ignored checks
 	 *
-	 * @param int $post_id ID of the post
-	 * @param array $checks Full list of checks
+	 * @param int   $post_id ID of the post.
+	 * @param array $checks Full list of checks.
 	 *
 	 * @return bool
 	 */
-	public static function set_ignored_checks ($post_id, $checks) {
-		if (!is_array($checks)) return false;
-		$checks = array_filter(array_map('trim', array_unique($checks)));
-		return update_post_meta($post_id, '_wds_ignored_checks', $checks);
+	public static function set_ignored_checks( $post_id, $checks ) {
+		if ( ! is_array( $checks ) ) { return false; }
+		$checks = array_filter( array_map( 'trim', array_unique( $checks ) ) );
+		return update_post_meta( $post_id, '_wds_ignored_checks', $checks );
 	}
 
-	public static function is_readability_ignored ($post_id) {
-		$ignored = self::get_ignored_checks($post_id);
-		return in_array('readability', $ignored);
+	/**
+	 * Whether the readability check for this post is ignored
+	 *
+	 * @param int $post_id Post ID.
+	 *
+	 * @return bool
+	 */
+	public static function is_readability_ignored( $post_id ) {
+		$ignored = self::get_ignored_checks( $post_id );
+		return in_array( 'readability', $ignored );
 
 	}
 
 	/**
 	 * Adds a single check to the ignored checks stack
 	 *
-	 * @param int $post_id ID of the post
-	 * @param string $check_id ID of the check
+	 * @param int    $post_id ID of the post.
+	 * @param string $check_id ID of the check.
 	 *
 	 * @return bool
 	 */
-	public static function add_ignored_check ($post_id, $check_id) {
-		$ignored = self::get_ignored_checks($post_id);
+	public static function add_ignored_check( $post_id, $check_id ) {
+		$ignored = self::get_ignored_checks( $post_id );
 		$ignored[] = $check_id;
-		return self::set_ignored_checks($post_id, $ignored);
+		return self::set_ignored_checks( $post_id, $ignored );
 	}
 
 	/**
 	 * Removes a single check from the ignored checks stack
 	 *
-	 * @param int $post_id ID of the post
-	 * @param string $check_id ID of the check
+	 * @param int    $post_id ID of the post.
+	 * @param string $check_id ID of the check.
 	 *
 	 * @return bool
 	 */
-	public static function remove_ignored_check ($post_id, $check_id) {
-		$ignored = self::get_ignored_checks($post_id);
-		$key = array_search($check_id, $ignored);
+	public static function remove_ignored_check( $post_id, $check_id ) {
+		$ignored = self::get_ignored_checks( $post_id );
+		$key = array_search( $check_id, $ignored );
 
-		if (false === $key) return false;
-		unset ($ignored[$key]);
+		if ( false === $key ) { return false; }
+		unset( $ignored[ $key ] );
 
-		return self::set_ignored_checks($post_id, $ignored);
+		return self::set_ignored_checks( $post_id, $ignored );
 	}
 
 	/**
 	 * Checks whether a check is to be ignored for the current post
 	 *
-	 * @param string $check_id ID of the check
+	 * @param string $check_id ID of the check.
 	 *
 	 * @return bool
 	 */
-	public function is_ignored_check ($check_id) {
-		$ignored = self::get_ignored_checks($this->_post_id);
-		return in_array($check_id, $ignored);
+	public function is_ignored_check( $check_id ) {
+		$ignored = self::get_ignored_checks( $this->_post_id );
+		return in_array( $check_id, $ignored );
 	}
 
-	public function get_filter_prefix () { return 'wds-checks'; }
+	/**
+	 * Gets filtering prefix
+	 *
+	 * @return string
+	 */
+	public function get_filter_prefix() {
+		return 'wds-checks';
+	}
 }

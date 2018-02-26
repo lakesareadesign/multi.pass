@@ -162,7 +162,7 @@
 														<?php if ( $type == 'floating_social' ) {
 															echo $sshare->decorated->get_condition_labels(false);
 														} else if ( $type == 'shortcode' ) {
-															echo '[wd_hustle id='. $sshare->shortcode_id .' type=social_sharing]';
+															echo '[wd_hustle id="'. $sshare->shortcode_id .'" type="social_sharing"]';
 														} ?>
 
 													</p>

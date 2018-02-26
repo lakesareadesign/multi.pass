@@ -3722,6 +3722,9 @@ i.fl-field-responsive-toggle:hover {
 .fl-builder-edit .media-frame {
 	-webkit-backface-visibility: hidden;
 }
+.fl-builder-edit .media-modal-content h1 {
+	font-family: inherit;
+}
 .fl-builder-edit .media-modal-content .thumbnail {
 	padding: 0;
 	border: none;
@@ -3734,6 +3737,9 @@ i.fl-field-responsive-toggle:hover {
 }
 .fl-builder-edit .media-frame.hide-menu {
 	visibility: visible;
+}
+span.select2-container.select2-container--open {
+    z-index: 9999999;
 }
 
 /* Multiple Photo Fields */

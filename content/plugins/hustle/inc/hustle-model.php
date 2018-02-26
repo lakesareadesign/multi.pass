@@ -132,7 +132,30 @@ abstract class Hustle_Model extends Hustle_Data
 			$this->_wpdb->update($table, $this->_sanitize_model_data( $data ), array( "module_id" => $this->id ), array_values( $this->get_format() ), array("%d") );
 		}
 
+		// Clear cache as well.
+		$this->clear_object_cache();
+
 		return $this->id;
+	}
+
+	/*
+ 	 * Clear object cache on save to prevent stale settings.
+ 	 *
+ 	 * return mixed (bool or string)
+ 	 */
+	public function clear_object_cache() {
+		global $wp_object_cache;
+		// Confirm object cache object exists to prevent errors.
+		if ( $wp_object_cache && is_object( $wp_object_cache ) ) {
+			try {
+				// Clear object cache.
+				wp_cache_flush();
+				return true;
+			} catch ( Exception $exception ) {
+				// If error, pass that on.
+				return "Object Cache Error:" . $exception->getMessage();
+			}
+		}
 	}
 
 	/**
@@ -255,6 +278,9 @@ abstract class Hustle_Model extends Hustle_Data
 	 * @return false|int|WP_Error
 	 */
 	function toggle_state( $environment = null ){
+		// Clear cache.
+		$this->clear_object_cache();
+
 		if( is_null( $environment ) ){ // so we are toggling state of the optin
 			return $this->_wpdb->update( $this->get_table(), array(
 				"active" => (1 - $this->active)
@@ -464,6 +490,9 @@ abstract class Hustle_Model extends Hustle_Data
 			unset( $this->_test_types[ $type ] );
 		else
 			$this->_test_types[ $type ] = true;
+
+		// Clear cache.
+		$this->clear_object_cache();
 
 		return $this->update_meta( self::TEST_TYPES, $this->_test_types );
 	}

@@ -1,13 +1,13 @@
 <?php
 
-abstract class WDS_WorkUnit {
+abstract class Smartcrawl_WorkUnit {
 
 	/**
 	 * Holds reference to WP error instance
 	 */
 	protected $_error;
 
-	public function __construct () {
+	public function __construct() {
 		$this->_error = new WP_Error;
 	}
 
@@ -19,13 +19,13 @@ abstract class WDS_WorkUnit {
 	 *
 	 * @return bool Status
 	 */
-	public function add_error ($code, $msg) {
+	public function add_error( $code, $msg ) {
 		$prefix = $this->get_filter_prefix();
 		$errcode = "{$prefix}::{$code}";
 
-		WDS_Logger::debug("({$errcode}) $msg");
+		Smartcrawl_Logger::debug( "({$errcode}) $msg" );
 
-		$this->_error->add($errcode, $msg);
+		$this->_error->add( $errcode, $msg );
 
 		return true;
 	}
@@ -35,14 +35,14 @@ abstract class WDS_WorkUnit {
 	 *
 	 * @return array List of detected errors, as check => msg pairs
 	 */
-	public function get_errors () {
+	public function get_errors() {
 		$error_codes = $this->_error->get_error_codes();
 		$errors = array();
 
-		if (empty($error_codes)) return $errors;
+		if ( empty( $error_codes ) ) { return $errors; }
 
-		foreach ($error_codes as $code) {
-			$errors[$code] = $this->_error->get_error_message($code);
+		foreach ( $error_codes as $code ) {
+			$errors[ $code ] = $this->_error->get_error_message( $code );
 		}
 		return $errors;
 	}
@@ -55,14 +55,14 @@ abstract class WDS_WorkUnit {
 	 *
 	 * @return mixed Whatever the filter returns
 	 */
-	public function apply_filters () {
+	public function apply_filters() {
 		$args = func_get_args();
-		if (empty($args)) return false;
+		if ( empty( $args ) ) { return false; }
 
-		$filter = array_splice($args, 0, 1);
-		array_unshift($args, $this->get_filter(reset($filter)));
+		$filter = array_splice( $args, 0, 1 );
+		array_unshift( $args, $this->get_filter( reset( $filter ) ) );
 
-		return call_user_func_array('apply_filters', $args);
+		return call_user_func_array( 'apply_filters', $args );
 	}
 
 	/**
@@ -72,7 +72,7 @@ abstract class WDS_WorkUnit {
 	 *
 	 * @return string Full filter name
 	 */
-	public function get_filter ($suffix) {
+	public function get_filter( $suffix ) {
 		$prefix = $this->get_filter_prefix();
 		return "{$prefix}-{$suffix}";
 	}

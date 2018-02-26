@@ -1359,7 +1359,7 @@ class Su_Shortcodes {
 		// Search for template in theme directory
 		elseif ( file_exists( TEMPLATEPATH . '/' . $atts['template'] ) ) load_template( TEMPLATEPATH . '/' . $atts['template'], false );
 		// Search for template in plugin directory
-		elseif ( path_join( dirname( SU_PLUGIN_FILE ), $atts['template'] ) ) load_template( path_join( dirname( SU_PLUGIN_FILE ), $atts['template'] ), false );
+		elseif ( file_exists( path_join( dirname( SU_PLUGIN_FILE ), $atts['template'] ) ) ) load_template( path_join( dirname( SU_PLUGIN_FILE ), $atts['template'] ), false );
 		// Template not found
 		else echo Su_Tools::error( __FUNCTION__, __( 'template not found', 'shortcodes-ultimate' ) );
 		$output = ob_get_contents();
@@ -1381,7 +1381,7 @@ class Su_Shortcodes {
 			), $atts, 'dummy_text' );
 		$transient = 'su/cache/dummy_text/' . sanitize_text_field( $atts['what'] ) . '/' . intval( $atts['amount'] );
 		$return = get_transient( $transient );
-		if ( $return && $atts['cache'] === 'yes' && SU_ENABLE_CACHE ) return $return;
+		if ( $return && $atts['cache'] === 'yes' ) return $return;
 		else {
 			$xml = simplexml_load_file( 'http://www.lipsum.com/feed/xml?amount=' . $atts['amount'] . '&what=' . $atts['what'] . '&start=0' );
 			$return = '<div class="su-dummy-text' . su_ecssc( $atts ) . '">' . wpautop( str_replace( "\n", "\n\n", $xml->lipsum ) ) . '</div>';
@@ -1415,7 +1415,7 @@ class Su_Shortcodes {
 		$return = '<' . $tag . ' class="su-animate' . su_ecssc( $atts ) . '" style="visibility:hidden;' . $time . '" data-animation="' . $atts['type'] . '" data-duration="' . $atts['duration'] . '" data-delay="' . $atts['delay'] . '">' . do_shortcode( $content ) . '</' . $tag . '>';
 		su_query_asset( 'css', 'animate' );
 		su_query_asset( 'js', 'jquery' );
-		su_query_asset( 'js', 'inview' );
+		su_query_asset( 'js', 'jquery-inview' );
 		su_query_asset( 'js', 'su-other-shortcodes' );
 		return $return;
 	}

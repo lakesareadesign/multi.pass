@@ -1,23 +1,23 @@
 <?php
-	$post = empty($post) ? null : $post;
+	$post = empty( $post ) ? null : $post;
 ?>
 
 <div class="wds-form">
 	<div class="wds-metabox-section">
 		<?php
 			$this->_render('metabox/metabox-preview', array(
-				'post' => $post
+				'post' => $post,
 			));
 		?>
 
-		<?php $this->_render('metabox/metabox-meta-edit-form'); ?>
+		<?php $this->_render( 'metabox/metabox-meta-edit-form' ); ?>
 	</div>
 
-<?php if (WDS_Settings::get_setting('analysis-seo')) { ?>
+<?php if ( Smartcrawl_Settings::get_setting( 'analysis-seo' ) ) { ?>
 	<div class="wds-metabox-section">
 		<?php
 			$this->_render('metabox/metabox-seo-analysis-container', array(
-				'post' => $post
+				'post' => $post,
 			));
 		?>
 	</div>

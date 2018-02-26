@@ -37,4 +37,50 @@ html.hustle-no-scroll, html.hustle-no-scroll body {
 		opacity: 1;
 		position: relative;
 	}
+
+	.hustle-modal-body{
+		max-height:100%;
+	}
+
+	// For IE Fix.
+	@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+		.hustle-modal-optin_wrap {
+			.hustle-modal-optin_form {
+				.hustle-modal-optin_field{
+				 display:block;
+				 flex:none;
+			 }
+			}
+		}
+	}
+
+	&:not(.hustle-modal-image_only) {
+		.hustle-modal-image.hustle-modal-image_contain {
+			img{
+				position: relative;
+			}
+		}
+	}
+}
+
+
+.hustle_module_shortcode_wrap,
+.hustle_module_widget_wrap {
+	.hustle-modal {
+		.hustle-modal-body {
+			max-height:100%;
+			.hustle-modal-optin_wrap{
+				margin: auto;
+				background: transparent;
+			}
+		}
+
+		section {
+			article {
+				.hustle-modal-article {
+					max-height: 100%;
+				}
+			}
+		}
+	}
 }

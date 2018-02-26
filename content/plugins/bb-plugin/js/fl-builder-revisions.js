@@ -55,7 +55,7 @@
 
 			} else {
 
-				for ( i in posts ) {
+				for ( ; i < posts.length; i++ ) {
 
 					date   = FLBuilderStrings.revisionDate.replace( '%s', posts[ i ].date.diff );
 					date  += ' (' + posts[ i ].date.published + ')';

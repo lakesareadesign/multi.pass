@@ -1,18 +1,48 @@
 <?php
+/**
+ * Checkup service hub
+ *
+ * @package wpmu-dev-seo
+ */
 
-class WDS_Checkup_Service extends WDS_Service {
+/**
+ * Checkup service implementation dispatcher class
+ */
+class Smartcrawl_Checkup_Service extends Smartcrawl_Service {
 
 	const IMPL_AJAX = 'implementation::ajax';
 	const IMPL_REST = 'implementation::rest';
 
-	public function __construct () {
-		if (self::IMPL_AJAX === $this->get_implementation_type()) {
-			require_once(dirname(__FILE__) . '/class_wds_checkup_ajax_service.php');
-			$this->_implementation = new WDS_Checkup_Ajax_Service;
+	/**
+	 * Constructor
+	 */
+	public function __construct() {
+		if ( self::IMPL_AJAX === $this->get_implementation_type() ) {
+			require_once( dirname( __FILE__ ) . '/class_wds_checkup_ajax_service.php' );
+			$this->_implementation = new Smartcrawl_Checkup_Ajax_Service;
 		} else {
-			require_once(dirname(__FILE__) . '/class_wds_checkup_rest_service.php');
-			$this->_implementation = new WDS_Checkup_Rest_Service;
+			require_once( dirname( __FILE__ ) . '/class_wds_checkup_rest_service.php' );
+			$this->_implementation = new Smartcrawl_Checkup_Rest_Service;
+			if ( ! has_filter( $this->get_filter( 'api-namespace' ), array( $this, 'fix_namespace' ) ) ) {
+				add_filter( $this->get_filter( 'api-namespace' ), array( $this, 'fix_namespace' ) );
+			}
 		}
+	}
+
+	/**
+	 * Namespace filtering temporary fix
+	 *
+	 * @since 2.1.1
+	 *
+	 * @param string $namespace Service namespace.
+	 *
+	 * @return string
+	 */
+	public function fix_namespace( $namespace ) {
+		return 'seo-checkup/v1' === $namespace
+			? 'seo-checkup/v1.1'
+			: $namespace
+		;
 	}
 
 	/**
@@ -20,7 +50,7 @@ class WDS_Checkup_Service extends WDS_Service {
 	 *
 	 * @return string
 	 */
-	public function get_implementation_type () {
+	public function get_implementation_type() {
 		return self::IMPL_REST;
 	}
 
@@ -29,65 +59,99 @@ class WDS_Checkup_Service extends WDS_Service {
 	 *
 	 * @return object
 	 */
-	public function get_implementation () {
+	public function get_implementation() {
 		return $this->_implementation;
 	}
 
-	public function get_known_verbs () {
+	/**
+	 * Gets all verbs known by the service
+	 *
+	 * @return array
+	 */
+	public function get_known_verbs() {
 		return $this->_implementation->get_known_verbs();
 	}
 
-	public function is_cacheable_verb ($verb) {
-		return $this->_implementation->is_cacheable_verb($verb);
+	/**
+	 * Checks if service verb supports results caching
+	 *
+	 * @param string $verb Service verb.
+	 *
+	 * @return bool
+	 */
+	public function is_cacheable_verb( $verb ) {
+		return $this->_implementation->is_cacheable_verb( $verb );
 	}
 
-	public function get_service_base_url () {
+	/**
+	 * Gets service base URL
+	 *
+	 * @return string
+	 */
+	public function get_service_base_url() {
 		return $this->_implementation->get_service_base_url();
 	}
 
-	public function get_request_url ($verb) {
-		return $this->_implementation->get_request_url($verb);
+	/**
+	 * Gets full request URL for a service verb
+	 *
+	 * @param string $verb Service verb.
+	 *
+	 * @return string|bool
+	 */
+	public function get_request_url( $verb ) {
+		return $this->_implementation->get_request_url( $verb );
 	}
 
-	public function get_request_arguments ($verb) {
-		return $this->_implementation->get_request_arguments($verb);
+	/**
+	 * Gets request arguments array for a verb
+	 *
+	 * @param string $verb Service verb.
+	 *
+	 * @return array
+	 */
+	public function get_request_arguments( $verb ) {
+		return $this->_implementation->get_request_arguments( $verb );
 	}
 
-	public function handle_error_response ($response) {
-		return $this->_implementation->handle_error_response($response);
+	/**
+	 * Handles service error response
+	 *
+	 * @param object $response WP HTTP API response.
+	 */
+	public function handle_error_response( $response, $verb ) {
+		return $this->_implementation->handle_error_response( $response, $verb );
 	}
 
 	/**
 	 * Gets last checked string
 	 *
-	 * @param string $format Optional timestamp format string
+	 * @param string $format Optional timestamp format string.
 	 *
 	 * @return string Last checkup updated time
 	 */
-	public function get_last_checked ($format=false) {
-		$format = !empty($format)
+	public function get_last_checked( $format = false ) {
+		$format = ! empty( $format )
 			? $format
-			: get_option('date_format') . ' ' . get_option('time_format')
-		;
+			: get_option( 'date_format' ) . ' ' . get_option( 'time_format' );
 		$time = $this->get_last_checked_timestamp();
-		if (empty($time)) return __('Never', 'wds');
+		if ( empty( $time ) ) { return __( 'Never', 'wds' ); }
 
-		return date_i18n($format, $time);
+		return date_i18n( $format, $time );
 	}
 
 	/**
 	 * Sets last checked time
 	 *
-	 * @param int $time Optional timestamp, defaults to now
+	 * @param int $time Optional timestamp, defaults to now.
 	 *
 	 * @return bool
 	 */
-	public function set_last_checked ($time=false) {
-		$time = !empty($time) && is_numeric($time)
-			? (int)$time
-			: current_time('timestamp')
-		;
-		return !!update_option($this->get_filter('checkup-last'), $time);
+	public function set_last_checked( $time = false ) {
+		$time = ! empty( $time ) && is_numeric( $time )
+			? (int) $time
+			: current_time( 'timestamp' );
+		return ! ! update_option( $this->get_filter( 'checkup-last' ), $time );
 	}
 
 	/**
@@ -95,16 +159,16 @@ class WDS_Checkup_Service extends WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public function in_progress () {
+	public function in_progress() {
 		$flag = $this->get_progress_flag();
 
-		$expected_timeout = intval($flag) + 360;
-		if (!empty($flag) && is_numeric($flag) && time() > $expected_timeout) {
-			// Over 6 minutes, clear flag forcefully
+		$expected_timeout = intval( $flag ) + 360;
+		if ( ! empty( $flag ) && is_numeric( $flag ) && time() > $expected_timeout ) {
+			// Over 6 minutes, clear flag forcefully.
 			$this->stop();
 		}
 
-		return !!$flag;
+		return ! ! $flag;
 	}
 
 	/**
@@ -112,20 +176,20 @@ class WDS_Checkup_Service extends WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public function get_progress_flag () {
-		return get_option($this->get_filter("checkup-progress"), false);
+	public function get_progress_flag() {
+		return get_option( $this->get_filter( 'checkup-progress' ), false );
 	}
 
 	/**
 	 * Sets progress flag state
 	 *
-	 * param bool $flag Whether the service check is in progress
+	 * @param bool $flag Whether the service check is in progress.
 	 *
 	 * @return bool
 	 */
-	public function set_progress_flag ($flag) {
-		if (!empty($flag)) $flag = time();
-		return !!update_option($this->get_filter("checkup-progress"), $flag);
+	public function set_progress_flag( $flag ) {
+		if ( ! empty( $flag ) ) { $flag = time(); }
+		return ! ! update_option( $this->get_filter( 'checkup-progress' ), $flag );
 	}
 
 	/**
@@ -133,30 +197,32 @@ class WDS_Checkup_Service extends WDS_Service {
 	 *
 	 * @return  bool
 	 */
-	public function start () {
-		if ($this->in_progress()) {
+	public function start() {
+		if ( $this->in_progress() ) {
 			return true;
 		}
 
-		$this->set_progress_flag(true);
-		$this->set_cached_error("checkup", false);
+		if ( $this->get_cached_error( 'checkup' ) ) { return false; }
+
+		$this->set_progress_flag( true );
+		$this->set_cached_error( 'checkup', false );
 
 		$verb = $this->_implementation->get_result_verb();
-		$this->set_cached("checkup-{$verb}", false);
-		delete_option($this->get_filter("checkup-{$verb}"));
-		$result = $this->request($this->_implementation->get_start_verb());
+		$this->set_cached( "checkup-{$verb}", false );
+		delete_option( $this->get_filter( "checkup-{$verb}" ) );
+		$result = $this->request( $this->_implementation->get_start_verb() );
 
-		$data = !empty($result['data']) ? $result['data'] : array();
-		if (empty($data)) {
+		$data = ! empty( $result['data'] ) ? $result['data'] : array();
+		if ( empty( $data ) ) {
 			// Log error ...
 			return false;
 		}
 
-		$overall = !empty($data['overall']) ? $data['overall'] : array();
-		$pcnt = !empty($overall['pcnt_complete']) ? (int)$overall['pcnt_complete'] : 0;
+		$overall = ! empty( $data['overall'] ) ? $data['overall'] : array();
+		$pcnt = ! empty( $overall['pcnt_complete'] ) ? (int) $overall['pcnt_complete'] : 0;
 
-		if ($pcnt && $pcnt >= 99.9) {
-			$this->done($data);
+		if ( $pcnt && $pcnt >= 99.9 ) {
+			$this->done( $data );
 		}
 
 		return true;
@@ -165,21 +231,25 @@ class WDS_Checkup_Service extends WDS_Service {
 	/**
 	 * Called when the request is actually done
 	 *
+	 * @param array $data Response data.
+	 *
 	 * @return void
 	 */
-	public function done ($data) {
+	public function done( $data ) {
 		$verb = $this->_implementation->get_result_verb();
 
-		$this->set_cached("checkup-{$verb}", $data);
-		update_option($this->get_filter("checkup-{$verb}"), $data);
+		$this->set_cached( "checkup-{$verb}", $data );
+		update_option( $this->get_filter( "checkup-{$verb}" ), $data );
 
 		$this->stop();
 
-		if (is_callable(array($this->_implementation, 'after_done'))) {
-			$this->_implementation->after_done();
+		if ( is_callable( array( $this->_implementation, 'after_done' ) ) ) {
+			if ( ! $this->get_cached_error( 'checkup' ) ) {
+				$this->_implementation->after_done();
+			}
 		}
 
-		do_action($this->get_filter('checkup_done'), $data, $this);
+		do_action( $this->get_filter( 'checkup_done' ), $data, $this );
 	}
 
 	/**
@@ -187,8 +257,8 @@ class WDS_Checkup_Service extends WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public function stop () {
-		$this->set_progress_flag(false);
+	public function stop() {
+		$this->set_progress_flag( false );
 		return true;
 	}
 
@@ -199,27 +269,26 @@ class WDS_Checkup_Service extends WDS_Service {
 	 *
 	 * @return int Percentage
 	 */
-	public function status () {
+	public function status() {
 		$res = $this->in_progress()
-			? $this->request($this->_implementation->get_result_verb())
-			: $this->get_cached($this->_implementation->get_result_verb())
-		;
-		if (!is_array($res)) $res = array();
-		if (isset($res['success']) && empty($res['success'])) {
-			$this->done($res);
+			? $this->request( $this->_implementation->get_result_verb() )
+			: $this->get_cached( $this->_implementation->get_result_verb() );
+		if ( ! is_array( $res ) ) { $res = array(); }
+		if ( isset( $res['success'] ) && empty( $res['success'] ) ) {
+			$this->done( $res );
 			return 100;
 		}
-		$status = isset($res['success']) && !empty($res['success']) ? 1 : 0;
-		if (!empty($res['data'])) $data = $res['data'];
+		$status = isset( $res['success'] ) && ! empty( $res['success'] ) ? 1 : 0;
+		if ( ! empty( $res['data'] ) ) { $data = $res['data']; } else { $data = $res; }
 
-		if (!empty($data['overall']['pcnt_complete'])) {
-			$status = (int)$data['overall']['pcnt_complete'];
-			if ($status >= 100) {
-				$this->done($data);
+		if ( ! empty( $data['overall']['pcnt_complete'] ) ) {
+			$status = (int) $data['overall']['pcnt_complete'];
+			if ( $status >= 100 ) {
+				$this->done( $data );
 				return 100;
 			}
-		} else if (empty($res) && empty($status)) {
-			$this->done($res);
+		} elseif ( empty( $res ) && empty( $status ) ) {
+			$this->done( $res );
 			return 100;
 		}
 
@@ -233,43 +302,48 @@ class WDS_Checkup_Service extends WDS_Service {
 	 *
 	 * @return array
 	 */
-	public function result () {
-		if ($this->in_progress()) return array();
+	public function result() {
+		if ( $this->in_progress() ) { return array(); }
+
+		$error = $this->get_cached_error( 'checkup' );
+		if ( ! empty( $error ) ) { return array( 'error' => $error ); }
 
 		$verb = $this->_implementation->get_result_verb();
-		$res = get_option($this->get_filter("checkup-{$verb}"), array());
-		if (empty($res)) {
-			$res = $this->request($verb);
-			$this->done($res);
+		$res = get_option( $this->get_filter( "checkup-{$verb}" ), array() );
+		if ( empty( $res ) ) {
+			$res = $this->request( $verb );
+			$this->done( $res );
 
 			$this->set_last_checked();
 		}
 
-		if (!is_array($res)) {
-			// JSON string
-			$res = json_decode($res, true);
-			if (!empty($res['data'])) $res = $res['data']; // @TODO This should probably be refactored
-		} else if (!empty($res['data'])) {
+		if ( ! is_array( $res ) ) {
+			// JSON string.
+			$res = json_decode( $res, true );
+			if ( ! empty( $res['data'] ) ) { $res = $res['data']; // @TODO This should probably be refactored.
+			}
+		} elseif ( ! empty( $res['data'] ) ) {
 			$res = $res['data'];
 		}
 
-		if (is_array($res) && !empty($res['seo'])) return $res['seo'];
+		if ( is_array( $res ) && ! empty( $res['seo'] ) ) { return $res['seo']; }
 
-		$error = $this->get_cached_error("checkup");
-	   	if (empty($error) && is_string($res)) $error = $res;
+			$error = $this->get_cached_error( 'checkup' );
+		if ( empty( $error ) && is_string( $res ) ) { $error = $res; }
 
-		return !empty($error)
-			? array('error' => $error)
-			: array('error' => __('Your request timed out', 'wds'))
-		;
+			return ! empty( $error )
+			? array( 'error' => $error )
+			: array( 'error' => __( 'Your request timed out', 'wds' ) )
+			;
 	}
 
 	/**
+	 * Gets last checked timestamp
+	 *
 	 * @return mixed|void
 	 */
-	public function get_last_checked_timestamp()
-	{
-		return get_option($this->get_filter('checkup-last'), false);
+	public function get_last_checked_timestamp() {
+		return get_option( $this->get_filter( 'checkup-last' ), false );
 	}
 
 }
@@ -278,8 +352,19 @@ class WDS_Checkup_Service extends WDS_Service {
 /**
  * Abstract implementation class
  */
-abstract class WDS_Checkup_Service_Implementation extends WDS_Service {
+abstract class Smartcrawl_Checkup_Service_Implementation extends Smartcrawl_Service {
 
+	/**
+	 * Gets crawl starting verb
+	 *
+	 * @return string
+	 */
 	abstract public function get_start_verb ();
+
+	/**
+	 * Gets results fetching verb
+	 *
+	 * @return string
+	 */
 	abstract public function get_result_verb ();
 }

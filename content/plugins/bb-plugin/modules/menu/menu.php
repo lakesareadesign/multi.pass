@@ -270,7 +270,7 @@ FLBuilder::register_module('FLMenuModule', array(
 						'default'       => 'mobile',
 						'options'       => array(
 							'always'		=> __( 'Always', 'fl-builder' ),
-							'medium-mobile'	=> __( 'Medium & Small Devices Only', 'fl-builder' ),
+							'medium-mobile'	=> __( 'Medium &amp; Small Devices Only', 'fl-builder' ),
 							'mobile'		=> __( 'Small Devices Only', 'fl-builder' ),
 						),
 					),

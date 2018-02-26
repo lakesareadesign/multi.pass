@@ -13,6 +13,8 @@ $for = ( isset($for) ) ? $for : '';
 <?php elseif( "small" === $type  ): // small label ?>
     <p><small <?php Opt_In::render_attributes( isset( $attributes ) ? $attributes : array() ); ?> for="<?php echo esc_attr( $for ); ?>"><?php echo $value; ?> </small></p>
 
+<?php elseif( "notice" === $type  ): // Type textarea ?>
+	<label <?php Opt_In::render_attributes( isset( $attributes ) ? $attributes : array() ); ?> class="<?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>"><span><?php echo $value; ?> </span></label>
 
 <?php elseif( "textarea" === $type  ): // Type textarea ?>
     <textarea <?php Opt_In::render_attributes( isset( $attributes ) ? $attributes : array() ); ?> name="<?php echo esc_attr( $name ); ?>" id="<?php echo esc_attr( $id ); ?>" cols="30" rows="10"><?php echo esc_textarea( $value ? $value : $default ); ?></textarea>

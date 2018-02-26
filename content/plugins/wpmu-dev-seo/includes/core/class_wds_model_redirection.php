@@ -1,6 +1,6 @@
 <?php
 
-class WDS_Model_Redirection extends WDS_Model {
+class Smartcrawl_Model_Redirection extends Smartcrawl_Model {
 
 	const OPTIONS_KEY = 'wds-redirections';
 	const OPTIONS_KEY_TYPES = 'wds-redirections-types';
@@ -14,14 +14,14 @@ class WDS_Model_Redirection extends WDS_Model {
 	 * Gets individual redirection value
 	 *
 	 * @param string $source Source URL
-	 * @param mixed $fallback Optional fallback value
+	 * @param mixed  $fallback Optional fallback value
 	 *
 	 * @return mixed (string)Redirection URL, or fallback value (defaults to (bool)false)
 	 */
-	public function get_redirection ($source, $fallback=false) {
+	public function get_redirection( $source, $fallback = false ) {
 		$redirections = $this->get_all_redirections();
-		return !empty($redirections[$source])
-			? $redirections[$source]
+		return ! empty( $redirections[ $source ] )
+			? $redirections[ $source ]
 			: $fallback
 		;
 	}
@@ -33,10 +33,10 @@ class WDS_Model_Redirection extends WDS_Model {
 	 *
 	 * @return mixed (int)Redirection status type, or false for default
 	 */
-	public function get_redirection_type ($source) {
+	public function get_redirection_type( $source ) {
 		$types = $this->get_all_redirection_types();
-		return !empty($types[$source])
-			? $types[$source]
+		return ! empty( $types[ $source ] )
+			? $types[ $source ]
 			: false
 		;
 	}
@@ -49,25 +49,25 @@ class WDS_Model_Redirection extends WDS_Model {
 	 *
 	 * @return bool
 	 */
-	public function set_redirection ($source, $redirection) {
+	public function set_redirection( $source, $redirection ) {
 		$redirections = $this->get_all_redirections();
-		$redirections[$source] = $redirection;
-		return $this->set_all_redirections($redirections);
+		$redirections[ $source ] = $redirection;
+		return $this->set_all_redirections( $redirections );
 	}
 
 	/**
 	 * Updates a redirection type for source URL in the list
 	 *
 	 * @param string $source Source URL
-	 * @param int $status Redirection status code
+	 * @param int    $status Redirection status code
 	 *
 	 * @return bool
 	 */
-	public function set_redirection_type ($source, $status) {
-		$status = $this->get_valid_redirection_status_type($status);
+	public function set_redirection_type( $source, $status ) {
+		$status = $this->get_valid_redirection_status_type( $status );
 		$types = $this->get_all_redirection_types();
-		$types[$source] = $status;
-		return $this->set_all_redirection_types($types);
+		$types[ $source ] = $status;
+		return $this->set_all_redirection_types( $types );
 	}
 
 	/**
@@ -75,17 +75,16 @@ class WDS_Model_Redirection extends WDS_Model {
 	 *
 	 * @return array
 	 */
-	public function get_all_redirections () {
-		$is_sitewide = is_multisite() && defined('WDS_SITEWIDE') && WDS_SITEWIDE;
+	public function get_all_redirections() {
+		$is_sitewide = is_multisite() && defined( 'SMARTCRAWL_SITEWIDE' ) && SMARTCRAWL_SITEWIDE;
 		$redirections = $is_sitewide
-			? get_site_option(self::OPTIONS_KEY)
-			: get_option(self::OPTIONS_KEY)
-		;
-		if (!is_array($redirections)) $redirections = array();
+			? get_site_option( self::OPTIONS_KEY )
+			: get_option( self::OPTIONS_KEY );
+		if ( ! is_array( $redirections ) ) { $redirections = array(); }
 
-		return (array)apply_filters(
-			$this->get_filter('get-all'),
-			array_filter($redirections)
+		return (array) apply_filters(
+			$this->get_filter( 'get-all' ),
+			array_filter( $redirections )
 		);
 	}
 
@@ -94,17 +93,16 @@ class WDS_Model_Redirection extends WDS_Model {
 	 *
 	 * @return array
 	 */
-	public function get_all_redirection_types () {
-		$is_sitewide = is_multisite() && defined('WDS_SITEWIDE') && WDS_SITEWIDE;
+	public function get_all_redirection_types() {
+		$is_sitewide = is_multisite() && defined( 'SMARTCRAWL_SITEWIDE' ) && SMARTCRAWL_SITEWIDE;
 		$types = $is_sitewide
-			? get_site_option(self::OPTIONS_KEY_TYPES)
-			: get_option(self::OPTIONS_KEY_TYPES)
-		;
-		if (!is_array($types)) $types = array();
+			? get_site_option( self::OPTIONS_KEY_TYPES )
+			: get_option( self::OPTIONS_KEY_TYPES );
+		if ( ! is_array( $types ) ) { $types = array(); }
 
-		return (array)apply_filters(
-			$this->get_filter('get-all-types'),
-			array_filter($types)
+		return (array) apply_filters(
+			$this->get_filter( 'get-all-types' ),
+			array_filter( $types )
 		);
 	}
 
@@ -113,19 +111,18 @@ class WDS_Model_Redirection extends WDS_Model {
 	 *
 	 * @param bool
 	 */
-	public function set_all_redirections ($redirections) {
-		$is_sitewide = is_multisite() && defined('WDS_SITEWIDE') && WDS_SITEWIDE;
-		if (!is_array($redirections)) $redirections = array();
+	public function set_all_redirections( $redirections ) {
+		$is_sitewide = is_multisite() && defined( 'SMARTCRAWL_SITEWIDE' ) && SMARTCRAWL_SITEWIDE;
+		if ( ! is_array( $redirections ) ) { $redirections = array(); }
 
-		$redirections = (array)apply_filters(
-			$this->get_filter('set-all'),
-			array_filter($redirections)
+		$redirections = (array) apply_filters(
+			$this->get_filter( 'set-all' ),
+			array_filter( $redirections )
 		);
 
 		return $is_sitewide
-			? update_site_option(self::OPTIONS_KEY, $redirections)
-			: update_option(self::OPTIONS_KEY, $redirections)
-		;
+			? update_site_option( self::OPTIONS_KEY, $redirections )
+			: update_option( self::OPTIONS_KEY, $redirections );
 	}
 
 	/**
@@ -133,19 +130,18 @@ class WDS_Model_Redirection extends WDS_Model {
 	 *
 	 * @param bool
 	 */
-	public function set_all_redirection_types ($types) {
-		$is_sitewide = is_multisite() && defined('WDS_SITEWIDE') && WDS_SITEWIDE;
-		if (!is_array($types)) $types = array();
+	public function set_all_redirection_types( $types ) {
+		$is_sitewide = is_multisite() && defined( 'SMARTCRAWL_SITEWIDE' ) && SMARTCRAWL_SITEWIDE;
+		if ( ! is_array( $types ) ) { $types = array(); }
 
-		$types = (array)apply_filters(
-			$this->get_filter('set-all-types'),
-			array_filter($types)
+		$types = (array) apply_filters(
+			$this->get_filter( 'set-all-types' ),
+			array_filter( $types )
 		);
 
 		return $is_sitewide
-			? update_site_option(self::OPTIONS_KEY_TYPES, $types)
-			: update_option(self::OPTIONS_KEY_TYPES, $types)
-		;
+			? update_site_option( self::OPTIONS_KEY_TYPES, $types )
+			: update_option( self::OPTIONS_KEY_TYPES, $types );
 	}
 
 	/**
@@ -153,8 +149,8 @@ class WDS_Model_Redirection extends WDS_Model {
 	 *
 	 * @return bool
 	 */
-	public function has_redirections () {
-		return !!count($this->get_all_redirections());
+	public function has_redirections() {
+		return ! ! count( $this->get_all_redirections() );
 	}
 
 	/**
@@ -164,9 +160,9 @@ class WDS_Model_Redirection extends WDS_Model {
 	 *
 	 * @return mixed (int)Redirection status, or (bool)false for passthrough
 	 */
-	public function get_valid_redirection_status_type ($status) {
-		return is_numeric($status) && in_array((int)$status, array(self::TYPE_301, self::TYPE_302))
-			? (int)$status
+	public function get_valid_redirection_status_type( $status ) {
+		return is_numeric( $status ) && in_array( (int) $status, array( self::TYPE_301, self::TYPE_302 ) )
+			? (int) $status
 			: false
 		;
 	}
@@ -176,19 +172,19 @@ class WDS_Model_Redirection extends WDS_Model {
 	 *
 	 * @return int Default status code
 	 */
-	public function get_default_redirection_status_type () {
-		$settings = class_exists('WDS_Settings') && is_callable(array('WDS_Settings', 'get_specific_options'))
-			? WDS_Settings::get_specific_options('wds_settings_options')
+	public function get_default_redirection_status_type() {
+		$settings = class_exists( 'Smartcrawl_Settings' ) && is_callable( array( 'Smartcrawl_Settings', 'get_specific_options' ) )
+			? Smartcrawl_Settings::get_specific_options( 'wds_settings_options' )
 			: array()
 		;
-		$status_code = !empty($settings['redirections-code']) && is_numeric($settings['redirections-code'])
-			? (int)$settings['redirections-code']
+		$status_code = ! empty( $settings['redirections-code'] ) && is_numeric( $settings['redirections-code'] )
+			? (int) $settings['redirections-code']
 			: self::DEFAULT_STATUS_TYPE
 		;
-		$status_code = $this->get_valid_redirection_status_type($status_code);
+		$status_code = $this->get_valid_redirection_status_type( $status_code );
 
-		return !empty($status_code)
-			? (int)$status_code
+		return ! empty( $status_code )
+			? (int) $status_code
 			: self::DEFAULT_STATUS_TYPE
 		;
 	}
@@ -200,26 +196,26 @@ class WDS_Model_Redirection extends WDS_Model {
 	 *
 	 * @return string Current URL
 	 */
-	public function get_current_url () {
+	public function get_current_url() {
 		$protocol = is_ssl() ? 'https:' : 'http:';
 		$domain = $_SERVER['HTTP_HOST'];
 
-		$port = (int)$_SERVER['SERVER_PORT'] ? ':' . (int)$_SERVER['SERVER_PORT'] : '';
-		if (is_ssl() && 443 === (int)$_SERVER['SERVER_PORT']) $port = '';
-		if (!is_ssl() && 80 === (int)$_SERVER['SERVER_PORT']) $port = '';
-		if (wds_is_switch_active('WDS_OMIT_PORT_MATCHES')) $port = '';
+		$port = (int) $_SERVER['SERVER_PORT'] ? ':' . (int) $_SERVER['SERVER_PORT'] : '';
+		if ( is_ssl() && 443 === (int) $_SERVER['SERVER_PORT'] ) { $port = ''; }
+		if ( ! is_ssl() && 80 === (int) $_SERVER['SERVER_PORT'] ) { $port = ''; }
+		if ( smartcrawl_is_switch_active( 'SMARTCRAWL_OMIT_PORT_MATCHES' ) ) { $port = ''; }
 
 		$request = $_SERVER['REQUEST_URI'];
 
 		$source = $protocol . '//' . $domain . $port . $request;
 
-		return (string)apply_filters(
-			$this->get_filter('current_url'),
+		return (string) apply_filters(
+			$this->get_filter( 'current_url' ),
 			$source
 		);
 	}
 
-	public function get_type () {
+	public function get_type() {
 		return 'redirection';
 	}
 }

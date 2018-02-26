@@ -186,6 +186,14 @@ final class FLBuilderLoop {
 			$args['meta_key'] = $settings->order_by_meta_key;
 		}
 
+		// Order by author
+		if ( 'author' == $order_by ) {
+			$args['orderby'] = array(
+				'author' => $order,
+				'date' => $order,
+			);
+		}
+
 		// Build the author query.
 		if ( ! empty( $users ) ) {
 

@@ -793,8 +793,8 @@ final class FLBuilder {
 		// Try to find the specific template, then repeat the same process for general.
 
 		$locate_template_order = apply_filters( 'fl_builder_locate_template_order', array(
-			self::$template_dir . $specific_template,
-			self::$template_dir . $general_template,
+			trailingslashit( self::$template_dir ) . $specific_template,
+			trailingslashit( self::$template_dir ) . $general_template,
 		), self::$template_dir, $template_base, $slug );
 
 		$template_path = locate_template( $locate_template_order );
@@ -1641,6 +1641,9 @@ final class FLBuilder {
 
 		// Remove empty lines.
 		$content = preg_replace( '/(^[\r\n]*|[\r\n]+)[\s\t]*[\r\n]+/', "\n", $content );
+
+		// Strip shortcodes since some plugins parse them early causing them to be parsed twice.
+		$content = preg_replace( '/\[.*\]/', '', $content );
 
 		return apply_filters( 'fl_builder_editor_content', $content );
 	}
@@ -2673,7 +2676,7 @@ final class FLBuilder {
 		$path               = $include_global ? $asset_info['js'] : $asset_info['js_partial'];
 
 		// Render the global js.
-		if ( $include_global ) {
+		if ( $include_global && ! isset( $_GET['safemode'] ) ) {
 			$js .= self::render_global_js();
 		}
 
@@ -2688,8 +2691,10 @@ final class FLBuilder {
 		}
 
 		// Add the layout settings JS.
-		$js .= self::render_global_nodes_custom_code( 'js' );
-		$js .= ( is_array( $layout_settings->js ) || is_object( $layout_settings->js ) ) ? json_encode( $layout_settings->js ) : $layout_settings->js;
+		if ( ! isset( $_GET['safemode'] ) ) {
+			$js .= self::render_global_nodes_custom_code( 'js' );
+			$js .= ( is_array( $layout_settings->js ) || is_object( $layout_settings->js ) ) ? json_encode( $layout_settings->js ) : $layout_settings->js;
+		}
 
 		// Call the FLBuilder._renderLayoutComplete method if we're currently editing.
 		if ( stristr( $asset_info['js'], '-draft.js' ) || stristr( $asset_info['js'], '-preview.js' ) ) {

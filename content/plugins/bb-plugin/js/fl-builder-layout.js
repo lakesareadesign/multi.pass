@@ -427,6 +427,7 @@
 				videoTag.attr( 'poster', 'data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7' )
 				videoTag.css( 'background', 'transparent url("' + fallback + '") no-repeat center center' )
 				videoTag.css( 'background-size', 'cover' )
+				videoTag.css( 'height', '100%' )
 			}
 
 			// MP4 Source Tag
@@ -449,10 +450,10 @@
 			}
 
 			// Check what video player we are going to load in a row
-			if ( 'undefined' != typeof youtube ) {
+			if ( 'undefined' != typeof youtube && ! FLBuilderLayout._isMobile() ) {
 				FLBuilderLayout._initYoutubeBgVideo.apply( this );
 			}
-			else if ( 'undefined' != typeof vimeo ) {
+			else if ( 'undefined' != typeof vimeo && ! FLBuilderLayout._isMobile() ) {
 				FLBuilderLayout._initVimeoBgVideo.apply( this );
 			}
 			else {

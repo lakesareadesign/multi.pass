@@ -141,7 +141,7 @@
 
                     <label class="wpmudev-helper"><?php _e( "Use shortcode to render clickable button", Opt_In::TEXT_DOMAIN ); ?></label>
 
-                    <input type="text" value="[wd_hustle id={{shortcode_id}} type=popup]Click here[/wd_hustle]" class="wpmudev-shortcode" disabled>
+                    <input type="text" value="[wd_hustle id='{{shortcode_id}}' type='popup']Click here[/wd_hustle]" class="wpmudev-shortcode" disabled>
 
                     <label class="wpmudev-helper"><?php _e( "Trigger after user clicks on existing element with this ID or Class", Opt_In::TEXT_DOMAIN ); ?></label>
 

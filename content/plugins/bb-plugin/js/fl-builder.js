@@ -3891,11 +3891,10 @@
 			}
 
 			if ( button.hasClass( 'fl-block-col-edit-parent' ) ) {
-				nodeId = col.parents( '.fl-col' ).data( 'node' );
+			    col = col.parents( '.fl-col' );
 			}
-			else {
-				nodeId = col.attr('data-node');
-			}
+
+			nodeId = col.attr('data-node');
 
 			FLBuilderSettingsForms.render( {
 				id        : 'col',

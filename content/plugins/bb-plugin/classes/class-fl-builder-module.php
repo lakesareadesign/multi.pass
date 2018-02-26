@@ -159,23 +159,6 @@ class FLBuilderModule {
 		$this->editor_export    = isset( $params['editor_export'] ) ? $params['editor_export'] : true;
 		$this->partial_refresh  = isset( $params['partial_refresh'] ) ? $params['partial_refresh'] : false;
 
-		// Icon requires dir be defined before calling get_icon()
-		$this->icon = isset( $params['icon'] ) ? $this->get_icon( $params['icon'] ) : $this->get_icon();
-
-		$details = apply_filters( 'fl_builder_module_details', array(
-			'name'        => $params['name'],
-			'description' => $params['description'],
-			'category'    => $this->normalize_category_name( $params['category'] ),
-			'group'    	  => isset( $params['group'] ) ? $params['group'] : false,
-			'icon'		  => $this->icon,
-		), $this->slug );
-
-		$this->name             = $details['name'];
-		$this->description      = $details['description'];
-		$this->category         = $details['category'];
-		$this->group            = $details['group'];
-		$this->icon				= $details['icon'];
-
 		// We need to normalize the paths here since path comparisons
 		// break on Windows because they use backslashes.
 		$abspath                    = str_replace( '\\', '/', ABSPATH );
@@ -203,6 +186,22 @@ class FLBuilderModule {
 			$this->url = trailingslashit( FL_BUILDER_URL . 'modules/' . $this->slug );
 			$this->dir = trailingslashit( FL_BUILDER_DIR . 'modules/' . $this->slug );
 		}
+		// Icon requires dir be defined before calling get_icon()
+		$this->icon = isset( $params['icon'] ) ? $this->get_icon( $params['icon'] ) : $this->get_icon();
+
+		$details = apply_filters( 'fl_builder_module_details', array(
+			'name'        => $params['name'],
+			'description' => $params['description'],
+			'category'    => $this->normalize_category_name( $params['category'] ),
+			'group'    	  => isset( $params['group'] ) ? $params['group'] : false,
+			'icon'		  => $this->icon,
+		), $this->slug );
+
+		$this->name             = $details['name'];
+		$this->description      = $details['description'];
+		$this->category         = $details['category'];
+		$this->group            = $details['group'];
+		$this->icon             = $details['icon'];
 	}
 
 	/**

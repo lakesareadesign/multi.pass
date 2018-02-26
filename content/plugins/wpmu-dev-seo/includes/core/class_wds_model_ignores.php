@@ -1,32 +1,32 @@
 <?php
 
-class WDS_Model_Ignores extends WDS_Model {
+class Smartcrawl_Model_Ignores extends Smartcrawl_Model {
 
 	const IGNORES_STORAGE = 'wds-ignores';
 
 	private $_ignores = array();
 
-	public function __construct () {
+	public function __construct() {
 		$this->load();
 	}
 
-	public function get_type () { return 'ignores'; }
+	public function get_type() {
+		return 'ignores'; }
 
 	/**
 	 * Loads the ignores list
 	 *
 	 * @return bool Status
 	 */
-	public function load () {
+	public function load() {
 		$this->_ignores = array();
 
-		$ignores = wds_is_switch_active('WDS_SITEWIDE')
-			? get_site_option(self::IGNORES_STORAGE)
-			: get_option(self::IGNORES_STORAGE)
-		;
+		$ignores = smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' )
+			? get_site_option( self::IGNORES_STORAGE )
+			: get_option( self::IGNORES_STORAGE );
 
-		if (!empty($ignores) && is_array($ignores)) {
-			$this->_ignores = array_filter(array_unique($ignores));
+		if ( ! empty( $ignores ) && is_array( $ignores ) ) {
+			$this->_ignores = array_filter( array_unique( $ignores ) );
 			return true;
 		}
 
@@ -38,11 +38,10 @@ class WDS_Model_Ignores extends WDS_Model {
 	 *
 	 * @return bool Status
 	 */
-	public function clear () {
-		return wds_is_switch_active('WDS_SITEWIDE')
-			? update_site_option(self::IGNORES_STORAGE, array())
-			: update_option(self::IGNORES_STORAGE, array())
-		;
+	public function clear() {
+		return smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' )
+			? update_site_option( self::IGNORES_STORAGE, array() )
+			: update_option( self::IGNORES_STORAGE, array() );
 	}
 
 	/**
@@ -52,17 +51,16 @@ class WDS_Model_Ignores extends WDS_Model {
 	 *
 	 * @return bool Status
 	 */
-	public function set_ignore ($key) {
-		if (empty($key)) return false;
-		if (!$this->is_valid_ignore_key($key)) return false;
+	public function set_ignore( $key ) {
+		if ( empty( $key ) ) { return false; }
+		if ( ! $this->is_valid_ignore_key( $key ) ) { return false; }
 
 		$this->_ignores[] = $key;
-		$this->_ignores = array_filter(array_unique($this->_ignores));
+		$this->_ignores = array_filter( array_unique( $this->_ignores ) );
 
-		$status = wds_is_switch_active('WDS_SITEWIDE')
-			? update_site_option(self::IGNORES_STORAGE, $this->_ignores)
-			: update_option(self::IGNORES_STORAGE, $this->_ignores)
-		;
+		$status = smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' )
+			? update_site_option( self::IGNORES_STORAGE, $this->_ignores )
+			: update_option( self::IGNORES_STORAGE, $this->_ignores );
 		return $status;
 	}
 
@@ -73,22 +71,20 @@ class WDS_Model_Ignores extends WDS_Model {
 	 *
 	 * @return bool Status
 	 */
-	public function unset_ignore ($key) {
-		if (empty($key)) return false;
-		if (!$this->is_valid_ignore_key($key)) return false;
+	public function unset_ignore( $key ) {
+		if ( empty( $key ) ) { return false; }
+		if ( ! $this->is_valid_ignore_key( $key ) ) { return false; }
 
-		$index = array_search($key, $this->_ignores);
-		if($index !== false)
-		{
-			unset($this->_ignores[$index]);
+		$index = array_search( $key, $this->_ignores );
+		if ( $index !== false ) {
+			unset( $this->_ignores[ $index ] );
 		}
 
-		$this->_ignores = array_filter(array_unique($this->_ignores));
+		$this->_ignores = array_filter( array_unique( $this->_ignores ) );
 
-		$status = wds_is_switch_active('WDS_SITEWIDE')
-			? update_site_option(self::IGNORES_STORAGE, $this->_ignores)
-			: update_option(self::IGNORES_STORAGE, $this->_ignores)
-		;
+		$status = smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' )
+			? update_site_option( self::IGNORES_STORAGE, $this->_ignores )
+			: update_option( self::IGNORES_STORAGE, $this->_ignores );
 		return $status;
 	}
 
@@ -99,9 +95,9 @@ class WDS_Model_Ignores extends WDS_Model {
 	 *
 	 * @return bool Valid state
 	 */
-	public function is_valid_ignore_key ($key) {
-		if (!is_string($key)) return false;
-		return !!preg_match('/^[a-f0-9]+$/i', $key);
+	public function is_valid_ignore_key( $key ) {
+		if ( ! is_string( $key ) ) { return false; }
+		return ! ! preg_match( '/^[a-f0-9]+$/i', $key );
 	}
 
 	/**
@@ -109,7 +105,7 @@ class WDS_Model_Ignores extends WDS_Model {
 	 *
 	 * @return array List of ignored items unique IDs
 	 */
-	public function get_all () {
+	public function get_all() {
 		return $this->_ignores;
 	}
 
@@ -118,7 +114,7 @@ class WDS_Model_Ignores extends WDS_Model {
 	 *
 	 * @return bool
 	 */
-	public function is_ignored ($key) {
-		return (bool)in_array($key, $this->get_all());
+	public function is_ignored( $key ) {
+		return (bool) in_array( $key, $this->get_all() );
 	}
 }

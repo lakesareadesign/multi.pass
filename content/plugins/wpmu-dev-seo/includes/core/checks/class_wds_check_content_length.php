@@ -1,8 +1,8 @@
 <?php
 
-if (!class_exists('WDS_Check_Abstract')) require_once(dirname(__FILE__) . '/class_wds_check_abstract.php');
+if ( ! class_exists( 'Smartcrawl_Check_Abstract' ) ) { require_once( dirname( __FILE__ ) . '/class_wds_check_abstract.php' ); }
 
-class WDS_Check_Content_Length extends WDS_Check_Post_Abstract {
+class Smartcrawl_Check_Content_Length extends Smartcrawl_Check_Post_Abstract {
 
 	/**
 	 * Holds check state
@@ -13,40 +13,39 @@ class WDS_Check_Content_Length extends WDS_Check_Post_Abstract {
 
 	private $_wordcount = null;
 
-	public function get_status_msg () {
-		if (-1 === $this->_state) return __('There is no content', 'wds');
+	public function get_status_msg() {
+		if ( -1 === $this->_state ) { return __( 'There is no content', 'wds' ); }
 		return $this->_state === false
-			? sprintf(__('Content is shorter than %d words', 'wds'), $this->get_min())
-			: sprintf(__('Content is greater than %d words', 'wds'), $this->get_min())
-		;
+			? sprintf( __( 'Content is shorter than %d words', 'wds' ), $this->get_min() )
+			: sprintf( __( 'Content is greater than %d words', 'wds' ), $this->get_min() );
 	}
 
-	public function apply () {
+	public function apply() {
 		$markup = $this->get_markup();
-		if (empty($markup)) {
+		if ( empty( $markup ) ) {
 			$this->_state = -1;
 			return false;
 		}
 
-		$words = WDS_String::words(WDS_Html::plaintext($markup));
+		$words = Smartcrawl_String::words( Smartcrawl_Html::plaintext( $markup ) );
 
-		$count = count($words);
+		$count = count( $words );
 		$this->_wordcount = $count;
-		return !!$this->_state = $count > $this->get_min();
+		return ! ! $this->_state = $count > $this->get_min();
 	}
 
-	public function get_min () { return 300; }
+	public function get_min() {
+		return 300; }
 
-	public function get_recommendation()
-	{
+	public function get_recommendation() {
 		$word_count = $this->_wordcount ? $this->_wordcount : 0;
 
-		if ($word_count === 0) {
-			$message = __('Unless your website is a photography blog it\'s generally a good idea to include content for your visitors to read, and also Google to help with indexing. Something, anything, is better than nothing.', 'wds');
-		} else if ($this->_state) {
-			$message = __('Your content is longer than the recommend minimum of %1$d words, excellent!', 'wds');
+		if ( $word_count === 0 ) {
+			$message = __( 'Unless your website is a photography blog it\'s generally a good idea to include content for your visitors to read, and also Google to help with indexing. Something, anything, is better than nothing.', 'wds' );
+		} elseif ( $this->_state ) {
+			$message = __( 'Your content is longer than the recommend minimum of %1$d words, excellent!', 'wds' );
 		} else {
-			$message = __('The best practice minimum content length for the web is %1$d words so we recommend you aim for at least this amount - the more the merrier.', 'wds');
+			$message = __( 'The best practice minimum content length for the web is %1$d words so we recommend you aim for at least this amount - the more the merrier.', 'wds' );
 		}
 
 		return sprintf(
@@ -56,9 +55,8 @@ class WDS_Check_Content_Length extends WDS_Check_Post_Abstract {
 		);
 	}
 
-	public function get_more_info()
-	{
-		$message = __('Content is ultimately the bread and butter of your SEO. Without words, your pages and posts will have a hard time ranking for the keywords you want them to. As a base for any article best practice suggests a minimum of %1$d words, with 1000 being a good benchmark and 1600 being the optimal. Numerous studies have uncovered that longer content tends to perform better than shorter content, with pages having 1000 words or more performing best. Whilst optimizing your content for search engines is what we\'re going for here, a proven bi-product is that high quality long form articles also tend to get shared more on social platforms. With the increasing power of social media as a tool for traffic it\'s a nice flow on effect of writing those juicy high quality articles your readers are waiting for.', 'wds');
+	public function get_more_info() {
+		$message = __( 'Content is ultimately the bread and butter of your SEO. Without words, your pages and posts will have a hard time ranking for the keywords you want them to. As a base for any article best practice suggests a minimum of %1$d words, with 1000 being a good benchmark and 1600 being the optimal. Numerous studies have uncovered that longer content tends to perform better than shorter content, with pages having 1000 words or more performing best. Whilst optimizing your content for search engines is what we\'re going for here, a proven bi-product is that high quality long form articles also tend to get shared more on social platforms. With the increasing power of social media as a tool for traffic it\'s a nice flow on effect of writing those juicy high quality articles your readers are waiting for.', 'wds' );
 		return sprintf(
 			$message,
 			$this->get_min()

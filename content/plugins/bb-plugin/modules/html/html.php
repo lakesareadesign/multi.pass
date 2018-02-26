@@ -38,7 +38,7 @@ FLBuilder::register_module('FLHtmlModule', array(
 							'type'              => 'text',
 							'selector'          => '.fl-html',
 						),
-						'connections'         => array( 'html', 'string' ),
+						'connections'         => array( 'html', 'string', 'url' ),
 					),
 				),
 			),

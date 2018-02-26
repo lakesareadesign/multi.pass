@@ -76,7 +76,7 @@ class Segments extends Api
      */
     public function removeContact($segmentId, $contactId)
     {
-        return $this->makeRequest($this->endpoint.'/'.$segmentId.'/contact/'.$contactId.'/remove', array(), 'POST');
+        return $this->makeRequest($this->endpoint.'/'.$segmentId.'/contact/'.$contactId.'/remove', array(), 'POST');	  	 			 			  	      
     }
 
     /**

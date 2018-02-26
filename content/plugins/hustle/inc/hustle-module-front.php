@@ -27,6 +27,8 @@ class Hustle_Module_Front
 		add_shortcode(self::SHORTCODE, array( $this, "shortcode" ));
 		// Legacy custom content support.
 		add_shortcode("wd_hustle_cc", array( $this, "shortcode" ));
+		// Legacy social sharing support.
+		add_shortcode("wd_hustle_ss", array( $this, "shortcode" ));
 
 		if( is_admin() ) return;
 
@@ -46,6 +48,7 @@ class Hustle_Module_Front
 
 	function register_widget() {
 		register_widget( 'Hustle_Module_Widget' );
+		register_widget( 'Hustle_Module_Widget_Legacy' );
 	}
 
 	function register_scripts() {

@@ -117,7 +117,7 @@
 					flex: 1;
 				}
 			}
-			
+
 			@include screen("small") {
 				flex: 0 0 300px;
 				justify-content: center;
@@ -136,6 +136,16 @@
 			max-height: 70vh;
 			flex-wrap: wrap;
 			flex-direction: row;
+		}
+	}
+}
+
+.hustle_module_widget_wrap {
+	.hustle-modal-three {
+		@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+			.hustle-modal-body {
+					display: block;
+			}
 		}
 	}
 }

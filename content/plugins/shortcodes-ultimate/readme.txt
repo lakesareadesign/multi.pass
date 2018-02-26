@@ -105,6 +105,13 @@ For help with premium add-ons, please [open new support ticket](https://getshort
 
 == Changelog ==
 
+= 5.0.3 =
+* Changed: Inview.js library replaced with [jQuery.Inview](https://github.com/protonet/jquery.inview)
+* Fixed: caching issue with [su_dummy_text]
+* Fixed: PHP warning in [su_posts] shortcode when specified template does not exist
+* Updated: Font Awesome to version 4.7.0
+* Added: responsive styles for [su_pullquote]
+
 = 5.0.2 =
 * Fixed: an issue where RTL stylesheet won't displayed if custom CSS field is empty
 * Fixed: icon sizes at 'Dashboard - Available Shortcodes' page

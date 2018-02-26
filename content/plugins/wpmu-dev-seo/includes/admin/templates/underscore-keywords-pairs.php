@@ -7,9 +7,9 @@
 				$this->_render('links-dropdown', array(
 					'label' => "{{- Wds.l10n('keywords', 'Options') }}",
 					'links' => array(
-						"#edit"   => "{{- Wds.l10n('keywords', 'Edit') }}",
-						"#remove" => "{{- Wds.l10n('keywords', 'Remove') }}"
-					)
+						'#edit'   => "{{- Wds.l10n('keywords', 'Edit') }}",
+						'#remove' => "{{- Wds.l10n('keywords', 'Remove') }}",
+					),
 				));
 			?>
 		{{ } }}

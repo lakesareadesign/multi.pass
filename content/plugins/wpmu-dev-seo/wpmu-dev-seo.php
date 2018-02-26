@@ -1,15 +1,15 @@
 <?php
 /**
-* Plugin Name: SmartCrawl
-* Plugin URI: http://premium.wpmudev.org/project/wpmu-dev-seo/
-* Description: Every SEO option that a site requires, in one easy bundle.
-* Version: 2.1.0.1
-* Network: true
-* Text Domain: wds
-* Author: WPMU DEV
-* Author URI: http://premium.wpmudev.org
-* WDP ID: 167
-*/
+ * Plugin Name: SmartCrawl
+ * Plugin URI: http://premium.wpmudev.org/project/wpmu-dev-seo/
+ * Description: Every SEO option that a site requires, in one easy bundle.
+ * Version: 2.1.1
+ * Network: true
+ * Text Domain: wds
+ * Author: WPMU DEV
+ * Author URI: http://premium.wpmudev.org
+ * WDP ID: 167
+ */
 
 /*
 * Copyright 2010-2011 Incsub (http://incsub.com/)
@@ -30,9 +30,9 @@
 */
 
 
-define( 'WDS_VERSION', '2.1.0.1' );
+define( 'SMARTCRAWL_VERSION', '2.1.1' );
 
-class WDS_Loader {
+class Smartcrawl_Loader {
 
 	/**
 	 * Construct the Plugin object
@@ -44,11 +44,11 @@ class WDS_Loader {
 	/**
 	 * Init Plugin
 	 */
-	public function plugin_init () {
-		require_once ( plugin_dir_path( __FILE__ ) . 'config.php' );
+	public function plugin_init() {
+		require_once( plugin_dir_path( __FILE__ ) . 'config.php' );
 
-		// Init plugin
-		require_once( WDS_PLUGIN_DIR . 'init.php' );
+		// Init plugin.
+		require_once( SMARTCRAWL_PLUGIN_DIR . 'init.php' );
 	}
 
 	/**
@@ -56,34 +56,34 @@ class WDS_Loader {
 	 *
 	 * @return void
 	 */
-	public static function activate () {
-		require_once ( plugin_dir_path( __FILE__ ) . 'config.php' );
+	public static function activate() {
+		require_once( plugin_dir_path( __FILE__ ) . 'config.php' );
 
 		// Init plugin
-		require_once( WDS_PLUGIN_DIR . 'init.php' );
+		require_once( SMARTCRAWL_PLUGIN_DIR . 'init.php' );
 
-		require_once (WDS_PLUGIN_DIR . 'admin/settings.php');
+		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings.php' );
 
-		require_once (WDS_PLUGIN_DIR . 'admin/settings/dashboard.php');
-		WDS_Settings_Dashboard::get_instance()->defaults();
+		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/dashboard.php' );
+		Smartcrawl_Settings_Dashboard::get_instance()->defaults();
 
-		require_once(WDS_PLUGIN_DIR . 'admin/settings/checkup.php');
-		WDS_Checkup_Settings::get_instance()->defaults();
+		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/checkup.php' );
+		Smartcrawl_Checkup_Settings::get_instance()->defaults();
 
-		require_once(WDS_PLUGIN_DIR . 'admin/settings/onpage.php');
-		WDS_Onpage_Settings::get_instance()->defaults();
+		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/onpage.php' );
+		Smartcrawl_Onpage_Settings::get_instance()->defaults();
 
-		require_once(WDS_PLUGIN_DIR . 'admin/settings/social.php');
-		WDS_Social_Settings::get_instance()->defaults();
+		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/social.php' );
+		Smartcrawl_Social_Settings::get_instance()->defaults();
 
-		require_once(WDS_PLUGIN_DIR . 'admin/settings/sitemap.php');
-		WDS_Sitemap_Settings::get_instance()->defaults();
+		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/sitemap.php' );
+		Smartcrawl_Sitemap_Settings::get_instance()->defaults();
 
-		require_once(WDS_PLUGIN_DIR . 'admin/settings/autolinks.php');
-		WDS_Autolinks_Settings::get_instance()->defaults();
+		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/autolinks.php' );
+		Smartcrawl_Autolinks_Settings::get_instance()->defaults();
 
-		require_once(WDS_PLUGIN_DIR . 'admin/settings/settings.php');
-		WDS_Settings_Settings::get_instance()->defaults();
+		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/settings.php' );
+		Smartcrawl_Settings_Settings::get_instance()->defaults();
 	}
 
 	/**
@@ -91,33 +91,33 @@ class WDS_Loader {
 	 *
 	 * @return void
 	 */
-	public static function deactivate () {}
+	public static function deactivate() {}
 
 	/**
 	 * Gets the version number string
 	 *
 	 * @return string Version number info
 	 */
-	public static function get_version () {
+	public static function get_version() {
 		static $version;
-		if (empty($version)) {
-			$version = defined('WDS_VERSION') && WDS_VERSION ? WDS_VERSION : null;
+		if ( empty( $version ) ) {
+			$version = defined( 'SMARTCRAWL_VERSION' ) && SMARTCRAWL_VERSION ? SMARTCRAWL_VERSION : null;
 		}
 		return $version;
 	}
 }
 
-define( 'WDS_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
+define( 'SMARTCRAWL_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
 // Plugin Activation and Deactivation hooks
-register_activation_hook( __FILE__, array( 'WDS_Loader', 'activate' ) );
-register_deactivation_hook( __FILE__, array( 'WDS_Loader', 'deactivate' ) );
+register_activation_hook( __FILE__, array( 'Smartcrawl_Loader', 'activate' ) );
+register_deactivation_hook( __FILE__, array( 'Smartcrawl_Loader', 'deactivate' ) );
 
-if( defined('WDS_CONDITIONAL_EXECUTION') && WDS_CONDITIONAL_EXECUTION ) {
+if ( defined( 'SMARTCRAWL_CONDITIONAL_EXECUTION' ) && SMARTCRAWL_CONDITIONAL_EXECUTION ) {
 	add_action(
 		'plugins_loaded',
-		array( 'WDS_Loader', 'plugin_init' )
+		array( 'Smartcrawl_Loader', 'plugin_init' )
 	);
 } else {
-	$WDS_Loader = new WDS_Loader();
+	$Smartcrawl_Loader = new Smartcrawl_Loader();
 }

@@ -1,6 +1,14 @@
 <?php
+/**
+ * Import/export model
+ *
+ * @package wpmu-dev-seo
+ */
 
-class WDS_Model_IO {
+/**
+ * IO model class
+ */
+class Smartcrawl_Model_IO {
 
 	const OPTIONS = 'options';
 	const IGNORES = 'ignores';
@@ -9,43 +17,100 @@ class WDS_Model_IO {
 	const TAXMETA = 'taxmeta';
 	const REDIRECTS = 'redirects';
 	const REDIRECT_TYPES = 'redirect_types';
+	const IGNORE_URLS = 'ignore_urls';
+	const IGNORE_POST_IDS = 'ignore_post_ids';
 
+	/**
+	 * Intermediate staging area
+	 *
+	 * @var array
+	 */
 	private $_options = array();
+
+	/**
+	 * Intermediate staging area
+	 *
+	 * @var array
+	 */
 	private $_ignores = array();
+
+	/**
+	 * Intermediate staging area
+	 *
+	 * @var array
+	 */
 	private $_extra_urls = array();
+
+	/**
+	 * Intermediate staging area
+	 *
+	 * @var array
+	 */
 	private $_postmeta = array();
+
+	/**
+	 * Intermediate staging area
+	 *
+	 * @var array
+	 */
 	private $_taxmeta = array();
+
+	/**
+	 * Intermediate staging area
+	 *
+	 * @var array
+	 */
 	private $_redirects = array();
+
+	/**
+	 * Intermediate staging area
+	 *
+	 * @var array
+	 */
 	private $_redirect_types = array();
+
+	/**
+	 * Intermediate staging area
+	 *
+	 * @var array
+	 */
+	private $_ignore_urls = array();
+
+	/**
+	 * Intermediate staging area
+	 *
+	 * @var array
+	 */
+	private $_ignore_post_ids = array();
 
 	/**
 	 * Gets loaded options
 	 *
-	 * @param string $what Which part to get
+	 * @param string $what Which part to get.
 	 *
 	 * @return array
 	 */
-	public function get ($what) {
+	public function get( $what ) {
 		$ret = array();
-		if (!in_array($what, $this->get_sections())) return $ret;
+		if ( ! in_array( $what, $this->get_sections() ) ) { return $ret; }
 		$prop = "_{$what}";
 
 		$ret = $this->$prop;
-		return (array)$ret;
+		return (array) $ret;
 	}
 
 	/**
 	 * Sets the property value
 	 *
-	 * @param string $what IO section to set
-	 * @param array $value Value to set
+	 * @param string $what IO section to set.
+	 * @param array  $value Value to set.
 	 *
 	 * @return bool Status
 	 */
-	public function set ($what, $value) {
-		if (!in_array($what, $this->get_sections())) return false;
+	public function set( $what, $value ) {
+		if ( ! in_array( $what, $this->get_sections() ) ) { return false; }
 		$prop = "_{$what}";
-		return !!$this->$prop = $value;
+		return ! ! $this->$prop = $value;
 	}
 
 	/**
@@ -53,7 +118,7 @@ class WDS_Model_IO {
 	 *
 	 * @return array List of IO sections
 	 */
-	public function get_sections () {
+	public function get_sections() {
 		return array(
 			self::OPTIONS,
 			self::IGNORES,
@@ -62,6 +127,8 @@ class WDS_Model_IO {
 			self::TAXMETA,
 			self::REDIRECTS,
 			self::REDIRECT_TYPES,
+			self::IGNORE_URLS,
+			self::IGNORE_POST_IDS,
 		);
 	}
 
@@ -70,10 +137,10 @@ class WDS_Model_IO {
 	 *
 	 * @return array Everything
 	 */
-	public function get_all () {
+	public function get_all() {
 		$ret = array();
-		foreach ($this->get_sections() as $sect) {
-			$ret[$sect] = $this->get($sect);
+		foreach ( $this->get_sections() as $sect ) {
+			$ret[ $sect ] = $this->get( $sect );
 		}
 		return $ret;
 	}
@@ -83,8 +150,8 @@ class WDS_Model_IO {
 	 *
 	 * @return string JSON
 	 */
-	public function get_json () {
-		return wp_json_encode($this->get_all());
+	public function get_json() {
+		return wp_json_encode( $this->get_all() );
 	}
 
 }

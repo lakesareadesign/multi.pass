@@ -4,12 +4,68 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 Change Log:
 ----------------------------------------------------------------------
 
-3.0 - 2017-09-28
+3.0.1 - 2017-02-05
+----------------------------------------------------------------------
+- Add legacy support for widgets and shortcodes.
+- Fix issues with local email lists, tracking, and custom CSS not getting migrated properly.
+- Fix various style issues.
+- Fix issue with ActiveCampaign incorrectly showing duplicate error upon sign
+up to a separate list.
+- Fix inability to close out of the welcome message on dashboard.
+- Fix Embeds local email list not downloading.
+- Fix Object Caching issue with some hosts where settings appeared to not save.
+
+3.0 - 2018-01-18
 ----------------------------------------------------------------------
 - New UI Flow and Design
 - New structure for Hustle modules (introducing Pop-ups, Slide-ins, Embeds,
 and Social Sharing)
 - Automatic migration from Hustle 2.x to Hustle 3.0
+
+2.1.5.1 - 2017-08-22
+----------------------------------------------------------------------
+- Improved ConstantContact Integration.
+
+2.1.5 - 2017-08-15
+----------------------------------------------------------------------
+- Improved HubSpot integration.
+- Improved Mautic integration.
+- Fixed Custom Content js errors on frontend.
+
+2.1.4 - 2017-08-09
+----------------------------------------------------------------------
+- New HubSpot integration (static list).
+- Improved ConstantContact integration.
+- Improved InfusionSoft integration.
+- Improved AWeber integration.
+- Improved Mautic integration.
+- Improved SendInBlue integration.
+- Improved Opt-in when provider not set but uses "Save Emails to local list".
+- Fixed Opt-in signup button not showing on some layouts.
+- Fixed Custom Content front-end JavaScript errors.
+
+2.1.3.2 - 2017-07-31
+----------------------------------------------------------------------
+- Improved compatibility with PHP 5.2 and 5.3.
+- Improved the display for MailChimp Groups on frontend.
+
+2.1.3.1 - 2017-07-24
+----------------------------------------------------------------------
+- Improved API Connection Security for Integrations
+
+2.1.3 - 2017-07-10
+----------------------------------------------------------------------
+- New SendInBlue integration.
+- Added "Load More" button for MailChimp lists.
+- Fixed MailChimp integration issues.
+- Fixed custom colors issues on social sharing admin wizard.
+- Fixed media queries break custom css.
+
+2.1.2 - 2017-05-31
+----------------------------------------------------------------------
+- Fixed Custom Content conflict with Page Builder by SiteOrigin.
+- Fixed MailChimp integration issues.
+- Fixed ActiveCampaign integration issues.
 
 2.1.1 - 2017-05-23
 ----------------------------------------------------------------------
@@ -207,4 +263,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1516736059-au
+133620-1519672567-au

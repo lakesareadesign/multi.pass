@@ -1,6 +1,6 @@
 <?php
 
-abstract class WDS_Model {
+abstract class Smartcrawl_Model {
 
 	/**
 	 * Returns model type.
@@ -18,7 +18,7 @@ abstract class WDS_Model {
 	 *
 	 * @return string
 	 */
-	public function get_filter ($suffix) {
+	public function get_filter( $suffix ) {
 		return 'wds-model-' . $this->get_type() . '-' . $suffix;
 	}
 

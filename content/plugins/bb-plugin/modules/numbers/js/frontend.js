@@ -12,16 +12,16 @@ var FLBuilderNumber;
 		// set params
 		this.nodeClass           = '.fl-node-' + settings.id;
 		this.wrapperClass        = this.nodeClass + ' .fl-number';
-		this.layout				 = settings.layout;
-		this.type				 = settings.type;
-		this.number				 = settings.number;
-		this.max				 = settings.max;
-		this.speed 				 = settings.speed;
-		this.delay 				 = settings.delay;
+		this.layout              = settings.layout;
+		this.type                = settings.type;
+		this.number              = settings.number;
+		this.max                 = settings.max;
+		this.speed               = settings.speed;
+		this.delay               = settings.delay;
 		this.breakPoints         = settings.breakPoints;
 		this.currentBrowserWidth = $( window ).width();
 		this.animated            = false;
-		this.format 			 = settings.format;
+		this.format              = settings.format;
 
 		// initialize the menu
 		this._initNumber();
@@ -31,19 +31,19 @@ var FLBuilderNumber;
 	FLBuilderNumber.prototype = {
 		nodeClass               : '',
 		wrapperClass            : '',
-		layout 	                : '',
-		type 	                : '',
-		number 	                : 0,
-		max 	                : 0,
-		speed 					: 0,
-		delay 					: 0,
-		format 					: {},
+		layout                  : '',
+		type                    : '',
+		number                  : 0,
+		max                     : 0,
+		speed                   : 0,
+		delay                   : 0,
+		format                  : {},
 
 		_initNumber: function(){
 
 			var self = this;
 
-			if( typeof jQuery.fn.waypoint !== 'undefined' ) {
+			if( typeof jQuery.fn.waypoint !== 'undefined' && ! this.animated ) {
 				$( this.wrapperClass ).waypoint({
 					offset: FLBuilderLayoutConfig.waypoint.offset + '%',
 					triggerOnce: true,
@@ -54,12 +54,12 @@ var FLBuilderNumber;
 			} else {
 				self._initCount();
 			}
-
 		},
 
 		_initCount: function(){
 
 			var $number = $( this.wrapperClass ).find( '.fl-number-string' );
+
 
 			if( !isNaN( this.delay ) && this.delay > 0 ) {
 				setTimeout( function(){
@@ -89,24 +89,24 @@ var FLBuilderNumber;
 				self    = this;
 
 			if ( ! this.animated ) {
-			    $string.prop( 'Counter',0 ).animate({
-			        Counter: this.number
-			    }, {
-			        duration: this.speed,
-			        easing: 'swing',
-			        step: function ( now, fx ) {
+				$string.prop( 'Counter',0 ).animate({
+					Counter: this.number
+				}, {
+					duration: this.speed,
+					easing: 'swing',
+					step: function ( now, fx ) {
 						$string.text( self._formatNumber( now, fx ) );
-			        },
-			        complete: function() {
-			        	self.animated = true;
-			        }
-			    });
+					},
+					complete: function() {
+						self.animated = true;
+					}
+				});
 			}
 		},
 
 		_triggerCircle: function(){
 
-			var $bar   = $( this.wrapperClass ).find( '.fl-bar' ),
+			var $bar = $( this.wrapperClass ).find( '.fl-bar' ),
 				r      = $bar.attr('r'),
 				circle = Math.PI*(r*2),
 				val    = this.number,
@@ -121,12 +121,15 @@ var FLBuilderNumber;
 				var pct = ( 1 - ( val / max ) ) * circle;
 			}
 
-		    $bar.animate({
-		        strokeDashoffset: pct
-		    }, {
-		        duration: this.speed,
-		        easing: 'swing'
-		    });
+			$bar.animate({
+				strokeDashoffset: pct
+			}, {
+				duration: this.speed,
+				easing: 'swing',
+				complete: function() {
+					this.animated = true;
+				}
+			});
 
 		},
 
@@ -140,13 +143,17 @@ var FLBuilderNumber;
 				var number = Math.ceil( ( this.number / this.max ) * 100 );
 			}
 
-		    $bar.animate({
-		        width: number + '%'
-		    }, {
-		        duration: this.speed,
-		        easing: 'swing'
-		    });
-
+			if( ! this.animated ) {
+				$bar.animate({
+					width: number + '%'
+				}, {
+					duration: this.speed,
+					easing: 'swing',
+					complete: function() {
+						this.animated = true;
+					}
+				});
+			}
 		},
 
 		_formatNumber: function( n, fx ){
@@ -161,8 +168,8 @@ var FLBuilderNumber;
 				decLimit = num[1].length > 2 ? 2 : num[1].length;
 			}
 
-            n += '';
-            x  = n.split('.');
+			n += '';
+			x  = n.split('.');
 			x1 = x[0];
 			x2 = x.length > 1 ? parseFloat( parseFloat( '.' + x[1] ).toFixed( decLimit ) ) : '';
 			x2 = '' != x2 ? this.format.decimal + x2.toString().split('.').pop() : '';

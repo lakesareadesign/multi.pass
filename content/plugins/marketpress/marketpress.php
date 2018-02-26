@@ -3,7 +3,7 @@
 Plugin Name: MarketPress
 Plugin URI:  https://premium.wpmudev.org/project/e-commerce/
 Description: The complete WordPress ecommerce plugin - works perfectly with BuddyPress and Multisite too to create a social marketplace, where you can take a percentage! Activate the plugin, adjust your settings then add some products to your store.
-Version:     3.2.7
+Version:     3.2.8
 Author:      WPMU DEV
 Author URI:  http://premium.wpmudev.org
 Text Domain: mp
@@ -31,7 +31,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA	02111-1307	USA
 Plugin Authors: Marko Miljus (Incsub), Aaron Edwards (Incsub), Hoang Ngo (Incsub), Jonathan Cowher (Incsub), Ricardo Freitas (Incsub), Cvetan Cvetanov (Incsub), Julien Zerbib (Incsub), Sabri Bouchaala (Incsub), Emmanuel Laborin (Incsub)
 */
 
-define( 'MP_VERSION', '3.2.7' );
+define( 'MP_VERSION', '3.2.8' );
 
 /**
  * Main class Marketpress.
@@ -369,7 +369,7 @@ class Marketpress {
 		require_once $this->plugin_dir( 'includes/common/constants.php' );
 
 		// Includes.
-		add_action( 'init', array( &$this, 'includes' ), -1 );
+		add_action( 'init', array( &$this, 'includes' ), 0 );
 
 		// Load gateway/shipping plugins.
 		add_action( 'init', array( &$this, 'load_plugins' ), 2 );
@@ -847,11 +847,11 @@ class Marketpress {
 	 * @action init
 	 */
 	public function maybe_flush_rewrites() {
-		$flush_rewrites = get_option( 'mp_flush_rewrites_30', 1 );
+		$flush_rewrites = get_option( 'mp_flush_rewrites', 1 );
 
-		if ( 1 === $flush_rewrites ) {
+		if ( 1 === $flush_rewrites || '1' === $flush_rewrites ) {
 			flush_rewrite_rules();
-			update_option( 'mp_flush_rewrites_30', 0 );
+			update_option( 'mp_flush_rewrites', 0 );
 		}
 	}
 
@@ -905,11 +905,14 @@ class Marketpress {
 		require_once $this->plugin_dir( 'includes/wpmudev-metaboxes/wpmudev-metabox.php' );
 		require_once $this->plugin_dir( 'includes/common/class-mp-mailer.php' );
 		require_once $this->plugin_dir( 'includes/common/helpers.php' );
+
 		require_once $this->plugin_dir( 'includes/common/class-mp-product-attributes.php' );
 		require_once $this->plugin_dir( 'includes/addons/class-mp-addons.php' );
 		require_once $this->plugin_dir( 'includes/common/class-mp-order.php' );
 		require_once $this->plugin_dir( 'includes/common/class-mp-product.php' );
 		require_once $this->plugin_dir( 'includes/common/class-mp-installer.php' );
+
+
 		require_once $this->plugin_dir( 'includes/common/class-mp-cart.php' );
 		require_once $this->plugin_dir( 'includes/common/template-functions.php' );
 		require_once $this->plugin_dir( 'includes/common/class-mp-backward-compatibility.php' );

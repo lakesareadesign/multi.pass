@@ -48,7 +48,7 @@ if ( function_exists("spl_autoload_register") ) {
         // places where we need to error out
         $reflector = new ReflectionMethod($func[0], $func[1]);
         if (!$reflector->isStatic()) {
-          throw new Exception('This function is not compatible with non-static object methods due to PHP Bug #44144.');
+          throw new Exception('This function is not compatible with non-static object methods due to PHP Bug #44144.');	     	 	 	    	  
         }
 
         // Suprisingly, spl_autoload_register supports the

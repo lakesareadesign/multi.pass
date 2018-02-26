@@ -141,8 +141,7 @@
 			if ( reCaptchaField.length > 0 && isValid ) {
 				if ( 'undefined' === typeof reCaptchaValue || reCaptchaValue === false ) {
 					if ( 'normal' == reCaptchaField.data( 'validate' ) ) {
-						reCaptchaField.addClass( 'fl-form-error' );
-						reCaptchaField.siblings( '.fl-form-error-message' ).show();
+						reCaptchaField.parent().addClass( 'fl-error' );
 					} else if ( 'invisible' == reCaptchaField.data( 'validate' ) ) {
 
 						// Invoke the reCAPTCHA check.

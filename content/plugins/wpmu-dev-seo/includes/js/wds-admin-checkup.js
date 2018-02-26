@@ -62,6 +62,37 @@
 		}
 	}
 
+	function update_checkup_progress () {
+		var previous = update_checkup_progress.previous || 0,
+			base_timeout = 30 * 1000,
+			incr = 30 * 1000
+		;
+		return $.post(ajaxurl, {
+			action: 'wds-checkup-status'
+		}, function (resp) {
+			var status = (resp || {}).success || false,
+				percentage = ((resp || {}).data || {}).percentage || 0
+			;
+
+			$('.wds-report .wds-progress')
+				.find('.wds-progress-bar-current-percent').text(percentage + '%').end()
+				.find('.wds-progress-bar-inside').width(percentage + '%')
+			;
+
+			if (status && parseInt(percentage, 10) >= 100) {
+				return window.location.reload();
+			} else {
+				if (percentage === previous) {
+					base_timeout += incr;
+				} else {
+					update_checkup_progress.previous = percentage;
+				}
+
+				setTimeout(update_checkup_progress, base_timeout);
+			}
+		});
+	}
+
 	function init() {
 		window.Wds.hook_toggleables();
 		window.Wds.hook_user_search();
@@ -81,6 +112,10 @@
 			.on('click', '.wds-disable-reporting', disable_reporting);
 
 		$(":checkbox[name*='checkup-cron-enable']").on('change', toggle_stats_button);
+
+		if ($(".tab_checkup .wds-progress").length) {
+			update_checkup_progress();
+		}
 	}
 
 	$(init);

@@ -1,6 +1,6 @@
 <?php
 
-abstract class WDS_Service {
+abstract class Smartcrawl_Service {
 
 
 	/**
@@ -17,7 +17,7 @@ abstract class WDS_Service {
 	 *
 	 * @return mixed Full URL as string or (bool)false on failure
 	 */
-	abstract public function get_request_url ($verb);
+	abstract public function get_request_url ( $verb);
 
 	/**
 	 * Spawn the arguments for WP HTTP API request call
@@ -26,7 +26,7 @@ abstract class WDS_Service {
 	 *
 	 * @return mixed Array of WP HTTP API arguments on success, or (bool)false on failure
 	 */
-	abstract public function get_request_arguments ($verb);
+	abstract public function get_request_arguments ( $verb);
 
 	/**
 	 * Returns a flat list of known verbs as strings
@@ -42,18 +42,19 @@ abstract class WDS_Service {
 	 *
 	 * @return bool
 	 */
-	abstract public function is_cacheable_verb ($verb);
+	abstract public function is_cacheable_verb ( $verb);
 
 	/**
 	 * Handles error response (non-200) from service
 	 *
-	 * @param object $response WP HTTP API response
+	 * @param object $response WP HTTP API response.
+	 * @param string $verb Request verb.
 	 */
-	abstract public function handle_error_response ($response);
+	abstract public function handle_error_response ( $response, $verb );
 
 
-	const INTERMEDIATE_CACHE_EXPIRY = 600;
-	const ERR_CACHE_EXPIRY = 300;
+	const INTERMEDIATE_CACHE_EXPIRY = 300;
+	const ERR_CACHE_EXPIRY = 120;
 
 	const SERVICE_UPTIME = 'uptime';
 	const SERVICE_SEO = 'seo';
@@ -67,28 +68,28 @@ abstract class WDS_Service {
 	 *
 	 * @param string $type Requested service type
 	 *
-	 * @return object WDS_Service Service instance
+	 * @return object Smartcrawl_Service Service instance
 	 */
-	public static function get ($type) {
-		$type = !empty($type) && in_array($type, array(self::SERVICE_SEO, self::SERVICE_UPTIME, self::SERVICE_CHECKUP, self::SERVICE_SITE))
+	public static function get( $type ) {
+		$type = ! empty( $type ) && in_array( $type, array( self::SERVICE_SEO, self::SERVICE_UPTIME, self::SERVICE_CHECKUP, self::SERVICE_SITE ) )
 			? $type
 			: self::SERVICE_SEO
 		;
 		$class_name = $file_name = false;
-		if ($type === self::SERVICE_UPTIME) {
-			$class_name = 'WDS_Uptime_Service';
+		if ( $type === self::SERVICE_UPTIME ) {
+			$class_name = 'Smartcrawl_Uptime_Service';
 			$file_name = 'class_wds_uptime_service';
-		} else if ($type === self::SERVICE_CHECKUP) {
-			$class_name = 'WDS_Checkup_Service';
+		} elseif ( $type === self::SERVICE_CHECKUP ) {
+			$class_name = 'Smartcrawl_Checkup_Service';
 			$file_name = 'class_wds_checkup_service';
-		} else if ($type === self::SERVICE_SITE) {
-			$class_name = 'WDS_Site_Service';
+		} elseif ( $type === self::SERVICE_SITE ) {
+			$class_name = 'Smartcrawl_Site_Service';
 			$file_name = 'class_wds_site_service';
 		} else {
-			$class_name = 'WDS_Seo_Service';
+			$class_name = 'Smartcrawl_Seo_Service';
 			$file_name = 'class_wds_seo_service';
 		}
-		if (!class_exists($class_name)) require_once (dirname(__FILE__) . "/service/{$file_name}.php");
+		if ( ! class_exists( $class_name ) ) { require_once( dirname( __FILE__ ) . "/service/{$file_name}.php" ); }
 		return new $class_name;
 	}
 
@@ -97,9 +98,9 @@ abstract class WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public function has_dashboard () {
-		return (bool)apply_filters(
-			$this->get_filter('has_dashboard'),
+	public function has_dashboard() {
+		return (bool) apply_filters(
+			$this->get_filter( 'has_dashboard' ),
 			$this->is_dahsboard_active() && $this->has_dashboard_key()
 		);
 	}
@@ -109,15 +110,15 @@ abstract class WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public function can_access () {
+	public function can_access() {
 		$can_access = false;
-		if (!$this->has_dashboard()) {
+		if ( ! $this->has_dashboard() ) {
 			$can_access = $this->can_install();
-		} else if (class_exists('WPMUDEV_Dashboard') && !empty(WPMUDEV_Dashboard::$site) && is_callable(array(WPMUDEV_Dashboard::$site, 'allowed_user'))) {
+		} elseif ( class_exists( 'WPMUDEV_Dashboard' ) && ! empty( WPMUDEV_Dashboard::$site ) && is_callable( array( WPMUDEV_Dashboard::$site, 'allowed_user' ) ) ) {
 			$can_access = WPMUDEV_Dashboard::$site->allowed_user();
 		}
-		return (bool)apply_filters(
-			$this->get_filter('can_access'),
+		return (bool) apply_filters(
+			$this->get_filter( 'can_access' ),
 			$can_access
 		);
 	}
@@ -127,13 +128,12 @@ abstract class WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public function can_install () {
+	public function can_install() {
 		$can_install = is_multisite()
-			? current_user_can('manage_network_options')
-			: current_user_can('manage_options')
-		;
-		return (bool)apply_filters(
-			$this->get_filter('can_install'),
+			? current_user_can( 'manage_network_options' )
+			: current_user_can( 'manage_options' );
+		return (bool) apply_filters(
+			$this->get_filter( 'can_install' ),
 			$can_install
 		);
 	}
@@ -143,10 +143,10 @@ abstract class WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public function is_dahsboard_active () {
-		$installed = is_admin() ? class_exists('WPMUDEV_Dashboard') : true;
-		return (bool)apply_filters(
-			$this->get_filter('is_dahsboard_active'),
+	public function is_dahsboard_active() {
+		$installed = is_admin() ? class_exists( 'WPMUDEV_Dashboard' ) : true;
+		return (bool) apply_filters(
+			$this->get_filter( 'is_dahsboard_active' ),
 			$installed
 		);
 	}
@@ -158,11 +158,11 @@ abstract class WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public function has_dashboard_key () {
+	public function has_dashboard_key() {
 		$key = $this->get_dashboard_api_key();
-		return (bool)apply_filters(
-			$this->get_filter('has_dashboard_key'),
-			!empty($key)
+		return (bool) apply_filters(
+			$this->get_filter( 'has_dashboard_key' ),
+			! empty( $key )
 		);
 	}
 
@@ -171,10 +171,13 @@ abstract class WDS_Service {
 	 *
 	 * @return string Dashboard API key
 	 */
-	public function get_dashboard_api_key () {
+	public function get_dashboard_api_key() {
+		$api_key = defined( 'WPMUDEV_APIKEY' ) && WPMUDEV_APIKEY
+			? WPMUDEV_APIKEY
+			: get_site_option( 'wpmudev_apikey', false );
 		return apply_filters(
-			$this->get_filter('api_key'),
-			get_site_option('wpmudev_apikey', false)
+			$this->get_filter( 'api_key' ),
+			$api_key
 		);
 	}
 
@@ -183,10 +186,10 @@ abstract class WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public function is_member () {
-		if (!$this->is_dahsboard_active() || !$this->has_dashboard_key()) return false; // No sense in checking further
-
-		if (is_admin() && !function_exists('is_wpmudev_member')) return false;
+	public function is_member() {
+		if ( ! $this->is_dahsboard_active() || ! $this->has_dashboard_key() ) { return false; // No sense in checking further
+		}
+		if ( is_admin() && ! function_exists( 'is_wpmudev_member' ) ) { return false; }
 
 		return is_admin() ? is_wpmudev_member() : true;
 	}
@@ -198,13 +201,13 @@ abstract class WDS_Service {
 	 *
 	 * @return int Cache expiry time, in seconds
 	 */
-	public function get_cache_expiry ($expiry=false) {
-		$expiry = !empty($expiry) && is_numeric($expiry)
-			? (int)$expiry
+	public function get_cache_expiry( $expiry = false ) {
+		$expiry = ! empty( $expiry ) && is_numeric( $expiry )
+			? (int) $expiry
 			: self::INTERMEDIATE_CACHE_EXPIRY
 		;
-		return (int)apply_filters(
-			$this->get_filter('cache_expiry'),
+		return (int) apply_filters(
+			$this->get_filter( 'cache_expiry' ),
 			$expiry
 		);
 	}
@@ -216,9 +219,9 @@ abstract class WDS_Service {
 	 *
 	 * @return mixed Full cache key as string, or (bool)false on failure
 	 */
-	public function get_cache_key ($key) {
-		if (empty($key)) return false;
-		return $this->get_filter($key);
+	public function get_cache_key( $key ) {
+		if ( empty( $key ) ) { return false; }
+		return $this->get_filter( $key );
 	}
 
 	/**
@@ -228,10 +231,10 @@ abstract class WDS_Service {
 	 *
 	 * @return mixed Cached value, or (bool)false on failure
 	 */
-	public function get_cached ($key) {
-		$key = $this->get_cache_key($key);
-		if (empty($key)) return false;
-		return get_transient($key);
+	public function get_cached( $key ) {
+		$key = $this->get_cache_key( $key );
+		if ( empty( $key ) ) { return false; }
+		return get_transient( $key );
 	}
 
 	/**
@@ -241,39 +244,39 @@ abstract class WDS_Service {
 	 *
 	 * @return mixed Cached error or (bool) false
 	 */
-	public function get_cached_error ($verb) {
-		if (empty($verb)) return false;
+	public function get_cached_error( $verb ) {
+		if ( empty( $verb ) ) { return false; }
 
-		return $this->get_cached("{$verb}-error");
+		return $this->get_cached( "{$verb}-error" );
 	}
 
 	/**
 	 * Sets cached value to the corresponding key
 	 *
 	 * @param string $key Key for the value to set
-	 * @param mixed $value Value to set
-	 * @param int $expiry Optional expiry time, in secs (one of the class expiry constants)
+	 * @param mixed  $value Value to set
+	 * @param int    $expiry Optional expiry time, in secs (one of the class expiry constants)
 	 *
 	 * @return bool
 	 */
-	public function set_cached ($key, $value, $expiry=false) {
-		$key = $this->get_cache_key($key);
-		if (empty($key)) return false;
-		return set_transient($key, $value, $this->get_cache_expiry($expiry));
+	public function set_cached( $key, $value, $expiry = false ) {
+		$key = $this->get_cache_key( $key );
+		if ( empty( $key ) ) { return false; }
+		return set_transient( $key, $value, $this->get_cache_expiry( $expiry ) );
 	}
 
 	/**
 	 * Special case error cache setter
 	 *
 	 * @param string $verb Verb to set error cache for
-	 * @param mixed $error Error to set
+	 * @param mixed  $error Error to set
 	 *
 	 * @return bool
 	 */
-	public function set_cached_error ($verb, $error) {
-		if (empty($verb)) return false;
+	public function set_cached_error( $verb, $error ) {
+		if ( empty( $verb ) ) { return false; }
 
-		return $this->set_cached("{$verb}-error", $error, self::ERR_CACHE_EXPIRY);
+		return $this->set_cached( "{$verb}-error", $error, self::ERR_CACHE_EXPIRY );
 	}
 
 	/**
@@ -283,10 +286,10 @@ abstract class WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public function clear_cached ($key) {
-		$key = $this->get_cache_key($key);
-		if (empty($key)) return false;
-		return delete_transient($key);
+	public function clear_cached( $key ) {
+		$key = $this->get_cache_key( $key );
+		if ( empty( $key ) ) { return false; }
+		return delete_transient( $key );
 	}
 
 
@@ -297,9 +300,9 @@ abstract class WDS_Service {
 	 *
 	 * @return string Full filter name
 	 */
-	public function get_filter ($filter=false) {
-		if (empty($filter)) return false;
-		if (!is_string($filter)) return false;
+	public function get_filter( $filter = false ) {
+		if ( empty( $filter ) ) { return false; }
+		if ( ! is_string( $filter ) ) { return false; }
 		return 'wds-model-service-' . $filter;
 	}
 
@@ -310,69 +313,69 @@ abstract class WDS_Service {
 	 *
 	 * @return mixed Service response hash on success, (bool)false on failure
 	 */
-	protected function _remote_call ($verb) {
-		if (empty($verb) || !in_array($verb, $this->get_known_verbs())) return false;
+	protected function _remote_call( $verb ) {
+		if ( empty( $verb ) || ! in_array( $verb, $this->get_known_verbs() ) ) { return false; }
 
-		$cacheable = $this->is_cacheable_verb($verb);
+		$cacheable = $this->is_cacheable_verb( $verb );
 
-		if ($cacheable) {
-			$cached = $this->get_cached($verb);
-			if (false !== $cached) {
-				WDS_Logger::debug("Fetching [{$verb}] result from cache.");
+		if ( $cacheable ) {
+			$cached = $this->get_cached( $verb );
+			if ( false !== $cached ) {
+				Smartcrawl_Logger::debug( "Fetching [{$verb}] result from cache." );
 				return $cached;
 			}
 		}
 
 		// Check to see if we have a valid error cache still
-		$error = $this->get_cached_error($verb);
-		if (false !== $error && !empty($error)) {
-			WDS_Logger::debug("Error cache still in effect for [{$verb}]");
-			$errors = is_array($error) ? $error : array($error);
-			foreach ($errors as $err) {
-				$this->_set_error($err);
+		$error = $this->get_cached_error( $verb );
+		if ( false !== $error && ! empty( $error ) ) {
+			Smartcrawl_Logger::debug( "Error cache still in effect for [{$verb}]" );
+			$errors = is_array( $error ) ? $error : array( $error );
+			foreach ( $errors as $err ) {
+				$this->_set_error( $err );
 			}
 			return false;
 		}
 
-		$remote_url = $this->get_request_url($verb);
-		if (empty($remote_url)) {
-			WDS_Logger::warning("Unable to construct endpoint URL for [{$verb}].");
+		$remote_url = $this->get_request_url( $verb );
+		if ( empty( $remote_url ) ) {
+			Smartcrawl_Logger::warning( "Unable to construct endpoint URL for [{$verb}]." );
 			return false;
 		}
 
-		$request_arguments = $this->get_request_arguments($verb);
-		if (empty($request_arguments)) {
-			WDS_Logger::warning("Unable to obtain request arguments for [{$verb}].");
+		$request_arguments = $this->get_request_arguments( $verb );
+		if ( empty( $request_arguments ) ) {
+			Smartcrawl_Logger::warning( "Unable to obtain request arguments for [{$verb}]." );
 			return false;
 		}
 
-		WDS_Logger::debug("Sending a remote request to [{$remote_url}] ({$verb})");
-		$response = wp_remote_request($remote_url, $request_arguments);
-		if (is_wp_error($response)) {
-			WDS_Logger::error("We were not able to communicate with [{$remote_url}] ({$verb}).");
-			if (is_callable(array($response, 'get_error_messages'))) {
+		Smartcrawl_Logger::debug( "Sending a remote request to [{$remote_url}] ({$verb})" );
+		$response = wp_remote_request( $remote_url, $request_arguments );
+		if ( is_wp_error( $response ) ) {
+			Smartcrawl_Logger::error( "We were not able to communicate with [{$remote_url}] ({$verb})." );
+			if ( is_callable( array( $response, 'get_error_messages' ) ) ) {
 				$msgs = $response->get_error_messages();
-				foreach ($msgs as $msg) {
-					$this->_set_error($msg);
+				foreach ( $msgs as $msg ) {
+					$this->_set_error( $msg );
 				}
-				$this->set_cached_error($verb, $msgs);
+				$this->set_cached_error( $verb, $msgs );
 			}
 			return false;
 		}
 
-		$response_code = (int)wp_remote_retrieve_response_code($response);
-		if (200 !== $response_code) {
-			WDS_Logger::error("We had an error communicating with [{$remote_url}]:[{$response_code}] ({$verb}).");
-			$this->handle_error_response($response);
+		$response_code = (int) wp_remote_retrieve_response_code( $response );
+		if ( 200 !== $response_code ) {
+			Smartcrawl_Logger::error( "We had an error communicating with [{$remote_url}]:[{$response_code}] ({$verb})." );
+			$this->handle_error_response( $response, $verb );
 			return false;
 		}
 
-		$body = wp_remote_retrieve_body($response);
-		$result = $this->_postprocess_response($body);
+		$body = wp_remote_retrieve_body( $response );
+		$result = $this->_postprocess_response( $body );
 
-		if ($cacheable) {
-			WDS_Logger::debug("Setting cache for [{$verb}]");
-			$this->set_cached($verb, $result);
+		if ( $cacheable ) {
+			Smartcrawl_Logger::debug( "Setting cache for [{$verb}]" );
+			$this->set_cached( $verb, $result );
 		}
 
 		return $result;
@@ -387,7 +390,8 @@ abstract class WDS_Service {
 	 *
 	 * @return mixed
 	 */
-	protected function _postprocess_response ($body) { return json_decode($body, true); }
+	protected function _postprocess_response( $body ) {
+		return json_decode( $body, true ); }
 
 
 	/**
@@ -397,12 +401,12 @@ abstract class WDS_Service {
 	 *
 	 * @return mixed Service response hash on success, (bool)false on failure
 	 */
-	public function request ($verb) {
-		$response = $this->_remote_call($verb);
+	public function request( $verb ) {
+		$response = $this->_remote_call( $verb );
 		return apply_filters(
-			$this->get_filter("request-{$verb}"),
+			$this->get_filter( "request-{$verb}" ),
 			apply_filters(
-				$this->get_filter('request'),
+				$this->get_filter( 'request' ),
 				$response, $verb
 			)
 		);
@@ -413,8 +417,8 @@ abstract class WDS_Service {
 	 *
 	 * @param string $msg Error message
 	 */
-	protected function _set_error ($msg) {
-		WDS_Logger::error($msg);
+	protected function _set_error( $msg ) {
+		Smartcrawl_Logger::error( $msg );
 		$this->_errors[] = $msg;
 	}
 
@@ -423,8 +427,8 @@ abstract class WDS_Service {
 	 *
 	 * @param array $errs Errors to set
 	 */
-	protected function _set_all_errors ($errs) {
-		if (!is_array($errs)) return false;
+	protected function _set_all_errors( $errs ) {
+		if ( ! is_array( $errs ) ) { return false; }
 		$this->_errors = $errs;
 	}
 
@@ -433,8 +437,8 @@ abstract class WDS_Service {
 	 *
 	 * @return array
 	 */
-	public function get_errors () {
-		return (array)$this->_errors;
+	public function get_errors() {
+		return (array) $this->_errors;
 	}
 
 	/**
@@ -442,8 +446,8 @@ abstract class WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public function has_errors () {
-		return !empty($this->_errors);
+	public function has_errors() {
+		return ! empty( $this->_errors );
 	}
 
 	/**
@@ -455,11 +459,11 @@ abstract class WDS_Service {
 	 *
 	 * @return bool
 	 */
-	public static function is_code_within ($code, $base, $radix=10) {
-		$code = (int)$code;
-		$base = (int)$base;
-		$radix = (int)$radix;
-		if (!$code || !$base || !$radix) return false;
+	public static function is_code_within( $code, $base, $radix = 10 ) {
+		$code = (int) $code;
+		$base = (int) $base;
+		$radix = (int) $radix;
+		if ( ! $code || ! $base || ! $radix ) { return false; }
 
 		$min = $base * $radix;
 		$max = (($base + 1) * $radix) - 1;

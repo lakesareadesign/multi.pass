@@ -119,7 +119,7 @@
 
 									<div class="wpmudev-element--name">
 
-										<p class="wpmudev-element--content"><?php echo esc_html( $module->module_name ); ?></p>
+										<p class="wpmudev-element--content"><a href="<?php echo $module->decorated->get_edit_url( Hustle_Module_Admin::POPUP_WIZARD_PAGE ,'' ); ?>"><?php echo esc_html( $module->module_name ); ?></a></p>
 
 									</div>
 

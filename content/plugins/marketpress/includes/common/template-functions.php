@@ -1707,7 +1707,7 @@ if ( ! function_exists( 'mp_tax_rate' ) ) :
 	 * @param bool $echo Optional, whether to echo or return. Defaults to return.
 	 */
 	function mp_tax_rate( $echo = false ) {
-//get address
+		//get address
 		$state    = mp_get_user_address_part( 'state', 'shipping' );
 		$country  = mp_get_user_address_part( 'country', 'shipping' );
 		$tax_rate = 0;
@@ -1720,17 +1720,16 @@ if ( ! function_exists( 'mp_tax_rate' ) ) :
 			$state = mp_get_setting( 'base_province' );
 		}
 
-        /*
 		switch ( $country ) {//mp_get_setting( 'base_country' )
 			case 'US':
-// USA taxes are only for orders delivered inside the state
+				// USA taxes are only for orders delivered inside the state
 				if ( $country == 'US' && $state == mp_get_setting( 'base_province' ) ) {
 					$tax_rate = (float) mp_get_setting( 'tax->rate' );
 				}
 				break;
 
 			case 'CA':
-//Canada tax is for all orders in country, based on province shipped to. We're assuming the rate is a combination of GST/PST/etc.
+				//Canada tax is for all orders in country, based on province shipped to. We're assuming the rate is a combination of GST/PST/etc.
 				if ( $country == 'CA' && array_key_exists( $state, mp()->CA_provinces ) ) {
 					if ( $_tax_rate = mp_get_setting( "tax->canada_rate->$state" ) ) {
 						$tax_rate = (float) $_tax_rate;
@@ -1739,29 +1738,28 @@ if ( ! function_exists( 'mp_tax_rate' ) ) :
 				break;
 
 			case 'AU':
-//Australia taxes orders in country
+				//Australia taxes orders in country
 				if ( $country == 'AU' ) {
 					$tax_rate = (float) mp_get_setting( 'tax->rate' );
 				}
 				break;
 
 			default:
-//EU countries charge VAT within the EU
+				//EU countries charge VAT within the EU
 				if ( in_array( mp_get_setting( 'base_country' ), mp()->eu_countries ) ) {
 					if ( in_array( $country, mp()->eu_countries ) ) {
 						$tax_rate = (float) mp_get_setting( 'tax->rate' );
 					}
 				} else {
-//all other countries use the tax outside preference
-//if ( mp_get_setting( 'tax->tax_outside' ) || (!mp_get_setting( 'tax->tax_outside' ) && $country == mp_get_setting( 'base_country' )) ) {
+					//all other countries use the tax outside preference
+					//if ( mp_get_setting( 'tax->tax_outside' ) || (!mp_get_setting( 'tax->tax_outside' ) && $country == mp_get_setting( 'base_country' )) ) {
 					$tax_rate = (float) mp_get_setting( 'tax->rate' );
-//}
+					//}
 				}
 				break;
 		}
-        */
 
-        $tax_rate = (float) mp_get_setting( 'tax->rate' );
+        //$tax_rate = (float) mp_get_setting( 'tax->rate' );
 
 		if ( empty( $tax_rate ) ) {
 			$tax_rate = 0;
@@ -2585,8 +2583,9 @@ if ( ! function_exists( 'mp_product' ) ) {
 			// Button
 			$selected_atts = array();
 
-			if ( $variation ) {
+			if ( $variation && isset( $variation_id ) && false !== get_post_meta( $variation_id, 'default_variation' ) ) {
 				$atts = $variation->get_attributes();
+
 				foreach ( $atts as $slug => $att ) {
 					$selected_atts[ $slug ] = key( $att['terms'] );
 				}
@@ -3327,6 +3326,24 @@ if ( ! function_exists( 'mp_get_ajax_url' ) ) {
 			//this case the frontend is non ssl, meanwhile backend is ssl, and that will make the cookies
 			//wrong, need to fix it
 			$ajax_url = admin_url( $path, 'http' );
+		}
+
+		if( defined( 'DOMAINMAP_BASEFILE' ) ) {
+			global $wpdb;
+			$blog_id = get_current_blog_id();
+
+			switch_to_blog(1);
+			$domain = $wpdb->get_var( $wpdb->prepare(
+				"SELECT domain from {$wpdb->prefix}domain_mapping WHERE blog_id = %d",
+				absint( $blog_id )
+			));
+			restore_current_blog();
+
+			$schema = is_ssl() ? 'https://' : 'http://';
+			if( is_ssl() && force_ssl_admin() ) {
+				$schema = 'http://';
+			}
+			$ajax_url = $schema . $domain . '/wp-admin/' . $path;
 		}
 
 		return $ajax_url;

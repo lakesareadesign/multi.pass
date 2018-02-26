@@ -194,7 +194,7 @@
 }
 
 /* IE 11 - Row full height - vertical alignment center/bottom fix */
-.fl-builder-ie-11 .fl-row.fl-row-full-height {
+.fl-builder-ie-11 .fl-row.fl-row-full-height:not(.fl-visible-medium):not(.fl-visible-medium-mobile):not(.fl-visible-mobile) {
 	display: flex;
 	flex-direction: column;
 	height: 100%;
@@ -355,8 +355,11 @@
 }
 
 /* IE11 fix for images with height:auto in equal height columns. */
+.fl-builder-ie-11 .fl-col-group-equal-height,
+.fl-builder-ie-11 .fl-col-group-equal-height .fl-col,
+.fl-builder-ie-11 .fl-col-group-equal-height .fl-col-content,
 .fl-builder-ie-11 .fl-col-group-equal-height .fl-module,
-.fl-col-group-equal-height.fl-col-group-align-center .fl-col-group  {
+.fl-col-group-equal-height.fl-col-group-align-center .fl-col-group {
 	min-height: 1px;
 }
 
