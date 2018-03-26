@@ -1,7 +1,7 @@
 <?php
 /**
  * @package Optimize Database after Deleting Revisions
- * @version 4.5.1
+ * @version 4.5.2
  */
 /*
 Plugin Name: Optimize Database after Deleting Revisions
@@ -10,7 +10,7 @@ Description: Optimizes the Wordpress Database after Cleaning it out
 Author: CAGE Web Design | Rolf van Gelder, Eindhoven, The Netherlands
 Author URI: http://cagewebdev.com
 Network: True
-Version: 4.5.1
+Version: 4.5.2
 */
 
 /********************************************************************************************
@@ -24,8 +24,8 @@ $odb_class = new OptimizeDatabase();
 
 class OptimizeDatabase {
 	// VERSION
-	var $odb_version           = '4.5.1';
-	var $odb_release_date      = '01/29/2018';
+	var $odb_version           = '4.5.2';
+	var $odb_release_date      = '03/21/2018';
 
 	// PLUGIN OPTIONS
 	var $odb_rvg_options       = array();
@@ -175,6 +175,8 @@ class OptimizeDatabase {
 			$this->odb_rvg_options['adminmenu']        = 'N';
 		if(!isset($this->odb_rvg_options['clear_pingbacks']))
 			$this->odb_rvg_options['clear_pingbacks']  = 'N';
+		if(!isset($this->odb_rvg_options['clear_oembed']))
+			$this->odb_rvg_options['clear_oembed']  = 'N';			
 		if(!isset($this->odb_rvg_options['clear_spam']))			
 			$this->odb_rvg_options['clear_spam']       = 'N';
 		if(!isset($this->odb_rvg_options['clear_tags']))
@@ -261,6 +263,12 @@ class OptimizeDatabase {
 			$this->odb_rvg_options['clear_pingbacks'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_pingbacks');
 			$this->odb_multisite_obj->odb_ms_delete_option('rvg_clear_pingbacks');
 		}
+		
+		$setting = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_oembed');
+		if($setting) {
+			$this->odb_rvg_options['rvg_clear_oembed'] = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_oembed');
+			$this->odb_multisite_obj->odb_ms_delete_option('rvg_clear_oembed');
+		}		
 		
 		$setting = $this->odb_multisite_obj->odb_ms_get_option('rvg_clear_spam');
 		if($setting) {

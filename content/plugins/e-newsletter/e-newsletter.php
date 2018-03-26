@@ -3,7 +3,7 @@
 Plugin Name: E-Newsletter
 Plugin URI: http://premium.wpmudev.org/project/e-newsletter
 Description: The ultimate WordPress email newsletter plugin for WordPress
-Version: 2.7.4.3
+Version: 2.7.4.4
 Text Domain: email-newsletter
 Author: WPMUDEV
 Author URI: http://premium.wpmudev.org
@@ -1521,9 +1521,11 @@ class Email_Newsletter extends Email_Newsletter_functions {
             //Get ids for Membership 2 subscribers
             if ( isset( $_REQUEST["target"]["m2"] ) && is_array($_REQUEST["target"]["m2"]) ) {
                 foreach ( $_REQUEST["target"]["m2"] as $membership_id ) {
-                    $members = $this->get_members_of_membership2($membership_id);
-                    foreach ( $members as $member ) {
-                        $members_id[] = $member['member_id'];
+                    $users_id = $this->get_members_of_membership2($membership_id);
+                    foreach ( $users_id as $user_id ) {
+                        $member_id = $this->get_members_by_wp_user_id( $user_id, '', 1 );
+                        if ( 0 < $member_id )
+                            $members_id[] = $member_id;
                     }
                 }
             }
@@ -1690,7 +1692,7 @@ class Email_Newsletter extends Email_Newsletter_functions {
                     else
                         $message = __( 'Error when updating DB.', 'email-newsletter' );
                 } else {
-                    if( $sent_status == 'recipients_failed' || $sent_status == 'invalid_address' || strpos($sent_status, 'Recipient address rejected') !== false ) {
+                    if( $sent_status == 'recipients_failed' || $sent_status == 'invalid_address' || strpos( strtolower( $sent_status ), 'recipient') !== false ) {
                         $result = $this->set_send_email_status( 'bounced', $send_id, $send_member['member_id'], $send_member['wp_only_user_id'], $send_data['newsletter_id'] );
                         if ( $result )
                             $message = 'ok';

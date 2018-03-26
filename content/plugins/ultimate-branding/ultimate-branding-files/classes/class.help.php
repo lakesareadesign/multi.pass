@@ -5,12 +5,12 @@ if ( ! class_exists( 'UB_Help' ) ) {
 		// The screen we want to access help for
 		var $screen = false;
 
-		function __construct( &$screen = false ) {
+		public function __construct( &$screen = false ) {
 			$this->screen = $screen;
 			//$this->set_global_sidebar_content();
 		}
 
-		function attach() {
+		public function attach() {
 			if ( preg_match( '/^toplevel_page_branding/', $this->screen->id ) ) {
 				if ( ! isset( $_GET['tab'] ) ) {
 					$tab = 'dashboard';
@@ -66,14 +66,14 @@ if ( ! class_exists( 'UB_Help' ) ) {
 		}
 
 		// Specific help content creation functions
-		function set_global_sidebar_content() {
+		public function set_global_sidebar_content() {
 			ob_start();
 			include_once( membership_dir( 'membershipincludes/help/help.sidebar.php' ) );
 			$help = ob_get_clean();
 			$this->screen->set_help_sidebar( $help );
 		}
 
-		function dashboard_help() {
+		public function dashboard_help() {
 			ob_start();
 			include_once( ub_files_dir( 'help/contextual.dashboard.php' ) );
 			$help = ob_get_clean();
@@ -84,7 +84,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			) );
 		}
 
-		function sitegenerator_help() {
+		public function sitegenerator_help() {
 			ob_start();
 			include_once( ub_files_dir( 'help/contextual.sitegenerator.php' ) );
 			$help = ob_get_clean();
@@ -95,7 +95,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			) );
 		}
 
-		function footer_help() {
+		public function footer_help() {
 			ob_start();
 			include_once( ub_files_dir( 'help/contextual.footer.php' ) );
 			$help = ob_get_clean();
@@ -106,7 +106,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			) );
 		}
 
-		function permalinks_help() {
+		public function permalinks_help() {
 			ob_start();
 			include_once( ub_files_dir( 'help/contextual.permalinks.php' ) );
 			$help = ob_get_clean();
@@ -117,7 +117,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			) );
 		}
 
-		function signuppassword_help() {
+		public function signuppassword_help() {
 			ob_start();
 			include_once( ub_files_dir( 'help/contextual.signuppassword.php' ) );
 			$help = ob_get_clean();
@@ -128,7 +128,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			) );
 		}
 
-		function textchange_help() {
+		public function textchange_help() {
 			ob_start();
 			include_once( ub_files_dir( 'help/contextual.textchange.php' ) );
 			$help = ob_get_clean();
@@ -139,7 +139,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			) );
 		}
 
-		function widgets_help() {
+		public function widgets_help() {
 			ob_start();
 			include_once( ub_files_dir( 'help/contextual.widgets.php' ) );
 			$help = ob_get_clean();
@@ -150,7 +150,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			) );
 		}
 
-		function images_help() {
+		public function images_help() {
 			ob_start();
 			include_once( ub_files_dir( 'help/contextual.images.php' ) );
 			$help = ob_get_clean();
@@ -161,7 +161,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			) );
 		}
 
-		function help_help() {
+		public function help_help() {
 			ob_start();
 			include_once( ub_files_dir( 'help/contextual.help.php' ) );
 			$help = ob_get_clean();
@@ -172,7 +172,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			) );
 		}
 
-		function adminbar_help() {
+		public function adminbar_help() {
 			ob_start();
 			include_once( ub_files_dir( 'help/contextual.adminbar.php' ) );
 			$help = ob_get_clean();
@@ -183,7 +183,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			) );
 		}
 
-		function css_help() {
+		public function css_help() {
 			ob_start();
 			include_once( ub_files_dir( 'help/contextual.css.php' ) );
 			$help = ob_get_clean();
@@ -193,7 +193,6 @@ if ( ! class_exists( 'UB_Help' ) ) {
 				'content' => $help,
 			) );
 		}
-
 
 		/**
 		 * Escapes output of native add_query_arg

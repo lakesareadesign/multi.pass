@@ -2,7 +2,7 @@
 /*
 Plugin Name: Instagram Slider Widget
 Plugin URI: http://instagram.jrwebstudio.com/
-Version: 1.4.1
+Version: 1.4.2
 Description: Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public Instagram user and up to 18 images from a hashtag.
 Author: jetonr
 Author URI: http://jrwebstudio.com/
@@ -24,7 +24,7 @@ class JR_InstagramSlider extends WP_Widget {
 	 *
 	 * @var     string
 	 */
-	const VERSION = '1.4.1';	
+	const VERSION = '1.4.2';	
 	
 	const USERNAME_URL = 'https://www.instagram.com/{username}/?__a=1';
 	
@@ -376,12 +376,6 @@ class JR_InstagramSlider extends WP_Widget {
 								<br><span class="jr-description"><?php _e( 'When enabled, the author is notified and a backlink website is visible at the bottom of the plugin. <br> <strong>If you enable this option you will have privileged support from our team!</strong>', 'jrinstaslider') ?></span>        
 							</p>
 					<div class="donate-buttons">
-					    <img class="donate-button-link" src="http://ef3ae845b6eed6ec4024-8a0a46e5f1a5cc9854958bc3503f0f88.r40.cf1.rackcdn.com/donate_64.png" alt="Donate Ƀitcoin" />
-						<span class="donate-bitcoin-qr-address">
-							<p><strong>Scan the QR Code bellow with your wallet application, and donate only one Bitcoin :)</strong></p>
-            				<span class="wallet-number">My Address: <code>1AeyXnxvFpL7paTjAwCkkTPG9YexGRKXUt</code></span>
-            				<img src="https://chart.googleapis.com/chart?chs=250x250&amp;cht=qr&amp;chl=1AeyXnxvFpL7paTjAwCkkTPG9YexGRKXUt">
-        				</span>
 						<a target="_blank" title="Donate with Paypal!" href="http://bit.ly/2EseW2p"><p class="donate"><span></span>Donate with Paypal!</p></a>        
 					</div>
 				</div></div>
@@ -669,7 +663,7 @@ class JR_InstagramSlider extends WP_Widget {
 						$template_args['image']      = $image_data['sizes'][$image_size];
 						$template_args['caption']    = $image_data['caption'];
 						$template_args['timestamp']  = $image_data['timestamp'];
-						$template_args['username']   = $image_data['username'];
+						$template_args['username']   = isset( $image_data['username'] ) ? $image_data['username'] : '';
 						$template_args['attachment'] = false;
 						
 						$output .= $this->get_template( $template, $template_args );
@@ -717,7 +711,7 @@ class JR_InstagramSlider extends WP_Widget {
 					$template_args['image']     = $image_data['sizes'][$image_size];
 					$template_args['caption']   = $image_data['caption'];
 					$template_args['timestamp'] = $image_data['timestamp'];
-					$template_args['username']  = $image_data['username'];
+					$template_args['username']  = isset( $image_data['username'] ) ? $image_data['username'] : '';
 					
 					$output .= $this->get_template( $template, $template_args );
 				}
@@ -990,7 +984,7 @@ class JR_InstagramSlider extends WP_Widget {
 				if ( $results && is_array( $results ) ) {
 
 					if ( 'user' == $search ) {
-						$entry_data = isset( $results['user']['media']['nodes'] ) ? $results['user']['media']['nodes'] : array();
+						$entry_data =  isset($results['graphql']['user']['edge_owner_to_timeline_media']['edges']) ? $results['graphql']['user']['edge_owner_to_timeline_media']['edges'] : array();
 					} else {
 						$entry_data = isset( $results['graphql']['hashtag']['edge_hashtag_to_media']['edges'] ) ? $results['graphql']['hashtag']['edge_hashtag_to_media']['edges'] : array();
 					}
@@ -1002,9 +996,10 @@ class JR_InstagramSlider extends WP_Widget {
 
 					foreach ( $entry_data as $current => $result ) {
 
-						if ( 'hashtag' == $search ) {
 							
 							$result = $result['node'];
+						
+						if ( 'hashtag' == $search ) {
 
 							if ( in_array( $result['owner']['id'], $blocked_users_array ) ) {
 								$nr_images++;

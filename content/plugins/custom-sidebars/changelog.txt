@@ -1,15 +1,22 @@
 Plugin Name: Custom Sidebars Pro
 Author: Javier Marquez (Incsub), Philipp Stracker (Incsub), Marcin Pietrzak (Incsub)
-Buildtime: 2018-02-09T06:15:23.721Z
+Buildtime: 2018-03-21T13:07:57.950Z
 
 Change Log:
 ----------------------------------------------------------------------
 
+3.1.3 ( 2018-03-21 )
+----------------------------------------------------------------------
+- Added version to scripts, to avoid browser cache problem.
+- Fixed problems with widgets alignment on mobiles.
+- Improved custom sidebar edit modal, now it remembers "Advanced Edit" status.
+- Load JavaScript templates only on the widgets page.
+
 3.1.2 ( 2018-02-09 )
 ----------------------------------------------------------------------
-- Added integration with Polylang - now you can choose sidebar depend on Polylang language.
-- Added integration with WPML - now you can choose sidebar depend on WPML language.
-- Added check to avoid warnigs when user delete term which is assigned to "Sidebar Location".
+- Added integration with Polylang - now you can choose sidebar to depend on Polylang language.
+- Added integration with WPML - now you can choose sidebar to depend on WPML language.
+- Added check to avoid warning when a user deletes term which is assigned to "Sidebar Location".
 - Updated "WPMU Dev code library" to version 3.0.5.
 
 3.1.1 ( 2017-11-07 )
@@ -422,4 +429,4 @@ Change Log:
 - Initial release
 
 
-133620-1518452089-au
+133620-1522104843-au

@@ -328,6 +328,7 @@ FLBuilder::register_module('FLCalloutModule', array(
 				'fields'        => array(
 					'photo'         => array(
 						'type'          => 'photo',
+						'show_remove'   => true,
 						'label'         => __( 'Photo', 'fl-builder' ),
 						'connections'   => array( 'photo' ),
 					),

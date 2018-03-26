@@ -7,6 +7,8 @@ Change Log:
 3.0.6
 PHP
 - Change variable name to correct one.
+- Added filter 'wpmu_style_version'.
+- Added filter 'wpmu_script_version'.
 
 3.0.5
 PHP
@@ -199,4 +201,4 @@ Migration notes
 - First version.
 
 
-133620-1518452089-au
+133620-1522104843-au

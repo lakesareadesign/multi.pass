@@ -3,8 +3,8 @@ Contributors: powerblogservice
 Donate link: http://www.diywebmastery.com/donate/
 Tags: genesis plugin, full width templates, beaver builder
 Requires at least: 3.5
-Tested up to: 4.7.3
-Stable tag: 1.6
+Tested up to: 4.9.4
+Stable tag: 1.7
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -49,20 +49,14 @@ The full width setting allows you to have edge-to-edge backgrounds so you can ma
 
 == Changelog ==
 
+* 1.7 - Added option to have dambuster enabled on all pages and posts by default and added support for more themes
 * 1.6 - Updated for Metro Pro 2.2.1
-* 1.5.5 - Fixes to Divine and Pretty Chic when using the theme header
-* 1.5.4 - Improvements to handling of Altitude Pro, Agency Pro and Interior Pro
-* 1.5.3 - Reinstate removal of bottom margin - required for Aspire Pro
-* 1.5.2 - Fix bug in saving post settings
-* 1.5.1 - Suppress top margin when a fixed header is removed - affects fixed header themes such as Digital Pro, No Sidebar, Agency pro, etc
-* 1.5 - Added support for Aspire Pro, Digital Pro, Genesis Sample, Interior Pro, No Sidebar Pro, Showcase Pro and Workstation Pro. Fixed bug in AltitudePro
-* 1.4 - Removes Dynamik EZ Feature and Fat Footer Widget Areas
 * For full change history see http://www.genesisdambuster.com/changelog/
 
 
 == Upgrade Notice ==
 
-= 1.6 - Optional - Updated for Metro Pro 2.2.1
+= 1.7 - Optional - Added option to have dambuster enabled on all pages and posts by default and added themes Enterprise Pro, Executive Pro, Infinity Pro and Monochrome Pro
 
 == How to Use The Plugin ==
 

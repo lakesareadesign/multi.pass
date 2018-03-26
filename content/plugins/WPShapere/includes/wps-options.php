@@ -23,7 +23,7 @@ function get_wps_options() {
 
   /**
   * get adminbar items
-  * 
+  *
   */
   if(is_wps_single()) {
     $adminbar_items = (is_serialized(get_option(WPS_ADMINBAR_LIST_SLUG))) ? unserialize(get_option(WPS_ADMINBAR_LIST_SLUG)) : get_option(WPS_ADMINBAR_LIST_SLUG);
@@ -87,10 +87,11 @@ function get_wps_options() {
       'id' => 'design_type',
       'type' => 'radio',
       'options' => array(
+          '3' => __( 'Neu Excite (Lite)', 'wps' ),
           '1' => __( 'Flat design', 'wps' ),
           '2' => __( 'Default design', 'wps' ),
       ),
-      'default' => '1',
+      'default' => '3',
       );
 
   $panel_fields[] = array(
@@ -206,7 +207,7 @@ function get_wps_options() {
       'name' => __( 'Select Privilege users', 'wps' ),
       'id' => 'privilege_users',
       'type' => 'multicheck',
-      'desc' => __( 'Select admin users who can have access to all menu items.', 'wps' ),
+      'desc' => __( 'Select admin users who can have access to all menu items. Note: Atleast one user must be selected in order to activate Privilege feature.', 'wps' ),
       'options' => $admin_users_array,
       );
 
@@ -222,7 +223,14 @@ function get_wps_options() {
       'id' => 'disable_styles_login',
       'type' => 'checkbox',
       'desc' => __( 'Check to disable', 'wps' ),
-      'default' => true,
+      'default' => false,
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Login page title', 'wps' ),
+      'id' => 'login_page_title',
+      'type' => 'text',
+      'default' => get_bloginfo('name'),
       );
 
   $panel_fields[] = array(
@@ -231,6 +239,13 @@ function get_wps_options() {
       'type' => 'wpcolor',
       'default' => '#292931',
       );
+
+  $panel_fields[] = array(
+      'name' => __( 'External background url', 'wps' ),
+      'id' => 'login_external_bg_url',
+      'type' => 'text',
+      'desc' => __( 'Load image from external source.', 'wps' ),
+  );
 
   $panel_fields[] = array(
       'name' => __( 'Background image', 'wps' ),
@@ -271,6 +286,13 @@ function get_wps_options() {
       'min' => '20',
       'max' => '100',
       );
+
+  $panel_fields[] = array(
+      'name' => __( 'External Logo url', 'wps' ),
+      'id' => 'login_external_logo_url',
+      'type' => 'text',
+      'desc' => __( 'Load image from external source.', 'wps' ),
+  );
 
   $panel_fields[] = array(
       'name' => __( 'Upload Logo', 'wps' ),
@@ -607,6 +629,13 @@ function get_wps_options() {
       );
 
   $panel_fields[] = array(
+      'name' => __( 'External Logo url', 'wps' ),
+      'id' => 'adminbar_external_logo_url',
+      'type' => 'text',
+      'desc' => __( 'Load image from external source. Maximum size 200x50 pixels.', 'wps' ),
+  );
+
+  $panel_fields[] = array(
       'name' => __( 'Upload Logo', 'wps' ),
       'id' => 'admin_logo',
       'type' => 'upload',
@@ -685,7 +714,7 @@ function get_wps_options() {
       );
 
   $panel_fields[] = array(
-      'name' => __( 'Menu Link background hover color', 'wps' ),
+      'name' => __( 'Menu background hover/Sub menu color', 'wps' ),
       'id' => 'admin_bar_menu_bg_hover_color',
       'type' => 'wpcolor',
       'default' => '#f4f4f4',
@@ -997,10 +1026,18 @@ function get_wps_options() {
       'name' => __( 'Admin menu width', 'wps' ),
       'id' => 'admin_menu_width',
       'type' => 'number',
-      'default' => '230',
+      'default' => '200',
       'min' => '180',
       'max' => '400',
       );
+
+  // $panel_fields[] = array(
+  //     'name' => __( 'Force disable Image/SVG admin menu icons.', 'wps' ),
+  //     'id' => 'disable_img_svg_adminmenu_icons',
+  //     'type' => 'checkbox',
+  //     'desc' => __( 'Select to remove all Image/SVG admin menu icons.', 'wps' ),
+  //     'default' => false,
+  //     );
 
   $panel_fields[] = array(
       'name' => __( 'Admin Menu Color options', 'wps' ),

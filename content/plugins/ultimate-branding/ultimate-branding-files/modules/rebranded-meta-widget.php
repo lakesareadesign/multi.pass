@@ -2,7 +2,7 @@
 /*
 Plugin Name: Rebranded Meta Widget
 Plugin URI: http://premium.wpmudev.org/project/rebranded-meta-widget
-Version: 1.0.3
+Version: 1.0.4
 Description: Simply replaces the default Meta widget in all Multisite blogs with one that has the "Powered By" link branded for your site
 Author: Aaron Edwards (Incsub)
 Author URI: http://premium.wpmudev.org
@@ -11,7 +11,7 @@ WDP ID: 136
  */
 
 /*
-Copyright 2007-2017 Incsub (http://incsub.com)
+Copyright 2007-2018 Incsub (http://incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -35,17 +35,14 @@ class rebranded_meta_widget {
 		add_action( 'ultimatebranding_settings_widgets', array( $this, 'ub_rmw_manage_output' ) );
 	}
 
-
-	function ub_rmw_register() {
+	public function ub_rmw_register() {
 		unregister_widget( 'WP_Widget_Meta' );
 		register_widget( 'ub_WP_Widget_Rebranded_Meta' );
 	}
 
-	function ub_rmw_manage_output() {
+	public function ub_rmw_manage_output() {
 		global $wpdb, $current_site, $page;
-
 ?>
-
     <div class="postbox">
         <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Rebranded Meta Widget','ub' ); ?></span></h3>
         <div class="inside">
@@ -55,7 +52,6 @@ class rebranded_meta_widget {
 ?>
         </div>
     </div>
-
 <?php
 	}
 }
@@ -63,34 +59,27 @@ new rebranded_meta_widget();
 
 class ub_WP_Widget_Rebranded_Meta extends WP_Widget {
 
-	function __construct() {
+	public function __construct() {
 		$widget_ops = array( 'classname' => 'widget_meta', 'description' => __( 'Log in/out, admin, feed and powered-by links', 'ub' ) );
 		parent::__construct( 'meta', __( 'Meta', 'ub' ), $widget_ops );
-
 	}
 
-	function widget( $args, $instance ) {
-
-		global $current_site;
-
+	public function widget( $args, $instance ) {
 		extract( $args );
 		$title = apply_filters( 'widget_title', empty( $instance['title'] ) ? __( 'Meta', 'ub' ) : $instance['title'], $instance, $this->id_base );
-
 		echo $before_widget;
 		if ( $title ) {
-			echo $before_title . $title . $after_title; }
-
-		if ( function_exists( 'get_blog_option' ) ) {
-
+			echo $before_title . $title . $after_title;
+		}
+		if ( function_exists( 'get_blog_option' ) && function_exists( 'get_current_site' ) ) {
+			$current_site = get_current_site();
 			$blog_id = (isset( $current_site->blog_id )) ? $current_site->blog_id : UB_MAIN_BLOG_ID;
-
 			$global_site_link = 'http://'. $current_site->domain . $current_site->path;
 			$global_site_name = get_blog_option( $blog_id, 'blogname' );
 		} else {
 			$global_site_link = get_option( 'home' );
 			$global_site_name = get_option( 'blogname' );
 		}
-
 ?>
             <ul>
             <?php wp_register(); ?>
@@ -104,14 +93,13 @@ class ub_WP_Widget_Rebranded_Meta extends WP_Widget {
 		echo $after_widget;
 	}
 
-	function update( $new_instance, $old_instance ) {
+	public function update( $new_instance, $old_instance ) {
 		$instance = $old_instance;
 		$instance['title'] = strip_tags( $new_instance['title'] );
-
 		return $instance;
 	}
 
-	function form( $instance ) {
+	public function form( $instance ) {
 		$instance = wp_parse_args( (array) $instance, array( 'title' => '' ) );
 		$title = strip_tags( $instance['title'] );
 ?>

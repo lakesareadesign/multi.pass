@@ -1,6 +1,6 @@
 <?php
 /*
-Copyright 2017 Incsub (email: admin@incsub.com)
+Copyright 2017-2018 Incsub (email: admin@incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -141,6 +141,9 @@ if ( ! class_exists( 'ub_helper' ) ) {
 				if ( ! isset( $section_data['fields'] ) ) {
 					continue;
 				}
+				if ( isset( $section_data['sortable'] ) && isset( $value[ $section_key ] ) ) {
+					$value[ '_'.$section_key.'_sortable' ] = array_keys( $value[ $section_key ] );
+				}
 				foreach ( $section_data['fields'] as $key => $data ) {
 					if ( ! isset( $data['type'] ) ) {
 						$data['type'] = 'text';
@@ -269,6 +272,110 @@ if ( ! class_exists( 'ub_helper' ) ) {
 				$user_id
 			);
 			return $nonce_action;
+		}
+
+		/**
+		 * Load SocialLogos style.
+		 * https://wpcalypso.wordpress.com/devdocs/design/social-logos
+		 *
+		 * @since 1.9.7
+		 */
+		protected function load_social_logos_css() {
+			$url = $this->get_social_logos_css_url();
+			wp_enqueue_style( 'SocialLogos', $url, array(), '2.0.0', 'screen' );
+		}
+
+		/**
+		 * Get SocialLogos style URL.
+		 * https://wpcalypso.wordpress.com/devdocs/design/social-logos
+		 *
+		 * @since 1.9.7
+		 */
+		protected function get_social_logos_css_url() {
+			$url = ub_url( 'external/icon-font/social-logos.css' );
+			return $url;
+		}
+
+		/**
+		 * SocialLogos social icons.
+		 * https://wpcalypso.wordpress.com/devdocs/design/social-logos
+		 *
+		 * @since 1.9.7
+		 */
+		protected function get_social_media_array() {
+			$social = array(
+				'amazon'      => array( 'label' => __( 'Amazon', 'ub' ) ),
+				'blogger'     => array( 'label' => __( 'Blogger', 'ub' ) ),
+				'codepen'     => array( 'label' => __( 'CodePen', 'ub' ) ),
+				'dribbble'    => array( 'label' => __( 'Dribbble', 'ub' ) ),
+				'dropbox'     => array( 'label' => __( 'Dropbox', 'ub' ) ),
+				'eventbrite'  => array( 'label' => __( 'Eventbrite', 'ub' ) ),
+				'facebook'    => array( 'label' => __( 'Facebook', 'ub' ) ),
+				'flickr'      => array( 'label' => __( 'Flickr', 'ub' ) ),
+				'foursquare'  => array( 'label' => __( 'Foursquare', 'ub' ) ),
+				'ghost'       => array( 'label' => __( 'Ghost', 'ub' ) ),
+				'github'      => array( 'label' => __( 'Github', 'ub' ) ),
+				'google'      => array( 'label' => __( 'G+', 'ub' ) ),
+				'instagram'   => array( 'label' => __( 'Instagram', 'ub' ) ),
+				'linkedin'    => array( 'label' => __( 'LinkedIn', 'ub' ) ),
+				'mail'        => array( 'label' => __( 'Mail', 'ub' ) ),
+				'pinterest'   => array( 'label' => __( 'Pinterest', 'ub' ) ),
+				'pocket'      => array( 'label' => __( 'Pocket', 'ub' ) ),
+				'polldaddy'   => array( 'label' => __( 'Polldaddy', 'ub' ) ),
+				'reddit'      => array( 'label' => __( 'Reddit', 'ub' ) ),
+				'skype'       => array( 'label' => __( 'Skype', 'ub' ) ),
+				'spotify'     => array( 'label' => __( 'Spotify', 'ub' ) ),
+				'squarespace' => array( 'label' => __( 'Squarespace', 'ub' ) ),
+				'stumbleupon' => array( 'label' => __( 'Stumbleupon', 'ub' ) ),
+				'telegram'    => array( 'label' => __( 'Telegram', 'ub' ) ),
+				'tumblr'      => array( 'label' => __( 'Tumblr', 'ub' ) ),
+				'twitter'     => array( 'label' => __( 'Twitter', 'ub' ) ),
+				'vimeo'       => array( 'label' => __( 'Vimeo', 'ub' ) ),
+				'whatsapp'    => array( 'label' => __( 'Whatsapp', 'ub' ) ),
+				'wordpress'   => array( 'label' => __( 'Wordpress', 'ub' ) ),
+				'xanga'       => array( 'label' => __( 'Xanga', 'ub' ) ),
+				'youtube'     => array( 'label' => __( 'Youtube', 'ub' ) ),
+			);
+			return $social;
+		}
+
+		/**
+		 * Replace URL with protocol with related URL.
+		 *
+		 * @since 1.9.7
+		 *
+		 * @param string $url URL
+		 * @return string $url
+		 */
+		protected function make_relative_url( $url ) {
+			if ( empty( $url ) ) {
+				return;
+			}
+			if ( ! is_string( $url ) ) {
+				return;
+			}
+			$re = sprintf( '@^(%s|%s)@', set_url_scheme( home_url(), 'http' ),set_url_scheme( home_url(), 'https' ) );
+			$to = set_url_scheme( home_url(), 'relative' );
+			return preg_replace( $re, $to, $url );
+		}
+
+		/**
+		 * CSS border style
+		 *
+		 * @since 1.9.7
+		 */
+		protected function css_border_options() {
+			$options = array(
+				'dotted' => __( 'dotted border', 'ub' ),
+				'dashed' => __( 'dashed border', 'ub' ),
+				'solid' => __( 'solid border', 'ub' ),
+				'double' => __( 'double border', 'ub' ),
+				'groove' => __( '3D grooved border. The effect depends on the border-color value', 'ub' ),
+				'ridge' => __( '3D ridged border. The effect depends on the border-color value', 'ub' ),
+				'inset' => __( '3D inset border. The effect depends on the border-color value', 'ub' ),
+				'outset' => __( '3D outset border. The effect depends on the border-color value', 'ub' ),
+			);
+			return $options;
 		}
 	}
 }

@@ -4,7 +4,7 @@
   Description: Change the Favicon for the network
   Author: Marko Miljus (Incsub), Barry (Incsub), Philip John (Incsub), Marcin Pietrzak (Incsub)
 
-  Copyright 2013-2017 Incsub
+  Copyright 2013-2018 Incsub
 
   This program is free software; you can redistribute it and/or modify
   it under the terms of the GNU General Public License as published by
@@ -40,13 +40,11 @@ class ub_favicons {
 	 */
 	const FAV_PREFIX = 'ub_favicon';
 
-	function __construct() {
+	public function __construct() {
 		self::$_default_fav = admin_url() . 'images/w-logo-blue.png';
-
 		// Admin interface
 		add_action( 'ultimatebranding_settings_images', array( $this, 'manage_output' ) );
 		add_filter( 'ultimatebranding_settings_images_process', array( $this, 'process' ) );
-
 		if ( ! $this->_supports_site_icon() ) {
 			add_action( 'admin_head', array( $this, 'admin_head' ) );
 			add_action( 'admin_head', array( $this, 'global_head' ) );
@@ -54,13 +52,11 @@ class ub_favicons {
 		} else {
 			add_filter( 'get_site_icon_url', array( $this, 'site_icon_url' ), 10, 3 );
 		}
-
 		if ( $this->_override_site_icon()  ) {
 			add_action( 'wp_before_admin_bar_render', array( $this, 'change_blavatar_icon' ) );
 		}
 		add_action( 'wp_ajax_ub_save_favicon', array( $this, 'ajax_ub_save_favicon' ) );
 		add_action( 'wp_ajax_ub_reset_favicon', array( $this, 'ajax_ub_reset_favicon' ) );
-
 		add_filter( 'clean_url', array( $this, 'clean_url' ), 10, 30 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_enqueue_scripts' ) );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
@@ -77,7 +73,7 @@ class ub_favicons {
 		add_action( 'manage_sites_custom_column', array( $this, 'manage_sites_custom_column' ), 10, 2 );
 	}
 
-	function admin_enqueue_scripts() {
+	public function admin_enqueue_scripts() {
 		global $ub_version;
 		wp_register_style( 'ub_favicons_style', ub_files_url( 'modules/favicons/css/admin.css' )  . '', false, $ub_version );
 		wp_enqueue_style( 'ub_favicons_style' );
@@ -88,7 +84,7 @@ class ub_favicons {
 	 *
 	 * @since 1.9.0
 	 */
-	function enqueue_scripts() {
+	public function enqueue_scripts() {
 		if ( ! is_user_logged_in() ) {
 			return;
 		}
@@ -106,9 +102,7 @@ class ub_favicons {
 	 */
 	public static function get_url_valid_shema( $url ) {
 		$image = $url;
-
 		$v_image_url = parse_url( $url );
-
 		if ( isset( $v_image_url['scheme'] ) && $v_image_url['scheme'] == 'https' ) {
 			// Allow http sites to load https favicons
 		} else {
@@ -116,7 +110,6 @@ class ub_favicons {
 				$image = str_replace( 'http', 'https', $image );
 			}
 		}
-
 		return $image;
 	}
 
@@ -125,61 +118,49 @@ class ub_favicons {
 	 *
 	 * @return bool
 	 */
-	function process() {
-
-		if ( isset( $_GET['resetfavicon'] ) && isset( $_GET['page'] ) && $_GET['page'] == 'branding' ) {
-			//login_image_save
-			ub_delete_option( 'ub_favicon' );
-			ub_delete_option( 'ub_favicon_id' );
-			ub_delete_option( 'ub_favicon_size' );
-			ub_delete_option( 'ub_favicon_dir' );
-			ub_delete_option( 'ub_favicon_url' );
-
-			ub_update_option( 'ub_favicon', false );
-
-			wp_redirect( 'admin.php?page=branding&tab=images' );
-		} elseif ( isset( $_POST['wp_favicon'] ) ) {
-
-			ub_update_option( 'ub_favicon', filter_input( INPUT_POST, 'wp_favicon' ) );
-			ub_update_option( 'ub_favicon_id', filter_input( INPUT_POST, 'wp_favicon_id', FILTER_SANITIZE_NUMBER_INT ) );
-			ub_update_option( 'ub_favicon_size', filter_input( INPUT_POST, 'wp_favicon_size', FILTER_SANITIZE_STRING ) );
-			ub_update_option( 'ub_favicons_use_as_default', filter_input( INPUT_POST, 'ub_favicons_use_as_default' ) );
-			ub_update_option( 'ub_favicons_override_site_icon', filter_input( INPUT_POST, 'ub_favicons_override_site_icon', FILTER_SANITIZE_NUMBER_INT ) );
-
+	public function process() {
+		if ( ! isset( $_POST['wp_favicon'] ) ) {
+			return false;
 		}
-
+		ub_update_option( 'ub_favicon', filter_input( INPUT_POST, 'wp_favicon' ) );
+		ub_update_option( 'ub_favicon_id', filter_input( INPUT_POST, 'wp_favicon_id', FILTER_SANITIZE_NUMBER_INT ) );
+		ub_update_option( 'ub_favicon_size', filter_input( INPUT_POST, 'wp_favicon_size', FILTER_SANITIZE_STRING ) );
+		ub_update_option( 'ub_favicons_use_as_default', filter_input( INPUT_POST, 'ub_favicons_use_as_default' ) );
+		ub_update_option( 'ub_favicons_override_site_icon', filter_input( INPUT_POST, 'ub_favicons_override_site_icon', FILTER_SANITIZE_NUMBER_INT ) );
+		/**
+		 * delete if not send
+		 */
+		foreach ( array( 'ub_favicons_override_site_icon', 'ub_favicons_use_as_default' ) as $key ) {
+			$value = filter_input( INPUT_POST, $key );
+			if ( empty( $value ) ) {
+				ub_delete_option( $key );
+			}
+		}
 		return true;
 	}
 
-	function manage_output() {
+	public function manage_output() {
 		global $page;
-
 		wp_enqueue_style( 'thickbox' );
 		wp_enqueue_script( 'thickbox' );
 		wp_enqueue_media();
 		wp_enqueue_script( 'media-upload' );
-
 		if ( isset( $_GET['error'] ) ) {
 			echo '<div id="message" class="error fade"><p>' . __( 'There was an error uploading the file, please try again.', 'ub' ) . '</p></div>'; } elseif ( isset( $_GET['updated'] ) ) {
 			echo '<div id="message" class="updated fade"><p>' . __( 'Changes saved.', 'ub' ) . '</p></div>'; }
-
 ?>
-
         <div class='wrap nosubsub'>
-            <div class="icon32" id="icon-themes"><br /></div>
             <h2><?php _e( 'Favicons', 'ub' ) ?></h2>
-
             <div class="postbox">
                 <div class="inside">
                     <p class='description'><?php _e( 'This is the image that is displayed as a Favicon - ', 'ub' ); ?>
-                        <a href='<?php echo wp_nonce_url( 'admin.php?page=' . $page . '&amp;tab=images&amp;resetfavicon=yes&amp;action=process', 'ultimatebranding_settings_menu_images' ) ?>'><?php _e( 'Reset the image', 'login_image' ) ?></a>
+                        <a href="#" id="favicon-reset-main-image"><?php _e( 'Reset the image', 'login_image' ) ?></a>
                     </p>
 <?php
 			$favicon_old = ub_get_option( 'ub_favicon_url', false );
 			$favicon_id = ub_get_option( 'ub_favicon_id', false );
 			$favicon_size = ub_get_option( 'ub_favicon_size', false );
 			$favicon = ub_get_option( 'ub_favicon', false );
-
 if ( ! $favicon ) {
 	if ( isset( $favicon_old ) && trim( $favicon_old ) !== '' ) {
 		$favicon = self::get_url_valid_shema( $favicon_old );
@@ -207,10 +188,7 @@ if ( ! $favicon ) {
 		}
 	}
 }
-
-?>
-
-                    <?php if ( $this->_supports_site_icon() ) :  ?>
+if ( $this->_supports_site_icon() ) :  ?>
                         <p>
                             <label for="ub_favicons_override_site_icon">
                                 <input type="checkbox" id="ub_favicons_override_site_icon" value="1" name="ub_favicons_override_site_icon" <?php checked( self::_override_site_icon(), 1 ); ?>  />
@@ -224,22 +202,19 @@ if ( ! $favicon ) {
                         <h4><?php _e( 'Change Favicon', 'ub' ); ?></h4>
                     <?php endif; ?>
                     <img id="ub_main_site_favicon" data-src="<?php echo self::get_favicon(); ?>" src="<?php echo self::get_favicon(); ?>" width="16" height="16" />
-                    <input class="upload-url" id="wp_favicon" type="text" size="36" name="wp_favicon" value="<?php echo esc_attr( self::get_favicon( null, false ) ); ?>" />
+                        <input class="upload-url" id="wp_favicon" type="text" size="36" name="wp_favicon" value="<?php echo esc_attr( self::get_favicon( null, false ) ); ?>" data-default="<?php echo esc_attr( site_url( 'wp-admin/images/w-logo-blue.png' ) );
+?>" />
                     <input class="st_upload_button button" id="wp_favicon_button" type="button" value="<?php _e( 'Browse', 'ub' ); ?>" />
                     <input type="hidden" name="favicon_id" id="wp_favicon_id" value="<?php echo esc_attr( $favicon_id ); ?>" />
                     <input type="hidden" name="wp_favicon_size" id="wp_favicon_size" value="<?php echo esc_attr( $favicon_size ); ?>" />
-
-
-
                     <?php  $this->_render_subsites_favicon();  ?>
                 </div>
             </div>
         </div>
-
 <?php
 	}
 
-	function remove_file( $file ) {
+	public function remove_file( $file ) {
 		@chmod( $file, 0777 );
 		if ( @unlink( $file ) ) {
 			return true;
@@ -248,22 +223,17 @@ if ( ! $favicon ) {
 		}
 	}
 
-	function admin_head() {
-
+	public function admin_head() {
 		$uploaddir = ub_wp_upload_dir();
 		$uploadurl = ub_wp_upload_url();
-
 		$uploadurl = preg_replace( array( '/http:/i', '/https:/i' ), '', $uploadurl );
 		$favicon = ub_get_option( 'ub_favicon', false );
-
 		if ( file_exists( $uploaddir . '/ultimate-branding/includes/favicon/favicon.png' ) || $favicon ) {
-
 			if ( ! $favicon ) {
 				$site_ico = $uploadurl . '/ultimate-branding/includes/favicon/favicon.png';
 			} else {
 				$site_ico = self::get_url_valid_shema( $favicon );
 			}
-
 			echo '<style type="text/css">
                 #header-logo { background-image: url(' . $site_ico . '); }
                 #wp-admin-bar-wp-logo > .ab-item .ab-icon { background-image: url(' . $site_ico . '); background-position: 0; }
@@ -273,7 +243,7 @@ if ( ! $favicon ) {
 		}
 	}
 
-	function global_head() {
+	public function global_head() {
 		$favicon_dir = ub_get_option( 'ub_favicon_dir', false );
 		$favicon = ub_get_option( 'ub_favicon', false );
 		if ( $favicon_dir && file_exists( $favicon_dir ) || $favicon ) {
@@ -286,16 +256,12 @@ if ( ! $favicon ) {
 	 *
 	 *
 	 */
-	function change_blavatar_icon() {
+	public function change_blavatar_icon() {
 		global $wp_admin_bar;
-
 		if ( ! isset( $wp_admin_bar->user, $wp_admin_bar->user->blogs ) ) { return; }
-
 		foreach ( (array) $wp_admin_bar->user->blogs as $blog ) {
-
 			$blavatar = '<img src="' . self::get_favicon( $blog->userblog_id ) . '" alt="' . esc_attr__( 'Blavatar' ) . '" width="16" height="16" class="blavatar"/>';
 			$blogname = empty( $blog->blogname ) ? $blog->domain : $blog->blogname;
-
 			$wp_admin_bar->add_menu(array(
 				'parent' => 'my-sites-list',
 				'id' => 'blog-' . $blog->userblog_id,
@@ -311,7 +277,7 @@ if ( ! $favicon ) {
 	 * @since 1.8.1
 	 *
 	 */
-	function _render_subsites_favicon() {
+	public function _render_subsites_favicon() {
 		if ( ! is_multisite() || wp_is_large_network() ) { return; }?>
         <p>
             <label for="ub_favicons_use_as_default">
@@ -324,9 +290,7 @@ if ( ! $favicon ) {
 		$table = new UB_Blog_Favicons();
 		$table->prepare_items();
 		$table->display();
-
 	}
-
 
 	/**
 	 * Checks to see if blog has a favicon
@@ -491,7 +455,7 @@ if ( ! $favicon ) {
 	 *
 	 * @return mixed
 	 */
-	function clean_url( $good_protocol_url, $original_url, $_context ) {
+	public function clean_url( $good_protocol_url, $original_url, $_context ) {
 		if ( isset( $_GET['page'] ) && $_GET['page'] === 'branding' ) {
 			$good_protocol_url = str_replace( '#038;', '', $good_protocol_url );
 		}
@@ -516,7 +480,7 @@ if ( ! $favicon ) {
 	 * @param $blog_id
 	 * @return mixed
 	 */
-	function site_icon_url( $url, $size, $blog_id ) {
+	public function site_icon_url( $url, $size, $blog_id ) {
 		if ( ! $this->_override_site_icon() ) {
 			return $url;
 		}

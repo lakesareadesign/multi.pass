@@ -1,13 +1,21 @@
 <style type="text/css">
 <?php
-$login_bg_img = $this->aof_options['login_bg_img'];
-$admin_login_logo = $this->aof_options['admin_login_logo'];
+if(!empty($this->aof_options['login_external_bg_url']) && filter_var($this->aof_options['login_external_bg_url'], FILTER_VALIDATE_URL)) {
+  $login_bg_img = esc_url( $this->aof_options['login_external_bg_url']);
+}
+else {
+  $login_bg_img = (is_numeric($this->aof_options['login_bg_img'])) ? $this->get_wps_image_url($this->aof_options['login_bg_img']) : $this->aof_options['login_bg_img'];
+}
+if(!empty($this->aof_options['login_external_logo_url']) && filter_var($this->aof_options['login_external_logo_url'], FILTER_VALIDATE_URL)) {
+  $login_logo = esc_url( $this->aof_options['login_external_logo_url']);
+}
+else {
+  $login_logo = (is_numeric($this->aof_options['admin_login_logo'])) ? $this->get_wps_image_url($this->aof_options['admin_login_logo']) : $this->aof_options['admin_login_logo'];
+}
 
-$login_background = (is_numeric($login_bg_img)) ? $this->get_wps_image_url($login_bg_img) : $login_bg_img;
-$login_logo = (is_numeric($admin_login_logo)) ? $this->get_wps_image_url($admin_login_logo) : $admin_login_logo;
 ?>
 body, html { height: auto; }
-body.login{background-color:<?php echo $this->aof_options['login_bg_color'] . ' !important;'; if(!empty($login_bg_img)) echo ' background-image: url(' . $login_background  . ');'; if($this->aof_options['login_bg_img_repeat'] == 1) echo 'background-repeat: repeat'; else echo 'background-repeat: no-repeat'; ?>; background-position: center center; <?php if($this->aof_options['login_bg_img_scale']) echo 'background-size: 100% auto;'; ?> background-attachment: fixed; margin:0; padding:1px; top: 0; right: 0; bottom: 0; left: 0; }
+body.login{background-color:<?php echo $this->aof_options['login_bg_color'] . ' !important;'; if(!empty($login_bg_img)) echo ' background-image: url(' . $login_bg_img  . ');'; if($this->aof_options['login_bg_img_repeat'] == 1) echo 'background-repeat: repeat'; else echo 'background-repeat: no-repeat'; ?>; background-position: center center; <?php if($this->aof_options['login_bg_img_scale']) echo 'background-size: 100% auto;'; ?> background-attachment: fixed; margin:0; padding:1px; top: 0; right: 0; bottom: 0; left: 0; }
 html, body.login:after { display: block; clear: both; }
 body.login-action-register { position: relative }
 body.login-action-login, body.login-action-lostpassword { position: fixed }

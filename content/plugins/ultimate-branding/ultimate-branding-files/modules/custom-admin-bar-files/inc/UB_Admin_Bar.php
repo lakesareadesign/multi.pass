@@ -32,7 +32,7 @@ class UB_Admin_Bar {
 	 * @access public
 	 *
 	 */
-	function __construct() {
+	public function __construct() {
 		add_filter( 'ultimatebranding_settings_adminbar_process', array( $this, 'update_data' ), 10, 1 );
 		add_action( 'admin_bar_menu', array( $this, 'reorder_menus' ), 99999 );
 		add_action( 'admin_bar_menu', array( $this, 'add_custom_menus' ), 1 );
@@ -70,21 +70,17 @@ class UB_Admin_Bar {
 	 * @param bool $status
 	 * @return bool true on successful update, false on update failure
 	 */
-	function update_data( $status ) {
+	public function update_data( $status ) {
 		if ( isset( $_POST['ub_admin_bar_restore_default_order'] ) ) {
 			ub_update_option( self::ORDER, '' );
 			return true;
 		}
-
 		$style = strip_tags( $_POST['ub_admin_bar_style'] );
-
 		ub_update_option( 'wdcab', $_POST['wdcab'] );
 		ub_update_option( self::STYLE, $style );
-
 		$cache_id = self::STYLE;
 		$style = self::style_normilize( $style );
 		wp_cache_set( $cache_id, $style );
-
 		$save_result = $this->_save_new_menus();
 		$update_result = $this->_update_prev_menus();
 		$remove_result = $this->_remove_menus();
@@ -106,7 +102,6 @@ class UB_Admin_Bar {
 				$new_sub = $new['links']['_last_'];
 				unset( $new['links']['_last_'] );
 				$new['title'] = empty( $new['title'] ) ? __( 'New Menu Title', 'ub' ) : wp_unslash( $new['title'] );
-
 				$parent_id = $this->_insert_menu( $new );
 				$sub_insert = true;
 				// save new sub menu if any
@@ -114,7 +109,6 @@ class UB_Admin_Bar {
 					$sub_insert = $this->_insert_sub_menu( $new_sub, $parent_id );
 				}
 			}
-
 			$this->_update_menus_record( $parent_id );
 			return $parent_id && $sub_insert;
 		}
@@ -163,25 +157,20 @@ class UB_Admin_Bar {
 		$result = array();
 		if ( isset( $_POST['ub_ab_prev'] ) ) {
 			$menus = $_POST['ub_ab_prev'];
-
 			foreach ( $menus  as $menu_id => $menu ) {
 				$new = $menu['links']['_last_'];
 				unset( $menu['links']['_last_'] );
 				$links = (array) $menu['links'];
-
 				// add new submenu
 				if ( isset( $new['title'] ) && ! empty( $new['title'] ) ) {
 					$links[] = $new;
 				}
-
 				$menu['links'] = $links;
-
 				$menu['title'] = wp_unslash( $menu['title'] );
 				// update parent menu
 				$result[] = $this->_update_menu( $menu_id, $menu );
 			}
 		}
-
 		return true;
 	}
 
@@ -235,7 +224,6 @@ class UB_Admin_Bar {
 	 * @return int|WP_Error
 	 */
 	private function _insert_sub_menu( $sub_menu, $parent_id ) {
-
 		$composite_id = self::_get_menu_composite_id( $parent_id );
 		$menu = unserialize( ub_get_option( $composite_id ) );
 		$links = isset( $menu['links'] ) ? (array) $menu['links'] : array();
@@ -255,10 +243,8 @@ class UB_Admin_Bar {
 	 * @return int|WP_Error
 	 */
 	private function _update_menu( $id, $menu ) {
-
 		return ub_update_option( self::_get_menu_composite_id( $id ), $menu );
 	}
-
 
 	/**
 	 * Retrieves menus from database
@@ -304,13 +290,10 @@ class UB_Admin_Bar {
     padding: 2px 0;
 }
 UBSTYLE;
-
 		$save_style = stripslashes( ub_get_option( self::STYLE ) );
-
 		if ( $editor ) {
 			return $save_style;
 		}
-
 		$styles = empty( $save_style ) ? $style : $save_style;
 		return self::_prefix_styles( $styles );
 	}
@@ -325,17 +308,13 @@ UBSTYLE;
 	 * @return array|string
 	 */
 	private static function _prefix_styles( $styles ) {
-
 		$cache_id = self::STYLE;
 		$style = wp_cache_get( $cache_id );
-
 		if ( ! $style ) {
 			$style = self::style_normilize( $styles );
 			wp_cache_set( $cache_id, $style );
 		}
-
 		return $style;
-
 	}
 
 	/**
@@ -348,23 +327,19 @@ UBSTYLE;
 	 * @return string style
 	 */
 	public static function style_normilize( $css ) {
-
-		if ( empty( $css ) ) { return $css; }
-
+		if ( empty( $css ) ) {
+			return $css;
+		}
 		$pattern = '~@media\b[^{]*({((?:[^{}]+|(?1))*)})~';
 		preg_match_all( $pattern, $css, $matches, PREG_PATTERN_ORDER );
-
 		$style_normilized = '';
 		$media_wraps = $matches[0];
 		$media_chunks = $matches[2];
-
 		foreach ( $media_chunks as $key => $media_chunk ) {
-
 			$whole_chunk = $media_wraps[ $key ];
 			$css = str_replace( $whole_chunk, '', $css );
 			$wrap = explode( '{', $whole_chunk );
 			$wrap = $wrap[0];
-
 			if ( ! empty( $media_chunk ) ) {
 				$styles = array_filter( explode( '}', $media_chunk ) );
 				$output = array();
@@ -375,11 +350,8 @@ UBSTYLE;
 				}
 				$media_chunk = implode( '', $output );
 			}
-
 			$style_normilized .= $wrap . '{' . $media_chunk . '}';
-
 		}
-
 		if ( ! empty( $css ) ) {
 			$styles = array_filter( explode( '}', $css ) );
 			$output = array();
@@ -391,9 +363,7 @@ UBSTYLE;
 			$css = implode( '', $output );
 			$style_normilized = $css . $style_normilized;
 		}
-
 		return $style_normilized;
-
 	}
 
 	/**
@@ -406,19 +376,15 @@ UBSTYLE;
 	 */
 	public function ajax_save_menu_ordering() {
 		$order = $_POST['order'];
-
 		$result = array(
 			'status' => false,
 		);
-
 		if ( is_array( $order ) && count( $order ) > 0 ) {
-
 			ub_update_option( self::ORDER, $order );
 			$result = array(
 				'status' => true,
 			) ;
 		}
-
 		header( 'Content-Type: application/json' );
 		echo json_encode( $result );
 		wp_die();
@@ -435,7 +401,6 @@ UBSTYLE;
 	public static function order() {
 		return ub_get_option( self::ORDER );
 	}
-
 	/**
 	 * Renders before admin bad renderer
 	 *
@@ -444,7 +409,7 @@ UBSTYLE;
 	 * @since 1.6
 	 * @access public
 	 */
-	function before_admin_bar_render() {
+	public function before_admin_bar_render() {
 		echo '<div id="ub_admin_bar_wrap">';
 	}
 
@@ -456,7 +421,7 @@ UBSTYLE;
 	 * @since 1.6
 	 * @access public
 	 */
-	function after_admin_bar_render() {
+	public function after_admin_bar_render() {
 		echo '</div>';
 	}
 
@@ -477,14 +442,14 @@ UBSTYLE;
 		 */
 		global $wp_admin_bar;
 		$order = UB_Admin_Bar::order();
-		if ( ! $order || ! is_array( $order ) ) { return; }
-
+		if ( ! $order || ! is_array( $order ) ) {
+			return;
+		}
 		$nodes = $wp_admin_bar->get_nodes();
 		// remove all nodes
 		foreach ( $nodes as $node_id => $node ) {
 			$wp_admin_bar->remove_node( $node_id );
 		}
-
 		// add ordered nodes
 		foreach ( $order as $o ) {
 			if ( isset( $nodes[ $o ] ) ) {
@@ -492,14 +457,12 @@ UBSTYLE;
 				unset( $nodes[ $o ] );
 			}
 		}
-
 		// add rest of the nodes
 		if ( count( $nodes ) > 0 ) {
 			foreach ( $nodes as $node ) {
 				$wp_admin_bar->add_node( $node );
 			}
 		}
-
 	}
 
 	/**
@@ -513,17 +476,16 @@ UBSTYLE;
 	 *
 	 * @return void
 	 */
-	function add_custom_menus() {
+	public function add_custom_menus() {
 		/**
 		 * @var $wp_admin_bar WP_Admin_Bar
 		 */
 		global $wp_admin_bar, $current_user;
-
 		$enabled = ub_get_option( 'wdcab' );
 		$enabled = (bool) $enabled['enabled'];
-
-		if ( ! $enabled ) { return; }
-
+		if ( ! $enabled ) {
+			return;
+		}
 		/**
 		 * @var $menu UB_Admin_Bar_Menu
 		 * @var $sub UB_Admin_Bar_Menu
@@ -567,7 +529,6 @@ UBSTYLE;
 				}
 			}
 		}
-
 	}
 
 	/**
@@ -578,13 +539,12 @@ UBSTYLE;
 	 *
 	 * @return void
 	 */
-	function remove_menus_from_admin_bar() {
+	public function remove_menus_from_admin_bar() {
 		global $wp_version, $current_user;
 		$version = preg_replace( '/-.*$/', '', $wp_version );
 		if ( version_compare( $version, '3.3', '>=' ) ) {
 			global $wp_admin_bar;
 			$wproles = ub_get_option( 'wdcab' );
-
 			/**
 			 * sanitize
 			 */
@@ -594,7 +554,6 @@ UBSTYLE;
 			if ( ! isset( $wproles['disabled_menus'] ) || ! is_array( $wproles['disabled_menus'] ) ) {
 				$wproles['disabled_menus'] = array();
 			}
-
 			$hide_from_subscriber = count( $current_user->roles ) === 0 && isset( $wproles['wp_menu_roles'] ) && in_array( 'subscriber', (array) $wproles['wp_menu_roles'] );
 			if (
 				/**
@@ -631,7 +590,7 @@ UBSTYLE;
 	 *
 	 * @return bool
 	 */
-	function user_has_access( $roles, $keys = false ) {
+	public function user_has_access( $roles, $keys = false ) {
 		$user = wp_get_current_user();
 		if ( empty( $user ) || ! is_array( $roles ) ) {
 			return false;
@@ -675,8 +634,16 @@ UBSTYLE;
 	 * @since 1.8.5
 	 * @access public
 	 */
-	function print_style_tag() {
-		if ( ! is_user_logged_in() ) {
+	public function print_style_tag() {
+		if ( is_user_logged_in() ) {
+			/**
+			 * Check user option: "Show Toolbar when viewing site"
+			 */
+			$show = get_user_option( 'show_admin_bar_front' );
+			if ( 'false' == $show ) {
+				return;
+			}
+		} else {
 			$show = (int) UB_Admin_Bar_Forms::get_option( 'show_toolbar_for_non_logged' );
 			if ( 1 !== $show ) {
 				return;

@@ -57,9 +57,8 @@
 	</section>
 
 	<br clear="all" />
-
-	<?php $instructors = CoursePress_Data_Shortcode_Instructor::course_instructors( array( 'style' => 'block' ) ); ?>
-	<div class="entry-content <?php echo( count( $instructors ) > 0 ? 'left-content' : '' ); ?>">
+<?php $instructors = CoursePress_Data_Shortcode_Instructor::course_instructors( array( 'style' => 'block' ) ); ?>
+<div class="entry-content <?php echo esc_attr( empty( $instructors )? '':'left-content' ); ?>">
 		<h1 class="h1-about-course"><?php _e( 'About the Course', 'cp' ); ?></h1>
 		<div class="content"><?php echo do_shortcode( '[course_description course_id="' . get_the_ID() . '"]' ); ?></div>
 <?php

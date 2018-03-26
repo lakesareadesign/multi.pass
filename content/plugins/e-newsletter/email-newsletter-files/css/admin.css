@@ -217,6 +217,11 @@ vertical-align: middle !important;
 #sending_form p.submit {
     text-align: center;
 }
+.shortcode-help{
+    padding: 0 1em;
+    background-color: white;
+    border:1px solid silver;
+}
 
 
-/* 133620-1506613812-au */
+/* 133620-1522104851-au */

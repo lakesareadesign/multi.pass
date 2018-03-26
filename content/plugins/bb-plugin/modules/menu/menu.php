@@ -24,7 +24,6 @@ class FLMenuModule extends FLBuilderModule {
 		));
 
 		add_action( 'pre_get_posts', 		__CLASS__ . '::set_pre_get_posts_query', 10, 2 );
-		add_filter( 'wp_nav_menu_objects',  __CLASS__ . '::sort_nav_objects', 10, 2 );
 	}
 
 	public static function _get_menus() {
@@ -68,9 +67,9 @@ class FLMenuModule extends FLBuilderModule {
 
 			if ( in_array( $toggle, array( 'hamburger', 'hamburger-label' ) ) ) {
 
-				echo '<button class="fl-menu-mobile-toggle ' . $toggle . '"><div class="svg-container">';
+				echo '<button class="fl-menu-mobile-toggle ' . $toggle . '"><span class="svg-container">';
 				include FL_BUILDER_DIR . 'img/svg/hamburger-menu.svg';
-				echo '</div>';
+				echo '</span>';
 
 				if ( 'hamburger-label' == $toggle ) {
 					echo '<span class="fl-menu-mobile-toggle-label">' . __( 'Menu', 'fl-builder' ) . '</span>';

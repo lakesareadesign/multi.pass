@@ -326,6 +326,9 @@
   *display: inline;
   text-align: center;
 }
+#sb_instagram #sbi_load .sbi_follow_btn svg.fa-instagram{
+  margin-right: 7px;
+}
 #sb_instagram .sbi_follow_btn.sbi_top{
   display: block;
   margin-bottom: 5px;

@@ -2,6 +2,7 @@
 /*
   Plugin Name: E-mail From
   Author: Marko Miljus (Incsub)
+  Description: Allow to setup from email for WordPress outgoing mails.
   Version: 1.1.1
  */
 
@@ -21,7 +22,7 @@ class ub_custom_email_from {
 		$ub_from_name = ub_get_option( 'ub_from_name', ub_get_option( 'blogname', ub_get_option( 'site_name' ) ) );
 ?>
         <div class="postbox">
-            <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Custom E-mail From Headers', 'ub' ) ?></span></h3>
+            <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'E-mail From Headers', 'ub' ) ?></span></h3>
             <div class="inside">
                 <table class="form-table">
 
@@ -29,7 +30,7 @@ class ub_custom_email_from {
                         <th scope="row"><?php _e( 'E-mail Address', 'ub' ) ?></th>
                         <td>
                             <input type="text" name="ub_from_email" value="<?php echo esc_attr( $ub_from_email ); ?>" />
-                            <?php _e( 'Default FROM E-email address', 'ub' ) ?>
+                            <p class="description"><?php _e( 'Default FROM E-email address', 'ub' ) ?></p>
                         </td>
                     </tr>
 
@@ -37,7 +38,7 @@ class ub_custom_email_from {
                         <th scope="row"><?php _e( 'Sender Name', 'ub' ) ?></th>
                         <td>
                             <input type="text" name="ub_from_name" value="<?php echo esc_attr( $ub_from_name ); ?>" />
-                            <?php _e( 'Default FROM Sender Name', 'ub' ) ?>
+                            <p class="description"><?php _e( 'Default FROM Sender Name', 'ub' ) ?></p>
                         </td>
                     </tr>
 

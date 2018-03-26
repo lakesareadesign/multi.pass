@@ -5,7 +5,7 @@ class Genesis_Simple_Hooks {
 	/**
 	 * Plugin version
 	 */
-	public $plugin_version = '2.2.0';
+	public $plugin_version = '2.2.1';
 
 	/**
 	 * Minimum WordPress version.
@@ -70,7 +70,7 @@ class Genesis_Simple_Hooks {
 
 		// Because this is a Genesis-dependent plugin
 		add_action( 'genesis_setup', array( $this, 'includes' ) );
-		add_action( 'genesis_setup', array( $this, 'instantiate' ) );
+		add_action( 'genesis_admin_init', array( $this, 'instantiate' ) );
 		add_action( 'genesis_setup', array( $this, 'execute_hooks' ) );
 
 	}
@@ -84,9 +84,11 @@ class Genesis_Simple_Hooks {
 
 		if ( ! defined( 'PARENT_THEME_VERSION' ) || ! version_compare( PARENT_THEME_VERSION, $this->min_genesis_version, '>=' ) ) {
 
-			$action = defined( 'PARENT_THEME_VERSION' ) ? __( 'upgrade to', 'genesis-simple-hooks' ) : __( 'install and activate', 'genesis-simple-hooks' );
+			$plugin = get_plugin_data( $this->plugin_dir_path . 'plugin.php' );
 
-			$message = sprintf( __( 'Genesis Simple Hooks requires WordPress %s and Genesis %s, or greater. Please %s the latest version of <a href="%s" target="_blank">Genesis</a> to use this plugin.', 'genesis-simple-' ), $this->min_wp_version, $this->min_genesis_version, $action, 'http://my.studiopress.com/?download_id=91046d629e74d525b3f2978e404e7ffa' );
+			$action = defined( 'PARENT_THEME_VERSION' ) ? __( 'upgrade to', 'plugin-boilerplate' ) : __( 'install and activate', 'plugin-boilerplate' );
+
+			$message = sprintf( __( '%s requires WordPress %s and <a href="%s" target="_blank">Genesis %s</a>, or greater. Please %s the latest version of Genesis to use this plugin.', 'plugin-boilerplate' ), $plugin['name'], $this->min_wp_version, 'http://my.studiopress.com/?download_id=91046d629e74d525b3f2978e404e7ffa', $this->min_genesis_version, $action );
 			echo '<div class="notice notice-warning"><p>' . $message . '</p></div>';
 
 		}

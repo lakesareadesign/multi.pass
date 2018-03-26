@@ -68,6 +68,7 @@ class ODB_Displayer {
 		
 		//$trans  = ($odb_class->odb_rvg_options['clear_transients'] == 'Y') ? $y : $n;
 		$ping   = ($odb_class->odb_rvg_options['clear_pingbacks']  == 'Y') ? $y : $n;
+		$oembed = ($odb_class->odb_rvg_options['clear_oembed']     == 'Y') ? $y : $n;
 		$log    = ($odb_class->odb_rvg_options['logging_on']       == 'Y') ? $y : $n;
 		$innodb = ($odb_class->odb_rvg_options['optimize_innodb']  == 'Y') ? $y : $n;
 		
@@ -121,6 +122,7 @@ class ODB_Displayer {
 		  <span class="odb-bold">'.__('Delete unused tags', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$tag.'</span><br>
 		  <span class="odb-bold">'.__('Delete transients', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$trans.'</span><br>
 		  <span class="odb-bold">'.__('Delete pingbacks and trackbacks', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$ping.'</span><br>
+		  <span class="odb-bold">'.__('Clear oEmbed cache', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$oembed.'</span><br>		  
 		  <span class="odb-bold">'.__('Keep a log', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$log.'</span><br>
 		  <span class="odb-bold">'.__('Optimize InnoDB tables', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.$innodb.'</span><br>
 		  <span class="odb-bold">'.__('Number of excluded tables', $odb_class->odb_txt_domain).':</span> <span class="odb-bold odb-blue">'.count($odb_class->odb_rvg_excluded_tabs).'</span><br>
@@ -150,9 +152,17 @@ class ODB_Displayer {
 	 *	CONVERT SECONDS TO DAYS, HOURS, MINUTES AND SECONDS
 	 ********************************************************************************************/
 	function secondsToTime($seconds) {
+		global $odb_class;
+		
 		$dtF = new \DateTime('@0');
 		$dtT = new \DateTime("@$seconds");
-		return $dtF->diff($dtT)->format('%a days, %h hours, %i minutes and %s seconds');
+		// v4.5.2
+		$d = __('days', $odb_class->odb_txt_domain);
+		$h = __('hours', $odb_class->odb_txt_domain);
+		$i = __('minutes', $odb_class->odb_txt_domain);
+		$a = __('and', $odb_class->odb_txt_domain);
+		$s = __('seconds', $odb_class->odb_txt_domain);
+		return $dtF->diff($dtT)->format('%a ' . $d . ', %h ' . $h . ', %i ' . $i . ' ' . $a . ' %s ' . $s);
 	} // secondsToTime()
 	
 

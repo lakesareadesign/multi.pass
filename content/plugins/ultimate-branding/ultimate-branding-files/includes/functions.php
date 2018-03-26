@@ -207,7 +207,7 @@ function ub_get_option_name_by_module( $module ) {
  *
  * @since 1.8.7
  */
-function ub_deprecated_module( $deprecated, $substitution, $tab ) {
+function ub_deprecated_module( $deprecated, $substitution, $tab, $removed_in = 0 ) {
 	$url = is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' );
 	$url = add_query_arg(
 		array(
@@ -222,7 +222,17 @@ function ub_deprecated_module( $deprecated, $substitution, $tab ) {
 		sprintf( '<b>%s</b>', esc_html( $deprecated ) ),
 		sprintf( '<b><a href="%s">%s</a></b>', esc_url( $url ), esc_html( $substitution ) )
 	);
-	echo '</p></div>';
+	echo '</p>';
+	if ( $removed_in ) {
+		printf(
+			'<p>%s</p>',
+			sprintf(
+				__( 'Module will be removed in <b>Ultimate Branding %s version</b>.', 'ub' ),
+				$removed_in
+			)
+		);
+	}
+	echo '</div>';
 }
 
 /**
@@ -280,7 +290,7 @@ function ub_register_activation_hook() {
  * @since 1.9.5
  */
 function set_ultimate_branding( $base ) {
-	global $UB_dir, $UB_url;
+	global $UB_dir, $UB_url, $UB_network;
 	/**
 	 * Set UB_dir
 	 */
@@ -296,6 +306,10 @@ function set_ultimate_branding( $base ) {
 	if ( defined( 'WPMU_PLUGIN_URL' ) && defined( 'WPMU_PLUGIN_DIR' ) && file_exists( WPMU_PLUGIN_DIR . '/' . basename( $base ) ) ) {
 		$UB_url = trailingslashit( WPMU_PLUGIN_URL );
 	}
+	/**
+	 * set $UB_network
+	 */
+	$UB_network = is_multisite() && is_plugin_active_for_network( plugin_basename( $base ) );
 	/**
 	 * include dir
 	 */
@@ -324,4 +338,18 @@ function set_ultimate_branding( $base ) {
 		new simple_options;
 	}
 
+}
+
+function ub_enqueue_switch_button() {
+	wp_enqueue_script( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/js/vendor/jquery.switch_button.js' ), array( 'jquery', 'jquery-effects-core' ), '1.12.1' );
+	wp_enqueue_style( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/css/vendor/jquery.switch_button.css' ), array(), '1.12.1' );
+	$i18n = array(
+		'labels' => array(
+			'label_on' => __( 'on', 'ub' ),
+			'label_off' => __( 'off', 'ub' ),
+			'label_enable' => __( 'Activate', 'ub' ),
+			'label_disable' => __( 'Deactivate', 'ub' ),
+		),
+	);
+	wp_localize_script( 'custom-ligin-screen-jquery-switch-button', 'switch_button', $i18n );
 }

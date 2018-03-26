@@ -4,7 +4,31 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log:
 ----------------------------------------------------------------------
 
-=======
+DATE: 26 Mar, 2018  - VERSION: 1.9.7
+==================================
+- Added module "Author Box".
+- Added search for the Ultimate Branding "Dashboard".
+- Fixed problem with constant for older WP on "Comming Soon & Maintenance" module.
+- Fixed problem with custom CSS displayed even user has the disabled toolbar.
+- Fixed problem with deprecated function form "Admin Bar" module.
+- Fixed problem with display outdated, disabled modules.
+- Fixed problem with mixed content for images on "Custom Login Screen" module.
+- Fixed problem with module "Dashboard Footer Content" - it some cases it covers WP admin elements.
+- Fixed problem with predefined background & logo in "Custom Login Screen" module after save.
+- Fixed problem with saving max allowed upload for "Image Upload Size" module.
+- Fixed problem with Ultimate Branding submenu, sometimes Dashboard was not first.
+
+DATE: 12 Mar, 2018  - VERSION: 1.9.6
+==================================
+- Fixed missing "Branding" submenu in network admin menu.
+- Fixed problem with the empty password when the password is allowed on the registration form.
+- Fixed problem with missing "Till date" field on "Comming Soon Page & Maintenance Mode" module.
+- Fixed problem with the replaces login field label.
+- Fixed problem with saves upload limit for custom roles.
+- Fixed warning in "Rebranded Meta Widget" on MultiSite installations.
+- Improved modules list, now the list using WP-Table class.
+- Removed "the_comment" filter from non-entry filtering, because of another plugin incompatibility.
+
 DATE: 29 Jan, 2018  - VERSION: 1.9.5.1
 ==================================
 - Fixed problem with a strange directory in plugins folder after an update.
@@ -449,4 +473,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 
 
 
-133620-1517280971-au
+133620-1522104891-au

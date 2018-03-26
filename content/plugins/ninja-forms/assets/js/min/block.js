@@ -1,103 +1,219 @@
-// block.js
-( function( blocks, element ) {
-	// These are gutenberg items(React components, etc.)
-	var el = element.createElement,
-		source = blocks.source;
+/**
+ * Ninja Forms Form Block
+ *
+ * A block for embedding a Ninja Forms form into a post/page.
+ */
+( function( blocks, i18n, element, components ) {
 
-	// Register our Gutenberg block
-	blocks.registerBlockType( 'ninja-forms/forms', {
+	var el = element.createElement, // function to create elements
+		TextControl = components.TextControl,// text input control
+        InspectorControls = blocks.InspectorControls, // sidebar controls
+        Sandbox = components.Sandbox; // needed to register the block
+
+	// register our block
+	blocks.registerBlockType( 'ninja-forms/form', {
 		title: 'Ninja Forms',
-		icon: 'edit',
+		icon: 'feedback',
 		category: 'common',
+
 		attributes: {
-			nf_form_id: {
-				type: 'string',
-				source: source.children( 'div' ), // This is why we wrap the
-				// short code in the div in the save method. So that we can
-				// grab the short code
+            formID: {
+                type: 'integer',
+                default: 0
+            },
+			formName: {
+            	type: 'string',
 				default: ''
-			},
+			}
 		},
 
-		// This function sets up the block HTML(what you see in the editor)
 		edit: function( props ) {
-			var children,
-				options;
 
-			function setFormId( event ) {
-				// Get the ID value from the select element
-				var selected = event.target.querySelector( 'option:checked' );
-				var tmpId = selected.value;
-				var shortCodeStr = '';
+	        var focus = props.focus;
 
-				// set the nf_form_id prop value with the new ID selected
-				if ( 0 !== tmpId.length ) {
-					shortCodeStr = "[ninja_form id=" + tmpId + "]";
-				}
-				props.setAttributes( { nf_form_id: shortCodeStr } );
-				event.preventDefault();
+	        var formID = props.attributes.formID;
+
+	        var formName = props.attributes.formName;
+
+	        var children = [];
+
+	        if( ! formID ) formID = ''; // Default.
+			if( ! formName ) formName = ''; // Default
+
+			// this function is required, but we don't need it to do anything
+			function nfOnValueChange( formName ) { }
+
+			// show the dropdown when we click on the input
+			function nfFocusClick( event ) {
+				var elID = event.target.getAttribute( 'id' );
+				var idArray = elID.split( '-' );
+				var nfOptions = document.getElementById( 'nf-filter-container-' + idArray[ idArray.length -1 ] );
+				nfOptions.style.display = 'block';
 			}
 
-			function getElementValue( props ) {
-				// Get our current nf_form_id prop value
-				var tmpVal = props.attributes.nf_form_id;
-
-				// Get the actual id value from the short code string
-				// This value will be a Ninja Form short code and we need
-				// the form ID
-				if( 0 < tmpVal.length ) {
-					tmpVal = tmpVal.split( '=' )[1];
-					tmpVal = tmpVal.substring( 0, tmpVal.length - 1 );
-				}
-
-				return tmpVal;
+			// function for select the form on filter drop down item click
+			function selectForm( event ) {
+				//set the attributes from the selected for item
+				props.setAttributes( {
+					formID: event.target.getAttribute( 'data-formid' ),
+					formName: event.target.innerText
+				} );
+				/**
+				 * Get the main div of the filter to tell if this is being
+				 * selected from the sidebar or block so we can hide the dropdown
+	             */
+				var elID = event.target.parentNode.parentNode;
+				var idArray = elID.getAttribute( 'id' ).split( '-' );
+				var nfOptions = document.getElementById( 'nf-filter-container-' + idArray[ idArray.length -1 ] );
+				var inputEl = document.getElementById( 'formFilter-sidebar' );
+				inputEl.value = '';
+				nfOptions.style.display = 'none';
 			}
-			// children will be an array of HTML elements that will be
-			// rendered in the block
-			children = [];
 
-			var containerDiv = el( 'div', {style : {width: '100%'}}, el( 'img',
-				{ src: ninja_forms.block_logo}) );
+			function nfHideOptions( event ) {
+				/**
+				 * Get the main div of the filter to tell if this is being
+				 * selected from the sidebar or block so we can hide the dropdown
+				 */
+				var elID = event.target.getAttribute( 'id' );
+				var idArray = elID.split( '-' );
+				var nfOptions = document.getElementById( 'nf-filter-container-' + idArray[ idArray.length -1 ] );
+				nfOptions.style.display = 'none';
+			}
 
-			children.push(containerDiv);
+			function nfInputKeyUp( event ) {
+				var val = event.target.value;
+				/**
+				 * Get the main div of the filter to tell if this is being
+				 * selected from the sidebar or block so we can SHOW the dropdown
+				 */
+				var filterInputContainer = event.target.parentNode.parentNode;
+				filterInputContainer.querySelector( '.nf-filter-option-container' ).style.display = 'block';
+				filterInputContainer.style.display = 'block';
 
-			options = [];
-			// create the options for the form dropdown
-			options.push( el( 'option', { value: '' }, '- Select -' ) );
+				// Let's filter the forms here
+				_.each( ninjaFormsBlock.forms, function( form, index ) {
+					var liEl = filterInputContainer.querySelector( "[data-formid='" + form.value + "']" );
+					if ( 0 <= form.label.toLowerCase().indexOf( val.toLowerCase() ) ) {
+						// shows options that DO contain the text entered
+						liEl.style.display = 'block';
+					} else {
+						// hides options the do not contain the text entered
+						liEl.style.display = 'none';
+					}
+				});
+			}
 
-			// iterate over the form data passed from PHP
-			_.each( ninja_forms.nf_forms, function( nf_form ) {
-				options.push( el( 'option' , { value: nf_form.id }, nf_form.title + " (ID: " + nf_form.id + ")" ) );
-
+			// Set up the form items from the localized php variables
+			var formItems = [];
+			_.each( ninjaFormsBlock.forms, function( form, index ) {
+				formItems.push( el( 'li', { className: 'nf-filter-option',
+						'data-formid': form.value, onMouseDown: selectForm},
+						form.label + " ( ID: " + form.value + " )" ))
 			});
 
-			// create a select element, get the value that was last saved,
-			// and append the options
-			children.push( el( 'select', {
-						style: { width: '100%' },
-						name: 'nf_form_id',
-						id: 'nf_form_id',
-						value: getElementValue( props ),
-						onChange: setFormId
-					},
-					options
+			// Set up form filter for the block
+			var inputFilterMain = el( 'div', { id: 'nf-filter-input-main',
+					className: 'nf-filter-input' },
+				el( TextControl, { id: 'formFilter-main',
+					placeHolder: 'Select a Form',
+					className: 'nf-filter-input-el blocks-select-control__input',
+					onChange: nfOnValueChange,
+					onClick: nfFocusClick,
+					onKeyUp: nfInputKeyUp,
+					onBlur: nfHideOptions
+				} ),
+				el( 'span', { id: 'nf-filter-input-icon-main',
+					className: 'nf-filter-input-icon',
+					onClick: nfFocusClick,
+					dangerouslySetInnerHTML: { __html: '&#9662;' } } ),
+				el( 'div', { id: 'nf-filter-container-main',
+						className: 'nf-filter-option-container' },
+						el( 'ul', null, formItems )
+				)
+			);
+			// Create filter input for the sidebar blocks settings
+			var inputFilterSidebar = el( 'div', { id: 'nf-filter-input-sidebar',
+					className: 'nf-filter-input' },
+				el( TextControl, { id: 'formFilter-sidebar',
+					placeHolder: 'Select a Form',
+					className: 'nf-filter-input-el blocks-select-control__input',
+					onChange: nfOnValueChange,
+					onClick: nfFocusClick,
+					onKeyUp: nfInputKeyUp,
+					onBlur: nfHideOptions
+				} ),
+				el( 'span', { id: 'nf-filter-input-icon-sidebar',
+					className: 'nf-filter-input-icon',
+					onClick: nfFocusClick,
+					dangerouslySetInnerHTML: { __html: '&#9662;' } } ),
+				el( 'div', { id: 'nf-filter-container-sidebar',
+						className: 'nf-filter-option-container' },
+					el( 'ul', null, formItems )
 				)
 			);
 
-			// Create the form and append the label and select elements
-			var form = el( 'form', { onSubmit: setFormId }, children );
+			// Set up the form filter dropdown in the side bar 'block' settings
+	        var inspectorControls = el( InspectorControls, {},
+		        el( 'span', null, 'Current selected form:' ),
+		        el( 'br', null ),
+		        el( 'span', null, formName ),
+		        el( 'br', null ),
+		        el ('hr', null ),
+		        el ( 'label', { for: 'formFilter-sidebar' }, 'Type to filter' +
+			        ' forms' ),
+		        inputFilterSidebar
+	            // el( SelectControl, { label: 'Form ID', value: formID, options: ninjaFormsBlock.forms, onChange: onFormChange } )
+	        );
 
-			// This is what renders the elements to the blocks, so we wrap
-			// the form in a div here
-			return el( 'div', { class: 'wp-block-shortcode' }, form );
+
+			/**
+			 * Create the div container, add an overlay so the user can interact
+			 * with the form in Gutenberg, then render the iframe with form
+			 */
+			if( '' === formID ) {
+				children.push( el( 'div', {style : {width: '100%'}},
+					el( 'img', { src: ninjaFormsBlock.block_logo}),
+					// el( SelectControl, { value: formID, options: ninjaFormsBlock.forms, onChange: onFormChange }),
+					el ( 'div', null, 'Type to Filter'),
+					inputFilterMain
+				) );
+			} else {
+				children.push(
+					el( 'div', { className: 'nf-iframe-container' },
+						el( 'div', { className: 'nf-iframe-overlay' } ),
+						el( 'iframe', { src: ninjaFormsBlock.siteUrl + '?nf_preview_form='
+							+ formID + '&nf_iframe', height: '0', width: '500', scrolling: 'no' })
+					)
+				)
+			}
+			return [
+				children,
+				!! focus && inspectorControls
+	        ];
 		},
 
 		save: function( props ) {
-			// This is what will be rendered by our block on the front-end
-			return "<div>" + props.attributes.nf_form_id + "</div>";
+
+            var formID = props.attributes.formID;
+
+            if( ! formID ) return '';
+			/**
+			 * we're essentially just adding a short code, here is where
+			 * it's save in the editor
+			 *
+			 * return content wrapped in DIV b/c raw HTML is unsupported
+			 * going forward
+			 */
+			var returnHTML = '[ninja_forms id=' + parseInt( formID ) + ']';
+			return el( 'div', null, returnHTML);
 		}
 	} );
+
+
 } )(
 	window.wp.blocks,
-	window.wp.element
+	window.wp.i18n,
+	window.wp.element,
+	window.wp.components
 );

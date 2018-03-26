@@ -237,7 +237,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 						'default' => __( 50, 'cp' ),
 					),
 					'list_separator' => array(
-						'content' => __( 'Symbol to use to separate instructors when styl is "list" or "list-flat".', 'cp' ),
+						'content' => __( 'Symbol to use to separate instructors when style is "list" or "list-flat".', 'cp' ),
 						'default' => ',',
 					),
 					'avatar_size' => array(
@@ -397,7 +397,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 	private static function _box_course_details() {
 		$data = array(
 			'shortcode' => 'course_details',
-			'content' => __( 'This shortcode is an alias to [course] shortcode. see section [course] shortcode for details.', 'cp' ),
+			'content' => __( 'This shortcode is an alias to the [course] shortcode. see the section [course] shortcode for details.', 'cp' ),
 			'examples' => array(
 				'[course show="title,summary,cost,button" course_id="5"]',
 			),
@@ -493,7 +493,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 				),
 				'optional' => array(
 					'label' => array(
-						'content' => __( 'Additional label will be displayed before description.', 'cp' ),
+						'content' => __( 'An additional label will be displayed before the description.', 'cp' ),
 					),
 				),
 			),
@@ -799,7 +799,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 						'default' => 'wp',
 					),
 					'label_enrolled' => array(
-						'content' => __( 'Label to display for enroled date.', 'cp' ),
+						'content' => __( 'Label to display for enrolled date.', 'cp' ),
 						'default' => __( 'You Enrolled on: ', 'cp' ),
 					),
 					'label' => array(
@@ -1373,7 +1373,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 				),
 				'optional' => array(
 					'date_indicator' => array(
-						'content' => __( 'Classes string added calendar table tag holder.', 'cp' ),
+						'content' => __( 'Classes string added to the calendar table tag holder.', 'cp' ),
 						'default' => __( 'indicator_light_block', 'cp' ),
 					),
 					'month' => array(
@@ -1418,7 +1418,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 			'parameters' => array(
 				'optional' => array(
 					'categories' => array(
-						'content' => __( 'A comma separated category slugs to show courses on specific course categories.', 'cp' ),
+						'content' => __( 'A comma-separated category slugs to show courses from specific course categories.', 'cp' ),
 						'default' => 'empty',
 					),
 					'completed_label' => array(
@@ -1426,7 +1426,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 						'default' => __( 'Completed courses', 'cp' ),
 					),
 					'context' => array(
-						'content' => __( 'Context for the courses list. Possible values: .', 'cp' ),
+						'content' => __( 'Context for the courses list. Possible values:', 'cp' ),
 						'default' => 'all',
 						'options' => array( 'enrolled', 'future', 'incomplete', 'completed', 'past', 'manage', 'facilitator', 'all' ),
 					),
@@ -1443,7 +1443,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 						'default' => __( 'Facilitated Courses', 'cp' ),
 					),
 					'facilitator' => array(
-						'content' => __( 'If this true or "yes" switch content to "facilitator".', 'cp' ),
+						'content' => __( 'If this is true or "yes" switch content to "facilitator".', 'cp' ),
 						'default' => 'empty',
 					),
 					'future_label' => array(
@@ -1477,7 +1477,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 						'options' => array( 'ASC', 'DESC' ),
 					),
 					'orderby' => array(
-						'content' => __( 'Orderby the courses by course date or by course title.', 'cp' ),
+						'content' => __( 'Order the courses by course date or by course title.', 'cp' ),
 						'default' => __( 'meta', 'cp' ),
                         'options' => array( 'meta', 'title' ),
                         'description' => __('It works only with default "context".', 'cp' ),
@@ -1495,7 +1495,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 						'default' => __( 'published', 'cp' ),
 					),
 					'student_msg' => array(
-						'content' => __( 'Messge displayed when student is not enroled to any course.', 'cp' ),
+						'content' => __( 'Message displayed when the student is not enrolled to any course.', 'cp' ),
 						'default' => sprintf(
 							__( 'You are not enrolled in any courses. %s', 'cp' ),
 							htmlentities(
@@ -1523,7 +1523,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 						),
 					),
 					'show_withdraw_link' => array(
-						'content' => __( 'Allow to show withdraw link, but it work only when is a student and status is set on "incomplete".', 'cp' ),
+						'content' => __( 'Allow to show a withdraw link, but it will work only when the user is a student and the status is set to "incomplete".', 'cp' ),
 						'default' => 'false',
 					),
 				),
@@ -1704,7 +1704,7 @@ class CoursePress_View_Admin_Setting_Shortcodes {
 						'default' => __( 'Plugin defaults.', 'cp' ),
 					),
 					'page' => array(
-						'content' => __( 'Page parameter if not set CoursePress try to use "page" variable from $_REQUEST.', 'cp' ),
+						'content' => __( 'Page parameter if not set CoursePress will try to use the "page" variable from $_REQUEST.', 'cp' ),
 						'default' => 'empty',
 					),
 					'signup_tag' => array(

@@ -3,6 +3,7 @@ if ( ! class_exists( 'ub_signup_password' ) ) {
 
 	class ub_signup_password  {
 		var $signup_password_use_encryption = 'yes'; //Either 'yes' OR 'no'
+		private $password = null;
 
 		public function __construct() {
 			if ( is_user_logged_in() ) {
@@ -18,6 +19,7 @@ if ( ! class_exists( 'ub_signup_password' ) ) {
 			add_filter( 'wp_new_user_notification_email', array( $this, 'new_user_notification_email' ), 10, 3 );
 			add_action( 'login_enqueue_scripts', array( $this, 'enqueue_style' ) );
 			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_style' ) );
+			add_filter( 'wp_pre_insert_user_data', array( $this, 'pre_insert_user_data' ), 10, 3 );
 		}
 
 		public function password_encrypt( $data ) {
@@ -42,7 +44,8 @@ if ( ! class_exists( 'ub_signup_password' ) ) {
 				// these should not appear within the original text
 				$sym = array( '∂', '•xQ', '|' );
 				foreach ( range( 'a','z' ) as $key => $val ) {
-					$chars[ $val ] = str_repeat( $sym[0],($key + 1) ).$sym[1]; }
+					$chars[ $val ] = str_repeat( $sym[0],($key + 1) ).$sym[1];
+				}
 				$chars[' '] = $sym[2];
 				unset( $sym );
 			}
@@ -70,6 +73,7 @@ if ( ! class_exists( 'ub_signup_password' ) ) {
 			global $signup_password_use_encryption;
 			$password_1 = isset( $_POST['password_1'] ) ? $_POST['password_1'] : '';
 			if ( ! empty( $password_1 ) ) {
+				$this->password = $password_1;
 				if ( $signup_password_use_encryption == 'yes' ) {
 					$password_1 = $this->wpmu_signup_password_encrypt( $password_1 );
 				}
@@ -101,6 +105,7 @@ if ( ! class_exists( 'ub_signup_password' ) ) {
 						} else {
 							$password = $meta['password'];
 						}
+						$this->password = $password;
 						unset( $meta['password'] );
 						$meta = maybe_serialize( $meta );
 						$wpdb->update(
@@ -171,6 +176,10 @@ if ( $error ) {
 		 * @since 1.9.4
 		 */
 		public function new_user_notification_email( $email, $user, $blogname ) {
+			$password = $this->password;
+			if ( isset( $_POST['password_1'] ) && ! empty( $_POST['password_1'] ) ) {
+				$password = $_POST['password_1'];
+			}
 			$text = __( 'Howdy USERNAME,
 
 Your new account is set up.
@@ -183,8 +192,26 @@ LOGINLINK
 Thanks!
 
 --The Team @ SITE_NAME', 'ub' );
+			/**
+			 * fallback message for empty $password
+			 */
+			if ( empty( $password ) ) {
+				$text = __( 'Howdy USERNAME,
+
+Your new account is set up.
+
+You can log in with the following information:
+Username: USERNAME
+
+LOGINLINK
+
+Thanks!
+
+--The Team @ SITE_NAME', 'ub' );
+			}
+
 			$text = preg_replace( '/USERNAME/', $user->user_login, $text );
-			$text = preg_replace( '/PASSWORD/', $_REQUEST['password_1'], $text );
+			$text = preg_replace( '/PASSWORD/', $password, $text );
 			$text = preg_replace( '/LOGINLINK/', network_site_url( 'wp-login.php' ), $text );
 			$text = preg_replace( '/SITE_NAME/', $blogname, $text );
 			$email['message'] = $text;
@@ -195,6 +222,22 @@ Thanks!
 			global $ub_version;
 			$file = ub_files_url( 'modules/custom-login-screen/assets/css/signup-password.css' );
 			wp_enqueue_style( __CLASS__, $file, false, $ub_version );
+		}
+
+		/**
+		 * generate new password if is empty
+		 *
+		 * @since 1.9.6
+		 */
+		public function pre_insert_user_data( $data, $update, $ID ) {
+			if ( is_multisite() ) {
+				return $data;
+			}
+			if ( ! isset( $_POST['password_1'] ) || empty( $_POST['password_1'] ) ) {
+				$this->password = wp_generate_password( 20, false );
+				$data['user_pass'] = wp_hash_password( $this->password );
+			}
+			return $data;
 		}
 	}
 }

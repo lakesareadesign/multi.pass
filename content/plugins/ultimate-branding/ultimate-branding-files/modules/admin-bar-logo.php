@@ -2,7 +2,7 @@
 /*
 Plugin Name: Admin Bar Logo
 Plugin URI:
-Description:
+Description: Allow to change admin bar logo.
 Author: Marcin (Incsub)
 Version: 1.0
 Author URI:

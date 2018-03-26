@@ -17,7 +17,6 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 		$this->register_js( UB_Admin_Bar::NAME, 'main' );
 		$this->register_css( UB_Admin_Bar::NAME, 'main' );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_local_scripts' ) );
-		add_action( 'admin_init', array( $this, 'register_settings' ) );
 		add_action( 'ultimatebranding_settings_adminbar', array( &$this, 'create_admin_page' ) );
 		add_action( 'ultimatebranding_admin_header_adminbar', array( &$this, 'js_print_scripts' ) );
 	}
@@ -70,15 +69,6 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 			$this,
 			'create_admin_page',
 		) );
-	}
-
-	/**
-	 * Registers settings box for the module
-	 * @return void
-	 */
-	function register_settings() {
-		register_setting( 'wdcab', 'wdcab' );
-		add_settings_section( 'wdcab_settings', null, create_function( '', '' ), 'ub_main_bar' );
 	}
 
 	/**

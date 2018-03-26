@@ -292,26 +292,31 @@ class Email_Newsletter_functions {
      * on active subscriptions.
      **/
     function get_members_of_membership2( $membership_id, $count = 0 ) {
-        global $wpdb;
+        if(!$count) {
+            $membership_users = MS_Model_Relationship::get_subscriptions(
+                array(
+                    'membership_id' => $membership_id,
+                    'status' 	=> 'valid',
+                )
+            );
 
-        $arg = array();
-        $membership_id = intval($membership_id);
+            $wp_users = array();
+            foreach($membership_users as $membership_user) {
+                $wp_users[] = $membership_user->user_id;
+            }
 
-        $arg['inner_join'] = "
-        {$this->tb_prefix}posts Sub ON Sub.post_author = A.wp_user_id
-        INNER JOIN {$this->tb_prefix}postmeta SubMem ON SubMem.post_id = Sub.Id AND SubMem.meta_key='membership_id'
-        INNER JOIN {$this->tb_prefix}postmeta SubAct ON SubAct.post_id = Sub.Id AND SubAct.meta_key='status'
-        ";
+            return $wp_users;
+        }
+        else {
+            $count = MS_Model_Relationship::get_subscription_count(
+                array(
+                    'membership_id' => $membership_id,
+                    'status' 	=> 'valid',
+                )
+            );
 
-        $arg['where'] = "
-        Sub.post_type = 'ms_relationship'
-        AND SubAct.meta_value = 'active'
-        AND SubMem.meta_value = {$membership_id}
-        ";
-
-        $members = $this->get_members($arg, $count, 0);
-
-        return $members;
+            return $count;
+        }
     }
 
     /**
@@ -1152,7 +1157,7 @@ class Email_Newsletter_functions {
 	        $sent_status = $mail->Send();
 	        if( !$sent_status ) {
 	            $this->write_log( 'Send email error: '.$mail->ErrorInfo.'['.json_encode($mail->ErrorInfoRaw).']');
-	            return $mail->ErrorInfoRaw;
+	            return !empty( $mail->ErrorInfoRaw ) ? json_encode( $mail->ErrorInfoRaw ) : $mail->ErrorInfo;
 	        }
 	    }
 
@@ -2624,4 +2629,3 @@ class Email_Newsletter_functions {
         fclose($handle);
     }
 }
-?>

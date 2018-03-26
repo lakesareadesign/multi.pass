@@ -38,7 +38,7 @@ if ( $query->have_posts() ) :
 do_action( 'fl_builder_posts_module_after_posts', $settings, $query );
 
 // Render the pagination.
-if ( 'none' != $settings->pagination && $query->have_posts() ) :
+if ( 'none' != $settings->pagination && $query->have_posts() && $query->max_num_pages > 1 ) :
 
 ?>
 <div class="fl-builder-pagination"<?php if ( in_array( $settings->pagination, array( 'scroll', 'load_more' ) ) ) { echo ' style="display:none;"';} ?>>

@@ -48,6 +48,7 @@ class ODB_Cleaner {
 		$odb_class->log_arr["before"]     = 0;
 		$odb_class->log_arr["orphans"]    = 0;
 		$odb_class->log_arr["pingbacks"]  = 0;
+		$odb_class->log_arr["oembed"]     = 0;
 		$odb_class->log_arr["revisions"]  = 0;
 		$odb_class->log_arr["savings"]    = 0;
 		$odb_class->log_arr["spam"]       = 0;
@@ -301,7 +302,7 @@ class ODB_Cleaner {
 		 *	DELETE PINGBACKS AND TRACKBACKS
 		 ****************************************************************************************/	
 		if($odb_class->odb_rvg_options['clear_pingbacks'] == 'Y') {
-			// DELETE UNUSED TAGS
+			// DELETE PINGBACKS AND TRACKBACKS
 			$total_deleted = $this->odb_delete_pingbacks();
 			if($total_deleted > 0) {
 				// PINGBACKS / TRACKBACKS DELETED\
@@ -324,6 +325,35 @@ class ODB_Cleaner {
 			// NUMBER OF pingbacks / trackbacks DELETED (FOR LOG FILE)
 			$odb_class->log_arr["pingbacks"] = $total_deleted;	
 		} // if($odb_class->odb_rvg_options['clear_pingbacks'] == 'Y')
+
+
+		/****************************************************************************************
+		 *	DELETE OEMBED CACHE
+		 ****************************************************************************************/	
+		if($odb_class->odb_rvg_options['clear_oembed'] == 'Y') {
+			// DELETE OEMBED CACHE
+			$total_deleted = $this->odb_delete_oembed();
+			if($total_deleted > 0) {
+				// OEMBED CACHE CLEARED
+				if (!$scheduler) {
+	?>
+	<div class="odb-found-number">
+	  <?php _e('NUMBER OF oEmbed RECORDS DELETED', $odb_class->odb_txt_domain);?>: <span class="odb-blue"><?php echo $total_deleted;?></span> </div>
+	<?php
+				} // if (!$scheduler)
+			} else {
+				if (!$scheduler) {
+	?>
+	<div class="odb-not-found">
+	  <?php _e('No oEmbed records found to delete', $odb_class->odb_txt_domain);?>
+	</div>
+	<?php
+				} // if (!$scheduler)
+			} // if(count($results)>0)
+		
+			// NUMBER OF OEMBED RECORDS DELETED (FOR LOG FILE)
+			$odb_class->log_arr["oembeds"] = $total_deleted;	
+		} // if($odb_class->odb_rvg_options['clear_oembed'] == 'Y')
 
 	
 		/****************************************************************************************
@@ -1080,6 +1110,41 @@ class ODB_Cleaner {
 		return $total_deleted;
 	} // odb_delete_pingbacks()
 
+
+	/********************************************************************************************
+	 *	CLEAR OEMBED CACHE
+	 ********************************************************************************************/
+	function odb_delete_oembed() {
+		global $wpdb, $odb_class;
+		
+		$total_deleted = 0;
+	
+		// LOOP THROUGH THE NETWORK
+		for($i=0; $i<count($odb_class->odb_ms_prefixes); $i++) {
+			
+			//SELECT * FROM `cage2016_postmeta` WHERE `meta_value` LIKE '_OEMBED_%' 
+			// SELECT * FROM `cage2016_postmeta` WHERE `meta_key` LIKE '_oembed_%' 
+			
+			$sql = sprintf ("
+			SELECT `meta_id`
+			FROM %spostmeta
+			WHERE `meta_key` LIKE '_oembed_%%'
+			", $odb_class->odb_ms_prefixes[$i]);
+		
+			$results = $wpdb->get_results($sql);
+			$total_deleted = count($results);
+	
+			// DELETE COMMENTS			
+			$sql_delete_comments = sprintf ("
+			DELETE FROM %spostmeta
+			WHERE `meta_key` LIKE '_oembed_%%'	
+			", $odb_class->odb_ms_prefixes[$i]);
+			$wpdb->get_results($sql_delete_comments);
+		} // for($i=0; $i<count($odb_class->odb_ms_prefixes); $i++)
+	
+		return $total_deleted;
+	} // odb_delete_oembed()
+	
 
 	/********************************************************************************************
 	 *	DELETE ORPHAN POSTMETA AND MEDIA RECORDS

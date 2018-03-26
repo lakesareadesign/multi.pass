@@ -39,7 +39,7 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'ultimatebranding_settings_admin_panel_tips', array( $this, 'admin_options_page' ) );
 			add_filter( 'ultimate_branding_module_url', array( $this, 'change_tab_url' ), 10, 2 );
-			add_action( 'init', array( $this, 'custom_post_type' ), 0 );
+			add_action( 'init', array( $this, 'custom_post_type' ), 100 );
 			/**
 			 * Where to display?
 			 *
@@ -69,6 +69,12 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 			 * Do not load on multisite network admin
 			 */
 			if ( is_multisite() && is_network_admin() ) {
+				return;
+			}
+			/**
+			 * Check module is active - it happens on bulk change status
+			 */
+			if ( false === ub_is_active_module( 'admin-panel-tips/admin-panel-tips.php' ) ) {
 				return;
 			}
 			$labels = array(

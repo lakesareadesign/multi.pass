@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Custom Sidebars\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/customsidebars\n"
-"POT-Creation-Date: 2018-02-09 06:13:10+00:00\n"
+"POT-Creation-Date: 2018-03-21 13:08:01+00:00\n"
 "PO-Revision-Date: 2014-08-28 21:53+0100\n"
 "Last-Translator: Philipp Stracker <philipp@stracker.net>\n"
 "Language-Team:  <hboswijk@xs4all.nl>\n"
@@ -59,94 +59,94 @@ msgstr ""
 msgid "You do not have permission for this"
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:242
-#: inc/class-custom-sidebars-editor.php:376
-#: inc/class-custom-sidebars-editor.php:659
+#: inc/class-custom-sidebars-editor.php:250
+#: inc/class-custom-sidebars-editor.php:407
+#: inc/class-custom-sidebars-editor.php:690
 msgid "You have no permission to do this operation."
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:263
+#: inc/class-custom-sidebars-editor.php:273
 msgid "Sidebar-name cannot be empty"
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:287
-#: inc/class-custom-sidebars-editor.php:385
+#: inc/class-custom-sidebars-editor.php:297
+#: inc/class-custom-sidebars-editor.php:416
 #, fuzzy
 msgid "The sidebar does not exist"
 msgstr "Maak Sidebar"
 
-#: inc/class-custom-sidebars-editor.php:318
+#: inc/class-custom-sidebars-editor.php:334
 msgid "Created new sidebar <strong>%1$s</strong>"
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:326
+#: inc/class-custom-sidebars-editor.php:342
 msgid "Updated sidebar <strong>%1$s</strong>"
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:337
-#: inc/class-custom-sidebars-editor.php:405
+#: inc/class-custom-sidebars-editor.php:353
+#: inc/class-custom-sidebars-editor.php:436
 #, fuzzy
 msgid "The sidebar was not found"
 msgstr "Maak Sidebar"
 
-#: inc/class-custom-sidebars-editor.php:394
+#: inc/class-custom-sidebars-editor.php:425
 msgid "Deleted sidebar <strong>%1$s</strong>"
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:467
+#: inc/class-custom-sidebars-editor.php:498
 #: inc/class-custom-sidebars-visibility.php:156
 msgid "Front Page"
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:468
+#: inc/class-custom-sidebars-editor.php:499
 msgid "Search Results"
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:469
+#: inc/class-custom-sidebars-editor.php:500
 #: inc/class-custom-sidebars-visibility.php:162
 msgid "Not found (404)"
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:470
+#: inc/class-custom-sidebars-editor.php:501
 #, fuzzy
 msgid "Any Author Archive"
 msgstr "Per categorie"
 
-#: inc/class-custom-sidebars-editor.php:471
+#: inc/class-custom-sidebars-editor.php:502
 msgid "Date Archives"
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:489
-#: inc/class-custom-sidebars-editor.php:492
-#: inc/class-custom-sidebars-editor.php:499
-#: inc/class-custom-sidebars-editor.php:501
-#: inc/class-custom-sidebars-editor.php:585
-#: inc/class-custom-sidebars-editor.php:587
-#: inc/class-custom-sidebars-editor.php:606
+#: inc/class-custom-sidebars-editor.php:520
+#: inc/class-custom-sidebars-editor.php:523
+#: inc/class-custom-sidebars-editor.php:530
+#: inc/class-custom-sidebars-editor.php:532
+#: inc/class-custom-sidebars-editor.php:616
+#: inc/class-custom-sidebars-editor.php:618
+#: inc/class-custom-sidebars-editor.php:637
 #, fuzzy
 msgid "%s Archives"
 msgstr "Per categorie"
 
-#: inc/class-custom-sidebars-editor.php:548
+#: inc/class-custom-sidebars-editor.php:579
 #: inc/class-custom-sidebars-visibility.php:157
 #, fuzzy
 msgid "Post Index"
 msgstr "Per bericht-soort"
 
-#: inc/class-custom-sidebars-editor.php:552
+#: inc/class-custom-sidebars-editor.php:583
 msgid "%1$s Archives"
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:830
+#: inc/class-custom-sidebars-editor.php:861
 msgid "Updated sidebar <strong>%1$s</strong> settings."
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:882 views/widgets.php:17
+#: inc/class-custom-sidebars-editor.php:913 views/widgets.php:17
 #, fuzzy
 msgid "Sidebars"
 msgstr "Speciale Sidebars"
 
-#: inc/class-custom-sidebars-editor.php:1355
+#: inc/class-custom-sidebars-editor.php:1386
 msgid "Custom sidebars configuration is allowed for:"
 msgstr ""
 
@@ -346,22 +346,22 @@ msgstr ""
 msgid "Only these %s:"
 msgstr ""
 
-#: inc/class-custom-sidebars.php:132
+#: inc/class-custom-sidebars.php:148
 msgid ""
 "<strong>Accessibility mode is not supported by the\n"
 "\t\t\t\t\t\t%1$s plugin.</strong><br /><a href=\"%2$s\">Click here</a>\n"
 "\t\t\t\t\t\tto disable accessibility mode and use the %1$s plugin!"
 msgstr ""
 
-#: inc/class-custom-sidebars.php:947 views/import.php:147
+#: inc/class-custom-sidebars.php:963 views/import.php:147
 msgid "Widgets"
 msgstr ""
 
-#: inc/class-custom-sidebars.php:957
+#: inc/class-custom-sidebars.php:973
 msgid "Support"
 msgstr ""
 
-#: inc/class-custom-sidebars.php:974
+#: inc/class-custom-sidebars.php:991
 msgid "Create a custom sidebar to get started."
 msgstr ""
 
@@ -539,7 +539,7 @@ msgstr "Naam"
 
 #: views/widgets-editor.php:17
 #, fuzzy
-msgid "The name must be unique."
+msgid "The name should be unique."
 msgstr "Naam"
 
 #: views/widgets-editor.php:21
@@ -771,7 +771,7 @@ msgstr ""
 msgid "http://premium.wpmudev.org/"
 msgstr ""
 
-#: inc/class-custom-sidebars-editor.php:1155
+#: inc/class-custom-sidebars-editor.php:1186
 #, fuzzy
 msgctxt "Column name on entries list."
 msgid "Custom Sidebars"

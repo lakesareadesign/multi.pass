@@ -13,8 +13,10 @@ class Genesis_Dambuster_Options {
 	}
 
 	function add_defaults($more = array()) {
-		$this->defaults = array_merge($this->defaults, (array)$more);
-		$this->options = array(); //clear cache
+	    if ($more) {
+			$this->defaults = array_merge($this->defaults, (array)$more);
+			$this->options = array(); //clear cache
+		}
 	}	
 
 	function get_defaults() {

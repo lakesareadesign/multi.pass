@@ -3,13 +3,13 @@
 Class Name: Simple Options
 Class URI: http://iworks.pl/
 Description: Simple option class to manage options.
-Version: 1.0.4
+Version: 1.0.6
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Copyright 2017 Marcin Pietrzak (marcin@iworks.pl)
+Copyright (c) 2017-2018 Incsub
 
 this program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License, version 2, as
@@ -26,6 +26,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 == CHANGELOG ==
+
+= 1.0.6 =
+- Added sortable option.
+- Added ability to hide default information.
+- Fixed missing select value.
+
+= 1.0.5 =
+- Fixed problem with missing date.
 
 = 1.0.4 =
 - Added slave sections.
@@ -145,7 +153,17 @@ if ( ! class_exists( 'simple_options' ) ) {
 				/**
 				 * table
 				 */
-				$content .= '<table class="form-table"><tbody>';
+				$table_classes = array(
+					'form-table',
+				);
+				$sortable = isset( $option['sortable'] ) && $option['sortable'];
+				if ( $sortable ) {
+					$table_classes[] = 'sortable';
+				}
+				$content .= sprintf(
+					'<table class="%s"><tbody>',
+					esc_attr( implode( ' ', $table_classes ) )
+				);
 				foreach ( $option['fields'] as $id => $data ) {
 					/**
 					 * field ID
@@ -189,6 +207,12 @@ if ( ! class_exists( 'simple_options' ) ) {
 							esc_attr( $data['type'] ),
 							isset( $data['master'] )? esc_attr( $data['master'] ):''
 						);
+						/**
+						 * sortable
+						 */
+						if ( $sortable ) {
+							$content .= '<td><span class="dashicons dashicons-move"></span></td>';
+						}
 						/**
 						 * TH
 						 */
@@ -316,15 +340,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 							if ( in_array( 'switch-button', $data['classes'] ) ) {
 								if ( ! isset( $this->loaded['switch-button'] ) ) {
 									$this->loaded['switch-button'] = true;
-									wp_enqueue_script( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/js/vendor/jquery.switch_button.js' ), array( 'jquery' ), '1.12.1' );
-									wp_enqueue_style( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/css/vendor/jquery.switch_button.css' ), array(), '1.12.1' );
-									$i18n = array(
-									'labels' => array(
-										'label_on' => __( 'on', 'ub' ),
-										'label_off' => __( 'off', 'ub' ),
-									),
-									);
-									wp_localize_script( 'custom-ligin-screen-jquery-switch-button', 'switch_button', $i18n );
+									ub_enqueue_switch_button();
 								}
 								if ( 'on' == $value ) {
 									$value = 1;
@@ -402,7 +418,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 									$select_options .= sprintf(
 										'<option value="%s" %s>%s</option>',
 										esc_attr( $option_value ),
-										'',
+										selected( $value, $option_value, false ),
 										esc_html( $option_label )
 									);
 								}
@@ -436,21 +452,24 @@ if ( ! class_exists( 'simple_options' ) ) {
 									if ( ! isset( $data['after'] ) ) {
 										$data['after'] = '';
 									}
-									$data['after'] .= sprintf(
-										'<input type="hidden" name="%s[alt]" id="%s" />',
-										esc_attr( $field_name ),
-										esc_attr( $alt )
-									);
-									$field_name .= '[human]';
+									$alt_value = '';
 									if ( is_array( $value ) ) {
 										if ( isset( $value['alt'] ) ) {
+											$alt_value = $value['alt'];
 											$value = date_i18n( get_option( 'date_format' ), strtotime( $value['alt'] ) );
 										} else {
 											$value = '';
 										}
 									}
-
+									$data['after'] .= sprintf(
+										'<input type="hidden" name="%s[alt]" id="%s" value="%s" />',
+										esc_attr( $field_name ),
+										esc_attr( $alt ),
+										esc_attr( $alt_value )
+									);
+									$field_name .= '[human]';
 								break;
+
 								case 'number':
 									$data['classes'][] = 'small-text';
 									if ( isset( $data['min'] ) ) {
@@ -460,6 +479,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 										$extra[] = sprintf( 'max="%d"', $data['max'] );
 									}
 								break;
+
 								case 'button':
 								case 'submit':
 									$data['classes'][] = 'button';
@@ -514,21 +534,27 @@ if ( ! class_exists( 'simple_options' ) ) {
 						$content .= sprintf( '<p class="description">%s</p>', $data['description'] );
 					}
 					if ( isset( $data['default'] ) ) {
-						$default = $data['default'];
-						if ( isset( $data['options'] ) && isset( $data['options'][ $default ] ) ) {
-							$default = $data['options'][ $data['default'] ];
+						$show = true;
+						if ( isset( $data['default_hide'] ) && $data['default_hide'] ) {
+							$show = false;
 						}
-						$message = sprintf(
-							__( 'Default is: <code><strong>%s</strong></code>', 'ub' ),
-							$default
-						);
-						if ( 'color' == $data['type'] ) {
+						if ( $show ) {
+							$default = $data['default'];
+							if ( isset( $data['options'] ) && isset( $data['options'][ $default ] ) ) {
+								$default = $data['options'][ $data['default'] ];
+							}
 							$message = sprintf(
-								__( 'Default color is: <code><strong>%s</strong></code>', 'ub' ),
-								$data['default']
+								__( 'Default is: <code><strong>%s</strong></code>', 'ub' ),
+								$default
 							);
+							if ( 'color' == $data['type'] ) {
+								$message = sprintf(
+									__( 'Default color is: <code><strong>%s</strong></code>', 'ub' ),
+									$data['default']
+								);
+							}
+							$content .= sprintf( '<p class="description description-default">%s</p>', $message );
 						}
-						$content .= sprintf( '<p class="description description-default">%s</p>', $message );
 					}
 					if ( 'hidden' !== $data['type'] ) {
 						$content .= '</td>';

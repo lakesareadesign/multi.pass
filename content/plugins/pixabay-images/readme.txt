@@ -4,7 +4,7 @@ Donate link: http://byrev.org/donate.php
 Tags: images, photos, pictures, cliparts, clip arts, illustrations, vectors, vector graphics, stock photos, stock images, stock pictures, royalty-free, public domain, pd, copyright-free, free, free images, cc0, cc, creative commons, commercial use, insert, search, upload, media
 Requires at least: 3.5.1
 Tested up to: 4.9
-Stable tag: 3.1
+Stable tag: 3.3
 License: GPLv2
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -161,6 +161,14 @@ The plugin works on all modern browsers; Internet Explorer version 9 or higer is
 * Compatibility tested for WordPress 4.9
 * Included SafeSearch filter in settings
 * Fixed https://wordpress.org/support/topic/error-file-attachment-metadata-error-3/
+
+= 3.2 =
+
+* Some bug fixes.
+
+= 3.3 =
+
+* Some bug fixes.
 
 == Upgrade Notice ==
 

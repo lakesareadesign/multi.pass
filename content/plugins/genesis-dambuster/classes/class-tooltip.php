@@ -1,17 +1,17 @@
 <?php
 class Genesis_Dambuster_Tooltip {
 
-   const HELP = '<span class="dashicons dashicons-editor-help"></span>';      
+	const HELP = '<span class="dashicons dashicons-editor-help"></span>';      
 
 	private $labels = array();
 	private $tabindex;
 		
-	function __construct($labels) {
+	function __construct($labels=array()) {
 		$this->init($labels);
 	}
 
 	function init($labels) {
-		$this->labels = is_array($labels) ? $labels : array();
+		$this->labels += is_array($labels) ? $labels : array();
 		$this->tabindex = 100;
 	}
 

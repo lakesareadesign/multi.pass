@@ -388,7 +388,7 @@ class CoursePress_View_Admin_Course_Edit {
 						<table class="course-structure-tree">
 							<thead>
 								<tr>
-									<th class="column-course-structure">' . esc_html__( 'Course Structure', 'cp' ) . ' <small>' . esc_html__( 'Units and Pages with Modules selected will automatically be visible (only selected Modules accessible).', 'cp' ) . '</small></th>
+									<th class="column-course-structure">' . esc_html__( 'Course Structure', 'cp' ) . ' <small>' . esc_html__( 'Units and Pages with Modules selected will automatically be visible (only the selected Modules will be accessible).', 'cp' ) . '</small></th>
 									<th class="column-show">' . esc_html__( 'Show', 'cp' ) . '</th>
 									<th class="column-free-preview">' . esc_html__( 'Free Preview', 'cp' ) . '</th>
 									<th class="column-time">' . esc_html__( 'Time', 'cp' ) . '</th>

@@ -23,6 +23,9 @@
 .toplevel_page_branding #dashboard-widgets-wrap .hndle {
   cursor: default;
 }
+.toplevel_page_branding #ultimate-branding-modules .switch-button-background.checked {
+  background-color: green;
+}
 
 tr.inactivemodule {
   background-color: #ffcccc;
@@ -42,22 +45,6 @@ tr.activemodule td {
 }
 tr.activemodule:hover, tr.inactivemodule:hover {
   background-color: #f1f1f1;
-}
-
-tr.inactivemodule td:nth-child(2), tr.activemodule td:nth-child(2), .widefat th:nth-child(2) {
-  text-align: right;
-}
-
-th.th-center {
-  text-align: center !important;
-}
-
-table.admin-menu-table tr td span {
-  color: #555 !important;
-}
-
-td.admin-menu-submenu-item {
-  padding-left: 20px;
 }
 
 table.admin-menu-table .updates-count,
@@ -148,6 +135,9 @@ li.link_row h4 {
 .postbox .simple-option-textarea textarea {
   min-height: 20em;
 }
+.postbox .sortable .simple-option td:first-of-type {
+  width: 1.5em;
+}
 
 .ub-deprecated-module,
 .ub-module-error,
@@ -158,7 +148,7 @@ li.link_row h4 {
   -webkit-box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
   box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.1);
   border-left: 4px solid #dc3232;
-  margin: 5px 0 15px;
+  margin: 15px 0;
 }
 
 .ub-deprecated-module p {
@@ -169,6 +159,9 @@ li.link_row h4 {
 
 .ub-module-info {
   border-left-color: #14568a;
+}
+.ub-module-info.ub-module-error {
+  border-color: #f20;
 }
 
 .tab-login-screen .theme-browser .theme:hover {
@@ -185,4 +178,4 @@ li.link_row h4 {
 }
 
 
-/* 133620-1517280971-au */
+/* 133620-1522104891-au */

@@ -67,7 +67,7 @@ class ub_global_header_content extends ub_helper {
         att.value = "ub_global_header_content";
         node.setAttributeNode(att);
         node.innerHTML = <?php echo json_encode( stripslashes( do_shortcode( $global_header_content ) ) ); ?>;
-        document.getElementsByTagName("body")[0].insertBefore(node,document.getElementsByTagName("body")[0].firstChild);	   	 		 		 	   		
+        document.getElementsByTagName("body")[0].insertBefore(node,document.getElementsByTagName("body")[0].firstChild);
         </script>
 <?php
 	}

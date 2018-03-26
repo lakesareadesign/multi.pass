@@ -58,7 +58,7 @@ class CoursePress_View_Admin_Upgrade {
 		printf( '<input type="hidden" value="%d" name="course" />', esc_attr( $courses_ids[0] ) );
 		$nonce_name = CoursePress_Helper_Upgrade::get_update_nonce();
 		wp_nonce_field( $nonce_name );
-		submit_button( __( 'Beging update!', 'cp' ) );
+		submit_button( __( 'Beginning update!', 'cp' ) );
 		echo '</form></div>';
 		echo '</div>';
 	}

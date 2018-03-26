@@ -4,6 +4,8 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
 
 	private $tips = array(
         'enabled' => array('heading' => 'Enable Tweaks', 'tip' => 'Click to enable for this page'),
+        'disabled' => array('heading' => 'Disable Tweaks', 'tip' => 'Click to disable for this page - setting for site is always on'),
+        'always_on' => array('heading' => 'Always On', 'tip' => 'Click to enable Dambuster for all pages and posts on the site. Also note that it can be disabled on individual pages and posts in the editor'),
         'remove_header' => array('heading' => 'Remove Header', 'tip' => 'Remove the entire header area'),
 		'remove_primary_navigation' => array('heading' => 'Remove Prim. Nav', 'tip' => 'Remove the primary navigation area'),
 		'remove_secondary_navigation' => array('heading' => 'Remove Second. Nav', 'tip' => 'Remove the secondary navigation area'),
@@ -41,14 +43,14 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
 
 	function admin_menu() {
 		$plugin_name = __('Dambuster', GENESIS_DAMBUSTER_DOMAIN);	
-		$this->screen_id = add_submenu_page('genesis', __(GENESIS_DAMBUSTER_FRIENDLY_NAME), $plugin_name,  'manage_options',
+		$this->screen_id = add_submenu_page('genesis', $this->get_name(), $plugin_name,  'manage_options',
 			$this->get_slug(), array($this,'page_content'));
 		add_action('load-'.$this->get_screen_id(), array($this, 'load_page'));
  		add_action('admin_enqueue_scripts', array($this, 'register_tooltip_styles'));		
 	}
 
 	function page_content() {
-		$title = $this->admin_heading(sprintf('Genesis Dambuster (v%1$s) Settings', GENESIS_DAMBUSTER_VERSION));
+		$title = $this->admin_heading(sprintf('Genesis Dambuster (v%1$s) Settings', $this->get_version()));
 		$this->print_admin_form($title, __CLASS__, $this->get_keys());
 	}
 
@@ -56,15 +58,13 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
  		if (isset($_POST['options_update'])) $this->save_tweaks();
 		add_action('admin_enqueue_scripts', array($this, 'register_admin_styles'));
 		$callback_params = array ('options' => $this->template->get_options(false));
-		$this->add_meta_box('intro', 'Introduction',  'intro_panel', null);
+		$this->add_meta_box('intro', 'Getting Started',  'start_panel', $callback_params);
 		$this->add_meta_box('defaults', 'Default Template Tweaks', 'display_panel', $callback_params);
         if ($this->plugin->custom_post_types_exist())
             $this->add_meta_box('control', 'Control Panel', 'control_panel', $callback_params);
 		$this->add_meta_box('news', 'Genesis Dambuster News', 'news_panel', null, 'advanced');
 		$this->set_tooltips($this->tips);
-		add_action ('admin_enqueue_scripts',array($this, 'enqueue_admin_styles'));
-		add_action ('admin_enqueue_scripts',array($this, 'enqueue_metabox_scripts'));
-		add_action ('admin_enqueue_scripts',array($this, 'enqueue_postbox_scripts'));
+		add_action ('admin_enqueue_scripts',array($this, 'enqueue_admin'));
 	}
  		
  
@@ -81,7 +81,7 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
 	}
 
 	function save_post_tweaks($post_id) {
-        $this->save_postmeta($post_id, array(self::DAMBUSTER_TWEAKS => Genesis_Dambuster_Template::DAMBUSTER_METAKEY), array(self::DAMBUSTER_TWEAKS => $this->template->get_defaults())); 
+        $this->save_postmeta($post_id, self::DAMBUSTER_TWEAKS, Genesis_Dambuster_Template::DAMBUSTER_METAKEY, $this->template->get_defaults()); 
 	}
 
 	function do_meta_boxes( $post_type, $context) {
@@ -91,8 +91,8 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
 			if (method_exists($current_screen,'add_help_tab'))
 	    		$current_screen->add_help_tab( array(
 			      'id'	=> 'genesis_dambuster_help_tab',
-    			   'title'	=> __('Genesis Dambuster'),
-        			'content'	=> __('
+    			  'title'	=> __('Genesis Dambuster'),
+        		  'content'	=> __('
 <p>In the <b>Genesis Dambuster</b> section below you can choose to remove certain elements from the page and make it full width.</p>')) );
 		}
 	}
@@ -103,7 +103,7 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
         if (isset($options['max_content_width'])) unset($options['max_content_width']); 
         if (isset($options['content_padding'])) unset($options['content_padding']); 
         if (isset($options['custom_post_types'])) unset($options['custom_post_types']);
-        if (array_sum(array_values($options))  == 0) { //if all fields are false then make them all true
+        if (array_sum(array_values($options))  == 0) { //if all fields are false then enable full width and "remove" options
             foreach ($options as $key => $val) {
                 if ((strpos($key, 'remove_') !== FALSE) 
                 || (strpos($key, 'full_') !== FALSE)) 
@@ -125,6 +125,14 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
         return $this->fetch_form_field('custom_post_types', $post_types, 'checkboxes', $options);
 	}
 
+	function start_panel($post, $metabox) {
+        $options = $metabox['args']['options'];	 	
+        print $this->tabbed_metabox( $metabox['id'], array (
+         'Introduction' => $this->intro_panel($options),
+         'Getting Help' => $this->help_panel($options),
+        ));
+    }
+      
 	function display_panel($post, $metabox) {
         $options = $metabox['args']['options'];	 	
         print $this->tabbed_metabox( $metabox['id'], array (
@@ -134,14 +142,20 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
          'Below Content' => $this->below_panel($options),
          'Footer' => $this->footer_panel($options),
          'Background' => $this->background_panel($options),
+         'Advanced' => $this->advanced_panel($options),
          'Helper Classes' => $this->helper_panel($options),
       ));
    }	
 
 	function post_panel($post, $metabox) {
+        $always_on = $this->template->get_option('always_on');
         $meta = $this->get_meta_form_data(Genesis_Dambuster_Template::DAMBUSTER_METAKEY, '', $this->template->get_options() );
-        print $this->tabbed_metabox( $metabox['id'],array(
-            'Enable' => $this->enable_post_panel($meta), 
+        if ($always_on)
+            $toggle_panel = array( 'Disable' => $this->disable_post_panel($meta));   
+        else
+            $toggle_panel = array( 'Enable' => $this->enable_post_panel($meta));
+
+        print $this->tabbed_metabox( $metabox['id'],$toggle_panel + array(
             'Template Width' => $this->width_post_panel($meta), 
             'Header' => $this->header_post_panel($meta), 
             'Above Content' => $this->above_post_panel($meta), 
@@ -150,12 +164,18 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
             'Background' => $this->background_post_panel($meta),
             'Helper Classes' => $this->helper_post_panel($meta),
         ));
-   }
+    }
 
 	function enable_post_panel($meta) {
         return 
             $this->form_field(self::DAMBUSTER_TWEAKS, self::DAMBUSTER_TWEAKS, '', 1, 'hidden') . 
             $this->meta_form_field($meta, 'enabled', 'checkbox');
+    }
+
+	function disable_post_panel($meta) {
+        return 
+            $this->form_field(self::DAMBUSTER_TWEAKS, self::DAMBUSTER_TWEAKS, '', 1, 'hidden') . 
+            $this->meta_form_field($meta, 'disabled', 'checkbox');
     }
 
 	function width_post_panel($meta) {
@@ -240,6 +260,11 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
             $this->fetch_form_field('remove_background', $options['remove_background'], 'checkbox');
     }
 
+	function advanced_panel($options) {
+        return 
+            $this->fetch_form_field('always_on', $options['always_on'], 'checkbox');
+    }
+
     function helper_intro(){
         return sprintf('<p><em>%1$s</em></p><p>%2$s</p>', 
             __('If you using a Page Builder such as Beaver Builder, you may ignore this tab.', GENESIS_DAMBUSTER_DOMAIN) , 
@@ -276,15 +301,24 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
             $this->helper_example() ;
     }
 
+
  	function intro_panel(){	
-        $email = GENESIS_DAMBUSTER_HELP; 	
-        print <<< INTRO
-<p>This early version of the plugin works with most but not all Genesis child themes. The list of themes we have tested is found <a href="http://www.genesisdambuster.com/supported-genesis-child-themes/">here.</a></p>
-<p>If you have problems then please contact us at stating your site URL, your Genesis child theme and a description of the problem.</p>
-<p id="support"><strong>CONTACT EMAIL: <a href="mailto:{$email}">{$email}</a></strong></p>
-<p>You may need to send us a ZIP file of your theme if it is not a StudioPress Genesis child theme so we can recreate the issue.</p>
+        $email = $this->plugin->get_help(); 	
+        return <<< INTRO
 <p>The following section allows you to edit the default setup of the dambuster. The settings will be appear as the default template tweaks for new posts and pages however the <i>Enable Tweaks</i> checkbox will NOT be ticked so the feature is not enabled automatically on new pages.</p>
 <p>In the Page Editor, you will need to switch on the feature explicitly on individual pages and posts by clicking the <i>Enable Tweaks</i> checkbox. You can override the defaults if required. We expect this feature to be used on your landing pages, galleries pages and when using content builders such as Beaver Builder.</p>
+<p>If you want tweaks to operate on all pages by default then you can do this in the Advanced section.</p>
+<p>If you have custom post types then a <em>Control Panel</em> section will appear below where you can enable the plugin for selected custom post types.</p>
 INTRO;
+    }
+
+ 	function help_panel(){	
+        $email = $this->plugin->get_help(); 	
+        return <<< HELP
+<p>The plugin works with most but not all Genesis child themes. The list of themes we have tested is found <a href="http://www.genesisdambuster.com/supported-genesis-child-themes/">here.</a></p>
+<p>If you have problems, then please contact us at stating <em>your site URL, your Genesis child theme and a description of the problem</em>.</p>
+<p id="support">CONTACT EMAIL: <a href="mailto:{$email}">{$email}</a></p>
+<p>Please send us a ZIP file of your theme if it is not a StudioPress Genesis child theme so we can recreate the issue. We will delete the local copy of the theme once the issue is resolved.</p>
+HELP;
     }
 }

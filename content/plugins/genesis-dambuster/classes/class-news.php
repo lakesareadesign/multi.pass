@@ -1,28 +1,42 @@
 <?php
 class Genesis_Dambuster_News {
-    const SCRIPT_VAR = 'genesis_dambuster_news';
-    const HANDLE = 'genesis-dambuster-news';
-    const RESULTS = 'genesis-dambuster-news-feed';
 
-	function __construct() {
-      add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
-      add_action( 'wp_ajax_'.self::SCRIPT_VAR, array($this, 'get_feeds_ajax') );
+    private $version;
+	private $script_var;
+ 	private $handle;
+	private $results;
+
+	function __construct($version) {
+        $this->version = $version;
+		$this->script_var = strtolower(__CLASS__);
+		$this->handle = str_replace('_', '-', $this->script_var);
+		$this->results = $this->handle . '-feed';
+		add_action( 'wp_ajax_'.$this->script_var, array($this, 'get_feeds_ajax') );
 	}
 
    function enqueue_scripts() {
-    	wp_enqueue_script(self::HANDLE, plugins_url('scripts/jquery.news.js', dirname(__FILE__)), array('jquery'), GENESIS_DAMBUSTER_VERSION, true);         
-        wp_localize_script( self::HANDLE, self::SCRIPT_VAR,
+    	wp_enqueue_script($this->handle, plugins_url('scripts/jquery.news.js', dirname(__FILE__)), array('jquery'), $this->version, true);         
+        wp_localize_script($this->handle, $this->script_var,
              array( 
                  'ajaxurl' => admin_url( 'admin-ajax.php' ),
-                 'ajaxnonce'   => wp_create_nonce( self::SCRIPT_VAR.'_nonce' ),
-                 'ajaxaction'   => self::SCRIPT_VAR,
-                 'ajaxresults'  => '.'.self::RESULTS
+                 'ajaxnonce'   => wp_create_nonce(  $this->script_var.'_nonce' ),
+                 'ajaxaction'   =>  $this->script_var,
+                 'ajaxresults'  => '.'.$this->results
               ) 
         );      
    }
 
+	function display_feeds($feeds = array()) {
+		if (is_array($feeds) && (count($feeds) > 0)) {
+         	printf ('<div class="%1$s"></div>', $this->results);
+			for($index=0; $index < count($feeds); $index++ ) {			
+            wp_localize_script( $this->handle, $this->script_var.$index, array( 'feedurl' => $feeds[$index]) );     
+		   }                                                               
+		}
+	}
+
    function get_feeds_ajax() {
-      check_ajax_referer( self::SCRIPT_VAR.'_nonce', 'security' );
+      check_ajax_referer(  $this->script_var.'_nonce', 'security' );
       $url = isset($_POST['url']) ? $_POST['url'] : '';
       if (empty($url)) wp_send_json_error( array( 'error' => __( 'Feed URL not supplied.' ) ) );
 
@@ -130,7 +144,7 @@ class Genesis_Dambuster_News {
 			}
 
 			if ($link) $title = sprintf('<a target="_blank" class="rsswidget" href="%1$s"%2$s>%3$s</a>', $link, $link_title, $title);
-			$results .= sprintf('<div class="%5$s-item"><div>%1$s</div>%2$s%3$s%4$s</div>', $title, $date, $summary, $author, self::RESULTS );
+			$results .= sprintf('<div class="%5$s-item"><div>%1$s</div>%2$s%3$s%4$s</div>', $title, $date, $summary, $author, $this->results );
 		}
 
 		if ( ! is_wp_error($rss) )
@@ -139,12 +153,4 @@ class Genesis_Dambuster_News {
 		return $results;		
 	}
 
-	function display_feeds($feeds = false) {
-		if (is_array($feeds) && (count($feeds) > 0)) {
-         printf ('<div class="%1$s"></div>',self::RESULTS);
-			for($index=0; $index < count($feeds); $index++ ) {			
-            wp_localize_script( self::HANDLE, self::SCRIPT_VAR.$index, array( 'feedurl' => $feeds[$index]) );     
-		   }                                                               
-		}
-	}
 }

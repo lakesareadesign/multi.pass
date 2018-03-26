@@ -2,13 +2,13 @@
 /*
 Plugin Name: Login Screen
 Plugin URI:
-Description:
+Description: Allow to customize login screen.
 Author: Marcin (Incsub)
-Version: 1.0.1
+Version: 1.0.2
 Author URI:
 Network: true
 
-Copyright 2017 Incsub (email: admin@incsub.com)
+Copyright 2017-2018 Incsub (email: admin@incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
@@ -58,7 +58,6 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 			add_filter( 'logout_redirect', array( $this, 'logout_redirect' ), 99, 3 );
 			add_filter( 'login_redirect', array( $this, 'login_redirect' ), 99, 3 );
 			add_action( 'ub_helper_admin_options_page_before_options', array( $this, 'before_admin_options_page' ) );
-
 			/**
 			 * Signup Password
 			 *
@@ -106,7 +105,6 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 				return;
 			}
 			printf( '<style type="text/css" id="%s">', esc_attr( __CLASS__ ) );
-
 			/**
 			 * Logo & Background
 			 */
@@ -131,32 +129,40 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 				/**
 				 * logo
 				 */
+				$src = false;
+				$width = $height = 'auto';
 				if ( isset( $v['logo_upload_meta'] ) ) {
 					$src = $v['logo_upload_meta'][0];
-					if ( ! empty( $src ) ) {
-						$image = $v['logo_upload_meta'];
-						$width = $image[1];
-						$height = $image[2];
-
+					$image = $v['logo_upload_meta'];
+					$width = $image[1];
+					$height = $image[2];
+					if ( isset( $v['logo_width'] ) ) {
+						$scale = $v['logo_width'] / $width;
+						$width = $v['logo_width'];
+						$height = intval( $height * $scale );
+					} elseif ( $width > 320 ) {
+						$scale = 320 / $width ;
+						$height = intval( $height * $scale );
+						$width = intval( $width * $scale );
+					}
+				}
+				if ( ! $src ) {
+					if ( isset( $v['logo_upload'] ) && ! empty( $v['logo_upload'] ) ) {
+						$src = $v['logo_upload'];
 						if ( isset( $v['logo_width'] ) ) {
-
-							$scale = $v['logo_width'] / $width;
-							$width = $v['logo_width'];
-							$height = intval( $height * $scale );
-						} elseif ( $width > 320 ) {
-							$scale = 320 / $width ;
-							$height = intval( $height * $scale );
-							$width = intval( $width * $scale );
+							$height = $width = $v['logo_width'];
 						}
+					}
+				}
+				if ( ! empty( $src ) ) {
 ?>
 #login h1 a {
-    background-image: url(<?php echo $src; ?>);
+    background-image: url(<?php echo $this->make_relative_url( $src ); ?>);
     background-size: 100%;
     height: <?php echo $height; ?>px;
     width: <?php echo $width; ?>px;
 }
 <?php
-					}
 				}
 				/**
 				 * logo_bottom_margin
@@ -179,12 +185,19 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 				/**
 				 * fullscreen_bg
 				 */
+				$fullscreen_bg = false;
 				if ( isset( $v['fullscreen_bg_meta'] ) ) {
 					$src = $v['fullscreen_bg_meta'][0];
 					if ( ! empty( $src ) ) {
+						$fullscreen_bg = $src;
+					}
+				} else if ( isset( $v['fullscreen_bg'] ) ) {
+					$fullscreen_bg = $v['fullscreen_bg'];
+				}
+				if ( $fullscreen_bg ) {
 ?>
 html {
-    background: url(<?php echo $src; ?>) no-repeat center center fixed;
+    background: url(<?php echo $this->make_relative_url( $fullscreen_bg ); ?>) no-repeat center center fixed;
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
@@ -194,10 +207,8 @@ body {
     background-color: transparent;
 }
 <?php
-					}
 				}
 			}
-
 			/**
 			 * Form
 			 */
@@ -219,7 +230,6 @@ body {
 				 * label_color
 				 */
 				$this->css_color( $v, 'label_color', '.login form label' );
-
 				/**
 				 * form_bg
 				 */
@@ -228,7 +238,7 @@ body {
 					if ( ! empty( $src ) ) {
 ?>
  .login form {
-    background: url(<?php echo $src; ?>) no-repeat center center;
+    background: url(<?php echo $this->make_relative_url( $src ); ?>) no-repeat center center;
     -webkit-background-size: 100%;
     -moz-background-size: 100%;
     -o-background-size: 100%;
@@ -237,7 +247,6 @@ body {
 <?php
 					}
 				}
-
 				/**
 				 * input_border_color_focus
 				 */
@@ -258,14 +267,11 @@ body {
 }
 <?php
 				}
-
 				/**
 				 * form_bg_color
 				 * form_bg_transparency
 				 */
-
 				$this->css_background_transparency( $v, 'form_bg_color', 'form_bg_transparency', '.login form' );
-
 				/**
 				 * form_style
 				 */
@@ -338,7 +344,6 @@ body {
 <?php
 				}
 			}
-
 			/**
 			 * Form Error Messages
 			 */
@@ -348,7 +353,6 @@ body {
 				 * login_error_background_color
 				 */
 				$this->css_background_color( $v, 'login_error_background_color', '.login #login #login_error' );
-
 				/**
 				 * login_error_border_color
 				 */
@@ -367,7 +371,6 @@ body {
 				$this->css_color( $v, 'login_error_link_color_hover', '.login #login #login_error a:hover' );
 				$this->css_opacity( $v, 'login_error_transarency', '.login #login #login_error' );
 			}
-
 			/**
 			 * below_form
 			 */
@@ -398,7 +401,6 @@ body {
 				 */
 				$this->css_color( $v, 'back_to_color_hover', '.login #backtoblog a:hover' );
 			}
-
 			/**
 			 * form_canvas
 			 */
@@ -440,20 +442,16 @@ body {
 				}
 				$this->css_background_transparency( $v, 'background_color', 'background_transparency', '#login' );
 			}
-
 			echo '</style>';
 		}
 
 		protected function set_options() {
-
 			$login_header_url   = __( 'https://wordpress.org/', 'ub' );
 			$login_header_title = __( 'Powered by WordPress', 'ub' );
-
 			if ( is_multisite() ) {
 				$login_header_url   = network_home_url();
 				$login_header_title = get_network()->site_name;
 			}
-
 			/**
 			 * invalid username
 			 */
@@ -461,12 +459,10 @@ body {
 			$invalid_username .= ' <a href="WP_LOSTPASSWORD_URL">';
 			$invalid_username  .= __( 'Lost your password?', 'ub' );
 			$invalid_username  .= '</a>';
-
 			$invalid_password = __( '<strong>ERROR</strong>: The password you entered for the username %s is incorrect.', 'ub' );
 			$invalid_password .= ' <a href="WP_LOSTPASSWORD_URL">';
 			$invalid_password .= __( 'Lost your password?', 'ub' );
 			$invalid_password .= '</a>';
-
 			$this->options = array(
 				'logo_and_background' => array(
 					'title' => __( 'Logo & Background', 'ub' ),
@@ -719,7 +715,7 @@ body {
 						'label_username' => array(
 							'type' => 'text',
 							'label' => __( 'Label username text', 'ub' ),
-							'default' => __( 'Username or E-mail Address', 'ub' ),
+							'default' => __( 'Username or Email Address', 'ub' ),
 						),
 						'label_password' => array(
 							'type' => 'text',
@@ -828,7 +824,7 @@ body {
 						'register_and_lost_color_link' => array(
 							'type' => 'color',
 							'label' => __( '"Register | Lost your password?" links color', 'ub' ),
-							'default' => '#999999',
+							'default' => '#555d66',
 						),
 						'register_and_lost_color_hover' => array(
 							'type' => 'color',
@@ -998,7 +994,6 @@ body {
 					return stripslashes( $this->patterns[ $translated_text ] );
 				}
 			}
-
 			return $translated_text;
 		}
 
@@ -1105,7 +1100,6 @@ body {
 			return $mimes;
 		}
 
-
 		/**
 		 * Add button to predefined configuration
 		 *
@@ -1161,7 +1155,6 @@ body {
 				return;
 			}
 ?>
-
 <div class="theme-browser">
 	<div class="themes wp-clearfix">
 
@@ -1196,7 +1189,6 @@ foreach ( $themes as $theme ) {
 			$url
 		);
 		$url = wp_nonce_url( $url, 'import-'.$theme['id'] );
-
 		?>
         <a class="button activate" href="<?php echo esc_url( $url ); ?>" aria-label="<?php echo esc_attr( $aria_label ); ?>"><?php _e( 'Import settings', 'ub' ); ?></a>
 	</div>
@@ -1296,7 +1288,6 @@ foreach ( $themes as $theme ) {
 			$message .= '<p>';
 			$message .= __( 'You can change options on "Custom Configuration" panel.', 'ub' );
 			$message .= '</p>';
-
 			$this->notice( $message, 'success' );
 		}
 
@@ -1344,7 +1335,6 @@ foreach ( $themes as $theme ) {
 			return $redirect_to;
 		}
 	}
-
 }
 
 new ub_custom_login_screen();

@@ -59,7 +59,8 @@ td {
 	<th width="8%" align="right" valign="top">'.__('deleted<br />spam','rvg-optimize-database').'</th>
 	<th width="8%" align="right" valign="top">'.__('deleted<br />tags','rvg-optimize-database').'</th>
 	<th width="8%" align="right" valign="top">'.__('deleted<br />transients','rvg-optimize-database').'</th>
-	<th width="8%" align="right" valign="top">'.__('deleted<br />pingbacks<br />trackbacks','rvg-optimize-database').'</th>		  
+	<th width="8%" align="right" valign="top">'.__('deleted<br />pingbacks<br />trackbacks','rvg-optimize-database').'</th>
+	<th width="8%" align="right" valign="top">'.__('deleted<br />oEmbed<br />records','rvg-optimize-database').'</th>			
 	<th width="8%" align="right" valign="top">'.__('deleted<br />orphans','rvg-optimize-database').'</th>	  
 	<th width="8%" align="right" valign="top">'.__('nr of optimized tables','rvg-optimize-database').'</th>
 	<th width="8%" align="right" valign="top">'.__('database size BEFORE','rvg-optimize-database').'</th>
@@ -69,7 +70,7 @@ td {
 </table>
 				';
 				file_put_contents($file, $html, FILE_APPEND);
-			}
+			} // if(!file_exists($file))
 	
 			$html = '
 <table width="100%" border="0" cellspacing="6" cellpadding="0">  
@@ -80,7 +81,8 @@ td {
 	<td width="8%" align="right" valign="top">'.$odb_class->log_arr["spam"].'</td>
 	<td width="8%" align="right" valign="top">'.$odb_class->log_arr["tags"].'</td>
 	<td width="8%" align="right" valign="top">'.$odb_class->log_arr["transients"].'</td>
-	<td width="8%" align="right" valign="top">'.$odb_class->log_arr["pingbacks"].'</td>	
+	<td width="8%" align="right" valign="top">'.$odb_class->log_arr["pingbacks"].'</td>
+	<td width="8%" align="right" valign="top">'.$odb_class->log_arr["oembeds"].'</td>		
 	<td width="8%" align="right" valign="top">'.$odb_class->log_arr["orphans"].'</td>	
 	<td width="8%" align="right" valign="top">'.$odb_class->log_arr["tables"].'</td>
 	<td width="8%" align="right" valign="top">'.$odb_class->log_arr["before"].'</td>

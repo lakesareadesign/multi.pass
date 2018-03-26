@@ -4,7 +4,7 @@
 Plugin Name: Pixabay Images
 Plugin URI: https://pixabay.com/blog/posts/p-136/
 Description: Find quality public domain images from Pixabay and upload them with just one click.
-Version: 3.1
+Version: 3.3
 Author: Simon Steinberger
 Author URI: https://pixabay.com/users/Simon/
 License: GPLv2
@@ -117,7 +117,7 @@ function media_pixabay_images_tab() {
 
             function call_api(q, p){
                 var xhr = new XMLHttpRequest();
-                xhr.open('GET', 'https://pixabay.com/api/?key=27347-23fd1708b1c4f768195a5093b&response_group=high_resolution&lang='+lang+'&safesearch='+safesearch+'&image_type='+image_type+'&orientation='+orientation+'&per_page='+per_page+'&page='+p+'&search_term='+encodeURIComponent(q));
+                xhr.open('GET', 'https://pixabay.com/api/?key=27347-23fd1708b1c4f768195a5093b&lang='+lang+'&safesearch='+safesearch+'&image_type='+image_type+'&orientation='+orientation+'&per_page='+per_page+'&page='+p+'&search_term='+encodeURIComponent(q));
                 xhr.onreadystatechange = function(){
                     if (this.status == 200 && this.readyState == 4) {
                         var data = JSON.parse(this.responseText);
@@ -137,7 +137,7 @@ function media_pixabay_images_tab() {
                 pages = Math.ceil(data.totalHits/per_page);
                 var s = '';
                 jQuery.each(data.hits, function(k, v) {
-                    s += '<div class="item upload" data-url="'+v.largeImageURL+'" data-user="'+v.user+'" data-w="'+v.webformatWidth+'" data-h="'+v.webformatHeight+'"><img src="'+v.previewURL.replace('_150', '_340')+'"><div class="download"><img src="<?= plugin_dir_url(__FILE__).'img/download.svg' ?>"><div>'+(v.webformatWidth*2)+'×'+(v.webformatHeight*2)+'<br><a href="https://pixabay.com/users/'+v.user+'/" target="_blank"">'+v.user+'</a> @ <a href="https://pixabay.com/'+lang+'/photos/?order=popular&image_type='+image_type+'&orientation='+orientation+'&q='+escapejs(q)+'" target="_blank">Pixabay</a></div></div></div>';
+                    s += '<div class="item upload" data-url="'+v.largeImageURL+'" data-user="'+v.user+'" data-w="'+v.webformatWidth+'" data-h="'+v.webformatHeight+'"><img src="'+v.previewURL.replace('_150', v.previewURL.indexOf('cdn.') > -1 ? '__340' : '_340')+'"><div class="download"><img src="<?= plugin_dir_url(__FILE__).'img/download.svg' ?>"><div>'+(v.webformatWidth*2)+'×'+(v.webformatHeight*2)+'<br><a href="https://pixabay.com/users/'+v.user+'/" target="_blank"">'+v.user+'</a> @ <a href="'+v.pageURL+'" target="_blank">Pixabay</a></div></div></div>';
                 });
                 jQuery('#pixabay_results').html(jQuery('#pixabay_results').html()+s);
                 jQuery('#load_animation').remove();
@@ -154,7 +154,8 @@ function media_pixabay_images_tab() {
                 jQuery('.flex-images').flexImages({rowHeight: 260});
             }
 
-            jQuery(document).on('click', '.upload', function() {
+            jQuery(document).on('click', '.upload', function(e) {
+                if (jQuery(e.target).is('a')) return;
                 jQuery(document).off('click', '.upload');
                 // loading animation
                 jQuery(this).addClass('uploading').find('.download img').replaceWith('<img src="<?= plugin_dir_url(__FILE__).'img/loading.svg' ?>" style="height:80px !important">');

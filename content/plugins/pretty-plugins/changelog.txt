@@ -4,6 +4,12 @@ Lead developer: Maniu
 
 == Changelog ==
 
+= 1.5.4 =
+* Fixed compatibility with Pro Sites
+* Typo fixed
+* Fixed upload folder not working
+* Fixed possibility of network menu not being visible
+
 = 1.5.3 =
 * Fixed plugin searching issues in network admin panel
 
@@ -46,4 +52,4 @@ Lead developer: Maniu
 * Initial Release
 
 
-133620-1484013214-au
+133620-1522104885-au

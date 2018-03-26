@@ -11,7 +11,7 @@ WDP ID: 170
  */
 
 /*
-Copyright 2007-2017 Incsub (http://incsub.com)
+Copyright 2007-2018 Incsub (http://incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -96,7 +96,7 @@ class ub_Ahc_AdminHelpContent extends ub_helper {
 		$tabs = $opts['tabs'];
 		foreach ( $tabs as $idx => $tab ) {
 			$tabs[ $idx ]['id'] = md5( @$tab['title'] . @$tab['content'] . time() );
-			$tabs[ $idx ]['content'] = '<p>' . apply_filters( 'the_content', $tab['content'] ) . '</p>';
+			$tabs[ $idx ]['content'] = wpautop( $tab['content'] );
 
 		}
 		$this->_help->add_page( '_global_', $tabs, $opts['sidebar'], ! @$opts['merge_panels'] );

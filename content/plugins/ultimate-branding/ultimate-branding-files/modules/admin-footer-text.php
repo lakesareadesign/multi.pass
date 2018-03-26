@@ -10,7 +10,7 @@ WDP ID: 53
  */
 
 /*
-Copyright 2007-2009 Incsub (http://incsub.com)
+Copyright 2007-2018 Incsub (http://incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -44,32 +44,26 @@ if ( ! function_exists( 'esc_textarea' ) ) {
 }
 
 class ub_Admin_Footer_Text extends ub_helper {
-
 	var $admin_footer_text_default = '';
 	var $update_text_default = '';
 	protected $option_name = 'admin_footer_text';
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 		add_action( 'init', array( &$this, 'initialise_plugin' ) );
 	}
 
-	function initialise_plugin() {
-
+	public function initialise_plugin() {
 		add_action( 'ultimatebranding_settings_footer', array( $this, 'output_admin_options' ) );
 		add_filter( 'ultimatebranding_settings_footer_process', array( $this, 'update_admin_options' ), 10, 1 );
-
 		// remove all the remaining filters for the admin footer so that they don't mess the footer up
 		remove_all_filters( 'admin_footer_text' );
 		add_filter( 'admin_footer_text', array( $this, 'output' ), 1, 1 );
 		add_filter( 'update_footer' , array( $this, 'blank_version' ), 99 );
-		add_action( 'admin_print_styles', array( $this, 'admin_print_styles' ) );
 	}
 
-
-	function update_admin_options( $status ) {
+	public function update_admin_options( $status ) {
 		ub_update_option( $this->option_name , stripslashes( $_POST['admin_footer_text'] ) );
-
 		if ( $status === false ) {
 			return $status;
 		} else {
@@ -77,10 +71,8 @@ class ub_Admin_Footer_Text extends ub_helper {
 		}
 	}
 
-	function output( $footer_text ) {
-
+	public function output( $footer_text ) {
 		$admin_footer_text = ub_get_option( 'admin_footer_text' );
-
 		if ( empty( $admin_footer_text ) ) {
 			$footer_text = $this->admin_footer_text_default;
 		} else {
@@ -89,17 +81,15 @@ class ub_Admin_Footer_Text extends ub_helper {
 		return do_shortcode( $footer_text );
 	}
 
-	function blank_version( $version ) {
-
+	public function blank_version( $version ) {
 		return '';
 	}
 
-	function output_admin_options() {
-
+	public function output_admin_options() {
 		$admin_footer_text = ub_get_option( 'admin_footer_text' );
-
 		if ( empty( $admin_footer_text ) ) {
-			$admin_footer_text = $this->admin_footer_text_default; }
+			$admin_footer_text = $this->admin_footer_text_default;
+		}
 ?>
             <div class="postbox">
             <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Dashboard Footer Content', 'ub' ) ?></span></h3>
@@ -125,13 +115,11 @@ class ub_Admin_Footer_Text extends ub_helper {
 	/**
 	 * Setting field for singlesite
 	 **/
-	function site_option() {
-
+	public function site_option() {
 		$admin_footer_text = get_option( 'admin_footer_text' );
-
 		if ( empty( $admin_footer_text ) ) {
-			$admin_footer_text = $this->admin_footer_text_default; }
-
+			$admin_footer_text = $this->admin_footer_text_default;
+		}
 		echo '<textarea name="admin_footer_text" type="text" rows="5" wrap="soft" id="admin_footer_text" style="width: 95%" />' . esc_textarea( $admin_footer_text ) . '</textarea>
             <p class="description"> ' . __( 'HTML Allowed.', 'ub' ) . '</p>';
 	}
@@ -139,26 +127,15 @@ class ub_Admin_Footer_Text extends ub_helper {
 	/**
 	 * Verify if plugin is network activated
 	 **/
-	function is_plugin_active_for_network( $plugin ) {
+	public function is_plugin_active_for_network( $plugin ) {
 		if ( ! is_multisite() ) {
-			return false; }
-
+			return false;
+		}
 		$plugins = get_site_option( 'active_sitewide_plugins' );
 		if ( isset( $plugins[ $plugin ] ) ) {
-			return true; }
-
+			return true;
+		}
 		return false;
-	}
-
-	/**
-	 * remove absolute for admin #footer
-	 *
-	 * @since 1.8.6
-	 */
-	public function admin_print_styles() {
-		echo '<style type="text/css">';
-		echo 'body #wpfooter{position:inherit}';
-		echo '</style>';
 	}
 }
 

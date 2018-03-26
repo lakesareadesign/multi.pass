@@ -3,7 +3,7 @@
 Plugin Name: Coming Soon Page & Maintenance Mode
 Description: Customize the Maintenance Mode page and create Coming Soon Page.
 License: GNU General Public License (Version 2 - GPLv2)
-Copyright 2017 Incsub (http://incsub.com)
+Copyright 2017-2018 Incsub (http://incsub.com)
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -197,13 +197,22 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				),
 				'social_media' => array(
 					'title' => __( 'Social Media', 'ub' ),
-					'fields' => array(
-						'facebook' => array( 'label' => __( 'Facebook', 'ub' ) ),
-						'googleplus' => array( 'label' => __( 'G+', 'ub' ) ),
-						'twitter' => array( 'label' => __( 'Twitter', 'ub' ) ),
-					),
+					'description' => sprintf( __( 'We use %s icons.', 'ub' ), sprintf( '<a href="%s">Social Icons</a>', esc_url( 'https://github.com/Automattic/social-logos' ) ) ),
+					'fields' => array(),
+					'sortable' => true,
 				),
 			);
+			$social = $this->get_social_media_array();
+			$order = $this->get_value( '_social_media_sortable' );
+			if ( is_array( $order ) ) {
+				foreach ( $order as $key ) {
+					if ( isset( $social[ $key ] ) ) {
+						$options['social_media']['fields'][ $key ] = $social[ $key ];
+						unset( $social[ $key ] );
+					}
+				}
+			}
+			$options['social_media']['fields'] += $social;
 			/**
 			 * multisite options
 			 */
@@ -399,13 +408,9 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				define( 'DONOTCACHEOBJECT', true );
 			}
 			header( 'Cache-Control: max-age=0; private' );
-
 			$template = $this->get_default_template();
-
 			$this->set_data();
-
 			$body_classes = array();
-
 			/**
 			 * Add defaults.
 			 */
@@ -418,7 +423,6 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				}
 				$this->data['document']['content_meta'] = $this->data['document']['content'];
 			}
-
 			foreach ( $this->data as $section => $data ) {
 				foreach ( $data as $name => $value ) {
 					if ( empty( $value ) ) {
@@ -490,7 +494,7 @@ var ultimate_branding_counter = setInterval(function() {
 						continue;
 					}
 					$social_media .= sprintf(
-						'<li><a href="%s"><span class="dashicons dashicons-%s"></span>',
+						'<li><a href="%s"><span class="social-logo social-logo-%s"></span>',
 						esc_url( $url ),
 						esc_attr( $key )
 					);
@@ -498,11 +502,13 @@ var ultimate_branding_counter = setInterval(function() {
 				if ( ! empty( $social_media ) ) {
 					$body_classes[] = 'has-social';
 					$social_media = '<ul>'.$social_media.'</ul>';
-					$head .= '<link rel="stylesheet" id="dashicons-css" href="/wp-includes/css/dashicons.css" type="text/css" media="all" />';
+					$head .= sprintf(
+						'<link rel="stylesheet" id="social-logos-css" href="%s" type="text/css" media="all" />',
+						$this->make_relative_url( $this->get_social_logos_css_url() )
+					);
 				}
 			}
 			$template = preg_replace( '/{social_media}/', $social_media, $template );
-
 			/**
 			 * head
 			 */

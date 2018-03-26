@@ -313,12 +313,20 @@ if (!class_exists('AcmeeFramework')) {
         }
 
         function aofsaveOptions($save_options) {
+            //get options data
+            $getoption = $this->aofgetOptions( WPSHAPERE_OPTIONS_SLUG );
+
+            if($getoption)
+                $data = array_merge($getoption, $save_options);
+            else
+                $data = $save_options;
+
             if($this->config['multi'] === true) {
-                update_site_option( WPSHAPERE_OPTIONS_SLUG, $save_options );
+                update_site_option( WPSHAPERE_OPTIONS_SLUG, $data );
                 return true;
             }
             else {
-                update_option( WPSHAPERE_OPTIONS_SLUG, $save_options );
+                update_option( WPSHAPERE_OPTIONS_SLUG, $data );
                 return true;
             }
         }
@@ -678,9 +686,9 @@ if (!class_exists('AcmeeFramework')) {
         /**
         * Function to insert default values
         */
-        function aofLoaddefault() {
+        function aofLoaddefault($reset=false) {
             $default_options = $this->aofgetOptions( WPSHAPERE_OPTIONS_SLUG );
-            if ( false === $default_options || empty($default_options)) {
+            if ( false === $default_options || empty($default_options) || true === $reset ) {
                 $default_options = $this->getDefaultOptions();
                 if(!empty($default_options)) {
                     if($this->config['multi'] === true) {

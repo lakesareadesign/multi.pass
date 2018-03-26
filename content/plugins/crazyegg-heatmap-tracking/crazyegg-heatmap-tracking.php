@@ -3,7 +3,7 @@
 Plugin Name: Crazy Egg
 Plugin URI: http://www.crazyegg.com
 Description: The easiest way to add the Crazy Egg tracking script to your WordPress blog!
-Version: 2.0
+Version: 2.1
 Author: Crazy Egg
 Author URI: http://www.crazyegg.com
 License: GPL

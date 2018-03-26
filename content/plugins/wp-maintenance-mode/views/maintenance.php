@@ -29,7 +29,32 @@
 
         <div class="wrap">
 			<?php if (!empty($heading)) { ?><h1><?php echo stripslashes($heading); ?></h1><?php } ?>
-			<?php if (!empty($text)) { ?><h2><?php echo stripslashes($text); ?></h2><?php } ?>
+
+			<?php 
+				// If bot is enabled no text will be shown
+				if ( !empty($text) && $this->plugin_settings['bot']['status'] === 0) {
+					echo "<h2>" . stripslashes($text) . "</h2>";
+				}
+			?>
+
+
+            <?php if (!empty($this->plugin_settings['bot']['status']) && $this->plugin_settings['bot']['status'] === 1) { ?>
+			</div><!-- .wrap -->
+			<div class="bot-container">
+                <!-- WP Bot -->
+                <div class="bot-chat-wrapper">
+                    <!-- Chats -->
+                    <div class="chat-container cf"></div>
+                    <!-- User input -->
+                    <div class="input"></div>
+                    <!-- User choices -->
+                    <div class="choices cf"></div>
+                </div>
+                <!-- /WP Bot -->
+			</div>
+			<div class="bot-error"><p></p></div>
+        	<div class="wrap under-bot">
+            <?php } ?>
 
 			<?php
 			if (!empty($this->plugin_settings['modules']['countdown_status']) && $this->plugin_settings['modules']['countdown_status'] == 1) {
@@ -37,7 +62,10 @@
 				<div class="countdown" data-start="<?php echo date('F d, Y H:i:s', strtotime($countdown_start)); ?>" data-end="<?php echo date('F d, Y H:i:s', $countdown_end); ?>"></div>
 			<?php } ?>
 
-			<?php if (!empty($this->plugin_settings['modules']['subscribe_status']) && $this->plugin_settings['modules']['subscribe_status'] == 1) { ?>
+			<?php if (!empty($this->plugin_settings['modules']['subscribe_status']) && $this->plugin_settings['modules']['subscribe_status'] == 1
+                      // If the bot is active, legacy subscribe form will be hidden
+                      // !empty($this->plugin_settings['bot']['status']) && 
+                      && $this->plugin_settings['bot']['status'] === 0 ) { ?>
 				<?php if (!empty($this->plugin_settings['modules']['subscribe_text'])) { ?><h3><?php echo stripslashes($this->plugin_settings['modules']['subscribe_text']); ?></h3><?php } ?>
 				<div class="subscribe_wrapper" style="min-height: 100px;">
 					<form class="subscribe_form">
@@ -48,18 +76,18 @@
 			<?php } ?>
 
 			<?php if (!empty($this->plugin_settings['modules']['social_status']) && $this->plugin_settings['modules']['social_status'] == 1) { ?>
-				<div class="social" data-target="<?php echo!empty($this->plugin_settings['modules']['social_target']) ? 1 : 0; ?>">
+				<div class="social" data-target="<?php echo !empty($this->plugin_settings['modules']['social_target']) ? 1 : 0; ?>">
 					<?php if (!empty($this->plugin_settings['modules']['social_twitter'])) { ?>
 						<a class="tw" href="<?php echo stripslashes($this->plugin_settings['modules']['social_twitter']); ?>">twitter</a>
 					<?php } ?>
 
 					<?php if (!empty($this->plugin_settings['modules']['social_facebook'])) { ?>
 						<a class="fb" href="<?php echo stripslashes($this->plugin_settings['modules']['social_facebook']); ?>">facebook</a>
-					<?php } ?>    
+					<?php } ?>
 
 					<?php if (!empty($this->plugin_settings['modules']['social_pinterest'])) { ?>
 						<a class="pin" href="<?php echo stripslashes($this->plugin_settings['modules']['social_pinterest']); ?>">pinterest</a>
-					<?php } ?>  
+					<?php } ?>
 
 					<?php if (!empty($this->plugin_settings['modules']['social_github'])) { ?>
 						<a class="git" href="<?php echo stripslashes($this->plugin_settings['modules']['social_github']); ?>">github</a>
@@ -67,21 +95,25 @@
 
 					<?php if (!empty($this->plugin_settings['modules']['social_dribbble'])) { ?>
 						<a class="dribbble" href="<?php echo stripslashes($this->plugin_settings['modules']['social_dribbble']); ?>">dribbble</a>
-					<?php } ?>   
+					<?php } ?>
 
 					<?php if (!empty($this->plugin_settings['modules']['social_google+'])) { ?>
 						<a class="gplus" href="<?php echo stripslashes($this->plugin_settings['modules']['social_google+']); ?>">google plus</a>
-					<?php } ?>         
+					<?php } ?>
 
 					<?php if (!empty($this->plugin_settings['modules']['social_linkedin'])) { ?>
 						<a class="linkedin" href="<?php echo stripslashes($this->plugin_settings['modules']['social_linkedin']); ?>">linkedin</a>
-					<?php } ?>                         
+					<?php } ?>
 				</div>
 			<?php } ?>
 			<?php if (!empty($this->plugin_settings['modules']['contact_status']) && $this->plugin_settings['modules']['contact_status'] == 1) { ?>
 				<div class="contact">
 					<?php list($open, $close) = !empty($this->plugin_settings['modules']['contact_effects']) && strstr($this->plugin_settings['modules']['contact_effects'], '|') ? explode('|', $this->plugin_settings['modules']['contact_effects']) : explode('|', 'move_top|move_bottom'); ?>
 					<div class="form <?php echo esc_attr($open); ?>">
+                        <span class="close-contact_form">
+							<img src="<?php echo WPMM_URL ?>assets/images/close.svg" alt="">
+						</span>
+
 						<form class="contact_form">
 							<?php do_action('wpmm_contact_form_start'); ?>
 
@@ -100,7 +132,7 @@
 							<?php do_action('wpmm_contact_form_end'); ?>
 						</form>
 					</div>
-				</div>                
+				</div>
 
 				<a class="contact_us" href="javascript:void(0);" data-open="<?php echo esc_attr($open); ?>" data-close="<?php echo esc_attr($close); ?>"><?php _e('Contact us', $this->plugin_slug); ?></a>
 			<?php } ?>
@@ -109,13 +141,18 @@
 				<div class="author_link">
 					<a href="<?php echo admin_url(); ?>"><?php _e('Dashboard', $this->plugin_slug); ?></a>
 				</div>
-			<?php } ?>    
+			<?php } ?>
         </div>
 
         <script type='text/javascript'>
 			var wpmm_vars = {"ajax_url": "<?php echo admin_url('admin-ajax.php'); ?>"};
-        </script>
+		</script>
+
 		<?php
+		
+		// Hook before scripts, mostly for internationalization
+		do_action('wpmm_before_scripts');
+
 		if (!empty($scripts) && is_array($scripts)) {
 			foreach ($scripts as $src) {
 				?>
@@ -123,10 +160,16 @@
 				<?php
 			}
 		}
-
 		// Do some actions
 		do_action('wm_footer'); // this hook will be removed in the next versions
 		do_action('wpmm_footer');
 		?>
+        <?php if (!empty($this->plugin_settings['bot']['status']) && $this->plugin_settings['bot']['status'] === 1) { ?>
+            <script type='text/javascript'>
+                jQuery(function($) {
+                    startConversation('homepage', 1);
+                });
+            </script>
+        <?php } ?>
     </body>
 </html>

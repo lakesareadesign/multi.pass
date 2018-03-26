@@ -189,6 +189,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 		'admin-panel-tips/admin-panel-tips.php' => array(
 			'module' => 'admin-panel-tip',
 			'show-on-single' => true,
+			'hide-on-single-install' => true,
 			'tab' => 'admin-panel-tips',
 			'page_title' => __( 'Admin Panel Tips', 'ub' ),
 			'menu_title' => __( 'Tips', 'ub' ),
@@ -245,6 +246,33 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'module' => 'dashboard-text-widgets',
 			'tab' => 'dashboard-text-widgets',
 			'page_title' => __( 'Dashboard Text Widgets', 'ub' ),
+		),
+		/**
+		 * Blog creation
+		 *
+		 * @since 1.9.6
+		 */
+		'signup-blog-description.php' => array(
+			'module' => 'signup-blog-description',
+			'network-only' => true,
+			'tab' => 'multisite',
+			'page_title' => __( 'Blog Description on Blog Creation', 'ub' ),
+			'menu_title' => __( 'Multisite', 'ub' ),
+			/**
+			 * https://app.asana.com/0/47431170559378/582548491040986
+			 */
+			'disabled' => true,
+		),
+		/**
+		 * Coming Soon Page & Maintenance Mode
+		 *
+		 * @since 1.9.1
+		 */
+		'author-box/author-box.php' => array(
+			'module' => 'author-box',
+			'tab' => 'author-box',
+			'page_title' => __( 'Author Box', 'ub' ),
+			'menu_title' => __( 'Author Box', 'ub' ),
 		),
 	);
 	apply_filters( 'ultimatebranding_available_modules', $modules );

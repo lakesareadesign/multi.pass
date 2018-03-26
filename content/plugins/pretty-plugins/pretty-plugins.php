@@ -3,7 +3,7 @@
 Plugin Name: Pretty Plugins
 Plugin URI: http://premium.wpmudev.org/project/pretty-plugins/
 Description: Give your plugin page the look of an app store, with featured images, categories, and amazing search.
-Version: 1.5.3
+Version: 1.5.4
 Network: true
 Text Domain: wmd_prettyplugins
 Author: WPMU DEV
@@ -72,7 +72,9 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 			register_activation_hook($this->plugin_main_file, array($this, 'do_activation'));
 
 			//if in setup mode, disable everything for other sites then main.
-			if( isset($this->options['setup_mode']) && ($this->options['setup_mode'] == 0 || ($this->blog_id == 1 && $this->options['setup_mode'] == 1)) ) {
+			if(
+				(isset($this->options['setup_mode']) && $this->options['setup_mode'] == 0) || $this->blog_id == 1
+			) {
 				add_action('plugins_loaded', array($this,'plugins_loaded'));
 
 				add_action('admin_enqueue_scripts', array($this,'register_scripts_styles_admin'));
@@ -106,17 +108,11 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 		$this->plugin_rel = dirname($this->plugin_basename).'/';
 
 		$wp_upload_dir = wp_upload_dir();
-		if($this->blog_id != 1)
-			foreach ($wp_upload_dir as $type => $value)
-				if($type == 'basedir' || $type == 'baseurl') {
-					$parts = explode('/', $value);
-					if(is_numeric(end($parts))) {
-						array_pop($parts);
-						array_pop($parts);
-						$wp_upload_dir[$type] = implode('/', $parts);
-					}
-				}
-
+		if($this->blog_id != 1) {
+                    switch_to_blog( 1 );
+                    $wp_upload_dir = wp_upload_dir();
+                    restore_current_blog();
+                }
 		$this->plugin_dir_custom = $wp_upload_dir['basedir'].'/prettyplugins/';
 		$this->plugin_dir_url_custom = $wp_upload_dir['baseurl'].'/prettyplugins/';
 
@@ -171,15 +167,15 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 		//load stuff when on correct page
 		if($this->is_prettyplugin_data_required()) {
 			$this->set_custom_plugin_data();
+		}
 
-			//Check if prosite and plugin module is active
-			$this->pro_site_settings = get_site_option( 'psts_settings' );
-			if(function_exists('is_pro_site') && isset($this->pro_site_settings['modules_enabled']) && in_array('ProSites_Module_Plugins', $this->pro_site_settings['modules_enabled']))
-				$this->pro_site_plugin_active = true;
-			else {
-				$this->pro_site_plugin_active = false;
-				$this->pro_site_settings = false;
-			}
+		//Check if prosite and plugin module is active
+		$this->pro_site_settings = get_site_option( 'psts_settings' );
+		if(function_exists('is_pro_site') && isset($this->pro_site_settings['modules_enabled']) && in_array('ProSites_Module_Plugins', $this->pro_site_settings['modules_enabled']))
+			$this->pro_site_plugin_active = true;
+		else {
+			$this->pro_site_plugin_active = false;
+			$this->pro_site_settings = false;
 		}
 
 		//controlls welcome/setup notice
@@ -281,7 +277,7 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 		if($this->pro_site_plugin_active) {
 			global $plugin_page;
 			if ( isset($plugin_page) && $plugin_page == 'pretty-premium-plugins' )
-				wp_redirect( admin_url('admin.php?page=pretty-plugins.php') );
+				wp_redirect( admin_url('admin.php?page=pretty-plugins.php&category=premium') );
 		}
 	}
 
@@ -454,9 +450,14 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 					$plugin_prepare['ShowMore'] = true;
 			}
 
-			if(isset($plugin_prepare['Categories']) && count($plugin_prepare['Categories']) > 0)
+			if(isset($plugin_prepare['Categories']) && count($plugin_prepare['Categories']) > 0) {
 				foreach ($plugin_prepare['Categories'] as $plugin_category_key)
 					$plugin_prepare['CategoriesNames'][] = $plugins_categories[$plugin_category_key];
+			}
+
+			if($plugin_prepare['ActionLinkClass'] == 'upgrade') {
+				$plugin_prepare['Categories'][] = 'premium';
+			}
 
 			//Set up Plugin Link according to options settings
 			if($this->options['plugins_links'] == 'plugin_url' && isset($plugin_prepare['PluginURI']) && !empty($plugin_prepare['PluginURI']))
@@ -564,7 +565,7 @@ class WMD_PrettyPlugins extends WMD_PrettyPlugins_Functions {
 	}
 
 	function setup_mode_welcome_notice() {
-		echo '<div class="updated fade"><p>'.sprintf(__('Pretty Plugins is currently in "Setup Mode". This reminder will disappear after configuring the plugin and setting Setup Mode to "False" <a href="%s">here</a>. You can modify the details for every plugin in your network <a href="%s">here</a>, and see how the "Plugins" page looks like for all network sites <a href="%s">here</a>.', 'wmd_prettyplugins'), admin_url('network/settings.php?page=pretty-plugins.php'), admin_url('network/plugins.php'), admin_url('admin.php?page=pretty-plugins.php'), add_query_arg('prettyplugins_action', 'remove_notice')).'</a></p></div>';				    	 					 			 
+		echo '<div class="updated fade"><p>'.sprintf(__('Pretty Plugins is currently in "Setup Mode". This reminder will disappear after configuring the plugin and setting Setup Mode to "False" <a href="%s">here</a>. You can modify the details for every plugin in your network <a href="%s">here</a>, and see how the "Plugins" page looks like for all network sites <a href="%s">here</a>.', 'wmd_prettyplugins'), admin_url('network/settings.php?page=pretty-plugins.php'), admin_url('network/plugins.php'), admin_url('admin.php?page=pretty-plugins.php'), add_query_arg('prettyplugins_action', 'remove_notice')).'</a></p></div>';
 	}
 
 	function plugin_page_notice() {

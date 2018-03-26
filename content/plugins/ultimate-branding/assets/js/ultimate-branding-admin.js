@@ -1,4 +1,4 @@
-/*! Ultimate Branding - v1.9.5.1
+/*! Ultimate Branding - v1.9.7
  * https://premium.wpmudev.org/project/ultimate-branding/
  * Copyright (c) 2018; * Licensed GPLv2+ */
 /* global window, jQuery, ace */
@@ -482,6 +482,12 @@ jQuery( window.document ).ready(function($){
         });
     }
     /**
+     * sortable
+     */
+    $('table.sortable').sortable({
+        items: 'tr'
+    });
+    /**
      * reset section
      */
     $('.simple-option-reset-section a').on('click', function() {
@@ -524,8 +530,8 @@ jQuery( window.document ).ready(function(){
         jQuery('.simple-option .switch-button').each(function() {
             var options = {
                 checked: jQuery(this).checked,
-                on_label: jQuery(this).data('on') ||  switch_button.labels.label_on,
-                off_label: jQuery(this).data('off') ||  switch_button.labels.label_off,
+                on_label: jQuery(this).data('on') || switch_button.labels.label_on,
+                off_label: jQuery(this).data('off') || switch_button.labels.label_off,
                 on_callback: ultimate_branding_admin_check_slaves,
                 off_callback: ultimate_branding_admin_check_slaves
             };
@@ -565,10 +571,20 @@ jQuery( window.document ).ready(function($){
         var field = $this.data('master-field');
         var value = $this.data('master-value');
         $('[name="simple_options['+section+']['+field+']"]').on( 'change', function() {
-            if ( $(this).val() === value ) {
-                $this.show();
+            if ( 'checkbox' === $(this).attr('type') ) {
+                if ( 'on' === value && $(this).is(":checked") ) {
+                    $this.show();
+                } else if ( 'off' === value && !$(this).is(":checked") ) {
+                    $this.show();
+                } else {
+                    $this.hide();
+                }
             } else {
-                $this.hide();
+                if ( $(this).val() === value ) {
+                    $this.show();
+                } else {
+                    $this.hide();
+                }
             }
         });
     });
@@ -624,4 +640,59 @@ jQuery( window.document ).ready(function($){
             templateSelection: UltimateBrandingPublicFormatSiteSelection
         });
     }
+});
+/**
+ * Modules control
+ */
+jQuery( window.document ).ready(function(){
+    "use strict";
+    if ( jQuery.fn.switchButton ) {
+        jQuery( '#ultimate-branding-modules .switch-button').switchButton({
+            on_label: jQuery(this).data('enable') || switch_button.labels.label_enable,
+            off_label: jQuery(this).data('disable') || switch_button.labels.label_disable
+        });
+        jQuery( '#ultimate-branding-modules input.switch-button').on( 'change', function() {
+            var checkbox = jQuery( this );
+            var data = {
+                action: 'ultimate_branding_toggle_module',
+                module: checkbox.val(),
+                nonce: checkbox.data('nonce'),
+                state: checkbox.prop('checked')? 'on':'off'
+
+            };
+            jQuery.post(ajaxurl, data, function( response ) {
+                if ( response.success ) {
+                    window.location.reload();
+                }
+            });
+        });
+    }
+} );
+/**
+ * reset login image
+ */
+jQuery( window.document ).ready(function($){
+    var img = $('#login-screen-reset-image');
+    img.on( 'click', function() {
+        $('#wp_login_image_el')
+            .attr( 'width', img.data('width') )
+            .attr( 'src', img.data('src') )
+            .attr( 'height', img.data('height') );
+        $('#wp_login_image').val( img.data('src' ) );
+        $('#wp_login_image_width').val( img.data('width' ) );
+        $('#wp_login_image_height').val( img.data('height' ) );
+        $('#wp_login_image_id').val( 'reset' );
+        return false;
+    });
+});
+/**
+ * reset favicon main image
+ */
+jQuery( window.document ).ready(function($){
+    var img = $('#favicon-reset-main-image');
+    img.on( 'click', function() {
+        $('#ub_main_site_favicon').attr( 'src', $('#wp_favicon').data('default' ) );
+        $('#wp_favicon').val( $('#wp_favicon').data('default' ) );
+        return false;
+    });
 });

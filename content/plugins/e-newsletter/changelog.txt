@@ -5,6 +5,13 @@ Lead developer: Maniu
 Contributors: Cole, Andrey
 
 == Changelog ==
+= 2.7.4.4 =
+* Removed support for 3rd party TinyMCE media buttons
+* Fixed DB related warnings when plugin is not fully installed
+* Improved Membership 2 integration performance
+* Removed wrong "Themes" panel from customizer
+* Fixed typo
+
 = 2.7.4.3 =
 * Fixes WP theme customizing issue
 
@@ -510,4 +517,4 @@ Contributors: Cole, Andrey
 * Initial Release;
 
 
-133620-1506613812-au
+133620-1522104851-au

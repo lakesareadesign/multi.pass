@@ -672,9 +672,13 @@ if (!class_exists('Inbound_Forms')) {
                         buttonWidth = jQuery(target).css("width"),
                         buttonHeight = jQuery(target).css("height"),
                         scale = jQuery(target).css("font-size");
+
+                    if (typeof scale == 'undefined') {
+                        scale = "15px";
+                    }
+
                     scale = scale.replace("px", "");
                     scale = scale / 40;
-
 
                     /* spinner param setup */
                     var opts = {
@@ -971,6 +975,8 @@ if (!class_exists('Inbound_Forms')) {
 
                 $Inbound_Templating_Engine = Inbound_Templating_Engine();
                 $subject = $Inbound_Templating_Engine->replace_tokens($subject, array($form_post_data, $form_meta_data));
+                $subject = apply_filters('inbound_admin_notification_subject', $subject);
+
                 $body = $Inbound_Templating_Engine->replace_tokens($template['body'], array($form_post_data, $form_meta_data));
 
                 /* Fix broken HTML tags from wp_mail garbage */

@@ -31,7 +31,6 @@ class WP_Hummingbird_Module_GZip extends WP_Hummingbird_Module_Server {
 			// Would be nice to user get_home_url(), but website is not accessible during plugin activation
 			// and curl times out.
 			//'HTML'       => add_query_arg( 'avoid-minify', 'true', get_home_url() ),
-			//'HTML'       => WPHB_DIR_URL . 'core/modules/dummy/dummy-html.html',
 			'HTML'       => WPHB_DIR_URL . 'core/modules/dummy/dummy-php.php',
 			'JavaScript' => WPHB_DIR_URL . 'core/modules/dummy/dummy-js.js',
 			'CSS'        => WPHB_DIR_URL . 'core/modules/dummy/dummy-style.css',
@@ -64,7 +63,7 @@ class WP_Hummingbird_Module_GZip extends WP_Hummingbird_Module_Server {
 		// Will only trigger on 're-check status' button click.
 		if ( $try_api && $check_api ) {
 			// Get the API results.
-			$api = wphb_get_api();
+			$api = WP_Hummingbird_Utils::get_api();
 			$api_results = $api->performance->check_gzip();
 			$api_results = get_object_vars( $api_results );
 			foreach ( $files as $type  => $file ) {
@@ -133,6 +132,7 @@ gzip_disable  "MSIE [1-6]\.(?!.*SV1)";';
 	public function get_apache_code() {
 		return '
 <IfModule mod_deflate.c>
+	SetOutputFilter DEFLATE
     <IfModule mod_setenvif.c>
         <IfModule mod_headers.c>
             SetEnvIfNoCase ^(Accept-EncodXng|X-cept-Encoding|X{15}|~{15}|-{15})$ ^((gzip|deflate)\s*,?\s*)+|[X~-]{4,13}$ HAVE_Accept-Encoding

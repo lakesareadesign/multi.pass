@@ -11,7 +11,7 @@ class Genesis_Simple_Edits {
 	/**
 	 * Plugin version
 	 */
-	public $plugin_version = '2.2.0';
+	public $plugin_version = '2.2.1';
 
 	/**
 	 * Minimum WordPress version.
@@ -120,9 +120,11 @@ class Genesis_Simple_Edits {
 		$this->core = new Genesis_Simple_Edits_Core;
 		$this->core->init();
 
-		require_once( $this->plugin_dir_path . 'includes/class-genesis-simple-edits-admin.php' );
-		$this->admin = new Genesis_Simple_Edits_Admin;
-		$this->admin->init();
+		if ( is_admin() ) {
+			require_once( $this->plugin_dir_path . 'includes/class-genesis-simple-edits-admin.php' );
+			$this->admin = new Genesis_Simple_Edits_Admin;
+			$this->admin->init();
+		}
 
 	}
 

@@ -79,7 +79,7 @@
 					<tr>
 						<th class="column-course-structure">
 							<?php _e( 'Course Structure', 'cp' ); ?>
-							<small><?php _e( 'Units and Sections with Modules selected will automatically be visible (only selected Modules accessible).', 'cp' ); ?></small>
+							<small><?php _e( 'Units and Sections with Modules selected will automatically be visible (only the selected Modules will be accessible).', 'cp' ); ?></small>
 						</th>
 						<th class="column-show"><?php _e( 'Show', 'cp' ); ?></th>
 						<th class="column-free-preview"><?php _e( 'Free Preview', 'cp' ); ?></th>

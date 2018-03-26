@@ -46,6 +46,10 @@ I will try to respond to all on plugin support forum but users showing back-link
 3. Backend Configuration
 
 == Changelog ==
+
+= 1.4.2 =
+* Minor fix for instagram json change
+
 = 1.4.1 =
 * Fixed Instagram update that stoped hashtags from working
 * Fixed hellip that showed when using wp trim words

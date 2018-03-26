@@ -53,7 +53,7 @@ if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 			$this->roles = wp_roles()->get_names();
 			$this->options = array(
 				'limit' => array(
-					'title' => __( 'Set Image filesize Limit', 'ub' ) . ' - ' . __( 'Default WP upload limit: ' ) . round($this->get_wp_limit() / 1000) . __('Mb', 'ub'),
+					'title' => __( 'Set Image filesize Limit', 'ub' ) . ' - ' . __( 'Default WP upload limit: ' ) . round( $this->get_wp_limit() / 1000 ) . __( 'Mb', 'ub' ),
 					'description' => __( 'Entering 0 will set the Default WordPress upload limit.', 'ub' ),
 					'fields' => array(),
 				),
@@ -91,16 +91,16 @@ if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 				if ( ! isset( $section_data['fields'] ) ) {
 					continue;
 				}
-				foreach ( $section_data['fields'] as $key => $data ) {
+				foreach ( $section_data['fields'] as $slug => $data ) {
 					$v = 0;
-					if ( isset( $value[ $section_key ][ $key ] ) ) {
-						$v = filter_var( $value[ $section_key ][ $key ], FILTER_SANITIZE_NUMBER_INT );
-						$option_name = $this->get_name( $this->roles[ $key ] );
+					if ( isset( $value[ $section_key ][ $slug ] ) ) {
+						$v = filter_var( $value[ $section_key ][ $slug ], FILTER_SANITIZE_NUMBER_INT );
+						$option_name = $this->get_name( $slug );
 					}
-					if ( empty( $v ) || $max == $v ) {
+					if ( empty( $v ) ) {
 						ub_delete_option( $option_name );
 					} else {
-						ub_update_option( $option_name, $v );
+						ub_update_option( $option_name, max( 0, min( $v, $max ) ) );
 					}
 				}
 			}

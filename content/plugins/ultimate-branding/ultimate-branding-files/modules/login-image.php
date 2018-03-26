@@ -29,37 +29,15 @@
 class ub_Login_Image {
 
 	function __construct() {
-		global $wp_version;
-
-		//Check for backwards compatibility
-
-		$uploaddir = ub_wp_upload_dir();
-		$login_image_old = ub_get_option( 'ub_login_image_url', false );
-		$login_image = ub_get_option( 'ub_login_image', false );
-
-		if ( ! isset( $login_image_old ) || $login_image_old == '' ) {
-			//there is no any old record
-			if ( ! $login_image ) {//add default image if not exists
-				$response = wp_remote_head( admin_url() . 'images/wordpress-logo.svg' );
-				if ( ! is_wp_error( $response ) && ! empty( $response['response']['code'] ) && $response['response']['code'] == '200' ) {//support for 3.8+
-					ub_update_option( 'ub_login_image', admin_url() . 'images/wordpress-logo.svg' );
-				} else {
-					ub_update_option( 'ub_login_image', admin_url() . 'images/wordpress-logo.png' ); // for older version
-				}
-			}
-		} else { //there IS an OLD RECORD
-			ub_update_option( 'ub_login_image', $login_image_old ); //we will assume that file is in place
-			ub_update_option( 'ub_login_image_url', '' );
-		}
-
-		// Admin interface
-
-		add_action( 'ultimatebranding_settings_images', array( &$this, 'manage_output' ) );
-		add_filter( 'ultimatebranding_settings_images_process', array( &$this, 'process' ) );
-
-		// Login interface
+		/**
+		 * Admin interface
+		 */
+		add_action( 'ultimatebranding_settings_images', array( $this, 'manage_output' ) );
+		add_filter( 'ultimatebranding_settings_images_process', array( $this, 'process' ) );
+		/**
+		 * Login interface
+		 */
 		add_action( 'login_head', array( &$this, 'stylesheet' ), 999 );
-
 		if ( ! is_multisite() ) {
 			add_filter( 'login_headerurl', array( &$this, 'home_url' ) );
 		}
@@ -166,30 +144,20 @@ class ub_Login_Image {
 <?php
 	}
 
-	function process() {
-		global $plugin_page;
-
-		if ( isset( $_GET['reset'] ) && isset( $_GET['page'] ) && $_GET['page'] == 'branding' ) {
+	public function process() {
+		if ( isset( $_POST['wp_login_image_id'] ) && isset( $_POST['ub-reset'] ) && 'reset' === $_POST['ub-reset'] ) {
 			//login_image_save
 			ub_delete_option( 'ub_login_image' );
 			ub_delete_option( 'ub_login_image_id' );
 			ub_delete_option( 'ub_login_image_size' );
 			ub_delete_option( 'ub_login_image_width' );
 			ub_delete_option( 'ub_login_image_height' );
-
-			$uploaddir = ub_wp_upload_dir();
-			$uploadurl = ub_wp_upload_url();
-
-			$response = wp_remote_head( admin_url() . 'images/wordpress-logo.svg' );
-
-			if ( ! is_wp_error( $response ) && ! empty( $response['response']['code'] ) && $response['response']['code'] == '200' ) {//support for 3.8+
-				ub_update_option( 'ub_login_image', admin_url() . 'images/wordpress-logo.svg' );
-			} else {
-				ub_update_option( 'ub_login_image', admin_url() . 'images/wordpress-logo.png' );
-			}
-
-			wp_redirect( 'admin.php?page=branding&tab=images' );
-		} elseif ( isset( $_POST['wp_login_image'] ) ) {
+			return;
+		}
+		/**
+		 * set
+		 */
+		if ( isset( $_POST['wp_login_image'] ) ) {
 
 			ub_update_option( 'ub_login_image', filter_input( INPUT_POST,  'wp_login_image', FILTER_SANITIZE_STRING ) );
 			ub_update_option( 'ub_login_image_id', filter_input( INPUT_POST,  'wp_login_image_id', FILTER_SANITIZE_NUMBER_INT ) );
@@ -197,7 +165,6 @@ class ub_Login_Image {
 			ub_update_option( 'ub_login_image_width', filter_input( INPUT_POST,  'wp_login_image_width', FILTER_SANITIZE_NUMBER_FLOAT ) );
 			ub_update_option( 'ub_login_image_height', filter_input( INPUT_POST, 'wp_login_image_height', FILTER_SANITIZE_NUMBER_FLOAT ) );
 		}
-
 		return true;
 	}
 
@@ -219,11 +186,17 @@ class ub_Login_Image {
         <div class='wrap nosubsub'>
             <h2><?php _e( 'Login Image', 'ub' ) ?></h2>
             <!--<form name="login_image_form" id="login_image_form" method="post">-->
-<?php ub_deprecated_module( __( 'Login Image', 'ub' ), __( 'Login Screen', 'ub' ), 'login-screen' ); ?>
+<?php ub_deprecated_module( __( 'Login Image', 'ub' ), __( 'Login Screen', 'ub' ), 'login-screen', '2.1' ); ?>
             <div class="postbox">
                 <div class="inside">
                     <p class='description'><?php _e( 'This is the image that is displayed on the login page (wp-login.php) - ', 'ub' ); ?>
-                        <a href='<?php echo wp_nonce_url( 'admin.php?page=' . $page . '&amp;tab=images&amp;reset=yes&amp;action=process', 'ultimatebranding_settings_menu_images' ) ?>'><?php _e( 'Reset the image', 'ub' ) ?></a>
+                        <a href="#" id="login-screen-reset-image"
+
+data-width="64"
+data-height="64"
+data-src="<?php echo esc_url( site_url( 'wp-admin/images/wordpress-logo.svg' ) ); ?>"
+
+><?php _e( 'Reset the image', 'ub' ) ?></a>
                     </p>
 <?php
 			$login_image_old = ub_get_option( 'ub_login_image_url', false );

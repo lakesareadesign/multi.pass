@@ -441,6 +441,7 @@ FLBuilder::register_settings_form('content_slider_slide', array(
 						),
 						'bg_photo'      => array(
 							'type'          => 'photo',
+							'show_remove'   => true,
 							'label'         => __( 'Background Photo', 'fl-builder' ),
 						),
 						'bg_color'      => array(
@@ -486,6 +487,7 @@ FLBuilder::register_settings_form('content_slider_slide', array(
 						),
 						'fg_photo'      => array(
 							'type'          => 'photo',
+							'show_remove'   => true,
 							'label'         => __( 'Photo', 'fl-builder' ),
 						),
 						'fg_video'      => array(
@@ -876,6 +878,7 @@ FLBuilder::register_settings_form('content_slider_slide', array(
 						),
 						'r_photo'    => array(
 							'type'          => 'photo',
+							'show_remove'   => true,
 							'label'         => __( 'Photo', 'fl-builder' ),
 						),
 					),

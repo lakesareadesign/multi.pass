@@ -556,7 +556,7 @@ class CoursePress_Data_Shortcode_Student {
 				</h3>
 			</div>
             <div class="bbm-modal__section"><?php
-			printf( '<p>%s</p>', esc_html__( 'A passcode is required to enroll. Click below to back to course.', 'cp' ) );
+			printf( '<p>%s</p>', esc_html__( 'A passcode is required to enroll. Click below to go back to the course.', 'cp' ) );
 ?>
                     <a href="<?php echo get_permalink( CoursePress_Helper_Utility::the_course( true ) ) . CoursePress_Core::get_slug( 'units' ); ?>"><?php _e( 'Go back to course!', 'cp' ); ?></a>
 			</div>
@@ -936,7 +936,7 @@ class CoursePress_Data_Shortcode_Student {
 													$attributes,
 													'questions/' . $q_index . '/options/answers/' . $a_index
 												);
-
+												$correct = ! empty( $checked[ $a_index ] );
 												if ( $correct ) {
 													$add = true;
 												}
@@ -1039,8 +1039,7 @@ class CoursePress_Data_Shortcode_Student {
 
 		if ( 'section' == $type ) {
 			$page_number = $array['item_id'];
-		}
-		elseif ( 'module' == $type ) {
+		} elseif ( 'module' == $type ) {
 			$module_id = $array['item_id'];
 			$page_number = CoursePress_Data_Shortcode_Template::get_module_page( $course_id, $unit_id, $module_id );
 		}

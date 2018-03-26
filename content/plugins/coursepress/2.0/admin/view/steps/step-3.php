@@ -22,7 +22,7 @@
 	<?php endif; ?>
 
 	<div class="instructors-info medium" id="instructors-info">
-		<p><?php echo $can_assign_instructor ? __( 'Assigned Instructors:', 'cp' ) : __( 'You do not have sufficient permission to add instructor!' ); ?></p>
+		<p><?php echo $can_assign_instructor ? __( 'Assigned Instructors:', 'cp' ) : __( 'You do not have sufficient permission to add instructor!', 'cp' ); ?></p>
 
 		<?php if ( empty( $instructors )  && $can_assign_instructor ) : ?>
 			<div class="instructor-avatar-holder empty">

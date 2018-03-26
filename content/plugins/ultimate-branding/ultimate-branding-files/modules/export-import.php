@@ -2,7 +2,7 @@
 /*
 Plugin Name: Export & Import
 Plugin URI:
-Description:
+Description: Module allow to export and import Ultimate Branding settings.
 Author: Marcin (Incsub)
 Version: 1.0
 Author URI:

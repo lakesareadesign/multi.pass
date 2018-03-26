@@ -2,10 +2,10 @@
 /**
  * Plugin Name: Genesis Title Toggle
  * Plugin URI:  http://www.billerickson.net/
- * Description: Turn on/off page titles on a per page basis, and set sitewide defaults from Theme Settings. Must be using the Genesis theme.
+ * Description: When using the Genesis Theme framework, this plugin allows you to turn on/off page titles on a per page basis, and set sitewide defaults from Theme Settings.
  * Author:      Bill Erickson
- * Author URI:  http://www.billerickson.net
- * Version:     1.7.1
+ * Author URI:  https://www.billerickson.net
+ * Version:     1.8.0
  * Text Domain: genesis-title-toggle
  * Domain Path: languages
  *
@@ -72,12 +72,13 @@ class BE_Title_Toggle {
 		add_action( 'add_meta_boxes', array( $this, 'metabox_register' )         );
 		add_action( 'save_post',      array( $this, 'metabox_save'     ),  1, 2  );
 
-		// Show/hide Page Title - If using post formats, have to hook in later for some themes
-		if ( current_theme_supports( 'post-formats' ) ) {
-			add_action( 'genesis_before_post',  array( $this, 'title_toggle' ), 20 );
+		// Show/hide Page Title
+		add_action( 'genesis_meta', array( $this, 'title_toggle' ), 20 );
+
+		// If theme supports post formats, run later
+		if( current_theme_supports( 'post-formats' ) ) {
+			add_action( 'genesis_before_post', array( $this, 'title_toggle' ), 20 );
 			add_action( 'genesis_before_entry', array( $this, 'title_toggle' ), 20 );
-		} else {
-			add_action( 'genesis_before', array( $this, 'title_toggle' ) );
 		}
 
 		// Site title as h1
@@ -313,10 +314,7 @@ class BE_Title_Toggle {
 
 			// If override is empty, get rid of that title
 			if ( empty( $override ) ) {
-				remove_action( 'genesis_post_title', 'genesis_do_post_title' );
-				remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
-				remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
-				remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
+				$this->remove_title();
 			}
 
 		// If titles are turned on by default, let's see if this specific one is turned off
@@ -325,11 +323,89 @@ class BE_Title_Toggle {
 
 			// If override has a value, the title's gotta go
 			if ( !empty( $override ) ) {
-				remove_action( 'genesis_post_title', 'genesis_do_post_title' );
-				remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
-				remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
-				remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
+				$this->remove_title();
 			}
+		}
+	}
+
+	/**
+	 * Remove Title
+	 *
+	 * @since 1.8.0
+	 */
+	function remove_title() {
+
+		// Theme specific code
+		$this->theme_specific();
+
+		// Remove post title
+		remove_action( 'genesis_post_title', 'genesis_do_post_title' );
+		remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
+
+		// Remove header markup
+		if( apply_filters( 'be_title_toggle_remove_markup', true ) ) {
+			remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
+			remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
+		}
+
+	}
+
+	/**
+	 * Theme Specific Code
+	 *
+	 * @since 1.8.0
+	 */
+	function theme_specific() {
+
+		// Custom themes can use this to disable the title if they've moved it
+		// @see https://github.com/billerickson/genesis-title-toggle/wiki#integrating-with-a-custom-theme
+		do_action( 'be_title_toggle_remove' );
+
+		if( ! defined( 'CHILD_THEME_NAME' ) )
+			return false;
+
+		switch( CHILD_THEME_NAME ) {
+
+			case 'Academy Pro':
+				remove_action( 'genesis_before_content_sidebar_wrap', 'genesis_do_post_title' );
+				break;
+
+			case 'Business Pro Theme':
+				remove_action( 'business_page_header', 'business_page_title', 10 );
+				break;
+
+			case 'Centric Theme':
+				if( is_page() ) {
+					add_action(
+					'genesis_before',
+						function() {
+							remove_action( 'genesis_after_header', 'centric_open_post_title', 1 );
+							remove_action( 'genesis_after_header', 'genesis_do_post_title', 2 );
+							remove_action( 'genesis_after_header', 'centric_close_post_title', 3 );
+						},
+						20
+					);
+				}
+				break;
+
+			case 'Interior Pro Theme':
+				remove_action( 'genesis_after_header', 'genesis_do_post_title' );
+				break;
+
+			case 'Showcase Pro':
+				if( has_post_thumbnail() ) {
+					add_action( 'genesis_after_header', function() {
+						add_filter( 'the_title', '__return_false' );
+					}, 7 );
+					add_action( 'genesis_after_header', function() {
+						remove_filter( 'the_title', '__return_false' );
+					}, 9 );
+				}
+				break;
+
+			case 'Studio Pro':
+				remove_action( 'studio_page_header', 'studio_page_title', 10 );
+				break;
 		}
 	}
 

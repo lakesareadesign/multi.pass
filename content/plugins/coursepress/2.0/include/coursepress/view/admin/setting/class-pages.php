@@ -69,7 +69,7 @@ class CoursePress_View_Admin_Setting_Pages extends CoursePress_View_Admin_Settin
 		$content .= self::row(
 			__( 'Student Dashboard', 'cp' ),
 			$page_dropdowns['student_dashboard'],
-			__( 'Select page where student can view courses.', 'cp' )
+			__( 'Select a page where students can view courses.', 'cp' )
 		);
 
 		/**
@@ -78,7 +78,7 @@ class CoursePress_View_Admin_Setting_Pages extends CoursePress_View_Admin_Settin
 		$content .= self::row(
 			__( 'Student Settings', 'cp' ),
 			$page_dropdowns['student_settings'],
-			__( 'Select page where student can change accont settings.', 'cp' )
+			__( 'Select a page where students can change their account settings.', 'cp' )
 		);
 
 		/**
@@ -87,7 +87,7 @@ class CoursePress_View_Admin_Setting_Pages extends CoursePress_View_Admin_Settin
 		$content .= self::row(
 			__( 'Login', 'cp' ),
 			$page_dropdowns['login'],
-			__( 'Select page where student can login.', 'cp' )
+			__( 'Select a page where students can login.', 'cp' )
 		);
 
 		/**
@@ -96,7 +96,7 @@ class CoursePress_View_Admin_Setting_Pages extends CoursePress_View_Admin_Settin
 		$content .= self::row(
 			__( 'Signup', 'cp' ),
 			$page_dropdowns['signup'],
-			__( 'Select page where student can create an accont.', 'cp' )
+			__( 'Select a page where students can create an account.', 'cp' )
 		);
 
 		/**
@@ -105,7 +105,7 @@ class CoursePress_View_Admin_Setting_Pages extends CoursePress_View_Admin_Settin
 		$content .= self::row(
 			__( 'Instructor', 'cp' ),
 			$page_dropdowns['instructor'],
-			__( 'Select page where we display instructor profile.', 'cp' )
+			__( 'Select a page where we display the instructor profile.', 'cp' )
 		);
 
 		/**
@@ -114,7 +114,7 @@ class CoursePress_View_Admin_Setting_Pages extends CoursePress_View_Admin_Settin
 		$content .= self::row(
 			__( 'Enrollment Process Page', 'cp' ),
 			$page_dropdowns['enrollment'],
-			sprintf( __( 'Select page where we display enrollment process.', 'cp' ) . '</a>' )
+			sprintf( __( 'Select a page where we display the enrollment process.', 'cp' ) . '</a>' )
 		);
 		$content .= self::table_end();
 		return $content;
