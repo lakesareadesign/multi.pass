@@ -7,10 +7,10 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Custom Menus
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2012-2014, David Decker - DECKERWEB
- * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
- * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
- * @link       http://deckerweb.de/twitter
+ * @copyright  Copyright (c) 2012-2018, David Decker - DECKERWEB
+ * @license    https://opensource.org/licenses/GPL-2.0 GPL-2.0+
+ * @link       https://github.com/deckerweb/multisite-toolbar-additions
+ * @link       https://deckerweb.de/twitter
  *
  * @since      1.0.0
  */
@@ -20,7 +20,7 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -44,9 +44,11 @@ function ddw_mstba_menu_hook_priority() {
 	$mstba_super_admin_nav_menu_priority = 9999;
 
 	/** Make function output filterable */
-	return apply_filters(
-		'mstba_filter_super_admin_nav_menu_priority',
-		absint( $mstba_super_admin_nav_menu_priority )
+	return absint(
+		apply_filters(
+			'mstba_filter_super_admin_nav_menu_priority',
+			$mstba_super_admin_nav_menu_priority
+		)
 	);
 
 }  // end of function ddw_mstba_menu_hook_priority
@@ -106,19 +108,19 @@ function ddw_mstba_build_custom_menu( $wp_admin_bar ) {
 		if ( ( $mstba_menu_locations = get_nav_menu_locations() ) && isset( $mstba_menu_locations[ $mstba_menu_name ] ) ) {
 
 			$mstba_menu_locations = get_nav_menu_locations();
-			$mstba_menu = wp_get_nav_menu_object( $mstba_menu_locations[ $mstba_menu_name ] );
-			$mstba_menu_items = (array) wp_get_nav_menu_items( $mstba_menu->term_id );
+			$mstba_menu           = wp_get_nav_menu_object( $mstba_menu_locations[ $mstba_menu_name ] );
+			$mstba_menu_items     = (array) wp_get_nav_menu_items( $mstba_menu->term_id );
 
 			foreach( $mstba_menu_items as $mstba_menu_item ) {
 
 				/** Retrieve the args from the custom menu */
 				$mstba_menu_args = array(
-					'id'    => 'mstba_' . $mstba_menu_item->ID,
-					'title' => $mstba_menu_item->title,
+					'id'    => 'mstba_' . absint( $mstba_menu_item->ID ),
+					'title' => esc_html( $mstba_menu_item->title ),
 					'href'  => esc_url_raw( $mstba_menu_item->url ),
 					'meta'  => array(
 						'target' => $mstba_menu_item->target,
-						'title'  => $mstba_menu_item->attr_title,
+						'title'  => esc_html( $mstba_menu_item->attr_title ),
             			'class'  => 'mstba ' . implode( ' ', $mstba_menu_item->classes ),
             		)
             	);  // end of array

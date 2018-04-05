@@ -309,7 +309,7 @@ class Google_Service_Licensing_LicenseAssignments_Resource extends Google_Servic
   {
     $params = array('productId' => $productId, 'skuId' => $skuId, 'customerId' => $customerId);
     $params = array_merge($params, $optParams);
-    return $this->call('listForProductAndSku', array($params), "Google_Service_Licensing_LicenseAssignmentList");		   		 	  		  	 	 	
+    return $this->call('listForProductAndSku', array($params), "Google_Service_Licensing_LicenseAssignmentList");
   }
 
   /**

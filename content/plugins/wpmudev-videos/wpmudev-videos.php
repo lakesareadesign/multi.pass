@@ -4,14 +4,14 @@ Plugin Name: WPMU DEV Videos
 Plugin URI: https://premium.wpmudev.org/project/unbranded-video-tutorials/
 Description: A simple way to integrate WPMU DEV's over 40 unbranded support videos into your websites.
 Author: WPMU DEV
-Version: 1.5.5
+Version: 1.5.6
 Author URI: https://premium.wpmudev.org/
 Network: true
 WDP ID: 248
 */
 
 /*
-Copyright 2007-2017 Incsub (http://incsub.com)
+Copyright 2007-2018 Incsub (http://incsub.com)
 Author - Aaron Edwards
 Contributors - Jeffri, Joshua Dailey
 
@@ -35,7 +35,7 @@ class WPMUDEV_Videos {
 	//---Config---------------------------------------------------------------//
 	//------------------------------------------------------------------------//
 
-	var $version = '1.5.4';
+	var $version = '1.5.6';
 	var $api_url = 'https://premium.wpmudev.org/video-api-register.php';
 	var $video_list;
 	var $video_cats;
@@ -297,7 +297,7 @@ class WPMUDEV_Videos {
 
 	function create_embed_url( $video, $autoplay = false ) {
 		//create ssl url
-		$url = is_ssl() ? 'https://premium.wpmudev.org/video/' . urlencode( $video ) : 'http://premium.wpmudev.org/video/' . urlencode( $video );
+		$url = 'https://premium.wpmudev.org/video/' . urlencode( $video );
 		if ( $autoplay ) {
 			$url = add_query_arg( 'autoplay', '1', $url );
 		}
@@ -349,10 +349,6 @@ class WPMUDEV_Videos {
 			//strip slashes
 			$_POST['wpmudev_vids']['menu_title'] = stripslashes( $_POST['wpmudev_vids']['menu_title'] );
 
-			if ( ! empty( $_POST['wpmudev_vids']['site_id'] ) ) {
-				$_POST['wpmudev_vids']['site_id'] = intval( $_POST['wpmudev_vids']['site_id'] );
-			}
-
 			update_site_option( 'wpmudev_vids_settings', $_POST['wpmudev_vids'] );
 
 			echo '<div class="updated fade"><p>' . __( 'Settings saved.', 'wpmudev_vids' ) . '</p></div>';
@@ -395,11 +391,12 @@ class WPMUDEV_Videos {
 											$site_id = '';
 										} else {
 											$site_id = intval( $result['body'] );
-											?>
-                                            <strong><?php printf( __( 'Successfully Registered! Video Site ID: %s', 'wpmudev_vids' ), $site_id ); ?></strong>
-                                            <input name="wpmudev_vids[site_id]"
-                                                   value="<?php echo esc_attr( $this->get_setting( 'site_id', $site_id ) ); ?>"
-                                                   type="hidden"/>
+											$this->update_setting( 'site_id', $site_id );
+											if ( empty( $this->get_apikey() ) ) { ?>
+                                                <div class="notice error inline"><p><strong><?php _e( 'Please install and login to the <a href="https://premium.wpmudev.org/project/wpmu-dev-dashboard/" target="_blank">WPMU DEV Dashboard plugin</a> to finish enabling video tutorials.', 'wpmudev_vids' ); ?></strong></p></div>
+											<?php } else { ?>
+                                                <div class="notice updated inline"><p><strong><?php printf( __( 'Successfully Registered! Video Site ID: %s', 'wpmudev_vids' ), $site_id ); ?></strong></p></div>
+											<?php } ?>
 										<?php } ?>
                                     </td>
                                 </tr>

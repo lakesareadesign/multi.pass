@@ -1,6 +1,6 @@
 <?php
 class Builder_TextArea_Control extends WP_Customize_Control {
-	public $type = 'textarea';
+	public $type = 'textarea';	     	 	 		 			 	
 
 	public function inject_js() {
 

@@ -61,7 +61,7 @@
 				<span class="wds-box-stat-value wds-box-stat-value-success"><?php esc_html_e( 'Active', 'wds' ); ?></span>
 			<?php else : ?>
 				<p class="wds-small-text">
-					<?php esc_html_e( 'Moz provides reports that tell you how your site stacks up against the competition with all of the important SEO measurement tools.', 'wds' ); ?>
+					<?php esc_html_e( 'Configure SmartCrawl to automatically link certain key words to a page on your blog or even a whole new site all together.', 'wds' ); ?>
 				</p>
 				<button type="button"
 						data-option-id="<?php echo esc_attr( $option_name ); ?>"

@@ -1350,8 +1350,8 @@ final class FLBuilder {
 				// Enqueue styles and scripts for this post.
 				self::enqueue_layout_styles_scripts_by_id( $query_post->ID );
 
-				// Print the styles since we are outside of the head tag.
-				if ( ! did_action( 'wp_enqueue_scripts' ) ) {
+				// Print the styles if we are outside of the head tag.
+				if ( ! doing_action( 'wp_enqueue_scripts' ) ) {
 					wp_print_styles();
 				}
 

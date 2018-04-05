@@ -48,7 +48,12 @@ if ( $readability_ignored ) {
 		</div>
 
 		<div class="wds-readability-level-description wds-small-text">
-			<?php echo esc_html( $readability_level_description ); ?>
+			<?php echo wp_kses( $readability_level_description, array( 'strong' => array() ) ); ?>
+
+			<br />
+				<button class="button button-small button-dark button-dark-o wds-refresh-analysis wds-analysis-readability" <?php if ('auto-draft' === get_post_status()) { echo 'disabled'; } ?> type="button">
+				<span><?php esc_html_e( 'Refresh', 'wds' ); ?></span>
+			</button>
 		</div>
 	</div>
 

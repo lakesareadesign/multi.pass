@@ -24,10 +24,9 @@ function smartcrawl_get_value( $val, $post_id = false ) {
 	if ( ! $post_id ) { return false; }
 
 	$custom = get_post_custom( $post_id );
-	return ( ! empty( $custom[ '_wds_' . $val ][0] ) ) ?
-		maybe_unserialize( $custom[ '_wds_' . $val ][0] )
-		:
-		false
+	return ( ! empty( $custom[ '_wds_' . $val ][0] ) )
+		? maybe_unserialize( $custom[ '_wds_' . $val ][0] )
+		: false
 	;
 }
 
@@ -347,7 +346,7 @@ function smartcrawl_blog_template_settings( $and ) {
 	$and .= " AND `option_name` != 'wds_sitemap_options'"; // Added singular
 	return $and;
 }
-add_filter( 'blog_template_exclude_settings', 'wds_blog_template_settings' );
+add_filter( 'blog_template_exclude_settings', 'smartcrawl_blog_template_settings' );
 
 
 /**
@@ -472,7 +471,7 @@ function smartcrawl_hide_metaboxes( $arg ) {
  */
 function smartcrawl_register_metabox_hiding() {
 	$post_types = get_post_types();
-	foreach ( $post_types as $type ) { add_filter( 'get_user_option_metaboxhidden_' . $type, 'wds_hide_metaboxes' ); }
+	foreach ( $post_types as $type ) { add_filter( 'get_user_option_metaboxhidden_' . $type, 'smartcrawl_hide_metaboxes' ); }
 
 }
 

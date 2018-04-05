@@ -142,20 +142,41 @@
 }
 
 /* Videos */
-#sb_instagram .sbi_type_video .sbi_playbtn{
+#sb_instagram .sbi_type_video .sbi_playbtn,
+#sb_instagram .sbi_type_carousel .sbi_playbtn,
+.sbi_type_carousel .fa-clone,
+#sb_instagram .sbi_type_carousel .svg-inline--fa.fa-play,
+#sb_instagram .sbi_type_video .svg-inline--fa.fa-play{
   display: block !important;
   position: absolute;
-  z-index: 0;
+  z-index: 1;
+
+  color: #fff;
+  color: rgba(255,255,255,0.9);
+  font-style: normal !important;
+  text-shadow: 0 0 8px rgba(0,0,0,0.8);
+}
+#sb_instagram .sbi_type_video .sbi_playbtn,
+#sb_instagram .sbi_type_carousel .sbi_playbtn {
+  z-index: 2;
   top: 50%;
   left: 50%;
   margin-top: -24px;
   margin-left: -19px;
   padding: 0;
   font-size: 48px;
-  color: #fff;
-  color: rgba(255,255,255,0.9);
-  font-style: normal !important;
-  text-shadow: 0 0 8px rgba(0,0,0,0.8);
+}
+#sb_instagram .sbi_type_carousel .fa-clone{
+  right: 12px;
+  top: 12px;
+  font-size: 24px;
+  text-shadow: 0 0 8px rgba(0,0,0,0.3);
+}
+.sbi_type_carousel svg.fa-clone,
+#sb_instagram .sbi_type_video .svg-inline--fa.fa-play,
+#sb_instagram .sbi_type_carousel .svg-inline--fa.fa-play{
+  -webkit-filter: drop-shadow( 0px 0px 2px rgba(0,0,0,.4) );
+  filter: drop-shadow( 0px 0px 2px rgba(0,0,0,.4) );
 }
 
 /* Loader */
@@ -344,8 +365,9 @@
   filter: alpha(opacity=85);
   opacity: 0.85;
 }
-#sb_instagram #sbi_load .fa,
-#sb_instagram .sbi_follow_btn .fa{
+#sb_instagram #sbi_load .fa-spinner,
+#sb_instagram .sbi_follow_btn .fa,
+#sb_instagram .sbi_follow_btn svg{
   margin-bottom: -1px;
   margin-right: 7px;
   font-size: 15px;
@@ -394,16 +416,28 @@
 }
 
 /* Medium */
-#sb_instagram.sbi_medium .sbi_playbtn{
-  font-size: 23px;
+#sb_instagram.sbi_medium .sbi_playbtn,
+#sb_instagram.sbi_medium .sbi_photo_wrap .svg-inline--fa.fa-play{
   margin-top: -12px;
   margin-left: -9px;
+  font-size: 23px;
+}
+#sb_instagram.sbi_medium .sbi_type_carousel .sbi_photo_wrap .fa-clone{
+  right: 8px;
+  top: 8px;
+  font-size: 18px;
 }
 /* Small */
-#sb_instagram.sbi_small .sbi_playbtn{
-  font-size: 18px;
+#sb_instagram.sbi_small .sbi_playbtn,
+#sb_instagram.sbi_small .sbi_photo_wrap .svg-inline--fa.fa-play{
   margin-top: -9px;
   margin-left: -7px;
+  font-size: 18px;
+}
+#sb_instagram.sbi_small .sbi_type_carousel .sbi_photo_wrap .fa-clone{
+  right: 5px;
+  top: 5px;
+  font-size: 12px;
 }
 
 /* Media queries */

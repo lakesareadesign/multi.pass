@@ -66,6 +66,7 @@ class FLContactFormModule extends FLBuilderModule {
 		$template_id	 	= isset( $_POST['template_id'] ) ? sanitize_text_field( $_POST['template_id'] ) : false;
 		$template_node_id	  = isset( $_POST['template_node_id'] ) ? sanitize_text_field( $_POST['template_node_id'] ) : false;
 		$recaptcha_response	= isset( $_POST['recaptcha_response'] ) ? $_POST['recaptcha_response'] : false;
+		$terms_checked	    = isset( $_POST['terms_checked'] ) && 1 == $_POST['terms_checked'] ? true : false;
 
 		$subject 			= (isset( $_POST['subject'] ) ? $_POST['subject'] : __( 'Contact Form Submission', 'fl-builder' ));
 		$admin_email 		= get_option( 'admin_email' );
@@ -95,6 +96,15 @@ class FLContactFormModule extends FLBuilderModule {
 
 			if ( isset( $settings->subject_toggle ) && ( 'hide' == $settings->subject_toggle ) && isset( $settings->subject_hidden ) && ! empty( $settings->subject_hidden ) ) {
 				$subject   = $settings->subject_hidden;
+			}
+
+			// Validate terms and conditions if enabled
+			if ( ( isset( $settings->terms_checkbox ) && 'show' == $settings->terms_checkbox ) && ! $terms_checked ) {
+				$response = array(
+					'error'   => true,
+					'message' => __( 'Terms and Conditions is required!', 'fl-builder' ),
+				);
+				wp_send_json( $response );
 			}
 
 			// Validate reCAPTCHA if enabled
@@ -256,6 +266,36 @@ FLBuilder::register_module('FLContactFormModule', array(
 						'type'		=> 'text',
 						'label'		=> __( 'Your Message Placeholder', 'fl-builder' ),
 						'default'	=> __( 'Your message', 'fl-builder' ),
+					),
+					'terms_checkbox' => array(
+						'type'		  => 'select',
+						'label'		  => __( 'Terms and Conditions Checkbox', 'fl-builder' ),
+						'default'		  => 'hide',
+						'options'		  => array(
+							'show'	   => __( 'Show', 'fl-builder' ),
+							'hide'	   => __( 'Hide', 'fl-builder' ),
+						),
+						'toggle'		=> array(
+							'show'			=> array(
+								'fields'		=> array( 'terms_checkbox_text', 'terms_text' ),
+							),
+						),
+					),
+					'terms_checkbox_text'	=> array(
+						'type'		=> 'text',
+						'label'		=> __( 'Checkbox Text', 'fl-builder' ),
+						'default'	=> __( 'I Accept the Terms and Conditions', 'fl-builder' ),
+					),
+					'terms_text' => array(
+						'type'		  => 'editor',
+						'label'		  => 'Terms and Conditions',
+						'media_buttons' => false,
+						'rows'          => 8,
+						'preview'       => array(
+							'type'          => 'text',
+							'selector'      => '.fl-terms-checkbox-text',
+						),
+						'connections'   => array( 'string' ),
 					),
 				),
 			),

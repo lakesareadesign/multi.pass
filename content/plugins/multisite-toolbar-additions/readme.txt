@@ -1,12 +1,12 @@
 === Multisite Toolbar Additions ===
-Contributors: daveshine, deckerweb
-Donate link: http://genesisthemes.de/en/donate/
-Tags: toolbar, tool bar, adminbar, admin bar, multisite, network, administration, menu, super admins, links, settings, manage, deckerweb, ddwtoolbar
+Contributors: daveshine, deckerweb, wpautobahn
+Donate link: https://www.paypal.me/deckerweb
+Tags: toolbar, adminbar, admin bar, multisite, network, administration, menu, super admins, links, settings, deckerweb, ddwtoolbar
 Requires at least: 3.6
-Tested up to: 3.9
-Stable tag: 1.7.0
+Tested up to: 4.9.4
+Stable tag: 1.9.0
 License: GPL-2.0+
-License URI: http://www.opensource.org/licenses/gpl-license.php
+License URI: https://opensource.org/licenses/GPL-2.0
 
 Adds a lot useful admin links to the WordPress Toolbar / Admin Bar in Multisite, Network and single site installs. Comes with extended plugin support!
 
@@ -20,19 +20,18 @@ Adds a lot useful admin links to the WordPress Toolbar / Admin Bar in Multisite,
 *NOTE:* This plugin is **only intended towards Super Admins / Admins**.
 
 = General Features & Benefits -- Global Usage =
-* Add a **Custom Nav Menu** to the toolbar via WP Menu system - great for instructions for your staff members or other resources... ([see FAQ for more...](http://wordpress.org/plugins/multisite-toolbar-additions/faq/))
+* Add a **Custom Nav Menu** to the toolbar via WP Menu system - great for instructions for your staff members or other resources... ([see FAQ for more...](https://wordpress.org/plugins/multisite-toolbar-additions/faq/))
 * Recommended in Multisite: to use the main site for this (but menu is available globally)
 * Only visible and accessable for Super Admins (Multisite context) or for Site Admins (non-Multisite context)!
 * Plugin is fully internationalized, English & German language files included by default :)
 * Fully WPML compatible!
-* WordPress 3.6 or higher, **3.8+ recommended!** Tested with `WP_DEBUG` on :)
 
 = Multisite Network Specific Features & Benefits =
 * Network wide Plugins
 * Network wide Themes (plus Theme Editor)
 * Network Settings, Updates, plus Site Upgrade
 * Special "+ New" (new content) section, like on site dashboards, but only for Network admin with Network specific items!
-* Extra special *Custom Nav Menu* vieable for Site Admins but only editable for Super Admins, setup via WP Menu system, [see FAQ for more...](http://wordpress.org/plugins/multisite-toolbar-additions/faq/).
+* Extra special *Custom Nav Menu* vieable for Site Admins but only editable for Super Admins, setup via WP Menu system, [see FAQ for more...](https://wordpress.org/plugins/multisite-toolbar-additions/faq/).
 * Multisite aware plugin support, to date for: *Quick Cache, WP Super Cache, WP-Piwik, WPMS Site Maintenance Mode, Code Snippets, BackWPup, User Management Tools, Network Mass Email, Organizational Message Notifier, Snapshot (premium), Ultimate Branding (premium), Login Security Solution, Smart Admin Tweaks (premium), Smart Cleanup Tools (premium), Smart Options Optimizer (premium), Simple System Info (premium), Smart Security Tools (premium), Hide My WP (premium), Blog Copier, NS Cloner, NS Cloner Pro, Multisite Robots.txt Manager, WordPress MU Domain Mapping, WP Migrate DB Pro (premium), WPMS Admin Reports*
 
 = (Sub) Site Specific Features & Benefits =
@@ -45,77 +44,70 @@ Adds a lot useful admin links to the WordPress Toolbar / Admin Bar in Multisite,
 = Included Plugin Support =
 *Out of the box the plugin supports the following other plugins' admin menu links in the Toolbar if installed and activated:*
 
-* ["Quick Cache" (free, by PriMoThemes.com / WebSharks, Inc.)](http://wordpress.org/plugins/quick-cache/) - also network wide
-* ["WP Super Cache" (free, by Donncha O Caoimh)](http://wordpress.org/plugins/wp-super-cache/) - also network wide
-* ["WP-Piwik" (free, by Andr&eacute; Br&auml;kling)](http://wordpress.org/plugins/wp-piwik/) - also network wide
-* ["WPMS Site Maintenance Mode" (free, 7 Media Web Solutions, LLC)](http://wordpress.org/plugins/wpms-site-maintenance-mode/) - also network wide
-* ["User Management Tools" (free, by scribu/AppThemes)](http://wordpress.org/plugins/user-management-tools/) - also network wide
-* ["Network Mass Email" (free, Kenny Zaron)](http://wordpress.org/plugins/network-mass-email/) - also network wide
-* ["Organizational Message Notifier" (free, Zaantar)](http://wordpress.org/plugins/organizational-message-notifier/) - also network wide
-* ["Code Snippets" (free, by Shea Bunge)](http://wordpress.org/plugins/code-snippets/) - also network wide
-* ["BackWPup" (free, by Daniel Hüsken)](http://wordpress.org/plugins/backwpup/) - also network wide - *v3.x plus older v2.x branch supported!*
-* ["Snapshot" (premium, by Paul Menard (Incsub)/ WPMU DEV)](http://ddwb.me/8f) - also network wide
-* ["Ultimate Branding" (premium, by Incsub Team/ WPMU DEV)](http://ddwb.me/8g) - also network wide
-* ["Smart Admin Tweaks v3.0+" (premium, by Smart Plugins/ Milan Petrovic)](http://ddwb.me/8u) - also network wide
-* ["Smart Cleanup Tools v4.0+" (premium, by Smart Plugins/ Milan Petrovic)](http://ddwb.me/8v) - also network wide
-* ["Smart Security Tools" (premium, by Smart Plugins/ Milan Petrovic)](http://ddwb.me/9g) - also network wide
-* ["Smart Options Optimizer" (premium, by Smart Plugins/ Milan Petrovic)](http://ddwb.me/91) - also network wide
-* ["Simple System Info" (premium, by Smart Plugins/ Milan Petrovic)](http://ddwb.me/94) - also network wide
-* ["Hide My WP" (premium, by Hassan Jahangiri)](http://ddwb.me/8z) - also network wide
-* ["Better WP Security" (free, by Chris Wiegman & iThemes)](http://wordpress.org/plugins/better-wp-security/) - also network wide
-* ["Login Security Solution" (free, by Daniel Convissor)](http://wordpress.org/plugins/login-security-solution/) - also network wide
-* ["Blog Copier" (free, by Modern Tribe, Inc.)](http://wordpress.org/plugins/blog-copier/) - network wide
-* ["NS Cloner - Site Copier" (free, by Never Settle)](http://wordpress.org/plugins/ns-cloner-site-copier/) - network wide
-* ["NS Cloner Pro" (premium, by Never Settle)](http://ddwb.me/8-) - network wide
-* ["WP Migrate DB Pro" (premium, by Delicious Brains (Brad Touesnard & Chris Aprea))](http://ddwb.me/ai) - network wide
-* ["Multisite Robots.txt Manager" (free, by tribalNerd)](http://wordpress.org/plugins/multisite-robotstxt-manager/) - network only!
-* ["WordPress MU Domain Mapping" (free, by Donncha O Caoimh, Ron Rennick, Automatic Inc.)](http://wordpress.org/plugins/wordpress-mu-domain-mapping/) - network only!
-* ["WPMS Admin Reports" (free, by Joe Motacek)](http://wordpress.org/plugins/wpms-admin-reports/) - network only! (MU Plugin!)
-* ["Multisite Language Switcher" (free, Dennis Ploetner)](http://wordpress.org/plugins/multisite-language-switcher/)
-* ["Howdy Tweaks" (free, by Kailey Lampert)](http://wordpress.org/plugins/howdy-tweaks/)
-* ["Cachify" (free, by Sergej Müller)](http://wordpress.org/plugins/cachify/)
-* ["Hyper Cache" (free, by Stefano Lissa)](http://wordpress.org/plugins/hyper-cache/)
-* ["Hyper Cache Extended" (free, by Martin Lazarov)](http://wordpress.org/plugins/hyper-cache-extended/)
-* ["Limit Login Attempts" (free, by Johan Eenfeldt)](http://wordpress.org/plugins/limit-login-attempts/)
-* ["Optimize Database after Deleting Revisions" (free, by Rolf van Gelder)](http://wordpress.org/plugins/rvg-optimize-database/)
-* ["WP-Optimize" (free, by Ruhani Rabin)](http://wordpress.org/plugins/wp-optimize/)
-* ["Installer (WPRC Installer)" (free, by OnTheGoSystems, Inc. (WPML.org team))](http://wp-compatibility.com/installer-plugin/)
+* ["Quick Cache" (free, by PriMoThemes.com / WebSharks, Inc.)](https://wordpress.org/plugins/quick-cache/) - also network wide
+* ["WP Super Cache" (free, by Donncha O Caoimh)](https://wordpress.org/plugins/wp-super-cache/) - also network wide
+* ["WP-Piwik" (free, by Andr&eacute; Br&auml;kling)](https://wordpress.org/plugins/wp-piwik/) - also network wide
+* ["WPMS Site Maintenance Mode" (free, 7 Media Web Solutions, LLC)](https://wordpress.org/plugins/wpms-site-maintenance-mode/) - also network wide
+* ["User Management Tools" (free, by scribu/AppThemes)](https://wordpress.org/plugins/user-management-tools/) - also network wide
+* ["Network Mass Email" (free, Kenny Zaron)](https://wordpress.org/plugins/network-mass-email/) - also network wide
+* ["Organizational Message Notifier" (free, Zaantar)](https://wordpress.org/plugins/organizational-message-notifier/) - also network wide
+* ["Code Snippets" (free, by Shea Bunge)](https://wordpress.org/plugins/code-snippets/) - also network wide
+* ["BackWPup" (free, by Daniel Hüsken)](https://wordpress.org/plugins/backwpup/) - also network wide - *v3.x plus older v2.x branch supported!*
+* ["Snapshot" (premium, by Paul Menard (Incsub)/ WPMU DEV)](https://ddwb.me/8f) - also network wide
+* ["Ultimate Branding" (premium, by Incsub Team/ WPMU DEV)](https://ddwb.me/8g) - also network wide
+* ["Smart Admin Tweaks v3.0+" (premium, by Smart Plugins/ Milan Petrovic)](https://ddwb.me/8u) - also network wide
+* ["Smart Cleanup Tools v4.0+" (premium, by Smart Plugins/ Milan Petrovic)](https://ddwb.me/8v) - also network wide
+* ["Smart Security Tools" (premium, by Smart Plugins/ Milan Petrovic)](https://ddwb.me/9g) - also network wide
+* ["Smart Options Optimizer" (premium, by Smart Plugins/ Milan Petrovic)](https://ddwb.me/91) - also network wide
+* ["Simple System Info" (premium, by Smart Plugins/ Milan Petrovic)](https://ddwb.me/94) - also network wide
+* ["Hide My WP" (premium, by Hassan Jahangiri)](https://ddwb.me/8z) - also network wide
+* ["Better WP Security" (free, by Chris Wiegman & iThemes)](https://wordpress.org/plugins/better-wp-security/) - also network wide
+* ["Login Security Solution" (free, by Daniel Convissor)](https://wordpress.org/plugins/login-security-solution/) - also network wide
+* ["Blog Copier" (free, by Modern Tribe, Inc.)](https://wordpress.org/plugins/blog-copier/) - network wide
+* ["NS Cloner - Site Copier" (free, by Never Settle)](https://wordpress.org/plugins/ns-cloner-site-copier/) - network wide
+* ["NS Cloner Pro" (premium, by Never Settle)](https://ddwb.me/8-) - network wide
+* ["WP Migrate DB Pro" (premium, by Delicious Brains (Brad Touesnard & Chris Aprea))](https://ddwb.me/ai) - network wide
+* ["Multisite Robots.txt Manager" (free, by tribalNerd)](https://wordpress.org/plugins/multisite-robotstxt-manager/) - network only!
+* ["WordPress MU Domain Mapping" (free, by Donncha O Caoimh, Ron Rennick, Automatic Inc.)](https://wordpress.org/plugins/wordpress-mu-domain-mapping/) - network only!
+* ["WPMS Admin Reports" (free, by Joe Motacek)](https://wordpress.org/plugins/wpms-admin-reports/) - network only! (MU Plugin!)
+* ["Multisite Language Switcher" (free, Dennis Ploetner)](https://wordpress.org/plugins/multisite-language-switcher/)
+* ["Howdy Tweaks" (free, by Kailey Lampert)](https://wordpress.org/plugins/howdy-tweaks/)
+* ["Cachify" (free, by Sergej Müller)](https://wordpress.org/plugins/cachify/)
+* ["Hyper Cache" (free, by Stefano Lissa)](https://wordpress.org/plugins/hyper-cache/)
+* ["Hyper Cache Extended" (free, by Martin Lazarov)](https://wordpress.org/plugins/hyper-cache-extended/)
+* ["Limit Login Attempts" (free, by Johan Eenfeldt)](https://wordpress.org/plugins/limit-login-attempts/)
+* ["Optimize Database after Deleting Revisions" (free, by Rolf van Gelder)](https://wordpress.org/plugins/rvg-optimize-database/)
+* ["WP-Optimize" (free, by Ruhani Rabin)](https://wordpress.org/plugins/wp-optimize/)
+* "Installer (WPRC Installer)" (free, by OnTheGoSystems, Inc. (WPML.org team))
 * ["Code With WP Code Snippets" (free, by Thomas Griffin)](https://github.com/thomasgriffin/CWWP-Custom-Snippets) (plugin currently in beta, hosted at GitHub)
-* ["Toolbox Modules" (free, by Sergej Müller)](http://wordpress.org/plugins/toolbox/) - see also his [plugin instructions](http://playground.ebiene.de/toolbox-wordpress-plugin/)
-* ["Relevanssi" (free)](http://wordpress.org/plugins/relevanssi/) and ["Relevanssi Premium" (premium)](http://www.relevanssi.com/) both by Mikko Saari
-* ["Widget Settings Importer/Exporter" (free, by Kevin Langley, Sean McCafferty, Mark Parolisi)](http://wordpress.org/plugins/widget-settings-importexport/)
-* ["Tabify Edit Screen" (free, by Marko Heijnen)](http://wordpress.org/plugins/tabify-edit-screen/)
-* ["Restrict Widgets" (free, by Digital Factory)](http://wordpress.org/plugins/restrict-widgets/)
-* ["P3 (Plugin Performance Profiler)" (free, by GoDaddy.com)](http://wordpress.org/plugins/p3-profiler/description/)
-* ["Codestyling Localization" (free, by Heiko Rabe)](http://wordpress.org/plugins/codestyling-localization/)
-* ["WP Migrate DB" (free, by Brad Touesnard)](http://wordpress.org/plugins/wp-migrate-db/)
-* ["Go - Sidebar Wizard" (premium, by Granth)](http://ddwb.me/92)
-* ["Stream" (free, by X-Team)](http://wordpress.org/plugins/stream/)
-* ["Snitch" (free, by Sergej Müller)](http://wordpress.org/plugins/snitch/)
-* *Your plugin? - [Just contact me with specific data](http://genesisthemes.de/en/contact/)*
+* ["Toolbox Modules" (free, by Sergej Müller)](https://wordpress.org/plugins/toolbox/) - see also his [plugin instructions](http://playground.ebiene.de/toolbox-wordpress-plugin/)
+* ["Relevanssi" (free)](https://wordpress.org/plugins/relevanssi/) and ["Relevanssi Premium" (premium)](https://www.relevanssi.com/) both by Mikko Saari
+* ["Widget Settings Importer/Exporter" (free, by Kevin Langley, Sean McCafferty, Mark Parolisi)](https://wordpress.org/plugins/widget-settings-importexport/)
+* ["Tabify Edit Screen" (free, by Marko Heijnen)](https://wordpress.org/plugins/tabify-edit-screen/)
+* ["Restrict Widgets" (free, by Digital Factory)](https://wordpress.org/plugins/restrict-widgets/)
+* ["P3 (Plugin Performance Profiler)" (free, by GoDaddy.com)](https://wordpress.org/plugins/p3-profiler/description/)
+* ["Codestyling Localization" (free, by Heiko Rabe)](https://wordpress.org/plugins/codestyling-localization/)
+* ["WP Migrate DB" (free, by Brad Touesnard)](https://wordpress.org/plugins/wp-migrate-db/)
+* ["Go - Sidebar Wizard" (premium, by Granth)](https://ddwb.me/92)
+* ["Stream" (free, by X-Team)](https://wordpress.org/plugins/stream/)
+* ["Snitch" (free, by Sergej Müller)](https://wordpress.org/plugins/snitch/)
 
-= Translations: Internationalization (i18n) / Localization (L10n) =
-* English (default) - always included
-* German (de_DE) - always included
-* .pot file (`multisite-toolbar-additions.pot`) for translators is also always included :)
-* Easy plugin translation platform with GlotPress tool: [Translate "Multisite Toolbar Additions"...](http://translate.wpautobahn.com/projects/wordpress-plugins-deckerweb/multisite-toolbar-additions)
-* *Your translation? - [Just send it in](http://genesisthemes.de/en/contact/)*
+= Be a Contributor =
+If you want to translate, go to the Translation Portal at [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/multisite-toolbar-additions).
 
-[A plugin from deckerweb.de and GenesisThemes](http://genesisthemes.de/en/)
+You can also contribute code-wise via our [Multisite Toolbar Additions GitHub Repository](https://github.com/deckerweb/multisite-toolbar-additions) - and see where you can help.
 
-= Feedback =
-* I am open for your suggestions and feedback - Thank you for using or trying out one of my plugins!
-* Drop me a line [@deckerweb](https://twitter.com/deckerweb) on Twitter
-* Follow me [+David Decker](https://plus.google.com/+DavidDecker/posts) on Google Plus ;-)
+= Support =
+- If you have any more questions, visit our support on the [Plugin's Forum](https://wordpress.org/support/plugin/multisite-toolbar-additions).
 
-= This Plugin... =
-* ...is *Quality Made in Germany*
-* ...was created with love (plus some coffee) on an [Ubuntu Linux](http://www.ubuntu.com/desktop) powered machine :)
+= Liked Multisite Toolbar Additions Plugin? =
+- Join our [Facebook Community Group](https://www.facebook.com/groups/ToolbarExtras/).
+- Or rate us on [WordPress](https://wordpress.org/support/plugin/multisite-toolbar-additions/reviews/?filter=5/#new-post) :)
 
-= More =
-* For more WordPress Toolbar / Admin Bar specific plugins, [**have a look at my Toolbar Plugin Series**](http://wordpress.org/plugins/tags/ddwtoolbar) :-)
-* [Also see my other plugins](http://genesisthemes.de/en/wp-plugins/) or see [my WordPress.org profile page](http://profiles.wordpress.org/daveshine/)
-* Tip: [*GenesisFinder* - Find then create. Your Genesis Framework Search Engine.](http://genesisfinder.com/)
+= This Plugin ... =
+- ... scratches my own itch!
+- ... is *Quality Made in Germany*
+- ... was created with love (plus some coffee) :-) - [if you like it consider donating](https://www.paypal.me/deckerweb)
 
 == Installation ==
 
@@ -126,14 +118,14 @@ Adds a lot useful admin links to the WordPress Toolbar / Admin Bar in Multisite,
  * *OR via FTP upload:* Upload `multisite-toolbar-additions` folder to the `/wp-content/plugins/` directory
 2. In your Network Dashboard network activate the plugin through the (Network) 'Plugins' menu -- or in a sub site dashboard: per-site activate this plugin through the (Site) 'Plugins' menu
 3. Look at your toolbar / admin bar within the "My Sites" menu and enjoy using the new links there :)
-4. If you want you could add a special custom Nav Menu via "Design > Menus" (best if using the main site of your Network for that) and assign it to the new "Multisite Toolbar Menu" menu location (only visible & accessable for Super Admins!). [(See FAQ here for more instructions)](http://wordpress.org/plugins/multisite-toolbar-additions/faq/)
+4. If you want you could add a special custom Nav Menu via "Design > Menus" (best if using the main site of your Network for that) and assign it to the new "Multisite Toolbar Menu" menu location (only visible & accessable for Super Admins!). [(See FAQ here for more instructions)](https://wordpress.org/plugins/multisite-toolbar-additions/#faq)
 5. Go and manage your Multisite Network :)
 
 **Please note, this plugin requires WordPress 3.3 or higher in order to work!**
 
 **Also note:** This plugin has NO settings page because I believe it's just not neccessarry. All customizing could be done via filters, constants and regular WordPress user roles & capabilities. As the plugin is only indended for a Super Admin (Network Admin) usage - that's the way to go. This way we can save the overhaul of an options panel/settings page, additional database requests, uninstall routines and such. End result: a lightweight system that just works and saves clicks & time :-).
 
-**Multisite install:** Of course, it's fully compatible but have a look in the [FAQ section here](http://wordpress.org/plugins/multisite-toolbar-additions/faq/) for more info :)
+**Multisite install:** Of course, it's fully compatible but have a look in the [FAQ section here](https://wordpress.org/plugins/multisite-toolbar-additions/faq/) for more info :)
 
 **Single install:** The plugin WILL also working like a charm for regular non-Multisite installs - just without the network specific stuff. However, there's still A LOT (single) site specific stuff supported. So it's up to your use case :). -- I for myself use this plugin on each and every install because it SAVES ME A LOT OF CLICKS & TIME! ...and that was the very reason I've developed it, yeah :-)
 
@@ -219,7 +211,7 @@ add_filter( 'mstba_filter_display_network_new_content', '__return_false' );
 
 
 = How are new resources being added to the toolbar/admin bar? =
-Just drop me a note on [my Twitter @deckerweb](http://twitter.com/deckerweb) or via my contact page and I'll add the link if it is useful for Multisite/ Super Admins.
+Just drop me a note on [my Twitter @deckerweb](https://twitter.com/deckerweb) or via my contact page and I'll add the link if it is useful for Multisite/ Super Admins.
 
 
 = Is this plugin Multisite compatible? =
@@ -324,12 +316,9 @@ if ( ! is_admin() ) {
 
 **Final note:** I DON'T recommend to add customization code snippets to your main theme's/child theme's `functions.php` file! **Please use a functionality plugin or an MU-plugin instead!** This way you can also use this better for Multisite environments. In general you are then more independent from theme/child theme changes etc. If you don't know how to create such a plugin yourself just use one of my recommended 'Code Snippets' plugins. Read & bookmark these Sites:
 
+* [**"Code Snippets"** plugin by Shea Bunge](https://wordpress.org/plugins/code-snippets/) - also network wide!
 * [**"What is a functionality plugin and how to create one?"**](http://wpcandy.com/teaches/how-to-create-a-functionality-plugin) - *blog post by WPCandy*
 * [**"Creating a custom functions plugin for end users"**](http://justintadlock.com/archives/2011/02/02/creating-a-custom-functions-plugin-for-end-users) - *blog post by Justin Tadlock*
-* DON'T hack your `functions.php` file: [Resource One](http://thomasgriffinmedia.com/custom-snippets-plugin/) - [Resource Two](http://thomasgriffinmedia.com/blog/2012/09/calling-on-the-wordpress-community/) *(both by Thomas Griffin Media)*
-* [**"Code Snippets"** plugin by Shea Bunge](http://wordpress.org/plugins/code-snippets/) - also network wide!
-* [**"Code With WP Code Snippets"** plugin by Thomas Griffin](https://github.com/thomasgriffin/CWWP-Custom-Snippets) - Note: Plugin currently in development at GitHub.
-* [**"Toolbox Modules"** plugin by Sergej Müller](http://wordpress.org/plugins/toolbox/) - see also his [plugin instructions](http://playground.ebiene.de/toolbox-wordpress-plugin/).
 
 All the custom & branding stuff code above can also be found as a Gist on Github: https://gist.github.com/deckerweb/3498510 (you can also add your questions/ feedback there :)
 
@@ -349,7 +338,34 @@ All the custom & branding stuff code above can also be found as a Gist on Github
 
 == Changelog ==
 
-= 1.7.0 (2014-03-04) =
+= 1.9.0 - 2018-04-01 =
+* *Maintenance release*
+* Tweak: Improved security.
+* Tweak: Updated all internal plugin links to current state, deleted the ones that were dead or no longer needed.
+* Tweak: Added new plugin icon and banner on WordPress.org
+* Update: .pot file for translators, plus German translations
+* Update: Readme file.
+
+= 1.8.0 - 2014-10-20 =
+* **Unreleased - private beta version!**
+* NEW: Added support for more (custom) post types in the "Manage Content" section.
+* NEW: Added "Widget Customizer" admin deep link for WordPress 3.9+.
+* UPDATE: Updated plugin installer & uploader admin links to be compatible with WordPress 4.0+.
+* UPDATE: Updated theme installer & uploader admin links to be compatible with WordPress 3.9+.
+* UPDATE: Updated labels for Super Admin/ Admin custom menus within the "Customizer".
+* UPDATE: Updated German translations and also the .pot file for all translators!
+* *Extended plugin support:*
+ * NEW: Added support for "Smart Security Tools: Login Limit Add-On" (premium, by Smart Plugins/ Milan Petrovic).
+ * NEW: Added support for "Smart Security Tools: Live Monitor Add-On" (premium, by Smart Plugins/ Milan Petrovic).
+ * NEW: Added support for "Smart Robots.txt Tools" (premium, by Smart Plugins/ Milan Petrovic).
+ * NEW: Added support for "iThemes Security" (free, by iThemes).
+ * NEW: Added support for "iThemes Security Pro" (premium, by iThemes).
+ * UPDATE: Updated and improved support for these plugins: "Snapshot", "Smart Security Tools", "Smart Options Optimizer", "Simple System Info", "Stream", "Quick Cache Pro".
+
+= 1.7.1 - 2014-04/05 =
+* *Unreleased - private beta version!*
+
+= 1.7.0 - 2014-03-04 =
 * NEW: Highly improved "Nav Menu" support, all editable menus are now listed as sub level items for "Menus" entry. (Could be disabled via constant if needed.)
 * NEW: As per user request I added an additional restricted Site Administrators toolbar menu. This is only effective in Multisite installs. Those menus can only be setup & edited via WP Nav Menus by Super Administrators - but then they are visible for administrator user roles (`edit_theme_options` capability).
 * NEW: For Multisite, under "Plugins" added "Network Plugins" admin link for sub site admin areas - handy link to network wide plugins page.
@@ -367,142 +383,32 @@ All the custom & branding stuff code above can also be found as a Gist on Github
  * NEW: Added support for "WPMS Admin Reports" (free, by Joe Motacek).
  * UPDATE: Updated and improved support for these plugins: "WP Migrate DB Pro".
 
-= 1.6.1 (2013-12-08) =
-* BUGFIX: Fix check for a special Multisite function.
-* *Otherwise see below for changelog of v1.6.0*
-
-= 1.6.0 (2013-12-07) =
-* UPDATE: Tweaked the adding of Network "New Content" instance, to load more reliable.
-* UPDATE: Tweaked "View Site" link for sub sites and fixed the display.
-* UPDATE: Fixed double appearance of "Themes" and "Plugins" in Network Admin, that came in WordPress 3.7+ -- decided to unhook these defaults and keep our own items - already there from v1.0.0 :-).
-* UPDATE: Introduced helper function for our helper constants to make them available early but also unhookable.
-* *Extended plugin support:*
- * NEW: Added support for "Smart Security Tools" (premium, by Smart Plugins/ Milan Petrovic).
- * NEW: Added support for "Better WP Security" (free, by Chris Wiegman & iThemes).
- * UPDATE: Updated and improved support for these plugins: "Quick Cache"/ "Quick Cache Pro".
-* UPDATE: Updated German translations and also the .pot file for all translators!
-
-= 1.5.0 (2013-11-21) =
-* UPDATE: Fixed "Menu Locations" link, updated for WordPress 3.6+.
-* UPDATE: Fixed "Google Pagespeed" URL to their current used version.
-* UPDATE: In Multisite context the plugin has "Network: true" defined in plugin header that means it is only network activated (the whole sense & purpose of the plugin, anyways :).
-* UPDATE: Added additional checks for our defined constants to avoid PHP notices under some circumstances.
-* UPDATE: Improved current "MP6" admin plugin support with various CSS tweaks.
-* NEW: Under "Plugins" added "Add New" admin link for sub site admin areas - handy link to the plugin installer.
-* *Extended plugin support:*
- * NEW: Added support for "Genesis Simple Sidebars" (free, by StudioPress/ Copyblogger Media LLC).
- * NEW: Added support for "Smart Tabber Widget" (premium, by Smart Plugins/ Milan Petrovic).
- * UPDATE: Updated and improved support for these plugins: "WP-Optimize", "Snapshot", "Smart Cleanup Tools", "Smart Admin Tweaks", "Ultimate Branding".
-* UPDATE: Updated German translations and also the .pot file for all translators!
-
-= 1.4.0 (2013-05-07) =
-* NEW: Added filter for hook priority for the custom nav menu for super admins -- this allows you to change the position of your custom nav menu (try values between 1 and 100..., see FAQ for more info...).
-* NEW: For Sub Sites or non-Multisite installs, added links for Widgets, Nav Menus, Theme Customizer, appropriate for backend/ frontend, based on default toolbar items.
-* NEW: Added "+ New" (new content) section for the Network admin area, that contains only Network specific items for super admins, plus a few items from our supported plugins.
-* NEW: Added "Plugins" items to non-Multisite installs to jump faster into plugins section.
-* NEW: For Sub Sites or non-Multisite installs, replaced "View Site" item within "/wp-admin/" with our own iteration, allowing for smarter (own) translations, and better adding of sub level items.
-* NEW: Added external links to "Pingdom" and "Google Page Speed" tests as sub level items for "View Site" (see before).
-* NEW: Added minor CSS rule for group items if ["MP6" plugin(http://wordpress.org/plugins/mp6/) is active (note, will be the future of '/wp-admin/' styling!).
-* *Extended plugin support:*
- * NEW: Added support for "Smart Options Optimizer" (premium, by Smart Plugins/ Milan Petrovic).
- * NEW: Added support for "Simple System Info" (premium, by Smart Plugins/ Milan Petrovic).
- * NEW: Added support for "Hide My WP" (premium, by Hassan Jahangiri).
- * NEW: Added support for "Widget Settings Importer/Exporter" (free, by Kevin Langley, Sean McCafferty, Mark Parolisi).
- * NEW: Added support for "Tabify Edit Screen" (free, by Marko Heijnen).
- * NEW: Added support for "Restrict Widgets" (free, by Digital Factory).
- * NEW: Added support for "P3 (Plugin Performance Profiler)" (free, by GoDaddy.com).
- * NEW: Added support for "Blog Copier" (free, by Modern Tribe, Inc.).
- * NEW: Added support for "NS Cloner - Site Copier" (free, by Never Settle).
- * NEW: Added support for "NS Cloner Pro" (premium, by Never Settle).
- * NEW: Added support for "Codestyling Localization" (free, by Heiko Rabe).
- * NEW: Added support for "WP Migrate DB" (free, by Brad Touesnard).
- * NEW: Added support for "WP Migrate DB Pro" (premium, by Delicious Brains (Brad Touesnard & Chris Aprea)).
- * NEW: Added support for "Multisite Robots.txt Manager" (free, by tribalNerd).
- * NEW: Added support for "WordPress MU Domain Mapping" (free, by Donncha O Caoimh, Ron Rennick, Automatic Inc.).
- * NEW: Added support for "Go Sidebar Wizard" (premium, by Granth).
- * UPDATE: Updated and improved support for these plugins: "Code Snippets", "Snapshot", "BackWPup", "WP-Piwik", "Smart Cleanup Tools", "Smart Admin Tweaks".
-* UPDATED: A few minor tweaks to further improve loading/ performance.
-* CODE: Some code/ documentation updates & improvements.
-* UPDATE: Added new FAQ items here in the readme.txt file.
-* UPDATE: Improved/ extended readme.txt file here.
-* UPDATE: Updated German translations and also the .pot file for all translators!
-
-= 1.3.0 (2013-03-21) =
-* NEW: Added additional "Install Plugin" & "Install Theme" items to the regular "+ Add New" section. This makes it even faster and more elegant to jump to the install/ upload/ search sections!
-* NEW: Little CSS tweak for Network Admin "My Sites Menu", to remove additional border line if Network Items from this plugin here are active.
-* UPDATE: Enhanced Network wide "Plugins" & "Themes" items.
-* *Extended plugin support:*
- * NEW: Added support for "Smart Cleanup Tools" (premium, by Smart Plugins/ Milan Petrovic).
- * NEW: Added support for "Smart Admin Tweaks" (premium, by Smart Plugins/ Milan Petrovic).
- * NEW: Added support for "Optimize Database after Deleting Revisions" (free, by Rolf van Gelder).
- * UPDATE: Updated "Snapshot" plugin support with link for new destination "GreenQloud Storage".
- * UPDATE: Updated support for "BackWPup" to support newest v3.x branch of the plugin.
-* CODE: Minor code/ documentation updates & improvements.
-* UPDATE: Updated German translations and also the .pot file for all translators!
-
-= 1.2.0 (2012-11-27) =
-* *Extended plugin support:*
- * NEW: Added support for "Snapshot" (premium, by Paul Menard (Incsub)/ WPMU DEV).
- * NEW: Added support for "Ultimate Branding" (premium, by Incsub Team/ WPMU DEV).
- * NEW: Added support for "Login Security Solution" (free, by Daniel Convissor).
-* NEW: In Network Admin added 'Dashboard' link for main site to 'site-name' menu.
-* CODE: Minor code/ documentation updates & improvements.
-* UPDATE: Updated German translations and also the .pot file for all translators!
-
-= 1.1.1 (2012-10-05) =
-* BUGFIX: Corrected settings link for "Multisite Language Switcher" plugin - sorry!
-
-= 1.1.0 (2012-09-18) =
-* *Extended plugin support:*
- * NEW: Added support for "User Management Tools" (free, by scribu/AppThemes).
- * NEW: Added support for "Network Mass Email" (free, Kenny Zaron).
- * NEW: Added support for "Organizational Message Notifier" (free, Zaantar).
- * NEW: Added support for "Multisite Language Switcher" (free, Dennis Ploetner).
- * NEW: Added support for "Code Snippets" (free, by Shea Bunge).
- * NEW: Added support for "Code With WP Code Snippets" (free, by Thomas Griffin) (plugin currently in beta, [hosted at GitHub](https://github.com/thomasgriffin/CWWP-Custom-Snippets)).
- * NEW: Added support for "BackWPup" (free, by Daniel Hüsken).
- * NEW: Added support for "Toolbox Modules" (free, by Sergej Müller) - see also his [plugin instructions](http://playground.ebiene.de/toolbox-wordpress-plugin/).
- * NEW: Added support for "Relevanssi" (free) and "Relevanssi Premium" (premium) both by Mikko Saari, http://www.relevanssi.com.
-* CODE: Performance optimizing to load code for a lot of plugins only if ever needed (when activated).
-* NEW: Added CSS class suport for the Custom WP Nav Menu for Super Admins (via regular WP Menus!).
-* UPDATE: Updated and improved readme.txt file here.
-* UPDATE: Updated German translations and also the .pot file for all translators!
-* UPDATE: Initiated new three digits versioning, starting with this version.
-* UPDATE: Moved screenshots to 'assets' folder in WP.org SVN to reduce plugin package size.
-
-= 1.0.0 (2012-08-28) =
-* Initial release
-* Including support for 4 Multisite aware plugins
-* Including support for 7 site specific plugins
+= Older Changelogs =
+See packaged `changelog.txt` file in the plugin folder.
 
 == Upgrade Notice ==
 
-= 1.7.0 =
-Several Additions & Improvements: Improved custom Nav Menu support; updated & extended plugin support. Updated German translations as well as .pot file for translators.
-
-= 1.6.1 =
-Several Additions & Improvements: Some WordPress 3.7+ compat tweaks. Bugfixes. Updated & extended plugin support, plus German translations as well as .pot file for translators.
-
-= 1.6.0 =
-Several Additions & Improvements: Some WordPress 3.7+ compat tweaks. Updated & extended plugin support, plus German translations as well as .pot file for translators.
+= 1.9.0 =
+Maintenance release.
 
 == Plugin Links ==
-* [Translations (GlotPress)](http://translate.wpautobahn.com/projects/wordpress-plugins-deckerweb/multisite-toolbar-additions)
-* [User support forums](http://wordpress.org/support/plugin/multisite-toolbar-additions)
+* [Translations (WordPress.org Translations Portal)](https://translate.wordpress.org/projects/wp-plugins/multisite-toolbar-additions)
+* [User support forums](https://wordpress.org/support/plugin/multisite-toolbar-additions)
 * [Code snippets archive for customizing, GitHub Gist](https://gist.github.com/deckerweb/3498510)
 
 == Donate ==
-Enjoy using *Multisite Toolbar Additions*? Please consider [making a small donation](http://genesisthemes.de/en/donate/) to support the project's continued development.
+Enjoy using *Multisite Toolbar Additions*? **[Please consider making a donation](https://www.paypal.me/deckerweb)** - every donation helps to support the project's continued development, maintenance and support.
+**Thank you very much in advance for your support!**
 
 == Translations ==
 
 * English - default, always included
-* German (de_DE): Deutsch - immer dabei! [Download auch via deckerweb.de](http://deckerweb.de/material/sprachdateien/genesis-plugins/#multisite-toolbar-additions)
+* German (de_DE): Deutsch - immer dabei!
 * For custom and update-secure language files please upload them to `/wp-content/languages/multisite-toolbar-additions/` (just create this folder) - This enables you to use fully custom translations that won't be overridden on plugin updates. Also, complete custom English wording is possible with that as well, just use a language file like `multisite-toolbar-additions-en_US.mo/.po` to achieve that (for creating one see the following tools).
 
-**Easy plugin translation platform with GlotPress tool:** [**Translate "Multisite Toolbar Additions"...**](http://translate.wpautobahn.com/projects/wordpress-plugins-deckerweb/multisite-toolbar-additions)
+**Easy plugin translation platform with GlotPress tool:** [**Translate "Multisite Toolbar Additions"...**](https://translate.wordpress.org/projects/wp-plugins/multisite-toolbar-additions)
 
-*Note:* All my plugins are internationalized/ translateable by default. This is very important for all users worldwide. So please contribute your language to the plugin to make it even more useful. For translating I recommend the awesome ["Codestyling Localization" plugin](http://wordpress.org/plugins/codestyling-localization/) and for validating the ["Poedit Editor"](http://www.poedit.net/), which works fine on Windows, Mac and Linux.
+*Note:* All my plugins are internationalized/ translateable by default. This is very important for all users worldwide. So please contribute your language to the plugin to make it even more useful. For translating and validating I recommend the awesome ["Poedit Editor"](https://www.poedit.net/), which works fine on Windows, macOS and Linux.
 
 == Additional Info ==
 **Idea Behind / Philosophy:** Just a little lightweight plugin for all the Multisite Super Admins out there to make their daily network admin life a bit easier. I'll try to add more plugin support if it makes some sense. So stay tuned :).

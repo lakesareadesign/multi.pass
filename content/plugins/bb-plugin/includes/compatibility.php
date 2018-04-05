@@ -323,3 +323,10 @@ function fl_fix_nextgen_gallery() {
 		define( 'NGG_DISABLE_RESOURCE_MANAGER', true );
 	}
 }
+add_action( 'template_redirect', 'fl_fix_tasty_recipes' );
+function fl_fix_tasty_recipes() {
+	if ( FLBuilderModel::is_builder_active() ) {
+		remove_action( 'wp_enqueue_editor', array( 'Tasty_Recipes\Assets', 'action_wp_enqueue_editor' ) );
+		remove_action( 'media_buttons',     array( 'Tasty_Recipes\Editor', 'action_media_buttons' ) );
+	}
+}

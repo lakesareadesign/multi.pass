@@ -5,10 +5,10 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Plugin/Extension Support
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2012-2014, David Decker - DECKERWEB
- * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
- * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
- * @link       http://deckerweb.de/twitter
+ * @copyright  Copyright (c) 2012-2018, David Decker - DECKERWEB
+ * @license    https://opensource.org/licenses/GPL-2.0 GPL-2.0+
+ * @link       https://github.com/deckerweb/multisite-toolbar-additions
+ * @link       https://deckerweb.de/twitter
  *
  * @since      1.6.0
  */
@@ -18,7 +18,7 @@
  *
  * @since 1.6.0
  */
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -37,7 +37,20 @@ if ( is_multisite() ) {
 		'parent' => $networkextgroup,
 		'title'  => __( 'Quick Cache Options', 'multisite-toolbar-additions' ),
 		'href'   => network_admin_url( 'admin.php?page=quick_cache' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Quick Cache Options', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Quick Cache Options', 'multisite-toolbar-additions' )
+		)
+	);
+
+	$mstba_tb_items[ 'networkext_quickcache_updater' ] = array(
+		'parent' => $networkext_quickcache,
+		'title'  => __( 'Plugin Updater', 'multisite-toolbar-additions' ),
+		'href'   => network_admin_url( 'admin.php?page=quick_cache-update-sync' ),
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Plugin Updater', 'multisite-toolbar-additions' )
+		)
 	);
 
 }
@@ -49,7 +62,20 @@ else {
 		'parent' => $siteextgroup,
 		'title'  => __( 'Quick Cache Options', 'multisite-toolbar-additions' ),
 		'href'   => admin_url( 'admin.php?page=quick_cache' ),
-		'meta'   => array( 'target' => '', 'title' => __( 'Quick Cache Options', 'multisite-toolbar-additions' ) )
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Quick Cache Options', 'multisite-toolbar-additions' )
+		)
+	);
+
+	$mstba_tb_items[ 'siteext_quickcache_updater' ] = array(
+		'parent' => $siteext_quickcache,
+		'title'  => __( 'Plugin Updater', 'multisite-toolbar-additions' ),
+		'href'   => admin_url( 'admin.php?page=quick_cache-update-sync' ),
+		'meta'   => array(
+			'target' => '',
+			'title'  => __( 'Plugin Updater', 'multisite-toolbar-additions' )
+		)
 	);
 
 }  // end-if multisite check

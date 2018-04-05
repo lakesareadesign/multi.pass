@@ -79,6 +79,8 @@ class Smartcrawl_Controller_IO extends Smartcrawl_WorkUnit {
 	private function _add_hooks() {
 
 		add_action( 'admin_init', array( $this, 'dispatch_actions' ) );
+		add_action( 'wp_ajax_import_yoast_data', array($this, 'import_yoast_data') );
+		add_action( 'wp_ajax_import_aioseop_data', array($this, 'import_aioseop_data') );
 
 		return ! ! $this->_is_running = true;
 	}
@@ -265,4 +267,89 @@ class Smartcrawl_Controller_IO extends Smartcrawl_WorkUnit {
 		return true;
 	}
 
+	private function user_has_permission_to_import()
+	{
+		if (!is_network_admin() && !is_admin()) {
+			return false;
+		}
+		if (is_network_admin() && !current_user_can('manage_network_options')) {
+			return false;
+		}
+		if (is_admin() && !current_user_can('manage_options')) {
+			return false;
+		}
+
+		return true;
+	}
+
+	function import_yoast_data()
+	{
+		$this->do_import($this->get_yoast_importer(), 'yoast');
+	}
+
+	function import_aioseop_data()
+	{
+		$this->do_import($this->get_aioseop_importer(), 'aioseop');
+	}
+
+	/**
+	 * @param $importer SmartCrawl_Importer
+	 * @param $plugin
+	 */
+	private function do_import($importer, $plugin)
+	{
+		$result = array(
+			'success' => false,
+			'url'     => $this->get_success_url($plugin)
+		);
+
+		if (!$this->user_has_permission_to_import()) {
+			$result['message'] = __("You don't have permission to perform this operation.", 'wds');
+			die(json_encode($result));
+		}
+
+		if (!$importer->data_exists()) {
+			$result['message'] = __("We couldn't find any compatible data to import.", 'wds');
+			die(json_encode($result));
+		}
+
+		if (is_multisite()) {
+			$importer->import_for_all_sites();
+			$in_progress = $importer->is_network_import_in_progress();
+		} else {
+			$importer->import();
+			$in_progress = $importer->is_import_in_progress();
+		}
+		$result['success'] = true;
+		$result['in_progress'] = $in_progress;
+
+		die(json_encode($result));
+	}
+
+	private function get_yoast_importer()
+	{
+		if (!class_exists('SmartCrawl_Yoast_Importer')) {
+			require_once 'class_wds_yoast_importer.php';
+		}
+
+		return new SmartCrawl_Yoast_Importer();
+	}
+
+	private function get_aioseop_importer()
+	{
+		if (!class_exists('SmartCrawl_AIOSEOP_Importer')) {
+			require_once 'class_wds_aioseop_importer.php';
+		}
+
+		return new SmartCrawl_AIOSEOP_Importer();
+	}
+
+	private function get_success_url($plugin)
+	{
+		if (!class_exists('Smartcrawl_Settings_Admin')) {
+			require_once SMARTCRAWL_PLUGIN_DIR . 'admin/settings.php';
+		}
+
+		return Smartcrawl_Settings_Admin::admin_url(Smartcrawl_Settings::TAB_SETTINGS) . "&imported=true&plugin={$plugin}#tab_import_export";
+	}
 }

@@ -76,6 +76,7 @@
 				waitText    	= submitButton.closest( '.fl-form-button' ).data( 'wait-text' ),
 				name        	= currentForm.find( 'input[name=fl-subscribe-form-name]' ),
 				email       	= currentForm.find( 'input[name=fl-subscribe-form-email]' ),
+				termsCheckbox   = currentForm.find( 'input[name=fl-terms-checkbox]'),
 				recaptcha 		= currentForm.find( '.fl-grecaptcha' ),
 				reCaptchaValue	= recaptcha.data( 'fl-grecaptcha-response' ),
 				re          	= /\S+@\S+\.\S+/,
@@ -97,6 +98,18 @@
 				email.addClass( 'fl-form-error' );
 				email.siblings( '.fl-form-error-message' ).show();
 				valid = false;
+			}
+
+			if ( termsCheckbox.length ) {
+				if ( ! termsCheckbox.is(':checked') ) {
+					valid = false;
+					termsCheckbox.addClass( 'fl-form-error' );
+					termsCheckbox.parent().siblings( '.fl-form-error-message' ).show();
+				}
+				else {
+					termsCheckbox.removeClass( 'fl-form-error' );
+					termsCheckbox.parent().siblings( '.fl-form-error-message' ).hide();
+				}
 			}
 
 			if ( recaptcha.length > 0 && valid ) {
@@ -128,6 +141,7 @@
 					action  			: 'fl_builder_subscribe_form_submit',
 					name    			: name.val(),
 					email   			: email.val(),
+					terms_checked       : termsCheckbox.is(':checked') ? '1' : '0',
 					post_id 			: postId,
 					template_id 		: templateId,
 					template_node_id 	: templateNodeId,

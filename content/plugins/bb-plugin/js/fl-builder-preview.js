@@ -1838,6 +1838,7 @@
 				break;
 
 				case 'unit':
+				case 'dimension':
 					field.find('input[type=number]').on('keyup', callback);
 				break;
 
@@ -2149,6 +2150,10 @@
 					field.find( 'input[type=number]' ).on( 'keyup', $.proxy( this._previewCSS, this, preview ) );
 				break;
 
+				case 'dimension':
+					field.find( 'input[type=number]' ).on( 'keyup', $.proxy( this._previewDimensionCSS, this, preview ) );
+				break;
+
 				case 'select':
 					field.find( 'select' ).on( 'change', $.proxy( this._previewCSS, this, preview ) );
 				break;
@@ -2189,6 +2194,30 @@
 			else {
 				this.updateCSSRule( selector, property, value );
 			}
+		},
+
+		/**
+		 * Updates the CSS rule for a dimension field preview.
+		 *
+		 * @since 2.0.7
+		 * @access private
+		 * @method _previewDimensionCSS
+		 * @param {Object} preview A preview object.
+		 * @param {Object} e An event object.
+		 */
+		_previewDimensionCSS: function( preview, e )
+		{
+			var dimensionPreview = $.extend( {}, preview ),
+				property = dimensionPreview.property,
+				unit = $( e.target ).data( 'unit' );
+
+			if ( 'border-width' === property ) {
+				dimensionPreview.property = 'border-' + unit + '-width';
+			} else {
+				dimensionPreview.property = property + '-' + unit;
+			}
+
+			this._previewCSS( dimensionPreview, e );
 		},
 
 		/**

@@ -3,7 +3,7 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorho
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation, form administration,
 Requires at least: 4.7
 Tested up to: 4.9
-Stable tag: 3.2.17
+Stable tag: 3.2.18
 License: GPLv2 or later
 
 Drag and drop fields in an intuitive UI to create contact forms, email subscription forms, order forms, payment forms, send emails and more!
@@ -111,10 +111,11 @@ For help and video tutorials, please visit our website: [Ninja Forms Documentati
 
 == Upgrade Notice ==
 
-= 3.2.17 (26 March 2018) =
+= 3.2.18 (27 March 2018) =
 
 *Bugs:*
 
+* Resolved an issue that was preventing merge tags from being properly input into some settings.
 * Form data should now be properly deleted when rolling back to 2.9x and then re-upgrading.
 * Resolved an issue that was causing the first publish after upgrade to fail.
 * Forms set to clear but not hide after submission should now properly show reCaptcha fields after the clear.
@@ -134,6 +135,12 @@ For help and video tutorials, please visit our website: [Ninja Forms Documentati
 * List values now have a more strict filter to prevent errors caused by special characters.
 
 == Changelog ==
+
+= 3.2.18 (27 March 2018) =
+
+*Bugs:*
+
+* Resolved an issue that was preventing merge tags from being properly input into some settings.
 
 = 3.2.17 (26 March 2018) =
 

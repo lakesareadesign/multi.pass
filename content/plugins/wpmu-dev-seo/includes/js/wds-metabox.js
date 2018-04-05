@@ -100,6 +100,11 @@
 				((data || {}).postbox_fields || '')
 			);
 
+			// Enable the refresh button.
+			if (focus_keywords.length) {
+				$(".wds-refresh-analysis", $metabox).attr('disabled', false);
+			}
+
 			update_metabox_state();
 		});
 	}
@@ -108,6 +113,32 @@
 		render_update({
 			autosave_update: true
 		});
+	}
+
+	function render_update_refresh_click() {
+		var $metabox = $("#wds-wds-meta-box"),
+			$seo_report = $('.wds-report .wds-accordion', $metabox),
+			$seo_notification = $('.wds-nav-item.active label .wds-issues')
+		;
+		if ($('.wds-analysis-working', $metabox).length) {
+			// We're already working, pass.
+			return false;
+		}
+		$seo_report.hide();
+		$seo_notification.attr('class', 'wds-issues wds-item-loading');
+		$seo_report.after('<div class="wds-analysis-working"><p>' + l10nWdsMetabox.content_analysis_working + '</p></div>');
+
+		var cback = function() {
+			render_update({autosave_update: true}).always(function() {
+				$seo_report.show();
+				$('.wds-analysis-working', $metabox).remove();
+			});
+		};
+		var save = (((wp || {}).autosave || {}).server || {}).triggerSave;
+		if (save) {
+			$(document).one('ajaxComplete', cback);
+			wp.autosave.server.triggerSave();
+		} else cback();
 	}
 
 	function before_ajax_request($target_element) {
@@ -268,9 +299,28 @@
 			.on('click', '#wds-wds-meta-box a[href="#reload"]', handle_update)
 			.on('input propertychange', '.wds-focus-keyword input', _.debounce(save_focus_keywords, 2000))
 			.on('input propertychange', '.wds-meta-field', _.debounce(refresh_preview, 2000))
+
+			// Refresh analysis button handler (both SEO and readability)
+			.on('click', '.wds-refresh-analysis', render_update_refresh_click)
 		;
 		update_metabox_state();
 		hook_select2();
+
+		/**
+		 * Set cookie value each time the metabox is toggled.
+		 */
+		$("#wds-wds-meta-box").on('click', function() {
+			if ($(this).is(".closed")) {
+				window.Wds.set_cookie('wds-seo-metabox', '');
+			} else {
+				window.Wds.set_cookie('wds-seo-metabox', 'open');
+			}
+		});
+		// Set metabox state on page load based on cookie value.
+		// Fixes: https://app.asana.com/0/0/580085427092951/f
+		if ('open' === window.Wds.get_cookie('wds-seo-metabox')) {
+			$("#wds-wds-meta-box").removeClass('closed');
+		}
 	}
 
 	$(init);

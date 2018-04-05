@@ -41,6 +41,7 @@
 	margin: 15px 0;
 	border-bottom: 1px solid #ccc;
 }
+
 /* Instagram btn */
 #sbi_admin .sbi_admin_btn{
 	display: block;
@@ -92,6 +93,9 @@
      margin-left: 5px;
      border-radius: 3px;
  }
+#sbi_admin .sbi-customize-tab-opt .sbi-success {
+	top: 5px;
+}
 #sbi_admin .sbi_note{
 	font-size: 12px;
 	font-style: italic;
@@ -306,7 +310,8 @@
 	padding: 5px 0;
 	font-size: 13px;
 }
-#sbi_admin .sbi_user_id_error{
+#sbi_admin .sbi_user_id_error,
+#sbi_admin .sbi_other_user_error{
 	display: none;
 
 	margin: 10px 0;

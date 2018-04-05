@@ -5,6 +5,10 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+1.5.6 - 04/03/2018
+----------------------------------------------------------------------
+- Fix: UX showing as domain registered when it really wasn't completely. Visit settings page to fix any no-access errors.
+
 1.5.5 - 12/2/2017
 ----------------------------------------------------------------------
 - Fix: WP 4.9 compatibility update - workaround for Referrer-Policy:same-origin header
@@ -141,4 +145,4 @@ Change Log:
 - Initial Release
 
 
-133620-1512408127-au
+133620-1522806834-au

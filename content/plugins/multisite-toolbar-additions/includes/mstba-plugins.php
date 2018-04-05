@@ -5,10 +5,10 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Plugin/Extension Support
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2012-2014, David Decker - DECKERWEB
- * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
- * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
- * @link       http://deckerweb.de/twitter
+ * @copyright  Copyright (c) 2012-2018, David Decker - DECKERWEB
+ * @license    https://opensource.org/licenses/GPL-2.0 GPL-2.0+
+ * @link       https://github.com/deckerweb/multisite-toolbar-additions
+ * @link       https://deckerweb.de/twitter
  *
  * @since      1.0.0
  */
@@ -18,7 +18,7 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -47,7 +47,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Smart Admin Tweaks plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smartadmintweaks.php' );
 
-	}  // end-if Smart Admin Tweaks
+	}  // end if Smart Admin Tweaks
 
 
 	/**
@@ -60,7 +60,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Smart CRON Tools plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smartcrontools.php' );
 
-	}  // end-if Smart CRON Tools
+	}  // end if Smart CRON Tools
 
 
 	/**
@@ -73,7 +73,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Smart Cleanup Tools plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smartcleanuptools.php' );
 
-	}  // end-if Smart Cleanup Tools
+	}  // end if Smart Cleanup Tools
 
 
 	/**
@@ -81,12 +81,12 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 	 *
 	 * @since 1.5.1
 	 */
-	if ( defined( 'SET_WP_CRON' ) ) {
+	if ( defined( 'SSECT_WP_CRON' ) ) {
 
 		/** Include code part for Smart Security Tools plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smartsecuritytools.php' );
 
-	}  // end-if Smart Security Tools
+	}  // end if Smart Security Tools
 
 
 	/**
@@ -99,7 +99,33 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Smart Options Optimizer plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smartoptionsoptimizer.php' );
 
-	}  // end-if Smart Options Optimizer
+	}  // end if Smart Options Optimizer
+
+
+	/**
+	 * iThemes Security (free, by iThemes)
+	 *
+	 * @since 1.7.1
+	 */
+	if ( class_exists( 'ITSEC_One_Version' ) && current_user_can( 'manage_options' ) ) {
+
+		/** Include code part for iThemes Security plugin support */
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-ithemessecurity.php' );
+
+	}  // end if iThemes Security
+
+
+	/**
+	 * iThemes Security (premium, by iThemes)
+	 *
+	 * @since 1.7.1
+	 */
+	if ( class_exists( 'ITSEC_One_Version_Pro' ) && current_user_can( 'manage_options' ) ) {
+
+		/** Include code part for iThemes Security plugin support */
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-ithemessecuritypro.php' );
+
+	}  // end if iThemes Security Pro
 
 
 	/**
@@ -112,7 +138,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Better WP Security plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-betterwpsecurity.php' );
 
-	}  // end-if Better WP Security
+	}  // end if Better WP Security
 
 
 	/**
@@ -125,7 +151,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Snapshot plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-snapshot.php' );
 
-	}  // end-if Snapshot
+	}  // end if Snapshot
 
 
 	/**
@@ -138,7 +164,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for BackWPup v3.x plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-backwpup3x.php' );
 
-	}  // end-if BackWPup 3.x check
+	}  // end if BackWPup 3.x check
 
 
 	/**
@@ -157,9 +183,9 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			/** Include code part for BackWPup v2.x plugin support */
 			require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-backwpup.php' );
 
-		}  // end-if options check
+		}  // end if options check
 
-	}  // end-if BackWPup v2.x
+	}  // end if BackWPup v2.x
 
 
 	/**
@@ -172,7 +198,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Quick Cache plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-quickcache.php' );
 
-	}  // end-if Quick Cache
+	}  // end if Quick Cache
 
 
 	/**
@@ -190,7 +216,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Quick Cache plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-quickcache-pro.php' );
 
-	}  // end-if Quick Cache 2013/Pro
+	}  // end if Quick Cache 2013/Pro
 
 
 	/**
@@ -206,7 +232,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for WP Super Cache plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-wpsupercache.php' );
 
-	}  // end-if WP Super Cache
+	}  // end if WP Super Cache
 
 
 	/**
@@ -219,7 +245,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for WP-Piwik plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-wppiwik.php' );
 
-	}  // end-if WP-Piwik
+	}  // end if WP-Piwik
 
 
 	/**
@@ -234,7 +260,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Code Snippets plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-codesnippets.php' );
 
-	}  // end-if Code Snippets
+	}  // end if Code Snippets
 
 
 	/**
@@ -247,7 +273,20 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for WP MU Domain Mapping plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-wpmudomainmapping.php' );
 
-	}  // end-if Multisite Robots.txt Manager
+	}  // end if Multisite Robots.txt Manager
+
+
+	/**
+	 * Smart Robots.txt Tools (premium, by Smart Plugins/ Milan Petrovic)
+	 *
+	 * @since 1.8.0
+	 */
+	if ( class_exists( 'srtt_loader' ) ) {
+
+		/** Include code part for Smart Robots.txt Tools plugin support */
+		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smartrobotstxttools.php' );
+
+	}  // end if Smart Robots.txt Tools
 
 
 	/**
@@ -265,7 +304,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for MS Robots.txt Manager plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-msrobotstxt.php' );
 
-	}  // end-if Multisite Robots.txt Manager
+	}  // end if Multisite Robots.txt Manager
 
 
 	/**
@@ -282,7 +321,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => _x( 'Multisite Maintenance Mode', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if WPMS Site Maintenance Mode
+	}  // end if WPMS Site Maintenance Mode
 
 
 	/**
@@ -313,7 +352,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'User Messages', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Organizational Message Notifier
+	}  // end if Organizational Message Notifier
 
 
 	/**
@@ -331,7 +370,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => _x( 'Login Security Solution', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Login Security Solution
+	}  // end if Login Security Solution
 
 
 	/**
@@ -344,7 +383,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Hide My WP plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-hidemywp.php' );
 
-	}  // end-if Hide My WP
+	}  // end if Hide My WP
 
 
 	/**
@@ -357,7 +396,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Ultimate Branding plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-ultimatebranding.php' );
 
-	}  // end-if Ultimate Branding
+	}  // end if Ultimate Branding
 
 
 	/**
@@ -384,9 +423,9 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 				'meta'   => array( 'target' => '', 'title' => _x( 'Blog Copier - Clone Website (Sub Site)', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 			);
 
-		}  // end-if is_network_admin() check
+		}  // end if is_network_admin() check
 
-	}  // end-if Blog Copier
+	}  // end if Blog Copier
 
 
 	/**
@@ -413,9 +452,9 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 				'meta'   => array( 'target' => '', 'title' => _x( 'NS Cloner - Clone Website (Sub Site)', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 			);
 
-		}  // end-if is_network_admin() check
+		}  // end if is_network_admin() check
 
-	}  // end-if NS Cloner
+	}  // end if NS Cloner
 
 
 	/**
@@ -442,9 +481,9 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 				'meta'   => array( 'target' => '', 'title' => _x( 'NS Cloner Pro - Clone Website (Sub Sites)', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 			);
 
-		}  // end-if is_network_admin() check
+		}  // end if is_network_admin() check
 
-	}  // end-if NS Cloner Pro
+	}  // end if NS Cloner Pro
 
 
 	/**
@@ -457,7 +496,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for WP Migrate DB Pro support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-wpmigratedbpro.php' );
 
-	}  // end-if WP Migrate DB Pro
+	}  // end if WP Migrate DB Pro
 
 
 	/**
@@ -470,7 +509,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Simple System Info plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-simplesysteminfo.php' );
 
-	}  // end-if Simple System Info
+	}  // end if Simple System Info
 
 
 /**
@@ -499,7 +538,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'Add new Repository', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Installer
+	}  // end if Installer
 
 
 	/**
@@ -533,9 +572,9 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 				'meta'   => array( 'target' => '', 'title' => __( 'Import/ Export', 'multisite-toolbar-additions' ) )
 			);
 
-		}  // end-if cap check
+		}  // end if cap check
 
-	}  // end-if Code With WP Custom Snippets
+	}  // end if Code With WP Custom Snippets
 
 
 	/**
@@ -552,7 +591,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'Toolbox Modules', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Toolbox
+	}  // end if Toolbox
 
 
 	/**
@@ -579,9 +618,9 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 				'meta'   => array( 'target' => '', 'title' => __( 'User Searches', 'multisite-toolbar-additions' ) )
 			);
 
-		}  // end-if relevanssi option check
+		}  // end if relevanssi option check
 
-	}  // end-if Relevanssi
+	}  // end if Relevanssi
 
 
 	/**
@@ -598,7 +637,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'Multisite Language Switcher', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Multisite Language Switcher
+	}  // end if Multisite Language Switcher
 
 
 	/**
@@ -615,7 +654,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'Howdy Tweaks', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Howdy Tweaks
+	}  // end if Howdy Tweaks
 
 
 	/**
@@ -632,7 +671,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'White Label CMS', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if White Label CMS
+	}  // end if White Label CMS
 
 
 	/**
@@ -649,7 +688,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'Cachify Settings', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Cachify
+	}  // end if Cachify
 
 
 	/**
@@ -666,7 +705,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'Hyper Cache', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Hyper Cache
+	}  // end if Hyper Cache
 
 
 	/**
@@ -683,7 +722,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'Hyper Cache Extended', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Hyper Cache Extended
+	}  // end if Hyper Cache Extended
 
 
 	/**
@@ -700,7 +739,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => _x( 'Codestyling Localization - Manage Translations', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Codestyling Localization
+	}  // end if Codestyling Localization
 
 
 	/**
@@ -713,7 +752,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for P3 plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-p3profiler.php' );
 
-	}  // end-if P3 (Plugin Performance Profiler)
+	}  // end if P3 (Plugin Performance Profiler)
 
 
 	/**
@@ -730,7 +769,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'Limit Login Attempts', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Limit Login Attempts
+	}  // end if Limit Login Attempts
 
 
 	/**
@@ -748,7 +787,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => _x( 'Login Security Solution', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Login Security Solution
+	}  // end if Login Security Solution
 
 
 	/**
@@ -763,7 +802,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for Stream plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-stream.php' );
 
-	}  // end-if Stream
+	}  // end if Stream
 
 
 	/**
@@ -783,7 +822,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			)
 		);
 
-	}  // end-if Snitch
+	}  // end if Snitch
 
 
 	/**
@@ -799,7 +838,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 		/** Include code part for WPMS Admin Reports plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-wpmsadminreports.php' );
 
-	}  // end-if WPMS Admin Reports
+	}  // end if WPMS Admin Reports
 
 
 	/**
@@ -816,7 +855,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'Migrate Database', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if WP Migrate DB
+	}  // end if WP Migrate DB
 
 
 	/**
@@ -849,7 +888,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 				'meta'   => array( 'target' => '', 'title' => __( 'Info &amp; Credits', 'multisite-toolbar-additions' ) )
 			);
 
-	}  // end-if WP-Optimize
+	}  // end if WP-Optimize
 
 
 	/**
@@ -873,7 +912,7 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 				'meta'   => array( 'target' => '', 'title' => __( 'Settings', 'multisite-toolbar-additions' ) )
 			);
 
-	}  // end-if Optimize Database after Deleting Revisions
+	}  // end if Optimize Database after Deleting Revisions
 
 
 /**
@@ -899,9 +938,9 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 				'meta'   => array( 'target' => '', 'title' => _x( 'Entire Network - User Bulk Actions', 'Translators: for the tooltip', 'multisite-toolbar-additions' ) )
 			);
 
-		}  // end-if plugin & cap check
+		}  // end if plugin & cap check
 
-	}  // end-if User Management Tools (network activated)
+	}  // end if User Management Tools (network activated)
 
 
 	/**
@@ -922,9 +961,9 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 				'meta'   => array( 'target' => '', 'title' => __( 'Network Mass Email', 'multisite-toolbar-additions' ) )
 			);
 
-		}  // end-if plugin & cap check
+		}  // end if plugin & cap check
 
-	}  // end-if Network Mass Email (network activated)
+	}  // end if Network Mass Email (network activated)
 
 
 	/**
@@ -941,4 +980,4 @@ $mstba_multisite_check = is_multisite() ? _x( 'Site', 'Translators: For sitewide
 			'meta'   => array( 'target' => '', 'title' => __( 'Tabify Edit Screens', 'multisite-toolbar-additions' ) )
 		);
 
-	}  // end-if Tabify Edit Screen
+	}  // end if Tabify Edit Screen

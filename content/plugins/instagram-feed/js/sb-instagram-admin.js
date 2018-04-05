@@ -39,6 +39,24 @@ jQuery(document).ready(function($) {
 		jQuery('#sb_instagram_at').val(token);
 		sbSaveToken(token);
 	});
+
+    //clear backup caches
+    jQuery('#sbi_clear_backups').click(function(event) {
+        jQuery('.sbi-success').remove();
+        event.preventDefault();
+        jQuery.ajax({
+            url: sbiA.ajax_url,
+            type: 'post',
+            data: {
+                action: 'sbi_clear_backups',
+                access_token: token,
+                just_tokens: true
+            },
+            success: function (data) {
+                jQuery('#sbi_clear_backups').after('<span class="sbi-success"><i class="fa fa-check-circle"></i></span>');
+            }
+        });
+    });
 	
 	//Tooltips
 	jQuery('#sbi_admin .sbi_tooltip_link').click(function(){
@@ -70,7 +88,8 @@ jQuery(document).ready(function($) {
 	jQuery("#sb_instagram_user_id").change(function() {
 
 		var sbi_user_id = jQuery('#sb_instagram_user_id').val(),
-			$sbi_user_id_error = $(this).closest('td').find('.sbi_user_id_error');
+			$sbi_user_id_error = $(this).closest('td').find('.sbi_user_id_error'),
+			$sbi_other_user_error = $(this).closest('td').find('.sbi_other_user_error');
 
 		if (sbi_user_id.match(/[^0-9, _.-]/)) {
   			$sbi_user_id_error.fadeIn();
@@ -78,7 +97,21 @@ jQuery(document).ready(function($) {
   			$sbi_user_id_error.fadeOut();
   		}
 
+  		//Check whether an ID from another account is being used
+  		sbi_check_other_user_id(sbi_user_id, $sbi_other_user_error);
+
 	});
+	function sbi_check_other_user_id(sbi_user_id, $sbi_other_user_error){
+		if (jQuery('#sb_instagram_at').length && jQuery('#sb_instagram_at').val() !== '' && sbi_user_id.length) {
+            if(jQuery('#sb_instagram_at').val().indexOf(sbi_user_id) == -1 ){
+                $sbi_other_user_error.fadeIn();
+            } else {
+                $sbi_other_user_error.fadeOut();
+            }
+		}
+	}
+	//Check initially when settings load
+	sbi_check_other_user_id( jQuery('#sb_instagram_user_id').val(), $('td').find('.sbi_other_user_error') );
 
 	//Mobile width
 	var sb_instagram_feed_width = jQuery('#sbi_admin #sb_instagram_width').val(),

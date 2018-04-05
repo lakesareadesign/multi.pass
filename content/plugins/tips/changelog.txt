@@ -2,6 +2,9 @@
 
 == Changelog ==
 
+= 1.0.7.7 =
+* Fix: PHP error : Trying to get property of non-object
+
 = 1.0.7.6 =
 * Tips not working in single
 
@@ -47,4 +50,4 @@
 * Initial Release
 
 
-133620-1423010570-ai
+133620-1522806780-au

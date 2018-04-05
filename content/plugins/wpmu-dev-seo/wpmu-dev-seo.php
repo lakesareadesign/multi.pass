@@ -3,7 +3,7 @@
  * Plugin Name: SmartCrawl
  * Plugin URI: http://premium.wpmudev.org/project/wpmu-dev-seo/
  * Description: Every SEO option that a site requires, in one easy bundle.
- * Version: 2.1.1
+ * Version: 2.2.1
  * Network: true
  * Text Domain: wds
  * Author: WPMU DEV

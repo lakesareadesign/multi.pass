@@ -26,6 +26,7 @@ var responsive = data.name.replace( data.rootName, '' );
 		name="{{data.rootName}}_top{{responsive}}"
 		value="{{data.settings[ data.rootName + '_top' + responsive ]}}"
 		placeholder="{{placeholder.top}}"
+		data-unit="top"
 		/>
 		<label><?php _e( 'Top', 'fl-builder' ); ?></label>
 	</div>
@@ -35,6 +36,7 @@ var responsive = data.name.replace( data.rootName, '' );
 		name="{{data.rootName}}_right{{responsive}}"
 		value="{{data.settings[ data.rootName + '_right' + responsive ]}}"
 		placeholder="{{placeholder.right}}"
+		data-unit="right"
 		/>
 		<label><?php _e( 'Right', 'fl-builder' ); ?></label>
 	</div>
@@ -44,6 +46,7 @@ var responsive = data.name.replace( data.rootName, '' );
 		name="{{data.rootName}}_bottom{{responsive}}"
 		value="{{data.settings[ data.rootName + '_bottom' + responsive ]}}"
 		placeholder="{{placeholder.bottom}}"
+		data-unit="bottom"
 		/>
 		<label><?php _e( 'Bottom', 'fl-builder' ); ?></label>
 	</div>
@@ -53,6 +56,7 @@ var responsive = data.name.replace( data.rootName, '' );
 		name="{{data.rootName}}_left{{responsive}}"
 		value="{{data.settings[ data.rootName + '_left' + responsive ]}}"
 		placeholder="{{placeholder.left}}"
+		data-unit="left"
 		/>
 		<label><?php _e( 'Left', 'fl-builder' ); ?></label>
 	</div>

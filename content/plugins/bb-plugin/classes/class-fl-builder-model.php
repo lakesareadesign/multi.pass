@@ -2767,7 +2767,7 @@ final class FLBuilderModel {
 				continue;
 			}
 
-			$module = (object) $module;
+			$module = clone (object) $module;
 			$module->kind = 'module';
 			$module->isWidget = false; // @codingStandardsIgnoreLine
 			$module->isAlias = false; // @codingStandardsIgnoreLine

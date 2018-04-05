@@ -1,7 +1,13 @@
 <?php $post = empty( $post ) ? null : $post; ?>
 
 <div class="wds-seo-analysis-container">
-	<label class="wds-label"><?php esc_html_e( 'SEO Analysis', 'wds' ); ?></label>
+	<div class="cf wds-seo-analysis-label">
+		<label class="wds-label"><?php esc_html_e( 'SEO Analysis', 'wds' ); ?></label>
+
+		<button class="button button-small button-dark button-dark-o wds-refresh-analysis wds-analysis-seo" <?php if ('auto-draft' === get_post_status()) { echo 'disabled'; } ?> type="button">
+			<span><?php esc_html_e('Refresh', 'wds'); ?></span>
+		</button>
+	</div>
 
 	<?php
 		$this->_render('mascot-message', array(

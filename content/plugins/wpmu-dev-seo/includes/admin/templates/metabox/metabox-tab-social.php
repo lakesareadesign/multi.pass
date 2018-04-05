@@ -3,6 +3,7 @@
 	$og_setting_enabled = empty( $og_setting_enabled ) ? false : $og_setting_enabled;
 	$og_post_type_enabled = empty( $og_post_type_enabled ) ? false : $og_post_type_enabled;
 	$twitter_setting_enabled = empty( $twitter_setting_enabled ) ? false : $twitter_setting_enabled;
+	$twitter_post_type_enabled = empty( $twitter_post_type_enabled ) ? false : $twitter_post_type_enabled;
 
 if ( ! is_a( $post, 'WP_Post' ) ) {
 	return;
@@ -32,6 +33,7 @@ if ( ! is_array( $og ) ) {
 	$twitter = wp_parse_args($twitter, array(
 		'title'       => false,
 		'description' => false,
+		'images'      => false,
 		'disabled'    => false,
 	));
 
@@ -56,122 +58,39 @@ if ( ! is_array( $og ) ) {
 		?>
 	</p>
 	<?php if ( $og_setting_enabled && $og_post_type_enabled ) :  ?>
-		<div class="wds-table-fields-group wds-separator-top">
-			<div class="wds-table-fields">
-				<div class="label">
-					<label class="wds-label"><?php esc_html_e( 'OpenGraph', 'wds' ); ?></label>
-					<p class="wds-label-description"><?php esc_html_e( 'OpenGraph is used on many social networks such as Facebook.', 'wds' ); ?></p>
-				</div>
-				<div class="fields">
-					<div class="wds-toggleable inverted <?php echo $og_meta_disabled ? 'inactive' : ''; ?>">
-							<?php
-								$this->_render('toggle-item', array(
-									'inverted'   => true,
-									'field_name' => 'wds-opengraph[disabled]',
-									'checked'    => checked( $og_meta_disabled, true, false ),
-									'item_label' => esc_html__( 'Enable OpenGraph for this post', 'wds' ),
-								));
-							?>
-							<div class="wds-toggleable-inside wds-toggleable-inside-box wds-table-fields-group wds-opengraph-meta">
-								<div class="wds-table-fields wds-table-fields-stacked">
-									<div class="label">
-										<label for="og-title" class="wds-label"><?php esc_html_e( 'Title', 'wds' ); ?></label>
-									</div>
-									<div class="fields">
-										<input type="text"
-											   id="og-title"
-											   name="wds-opengraph[title]"
-											   placeholder="<?php echo $og['title'] ? '' : esc_attr( smartcrawl_replace_vars( $og_printer->get_tag_value( 'title' ), $post ) ); ?>"
-											   value="<?php echo esc_attr( $og['title'] ); ?>"/>
-									</div>
-								</div>
-
-								<div class="wds-table-fields wds-table-fields-stacked">
-									<div class="label">
-										<label for="og-description" class="wds-label"><?php esc_html_e( 'Description', 'wds' ); ?></label>
-									</div>
-									<div class="fields">
-										<textarea name="wds-opengraph[description]"
-												  placeholder="<?php echo $og['description'] ? '' : esc_attr( smartcrawl_replace_vars( $og_printer->get_tag_value( 'description' ), $post ) ); ?>"
-												  id="og-description"><?php echo esc_textarea( $og['description'] ); ?></textarea>
-									</div>
-								</div>
-
-								<div class="wds-table-fields wds-table-fields-stacked">
-									<div class="label">
-										<label for="og-images" class="wds-label"><?php esc_html_e( 'Featured Images', 'wds' ); ?></label>
-									</div>
-									<div class="fields og-images"
-										 data-name="wds-opengraph[og-images]">
-										<div class="add-action-wrapper item">
-											<a href="#add" title="<?php esc_attr_e( 'Add image', 'wds' ); ?>">
-												<i class="wds-icon-plus"></i>
-											</a>
-										</div>
-										<?php if ( ! empty( $og['images'] ) && is_array( $og['images'] ) ) :  ?>
-											<?php foreach ( $og['images'] as $img ) :  ?>
-												<input type="text" class="widefat"
-													   name="wds-opengraph[images][]"
-													   value="<?php echo esc_attr( $img ); ?>" />
-											<?php endforeach; ?>
-										<?php endif; ?>
-									</div>
-								</div>
-
-								<p class="wds-label-description"><?php esc_html_e( 'Each of these images will be available to use as the featured image when the post is shared.', 'wds' ); ?></p>
-							</div>
-						</div>
-				</div>
-			</div>
-		</div>
+		<?php
+			$this->_render('metabox/metabox-social-meta-tags', array(
+				'post'                    => $post,
+				'main_title'              => __('OpenGraph', 'wds'),
+				'main_description'        => __('OpenGraph is used on many social networks such as Facebook.', 'wds'),
+				'field_name'              => 'wds-opengraph',
+				'disabled'                => $og_meta_disabled,
+				'current_title'           => $og['title'],
+				'title_placeholder'       => $og_printer->get_tag_value('title'),
+				'current_description'     => $og['description'],
+				'description_placeholder' => $og_printer->get_tag_value('description'),
+				'images'                  => $og['images'],
+				'single_image'            => false
+			));
+		?>
 	<?php endif; ?>
 
-	<?php if ( $twitter_setting_enabled ) :  ?>
-		<div class="wds-table-fields-group wds-separator-top">
-			<div class="wds-table-fields">
-				<div class="label">
-					<label class="wds-label" for="wds-twitter-use-og"><?php esc_html_e( 'Twitter', 'wds' ); ?></label>
-					<p class="wds-label-description"><?php esc_html_e( 'OpenGraph is used on many social networks such as Facebook.', 'wds' ); ?></p>
-				</div>
-				<div class="fields">
-					<div class="wds-toggleable inverted <?php echo $twitter_meta_disabled ? 'inactive' : ''; ?>">
-							<?php
-								$this->_render('toggle-item', array(
-									'inverted'   => true,
-									'field_name' => 'wds-twitter[disabled]',
-									'checked'    => checked( $twitter_meta_disabled, true, false ),
-									'item_label' => esc_html__( 'Enable Twitter Cards for this post', 'wds' ),
-								));
-							?>
-							<div class="wds-toggleable-inside wds-toggleable-inside-box wds-table-fields-group wds-twitter-meta">
-								<div class="wds-table-fields wds-table-fields-stacked">
-									<div class="label">
-										<label for="twitter-title" class="wds-label"><?php esc_html_e( 'Title', 'wds' ); ?></label>
-									</div>
-									<div class="fields">
-										<input type="text"
-											   id="twitter-title"
-											   name="wds-twitter[title]"
-											   placeholder="<?php echo $twitter['title'] ? '' : esc_attr( $twitter_printer->get_title_content() ); ?>"
-											   value="<?php echo esc_attr( $twitter['title'] ); ?>"/>
-									</div>
-								</div>
-
-								<div class="wds-table-fields wds-table-fields-stacked">
-									<div class="label">
-										<label for="twitter-description" class="wds-label"><?php esc_html_e( 'Description', 'wds' ); ?></label>
-									</div>
-									<div class="fields">
-										<textarea name="wds-twitter[description]"
-												  placeholder="<?php echo $twitter['description'] ? '' : esc_attr( $twitter_printer->get_description_content() ); ?>"
-												  id="twitter-description"><?php echo esc_textarea( $twitter['description'] ); ?></textarea>
-									</div>
-								</div>
-							</div>
-						</div>
-				</div>
-			</div>
-		</div>
+	<?php if ( $twitter_setting_enabled && $twitter_post_type_enabled ) :  ?>
+		<?php
+			$this->_render('metabox/metabox-social-meta-tags', array(
+				'post'                    => $post,
+				'main_title'              => __('Twitter', 'wds'),
+				'main_description'        => __('These details will be used in Twitter cards.', 'wds'),
+				'field_name'              => 'wds-twitter',
+				'disabled'                => $twitter_meta_disabled,
+				'current_title'           => $twitter['title'],
+				'title_placeholder'       => $twitter_printer->get_title_content(),
+				'current_description'     => $twitter['description'],
+				'description_placeholder' => $twitter_printer->get_description_content(),
+				'images'                  => $twitter['images'],
+				'single_image'            => true
+			));
+		?>
 	<?php endif; ?>
 
 	<?php

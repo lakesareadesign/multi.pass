@@ -38,6 +38,18 @@
 		<textarea id="fl-message" name="fl-message" placeholder="<?php echo esc_attr( $settings->message_placeholder ); ?>"></textarea>
 	</div>
 
+	<?php if ( 'show' == $settings->terms_checkbox ) : ?>
+		<div class="fl-input-group fl-terms-checkbox">
+			<?php if ( isset( $settings->terms_text ) && ! empty( $settings->terms_text ) ) : ?>
+				<div class="fl-terms-checkbox-text"><?php echo $settings->terms_text; ?></div>
+			<?php endif; ?>
+			<label for="fl-terms-checkbox-<?php echo $id; ?>">
+				<input type="checkbox" class="checkbox-inline" id="fl-terms-checkbox-<?php echo $id; ?>" name="fl-terms-checkbox" value="1" /> <?php echo $settings->terms_checkbox_text; ?>
+			</label>
+			<span class="fl-contact-error"><?php _e( 'Terms and Conditions checkbox is required.', 'fl-builder' );?></span>
+		</div>
+	<?php endif; ?>
+
 	<?php
 	if ( 'show' == $settings->recaptcha_toggle && (isset( $settings->recaptcha_site_key ) && ! empty( $settings->recaptcha_site_key )) ) :
 	?>

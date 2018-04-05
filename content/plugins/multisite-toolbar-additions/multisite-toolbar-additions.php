@@ -1,29 +1,30 @@
 <?php 
 /**
  * Main plugin file.
- * This plugin adds a few useful admin links to the WordPress Toolbar / Admin
- *    Bar in Multisite or Network installs.
+ * This plugin adds a lot of useful (super) admin links to the WordPress
+ *    Toolbar / Admin Bar in Multisite, Network and single site installs. Also
+ *    comes with extended support for third-party plugins!
  *
  * @package     Multisite Toolbar Additions
  * @author      David Decker
- * @copyright   Copyright (c) 2012-2014, David Decker - DECKERWEB
+ * @copyright   Copyright (c) 2012-2018, David Decker - DECKERWEB
  * @license     GPL-2.0+
- * @link        http://deckerweb.de/twitter
+ * @link        https://deckerweb.de/twitter
  *
  * @wordpress-plugin
  * Plugin Name: Multisite Toolbar Additions
- * Plugin URI:  http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
- * Description: This plugin adds a few useful admin links to the WordPress Toolbar / Admin Bar in Multisite or Network installs.
- * Version:     1.7.0
+ * Plugin URI:  https://github.com/deckerweb/multisite-toolbar-additions
+ * Description: This plugin adds a lot of useful (super) admin links to the WordPress Toolbar / Admin Bar in Multisite, Network and single site installs. Also comes with extended support for third-party plugins!
+ * Version:     1.9.0
  * Author:      David Decker - DECKERWEB
- * Author URI:  http://deckerweb.de/
+ * Author URI:  https://deckerweb.de/
  * License:     GPL-2.0+
- * License URI: http://www.opensource.org/licenses/gpl-license.php
+ * License URI: https://opensource.org/licenses/GPL-2.0
  * Text Domain: multisite-toolbar-additions
  * Domain Path: /languages/
  * Network:     true
  *
- * Copyright (c) 2012-2014 David Decker - DECKERWEB
+ * Copyright (c) 2012-2018 David Decker - DECKERWEB
  *
  *     This file is part of Multisite Toolbar Additions,
  *     a plugin for WordPress.
@@ -48,7 +49,7 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -58,6 +59,9 @@ if ( ! defined( 'WPINC' ) ) {
  *
  * @since 1.0.0
  */
+/** Plugin version */
+define( 'MSTBA_PLUGIN_VERSION', '1.9.0' );
+
 /** Plugin directory */
 define( 'MSTBA_PLUGIN_DIR', trailingslashit( dirname( __FILE__ ) ) );
 
@@ -126,15 +130,8 @@ add_action( 'init', 'ddw_mstba_init', 1 );
  *
  * @since 1.0.0
  *
- * @uses  get_locale()
  * @uses  load_textdomain() To load translations first from WP_LANG_DIR sub folder.
  * @uses  load_plugin_textdomain() To additionally load default translations from plugin folder (default).
- * @uses  is_admin()
- * @uses  is_network_admin()
- * @uses  is_super_admin()
- * @uses  current_user_can()
- * @uses  current_theme_supports()
- * @uses  add_theme_support()
  * @uses  ddw_mstba_menu_hook_priority() For (optionally) setting the hook priority via filter.
  */
 function ddw_mstba_init() {
@@ -146,10 +143,7 @@ function ddw_mstba_init() {
 	$locale = apply_filters( 'plugin_locale', get_locale(), $mstba_textdomain );
 
 	/** Set filter for WordPress languages directory */
-	$mstba_wp_lang_dir = apply_filters(
-		'mstba_filter_wp_lang_dir',
-		trailingslashit( WP_LANG_DIR ) . 'multisite-toolbar-additions/' . $mstba_textdomain . '-' . $locale . '.mo'
-	);
+	$mstba_wp_lang_dir = trailingslashit( WP_LANG_DIR ) . trailingslashit( $mstba_textdomain ) . $mstba_textdomain . '-' . $locale . '.mo';
 
 	/** Translations: First, look in WordPress' "languages" folder = custom & update-secure! */
 	load_textdomain( $mstba_textdomain, $mstba_wp_lang_dir );
@@ -300,7 +294,7 @@ function ddw_mstba_toolbar_main_site_dashboard() {
 			'parent' => 'site-name',  
 			'id'     => 'ddw-mstba-main-site-dashboard',  
 			'title'  => $dashboard_string[ 'dashboard' ],  
-			'href'   => admin_url( '/' ),  
+			'href'   => esc_url( admin_url( '/' ) ),  
 			'meta'   => array(
 				'target' => '',
 				'title'  => $dashboard_string[ 'dashboard_main_site' ]
@@ -312,7 +306,7 @@ function ddw_mstba_toolbar_main_site_dashboard() {
 			'parent' => 'site-name',  
 			'id'     => 'ddw-mstba-main-site-view',  
 			'title'  => __( 'View Site', 'multisite-toolbar-additions' ),  
-			'href'   => get_home_url(),  
+			'href'   => esc_url( get_home_url() ),  
 			'meta'   => array(
 				'target' => '_blank',
 				'title'  => _x( 'View Site (Main Site)', 'Translators: For the tooltip', 'multisite-toolbar-additions' )
@@ -401,6 +395,8 @@ function ddw_mstba_toolbar_additions() {
 		$networkext_smartadmintweaks = $mstba_prefix . 'networkext_smartadmintweaks';	// third level: smart admin tweaks (network)
 		$networkext_smartcleanuptools = $mstba_prefix . 'networkext_smartcleanuptools';	// third level: smart cleanup tools (network)
 		$networkext_smartsecuritytools = $mstba_prefix . 'networkext_smartsecuritytools';	// third level: smart security tools (network)
+		$networkext_smartsecuritytools_settings = $mstba_prefix . 'networkext_smartsecuritytools_settings';	// fourth level: smart security tools - settings (network)
+		$networkext_smartsecuritytools_logs = $mstba_prefix . 'networkext_smartsecuritytools_logs';	// fourth level: smart security tools - logs (network)
 		$networkext_smartooptimizer = $mstba_prefix . 'networkext_smartooptimizer';	// third level: smart o.optimizer (network)
 		$networkext_simplesystinfo = $mstba_prefix . 'networkext_simplesystinfo';	// third level: simple syst.info (network)
 		$networkext_smartcrontools = $mstba_prefix . 'networkext_smartcrontools';	// third level: smart cron tools (network)
@@ -409,6 +405,8 @@ function ddw_mstba_toolbar_additions() {
 		$networkext_wpmudomainmapping = $mstba_prefix . 'networkext_wpmudomainmapping';	// third level: wpmu domain mapping (network)
 		$networkext_wpmigratedbpro = $mstba_prefix . 'networkext_wpmigratedbpro';	// third level: wp migrate db pro (network)
 		$networkext_betterwpsecurity = $mstba_prefix . 'networkext_betterwpsecurity';	// third level: better wp security (network)
+		$networkext_ithemessecurity = $mstba_prefix . 'networkext_ithemessecurity';	// third level: ithemes security (network)
+		$networkext_ithemessecuritypro = $mstba_prefix . 'networkext_ithemessecuritypro';	// third level: ithemes security pro (network)
 		$networkext_wpmsar = $mstba_prefix . 'networkext_wpmsar';			// third level: wpms admin report (network)
 	$siteextgroup = $mstba_prefix . 'siteextgroup';					// sub level: site extend group ("hook" place)
 		$siteext_quickcache = $mstba_prefix . 'siteext_quickcache';			// third level: quick cache (site)
@@ -425,6 +423,8 @@ function ddw_mstba_toolbar_additions() {
 		$siteext_smartadmintweaks = $mstba_prefix . 'siteext_smartadmintweaks';	// third level: smart admin tweaks (site)
 		$siteext_smartcleanuptools = $mstba_prefix . 'siteext_smartcleanuptools';	// third level: smart cleanup tools (site)
 		$siteext_smartsecuritytools = $mstba_prefix . 'siteext_smartsecuritytools';	// third level: smart security tools (site)
+		$siteext_smartsecuritytools_settings = $mstba_prefix . 'siteext_smartsecuritytools_settings';	// fourth level: smart security tools - settings (site)
+		$siteext_smartsecuritytools_logs = $mstba_prefix . 'siteext_smartsecuritytools_logs';	// fourth level: smart security tools - logs (site)
 		$siteext_smartooptimizer = $mstba_prefix . 'siteext_smartooptimizer';	// third level: smart o.optimizer (site)
 		$siteext_simplesystinfo = $mstba_prefix . 'siteext_simplesystinfo';	// third level: simple syst.info (site)
 		$siteext_smartcrontools = $mstba_prefix . 'siteext_smartcrontools';	// third level: smart cron tools (site)
@@ -436,6 +436,8 @@ function ddw_mstba_toolbar_additions() {
 		$siteext_msrobotstxt = $mstba_prefix . 'siteext_msrobotstxt';		// third level: ms robots.txt (site)
 		$siteext_wpmigratedbpro = $mstba_prefix . 'siteext_wpmigratedbpro';	// third level: wp migrate db pro (site)
 		$siteext_betterwpsecurity = $mstba_prefix . 'siteext_betterwpsecurity';	// third level: better wp security (site)
+		$siteext_ithemessecurity = $mstba_prefix . 'siteext_ithemessecurity';	// third level: ithemes security (site)
+		$siteext_ithemessecuritypro = $mstba_prefix . 'siteext_ithemessecuritypro';	// third level: ithemes security pro (site)
 		$siteext_stream = $mstba_prefix . 'siteext_stream';					// third level: stream (site)
 	$sitegroup = $mstba_prefix . 'sitegroup';						// sub level: site group ("hook" place)
 		$widgets = $mstba_prefix . 'widgets';								// third level: widgets
@@ -483,6 +485,7 @@ function ddw_mstba_toolbar_additions() {
 
 		/** Include code part with site group items */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-items-site-group.php' );
+		require_once( MSTBA_PLUGIN_DIR . 'includes/mstba-items-manage-content.php' );
 
 
 	/** "Plugins" items only for non-Multisite installs! */
@@ -512,7 +515,7 @@ function ddw_mstba_toolbar_additions() {
 		$mstba_tb_items[ 'addnew_plugin' ] = array(
 			'parent' => $addnewgroup,
 			'title'  => __( 'Install Plugin', 'multisite-toolbar-additions' ),
-			'href'   => network_admin_url( 'plugin-install.php?tab=dashboard' ),
+			'href'   => esc_url( network_admin_url( 'plugin-install.php?tab=dashboard' ) ),
 			'meta'   => array(
 				'target' => '',
 				'title'  => __( 'Install Plugin - Search via WordPress.org', 'multisite-toolbar-additions' )
@@ -522,17 +525,32 @@ function ddw_mstba_toolbar_additions() {
 			$mstba_tb_items[ 'addnew_plugin_upload' ] = array(
 				'parent' => $addnew_plugin,
 				'title'  => __( 'Upload ZIP file', 'multisite-toolbar-additions' ),
-				'href'   => network_admin_url( 'plugin-install.php?tab=upload' ),
+				'href'   => esc_url( network_admin_url( 'plugin-install.php?tab=upload' ) ),
 				'meta'   => array(
 					'target' => '',
 					'title'  => __( 'Install Plugin - Upload ZIP file', 'multisite-toolbar-additions' )
 				)
 			);
 
+			/** Plugin support: "Cleaner Plugin Installer" (by myself :) */
+			if ( defined( 'CLPINST_PLUGIN_BASEDIR' ) ) {
+
+				$mstba_tb_items[ 'addnew_plugin_topics' ] = array(
+					'parent' => $addnew_plugin,
+					'title'  => __( 'Topics, Use Cases, Tags', 'multisite-toolbar-additions' ),
+					'href'   => esc_url( network_admin_url( 'plugin-install.php?tab=topics' ) ),
+					'meta'   => array(
+						'target' => '',
+						'title'  => __( 'Install Plugins - Curated Topics, Use Cases, Plugin Tags (via WordPress.org)', 'multisite-toolbar-additions' )
+					)
+				);
+
+			}  // end if
+
 			$mstba_tb_items[ 'addnew_plugin_faves' ] = array(
 				'parent' => $addnew_plugin,
 				'title'  => __( 'Install Favorites', 'multisite-toolbar-additions' ),
-				'href'   => network_admin_url( 'plugin-install.php?tab=favorites' ),
+				'href'   => esc_url( network_admin_url( 'plugin-install.php?tab=favorites' ) ),
 				'meta'   => array(
 					'target' => '',
 					'title'  => __( 'Install Plugins - Favorites (via WordPress.org)', 'multisite-toolbar-additions' )
@@ -542,7 +560,7 @@ function ddw_mstba_toolbar_additions() {
 		$mstba_tb_items[ 'addnew_theme' ] = array(
 			'parent' => $addnewgroup,
 			'title'  => __( 'Install Theme', 'multisite-toolbar-additions' ),
-			'href'   => network_admin_url( 'theme-install.php?tab=dashboard' ),
+			'href'   => ddw_mstba_theme_install_link(),
 			'meta'   => array(
 				'target' => '',
 				'title'  => __( 'Install Theme - Search via WordPress.org', 'multisite-toolbar-additions' )
@@ -552,7 +570,7 @@ function ddw_mstba_toolbar_additions() {
 			$mstba_tb_items[ 'addnew_theme_upload' ] = array(
 				'parent' => $addnew_theme,
 				'title'  => __( 'Upload ZIP file', 'multisite-toolbar-additions' ),
-				'href'   => network_admin_url( 'theme-install.php?tab=upload' ),
+				'href'   => ddw_mstba_theme_upload_link(),
 				'meta'   => array(
 					'target' => '',
 					'title'  => __( 'Install Theme - Upload ZIP file', 'multisite-toolbar-additions' )
@@ -606,6 +624,8 @@ function ddw_mstba_toolbar_additions() {
 										$networkext_smartadmintweaks,
 										$networkext_smartcleanuptools,
 										$networkext_smartsecuritytools,
+											$networkext_smartsecuritytools_settings,
+											$networkext_smartsecuritytools_logs,
 										$networkext_smartooptimizer,
 										$networkext_simplesystinfo,
 										$networkext_smartcrontools,
@@ -614,6 +634,8 @@ function ddw_mstba_toolbar_additions() {
 										$networkext_wpmudomainmapping,
 										$networkext_wpmigratedbpro,
 										$networkext_betterwpsecurity,
+										$networkext_ithemessecurity,
+										$networkext_ithemessecuritypro,
 										$networkext_wpmsar,
 									$siteextgroup,
 										$siteext_quickcache,
@@ -629,6 +651,8 @@ function ddw_mstba_toolbar_additions() {
 										$siteext_smartadmintweaks,
 										$siteext_smartcleanuptools,
 										$siteext_smartsecuritytools,
+											$siteext_smartsecuritytools_settings,
+											$siteext_smartsecuritytools_logs,
 										$siteext_smartooptimizer,
 										$siteext_simplesystinfo,
 										$siteext_smartcrontools,
@@ -639,6 +663,8 @@ function ddw_mstba_toolbar_additions() {
 										$siteext_msrobotstxt,
 										$siteext_wpmigratedbpro,
 										$siteext_betterwpsecurity,
+										$siteext_ithemessecurity,
+										$siteext_ithemessecuritypro,
 										$siteext_stream,
 									$sitegroup,
 										$widgets,
@@ -817,12 +843,12 @@ function ddw_mstba_toolbar_subsite_items() {
 			)
 		) );
 
-			$mstba_current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
+			// $mstba_current_url = ( is_ssl() ? 'https://' : 'http://' ) . $_SERVER[ 'HTTP_HOST' ] . $_SERVER[ 'REQUEST_URI' ];
 			$wp_admin_bar->add_node( array(
 				'parent' => $mstba_blog_menu_id . '-mstba_site_themes',
 				'id'     => $mstba_blog_menu_id . '-mstba_site_customizer',
 				'title'  => __( 'Theme Customizer', 'multisite-toolbar-additions' ),
-				'href'   => is_admin() ? get_admin_url( $blog->userblog_id, 'customize.php' ) : add_query_arg( 'url', urlencode( $mstba_current_url ), wp_customize_url() ),
+				'href'   => get_admin_url( $blog->userblog_id, 'customize.php' ),	// is_admin() ? get_admin_url( $blog->userblog_id, 'customize.php' ) : add_query_arg( 'url', urlencode( $mstba_current_url ), wp_customize_url() ),
 				'meta'   => array(
 					'class'  => ! is_admin() ? 'hide-if-no-customize' : '',
 					'target' => '',
@@ -953,7 +979,7 @@ function ddw_mstba_admin_style() {
  *
  * @param  $mstba_plugin_value
  *
- * @return string String of plugin data.
+ * @return string $mstba_plugin_folder String of plugin data.
  */
 function ddw_mstba_plugin_get_data( $mstba_plugin_value ) {
 

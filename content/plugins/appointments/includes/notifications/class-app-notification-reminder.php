@@ -19,7 +19,7 @@ class Appointments_Notifications_Reminder extends Appointments_Notification {
 			$this->send_worker();
 		}
 
-
+		self::record_sent( $app_id, 'reminder' );
 		return true;
 	}
 

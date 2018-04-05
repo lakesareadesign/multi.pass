@@ -34,7 +34,7 @@
 	?>
 
 	<?php
-		$this->_render('onpage/onpage-og-master', array(
+		$this->_render('onpage/onpage-og-twitter', array(
 			'for_type' => $post_type,
 		));
 	?>

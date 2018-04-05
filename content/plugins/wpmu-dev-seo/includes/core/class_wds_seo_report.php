@@ -215,7 +215,7 @@ class Smartcrawl_SeoReport {
 			if ( ! $this->is_ignored_issue( $issue ) ) { $result[] = $issue; }
 		}
 
-		return $result;
+		return array_unique($result);
 	}
 
 	/**

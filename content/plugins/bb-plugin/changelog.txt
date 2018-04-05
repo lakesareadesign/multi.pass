@@ -1,3 +1,20 @@
+<h4>2.0.6.4 - 03/27/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added optional Terms and Conditions to Contact and Subcribe Modules to comply with GDPR.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+  <li>When debug mode is enabled turn display_errors on to show any PHP errors.</li>
+  <li>Fixed PHP fatal error with Tasty Recipes plugin.</li>
+  <li>Fixed an issue with row background image connections.</li>
+  <li>Fixed PHP 7.2 issue when uploading icon sets.</li>
+  <li>Fixed a width issue on WooCommerce single post layouts.</li>
+  <li>Fixed hide-menu class not working in menu module.</li>
+  <li>Fixed assets not loading when using layout shortcode.</li>
+  <li>Fixed PHP warning when layout shortcode is included with a WP action.</li>
+</ul>
+
 <h4>2.0.6.3 - 03/19/2018</h4>
 <p><strong>Hotfix</strong></p>
 <ul>

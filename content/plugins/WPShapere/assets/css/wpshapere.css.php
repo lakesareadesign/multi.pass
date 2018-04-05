@@ -258,9 +258,19 @@ ol.sortUls .hide-for-roles label {
 }
 ol.sortUls .hide-for-roles span {
     padding-right: 5px;
+    font-size:0.85em;
 }
 ol.sortUls .hide-for-roles .hide-for-roles-inputs {
     margin-bottom: 10px;
+}
+.manage_admin_menu_sorter .select_all, .manage_admin_menu_sorter .select_none {
+  display: inline-block;
+  margin: 10px 0;
+  color: #212121;
+  font-size: 0.9em;
+}
+.manage_admin_menu_sorter .select_all:hover, .manage_admin_menu_sorter .select_none:hover {
+  text-decoration: none;
 }
 
 
@@ -349,7 +359,6 @@ $css_styles .= 'h4 { color: ' . $this->aof_options['h4_color'] . '}';
 $css_styles .= 'h5 { color: ' . $this->aof_options['h5_color'] . '}';
 
 /* Admin Bar */
-
 $css_styles .= '#wpadminbar, #wpadminbar .menupop .ab-sub-wrapper, .ab-sub-secondary, #wpadminbar .quicklinks .menupop ul.ab-sub-secondary,
 #wpadminbar .quicklinks .menupop ul.ab-sub-secondary .ab-submenu {
   background: ' . $this->aof_options['admin_bar_color'] . '}';
@@ -634,7 +643,7 @@ if($this->aof_options['design_type'] == 1 || $this->aof_options['design_type'] =
   body #dashboard-widgets .postbox form .submit { padding: 10px 0 !important; }';
 }
 
-/* Styles for smarturn design */
+/* Styles for New excite design */
 
 if($this->aof_options['design_type'] == 3) {
 
@@ -691,9 +700,6 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:a
     background: ' . $this->aof_options['admin_bar_color'] . '; color: ' . $this->aof_options['admin_bar_menu_color'] . '}';
 
 }
-
-/* Menu Icons */
-$css_styles .= $this->wpsiconStyles();
 
 if($this->aof_options['design_type'] == 2) {
   $css_styles .= '.wp-core-ui .button,.wp-core-ui .button-secondary {

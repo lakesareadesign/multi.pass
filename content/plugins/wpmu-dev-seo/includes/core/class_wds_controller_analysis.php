@@ -242,7 +242,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 				}
 			}
 		} else {
-			$focus_keywords = smartcrawl_get_value( 'focus-keywords' );
+			$focus_keywords = smartcrawl_get_value( 'focus-keywords', $post->ID );
 			$focus_keywords_available = ! empty( $focus_keywords );
 			$seo_data = $model->get_post_data( Smartcrawl_Model_Analysis::DATA_ANALYSIS );
 			$has_errors = ! empty( $seo_data['errors'] );
@@ -317,15 +317,20 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	 * Injects readability analysis metabox content
 	 *
 	 * @param WP_Post $post Post instance.
+	 * @param bool    $force_update Force meta update (default to false),
 	 *
 	 * @return bool
 	 */
-	public function add_readability_analysis_metabox_content( $post ) {
+	public function add_readability_analysis_metabox_content( $post, $force_update = false ) {
 		if ( ! Smartcrawl_Settings::get_setting( 'analysis-readability' ) ) { return false; }
 
 		if ( ! class_exists( 'Smartcrawl_Checks' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_checks.php' ); }
 
-		$this->maybe_analyze_post( $post->ID );
+		if ( ! empty( $force_update ) ) {
+			$this->analyze_post( $post->ID );
+		} else {
+			$this->maybe_analyze_post( $post->ID );
+		}
 
 		$model = new Smartcrawl_Model_Analysis( $post->ID );
 		$readability_data = $model->get_post_data( Smartcrawl_Model_Analysis::DATA_READABILITY );
@@ -465,7 +470,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 				'wds-status-%s',
 				$readability_state
 			);
-			$label = $model->get_readability_level();
+			$label = $model->get_readability_level( false );
 			$result['readability'] = '<div class="wds-analysis ' . $readability_class . '" title="' . $readability_score . '"></div>';
 			$result['readability'] .= '<div class="wds-analysis-details">' . esc_html( $label ) . '</div>';
 		}
@@ -540,7 +545,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 		 */
 		ob_start();
 		$post = get_post( (int) $data['post_id'] );
-		$this->add_readability_analysis_metabox_content( $post );
+		$this->add_readability_analysis_metabox_content( $post, true );
 		$out['readability'] = ob_get_clean();
 
 		/**

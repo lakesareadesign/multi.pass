@@ -16,11 +16,25 @@ class Smartcrawl_Checks extends Smartcrawl_WorkUnit {
 	const POST = 'post';
 
 	/**
+	 * Remote handler for frontend post fetching
+	 *
+	 * @var Smartcrawl_Core_Request
+	 */
+	private $_endpoint_remote_handler;
+
+	/**
 	 * Holds reference to checks that deal with final rendered content
 	 *
 	 * @var array
 	 */
-	private $_endpoint_checks = array();
+	private $_endpoint_checks = array(
+		'imgalts_keywords',
+		'content_length',
+		'keyword_density',
+		'links_count',
+		'para_keywords',
+		'subheadings_keywords',
+	);
 
 	/**
 	 * Holds reference to checks that deal with raw post data
@@ -34,14 +48,8 @@ class Smartcrawl_Checks extends Smartcrawl_WorkUnit {
 		'title_length',
 		'metadesc_keywords',
 		'metadesc_length',
-		'imgalts_keywords',
-		'content_length',
-		'keyword_density',
-		'keywords_used',
-		'links_count',
-		'para_keywords',
 		'slug_keywords',
-		'subheadings_keywords',
+		'keywords_used',
 	);
 
 	/**
@@ -90,12 +98,17 @@ class Smartcrawl_Checks extends Smartcrawl_WorkUnit {
 	 * Applies all queued checks to the subject post
 	 *
 	 * @param int $post_id ID of the post to check.
+	 * @param object $request Optional Smartcrawl_Core_Request instance to use - used in testing.
 	 *
 	 * @return object Smartcrawl_Checks instance
 	 */
-	public static function apply( $post_id ) {
+	public static function apply( $post_id, $request = false ) {
 		$me = new self;
 		$me->set_post_id( $post_id );
+
+		if (!empty($request)) {
+			$me->set_remote_handler($request);
+		}
 
 		if ( ! class_exists( 'Smartcrawl_Html' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_html.php' ); }
 		if ( ! class_exists( 'Smartcrawl_String' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_string.php' ); }
@@ -242,18 +255,21 @@ class Smartcrawl_Checks extends Smartcrawl_WorkUnit {
 	 */
 	public function get_endpoint_content() {
 		$content = false;
-		if ( empty( $this->_post_id ) ) { return $content; }
 
-		$permalink = get_permalink( $this->_post_id );
-		if ( empty( $permalink ) ) { return false; }
+		if (!class_exists('Smartcrawl_Core_Request')) {
+			require_once(SMARTCRAWL_PLUGIN_DIR . 'core/class_wds_core_request.php');
+		}
+		if (empty($this->_endpoint_remote_handler) || !($this->_endpoint_remote_handler instanceof Smartcrawl_Core_Request)) {
+			$this->set_remote_handler(new Smartcrawl_Core_Request);
+		}
+		$content = $this->_endpoint_remote_handler->get_rendered_post($this->_post_id);
+		if (is_wp_error($content)) return false;
 
-		$response = wp_remote_get( $permalink, array() );
+		return (string)$content;
+	}
 
-		if ( is_wp_error( $response ) ) { return false; }
-		if ( 200 !== wp_remote_retrieve_response_code( $response ) ) { return false; }
-
-		$content = wp_remote_retrieve_body( $response );
-		return $content;
+	public function set_remote_handler ($request) {
+		$this->_endpoint_remote_handler = $request;
 	}
 
 	/**

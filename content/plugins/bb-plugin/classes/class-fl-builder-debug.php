@@ -9,7 +9,18 @@ final class FL_Debug {
 			self::prepare_tests();
 			self::display_tests();
 		}
+
+		if ( get_option( 'fl_debug_mode', false ) ) {
+			self::enable_logging();
+		}
 	}
+
+	public static function enable_logging() {
+		@ini_set( 'display_errors', 1 ); // @codingStandardsIgnoreLine
+		@ini_set( 'display_startup_errors', 1 ); // @codingStandardsIgnoreLine
+		@error_reporting( E_ALL ); // @codingStandardsIgnoreLine
+	}
+
 	private static function display_tests() {
 
 		header( 'Content-Type:text/plain' );
@@ -370,4 +381,4 @@ final class FL_Debug {
 		self::register( 'server', $args );
 	}
 }
-add_action( 'init', array( 'FL_Debug', 'init' ) );
+add_action( 'plugins_loaded', array( 'FL_Debug', 'init' ) );

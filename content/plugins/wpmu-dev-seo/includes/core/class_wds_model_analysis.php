@@ -176,12 +176,17 @@ class Smartcrawl_Model_Analysis extends Smartcrawl_Model {
 	/**
 	 * Gets readability level label for the current post
 	 *
+	 * @param bool $update Force update if there's no data.
+	 *
 	 * @return string
 	 */
-	public function get_readability_level() {
-		$this->update_readability_data();
-
+	public function get_readability_level( $update = true ) {
 		$data = $this->get_post_data( self::DATA_READABILITY );
+		if ( empty( $data ) && ! empty( $update ) ) {
+			$this->update_readability_data();
+			$data = $this->get_post_data( self::DATA_READABILITY );
+		}
+
 		if ( empty( $data['raw_score'] ) && ! empty( $data['error'] ) ) { return $data['error']; }
 
 		$map = $this->get_readability_levels_map();
@@ -258,7 +263,8 @@ class Smartcrawl_Model_Analysis extends Smartcrawl_Model {
 		if ( ! Smartcrawl_Settings::get_setting( 'analysis-seo' ) ) { return false; }
 
 		if ( ! class_exists( 'Smartcrawl_Checks' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_checks.php' ); }
-		$checks = Smartcrawl_Checks::apply( $this->_post_id );
+		$this->set_default_remote_handler();
+		$checks = Smartcrawl_Checks::apply( $this->_post_id, $this->_endpoint_remote_handler );
 
 		$this->set_post_data(self::DATA_ANALYSIS, array(
 			'errors' => $checks->get_errors(),
@@ -266,6 +272,34 @@ class Smartcrawl_Model_Analysis extends Smartcrawl_Model {
 		));
 
 		return $checks->get_status();
+	}
+
+	/**
+	 * Sets endpoint remote handler.
+	 *
+	 * The handler will be used for readability data computation.
+	 * Used in tests.
+	 *
+	 * @param object $request A Smartcrawl_Core_Request instance.
+	 */
+	public function set_remote_handler( $request ) {
+		$this->_endpoint_remote_handler = $request;
+	}
+
+	/**
+	 * Sets default handler, if it hasn't been set already
+	 *
+	 * @return bool
+	 */
+	public function set_default_remote_handler() {
+		if ( ! empty( $this->_endpoint_remote_handler ) ) { return true; }
+
+		if ( ! class_exists( 'Smartcrawl_Core_Request' ) ) {
+			require_once( SMARTCRAWL_PLUGIN_DIR . 'core/class_wds_core_request.php' );
+		}
+		$this->_endpoint_remote_handler = new Smartcrawl_Core_Request;
+
+		return true;
 	}
 
 	/**
@@ -279,7 +313,12 @@ class Smartcrawl_Model_Analysis extends Smartcrawl_Model {
 		if ( ! class_exists( 'Smartcrawl_String' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_string.php' ); }
 		if ( ! class_exists( 'Smartcrawl_Html' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_html.php' ); }
 
-		$str = Smartcrawl_Html::plaintext( smartcrawl_get_post_or_latest_revision( $this->_post_id )->post_content );
+		$this->set_default_remote_handler();
+		$request = new Smartcrawl_Core_Request;
+		$content = $this->_endpoint_remote_handler->get_rendered_post( $this->_post_id );
+		$str = is_wp_error( $content )
+			? ''
+			: Smartcrawl_Html::plaintext( $content );
 
 		$error = empty( $str )
 			? __( 'No content to check', 'wds' )

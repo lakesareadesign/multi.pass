@@ -448,9 +448,7 @@ final class FLBuilderAdminSettings {
 				$path		 = get_attached_file( $id );
 				$new_path	 = $dir['path'] . 'icon-' . time() . '/';
 
-				if ( ! function_exists( 'unzip_file' ) ) {
-					fl_builder_filesystem()->get_filesystem();
-				}
+				fl_builder_filesystem()->get_filesystem();
 
 				$unzipped	 = unzip_file( $path, $new_path );
 

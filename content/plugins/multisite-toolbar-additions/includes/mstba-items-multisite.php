@@ -5,10 +5,10 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Multisite
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2012-2014, David Decker - DECKERWEB
- * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
- * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
- * @link       http://deckerweb.de/twitter
+ * @copyright  Copyright (c) 2012-2018, David Decker - DECKERWEB
+ * @license    https://opensource.org/licenses/GPL-2.0 GPL-2.0+
+ * @link       https://github.com/deckerweb/multisite-toolbar-additions
+ * @link       https://deckerweb.de/twitter
  *
  * @since      1.0.0
  */
@@ -18,7 +18,7 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -174,7 +174,7 @@ function ddw_mstba_remove_network_items() {
 		$mstba_tb_items[ 'networkthemes-install' ] = array(
 			'parent' => $networkthemes,
 			'title'  => __( 'Install Themes: Search', 'multisite-toolbar-additions' ),
-			'href'   => network_admin_url( 'theme-install.php?tab=dashboard' ),
+			'href'   => ddw_mstba_theme_install_link(),
 			'meta'   => array(
 				'target' => '',
 				'title'  => __( 'Install Themes - Search on WordPress.org', 'multisite-toolbar-additions' )
@@ -185,7 +185,7 @@ function ddw_mstba_remove_network_items() {
 		$mstba_tb_items[ 'networkthemes-installupload' ] = array(
 			'parent' => $networkthemes,
 			'title'  => __( 'Install Themes: Upload', 'multisite-toolbar-additions' ),
-			'href'   => network_admin_url( 'theme-install.php?tab=upload' ),
+			'href'   => ddw_mstba_theme_upload_link(),
 			'meta'   => array(
 				'target' => '',
 				'title'  => __( 'Install Themes - Upload ZIP file', 'multisite-toolbar-additions' )

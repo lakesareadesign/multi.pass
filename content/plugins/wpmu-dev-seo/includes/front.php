@@ -66,6 +66,13 @@ class Smartcrawl_Front {
 			}
 		}
 
+		add_filter( 'the_content', array( $this, 'process_frontend_rendering' ), 999 );
+
+	}
+
+	public function process_frontend_rendering( $content ) {
+		if ( ! isset( $_GET['wds-frontend-check'] ) ) { return $content; }
+		return '<div class="wds-frontend-content-check">' . $content . '</div>';
 	}
 
 }

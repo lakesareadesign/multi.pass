@@ -92,6 +92,25 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 				}
 			}
 			$result[ "og-images-{$str}" ] = array_values( array_filter( array_unique( $result[ "og-images-{$str}" ] ) ) );
+
+			// Twitter cards
+			if (isset($input["twitter-active-{$str}"])) {
+				$result["twitter-active-{$str}"] = (boolean)$input["twitter-active-{$str}"];
+			}
+			if (isset($input["twitter-title-{$str}"])) {
+				$result["twitter-title-{$str}"] = $this->_sanitize_preserve_macros($input["twitter-title-{$str}"]);
+			}
+			if (isset($input["twitter-description-{$str}"])) {
+				$result["twitter-description-{$str}"] = $this->_sanitize_preserve_macros($input["twitter-description-{$str}"]);
+			}
+
+			$result["twitter-images-{$str}"] = array();
+			if (!empty($input["twitter-images-{$str}"]) && is_array($input["twitter-images-{$str}"])) {
+				foreach ($input["twitter-images-{$str}"] as $img) {
+					$result["twitter-images-{$str}"][] = esc_url($img);
+				}
+			}
+			$result["twitter-images-{$str}"] = array_values(array_filter(array_unique($result["twitter-images-{$str}"])));
 		}
 
 		// Special case handling for home page keywords

@@ -448,6 +448,13 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 				'wds-qtip2-script',
 				'jquery',
 			), $version);
+
+			wp_localize_script('wds-admin-settings', '_wds_setting', array(
+				'strings' => array(
+					'importing' => esc_html__('Importing', 'wds'),
+					'import'    => esc_html__('Import', 'wds'),
+				)
+			));
 		};
 	}
 
@@ -514,6 +521,25 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 			}
 		}
 
+		if (!empty($_GET['imported'])) {
+			$plugin = smartcrawl_get_array_value($_GET, 'plugin');
+			$plugin_label = $plugin == 'yoast' ? __('Yoast SEO', 'wds') : __('All In One SEO', 'wds');
+
+			$plugins_link = sprintf(
+				'<a href="%s">%s</a>',
+				admin_url('plugins.php'),
+				sprintf(
+					__('deactivate %s', 'wds'),
+					$plugin_label
+				)
+			);
+
+			$this->msg = sprintf(
+				__('Your %s configuration has been successfully imported! We recommend you %s to avoid any potential conflicts.', 'wds'),
+				$plugin_label,
+				$plugins_link
+			);
+		}
 	}
 
 	/**

@@ -171,6 +171,30 @@ if ( ! is_array( $twitter ) ) {
 											  id="twitter-description"><?php echo esc_textarea( $twitter['description'] ); ?></textarea>
 								</div>
 							</div>
+
+                            <div class="wds-table-fields wds-table-fields-stacked">
+                                <div class="label">
+                                    <label for="twitter-images" class="wds-label"><?php esc_html_e( 'Featured Image', 'wds' ); ?></label>
+                                </div>
+                                <div class="fields og-images"
+                                     data-singular="true"
+                                     data-name="wds-twitter[images]">
+                                    <div class="add-action-wrapper item">
+                                        <a href="#add" title="<?php esc_attr_e( 'Add image', 'wds' ); ?>">
+                                            <i class="wds-icon-plus"></i>
+                                        </a>
+                                    </div>
+	                                <?php if (!empty($twitter['images']) && is_array($twitter['images'])) : ?>
+		                                <?php foreach ($twitter['images'] as $twitter_image) : ?>
+                                            <input type="text" class="widefat"
+                                                   name="wds-twitter[images][]"
+                                                   value="<?php echo esc_attr($twitter_image); ?>"/>
+		                                <?php endforeach; ?>
+	                                <?php endif; ?>
+                                </div>
+                            </div>
+
+                            <p class="wds-label-description"><?php esc_html_e( 'This image will be available to use as the featured image when the term page is shared.', 'wds' ); ?></p>
 						</div>
 				</div> <!-- fields -->
 			</div> <!-- wds-table-fields -->

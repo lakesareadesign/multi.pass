@@ -5,10 +5,10 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Functions
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2012-2014, David Decker - DECKERWEB
- * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
- * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
- * @link       http://deckerweb.de/twitter
+ * @copyright  Copyright (c) 2012-2018, David Decker - DECKERWEB
+ * @license    https://opensource.org/licenses/GPL-2.0 GPL-2.0+
+ * @link       https://github.com/deckerweb/multisite-toolbar-additions
+ * @link       https://deckerweb.de/twitter
  *
  * @since      1.0.0
  */
@@ -18,17 +18,38 @@
  *
  * @since 1.7.0
  */
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
 
 /**
+ * Determining a certain version of WordPress for easier version comparing.
+ *
+ * @since  1.8.0
+ *
+ * @param  $wpversion String for a given WordPress version for checking.
+ *
+ * @global string $GLOBALS[ 'wp_version' ]
+ *
+ * @return bool $is_version If checked version is TRUE or FALSE.
+ */
+function ddw_mstba_is_wpversion( $wpversion = '' ) {
+
+	$is_version = ( version_compare( $GLOBALS[ 'wp_version' ], esc_attr( $wpversion ), '>='
+	) ) ? TRUE : FALSE;
+
+	return $is_version;
+
+}  // end function
+
+
+/**
  * Check for active plugin "WP German Formal" plus German locale based install.
  *
- * @since 1.7.0
+ * @since  1.7.0
  *
- * @uses  get_locale()
+ * @uses   get_locale()
  *
  * @return bool TRUE if plugin "WP German Formal" is active and we are in a
  *              German locale based install, otherwise FALSE.
@@ -55,7 +76,7 @@ function ddw_mstba_is_wpgermanformal() {
  *
  * @uses   ddw_mstba_is_wpgermanformal()
  *
- * @return array Array of varios string for "Dashboard" contexts - filterable.
+ * @return array $dashboard_string Array of varios string for "Dashboard" contexts - filterable.
  */
 function ddw_mstba_string_dashboard() {
 
@@ -81,16 +102,36 @@ function ddw_mstba_string_dashboard() {
  * @version 1.7.0
  *
  * @uses    is_multisite()
+ *
+ * @global  $GLOBALS[ 'wp_customize' ]
+ *
+ * @return  string $mstba_menu_string String for menu location.
  */
 function ddw_mstba_string_super_admin_menu_location() {
 
-	/** Menu location string */
-	$mstba_menu_string = sprintf(
-		'<span title="%s: %s">' . esc_attr__( '%s Toolbar Menu', 'multisite-toolbar-additions' ) . '</span>',
-		esc_html__( 'via Plugin', 'multisite-toolbar-additions' ),
-		esc_html__( 'Multisite Toolbar Additions', 'multisite-toolbar-additions' ),
-		( is_multisite() ) ? __( 'Multisite', 'multisite-toolbar-additions' ) : __( 'Site', 'multisite-toolbar-additions' )
-	);
+	/** Helper strings */
+	$string_via       = esc_html__( 'via Plugin', 'multisite-toolbar-additions' );
+	$string_plugin    = esc_html__( 'Multisite Toolbar Additions', 'multisite-toolbar-additions' );
+	$string_site_type = ( is_multisite() ) ? __( 'Multisite', 'multisite-toolbar-additions' ) : __( 'Site', 'multisite-toolbar-additions' );
+
+	/** Build menu location string */
+	if ( isset( $GLOBALS[ 'wp_customize' ] ) ) {
+
+		$mstba_menu_string = sprintf(
+			esc_attr__( '%s Toolbar Menu', 'multisite-toolbar-additions' ),
+			$string_site_type
+		);
+
+	} else {
+
+		$mstba_menu_string = sprintf(
+			'<span title="%s: %s">' . esc_attr__( '%s Toolbar Menu', 'multisite-toolbar-additions' ) . '</span>',
+			$string_via,
+			$string_plugin,
+			$string_site_type
+		);
+
+	}  // end if
 
 	/** Output */
 	return $mstba_menu_string;
@@ -101,18 +142,38 @@ function ddw_mstba_string_super_admin_menu_location() {
 /**
  * String for restricted Site Admin menu location.
  *
- * @since 1.7.0
+ * @since  1.7.0
+ *
+ * @global $GLOBALS[ 'wp_customize' ]
+ *
+ * @return string $mstba_menu_string String for menu location.
  */
 function ddw_mstba_string_restricted_admin_menu_location() {
 
-	/** Menu location string */
-	$mstba_menu_string = sprintf(
-		'<span title="%s: %s">%s (%s)</span>',
-		esc_html__( 'via Plugin', 'multisite-toolbar-additions' ),
-		esc_html__( 'Multisite Toolbar Additions', 'multisite-toolbar-additions' ),
-		__( 'Restricted Site Admin Menu', 'multisite-toolbar-additions' ),
-		__( 'Toolbar', 'multisite-toolbar-additions' )
-	);
+	/** Helper strings */
+	$string_restricted = __( 'Restricted Site Admin Menu', 'multisite-toolbar-additions' );
+	$string_toolbar    = __( 'Toolbar', 'multisite-toolbar-additions' );
+
+	/** Build menu location string */
+	if ( isset( $GLOBALS[ 'wp_customize' ] ) ) {
+
+		$mstba_menu_string = sprintf(
+			'<span title="%s: %s">%s (%s)</span>',
+			esc_html__( 'via Plugin', 'multisite-toolbar-additions' ),
+			esc_html__( 'Multisite Toolbar Additions', 'multisite-toolbar-additions' ),
+			$string_restricted,
+			$string_toolbar
+		);
+
+	} else {
+
+		$mstba_menu_string = sprintf(
+			'%s (%s)',
+			$string_restricted,
+			$string_toolbar
+		);
+
+	}  // end if
 
 	/** Output */
 	return $mstba_menu_string;
@@ -131,13 +192,12 @@ function ddw_mstba_string_restricted_admin_menu_location() {
 function ddw_mstba_restricted_admin_menu_cap() {
 
 	/** Set filterable cap */
-	$admin_cap = apply_filters(
-		'mstba_filter_restricted_admin_menu_cap',
-		'edit_theme_options'
+	return sanitize_key(
+		apply_filters(
+			'mstba_filter_restricted_admin_menu_cap',
+			'edit_theme_options'
+		)
 	);
-
-	/** Return the cap */
-	return esc_attr( strtolower( $admin_cap ) );
 
 }  // end of function ddw_mstba_restricted_admin_menu_cap
 
@@ -219,15 +279,12 @@ function ddw_mstba_get_menu_id_from_menu_location( $single_menu_location ) {
  *
  * @since  1.7.0
  *
- * @uses   is_super_admin()
  * @uses   ddw_mstba_get_menu_id_from_menu_location()
- * @uses   current_user_can()
- * @uses   wp_die()
  *
  * @param  string $single_menu_location
  * @param  string $checked_capability
  *
- * @global obj $GLOBALS[ 'pagenow' ]
+ * @global object $GLOBALS[ 'pagenow' ]
  */
 function ddw_mstba_restrict_nav_menu_edit_access( $single_menu_location, $checked_capability ) {
 
@@ -238,7 +295,7 @@ function ddw_mstba_restrict_nav_menu_edit_access( $single_menu_location, $checke
 
 	}  // end if
 
-	$menu_id = ddw_mstba_get_menu_id_from_menu_location( $single_menu_location );
+	$menu_id = absint( ddw_mstba_get_menu_id_from_menu_location( esc_attr( $single_menu_location ) ) );
 
 	/**
 	 * Only for admin users remove edit access to the appended restricted admin menu.
@@ -249,11 +306,11 @@ function ddw_mstba_restrict_nav_menu_edit_access( $single_menu_location, $checke
 		&& 'nav-menus.php' === $GLOBALS[ 'pagenow' ]
 		&& (
 				isset( $_GET[ 'action' ] )
-				&& 'edit' == $_GET[ 'action' ]
+				&& 'edit' === sanitize_key( wp_unslash( $_GET[ 'action' ] ) )
 			)
 		&& (
 				isset( $_GET[ 'menu' ] )
-				&& $menu_id == $_GET[ 'menu' ]
+				&& $menu_id === absint( $_GET[ 'menu' ] )
 			)
 	) {
 
@@ -268,3 +325,104 @@ function ddw_mstba_restrict_nav_menu_edit_access( $single_menu_location, $checke
 	}  // end if
 
 }  // end of function ddw_mstba_restrict_edit_admin_menu
+
+
+/**
+ * Helper function for returning plugin installer admin url.
+ *
+ * @since  1.8.0
+ *
+ * @uses   ddw_mstba_is_wpversion() For WP version check.
+ * @uses   network_admin_url()
+ *
+ * @return string String of admin url.
+ */
+function ddw_mstba_plugin_install_link() {
+
+	/** For WordPress 4.0+ */
+	if ( ddw_mstba_is_wpversion( '4.0' ) ) {
+
+		return network_admin_url( 'plugin-install.php?tab=featured' );
+
+	} // end if
+
+	return network_admin_url( 'plugin-install.php?tab=dashboard' );
+
+}  // end of function ddw_mstba_plugin_install_link
+
+
+/**
+ * Helper function for returning theme installer admin url.
+ *
+ * @since  1.7.1
+ *
+ * @uses   ddw_mstba_is_wpversion() For WP version check.
+ * @uses   network_admin_url()
+ *
+ * @return string String of admin url.
+ */
+function ddw_mstba_theme_install_link() {
+
+	/** For WordPress 3.9+ */
+	if ( ddw_mstba_is_wpversion( '3.9' ) ) {
+
+		return network_admin_url( 'theme-install.php' );
+
+	} // end if
+
+	return network_admin_url( 'theme-install.php?tab=dashboard' );
+
+}  // end of function ddw_mstba_theme_install_link
+
+
+/**
+ * Helper function for returning theme uploader admin url.
+ *
+ * @since  1.7.1
+ *
+ * @uses   ddw_mstba_is_wpversion() For WP version check.
+ * @uses   network_admin_url()
+ *
+ * @return string String of admin url.
+ */
+function ddw_mstba_theme_upload_link() {
+
+	/** For WordPress 3.9+ wp_ajax_query_themes */
+	if ( ddw_mstba_is_wpversion( '3.9' ) ) {
+
+		return network_admin_url( 'theme-install.php?upload' );
+
+	} // end if
+
+	return network_admin_url( 'theme-install.php?tab=upload' );
+
+}  // end of function ddw_mstba_theme_upload_link
+
+
+/**
+ * Helper function for generating custom links.
+ *
+ * @since  1.7.1
+ *
+ * @param  string $site
+ * @param  int    $ref
+ * @param  bool   $www
+ * @param  bool   $ssl
+ *
+ * @return string $link String of external url.
+ */
+function ddw_mstba_affwp( $site = '', $ref = '', $www = FALSE, $ssl = FALSE ) {
+
+	/** Build link */
+	$link = sprintf(
+		'%1$s://%2$s%3$s?ref=%4$s',
+		( $ssl ) ? 'https' : 'http',
+		( $www ) ? 'www.' : '',
+		esc_attr( $site ),
+		esc_attr( $ref )
+	);
+
+	/** Output */
+	return esc_url_raw( $link );
+
+}  // end of function ddw_mstba_affwp

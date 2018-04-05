@@ -3,7 +3,7 @@
 Plugin Name: Appointments+
 Description: Lets you accept appointments from front end and manage or create them from admin side
 Plugin URI: http://premium.wpmudev.org/project/appointments-plus/
-Version: 2.2.4
+Version: 2.2.5
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
 Textdomain: appointments
@@ -32,7 +32,7 @@ if ( ! class_exists( 'Appointments' ) ) {
 
 	class Appointments {
 
-		public $version = '2.2.4';
+		public $version = '2.2.5';
 		public $db_version;
 
 		public $timetables = array();
@@ -2138,11 +2138,13 @@ if ( ! class_exists( 'Appointments' ) ) {
 	 *
 	 * @return string
 	 */
-		public function _time_selector( $name, $min_secs, $selected = '' ) {
+		public function _time_selector( $name, $min_secs, $selected = '', $worker = null ) {
+
+			$start_hour = apply_filters( 'appointments_first_working_hour', 0, $name, $worker );
 			ob_start();
 			?>
 			<select name="<?php echo esc_attr( $name ); ?>" autocomplete="off">
-				<?php for ( $t = 0; $t < 3600 * 24; $t = $t + $min_secs ) :  ?>
+				<?php for ( $t = $start_hour; $t < 3600 * 24; $t = $t + $min_secs ) :  ?>
 					<?php
 
 						$dhours = $this->secs2hours( $t, 'H:i', false ); // Hours in 08:30 format - escape, because they're values now.

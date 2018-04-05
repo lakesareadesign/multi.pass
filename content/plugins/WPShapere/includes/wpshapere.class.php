@@ -45,7 +45,6 @@ if (!class_exists('WPSHAPERE')) {
 	    add_filter('login_headertitle', array($this, 'wpshapere_login_title'));
 	    add_action('admin_head', array($this, 'generalFns'));
 
-	    //add_action('plugins_loaded',array($this, 'download_settings'));
       add_action('plugins_loaded',array($this, 'get_admin_users'));
 	    add_action('login_footer', array($this, 'login_footer_content'));
 
@@ -135,13 +134,12 @@ if (!class_exists('WPSHAPERE')) {
 
 	public function wpshapeLogincss()
 	{
-    include_once(WPSHAPERE_PATH.'assets/css/wpshapere.login.css.php');
+    include_once( WPSHAPERE_PATH . 'assets/css/wpshapere.login.css.php');
 	}
 
 	public function wpshapeOptionscss()
 	{
-	  include_once(WPSHAPERE_PATH.'assets/css/wpshapere.css.php');
-    //echo '<link rel="stylesheet" href="'. WPSHAPERE_DIR_URI .'assets/styles/style.css">';
+	  include_once( WPSHAPERE_PATH . 'assets/css/wpshapere.css.php');
 	}
 
   function get_admin_users() {
@@ -646,32 +644,6 @@ echo '<div class="menu_edit_wrap"><input type="checkbox"' . $menu_hide . ' class
         }
     }
 
-  	public function wpsiconStyles(){
-  		$wps_sorteddmenu = $this->get_wps_option_data('wpshapere_menuorder');
-      $faicons = new WPSFAICONS();
-      $faicons_data = $faicons->wps_fa_icons();
-
-  		if(!empty($wps_sorteddmenu)){
-
-        $icon_styles = "";
-    		foreach($wps_sorteddmenu as $menu_data_key => $menu_data_val){
-    			$sel_icon = (isset($menu_data_val[2])) ? $menu_data_val[2] : "";
-    			$icon_data = explode("|", $sel_icon);
-    			if( strpos($menu_data_key, '_sbchild') === false && $icon_data[0] == 'fa') {
-    				if(isset($icon_data[1]) && !empty($icon_data[1])){
-    				$icon_styles .= '#adminmenu li.wps_icon_' . $menu_data_key . ' a.wps_icon_' . $menu_data_key . ' div.wp-menu-image:before {';
-    				$icon_styles .= 'font-family: "FontAwesome" !important; content: "' . $faicons_data[$icon_data[1]] . '" !important';
-    				$icon_styles .= '}';
-    				}
-    			}
-    		}
-
-        return $icon_styles;
-
-  		}
-
-  	}
-
     public function wps_compress_css($css) {
       $cssContents = "";
       // Remove comments
@@ -805,37 +777,65 @@ function wps_video_frame_css()
 
 	public function frontendActions()
 	{
+      $css_styles = '';
+
 	    //remove admin bar
 	    if($this->aof_options['hide_admin_bar'] == 1) {
         add_filter( 'show_admin_bar', '__return_false' );
         echo '<style type="text/css">html { margin-top: 0 !important; }</style>';
 	    }
 	    else {
-        echo '<link rel="stylesheet" href="'.WPSHAPERE_DIR_URI.'assets/styles/style.css">';
-?>
-		<style>
-		#wpadminbar, #wpadminbar .menupop .ab-sub-wrapper { background: <?php echo $this->aof_options['admin_bar_color']; ?>;}
-#wpadminbar a.ab-item, #wpadminbar>#wp-toolbar span.ab-label, #wpadminbar>#wp-toolbar span.noticon { color: <?php echo $this->aof_options['admin_bar_menu_color']; ?> }
-#wpadminbar .ab-top-menu>li>.ab-item:focus, #wpadminbar.nojq .quicklinks .ab-top-menu>li>.ab-item:focus, #wpadminbar .ab-top-menu>li:hover>.ab-item, #wpadminbar .ab-top-menu>li.hover>.ab-item, #wpadminbar .quicklinks .menupop ul li a:focus, #wpadminbar .quicklinks .menupop ul li a:focus strong, #wpadminbar .quicklinks .menupop ul li a:hover, #wpadminbar-nojs .ab-top-menu>li.menupop:hover>.ab-item, #wpadminbar .ab-top-menu>li.menupop.hover>.ab-item, #wpadminbar .quicklinks .menupop ul li a:hover strong, #wpadminbar .quicklinks .menupop.hover ul li a:focus, #wpadminbar .quicklinks .menupop.hover ul li a:hover, #wpadminbar li .ab-item:focus:before, #wpadminbar li a:focus .ab-icon:before, #wpadminbar li.hover .ab-icon:before, #wpadminbar li.hover .ab-item:before, #wpadminbar li:hover #adminbarsearch:before, #wpadminbar li:hover .ab-icon:before, #wpadminbar li:hover .ab-item:before, #wpadminbar.nojs .quicklinks .menupop:hover ul li a:focus, #wpadminbar.nojs .quicklinks .menupop:hover ul li a:hover, #wpadminbar li:hover .ab-item:after, #wpadminbar>#wp-toolbar a:focus span.ab-label, #wpadminbar>#wp-toolbar li.hover span.ab-label, #wpadminbar>#wp-toolbar li:hover span.ab-label { color: <?php echo $this->aof_options['admin_bar_menu_hover_color']; ?> }
 
-.quicklinks li.wpshapere_site_title { width: 200px !important; }
-.quicklinks li.wpshapere_site_title a{ outline:none; border:none;
-<?php
+      include_once( WPSHAPERE_PATH . 'assets/css/wps-front-css.php');
 
-  $admin_logo_url = (is_numeric($this->aof_options['admin_logo'])) ? $this->get_wps_image_url($this->aof_options['admin_logo']) : $this->aof_options['admin_logo'];
+		   $css_styles .= '<style type="text/css">
+      		#wpadminbar, #wpadminbar .menupop .ab-sub-wrapper { background: '. $this->aof_options['admin_bar_color'] . '}
+      #wpadminbar a.ab-item, #wpadminbar>#wp-toolbar span.ab-label, #wpadminbar>#wp-toolbar span.noticon { color: '. $this->aof_options['admin_bar_menu_color'] . '}
+      #wpadminbar .ab-top-menu>li>.ab-item:focus, #wpadminbar.nojq .quicklinks .ab-top-menu>li>.ab-item:focus, #wpadminbar .ab-top-menu>li:hover>.ab-item,
+      #wpadminbar .ab-top-menu>li.hover>.ab-item, #wpadminbar .quicklinks .menupop ul li a:focus, #wpadminbar .quicklinks .menupop ul li a:focus strong,
+      #wpadminbar .quicklinks .menupop ul li a:hover, #wpadminbar-nojs .ab-top-menu>li.menupop:hover>.ab-item, #wpadminbar .ab-top-menu>li.menupop.hover>.ab-item,
+      #wpadminbar .quicklinks .menupop ul li a:hover strong, #wpadminbar .quicklinks .menupop.hover ul li a:focus, #wpadminbar .quicklinks .menupop.hover ul li a:hover,
+      #wpadminbar li .ab-item:focus:before, #wpadminbar li a:focus .ab-icon:before, #wpadminbar li.hover .ab-icon:before, #wpadminbar li.hover .ab-item:before,
+      #wpadminbar li:hover #adminbarsearch:before, #wpadminbar li:hover .ab-icon:before, #wpadminbar li:hover .ab-item:before,
+      #wpadminbar.nojs .quicklinks .menupop:hover ul li a:focus, #wpadminbar.nojs .quicklinks .menupop:hover ul li a:hover, #wpadminbar li:hover .ab-item:after,
+      #wpadminbar>#wp-toolbar a:focus span.ab-label, #wpadminbar>#wp-toolbar li.hover span.ab-label, #wpadminbar>#wp-toolbar li:hover span.ab-label {
+        color: '. $this->aof_options['admin_bar_menu_hover_color'] . '}
 
-if(!empty($admin_logo_url)){ ?>
-background-image:url(<?php echo $admin_logo_url;  ?>) !important; background-repeat: no-repeat !important; background-position: center center !important; background-size: 70% auto !important; text-indent:-9999px !important; width: auto !important;
-<?php } ?>
- }
+      .quicklinks li.wpshapere_site_title { width: 200px !important; }
+      .quicklinks li.wpshapere_site_title a{ outline:none; border:none;';
 
-#wpadminbar .ab-top-menu>li>.ab-item:focus, #wpadminbar-nojs .ab-top-menu>li.menupop:hover>.ab-item, #wpadminbar.nojq .quicklinks .ab-top-menu>li>.ab-item:focus, #wpadminbar .ab-top-menu>li:hover>.ab-item, #wpadminbar .ab-top-menu>li.menupop.hover>.ab-item, #wpadminbar .ab-top-menu>li.hover>.ab-item { background: none }
-#wpadminbar .quicklinks .menupop ul li a, #wpadminbar .quicklinks .menupop ul li a strong, #wpadminbar .quicklinks .menupop.hover ul li a, #wpadminbar.nojs .quicklinks .menupop:hover ul li a { color: <?php echo $this->aof_options['admin_bar_menu_color']; ?>; font-size:13px !important }
-#wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar>a img {	width: 20px; height: 20px; border-radius: 100px; -moz-border-radius: 100px; -webkit-border-radius: 100px; 	border: none; }
-		</style>
-		<?php
-	    }
-	}
+        if(!empty($this->aof_options['adminbar_external_logo_url']) && filter_var($this->aof_options['adminbar_external_logo_url'], FILTER_VALIDATE_URL)) {
+          $adminbar_logo = esc_url( $this->aof_options['adminbar_external_logo_url']);
+        }
+        else {
+          $adminbar_logo = (is_numeric($this->aof_options['admin_logo'])) ? $this->get_wps_image_url($this->aof_options['admin_logo']) : $this->aof_options['admin_logo'];
+        }
+
+        if(!empty($adminbar_logo)){
+          $css_styles .= '.quicklinks li.wpshapere_site_title a{
+            background-image:url('. $adminbar_logo . ') !important;
+          background-repeat: no-repeat !important;
+          background-position: center center !important;
+          background-size: 70% auto !important;
+          text-indent:-9999px !important;
+          width: auto !important}';
+        }
+
+        $css_styles .= '#wpadminbar .ab-top-menu>li>.ab-item:focus, #wpadminbar-nojs .ab-top-menu>li.menupop:hover>.ab-item,
+        #wpadminbar.nojq .quicklinks .ab-top-menu>li>.ab-item:focus, #wpadminbar .ab-top-menu>li:hover>.ab-item,
+        #wpadminbar .ab-top-menu>li.menupop.hover>.ab-item, #wpadminbar .ab-top-menu>li.hover>.ab-item { background: none }
+        #wpadminbar .quicklinks .menupop ul li a, #wpadminbar .quicklinks .menupop ul li a strong, #wpadminbar .quicklinks .menupop.hover ul li a,
+        #wpadminbar.nojs .quicklinks .menupop:hover ul li a { color:'. $this->aof_options['admin_bar_menu_color'] .'; font-size:13px !important }
+        #wpadminbar .quicklinks li#wp-admin-bar-my-account.with-avatar>a img {
+          width: 20px; height: 20px; border-radius: 100px; -moz-border-radius: 100px; -webkit-border-radius: 100px; 	border: none;
+        }
+      	</style>';
+
+        //echo $this->wps_compress_css($css_styles);
+
+      }//end of else
+
+  }
 
   public function hideupdateNotices() {
           echo '<style>.update-nag, .updated, .notice { display: none; }</style>';

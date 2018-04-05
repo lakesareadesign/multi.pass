@@ -108,18 +108,20 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 	private function _validate_and_save_extra_options( $input ) {
 		// Blog tabs
 		if ( is_multisite() && current_user_can( 'manage_network_options' ) ) {
-			$raw = ! empty( $input['wds_blog_tabs'] ) && is_array( $input['wds_blog_tabs'] )
-				? $input['wds_blog_tabs']
-				: array()
-			;
-			$tabs = array();
-			foreach ( $raw as $key => $tab ) {
-				if ( ! empty( $tab ) ) { $tabs[ $key ] = true; }
+			if ( isset( $input['wds_blog_tabs'] ) || isset( $input['wds_sitewide_mode'] ) ) {
+				$raw = ! empty( $input['wds_blog_tabs'] ) && is_array( $input['wds_blog_tabs'] )
+					? $input['wds_blog_tabs']
+					: array()
+				;
+				$tabs = array();
+				foreach ( $raw as $key => $tab ) {
+					if ( ! empty( $tab ) ) { $tabs[ $key ] = true; }
+				}
+
+				update_site_option( 'wds_blog_tabs', $tabs );
+
+				update_site_option( 'wds_sitewide_mode', (int) ! empty( $input['wds_sitewide_mode'] ) );
 			}
-
-			update_site_option( 'wds_blog_tabs', $tabs );
-
-			update_site_option( 'wds_sitewide_mode', (int) ! empty( $input['wds_sitewide_mode'] ) );
 		}
 
 		// Sitemaps validation/save
@@ -190,6 +192,11 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 
 		add_action( 'admin_init', array( $this, 'activate_component' ) );
 		add_action( 'admin_init', array( $this, 'save_moz_api_credentials' ) );
+		add_action( 'network_admin_notices', array( $this, 'import_notice' ) );
+
+		if ($this->display_single_site_import_notice()) {
+			add_action('admin_notices', array($this, 'import_notice'));
+		}
 
 		if ( ! class_exists( 'Smartcrawl_Controller_IO' ) ) {
 			require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_controller_io.php' );
@@ -409,5 +416,76 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 		}
 
 		return $user_role_options;
+	}
+
+	private function get_yoast_importer()
+	{
+		if (!class_exists('SmartCrawl_Yoast_Importer')) {
+			require_once(SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_yoast_importer.php');
+		}
+
+		return new SmartCrawl_Yoast_Importer();
+	}
+
+	private function get_aioseop_importer()
+	{
+		if (!class_exists('SmartCrawl_AIOSEOP_Importer')) {
+			require_once(SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_aioseop_importer.php');
+		}
+
+		return new SmartCrawl_AIOSEOP_Importer();
+	}
+
+	function import_notice()
+	{
+		if (!current_user_can('manage_options')) {
+			return;
+		}
+
+		$this->show_import_notice(
+			$this->get_yoast_importer(),
+			esc_html__('Yoast SEO', 'wds'),
+			'wordpress-seo/wp-seo.php'
+		);
+
+		$this->show_import_notice(
+			$this->get_aioseop_importer(),
+			esc_html__('All In One SEO', 'wds'),
+			'all-in-one-seo-pack/all_in_one_seo_pack.php'
+		);
+	}
+
+	/**
+	 * @param $importer SmartCrawl_Importer
+	 * @param $plugin_name string
+	 */
+	function show_import_notice($importer, $plugin_name, $plugin)
+	{
+		if (!$importer->data_exists() || !is_plugin_active($plugin)) {
+			return;
+		}
+
+		$auto_import_url = sprintf(
+			'<a href="%s">%s</a>',
+			Smartcrawl_Settings_Admin::admin_url(Smartcrawl_Settings::TAB_SETTINGS) . '#tab_import_export',
+			esc_html__('auto-import', 'wds')
+		);
+		$message = sprintf(
+			esc_html__("We've detected you have %s installed. Do you want to %s your configuration into SmartCrawl?"),
+			$plugin_name,
+			$auto_import_url
+		);
+
+		?>
+		<div class="notice-warning notice is-dismissible"><p><?php echo $message; ?></p></div>
+		<?php
+	}
+
+	private function display_single_site_import_notice()
+	{
+		// Always display on non-multisite
+		return !is_multisite()
+		// or when site-wide flag is off and the current site is the main network site
+		|| (is_main_site() && !smartcrawl_is_switch_active('SMARTCRAWL_SITEWIDE'));
 	}
 }

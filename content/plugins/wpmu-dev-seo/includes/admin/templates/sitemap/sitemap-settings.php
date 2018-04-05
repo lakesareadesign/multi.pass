@@ -113,7 +113,7 @@ if ( ! smartcrawl_is_allowed_tab( $_view['slug'] ) ) {
 				'title_button' => 'upgrade',
 				'tab_sections' => array(
 					array(
-						'section_description' => esc_html__( 'Set up SmartCrawl to automatically crawl your URLs daily, weekly or monthly and receive an email report to as many recipients as you like.', 'wds' ),
+						'section_description' => esc_html__( 'Set up SmartCrawl to automatically crawl your URLs daily, weekly or monthly and send an email report to as many recipients as you like.', 'wds' ),
 						'section_template'    => 'sitemap/sitemap-section-reporting',
 					),
 				),

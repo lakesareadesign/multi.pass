@@ -56,6 +56,10 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 			$result['og-enable']
 		);
 
+		$this->_toggle_twitter_cards_globally(
+			$result['twitter-card-enable']
+		);
+
 		if ( ! empty( $input['pinterest-verify'] ) ) {
 			if ( ! class_exists( 'Smartcrawl_Pinterest_Printer' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/tools/class_wds_pinterest_printer.php' ); }
 			$pin = Smartcrawl_Pinterest_Printer::get();
@@ -69,6 +73,14 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 	}
 
 	private function _toggle_og_globally( $new_value ) {
+		$this->toggle_setting_globally('og-active', $new_value);
+	}
+
+	private function _toggle_twitter_cards_globally( $new_value ) {
+		$this->toggle_setting_globally('twitter-active', $new_value);
+	}
+
+	private function toggle_setting_globally( $prefix, $new_value ) {
 		$existing_settings = Smartcrawl_Settings::get_specific_options( 'wds_onpage_options' );
 		$strings = array(
 			'home',
@@ -93,8 +105,8 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 			$strings[] = $post_type;
 		}
 
-		foreach ( $strings as $string ) {
-			$existing_settings[ "og-active-{$string}" ] = $new_value;
+		foreach ($strings as $string) {
+			$existing_settings[ sprintf('%s-%s', $prefix, $string) ] = $new_value;
 		}
 
 		Smartcrawl_Settings::update_specific_options( 'wds_onpage_options', $existing_settings );

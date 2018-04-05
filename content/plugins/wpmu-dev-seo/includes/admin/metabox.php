@@ -86,6 +86,9 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 		));
 		Smartcrawl_Settings_Admin::register_global_admin_scripts();
 		wp_enqueue_script( 'wds_metabox_onpage', SMARTCRAWL_PLUGIN_URL . '/js/wds-metabox.js', array( 'wds-select2' ), $version );
+		wp_localize_script('wds_metabox_onpage', 'l10nWdsMetabox', array(
+			'content_analysis_working' => __('Analyzing content, please wait a few moments', 'wds'),
+		));
 
 		Smartcrawl_Settings_Admin::enqueue_shared_ui( false );
 
@@ -208,9 +211,9 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 			$result['disabled'] = ! empty( $input['disabled'] );
 			if ( ! empty( $input['title'] ) ) { $result['title'] = sanitize_text_field( $input['title'] ); }
 			if ( ! empty( $input['description'] ) ) { $result['description'] = sanitize_text_field( $input['description'] ); }
-			if ( ! empty( $input['og-images'] ) && is_array( $input['og-images'] ) ) {
+			if ( ! empty( $input['images'] ) && is_array( $input['images'] ) ) {
 				$result['images'] = array();
-				foreach ( $input['og-images'] as $img ) {
+				foreach ( $input['images'] as $img ) {
 					$img = esc_url_raw( $img );
 					$result['images'][] = $img;
 				}
@@ -226,9 +229,15 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 			$twitter = array();
 
 			$twitter['disabled'] = ! empty( $input['disabled'] );
-			$twitter['use_og'] = ! empty( $input['use_og'] );
 			if ( ! empty( $input['title'] ) ) { $twitter['title'] = sanitize_text_field( $input['title'] ); }
 			if ( ! empty( $input['description'] ) ) { $twitter['description'] = sanitize_text_field( $input['description'] ); }
+			if ( ! empty( $input['images'] ) && is_array( $input['images'] ) ) {
+				$twitter['images'] = array();
+				foreach ( $input['images'] as $img ) {
+					$img = esc_url_raw( $img );
+					$twitter['images'][] = $img;
+				}
+			}
 
 			if ( ! empty( $twitter ) ) {
 				update_post_meta( $post_id, '_wds_twitter', $twitter );

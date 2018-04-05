@@ -61,12 +61,13 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 
 	public function dispatch_tags_injection() {
 		if ( ! ! $this->_is_done ) { return false; }
-
-		$card = $this->get_card_content();
-		if ( empty( $card ) ) { return false; // No card type, nothing to output
-		}
 		$this->_is_done = true;
 
+		if (!$this->is_enabled()) {
+			return false;
+		}
+
+		$card = $this->get_card_content();
 		echo $this->get_html_tag( 'card', $card );
 
 		$this->_resolver = Smartcrawl_Endpoint_Resolver::resolve();
@@ -90,20 +91,6 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 	 * @return string Card type
 	 */
 	public function get_card_content() {
-		$meta = array();
-
-		if ( is_singular() ) {
-			$meta = smartcrawl_get_value( 'twitter' );
-		} elseif ( is_category() || is_tag() || is_tax() ) {
-			$term = get_queried_object();
-			$type = false;
-			if ( ! empty( $term ) && is_object( $term ) && ! empty( $term->taxonomy ) ) {
-				$type = $term->taxonomy;
-			}
-			if ( $type ) { $meta = smartcrawl_get_term_meta( $term, $type, 'twitter' ); }
-		}
-		if ( ! empty( $meta['disabled'] ) ) { return false; }
-
 		$options = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_SOCIAL );
 		$card = is_array( $options ) && ! empty( $options['twitter-card-type'] )
 			? $options['twitter-card-type']
@@ -132,26 +119,90 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 		;
 	}
 
+	private function get_type_string($location)
+	{
+		// @todo: make sure are location types from Smartcrawl_Endpoint_Resolver are handled
+		$mapping = array(
+			Smartcrawl_Endpoint_Resolver::L_BLOG_HOME      => 'home',
+			Smartcrawl_Endpoint_Resolver::L_STATIC_HOME    => 'home',
+			Smartcrawl_Endpoint_Resolver::L_SEARCH         => 'search',
+			Smartcrawl_Endpoint_Resolver::L_404            => '404',
+			Smartcrawl_Endpoint_Resolver::L_AUTHOR_ARCHIVE => 'author',
+			Smartcrawl_Endpoint_Resolver::L_BP_GROUPS      => 'bp_groups',
+			Smartcrawl_Endpoint_Resolver::L_BP_PROFILE     => 'bp_profile',
+		);
+
+		$queried_object = get_queried_object();
+		if (is_a($queried_object, 'WP_Post')) {
+			$mapping[ Smartcrawl_Endpoint_Resolver::L_SINGULAR ] = get_post_type($queried_object);
+		} elseif (is_a($queried_object, 'WP_Term')) {
+			$mapping[ Smartcrawl_Endpoint_Resolver::L_TAX_ARCHIVE ] = $queried_object->taxonomy;
+		}
+
+		return isset($mapping[ $location ]) ? $mapping[ $location ] : '';
+	}
+
+	private function get_twitter_meta($key)
+	{
+		$meta = array();
+		$queried_object = get_queried_object();
+		if (is_a($queried_object, 'WP_Post')) {
+			$meta = smartcrawl_get_value('twitter');
+		} elseif (is_a($queried_object, 'WP_Term')) {
+			$meta = smartcrawl_get_term_meta($queried_object, $queried_object->taxonomy, 'twitter');;
+		}
+
+		return isset($meta[ $key ]) ? $meta[ $key ] : '';
+	}
+
+	private function get_twitter_setting($key)
+	{
+		$settings = Smartcrawl_Settings::get_options();
+		$resolver = Smartcrawl_Endpoint_Resolver::resolve();
+		$type_string = $this->get_type_string($resolver->get_location());
+		$setting_key = sprintf('twitter-%s-%s', $key, $type_string);
+
+		return isset($settings[ $setting_key ]) ? $settings[ $setting_key ] : '';
+	}
+
+	private function is_enabled()
+	{
+		$disabled_for_object = (bool)$this->get_twitter_meta('disabled');
+		$enabled_for_type = (bool)$this->get_twitter_setting('active');
+		return !$disabled_for_object && $enabled_for_type;
+	}
+
+	private function get_tag_content($key, $default)
+	{
+		// Check the object meta for required value
+		$value_from_meta = $this->get_twitter_meta($key);
+		if (!empty($value_from_meta)) {
+			return $value_from_meta;
+		}
+
+		// Check the plugin settings for required value
+		$value_from_settings = $this->get_twitter_setting($key);
+		if (!empty($value_from_settings)) {
+			return smartcrawl_replace_vars($value_from_settings, get_queried_object());
+		}
+
+		return $default;
+	}
+
 	/**
 	 * Gets image URL to use for this card
 	 *
 	 * @return string Image URL
 	 */
-	public function get_image_content() {
+	public function get_image_content()
+	{
 		$url = '';
-
-		$meta = smartcrawl_get_value( 'twitter' );
-
-		if ( ! empty( $meta['use_og'] ) ) {
-			$img = Smartcrawl_OpenGraph_Printer::get()->get_post_images();
-			if ( ! empty( $img[0] ) ) { return $img[0]; }
-		}
-
-		if ( is_singular() && has_post_thumbnail() ) {
+		if (is_singular() && has_post_thumbnail()) {
 			$url = get_the_post_thumbnail_url();
 		}
 
-		return (string) $url;
+		$images = $this->get_tag_content('images', array($url));
+		return empty($images) ? '' : $images[0];
 	}
 
 	/**
@@ -159,30 +210,13 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 	 *
 	 * @return string Title
 	 */
-	public function get_title_content() {
-		$meta = smartcrawl_get_value( 'twitter' );
-		if ( is_category() || is_tag() || is_tax() ) {
-			$term = get_queried_object();
-			$type = false;
-			if ( ! empty( $term ) && is_object( $term ) && ! empty( $term->taxonomy ) ) {
-				$type = $term->taxonomy;
-			}
-			if ( $type ) { $meta = smartcrawl_get_term_meta( $term, $type, 'twitter' ); }
+	public function get_title_content()
+	{
+		if (!class_exists('Smartcrawl_OnPage')) {
+			require_once(SMARTCRAWL_PLUGIN_DIR . '/tools/onpage.php');
 		}
 
-		if ( ! empty( $meta['use_og'] ) ) {
-			$post = get_post();
-			$title = Smartcrawl_OpenGraph_Printer::get()->get_tag_value( 'title' );
-			if ( ! empty( $title ) ) { return $title; }
-		} elseif ( ! empty( $meta['title'] ) ) {
-			$title = $meta['title'];
-			if ( ! empty( $title ) ) { return $title; }
-		}
-
-		if ( ! class_exists( 'Smartcrawl_OnPage' ) ) {
-			require_once( SMARTCRAWL_PLUGIN_DIR . '/tools/onpage.php' );
-		}
-		return Smartcrawl_OnPage::get()->get_title();
+		return $this->get_tag_content('title', Smartcrawl_OnPage::get()->get_title());
 	}
 
 	/**
@@ -190,27 +224,13 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 	 *
 	 * @return string Description
 	 */
-	public function get_description_content() {
-		$meta = smartcrawl_get_value( 'twitter' );
-		if ( is_category() || is_tag() || is_tax() ) {
-			$term = get_queried_object();
-			$type = false;
-			if ( ! empty( $term ) && is_object( $term ) && ! empty( $term->taxonomy ) ) {
-				$type = $term->taxonomy;
-			}
-			if ( $type ) { $meta = smartcrawl_get_term_meta( $term, $type, 'twitter' ); }
+	public function get_description_content()
+	{
+		if (!class_exists('Smartcrawl_OnPage')) {
+			require_once(SMARTCRAWL_PLUGIN_DIR . '/tools/onpage.php');
 		}
 
-		if ( ! empty( $meta['use_og'] ) ) {
-			$post = get_post();
-			$description = Smartcrawl_OpenGraph_Printer::get()->get_tag_value( 'description' );
-			if ( ! empty( $description ) ) { return $description; }
-		} elseif ( ! empty( $meta['description'] ) ) {
-			$description = $meta['description'];
-			if ( ! empty( $description ) ) { return $description; }
-		}
-
-		return Smartcrawl_OnPage::get()->get_description();
+		return $this->get_tag_content('description', Smartcrawl_OnPage::get()->get_description());
 	}
 
 	/**

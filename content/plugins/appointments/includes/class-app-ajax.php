@@ -108,7 +108,7 @@ class Appointments_AJAX {
 
 		$app_id = absint( $_POST["app_id"] );
 		$app = appointments_get_appointment( $app_id );
-		$app_orig_status = $app->status;
+		$app_orig_status = isset( $app->status ) ? $app->status : '';
 		$data = array();
 
 		$data['user'] = absint( $_POST['user'] );
@@ -161,8 +161,14 @@ class Appointments_AJAX {
 			$data['datetime'] = strtotime( $data['date'] . ' ' . $data['time'] . ':00' );
 			$update_result = appointments_update_appointment( $app_id, $data );
 
-			// Confirmed or Paid have been already sent by "wpmudev_appointments_insert_appointment" action
-			if ( $resend && 'removed' != $data['status'] && 'confirmed' != $data['status'] && 'paid' != $data['status'] ) {
+			// Send confirmation email if requested in update (only for confirmed or similar statuses)
+			$unconfirmable_statuses = array( 'removed', 'pending', 'completed' );
+
+			if( $app_orig_status != $data['status'] || in_array( $data['status'], $unconfirmable_statuses ) ){
+				$resend = false;
+			}
+
+			if ( $resend ) {
 				appointments_send_confirmation( $app_id );
 			}
 
@@ -187,6 +193,7 @@ class Appointments_AJAX {
 
 
 		if ( $update_result ) {
+			$app_orig_status = $app->status;
 			$result = array(
 				'app_id' => $app->ID,
 				'message' => __('<span style="color:green;font-weight:bold">Changes saved.</span>', 'appointments'),
@@ -289,6 +296,8 @@ class Appointments_AJAX {
 		$min_secs = 60 * apply_filters( 'app_admin_min_time', $min_time );
 
 		$services = appointments_get_services();
+		$notifications_sent = appointments_get_appointment_meta( $app_id, '_notifications_sent' );
+		$confirmation_sent = ( is_array( $notifications_sent ) && isset( $notifications_sent['confirmation'] ) && $notifications_sent['confirmation'] );
 
 		ob_start();
 		include( appointments_plugin_dir() . 'admin/views/inline-edit.php' );
@@ -1005,21 +1014,25 @@ class Appointments_AJAX {
 
 		$type = ! empty( $_POST['export_type'] ) ? $_POST['export_type'] : 'all';
 		$apps = array();
+
+		$args = array();
+
 		if ( 'selected' == $type && ! empty( $_POST['app'] ) ) {
 			// selected appointments
 			if ( $_POST['app'] ) {
-				$apps = appointments_get_appointments( array( 'app_id' => array_map( 'absint', $_POST['app'] ) ) );
+				$args = array( 'app_id' => array_map( 'absint', $_POST['app'] ) );
 			}
 		} else if ( 'type' == $type ) {
 			$status = ! empty( $_POST['status'] ) ? $_POST['status'] : false;
 			if ( 'active' === $status ) {
-				$apps = appointments_get_appointments( array( 'status' => array( 'confirmed', 'paid' ) ) );
+				$args = array( 'status' => array( 'confirmed', 'paid' ) );
 			} else if ( $status ) {
-				$apps = appointments_get_appointments( array( 'status' => $status ) );
+				$args = array( 'status' => $status );
 			}
-		} else if ( 'all' == $type ) {
-			$apps = appointments_get_appointments();
 		}
+
+		$args = apply_filters( 'app-export-appointment-args', $args );
+		$apps = appointments_get_appointments( $args );
 
 		if ( empty( $apps ) || ! is_array( $apps ) ) {
 			die( __( 'Nothing to download!', 'appointments' ) );

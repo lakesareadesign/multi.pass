@@ -66,6 +66,7 @@
 				phone			= $(this.nodeClass + ' .fl-phone input'),
 				subject	  		= $(this.nodeClass + ' .fl-subject input'),
 				message	  		= $(this.nodeClass + ' .fl-message textarea'),
+				termsCheckbox   = $(this.nodeClass + ' .fl-terms-checkbox input'),
 				reCaptchaField	= $(this.nodeClass + ' .fl-grecaptcha'),
 				reCaptchaValue	= reCaptchaField.data( 'fl-grecaptcha-response' ),
 				ajaxData 		= null,
@@ -137,6 +138,17 @@
 				message.parent().removeClass('fl-error');
 			}
 
+			// validate the terms and conditions checkbox if enabled
+			if ( termsCheckbox.length ) {
+				if ( ! termsCheckbox.is(':checked') ) {
+					isValid = false;
+					termsCheckbox.closest('.fl-terms-checkbox').addClass('fl-error');
+				}
+				else if (termsCheckbox.parent().hasClass('fl-error')) {
+					termsCheckbox.parent().removeClass('fl-error');
+				}
+			}
+
 			// validate if reCAPTCHA is enabled and checked
 			if ( reCaptchaField.length > 0 && isValid ) {
 				if ( 'undefined' === typeof reCaptchaValue || reCaptchaValue === false ) {
@@ -170,6 +182,7 @@
 					email				: email.val(),
 					phone				: phone.val(),
 					message				: message.val(),
+					terms_checked		: termsCheckbox.is(':checked') ? '1' : '0',
 					post_id 			: postId,
 					template_id 		: templateId,
 					template_node_id 	: templateNodeId,

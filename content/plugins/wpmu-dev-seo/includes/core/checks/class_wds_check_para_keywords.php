@@ -2,7 +2,7 @@
 
 if ( ! class_exists( 'Smartcrawl_Check_Abstract' ) ) { require_once( dirname( __FILE__ ) . '/class_wds_check_abstract.php' ); }
 
-class Smartcrawl_Check_Para_Keywords extends Smartcrawl_Check_Post_Abstract {
+class Smartcrawl_Check_Para_Keywords extends Smartcrawl_Check_Abstract {
 
 	private $_state;
 
@@ -18,11 +18,11 @@ class Smartcrawl_Check_Para_Keywords extends Smartcrawl_Check_Post_Abstract {
 		if ( ! ($content) ) { return ! ! $this->_state = false; }
 
 		$subjects = Smartcrawl_Html::find_content( 'p', $raw );
-		if ( empty( $subjects ) ) { return ! ! $this->_state = true; // No paragraphs whatsoever, nothing to check
-		}
+		if ( empty( $subjects ) ) { return ! ! $this->_state = true; } // No paragraphs whatsoever, nothing to check.
+
 		$subject = reset( $subjects );
-		if ( empty( $subject ) ) { return ! ! $this->_state = false; // First paragraph empty, this fails
-		}
+		if ( empty( $subject ) ) { return ! ! $this->_state = false; } // First paragraph empty, this fails.
+
 		return ! ! $this->_state = $this->has_focus( $subject );
 	}
 

@@ -4,7 +4,9 @@
 
 	window.Wds.OgImage = function ($root) {
 
-		var idx = $root.attr("data-name");
+		var idx = $root.data('name'),
+			singular = $root.data('singular') || false,
+			$plusSign = $root.find('a[href="#add"]').closest('.item');
 
 		var template = '<div class="og-image item">' +
 			'<img src="{{= url }}" />' +
@@ -34,10 +36,14 @@
 			});
 			wp.media.frames.wds_ogimg[idx].off('select').on('select', add_handler);
 
+			if(singular && $root.find("input:text").length) {
+				$plusSign.hide();
+			}
+
 			$root.find("input:text").each(function () {
 				$(this).replaceWith(Wds.tpl_compile(template)({
 					url: $(this).val(),
-					name: $root.attr("data-name") + '[]'
+					name: $root.data("name") + '[]'
 				}));
 			});
 
@@ -49,9 +55,12 @@
 			if (e && e.preventDefault) e.preventDefault();
 
 			$(this).closest(".og-image.item").remove();
+			if(singular) {
+				$plusSign.show();
+			}
 
 			return false;
-		}
+		};
 
 		var add_handler = function () {
 			var selection = wp.media.frames.wds_ogimg[idx].state().get('selection'),
@@ -66,9 +75,11 @@
 			if (!url) return false;
 			$root.append(Wds.tpl_compile(template)({
 				url: url,
-				name: $root.attr("data-name") + '[]'
+				name: $root.data("name") + '[]'
 			}));
-
+			if(singular) {
+				$plusSign.hide();
+			}
 		};
 
 		idx = idx || 0;

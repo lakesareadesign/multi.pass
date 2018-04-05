@@ -66,7 +66,7 @@
 }
 <?php endif; ?>
 
-<?php if ( 'photo' == $row->settings->bg_type && ! empty( $row->settings->bg_image ) ) : // Background Photo ?>
+<?php if ( 'photo' == $row->settings->bg_type && ! empty( $row->settings->bg_image_src ) ) : // Background Photo ?>
 .fl-node-<?php echo $row->node; ?> > .fl-row-content-wrap {
 	background-image: url(<?php echo $row->settings->bg_image_src; ?>);
 	background-repeat: <?php echo $row->settings->bg_repeat; ?>;

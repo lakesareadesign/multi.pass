@@ -42,10 +42,12 @@ class Smartcrawl_Sitemaps_Dashboard_Widget {
 		$opts    = get_option( 'wds_sitemap_dashboard' );
 		$engines = get_option( 'wds_engine_notification' );
 
-		$date = @$opts['time'] ? date( get_option( 'date_format' ), $opts['time'] ) : false;
-		$time = @$opts['time'] ? date( get_option( 'time_format' ), $opts['time'] ) : false;
+		$date = ! empty( $opts['time'] ) ? date( get_option( 'date_format' ), $opts['time'] ) : false;
+		$time = ! empty( $opts['time'] ) ? date( get_option( 'time_format' ), $opts['time'] ) : false;
 
-		$datetime       = ($date && $time) ? sprintf( __( 'It was last updated on %1$s, at %1$s.', 'wds' ), $date, $time ) : __( "Your sitemap hasn't been updated recently.", 'wds' );
+		$datetime = ($date && $time)
+			? sprintf( __( 'It was last updated on %1$s, at %2$s.', 'wds' ), $date, $time )
+			: __( "Your sitemap hasn't been updated recently.", 'wds' );
 		$update_sitemap = __( 'Update sitemap now', 'wds' );
 		$update_engines = __( 'Force search engines notification', 'wds' );
 		$working = __( 'Updating...', 'wds' );
@@ -59,5 +61,5 @@ class Smartcrawl_Sitemaps_Dashboard_Widget {
 
 }
 
-// instantiate the Sitemaps Dashboard Widget class
+// instantiate the Sitemaps Dashboard Widget class.
 $Smartcrawl_Sitemaps_Dashboard_Widget = new Smartcrawl_Sitemaps_Dashboard_Widget();

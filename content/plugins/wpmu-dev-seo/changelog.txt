@@ -4,6 +4,25 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+2.2.1 - 2018-03-31
+----------------------------------------------------------------------
+- Fix: post list pages performance issue.
+
+2.2 - 2018-03-28
+----------------------------------------------------------------------
+- New: Yoast & All-In-One SEO importers.
+- New: 'Refresh' button for content & readability analysis modules.
+- New: ability to set twitter cards details on post and type level.
+
+- Fix: compatibility with New Blog Templates plugin.
+- Fix: spelling and grammar issues.
+- Fix: duplicate info text in "No Image Alts" section of seo analysis.
+- Fix: support for Themify themes.
+- Fix: readability analysis summary outputting html tags.
+- Fix: saving draft or publishing posts closes the smartcrawl module.
+- Fix: problems in "Add All to Sitemap" button.
+- Fix: incorrect number of missing url's on main dashboard.
+
 2.1.1 - 2017-02-07
 ----------------------------------------------------------------------
 - New: make Analysis dash widget results numeric and items clickable.
@@ -425,4 +444,4 @@ exist yet
 - Initial Release.
 
 
-133620-1519672634-au
+133620-1522806829-au

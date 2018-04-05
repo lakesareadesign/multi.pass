@@ -2,7 +2,7 @@
 
 if ( ! class_exists( 'Smartcrawl_Check_Abstract' ) ) { require_once( dirname( __FILE__ ) . '/class_wds_check_abstract.php' ); }
 
-class Smartcrawl_Check_Keyword_Density extends Smartcrawl_Check_Post_Abstract {
+class Smartcrawl_Check_Keyword_Density extends Smartcrawl_Check_Abstract {
 
 	/**
 	 * Holds check state
@@ -29,9 +29,11 @@ class Smartcrawl_Check_Keyword_Density extends Smartcrawl_Check_Post_Abstract {
 		$words = Smartcrawl_String::words( Smartcrawl_Html::plaintext( $markup ) );
 		$freq = array_count_values( $words );
 		$densities = array();
-		foreach ( $kws as $kw ) {
-			$dns = isset( $freq[ $kw ] ) ? $freq[ $kw ] : 0;
-			$densities[ $kw ] = ($dns / count( $words )) * 100;
+		if (!empty($words)) {
+			foreach ( $kws as $kw ) {
+				$dns = isset( $freq[ $kw ] ) ? $freq[ $kw ] : 0;
+				$densities[ $kw ] = ($dns / count( $words )) * 100;
+			}
 		}
 		$density = ! empty( $densities )
 			? array_sum( array_values( $densities ) ) / count( $densities )
@@ -43,7 +45,8 @@ class Smartcrawl_Check_Keyword_Density extends Smartcrawl_Check_Post_Abstract {
 	}
 
 	public function get_min() {
-		return 2; }
+		return 2;
+	}
 
 	public function get_recommendation() {
 		$keyword_density = $this->_density ? round( $this->_density, 2 ) : 0;

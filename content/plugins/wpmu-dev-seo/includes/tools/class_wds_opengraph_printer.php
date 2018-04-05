@@ -282,6 +282,6 @@ class Smartcrawl_OpenGraph_Printer {
 		$value = smartcrawl_replace_vars( $value, get_queried_object() );
 		$value = wp_strip_all_tags( $value );
 
-		return '<meta property="' . esc_attr( $tag ) . '" content="' . esc_attr( $value ) . '" />' . "\n";
+		return '<meta property="' . esc_attr( $tag ) . '" content="' . esc_attr( $value ) . '" />' . "\n";	     	 	 	  		 		
 	}
 }

@@ -511,6 +511,53 @@ window.Wds.floating_message = function () {
 	}, 5000);
 };
 
+/**
+ * Gets cookie value.
+ * Source: https://www.quirksmode.org/js/cookies.html
+ *
+ * @param {String} name Cookie key to get.
+ *
+ * @return {String}|{Null} Value.
+ */
+window.Wds.get_cookie = function (name) {
+	var nameEQ = name + "=";
+	var ca = document.cookie.split(';');
+	for(var i=0;i < ca.length;i++) {
+		var c = ca[i];
+		while (c.charAt(0)==' ') c = c.substring(1,c.length);
+		if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length,c.length);
+	}
+	return null;
+};
+
+/**
+ * Sets cookie value.
+ * Source: https://www.quirksmode.org/js/cookies.html
+ *
+ * @param {String} name Cookie key to set.
+ * @param {String} value Value to set.
+ * @param {Number} name Cookie expiration time.
+ */
+window.Wds.set_cookie = function (name, value, days) {
+	var expires = "";
+	if (days) {
+		var date = new Date();
+		date.setTime(date.getTime() + (days*24*60*60*1000));
+		expires = "; expires=" + date.toUTCString();
+	}
+	document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+};
+
+/**
+ * Expires a cookie
+ * Source: https://www.quirksmode.org/js/cookies.html
+ *
+ * @param {String} name Cookie key to expire.
+ */
+window.Wds.delete_cookie = function (name) {
+	document.cookie = name+'=; Max-Age=-99999999;';
+};
+
 (function ($, undefined) {
 	function init() {
 		window.Wds.floating_message();

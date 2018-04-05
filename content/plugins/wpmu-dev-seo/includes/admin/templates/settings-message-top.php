@@ -16,7 +16,7 @@
 ?>
 <?php if ( ! empty( $_view['msg'] ) ) { ?>
 	<div class="wds-notice-floating wds-notice wds-notice-<?php echo esc_attr( $type ); ?>">
-		<p><?php echo esc_html( $_view['msg'] ); ?></p>
+		<p><?php echo $_view['msg']; ?></p>
 	</div>
 <?php } ?>
 
@@ -26,7 +26,7 @@
 	if ( empty( $msg ) ) { continue; }
 	?>
 	<div class="wds-notice-floating wds-notice wds-notice-error can-close">
-		<p><?php echo esc_html( $msg ); ?></p>
+		<p><?php echo $msg; ?></p>
 	</div>
 <?php }
 } ?>

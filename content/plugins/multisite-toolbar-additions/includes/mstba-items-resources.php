@@ -6,10 +6,10 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Resources
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2013-2014, David Decker - DECKERWEB
- * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
- * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
- * @link       http://deckerweb.de/twitter
+ * @copyright  Copyright (c) 2013-2018, David Decker - DECKERWEB
+ * @license    https://opensource.org/licenses/GPL-2.0 GPL-2.0+
+ * @link       https://github.com/deckerweb/multisite-toolbar-additions
+ * @link       https://deckerweb.de/twitter
  *
  * @since      1.4.0
  */
@@ -19,7 +19,7 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -33,28 +33,28 @@ if ( ! defined( 'WPINC' ) ) {
 	$mstba_tb_items[ 'resources_codingstandards_php' ] = array(
 		'parent' => 'documentation',
 		'title'  => __( 'PHP Coding Standards', 'multisite-toolbar-additions' ),
-		'href'   => 'http://make.wordpress.org/core/handbook/coding-standards/php/',
+		'href'   => 'https://make.wordpress.org/core/handbook/coding-standards/php/',
 		'meta'   => array( 'title' => __( 'PHP Coding Standards', 'multisite-toolbar-additions' ) )
 	);
 
 	$mstba_tb_items[ 'resources_codingstandards_css' ] = array(
 		'parent' => 'documentation',
 		'title'  => __( 'CSS Coding Standards', 'multisite-toolbar-additions' ),
-		'href'   => 'http://make.wordpress.org/core/handbook/coding-standards/css/',
+		'href'   => 'https://make.wordpress.org/core/handbook/coding-standards/css/',
 		'meta'   => array( 'title' => __( 'CSS Coding Standards', 'multisite-toolbar-additions' ) )
 	);
 
 	$mstba_tb_items[ 'resources_codingstandards_javascript' ] = array(
 		'parent' => 'documentation',
 		'title'  => __( 'JavaScript Coding Standards', 'multisite-toolbar-additions' ),
-		'href'   => 'http://make.wordpress.org/core/handbook/coding-standards/javascript/',
+		'href'   => 'https://make.wordpress.org/core/handbook/coding-standards/javascript/',
 		'meta'   => array( 'title' => __( 'JavaScript Coding Standards', 'multisite-toolbar-additions' ) )
 	);
 
 	$mstba_tb_items[ 'resources_codingstandards_html' ] = array(
 		'parent' => 'documentation',
 		'title'  => __( 'HTML Coding Standards', 'multisite-toolbar-additions' ),
-		'href'   => 'http://make.wordpress.org/core/handbook/coding-standards/html/',
+		'href'   => 'https://make.wordpress.org/core/handbook/coding-standards/html/',
 		'meta'   => array( 'title' => __( 'HTML Coding Standards', 'multisite-toolbar-additions' ) )
 	);
 
@@ -63,35 +63,35 @@ if ( ! defined( 'WPINC' ) ) {
 	$mstba_tb_items[ 'resources_getinvolved' ] = array(
 		'parent' => 'wp-logo-external',
 		'title'  => __( 'Get Involved', 'multisite-toolbar-additions' ),
-		'href'   => 'http://make.wordpress.org/',
+		'href'   => 'https://make.wordpress.org/',
 		'meta'   => array( 'title' => _x( 'Get Involved', 'Translators: For the tooltip', 'multisite-toolbar-additions' ) )
 	);
 
 		$mstba_tb_items[ 'resources_getinvolved_core' ] = array(
 			'parent' => $resources_getinvolved,
 			'title'  => __( 'Core Development Updates', 'multisite-toolbar-additions' ),
-			'href'   => 'http://make.wordpress.org/core/',
+			'href'   => 'https://make.wordpress.org/core/',
 			'meta'   => array( 'title' => __( 'Core Development Updates', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'resources_getinvolved_coretrac' ] = array(
 			'parent' => $resources_getinvolved,
 			'title'  => __( 'Core Components Development', 'multisite-toolbar-additions' ),
-			'href'   => 'http://make.wordpress.org/core/components/',
+			'href'   => 'https://make.wordpress.org/core/components/',
 			'meta'   => array( 'title' => __( 'Core Components Development', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'resources_getinvolved_plugins' ] = array(
 			'parent' => $resources_getinvolved,
 			'title'  => __( 'Plugin Development', 'multisite-toolbar-additions' ),
-			'href'   => 'http://make.wordpress.org/plugins/',
+			'href'   => 'https://make.wordpress.org/plugins/',
 			'meta'   => array( 'title' => __( 'Plugin Development', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'resources_getinvolved_themes' ] = array(
 			'parent' => $resources_getinvolved,
 			'title'  => __( 'Theme Development', 'multisite-toolbar-additions' ),
-			'href'   => 'http://make.wordpress.org/themes/',
+			'href'   => 'https://make.wordpress.org/themes/',
 			'meta'   => array( 'title' => __( 'Theme Development', 'multisite-toolbar-additions' ) )
 		);
 
@@ -105,7 +105,7 @@ if ( ! defined( 'WPINC' ) ) {
 		$mstba_tb_items[ 'resources_getinvolved_polyglots' ] = array(
 			'parent' => $resources_getinvolved,
 			'title'  => __( 'Polyglots/ i18n', 'multisite-toolbar-additions' ),
-			'href'   => 'http://make.wordpress.org/polyglots/',
+			'href'   => 'https://make.wordpress.org/polyglots/',
 			'meta'   => array( 'title' => __( 'Polyglots/ i18n', 'multisite-toolbar-additions' ) )
 		);
 
@@ -119,35 +119,35 @@ if ( ! defined( 'WPINC' ) ) {
 		$mstba_tb_items[ 'resources_getinvolved_mobile' ] = array(
 			'parent' => $resources_getinvolved,
 			'title'  => __( 'Mobile Apps', 'multisite-toolbar-additions' ),
-			'href'   => 'http://make.wordpress.org/mobile/',
+			'href'   => 'https://make.wordpress.org/mobile/',
 			'meta'   => array( 'title' => __( 'Mobile Apps', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'resources_getinvolved_uidesign' ] = array(
 			'parent' => $resources_getinvolved,
 			'title'  => __( 'UI Design', 'multisite-toolbar-additions' ),
-			'href'   => 'http://make.wordpress.org/ui/',
+			'href'   => 'https://make.wordpress.org/ui/',
 			'meta'   => array( 'title' => __( 'UI Design', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'resources_getinvolved_accessibility' ] = array(
 			'parent' => $resources_getinvolved,
 			'title'  => __( 'Accessibility', 'multisite-toolbar-additions' ),
-			'href'   => 'http://make.wordpress.org/accessibility/',
+			'href'   => 'https://make.wordpress.org/accessibility/',
 			'meta'   => array( 'title' => __( 'Accessibility', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'resources_getinvolved_support' ] = array(
 			'parent' => $resources_getinvolved,
 			'title'  => __( 'Help supporting', 'multisite-toolbar-additions' ),
-			'href'   => 'http://make.wordpress.org/support/',
+			'href'   => 'https://make.wordpress.org/support/',
 			'meta'   => array( 'title' => __( 'Help supporting', 'multisite-toolbar-additions' ) )
 		);
 
 		$mstba_tb_items[ 'resources_getinvolved_meta' ] = array(
 			'parent' => $resources_getinvolved,
 			'title'  => __( 'Help Make WordPress.org', 'multisite-toolbar-additions' ),
-			'href'   => 'http://make.wordpress.org/meta/',
+			'href'   => 'https://make.wordpress.org/meta/',
 			'meta'   => array( 'title' => __( 'Help Make WordPress.org', 'multisite-toolbar-additions' ) )
 		);
 

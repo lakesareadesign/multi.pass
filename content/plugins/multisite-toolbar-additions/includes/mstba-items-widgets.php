@@ -5,10 +5,10 @@
  * @package    Multisite Toolbar Additions
  * @subpackage Widgets Items
  * @author     David Decker - DECKERWEB
- * @copyright  Copyright (c) 2013-2014, David Decker - DECKERWEB
- * @license    http://www.opensource.org/licenses/gpl-license.php GPL-2.0+
- * @link       http://genesisthemes.de/en/wp-plugins/multisite-toolbar-additions/
- * @link       http://deckerweb.de/twitter
+ * @copyright  Copyright (c) 2013-2018, David Decker - DECKERWEB
+ * @license    https://opensource.org/licenses/GPL-2.0 GPL-2.0+
+ * @link       https://github.com/deckerweb/multisite-toolbar-additions
+ * @link       https://deckerweb.de/twitter
  *
  * @since      1.5.0
  */
@@ -18,7 +18,7 @@
  *
  * @since 1.4.0
  */
-if ( ! defined( 'WPINC' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	exit( 'Sorry, you are not allowed to access this file directly.' );
 }
 
@@ -28,6 +28,22 @@ if ( ! defined( 'WPINC' ) ) {
  *
  * @since 1.5.0
  */
+
+	/** Widget Customizer - core feature sindce WP 3.9+ */
+	if ( function_exists( 'doing_action' ) ) {
+
+		$mstba_tb_items[ 'widgets-customizer' ] = array(
+			'parent' => is_admin() ? $widgets : 'widgets',
+			'title'  => __( 'Widgets Customizer', 'multisite-toolbar-additions' ),
+			'href'   => admin_url( 'customize.php?widget-customizer=open' ),
+			'meta'   => array(
+				'target' => '',
+				'title'  => __( 'Widgets Customizer', 'multisite-toolbar-additions' )
+			)
+		);
+
+	}  // end if
+
 
 	/**
 	 * Genesis Simple Sidebars (free, by StudioPress/ Copyblogger Media LLC)
@@ -46,7 +62,7 @@ if ( ! defined( 'WPINC' ) ) {
 			)
 		);
 
-	}  // end-if Genesis Simple Sidebars
+	}  // end if Genesis Simple Sidebars
 
 
 	/**
@@ -76,7 +92,7 @@ if ( ! defined( 'WPINC' ) ) {
 			)
 		);
 
-	}  // end-if Go Sidebar Wizard
+	}  // end if Go Sidebar Wizard
 
 
 	/**
@@ -89,7 +105,7 @@ if ( ! defined( 'WPINC' ) ) {
 		/** Include code part for Smart Tabber Widget plugin support */
 		require_once( MSTBA_PLUGIN_DIR . 'includes/plugin-support/mstba-plugins-smarttabberwidget.php' );
 
-	}  // end-if Smart Tabber Widget
+	}  // end if Smart Tabber Widget
 
 
 	/**
@@ -119,7 +135,7 @@ if ( ! defined( 'WPINC' ) ) {
 			)
 		);
 
-	}  // end-if Widget Settings Importer/Exporter
+	}  // end if Widget Settings Importer/Exporter
 
 
 	/**
@@ -139,4 +155,4 @@ if ( ! defined( 'WPINC' ) ) {
 			)
 		);
 
-	}  // end-if Restrict Widgets
+	}  // end if Restrict Widgets

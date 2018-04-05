@@ -95,9 +95,9 @@ class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
 			$tax_meta[ $taxonomy ][ $term_id ]['opengraph'] = array();
 			if ( ! empty( $data['title'] ) ) { $tax_meta[ $taxonomy ][ $term_id ]['opengraph']['title'] = sanitize_text_field( $data['title'] ); }
 			if ( ! empty( $data['description'] ) ) { $tax_meta[ $taxonomy ][ $term_id ]['opengraph']['description'] = sanitize_text_field( $data['description'] ); }
-			if ( ! empty( $data['og-images'] ) && is_array( $data['og-images'] ) ) {
+			if ( ! empty( $data['images'] ) && is_array( $data['images'] ) ) {
 				$tax_meta[ $taxonomy ][ $term_id ]['opengraph']['images'] = array();
-				foreach ( $data['og-images'] as $img ) {
+				foreach ( $data['images'] as $img ) {
 					$img = esc_url_raw( $img );
 					$tax_meta[ $taxonomy ][ $term_id ]['opengraph']['images'][] = $img;
 				}
@@ -109,6 +109,13 @@ class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
 			$tax_meta[ $taxonomy ][ $term_id ]['twitter'] = array();
 			if ( ! empty( $data['title'] ) ) { $tax_meta[ $taxonomy ][ $term_id ]['twitter']['title'] = sanitize_text_field( $data['title'] ); }
 			if ( ! empty( $data['description'] ) ) { $tax_meta[ $taxonomy ][ $term_id ]['twitter']['description'] = sanitize_text_field( $data['description'] ); }
+			if (!empty($data['images']) && is_array($data['images'])) {
+				$tax_meta[$taxonomy][$term_id]['twitter']['images'] = array();
+				foreach ($data['images'] as $img) {
+					$img = esc_url_raw($img);
+					$tax_meta[$taxonomy][$term_id]['twitter']['images'][] = $img;
+				}
+			}
 		}
 
 		update_option( 'wds_taxonomy_meta', $tax_meta );

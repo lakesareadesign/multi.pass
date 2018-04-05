@@ -2,7 +2,7 @@
 
 if ( ! class_exists( 'Smartcrawl_Check_Abstract' ) ) { require_once( dirname( __FILE__ ) . '/class_wds_check_abstract.php' ); }
 
-class Smartcrawl_Check_Content_Length extends Smartcrawl_Check_Post_Abstract {
+class Smartcrawl_Check_Content_Length extends Smartcrawl_Check_Abstract {
 
 	/**
 	 * Holds check state
@@ -35,7 +35,8 @@ class Smartcrawl_Check_Content_Length extends Smartcrawl_Check_Post_Abstract {
 	}
 
 	public function get_min() {
-		return 300; }
+		return 300;
+	}
 
 	public function get_recommendation() {
 		$word_count = $this->_wordcount ? $this->_wordcount : 0;

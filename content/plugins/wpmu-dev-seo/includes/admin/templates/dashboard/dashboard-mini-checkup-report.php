@@ -12,7 +12,7 @@
 	<p><?php esc_html_e( 'A comprehensive report on how optimized your website is for search engines and social media.', 'wds' ); ?></p>
 	<?php
 	$this->_render('notice', array(
-		'message' => esc_html__( 'You have no SEO outstanding issues. Awesome work!', 'wds' ),
+		'message' => esc_html__( 'You have no outstanding SEO issues. Awesome work!', 'wds' ),
 		'class'   => 'wds-notice-success',
 	));
 	?>

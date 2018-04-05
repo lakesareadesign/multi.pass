@@ -81,13 +81,16 @@ if(!class_exists('CUSTOMIZEADMINMENU')) {
                 // top menu custom order sort
                 $menuorder = $this->cleanArray($toporder);
                 array_push($menuorder, 'profile.php');
-                usort($menu, function ($a, $b) use ($menuorder){
+
+                $debug = $this->debug;
+
+                usort($menu, function ($a, $b) use ($menuorder, $debug){
                     $pos_a = array_search(esc_html(html_entity_decode($a['2'])), $menuorder);
                     $pos_b = array_search(esc_html(html_entity_decode($b['2'])), $menuorder);
 
                     if($pos_a === false || $pos_b === false) {
                         //$out = self::getSubmenuParentSlug('edit-comments.php', $tmenu, $tsubmenu);
-                        if ($this->debug) {
+                        if ($debug) {
                             var_dump($a['2'].'----->'.$b['2'].'---->menu');
                             var_dump(esc_html(html_entity_decode($a['2'])). '----->'.esc_html(html_entity_decode($b['2'])));
                             var_dump($pos_a.'---->'.$pos_b);
@@ -162,12 +165,12 @@ if(!class_exists('CUSTOMIZEADMINMENU')) {
                       if (isset($multiorder[$value[2]])) {
                            $sortorder = $this->cleanArray($multiorder[$value[2]]);
                            // submenu custom order sort
-                           usort($submenu[$value[2]], function ($a, $b) use ($sortorder){
+                           usort($submenu[$value[2]], function ($a, $b) use ($sortorder, $debug){
                                $pos_a = array_search(esc_html(html_entity_decode($a['2'])), $sortorder);
                                $pos_b = array_search(esc_html(html_entity_decode($b['2'])), $sortorder);
 
                                if($pos_a === false || $pos_b === false) {
-                                    if ($this->debug) {
+                                    if ($debug) {
                                         var_dump($sortorder);
                                         var_dump($a['2'].'----->'.$b['2'].'---->submenu');
                                         var_dump(esc_html(html_entity_decode($a['2'])). '----->'.esc_html(html_entity_decode($b['2'])));

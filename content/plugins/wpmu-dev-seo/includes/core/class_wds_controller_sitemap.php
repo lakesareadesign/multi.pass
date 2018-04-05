@@ -75,7 +75,11 @@ class Smartcrawl_Controller_Sitemap extends Smartcrawl_Renderable {
 		}
 
 		$path = $data['path'];
-		$paths = is_array( $path ) ? sanitize_text_field( $path ) : array_map( 'sanitize_text_field', array( $path ) );
+		$paths = is_array( $path )
+			? array_map( 'sanitize_text_field', (array) $path )
+			: array( sanitize_text_field( $path ) )
+		;
+		if ( ! is_array( $paths ) ) { $paths = array(); }
 
 		$extras = Smartcrawl_Xml_Sitemap::get_extra_urls();
 		foreach ( $paths as $current_path ) {

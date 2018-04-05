@@ -14,7 +14,7 @@ abstract class Smartcrawl_Renderable {
 		$view = preg_replace( '/[^-_a-z0-9\/]/i', '', $view );
 		if ( empty( $view ) ) { return false; }
 
-		$_path = wp_normalize_path( SMARTCRAWL_PLUGIN_DIR . 'admin/templates/' . $view . '.php' );	     	 	 	  		 		
+		$_path = wp_normalize_path( SMARTCRAWL_PLUGIN_DIR . 'admin/templates/' . $view . '.php' );
 		if ( ! file_exists( $_path ) || ! is_readable( $_path ) ) { return false; }
 
 		if ( empty( $args ) || ! is_array( $args ) ) { $args = array(); }

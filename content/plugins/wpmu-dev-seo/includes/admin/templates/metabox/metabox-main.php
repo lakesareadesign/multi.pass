@@ -14,8 +14,9 @@
 	$all_options = Smartcrawl_Settings::get_options();
 	$og_setting_enabled = (bool) smartcrawl_get_array_value( $all_options, 'og-enable' );
 	$og_post_type_enabled = (bool) smartcrawl_get_array_value( $all_options, 'og-active-' . get_post_type( $post ) );
+	$twitter_post_type_enabled = (bool) smartcrawl_get_array_value( $all_options, 'twitter-active-' . get_post_type( $post ) );
 	$twitter_setting_enabled = (bool) smartcrawl_get_array_value( $all_options, 'twitter-card-enable' );
-	$show_social_tab = ($og_setting_enabled && $og_post_type_enabled) || $twitter_setting_enabled;
+	$show_social_tab = ($og_setting_enabled && $og_post_type_enabled) || ($twitter_setting_enabled && $twitter_post_type_enabled);
 
 	$tabs['wds_seo'] = esc_html__( 'SEO', 'wds' ) . '<span class="wds-issues"><span></span></span>';
 	$tabs['wds_readability'] = esc_html__( 'Readability', 'wds' ) . '<span class="wds-issues"><span></span></span>';
@@ -60,10 +61,11 @@ if ( ! Smartcrawl_Settings::get_setting( 'analysis-readability' ) ) { unset( $ta
 				'tab_id'           => 'wds_social',
 				'content_template' => 'metabox/metabox-tab-social',
 				'content_args'     => array(
-				'post'                    => $post,
-				'og_setting_enabled'      => $og_setting_enabled,
-				'og_post_type_enabled'    => $og_post_type_enabled,
-				'twitter_setting_enabled' => $twitter_setting_enabled,
+					'post'                      => $post,
+					'og_setting_enabled'        => $og_setting_enabled,
+					'og_post_type_enabled'      => $og_post_type_enabled,
+					'twitter_setting_enabled'   => $twitter_setting_enabled,
+					'twitter_post_type_enabled' => $twitter_post_type_enabled
 				),
 			));
 		}

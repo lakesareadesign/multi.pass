@@ -2,7 +2,7 @@
 
 if ( ! class_exists( 'Smartcrawl_Check_Abstract' ) ) { require_once( dirname( __FILE__ ) . '/class_wds_check_abstract.php' ); }
 
-class Smartcrawl_Check_Subheadings_Keywords extends Smartcrawl_Check_Post_Abstract {
+class Smartcrawl_Check_Subheadings_Keywords extends Smartcrawl_Check_Abstract {
 
 	private $_state;
 
@@ -14,8 +14,8 @@ class Smartcrawl_Check_Subheadings_Keywords extends Smartcrawl_Check_Post_Abstra
 
 	public function apply() {
 		$subjects = Smartcrawl_Html::find_content( 'h1,h2,h3,h4,h5,h6', $this->get_markup() );
-		if ( empty( $subjects ) ) { return true; // No subheadings, nothing to check
-		}
+		if ( empty( $subjects ) ) { return true; } // No subheadings, nothing to check.
+
 		$status = true;
 		foreach ( $subjects as $subject ) {
 			$status = $this->has_focus( $subject );
