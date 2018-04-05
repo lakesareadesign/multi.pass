@@ -1,5 +1,10 @@
 # Jessica Changelog
 
+## 1.3.5 - 20 March 2018
+* Fixes for WooCommerce 3.3 changes to default markup
+### Files Modified
+* /style.css
+
 ## 1.3.4 - 19 Sept 2017
 * Changed update URL domain to https://9seeds.com
 * Changed cache name to make updates from previous versions run more smoothly

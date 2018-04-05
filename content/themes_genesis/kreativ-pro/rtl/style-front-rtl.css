@@ -1,0 +1,236 @@
+/*! Kreativ Pro Front Page
+---------------------------------------------------------------------------------------------------- */
+/*! Flexible Widgets
+--------------------------------------------- */
+.flexible-widgets.widget-area .widget:nth-of-type(1) {
+	margin: 0 auto 40px;
+}
+
+.flexible-widgets.widget-fourths .widget,
+.flexible-widgets.widget-halves .widget,
+.flexible-widgets.widget-thirds .widget {
+	margin-left: auto;
+	margin-right: 0;
+}
+
+@media only screen and (min-width:860px) {
+
+	.flexible-widgets.widget-area .widget:nth-of-type(1) {
+		margin: 0 auto 60px;
+	}
+
+	.flexible-widgets.widget-fourths .widget,
+	.flexible-widgets.widget-halves .widget,
+	.flexible-widgets.widget-thirds .widget {
+		float: right;
+		margin-left: auto;
+		margin-right: 2.564102564102564%;
+	}
+
+	.flexible-widgets.widget-fourths .widget:nth-of-type(4n+2),
+	.flexible-widgets.widget-halves .widget:nth-of-type(2n+2),
+	.flexible-widgets.widget-thirds .widget:nth-of-type(3n+2) {
+		margin-left: auto;
+		margin-right: 0;
+		clear: right;
+	}
+
+}
+
+/*! Image Section
+--------------------------------------------- */
+.image-section > .overlay {
+	left: auto;
+	right: 0;
+}
+
+/*! Front page Styling
+--------------------------------------------- */
+.front-page .site-inner {
+	padding: 0;
+}
+
+.front-page .breadcrumb {
+	margin: 10px auto;
+}
+
+.front-page-2,
+.front-page-3,
+.front-page-4,
+.front-page-5,
+.front-page-6,
+.front-page-7 {
+	padding: 70px 0 40px;
+}
+
+@media only screen and (min-width:860px) {
+
+	.front-page-2,
+	.front-page-3,
+	.front-page-4,
+	.front-page-5,
+	.front-page-6,
+	.front-page-7 {
+		padding: 80px 0 50px;
+	}
+
+}
+
+/*! Front page Section 1
+--------------------------------------------- */
+.front-page-1 {
+	background-position: center top;
+	padding: 100px 0;
+}
+
+@media only screen and (min-width:860px) {
+
+	.front-page-1 {
+		padding: 15% 0;
+		background-position: 50% 0;
+	}
+
+}
+
+.front-page-1 .widget:nth-of-type(1) {
+	margin: 0 auto;
+}
+
+/*! Front page Section 2
+--------------------------------------------- */
+/*! Front page Section 3 / Featured Portfolio
+--------------------------------------------- */
+.front-page .featured-portfolio .entry {
+	float: right;
+	padding: 0;
+}
+
+.front-page .featured-portfolio .entry .entry-title {
+	margin: 25px 0;
+}
+
+.front-page .featured-portfolio .more-link {
+	margin: 20px auto 0;
+}
+
+/*! Front page Section 4
+--------------------------------------------- */
+.front-page-4 .widget:nth-of-type(n+2) img {
+	border-radius: 50%;
+}
+
+.front-page-4 .widget:nth-of-type(n+2) h4 {
+	margin: 15px 0;
+}
+
+.front-page-4 .widget:nth-of-type(n+2) span {
+	margin: 10px 0;
+}
+
+.front-page-4 .widget:nth-of-type(n+2) a {
+	margin: 15px 0;
+}
+
+/*! Front page Section 5
+--------------------------------------------- */
+.front-page-5 .widget:nth-of-type(n+2) {
+	padding: 30px 40px;
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+	border-radius: 2px;
+}
+
+.front-page-5 .widget:nth-of-type(n+2) h2 {
+	padding: 0 0 15px;
+}
+
+.front-page-5 .widget:nth-of-type(n+2) ul li {
+	padding: 6px 0;
+}
+
+.front-page-5 .button {
+	padding: 6px 16px;
+}
+
+/*! Front page Section 6
+--------------------------------------------- */
+.front-page-6 .widget-area .widget:nth-of-type(n+2) {
+	text-align: right;
+}
+
+@media only screen and (min-width:860px) {
+
+	.front-page-6 .widget-area .widget:nth-of-type(n+2) {
+		padding-left: 0;
+		padding-right: 60px;
+	}
+
+	.front-page-6 .widget:nth-of-type(n+2):before {
+		float: right;
+		left: auto;
+		right: 0;
+	}
+
+}
+
+.front-page-6 .widget:nth-of-type(3n+2) {
+	margin-left: auto;
+	margin-right: 0;
+}
+
+.front-page-6 .widget:nth-of-type(n+2) img {
+	float: right;
+	margin: 30px 0 0 20px;
+	border-radius: 50%;
+}
+
+.front-page-6 .widget:nth-of-type(n+2) h4 span {
+	margin: 5px 0 0;
+}
+
+/*! Front page Section 7
+--------------------------------------------- */
+.front-page-7 .widget:nth-of-type(1) {
+	margin: 0 auto;
+}
+
+/*! Genesis Featured Posts
+--------------------------------------------- */
+.front-page .featured-content .entry {
+	padding: 0;
+}
+
+@media only screen and (min-width:860px) {
+
+	.front-page .featured-content .entry {
+		float: right;
+		margin-left: auto;
+		margin-right: 2.564102564102564%;
+	}
+
+	.front-page .featured-content .entry:nth-of-type(3n+1) {
+		margin-left: auto;
+		margin-right: 0;
+	}
+
+}
+
+.front-page .featured-content .entry .entry-title {
+	margin: 25px 0;
+}
+
+.front-page .featured-content .more-link {
+	margin: 20px auto 0;
+}
+
+.front-page .featured-content .entry > a {
+	margin: 0;
+}
+
+.front-page .featured-content .entry > a:after {
+	border-radius: 50%;
+	left: auto;
+	right: 50%;
+	margin-left: auto;
+	margin-right: -25px;
+	transition: all 0.2s ease-in-out;
+}

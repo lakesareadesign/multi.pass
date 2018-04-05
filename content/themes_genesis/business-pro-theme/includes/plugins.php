@@ -1,17 +1,21 @@
 <?php
 /**
- * This file registers the required plugins for this theme.
+ * Business Pro Theme
  *
- * @package      Business Pro
- * @link         https://seothemes.com/themes/business-pro
- * @author       Seo Themes
- * @copyright    Copyright © 2017 Seo Themes
- * @license      GPL-2.0+
+ * This file adds the required plugins to the Business Pro theme.
+ *
+ * @package   BusinessProTheme
+ * @link      https://seothemes.com/themes/business-pro
+ * @author    SEO Themes
+ * @copyright Copyright © 2017 SEO Themes
+ * @license   GPL-2.0+
  */
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
+
 	die;
+
 }
 
 /**
@@ -47,11 +51,10 @@ function business_register_required_plugins() {
 	);
 
 	$plugins[] = array(
-		'name'     => 'Genesis Simple Share',
-		'slug'     => 'genesis-simple-share',
+		'name'     => 'Genesis Connect WooCommerce',
+		'slug'     => 'genesis-connect-woocommerce',
 		'required' => false,
 	);
-
 
 	$plugins[] = array(
 		'name'     => 'Genesis eNews Extended',
@@ -62,6 +65,12 @@ function business_register_required_plugins() {
 	$plugins[] = array(
 		'name'     => 'Genesis Portfolio Pro',
 		'slug'     => 'genesis-portfolio-pro',
+		'required' => false,
+	);
+
+	$plugins[] = array(
+		'name'     => 'Genesis Simple FAQ',
+		'slug'     => 'genesis-simple-faq',
 		'required' => false,
 	);
 
@@ -90,14 +99,20 @@ function business_register_required_plugins() {
 	);
 
 	$plugins[] = array(
+		'name'     => 'One Click Demo Import',
+		'slug'     => 'one-click-demo-import',
+		'required' => false,
+	);
+
+	$plugins[] = array(
 		'name'     => 'Simple Social Icons',
 		'slug'     => 'simple-social-icons',
 		'required' => false,
 	);
 
 	$plugins[] = array(
-		'name'     => 'Widget Importer & Exporter',
-		'slug'     => 'widget-importer-exporter',
+		'name'     => 'WooCommerce',
+		'slug'     => 'woocommerce',
 		'required' => false,
 	);
 
@@ -106,21 +121,6 @@ function business_register_required_plugins() {
 		'slug'     => 'wp-featherlight',
 		'required' => false,
 	);
-
-	$plugins[] = array(
-		'name'     => 'WordPress Importer',
-		'slug'     => 'wordpress-importer',
-		'required' => false,
-	);
-
-	// Check if WooCommerce is installed.
-	if ( class_exists( 'WooCommerce' ) ) {
-		$plugins[] = array(
-			'name'     => 'Genesis Connect WooCommerce',
-			'slug'     => 'genesis-connect-woocommerce',
-			'required' => true,
-		);
-	}
 
 	/*
 	 * Array of configuration settings. Amend each line as needed.

@@ -18,9 +18,6 @@
     @include breakpoint(md) {
         padding: 12rem 0;
     }
-    .widget-title {
-        text-transform: uppercase;
-    }
 }
 
 
@@ -30,14 +27,19 @@
     background-color: transparent;
     background-size: cover !important;
     background-position: center !important;
-    padding: 18rem 0 12rem;
+    padding: 0;
+    height: 90vh;
     position: relative;
     color: $white;
     overflow: hidden;
     text-align: center;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    align-content: center;
     @include clearfix;
-    @include breakpoint(md) {
-        padding: 30vh 0 25vh;
+    @include breakpoint(xl) {
+        height: 80vh;
     }
     .wrap {
         position: relative;
@@ -46,7 +48,11 @@
     .widget {
         @include breakpoint(sm) {
             max-width: map-get($breakpoints, sm);
-            margin: auto !important;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        &:first-of-type {
+            padding-top: 5vh;
         }
         .widget-wrap {
             p {
@@ -63,7 +69,7 @@
             font-size: 2.7em;
         }
         @include breakpoint(xl) {
-            font-size: 3em;
+            font-size: 3.5em;
         }
     }
 }
@@ -108,6 +114,9 @@
         @include breakpoint(sm) {
             margin-bottom: $margin-left;
         }
+        &:first-of-type {
+            margin-bottom: 5rem;
+        }
     }
     .widget_custom_html:first-of-type {
         text-align: center;
@@ -134,12 +143,11 @@
         padding: 0;
         margin-left: auto;
         margin-right: auto;
-        transform: translateY(0rem);
-        box-shadow: 0 0 2rem -1rem rgba($dark, 0);
+        box-shadow: 0px 27px 40px -20px rgba($dark,0.11);
+        border-radius: $site-radius;
         @include transition;
         &:hover {
-            transform: translateY(-0.5rem);
-            box-shadow: 0 2rem 1rem -1rem rgba($dark, 0.1);
+            box-shadow: 0px 27px 40px -20px rgba($dark,0.22);
         }
         >a {
             display: block;
@@ -147,6 +155,9 @@
             @include overlay;
             &:before {
                 opacity: 0.1;
+            }
+            &:focus ~ .entry-header a {
+                color: $gray;
             }
         }
         p {
@@ -156,7 +167,6 @@
     }
     .entry-title {
         padding: 3rem 3rem 0;
-        text-transform: uppercase;
         font-size: 1.8rem;
     }
     .entry-content {
@@ -166,11 +176,11 @@
     }
     img {
         min-width: 100%;
+        border-radius: $site-radius $site-radius 0 0;
     }
     .more-link {
-        clear: both;
-        display: inline-block;
-        padding: 0.5em 1.5em;
+        display: block;
+        padding: 0.618em 1.618em;
         font-size: 1.4rem;
         font-family: $font-heading;
         font-weight: $bolder;
@@ -180,10 +190,10 @@
         border-radius: $site-radius;
         color: $white;
         text-decoration: none;
-        box-shadow: inset 0 0 0 9rem rgba($white, 0);
+        box-shadow: 0px 27px 40px -20px rgba($dark,0.22);
         @include transition;
         &:hover {
-            box-shadow: inset 0 0 0 9rem rgba($white, 0.1);
+            box-shadow: 0px 27px 40px -20px rgba($dark,0.22);
         }
     }
 }
@@ -256,6 +266,9 @@
             pointer-events: all;
             visibility: visible;
         }
+    }
+    .textwidget {
+        width: 100%;
     }
     .wp-video {
         padding: 5%;
@@ -339,18 +352,19 @@
     .display-posts-listing {
         display: flex;
         flex-wrap: wrap;
-        margin-bottom: -$margin-left;
+        margin-top: 5rem;
+        margin-bottom: -3rem;
     }
     .listing-item {
         position: relative;
+        border-radius: $site-radius;
         padding: 0;
-        margin-bottom: $margin-left;
-        transform: translateY(0rem);
-        box-shadow: 0 0rem 2rem -1rem rgba($dark, 0);
+        margin-bottom: 3rem;
+        box-shadow: 0px 27px 40px -20px rgba($dark,0.22);
         @include transition;
         @include overlay;
         @media (max-width: map-get($breakpoints, sm)) {
-            margin: 0 0 $margin-left $margin-left;
+            margin: 0 0 3rem $margin-left;
             width: $one-half;
             &:nth-of-type(2n + 1) {
                 margin-left: 0;
@@ -362,28 +376,30 @@
         }
         &:before {
             opacity: 0.1;
+            border-radius: $site-radius;
             @include transition;
         }
         &:hover {
-            transform: translateY(-0.5rem);
-            box-shadow: 0 2rem 1.5rem -1rem rgba($dark, 0.3);
+            box-shadow: 0px 27px 40px -20px rgba($dark,0.33);
             &:before,
             .title {
                 opacity: 1;
             }
         }
         &:last-of-type {
-            margin-bottom: $margin-left !important;
+            margin-bottom: 3rem !important;
         }
     }
     .image {
         display: block;
         height: 100%;
+        img {
+            border-radius: $site-radius;
+        }
     }
     .title {
         font-family: $font-heading;
         font-weight: $bolder;
-        text-transform: uppercase;
         position: absolute;
         text-align: center;
         display: block;
@@ -417,12 +433,13 @@
         padding: 1.5rem;
         .wrap {
             background-color: $white;
-            padding: 3rem;
-            box-shadow: 0 0 0 -1rem rgba($dark, 0);
+            padding: 2em 2em 2.4em;
+            border-radius: $site-radius;
+            box-shadow: 0 2rem 2rem -1rem rgba($dark, 0.05);
             @include clearfix;
             @include transition;
             &:hover {
-                box-shadow: 0 2.25rem 1rem -1.5rem rgba($dark, 0.1);
+                box-shadow: 0 2rem 2rem -1rem rgba($dark, 0.1);
             }
         }
     }
@@ -439,11 +456,10 @@
         float: left;
     }
     h5 {
-        font-size: 1.4rem;
-        float: left;
-        margin: 0 0.5rem 0 0;
+        font-size: 1.5rem;
+        margin: 0 1rem 1rem 0;
         line-height: 1;
-        color: $dark;
+        color: $gray;
     }
     img+h5 {
         margin: 1.4rem 0.5rem 0 1rem;
@@ -452,12 +468,11 @@
         }
     }
     .gts-company {
-        float: left;
-        font-size: 1.4rem;
+        font-size: 1.5rem;
+        display: block;
         line-height: 1;
-        font-style: italic;
     }
     .lSSlideOuter {
-        margin: -1.5rem;
+        margin: 0 -1.5rem;
     }
 }

@@ -1,15 +1,17 @@
 <?php
 /**
- * Template Name: Page Builder
+ * Business Pro Theme
  *
- * This file adds the page builder template to the Business Pro
- * theme. It removes everything between the site header and footer
- * leaving a blank template perfect for page builder plugins.
+ * This file adds the page builder template to the Business Pro theme.
+ * It removes everything between the site header and footer leaving
+ * a blank template perfect for page builder plugins.
+ *
+ * Template Name: Page Builder
  *
  * @package      Business Pro
  * @link         https://seothemes.com/themes/business-pro
- * @author       Seo Themes
- * @copyright    Copyright © 2017 Seo Themes
+ * @author       SEO Themes
+ * @copyright    Copyright © 2017 SEO Themes
  * @license      GPL-2.0+
  */
 

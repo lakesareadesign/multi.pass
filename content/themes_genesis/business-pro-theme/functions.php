@@ -1,21 +1,28 @@
 <?php
 /**
- * Business Pro Theme.
+ * Business Pro Theme
  *
- * @package   Business Pro
+ * @package   BusinessProTheme
  * @link      https://seothemes.com/themes/business-pro
- * @author    Seo Themes
- * @copyright Copyright © 2017 Seo Themes
+ * @author    SEO Themes
+ * @copyright Copyright © 2017 SEO Themes
  * @license   GPL-2.0+
  */
+
+ // If this file is called directly, abort..
+if ( ! defined( 'WPINC' ) ) {
+
+	die;
+
+}
 
 // Child theme (do not remove).
 include_once( get_template_directory() . '/lib/init.php' );
 
 // Define theme constants.
-define( 'CHILD_THEME_NAME', 'Business Pro' );
+define( 'CHILD_THEME_NAME', 'Business Pro Theme' );
 define( 'CHILD_THEME_URL', 'https://seothemes.com/themes/business-pro' );
-define( 'CHILD_THEME_VERSION', '1.0.4' );
+define( 'CHILD_THEME_VERSION', '1.0.6' );
 
 // Set Localization (do not remove).
 load_child_theme_textdomain( 'business-pro-theme', apply_filters( 'child_theme_textdomain', get_stylesheet_directory() . '/languages', 'business-pro-theme' ) );
@@ -25,43 +32,6 @@ unregister_sidebar( 'sidebar-alt' );
 genesis_unregister_layout( 'content-sidebar-sidebar' );
 genesis_unregister_layout( 'sidebar-content-sidebar' );
 genesis_unregister_layout( 'sidebar-sidebar-content' );
-
-// Reposition the primary navigation menu.
-remove_action( 'genesis_after_header', 'genesis_do_nav' );
-add_action( 'genesis_header', 'genesis_do_nav' );
-
-// Reposition footer widgets.
-remove_action( 'genesis_before_footer', 'genesis_footer_widget_areas' );
-add_action( 'genesis_footer', 'genesis_footer_widget_areas', 6 );
-
-// Genesis style trump.
-remove_action( 'genesis_meta', 'genesis_load_stylesheet' );
-add_action( 'wp_enqueue_scripts', 'genesis_enqueue_main_stylesheet', 99 );
-
-// Remove default page header.
-remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
-remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
-remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
-remove_action( 'genesis_before_loop', 'genesis_do_posts_page_heading' );
-remove_action( 'genesis_before_loop', 'genesis_do_date_archive_title' );
-remove_action( 'genesis_before_loop', 'genesis_do_blog_template_heading' );
-remove_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
-remove_action( 'genesis_before_loop', 'genesis_do_author_title_description', 15 );
-remove_action( 'genesis_before_loop', 'genesis_do_cpt_archive_title_description' );
-remove_action( 'genesis_before_loop', 'genesis_do_search_title' );
-remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_title', 5 );
-
-// Add custom page header.
-add_action( 'genesis_after_header', 'genesis_do_posts_page_heading', 24 );
-add_action( 'genesis_after_header', 'genesis_do_date_archive_title', 24 );
-add_action( 'genesis_after_header', 'genesis_do_blog_template_heading', 24 );
-add_action( 'genesis_after_header', 'genesis_do_taxonomy_title_description', 24 );
-add_action( 'genesis_after_header', 'genesis_do_author_title_description', 24 );
-add_action( 'genesis_after_header', 'genesis_do_cpt_archive_title_description', 24 );
-
-// Remove search results and shop page titles.
-add_filter( 'woocommerce_show_page_title', '__return_null' );
-add_filter( 'genesis_search_title_output', '__return_false' );
 
 // Enable shortcodes in HTML widgets.
 add_filter( 'widget_text', 'do_shortcode' );
@@ -127,14 +97,12 @@ add_theme_support( 'post-formats', array(
 	'video',
 ) );
 
-// Enable support for post thumbnails.
-add_theme_support( 'post-thumbnails' );
-
-// Enable automatic output of WordPress title tags.
-add_theme_support( 'title-tag' );
-
 // Enable support for WooCommerce.
 add_theme_support( 'woocommerce' );
+
+
+// Enable selective refresh and Customizer edit icons.
+add_theme_support( 'fixed-header' );
 
 // Enable selective refresh and Customizer edit icons.
 add_theme_support( 'customize-selective-refresh-widgets' );
@@ -168,6 +136,7 @@ add_theme_support( 'custom-header', array(
 	'flex-width'         => true,
 	'uploads'            => true,
 	'video'              => true,
+	'wp-head-callback'   => 'business_custom_header',
 ) );
 
 // Register default header (just in case).
@@ -185,61 +154,27 @@ genesis_register_layout( 'centered-content', array(
 	'img'   => get_stylesheet_directory_uri() . '/assets/images/layout.gif',
 ) );
 
-// Register front page widget areas.
-genesis_register_sidebar( array(
-	'id'          => 'front-page-1',
-	'name'        => __( 'Front Page 1', 'business-pro-theme' ),
-	'description' => __( 'This is the Front Page 1 widget area.', 'business-pro-theme' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-2',
-	'name'        => __( 'Front Page 2', 'business-pro-theme' ),
-	'description' => __( 'This is the Front Page 2 widget area.', 'business-pro-theme' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-3',
-	'name'        => __( 'Front Page 3', 'business-pro-theme' ),
-	'description' => __( 'This is the Front Page 3 widget area.', 'business-pro-theme' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-4',
-	'name'        => __( 'Front Page 4', 'business-pro-theme' ),
-	'description' => __( 'This is the Front Page 4 widget area.', 'business-pro-theme' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-5',
-	'name'        => __( 'Front Page 5', 'business-pro-theme' ),
-	'description' => __( 'This is the Front Page 5 widget area.', 'business-pro-theme' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-6',
-	'name'        => __( 'Front Page 6', 'business-pro-theme' ),
-	'description' => __( 'This is the Front Page 6 widget area.', 'business-pro-theme' ),
-) );
+// Reposition the primary navigation menu.
+remove_action( 'genesis_after_header', 'genesis_do_nav' );
+add_action( 'genesis_after_title_area', 'genesis_do_nav' );
 
-// Register before footer widget area.
-genesis_register_sidebar( array(
-	'id'          => 'before-footer',
-	'name'        => __( 'Before Footer', 'business-pro-theme' ),
-	'description' => __( 'This is the before footer widget area.', 'business-pro-theme' ),
-) );
+// Reposition featured image on archives.
+remove_action( 'genesis_entry_content', 'genesis_do_post_image', 8 );
+add_action( 'genesis_entry_header', 'genesis_do_post_image', 1 );
 
-add_action( 'genesis_footer', 'business_before_footer_widget_area', 5 );
-/**
- * Display before-footer widget area.
- *
- * @since 1.0.0
- *
- * @return void
- */
-function business_before_footer_widget_area() {
+// Reposition footer widgets.
+remove_action( 'genesis_before_footer', 'genesis_footer_widget_areas' );
+add_action( 'genesis_footer', 'genesis_footer_widget_areas', 6 );
 
-	genesis_widget_area( 'before-footer', array(
-		'before' => '<div class="before-footer"><div class="wrap">',
-		'after'  => '</div></div>',
-	) );
+// Genesis style trump.
+remove_action( 'genesis_meta', 'genesis_load_stylesheet' );
+add_action( 'wp_enqueue_scripts', 'genesis_enqueue_main_stylesheet', 99 );
 
-}
+// Remove Genesis Portfolio Pro default styles.
+add_filter( 'genesis_portfolio_load_default_styles', '__return_false' );
+
+// Remove one click demo branding.
+add_filter( 'pt-ocdi/disable_pt_branding', '__return_true' );
 
 add_action( 'wp_enqueue_scripts', 'business_scripts_styles', 20 );
 /**
@@ -257,8 +192,15 @@ function business_scripts_styles() {
 	// Enqueue Google fonts.
 	wp_enqueue_style( 'google-fonts', '//fonts.googleapis.com/css?family=Montserrat:600|Hind:400', array(), CHILD_THEME_VERSION );
 
+	// Get Icon Widget plugin settings.
+	$icon_settings = get_option( 'icon_widget_settings' );
+
 	// Enqueue Line Awesome icon font.
-	wp_enqueue_style( 'line-awesome', '//maxcdn.icons8.com/fonts/line-awesome/1.1/css/line-awesome-font-awesome.min.css', array(), CHILD_THEME_VERSION );
+	if ( 'line-awesome' !== $icon_settings['font'] ) {
+
+		wp_enqueue_style( 'business-pro-icons', get_stylesheet_directory_uri() . '/assets/styles/min/line-awesome.min.css', array(), CHILD_THEME_VERSION );
+
+	}
 
 	// Enqueue WooCommerce styles conditionally.
 	if ( class_exists( 'WooCommerce' ) && ( is_woocommerce() || is_shop() || is_product_category() || is_product_tag() || is_product() || is_cart() || is_checkout() || is_account_page() ) ) {
@@ -289,6 +231,15 @@ function business_scripts_styles() {
 
 // Load theme helper functions.
 include_once( get_stylesheet_directory() . '/includes/helpers.php' );
+
+// Load theme specific functions.
+include_once( get_stylesheet_directory() . '/includes/extras.php' );
+
+// Load page header functions.
+include_once( get_stylesheet_directory() . '/includes/header.php' );
+
+// Load widget area functions.
+include_once( get_stylesheet_directory() . '/includes/widgets.php' );
 
 // Load Customizer settings and output.
 include_once( get_stylesheet_directory() . '/includes/customize.php' );

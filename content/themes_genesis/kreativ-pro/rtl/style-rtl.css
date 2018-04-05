@@ -1,0 +1,1323 @@
+/*! # Table of Contents
+- HTML5 Reset;
+	- Baseline Normalize;
+	- Box Sizing;
+	- Float Clearing;
+- Defaults;
+	- Typographical Elements;
+	- Headings;
+	- Objects;
+	- Gallery;
+	- Forms;
+	- Tables;
+	- Screen Reader Text;
+- Structure and Layout;
+	- Site Containers;
+	- Column Widths and Positions;
+	- Column Classes;
+- Common Classes;
+	- Avatar;
+	- Genesis;
+	- Search Form;
+	- Titles;
+	- WordPress;
+- Widgets;
+	- Featured Content;
+- Plugins;
+	- Genesis eNews Extended;
+	- Jetpack;
+- Site Header;
+	- Title Area;
+	- Widget Area;
+- Site Navigation;
+	- Accessible Menu;
+	- Site Header Navigation;
+	- Primary Navigation;
+	- Secondary Navigation;
+	- Skip Links;
+- Content Area;
+	- Entries;
+	- Entry Meta;
+	- Pagination;
+	- Comments;
+- Sidebars;
+- Footer Widgets;
+- Site Footer;
+- Print Styles;
+*/
+/*! # HTML5 Reset
+---------------------------------------------------------------------------------------------------- */
+/*! ## Baseline Normalize
+--------------------------------------------- */
+body {
+	margin: 0;
+}
+
+h1 {
+	margin: 0.67em 0;
+}
+
+img {
+	border-style: none;
+}
+
+figure {
+	margin: 1em 40px;
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+	margin: 0;
+}
+
+[type="button"]::-moz-focus-inner,
+[type="reset"]::-moz-focus-inner,
+[type="submit"]::-moz-focus-inner,
+button::-moz-focus-inner {
+	border-style: none;
+	padding: 0;
+}
+
+fieldset {
+	margin: 0 2px;
+	padding: 0.35em 0.625em 0.75em;
+}
+
+legend {
+	padding: 0;
+}
+
+[type="checkbox"],
+[type="radio"] {
+	padding: 0;
+}
+
+/*! ## Box Sizing
+--------------------------------------------- */
+/*! ## Float Clearing
+--------------------------------------------- */
+/*! # Defaults
+---------------------------------------------------------------------------------------------------- */
+/*! ## Typographical Elements
+--------------------------------------------- */
+html {
+	/*! 10px browser default */
+}
+
+/*! RTL Support */
+body {
+	direction: rtl;
+	unicode-bidi: embed;
+}
+
+/*! Chrome fix */
+body {
+	margin: 0;
+}
+
+.button,
+.gallery img,
+.more-link,
+a,
+button,
+input:focus,
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+textarea:focus {
+	transition: all 0.1s ease-in-out;
+}
+
+p {
+	margin: 0 0 30px;
+	padding: 0;
+}
+
+ol,
+ul {
+	margin: 0;
+	padding: 0;
+}
+
+hr {
+	margin: 2em 0;
+}
+
+blockquote {
+	margin: 40px;
+}
+
+blockquote::before {
+	left: auto;
+	right: -20px;
+}
+
+/*! ## Headings
+--------------------------------------------- */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+	margin: 0 0 20px;
+}
+
+/*! ## Objects
+--------------------------------------------- */
+figure {
+	margin: 0;
+}
+
+/*! ## Gallery
+--------------------------------------------- */
+.gallery-item {
+	float: right;
+	margin-left: auto;
+	margin-right: 0;
+}
+
+@media only screen and (min-width:860px) {
+
+	.gallery-item {
+		margin-left: auto;
+		margin-right: 2.564102564102564%;
+	}
+
+	.gallery-columns-2 .gallery-item:nth-of-type(2n+1),
+	.gallery-columns-3 .gallery-item:nth-of-type(3n+1),
+	.gallery-columns-4 .gallery-item:nth-of-type(4n+1),
+	.gallery-columns-5 .gallery-item:nth-of-type(5n+1),
+	.gallery-columns-6 .gallery-item:nth-of-type(6n+1),
+	.gallery-columns-7 .gallery-item:nth-of-type(7n+1),
+	.gallery-columns-8 .gallery-item:nth-of-type(8n+1),
+	.gallery-columns-9 .gallery-item:nth-of-type(9n+1) {
+		margin-left: auto;
+		margin-right: 0;
+		clear: right;
+	}
+
+}
+
+.gallery-item img {
+	padding: 0;
+}
+
+.gallery-item .gallery-icon > a img {
+	margin: 0;
+}
+
+.gallery-item .gallery-icon > a:after {
+	border-radius: 50%;
+	left: auto;
+	right: 50%;
+	margin-left: auto;
+	margin-right: -25px;
+	transition: all 0.2s ease-in-out;
+}
+
+/*! ## Forms
+--------------------------------------------- */
+input,
+select,
+textarea {
+	border-radius: 3px;
+	padding: 8px 12px;
+}
+
+.button,
+.more-link,
+button,
+input[type="button"],
+input[type="reset"],
+input[type="submit"] {
+	border-radius: 3px;
+	padding: 8px 20px;
+	box-shadow: none;
+}
+
+@media only screen and (min-width:860px) {
+
+	.button {
+		padding: 8px 20px;
+	}
+
+}
+
+.button:focus,
+.button:hover,
+.more-link:focus,
+.more-link:hover,
+button:focus,
+button:hover,
+input:focus[type="button"],
+input:focus[type="reset"],
+input:focus[type="submit"],
+input:hover[type="button"],
+input:hover[type="reset"],
+input:hover[type="submit"] {
+	box-shadow: none;
+}
+
+/*! ## Tables
+--------------------------------------------- */
+td,
+th {
+	text-align: right;
+}
+
+td {
+	padding: 6px 0;
+}
+
+/*! ## Screen Reader Text
+--------------------------------------------- */
+.genesis-nav-menu .search input[type="submit"]:focus,
+.screen-reader-shortcut:focus,
+.screen-reader-text:focus {
+	padding: 15px 23px 14px;
+	/*! Above WP toolbar. */box-shadow: 0 0 2px 2px rgba(0,0,0,.6);
+}
+
+.more-link {
+	margin: 30px 0 0;
+	padding: 6px 20px;
+}
+
+/*! # Structure and Layout
+---------------------------------------------------------------------------------------------------- */
+/*! ## Site Containers
+--------------------------------------------- */
+.site-inner,
+.wrap {
+	padding-left: 0;
+	padding-right: 5%;
+	padding-right: 0;
+	padding-left: 5%;
+}
+
+@media only screen and (min-width:860px) {
+
+	.site-inner,
+	.wrap {
+		margin: 0 auto;
+		padding-left: 0;
+		padding-right: 0;
+		padding-right: 0;
+		padding-left: 0;
+	}
+
+}
+
+@media only screen and (min-width:1200px) {
+
+	.site-inner,
+	.wrap {
+		margin: 0 auto;
+	}
+
+}
+
+.template-blank .site-inner,
+.template-full-width .site-inner {
+	padding: 0;
+}
+
+/*! ## Column Widths and Positions
+--------------------------------------------- */
+/*! ### Wrapping div for .content and .sidebar-primary */
+.content-sidebar-sidebar .content-sidebar-wrap {
+	float: right;
+}
+
+.sidebar-content-sidebar .content-sidebar-wrap,
+.sidebar-sidebar-content .content-sidebar-wrap {
+	float: left;
+}
+
+/*! ### Content */
+@media only screen and (min-width:1023px) {
+
+	.content {
+		float: left;
+	}
+
+}
+
+.content-sidebar .content,
+.content-sidebar-sidebar .content,
+.sidebar-content-sidebar .content {
+	float: right;
+}
+
+/*! ### Primary Sidebar */
+@media only screen and (min-width:1023px) {
+
+	.sidebar-primary {
+		float: left;
+	}
+
+}
+
+.sidebar-content .sidebar-primary,
+.sidebar-sidebar-content .sidebar-primary {
+	float: right;
+}
+
+/*! ### Secondary Sidebar */
+@media only screen and (min-width:1023px) {
+
+	.sidebar-secondary {
+		float: right;
+	}
+
+}
+
+.content-sidebar-sidebar .sidebar-secondary {
+	float: left;
+}
+
+/*! ## Column Classes
+--------------------------------------------- */
+/*! Link: http://twitter.github.io/bootstrap/assets/css/bootstrap-responsive.css */
+.five-sixths,
+.four-sixths,
+.one-fourth,
+.one-half,
+.one-sixth,
+.one-third,
+.three-fourths,
+.three-sixths,
+.two-fourths,
+.two-sixths,
+.two-thirds {
+	float: right;
+	margin: 0;
+}
+
+@media only screen and (min-width:860px) {
+
+	.five-sixths,
+	.four-sixths,
+	.one-fourth,
+	.one-half,
+	.one-sixth,
+	.one-third,
+	.three-fourths,
+	.three-sixths,
+	.two-fourths,
+	.two-sixths,
+	.two-thirds {
+		margin-left: auto;
+		margin-right: 2.564102564102564%;
+	}
+
+	.first {
+		margin-left: auto;
+		margin-right: 0;
+	}
+
+}
+
+/*! # Common Classes
+---------------------------------------------------------------------------------------------------- */
+/*! ## Avatar
+--------------------------------------------- */
+.avatar {
+	float: right;
+}
+
+.alignleft .avatar,
+.author-box .avatar {
+	margin-right: auto;
+	margin-left: 24px;
+	border-radius: 50%;
+}
+
+.comment .avatar {
+	left: auto;
+	right: 0;
+	margin: 0 0 0 15px;
+}
+
+@media only screen and (min-width:860px) {
+
+	.comment .avatar {
+		left: auto;
+		right: -80px;
+		border-radius: 50%;
+		margin: 0;
+	}
+
+}
+
+/*! ## Genesis
+--------------------------------------------- */
+.author-box {
+	padding: 30px;
+	border-radius: 2px;
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.archive-description .entry-title {
+	padding: 0;
+}
+
+/*! ## Search Form
+--------------------------------------------- */
+.site-header .search-form {
+	text-align: right;
+	float: left;
+	transition: all 0.3s linear 0s;
+}
+
+.genesis-nav-menu .search input[type="submit"],
+.site-header .search-form input[type="submit"] {
+	margin: -1px;
+	padding: 0;
+}
+
+/*! ## Titles
+--------------------------------------------- */
+/*! ## WordPress
+--------------------------------------------- */
+a.aligncenter img {
+	margin: 0 auto;
+}
+
+.alignleft {
+	float: right;
+	text-align: right;
+}
+
+.alignright {
+	float: left;
+	text-align: left;
+}
+
+.aligncenter,
+img.centered {
+	margin: 0 auto 24px;
+}
+
+.wp-caption.alignleft,
+a.alignleft,
+img.alignleft {
+	margin: 0 0 24px 24px;
+}
+
+.wp-caption.alignright,
+a.alignright,
+img.alignright {
+	margin: 0 24px 24px 0;
+}
+
+.entry-content .wp-audio-shortcode,
+.entry-content .wp-playlist,
+.entry-content .wp-video {
+	margin: 0 0 28px;
+}
+
+/*! # Widgets
+---------------------------------------------------------------------------------------------------- */
+.widget ol > li {
+	padding-left: 0;
+	padding-right: 20px;
+}
+
+/*! ## Featured Content
+--------------------------------------------- */
+.featured-content .entry {
+	padding: 0 0 30px;
+}
+
+.featured-content .entry .entry-title {
+	margin: 20px 0;
+	padding: 0 30px;
+}
+
+.featured-content .entry .entry-content {
+	padding: 0 30px;
+}
+
+.featured-content .entry .entry-meta {
+	padding: 0 30px;
+}
+
+/*! # Plugins
+---------------------------------------------------------------------------------------------------- */
+/*! ## Genesis eNews Extended
+--------------------------------------------- */
+.enews-widget input[type="submit"] {
+	margin: 0;
+}
+
+.enews .screenread {
+	left: auto;
+	right: -1000em;
+}
+
+/*! ## Jetpack
+--------------------------------------------- */
+/*! # Skip Links
+---------------------------------------------------------------------------------------------------- */
+.genesis-skip-link {
+	margin: 0;
+}
+
+/*! Display outline on focus */
+/*! # Site Header
+---------------------------------------------------------------------------------------------------- */
+.site-header {
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.site-header > .wrap {
+	padding: 0 5%;
+}
+
+@media only screen and (min-width:860px) {
+
+	.site-header > .wrap {
+		padding: 0;
+	}
+
+}
+
+.custom-header .site-header {
+	background-position: center!important;
+}
+
+/*! ## Title Area
+--------------------------------------------- */
+.title-area {
+	float: right;
+	padding: 14px 0;
+	transition: all 0.3s linear 0s;
+}
+
+@media only screen and (min-width:860px) {
+
+	.title-area {
+		text-align: right;
+	}
+
+}
+
+/*! ## Custom Logo
+--------------------------------------------- */
+.wp-custom-logo .title-area {
+	padding: 15px 0;
+}
+
+.wp-custom-logo .custom-logo-link img {
+	margin: auto;
+}
+
+/*! ## Widget Area
+--------------------------------------------- */
+.site-header .widget-area {
+	padding: 18px 0;
+}
+
+@media only screen and (min-width:860px) {
+
+	.site-header .widget-area {
+		padding: 0;
+		text-align: left;
+	}
+
+}
+
+@media only screen and (min-width:1023px) {
+
+	.site-header .widget-area {
+		float: left;
+	}
+
+}
+
+/*! # Site Navigation
+---------------------------------------------------------------------------------------------------- */
+.genesis-nav-menu .menu-item {
+	text-align: right;
+}
+
+.genesis-nav-menu a {
+	padding: 15px;
+	margin: 0;
+}
+
+.genesis-nav-menu .sub-menu {
+	left: auto;
+	right: -9999px;
+	transition: opacity .4s ease-in-out;
+}
+
+.genesis-nav-menu .sub-menu a {
+	padding: 12px 18px;
+	margin: 0;
+}
+
+.genesis-nav-menu .sub-menu .sub-menu {
+	margin: -42px 199px 0 0;
+}
+
+.genesis-nav-menu .menu-item:hover > .sub-menu {
+	left: auto;
+	right: auto;
+}
+
+.genesis-nav-menu > .first > a {
+	padding-left: 0;
+	padding-right: 0;
+}
+
+.genesis-nav-menu > .last > a {
+	padding-right: 0;
+	padding-left: 0;
+}
+
+.genesis-nav-menu > .right {
+	float: left;
+	padding: 15px 0;
+}
+
+.genesis-nav-menu > .right > a {
+	padding: 0;
+}
+
+.genesis-nav-menu > .rss > a {
+	margin-left: auto;
+	margin-right: 30px;
+}
+
+.genesis-nav-menu > .search {
+	padding: 8px 0 0;
+}
+
+@media only screen and (min-width:1023px) {
+
+	.genesis-nav-menu > .menu-item.highlight a,
+	.site-header.sticky .genesis-nav-menu > .menu-item.highlight a {
+		border-radius: 2px;
+		padding: 3px 15px;
+		margin-left: auto;
+		margin-right: 10px;
+	}
+
+	.genesis-nav-menu > .menu-item-has-children > a:after {
+		padding: 0 8px 0 0;
+	}
+
+	.genesis-nav-menu .sub-menu > .menu-item-has-children > a:after {
+		float: left;
+		padding: 0 8px 0 0;
+	}
+
+}
+
+/*! Genesis Responsive Menus */
+@media only screen and (max-width:1023px) {
+
+	.js .site-header nav .wrap {
+		padding: 0;
+	}
+
+	.menu-toggle,
+	.sub-menu-toggle {
+		padding: 3px 15px;
+		margin: 0 auto;
+	}
+
+	.menu-toggle:focus,
+	.sub-menu-toggle:focus {
+		border-color: #fff;
+	}
+
+	.menu-toggle::before {
+		margin-right: auto;
+		margin-left: 10px;
+	}
+
+	.sub-menu-toggle {
+		float: left;
+		padding: 10px 12px;
+		right: auto;
+		left: 1px;
+		border-radius: 0;
+	}
+
+	.sub-menu-toggle::before {
+		transform: rotate( 0 );
+		transition: transform .25s ease-in-out;
+		transition: transform .25s ease-in-out;
+		transition: transform .25s ease-in-out,transform .25s ease-in-out;
+	}
+
+	.sub-menu-toggle.activated::before {
+		transform: rotate( 180deg );
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .menu-item {
+		text-align: right;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .menu-item a {
+		padding: 10px 20px;
+	}
+
+	.genesis-responsive-menu .site-header .genesis-nav-menu .menu-item a {
+		padding: 10px 0;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .menu-item > a:focus ul.sub-menu,
+	.genesis-responsive-menu .genesis-nav-menu .menu-item > a:focus ul.sub-menu .sub-menu {
+		left: auto;
+		right: 0;
+		margin-left: auto;
+		margin-right: 0;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu {
+		margin: 0;
+		padding-left: 0;
+		padding-right: 0;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu a {
+		border-right: none;
+		border-left: none;
+		padding-left: 0;
+		padding-right: 30px;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu a::before {
+		padding-right: 0;
+		padding-left: 8px;
+	}
+
+	.genesis-responsive-menu .genesis-nav-menu .sub-menu .sub-menu {
+		margin: 0;
+	}
+
+}
+
+/*! ## Accessible Menu
+--------------------------------------------- */
+.menu .menu-item > a:focus + ul.sub-menu,
+.menu .menu-item.sfHover > ul.sub-menu {
+	left: auto;
+	right: auto;
+}
+
+/*! ## Primary Navigation
+--------------------------------------------- */
+.nav-primary .wrap {
+	padding: 0;
+}
+
+/*! ## Secondary Navigation
+--------------------------------------------- */
+/*! ## Site Header Navigation
+--------------------------------------------- */
+@media only screen and (min-width:1023px) {
+
+	.site-header .nav-primary {
+		float: left;
+		clear: none;
+	}
+
+}
+
+.site-header .menu-toggle {
+	margin: 20px auto;
+}
+
+@media only screen and (min-width:860px) {
+
+	.site-header .menu-toggle {
+		float: left;
+		clear: left;
+		margin: 20px 0;
+	}
+
+}
+
+.site-header .genesis-nav-menu > li {
+	margin: 0;
+}
+
+.site-header .genesis-nav-menu > li > a {
+	margin: 0;
+	transition: all 0.3s linear 0s;
+}
+
+.site-header .genesis-nav-menu li li {
+	margin-left: auto;
+	margin-right: 0;
+}
+
+/*! # Sticky Header
+---------------------------------------------------------------------------------------------------- */
+.site-header.sticky .title-area {
+	padding: 5px 0;
+}
+
+/*! ## Sticky Primary & Secondary Nav
+--------------------------------------------- */
+/*! # Content Area
+---------------------------------------------------------------------------------------------------- */
+/*! ## Entries
+--------------------------------------------- */
+.entry {
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+	border-radius: 2px;
+	padding: 0;
+}
+
+.entry > p {
+	padding: 30px 30px 0;
+}
+
+.entry-title {
+	margin: 30px 0 20px;
+	padding: 0 30px;
+}
+
+@media only screen and (min-width:860px) {
+
+	.entry-title {
+		padding: 0 50px;
+	}
+
+}
+
+.entry-meta {
+	padding: 0 30px;
+}
+
+@media only screen and (min-width:860px) {
+
+	.entry-meta {
+		padding: 0 50px;
+	}
+
+}
+
+.entry-footer .entry-meta {
+	padding: 20px 30px;
+}
+
+@media only screen and (min-width:860px) {
+
+	.entry-footer .entry-meta {
+		padding: 20px 50px;
+	}
+
+}
+
+.entry-content {
+	padding: 0 30px;
+}
+
+@media only screen and (min-width:860px) {
+
+	.entry-content {
+		padding: 0 50px;
+	}
+
+}
+
+.entry-content ol,
+.entry-content ul {
+	margin-left: auto;
+	margin-right: 40px;
+}
+
+/*! ## Entry Meta
+--------------------------------------------- */
+.entry-meta .entry-time::after {
+	padding: 0 10px;
+}
+
+.entry-meta .entry-comments-link::before {
+	padding: 0 10px;
+}
+
+.entry-meta .entry-tags::before {
+	padding: 0 10px;
+}
+
+/*! ## Pagination
+--------------------------------------------- */
+.pagination {
+	margin: 40px 0;
+}
+
+.archive-pagination li a,
+.pagination-next a,
+.pagination-previous a {
+	border-radius: 3px;
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+	padding: 6px 16px;
+	margin-right: auto;
+	margin-left: 5px;
+}
+
+/*! ## Comments
+--------------------------------------------- */
+.comment-respond,
+.entry-comments,
+.entry-pings {
+	padding: 0;
+}
+
+.comment-list li {
+	padding: 0;
+}
+
+.comment-list li article {
+	margin: 0;
+	padding: 10px 20px;
+	border-radius: 2px;
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+@media only screen and (min-width:860px) {
+
+	.comment-list li article {
+		margin: 0 80px 0 0;
+	}
+
+}
+
+.comment-list li li {
+	margin-right: auto;
+	margin-left: 0;
+	margin-left: auto;
+	margin-right: 0;
+}
+
+@media only screen and (min-width:860px) {
+
+	.comment-list li li {
+		margin-left: auto;
+		margin-right: 80px;
+	}
+
+}
+
+.comment-respond label {
+	margin-right: auto;
+	margin-left: 12px;
+}
+
+.form-allowed-tags {
+	padding: 24px;
+}
+
+/*! # Sidebars
+---------------------------------------------------------------------------------------------------- */
+.sidebar li {
+	padding-left: 0;
+	padding-right: 20px;
+}
+
+.sidebar li:before {
+	left: auto;
+	right: 5px;
+	padding-right: 0;
+	padding-left: 8px;
+}
+
+.sidebar .button {
+	padding: 6px 16px;
+}
+
+/*! # Footer Widgets
+---------------------------------------------------------------------------------------------------- */
+.footer-widgets li {
+	padding-left: 0;
+	padding-right: 20px;
+}
+
+.footer-widgets li:before {
+	left: auto;
+	right: 5px;
+	padding-right: 0;
+	padding-left: 8px;
+}
+
+.footer-widgets .widget i {
+	padding: 0 0 0 8px;
+}
+
+@media only screen and (min-width:1023px) {
+
+	.footer-widgets-2,
+	.footer-widgets-3 {
+		margin-left: auto;
+		margin-right: 2.564102564102564%;
+	}
+
+	.footer-widgets-1,
+	.footer-widgets-2,
+	.footer-widgets-3 {
+		float: right;
+	}
+
+}
+
+/*! # Site Footer
+---------------------------------------------------------------------------------------------------- */
+.site-footer {
+	padding: 25px 0;
+}
+
+@media only screen and (min-width:1023px) {
+
+	.site-footer {
+		text-align: right;
+	}
+
+}
+
+/*! Footer navigation
+--------------------------------------------- */
+.nav-footer {
+	margin: 20px 0 0;
+}
+
+@media only screen and (min-width:1023px) {
+
+	.nav-footer {
+		float: left;
+		margin: 0;
+	}
+
+}
+
+.nav-footer .genesis-nav-menu a {
+	margin: 0 10px 0 0;
+	padding: 10px 0;
+}
+
+@media only screen and (min-width:1023px) {
+
+	.nav-footer .genesis-nav-menu a {
+		padding: 0;
+	}
+
+}
+
+.nav-footer .genesis-nav-menu li:first-child a {
+	margin: 0;
+}
+
+.nav-footer .genesis-nav-menu li:first-child:before {
+	padding: 0;
+}
+
+@media only screen and (min-width:1023px) {
+
+	.nav-footer .genesis-nav-menu li:before {
+		padding: 0 10px 0 0;
+	}
+
+}
+
+/*! Footer widgets
+--------------------------------------------- */
+.footer-widgets .enews-widget input[type="email"] {
+	margin: 0;
+	padding: 10px;
+}
+
+.footer-widgets .enews-widget input[type="submit"] {
+	border-radius: 3px 0 0 3px;
+	margin: 0;
+	padding: 10px;
+	right: auto;
+	left: 0;
+}
+
+/*! Scroll Up
+--------------------------------------------- */
+.scrollup,
+.scrollup:focus,
+.scrollup:hover {
+	right: auto;
+	left: 20px;
+	padding: 5px 10px;
+	border-radius: 2px;
+}
+
+/*! Archive page template
+--------------------------------------------- */
+/*! 404 Error page
+--------------------------------------------- */
+/*! Topbar styling
+--------------------------------------------- */
+@media only screen and (min-width:860px) {
+
+	.site-topbar {
+		text-align: right;
+	}
+
+}
+
+.site-topbar .widget {
+	float: right;
+}
+
+@media only screen and (min-width:860px) {
+
+	.site-topbar .widget {
+		margin-left: auto;
+		margin-right: 2.564102564102564%;
+	}
+
+	.site-topbar .widget:nth-of-type(2n+1) {
+		margin-left: auto;
+		margin-right: 0;
+		text-align: right;
+		float: right;
+	}
+
+	.site-topbar .widget:nth-of-type(2n+2) {
+		text-align: left;
+		float: left;
+	}
+
+}
+
+.site-topbar li {
+	margin: 0 0 0 20px;
+}
+
+.site-topbar i {
+	padding: 0 0 0 6px;
+}
+
+/*! ## Portfolio Widget
+--------------------------------------------- */
+.featured-portfolio .entry {
+	padding: 0;
+}
+
+.featured-portfolio .entry .entry-title {
+	margin: 20px 0;
+	padding: 0 30px;
+}
+
+.featured-portfolio .entry .entry-content {
+	padding: 0 30px;
+}
+
+.featured-portfolio .entry .entry-meta {
+	padding: 0 30px;
+}
+
+.featured-portfolio .entry .entry-thumbnail {
+	margin: 0;
+}
+
+.featured-portfolio .entry .entry-thumbnail:after {
+	border-radius: 50%;
+	left: auto;
+	right: 50%;
+	margin-left: auto;
+	margin-right: -25px;
+	transition: all 0.2s ease-in-out;
+}
+
+/*! Portfolio archive
+--------------------------------------------- */
+@media only screen and (min-width:860px) {
+
+	.genesis-pro-portfolio .entry {
+		float: right;
+		margin-left: auto;
+		margin-right: 2.564102564102564%;
+		padding: 0;
+	}
+
+	.genesis-pro-portfolio .entry:nth-of-type(3n+1) {
+		margin-left: auto;
+		margin-right: 0;
+	}
+
+}
+
+.genesis-pro-portfolio .entry .entry-title {
+	margin: 0;
+	padding: 20px;
+}
+
+.genesis-pro-portfolio .entry .entry-content {
+	padding: 0;
+}
+
+.genesis-pro-portfolio .entry .portfolio-featured-image img {
+	margin: 0;
+}
+
+.genesis-pro-portfolio .entry .portfolio-featured-image:after {
+	border-radius: 50%;
+	left: auto;
+	right: 50%;
+	margin-left: auto;
+	margin-right: -25px;
+	transition: all 0.2s ease-in-out;
+}
+
+/*! # Simple Social Icons
+---------------------------------------------------------------------------------------------------- */
+.simple-social-icons ul {
+	margin: 0;
+	padding: 0;
+}
+
+.simple-social-icons ul li {
+	float: right;
+	margin: 2px 4px!important;
+	padding: 0!important;
+}
+
+.simple-social-icons ul li:before {
+	left: auto;
+	right: auto;
+	padding: 0;
+}
+
+/*! Topbar Social Icons */
+.site-topbar .simple-social-icons li a,
+.site-topbar .simple-social-icons li a:focus,
+.site-topbar .simple-social-icons li a:hover {
+	padding: 11px 10px;
+}
+
+/*! Sidebar Social Icons */
+/*! # Print Styles
+---------------------------------------------------------------------------------------------------- */
+@media print {
+
+	*,
+	*:after,
+	*:before {
+		box-shadow: none!important;
+	}
+
+	@page {
+		margin: 2cm 0.5cm;
+	}
+
+	.site-title > a {
+		margin: 0;
+	}
+
+}

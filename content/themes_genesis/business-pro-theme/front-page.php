@@ -1,36 +1,52 @@
 <?php
 /**
- * Business Pro.
+ * Business Pro Theme
  *
  * This file adds the front page to the Business Pro Theme.
  *
- * @package Business Pro
- * @author  SeoThemes
- * @license GPL-2.0+
- * @link    https://seothemes.com/themes/business-pro/
+ * @package   BusinessProTheme
+ * @link      https://seothemes.com/themes/business-pro
+ * @author    SEO Themes
+ * @copyright Copyright © 2017 SEO Themes
+ * @license   GPL-2.0+
  */
 
-// Force full-width-content layout.
-add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
 
-// Remove default page header.
-remove_action( 'genesis_after_header', 'business_page_header_open', 20 );
-remove_action( 'genesis_after_header', 'business_page_header_title', 24 );
-remove_action( 'genesis_after_header', 'business_page_header_close', 28 );
+	die;
 
-add_action( 'genesis_before_content_sidebar_wrap', 'business_front_page' );
- /**
-  * Front page widgets.
-  *
-  * @return void
-  */
-function business_front_page() {
+}
 
-	// If any widget areas are active, do custom front page.
-	if ( is_active_sidebar( 'front-page-1' ) || is_active_sidebar( 'front-page-2' ) || is_active_sidebar( 'front-page-3' ) || is_active_sidebar( 'front-page-4' ) || is_active_sidebar( 'front-page-5' ) || is_active_sidebar( 'front-page-6' ) ) {
+// Check if any front page widgets are active.
+if ( is_active_sidebar( 'front-page-1' ) ||
+	is_active_sidebar( 'front-page-2' ) ||
+	is_active_sidebar( 'front-page-3' ) ||
+	is_active_sidebar( 'front-page-4' ) ||
+	is_active_sidebar( 'front-page-5' ) ||
+	is_active_sidebar( 'front-page-6' ) ) {
 
-		// Remove site-inner wrap.
-		add_filter( 'genesis_structural_wrap-site-inner', '__return_empty_string' );
+	// Force full-width-content layout.
+	add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
+
+	// Remove default page header.
+	remove_action( 'genesis_before_content_sidebar_wrap', 'business_page_header' );
+
+	// Remove content-sidebar-wrap.
+	add_filter( 'genesis_markup_content-sidebar-wrap', '__return_null' );
+
+	// Remove default loop.
+	remove_action( 'genesis_loop', 'genesis_do_loop' );
+	add_action( 'genesis_loop', 'business_front_page_loop' );
+
+	/**
+	 * Front page content.
+	 *
+	 * @since  1.0.5
+	 *
+	 * @return void
+	 */
+	function business_front_page_loop() {
 
 		// Get custom header markup.
 		ob_start();
@@ -43,47 +59,36 @@ function business_front_page() {
 			'after'  => '</div></div>',
 		) );
 
-		// Display Front Page 2 widget area.
+		// Front page 2 widget area.
 		genesis_widget_area( 'front-page-2', array(
 			'before' => '<div class="front-page-2 widget-area"><div class="wrap">',
 			'after'  => '</div></div>',
 		) );
 
-		// Display Front Page 3 widget area.
+		// Front page 3 widget area.
 		genesis_widget_area( 'front-page-3', array(
 			'before' => '<div class="front-page-3 widget-area"><div class="wrap">',
 			'after'  => '</div></div>',
 		) );
 
-		// Display Front Page 4 widget area.
+		// Front page 4 widget area.
 		genesis_widget_area( 'front-page-4', array(
 			'before' => '<div class="front-page-4 widget-area"><div class="wrap">',
 			'after'  => '</div></div>',
 		) );
 
-		// Display Front Page 5 widget area.
+		// Front page 5 widget area.
 		genesis_widget_area( 'front-page-5', array(
 			'before' => '<div class="front-page-5 widget-area"><div class="wrap">',
 			'after'  => '</div></div>',
 		) );
 
-		// Display Front Page 6 widget area.
+		// Front page 6 widget area.
 		genesis_widget_area( 'front-page-6', array(
 			'before' => '<div class="front-page-6 widget-area"><div class="wrap">',
 			'after'  => '</div></div>',
 		) );
-
-		// Remove main section if page has no content.
-		if ( is_empty_content( get_post()->post_content ) ) {
-
-			add_filter( 'genesis_markup_content-sidebar-wrap', '__return_null' );
-			add_filter( 'genesis_markup_content', '__return_null' );
-			remove_action( 'genesis_loop', 'genesis_do_loop' );
-
-		}
 	}
-
 }
-
 // Run Genesis.
 genesis();

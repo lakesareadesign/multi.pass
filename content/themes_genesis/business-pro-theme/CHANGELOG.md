@@ -1,5 +1,27 @@
 # Business Pro Theme Changelog
 
+## [1.0.6] - 2018-03-06
+* Added check if WooCommerce is active before moving demo store notice
+* Fixed front page hero height
+* Fixed Genesis Testimonial Slider missing from recommended plugins
+* Fixed taxonomy styling different to archive.
+
+## [1.0.5] - 2018-02-26
+* Added one click demo importer
+* Added logo size setting in Customizer
+* Added fixed header setting in Customizer
+* Added Gulp focus task for automatic focus rules
+* Added button style for menu items
+* Fixed code formatting and organization
+* Fixed moz font smoothing typo
+* Fixed sub menu display issue on IE
+* Fixed to stop video playing when modal is closed
+* Fixed front page 4 widget title alignment
+* Fixed flex item margin bottom issue in Firefox
+* Removed blog masonry template
+* Removed unnecessary theme supports included with Genesis
+* Removed forced uppercase text transforms
+
 ## [1.0.4] - 2017-11-25
 * Added IE only styles
 * Updated theme textdomain to match slug

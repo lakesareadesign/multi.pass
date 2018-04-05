@@ -5,17 +5,23 @@
  *
  * This file adds gulp tasks to the Business Pro theme.
  *
- * @author Seo themes
+ * @author SEO themes
  */
 
 // Require our dependencies.
-var autoprefixer = require('autoprefixer'),
+var	args         = require('yargs').argv,
+	autoprefixer = require('autoprefixer'),
 	browsersync  = require('browser-sync'),
+	bump         = require('gulp-bump'),
+	changecase   = require('change-case'),
+	del          = require('del'),
 	mqpacker     = require('css-mqpacker'),
+	fs           = require('fs'),
 	gulp         = require('gulp'),
 	beautify     = require('gulp-cssbeautify'),
 	cache        = require('gulp-cached'),
 	cleancss     = require('gulp-clean-css'),
+	concat       = require('gulp-concat'),
 	csscomb      = require('gulp-csscomb'),
 	cssnano      = require('gulp-cssnano'),
 	filter       = require('gulp-filter'),
@@ -26,13 +32,13 @@ var autoprefixer = require('autoprefixer'),
 	postcss      = require('gulp-postcss'),
 	rename       = require('gulp-rename'),
 	replace      = require('gulp-replace'),
-	s3           = require('gulp-s3-publish'),
 	sass         = require('gulp-sass'),
 	sort         = require('gulp-sort'),
 	sourcemaps   = require('gulp-sourcemaps'),
 	uglify       = require('gulp-uglify'),
 	wpPot        = require('gulp-wp-pot'),
-	zip          = require('gulp-zip');
+	zip          = require('gulp-zip'),
+	focus        = require('postcss-focus');
 
 // Set assets paths.
 var paths = {
@@ -40,6 +46,7 @@ var paths = {
 	images:  ['assets/images/*', '!assets/images/*.svg'],
 	php:     ['./*.php', './**/*.php', './**/**/*.php'],
 	scripts: ['assets/scripts/*.js', '!assets/scripts/min/'],
+	woo:     ['assets/styles/woocommerce.scss'],
 	styles:  ['assets/styles/*.scss', '!assets/styles/min/']
 };
 
@@ -67,7 +74,7 @@ const AUTOPREFIXER_BROWSERS = [
  *
  * https://www.npmjs.com/package/gulp-sass
  */
-gulp.task('styles', function () {
+gulp.task('woo', function () {
 
 	/**
 	 * Process WooCommerce styles.
@@ -107,6 +114,26 @@ gulp.task('styles', function () {
 
 		// Output non minified css to theme directory.
 		.pipe(gulp.dest('assets/styles/min/'))
+
+		// Filtering stream to only css files.
+		.pipe(filter('**/*.css'))
+
+		// Inject changes via browsersync.
+		.pipe(browsersync.reload({
+			stream: true
+		}))
+
+		// Notify on successful compile (uncomment for notifications).
+		.pipe(notify("Compiled: <%= file.relative %>"));
+
+});
+
+/**
+ * Compile Sass.
+ *
+ * https://www.npmjs.com/package/gulp-sass
+ */
+gulp.task('styles', function () {
 
 	/**
 	 * Process main stylesheet.
@@ -285,7 +312,7 @@ gulp.task('i18n', function () {
 			package: 'Business Pro',
 			bugReport: 'https://seothemes.com/support',
 			lastTranslator: 'Lee Anthony <help@seothemes.com>',
-			team: 'Seo Themes <help@seothemes.com>'
+			team: 'SEO Themes <help@seothemes.com>'
 		}))
 
 		.pipe(gulp.dest('./languages/'));
@@ -336,6 +363,7 @@ gulp.task('watch', function () {
 	 */
 
 	// Run tasks when files change.
+	gulp.watch(paths.woo, ['woo']);
 	gulp.watch(paths.styles, ['styles']);
 	gulp.watch(paths.scripts, ['scripts']);
 	gulp.watch(paths.images, ['images']);
@@ -347,5 +375,5 @@ gulp.task('watch', function () {
  * Create default task.
  */
 gulp.task('default', ['watch'], function () {
-	gulp.start('styles', 'scripts', 'images');
+	gulp.start('woo', 'styles', 'scripts', 'images');
 });

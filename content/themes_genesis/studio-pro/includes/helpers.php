@@ -1,244 +1,42 @@
 <?php
 /**
- * Studio Pro.
+ * Studio Pro Theme
  *
- * This file contains theme-specific functions for the Studio Pro theme.
+ * This file adds helper functions used in the Studio Pro Theme.
  *
- * @package      Studio Pro
- * @link         https://seothemes.com/studio-pro
- * @author       Seo Themes
- * @copyright    Copyright © 2017 Seo Themes
- * @license      GPL-2.0+
+ * @package   StudioPro
+ * @link      https://seothemes.com/themes/studio-pro
+ * @author    SEO Themes
+ * @copyright Copyright © 2017 SEO Themes
+ * @license   GPL-2.0+
  */
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
+
 	die;
+
 }
 
 /**
- * Custom blog template path.
+ * Sanitize number values.
  *
- * The following function adds a custom template path for the home
- * and archive template. This short circuits the WordPress template
- * hierarchy and allows us to reuse the masonry template.
+ * Ensure number is an absolute integer (whole number, zero or greater). If
+ * input is an absolute integer, return it. Otherwise, return default.
  *
- * @param string $template The template path.
- */
-function studio_blog_template( $template ) {
-	if ( ! is_home() && ! is_archive() || is_post_type_archive() ) {
-		return $template;
-	}
-	return get_stylesheet_directory() . '/templates/page-masonry.php';
-}
-add_filter( 'template_include', 'studio_blog_template', 99 );
-
-/**
- * Remove Page Templates.
+ * @since  2.0.0
  *
- * The Genesis Blog & Archive templates are not needed and can
- * create problems for users so it's safe to remove them. If
- * you need to use these templates, simply remove this function.
+ * @param  string $number The rgba color to sanitize.
+ * @param string $setting Sanitized value.
  *
- * @param  array $page_templates All page templates.
- * @return array Modified templates.
- */
-function studio_remove_templates( $page_templates ) {
-	unset( $page_templates['page_archive.php'] );
-	unset( $page_templates['page_blog.php'] );
-	return $page_templates;
-}
-
-/**
- * Remove blog metabox.
- *
- * Also remove the Genesis blog settings metabox from the
- * Genesis admin settings screen as it is no longer required
- * if the Blog page template has been removed.
- *
- * @param string $hook The metabox hook.
- */
-function studio_remove_metaboxes( $hook ) {
-	remove_meta_box( 'genesis-theme-settings-blogpage', $hook, 'main' );
-}
-
-/**
- * Custom opening wrap.
- *
- * Used for entry-header, entry-content and entry-footer.
- * Genesis doesn't provide structural wraps for these elements
- * so we need to hook in and add the wrap div at the start.
- * This is a utility function that can be used anywhere to open
- * a wrap anywhere in your theme.
- */
-function studio_wrap_open() {
-	echo '<div class="wrap">';
-}
-
-/**
- * Custom closing wrap.
- *
- * The closing markup for the additional opening wrap divs,
- * simply closes the wrap divs that we created earlier. This
- * is a utility function that can be used anywhere to close
- * any kind of div, not just wraps.
- */
-function studio_wrap_close() {
-	echo '</div>';
-}
-
-/**
- * Clean the custom header markup for use in hero section.
- *
- * @return Cleaned custom header markup.
- */
-function studio_custom_header_markup() {
-	ob_start();
-	the_custom_header_markup();
-	return ob_get_clean();
-}
-
-/**
- * Add no-js class to body.
- *
- * Used for checking whether or not JavaScript is active so we can
- * style the navigation menus to suit the user. Also add an empty
- * `ontouchstart` attribute which emulates hover effects on mobile.
- *
- * @param  string $attr On touch start attribute.
  * @return string
  */
-function studio_add_ontouchstart( $attr ) {
-	$attr['class'] 		  .= ' no-js';
-	$attr['ontouchstart']  = ' ';
-	return $attr;
-}
+function studio_sanitize_number( $number, $setting ) {
 
-/**
- * Add schema microdata to title-area.
- *
- * @since  1.5.0
- * @param  array $args Array of arguments.
- * @return array $args Additional arguments.
- */
-function studio_title_area( $args ) {
-	$args['itemscope'] = 'itemscope';
-	$args['itemtype']  = 'http://schema.org/Organization';
-	return $args;
-}
+	$number = absint( $number );
 
-/**
- * Correct site-title schema microdata.
- *
- * @since  1.5.0
- * @param  array $args Array of arguments.
- * @return array $args New arguments.
- */
-function studio_site_title( $args ) {
-	$args['itemprop'] = 'name';
-	return $args;
-}
+	return ( $number ? $number : $setting->default );
 
-/**
- * Modify breadcrumb arguments.
- *
- * @param  array $args Original breadcrumb args.
- * @return array Cleaned breadcrumbs.
- */
-function studio_breadcrumb_args( $args ) {
-	$args['prefix']              = '<div class="breadcrumb" itemscope="" itemtype="https://schema.org/BreadcrumbList"><div class="wrap">';
-	$args['suffix']              = '</div></div>';
-	$args['labels']['prefix']    = '';
-	$args['labels']['author']    = '';
-	$args['labels']['category']  = '';
-	$args['labels']['tag']       = '';
-	$args['labels']['date']      = '';
-	$args['labels']['tax']       = '';
-	$args['labels']['post_type'] = '';
-	return $args;
-}
-
-/**
- * Accessible read more link.
- *
- * The below code modifies the default read more link when
- * using the WordPress More Tag to break a post on your site.
- * Instead of seeing 'Read more', screen readers will instead
- * see 'Read more about (entry title)'.
- */
-function studio_read_more() {
-	return sprintf( '&hellip; <a href="%s" class="more-link">%s</a>',
-		get_the_permalink(),
-		genesis_a11y_more_link( __( 'Read more', 'studio-pro' ) )
-	);
-}
-
-/**
- * Enable prev/next links in portfolio.
- */
-function studio_prev_next_post_nav_cpt() {
-
-	if ( ! is_singular( 'portfolio' ) && ! is_singular( 'product' ) ) {
-		return;
-	}
-
-	genesis_markup( array(
-		'html5'   => '<div %s><div class="wrap">',
-		'xhtml'   => '<div class="navigation">',
-		'context' => 'adjacent-entry-pagination',
-	) );
-
-		echo '<div class="pagination-previous alignleft">';
-			previous_post_link();
-		echo '</div>';
-		echo '<div class="pagination-next alignright">';
-			next_post_link();
-		echo '</div>';
-	echo '</div></div>';
-}
-
-/**
- * Display featured image before post content.
- *
- * Custom featured image function to do some checks before
- * outputting the featured image. It will return early if we're not
- * on a post, page or portfolio item or if the post doesn't have a
- * featured image set or if the featured image option set in
- * Genesis > Theme Settings is not checked.
- *
- * @since  2.1.1
- * @return array Featured image size.
- */
-function studio_featured_image() {
-
-	if ( ! is_singular( array( 'post', 'page', 'portfolio' ) ) ) {
-		return;
-	}
-
-	if ( ! has_post_thumbnail() ) {
-		return;
-	}
-
-	$genesis_settings = get_option( 'genesis-settings' );
-
-	if ( 1 !== $genesis_settings['content_archive_thumbnail'] ) {
-		return;
-	}
-
-	echo '<div class="featured-image">' . genesis_get_image() . '</div>';
-
-}
-
-/**
- * Change the footer text.
- *
- * @since  1.5.0
- * @param  string $creds Defaults.
- * @return string Custom footer credits.
- */
-function studio_footer_creds_filter( $creds ) {
-	$creds = '[footer_copyright] <a href="' . CHILD_THEME_URL . '">Studio Pro</a> by <img src="' . get_stylesheet_directory_uri() . '/assets/images/favicon.png" width="10"> <a href="https://seothemes.com" title="Seo Themes">Seo Themes</a>. Built on the Genesis Framework.';
-	return $creds;
 }
 
 /**
@@ -247,37 +45,146 @@ function studio_footer_creds_filter( $creds ) {
  * If string does not start with 'rgba', then treat as hex then
  * sanitize the hex color and finally convert hex to rgba.
  *
+ * @since  2.0.0
+ *
  * @param  string $color The rgba color to sanitize.
+ *
  * @return string $color Sanitized value.
  */
 function sanitize_rgba_color( $color ) {
 
 	// Return invisible if empty.
 	if ( empty( $color ) || is_array( $color ) ) {
+
 		return 'rgba(0,0,0,0)';
+
 	}
 
 	// Return sanitized hex if not rgba value.
 	if ( false === strpos( $color, 'rgba' ) ) {
+
 		return sanitize_hex_color( $color );
+
 	}
 
 	// Finally, sanitize and return rgba.
 	$color = str_replace( ' ', '', $color );
 	sscanf( $color, 'rgba(%d,%d,%d,%f)', $red, $green, $blue, $alpha );
+
 	return 'rgba(' . $red . ',' . $green . ',' . $blue . ',' . $alpha . ')';
+
+}
+
+/**
+ * Convert hex to rgba value.
+ *
+ * This function takes a hex code (e.g. #eeeeee) and returns array of RGBA
+ * values. Used in studio_customizer_output to handle transparency.
+ *
+ * @since  0.1.0
+ *
+ * @param  string $color  Hex color to convert.
+ * @param  int    $opacity Opacity amount.
+ *
+ * @return string
+ */
+function studio_hex_to_rgba( $color, $opacity ) {
+
+	if ( '#' === $color[0] ) {
+
+		$color = substr( $color, 1 );
+
+	}
+
+	if ( strlen( $color ) === 6 ) {
+
+		list( $r, $g, $b ) = array( $color[0] . $color[1], $color[2] . $color[3], $color[4] . $color[5] );
+
+	} elseif ( strlen( $color ) === 3 ) {
+
+		list( $r, $g, $b ) = array( $color[0] . $color[0], $color[1] . $color[1], $color[2] . $color[2] );
+
+	} else {
+
+		return false;
+
+	}
+
+	$r = hexdec( $r );
+	$g = hexdec( $g );
+	$b = hexdec( $b );
+
+	$rgb  = array(
+		'red' => $r,
+		'green' => $g,
+		'blue' => $b,
+	);
+
+	$rgba = implode( $rgb, ',' ) . ',' . $opacity;
+
+	return $rgba;
+
+}
+
+/**
+ * Convert rgba to hex value.
+ *
+ * This function takes an rgba code (e.g. rgba(100,200,300,1)) and returns
+ * array of RGBA values. First checks if the string is a hex value and
+ * converts it into and RGBA using studio_hex_to_rgba if necessary.
+ *
+ * @since  0.1.0
+ *
+ * @param  string $string RGBA color to convert.
+ *
+ * @return string
+ */
+function studio_rgba_to_hex( $string ) {
+
+	$rgba  = array();
+	$hex   = '';
+	$regex = '#\((([^()]+|(?R))*)\)#';
+
+	if ( strpos( $string, ',' ) != true ) {
+
+		$string = 'rgba(' . studio_hex_to_rgba( $string, '1' ) . ')';
+
+	}
+
+	if ( preg_match_all( $regex, $string ,$matches ) ) {
+
+		$rgba = explode( ',', implode( ' ', $matches[1] ) );
+
+	} else {
+
+		$rgba = explode( ',', $string );
+
+	}
+
+	$rr = str_pad( dechex( $rgba['0'] ), 2, '0', STR_PAD_LEFT );
+	$gg = str_pad( dechex( $rgba['1'] ), 2, '0', STR_PAD_LEFT );
+	$bb = str_pad( dechex( $rgba['2'] ), 2, '0', STR_PAD_LEFT );
+	$aa = '';
+
+	if ( array_key_exists( '3', $rgba ) ) {
+
+		$aa = dechex( $rgba['3'] * 255 );
+
+	}
+
+	return strtoupper( "#$rr$gg$bb" );
+
 }
 
 /**
  * Minify CSS helper function.
  *
- * A handy CSS minification script by Gary Jones that we'll use to
- * minify the CSS output by the customizer. This is called near the
- * end of the /includes/customizer-output.php file.
+ * @since  2.0.0
  *
  * @author Gary Jones
  * @link   https://github.com/GaryJones/Simple-PHP-CSS-Minification
  * @param  string $css The CSS to minify.
+ *
  * @return string Minified CSS.
  */
 function studio_minify_css( $css ) {
@@ -313,69 +220,143 @@ function studio_minify_css( $css ) {
 	$css = preg_replace( '/#([a-f0-9])\\1([a-f0-9])\\2([a-f0-9])\\3/i', '#\1\2\3', $css );
 
 	return trim( $css );
+
 }
 
 /**
- * Fix Simple Social Icons multiple instances.
+ * Helper function to check if we're on a WooCommerce page.
  *
- * By default, Simple Social Icons only allows you to create one
- * style for your icons, even if you have multiple on one page.
- * This function allows us to output different styles for each
- * widget that is output on the front end.
+ * @since  2.0.0
+ *
+ * @link   https://docs.woocommerce.com/document/conditional-tags/.
+ *
+ * @return bool
  */
-function studio_simple_social_icons_css() {
+function studio_is_woocommerce_page() {
 
-	if ( ! class_exists( 'Simple_Social_Icons_Widget' ) ) {
-		return;
+	if ( ! class_exists( 'WooCommerce' ) ) {
+
+		return false;
+
 	}
-	$obj = new Simple_Social_Icons_Widget();
 
-	// Get widget settings.
-	$all_instances = $obj->get_settings();
+	if ( is_woocommerce() || is_shop() || is_product_category() || is_product_tag() || is_product() || is_cart() || is_checkout() || is_account_page() ) {
 
-	// Loop through instances.
-	foreach ( $all_instances as $key => $options ) :
+		return true;
 
-		$instance = wp_parse_args( $all_instances[$key] );
+	} else {
 
-		$font_size = round( (int) $instance['size'] / 2 );
-		$icon_padding = round ( (int) $font_size / 2 );
+		return false;
 
-		// CSS to output.
-		$css = '#' . $obj->id_base . '-' . $key . ' ul li a,
-		#' . $obj->id_base . '-' . $key . ' ul li a:hover {
-		background-color: ' . $instance['background_color'] . ';
-		border-radius: ' . $instance['border_radius'] . 'px;
-		color: ' . $instance['icon_color'] . ';
-		border: ' . $instance['border_width'] . 'px ' . $instance['border_color'] . ' solid;
-		font-size: ' . $font_size . 'px;
-		padding: ' . $icon_padding . 'px;
-		}
-		
-		#' . $obj->id_base . '-' . $key . ' ul li a:hover {
-		background-color: ' . $instance['background_color_hover'] . ';
-		border-color: ' . $instance['border_color_hover'] . ';
-		color: ' . $instance['icon_color_hover'] . ';
-		}';
+	}
 
-		// Minify.
-		$css = studio_minify_css( $css );
+}
 
-		// Output.
-		echo '<style type="text/css" media="screen">' . $css . '</style>';
-	endforeach;
+add_filter( 'display_posts_shortcode_post_class', 'studio_dps_column_classes', 10, 4 );
+/**
+ * Column Classes
+ *
+ * Columns Extension for Display Posts Shortcode plugin makes it easy for
+ * users to display posts in columns using [display-posts columns="2"]
+ *
+ * @since  1.0.0
+ *
+ * @author Bill Erickson <bill@billerickson.net>
+ * @link   http://www.billerickson.net/shortcode-to-display-posts/
+ * @param  array  $classes Current CSS classes.
+ * @param  object $post    The post object.
+ * @param  object $listing The WP Query object for the listing.
+ * @param  array  $atts    Original shortcode attributes.
+ *
+ * @return array  $classes Modified CSS classes.
+ */
+function studio_dps_column_classes( $classes, $post, $listing, $atts ) {
+
+	if ( ! isset( $atts['columns'] ) ) {
+
+		return $classes;
+
+	}
+
+	$columns = intval( $atts['columns'] );
+
+	if ( $columns < 2 || $columns > 6 ) {
+
+		return $classes;
+
+	}
+
+	$column_classes = array( '', '', 'one-half', 'one-third', 'one-fourth', 'one-fifth', 'one-sixth' );
+
+	$classes[] = $column_classes[ $columns ];
+
+	if ( 0 == $listing->current_post % $columns ) {
+
+		$classes[] = 'first';
+
+	}
+
+	return $classes;
+
 }
 
 /**
- * Remove Simple Social Icons inline CSS.
+ * Custom header image callback.
  *
- * No longer needed because we are generating custom CSS instead,
- * removing this means that we don't need to use !important rules
- * in the above function.
+ * Loads custom header or featured image depending on what is set on a per
+ * page basis. If a featured image is set for a page, it will override
+ * the default header image. It also gets the image for custom post
+ * types by looking for a page with the same slug as the CPT e.g
+ * the Portfolio CPT archive will pull the featured image from
+ * a page with the slug of 'portfolio', if the page exists.
  *
- * @return void
+ * @since  0.1.0
+ *
+ * @return string
  */
-function studio_remove_ssi_inline_styles() {
-	global $wp_widget_factory;
-	remove_action( 'wp_head', array( $wp_widget_factory->widgets['Simple_Social_Icons_Widget'], 'css') );
+function studio_custom_header() {
+
+	$id = '';
+
+	// Get the current page ID.
+	if ( class_exists( 'WooCommerce' ) && is_shop() ) {
+
+		$id = wc_get_page_id( 'shop' );
+
+	} elseif ( is_post_type_archive() ) {
+
+		$id = get_page_by_path( get_query_var( 'post_type' ) );
+
+	} elseif ( is_front_page() ) {
+
+		$id = get_option( 'page_on_front' );
+
+	} elseif ( is_home() ) {
+
+		$id = get_option( 'page_for_posts' );
+
+	} elseif ( is_search() ) {
+
+		$id = get_page_by_path( 'search' );
+
+	} elseif ( is_404() ) {
+
+		$id = get_page_by_path( 'error' );
+
+	} elseif ( is_singular() ) {
+
+		$id = get_the_id();
+
+	}
+
+	$url = get_the_post_thumbnail_url( $id, 'slider' );
+
+	if ( ! $url ) {
+
+		$url = get_header_image();
+
+	}
+
+	return has_header_image() ? printf( '<style type="text/css">.page-header{background-image: url(%s);}</style>' . "\n", esc_url( $url ) ) : '';
+
 }

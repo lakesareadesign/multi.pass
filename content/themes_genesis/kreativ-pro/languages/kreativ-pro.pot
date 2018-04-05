@@ -1,0 +1,657 @@
+# Copyright (C) 2018 Kreativ Pro
+# This file is distributed under the same license as the Kreativ Pro package.
+msgid ""
+msgstr ""
+"Project-Id-Version: Kreativ Pro\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: __;_e;_ex:1,2c;_n:1,2;_n_noop:1,2;_nx:1,2,4c;_nx_noop:1,2,3c;_x:1,2c;esc_attr__;esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: functions.php:79, functions.php:80
+msgid "Menu"
+msgstr ""
+
+#: functions.php:179
+msgid "Topbar"
+msgstr ""
+
+#: functions.php:180
+msgid "This is the topbar section."
+msgstr ""
+
+#: functions.php:185
+msgid "Front Page 1"
+msgstr ""
+
+#: functions.php:186
+msgid "This is the front page 1 section."
+msgstr ""
+
+#: functions.php:191
+msgid "Front Page 2"
+msgstr ""
+
+#: functions.php:192
+msgid "This is the front page 2 section."
+msgstr ""
+
+#: functions.php:197
+msgid "Front Page 3"
+msgstr ""
+
+#: functions.php:198
+msgid "This is the front page 3 section."
+msgstr ""
+
+#: functions.php:203
+msgid "Front Page 4"
+msgstr ""
+
+#: functions.php:204
+msgid "This is the front page 4 section."
+msgstr ""
+
+#: functions.php:209
+msgid "Front Page 5"
+msgstr ""
+
+#: functions.php:210
+msgid "This is the front page 5 section."
+msgstr ""
+
+#: functions.php:215
+msgid "Front Page 6"
+msgstr ""
+
+#: functions.php:216
+msgid "This is the front page 6 section."
+msgstr ""
+
+#: functions.php:221
+msgid "Front Page 7"
+msgstr ""
+
+#: functions.php:222
+msgid "This is the front page 7 section."
+msgstr ""
+
+#: functions.php:275
+msgid "Skip to footer navigation"
+msgstr ""
+
+#: page_blank.php:6
+msgid "Page Builder - Blank"
+msgstr ""
+
+#: page_full_width.php:6
+msgid "Page Builder - Full Width"
+msgstr ""
+
+#: page_landing.php:6
+msgid "Landing"
+msgstr ""
+
+#: lib/class-plugin-activation.php:331
+msgid "Install Required Plugins"
+msgstr ""
+
+#: lib/class-plugin-activation.php:332
+msgid "Install Plugins"
+msgstr ""
+
+#: lib/class-plugin-activation.php:334
+msgid "Installing Plugin: %s"
+msgstr ""
+
+#: lib/class-plugin-activation.php:336
+msgid "Updating Plugin: %s"
+msgstr ""
+
+#: lib/class-plugin-activation.php:337
+msgid "Something went wrong with the plugin API."
+msgstr ""
+
+#: lib/class-plugin-activation.php:338
+msgid "This theme requires the following plugin: %1$s."
+msgid_plural "This theme requires the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:344
+msgid "This theme recommends the following plugin: %1$s."
+msgid_plural "This theme recommends the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:350
+msgid "The following plugin needs to be updated to its latest version to ensure maximum compatibility with this theme: %1$s."
+msgid_plural "The following plugins need to be updated to their latest version to ensure maximum compatibility with this theme: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:356
+msgid "There is an update available for: %1$s."
+msgid_plural "There are updates available for the following plugins: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:362
+msgid "The following required plugin is currently inactive: %1$s."
+msgid_plural "The following required plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:368
+msgid "The following recommended plugin is currently inactive: %1$s."
+msgid_plural "The following recommended plugins are currently inactive: %1$s."
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:374
+msgid "Begin installing plugin"
+msgid_plural "Begin installing plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:379
+msgid "Begin updating plugin"
+msgid_plural "Begin updating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:384
+msgid "Begin activating plugin"
+msgid_plural "Begin activating plugins"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:389
+msgid "Return to Required Plugins Installer"
+msgstr ""
+
+#: lib/class-plugin-activation.php:390, lib/class-plugin-activation.php:917, lib/class-plugin-activation.php:2623, lib/class-plugin-activation.php:3670
+msgid "Return to the Dashboard"
+msgstr ""
+
+#: lib/class-plugin-activation.php:391, lib/class-plugin-activation.php:3249
+msgid "Plugin activated successfully."
+msgstr ""
+
+#: lib/class-plugin-activation.php:392, lib/class-plugin-activation.php:3042
+msgid "The following plugin was activated successfully:"
+msgid_plural "The following plugins were activated successfully:"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:394
+msgid "No action taken. Plugin %1$s was already active."
+msgstr ""
+
+#: lib/class-plugin-activation.php:396
+msgid "Plugin not activated. A higher version of %s is needed for this theme. Please update the plugin."
+msgstr ""
+
+#: lib/class-plugin-activation.php:398
+msgid "All plugins installed and activated successfully. %1$s"
+msgstr ""
+
+#: lib/class-plugin-activation.php:399
+msgid "Dismiss this notice"
+msgstr ""
+
+#: lib/class-plugin-activation.php:400
+msgid "There are one or more required or recommended plugins to install, update or activate."
+msgstr ""
+
+#: lib/class-plugin-activation.php:401
+msgid "Please contact the administrator of this site for help."
+msgstr ""
+
+#: lib/class-plugin-activation.php:604
+msgid "This plugin needs to be updated to be compatible with your theme."
+msgstr ""
+
+#: lib/class-plugin-activation.php:605
+msgid "Update Required"
+msgstr ""
+
+#: lib/class-plugin-activation.php:722
+msgid "Set the parent_slug config variable instead."
+msgstr ""
+
+#: lib/class-plugin-activation.php:1024
+msgid "The remote plugin package does not contain a folder with the desired slug and renaming did not work."
+msgstr ""
+
+#: lib/class-plugin-activation.php:1024, lib/class-plugin-activation.php:1027
+msgid "Please contact the plugin provider and ask them to package their plugin according to the WordPress guidelines."
+msgstr ""
+
+#: lib/class-plugin-activation.php:1027
+msgid "The remote plugin package consists of more than one file, but the files are not packaged in a folder."
+msgstr ""
+
+#: lib/class-plugin-activation.php:1211, lib/class-plugin-activation.php:3038
+msgctxt "plugin A *and* plugin B"
+msgid "and"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2072
+msgid "TGMPA v%s"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2363
+msgid "Required"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2366
+msgid "Recommended"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2382
+msgid "WordPress Repository"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2385
+msgid "External Source"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2388
+msgid "Pre-Packaged"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2405
+msgid "Not Installed"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2409
+msgid "Installed But Not Activated"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2411
+msgid "Active"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2417
+msgid "Required Update not Available"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2420
+msgid "Requires Update"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2423
+msgid "Update recommended"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2432
+msgctxt "Install/Update Status"
+msgid "%1$s, %2$s"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2478
+msgctxt "plugins"
+msgid "All <span class=\"count\">(%s)</span>"
+msgid_plural "All <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:2482
+msgid "To Install <span class=\"count\">(%s)</span>"
+msgid_plural "To Install <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:2486
+msgid "Update Available <span class=\"count\">(%s)</span>"
+msgid_plural "Update Available <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:2490
+msgid "To Activate <span class=\"count\">(%s)</span>"
+msgid_plural "To Activate <span class=\"count\">(%s)</span>"
+msgstr[0] ""
+msgstr[1] ""
+
+#: lib/class-plugin-activation.php:2572
+msgctxt "as in: \"version nr unknown\""
+msgid "unknown"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2580
+msgid "Installed version:"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2588
+msgid "Minimum required version:"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2600
+msgid "Available version:"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2623
+msgid "No plugins to install, update or activate."
+msgstr ""
+
+#: lib/class-plugin-activation.php:2637
+msgid "Plugin"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2638
+msgid "Source"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2639
+msgid "Type"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2643
+msgid "Version"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2644
+msgid "Status"
+msgstr ""
+
+#. translators: %2$s: plugin name in screen reader markup
+#: lib/class-plugin-activation.php:2693
+msgid "Install %2$s"
+msgstr ""
+
+#. translators: %2$s: plugin name in screen reader markup
+#: lib/class-plugin-activation.php:2698
+msgid "Update %2$s"
+msgstr ""
+
+#. translators: %2$s: plugin name in screen reader markup
+#: lib/class-plugin-activation.php:2704
+msgid "Activate %2$s"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2774
+msgid "Upgrade message from the plugin author:"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2807
+msgid "Install"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2813
+msgid "Update"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2816
+msgid "Activate"
+msgstr ""
+
+#: lib/class-plugin-activation.php:2847
+msgid "No plugins were selected to be installed. No action taken."
+msgstr ""
+
+#: lib/class-plugin-activation.php:2849
+msgid "No plugins were selected to be updated. No action taken."
+msgstr ""
+
+#: lib/class-plugin-activation.php:2890
+msgid "No plugins are available to be installed at this time."
+msgstr ""
+
+#: lib/class-plugin-activation.php:2892
+msgid "No plugins are available to be updated at this time."
+msgstr ""
+
+#: lib/class-plugin-activation.php:2998
+msgid "No plugins were selected to be activated. No action taken."
+msgstr ""
+
+#: lib/class-plugin-activation.php:3024
+msgid "No plugins are available to be activated at this time."
+msgstr ""
+
+#: lib/class-plugin-activation.php:3248
+msgid "Plugin activation failed."
+msgstr ""
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: lib/class-plugin-activation.php:3588
+msgid "Updating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#. translators: 1: plugin name, 2: error message.
+#: lib/class-plugin-activation.php:3591
+msgid "An error occurred while installing %1$s: <strong>%2$s</strong>."
+msgstr ""
+
+#. translators: 1: plugin name.
+#: lib/class-plugin-activation.php:3593
+msgid "The installation of %1$s failed."
+msgstr ""
+
+#: lib/class-plugin-activation.php:3597
+msgid "The installation and activation process is starting. This process may take a while on some hosts, so please be patient."
+msgstr ""
+
+#. translators: 1: plugin name.
+#: lib/class-plugin-activation.php:3599
+msgid "%1$s installed and activated successfully."
+msgstr ""
+
+#: lib/class-plugin-activation.php:3599, lib/class-plugin-activation.php:3607
+msgid "Show Details"
+msgstr ""
+
+#: lib/class-plugin-activation.php:3599, lib/class-plugin-activation.php:3607
+msgid "Hide Details"
+msgstr ""
+
+#: lib/class-plugin-activation.php:3600
+msgid "All installations and activations have been completed."
+msgstr ""
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: lib/class-plugin-activation.php:3602
+msgid "Installing and Activating Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: lib/class-plugin-activation.php:3605
+msgid "The installation process is starting. This process may take a while on some hosts, so please be patient."
+msgstr ""
+
+#. translators: 1: plugin name.
+#: lib/class-plugin-activation.php:3607
+msgid "%1$s installed successfully."
+msgstr ""
+
+#: lib/class-plugin-activation.php:3608
+msgid "All installations have been completed."
+msgstr ""
+
+#. translators: 1: plugin name, 2: action number 3: total number of actions.
+#: lib/class-plugin-activation.php:3610
+msgid "Installing Plugin %1$s (%2$d/%3$d)"
+msgstr ""
+
+#: lib/customize.php:30
+msgid "Upload image or use the default image.<br />Default image size: <strong>1600 x 1050 px</strong>."
+msgstr ""
+
+#: lib/customize.php:31
+msgid "Front Page Images"
+msgstr ""
+
+#: lib/customize.php:47
+msgid "Section %s Image:"
+msgstr ""
+
+#: lib/customize.php:67
+msgid "Change theme accent color"
+msgstr ""
+
+#: lib/customize.php:68
+msgid "Accent Color"
+msgstr ""
+
+#: lib/customize.php:77, lib/customize.php:92
+msgid "Sticky Header"
+msgstr ""
+
+#: lib/customize.php:78
+msgid "Choose if you would like to display sticky header fixed to the top of page."
+msgstr ""
+
+#: lib/customize.php:97
+msgid "Enable"
+msgstr ""
+
+#: lib/customize.php:98
+msgid "Disable"
+msgstr ""
+
+#: lib/demo-import.php:30
+msgid "After you import this demo, it is recommended to save permalinks in Settings > Permalinks menu."
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:35
+msgid "Displays portfolio post type with thumbnails"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:44
+msgid "Genesis - Featured Portfolio"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:129
+msgid "(no title)"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:206, lib/widgets/featured-portfolio.php:228
+msgid "Title"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:211
+msgid "Number of columns"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:213
+msgid "2 Columns"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:214
+msgid "3 Columns"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:215
+msgid "4 Columns"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:220
+msgid "Number of posts to show"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:225
+msgid "Order By"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:227
+msgid "Date"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:229
+msgid "Parent"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:230
+msgid "ID"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:231
+msgid "Comment Count"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:232
+msgid "Random"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:237
+msgid "Sort Order"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:239
+msgid "Descending (3, 2, 1)"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:240
+msgid "Ascending (1, 2, 3)"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:248
+msgid "Show Featured Image"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:252
+msgid "Image Size"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:264
+msgid "Image Alignment"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:266
+msgid "None"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:267
+msgid "Left"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:268
+msgid "Right"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:269
+msgid "Center"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:277
+msgid "Show Portfolio Title"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:282
+msgid "Show Portfolio Content"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:286
+msgid "Content Character Limit"
+msgstr ""
+
+#: lib/widgets/featured-portfolio.php:291
+msgid "More Text"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:55
+msgid "Please install and activate <a href=\"https://wordpress.org/plugins/genesis-connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:69
+msgid "install and activate Genesis Connect for WooCommerce"
+msgstr ""
+
+#. translators: 1: plugin install prompt presented as link, 2: child theme name
+#: lib/woocommerce/woocommerce-notice.php:72
+msgid "Please %1$s to <strong>enable WooCommerce support for %2$s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:55
+msgid "Previous Page"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:56
+msgid "Next Page"
+msgstr ""

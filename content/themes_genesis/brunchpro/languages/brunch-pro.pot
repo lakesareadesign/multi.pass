@@ -1,0 +1,663 @@
+# <!=Copyright (C) 2017 Feast Design Co
+# This file is distributed under the GPL-2.0+.=!>
+msgid ""
+msgstr ""
+"Project-Id-Version: Brunch Pro Theme 2.2.0\n"
+"Report-Msgid-Bugs-To: https://feastdesignco.com/\n"
+"POT-Creation-Date: 2017-07-10 02:52:10+00:00\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"PO-Revision-Date: 2017-MO-DA HO:MI+ZONE\n"
+"Last-Translator: Feast Design Co (https://feastdesignco.com)\n"
+"Language-Team: Feast Design Co (https://feastdesignco.com)\n"
+"X-Generator: grunt-wp-i18n1.0.0\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Poedit-Basepath: .\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-Country: UNITED STATES\n"
+"X-Poedit-SourceCharset: utf-8\n"
+"X-Poedit-KeywordsList: __;_e;__ngettext:1,2;_n:1,2;__ngettext_  "
+"noop:1,2;_n_noop:1,2;_c,_nc:4c,1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;_nx_noop:4c,1"
+",2;\n"
+"X-Textdomain-Support: yes\n"
+
+#: functions.php:47
+msgid "Before Header"
+msgstr ""
+
+#: functions.php:48
+msgid "This is the section before the header."
+msgstr ""
+
+#: functions.php:52
+msgid "Home Top"
+msgstr ""
+
+#: functions.php:53
+msgid "This is the home top section."
+msgstr ""
+
+#: functions.php:57
+msgid "Home Middle"
+msgstr ""
+
+#: functions.php:58
+msgid "This is the home middle section."
+msgstr ""
+
+#: functions.php:62
+msgid "Home Bottom"
+msgstr ""
+
+#: functions.php:63
+msgid "This is the home bottom section."
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Recipe Index"
+msgstr ""
+
+#: functions.php:68
+msgid "This is the recipe index section."
+msgstr ""
+
+#: functions.php:130
+msgid "Full Width Slim"
+msgstr ""
+
+#: functions.php:134
+msgid "Alt Sidebar/Content"
+msgstr ""
+
+#: functions.php:263 lib/widgets/featured-posts/widget.php:60
+msgid "Read More"
+msgstr ""
+
+#: functions.php:318
+msgid "Copyright"
+msgstr ""
+
+#: functions.php:319
+msgid "by"
+msgstr ""
+
+#: lib/admin/metaboxes.php:64
+msgid ""
+"The normal editor is disabled because you&#39;re using a widgeted page "
+"template. You need to <a href=\"%s\">use widgets</a> to edit this page."
+msgstr ""
+
+#: lib/admin/views/dashboard.php:19
+msgid ""
+"Have you popped the champagne yet? You just installed Brunch Pro! We're so "
+"excited for you and wanted to share some helpful resources to get you going."
+msgstr ""
+
+#: lib/admin/views/dashboard.php:25
+msgid ""
+"If you need help, please first check out the <a target=\"_blank\" "
+"href=\"%1$s\">tutorials</a> and then <a target=\"_blank\" "
+"href=\"%2$s\">submit a support ticket</a> if you need to. They don't call "
+"us the best at support for nothing!"
+msgstr ""
+
+#: lib/admin/views/dashboard.php:34
+msgid ""
+"Hire us to <a target=\"_blank\" href=\"%s\">install and customize your "
+"theme</a> -- leave all the techy details to us!"
+msgstr ""
+
+#: lib/admin/views/dashboard.php:42
+msgid ""
+"Simplify your recipe publishing workflow and boost SEO with the <a "
+"target=\"_blank\" href=\"%s\">Cookbook</a> Plugin."
+msgstr ""
+
+#: lib/admin/views/dashboard.php:50
+msgid ""
+"Give your friend a discount. Tell 'em to use code FRIENDS for 20%% off of "
+"their own theme at <a target=\"_blank\" href=\"%s\">feastdesignco.com</a>."
+msgstr ""
+
+#: lib/admin/views/dashboard.php:61
+msgid ""
+"Honoring our gifts is how we honor your gifts. We design so that you can "
+"live, work, and thrive in ways that help you feel most connected to your "
+"true calling."
+msgstr ""
+
+#: lib/admin/views/dashboard.php:63
+msgid "Grow your food and lifestyle blog with %s!"
+msgstr ""
+
+#: lib/admin/views/meta-box.php:15
+msgid "Enable Archive Grid"
+msgstr ""
+
+#: lib/customize/helpers.php:126
+msgid "Header Background Color"
+msgstr ""
+
+#: lib/customize/helpers.php:135
+msgid "Title Color"
+msgstr ""
+
+#: lib/customize/helpers.php:153
+msgid "Text Color"
+msgstr ""
+
+#: lib/customize/helpers.php:166
+msgid "Secondary Text Color"
+msgstr ""
+
+#: lib/customize/helpers.php:178
+msgid "Link Color"
+msgstr ""
+
+#: lib/customize/helpers.php:190
+msgid "Link Hover Color"
+msgstr ""
+
+#: lib/customize/helpers.php:200
+msgid "Menu Background Color"
+msgstr ""
+
+#: lib/customize/helpers.php:210
+msgid "Menu Link Color"
+msgstr ""
+
+#: lib/customize/helpers.php:219
+msgid "Menu Link Hover Color"
+msgstr ""
+
+#: lib/customize/helpers.php:230
+msgid "Button Color"
+msgstr ""
+
+#: lib/customize/helpers.php:237
+msgid "Button Hover Color"
+msgstr ""
+
+#: lib/customize/helpers.php:244
+msgid "Button Border Color"
+msgstr ""
+
+#: lib/customize/helpers.php:251
+msgid "Button Border Hover Color"
+msgstr ""
+
+#: lib/customize/helpers.php:258
+msgid "Button Text Color"
+msgstr ""
+
+#: lib/customize/helpers.php:265
+msgid "Button Hover Text Color"
+msgstr ""
+
+#: lib/customize/helpers.php:366
+msgid "Body Font"
+msgstr ""
+
+#: lib/customize/helpers.php:374 lib/customize/helpers.php:391
+msgid "Accent Font"
+msgstr ""
+
+#: lib/customize/helpers.php:403
+msgid "Heading Font"
+msgstr ""
+
+#: lib/customize/helpers.php:425
+msgid "H1 Font"
+msgstr ""
+
+#: lib/customize/helpers.php:435
+msgid "H2 Font"
+msgstr ""
+
+#: lib/customize/helpers.php:445
+msgid "H3 Font"
+msgstr ""
+
+#: lib/customize/helpers.php:455
+msgid "H4 Font"
+msgstr ""
+
+#: lib/customize/helpers.php:465
+msgid "Entry Title Font"
+msgstr ""
+
+#: lib/customize/helpers.php:482
+msgid "Widget Title Font"
+msgstr ""
+
+#: lib/customize/helpers.php:495
+msgid "Menu Font"
+msgstr ""
+
+#: lib/customize/helpers.php:503
+msgid "Button Font"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:16
+msgid "Standard Fonts"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:18
+msgid "Google Fonts"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:117
+msgid "All"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:118
+msgid "Cyrillic"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:119
+msgid "Cyrillic Extended"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:120
+msgid "Devanagari"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:121
+msgid "Greek"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:122
+msgid "Greek Extended"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:123
+msgid "Khmer"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:124
+msgid "Latin"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:125
+msgid "Latin Extended"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:126
+msgid "Vietnamese"
+msgstr ""
+
+#: lib/customize/settings.php:28
+msgid "Archive Grid Display:"
+msgstr ""
+
+#: lib/customize/settings.php:34 lib/widgets/featured-posts/views/form.php:22
+msgid "Full Width"
+msgstr ""
+
+#: lib/customize/settings.php:35 lib/widgets/featured-posts/views/form.php:23
+msgid "One Half"
+msgstr ""
+
+#: lib/customize/settings.php:36 lib/widgets/featured-posts/views/form.php:24
+msgid "One Third"
+msgstr ""
+
+#: lib/customize/settings.php:37 lib/widgets/featured-posts/views/form.php:25
+msgid "One Fourth"
+msgstr ""
+
+#: lib/customize/settings.php:38 lib/widgets/featured-posts/views/form.php:26
+msgid "One Sixth"
+msgstr ""
+
+#: lib/customize/settings.php:44
+msgid "Display The Title?"
+msgstr ""
+
+#: lib/customize/settings.php:53
+msgid "Display The Entry Info?"
+msgstr ""
+
+#: lib/customize/settings.php:62
+msgid "Display The Content?"
+msgstr ""
+
+#: lib/customize/settings.php:71
+msgid "Display The Entry Meta?"
+msgstr ""
+
+#: lib/customize/settings.php:80
+msgid "Featured Image Placement:"
+msgstr ""
+
+#: lib/customize/settings.php:86 lib/widgets/featured-posts/views/form.php:92
+msgid "After Title"
+msgstr ""
+
+#: lib/customize/settings.php:87 lib/widgets/featured-posts/views/form.php:91
+msgid "Before Title"
+msgstr ""
+
+#: lib/customize/settings.php:88 lib/widgets/featured-posts/views/form.php:93
+msgid "After Content"
+msgstr ""
+
+#: lib/customize/settings.php:118
+msgid "Colors"
+msgstr ""
+
+#: lib/customize/settings.php:119
+msgid ""
+"You can customize your theme colors by changing any of the options within "
+"this panel."
+msgstr ""
+
+#: lib/customize/settings.php:128
+msgid "General"
+msgstr ""
+
+#: lib/customize/settings.php:129
+msgid "Customize your general theme colors by changing the options below."
+msgstr ""
+
+#: lib/customize/settings.php:139
+msgid "Menus"
+msgstr ""
+
+#: lib/customize/settings.php:140
+msgid "Customize your menu colors by changing the options below."
+msgstr ""
+
+#: lib/customize/settings.php:150
+msgid "Buttons"
+msgstr ""
+
+#: lib/customize/settings.php:151
+msgid "Customize your button colors by changing the options below."
+msgstr ""
+
+#: lib/customize/settings.php:195
+msgid "Typography"
+msgstr ""
+
+#: lib/customize/settings.php:196
+msgid ""
+"You can customize your theme font styles by changing any of the options "
+"within this panel."
+msgstr ""
+
+#: lib/customize/settings.php:205
+msgid "Font Families"
+msgstr ""
+
+#: lib/customize/settings.php:206
+msgid "Customize your font families by changing the options below."
+msgstr ""
+
+#: lib/customize/settings.php:216
+msgid "Font Weights"
+msgstr ""
+
+#: lib/customize/settings.php:217
+msgid "Customize your font weights by changing the options below."
+msgstr ""
+
+#: lib/customize/settings.php:227
+msgid "Font Styles"
+msgstr ""
+
+#: lib/customize/settings.php:228
+msgid "Customize your font styles by changing the options below."
+msgstr ""
+
+#: lib/customize/settings.php:238
+msgid "Font Sizes"
+msgstr ""
+
+#: lib/customize/settings.php:239
+msgid "Customize your font sizes by changing the options below."
+msgstr ""
+
+#: lib/customize/settings.php:250
+msgid " Family"
+msgstr ""
+
+#: lib/customize/settings.php:261
+msgid " Weight"
+msgstr ""
+
+#: lib/customize/settings.php:276
+msgid " Size"
+msgstr ""
+
+#: lib/customize/settings.php:291
+msgid " Style"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:13
+#: lib/widgets/featured-posts/views/form.php:62
+msgid "Title"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:20
+msgid "Grid Columns"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:35
+msgid "Category"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:42
+msgid "All Categories"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:49
+msgid "Number of Posts to Show"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:54
+msgid "Number of Posts to Offset"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:59
+msgid "Order By"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:61
+msgid "Date"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:63
+msgid "Parent"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:64
+msgid "ID"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:65
+msgid "Comment Count"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:66
+msgid "Random"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:71
+msgid "Sort Order"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:73
+msgid "Descending (3, 2, 1)"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:74
+msgid "Ascending (1, 2, 3)"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:80
+msgid "Exclude Previously Displayed Posts?"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:88
+msgid "Show Image"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:90
+msgid "Don't Show an Image"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:98
+msgid "Image Size"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:115
+msgid "Image Alignment"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:117
+#: lib/widgets/featured-posts/views/form.php:181
+msgid "None"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:118
+#: lib/widgets/featured-posts/views/form.php:182
+msgid "Left"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:119
+#: lib/widgets/featured-posts/views/form.php:183
+msgid "Right"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:120
+msgid "Center"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:130
+msgid "Show Post Title"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:135
+msgid "Show Post Info"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:140
+msgid "Content Type"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:142
+msgid "Show Content"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:143
+msgid "Show Excerpt"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:144
+msgid "Show Content Limit"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:145
+msgid "No Content"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:148
+msgid "Limit content to"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:150
+msgid "characters"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:155
+msgid "More Text (if applicable)"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:165
+msgid "Show Author Gravatar"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:169
+msgid "Gravatar Size"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:171
+msgid "Small (45px)"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:172
+msgid "Medium (65px)"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:173
+msgid "Large (85px)"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:174
+msgid "Extra Large (125px)"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:179
+msgid "Gravatar Alignment"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:193
+msgid "Show Category Archive Link"
+msgstr ""
+
+#: lib/widgets/featured-posts/views/form.php:197
+msgid "Link Text"
+msgstr ""
+
+#: lib/widgets/featured-posts/widget.php:57
+msgid "By"
+msgstr ""
+
+#: lib/widgets/featured-posts/widget.php:62
+msgid "More Posts from this Category"
+msgstr ""
+
+#: lib/widgets/featured-posts/widget.php:67
+msgid "Displays featured posts with thumbnails"
+msgstr ""
+
+#: lib/widgets/featured-posts/widget.php:74
+msgid "Brunch Pro - Featured Posts"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Brunch Pro Theme"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "This is the Brunch Pro child theme created for the Genesis Framework."
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Feast Design Co"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://feastdesignco.com/"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Landing"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:182
+msgctxt "font style"
+msgid "Serif"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:186
+msgctxt "font style"
+msgid "Sans Serif"
+msgstr ""
+
+#: lib/customize/lib/fonts.php:190
+msgctxt "font style"
+msgid "Monospaced"
+msgstr ""

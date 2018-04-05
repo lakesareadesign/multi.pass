@@ -14,6 +14,18 @@
 		}
 	});
 
+	/*
+	 * Move before header into nav on mobile.
+	 */
+	$( window ).on( "resize", function () {
+		if ( $( window ).width() < 896 ) {
+			$( '.header-widget-area' ).appendTo( '.nav-primary .menu' );
+		} else {
+			$( '.header-widget-area' ).appendTo( '.site-header .wrap' );
+			$( '.nav-primary .header-widget-area' ).remove();
+		}
+	} ).resize();
+
 	/**
 	 * Show/hide video lightbox.
 	 */
@@ -24,6 +36,16 @@
 	});
 	$('.hide-video, .before').on('click', function () {
 		$('.front-page-4 .widget_media_video').toggleClass('visible');
+
+        // First get the  iframe URL.
+        var url = $('.front-page-4 iframe').attr('src');
+
+		// Then assign the src to null, this then stops the video been playing.
+		$('.front-page-4 iframe').attr('src', '');
+
+		// Finally reassign the URL back to the iframe, so when you hide and load it again you still have the link.
+		$('.front-page-4 iframe').attr('src', url);
+
 	});
 
 	// Append icon for enews footer widget.

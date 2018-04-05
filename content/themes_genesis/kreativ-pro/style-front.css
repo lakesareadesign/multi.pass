@@ -1,0 +1,499 @@
+/*! Kreativ Pro Front Page
+---------------------------------------------------------------------------------------------------- */
+/* # Table of Contents
+- Flexible Widgets
+- Image Section
+- Front page Styling
+- Front page Section 1
+- Front page Section 2
+- Front page Section 3
+- Front page Section 4
+- Front page Section 5
+- Front page Section 6
+- Front page Section 7
+*/
+
+/*! Flexible Widgets
+--------------------------------------------- */
+.flexible-widgets.widget-area .widget:nth-of-type(1) {
+	width: 100%;
+	margin: 0 auto 40px;
+	float: none;
+	font-size: 16px;
+	font-size: 1.6rem;
+	line-height: 1.4;
+	text-align: center;
+}
+
+.flexible-widgets.widget-area .widget:nth-of-type(1) .widget-title {
+	font-size: 24px;
+	font-size: 2.4rem;
+	line-height: 1.2;
+}
+
+.flexible-widgets.widget-full .widget,
+.flexible-widgets.widget-area .widget:nth-of-type(1),
+.flexible-widgets.widget-halves.uneven .widget:last-of-type {
+	width: 100%;
+}
+
+.flexible-widgets.widget-halves .widget,
+.flexible-widgets.widget-thirds .widget,
+.flexible-widgets.widget-fourths .widget {
+	width: 100%;
+	margin-left: 0;
+	margin-bottom: 30px;
+	position: relative;
+	text-align: center;
+}
+
+@media only screen and (min-width: 860px) {
+
+	.flexible-widgets.widget-area .widget:nth-of-type(1) {
+		max-width: 600px;
+		margin: 0 auto 60px;
+	}
+
+	.flexible-widgets.widget-area .widget:nth-of-type(1) .widget-title {
+		font-size: 30px;
+		font-size: 3rem;
+		line-height: 1;
+		text-align: center;
+	}
+
+	.flexible-widgets.widget-halves .widget,
+	.flexible-widgets.widget-thirds .widget,
+	.flexible-widgets.widget-fourths .widget {
+		float: left;
+		margin-left: 2.564102564102564%;
+	}
+
+	.flexible-widgets.widget-halves .widget {
+		width: 48.717948717948715%;
+	}
+
+	.flexible-widgets.widget-thirds .widget {
+		width:  31.623931623931625%;
+	}
+
+	.flexible-widgets.widget-fourths .widget {
+		width: 23.076923076923077%;
+	}
+
+	.flexible-widgets.widget-halves .widget:nth-of-type(2n+2),
+	.flexible-widgets.widget-thirds .widget:nth-of-type(3n+2),
+	.flexible-widgets.widget-fourths .widget:nth-of-type(4n+2) {
+		margin-left: 0;
+		clear: left;
+	}
+
+}
+
+/*! Image Section
+--------------------------------------------- */
+
+.image-section > .overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  height: 100%;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 100%;
+  z-index: 3;
+}
+
+.image-section > .wrap {
+  position: relative;
+  z-index: 4;
+}
+
+/*! Front page Styling
+--------------------------------------------- */
+.front-page .site-inner {
+	max-width: 100%;
+	padding: 0;
+}
+.front-page .breadcrumb {
+	max-width: 1170px;
+	margin: 10px auto;
+}
+
+.front-page-2,
+.front-page-3,
+.front-page-4,
+.front-page-5,
+.front-page-6,
+.front-page-7 {
+	padding: 70px 0 40px;
+}
+
+@media only screen and (min-width: 860px) {
+
+	.front-page-2,
+	.front-page-3,
+	.front-page-4,
+	.front-page-5,
+	.front-page-6,
+	.front-page-7 {
+		padding: 80px 0 50px;
+	}
+
+}
+
+.front-page-2,
+.front-page-4,
+.front-page-6 {
+	background: #fff none repeat scroll 0 0;
+}
+
+.front-page-3,
+.front-page-5,
+.front-page-7 {
+	background: #f3f3f3 none repeat scroll 0 0;
+}
+
+/*! Front page Section 1
+--------------------------------------------- */
+
+.front-page-1 {
+	background-color: #363f48;
+	background-repeat: no-repeat;
+	color: #fff;
+	text-align: center;
+	position: relative;
+	background-position: center top;
+	background-size: auto auto;
+	font-size: 16px;
+	font-size: 1.6rem;
+	min-height: auto;
+	padding: 100px 0;
+}
+
+@media only screen and (min-width: 860px) {
+
+	.front-page-1 {
+		padding: 15% 0;
+		background-position: 50% 0;
+		background-size: cover;
+		text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+	}
+
+}
+
+@media only screen and (min-width: 1023px) {
+
+	.front-page-1 {
+		min-height: 580px;
+	}
+
+}
+
+.front-page-1 .widget-title {
+	font-size: 36px;
+	font-size: 3.6rem;
+	margin-bottom: 15px;
+	color: #fff;
+	text-align: center;
+	text-transform: uppercase;
+	text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+@media only screen and (min-width: 860px) {
+
+	.front-page-1 .widget-title {
+		font-size: 50px;
+		font-size: 5rem;
+	}
+
+}
+
+.front-page-1 .widget:nth-of-type(1) {
+	margin: 0 auto;
+	text-align: center;
+}
+
+@media only screen and (min-width: 860px) {
+
+	.front-page-1 .widget:nth-of-type(1) {
+		max-width: 600px;
+	}
+
+}
+
+.front-page-1 .button {
+	font-size: 18px;
+	font-size: 1.8rem;
+}
+
+/*! Front page Section 2
+--------------------------------------------- */
+
+.front-page-2 .widget {
+	margin-bottom: 30px;
+}
+
+.front-page-2 .widget:nth-of-type(n+2) h4 {
+	margin-bottom: 20px;
+	font-size: 20px;
+	font-size: 2rem;
+}
+
+.front-page-2 .widget:nth-of-type(n+2) p {
+	margin-bottom: 0;
+}
+
+.front-page-2 .widget:nth-of-type(n+2) i {
+	width: 40px;
+	font-size: 40px;
+	font-size: 4rem;
+	color: #ff6c3a;
+	line-height: 1;
+	text-align: center;
+	display: inline-block;
+	margin-bottom: 15px;
+}
+
+/*! Front page Section 3 / Featured Portfolio
+--------------------------------------------- */
+
+.front-page .featured-portfolio .entry {
+	float: left;
+	text-align: center;
+	padding: 0;
+}
+
+.front-page .featured-portfolio .entry .entry-title {
+	margin: 25px 0;
+}
+
+.front-page .featured-portfolio .more-link {
+  margin: 20px auto 0;
+}
+
+/*! Front page Section 4
+--------------------------------------------- */
+
+.front-page-4 .widget:nth-of-type(n+2) .widget-title {
+	font-size: 24px;
+	font-size: 2.4rem;
+	line-height: 1;
+	text-align: center;
+}
+
+.front-page-4 .widget:nth-of-type(n+2) img {
+	max-height: 200px;
+	max-width: 200px;
+	border-radius: 50%;
+}
+
+.front-page-4 .widget:nth-of-type(n+2) h4 {
+	margin: 15px 0;
+}
+
+.front-page-4 .widget:nth-of-type(n+2) span {
+	display: block;
+	margin: 10px 0;
+	font-size: 16px;
+	font-size: 1.6rem;
+	font-weight: normal;
+}
+
+.front-page-4 .widget:nth-of-type(n+2) a {
+	display: inline-block;
+	height: 32px;
+	width: 32px;
+	margin: 15px 0;
+	color: #363f48;
+	line-height: 32px;
+	text-align: center;
+}
+
+.front-page-4 .widget:nth-of-type(n+2) a:hover {
+	color: #ff6c3a;
+}
+
+/*! Front page Section 5
+--------------------------------------------- */
+
+
+.front-page-5 .widget:nth-of-type(n+2) {
+	background: #fff none repeat scroll 0 0;
+	padding: 30px 40px;
+	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+	border-radius: 2px;
+}
+
+.front-page-5 .widget:nth-of-type(n+2) .widget-title {
+	font-size: 24px;
+	font-size: 2.4rem;
+	line-height: 1;
+	text-align: center;
+}
+
+.front-page-5 .widget:nth-of-type(n+2) h2 {
+    border-bottom: 1px solid #eee;
+    font-size: 40px;
+    font-size: 4rem;
+    padding: 0 0 15px;
+}
+
+.front-page-5 .widget:nth-of-type(n+2) ul li {
+	padding: 6px 0;
+}
+
+.front-page-5 .button {
+	padding: 6px 16px;
+	font-size: 16px;
+	font-size: 1.6rem;
+	min-width: 190px;
+	margin-top: 25px;
+}
+
+/*! Front page Section 6
+--------------------------------------------- */
+.front-page-6 .widget-area .widget:nth-of-type(n+2) {
+	text-align: left;
+	position: relative;
+	margin-bottom: 60px;
+}
+
+@media only screen and (min-width: 860px) {
+
+	.front-page-6 .widget-area .widget:nth-of-type(n+2) {
+		padding-left: 60px;
+		margin-bottom: 30px;
+	}
+
+	.front-page-6 .widget:nth-of-type(n+2):before {
+		content: "“";
+		position: absolute;
+		float: left;
+		top: 0;
+		left: 0;
+		width: 60px;
+		font-family: georgia,sans-serif;
+		font-size: 60px;
+		font-size: 6rem;
+		font-style: italic;
+		font-weight: bold;
+		line-height: 1;
+		text-align: center;
+	}
+}
+
+.front-page-6 .widget:nth-of-type(3n+2) {
+	margin-left: 0px;
+	clear: both;
+}
+
+.front-page-6 .widget:nth-of-type(n+2) img {
+	float: left;
+	max-height: 75px;
+	max-width: 75px;
+	margin: 30px 20px 0 0;
+	border-radius: 50%;
+}
+
+.front-page-6 .widget:nth-of-type(n+2) h4 {
+	display: inline-block;
+	margin-top: 15px;
+	margin-bottom: 0;
+	font-size: 18px;
+	font-size: 1.8rem;
+	font-style: normal;
+	font-weight: bold;
+}
+
+.front-page-6 .widget:nth-of-type(n+2) h4 span {
+	display: block;
+	margin: 5px 0 0;
+	font-size: 16px;
+	font-size: 1.6rem;
+	font-style: normal;
+	font-weight: normal;
+}
+
+/*! Front page Section 7
+--------------------------------------------- */
+
+.front-page-7 {
+	text-align: center;
+}
+
+.front-page-7 .widget:nth-of-type(1) {
+	margin: 0 auto;
+}
+
+.front-page-7 .button {
+	margin-top: 25px;
+}
+
+/*! Genesis Featured Posts
+--------------------------------------------- */
+
+.front-page .featured-content .entry {
+	text-align: center;
+	padding: 0;
+}
+
+@media only screen and (min-width: 860px) {
+
+	.front-page .featured-content .entry {
+		float: left;
+		margin-left: 2.564102564102564%;
+		width: 31.623931623931625%;
+	}
+
+	.front-page .featured-content .entry:nth-of-type(3n+1) {
+		margin-left: 0;
+	}
+
+}
+
+.front-page .featured-content .entry .entry-title {
+	margin: 25px 0;
+	font-size: 20px;
+	font-size: 2rem;
+}
+
+.front-page .featured-content .more-link {
+  margin: 20px auto 0;
+}
+
+.front-page .featured-content .entry > a {
+	position: relative;
+	margin: 0;
+	width: 100%;
+}
+
+.front-page .featured-content .entry .entry-image {
+	vertical-align: middle;
+	margin-bottom: 0;
+	width: 100%;
+}
+
+.front-page .featured-content .entry > a:after {
+	background: #ff6c3a none repeat scroll 0 0;
+	content: "\f105";
+	border-radius: 50%;
+	color: #fff;
+	font-family: FontAwesome;
+	font-size: 24px;
+	font-size: 2.4rem;
+	height: 50px;
+	left: 50%;
+	line-height: 50px;
+	margin-left: -25px;
+	margin-top: -25px;
+	opacity: 0;
+	position: absolute;
+	text-align: center;
+	top: 50%;
+	width: 50px;
+	-webkit-transition: all 0.2s ease-in-out;
+	transition:         all 0.2s ease-in-out;
+}
+
+.front-page .featured-content .entry > a:hover:after {
+	opacity: 1;
+}

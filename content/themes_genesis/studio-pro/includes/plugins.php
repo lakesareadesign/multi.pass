@@ -1,19 +1,21 @@
 <?php
 /**
- * Studio Pro.
+ * Studio Pro Theme
  *
  * This file registers the required plugins for this theme.
  *
- * @package      Studio Pro
- * @link         https://seothemes.com/studio-pro
- * @author       Seo Themes
- * @copyright    Copyright © 2017 Seo Themes
- * @license      GPL-2.0+
+ * @package   StudioPro
+ * @link      https://seothemes.com/themes/studio-pro
+ * @author    SEO Themes
+ * @copyright Copyright © 2017 SEO Themes
+ * @license   GPL-2.0+
  */
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
+
 	die;
+
 }
 
 /**
@@ -36,15 +38,6 @@ function studio_register_required_plugins() {
 	 */
 	$plugins = array();
 
-	/**
-	 * Add any recommended plugins here.
-	 */
-	$plugins[] = array(
-		'name'     => 'Custom Header Extended',
-		'slug'     => 'custom-header-extended',
-		'required' => false,
-	);
-
 	$plugins[] = array(
 		'name'     => 'Display Posts Shortcode',
 		'slug'     => 'display-posts-shortcode',
@@ -52,11 +45,17 @@ function studio_register_required_plugins() {
 	);
 
 	$plugins[] = array(
+		'name'     => 'Genesis Connect WooCommerce',
+		'slug'     => 'genesis-connect-woocommerce',
+		'required' => false,
+	);
+	
+	$plugins[] = array(
 		'name'     => 'Genesis eNews Extended',
 		'slug'     => 'genesis-enews-extended',
 		'required' => false,
 	);
-
+	
 	$plugins[] = array(
 		'name'     => 'Genesis Portfolio Pro',
 		'slug'     => 'genesis-portfolio-pro',
@@ -64,14 +63,26 @@ function studio_register_required_plugins() {
 	);
 
 	$plugins[] = array(
+		'name'     => 'Genesis Simple FAQ',
+		'slug'     => 'genesis-simple-faq',
+		'required' => false,
+	);
+	
+	$plugins[] = array(
 		'name'     => 'Genesis Testimonial Slider',
 		'slug'     => 'wpstudio-testimonial-slider',
 		'required' => false,
 	);
 
 	$plugins[] = array(
-		'name'     => 'Google Maps',
-		'slug'     => 'ank-google-map',
+		'name'     => 'Icon Widget',
+		'slug'     => 'icon-widget',
+		'required' => false,
+	);
+
+	$plugins[] = array(
+		'name'     => 'One Click Demo Import',
+		'slug'     => 'one-click-demo-import',
 		'required' => false,
 	);
 
@@ -82,14 +93,8 @@ function studio_register_required_plugins() {
 	);
 
 	$plugins[] = array(
-		'name'     => 'Widget Importer & Exporter',
-		'slug'     => 'widget-importer-exporter',
-		'required' => false,
-	);
-
-	$plugins[] = array(
-		'name'     => 'WordPress Importer',
-		'slug'     => 'wordpress-importer',
+		'name'     => 'WooCommerce',
+		'slug'     => 'woocommerce',
 		'required' => false,
 	);
 
@@ -98,20 +103,6 @@ function studio_register_required_plugins() {
 		'slug'     => 'wp-featherlight',
 		'required' => false,
 	);
-
-	/**
-	 * Genesis Connect for WooCommerce
-	 *
-	 * Check that WooCommerce is activated and if so, require
-	 * the Genesis Connect for WooCommerce plugin.
-	 */
-	if ( class_exists( 'WooCommerce' ) ) {
-		$plugins[] = array(
-			'name'     => 'Genesis Connect WooCommerce',
-			'slug'     => 'genesis-connect-woocommerce',
-			'required' => true,
-		);
-	}
 
 	/*
 	 * Array of configuration settings. Amend each line as needed.
@@ -156,7 +147,7 @@ function studio_register_required_plugins() {
  *	Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-if ( ! class_exists( 'Require_Plugins' ) ) {
+if ( ! class_exists( 'Plugin_Activation' ) ) {
 
 	/**
 	 * Automatic plugin installation and activation library.
@@ -171,7 +162,7 @@ if ( ! class_exists( 'Require_Plugins' ) ) {
 	 * @author  Thomas Griffin
 	 * @author  Gary Jones
 	 */
-	class Require_Plugins {
+	class Plugin_Activation {
 		/**
 		 * TGMPA version number.
 		 *
@@ -204,7 +195,7 @@ if ( ! class_exists( 'Require_Plugins' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @var Require_Plugins
+		 * @var Plugin_Activation
 		 */
 		public static $instance;
 
@@ -374,7 +365,7 @@ if ( ! class_exists( 'Require_Plugins' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @see Require_Plugins::init()
+		 * @see Plugin_Activation::init()
 		 */
 		public function __construct() {
 			// Set the current WordPress version.
@@ -424,9 +415,9 @@ if ( ! class_exists( 'Require_Plugins' ) ) {
 		 *
 		 * @since 2.0.0
 		 *
-		 * @see Require_Plugins::admin_menu()
-		 * @see Require_Plugins::notices()
-		 * @see Require_Plugins::styles()
+		 * @see Plugin_Activation::admin_menu()
+		 * @see Plugin_Activation::notices()
+		 * @see Plugin_Activation::styles()
 		 */
 		public function init() {
 			/**
@@ -565,6 +556,12 @@ if ( ! class_exists( 'Require_Plugins' ) ) {
 				add_action( 'switch_theme', array( $this, 'force_deactivation' ) );
 			}
 		}
+
+
+
+
+
+
 
 		/**
 		 * Hook in plugin action link filters for the WP native plugins page.
@@ -713,8 +710,8 @@ if ( ! class_exists( 'Require_Plugins' ) ) {
 		 *
 		 * @since 1.0.0
 		 *
-		 * @see Require_Plugins::init()
-		 * @see Require_Plugins::install_plugins_page()
+		 * @see Plugin_Activation::init()
+		 * @see Plugin_Activation::install_plugins_page()
 		 *
 		 * @return null Return early if user lacks capability to install a plugin.
 		 */
@@ -2105,7 +2102,7 @@ if ( ! class_exists( 'Require_Plugins' ) ) {
 		 *
 		 * @since 2.4.0
 		 *
-		 * @return \Require_Plugins The Require_Plugins object.
+		 * @return \Plugin_Activation The Plugin_Activation object.
 		 */
 		public static function get_instance() {
 			if ( ! isset( self::$instance ) && ! ( self::$instance instanceof self ) ) {
@@ -2123,7 +2120,7 @@ if ( ! class_exists( 'Require_Plugins' ) ) {
 		 * @since 2.5.0
 		 */
 		function load_plugin_activation() {
-			$GLOBALS['tgmpa'] = Require_Plugins::get_instance();
+			$GLOBALS['tgmpa'] = Plugin_Activation::get_instance();
 		}
 	}
 
@@ -3112,15 +3109,15 @@ if ( ! class_exists( 'TGMPA_List_Table' ) ) {
 		 * Retrieve plugin data, given the plugin name.
 		 *
 		 * @since      2.2.0
-		 * @deprecated 2.5.0 use {@see Require_Plugins::_get_plugin_data_from_name()} instead.
-		 * @see        Require_Plugins::_get_plugin_data_from_name()
+		 * @deprecated 2.5.0 use {@see Plugin_Activation::_get_plugin_data_from_name()} instead.
+		 * @see        Plugin_Activation::_get_plugin_data_from_name()
 		 *
 		 * @param string $name Name of the plugin, as it was registered.
 		 * @param string $data Optional. Array key of plugin data to return. Default is slug.
 		 * @return string|boolean Plugin slug if found, false otherwise.
 		 */
 		protected function _get_plugin_data_from_name( $name, $data = 'slug' ) {
-			_deprecated_function( __FUNCTION__, 'TGMPA 2.5.0', 'Require_Plugins::_get_plugin_data_from_name()' );
+			_deprecated_function( __FUNCTION__, 'TGMPA 2.5.0', 'Plugin_Activation::_get_plugin_data_from_name()' );
 
 			return $this->tgmpa->_get_plugin_data_from_name( $name, $data );
 		}
@@ -3620,7 +3617,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 								// Automatic activation strings.
 								$this->upgrader->strings['skin_upgrade_start'] = __( 'The installation and activation process is starting. This process may take a while on some hosts, so please be patient.', 'studio-pro' );
 								/* translators: 1: plugin name. */
-								$this->upgrader->strings['skin_update_successful'] = __( '%1$s installed and activated successfully.', 'studio-pro' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'studio-pro' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'studio-pro' ) . '</span>.</a>';
+								$this->upgrader->strings['skin_update_successful'] = __( '%1$s installed and activated successfully.', 'studio-pro' ) . ' <a href="#" class="hide-if-no-js" onclick="%1$s"><span>' . esc_html__( 'Show Details', 'studio-pro' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'studio-pro' ) . '</span>.</a>';
 								$this->upgrader->strings['skin_upgrade_end']       = __( 'All installations and activations have been completed.', 'studio-pro' );
 								/* translators: 1: plugin name, 2: action number 3: total number of actions. */
 								$this->upgrader->strings['skin_before_update_header'] = __( 'Installing and Activating Plugin %1$s (%2$d/%3$d)', 'studio-pro' );
@@ -3628,7 +3625,7 @@ if ( ! function_exists( 'tgmpa_load_bulk_installer' ) ) {
 								// Default installation strings.
 								$this->upgrader->strings['skin_upgrade_start'] = __( 'The installation process is starting. This process may take a while on some hosts, so please be patient.', 'studio-pro' );
 								/* translators: 1: plugin name. */
-								$this->upgrader->strings['skin_update_successful'] = esc_html__( '%1$s installed successfully.', 'studio-pro' ) . ' <a href="#" class="hide-if-no-js" onclick="%2$s"><span>' . esc_html__( 'Show Details', 'studio-pro' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'studio-pro' ) . '</span>.</a>';
+								$this->upgrader->strings['skin_update_successful'] = esc_html__( '%1$s installed successfully.', 'studio-pro' ) . ' <a href="#" class="hide-if-no-js" onclick="%1$s"><span>' . esc_html__( 'Show Details', 'studio-pro' ) . '</span><span class="hidden">' . esc_html__( 'Hide Details', 'studio-pro' ) . '</span>.</a>';
 								$this->upgrader->strings['skin_upgrade_end']       = __( 'All installations have been completed.', 'studio-pro' );
 								/* translators: 1: plugin name, 2: action number 3: total number of actions. */
 								$this->upgrader->strings['skin_before_update_header'] = __( 'Installing Plugin %1$s (%2$d/%3$d)', 'studio-pro' );

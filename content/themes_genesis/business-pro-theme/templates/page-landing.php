@@ -1,27 +1,34 @@
 <?php
 /**
- * Business Pro.
+ * Business Pro Theme
  *
  * This file adds the landing page template to the Business Pro Theme.
  *
  * Template Name: Landing Page
  *
  * @package Business Pro
- * @author  SeoThemes
+ * @author  SEOThemes
  * @license GPL-2.0+
  * @link    https://seothemes.com/themes/business-pro
  */
 
-add_filter( 'body_class', 'business_add_body_class' );
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+
+	die;
+
+}
+
+add_filter( 'body_class', 'business_landing_page_body_class' );
 /**
- * Add landing page body class to the head.
+ * Add landing page body class.
  *
  * @since  1.0.0
  *
  * @param  array $classes Array of body classes.
  * @return array $classes Array of body classes.
  */
-function business_add_body_class( $classes ) {
+function business_landing_page_body_class( $classes ) {
 
 	$classes[] = 'landing-page';
 
@@ -32,7 +39,7 @@ function business_add_body_class( $classes ) {
 remove_action( 'genesis_before_header', 'genesis_skip_links', 5 );
 add_action( 'wp_enqueue_scripts', 'business_dequeue_skip_links' );
 /**
- * Dequeue Skip Links Script.
+ * Dequeue skip links script.
  *
  * @since  1.0.0
  *

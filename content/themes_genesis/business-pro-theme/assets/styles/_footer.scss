@@ -21,7 +21,7 @@
         color: $medium;
         text-decoration: none;
         &:hover {
-            color: $border;
+            color: $light;
         }
     }
     .back-to-top {
@@ -98,7 +98,6 @@
         }
     }
     .widget-title {
-        text-transform: uppercase;
         font-size: 1.6rem;
         margin-bottom: 1.5em;
         color: $border;
@@ -121,7 +120,7 @@
     }
     .menu-item a:hover,
     .menu-item.current-menu-item > a {
-        color: $border;
+        color: $light;
     }
     .sub-menu {
         display: none !important;
@@ -153,7 +152,7 @@
             position: absolute;
             right: 0;
             bottom: 0;
-            padding: .5em 0;
+            padding: 4px 0;
             width: 5rem;
             line-height: 2;
             font-size: 100%;
@@ -164,6 +163,9 @@
                 + .fa-send-o {
                     color: $white;
                 }
+            }
+            &:focus {
+                outline: 2px solid $border;
             }
         }
         .fa-send-o {
@@ -191,10 +193,11 @@
 
 .before-footer {
     padding: 6rem 0;
+    background-color: $dark;
     color: $white;
     @include overlay;
     @include breakpoint(sm) {
-        padding: 8rem 0;
+        padding: 10rem 0;
     }
     &:before {
         width: 100vw;
@@ -246,7 +249,6 @@
         }
     }
     .widget-title {
-        text-transform: uppercase;
         font-size: 3rem;
     }
     p {

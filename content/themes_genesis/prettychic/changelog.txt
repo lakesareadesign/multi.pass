@@ -1,0 +1,6 @@
+Pretty Chic WordPress Theme Changelog
+=====================================
+
+* 3.26.2018
+
+- Added a landing page template

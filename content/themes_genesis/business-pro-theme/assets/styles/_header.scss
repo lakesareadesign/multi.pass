@@ -6,10 +6,16 @@
     width: 100%;
     z-index: 100;
     @include transition;
-    &.fixed {
+    .has-fixed-header & {
         position: fixed;
         &.shrink {
             background-color: $dark;
+            box-shadow: 0 0 2rem rgba($dark,0.2);
+        }
+    }
+    &.shrink > .wrap {
+        @include breakpoint(md) {
+            padding: 0;
         }
     }
     .page-template-page-builder & {
@@ -24,8 +30,9 @@
         align-items: center;
         justify-content: space-between;
         flex-wrap: wrap;
+        @include transition;
         @include breakpoint(md) {
-            padding: 0;
+            padding: 1rem 0;
             flex-wrap: nowrap;
             position: relative;
         }
@@ -44,9 +51,6 @@
     flex: 1;
     padding: 2rem 0;
     max-width: 15rem;
-    @include breakpoint(md) {
-        padding: 2.618rem 0;
-    }
     .wp-custom-logo & {
         padding: 1rem 0;
         @include breakpoint(lg) {
@@ -61,7 +65,6 @@
     font-weight: $bold;
     line-height: 1;
     margin-bottom: 0;
-    text-transform: uppercase;
     white-space: nowrap;
     a {
         color: $white;
@@ -80,19 +83,34 @@
     }
 }
 
-.custom-logo {
-    height: 5rem;
+.custom-logo-link {
+    display: block;
 }
 
 /* ## Header Right Widget Area
 --------------------------------------------- */
 
 .header-widget-area {
-    margin-right: 10vw;
     @include breakpoint(md) {
         order: 3;
         margin-left: 1em;
         margin-right: 0;
+    }
+    @media (max-width: map-get($breakpoints,md)) {
+        ul,
+        ul.alignleft,
+        ul.alignright {
+            margin: 2em auto;
+            float: none;
+            display: flex;
+            justify-content: center;
+            li {
+                margin: 0 0.5em;
+            }
+        }
+    }
+    .widget-wrap {
+        @include clearfix;
     }
     .simple-social-icons ul li {
         a,
@@ -118,6 +136,7 @@
     object-fit: cover;
     object-position: center;
     overflow: hidden;
+    pointer-events: none;
     .woocommerce & img,
     img,
     video,
@@ -163,7 +182,7 @@
     position: relative;
     @include overlay;
     @include breakpoint(sm) {
-        padding: 25rem 0 12.5rem;
+        padding: 20rem 0 10rem;
     }
     .wrap {
         position: relative;
@@ -172,7 +191,6 @@
     h1 {
         max-width: map-get($breakpoints,sm);
         margin: 0 auto 0.382em;
-        text-transform: uppercase;
     }
     p {
         max-width: map-get($breakpoints,sm);

@@ -1,16 +1,22 @@
 <?php
 /**
- * Portfolio Archive.
+ * Business Pro Theme
  *
- * This template overrides the default archive template to clean
- * up the output.
+ * This template overrides the default Portfolio archive template.
  *
- * @package      Business Pro
- * @link         https://seothemes.com/business-pro
- * @author       Seo Themes
- * @copyright    Copyright © 2017 Seo Themes
- * @license      GPL-2.0+
+ * @package   BusinessProTheme
+ * @link      https://seothemes.com/themes/business-pro
+ * @author    SEO Themes
+ * @copyright Copyright © 2017 SEO Themes
+ * @license   GPL-2.0+
  */
+
+// If this file is called directly, abort.
+if ( ! defined( 'WPINC' ) ) {
+
+	die;
+
+}
 
 // Force full width content layout.
 add_filter( 'genesis_site_layout', '__genesis_return_full_width_content' );

@@ -20,26 +20,26 @@ $breakpoints: (
 
 $accent:  #fb2056;
 $black:   #000000;
-$dark:    #141e28;
-$gray:    #556677;
+$dark:    #232c39;
+$gray:    #647585;
 $medium:  #a4a8ac;
 $border:  #f0f1f2;
 $light:   #f6f7f8;
 $white:   #ffffff;
-$overlay: rgba(20,30,40,0.82);
+$overlay: rgba(35, 44, 57, 0.9);
 
 /* ### Typography */
 
 $font-heading: 'Montserrat', Helvetica, Arial, sans-serif;
 $font-body:    'Hind', Helvetica, Arial, sans-serif;
 $normal:  	   400;
-$bolder:  	   600;
-$bold:    	   700;
+$bolder:  	   500;
+$bold:    	   600;
 
 /* ### Other */
 
-$site-radius:     0.4rem;
-$site-border:     0.2rem solid $border;
+$site-radius:     4px;
+$site-border:     2px solid $border;
 $site-transition: 0.75s cubic-bezier(0, 1, 0.5, 1);
 
 /* ### Column widths */

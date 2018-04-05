@@ -1,21 +1,24 @@
 <?php
 /**
- * Template Name: Service Page
+ * Business Pro Theme
  *
- * This file adds the service page template to the Business Pro
- * theme, it adds some basic schema.org micro data to the site
- * inner div and H1 heading.
+ * This file adds the service page template to the Business Pro theme, it adds
+ * some basic schema.org micro data to the site inner div and H1 heading.
+ *
+ * Template Name: Service Page
  *
  * @package      Business Pro
  * @link         https://seothemes.com/themes/business-pro
- * @author       Seo Themes
- * @copyright    Copyright © 2017 Seo Themes
+ * @author       SEO Themes
+ * @copyright    Copyright © 2017 SEO Themes
  * @license      GPL-2.0+
  */
 
 // If this file is called directly, abort.
 if ( ! defined( 'WPINC' ) ) {
+
 	die;
+
 }
 
 add_filter( 'genesis_attr_site-inner', 'business_service_site_inner' );
