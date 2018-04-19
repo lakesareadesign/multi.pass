@@ -710,6 +710,17 @@ FLCustomizer::add_panel('fl-header', array(
 					),
 				),
 
+				/* Sticky Header Logo (Retina) */
+				'fl-sticky-header-logo-retina' => array(
+					'setting'   => array(
+						'default'   => '',
+					),
+					'control'   => array(
+						'class'         => 'WP_Customize_Image_Control',
+						'label'         => __( 'Fade In Header Logo (Retina)', 'fl-automator' ),
+					),
+				),
+
 				/* Logo Text */
 				'fl-logo-text' => array(
 					'setting'   => array(

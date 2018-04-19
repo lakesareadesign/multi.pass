@@ -354,6 +354,7 @@
 		{
 			var nav 		= $('.fl-page-nav .navbar-nav'),
 				targetId 	= typeof e !== 'undefined' ? $(e.target).prop('hash') : window.location.hash,
+				targetId    = targetId.replace( /(:|\.|\[|\]|,|=|@)/g, "\\$1" ),
 				currentLink = targetId.length ? nav.find('a[href*=\\'+ targetId +']:not([href=\\#])') : null;
 
 			if ( currentLink != null && $('body').find(targetId).length > 0 ) {

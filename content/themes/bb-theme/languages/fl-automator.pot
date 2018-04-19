@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bb-theme\n"
 "Report-Msgid-Bugs-To: hello@wpbeaverbuilder.com\n"
-"POT-Creation-Date: 2018-01-10 22:17:19+00:00\n"
+"POT-Creation-Date: 2018-04-18 20:09:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -26,7 +26,7 @@ msgid ""
 "proceed."
 msgstr ""
 
-#: classes/class-fl-customizer.php:394
+#: classes/class-fl-customizer.php:396
 msgid "Start by selecting a preset for your theme."
 msgstr ""
 
@@ -34,43 +34,43 @@ msgstr ""
 msgid "CSS Migrated from BB theme:"
 msgstr ""
 
-#: classes/class-fl-theme.php:125
+#: classes/class-fl-theme.php:126
 msgid "Top Bar Menu"
 msgstr ""
 
-#: classes/class-fl-theme.php:126
+#: classes/class-fl-theme.php:127
 msgid "Header Menu"
 msgstr ""
 
-#: classes/class-fl-theme.php:127
+#: classes/class-fl-theme.php:128
 msgid "Footer Menu"
 msgstr ""
 
-#: classes/class-fl-theme.php:215
+#: classes/class-fl-theme.php:217
 msgid "Primary Sidebar"
 msgstr ""
 
-#: classes/class-fl-theme.php:238
+#: classes/class-fl-theme.php:240
 msgid "WooCommerce Sidebar"
 msgstr ""
 
-#: classes/class-fl-theme.php:249
+#: classes/class-fl-theme.php:251
 msgid "After Post Widget"
 msgstr ""
 
-#: classes/class-fl-theme.php:507
+#: classes/class-fl-theme.php:509
 msgid "Choose Menu"
 msgstr ""
 
-#: classes/class-fl-theme.php:507
+#: classes/class-fl-theme.php:509
 msgid "Home"
 msgstr ""
 
-#: classes/class-fl-theme.php:1067
+#: classes/class-fl-theme.php:1083
 msgid "&laquo; Newer Posts"
 msgstr ""
 
-#: classes/class-fl-theme.php:1068
+#: classes/class-fl-theme.php:1084
 msgid "Older Posts &raquo;"
 msgstr ""
 
@@ -177,7 +177,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:122
 #: includes/customizer-panel-header.php:124
 #: includes/customizer-panel-header.php:469
-#: includes/customizer-panel-header.php:944
+#: includes/customizer-panel-header.php:955
 msgid "Background Color"
 msgstr ""
 
@@ -191,7 +191,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:134
 #: includes/customizer-panel-header.php:168
 #: includes/customizer-panel-header.php:541
-#: includes/customizer-panel-header.php:988
+#: includes/customizer-panel-header.php:999
 msgid "Background Image"
 msgstr ""
 
@@ -201,7 +201,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:146
 #: includes/customizer-panel-header.php:180
 #: includes/customizer-panel-header.php:553
-#: includes/customizer-panel-header.php:1000
+#: includes/customizer-panel-header.php:1011
 msgid "Background Repeat"
 msgstr ""
 
@@ -221,8 +221,8 @@ msgstr ""
 #: includes/customizer-panel-header.php:435
 #: includes/customizer-panel-header.php:556
 #: includes/customizer-panel-header.php:616
-#: includes/customizer-panel-header.php:1003
-#: includes/customizer-panel-header.php:1063
+#: includes/customizer-panel-header.php:1014
+#: includes/customizer-panel-header.php:1074
 msgid "None"
 msgstr ""
 
@@ -232,7 +232,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:150
 #: includes/customizer-panel-header.php:184
 #: includes/customizer-panel-header.php:557
-#: includes/customizer-panel-header.php:1004
+#: includes/customizer-panel-header.php:1015
 msgid "Tile"
 msgstr ""
 
@@ -242,7 +242,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:151
 #: includes/customizer-panel-header.php:185
 #: includes/customizer-panel-header.php:558
-#: includes/customizer-panel-header.php:1005
+#: includes/customizer-panel-header.php:1016
 msgid "Horizontal"
 msgstr ""
 
@@ -252,7 +252,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:152
 #: includes/customizer-panel-header.php:186
 #: includes/customizer-panel-header.php:559
-#: includes/customizer-panel-header.php:1006
+#: includes/customizer-panel-header.php:1017
 msgid "Vertical"
 msgstr ""
 
@@ -262,7 +262,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:165
 #: includes/customizer-panel-header.php:199
 #: includes/customizer-panel-header.php:572
-#: includes/customizer-panel-header.php:1019
+#: includes/customizer-panel-header.php:1030
 msgid "Background Position"
 msgstr ""
 
@@ -272,7 +272,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:168
 #: includes/customizer-panel-header.php:202
 #: includes/customizer-panel-header.php:575
-#: includes/customizer-panel-header.php:1022
+#: includes/customizer-panel-header.php:1033
 msgid "Left Top"
 msgstr ""
 
@@ -282,7 +282,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:169
 #: includes/customizer-panel-header.php:203
 #: includes/customizer-panel-header.php:576
-#: includes/customizer-panel-header.php:1023
+#: includes/customizer-panel-header.php:1034
 msgid "Left Center"
 msgstr ""
 
@@ -292,7 +292,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:170
 #: includes/customizer-panel-header.php:204
 #: includes/customizer-panel-header.php:577
-#: includes/customizer-panel-header.php:1024
+#: includes/customizer-panel-header.php:1035
 msgid "Left Bottom"
 msgstr ""
 
@@ -302,7 +302,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:171
 #: includes/customizer-panel-header.php:205
 #: includes/customizer-panel-header.php:578
-#: includes/customizer-panel-header.php:1025
+#: includes/customizer-panel-header.php:1036
 msgid "Right Top"
 msgstr ""
 
@@ -312,7 +312,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:172
 #: includes/customizer-panel-header.php:206
 #: includes/customizer-panel-header.php:579
-#: includes/customizer-panel-header.php:1026
+#: includes/customizer-panel-header.php:1037
 msgid "Right Center"
 msgstr ""
 
@@ -322,7 +322,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:173
 #: includes/customizer-panel-header.php:207
 #: includes/customizer-panel-header.php:580
-#: includes/customizer-panel-header.php:1027
+#: includes/customizer-panel-header.php:1038
 msgid "Right Bottom"
 msgstr ""
 
@@ -332,7 +332,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:174
 #: includes/customizer-panel-header.php:208
 #: includes/customizer-panel-header.php:581
-#: includes/customizer-panel-header.php:1028
+#: includes/customizer-panel-header.php:1039
 msgid "Center Top"
 msgstr ""
 
@@ -342,8 +342,8 @@ msgstr ""
 #: includes/customizer-panel-general.php:175
 #: includes/customizer-panel-header.php:209
 #: includes/customizer-panel-header.php:582
-#: includes/customizer-panel-header.php:843
-#: includes/customizer-panel-header.php:1029
+#: includes/customizer-panel-header.php:854
+#: includes/customizer-panel-header.php:1040
 msgid "Center"
 msgstr ""
 
@@ -353,7 +353,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:176
 #: includes/customizer-panel-header.php:210
 #: includes/customizer-panel-header.php:583
-#: includes/customizer-panel-header.php:1030
+#: includes/customizer-panel-header.php:1041
 msgid "Center Bottom"
 msgstr ""
 
@@ -363,7 +363,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:189
 #: includes/customizer-panel-header.php:223
 #: includes/customizer-panel-header.php:596
-#: includes/customizer-panel-header.php:1043
+#: includes/customizer-panel-header.php:1054
 msgid "Background Attachment"
 msgstr ""
 
@@ -373,7 +373,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:192
 #: includes/customizer-panel-header.php:226
 #: includes/customizer-panel-header.php:599
-#: includes/customizer-panel-header.php:1046
+#: includes/customizer-panel-header.php:1057
 msgid "Scroll"
 msgstr ""
 
@@ -383,7 +383,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:193
 #: includes/customizer-panel-header.php:227
 #: includes/customizer-panel-header.php:600
-#: includes/customizer-panel-header.php:1047
+#: includes/customizer-panel-header.php:1058
 msgid "Fixed"
 msgstr ""
 
@@ -393,7 +393,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:206
 #: includes/customizer-panel-header.php:240
 #: includes/customizer-panel-header.php:613
-#: includes/customizer-panel-header.php:1060
+#: includes/customizer-panel-header.php:1071
 msgid "Background Scale"
 msgstr ""
 
@@ -403,7 +403,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:210
 #: includes/customizer-panel-header.php:244
 #: includes/customizer-panel-header.php:617
-#: includes/customizer-panel-header.php:1064
+#: includes/customizer-panel-header.php:1075
 msgid "Fit"
 msgstr ""
 
@@ -413,7 +413,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:211
 #: includes/customizer-panel-header.php:245
 #: includes/customizer-panel-header.php:618
-#: includes/customizer-panel-header.php:1065
+#: includes/customizer-panel-header.php:1076
 msgid "Fill"
 msgstr ""
 
@@ -459,7 +459,7 @@ msgstr ""
 
 #: includes/customizer-panel-content.php:201
 #: includes/customizer-panel-content.php:540
-#: includes/customizer-panel-header.php:891
+#: includes/customizer-panel-header.php:902
 msgid "Always"
 msgstr ""
 
@@ -673,8 +673,8 @@ msgstr ""
 #: includes/customizer-panel-footer.php:494
 #: includes/customizer-panel-general.php:103
 #: includes/customizer-panel-header.php:394
-#: includes/customizer-panel-header.php:908
-#: includes/customizer-panel-header.php:931
+#: includes/customizer-panel-header.php:919
+#: includes/customizer-panel-header.php:942
 msgid "Disabled"
 msgstr ""
 
@@ -699,8 +699,8 @@ msgstr ""
 #: includes/customizer-panel-footer.php:495
 #: includes/customizer-panel-general.php:102
 #: includes/customizer-panel-header.php:395
-#: includes/customizer-panel-header.php:909
-#: includes/customizer-panel-header.php:932
+#: includes/customizer-panel-header.php:920
+#: includes/customizer-panel-header.php:943
 msgid "Enabled"
 msgstr ""
 
@@ -724,7 +724,7 @@ msgstr ""
 #: includes/customizer-panel-footer.php:330
 #: includes/customizer-panel-header.php:135
 #: includes/customizer-panel-header.php:480
-#: includes/customizer-panel-header.php:955
+#: includes/customizer-panel-header.php:966
 msgid "Background Opacity"
 msgstr ""
 
@@ -732,7 +732,7 @@ msgstr ""
 #: includes/customizer-panel-footer.php:347
 #: includes/customizer-panel-header.php:152
 #: includes/customizer-panel-header.php:525
-#: includes/customizer-panel-header.php:972
+#: includes/customizer-panel-header.php:983
 msgid "Background Gradient"
 msgstr ""
 
@@ -747,7 +747,7 @@ msgstr ""
 #: includes/customizer-panel-footer.php:463
 #: includes/customizer-panel-header.php:268
 #: includes/customizer-panel-header.php:641
-#: includes/customizer-panel-header.php:1077
+#: includes/customizer-panel-header.php:1088
 msgid "Link Color"
 msgstr ""
 
@@ -756,7 +756,7 @@ msgstr ""
 #: includes/customizer-panel-general.php:242
 #: includes/customizer-panel-header.php:279
 #: includes/customizer-panel-header.php:652
-#: includes/customizer-panel-header.php:1088
+#: includes/customizer-panel-header.php:1099
 msgid "Hover Color"
 msgstr ""
 
@@ -850,46 +850,46 @@ msgstr ""
 
 #: includes/customizer-panel-general.php:273
 #: includes/customizer-panel-general.php:708
-#: includes/customizer-panel-header.php:734
-#: includes/customizer-panel-header.php:1100
+#: includes/customizer-panel-header.php:745
+#: includes/customizer-panel-header.php:1111
 msgid "Font Family"
 msgstr ""
 
 #: includes/customizer-panel-general.php:286
 #: includes/customizer-panel-general.php:721
-#: includes/customizer-panel-header.php:747
-#: includes/customizer-panel-header.php:1113
+#: includes/customizer-panel-header.php:758
+#: includes/customizer-panel-header.php:1124
 msgid "Font Weight"
 msgstr ""
 
 #: includes/customizer-panel-general.php:300
-#: includes/customizer-panel-header.php:1127
+#: includes/customizer-panel-header.php:1138
 msgid "Font Format"
 msgstr ""
 
 #: includes/customizer-panel-general.php:303
-#: includes/customizer-panel-header.php:1130
+#: includes/customizer-panel-header.php:1141
 msgid "Regular"
 msgstr ""
 
 #: includes/customizer-panel-general.php:304
-#: includes/customizer-panel-header.php:1131
+#: includes/customizer-panel-header.php:1142
 msgid "Capitalize"
 msgstr ""
 
 #: includes/customizer-panel-general.php:305
-#: includes/customizer-panel-header.php:1132
+#: includes/customizer-panel-header.php:1143
 msgid "Uppercase"
 msgstr ""
 
 #: includes/customizer-panel-general.php:306
-#: includes/customizer-panel-header.php:1133
+#: includes/customizer-panel-header.php:1144
 msgid "Lowercase"
 msgstr ""
 
 #: includes/customizer-panel-general.php:735
-#: includes/customizer-panel-header.php:761
-#: includes/customizer-panel-header.php:1146
+#: includes/customizer-panel-header.php:772
+#: includes/customizer-panel-header.php:1157
 msgid "Font Size"
 msgstr ""
 
@@ -959,12 +959,12 @@ msgid "The inline logo will appear on the left or right side of odd menu items."
 msgstr ""
 
 #: includes/customizer-panel-header.php:323
-#: includes/customizer-panel-header.php:842
+#: includes/customizer-panel-header.php:853
 msgid "Left"
 msgstr ""
 
 #: includes/customizer-panel-header.php:324
-#: includes/customizer-panel-header.php:844
+#: includes/customizer-panel-header.php:855
 msgid "Right"
 msgstr ""
 
@@ -1024,59 +1024,63 @@ msgstr ""
 msgid "Use a different logo when you have a Fade In header"
 msgstr ""
 
-#: includes/customizer-panel-header.php:721
+#: includes/customizer-panel-header.php:720
+msgid "Fade In Header Logo (Retina)"
+msgstr ""
+
+#: includes/customizer-panel-header.php:732
 msgid "Logo Text"
 msgstr ""
 
-#: includes/customizer-panel-header.php:779
+#: includes/customizer-panel-header.php:790
 msgid "Logo Top Spacing"
 msgstr ""
 
-#: includes/customizer-panel-header.php:804
+#: includes/customizer-panel-header.php:815
 msgid "Nav Item Spacing"
 msgstr ""
 
-#: includes/customizer-panel-header.php:822
+#: includes/customizer-panel-header.php:833
 msgid "Nav Menu Top Spacing"
 msgstr ""
 
-#: includes/customizer-panel-header.php:839
+#: includes/customizer-panel-header.php:850
 msgid "Nav Item Align"
 msgstr ""
 
-#: includes/customizer-panel-header.php:856
+#: includes/customizer-panel-header.php:867
 msgid "Nav Search Icon"
 msgstr ""
 
-#: includes/customizer-panel-header.php:872
+#: includes/customizer-panel-header.php:883
 msgid "Responsive Nav Toggle"
 msgstr ""
 
-#: includes/customizer-panel-header.php:875
+#: includes/customizer-panel-header.php:886
 msgid "Menu Button"
 msgstr ""
 
-#: includes/customizer-panel-header.php:876
+#: includes/customizer-panel-header.php:887
 msgid "Hamburger Icon"
 msgstr ""
 
-#: includes/customizer-panel-header.php:888
+#: includes/customizer-panel-header.php:899
 msgid "Responsive Nav Breakpoint"
 msgstr ""
 
-#: includes/customizer-panel-header.php:892
+#: includes/customizer-panel-header.php:903
 msgid "Medium &amp; Small Devices Only"
 msgstr ""
 
-#: includes/customizer-panel-header.php:893
+#: includes/customizer-panel-header.php:904
 msgid "Small Devices Only"
 msgstr ""
 
-#: includes/customizer-panel-header.php:905
+#: includes/customizer-panel-header.php:916
 msgid "Responsive Submenu Toggle"
 msgstr ""
 
-#: includes/customizer-panel-header.php:928
+#: includes/customizer-panel-header.php:939
 msgid "Submenu Indicator"
 msgstr ""
 
@@ -1123,12 +1127,12 @@ msgctxt "...a plugin."
 msgid "Install &amp; Activate"
 msgstr ""
 
-#: classes/class-fl-customizer.php:374
+#: classes/class-fl-customizer.php:376
 msgctxt "Customizer section title. Theme design/style presets."
 msgid "Presets"
 msgstr ""
 
-#: classes/class-fl-customizer.php:498
+#: classes/class-fl-customizer.php:500
 msgctxt "Customizer section title."
 msgid "Export/Import"
 msgstr ""
@@ -1268,12 +1272,12 @@ msgctxt "Customizer section title."
 msgid "Header Logo"
 msgstr ""
 
-#: includes/customizer-panel-header.php:793
+#: includes/customizer-panel-header.php:804
 msgctxt "Customizer section title."
 msgid "Nav Layout"
 msgstr ""
 
-#: includes/customizer-panel-header.php:918
+#: includes/customizer-panel-header.php:929
 msgctxt "Customizer section title."
 msgid "Nav Style"
 msgstr ""
@@ -1283,49 +1287,49 @@ msgctxt "Customizer section title."
 msgid "Favicons"
 msgstr ""
 
-#: classes/class-fl-theme.php:226
+#: classes/class-fl-theme.php:228
 msgctxt ""
 "Sidebar title. %d stands for the order number of the auto-created sidebar, "
 "4 in total."
 msgid "Footer Column %d"
 msgstr ""
 
-#: classes/class-fl-theme.php:722
+#: classes/class-fl-theme.php:738
 msgctxt "Mobile navigation toggle button text."
 msgid "Menu"
 msgstr ""
 
-#: classes/class-fl-theme.php:1025
+#: classes/class-fl-theme.php:1041
 msgctxt "Archive title: tag."
 msgid "Posts Tagged &#8216;%s&#8217;"
 msgstr ""
 
-#: classes/class-fl-theme.php:1028
+#: classes/class-fl-theme.php:1044
 msgctxt "Archive title: day."
 msgid "Archive for %s"
 msgstr ""
 
-#: classes/class-fl-theme.php:1031
+#: classes/class-fl-theme.php:1047
 msgctxt "Archive title: month."
 msgid "Archive for %s"
 msgstr ""
 
-#: classes/class-fl-theme.php:1034
+#: classes/class-fl-theme.php:1050
 msgctxt "Archive title: year."
 msgid "Archive for %s"
 msgstr ""
 
-#: classes/class-fl-theme.php:1037
+#: classes/class-fl-theme.php:1053
 msgctxt "Archive title: author."
 msgid "Posts by %s"
 msgstr ""
 
-#: classes/class-fl-theme.php:1040
+#: classes/class-fl-theme.php:1056
 msgctxt "Search results title."
 msgid "Search results for: %s"
 msgstr ""
 
-#: classes/class-fl-theme.php:1043
+#: classes/class-fl-theme.php:1059
 msgctxt "Archive title: paged archive."
 msgid "Archives"
 msgstr ""
@@ -1451,8 +1455,8 @@ msgstr ""
 #: includes/customizer-panel-header.php:155
 #: includes/customizer-panel-header.php:376
 #: includes/customizer-panel-header.php:528
-#: includes/customizer-panel-header.php:860
-#: includes/customizer-panel-header.php:975
+#: includes/customizer-panel-header.php:871
+#: includes/customizer-panel-header.php:986
 msgctxt ""
 "Used for multiple Customizer options values. Use generalized form of the "
 "word when translating."
@@ -1463,8 +1467,8 @@ msgstr ""
 #: includes/customizer-panel-footer.php:351
 #: includes/customizer-panel-header.php:156
 #: includes/customizer-panel-header.php:529
-#: includes/customizer-panel-header.php:859
-#: includes/customizer-panel-header.php:976
+#: includes/customizer-panel-header.php:870
+#: includes/customizer-panel-header.php:987
 msgctxt ""
 "Used for multiple Customizer options values. Use generalized form of the "
 "word when translating."

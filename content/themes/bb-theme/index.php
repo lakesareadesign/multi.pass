@@ -1,3 +1,8 @@
+<?php
+if ( ! defined( 'ABSPATH' ) ) {
+	exit; // Silence is golden.
+}
+?>
 <?php get_header(); ?>
 
 <div class="fl-archive container">

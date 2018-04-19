@@ -4,7 +4,7 @@
 			<div class="fl-page-header-row row">
 				<div class="fl-page-logo-wrap col-md-3 col-sm-12">
 					<div class="fl-page-header-logo">
-						<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php FLTheme::logo(); ?></a>
+						<a href="<?php echo esc_url( home_url( '/' ) ); ?>"><?php FLTheme::fixed_header_logo(); ?></a>
 					</div>
 				</div>
 				<div class="fl-page-fixed-nav-wrap col-md-9 col-sm-12">

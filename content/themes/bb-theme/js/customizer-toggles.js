@@ -48,16 +48,6 @@
 			callback: function( val ) { return '' != val; }
 		}],
 
-		'fl-fixed-header': [{
-			controls: [ 'fl-sticky-header-logo' ],
-			callback: function( val ) {
-				if( 'fadein' == val ) {
-					return true;
-				}
-                return false;
-			}
-		}],
-
 		'fl-topbar-layout': [{
 			controls: [ 'fl-topbar-line1', 'fl-topbar-col1-layout' ],
 			callback: function( val ) {
@@ -112,7 +102,16 @@
 			callback: function( val ) { return 'text' == val; }
 		},{
 			controls: [ 'fl-logo-image', 'fl-logo-image-retina', 'fl-sticky-header-logo' ],
-			callback: function( val ) { return 'image' == val; }
+			callback: function( val ) {
+				var fixedHeader  = api( 'fl-fixed-header' ).get(),
+					sitckyLogo   = api.control( 'fl-sticky-header-logo' ).container,
+					stickyretina = api.control( 'fl-sticky-header-logo-retina' ).container;
+
+				sitckyLogo.toggle( 'image' === val && 'fadein' == fixedHeader );
+				stickyretina.toggle( 'image' === val && 'fadein' == fixedHeader );
+
+				return 'image' == val;
+			}
 		}],
 
 		'fl-header-layout': [{
@@ -199,6 +198,12 @@
 				}
 
                 return 'boxed' == layoutWidth && 'shrink' != val && 'fixed' != val;
+			}
+		},{
+			controls: [ 'fl-sticky-header-logo', 'fl-sticky-header-logo-retina' ],
+			callback: function( val ) {
+				var logoType = api( 'fl-logo-type' ).get();
+                return 'fadein' === val && 'image' === logoType;
 			}
 		}],
 

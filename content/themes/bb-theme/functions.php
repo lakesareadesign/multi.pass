@@ -11,17 +11,21 @@ Appearance > Theme Settings > Code or create a child theme.
 */
 
 // Defines
-define( 'FL_THEME_VERSION', '1.6.4.1' );
+define( 'FL_THEME_VERSION', '1.6.5' );
 define( 'FL_THEME_DIR', get_template_directory() );
 define( 'FL_THEME_URL', get_template_directory_uri() );
 
 // Classes
+if ( ! class_exists( 'FL_Filesystem' ) ) {
+	require_once 'classes/class-fl-filesystem.php';
+}
 require_once 'classes/class-fl-color.php';
 require_once 'classes/class-fl-customizer.php';
 require_once 'classes/class-fl-fonts.php';
 require_once 'classes/class-fl-theme.php';
 require_once 'classes/class-fl-theme-update.php';
 require_once 'classes/class-fi-compat.php';
+require_once 'classes/class-fl-shortcodes.php';
 
 /* WP CLI Commands */
 if ( defined( 'WP_CLI' ) ) {
@@ -29,12 +33,12 @@ if ( defined( 'WP_CLI' ) ) {
 }
 
 // Theme Actions
-add_action( 'after_switch_theme',    'FLCustomizer::refresh_css' );
-add_action( 'after_setup_theme',     'FLTheme::setup' );
-add_action( 'init',                  'FLTheme::init_woocommerce' );
-add_action( 'wp_enqueue_scripts',    'FLTheme::enqueue_scripts', 999 );
-add_action( 'widgets_init',          'FLTheme::widgets_init' );
-add_action( 'wp_footer',             'FLTheme::go_to_top' );
+add_action( 'after_switch_theme',    	'FLCustomizer::refresh_css' );
+add_action( 'after_setup_theme',     	'FLTheme::setup' );
+add_action( 'init',                  	'FLTheme::init_woocommerce' );
+add_action( 'wp_enqueue_scripts',    	'FLTheme::enqueue_scripts', 999 );
+add_action( 'widgets_init',          	'FLTheme::widgets_init' );
+add_action( 'wp_footer',             	'FLTheme::go_to_top' );
 add_action( 'fl_after_post',            'FLTheme::after_post_widget', 10 );
 add_action( 'fl_after_post_content',    'FLTheme::post_author_box', 10 );
 
@@ -58,39 +62,3 @@ add_action( 'customize_save_after',                      'FLCustomizer::save' );
 
 // Compatibility
 FLThemeCompat::init();
-
-/**
- * Output list of all image sizes.
- *
- * @since 1.6
- * @return void
- */
-function archive_post_image_sizes() {
-	$options = array();
-	$image_sizes = get_intermediate_image_sizes();
-	if ( count( $image_sizes ) ) {
-		foreach ( $image_sizes as $image_size ) {
-			$options[ $image_size ] = $image_size;
-		}
-	}
-
-	return $options;
-}
-
-/**
- * Output list of all image sizes.
- *
- * @since 1.6
- * @return void
- */
-function single_post_image_sizes() {
-	$options = array();
-	$image_sizes = get_intermediate_image_sizes();
-	if ( count( $image_sizes ) ) {
-		foreach ( $image_sizes as $image_size ) {
-			$options[ $image_size ] = $image_size;
-		}
-	}
-
-	return $options;
-}

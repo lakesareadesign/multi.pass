@@ -1,3 +1,20 @@
+<h4>1.6.5 - 04/18/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>New shortcode <code>[fl_year]</code> added, full details in the kb: https://kb.wpbeaverbuilder.com/article/639-beaver-builder-theme-shortcode-for-current-date</li>
+	<li>Use <code>WP_Filesystem<code> class to write cache files.</li>
+	<li>Add rel nofollow to default footer link.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fix PHP error if uploads folder is not writeable.</li>
+	<li>Register local copy of imagesloaded in case builder is not installed.</li>
+	<li>Fix undefined function get_header message in logs when bots try to scan theme files.</li>
+	<li>Fixed header now uses retina image if available in customizer settings.</li>
+	<li>Fixed JS error when Cube Portfolio shortcode is used.</li>
+	<li>Fixed issue where archive add to cart setting was affecting the main shop page.</li>
+</ul>
+
 <h4>1.6.4.1 - 01/15/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

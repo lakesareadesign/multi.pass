@@ -245,14 +245,16 @@ final class FLCustomizer {
 
 		// No css key, recompile the css.
 		if ( ! $css_key ) {
-			self::_compile_css();
-			return self::css_url();
+			if ( false !== self::_compile_css() ) {
+				return self::css_url();
+			}
 		}
 
 		// Check to see if the file exists.
-		if ( ! file_exists( $css_path ) ) {
-			self::_compile_css();
-			return self::css_url();
+		if ( ! fl_theme_filesystem()->file_exists( $css_path ) ) {
+			if ( false !== self::_compile_css() ) {
+				return self::css_url();
+			}
 		}
 
 		// Return the url.
@@ -343,8 +345,8 @@ final class FLCustomizer {
 		);
 
 		// Create the cache dir if it doesn't exist.
-		if ( ! file_exists( $dir_info['path'] ) ) {
-			mkdir( $dir_info['path'] );
+		if ( ! fl_theme_filesystem()->file_exists( $dir_info['path'] ) ) {
+			fl_theme_filesystem()->mkdir( $dir_info['path'] );
 		}
 
 		return $dir_info;
@@ -728,7 +730,7 @@ final class FLCustomizer {
 
 			foreach ( $css as $file ) {
 				if ( is_file( $file ) ) {
-					unlink( $file );
+					fl_theme_filesystem()->unlink( $file );
 				}
 			}
 		}
@@ -825,15 +827,11 @@ final class FLCustomizer {
 		}
 
 		// Save the new css.
-		file_put_contents( $filename, $css );
-
-		// Make sure we can read the new file.
-		// @codingStandardsIgnoreStart
-		@chmod( $filename, 0644 );
-		// @codingStandardsIgnoreEnd
+		$write = fl_theme_filesystem()->file_put_contents( $filename, $css );
 
 		// Save the new css key.
 		update_option( self::$_css_key . '-' . $css_slug, $new_css_key );
+		return $write;
 	}
 
 	/**

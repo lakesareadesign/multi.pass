@@ -3,7 +3,7 @@
 if ( class_exists( 'FLUpdater' ) ) {
 	FLUpdater::add_product(array(
 		'name'      => 'Beaver Builder Theme',
-		'version'   => '1.6.4.1',
+		'version'   => '1.6.5',
 		'slug'      => 'bb-theme',
 		'type'      => 'theme',
 	));
