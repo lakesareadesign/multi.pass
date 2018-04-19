@@ -17,7 +17,7 @@ class Stripe_Refund extends Stripe_ApiResource
       );
     }
     $id = Stripe_ApiRequestor::utf8($id);
-    $charge = Stripe_ApiRequestor::utf8($charge);
+    $charge = Stripe_ApiRequestor::utf8($charge);	   	 	 		 	  					  
 
     $base = self::classUrl('Stripe_Charge');
     $chargeExtn = urlencode($charge);

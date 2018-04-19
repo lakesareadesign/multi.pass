@@ -50,10 +50,13 @@ class Opt_In_Condition_Tags extends Opt_In_Condition_Abstract implements Opt_In_
 	private function _get_current_tags(){
 		global $post;
 		if(!isset( $post )) return array();
-		$func = create_function('$obj', 'return (string)$obj->term_id;');
+
+		function _get_term_id($obj) {
+			return (string) $obj->term_id;
+		};
 		$terms = get_the_tags( $post->ID );
 		$terms = ( is_wp_error( $terms ) || empty( $terms ) ) ? array() : $terms;
-		return array_map( $func, $terms );
+		return array_map( "_get_term_id", $terms );
 	}
 
 	function label() {

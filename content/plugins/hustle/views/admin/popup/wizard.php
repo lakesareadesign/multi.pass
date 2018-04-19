@@ -111,7 +111,10 @@
 
 								<?php if ($section === 'design' || $section === 'settings') { ?>
 
-									<a class="wpmudev-button wpmudev-button-back"><?php _e( "Back", Opt_In::TEXT_DOMAIN ); ?></a>
+									<a class="wpmudev-button wpmudev-button-back">
+										<span class="wpmudev-loading-text"><?php _e( "Back", Opt_In::TEXT_DOMAIN ); ?></span>
+										<span class="wpmudev-loading"></span>
+									</a>
 
 								<?php } ?>
 
@@ -126,7 +129,10 @@
 										<span class="wpmudev-loading"></span>
 									</a>
 
-									<a class="wpmudev-button wpmudev-button-blue wpmudev-button-continue" data-nonce="<?php echo $save_nonce;?>" data-id="<?php echo $module_id;?>"><?php _e( "Continue", Opt_In::TEXT_DOMAIN ); ?></a>
+									<a class="wpmudev-button wpmudev-button-blue wpmudev-button-continue" data-nonce="<?php echo $save_nonce;?>" data-id="<?php echo $module_id;?>">
+										<span class="wpmudev-loading-text"><?php _e( "Continue", Opt_In::TEXT_DOMAIN ); ?></span>
+										<span class="wpmudev-loading"></span>
+									</a>
 
 								<?php } ?>
 

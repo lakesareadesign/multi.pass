@@ -25,7 +25,7 @@ class Prevent_PHP_Service extends Rule_Service implements IRule_Service {
 			$url    	= WP_Helper::getUploadUrl();
 			$url    	= $url . '/wp-defender/index.php';
 			$ssl_verify = apply_filters( 'defender_ssl_verify', true ); //most hosts dont really have valid ssl or ssl still pending
-			$status 	= wp_remote_head( $url, array( 'user-agent' => $_SERVER['HTTP_USER_AGENT'], 'timeout' => 10, 'sslverify' => $ssl_verify ) );
+			$status 	= wp_remote_head( $url, array( 'user-agent' => $_SERVER['HTTP_USER_AGENT'], 'timeout' => 10, 'sslverify' => $ssl_verify ) );	  	 	   	 		 		 				
 			if ( is_wp_error( $status ) ) {
 				//General error
 				return false;

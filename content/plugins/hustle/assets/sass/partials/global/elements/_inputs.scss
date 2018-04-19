@@ -4,6 +4,14 @@
 		max-width: 100%;
 		display: block;
 		margin: 0;
+
+		&.shortcode_input {
+			font: 400 12px/14px "Roboto",Arial,sans-serif;
+			width: 95%;
+			background: #fff;
+			border: 0px #ffff solid;
+			box-shadow: none;
+		}
 	}
 
 	select {
@@ -105,6 +113,10 @@
 
 		&:disabled {
 			cursor: text;
+		}
+
+		@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+			min-height: 38px;
 		}
 	}
 

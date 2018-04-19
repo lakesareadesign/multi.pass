@@ -59,8 +59,8 @@ class Opt_In_Admin{
 		// reject css
 		$defined_rejected_css = $config['new_config']->get("minify.reject.files.css");
 		$reject_css = array(
-			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/front.css',
-			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/admin.css',
+			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/front.min.css',
+			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/admin.min.css',
 			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/modal.css',
 			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/optin.css',
 		);
@@ -568,7 +568,7 @@ class Opt_In_Admin{
 
         wp_register_style( 'optin_admin_select2', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/vendor/select2/css/select2.min.css', array(), $this->_hustle->get_const_var( "VERSION" ));
 
-        wp_register_style( 'wpoi_admin', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/admin.css', array(), $this->_hustle->get_const_var( "VERSION" ));
+        wp_register_style( 'wpoi_admin', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/admin.min.css', array(), $this->_hustle->get_const_var( "VERSION" ));
 
 		wp_enqueue_style( 'optin_admin_select2' );
         wp_enqueue_style( 'wp-color-picker' );

@@ -3,8 +3,8 @@ Contributors: josh401
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A9E5VNRBMVBCS
 Tags: wpedit, wp edit, editor, buttons, button, add, font, font style, font select, table, tables, visual editor, search, replace, colors, color, anchor, advance, advanced, links, link, popup, javascript, upgrade, update, admin, image, images, citations, preview, html, custom css, borders, pages, posts, colorful, php, php widget, shortcode, shortcodes, style, styles, plugin, login, excerpt, id, post, page, youtube, tinymce
 Requires at least: 3.9
-Tested up to: 4.9
-Stable tag: 4.0.2
+Tested up to: 4.9.6
+Stable tag: 4.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -105,6 +105,11 @@ OR...
 3. Eight tabs packed with options.
 
 == Changelog ==
+
+= 4.0.3 =
+* Updated readme.
+* Ensured plugin not generating any errors/warnings/notices with current version of WordPress.
+* WordPress 5.0 will include "Gutenberg" (please research); and I am working on a compatible WP Edit version.
 
 = 4.0.2 =
 * 11/17/2017

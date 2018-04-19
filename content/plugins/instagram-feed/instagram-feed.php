@@ -3,7 +3,7 @@
 Plugin Name: Instagram Feed
 Plugin URI: https://smashballoon.com/instagram-feed
 Description: Display beautifully clean, customizable, and responsive Instagram feeds
-Version: 1.8
+Version: 1.8.2
 Author: Smash Balloon
 Author URI: https://smashballoon.com/
 License: GPLv2 or later
@@ -23,7 +23,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'SBIVER', '1.8' );
+define( 'SBIVER', '1.8.2' );
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -82,7 +82,7 @@ function display_instagram($atts, $content = null) {
 	if ( empty( $sb_instagram_user_id ) ) {
 		$sb_instagram_settings = get_option( 'sb_instagram_settings' );
 		$at_arr = isset( $sb_instagram_settings[ 'sb_instagram_at' ] ) ? explode( '.', trim( $sb_instagram_settings[ 'sb_instagram_at' ] ), 2) : array();
-		$sb_instagram_user_id = $at_arr[0];
+		$sb_instagram_user_id = isset( $at_arr[0] ) ? $at_arr[0] : '';
 	}
 
 	// Access Token
@@ -98,19 +98,26 @@ function display_instagram($atts, $content = null) {
 		$at_back_string = '&quot;callback&quot;: &quot;';
 		$sb_instagram_user_id = '';
 		foreach ( $tokens as $token ) {
-				$parts = explode('.', $token );
-				$sb_instagram_user_id .= $parts[0].',';
-				$at_front_string .= $parts[0].',';
-				$at_middle_string .= $parts[1].',';
+			$parts = explode('.', $token );
+			$sb_instagram_user_id .= $parts[0].',';
+			$at_front_string .= $parts[0].',';
+			$at_middle_string .= $parts[1].',';
+			if ( isset( $parts[3] ) ) {
+				$at_back_string .= $parts[2].'.'.$parts[3].',';
+			} else {
 				$at_back_string .= $parts[2].',';
 			}
+		}
 		$sb_instagram_user_id = substr( $sb_instagram_user_id, 0, -1 );
 		$at_front_string = substr( $at_front_string, 0, -1 ) . '&quot;,';
 		$at_middle_string = substr( $at_middle_string, 0, -1 ) . '&quot;,';
 		$at_back_string = substr( $at_back_string, 0, -1 ) . '&quot;,';
+		$access_token = $tokens[0];
+	} else {
+		$access_token = isset( $options['sb_instagram_at'] ) ? trim( $options['sb_instagram_at'] ) : '';
 	}
 
-    //Container styles
+	//Container styles
     $sb_instagram_width = $atts['width'];
     $sb_instagram_width_unit = $atts['widthunit'];
     $sb_instagram_height = $atts['height'];
@@ -216,9 +223,9 @@ function display_instagram($atts, $content = null) {
 	$sbi_transient_name = substr($sbi_transient_name, 0, 45);
 	// delete_transient($sbi_transient_name);
 
-	//Check whether the cache transient exists in the database
-	( false === ( $sbi_cache_exists = get_transient( $sbi_transient_name ) ) ) ? $sbi_cache_exists = false : $sbi_cache_exists = true;
-	($sbi_cache_exists) ? $sbi_cache_exists = 'true' : $sbi_cache_exists = 'false';
+	//Check whether the cache transient exists in the database and is available for more than one more minute
+	$feed_expires = get_option( '_transient_timeout_'.$sbi_transient_name );
+	$sbi_cache_exists = $feed_expires !== false && ($feed_expires - time()) > 60 ? 'true' : 'false';
 
 	$sbiHeaderCache = 'false';
 	//If it's a user then add the header cache check to the feed
@@ -227,9 +234,9 @@ function display_instagram($atts, $content = null) {
 	$sbi_header_transient_name = substr($sbi_header_transient_name, 0, 45);
 
 	//Check for the header cache
-	( false === ( $sbi_header_cache_exists = get_transient( $sbi_header_transient_name ) ) ) ? $sbi_header_cache_exists = false : $sbi_header_cache_exists = true;
-
-	($sbi_header_cache_exists) ? $sbiHeaderCache = 'true' : $sbiHeaderCache = 'false';
+	$header_expires = get_option( '_transient_timeout_'.$sbi_header_transient_name );
+	$sbi_header_cache_exists = $header_expires !== false && ($header_expires - time()) > 60 ? 'true' : 'false';
+	$sbiHeaderCache = $sbi_header_cache_exists;
 
 	if ( isset( $options['check_api'] ) && ( $options['check_api'] === 'on' || $options['check_api']) && ( !isset( $options['sb_instagram_cache_time'] ) || ( isset( $options['sb_instagram_cache_time'] ) && (int)$options['sb_instagram_cache_time'] > 0 ) ) ) {
 		$sbi_cache_exists = 'true';
@@ -249,7 +256,7 @@ function display_instagram($atts, $content = null) {
 	}
 
 	if ( ($sbiHeaderCache == 'false' && $still_using_backup) || ($always_use_backup && isset( $sbi_header_transient_name )) ) {
-		$use_header_backup = sbi_should_use_backup_cache( $options['sb_instagram_at'], $sbi_header_transient_name, $feed_is_filtered, $always_use_backup, $sb_instagram_white_list, $backups_enabled);
+		$use_header_backup = sbi_should_use_backup_cache( $access_token, $sbi_header_transient_name, $feed_is_filtered, $always_use_backup, $sb_instagram_white_list, $backups_enabled);
 		if ( $use_header_backup ) {
 			$sbiHeaderCache = 'true';
 			$use_backup_json = ', &quot;useBackup&quot;: &quot;header&quot;';
@@ -261,7 +268,7 @@ function display_instagram($atts, $content = null) {
 		$still_using_backup = get_transient( '&'.$sbi_transient_name, false );
 	}
 	if ( ($sbi_cache_exists == 'false' && $still_using_backup) || $always_use_backup ) {
-		$use_feed_backup = sbi_should_use_backup_cache( $options['sb_instagram_at'], $sbi_transient_name, $feed_is_filtered, $always_use_backup, $sb_instagram_white_list, $backups_enabled );
+		$use_feed_backup = sbi_should_use_backup_cache( $access_token, $sbi_transient_name, $feed_is_filtered, $always_use_backup, $sb_instagram_white_list, $backups_enabled );
 
 		if ( $use_feed_backup ) {
 			$sbi_cache_exists = 'true';
@@ -300,11 +307,8 @@ function display_instagram($atts, $content = null) {
 
     //Error messages
     $sb_instagram_error = false;
-    if( empty($sb_instagram_user_id) || !isset($sb_instagram_user_id) ){
-        $sb_instagram_content .= '<div class="sb_instagram_error"><p>' . __( 'Please enter a User ID on the Instagram Feed plugin Settings page.', 'instagram-feed' ) . '</p></div>';
-        $sb_instagram_error = true;
-    }
-    if( empty($options[ 'sb_instagram_at' ]) || !isset($options[ 'sb_instagram_at' ]) ){
+
+    if ( empty( $access_token ) ){
         $sb_instagram_content .= '<div class="sb_instagram_error"><p>' . __( 'Please enter an Access Token on the Instagram Feed plugin Settings page.', 'instagram-feed' ) . '</p></div>';
         $sb_instagram_error = true;
     }
@@ -329,10 +333,14 @@ function display_instagram($atts, $content = null) {
     $sb_instagram_content .= '</div>'; //End #sb_instagram
 
     //If using an ajax theme then add the JS to the bottom of the feed
-    if($sb_instagram_ajax_theme){
-        $sb_instagram_content .= '<script type="text/javascript">var sb_instagram_js_options = {"sb_instagram_at":"'.trim($options['sb_instagram_at']).'"};</script>';
-        $sb_instagram_content .= "<script type='text/javascript' src='".plugins_url( '/js/sb-instagram.min.js?ver='.SBIVER , __FILE__ )."'></script>";
-    }
+	//If using an ajax theme then add the JS to the bottom of the feed
+	if($sb_instagram_ajax_theme){
+		$font_method = isset( $options['sbi_font_method'] ) ? $options['sbi_font_method'] : 'svg';
+		$access_token = isset( $options['sb_instagram_at'] ) ? $options['sb_instagram_at'] : '';
+
+		$sb_instagram_content .= '<script type="text/javascript">var sb_instagram_js_options = {"sb_instagram_at":"'.sbi_get_parts( $access_token ).'", "font_method":"'.$font_method.'"};</script>';
+		$sb_instagram_content .= "<script type='text/javascript' src='".plugins_url( '/js/sb-instagram.js?ver='.SBIVER , __FILE__ )."'></script>";
+	}
  
     //Return our feed HTML to display
     return $sb_instagram_content;
@@ -491,11 +499,16 @@ function sbi_get_cache() {
 	$should_use_backup_feed = isset( $_POST['useBackupFeed'] ) && sanitize_text_field( $_POST['useBackupFeed'] ) == 'true' ? true : false;
 	$feed_cache_transient_data = get_transient( $transient_names['feed'] );
 	$warning_message_data = '';
+	$backups_enabled = isset( $options['sb_instagram_backup'] ) ? $options['sb_instagram_backup'] !== '' : true;
 
 	if ( ! empty( $feed_cache_transient_data ) ) {
 		$feed_cache_data = $feed_cache_transient_data;
-	} elseif ( isset( $options['check_api'] ) && $options['check_api'] === 'on' || $options['check_api'] ) {
+	} elseif ( ! isset( $options['check_api'] ) || $options['check_api'] === 'on' || $options['check_api'] === true ) {
 		$feed_cache_data = '{%22error%22:%22tryfetch%22}';
+	} elseif ( !get_transient( 'sbi_doing_tryfetch_once' ) && $backups_enabled ) {
+		set_transient( 'sbi_doing_tryfetch_once', 'true', 60*60 );
+		$feed_cache_data = '{%22error%22:%22tryfetch%22}';
+		$warning_message_data = ',%22tryfetchonce%22:{%22tryfetchonce%22:%22tryfetchonce%22}';
 	} else {
 		$feed_cache_data = '{%22error%22:%22nocache%22}';
 	}
@@ -514,6 +527,10 @@ function sbi_get_cache() {
 		$header_cache_data = $header_cache_data_transient_data;
 	} elseif ( $doing_tryfetch ) {
 		$header_cache_data = '{%22error%22:%22tryfetch%22}';
+	} elseif ( !get_transient( 'sbi_doing_tryfetch_once' ) && $backups_enabled ) {
+		set_transient( 'sbi_doing_tryfetch_once', 'true', 60*60 );
+		$feed_cache_data = '{%22error%22:%22tryfetch%22}';
+		$warning_message_data = ',%22tryfetchonce%22:{%22tryfetchonce%22:%22tryfetchonce%22}';
 	} elseif ( empty( $header_cache_data_transient_data ) || $still_using_backup ) {
 		$backup_header_cache = get_option( '!' . $transient_names['header'] );
 		$header_cache_data = ! empty( $backup_header_cache ) ? $backup_header_cache : '{%22error%22:%22nocache%22}';
@@ -568,6 +585,28 @@ function sbi_clear_backups() {
 }
 add_action( 'wp_ajax_sbi_clear_backups', 'sbi_clear_backups' );
 
+function sbi_maybe_clean( $maybe_dirty ) {
+	if ( substr_count ( $maybe_dirty , '.' ) < 3 ) {
+		return $maybe_dirty;
+	}
+
+	$parts = explode( '.', trim( $maybe_dirty ) );
+	$last_part = $parts[2] . $parts[3];
+	$cleaned = $parts[0] . '.' . base64_decode( $parts[1] ) . '.' . base64_decode( $last_part );
+
+	return $cleaned;
+}
+function sbi_get_parts( $whole ) {
+	if ( substr_count ( $whole , '.' ) !== 2 ) {
+		return $whole;
+	}
+
+	$parts = explode( '.', trim( $whole ) );
+	$return = $parts[0] . '.' . base64_encode( $parts[1] ). '.' . base64_encode( $parts[2] );
+
+	return substr( $return, 0, 40 ) . '.' . substr( $return, 40, 100 );
+}
+
 //Enqueue stylesheet
 add_action( 'wp_enqueue_scripts', 'sb_instagram_styles_enqueue' );
 function sb_instagram_styles_enqueue() {
@@ -591,17 +630,13 @@ function sb_instagram_scripts_enqueue() {
     $sb_instagram_settings = get_option('sb_instagram_settings');
 
     //Access token
-    isset($sb_instagram_settings[ 'sb_instagram_at' ]) ? $sb_instagram_at = trim($sb_instagram_settings['sb_instagram_at']) : $sb_instagram_at = '';
 	$font_method = isset( $sb_instagram_settings['sbi_font_method'] ) ? $sb_instagram_settings['sbi_font_method'] : 'svg';
+	$access_token = isset( $sb_instagram_settings['sb_instagram_at'] ) ? $sb_instagram_settings['sb_instagram_at'] : '';
 	$disable_font_awesome = isset($sb_instagram_settings['sb_instagram_disable_awesome']) ? $sb_instagram_settings['sb_instagram_disable_awesome'] : false;
 
 	if ( $font_method === 'fontfile' && ! $disable_font_awesome ) {
 		wp_enqueue_style( 'sb-font-awesome', 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css' );
 	}
-    $data = array(
-        'sb_instagram_at' => $sb_instagram_at,
-        'font_method' => $font_method,
-    );
 
     isset($sb_instagram_settings[ 'sb_instagram_ajax_theme' ]) ? $sb_instagram_ajax_theme = trim($sb_instagram_settings['sb_instagram_ajax_theme']) : $sb_instagram_ajax_theme = '';
     ( $sb_instagram_ajax_theme == 'on' || $sb_instagram_ajax_theme == 'true' || $sb_instagram_ajax_theme == true ) ? $sb_instagram_ajax_theme = true : $sb_instagram_ajax_theme = false;
@@ -609,8 +644,13 @@ function sb_instagram_scripts_enqueue() {
     //Enqueue it to load it onto the page
     if( !$sb_instagram_ajax_theme ) wp_enqueue_script('sb_instagram_scripts');
 
-    //Pass option to JS file
-    wp_localize_script('sb_instagram_scripts', 'sb_instagram_js_options', $data);
+	//Pass option to JS file
+	$font_method = isset( $sb_instagram_settings['sbi_font_method'] ) ? $sb_instagram_settings['sbi_font_method'] : 'svg';
+	$data = array(
+		'sb_instagram_at' => sbi_get_parts( $access_token ),
+		'font_method' => $font_method,
+	);
+	wp_localize_script('sb_instagram_scripts', 'sb_instagram_js_options', $data);
 }
 
 //Custom CSS

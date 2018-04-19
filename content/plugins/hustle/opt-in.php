@@ -3,7 +3,7 @@
 Plugin Name: Hustle Pro
 Plugin URI: https://premium.wpmudev.org/project/hustle/
 Description: Start collecting email addresses and quickly grow your mailing list with big bold pop-ups, slide-ins, widgets, or in post opt-in forms.
-Version: 3.0.1
+Version: 3.0.2
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org
 WDP ID: 1107020
@@ -101,13 +101,12 @@ if( version_compare(PHP_VERSION, '5.3.2', ">=") ) {
 require_once 'lib/wpmu-lib/core.php';
 require_once 'opt-in-static.php';
 require_once 'assets/shared-ui/plugin-ui.php';
-require_once 'inc/providers/opt-in-e-newsletter.php';
 
 if( !class_exists( "Opt_In" ) ):
 
 class Opt_In extends Opt_In_Static{
 
-	const VERSION = "3.0.1";
+	const VERSION = "3.0.2";
 
 	const TEXT_DOMAIN = "hustle";
 
@@ -140,6 +139,12 @@ class Opt_In extends Opt_In_Static{
 			"file_name" => "opt-in-campaignmonitor.php",
 			"class_name" => "Opt_In_Campaignmonitor"
 		),
+        array(
+            "id" => "e_newsletter",
+            "name" => "e-Newsletter" ,
+            "file_name" => "opt-in-e-newsletter.php",
+            "class_name" => "Opt_In_E_Newsletter"
+        ),
 		array(
 			"id" => "mailchimp",
 			"name" => "MailChimp",
@@ -200,6 +205,19 @@ class Opt_In extends Opt_In_Static{
 			"file_name" => "opt-in-sendinblue.php",
 			"class_name" => "Opt_In_SendinBlue",
 		),
+		array(
+			"id" => "mailerlite",
+			"name" => "MailerLite",
+			"file_name" => "opt-in-mailerlite.php",
+			"class_name" => "Opt_In_MailerLite",
+		),
+
+		array(
+			"id" => "icontact",
+			"name" => "IContact",
+			"file_name" => "opt-in-icontact.php",
+			"class_name" => "Opt_In_IContact",
+		),
 	);
 
 	/**
@@ -210,11 +228,6 @@ class Opt_In extends Opt_In_Static{
 		'mautic',
 		'constantcontact'
 	);
-
-	/**
-	 * @var Opt_In_E_Newsletter $_e_newsletter
-	 */
-	protected static $_e_newsletter;
 
 	/**
 	 * @var $_email_services Hustle_Email_Services
@@ -254,16 +267,6 @@ class Opt_In extends Opt_In_Static{
 	 */
 	function set_email_services( Hustle_Email_Services $email_services){
 		self::$_email_services = $email_services;
-	}
-
-	/**
-	 * Sets Opt_In_E_Newsletter instance
-	 *
-	 * @since 2.0
-	 * @param $e_newsletter Opt_In_E_Newsletter
-	 */
-	function set_e_newsletter( Opt_In_E_Newsletter $e_newsletter ){
-		self::$_e_newsletter = $e_newsletter;
 	}
 
 	/**
@@ -750,16 +753,6 @@ class Opt_In extends Opt_In_Static{
 			echo $html;
 		else
 			return $html;
-	}
-
-	/**
-	 * Returns instance of Opt_In_E_Newsletter
-	 *
-	 * @since 1.1.1
-	 * @return Opt_In_E_Newsletter
-	 */
-	public function get_e_newsletter(){
-		return self::$_e_newsletter;
 	}
 
 	/**

@@ -79,7 +79,7 @@ class Opt_In_Mad_Mimi extends Opt_In_Provider_Abstract implements  Opt_In_Provid
 		$username 	= self::_get_username( $module );
 		$list_id 	= self::_get_email_list( $module );
 
-		if ( $this->email_exist( $d['email'], $api_key, $username ) ) {
+		if ( $this->email_exist( $d['email'], $api_key, $username, $list_id ) ) {
 			$err = new WP_Error();
 			$err->add( 'email_exist', __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
 			return $err;
@@ -134,14 +134,25 @@ class Opt_In_Mad_Mimi extends Opt_In_Provider_Abstract implements  Opt_In_Provid
 	 *
 	 * @param $email string - Current guest user email address.
 	 * @param $module object - Hustle_Module_Model
+	 *
 	 * @return bool Returns true if the specified email already subscribe otherwise false.
 	 */
-	function email_exist( $email, $api_key, $username ) {
+	function email_exist( $email, $api_key, $username, $list_id ) {
 		$api = self::api( $username, $api_key );
 		$res = $api->search_by_email( $email );
 
 		if ( is_object( $res ) && ! empty( $res->member ) && $email == $res->member->email ) {
-			return true;
+			$_lists = $api->search_email_lists( $email );
+			if( !is_wp_error( $_lists ) && !empty( $_lists ) && is_array( $_lists ) ) {
+				foreach(  ( array) $_lists as $list ){
+					$list = (object) (array) $list;
+					$list = $list->{'@attributes'};
+					if ( $list['id'] == $list_id ) {
+						return true;
+					}
+				}
+			}
+
 		}
 		return false;
 	}

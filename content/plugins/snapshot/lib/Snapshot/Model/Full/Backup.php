@@ -306,6 +306,82 @@ class Snapshot_Model_Full_Backup extends Snapshot_Model_Full_Abstract {
 	}
 
 	/**
+	 * Gets offset base value
+	 *
+	 * @param string $frequency Optional frequency for the offset base.
+	 *
+	 * @return int
+	 */
+	public function get_offset_base ($frequency=false) {
+		$offset = $this->get_config('schedule_offset', 0);
+		if (empty($frequency)) $frequency = $this->get_frequency();
+		if ('weekly' === $frequency && $offset > 6) return 0;
+
+		return (int)$offset;
+	}
+
+	/**
+	 * Gets concrete offset, relative to timestamp
+	 *
+	 * @param int $timestamp Date to calculate offset relative to.
+	 * @param string $frequency Optional frequency for the offset base.
+	 *
+	 * @return int
+	 */
+	public function get_offset ($timestamp, $frequency=false) {
+		if (empty($frequency)) $frequency = $this->get_frequency();
+		$base = $this->get_offset_base($frequency);
+		$offset = $timestamp;
+
+		if ('weekly' === $frequency) {
+			$monday = Snapshot_Model_Time::get()->get_next_monday();
+			$next = $base * DAY_IN_SECONDS;
+
+			if ($timestamp > $monday + $next) {
+				// Ensure we're in the future.
+				$monday += 7 * DAY_IN_SECONDS;
+			}
+			if ($monday + $next > $timestamp + (7 * DAY_IN_SECONDS)) {
+				// Ensure we're not too far in the future.
+				$monday -= 7 * DAY_IN_SECONDS;
+			}
+
+			$offset = $monday + $next;
+		} else if ('monthly' === $frequency) {
+			$offset = strtotime(date('Y-m-01 00:00:00', $timestamp));
+			$next = $base > 1 ? ($base - 1) * DAY_IN_SECONDS : 0;
+			// Ensure we're in the future
+			if ($timestamp > $offset + $next) $offset += (int)date('t', $offset) * DAY_IN_SECONDS;
+			$offset += $next;
+		}
+
+		return $offset;
+	}
+
+	/**
+	 * Gets a list of offsets as offset base, offset weekday pairs
+	 *
+	 * @return array
+	 */
+	public function get_offsets ($frequency=false) {
+		if (empty($frequency)) $frequency = $this->get_frequency();
+		$offsets = array();
+
+		if ('weekly' === $frequency) {
+			$monday = Snapshot_Model_Time::get()->get_next_monday();
+			foreach (range(0, 6) as $wday) {
+				$offsets[$wday] = date_i18n( 'l', $monday + ($wday*DAY_IN_SECONDS));
+			}
+		} else if ('monthly' === $frequency) {
+			foreach (range(1, 30) as $mday) {
+				$offsets[$mday] = $mday;
+			}
+		}
+
+		return $offsets;
+	}
+
+	/**
 	 * Check if we have any backups here
 	 *
 	 * @return bool

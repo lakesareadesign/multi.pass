@@ -12,6 +12,24 @@ class Snapshot_Model_Time {
 	}
 
 	/**
+	 * Returns the very next Monday in future, relative to timestamp
+	 *
+	 * @param int $timestamp Pivot date for finding next Monday as UNIX timestamp.
+	 *
+	 * @return int
+	 */
+	public function get_next_monday ($timestamp=false) {
+		$timestamp = !empty($timestamp)
+			? $timestamp
+			: $this->get_utc_time()
+		;
+		$monday = strtotime('this Monday', $timestamp);
+		if ($monday < $timestamp) $monday += 7 * DAY_IN_SECONDS;
+
+		return $monday;
+	}
+
+	/**
 	 * Centralized local timestamp fetching
 	 *
 	 * @return int UNIX timestamp

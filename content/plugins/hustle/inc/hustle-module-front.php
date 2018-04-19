@@ -131,8 +131,8 @@ class Hustle_Module_Front
 
 		wp_register_style( 'hstl-roboto', 'https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i', $this->_hustle->get_const_var(  "VERSION" ) );
 		wp_register_style( 'hstl-opensans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i', $this->_hustle->get_const_var(  "VERSION" ) );
-		wp_register_style('hustle_front', $this->_hustle->get_static_var(  "plugin_url" )  . 'assets/css/front.css', array( 'dashicons' ), $this->_hustle->get_const_var(  "VERSION" ) );
-		wp_register_style('hustle_front_ie', $this->_hustle->get_static_var(  "plugin_url" )  . 'assets/css/ie-front.css', array( 'dashicons' ), $this->_hustle->get_const_var(  "VERSION" ) );
+		wp_register_style('hustle_front', $this->_hustle->get_static_var(  "plugin_url" )  . 'assets/css/front.min.css', array( 'dashicons' ), $this->_hustle->get_const_var(  "VERSION" ) );
+		wp_register_style('hustle_front_ie', $this->_hustle->get_static_var(  "plugin_url" )  . 'assets/css/ie-front.min.css', array( 'dashicons' ), $this->_hustle->get_const_var(  "VERSION" ) );
 
 		wp_enqueue_style('hstl-roboto');
 		wp_enqueue_style('hstl-opensans');
@@ -159,6 +159,7 @@ class Hustle_Module_Front
 		$modules = Hustle_Module_Collection::instance()->get_all(true);
 		$module_front_data = array();
 		$has_dropdown = 0;
+		$enqueue_adblock_detector = false;
 		foreach( $modules as $module ) {
 			if ( $module->module_type == 'social_sharing' ) {
 				$data = array(
@@ -199,7 +200,16 @@ class Hustle_Module_Front
 
 			$is_active = (bool) $module->active;
 			$is_allowed = $module->is_allowed_to_display( $data['settings'], $module->module_type );
-			$is_content_module = ( isset($data['settings']['widget_enabled']) && $data['settings']['widget_enabled'] === 'true' ) || ( isset($data['settings']['shortcode_enabled']) && $data['settings']['shortcode_enabled'] === 'true' );
+			$is_content_module = (
+					// Is embed or social sharing (migrating can cause popups or slide ins to have widget/shortcodes settings enabled).
+					$module->module_type === 'embedded' || $module->module_type === 'social_sharing'
+				)
+				&& (
+					// Is widget?
+					( isset($data['settings']['widget_enabled']) && $data['settings']['widget_enabled'] === 'true' )
+					// Is shortcode?
+					|| ( isset($data['settings']['shortcode_enabled']) && $data['settings']['shortcode_enabled'] === 'true' )
+				);
 			if ( $is_active && ( $is_allowed || $is_content_module ) ){
 
 				if ( $is_content_module && !$is_allowed ) {
@@ -213,11 +223,27 @@ class Hustle_Module_Front
 					$has_dropdown++;
 				}
 			}
+			if (
+				// If Trigger exists.
+				!empty($data['settings']['triggers']['trigger'])
+				// If trigger is adblock.
+				&& $data['settings']['triggers']['trigger'] === 'adblock'
+				// If on_adblock toggle is enabled.
+				&& !empty($data['settings']['triggers']['on_adblock'])
+			) {
+				// Bring in the fake ad script.
+				$enqueue_adblock_detector = true;
+			}
 		}
 		if ( $has_dropdown > 0 ) {
 			add_action ('wp_enqueue_scripts',  array($this, 'enqueue_select2_script') );
 		}
 		$this->_modules = $module_front_data;
+
+		// Look for adblocker.
+		if( $enqueue_adblock_detector ) {
+			wp_enqueue_script('hustle_front_ads', $this->_hustle->get_static_var(  "plugin_url" ) . 'assets/js/ads.js', array(),'1.0', $this->_hustle->get_const_var(  "VERSION" ), false);
+		}
 	}
 
 	/**
@@ -227,20 +253,6 @@ class Hustle_Module_Front
 		$has_modules = ! empty( $this->_modules );
 
 		return apply_filters( 'hustle_front_handler', $has_modules );
-	}
-
-	/**
-	 * Returns array of terms ids based on $post and $tax
-	 *
-	 * @param $post WP_Post|int
-	 * @param $tax string taxonomy
-	 * @return array of term ids
-	 */
-	private function _get_term_ids( $post, $tax ){
-
-		$func = create_function('$obj', 'return (string)$obj->term_id;');
-		$terms = get_the_terms( $post, $tax );
-		return array_map( $func, empty( $terms ) ? array( ) : $terms );
 	}
 
 	/**
@@ -306,12 +318,24 @@ class Hustle_Module_Front
 	function shortcode( $atts, $content ){
 		$atts = shortcode_atts( array(
 			'id' => '',
+			'type' => 'embedded'
 		), $atts, self::SHORTCODE );
+		// Enforce embedded/social_sharing type.
+		$enforce_type = true;
 
 		if( empty( $atts['id'] ) ) return "";
 
-		$module = Hustle_Module_Model::instance()->get_by_shortcode( $atts['id'] );
+		// If shortcode type is not embed or sshare.
+		if ($atts['type'] !== 'embedded' && $atts['type'] !== 'social_sharing') {
+			// Do not enforce embedded/social_sharing type.
+			$enforce_type = false;
+		}
+
+		// Get the module data.
+		$module = Hustle_Module_Model::instance()->get_by_shortcode( $atts['id'], $enforce_type );
+		// Type from module data.
 		$type = $module->module_type;
+
 		if ( $module->module_type == 'social_sharing' ) {
 			$module = Hustle_SShare_Model::instance()->get( $module->id );
 			$settings = $module->get_sshare_display_settings();
@@ -325,13 +349,10 @@ class Hustle_Module_Front
 		if( !$module || !$module->active ) return "";
 
 		/**
-		 * Maybe add trigger link
+		 * Maybe add trigger link (For popups and slideins).
 		 */
-		if( !empty( $content ) && !empty( $type ) && in_array( $type, array("popup", "slidein") ) )
+		if( !empty( $content ) && ($type === "popup" || $type === "slidein" ) )
 			return sprintf("<a href='#' class='%s' data-id='%s' data-type='%s'>%s</a>", self::Shortcode_Trigger_CSS_CLass . " hustle_module_" . $module->id, $module->id, esc_attr( $type ),  $content );
-
-		// if( !$module->settings->shortcode->show_in_front()  ) return "";
-
 
 
 		return sprintf("<div class='%s' data-type='shortcode' data-id='%s'></div>", $shortcode_class . " hustle_module_" . esc_attr( $module->id ) . " module_id_" . esc_attr( $module->id ), esc_attr( $module->id ));

@@ -32,14 +32,7 @@
 				}
 			}
 
-			// For IE Fix.
-			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-				.hustle-modal-optin_form:not(.hustle-modal-optin_groups){
-					display: block;
-				}
-			}
-
-			.hustle-modal-optin_form:not(.hustle-modal-optin_groups){
+			.hustle-modal-optin_form:not(.hustle-modal-optin_groups) {
 				max-height: 100%;
 			}
 
@@ -47,7 +40,7 @@
 				display: flex;
 				flex: 1;
 				flex-direction: column;
-				height: calc( 60vh - 150px );
+				height: calc(60vh - 150px);
 				overflow-y: auto;
 				overflow-x: hidden;
 
@@ -212,39 +205,77 @@
 			}
 		}
 
+		&.hustle-size-small {
+
+			aside {
+
+				.hustle-modal-image {
+
+					&.hustle-modal-image_fill,
+					&.hustle-modal-image_contain,
+					&.hustle-modal-image_cover {
+
+						@include screen("small") {
+							flex: 0 0 auto;
+						}
+					}
+				}
+
+				.hustle-modal-optin_wrap {
+
+					@include screen("small") {
+						height: auto;
+						flex-direction: column;
+						align-items: unset;
+						margin: 0;
+					}
+				}
+
+				&:only-child {
+
+					@include screen("small") {
+						flex: 0 0 auto;
+					}
+				}
+
+				@include screen("small") {
+					flex: 0 0 auto;
+				}
+			}
+
+			section {
+
+				@media (min-height: 737px) {
+					max-height: unset;
+				}
+	
+				@media (min-height: 890px) {
+					max-height: unset;
+				}
+	
+				@media (min-height: 920px) {
+					max-height: unset;
+				}
+			}
+
+			&.hustle-modal-image_right {
+	
+				@include screen("small") {
+					flex-direction: column-reverse;
+				}
+			}
+
+			@include screen("small") {
+				max-height: unset;
+				flex-wrap: nowrap;
+				flex-direction: column;
+			}
+		}
+
 		@include screen("small") {
 			max-height: 70vh;
 			flex-wrap: wrap;
 			flex-direction: row;
-		}
-	}
-}
-
-// Fix for IE.
-@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
-	.wph-modal {
-		.hustle-modal-four {
-			.hustle-modal-body {
-				aside {
-					.hustle-modal-optin_wrap{
-						display: block;
-						flex:none;
-					}
-				}
-			}
-		}
-	}
-}
-
-.hustle_module_shortcode_wrap,
-.hustle_module_widget_wrap {
-	.hustle-modal-four {
-		.hustle-modal-body {
-			aside{
-				.hustle-modal-optin_form:not(.hustle-modal-optin_groups) {
-					max-height:100%;
-				}
-			}
 		}
 	}
 }

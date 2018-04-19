@@ -415,6 +415,13 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 		$this->_model->set_config( 'frequency', $data->value( 'frequency' ) );
 		$this->_model->set_config( 'schedule_time', $data->value( 'schedule_time' ) );
 
+		$offset = 0;
+		if ($data->has('offset') && $data->is_numeric('offset')) {
+			$valid_freqs = array('weekly', 'monthly');
+			if ($data->is_in_range('frequency', $valid_freqs)) $offset = (int)$data->value('offset', 0);
+		}
+		$this->_model->set_config('schedule_offset', $offset);
+
 		if ( $data->has( 'backups-limit' ) ) {
 			$this->_update_settings( $data );
 		}

@@ -1107,6 +1107,11 @@ class Hustle_Migration
 			foreach( $module->shortcode_conversions as $conversion ) {
 				$ss->add_meta( 'shortcode_conversion', $conversion );
 			}
+
+			// Page views.
+			foreach( $module->page_shares as $page_share ) {
+				$ss->add_meta( $page_share->meta_key, $page_share->meta_value );
+			}
 		}
 	}
 

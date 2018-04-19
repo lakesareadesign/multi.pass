@@ -68,6 +68,13 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 				die();
 			}
 
+			if ( ( $destination_info['protocol'] == "sftp" && version_compare( phpversion(), "5.3.8", "<" ) ) ) {
+				$this->error_array['errorStatus']  = true;
+				$this->error_array['errorArray'][] = "Error: the SFTP destination requires PHP v5.3.8+.";
+				echo json_encode( $this->error_array );
+				die();
+			}
+
 			if ( sanitize_text_field( $_POST['snapshot_action'] ) == "connection-test" ) {
 				$this->load_class_destination( $destination_info );
 				//echo "destination_info<pre>"; print_r($this->destination_info); echo "</pre>";
@@ -558,7 +565,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 				                                        . " Port: " . $this->destination_info['port']
 				                                        . " Timeout: " . $this->destination_info['timeout'];
 
-				set_include_path( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'phpseclib0.2.2' . PATH_SEPARATOR . get_include_path() );
+				set_include_path( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'phpseclib1.0.10' . PATH_SEPARATOR . get_include_path() );
 				require_once( 'Net/SFTP.php' );
 
 				$this->sftp_connection = new Net_SFTP( $this->destination_info['address'], $this->destination_info['port'], $this->destination_info['timeout'] );
@@ -707,7 +714,6 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 		}
 
 		function send_file( $filename ) {
-
 			if ( $this->destination_info['protocol'] == "sftp" ) {
 				$put_ret = $this->sftp_connection->put( basename( $filename ), $filename, NET_SFTP_LOCAL_FILE );
 				if ( $put_ret != true ) {
@@ -724,7 +730,6 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 					return $this->error_array;
 				}
 			} else {
-
 				if ( ! ftp_put( $this->ftp_connection, basename( $filename ), $filename, FTP_BINARY ) ) {
 					$this->error_array['errorStatus']     = true;
 					$this->error_array['responseArray'][] = "ftp_put failed: " . basename( $filename );
@@ -743,6 +748,81 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 					return $this->error_array;
 				}
 			}
+		}
+
+		/**
+		 * Obtains remote items list
+		 *
+		 * @since 3.1.6-beta.1
+		 *
+		 * @param string $root Filename prefix to match.
+		 *
+		 * @return array A list of remote items
+		 */
+		public function list_remote_items ($root) {
+			$items = array();
+
+			if ($this->set_remote_directory()) {
+				if ('sftp' === $this->destination_info['protocol']) {
+					$raw = $this->sftp_connection->rawlist();
+					$results = array();
+					foreach ($raw as $filename => $item) {
+						if (!preg_match('/^' . preg_quote($root, '/') . '.*$/', $filename)) continue;
+						$results[$item['mtime']] = $filename;
+					}
+					ksort($results);
+					$items = array_filter(array_values($results));
+				} else {
+					// Plain ol' FTP - sort by timestamp, reversed
+					$items = ftp_nlist($this->ftp_connection, "-rt ./{$root}*");
+				}
+			}
+
+			return $items;
+		}
+
+		/**
+		 * Parses response items into shared format
+		 *
+		 * @since 3.1.6-beta.1
+		 *
+		 * @param array $items Raw remote items
+		 *
+		 * @return array
+		 */
+		public function get_prepared_items ($items) {
+			$prepared = array();
+
+			// Faking the timestamp pivot point
+			$initial_ts = time() - (count($items) * DAY_IN_SECONDS) - DAY_IN_SECONDS;
+			foreach ($items as $idx => $item) {
+				// Fake the timestamp
+				$ts = $initial_ts + ($idx * DAY_IN_SECONDS);
+				$prepared[$ts] = array(
+					'created' => date('r', $ts),
+					'title' => $item,
+					'id' => $item,
+				);
+			}
+			return $prepared;
+		}
+
+		/**
+		 * Removes remote file
+		 *
+		 * Assumes remote connection has been established already.
+		 *
+		 * @since 3.1.6-beta.1
+		 *
+		 * @param string $file_id Destination-dependent file ID.
+		 *
+		 * @return bool
+		 */
+		public function remove_file ($file_id) {
+			return 'sftp' === $this->destination_info['protocol']
+				? $this->sftp_connection->delete($file_id)
+				: ftp_delete($this->ftp_connection, $file_id)
+			;
 		}
 
 		function sendfile_to_remote( $destination_info, $filename ) {

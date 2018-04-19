@@ -31,16 +31,6 @@ class Hustle_Module_Front_Ajax {
 		if( !is_email( $form_data['email'] ) )
 			wp_send_json_error( __("Invalid email address", Opt_In::TEXT_DOMAIN) );
 
-		$e_newsletter_data = array();
-		$e_newsletter_data['member_email'] = $form_data['email'];
-
-		if( isset( $form_data['first_name'] ) )
-			$e_newsletter_data['member_fname'] = $form_data['first_name'];
-
-		if( isset( $form_data['last_name'] ) )
-			$e_newsletter_data['member_lname'] = $form_data['last_name'];
-
-
 		$module = Hustle_Module_Model::instance()->get( $data['module_id'] );
 
 		$module_type = $data['type'];
@@ -50,12 +40,6 @@ class Hustle_Module_Front_Ajax {
 		$is_save_to_local = (bool) $module->content->save_local_list;
 		$is_test_mode = (bool) $module->test_mode;
 		$has_active_email_service = (bool) $module->content->active_email_service;
-		$double_opt_in = $module->get_e_newsletter_double_opt_in();
-		$subscribe = $double_opt_in ? "" : 1;
-
-		if( $this->_hustle->get_e_newsletter()->is_plugin_active() && $module->sync_with_e_newsletter ){
-			$this->_hustle->get_e_newsletter()->subscribe( $e_newsletter_data, $module->get_e_newsletter_groups(), $subscribe );
-		}
 
 		if( $has_active_email_service ){
 

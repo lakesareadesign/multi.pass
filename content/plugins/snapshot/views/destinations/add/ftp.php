@@ -50,7 +50,7 @@
 
 			<?php $this->input_error_message( 'protocol' ); ?>
 
-			<p><small><?php echo sprintf( __( 'The FTP option will use the standard PHP library functions. Choosing FTPS will use the <a target="_blank" href="%s">PHP Secure Communications Library</a>This option may not work depending on how your PHP binaries are compiled. FTPS with TSL/SSL attemts a secure connection, however it will only work if PHP and OpenSSL are properly configured on your host and destination host. This option will also not work with Windows using the default PHP binaries. Check the PHP docs for ftp_ssl_connection.', SNAPSHOT_I18N_DOMAIN ), esc_url( '#' ) ); ?></small></p>
+			<p><small><?php echo sprintf( __( 'The FTP option will use the standard PHP library functions. Choosing FTPS will use the <a target="_blank" href="%s">PHP Secure Communications Library</a>This option may not work depending on how your PHP binaries are compiled. FTPS with TSL/SSL attemts a secure connection, however it will only work if PHP and OpenSSL are properly configured on your host and destination host. This option will also not work with Windows using the default PHP binaries. Check the PHP docs for ftp_ssl_connection. For SFTP, a PHP version equal or greater than 5.3.8 is required.', SNAPSHOT_I18N_DOMAIN ), esc_url( '#' ) ); ?></small></p>
 
 		</div>
 

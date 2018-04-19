@@ -51,12 +51,8 @@ class Hustle_Settings_Admin
 
 		$this->_hustle->render("admin/settings", array(
 			"user_name" => ucfirst($current_user->display_name),
-			"enews_sync_state_toggle_nonce" => wp_create_nonce( "optin_sync_toggle" ),
-			"enews_sync_setup_nonce" => wp_create_nonce( "optin_sync_setup" ),
-			"enews_double_optin_state_toggle_nonce" => wp_create_nonce( "optin_double_optin_toggle" ),
 			"modules" => Hustle_Module_Collection::instance()->get_all(true),
 			"modules_state_toggle_nonce" => wp_create_nonce( "hustle_modules_toggle" ),
-			"is_e_newsletter_active" => $this->_hustle->get_e_newsletter()->is_plugin_active(),
 		));
 	}
 

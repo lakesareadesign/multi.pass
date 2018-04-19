@@ -41,15 +41,48 @@
 
 		footer {
 			display: flex;
-			flex-wrap: wrap;
 			flex-direction: column;
 			padding: 10px 20px;
 			background: rgba(0,0,0,0.08);
 
 			@include screen("small") {
+				flex-wrap: wrap;
 				flex-direction: row-reverse;
 				justify-content: flex-start;
 				align-items: center;
+			}
+		}
+
+		&.hustle-size-small {
+
+			section {
+
+				.hustle-modal-image {
+
+					+ .hustle-modal-message {
+
+						@include screen("small") {
+							max-height: unset;
+						}
+					}
+				}
+
+				.hustle-modal-message {
+
+					@include screen("small") {
+						max-height: unset;
+					}
+				}
+			}
+
+			footer {
+
+				@include screen("small") {
+					flex-wrap: nowrap;
+					flex-direction: column;
+					justify-content: unset;
+					align-items: unset;
+				}
 			}
 		}
 	}

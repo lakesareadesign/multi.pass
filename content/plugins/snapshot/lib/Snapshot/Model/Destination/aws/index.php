@@ -184,6 +184,89 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				return $this->error_array;
 			}
 
+			/**
+			 * Obtains remote items list
+			 *
+			 * @since 3.1.6-beta.1
+			 *
+			 * @param string $root Filename prefix to match.
+			 *
+			 * @return array A list of remote items
+			 */
+			public function list_remote_items ($root) {
+				$items = array();
+
+				$prefix = array();
+				if (!empty($this->destination_info['directory'])) {
+					$dirs = explode(',', $this->destination_info['directory']);
+					$prefix = !empty($dirs[0]) ? array($dirs[0]) : array();
+				}
+				$prefix[] = $root;
+
+				$resp = false;
+				try {
+					$resp = $this->aws_connection->list_objects(
+						$this->destination_info['bucket'],
+						array(
+							'prefix' => join('/', $prefix),
+						)
+					);
+				} catch (Exception $e) {
+					$this->handle_exception($e, 'listing');
+				}
+
+				if ($resp && $resp->isOk()) {
+					foreach ($resp->body->Contents as $item) {
+						$items[] = $item;
+					}
+
+				}
+				return $items;
+			}
+
+			/**
+			 * Parses response items into shared format
+			 *
+			 * @since 3.1.6-beta.1
+			 *
+			 * @param array $items Raw remote items
+			 *
+			 * @return array
+			 */
+			public function get_prepared_items ($items) {
+				$prepared = array();
+				foreach ($items as $item) {
+					$ts = strtotime((string)$item->LastModified);
+					$path = (string)$item->Key;
+
+					$prepared[$ts] = array(
+						'created' => date('r', $ts),
+						'title' => basename($path),
+						'id' => $path,
+					);
+				}
+				return $prepared;
+			}
+
+			/**
+			 * Removes remote file
+			 *
+			 * Assumes remote connection has been established already.
+			 *
+			 * @since 3.1.6-beta.1
+			 *
+			 * @param string $file_id Destination-dependent file ID.
+			 *
+			 * @return bool
+			 */
+			public function remove_file ($file_id) {
+				$resp = $this->aws_connection->delete_object(
+					$this->destination_info['bucket'],
+					$file_id
+				);
+				return $resp->isOk();
+			}
+
 			function destination_ajax_proc() {
 				$this->init();
 

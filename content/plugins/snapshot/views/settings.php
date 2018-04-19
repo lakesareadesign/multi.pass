@@ -222,7 +222,7 @@ $custom_directory = $use_folder;
 
 	<?php
 	$model = new Snapshot_Model_Full_Backup;
-	$apiKey = isset(WPMUDEVSnapshot::instance()->config_data['config']['secret-key']) ? WPMUDEVSnapshot::instance()->config_data['config']['secret-key'] : $model->get_config('secret-key', ''); ?>
+	$apiKey = $model->get_config('secret-key', ''); ?>
 
 	<section class="wpmud-box">
 
@@ -246,7 +246,7 @@ $custom_directory = $use_folder;
 
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-						<label class="label-box"><?php _e('Local Directory', SNAPSHOT_I18N_DOMAIN); ?></label>
+						<label class="label-box"><?php _e('Snapshot Key', SNAPSHOT_I18N_DOMAIN); ?></label>
 
 					</div>
 

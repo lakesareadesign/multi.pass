@@ -111,3 +111,9 @@ if ( ! class_exists( 'MsTheLib3_Wrap' ) ) {
 }
 // Stores the lib-directory if it contains the highest version files.
 MsTheLib3_Wrap::set_version( $version, $files );
+
+add_action( 'wp_enqueue_scripts', 'remove_csb_ui' );
+function remove_csb_ui() {
+	wp_dequeue_script( 'wpmu-wpmu-ui-3-min-js' );
+	wp_deregister_script( 'wpmu-wpmu-ui-3-min-js' );
+}

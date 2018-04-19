@@ -165,7 +165,7 @@
 					} ?>" /><?php
 				} ?>
 
-				<button id="snapshot-destination-aws-get-bucket-list" class="button-seconary button button-gray<?php if ( empty ( esc_html( $item['bucket'] ) ) ) { echo ' wps-last-item'; } ?>" name=""><?php _e( 'Select Bucket', SNAPSHOT_I18N_DOMAIN ); ?></button>
+				<button id="snapshot-destination-aws-get-bucket-list" class="button-seconary button button-gray<?php if ( empty ( $item['bucket']  ) ) { echo ' wps-last-item'; } ?>" name=""><?php _e( 'Select Bucket', SNAPSHOT_I18N_DOMAIN ); ?></button>
 
 			</div>
 

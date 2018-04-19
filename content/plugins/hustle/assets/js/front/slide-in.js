@@ -6,7 +6,7 @@
 
 	Optin.SlideIn = Optin.Module.extend({
 		className: 'wph-modal',
-		type: 'slide_in',
+		type: 'slidein',
 		prevent_hide_after: false,
 		delay_time: 0,
 

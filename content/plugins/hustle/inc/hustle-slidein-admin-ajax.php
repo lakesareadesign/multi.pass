@@ -99,6 +99,9 @@ class Hustle_Slidein_Admin_Ajax {
 		if( filter_input( INPUT_POST, "optin_url" ) )
 			$provider->set_arg( "url", filter_input( INPUT_POST, "optin_url" ) );
 
+		if ( filter_input( INPUT_POST, "optin_app_id" ) )
+			$provider->set_arg( "app_id", filter_input( INPUT_POST, "optin_app_id" ) );
+
 		$options = $provider->get_options( $module_id );
 
 		if( !empty( $options ) )
@@ -145,6 +148,48 @@ class Hustle_Slidein_Admin_Ajax {
 	}
 
 	/**
+	 * Checks if e-Newsletter should be synced with current local collection
+	 *
+	 * @since 3.0
+	 *
+	 * @return true|false
+	 */
+	function check_enews_sync(){
+
+		//do sync if e-Newsletter plugin is active, e-Newsletter is the active provider,
+		//and if the plugin was deactivated or e-Newsletter wasn't the active provider before
+		if( $_POST['content']['active_email_service'] === 'e_newsletter' && class_exists( 'Email_Newsletter' ) ) {
+
+			if( !isset($_POST['content']['email_services']['e_newsletter']['synced']) || $_POST['content']['email_services']['e_newsletter']['synced'] === '0' ){
+				$_POST['content']['email_services']['e_newsletter']['synced'] = 1;
+				return true;
+			}
+			return false;
+
+		} else {
+
+			$_POST['content']['email_services']['e_newsletter']['synced'] = 0;
+			return false;
+		}
+	}
+
+	/**
+	 * Does the actual sync with the current local collection and e-Newsletter
+	 * It's only called when check_enews_sync method returns true
+	 *
+	 * @since 3.0
+	 *
+	 * @var int $id
+	 */
+	function do_sync( $id ){
+		$provider = Opt_In::get_provider_by_id( $_POST['content']['active_email_service'] );
+		$provider = Opt_In::provider_instance( $provider );
+		$module = Hustle_Module_Model::instance()->get( $id );
+		$lists = isset($_POST['content']['email_services']['e_newsletter']['list_id']) ? $_POST['content']['email_services']['e_newsletter']['list_id'] : array();
+		$provider->sync_with_current_local_collection( $module, $lists );
+	}
+
+	/**
 	 * Saves new optin to db
 	 *
 	 * @since 1.0
@@ -155,10 +200,20 @@ class Hustle_Slidein_Admin_Ajax {
 
 		$_POST = stripslashes_deep( $_POST );
 
+		//check if e-Newsletter sync should be done and set new "Synced" value
+		if( isset($_POST['content']['email_services']['e_newsletter']) ){
+			$do_sync = $this->check_enews_sync();
+		}
+
 		if( "-1" === $_POST['id']  )
 			$res = $this->_admin->save_new( $_POST );
 		else
 			$res = $this->_admin->update_module( $_POST );
+
+		//do sync with e-Newsletter after saving because we need the ID
+		if( isset($do_sync) && $do_sync ) {
+			$this->do_sync( $res );
+		}
 
 		wp_send_json( array(
 			"success" =>  $res === false ? false: true,

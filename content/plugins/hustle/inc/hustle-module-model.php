@@ -15,10 +15,6 @@ class Hustle_Module_Model extends Hustle_Model {
 	const EMBEDDED_MODULE = 'embedded';
 	const SOCIAL_SHARING_MODULE = 'social_sharing';
 	const SUBSCRIPTION              = "subscription";
-	const E_NEWSLETTER_GROUPS       = "e_newsletter_groups";
-	const SYNC_WITH_E_NEWSLETTER    = "sync_with_e_newsletter";
-	const E_NEWSLETTER_DOUBLE_OPT_IN = "e_newsletter_double_opt_in";
-	const HAS_LOCAL_SYNCED_WITH_E_NEWSLETTER = "has_local_synced_with_e_newsletter";
 	const ERROR_LOG = "error_logs";
 
 	/**
@@ -52,18 +48,23 @@ class Hustle_Module_Model extends Hustle_Model {
 	 *
 	 * @return Class
 	 */
+	function get_content( $type = 'popup' ) {
+		$data = $this->get_settings_meta( self::KEY_CONTENT, '{}', true );
+      // If redirect url is set then esc it.
+		if ( isset( $data['redirect_url'] ) ) {
+			$data['redirect_url'] = esc_url( $data['redirect_url'] );
+		}
 
-	function get_content($type = 'popup') {
- 		switch ( $type ) {
+		switch ( $type ) {
 			case 'popup':
-				return new Hustle_Popup_Content( $this->get_settings_meta( self::KEY_CONTENT, '{}', true ), $this );
-				break;
+				return new Hustle_Popup_Content( $data, $this );
+			break;
 			case 'slidein':
-				return new Hustle_Slidein_Content( $this->get_settings_meta( self::KEY_CONTENT, '{}', true ), $this );
-				break;
+				return new Hustle_Slidein_Content( $data, $this );
+			break;
 			case 'embedded':
-				return new Hustle_Embedded_Content( $this->get_settings_meta( self::KEY_CONTENT, '{}', true ), $this );
-				break;
+				return new Hustle_Embedded_Content( $data, $this );
+			break;
 		}
 	}
 
@@ -166,95 +167,6 @@ class Hustle_Module_Model extends Hustle_Model {
 		return (int) $this->_wpdb->get_var( $this->_wpdb->prepare( "SELECT COUNT(meta_id) FROM " . $this->get_meta_table() . " WHERE `module_id`=%d AND `meta_key`=%s AND `meta_value` != '' ", $this->id, self::SUBSCRIPTION )  );
 	}
 
-
-
-	/**
-	 * Wheather this optin should sync with e-newsletter
-	 *
-	 * @since 1.1.1
-	 * @return bool|null
-	 */
-	function get_sync_with_e_newsletter(){
-		return $this->get_meta( self::SYNC_WITH_E_NEWSLETTER );
-	}
-
-	/**
-	 * Toggles sync with e-newsletter
-	 *
-	 * @since 1.1.1
-	 * @var bool $val
-	 * @return false|int
-	 */
-	function toggle_sync_with_e_newsletter( $val = null ){
-		return $this->update_meta( self::SYNC_WITH_E_NEWSLETTER, is_null( $val ) ? (int) !$this->get_sync_with_e_newsletter() : (int) $val );
-	}
-
-	/**
-	 * Whether this opt-in should have double opt-in for e-newsletter or not
-	 *
-	 * @since 3.0
-	 * @return bool|null
-	 */
-	function get_e_newsletter_double_opt_in(){
-		return $this->get_meta( self::E_NEWSLETTER_DOUBLE_OPT_IN );
-	}
-
-	/**
-	 * Toggles sync with e-newsletter
-	 *
-	 * @since 3.0
-	 * @var bool $val
-	 * @return false|int
-	 */
-	function toggle_e_newsletter_double_opt_in( $val = null ){
-		return $this->update_meta( self::E_NEWSLETTER_DOUBLE_OPT_IN, is_null( $val ) ? (int) !$this->get_e_newsletter_double_opt_in() : (int) $val );
-	}
-
-	/**
-	 * Returns e_newsletter groups
-	 *
-	 * @since 1.1.1
-	 * @return array
-	 */
-	function get_e_newsletter_groups(){
-		return (array) json_decode( $this->get_meta( self::E_NEWSLETTER_GROUPS ), true );
-	}
-
-	/**
-	 * Sets e-newsletter groups
-	 *
-	 *
-	 * @since 1.1.1
-	 * @param array $groups
-	 * @return false|int
-	 */
-	function set_e_newsletter_groups( array $groups = array() ){
-		return $this->update_meta( self::E_NEWSLETTER_GROUPS, json_encode( $groups ) );
-	}
-
-	/**
-	 * Checks if this optin has synced it's local-collection with e-newsletter before
-	 * This kind of sync is usually only done when admin toggles sync on only for the first time
-	 *
-	 * @since 1.1.2
-	 * @return bool
-	 */
-	function get_has_local_collection_synced_with_e_newsletter(){
-		return (bool) $this->get_meta( self::HAS_LOCAL_SYNCED_WITH_E_NEWSLETTER );
-	}
-
-	/**
-	 * Sets HAS_LOCAL_SYNCED_WITH_E_NEWSLETTER
-	 *
-	 * @since 1.1.2
-	 *
-	 * @param bool|true $val
-	 * @return false|int
-	 */
-	function set_has_local_collection_synced_with_e_newsletter( $val = true ){
-		return $this->update_meta( self::HAS_LOCAL_SYNCED_WITH_E_NEWSLETTER, $val );
-	}
-
 	/**
 	 * Checks if this module is allowed to be displayed
 	 *
@@ -263,11 +175,19 @@ class Hustle_Module_Model extends Hustle_Model {
 	function is_allowed_to_display( $settings, $type ) {
 
 		// if Disabled for current user type or test mode, do not display
-		if ( !$this->get_display() || ($this->is_test_type_active($type) && !current_user_can('administrator')) ) {
+		if (
+			// If disabled.
+			!$this->get_display()
+			// If test status and not admin.
+			|| ($this->is_test_type_active($type) && !current_user_can('administrator'))
+		) {
 			return false;
 		}
-
+		// If no conditions are set, display.
 		if ( !isset( $settings['conditions'] ) || empty( $settings['conditions'] ) ) {
+			// If 404 page and no conditions, do not display.
+			if (is_404()) return false;
+			// Otherwise display.
 			return true;
 		}
 
@@ -276,12 +196,27 @@ class Hustle_Module_Model extends Hustle_Model {
 		$skip_all_cpt = false;
 		$display = true;
 
-		if ( is_singular() ) {
+		// If not 404 page, remove 404 condition.
+		// Functionality has been changed so this condition only affects 404 pages.
+		if ( !is_404() ) {
+			// Unset "not found" condition so it displays on other pages.
+			unset($conditions['only_on_not_found']);
+			// If conditions are now empty, display module.
+			if (empty($conditions)) {
+				return true;
+			}
+		} else {
+			// Prevent categories condition from overriding 404 page condition.
+			unset($conditions['categories']);
+		}
+
+		// If this is a single page or home page is posts.
+		if ( is_singular() || (is_home() && is_front_page())) {
 			// unset not needed post_type
-			if ( $post->post_type == 'post' ) {
+			if ( isset($post->post_type) && $post->post_type == 'post' ) {
 				unset($conditions['pages']);
 				$skip_all_cpt = true;
-			} elseif ( $post->post_type == 'page' ) {
+			} elseif ( isset($post->post_type) && $post->post_type == 'page' ) {
 				unset($conditions['posts']);
 				unset($conditions['categories']);
 				unset($conditions['tags']);
@@ -328,7 +263,7 @@ class Hustle_Module_Model extends Hustle_Model {
 				// handle ms_membership
 				if ( $args['post_type'] === 'ms_membership' ) {
 					// do nothing so this will went through
-				} else if ( $skip_all_cpt || $post->post_type != $args['post_type'] ) {
+				} else if ( $skip_all_cpt || (isset($post->post_type) && $post->post_type != $args['post_type'] )) {
 					continue;
 				}
 

@@ -100,9 +100,6 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 			if ( $api ) {
 				$segments = $api->get_segments();
 			}
-			if ( (int) $module_id > 0 ) {
-				$value =  ! empty( $module->optin_email_list ) ? $module->optin_email_list : '';
-			}
 
 			if ( ! empty( $segments ) ) {
 				foreach ( $segments as $segment ) {

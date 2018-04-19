@@ -237,4 +237,91 @@ abstract class Snapshot_Model_Destination {
 	}
 
 	public abstract function validate_form_data( $d_info );
+
+	/**
+	 * Uniform exception handling
+	 *
+	 * Logs error and sets up error status
+	 *
+	 * @since 3.1.6-beta.1
+	 *
+	 * @param Exception $e Exception to log
+	 * @param string $action Action that we were trying to do
+	 *
+	 * @return false
+	 */
+	public function handle_exception ($e, $action) {
+		$this->error_array['errorStatus'] = true;
+		if ( isset( $this->snapshot_logger ) && isset($e) ) {
+			$this->snapshot_logger->log_message(
+				sprintf(
+					__("Error: Could not perform %s [%s]: Error: %s", SNAPSHOT_I18N_DOMAIN),
+					$action, $this->name_display, $e
+				)
+			);
+		}
+		return false;
+	}
+
+	/**
+	 * Sets up destination info and prepares connection
+	 *
+	 * @since v3.1.6-beta.1
+	 *
+	 * @param array $destination_info Destination info to set up
+	 *
+	 * @return bool
+	 */
+	public function set_up_destination ($destination_info) {
+		$this->init();
+		$this->load_class_destination( $destination_info );
+
+		return $this->login();
+	}
+
+	/**
+	 * Purges remote items to spec
+	 *
+	 * @since 3.1.6-beta.1
+	 *
+	 * @param string $root Filename prefix to match.
+	 * @param int $keep_count How many remote files to preserve.
+	 *
+	 * @return int Number of removed files
+	 */
+	public function purge_remote_items ($root, $keep_count) {
+		if (!is_callable(array($this, 'remove_file'))) {
+			// We're not able to remove remote files.
+			return 0;
+		}
+		if (!is_callable(array($this, 'get_prepared_items'))) {
+			// We're not able to parse remote items into something we know about.
+			return 0;
+		}
+		$items = $this->list_remote_items($root);
+
+		$initial_count = count($items);
+		$to_remove = $initial_count - $keep_count;
+
+		if ($to_remove <= 0) return 0; // Nothing to do here
+
+		$prepared = $this->get_prepared_items($items);
+		ksort($prepared);
+
+		$removed = 0;
+		foreach ($prepared as $item) {
+			try {
+				if ($this->remove_file($item['id'])) {
+					$removed++;
+				}
+			} catch (Exception $e) {
+				// Something went wrong
+				$this->handle_exception($e, "remove {$item['title']}");
+			}
+			if ($removed >= $to_remove) break;
+		}
+
+		return $removed;
+	}
+
 }

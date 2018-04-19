@@ -4,7 +4,28 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 Change Log:
 ----------------------------------------------------------------------
 
-3.0.1 - 2017-02-05
+3.0.2 - 2017-03-05
+----------------------------------------------------------------------
+- Add MailerLite and iContact Integration.
+- Update E-Newsletter integration to be consistent with other integrations.
+- Fix various styling issues on frontend and backend.
+- Fix minor backend UX issues.
+- Fix an issue with ConstantContact only saving to the first email list.
+- Fix homepage not obeying module display conditions when showing recent posts.
+- Fix an issue with ConstantContact where redirecting after signing in brought
+the user to the editing popups even when editing embeds or slide ins.
+- Fix adblocker trigger from triggering even when no adblocker is present.
+- Update 404 display condition behavior to showing on the 404 page or not rather than only displaying on 404 page and no other.
+- Adjusted verbiage for After Slide-in is Closed description to avoid
+confusion.
+- Disable save button on continue press to avoid accidental multiple saves.
+- Fix slide in and popup shortcode trigger not working since 3.0.
+- Fix some PHP warnings.
+- Improve Hustle frontend accessibility for social sharing.
+- Fix Mad Mimi and Campaign Monitor email integrations.
+- Only show SSL requirement notice for constant contact when necessary.
+
+3.0.1 - 2017-02-22
 ----------------------------------------------------------------------
 - Add legacy support for widgets and shortcodes.
 - Fix issues with local email lists, tracking, and custom CSS not getting migrated properly.
@@ -263,4 +284,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1519672567-au
+133620-1524149351-au

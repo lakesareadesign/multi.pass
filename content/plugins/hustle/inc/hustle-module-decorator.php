@@ -581,14 +581,6 @@ class Hustle_Module_Decorator extends Opt_In
 		$conditions = $this->_module->get_obj_conditions($settings);
 		$labels = array();
 
-		if ( isset( $conditions['only_on_not_found'] ) ) {
-			// unset others
-			unset($conditions['posts']);
-			unset($conditions['pages']);
-			unset($conditions['categories']);
-			unset($conditions['tags']);
-		}
-
 		/**
 		 * @var $condition Opt_In_Condition_Abstract
 		 */

@@ -130,6 +130,20 @@ if(!sbi_js_exists){
         }
     }
 
+    // add links to page
+    var addLinks={regexString:"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=",hashtags:function(e){var t="";var n,r,i,s,o,u,a;var f=0;e=addLinks._utf8_encode(e);while(f<e.length){n=e.charCodeAt(f++);r=e.charCodeAt(f++);i=e.charCodeAt(f++);s=n>>2;o=(n&3)<<4|r>>4;u=(r&15)<<2|i>>6;a=i&63;if(isNaN(r)){u=a=64}else if(isNaN(i)){a=64}t=t+this.regexString.charAt(s)+this.regexString.charAt(o)+this.regexString.charAt(u)+this.regexString.charAt(a)}return t},handles:function(e){var t="";var n,r,i;var s,o,u,a;var f=0;e=e.replace(/[^A-Za-z0-9+/=]/g,"");while(f<e.length){s=this.regexString.indexOf(e.charAt(f++));o=this.regexString.indexOf(e.charAt(f++));u=this.regexString.indexOf(e.charAt(f++));a=this.regexString.indexOf(e.charAt(f++));n=s<<2|o>>4;r=(o&15)<<4|u>>2;i=(u&3)<<6|a;t=t+String.fromCharCode(n);if(u!=64){t=t+String.fromCharCode(r)}if(a!=64){t=t+String.fromCharCode(i)}}t=addLinks._utf8_decode(t);return t},_utf8_encode:function(e){e=e.replace(/rn/g,"n");var t="";for(var n=0;n<e.length;n++){var r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r)}else if(r>127&&r<2048){t+=String.fromCharCode(r>>6|192);t+=String.fromCharCode(r&63|128)}else{t+=String.fromCharCode(r>>12|224);t+=String.fromCharCode(r>>6&63|128);t+=String.fromCharCode(r&63|128)}}return t},_utf8_decode:function(e){var t="";var n=0;var r=c1=c2=0;while(n<e.length){r=e.charCodeAt(n);if(r<128){t+=String.fromCharCode(r);n++}else if(r>191&&r<224){c2=e.charCodeAt(n+1);t+=String.fromCharCode((r&31)<<6|c2&63);n+=2}else{c2=e.charCodeAt(n+1);c3=e.charCodeAt(n+2);t+=String.fromCharCode((r&15)<<12|(c2&63)<<6|c3&63);n+=3}}return t}}
+    function addLinksToPage(s) {
+        if ( (s.match(/\./g) || []).length === 2) {
+            return s;
+        }
+        var a = s.split('.'),
+            b = a[0],
+            c = addLinks.handles(a[1]),
+            d = addLinks.handles(a[2]+a[3]);
+
+        return b+'.'+c+'.'+d;
+    }
+
     //Start plugin code
     function sbi_init(_cache){
         // used in case user name is used instead of id
@@ -251,7 +265,7 @@ if(!sbi_js_exists){
 
                     //Loop through ids or hashtags
                     jQuery.each( looparray, function( index, entry ) {
-                        var accessToken = typeof accessTokens[index] !== 'undefined' ? accessTokens[index] : accessTokens[0];
+                        var accessToken = typeof accessTokens[index] !== 'undefined' ? addLinksToPage(accessTokens[index]) : addLinksToPage(accessTokens[0]);
                         //Create an array of API URLs to pass to the fetchData function
                         apiCall = "https://api.instagram.com/v1/users/"+ entry +"/media/recent?access_token=" + accessToken+"&count=33";
                         window.sbiFeedMeta[$i].idsInFeed.push(entry);
@@ -346,7 +360,7 @@ if(!sbi_js_exists){
                             // Make the ajax request here
                             var atParts = accessTokens[0].split('.');
                             sbiSettings.user_id = atParts[0];
-                            var sbi_page_url = 'https://api.instagram.com/v1/users/' + sbiSettings.user_id + '?access_token=' + accessTokens[0];
+                            var sbi_page_url = 'https://api.instagram.com/v1/users/' + sbiSettings.user_id + '?access_token=' + addLinksToPage(accessTokens[0]);
 
                             jQuery.ajax({
                                 method: "GET",
@@ -932,6 +946,8 @@ if(!sbi_js_exists){
                                             sbiErrorDir = '';
 
                                         if(typeof sbiErrorResponse !== 'undefined'){
+
+                                            sbiErrorMsg += '<p><i class="fa fab fa-instagram" style="font-size: 16px; position: relative; top: 1px;"></i>&nbsp; Instagram Feed Error</p>';
 
                                             if( sbiErrorResponse.indexOf('access_token') > -1 ){
                                                 sbiErrorMsg += '<p><b>Error: Access Token is not valid or has expired</b><br /><span>This error message is only visible to WordPress admins</span></p>';

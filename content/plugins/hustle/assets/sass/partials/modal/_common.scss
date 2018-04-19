@@ -1,5 +1,5 @@
 /* Disable scrolling */
-html.hustle-no-scroll, html.hustle-no-scroll body {
+html.hustle-no-scroll body {
 	overflow: hidden;
 }
 
@@ -55,7 +55,9 @@ html.hustle-no-scroll, html.hustle-no-scroll body {
 	}
 
 	&:not(.hustle-modal-image_only) {
+
 		.hustle-modal-image.hustle-modal-image_contain {
+
 			img{
 				position: relative;
 			}
@@ -66,9 +68,13 @@ html.hustle-no-scroll, html.hustle-no-scroll body {
 
 .hustle_module_shortcode_wrap,
 .hustle_module_widget_wrap {
+
 	.hustle-modal {
+
 		.hustle-modal-body {
+
 			max-height:100%;
+			
 			.hustle-modal-optin_wrap{
 				margin: auto;
 				background: transparent;

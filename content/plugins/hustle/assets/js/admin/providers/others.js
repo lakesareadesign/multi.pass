@@ -5,7 +5,7 @@
 (function($){
 	'use strict';
 
-	var providers = ['getresponse', 'campaignmonitor', 'aweber'];
+	var providers = ['getresponse', 'campaignmonitor', 'aweber', 'mailerlite'];
 
 	_.each( providers, function( provider ) {
 		Optin.Mixins.add_services_mixin( provider, function( content_view ) {

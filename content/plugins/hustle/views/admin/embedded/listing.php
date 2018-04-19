@@ -200,7 +200,8 @@
 														<?php if ( $type != 'shortcode' ) {
 															echo $module->decorated->get_condition_labels(false);
 														} else if ( $type == 'shortcode' ) {
-															echo '[wd_hustle id="'. $module->shortcode_id .'" type="embedded"]';
+															$shortcode = '[wd_hustle id=&quot;' . $module->shortcode_id . '&quot; type=&quot;embedded&quot;]';
+															echo '<input type="text" value="' . $shortcode . '" readonly class="highlight_input_text shortcode_input">';
 														} ?>
 
 													</p>

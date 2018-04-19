@@ -6,8 +6,8 @@ License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 Tags: leads, lead capture, lead tracking, lead collection, lead management, crm, crm tools
 Requires at least: 3.8
-Tested up to: 4.8.2
-Stable Tag: 3.2.3
+Tested up to: 4.9.5
+Stable Tag: 3.2.4
 
 Track visitor activity, capture and manage incoming leads, and send collected emails to your email service provider.
 
@@ -87,6 +87,9 @@ We built Lead Management as a framework! You can use our extendable framework to
 17. Here’s a better look at our new lead notification email sent to administrators.
 
 == Changelog ==
+
+= 3.2.4 =
+* Adding lead meta search to lead list page
 
 = 3.2.3 =
 * Moving field mapping routine higher in lead storage method. Will fix issue with MailPoet 2 extension.

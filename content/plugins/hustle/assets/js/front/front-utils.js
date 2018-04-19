@@ -72,7 +72,14 @@ var Optin = Optin || {};
 		// modal parts
 		var $modal = $this.find('.hustle-modal'),
 			$modal_body = $modal.find('.hustle-modal-body');
-			
+	
+		// If the parent container is small, style accordingly.
+		if ($modal_body.width() < 500) {
+			$modal_body.addClass('hustle-size-small');
+		} else {
+			$modal_body.removeClass('hustle-size-small');
+		}
+
 		// custom size
 		if ( _.isTrue( design_data.customize_size ) ) {
 			$modal.css({

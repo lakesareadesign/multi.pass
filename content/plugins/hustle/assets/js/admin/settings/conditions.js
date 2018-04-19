@@ -131,10 +131,10 @@
 		}
 	});
 
-	var reanable_scroll = function(e){
+	var reenable_scroll = function(e){
 		/**
-		 * Reanable scrolling for the container
-		 * select2 disables scrolling after select so we reanable it
+		 * reenable scrolling for the container
+		 * select2 disables scrolling after select so we reenable it
 		 */
 		$(".wph-conditions--items").data("select2ScrollPosition", {});
 	},
@@ -216,8 +216,8 @@
 				createTag: function(){ return false; }
 			})
 			.on('select2:selecting', either_all_or_others )
-			.on('select2:selecting', reanable_scroll )
-			.on('select2:unselecting', reanable_scroll);
+			.on('select2:selecting', reenable_scroll )
+			.on('select2:unselecting', reenable_scroll);
 
 		}
 	}) );
@@ -270,8 +270,8 @@
 					createTag: function(){ return false; }
 				})
 			.on('select2:selecting', either_all_or_others )
-			.on('select2:selecting', reanable_scroll )
-			.on('select2:unselecting', reanable_scroll);
+			.on('select2:selecting', reenable_scroll )
+			.on('select2:unselecting', reenable_scroll);
 
 		}
 	}));
@@ -329,8 +329,8 @@
 					createTag: function(){ return false; }
 				})
 				.on('select2:selecting', either_all_or_others )
-				.on('select2:selecting', reanable_scroll )
-				.on('select2:unselecting', reanable_scroll);
+				.on('select2:selecting', reenable_scroll )
+				.on('select2:unselecting', reenable_scroll);
 			}
 		}) );
 	});
@@ -383,8 +383,8 @@
 					width : "100%",
 					createTag: function(){ return false; }
 			})
-			.on('select2:selecting', reanable_scroll )
-			.on('select2:unselecting', reanable_scroll);
+			.on('select2:selecting', reenable_scroll )
+			.on('select2:unselecting', reenable_scroll);
 		}
 	}));
 
@@ -435,14 +435,13 @@
 					width : "100%",
 					createTag: function(){ return false; }
 			})
-			.on('select2:selecting', reanable_scroll )
-			.on('select2:unselecting', reanable_scroll);
+			.on('select2:selecting', reenable_scroll )
+			.on('select2:unselecting', reenable_scroll);
 		}
 	}));
 
 	Optin.View.Conditions.only_on_not_found = Condition_Base.extend({
 		condition_id: "only_on_not_found",
-		disable: ['posts','pages','categories','tags'],
 		title: optin_vars.messages.conditions.only_on_not_found,
 		label: optin_vars.messages.condition_labels.only_on_not_found,
 		body: optin_vars.messages.conditions_body.only_on_not_found
@@ -625,8 +624,8 @@
 			this.$('.js-wpoi-select')
 				.val( this.get_attribute( "countries" ) )
 				.wpmuiSelect()
-				.on('select2:selecting', reanable_scroll )
-				.on('select2:unselecting', reanable_scroll);
+				.on('select2:selecting', reenable_scroll )
+				.on('select2:unselecting', reenable_scroll);
 		}
 	});
 
@@ -648,8 +647,8 @@
 			this.$('.js-wpoi-select')
 				.val( this.get_attribute( "countries" ) )
 				.wpmuiSelect()
-				.on('select2:selecting', reanable_scroll )
-				.on('select2:unselecting', reanable_scroll);
+				.on('select2:selecting', reenable_scroll )
+				.on('select2:unselecting', reenable_scroll);
 		}
 	});
 

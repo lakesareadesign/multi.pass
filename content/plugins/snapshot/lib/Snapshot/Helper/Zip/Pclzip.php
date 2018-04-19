@@ -17,6 +17,9 @@ class Snapshot_Helper_Zip_Pclzip extends Snapshot_Helper_Zip_Abstract {
 		if (!is_array($files)) $files = array($files);
 		if (empty($files)) return false;
 
+		// Extend processing time.
+		Snapshot_Helper_Utility::check_server_timeout();
+
 		$this->_zip->add(
 			$files,
 			PCLZIP_OPT_REMOVE_PATH, $this->_get_root_path(),
@@ -52,6 +55,9 @@ class Snapshot_Helper_Zip_Pclzip extends Snapshot_Helper_Zip_Abstract {
 		$zip_contents = $this->_zip->listContent();
 		if (empty($zip_contents)) return false;
 
+		// Extend processing time.
+		Snapshot_Helper_Utility::check_server_timeout();
+
 		$extract_files = $this->_zip->extract(PCLZIP_OPT_PATH, $destination);
 
 		return !empty($extract_files);
@@ -68,6 +74,9 @@ class Snapshot_Helper_Zip_Pclzip extends Snapshot_Helper_Zip_Abstract {
 
 		$zip_contents = $this->_zip->listContent();
 		if (empty($zip_contents)) return false;
+
+		// Extend processing time.
+		Snapshot_Helper_Utility::check_server_timeout();
 
 		$extract_files = $this->_zip->extract(PCLZIP_OPT_PATH, $destination, PCLZIP_OPT_BY_NAME, $files);
 

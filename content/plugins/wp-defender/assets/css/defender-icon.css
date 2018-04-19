@@ -1,4 +1,4 @@
-#toplevel_page_wp-defender > ul > li.wp-first-item > a > span {	  	 	   	 		 		 				
+#toplevel_page_wp-defender > ul > li.wp-first-item > a > span {
     display: none;
 }
 
@@ -16,5 +16,21 @@
     background-color: #1ABC9C;
 }
 
+.def-warning {
+    border-radius: 4px;
+    background-color: #FFF5D5;
+    color: #666;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-style: italic;
+    max-width: 100%;
+    display: inline-block;
+    margin-bottom: 10px;
+}
 
-/* 133620-1522104847-au */
+.def-warning i {
+    color: #FECF2F
+}
+
+
+/* 133620-1524149339-au */

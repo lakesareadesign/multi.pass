@@ -16,6 +16,7 @@ Hustle.define("Slidein.Content_View", function($, doc, win){
 		},
 		init: function( opts ){
 			this.module_id  = opts.module_id;
+			this.module_type = 'slidein';
 			
 			_.each( Optin.Mixins.get_services_mixins(), function(mix, id){
 				if( mix && typeof mix === "function") {

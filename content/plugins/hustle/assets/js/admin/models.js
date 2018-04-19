@@ -7,9 +7,21 @@ Hustle.define("Model", function() {
 		initialize: function() {
 			this.on( 'change', this.user_has_change, this );
 			Backbone.Model.prototype.initialize.apply( this, arguments );
+			var attrs = this.attributes;
+			this.display_preview_button( attrs );
 		},
 		user_has_change: function() {
 			Module.hasChanges = true;
+			var attrs = this.attributes;
+			this.display_preview_button( attrs );
+		},
+		display_preview_button: function( attrs ) {
+			var previewEl = $('.wpmudev-preview');
+			if( attrs.has_title || '' !== attrs.main_content || attrs.use_feature_image || attrs.show_cta || attrs.use_email_collection ) {
+				previewEl.show();
+			} else {
+				previewEl.hide();
+			}
 		}
 	});
 });

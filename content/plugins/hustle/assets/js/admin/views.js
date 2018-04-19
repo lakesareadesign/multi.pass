@@ -1,6 +1,6 @@
 (function( $ ) {
 	"use strict";
-	
+
 	var Module = window.Module || {};
 
 	Module.Alert = Backbone.View.extend({
@@ -30,7 +30,7 @@
 			e.stopPropagation();
 		}
 	});
-	
+
 	Module.Service_Modal = Backbone.View.extend({
 		template: Optin.template("wpmudev-hustle-modal-add-new-service-tpl"),
 		service_modal_target: '#wph-add-new-service-modal .wpmudev-box-modal',
@@ -45,7 +45,7 @@
 		},
 		add_service: function($btn) {
 			this.view.is_service_modal_updated = false;
-			
+
 			var data = _.extend(
 					{
 						is_new: true,
@@ -55,14 +55,14 @@
 				$target_modal = $(this.service_modal_target),
 				$this = $btn.closest('a'),
 				nonce = $this.data('nonce');
-				
+
 			$target_modal.html('');
 			$target_modal.append(this.template(data));
 			this.show_modal(false);
 		},
 		edit_service: function($btn) {
 			this.view.is_service_modal_updated = false;
-			
+
 			var $this = $btn.closest('a'),
 				service = $this.data('id'),
 				nonce = $this.data('nonce'),
@@ -73,10 +73,10 @@
 					}
 				),
 				$target_modal = $(this.service_modal_target);
-				
+
 			$target_modal.html('');
 			$target_modal.append(this.template(data));
-			
+
 			this.view.editing_service = service;
 			// Get the provider's details.
 			this.get_provider_details(service, nonce);
@@ -86,21 +86,23 @@
 			var $this = $(e.target),
 				id = $this.val(),
 				nonce = $this.data('nonce');
-				
+
 			if ( this.view.editing_service !== id ) {
 				this.view.is_service_modal_updated = true;
 			}
-			
+
 			this.view.editing_service = id;
 			this.get_provider_details(id, nonce);
 		},
 		get_provider_details: function(id, nonce) {
-			
+
 			var $details_container = $('#wph-provider-account-details'),
-				module_id = this.view.module_id;
+				module_id = this.view.module_id,
+				module_type = this.view.module_type
+			;
 			
 			$details_container.html('');
-			
+
 			$.ajax({
 				url: ajaxurl,
 				type: "get",
@@ -109,11 +111,12 @@
 					action: "render_provider_account_options",
 					provider_id: id,
 					module_id: module_id,
+					module_type: module_type,
 					_ajax_nonce: nonce
 				},
 				success: function(response){
 					if( response.success === true ) {
-						
+
 						$details_container.html(response.data);
 						Hustle.Events.trigger("modules.view.select.render", this.view);
 						if ( id !== 'mailchimp' ) {
@@ -122,13 +125,13 @@
 							}
 						}
 					} else {
-						
+
 					}
 
 				}
 
 			});
-			
+
 		},
 		show_modal: function( is_edit ) {
 			var $modal = $('#wph-add-new-service-modal'),
@@ -137,7 +140,7 @@
 				me = this,
 				services = this.view.model.get('email_services'),
 				$current_saved_list = $('#optin-provider-account-selected-list');
-			
+
 			this.add_service_modal.addClass('wpmudev-modal-active');
 			$('body').addClass('wpmudev-modal-is_active');
 
@@ -152,7 +155,7 @@
 				$(document).on( 'click', '.wph-save-optin-service', $.proxy( me.updated_email_service_args, me ) );
 				Hustle.Events.off( 'optin.service.saved', me.save_email_service );
 				Hustle.Events.on( 'optin.service.saved', me.save_email_service );
-				
+
 				// hide other service if editing
 				me.hide_or_show_other_services(is_edit);
 				// set selected list
@@ -163,27 +166,27 @@
 					// Auto load first provider details.
 					$content.find('select[name="optin_provider_name"]').trigger('change');
 				}
-				
+
 			}, 100);
 		},
 		hide_or_show_other_services: function( is_edit ) {
 			var $select = $('#wph-provider-select .wpmudev-select'),
 				$current_saved_list = $('#optin-provider-account-selected-list'),
 				services = this.view.model.get('email_services');
-				
+
 			if ( _.isEmpty( services ) ) {
 				services = {
 					mailchimp: this.view.mailchimp.default_data
 				};
 			}
-			
+
 			if ( is_edit ) {
 				$current_saved_list.show();
 			} else {
 				$current_saved_list.hide();
-				
+
 				var $siblings = $select.find('option');
-					
+
 				// only show services that are not yet added
 				$siblings.each(function(){
 					var rel = $(this).attr('value');
@@ -192,30 +195,30 @@
 					}
 				});
 			}
-			
+
 		},
 		/**
 		 * Gets provider account option details, eg api key and etc and update #optin-provider-account-options content
 		 */
 		refresh_provider_details: function(e){
 			e.preventDefault();
-			
+
 			var me = this.view,
 				$this = $(e.target),
 				$form = $this.closest("form"),
 				data = $form.serialize(),
 				$api_key = $this.siblings('input#optin_api_key'),
 				$placeholder = $("#optin-provider-account-options");
-			
+
 			this.view.is_service_modal_updated = true;
 
 			$placeholder.html( $( "#wpoi-loading-indicator" ).html() );
-			
+
 			data += "&action=refresh_provider_account_details";
 			if( typeof this.view.module_id !== 'undefined') data += "&module_id=" + this.view.module_id;
-			
+
 			$this.addClass('wpmudev-button-onload');
-			
+
 			$.post(ajaxurl, data, function( response ){
 
 				if( response.success === true ){
@@ -240,7 +243,7 @@
 
 			}).fail(function( response ) {
 				$placeholder.html( optin_vars.messages.something_went_wrong );
-				
+
 			}).always(function(){
 				$this.removeClass('wpmudev-button-onload');
 			});
@@ -254,10 +257,10 @@
 				args = view[service].provider_args,
 				email_services = {};
 				//email_services = view.model.get('email_services');
-			
+
 			// Only use one email service at a time.
 			email_services[service] = args;
-	
+
 			// Multiple email services:
 			//if ( _.isEmpty( email_services ) ) {
 				//email_services = {};
@@ -265,7 +268,7 @@
 			//} else {
 				//email_services[service] = args;
 			//}
-			
+
 			view.model.set( 'email_services', email_services );
 			view.service_modal.close_modal();
 			view.service_modal.append_added_service(service, args);
@@ -277,7 +280,7 @@
 			var $last_email_provider = $('tr.wph-wizard-content-email-providers').last(),
 				$already_exists = $('table#wph-wizard-content-email-options a[data-id="'+ service +'"]'),
 				$cloned = $last_email_provider.clone();
-			
+
 			$last_email_provider.html($cloned.html());
 			var $updated_service = $('tr.wph-wizard-content-email-providers').last();
 			/*if ( $already_exists.length ) {
@@ -289,12 +292,12 @@
 				$last_email_provider.remove();
 				var $updated_service = $('tr.wph-wizard-content-email-providers').last();
 			}*/
-			
+
 			$updated_service.addClass('updated-email-provider');
 			$updated_service.siblings().removeClass('updated-email-provider');
-			
+
 			// Updating with updated contents
-			
+
 			var $updated_service = $('tr.updated-email-provider'),
 				$checkbox = $updated_service.find('input.wph-email-service-toggle'),
 				$label = $checkbox.siblings('label'),
@@ -304,7 +307,7 @@
 				desc = ( 'desc' in provider_args )
 					? provider_args.desc
 					: '';
-			
+
 			$checkbox.attr( 'id', 'wph-popup-list_' + service );
 			$checkbox.attr( 'data-attribute', service + '_service_provider' );
 			// Disable or enable service.
@@ -312,17 +315,17 @@
 
 			$label.attr( 'for', 'wph-popup-list_' + service );
 			$name.attr( 'data-id', service );
-			
+
 			$icon.html( icon_template() );
-			
+
 			if ( service in optin_vars.providers ) {
 				$name.find('span.wpmudev-table_name').text( optin_vars.providers[service].name );
 				$name.find('span.wpmudev-table_desc:first').text( desc );
 			}
-			
+
 		}
 	});
-	
+
 	Module.Form_Fields = Backbone.View.extend({
 		edit_fields_modal : $('#wph-edit-form-modal'),
 		field_list_template: Optin.template("wpmudev-hustle-modal-view-form-fields-tpl"),
@@ -342,19 +345,19 @@
 				view = this.view,
 				$target_modal = $(me.fields_modal_target),
 				form_elements = this.view.model.get('form_elements');
-				
+
 			if ( typeof form_elements !== 'object' ) {
 				form_elements = JSON.parse(form_elements);
 			}
-				
+
 			$target_modal.html('');
-			
+
 			$target_modal.append( me.fields_template( _.extend( {
 				form_fields: form_elements
 			} ) ) );
-			
+
 			var $fields_container = $target_modal.find('form#wph-optin-form-fields-form .wpmudev-table-body');
-			
+
 			if ( $fields_container.length ) {
 				_.each( form_elements, function( form_field, key ) {
 					$fields_container.append( me.new_fields_template( _.extend({
@@ -373,7 +376,7 @@
 				$save_button = me.edit_fields_modal.find('#wph-save-edit-form'),
 				$field_rows =  me.edit_fields_modal.find('.wph-field-row');
 
-		   
+
 			me.edit_fields_modal.addClass('wpmudev-modal-active');
 			$('body').addClass('wpmudev-modal-is_active');
 
@@ -440,29 +443,29 @@
 				rows.each(function(){
 					$(this).removeClass('wpmudev-open');
 				});
-				table.prepend(me.new_fields_template( _.extend( { 
+				table.prepend(me.new_fields_template( _.extend( {
 					field: { delete: true },
-					new_field: true 
+					new_field: true
 				} ) ));
-				
+
 				var $plus = table.find('.wpmudev-preview-item-manage:first'),
 					$delete = table.find('.wpmudev-icon-delete');
-					
+
 				$plus.on('click', function(e){
 					e.stopPropagation();
 					$(this).closest('.wpmudev-table-body-row').toggleClass('wpmudev-open');
 				});
-				
+
 				$delete.on( 'click' , function(e){
 					e.preventDefault();
 					e.stopPropagation();
 					me.delete_form_field($(this));
 				});
-				
+
 				me.form_fields_header(table.find('.wpmudev-table-body-row:first'));
 				Hustle.Events.trigger("modules.view.select.render", me);
 				me.update_model_fields(me);
-				
+
 			}else{
 				new_button.html( optin_vars.messages.form_fields.errors.custom_field_not_supported );
 			}
@@ -470,7 +473,7 @@
 		delete_form_field : function(elem){
 			var $id = elem.data('id'),
 				$parent_container = elem.closest('.wph-field-row.wpmudev-table-body-row');
-				
+
 			$parent_container.fadeOut( "fast", function() {
 				$parent_container.remove();
 			});
@@ -513,7 +516,7 @@
 					me.edit_fields_modal.find('.wpmudev-i_close').click();
 				});
 			});
-			
+
 		},
 		//update model
 		update_model_fields : function(me, callback){
@@ -524,7 +527,7 @@
 			$row.each(function(){
 				var id = $(this).attr('data-id');
 				var $content = $(this).find('.wpmudev-table-body-content input, .wpmudev-table-body-content select');
-				
+
 				elements[id] = {};
 				$content.each(function(){
 					var name = $(this).attr('name');
@@ -542,7 +545,7 @@
 					elements[id][name] = value;
 				});
 				data[id] = elements[id];
-				
+
 			});
 			view.current_form_elements = data;
 			view.model.set( 'form_elements', data, {silent:true} );
@@ -566,14 +569,14 @@
 						'provider' : active_email_service,
 						'module_id' : module_id
 					};
-					
+
 				$.post( ajaxurl, data, function( response ){
-					if (typeof callback === 'function') { 
-						callback(response); 
+					if (typeof callback === 'function') {
+						callback(response);
 					}
 				}).fail(function( response ) {
-					if (typeof callback === 'function') { 
-						callback(response); 
+					if (typeof callback === 'function') {
+						callback(response);
 					}
 				});
 			}
@@ -611,4 +614,7 @@
 		}
 	};
 
+	$('.highlight_input_text').focus( function(){
+		$(this).select();
+	});
 })( jQuery );

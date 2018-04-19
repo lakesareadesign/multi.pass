@@ -76,6 +76,17 @@ abstract class Snapshot_Model_Full {
 	}
 
 	/**
+	 * Proxies to expose private method
+	 *
+	 * @param string $file File name to process.
+	 *
+	 * @return mixed Timestamp (as string) on success, (bool)false on failure
+	 */
+	public function get_file_timestamp_from_name ($file) {
+		return $this->_get_file_timestamp_from_name($file);
+	}
+
+	/**
 	 * Set error string for display
 	 *
 	 * @param string $msg Error message

@@ -45,7 +45,7 @@
 					return;
 				}
 				
-				var $list = $('select[name="optin_email_list"]'),
+				var $list = $('.constantContact_optin_email_list'),
 					enabled = view.model.get('email_services').constantcontact ? view.model.get('email_services').constantcontact.enabled : false,
 					list_id = $list.val(),
 					list_name = $list.find('option:selected').text();
@@ -60,6 +60,10 @@
 				
 				view.constantcontact.provider_args = args;
 				Hustle.Events.trigger("optin.service.saved", view);
+			},
+			mark_updated: function() {
+				// Mark as changed so it saves.
+				content_view.is_service_modal_updated = true;
 			},
 			init: function() {
 				var me = this,
@@ -96,6 +100,7 @@
 				};
 
 				$(doc).on( 'click', '.constantcontact-authorize', resetReferrer );
+				$(doc).on( 'change', '.constantContact_optin_email_list', this.mark_updated );
 				
 				Hustle.Events.on( 'optin.service.prepare', $.proxy( this.update_args, this ) );
 				Hustle.Events.on( 'optin.service.show.selected', $.proxy( this.show_selected, this ) );

@@ -28,7 +28,7 @@ $content_hide = false;
 
                         <th class="wpmudev-table--views"><?php _e( "Views", Opt_In::TEXT_DOMAIN ); ?></th>
 
-                        <th class="wpmudev-table--rate"><?php _e( "Conv. rate", Opt_In::TEXT_DOMAIN ); ?></th>
+                        <th class="wpmudev-table--rate"><?php _e( "Rate", Opt_In::TEXT_DOMAIN ); ?></th>
 
                         <th class="wpmudev-table--status"><?php _e( "Status", Opt_In::TEXT_DOMAIN ); ?></th>
 
@@ -57,7 +57,7 @@ $content_hide = false;
 
                             <td class="wpmudev-table--views" data-name="<?php _e( 'Views', Opt_In::TEXT_DOMAIN ); ?>"><?php echo $popup->get_statistics($popup->module_type)->views_count; ?></td>
 
-                            <td class="wpmudev-table--rate" data-name="<?php _e( 'Conv. rate', Opt_In::TEXT_DOMAIN ); ?>"><?php echo $popup->get_statistics($popup->module_type)->conversion_rate; ?>%</td>
+                            <td class="wpmudev-table--rate" data-name="<?php _e( 'Rate', Opt_In::TEXT_DOMAIN ); ?>"><?php echo $popup->get_statistics($popup->module_type)->conversion_rate; ?>%</td>
 
                             <td class="wpmudev-table--status" data-name="<?php _e( 'Status', Opt_In::TEXT_DOMAIN ); ?>"><span class="module-status-<?php echo $module_status; ?>"><?php if ( $module_status === "off" ) _e( "Off", Opt_In::TEXT_DOMAIN ); if ( $module_status === "test" ) _e( "Test", Opt_In::TEXT_DOMAIN ); if ( $module_status === "live" ) _e( "Live", Opt_In::TEXT_DOMAIN ); ?></span></td>
 

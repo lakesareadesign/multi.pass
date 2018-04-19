@@ -75,7 +75,8 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 * @return int
 	 */
 	public function set_max_backups_limit( $limit ) {
-		return $this->set_config( 'full_backups_limit', max( 0, intval( $limit ) ) );
+		$limit = intval( $limit ) > 99 ? 99 : intval( $limit );
+		return $this->set_config( 'full_backups_limit', max( 0, $limit ) );
 	}
 
 	/**

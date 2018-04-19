@@ -38,22 +38,30 @@
 				flex: 0 0 auto;
 			}
 		}
-		
+
 		@include screen("medium") {
 			padding-top: 15px;
 		}
 	}
 
 	#wpmudev-hustle-content {
-		
+
 		@include screen("medium") {
 			margin-top: 14px;
+		}
+
+		#wp-main_content-editor-tools,
+		#wp-success_message-editor-tools {
+			.wp-switch-editor {
+				width: auto;
+				padding: 0px 15px;
+			}
 		}
 	}
 }
 
 .wpmudev-ui {
-	
+
 	* {
 		box-sizing: border-box;
 		-webkit-font-smoothing: antialiased;

@@ -135,7 +135,7 @@ if ( ! empty( $item['data_item']['destination-status'] ) ) {
 						<tr>
 							<th><?php _e( 'Status', SNAPSHOT_I18N_DOMAIN ); ?></th>
 
-							<td>
+							<td class="wps-upload-status">
 								<?php
 
 								if ( isset( $destination_status ) && $destination_status['errorStatus'] ) {

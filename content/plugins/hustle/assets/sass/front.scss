@@ -49,3 +49,29 @@
 @import "partials/social/icons/outline";
 @import "partials/social/icons/rounded";
 @import "partials/social/icons/squared";
+
+// LOAD HERE SPECIAL FIXES (ONLY) IN ORDER TO
+// KEEP TRACK ON SPECIAL FIXES THAT MIGHT HELP
+// US IN FUTURE FOR THIS OR OTHER PROJECTS
+
+// BROWSER IE10+
+
+// Load "modal" zones
+@import "partials/modal/elements/image-ie";
+
+// Load "modal" layouts
+@import "partials/modal/layouts/two-ie";
+@import "partials/modal/layouts/three-ie";
+@import "partials/modal/layouts/four-ie";
+
+// =============================================
+// BROWSER Edge
+
+// Load "modal" layouts
+@import "partials/modal/layouts/two-edge";
+
+// =============================================
+// BROWSER Firefox
+
+// Load "modal" layouts
+@import "partials/modal/layouts/two-firefox";

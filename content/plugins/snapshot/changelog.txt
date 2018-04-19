@@ -5,6 +5,36 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+
+3.1.7
+----------------------------------------------------------------------
+- Fix: Fix scheduling too far in the future
+- Fix: Disperse cron weekday/time starts when scheduling is not set
+- Fix: Disperse start backup scheduling, auto reschedule
+
+3.1.6
+----------------------------------------------------------------------
+- Add: Recycle older snapshots on third party destinations
+- Add: backups percentage communication between plugin and the Hub
+- Add: Hub-initiated backup delete handler
+
+- Fix: Upload status doesn't update in real time
+- Fix: Debug info in admin
+- Fix: Long Name overlaps with Type Icons
+- Fix: Destination setup page for Amazon S3 is not showing options
+- Fix: Google Drive Custom Path macro expansion
+- Fix: Improvement to avoid timeout on large folders
+- Fix: Number of snapshots to restore are limited to 6
+- Fix: Not possible to set schedule time and day when WP Cron is disabled
+- Fix: Total size of archives does not equal the total cloud storage used
+- Fix: No message after clicking Restore Now
+- Fix: MS Edge, storage used indicator is not positioned properly
+- Fix: Reactivate managed backup without resetting key
+- Fix: Success Message in Restoring files
+- Fix: Warning if the SQL charset in shapshot and target are not same
+- Fix: Update phpsec external library
+- Fix: Update key in reset dialog save
+
 3.1.5
 ----------------------------------------------------------------------
 - Add: one-click setup
@@ -453,4 +483,4 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 - Initial stable release
 
 
-133620-1509559918-au
+133620-1524149374-au

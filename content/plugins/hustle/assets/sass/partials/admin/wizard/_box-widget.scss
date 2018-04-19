@@ -3,6 +3,8 @@
 	.wpmudev-box-right {
 
 		#wph-wizard-widget-color-options {
+			position: relative;
+			z-index: 4;
 			margin-bottom: 20px;
 
 			.wpmudev-tabs {
@@ -70,6 +72,8 @@
 		}
 
 		#wph-wizard-widget-shadow-options {
+			position: relative;
+			z-index: 3;
 			margin-bottom: 20px;
 
 			.wpmudev-box-gray {
@@ -132,6 +136,8 @@
 		}
 
 		#wph-wizard-widget-inline-count-options {
+			position: relative;
+			z-index: 2;
 			margin-bottom: 20px;
 
 			@include screen("small") {
@@ -140,6 +146,8 @@
 		}
 
 		#wph-wizard-widget-animation-options {
+			position: relative;
+			z-index: 1;
 			margin-bottom: 20px;
 
 			@include screen("small") {

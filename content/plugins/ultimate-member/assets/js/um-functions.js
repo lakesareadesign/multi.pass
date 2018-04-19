@@ -1,5 +1,4 @@
 
-
 function UM_check_password_matched() {
 	jQuery(document).on('keyup', 'input[data-key=user_password],input[data-key=confirm_user_password]', function(e) {
 		var value = jQuery('input[data-key=user_password]').val();
@@ -185,7 +184,7 @@ function um_responsive(){
 
 	});
 
-	jQuery('.um-cover, .um-member-cover').each(function(){
+	jQuery('.um-cover, .um-member-cover, .um-cover-e').each(function(){
 
 		var elem = jQuery(this);
 		var ratio = elem.data('ratio');
@@ -737,3 +736,10 @@ jQuery(function(){
 
 });
 
+
+function um_selected( selected, current ){
+
+	if( selected == current ){
+		return "selected='selected'";
+	}
+}

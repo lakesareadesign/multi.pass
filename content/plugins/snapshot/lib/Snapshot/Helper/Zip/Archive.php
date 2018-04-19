@@ -2,6 +2,9 @@
 
 class Snapshot_Helper_Zip_Archive extends Snapshot_Helper_Zip_Abstract {
 
+	private $extractWarningNumber;
+	private $extractWarningString;
+
 	public function initialize () {
 		$this->_zip = new ZipArchive;
 	}
@@ -15,6 +18,9 @@ class Snapshot_Helper_Zip_Archive extends Snapshot_Helper_Zip_Abstract {
 
 		$handle = $this->_zip->open($this->_path, $flags);
 		if (!$handle) return false;
+
+		// Extend processing time.
+		Snapshot_Helper_Utility::check_server_timeout();
 
 		$limit = 200;
 		$count = 0;
@@ -61,7 +67,21 @@ class Snapshot_Helper_Zip_Archive extends Snapshot_Helper_Zip_Abstract {
 		$handle = $this->_zip->open($this->_path);
 		if (!$handle) return false;
 
+		// Extend processing time.
+		Snapshot_Helper_Utility::check_server_timeout();
+
+		$this->extractWarningNumber = null;
+		$this->extractWarningString = null;
+
+		set_error_handler(array($this, 'extractWarning'));
 		$status = $this->_zip->extractTo($destination);
+		restore_error_handler();
+
+		if ($this->extractWarningNumber) {
+			$status = false;
+			Snapshot_Helper_Log::warn( 'Unable to extract the backup zip: ' . $this->extractWarningString );
+		}
+
 		$this->_zip->close();
 
 		return $status;
@@ -79,9 +99,22 @@ class Snapshot_Helper_Zip_Archive extends Snapshot_Helper_Zip_Abstract {
 		$handle = $this->_zip->open($this->_path);
 		if (!$handle) return false;
 
+		// Extend processing time.
+		Snapshot_Helper_Utility::check_server_timeout();
+
 		$status = $this->_zip->extractTo($destination, $files);
 		$this->_zip->close();
 
 		return $status;
+	}
+
+	/**
+	* Method to handle warnings, used for warnings handling around
+	* backup zip extraction.
+	*/
+	public function extractWarning($errno, $errstr)
+	{
+		$this->extractWarningNumber = $errno;
+		$this->extractWarningString = $errstr;
 	}
 }

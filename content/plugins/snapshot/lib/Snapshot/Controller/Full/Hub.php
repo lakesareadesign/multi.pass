@@ -11,6 +11,10 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	const ACTION_SET_KEY = 'set_key';
 	const ACTION_SCHEDULE_BACKUPS = 'schedule_backups';
 	const ACTION_START_BACKUP = 'start_backup';
+	const ACTION_STOP_BACKUP = 'stop_backup';
+	const ACTION_DELETE_BACKUP = 'delete_backup';
+	const ACTION_RESTORE_BACKUP = 'restore_backup';
+	const ACTION_DEACTIVATE_BACKUPS = 'deactivate_backups';
 
 	const OPTIONS_FLAG = 'snapshot-automate-run';
 
@@ -53,6 +57,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 		if ($this->is_running()) return false;
 
 		add_filter( 'wdp_register_hub_action', array($this, 'register_endpoints') );
+
 		$this->_running = true;
 	}
 
@@ -103,6 +108,10 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 			self::ACTION_SET_KEY,
 			self::ACTION_SCHEDULE_BACKUPS,
 			self::ACTION_START_BACKUP,
+			self::ACTION_STOP_BACKUP,
+			self::ACTION_DELETE_BACKUP,
+			self::ACTION_RESTORE_BACKUP,
+			self::ACTION_DEACTIVATE_BACKUPS,
 		);
 		return $known;
 	}
@@ -260,6 +269,47 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	}
 
 	/**
+	 * Deactivate backups implementation
+	 *
+	 * @return bool|WP_Error
+	 */
+	public function deactivate_backups () {
+		if (!$this->_model->is_active()) {
+			return new WP_Error(self::ACTION_DEACTIVATE_BACKUPS, "Managed backups already inactive");
+		}
+		$this->_model->set_config('active', false);
+		$this->_model->set_config('secret-key', false);
+		$this->clear_api_cache();
+
+		return false === $this->_model->is_active();
+	}
+
+	/**
+	 * Deactivate backups request handler
+	 *
+	 * @param object $params Parameters passed in json body
+	 * @param string $action The action name that was called
+	 * @param object $request Optional WPMUDEV_Dashboard_Remote object
+	 *
+	 * @return void
+	 */
+	public function json_deactivate_backups ($params, $action, $request=false) {
+		Snapshot_Helper_Log::info("Managed backups deactivation request received", 'Remote');
+		$status = $this->deactivate_backups();
+		if ($status && !is_wp_error($status)) {
+			Snapshot_Helper_Log::info('Backups deactivated', 'Remote');
+			return $this->send_response_success($status, $request);
+		} else {
+			$status = is_wp_error($status)
+				? $status
+				: new WP_Error(self::ACTION_DEACTIVATE_BACKUPS, 'Problem deactivating backups')
+			;
+			Snapshot_Helper_Log::info('Problem deactivating backups', 'Remote');
+			$this->send_response_error($status, $request);
+		}
+	}
+
+	/**
 	 * Validates the params passed to schedule backups action
 	 *
 	 * @param object $params API-passed params
@@ -274,11 +324,28 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 		if (!isset($params->frequency) || !in_array($params->frequency, $frequencies)) {
 			$status = new WP_Error(self::ACTION_SCHEDULE_BACKUPS, "Invalid parameter: frequency");
 		}
+		$freq = !is_wp_error($status)
+			? $params->frequency
+			: false
+		;
+
 		if (!isset($params->time) || !is_numeric($params->time)) {
 			$status = new WP_Error(self::ACTION_SCHEDULE_BACKUPS, "Invalid parameter: time");
 		}
 		if (!isset($params->limit) || !is_numeric($params->limit)) {
 			$status = new WP_Error(self::ACTION_SCHEDULE_BACKUPS, "Invalid parameter: limit");
+		}
+
+		if (!isset($params->offset)) {
+			if ('daily' !== $freq) {
+				// Only invalid if not set for non-daily frequencies.
+				$status = new WP_Error(self::ACTION_SCHEDULE_BACKUPS, "Missing parameter: offset");
+			}
+		} else {
+			if (!is_numeric($params->offset)) {
+				// If present, offset has to be numeric.
+				$status = new WP_Error(self::ACTION_SCHEDULE_BACKUPS, "Invalid parameter: offset");
+			}
 		}
 
 		if (!empty($status) && !is_wp_error($status)) {
@@ -308,6 +375,11 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 			Snapshot_Helper_Log::info("Automated rescheduling, cron enabled, with settings", "Remote");
 			$this->_model->set_config('frequency', $params->frequency);
 			$this->_model->set_config('schedule_time', $params->time);
+
+			if (in_array($params->frequency, array('weekly', 'monthly'))) {
+				$this->_model->set_config('schedule_offset', $params->offset);
+			}
+
 			$this->_model->set_config('disable_cron', false);
 			Snapshot_Controller_Full_Cron::get()->reschedule();
 		}
@@ -332,6 +404,10 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 			$lmodel = new Snapshot_Model_Full_Local;
 			$frequency = $params->frequency;
 			$time = $params->time;
+			$offset = !empty($params->offset)
+				? $params->offset
+				: false
+			;
 
 			// If there's no cron jobs allowed, send nothing
 			if ($this->_model->get_config('disable_cron', false)) {
@@ -344,6 +420,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 				'domain' => $domain,
 				'backup_freq' => $frequency,
 				'backup_time' => $time,
+				'backup_offset' => $offset,
 				'backup_limit' => Snapshot_Model_Full_Remote_Storage::get()->get_max_backups_limit(),
 				'local_full_backups' => json_encode($lmodel->get_backups()),
 			);
@@ -416,10 +493,17 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	/**
 	 * Actually performs a new full backup start
 	 *
+	 * @param object $params Parameters passed in json body
+	 *
 	 * @return WP_Error|bool Status
 	 */
-	public function start_backup () {
+	public function start_backup ($params=false) {
 		$cron = Snapshot_Controller_Full_Cron::get();
+		$via_automate = true;
+
+		if (is_object($params) && isset($params->via_automate)) {
+			$via_automate = !empty($params->via_automate);
+		}
 
 		Snapshot_Helper_Log::info("Booting backup", "Remote");
 
@@ -440,9 +524,17 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 			$this->_model->set_config('disable_cron', false);
 		}
 
-		update_site_option(self::OPTIONS_FLAG, 'true');
+		if (!empty($via_automate)) {
+			Snapshot_Helper_Log::info("About to start automated backup", "Remote");
+			update_site_option(self::OPTIONS_FLAG, 'true');
+		} else {
+			Snapshot_Helper_Log::info("About to start regular managed backup", "Remote");
+			$this->clear_flag();
+		}
+
 		$cron->start_backup(); // Now, let's go
 		//$cron->force_actual_start();
+
 		$status = $cron->is_running();
 		Snapshot_Helper_Log::info("Remotely triggered backup started", "Remote");
 
@@ -471,8 +563,168 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 			return $this->send_response_error(new WP_Error(self::ACTION_START_BACKUP, $msg), $request);
 		}
 
-		$status = $this->start_backup();
+		$status = $this->start_backup($params);
 		if (empty($status)) $status = new WP_Error(self::ACTION_START_BACKUP, 'Error starting backup');
+
+		return !is_wp_error($status)
+			? $this->send_response_success(true, $request)
+			: $this->send_response_error($status, $request)
+		;
+	}
+
+	/**
+	 * Actually performs backup stop action
+	 *
+	 * @return bool|WP_Error Status
+	 */
+	public function stop_backup () {
+		$cron = Snapshot_Controller_Full_Cron::get();
+
+		if (!$cron->is_running()) {
+			Snapshot_Helper_Log::info("Cancelling backup: apparently not running", "Remote");
+			// Already running. Bye!
+			return new WP_Error(self::ACTION_STOP_BACKUP, "Backup not running");
+		}
+
+		return $cron->reschedule();
+	}
+
+	/**
+	 * Handles a full backup stop request
+	 *
+	 * @param object $params Parameters passed in json body
+	 * @param string $action The action name that was called
+	 * @param object $request Optional WPMUDEV_Dashboard_Remote object
+	 *
+	 * @return void
+	 */
+	public function json_stop_backup ($params, $action, $request=false) {
+		Snapshot_Helper_Log::info("Remote backup cancelling request received", "Remote");
+
+		$status = $this->stop_backup();
+		if (empty($status)) $status = new WP_Error(self::ACTION_STOP_BACKUP, 'Error stopping backup');
+
+		if (!is_wp_error($status)) {
+			// Notify back that we're cancelled
+			Snapshot_Controller_Full_Reporter::get()->send_backup_finished_report(false);
+		}
+
+		return !is_wp_error($status)
+			? $this->send_response_success(true, $request)
+			: $this->send_response_error($status, $request)
+		;
+	}
+
+	/**
+	 * Gets valid backup ID (timestamp) from params
+	 *
+	 * @param object $params Parameters passed in json body
+	 *      $backup_id string Internal ID of the backup to delete
+	 *
+	 * @return WP_Error|int Timestamp on success, WP_Error on failure
+	 */
+	public function get_valid_backup_id ($params) {
+		if (!is_object($params)) {
+			return new WP_Error('backup_id_validation', "Invalid parameters");
+		}
+
+		if (!isset($params->backup)) {
+			return new WP_Error('backup_id_validation', "Required parameter backup ID is not present");
+		}
+
+		$backup_id = $params->backup;
+
+		if (empty($backup_id)) {
+			return new WP_Error('backup_id_validation', "Invalid parameter: backup ID");
+		}
+
+		if (!Snapshot_Helper_Backup::is_full_backup($backup_id)) {
+			return new WP_Error('backup_id_validation', "Invalid parameter: backup ID is not a valid backup");
+		}
+
+		$timestamp = (int)$this->_model->get_file_timestamp_from_name($backup_id);
+		if (empty($timestamp)) {
+			return new WP_Error('backup_id_validation', "Invalid parameter: backup ID doesn't resolve");
+		}
+
+		return $timestamp;
+	}
+
+	/**
+	 * Actually remove backup
+	 *
+	 * @param int $timestamp Backup timestamp
+	 *
+	 * @return bool
+	 */
+	public function delete_backup ($timestamp) {
+		$status = $this->_model->delete_backup($timestamp);
+
+		if (!empty($status)) {
+			// Update all settings, new list included
+			$this->_model->update_remote_schedule();
+			// Refresh backups list
+			//Snapshot_Model_Full_Remote_Storage::refresh_backups_list();
+		}
+
+		return true;
+	}
+
+	/**
+	 * Deletes a backup
+	 *
+	 * @param object $params Parameters passed in json body
+	 *      $backup_id string Internal ID of the backup to delete
+	 * @param string $action The action name that was called
+	 * @param object $request Optional WPMUDEV_Dashboard_Remote object
+	 *
+	 * @return void
+	 */
+	public function json_delete_backup ($params, $action, $request=false) {
+		Snapshot_Helper_Log::info("Remote backup deleting request received", "Remote");
+
+		$backup_id = $this->get_valid_backup_id($params);
+		if (is_wp_error($backup_id)) {
+			return $this->send_response_error($backup_id, $request);
+		}
+
+		$status = $this->delete_backup($backup_id);
+		if (empty($status)) $status = new WP_Error(self::ACTION_DELETE_BACKUP, "Deleting backup failed");
+
+		return !is_wp_error($status)
+			? $this->send_response_success(true, $request)
+			: $this->send_response_error($status, $request)
+		;
+	}
+
+	public function restore_backup ($backup_id) {
+		$cron = Snapshot_Controller_Full_Cron::get();
+		$cron->kickstart_restore_process($backup_id);
+
+		return true;
+	}
+
+	/**
+	 * Restores a backup
+	 *
+	 * @param object $params Parameters passed in json body
+	 *      $backup_id string Internal ID of the backup to delete
+	 * @param string $action The action name that was called
+	 * @param object $request Optional WPMUDEV_Dashboard_Remote object
+	 *
+	 * @return void
+	 */
+	public function json_restore_backup ($params, $action, $request=false) {
+		Snapshot_Helper_Log::info("Remote backup restoring request received", "Remote");
+
+		$backup_id = $this->get_valid_backup_id($params);
+
+		if (is_wp_error($backup_id)) {
+			return $this->send_response_error($backup_id, $request);
+		}
+
+		$status = $this->restore_backup($backup_id);
+		if (empty($status)) $status = new WP_Error(self::ACTION_RESTORE_BACKUP, "Deleting backup failed");
 
 		return !is_wp_error($status)
 			? $this->send_response_success(true, $request)

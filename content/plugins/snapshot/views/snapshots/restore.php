@@ -369,7 +369,10 @@ $warning = $requirements_test['warning'];
 										if ( ( isset( $item['data'] ) ) && ( count( $item['data'] ) ) ) :
 											$data_items = $item['data'];
 											krsort( $data_items );
-											$data_items = array_slice( $data_items, 0, 6, true );
+
+											// Do *not* limit the number of items shown for restore!
+											// Fixes: https://app.asana.com/0/11140230629075/503490790609676/f .
+											//$data_items = array_slice( $data_items, 0, 6, true );
 
 											foreach ( $data_items as $data_key => $data_item ) : ?>
 
@@ -589,6 +592,12 @@ $warning = $requirements_test['warning'];
 										<?php if ( ( ! is_multisite() ) && ( $item['MANIFEST']['WP_DB_PREFIX'] != $wpdb->prefix ) ) : ?>
 
 											<p class="snapshot-error"><?php printf( __( "Restore Note: The archive contains tables names with a different database prefix ( %s ) than this site ( %s ). The tables restored will automatically be renamed to the site prefix", SNAPSHOT_I18N_DOMAIN ), $item['MANIFEST']['WP_DB_PREFIX'], $wpdb->prefix ); ?></p>
+
+										<?php endif; ?>
+
+										<?php if ( ( ! is_multisite() ) && ( ! empty( $item['MANIFEST']['WP_DB_CHARSET_COLLATE'] ) ) && ( $item['MANIFEST']['WP_DB_CHARSET_COLLATE'] != $wpdb->get_charset_collate() ) ) : ?>
+
+											<p class="snapshot-error"><?php printf( __( "Restore Note: The archive you are about to restore has a different charset collation ( %s ) than this site ( %s ).", SNAPSHOT_I18N_DOMAIN ), $item['MANIFEST']['WP_DB_CHARSET_COLLATE'], $wpdb->get_charset_collate() ); ?></p>
 
 										<?php endif; ?>
 

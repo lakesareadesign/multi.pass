@@ -274,22 +274,26 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 
 		$lmodel = new Snapshot_Model_Full_Local;
 
-		// If there's no cron jobs allowed, send nothing
+		// If there's no cron jobs allowed, send nothing.
 		if ($this->get_config('disable_cron', false)) {
 			$frequency = '';
 			$time = 0;
 		}
+
+		// Get offset.
+		$offset = $this->get_config('schedule_offset', 0);
 
 		// Build our arguments
 		$args = array(
 			'domain' => $domain,
 			'backup_freq' => $frequency,
 			'backup_time' => $time,
+			'backup_offset' => (int)$offset,
 			'backup_limit' => Snapshot_Model_Full_Remote_Storage::get()->get_max_backups_limit(),
 			'local_full_backups' => json_encode($lmodel->get_backups()),
 		);
 
-		// Also include last backup timestamp, if supplied
+		// Also include last backup timestamp, if supplied.
 		if (!empty($timestamp) && is_numeric($timestamp)) {
 			$args['last_backup'] = $timestamp;
 		}

@@ -265,6 +265,77 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			return $this->error_array;
 		}
 
+		/**
+		 * Obtains remote items list
+		 *
+		 * @since 3.1.6-beta.1
+		 *
+		 * @param string $root Filename prefix to match.
+		 *
+		 * @return array A list of remote items
+		 */
+		public function list_remote_items ($root) {
+			$items = array();
+			$query = array(
+				"mimeType = 'application/zip'",
+				"title contains '{$root}'",
+			);
+
+			// Add parent directories to the query
+			if ( ! empty( $this->destination_info['directory'] ) ) {
+				$parent_directories = explode( ',', $this->destination_info['directory'] );
+				foreach ($parent_directories as $dir) {
+					$query[] = "'{$dir}' in parents";
+				}
+			}
+
+			try {
+				$items = $this->connection->files->listFiles(array(
+					'q' => join(' and ', $query)
+				))->items;
+			} catch (Exception $e) {
+				$this->handle_exception($e, 'list');
+			}
+			return $items;
+		}
+
+		/**
+		 * Parses response items into shared format
+		 *
+		 * @since 3.1.6-beta.1
+		 *
+		 * @param array $items Raw remote items
+		 *
+		 * @return array
+		 */
+		public function get_prepared_items ($items) {
+			$prepared = array();
+			foreach ($items as $item) {
+				$prepared[strtotime($item->createdDate)] = array(
+					'created' => $item->createdDate,
+					'title' => $item->title,
+					'id' => $item->id,
+				);
+			}
+			return $prepared;
+		}
+
+		/**
+		 * Removes remote file
+		 *
+		 * Assumes remote connection has been established already.
+		 *
+		 * @since 3.1.6-beta.1
+		 *
+		 * @param string $file_id Destination-dependent file ID.
+		 *
+		 * @return bool
+		 */
+		public function remove_file ($file_id) {
+			$this->connection->files->delete($file_id);
+			return true;
+		}
+
 		function send_file( $filename ) {
 
 			$this->snapshot_logger->log_message( "Sending file to directory: " . $this->destination_info['directory'] );

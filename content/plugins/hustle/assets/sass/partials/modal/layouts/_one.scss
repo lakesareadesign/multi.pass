@@ -7,7 +7,6 @@
 			max-height: 60vh;
 			overflow: hidden;
 			display: flex;
-			flex-wrap: nowrap;
 			flex-direction: column;
 
 			article {
@@ -57,7 +56,55 @@
 
 			@include screen("small") {
 				max-height: 70vh;
+				flex-wrap: wrap;
 				flex-direction: row;
+			}
+		}
+
+		&.hustle-size-small {
+
+			section {
+
+				article {
+
+					.hustle-modal-article {
+
+						@include screen("small") {
+							max-height: unset;
+							flex: 1;
+						}
+					}
+
+					@include screen("small") {
+						justify-content: unset;
+					}
+				}
+
+				&.hustle-modal-image_right {
+	
+					@include screen("small") {
+						flex-direction: column-reverse;
+					}
+				}
+
+				&.hustle-modal-image_above {
+				
+					@include screen("small") {
+						flex-direction: column;
+					}
+				}
+	
+				&.hustle-modal-image_below {
+	
+					@include screen("small") {
+						flex-direction: column-reverse;
+					}
+				}
+
+				@include screen("small") {
+					max-height: unset;
+					flex-direction: column;
+				}
 			}
 		}
 	}

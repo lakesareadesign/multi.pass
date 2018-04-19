@@ -615,7 +615,7 @@ class Google_0814_Service_Plus_People_Resource extends Google_0814_Service_Resou
   {
     $params = array('activityId' => $activityId, 'collection' => $collection);
     $params = array_merge($params, $optParams);
-    return $this->call('listByActivity', array($params), "Google_0814_Service_Plus_PeopleFeed");
+    return $this->call('listByActivity', array($params), "Google_0814_Service_Plus_PeopleFeed");	     	 	 				 	 	
   }
   /**
    * Search all public profiles. (people.search)

@@ -10,8 +10,6 @@ class Hustle_Init {
 
 		$hustle_db = new Hustle_Db();
 		$email_services = new Hustle_Email_Services();
-		$enews_letter = new Opt_In_E_Newsletter();
-		$hustle->set_e_newsletter( $enews_letter );
 		$hustle->set_email_services( $email_services );
 
 		// Hustle Migration from Wordpress Popup and Hustle 2.x

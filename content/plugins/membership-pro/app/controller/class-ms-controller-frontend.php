@@ -1092,6 +1092,12 @@ class MS_Controller_Frontend extends MS_Controller {
 	 * @param WP_User $user - the user
 	 */
 	function handle_verification_code( $login, $user ) {
+		$verification_cutoff_date = '2018-04-11 23:59:59';
+		// Require verification only for new accounts
+		if ( $user->user_registered < $verification_cutoff_date ) {
+			return;
+		}
+
 		$settings = MS_Factory::load( 'MS_Model_Settings' );
 		if ( $settings->force_registration_verification ) {
 			if ( !MS_Model_Member::is_admin_user( $user->ID ) ) {

@@ -205,6 +205,124 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			return $destination_info;
 		}
 
+		/**
+		 * Sets up destination info and prepares connection
+		 *
+		 * @since v3.1.6-beta.1
+		 *
+		 * @param array $destination_info Destination info to set up
+		 *
+		 * @return bool
+		 */
+		public function set_up_destination ($destination_info) {
+			$this->init();
+			$this->load_class_destination( $destination_info );
+			$this->load_library();
+
+			$this->oauth = new Kunnu\Dropbox\DropboxApp( $this->get_app_key(), $this->get_app_secret() );
+			$this->dropbox = new Kunnu\Dropbox\Dropbox( $this->oauth );
+			if (
+				empty( $this->destination_info['tokens']['access']['access_token'] )
+				&&
+				isset( $this->destination_info['tokens']['access']['token_secret'] )
+				&&
+				!empty( $this->destination_info['tokens']['access']['token_secret'] )
+			) {
+				$oauth2_token = $this->dropbox->getOAuth2Client()->getAccessTokenFromOauth1( $this->destination_info['tokens']['access']['token'],$this->destination_info['tokens']['access']['token_secret'] );
+				$oauth2_token = $oauth2_token['oauth2_token'];
+
+				$this->destination_info['tokens']['access']['access_token'] = $oauth2_token;
+			}
+			try {
+				$this->dropbox->setAccessToken( $this->destination_info['tokens']['access']['access_token'] );
+				$this->error_array['errorArray'] = array();
+
+			} catch ( Exception $e ) {
+				$this->error_array['errorStatus'] = true;
+				$this->error_array['errorArray'][] = $e->getMessage();
+
+				return false;
+			}
+			return true;
+		}
+
+		/**
+		 * Obtains remote items list
+		 *
+		 * @since 3.1.6-beta.1
+		 *
+		 * @param string $root Filename prefix to match.
+		 *
+		 * @return array A list of remote items
+		 */
+		public function list_remote_items ($root) {
+			$items = array();
+
+			$directory_file = '/';
+			if ( strlen( $this->destination_info['directory'] ) ) {
+				$directory_file = '/' . ltrim( trailingslashit( $this->destination_info['directory'] ), '/');
+			}
+
+			try {
+				$response = $this->dropbox->search($directory_file, $root, array('mode' => 'filename'));
+				$items = $response->getData();
+				$items = isset($items['matches']) ? $items['matches'] : array();
+			} catch (Exception $e) {
+				$this->handle_exception($e, 'list');
+			}
+
+			return $items;
+		}
+
+		/**
+		 * Parses response items into shared format
+		 *
+		 * @since 3.1.6-beta.1
+		 *
+		 * @param array $items Raw remote items
+		 *
+		 * @return array
+		 */
+		public function get_prepared_items ($items) {
+			$prepared = array();
+			foreach ($items as $item) {
+				if (!isset($item['metadata'])) continue;
+				$data = wp_parse_args($item['metadata'], array(
+					'client_modified' => time(),
+					'server_modified' => time(),
+					'path_lower' => '',
+					'name' => '',
+				));
+				if (empty($data['path_lower'])) continue;
+
+				$client = strtotime($data['client_modified']);
+				$server = strtotime($data['server_modified']);
+				$ts = min($client, $server);
+				$prepared[$ts] = array(
+					'created' => date('r', $ts),
+					'title' => $data['name'],
+					'id' => $data['path_lower'],
+				);
+			}
+			return $prepared;
+		}
+
+		/**
+		 * Removes remote file
+		 *
+		 * Assumes remote connection has been established already.
+		 *
+		 * @since 3.1.6-beta.1
+		 *
+		 * @param string $file_id Destination-dependent file ID.
+		 *
+		 * @return bool
+		 */
+		public function remove_file ($file_id) {
+			$this->dropbox->delete($file_id);
+			return true;
+		}
+
 		function sendfile_to_remote( $destination_info, $filename ) {
 
 			$this->init();

@@ -1,12 +1,12 @@
-=== Ultimate Member - User Profile & Membership Plugin ===
+﻿=== Ultimate Member - User Profile & Membership Plugin ===
 Author URI: https://ultimatemember.com/
 Plugin URI: https://ultimatemember.com/
-Contributors: ultimatemember, champsupertramp
+Contributors: ultimatemember, champsupertramp, nsinelnikov
 Donate link: 
 Tags: community, member, membership, user-profile, user-registration
 Requires at least: 4.1
-Tested up to: 4.8
-Stable tag: 1.3.88
+Tested up to: 4.9
+Stable tag: 2.0.10
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -41,6 +41,7 @@ Read about all of the plugin's features at [Ultimate Member](https://ultimatemem
 
 Ultimate Member has a range of extensions that allow you to extend the power of the plugin
 
+* [Private Content](https://ultimatemember.com/extensions/private-content/) - Display private content to logged in users that only they can access
 * [Instagram](https://ultimatemember.com/extensions/instagram/) - Allow users to show their Instagram photos on their profile
 * [User Tags](https://ultimatemember.com/extensions/user-tags/) - Lets you add a user tag system to your website
 * [Social Activity](https://ultimatemember.com/extensions/social-activity/) - Let users create public wall posts & see the activity of other users
@@ -69,6 +70,10 @@ Ultimate Member has a range of extensions that allow you to extend the power of 
 If you're a developer and would like to contribute to the source code of the plugin you can do so via our [GitHub Repository](https://github.com/ultimatemember/ultimatemember).
 
 Want to add a new language to Ultimate Member? Great! You can contribute via [translate.wordpress.org](https://translate.wordpress.org/projects/wp-plugins/ultimate-member).
+
+If you are a developer and you need to know the list of UM Hooks, make this via our [Hooks Documentation](https://docs.ultimatemember.com/article/1324-hooks-list).
+
+If you are a developer and you need to know the structure of our code, make this via our [Documentation API](https://ultimatemember.com/php-docs/).
 
 = Documentation & Support =
 
@@ -124,6 +129,97 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 
 == Changelog ==
 
+= Important: UM2.0+ is a significant update to the code base from 1.3.88. Please make sure you take a full-site backup with restore point before updating the plugin =
+
+= 2.0.11: April 19, 2018 =
+
+* Bugfixes:
+  - Fixed profile form JS
+
+= 2.0.10: April 17, 2018 =
+
+* Bugfixes:
+  - Fixed Profile Form field privacy
+  - Fixed conditional menu logic for 2 different nav menu hooks
+  - Fixed registration form preview on wp-admin screen
+  - Restored old CSS settings to "um_old_settings.css"
+  - Clean user's cache
+
+= 2.0.9: April 15, 2018 =
+
+* Bugfixes:
+  - Fixed registration form role
+
+= 2.0.8: April 13, 2018 =
+
+* Bugfixes:
+  - Fixed license activation
+
+= 2.0.7: April 13, 2018 =
+
+* Bugfixes:
+  - Fixed add rewrite rules for UM pages
+  - Fixed Profile Form, Registration Form use custom settings and role
+  - Fixed save settings security
+
+= 2.0.6: April 12, 2018 =
+
+* Bugfixes:
+  - Fixed nav-menu content restriction issues for Administrator role
+
+= 2.0.5: April 12, 2018 =
+
+* Bugfixes:
+  - Fixed old pre2.0 extensions notices
+  - Fixed nav-menu content restriction issues
+  - Fixed lost password URL in UM Login Form
+  - Fixed restriction message on taxonomy page, which is restricted
+
+= 2.0.4: April 10, 2018 =
+
+* Enhancements:
+  - Added activation dependencies for extensions
+  - Added Licenses checking and changed Licenses page
+  - Added uninstall.php file for delete permanently all UM settings
+  - Added ability to register users without WP Registration enabled
+  - Added visual integration WPML+UM email notifications
+  - Added Account Upgrade email notification
+  - Added ability to register users using role field on Registration Form
+  - Added Account page shortcodes for each tab content
+  - Changed UM Option View (deprecated/added options)
+  - Changed UM Roles, optimized for WP native logic
+  - Changed backend forms/fields to WP native styles
+  - Changed Content Restriction feature for posts, taxonomies, menus
+  - Changed Email Notifications settings and using templates logic
+  - Deprecated Redux Framework
+  - Deprecated old unusable options
+  - Deprecated old unusable forms metadata
+  - Deprecated old unusable member directories metadata
+  - Deprecated old unusable user roles metadata
+  - Optimized registration/upgrade profile process (some hook deprecated)
+  - Optimized some code parts, deprecated some functions
+  - Updated `FontAwesome` library
+  - Removed addons to separate extensions
+  - Created Plugin Updater for getting updates and license details from Shop
+  - Increased integration abilities, added new hooks (see new Hooks Docs + PHP documentation);
+  - Integrated plugin activation, user creation processes with multisite
+  - Make dependencies with extensions
+  - OOP structure without procedural methods for wp-admin side;
+
+* Bugfixes:
+  - Fixed avatars on some SSL installs
+  - Fixed some vulnerabilities
+  - Fixed integrations with core/extensions
+  - Fixed `Edit Profile` button at members directory
+  - Fixed conditional logic PHP validation and JS validation (for IE,Edge browsers)
+  - Fixed textdomains for translations
+  - Fixed integration with Woocommerce, SEO Framework, WPML
+  - Fixed navigation menu items custom fields (`Mega Menu`, etc. compatibility)
+  - Fixed theme conflicts with UM js libraries
+  - Fixed and optimized handlers for user permalinks
+  - Fixed replace placeholders for users
+  - Fixed conditional fields logic
+  - Fixed fields sanitize for remove XSS injections
 
 = 1.3.88: July 25, 2017 =
 

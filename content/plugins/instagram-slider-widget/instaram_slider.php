@@ -2,7 +2,7 @@
 /*
 Plugin Name: Instagram Slider Widget
 Plugin URI: http://instagram.jrwebstudio.com/
-Version: 1.4.2
+Version: 1.4.3
 Description: Instagram Slider Widget is a responsive slider widget that shows 12 latest images from a public Instagram user and up to 18 images from a hashtag.
 Author: jetonr
 Author URI: http://jrwebstudio.com/
@@ -24,9 +24,9 @@ class JR_InstagramSlider extends WP_Widget {
 	 *
 	 * @var     string
 	 */
-	const VERSION = '1.4.2';	
+	const VERSION = '1.4.3';	
 	
-	const USERNAME_URL = 'https://www.instagram.com/{username}/?__a=1';
+	const USERNAME_URL = 'https://www.instagram.com/{username}/';
 	
 	const TAG_URL = 'https://www.instagram.com/explore/tags/{tag}/?__a=1';
 	
@@ -964,11 +964,33 @@ class JR_InstagramSlider extends WP_Widget {
 			$old_opts['attachment']    = $attachment;
 			
 			if ( 'user' == $search ) {
+				
 				$url = str_replace( '{username}', urlencode( trim( $search_string ) ), self::USERNAME_URL );
 				$response = wp_remote_get( $url, array( 'sslverify' => false, 'timeout' => 60 ) );
+               	
+               	$json = str_replace( 'window._sharedData = ', '', strstr( $response['body'], 'window._sharedData = ' ) );
+                
+                // Compatibility for version of php where strstr() doesnt accept third parameter
+                if ( version_compare( PHP_VERSION, '5.3.0', '>=' ) ) {
+                        $json = strstr( $json, '</script>', true );
+                } else {
+                        $json = substr( $json, 0, strpos( $json, '</script>' ) );
+                }
+                $json = rtrim( $json, ';' );
+               
+                // Function json_last_error() is not available before PHP * 5.3.0 version
+                if ( function_exists( 'json_last_error' ) ) {
+                       
+                        ( $results = json_decode( $json, true ) ) && json_last_error() == JSON_ERROR_NONE;
+                       
+                } else {                       
+                        $results = json_decode( $json, true );
+                }
+
 			} else {
 				$url = str_replace( '{tag}', urlencode( trim( $search_string ) ), self::TAG_URL );
 				$response = wp_remote_get( $url, array(  'sslverify' => false, 'timeout' => 60 ) );
+				$results = json_decode( $response['body'], true );
 
 			}
 
@@ -979,16 +1001,13 @@ class JR_InstagramSlider extends WP_Widget {
 			
 			if ( $response['response']['code'] == 200 ) {
 
-				$results = json_decode( $response['body'], true );
-
 				if ( $results && is_array( $results ) ) {
 
 					if ( 'user' == $search ) {
-						$entry_data =  isset($results['graphql']['user']['edge_owner_to_timeline_media']['edges']) ? $results['graphql']['user']['edge_owner_to_timeline_media']['edges'] : array();
+						$entry_data =  isset($results['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['edges']) ? $results['entry_data']['ProfilePage'][0]['graphql']['user']['edge_owner_to_timeline_media']['edges'] : array();
 					} else {
 						$entry_data = isset( $results['graphql']['hashtag']['edge_hashtag_to_media']['edges'] ) ? $results['graphql']['hashtag']['edge_hashtag_to_media']['edges'] : array();
 					}
-
 					
 					if ( empty( $entry_data ) ) {
 						return __( 'No images found', 'jrinstaslider');
@@ -996,8 +1015,7 @@ class JR_InstagramSlider extends WP_Widget {
 
 					foreach ( $entry_data as $current => $result ) {
 
-							
-							$result = $result['node'];
+						$result = $result['node'];
 						
 						if ( 'hashtag' == $search ) {
 

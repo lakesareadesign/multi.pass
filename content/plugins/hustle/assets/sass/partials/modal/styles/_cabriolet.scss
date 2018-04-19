@@ -67,4 +67,64 @@
 			}
 		}
 	}
+
+	.hustle-size-small {
+
+		header {
+
+			@include screen("small") {
+				margin: 0 0 15px;
+			}
+		}
+
+		section {
+
+			&.hustle-modal-image_right {
+	
+				@include screen("small") {
+					flex-direction: column-reverse;
+				}
+			}
+		}
+	}
+}
+
+.hustle_module_widget_wrap {
+
+	.hustle-modal.hustle-modal-cabriolet {
+
+		.hustle-size-small {
+	
+			section {
+	
+				.hustle-modal-image {
+	
+					&.hustle-modal-mobile_hidden {
+	
+						+ .hustle-modal-message {
+	
+							@include screen("small") {
+								max-height: unset;
+							}
+						}
+					}
+
+					+ .hustle-modal-message {
+	
+						@include screen("small") {
+							max-height: unset;
+						}
+					}
+				}
+
+				.hustle-modal-message {
+		
+					@include screen("small") {
+						max-height: unset;
+						align-self: unset;
+					}
+				}
+			}
+		}
+	}
 }

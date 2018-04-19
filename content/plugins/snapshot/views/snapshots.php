@@ -137,7 +137,7 @@ $data = array(
 										<?php $per_page_snapshots = array_slice( $snapshots, $offset, $per_page ); ?>
 										<?php foreach ( $per_page_snapshots as $key => $snapshot ) :
 											$snapshot_locker = null;
-											$snapshot_locker = new Snapshot_Helper_Locker( WPMUDEVSnapshot::instance()->get_setting( 'backupLockFolderFull' ), $snapshot['timestamp'] );	     	 	 				 	 	
+											$snapshot_locker = new Snapshot_Helper_Locker( WPMUDEVSnapshot::instance()->get_setting( 'backupLockFolderFull' ), $snapshot['timestamp'] );
 											if ( ! empty( $snapshot['data'] ) ) {
 
 												$data_item = Snapshot_Helper_Utility::latest_data_item( $snapshot['data'] );

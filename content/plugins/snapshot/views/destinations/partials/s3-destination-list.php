@@ -26,7 +26,6 @@
         <?php $required_fields = array( 'name', 'awskey', 'secretkey', 'ssl', 'region', 'storage', 'bucket', 'acl' ); ?>
 
         <?php foreach ( $destinations as $id => $destination ) : ?>
-            <?php var_dump( $destination ); ?>
 
             <tr>
                 <td class="wps-destination-name">

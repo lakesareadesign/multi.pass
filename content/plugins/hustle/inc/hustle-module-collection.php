@@ -260,6 +260,8 @@ class Hustle_Module_Collection extends Hustle_Collection
 				$optin->floating_social_views = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'floating_social_view' ) );
 
 				$optin->floating_social_conversions = self::$_db->get_col( self::$_db->prepare( "SELECT meta_value FROM `". self::$_db->base_prefix ."optin_meta` WHERE optin_id = %d AND meta_key = '%s'", $optin->optin_id, 'floating_social_conversion' ) );
+
+				$optin->page_shares = self::$_db->get_results( self::$_db->prepare( "SELECT meta_key, meta_value FROM `" . self::$_db->base_prefix . "optin_meta` WHERE optin_id = %d AND meta_key like '%s'", $optin->optin_id, '%_page_shares' ) );
 			}
 
 			// specific for each module

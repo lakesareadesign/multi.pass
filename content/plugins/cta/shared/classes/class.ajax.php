@@ -76,17 +76,15 @@ if (!class_exists('Inbound_Ajax')) {
 			/* record CTA impressions */
 			$cta_impressions = ( isset($_POST['cta_impressions']) ) ? json_decode(stripslashes($_POST['cta_impressions']),true) : array();
 
-			if (!is_array($cta_impressions)) {
-				error_log('Bad CTA Impression Object');
-				return;
-			}
-			foreach ( $cta_impressions as $cta_id => $vid ) {
-				$lead_data['cta_id'] = (int) $cta_id;
-				$lead_data['variation_id'] = (int) $vid;
-				do_action('wp_cta_record_impression', $lead_data );
+			if (is_array($cta_impressions)) {
+				foreach ( $cta_impressions as $cta_id => $vid ) {
+					$lead_data['cta_id'] = (int) $cta_id;
+					$lead_data['variation_id'] = (int) $vid;
+					do_action('wp_cta_record_impression', $lead_data );
+				}
 			}
 
-			/* update content data */
+			/* Record landing page impression */
 			do_action('lp_record_impression', $lead_data['page_id'], $_POST['post_type'], $_POST['variation_id']);
 
 			die();
@@ -148,8 +146,9 @@ if (!class_exists('Inbound_Ajax')) {
 					$count++;
 				}
 
-				$list_array = json_encode(array('ids' => $lead_list));;
-				setcookie('wp_lead_list', $list_array, time() + (20 * 365 * 24 * 60 * 60), '/');
+				$list_array = json_encode(array('ids' => $lead_list));
+
+				setcookie('wp_lead_list', $list_array, (int) ( time() + (20 * 365 * 24 * 60 * 60) ), '/');
 			}
 		}
 

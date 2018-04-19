@@ -102,7 +102,7 @@ var InboundShortcodes = {
                     }
                     row_output = row_output.replace(re, input.val().replace(/"/g, "'"));
                 }
-                //console.log(newoutput);
+
             });
 
             outputs = outputs + row_output + "\n";
@@ -133,7 +133,6 @@ var InboundShortcodes = {
 
         jQuery("body").on('click', '.child-clone-row', function () {
             var exlcude_id = jQuery(this).attr('id');
-            console.log(exlcude_id);
             jQuery('.child-clone-row .minimize-class').not("#" + exlcude_id + " .minimize-class").addClass('tog-hide-it');
             jQuery(this).find(".minimize-class").removeClass('tog-hide-it');
             jQuery(this).find('.child-clone-row-shrink').text("Minimize");
@@ -362,7 +361,7 @@ var InboundShortcodes = {
                     }
 
                     jQuery('body').trigger("inbound_forms_data_ready");
-                    jQuery.data(this, 'current', jQuery(this).val());
+                    jQuery.data(this, 'current', this.valueOf());
 
                     /* Make sure field type options are revealed */
                     setTimeout(function() {
@@ -551,21 +550,6 @@ var InboundShortcodes = {
                 email_contents = jQuery('#content').val();
             }
 
-            var email_exists = InboundShortcodes.get_email();
-            console.log(email_exists);
-            if (email_exists != "") {
-                console.log('There is an email!');
-            } else {
-                if (confirm('We have detected no email field being used in this form. This will cause lead tracking to not work. Are you sure you want to not track this form? Click Cancel to add an email field')) {
-                    console.log('continue');
-                } else {
-
-                    jQuery('.step-item').eq(1).click();
-                    jQuery('.form-row.has-child').before('<h2 style="text-align:center; margin:0px;">Add an Email Field to the form</h2>');
-                    return false;
-                }
-            }
-
             /*Redirect whitespace cleaning*/
             if(form_values.indexOf("&inbound_shortcode_redirect_2=+")){
                 var form_values2 = form_values.substring(form_values.indexOf("&inbound_shortcode_redirect_2=") + 30, form_values.indexOf("inbound_shortcode_notify"));
@@ -618,15 +602,13 @@ var InboundShortcodes = {
                 };
 
                 for (var key in payload) {
-                    //console.log( payload[key] );
                     var test = killBadGuys(payload[key]);
-                    console.log(test);
-                    console.log(payload[key]);
                     if (test === "bad") {
                         return false;
                     }
                 }
-                console.log('run');
+                console.log('Saving form');
+                jQuery('#inbound_save_form').text('Saving...');
                 jQuery.ajax({
                     type: 'POST',
                     url: ajaxurl,
@@ -636,7 +618,7 @@ var InboundShortcodes = {
                     success: function (data) {
                         var self = this;
 
-                        console.log(data);
+
                         var str = data;
                         // If form name already exists
                         if (str === "\"Found\"") {
@@ -645,7 +627,7 @@ var InboundShortcodes = {
                         }
                         // If form name already exists
                         var obj = JSON.parse(str);
-                        console.log(obj);
+
 
 
                         var form_id = obj.post_id;
@@ -657,10 +639,13 @@ var InboundShortcodes = {
                         var worked = '<span class="lp-success-message">Form Created & Saved</span><a style="padding-left:10px;" target="_blank" href="' + site_base + '" class="event-view-post">View/Edit Form</a>';
 
                         var final_short_form = '[inbound_forms id="' + form_id + '" name="' + final_form_name + '"]';
+
                         if (typeof (inbound_forms) != "undefined" && inbound_forms !== null) {
-                            jQuery(self).text('Form Updated').css('font-size', '25px');
-                            var draft = jQuery("#hidden_post_status").val();
-                            if (draft === 'draft') {
+
+                            jQuery(self).text('Form Updated');
+                            var draft = jQuery("#original_post_status").val();
+
+                            if (draft === 'auto-draft') {
                                 window.location.href = inbound_shortcodes.adminurl + '/post.php?post=' + form_id + '&action=edit&reload=true'
                             }
                             setTimeout(function () {
@@ -700,25 +685,19 @@ var InboundShortcodes = {
             clearTimeout(jQuery.data(this, 'typeTimer'));
             jQuery.data(this, 'typeTimer', setTimeout(function () {
                 InboundShortcodes.generateChild(); // runs refresh for children
-                var update_dom = jQuery(this).val();
-                var update_dom = update_dom.replace(/"/g, "'");
-                jQuery(this).attr('value', update_dom);
             }, 1000));
         });
 
         jQuery('.inbound-shortcodes-input', form).on('change, keyup', function () {
             clearTimeout(jQuery.data(this, 'typeTimer'));
-            jQuery.data(this, 'typeTimer', setTimeout(function () {
+            jQuery.data(this, 'typeTimer', setTimeout(function (e) {
                 var exclude_input = jQuery(this).parent().parent().parent().parent().hasClass('exclude-from-refresh');
-                console.log('yes');
-                console.log(exclude_input);
+
                 if (exclude_input != 'true') {
                     InboundShortcodes.generate(); // runs refresh
                     InboundShortcodes.generateChild();
                 }
-                var update_dom = jQuery(this).val();
-                var update_dom = update_dom.replace(/"/g, "'");
-                jQuery(this).attr('value', update_dom);
+
             }, 1000));
         });
 
@@ -808,26 +787,13 @@ var InboundShortcodes = {
         }, 2000);
 
     },
-    get_email: function () {
-        var email_field = '';
-        jQuery('.inbound-form-label-input').each(function () {
-            var this_val = jQuery(this).val();
-            var res = this_val.match(/email|e-mail/gi);
-            if (res != null) {
-                console.log(this_val);
-                return email_field = 'yes';
-            }
-        });
-        return email_field;
-    },
     htmlEncode: function (html) {
         var html = html.replace(/</g, "&lt;");
         var html = html.replace(/>/g, "&gt;");
         var html = html.replace(/\?/g, "%3F");
         var html = html.replace(/\/>/, "%2F%3E");
-        //var html = html.replace(/&/g, "%26");
         var html = encodeURIComponent(html);
-        //console.log(html);
+
         return html;
     }
 

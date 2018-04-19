@@ -1,0 +1,72 @@
+.hustle-modal:not(.hustle-modal-image_only) {
+
+	.hustle-modal-image_contain {
+		
+		img {
+			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				width: auto;
+				height: auto;
+				max-width: 100%;
+				max-height: 100%;
+			}
+		}
+		
+		.hustle-modal-image_centercenter {
+			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,-50%);
+			}
+		}
+		
+		.hustle-modal-image_centertop, .hustle-modal-image_centercustom {
+			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				left: 50%;
+				transform: translate(-50%,0px);
+			}
+		}
+		
+		.hustle-modal-image_centerbottom {
+			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				left: 50%;
+				transform: translate(-50%,0px);
+				bottom: 0;
+			}
+		}
+		
+		.hustle-modal-image_leftcenter {
+			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				top: 50%;
+				transform: translate(0px,-50%);
+			}
+		}
+		
+		.hustle-modal-image_leftbottom {
+			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				bottom: 0;
+			}
+		}
+		
+		.hustle-modal-image_rightcenter {
+			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				right: 0;
+				top: 50%;
+				transform: translate(0px,-50%);
+			}
+		}
+		
+		.hustle-modal-image_righttop {
+			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				right: 0;
+			}
+		}
+		
+		.hustle-modal-image_rightbottom {
+			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				right: 0;
+				bottom: 0;
+			}
+		}
+
+	}
+}

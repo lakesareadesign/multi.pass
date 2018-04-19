@@ -273,7 +273,7 @@
 					content_view.is_service_modal_updated = true;
 				};
 				
-				$(doc).on("change", "#wph-email-provider-lists", update_list_groups );
+				$(doc).on("change", ".mailchimp_optin_email_list", update_list_groups );
 				$(doc).on("change", "#mailchimp_groups", update_group_interests );
 				$(doc).on("change", "input[name='optin_api_key']", api_key_updated );
 				$(doc).on("click", ".mailchimp_optin_load_more_lists", load_more_lists);

@@ -4,7 +4,12 @@
 		overflow: hidden;
 		display: flex;
 		flex-direction: column;
-
+		
+		// IE10+ CSS styles go here
+		@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+			overflow: auto;
+		}
+		
 		.hustle-modal-content {
 			max-height: calc(60vh - 150px);
 			overflow-y: auto;
@@ -27,7 +32,7 @@
 			}
 
 			@include screen("small") {
-				max-height: none;
+				max-height: unset;
 			}
 		}
 
@@ -36,6 +41,43 @@
 
 			@include screen("small") {
 				flex-direction: row-reverse;
+			}
+		}
+
+		&.hustle-size-small {
+
+			.hustle-modal-content {
+
+				section {
+
+					.hustle-modal-message {
+
+						@include screen("small") {
+							max-height: unset;
+						}
+					}
+
+					@include screen("small") {
+						max-height: unset;
+					}
+				}
+
+				@include screen("small") {
+					max-height: unset;
+				}
+			}
+
+			&.hustle-modal-image_right {
+
+				@include screen("small") {
+					flex-direction: column-reverse;
+				}
+			}
+
+			@include screen("small") {
+				max-height: unset;
+				flex-wrap: nowrap;
+				flex-direction: column;
 			}
 		}
 
@@ -62,6 +104,11 @@
 		
 		@include screen("small") {
 			flex-direction: column;
+			
+			// IE10+ CSS styles go here
+			@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+				flex-direction: row;
+			}
 		}
 	}
 }

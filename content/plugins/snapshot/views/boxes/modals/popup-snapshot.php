@@ -64,14 +64,10 @@
 
 									<input type="text" name="secret-key" id="secret-key" value="<?php echo ( isset( $apiKey ) && !empty( $apiKey ) ) ? $apiKey : '' ?>"  data-url="<?php echo ( isset( $apiKeyUrl ) && !empty( $apiKeyUrl ) ) ? $apiKeyUrl : '' ?>" placeholder="<?php _e('Enter your key here', SNAPSHOT_I18N_DOMAIN); ?>">
 
-									<?php if ( !isset( $apiKey ) || empty( $apiKey )) : ?>
-
 									<button type="submit" name="activate" value="yes" class="button button-gray"><?php _e('Save Key', SNAPSHOT_I18N_DOMAIN); ?></button>
 
-								<?php endif; ?>
-
 									<?php 	$model = new Snapshot_Model_Full_Backup; ?>
-									<a href="<?php echo esc_attr( $model->get_current_secret_key_link() );?>" target='_blank' class="button button-gray wps-snapshot-popin-content-step-4 <?php echo ( isset( $apiKey ) && !empty( $apiKey ) ) ? '' : 'hidden' ?>"><?php _e('Reset Key', SNAPSHOT_I18N_DOMAIN);?></a>
+									<p><a href="<?php echo esc_attr( $model->get_current_secret_key_link() );?>" target='_blank' class="wps-snapshot-popin-content-step-4 <?php echo ( isset( $apiKey ) && !empty( $apiKey ) ) ? '' : 'hidden' ?>"><?php _e('Reset Key', SNAPSHOT_I18N_DOMAIN);?></a></p>
 
 
 

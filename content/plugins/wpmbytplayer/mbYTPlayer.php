@@ -4,13 +4,13 @@ Plugin Name: mb.YTPlayer for background videos
 Plugin URI: http://pupunzi.com/#mb.components/mb.YTPlayer/YTPlayer.html
 Description: Play a Youtube video as background of your page. Go to <strong>mb.ideas > mb.YTPlayer</strong> to activate the background video option for your homepage.
 Author: Pupunzi (Matteo Bicocchi)
-Version: 3.1.55
+Version: 3.2.0
 Author URI: http://pupunzi.com
 Text Domain: wpmbytplayer
 */
 
 
-define("MBYTPLAYER_VERSION", "3.1.55");
+define("MBYTPLAYER_VERSION", "3.2.0");
 
 // Set unique string for this site
 $lic_domain = $_SERVER['HTTP_HOST'];
@@ -76,6 +76,20 @@ function mbYTPlayer_install()
     add_option('mbYTPlayer_video_url', '');
     add_option('mbYTPlayer_video_page', 'static');
     add_option('mbYTPlayer_remember_last_time', false);
+    add_option('mbYTPlayer_init_delay', false);
+}
+
+add_action('admin_init', 'register_YTPlayerSettings');
+function register_YTPlayerSettings()
+{
+    //register YTPlayer settings
+    register_setting('YTPlayer-activate-group', 'mbYTPlayer_is_active');
+
+    register_setting('YTPlayer-settings-group', 'mbYTPlayer_version');
+    register_setting('YTPlayer-settings-group', 'mbYTPlayer_video_url');
+    register_setting('YTPlayer-settings-group', 'mbYTPlayer_video_page');
+    register_setting('YTPlayer-settings-group', 'mbYTPlayer_remember_last_time');
+    register_setting('YTPlayer-settings-group', 'mbYTPlayer_init_delay');
 }
 
 $mbYTPlayer_version = get_option('mbYTPlayer_version');
@@ -83,6 +97,7 @@ $mbYTPlayer_is_active = get_option('mbYTPlayer_is_active');
 $mbYTPlayer_video_url = get_option('mbYTPlayer_video_url');
 $mbYTPlayer_video_page = get_option('mbYTPlayer_video_page');
 $mbYTPlayer_remember_last_time = get_option('mbYTPlayer_remember_last_time');
+$mbYTPlayer_init_delay = get_option('mbYTPlayer_init_delay');
 
 $mbYTPlayer_show_controls = "false";
 $mbYTPlayer_show_videourl = "false";
@@ -103,13 +118,12 @@ if($mbYTPlayer_version !=  MBYTPLAYER_VERSION) {
     update_option('mbYTPlayer_price', mbYTPlayer_get_price("YTPL"));
     update_option('mbYTPlayer_version', MBYTPLAYER_VERSION);
 }
-$mbYTPlayer_price = get_option('mbYTPlayer_price');
 
+$mbYTPlayer_price = get_option('mbYTPlayer_price');
 if (empty($mbYTPlayer_price)) {
     update_option('mbYTPlayer_price', mbYTPlayer_get_price("YTPL"));
     $mbYTPlayer_price = get_option('mbYTPlayer_price');
 }
-
 if (empty($mbYTPlayer_is_active)) {
     $mbYTPlayer_is_active = false;
 }
@@ -121,6 +135,9 @@ if (empty($mbYTPlayer_video_page)) {
 }
 if (empty($mbYTPlayer_remember_last_time)) {
     $mbYTPlayer_remember_last_time = "false";
+}
+if (empty($mbYTPlayer_init_delay)) {
+    $mbYTPlayer_init_delay = 0;
 }
 
 /**
@@ -191,7 +208,8 @@ function mbYTPlayer_player_foot()
            $mbYTPlayer_video_page,
            $mbYTPlayer_is_active,
            $mbYTPlayer_audio_volume,
-           $mbYTPlayer_remember_last_time;
+           $mbYTPlayer_remember_last_time,
+           $mbYTPlayer_init_delay;
 
     $canShowMovie = is_front_page() && !is_home(); // A static page set as home;
     if ($mbYTPlayer_video_page == "blogindex")
@@ -210,6 +228,7 @@ function mbYTPlayer_player_foot()
             $mbYTPlayer_opacity = $mbYTPlayer_opacity / 10;
 
         $vids = explode(',', $mbYTPlayer_video_url);
+        $vids = array_filter($vids);
         $n = rand(0, count($vids) - 1);
         $mbYTPlayer_video_url_revised = $vids[$n];
 
@@ -228,9 +247,11 @@ function mbYTPlayer_player_foot()
       }
 
     jQuery(function(){
-        var homevideo = "' . $mbYTPlayer_player_homevideo . '";
-        jQuery("body").prepend(homevideo);
-        jQuery("#bgndVideo_home").YTPlayer();
+      	var homevideo = "' . $mbYTPlayer_player_homevideo . '";
+      	setTimeout(function(){
+            jQuery("body").prepend(homevideo);
+            jQuery("#bgndVideo_home").YTPlayer();	
+            },' . $mbYTPlayer_init_delay . ')
       });
 
     </script>
@@ -239,20 +260,7 @@ function mbYTPlayer_player_foot()
     }
 };
 
-
 add_shortcode( 'mbYTPlayer', '__return_false' );
-
-add_action('admin_init', 'register_YTPlayerSettings');
-function register_YTPlayerSettings()
-{
-    //register YTPlayer settings
-    register_setting('YTPlayer-activate-group', 'mbYTPlayer_is_active');
-
-    register_setting('YTPlayer-settings-group', 'mbYTPlayer_version');
-    register_setting('YTPlayer-settings-group', 'mbYTPlayer_video_url');
-    register_setting('YTPlayer-settings-group', 'mbYTPlayer_video_page');
-    register_setting('YTPlayer-settings-group', 'mbYTPlayer_remember_last_time');
-}
 
 /**
  * Add root menu
@@ -290,18 +298,16 @@ function mbYTPlayer_options_page()
 
     <div class="wrap">
         <a href="http://pupunzi.com"><img style=" width: 350px" src="<?php echo plugins_url('images/logo.png', __FILE__); ?>" alt="Made by Pupunzi"/></a>
-
         <h2 class="title"><?php _e('mb.YTPlayer', 'wpmbytplayer'); ?></h2>
-
         <img style=" width: 150px; position: absolute; right: 0; top: 0; z-index: 100" src="<?php echo plugins_url('images/YTPL.svg', __FILE__); ?>" alt="mb.YTPlayer icon"/>
-
         <h3><?php _e('From here you can set a background video for your home page.', 'wpmbytplayer'); ?></h3>
-
         <form id="optionsForm" method="post" action="options.php">
             <?php settings_fields('YTPlayer-activate-group'); ?>
             <?php do_settings_sections('YTPlayer-activate-group'); ?>
-
             <table class="form-table">
+                <!--
+                  mbYTPlayer_is_active
+                  --------------------–--------------------–--------------------–--------------------–--------------------–------- -->
                 <tr valign="top">
                     <th scope="row"><?php _e('activate the background video', 'wpmbytplayer'); ?></th>
                     <td>
@@ -315,11 +321,12 @@ function mbYTPlayer_options_page()
                 </tr>
             </table>
         </form>
-
+        <!--
+          mbYTPlayer_video_url
+          --------------------–--------------------–--------------------–--------------------–--------------------–------- -->
         <form id="optionsForm" method="post" action="options.php">
             <?php settings_fields('YTPlayer-settings-group'); ?>
             <?php do_settings_sections('YTPlayer-settings-group'); ?>
-
             <table class="form-table">
                 <tr valign="top">
                     <th scope="row"> <?php _e('The Youtube video url is:', 'wpmbytplayer'); ?></th>
@@ -344,7 +351,9 @@ function mbYTPlayer_options_page()
                         </p>
                     </td>
                 </tr>
-
+                <!--
+                  mbYTPlayer_video_page
+                  --------------------–--------------------–--------------------–--------------------–--------------------–------- -->
                 <tr valign="top">
                     <th scope="row"><?php _e('The page where to show the background video is:', 'wpmbytplayer'); ?></th>
                     <td>
@@ -356,7 +365,9 @@ function mbYTPlayer_options_page()
                         <p><?php _e('Choose on which page you want the background video to be shown', 'wpmbytplayer'); ?></p>
                     </td>
                 </tr>
-
+                <!--
+                  mbYTPlayer_remember_last_time
+                  --------------------–--------------------–--------------------–--------------------–--------------------–------- -->
                 <tr valign="top">
                     <th scope="row"><?php _e('Remember last video time position:', 'wpmbytplayer'); ?></th>
                     <td>
@@ -366,8 +377,29 @@ function mbYTPlayer_options_page()
                         <label for="mbYTPlayer_remember_last_time"><?php _e('Check to start the video from where you left last time', 'wpmbytplayer'); ?></label>
                     </td>
                 </tr>
-
-
+                <!--
+                mbYTPlayer_init_delay
+                --------------------–--------------------–--------------------–--------------------–--------------------–------- -->
+                <tr valign="top" style="background: #ffd8d7">
+                    <td colspan="2">
+                        <div style="font-weight: normal; color: #a00102; text-transform: uppercase"><?php _e('Red zone!', 'wpmbytplayer') ?></div>
+                        <div style="margin-top: 10px"><?php _e('<strong>Rarely there could be a conflict with a theme or a plugins</strong> that prevent the player to work; adding a delay to the initialize event could solve the problem. Be careful that this option will delay the start of the video', 'wpmbytplayer'); ?></div>
+                        <div style="font-weight: 100; margin-top: 10px"><?php _e('This is a global option and will affect any player in any page', 'wpmbytplayer'); ?></div>
+                    </td>
+                </tr>
+                <tr valign="top" style="background: #ffd8d7">
+                    <th scope="row"><?php _e('Time to wait before initialization:', 'wpmbytplayer'); ?></th>
+                    <td>
+                        <select id="mbYTPlayer_init_delay" name="mbYTPlayer_init_delay">
+                            <option value="0" <?php echo (get_option('mbYTPlayer_init_delay') == 0 ? "selected" : "") ?>><?php _e('none', 'wpmbytplayer'); ?></option>
+                            <option value="1000" <?php echo (get_option('mbYTPlayer_init_delay') == 1000 ? "selected" : "") ?>>1 sec.</option>
+                            <option value="1500" <?php echo (get_option('mbYTPlayer_init_delay') == 1500 ? "selected" : "") ?>>1.5 sec.</option>
+                            <option value="2000" <?php echo (get_option('mbYTPlayer_init_delay') == 2000 ? "selected" : "") ?>>2 sec.</option>
+                            <option value="3000" <?php echo (get_option('mbYTPlayer_init_delay') == 3000 ? "selected" : "") ?>>3 sec.</option>
+                        </select>
+                        <label for="mbYTPlayer_init_delay" style="display: block"><?php _e('Add a delay in seconds for the player initialization<br>(most times it needs 2 sec.)', 'wpmbytplayer'); ?></label>
+                    </td>
+                </tr>
             </table>
 
             <p class="submit">
@@ -375,7 +407,7 @@ function mbYTPlayer_options_page()
             </p>
         </form>
         <a href="<?php echo $ytpl_plus_link ?>" target="_blank"> <img
-                src="<?php echo plugins_url('/images/pro-opt.png', __FILE__); ?>"></a>
+                    src="<?php echo plugins_url('/images/pro-opt.png', __FILE__); ?>"></a>
     </div>
 
     <!-- ---------------------------—---------------------------—---------------------------—---------------------------
@@ -413,13 +445,13 @@ function mbYTPlayer_options_page()
             </p>
             <hr>
             <p><?php _e('Don’t forget to follow me on twitter', 'wpmbytplayer'); ?>: <a
-                    href="https://twitter.com/pupunzi">@pupunzi</a><br>
+                        href="https://twitter.com/pupunzi">@pupunzi</a><br>
                 <?php _e('Visit my site', 'wpmbytplayer'); ?>: <a href="http://pupunzi.com">http://pupunzi.com</a><br>
                 <?php _e('Visit my blog', 'wpmbytplayer'); ?>: <a
-                    href="http://pupunzi.open-lab.com">http://pupunzi.open-lab.com</a><br>
+                        href="http://pupunzi.open-lab.com">http://pupunzi.open-lab.com</a><br>
                 Paypal: <a
-                    href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=V6ZS8JPMZC446&lc=GB&item_name=mb%2eideas&item_number=MBIDEAS&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG_global%2egif%3aNonHosted"
-                    target="_blank"><?php _e('donate', 'wpmbytplayer'); ?></a>
+                        href="https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=V6ZS8JPMZC446&lc=GB&item_name=mb%2eideas&item_number=MBIDEAS&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG_global%2egif%3aNonHosted"
+                        target="_blank"><?php _e('donate', 'wpmbytplayer'); ?></a>
             <hr>
             <!-- Begin MailChimp Signup Form -->
             <form action="http://pupunzi.us6.list-manage2.com/subscribe/post?u=4346dc9633&amp;id=91a005172f"
@@ -445,23 +477,23 @@ function mbYTPlayer_options_page()
                    data-text="I'm using the mb.YTPlayer WP plugin for background videos" data-via="pupunzi"
                    data-hashtags="HTML5,wordpress,plugin">Tweet</a>
                 <script>!function (d, s, id) {
-                        var js, fjs = d.getElementsByTagName(s)[0];
-                        if (!d.getElementById(id)) {
-                            js = d.createElement(s);
-                            js.id = id;
-                            js.src = "//platform.twitter.com/widgets.js";
-                            fjs.parentNode.insertBefore(js, fjs);
-                        }
-                    }(document, "script", "twitter-wjs");</script>
+										var js, fjs = d.getElementsByTagName(s)[0];
+										if (!d.getElementById(id)) {
+											js = d.createElement(s);
+											js.id = id;
+											js.src = "//platform.twitter.com/widgets.js";
+											fjs.parentNode.insertBefore(js, fjs);
+										}
+									}(document, "script", "twitter-wjs");</script>
                 <div id="fb-root"></div>
                 <script>(function (d, s, id) {
-                        var js, fjs = d.getElementsByTagName(s)[0];
-                        if (d.getElementById(id)) return;
-                        js = d.createElement(s);
-                        js.id = id;
-                        js.src = "//connect.facebook.net/it_IT/all.js#xfbml=1";
-                        fjs.parentNode.insertBefore(js, fjs);
-                    }(document, 'script', 'facebook-jssdk'));</script>
+										var js, fjs = d.getElementsByTagName(s)[0];
+										if (d.getElementById(id)) return;
+										js = d.createElement(s);
+										js.id = id;
+										js.src = "//connect.facebook.net/it_IT/all.js#xfbml=1";
+										fjs.parentNode.insertBefore(js, fjs);
+									}(document, 'script', 'facebook-jssdk'));</script>
                 <div style="margin-top: 10px" class="fb-like"
                      data-href="https://wordpress.org/plugins/wpmbytplayer/" data-send="false"
                      data-layout="button_count" data-width="450" data-show-faces="true" data-font="arial"></div>
@@ -470,34 +502,34 @@ function mbYTPlayer_options_page()
 
     </div>
     <script>
-        jQuery(function () {
+			jQuery(function () {
 
-            var activate = jQuery("#mbYTPlayer_is_active");
-            activate.on("change", function () {
-                var val = this.checked ? 1 : 0;
-                jQuery.ajax({
-                    type    : "post",
-                    dataType: "json",
-                    url     : ajaxurl,
-                    data    : {action: "mbytp_activate", activate: val},
-                    success : function (resp) {}
-                })
-            });
+				var activate = jQuery("#mbYTPlayer_is_active");
+				activate.on("change", function () {
+					var val = this.checked ? 1 : 0;
+					jQuery.ajax({
+						type    : "post",
+						dataType: "json",
+						url     : ajaxurl,
+						data    : {action: "mbytp_activate", activate: val},
+						success : function (resp) {}
+					})
+				});
 
-            // Add ADVs
-            jQuery.ajax({
-                type    : "post",
-                dataType: "html",
-                url     : "https://pupunzi.com/wpPlus/advs.php",
-                data    : {plugin: "YTPL"},
-                success : function (resp) {
-                    jQuery("#ADVs").html(resp);
-                }
-            })
+				// Add ADVs
+				jQuery.ajax({
+					type    : "post",
+					dataType: "html",
+					url     : "https://pupunzi.com/wpPlus/advs.php",
+					data    : {plugin: "YTPL"},
+					success : function (resp) {
+						jQuery("#ADVs").html(resp);
+					}
+				})
 
-        })
+			})
     </script>
-<?php
+    <?php
 }
 
 /**
@@ -534,9 +566,7 @@ function mbytp_free_deactivate()
     if ($ytppro) {
         include_once(ABSPATH . 'wp-admin/includes/plugin.php');
         deactivate_plugins(plugin_basename(__FILE__));
-
         $dir = plugin_dir_path(__FILE__);
-
         deleteDir($dir);
     }
 };

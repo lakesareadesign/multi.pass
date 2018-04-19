@@ -65,8 +65,8 @@ class Hustle_Module_Admin {
 		// reject css
 		$defined_rejected_css = $config['new_config']->get("minify.reject.files.css");
 		$reject_css = array(
-			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/front.css',
-			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/admin.css',
+			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/front.min.css',
+			$this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/admin.min.css',
 		);
 		foreach( $reject_css as $r_css ) {
 			if ( !in_array( $r_css, $defined_rejected_css ) ) {
@@ -238,7 +238,7 @@ class Hustle_Module_Admin {
 					'floating_social' => __("Floating Social", Opt_In::TEXT_DOMAIN ),
 				),
 				'conditions' => array(
-					'only_on_not_found' => __("Only on 404 page", Opt_In::TEXT_DOMAIN ),
+					'only_on_not_found' => __("404 page", Opt_In::TEXT_DOMAIN ),
 					'visitor_logged_in' => __("Visitor is logged in", Opt_In::TEXT_DOMAIN ),
 					'visitor_not_logged_in' => __("Visitor not logged in", Opt_In::TEXT_DOMAIN ),
 					'shown_less_than' => __("{type_name} shown less than", Opt_In::TEXT_DOMAIN ),
@@ -305,7 +305,7 @@ class Hustle_Module_Admin {
 					"everywhere" => __("Show everywhere", Opt_In::TEXT_DOMAIN)
 				),
 				'conditions_body' => array(
-					'only_on_not_found' => __('Shows the {type_name} only to 404 page.', Opt_In::TEXT_DOMAIN),
+					'only_on_not_found' => __('Shows the {type_name} on the 404 page.', Opt_In::TEXT_DOMAIN),
 					'visitor_has_commented' => __('Shows the {type_name} if the user has already left a comment. You may want to combine this condition with either "Visitor is logged in" or "Visitor is not logged in".', Opt_In::TEXT_DOMAIN),
 					'visitor_has_never_commented' => __('Shows the {type_name} if the user has never left a comment. You may want to combine this condition with either "Visitor is logged in" or "Visitor is not logged in".', Opt_In::TEXT_DOMAIN),
 					'from_search_engine' => __('Shows the {type_name} if the user arrived via a search engine.', Opt_In::TEXT_DOMAIN),
@@ -491,8 +491,8 @@ class Hustle_Module_Admin {
 		wp_enqueue_style('thickbox');
 
 		wp_register_style( 'optin_admin_select2', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/vendor/select2/css/select2.min.css', array(), $this->_hustle->get_const_var( "VERSION" ));
-		wp_register_style( 'wpoi_admin', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/admin.css', array(), $this->_hustle->get_const_var( "VERSION" ));
-		wp_register_style( 'hustle_admin_ie', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/ie-admin.css', array(), $this->_hustle->get_const_var( "VERSION" ));
+		wp_register_style( 'wpoi_admin', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/admin.min.css', array(), $this->_hustle->get_const_var( "VERSION" ));
+		wp_register_style( 'hustle_admin_ie', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/ie-admin.min.css', array(), $this->_hustle->get_const_var( "VERSION" ));
 		wp_register_style( 'hstl-roboto', 'https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i', $this->_hustle->get_const_var( "VERSION" ) );
 		wp_register_style( 'hstl-opensans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i', $this->_hustle->get_const_var( "VERSION" ) );
 		wp_register_style( 'hstl-source', 'https://fonts.googleapis.com/css?family=Source+Code+Pro', $this->_hustle->get_const_var( "VERSION" ) );

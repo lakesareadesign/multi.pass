@@ -210,7 +210,14 @@
 						? this.data.type
 						: this.data.module_type;
 				if ( after_submit === 'close' ) {
-					this.$el.find( "form" ).on("submit", _.bind( this.close, this ) );
+               // Fix for CF7.
+					if(this.$el.find( "form.wpcf7-form" ).length > 0 ) {
+						document.addEventListener( 'wpcf7mailsent', function( event ) {
+							me.close();
+						}, false );
+					} else {
+						this.$el.find( "form" ).on("submit", _.bind( this.close, this ) );
+					}
 					this.handle_compatibility();
 				} else if ( after_submit === 'redirect' ) {
 					this.$el.find( "form" ).on("submit", _.bind( this.redirect_form_submit, this ) );
@@ -484,8 +491,8 @@
 			}
 
 			if ($modal.hasClass('hustle-modal-static')) {
-				$modal.removeClass('hustle-modal-static');
-				me.$el.removeClass('wph-modal-active');
+				$modal.removeClass('hustle-modal-static').hide();
+				me.$el.removeClass('wph-modal-active').hide();
 			}
 
 			// Allow scrolling if previously disabled.

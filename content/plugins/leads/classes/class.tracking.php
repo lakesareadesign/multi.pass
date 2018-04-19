@@ -82,9 +82,9 @@ class Leads_Tracking {
             }
         }
 
-        $lead_lists = json_encode(array('ids' => $lists));;
+        $lead_lists = json_encode(array('ids' => $lists));
 
-        setcookie('wp_lead_list', $lead_lists, time() + (20 * 365 * 24 * 60 * 60), '/');
+        setcookie('wp_lead_list', $lead_lists, (int) (time() + (20 * 365 * 24 * 60 * 60) ), '/');
 
     }
 
@@ -344,7 +344,6 @@ class Leads_Tracking {
 
         /* if a lead id isn't supplied directly, see if one was passed in the search data */
         if (!$lead_id) {
-            error_log('here 1');
             $lead_id = 0;
             $emails = array();
             foreach ($clean_data as $key => $value) {
@@ -361,7 +360,6 @@ class Leads_Tracking {
 
         /* if there isn't a lead id */
         if ($lead_id === 0) {
-            error_log('here 2');
             // see if the email is provided, get lead_id from that if possible
             if (!empty($emails)) {
                 $counted_emails = array_count_values($emails);

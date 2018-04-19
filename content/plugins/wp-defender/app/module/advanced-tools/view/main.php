@@ -7,7 +7,7 @@
     <div class="box-content issues-box-content">
         <form method="post" id="advanced-settings-frm" class="advanced-settings-frm">
 			<?php
-			$class = 'line';
+			$class        = 'line';
 			$enabledRoles = $settings->userRoles;
 
 			?>
@@ -15,7 +15,7 @@
 			<?php if ( isset( wp_defender()->global['compatibility'] ) ): ?>
                 <div class="well well-error with-cap mline">
                     <i class="def-icon icon-warning icon-yellow "></i>
-					<?php echo implode( '<br/>', wp_defender()->global['compatibility'] ); ?>
+					<?php echo implode( '<br/>', array_unique( wp_defender()->global['compatibility'] ) ); ?>
                 </div>
 			<?php endif; ?>
 			<?php
@@ -87,11 +87,69 @@
                 <div class="column">
                     <span class="toggle">
                         <input type="hidden" name="lostPhone" value="0"/>
-                        <input type="checkbox" checked="checked" name="lostPhone" value="1"
+                        <input type="checkbox" <?php checked( 1, $settings->lostPhone ) ?> name="lostPhone" value="1"
                                class="toggle-checkbox" id="toggle_lost_phone"/>
                         <label class="toggle-label" for="toggle_lost_phone"></label>
                     </span>&nbsp;
                     <span><?php _e( "Enable lost phone option", wp_defender()->domain ) ?></span>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-one-third">
+                    <label><?php _e( "Force Authentication", wp_defender()->domain ) ?></label>
+                    <span class="sub">
+                        <?php _e( "By default, two-factor authentication is optional for users. This setting forces users to activate two-factor.", wp_defender()->domain ) ?>
+                    </span>
+                </div>
+                <div class="column">
+                    <span class="toggle">
+                        <input type="hidden" name="forceAuth" value="0"/>
+                        <input type="checkbox" <?php checked( 1, $settings->forceAuth ) ?> name="forceAuth" value="1"
+                               class="toggle-checkbox" id="toggle_force_auth"/>
+                        <label class="toggle-label" for="toggle_force_auth"></label>
+                    </span>&nbsp;
+                    <span><?php _e( "Force users to log in with two-factor authentication", wp_defender()->domain ) ?></span>
+                    <span class="form-help"><?php _e( "Note: Users will be forced to set up two-factor when they next login.", wp_defender()->domain ) ?></span>
+                    <div class="well well-white <?php echo $settings->forceAuth == false ? 'is-hidden' : null ?>">
+                        <p>
+                            <span class="form-help"><strong><?php _e( "Custom warning message", wp_defender()->domain ) ?></strong></span>
+                        </p>
+                        <textarea name="forceAuthMess"><?php echo $settings->forceAuthMess ?></textarea>
+                        <p>
+                            <span class="form-help"><?php _e( "Note: This is shown in the users Profile area indicating they must use two-factor authentication.", wp_defender()->domain ) ?></span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column is-one-third">
+                    <label><?php _e( "Custom Graphic", wp_defender()->domain ) ?></label>
+                    <span class="sub">
+                        <?php _e( "By default, Defender’s icon appears above the login fields. You can upload your own branding, or turn this feature off.", wp_defender()->domain ) ?>
+                    </span>
+                </div>
+                <div class="column">
+                    <span class="toggle">
+                        <input type="hidden" name="customGraphic" value="0"/>
+                        <input type="checkbox" <?php checked( 1, $settings->customGraphic ) ?> name="customGraphic"
+                               value="1"
+                               class="toggle-checkbox" id="customGraphic"/>
+                        <label class="toggle-label" for="customGraphic"></label>
+                    </span>&nbsp;
+                    <span><?php _e( "Enable custom graphics above login fields", wp_defender()->domain ) ?></span>
+                    <span class="form-help"></span>
+                    <div class="well well-white <?php echo $settings->customGraphic == false ? 'is-hidden' : null ?>">
+                        <p>
+                                <span class="form-help"><strong><?php _e( "Custom Graphic", wp_defender()->domain ) ?></strong>
+                                - <?php _e( "For best results use a 168x168px JPG or PNG.", wp_defender()->domain ) ?></span>
+                        </p>
+                        <input type="hidden" id="customGraphicURL" name="customGraphicURL"
+                               value="<?php echo $settings->customGraphicURL ?>"/>
+                        <button type="button" class="button button-light file-picker">
+                            <i class="wdv-icon wdv-icon-fw wdv-icon-plus-sign"></i>
+                        </button>
+                        <img id="customGraphicIMG" height="40" src="<?php echo $settings->customGraphicURL ?>">
+                    </div>
                 </div>
             </div>
             <div class="columns">

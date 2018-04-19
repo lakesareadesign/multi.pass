@@ -877,103 +877,103 @@ $warning = $requirements_test['warning'];
 
 												</select>
 
-												<?php if ( ( ! defined( 'DISABLE_WP_CRON' ) ) || ( DISABLE_WP_CRON == false ) ) : ?>
+											<?php //if ( ( ! defined( 'DISABLE_WP_CRON' ) ) || ( DISABLE_WP_CRON == false ) ) { ?>
 
-													<?php
-													$default_time = new DateTime( 'monday 4am' );
-													$timestamp = $default_time->format( 'U' ) + ( get_option( 'gmt_offset' ) * 3600 );
-													$localtime = localtime( $timestamp, true );
-													?>
+												<?php
+												$default_time = new DateTime( 'monday 4am' );
+												$timestamp = $default_time->format( 'U' ) + ( get_option( 'gmt_offset' ) * 3600 );
+												$localtime = localtime( $timestamp, true );
+												?>
 
-													<div id="interval-offset">
-														<div class="interval-offset-daily" <?php
-														if ( ( $item_interval == "snapshot-daily" ) || ( $item_interval == "snapshot-twicedaily" ) ) {
-															echo ' style="display: inline-flex;" ';
-														} else {
-															echo ' style="display: none;" ';
-														} ?> >
-															<span class="inbetween"><?php _e( 'at', SNAPSHOT_I18N_DOMAIN ); ?></span>
-															<select id="snapshot-interval-offset-daily-hour"
-															        name="snapshot-interval-offset[snapshot-daily][tm_hour]">
-																<?php
+												<div id="interval-offset">
+													<div class="interval-offset-daily" <?php
+													if ( ( $item_interval == "snapshot-daily" ) || ( $item_interval == "snapshot-twicedaily" ) ) {
+														echo ' style="display: inline-flex;" ';
+													} else {
+														echo ' style="display: none;" ';
+													} ?> >
+														<span class="inbetween"><?php _e( 'at', SNAPSHOT_I18N_DOMAIN ); ?></span>
+														<select id="snapshot-interval-offset-daily-hour"
+																name="snapshot-interval-offset[snapshot-daily][tm_hour]">
+															<?php
 
-																if ( isset( $item['interval-offset']['snapshot-daily']['tm_hour'] ) ) {
-																	if ( ! isset( $item['interval-offset'] ) ) {
-																		$item['interval-offset'] = array();
-																	}
-
-																	$item['interval-offset']['snapshot-daily']['tm_hour'] = $localtime['tm_hour'];
+															if ( !isset( $item['interval-offset']['snapshot-daily']['tm_hour'] ) ) {
+																if ( ! isset( $item['interval-offset'] ) ) {
+																	$item['interval-offset'] = array();
 																}
 
-																Snapshot_Helper_UI::form_show_hour_selector_options( $item['interval-offset']['snapshot-daily']['tm_hour'] );
-																?>
-															</select>&nbsp;&nbsp;
-														</div>
-														<div class="interval-offset-weekly" <?php
-														if ( ( $item_interval == "snapshot-weekly" ) || ( $item_interval == "snapshot-twiceweekly" ) ) {
-															echo ' style="display: inline-flex;" ';
-														} else {
-															echo ' style="display: none;" ';
-														} ?> >
-															<span class="inbetween"><?php _e( 'on', SNAPSHOT_I18N_DOMAIN ); ?></span>
-															<select id="snapshot-interval-offset-weekly-wday"
-															        name="snapshot-interval-offset[snapshot-weekly][tm_wday]">
-																<?php
-																if ( ! isset( $item['interval-offset']['snapshot-weekly']['tm_wday'] ) ) {
-																	$item['interval-offset']['snapshot-weekly']['tm_wday'] = $localtime['tm_wday'];
-																}
+																$item['interval-offset']['snapshot-daily']['tm_hour'] = $localtime['tm_hour'];
+															}
 
-																Snapshot_Helper_UI::form_show_wday_selector_options( $item['interval-offset']['snapshot-weekly']['tm_wday'] );
-																?>
-															</select>&nbsp;&nbsp;
-
-															<span class="inbetween"><?php _e( 'at', SNAPSHOT_I18N_DOMAIN ); ?></span>
-															<select id="snapshot-interval-offset-weekly-hour"
-															        name="snapshot-interval-offset[snapshot-weekly][tm_hour]">
-																<?php
-																if ( ! isset( $item['interval-offset']['snapshot-weekly']['tm_hour'] ) ) {
-																	$item['interval-offset']['snapshot-weekly']['tm_hour'] = $localtime['tm_hour'];
-																}
-
-																Snapshot_Helper_UI::form_show_hour_selector_options( $item['interval-offset']['snapshot-weekly']['tm_hour'] );
-
-																?>
-															</select>&nbsp;&nbsp;
-														</div>
-														<div class="interval-offset-monthly" <?php
-														if ( ( $item_interval == "snapshot-monthly" ) || ( $item_interval == "snapshot-twicemonthly" ) ) {
-															echo ' style="display: inline-flex;" ';
-														} else {
-															echo ' style="display: none;" ';
-														} ?> >
-
-															<span class="inbetween"><?php _e( 'on', SNAPSHOT_I18N_DOMAIN ); ?></span>
-															<select id="snapshot-interval-offset-monthly-mday"
-															        name="snapshot-interval-offset[snapshot-monthly][tm_mday]">
-																<?php
-																if ( ! isset( $item['interval-offset']['snapshot-monthly']['tm_mday'] ) ) {
-																	$item['interval-offset']['snapshot-monthly']['tm_mday'] = 1;
-																}
-
-																Snapshot_Helper_UI::form_show_mday_selector_options( $item['interval-offset']['snapshot-monthly']['tm_mday'] );
-																?>
-															</select>&nbsp;&nbsp;
-
-															<span class="inbetween"><?php _e( 'at', SNAPSHOT_I18N_DOMAIN ); ?></span>
-															<select id="snapshot-interval-offset-monthly-hour"
-															        name="snapshot-interval-offset[snapshot-monthly][tm_hour]">
-																<?php
-																if ( ! isset( $item['interval-offset']['snapshot-monthly']['tm_hour'] ) ) {
-																	$item['interval-offset']['snapshot-monthly']['tm_hour'] = $localtime['tm_hour'];
-																}
-
-																Snapshot_Helper_UI::form_show_hour_selector_options( $item['interval-offset']['snapshot-monthly']['tm_hour'] );
-																?>
-															</select>&nbsp;&nbsp;
-														</div>
+															Snapshot_Helper_UI::form_show_hour_selector_options( $item['interval-offset']['snapshot-daily']['tm_hour'] );
+															?>
+														</select>&nbsp;&nbsp;
 													</div>
+													<div class="interval-offset-weekly" <?php
+													if ( ( $item_interval == "snapshot-weekly" ) || ( $item_interval == "snapshot-twiceweekly" ) ) {
+														echo ' style="display: inline-flex;" ';
+													} else {
+														echo ' style="display: none;" ';
+													} ?> >
+														<span class="inbetween"><?php _e( 'on', SNAPSHOT_I18N_DOMAIN ); ?></span>
+														<select id="snapshot-interval-offset-weekly-wday"
+																name="snapshot-interval-offset[snapshot-weekly][tm_wday]">
+															<?php
+															if ( ! isset( $item['interval-offset']['snapshot-weekly']['tm_wday'] ) ) {
+																$item['interval-offset']['snapshot-weekly']['tm_wday'] = $localtime['tm_wday'];
+															}
 
-												<?php endif; ?>
+															Snapshot_Helper_UI::form_show_wday_selector_options( $item['interval-offset']['snapshot-weekly']['tm_wday'] );
+															?>
+														</select>&nbsp;&nbsp;
+
+														<span class="inbetween"><?php _e( 'at', SNAPSHOT_I18N_DOMAIN ); ?></span>
+														<select id="snapshot-interval-offset-weekly-hour"
+																name="snapshot-interval-offset[snapshot-weekly][tm_hour]">
+															<?php
+															if ( ! isset( $item['interval-offset']['snapshot-weekly']['tm_hour'] ) ) {
+																$item['interval-offset']['snapshot-weekly']['tm_hour'] = $localtime['tm_hour'];
+															}
+
+															Snapshot_Helper_UI::form_show_hour_selector_options( $item['interval-offset']['snapshot-weekly']['tm_hour'] );
+
+															?>
+														</select>&nbsp;&nbsp;
+													</div>
+													<div class="interval-offset-monthly" <?php
+													if ( ( $item_interval == "snapshot-monthly" ) || ( $item_interval == "snapshot-twicemonthly" ) ) {
+														echo ' style="display: inline-flex;" ';
+													} else {
+														echo ' style="display: none;" ';
+													} ?> >
+
+														<span class="inbetween"><?php _e( 'on', SNAPSHOT_I18N_DOMAIN ); ?></span>
+														<select id="snapshot-interval-offset-monthly-mday"
+																name="snapshot-interval-offset[snapshot-monthly][tm_mday]">
+															<?php
+															if ( ! isset( $item['interval-offset']['snapshot-monthly']['tm_mday'] ) ) {
+																$item['interval-offset']['snapshot-monthly']['tm_mday'] = 1;
+															}
+
+															Snapshot_Helper_UI::form_show_mday_selector_options( $item['interval-offset']['snapshot-monthly']['tm_mday'] );
+															?>
+														</select>&nbsp;&nbsp;
+
+														<span class="inbetween"><?php _e( 'at', SNAPSHOT_I18N_DOMAIN ); ?></span>
+														<select id="snapshot-interval-offset-monthly-hour"
+																name="snapshot-interval-offset[snapshot-monthly][tm_hour]">
+															<?php
+															if ( ! isset( $item['interval-offset']['snapshot-monthly']['tm_hour'] ) ) {
+																$item['interval-offset']['snapshot-monthly']['tm_hour'] = $localtime['tm_hour'];
+															}
+
+															Snapshot_Helper_UI::form_show_hour_selector_options( $item['interval-offset']['snapshot-monthly']['tm_hour'] );
+															?>
+														</select>&nbsp;&nbsp;
+													</div>
+												</div>
+
+											<?php // } ?>
 
 											</div>
 
@@ -993,7 +993,6 @@ $warning = $requirements_test['warning'];
 												       value="<?php echo esc_attr( $item['archive-count'] ); ?>" />
 
 												<span class="inbetween"><?php _e( 'backups before removing older archives.', SNAPSHOT_I18N_DOMAIN ); ?></span>
-
 											</div>
 
 											<p>
@@ -1016,6 +1015,15 @@ $warning = $requirements_test['warning'];
 
 											</div>
 
+<div class="wps-input--item">
+	<div class="wps-input--checkbox">
+		<input type="checkbox" id="snapshot-clean-remote" name="snapshot-clean-remote" <?php echo !empty($item['clean-remote']) ? 'checked' : '' ?> value="1" />
+		<label for="snapshot-clean-remote"></label>
+	</div>
+	<label for="snapshot-clean-remote">
+		<?php esc_html_e('Also clean remote repositories', SNAPSHOT_I18N_DOMAIN); ?>
+	</label>
+</div>
 										</div>
 
 									</div>

@@ -115,7 +115,11 @@ class Snapshot_Controller_Full {
 
 		Snapshot_Helper_Log::info("Starting backup");
 
-		$files = new Snapshot_Model_Queue_Fileset($idx);
+		$fsclass = defined('SNAPSHOT_MB_BREADTH_FIRST')
+			? 'Snapshot_Model_Queue_Bhfileset'
+			: 'Snapshot_Model_Queue_Fileset'
+		;
+		$files = new $fsclass($idx);
 		$files->clear();
 		$files->add_source($idx);
 
@@ -130,8 +134,20 @@ class Snapshot_Controller_Full {
 
 		$status = $backup->save();
 
-		if (empty($status)) Snapshot_Helper_Log::warn("There was an error in initial backup saving");
-		else Snapshot_Model_Full_Error::get()->clear();
+		if (empty($status)) {
+			Snapshot_Helper_Log::warn("There was an error in initial backup saving");
+		} else {
+			Snapshot_Model_Full_Error::get()->clear();
+
+			/**
+			 * Successful backup started hook
+			 *
+			 * @since 3.1.6-beta.1
+			 *
+			 * @param Snapshot_Helper_Backup $this Current backup instance.
+			 */
+			do_action($this->get_filter('backup_start'), $backup);
+		}
 
 		return $status;
 	}
@@ -185,6 +201,15 @@ class Snapshot_Controller_Full {
 			} else {
 				$errors->remove($error_key); // So we're good, clear the backup error
 				Snapshot_Helper_Log::info("Successfully processed backup files chunk");
+
+				/**
+				 * Successful backup processing hook
+				 *
+				 * @since 3.1.6-beta.1
+				 *
+				 * @param Snapshot_Helper_Backup $this Current backup instance.
+				 */
+				do_action($this->get_filter('backup_processing'), $backup);
 			}
 
 			$backup->save();
@@ -253,6 +278,16 @@ class Snapshot_Controller_Full {
 
 			if ($status) {
 				// Alright, so the continued upload completed.
+
+				/**
+				 * Successful backup finished hook
+				 *
+				 * @since 3.1.6-beta.1
+				 *
+				 * @param Snapshot_Helper_Backup $this Current backup instance.
+				 */
+				do_action($this->get_filter('backup_finished'), $backup);
+
 				// Let's notify the service we're done here
 				return $this->_notify_service_about_upload($timestamp);
 			}
@@ -270,6 +305,15 @@ class Snapshot_Controller_Full {
 		if ($status) {
 			$errors->remove(Snapshot_Model_Full_Error::ERROR_POSTPROCESS);
 			$status = $this->_model->send_backup($backup);
+
+			/**
+			 * Successful backup finishing (uploading) hook
+			 *
+			 * @since 3.1.6-beta.1
+			 *
+			 * @param Snapshot_Helper_Backup $this Current backup instance.
+			 */
+			do_action($this->get_filter('backup_finishing'), $backup);
 		} else {
 			Snapshot_Helper_Log::error("There was an error postprocessing the backup");
 		}
@@ -279,6 +323,15 @@ class Snapshot_Controller_Full {
 			Snapshot_Helper_Log::info("Backup successfully finalized");
 			$timestamp = $backup->get_timestamp();
 			$status = $this->_notify_service_about_upload($timestamp); // Carry on with backup notification
+
+			/**
+			 * Successful backup finished hook
+			 *
+			 * @since 3.1.6-beta.1
+			 *
+			 * @param Snapshot_Helper_Backup $this Current backup instance.
+			 */
+			do_action($this->get_filter('backup_finished'), $backup);
 		} else {
 			Snapshot_Helper_Log::info("Postpone backup finalization and service notification");
 		}
@@ -309,7 +362,91 @@ class Snapshot_Controller_Full {
 		if ($status) Snapshot_Helper_Log::info("Service received our last backup info");
 		else Snapshot_Helper_Log::warn("We encountered an issue commmunicating last backup info to service");
 
+		// Reset cache so we're up to date with the backup sizes
+		Snapshot_Helper_Log::info("Reset API cache");
+		$api = Snapshot_Model_Full_Remote_Api::get();
+		$api->clean_up_api();
+		$api->connect();
+
 		return !!$status;
+	}
+
+	/**
+	 * Backup restoration dispatch method
+	 *
+	 * @param int $timestamp Backup ID.
+	 *
+	 * @return bool True for done, false for in progress
+	 */
+	protected function _restore_backup ($timestamp) {
+		$archive_path = $this->_model->get_backup($timestamp);
+
+		if (empty($archive_path)) {
+			// Still fetching the backup, not done
+			return false;
+		}
+
+		$restore_path = apply_filters('snapshot_home_path', get_home_path());
+
+		$restore = Snapshot_Helper_Restore::from($archive_path);
+		$restore->to($restore_path);
+
+		$status = false;
+		if ($restore->is_done()) {
+			$this->_restore_backup_cleanup($restore, $archive_path);
+			$status = true; // All good
+		} else {
+			$this->_restore_backup_process($restore);
+			$status = false; // We're never done here, because we need to clean up
+		}
+
+		return $status;
+	}
+
+	/**
+	 * Process restore files
+	 *
+	 * @param Snapshot_Helper_Restore $restore Processing helper instance.
+	 *
+	 * @return bool
+	 */
+	private function _restore_backup_process ($restore) {
+		$restore->process_files();
+
+		/**
+		 * Restore processing hook
+		 *
+		 * @since 3.1.6-beta.1
+		 *
+		 * @param Snapshot_Helper_Restore $this Current restore instance.
+		 */
+		do_action($this->get_filter('restore_processing'), $restore);
+
+		return $restore->is_done();
+	}
+
+	/**
+	 * Cleanup after restore
+	 *
+	 * @param Snapshot_Helper_Restore $restore Processing helper instance.
+	 * @param string $archive_path Backup source archive path.
+	 *
+	 * @return bool
+	 */
+	private function _restore_backup_cleanup ($restore, $archive_path) {
+		$restore->clear();
+		@unlink($archive_path);
+
+		/**
+		 * Restore finishing hook
+		 *
+		 * @since 3.1.6-beta.1
+		 *
+		 * @param Snapshot_Helper_Restore $this Current restore instance.
+		 */
+		do_action($this->get_filter('restore_finished'), $restore);
+
+		return true;
 	}
 
 }

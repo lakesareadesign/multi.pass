@@ -3,9 +3,9 @@
     <#
     if ( !_.isEmpty(social_icons) ) {
         _.each( social_icons, function( icon, key ){ #>
-            <a data-social="{{key}}" href="{{ ( service_type === 'custom' ) ? icon.link : '#' }}" {{ ( service_type === 'custom' ) ? 'target="_blank"' : '' }} class="hustle-social-icon hustle-social-icon-{{service_type}} hustle-icon-{{icon_style}} {{ ( _.isFalse(customize_colors) ) ? 'hustle-icon-' + key : '' }} {{ ( icon_style === 'flat' && ( service_type === 'native' && _.isTrue(click_counter) ) ) ? 'has-counter' : '' }} {{ ( service_type === 'native' && _.isTrue(click_counter) && _.isTrue(floating_inline_count) ) ? 'hustle-social-inline' : '' }}">
+            <a data-social="{{key}}" href="{{ ( service_type === 'custom' ) ? icon.link : '#' }}" {{ ( service_type === 'custom' ) ? 'target="_blank"' : '' }} class="hustle-social-icon hustle-social-icon-{{service_type}} hustle-icon-{{icon_style}} {{ ( _.isFalse(customize_colors) ) ? 'hustle-icon-' + key : '' }} {{ ( icon_style === 'flat' && ( service_type === 'native' && _.isTrue(click_counter) ) ) ? 'has-counter' : '' }} {{ ( service_type === 'native' && _.isTrue(click_counter) && _.isTrue(floating_inline_count) ) ? 'hustle-social-inline' : '' }}" aria-label="Share on <# if ( key === 'facebook' ) { #>Facebook<# } #><# if ( key === 'twitter' ) { #>Twitter<# } #><# if ( key === 'google' ) { #>Google Plus<# } #><# if ( key === 'pinterest' ) { #>Pinterest<# } #><# if ( key === 'reddit' ) { #>Reddit<# } #><# if ( key === 'linkedin' ) { #>Linkedin<# } #><# if ( key === 'vkontakte' ) { #>Vkontakte<# } #><# if ( key === 'fivehundredpx' ) { #>500px<# } #><# if ( key === 'houzz' ) { #>Houzz<# } #><# if ( key === 'instagram' ) { #>Instagram<# } #><# if ( key === 'twitch' ) { #>Twitch<# } #><# if ( key === 'youtube' ) { #>YouTube<# } #><# if ( key === 'telegram' ) { #>Telegram<# } #>">
 
-                <div class="hustle-icon-container">
+                <div class="hustle-icon-container" aria-hidden="true">
 
                     <# if ( key === 'facebook' ) { #>
                         <?php $this->render("general/icons/social/facebook"); ?>

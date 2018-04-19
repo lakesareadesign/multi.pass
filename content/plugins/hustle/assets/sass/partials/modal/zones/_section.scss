@@ -1,42 +1,73 @@
-.hustle-modal section {
-	display: flex;
-	flex-wrap: wrap;
-	flex-direction: column;
-
-	.hustle-modal-message {
-		flex: 1;
-	}
-
-	.hustle-modal-footer {
+.hustle-modal {
+	
+	section {
 		display: flex;
-		flex-wrap: wrap;
 		flex-direction: column;
 
-		.hustle-modal-cta {
-			display: block;
+		.hustle-modal-message {
 			flex: 1;
-						
-			@include screen("small") {
-				max-width: 100%;
-				flex: 0 0 auto;
-			}
 		}
 
-		&:not(:first-child) {
-			margin-top: 20px;
+		.hustle-modal-footer {
+			display: flex;
+			flex-direction: column;
+
+			.hustle-modal-cta {
+				display: block;
+				flex: 1;
+							
+				@include screen("small") {
+					max-width: 100%;
+					flex: 0 0 auto;
+				}
+			}
+
+			&:not(:first-child) {
+				margin-top: 20px;
+
+				@include screen("small") {
+					margin-top: 30px;
+				}
+			}
 
 			@include screen("small") {
-				margin-top: 30px;
+				flex-wrap: wrap;
+				flex-direction: row;
+				align-items: center;
 			}
 		}
 
 		@include screen("small") {
+			flex-wrap: wrap;
 			flex-direction: row;
-			align-items: center;
 		}
 	}
 
-	@include screen("small") {
-		flex-direction: row;
+	.hustle-size-small {
+
+		section {
+
+			.hustle-modal-footer {
+
+				.hustle-modal-cta {
+
+					@include screen("small") {
+						max-width: unset;
+						flex: 1;
+					}
+				}
+
+				@include screen("small") {
+					flex-wrap: nowrap;
+					flex-direction: column;
+					align-items: unset;
+				}
+			}
+
+			@include screen("small") {
+				flex-wrap: nowrap;
+				flex-direction: column;
+			}
+		}
 	}
 }

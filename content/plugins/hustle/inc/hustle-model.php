@@ -88,22 +88,38 @@ abstract class Hustle_Model extends Hustle_Data
 	 * Returns optin based on shortcode id
 	 *
 	 * @param string $shortcode_id
+	 * @param bool $enforce_type Whether to get only embeds or sshares.
 	 * @return $this
 	 */
-	function get_by_shortcode( $shortcode_id ){
+	function get_by_shortcode( $shortcode_id, $enforce_type = true ){
 
 		$key = "hustle_shortcode_data_" . $shortcode_id;
 		$this->_data  = wp_cache_get( $key );
+		$prefix = $this->_wpdb->base_prefix;
 
+		// If not cached.
 		if( false === $this->_data ){
-			$prefix = $this->_wpdb->base_prefix;
-			// Get results and meta where the ID matches. Make sure it is an embed or social_sharing module.
-			$this->_data = $this->_data = $this->_wpdb->get_row( $this->_wpdb->prepare( "
-			SELECT * FROM  `" . $this->get_table() . "` as modules JOIN `{$prefix}hustle_modules_meta` as meta
-			 ON modules.`module_id`=meta.`module_id`
-			 WHERE `meta_key`='shortcode_id'
-			 AND (`module_type` = 'embedded' OR `module_type` = 'social_sharing')
-			 AND `meta_value`=%s", trim( $shortcode_id ) ), OBJECT );
+			if ( $enforce_type ) {
+				// Enforce embedded/social_sharing type.
+				$sql = $this->_wpdb->prepare( "
+					SELECT * FROM  `" . $this->get_table() . "` as modules JOIN `{$prefix}hustle_modules_meta` as meta
+			 	 	 ON modules.`module_id`=meta.`module_id`
+			 	 	 WHERE `meta_key`='shortcode_id'
+			 	 	 AND (`module_type` = 'embedded' OR `module_type` = 'social_sharing')
+			 	 	 AND `meta_value`=%s", trim( $shortcode_id )
+				);
+			} else {
+				// Do not enforce embedded/social_sharing type.
+				$sql = $this->_wpdb->prepare( "
+					SELECT * FROM  `" . $this->get_table() . "` as modules JOIN `{$prefix}hustle_modules_meta` as meta
+			 	 	 ON modules.`module_id`=meta.`module_id`
+			 	 	 WHERE `meta_key`='shortcode_id'
+			 	 	 AND `meta_value`=%s", trim( $shortcode_id )
+				);
+			}
+
+			// Get results and meta where the ID matches.
+			$this->_data = $this->_data = $this->_wpdb->get_row( $sql, OBJECT );
 		}
 
 		$this->_populate();

@@ -3,7 +3,7 @@
 Plugin Name: WP Admin UI
 Plugin URI: http://wpadminui.net/
 Description: The best plugin to customize WordPress administration in seconds.
-Version: 1.9.8.2
+Version: 1.9.8.3
 Author: Benjamin DENIS
 Author URI: http://wpadminui.net/
 License: GPLv2
@@ -49,16 +49,19 @@ register_deactivation_hook(__FILE__, 'wpui_deactivation');
 //Define
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 
-define( 'WPUI_VERSION', '1.9.8.2' ); 
+define( 'WPUI_VERSION', '1.9.8.3' ); 
 define( 'WPUI_AUTHOR', 'Benjamin Denis' ); 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 //WPUI INIT = Admin + Core + Menu Ajax + Translation
 ///////////////////////////////////////////////////////////////////////////////////////////////////
+function wpui_login_page(){
+    $siteurl = str_replace(array('\\','/'), DIRECTORY_SEPARATOR, ABSPATH);
+    return ((in_array($siteurl.'wp-login.php', get_included_files()) || in_array($siteurl.'wp-register.php', get_included_files()) ) || $GLOBALS['pagenow'] === 'wp-login.php' || $_SERVER['PHP_SELF'] == '/wp-login.php');
+}
 function wpui_init() {
     load_plugin_textdomain( 'wp-admin-ui', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
-
-    if ( in_array ( (isset($_SERVER['HTTPS']) ? "https" : "http") . "://" . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] , array(wp_login_url(), wp_logout_url(), wp_lostpassword_url(), wp_registration_url()) ) ) {
+    if(wpui_login_page()){
         require_once ( dirname( __FILE__ ) . '/inc/functions/options-login.php'); //Login
     }
     
@@ -71,10 +74,8 @@ function wpui_init() {
         }
         require_once dirname( __FILE__ ) . '/inc/admin/ajax.php'; 
     }
-
     require_once dirname( __FILE__ ) . '/inc/functions/options.php';
     require_once dirname( __FILE__ ) . '/inc/functions/options-front.php'; //Front-end
-
 }
 add_action('plugins_loaded', 'wpui_init', 999);
 

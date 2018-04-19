@@ -42,7 +42,12 @@
 
         <div id="wph-slidein-close">
 
-            <label><?php _e( "After Slide-in is closed", Opt_In::TEXT_DOMAIN ); ?></label>
+            <h5><?php _e( "After Slide-in is closed", Opt_In::TEXT_DOMAIN ); ?></h5>
+
+        	<label class="wpmudev-helper"><?php _e( "Choose how your Slide-in will behave when it is closed.", Opt_In::TEXT_DOMAIN ); ?></label>
+
+
+        	<label class="wpmudev-label--notice"><span><?php _e( "This option does not work with auto-hide because a user action is required.", Opt_In::TEXT_DOMAIN ); ?></span></label>
 
             <div class="wpmudev-box-gray">
 

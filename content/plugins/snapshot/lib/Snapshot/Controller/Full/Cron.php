@@ -11,6 +11,8 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	const BACKUP_KICKSTART_ACTION = 'process_backup';
 	const BACKUP_FINISHING_ACTION = 'finish_backup-immediate';
 
+	const RESTORE_KICKSTART_ACTION = 'restore_backup';
+
 	/**
 	 * Singleton instance
 	 *
@@ -202,6 +204,10 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 		// are not being allowed to run (for actual backups making)
 		$this->_schedule_backup_local_rotation();
 
+		// Also do restoration kickstart action hooking
+		$action = $this->get_filter(self::RESTORE_KICKSTART_ACTION);
+		add_action($action, array($this, 'kickstart_restore_process'));
+
 		if ($this->_model->get_config('disable_cron', false)) return false;
 
 		// Deprecated the schedule auto starting in favor of
@@ -213,6 +219,16 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 		// Add scheduled backup start action listener
 		$start_action = $this->get_filter('start_backup');
 		add_action($start_action, array($this, 'start_backup'));
+
+		// Check round time scheduling.
+		// @since 3.1.7-beta-1
+		$next_scheduled = wp_next_scheduled($start_action);
+		if ($next_scheduled && '00' === date('i', $next_scheduled)) {
+			// We have the next start schedule, and it's not distributed.
+			// We know this, because it's to start on 00 minutes.
+			// Let's spread it out a bit.
+			$this->_distribute_default_schedules();
+		}
 
 		// Add kickstart processing action handler listening
 		$kickstart_action = $this->get_filter(self::BACKUP_KICKSTART_ACTION);
@@ -641,13 +657,21 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 
 		$schedule = $this->_model->get_schedule_time();
 		$now = Snapshot_Model_Time::get()->get_utc_time();
+		$now = $this->_model->get_offset($now);
 		$next_event = strtotime(date("Y-m-d 00:00:00", $now), $now) + $schedule;
 
-		if ($now > $next_event) $next_event += DAY_IN_SECONDS; // Local time of next event is in the past, move to future
+		if ($now > $next_event) {
+			// Local time of next event is in the past, move to future.
+			$next_event += DAY_IN_SECONDS;
+		}
+
+		// @since 3.1.7-beta-1
+		$disperse = HOUR_IN_SECONDS - 1;
+
 		// Allow for filtering
 		$next_event = apply_filters(
 			$this->get_filter('next_backup_start'),
-			$next_event
+			$next_event + rand(-1 * $disperse, +1 * $disperse)
 		);
 
 		$status = wp_schedule_event($next_event, $this->get_filter($frequency), $start_action);
@@ -908,5 +932,41 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 		}
 
 		return $params;
+	}
+
+	public function kickstart_restore_process ($backup_id) {
+		Snapshot_Helper_Log::info("Kickstarting restore backup [{$backup_id}]", "Cron");
+
+		$status = $this->_restore_backup($backup_id);
+
+		if (empty($status)) {
+			$action = $this->get_filter(self::RESTORE_KICKSTART_ACTION);
+			wp_schedule_single_event(
+				//Snapshot_Model_Time::get()->get_utc_time() + $this->get_kickstart_delay(),
+				time(),
+				$action,
+				array($backup_id, rand())
+			);
+		}
+	}
+
+	private function _distribute_default_schedules() {
+		$time = $this->_model->get_schedule_time();
+		$offset = $this->_model->get_offset_base();
+		$frequency = $this->_model->get_frequency();
+		if (3600 === $time && 0 === $offset && 'weekly' === $frequency) {
+			// If evetything is at defaults, change it.
+			$offset = rand(0, 6);
+			$time = rand(0, 23) * HOUR_IN_SECONDS;
+			$this->_model->set_config('schedule_offset', $offset);
+			$this->_model->set_config('schedule_time', $time);
+
+			// Also update remote schedule with the new setup.
+			$this->_model->update_remote_schedule();
+		}
+
+		// Re-schedule.
+		// The scheduling will also disperse the start time within the hour.
+		$this->_schedule_backup_starting();
 	}
 }

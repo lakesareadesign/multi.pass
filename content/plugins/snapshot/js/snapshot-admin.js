@@ -1679,4 +1679,53 @@
 		}
 
 	});
+
+	/**
+	 * Upload status checker
+	 *
+	 * Periodically check upload status for the currently viewed item
+	 * and update its state based on the response.
+	 *
+	 * Fixes: https://app.asana.com/0/11140230629075/378832517893953/f
+	 */
+	(function (check_every) {
+		check_every = check_every || 60000;
+		function recheck_upload_status () {
+			var $upload_progress_box = $(".snapshot-info-box td.wps-upload-status"),
+				$spinner = $upload_progress_box.find(".wps-spinner"),
+				loc = window.location.href
+			;
+			if ($upload_progress_box.length && $spinner.length) {
+				setTimeout(function () {
+					// Call the same page, update with same data and replay.
+					$.get(loc, function (data) {
+						var $rpl = $(data).find(".snapshot-info-box td.wps-upload-status");
+						$upload_progress_box.replaceWith($rpl);
+						recheck_upload_status(); // Re-check where we are with this.
+					});
+				}, check_every);
+			}
+		}
+		// Initialize by calling first time on dom ready.
+		$(recheck_upload_status);
+	})(60000);
+
+
+	/**
+	 * Handle managed backups schedule offsets
+	 *
+	 * Switches offset selection appearance based on frequency state.
+	 * Also toggles their respective enabled state.
+	 */
+	function toggle_offset_visibility () {
+		var $freq = $('.wps-managed-backups-schedule-form select[name="frequency"]');
+		if (!$freq.length) return false;
+
+		$(".select-container.offset").hide().find("select").attr("disabled", true);
+		var $el = $(".select-container.offset." + $freq.val());
+		if ($el.length) $el.show().find("select").attr("disabled", false);
+	}
+	$(window).on('load', toggle_offset_visibility);
+	$(document).on('change', 'select[name="frequency"]', toggle_offset_visibility);
+
 }(jQuery));

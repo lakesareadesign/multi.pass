@@ -118,16 +118,14 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
 		$failed_custom_fields = 0;
 
 		if ( ! empty( $custom_fields ) ) {
-			$api_cf = new CS_REST_Lists( $list_id, array('api_key' => $api_key ) );
+			$api_cf 	= new CS_REST_Lists( $list_id, array('api_key' => $api_key ) );
 
 			foreach ( $custom_fields as $custom_field ) {
-				$key = $custom_field['Key'];
-				$field = $module->get_custom_field( 'name', $key );
-				$meta_key = 'cm_field_' . $key;
-				$label = $field['label'];
-				$cm_field_meta = $module->get_meta( $meta_key );
-
-				if ( $cm_field_meta || $label == $cm_field_meta ) {
+				$key 			= $custom_field['Key'];
+				$meta_key 		= 'cm_field_' . $key;
+				$label 			= $custom_field['Value'];
+				$cm_field_meta 	= $module->get_meta( $meta_key );
+				if ( $cm_field_meta ) {
 					// No need to add, already added
 					continue;
 				}
@@ -140,8 +138,8 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
 					'VisibleInPreferenceCenter' => true,
 				);
 
-				if ( $api_cf->create_custom_field($cm_field) ) {
-					$module->add_meta( $meta_key, $field['label'] );
+				if ( $api_cf->create_custom_field( $cm_field ) ) {
+					$module->add_meta( $meta_key, $label );
 				} else {
 					$failed_custom_fields++;
 				}

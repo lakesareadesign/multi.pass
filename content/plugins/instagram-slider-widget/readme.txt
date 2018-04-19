@@ -3,7 +3,7 @@ Contributors: jetonr
 Tags: instagram, slider, widget, images
 Donate link: http://bit.ly/2EseW2p
 Requires at least: 3.5
-Tested up to: 4.9.1
+Tested up to: 4.9.5
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -46,6 +46,8 @@ I will try to respond to all on plugin support forum but users showing back-link
 3. Backend Configuration
 
 == Changelog ==
+= 1.4.3 =
+* Fix for instagram api change
 
 = 1.4.2 =
 * Minor fix for instagram json change

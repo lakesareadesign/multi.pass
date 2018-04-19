@@ -31,7 +31,7 @@ $content_hide = false;
 
                         <th class="wpmudev-table--views"><?php _e( "Views", Opt_In::TEXT_DOMAIN ); ?></th>
 
-                        <th class="wpmudev-table--rate"><?php _e( "Conv. rate", Opt_In::TEXT_DOMAIN ); ?></th>
+                        <th class="wpmudev-table--rate"><?php _e( "Rate", Opt_In::TEXT_DOMAIN ); ?></th>
 
                         <th class="wpmudev-table--button"></th>
 
@@ -122,7 +122,7 @@ $content_hide = false;
 
                             <td class="wpmudev-table--views" data-name="<?php _e( 'Views', Opt_In::TEXT_DOMAIN ); ?>"><?php echo $total_views; ?></td>
 
-                            <td class="wpmudev-table--rate" data-name="<?php _e( 'Conv. rate', Opt_In::TEXT_DOMAIN ); ?>"><?php echo $conversion_rate; ?>%</td></td>
+                            <td class="wpmudev-table--rate" data-name="<?php _e( 'Rate', Opt_In::TEXT_DOMAIN ); ?>"><?php echo $conversion_rate; ?>%</td></td>
 
                             <td class="wpmudev-table--button"><a href="<?php echo $embed->decorated->get_edit_url( Hustle_Module_Admin::EMBEDDED_WIZARD_PAGE ,'' ); ?>" class="wpmudev-button wpmudev-button-sm wpmudev-button-ghost"><?php _e("Edit", Opt_In::TEXT_DOMAIN); ?></a></td>
 

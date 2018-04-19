@@ -230,6 +230,8 @@
 			//var snapshot_form_files_option		= jQuery('input:radio["name=snapshot-files-option"]:checked').val();
 			snapshot_form_files_option = jQuery('input:radio[name=snapshot-files-option]:checked', this).val();
 
+			var snapshot_clean_remote = jQuery("#snapshot-clean-remote", this).is(":checked") ? '1' : '';
+
 			// Clear out the progress text and warning containers
 			jQuery('#snapshot-ajax-warning').html('').hide();
 
@@ -299,6 +301,7 @@
 						'snapshot-store-local': snapshot_destination_local,
 						'snapshot-destination-directory': snapshot_form_destination_directory,
 						'snapshot-destination-sync': snapshot_form_destination_sync,
+						'snapshot-clean-remote': snapshot_clean_remote,
 					};
 
 					jQuery('[id^=snapshot-interval-offset]').each(function () {

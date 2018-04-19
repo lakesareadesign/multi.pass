@@ -64,7 +64,7 @@ function sb_instagram_settings_page() {
         'sb_instagram_custom_css'           => '',
         'sb_instagram_custom_js'            => '',
         'sb_instagram_cron'                 => 'no',
-        'check_api'         => false,
+        'check_api'         => true,
         'sb_instagram_backup' => true,
         'enqueue_css_in_shortcode' => false,
         'sb_instagram_disable_mob_swipe' => false,
@@ -357,7 +357,7 @@ function sb_instagram_settings_page() {
                             Eg: accesstoken=XXXX
                         </code></th>
                         <td>
-                            <input name="sb_instagram_at" id="sb_instagram_at" type="text" value="<?php echo esc_attr( $sb_instagram_at ); ?>" size="60" maxlength="60" placeholder="Click button above to get your Access Token" />
+                            <input name="sb_instagram_at" id="sb_instagram_at" type="text" value="<?php echo esc_attr( $sb_instagram_at ); ?>" size="80" maxlength="100" placeholder="Click button above to get your Access Token" />
                             &nbsp;<a class="sbi_tooltip_link" href="JavaScript:void(0);"><?php _e( 'Multiple Instagram accounts?', 'instagram-feed'); ?></a>
                             <div class="sbi_tooltip"><?php _e("<p>In order to display feeds from multple accounts there are two options:</p><p style='padding-top:8px;'><b>Separate Feeds</b><br />You can display a separate feed for each account by setting the Access Token for each account directly in the shortcode, like so: <code>[instagram-feed accesstoken='YOUR_ACCESS_TOKEN']</code>.</p><p style='padding-top:10px;'><b>Combining Feeds</b><br />You can combine feeds from accounts you own into one single feed by setting multiple Access Tokens, either in the Access Token field above, or in the shortcode: <code>[instagram-feed accesstoken='ACCESS_TOKEN_1,ACCESS_TOKEN_2,ACCESS_TOKEN_3']</code></p><p style='margin-top: 25px; border-left: 3px solid #aa4949; padding: 5px 10px; background: #F7E6E6;'><b>Important:</b> There is no need to set a User ID for each account/token. The plugin will get the ID directly from the token.</p>", 'instagram-feed'); ?></div>
                         </td>
@@ -1630,7 +1630,7 @@ while (list($key, $val) = each($sbi_options)) {
 
 ## API RESPONSE: ##
 <?php
-$url = isset( $sbi_options['sb_instagram_at'] ) ? 'https://api.instagram.com/v1/users/self/?access_token=' . $sbi_options['sb_instagram_at'] : 'no_at';
+$url = isset( $sbi_options['sb_instagram_at'] ) ? 'https://api.instagram.com/v1/users/self/?access_token=' . sbi_maybe_clean( $sbi_options['sb_instagram_at'] ) : 'no_at';
 if ( $url !== 'no_at' ) {
     $args = array(
         'timeout' => 60,
@@ -1644,22 +1644,6 @@ if ( $url !== 'no_at' ) {
         echo 'id: ' . $data->data->id . "\n";
         echo 'username: ' . $data->data->username . "\n";
         echo 'posts: ' . $data->data->counts->media . "\n";
-
-        $url = 'https://api.instagram.com/v1/users/13460080?access_token=' . $sbi_options['sb_instagram_at'];
-        $args = array(
-            'timeout' => 60,
-            'sslverify' => false
-        );
-        $search_result = wp_remote_get( $url, $args );
-        $search_data = json_decode( $search_result['body'] );
-
-        if ( isset( $data->meta->code ) ) {
-            echo "\n" . 'Instagram Response' . "\n";
-            echo 'code: ' . $search_data->meta->code . "\n";
-            if ( isset( $search_data->meta->error_message ) ) {
-                echo 'error_message: ' . $search_data->meta->error_message . "\n";
-            }
-        }
 
     } else {
         echo 'No id returned' . "\n";
@@ -1848,6 +1832,10 @@ function sb_instagram_clear_page_caches() {
 		$plugin_totalcacheadmin = & w3_instance('W3_Plugin_TotalCacheAdmin');
 
 		$plugin_totalcacheadmin->flush_all();
+	}
+
+	if ( function_exists( 'rocket_clean_domain' ) ) {
+		rocket_clean_domain();
 	}
 
 	if ( class_exists( 'autoptimizeCache' ) ) {

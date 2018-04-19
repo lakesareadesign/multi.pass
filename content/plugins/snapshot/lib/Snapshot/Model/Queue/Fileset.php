@@ -85,7 +85,7 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 
 		$result = array();
 		foreach ($files as $file) {
-			$size = filesize($file);
+			$size = @filesize($file);
 			if (false !== $size && ($size < 0 || $size > $threshold)) { // Negative size takes care of integer overflow
 				// This file is larger than we expected, we might have issues here
 				Snapshot_Helper_Log::warn("Processing a large file: {$file} ({$size})", "Queue");

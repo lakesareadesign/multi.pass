@@ -181,12 +181,13 @@ class Opt_In_ConstantContact extends Opt_In_Provider_Abstract  implements  Opt_I
 	    $access_token = $api->get_token( 'access_token' );
 
 		if ( !$access_token ) {
-	        return array(
+
+	        $default_options = array(
 		        'auth_code_label' => array(
 			        "id"    => "auth_code_label",
 			        "for"   => "constant_contact_authorization_url",
 			        "value" => sprintf(
-				        __('Please <a href="%s" class="constantcontact-authorize" data-optin="%s">click here</a> to connect to ConstantContact service. You will be asked to give us access to your ConstantContact account and then redirected back to this screen.', Opt_In::TEXT_DOMAIN),
+				        __('Please <a href="%s" class="constantcontact-authorize" data-optin="%s">click here</a> to connect to ConstantContact. You will be asked to give us access to your ConstantContact account and then be redirected back to this screen.', Opt_In::TEXT_DOMAIN),
 				        $api->get_authorization_uri( $module_id, true, $this->current_page ), $module_id
 			        ),
 			        "type" => "label",
@@ -196,7 +197,13 @@ class Opt_In_ConstantContact extends Opt_In_Provider_Abstract  implements  Opt_I
 					'value' => __( 'ConstantContact requires your site to have SSL certificate.', Opt_In::TEXT_DOMAIN ),
 					'class' => 'wph-label--notice wph-label--persist_notice'
 				)
-	        );
+			);
+
+			if ( is_ssl() ) {
+				unset( $default_options['notice'] );
+			}
+
+			return $default_options;
 		}
 
 	    $email_list = '';
@@ -212,7 +219,7 @@ class Opt_In_ConstantContact extends Opt_In_Provider_Abstract  implements  Opt_I
 				"id" => "auth_code_label",
 			    "for" => "constant_contact_authorization_url",
 			    "value" => sprintf(
-				    __('Please <a href="%s" class="constantcontact-authorize" data-optin="%s">click here</a> to reconnect to ConstantContact service. You will be asked to give us access to your ConstantContact account and then redirected back to this screen.', Opt_In::TEXT_DOMAIN),
+				    __('Please <a href="%s" class="constantcontact-authorize" data-optin="%s">click here</a> to reconnect to ConstantContact. You will be asked to give us access to your ConstantContact account and then be redirected back to this screen.', Opt_In::TEXT_DOMAIN),
 				    $api->get_authorization_uri( $module_id, true, $this->current_page ), $module_id
 			    ),
 			    "type" => "label",
@@ -240,6 +247,10 @@ class Opt_In_ConstantContact extends Opt_In_Provider_Abstract  implements  Opt_I
 				)
 			)
 		);
+
+		if ( is_ssl() ) {
+			unset( $default_options['notice'] );
+		}
 
 	    return $default_options;
 	}

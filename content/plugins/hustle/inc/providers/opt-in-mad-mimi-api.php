@@ -111,7 +111,7 @@ class Opt_In_Mad_Mimi_Api
 	 * @return array|mixed|object|WP_Error
 	 */
 	public function subscribe( $list, array $data ){
-		$action = add_query_arg( $data, "/audience_members" );
+		$action = add_query_arg( $data, "audience_members" );
 
 		if( !empty( $list ) ){
 			$action = "audience_lists/" . $list ."/add?";
@@ -123,8 +123,25 @@ class Opt_In_Mad_Mimi_Api
 		return empty( $res ) ? __("Successful subscription", Opt_In::TEXT_DOMAIN) : $res;
 	}
 
+	/**
+	 * Get lists per email
+	 *
+	 * @param string $email
+	 *
+	 * @return array|WP_Error
+	 */
+	function search_email_lists( $email ) {
+		$res = $this->_get( "audience_members/$email/lists.xml");
+
+		if( is_wp_error( $res ) )
+			return $res;
+
+		$res = (object) (array) $res;
+		return isset ( $res->list ) ? $res->list : array();
+	}
+
 	function search_by_email( $email ) {
-		$action = '/audience_members/search.xml?query=' . $email;
+		$action = 'audience_members/search.xml?query=' . $email;
 		$res = $this->_get( $action );
 
 		return $res;

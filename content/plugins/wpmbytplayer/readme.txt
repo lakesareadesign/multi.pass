@@ -3,8 +3,8 @@
 Contributors: pupunzi
 Tags: video player, youtube, full background, video, HTML5, flash, mov, jquery, pupunzi, mb.components, cover video, embed, embed videos, embed youtube, embedding, plugin, shortcode, video cover, video HTML5, youtube, youtube embed, youtube player, youtube videos
 Requires at least: 3.0
-Tested up to: 4.8
-Stable tag:  3.1.55
+Tested up to: 4.9
+Stable tag:  3.2.0
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DSHAHSJJCQ53Y
 License: GPLv2 or later
 
@@ -17,12 +17,7 @@ You can activate it for your home page from the settings panel (no license neede
 
 [youtube http://www.youtube.com/watch?v=lTW937ld02Y]
 
-If you prefer to use a Vimeo video you can take a look at mb.VimeoPlayer: https://wordpress.org/plugins/wp-vimeoplayer/
-
-
-The mb.YTPlayer doesn't work on any mobile devices (iOs, Android, Windows, etc.) due to restrictions applied by the vendors on media controls via javascript.
-Adding a background image to the body as mobile devices fallback is a good practice and it will also prevent unwanted white flickering on desktop browsers when the video is buffering.
-
+If you prefer to use a Vimeo video you can take a look at <a href="https://wordpress.org/plugins/wp-vimeoplayer/">mb.VimeoPlayer Wordpress plug-in</a>
 
 note:
 If you don't want ADs on your background video and you are the owner of it you can disable this on your Youtube channel as explained here: http://candidio.com/blog/how-to-remove-ads-from-your-youtube-videos .
@@ -38,28 +33,6 @@ This plug in has been tested successfully on:
 * Chrome 11+, Firefox 7+, Opera 9+    on Mac OsX, Windows and Linux
 * Safari 5+    on Mac OsX
 * IE7+    on Windows (via Adobe Flash player)
-
-with the <a href="https://pupunzi.com/wpPlus/go-plus.php?plugin_prefix=YTPL" target="_blank">Plus version</a> you'll get:
-
-     Remove the water-mark from the video.
-     Activate all the advanced features:
-			 Fallback image url
-			 Set the opacity
-			 Set the quality
-			 Set the aspect ratio
-			 Set the seconds the video should start at
-			 Set the seconds the video should end at
-			 Show the control bar
-			 Choose the full screen behavior
-			 Set the audio volume
-			 Choose if the video should start mute or not
-			 Choose if the video should loop
-			 Add the raster image
-			 Track the video views on Google Analytics
-			 Choose if the player should pause if the windows blur
-     Activate the short-code editor that let you add any YTPlayer video on any page of your site.
-     Use the YTPlayer to display a clean Youtube video player (via short-code).
-     Set the YTPlayer as background of any element of your page (via short-code).
 
 == Installation ==
 
@@ -101,18 +74,49 @@ Use the editor button or write the below shortcode into the content of your post
   * highres: Player height is greater than 1080px, which means that the player's aspect ratio is greater than 1920px by 1080px.
   * default: YouTube selects the appropriate playback quality.
 
-== What about mobile ==
+== mb.YTPlayer Plus ==
+With the <a href="https://pupunzi.com/wpPlus/go-plus.php?plugin_prefix=YTPL" target="_blank">Plus version</a> you'll get:
 
-The mb.YTPlayer doesn't work on any mobile devices (iOs, Android, Windows, etc.) due to restrictions applied by the vendors on media controls via javascript.
-Adding a background image to the body as mobile devices fallback is a good practice and it will also prevent unwanted white flickering on desktop browsers when the video is buffering.
+* Remove the water-mark from the video
+* Set the video opacity
+* Set the video quality
+* Set the video aspect ratio
+* Set the video start point
+* Set the video end point
+* Show the control bar
+* Choose the full screen behavior
+* Set the starting audio volume
+* Choose if the video should start mute or not
+* Choose if the video should loop
+* Add a raster image over the video
+* Track the video views on Google Analytics
+* Choose if the player should pause if the windows blur
+* Add any YTPlayer video as background of any page or as backgraund of any element of your page enabling the short-code editor.
+* Use the YTPlayer to display a clean Youtube video as player (via short-code).
+
+== What about mobile ==
+<b>The mb.YTPlayer now works on mobile devices!</b>
+The video starts as soon the device screen is touched.
 
 == Changelog ==
 
-= 3.1.55 =
-Bug fix: Fixed a bug introduced with the latest 3.1.5 release that was pewventing controls to work as aspected.
+= 3.2.0 =
+new feature: Added "playOnlyIfVisible" property to play the video only if it is visible on screen.
+
+= 3.1.9 =
+Bug fix: Fixed a bug that was preventing the correct behavior if the "Remember last video time position" was checked.
+
+= 3.1.8 =
+Improve: the "delay" option for the initialization is now in seconds.
+
+= 3.1.7 =
+New feature: Added a delay parameter for the player initialization that can be set to solve initialization issue on rare theme or plugin conflicts.
+
+= 3.1.6 =
+Bug fix: Fix a bug that was preventing the correct behavior on certain devices.
 
 = 3.1.5 =
-New feature: Now you can have the background video also on mobile devices.
+Updates: Added a new option to remember the video time elapse next time you enter the page.
 
 = 3.1.4 =
 Updates: Added a new option to remember the video time elapse next time you enter the page.
@@ -169,8 +173,8 @@ Bug fix: In some cases the notice class did fire an error preventing the plug-in
 = I'm using the plug in as background video and I can see the control bar on the bottom but the video doesn't display =
  Your theme is probably using a wrapper for the content and it probably has a background color or image. You should check the CSS and remove that background to let the video that is behind do display correctly.
 
-= Everything is working fine on my desktop but it doesn't work on any mobile devices =
-Due to restrictions adopted by browser vendors and Youtube team this plugin can't work on touch devices.
+= Does it work on mobile devices =
+Yes! the only difference is that the background video starts once the device scrin is touched after the page has been loaded.
 
 = I would have an image on the background before the video starts and after the video end; how can I do? =
 The simplest way is to add an image as background of the body via CSS.

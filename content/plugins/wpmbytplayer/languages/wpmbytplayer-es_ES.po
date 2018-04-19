@@ -1,15 +1,15 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: mb.YTPlayer background video\n"
-"POT-Creation-Date: 2017-07-02 18:05+0200\n"
-"PO-Revision-Date: 2017-07-02 18:07+0200\n"
+"POT-Creation-Date: 2017-12-14 22:53+0100\n"
+"PO-Revision-Date: 2017-12-14 22:53+0100\n"
 "Last-Translator: Matteo Bicochi <matteo@open-lab.com>\n"
 "Language-Team: Open Lab srl <info@open-lab.com>\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.2\n"
+"X-Generator: Poedit 2.0.5\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-SourceCharset: UTF-8\n"
 "X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
@@ -26,24 +26,24 @@ msgstr "mb.ideas plug-ins instalados"
 msgid "Get your <b>Plus</b> now!"
 msgstr "Get your <b>Plus</b> now!"
 
-#: mbYTPlayer.php:294
+#: mbYTPlayer.php:301
 msgid "mb.YTPlayer"
 msgstr "mb.YTPlayer"
 
-#: mbYTPlayer.php:298
+#: mbYTPlayer.php:303
 msgid "From here you can set a background video for your home page."
 msgstr ""
 "Desde aquí se puede establecer un fondo de vídeo para tu página de inicio."
 
-#: mbYTPlayer.php:306
+#: mbYTPlayer.php:312
 msgid "activate the background video"
 msgstr "﻿activar el vídeo de fondo"
 
-#: mbYTPlayer.php:325
+#: mbYTPlayer.php:332
 msgid "The Youtube video url is:"
 msgstr "La url del video de Youtube es:"
 
-#: mbYTPlayer.php:343
+#: mbYTPlayer.php:350
 msgid ""
 "Copy and paste here the URL of the Youtube video you want as your homepage "
 "background. If you add more then one URL comma separated it will be chosen "
@@ -53,48 +53,85 @@ msgstr ""
 "inicio fondo. Adición de más de una URL separados por comas que se elegirá "
 "uno al azar cada vez que llegue a la página."
 
-#: mbYTPlayer.php:349
+#: mbYTPlayer.php:358
 msgid "The page where to show the background video is:"
 msgstr "﻿La página en la que muestra el vídeo de fondo es:"
 
-#: mbYTPlayer.php:351
+#: mbYTPlayer.php:360
 msgid "Static Homepage"
 msgstr "Página de inicio estática"
 
-#: mbYTPlayer.php:352
+#: mbYTPlayer.php:361
 msgid "Blog index Homepage"
 msgstr "Índice de blog Página principal"
 
-#: mbYTPlayer.php:353
+#: mbYTPlayer.php:362
 msgid "Both"
 msgstr "Ambos"
 
-#: mbYTPlayer.php:354
+#: mbYTPlayer.php:363
 msgid "All"
 msgstr "Todas las páginas"
 
-#: mbYTPlayer.php:356
+#: mbYTPlayer.php:365
 msgid "Choose on which page you want the background video to be shown"
 msgstr "﻿Elige en qué página desea que el vídeo de fondo que se muestra"
 
-#: mbYTPlayer.php:361
+#: mbYTPlayer.php:372
 msgid "Remember last video time position:"
 msgstr "Recuerda última posición de video:"
 
-#: mbYTPlayer.php:366
+#: mbYTPlayer.php:377
 msgid "Check to start the video from where you left last time"
 msgstr ""
 "Seleccione esta opción para iniciar el video del donde dejaste la última vez"
 
-#: mbYTPlayer.php:374
+#: mbYTPlayer.php:385
+msgid "Red zone!"
+msgstr "Red zone!"
+
+#: mbYTPlayer.php:386
+msgid ""
+"<strong>Rarely there could be a conflict with a theme or a plugins</strong> "
+"that prevent the player to work; adding a delay to the initialize event "
+"could solve the problem. Be careful that this option will delay the start of "
+"the video"
+msgstr ""
+"<strong>Raramente puede haber un conflicto con un tema o un plugins</strong> "
+"que impiden que el reproductor para que funcione; Agregar un retraso al "
+"evento initialize podría resolver el problema. Tenga cuidado de que esta "
+"opción retrasará el inicio del video"
+
+#: mbYTPlayer.php:387
+msgid "This is a global option and will affect any player in any page"
+msgstr ""
+"Esta es una opción global y afecta a cualquier jugador en cualquier pagina"
+
+#: mbYTPlayer.php:391
+msgid "Time to wait before initialization:"
+msgstr "Tiempo de espera antes de la inicialización:"
+
+#: mbYTPlayer.php:394
+msgid "none"
+msgstr "ninguno"
+
+#: mbYTPlayer.php:400
+msgid ""
+"Add a delay in seconds for the player initialization<br>(most times it needs "
+"2 sec.)"
+msgstr ""
+"Añadir un retardo en segundos para la inicialización de jugador<br>(mayoría "
+"de las veces necesita 2 seg.)"
+
+#: mbYTPlayer.php:406
 msgid "Save Changes"
 msgstr "Guardar Cambios"
 
-#: mbYTPlayer.php:390
+#: mbYTPlayer.php:422
 msgid "Get your <strong>PLUS</strong> plug-in!"
 msgstr "¡Obtén tu <strong>PLUS</strong> plug-in!"
 
-#: mbYTPlayer.php:391
+#: mbYTPlayer.php:423
 msgid ""
 "The <strong>mb.YTPlayer PLUS</strong> plug-in enable the advanced settings "
 "panel, add a short-code editor on the post/page editor page and remove the "
@@ -104,51 +141,67 @@ msgstr ""
 "avanzada del panel, agrega un editor de código corto en la página del editor "
 "de posts/páginas y quitar la marca de agua del reproductor de vídeo."
 
-#: mbYTPlayer.php:395
+#: mbYTPlayer.php:427
 #, php-format
 msgid "<strong>Go PLUS</strong> for <b>%s EUR</b> Only"
 msgstr "<strong>Go PLUS</strong> for <b>%s EUR</b> Only"
 
-#: mbYTPlayer.php:408
+#: mbYTPlayer.php:440
 msgid "Thanks for installing <b>mb.YTPlayer</b>!"
 msgstr "Gracias por instalar <b>mb.YTPlayer!</b>"
 
-#: mbYTPlayer.php:411
+#: mbYTPlayer.php:443
 #, php-format
 msgid "You're using mb.YTPlayer v. <b>%s</b>"
 msgstr "Estás usando mb.YTPlayer <b>v.%s</b>"
 
-#: mbYTPlayer.php:412
+#: mbYTPlayer.php:444
 msgid "by"
 msgstr "Por"
 
-#: mbYTPlayer.php:415
+#: mbYTPlayer.php:447
 msgid "Don’t forget to follow me on twitter"
 msgstr "No te olvides de seguirme en Twitter"
 
-#: mbYTPlayer.php:417
+#: mbYTPlayer.php:449
 msgid "Visit my site"
 msgstr "Visita mi sitio"
 
-#: mbYTPlayer.php:418
+#: mbYTPlayer.php:450
 msgid "Visit my blog"
 msgstr "Visita mi  Blog"
 
-#: mbYTPlayer.php:422
+#: mbYTPlayer.php:454
 msgid "donate"
 msgstr "Donar"
 
-#: mbYTPlayer.php:428
+#: mbYTPlayer.php:460
 msgid "Subscribe to my mailing list <br>to stay in touch"
 msgstr "Suscribirse a mi lista de correo <br> para mantenerse en contacto"
 
-#: mbYTPlayer.php:433
+#: mbYTPlayer.php:465
 msgid "your email address"
 msgstr "su dirección de correo electrónico"
 
-#: mbYTPlayer.php:434
+#: mbYTPlayer.php:466
 msgid "Subscribe"
 msgstr "Suscribirse"
+
+#~ msgid ""
+#~ "Rarely there could be a conflict with a theme or a plugin that prevent "
+#~ "the player to work; adding a delay to the initialize event could solve "
+#~ "the problem. Be careful that this option will delay the start of the video"
+#~ msgstr ""
+#~ "Raramente puede haber un conflicto con un tema o un plugin para que "
+#~ "evitar que el reproductor para que funcione; Agregar un retraso al evento "
+#~ "initialize podría resolver el problema. Tenga cuidado de que esta opción "
+#~ "retrasará el inicio del video"
+
+#~ msgid "milliseconds"
+#~ msgstr "milisegundos"
+
+#~ msgid "Add a delay in milliseconds for the player initialization"
+#~ msgstr "Añadir un retardo en milisegundos para la inicialización de jugador"
 
 #~ msgid "<strong>Go PLUS</strong> for <b>8 EUR</b> Only"
 #~ msgstr "¡Obtén tu <strong>PLUS</strong> plug-in por sólo <b>8 EUR</b>"

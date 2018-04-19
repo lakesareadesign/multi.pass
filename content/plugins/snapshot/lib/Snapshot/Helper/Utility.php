@@ -12,6 +12,8 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 	class Snapshot_Helper_Utility {
 
+		const MIN_VIABLE_EXEC_TIME = 30;
+
 		/**
 		 * Get the database name for multisites.
 		 *
@@ -448,29 +450,24 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		public static function check_server_timeout() {
 			$current_timeout = ini_get( 'max_execution_time' );
 			$current_timeout = intval( $current_timeout );
-			//echo "current_timeout=[". $current_timeout ."]<br />";
 
 			// If the max execution time is zero (means no timeout). We leave it.
 			if ( $current_timeout === 0 ) {
 				return true;
 			}
 
-			// Else we try to set the timeout to some other value. If success we are golden
-			@set_time_limit( ( (int) $current_timeout ) * 3 );
+			// Else we try to set the timeout to some other value. If success we are golden.
+			$new_timeout = $current_timeout;
+			@set_time_limit(0);
 			$new_timeout = ini_get( 'max_execution_time' );
 			$new_timeout = intval( $new_timeout );
-			//echo "new_timeout=[". $new_timeout ."]<br />";
 
-			if ( $new_timeout === ( $current_timeout * 3 ) ) {
+			if (0 === $new_timeout) {
 				return true;
 			}
 
 			// Finally, if we cannot adjust the timeout and the current timeout is less than 30 seconds we throw a warning to the user.
-			if ( $current_timeout < 30 ) {
-				return false;
-			} else {
-				return true;
-                        }
+			return $current_timeout > self::MIN_VIABLE_EXEC_TIME;
 		}
 
 		/**
@@ -502,7 +499,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		 *
 		 * @since 1.0.2
 		 *
-		 * @param string $base
+		 * @param string $base Where to start.
 		 *
 		 * @return array
 		 */
@@ -520,7 +517,10 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 				return array();
 			}
 
-			$data = array_diff( scandir( $base ), array( '.', '..' ) );
+			Snapshot_Helper_Utility::check_server_timeout();
+
+			$result = @scandir($base);
+			$data = !empty($result) ? array_diff( $result, array( '.', '..' ) ) : array();
 
 			$subs = array();
 			foreach ( $data as $key => $value ) :
@@ -1388,6 +1388,12 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 					unset( $snapshot_manifest['PREFIX'] );
 				}
 			}
+			if ( ! isset( $snapshot_manifest['WP_DB_CHARSET_COLLATE'] ) ) {
+				if ( isset( $snapshot_manifest['CHARSET_COLLATE'] ) ) {
+					$snapshot_manifest['WP_DB_CHARSET_COLLATE'] = $snapshot_manifest['CHARSET_COLLATE'];
+					unset( $snapshot_manifest['CHARSET_COLLATE'] );
+				}
+			}
 			if ( ! isset( $snapshot_manifest['WP_UPLOAD_PATH'] ) ) {
 				if ( isset( $snapshot_manifest['UPLOAD_PATH'] ) ) {
 					$snapshot_manifest['WP_UPLOAD_PATH'] = $snapshot_manifest['UPLOAD_PATH'];
@@ -1616,6 +1622,13 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 					$RESTORE['IMPORT']['WP_DB_PREFIX'] = $manifest_data['WP_DB_PREFIX'];
 				} else {
 					$RESTORE['IMPORT']['WP_DB_PREFIX'] = '';
+				}
+
+
+				if ( isset( $manifest_data['WP_DB_CHARSET_COLLATE'] ) ) {
+					$RESTORE['IMPORT']['WP_DB_CHARSET_COLLATE'] = $manifest_data['WP_DB_CHARSET_COLLATE'];
+				} else {
+					$RESTORE['IMPORT']['WP_DB_CHARSET_COLLATE'] = '';
 				}
 
 
