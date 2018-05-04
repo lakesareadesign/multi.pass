@@ -82,9 +82,9 @@ function outfitter_get_header_search_toggle() {
  *
  * @since 1.0.0
  */
-function outfitter_do_header_search_icon( ) {
+function outfitter_do_header_search_icon() {
 
-	printf( '<li class="menu-item menu-item-has-toggle search-item">%s</li>', outfitter_get_header_search_toggle() );
+	printf( '<li class="menu-item menu-item-has-toggle search-item">%s</li>', wp_kses_post( outfitter_get_header_search_toggle() ) );
 
 }
 
@@ -108,7 +108,7 @@ function outfitter_get_off_screen_toggle() {
  */
 function outfitter_do_off_screen_icon() {
 
-	printf( '<li class="menu-item menu-item-has-toggle off-screen-item">%s</li>', outfitter_get_off_screen_toggle() );
+	printf( '<li class="menu-item menu-item-has-toggle off-screen-item">%s</li>', wp_kses_post( outfitter_get_off_screen_toggle() ) );
 
 }
 
@@ -124,7 +124,7 @@ function outfitter_do_header_search_form() {
 	printf(
 		'<div id="header-search-container" class="header-search-container">%s %s</div>',
 		get_search_form( false ),
-		$button
+		wp_kses_post( $button )
 	);
 
 }
@@ -155,6 +155,9 @@ function outfitter_wrapper_close() {
  * Opens image wrapper.
  *
  * @since 1.0.0
+ *
+ * @param string $open_html The opening HTML for the image link.
+ * @return string The complete opening HTML.
  */
 function outfitter_custom_archive_image_open( $open_html ) {
 
@@ -166,6 +169,9 @@ function outfitter_custom_archive_image_open( $open_html ) {
  * Closes image wrapper.
  *
  * @since 1.0.0
+ *
+ * @param string $close_html The closing HTML for the image link.
+ * @return string The complete closing HTML.
  */
 function outfitter_custom_archive_image_close( $close_html ) {
 
@@ -174,9 +180,12 @@ function outfitter_custom_archive_image_close( $close_html ) {
 }
 
 /**
- * Calculates color contrast.
+ * Calculates if white or black would contrast more with the provided color.
  *
  * @since 1.0.0
+ *
+ * @param string $color A color in hex format.
+ * @return string The hex code for the most contrasting color: black or white.
  */
 function outfitter_color_contrast( $color ) {
 
@@ -193,9 +202,14 @@ function outfitter_color_contrast( $color ) {
 }
 
 /**
- * Calculates color brightness.
+ * Generates a lighter or darker color from a starting color.
+ * Used to generate complementary hover tints from user-chosen colors.
  *
  * @since 1.0.0
+ *
+ * @param string $color A color in hex format.
+ * @param int    $change The amount to reduce or increase brightness by.
+ * @return string Hex code for the adjusted color brightness.
  */
 function outfitter_color_brightness( $color, $change ) {
 
@@ -214,9 +228,13 @@ function outfitter_color_brightness( $color, $change ) {
 }
 
 /**
- * Changes color brightness.
+ * Generates a lighter or darker color from a starting color.
+ * Used to lighten or darken white or black complementary colors.
  *
  * @since 1.0.0
+ *
+ * @param string $color A color in hex format.
+ * @return string Hex code for the adjusted color brightness.
  */
 function outfitter_change_brightness( $color ) {
 

@@ -32,7 +32,7 @@
 		$footer    = $( '.site-footer' ),
 		$container = $( '.site-container' );
 
-	// Set the container marign to the footer height for effect.
+	// Set the container margin to the footer height for effect.
 	$container.css( 'margin-bottom', $footer.outerHeight() );
 
 	// Handler for click a show/hide button.

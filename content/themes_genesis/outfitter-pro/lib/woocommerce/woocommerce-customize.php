@@ -47,7 +47,7 @@ function outfitter_woocommerce_customizer_register( $wp_customize ) {
 			'description'    => __( 'Check the box to show a cart icon in the header menu.', 'outfitter-pro' ),
 			'section'        => 'outfitter_theme_options',
 			'type'           => 'checkbox',
-			'theme_supports' => array('woocommerce'),
+			'theme_supports' => array( 'woocommerce' ),
 			'settings'       => 'outfitter_header_cart',
 		) );
 

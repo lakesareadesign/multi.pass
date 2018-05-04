@@ -73,3 +73,6 @@ CHANGELOG
 * Update flexible widgets to work with customizer
 * Update responsive menu to 1.1.3
 * Update responsive CSS for front page widget h4 size
+
+= 1.1.4 =
+* Allow smooth scroll for all front page links.

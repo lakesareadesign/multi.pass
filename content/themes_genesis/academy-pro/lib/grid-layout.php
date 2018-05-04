@@ -60,7 +60,7 @@ function academy_grid_category_layout( $layout ) {
 
 	$layout_option = get_theme_mod( 'academy-grid-option', true );
 
-	if ( $layout_option && is_category() || is_tag() ) {
+	if ( $layout_option && ( is_category() || is_tag() ) ) {
 		$layout = 'academy-grid';
 	}
 

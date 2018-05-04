@@ -1,0 +1,70 @@
+/* ## Sidebars
+--------------------------------------------- */
+
+.sidebar {
+    position: relative;
+    z-index: 1;
+    ol,
+    ul {
+        color: $body;
+        margin-left: 1em;
+        line-height: 2;
+    }
+    ol>li {
+        list-style-type: decimal;
+    }
+    ul>li {
+        list-style-type: disc;
+    }
+    li li {
+        list-style-type: circle;
+    }
+    a {
+        color: $darker;
+        &:hover,
+        &:focus {
+            color: $accent;
+        }
+    }
+}
+
+/* ## Widgets
+--------------------------------------------- */
+
+.widget {
+    .sidebar & {
+		font-size: 1.5rem;
+        padding: 3.5vw 0;
+        @include breakpoint(sm) {
+            padding: 3rem 0;
+        }
+        &:first-of-type {
+            padding-top: 0;
+            @include breakpoint(sm) {
+                padding-top: 3rem;
+            }
+        }
+    }
+    .blog .sidebar &,
+    .archive .sidebar & {
+        padding: 3.5vw;
+        background-color: $white;
+        border: $site-border;
+        border-radius: $site-radius;
+        margin-bottom: 7vw;
+        @include breakpoint(sm) {
+            padding: 3rem;
+            margin-bottom: 3rem;
+        }
+    }
+}
+
+.widget_calendar {
+    table {
+        width: 100%;
+    }
+    td,
+    th {
+        text-align: center;
+    }
+}

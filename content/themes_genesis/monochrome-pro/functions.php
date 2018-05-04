@@ -45,7 +45,7 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Monochrome Pro' );
 define( 'CHILD_THEME_URL', 'https://my.studiopress.com/themes/monochrome/' );
-define( 'CHILD_THEME_VERSION', '1.0.0' );
+define( 'CHILD_THEME_VERSION', '1.0.1' );
 
 // Enqueue scripts and styles.
 add_action( 'wp_enqueue_scripts', 'monochrome_enqueue_scripts_styles' );

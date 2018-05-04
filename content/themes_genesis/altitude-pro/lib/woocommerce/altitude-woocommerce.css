@@ -558,11 +558,13 @@ Loaded on WooCommerce pages */
 /* WooCommerce Misc
 ---------------------------------------------------------------------------------------------------- */
 
+ul.woocommerce-error,
 .woocommerce-error,
 .woocommerce-info,
 .woocommerce-message {
 	background-color: #f5f5f5;
 	border-top-color: #22a1c4;
+	margin-left: 0;
 }
 
 .woocommerce-error::before,

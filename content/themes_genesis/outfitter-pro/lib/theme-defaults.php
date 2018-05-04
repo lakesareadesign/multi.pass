@@ -44,18 +44,20 @@ function outfitter_theme_setting_defaults() {
 
 	if ( function_exists( 'genesis_update_settings' ) ) {
 
-		genesis_update_settings( array(
-			'blog_cat_num'              => 9,
-			'content_archive'           => 'full',
-			'content_archive_limit'     => 500,
-			'content_archive_thumbnail' => 1,
-			'image_size'                => 'featured-image',
-			'image_alignment '          => 'aligncenter',
-			'posts_nav'                 => 'numeric',
-			'site_layout'               => 'full-width-content',
-		) );
+		genesis_update_settings(
+			array(
+				'blog_cat_num'              => 9,
+				'content_archive'           => 'full',
+				'content_archive_limit'     => 500,
+				'content_archive_thumbnail' => 1,
+				'image_size'                => 'featured-image',
+				'image_alignment '          => 'aligncenter',
+				'posts_nav'                 => 'numeric',
+				'site_layout'               => 'full-width-content',
+			)
+		);
 
-	} 
+	}
 
 	update_option( 'posts_per_page', 9 );
 

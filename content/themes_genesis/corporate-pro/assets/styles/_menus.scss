@@ -1,0 +1,453 @@
+/* ## Menus
+--------------------------------------------- */
+
+.menu {
+    width: 100%;
+    font-size: 1.6rem;
+    font-weight: $bolder;
+    text-align: left;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    @include clearfix;
+    @include breakpoint(md) {
+        font-size: 1.4rem;
+    }
+    .right {
+        margin-left: auto;
+    }
+    .rss,
+    .date,
+    .search,
+    .twitter {
+        display: flex;
+        align-items: center;
+        margin-left: 0;
+        margin-top: 1em;
+        @include breakpoint(md) {
+            margin-top: 0;
+            margin-left: 0.618em;
+        }
+        @include breakpoint(xl) {
+            margin-left: 1.5em;
+        }
+    }
+    .rss {
+        margin-left: 0;
+        a {
+            margin-left: 1em;
+        }
+    }
+}
+
+.menu-item {
+    display: block;
+    padding: 1rem 0;
+    width: 100%;
+    position: relative;
+    order: -1;
+    @include breakpoint(md) {
+        display: flex;
+        align-items: center;
+        order: initial;
+        padding: 0 0.618em;
+        width: auto;
+        height: 10rem;
+        .shrink & {
+            height: 7rem;
+        }
+        &:first-of-type>a {
+            padding-left: 0;
+        }
+        &:last-of-type {
+            a {
+                padding-right: 0;
+            }
+        }
+    }
+    @include breakpoint(lg) {
+        padding: 0 1em;
+    }
+    &.button {
+        padding: 0;
+        background: transparent;
+        font-size: 1.2rem;
+        box-shadow: none;
+        margin: 1em 0;
+        display: flex;
+        align-items: center;
+        @include breakpoint(md) {
+            margin: 0 0 0 1em;
+        }
+        &:last-of-type {
+            a {
+                padding-right: 3em;
+            }
+        }
+        a {
+            @include gradient;
+            border-radius: 9rem;
+            padding: 1em 3em;
+            color: $white;
+            .shrink & {
+                color: $white;
+            }
+        }
+        a:hover,
+        a:focus,
+        &.current-menu-item>a {
+            color: $white;
+            box-shadow: inset 0 0 0 9rem rgba($black,0.1);
+        }
+    }
+    a {
+        text-decoration: none;
+        display: inline-block;
+        color: $dark;
+        margin: 2px;
+        @include transition;
+    }
+    a:hover,
+    a:focus,
+    &.current-menu-item>a {
+        color: $accent;
+    }
+    span {
+        display: block;
+    }
+}
+
+
+/* ## Sub Menus
+--------------------------------------------- */
+
+.sub-menu {
+    display: none;
+    @include clearfix;
+    @include breakpoint(md) {
+        background-color: $light;
+        top: 100%;
+        left: 0;
+        position: absolute;
+        margin-left: -1em;
+        width: 20rem;
+        z-index: 99;
+        padding: 1em 0;
+        border: $site-border;
+        border-radius: $site-radius;
+    }
+    &:before {
+        content: '';
+        position: absolute;
+        top: -0.5rem;
+        left: 3rem;
+        height: 1rem;
+        width: 1rem;
+        background-color: $light;
+        border-top: $site-border;
+        border-left: $site-border;
+        transform: rotate(45deg);
+        z-index: 98;
+        opacity: 1;
+        transition-delay: 0.3s;
+        display: none;
+        @include breakpoint(md) {
+            display: block;
+        }
+    }
+    .menu-item {
+        width: 100%;
+        height: auto;
+        padding: 0.5em 0;
+        @include breakpoint(md) {
+            padding: 0.5em 1em;
+            height: auto;
+        }
+        &:first-of-type {
+            margin-top: 1em; // Slide toggle fix.
+            @include breakpoint(md) {
+                margin-top: 0;
+            }
+        }
+    }
+    a {
+        padding-left: 0.618em;
+        @include breakpoint(md) {
+            padding: 0;
+            position: relative;
+            word-wrap: break-word;
+            color: $medium;
+        }
+    }
+    .sub-menu {
+        padding-left: 1em;
+        @include breakpoint(md) {
+            margin: -0.1rem 0 0 19.9rem;
+            padding-left: 0;
+            left: -0.1rem;
+            top: -0.5em;
+            border: $site-border;
+        }
+    }
+}
+
+
+/* ## Specific Menus
+--------------------------------------------- */
+
+.nav-primary,
+.nav-secondary {
+    width: 93vw;
+    max-width: 40rem;
+    margin: 0;
+    padding: 0 4rem;
+    background-color: $white;
+    border-top: $site-border;
+    border-bottom: $site-border;
+    position: absolute;
+    right: -40rem;
+    top: 0;
+    bottom: 0;
+    height: 100vh;
+    overflow: auto;
+    @include transition;
+    @include breakpoint(sm) {
+        right: calc(-40rem + -6vw);
+    }
+    @include breakpoint(md) {
+        overflow: visible;
+        border: none;
+        position: relative;
+        left: auto;
+        top: auto;
+        right: auto;
+        bottom: auto;
+        height: auto;
+        width: auto;
+        max-width: none;
+        display: block;
+        margin: 0;
+        padding: 0;
+        background-color: transparent;
+        box-shadow: none;
+    }
+    &.activated {
+        right: 0;
+        left: auto;
+        box-shadow: 0 0 4rem rgba($dark,0.2);
+        @include breakpoint(sm) {
+            right: -6vw;
+        }
+        @include breakpoint(md) {
+            box-shadow: none;
+            right: auto;
+        }
+    }
+    .no-js & {
+        width: 100%;
+        height: auto;
+        position: relative;
+        display: block;
+        right: auto;
+        border: 0;
+        padding: 0;
+        @include breakpoint(md) {
+            display: block;
+            width: auto;
+        }
+        .wrap {
+            padding: 0;
+        }
+        .menu {
+            padding: 0;
+        }
+        .menu-item {
+            display: inline-flex;
+            width: auto;
+            padding-right: 1rem;
+        }
+    }
+    .menu {
+        padding: 5em 0 7.5em;
+        position: relative;
+        @include breakpoint(md) {
+            padding: 0;
+        }
+    }
+}
+
+.nav-secondary {
+    width: 100%;
+    @include breakpoint(md) {
+        width: 100%;
+        border-top: 1px solid rgba($gray,0.3);
+    }
+    .menu-item {
+        @include breakpoint(md) {
+            height: 6rem;
+            .sticky-header .shrink & {
+                height: 5rem;
+            }
+        }
+    }
+    .menu {
+        > .menu-item {
+            @include breakpoint(md) {
+                &:first-of-type {
+                    padding-left: 0;
+                }
+            }
+        }
+    }
+    .sub-menu {
+        .menu-item {
+            height: auto;
+        }
+    }
+}
+
+.site-footer {
+    .menu {
+        justify-content: center;
+        margin-bottom: 0;
+        font-size: 1.4rem;
+    }
+    .menu-item {
+        height: auto;
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        &:last-of-type {
+            margin-bottom: 0;
+            a {
+                margin-bottom: 2px;
+            }
+        }
+        a {
+            padding: 0;
+            margin-bottom: 1em;
+            color: $body;
+        }
+    }
+    .menu-item a:hover,
+    .menu-item a:focus,
+    .menu-item.current-menu-item > a {
+        color: $accent;
+    }
+}
+
+
+/* ## Menu Toggle
+--------------------------------------------- */
+
+.menu-toggle {
+    padding: 1em 0.5em;
+    margin-right: -0.5em;
+    cursor: pointer;
+    background: transparent;
+    box-shadow: none;
+    display: block;
+    height: auto;
+    position: relative;
+    color: $dark;
+    z-index: 1;
+    @include breakpoint(md) {
+        display: none;
+    }
+    &:hover,
+    &:focus {
+        background: none;
+        box-shadow: none;
+        color: $dark;
+    }
+    &.activated,
+    .shrink & {
+        color: $dark;
+        span {
+            background: $dark;
+            &:before,
+            &:after {
+                background: $dark;
+            }
+        }
+    }
+    span {
+        display: block;
+        float: right;
+        position: relative;
+        height: 2px;
+        background: $dark;
+        width: 2rem;
+        border-radius: $site-radius;
+        &::before,
+        &::after {
+            position: absolute;
+            display: block;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: $dark;
+            border-radius: $site-radius;
+            content: " ";
+        }
+        &::before {
+            top: -0.5rem;
+            transition: top 0.2s 0.2s, transform 0.2s 0s;
+        }
+        &::after {
+            bottom: -0.5rem;
+            transition: bottom 0.2s 0.2s, transform 0.2s 0s;
+        }
+    }
+    &.activated span {
+        background: none;
+        &::before {
+            top: 0;
+            transform: rotate(45deg);
+            transition: top 0.2s 0s, transform 0.2s 0.2s;
+        }
+        &::after {
+            bottom: 0;
+            transform: rotate(-45deg);
+            transition: bottom 0.2s 0s, transform 0.2s 0.2s;
+        }
+    }
+}
+
+/* ## Sub Menu Toggle
+--------------------------------------------- */
+
+.sub-menu-toggle {
+    position: absolute;
+    right: 3em;
+    height: auto;
+    top: 0.1em;
+    background: none;
+    padding: 1em;
+    margin: 0 -1em;
+    box-shadow: none;
+    @include breakpoint(md) {
+        display: none;
+    }
+    &:hover,
+    &:focus {
+        background: none;
+        box-shadow: none;
+    }
+    &:focus {
+        outline: $site-outline;
+    }
+    &:before {
+        content: "";
+        display: block;
+        margin: 0.2rem 0 -0.2rem;
+        border: 0.4rem solid transparent;
+        border-top-color: $dark;
+    }
+    &.activated {
+        &:before {
+            transform: rotate(180deg);
+            margin: -0.2rem 0 0.2rem;
+        }
+    }
+}

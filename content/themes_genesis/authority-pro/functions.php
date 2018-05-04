@@ -11,10 +11,10 @@
  */
 
 // Starts the engine.
-include_once( get_template_directory() . '/lib/init.php' );
+require_once get_template_directory() . '/lib/init.php';
 
 // Sets up the Theme.
-include_once( get_stylesheet_directory() . '/lib/theme-defaults.php' );
+require_once get_stylesheet_directory() . '/lib/theme-defaults.php';
 
 add_action( 'after_setup_theme', 'authority_localization_setup' );
 /**
@@ -27,36 +27,36 @@ function authority_localization_setup() {
 }
 
 // Adds the theme helper functions.
-include_once( get_stylesheet_directory() . '/lib/helper-functions.php' );
+require_once get_stylesheet_directory() . '/lib/helper-functions.php';
 
 // Adds image upload and color select to WordPress Theme Customizer.
-require_once( get_stylesheet_directory() . '/lib/customizer/customize.php' );
+require_once get_stylesheet_directory() . '/lib/customizer/customize.php';
 
 // Includes customizer CSS.
-include_once( get_stylesheet_directory() . '/lib/customizer/output.php' );
+require_once get_stylesheet_directory() . '/lib/customizer/output.php';
 
 // Includes the featured image markup if required.
-include_once( get_stylesheet_directory() . '/lib/featured-images.php' );
+require_once get_stylesheet_directory() . '/lib/featured-images.php';
 
 // Includes subtitle markup and filters.
-include_once( get_stylesheet_directory() . '/lib/subtitles.php' );
+require_once get_stylesheet_directory() . '/lib/subtitles.php';
 
 // Adds the grid layout.
-include_once( get_stylesheet_directory() . '/lib/grid-layout.php' );
+require_once get_stylesheet_directory() . '/lib/grid-layout.php';
 
 // Adds WooCommerce support.
-include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-setup.php' );
+require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-setup.php';
 
 // Includes the customizer CSS for the WooCommerce plugin.
-include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-output.php' );
+require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-output.php';
 
 // Includes notice to install Genesis Connect for WooCommerce.
-include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.php' );
+require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.php';
 
 // Defines the child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Authority Pro' );
 define( 'CHILD_THEME_URL', 'https://my.studiopress.com/themes/authority/' );
-define( 'CHILD_THEME_VERSION', '1.0.2' );
+define( 'CHILD_THEME_VERSION', '1.0.4' );
 
 add_action( 'wp_enqueue_scripts', 'authority_enqueue_scripts_styles' );
 /**
@@ -100,7 +100,6 @@ function authority_top_banner_classes( $classes ) {
 		if ( is_customize_preview() ) {
 			$classes[] = 'customizer-preview';
 		}
-
 	}
 
 	return $classes;
@@ -142,13 +141,15 @@ add_theme_support( 'genesis-accessibility', array( '404-page', 'drop-down-menu',
 add_theme_support( 'genesis-responsive-viewport' );
 
 // Adds support for custom header.
-add_theme_support( 'custom-header', array(
-	'flex-height'     => true,
-	'header-selector' => '.site-title a',
-	'header-text'     => false,
-	'height'          => 160,
-	'width'           => 600,
-) );
+add_theme_support(
+	'custom-header', array(
+		'flex-height'     => true,
+		'header-selector' => '.site-title a',
+		'header-text'     => false,
+		'height'          => 160,
+		'width'           => 600,
+	)
+);
 
 // Adds support for after entry widget.
 add_theme_support( 'genesis-after-entry-widget-area' );
@@ -236,11 +237,13 @@ function authority_skip_links_output( $links ) {
 }
 
 // Renames primary and secondary navigation menus.
-add_theme_support( 'genesis-menus', array(
-	'primary'   => __( 'Header Menu', 'authority-pro' ),
-	'secondary' => __( 'Footer Menu', 'authority-pro' ),
-	'social'    => __( 'Social Menu', 'authority-pro' ),
-) );
+add_theme_support(
+	'genesis-menus', array(
+		'primary'   => __( 'Header Menu', 'authority-pro' ),
+		'secondary' => __( 'Footer Menu', 'authority-pro' ),
+		'social'    => __( 'Social Menu', 'authority-pro' ),
+	)
+);
 
 // Repositions primary navigation menu.
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
@@ -262,9 +265,9 @@ add_filter( 'genesis_attr_nav-social', 'authority_social_menu_atts' );
 function authority_social_menu_atts( $atts ) {
 
 	$atts['aria-labelledby'] = 'additional-menu-label';
-	$atts['id']         = 'genesis-nav-social';
-	$atts['itemscope']  = true;
-	$atts['itemtype']   = 'https://schema.org/SiteNavigationElement';
+	$atts['id']              = 'genesis-nav-social';
+	$atts['itemscope']       = true;
+	$atts['itemtype']        = 'https://schema.org/SiteNavigationElement';
 
 	return $atts;
 
@@ -280,10 +283,12 @@ function authority_do_social_menu() {
 
 	echo '<h2 id="additional-menu-label" class="screen-reader-text">' . __( 'Additional menu', 'authority-pro' ) . '</h2>';
 
-	genesis_nav_menu( array(
-		'theme_location' => 'social',
-		'depth'          => 1,
-	) );
+	genesis_nav_menu(
+		array(
+			'theme_location' => 'social',
+			'depth'          => 1,
+		)
+	);
 
 }
 
@@ -457,7 +462,7 @@ add_action( 'genesis_before_footer', 'authority_footer_widgets' );
 function authority_footer_widgets() {
 
 	$widget_count = authority_count_widgets( 'authority-footer' );
-	$classes = authority_widget_area_class( 'authority-footer' );
+	$classes      = authority_widget_area_class( 'authority-footer' );
 
 	// If only two widgets, configure featured layout via class.
 	if ( 2 === $widget_count ) {
@@ -467,10 +472,12 @@ function authority_footer_widgets() {
 	// Removes subitle.
 	remove_filter( 'the_title', 'authority_title' );
 
-	genesis_widget_area( 'authority-footer', array(
-		'before' => '<div id="footer" class="footer-widgets"><h2 class="genesis-sidebar-title screen-reader-text">' . __( 'Footer', 'authority-pro' ) . '</h2><div class="flexible-widgets widget-area ' . $classes . '"><div class="wrap">',
-		'after'  => '</div></div></div>',
-	) );
+	genesis_widget_area(
+		'authority-footer', array(
+			'before' => '<div id="footer" class="footer-widgets"><h2 class="genesis-sidebar-title screen-reader-text">' . __( 'Footer', 'authority-pro' ) . '</h2><div class="flexible-widgets widget-area ' . $classes . '"><div class="wrap">',
+			'after'  => '</div></div></div>',
+		)
+	);
 
 }
 
@@ -496,38 +503,52 @@ function authority_do_top_banner() {
 }
 
 // Registers widget areas.
-genesis_register_sidebar( array(
-	'id'          => 'hero-section',
-	'name'        => __( 'Hero Section', 'authority-pro' ),
-	'description' => __( 'This is the widget area for the Hero Section (must be enabled in Customizer).', 'authority-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-1',
-	'name'        => __( 'Front Page 1', 'authority-pro' ),
-	'description' => __( 'This is the front page 1 section.', 'authority-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-2',
-	'name'        => __( 'Front Page 2', 'authority-pro' ),
-	'description' => __( 'This is the front page 2 section.', 'authority-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-3',
-	'name'        => __( 'Front Page 3', 'authority-pro' ),
-	'description' => __( 'This is the front page 3 section.', 'authority-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-4',
-	'name'        => __( 'Front Page 4', 'authority-pro' ),
-	'description' => __( 'This is the front page 4 section.', 'authority-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-5',
-	'name'        => __( 'Front Page 5', 'authority-pro' ),
-	'description' => __( 'This is the front page 5 section.', 'authority-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'authority-footer',
-	'name'        => __( 'Footer', 'authority-pro' ),
-	'description' => __( 'This is the footer section.', 'authority-pro' ),
-) );
+genesis_register_sidebar(
+	array(
+		'id'          => 'hero-section',
+		'name'        => __( 'Hero Section', 'authority-pro' ),
+		'description' => __( 'This is the widget area for the Hero Section (must be enabled in Customizer).', 'authority-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-1',
+		'name'        => __( 'Front Page 1', 'authority-pro' ),
+		'description' => __( 'This is the front page 1 section.', 'authority-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-2',
+		'name'        => __( 'Front Page 2', 'authority-pro' ),
+		'description' => __( 'This is the front page 2 section.', 'authority-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-3',
+		'name'        => __( 'Front Page 3', 'authority-pro' ),
+		'description' => __( 'This is the front page 3 section.', 'authority-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-4',
+		'name'        => __( 'Front Page 4', 'authority-pro' ),
+		'description' => __( 'This is the front page 4 section.', 'authority-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-5',
+		'name'        => __( 'Front Page 5', 'authority-pro' ),
+		'description' => __( 'This is the front page 5 section.', 'authority-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'authority-footer',
+		'name'        => __( 'Footer', 'authority-pro' ),
+		'description' => __( 'This is the footer section.', 'authority-pro' ),
+	)
+);

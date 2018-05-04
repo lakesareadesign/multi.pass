@@ -283,6 +283,7 @@ Loads on WooCommerce pages */
 }
 
 .woocommerce ul.products li.product .price del {
+	display: block;
 	opacity: 1;
 	position: absolute;
 	top: 7px;
@@ -302,6 +303,10 @@ Loads on WooCommerce pages */
 	top: 5px;
 }
 
+.woocommerce ul.products li.product .price ins {
+	display: inline;
+}
+
 .woocommerce ul.products li.product .price ins .amount {
 	position: relative;
 }
@@ -316,7 +321,7 @@ Loads on WooCommerce pages */
 /* WooCommerce Shop Page
 ---------------------------------------------------------------------------------------------------- */
 
-.content .widget_text .woocommerce {
+.content .widget.widget_text .woocommerce {
 	margin-left: -10px;
 	margin-right: -10px;
 }
@@ -968,6 +973,7 @@ ul.woocommerce-error,
 .woocommerce-message {
 	background-color: #f5f5f5;
 	border-top-color: #548200;
+	margin-left: 0;
 }
 
 .woocommerce-error::before,

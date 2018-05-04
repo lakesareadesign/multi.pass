@@ -11,10 +11,10 @@
  */
 
 // Starts the engine.
-include_once( get_template_directory() . '/lib/init.php' );
+require_once get_template_directory() . '/lib/init.php';
 
 // Sets up the theme.
-include_once( get_stylesheet_directory() . '/lib/theme-defaults.php' );
+require_once get_stylesheet_directory() . '/lib/theme-defaults.php';
 
 add_action( 'after_setup_theme', 'outfitter_localization_setup' );
 /**
@@ -22,29 +22,29 @@ add_action( 'after_setup_theme', 'outfitter_localization_setup' );
  *
  * @since 1.0.0
  */
-function outfitter_localization_setup(){
+function outfitter_localization_setup() {
 	load_child_theme_textdomain( 'outfitter-pro', get_stylesheet_directory() . '/languages' );
 }
 
 // Adds the theme helper functions.
-include_once( get_stylesheet_directory() . '/lib/helper-functions.php' );
+require_once get_stylesheet_directory() . '/lib/helper-functions.php';
 
 // Adds image upload and color selector to the WordPress Theme Customizer.
-require_once( get_stylesheet_directory() . '/lib/customize.php' );
+require_once get_stylesheet_directory() . '/lib/customize.php';
 
 // Includes customizer CSS.
-include_once( get_stylesheet_directory() . '/lib/output.php' );
+require_once get_stylesheet_directory() . '/lib/output.php';
 
 // Adds WooCommerce support.
-include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-setup.php' );
+require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-setup.php';
 
-// Setup the header search icon menu.
-include_once( get_stylesheet_directory() . '/lib/header-icon-menu.php' );
+// Sets up the header search icon menu.
+require_once get_stylesheet_directory() . '/lib/header-icon-menu.php';
 
 // Defines the child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Outfitter Pro' );
 define( 'CHILD_THEME_URL', 'https://my.studiopress.com/themes/outfitter/' );
-define( 'CHILD_THEME_VERSION', '1.0.1' );
+define( 'CHILD_THEME_VERSION', '1.0.2' );
 
 add_action( 'wp_enqueue_scripts', 'outfitter_enqueue_scripts_styles' );
 /**
@@ -104,13 +104,15 @@ add_theme_support( 'genesis-responsive-viewport' );
 add_theme_support( 'genesis-structural-wraps', array( 'site-inner' ) );
 
 // Adds support for custom header.
-add_theme_support( 'custom-header', array(
-	'flex-height'     => true,
-	'header-selector' => '.site-title a',
-	'header-text'     => false,
-	'height'          => 80,
-	'width'           => 400,
-) );
+add_theme_support(
+	'custom-header', array(
+		'flex-height'     => true,
+		'header-selector' => '.site-title a',
+		'header-text'     => false,
+		'height'          => 80,
+		'width'           => 400,
+	)
+);
 
 // Adds support for custom background.
 add_theme_support( 'custom-background' );
@@ -171,8 +173,8 @@ add_filter( 'genesis_skip_links_output', 'outfitter_skip_links_output' );
  *
  * @since 1.0.0
  *
- * @param array $links
- * @return array
+ * @param array $links The list of skip links.
+ * @return array $links The modified list of skip links.
  */
 function outfitter_skip_links_output( $links ) {
 
@@ -192,11 +194,13 @@ function outfitter_skip_links_output( $links ) {
 }
 
 // Renames primary and secondary navigation menus.
-add_theme_support( 'genesis-menus', array( 
-	'primary'    => __( 'Header Menu', 'outfitter-pro' ),
-	'secondary'  => __( 'Footer Menu', 'outfitter-pro' ),
-	'off-screen' => __( 'Off-screen Menu', 'outfitter-pro' ),
-) );
+add_theme_support(
+	'genesis-menus', array(
+		'primary'    => __( 'Header Menu', 'outfitter-pro' ),
+		'secondary'  => __( 'Footer Menu', 'outfitter-pro' ),
+		'off-screen' => __( 'Off-screen Menu', 'outfitter-pro' ),
+	)
+);
 
 // Repositions primary navigation menu.
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
@@ -208,12 +212,12 @@ add_action( 'genesis_footer', 'genesis_do_subnav', 5 );
 
 add_filter( 'wp_nav_menu_args', 'outfitter_limit_menu_args' );
 /**
- * Reduces the header and off screen navigation menus to one level depth.
+ * Reduces the secondary navigation menu to one level depth.
  *
  * @since 1.0.0
  *
- * @param array $args
- * @return array $args
+ * @param array $args The WP navigation menu arguments.
+ * @return array The modified menu arguments.
  */
 function outfitter_limit_menu_args( $args ) {
 
@@ -249,7 +253,7 @@ function outfitter_off_screen_widget_area() {
 					?>
 				</div>
 			</div>
-			<button class="toggle-off-screen-widget-area close"><span class="screen-reader-text"><?php echo __( 'Hide Off-screen Content', 'outfitter-pro' ); ?></span> <span class="ionicons ion-android-close"></span></button>
+			<button class="toggle-off-screen-widget-area close"><span class="screen-reader-text"><?php echo esc_html__( 'Hide Off-screen Content', 'outfitter-pro' ); ?></span> <span class="ionicons ion-android-close"></span></button>
 		</div>
 	</div>
 	<?php
@@ -257,7 +261,7 @@ function outfitter_off_screen_widget_area() {
 }
 
 // Adds shortcode support for text widgets.
-add_filter('widget_text', 'do_shortcode');
+add_filter( 'widget_text', 'do_shortcode' );
 
 // Repositions default archive image.
 remove_action( 'genesis_entry_content', 'genesis_do_post_image', 8 );
@@ -278,7 +282,7 @@ add_filter( 'genesis_attr_entry-image', 'outfitter_image_alignment' );
  */
 function outfitter_image_alignment( $attributes ) {
 
-	$attributes['class'] = 'aligncenter post-image entry-image';
+	$attributes['class']    = 'aligncenter post-image entry-image';
 	$attributes['itemprop'] = 'image';
 
 	return $attributes;
@@ -295,12 +299,17 @@ function outfitter_featured_image() {
 
 	$add_single_image = get_theme_mod( 'outfitter_single_image_setting', outfitter_customizer_get_default_image_setting() );
 
-	$image = genesis_get_image( array(
+	$image = genesis_get_image(
+		array(
 			'format'  => 'html',
 			'size'    => 'featured-image',
 			'context' => '',
-			'attr'    => array ( 'alt' => the_title_attribute( 'echo=0' ), 'class' => 'aligncenter' ),
-		) );
+			'attr'    => array(
+				'alt'   => the_title_attribute( 'echo=0' ),
+				'class' => 'aligncenter',
+			),
+		)
+	);
 
 	if ( $add_single_image && $image && is_singular( 'post' ) ) {
 		printf( '<div class="featured-image">%s</div>', $image );
@@ -352,7 +361,7 @@ remove_action( 'genesis_entry_footer', 'genesis_post_meta' );
 remove_action( 'genesis_entry_footer', 'genesis_entry_footer_markup_close', 15 );
 add_action( 'genesis_entry_header', 'genesis_post_meta', 52 );
 
-// Reposition the author box on single posts.
+// Repositions the author box on single posts.
 remove_action( 'genesis_after_entry', 'genesis_do_author_box_single', 8 );
 add_action( 'genesis_entry_header', 'genesis_do_author_box_single', 51 );
 
@@ -386,12 +395,12 @@ function outfitter_entry_wrappers() {
 
 add_filter( 'body_class', 'outfitter_narrow_body_class' );
 /**
- * Conditionally add a class to control the content width.
- *
- * @param array $classes
- * @return array $classes
+ * Conditionally adds a class to control the content width.
  *
  * @since 1.0.1
+ *
+ * @param array $classes Classes array.
+ * @return array $classes Updated class array.
  */
 function outfitter_narrow_body_class( $classes ) {
 
@@ -436,7 +445,7 @@ function outfitter_comments_gravatar( $args ) {
 }
 
 /**
- * Count used widgets in given sidebar.
+ * Counts used widgets in given sidebar.
  *
  * @since 1.0.0
  *
@@ -491,36 +500,48 @@ add_action( 'genesis_before_footer', 'outfitter_footer_widgets' );
  */
 function outfitter_footer_widgets() {
 
-	genesis_widget_area( 'outfitter-footer', array(
-		'before' => '<div id="footer" class="footer-widgets"><h2 class="genesis-sidebar-title screen-reader-text">' . __( 'Footer', 'outfitter-pro' ) . '</h2><div class="flexible-widgets widget-area ' . outfitter_widget_area_class( 'outfitter-footer' ) . '"><div class="wrap">',
-		'after'  => '</div></div></div>',
-	) );
+	genesis_widget_area(
+		'outfitter-footer', array(
+			'before' => '<div id="footer" class="footer-widgets"><h2 class="genesis-sidebar-title screen-reader-text">' . __( 'Footer', 'outfitter-pro' ) . '</h2><div class="flexible-widgets widget-area ' . outfitter_widget_area_class( 'outfitter-footer' ) . '"><div class="wrap">',
+			'after'  => '</div></div></div>',
+		)
+	);
 
 }
 
 // Registers widget areas.
-genesis_register_sidebar( array(
-	'id'          => 'front-page-1',
-	'name'        => __( 'Front Page 1', 'outfitter-pro' ),
-	'description' => __( 'This is the front page 1 section.', 'outfitter-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-2',
-	'name'        => __( 'Front Page 2', 'outfitter-pro' ),
-	'description' => __( 'This is the front page 2 section.', 'outfitter-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-3',
-	'name'        => __( 'Front Page 3', 'outfitter-pro' ),
-	'description' => __( 'This is the front page 3 section.', 'outfitter-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'outfitter-footer',
-	'name'        => __( 'Footer', 'outfitter-pro' ),
-	'description' => __( 'This is the footer section.', 'outfitter-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'off-screen-content',
-	'name'        => __( 'Off-Screen Content', 'outfitter-pro' ),
-	'description' => __( 'This is the off-screen content section.', 'outfitter-pro' ),
-) );
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-1',
+		'name'        => __( 'Front Page 1', 'outfitter-pro' ),
+		'description' => __( 'This is the front page 1 section.', 'outfitter-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-2',
+		'name'        => __( 'Front Page 2', 'outfitter-pro' ),
+		'description' => __( 'This is the front page 2 section.', 'outfitter-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-3',
+		'name'        => __( 'Front Page 3', 'outfitter-pro' ),
+		'description' => __( 'This is the front page 3 section.', 'outfitter-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'outfitter-footer',
+		'name'        => __( 'Footer', 'outfitter-pro' ),
+		'description' => __( 'This is the footer section.', 'outfitter-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'off-screen-content',
+		'name'        => __( 'Off-Screen Content', 'outfitter-pro' ),
+		'description' => __( 'This is the off-screen content section.', 'outfitter-pro' ),
+	)
+);

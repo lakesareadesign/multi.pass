@@ -45,3 +45,6 @@ CHANGELOG
 = 1.0.3 =
 * Add missing comma to customizer CSS output.
 * Update customizer text for video embeds.
+
+= 1.0.4 =
+* Fix grid displaing on tag archives when not enabled.

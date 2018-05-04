@@ -24,10 +24,11 @@ function authority_css() {
 	$color_primary   = get_theme_mod( 'authority_primary_color', authority_customizer_get_default_primary_color() );
 	$intro_paragraph = get_theme_mod( 'authority-use-paragraph-styling', 1 );
 
-	$css = '';
+	$css       = '';
 	$front_css = '';
 
-	$front_css .= ( authority_customizer_get_default_primary_color() !== $color_primary ) ? sprintf( '
+	$front_css .= ( authority_customizer_get_default_primary_color() !== $color_primary ) ? sprintf(
+		'
 		.site-inner .widget_media_image::after,
 		.site-inner .hero-section-column.right::after {
 			background: %1$s;
@@ -37,9 +38,11 @@ function authority_css() {
 		.site-inner .hero-portrait-caption a:hover {
 			color: %1$s;
 		}
-		', $color_primary ) : '';
+		', $color_primary
+	) : '';
 
-	$css .= ( 0 !== $intro_paragraph ) ? sprintf( '
+	$css .= ( 0 !== $intro_paragraph ) ? sprintf(
+		'
 		.single .content .entry-content > p:first-of-type {
 			color: #111111;
 			font-size: 20px;
@@ -48,9 +51,11 @@ function authority_css() {
 			line-height: 1.7;
 			margin: 0 0 35px;
 		}
-		' ) : '';
+		'
+	) : '';
 
-	$css .= ( authority_customizer_get_default_primary_color() !== $color_primary ) ? sprintf( '
+	$css .= ( authority_customizer_get_default_primary_color() !== $color_primary ) ? sprintf(
+		'
 		a,
 		h4,
 		h5,
@@ -158,7 +163,8 @@ function authority_css() {
 			border-color: %2$s;
 			color: %3$s;
 		}
-		', $color_primary, authority_color_brightness( $color_primary, '+', 20 ), authority_color_contrast( $color_primary ) ) : '';
+		', $color_primary, authority_color_brightness( $color_primary, '+', 20 ), authority_color_contrast( $color_primary )
+	) : '';
 
 	if ( $css ) {
 		wp_add_inline_style( $handle, $css );

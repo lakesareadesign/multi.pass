@@ -19,7 +19,9 @@ add_action( 'wp_enqueue_scripts', 'outfitter_woocommerce_scripts' );
 function outfitter_woocommerce_scripts() {
 
 	if ( class_exists( 'WooCommerce' ) && current_theme_supports( 'woocommerce' ) ) {
+
 		wp_enqueue_script( 'outfitter-woocommerce', get_stylesheet_directory_uri() . '/lib/woocommerce/js/outfitter-woocommerce.js', array( 'jquery' ), '1.0.0', true );
+
 	}
 
 }
@@ -81,7 +83,7 @@ function outfitter_off_screen_woocommerce_cart_output( $args = array() ) {
 
 		wc_get_template( 'cart/mini-cart.php', $args );
 
-		echo '</section></div>' . $button . '</div></div></div>';
+		echo '</section></div>' . wp_kses_post( $button ) . '</div></div></div>';
 
 	}
 
@@ -94,7 +96,7 @@ function outfitter_off_screen_woocommerce_cart_output( $args = array() ) {
  */
 function outfitter_do_woocommerce_cart_icon() {
 
-	printf( '<li class="menu-item menu-item-has-toggle cart-item">%s</li>', outfitter_get_off_screen_cart_toggle() );
+	printf( '<li class="menu-item menu-item-has-toggle cart-item">%s</li>', wp_kses_post( outfitter_get_off_screen_cart_toggle() ) );
 
 }
 
@@ -114,16 +116,13 @@ function product_has_gallery( $classes ) {
 	$post_type = get_post_type( get_the_ID() );
 
 	if ( ! is_admin() ) {
-
 		if ( 'product' === $post_type ) {
-
 			$attachment_ids = $product->get_gallery_image_ids();
 
 			if ( $attachment_ids ) {
 				$classes[] = 'product-has-gallery';
 			}
 		}
-
 	}
 
 	return $classes;
@@ -143,10 +142,15 @@ function product_woocommerce_second_product_thumbnail() {
 	$attachment_ids = $product->get_gallery_image_ids();
 
 	if ( $attachment_ids ) {
+
 		$secondary_image_id = $attachment_ids['0'];
-		echo wp_get_attachment_image( $secondary_image_id, 'shop_catalog', '', array(
-			'class' => 'secondary-image attachment-shop-catalog',
-		) );
+
+		echo wp_get_attachment_image(
+			$secondary_image_id, 'shop_catalog', '', array(
+				'class' => 'secondary-image attachment-shop-catalog',
+			)
+		);
+
 	}
 
 }
@@ -163,12 +167,14 @@ add_filter( 'woocommerce_add_to_cart_fragments', 'outfitter_cart_count_fragments
 function outfitter_cart_count_fragments( $fragments ) {
 
 	$menu_cart_count_link = outfitter_get_off_screen_cart_toggle();
-	$mini_cart = wc_get_template_html( 'cart/mini-cart.php', array(
-		'list_class' => '',
-	) );
+	$mini_cart            = wc_get_template_html(
+		'cart/mini-cart.php', array(
+			'list_class' => '',
+		)
+	);
 
 	$fragments['.genesis-nav-menu .toggle-off-screen-cart'] = $menu_cart_count_link;
-	$fragments['.off-screen-cart .widget_shopping_cart'] = '<section class="widget woocommerce widget_shopping_cart">' . $mini_cart . '</section>';
+	$fragments['.off-screen-cart .widget_shopping_cart']    = '<section class="widget woocommerce widget_shopping_cart">' . $mini_cart . '</section>';
 
 	return $fragments;
 

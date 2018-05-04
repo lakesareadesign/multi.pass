@@ -58,10 +58,12 @@ function outfitter_setup_header_icons() {
  */
 function outfitter_header_nav_markup_open() {
 
-	genesis_markup( array(
-		'context' => 'nav-container',
-		'open'   => '<div %s>',
-	) );
+	genesis_markup(
+		array(
+			'context' => 'nav-container',
+			'open'    => '<div %s>',
+		)
+	);
 
 }
 
@@ -72,10 +74,12 @@ function outfitter_header_nav_markup_open() {
  */
 function outfitter_header_nav_markup_close() {
 
-	genesis_markup( array(
-		'context' => 'nav-container',
-		'open'   => '</div>',
-	) );
+	genesis_markup(
+		array(
+			'context' => 'nav-container',
+			'open'    => '</div>',
+		)
+	);
 
 }
 
@@ -86,15 +90,19 @@ function outfitter_header_nav_markup_close() {
  */
 function outfitter_header_icons_markup_open() {
 
-	genesis_markup( array(
-		'context' => 'nav-header-icons',
-		'open'   => '<nav itemscope="" %s>',
-	) );
+	genesis_markup(
+		array(
+			'context' => 'nav-header-icons',
+			'open'    => '<nav itemscope="" %s>',
+		)
+	);
 
-	genesis_markup( array(
-		'context' => 'menu-header-icons',
-		'open'   => '<ul %s>',
-	) );
+	genesis_markup(
+		array(
+			'context' => 'menu-header-icons',
+			'open'    => '<ul %s>',
+		)
+	);
 
 }
 
@@ -105,15 +113,19 @@ function outfitter_header_icons_markup_open() {
  */
 function outfitter_header_icons_markup_close() {
 
-	genesis_markup( array(
-		'context' => 'menu-header-icons',
-		'close'   => '</ul>',
-	) );
+	genesis_markup(
+		array(
+			'context' => 'menu-header-icons',
+			'close'   => '</ul>',
+		)
+	);
 
-	genesis_markup( array(
-		'context' => 'nav-header-icons',
-		'close'   => '</nav>',
-	) );
+	genesis_markup(
+		array(
+			'context' => 'nav-header-icons',
+			'close'   => '</nav>',
+		)
+	);
 
 }
 

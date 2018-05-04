@@ -2189,7 +2189,7 @@
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[/authority/author/melyssa/]]></wp:meta_value>
+			<wp:meta_value><![CDATA[/authority/author/kelly/]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
@@ -2251,7 +2251,7 @@
 		<title>Sample Page</title>
 		<link>https://demo.studiopress.com/authority/sample/</link>
 		<pubDate>Sun, 15 Aug 2010 19:03:46 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages as you like and manage all of your content inside of WordPress.
@@ -2291,7 +2291,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Page Layouts</title>
 		<link>https://demo.studiopress.com/authority/layouts/</link>
 		<pubDate>Sun, 15 Aug 2010 19:08:02 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[Below is a list of 3 post/page layouts that come with the Genesis theme framework:
@@ -2343,7 +2343,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Content/Sidebar</title>
 		<link>https://demo.studiopress.com/authority/layouts/cs/</link>
 		<pubDate>Sun, 15 Aug 2010 19:09:00 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.
@@ -2387,7 +2387,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Sidebar/Content</title>
 		<link>https://demo.studiopress.com/authority/layouts/sc/</link>
 		<pubDate>Sun, 15 Aug 2010 19:09:20 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.
@@ -2431,7 +2431,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Full Width Content</title>
 		<link>https://demo.studiopress.com/authority/layouts/fwc/</link>
 		<pubDate>Sun, 15 Aug 2010 19:11:13 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.
@@ -2491,7 +2491,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Archive Page</title>
 		<link>https://demo.studiopress.com/authority/sample/archive/</link>
 		<pubDate>Sun, 15 Aug 2010 19:12:26 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -2521,7 +2521,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Blog Page</title>
 		<link>https://demo.studiopress.com/authority/sample/blog/</link>
 		<pubDate>Sun, 15 Aug 2010 19:12:43 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -2567,7 +2567,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Get in Touch</title>
 		<link>https://demo.studiopress.com/authority/contact/</link>
 		<pubDate>Sun, 15 Aug 2010 19:13:33 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a contact page, you could edit this to put information about yourself or your site so readers know where to contact you.
@@ -2605,7 +2605,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Column Classes</title>
 		<link>https://demo.studiopress.com/authority/sample/columns/</link>
 		<pubDate>Thu, 03 Feb 2011 18:06:59 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?page_id=181</guid>
 		<description></description>
 		<content:encoded><![CDATA[Below are examples of column classes that are available in the Genesis Framework style sheet.
@@ -2713,7 +2713,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Landing Page</title>
 		<link>https://demo.studiopress.com/authority/sample/landing-page/</link>
 		<pubDate>Mon, 25 Apr 2016 19:01:32 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis-sample/?page_id=473</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.
@@ -2755,7 +2755,7 @@ This is an example of a WordPress page, you could edit this to put information s
 		<title>Typography</title>
 		<link>https://demo.studiopress.com/authority/sample/typography/</link>
 		<pubDate>Mon, 25 Apr 2016 19:44:06 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis-sample/?page_id=485</guid>
 		<description></description>
 		<content:encoded><![CDATA[Welcome to the formatting page for this theme. We're glad you are interested in using this and want to show you how elements look.
@@ -2857,7 +2857,7 @@ WordPress has support for threaded comments. This is where you reply to a commen
 		<title>The FREE  Audience Building Master Class</title>
 		<link>https://demo.studiopress.com/authority/free-audience-building-master-class/</link>
 		<pubDate>Fri, 08 Sep 2017 19:43:40 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">https://test.studiopress.com/authority/?page_id=514</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself so readers know where you are coming from. You can create as many pages as you like in order to share with your readers what is on your mind.
@@ -2917,7 +2917,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Learn How to Get More Out of Your Email Marketing</title>
 		<link>https://demo.studiopress.com/authority/learn-get-email-marketing/</link>
 		<pubDate>Fri, 08 Sep 2017 21:32:47 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">https://test.studiopress.com/authority/?page_id=517</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself so readers know where you are coming from. You can create as many pages as you like in order to share with your readers what is on your mind.
@@ -2977,7 +2977,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Join the Community</title>
 		<link>https://demo.studiopress.com/authority/join-the-community/</link>
 		<pubDate>Thu, 21 Sep 2017 03:02:39 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">https://test.studiopress.com/authority/?page_id=563</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself so readers know where you are coming from. You can create as many pages as you like in order to share with your readers what is on your mind.
@@ -3367,7 +3367,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Writing A Good Headline For Your Advertisement</title>
 		<link>https://demo.studiopress.com/authority/2017/08/11/writing-good-headlines/</link>
 		<pubDate>Fri, 11 Aug 2017 22:00:38 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">https://test.studiopress.com/authority/?p=1</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is a sample intro paragraph and can be used to hook visitors into reading your article. You can change the appearance of this by editing the style sheet.
@@ -3516,7 +3516,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Sample Post With a Blockquote</title>
 		<link>https://demo.studiopress.com/authority/2013/09/01/blockquote/</link>
 		<pubDate>Sun, 01 Sep 2013 01:54:12 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=7</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.
@@ -3562,7 +3562,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Sample Post With an Ordered List</title>
 		<link>https://demo.studiopress.com/authority/2013/09/01/ordered-list/</link>
 		<pubDate>Sun, 01 Sep 2013 01:54:32 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=9</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.
@@ -3614,7 +3614,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Sample Post With an Unordered List</title>
 		<link>https://demo.studiopress.com/authority/2013/09/01/unordered-list/</link>
 		<pubDate>Sun, 01 Sep 2013 01:54:48 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=11</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.
@@ -3666,7 +3666,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Sample Post With Image Centered</title>
 		<link>https://demo.studiopress.com/authority/2013/09/01/image-centered/</link>
 		<pubDate>Sun, 01 Sep 2013 01:55:21 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=13</guid>
 		<description></description>
 		<content:encoded><![CDATA[[caption id="" align="aligncenter" width="142" caption="Here's a sample caption with an image centered."]<img alt="Here's a sample caption with a sample image centered." src="https://www.studiopress.com/images/wordpress.png" width="142" height="142" />[/caption]
@@ -3734,7 +3734,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Sample Post With Image Aligned Right</title>
 		<link>https://demo.studiopress.com/authority/2013/09/01/image-aligned-right/</link>
 		<pubDate>Sun, 01 Sep 2013 01:56:30 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=16</guid>
 		<description></description>
 		<content:encoded><![CDATA[
@@ -3832,7 +3832,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Sample Post With Image Aligned Left</title>
 		<link>https://demo.studiopress.com/authority/2013/09/01/image-aligned-left/</link>
 		<pubDate>Sun, 01 Sep 2013 01:57:05 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=18</guid>
 		<description></description>
 		<content:encoded><![CDATA[[caption id="" align="alignleft" width="142" caption="Here&#039;s a sample caption with an image aligned left."]<img alt="Heres a sample caption, with a sample image aligned left." src="https://www.studiopress.com/images/wordpress.png" width="142" height="142" />[/caption]
@@ -3912,7 +3912,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Sample Post With Threaded Comments</title>
 		<link>https://demo.studiopress.com/authority/2013/09/01/threaded-comments/</link>
 		<pubDate>Sun, 01 Sep 2013 01:57:18 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=20</guid>
 		<description></description>
 		<content:encoded><![CDATA[<img class="size-full wp-image-1439 aligncenter" src="https://www.studiopress.com/images/authority-pro/featured-image.jpg" alt="" width="720" height="400" />
@@ -4187,7 +4187,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Sample Post With a Table</title>
 		<link>https://demo.studiopress.com/authority/2013/09/01/sample-table/</link>
 		<pubDate>Sun, 01 Sep 2013 01:53:31 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://www.genesisframework.com/?p=447</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress post, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many posts as you like in order to share with your readers what is on your mind.
@@ -4274,7 +4274,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Sample Post With Headlines</title>
 		<link>https://demo.studiopress.com/authority/2013/09/01/headlines/</link>
 		<pubDate>Sun, 01 Sep 2013 01:52:58 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=5</guid>
 		<description></description>
 		<content:encoded><![CDATA[<h1>Headline 1</h1>
@@ -4332,7 +4332,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Shop</title>
 		<link>https://demo.studiopress.com/authority/shop/</link>
 		<pubDate>Sun, 24 Sep 2017 22:20:38 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">https://test.studiopress.com/authority/shop/</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -4378,7 +4378,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Cart</title>
 		<link>https://demo.studiopress.com/authority/cart/</link>
 		<pubDate>Sun, 24 Sep 2017 22:20:38 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">https://test.studiopress.com/authority/cart/</guid>
 		<description></description>
 		<content:encoded><![CDATA[[woocommerce_cart]]]></content:encoded>
@@ -4428,7 +4428,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Checkout</title>
 		<link>https://demo.studiopress.com/authority/checkout/</link>
 		<pubDate>Sun, 24 Sep 2017 22:20:38 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">https://test.studiopress.com/authority/checkout/</guid>
 		<description></description>
 		<content:encoded><![CDATA[[woocommerce_checkout]]]></content:encoded>
@@ -4478,7 +4478,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>My account</title>
 		<link>https://demo.studiopress.com/authority/my-account/</link>
 		<pubDate>Sun, 24 Sep 2017 22:20:38 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">https://test.studiopress.com/authority/my-account/</guid>
 		<description></description>
 		<content:encoded><![CDATA[[woocommerce_my_account]]]></content:encoded>
@@ -4528,7 +4528,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Pricing Table</title>
 		<link>https://demo.studiopress.com/authority/sample/pricing-table/</link>
 		<pubDate>Mon, 23 Oct 2017 17:13:18 +0000</pubDate>
-		<dc:creator><![CDATA[melyssa]]></dc:creator>
+		<dc:creator><![CDATA[kelly]]></dc:creator>
 		<guid isPermaLink="false">https://test.studiopress.com/authority/?page_id=1388</guid>
 		<description></description>
 		<content:encoded><![CDATA[<h3 class="center">Two Columns</h3>

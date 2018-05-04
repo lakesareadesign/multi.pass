@@ -58,7 +58,7 @@ function authority_grid_category_layout( $layout ) {
 
 	$layout_option = get_theme_mod( 'authority-grid-option', true );
 
-	if ( $layout_option && is_category() || is_tag() ) {
+	if ( $layout_option && ( is_category() || is_tag() ) ) {
 		$layout = 'authority-grid';
 	}
 
@@ -77,7 +77,7 @@ add_action( 'pre_get_posts', 'authority_grid_posts_per_page' );
 function authority_grid_posts_per_page( $query ) {
 
 	$site_layout = genesis_site_layout( false );
-	$posts = get_theme_mod( 'authority-grid-posts-per-page', authority_get_default_grid_posts_per_page() );
+	$posts       = get_theme_mod( 'authority-grid-posts-per-page', authority_get_default_grid_posts_per_page() );
 
 	if ( ! $query->is_main_query() ) {
 		return;

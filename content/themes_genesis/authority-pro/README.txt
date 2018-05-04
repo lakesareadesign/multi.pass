@@ -42,3 +42,13 @@ CHANGELOG
 * Standards improvements.
 * Adjust logo position when cropped.
 * Allow HTML in front page logo heading.
+
+= 1.0.3 =
+* Fix grid displaing on tag archives when not enabled.
+* Improve mobile menu button layout.
+
+= 1.0.4 =
+* Standards improvements.
+* Update image functions for WooCommerce 3.3+.
+* Update shop page CSS for WooCommerce 3.3+.
+* Update default hero section image and name.

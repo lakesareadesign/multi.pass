@@ -19,14 +19,15 @@ add_action( 'wp_enqueue_scripts', 'outfitter_css', 99 );
  */
 function outfitter_css() {
 
-	$handle  = defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
+	$handle = defined( 'CHILD_THEME_NAME' ) && CHILD_THEME_NAME ? sanitize_title_with_dashes( CHILD_THEME_NAME ) : 'child-theme';
 
 	$color_link   = get_theme_mod( 'outfitter_link_color', outfitter_customizer_get_default_link_color() );
 	$color_accent = get_theme_mod( 'outfitter_accent_color', outfitter_customizer_get_default_accent_color() );
 
 	$css = '';
 
-	$css .= ( outfitter_customizer_get_default_link_color() !== $color_link ) ? sprintf( '
+	$css .= ( outfitter_customizer_get_default_link_color() !== $color_link ) ? sprintf(
+		'
 
 		a,
 		button.close:focus,
@@ -59,9 +60,11 @@ function outfitter_css() {
 			}
 		}
 
-		', $color_link, outfitter_color_contrast( $color_link ) ) : '';
+		', $color_link, outfitter_color_contrast( $color_link )
+	) : '';
 
-	$css .= ( outfitter_customizer_get_default_accent_color() !== $color_accent ) ? sprintf( '
+	$css .= ( outfitter_customizer_get_default_accent_color() !== $color_accent ) ? sprintf(
+		'
 
 		button.primary,
 		input[type="button"].primary,
@@ -73,7 +76,8 @@ function outfitter_css() {
 			color: %2$s;
 		}
 
-		', $color_accent, outfitter_color_contrast( $color_accent ) ) : '';
+		', $color_accent, outfitter_color_contrast( $color_accent )
+	) : '';
 
 	if ( $css ) {
 		wp_add_inline_style( $handle, $css );

@@ -28,11 +28,16 @@ Please visit https://my.studiopress.com/help/ for theme support.
 CHANGELOG
 
 = 1.0.0 =
-* Initial release
-
+* Initial release.
 
 = 1.0.1 =
-* Improve handling of full-width-narrow body class
-* Remove page.php file
-* Update plugin deactivation check for Genesis Connect for WooCommerce notice
-* Standards and documentation improvements
+* Improve handling of full-width-narrow body class.
+* Remove page.php file.
+* Update plugin deactivation check for Genesis Connect for WooCommerce notice.
+* Standards and documentation improvements.
+
+= 1.0.2 =
+* Update Sale Price display for WooCommerce 3.3+.
+* Update image functions for WooCommerce 3.3+.
+* Standards improvements.
+* Update CSS for Custom HTML widget.

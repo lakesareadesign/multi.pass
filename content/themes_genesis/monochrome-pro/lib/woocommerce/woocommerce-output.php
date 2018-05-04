@@ -101,6 +101,7 @@ function monochrome_woocommerce_css() {
 			color: %2$s;
 		}
 
+		ul.woocommerce-error,
 		.woocommerce-error,
 		.woocommerce-info,
 		.woocommerce-message {

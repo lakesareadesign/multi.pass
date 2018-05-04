@@ -28,9 +28,9 @@ $classes = array(
 $hero_widget_active = is_active_sidebar( 'hero-section' );
 
 if ( $portrait_url || $hero_widget_active ) {
-	$classes['columns']  = 'has-columns';
-	$classes['left']    .= ' one-half first';
-	$classes['right']   .= ' one-half';
+	$classes['columns'] = 'has-columns';
+	$classes['left']   .= ' one-half first';
+	$classes['right']  .= ' one-half';
 }
 
 // Sets up logo section data.

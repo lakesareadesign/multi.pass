@@ -5,7 +5,7 @@
 	Author: StudioPress
 	Author URI: https://www.studiopress.com/
 
-	Version: 1.0.3
+	Version: 1.0.4
 
 	Tags: one-column, two-columns, left-sidebar, right-sidebar, e-commerce, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
@@ -163,7 +163,7 @@ body {
 	background-color: #fff;
 	color: #222;
 	font-family: 'PT Sans', sans-serif;
-	font-size: 2px;
+	font-size: 20px;
 	font-size: 2rem;
 	-moz-osx-font-smoothing: grayscale;
 	-webkit-font-smoothing: antialiased;
@@ -1322,9 +1322,13 @@ img.alignright,
 	text-align: left;
 }
 
-.featured-content .entry {
+.featured-content .entry,
+.half-width-entries.full-width-content  .content .featured-content .entry {
 	background: none;
+	box-shadow: none;
 	padding: 0;
+	transform: none;
+	width: 100%;
 }
 
 .featured-content .entry-title,

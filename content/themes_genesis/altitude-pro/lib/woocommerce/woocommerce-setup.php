@@ -45,7 +45,7 @@ add_filter( 'genesiswooc_default_products_per_page', 'altitude_default_products_
  *
  * @return int Number of products per page.
  */
-function altitude_default_products_per_page( $count ) {
+function altitude_default_products_per_page() {
 	return 8;
 }
 

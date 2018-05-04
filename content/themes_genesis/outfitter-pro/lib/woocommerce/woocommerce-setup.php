@@ -11,16 +11,16 @@
  */
 
 // Includes the customizer settings for the WooCommerce plugin.
-include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-customize.php' );
+require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-customize.php';
 
 // Includes the customizer CSS for the WooCommerce plugin.
-include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-output.php' );
+require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-output.php';
 
 // Includes notice to install Genesis Connect for WooCommerce.
-include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.php' );
+require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.php';
 
 // Includes functions for the WooCommerce plugin.
-include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-functions.php' );
+require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-functions.php';
 
 // Adds product gallery support.
 if ( class_exists( 'WooCommerce' ) ) {
@@ -43,7 +43,7 @@ function outfitter_woocommerce_breakpoint() {
 		'sidebar-content',
 	);
 
-	if ( in_array( $current, $layouts ) ) {
+	if ( in_array( $current, $layouts, true ) ) {
 		return '1200px';
 	} else {
 		return '1023px';
@@ -74,20 +74,22 @@ add_filter( 'loop_shop_columns', 'outfitter_product_archive_columns' );
  * @return int Number of columns for product archives.
  */
 function outfitter_product_archive_columns() {
+
 	$current = genesis_site_layout();
 	$layouts = array(
 		'content-sidebar',
 		'sidebar-content',
 	);
 
-	if ( in_array( $current, $layouts ) ) {
+	if ( in_array( $current, $layouts, true ) ) {
 		return 3;
 	} else {
 		return 4;
 	}
+
 }
 
-add_filter( 'woocommerce_pagination_args', 	'outfitter_woocommerce_pagination' );
+add_filter( 'woocommerce_pagination_args', 'outfitter_woocommerce_pagination' );
 /**
  * Updates the next and previous arrows to the default Genesis style.
  *
@@ -115,7 +117,8 @@ function outfitter_woocommerce_image_dimensions_after_theme_setup() {
 
 	global $pagenow;
 
-	if ( ! isset( $_GET['activated'] ) || $pagenow != 'themes.php' || ! class_exists( 'WooCommerce' ) ) {
+	// Checks conditionally to see if we're activating the current theme and that WooCommerce is installed.
+	if ( ! isset( $_GET['activated'] ) || 'themes.php' !== $pagenow || ! class_exists( 'WooCommerce' ) ) {
 		return;
 	}
 
@@ -128,11 +131,13 @@ add_action( 'activated_plugin', 'outfitter_woocommerce_image_dimensions_after_wo
  * Defines the WooCommerce image sizes on WooCommerce activation.
  *
  * @since 1.0.0
+ *
+ * @param string $plugin The path of the plugin being activated.
  */
 function outfitter_woocommerce_image_dimensions_after_woo_activation( $plugin ) {
 
 	// Checks to see if WooCommerce is being activated.
-	if ( $plugin !== 'woocommerce/woocommerce.php' ) {
+	if ( 'woocommerce/woocommerce.php' !== $plugin ) {
 		return;
 	}
 
@@ -147,26 +152,33 @@ function outfitter_woocommerce_image_dimensions_after_woo_activation( $plugin ) 
  */
 function outfitter_update_woocommerce_image_dimensions() {
 
-	$catalog = array(
-		'width'  => '1000', // px
-		'height' => '1000', // px
-		'crop'   => 1,     // true
-	);
-	$single = array(
-		'width'  => '860', // px
-		'height' => '860', // px
-		'crop'   => 1,     // true
-	);
-	$thumbnail = array(
-		'width'  => '200', // px
-		'height' => '200', // px
-		'crop'   => 1,     // true
+	// Updates image size options.
+	update_option( 'woocommerce_single_image_width', 1000 );   // Single product image.
+	update_option( 'woocommerce_thumbnail_image_width', 860 ); // Catalog image.
+
+	// Updates image cropping option.
+	update_option( 'woocommerce_thumbnail_cropping', '1:1' );
+
+}
+
+add_filter( 'woocommerce_get_image_size_gallery_thumbnail', 'outfitter_gallery_image_thumbnail' );
+/**
+ * Filters the WooCommerce gallery image dimensions.
+ *
+ * @since 1.0.2
+ *
+ * @param array $size The gallery image size and crop arguments.
+ * @return array The modified gallery image size and crop arguments.
+ */
+function outfitter_gallery_image_thumbnail( $size ) {
+
+	$size = array(
+		'width'  => 200,
+		'height' => 200,
+		'crop'   => 1,
 	);
 
-	// Creates image sizes.
-	update_option( 'shop_catalog_image_size', $catalog );     // Product category thumbs.
-	update_option( 'shop_single_image_size', $single );       // Single product image.
-	update_option( 'shop_thumbnail_image_size', $thumbnail ); // Image gallery thumbs.
+	return $size;
 
 }
 
@@ -175,11 +187,15 @@ add_filter( 'woocommerce_output_related_products_args', 'outfitter_related_produ
  * Changes number of related products on product page.
  *
  * @since 1.0.0
+ *
+ * @param array $args The numeric columns and posts_per_page arguments.
+ * @return array The modified numeric columns and posts_per_page arguments.
  */
 function outfitter_related_products_args( $args ) {
 
 	$args['posts_per_page'] = 3; // 3 related products.
-	$args['columns'] = 3; // Arranged in 3 columns.
+	$args['columns']        = 3; // Arranged in 3 columns.
+
 	return $args;
 
 }

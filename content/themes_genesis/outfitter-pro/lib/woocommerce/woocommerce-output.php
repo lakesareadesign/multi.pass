@@ -45,12 +45,13 @@ function outfitter_woocommerce_css() {
 		return;
 	}
 
-	$color_link = get_theme_mod( 'outfitter_link_color', outfitter_customizer_get_default_link_color() );
+	$color_link   = get_theme_mod( 'outfitter_link_color', outfitter_customizer_get_default_link_color() );
 	$color_accent = get_theme_mod( 'outfitter_accent_color', outfitter_customizer_get_default_accent_color() );
 
 	$woo_css = '';
 
-	$woo_css .= ( outfitter_customizer_get_default_link_color() !== $color_link ) ? sprintf( '
+	$woo_css .= ( outfitter_customizer_get_default_link_color() !== $color_link ) ? sprintf(
+		'
 
 		.woocommerce ul.products li.product:hover .button:hover,
 		.woocommerce ul.products li.product h3:hover,
@@ -92,9 +93,11 @@ function outfitter_woocommerce_css() {
 			color: %2$s;
 		}
 
-	', $color_link, outfitter_color_contrast( $color_link ) ) : '';
+		', $color_link, outfitter_color_contrast( $color_link )
+	) : '';
 
-	$woo_css .= ( outfitter_customizer_get_default_accent_color() !== $color_accent ) ? sprintf( '
+	$woo_css .= ( outfitter_customizer_get_default_accent_color() !== $color_accent ) ? sprintf(
+		'
 
 		.woocommerce span.onsale,
 		.woocommerce ul.products li.product .onsale,
@@ -111,7 +114,8 @@ function outfitter_woocommerce_css() {
 			color: %1$s;
 		}
 
-	', $color_accent, outfitter_color_contrast( $color_accent ) ) : '';
+		', $color_accent, outfitter_color_contrast( $color_accent )
+	) : '';
 
 	if ( $woo_css ) {
 		wp_add_inline_style( 'outfitter-woocommerce-styles', $woo_css );

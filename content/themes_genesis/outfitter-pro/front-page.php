@@ -17,12 +17,12 @@ add_action( 'genesis_meta', 'outfitter_front_page_genesis_meta' );
  * @since 1.0.0
  */
 function outfitter_front_page_genesis_meta() {
-	
-	if ( is_active_sidebar( 'front-page-1' ) || is_active_sidebar( 'front-page-2' ) || is_active_sidebar( 'front-page-3' ) || ( class_exists( 'WooCommerce' ) && current_theme_supports( 'woocommerce' ) && get_posts('post_type=product&posts_per_page=1') ) ) {
+
+	if ( is_active_sidebar( 'front-page-1' ) || is_active_sidebar( 'front-page-2' ) || is_active_sidebar( 'front-page-3' ) || ( class_exists( 'WooCommerce' ) && current_theme_supports( 'woocommerce' ) && get_posts( 'post_type=product&posts_per_page=1' ) ) ) {
 
 		// Enqueues scripts.
 		add_action( 'wp_enqueue_scripts', 'outfitter_enqueue_front_script_styles' );
-		
+
 		// Removes the full-with-narrow body class.
 		remove_filter( 'body_class', 'outfitter_narrow_body_class' );
 
@@ -45,7 +45,11 @@ function outfitter_front_page_genesis_meta() {
 
 }
 
-// Defines the front-page styles and scripts.
+/**
+ * Defines the front page scripts and styles.
+ *
+ * @since 1.0.0
+ */
 function outfitter_enqueue_front_script_styles() {
 
 	wp_enqueue_style( 'outfitter-front-styles', get_stylesheet_directory_uri() . '/style-front.css' );
@@ -54,7 +58,14 @@ function outfitter_enqueue_front_script_styles() {
 
 }
 
-// Defines the front-page body class.
+/**
+ * Defines the front-page body class.
+ *
+ * @since 1.0.0
+ *
+ * @param array $classes Classes array.
+ * @return array $classes Updated class array.
+ */
 function outfitter_body_class( $classes ) {
 
 	$classes[] = 'front-page';
@@ -62,37 +73,47 @@ function outfitter_body_class( $classes ) {
 
 }
 
-// Adds markup for front page widgets.
+/**
+ * Adds markup for front page widgets areas.
+ *
+ * @since 1.0.0
+ */
 function outfitter_front_page_widgets() {
 
-	echo '<h2 class="screen-reader-text">' . __( 'Main Content', 'outfitter-pro' ) . '</h2>';
+	echo '<h2 class="screen-reader-text">' . esc_html__( 'Main Content', 'outfitter-pro' ) . '</h2>';
 
-	genesis_widget_area( 'front-page-1', array(
-		'before' => '<div id="front-page-1" class="front-page-1"><div class="flexible-widgets widget-area clearfix' . outfitter_widget_area_class( 'front-page-1' ) . '">',
-		'after'  => '</div></div>',
-	) );
+	genesis_widget_area(
+		'front-page-1', array(
+			'before' => '<div id="front-page-1" class="front-page-1"><div class="flexible-widgets widget-area clearfix' . outfitter_widget_area_class( 'front-page-1' ) . '">',
+			'after'  => '</div></div>',
+		)
+	);
 
 	if ( is_active_sidebar( 'front-page-2' ) ) {
 
-		genesis_widget_area( 'front-page-2', array(
-			'before' => '<div id="front-page-2" class="front-page-2"><div class="flexible-widgets widget-area clearfix' . outfitter_widget_area_class( 'front-page-2' ) . '">',
-			'after'  => '</div></div>',
-		) );
+		genesis_widget_area(
+			'front-page-2', array(
+				'before' => '<div id="front-page-2" class="front-page-2"><div class="flexible-widgets widget-area clearfix' . outfitter_widget_area_class( 'front-page-2' ) . '">',
+				'after'  => '</div></div>',
+			)
+		);
 
 	} else {
 
-		if( class_exists( 'WooCommerce' ) && current_theme_supports( 'woocommerce' ) && get_posts('post_type=product&posts_per_page=1') ) {
+		if ( class_exists( 'WooCommerce' ) && current_theme_supports( 'woocommerce' ) && get_posts( 'post_type=product&posts_per_page=1' ) ) {
 
-			echo '<div id="front-page-2" class="front-page-2"><div class="flexible-widgets widget-area clearfix"><div class="widget widget_text">' . do_shortcode('[recent_products per_page="9"]') . '</div></div></div>';
+			echo '<div id="front-page-2" class="front-page-2"><div class="flexible-widgets widget-area clearfix"><div class="widget widget_text">' . do_shortcode( '[recent_products per_page="9"]' ) . '</div></div></div>';
 
 		}
 
 	}
 
-	genesis_widget_area( 'front-page-3', array(
-		'before' => '<div id="front-page-3" class="front-page-3"><div class="flexible-widgets widget-area clearfix' . outfitter_widget_area_class( 'front-page-3' ) . '">',
-		'after'  => '</div></div>',
-	) );
+	genesis_widget_area(
+		'front-page-3', array(
+			'before' => '<div id="front-page-3" class="front-page-3"><div class="flexible-widgets widget-area clearfix' . outfitter_widget_area_class( 'front-page-3' ) . '">',
+			'after'  => '</div></div>',
+		)
+	);
 
 }
 

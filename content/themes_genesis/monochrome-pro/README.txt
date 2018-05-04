@@ -28,4 +28,10 @@ Please visit https://my.studiopress.com/help/ for theme support.
 CHANGELOG
 
 = 1.0.0 =
-* Initial release
+* Initial release.
+
+= 1.0.1 =
+* Update responsive menu to 1.1.3.
+* Reduce mobile front page widget title font size.
+* Update widget padding on mobile views.
+* Update CSS for Custom HTML widget.

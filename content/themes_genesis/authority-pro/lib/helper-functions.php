@@ -46,7 +46,7 @@ function authority_get_default_top_banner_text() {
  */
 function authority_get_default_hero_title_text() {
 
-	return __( 'Hey, I’m Melyssa. I’ll teach you how to grow your audience and build an online business.', 'authority-pro' );
+	return __( 'Hey, I’m Kelly. I’ll teach you how to grow your audience and build an online business.', 'authority-pro' );
 
 }
 
@@ -72,7 +72,7 @@ function authority_get_default_hero_desc_text() {
  */
 function authority_get_default_hero_caption_text() {
 
-	return __( 'Melyssa Griffin, Entrepreuner', 'authority-pro' );
+	return __( 'Kelly Taylor, Entrepreuner', 'authority-pro' );
 
 }
 
@@ -152,7 +152,7 @@ function authority_color_brightness( $color, $op, $change ) {
 		$blue  = max( 0, min( 255, $blue + $change ) );
 	}
 
-	$newhex = '#';
+	$newhex  = '#';
 	$newhex .= strlen( dechex( $red ) ) === 1 ? '0' . dechex( $red ) : dechex( $red );
 	$newhex .= strlen( dechex( $green ) ) === 1 ? '0' . dechex( $green ) : dechex( $green );
 	$newhex .= strlen( dechex( $blue ) ) === 1 ? '0' . dechex( $blue ) : dechex( $blue );

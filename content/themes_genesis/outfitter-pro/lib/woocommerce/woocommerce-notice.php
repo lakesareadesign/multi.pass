@@ -51,27 +51,30 @@ function outfitter_woocommerce_theme_notice() {
 		return;
 	}
 
+	
 	$notice_html = sprintf( __( 'Please install and activate <a href="https://wordpress.org/plugins/genesis-connect-woocommerce/" target="_blank">Genesis Connect for WooCommerce</a> to <strong>enable WooCommerce support for %s</strong>.', 'outfitter-pro' ), esc_html( CHILD_THEME_NAME ) );
 
 	if ( current_user_can( 'install_plugins' ) ) {
 		$plugin_slug  = 'genesis-connect-woocommerce';
 		$admin_url    = network_admin_url( 'update.php' );
-		$install_link = sprintf( '<a href="%s">%s</a>', wp_nonce_url(
-			add_query_arg(
-				array(
-					'action' => 'install-plugin',
-					'plugin' => $plugin_slug,
+		$install_link = sprintf(
+			'<a href="%s">%s</a>', wp_nonce_url(
+				add_query_arg(
+					array(
+						'action' => 'install-plugin',
+						'plugin' => $plugin_slug,
+					),
+					$admin_url
 				),
-				$admin_url
-			),
-			'install-plugin_' . $plugin_slug
-		), __( 'install and activate Genesis Connect for WooCommerce', 'outfitter-pro' ) );
+				'install-plugin_' . $plugin_slug
+			), __( 'install and activate Genesis Connect for WooCommerce', 'outfitter-pro' )
+		);
 
 		/* translators: 1: plugin install prompt presented as link, 2: child theme name */
-		$notice_html = sprintf( __( 'Please %s to <strong>enable WooCommerce support for %s</strong>.', 'outfitter-pro' ), $install_link, esc_html( CHILD_THEME_NAME ) );
+		$notice_html = sprintf( __( 'Please %1$s to <strong>enable WooCommerce support for %2$s</strong>.', 'outfitter-pro' ), $install_link, esc_html( CHILD_THEME_NAME ) );
 	}
 
-	echo '<div class="notice notice-info is-dismissible outfitter-woocommerce-notice"><p>' . $notice_html . '</p></div>';
+	echo '<div class="notice notice-info is-dismissible outfitter-woocommerce-notice"><p>' . wp_kses_post( $notice_html ) . '</p></div>';
 
 }
 
@@ -109,7 +112,7 @@ function outfitter_reset_woocommerce_notice() {
 
 	global $wpdb;
 
-	$args = array(
+	$args  = array(
 		'meta_key'   => $wpdb->prefix . 'outfitter_woocommerce_message_dismissed',
 		'meta_value' => 1,
 	);

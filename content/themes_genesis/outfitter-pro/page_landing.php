@@ -24,13 +24,12 @@ add_filter( 'body_class', 'outfitter_add_body_class' );
 function outfitter_add_body_class( $classes ) {
 
 	$classes[] = 'landing-page';
-
 	return $classes;
 
 }
 
 // Removes skip links.
-remove_action ( 'genesis_before_header', 'genesis_skip_links', 5 );
+remove_action( 'genesis_before_header', 'genesis_skip_links', 5 );
 
 add_action( 'wp_enqueue_scripts', 'outfitter_dequeue_skip_links' );
 /**
@@ -44,7 +43,7 @@ function outfitter_dequeue_skip_links() {
 
 }
 
-// Removes Header Icons
+// Removes Header Icons.
 remove_action( 'genesis_meta', 'outfitter_setup_header_icons' );
 
 // Forces full width content layout.

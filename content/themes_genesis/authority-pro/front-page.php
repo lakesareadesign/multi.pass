@@ -147,16 +147,18 @@ function authority_do_front_page_hero() {
  */
 function authority_do_widget( $id ) {
 
-	$count = authority_count_widgets( $id );
+	$count   = authority_count_widgets( $id );
 	$columns = ( 'front-page-5' === $id ) ? authority_alternate_widget_area_class( $id ) : authority_widget_area_class( $id );
-	$bg = ( 1 === $count || 'front-page-5' === $id ) ? 'no-bg' : '';
+	$bg      = ( 1 === $count || 'front-page-5' === $id ) ? 'no-bg' : '';
 
 	add_filter( 'the_title', 'authority_title' );
 
-	genesis_widget_area( $id, array(
-		'before' => "<div id=\"$id\" class=\"$id\"><div class=\"flexible-widgets widget-area $columns $bg\"><div class=\"wrap\">",
-		'after'  => '</div></div></div>',
-	) );
+	genesis_widget_area(
+		$id, array(
+			'before' => "<div id=\"$id\" class=\"$id\"><div class=\"flexible-widgets widget-area $columns $bg\"><div class=\"wrap\">",
+			'after'  => '</div></div></div>',
+		)
+	);
 
 	remove_filter( 'the_title', 'authority_title', 15 );
 

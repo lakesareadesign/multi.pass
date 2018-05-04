@@ -1,0 +1,606 @@
+/* ## Front Page
+--------------------------------------------- */
+
+.front-page-widget {
+	width: 100%;
+	padding: 6rem 0;
+	position: relative;
+	@include breakpoint(sm) {
+		padding: 10rem 0;
+	}
+	&:nth-of-type(even) {
+		background-color: $light;
+		border-top: $site-border;
+		border-bottom: $site-border;
+	}
+	.widget {
+		&:last-of-type {
+			margin-bottom: 0;
+		}
+	}
+	.textwidget {
+		width: 100%;
+	}
+	p,
+	li {
+		color: $body;
+	}
+}
+
+/* ## Front Page 1
+--------------------------------------------- */
+
+.front-page-1 {
+	padding: 0;
+	background-color: $gray;
+	@include breakpoint(sm) {
+		padding: 0;
+	}
+	> .wrap {
+		width: 100%;
+		max-width: 100%;
+		padding: 0;
+	}
+	.slick-slider {
+		max-height: 100vh;
+		@include breakpoint(sm) {
+			max-height: 100vh;
+		}
+	}
+	.slick-slide {
+		min-height: 100%;
+	}
+	.slick-dots {
+		line-height: 0;
+	}
+	.slick-wrap {
+		padding-top: 4rem;
+		max-width: 88vw;
+		@include breakpoint(md) {
+			width: 88%;
+        	max-width: map-get($breakpoints, lg);
+			padding-top: 10rem;
+			.has-before-header & {
+				padding-top: 14rem;
+			}
+			.has-nav-secondary & {
+				padding-top: 16rem;
+			}
+			.has-nav-secondary.has-before-header & {
+				padding-top: 20rem;
+			}
+		}
+	}
+	.slick-content {
+		max-width: map-get($breakpoints,sm);
+	}
+	.slick-arrow {
+		visibility: hidden;
+		overflow: hidden;
+		@include breakpoint(xs) {
+			visibility: visible;
+		}
+		@include breakpoint(sm) {
+			top: 50%;
+		}
+	}
+	h2 {
+		font-size: 2em;
+		margin-bottom: 0.382em;
+		@include breakpoint(xxs) {
+			font-size: 2.2em;
+			line-height: 1.236;
+		}
+		@include breakpoint(sm) {
+			font-size: 3em;
+		}
+	}
+	p {
+		max-width: map-get($breakpoints,xs);
+		line-height: 1.382;
+		@include breakpoint(xxs) {
+			line-height: 1.618;
+		}
+	}
+}
+
+/* ## Front Page 2
+--------------------------------------------- */
+
+.front-page-2 {
+	@include breakpoint(sm) {
+		padding: 5rem 0;
+	}
+	@include breakpoint(lg) {
+		padding: 7.5rem 0;
+	}
+	.wrap {
+		padding: 0;
+	}
+	.widget-wrap {
+		@include breakpoint(sm) {
+			max-width: calc(100% + 10vw);
+			width: calc(100% + 10vw);
+			margin: 0 -5vw;
+		}
+		@include breakpoint(lg) {
+			max-width: calc(100% + 7.5rem);
+			width: calc(100% + 7.5rem);
+			margin: 0 -3.75rem;
+		}
+	}
+	.gallery {
+		img {
+			width: 100%;
+			height: auto;
+			min-height: 1rem;
+			//max-width: 16rem;
+			padding: 0 6vw;
+			margin: 2px;
+			@include breakpoint(sm) {
+				padding: 0 5vw;
+				.no-js & {
+					padding: 0 1rem;
+				}
+			}
+			@include breakpoint(lg) {
+				padding: 0 3.75rem;
+			}
+		}
+	}
+	.gallery-item {
+		margin: 0;
+		@include breakpoint(sm) {
+			margin: 0 !important;
+		}
+		.no-js & {
+			max-width: 50%;
+			@include breakpoint(sm) {
+				max-width: 100%;
+			}
+		}
+	}
+	.slick-list {
+		width: 100%;
+	}
+	.slick-track {
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		min-width: 100%;
+	}
+}
+
+/* ## Front Page 3
+--------------------------------------------- */
+
+.front-page-3 {
+	.wrap {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		@include flexfix;
+	}
+	.widget {
+		hr {
+			margin: 5rem 0;
+			@include breakpoint(sm) {
+				margin: 7.5rem 0;
+			}
+		}
+	}
+	.icon_widget {
+		align-self: flex-start;
+		.widget-title {
+			font-size: 1.9rem;
+		}
+		i {
+			display: inline-block;
+		}
+	}
+	.mejs-container {
+		max-width: 86vw;
+		min-width: 86vw !important;
+		border-radius: 6px;
+		background-color: $light;
+		@include breakpoint(sm) {
+			max-width: 100%;
+			min-width: 100% !important;
+		}
+	}
+	.mejs-mediaelement {
+		overflow: hidden;
+		box-shadow: 0 2rem 6rem -2rem rgba($dark, 0.236);
+		border-radius: 5px;
+		padding: 0;
+		@include breakpoint(sm) {
+			box-shadow: 0 3rem 9rem -3rem rgba($dark, 0.236);
+		}
+	}
+	.mejs-controls {
+		display: none;
+	}
+	.mejs-overlay-button {
+		background-color: $white;
+		box-shadow: 0 2rem 3rem -1rem rgba($dark, 0.5);
+		border-radius: 9rem;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 6rem;
+		width: 6rem;
+		@include transition;
+		@include breakpoint(sm) {
+			height: 8rem;
+			width: 8rem;
+		}
+		&:hover,
+		&:focus {
+			transform: scale(1.05);
+		}
+		&:after {
+			content: '►';
+			display: block;
+			line-height: 1;
+			color: $dark;
+		}
+	}
+	iframe {
+		transform: scale(1.01);
+	}
+}
+
+/* ## Front Page 4
+--------------------------------------------- */
+
+.front-page-4 {
+	.wrap {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+	}
+	.widget {
+		&:first-of-type {
+			margin-bottom: 5rem;
+		}
+	}
+	.pull-left {
+		@include breakpoint(sm) {
+			max-width: 150% !important;
+			width: 150%;
+			right: 0;
+			position: relative;
+			margin-left: -50%;
+		}
+	}
+}
+
+/* ## Front Page 5
+--------------------------------------------- */
+
+.front-page-5 {
+	padding: 0;
+	text-align: center;
+	border: none !important;
+	@include breakpoint(sm) {
+		padding: 0;
+	}
+	.wrap {
+		width: 100%;
+		min-width: 100%;
+		padding: 0;
+	}
+	.widget-title {
+		text-align: center;
+		margin: 0 0 5rem;
+	}
+	.widget-subtitle {
+		text-align: center;
+		margin: 10rem 0 1em;
+	}
+	.display-posts-listing {
+		display: flex;
+		flex-wrap: wrap;
+		width: 100vw;
+	}
+	.listing-item {
+		width: 100vw;
+		margin: 0;
+		padding: 0;
+		overflow: hidden;
+		position: relative;
+		text-align: center;
+		@include breakpoint(xs) {
+			width: 50vw;
+		}
+		@include breakpoint(sm) {
+			width: 33.33333333333333vw;
+		}
+	}
+	.image {
+		display: block;
+		@include overlay;
+		&:before {
+			opacity: 0;
+		}
+		&:hover,
+		&:focus {
+			&:before {
+				opacity: 1;;
+			}
+			+ .title {
+				opacity: 1;
+				top: 50%;
+			}
+		}
+	}
+	.title {
+		position: absolute;
+		left: 50%;
+		top: 100%;
+		transform: translate(-50%, -50%);
+		color: $white;
+		text-decoration: none;
+		font-weight: $bold;
+		font-size: 1em;
+		opacity: 0;
+		z-index: 2;
+		pointer-events: none;
+		@include transition;
+	}
+	img {
+		min-width: 100%;
+		@include transition;
+	}
+}
+
+/* ## Front Page 6
+--------------------------------------------- */
+
+.front-page-6 {
+	@include gradient;
+	border: none !important;
+	color: $white;
+	@include breakpoint(sm) {
+		padding: 10rem 0;
+	}
+	.wrap {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+		align-items: center;
+		@include flexfix;
+	}
+	.widget {
+		@include breakpoint(sm) {
+			margin-bottom: 0;
+		}
+		&:last-of-type {
+			.button {
+				margin-bottom: 0;
+			}
+		}
+	}
+	p {
+		color: $white;
+		max-width: map-get($breakpoints, sm);
+		@include breakpoint(sm) {
+			margin-bottom: 0;
+		}
+	}
+	.alignright {
+		margin-left: 0;
+	}
+}
+
+/* ## Front Page 7
+--------------------------------------------- */
+
+.front-page-7 {
+	text-align: center;
+	.wrap {
+		display: flex;
+		flex-wrap: wrap;
+		align-items: center;
+		justify-content: space-between;
+		padding: 0;
+		@include flexfix;
+	}
+	.widget {
+		width: 100%;
+	}
+	.pricing-table {
+		margin-left: 6vw;
+		margin-right: 6vw;
+		@include breakpoint(sm) {
+			margin-top: 5rem;
+			margin-left: 0;
+			margin-right: 0;
+		}
+	}
+	hr {
+		max-width: 88vw;
+		margin-left: auto;
+		margin-right: auto;
+		@include breakpoint(sm) {
+			max-width: 100%;
+		}
+	}
+	ul {
+		blockquote {
+			padding-left: calc(2em + 6vw);
+			padding-right: calc(2em + 6vw);
+			@include breakpoint(sm) {
+				padding-left: 2em;
+				padding-right: 2em;
+			}
+		}
+	}
+}
+
+/* ## Front Page 8
+--------------------------------------------- */
+
+.front-page-8 {
+	.wrap {
+		position: relative;
+	}
+	.widget-wrap {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-between;
+	}
+	.widget-title {
+		text-align: center;
+		width: 100%;
+		margin-bottom: 1.618em;
+	}
+	.widget-subtitle {
+		text-align: center;
+		width: 100%;
+	}
+	.entry {
+		padding: 3rem;
+		border-radius: $site-radius;
+		border: $site-border;
+		@include transition;
+		@include breakpoint(sm) {
+			width: $one-third;
+			margin-left: $margin;
+			clear: none;
+			margin-bottom: 0;
+			margin-top: 0;
+			&:nth-of-type(3n + 1) {
+				margin-left: 0;
+			}
+			&:nth-of-type(1n + 4) {
+				margin-top: $margin;
+			}
+		}
+		&:hover,
+		&:focus {
+			box-shadow: 0 2rem 6rem rgba($gray,0.2);
+		}
+		> a {
+			display: block;
+			margin: 0;
+			width: calc(100% + 6rem);
+			max-width: calc(100% + 6rem);
+			margin: -3rem -3rem 3rem;
+			border-radius: $site-radius $site-radius 0 0;
+			img {
+				border-radius: $site-radius $site-radius 0 0;
+			}
+		}
+		p {
+			&:last-of-type {
+				margin-bottom: 0;
+			}
+		}
+	}
+	.entry-title {
+		order: 2;
+	}
+	p.entry-meta {
+		order: 1;
+		font-size: small;
+		&:last-of-type {
+			margin-bottom: 1em;
+		}
+	}
+
+}
+
+/* ## Front Page 9
+--------------------------------------------- */
+
+.front-page-9 {
+	background-size: cover;
+	background-position: center;
+	color: $white;
+	position: relative;
+	text-align: center;
+	.wrap {
+		@include breakpoint(sm) {
+			padding: 5rem 0;
+		}
+	}
+	@include overlay;
+	.widget {
+		position: relative;
+		z-index: 2;
+		margin: 0 auto;
+		max-width: map_get($breakpoints, sm);
+	}
+	.widget-wrap {
+		height: 100%;
+	}
+	.widget_media_image {
+		padding: 0;
+		position: absolute;
+		z-index: 0;
+		max-width: 100%;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+		figure {
+			min-width: 100%;
+			width: 100%;
+			height: 100%;
+			margin: 0;
+		}
+		img {
+			height: 100% !important;
+			width: 100%;
+			object-fit: cover;
+			object-position: center;
+		}
+		figcaption {
+			@include screen-reader-text;
+		}
+	}
+	p {
+		color: $border;
+	}
+	form {
+		margin-top: 1.382em;
+	}
+	::-moz-placeholder {
+		color: $border;
+		opacity: 1;
+	}
+	
+	::-webkit-input-placeholder {
+		color: $border;
+	}
+	input {
+		background-color: rgba($white, 0.25);
+		border: 0;
+		margin: 0 auto 1em;
+		color: $white;
+		display: block;
+		@include transition;
+		@include breakpoint(xs) {
+			display: inline-block;
+			margin: 0 0.2em 1em;
+			width: auto;
+		}
+		@include breakpoint(sm) {
+			margin-bottom: 0;
+		}
+		&[type="submit"] {
+			margin-bottom: 0;
+			width: auto;
+		}
+		&:hover,
+		&:focus {
+			background-color: rgba($white, 0.3);
+		}
+	}
+}
+
+
+
+
