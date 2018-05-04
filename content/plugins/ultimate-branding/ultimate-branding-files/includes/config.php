@@ -58,11 +58,14 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'footer',
 			'page_title' => __( 'Footer Content', 'ub' ),
 			'title' => __( 'Global Footer Content', 'ub' ),
+			'network-only' => true,
 		),
 		'global-header-content.php' => array(
 			'module' => 'global-header-content/global-header-content.php',
 			'tab' => 'header',
 			'page_title' => __( 'Header Content', 'ub' ),
+			'title' => __( 'Global Header Content', 'ub' ),
+			'network-only' => true,
 		),
 		'rebranded-meta-widget.php' => array(
 			'module' => 'rebranded-meta-widget/rebranded-meta-widget.php',
@@ -116,6 +119,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'module' => 'admin-message.php',
 			'tab' => 'admin-message',
 			'page_title' => __( 'Admin Message', 'ub' ),
+			'deprecated' => true,
+			'deprecated_version' => '2.1',
 		),
 		/**
 		 * Images
@@ -131,6 +136,9 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'images',
 			'page_title' => __( 'Images', 'ub' ),
 			'title' => __( 'Login Image', 'ub' ),
+			'deprecated' => true,
+			'deprecated_version' => '2.1',
+			'replaced_by' => 'custom-login-screen.php',
 		),
 		/**
 		 * Images: Image upload size
@@ -162,6 +170,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'module' => 'custom-login-screen.php',
 			'tab' => 'login-screen',
 			'page_title' => __( 'Login screen', 'ub' ),
+			'title' => __( 'Login screen', 'ub' ),
 		),
 		/**
 		 * Custom MS email content
@@ -212,7 +221,6 @@ function ub_get_modules_list( $mode = 'full' ) {
 		 */
 		'dashboard-feeds/dashboard-feeds.php' => array(
 			'module' => 'dashboard-feeds',
-			'network-only' => true,
 			'tab' => 'dashboard-feeds',
 			'page_title' => __( 'Dashboard Feeds', 'ub' ),
 		),

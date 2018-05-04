@@ -30,6 +30,9 @@ a.pickcolor {
 	padding: 4px 14px;
 }
 
+td.delete {
+    text-align: center;
+}
 
 .app-add_break span {
 	display: none;
@@ -122,5 +125,10 @@ body.appointments_page_app_settings .appointments-settings-tab-working_hours tab
 	font-weight:bold;
 }
 
+#services-table .delete a,
+#workers-table .delete a {
+    cursor: pointer;
+}
 
-/* 133620-1522806781-au */
+
+/* 133620-1525394779-au */

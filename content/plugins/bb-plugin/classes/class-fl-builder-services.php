@@ -147,8 +147,7 @@ final class FLBuilderServices {
 		// Return all services.
 		if ( ! $type ) {
 			$services = self::$services_data;
-		} // End if().
-		else {
+		} else {
 
 			foreach ( self::$services_data as $key => $service ) {
 				if ( $service['type'] == $type ) {
@@ -279,8 +278,7 @@ final class FLBuilderServices {
 		// Render the settings to connect a new account.
 		if ( isset( $post_data['add_new'] ) || ! isset( $saved_services[ $service ] ) ) {
 			$response['html'] = self::render_connect_settings( $service );
-		} // End if().
-		else {
+		} else {
 			$account = isset( $settings->service_account ) ? $settings->service_account : '';
 			$response['html'] = self::render_account_settings( $service, $account );
 		}

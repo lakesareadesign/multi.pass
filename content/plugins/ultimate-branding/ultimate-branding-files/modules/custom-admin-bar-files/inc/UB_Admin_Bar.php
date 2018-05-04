@@ -671,9 +671,11 @@ UBSTYLE;
 			$data['modules'][ $key ] = ub_get_option( $key );
 		}
 		$menus = ub_get_option( self::OPTION_KEY );
-		foreach ( $menus as $menu_id ) {
-			$id = self::_get_menu_composite_id( $menu_id );
-			$data['modules'][ self::OPTION_KEY ][ $menu_id ] = ub_get_option( $id );
+		if ( ! empty( $menus ) && is_array( $menus ) ) {
+			foreach ( $menus as $menu_id ) {
+				$id = self::_get_menu_composite_id( $menu_id );
+				$data['modules'][ self::OPTION_KEY ][ $menu_id ] = ub_get_option( $id );
+			}
 		}
 		return $data;
 	}

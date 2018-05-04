@@ -151,6 +151,9 @@
 .widgets-php .widget-liquid-left {
   width: 100%;
 }
+.widgets-php .cs-wrap .widget-liquid-right .widget.open {
+  z-index: 9999 !important;
+}
 .widgets-php .widget-liquid-right {
   padding: 0 0 75px 0;
   margin: -10px -214% 0 0;
@@ -868,4 +871,4 @@ h2 .show-infos {
 }
 
 
-/* 133620-1522104843-au */
+/* 133620-1525394792-au */

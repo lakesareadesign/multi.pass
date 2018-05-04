@@ -62,10 +62,24 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 		 * @since 1.9.7
 		 */
 		protected function set_options() {
+			$post_types = array();
+			$p = get_post_types( array( 'public' => true ), 'objects' );
+			foreach ( $p as $key => $data ) {
+				$post_types[ $key ] = $data->label;
+			}
+
 			$options = array(
 				'show' => array(
-					'title' => __( 'Fields to show', 'ub' ),
+					'title' => __( 'General configuration', 'ub' ),
 					'fields' => array(
+						'post_type' => array(
+							'type' => 'select2',
+							'label' => __( 'Post types', 'ub' ),
+							'options' => $post_types,
+							'multiple' => true,
+							'classes' => array( 'ub-select2' ),
+							'description' => __( 'Please select post types in which the author box will be displayed.', 'ub' ),
+						),
 						'display_name' => array(
 							'type' => 'checkbox',
 							'label' => __( 'Show name', 'ub' ),
@@ -121,6 +135,17 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							'default' => 'on',
 							'classes' => array( 'switch-button' ),
 							'slave-class' => 'social-media',
+						),
+						'social_media_link_in_new_tab' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Open Social media links', 'ub' ),
+							'options' => array(
+								'on' => __( 'open new', 'ub' ),
+								'off' => __( 'in the same', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+							'master' => 'social-media',
 						),
 					),
 				),
@@ -322,7 +347,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 					continue;
 				}
 				printf( '<tr class="user-author-box user-author-box-%s">', esc_attr( $key ) );
-				printf( '<th><label for="user-author-box-%s">%s</label></th>', esc_attr( $key ), esc_html( $options[ $key ]['label'] ) );
+				printf( '<th><label for="user-author-box-%s">%s</label></th>', esc_attr( $key ), esc_html( $options[ $key ]['label'] ) );	   	 		 		 	   		
 				printf(
 					'<td><input type="text" id="user-author-box-%s" class="regular-text" value="%s" name="ub_author_box[%s]" /></td>',
 					esc_attr( $key ),
@@ -417,7 +442,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 			if ( 'on' == $show ) {
 				$description = get_the_author_meta( 'user_description' );
 				if ( $description ) {
-					$content .= sprintf( '<div class="description">%s</div>', $description );
+					$content .= sprintf( '<div class="description">%s</div>', wpautop( $description ) );
 				}
 			}
 			$content .= '</div>';
@@ -427,6 +452,14 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 			 */
 			$show = $this->get_value( 'show', 'social_media', false );
 			if ( 'on' == $show ) {
+				/**
+				 * open link target
+				 */
+				$target = $this->get_value( 'show', 'social_media_link_in_new_tab', false );
+				$target = ( 'on' === $target )? ' target="_blank"':'';
+				/**
+				 * process
+				 */
 				$sm = '';
 				$data = $this->get_value( 'social_media' );
 				$value = get_the_author_meta( 'ub_author_box' );
@@ -443,8 +476,9 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							$v = trim( $value[ $key ] );
 							if ( $v ) {
 								$sm .= sprintf(
-									'<li><a href="%s"><span class="social-logo social-logo-%s"></span></a></li>',
+									'<li><a href="%s"%s><span class="social-logo social-logo-%s"></span></a></li>',
 									esc_url( $v ),
+									$target,
 									esc_attr( $key )
 								);
 							}
@@ -563,9 +597,12 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 				return false;
 			}
 			if ( is_singular() ) {
-				if ( is_single() ) {
-					return true;
+				$allowed_post_types = $this->get_value( 'show', 'post_type', false );
+				if ( empty( $allowed_post_types ) ) {
+					return false;
 				}
+				$post_type = get_post_type();
+				return in_array( $post_type, $allowed_post_types );
 			}
 			return false;
 		}

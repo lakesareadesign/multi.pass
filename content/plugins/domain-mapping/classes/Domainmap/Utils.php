@@ -86,8 +86,7 @@ class Domainmap_Utils{
      */
     private static $_schemes = array();
 
-    function __construct()
-    {
+    function __construct() {
         global $wpdb;
 
         $this->_wpdb = $wpdb;
@@ -108,7 +107,7 @@ class Domainmap_Utils{
     private function _set_mapped_domains(){
         $results = $this->_wpdb->get_results( "SELECT blog_id, domain, is_primary  FROM " . DOMAINMAP_TABLE_MAP );
         foreach( $results as $result ){
-            self::$_mapped_domains[ $result->blog_id ] = $result->domain;
+            self::$_mapped_domains[ $result->blog_id ][] = $result->domain;
             if( $result->is_primary  )
                 self::$_mapped_primary_domains[ $result->blog_id ] = $result->domain;
         }
@@ -225,24 +224,21 @@ class Domainmap_Utils{
      * @since 4.2.0
      *
      * @param string $domain
-     * @return bool
+     * @param bool $boolean If return value should be boolean or not (only use when is_ssl should be used for case 2 [user choice]).
+     * @return int|bool
      */
-    public function force_ssl_on_mapped_domain( $domain = "" ){
+    public function force_ssl_on_mapped_domain( $domain = "", $boolean = false){
         global $dm_mapped;
         $_parsed = parse_url( $domain, PHP_URL_HOST );
         $domain = $_parsed ? $_parsed : $domain;
         $current_domain = parse_url( $this->_http->getHostInfo(), PHP_URL_HOST );
         $domain = empty( $domain ) ? $current_domain  : $domain;
 
-        if( $this->is_original_domain( $domain ) && is_object( $dm_mapped ) ) return $dm_mapped->scheme;
+        if ( $this->is_original_domain( $domain ) && is_object( $dm_mapped ) ) return $dm_mapped->scheme;
 
-        if( is_object( $dm_mapped )  && $dm_mapped->domain === $domain ){ // use from the global dm_domain
+        if ( is_object( $dm_mapped )  && $dm_mapped->domain === $domain ){ // use from the global dm_domain
             $force_ssl_on_mapped_domain = (int) $dm_mapped->scheme;
-			// If mapped domain is not set to any scheme, return current scheme.
-			if ($force_ssl_on_mapped_domain === 2) {
-				$force_ssl_on_mapped_domain = is_ssl();
-			}
-        }else{
+        } else {
 
             if( !isset( self::$_schemes[ $domain  ] ) ){
                 $force_ssl_on_mapped_domain = self::$_schemes[ $domain ] = (int) $this->_wpdb->get_var( $this->_wpdb->prepare("SELECT `scheme` FROM `" . DOMAINMAP_TABLE_MAP . "` WHERE `domain`=%s", $domain) );
@@ -250,6 +246,16 @@ class Domainmap_Utils{
                 $force_ssl_on_mapped_domain = self::$_schemes[ $domain ];
             }
         }
+
+		// Only use boolean when is_ssl makes sense.
+		if ($boolean ) {
+			// If user choice.
+			if ($force_ssl_on_mapped_domain === 2) {
+				$force_ssl_on_mapped_domain = is_ssl();
+			} else {
+				$force_ssl_on_mapped_domain = (bool) $force_ssl_on_mapped_domain;
+			}
+		}
 
         return apply_filters("dm_force_ssl_on_mapped_domain", $force_ssl_on_mapped_domain) ;
     }
@@ -264,7 +270,25 @@ class Domainmap_Utils{
      * @return bool
      */
     public function is_mapped_domain( $domain = null ){
-        if( !empty( $domain ) && in_array( $domain, self::$_mapped_domains )  ) return true;
+		global $current_blog;
+		$blog_id = get_current_blog_id();
+		// If no $domain set, get current_blog domain.
+		$domain = $domain ? $domain : $current_blog->domain;
+		// Remove any scheme.
+		$domain = preg_replace('#^http(s)?://#', '', $domain);
+
+		// Is domain among mapped domains?
+        if (
+			!empty( $domain )
+			&& !empty(self::$_mapped_domains[$blog_id])
+			&& (
+				// Domain is among mapped domains in the array.
+				(gettype(self::$_mapped_domains[$blog_id]) === 'array' && in_array( $domain, self::$_mapped_domains[$blog_id] ))
+				// Domain is the mapped domain string.
+				|| $domain === self::$_mapped_domains[$blog_id]
+			)
+		) return true;
+		// If still not sure, is this an original domain?
         return !$this->is_original_domain( $domain );
     }
 
@@ -321,9 +345,9 @@ class Domainmap_Utils{
             }
         }
 
-        $is_original_domain = $domain === $this->get_original_domain()
-            || strpos($domain, "." . $this->get_original_domain())
-            || $domain === str_replace("www.", "", $this->get_original_domain() );
+        $original_domain = str_replace( "www.", "", $this->get_original_domain() );
+        $is_original_domain = $domain === $original_domain
+            || strpos($domain, "." . $original_domain );
         return apply_filters("dm_is_original_domain", $is_original_domain, $domain);
     }
 
@@ -373,7 +397,8 @@ class Domainmap_Utils{
      * @return string redirect type: mapped, user, original
      */
     public function get_frontend_redirect_type() {
-        return get_option( 'domainmap_frontend_mapping', 'mapped' );
+		// Default to original for when root domain is used.
+        return get_option( 'domainmap_frontend_mapping', 'original' );
     }
 
     /**
@@ -408,19 +433,32 @@ class Domainmap_Utils{
      * @return string|boolean Mapped domain on success, otherwise FALSE.
      */
     public function get_mapped_domain( $blog_id = false, $consider_front_redirect_type = true ) {
+		global $current_site, $current_blog;
+		$current_scheme =  $this->_http->getIsSecureConnection() ? "https://" : 'http://';
+		$current_url = untrailingslashit(  $current_scheme . $current_blog->domain . $current_site->path );
         // use current blog id if $blog_id is empty
         if ( !$blog_id ) {
             $blog_id = get_current_blog_id();
         }
 
         // if we have already found mapped domain, then return it
-        if ( isset( self::$_mapped_primary_domains[$blog_id] ) ) {
+        // Only do this if not using user setting.
+        if ( isset( self::$_mapped_primary_domains[$blog_id] ) && $this->get_frontend_redirect_type() !== 'user' ) {
             return self::$_mapped_primary_domains[$blog_id];
         }
 
+		// If no primary domain and current site is a mapped domain, use it.
+        if (
+			isset( self::$_mapped_domains[$blog_id] )
+			&& $this->get_frontend_redirect_type() !== 'user'
+			&& in_array($current_blog->domain, self::$_mapped_domains[$blog_id])) {
+			return $current_blog->domain;
+		}
+
         // if we have already found mapped domain, then return it
-        if ( isset( self::$_mapped_domains[$blog_id] ) ) {
-            return self::$_mapped_domains[$blog_id];
+        // Only do this if not using user setting.
+        if ( isset( self::$_mapped_domains[$blog_id] ) && $this->get_frontend_redirect_type() !== 'user' ) {
+            return end(self::$_mapped_domains[$blog_id]);
         }
 
         $domain = '';
@@ -436,7 +474,7 @@ class Domainmap_Utils{
         }
 
         // save mapped domain into local cache
-        if( $is_primary )
+        if( empty($is_primary) )
             self::$_mapped_primary_domains[$blog_id] = $domain;
         else
             self::$_mapped_domains[$blog_id] = $domain;
@@ -583,12 +621,17 @@ class Domainmap_Utils{
         // find mapped domain
         $mapped_domain = $this->get_mapped_domain( $blog_id, $consider_front_redirect_type );
 
-        if ( !$mapped_domain || $components['host'] == $mapped_domain ) {
+        if ( !$mapped_domain || $components['host'] === $mapped_domain ) {
             return apply_filters("dm_swap_mapped_url", $url, $path, $orig_scheme, $blog_id);
         }
 
         $components['host'] = $mapped_domain;
-        $components['path'] = "/" . $path;
+
+		// Prevent breaking site assets by condition for not replacing plugins_url.
+		if ( $path !== '' && $path !== '/' && current_filter() !== 'plugins_url' && current_filter() !== 'content_url' ){
+			// Change path to mapped path.
+			$components['path'] = "/" . $path;
+		}
 
         return apply_filters("dm_swap_mapped_url", $this->build_url( $components ), $path, $orig_scheme, $blog_id);
     }
@@ -605,4 +648,5 @@ class Domainmap_Utils{
         $name = $trace[2]['function'];
         return empty($name) ? 'global' : $name;
     }
+
 }

@@ -1,4 +1,4 @@
-/*! Custom Sidebars - v3.1.3
+/*! Custom Sidebars - v3.1.4
  * https://premium.wpmudev.org/project/custom-sidebars-pro/
  * Copyright (c) 2018; * Licensed GPLv2+ */
 /*global window:false */
@@ -1172,7 +1172,6 @@ window.csSidebars = null;
 				for ( var key7 in data_aut ) {
 					opt = jQuery( '<option></option>' );
 					name = data_aut[ key7 ].name;
-
 					opt.attr( 'value', key7 ).text( name );
 					lst_aut.append( opt );
 				}
@@ -1211,6 +1210,36 @@ window.csSidebars = null;
 									data_3rd[ key10 ].archive[ theme_sb ],
 									theme_sb,
 									key10,
+									$(this)
+								);
+							}
+						}
+					}
+				});
+
+				/**
+				 * ----- Custom Taxomies ----------------------------------------------
+				 * @since 3.1.4
+				 */
+				var lst_custom_taxonomies = popup.$().find( '.cf-custom-taxonomies .cs-datalist' );
+				lst_custom_taxonomies.each( function() {
+					var data_custom_taxonomy = resp[$(this).data('id')];
+					$(this).empty();
+					// Add the options
+					for ( var key_custom_taxonomy in data_custom_taxonomy ) {
+						opt = jQuery( '<option></option>' );
+						name = data_custom_taxonomy[ key_custom_taxonomy ].name;
+						opt.attr( 'value', key_custom_taxonomy ).text( name );
+						$(this).append( opt );
+					}
+					// Select options
+					for ( var key_custom_tax in data_custom_taxonomy ) {
+						if ( data_custom_taxonomy[ key_custom_tax ].single ) {
+							for ( theme_sb in data_custom_taxonomy[ key_custom_tax ].single ) {
+								_select_option(
+									data_custom_taxonomy[ key_custom_tax ].single[ theme_sb ],
+									theme_sb,
+									key_custom_tax,
 									$(this)
 								);
 							}
@@ -1593,6 +1622,30 @@ jQuery.fn.sortElements = (function(){
                 'fields': {}
             };
             $('#screen-options-wrap .cs-roles input[type=checkbox]').each( function() {
+                data.fields[$(this).val()] = this.checked;
+            });
+            $.post( ajaxurl, data );
+        });
+    });
+})(jQuery);
+
+/*global console:false */
+/*global document:false */
+/*global ajaxurl:false */
+
+/**
+ * Handle "Custom sidebars configuration is allowed for:" option on
+ * widgets screen options.
+ */
+(function($){
+    jQuery(document).ready( function($) {
+        $('#screen-options-wrap .cs-custom-taxonomies input[type=checkbox]').on( 'change', function() {
+            var data = {
+                'action': 'custom_sidebars_metabox_custom_taxonomies',
+                '_wpnonce': $('#custom_sidebars_custom_taxonomies').val(),
+                'fields': {}
+            };
+            $('#screen-options-wrap .cs-custom-taxonomies input[type=checkbox]').each( function() {
                 data.fields[$(this).val()] = this.checked;
             });
             $.post( ajaxurl, data );

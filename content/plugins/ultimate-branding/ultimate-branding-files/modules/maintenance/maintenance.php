@@ -82,7 +82,12 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 						),
 						'content' => array(
 							'type' => 'wp_editor',
-							'label' => __( 'content', 'ub' ),
+							'label' => __( 'Content', 'ub' ),
+						),
+						'color' => array(
+							'type' => 'color',
+							'label' => __( 'Color', 'ub' ),
+							'default' => '#000000',
 						),
 						'background' => array(
 							'type' => 'color',
@@ -91,7 +96,7 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 						),
 						'width' => array(
 							'type' => 'number',
-							'label' => __( 'Content width', 'ub' ),
+							'label' => __( 'Width', 'ub' ),
 							'default' => 600,
 							'min' => 0,
 							'max' => 2000,
@@ -195,11 +200,55 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 						),
 					),
 				),
+				'social_media_settings' => array(
+					'title' => __( 'Social Media Settings', 'ub' ),
+					'fields' => array(
+						'show' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Show on front-end', 'ub' ),
+							'description' => __( 'Would you like to show social media?', 'ub' ),
+							'options' => array(
+								'on' => __( 'Show', 'ub' ),
+								'off' => __( 'Hide', 'ub' ),
+							),
+							'default' => 'on',
+							'classes' => array( 'switch-button' ),
+							'slave-class' => 'social-media',
+						),
+						'colors' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Colors', 'ub' ),
+							'description' => __( 'Would you like show colored icons?', 'ub' ),
+							'options' => array(
+								'on' => __( 'Colors', 'ub' ),
+								'off' => __( 'Monochrome', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+							'master' => 'social-media',
+						),
+						'social_media_link_in_new_tab' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Open Social media links', 'ub' ),
+							'options' => array(
+								'on' => __( 'open new', 'ub' ),
+								'off' => __( 'in the same', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+							'master' => 'social-media',
+						),
+					),
+				),
 				'social_media' => array(
 					'title' => __( 'Social Media', 'ub' ),
-					'description' => sprintf( __( 'We use %s icons.', 'ub' ), sprintf( '<a href="%s">Social Icons</a>', esc_url( 'https://github.com/Automattic/social-logos' ) ) ),
 					'fields' => array(),
 					'sortable' => true,
+					'master' => array(
+						'section' => 'social_media_settings',
+						'field' => 'show',
+						'value' => 'on',
+					),
 				),
 			);
 			$social = $this->get_social_media_array();
@@ -317,7 +366,7 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 		 * Display the default template
 		 */
 		public function get_default_template() {
-			$file = file_get_contents( dirname( __FILE__ ).'/template.html' );
+			$file = file_get_contents( dirname( __FILE__ ).'/assets/template.html' );
 			return $file;
 		}
 		/**
@@ -410,7 +459,9 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 			header( 'Cache-Control: max-age=0; private' );
 			$template = $this->get_default_template();
 			$this->set_data();
-			$body_classes = array();
+			$body_classes = array(
+				'ultimate-branding-maintenance',
+			);
 			/**
 			 * Add defaults.
 			 */
@@ -487,40 +538,73 @@ var ultimate_branding_counter = setInterval(function() {
 			 * social_media
 			 */
 			$social_media = '';
-			$v = $this->get_value( 'social_media' );
-			if ( ! empty( $v ) ) {
-				foreach ( $v as $key => $url ) {
-					if ( empty( $url ) ) {
-						continue;
-					}
-					$social_media .= sprintf(
-						'<li><a href="%s"><span class="social-logo social-logo-%s"></span>',
-						esc_url( $url ),
-						esc_attr( $key )
-					);
+			$v = $this->get_value( 'social_media_settings' );
+			if ( isset( $v['show'] ) && 'on' === $v['show'] ) {
+				if ( isset( $v['colors'] ) && 'on' === $v['colors'] ) {
+					$body_classes[] = 'use-color';
 				}
-				if ( ! empty( $social_media ) ) {
-					$body_classes[] = 'has-social';
-					$social_media = '<ul>'.$social_media.'</ul>';
-					$head .= sprintf(
-						'<link rel="stylesheet" id="social-logos-css" href="%s" type="text/css" media="all" />',
-						$this->make_relative_url( $this->get_social_logos_css_url() )
-					);
+				$target = ( isset( $v['social_media_link_in_new_tab'] ) && 'on' === $v['social_media_link_in_new_tab'] )? ' target="_blank"':'';
+				$v = $this->get_value( 'social_media' );
+				if ( ! empty( $v ) ) {
+					foreach ( $v as $key => $url ) {
+						if ( empty( $url ) ) {
+							continue;
+						}
+						$social_media .= sprintf(
+							'<li><a href="%s"%s><span class="social-logo social-logo-%s"></span>',
+							esc_url( $url ),
+							$target,
+							esc_attr( $key )
+						);
+					}
+					if ( ! empty( $social_media ) ) {
+						$body_classes[] = 'has-social';
+						$social_media = '<ul>'.$social_media.'</ul>';
+						$head .= sprintf(
+							'<link rel="stylesheet" id="social-logos-css" href="%s" type="text/css" media="all" />',
+							$this->make_relative_url( $this->get_social_logos_css_url() )
+						);
+					}
 				}
 			}
 			$template = preg_replace( '/{social_media}/', $social_media, $template );
 			/**
 			 * head
 			 */
+			$head .= sprintf(
+				'<link rel="stylesheet" id="maintenance" href="%s?version=%s" type="text/css" media="all" />',
+				$this->make_relative_url( plugins_url( 'assets/maintenance.css', __FILE__ ) ),
+				$this->build
+			);
 			$template = preg_replace( '/{head}/', $head, $template );
 			/**
 			 * css
 			 */
 			$css = '';
 			/**
+			 * page
+			 */
+			$v = $this->get_value( 'document' );
+			$css .= '.page{';
+			if ( isset( $v['background'] ) ) {
+				$css .= $this->css_background_color( $v['background'] );
+			}
+			if ( isset( $v['color'] ) ) {
+				$css .= $this->css_color( $v['color'] );
+			}
+			if ( isset( $v['width'] ) ) {
+				$css .= $this->css_width( $v['width'] );
+			}
+
+			$css .= '}';
+
+			/**
 			 * Background
 			 */
-
+			$v = $this->get_value( 'background', 'color' );
+			if ( ! empty( $v ) ) {
+				$css .= sprintf( 'body{%s}', $this->css_background_color( $v ) );
+			}
 			$v = $this->get_value( 'background', 'image_meta' );
 			if ( isset( $v[0] ) ) {
 				$css .= sprintf('
@@ -610,7 +694,7 @@ body {
 			/**
 			 * module js
 			 */
-			$file = ub_files_url( 'modules/maintenance/maintenance.js' );
+			$file = ub_files_url( 'modules/maintenance/assets/maintenance.js' );
 			wp_register_script( __CLASS__, $file, array( 'jquery' ), $this->build, true );
 			$localize = array(
 				'remove' => __( 'remove site', 'ub' ),
@@ -619,7 +703,7 @@ body {
 			/**
 			 * jQuery select2
 			 */
-			$version = '4.0.4';
+			$version = '4.0.5';
 			$file = ub_url( 'external/select2/select2.min.js' );
 			wp_enqueue_script( 'select2', $file, array( __CLASS__, 'jquery' ), $version, true );
 			$file = ub_url( 'external/select2/select2.min.css' );

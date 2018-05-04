@@ -146,26 +146,6 @@ if(!sbi_js_exists){
 
     //Start plugin code
     function sbi_init(_cache){
-        // used in case user name is used instead of id
-        function sbiSetUserApiUrl(user_id, at, before, extra, handleData) {
-            var url = 'https://api.instagram.com/v1/users/search?q=' + user_id + '&access_token=' + at;
-            jQuery.ajax({
-                method: "GET",
-                url: url,
-                dataType: "jsonp",
-                success: function(data) {
-                    var matchingID = data.data[0].id;
-                    jQuery.each(data.data, function() {
-                        if(this.username === user_id){
-                            matchingID = this.id;
-                        }
-                    });
-
-                    var apiCall = "https://api.instagram.com/v1/users/"+ matchingID + before + "?access_token=" + at + extra;
-                    handleData(apiCall,matchingID);
-                }
-            });
-        }
 
         var $i = 0, //Used for iterating lightbox
             sbi_time = 0;
@@ -341,47 +321,41 @@ if(!sbi_js_exists){
                         sbiTransientNames.comments = 'no';
                     }
 
-                    // if the user didn't use the account id, this attempts to use the user name
-                    if(getType == 'user' && isNaN(ids_arr[0])){
-                        sbiSetUserApiUrl(ids_arr[0], sb_instagram_js_options.sb_instagram_at, '/media/recent', '&count=33', function(apiURL,newFeedID){
-                            sbiSettings.user_id = newFeedID;
-                            sbiFetchData([apiURL], sbiTransientNames.feed, sbiSettings, $self);
-                        });
-                    } else {
-                        // if the process of retrieving remote posts hasn't started yet, do so here
-                        if ( window.sbiCacheStatuses[feedOptions.feedIndex].feed === false && window.sbiCacheStatuses[feedOptions.feedIndex].feed !== 'fetched') {
-                            window.sbiCacheStatuses[feedOptions.feedIndex].feed = 'fetched';
-                            window.sbiCacheStatuses[feedOptions.feedIndex].tryFetch = 'done';
-                            sbiFetchData(apiURLs, sbiTransientNames.feed, sbiSettings, $self);
-                        }
 
-                        if ( !window.sbiCacheStatuses[feedOptions.feedIndex].header && window.sbiCacheStatuses[feedOptions.feedIndex].header !== 'fetched' && sbiSettings.getType === 'user') {
-                            window.sbiCacheStatuses[feedOptions.feedIndex].header = 'fetched';
-                            // Make the ajax request here
-                            var atParts = accessTokens[0].split('.');
-                            sbiSettings.user_id = atParts[0];
-                            var sbi_page_url = 'https://api.instagram.com/v1/users/' + sbiSettings.user_id + '?access_token=' + addLinksToPage(accessTokens[0]);
-
-                            jQuery.ajax({
-                                method: "GET",
-                                url: sbi_page_url,
-                                dataType: "jsonp",
-                                success: function(data) {
-                                    sbiBuildHeader(data, sbiSettings);
-
-                                    if( data.data !== undefined ){
-
-                                        if(!feedOptions.disablecache && window.sbiCacheStatuses[feedOptions.feedIndex].header !== 'cached' && typeof data.data.username !== 'undefined' && typeof data.data.pagination === 'undefined')  {
-                                            window.sbiCacheStatuses[feedOptions.feedIndex].header = 'cached';
-                                            sbiCachePhotos(data, sbiTransientNames.header);
-                                        }
-
-                                    }
-                                }
-                            });
-                            //sbiFetchData(apiURLs, sbiTransientNames.header, sbiSettings, $self);
-                        }
+                    // if the process of retrieving remote posts hasn't started yet, do so here
+                    if ( window.sbiCacheStatuses[feedOptions.feedIndex].feed === false && window.sbiCacheStatuses[feedOptions.feedIndex].feed !== 'fetched') {
+                        window.sbiCacheStatuses[feedOptions.feedIndex].feed = 'fetched';
+                        window.sbiCacheStatuses[feedOptions.feedIndex].tryFetch = 'done';
+                        sbiFetchData(apiURLs, sbiTransientNames.feed, sbiSettings, $self);
                     }
+
+                    if ( !window.sbiCacheStatuses[feedOptions.feedIndex].header && window.sbiCacheStatuses[feedOptions.feedIndex].header !== 'fetched' && sbiSettings.getType === 'user') {
+                        window.sbiCacheStatuses[feedOptions.feedIndex].header = 'fetched';
+                        // Make the ajax request here
+                        var atParts = accessTokens[0].split('.');
+                        sbiSettings.user_id = atParts[0];
+                        var sbi_page_url = 'https://api.instagram.com/v1/users/' + sbiSettings.user_id + '?access_token=' + addLinksToPage(accessTokens[0]);
+
+                        jQuery.ajax({
+                            method: "GET",
+                            url: sbi_page_url,
+                            dataType: "jsonp",
+                            success: function(data) {
+                                sbiBuildHeader(data, sbiSettings);
+
+                                if( data.data !== undefined ){
+
+                                    if(!feedOptions.disablecache && window.sbiCacheStatuses[feedOptions.feedIndex].header !== 'cached' && typeof data.data.username !== 'undefined' && typeof data.data.pagination === 'undefined')  {
+                                        window.sbiCacheStatuses[feedOptions.feedIndex].header = 'cached';
+                                        sbiCachePhotos(data, sbiTransientNames.header);
+                                    }
+
+                                }
+                            }
+                        });
+                        //sbiFetchData(apiURLs, sbiTransientNames.header, sbiSettings, $self);
+                    }
+
 
 
                     //This is the arr that we'll keep adding the new images to
@@ -448,55 +422,32 @@ if(!sbi_js_exists){
 
                             //Get page info for first User ID
                             var sbi_page_url = 'https://api.instagram.com/v1/users/' + looparray[0] + '?access_token=' + sb_instagram_js_options.sb_instagram_at;
-                            if(isNaN(looparray[0])){
-                                sbiSetUserApiUrl(looparray[0], sb_instagram_js_options.sb_instagram_at, '', '', function(apiURL){
-                                    sbi_page_url = apiURL;
 
-                                    if(sbiHeaderCache == 'true' && !feedOptions.disablecache){
-                                        //Use ajax to get the cache
-                                        //sbiGetCache(headerTransientName, sbiSettings, $self, 'header');
-                                    } else {
-                                        // Make the ajax request here
-                                        jQuery.ajax({
-                                            method: "GET",
-                                            url: sbi_page_url,
-                                            dataType: "jsonp",
-                                            success: function(data) {
-                                                sbiBuildHeader(data, sbiSettings);
-                                                if(!feedOptions.disablecache && window.sbiCacheStatuses[feedOptions.feedIndex].header !== 'cached' && typeof data.data.username !== 'undefined' && typeof data.data.pagination === 'undefined')  {
-                                                    window.sbiCacheStatuses[feedOptions.feedIndex].header = 'cached';
-                                                    sbiCachePhotos(data, headerTransientName);
-                                                }
-                                            }
-                                        });
+                            //Create header transient name
+                            var headerTransientName = 'sbi_header_' + looparray[0];
+                            headerTransientName = headerTransientName.substring(0, 45);
+
+                            //Check whether header cache exists
+                            if(sbiHeaderCache == 'true' && !feedOptions.disablecache){
+                                //Use ajax to get the cache
+                                //sbiGetCache(headerTransientName, sbiSettings, $self, 'header');
+                            } else if ($self.find('.sb_instagram_header').length) {
+                                // Make the ajax request here
+                                jQuery.ajax({
+                                    method: "GET",
+                                    url: sbi_page_url,
+                                    dataType: "jsonp",
+                                    success: function (data) {
+                                        sbiBuildHeader(data, sbiSettings);
+
+                                        if(!feedOptions.disablecache && window.sbiCacheStatuses[feedOptions.feedIndex].header !== 'cached' && typeof data.data !== 'undefined' && typeof data.data.username !== 'undefined' && typeof data.data.pagination === 'undefined')  {
+                                            window.sbiCacheStatuses[feedOptions.feedIndex].header = 'cached';
+                                            sbiCachePhotos(data, headerTransientName);
+                                        }
                                     }
                                 });
-                            } else {
-                                //Create header transient name
-                                var headerTransientName = 'sbi_header_' + looparray[0];
-                                headerTransientName = headerTransientName.substring(0, 45);
-
-                                //Check whether header cache exists
-                                if(sbiHeaderCache == 'true' && !feedOptions.disablecache){
-                                    //Use ajax to get the cache
-                                    //sbiGetCache(headerTransientName, sbiSettings, $self, 'header');
-                                } else if ($self.find('.sb_instagram_header').length) {
-                                    // Make the ajax request here
-                                    jQuery.ajax({
-                                        method: "GET",
-                                        url: sbi_page_url,
-                                        dataType: "jsonp",
-                                        success: function (data) {
-                                            sbiBuildHeader(data, sbiSettings);
-
-                                            if(!feedOptions.disablecache && window.sbiCacheStatuses[feedOptions.feedIndex].header !== 'cached' && typeof data.data !== 'undefined' && typeof data.data.username !== 'undefined' && typeof data.data.pagination === 'undefined')  {
-                                                window.sbiCacheStatuses[feedOptions.feedIndex].header = 'cached';
-                                                sbiCachePhotos(data, headerTransientName);
-                                            }
-                                        }
-                                    });
-                                }
                             }
+
                         } // End header
 
                         //LOOP THROUGH ITEMS:
@@ -954,6 +905,18 @@ if(!sbi_js_exists){
                                                 sbiErrorDir = "<p>There's an issue with the Instagram Access Token that you are using. Please obtain a new Access Token on the plugin's Settings page.<br />If you continue to have an issue with your Access Token then please see <a href='https://smashballoon.com/my-instagram-access-token-keep-expiring/' target='_blank'>this FAQ</a> for more information.</p>";
                                                 jQuery('#sb_instagram').empty().append( '<p style="text-align: center;">Unable to show Instagram photos</p><div id="sbi_mod_error">' + sbiErrorMsg + sbiErrorDir + '</div>');
                                                 sbiAddTokenToExpiredList(sb_instagram_js_options.sb_instagram_at,transientName);
+                                                var submittedData = {
+                                                    action: 'sbi_set_use_backup',
+                                                    transientName : transientName,
+                                                    context : 'falsecache'
+                                                };
+                                                jQuery.ajax({
+                                                    url: sbiajaxurl,
+                                                    type: 'post',
+                                                    data: submittedData,
+                                                    success: function (data) {
+                                                    }
+                                                }); // ajax
                                                 return;
                                                 
                                             //Retired endpoint

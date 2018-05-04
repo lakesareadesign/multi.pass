@@ -5,6 +5,9 @@
  */
 class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 
+	protected  $js_files = array();
+	protected  $css_files = array();
+
 
 	/**
 	 * Constructs the admin url tab
@@ -12,13 +15,54 @@ class UB_Admin_Bar_Tab extends UltimateBrandingAdmin {
 	 * @since 1.5
 	 * @access public
 	 */
-	function __construct() {
+	public function __construct() {
+
 		$this->register_js( UB_Admin_Bar::NAME, 'jquery.classywiggle.min' );
 		$this->register_js( UB_Admin_Bar::NAME, 'main' );
 		$this->register_css( UB_Admin_Bar::NAME, 'main' );
 		add_action( 'admin_enqueue_scripts', array( $this, 'register_local_scripts' ) );
 		add_action( 'ultimatebranding_settings_adminbar', array( &$this, 'create_admin_page' ) );
 		add_action( 'ultimatebranding_admin_header_adminbar', array( &$this, 'js_print_scripts' ) );
+	}
+
+	private function get_enqueue_handle( $module_name, $file_name ) {
+		return $module_name . '-' . str_replace( '.', '-', $file_name );
+	}
+
+	private function register_css( $module_name, $file ) {
+		$this->css_files[ $module_name ][] = $file;
+		add_action( 'ultimatebranding_admin_header_adminbar', array( $this, 'register_modules_css' ) );
+	}
+
+	public function register_modules_css() {
+		if ( empty( $this->build ) ) {
+			global $ub_version;
+			$this->build = $ub_version;
+		}
+		foreach ( $this->css_files as $module_name => $files ) {
+			foreach ( $files as $file_name ) {
+				$file_path = ub_files_url( 'modules/' . $module_name . '-files/css/'. $file_name . '.css' );
+				wp_enqueue_style( $this->get_enqueue_handle( $module_name, $file_name ), $file_path, array(), $this->build );
+			}
+		}
+	}
+
+	public function register_modules_js() {
+		if ( empty( $this->build ) ) {
+			global $ub_version;
+			$this->build = $ub_version;
+		}
+		foreach ( $this->js_files as $module_name => $files ) {
+			foreach ( $files as $file_name ) {
+				$file_path = ub_files_url( 'modules/' . $module_name . '-files/js/'. $file_name . '.js' );
+				wp_enqueue_script( $this->get_enqueue_handle( $module_name, $file_name ), $file_path, array(), $this->build, true );
+			}
+		}
+	}
+
+	private function register_js( $module_name, $file ) {
+		$this->js_files[ $module_name ][] = $file;
+		add_action( 'ultimatebranding_admin_header_adminbar', array( $this, 'register_modules_js' ) );
 	}
 
 	/**

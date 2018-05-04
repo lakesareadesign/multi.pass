@@ -4,6 +4,29 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log:
 ----------------------------------------------------------------------
 
+DATE: 25 Apr, 2018  - VERSION: 1.9.8.1
+==================================
+- Bring back the "Network Wide Text Change" module to single site.
+
+DATE: 25 Apr, 2018  - VERSION: 1.9.8
+==================================
+- Added ability to choose post types for "Author Box".
+- Added ability to show colored social media icons on "Comming Soon Page & Maintenance" module.
+- Added option to allow open social links in new tab or window on "Comming Soon Page & Maintenance" and "Author Box" modules.
+- Added text color to  "Comming Soon & Maintenance Mode" module.
+- Allow module "Dashboard Feeds" for single site installations.
+- Fixed display search input on mobile devices.
+- Fixed incompatibility with Multinetwork. Props for Renato.
+- Fixed problem with a multiselect select field.
+- Fixed problem with fold/unfold icon on IE11.
+- Fixed problem with MultiSite modules activated after import configuration from MU.
+- Fixed problem with too wide social icons on "Comming Soon Page & Maintenance" module.
+- Improved dashboard search, now it is interactive.
+- Improved handling of deprecated modules.
+- Improved the template of "Comming Soon & Maintenance Mode" module.
+- Modules "Global Footer Content", "Global Header Content" and "Network Wide Text Change" becomes network install only and it will be not available in single site installation.
+- Updated external library select2 to 4.0.5 version.
+
 DATE: 26 Mar, 2018  - VERSION: 1.9.7
 ==================================
 - Added module "Author Box".
@@ -473,4 +496,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 
 
 
-133620-1522104891-au
+133620-1525394844-au

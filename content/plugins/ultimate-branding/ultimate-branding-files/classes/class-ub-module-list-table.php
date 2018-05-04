@@ -36,6 +36,7 @@ class UB_Module_List_Table extends WP_List_Table {
 		'active' => 0,
 		'inactive' => 0,
 	);
+	private $configuration;
 
 	public function __construct( $args = array() ) {
 		global $status;
@@ -55,7 +56,7 @@ class UB_Module_List_Table extends WP_List_Table {
 	public function get_columns() {
 		$columns = array(
 			'cb'        => '<input type="checkbox" />', //Render a checkbox instead of text
-			'title' => __( 'Plugin Name', 'ub' ),
+			'title' => __( 'Module Name', 'ub' ),
 			'status' => __( 'Status', 'ub' ),
 		);
 		return $columns;
@@ -64,18 +65,30 @@ class UB_Module_List_Table extends WP_List_Table {
 	public function prepare_items() {
 		$columns = $this->get_columns();
 		$this->_column_headers = array( $columns, array(), array() );
+		$this->configuration = ub_get_modules_list();
+		/**
+		 * set fake navigation
+		 */
+		$total_items = $per_page = $this->totals['all'];
+		$this->set_pagination_args( array(
+			'total_items' => $total_items,
+			'per_page'    => $per_page,
+			'total_pages' => ceil( $total_items / $per_page ),
+		) );
 	}
 
 	public function set_modules( $modules ) {
 		global $status;
 		$search = ( isset( $_REQUEST['s'] ) ) ? $_REQUEST['s'] : false;
 		$this->process_bulk_action();
+		/**
+		 * Do not translate this table, it have file placeholders to read
+		 */
 		$default_headers = array(
-			'Name' => __( 'Plugin Name', 'ub' ),
-			'Author' => __( 'Author', 'ub' ),
-			'Description' => __( 'Description', 'ub' ),
-			'Author' => __( 'Author', 'ub' ),
-			'AuthorURI' => __( 'Author URI', 'ub' ),
+			'author_uri' => 'Author URI',
+			'author' => 'Author',
+			'description' => 'Description',
+			'name' => 'Plugin Name',
 		);
 		$this->modules = $modules;
 		$this->items = array();
@@ -108,13 +121,15 @@ class UB_Module_List_Table extends WP_List_Table {
 			) {
 				if ( $search ) {
 					if (
-						preg_match( $search, $module_data['Name'] )
-						|| preg_match( $search, $module_data['Description'] )
+						preg_match( $search, $module_data['name'] )
+						|| preg_match( $search, $module_data['description'] )
+						|| preg_match( $search, $module_data['author'] )
+						|| preg_match( $search, $module_data['author_uri'] )
 					) {
-						$this->items[ $module_data['Name'] ] = $module_data;
+						$this->items[ $module_data['name'] ] = $module_data;
 					}
 				} else {
-					$this->items[ $module_data['Name'] ] = $module_data;
+					$this->items[ $module_data['name'] ] = $module_data;
 				}
 			}
 		}
@@ -123,20 +138,51 @@ class UB_Module_List_Table extends WP_List_Table {
 
 	public function column_title( $item ) {
 		$content = '<strong>';
-		$content .= $item['Name'];
+		$content .= $item['name'];
 		$content .= '</strong>';
 		$content .= sprintf(
 			'<p class="Description">%s</p>',
-			$item['Description']
+			$item['description']
 		);
 		return $content;
 	}
 
 	public function column_cb( $item ) {
+		$replace_by = $this->check_replaced_by( $item );
+		if ( $replace_by ) {
+			return '&nbsp;';
+		}
 		return sprintf( '<input type="checkbox" name="module[]" value="%s" />', esc_attr( $item['module'] ) );
 	}
 
+	private function check_replaced_by( $item ) {
+		$key = $item['module'];
+		if (
+			isset( $this->configuration[ $key ] )
+			&& isset( $this->configuration[ $key ]['replaced_by'] )
+		) {
+			$replace_by = $this->configuration[ $key ]['replaced_by'];
+			$is_active = ub_is_active_module( $replace_by );
+			if ( $is_active ) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public function column_status( $item ) {
+		/**
+		 * check replaced by module
+		 */
+		$replace_by = $this->check_replaced_by( $item );
+		if ( $replace_by ) {
+			$content = sprintf(
+				__( 'Module "%s" can not be activated, becouse module "%s" is active.', 'ub' ),
+				$item['name'],
+				$this->configuration[ $this->configuration[ $item['module'] ]['replaced_by'] ]['title']
+			);
+			return $content;
+		}
 		$content = sprintf(
 			'<input type="checkbox" name="status[]" value="%s" %s class="switch-button" data-nonce="%s" />',
 			esc_attr( $item['module'] ),

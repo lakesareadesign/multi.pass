@@ -65,7 +65,7 @@ class WP_Hummingbird_Pro_Admin {
 			}
 		}
 
-		$this->pro_view( 'dashboard/reports/meta-box', compact( 'performance_is_active', 'uptime_is_active', 'frequency' ) );	  	 	   	 		 		 		 	
+		$this->pro_view( 'dashboard/reports/meta-box', compact( 'performance_is_active', 'uptime_is_active', 'frequency' ) );
 	}
 	/**
 	 * Reports meta box footer

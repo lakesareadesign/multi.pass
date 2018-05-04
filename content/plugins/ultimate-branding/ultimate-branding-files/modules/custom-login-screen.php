@@ -181,7 +181,7 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 				/**
 				 * bg_color
 				 */
-				$this->css_background_color( $v, 'bg_color', 'body' );
+				$this->css_background_color_from_data( $v, 'bg_color', 'body' );
 				/**
 				 * fullscreen_bg
 				 */
@@ -229,7 +229,7 @@ body {
 				/**
 				 * label_color
 				 */
-				$this->css_color( $v, 'label_color', '.login form label' );
+				$this->css_color_from_data( $v, 'label_color', '.login form label' );
 				/**
 				 * form_bg
 				 */
@@ -287,14 +287,14 @@ body {
 				/**
 				 * form_button_color
 				 */
-				$this->css_background_color( $v, 'form_button_color', '.login form .button' );
-				$this->css_background_color( $v, 'form_button_color_active', '.login form .button:active' );
-				$this->css_background_color( $v, 'form_button_color_focus', '.login form .button:focus' );
-				$this->css_background_color( $v, 'form_button_color_hover', '.login form .button:hover' );
+				$this->css_background_color_from_data( $v, 'form_button_color', '.login form .button' );
+				$this->css_background_color_from_data( $v, 'form_button_color_active', '.login form .button:active' );
+				$this->css_background_color_from_data( $v, 'form_button_color_focus', '.login form .button:focus' );
+				$this->css_background_color_from_data( $v, 'form_button_color_hover', '.login form .button:hover' );
 				/**
 				 * form_button_text_color
 				 */
-				$this->css_color( $v, 'form_button_text_color', '.login form .button' );
+				$this->css_color_from_data( $v, 'form_button_text_color', '.login form .button' );
 				/**
 				 * show_remember_me
 				 */
@@ -352,7 +352,7 @@ body {
 				/**
 				 * login_error_background_color
 				 */
-				$this->css_background_color( $v, 'login_error_background_color', '.login #login #login_error' );
+				$this->css_background_color_from_data( $v, 'login_error_background_color', '.login #login #login_error' );
 				/**
 				 * login_error_border_color
 				 */
@@ -366,9 +366,9 @@ body {
 				/**
 				 * login_error_text_color
 				 */
-				$this->css_color( $v, 'login_error_text_color', '.login #login #login_error' );
-				$this->css_color( $v, 'login_error_link_color', '.login #login #login_error a' );
-				$this->css_color( $v, 'login_error_link_color_hover', '.login #login #login_error a:hover' );
+				$this->css_color_from_data( $v, 'login_error_text_color', '.login #login #login_error' );
+				$this->css_color_from_data( $v, 'login_error_link_color', '.login #login #login_error a' );
+				$this->css_color_from_data( $v, 'login_error_link_color_hover', '.login #login #login_error a:hover' );
 				$this->css_opacity( $v, 'login_error_transarency', '.login #login #login_error' );
 			}
 			/**
@@ -387,19 +387,19 @@ body {
 				/**
 				 * register_and_lost_color_link
 				 */
-				$this->css_color( $v, 'register_and_lost_color_link', '.login #nav a' );
+				$this->css_color_from_data( $v, 'register_and_lost_color_link', '.login #nav a' );
 				/**
 				 * register_and_lost_color_hover
 				 */
-				$this->css_color( $v, 'register_and_lost_color_hover', '.login #nav a:hover' );
+				$this->css_color_from_data( $v, 'register_and_lost_color_hover', '.login #nav a:hover' );
 				/**
 				 * back_to_color_link
 				 */
-				$this->css_color( $v, 'back_to_color_link', '.login #backtoblog a' );
+				$this->css_color_from_data( $v, 'back_to_color_link', '.login #backtoblog a' );
 				/**
 				 * back_to_color_hover
 				 */
-				$this->css_color( $v, 'back_to_color_hover', '.login #backtoblog a:hover' );
+				$this->css_color_from_data( $v, 'back_to_color_hover', '.login #backtoblog a:hover' );
 			}
 			/**
 			 * form_canvas
@@ -567,15 +567,16 @@ body {
 							'after' => __( 'px', 'ub' ),
 						),
 						'show_remember_me' => array(
-							'type' => 'radio',
+							'type' => 'checkbox',
 							'label' => __( 'Show "Remember Me" checkbox', 'ub' ),
 							'description' => __( 'Would you like to show the "Remember Me" checkbox?', 'ub' ),
 							'options' => array(
-								'on' => __( 'Show "Remember Me" checkbox.', 'ub' ),
-								'off' => __( 'Hide "Remember Me" checkbox.', 'ub' ),
+								'on' => __( 'Show', 'ub' ),
+								'off' => __( 'Hide', 'ub' ),
 							),
 							'default' => 'on',
 							'slave-class' => 'remember-me-related',
+							'classes' => array( 'switch-button' ),
 						),
 						'check_remember_me' => array(
 							'label' => __( 'Check "Remember Me" checkbox', 'ub' ),
@@ -809,6 +810,19 @@ body {
 							),
 							'default' => 'on',
 							'classes' => array( 'switch-button' ),
+							'slave-class' => 'below-form-show-register-and-lost',
+						),
+						'register_and_lost_color_link' => array(
+							'type' => 'color',
+							'label' => __( '"Register | Lost your password?" links color', 'ub' ),
+							'default' => '#555d66',
+							'master' => 'below-form-show-register-and-lost',
+						),
+						'register_and_lost_color_hover' => array(
+							'type' => 'color',
+							'label' => __( '"Register | Lost your password?" link hover color', 'ub' ),
+							'default' => '#2ea2cc',
+							'master' => 'below-form-show-register-and-lost',
 						),
 						'show_back_to' => array(
 							'type' => 'checkbox',
@@ -820,26 +834,19 @@ body {
 							),
 							'default' => 'on',
 							'classes' => array( 'switch-button' ),
-						),
-						'register_and_lost_color_link' => array(
-							'type' => 'color',
-							'label' => __( '"Register | Lost your password?" links color', 'ub' ),
-							'default' => '#555d66',
-						),
-						'register_and_lost_color_hover' => array(
-							'type' => 'color',
-							'label' => __( '"Register | Lost your password?" link hover color', 'ub' ),
-							'default' => '#2ea2cc',
+							'slave-class' => 'below-form-show-back-to',
 						),
 						'back_to_color_link' => array(
 							'type' => 'color',
 							'label' => __( '"Back to" link color', 'ub' ),
 							'default' => '#999999',
+							'master' => 'below-form-show-back-to',
 						),
 						'back_to_color_hover' => array(
 							'type' => 'color',
 							'label' => __( '"Back to" link hover color', 'ub' ),
 							'default' => '#2ea2cc',
+							'master' => 'below-form-show-back-to',
 						),
 					),
 				),
@@ -1022,23 +1029,6 @@ body {
 			return $hex;
 		}
 
-		private function css_color( $data, $key, $selector ) {
-			if ( isset( $data[ $key ] ) && ! empty( $data[ $key ] ) ) {
-				printf( '%s{color:%s}', $selector, $data[ $key ] );
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					echo PHP_EOL;
-				}
-			}
-		}
-
-		private function css_background_color( $data, $key, $selector ) {
-			if ( isset( $data[ $key ] ) && ! empty( $data[ $key ] ) ) {
-				printf( '%s{background-color:%s}', $selector, $data[ $key ] );
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					echo PHP_EOL;
-				}
-			}
-		}
 
 		/**
 		 * Background color with transparency.

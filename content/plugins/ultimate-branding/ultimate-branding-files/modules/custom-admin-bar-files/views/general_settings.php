@@ -6,10 +6,11 @@
 <div class="postbox-container">
     <div class="meta-box-sortables not-sortable">
         <div class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div>
-            <h3 class="hndle" style='cursor:auto;'>
-                <span><?php _e( 'General Settings','ub' ); ?></span>
-            </h3>
+            <button type="button" class="handlediv button-link" aria-expanded="true">
+                <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), __( 'General Settings', 'ub' ) ); ?></span>
+                <span class="toggle-indicator" aria-hidden="true"></span>
+            </button>
+            <h3 class="hndle"><?php _e( 'General Settings','ub' ); ?></h3>
             <div class="inside">
                 <table class="form-table">
                     <tr>
@@ -37,10 +38,11 @@
 <div class="postbox-container">
     <div class="meta-box-sortables not-sortable">
         <div class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div>
-            <h3 class="hndle" style='cursor:auto;'>
-                <span><?php _e( 'Hide WordPress Menu Items','ub' ); ?></span>
-            </h3>
+            <button type="button" class="handlediv button-link" aria-expanded="true">
+                <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), __( 'Hide WordPress Menu Items', 'ub' ) ); ?></span>
+                <span class="toggle-indicator" aria-hidden="true"></span>
+            </button>
+            <h3 class="hndle"><?php _e( 'Hide WordPress Menu Items','ub' ); ?></h3>
             <div class="inside">
                 <table class="form-table">
                     <tr>
@@ -68,7 +70,10 @@
 <div class="postbox-container">
     <div class="meta-box-sortables not-sortable">
         <div class="postbox">
-            <div class="handlediv" title="Click to toggle"><br></div>
+            <button type="button" class="handlediv button-link" aria-expanded="true">
+                <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), __( 'Advance Settings', 'ub' ) ); ?></span>
+                <span class="toggle-indicator" aria-hidden="true"></span>
+            </button>
             <h3 class="hndle" style='cursor:auto;'>
                 <span><?php _e( 'Advance Settings','ub' ); ?></span>
             </h3>

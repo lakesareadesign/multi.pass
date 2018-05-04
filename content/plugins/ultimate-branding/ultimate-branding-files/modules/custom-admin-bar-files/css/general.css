@@ -83,7 +83,7 @@ li[id^="wp-admin-bar-ub_admin_bar_"]{
     }
 
     #wpadminbar li[id^="wp-admin-bar-ub_admin_bar_"] .dashicons,
-    #wpadminbar li[id^="wp-admin-bar-ub_admin_bar_"] .dashicons-before:before{
+    #wpadminbar li[id^="wp-admin-bar-ub_admin_bar_"] .dashicons-before:before{	   	 		 		 	   		
         display: block;
         text-indent: 0;
         font: normal 32px/1 'dashicons';
@@ -103,4 +103,4 @@ li[id^="wp-admin-bar-ub_admin_bar_"]{
 }
 
 
-/* 133620-1522104891-au */
+/* 133620-1525394844-au */

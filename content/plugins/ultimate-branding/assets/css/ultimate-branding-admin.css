@@ -171,6 +171,13 @@ li.link_row h4 {
 .wrap.ultimate-branding .nav-tab-wrapper {
   clear: both;
 }
+.wrap.ultimate-branding .simple-options .postbox .handlediv {
+  text-decoration: none;
+  text-align: center;
+}
+.wrap.ultimate-branding .simple-options .postbox .handlediv .toggle-indicator {
+  text-align: center;
+}
 
 .simple-option-select2 select {
   min-width: 300px;
@@ -178,4 +185,4 @@ li.link_row h4 {
 }
 
 
-/* 133620-1522104891-au */
+/* 133620-1525394844-au */

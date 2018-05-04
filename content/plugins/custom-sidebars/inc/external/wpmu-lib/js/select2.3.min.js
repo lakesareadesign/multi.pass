@@ -1,4 +1,4 @@
-/*! WPMU Dev code library - v3.0.4
+/*! WPMU Dev code library - v3.0.7
  * http://premium.wpmudev.org/
  * Copyright (c) 2018; * Licensed GPLv2+ */
 

@@ -353,3 +353,22 @@ function ub_enqueue_switch_button() {
 	);
 	wp_localize_script( 'custom-ligin-screen-jquery-switch-button', 'switch_button', $i18n );
 }
+
+/**
+ * Get main blog ID
+ *
+ * Get main blog ID and be compatible with Multinetwork installation.
+ *
+ * https://premium.wpmudev.org/forums/topic/bug-report-multinetwork-compatibility#post-1147189
+ *
+ * @since 1.9.8
+ *
+ * @return integer $mainblogid Main Blog ID
+ */
+function ub_get_main_site_ID() {
+	$mainblogid = 1;
+	if ( function_exists( 'get_main_site_for_network' ) ) {
+		$mainblogid = get_main_site_for_network();
+	}
+	return $mainblogid;
+}

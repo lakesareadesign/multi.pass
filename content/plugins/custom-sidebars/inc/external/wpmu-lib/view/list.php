@@ -48,7 +48,7 @@ $current = 'current';
 	<?php foreach ( $items as $item ) :
 		self::$core->array->equip( $item, $item_fields );
 		if ( isset( $item->action ) && is_array( $item->action ) ) {
-			$item->details = self::$core->array->get( $item->details );							 			 	 	 		  
+			$item->details = self::$core->array->get( $item->details );
 		} else {
 			$item->action = array();
 			$item->details = array();

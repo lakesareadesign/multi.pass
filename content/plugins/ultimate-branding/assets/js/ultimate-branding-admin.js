@@ -1,4 +1,4 @@
-/*! Ultimate Branding - v1.9.7
+/*! Ultimate Branding - v1.9.8.1
  * https://premium.wpmudev.org/project/ultimate-branding/
  * Copyright (c) 2018; * Licensed GPLv2+ */
 /* global window, jQuery, ace */
@@ -19,6 +19,35 @@ jQuery( window.document ).ready(function($){
             $input = $( $(this).data("input") );
         $(this).data("editor").getSession().on('change', function () {
             $input.val( $(self).data("editor").getSession().getValue()  );
+        });
+    });
+});
+
+/* global window, jQuery */
+
+/**
+ * close block
+ */
+/**
+ * Simple Options: select2
+ */
+jQuery( window.document ).ready(function($){
+    $('#UltimateBrandingAdmin-search-input').on( 'change keydown keyup blur reset copy paste cut input', function() {
+        var search = $(this).val();
+        var target = $('#the-list');
+        var re;
+        if ( '' === search ) {
+            $('tr', target ).show();
+            return;
+        }
+        re = new RegExp( search, 'i' );
+        $('td.title', target).each( function() {
+            var value = $(this).html();
+            if ( value.match( re ) ) {
+                $(this).parent().show();
+            } else {
+                $(this).parent().hide();
+            }
         });
     });
 });
@@ -455,6 +484,64 @@ jQuery( window.document ).ready(function() {
     }
 });
 
+/* global wp, window, wp_media_post_id, jQuery, ajaxurl, ace, switch_button */
+
+/**
+ * close block
+ */
+/**
+ * Simple Options: select2
+ */
+jQuery( window.document ).ready(function($){
+    function UltimateBrandingPublicFormatSite(site) {
+        if (site.loading) {
+            return site.text;
+        }
+        var markup = "<div class='select2-result-site clearfix'>";
+        markup += "<div class='select2-result-site__blogname'>" + site.blogname + "</div>";
+        markup += "<div class='select2-result-site__siteurl'>" + site.siteurl + "</div>";
+        markup += "</div>";
+        return markup;
+    }
+    function UltimateBrandingPublicFormatSiteSelection (site) {
+        return site.blog_id;
+    }
+    if (jQuery.fn.select2) {
+        $('.ub-select2').select2();
+        $('.ub-select2-ajax').select2({
+            ajax: {
+                url: ajaxurl,
+                dataType: 'json',
+                delay: 250,
+                data: function( params ) {
+                    var query = {
+                        user_id: $(this).data('user-id'),
+                        _wpnonce: $(this).data('nonce'),
+                        action: $(this).data('action'),
+                        page: params.page,
+                        q: params.term
+                    };
+                    return query;
+                },
+                processResults: function (data, params) {
+                    params.page = params.page || 1;
+                    return {
+                        results: data.data,
+                        pagination: {
+                            more: (params.page * 30) < data.total_count
+                        }
+                    };
+                },
+                cache: true
+            },
+            minimumInputLength: 1,
+            escapeMarkup: function (markup) { return markup; },
+            templateResult: UltimateBrandingPublicFormatSite,
+            templateSelection: UltimateBrandingPublicFormatSiteSelection
+        });
+    }
+});
+
 /* global window, jQuery, ajaxurl */
 
 jQuery( window.document ).ready(function($){
@@ -588,58 +675,6 @@ jQuery( window.document ).ready(function($){
             }
         });
     });
-});
-/**
- * Simple Options: select2
- */
-jQuery( window.document ).ready(function($){
-    function UltimateBrandingPublicFormatSite(site) {
-        if (site.loading) {
-            return site.text;
-        }
-        var markup = "<div class='select2-result-site clearfix'>";
-        markup += "<div class='select2-result-site__blogname'>" + site.blogname + "</div>";
-        markup += "<div class='select2-result-site__siteurl'>" + site.siteurl + "</div>";
-        markup += "</div>";
-        return markup;
-    }
-    function UltimateBrandingPublicFormatSiteSelection (site) {
-        return site.blog_id;
-    }
-    if (jQuery.fn.select2) {
-        $('.ub-select2').select2();
-        $('.ub-select2-ajax').select2({
-            ajax: {
-                url: ajaxurl,
-                dataType: 'json',
-                delay: 250,
-                data: function( params ) {
-                    var query = {
-                        user_id: $(this).data('user-id'),
-                        _wpnonce: $(this).data('nonce'),
-                        action: $(this).data('action'),
-                        page: params.page,
-                        q: params.term
-                    };
-                    return query;
-                },
-                processResults: function (data, params) {
-                    params.page = params.page || 1;
-                    return {
-                        results: data.data,
-                        pagination: {
-                            more: (params.page * 30) < data.total_count
-                        }
-                    };
-                },
-                cache: true
-            },
-            minimumInputLength: 1,
-            escapeMarkup: function (markup) { return markup; },
-            templateResult: UltimateBrandingPublicFormatSite,
-            templateSelection: UltimateBrandingPublicFormatSiteSelection
-        });
-    }
 });
 /**
  * Modules control

@@ -12,5 +12,5 @@
 </p>
 <h3><?php _e( 'Hide (Customize) Dashboard Welcome' ,'ub' ); ?></h3>
 <p>
-<?php _e( 'There are no settings for this module. It simply removes the WordPress Welcome message from a new sites dashboard.','ub' ); ?>
+<?php _e( 'There are no settings for this module. It simply remove the WordPress Welcome message from a new sites dashboard.','ub' ); ?>
 </p>

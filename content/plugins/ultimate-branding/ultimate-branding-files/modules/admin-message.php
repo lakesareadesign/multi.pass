@@ -35,9 +35,10 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  * Class UB_Admin_Message
  * Admin message sub-module
  */
-class UB_Admin_Message extends ub_helper{
+class UB_Admin_Message extends ub_helper {
 
 	protected $option_name = 'admin_message';
+	protected $deprecated_version = '2.1';
 
 	public  function __construct() {
 		parent::__construct();
@@ -75,7 +76,7 @@ class UB_Admin_Message extends ub_helper{
 		if ( $admin_message == 'empty' ) {
 			$admin_message = '';
 		}
-		ub_deprecated_module( __( 'Admin Message', 'ub' ), __( 'Admin Panel Tips', 'ub' ), 'admin-panel-tips', '2.1' );
+		ub_deprecated_module( __( 'Admin Message', 'ub' ), __( 'Admin Panel Tips', 'ub' ), 'admin-panel-tips', $this->deprecated_version );
 ?>
         <table class="form-table">
             <tr valign="top">

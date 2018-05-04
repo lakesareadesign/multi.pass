@@ -40,10 +40,10 @@
 	FLLightbox.getResizableControlClass = function()
 	{
 		var resizable = $( '.fl-lightbox-resizable' ).eq( 0 ),
-			className = 'fa fa-window-maximize';
+			className = 'far fa-window-maximize';
 
 		if ( resizable.length && resizable.hasClass( 'fl-lightbox-width-full' ) ) {
-			className = 'fa fa-window-minimize';
+			className = 'far fa-window-minimize';
 		}
 
 		return className;

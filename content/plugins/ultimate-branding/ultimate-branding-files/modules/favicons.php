@@ -167,7 +167,8 @@ if ( ! $favicon ) {
 	} else {
 		if ( $favicon_id ) {
 			if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
-				switch_to_blog( 1 );
+				$blog_id = ub_get_main_site_ID();
+				switch_to_blog( $blog_id );
 				$favicon_src = wp_get_attachment_image_src( $favicon_id, $favicon_size, $icon = false );
 				restore_current_blog();
 			} else {

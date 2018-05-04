@@ -112,6 +112,8 @@ class WP_Hummingbird_Logger {
 
 		if ( '/' === $blog->path ) {
 			return $blog->domain . '-';
+		} elseif ( defined( 'SUBDOMAIN_INSTALL' ) && ! SUBDOMAIN_INSTALL ) {
+			return $blog->domain . '-' . str_replace( '/', '', $blog->path ) . '-';
 		}
 
 		return $blog->path . '-';

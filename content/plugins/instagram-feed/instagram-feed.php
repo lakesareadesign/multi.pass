@@ -3,7 +3,7 @@
 Plugin Name: Instagram Feed
 Plugin URI: https://smashballoon.com/instagram-feed
 Description: Display beautifully clean, customizable, and responsive Instagram feeds
-Version: 1.8.2
+Version: 1.8.3
 Author: Smash Balloon
 Author URI: https://smashballoon.com/
 License: GPLv2 or later
@@ -23,7 +23,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'SBIVER', '1.8.2' );
+define( 'SBIVER', '1.8.3' );
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -79,7 +79,7 @@ function display_instagram($atts, $content = null) {
     //User ID
     $sb_instagram_user_id = trim($atts['id']);
 
-	if ( empty( $sb_instagram_user_id ) ) {
+	if ( empty( $sb_instagram_user_id ) || preg_match('([a-zA-Z])', $sb_instagram_user_id ) ) {
 		$sb_instagram_settings = get_option( 'sb_instagram_settings' );
 		$at_arr = isset( $sb_instagram_settings[ 'sb_instagram_at' ] ) ? explode( '.', trim( $sb_instagram_settings[ 'sb_instagram_at' ] ), 2) : array();
 		$sb_instagram_user_id = isset( $at_arr[0] ) ? $at_arr[0] : '';
@@ -239,8 +239,10 @@ function display_instagram($atts, $content = null) {
 	$sbiHeaderCache = $sbi_header_cache_exists;
 
 	if ( isset( $options['check_api'] ) && ( $options['check_api'] === 'on' || $options['check_api']) && ( !isset( $options['sb_instagram_cache_time'] ) || ( isset( $options['sb_instagram_cache_time'] ) && (int)$options['sb_instagram_cache_time'] > 0 ) ) ) {
-		$sbi_cache_exists = 'true';
-		$sbiHeaderCache = 'true';
+		if ( ! get_transient( '&'.$sbi_transient_name, false ) ) {
+			$sbi_cache_exists = 'true';
+			$sbiHeaderCache = 'true';
+		}
 	}
 
 	$use_backup_json = '';
@@ -372,7 +374,7 @@ function sbi_should_use_backup_cache( $token, $cache_name, $is_filtered, $always
 		return false;
 	}
 
-	if ( in_array( $token, $expired_tokens, true ) && $backup_cache_exists ) {
+	if ( in_array( sbi_maybe_clean( $token ), $expired_tokens, true ) && $backup_cache_exists ) {
 
 		if ( !strpos( $cache_name, '_header' ) ) {
 			echo '<div id="sbi_mod_error">';
@@ -438,10 +440,12 @@ function sbi_set_expired_token() {
 
 	if ( $access_token !== false ) {
 		$expired_tokens = get_option( 'sb_expired_tokens', array() );
-		$expired_tokens[] = $access_token;
 
-		update_option( 'sb_expired_tokens', $expired_tokens, false );
-		sbi_set_use_backup();
+		if (! in_array( sbi_maybe_clean( $access_token ), $expired_tokens, true ) ) {
+			$expired_tokens[] = sbi_maybe_clean( $access_token );
+		}
+
+		update_option( 'sb_expired_tokens', $expired_tokens );
 	}
 
 	die();

@@ -9,7 +9,8 @@ class FL_Filesystem {
 
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
+			$filtered = apply_filters( 'fl_filesystem_instance', null );
+			self::$_instance = $filtered instanceof FL_Filesystem ? $filtered : new self();
 		}
 		return self::$_instance;
 	}
@@ -98,7 +99,8 @@ class FL_Filesystem {
 	 * @since 2.0.6
 	 */
 	function file_exists( $path ) {
-		return file_exists( $path );
+		$wp_filesystem = $this->get_filesystem();
+		return $wp_filesystem->exists( $path );
 	}
 
 	/**
@@ -106,7 +108,8 @@ class FL_Filesystem {
 	 * @since 2.0.6
 	 */
 	function filesize( $path ) {
-		return filesize( $path );
+		$wp_filesystem = $this->get_filesystem();
+		return $wp_filesystem->size( $path );
 	}
 
 	/**

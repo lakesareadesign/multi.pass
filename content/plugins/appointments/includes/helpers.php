@@ -162,7 +162,7 @@ function appointments_get_weekly_schedule_slots( $now = false, $service_id = 0, 
 	$hour_end = apply_filters( 'app_schedule_ending_hour', $hour_end, $now, 'week' );
 
 	$step = $appointments->get_min_time() * MINUTE_IN_SECONDS; // Timestamp increase interval to one cell below
-	if ( ! appointments_use_legacy_duration_calculus() ) {
+	if( ! apply_filters( 'appointments_use_legacy_duration_end_time', false ) ){
 		$service = appointments_get_service( $service_id );
 		if ( $service ) {
 			$step = $service->duration * MINUTE_IN_SECONDS;
@@ -271,16 +271,14 @@ function appointments_get_worker_weekly_start_hours( $service_id = 0, $worker_id
 	$step = $duration = $appointments->get_min_time() * MINUTE_IN_SECONDS;
 	$worker = appointments_get_worker( $worker_id );
 	$worker_working_hours = appointments_get_worker_working_hours( 'open', $worker_id, $location_id );
-	$service = appointments_get_service( $service_id );
 
-	if ( $service ) {
-		$duration = $service->duration * MINUTE_IN_SECONDS;
+	if ( ! appointments_use_legacy_duration_calculus() ) {
+		$service = appointments_get_service( $service_id );
+		if ( $service ) {
+			$duration = $service->duration * MINUTE_IN_SECONDS;
+		}
 	}
 
-	$service = appointments_get_service( $service_id );
-	if ( $service ) {
-		$duration = $service->duration * MINUTE_IN_SECONDS;
-	}
 
 	if ( ! empty( $worker_working_hours ) && isset( $worker_working_hours->hours ) && ! empty( $worker_working_hours->hours ) ) {
 
@@ -413,24 +411,24 @@ function apppointments_is_range_busy( $start, $end, $args = array() ) {
 		}
 
 		$apps = $appointments->get_reserve_apps_by_worker( $args['location_id'], $args['worker_id'], $week );
-	}
-	else{
+	} else {
 		$apps = appointments_get_appointments( $args );
 	}
 
+	$is_busy = false;
 	if ( $apps ) {
 		foreach ( $apps as $app ) {
 			//if ( $start >= strtotime( $app->start ) && $end <= strtotime( $app->end ) ) return true;
 			$app_properties = apply_filters( 'app-properties-for-calendar', array( 'start' => $app->start, 'end' => $app->end ), $app, $args );
 
 			if ( $period->contains( $app_properties['start'], $app_properties['end'], true ) ) {
-				return true;
+				$is_busy = true;
 			}
 		}
 	}
 
 	// If we're here, no worker is set or (s)he's not busy by default. Let's go for quick filter trip.
-	$is_busy = apply_filters( 'app-is_busy', false, $period );
+	$is_busy = apply_filters( 'app-is_busy', $is_busy, $period );
 	if ( $is_busy ) {
 		return true;
 	}
@@ -923,4 +921,22 @@ function _appointments_enqueue_sweetalert() {
  */
 function _appointments_is_pro() {
 	return apply_filters( 'appointments_is_pro', is_readable( appointments_plugin_dir() . 'includes/pro/class-app-pro.php' ) );
+}
+
+function _appointments_enqueue_jquery_ui_datepicker() {
+	wp_enqueue_script( 'jquery-ui-datepicker' );
+	wp_enqueue_style( 'app-jquery-ui', appointments_plugin_url() . 'admin/css/jquery-ui/jquery-ui.min.css', array(), appointments_get_db_version() );
+
+	/**
+ * add some inline styles
+ */
+	$style = '';
+	$style .= '.ui-state-highlight a, .ui-widget-content .ui-state-highlight a, .ui-widget-header .ui-state-highlight a {background:#333;color:#fff}';
+	$style .= '.app-datepick .ui-datepicker-inline .ui-datepicker-group .ui-datepicker-calendar td { padding: 0; }';
+	wp_add_inline_style( 'app-jquery-ui', $style );
+
+	$i18n = array(
+		'weekStart' => appointments_week_start(),
+	);
+	wp_localize_script( 'jquery-ui-datepicker', 'AppointmentsDateSettings', $i18n );
 }

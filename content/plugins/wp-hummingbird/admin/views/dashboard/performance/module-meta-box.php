@@ -43,7 +43,7 @@
 					break;
 				default:
 					$impact_score_class = 'warning';
-					$impact_icon_class = 'warning-alert';
+					$impact_icon_class = 'warning-alert';	  	 	   	 		 		 		 	
 
 			}
 			?>

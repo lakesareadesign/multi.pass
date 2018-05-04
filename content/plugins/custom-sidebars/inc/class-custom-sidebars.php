@@ -88,7 +88,7 @@ class CustomSidebars {
 	 */
 	public function wp_enqueue_add_version( $version, $handle ) {
 		if ( preg_match( '/^wpmu\-cs\-/', $handle ) ) {
-			return '3.1.3';
+			return '3.1.4';
 		}
 		return $version;
 	}
@@ -465,14 +465,12 @@ class CustomSidebars {
 		if ( ! is_array( $sidebars ) ) {
 			$sidebars = array();
 		}
-
 		// Remove invalid items.
 		foreach ( $sidebars as $key => $data ) {
 			if ( ! is_array( $data ) ) {
 				unset( $sidebars[ $key ] );
 			}
 		}
-
 		return $sidebars;
 	}
 
@@ -1025,5 +1023,52 @@ class CustomSidebars {
 			return false;
 		}
 		return true;
+	}
+
+	/**
+	 * get custom taxonomies
+	 *
+	 * @since 3.1.4
+	 *
+	 * @returns array Array of object of custom, public taxonomies
+	 */
+	public static function get_custom_taxonomies( $state = 'all' ) {
+		$args = array(
+			'public'   => true,
+			'_builtin' => false,
+		);
+		$taxonomies = get_taxonomies( $args, 'objects' );
+		if ( empty( $taxonomies ) ) {
+			return array();
+		}
+		/**
+		 * if we need only allowed taxonomies, then remove not needed from
+		 * $taxonomies array
+		 */
+		if ( 'allowed' === $state ) {
+			$editor = CustomSidebarsEditor::instance();
+			$allowed = $editor->get_allowed_custom_taxonmies();
+			if ( empty( $allowed ) ) {
+				return array();
+			}
+			foreach ( $taxonomies as $slug => $taxonomy ) {
+				if ( in_array( $slug, $allowed ) ) {
+					continue;
+				}
+				unset( $taxonomies[ $slug ] );
+			}
+		}
+
+		uasort( $taxonomies, array( __CLASS__, 'sort_by_label' ) );
+		return $taxonomies;
+	}
+
+	/**
+	 * Sort helper for get_custom_taxonomies() function.
+	 *
+	 * @since 3.1.4
+	 */
+	private static function sort_by_label( $a, $b ) {
+		return strcmp( $a->label, $b->label );
 	}
 };

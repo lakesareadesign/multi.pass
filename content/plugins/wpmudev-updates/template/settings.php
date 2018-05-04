@@ -155,7 +155,7 @@ if ( WPMUDEV_LIMIT_TO_USER ) {
 				<span class="list-label">
 				<?php
 				if ( $can_manage_users ) {
-					_e( 'Control which administrators (manage_options enabled) can access/see the WPMU DEV Dashboard plugin and announcements. Note: ONLY these users will see announcements.', 'wpmudev' );	     	 	  		 	 		
+					_e( 'Control which administrators (manage_options enabled) can access/see the WPMU DEV Dashboard plugin and announcements. Note: ONLY these users will see announcements.', 'wpmudev' );
 				} else {
 					_e( 'The following admin users can access/see the WPMU DEV Dashboard plugin and announcements. Note: ONLY these users will see announcements.', 'wpmudev' );
 				}

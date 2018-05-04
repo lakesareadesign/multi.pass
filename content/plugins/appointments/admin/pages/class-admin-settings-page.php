@@ -75,7 +75,7 @@ class Appointments_Admin_Settings_Page {
 			$content = '<ul class="subsubsub">';
 			$links = array();
 			foreach ( $sections[ $tab ] as $section_stub => $label ) {
-				$links[] = '<li><a href="#section-' . esc_attr( $section_stub ) . '" data-section="section-' . esc_attr( $section_stub ) . '">' . esc_html( $label ) . '</a></li>';		   		 	  		  	 	 	
+				$links[] = '<li><a href="#section-' . esc_attr( $section_stub ) . '" data-section="section-' . esc_attr( $section_stub ) . '" class="'.esc_attr( $tab.'-'.$section_stub ).'">' . esc_html( $label ) . '</a></li>';
 			}
 			$content .= implode( ' | ', $links );
 			$content .= '</ul>';
@@ -96,6 +96,12 @@ class Appointments_Admin_Settings_Page {
 				'presets' => $presets,
 				'messages' => array(
 					'select_service_provider' => __( 'Please, select at least one service provided', 'appointments' ),
+					'workers' => array(
+						'delete_confirmation' => __( 'Are you sure to delete this Service Provider?', 'appointments' ),
+					),
+					'services' => array(
+						'delete_confirmation' => __( 'Are you sure to delete this Service?', 'appointments' ),
+					),
 				),
 			));
 			return $content;

@@ -72,8 +72,7 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 		// Make sure we have an API token.
 		if ( ! isset( $fields['api_key'] ) ) {
 			$response['error'] = __( 'Error: You must provide an API token.', 'fl-builder' );
-		} // End if().
-		else {
+		} else {
 
 			$api = $this->get_api( $fields['api_key'] );
 			$api->setPath( 'groups' );
@@ -233,12 +232,12 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 			// Add new
 			$api->setPath( 'groups/' . $settings->list_id . '/subscribers' );
 			$api->add( $data );
-			$response = $api->getResponseInfo();
+			$result = $api->getResponseInfo();
 
-			if ( 200 !== $response['http_code'] ) {
-				$response['error'] = sprintf( __( 'There was an error subscribing to MailerLite. Code: %s', 'fl-builder' ), $response['http_code'] );
+			if ( 200 !== $result['http_code'] ) {
+				$response['error'] = sprintf( __( 'There was an error subscribing to MailerLite. Code: %s', 'fl-builder' ), $result['http_code'] );
 			}
-		}// End if().
+		}
 
 		return $response;
 	}

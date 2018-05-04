@@ -3,7 +3,7 @@
 Class Name: Simple Options
 Class URI: http://iworks.pl/
 Description: Simple option class to manage options.
-Version: 1.0.6
+Version: 1.0.7
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GPLv2 or later
@@ -26,6 +26,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 == CHANGELOG ==
+
+= 1.0.7 =
+- Handle multiple value for select.
 
 = 1.0.6 =
 - Added sortable option.
@@ -406,19 +409,32 @@ if ( ! class_exists( 'simple_options' ) ) {
 						 */
 						case 'select':
 						case 'select2':
-							if ( isset( $options['multiple'] ) && $options['multiple'] ) {
+							if ( isset( $data['multiple'] ) && $data['multiple'] ) {
 								$extra[] = 'multiple="multiple"';
 							}
 							if ( 'select2' == $data['type'] ) {
-								$data['classes'][] = 'ub-select2-ajax';
+								if ( ! isset( $this->loaded['select2'] ) ) {
+									$this->loaded['select2'] = true;
+									$version = '4.0.5';
+									$file = ub_url( 'external/select2/select2.min.js' );
+									wp_enqueue_script( 'select2', $file, array( 'jquery' ), $version, true );
+									$file = ub_url( 'external/select2/select2.min.css' );
+									wp_enqueue_style( 'select2', $file, array(), $version );
+								}
 							}
 							$select_options = '';
 							if ( isset( $data['options'] ) && is_array( $data['options'] ) ) {
 								foreach ( $data['options'] as $option_value => $option_label ) {
+									$selected = false;
+									if ( is_array( $value ) ) {
+										$selected = in_array( $option_value, $value );
+									} elseif ( $value === $option_value ) {
+										$selected = true;
+									}
 									$select_options .= sprintf(
 										'<option value="%s" %s>%s</option>',
 										esc_attr( $option_value ),
-										selected( $value, $option_value, false ),
+										selected( $selected, true, false ),
 										esc_html( $option_label )
 									);
 								}
@@ -534,7 +550,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 						$content .= sprintf( '<p class="description">%s</p>', $data['description'] );
 					}
 					if ( isset( $data['default'] ) ) {
-						$show = true;
+						$show = true && ! is_array( $data['default'] );
 						if ( isset( $data['default_hide'] ) && $data['default_hide'] ) {
 							$show = false;
 						}

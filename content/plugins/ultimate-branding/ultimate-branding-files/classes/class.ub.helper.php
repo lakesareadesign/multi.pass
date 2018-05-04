@@ -26,6 +26,7 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		protected $url;
 		protected $build;
 		protected $tab_name;
+		protected $deprecated_version = false;
 
 		/**
 		 * Module name
@@ -39,6 +40,25 @@ if ( ! class_exists( 'ub_helper' ) ) {
 				global $ub_version;
 				$this->build = $ub_version;
 			}
+			/**
+			 * Check is deprecated?
+			 */
+			if (
+				! empty( $this->deprecated_version )
+				&& false === $this->deprecated_version
+				/**
+				 * avoid to compare with development version
+				 */
+				&& ! preg_match( '/^PLUGIN_VER/', $this->build )
+			) {
+				$compare = version_compare( $this->deprecated_version, $this->build );
+				if ( 1 > $compare ) {
+					return;
+				}
+			}
+			/**
+			 * admin
+			 */
 			if ( is_admin() ) {
 				global $uba;
 				$params = array(
@@ -332,7 +352,7 @@ if ( ! class_exists( 'ub_helper' ) ) {
 				'twitter'     => array( 'label' => __( 'Twitter', 'ub' ) ),
 				'vimeo'       => array( 'label' => __( 'Vimeo', 'ub' ) ),
 				'whatsapp'    => array( 'label' => __( 'Whatsapp', 'ub' ) ),
-				'wordpress'   => array( 'label' => __( 'Wordpress', 'ub' ) ),
+				'wordpress'   => array( 'label' => __( 'WordPress', 'ub' ) ),
 				'xanga'       => array( 'label' => __( 'Xanga', 'ub' ) ),
 				'youtube'     => array( 'label' => __( 'Youtube', 'ub' ) ),
 			);
@@ -376,6 +396,45 @@ if ( ! class_exists( 'ub_helper' ) ) {
 				'outset' => __( '3D outset border. The effect depends on the border-color value', 'ub' ),
 			);
 			return $options;
+		}
+
+		protected function css_background_color( $color ) {
+			if ( empty( $color ) ) {
+				$color = 'transparent';
+			}
+			return sprintf( 'background-color:%s;', $color );
+		}
+
+		protected function css_color( $color ) {
+			if ( empty( $color ) ) {
+				$color = 'inherit';
+			}
+			return sprintf( 'color:%s;', $color );
+		}
+
+		protected function css_width( $width ) {
+			if ( empty( $width ) ) {
+				return '';
+			}
+			return sprintf( 'width:%spx;', $width );
+		}
+
+		protected function css_color_from_data( $data, $key, $selector ) {
+			if ( isset( $data[ $key ] ) && ! empty( $data[ $key ] ) ) {
+				printf( '%s{color:%s}', $selector, $data[ $key ] );
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					echo PHP_EOL;
+				}
+			}
+		}
+
+		protected function css_background_color_from_data( $data, $key, $selector ) {
+			if ( isset( $data[ $key ] ) && ! empty( $data[ $key ] ) ) {
+				printf( '%s{background-color:%s}', $selector, $data[ $key ] );
+				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+					echo PHP_EOL;
+				}
+			}
 		}
 	}
 }

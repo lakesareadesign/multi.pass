@@ -1,9 +1,9 @@
 <?php
 /*
 Plugin Name: Appointments+
-Description: Lets you accept appointments from front end and manage or create them from admin side
+Description: Lets you accept appointments from front end and manage or create them from admin side.
 Plugin URI: http://premium.wpmudev.org/project/appointments-plus/
-Version: 2.2.5
+Version: 2.2.6
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
 Textdomain: appointments
@@ -11,28 +11,29 @@ WDP ID: 679841
 */
 
 /*
-Copyright 2007-2013 Incsub (http://incsub.com)
+Copyright 2007-2018 Incsub (http://incsub.com)
 Author - Hakan Evin <hakan@incsub.com>
 Contributor - Ve Bailovity (Incsub)
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
+Contributor - Marcin Pietrzak (Incsub)
 
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
+This program is free software; you can redistribute it and/or modify it under
+the terms of the GNU General Public License (Version 2 - GPLv2) as published
+by the Free Software Foundation.
 
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+This program is distributed in the hope that it will be useful, but WITHOUT
+ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License along with
+this program; if not, write to the Free Software Foundation, Inc., 59 Temple
+Place, Suite 330, Boston, MA  02111-1307  USA
 */
 
 if ( ! class_exists( 'Appointments' ) ) {
 
 	class Appointments {
 
-		public $version = '2.2.5';
+		public $version = '2.2.6';
 		public $db_version;
 
 		public $timetables = array();
@@ -655,15 +656,24 @@ if ( ! class_exists( 'Appointments' ) ) {
 	 * @return array
 	 */
 		function weekdays() {
-			return array(
-			__( 'Sunday', 'appointments' ) => 'Sunday',
-			__( 'Monday', 'appointments' ) => 'Monday',
-			__( 'Tuesday', 'appointments' ) => 'Tuesday',
-			__( 'Wednesday', 'appointments' ) => 'Wednesday',
-			__( 'Thursday', 'appointments' ) => 'Thursday',
-			__( 'Friday', 'appointments' ) => 'Friday',
-			__( 'Saturday', 'appointments' ) => 'Saturday',
+			$days = array(
+				__( 'Sunday', 'appointments' ) => 'Sunday',
+				__( 'Monday', 'appointments' ) => 'Monday',
+				__( 'Tuesday', 'appointments' ) => 'Tuesday',
+				__( 'Wednesday', 'appointments' ) => 'Wednesday',
+				__( 'Thursday', 'appointments' ) => 'Thursday',
+				__( 'Friday', 'appointments' ) => 'Friday',
+				__( 'Saturday', 'appointments' ) => 'Saturday',
 			);
+			/**
+			 * Set first week day from WP settings
+			 */
+			$shift = intval( get_option( 'start_of_week' ) );
+			if ( 0 < $shift ) {
+				$a = array_splice( $days, 0, $shift );
+				$days += $a;
+			}
+			return $days;
 		}
 
 		/**
@@ -1954,9 +1964,9 @@ if ( ! class_exists( 'Appointments' ) ) {
 				return;
 			}
 
-			$this->remove_appointments();
-
 			update_option( 'app_last_update', time() );
+
+			$this->remove_appointments();
 
 		}
 
@@ -2068,8 +2078,6 @@ if ( ! class_exists( 'Appointments' ) ) {
 					}
 				}
 			}
-
-			update_option( 'app_last_update', time() );
 
 			// Appointment status probably changed, so clear cache.
 			// Anyway it is good to clear the cache in certain intervals.

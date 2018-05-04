@@ -1,5 +1,24 @@
 * Speed up DNS A record detection on network settings and allow disabling it via DM_SKIP_DNS_CHECK define
 
+== 4.4.3 ==
+* Fixed: WordPress Rest URL
+* Fixed: Force admin https URL Redirect loop
+* Fixed: Multiple Mapped domains not mapping frontend links correctly.
+* Fixed: Login issues.
+* Fixed: Prevent admin_url from being relative to fix AJAX issues with some plugins.
+* Fixed: Upfront compatibility issues with not loading editor on original domain.
+* Fixed: Forcing SSL on root domain not working.
+* Fixed: Warning on DNS Configuration when multiple IP addresses are used.
+* Fixed: The plugins_url was being replaced by the mapped url, breaking site assets for some users.
+* Fixed: Force SSL settings not displaying the correct value.
+* Fixed: Multiple mapped domains without primary domain used the last mapped domain.
+* Fixed: Prevent incorrect cookies disabled warning when trying to login.
+* Fixed: Resolve conflict with Upfront Editor and Builder.
+* Fixed: Jetpack compatibility.
+* Fixed: Unexpected behavior for main site.
+* Fixed: Subsites display incorrect URL.
+* Fixed: Simplify Excluded pages instructions if user cannot change SSL per permissions.
+
 == 4.4.2.5 ==
 * Removed: Support for WHMCS
 * Added: Notification to Network admin about WHMCS
@@ -247,4 +266,4 @@ development
 * Improved MultiDB compatibility by registering domain mapping tables as global
 
 
-133620-1495482838-au
+133620-1525394796-au

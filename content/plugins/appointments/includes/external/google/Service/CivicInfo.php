@@ -272,7 +272,7 @@ class Google_Service_CivicInfo_Representatives_Resource extends Google_Service_R
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('representativeInfoByAddress', array($params), "Google_Service_CivicInfo_RepresentativeInfoResponse");
+    return $this->call('representativeInfoByAddress', array($params), "Google_Service_CivicInfo_RepresentativeInfoResponse");		   		 	  		  	 	 	
   }
 
   /**

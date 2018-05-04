@@ -28,7 +28,14 @@
 
 class ub_Login_Image {
 
+	private $deprecated_version = '2.1';
+
 	function __construct() {
+		global $ub_version;
+		$compare = version_compare( $this->deprecated_version, $ub_version );
+		if ( 1 > $compare ) {
+			return;
+		}
 		/**
 		 * Admin interface
 		 */
@@ -76,7 +83,8 @@ class ub_Login_Image {
 		} else {
 			if ( $login_image_id ) {
 				if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
-					switch_to_blog( 1 );
+					$blog_id = ub_get_main_site_ID();
+					switch_to_blog( $blog_id );
 					$login_image_src = wp_get_attachment_image_src( $login_image_id, $login_image_size, $icon = false );
 					restore_current_blog();
 				} else {
@@ -186,7 +194,7 @@ class ub_Login_Image {
         <div class='wrap nosubsub'>
             <h2><?php _e( 'Login Image', 'ub' ) ?></h2>
             <!--<form name="login_image_form" id="login_image_form" method="post">-->
-<?php ub_deprecated_module( __( 'Login Image', 'ub' ), __( 'Login Screen', 'ub' ), 'login-screen', '2.1' ); ?>
+<?php ub_deprecated_module( __( 'Login Image', 'ub' ), __( 'Login Screen', 'ub' ), 'login-screen', $this->deprecated_version ); ?>
             <div class="postbox">
                 <div class="inside">
                     <p class='description'><?php _e( 'This is the image that is displayed on the login page (wp-login.php) - ', 'ub' ); ?>
@@ -214,7 +222,8 @@ if ( isset( $login_image_old ) && trim( $login_image_old ) !== '' ) {
 } elseif ( ! $login_image ) {
 	if ( $login_image_id ) {
 		if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
-			switch_to_blog( 1 );
+			$blog_id = ub_get_main_site_ID();
+			switch_to_blog( $blog_id );
 			$login_image_src = wp_get_attachment_image_src( $login_image_id, $login_image_size, $icon = false );
 			restore_current_blog();
 		} else {
