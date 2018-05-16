@@ -1,17 +1,44 @@
-<h4>2.1.1 - 05/02/2018</h4>
+<h4>2.1.1.3 - 05/10/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Make sure Font Awesome 5 icons are enqueued when builder is open.</li>
+	<li>Disable Hummingbird cache minification while editing.</li>
+	<li>Fix editing issues introduced in WP 4.9.6.</li>
+	<li>Fixed a PHP notice in Subscribe Module.</li>
+</ul>
+
+<h4>2.1.1.2 - 05/07/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Added <code>fl_code_checking_enabled</code> filter to disable all code checking.</li>
+	<li>Added <code>fl_builder_get_layout_metadata</code> filter for filtering layout data when it comes out of the database.</li>
+	<li>Disabled notifications in restricted editing mode.</li>
+	<li>Updated Font Awesome to 5.0.12.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed characters being encoded in text inputs when using inline editing.</li>
+	<li>Fixed invalid code errors preventing saving of code fields.</li>
+	<li>Fixed a fatal error with corrupted global rows.</li>
+</ul>
+
+<h4>2.1.1.1 - 05/02/2018</h4>
 <p><strong>Enhancements</strong></p>
 <ul>
 	<li>Font Awesome PRO support added! See <code>https://kb.wpbeaverbuilder.com/article/645-font-awesome-5-icons</code> for instructions.</li>
+</ul>
+
+<h4>2.1.1 - 05/02/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
 	<li>New filter <code>fl_inline_editing_enabled</code> to disable inline editing.</li>
 	<li>Removed obsolete Event Espresso code now covered by their official addon found at <code>https://github.com/eventespresso/eea-beaver-builder</code></li>
 </ul>
-
 <p><strong>Bug Fixes</strong></p>
 <ul>
 	<li>Fixed JS error when canceling out of a settings form during responsive preview.</li>
 	<li>Fixed various icon issues and added a compatibility function to make sure css files are loaded in right order.</li>
 </ul>
-
 
 <h4>2.1.0.2 - 04/27/2018</h4>
 <p><strong>Hot Fix</strong></p>
@@ -199,7 +226,6 @@
   <li>Fixed links not being clickable in modules that use bxslider with Firefox 59.</li>
   <li>Fixed incorrect links in Social Buttons Module when added in Themer.</li>
 	<li>Added <code>$id</code> and <code>$type</code> to <code>fl_builder_render_module_css_settings</code> filter variables.</li>
->>>>>>> master
 </ul>
 
 <h4>2.0.6.2 - 03/13/2018</h4>
@@ -358,7 +384,7 @@
 	<li>Fixed bug with layout settings getting encoded when the modsec fix is enabled.</li>
 	<li>Fixed Posts module - Columns layout broken when using load more pagination.</li>
 	<li>Fixed Subscribe Module - Issues when same forms loaded on a page.</li>
-	<li>Fixed issue with <code><textarea></code> HTML being stripped when settings are saved.</li>
+	<li>Fixed issue with <code>textarea</code> HTML being stripped when settings are saved.</li>
 	<li>Fixed issue with column widths on mobile when reverse stacking is enabled.</li>
 	<li>Fixed issue when pasting color into a colorpicker field.</li>
 	<li>Fixed a conflict with Fancybox3.</li>

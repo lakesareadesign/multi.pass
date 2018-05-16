@@ -432,3 +432,14 @@ function fl_builder_fa_fix() {
 	}
 }
 add_action( 'wp_enqueue_scripts', 'fl_builder_fa_fix', 11 );
+
+/**
+ * Turn off Hummingbird minification
+ * @since 2.1
+ */
+add_action( 'template_redirect', 'fl_fix_hummingbird' );
+function fl_fix_hummingbird() {
+	if ( FLBuilderModel::is_builder_active() ) {
+		add_filter( 'wp_hummingbird_is_active_module_minify', '__return_false', 500 );
+	}
+}

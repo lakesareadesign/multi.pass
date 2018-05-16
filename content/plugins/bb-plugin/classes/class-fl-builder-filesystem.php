@@ -134,6 +134,14 @@ class FL_Filesystem {
 			remove_filter( 'request_filesystem_credentials', array( $this, 'FLBuilderUtils::request_filesystem_credentials' ) );
 		}
 
+		// Set the permission constants if not already set.
+		if ( ! defined( 'FS_CHMOD_DIR' ) ) {
+			define( 'FS_CHMOD_DIR', 0755 );
+		}
+		if ( ! defined( 'FS_CHMOD_FILE' ) ) {
+			define( 'FS_CHMOD_FILE', 0644 );
+		}
+
 		return $wp_filesystem;
 	}
 

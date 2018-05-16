@@ -66,8 +66,6 @@
     padding: 0 3px; }
   .fl-inline-editor .mce-btn-group:not(:first-child) {
     border-color: rgba(255, 255, 255, 0.3); }
-  .fl-inline-editor .mce-toolbar .mce-btn-group .mce-btn {
-    margin: 4px 2px; }
   .fl-inline-editor .mce-toolbar .mce-btn-group .mce-btn:focus,
   .fl-inline-editor .mce-toolbar .mce-btn-group .mce-btn:hover,
   .fl-inline-editor .mce-toolbar .mce-btn-group .mce-btn:active,

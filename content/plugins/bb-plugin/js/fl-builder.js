@@ -6813,13 +6813,23 @@
 				var hasError = false;
 
 				for ( var i = 0; i < annot.length; i++ ) {
-					if ( 'error' === annot[ i ].type && 'Unexpected End of file. Expected DOCTYPE.' !== annot[ i ].text ) {
+					if ( annot[ i ].text.indexOf( 'DOCTYPE' ) > -1 ) {
+						continue;
+					}
+					if ( annot[ i ].text.indexOf( 'Named entity expected' ) > -1 ) {
+						continue;
+					}
+					if ( annot[ i ].text.indexOf( '@supports' ) > -1 ) {
+						continue;
+					}
+
+					if ( 'error' === annot[ i ].type ) {
 						hasError = true;
 						break;
 					}
 				}
 
-				if ( hasError && ! errorBtn.length ) {
+				if ( hasError && ! errorBtn.length && FLBuilderConfig.CheckCodeErrors ) {
 					saveBtn.addClass( 'fl-builder-settings-error' );
 					saveBtn.on( 'click', FLBuilder._showCodeFieldError );
 				} else if ( ! hasError && errorBtn.length ) {

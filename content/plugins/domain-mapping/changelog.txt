@@ -1,5 +1,9 @@
 * Speed up DNS A record detection on network settings and allow disabling it via DM_SKIP_DNS_CHECK define
 
+== 4.4.3.1 ==
+* Fixed: Prevent mapping defaulting to original when redirection has not yet
+been set.
+
 == 4.4.3 ==
 * Fixed: WordPress Rest URL
 * Fixed: Force admin https URL Redirect loop
@@ -266,4 +270,4 @@ development
 * Improved MultiDB compatibility by registering domain mapping tables as global
 
 
-133620-1525394796-au
+133620-1526433934-au

@@ -3,7 +3,7 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorho
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation, form administration,
 Requires at least: 4.7
 Tested up to: 4.9
-Stable tag: 3.2.24
+Stable tag: 3.2.27
 License: GPLv2 or later
 
 Drag and drop fields in an intuitive UI to create contact forms, email subscription forms, order forms, payment forms, send emails and more!
@@ -111,20 +111,39 @@ For help and video tutorials, please visit our website: [Ninja Forms Documentati
 
 == Upgrade Notice ==
 
-= 3.2.24 (30 April 2018) =
+= 3.2.27 (11 May 2018) =
 
 *Bugs:*
 
-* Resolved an issue that was causing an error in the console while using Safari.
-* Fixed a bug that sometimes caused fields to not display properly when their labels contained non-ASCII characters.
-* Resolved an issue that caused an error message to appear in the dashboard on older PHP versions.
-* Hidden fields should no longer be hidden in the form builder.
-
-*Changes:*
-
-* New form templates are here!
+* Resolved an issue that sometimes caused collect payment actions to fail.
+* Date fields should now properly recognize date format for validation purposes.
+* Resolved an issue that was sometimes causing date fields to always fail validation.
+* Removed the random error text that sometimes appeared on form export.
+* Resolved an issue that sometimes caused the contents of plain text emails to not display properly in the form builder.
+* Date fields should no longer fail validation if their format is set to the default setting.
 
 == Changelog ==
+
+= 3.2.27 (11 May 2018) =
+
+*Bugs:*
+
+* Date fields should no longer fail validation if their format is set to the default setting.
+
+= 3.2.26 (10 May 2018) =
+
+*Bugs:*
+
+* Resolved an issue that was sometimes causing date fields to always fail validation.
+
+= 3.2.25 (8 May 2018) =
+
+*Bugs:*
+
+* Date fields should now properly recognize date format for validation purposes.
+* Resolved an issue that sometimes caused collect payment actions to fail.
+* Removed the random error text that sometimes appeared on form export.
+* Resolved an issue that sometimes caused the contents of plain text emails to not display properly in the form builder.
 
 = 3.2.24 (30 April 2018) =
 

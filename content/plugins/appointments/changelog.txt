@@ -1,3 +1,12 @@
+2018-05-07 - 2.2.7
+-------------------------------
+- Added check for service name it can be empty.
+- Changed default appointments sorting to "Appointment Date".
+- Fixed an export problem for additional fields with HTML entities in a name.
+- Fixed an export problem for the date range.
+- Fixed an integration problem with MarketPress plugin.
+- Fixed a problem with booking, when the site is on HTTP but admin force HTTPS usage.
+
 2018-04-24 - 2.2.6
 -------------------------------
 - Added ability to delete "Service".
@@ -888,4 +897,4 @@ V1.0.0:
 - Initial release
 
 
-133620-1525394779-au
+133620-1526433918-au

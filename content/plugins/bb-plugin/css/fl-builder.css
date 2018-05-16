@@ -666,8 +666,8 @@ body .fl-theme-builder-preview-select-item-child:hover {
 	color: #fff !important;
 	text-decoration: none;
 }
-.fl-builder-buy-button i.fa-external-link-square,
-.fl-builder-upgrade-button i.fa-external-link-square {
+.fl-builder-buy-button i.fa-external-link-alt,
+.fl-builder-upgrade-button i.fa-external-link-alt {
 	color: #FFC733;
 	margin: 0 0 0 6px;
 }

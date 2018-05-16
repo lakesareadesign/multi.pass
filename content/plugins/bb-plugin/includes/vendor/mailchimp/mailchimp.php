@@ -541,8 +541,11 @@ class MailChimp
 				'FNAME'        => ! empty( $data[ 'FNAME' ] ) ? $data[ 'FNAME' ] : '',
 	            'LNAME'        => ! empty( $data[ 'LNAME' ] ) ? $data[ 'LNAME' ] : ''
 			),
-			'interests'     => (object) $data[ 'groups' ]
 		);
+
+		if ( isset( $data[ 'groups' ] ) ) {
+			$args[ 'interests' ] = (object) $data[ 'groups' ];
+		}
 
 		$email_hash = $this->subscriberHash( $data[ 'email' ] );
 		$results = $this->put( 'lists/' . $list_id . '/members/' . $email_hash, $args );

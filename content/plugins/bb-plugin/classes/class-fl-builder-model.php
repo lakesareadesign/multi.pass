@@ -1282,16 +1282,25 @@ final class FLBuilderModel {
 
 		// Get the node settings for a node template's root node?
 		if ( self::is_node_template_root( $node ) && ! self::is_post_node_template() ) {
-			$template_post_id 	= self::get_node_template_post_id( $node->template_id );
-			$template_data 		= self::get_layout_data( 'published', $template_post_id );
-			$template_node		= $template_data[ $node->template_node_id ];
-			$template_settings  = clone $template_node->settings;
+			$template_post_id = self::get_node_template_post_id( $node->template_id );
+			$template_data = self::get_layout_data( 'published', $template_post_id );
 
-			if ( 'column' == $node->type ) {
-				$template_settings->size = $node->settings->size;
+			// Fallback to draft data if we don't have published data.
+			if ( ! isset( $template_data[ $node->template_node_id ] ) ) {
+				$template_data = self::get_layout_data( 'draft', $template_post_id );
 			}
 
-			$node->settings = $template_settings;
+			// Set the node settings to the template node settings.
+			if ( isset( $template_data[ $node->template_node_id ] ) ) {
+				$template_node = $template_data[ $node->template_node_id ];
+				$template_settings = clone $template_node->settings;
+
+				if ( 'column' == $node->type ) {
+					$template_settings->size = $node->settings->size;
+				}
+
+				$node->settings = $template_settings;
+			}
 		}
 
 		// Get either the preview settings or saved node settings merged with the defaults.
@@ -4052,14 +4061,16 @@ final class FLBuilderModel {
 				$data = self::$published_layout_data[ $post_id ];
 			} else {
 				$data = get_metadata( 'post', $post_id, '_fl_builder_data', true );
-				self::$published_layout_data[ $post_id ] = self::clean_layout_data( $data );
+				$data = self::clean_layout_data( $data );
+				self::$published_layout_data[ $post_id ] = apply_filters( 'fl_builder_get_layout_metadata', $data, $status, $post_id );
 			}
 		} elseif ( 'draft' == $status ) {
 			if ( isset( self::$draft_layout_data[ $post_id ] ) ) {
 				$data = self::$draft_layout_data[ $post_id ];
 			} else {
 				$data = get_metadata( 'post', $post_id, '_fl_builder_draft', true );
-				self::$draft_layout_data[ $post_id ] = self::clean_layout_data( $data );
+				$data = self::clean_layout_data( $data );
+				self::$draft_layout_data[ $post_id ] = apply_filters( 'fl_builder_get_layout_metadata', $data, $status, $post_id );
 			}
 		}
 
@@ -5958,6 +5969,16 @@ final class FLBuilderModel {
 	 */
 	static public function is_inline_enabled() {
 		return apply_filters( 'fl_inline_editing_enabled', true );
+	}
+
+	/**
+	 * Returns whether the Ace Editor error checking is enabled.
+	 *
+	 * @since 2.1
+	 * @return bool
+	 */
+	static public function is_codechecking_enabled() {
+		return apply_filters( 'fl_code_checking_enabled', true );
 	}
 
 	/**
