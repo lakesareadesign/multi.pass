@@ -1344,4 +1344,25 @@ final class FLTheme {
 		$columns = self::get_setting( 'fl-woo-columns' );
 		return $columns; // Products per row
 	}
+
+	/**
+	 * Filter comment form fields.
+	 * @since 1.6.6
+	 */
+	static public function comment_form_default_fields( $fields ) {
+
+		$commenter = wp_get_current_commenter();
+		$req       = get_option( 'require_name_email' );
+
+		$fields['author'] = '<label for="author">' . _x( 'Name', 'Comment form label: comment author name.', 'fl-automator' ) . ( $req ? __( ' (required)', 'fl-automator' ) : '' ) . '</label>
+									<input type="text" name="author" class="form-control" value="' . esc_attr( $commenter['comment_author'] ) . '" tabindex="1"' . ( $req ? ' aria-required="true"' : '' ) . ' /><br />';
+
+		$fields['email']  = '<label for="email">' . _x( 'Email (will not be published)', 'Comment form label: comment author email.', 'fl-automator' ) . ( $req ? __( ' (required)', 'fl-automator' ) : '' ) . '</label>
+									<input type="text" name="email" class="form-control" value="' . esc_attr( $commenter['comment_author_email'] ) . '" tabindex="2"' . ( $req ? ' aria-required="true"' : '' ) . ' /><br />';
+
+		$fields['url']    = '<label for="url">' . _x( 'Website', 'Comment form label: comment author website.', 'fl-automator' ) . '</label>
+									<input type="text" name="url" class="form-control" value="' . esc_attr( $commenter['comment_author_url'] ) . '" tabindex="3" /><br />';
+
+		return $fields;
+	}
 }

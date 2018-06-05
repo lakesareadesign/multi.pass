@@ -72,17 +72,7 @@ if ( post_password_required() ) {
 
 		'logged_in_as'          => '<p>' . sprintf( __( 'Logged in as %s.', 'fl-automator' ), '<a href="' . esc_url( home_url( '/wp-admin/profile.php' ) ) . '">' . $user_identity . '</a>' ) . ' <a href="' . wp_logout_url( get_permalink() ) . '" title="' . __( 'Log out of this account', 'fl-automator' ) . '">' . __( 'Log out &raquo;', 'fl-automator' ) . '</a></p>',
 
-		'fields'                => apply_filters( 'comment_form_default_fields', array(
 
-			'author'                 => '<label for="author">' . _x( 'Name', 'Comment form label: comment author name.', 'fl-automator' ) . ( $req ? __( ' (required)', 'fl-automator' ) : '' ) . '</label>
-										<input type="text" name="author" class="form-control" value="' . $comment_author . '" tabindex="1"' . ( $req ? ' aria-required="true"' : '' ) . ' /><br />',
-
-			'email'                  => '<label for="email">' . _x( 'Email (will not be published)', 'Comment form label: comment author email.', 'fl-automator' ) . ( $req ? __( ' (required)', 'fl-automator' ) : '' ) . '</label>
-										<input type="text" name="email" class="form-control" value="' . $comment_author_email . '" tabindex="2"' . ( $req ? ' aria-required="true"' : '' ) . ' /><br />',
-
-			'url'                    => '<label for="url">' . _x( 'Website', 'Comment form label: comment author website.', 'fl-automator' ) . '</label>
-										<input type="text" name="url" class="form-control" value="' . $comment_author_url . '" tabindex="3" /><br />',
-		) ),
 	) );
 
 	?>

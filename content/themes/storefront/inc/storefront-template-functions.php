@@ -186,7 +186,7 @@ if ( ! function_exists( 'storefront_site_title_or_logo' ) ) {
 	function storefront_site_title_or_logo( $echo = true ) {
 		if ( function_exists( 'the_custom_logo' ) && has_custom_logo() ) {
 			$logo = get_custom_logo();
-			$html = is_front_page() ? '<h1 class="logo">' . $logo . '</h1>' : $logo;
+			$html = is_home() ? '<h1 class="logo">' . $logo . '</h1>' : $logo;
 		} elseif ( function_exists( 'jetpack_has_site_logo' ) && jetpack_has_site_logo() ) {
 			// Copied from jetpack_the_site_logo() function.
 			$logo    = site_logo()->logo;
@@ -209,7 +209,7 @@ if ( ! function_exists( 'storefront_site_title_or_logo' ) ) {
 
 			$html = apply_filters( 'jetpack_the_site_logo', $html, $logo, $size );
 		} else {
-			$tag = is_front_page() ? 'h1' : 'div';
+			$tag = is_home() ? 'h1' : 'div';
 
 			$html = '<' . esc_attr( $tag ) . ' class="beta site-title"><a href="' . esc_url( home_url( '/' ) ) . '" rel="home">' . esc_html( get_bloginfo( 'name' ) ) . '</a></' . esc_attr( $tag ) .'>';
 
@@ -610,12 +610,16 @@ if ( ! function_exists( 'storefront_recent_products' ) ) {
 		if ( storefront_is_woocommerce_activated() ) {
 
 			$args = apply_filters( 'storefront_recent_products_args', array(
-				'limit' 			=> 4,
-				'columns' 			=> 4,
-				'title'				=> __( 'New In', 'storefront' ),
+				'limit'   => 4,
+				'columns' => 4,
+				'orderby' => 'date',
+				'order'   => 'desc',
+				'title'   => __( 'New In', 'storefront' ),
 			) );
 
-			$shortcode_content = storefront_do_shortcode( 'recent_products', apply_filters( 'storefront_recent_products_shortcode_args', array(
+			$shortcode_content = storefront_do_shortcode( 'products', apply_filters( 'storefront_recent_products_shortcode_args', array(
+				'orderby'  => esc_attr( $args['orderby'] ),
+				'order'    => esc_attr( $args['order'] ),
 				'per_page' => intval( $args['limit'] ),
 				'columns'  => intval( $args['columns'] ),
 			) ) );
@@ -658,18 +662,20 @@ if ( ! function_exists( 'storefront_featured_products' ) ) {
 		if ( storefront_is_woocommerce_activated() ) {
 
 			$args = apply_filters( 'storefront_featured_products_args', array(
-				'limit'   => 4,
-				'columns' => 4,
-				'orderby' => 'date',
-				'order'   => 'desc',
-				'title'   => __( 'We Recommend', 'storefront' ),
+				'limit'      => 4,
+				'columns'    => 4,
+				'orderby'    => 'date',
+				'order'      => 'desc',
+				'visibility' => 'featured',
+				'title'      => __( 'We Recommend', 'storefront' ),
 			) );
 
-			$shortcode_content = storefront_do_shortcode( 'featured_products', apply_filters( 'storefront_featured_products_shortcode_args', array(
-				'per_page' => intval( $args['limit'] ),
-				'columns'  => intval( $args['columns'] ),
-				'orderby'  => esc_attr( $args['orderby'] ),
-				'order'    => esc_attr( $args['order'] ),
+			$shortcode_content = storefront_do_shortcode( 'products', apply_filters( 'storefront_featured_products_shortcode_args', array(
+				'per_page'   => intval( $args['limit'] ),
+				'columns'    => intval( $args['columns'] ),
+				'orderby'    => esc_attr( $args['orderby'] ),
+				'order'      => esc_attr( $args['order'] ),
+				'visibility' => esc_attr( $args['visibility'] ),
 			) ) );
 
 			/**
@@ -712,12 +718,16 @@ if ( ! function_exists( 'storefront_popular_products' ) ) {
 			$args = apply_filters( 'storefront_popular_products_args', array(
 				'limit'   => 4,
 				'columns' => 4,
+				'orderby' => 'rating',
+				'order'   => 'desc',
 				'title'   => __( 'Fan Favorites', 'storefront' ),
 			) );
 
-			$shortcode_content = storefront_do_shortcode( 'top_rated_products', apply_filters( 'storefront_popular_products_shortcode_args', array(
+			$shortcode_content = storefront_do_shortcode( 'products', apply_filters( 'storefront_popular_products_shortcode_args', array(
 				'per_page' => intval( $args['limit'] ),
 				'columns'  => intval( $args['columns'] ),
+				'orderby'  => esc_attr( $args['orderby'] ),
+				'order'    => esc_attr( $args['order'] ),
 			) ) );
 
 			/**
@@ -760,12 +770,18 @@ if ( ! function_exists( 'storefront_on_sale_products' ) ) {
 			$args = apply_filters( 'storefront_on_sale_products_args', array(
 				'limit'   => 4,
 				'columns' => 4,
+				'orderby' => 'date',
+				'order'   => 'desc',
+				'on_sale' => 'true',
 				'title'   => __( 'On Sale', 'storefront' ),
 			) );
 
-			$shortcode_content = storefront_do_shortcode( 'sale_products', apply_filters( 'storefront_on_sale_products_shortcode_args', array(
+			$shortcode_content = storefront_do_shortcode( 'products', apply_filters( 'storefront_on_sale_products_shortcode_args', array(
 				'per_page' => intval( $args['limit'] ),
 				'columns'  => intval( $args['columns'] ),
+				'orderby'  => esc_attr( $args['orderby'] ),
+				'order'    => esc_attr( $args['order'] ),
+				'on_sale'  => esc_attr( $args['on_sale'] ),
 			) ) );
 
 			/**
@@ -807,12 +823,16 @@ if ( ! function_exists( 'storefront_best_selling_products' ) ) {
 			$args = apply_filters( 'storefront_best_selling_products_args', array(
 				'limit'   => 4,
 				'columns' => 4,
+				'orderby' => 'popularity',
+				'order'   => 'desc',
 				'title'	  => esc_attr__( 'Best Sellers', 'storefront' ),
 			) );
 
-			$shortcode_content = storefront_do_shortcode( 'best_selling_products', apply_filters( 'storefront_best_selling_products_shortcode_args', array(
+			$shortcode_content = storefront_do_shortcode( 'products', apply_filters( 'storefront_best_selling_products_shortcode_args', array(
 				'per_page' => intval( $args['limit'] ),
 				'columns'  => intval( $args['columns'] ),
+				'orderby'  => esc_attr( $args['orderby'] ),
+				'order'    => esc_attr( $args['order'] ),
 			) ) );
 
 			/**

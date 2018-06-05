@@ -11,7 +11,7 @@ Appearance > Theme Settings > Code or create a child theme.
 */
 
 // Defines
-define( 'FL_THEME_VERSION', '1.6.5' );
+define( 'FL_THEME_VERSION', '1.6.5.1' );
 define( 'FL_THEME_DIR', get_template_directory() );
 define( 'FL_THEME_URL', get_template_directory_uri() );
 
@@ -43,9 +43,10 @@ add_action( 'fl_after_post',            'FLTheme::after_post_widget', 10 );
 add_action( 'fl_after_post_content',    'FLTheme::post_author_box', 10 );
 
 // Theme Filters
-add_filter( 'body_class',            'FLTheme::body_class' );
-add_filter( 'excerpt_more',          'FLTheme::excerpt_more' );
-add_filter( 'loop_shop_columns',     'FLTheme::woocommerce_columns' );
+add_filter( 'body_class',                  'FLTheme::body_class' );
+add_filter( 'excerpt_more',                'FLTheme::excerpt_more' );
+add_filter( 'loop_shop_columns',           'FLTheme::woocommerce_columns' );
+add_filter( 'comment_form_default_fields', 'FLTheme::comment_form_default_fields' );
 
 // Theme Updates
 add_action( 'init',                  'FLThemeUpdate::init' );
