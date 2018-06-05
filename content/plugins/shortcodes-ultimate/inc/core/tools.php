@@ -159,41 +159,6 @@ function su_hex2rgb( $colour, $delimiter = '-' ) {
 }
 
 /**
- * Apply all custom formatting options of plugin
- */
-function su_apply_formatting() {
-	// Enable shortcodes in text widgets
-	add_filter( 'widget_text', 'do_shortcode' );
-	// Enable shortcodes in category descriptions
-	add_filter( 'category_description', 'do_shortcode' );
-	// Enable custom formatting
-	if ( get_option( 'su_option_custom-formatting' ) === 'on' ) {
-		// Apply custom formatter function
-		add_filter( 'the_content', 'su_clean_shortcodes' );
-	}
-}
-
-add_action( 'init', 'su_apply_formatting' );
-
-/**
- * Custom formatter function
- *
- * @param string  $content
- *
- * @return string Formatted content with clean shortcodes content
- */
-function su_clean_shortcodes( $content ) {
-	$p = su_cmpt();
-	$array = array (
-		'<p>[' => '[',
-		']</p>' => ']',
-		']<br />' => ']'
-	);
-	$content = strtr( $content, $array );
-	return $content;
-}
-
-/**
  * Custom do_shortcode function for nested shortcodes
  *
  * @param string  $content Shortcode content
@@ -201,9 +166,50 @@ function su_clean_shortcodes( $content ) {
  *
  * @return string Formatted content
  */
-function su_do_shortcode( $content, $pre ) {
-	if ( strpos( $content, '[_' ) !== false ) $content = preg_replace( '@(\[_*)_(' . $pre . '|/)@', "$1$2", $content );
+function su_do_nested_shortcodes_alt( $content, $pre ) {
+
+	if ( strpos( $content, '[_' ) !== false ) {
+		$content = preg_replace( '@(\[_*)_(' . $pre . '|/)@', "$1$2", $content );
+	}
+
 	return do_shortcode( $content );
+
+}
+
+/**
+ * Remove underscores from nested shortcodes.
+ *
+ * @since  5.0.4
+ * @param string  $content   String with nested shortcodes.
+ * @param string  $shortcode Shortcode tag name (without prefix).
+ * @return string            Parsed string.
+ */
+function su_do_nested_shortcodes( $content, $shortcode ) {
+
+	if ( get_option( 'su_option_do_nested_shortcodes_alt' ) ) {
+		return su_do_nested_shortcodes_alt( $content, substr( $shortcode, 0, 1 ) );
+	}
+
+	$prefix = su_cmpt();
+
+	if ( strpos( $content, '[_' . $prefix . $shortcode ) !== false ) {
+
+		$content = str_replace(
+			array( '[_' . $prefix . $shortcode, '[_/' . $prefix . $shortcode, ),
+			array( '[' . $prefix . $shortcode,  '[/' . $prefix . $shortcode, ),
+			$content
+		);
+
+	}
+
+	else {
+		$content = wptexturize( $content );
+	}
+
+	$content = do_shortcode( $content );
+
+	return $content;
+
 }
 
 /**
@@ -239,19 +245,28 @@ function su_ecssc( $atts ) {
  * @return bool
  */
 function su_addon_active( $addons ) {
+
+	if ( ! function_exists( 'is_plugin_active' ) ) {
+		return true;
+	}
+
 	// Prepare add-ons paths
 	$paths = array(
 		'maker' => 'shortcodes-ultimate-maker/shortcodes-ultimate-maker.php',
 		'skins' => 'shortcodes-ultimate-skins/shortcodes-ultimate-skins.php',
 		'extra' => 'shortcodes-ultimate-extra/shortcodes-ultimate-extra.php',
 	);
+
 	// Convert string into array
 	if ( is_string( $addons ) ) $addons = array( $addons );
+
 	// Loop addons
 	foreach ( $addons as $addon ) {
-		if ( !is_plugin_active( $paths[$addon] ) ) return false;
+		if ( ! is_plugin_active( $paths[$addon] ) ) return false;
 	}
+
 	return true;
+
 }
 
 function su_skins_link() {
@@ -763,46 +778,46 @@ class Su_Tools {
 	}
 
 	// public static function example() {
-	// 	// Check authentication
-	// 	self::access();
-	// 	// Check nonce
-	// 	if ( !isset( $_REQUEST['nonce'] ) || !wp_verify_nonce( $_REQUEST['nonce'], 'su_examples_nonce' ) ) return;
-	// 	// Check incoming data
-	// 	if ( !isset( $_REQUEST['code'] ) || !isset( $_REQUEST['id'] ) ) return;
-	// 	// Check for cache
-	// 	$output = get_transient( 'su/examples/render/' . sanitize_key( $_REQUEST['id'] ) );
-	// 	if ( $output && SU_ENABLE_CACHE ) echo $output;
-	// 	// Cache not found
-	// 	else {
-	// 		ob_start();
-	// 		// Prepare data
-	// 		$code = file_get_contents( sanitize_text_field( $_REQUEST['code'] ) );
-	// 		// Check for code
-	// 		if ( !$code ) die( '<p class="su-examples-error">' . __( 'Example code does not found, please check it later', 'shortcodes-ultimate' ) . '</p>' );
-	// 		// Clean-up the code
-	// 		$code = str_replace( array( "\t", '%su_' ), array( '  ', su_cmpt() ), $code );
-	// 		// Split code
-	// 		$chunks = explode( '-----', $code );
-	// 		// Show snippets
-	// 		do_action( 'su/examples/preview/before' );
-	// 		foreach ( $chunks as $chunk ) {
-	// 			// Clean-up new lines
-	// 			$chunk = trim( $chunk, "\n\r" );
-	// 			// Calc textarea rows
-	// 			$rows = substr_count( $chunk, "\n" );
-	// 			$rows = ( $rows < 4 ) ? '4' : (string) ( $rows + 1 );
-	// 			$rows = ( $rows > 20 ) ? '20' : (string) ( $rows + 1 );
-	// 			echo wpautop( do_shortcode( $chunk ) );
-	// 			echo '<div style="clear:both"></div>';
-	// 			echo '<div class="su-examples-code"><span class="su-examples-get-code button"><i class="fa fa-code"></i>&nbsp;&nbsp;' . __( 'Get the code', 'shortcodes-ultimate' ) . '</span><textarea rows="' . $rows . '">' . esc_textarea( $chunk ) . '</textarea></div>';
-	// 		}
-	// 		do_action( 'su/examples/preview/after' );
-	// 		$output = ob_get_contents();
-	// 		ob_end_clean();
-	// 		set_transient( 'su/examples/render/' . sanitize_key( $_REQUEST['id'] ), $output );
-	// 		echo $output;
-	// 	}
-	// 	die();
+	//  // Check authentication
+	//  self::access();
+	//  // Check nonce
+	//  if ( !isset( $_REQUEST['nonce'] ) || !wp_verify_nonce( $_REQUEST['nonce'], 'su_examples_nonce' ) ) return;
+	//  // Check incoming data
+	//  if ( !isset( $_REQUEST['code'] ) || !isset( $_REQUEST['id'] ) ) return;
+	//  // Check for cache
+	//  $output = get_transient( 'su/examples/render/' . sanitize_key( $_REQUEST['id'] ) );
+	//  if ( $output && SU_ENABLE_CACHE ) echo $output;
+	//  // Cache not found
+	//  else {
+	//   ob_start();
+	//   // Prepare data
+	//   $code = file_get_contents( sanitize_text_field( $_REQUEST['code'] ) );
+	//   // Check for code
+	//   if ( !$code ) die( '<p class="su-examples-error">' . __( 'Example code does not found, please check it later', 'shortcodes-ultimate' ) . '</p>' );
+	//   // Clean-up the code
+	//   $code = str_replace( array( "\t", '%su_' ), array( '  ', su_cmpt() ), $code );
+	//   // Split code
+	//   $chunks = explode( '-----', $code );
+	//   // Show snippets
+	//   do_action( 'su/examples/preview/before' );
+	//   foreach ( $chunks as $chunk ) {
+	//    // Clean-up new lines
+	//    $chunk = trim( $chunk, "\n\r" );
+	//    // Calc textarea rows
+	//    $rows = substr_count( $chunk, "\n" );
+	//    $rows = ( $rows < 4 ) ? '4' : (string) ( $rows + 1 );
+	//    $rows = ( $rows > 20 ) ? '20' : (string) ( $rows + 1 );
+	//    echo wpautop( do_shortcode( $chunk ) );
+	//    echo '<div style="clear:both"></div>';
+	//    echo '<div class="su-examples-code"><span class="su-examples-get-code button"><i class="fa fa-code"></i>&nbsp;&nbsp;' . __( 'Get the code', 'shortcodes-ultimate' ) . '</span><textarea rows="' . $rows . '">' . esc_textarea( $chunk ) . '</textarea></div>';
+	//   }
+	//   do_action( 'su/examples/preview/after' );
+	//   $output = ob_get_contents();
+	//   ob_end_clean();
+	//   set_transient( 'su/examples/render/' . sanitize_key( $_REQUEST['id'] ), $output );
+	//   echo $output;
+	//  }
+	//  die();
 	// }
 
 	public static function reset_examples() {

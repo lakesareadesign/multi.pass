@@ -44,7 +44,8 @@ function ub_is_active_module( $module ) {
 }
 
 function ub_get_option( $option, $default = false ) {
-	if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+	global $UB_network;
+	if ( $UB_network ) {
 		return get_site_option( $option, $default );
 	} else {
 		return get_option( $option, $default );
@@ -52,15 +53,26 @@ function ub_get_option( $option, $default = false ) {
 }
 
 function ub_update_option( $option, $value = null ) {
-	if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+	global $UB_network;
+	if ( $UB_network ) {
 		return update_site_option( $option, $value );
 	} else {
 		return update_option( $option, $value );
 	}
 }
 
+function ub_add_option( $option, $value = null, $autoload = 'yes' ) {
+	global $UB_network;
+	if ( $UB_network ) {
+		return add_site_option( $option, $value );
+	} else {
+		return add_option( $option, $value, '', $autoload );
+	}
+}
+
 function ub_delete_option( $option ) {
-	if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+	global $UB_network;
+	if ( $UB_network ) {
 		return delete_site_option( $option );
 	} else {
 		return delete_option( $option );
@@ -341,7 +353,7 @@ function set_ultimate_branding( $base ) {
 }
 
 function ub_enqueue_switch_button() {
-	wp_enqueue_script( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/js/vendor/jquery.switch_button.js' ), array( 'jquery', 'jquery-effects-core' ), '1.12.1' );
+	wp_enqueue_script( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/js/vendor/jquery.switch_button.js' ), array( 'jquery', 'jquery-effects-core' ), '1.12.1' );	   	 		 		 	   		
 	wp_enqueue_style( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/css/vendor/jquery.switch_button.css' ), array(), '1.12.1' );
 	$i18n = array(
 		'labels' => array(

@@ -724,7 +724,7 @@ var FLBuilderColorPicker;
 						my: 'left top',
 						at: 'left bottom',
 						of: $this,
-						collision: 'flipfit',
+						collision: 'flip',
 						using: function( position, feedback ){
 							self._togglePicker( position );
 						}

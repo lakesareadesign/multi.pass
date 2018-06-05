@@ -68,6 +68,15 @@ return apply_filters( 'ninja_forms_i18n_dashboard', array(
     'cancel'                                => __( 'Cancel', 'ninja-forms' ),
     'deleteTitle'                           => __( 'Confirm Delete', 'ninja-forms' ),
     'deleteXForm'                           => __( 'Export Form', 'ninja-forms' ),
-    'deleteXSubs'                           => __( 'Export Submissions', 'ninja-forms' )
-    
+    'deleteXSubs'                           => __( 'Export Submissions', 'ninja-forms' ),
+    'optinContent'                          => sprintf( __( '%sWe would like to collect data about how Ninja Forms is used so that we can improve the experience for everyone. This data will not include ANY submission data or personally identifiable information.%sPlease check out our %sprivacy policy%s for additional clarification.%s', 'ninja-forms' ), '<p>', '</p><p>', '<a href="https://ninjaforms.com/privacy-policy/" target="_blank">', '</a>', '</p>' ),
+    'optinYesplease'                        => __( 'Yes, please send me occasional emails about Ninja Forms.', 'ninja-forms' ),
+    'optinSecondary'                        => __( 'Not Now', 'ninja-forms' ),
+    'optinPrimary'                          => __( 'Yes, I agree!', 'ninja-forms' ),
+    'optinAwesome'                          => __( 'Keep being awesome!', 'ninja-forms' ),
+    'optinThanks'                           => __( 'Thank you for opting in!', 'ninja-forms' ),
+    'cleanupContent'                        => sprintf( __( '%sOnce we begin this process, it might take several minutes to complete.%sNavigating away from this page before it is finished could lead to unexpected results.%sPlease confirm when you are ready to begin.%s', 'ninja-forms' ), '<p>', '</p><p>', '</p><p>', '</p>' ),
+    'cleanupSecondary'                      => __( 'Cancel', 'ninja-forms' ),
+    'cleanupPrimary'                        => sprintf( __( 'Clean up my data', 'ninja-forms' ) ),
+    'cleanupLoading'                        => __( 'Processing...', 'ninja-forms' )
 ));

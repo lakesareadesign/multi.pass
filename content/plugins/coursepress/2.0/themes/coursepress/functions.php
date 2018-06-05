@@ -39,7 +39,7 @@ if ( ! function_exists( 'coursepress_setup' ) ) :
 		 * If you're building a theme based on CoursePress, use a find and replace
 		 * to change 'coursepress' to the name of your theme in all the template files
 		 */
-		load_theme_textdomain( 'cp', get_template_directory() . '/languages' );
+		load_theme_textdomain( 'coursepress', get_template_directory() . '/languages' );
 
 		// Let WP handl <title> tag.
 		add_theme_support( 'title-tag' );
@@ -51,8 +51,8 @@ if ( ! function_exists( 'coursepress_setup' ) ) :
 		// This theme uses wp_nav_menu() in one location.
 		register_nav_menus(
 			array(
-				'primary' => __( 'Primary Menu', 'cp' ),
-				'secondary' => __( 'Footer Menu', 'cp' ),
+				'primary' => __( 'Primary Menu', 'coursepress' ),
+				'secondary' => __( 'Footer Menu', 'coursepress' ),
 			)
 		);
 
@@ -141,7 +141,7 @@ if ( ! function_exists( 'coursepress_widgets_init' ) ) :
 	function coursepress_widgets_init() {
 		register_sidebar(
 			array(
-				'name' => __( 'Sidebar', 'cp' ),
+				'name' => __( 'Sidebar', 'coursepress' ),
 				'id' => 'sidebar-1',
 				'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 				'after_widget' => '</aside>',
@@ -152,7 +152,7 @@ if ( ! function_exists( 'coursepress_widgets_init' ) ) :
 
 		register_sidebar(
 			array(
-				'name' => __( 'Footer', 'cp' ),
+				'name' => __( 'Footer', 'coursepress' ),
 				'id' => 'sidebar-2',
 				'before_widget' => '<aside id="%1$s" class="widget %2$s">',
 				'after_widget' => '</aside>',

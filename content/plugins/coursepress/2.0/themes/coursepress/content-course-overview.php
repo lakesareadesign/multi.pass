@@ -33,7 +33,7 @@
 				// Change to yes for 'Open-ended'.
 				echo do_shortcode( '[course_enrollment_dates show_alt_display="no"]' );
 				echo do_shortcode( '[course_class_size]' );
-				echo do_shortcode( '[course_enrollment_type label="' . __( 'Who can Enroll: ', 'cp' ) . '"]' );
+				echo do_shortcode( '[course_enrollment_type label="' . __( 'Who can Enroll: ', 'coursepress' ) . '"]' );
 				echo do_shortcode( '[course_language]' );
 				echo do_shortcode( '[course_cost]' );
 				?>
@@ -47,7 +47,7 @@
 	<section id="additional-summary">
 		<div class="social-shares">
 			<span>
-				<?php _e( 'SHARE', 'cp' ); ?>
+				<?php _e( 'SHARE', 'coursepress' ); ?>
 			</span>
 			<a href="http://www.facebook.com/sharer/sharer.php?s=100&p[url]=<?php the_permalink(); ?>&p[images][0]=&p[title]=<?php the_title(); ?>&p[summary]=<?php echo urlencode( strip_tags( get_the_excerpt() ) ); ?>" class="facebook-share" target="_blank"></a>
 			<a href="http://twitter.com/home?status=<?php the_title(); ?> <?php the_permalink(); ?>" class="twitter-share" target="_blank"></a>
@@ -59,19 +59,19 @@
 	<br clear="all" />
 <?php $instructors = CoursePress_Data_Shortcode_Instructor::course_instructors( array( 'style' => 'block' ) ); ?>
 <div class="entry-content <?php echo esc_attr( empty( $instructors )? '':'left-content' ); ?>">
-		<h1 class="h1-about-course"><?php _e( 'About the Course', 'cp' ); ?></h1>
+		<h1 class="h1-about-course"><?php _e( 'About the Course', 'coursepress' ); ?></h1>
 		<div class="content"><?php echo do_shortcode( '[course_description course_id="' . get_the_ID() . '"]' ); ?></div>
 <?php
 if ( CoursePress_Data_Course::get_setting( get_the_ID(), 'structure_visible', true ) ) : ?>
 			<h1 class = "h1-about-course"><?php
-			_e( 'Course Structure', 'cp' );
+			_e( 'Course Structure', 'coursepress' );
 			?></h1>
 			<?php echo do_shortcode( '[course_structure label="" show_title="no" show_divider="yes"]' );
 		endif;
 
 		wp_link_pages(
 			array(
-				'before' => '<div class="page-links">' . __( 'Pages:', 'cp' ),
+				'before' => '<div class="page-links">' . __( 'Pages:', 'coursepress' ),
 				'after' => '</div>',
 			)
 		);
@@ -80,7 +80,7 @@ if ( CoursePress_Data_Course::get_setting( get_the_ID(), 'structure_visible', tr
 
 	<?php if ( ! empty( $instructors ) ) : ?>
 		<div class="course-instructors right-content">
-			<h1 class="h1-instructors"><?php _e( 'Instructors', 'cp' ); ?></h1>
+			<h1 class="h1-instructors"><?php _e( 'Instructors', 'coursepress' ); ?></h1>
 			<?php echo $instructors; ?>
 		</div><!--course-instructors right-content-->
 	<?php endif; ?>
@@ -106,28 +106,28 @@ if ( CoursePress_Data_Course::get_setting( get_the_ID(), 'structure_visible', tr
 		$category_list = implode(', ', $cats );
 
 		// Translators: Used between list items, there is a space after the comma.
-		$tag_list = get_the_tag_list( '', __( ', ', 'cp' ) );
+		$tag_list = get_the_tag_list( '', __( ', ', 'coursepress' ) );
 
 		/**
 		 * default meta text
 		 */
-		$meta_text = __( 'Bookmark the <a href="%3$s" rel="bookmark">permalink</a>.', 'cp' );
+		$meta_text = __( 'Bookmark the <a href="%3$s" rel="bookmark">permalink</a>.', 'coursepress' );
 		/**
 		 * check categories and tags
 		 */
 		if ( ! coursepress_categorized_blog() ) {
 			// This blog only has 1 category so we just need to worry about tags in the meta text.
 			if ( $tag_list ) {
-				$meta_text = __( 'This entry was tagged %2$s. Bookmark the <a href="%3$s" rel="bookmark">permalink</a>.', 'cp' );
+				$meta_text = __( 'This entry was tagged %2$s. Bookmark the <a href="%3$s" rel="bookmark">permalink</a>.', 'coursepress' );
 			} else {
 				$meta_text = '';
 			}
 		} else {
 			// But this blog has loads of categories so we should probably display them here.
 			if ( ! empty( $tag_list ) ) {
-				$meta_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" rel="bookmark">permalink</a>.', 'cp' );
+				$meta_text = __( 'This entry was posted in %1$s and tagged %2$s. Bookmark the <a href="%3$s" rel="bookmark">permalink</a>.', 'coursepress' );
 			} else if ( ! empty( $category_list ) ) {
-				$meta_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" rel="bookmark">permalink</a>.', 'cp' );
+				$meta_text = __( 'This entry was posted in %1$s. Bookmark the <a href="%3$s" rel="bookmark">permalink</a>.', 'coursepress' );
 			}
 		} // end check for categories on this blog.
 
@@ -141,7 +141,7 @@ if ( CoursePress_Data_Course::get_setting( get_the_ID(), 'structure_visible', tr
 
 		<?php
 		edit_post_link(
-			__( 'Edit', 'cp' ),
+			__( 'Edit', 'coursepress' ),
 			'<span class="edit-link">',
 			'</span>'
 		);

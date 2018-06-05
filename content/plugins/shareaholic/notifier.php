@@ -31,15 +31,6 @@ class ShareaholicNotifier {
 
     $categories = array_map(array('ShareaholicNotifier', 'post_notify_iterator'), get_the_category($post_id));
 
-    if (function_exists('has_post_thumbnail') && has_post_thumbnail($post_id)) {
-      $featured_image = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), 'large');
-    } else {
-      $featured_image = ShareaholicUtilities::post_first_image();
-      if (!$featured_image) {
-        $featured_image = '';
-      }
-    }
-
     if ($post->post_author) {
       $author_data = get_userdata($post->post_author);
       $author_name = $author_data->display_name;
@@ -52,7 +43,7 @@ class ShareaholicNotifier {
         'title' => $post->post_title,
         'excerpt' => $post->post_excerpt,
         'body' => $post->post_content,
-        'featured-image-url' => $featured_image,
+        'featured-image-url' => ShareaholicUtilities::permalink_thumbnail($post_id),
       ),
       'metadata' => array(
         'author-id' => $post->post_author,

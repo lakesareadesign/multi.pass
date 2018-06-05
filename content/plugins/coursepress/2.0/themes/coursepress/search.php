@@ -17,7 +17,7 @@ get_header();
 			<h1 class="page-title">
 			<?php
 			printf(
-				__( 'Search Results for: %s', 'cp' ),
+				__( 'Search Results for: %s', 'coursepress' ),
 				'<span>' . get_search_query() . '</span>'
 			);
 			?>

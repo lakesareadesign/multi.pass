@@ -55,11 +55,4 @@ class Shortcodes_Ultimate_Load {
 
 }
 
-/**
- * Register plugin function to perform checks that plugin is installed
- */
-function shortcodes_ultimate() {
-	return true;
-}
-
 new Shortcodes_Ultimate_Load;

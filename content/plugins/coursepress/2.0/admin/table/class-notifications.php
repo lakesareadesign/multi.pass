@@ -142,10 +142,10 @@ class CoursePress_Admin_Table_Notifications extends WP_Posts_List_Table {
 	public function get_columns() {
 		$columns = array(
 			'cb' => '<input type="checkbox" />',
-			'notification' => __( 'Notification', 'cp' ),
-			'course' => __( 'Course', 'cp' ),
-			'receivers' => __( 'Receivers', 'cp' ),
-			'status' => __( 'Status', 'cp' ),
+			'notification' => __( 'Notification', 'coursepress' ),
+			'course' => __( 'Course', 'coursepress' ),
+			'receivers' => __( 'Receivers', 'coursepress' ),
+			'status' => __( 'Status', 'coursepress' ),
 		);
 
 		return $columns;
@@ -170,7 +170,7 @@ class CoursePress_Admin_Table_Notifications extends WP_Posts_List_Table {
 						'id' => $item->ID,
 					)
 				);
-				$row_actions['untrash'] = sprintf( '<a href="%s">%s</a>', esc_url( $url ), __( 'Restore', 'cp' ) );
+				$row_actions['untrash'] = sprintf( '<a href="%s">%s</a>', esc_url( $url ), __( 'Restore', 'coursepress' ) );
 			} else {
 				$url = add_query_arg(
 					array(
@@ -178,7 +178,7 @@ class CoursePress_Admin_Table_Notifications extends WP_Posts_List_Table {
 						'id' => $item->ID,
 					)
 				);
-				$row_actions['edit'] = sprintf( '<a href="%s">%s</a>', esc_url( $url ), __( 'Edit', 'cp' ) );
+				$row_actions['edit'] = sprintf( '<a href="%s">%s</a>', esc_url( $url ), __( 'Edit', 'coursepress' ) );
 			}
 		}
 		if ( $this->can_delete( $item ) ) {
@@ -190,7 +190,7 @@ class CoursePress_Admin_Table_Notifications extends WP_Posts_List_Table {
 						'action' => 'delete',
 					)
 				);
-				$row_actions['delete'] = sprintf( '<a href="%s">%s</a>', esc_url( $url ), __( 'Delete Permanently', 'cp' ) );
+				$row_actions['delete'] = sprintf( '<a href="%s">%s</a>', esc_url( $url ), __( 'Delete Permanently', 'coursepress' ) );
 			} else {
 				$url = add_query_arg(
 					array(
@@ -199,7 +199,7 @@ class CoursePress_Admin_Table_Notifications extends WP_Posts_List_Table {
 						'action' => 'trash',
 					)
 				);
-				$row_actions['trash'] = sprintf( '<a href="%s">%s</a>', esc_url( $url ), __( 'Trash', 'cp' ) );
+				$row_actions['trash'] = sprintf( '<a href="%s">%s</a>', esc_url( $url ), __( 'Trash', 'coursepress' ) );
 			}
 		}
 		return $this->row_actions( $row_actions );
@@ -225,7 +225,7 @@ class CoursePress_Admin_Table_Notifications extends WP_Posts_List_Table {
 		if ( 'all' == $course_id ) {
 			return sprintf(
 				'<span aria-hidden="true">&#8212;</span><span class="screen-reader-text">%s</span>',
-				__( 'Option not available for all courses.', 'cp' )
+				__( 'Option not available for all courses.', 'coursepress' )
 			);
 		}
 		$recivers_allowed_options = array();
@@ -238,19 +238,19 @@ class CoursePress_Admin_Table_Notifications extends WP_Posts_List_Table {
 		if ( isset( $recivers_allowed_options[ $receivers ] ) ) {
 			return $recivers_allowed_options[ $receivers ]['label'];
 		}
-		return __( 'Wrong receivers!', 'cp' );
+		return __( 'Wrong receivers!', 'coursepress' );
 	}
 
 	protected function get_bulk_actions() {
 		$actions = array(
-			'publish' => __( 'Publish', 'cp' ),
-			'draft' => __( 'Change status to Draft', 'cp' ),
-			'trash' => __( 'Move to Trash', 'cp' ),
+			'publish' => __( 'Publish', 'coursepress' ),
+			'draft' => __( 'Change status to Draft', 'coursepress' ),
+			'trash' => __( 'Move to Trash', 'coursepress' ),
 		);
 		if ( $this->is_trash ) {
 			$actions = array(
-				'untrash' => __( 'Restore', 'cp' ),
-				'delete' => __( 'Delete Permanently', 'cp' ),
+				'untrash' => __( 'Restore', 'coursepress' ),
+				'delete' => __( 'Delete Permanently', 'coursepress' ),
 			);
 		}
 		return $actions;
@@ -308,7 +308,7 @@ class CoursePress_Admin_Table_Notifications extends WP_Posts_List_Table {
 		$options['value'] = $course_id;
 		$options['class'] = 'medium dropdown';
 		$options['first_option'] = array(
-			'text' => __( 'All courses', 'cp' ),
+			'text' => __( 'All courses', 'coursepress' ),
 			'value' => 'all',
 		);
 
@@ -337,10 +337,10 @@ class CoursePress_Admin_Table_Notifications extends WP_Posts_List_Table {
 		?>
 		<div class="alignleft actions category-filter">
 			<?php $this->course_filter( $which ); ?>
-			<input type="submit" class="button" name="action" value="<?php esc_attr_e( 'Filter', 'cp' ); ?>" />
+			<input type="submit" class="button" name="action" value="<?php esc_attr_e( 'Filter', 'coursepress' ); ?>" />
 		</div>
 		<?php
-		$this->search_box( __( 'Search Notifications', 'cp' ), 'search_notifications' );
+		$this->search_box( __( 'Search Notifications', 'coursepress' ), 'search_notifications' );
 	}
 
 	/**

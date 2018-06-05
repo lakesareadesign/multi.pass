@@ -40,8 +40,8 @@ class CoursePress_View_Admin_Setting_MarketPress {
 
 	public static function add_tabs( $tabs ) {
 		$tabs['marketpress'] = array(
-			'title' => __( 'MarketPress', 'cp' ),
-			'description' => __( 'Allow to integrate MarketPress to sell courses...', 'cp' ),
+			'title' => __( 'MarketPress', 'coursepress' ),
+			'description' => __( 'Allow to integrate MarketPress to sell courses...', 'coursepress' ),
 			'order' => 69,
 		);
 
@@ -70,9 +70,9 @@ class CoursePress_View_Admin_Setting_MarketPress {
 								name="coursepress_settings[marketpress][enabled]"
 								class="certificate_enabled"
 								value="1" />
-							<?php esc_html_e( 'Use MarketPress to sell courses', 'cp' ); ?>
+							<?php esc_html_e( 'Use MarketPress to sell courses', 'coursepress' ); ?>
 						</label>
-						<p class="description"><?php _e( 'If checked, MarketPress will be used for selling courses', 'cp' ) ?></p>
+						<p class="description"><?php _e( 'If checked, MarketPress will be used for selling courses', 'coursepress' ) ?></p>
 </td>
 					</tr>
 					<tr>
@@ -82,42 +82,42 @@ class CoursePress_View_Admin_Setting_MarketPress {
 								name="coursepress_settings[marketpress][redirect]"
 								class="certificate_enabled"
 								value="1" />
-							<?php esc_html_e( 'Redirect MarketPress product post to a parent course post', 'cp' ); ?>
+							<?php esc_html_e( 'Redirect MarketPress product post to a parent course post', 'coursepress' ); ?>
 						</label>
-							<p class="description"><?php _e( 'If checked, visitors who try to access MarketPress single post will be automatically redirected to a parent course single post.', 'cp' ) ?></p>
+							<p class="description"><?php _e( 'If checked, visitors who try to access MarketPress single post will be automatically redirected to a parent course single post.', 'coursepress' ) ?></p>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<h3><?php esc_html_e( 'When the course becomes unpaid, then:', 'cp' ); ?></h3>
+							<h3><?php esc_html_e( 'When the course becomes unpaid, then:', 'coursepress' ); ?></h3>
 							<ul>
 								<li><label><input type="radio"
 									<?php checked( $unpaid, 'change_status' ); ?>
 									name="coursepress_settings[marketpress][unpaid]"
 									class="certificate_enabled"
-									value="change_status" /> <?php esc_html_e( 'Change to draft related MarketPress product.', 'cp' ); ?></label></li>
+									value="change_status" /> <?php esc_html_e( 'Change to draft related MarketPress product.', 'coursepress' ); ?></label></li>
 								<li><label><input type="radio"
 									<?php checked( $unpaid, 'delete' ); ?>
 									name="coursepress_settings[marketpress][unpaid]"
 									class="certificate_enabled"
-									value="delete" /> <?php esc_html_e( 'Delete related MarketPress product.', 'cp' ); ?></label></li>
+									value="delete" /> <?php esc_html_e( 'Delete related MarketPress product.', 'coursepress' ); ?></label></li>
 							</ul>
 						</td>
 					</tr>
 					<tr>
 						<td>
-							<h3><?php esc_html_e( 'When the course is deleted, then:', 'cp' ); ?></h3>
+							<h3><?php esc_html_e( 'When the course is deleted, then:', 'coursepress' ); ?></h3>
 							<ul>
 								<li><label><input type="radio"
 									<?php checked( $delete, 'change_status' ); ?>
 									name="coursepress_settings[marketpress][delete]"
 									class="certificate_enabled"
-									value="change_status" /> <?php esc_html_e( 'Change to draft related MarketPress product.', 'cp' ); ?></label></li>
+									value="change_status" /> <?php esc_html_e( 'Change to draft related MarketPress product.', 'coursepress' ); ?></label></li>
 								<li><label><input type="radio"
 									<?php checked( $delete, 'delete' ); ?>
 									name="coursepress_settings[marketpress][delete]"
 									class="certificate_enabled"
-									value="delete" /> <?php esc_html_e( 'Delete related MarketPress product.', 'cp' ); ?></label></li>
+									value="delete" /> <?php esc_html_e( 'Delete related MarketPress product.', 'coursepress' ); ?></label></li>
 							</ul>
 						</td>
 					</tr>

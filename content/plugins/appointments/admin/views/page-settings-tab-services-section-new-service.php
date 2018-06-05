@@ -6,6 +6,7 @@ $currency     = appointments_get_option( 'currency' );
 $services     = appointments_get_services();
 $min_time     = $appointments->get_min_time();
 $k_max        = apply_filters( 'app_selectable_durations', min( 24, (int) ( 1440 / $min_time ) ) );
+$number_of_workers = appointments_get_workers( array( 'count' => true ) );
 
 $pages = apply_filters( 'app-service_description_pages-get_list', array() );
 if ( empty( $pages ) ) {
@@ -27,7 +28,8 @@ if ( empty( $pages ) ) {
 				<label for="service-capacity"><?php _e( 'Service Capacity', 'appointments' ); ?></label>
 			</th>
 			<td>
-				<input id="service-capacity" type="text" name="service_capacity" value="" />
+                <input id="service-capacity" type="number" name="service_capacity" value="" min="0" max="<?php echo esc_attr( $number_of_workers ); ?>" />
+                <p class="description"><?php esc_html_e( 'When you set up "Service Capacity" to "0" it will be limited only by the number of available Service Providers.', 'appointments' ); ?></p>
 			</td>
 		</tr>
 		<tr>
@@ -36,9 +38,13 @@ if ( empty( $pages ) ) {
 			</th>
 			<td>
 				<select id="service-duration" name="service_duration">
-					<?php for ( $k=1; $k<=$k_max; $k++ ): ?>
-						<option><?php echo $k * $min_time; ?></option>
-					<?php endfor; ?>
+<?php
+for ( $k = 1; $k <= $k_max; $k++ ) {
+	$value = $k * $min_time;
+	$label = appointment_convert_minutes_to_human_format( $value );
+	printf( '<option value="%d">%s</option>', esc_attr( $value ), esc_html( $label ) );
+}
+?>
 				</select>
 			</td>
 		</tr>
@@ -57,7 +63,7 @@ if ( empty( $pages ) ) {
 			<td>
 				<select id="service-page" name="service_page">
 					<option value="0"><?php esc_html_e( 'None', 'appointments' ); ?></option>
-					<?php foreach( $pages as $page ): ?>
+					<?php foreach ( $pages as $page ) :  ?>
 						<option value="<?php echo $page->ID; ?>"><?php echo esc_html( get_the_title( $page->ID ) ); ?></option>
 					<?php endforeach; ?>
 				</select>

@@ -61,9 +61,9 @@ class CoursePress_Helper_Discussion {
 	 */
 	public static function get_subscription_statuses_array() {
 		return array(
-			'subscribe-reactions' => __( 'Notify me of new posts in this thread', 'cp' ),
-			'do-not-subscribe' => __( 'Do not notify me of new posts', 'cp' ),
-			'subscribe-all' => __( 'Notify me of all new posts', 'cp' ),
+			'subscribe-reactions' => __( 'Notify me of new posts in this thread', 'coursepress' ),
+			'do-not-subscribe' => __( 'Do not notify me of new posts', 'coursepress' ),
+			'subscribe-all' => __( 'Notify me of all new posts', 'coursepress' ),
 		);
 	}
 

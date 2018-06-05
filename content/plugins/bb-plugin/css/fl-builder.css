@@ -713,6 +713,9 @@ body .fl-theme-builder-preview-select-item-child:hover {
 		border-bottom: transparent !important;
 		max-height: calc(100% - 44px) !important;
 	}
+	.fl-builder--panel-arrow {
+		display:none;
+	}
 	.fl-builder-bar-title {
 		flex: 0 0 100px !important;
 	}

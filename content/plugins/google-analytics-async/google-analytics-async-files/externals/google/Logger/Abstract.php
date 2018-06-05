@@ -129,7 +129,7 @@ abstract class GAPGoogle_Logger_Abstract
     $format = $client->getClassConfig('GAPGoogle_Logger_Abstract', 'log_format');
     $this->logFormat = $format ? $format : self::DEFAULT_LOG_FORMAT;
 
-    $format = $client->getClassConfig('GAPGoogle_Logger_Abstract', 'date_format');	     	 	   	  			
+    $format = $client->getClassConfig('GAPGoogle_Logger_Abstract', 'date_format');
     $this->dateFormat = $format ? $format : self::DEFAULT_DATE_FORMAT;
 
     $this->allowNewLines = (bool) $client->getClassConfig(

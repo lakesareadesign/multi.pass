@@ -142,30 +142,10 @@ class FLBuilderUIContentPanel {
 			'templateName' => 'fl-content-panel-col-groups-view',
 		);
 
-		$is_column_template = FLBuilderModel::is_post_user_template( 'column' );
-
-		if ( ! $is_column_template ) {
-			$data['views'][] = array(
-				'type' => 'separator',
-			);
-
-			// Columns View
-			$data['views'][] = array(
-				'handle' => 'savedColumns',
-				'name' => __( 'Saved Columns', 'fl-builder' ),
-				'query' => array(
-					'kind' => 'template',
-					'type' => 'user',
-					'content' => 'column',
-					'categorized' => true,
-				),
-				'templateName' => 'fl-content-panel-saved-columns',
-			);
-		}
-
 		// Row Templates View
 		$templates = FLBuilderModel::get_row_templates_data();
 		$is_row_template = FLBuilderModel::is_post_user_template( 'row' );
+		$is_column_template = FLBuilderModel::is_post_user_template( 'column' );
 
 		if ( ! $is_row_template && ! $is_column_template && isset( $templates['groups'] ) && ! empty( $templates['groups'] ) ) {
 

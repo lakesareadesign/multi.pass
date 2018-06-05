@@ -30,7 +30,7 @@ if ( $the_query->have_posts() ) {
 				<span><?php echo get_the_date(); ?></span> |
 				<span><?php the_author(); ?></span> |
 				<span><?php //echo $discussion->get_unit_name(); ?></span> |
-				<span><?php echo get_comments_number(); ?> <?php _e( 'Comments', 'cp' );?></span>
+				<span><?php echo get_comments_number(); ?> <?php _e( 'Comments', 'coursepress' );?></span>
 			</div>
 			<div class="clearfix"></div>
 		</div>
@@ -41,7 +41,7 @@ if ( $the_query->have_posts() ) {
 			if ( comments_open() || get_comments_number() ) {
 				comments_template( '/comments-discussion.php' );
 			} else {
-				_e( 'Comments are disabled', 'cp' );
+				_e( 'Comments are disabled', 'coursepress' );
 			}
 			?>
 		</div>
@@ -51,7 +51,7 @@ if ( $the_query->have_posts() ) {
 	<footer class="entry-meta">
 		<?php
 		edit_post_link(
-			__( 'Edit', 'cp' ),
+			__( 'Edit', 'coursepress' ),
 			'<span class="edit-link">',
 			'</span>'
 		);

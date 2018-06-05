@@ -2,7 +2,7 @@
 /*
 Plugin Name: Dashboard Footer Content
 Plugin URI: http://premium.wpmudev.org/project/admin-footer-text
-Description: Display text in admin dashboard footer
+Description: Display text in admin dashboard footer.
 Author: Barry (Incsub), S H Mohanjith (Incsub), Andrew Billits (Incsub)
 Version: 1.0.8
 Author URI: http://premium.wpmudev.org
@@ -60,6 +60,7 @@ class ub_Admin_Footer_Text extends ub_helper {
 		remove_all_filters( 'admin_footer_text' );
 		add_filter( 'admin_footer_text', array( $this, 'output' ), 1, 1 );
 		add_filter( 'update_footer' , array( $this, 'blank_version' ), 99 );
+			add_action( 'admin_head', array( $this, 'add_css_for_footer' ) );
 	}
 
 	public function update_admin_options( $status ) {
@@ -69,6 +70,19 @@ class ub_Admin_Footer_Text extends ub_helper {
 		} else {
 			return true;
 		}
+	}
+
+	/**
+	 * Chamge #wpfooter position to static.
+	 *
+	 * @since 1.9.9
+	 */
+	public function add_css_for_footer() {
+		$admin_footer_text = ub_get_option( 'admin_footer_text' );
+		if ( empty( $admin_footer_text ) ) {
+			return;
+		}
+		echo '<style type="text/css">#wpfooter {position:static}</style>';
 	}
 
 	public function output( $footer_text ) {
@@ -122,20 +136,6 @@ class ub_Admin_Footer_Text extends ub_helper {
 		}
 		echo '<textarea name="admin_footer_text" type="text" rows="5" wrap="soft" id="admin_footer_text" style="width: 95%" />' . esc_textarea( $admin_footer_text ) . '</textarea>
             <p class="description"> ' . __( 'HTML Allowed.', 'ub' ) . '</p>';
-	}
-
-	/**
-	 * Verify if plugin is network activated
-	 **/
-	public function is_plugin_active_for_network( $plugin ) {
-		if ( ! is_multisite() ) {
-			return false;
-		}
-		$plugins = get_site_option( 'active_sitewide_plugins' );
-		if ( isset( $plugins[ $plugin ] ) ) {
-			return true;
-		}
-		return false;
 	}
 }
 

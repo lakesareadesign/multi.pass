@@ -3,7 +3,7 @@ Contributors: leadin, sredmond, HubSpotDev
 Tags:  crm, contacts, lead tracking, click tracking, visitor tracking, analytics, marketing automation, inbound marketing, subscription, marketing, lead generation, mailchimp, constant contact, newsletter, popup, popover, email list, email, contacts database, contact form, forms, form widget, popup form
 Requires at least: 3.7
 Tested up to: 4.8
-Stable tag: 6.1.4
+Stable tag: 6.1.5
 
 Add the free HubSpot Marketing plugin to your WordPress site! Easy to set up. The plugin has everything you need to capture, track, and convert leads.
 
@@ -147,8 +147,11 @@ Please <a href="https://community.hubspot.com/" target="_blank">head over to our
 
 == Changelog ==
 
-- Current version: 6.1.4
-- Current version release: 2017-07-25
+- Current version: 6.1.5
+- Current version release: 2017-05-22
+
+= 6.1.5 (2018.05.22) =
+- Code cleanup
 
 = 6.1.4 (2017.07.25) =
 - Updated supported version of WordPress

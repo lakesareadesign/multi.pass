@@ -78,19 +78,30 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
                     <# } #>
 
                     <# if (
-                        content.main_content !== '' ||
+						content.main_content !== '' ||
+						( _.isTrue(content.show_gdpr) && content.show_gdpr !== '' ) ||
                         ( design.style !== "minimal" && ( content.main_content !== '' || _.isTrue(content.show_cta) ) )
                     ) { #>
 
                         <div class="hustle-modal-message">
 
-                            {{{content.main_content}}}
+							{{{content.main_content}}}
+
+							<# if ( _.isTrue(content.show_gdpr) && content.show_gdpr !== '' ) { #>
+								<div class="hustle-gdpr-box">
+									<label for="hustle-modal-gdpr" class="hustle-gdpr-checkbox">
+										<input type="checkbox" id="hustle-modal-gdpr" class="hustle-modal-gdpr">
+										<span aria-hidden="true"></span>
+									</label>
+									<div for="hustle-modal-gdpr" class="hustle-gdpr-content">{{{content.gdpr_message}}}</div>
+								</div>
+							<# } #>
 
                             <# if ( design.style !== "minimal" && ( _.isTrue(content.show_cta) && ( content.cta_label !== '' && content.cta_url !== '' ) ) ) { #>
 
                                 <div class="hustle-modal-footer">
 
-                                    <a target="_{{content.cta_target}}" href="{{content.cta_url}}" class="hustle-modal-cta">{{content.cta_label}}</a>
+									<a target="_{{content.cta_target}}" href="{{content.cta_url}}" class="hustle-modal-cta">{{content.cta_label}}</a>
 
                                 </div>
 
@@ -114,11 +125,11 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
         <# } #>
 
-        <# if ( design.style === "minimal" && ( _.isTrue(content.show_cta) && ( content.cta_label !== '' && content.cta_url !== '' ) ) ) { #>
+        <# if ( design.style === "minimal" && ((_.isTrue(content.show_gdpr) && content.gdpr_message !== '' ) || ( _.isTrue(content.show_cta) && ( content.cta_label !== '' && content.cta_url !== '' ) ) ) ) { #>
 
             <footer>
 
-                <a target="_{{content.cta_target}}" href="{{content.cta_url}}" class="hustle-modal-cta">{{content.cta_label}}</a>
+				<a target="_{{content.cta_target}}" href="{{content.cta_url}}" class="hustle-modal-cta">{{content.cta_label}}</a>
 
             </footer>
 

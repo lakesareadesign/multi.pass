@@ -179,7 +179,12 @@ final class FL_Debug {
 		);
 		self::register( 'wp_plugins', $args );
 
-		$plugins = self::get_plugins();
+		$defaults = array(
+			'active' => array(),
+			'deactive' => array(),
+		);
+
+		$plugins = wp_parse_args( self::get_plugins(), $defaults );
 		$args = array(
 			'name' => 'Active Plugins',
 			'data' => $plugins['active'],
@@ -305,7 +310,7 @@ final class FL_Debug {
 
 		$args = array(
 			'name' => 'Beaver Builder Path writable',
-			'data' => ( is_writable( $cache['path'] ) ) ? 'Yes' : 'No',
+			'data' => ( fl_builder_filesystem()->is_writable( $cache['path'] ) ) ? 'Yes' : 'No',
 		);
 		self::register( 'bb_cache_path_writable', $args );
 
@@ -320,7 +325,7 @@ final class FL_Debug {
 
 			$args = array(
 				'name' => 'Beaver Theme Path writable',
-				'data' => ( is_writable( $cache['path'] ) ) ? 'Yes' : 'No',
+				'data' => ( fl_builder_filesystem()->is_writable( $cache['path'] ) ) ? 'Yes' : 'No',
 			);
 			self::register( 'bb_theme_cache_path_writable', $args );
 		}
@@ -388,7 +393,7 @@ final class FL_Debug {
 		self::register( 'up_htaccess', $args );
 
 		// detect uploads folder .htaccess file and display it if found.
-		$uploads = wp_upload_dir();
+		$uploads = wp_upload_dir( null, false );
 		$uploads_htaccess = trailingslashit( $uploads['basedir'] ) . '.htaccess';
 		$root_htaccess    = trailingslashit( ABSPATH ) . '.htaccess';
 

@@ -175,9 +175,9 @@ class UB_Module_List_Table extends WP_List_Table {
 		 * check replaced by module
 		 */
 		$replace_by = $this->check_replaced_by( $item );
-		if ( $replace_by ) {
+		if ( $replace_by && isset( $this->configuration[ $this->configuration[ $item['module'] ]['replaced_by'] ] ) ) {
 			$content = sprintf(
-				__( 'Module "%s" can not be activated, becouse module "%s" is active.', 'ub' ),
+				__( 'Module "%s" can not be activated, because module "%s" is active.', 'ub' ),
 				$item['name'],
 				$this->configuration[ $this->configuration[ $item['module'] ]['replaced_by'] ]['title']
 			);

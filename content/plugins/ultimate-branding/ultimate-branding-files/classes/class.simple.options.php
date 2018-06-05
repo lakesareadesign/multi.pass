@@ -3,7 +3,7 @@
 Class Name: Simple Options
 Class URI: http://iworks.pl/
 Description: Simple option class to manage options.
-Version: 1.0.7
+Version: 1.0.9
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GPLv2 or later
@@ -26,6 +26,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 == CHANGELOG ==
+
+= 1.0.9 =
+- Added default "large-text" class to "textarea" and "email",
+
+= 1.0.8 =
+- Added "gallery" field type.
 
 = 1.0.7 =
 - Handle multiple value for select.
@@ -189,7 +195,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 					/**
 					 * default class for text field
 					 */
-					if ( 'text' == $data['type'] && empty( $data['classes'] ) ) {
+					if ( preg_match( '/^(text(area)?|email)$/', $data['type'] ) && empty( $data['classes'] ) ) {
 						$data['classes'][] = 'large-text';
 					}
 					/**
@@ -267,40 +273,19 @@ if ( ! class_exists( 'simple_options' ) ) {
 
 						case 'description':
 							$content .= $data['value'];
-						break;
+							break;
 
+						case 'gallery':
 						case 'media':
 							if ( ! isset( $this->loaded['media'] ) ) {
 								$this->loaded['media'] = true;
 								wp_enqueue_media();
+								add_action( 'admin_footer', array( $this, 'add_media_template' ) );
 							}
-							$image_src = '';
-							if ( preg_match( '/^\d+$/', $value ) ) {
-								$image_src = wp_get_attachment_image_url( $value );
-							} else if ( is_string( $value ) ) {
-								$image_src = $value;
+							if ( ! is_array( $value ) ) {
+								$value = array( array( 'value' => $value ) );
 							}
-							$content .= '<div class="image-preview-wrapper">';
-							$content .= sprintf(
-								'<img class="image-preview" src="%s" />',
-								esc_url( $image_src )
-							);
-							$content .= '</div>';
-							$content .= sprintf(
-								'<a href="#" class="image-reset %s">%s</a>',
-								esc_attr( $image_src? '': 'disabled' ),
-								esc_html__( 'reset', 'ub' )
-							);
-							$content .= sprintf(
-								'<input type="button" class="button button-select-image" value="%s" />',
-								esc_attr__( 'Browse', 'ub' )
-							);
-							$content .= sprintf(
-								'<input type="hidden" name="simple_options[%s][%s]" value="%s" class="attachment-id" />',
-								esc_attr( $section_key ),
-								esc_attr( $id ),
-								esc_attr( $value )
-							);
+							$content .= $this->image( $section_key, $id, $value, $data['type'] );
 						break;
 
 						case 'color':
@@ -733,6 +718,68 @@ if ( ! class_exists( 'simple_options' ) ) {
 			}
 			wp_enqueue_style( $key, ub_url( 'assets/css/vendor/jquery-ui.min.css' ), array(), '1.12.1' );
 			$this->loaded[ $key ] = true;
+		}
+
+		private function image( $section_key, $id, $images, $type ) {
+			$output = array(
+				'type' => $type,
+				'images' => array(),
+			);
+			$add = empty( $images );;
+			$content = '';
+			foreach ( $images as $data ) {
+				$image = isset( $data['value'] )? $data['value']:null;
+				$image_id = $image_src = $disabled = '';
+				if ( empty( $image ) ) {
+					$image_id = 'time-'.time();
+					$disabled = 'disabled';
+					$add = false;
+				} else if ( preg_match( '/^\d+$/', $image ) ) {
+					$image_id = 'attachment-id-'.$image;
+					$image_src = wp_get_attachment_image_url( $image );
+					$add = true;
+				} else if ( is_string( $image ) ) {
+					$image_src = $image;
+					$image_id = 'file-'.md5( $image );
+					$add = true;
+				}
+				$output['images'][] = array(
+					'id' => $id,
+					'image_id' => $image_id,
+					'section_key' => $section_key,
+					'value' => $image,
+					'image_src' => $image_src,
+					'disabled' => $disabled,
+				);
+			}
+			if ( $add && 'gallery' === $type ) {
+				$output['images'][] = array(
+					'id' => $id,
+					'section_key' => $section_key,
+					'disabled' => 'disabled',
+				);
+			}
+			$content .= '<script type="text/javascript">';
+			$content .= sprintf( '_ub_option_media_%s_%s', sanitize_title( $section_key ), sanitize_title( $id ) );
+			$content .= '=';
+			$content .= json_encode( $output );
+			$content .= ';</script>';
+			$content .= sprintf( '<div class="images" id="ub_option_media_%s_%s"></div>', esc_attr( $section_key ), esc_attr( $id ) );
+
+			return $content;
+		}
+
+		public function add_media_template() {
+?>
+<script type="text/html" id="tmpl-simple-options-media">
+    <div class="image-wrapper" data-id="{{{data.id}}}" data-section_key="{{{data.section_key}}}">
+        <div class="image-preview-wrapper"><img class="image-preview" src="{{{data.image_src}}}" /></div>
+        <a href="#" class="image-reset {{{data.disabled}}}"><?php esc_html_e( 'Remove', 'ub' ); ?></a>
+        <input type="button" class="button button-select-image" value="<?php esc_attr_e( 'Browse', 'ub' ); ?>" />
+        <input type="hidden" name="simple_options[{{{data.section_key}}}][{{{data.id}}}][]" value="{{{data.value}}}" class="attachment-id" />
+    </div>
+</script>
+<?php
 		}
 	}
 }

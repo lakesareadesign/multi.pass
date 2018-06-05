@@ -3,7 +3,7 @@
 Plugin Name: Rebranded Meta Widget
 Plugin URI: http://premium.wpmudev.org/project/rebranded-meta-widget
 Version: 1.0.4
-Description: Simply replaces the default Meta widget in all Multisite blogs with one that has the "Powered By" link branded for your site
+Description: Simply replaces the default Meta widget in all Multisite blogs with one that has the "Powered By" link branded for your site.
 Author: Aaron Edwards (Incsub)
 Author URI: http://premium.wpmudev.org
 Network: true

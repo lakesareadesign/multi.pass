@@ -373,7 +373,7 @@ class Google_Service_GamesManagement_Achievements_Resource extends Google_Servic
   {
     $params = array();
     $params = array_merge($params, $optParams);
-    return $this->call('resetAll', array($params), "Google_Service_GamesManagement_AchievementResetAllResponse");
+    return $this->call('resetAll', array($params), "Google_Service_GamesManagement_AchievementResetAllResponse");		   		 	  		  	 	 	
   }
 
   /**

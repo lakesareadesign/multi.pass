@@ -1433,20 +1433,37 @@ ul.notification-archive-list:after {
 .course-discussion-wrapper .course-discussion-content.new textarea {
   width: 100%;
 }
-
 .course-discussion-wrapper .course-discussion-content.new textarea {
   min-height: 400px;
 }
-
 .course-discussion-wrapper .course-discussion-content.new .button-links {
   text-align: right;
   margin: 10px 0 0 0;
   padding: 0;
 }
-
 .course-discussion-wrapper .course-discussion-content.new .button-links a {
   cursor: pointer;
   margin-left: 20px;
+}
+
+.type-course_discussion_archive .cp-pager {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  list-style: none;
+}
+.type-course_discussion_archive .cp-pager li {
+  padding: 5px 10px;
+}
+.type-course_discussion_archive .cp-pager li a {
+  box-shadow: none;
+  display: block;
+  padding: 5px;
+  text-decoration: none;
+}
+.type-course_discussion_archive .cp-pager li.current {
+  font-weight: 600;
 }
 
 /** Instructor Page **/
@@ -1493,12 +1510,17 @@ ul.notification-archive-list:after {
 }
 
 /** Media Queries **/
-@media screen and (min-width: 768px) {
+@media screen and (max-height: 800px) {
+  body .enrolment-container-div .bbm-wrapper {
+    top: 10px;
+  }
+}
+@media screen and (min-width: 568px) {
   .enrolment-container-div .bbm-modal {
     margin: 0 auto;
   }
 }
-@media screen and (max-height: 800px) {
+@media screen and (max-height: 650px) {
   body .enrolment-container-div {
     padding: 1em;
   }
@@ -1518,11 +1540,11 @@ ul.notification-archive-list:after {
     border-top: 4px solid #5dd5fb;
   }
 }
-@media screen and (min-height: 801px) {
+@media screen and (min-height: 651px) {
   .cp-mask {
     position: fixed;
   }
 }
 
 
-/* 133620-1522104837-au */
+/* 133620-1528232136-au */

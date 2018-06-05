@@ -2,7 +2,7 @@
 /*
 Plugin Name: Admin Message
 Plugin URI: https://premium.wpmudev.org/project/admin-message/
-Description: Display a message in admin dashboard
+Description: Display a message in admin dashboard.
 Author: WPMU DEV
 Version: 1.1.1.2
 Tested up to: 3.2.0

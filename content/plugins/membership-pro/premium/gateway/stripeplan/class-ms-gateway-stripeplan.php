@@ -119,6 +119,12 @@ class MS_Gateway_Stripeplan extends MS_Gateway {
 			'update_stripe_data_coupon'
 		);
 
+		//Delete Coupon
+		$this->add_action(
+			'ms_deleted_MS_Addon_Coupon_Model',
+			'delete_stripe_coupon', 10, 3
+		);
+
 		$this->add_filter(
 			'ms_model_pages_get_ms_page_url',
 			'ms_model_pages_get_ms_page_url_cb',
@@ -320,13 +326,13 @@ class MS_Gateway_Stripeplan extends MS_Gateway {
 			$percent_off = $coupon->discount;
 		}
 
-		$coupon_data = array(
+		$coupon_data = apply_filters( 'ms_gateway_stripe_coupon_data',  array(
 			'id' 			=> self::get_the_id( $coupon->id, 'coupon' ),
 			'duration' 		=> $duration,
 			'amount_off' 	=> $amount_off,
 			'percent_off' 	=> $percent_off,
 			'currency' 		=> $settings->currency,
-		);
+		), $coupon, $settings );
 
 		// Check if the plan needs to be updated.
 		$serialized_data 	= json_encode( $coupon_data );
@@ -345,6 +351,28 @@ class MS_Gateway_Stripeplan extends MS_Gateway {
 	}
 
 	/**
+	 * Action when coupon is deleted
+	 *
+	 * @param MS_Addon_Coupon_Model $coupon - the current coupon
+	 * @param bool $deleted - if it was deleted
+	 * @param int $id - the reference ID
+	 *
+	 * @since 1.1.5
+	 */
+	public function delete_stripe_coupon( $coupon, $deleted, $id ) {
+		if ( ! $this->active ) { return false; }
+		$this->_api->set_gateway( $this );
+		$coupon_id = apply_filters(
+							'ms_gateway_stripe_coupon_id',
+							self::get_the_id( $id, 'coupon' ),
+							$id,
+							$coupon
+					);
+
+		$this->_api->delete_coupon( $coupon_id );
+	}
+
+	/**
 	 * Process Stripe WebHook requests
 	 *
 	 * @since 1.0.4
@@ -359,6 +387,10 @@ class MS_Gateway_Stripeplan extends MS_Gateway {
 
 		$secret_key = $this->get_secret_key();
 		Stripe::setApiKey( $secret_key );
+
+		// Make sure everyone is using the same API version. we can update this if/when necessary.
+		// If we don't set this, Stripe will use latest version, which may break our implementation.
+		Stripe::setApiVersion( '2018-02-28' );
 
 		// retrieve the request's body and parse it as JSON
 		$body = @file_get_contents( 'php://input' );

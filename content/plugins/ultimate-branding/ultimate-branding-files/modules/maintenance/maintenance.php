@@ -24,6 +24,7 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 	class ub_maintenance extends ub_helper {
 		protected $option_name = 'ub_maintenance';
 		private $current_sites = array();
+		protected $file = __FILE__;
 
 		public function __construct() {
 			parent::__construct();
@@ -55,7 +56,6 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				__( 'Maintenance should only be used when your established site is truly down for maintenance.', 'ub' ),
 				__( 'Maintenance Mode returns a special header code (503) to notify search engines that your site is currently down so it does not negatively affect your site’s reputation.', 'ub' ),
 			);
-
 			$options = array(
 				'mode' => array(
 					'title' => __( 'Working mode', 'ub' ),
@@ -76,13 +76,39 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				'document' => array(
 					'title' => __( 'Document', 'ub' ),
 					'fields' => array(
+						'title_show' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Show title', 'ub' ),
+							'description' => __( 'Would you like to show title?', 'ub' ),
+							'options' => array(
+								'on' => __( 'On', 'ub' ),
+								'off' => __( 'Off', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+							'slave-class' => 'title',
+						),
 						'title' => array(
 							'label' => __( 'Title', 'ub' ),
 							'description' => __( 'Enter a headline for your page.', 'ub' ),
+							'master' => 'title',
+						),
+						'content_show' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Show content', 'ub' ),
+							'description' => __( 'Would you like to show content?', 'ub' ),
+							'options' => array(
+								'on' => __( 'On', 'ub' ),
+								'off' => __( 'Off', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+							'slave-class' => 'content',
 						),
 						'content' => array(
 							'type' => 'wp_editor',
 							'label' => __( 'Content', 'ub' ),
+							'master' => 'content',
 						),
 						'color' => array(
 							'type' => 'color',
@@ -93,6 +119,15 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 							'type' => 'color',
 							'label' => __( 'Background color', 'ub' ),
 							'default' => '#f1f1f1',
+						),
+						'background_transparency' => array(
+							'type' => 'number',
+							'label' => __( 'background transparency', 'ub' ),
+							'min' => 0,
+							'max' => 100,
+							'default' => 0,
+							'classes' => array( 'ui-slider' ),
+							'after' => '%',
 						),
 						'width' => array(
 							'type' => 'number',
@@ -154,15 +189,34 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 							'label' => __( 'Background color', 'ub' ),
 							'default' => '#210101',
 						),
+						'mode' => array(
+							'type' => 'select',
+							'label' => __( 'Multiple images mode', 'ub' ),
+							'options' => array(
+								'slideshow' => __( 'Slideshow', 'ub' ),
+								'random' => __( 'Random', 'ub' ),
+							),
+							'default' => 'Slideshow',
+						),
 						'image' => array(
-							'type' => 'media',
+							'type' => 'gallery',
 							'label' => __( 'Background Image', 'ub' ),
 							'description' => __( 'You can upload a background image here. The image will stretch to fit the page, and will automatically resize as the window size changes. You\'ll have the best results by using images with a minimum width of 1024px.', 'ub' ),
+						),
+						'duration' => array(
+							'type' => 'number',
+							'label' => __( 'Slideshow duration', 'ub' ),
+							'description' => __( 'Duration in minutes, we strongly recommended do not use less than 5 minutes.', 'ub' ),
+							'default' => 10,
+							'min' => 1,
+							'max' => 60,
+							'after' => __( 'minutes', 'ub' ),
+							'classes' => array( 'ui-slider' ),
 						),
 					),
 				),
 				'timer' => array(
-					'title' => __( 'Timer', 'ub' ),
+					'title' => __( 'Countdown Timer', 'ub' ),
 					'fields' => array(
 						'use' => array(
 							'type' => 'checkbox',
@@ -198,6 +252,17 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 							'label' => __( 'Till time', 'ub' ),
 							'master' => 'timer-related',
 						),
+						'template' => array(
+							'type' => 'select',
+							'label' => __( 'Countdown template', 'ub' ),
+							'options' => array(
+								'final-countdown' => __( 'Final Countdown', 'ub' ),
+								'flipclock' => __( 'FlipClock', 'ub' ),
+								'raw' => __( 'Raw', 'ub' ),
+							),
+							'default' => 'final-countdown',
+							'master' => 'timer-related',
+						),
 					),
 				),
 				'social_media_settings' => array(
@@ -229,10 +294,11 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 						),
 						'social_media_link_in_new_tab' => array(
 							'type' => 'checkbox',
-							'label' => __( 'Open Social media links', 'ub' ),
+							'label' => __( 'Open links', 'ub' ),
+							'description' => __( 'Would you like open link in new or the same window/tab?', 'ub' ),
 							'options' => array(
-								'on' => __( 'open new', 'ub' ),
-								'off' => __( 'in the same', 'ub' ),
+								'on' => __( 'new', 'ub' ),
+								'off' => __( 'the same', 'ub' ),
 							),
 							'default' => 'off',
 							'classes' => array( 'switch-button' ),
@@ -362,13 +428,7 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 			}
 			return $results;
 		}
-		/**
-		 * Display the default template
-		 */
-		public function get_default_template() {
-			$file = file_get_contents( dirname( __FILE__ ).'/assets/template.html' );
-			return $file;
-		}
+
 		/**
 		 * Display the coming soon page
 		 */
@@ -402,7 +462,15 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				return;
 			}
 			/**
-			 * check timer
+			 * set data
+			 */
+			$head = '';
+			$distance = $use_timer = false;
+			$body_classes = array(
+				'ultimate-branding-maintenance',
+			);
+			/**
+			 * javascript, check time;
 			 */
 			$v = $this->get_value( 'timer' );
 			if (
@@ -413,16 +481,13 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				&& isset( $v['till_date'] )
 				&& isset( $v['till_date']['alt'] )
 			) {
-				$date = $v['till_date']['alt'].' '.(isset( $v['till_time'] )? $v['till_time']:'00:00');
-				$distance = strtotime( $date ) - time();
-				if ( 0 > $distance ) {
-					$value = $this->get_value();
-					$value['mode']['mode'] = 'off';
-					$this->update_value( $value );
+				$distance = $this->get_distance();
+				if ( 1 > $distance ) {
 					return;
 				}
+				$use_timer = true;
+				$body_classes[] = 'has-counter';
 			}
-
 			/**
 			 *  set headers
 			 */
@@ -457,11 +522,8 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				define( 'DONOTCACHEOBJECT', true );
 			}
 			header( 'Cache-Control: max-age=0; private' );
-			$template = $this->get_default_template();
+			$template = $this->get_template();
 			$this->set_data();
-			$body_classes = array(
-				'ultimate-branding-maintenance',
-			);
 			/**
 			 * Add defaults.
 			 */
@@ -480,59 +542,35 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 						$value = '';
 					}
 					if ( ! is_string( $value ) ) {
-						continue;
+						$value = '';
+					}
+					if ( ! empty( $value ) ) {
+						switch ( $section ) {
+							case 'document':
+								switch ( $name ) {
+									case 'title':
+										$show = $this->get_value( 'document', 'title_show' );
+										if ( 'off' === $show ) {
+											$value = '';
+										} else {
+											$value = sprintf( '<h1>%s</h1>', esc_html( $value ) );
+										}
+									break;
+									case 'content_meta':
+										$show = $this->get_value( 'document', 'content_show' );
+										if ( 'off' === $show ) {
+											$value = '';
+										} else {
+											$value = sprintf( '<div class="content">%s</div>', $value );
+										}
+									break;
+								}
+							break;
+						}
 					}
 					$re = sprintf( '/{%s_%s}/', $section, $name );
 					$template = preg_replace( $re, stripcslashes( $value ), $template );
 				}
-			}
-			/**
-			 * javascript
-			 */
-			$head = '';
-			$v = $this->get_value( 'timer' );
-			if (
-				isset( $v['use'] )
-				&& 'on' == $v['use']
-				&& isset( $v['show'] )
-				&& 'on' == $v['show']
-				&& isset( $v['till_date'] )
-				&& isset( $v['till_date']['alt'] )
-			) {
-				$date = $v['till_date']['alt'].' '.(isset( $v['till_time'] )? $v['till_time']:'00:00');
-				$distance = strtotime( $date ) - time();
-				$body_classes[] = 'has-counter';
-				$head .= '
-<script type="text/javascript">
-var distance = '.$distance.';
-var ultimate_branding_counter = setInterval(function() {
-    var days = Math.floor( distance / ( 60 * 60 * 24));
-    var hours = Math.floor((distance % ( 60 * 60 * 24)) / ( 60 * 60));
-    var minutes = Math.floor((distance % ( 60 * 60)) / ( 60));
-    var seconds = Math.floor((distance % ( 60)));
-    var value = "";
-    if ( 0 < days ) {
-        value += days + "'._x( 'd', 'day letter of timer', 'ub' ).'" + " ";
-    }
-    if ( 0 < hours ) {
-        value += hours + "'._x( 'h', 'hour letter of timer', 'ub' ).'" + " ";
-    }
-    if ( 0 < minutes ) {
-        value += minutes + "'._x( 'm', 'minute letter of timer', 'ub' ).'" + " ";
-    }
-    if ( 0 < seconds ) {
-        value += seconds + "'._x( 's', 'second letter of timer', 'ub' ).'";
-    }
-    if ( "" == value ) {
-        value = "'.__( 'We are back now!', 'ub' ).'";
-    }
-    document.getElementById("counter").innerHTML = value;
-    if (distance < 0) {
-        window.location.reload();
-    }
-    distance--;
-}, 1000);
-</script>';
 			}
 			/**
 			 * social_media
@@ -567,57 +605,94 @@ var ultimate_branding_counter = setInterval(function() {
 					}
 				}
 			}
+			if ( ! empty( $social_media ) ) {
+				$social_media = sprintf( '<div id="social">%s</div>', $social_media );
+			}
 			$template = preg_replace( '/{social_media}/', $social_media, $template );
 			/**
-			 * head
+			 * css & javascript
 			 */
-			$head .= sprintf(
-				'<link rel="stylesheet" id="maintenance" href="%s?version=%s" type="text/css" media="all" />',
-				$this->make_relative_url( plugins_url( 'assets/maintenance.css', __FILE__ ) ),
-				$this->build
-			);
-			$template = preg_replace( '/{head}/', $head, $template );
-			/**
-			 * css
-			 */
-			$css = '';
+			$css = $javascript = '';
 			/**
 			 * page
 			 */
 			$v = $this->get_value( 'document' );
+			$css .= $this->css_background_transparency( $v, 'background', 'background_transparency', '.page', false );
+			$css .= $this->css_color_from_data( $v, 'color', '.page', false );
 			$css .= '.page{';
-			if ( isset( $v['background'] ) ) {
-				$css .= $this->css_background_color( $v['background'] );
-			}
-			if ( isset( $v['color'] ) ) {
-				$css .= $this->css_color( $v['color'] );
-			}
-			if ( isset( $v['width'] ) ) {
+			if ( isset( $v['width'] ) && ! empty( $v['width'] ) ) {
 				$css .= $this->css_width( $v['width'] );
+			} else {
+				$css .= $this->css_width( 100, '%' );
 			}
-
 			$css .= '}';
-
 			/**
-			 * Background
+			 * Background Color
 			 */
 			$v = $this->get_value( 'background', 'color' );
 			if ( ! empty( $v ) ) {
 				$css .= sprintf( 'body{%s}', $this->css_background_color( $v ) );
 			}
-			$v = $this->get_value( 'background', 'image_meta' );
-			if ( isset( $v[0] ) ) {
+			/**
+			 * Background Image
+			 */
+			$v = $this->get_value( 'background', 'color' );
+			if ( ! empty( $v ) ) {
+				$css .= sprintf( 'html{%s}', $this->css_background_color( $v ) );
+			}
+			$v = $this->get_value( 'background', 'image' );
+			if ( 0 < count( $v ) && isset( $v[0]['meta'] ) ) {
+				$mode = $this->get_value( 'background', 'mode' );
+				$id = 0;
+				do {
+					$id = rand( 0, count( $v ) - 1 );
+				} while ( ! isset( $v[ $id ]['meta'] ) );
+				$meta = $v[ $id ]['meta'];
 				$css .= sprintf('
 html {
-    background: url(%s) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
+    background-image: url(%s);
 }
 body {
     background-color: transparent;
-}', esc_url( $v[0] ) );
+}', esc_url( $meta[0] ) );
+				if ( 'slideshow' === $mode && 1 < count( $v ) ) {
+					$images = array();
+					foreach ( $v as $one ) {
+						if ( isset( $one['meta'] ) ) {
+							$images[] = $one['meta'][0];
+						}
+					}
+					if ( count( $images ) ) {
+						$duration = intval( $this->get_value( 'background', 'duration' ) );
+						if ( 0 > $duration ) {
+							$duration = 10;
+						}
+						$duration = MINUTE_IN_SECONDS * $duration * 1000;
+						$javascript .= sprintf( 'var imgs = %s;', json_encode( $images ) );
+						$javascript .= 'var opacity, ub_fade;
+var ub_animate_background = setInterval( function( ) {
+    var imgUrl = imgs[Math.floor(Math.random()*imgs.length)];
+    var mask = document.getElementsByClassName(\'mask\')[0];
+    var html = document.getElementsByTagName(\'html\')[0];
+    if ( "" === html.style.backgroundImage ) {
+        html.style.backgroundImage = \'url(\' + imgs[0] + \')\';
+    }
+    mask.style.backgroundImage = html.style.backgroundImage;
+    html.style.backgroundImage = \'url(\' + imgUrl + \')\';
+    mask.style.opacity = opacity = 1;
+    ub_fade = setInterval( function() {
+        if ( 0 > opacity ) {
+            clearTimeout( ub_fade );
+            opacity = 1;
+            return;
+        }
+        opacity -= 0.01;
+        mask.style.opacity = opacity;
+    }, 20 );
+}, '.$duration.' );
+';
+					}
+				}
 			}
 			/**
 			 * Logo
@@ -658,19 +733,72 @@ body {
 					$logo = '<div id="logo"></div>';
 				}
 			}
+
+			/**
+			 * timer template
+			 */
+			$timer_template = '';
+			if ( $use_timer ) {
+				$timer = $this->get_value( 'timer', 'template' );
+				if ( empty( $timer ) ) {
+					$timer = 'raw';
+				}
+				$timer_template = $this->get_template( $timer );
+				switch ( $timer ) {
+					case 'raw':
+						$head .= $this->get_head_raw();
+					break;
+					case 'final-countdown':
+						$re = array(
+						'DAYS' => __( 'Days', 'ub' ),
+						'HOURS' => __( 'Hours', 'ub' ),
+						'MINUTES' => __( 'Minutes', 'ub' ),
+						'SECONDS' => __( 'Seconds', 'ub' ),
+						);
+						$keys = array_keys( $re );
+						$values = array_values( $re );
+						$timer_template = str_replace( $keys, $values, $timer_template );
+						$head .= $this->get_head_final_countdown();
+					break;
+					case 'flipclock':
+						$head .= $this->get_head_flipclock();
+						$d = intval( $this->get_distance() );
+						$timer_template = preg_replace( '/{distance}/', $d, $timer_template );
+						$language = strtolower( substr( get_bloginfo( 'language' ), 0, 2 ) );
+						$timer_template = preg_replace( '/{language}/', $language, $timer_template );
+					break;
+				}
+			}
+			$template = preg_replace( '/{countdown}/', $timer_template, $template );
+
+			/**
+			 * head
+			 */
+			$head .= $this->enqueue( 'maintenance.css' );
+			$template = preg_replace( '/{head}/', $head, $template );
+			/**
+			 * logo
+			 */
 			$template = preg_replace( '/{logo}/', $logo, $template );
+			/**
+			 * replace javascript
+			 */
+			$template = preg_replace( '/{javascript}/', $javascript, $template );
 			/**
 			 * replace css
 			 */
 			$template = preg_replace( '/{css}/', $css, $template );
 			/**
+			 * replace site data
+			 */
+			$template = preg_replace( '/{title}/', get_bloginfo( 'name' ), $template );
+			$template = preg_replace( '/{language}/', get_bloginfo( 'language' ), $template );
+			/**
 			 * body classes
 			 */
 			$template = preg_replace( '/{body_class}/', implode( ' ', $body_classes ), $template );
-
 			echo $template;
 			exit();
-
 		}
 
 		function only_allow_logged_in_rest_access( $access ) {
@@ -745,6 +873,122 @@ body {
 				);
 			}
 			wp_send_json_success( $results );
+		}
+
+		/**
+		 * get head of Raw Countdown Timer
+		 *
+		 * @since 1.9.9
+		 */
+		private function get_head_raw() {
+			/**
+			 * check timer
+			 */
+			$distance = $this->get_distance();
+			return '
+<script type="text/javascript">
+var distance = '.$distance.';
+var ultimate_branding_counter = setInterval(function() {
+    var days = Math.floor( distance / ( 60 * 60 * 24));
+    var hours = Math.floor((distance % ( 60 * 60 * 24)) / ( 60 * 60));
+    var minutes = Math.floor((distance % ( 60 * 60)) / ( 60));
+    var seconds = Math.floor((distance % ( 60)));
+    var value = "";
+    if ( 0 < days ) {
+        value += days + "'._x( 'd', 'day letter of timer', 'ub' ).'" + " ";
+    }
+    if ( 0 < hours ) {
+        value += hours + "'._x( 'h', 'hour letter of timer', 'ub' ).'" + " ";
+    }
+    if ( 0 < minutes ) {
+        value += minutes + "'._x( 'm', 'minute letter of timer', 'ub' ).'" + " ";
+    }
+    if ( 0 < seconds ) {
+        value += seconds + "'._x( 's', 'second letter of timer', 'ub' ).'";
+    }
+    if ( "" == value ) {
+        value = "'.__( 'We are back now!', 'ub' ).'";
+    }
+    document.getElementById("counter").innerHTML = value;
+    if (distance < 0) {
+        window.location.reload();
+    }
+    distance--;
+}, 1000);
+</script>';
+		}
+
+
+		/**
+		 * Final Countdown assets
+		 *
+		 * @since 1.9.9
+		 */
+		private function get_head_final_countdown() {
+			$head = '';
+			$head .= $this->enqueue( 'jquery/jquery.js', false, true );
+			$head .= $this->enqueue( 'vendor/jquery-final-countdown/js/kinetic.js', '5.1.0' );
+			$head .= $this->enqueue( 'vendor/jquery-final-countdown/js/jquery.final-countdown.min.js' );
+			$head .= "<script type=\"text/javascript\">
+jQuery(document).ready(function($) {
+    $('.countdown').final_countdown({
+        'end': ".$this->get_distance( 'raw' ).",
+        'now': ".time().'
+    }, function() {
+        window.location.reload();
+    });
+});
+</script>';
+			return $head;
+		}
+
+		/**
+		 * FlipClock assets
+		 *
+		 * @since 1.9.9
+		 */
+		private function get_head_flipclock() {
+			$head = '';
+			$head .= $this->enqueue( 'jquery/jquery.js', false, true );
+			$head .= $this->enqueue( 'vendor/flipclock/flipclock.min.js', '2018-04-12' );
+			$head .= $this->enqueue( 'vendor/flipclock/flipclock.css', '2018-04-12' );
+			return $head;
+		}
+
+		/**
+		 * calculate distance to open site
+		 *
+		 * @since 1.9.9
+		 */
+		private function get_distance( $mode = 'difference' ) {
+			$v = $this->get_value( 'timer' );
+			if (
+				isset( $v['use'] )
+				&& 'on' == $v['use']
+				&& isset( $v['show'] )
+				&& 'on' == $v['show']
+				&& isset( $v['till_date'] )
+				&& isset( $v['till_date']['alt'] )
+			) {
+				$date = $v['till_date']['alt'].' '.(isset( $v['till_time'] )? $v['till_time']:'00:00');
+				$timestamp = strtotime( $date );
+				$gmt_offsset = get_option( 'gmt_offset' );
+				if ( ! empty( $gmt_offsset ) ) {
+					$timestamp -= HOUR_IN_SECONDS * intval( $gmt_offsset );
+				}
+				if ( 'raw' === $mode ) {
+					return $timestamp;
+				}
+				$distance = $timestamp - time();
+				if ( 0 > $distance ) {
+					$value = $this->get_value();
+					$value['mode']['mode'] = 'off';
+					$this->update_value( $value );
+					return 0;
+				}
+				return $distance;
+			}
+			return 0;
 		}
 	}
 }

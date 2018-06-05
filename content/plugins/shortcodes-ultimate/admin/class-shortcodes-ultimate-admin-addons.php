@@ -72,10 +72,10 @@ final class Shortcodes_Ultimate_Admin_Addons extends Shortcodes_Ultimate_Admin {
 		$screen->add_help_tab( array(
 				'id'      => 'shortcodes-ultimate-addons',
 				'title'   => __( 'Add-ons', 'shortcodes-ultimate' ),
-				'content' => $this->get_template( 'help/addons' ),
+				'content' => $this->get_template( 'admin/partials/help/addons' ),
 			) );
 
-		$screen->set_help_sidebar( $this->get_template( 'help/sidebar' ) );
+		$screen->set_help_sidebar( $this->get_template( 'admin/partials/help/sidebar' ) );
 
 	}
 
@@ -91,7 +91,7 @@ final class Shortcodes_Ultimate_Admin_Addons extends Shortcodes_Ultimate_Admin {
 			return;
 		}
 
-		wp_enqueue_style( 'shortcodes-ultimate-admin', $this->get_plugin_url() . 'admin/css/admin.css', array(), $this->get_plugin_version() );
+		wp_enqueue_style( 'shortcodes-ultimate-admin', $this->plugin_url . 'admin/css/admin.css', array(), $this->plugin_version );
 
 	}
 

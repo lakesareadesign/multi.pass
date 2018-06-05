@@ -1,6 +1,10 @@
 .toplevel_page_branding #poststuff form div.postbox .hndle {
   cursor: default;
 }
+.toplevel_page_branding #poststuff form div.postbox .button-link {
+  text-align: center;
+  text-decoration: none;
+}
 .toplevel_page_branding #poststuff form div.inside p.description {
   max-width: 500px;
 }
@@ -25,6 +29,51 @@
 }
 .toplevel_page_branding #ultimate-branding-modules .switch-button-background.checked {
   background-color: green;
+}
+.toplevel_page_branding .tabs {
+  position: relative;
+  border-bottom: 1px solid #ccc;
+  margin-bottom: 1em;
+}
+.toplevel_page_branding .tabs .-primary {
+  display: flex;
+  margin-bottom: 0;
+}
+.toplevel_page_branding .tabs .-primary li {
+  margin-bottom: 0;
+}
+.toplevel_page_branding .tabs .ub-tab-more-button:hover {
+  cursor: pointer;
+}
+.toplevel_page_branding .tabs > li {
+  flex-grow: 1;
+}
+.toplevel_page_branding .tabs:not(.--jsfied) {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+.toplevel_page_branding .tabs .-secondary {
+  background-color: #fff;
+  display: none;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 999999;
+}
+.toplevel_page_branding .tabs .-secondary li {
+  width: 100%;
+  margin: 0;
+}
+.toplevel_page_branding .tabs .-secondary li .nav-tab {
+  display: block;
+  float: none;
+  margin: 1px;
+}
+.toplevel_page_branding .tabs.--show-secondary .-secondary {
+  display: block;
+}
+.toplevel_page_branding .tabs .--hidden {
+  display: none;
 }
 
 tr.inactivemodule {
@@ -104,21 +153,27 @@ li.link_row h4 {
 }
 
 /* options */
-.postbox .simple-option-media .image-preview {
+.postbox .simple-option-media .image-preview,
+.postbox .simple-option-gallery .image-preview {
   max-height: 100px;
 }
-.postbox .simple-option-media .image-reset {
+.postbox .simple-option-media .image-reset,
+.postbox .simple-option-gallery .image-reset {
   display: inline-block;
   margin-right: 80px;
   text-decoration: none;
   vertical-align: bottom;
 }
-.postbox .simple-option-media .image-reset.disabled {
+.postbox .simple-option-media .image-reset.disabled,
+.postbox .simple-option-gallery .image-reset.disabled {
   display: none;
 }
 .postbox .simple-option div.ui-slider {
   margin: 10px 0;
   max-width: 150px;
+}
+.postbox .simple-option .select2-container {
+  min-width: 10em;
 }
 .postbox .simple-option-number .ui-slider span.ui-slider-handle {
   background-color: #0073aa;
@@ -137,6 +192,27 @@ li.link_row h4 {
 }
 .postbox .sortable .simple-option td:first-of-type {
   width: 1.5em;
+}
+.postbox .simple-option-gallery .images {
+  display: flex;
+  flex-wrap: wrap;
+}
+.postbox .simple-option-gallery .images .image-wrapper {
+  width: 150px;
+  padding: 0 20px 20px 0;
+}
+.postbox .simple-option-gallery .images .image-wrapper .image-preview-wrapper {
+  text-align: center;
+  height: 90px;
+}
+.postbox .simple-option-gallery .images .image-wrapper .image-preview-wrapper img {
+  max-height: 80px;
+}
+.postbox .simple-option-gallery .images .image-wrapper .image-reset {
+  margin-right: 10px;
+}
+.postbox .simple-option-gallery .images .image-wrapper .button-select-image {
+  float: right;
 }
 
 .ub-deprecated-module,
@@ -185,4 +261,4 @@ li.link_row h4 {
 }
 
 
-/* 133620-1525394844-au */
+/* 133620-1528232250-au */

@@ -40,7 +40,8 @@ class ShareaholicPublic {
       add_filter('widget_text', 'do_shortcode', 11);
     }
 		
-    add_image_size('shareaholic-thumbnail', 300); // 300 pixels wide (and unlimited height)
+    // Our custom image type
+    add_image_size('shareaholic-thumbnail', 640); // 640 pixels wide (and unlimited height)
   }
 	
   /**
@@ -56,7 +57,25 @@ class ShareaholicPublic {
     self::script_tag();
     self::shareaholic_tags();
     self::draw_og_tags();
-  }  
+  }
+  
+  /**
+   * Inserts resource hints in </head> to speed up loading
+   */
+  public static function shareaholic_resource_hints($hints, $relation_type) {
+    if ('dns-prefetch' === $relation_type) {
+      if ($hints) {
+        array_push($hints,
+          '//apps.shareaholic.com',
+          '//grace.shareaholic.com',
+          '//analytics.shareaholic.com',
+          '//recs.shareaholic.com',
+          '//go.shareaholic.com' 
+        );
+      }
+    }
+    return $hints;
+  }
 
   /**
    * Inserts the script code snippet into the head of the page
@@ -291,13 +310,13 @@ class ShareaholicPublic {
       if (is_attachment()) {
         $thumbnail_src = wp_get_attachment_thumb_url();
       }
-      if (function_exists('has_post_thumbnail') && has_post_thumbnail($post->ID)) {
-        $thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
-        $thumbnail_src = esc_attr($thumbnail[0]);
-      } 
+      
+      $thumbnail_src = ShareaholicUtilities::post_featured_image();
+      
       if ($thumbnail_src == NULL) {
         $thumbnail_src = ShareaholicUtilities::post_first_image();
       }
+      
       if ($thumbnail_src != NULL) {
         echo "<meta name='shareaholic:image' content='" . $thumbnail_src . "' />";
       }
@@ -777,7 +796,7 @@ class ShareaholicPublic {
         'title' => $post->post_title,
         'excerpt' => $post->post_excerpt,
         'body' => $post_body,
-        'thumbnail' => ShareaholicUtilities::permalink_thumbnail($post->ID, "large"),
+        'thumbnail' => ShareaholicUtilities::permalink_thumbnail($post->ID),
       ),
       'post_metadata' => array(
         'author_id' => $post->post_author,
@@ -855,7 +874,7 @@ class ShareaholicPublic {
           'url' => get_permalink($post->ID),
           'title' => $post->post_title,
           'description' => $post->post_excerpt,
-          'image_url' => ShareaholicUtilities::permalink_thumbnail($post->ID, "medium"),
+          'image_url' => ShareaholicUtilities::permalink_thumbnail($post->ID),
           'score' => 1
         );
         array_push($related_permalink_list, $related_link);

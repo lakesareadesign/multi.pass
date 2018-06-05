@@ -129,7 +129,7 @@ final class Shortcodes_Ultimate_Admin_Settings extends Shortcodes_Ultimate_Admin
 
 		$section = str_replace( 'shortcodes-ultimate-', '', $args['id'] );
 
-		$this->the_template( 'settings/sections/' . $section, $args );
+		$this->the_template( 'admin/partials/settings/sections/' . $section, $args );
 
 	}
 
@@ -140,7 +140,7 @@ final class Shortcodes_Ultimate_Admin_Settings extends Shortcodes_Ultimate_Admin
 	 * @since  5.0.0
 	 */
 	public function display_settings_field( $args ) {
-		$this->the_template( 'settings/fields/' . $args['type'], $args );
+		$this->the_template( 'admin/partials/settings/fields/' . $args['type'], $args );
 	}
 
 	/**
@@ -158,10 +158,10 @@ final class Shortcodes_Ultimate_Admin_Settings extends Shortcodes_Ultimate_Admin
 		$screen->add_help_tab( array(
 				'id'      => 'shortcodes-ultimate-general',
 				'title'   => __( 'General settings', 'shortcodes-ultimate' ),
-				'content' => $this->get_template( 'help/settings' ),
+				'content' => $this->get_template( 'admin/partials/help/settings' ),
 			) );
 
-		$screen->set_help_sidebar( $this->get_template( 'help/sidebar' ) );
+		$screen->set_help_sidebar( $this->get_template( 'admin/partials/help/sidebar' ) );
 
 	}
 

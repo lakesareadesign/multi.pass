@@ -46,7 +46,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @return void
 		 */
 		static private function define_constants() {
-			define( 'FL_BUILDER_VERSION', '2.1.1.3' );
+			define( 'FL_BUILDER_VERSION', '2.1.2.4' );
 			define( 'FL_BUILDER_FILE', trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'fl-builder.php' );
 			define( 'FL_BUILDER_DIR', plugin_dir_path( FL_BUILDER_FILE ) );
 			define( 'FL_BUILDER_URL', plugins_url( '/', FL_BUILDER_FILE ) );
@@ -101,6 +101,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-user-settings.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-utils.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-wpml.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-privacy.php';
 
 			/* WP CLI Commands */
 			if ( defined( 'WP_CLI' ) ) {
@@ -130,10 +131,10 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		static private function check_permissions() {
 			if ( isset( $_REQUEST['page'] ) && in_array( $_REQUEST['page'], array( 'fl-builder-settings', 'fl-builder-multisite-settings' ) ) ) {
 
-				$wp_upload_dir = wp_upload_dir();
+				$wp_upload_dir = wp_upload_dir( null, false );
 				$bb_upload_dir = FLBuilderModel::get_upload_dir();
 
-				if ( ! is_writable( $wp_upload_dir['basedir'] ) || ! is_writable( $bb_upload_dir['path'] ) ) {
+				if ( ! fl_builder_filesystem()->is_writable( $wp_upload_dir['basedir'] ) || ! fl_builder_filesystem()->is_writable( $bb_upload_dir['path'] ) ) {
 					add_action( 'admin_notices',           __CLASS__ . '::permissions_admin_notice' );
 					add_action( 'network_admin_notices',   __CLASS__ . '::permissions_admin_notice' );
 				}

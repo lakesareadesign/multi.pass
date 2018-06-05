@@ -39,14 +39,48 @@ class Shortcodes_Ultimate {
 	private $plugin_path;
 
 	/**
-	 * The plugin text domain.
+	 * Class instance.
 	 *
-	 * @since    5.0.0
-	 * @access   private
-	 * @var      string      $textdomain   The plugin text domain.
+	 * @since  5.1.0
+	 * @access private
+	 * @var    null      The single class instance.
 	 */
-	private $textdomain;
+	private static $instance;
 
+	/**
+	 * Upgrader class instance.
+	 *
+	 * @since  5.1.0
+	 * @var    Shortcodes_Ultimate_Upgrade  Upgrader class instance.
+	 */
+	public $upgrade;
+
+	/**
+	 * Menu classes instances.
+	 *
+	 * @since  5.1.0
+	 */
+	public $top_level_menu;
+	public $shortcodes_menu;
+	public $settings_menu;
+	public $addons_menu;
+
+	/**
+	 * Notices classes instances.
+	 *
+	 * @since  5.1.0
+	 */
+	public $rate_notice;
+
+	/**
+	 * Get class instance.
+	 *
+	 * @since  5.1.0
+	 * @return Shortcodes_Ultimate
+	 */
+	public static function get_instance() {
+		return self::$instance;
+	}
 
 	/**
 	 * Define the core functionality of the plugin.
@@ -60,21 +94,27 @@ class Shortcodes_Ultimate {
 		$this->plugin_file    = $plugin_file;
 		$this->plugin_version = $plugin_version;
 		$this->plugin_path    = plugin_dir_path( $plugin_file );
-		$this->textdomain     = 'shortcodes-ultimate';
 
 		$this->load_dependencies();
 		$this->define_admin_hooks();
+		$this->define_common_hooks();
+
+		self::$instance = $this;
 
 	}
 
 	/**
 	 * Load the required dependencies for the plugin.
 	 *
-	 *
 	 * @since    5.0.0
 	 * @access   private
 	 */
 	private function load_dependencies() {
+
+		/**
+		 * Various filters.
+		 */
+		require_once $this->plugin_path . 'includes/filters.php';
 
 		/**
 		 * The class responsible for plugin upgrades.
@@ -108,63 +148,92 @@ class Shortcodes_Ultimate {
 	private function define_admin_hooks() {
 
 		/**
-		 * Run upgrades.
+		 * Upgrades.
 		 */
-		$upgrade = new Shortcodes_Ultimate_Upgrade( $this->plugin_file, $this->plugin_version );
+		$this->upgrade = new Shortcodes_Ultimate_Upgrade( $this->plugin_file, $this->plugin_version );
 
-		add_action( 'admin_init', array( $upgrade, 'maybe_upgrade' ) );
+		add_action( 'admin_init', array( $this->upgrade, 'maybe_upgrade' ) );
 
 
 		/**
 		 * Top-level menu: Shortcodes
 		 * admin.php?page=shortcodes-ultimate
 		 */
-		$top_level = new Shortcodes_Ultimate_Admin_Top_Level( $this->plugin_file, $this->plugin_version );
+		$this->top_level_menu = new Shortcodes_Ultimate_Admin_Top_Level( $this->plugin_file, $this->plugin_version );
 
-		add_action( 'admin_menu', array( $top_level, 'admin_menu' ), 5 );
+		add_action( 'admin_menu', array( $this->top_level_menu, 'admin_menu' ), 5 );
 
 
 		/**
 		 * Submenu: Available shortcodes
 		 * admin.php?page=shortcodes-ultimate
 		 */
-		$shortcodes = new Shortcodes_Ultimate_Admin_Shortcodes( $this->plugin_file, $this->plugin_version );
+		$this->shortcodes_menu = new Shortcodes_Ultimate_Admin_Shortcodes( $this->plugin_file, $this->plugin_version );
 
-		add_action( 'admin_menu',            array( $shortcodes, 'admin_menu' ), 5   );
-		add_action( 'current_screen',        array( $shortcodes, 'add_help_tab' )    );
-		add_action( 'admin_enqueue_scripts', array( $shortcodes, 'enqueue_scripts' ) );
+		add_action( 'admin_menu',            array( $this->shortcodes_menu, 'admin_menu' ), 5   );
+		add_action( 'current_screen',        array( $this->shortcodes_menu, 'add_help_tab' )    );
+		add_action( 'admin_enqueue_scripts', array( $this->shortcodes_menu, 'enqueue_scripts' ) );
 
 
 		/**
 		 * Submenu: Settings
 		 * admin.php?page=shortcodes-ultimate-settings
 		 */
-		$settings = new Shortcodes_Ultimate_Admin_Settings( $this->plugin_file, $this->plugin_version );
+		$this->settings_menu = new Shortcodes_Ultimate_Admin_Settings( $this->plugin_file, $this->plugin_version );
 
-		add_action( 'admin_menu',     array( $settings, 'admin_menu' ), 20    );
-		add_action( 'admin_init',     array( $settings, 'register_settings' ) );
-		add_action( 'current_screen', array( $settings, 'add_help_tab' )      );
+		add_action( 'admin_menu',     array( $this->settings_menu, 'admin_menu' ), 20    );
+		add_action( 'admin_init',     array( $this->settings_menu, 'register_settings' ) );
+		add_action( 'current_screen', array( $this->settings_menu, 'add_help_tab' )      );
 
 
 		/**
 		 * Submenu: Add-ons
 		 * admin.php?page=shortcodes-ultimate-addons
 		 */
-		$addons = new Shortcodes_Ultimate_Admin_Addons( $this->plugin_file, $this->plugin_version );
+		$this->addons_menu = new Shortcodes_Ultimate_Admin_Addons( $this->plugin_file, $this->plugin_version );
 
-		add_action( 'admin_menu',            array( $addons, 'admin_menu' ), 30  );
-		add_action( 'admin_enqueue_scripts', array( $addons, 'enqueue_scripts' ) );
-		add_action( 'current_screen',        array( $addons, 'add_help_tab' )    );
+		add_action( 'admin_menu',            array( $this->addons_menu, 'admin_menu' ), 30  );
+		add_action( 'admin_enqueue_scripts', array( $this->addons_menu, 'enqueue_scripts' ) );
+		add_action( 'current_screen',        array( $this->addons_menu, 'add_help_tab' )    );
 
 
 		/**
 		 * Notice: Rate plugin
 		 */
-		$rate = new Shortcodes_Ultimate_Notice_Rate( 'rate', $this->plugin_path . 'admin/partials/notices/rate.php' );
+		$this->rate_notice = new Shortcodes_Ultimate_Notice_Rate( 'rate', $this->plugin_path . 'admin/partials/notices/rate.php' );
 
-		add_action( 'load-plugins.php',             array( $rate, 'defer_first_time' ) );
-		add_action( 'admin_notices',                array( $rate, 'display_notice' )   );
-		add_action( 'admin_post_su_dismiss_notice', array( $rate, 'dismiss_notice' )   );
+		add_action( 'load-plugins.php',             array( $this->rate_notice, 'defer_first_time' ) );
+		add_action( 'admin_notices',                array( $this->rate_notice, 'display_notice' )   );
+		add_action( 'admin_post_su_dismiss_notice', array( $this->rate_notice, 'dismiss_notice' )   );
+
+	}
+
+	/**
+	 * Register all of the hooks related to both admin area and public part
+	 * functionality of the plugin.
+	 *
+	 * @since    5.0.4
+	 * @access   private
+	 */
+	private function define_common_hooks() {
+
+		/**
+		 * Disable wptexturize filter for nestable shortcodes.
+		 */
+		add_filter( 'no_texturize_shortcodes', 'su_filter_disable_wptexturize', 10 );
+
+		/**
+		 * Enable shortcodes in text widgets and category descriptions.
+		 */
+		add_filter( 'widget_text', 'do_shortcode' );
+		add_filter( 'category_description', 'do_shortcode' );
+
+		/**
+		 * Enable custom formatting.
+		 */
+		if ( get_option( 'su_option_custom-formatting' ) === 'on' ) {
+			add_filter( 'the_content', 'su_filter_custom_formatting' );
+		}
 
 	}
 

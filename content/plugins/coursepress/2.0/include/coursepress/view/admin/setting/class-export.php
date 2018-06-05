@@ -8,8 +8,8 @@ class CoursePress_View_Admin_Setting_Export extends CoursePress_View_Admin_Setti
 
 	public static function add_tabs( $tabs ) {
 		$tabs['export'] = array(
-			'title' => __( 'Export Courses', 'cp' ),
-			'description' => __( 'Export courses', 'cp' ),
+			'title' => __( 'Export Courses', 'coursepress' ),
+			'description' => __( 'Export courses', 'coursepress' ),
 			'order' => 30,
 		);
 

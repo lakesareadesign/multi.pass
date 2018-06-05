@@ -2,7 +2,7 @@
 /*
   Plugin Name: Login Image
   Plugin URI: http://premium.wpmudev.org/project/login-image
-  Description: Allows you to change the login image
+  Description: Allows you to change the login image.
   Author: Marko Miljus (Incsub), Andrew Billits, Ulrich Sossou (Incsub)
   Version: 2.1.1
   Network: true
@@ -82,7 +82,8 @@ class ub_Login_Image {
 			$login_image = $login_image_old;
 		} else {
 			if ( $login_image_id ) {
-				if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+				global $UB_network;
+				if ( $UB_network ) {
 					$blog_id = ub_get_main_site_ID();
 					switch_to_blog( $blog_id );
 					$login_image_src = wp_get_attachment_image_src( $login_image_id, $login_image_size, $icon = false );
@@ -221,7 +222,8 @@ if ( isset( $login_image_old ) && trim( $login_image_old ) !== '' ) {
 	$login_image = $login_image_old;
 } elseif ( ! $login_image ) {
 	if ( $login_image_id ) {
-		if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+		global $UB_network;
+		if ( $UB_network ) {
 			$blog_id = ub_get_main_site_ID();
 			switch_to_blog( $blog_id );
 			$login_image_src = wp_get_attachment_image_src( $login_image_id, $login_image_size, $icon = false );

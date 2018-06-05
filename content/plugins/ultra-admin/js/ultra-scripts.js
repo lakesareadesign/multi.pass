@@ -67,7 +67,7 @@ jQuery(function($) {
       });
     };
 
-    ULTRA_SETTINGS.iconPanel = function(e) {
+    /*ULTRA_SETTINGS.iconPanel = function(e) {
 
       $('.ultraicon').click(function(e) {
         e.stopPropagation();
@@ -242,7 +242,7 @@ jQuery(function($) {
 
       });
 
-    };
+    };*/
 
 
 
@@ -260,11 +260,11 @@ jQuery(function($) {
         ULTRA_SETTINGS.menuResizer();
         ULTRA_SETTINGS.menuClickResize();
         ULTRA_SETTINGS.logoURL();
-        ULTRA_SETTINGS.menuToggle();
+        /*ULTRA_SETTINGS.menuToggle();
         ULTRA_SETTINGS.saveMenu();
         ULTRA_SETTINGS.menuDisplay();
         ULTRA_SETTINGS.iconPanel();
-        ULTRA_SETTINGS.resetMenu();
+        ULTRA_SETTINGS.resetMenu();*/
 
     });
 
@@ -280,7 +280,7 @@ jQuery(function($) {
 
 });
 
-
+/*
 jQuery(function($) {
     if($.isFunction($.fn.sortable)){
         $( "#ultra-enabled, #ultra-disabled" ).sortable({
@@ -325,4 +325,4 @@ jQuery(function($) {
 
 
     });
-});
+});*/

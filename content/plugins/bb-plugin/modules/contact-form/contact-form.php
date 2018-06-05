@@ -63,10 +63,10 @@ class FLContactFormModule extends FLBuilderModule {
 	 * @method connect_field_connections_before_send
 	 */
 	public function connect_field_connections_before_send() {
-		if ( class_exists( 'FLPageData' ) && isset( $_REQUEST['post_id'] ) ) {
+		if ( class_exists( 'FLPageData' ) && isset( $_REQUEST['layout_id'] ) ) {
 
 			$posts = query_posts( array(
-				'p' => absint( $_REQUEST['post_id'] ),
+				'p' => absint( $_REQUEST['layout_id'] ),
 				'post_type' => 'any',
 			) );
 

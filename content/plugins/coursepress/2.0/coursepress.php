@@ -15,7 +15,7 @@ class CoursePress {
 	 *
 	 * @var string
 	 */
-	public static $version = '2.1.4';
+	public static $version = '2.2.0';
 
 	/**
 	 * Plugin name, this reflects the Pro/Standard version.
@@ -61,7 +61,7 @@ class CoursePress {
 		/**
 		 * Translate plugin name
 		 */
-		self::$name = _x( 'CoursePress Pro', 'plugin name', 'cp' ); // Translated by grunt.
+		self::$name = _x( 'CoursePress Pro', 'plugin name', 'coursepress' ); // Translated by grunt.
 		// Initialise the autoloader.
 		spl_autoload_register( array( __CLASS__, 'class_loader' ) );
 

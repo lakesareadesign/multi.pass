@@ -251,6 +251,7 @@ if ( $global_settings->responsive_enabled ) : ?>
 						echo 'float: ' . $settings->menu_align . ';';
 					} elseif ( 'center' == $settings->menu_align ) {
 						echo 'display: inline-block;';
+						echo 'vertical-align: top;';
 					}
 					?>
 				}
@@ -365,6 +366,7 @@ else : ?>
 					echo 'float: ' . $settings->menu_align . ';';
 				} elseif ( 'center' == $settings->menu_align ) {
 					echo 'display: inline-block;';
+					echo 'vertical-align: top;';
 				}
 				?>
 			}

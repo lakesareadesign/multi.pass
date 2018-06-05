@@ -4,6 +4,46 @@ $get_menumng_page = ultra_get_option("ultraadmin_menumng_page","enable");
 
 function ultra_menumng_settings_page(){
 
+	global $ultra_css_ver;
+    
+    $url = plugins_url('/', __FILE__).'../'.$ultra_css_ver.'/ultra-admin-menu-management.min.css';
+    wp_deregister_style('ultra-admin-menu-management', $url);
+    wp_register_style('ultra-admin-menu-management', $url);
+    wp_enqueue_style('ultra-admin-menu-management');
+
+ global $wp_version;
+    $plug = trim(get_current_screen()->id);
+   // echo "<div style='float:right;'>".$plug."</div>"; 
+   // die;
+    
+    if (isset($plug) && $plug == "ultra-admin-addon_page_ultra_menumng_settings"){
+
+        $url = plugins_url('/', __FILE__).'../js/ultra-scripts-menu-management.js';
+        wp_deregister_script('ultra-scripts-menu-management-js');
+        wp_register_script('ultra-scripts-menu-management-js', $url);
+        wp_enqueue_script('ultra-scripts-menu-management-js');
+
+        $url = plugins_url('/', __FILE__).'../css/jquery-ui/minified/jquery-ui.min.css';
+        wp_deregister_style('ultra-jqueryui');
+        wp_register_style('ultra-jqueryui', $url);
+        wp_enqueue_style('ultra-jqueryui');
+
+        $url = plugins_url('/', __FILE__).'../js/ultra-jquery.ui.elements.js';
+        wp_deregister_script('ultra-jqueryui');
+        wp_register_script('ultra-jqueryui', $url);
+        wp_enqueue_script('ultra-jqueryui');
+    
+
+        wp_localize_script('ultra-scripts-menu-management-js', 'ultra_vars', array(
+            'ultra_nonce' => wp_create_nonce('ultra-nonce')
+                )
+        );
+    }
+
+
+
+
+
 	global $menu;
 	global $submenu;
 	global $ultramenu;

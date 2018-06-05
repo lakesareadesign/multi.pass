@@ -1,4 +1,4 @@
-/*! Ultimate Branding - v1.9.8.1
+/*! Ultimate Branding - v2.0.0
  * https://premium.wpmudev.org/project/ultimate-branding/
  * Copyright (c) 2018; * Licensed GPLv2+ */
 /* global window, jQuery, ace */
@@ -415,17 +415,10 @@ jQuery( window.document ).ready(function($) {
 
 jQuery( window.document ).ready( function( $ ) {
 
-    jQuery(".simple-option-media .image-reset").on("click", function( event ){
-        var container = $(this).closest(".simple-option-media");
-        $(".image-preview", container ).removeAttr( "src" );
-        $(".attachment-id", container ).removeAttr("value");
-        $(this).addClass("disabled");
-    });
-
-    jQuery('.simple-option-media .button-select-image').on('click', function( event ){
+    function ub_media_bind( obj, event ) {
         var file_frame;
         var wp_media_post_id;
-        var container = $(this).closest('.simple-option-media');
+        var container = $(obj).closest('.image-wrapper');
         var set_to_post_id = $('.attachment-id', container ).val();
 
         event.preventDefault();
@@ -462,10 +455,70 @@ jQuery( window.document ).ready( function( $ ) {
 
             // Restore the main post ID
             wp.media.model.settings.post.id = wp_media_post_id;
+
+            /**
+             * add new
+             */
+            var target = container.closest( 'tr');
+            if ( target.hasClass( 'simple-option-gallery' ) ) {
+                if ( '' !== jQuery('.image-wrapper:last-child .attachment-id', target ).val() ) {
+                    var ub_template = wp.template( 'simple-options-media' );
+                    jQuery('.images', target).append( ub_template({
+                        id: container.data('id'),
+                        section_key: container.data('section_key'),
+                        disabled: 'disabled'
+                    }));
+                    jQuery( ".image-wrapper:last-child .button-select-image", target ).on( 'click', function( event ) {
+                        ub_media_bind( this, event );
+                    });
+                }
+            }
+
         });
 
         // Finally, open the modal
         file_frame.open();
+    }
+
+    jQuery(".simple-option-media .images, .simple-option-gallery .images").each( function() {
+        var ub_template = wp.template( 'simple-options-media' );
+        var target = jQuery( this );
+        var data = window['_'+target.attr('id')];
+        jQuery.each( data.images, function(){
+            target.append( ub_template( this ) );
+            jQuery( ".image-wrapper:last-child .button-select-image", target ).on( 'click', function( event ) {
+                ub_media_bind( this, event );
+            });
+        });
+    });
+
+    function ub_bind_reset_image( obj ) {
+        var target = jQuery(obj).closest( 'tr');
+        var ub_template = wp.template( 'simple-options-media' );
+        var container = jQuery(obj).closest('.image-wrapper');
+        jQuery('.images', target).append( ub_template({
+            id: container.data('id'),
+            section_key: container.data('section_key'),
+            disabled: 'disabled'
+        }));
+        jQuery( ".image-wrapper:last-child .button-select-image", target ).on( 'click', function( event ) {
+            ub_media_bind( this, event );
+        });
+        jQuery( ".image-wrapper:last-child .image-reset", target ).on( 'click', function() {
+            ub_bind_reset_image( this );
+            return false;
+        });
+        container.detach();
+    }
+
+    jQuery(".simple-option-media .image-reset").on("click", function(){
+        ub_bind_reset_image( this );
+        return false;
+    });
+
+    jQuery(".simple-option-gallery .image-reset").on("click", function( event ){
+        jQuery(this).closest(".image-wrapper").detach();
+        return false;
     });
 
     // Restore the main ID when the add media button is pressed
@@ -627,6 +680,95 @@ jQuery( window.document ).ready(function(){
     }
 });
 
+
+/* global window, jQuery, ub_admin */
+
+jQuery( window.document ).ready(function($){
+    "use strict";
+
+    var container = $('.tabs');
+    var primary = $('.-primary', container );
+    var primaryItems = $('.-primary > li:not(.-more)', container);
+
+    container.addClass('--jsfied');
+
+    // insert "more" button and duplicate the list
+    primary.append( '<li class="-more"><button type="button" class="ub-tab-more-button nav-tab" aria-haspopup="true" aria-expanded="false">'+ub_admin.tab_more+'</button><ul class="-secondary">'+primary.html()+'</ul></li>');
+
+    var secondary = $('.-secondary', container);
+    var secondaryItems = $('li', secondary );
+    var allItems = $('li', container );
+    var moreLi = $('.-more', primary );
+    var moreBtn = $('button', moreLi );
+
+    moreBtn.on( 'click', function() {
+        container.toggleClass('--show-secondary');
+        moreBtn.attr('aria-expanded', container.hasClass('--show-secondary'));
+    });
+
+    var stopWidth, hiddenItems, primaryWidth;
+
+    function ub_tabs_recalculate() {
+        /**
+         * Show all items to allow calculate
+         */
+        allItems.removeClass( '--hidden' );
+        /**
+         * calculate how much elements should be shown
+         */
+        stopWidth = moreBtn.width() + 40;
+        hiddenItems = [];
+        primaryWidth = primary.width();
+        /**
+         * hide/show
+         */
+        primaryItems.each( function( i ) {
+            if(primaryWidth >= stopWidth + $(this).width()) {
+                stopWidth += $(this).width();
+            } else {
+                $(this).addClass('--hidden');
+                hiddenItems.push(i);
+            }
+        });
+
+        /**
+         * hide it
+         */
+        if( !hiddenItems.length ) {
+            moreLi.addClass('--hidden');
+            container.removeClass('--show-secondary');
+            moreBtn.attr('aria-expanded', false);
+        } else {
+            secondaryItems.each( function( i ) {
+                if(!hiddenItems.includes(i)) {
+                    $(this).addClass('--hidden');
+                }
+            });
+        }
+    }
+
+    ub_tabs_recalculate();
+
+    $( window ).resize( function() {
+        ub_tabs_recalculate();
+    });
+
+    /**
+     * close more if click anywhere
+     */
+    $(window.document).on('click', function( e ) {
+        var el = $(e.target);
+        while( 1 === el.length ) {
+            if ( el.hasClass( 'ub-tab-more-button' ) || el.hasClass( '-secondary' ) ) {
+                return;
+            }
+            el = el.parent();
+        }
+        container.removeClass('--show-secondary');
+        moreBtn.attr('aria-expanded', false);
+    });
+
+});
 
 /* global wp, window, wp_media_post_id, jQuery, ajaxurl, ace, switch_button */
 

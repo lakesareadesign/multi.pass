@@ -4,6 +4,7 @@ class CoursePress_Data_Discussion {
 
 	private static $post_type = 'discussions';  // Plural because of legacy
 	public static $last_discussion;
+	private static $number_of_discussions = 5;
 
 	public static function get_format() {
 
@@ -11,18 +12,18 @@ class CoursePress_Data_Discussion {
 			'post_type' => self::get_post_type_name(),
 			'post_args' => array(
 				'labels' => array(
-					'name' => __( 'Forums', 'cp' ),
-					'singular_name' => __( 'Forum', 'cp' ),
-					'add_new' => __( 'Create New', 'cp' ),
-					'add_new_item' => __( 'Create New Thread', 'cp' ),
-					'edit_item' => __( 'Edit Thread', 'cp' ),
-					'edit' => __( 'Edit', 'cp' ),
-					'new_item' => __( 'New Thread', 'cp' ),
-					'view_item' => __( 'View Thread', 'cp' ),
-					'search_items' => __( 'Search Threads', 'cp' ),
-					'not_found' => __( 'No Threads Found', 'cp' ),
-					'not_found_in_trash' => __( 'No Threads found in Trash', 'cp' ),
-					'view' => __( 'View Thread', 'cp' ),
+					'name' => __( 'Forums', 'coursepress' ),
+					'singular_name' => __( 'Forum', 'coursepress' ),
+					'add_new' => __( 'Create New', 'coursepress' ),
+					'add_new_item' => __( 'Create New Thread', 'coursepress' ),
+					'edit_item' => __( 'Edit Thread', 'coursepress' ),
+					'edit' => __( 'Edit', 'coursepress' ),
+					'new_item' => __( 'New Thread', 'coursepress' ),
+					'view_item' => __( 'View Thread', 'coursepress' ),
+					'search_items' => __( 'Search Threads', 'coursepress' ),
+					'not_found' => __( 'No Threads Found', 'coursepress' ),
+					'not_found_in_trash' => __( 'No Threads found in Trash', 'coursepress' ),
+					'view' => __( 'View Thread', 'coursepress' ),
 				),
 				'public' => false,
 				'show_ui' => false,
@@ -56,11 +57,11 @@ class CoursePress_Data_Discussion {
 		}
 
 		$course_id = (int) get_post_meta( $n_id, 'course_id', true );
-		$course_title = ! empty( $course_id ) ? get_the_title( $course_id ) : __( 'All courses', 'cp' );
+		$course_title = ! empty( $course_id ) ? get_the_title( $course_id ) : __( 'All courses', 'coursepress' );
 		$course_id = ! empty( $course_id ) ? $course_id : 'all';
 
 		$unit_id = (int) get_post_meta( $n_id, 'unit_id', true );
-		$unit_title = ! empty( $unit_id ) ? get_the_title( $unit_id ) : __( 'All units', 'cp' );
+		$unit_title = ! empty( $unit_id ) ? get_the_title( $unit_id ) : __( 'All units', 'coursepress' );
 		$unit_id = ! empty( $unit_id ) ? $unit_id : 'course';
 		$unit_id = 'all' === $course_id ? 'course' : $unit_id;
 
@@ -73,10 +74,10 @@ class CoursePress_Data_Discussion {
 
 	}
 
-	public static function get_discussions( $course ) {
-
-		$course = (array) $course;
-
+	/**
+	 * since 2.1.6
+	 */
+	public static function get_discussions_count( $course ) {
 		$args = array(
 			'post_type' => self::get_post_type_name(),
 			'meta_query' => array(
@@ -86,11 +87,36 @@ class CoursePress_Data_Discussion {
 					'compare' => 'IN',
 				),
 			),
-			'post_per_page' => 20,
+			'fields' => 'ids',
+			'nopaging' => true,
 		);
+		$query = new WP_Query( $args );
+		return $query->post_count;
+	}
 
+
+	public static function get_discussions( $course ) {
+		global $wp;
+		$course = (array) $course;
+		$offset = self::$number_of_discussions * intval( isset( $wp->query_vars['paged'] )? intval( $wp->query_vars['paged'] - 1 ):0 );
+		$args = array(
+			'post_type' => self::get_post_type_name(),
+			'meta_query' => array(
+				array(
+					'key' => 'course_id',
+					'value' => $course,
+					'compare' => 'IN',
+				),
+			),
+			'posts_per_page' => self::$number_of_discussions,
+			'offset' => $offset,
+		);
 		return get_posts( $args );
 
+	}
+
+	public static function get_number_of_discussions() {
+		return self::$number_of_discussions;
 	}
 
 
@@ -432,8 +458,8 @@ class CoursePress_Data_Discussion {
 					delete_user_meta( $user_id, 'cp_subscribe_to_' . $post_id );
 
 					// Hooked to the content to show unsubscribe message.
-					$message = sprintf( '<h3 class="cp-unsubscribe-title">%s</h3>', __( 'Unsubscribe Successful', 'cp' ) );
-					$message .= '<p>' . sprintf( __( 'You have been removed from "%s" discussion.', 'cp' ), get_the_title( $post_id ) ) . '</p>';
+					$message = sprintf( '<h3 class="cp-unsubscribe-title">%s</h3>', __( 'Unsubscribe Successful', 'coursepress' ) );
+					$message .= '<p>' . sprintf( __( 'You have been removed from "%s" discussion.', 'coursepress' ), get_the_title( $post_id ) ) . '</p>';
 
 					/**
 					 * Filter the unsubscribe message before printing.
@@ -570,11 +596,11 @@ class CoursePress_Data_Discussion {
 		);
 		$next_module_class = array( 'focus-nav-next' );
 		$labels = array(
-			'pre_text' => __( '&laquo; Previous', 'cp' ),
-			'next_text' => __( 'Next &raquo;', 'cp' ),
-			'next_section_title' => __( 'Proceed to the next section', 'cp' ),
-			'next_module_title' => __( 'Proceed to the next module', 'cp' ),
-			'next_section_text' => __( 'Next Section', 'cp' ),
+			'pre_text' => __( '&laquo; Previous', 'coursepress' ),
+			'next_text' => __( 'Next &raquo;', 'coursepress' ),
+			'next_section_title' => __( 'Proceed to the next section', 'coursepress' ),
+			'next_module_title' => __( 'Proceed to the next module', 'coursepress' ),
+			'next_section_text' => __( 'Next Section', 'coursepress' ),
 		);
 		extract( $labels );
 
@@ -618,7 +644,7 @@ class CoursePress_Data_Discussion {
 		$json_data['action'] = $action;
 
 		if ( empty( $data->action ) ) {
-			$json_data['message'] = __( 'Discussion Update: No action.', 'cp' );
+			$json_data['message'] = __( 'Discussion Update: No action.', 'coursepress' );
 			wp_send_json_error( $json_data );
 		}
 
@@ -651,10 +677,10 @@ class CoursePress_Data_Discussion {
 						$json_data['state'] = $data->data->state;
 						$success = true;
 					} else {
-						$json_data['message'] = __( 'Discussion update failed: post type missmatch.', 'cp' );
+						$json_data['message'] = __( 'Discussion update failed: post type missmatch.', 'coursepress' );
 					}
 				} else {
-					$json_data['message'] = __( 'Discussion update failed: wrong nounce.', 'cp' );
+					$json_data['message'] = __( 'Discussion update failed: wrong nounce.', 'coursepress' );
 				}
 				break;
 

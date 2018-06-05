@@ -23,7 +23,7 @@ add_thickbox();
 			<?php if ( 100 > (int) $progress ) : ?>
 				<span class="workbook-course-progress">
 				<?php echo esc_html( $progress ); ?>%
-				<?php esc_html_e( 'completed', 'cp' ); ?>
+				<?php esc_html_e( 'completed', 'coursepress' ); ?>
 				</span>
 			<?php endif; ?>
 		</h1>
@@ -41,7 +41,7 @@ add_thickbox();
 			echo sprintf(
 				'<div class="unit-archive-course-complete">%s %s</div>',
 				'<i class="fa fa-check-circle"></i>',
-				__( 'Course Complete', 'cp' )
+				__( 'Course Complete', 'coursepress' )
 			);
 		}
 		?>
@@ -67,7 +67,7 @@ add_thickbox();
 				}
 				echo do_shortcode( $shortcode );
 ?>%
-							<?php esc_html_e( 'completed', 'cp' ); ?>
+							<?php esc_html_e( 'completed', 'coursepress' ); ?>
 							</span>
 						</h3>
 					</div>
@@ -80,7 +80,7 @@ add_thickbox();
 			wp_reset_query();
 		} else {
 			?>
-			<div class="zero-courses"><?php esc_html_e( '0 Units in the course', 'cp' ); ?></div>
+			<div class="zero-courses"><?php esc_html_e( '0 Units in the course', 'coursepress' ); ?></div>
 			<?php
 		}
 		?>

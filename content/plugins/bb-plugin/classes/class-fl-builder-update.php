@@ -410,7 +410,7 @@ final class FLBuilderUpdate {
 	 */
 	static private function v_1_4_6() {
 		// Remove the old fl-builder uploads folder.
-		$upload_dir  = wp_upload_dir();
+		$upload_dir  = wp_upload_dir( null, false );
 		$path        = trailingslashit( $upload_dir['basedir'] ) . 'fl-builder';
 
 		if ( file_exists( $path ) ) {

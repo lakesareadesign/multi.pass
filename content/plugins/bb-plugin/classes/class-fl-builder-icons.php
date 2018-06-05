@@ -407,7 +407,7 @@ final class FLBuilderIcons {
 
 			$sets = self::get_sets();
 
-			foreach ( $sets as $key => $data ) {
+			foreach ( (array) $sets as $key => $data ) {
 				if ( in_array( $icon, $data['icons'] ) ) {
 					self::enqueue_custom_styles_by_key( $key );
 				}

@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 8.6.5
+ * @version 8.7.0
  */
 
 /*
-Plugin Name: Shareaholic | share buttons, analytics, related content
+Plugin Name: Shareaholic | share buttons, analytics, related posts
 Plugin URI: https://shareaholic.com/publishers/
-Description: The world's leading all-in-one Content Amplification Platform that helps grow your website traffic, engagement, conversions & monetization. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 8.6.5
+Description: The world's leading all-in-one Audience Amplification Platform that helps grow your website traffic, engagement, conversions & monetization. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
+Version: 8.7.0
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -63,7 +63,7 @@ if (!class_exists('Shareaholic')) {
     const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
     const REC_API_URL = 'http://recommendations.shareaholic.com';
 
-    const VERSION = '8.6.5';
+    const VERSION = '8.7.0';
 
     /**
      * Starts off as false so that ::get_instance() returns
@@ -107,6 +107,7 @@ if (!class_exists('Shareaholic')) {
       add_action('the_excerpt',                       array('ShareaholicPublic', 'draw_canvases'));
       
       add_action('wp_head',                           array('ShareaholicPublic', 'wp_head'), 6);
+      add_filter('wp_resource_hints',                 array('ShareaholicPublic', 'shareaholic_resource_hints'), 10, 2);
       add_shortcode('shareaholic',                    array('ShareaholicPublic', 'shortcode'));
 
       add_action('plugins_loaded',                    array($this, 'shareaholic_init'));
@@ -147,6 +148,9 @@ if (!class_exists('Shareaholic')) {
       
       // use the admin notice API
       add_action('admin_notices', array('ShareaholicAdmin', 'admin_notices'));
+      
+      // Add our custom image type to the Media Library
+      add_filter('image_size_names_choose', array('ShareaholicAdmin', 'show_custom_sizes'));
 
       // ShortCode UI plugin specific hooks to prevent duplicate app rendering
       // https://wordpress.org/support/topic/custom-post-type-exclude-issue?replies=10#post-3370550

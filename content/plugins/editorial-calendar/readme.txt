@@ -1,9 +1,9 @@
 === Editorial Calendar ===
 Contributors: cvernon, justinstresslimit, jkudish, MaryVogt, zgrossbart
 Tags: posts, post, calendar, AJAX, admin, administration
-Requires at least: 3.0
-Tested up to: 4.9.1
-Stable tag: 3.6.5
+Requires at least: 4.0
+Tested up to: 4.9.6
+Stable tag: 3.6.7
 
 The Editorial Calendar makes it possible to see all your posts and drag and drop them to manage your blog.
 
@@ -13,7 +13,7 @@ Did you remember to write a post for next Tuesday?  What about the Tuesday after
 
 <h4>Watch the video</h4>
 
-[vimeo http://vimeo.com/47251750]
+[vimeo https://vimeo.com/272028435]
 
 <h4>Try it out</h4>
 Try the calendar before you install it.  Check out the demo installation at <a href="http://www.zackgrossbart.com/extras/sandbox/wp-admin/edit.php?page=cal">Zack's WordPress Sandbox</a>.  You can log in with the username and password test.
@@ -194,6 +194,14 @@ The `edcal_default_status` property controls the default status for new posts in
 7. Use the new unscheduled drafts section to manage drafts before you schedule them.
 
 == Changelog ==
+
+= 3.6.7 =
+
+The calendar is now showing in the correct left to right orientation in Japanese.
+
+= 3.6.6 =
+
+Added a new video and did complete testing to make sure the calendar is fully compatible with the latest version of WordPress.
 
 = 3.6.5 =
 

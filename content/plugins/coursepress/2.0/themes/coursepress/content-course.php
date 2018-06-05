@@ -43,7 +43,7 @@
 				echo do_shortcode( '[course_summary length="50" class="' . $extended_class . '"]' );
 				wp_link_pages(
 					array(
-						'before' => '<div class="page-links">' . __( 'Pages:', 'cp' ),
+						'before' => '<div class="page-links">' . __( 'Pages:', 'coursepress' ),
 						'after' => '</div>',
 					)
 				);
@@ -53,7 +53,7 @@
 					echo do_shortcode( '[course_start label="" class="course-time"]' );
 					echo do_shortcode( '[course_language label="" class="course-lang"]' );
 					echo do_shortcode( '[course_cost label="" class="course-cost" show_icon="true"]' );
-					echo do_shortcode( '[course_join_button details_text="' . __( 'Details', 'cp' ) . '" course_expired_text="' . __( 'Not Available', 'cp' ) . '" list_page="yes"]' );
+					echo do_shortcode( '[course_join_button details_text="' . __( 'Details', 'coursepress' ) . '" course_expired_text="' . __( 'Not Available', 'coursepress' ) . '" list_page="yes"]' );
 					?>
 					<!--go-to-course-button-->
 				</div>
@@ -65,21 +65,21 @@
 			<?php if ( 'post' == get_post_type() ) : // Hide category and tag text for pages on Search  ?>
 				<?php
 				// Translators: Used between list items, there is a space after the comma.
-				$categories_list = get_the_category_list( __( ', ', 'cp' ) );
+				$categories_list = get_the_category_list( __( ', ', 'coursepress' ) );
 				if ( $categories_list && coursepress_categorized_blog() ) :
 					?>
 					<span class="cat-links">
-						<?php printf( __( 'Courses in %1$s', 'cp' ), $categories_list ); ?>
+						<?php printf( __( 'Courses in %1$s', 'coursepress' ), $categories_list ); ?>
 					</span>
 					<?php
 				endif; // End if categories
 
 				// Translators: Used between list items, there is a space after the comma.
-				$tags_list = get_the_tag_list( '', __( ', ', 'cp' ) );
+				$tags_list = get_the_tag_list( '', __( ', ', 'coursepress' ) );
 				if ( $tags_list ) :
 					?>
 					<span class="tags-links">
-						<?php printf( __( 'Tagged %1$s', 'cp' ), $tags_list ); ?>
+						<?php printf( __( 'Tagged %1$s', 'coursepress' ), $tags_list ); ?>
 					</span>
 					<?php
 				endif; // End if $tags_list

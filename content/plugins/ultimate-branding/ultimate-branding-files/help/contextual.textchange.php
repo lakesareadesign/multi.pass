@@ -1,4 +1,4 @@
-<h2><?php _e( 'Network Wide Text Change','ub' ); ?></h2>
+<h2><?php _e( 'Text Change','ub' ); ?></h2>
 <p>
 <?php _e( 'This module allows you to change any item of text across WordPress with text of your own. It is useful if you want to, for example, remove the word WordPress from any of the menus of text and replace it with your own brand.','ub' ); ?>
 </p>

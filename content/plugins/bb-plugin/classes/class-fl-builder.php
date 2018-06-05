@@ -62,7 +62,7 @@ final class FLBuilder {
 	 * @since 2.1
 	 */
 	static public $fa4_url = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-	static public $fa5_url = 'https://use.fontawesome.com/releases/v5.0.12/css/all.css';
+	static public $fa5_url = 'https://use.fontawesome.com/releases/v5.0.13/css/all.css';
 
 	/**
 	 * Initializes hooks.
@@ -420,9 +420,10 @@ final class FLBuilder {
 		global $post;
 
 		$original_post = $post;
+		$is_archive = is_archive() || is_home() || is_search();
 
 		// Enqueue assets for posts in the main query.
-		if ( isset( $wp_query->posts ) ) {
+		if ( ! $is_archive && isset( $wp_query->posts ) ) {
 			foreach ( $wp_query->posts as $post ) {
 				self::enqueue_layout_styles_scripts();
 			}
@@ -1518,6 +1519,9 @@ final class FLBuilder {
 
 			// Set the post rendering ID.
 			self::$post_rendering = $post_id;
+
+			// Try to enqueue here in case it didn't happen in the head for this layout.
+			self::enqueue_layout_styles_scripts();
 
 			// Render the content.
 			ob_start();

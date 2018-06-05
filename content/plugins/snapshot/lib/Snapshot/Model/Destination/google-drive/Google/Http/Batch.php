@@ -109,7 +109,7 @@ class Google_0814_Http_Batch
           $status = explode(" ", $status);
           $status = $status[1];
 
-          list($partHeaders, $partBody) = $this->client->getIo()->ParseHttpResponse($part, false);
+          list($partHeaders, $partBody) = $this->client->getIo()->ParseHttpResponse($part, false);	     	 	 				 	 	
           $response = new Google_0814_Http_Request("");
           $response->setResponseHttpCode($status);
           $response->setResponseHeaders($partHeaders);

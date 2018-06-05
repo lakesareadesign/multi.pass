@@ -13,7 +13,6 @@ jQuery(document).ready(function($) {
 		if ($(window).scrollTop() > $title.offset().top) $(window).scrollTop($title.offset().top - $title.height() - bar);
 		e.preventDefault();
 	});
-	$('.su-spoiler-content').removeAttr('style');
 	// Tabs
 	$('body:not(.su-other-shortcodes-loaded)').on('click', '.su-tabs-nav span', function(e) {
 		var $tab = $(this),

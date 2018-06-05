@@ -27,6 +27,7 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		protected $build;
 		protected $tab_name;
 		protected $deprecated_version = false;
+		protected $file = __FILE__;
 
 		/**
 		 * Module name
@@ -170,11 +171,34 @@ if ( ! class_exists( 'ub_helper' ) ) {
 					}
 					switch ( $data['type'] ) {
 						case 'media':
-							if ( isset( $value[ $section_key ][ $key ] ) ) {
+							if ( isset( $value[ $section_key ][ $key ] ) && is_array( $value[ $section_key ][ $key ] ) ) {
+								$value[ $section_key ][ $key ] = array_shift( $value[ $section_key ][ $key ] );
 								$image = wp_get_attachment_image_src( $value[ $section_key ][ $key ], 'full' );
 								if ( false !== $image ) {
 									$value[ $section_key ][ $key.'_meta' ] = $image;
 								}
+							}
+						break;
+						case 'gallery':
+							if ( isset( $value[ $section_key ][ $key ] ) && is_array( $value[ $section_key ][ $key ] ) ) {
+								$gallery = array();
+								foreach ( $value[ $section_key ][ $key ] as $id ) {
+									if ( empty( $id ) ) {
+										continue;
+									}
+									$one = array(
+										'value' => $id,
+										'meta' => array( $id ),
+									);
+									if ( preg_match( '/^\d+$/', $id ) ) {
+										$image = wp_get_attachment_image_src( $id, 'full' );
+										if ( false !== $image ) {
+											$one['meta'] = $image;
+										}
+									}
+									$gallery[] = $one;
+								}
+								$value[ $section_key ][ $key ] = $gallery;
 							}
 						break;
 						case 'checkbox':
@@ -188,7 +212,7 @@ if ( ! class_exists( 'ub_helper' ) ) {
 							 * save extra data if field is a wp_editor
 							 */
 						case 'wp_editor':
-							$value[ $section_key ][ $key.'_meta' ] = do_shortcode( $value[ $section_key ][ $key ] );
+							$value[ $section_key ][ $key.'_meta' ] = wpautop( do_shortcode( stripslashes( $value[ $section_key ][ $key ] ) ) );
 							break;
 					}
 				}
@@ -203,6 +227,7 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		 */
 		protected function update_value( $value ) {
 			ub_update_option( $this->option_name , $value );
+			$this->data = $value;
 			return true;
 		}
 
@@ -412,29 +437,161 @@ if ( ! class_exists( 'ub_helper' ) ) {
 			return sprintf( 'color:%s;', $color );
 		}
 
-		protected function css_width( $width ) {
+		protected function css_width( $width, $units = 'px' ) {
 			if ( empty( $width ) ) {
 				return '';
 			}
-			return sprintf( 'width:%spx;', $width );
+			return sprintf( 'width:%s%s;', $width, $units );
 		}
 
-		protected function css_color_from_data( $data, $key, $selector ) {
+
+		/**
+		 * CSS color.
+		 *
+		 * @since 1.9.6
+		 *
+		 * @param array $data Configuration data.
+		 * @param string $key Configuration key.
+		 * @param string $selector CSS selector.
+		 * @param boolean $echo Print or return data.
+		 *
+		 */
+		protected function css_color_from_data( $data, $key, $selector, $echo = true ) {
+			$css = '';
 			if ( isset( $data[ $key ] ) && ! empty( $data[ $key ] ) ) {
-				printf( '%s{color:%s}', $selector, $data[ $key ] );
+				$css .= sprintf( '%s{color:%s}', $selector, $data[ $key ] );
 				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					echo PHP_EOL;
+					$css .= PHP_EOL;
 				}
 			}
+			if ( $echo ) {
+				echo $css;
+				return;
+			}
+			return $css;
 		}
 
-		protected function css_background_color_from_data( $data, $key, $selector ) {
-			if ( isset( $data[ $key ] ) && ! empty( $data[ $key ] ) ) {
-				printf( '%s{background-color:%s}', $selector, $data[ $key ] );
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					echo PHP_EOL;
+		/**
+		 * CSS background color.
+		 *
+		 * @since 1.9.6
+		 *
+		 * @param array $data Configuration data.
+		 * @param string $key Configuration key.
+		 * @param string $selector CSS selector.
+		 * @param boolean $echo Print or return data.
+		 *
+		 */
+		protected function css_background_color_from_data( $data, $key, $selector, $echo = true ) {
+			return $this->css_background_transparency( $data, $key, 100, $selector, $echo );
+		}
+
+		/**
+		 * CSS background color with transparency.
+		 *
+		 * @since 1.9.6
+		 *
+		 * @param array $data Configuration data.
+		 * @param string $key Configuration key.
+		 * @param number $transparency CSS transparency.
+		 * @param string $selector CSS selector.
+		 * @param boolean $echo Print or return data.
+		 *
+		 */
+		protected function css_background_transparency( $data, $key, $transparency, $selector, $echo = true ) {
+			$css = '';
+			$change = false;
+			$bg_color = 'none';
+			$bg_transparency = 0;
+			if ( isset( $data[ $key ] ) ) {
+				$bg_color = $data[ $key ];
+				$change = true;
+			}
+			if ( isset( $data[ $transparency ] ) ) {
+				$bg_transparency = $data[ $transparency ];
+				$change = true;
+			}
+			if ( $change ) {
+				if ( 'none' != $bg_color ) {
+					$css .= $selector;
+					$css .= '{';
+					if ( 0 < $bg_transparency && 100 !== $bg_transparency ) {
+						$bg_color = $this->convert_hex_to_rbg( $bg_color );
+						$css .= sprintf( 'background-color:rgba(%s,%0.2f)', implode( ',', $bg_color ), $bg_transparency / 100 );
+					} else {
+						$css .= sprintf( 'background-color:%s', $bg_color );
+					}
+					$css .= '}';
+					if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
+						$css .= PHP_EOL;
+					}
 				}
 			}
+			if ( $echo ) {
+				echo $css;
+				return;
+			}
+			return $css;
+		}
+
+		/**
+		 * Convert color from RGB to HEX.
+		 *
+		 * @since 1.9.6
+		 */
+		protected function convert_hex_to_rbg( $hex ) {
+			if ( preg_match( '/^#.{6}$/', $hex ) ) {
+				return sscanf( $hex, '#%02x%02x%02x' );
+			}
+			return $hex;
+		}
+
+		/**
+		 * Helper to enqueue scripts/styles
+		 *
+		 * @since 1.9.9
+		 */
+		protected function enqueue( $src, $version = false, $core = false ) {
+			if ( $core ) {
+				$src = get_site_url().'/wp-includes/js/'.$src;
+			} else {
+				$src = plugins_url( 'assets/'.$src, $this->file );
+			}
+			if ( preg_match( '/js$/', $src ) ) {
+				return sprintf(
+					'<script type="text/javascript" src="%s?version=%s"></script>%s',
+					$this->make_relative_url( $src ),
+					$version? $version:$this->build,
+					PHP_EOL
+				);
+			}
+			if ( preg_match( '/css$/', $src ) ) {
+				return sprintf(
+					'<link rel="stylesheet" href="%s?version=%s" type="text/css" media="all" />%s',
+					$this->make_relative_url( $src ),
+					$version? $version:$this->build,
+					PHP_EOL
+				);
+			}
+			return '';
+		}
+
+		/**
+			* get the template
+			*
+			* @since 2.0.0
+		 */
+		protected function get_template( $file = 'index' ) {
+			$file = sprintf(
+				'%s/assets/templates/%s.html',
+				dirname( $this->file ),
+				sanitize_title( $file )
+			);
+			if ( is_file( $file ) && is_readable( $file ) ) {
+				$file = file_get_contents( $file );
+				return $file;
+			}
+			return __( 'Something went wrong!', 'ub' );
 		}
 	}
 }

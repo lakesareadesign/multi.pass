@@ -1,9 +1,9 @@
-=== WordPress Social Tools, Related Content, Monetization - Shareaholic ===
+=== WordPress Social Tools, Related Posts, Monetization - Shareaholic ===
 Contributors: shareaholic
 Tags:  Social Tools, Related Posts, Google Analytics, Share Buttons, Social Sharing, Image Sharing, Related Content, woocommerce, typepad, amazon, analytics, arto, baidu, bitly, blogger, buffer, cookie compliance, cookie consent, delicious, digg, diigo, disqus, email button, eu cookie law, evernote, facebook, facebook sharing, fancy, fark, feedly, flipboard, floated share buttons, floating share buttons, follow buttons, GDPR, gmail, google bookmarks, google classroom, google plus, hootsuite, hotmail, houzz, inbound.org, instagram, instagram sharing, instapaper, izeby, kaboodle, kik, kindle, line, linkedin, livejournal, meneame, mister wong, mixi, odnoklassniki, box.net, onenote, pinboard.in, pinterest, pinterest sharing, plurk, pocket, printfriendly, recommendations, reddit, sexybookmarks, share buttons, share image, shareaholic, shareholic, sms, social bookmarking, social media, social plugin, social share buttons, spotify, stumbleupon, stumpedia, symphony, tinyurl, tumblr, twitter, viadeo, vk, wanelo, weheartit, weibo, whatsapp, wykop, xing, yahoo, yammer, ycombinator, hacker news, youtube, yummly, zillow
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 8.6.5
+Stable tag: 8.7.0
 
 Consolidate plugins with a high-speed suite of social tools: social share buttons, related content, related posts, ad monetization & Google Analytics.
 
@@ -211,12 +211,29 @@ If use double quotes ("'s) in your title or summary, make sure to encode them pr
 == Frequently Asked Questions ==
 
 = Where can I find a detailed FAQ? =
+
 Please see here: [Shareaholic Helpdesk](http://support.shareaholic.com/hc/en-us)
 
 = Where can I get detailed Usage & Installation instructions? =
+
 Please see here: [Usage & Installation Instructions](http://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin)
 
+= How can I change the thumbnail image size for Shareaholic Related Posts? =
+
+The default Shareaholic thumbnail width is 640px with dynamic height and no cropping. The thumbnail size can be specified programmatically by adding `add_image_size('shareaholic-thumbnail', $width, $height, true);` to your theme's `functions.php` file with [appropriate width and height variables](https://developer.wordpress.org/reference/functions/add_image_size/).
+
+Each time you change Shareaholic's thumbnail dimensions like this, you will probably want to have WordPress regenerate appropriate sized thumbnails for all of your images. We highly recommend the [Regenerate Thumbnails](https://wordpress.org/plugins/regenerate-thumbnails/) plugin for this purpose.
+
 == Changelog ==
+= 8.7.0 (2018-06-04) =
+* Performance Enhancement: Settings file is now loaded from a globally distributed CDN (Amazon), which will make Shareaholic faster on your site
+* Performance Enhancement: Added support for DNS-Prefetch and Preload which will make Shareaholic EVEN FASTER!!
+
+= 8.6.7 (2018-05-19) =
+* Bugfix: Fixed bug where share buttons and other apps were showing up intermittently due to a race condition in the loading sequence
+
+= 8.6.6 (2018-05-16) =
+* New: You can now set custom Related Posts thumbnail dimensions. See [FAQ in the readme](https://wordpress.org/plugins/shareaholic/) if you would like to change the thumbnail size.
 
 = 8.6.5 (2018-02-07) =
 * Bugfix: Fixes 'Trying to get property of non-object' exception
@@ -718,6 +735,18 @@ Please see here: [Usage & Installation Instructions](http://support.shareaholic.
 * Show Related Posts data status
 
 == Upgrade Notice ==
+= 8.7.0 =
+* Several performance upgrades to make Shareaholic EVEN FASTER!!
+
+* Performance Enhancement: Settings file is now loaded from a globally distributed CDN (Amazon), which will make Shareaholic faster on your site
+* Performance Enhancement: Added support for DNS-Prefetch and Preload which will make Shareaholic EVEN FASTER!!
+
+= 8.6.7 =
+* Fixed bug where share buttons and other apps were showing up intermittently due to a race condition in the loading sequence
+
+= 8.6.6 =
+* New: You can now set custom Related Posts thumbnail dimensions. See [FAQ in the readme](https://wordpress.org/plugins/shareaholic/) if you would like to change the thumbnail size.
+
 = 8.6.5 =
 We've improved the server connectivity check. If you've been getting the 'retry' error message after installing Shareaholic, this one is for you.
 

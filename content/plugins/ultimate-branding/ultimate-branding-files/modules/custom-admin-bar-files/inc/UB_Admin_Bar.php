@@ -138,8 +138,8 @@ class UB_Admin_Bar {
 	 * @return int
 	 */
 	private function _get_last_menu_id() {
-		global $wpdb;
-		if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+		global $wpdb, $UB_network;
+		if ( $UB_network ) {
 			return (int) $wpdb->get_var( "SELECT MAX(meta_id) FROM $wpdb->sitemeta WHERE `meta_key` LIKE '". self::MENU_OPTION_KEY ."%'" );
 		} else {
 			return (int) $wpdb->get_var( "SELECT MAX(option_id) FROM $wpdb->options WHERE `option_name` LIKE '". self::MENU_OPTION_KEY ."%'" );

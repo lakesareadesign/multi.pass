@@ -26,6 +26,16 @@ class FL_Filesystem {
 	}
 
 	/**
+	 * is_writable using wp_filesystem.
+	 * @since 2.1.2
+	 */
+	function is_writable( $path ) {
+
+		$wp_filesystem = $this->get_filesystem();
+		return $wp_filesystem->is_writable( $path );
+	}
+
+	/**
 	 * file_put_contents using wp_filesystem.
 	 * @since 2.0.6
 	 */
@@ -66,7 +76,7 @@ class FL_Filesystem {
 	}
 
 	/**
-	 * dirlist using wp_filesystem.
+	 * move using wp_filesystem.
 	 * @since 2.0.6
 	 */
 	function move( $old, $new ) {
@@ -120,15 +130,17 @@ class FL_Filesystem {
 
 		global $wp_filesystem;
 
-		if ( ! $wp_filesystem ) {
+		if ( ! $wp_filesystem || 'direct' != $wp_filesystem->method ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
+
+			$context = apply_filters( 'request_filesystem_credentials_context', false );
 
 			add_filter( 'filesystem_method',              array( $this, 'filesystem_method' ) );
 			add_filter( 'request_filesystem_credentials', array( $this, 'request_filesystem_credentials' ) );
 
-			$creds = request_filesystem_credentials( site_url(), '', true, false, null );
+			$creds = request_filesystem_credentials( site_url(), '', true, $context, null );
 
-			WP_Filesystem( $creds );
+			WP_Filesystem( $creds, $context );
 
 			remove_filter( 'filesystem_method',              array( $this, 'filesystem_method' ) );
 			remove_filter( 'request_filesystem_credentials', array( $this, 'FLBuilderUtils::request_filesystem_credentials' ) );

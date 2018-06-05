@@ -10,10 +10,10 @@ class CoursePress_Helper_SocialMedia {
 	 */
 	public static function get_social_sharing_array() {
 		$services = array(
-			'facebook' => __( 'Facebook', 'cp' ),
-			'twitter' => __( 'Twitter', 'cp' ),
-			'google' => __( 'Google', 'cp' ),
-			'email' => __( 'Email', 'cp' ),
+			'facebook' => __( 'Facebook', 'coursepress' ),
+			'twitter' => __( 'Twitter', 'coursepress' ),
+			'google' => __( 'Google', 'coursepress' ),
+			'email' => __( 'Email', 'coursepress' ),
 		);
 		/**
 		 * Filter allow to add some social media.

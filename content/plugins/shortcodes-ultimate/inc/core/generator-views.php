@@ -109,29 +109,6 @@ class Su_Generator_Views {
 		return $return;
 	}
 
-	public static function gallery( $id, $field ) {
-		$shult = shortcodes_ultimate();
-		// Prepare galleries list
-		$galleries = $shult->get_option( 'galleries' );
-		$created = ( is_array( $galleries ) && count( $galleries ) ) ? true : false;
-		$return = '<select name="' . $id . '" id="su-generator-attr-' . $id . '" class="su-generator-attr" data-loading="' . __( 'Please wait', 'shortcodes-ultimate' ) . '">';
-		// Check that galleries is set
-		if ( $created ) // Create options
-			foreach ( $galleries as $g_id => $gallery ) {
-				// Is this option selected
-				$selected = ( $g_id == 0 ) ? ' selected="selected"' : '';
-				// Prepare title
-				$gallery['name'] = ( $gallery['name'] == '' ) ? __( 'Untitled gallery', 'shortcodes-ultimate' ) : stripslashes( $gallery['name'] );
-				// Create option
-				$return .= '<option value="' . ( $g_id + 1 ) . '"' . $selected . '>' . $gallery['name'] . '</option>';
-			}
-		// Galleries not created
-		else
-			$return .= '<option value="0" selected>' . __( 'Galleries not found', 'shortcodes-ultimate' ) . '</option>';
-		$return .= '</select><small class="description"><a href="' . $shult->admin_url . '#tab-3" target="_blank">' . __( 'Manage galleries', 'shortcodes-ultimate' ) . '</a>&nbsp;&nbsp;&nbsp;<a href="javascript:;" class="su-generator-reload-galleries">' . __( 'Reload galleries', 'shortcodes-ultimate' ) . '</a></small>';
-		return $return;
-	}
-
 	public static function number( $id, $field ) {
 		$return = '<input type="number" name="' . $id . '" value="' . esc_attr( $field['default'] ) . '" id="su-generator-attr-' . $id . '" min="' . $field['min'] . '" max="' . $field['max'] . '" step="' . $field['step'] . '" class="su-generator-attr" />';
 		return $return;

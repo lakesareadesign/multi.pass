@@ -4,7 +4,7 @@
 Plugin Name: Pixabay Images
 Plugin URI: https://pixabay.com/blog/posts/p-136/
 Description: Find quality public domain images from Pixabay and upload them with just one click.
-Version: 3.3
+Version: 3.4
 Author: Simon Steinberger
 Author URI: https://pixabay.com/users/Simon/
 License: GPLv2
@@ -174,81 +174,79 @@ function media_upload_pixabaytab_handler() { wp_iframe('media_pixabay_images_tab
 add_action('media_upload_pixabaytab', 'media_upload_pixabaytab_handler');
 
 
-if (isset($_POST['pixabay_upload'])) {
-    # "pluggable.php" is required for wp_verify_nonce() and other upload related helpers
-    if (!function_exists('wp_verify_nonce'))
-        require_once(ABSPATH.'wp-includes/pluggable.php');
+function pixabay_upload() {
+    if (isset($_POST['pixabay_upload'])) {
+        if (!wp_verify_nonce($_POST['wpnonce'], 'pixabay_images_security_nonce')) {
+            die('Error: Invalid request.');
+            exit;
+        }
 
-	$nonce = $_POST['wpnonce'];
-	if (!wp_verify_nonce($nonce, 'pixabay_images_security_nonce')) {
-        die('Error: Invalid request.');
-		exit;
-	}
+        $post_id = absint($_REQUEST['post_id']);
+        $pixabay_images_settings = get_option('pixabay_images_options');
 
-    $post_id = absint($_REQUEST['post_id']);
-    $pixabay_images_settings = get_option('pixabay_images_options');
+        // get image file
+        $response = wp_remote_get($_POST['image_url'], ['timeout' => 20]);
+        if (is_wp_error($response)) die('Error: '.$response->get_error_message());
 
-    // get image file
-	$response = wp_remote_get($_POST['image_url']);
-	if (is_wp_error($response)) die('Error: '.$response->get_error_message());
+        $q_tags = explode(' ' , $_POST['q']);
+        array_splice($q_tags, 2);
+        foreach ($q_tags as $k=>$v) {
+            // remove ../../../..
+            $v = str_replace("..", "", $v);
+            $v = str_replace("/", "", $v);
+            $q_tags[$k] = trim($v);
+        }
+        $path_info = pathinfo($_POST['image_url']);
+        $file_name = sanitize_file_name(implode('_', $q_tags).'_'.time().'.'.$path_info['extension']);
 
-	$q_tags = explode(' ' , $_POST['q']);
-	array_splice($q_tags, 2);
-	foreach ($q_tags as $k=>$v) {
-		// remove ../../../..
-		$v = str_replace("..", "", $v);
-		$v = str_replace("/", "", $v);
-		$q_tags[$k] = trim($v);
-	}
-    $path_info = pathinfo($_POST['image_url']);
-	$file_name = sanitize_file_name(implode('_', $q_tags).'_'.time().'.'.$path_info['extension']);
+        $wp_upload_dir = wp_upload_dir();
+        $image_upload_path = $wp_upload_dir['path'];
 
-	$wp_upload_dir = wp_upload_dir();
-	$image_upload_path = $wp_upload_dir['path'];
+        if (!is_dir($image_upload_path)) {
+            if (!@mkdir($image_upload_path, 0777, true)) die('Error: Failed to create upload folder '.$image_upload_path);
+        }
 
-	if (!is_dir($image_upload_path)) {
-		if (!@mkdir($image_upload_path, 0777, true)) die('Error: Failed to create upload folder '.$image_upload_path);
-	}
+        $target_file_name = $image_upload_path . '/' . $file_name;
+        $result = @file_put_contents($target_file_name, $response['body']);
+        unset($response['body']);
+        if ($result === false) die('Error: Failed to write file '.$target_file_name);
 
-	$target_file_name = $image_upload_path . '/' . $file_name;
-	$result = @file_put_contents($target_file_name, $response['body']);
-	unset($response['body']);
-	if ($result === false) die('Error: Failed to write file '.$target_file_name);
+        // are we dealing with an image
+        require_once(ABSPATH.'wp-admin/includes/image.php');
+        if (!wp_read_image_metadata($target_file_name)) {
+            unlink($target_file_name);
+            die('Error: File is not an image.');
+        }
 
-	// are we dealing with an image
-    require_once(ABSPATH.'wp-admin/includes/image.php');
-	if (!wp_read_image_metadata($target_file_name)) {
-		unlink($target_file_name);
-		die('Error: File is not an image.');
-	}
+        $image_title = ucwords(implode(', ', $q_tags));
+        $attachment_caption = '';
+        if (!$pixabay_images_settings['attribution'] | $pixabay_images_settings['attribution']=='true')
+            $attachment_caption = '<a href="https://pixabay.com/users/'.htmlentities($_POST['image_user']).'/">'.htmlentities($_POST['image_user']).'</a> / Pixabay';
 
-	$image_title = ucwords(implode(', ', $q_tags));
-    $attachment_caption = '';
-    if (!$pixabay_images_settings['attribution'] | $pixabay_images_settings['attribution']=='true')
-        $attachment_caption = '<a href="https://pixabay.com/users/'.htmlentities($_POST['image_user']).'/">'.htmlentities($_POST['image_user']).'</a> / Pixabay';
+        // insert attachment
+        $wp_filetype = wp_check_filetype(basename($target_file_name), null);
+        $attachment = array(
+            'guid' => $wp_upload_dir['url'].'/'.basename($target_file_name),
+            'post_mime_type' => $wp_filetype['type'],
+            'post_title' => preg_replace('/\.[^.]+$/', '', $image_title),
+            'post_status' => 'inherit'
+        );
+        $attach_id = wp_insert_attachment($attachment, $target_file_name, $post_id);
+        if ($attach_id == 0) die('Error: File attachment error');
 
-    // insert attachment
-	$wp_filetype = wp_check_filetype(basename($target_file_name), null);
-	$attachment = array(
-        'guid' => $wp_upload_dir['url'].'/'.basename($target_file_name),
-        'post_mime_type' => $wp_filetype['type'],
-        'post_title' => preg_replace('/\.[^.]+$/', '', $image_title),
-        'post_status' => 'inherit'
-	);
-	$attach_id = wp_insert_attachment($attachment, $target_file_name, $post_id);
-	if ($attach_id == 0) die('Error: File attachment error');
+        $attach_data = wp_generate_attachment_metadata($attach_id, $target_file_name);
+        $result = wp_update_attachment_metadata($attach_id, $attach_data);
+        if ($result === false) die('Error: File attachment metadata error');
 
-	$attach_data = wp_generate_attachment_metadata($attach_id, $target_file_name);
-	$result = wp_update_attachment_metadata($attach_id, $attach_data);
-	if ($result === false) die('Error: File attachment metadata error');
+        $image_data = array();
+        $image_data['ID'] = $attach_id;
+        $image_data['post_excerpt'] = $attachment_caption;
+        wp_update_post($image_data);
 
-	$image_data = array();
-	$image_data['ID'] = $attach_id;
-	$image_data['post_excerpt'] = $attachment_caption;
-	wp_update_post($image_data);
-
-	echo $attach_id;
-    exit;
+        echo $attach_id;
+        exit;
+    }
 }
+add_action('plugins_loaded', 'pixabay_upload');
 
 ?>

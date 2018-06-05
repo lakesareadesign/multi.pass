@@ -1,12 +1,26 @@
+html,
+.mask {
+  background-repeat: no-repeat;
+  background-position: 50%;
+  background-attachment: fixed;
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
 body.ultimate-branding-maintenance #counter, body.ultimate-branding-maintenance #social {
   display: none;
 }
+body.ultimate-branding-maintenance .mask,
 body.ultimate-branding-maintenance .overall {
   position: absolute;
   left: 0;
   right: 0;
   top: 0;
   bottom: 0;
+}
+body.ultimate-branding-maintenance .overall {
   display: flex;
   align-items: center;
 }
@@ -138,6 +152,56 @@ body.has-counter #counter {
   font-family: monospace;
   text-align: center;
 }
+body.has-counter .countdown {
+  font-size: 14px;
+  font-family: 'sans-serif';
+  padding: 4em 0;
+}
+body.has-counter .countdown .clock {
+  display: flex;
+}
+body.has-counter .countdown .clock .clock-item {
+  width: 21%;
+  margin: 0 2%;
+}
+body.has-counter .countdown .clock .clock-item .inner {
+  height: 0px;
+  padding-bottom: 100%;
+  position: relative;
+  width: 100%;
+}
+body.has-counter .countdown .clock-canvas {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  height: 0px;
+  padding-bottom: 100%;
+}
+body.has-counter .countdown .text {
+  font-size: 30px;
+  font-weight: bold;
+  margin-top: -50px;
+  position: absolute;
+  top: 50%;
+  text-align: center;
+  text-shadow: 1px 1px 1px black;
+  width: 100%;
+}
+body.has-counter .countdown .text .val {
+  font-size: 40px;
+}
+body.has-counter .countdown .text .type-time {
+  font-size: 20px;
+}
+@media (min-width: 768px) and (max-width: 991px) {
+  body.has-counter .countdown .clock-item {
+    margin-bottom: 30px;
+  }
+}
+@media (max-width: 767px) {
+  body.has-counter .countdown .clock-item {
+    margin: 0px 30px 30px 30px;
+  }
+}
 
 
-/* 133620-1525394844-au */
+/* 133620-1528232250-au */

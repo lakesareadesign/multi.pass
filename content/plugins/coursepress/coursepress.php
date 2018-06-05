@@ -1,16 +1,16 @@
 <?php
 /**
  * Plugin Name: CoursePress Pro
- * Version:     2.1.5
+ * Version:     2.2.0
  * Description: CoursePress Pro turns WordPress into a powerful online learning platform. Set up online courses by creating learning units with quiz elements, video, audio etc. You can also assess student work, sell your courses and much much more.
  * Author:      WPMU DEV
  * Author URI:  http://premium.wpmudev.org
  * Plugin URI:  http://premium.wpmudev.org/project/coursepress/
  * License:     GPL2
  * License URI: https://www.gnu.org/licenses/gpl-2.0.html
- * Text Domain: cp
+ * Text Domain: coursepress
  * Domain Path: /languages
- * Build Time:  2018-03-12T06:48:42.063Z
+ * Build Time:  2018-05-28T06:42:38.437Z
  * WDP ID:      913071
  *
  * @package CoursePress
@@ -105,7 +105,7 @@ class CoursePressUpgrade {
 		/**
 		 * load translations
 		 */
-		add_action('plugins_loaded', array( __CLASS__, 'load_l10n' ) );
+		add_action( 'plugins_loaded', array( __CLASS__, 'load_l10n' ) );
 	}
 
 	/** Use to reset CP into 1.x version */
@@ -142,7 +142,7 @@ class CoursePressUpgrade {
 		);
 		$courses = get_posts( $args );
 
-		return count( $courses ) > 0 || intval(get_option('students_to_upgrade_to_2.0', 0)) > 0;
+		return count( $courses ) > 0 || intval( get_option( 'students_to_upgrade_to_2.0', 0 ) ) > 0;
 	}
 
 	private static function get_coursepress( $version ) {
@@ -165,7 +165,7 @@ class CoursePressUpgrade {
 
 			include $version_file;
 		} else {
-			$error = sprintf( __( 'Error loading %s v%s plugin!', 'cp' ), 'CoursePress', $version );
+			$error = sprintf( __( 'Error loading %s v%s plugin!', 'coursepress' ), 'CoursePress', $version );
 			throw new Exception( $error );
 		}
 	}
@@ -248,8 +248,8 @@ class CoursePressUpgrade {
 		if ( false == $is_flushed ) {
 			delete_option( 'cp1_flushed' );
 
-			if ( class_exists( 'CoursePress_Upgrade' ) )
-				CoursePress_Upgrade::init();
+			if ( class_exists( 'CoursePress_Upgrade' ) ) {
+				CoursePress_Upgrade::init(); }
 
 			//@todo: wrap this
 			flush_rewrite_rules();
@@ -284,7 +284,7 @@ class CoursePressUpgrade {
 	 */
 	static function load_l10n() {
 		$plugin_rel_path = basename( dirname( __FILE__ ) ) . '/languages';
-		load_plugin_textdomain( 'cp', false, $plugin_rel_path );
+		load_plugin_textdomain( 'coursepress', false, $plugin_rel_path );
 	}
 }
 CoursePressUpgrade::init();

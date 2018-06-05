@@ -314,6 +314,15 @@
   min-width: 0;
   margin-right: 4px;
 }
+.ms-form-element.ms-form-element-privacy_check {
+  margin: 0px;
+  margin-left: 1em;
+}
+.ms-form-element.ms-form-element-privacy_check .wpmui-field-checkbox {
+  min-width: 10px;
+  margin: 0;
+  margin-top: 8px;
+}
 
 /* jQuery validation - on front end */
 .ms-validation-error {
@@ -1198,4 +1207,4 @@ input[type="image"] {
 }
 
 
-/* 133620-1524149364-au */
+/* 133620-1528232199-au */

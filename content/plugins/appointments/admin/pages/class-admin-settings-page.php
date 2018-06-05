@@ -4,7 +4,6 @@ class Appointments_Admin_Settings_Page {
 
 	public $page_id = '';
 
-
 	public function __construct() {
 		$this->page_id = add_submenu_page(
 			'appointments',
@@ -14,10 +13,8 @@ class Appointments_Admin_Settings_Page {
 			'app_settings',
 			array( &$this, 'render' )
 		);
-
 		add_action( 'load-' . $this->page_id, array( $this, 'on_load' ) );
 	}
-
 
 	/**
 	 * Get the screen tabs
@@ -34,7 +31,6 @@ class Appointments_Admin_Settings_Page {
 			'addons'        => __( 'Add-ons', 'appointments' ),
 			'log'           => __( 'Logs', 'appointments' ),
 		);
-
 		return apply_filters( 'appointments_tabs', $tabs );
 	}
 
@@ -47,17 +43,19 @@ class Appointments_Admin_Settings_Page {
 				'payments' => __( 'Payments', 'appointments' ),
 				'notifications' => __( 'Notifications', 'appointments' ),
 				'advanced' => __( 'Advanced', 'appointments' ),
+				'gdpr' => __( 'GDPR', 'appointments' ),
 			),
 			'services' => array(
 				'services' => __( 'Services', 'appointments' ),
 				'new-service' => __( 'Add new Service', 'appointments' ),
+				'edit-service' => false,
 			),
 			'workers' => array(
 				'workers' => __( 'Service Providers', 'appointments' ),
 				'new-worker' => __( 'Add new Service Provider', 'appointments' ),
+				'edit-worker' => false,
 			),
 		);
-
 		return apply_filters( 'appointments_settings_sections', $sections );
 	}
 
@@ -70,18 +68,18 @@ class Appointments_Admin_Settings_Page {
 	 */
 	public function tab_sections_markup( $tab ) {
 		$sections = $this->get_sections();
-
 		if ( isset( $sections[ $tab ] ) ) {
 			$content = '<ul class="subsubsub">';
 			$links = array();
 			foreach ( $sections[ $tab ] as $section_stub => $label ) {
+				if ( empty( $label ) ) {
+					continue;
+				}
 				$links[] = '<li><a href="#section-' . esc_attr( $section_stub ) . '" data-section="section-' . esc_attr( $section_stub ) . '" class="'.esc_attr( $tab.'-'.$section_stub ).'">' . esc_html( $label ) . '</a></li>';
 			}
 			$content .= implode( ' | ', $links );
 			$content .= '</ul>';
-
 			wp_enqueue_script( 'app-settings', appointments_plugin_url() . 'admin/js/admin-settings.js', array( 'jquery' ), appointments_get_db_version(), true );
-
 			$appointments = appointments();
 			$classes = $appointments->get_classes();
 			$presets = array();
@@ -99,14 +97,20 @@ class Appointments_Admin_Settings_Page {
 					'workers' => array(
 						'delete_confirmation' => __( 'Are you sure to delete this Service Provider?', 'appointments' ),
 					),
-					'services' => array(
+					'service' => array(
 						'delete_confirmation' => __( 'Are you sure to delete this Service?', 'appointments' ),
+					),
+					'services' => array(
+						'delete_confirmation' => __( 'Are you sure to delete selected Services?', 'appointments' ),
+					),
+					'bulk_actions' => array(
+						'no_items' => __( 'Please select some services first.', 'appointments' ),
+						'no_action' => __( 'Please select some action first.', 'appointments' ),
 					),
 				),
 			));
 			return $content;
 		}
-
 		return '';
 	}
 
@@ -122,7 +126,6 @@ class Appointments_Admin_Settings_Page {
 		if ( isset( $sections[ $tab ] ) ) {
 			return $sections[ $tab ];
 		}
-
 		return array();
 	}
 
@@ -136,32 +139,26 @@ class Appointments_Admin_Settings_Page {
 		if ( empty( $_GET['tab'] ) ) {
 			return key( $tabs );
 		}
-
 		if ( ! array_key_exists( $_GET['tab'], $tabs ) ) {
 			return key( $tabs );
 		}
-
 		return $_GET['tab'];
 	}
 
 	private function _get_tab_link( $tab ) {
 		$url = add_query_arg( 'tab', $tab );
-		$url = remove_query_arg( array( 'updated', 'added' ), $url );
+		$url = remove_query_arg( array( 'updated', 'added', 'paged' ), $url );
 		return $url;
 	}
-
 
 	/**
 	 *	Render the Settings page
 	 */
-	function render() {
+	public function render() {
 		$appointments = appointments();
-
 		$appointments->get_lsw();
-
 		$tabs = $this->get_tabs();
 		$tab = $this->get_current_tab();
-
 		?>
 		<div class="wrap appointments-settings">
 			<h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
@@ -197,6 +194,18 @@ class Appointments_Admin_Settings_Page {
 
 		$file = _appointments_get_settings_tab_view_file_path( $tab );
 
+		/**
+		 * Load table class
+		 */
+		switch ( $tab ) {
+			case 'services':
+				require_once dirname( dirname( __FILE__ ) ).'/class-app-list-table-services.php';
+			break;
+			case 'workers':
+				require_once dirname( dirname( __FILE__ ) ).'/class-app-list-table-workers.php';
+			break;
+		}
+
 		echo '<div class="appointments-settings-tab-' . $tab . '">';
 		if ( $file ) {
 			require_once( $file );
@@ -216,11 +225,23 @@ class Appointments_Admin_Settings_Page {
 		if ( current_user_can( 'manage_options' ) && isset( $_GET['app-export-settings'] ) ) {
 			$this->export_settings();
 		}
+		/**
+		 * get current action
+		 */
+		$action = '';
+		if ( isset( $_REQUEST['action'] ) ) {
+			$action = $_REQUEST['action'];
+		}
+		if ( '-1' == $action && isset( $_REQUEST['action2'] ) ) {
+			$action = $_REQUEST['action2'];
+		}
 
-		$addons_action = isset( $_REQUEST['action'] ) ? $_REQUEST['action'] : '';
-		if ( $addons_action ) {
-			$this->_save_addons( $addons_action );
-			wp_redirect( remove_query_arg( array( 'addon', '_wpnonce', 'action' ) ) );
+		/**
+		 * handle bulk action addon
+		 */
+		if ( $action && isset( $_REQUEST['addon'] ) ) {
+			$this->_save_addons( $action );
+			wp_safe_redirect( remove_query_arg( array( 'addon', '_wpnonce', 'action' ) ), 303 );
 			exit;
 		}
 
@@ -245,12 +266,12 @@ class Appointments_Admin_Settings_Page {
 				$this->_save_exceptions();
 				break;
 			}
-			case 'save_services': {
-				$this->_save_services();
-				break;
-			}
 			case 'add_new_service': {
 				$redirect_to = $this->_add_service();
+				break;
+			}
+			case 'update_service': {
+				$redirect_to = $this->_update_service();
 				break;
 			}
 			case 'add_new_worker': {
@@ -261,16 +282,19 @@ class Appointments_Admin_Settings_Page {
 				$this->_save_workers();
 				break;
 			}
+			case 'update_worker': {
+				$redirect_to = $this->_update_worker();
+				break;
+			}
 			case 'save_log': {
 				$this->_delete_logs();
 			}
 			}
 
 			do_action( 'appointments_save_settings', $action );
-
 			$redirect_to = $redirect_to ? $redirect_to : add_query_arg( 'updated', 1 );
 			// Redirecting when saving options
-			wp_redirect( $redirect_to );
+			wp_safe_redirect( $redirect_to, 303 );
 			die;
 	}
 
@@ -333,6 +357,8 @@ class Appointments_Admin_Settings_Page {
 			'send_removal_notification',
 			'show_legend',
 			'log_emails',
+			'gdpr_delete',
+			'gdpr_checkbox_show',
 		);
 		foreach ( $options_names as $name ) {
 			$options[ $name ] = isset( $_POST[ $name ] )? $_POST[ $name ]:'no';
@@ -342,7 +368,7 @@ class Appointments_Admin_Settings_Page {
 
 		$assigned_to = isset( $_POST['dummy_assigned_to'] ) ? $_POST['dummy_assigned_to'] : 0;
 		$worker = appointments_get_worker( $assigned_to );
-		$is_dummy = is_a( 'Appointments_Worker', $worker ) && $worker->is_dummy();
+		$is_dummy = is_a( $worker, 'Appointments_Worker' ) && $worker->is_dummy();
 		$options['dummy_assigned_to']			= ! $is_dummy ? $assigned_to : 0;
 
 		$options['accept_api_logins']			= isset( $_POST['accept_api_logins'] );
@@ -351,7 +377,6 @@ class Appointments_Admin_Settings_Page {
 		$options['twitter-app_id']			= trim( $_POST['twitter-app_id'] );
 		$options['twitter-app_secret']		= trim( $_POST['twitter-app_secret'] );
 
-		$options['app_page_type']				= $_POST['app_page_type'];
 		$options['color_set']					= $_POST['color_set'];
 		foreach ( $appointments->get_classes() as $class => $name ) {
 			$options[ $class.'_color' ]			= $_POST[ $class.'_color' ];
@@ -401,6 +426,14 @@ class Appointments_Admin_Settings_Page {
 		$options['cancel_page'] 				= @$_POST['cancel_page'];
 		$options['thank_page'] 				= @$_POST['thank_page'];
 
+		/**
+		 * GDPR
+		 */
+		$options['gdpr_number_of_days'] = filter_input( INPUT_POST, 'gdpr_number_of_days', FILTER_VALIDATE_INT );
+		$options['gdpr_number_of_days_user_erease'] = filter_input( INPUT_POST, 'gdpr_number_of_days_user_erease', FILTER_VALIDATE_INT );
+		$options['gdpr_checkbox_text'] = filter_input( INPUT_POST, 'gdpr_checkbox_text', FILTER_SANITIZE_STRING );
+		$options['gdpr_checkbox_alert'] = filter_input( INPUT_POST, 'gdpr_checkbox_alert', FILTER_SANITIZE_STRING );
+
 		$options = apply_filters( 'app-options-before_save', $options );
 
 		appointments_update_options( $options );
@@ -431,39 +464,6 @@ class Appointments_Admin_Settings_Page {
 		}
 	}
 
-	private function _save_services() {
-		// Save Services
-		if ( ! is_array( $_POST['services'] ) ) {
-			return;
-		}
-
-		do_action( 'app-services-before_save' );
-
-		foreach ( $_POST['services'] as $ID => $service ) {
-			if ( '' != trim( $service['name'] ) ) {
-				// Update or insert?
-				$_service = appointments_get_service( $ID );
-				if ( $_service ) {
-					$args = array(
-						'name'		=> $service['name'],
-						'capacity'	=> (int) $service['capacity'],
-						'duration'	=> $service['duration'],
-						'price'		=> $service['price'],
-						'page'		=> $service['page'],
-					);
-
-					appointments_update_service( $ID, $args );
-				}
-
-				do_action( 'app-services-service-updated', $ID );
-			} else {
-				// Entering an empty name means deleting of a service
-				appointments_delete_service( $ID );
-			}
-		}
-
-	}
-
 	private function _add_service() {
 		$args = array(
 			'name' => sanitize_text_field( $_POST['service_name'] ),
@@ -482,6 +482,68 @@ class Appointments_Admin_Settings_Page {
 		}
 
 		return admin_url( 'admin.php?page=app_settings&tab=services&added=true#section-services' );
+	}
+
+	/**
+	 * Update service
+	 *
+	 * @since 2.3.0
+	 */
+	private function _update_service() {
+		if ( ! isset( $_POST['app_nonce'] ) ) {
+			return false;
+		}
+		if ( ! wp_verify_nonce( $_POST['app_nonce'], 'update_app_settings' ) ) {
+			return false;
+		}
+		if ( ! isset( $_POST['id'] ) ) {
+			return false;
+		}
+		$ID = filter_var( $_POST['id'], FILTER_VALIDATE_INT );
+		$_service = appointments_get_service( $ID );
+		if ( false === $_service ) {
+			return false;
+		}
+		do_action( 'app-services-before_save' );
+		/**
+		 * update
+		 */
+		$args = array();
+		/**
+		 * values: integers
+		 */
+		$keys = array( 'duration', 'capacity', 'page' );
+		foreach ( $keys as $k ) {
+			$key = 'service_'.$k;
+			$value = 0;
+			if ( isset( $_POST[ $key ] ) ) {
+				$value = filter_var( $_POST[ $key ], FILTER_VALIDATE_INT );
+			}
+			$args[ $k ] = $value;
+		}
+		/**
+		 * values: strings
+		 */
+		$keys = array( 'name', 'price' );
+		foreach ( $keys as $k ) {
+			$key = 'service_'.$k;
+			$value = '';
+			if ( isset( $_POST[ $key ] ) ) {
+				$value = filter_var( $_POST[ $key ], FILTER_SANITIZE_STRING );
+			}
+			$args[ $k ] = $value;
+		}
+		appointments_update_service( $ID, $args );
+		do_action( 'app-services-service-updated', $ID );
+		$url = add_query_arg(
+			array(
+				'page' => 'app_settings',
+				'tab' => 'services',
+				'updated' => true,
+			),
+			admin_url( 'admin.php' )
+		);
+		return $url.'#section-services';
 	}
 
 	private function _add_worker() {
@@ -552,6 +614,76 @@ class Appointments_Admin_Settings_Page {
 		}
 	}
 
+	/**
+	 * Update worker
+	 *
+	 * @since 2.3.0
+	 */
+	private function _update_worker() {
+		if ( ! isset( $_POST['app_nonce'] ) ) {
+			return false;
+		}
+		if ( ! wp_verify_nonce( $_POST['app_nonce'], 'update_app_settings' ) ) {
+			return false;
+		}
+		if ( ! isset( $_POST['worker_user'] ) ) {
+			return false;
+		}
+		$ID = filter_var( $_POST['worker_user'], FILTER_VALIDATE_INT );
+		$_worker = appointments_get_worker( $ID );
+		if ( false === $_worker ) {
+			return false;
+		}
+		do_action( 'app-workers-before_save' );
+		/**
+		 * update
+		 */
+		$args = array();
+		/**
+		 * values: integers
+		 */
+		$keys = array( 'page' );
+		foreach ( $keys as $k ) {
+			$key = 'worker_'.$k;
+			$value = 0;
+			if ( isset( $_POST[ $key ] ) ) {
+				$value = filter_var( $_POST[ $key ], FILTER_VALIDATE_INT );
+			}
+			$args[ $k ] = $value;
+		}
+		/**
+		 * values: strings
+		 */
+		$keys = array( 'price', 'dummy' );
+		foreach ( $keys as $k ) {
+			$key = 'worker_'.$k;
+			$value = '';
+			if ( isset( $_POST[ $key ] ) ) {
+				$value = filter_var( $_POST[ $key ], FILTER_SANITIZE_STRING );
+			}
+			$args[ $k ] = $value;
+		}
+		/**
+		 * check dummy
+		 */
+		$args['dummy'] = 'on' === $args['dummy'];
+		/**
+		 * services_provided
+		 */
+		$args['services_provided'] = isset( $_POST['services_provided'] )? $_POST['services_provided']:array();
+		appointments_update_worker( $ID, $args );
+		do_action( 'app-workers-worker-updated', $ID );
+		$url = add_query_arg(
+			array(
+				'page' => 'app_settings',
+				'tab' => 'workers',
+				'updated' => true,
+			),
+			admin_url( 'admin.php' )
+		);
+		return $url.'#section-workers';
+	}
+
 	private function _delete_logs() {
 		$appointments = appointments();
 		@unlink( $appointments->log_file );
@@ -562,7 +694,7 @@ class Appointments_Admin_Settings_Page {
 	 *	Sorts a comma delimited string
 	 *	@since 1.2
 	 */
-	function _sort( $input ) {
+	public function _sort( $input ) {
 		if ( strpos( $input, ',' ) === false ) {
 			return $input; }
 		$temp = explode( ',', $input );

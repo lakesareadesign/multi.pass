@@ -82,7 +82,7 @@
         // This is where your data is stored in the database and also becomes your global variable name.
         'display_name'         => 'Ultra Admin',
         // Name that appears at the top of your panel
-        'display_version'      => '7.4',
+        'display_version'      => '8.1',
         // Version that appears at the top of your panel
         'menu_type'            => $menu_type,
         //Specify if the admin menu should appear or not. Options: menu or submenu (Under appearance only)
@@ -1489,7 +1489,7 @@
                     array(
                         'id' => 'login-background',
                         'tiles' => true,
-                        'required' => array('dynamic-css-type', 'equals', 'custom'),
+                        //'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'type' => 'background',
                         'title' => __('Login Page Background', 'ultra_framework'),
                         'subtitle' => __('Background image, color and settings etc. for login page (Eg: http://www.yourdomain.com/wp-login.php)', 'ultra_framework'),
@@ -1504,7 +1504,7 @@
                     array(
                         'id' => 'login-form-background',
                         'tiles' => true,
-                        'required' => array('dynamic-css-type', 'equals', 'custom'),
+                        //'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'type' => 'background',
                         'title' => __('Login Form Box Background', 'ultra_framework'),
                         'subtitle' => __('Background image, color and settings etc. for login form box', 'ultra_framework'),
@@ -1518,7 +1518,7 @@
                     array(
                         'id' => 'login-text-color',
                         'type' => 'color',
-                        'required' => array('dynamic-css-type', 'equals', 'custom'),
+                        //'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'title' => __('Login Page Text color', 'ultra_framework'),
                         'subtitle' => __('Pick color for login page text.', 'ultra_framework'),
                         'validate' => 'color',
@@ -1528,7 +1528,7 @@
                     array(
                         'id' => 'login-link-color',
                         'type' => 'link_color',
-                        'required' => array('dynamic-css-type', 'equals', 'custom'),
+                        //'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'title' => __('Login Page Anchor/URL Links Color', 'ultra_framework'),
                         'subtitle' => __('Pick colors for different states of login page links', 'ultra_framework'),
                         //'regular'   => false, // Disable Regular Color
@@ -1544,7 +1544,7 @@
                     array(
                         'id' => 'login-input-text-color',
                         'type' => 'color',
-                        'required' => array('dynamic-css-type', 'equals', 'custom'),
+                        //'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'title' => __('Login Input Fields Text color', 'ultra_framework'),
                         'subtitle' => __('Pick text color for login page input fields.', 'ultra_framework'),
                         'validate' => 'color',
@@ -1554,7 +1554,7 @@
                     array(
                         'id' => 'login-input-bg-color',
                         'type' => 'color',
-                        'required' => array('dynamic-css-type', 'equals', 'custom'),
+                       // 'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'title' => __('Login Input Fields background color', 'ultra_framework'),
                         'subtitle' => __('Pick background color for login page input fields.', 'ultra_framework'),
                         'validate' => 'color',
@@ -1577,7 +1577,7 @@
                     array(
                         'id' => 'login-button-bg',
                         'type' => 'color',
-                        'required' => array('dynamic-css-type', 'equals', 'custom'),
+                       // 'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'title' => __('Login Button Background Color', 'ultra_framework'),
                         'subtitle' => __('Pick background color for login button', 'ultra_framework'),
                         'default' => '#fa8564',
@@ -1586,7 +1586,7 @@
                     array(
                         'id' => 'login-button-hover-bg',
                         'type' => 'color',
-                        'required' => array('dynamic-css-type', 'equals', 'custom'),
+                      //  'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'title' => __('Login Button Hover Background Color', 'ultra_framework'),
                         'subtitle' => __('Pick hover background color for login button', 'ultra_framework'),
                         'default' => '#f76741',
@@ -1596,7 +1596,7 @@
                     array(
                         'id' => 'login-button-text-color',
                         'type' => 'color',
-                        'required' => array('dynamic-css-type', 'equals', 'custom'),
+                       // 'required' => array('dynamic-css-type', 'equals', 'custom'),
                         'title' => __('Login button Text Color', 'ultra_framework'),
                         'subtitle' => __('Pick text color for a login button.', 'ultra_framework'),
                         'default' => '#ffffff',
@@ -1625,12 +1625,12 @@
                     ),
 
 
-                    array(
+                    /*array(
                         'id' => 'opt6-info-field',
                         'type' => 'info',
                         'desc' => __($more_settings_msg, 'ultra_framework'),
-                        'required' => array( 'dynamic-css-type', 'not', 'custom' ),
-                    ),
+                      //  'required' => array( 'dynamic-css-type', 'not', 'custom' ),
+                    ),*/
                 ),
     ) );
 

@@ -57,6 +57,10 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 
 		$secret_key = $this->_gateway->get_secret_key();
 		Stripe::setApiKey( $secret_key );
+
+		// Make sure everyone is using the same API version. we can update this if/when necessary.
+		// If we don't set this, Stripe will use latest version, which may break our implementation.
+		Stripe::setApiVersion( '2018-02-28' );
 	}
 
 	/**
@@ -444,6 +448,48 @@ class MS_Gateway_Stripe_Api extends MS_Model_Option {
 		$item 					= Stripe_Coupon::create( $coupon_data );
 		$all_items[$item_id] 	= $item;
 
+		MS_Factory::set_transient(
+			'ms_stripeplan_coupons',
+			$all_items,
+			HOUR_IN_SECONDS
+		);
+	}
+
+
+	/**
+	 * Deleted the coupon specified by the function parameter.
+	 *
+	 * @since  1.1.5
+	 * @internal
+	 *
+	 * @param string $coupon_id -  The coupon id
+	 */
+	public function delete_coupon( $coupon_id ) {
+		$item_id 	= $coupon_id;
+		$all_items 	= MS_Factory::get_transient( 'ms_stripeplan_plans' );
+		$all_items 	= mslib3()->array->get( $all_items );
+
+		if ( ! isset( $all_items[$item_id] )
+			|| ! is_a( $all_items[$item_id], 'Stripe_Coupon' )
+		) {
+			try {
+				$item = Stripe_Coupon::retrieve( $item_id );
+			} catch( Exception $e ) {
+				// If the coupon does not exist then stripe will throw an Exception.
+				$item = false;
+			}
+			$all_items[$item_id] = $item;
+		} else {
+			$item = $all_items[$item_id];
+		}
+
+		/*
+		 * Delete Coupon
+		 */
+		if ( $item && is_a( $item, 'Stripe_Coupon' ) ) {
+			$item->delete();
+			$all_items[$item_id] = false;
+		}
 		MS_Factory::set_transient(
 			'ms_stripeplan_coupons',
 			$all_items,

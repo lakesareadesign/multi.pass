@@ -443,3 +443,14 @@ function fl_fix_hummingbird() {
 		add_filter( 'wp_hummingbird_is_active_module_minify', '__return_false', 500 );
 	}
 }
+
+/**
+ * Fix Enjoy Instagram feed on website with WordPress Widget and Shortcode issues with the builder.
+ * @since 2.0.6
+ */
+add_action( 'template_redirect', 'fl_fix_enjoy_instagram' );
+function fl_fix_enjoy_instagram() {
+	if ( FLBuilderModel::is_builder_active() ) {
+		remove_action( 'wp_head', 'funzioni_in_head' );
+	}
+}

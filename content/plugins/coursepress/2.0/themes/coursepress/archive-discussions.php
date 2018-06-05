@@ -33,7 +33,7 @@ get_header();
 
 		<div class="discussion-controls">
 			<a class="button_submit" href="<?php echo get_permalink( $course_id ); ?><?php echo CoursePress_Core::get_slug( 'discussion' ) . '/' . CoursePress_Core::get_slug( 'discussion_new' ); ?>/">
-				<?php _e( 'Ask a Question', 'cp' ); ?>
+				<?php _e( 'Ask a Question', 'coursepress' ); ?>
 			</a>
 		</div>
 
@@ -100,7 +100,7 @@ get_header();
 									<?php echo $discussion_unit; ?>
 								</span> | <span>
 									<?php echo get_comments_number(); ?>
-									<?php _e( 'Comments', 'cp' ); ?>
+									<?php _e( 'Comments', 'coursepress' ); ?>
 								</span>
 							</div>
 							<div class="clearfix"></div>

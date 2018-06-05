@@ -5,6 +5,15 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+3.1.8
+----------------------------------------------------------------------
+- Add: GDPR - export user personal data
+- Add: GDPR - erase user personal data
+- Add: GDPR - insert plugin information to default "Private Policy" page
+
+- Fix: Activating Snapshot shows 200 OK message
+- Fix: PHP Warning with database backup using PHP v7.2
+- Fix: Initial application of coding standards
 
 3.1.7
 ----------------------------------------------------------------------
@@ -483,4 +492,4 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 - Initial stable release
 
 
-133620-1524149374-au
+133620-1528232234-au

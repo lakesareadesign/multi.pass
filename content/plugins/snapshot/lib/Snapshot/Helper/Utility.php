@@ -143,7 +143,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 						foreach ( $table_set as $table_name ) {
 							$sql_describe    = "DESCRIBE `" . $table_name . "`; ";
 							$table_structure = $wpdb->query( $sql_describe );
-							if ( ( ! $table_structure ) || ( count( $table_structure ) == 0 ) ) {
+							if ( empty( $table_structure ) ) {
 								continue;
 							}
 							$tables_all[ $table_name ] = $table_name;

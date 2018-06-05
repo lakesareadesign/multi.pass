@@ -1,9 +1,25 @@
 Plugin Name: Membership 2
 Author:      Paul Kevin, Ashok Kumar Nath, Philipp Stracker
-Build Stamp: 2018-04-12T18:21:00.923Z
+Build Stamp: 2018-05-24T15:06:45.857Z
 
 Change Log:
 ----------------------------------------------------------------------
+
+1.1.5
+- Added: Delete coupon from Stripe when deleted in plugin
+- Added: Coupon type in invoice
+- Added: New filter ms_controller_frontend_resources_load to disable membership front scripts from loading on all pages
+- Added: Bulk action on users list to resend verification email
+- Added: Privacy Policy registration checkbox confirmation
+- Added: Member GDPR tools
+- Improved: Membership front scripts load on all pages
+- Fix: Subscription Email for free membership
+- Fix: Draft invoice created on PayPal on first payments
+- Fix: After account verification, show the payment page
+- Fix: Old members show account status as active
+- Fix: Stripe coupon details on payment form
+- Fix: Email sending for free membership
+
 1.1.4
 - Fix: existing users should not need to verify email
 
@@ -798,4 +814,4 @@ Membership2 1.0.0.0
 - Initial version.
 
 
-133620-1524149364-au
+133620-1528232199-au

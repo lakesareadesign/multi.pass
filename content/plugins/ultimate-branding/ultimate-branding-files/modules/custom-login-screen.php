@@ -185,16 +185,25 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 				/**
 				 * fullscreen_bg
 				 */
-				$fullscreen_bg = false;
-				if ( isset( $v['fullscreen_bg_meta'] ) ) {
-					$src = $v['fullscreen_bg_meta'][0];
-					if ( ! empty( $src ) ) {
-						$fullscreen_bg = $src;
+				if ( isset( $v['fullscreen_bg'] ) ) {
+					$fullscreen_bg = false;
+					$v = $v['fullscreen_bg'];
+					if ( is_array( $v ) ) {
+						if ( 0 < count( $v ) && isset( $v[0]['meta'] ) ) {
+							$mode = $this->get_value( 'background', 'mode' );
+							$id = 0;
+							do {
+								$id = rand( 0, count( $v ) - 1 );
+							} while ( ! isset( $v[ $id ]['meta'] ) );
+							$meta = $v[ $id ]['meta'];
+							if ( isset( $meta[0] ) ) {
+									$fullscreen_bg = $meta[0];
+							}
+						}
+					} else if ( is_string( $v ) && ! empty( $v ) ) {
+						$fullscreen_bg = $v;
 					}
-				} else if ( isset( $v['fullscreen_bg'] ) ) {
-					$fullscreen_bg = $v['fullscreen_bg'];
-				}
-				if ( $fullscreen_bg ) {
+					if ( $fullscreen_bg ) {
 ?>
 html {
     background: url(<?php echo $this->make_relative_url( $fullscreen_bg ); ?>) no-repeat center center fixed;
@@ -207,6 +216,7 @@ body {
     background-color: transparent;
 }
 <?php
+					}
 				}
 			}
 			/**
@@ -253,7 +263,8 @@ body {
 				if ( isset( $v['input_border_color_focus'] ) ) {
 					$color = $v['input_border_color_focus'];
 					$shadow = $this->convert_hex_to_rbg( $color );
-					$shadow = implode( ',', $shadow ).',0.8';
+					if ( is_array( $shadow ) ) {
+						$shadow = implode( ',', $shadow ).',0.8';
 ?>
 .login form input[type=text]:focus,
 .login form input[type=password]:focus,
@@ -266,6 +277,7 @@ body {
     box-shadow:0 0 2px rgba(<?php echo esc_attr( $shadow ); ?>);
 }
 <?php
+					}
 				}
 				/**
 				 * form_bg_color
@@ -547,9 +559,9 @@ body {
 							'default' => '#f1f1f1',
 						),
 						'fullscreen_bg' => array(
-							'type' => 'media',
+							'type' => 'gallery',
 							'label' => __( 'Background Image', 'ub' ),
-							'description' => __( 'You can upload a background image here. The image will stretch to fit the page, and will automatically resize as the window size changes. You\'ll have the best results by using images with a minimum width of 1024px.', 'ub' ),
+							'description' => __( 'You can upload background images here. The image will stretch to fit the page, and will automatically resize as the window size changes. You\'ll have the best results by using images with a minimum width of 1024px. If you add more than one image it will be show random of each request.', 'ub' ),
 						),
 					),
 				),
@@ -1020,46 +1032,6 @@ body {
 			}
 			$string = preg_replace( '/USERNAME/', $username, $string );
 			return $string;
-		}
-
-		private function convert_hex_to_rbg( $hex ) {
-			if ( preg_match( '/^#.{6}$/', $hex ) ) {
-				return sscanf( $hex, '#%02x%02x%02x' );
-			}
-			return $hex;
-		}
-
-
-		/**
-		 * Background color with transparency.
-		 *
-		 * @since x.x.x
-		 */
-		private function css_background_transparency( $v, $color, $transparency, $selector ) {
-			$change = false;
-			$bg_color = 'none';
-			$bg_transparency = 0;
-			if ( isset( $v[ $color ] ) ) {
-				$bg_color = $v[ $color ];
-				$change = true;
-			}
-			if ( isset( $v[ $transparency ] ) ) {
-				$bg_transparency = $v[ $transparency ];
-				$change = true;
-			}
-			if ( $change ) {
-				if ( 'none' != $bg_color ) {
-					echo $selector;
-					echo ' {';
-					if ( 0 < $bg_transparency ) {
-						$bg_color = $this->convert_hex_to_rbg( $bg_color );
-						printf( 'background-color: rgba( %s, %0.2f);', implode( ', ', $bg_color ), $bg_transparency / 100 );
-					} else {
-						printf( 'background-color: %s;', $bg_color );
-					}
-					echo '}';
-				}
-			}
 		}
 
 		private function css_opacity( $data, $key, $selector ) {

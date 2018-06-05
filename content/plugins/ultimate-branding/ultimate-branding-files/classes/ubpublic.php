@@ -24,6 +24,7 @@ if ( ! class_exists( 'UltimateBrandingPublic' ) ) {
 			'signup-blog-description.php' => 'signup-blog-description.php',
 			'site-generator-replacement.php' => 'site-generator-replacement/site-generator-replacement.php',
 			'site-wide-text-change.php' => 'site-wide-text-change/site-wide-text-change.php',
+			'smtp/smtp.php' => 'smtp/smtp.php',
 			'ultimate-color-schemes.php' => 'ultimate-color-schemes.php',
 		);
 

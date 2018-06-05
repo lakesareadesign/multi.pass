@@ -12,6 +12,7 @@ if ( ! defined( 'UB_MAIN_BLOG_ID' ) ) { define( 'UB_MAIN_BLOG_ID', 1 ); }
  * @since 1.9.4
  */
 function ub_get_modules_list( $mode = 'full' ) {
+	global $wp_version;
 	$modules = array(
 		/*
         'admin-menu.php' => array(
@@ -95,7 +96,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 		'site-wide-text-change.php' => array(
 			'module' => 'site-wide-text-change/site-wide-text-change.php',
 			'tab' => 'textchange',
-			'page_title' => __( 'Network Wide Text Change', 'ub' ),
+			'page_title' => __( 'Text Change', 'ub' ),
 			'menu_title' => __( 'Text Change', 'ub' ),
 		),
 		'custom-admin-css.php' => array(
@@ -171,6 +172,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'login-screen',
 			'page_title' => __( 'Login screen', 'ub' ),
 			'title' => __( 'Login screen', 'ub' ),
+			'wp' => '4.6',
 		),
 		/**
 		 * Custom MS email content
@@ -244,6 +246,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'maintenance',
 			'page_title' => __( 'Coming Soon Page & Maintenance Mode', 'ub' ),
 			'menu_title' => __( 'Maintenance', 'ub' ),
+			'wp' => '4.6',
 		),
 		/**
 		 * Dashboard widgets
@@ -272,7 +275,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'disabled' => true,
 		),
 		/**
-		 * Coming Soon Page & Maintenance Mode
+		 * Author Box
 		 *
 		 * @since 1.9.1
 		 */
@@ -282,7 +285,52 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'page_title' => __( 'Author Box', 'ub' ),
 			'menu_title' => __( 'Author Box', 'ub' ),
 		),
+		/**
+		 * SMTP
+		 *
+		 * @since 2.0.0
+		 */
+		'smtp/smtp.php' => array(
+			'module' => 'smtp',
+			'tab' => 'smtp',
+			'page_title' => __( 'SMTP', 'ub' ),
+			'since' => '2.0.0',
+		),
+		/**
+		 * db-error-page
+		 *
+		 * @since 2.0.0
+		 */
+		'db-error-page/db-error-page.php' => array(
+			'module' => 'db-error-page',
+			'tab' => 'db-error-page',
+			'page_title' => __( 'DB Error Page', 'ub' ),
+			'since' => '2.0.0',
+		),
+		/**
+		 * ms-site-check
+		 *
+		 * @since 2.0.0
+		 */
+		'ms-site-check/ms-site-check.php' => array(
+			'module' => 'ms-site-check',
+			'tab' => 'ms-site-check',
+			'page_title' => __( 'Site Status Pages', 'ub' ),
+			'network-only' => true,
+			'since' => '2.0.0',
+		),
 	);
+	/**
+	 * filter by WP version
+	 */
+	foreach ( $modules as $slug => $data ) {
+		if ( isset( $data['wp'] ) ) {
+			$compare = version_compare( $wp_version, $data['wp'] );
+			if ( 0 > $compare ) {
+				unset( $modules[ $slug ] );
+			}
+		}
+	}
 	apply_filters( 'ultimatebranding_available_modules', $modules );
 	if ( 'keys' == $mode ) {
 		$modules = array_keys( $modules );

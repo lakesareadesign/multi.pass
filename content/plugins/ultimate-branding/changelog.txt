@@ -4,6 +4,33 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log:
 ----------------------------------------------------------------------
 
+DATE: 17 May, 2018  - VERSION: 2.0.0
+==================================
+- Added ability to choose social media icons position on "Author Box" module.
+- Added ability to display more backgrounds on "Custom Login Screen" module.
+- Added ability to set the background color for the box and social media on "Admin Box" module.
+- Added ability to show colored social media icons on "Admin Box" module.
+- Added "Author Box" widget.
+- Added new module "DB Error Page" which allows creating custom DB error page.
+- Added new module "Sites Status Pages" which allows creating custom pages for deleted, archived, or spammed blog.
+- Added new module "SMTP" which allows to configure and send all outgoing emails via an SMTP server.
+- Added the Ultimate Branding logo to admin menu.
+- Added user website URL and email from the user profile to "Author Box" module.
+- Added WP version check for few modules.
+- Fixed a PHP warning on "Network Wide Text Change" module when we try to delete phrases without selecting anything.
+- Fixed a problem with fold/unfold icon on IE11 on "Admin Bar" module.
+- Fixed a problem with large footer content on "Dashboard Footer Content" module.
+- Fixed a problem with monochrome/color switch for Social Media icons on "Author Box" module.
+- Fixed a problem with too short select2, when a box is folded.
+- Fixed a warning for older PHP on "Login Screen" module.
+- Fixed incompatibility with Hustle plugin popups.
+- Improved of module "Comming Soon Page & Maintenance": added "Final Countdown" mode to the timer, added an ability to display more backgrounds, add an ability to show or hide title and content.
+- Improved shortcodes handling on "Comming Soon & Maintenance" module.
+- Improved sorting tabs by name on Ultimate Branding admin dashboard.
+- Improved tabs UI and added "More+" button to expand tabs to avoid more than one line of it.
+- Module "Network Wide Text Change" was renamed to "Text Change".
+- Refactored internal method of check MultiSite installation.
+
 DATE: 25 Apr, 2018  - VERSION: 1.9.8.1
 ==================================
 - Bring back the "Network Wide Text Change" module to single site.
@@ -496,4 +523,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 
 
 
-133620-1525394844-au
+133620-1528232250-au

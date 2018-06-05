@@ -2,16 +2,16 @@
 # This file is distributed under the GPL2.
 msgid ""
 msgstr ""
-"Project-Id-Version: Snapshot Pro 3.1.7\n"
+"Project-Id-Version: Snapshot Pro 3.1.8\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/snapshot\n"
-"POT-Creation-Date: 2018-04-12 02:37:49+00:00\n"
+"POT-Creation-Date: 2018-06-04 08:31:24+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"X-Generator: grunt-wp-i18n1.0.1\n"
+"X-Generator: grunt-wp-i18n1.0.0\n"
 
 #: lib/Snapshot/Controller/Full/Ajax.php:76
 msgid "Your log file is empty"
@@ -95,6 +95,70 @@ msgstr ""
 
 #: lib/Snapshot/Helper/Log.php:133
 msgid "Queue"
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:41 lib/Snapshot/Helper/Privacy.php:56
+#: lib/Snapshot/Helper/Privacy.php:79
+msgid "Snapshot metadata"
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:87
+msgid "Destination Account Owner"
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:89
+msgid "Destination Account Email"
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:91
+msgid "Destination Account UID"
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:93
+msgid "Destination Account Country"
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:200 lib/Snapshot/View/Metabox/Admin.php:218
+#: snapshot.php:123 views/snapshots/snapshot.php:1055
+msgid "Snapshot"
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:212
+msgid "Third parties"
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:213
+msgid ""
+"This site may be using a third-party to store backups of its files and "
+"database where personal information is collected. These services include "
+"Google Drive, Dropbox, Amazon S3, FTP/SFTP for other servers and WPMU DEV "
+"cloud storage."
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:214
+msgid "Additional data"
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:215
+msgid ""
+"This site gives the option to its administrators to set up third-party "
+"destinations for sending and receiving backups. To create these "
+"destinations, personal data is stored. This data includes the "
+"administrator's name, email, UID and country for Dropbox accounts and "
+"credentials for FTP accounts."
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:216
+msgid "Cookies"
+msgstr ""
+
+#: lib/Snapshot/Helper/Privacy.php:217
+msgid ""
+"This site might be using cookies on the admin side for establishing "
+"connections with third-party vendors for sending and receiving backups. "
+"These vendors include Google Drive, Dropbox, Amazon S3 and phpseclib for "
+"FTP accounts. Additionally, cookies may be set for potentially fixing cron "
+"requests at erratic servers. These cookies will last for 14 days."
 msgstr ""
 
 #: lib/Snapshot/Helper/UI.php:42
@@ -512,7 +576,7 @@ msgid "Test Connection"
 msgstr ""
 
 #: lib/Snapshot/Model/Destination/dropbox/index.php:46
-#: lib/Snapshot/Model/Destination.php:157 snapshot.php:673
+#: lib/Snapshot/Model/Destination.php:157 snapshot.php:676
 #: views/boxes/destinations/widget-dropbox.php:19
 #: views/boxes/modals/popup-welcome.php:67
 #: views/destinations/add/dropbox-error.php:18
@@ -1173,11 +1237,6 @@ msgid ""
 "submitted this cannot be changed."
 msgstr ""
 
-#: lib/Snapshot/View/Metabox/Admin.php:218 snapshot.php:123
-#: views/snapshots/snapshot.php:1055
-msgid "Snapshot"
-msgstr ""
-
 #: lib/Snapshot/View/Metabox/Admin.php:227
 msgid "Give this configuration a name"
 msgstr ""
@@ -1239,7 +1298,7 @@ msgid "Error Tables - These tables are skipped for the noted reasons."
 msgstr ""
 
 #: lib/Snapshot/View/Metabox/Admin.php:389
-#: lib/Snapshot/View/Metabox/Admin.php:2787 snapshot.php:669
+#: lib/Snapshot/View/Metabox/Admin.php:2787 snapshot.php:672
 #: views/snapshots/restore.php:675 views/snapshots/snapshot.php:703
 msgid "Select all"
 msgstr ""
@@ -2301,7 +2360,7 @@ msgstr ""
 msgid "Restore Theme Options"
 msgstr ""
 
-#: lib/Snapshot/View/Settings.php:362 snapshot.php:1386
+#: lib/Snapshot/View/Settings.php:362 snapshot.php:1389
 msgid "Restore Snapshot"
 msgstr ""
 
@@ -2530,196 +2589,196 @@ msgstr ""
 msgid "Interval"
 msgstr ""
 
-#: snapshot.php:427
+#: snapshot.php:430
 msgid "Click to dismiss"
 msgstr ""
 
-#: snapshot.php:452 snapshot.php:1411 views/managed_backups.php:168
+#: snapshot.php:455 snapshot.php:1414 views/managed_backups.php:168
 #: views/managed_backups.php:172 views/managed_backups.php:383
 #: views/settings.php:10
 msgid "Settings"
 msgstr ""
 
-#: snapshot.php:576
+#: snapshot.php:579
 msgid "The Snapshot has been updated."
 msgstr ""
 
-#: snapshot.php:577
+#: snapshot.php:580
 msgid "The Snapshot has been created."
 msgstr ""
 
-#: snapshot.php:578
+#: snapshot.php:581
 msgid "Snapshot successfully deleted."
 msgstr ""
 
-#: snapshot.php:579
+#: snapshot.php:582
 msgid "Selected Snapshots successfully deleted."
 msgstr ""
 
-#: snapshot.php:580
+#: snapshot.php:583
 msgid "The Snapshot has been restored."
 msgstr ""
 
-#: snapshot.php:581 snapshot.php:632
+#: snapshot.php:584 snapshot.php:635
 msgid "Settings have been updated."
 msgstr ""
 
-#: snapshot.php:582
+#: snapshot.php:585
 msgid "Item scheduled to run."
 msgstr ""
 
-#: snapshot.php:583
+#: snapshot.php:586
 msgid "Your Snapshot Key has been successfully added."
 msgstr ""
 
-#: snapshot.php:608
+#: snapshot.php:611
 msgid "The Backup has been updated."
 msgstr ""
 
-#: snapshot.php:609
+#: snapshot.php:612
 msgid "The Backup has been created."
 msgstr ""
 
-#: snapshot.php:610
+#: snapshot.php:613
 msgid "Backup successfully deleted."
 msgstr ""
 
-#: snapshot.php:611
+#: snapshot.php:614
 msgid "Selected Backups successfully deleted."
 msgstr ""
 
-#: snapshot.php:612
+#: snapshot.php:615
 msgid "The Backup has been restored."
 msgstr ""
 
-#: snapshot.php:628
+#: snapshot.php:631
 msgid "The Destination has been updated."
 msgstr ""
 
-#: snapshot.php:629
+#: snapshot.php:632
 msgid "The Destination has been added."
 msgstr ""
 
-#: snapshot.php:630
+#: snapshot.php:633
 msgid "The Destination has been deleted."
 msgstr ""
 
-#: snapshot.php:631
+#: snapshot.php:634
 msgid "The Destination has been restored."
 msgstr ""
 
-#: snapshot.php:668
+#: snapshot.php:671
 msgid "Snapshot Log Viewer"
 msgstr ""
 
-#: snapshot.php:670
+#: snapshot.php:673
 msgid "Unselect all"
 msgstr ""
 
-#: snapshot.php:671 snapshot.php:704
+#: snapshot.php:674 snapshot.php:707
 msgid "Loading..."
 msgstr ""
 
-#: snapshot.php:672
+#: snapshot.php:675
 msgid "Snapshot initializing"
 msgstr ""
 
-#: snapshot.php:674
+#: snapshot.php:677
 msgid "Memory: "
 msgstr ""
 
-#: snapshot.php:675
+#: snapshot.php:678
 msgid "Limit"
 msgstr ""
 
-#: snapshot.php:676
+#: snapshot.php:679
 msgid "Usage:"
 msgstr ""
 
-#: snapshot.php:677
+#: snapshot.php:680
 msgid "Peak:"
 msgstr ""
 
-#: snapshot.php:678
+#: snapshot.php:681
 msgid "Abort"
 msgstr ""
 
-#: snapshot.php:679
+#: snapshot.php:682
 msgid "Database:"
 msgstr ""
 
-#: snapshot.php:680
+#: snapshot.php:683
 msgid "Files: "
 msgstr ""
 
-#: snapshot.php:681
+#: snapshot.php:684
 msgid "Snapshot Finishing"
 msgstr ""
 
-#: snapshot.php:682 snapshot.php:700
+#: snapshot.php:685 snapshot.php:703
 msgid ""
 "An unknown response returned from Snapshot backup attempt. Aborting. Double "
 "check Snapshot settings."
 msgstr ""
 
-#: snapshot.php:683
+#: snapshot.php:686
 #: views/managed-backups/partials/restore-backup-progress.php:114
 #: views/snapshots/partials/restore-snapshot-progress.php:126
 msgid "Snapshot determining tables/files to restore"
 msgstr ""
 
-#: snapshot.php:684 views/snapshots/item.php:215
+#: snapshot.php:687 views/snapshots/item.php:215
 #: views/snapshots/restore.php:414 views/snapshots/snapshot.php:291
 msgid "Files"
 msgstr ""
 
-#: snapshot.php:685 snapshot.php:706
+#: snapshot.php:688 snapshot.php:709
 msgid "Snapshot backup aborted"
 msgstr ""
 
-#: snapshot.php:686
+#: snapshot.php:689
 msgid "You must select at least one table"
 msgstr ""
 
-#: snapshot.php:687
+#: snapshot.php:690
 msgid "You must select which Files and/or Tables to backup in this Snapshot"
 msgstr ""
 
-#: snapshot.php:688 snapshot.php:708
+#: snapshot.php:691 snapshot.php:711
 msgid "ERROR: The Snapshot timekey is not set. Try reloading the page"
 msgstr ""
 
-#: snapshot.php:699 views/managed_backups.php:97 views/settings.php:249
+#: snapshot.php:702 views/managed_backups.php:97 views/settings.php:249
 msgid "Snapshot Key"
 msgstr ""
 
-#: snapshot.php:701
+#: snapshot.php:704
 msgid "You must select at least one Files backup option."
 msgstr ""
 
-#: snapshot.php:702
+#: snapshot.php:705
 msgid "You must select at least one database table to include."
 msgstr ""
 
-#: snapshot.php:703
+#: snapshot.php:706
 msgid ""
 "You haven't included any files or database tables in this Snapshot. Please "
 "select what to include and try again."
 msgstr ""
 
-#: snapshot.php:705
+#: snapshot.php:708
 msgid "Working..."
 msgstr ""
 
-#: snapshot.php:707
+#: snapshot.php:710
 msgid "Snapshot restore aborted"
 msgstr ""
 
-#: snapshot.php:1125 snapshot.php:1167
+#: snapshot.php:1128 snapshot.php:1170
 msgid "per Page"
 msgstr ""
 
-#: snapshot.php:1320
+#: snapshot.php:1323
 msgid ""
 "The Snapshot plugin provides the ability to create quick on-demand snapshot "
 "of your WordPress site database and files. You can create as many snapshots "
@@ -2727,20 +2786,20 @@ msgid ""
 "snapshot backup."
 msgstr ""
 
-#: snapshot.php:1322 snapshot.php:1329
+#: snapshot.php:1325 snapshot.php:1332
 msgid ""
 "<strong>Name</strong> - Provide a custom name for this snapshot. Default "
 "name is \"snapshot\"."
 msgstr ""
 
-#: snapshot.php:1323 snapshot.php:1330
+#: snapshot.php:1326 snapshot.php:1333
 msgid ""
 "<strong>Notes</strong> - Add some optional notes about the snapshot. Maybe "
 "some details on what plugins or theme were active. Or some note before you "
 "activate some new plugin."
 msgstr ""
 
-#: snapshot.php:1324
+#: snapshot.php:1327
 msgid ""
 "<strong>What to Backup</strong> - This section lists all tables for your "
 "site. Select the table you want to include in the backup. The tables are "
@@ -2748,7 +2807,7 @@ msgid ""
 "been created and used by some of the plugins you installed."
 msgstr ""
 
-#: snapshot.php:1325
+#: snapshot.php:1328
 msgid ""
 "<strong>When to Archive</strong> - This section shows a dropdown where you "
 "can select how often to create a backup of the selected tables. The default "
@@ -2758,7 +2817,7 @@ msgid ""
 "number of archives to keep."
 msgstr ""
 
-#: snapshot.php:1326 snapshot.php:1333
+#: snapshot.php:1329 snapshot.php:1336
 msgid ""
 "<strong>Where to save the Archive</strong> - The only available option at "
 "this time is local. This means the files will be stored on the local "
@@ -2766,14 +2825,14 @@ msgid ""
 "etc."
 msgstr ""
 
-#: snapshot.php:1328
+#: snapshot.php:1331
 msgid ""
 "On the Edit Snapshot panel you can rename or add notes to the snapshot "
 "item. Also provided is a link to the snapshot file which you can download "
 "and archive to your local system."
 msgstr ""
 
-#: snapshot.php:1331
+#: snapshot.php:1334
 msgid ""
 "<strong>When to Archive</strong> - This section shows a dropdown where you "
 "can select how often to create a backup of the selected tables. The default "
@@ -2782,14 +2841,14 @@ msgid ""
 "available."
 msgstr ""
 
-#: snapshot.php:1332
+#: snapshot.php:1335
 msgid ""
 "<strong>Tables in Archive</strong> - This sections lists the tables "
 "included in the snapshot archives. The table selection is set when you "
 "create a new snapshot configuration."
 msgstr ""
 
-#: snapshot.php:1334
+#: snapshot.php:1337
 msgid ""
 "<strong>All Archives</strong> - This section lists the various archive "
 "files creates from this snapshot configuration. Here you can click the "
@@ -2798,7 +2857,7 @@ msgid ""
 "the bottom is a link to download the full snapshot log file."
 msgstr ""
 
-#: snapshot.php:1336
+#: snapshot.php:1339
 msgid ""
 "From this screen you can restore a snapshot. The restore will reload the "
 "database export into you current live site. Each table selected during the "
@@ -2807,13 +2866,13 @@ msgid ""
 "information added since the snapshot."
 msgstr ""
 
-#: snapshot.php:1337
+#: snapshot.php:1340
 msgid ""
 "On the restore screen you will see a section for \"Restore Option\". The "
 "details for each option are discussed below"
 msgstr ""
 
-#: snapshot.php:1338
+#: snapshot.php:1341
 msgid ""
 "<strong>Turn off all plugins</strong> - As part of the restore process you "
 "can automatically deactivate all plugins. This is helpful if you had "
@@ -2821,7 +2880,7 @@ msgid ""
 "stable state."
 msgstr ""
 
-#: snapshot.php:1339
+#: snapshot.php:1342
 msgid ""
 "<strong>Set a theme to active</strong> - Similar to the Plugins option you "
 "can select to have a specific theme set to active as part of the restore "
@@ -2829,27 +2888,27 @@ msgid ""
 "your site and you want to return your site back to a stable state."
 msgstr ""
 
-#: snapshot.php:1340
+#: snapshot.php:1343
 msgid ""
 "<strong>All Archives</strong> - This section lists the various archive "
 "files creates from this snapshot configuration. From the listing select the "
 "archive to be used for the restore."
 msgstr ""
 
-#: snapshot.php:1342
+#: snapshot.php:1345
 msgid ""
 "All of your snapshots are listed here. Within the listing there are a "
 "number of options you can take."
 msgstr ""
 
-#: snapshot.php:1342
+#: snapshot.php:1345
 msgid ""
 "<strong>Delete</strong> - On each row you will see a checkbox. To delete "
 "one or more existing Snapshots click checkbox then click the \"Delete "
 "Snapshots\" button below the listing."
 msgstr ""
 
-#: snapshot.php:1343
+#: snapshot.php:1346
 msgid ""
 "<strong>Edit/Restore/Delete</strong> - Hover over the Name to reveal "
 "options for Edit, Restore, Delete. The Edit option will show the Snapshot "
@@ -2858,14 +2917,14 @@ msgid ""
 "restore options. The Delete option will delete this snapshot only"
 msgstr ""
 
-#: snapshot.php:1344
+#: snapshot.php:1347
 msgid ""
 "<strong>Notes</strong> - The Notes columns shows the description you "
 "assigned to the Snapshot. Also in this column are the tabls included in "
 "this snapshot."
 msgstr ""
 
-#: snapshot.php:1345
+#: snapshot.php:1348
 msgid ""
 "<strong>Interval</strong> - The Interval column shows how often the "
 "snapshot will be generated. When you created the snapshot instance you had "
@@ -2875,26 +2934,26 @@ msgid ""
 "backup."
 msgstr ""
 
-#: snapshot.php:1346
+#: snapshot.php:1349
 msgid ""
 "<strong>Destination</strong> - The Destinations column shows where the "
 "archive is stored. This can be local, Amazon S3, Dropbox, or any custom "
 "destination."
 msgstr ""
 
-#: snapshot.php:1347
+#: snapshot.php:1350
 msgid ""
 "<strong>Archive</strong> - The Archives column shows the last snapshot "
 "archive created."
 msgstr ""
 
-#: snapshot.php:1349
+#: snapshot.php:1352
 msgid ""
 "The Settings panel provides access to a number of configuration settings "
 "you can customize Snapshot to meet you site needs."
 msgstr ""
 
-#: snapshot.php:1350
+#: snapshot.php:1353
 msgid ""
 "<strong>Folder Location</strong> - By default the snapshot files are stored "
 "under your site's /wp-content/uploads/ directory in a new folder named "
@@ -2905,7 +2964,7 @@ msgid ""
 "/wp-content/uploads/ directory."
 msgstr ""
 
-#: snapshot.php:1351
+#: snapshot.php:1354
 msgid ""
 "<strong>Database Segment Size</strong> - The Segment Size can be defined as "
 "the number of rows to backup per table per request. The Segment Size "
@@ -2919,100 +2978,100 @@ msgid ""
 "the requests into smaller 'chunks of work' requested to the server. "
 msgstr ""
 
-#: snapshot.php:1352
+#: snapshot.php:1355
 msgid ""
 "<strong>Server Info</strong> - This section provides useful details about "
 "your site configuration and should be used when contacting support."
 msgstr ""
 
-#: snapshot.php:1352
+#: snapshot.php:1355
 msgid ""
 "<strong>Memory Limit</strong> - This section can control the amount of "
 "memory used/needed by Snapshot when created/restoring an archive."
 msgstr ""
 
-#: snapshot.php:1353
+#: snapshot.php:1356
 msgid ""
 "<strong>Archive Import</strong> - Do you have some snapshot zip file from "
 "an older version that somehow became disconnected with the settings. You "
 "can now import the zip file and snapshot will add it to the listing."
 msgstr ""
 
-#: snapshot.php:1359
+#: snapshot.php:1362
 msgid "Overview"
 msgstr ""
 
-#: snapshot.php:1368 views/snapshots.php:61
+#: snapshot.php:1371 views/snapshots.php:61
 msgid "New Snapshot"
 msgstr ""
 
-#: snapshot.php:1378 views/snapshots/snapshot.php:47
+#: snapshot.php:1381 views/snapshots/snapshot.php:47
 msgid "Edit Snapshot"
 msgstr ""
 
-#: snapshot.php:1394
+#: snapshot.php:1397
 msgid "All Snapshots"
 msgstr ""
 
-#: snapshot.php:1403
+#: snapshot.php:1406
 msgid "Activity Log"
 msgstr ""
 
-#: snapshot.php:2077
+#: snapshot.php:2080
 msgid "ERROR: The new Snapshot folder already exists. "
 msgstr ""
 
-#: snapshot.php:2095
+#: snapshot.php:2098
 msgid "Warning: We were unable to find the old Snapshot folder."
 msgstr ""
 
-#: snapshot.php:2324
+#: snapshot.php:2327
 msgid "Local Snapshot"
 msgstr ""
 
-#: snapshot.php:2733
+#: snapshot.php:2736
 msgid ""
 "ERROR: Cannot create snapshot folder. Check that the parent folder is "
 "writable"
 msgstr ""
 
-#: snapshot.php:2749 snapshot.php:2797 snapshot.php:2851 snapshot.php:2880
+#: snapshot.php:2752 snapshot.php:2800 snapshot.php:2854 snapshot.php:2883
 msgid "ERROR: The Snapshot destination folder is not writable"
 msgstr ""
 
-#: snapshot.php:2782 snapshot.php:2837 snapshot.php:2865
+#: snapshot.php:2785 snapshot.php:2840 snapshot.php:2868
 msgid ""
 "ERROR: Cannot create snapshot Log folder. Check that the parent folder is "
 "writeable"
 msgstr ""
 
-#: snapshot.php:2810
+#: snapshot.php:2813
 msgid ""
 "ERROR: Cannot create snapshot Restore folder. Check that the parent folder "
 "is writeable"
 msgstr ""
 
-#: snapshot.php:2824
+#: snapshot.php:2827
 msgid "ERROR: The Snapshot restore folder is not writable"
 msgstr ""
 
-#: snapshot.php:2905
+#: snapshot.php:2908
 msgid ""
 "ERROR: Cannot create snapshot Lock folder. Check that the parent folder is "
 "writeable"
 msgstr ""
 
-#: snapshot.php:2920
+#: snapshot.php:2923
 msgid "ERROR: The Snapshot locks folder is not writable"
 msgstr ""
 
-#: snapshot.php:3292
+#: snapshot.php:3295
 msgid ""
 "ERROR: Snapshot backup aborted.<br />The Snapshot folder is not writeable. "
 "Check the settings."
 msgstr ""
 
-#: snapshot.php:3646
+#: snapshot.php:3648
 msgid "ERROR: Snapshot backup aborted."
 msgstr ""
 
@@ -3030,53 +3089,61 @@ msgstr ""
 msgid "ERROR: The Snapshot missing 'item_data' key"
 msgstr ""
 
-#: snapshot.php:4807 snapshot.php:4815
+#: snapshot.php:4794
+msgid "ERROR: The Snapshot incorrect 'item_data' [%d] key"
+msgstr ""
+
+#: snapshot.php:4811 snapshot.php:4819
 msgid "ERROR: The Snapshot file not found:"
 msgstr ""
 
-#: snapshot.php:4827
+#: snapshot.php:4831
 msgid "ERROR: The Snapshot folder is not writeable. Check the settings"
 msgstr ""
 
-#: snapshot.php:5180
+#: snapshot.php:5182
 msgid "ERROR: Unable to locate table restore file from archive: "
 msgstr ""
 
-#: snapshot.php:5213
+#: snapshot.php:5215
 msgid "ERROR: The Snapshot missing 'file_data_idx' key"
 msgstr ""
 
-#: snapshot.php:5223
+#: snapshot.php:5225
 msgid "ERROR: The Snapshot missing session 'FILES-DATA' object."
 msgstr ""
 
-#: snapshot.php:5332
+#: snapshot.php:5235
+msgid "ERROR: The Snapshot missing restore file at idx [%d]"
+msgstr ""
+
+#: snapshot.php:5338
 msgid "Unable to create directory %s. Make sure the parent folder is writeable."
 msgstr ""
 
-#: snapshot.php:5418
+#: snapshot.php:5424
 msgid "SUCCESS: Snapshot Restore complete! "
 msgstr ""
 
-#: snapshot.php:6789
+#: snapshot.php:6785
 msgid "Creating Archive"
 msgstr ""
 
-#: snapshot.php:6994
+#: snapshot.php:6990
 msgid "file: The following files are excluded due to match exclusion patterns."
 msgstr ""
 
-#: snapshot.php:7005
+#: snapshot.php:7001
 msgid ""
 "file: The following files are excluded because snapshot cannot open them. "
 "Check file permissions or locks"
 msgstr ""
 
-#: snapshot.php:7219
+#: snapshot.php:7213
 msgid "Syncing Files"
 msgstr ""
 
-#: snapshot.php:7221
+#: snapshot.php:7215
 msgid "Sending Archive"
 msgstr ""
 
@@ -3439,9 +3506,9 @@ msgstr ""
 
 #: views/common/requirements-test.php:32
 msgid ""
-"Your PHP version is out of date.\n"
-"\t\t\t\t\t\t\t\t\tYour current version is %s and we require 5.2 or newer.\n"
-"\t\t\t\t\t\t\t\t\tYou'll need to update your PHP version to proceed.\n"
+"Your PHP version is out of date.\r\n"
+"\t\t\t\t\t\t\t\t\tYour current version is %s and we require 5.2 or newer.\r\n"
+"\t\t\t\t\t\t\t\t\tYou'll need to update your PHP version to proceed.\r\n"
 "\t\t\t\t\t\t\t\t\tIf you use a managed host, contact them directly to have "
 "it updated."
 msgstr ""
@@ -3452,9 +3519,9 @@ msgstr ""
 
 #: views/common/requirements-test.php:50
 msgid ""
-"<b><code>max_execution_time</code> is set to %s which is too low</b>.\n"
+"<b><code>max_execution_time</code> is set to %s which is too low</b>.\r\n"
 "\t\t\t\t\t\t\t\t\tA minimum execution time of 150 seconds is recommended to "
-"give the migration process the\n"
+"give the migration process the\r\n"
 "\t\t\t\t\t\t\t\t\tbest chance of succeeding. If you use a managed host, "
 "contact them directly to have it updated."
 msgstr ""
@@ -3465,11 +3532,11 @@ msgstr ""
 
 #: views/common/requirements-test.php:67
 msgid ""
-"<b>PHP MySQLi module not found</b>.\n"
+"<b>PHP MySQLi module not found</b>.\r\n"
 "\t\t\t\t\t\t\t\t\tSnapshot needs the MySQLi module to be installed and "
-"enabled\n"
+"enabled\r\n"
 "\t\t\t\t\t\t\t\t\ton the target server. If you use a managed host, contact "
-"them\n"
+"them\r\n"
 "\t\t\t\t\t\t\t\t\tdirectly to have this module installed and enabled."
 msgstr ""
 
@@ -3479,9 +3546,9 @@ msgstr ""
 
 #: views/common/requirements-test.php:86
 msgid ""
-"<b>PHP Zip module not found</b>.\n"
+"<b>PHP Zip module not found</b>.\r\n"
 "\t\t\t\t\t\t\t\t\tTo unpack the zip file, Snapshot needs the Zip module to "
-"be installed and enabled.\n"
+"be installed and enabled.\r\n"
 "\t\t\t\t\t\t\t\t\tIf you use a managed host, contact them directly to have "
 "it updated."
 msgstr ""
@@ -5025,72 +5092,72 @@ msgctxt "Snapshot Plugin Page Title"
 msgid "Snapshot Scan / Import"
 msgstr ""
 
-#: lib/Snapshot/View/Full/Backup.php:108 snapshot.php:506
+#: lib/Snapshot/View/Full/Backup.php:108 snapshot.php:509
 msgctxt "page label"
 msgid "Managed Backups"
 msgstr ""
 
-#: snapshot.php:473
+#: snapshot.php:476
 msgctxt "page label"
 msgid "Snapshot Pro"
 msgstr ""
 
-#: snapshot.php:482
+#: snapshot.php:485
 msgctxt "page label"
 msgid "Dashboard"
 msgstr ""
 
-#: snapshot.php:490
+#: snapshot.php:493
 msgctxt "page label"
 msgid "Snapshots"
 msgstr ""
 
-#: snapshot.php:498
+#: snapshot.php:501
 msgctxt "page label"
 msgid "Destinations"
 msgstr ""
 
-#: snapshot.php:514
+#: snapshot.php:517
 msgctxt "page label"
 msgid "Import"
 msgstr ""
 
-#: snapshot.php:522
+#: snapshot.php:525
 msgctxt "page label"
 msgid "Settings"
 msgstr ""
 
-#: lib/Snapshot/View/Full/Backup.php:109 snapshot.php:507
+#: lib/Snapshot/View/Full/Backup.php:109 snapshot.php:510
 msgctxt "menu label"
 msgid "Managed Backups"
 msgstr ""
 
-#: snapshot.php:474
+#: snapshot.php:477
 msgctxt "menu label"
 msgid "Snapshot"
 msgstr ""
 
-#: snapshot.php:483
+#: snapshot.php:486
 msgctxt "menu label"
 msgid "Dashboard"
 msgstr ""
 
-#: snapshot.php:491
+#: snapshot.php:494
 msgctxt "menu label"
 msgid "Snapshots"
 msgstr ""
 
-#: snapshot.php:499
+#: snapshot.php:502
 msgctxt "menu label"
 msgid "Destinations"
 msgstr ""
 
-#: snapshot.php:515
+#: snapshot.php:518
 msgctxt "menu label"
 msgid "Import"
 msgstr ""
 
-#: snapshot.php:523
+#: snapshot.php:526
 msgctxt "menu label"
 msgid "Settings"
 msgstr ""

@@ -458,6 +458,13 @@ div.wp-menu-image:before{
 	width: 46px;
 	height: 46px;
 }
+#collapse-menu #collapse-button{
+	width: 100% !important;
+}
+.collapse-button-label{
+	white-space: nowrap;
+}
+
 
 #collapse-button {
 	margin: 0px;
@@ -809,7 +816,9 @@ div.wp-menu-image:before{
 	height: auto;
 }
 
-
+#dashboard-widgets #community-events{
+	padding-left: 30px;
+}
 
 
 
@@ -914,7 +923,7 @@ div.wp-menu-image:before{
 
 .wp-core-ui .button-group.button-hero .button:active, .wp-core-ui .button.button-hero:active,
 .wp-core-ui .button-group.button-hero .button, .wp-core-ui .button.button-hero{
-	padding: 0 36px !important;
+	padding: 12px 36px !important;
 }
 
 .welcome-panel .welcome-icon{
@@ -954,7 +963,7 @@ div.wp-menu-image:before{
 	padding: 8px;
 }
 
-input[type=checkbox], input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=radio], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], select, textarea{
+input[type=checkbox], input[type=color], input[type=date], input[type=datetime-local], input[type=datetime], input[type=email], input[type=month], input[type=number], input[type=password], input[type=radio], input[type=search], input[type=tel], input[type=text], input[type=time], input[type=url], input[type=week], body.wp-admin div select, select, textarea{
 	background: #f8f8f8;
 	border: 1px solid #e8e8e8;
 	box-shadow: none;
@@ -967,6 +976,7 @@ input[type=checkbox], input[type=color], input[type=date], input[type=datetime-l
 	font-size: 14px;
 	margin-bottom: 5px;
 	color: #333333;
+	height: auto;
 }
 
 input[type=checkbox]{
@@ -992,6 +1002,11 @@ input[type=radio]:checked+label:before{
 	color: #777777;
 }
 
+input[type=checkbox],input[type=radio]{
+	min-width: 16px;
+	min-height: 16px;
+	height: 16px;
+}
 
 
 .post-format-icon:before{
@@ -1015,7 +1030,11 @@ form h3, p.submit{
 	margin-top:23px;
 	padding-left:0px;
 }
-
+.wp-admin p label input[type=radio],
+.wp-admin p label input[type=checkbox]{
+    height: 16px;
+    width: 16px;
+}
 
 
 
@@ -1710,15 +1729,22 @@ position: relative;
 }
 
 .theme-browser .theme .theme-actions{
-	padding: 0px 9px 0;
+	padding: 0px 15px !important;
 	background-color: transparent;
 	border: 0px;
 	bottom:5px;
 }
-
+.theme-browser .theme .theme-actions .button, 
 .theme-browser .theme .theme-actions .button-secondary, 
 .theme-browser .theme .theme-actions .button-primary{
-	padding: 3px 12px;
+	padding: 3px 12px !important;
+	height: 30px;
+	line-height: 26px;
+}
+
+.theme-browser .theme .theme-actions, .theme-browser .theme.active .theme-actions{
+	-webkit-box-shadow: none;
+	box-shadow: none;
 }
 
 .theme-browser.rendered .theme:focus .theme-screenshot img, .theme-browser.rendered .theme:hover .theme-screenshot img{
@@ -1740,6 +1766,9 @@ position: relative;
 	-o-box-shadow: none !important;
 	-ms-box-shadow: none !important;
 	border: 2px solid #f95e44;
+}
+.theme-browser .theme{
+	border: 2px solid transparent;
 }
 
 .theme-browser .theme.add-new-theme:focus:after, .theme-browser .theme.add-new-theme:hover:after{
@@ -1767,7 +1796,9 @@ position: relative;
 .theme-browser .theme.add-new-theme{
 	background-color: #ffffff;
 }
-
+.theme-overlay .theme-wrap{
+	z-index: 100000;
+}
 
 
 
@@ -1792,7 +1823,7 @@ position: relative;
 }
 
 .customize-controls-close:before{
-	top: 11px;
+	top: 0px;
 	left: 10px;
 }
 
@@ -1803,6 +1834,15 @@ position: relative;
 
 
 /*widgets*/
+.widget.open{
+	max-width: 100%;
+    margin-left: 0px !important;
+}
+div#widgets-right .sidebar-name h2, div#widgets-right .sidebar-name h3{
+    padding: 15px 7px;
+    margin: 0px;
+    line-height: 30px;
+}
 
 div#widgets-left{
 	padding-top:0;
@@ -1900,7 +1940,7 @@ div#widgets-right .widgets-holder-wrap.widget-hover{
 	background: #fbfbfb;
 }
 body .tablenav .actions select,
-body .wp-admin select {
+body.wp-admin select {
 	padding: 8px;
 	line-height: 32px;
 	height: auto;
@@ -2170,9 +2210,15 @@ td.plugin-title strong, td.post-title strong{
 .plugin-card .install-now.button, .plugin-card .button{
 	background-color: #f95e44;
 }
+@media screen and (max-width: 782px){
+.plugin-card {
+    margin-right: 0;
+    width: 100% !important;
+}}
 
-
-
+.wp-filter .search-form select {
+    height: 36px;
+}
 
 /*upload plugin*/
 
@@ -2219,6 +2265,10 @@ td.plugin-title strong, td.post-title strong{
 
 
 /*plugin editor*/
+.wp-admin .fileedit-sub select{
+	height: 37px;
+}
+
 #templateside .highlight{
 	font-weight: 300;
 }
@@ -3234,8 +3284,21 @@ input[type=checkbox], input[type=color], input[type=date], input[type=datetime-l
 }
 
 
-
-
+.wp-color-result-text{
+	border-left: none;
+	line-height: 23px;
+}
+.toplevel_page__ultraoptions .redux-main .wp-picker-container .wp-color-result, .redux-main .wp-picker-container .wp-color-result {
+	height: 24px;
+    border: 1px solid #ccc;
+}
+.wp-picker-container .wp-color-result.button,.wp-picker-container .wp-color-result.button:active {
+    height: 24px;
+    margin: 0 6px 6px 0;
+    padding: 0 0 0 30px !important;
+    font-size: 11px;
+    border: 1px solid #ccc !important;
+}
 
 
 
@@ -3370,344 +3433,6 @@ RTL
 
 .rtl .contextual-help-tabs {
 margin-right: -23px;
-}
-
-
-
-/*---------------------------------
-	Menu Management Settings
------------------------------------*/
-.ultramenu.ui-sortable-helper .ultramenu-wrap, 
-.ultramenu.ui-sortable-helper .ultramenusep,
-.ultramenu.ui-sortable-helper .ultrasubmenu
-{
-	border: 1px solid #cccccc;
-	background-color: #eeeeee;
-}
-
-.ultramenu-wrap, .ultramenusep{
-	display: block;
-	width:460px;
-	padding: 0;
-	border: 1px solid #eeeeee;
-	background-color: #fafafa;
-	margin-bottom:3px;
-	font-size: 14px;
-	line-height: 23px;
-	cursor: move;
-}
-
-.ultrasubmenu{
-	display: block;
-	width:420px;
-	padding:0;
-	border: 1px solid #eeeeee;
-	background-color: #f7f7f7;
-	margin-bottom:3px;
-	margin-left: 40px;
-	font-size: 14px;
-	line-height: 23px;
-	cursor: move;
-}
-
-.ultraicon:before{
-	display: inline-block;
-	width:23px;
-	height:23px;
-	background-color: transparent;
-	vertical-align: top;
-	margin-right:5px;
-	line-height: 46px;
-	font-size: 18px;
-}
-
-.uvalue .ultraicon:before{
-	line-height: 23px;
-	font-size: 21px;
-}
-
-.uvalue .ultraicon{
-	padding-left: 0px;
-	margin-left: -6px;
-}
-
-.ultratext{
-	font-size: 14px;
-	line-height: 23px;
-	display: inline-block;
-}
-
-.ultramenusep{
-	border: 1px solid #f1f1f1;
-	background-color: #f8f8f8;
-	padding: 0px;
-}
-
-.ultramenusep .ultraicon{
-	width:23px;
-	height:0px;
-	display: block;
-
-}
-
-.ultraicon, .ultratext, .ultratoggle, .ultrasubtoggle, .ultradisplay, .ultrasubdisplay, .ultramove, .ulrasubmove{
-	padding-top:12px;
-	padding-bottom: 11px;
-}
-
-.ultraicon{
-	padding-left: 12px;
-}
-
-.ultratoggle, .ultrasubtoggle, .ultradisplay, .ultrasubdisplay, .ultramove, .ulrasubmove{
-	padding-right: 12px;
-}
-
-.ultratoggle, .ultrasubtoggle{
-	font-weight: 700;
-}
-
-.ultrasubmenu .ultratext {
-	padding-top:12px;
-	padding-bottom: 11px;
-	padding-left: 12px;
-}
-
-
-.ultra-connectedSortable{
-	display: inline-block;
-	width: 506px;
-	padding:23px;
-	min-height: 230px;
-	vertical-align: top;
-	float: left;
-	margin-right: 23px;
-}
-
-
-
-#ultra-enabled{
-
-}
-
-#ultra-disabled{
-
-}
-
-.ultratoggle, .ultrasubtoggle, .ultradisplay, .ultrasubdisplay, .ultramove, .ulrasubmove{
-	float: right;
-	font-size: 19px;
-	line-height: 23px;
-	cursor: hand;
-	cursor: pointer;
-	width: 23px;
-	text-align: center;
-}
-
-.ultradisplay, .ultrasubdisplay{
-	font-size: 13px;
-	width: auto;
-}
-
-.ultraeditpanel.opened {
-	width: 100%;
-	min-height:100px;
-	display: block;
-	background-color: #fafafa;
-	padding: 12px 23px 11px 32px;
-	margin-bottom: 3px;
-	margin-top: -4px;
-	z-index:2;
-	position: relative;
-	border:1px solid #e8e8e8;
-}
-
-.ultraeditpanel.closed{
-	width: 100%;
-	display: none;
-}
-
-
-.ultrasubmenu .ultraeditpanel.opened {
-	background-color: #fafafa;
-	padding: 12px 23px 11px 32px;
-	border:0px solid #e8e8e8;
-	border-top: 1px solid #e8e8e8;
-}
-
-.clearboth{
-	width: 100%;
-	display: block;
-	height: 0px;
-	clear: both;
-}
-
-.ultraeditpanel .ufield, .ultraeditpanel .uvalue{
-	height: 37px;
-	vertical-align: top;
-	display: inline-block;
-	margin-bottom: 5px;
-}
-
-.ultraeditpanel .ufield{
-	width: 25%;
-	padding-top:6px;
-	display: inline-block;
-	color: #888888;
-	font-size: 13px;
-}
-
-.ultraeditpanel .uvalue{
-	width: 73%;
-	padding-top:6px;
-	display: inline-block;
-	color: #888888;
-	padding-left: 6px;
-	font-size: 13px;
-}
-
-.ultraeditpanel .uvalue input[type="text"]{
-	margin-top: -6px;
-	margin-left: -6px;
-	font-size: 13px;
-}
-
-.ui-state-highlight { height: 137px; line-height: 23px; 
-	border: 1px dashed #cccccc;
-	background: #eeeeee;
-	width: 100%;
-	margin-bottom: 3px;
-}
-
-.ultrasubmenu-wrap .ui-state-highlight { 
-	height: 46px; line-height: 23px; 
-	border: 1px dashed #cccccc;
-	background: #e8e8e8;
-	width: 420px;
-	margin-left: 40px;
-	margin-bottom: 3px;
-}
-
-.ultradisplay, .ultrasubdisplay{
-	float: right;
-}
-
-.ultrasubmenu.disabled,
-.ultramenu.disabled{
-	opacity: 0.4;
-}
-
-.uvalue{
-	position: relative;
-}
-
-.ultraiconpanel{
-	position: absolute;
-	top:0;
-	right: auto;
-	left: 34px;
-	height: 345px;
-	width: 345px;
-	overflow: auto;	
-	border: 1px solid #eeeeee;
-	background-color: #ffffff;
-	display: none;
-	padding: 5px;
-
-}
-
-.ultraiconpanel .pickicon{
-	width: 36px;
-	height: 36px;
-	border: 1px solid #eeeeee;
-	background-color: #fcfcfc;
-	cursor: hand;
-	cursor: pointer;
-	line-height: 34px;
-	margin: 3px 0px 0 3px;
-	padding: 0 0 0 5px;
-	display: inline-block;
-	text-align: center;
-}
-
-.ultraiconpanel .pickicon:hover{
-	background-color: #777777;
-	border-color: #bbbbbb;
-	color: #ffffff;	
-}
-
-
-.ultraiconpanel .pickicon:before{
-	line-height: 36px;
-	text-align: center;
-}
-
-.ultraicons{
-	display: none;
-}
-
-.ultraicon{
-	cursor: hand;
-	cursor: pointer;
-}
-
-.ultratoggle, .ultrasubtoggle,
-.ultramove, .ultrasubmove,
-.ultradisplay, .ultrasubdisplay{
-	padding: 0 12px 0 0;
-	height: 46px;
-	width: 30px;
-}
-
-.ultratoggle:before, .ultrasubtoggle:before,
-.ultramove:before, .ultrasubmove:before,
-.ultradisplay:before, .ultrasubdisplay:before{
-	font-size: 15px;
-	color: #999999;
-	line-height: 50px;
-	width: 23px;
-}
-
-.ultradisplay:before, .ultrasubdisplay:before{
-	line-height: 48px;
-}
-
-.ultramove:before, .ultrasubmove:before{
-	font-size: 16px;
-}
-
-.ultra-savearea{
-	float:left;
-	width: 460px;
-	padding: 23px;
-	margin-right: 23px;
-	color: #777777;
-	font-size: 14px;
-	line-height: 23px;
-}
-
-.ultra-savearea .wp-menu-image, .ultra-savearea .wp-menu-image:before{
-	line-height: 23px;
-	height:23px;
-	width: 23px;
-}
-
-.redux-container-image_select ul.redux-image-select li{
-	max-width: 110px;
-	margin-bottom: 15px !important;
-	text-align: center;
-}
-
-.wp-core-ui .welcome-panel .button.button-hero{
-	line-height: 44px !important;
-}
-
-/*.wp-core-ui .welcome-panel .button.button-hero:active{
-	line-height: 46px !important;
-}*/
-
-#wpfooter a{
-	font-size: inherit;
 }
 
 

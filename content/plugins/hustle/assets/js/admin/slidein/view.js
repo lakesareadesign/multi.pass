@@ -117,6 +117,14 @@ Hustle.define("Slidein.View", function($, doc, win){
 										success_message = ( $success_message_textarea.attr('aria-hidden') === 'true' ) ? success_message_editor.getContent() : $success_message_textarea.val();
 
 								this.content_view.model.set( 'success_message', success_message, {silent: keep_silent} );
+
+								// gdpr_message editor
+								var gdpr_message_editor = tinyMCE.get('gdpr_message'),
+									$gdpr_message_textarea = this.$('textarea#gdpr_message'),
+									gdpr_message = ( $gdpr_message_textarea.attr('aria-hidden') === 'true' ) ? gdpr_message_editor.getContent() : $gdpr_message_textarea.val();
+
+								this.content_view.model.set( 'gdpr_message', gdpr_message, {silent: keep_silent} );
+
 						}
 				},
 				sanitize_data: function() {
@@ -613,6 +621,19 @@ Hustle.define("Slidein.View", function($, doc, win){
 										}
 								}
 						}
+
+						// show_gdpr
+						if ( 'show_gdpr' in changed ) {
+							var $target_div = this.$('#wph-wizard-content-gdpr-message');
+							if ( $target_div.length ) {
+								if ( changed['show_gdpr'] ) {
+									$target_div.removeClass('wpmudev-hidden');
+								} else if ( !$target_div.hasClass('wpmudev-hidden') ) {
+									$target_div.addClass('wpmudev-hidden');
+								}
+							}
+						}
+
 
 						// use_email_collection
 						if ( 'use_email_collection' in changed ) {

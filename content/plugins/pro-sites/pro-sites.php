@@ -4,7 +4,7 @@ Plugin Name: Pro Sites
 Plugin URI: https://premium.wpmudev.org/project/pro-sites/
 Description: The ultimate multisite site upgrade plugin, turn regular sites into multiple pro site subscription levels selling access to storage space, premium themes, premium plugins and much more!
 Author: WPMU DEV
-Version: 3.5.9
+Version: 3.5.9.1
 Author URI: https://premium.wpmudev.org/
 Text Domain: psts
 Domain Path: /pro-sites-files/languages/
@@ -15,7 +15,7 @@ WDP ID: 49
 /*
 Copyright 2007-2017 Incsub (http://incsub.com)
 Author - Aaron Edwards
-Contributors - Rheinard Korf, Jonathan Cowher, Carlos Vences, Andrew Billits, Umesh Kumar
+Contributors - Rheinard Korf, Jonathan Cowher, Carlos Vences, Andrew Billits, Umesh Kumar, Joel James
 
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
@@ -33,7 +33,7 @@ Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
 
 class ProSites {
 
-	var $version = '3.5.9';
+	var $version = '3.5.9.1';
 	var $location;
 	var $language;
 	var $plugin_dir = '';
@@ -84,6 +84,9 @@ class ProSites {
 
 		//load plugins
 		require_once( $this->plugin_dir . 'plugins-loader.php' );
+
+		// Setup GDPR compliance.
+		require_once $this->plugin_dir . 'lib/psts-gdpr.php';
 
 		// TAX integration
 		if ( $this->get_setting( 'taxamo_status', false ) ) {
@@ -5398,7 +5401,6 @@ function admin_modules() {
 
 		return false;
     }
-
 }
 
 //End of class

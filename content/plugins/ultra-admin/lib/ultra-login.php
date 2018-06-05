@@ -15,7 +15,7 @@ function ultra_custom_login() {
 
     global $ultra_css_ver;
 
-    $url = plugins_url('/', __FILE__).'../'.$ultra_css_ver.'/ultra-login.css';
+    $url = plugins_url('/', __FILE__).'../'.$ultra_css_ver.'/ultra-login.min.css';
     wp_deregister_style('ultra-login');
     wp_register_style('ultra-login', $url);
     wp_enqueue_style('ultra-login');

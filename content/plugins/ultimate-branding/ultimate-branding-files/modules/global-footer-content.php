@@ -118,7 +118,7 @@ class ub_global_footer_content extends ub_helper {
 			$class = 'checked' === $global_footer_themefooter ? 'ub_global_footer_inside' : '';
 ?>
             <div id="ub_global_footer_content" style="<?php echo $style ?>" class="<?php echo $class; ?>">
-                <?php echo stripslashes( $global_footer_content );?>
+                <?php echo wpautop( stripslashes( $global_footer_content ) );?>
             </div>
 <?php
 		}
@@ -148,7 +148,7 @@ class ub_global_footer_content extends ub_helper {
 			$class = 'checked' === $global_footer_main_themefooter ? 'ub_global_footer_inside' : '';
 ?>
             <div id="ub_global_footer_content"  style="<?php echo $style ?>" class="<?php echo $class; ?>">
-                <?php echo stripslashes( $global_footer_main_content );?>
+                <?php echo wpautop( stripslashes( $global_footer_main_content ) );?>
             </div>
 <?php
 		}

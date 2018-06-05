@@ -637,6 +637,28 @@ class MS_Controller_Frontend extends MS_Controller {
 
 				MS_Model_Event::save_event( MS_Model_Event::TYPE_MS_VERIFYACCOUNT, $user );
 
+				if ( empty( $_REQUEST['membership_id'] ) ) {
+					$after_redirect = esc_url_raw(
+						add_query_arg(
+							array(
+								'step' => self::STEP_CHOOSE_MEMBERSHIP,
+							)
+						)
+					);
+				} else {
+					$after_redirect = esc_url_raw(
+						add_query_arg(
+							array(
+								'step' => self::STEP_PAYMENT_TABLE,
+								'membership_id' => absint( $_REQUEST['membership_id'] ),
+							),
+							MS_Model_Pages::get_page_url( MS_Model_Pages::MS_PAGE_REGISTER )
+						)
+					);
+				}
+
+				update_user_meta( $user->ID, '_ms_user_activation_redirect_url', $after_redirect );
+
 				$redirect = esc_url_raw(
 					add_query_arg(
 						array(
@@ -931,12 +953,66 @@ class MS_Controller_Frontend extends MS_Controller {
 				 *
 				 * @since 1.1.3
 				 */
+				$redirect_to		= false;
 				$view 				= MS_Factory::create( 'MS_View_Shortcode_Login' );
+				$data_defaults 		= array(
+					'holder'          => 'div',
+					'holderclass'     => 'ms-login-form',
+					'item'            => '',
+					'itemclass'       => '',
+					'postfix'         => '',
+					'prefix'          => '',
+					'wrapwith'        => '',
+					'wrapwithclass'   => '',
+					'redirect_login'  => MS_Model_Pages::get_url_after_login(),
+					'redirect_logout' => MS_Model_Pages::get_url_after_logout(),
+					'header'          => true,
+					'register'        => true,
+					'title'           => '',
+					'show_note'       => true,   // Show the "you are not logged in" note?
+					'form'            => '',  // [login|lost|reset|logout]
+					'show_labels'     => false,
+					'autofocus'       => true,
+					'nav_pos'         => 'top', // [top|bottom]
+
+					// form="login"
+					'show_remember'   => true,
+					'label_username'  => __( 'Username', 'membership2' ),
+					'label_password'  => __( 'Password', 'membership2' ),
+					'label_remember'  => __( 'Remember Me', 'membership2' ),
+					'label_log_in'    => __( 'Log In', 'membership2' ),
+					'id_login_form'   => 'loginform',
+					'id_username'     => 'user_login',
+					'id_password'     => 'user_pass',
+					'id_remember'     => 'rememberme',
+					'id_login'        => 'wp-submit',
+					'value_username'  => '',
+					'value_remember'  => false,
+
+					// form="lost"
+					'label_lost_username' => __( 'Username or E-mail', 'membership2' ),
+					'label_lostpass'      => __( 'Reset Password', 'membership2' ),
+					'id_lost_form'        => 'lostpasswordform',
+					'id_lost_username'    => 'user_login',
+					'id_lostpass'         => 'wp-submit',
+					'value_username'      => '',
+				);
 				$verification_key 	= wp_unslash( $_GET['key'] );
-				$message 			= MS_Model_Member::verify_activation_code( $verification_key  );
-				$redirect_to 		= MS_Model_Pages::get_page_url( MS_Model_Pages::MS_PAGE_ACCOUNT );
-				$redirect_to		= apply_filters( 'ms_front_after_login_redirect', $redirect_to );
-				$view->data 		= array( 'error_message' => $message, 'redirect_login' => $redirect_to );
+				$user_id 			= MS_Model_Member::verification_account_id( $verification_key  );
+				$message 			= MS_Model_Member::verify_activation_code( $user_id  );
+				if ( $user_id ) {
+					$redirect_to 	= get_user_meta( $user_id, '_ms_user_activation_redirect_url', true );
+				}
+				if ( !$redirect_to ) {
+					$redirect_to 	= MS_Model_Pages::get_page_url( MS_Model_Pages::MS_PAGE_ACCOUNT );
+				} else {
+					delete_user_meta( $user_id, '_ms_user_activation_redirect_url' );
+				}
+				delete_user_meta( $user_id, '_ms_user_force_activation_status' );
+				$redirect_to						= apply_filters( 'ms_front_after_login_redirect', $redirect_to );
+				$data_defaults['error_message'] 	= $message;
+				$data_defaults['redirect_login'] 	= $redirect_to;
+				$view->data 						= apply_filters( 'ms_view_shortcode_login_data', $data_defaults, $this );
 				$view->add_filter( 'the_content', 'to_html', 10 );
 				break;
 
@@ -1063,8 +1139,8 @@ class MS_Controller_Frontend extends MS_Controller {
 		$is_ms_page = MS_Model_Pages::is_membership_page();
 		$is_profile = self::ACTION_EDIT_PROFILE == $this->get_action()
 			&& MS_Model_Pages::is_membership_page( null, MS_Model_Pages::MS_PAGE_ACCOUNT );
-
-		if ( $is_ms_page ) {
+		$load_on_front_pages = apply_filters( 'ms_controller_frontend_resources_load', true, $is_ms_page );
+		if ( $load_on_front_pages ) {
 			$data = array(
 				'ms_init' => array( 'shortcode' ),
 				'cancel_msg' => __( 'Are you sure you want to cancel?', 'membership2' ),
@@ -1092,9 +1168,10 @@ class MS_Controller_Frontend extends MS_Controller {
 	 * @param WP_User $user - the user
 	 */
 	function handle_verification_code( $login, $user ) {
-		$verification_cutoff_date = '2018-04-11 23:59:59';
+		$user_activation_status 	= get_user_meta( $user->ID, '_ms_user_force_activation_status', true );
+		$verification_cutoff_date 	= '2018-04-11 23:59:59';
 		// Require verification only for new accounts
-		if ( $user->user_registered < $verification_cutoff_date ) {
+		if ( $user->user_registered < $verification_cutoff_date && !$user_activation_status ) {
 			return;
 		}
 

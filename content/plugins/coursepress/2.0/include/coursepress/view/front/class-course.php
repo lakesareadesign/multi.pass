@@ -29,7 +29,7 @@ class CoursePress_View_Front_Course {
 	 *
 	 * @var string
 	 */
-	protected static $template = false;
+	public static $template = false;
 
 	/**
 	 * Initialize the module, hook up our functions.
@@ -278,7 +278,7 @@ class CoursePress_View_Front_Course {
 
 		if ( ! $course_id && ! $unit_id && ! $module_id ) {
 			// We have invalid/missing Form data...
-			$json_data['response'] = __( 'Invalid data submitted', 'cp' );
+			$json_data['response'] = __( 'Invalid data submitted', 'coursepress' );
 			$json_data['success'] = false;
 			$process_file = false;
 		} else {
@@ -312,7 +312,7 @@ class CoursePress_View_Front_Course {
 				}
 
 				if ( ! $is_enabled ) {
-					$json_data['response'] = __( 'Maximum allowed retries exceeded.', 'cp' );
+					$json_data['response'] = __( 'Maximum allowed retries exceeded.', 'coursepress' );
 					$json_data['success'] = false;
 					$process_file = false;
 				}
@@ -369,7 +369,7 @@ class CoursePress_View_Front_Course {
 					}
 				}
 			} else {
-				$json_data['response'] = __( 'No files uploaded.', 'cp' );
+				$json_data['response'] = __( 'No files uploaded.', 'coursepress' );
 				$json_data['success'] = false;
 			}
 		}
@@ -630,11 +630,15 @@ class CoursePress_View_Front_Course {
 		if ( is_admin() || ! $wp_query ) {
 			return;
 		}
-
+		/**
+		 * Do it only on main query
+		 */
+		if ( ! $wp_query->is_main_query() ) {
+			return;
+		}
 		$page = get_query_var( 'pagename' );
 		$course = get_query_var( 'course' );
 		$coursename = get_query_var( 'coursename' );
-
 		// Is the user on a CoursePress page?
 		if ( $course || $coursename || 'dashboard' == $page ) {
 			remove_action(
@@ -911,7 +915,7 @@ class CoursePress_View_Front_Course {
 
 			$cp->title = sprintf(
 				'%s | %s',
-				__( 'Course', 'cp' ),
+				__( 'Course', 'coursepress' ),
 				get_post_field( 'post_title', $cp->course_id )
 			);
 
@@ -965,6 +969,7 @@ class CoursePress_View_Front_Course {
 			// Render completion page
 			if ( $cp->is_enrolled ) {
 				$student_progress = CoursePress_Data_Student::get_completion_data( $cp->student_id, $cp->course_id );
+				CoursePress_Data_Student::get_calculated_completion_data( $cp->student_id, $cp->course_id, $student_progress );
 				$is_failed = CoursePress_Helper_Utility::get_array_val(
 					$student_progress,
 					'completion/failed'
@@ -991,7 +996,7 @@ class CoursePress_View_Front_Course {
 					'COURSE_OVERVIEW' => $course->post_excerpt,
 					'COURSE_UNIT_LIST' => self::course_unit_list( $cp->course_id ),
 					'DOWNLOAD_CERTIFICATE_LINK' => self::download_certificate_link( $cp->course_id ),
-					'DOWNLOAD_CERTIFICATE_BUTTON' => sprintf( '<a href="%s" class="download-certificate-button">%s</a>', esc_url( self::download_certificate_link( $cp->course_id ) ), __( 'Download Certificate', 'cp' ) ),
+					'DOWNLOAD_CERTIFICATE_BUTTON' => sprintf( '<a href="%s" class="download-certificate-button">%s</a>', esc_url( self::download_certificate_link( $cp->course_id ) ), __( 'Download Certificate', 'coursepress' ) ),
 					'STUDENT_WORKBOOK' => $workbook,
 				);
 
@@ -1020,11 +1025,11 @@ class CoursePress_View_Front_Course {
 			if ( $tax ) {
 				$cp->title = sprintf(
 					'%s %s',
-					__( 'Courses in', 'cp' ),
+					__( 'Courses in', 'coursepress' ),
 					$tax->name
 				);
 			} elseif ( 'all' === $cp->cp_category ) {
-				$cp->title = __( 'All Courses', 'cp' );
+				$cp->title = __( 'All Courses', 'coursepress' );
 			} else {
 				self::archive_redirect();
 				// Invalid category... Redirect to course-list!
@@ -1095,7 +1100,7 @@ class CoursePress_View_Front_Course {
 
 			$cp->title = sprintf(
 				'%s | %s',
-				__( 'Discussions', 'cp' ),
+				__( 'Discussions', 'coursepress' ),
 				get_post_field( 'post_title', $cp->course_id )
 			);
 
@@ -1120,7 +1125,7 @@ class CoursePress_View_Front_Course {
 
 			$cp->title = sprintf(
 				'%s | %s',
-				__( 'Discussions', 'cp' ),
+				__( 'Discussions', 'coursepress' ),
 				get_post_field( 'post_title', $cp->course_id )
 			);
 
@@ -1146,7 +1151,7 @@ class CoursePress_View_Front_Course {
 
 			$cp->title = sprintf(
 				'%s | %s',
-				__( 'Grades', 'cp' ),
+				__( 'Grades', 'coursepress' ),
 				get_post_field( 'post_title', $cp->course_id )
 			);
 
@@ -1172,7 +1177,7 @@ class CoursePress_View_Front_Course {
 
 			$cp->title = sprintf(
 				'%s | %s',
-				__( 'Workbook', 'cp' ),
+				__( 'Workbook', 'coursepress' ),
 				get_post_field( 'post_title', $cp->course_id )
 			);
 
@@ -1198,7 +1203,7 @@ class CoursePress_View_Front_Course {
 
 			$cp->title = sprintf(
 				'%s | %s',
-				__( 'Notifications', 'cp' ),
+				__( 'Notifications', 'coursepress' ),
 				get_post_field( 'post_title', $cp->course_id )
 			);
 
@@ -1220,7 +1225,7 @@ class CoursePress_View_Front_Course {
 
 			$cp->title = sprintf(
 				'%s | %s',
-				__( 'Units', 'cp' ),
+				__( 'Units', 'coursepress' ),
 				get_post_field( 'post_title', $cp->course_id )
 			);
 
@@ -1299,8 +1304,8 @@ class CoursePress_View_Front_Course {
 			// It must be the archive!
 			$cp->title = sprintf(
 				'%s | %s',
-				__( 'Courses', 'cp' ),
-				__( 'All Courses', 'cp' )
+				__( 'Courses', 'coursepress' ),
+				__( 'All Courses', 'coursepress' )
 			);
 
 			$cp->vp_args = array(
@@ -1405,7 +1410,7 @@ class CoursePress_View_Front_Course {
 		$success = false;
 
 		if ( empty( $data->action ) ) {
-			$json_data['message'] = __( 'Course Update: No action.', 'cp' );
+			$json_data['message'] = __( 'Course Update: No action.', 'coursepress' );
 			wp_send_json_error( $json_data );
 		}
 
@@ -1426,7 +1431,7 @@ class CoursePress_View_Front_Course {
 				$module_type = $data->module_type;
 
 				if ( CoursePress_Data_Course::get_course_status( $course_id ) == 'closed' ) {
-					$json_data['message'] = __( 'This course is completed, you can not submit answers anymore.', 'cp' );
+					$json_data['message'] = __( 'This course is completed, you can not submit answers anymore.', 'coursepress' );
 					wp_send_json_error( $json_data );
 				}
 
@@ -1796,7 +1801,7 @@ class CoursePress_View_Front_Course {
 			$current_user_id = get_current_user_id();
 			if ( $student_id != $current_user_id ) {
 				if ( ! CoursePress_Data_Capabilities::can_update_course( $course_id ) ) {
-					_e( 'Cheatin&#8217; uh?', 'cp' );
+					_e( 'Cheatin&#8217; uh?', 'coursepress' );
 					exit;
 				}
 			}

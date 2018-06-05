@@ -4,7 +4,11 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 Change Log:
 ----------------------------------------------------------------------
 
-3.0.2 - 2017-03-05
+3.0.3 - 2018-05-28
+----------------------------------------------------------------------
+- Add GDPR frontend checkbox option to modules.
+
+3.0.2 - 2018-03-05
 ----------------------------------------------------------------------
 - Add MailerLite and iContact Integration.
 - Update E-Newsletter integration to be consistent with other integrations.
@@ -25,7 +29,7 @@ confusion.
 - Fix Mad Mimi and Campaign Monitor email integrations.
 - Only show SSL requirement notice for constant contact when necessary.
 
-3.0.1 - 2017-02-22
+3.0.1 - 2018-02-22
 ----------------------------------------------------------------------
 - Add legacy support for widgets and shortcodes.
 - Fix issues with local email lists, tracking, and custom CSS not getting migrated properly.
@@ -284,4 +288,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1524149351-au
+133620-1528232176-au

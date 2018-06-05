@@ -41,7 +41,8 @@ class ub_admin_menu extends ub_helper {
 	}
 
 	function ub_admin_menu_uninstall() {
-		if ( is_multisite() && is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
+		global $UB_network;
+		if ( $UB_network ) {
 			delete_site_option( 'ub_admin_menu' );
 		} else {
 			delete_option( 'ub_admin_menu' );
@@ -116,9 +117,7 @@ class ub_admin_menu extends ub_helper {
 
 	function update_admin_menu_options() {
 		global $wp_roles;
-
 		$user_roles = array_keys( $wp_roles->roles );
-
 		// menu update
 		foreach ( $user_roles as $role ) {
 			if ( isset( $_POST[ 'ub_enable_menu_' . $role ] ) ) {
@@ -126,24 +125,13 @@ class ub_admin_menu extends ub_helper {
 			} else {
 				$ub_admin_menu_options[ 'ub_enable_menu_' . $role ] = array();
 			}
-
 			if ( isset( $_POST[ 'ub_enable_submenu_' . $role ] ) ) {
 				$ub_admin_menu_options[ 'ub_enable_submenu_' . $role ] = $_POST[ 'ub_enable_submenu_' . $role ];
 			} else {
 				$ub_admin_menu_options[ 'ub_enable_submenu_' . $role ] = array();
 			}
 		}
-
-		if ( is_multisite() && is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
-			if ( update_site_option( 'ub_admin_menu', $ub_admin_menu_options ) ) {
-				return true;
-			}
-		} else {
-			if ( update_option( 'ub_admin_menu', $ub_admin_menu_options ) ) {
-				return true;
-			}
-		}
-
+		ub_update_option( 'ub_admin_menu', $ub_admin_menu_options );
 		return false;
 	}
 
@@ -206,18 +194,10 @@ class ub_admin_menu extends ub_helper {
             }*/
 
 			//print_r($ub_admin_menu_options);
-
-			if ( is_multisite() && is_plugin_active_for_network( plugin_basename( __FILE__ ) ) ) {
-				add_site_option( 'ub_default_admin_menu', $menu );
-				add_site_option( 'ub_default_admin_submenu', $submenu );
-			} else {
-				add_site_option( 'ub_default_admin_menu', $menu );
-				add_site_option( 'ub_default_admin_submenu', $submenu );
-			}
+			ub_add_option( 'ub_default_admin_menu', $menu );
+			ub_add_option( 'ub_default_admin_submenu', $submenu );
 		}
-
 	}
-
 
 	function admin_menu_site_admin_options() {
 		global $wp_roles, $menu, $submenu;

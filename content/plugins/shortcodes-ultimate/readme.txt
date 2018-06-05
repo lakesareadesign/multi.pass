@@ -105,6 +105,13 @@ For help with premium add-ons, please [open new support ticket](https://getshort
 
 == Changelog ==
 
+= 5.0.4 =
+* Fixed: added missing FontAwesome icons
+* Fixed: is_plugin_active call removed on frontend
+* Fixed: nested shortcodes
+* Fixed: issue with spoiler loaded through ajax
+* Fixed: [scheduler] shortcode logic
+
 = 5.0.3 =
 * Changed: Inview.js library replaced with [jQuery.Inview](https://github.com/protonet/jquery.inview)
 * Fixed: caching issue with [su_dummy_text]

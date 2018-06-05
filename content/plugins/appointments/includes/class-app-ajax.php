@@ -159,7 +159,7 @@ class Appointments_AJAX {
 				add_filter( 'appointments_send_confirmation', '__return_false', 40 );
 			}
 
-			$data['datetime'] = strtotime( $data['date'] . ' ' . $data['time'] . ':00' );
+			$data['datetime'] = strtotime( $data['date'] . ' ' . $data['time'] );
 			$update_result = appointments_update_appointment( $app_id, $data );
 
 			// Send confirmation email if requested in update (only for confirmed or similar statuses)
@@ -174,11 +174,11 @@ class Appointments_AJAX {
 			}
 
 		} else {
-			// Insert
-			$data['date'] = strtotime( $data['date'] . ' ' . $data['time'] . ':00' );
+            // Insert
+			$data['date'] = strtotime( $data['date'] . ' ' . $data['time'] );
 			if ( ! $resend ) {
 				add_filter( 'appointments_send_confirmation', '__return_false', 50 );
-			}
+            }
 			$app_id = appointments_insert_appointment( $data );
 			$insert_result = true;
 		}
@@ -361,7 +361,9 @@ class Appointments_AJAX {
 		$appointments->get_lsw();
 
 		// Default status
-		$status = 'pending';
+        $status = 'pending';
+
+
 		if ('yes' != $appointments->options["payment_required"] && isset($appointments->options["auto_confirm"]) && 'yes' == $appointments->options["auto_confirm"]) {
 			$status = 'confirmed';
 		}
@@ -373,19 +375,16 @@ class Appointments_AJAX {
 		$paypal_price = apply_filters('app_post_confirmation_paypal_price', number_format( str_replace( ',', '', $paypal_price ), 2, ".", "" ), $service, $worker, $start, $end);
 
 		// Break here - is the appointment free and, if so, shall we auto-confirm?
-		if (
-			!(float)$price && !(float)$paypal_price // Free appointment ...
-			&&
-			'pending' === $status && "yes" === $appointments->options["payment_required"] // ... in a paid environment ...
-			&&
-			(!empty($appointments->options["auto_confirm"]) && "yes" === $appointments->options["auto_confirm"]) // ... with auto-confirm activated
-		) {
-			$status = defined('APP_CONFIRMATION_ALLOW_FREE_AUTOCONFIRM') && APP_CONFIRMATION_ALLOW_FREE_AUTOCONFIRM
-				? 'confirmed'
-				: $status
-				;
-		}
-
+        if (
+            0 == 100 * $price
+            && 'pending' === $status
+            && 'yes' === $appointments->options['payment_required']
+			&& isset($appointments->options['auto_confirm']) && 'yes' === $appointments->options['auto_confirm']
+			&& isset($appointments->options['allow_free_autoconfirm'])
+            && $appointments->options['allow_free_autoconfirm']
+        ) {
+            $status = 'confirmed';
+        }
 		$name = !empty($_POST['app_name'])
 			? sanitize_text_field($_POST["app_name"])
 			: $user_name
@@ -459,15 +458,14 @@ class Appointments_AJAX {
 			// In minutes
 			$duration = $appointments->get_min_time();
 		}
-
-		$duration = apply_filters( 'app_post_confirmation_duration', $duration, $service, $worker, $user_id );
-
+        $duration = apply_filters( 'app_post_confirmation_duration', $duration, $service, $worker, $user_id );
+        $end = $start + $duration * MINUTE_IN_SECONDS;
 		$args = array(
 			'worker_id' => $worker,
 			'service_id' => $service,
 			'location_id' => $location
 		);
-		$is_busy = apppointments_is_range_busy( $start, $start + ( $duration * MINUTE_IN_SECONDS ), $args );
+		$is_busy = apppointments_is_range_busy( $start, $end, $args );
 		if ( $is_busy ) {
 			die( json_encode( array(
 				"error" => apply_filters(
@@ -484,23 +482,18 @@ class Appointments_AJAX {
 			}
 			else{
 				$workers = appointments_get_all_workers();
-			}
+            }
 			foreach ( $workers as $worker ) {
 				$args['worker_id'] = $worker->ID;
-				$is_busy = apppointments_is_range_busy( $start, $start + ( $duration * 60 ), $args );
+                $is_busy = apppointments_is_range_busy( $start, $end, $args );
 				if ( ! $is_busy ) {
 					$worker = $worker->ID;
 					break;
 				}
 			}
 		}
-
-
-
 		unset( $args );
-
 		$status = apply_filters('app_post_confirmation_status', $status, $price, $service, $worker, $user_id );
-
 		$args = array(
 			'user'     => $user_id,
 			'name'     => $name,
@@ -546,20 +539,21 @@ class Appointments_AJAX {
 			// Unknown error
 			wp_send_json( array( 'error' => __( 'Appointment could not be saved. Please contact website admin.', 'appointments') ) );
 		}
-
-		$insert_id = appointments_insert_appointment( $args );
-
+        $insert_id = appointments_insert_appointment( $args );
+        /**
+         * GDPR
+         */
+        if ( isset( $_REQUEST['app_gdpr'] ) && $_REQUEST['app_gdpr'] )  {
+            appointments_update_appointment_meta( $insert_id, 'gdpr_agree', time() );
+        }
 		appointments_clear_appointment_cache();
-
 		if (!$insert_id) {
 			die(json_encode(array(
 				"error" => __( 'Appointment could not be saved. Please contact website admin.', 'appointments'),
 			)));
 		}
-
 		// A new appointment is accepted, so clear cache
 		appointments_clear_cache();
-
 		$apps = Appointments_Sessions::get_current_visitor_appointments();
 		$apps[] = $insert_id;
 		Appointments_Sessions::set_visitor_appointments( $apps );

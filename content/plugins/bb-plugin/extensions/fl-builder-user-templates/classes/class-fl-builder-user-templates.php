@@ -57,7 +57,7 @@ final class FLBuilderUserTemplates {
 	 */
 	static public function register_user_access_settings() {
 		FLBuilderUserAccess::register_setting( 'builder_admin', array(
-			'default'     => false,
+			'default'     => array( 'administrator' ),
 			'group'       => __( 'Admin', 'fl-builder' ),
 			'label'       => __( 'Builder Admin', 'fl-builder' ),
 			'description' => __( 'The selected roles will be able to access the builder admin menu.', 'fl-builder' ),
@@ -234,22 +234,27 @@ final class FLBuilderUserTemplates {
 				}
 			}
 
-			// Saved columns view
-			$data['tabs']['columns']['views'][] = array(
-				'type' => 'separator',
-			);
+			$is_col_template = FLBuilderModel::is_post_user_template( 'column' );
 
-			$data['tabs']['columns']['views'][] = array(
-				'handle' => 'savedColumns',
-				'name' => __( 'Saved Columns', 'fl-builder' ),
-				'templateName' => 'fl-content-panel-saved-columns',
-				'query' => array(
-					'kind' => 'template',
-					'type' => 'user',
-					'content' => 'column',
-					'categorized' => true,
-				),
-			);
+			if ( ! $is_col_template ) {
+
+				// Saved columns view
+				$data['tabs']['rows']['views'][] = array(
+					'type' => 'separator',
+				);
+
+				$data['tabs']['rows']['views'][] = array(
+					'handle' => 'savedColumns',
+					'name' => __( 'Saved Columns', 'fl-builder' ),
+					'templateName' => 'fl-content-panel-saved-columns',
+					'query' => array(
+						'kind' => 'template',
+						'type' => 'user',
+						'content' => 'column',
+						'categorized' => true,
+					),
+				);
+			}
 
 			if ( count( $saved_cols['categorized'] ) > 1 ) {
 				foreach ( $saved_cols['categorized'] as $handle => $category ) {
@@ -269,7 +274,6 @@ final class FLBuilderUserTemplates {
 			}
 
 			$is_row_template = FLBuilderModel::is_post_user_template( 'row' );
-			$is_col_template = FLBuilderModel::is_post_user_template( 'column' );
 			$is_module_template = FLBuilderModel::is_post_user_template( 'module' );
 
 			if ( ! $is_row_template && ! $is_col_template && ! $is_module_template ) {

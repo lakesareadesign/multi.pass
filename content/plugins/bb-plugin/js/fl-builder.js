@@ -701,7 +701,7 @@
 			$('body').delegate('.fl-builder-alert-close', 'click', FLBuilder._alertClose);
 
 			/* General Overlays */
-			$('body').delegate('.fl-block-overlay', 'contextmenu', FLBuilder._removeAllOverlays);
+			$('body').delegate('.fl-block-overlay', 'contextmenu', FLBuilder._onContextmenu);
 
 			/* Rows */
 			$('body').delegate('.fl-row-overlay .fl-block-remove', 'click', FLBuilder._deleteRowClicked);
@@ -832,6 +832,17 @@
 		},
 
 		/**
+		 * Rebind events when restarting the edit session
+		 * @since 2.1.2.3
+		 * @access private
+		 */
+		_rebindEvents: function() {
+			$('a').on('click', FLBuilder._preventDefault);
+			$('.fl-page-nav .nav a').on('click', FLBuilder._headerLinkClicked);
+			$('body').delegate('.fl-builder-content a', 'click', FLBuilder._preventDefault);
+		},
+
+		/**
 		 * Binds the events for overlays that appear when
 		 * mousing over a row, column or module.
 		 *
@@ -871,6 +882,21 @@
 			content.undelegate('.fl-col', 'mouseleave', FLBuilder._colMouseleave);
 			content.undelegate('.fl-module', 'mouseenter', FLBuilder._moduleMouseenter);
 			content.undelegate('.fl-module', 'mouseleave', FLBuilder._moduleMouseleave);
+		},
+
+		/**
+		 * Hides overlays when the contextmenu event is fired on them.
+		 * This allows us to inspect the actual node in the console
+		 * instead of getting the overlay.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _onContextmenu
+		 * @param {Object} e The event object.
+		 */
+		_onContextmenu: function( e )
+		{
+		    $( this ).hide();
 		},
 
 		/**
@@ -2816,7 +2842,9 @@
 			// Build the menu if we have overflow items.
 			if ( overflowItems.length > 0 ) {
 
-				overflowItems.unshift( visibleItems.pop().remove() );
+				if( visibleItems.length > 0 ) {
+					overflowItems.unshift( visibleItems.pop().remove() );
+				}
 
 				for( i = 0; i < overflowItems.length; i++ ) {
 
@@ -5143,6 +5171,10 @@
 		 */
 		_showModuleSettings: function( data, callback )
 		{
+			if ( ! FLBuilderSettingsConfig.modules ) {
+				return;
+			}
+
 			var config   = FLBuilderSettingsConfig.modules[ data.type ],
 				settings = data.settings ? data.settings : FLBuilderSettingsConfig.nodes[ data.nodeId ],
 				head 	 = $( 'head' ),
@@ -6851,7 +6883,19 @@
 		 */
 		_showCodeFieldError: function( e ) {
 			e.stopImmediatePropagation();
-			FLBuilder.alert( FLBuilderStrings.codeError );
+			FLBuilder.confirm( {
+			    message: FLBuilderStrings.codeError,
+			    cancel: function(){
+					var saveBtn = $( '.fl-builder-settings:visible .fl-builder-settings-save' );
+					saveBtn.removeClass( 'fl-builder-settings-error' );
+					saveBtn.off( 'click', FLBuilder._showCodeFieldError );
+					saveBtn.trigger( 'click' );
+				},
+			    strings: {
+			        ok: FLBuilderStrings.codeErrorFix,
+			        cancel: FLBuilderStrings.codeErrorIgnore
+			    }
+			} );
 		},
 
 		/* Multiple Fields

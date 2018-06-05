@@ -32,7 +32,7 @@ function ultra_page_loader()
         wp_register_script('ultra-pace-script-js', $url);
         wp_enqueue_script('ultra-pace-script-js');
 
-        $url = plugins_url('/', __FILE__).'../css/ultra-pace.css';
+        $url = plugins_url('/', __FILE__).'../css/ultra-pace.min.css';
         wp_deregister_style('ultra-pace-css', $url);
         wp_register_style('ultra-pace-css', $url);
         wp_enqueue_style('ultra-pace-css');

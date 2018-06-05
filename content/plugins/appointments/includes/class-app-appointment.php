@@ -28,6 +28,7 @@ class Appointments_Appointment {
 		foreach ( get_object_vars( $appointment ) as $key => $value ) {
 			$this->$key = $this->_sanitize_field( $key, $value );
 		}
+		add_action( 'app-appointments_list-edit-client', array( $this, 'gdpr_show_agree_date' ) );
 	}
 
 	public function __get( $name ) {
@@ -44,9 +45,9 @@ class Appointments_Appointment {
 		// @TODO Sanitize
 		//$int_fields = array( 'ID', 'user', 'service', 'location', 'worker' );
 
-//		if ( in_array( $field, $int_fields ) )
-//			return absint( $value );
-//		else
+		//      if ( in_array( $field, $int_fields ) )
+		//          return absint( $value );
+		//      else
 			return $value;
 	}
 
@@ -167,11 +168,9 @@ class Appointments_Appointment {
 
 		if ( is_email( $this->email ) ) {
 			return $this->email;
-		}
-		elseif ( $this->worker ) {
+		} elseif ( $this->worker ) {
 			return $appointments->get_worker_email( $this->worker );
-		}
-		else {
+		} else {
 			return $appointments->get_admin_email();
 		}
 	}
@@ -182,8 +181,7 @@ class Appointments_Appointment {
 			if ( $wp_user && ! empty( $wp_user->user_email ) ) {
 				$email = $wp_user->user_email;
 			}
-		}
-		elseif ( is_email( $this->email ) ) {
+		} elseif ( is_email( $this->email ) ) {
 			$email = $this->email;
 		}
 
@@ -212,6 +210,22 @@ class Appointments_Appointment {
 		return $hash;
 	}
 
+	/**
+	 * GDPR: add to inline edit information about date of agreement.
+	 *
+	 * @since 2.3.0
+	 */
+	public function gdpr_show_agree_date() {
+		$value = get_metadata( 'app_appointment', $this->ID, 'gdpr_agree', true );
+		if ( ! empty( $value ) ) {
+			$format = sprintf( '%s %s', get_option( 'date_format' ), get_option( 'time_format' ) );
+			$date = date_i18n( $format, $value );
+			echo '<label>';
+			printf( '<span class="title">%s</span>', esc_html__( 'Agreement', 'appointments' ) );
+			printf( '<span class="input-text-wrap">%s</span>', $date );
+			echo '</label>';
+		}
+	}
 }
 
 /**
@@ -226,8 +240,7 @@ function appointments_get_appointment( $app_id ) {
 
 	if ( is_a( $app_id, 'Appointments_Appointment' ) ) {
 		return $app_id;
-	}
-	elseif ( is_object( $app_id ) ) {
+	} elseif ( is_object( $app_id ) ) {
 		wp_cache_add( $app_id->ID, $app_id, 'app_appointments' );
 		return new Appointments_Appointment( $app_id );
 	}
@@ -246,7 +259,6 @@ function appointments_get_appointment( $app_id ) {
 
 		wp_cache_add( $app_id, $app, 'app_appointments' );
 	}
-
 
 	if ( $app ) {
 		return new Appointments_Appointment( $app );
@@ -336,7 +348,7 @@ function appointments_insert_appointment( $args ) {
 		'location' => '',
 		'gcal_updated' => '',
 		'gcal_ID' => null,
-		'duration' => false
+		'duration' => false,
 	);
 
 	/**
@@ -355,8 +367,7 @@ function appointments_insert_appointment( $args ) {
 	if ( $user = get_userdata( $args['user'] ) ) {
 		$insert['user'] = $args['user'];
 		$insert_wildcards[] = '%d';
-	}
-	else {
+	} else {
 		$insert['user'] = 0;
 		$insert_wildcards[] = '%d';
 	}
@@ -378,39 +389,33 @@ function appointments_insert_appointment( $args ) {
 	$insert['city'] = $args['city'];
 	$insert_wildcards[] = '%s';
 
-
 	$service = appointments_get_service( $args['service'] );
 
 	if ( $args['duration'] ) {
 		$duration = $args['duration'] * 60;
-	}
-	elseif ( $service ) {
+	} elseif ( $service ) {
 		$duration = $service->duration * 60;
-	}
-	else {
+	} else {
 		$duration = $appointments->get_min_time() * 60;
 	}
 
 	if ( $service ) {
 		$insert['service'] = $service->ID;
-	}
-	else {
+	} else {
 		$insert['service'] = 0;
 	}
 	$insert_wildcards[] = '%d';
-
 
 	$worker = appointments_get_worker( $args['worker'] );
 	if ( $worker ) {
 		$insert['worker'] = $worker->ID;
 		$insert_wildcards[] = '%d';
-	}
-	else {
+	} else {
 		$insert['worker'] = 0;
 		$insert_wildcards[] = '%d';
 	}
 
-	$price = preg_replace( "/[^0-9,.]/", "", $args['price'] );
+	$price = preg_replace( '/[^0-9,.]/', '', $args['price'] );
 	if ( $price !== '' ) {
 		if ( ! $price ) {
 			$price = '';
@@ -425,9 +430,8 @@ function appointments_insert_appointment( $args ) {
 		$datetime = $args['date'];
 		$insert['start'] = date( 'Y-m-d H:i:s', $datetime );
 		$insert_wildcards[] = '%s';
-	}
-	else {
-		$datetime = strtotime( str_replace(',', '', $appointments->to_us( $args['date'] ) ) . " " . $time );
+	} else {
+		$datetime = strtotime( str_replace( ',', '', $appointments->to_us( $args['date'] ) ) . ' ' . $time );
 		$insert['start'] = date( 'Y-m-d H:i:s', $datetime );
 		$insert_wildcards[] = '%s';
 	}
@@ -458,8 +462,8 @@ function appointments_insert_appointment( $args ) {
 	$table = appointments_get_table( 'appointments' );
 	$result = $wpdb->insert( $table, $insert, $insert_wildcards );
 
-	if ( ! $result )
-		return false;
+	if ( ! $result ) {
+		return false; }
 
 	$app_id = $wpdb->insert_id;
 	appointments_clear_appointment_cache( $app_id );
@@ -485,27 +489,27 @@ function appointments_is_busy( $start, $end, $capacity ) {
  */
 function appointments_update_user_appointment_data( $app_id ) {
 
-	if ( defined('APP_USE_LEGACY_USERDATA_OVERWRITING') && APP_USE_LEGACY_USERDATA_OVERWRITING ) {
+	if ( defined( 'APP_USE_LEGACY_USERDATA_OVERWRITING' ) && APP_USE_LEGACY_USERDATA_OVERWRITING ) {
 		$app = appointments_get_appointment( $app_id );
-		if ( ! $app )
-			return;
+		if ( ! $app ) {
+			return; }
 
 		$user = get_userdata( $app->user );
-		if ( ! $user )
-			return;
+		if ( ! $user ) {
+			return; }
 
-		if ( $app->name )
-			update_user_meta( $app->user, 'app_name',  $app->name );
-		if (  $app->email )
-			update_user_meta( $app->user, 'app_email', $app->email );
-		if ( $app->phone )
-			update_user_meta( $app->user, 'app_phone', $app->phone );
-		if ( $app->address )
-			update_user_meta( $app->user, 'app_address', $app->address );
-		if ( $app->city )
-			update_user_meta( $app->user, 'app_city', $app->city );
+		if ( $app->name ) {
+			update_user_meta( $app->user, 'app_name',  $app->name ); }
+		if (  $app->email ) {
+			update_user_meta( $app->user, 'app_email', $app->email ); }
+		if ( $app->phone ) {
+			update_user_meta( $app->user, 'app_phone', $app->phone ); }
+		if ( $app->address ) {
+			update_user_meta( $app->user, 'app_address', $app->address ); }
+		if ( $app->city ) {
+			update_user_meta( $app->user, 'app_city', $app->city ); }
 
-		do_action( 'app_save_user_meta', $app->user, (array)$app );
+		do_action( 'app_save_user_meta', $app->user, (array) $app );
 	}
 
 }
@@ -551,7 +555,6 @@ function appointments_update_appointment( $app_id, $args ) {
 		return false;
 	}
 
-
 	$fields = array(
 		'user' => '%d',
 		'email' => '%s',
@@ -575,7 +578,7 @@ function appointments_update_appointment( $app_id, $args ) {
 		'date' => false, // There are no fields like these in the table but they can be passed to the function
 		'time' => false,
 		'datetime' => false, // Pass a date and a time (timestamp or mysql date) here instead of date and time fields
-		'duration' => false
+		'duration' => false,
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -594,8 +597,7 @@ function appointments_update_appointment( $app_id, $args ) {
 		if ( ! $service ) {
 			$update['service'] = 0;
 		}
-	}
-	else {
+	} else {
 		$service = appointments_get_service( $old_appointment->service );
 	}
 
@@ -611,7 +613,7 @@ function appointments_update_appointment( $app_id, $args ) {
 	}
 
 	if ( isset( $update['price'] ) ) {
-		$update['price'] = preg_replace( "/[^0-9,.]/", "", $update['price'] );
+		$update['price'] = preg_replace( '/[^0-9,.]/', '', $update['price'] );
 	}
 
 	if ( isset( $update['user'] ) ) {
@@ -633,11 +635,9 @@ function appointments_update_appointment( $app_id, $args ) {
 
 	if ( $args['duration'] ) {
 		$duration = $args['duration'] * 60;
-	}
-	elseif ( $service ) {
+	} elseif ( $service ) {
 		$duration = $service->duration * 60;
-	}
-	else {
+	} else {
 		$duration = $appointments->get_min_time() * 60;
 	}
 
@@ -648,10 +648,9 @@ function appointments_update_appointment( $app_id, $args ) {
 
 		$update['end'] = date( 'Y-m-d H:i:s', $args['datetime'] + ( $duration ) );
 		$update_wildcards[] = '%s';
-	}
-	elseif ( ! empty( $args['date'] ) && ! empty( $args['time'] ) ) {
+	} elseif ( ! empty( $args['date'] ) && ! empty( $args['time'] ) ) {
 		$time = date( 'H:i', strtotime( $args['time'] ) );
-		$datetime = strtotime( str_replace( ',', '', $appointments->to_us( $args['date'] ) ) . " " . $time );
+		$datetime = strtotime( str_replace( ',', '', $appointments->to_us( $args['date'] ) ) . ' ' . $time );
 
 		$update['start'] = date( 'Y-m-d H:i:s', $datetime );
 		$update_wildcards[] = '%s';
@@ -672,9 +671,8 @@ function appointments_update_appointment( $app_id, $args ) {
 		$update['gcal_ID'] = null;
 	}
 
-
-	if ( empty( $update ) )
-		return false;
+	if ( empty( $update ) ) {
+		return false; }
 
 	$result = false;
 	if ( ! empty( $update ) ) {
@@ -688,7 +686,6 @@ function appointments_update_appointment( $app_id, $args ) {
 			array( '%d' )
 		);
 	}
-
 
 	$result = apply_filters( 'wpmudev_appointments_update_appointment_result', $result, $app_id, $args, $old_appointment );
 
@@ -783,7 +780,7 @@ function appointments_get_appointments_filtered_by_services( $args = array() ) {
 		'location' => false,
 		'service' => false,
 		'worker' => 0,
-		'week' => 0
+		'week' => 0,
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -804,21 +801,19 @@ function appointments_get_appointments_filtered_by_services( $args = array() ) {
 
 	if ( isset( $cached_queries[ $cache_key ] ) ) {
 		$apps = $cached_queries[ $cache_key ];
-	}
-	else {
+	} else {
 		$table = appointments_get_table( 'appointments' );
 		$where = array();
 
-		$where[] = $wpdb->prepare( "worker = %d", $worker_id );
+		$where[] = $wpdb->prepare( 'worker = %d', $worker_id );
 
 		if ( $location_id ) {
-			$where[] = $wpdb->prepare( "location = %d", $location_id );
+			$where[] = $wpdb->prepare( 'location = %d', $location_id );
 		}
 
 		if ( 0 == $week ) {
 			$where[] = "(status='pending' OR status='paid' OR status='confirmed' OR status='reserved')";
-		}
-		else {
+		} else {
 			// @FIX: Problem: an appointment might already be ticked as "completed",
 			// because of it's start time being in the past. Its end time, however, can still easily be
 			// in the future. For long-running appointments (e.g. 2-3h) this could break the schedule slots
@@ -826,19 +821,18 @@ function appointments_get_appointments_filtered_by_services( $args = array() ) {
 			// E.g. http://premium.wpmudev.org/forums/topic/appointments-booking-conflictoverlapping-bookings
 			$where[] = "(status='pending' OR status='paid' OR status='confirmed' OR status='reserved' OR status='completed')";
 
-			$where[] = $wpdb->prepare( "WEEKOFYEAR(start)=%d", $week );
+			$where[] = $wpdb->prepare( 'WEEKOFYEAR(start)=%d', $week );
 			// *ONLY* applied to weekly-scoped data gathering, because otherwise this would possibly
 			// return all kinds of irrelevant data (appointments passed LONG time ago).
 			// End @FIX
 		}
 
-		$where = "WHERE " . implode( " AND ", $where );
+		$where = 'WHERE ' . implode( ' AND ', $where );
 
 		$query = "SELECT * FROM $table $where";
 
 		$apps = $wpdb->get_results( $query );
 	}
-
 
 	if ( empty( $apps ) ) {
 		$apps = array();
@@ -860,8 +854,6 @@ function appointments_get_appointments_filtered_by_services( $args = array() ) {
 			$filtered_apps[] = $app;
 		}
 	}
-
-
 
 	return $filtered_apps;
 }
@@ -890,7 +882,11 @@ function appointments_get_appointments( $args = array() ) {
 		's' => false,
 		'orderby' => 'ID',
 		'order' => 'ASC',
-		'count' => false // Will return only the number of rows found
+		'count' => false,// Will return only the number of rows found
+		/**
+		 * since 2.3.0
+		 */
+		'email' => false,
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -903,20 +899,23 @@ function appointments_get_appointments( $args = array() ) {
 
 	if ( isset( $cached_queries[ $cache_key ] ) ) {
 		$results = $cached_queries[ $cache_key ];
-	}
-	else {
+	} else {
 		$where = array();
 
 		if ( false !== $args['worker'] && $worker = appointments_get_worker( $args['worker'] ) ) {
-			$where[] = $wpdb->prepare( "worker = %d", $worker->ID );
+			$where[] = $wpdb->prepare( 'worker = %d', $worker->ID );
 		}
 
 		if ( false !== $args['location'] ) {
-			$where[] = $wpdb->prepare( "location = %d", $args['location'] );
+			$where[] = $wpdb->prepare( 'location = %d', $args['location'] );
 		}
 
 		if ( false !== $args['user'] ) {
-			$where[] = $wpdb->prepare( "user = %d", $args['user'] );
+			$where[] = $wpdb->prepare( 'user = %d', $args['user'] );
+		}
+
+		if ( false !== $args['email'] ) {
+			$where[] = $wpdb->prepare( 'email = %s', $args['email'] );
 		}
 
 		if ( false !== $args['service'] && ! is_array( $args['service'] ) ) {
@@ -947,8 +946,7 @@ function appointments_get_appointments( $args = array() ) {
 			$allowed_conditions = array( 'AND', 'OR' );
 			if ( ! isset( $args['date_query']['condition'] ) ) {
 				$condition = 'AND';
-			}
-			else {
+			} else {
 				$condition = strtoupper( $args['date_query']['condition'] );
 			}
 
@@ -963,12 +961,12 @@ function appointments_get_appointments( $args = array() ) {
 				}
 				$date_query = _appointments_parse_date_query( $date_query );
 				if ( $date_query ) {
-					$date_query_where[] = $wpdb->prepare( $date_query['field'] . $date_query['compare'] . "%s", $date_query['value'] );
+					$date_query_where[] = $wpdb->prepare( $date_query['field'] . $date_query['compare'] . '%s', $date_query['value'] );
 				}
 			}
 
 			if ( $date_query_where ) {
-				$where[] = '(' . implode( " " . $condition . " ", $date_query_where ) . ')';
+				$where[] = '(' . implode( ' ' . $condition . ' ', $date_query_where ) . ')';
 			}
 		}
 
@@ -985,8 +983,7 @@ function appointments_get_appointments( $args = array() ) {
 						$statuses[] = $status;
 					}
 				}
-			}
-			elseif ( is_string( $args['status'] ) && array_key_exists( $args['status'], appointments_get_statuses() ) ) {
+			} elseif ( is_string( $args['status'] ) && array_key_exists( $args['status'], appointments_get_statuses() ) ) {
 				$statuses = array( $args['status'] );
 			}
 
@@ -1010,14 +1007,25 @@ function appointments_get_appointments( $args = array() ) {
 		}
 
 		if ( ! empty( $where ) ) {
-			$where = "WHERE " . implode( " AND ", $where );
-		}
-		else {
+			$where = 'WHERE ' . implode( ' AND ', $where );
+		} else {
 			$where = '';
 		}
 
-		$allowed_orderby = array( 'ID', 'created', 'user', 'name', 'email', 'location',
-			'service', 'worker', 'price', 'status', 'start', 'end' );
+		$allowed_orderby = array(
+		'ID',
+		'created',
+		'user',
+		'name',
+		'email',
+		'location',
+			'service',
+		'worker',
+		'price',
+		'status',
+		'start',
+		'end',
+		);
 		$allowed_order = array( 'DESC', 'ASC', '' );
 		$order_query = '';
 		$args['order'] = strtoupper( $args['order'] );
@@ -1029,7 +1037,7 @@ function appointments_get_appointments( $args = array() ) {
 
 		$limit = '';
 		if ( $args['per_page'] > 0 ) {
-			$limit = $wpdb->prepare( "LIMIT %d, %d", intval( ( $args['page'] - 1 ) * $args['per_page'] ), intval( $args['per_page'] ) );
+			$limit = $wpdb->prepare( 'LIMIT %d, %d', intval( ( $args['page'] - 1 ) * $args['per_page'] ), intval( $args['per_page'] ) );
 		}
 
 		$found_rows = '';
@@ -1041,7 +1049,7 @@ function appointments_get_appointments( $args = array() ) {
 		$results = $wpdb->get_results( $query );
 
 		if ( $args['count'] ) {
-			$results = $wpdb->get_var( "SELECT FOUND_ROWS()" );
+			$results = $wpdb->get_var( 'SELECT FOUND_ROWS()' );
 		}
 
 		if ( $results && ! $args['count'] ) {
@@ -1070,7 +1078,7 @@ function appointments_get_month_appointments( $args ) {
 	$defaults = array(
 		'worker' => false,
 		'status' => false,
-		'start' => current_time( 'mysql' )
+		'start' => current_time( 'mysql' ),
 	);
 
 	$args = wp_parse_args( $args, $defaults );
@@ -1092,16 +1100,14 @@ function appointments_get_month_appointments( $args ) {
 
 	if ( isset( $cached_queries[ $cache_key ] ) ) {
 		$results = $cached_queries[ $cache_key ];
-	}
-	else {
+	} else {
 		$where = array();
 
 		$services_ids = wp_list_pluck( appointments_get_worker_services( $args['worker'] ), 'ID' );
 		if ( $services_ids ) {
-			$where[] = $wpdb->prepare( "( worker = %d OR service IN (" . implode( ',', $services_ids ) . ") )", $args['worker'] );
-		}
-		else {
-			$where[] = $wpdb->prepare( "worker = %d", $args['worker'] );
+			$where[] = $wpdb->prepare( '( worker = %d OR service IN (' . implode( ',', $services_ids ) . ') )', $args['worker'] );
+		} else {
+			$where[] = $wpdb->prepare( 'worker = %d', $args['worker'] );
 		}
 
 		if ( ! is_array( $args['status'] ) && $args['status'] ) {
@@ -1115,15 +1121,15 @@ function appointments_get_month_appointments( $args ) {
 		// The dates
 		$first = date( 'Y-m-01 00:00:00', strtotime( $args['start'] ) ); // Start of month
 		$first_timestamp = strtotime( $first );
-		$last_timestamp = ($first_timestamp + (date('t', $first_timestamp) * 86400 )) - 1; // End of month
+		$last_timestamp = ($first_timestamp + (date( 't', $first_timestamp ) * 86400 )) - 1; // End of month
 		$last = date( 'Y-m-d H:i:s', $last_timestamp );
 
-		$where[] = $wpdb->prepare( "start > %s", $first );
-		$where[] = $wpdb->prepare( "end < %s", $last );
+		$where[] = $wpdb->prepare( 'start > %s', $first );
+		$where[] = $wpdb->prepare( 'end < %s', $last );
 
 		$table = appointments_get_table( 'appointments' );
 
-		$where = "WHERE " . implode( " AND ", $where );
+		$where = 'WHERE ' . implode( ' AND ', $where );
 		$query = "SELECT * FROM $table $where ORDER BY start ASC";
 
 		$results = $wpdb->get_results( $query );
@@ -1153,7 +1159,7 @@ function appointments_get_user_appointments( $user_id, $statuses = array( 'paid'
 	return appointments_get_appointments(
 		array(
 			'user' => $user_id,
-			'status' => $statuses
+			'status' => $statuses,
 		)
 	);
 }
@@ -1170,8 +1176,7 @@ function appointments_clear_appointment_cache( $app_id = false ) {
 	if ( $app_id ) {
 		wp_cache_delete( $app_id, 'app_appointments' );
 		wp_cache_delete( $app_id, 'app_appointments_by_gcal' );
-	}
-	else {
+	} else {
 		$apps = $wpdb->get_results( "SELECT ID, gcal_ID FROM $table" );
 		foreach ( $apps as $app ) {
 			wp_cache_delete( $app->ID, 'app_appointments' );
@@ -1198,12 +1203,12 @@ function appointments_clear_appointment_cache( $app_id = false ) {
 function appointments_get_statuses() {
 	return apply_filters( 'app_statuses',
 		array(
-			'pending'	=> __('Pending', 'appointments'),
-			'paid'		=> __('Paid', 'appointments'),
-			'confirmed'	=> __('Confirmed', 'appointments'),
-			'completed'	=> __('Completed', 'appointments'),
-			'reserved'	=> __('Reserved by GCal', 'appointments'),
-			'removed'	=> __('Removed', 'appointments')
+			'pending'	=> __( 'Pending', 'appointments' ),
+			'paid'		=> __( 'Paid', 'appointments' ),
+			'confirmed'	=> __( 'Confirmed', 'appointments' ),
+			'completed'	=> __( 'Completed', 'appointments' ),
+			'reserved'	=> __( 'Reserved by GCal', 'appointments' ),
+			'removed'	=> __( 'Removed', 'appointments' ),
 		)
 	);
 }
@@ -1228,18 +1233,17 @@ function appointments_delete_appointment( $app_id ) {
 	global $wpdb;
 
 	$app = appointments_get_appointment( $app_id );
-	if ( ! $app )
-		return false;
+	if ( ! $app ) {
+		return false; }
 
 	$table = appointments_get_table( 'appointments' );
 	$result = $wpdb->query( $wpdb->prepare( "DELETE FROM $table WHERE ID = %d", $app_id ) );
 
 	$meta_table = appointments_get_table( 'appmeta' );
-	$meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $meta_table WHERE app_appointment_id = %d ", $app_id ));
+	$meta_ids = $wpdb->get_col( $wpdb->prepare( "SELECT meta_id FROM $meta_table WHERE app_appointment_id = %d ", $app_id ) );
 	foreach ( $meta_ids as $mid ) {
 		delete_metadata_by_mid( 'app_appointment', $mid );
 	}
-
 
 	appointments_clear_appointment_cache( $app_id );
 
@@ -1250,7 +1254,7 @@ function appointments_delete_appointment( $app_id ) {
 	 */
 	do_action( 'appointments_delete_appointment', $app );
 
-	return (bool)$result;
+	return (bool) $result;
 }
 
 /**
@@ -1316,7 +1320,7 @@ function _appointments_parse_date_query( $date_query = array() ) {
 	$date_query_defaults = array(
 		'compare' => '=',
 		'field' => 'created',
-		'value' => current_time( 'mysql' )
+		'value' => current_time( 'mysql' ),
 	);
 
 	$date_query = wp_parse_args( $date_query, $date_query_defaults );
@@ -1345,7 +1349,6 @@ function appointments_count_appointments( $args = array() ) {
 	foreach ( $apps as $app ) {
 		$counts[ $app->status ]++;
 	}
-
 
 	/**
 	 * Modify returned appointments counts by status
@@ -1380,13 +1383,10 @@ function appointments_get_unsent_appointments( $hour, $type = 'user' ) {
 	);
 
 	if ( 'worker' == $type ) {
-		$query .= $wpdb->prepare( "AND (sent_worker NOT LIKE %s OR sent_worker IS NULL)", '%:' . $hour . ':%' );
+		$query .= $wpdb->prepare( 'AND (sent_worker NOT LIKE %s OR sent_worker IS NULL)', '%:' . $hour . ':%' );
+	} else {
+		$query .= $wpdb->prepare( 'AND (sent NOT LIKE %s OR sent IS NULL)', '%:' . $hour . ':%' );
 	}
-	else {
-		$query .= $wpdb->prepare( "AND (sent NOT LIKE %s OR sent IS NULL)", '%:' . $hour . ':%' );
-	}
-
-
 
 	$results = $wpdb->get_results( $query );
 
@@ -1411,7 +1411,7 @@ function appointments_get_gcal_ids( $worker_id = false ) {
 	$table = appointments_get_table( 'appointments' );
 	$query = "SELECT gcal_ID FROM $table WHERE gcal_ID IS NOT NULL";
 	if ( false !== $worker_id ) {
-		$query .= $wpdb->prepare( " AND worker = %d", $worker_id );
+		$query .= $wpdb->prepare( ' AND worker = %d', $worker_id );
 	}
 	$current_gcal_event_ids = $wpdb->get_col( $query );
 
@@ -1458,7 +1458,7 @@ function appointments_get_cancel_link_url( $app_id ) {
 		array(
 			't' => rawurlencode( $app->get_cancel_token() ),
 			'id' => $app_id,
-			'action' => 'cancel-app'
+			'action' => 'cancel-app',
 		),
 		get_home_url()
 	);
@@ -1475,11 +1475,11 @@ function appointments_get_cancel_link_url( $app_id ) {
 function appointments_cancel_appointment( $app_id ) {
 	$app = appointments_get_appointment( $app_id );
 	if ( ! $app ) {
-		return new WP_Error( 'app-does-not-exist', __( 'The appointment does not exist', 'appointments' ) );
+		return new WP_Error( 'app-does-not-exist', __( 'The appointment does not exist.', 'appointments' ) );
 	}
 
 	if ( 'removed' === $app->status ) {
-		return new WP_Error( 'app-cancelled', __( 'The appointment has been already cancelled', 'appointments' ) );
+		return new WP_Error( 'app-cancelled', __( 'The appointment has been already cancelled.', 'appointments' ) );
 	}
 
 	appointments_update_appointment_status( $app_id, 'removed' );

@@ -1,4 +1,5 @@
 <!-- This site is powered by Shareaholic - https://shareaholic.com -->
+<link rel='preload' href='<?php echo ShareaholicUtilities::asset_url('assets/pub/shareaholic.js') ?>' as='script'>
 <script type='text/javascript' data-cfasync='false'>
   //<![CDATA[
     _SHR_SETTINGS = <?php echo json_encode($base_settings); ?>;

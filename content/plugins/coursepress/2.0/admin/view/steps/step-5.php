@@ -4,7 +4,7 @@
  **/
 ?>
 <div class="step-title step-5">
-	<?php _e( 'Step 5 &ndash; Classes, Discussion & Workbook', 'cp' ); ?>
+	<?php _e( 'Step 5 &ndash; Classes, Discussion & Workbook', 'coursepress' ); ?>
 	<div class="status <?php echo $setup_class; ?>"></div>
 </div>
 
@@ -12,15 +12,15 @@
 	<input type="hidden" name="meta_setup_step_5" value="saved" />
 
 	<div class="wide class-size">
-		<label><?php _e( 'Class Size', 'cp' ); ?></label>
-		<p class="description"><?php _e( 'Use this setting to set a limit for all classes. Uncheck for unlimited class size(s).', 'cp' ); ?></p>
+		<label><?php _e( 'Class Size', 'coursepress' ); ?></label>
+		<p class="description"><?php _e( 'Use this setting to set a limit for all classes. Uncheck for unlimited class size(s).', 'coursepress' ); ?></p>
 		<label class="narrow col">
 			<input type="checkbox" name="meta_class_limited" <?php checked( true, $class_limited ); ?> />
-			<span><?php _e( 'Limit class size', 'cp' ); ?></span>
+			<span><?php _e( 'Limit class size', 'coursepress' ); ?></span>
 		</label>
 
 		<label class="num-students narrow col <?php echo ( $class_limited ? '' : 'disabled' ); ?>">
-			<?php _e( 'Number of students', 'cp' ); ?>
+			<?php _e( 'Number of students', 'coursepress' ); ?>
 			<input type="text" class="spinners" name="meta_class_size" value="<?php echo $class_size; ?>" <?php echo ( $class_limited ? '' : 'disabled="disabled"' ); ?> />
 		</label>
 	</div>
@@ -29,23 +29,23 @@
 	$checkboxes = array(
 		array(
 			'meta_key' => 'allow_discussion',
-			'title' => __( 'Course Discussion', 'cp' ),
-			'description' => __( 'If checked, students can post questions and receive answers at a course level. A \'Discusssion\' menu item is added for the student to see ALL discussions occuring from all class members and instructors.', 'cp' ),
-			'label' => __( 'Allow course discussion', 'cp' ),
+			'title' => __( 'Course Discussion', 'coursepress' ),
+			'description' => __( 'If checked, students can post questions and receive answers at a course level. A \'Discusssion\' menu item is added for the student to see ALL discussions occuring from all class members and instructors.', 'coursepress' ),
+			'label' => __( 'Allow course discussion', 'coursepress' ),
 			'default' => false,
 		),
 		array(
 			'meta_key' => 'allow_workbook',
-			'title' => __( 'Student Workbook', 'cp' ),
-			'description' => __( 'If checked, students can see their progress and grades.', 'cp' ),
-			'label' => __( 'Show student workbook', 'cp' ),
+			'title' => __( 'Student Workbook', 'coursepress' ),
+			'description' => __( 'If checked, students can see their progress and grades.', 'coursepress' ),
+			'label' => __( 'Show student workbook', 'coursepress' ),
 			'default' => false,
 		),
 		array(
 			'meta_key' => 'allow_grades',
-			'title' => __( 'Student grades', 'cp' ),
-			'description' => __( 'If checked, students can see their grades.', 'cp' ),
-			'label' => __( 'Show student grades', 'cp' ),
+			'title' => __( 'Student grades', 'coursepress' ),
+			'description' => __( 'If checked, students can see their grades.', 'coursepress' ),
+			'label' => __( 'Show student grades', 'coursepress' ),
 			'default' => false,
 		),
 	);

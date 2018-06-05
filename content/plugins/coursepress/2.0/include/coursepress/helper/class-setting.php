@@ -354,7 +354,7 @@ class CoursePress_Helper_Setting {
 			'columns',
 			array(
 				'default' => '',
-				'label' => _x( 'Columns', 'courses per page (screen options)', 'cp' ),
+				'label' => _x( 'Columns', 'courses per page (screen options)', 'coursepress' ),
 				'option' => 'coursepress_courses_columns',
 			)
 		);
@@ -362,7 +362,7 @@ class CoursePress_Helper_Setting {
 			'per_page',
 			array(
 				'default' => 20,
-				'label' => _x( 'Number of courses per page:', 'courses per page (screen options)', 'cp' ),
+				'label' => _x( 'Number of courses per page:', 'courses per page (screen options)', 'coursepress' ),
 				'option' => 'coursepress_courses_per_page',
 			)
 		);
@@ -379,17 +379,17 @@ class CoursePress_Helper_Setting {
 	 */
 	private static function courses_get_columns( $option = '' ) {
 		$columns = array(
-			'ID' => __( 'ID', 'cp' ),
-			'categories' => __( 'Categories', 'cp' ),
-			'date_start' => __( 'Start date', 'cp' ),
-			'date_end' => __( 'End Date', 'cp' ),
-			'date_enrollment_start' => __( 'Enrollment Start', 'cp' ),
-			'date_enrollment_end' => __( 'Enrollment End', 'cp' ),
-			'units' => __( 'Units', 'cp' ),
-			'students' => __( 'Students', 'cp' ),
-			'certificates' => __( 'Certified', 'cp' ),
-			'status' => __( 'Status', 'cp' ),
-			'actions' => __( 'Actions', 'cp' ),
+			'ID' => __( 'ID', 'coursepress' ),
+			'categories' => __( 'Categories', 'coursepress' ),
+			'date_start' => __( 'Start date', 'coursepress' ),
+			'date_end' => __( 'End Date', 'coursepress' ),
+			'date_enrollment_start' => __( 'Enrollment Start', 'coursepress' ),
+			'date_enrollment_end' => __( 'Enrollment End', 'coursepress' ),
+			'units' => __( 'Units', 'coursepress' ),
+			'students' => __( 'Students', 'coursepress' ),
+			'certificates' => __( 'Certified', 'coursepress' ),
+			'status' => __( 'Status', 'coursepress' ),
+			'actions' => __( 'Actions', 'coursepress' ),
 		);
 		if ( 'keys-only' == $option ) {
 			$columns = array_keys( $columns );
@@ -421,7 +421,7 @@ class CoursePress_Helper_Setting {
 			$columns_names = self::courses_get_columns();
 			$hidden = self::get_hidden_columns();
 			$content .= '<fieldset class="metabox-prefs">';
-			$content .= sprintf( '<legend>%s</legend>', __( 'Columns', 'cp' ) );
+			$content .= sprintf( '<legend>%s</legend>', __( 'Columns', 'coursepress' ) );
 			$content .= '<div class="metabox-prefs">';
 			foreach ( $columns_names as $key => $name ) {
 				$check = in_array( $key, $hidden ) ? 'off' : 'on';

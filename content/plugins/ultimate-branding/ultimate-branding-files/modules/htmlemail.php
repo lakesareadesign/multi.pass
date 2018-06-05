@@ -2,7 +2,7 @@
 /*
 Plugin Name: E-mail Template
 Plugin URI: https://premium.wpmudev.org/project/html-email-templates/
-Description: Allows you to add HTML templates for all of the standard Wordpress e-mails. In Multisite templates can be set network wide or can be allowed to set site wise template, if template override for the site is enabled and template is not specified for a site, network template will be used.
+Description: Allows you to add HTML templates for all of the standard Wordpress e-mails.
 Version: 2.0.6
 Network: true
 WDP ID: 142

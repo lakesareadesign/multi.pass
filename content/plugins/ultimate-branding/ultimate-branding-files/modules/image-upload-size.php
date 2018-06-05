@@ -2,7 +2,7 @@
 /*
   Plugin Name: Image Upload Size
   Plugin URI: http://premium.wpmudev.org/project/ultimate-branding
-  Description: Allows you to limit the filesize of uploaded images
+  Description: Allows you to limit the filesize of uploaded images.
   Author: Vaughan (Incsub)
   Version: 1.0
   Network: true

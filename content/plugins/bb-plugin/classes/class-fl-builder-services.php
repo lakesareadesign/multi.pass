@@ -120,6 +120,12 @@ final class FLBuilderServices {
 			'name'              => 'Mautic',
 			'class'             => 'FLBuilderServiceMautic',
 		),
+		'ontraport'         => array(
+			'type'              => 'autoresponder',
+			'name'              => 'Ontraport',
+			'class'             => 'FLBuilderServiceOntraport',
+			'namespace'         => true,
+		),
 		'sendinblue'        => array(
 			'type'              => 'autoresponder',
 			'name'              => 'SendinBlue',

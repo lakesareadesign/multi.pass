@@ -88,7 +88,7 @@ class Su_Shortcodes {
 		su_query_asset( 'js', 'jquery' );
 		su_query_asset( 'js', 'su-other-shortcodes' );
 		do_action( 'su/shortcode/spoiler', $atts );
-		return '<div class="su-spoiler su-spoiler-style-' . $atts['style'] . ' su-spoiler-icon-' . $atts['icon'] . su_ecssc( $atts ) . '"' . $atts['anchor'] . '><div class="su-spoiler-title"><span class="su-spoiler-icon"></span>' . su_scattr( $atts['title'] ) . '</div><div class="su-spoiler-content su-clearfix" style="display:none">' . su_do_shortcode( $content, 's' ) . '</div></div>';
+		return '<div class="su-spoiler su-spoiler-style-' . $atts['style'] . ' su-spoiler-icon-' . $atts['icon'] . su_ecssc( $atts ) . '"' . $atts['anchor'] . '><div class="su-spoiler-title"><span class="su-spoiler-icon"></span>' . su_scattr( $atts['title'] ) . '</div><div class="su-spoiler-content su-clearfix">' . su_do_nested_shortcodes( $content, 'spoiler' ) . '</div></div>';
 	}
 
 	public static function accordion( $atts = null, $content = null ) {
@@ -197,7 +197,7 @@ class Su_Shortcodes {
 
 	public static function row( $atts = null, $content = null ) {
 		$atts = shortcode_atts( array( 'class' => '' ), $atts );
-		return '<div class="su-row' . su_ecssc( $atts ) . '">' . su_do_shortcode( $content, 'r' ) . '</div>';
+		return '<div class="su-row' . su_ecssc( $atts ) . '">' . su_do_nested_shortcodes( $content, 'row' ) . '</div>';
 	}
 
 	public static function column( $atts = null, $content = null ) {
@@ -210,7 +210,7 @@ class Su_Shortcodes {
 		if ( $atts['last'] !== null && $atts['last'] == '1' ) $atts['class'] .= ' su-column-last';
 		if ( $atts['center'] === 'yes' ) $atts['class'] .= ' su-column-centered';
 		su_query_asset( 'css', 'su-box-shortcodes' );
-		return '<div class="su-column su-column-size-' . str_replace( '/', '-', $atts['size'] ) . su_ecssc( $atts ) . '"><div class="su-column-inner su-clearfix">' . su_do_shortcode( $content, 'c' ) . '</div></div>';
+		return '<div class="su-column su-column-size-' . str_replace( '/', '-', $atts['size'] ) . su_ecssc( $atts ) . '"><div class="su-column-inner su-clearfix">' . su_do_nested_shortcodes( $content, 'column' ) . '</div></div>';
 	}
 
 	public static function su_list( $atts = null, $content = null ) {
@@ -291,7 +291,7 @@ class Su_Shortcodes {
 		}
 		else $atts['icon'] = '<img src="' . $atts['icon'] . '" alt="" />';
 		su_query_asset( 'css', 'su-content-shortcodes' );
-		return '<div class="su-list su-list-style-' . $atts['style'] . su_ecssc( $atts ) . '">' . str_replace( '<li>', '<li>' . $atts['icon'] . ' ', su_do_shortcode( $content, 'l' ) ) . '</div>';
+		return '<div class="su-list su-list-style-' . $atts['style'] . su_ecssc( $atts ) . '">' . str_replace( '<li>', '<li>' . $atts['icon'] . ' ', su_do_nested_shortcodes( $content, 'list' ) ) . '</div>';
 	}
 
 	public static function button( $atts = null, $content = null ) {
@@ -499,7 +499,7 @@ class Su_Shortcodes {
 			$atts['title_color'],
 			$atts['inner_radius'],
 			su_scattr( $atts['title'] ),
-			su_do_shortcode( $content, 'b' )
+			su_do_nested_shortcodes( $content, 'box' )
 		);
 
 	}
@@ -518,7 +518,7 @@ class Su_Shortcodes {
 		// Prepare border-radius
 		$radius = ( $atts['radius'] != '0' ) ? 'border-radius:' . $atts['radius'] . 'px;-moz-border-radius:' . $atts['radius'] . 'px;-webkit-border-radius:' . $atts['radius'] . 'px;' : '';
 		su_query_asset( 'css', 'su-box-shortcodes' );
-		return '<div class="su-note' . su_ecssc( $atts ) . '" style="border-color:' . su_hex_shift( $atts['note_color'], 'darker', 10 ) . ';' . $radius . '"><div class="su-note-inner su-clearfix" style="background-color:' . $atts['note_color'] . ';border-color:' . su_hex_shift( $atts['note_color'], 'lighter', 80 ) . ';color:' . $atts['text_color'] . ';' . $radius . '">' . su_do_shortcode( $content, 'n' ) . '</div></div>';
+		return '<div class="su-note' . su_ecssc( $atts ) . '" style="border-color:' . su_hex_shift( $atts['note_color'], 'darker', 10 ) . ';' . $radius . '"><div class="su-note-inner su-clearfix" style="background-color:' . $atts['note_color'] . ';border-color:' . su_hex_shift( $atts['note_color'], 'lighter', 80 ) . ';color:' . $atts['text_color'] . ';' . $radius . '">' . su_do_nested_shortcodes( $content, 'note' ) . '</div></div>';
 	}
 
 	public static function expand( $atts = null, $content = null ) {
@@ -1568,6 +1568,7 @@ class Su_Shortcodes {
 	}
 
 	public static function scheduler( $atts = null, $content = null ) {
+
 		$atts = shortcode_atts( array(
 				'time'       => 'all',
 				'days_week'  => 'all',
@@ -1576,74 +1577,102 @@ class Su_Shortcodes {
 				'years'      => 'all',
 				'alt'        => ''
 			), $atts, 'scheduler' );
-		// Check time
-		if ( $atts['time'] !== 'all' ) {
-			// Get current time
-			$now = current_time( 'timestamp', 0 );
-			// Sanitize
-			$atts['time'] = preg_replace( "/[^0-9-,:]/", '', $atts['time'] );
-			// Loop time ranges
-			foreach ( explode( ',', $atts['time'] ) as $range ) {
-				// Check for range symbol
-				if ( strpos( $range, '-' ) === false ) return Su_Tools::error( __FUNCTION__, sprintf( __( 'Incorrect time range (%s). Please use - (minus) symbol to specify time range. Example: 14:00 - 18:00', 'shortcodes-ultimate' ), $range ) );
-				// Split begin/end time
-				$time = explode( '-', $range );
-				// Add minutes
-				if ( strpos( $time[0], ':' ) === false ) $time[0] .= ':00';
-				if ( strpos( $time[1], ':' ) === false ) $time[1] .= ':00';
-				// Parse begin/end time
-				$time[0] = strtotime( $time[0] );
-				$time[1] = strtotime( $time[1] );
-				// Check time
-				if ( $now < $time[0] || $now > $time[1] ) return $atts['alt'];
-			}
-		}
-		// Check day of the week
-		if ( $atts['days_week'] !== 'all' ) {
-			// Get current day of the week
-			$today = date( 'w', current_time( 'timestamp', 0 ) );
-			// Sanitize input
-			$atts['days_week'] = preg_replace( "/[^0-9-,]/", '', $atts['days_week'] );
-			// Parse days range
-			$days = Su_Tools::range( $atts['days_week'] );
-			// Check current day
-			if ( !in_array( $today, $days ) ) return $atts['alt'];
-		}
-		// Check day of the month
-		if ( $atts['days_month'] !== 'all' ) {
-			// Get current day of the month
-			$today = date( 'j', current_time( 'timestamp', 0 ) );
-			// Sanitize input
-			$atts['days_month'] = preg_replace( "/[^0-9-,]/", '', $atts['days_month'] );
-			// Parse days range
-			$days = Su_Tools::range( $atts['days_month'] );
-			// Check current day
-			if ( !in_array( $today, $days ) ) return $atts['alt'];
-		}
-		// Check month
-		if ( $atts['months'] !== 'all' ) {
-			// Get current month
-			$now = date( 'n', current_time( 'timestamp', 0 ) );
-			// Sanitize input
-			$atts['months'] = preg_replace( "/[^0-9-,]/", '', $atts['months'] );
-			// Parse months range
-			$months = Su_Tools::range( $atts['months'] );
-			// Check current month
-			if ( !in_array( $now, $months ) ) return $atts['alt'];
-		}
-		// Check year
+
+		$timestamp = current_time( 'timestamp', 0 );
+		$now = array(
+			'time'      => $timestamp,
+			'day_week'  => date( 'w', $timestamp ),
+			'day_month' => date( 'j', $timestamp ),
+			'month'     => date( 'n', $timestamp ),
+			'year'      => date( 'Y', $timestamp ),
+		);
+
 		if ( $atts['years'] !== 'all' ) {
-			// Get current year
-			$now = date( 'Y', current_time( 'timestamp', 0 ) );
-			// Sanitize input
+
 			$atts['years'] = preg_replace( "/[^0-9-,]/", '', $atts['years'] );
-			// Parse years range
-			$years = Su_Tools::range( $atts['years'] );
-			// Check current year
-			if ( !in_array( $now, $years ) ) return $atts['alt'];
+
+			$selected_years = Su_Tools::range( $atts['years'] );
+
+			if ( ! in_array( $now['year'], $selected_years ) ) {
+				return su_scattr( $atts['alt'] );
+			}
+
 		}
-		// Return result (all check passed)
+
+		if ( $atts['months'] !== 'all' ) {
+
+			$atts['months'] = preg_replace( "/[^0-9-,]/", '', $atts['months'] );
+
+			$selected_months = Su_Tools::range( $atts['months'] );
+
+			if ( ! in_array( $now['month'], $selected_months ) ) {
+				return su_scattr( $atts['alt'] );
+			}
+
+		}
+
+		if ( $atts['days_month'] !== 'all' ) {
+
+			$atts['days_month'] = preg_replace( "/[^0-9-,]/", '', $atts['days_month'] );
+
+			$selected_days_month = Su_Tools::range( $atts['days_month'] );
+
+			if ( ! in_array( $now['day_month'], $selected_days_month ) ) {
+				return su_scattr( $atts['alt'] );
+			}
+
+		}
+
+		if ( $atts['days_week'] !== 'all' ) {
+
+			$atts['days_week'] = preg_replace( "/[^0-9-,]/", '', $atts['days_week'] );
+
+			$selected_days_week = Su_Tools::range( $atts['days_week'] );
+
+			if ( ! in_array( $now['day_week'], $selected_days_week ) ) {
+				return su_scattr( $atts['alt'] );
+			}
+
+		}
+
+		if ( $atts['time'] !== 'all' ) {
+
+			$valid_time = false;
+			$atts['time'] = preg_replace( "/[^0-9-,:]/", '', $atts['time'] );
+
+			foreach ( explode( ',', $atts['time'] ) as $range ) {
+
+				$range = explode( '-', $range );
+
+				if ( ! isset( $range[1] ) ) {
+					$range[1] = $range[0] . ':59:59';
+				}
+
+				if ( strpos( $range[0], ':' ) === false ) {
+					$range[0] .= ':00:00';
+				}
+				if ( strpos( $range[1], ':' ) === false ) {
+					$range[1] .= ':00:00';
+				}
+
+				if (
+					$now['time'] >= strtotime( $range[0], $now['time'] ) &&
+					$now['time'] <= strtotime( $range[1], $now['time'] )
+				) {
+					$valid_time = true;
+					break;
+				}
+
+			}
+
+			if ( ! $valid_time ) {
+				return su_scattr( $atts['alt'] );
+			}
+
+		}
+
 		return do_shortcode( $content );
+
 	}
 
 }

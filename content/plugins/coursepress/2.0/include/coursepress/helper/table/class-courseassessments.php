@@ -123,13 +123,13 @@ class CoursePress_Helper_Table_CourseAssessments extends CoursePress_Helper_Tabl
 	public function get_columns() {
 		$course_id = isset( $_GET['id'] ) ? (int) $_GET['id'] : null;
 		$columns = array(
-			'username'     => esc_html__( 'Username', 'cp' ),
-		    'display_name' => esc_html__( 'Display Name', 'cp' ),
-			'last_active'  => esc_html__( 'Last Active', 'cp' ),
-			'grade'        => esc_html__( 'Grade', 'cp' ),
-			'certificates' => esc_html__( 'Certified', 'cp' ),
-			'modules'      => esc_html__( 'Modules', 'cp' ),
-			'view_all'     => esc_html__( 'View All', 'cp' ),
+			'username'     => esc_html__( 'Username', 'coursepress' ),
+		    'display_name' => esc_html__( 'Display Name', 'coursepress' ),
+			'last_active'  => esc_html__( 'Last Active', 'coursepress' ),
+			'grade'        => esc_html__( 'Grade', 'coursepress' ),
+			'certificates' => esc_html__( 'Certified', 'coursepress' ),
+			'modules'      => esc_html__( 'Modules', 'coursepress' ),
+			'view_all'     => esc_html__( 'View All', 'coursepress' ),
 		);
 
 		if ( ! CoursePress_Data_Capabilities::can_withdraw_students( $course_id ) ) {
@@ -187,9 +187,9 @@ class CoursePress_Helper_Table_CourseAssessments extends CoursePress_Helper_Tabl
 		);
 
 		$actions = array(
-			'id' => sprintf( '<span>%s</span>', esc_html( sprintf( __( 'ID: %d', 'cp' ), $item->ID ) ) ),
-			'profile' => sprintf( '<a href="%s">%s</a>', $profile_link, esc_html__( 'Student Profile', 'cp' ) ),
-			'workbook' => sprintf( '<a href="%s">%s</a>', $workbook_link, esc_html__( 'Workbook', 'cp' ) ),
+			'id' => sprintf( '<span>%s</span>', esc_html( sprintf( __( 'ID: %d', 'coursepress' ), $item->ID ) ) ),
+			'profile' => sprintf( '<a href="%s">%s</a>', $profile_link, esc_html__( 'Student Profile', 'coursepress' ) ),
+			'workbook' => sprintf( '<a href="%s">%s</a>', $workbook_link, esc_html__( 'Workbook', 'coursepress' ) ),
 		);
 
 		if ( current_user_can( 'edit_users' ) ) {
@@ -203,7 +203,7 @@ class CoursePress_Helper_Table_CourseAssessments extends CoursePress_Helper_Tabl
 						get_edit_user_link( $item->ID )
 					)
 				),
-				__( 'Edit User Profile', 'cp' )
+				__( 'Edit User Profile', 'coursepress' )
 			);
 		}
 
@@ -212,7 +212,7 @@ class CoursePress_Helper_Table_CourseAssessments extends CoursePress_Helper_Tabl
 				'<a href="#" class="withdraw-student" data-id="%s" data-nonce="%s">%s</a>',
 				esc_attr( $item->ID ),
 				esc_attr( wp_create_nonce( 'withdraw-single-student-'.$item->ID ) ),
-				esc_html__( 'Withdraw', 'cp' )
+				esc_html__( 'Withdraw', 'coursepress' )
 			);
 		}
 		return $actions;
@@ -323,7 +323,7 @@ class CoursePress_Helper_Table_CourseAssessments extends CoursePress_Helper_Tabl
 	}
 
 	public function no_items() {
-		esc_html_e( 'There are no students found.', 'cp' );
+		esc_html_e( 'There are no students found.', 'coursepress' );
 	}
 
 	public function set_type( $type ) {
@@ -351,19 +351,19 @@ class CoursePress_Helper_Table_CourseAssessments extends CoursePress_Helper_Tabl
 			/**
 			 * Grading system
 			 */
-			$grading_system = __( 'total acquired grade % total number of gradable modules', 'cp' );
+			$grading_system = __( 'total acquired grade % total number of gradable modules', 'coursepress' );
 			if ( 'all' != $this->the_unit ) {
-				$grading_system = __( 'total acquired assessable grade % total number of assessable modules', 'cp' );
+				$grading_system = __( 'total acquired assessable grade % total number of assessable modules', 'coursepress' );
 			}
 			/**
 			 * table
 			 */
 			printf( '<table class="cp-result-details %s">', esc_attr( 0 === $this->_pagination_args['total_items'] ? 'no-items':'' ) );
 			echo '<tr>
-        <td>' . __( 'Students Found:', 'cp' ) . ' ' . $this->_pagination_args['total_items'] . '</td>
-        <td>' . __( 'Modules:', 'cp' ) . ' <span class="cp-total-assessable">' . $this->results['assessable'] . '</span></td>
-        <td>' . __( 'Passing Grade: ', 'cp' ) . ' <span class="cp-pasing-grade">' . $this->results['passing_grade'] . '%</span></td>
-        <td>'. __( 'Grade System: ', 'cp' ) . '<em>'. $grading_system . '</em></td>
+        <td>' . __( 'Students Found:', 'coursepress' ) . ' ' . $this->_pagination_args['total_items'] . '</td>
+        <td>' . __( 'Modules:', 'coursepress' ) . ' <span class="cp-total-assessable">' . $this->results['assessable'] . '</span></td>
+        <td>' . __( 'Passing Grade: ', 'coursepress' ) . ' <span class="cp-pasing-grade">' . $this->results['passing_grade'] . '%</span></td>
+        <td>'. __( 'Grade System: ', 'coursepress' ) . '<em>'. $grading_system . '</em></td>
     </tr>
 </table>';
 		}

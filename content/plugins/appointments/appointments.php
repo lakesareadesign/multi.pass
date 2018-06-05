@@ -3,7 +3,7 @@
 Plugin Name: Appointments+
 Description: Lets you accept appointments from front end and manage or create them from admin side.
 Plugin URI: http://premium.wpmudev.org/project/appointments-plus/
-Version: 2.2.7
+Version: 2.3.1
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
 Textdomain: appointments
@@ -33,7 +33,7 @@ if ( ! class_exists( 'Appointments' ) ) {
 
 	class Appointments {
 
-		public $version = '2.2.7';
+		public $version = '2.3.1';
 		public $db_version;
 
 		public $timetables = array();
@@ -60,6 +60,13 @@ if ( ! class_exists( 'Appointments' ) ) {
 		/** @var Appointments_Notifications_Manager */
 		public $notifications;
 
+		/**
+		 * @var Appointments_GDPR
+		 *
+		 * @since 2.3.0
+		 */
+		public $gdpr;
+
 		public $pro = false;
 
 		public $shortcodes = array();
@@ -74,6 +81,7 @@ if ( ! class_exists( 'Appointments' ) ) {
 			include_once( 'includes/class-app-notifications-manager.php' );
 			include_once( 'includes/class-app-api-logins.php' );
 			include_once( 'includes/class-app-sessions.php' );
+			include_once( 'includes/class-app-gdpr.php' );
 
 			// Load premium features
 			if ( _appointments_is_pro() ) {
@@ -89,7 +97,7 @@ if ( ! class_exists( 'Appointments' ) ) {
 			$this->plugin_url = plugins_url( basename( dirname( __FILE__ ) ) );
 
 			// Read all options at once
-			$this->options = get_option( 'appointments_options' );
+			$this->options = appointments_get_options();
 
 			// To follow WP Start of week, time, date settings
 			$this->local_time = current_time( 'timestamp' );
@@ -179,8 +187,8 @@ if ( ! class_exists( 'Appointments' ) ) {
 			}
 
 			$this->notifications = new Appointments_Notifications_Manager();
+			$this->gdpr = new Appointments_GDPR;
 		}
-
 
 		public function load_admin() {
 			include_once( 'admin/class-app-admin.php' );
@@ -1021,14 +1029,17 @@ if ( ! class_exists( 'Appointments' ) ) {
 		}
 
 		/**
-	 * This function tries to separate logic from presentation in Appointments::get_timetables()
-	 * It's a first step to move this function to another place so do not use it
-	 */
-		public function _get_timetable_slots( $day_start, $capacity, $schedule_key = false ) {
+		 * This function tries to separate logic from presentation in Appointments::get_timetables()
+		 * It's a first step to move this function to another place so do not use it
+		 */
+		public function _get_timetable_slots( $day_start, $capacity, $schedule_key = false, $worker_id = 0 ) {
 			$timetable_key = $day_start . '-' . $capacity;
 			$local_time = current_time( 'timestamp' );
 
 			$this->get_lsw();
+			if ( ! empty( $worker_id ) ) {
+				$this->worker = $worker_id;
+			}
 
 			if ( ! $schedule_key ) {
 				$timetable_key .= '-0';
@@ -1057,6 +1068,7 @@ if ( ! class_exists( 'Appointments' ) ) {
 				$start = 8;
 				$end = 18;
 			}
+
 			$start = apply_filters( 'app_schedule_starting_hour', $start, $day_start, 'day' );
 			$end = apply_filters( 'app_schedule_ending_hour', $end, $day_start, 'day' );
 
@@ -1084,6 +1096,7 @@ if ( ! class_exists( 'Appointments' ) ) {
 				$break_times = array();
 			}
 
+			$base_step = $step;
 			// Allow direct step increment manipulation,
 			// mainly for service duration based calculus start/stop times
 			$step = apply_filters( 'app-timetable-step_increment', $step, 'timetable' );
@@ -1098,9 +1111,14 @@ if ( ! class_exists( 'Appointments' ) ) {
 				$data = $this->timetables[ $timetable_key ];
 			} else {
 				$data = array();
+				$range_args = array(
+					'service_id' => $this->service,
+					'location_id' => $this->location,
+					'capacity' => $capacity,
+				);
 				for ( $t = $first; $t < $last; ) {
 					$ccs = apply_filters( 'app_ccs', $t ); 				// Current cell starts
-					$cce = apply_filters( 'app_cce', $ccs + $step );		// Current cell ends
+					$cce = apply_filters( 'app_cce', $ccs + $base_step );		// Current cell ends
 
 					// Fix for service durations calculus and workhours start conflict with different duration services
 					// Example: http://premium.wpmudev.org/forums/topic/problem-with-time-slots-not-properly-allocating-free-time
@@ -1153,6 +1171,13 @@ if ( ! class_exists( 'Appointments' ) ) {
 					}
 					// End fixes area
 					$is_busy = false;
+					if ( 0 < $capacity && 0 == $worker_id ) {
+						add_filter( 'app-is_busy', '__return_false' );
+						$is_busy = apppointments_is_range_busy( $ccs, $cce, $range_args );
+						remove_filter( 'app-is_busy', '__return_false' );
+					} else {
+						$is_busy = $this->is_busy( $ccs, $cce, $capacity );
+					}
 					// Mark now
 					if ( $local_time > $ccs && $local_time < $cce ) {
 						$class_name = 'notpossible now';
@@ -1168,7 +1193,7 @@ if ( ! class_exists( 'Appointments' ) ) {
 					else if ( $this->is_break( $ccs, $cce ) ) {
 						$class_name = 'notpossible app_break';
 					} // Then look for appointments
-					else if ( $is_busy = $this->is_busy( $ccs, $cce, $capacity ) ) {
+					else if ( $is_busy  ) {
 						$class_name = 'busy';
 					} // Then check if we have enough time to fulfill this app
 					else if ( ! $this->is_service_possible( $ccs, $cce, $capacity ) ) {
@@ -1344,7 +1369,6 @@ if ( ! class_exists( 'Appointments' ) ) {
 			if ( ! $w ) {
 				$w = $this->worker;
 			}
-
 			return appointments_is_interval_break( $ccs, $cce, $w, $this->location );
 		}
 
@@ -1505,8 +1529,6 @@ if ( ! class_exists( 'Appointments' ) ) {
 			);
 			return apppointments_is_range_busy( $start, $end, $args );
 		}
-
-
 
 		/**
 	 * Remove duplicate appointment objects by app ID
@@ -2314,7 +2336,6 @@ if ( ! defined( 'APP_PLUGIN_ADDONS_DIR' ) ) {
 }
 $appointments->addons_loader = Appointments_Addons_Loader::get_instance();
 $appointments->addons_loader->load_active_addons();
-
 
 if ( is_admin() ) {
 	require_once APP_PLUGIN_DIR . '/includes/class-app-tutorial.php';

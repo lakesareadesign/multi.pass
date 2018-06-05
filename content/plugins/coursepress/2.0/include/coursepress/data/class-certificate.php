@@ -45,18 +45,18 @@ class CoursePress_Data_Certificate {
 			'post_type' => self::get_post_type_name(),
 			'post_args' => array(
 				'labels' => array(
-					'name' => __( 'Certificates', 'cp' ),
-					'singular_name' => __( 'Certificate', 'cp' ),
-					'add_new' => __( 'Create New', 'cp' ),
-					'add_new_item' => __( 'Create New Certificate', 'cp' ),
-					'edit_item' => __( 'Edit Certificate', 'cp' ),
-					'edit' => __( 'Edit', 'cp' ),
-					'new_item' => __( 'New Certificate', 'cp' ),
-					'view_item' => __( 'View Certificate', 'cp' ),
-					'search_items' => __( 'Search Certificates', 'cp' ),
-					'not_found' => __( 'No Certificates Found', 'cp' ),
-					'not_found_in_trash' => __( 'No Certificates found in Trash', 'cp' ),
-					'view' => __( 'View Certificate', 'cp' ),
+					'name' => __( 'Certificates', 'coursepress' ),
+					'singular_name' => __( 'Certificate', 'coursepress' ),
+					'add_new' => __( 'Create New', 'coursepress' ),
+					'add_new_item' => __( 'Create New Certificate', 'coursepress' ),
+					'edit_item' => __( 'Edit Certificate', 'coursepress' ),
+					'edit' => __( 'Edit', 'coursepress' ),
+					'new_item' => __( 'New Certificate', 'coursepress' ),
+					'view_item' => __( 'View Certificate', 'coursepress' ),
+					'search_items' => __( 'Search Certificates', 'coursepress' ),
+					'not_found' => __( 'No Certificates Found', 'coursepress' ),
+					'not_found_in_trash' => __( 'No Certificates found in Trash', 'coursepress' ),
+					'view' => __( 'View Certificate', 'coursepress' ),
 				),
 				'public' => false,
 				'show_ui' => false,
@@ -486,7 +486,7 @@ class CoursePress_Data_Certificate {
 			 * @param (int) $student_id			The student ID the certificate is generated to.
 			 **/
 			$html = apply_filters( 'coursepress_basic_certificate_html', $html, $course_id, $student_id );
-			$certificate_title = apply_filters( 'coursepress_certificate_title', __( 'Certificate of Completion', 'cp' ) );
+			$certificate_title = apply_filters( 'coursepress_certificate_title', __( 'Certificate of Completion', 'coursepress' ) );
 			$args = array(
 				'title' => $certificate_title,
 				'orientation' => $orientation,
@@ -620,7 +620,7 @@ class CoursePress_Data_Certificate {
 			$vars['CERTIFICATE_BUTTON'] = sprintf(
 				'<p class="buttons"><a href="%s" class="button blue-button light-blue-button">%s</a></p>',
 				esc_url( $vars['CERTIFICATE_URL'] ),
-				__( 'Download your certificate', 'cp' )
+				__( 'Download your certificate', 'coursepress' )
 			);
 		}
 		return $vars;

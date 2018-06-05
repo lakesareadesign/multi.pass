@@ -16,7 +16,7 @@
 		the_content();
 		wp_link_pages(
 			array(
-				'before' => '<div class="page-links">' . __( 'Pages:', 'cp' ),
+				'before' => '<div class="page-links">' . __( 'Pages:', 'coursepress' ),
 				'after' => '</div>',
 			)
 		);
@@ -24,7 +24,7 @@
 	</div><!-- .entry-content -->
 	<?php
 	edit_post_link(
-		__( 'Edit', 'cp' ),
+		__( 'Edit', 'coursepress' ),
 		'<footer class="entry-meta"><span class="edit-link">',
 		'</span></footer>'
 	);

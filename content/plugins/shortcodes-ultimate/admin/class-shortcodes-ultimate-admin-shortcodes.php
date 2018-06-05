@@ -51,17 +51,17 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 	 */
 	public function add_help_tab( $screen ) {
 
-		if ( !$this->is_component_page() ) {
+		if ( ! $this->is_component_page() ) {
 			return;
 		}
 
 		$screen->add_help_tab( array(
 				'id'      => 'shortcodes-ultimate-shortcodes',
 				'title'   => __( 'Shortcodes Ultimate', 'shortcodes-ultimate' ),
-				'content' => $this->get_template( 'help/shortcodes' ),
+				'content' => $this->get_template( 'admin/partials/help/shortcodes' ),
 			) );
 
-		$screen->set_help_sidebar( $this->get_template( 'help/sidebar' ) );
+		$screen->set_help_sidebar( $this->get_template( 'admin/partials/help/sidebar' ) );
 
 	}
 
@@ -76,7 +76,7 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 			return;
 		}
 
-		wp_enqueue_style( 'shortcodes-ultimate-admin', $this->get_plugin_url() . 'admin/css/admin.css', array( 'font-awesome' ), $this->get_plugin_version() );
+		wp_enqueue_style( 'shortcodes-ultimate-admin', $this->plugin_url . 'admin/css/admin.css', array( 'font-awesome' ), $this->plugin_version );
 
 	}
 
@@ -332,7 +332,7 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 		$options = array();
 		$shortcode = $this->get_single_shortcode();
 
-		if ( !$shortcode || !isset( $shortcode['atts'] ) ) {
+		if ( ! $shortcode || ! isset( $shortcode['atts'] ) ) {
 			return $options;
 		}
 
@@ -454,7 +454,7 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 			$image = $shortcode['icon'];
 		}
 		else {
-			$image = $this->get_plugin_url() . 'admin/images/shortcodes/_default.svg';
+			$image = $this->plugin_url . 'admin/images/shortcodes/_default.svg';
 		}
 
 		$font_size = $size - 20;

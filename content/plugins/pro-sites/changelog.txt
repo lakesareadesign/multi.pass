@@ -5,7 +5,17 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
-3.5.9 - 05/03/2018
+3.5.9.1 - 04/06/2018
+
+*Added:
+    - Improved subscriber information for Stripe.
+*Fixed:
+    - Blog ID value was passed as a string instead of int.
+    - DOM error on pricing table page.
+*Updated:
+    - Taxamo Information updated.
+
+3.5.9 - 02/02/2018
 
 *Updated:
     - Improved subscriber information for Stripe.
@@ -805,4 +815,4 @@ Change Log:
 - Initial Release.
 
 
-133620-1522104887-au
+133620-1528232224-au

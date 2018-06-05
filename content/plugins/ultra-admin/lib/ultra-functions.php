@@ -287,22 +287,7 @@ function ultra_scripts(){
         wp_register_script('ultra-smoothscroll-js', $url);
         wp_enqueue_script('ultra-smoothscroll-js');
 
-    global $wp_version;
-    $plug = trim(get_current_screen()->id);
-    //echo "<div style='float:right;'>".$plug."</div>"; 
-    
-    if (isset($plug) && $plug == "ultra-admin-addon_page_ultra_menumng_settings"){
 
-        $url = plugins_url('/', __FILE__).'../css/jquery-ui/minified/jquery-ui.min.css';
-        wp_deregister_style('ultra-jqueryui');
-        wp_register_style('ultra-jqueryui', $url);
-        wp_enqueue_style('ultra-jqueryui');
-
-        $url = plugins_url('/', __FILE__).'../js/ultra-jquery.ui.elements.js';
-        wp_deregister_script('ultra-jqueryui');
-        wp_register_script('ultra-jqueryui', $url);
-        wp_enqueue_script('ultra-jqueryui');
-    }
         wp_localize_script('ultra-scripts-js', 'ultra_vars', array(
             'ultra_nonce' => wp_create_nonce('ultra-nonce')
                 )
@@ -342,19 +327,19 @@ function ultra_admin_css()
     wp_enqueue_style('ultra-admin');
 
     /*ame*/
-    $url = plugins_url('/', __FILE__).'../css/ultra-ame.css';
+    $url = plugins_url('/', __FILE__).'../css/ultra-ame.min.css';
     wp_deregister_style('ultra-ame', $url);
     wp_register_style('ultra-ame', $url);
     wp_enqueue_style('ultra-ame');
 
     /*wordfence*/
-    $url = plugins_url('/', __FILE__).'../css/ultra-wordfence.css';
+    $url = plugins_url('/', __FILE__).'../css/ultra-wordfence.min.css';
     wp_deregister_style('ultra-wordfence', $url);
     wp_register_style('ultra-wordfence', $url);
     wp_enqueue_style('ultra-wordfence');
 
     /*other plugins compatibility*/
-    $url = plugins_url('/', __FILE__).'../css/ultra-external.css';
+    $url = plugins_url('/', __FILE__).'../css/ultra-external.min.css';
     wp_deregister_style('ultra-external', $url);
     wp_register_style('ultra-external', $url);
     wp_enqueue_style('ultra-external');
@@ -383,7 +368,6 @@ function ultra_dynamic_css_type(){
 
     global $ultra_css_ver;
     global $ultraadmin;
-
 
     $csstype = "custom";
 
@@ -417,12 +401,13 @@ function ultra_dynamic_css_type(){
 
     } else {
 
-        if(sizeof($ultraadmin) == 0){
+        if(!isset($ultraadmin) || (isset($ultraadmin) && is_array($ultraadmin) && sizeof($ultraadmin) == 0 )){
             $ultraadmin = get_option("ultra_demo");
         }
         if(isset($ultraadmin['dynamic-css-type'])){
             $csstype = $ultraadmin['dynamic-css-type'];
         } 
+
     }
 
     /* --------------- Ultra Settings Panel - for demo purposes ---------------- */

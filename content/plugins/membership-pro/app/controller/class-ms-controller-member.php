@@ -976,13 +976,30 @@ class MS_Controller_Member extends MS_Controller {
 		} else if ( 'verified' == $column_name ) {
 
 			$user_activation_status = get_user_meta( $user_id, '_ms_user_activation_status', true );
+			$force_user_activation_status = get_user_meta( $user_id, '_ms_user_force_activation_status', true );
 			$user_activation_status = empty( $user_activation_status ) ? 0 : $user_activation_status;
 			if ( $user_activation_status != 1 && MS_Model_Member::is_admin_user( $user_id ) ) {
 				$user_activation_status = 1;
 				update_user_meta( $user_id, '_ms_user_activation_status', $user_activation_status );
+			} else {
+				if ( !$force_user_activation_status ) {
+					//Set already active users to active
+					$udata = get_userdata( $user_id );
+					$verification_cutoff_date = '2018-04-11 23:59:59';
+					if ( $udata->user_registered < $verification_cutoff_date ) {
+						$user_activation_status = 1;
+						update_user_meta( $user_id, '_ms_user_activation_status', $user_activation_status );
+					}
+				}
 			}
+
 			if ( $user_activation_status != 1 ) {
-				$value 	= __( 'Not Verified' , 'membership' );
+				if ( $force_user_activation_status ) {
+					$value 	= __( 'Verification Resent' , 'membership' );
+				} else {
+					$value 	= __( 'Not Verified' , 'membership' );
+				}
+
 			} else {
 				$value 	= __( 'Verified' , 'membership' );
 			}
@@ -1003,6 +1020,7 @@ class MS_Controller_Member extends MS_Controller {
 
 		$actions['ms_bulk_approve'] 	= __( 'Approve', 'membership' );
 		$actions['ms_bulk_disapprove'] 	= __( 'Disapprove', 'membership' );
+		$actions['ms_bulk_resend'] 		= __( 'Resend Verification Email', 'membership' );
 
 		return $actions;
 	}
@@ -1023,7 +1041,9 @@ class MS_Controller_Member extends MS_Controller {
 		switch ( $doaction ) {
 			case 'ms_bulk_approve' :
 				foreach ( $items as $user_id ) {
-					update_user_meta( $user_id, '_ms_user_activation_status', 1 );
+					if ( !MS_Model_Member::is_admin_user( $user_id ) ) {
+						update_user_meta( $user_id, '_ms_user_activation_status', 1 );
+					}
 				}
 				$redirect_to = admin_url( 'users.php' );
 				$redirect_to = add_query_arg( '_ms_approved', count( $items ), $redirect_to );
@@ -1031,10 +1051,25 @@ class MS_Controller_Member extends MS_Controller {
 
 			case 'ms_bulk_disapprove' :
 				foreach ( $items as $user_id ) {
-					update_user_meta( $user_id, '_ms_user_activation_status', 0 );
+					if ( !MS_Model_Member::is_admin_user( $user_id ) ) {
+						update_user_meta( $user_id, '_ms_user_activation_status', 0 );
+					}
 				}
 				$redirect_to = admin_url( 'users.php' );
 				$redirect_to = add_query_arg( '_ms_disapproved', count( $items ), $redirect_to );
+			break;
+
+			case 'ms_bulk_resend' :
+				foreach ( $items as $user_id ) {
+					if ( !MS_Model_Member::is_admin_user( $user_id ) ) {
+						$member = MS_Factory::load( 'MS_Model_Member', $user_id );;
+						update_user_meta( $user_id, '_ms_user_activation_status', 0 );
+						update_user_meta( $user_id, '_ms_user_force_activation_status', 1 );
+						MS_Model_Event::save_event( MS_Model_Event::TYPE_MS_VERIFYACCOUNT, $member );
+					}
+				}
+				$redirect_to = admin_url( 'users.php' );
+				$redirect_to = add_query_arg( '_ms_resend', count( $items ), $redirect_to );
 			break;
 		}
 
@@ -1059,6 +1094,13 @@ class MS_Controller_Member extends MS_Controller {
 			?>
 			<div class="notice notice-success is-dismissible">
 				<p><?php echo sprintf( __( '%d user accounts disapproved', 'membership' ), $user_count ); ?></p>
+			</div>
+			<?php
+		} else if ( isset ( $_REQUEST['_ms_resend'] ) ) {
+			$user_count = intval( $_REQUEST['_ms_resend'] );
+			?>
+			<div class="notice notice-success is-dismissible">
+				<p><?php echo sprintf( __( '%d user accounts resent emails', 'membership' ), $user_count ); ?></p>
 			</div>
 			<?php
 		}

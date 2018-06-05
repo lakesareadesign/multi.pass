@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Remove Permalinks Menu Item
-Description: Removes the 'permalinks' configuration options
+Description: Removes the 'permalinks' configuration options.
  */
 if ( ! class_exists( 'ub_menu_perlmalinks' ) ) {
 	class ub_menu_perlmalinks extends ub_helper {

@@ -1,6 +1,6 @@
 <?php
 
-add_action( 'cs_init', array( 'CustomSidebarsWidgets', 'instance' ) );							 			 	 	 		  
+add_action( 'cs_init', array( 'CustomSidebarsWidgets', 'instance' ) );
 
 /**
  * Extends the widgets section to add the custom sidebars UI elements.

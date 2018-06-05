@@ -1,8 +1,8 @@
-# Copyright (C) 2018 Hustle 2.0
-# This file is distributed under the same license as the Hustle 2.0 package.
+# Copyright (C) 2018 Hustle 3.0.3
+# This file is distributed under the same license as the Hustle 3.0.3 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Hustle 2.0\n"
+"Project-Id-Version: Hustle 3.0.3\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3529,7 +3529,7 @@ msgstr ""
 
 #: views/admin/dashboard/modules/module-sharing.php:76
 msgid ""
-"You don't have any social sharing modules set-up just yet.<br />\n"
+"You don't have any social sharing modules set-up just yet.<br />\n"
 "            Click the button below to setup social sharing."
 msgstr ""
 
@@ -3855,6 +3855,18 @@ msgstr ""
 
 #: views/admin/embedded/wizard/boxes/box-form_success.php:29, views/admin/popup/wizard/boxes/box-form_success.php:29, views/admin/slidein/wizard/boxes/box-form_success.php:29
 msgid "Automatically close message after"
+msgstr ""
+
+#: views/admin/embedded/wizard/boxes/box-gdpr.php:5, views/admin/popup/wizard/boxes/box-gdpr.php:5, views/admin/slidein/wizard/boxes/box-gdpr.php:5
+msgid "GDPR Checkbox"
+msgstr ""
+
+#: views/admin/embedded/wizard/boxes/box-gdpr.php:21, views/admin/popup/wizard/boxes/box-gdpr.php:21, views/admin/slidein/wizard/boxes/box-gdpr.php:21
+msgid "Show GDPR Checkbox"
+msgstr ""
+
+#: views/admin/embedded/wizard/boxes/box-gdpr.php:227, views/admin/popup/wizard/boxes/box-gdpr.php:227, views/admin/slidein/wizard/boxes/box-gdpr.php:227
+msgid "This is a checkbox for agreeing to privacy policy/terms of use according to GDPR EU laws."
 msgstr ""
 
 #: views/admin/embedded/wizard/boxes/box-image.php:5, views/admin/popup/wizard/boxes/box-image.php:5, views/admin/slidein/wizard/boxes/box-image.php:5

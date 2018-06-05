@@ -1,7 +1,7 @@
 <?php
 /*
   Plugin Name: Multisite Favicons
-  Description: Change the Favicon for the network
+  Description: Change the Favicon.
   Author: Marko Miljus (Incsub), Barry (Incsub), Philip John (Incsub), Marcin Pietrzak (Incsub)
 
   Copyright 2013-2018 Incsub
@@ -166,7 +166,8 @@ if ( ! $favicon ) {
 		$favicon = self::get_url_valid_shema( $favicon_old );
 	} else {
 		if ( $favicon_id ) {
-			if ( is_multisite() && function_exists( 'is_plugin_active_for_network' ) && is_plugin_active_for_network( 'ultimate-branding/ultimate-branding.php' ) ) {
+			global $UB_network;
+			if ( $UB_network ) {
 				$blog_id = ub_get_main_site_ID();
 				switch_to_blog( $blog_id );
 				$favicon_src = wp_get_attachment_image_src( $favicon_id, $favicon_size, $icon = false );

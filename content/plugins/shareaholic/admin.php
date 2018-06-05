@@ -630,7 +630,19 @@ JQUERY;
       wp_mail($to, $subject, $message, $headers);
     }
   }
-
+  
+  /**
+   * This function adds our custom image type to the Media Library
+   */
+  public static function show_custom_sizes($sizes) {
+    return array_merge($sizes, array(
+      'shareaholic-thumbnail' => __('Shareaholic'),
+    ));
+  }
+  
+  /**
+   * This function adds a notice to Settings->Permalinks
+   */
   public static function admin_notices() {    
     $current_screen = get_current_screen();
     

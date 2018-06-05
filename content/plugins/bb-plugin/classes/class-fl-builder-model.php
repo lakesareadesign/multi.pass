@@ -641,7 +641,7 @@ final class FLBuilderModel {
 	 * @return array
 	 */
 	static public function get_upload_dir() {
-		$wp_info  = wp_upload_dir();
+		$wp_info  = wp_upload_dir( null, false );
 		$dir_name = basename( FL_BUILDER_DIR );
 
 		// We use bb-plugin for the lite version as well.
@@ -1896,6 +1896,11 @@ final class FLBuilderModel {
 		// Make sure we have a photo data object.
 		if ( ! isset( $row->settings->ss_photo_data ) ) {
 			$row->settings->ss_photo_data = new StdClass();
+		}
+
+		// This class does not exist in Lite version.
+		if ( ! class_exists( 'FLSlideshowModule' ) ) {
+			return false;
 		}
 
 		// Hijack the slideshow module to get the source.

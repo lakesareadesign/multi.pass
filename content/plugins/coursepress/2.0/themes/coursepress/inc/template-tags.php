@@ -22,7 +22,7 @@ if ( ! function_exists( 'coursepress_paging_nav' ) ) :
 		}
 		?>
 		<nav class="navigation paging-navigation" role="navigation">
-			<h1 class="screen-reader-text"><?php _e( 'Posts navigation', 'cp' ); ?></h1>
+			<h1 class="screen-reader-text"><?php _e( 'Posts navigation', 'coursepress' ); ?></h1>
 			<div class="nav-links">
 
 				<?php if ( get_next_posts_link() ) : ?>
@@ -30,7 +30,7 @@ if ( ! function_exists( 'coursepress_paging_nav' ) ) :
 					<?php
 					next_posts_link(
 						sprintf(
-							__( '%s&larr;%s Older posts', 'cp' ),
+							__( '%s&larr;%s Older posts', 'coursepress' ),
 							'<span class="meta-nav">',
 							'</span>'
 						)
@@ -44,7 +44,7 @@ if ( ! function_exists( 'coursepress_paging_nav' ) ) :
 					<?php
 					previous_posts_link(
 						sprintf(
-							__( 'Newer posts %s&rarr;%s', 'cp' ),
+							__( 'Newer posts %s&rarr;%s', 'coursepress' ),
 							'<span class="meta-nav">',
 							'</span>'
 						)
@@ -83,14 +83,14 @@ if ( ! function_exists( 'coursepress_post_nav' ) ) :
 		?>
 		<nav class="navigation post-navigation" role="navigation">
 			<h1 class="screen-reader-text">
-			<?php esc_html_e( 'Post navigation', 'cp' ); ?>
+			<?php esc_html_e( 'Post navigation', 'coursepress' ); ?>
 			</h1>
 			<div class="nav-links">
 				<?php
 				previous_post_link(
 					'%link',
 					sprintf(
-						_x( '%s&larr;%s %%title', 'Previous post link', 'cp' ),
+						_x( '%s&larr;%s %%title', 'Previous post link', 'coursepress' ),
 						'<span class="meta-nav">',
 						'</span>'
 					)
@@ -98,7 +98,7 @@ if ( ! function_exists( 'coursepress_post_nav' ) ) :
 				next_post_link(
 					'%link',
 					sprintf(
-						_x( '%%title %s&rarr;%s', 'Next post link', 'cp' ),
+						_x( '%%title %s&rarr;%s', 'Next post link', 'coursepress' ),
 						'<span class="meta-nav">',
 						'</span>'
 					)
@@ -127,10 +127,10 @@ if ( ! function_exists( 'coursepress_comment' ) ) :
 			<li id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
 				<div class="comment-body">
 					<?php
-					esc_html_e( 'Pingback:', 'cp' );
+					esc_html_e( 'Pingback:', 'coursepress' );
 					comment_author_link();
 					edit_comment_link(
-						__( 'Edit', 'cp' ),
+						__( 'Edit', 'coursepress' ),
 						'<span class="edit-link">',
 						'</span>'
 					);
@@ -150,7 +150,7 @@ if ( ! function_exists( 'coursepress_comment' ) ) :
 								echo get_avatar( $comment, $args['avatar_size'] );
 							}
 							printf(
-								esc_html__( '%s says:', 'cp' ) . '</span>',
+								esc_html__( '%s says:', 'coursepress' ) . '</span>',
 								sprintf(
 									'<cite class="fn">%s</cite>',
 									get_comment_author_link()
@@ -164,7 +164,7 @@ if ( ! function_exists( 'coursepress_comment' ) ) :
 								<time datetime="<?php comment_time( 'c' ); ?>">
 									<?php
 									printf(
-										_x( '%1$s at %2$s', '1: date, 2: time', 'cp' ),
+										_x( '%1$s at %2$s', '1: date, 2: time', 'coursepress' ),
 										get_comment_date(),
 										get_comment_time()
 									);
@@ -173,7 +173,7 @@ if ( ! function_exists( 'coursepress_comment' ) ) :
 							</a>
 							<?php
 							edit_comment_link(
-								esc_html__( 'Edit', 'cp' ),
+								esc_html__( 'Edit', 'coursepress' ),
 								'<span class="edit-link">',
 								'</span>'
 							);
@@ -182,7 +182,7 @@ if ( ! function_exists( 'coursepress_comment' ) ) :
 
 						<?php if ( '0' == $comment->comment_approved ) : ?>
 							<p class="comment-awaiting-moderation">
-								<?php esc_html_e( 'Your comment is awaiting moderation.', 'cp' ); ?>
+								<?php esc_html_e( 'Your comment is awaiting moderation.', 'coursepress' ); ?>
 							</p>
 						<?php endif; ?>
 					</footer><!-- .comment-meta -->
@@ -228,10 +228,10 @@ if ( ! function_exists( 'coursepress_discussion_comment' ) ) :
 			<li id="comment-<?php comment_ID(); ?>" <?php comment_class(); ?>>
 				<div class="comment-body">
 					<?php
-					_e( 'Pingback:', 'cp' );
+					_e( 'Pingback:', 'coursepress' );
 					comment_author_link();
 					edit_comment_link(
-						__( 'Edit', 'cp' ),
+						__( 'Edit', 'coursepress' ),
 						'<span class="edit-link">',
 						'</span>'
 					);
@@ -247,7 +247,7 @@ if ( ! function_exists( 'coursepress_discussion_comment' ) ) :
 					<footer class="comment-meta">
 						<?php if ( '0' == $comment->comment_approved ) : ?>
 							<p class="comment-awaiting-moderation">
-							<?php esc_html_e( 'Your comment is awaiting moderation.', 'cp' ); ?>
+							<?php esc_html_e( 'Your comment is awaiting moderation.', 'coursepress' ); ?>
 							</p>
 						<?php endif; ?>
 					</footer><!-- .comment-meta -->
@@ -258,7 +258,7 @@ if ( ! function_exists( 'coursepress_discussion_comment' ) ) :
 							<time>
 								<?php
 								printf(
-									_x( '%1$s, %2$s ago', '1: author, 2: time of comment', 'cp' ),
+									_x( '%1$s, %2$s ago', '1: author, 2: time of comment', 'coursepress' ),
 									comment_author(),
 									human_time_diff(
 										get_comment_time( 'U' ),
@@ -270,7 +270,7 @@ if ( ! function_exists( 'coursepress_discussion_comment' ) ) :
 						</a>
 						<?php
 						edit_comment_link(
-							__( 'Edit', 'cp' ),
+							__( 'Edit', 'coursepress' ),
 							'<span class="edit-link">',
 							'</span>'
 						);
@@ -319,7 +319,7 @@ if ( ! function_exists( 'coursepress_posted_on' ) ) :
 		);
 
 		printf(
-			__( '<span class="posted-on">Posted on %1$s</span><span class="byline"> by %2$s</span>', 'cp' ),
+			__( '<span class="posted-on">Posted on %1$s</span><span class="byline"> by %2$s</span>', 'coursepress' ),
 			sprintf(
 				'<a href="%1$s" rel="bookmark">%2$s</a>',
 				esc_url( get_permalink() ),

@@ -1246,26 +1246,58 @@ class ShareaholicUtilities {
    *
    * @return thumbnail URL
    */
-   public static function permalink_thumbnail($post_id = NULL, $size = "large"){
+   public static function permalink_thumbnail($post_id = NULL, $size = "shareaholic-thumbnail"){
      $thumbnail_src = '';
+     
      // Get Featured Image
-     if (function_exists('has_post_thumbnail') && has_post_thumbnail($post_id)) {
-       $thumbnail = wp_get_attachment_image_src(get_post_thumbnail_id($post_id), $size);
-       $thumbnail_src = esc_attr($thumbnail[0]);
-     }
+     $thumbnail_src = ShareaholicUtilities::post_featured_image($size);
+     
      // Get first image included in the post
      if ($thumbnail_src == NULL) {
-       $thumbnail_src = ShareaholicUtilities::post_first_image();
+       $thumbnail_src = ShareaholicUtilities::post_first_image($post_id);
      }
+     
      if ($thumbnail_src == NULL){
        return NULL;
      } else {
        return $thumbnail_src;
      }
    }
+   
+   /**
+    * This function returns the URL of the featured image for a given post
+    *
+    * @return returns `false` or a string of the image src
+    */
+   public static function post_featured_image($size = "shareaholic-thumbnail") {
+     global $post;
+     $featured_img = '';
+     if ($post == NULL)
+       return false;
+     else {
+       if (function_exists('has_post_thumbnail') && has_post_thumbnail($post->ID)) {        
+         $thumbnail_shareaholic = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'shareaholic-thumbnail');        
+         $thumbnail_full = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'full');
+         
+         if (($size == "shareaholic-thumbnail") && ($thumbnail_shareaholic[0] !== $thumbnail_full[0])) {
+           $featured_img = esc_attr($thumbnail_shareaholic[0]);
+         } else {
+           if ($size == "shareaholic-thumbnail") {
+             $thumbnail_large = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), 'large');
+           } else {
+             $thumbnail_large = wp_get_attachment_image_src(get_post_thumbnail_id($post->ID), $size);
+           }
+           $featured_img = esc_attr($thumbnail_large[0]);
+         }
+       } else {
+         return false;
+       }
+     }
+     return $featured_img;
+   }
   
    /**
-    * This will grab the URL of the first image in a given post
+    * This function grabs the URL of the first image in a given post
     *
     * @return returns `false` or a string of the image src
     */

@@ -1,9 +1,13 @@
 Plugin Name: Custom Sidebars Pro
 Author: Javier Marquez (Incsub), Philipp Stracker (Incsub), Marcin Pietrzak (Incsub)
-Buildtime: 2018-05-11T07:11:31.827Z
+Buildtime: 2018-05-28T05:12:50.846Z
 
 Change Log:
 ----------------------------------------------------------------------
+
+3.1.6 ( 2018-05-28 )
+----------------------------------------------------------------------
+- Fixed an export problem on PHP 5.2, json_encode() have only one parameter.
 
 3.1.5 ( 2018-05-14 )
 ----------------------------------------------------------------------
@@ -439,4 +443,4 @@ Change Log:
 - Initial release
 
 
-133620-1526433931-au
+133620-1528232149-au

@@ -1,7 +1,7 @@
 <?php
 /*
   Plugin Name: Remove WP Dashboard Widgets
-  Description: Removes the wordpress dashboard widgets
+  Description: Removes the wordpress dashboard widgets.
   Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Marcin Pietrzak (Incsub)
 
   Copyright 2007-2018 Incsub (http://incsub.com)
