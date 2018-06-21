@@ -159,7 +159,7 @@ class Google_Http_REST
             $queryVars[] = $paramName . '=' . rawurlencode(rawurldecode($value));
           }
         } else {
-          $queryVars[] = $paramName . '=' . rawurlencode(rawurldecode($paramSpec['value']));
+          $queryVars[] = $paramName . '=' . rawurlencode(rawurldecode($paramSpec['value']));		   		 	  		  	 	 	
         }
       }
     }

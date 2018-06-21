@@ -19,7 +19,8 @@ class ShareaholicPublicJS {
   public static function get_base_settings() {
     $base_settings = array(
       'endpoints' => array(
-        'local_recs_url' => admin_url('admin-ajax.php') . '?action=shareaholic_permalink_related'
+        'local_recs_url' => admin_url('admin-ajax.php') . '?action=shareaholic_permalink_related',
+        'ajax_url' => admin_url('admin-ajax.php')
       )
     );
     

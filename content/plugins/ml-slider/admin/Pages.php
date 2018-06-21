@@ -1,4 +1,7 @@
 <?php
+
+if (!defined('ABSPATH')) die('No direct access.');
+
 /**
  * Entry point for building the wordpress admin pages.
  * Temporarily extends the MetaSlider Class until more refactoring can be done.
@@ -88,7 +91,19 @@ Class MetaSlider_Admin_Pages extends MetaSliderPlugin {
             'useWithCaution' => __("Caution: This setting is for advanced developers only. If you're unsure, leave it checked.", "ml-slider")
         ));
         wp_enqueue_script('metaslider-admin-script');
-        do_action('metaslider_register_admin_scripts');
+		do_action('metaslider_register_admin_scripts');
+		
+		/* 
+		Register components and add support for the REST API
+		if (function_exists('register_rest_route')) {
+			wp_register_script('metaslider-admin-components', METASLIDER_ADMIN_URL . 'assets/js/app.js', array(), METASLIDER_VERSION, true);
+			wp_localize_script('metaslider-admin-components', 'wpApiSettings', array(
+				'root' => esc_url_raw(rest_url()),
+				'nonce' => wp_create_nonce('wp_rest')
+			));
+			wp_enqueue_script('metaslider-admin-components');
+		}
+		*/
     }
 
     /**

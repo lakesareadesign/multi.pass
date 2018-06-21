@@ -1,8 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // disable direct access
-}
+if (!defined('ABSPATH')) die('No direct access.');
 
 /**
  * Slide class represting a single slide. This is extended by type specific
@@ -64,10 +62,11 @@ class MetaSlide {
      * @param  int    $slider_id Slider ID
      * @param  string $fields    SLider fields
      */
-    public function save_slide( $slide_id, $slider_id, $fields ) {
-        $this->set_slider( $slider_id );
-        $this->set_slide( $slide_id );
-        $this->save( $fields );
+    public function save_slide($slide_id, $slider_id, $fields) {
+        $this->set_slider($slider_id);
+        $this->set_slide($slide_id);
+        $this->save($fields);
+        do_action('metaslider_save_slide', $slide_id, $slider_id, $fields);
     }
 
 
@@ -195,10 +194,15 @@ class MetaSlide {
      * @param array $attributes Anchor attributes
      * @return string image HTML
      */
-    public function build_image_tag( $attributes ) {
-
+    public function build_image_tag($attributes) {
+        $attachment_id = $this->get_attachment_id();
+        
+        if ('disabled' == $this->settings['smartCrop'] || 'disabled_pad' == $this->settings['smartCrop']) {
+            // remove extra src attribute
+            if (isset($attributes['src'])) unset($attributes['src']);
+            return wp_get_attachment_image($attachment_id, apply_filters('metaslider_default_size', 'full', $this->slider), false, $attributes);
+        }
         $html = "<img";
-
         foreach ( $attributes as $att => $val ) {
             if ( strlen( $val ) ) {
                 $html .= " " . $att . '="' . esc_attr( $val ) . '"';
@@ -206,11 +210,8 @@ class MetaSlide {
                 $html .= " " . $att . '=""'; // always include alt tag for HTML5 validation
             }
         }
-
         $html .= " />";
-
         return $html;
-
     }
 
 
@@ -306,7 +307,7 @@ class MetaSlide {
      */
     public function get_admin_slide_tab_titles_html() {
 
-        $tabs = $this->get_admin_tabs();
+        $tabs = apply_filters('metaslider_slide_tabs', $this->get_admin_tabs(), $this->slide, $this->slider, $this->settings);
 
         $return = "<ul class='tabs'>";
 
@@ -371,7 +372,7 @@ class MetaSlide {
      */
     public function get_admin_slide_tab_contents_html() {
 
-        $tabs = $this->get_admin_tabs();
+        $tabs = apply_filters('metaslider_slide_tabs', $this->get_admin_tabs(), $this->slide, $this->slider, $this->settings);
 
         $return = "<div class='tabs-content'>";
 

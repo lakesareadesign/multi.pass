@@ -503,6 +503,12 @@
 					lightbox.removeClass( 'fl-lightbox-width-slim' );
 				}
 
+				if ( boxWidth < 450 ) {
+					lightbox.addClass( 'fl-lightbox-width-micro' );
+				} else {
+					lightbox.removeClass( 'fl-lightbox-width-micro' );
+				}
+
 				this._resizeEditors();
 			}
 

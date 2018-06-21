@@ -1,10 +1,10 @@
 === mb.YTPlayer for background videos ===
 
 Contributors: pupunzi
-Tags: video player, youtube, full background, video, HTML5, flash, mov, jquery, pupunzi, mb.components, cover video, embed, embed videos, embed youtube, embedding, plugin, shortcode, video cover, video HTML5, youtube, youtube embed, youtube player, youtube videos
+Tags: background video, youtube, responsive, mobile
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag:  3.2.0
+Stable tag:  3.2.2
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=DSHAHSJJCQ53Y
 License: GPLv2 or later
 
@@ -99,6 +99,12 @@ With the <a href="https://pupunzi.com/wpPlus/go-plus.php?plugin_prefix=YTPL" tar
 The video starts as soon the device screen is touched.
 
 == Changelog ==
+
+= 3.2.2 =
+Update: Updated to the latest version of the javascript.
+
+= 3.2.1 =
+Bug fix: Some times video didn't start on Safari.
 
 = 3.2.0 =
 new feature: Added "playOnlyIfVisible" property to play the video only if it is visible on screen.

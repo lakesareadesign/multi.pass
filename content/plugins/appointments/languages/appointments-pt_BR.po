@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Appointments +\n"
 "Report-Msgid-Bugs-To: https://wpmudev.org\n"
-"POT-Creation-Date: 2018-05-31 15:41:51+00:00\n"
+"POT-Creation-Date: 2018-06-08 17:56:59+00:00\n"
 "PO-Revision-Date: 2017-12-16 10:19:54+0000\n"
 "Language: pt_BR\n"
 "MIME-Version: 1.0\n"
@@ -1185,7 +1185,7 @@ msgid "<strong>Requires</strong>: %s"
 msgstr "<strong>Requer</strong>: %s"
 
 #: admin/class-app-addons-admin-list-table.php:67
-#: admin/class-app-list-table-services.php:120 admin/views/inline-edit.php:26
+#: admin/class-app-list-table-services.php:126 admin/views/inline-edit.php:26
 #: appointments.php:694 includes/class-app-gdpr.php:268
 msgid "Name"
 msgstr "Nome"
@@ -1198,7 +1198,7 @@ msgid "Description"
 msgstr "Descrição"
 
 #: admin/class-app-admin-user-profile.php:47
-#: includes/class-app-appointment.php:1489
+#: includes/class-app-appointment.php:1514
 msgid "Client %s cancelled appointment with ID: %s"
 msgstr "Cliente %s cancelou compromisso com ID: %s"
 
@@ -1214,8 +1214,8 @@ msgstr "%s editou suas horas de trabalho."
 msgid "Appointments Provider"
 msgstr "Provedor de agendamentos"
 
-#: admin/class-app-admin.php:77 admin/class-app-list-table-services.php:62
-#: admin/class-app-list-table-workers.php:71
+#: admin/class-app-admin.php:77 admin/class-app-list-table-services.php:68
+#: admin/class-app-list-table-workers.php:82
 #: includes/pro/includes/addons/lib/class-app-locations-list-table.php:18
 #: includes/sample-appointments-page.php:38
 msgid "Edit"
@@ -1366,71 +1366,80 @@ msgstr ""
 msgid "Page was created successfuly: %s"
 msgstr ""
 
-#: admin/class-app-admin.php:489 admin/class-app-list-table-services.php:99
-#: admin/class-app-list-table-services.php:105
-#: admin/class-app-list-table-workers.php:115
-#: admin/class-app-list-table-workers.php:121
+#: admin/class-app-admin.php:489 admin/class-app-list-table-services.php:105
+#: admin/class-app-list-table-services.php:111
+#: admin/class-app-list-table-workers.php:126
+#: admin/class-app-list-table-workers.php:132
 #: includes/integration/class-app-marketpress.php:159
 msgid "View page"
 msgstr ""
 
-#: admin/class-app-list-table-services.php:35
+#: admin/class-app-list-table-services.php:29
+#: admin/class-app-list-table-workers.php:42 appointments.php:718
+msgid "Free"
+msgstr "Livre"
+
+#: admin/class-app-list-table-services.php:41
 msgid "Limited by number of Service Providers"
 msgstr ""
 
-#: admin/class-app-list-table-services.php:67
-#: admin/class-app-list-table-workers.php:76
+#: admin/class-app-list-table-services.php:73
+#: admin/class-app-list-table-workers.php:87
 #: includes/pro/includes/addons/lib/class-app-locations-list-table.php:19
 msgid "Delete"
 msgstr "Excluir"
 
-#: admin/class-app-list-table-services.php:121
+#: admin/class-app-list-table-services.php:127
 msgid "Capacity"
 msgstr "Capacidade"
 
-#: admin/class-app-list-table-services.php:122
+#: admin/class-app-list-table-services.php:128
 #: includes/shortcodes/class-app-shortcode-monthly-worker-calendar.php:154
 msgid "Duration"
 msgstr "Duração"
 
-#: admin/class-app-list-table-services.php:123
+#: admin/class-app-list-table-services.php:129
 msgid "Price (%s)"
 msgstr ""
 
-#: admin/class-app-list-table-services.php:124
-#: admin/class-app-list-table-workers.php:140
+#: admin/class-app-list-table-services.php:130
+#: admin/class-app-list-table-workers.php:151
 msgid "Description page"
 msgstr "Página de Descrição"
 
-#: admin/class-app-list-table-workers.php:38
+#: admin/class-app-list-table-workers.php:49
 msgid "No Service Providers selected."
 msgstr ""
 
-#: admin/class-app-list-table-workers.php:44
+#: admin/class-app-list-table-workers.php:55
 msgid "Missing service: %d."
 msgstr ""
 
-#: admin/class-app-list-table-workers.php:90
+#: admin/class-app-list-table-workers.php:101
 msgid "[wrong user]"
 msgstr ""
 
-#: admin/class-app-list-table-workers.php:136
+#: admin/class-app-list-table-workers.php:147
 #: admin/views/page-settings-tab-workers-section-edit-worker.php:14
 #: admin/views/page-settings-tab-workers-section-new-worker.php:30
 msgid "Service Provider"
 msgstr "prestador de serviço"
 
-#: admin/class-app-list-table-workers.php:137
+#: admin/class-app-list-table-workers.php:148
 msgid "Dummy"
 msgstr ""
 
-#: admin/class-app-list-table-workers.php:138
+#: admin/class-app-list-table-workers.php:149
 msgid "Additional Price (%s)"
 msgstr ""
 
-#: admin/class-app-list-table-workers.php:139
-msgid "Services Provided*"
-msgstr "Serviços Prestados*"
+#: admin/class-app-list-table-workers.php:150
+#: admin/views/page-settings-tab-workers-section-edit-worker.php:36
+#: admin/views/page-settings-tab-workers-section-edit-worker.php:42
+#: admin/views/page-settings-tab-workers-section-new-worker.php:54
+#: admin/views/page-settings-tab-workers-section-new-worker.php:60
+msgid "Services Provided"
+msgstr "Serviços Fornecidos"
 
 #: admin/class-app-list-table.php:155
 msgid "List View"
@@ -1635,7 +1644,7 @@ msgstr "Compromissos completados"
 
 #: admin/pages/class-admin-appointments-page.php:157
 #: admin/views/page-appointments-status-filter.php:6
-#: includes/class-app-appointment.php:1210
+#: includes/class-app-appointment.php:1235
 msgid "Reserved by GCal"
 msgstr "Reservado pelo GCal"
 
@@ -1779,7 +1788,7 @@ msgid "GDPR"
 msgstr ""
 
 #: admin/pages/class-admin-settings-page.php:50
-#: admin/views/page-settings-tab-services-section-new-service.php:77
+#: admin/views/page-settings-tab-services-section-new-service.php:85
 msgid "Add new Service"
 msgstr "Adicionar novo Serviço"
 
@@ -1789,7 +1798,7 @@ msgid "Add new Service Provider"
 msgstr "Adicionar novo Provedor de Serviços"
 
 #: admin/pages/class-admin-settings-page.php:96
-#: admin/pages/class-admin-settings-page.php:551
+#: admin/pages/class-admin-settings-page.php:552
 msgid "Please, select at least one service provided"
 msgstr ""
 
@@ -2017,17 +2026,17 @@ msgid "Active"
 msgstr "Ativo"
 
 #: admin/views/page-appointments-status-filter.php:4
-#: includes/class-app-appointment.php:1206
+#: includes/class-app-appointment.php:1231
 msgid "Pending"
 msgstr "Pendente"
 
 #: admin/views/page-appointments-status-filter.php:5
-#: includes/class-app-appointment.php:1209
+#: includes/class-app-appointment.php:1234
 msgid "Completed"
 msgstr "Completo"
 
 #: admin/views/page-appointments-status-filter.php:7
-#: includes/class-app-appointment.php:1211
+#: includes/class-app-appointment.php:1236
 msgid "Removed"
 msgstr "Removido"
 
@@ -2175,8 +2184,8 @@ msgid "Assign dummy service providers to"
 msgstr "Atribuir prestadores de serviços fictícios para"
 
 #: admin/views/page-settings-tab-main-section-accesibility.php:76
-#: admin/views/page-settings-tab-services-section-edit-service.php:62
-#: admin/views/page-settings-tab-services-section-new-service.php:65
+#: admin/views/page-settings-tab-services-section-edit-service.php:70
+#: admin/views/page-settings-tab-services-section-new-service.php:73
 #: admin/views/page-settings-tab-workers-section-edit-worker.php:66
 #: admin/views/page-settings-tab-workers-section-new-worker.php:86
 msgid "None"
@@ -2282,10 +2291,21 @@ msgstr ""
 "esta opção."
 
 #: admin/views/page-settings-tab-main-section-advanced.php:10
+msgid "Always load scripts"
+msgstr ""
+
+#: admin/views/page-settings-tab-main-section-advanced.php:13
+msgid ""
+"By default some scrtips are loaded only if booking shortcodes are detected. "
+"With some themes and if booking form is in popup it might be necessary to "
+"enable this option to force loading of these assets."
+msgstr ""
+
+#: admin/views/page-settings-tab-main-section-advanced.php:17
 msgid "Allow Overwork (end of day)"
 msgstr "Permitir Horas Extras (final do dia)"
 
-#: admin/views/page-settings-tab-main-section-advanced.php:13
+#: admin/views/page-settings-tab-main-section-advanced.php:20
 msgid ""
 "Whether you accept appointments exceeding working hours for the end of day. "
 "For example, if you are working until 6pm, and a client asks an appointment "
@@ -2302,11 +2322,11 @@ msgstr ""
 "tempo do que o horário base. Estes intervalos de tempo são marcadas como "
 "\"não é possível\" na agenda."
 
-#: admin/views/page-settings-tab-main-section-advanced.php:17
+#: admin/views/page-settings-tab-main-section-advanced.php:24
 msgid "Allow Overwork (break hours)"
 msgstr "Permitir Excesso de trabalho (horário de quebra)"
 
-#: admin/views/page-settings-tab-main-section-advanced.php:20
+#: admin/views/page-settings-tab-main-section-advanced.php:27
 msgid ""
 "Same as above, but valid for break hours. If you want to allow appointments "
 "exceeding break times, then select this as Yes."
@@ -2314,11 +2334,11 @@ msgstr ""
 "Igual ao anterior, mas válido para intervalos. Se você quiser permitir que "
 "os compromissos excedam os intervalos, selecione-a como Sim."
 
-#: admin/views/page-settings-tab-main-section-advanced.php:24
+#: admin/views/page-settings-tab-main-section-advanced.php:31
 msgid "Keep options on uninstall"
 msgstr ""
 
-#: admin/views/page-settings-tab-main-section-advanced.php:27
+#: admin/views/page-settings-tab-main-section-advanced.php:34
 msgid ""
 "By enabling this option you can keep your appointments and settings when "
 "deleting plugin."
@@ -2876,31 +2896,36 @@ msgstr "Nome do Serviço"
 msgid "Service Capacity"
 msgstr "Capacidade do Serviço"
 
-#: admin/views/page-settings-tab-services-section-edit-service.php:29
-#: admin/views/page-settings-tab-services-section-new-service.php:32
+#: admin/views/page-settings-tab-services-section-edit-service.php:31
+#: admin/views/page-settings-tab-services-section-new-service.php:34
+msgid "To setup capacity add some workers first!"
+msgstr ""
+
+#: admin/views/page-settings-tab-services-section-edit-service.php:36
+#: admin/views/page-settings-tab-services-section-new-service.php:39
 msgid ""
 "When you set up \"Service Capacity\" to \"0\" it will be limited only by the "
 "number of available Service Providers."
 msgstr ""
 
-#: admin/views/page-settings-tab-services-section-edit-service.php:34
-#: admin/views/page-settings-tab-services-section-new-service.php:37
+#: admin/views/page-settings-tab-services-section-edit-service.php:42
+#: admin/views/page-settings-tab-services-section-new-service.php:45
 msgid "Service Duration"
 msgstr "Duração do Serviço"
 
-#: admin/views/page-settings-tab-services-section-edit-service.php:50
-#: admin/views/page-settings-tab-services-section-new-service.php:53
+#: admin/views/page-settings-tab-services-section-edit-service.php:58
+#: admin/views/page-settings-tab-services-section-new-service.php:61
 msgid "Service Price"
 msgstr "Preço do Serviço"
 
-#: admin/views/page-settings-tab-services-section-edit-service.php:58
-#: admin/views/page-settings-tab-services-section-new-service.php:61
+#: admin/views/page-settings-tab-services-section-edit-service.php:66
+#: admin/views/page-settings-tab-services-section-new-service.php:69
 #: admin/views/page-settings-tab-workers-section-edit-worker.php:62
 #: admin/views/page-settings-tab-workers-section-new-worker.php:82
 msgid "Description Page"
 msgstr "Página de Descrição"
 
-#: admin/views/page-settings-tab-services-section-edit-service.php:74
+#: admin/views/page-settings-tab-services-section-edit-service.php:82
 #: admin/views/page-settings-tab-workers-section-edit-worker.php:78
 #: includes/pro/includes/addons/app-locations-location_support.php:152
 msgid "Save"
@@ -2930,13 +2955,6 @@ msgstr "Fictício?"
 #: admin/views/page-settings-tab-workers-section-new-worker.php:46
 msgid "Additional Price"
 msgstr "Preço adicional"
-
-#: admin/views/page-settings-tab-workers-section-edit-worker.php:36
-#: admin/views/page-settings-tab-workers-section-edit-worker.php:42
-#: admin/views/page-settings-tab-workers-section-new-worker.php:54
-#: admin/views/page-settings-tab-workers-section-new-worker.php:60
-msgid "Services Provided"
-msgstr "Serviços Fornecidos"
 
 #: admin/views/page-settings-tab-workers-section-edit-worker.php:55
 #: admin/views/page-settings-tab-workers-section-new-worker.php:75
@@ -3000,7 +3018,7 @@ msgid "Future transactions"
 msgstr "Transações futuras"
 
 #: admin/views/page-transactions.php:60 admin/views/page-transactions.php:63
-#: includes/class-app-appointment.php:1222
+#: includes/class-app-appointment.php:1247
 msgid "None yet"
 msgstr "Nenhum ainda"
 
@@ -3127,10 +3145,6 @@ msgstr "Cidade"
 msgid "Note"
 msgstr "Nota"
 
-#: appointments.php:718
-msgid "Free"
-msgstr "Livre"
-
 #: appointments.php:719
 msgid "Busy"
 msgstr "Ocupado"
@@ -3151,48 +3165,48 @@ msgstr "%s Compromissos"
 msgid "Something wrong about the submitted %s"
 msgstr "Algo errado com o %s enviado"
 
-#: appointments.php:1826
+#: appointments.php:1842
 msgid "Login with Facebook"
 msgstr "Conectar com Facebook"
 
-#: appointments.php:1827
+#: appointments.php:1843
 msgid "Login with Twitter"
 msgstr "Conect com Twitter"
 
-#: appointments.php:1828
+#: appointments.php:1844
 msgid "Login with Google+"
 msgstr "Conectar com Google+"
 
-#: appointments.php:1829
+#: appointments.php:1845
 msgid "Login with WordPress"
 msgstr "Conectar com WordPress"
 
-#: appointments.php:1830 includes/gcal/views/settings-gcal-step-1.php:70
+#: appointments.php:1846 includes/gcal/views/settings-gcal-step-1.php:70
 #: includes/gcal/views/settings-gcal-step-2.php:22
 msgid "Submit"
 msgstr "Enviar"
 
-#: appointments.php:1832
+#: appointments.php:1848
 msgid "Please, wait..."
 msgstr "Por favor, aguarde..."
 
-#: appointments.php:1833
+#: appointments.php:1849
 msgid "You are now logged in"
 msgstr "Você está conectado"
 
-#: appointments.php:1834
+#: appointments.php:1850
 msgid "Login error. Please try again."
 msgstr "Erro ao conectar. Por favor, tente novamente."
 
-#: appointments.php:1837 includes/class_app_codec.php:369
+#: appointments.php:1853 includes/class_app_codec.php:369
 msgid "Register"
 msgstr "Registrar"
 
-#: appointments.php:1972 includes/helpers-settings.php:71
+#: appointments.php:1988 includes/helpers-settings.php:71
 msgid "Confirmation of your Appointment"
 msgstr "Confirmação do seu Agendamento"
 
-#: appointments.php:1974 includes/helpers-settings.php:73
+#: appointments.php:1990 includes/helpers-settings.php:73
 msgid "Reminder for your Appointment"
 msgstr "Lembrete do seu Agendamento"
 
@@ -3363,19 +3377,19 @@ msgstr ""
 msgid "Service Provider was successfuly deleted."
 msgstr ""
 
-#: includes/class-app-appointment.php:1207
+#: includes/class-app-appointment.php:1232
 msgid "Paid"
 msgstr "Pago"
 
-#: includes/class-app-appointment.php:1208
+#: includes/class-app-appointment.php:1233
 msgid "Confirmed"
 msgstr "Confirmado"
 
-#: includes/class-app-appointment.php:1478 includes/default_filters.php:121
+#: includes/class-app-appointment.php:1503 includes/default_filters.php:121
 msgid "The appointment does not exist."
 msgstr ""
 
-#: includes/class-app-appointment.php:1482
+#: includes/class-app-appointment.php:1507
 msgid "The appointment has been already cancelled."
 msgstr ""
 
@@ -4712,11 +4726,11 @@ msgstr ""
 msgid "Removal notification"
 msgstr "Notificação de remoção"
 
-#: includes/pro/includes/addons/app-admin-admin_permissions.php:58
+#: includes/pro/includes/addons/app-admin-admin_permissions.php:59
 msgid "Appointments role access"
 msgstr "Controle de acesso compromissos com nível de usuário"
 
-#: includes/pro/includes/addons/app-admin-admin_permissions.php:67
+#: includes/pro/includes/addons/app-admin-admin_permissions.php:68
 #: includes/pro/includes/addons/app-post_types-worker_names.php:116
 #: includes/pro/includes/addons/app-schedule-default_service.php:82
 msgid "Default"
@@ -6766,7 +6780,7 @@ msgctxt "dummy worker"
 msgid "No"
 msgstr ""
 
-#: admin/class-app-list-table-workers.php:83
+#: admin/class-app-list-table-workers.php:94
 msgctxt "user pfofile link on Service Providers screen"
 msgid "Profile"
 msgstr ""
@@ -6777,7 +6791,7 @@ msgctxt "paging"
 msgid "%1$s of %2$s"
 msgstr "%1$s de %2$s"
 
-#: admin/views/inline-edit.php:123 appointments.php:1831
+#: admin/views/inline-edit.php:123 appointments.php:1847
 #: includes/class-app-tutorial.php:225
 #: includes/pro/includes/addons/app-locations-location_support.php:155
 #: includes/shortcodes/class-app-shortcode-confirmation.php:210
@@ -6822,19 +6836,19 @@ msgctxt "Enter \"yes\" for the European Union countries."
 msgid "no"
 msgstr ""
 
-#: includes/helpers.php:957
+#: includes/helpers.php:955
 msgctxt "less than 60 minut"
 msgid "%d minutes"
 msgstr ""
 
-#: includes/helpers.php:961
+#: includes/helpers.php:959
 msgctxt "more than 60 minuts, hours"
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/helpers.php:968
+#: includes/helpers.php:966
 msgctxt "more than 60 minuts, minutes"
 msgid "%d minute"
 msgid_plural "%d minutes"
@@ -6875,3 +6889,6 @@ msgstr ""
 msgctxt "Discard existing info"
 msgid "Cancel"
 msgstr "Cancelar"
+
+#~ msgid "Services Provided*"
+#~ msgstr "Serviços Prestados*"

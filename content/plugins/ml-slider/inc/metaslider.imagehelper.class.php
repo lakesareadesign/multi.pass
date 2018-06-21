@@ -1,8 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // disable direct access
-}
+if (!defined('ABSPATH')) die('No direct access.');
 
 /**
  * Helper class for resizing images, returning the correct URL to the image etc
@@ -219,45 +217,66 @@ class MetaSliderImageHelper {
      * @param bool $force_resize Force resize of image
      * @return string resized image URL
      */
-    function get_image_url( $force_resize = false ) {
+    function get_image_url($force_resize = false) {
         // Get the image file path
-        if ( ! strlen( $this->path ) ) {
-            return apply_filters( 'metaslider_resized_image_url', $this->url, $this->url );
+        if (!strlen($this->path)) {
+            return apply_filters('metaslider_resized_image_url', $this->url, $this->url);
         }
 
         // get the full image size dimensions
         $orig_size = $this->get_original_image_dimensions();
 
         // bail out if we can't find the image dimensions, return the full URL
-        if ( $orig_size == false ) {
-            return apply_filters( 'metaslider_resized_image_url', $this->url, $this->url );
+        if (!$orig_size) {
+            return apply_filters('metaslider_resized_image_url', $this->url, $this->url);
         }
 
         // get our crop dimensions (this is the size we want to display)
-        $dest_size = $this->get_crop_dimensions( $orig_size['width'], $orig_size['height'] );
+        $dest_size = $this->get_crop_dimensions($orig_size['width'], $orig_size['height']);
 
         // if the full size is the same as the required size, return the full URL
-        if ( $orig_size['width'] == $dest_size['width'] && $orig_size['height'] == $dest_size['height'] ) {
-            return apply_filters( 'metaslider_resized_image_url', $this->url, $this->url );
+        if ($orig_size['width'] == $dest_size['width'] && $orig_size['height'] == $dest_size['height']) {
+            return apply_filters('metaslider_resized_image_url', $this->url, $this->url);
         }
 
         // construct the file name
-        $dest_file_name = $this->get_destination_file_name( $dest_size );
+        $dest_file_name = $this->get_destination_file_name($dest_size);
 
-        if ( file_exists( $dest_file_name ) && ! $force_resize ) {
+        if (file_exists($dest_file_name) && !$force_resize) {
+
             // good. no need for resize, just return the URL
-            $dest_url = str_replace( basename( $this->url ), basename( $dest_file_name ), $this->url );
-        }
-        else if ( $this->use_image_editor ) {
+            $dest_url = str_replace(basename($this->url), basename($dest_file_name), $this->url);
+
+        } else if ($this->use_image_editor) {
+
             // resize, assuming we're allowed to use the image editor
-            $dest_url = $this->resize_image( $orig_size, $dest_size, $dest_file_name );
+            $dest_url = $this->resize_image($orig_size, $dest_size, $dest_file_name);
+
+            // if the image is cropped, generate smaller sizes
+            if ('disabled' != $this->crop_type) {
+                // if destination width > 600 we crop the smaller sizes for responsive images
+                if ($dest_size['width'] > apply_filters('metaslider_srcset_min_width', 600)) {
+                    $scrset_sizes = apply_filters('metaslider_cropped_images_srcset_sizes', array(
+                        array('width' => 1600),
+                        array('width' => 1200),
+                        array('width' => 620),
+                        array('width' => 400),
+                    ));
+                    foreach ($scrset_sizes as $scrset_size) {
+                        if ($dest_size['width'] >= $scrset_size['width']) {
+                            $scrset_size['height'] = round($scrset_size['width'] * $dest_size['height'] / $dest_size['width']);
+                            $this->resize_image($orig_size, $scrset_size, $this->get_destination_file_name($scrset_size));
+                        }
+                    }
+                }
+            }
         }
         else {
             // fall back to the full URL
             $dest_url = $this->url;
         }
 
-        $dest_url = apply_filters( 'metaslider_resized_image_url', $dest_url, $this->url );
+        $dest_url = apply_filters('metaslider_resized_image_url', $dest_url, $this->url);
 
         return $dest_url;
     }
@@ -358,14 +377,25 @@ class MetaSliderImageHelper {
         }
 
         $temp_saved = $saved;  // working copy of $saved
-        unset( $temp_saved['path'] ); // path does not belong in the meta data
+        unset($temp_saved['path']); // path does not belong in the meta data
         $meta_sizes['sizes']["meta-slider-resized-{$dest_size['width']}x{$dest_size['height']}"] = $temp_saved;
         update_post_meta($this->image_id, '_wp_attachment_metadata', $meta_sizes);
-
+        
         $url = str_replace(basename($this->url), basename($saved['path']), $this->url);
-
+        
         do_action("metaslider_after_resize_image", $this->image_id, $dest_size['width'], $dest_size['height'], $url);
 
+        // add compatibility for wr2x https://wordpress.org/plugins/wp-retina-2x/
+        if (function_exists('wr2x_generate_images')) {
+            $meta = wp_get_attachment_metadata($this->image_id);
+            foreach ($meta['sizes'] as $name => $size) {
+                if ('meta-slider-resized' == substr($name, 0, 19)) {
+                    // wr2x needs the image size to be registered.
+                    add_image_size($name, $size['width'], $size['height'], $this->get_crop_position());
+                }
+            }
+            wr2x_generate_images($meta);
+        }
         return $url;
     }
 

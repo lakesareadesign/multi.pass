@@ -1,6 +1,4 @@
-<?php if (!defined('ABSPATH')) {
-    die('No direct access.');
-} ?>
+<?php if (!defined('ABSPATH')) die('No direct access.'); ?>
 <div class="row can-inherit title<?php echo $inherit_image_title_class; ?>">
 	<label><?php _e("Image Title Text", "ml-slider"); ?></label>
 	<div class="input-label right">

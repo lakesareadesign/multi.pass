@@ -20022,7 +20022,7 @@ var InlineEditor = function (_Component) {
 			var module = jQuery(e.currentTarget).closest('.fl-module');
 			var editorId = module.find('.mce-content-body').first().attr('id');
 
-			if (actions.length) {
+			if (actions.length || FLBuilder._colResizing) {
 				return;
 			}
 			if (editorId) {

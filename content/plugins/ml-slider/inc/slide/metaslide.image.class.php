@@ -1,8 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // disable direct access
-}
+if (!defined('ABSPATH')) die('No direct access.');
 
 /**
  * Generic Slider super class. Extended by library specific classes.
@@ -187,6 +185,12 @@ class MetaImageSlide extends MetaSlide {
         $slide_label = apply_filters("metaslider_image_slide_label", __("Image Slide", "ml-slider"), $this->slide, $this->settings);
         $attachment_id = $this->get_attachment_id();
 
+        ob_start();
+        echo $this->get_delete_button_html();
+        echo $this->get_update_image_button_html();
+        do_action('metaslider-slide-edit-buttons', 'image', $attachment_id);
+        $edit_buttons = ob_get_clean();
+
         // slide row HTML
         $row  = "<tr id='slide-{$this->slide->ID}' class='slide image flex responsive nivo coin' data-attachment-id='{$attachment_id}'>
                     <td class='col-1'>
@@ -199,8 +203,7 @@ class MetaImageSlide extends MetaSlide {
                             // $row .= "<span class='delete'>{$this->get_perminant_delete_button_html()}</span>";
                             $row .= '</div>';
                         } else {
-                            $row .= $this->get_delete_button_html();
-                            $row .= $this->get_update_image_button_html();
+                            $row .= $edit_buttons;
                         }
             $row .= "</div>
                         <div class='metaslider-ui-inner'>
@@ -265,7 +268,7 @@ class MetaImageSlide extends MetaSlide {
 		}
 
         ob_start();
-        include(METASLIDER_PATH . 'admin/views/slides/tabs/general.php');
+        include METASLIDER_PATH . 'admin/views/slides/tabs/general.php';
         $general_tab = ob_get_clean();
 
         if (!$this->is_valid_image()) {
@@ -275,7 +278,7 @@ class MetaImageSlide extends MetaSlide {
         }
 
         ob_start();
-        include(METASLIDER_PATH .'admin/views/slides/tabs/seo.php');
+        include METASLIDER_PATH .'admin/views/slides/tabs/seo.php';
         $seo_tab = ob_get_clean();
 
         $tabs = array(
@@ -298,9 +301,9 @@ class MetaImageSlide extends MetaSlide {
             }
 
             ob_start();
-            include(METASLIDER_PATH .'admin/views/slides/tabs/crop.php');
+            include METASLIDER_PATH . 'admin/views/slides/tabs/crop.php';
             $crop_tab = ob_get_clean();
-            
+
             $tabs['crop'] = array(
                 'title' => __("Crop", "ml-slider"),
                 'content' => $crop_tab

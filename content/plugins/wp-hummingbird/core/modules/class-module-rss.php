@@ -52,7 +52,7 @@ class WP_Hummingbird_Module_Rss extends WP_Hummingbird_Module {
 	 * @since 1.9.0
 	 */
 	public function disable() {
-		WP_Hummingbird_Settings::update_setting( 'enabled', false, $this->slug );
+		WP_Hummingbird_Settings::update_setting( 'enabled', false, $this->slug );	  	 	   	 		 		 		 	
 	}
 
 	/**

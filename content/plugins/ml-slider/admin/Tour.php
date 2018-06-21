@@ -1,6 +1,6 @@
 <?php
 
-if (!defined('ABSPATH')) die('No direct access allowed');
+if (!defined('ABSPATH')) die('No direct access.');
 /**
  * Class for guided tour
  */

@@ -1,4 +1,4 @@
-<?php if (!defined('ABSPATH')) die('No direct access allowed'); ?>
+<?php if (!defined('ABSPATH')) die('No direct access.'); ?>
 
 <?php
 // Quick check to see which of our plugins is installed

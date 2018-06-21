@@ -46,7 +46,6 @@ if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
  * - add_post_column_data()
  * - enable_custom_post_sidebars()
  * - multidimensional_search()
- * - add_contextual_help()
  *
  * - load_localisation()
  * - activation()
@@ -107,7 +106,6 @@ class Woo_Sidebars {
 			global $pagenow;
 
 			add_action( 'admin_print_styles', array( $this, 'enqueue_styles' ), 12 );
-			add_action( 'admin_head', array( $this, 'add_contextual_help' ) );
 			if ( $pagenow == 'edit.php' && isset( $_GET['post_type'] ) && esc_attr( $_GET['post_type'] ) == $this->token ) {
 				add_filter( 'manage_edit-' . $this->token . '_columns', array( $this, 'register_custom_column_headings' ), 10, 1 );
 				add_action( 'manage_posts_custom_column', array( $this, 'register_custom_columns' ), 10, 2 );
@@ -375,10 +373,10 @@ class Woo_Sidebars {
 	 * @param object $post
 	 */
 	public function description_meta_box ( $post ) {
-	?>
-	<label class="screen-reader-text" for="excerpt"><?php _e( 'Description', 'woosidebars' ); ?></label><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
-	<p><?php printf( __( 'Add an optional description, to be displayed when adding widgets to this widget area on the %sWidgets%s screen.', 'woosidebars' ), '<a href="' . esc_url( admin_url( 'widgets.php' ) ) . '">', '</a>' ); ?></p>
-	<?php
+		?>
+		<label class="screen-reader-text" for="excerpt"><?php _e( 'Description', 'woosidebars' ); ?></label><textarea rows="1" cols="40" name="excerpt" tabindex="6" id="excerpt"><?php echo $post->post_excerpt; // textarea_escaped ?></textarea>
+		<p><?php printf( __( 'Add an optional description, to be displayed when adding widgets to this widget area on the %sWidgets%s screen.', 'woosidebars' ), '<a href="' . esc_url( admin_url( 'widgets.php' ) ) . '">', '</a>' ); ?></p>
+		<?php
 	} // End description_meta_box()
 
 	/**
@@ -453,9 +451,12 @@ class Woo_Sidebars {
 
 		if ( count( $sidebars ) > 0 ) {
 			foreach ( $sidebars as $k => $v ) {
-				$sidebar_id = $v->post_name;
-				// $sidebar_id = $this->prefix . $v->ID;
-				register_sidebar( array( 'name' => $v->post_title, 'id' => $sidebar_id, 'description' => $v->post_excerpt ) );
+				$args = apply_filters( 'woosidebars_sidebar_args', array(
+					'name'        => $v->post_title,
+					'id'          => $v->post_name,
+					'description' => $v->post_excerpt,
+				), $v, $this );
+				register_sidebar( $args );
 			}
 		}
 	} // End register_custom_sidebars()
@@ -498,7 +499,7 @@ class Woo_Sidebars {
 		 	$args = array(
 		 		'post_type' => $this->token,
 		 		'posts_per_page' => intval( $this->upper_limit ),
-		 		'suppress_filters' => 'false'
+		 		'suppress_filters' => true
 		 	);
 
 		 	$meta_query = array(
@@ -521,6 +522,16 @@ class Woo_Sidebars {
 
 		 	if ( count( $sidebars ) > 0 ) {
 		 		foreach ( $sidebars as $k => $v ) {
+
+					if ( defined( 'ICL_LANGUAGE_CODE' ) ) {
+						// get the post language
+						$wpml_element = apply_filters( 'wpml_element_language_code', ICL_LANGUAGE_CODE, array( 'element_id' => intval( $v->ID ), 'element_type' => 'post_sidebar' ) );
+						// check if the current language matches the language of the sidebar
+						if ( $wpml_element != ICL_LANGUAGE_CODE ) {
+								continue;
+						}
+					}
+
 		 			$to_replace = get_post_meta( $v->ID, '_sidebar_to_replace', true );
 		 			$sidebars[$k]->to_replace = $to_replace;
 
@@ -730,44 +741,6 @@ class Woo_Sidebars {
 
         return false;
 	} // End multidimensional_search()
-
-	/**
-	 * add_contextual_help function.
-	 *
-	 * @description Add contextual help to the current screen.
-	 * @access public
-	 * @since 1.0.0
-	 * @return void
-	 */
-	public function add_contextual_help () {
-		if ( get_current_screen()->id != 'edit-sidebar' ) { return; }
-
-		get_current_screen()->add_help_tab( array(
-		'id'		=> 'overview',
-		'title'		=> __( 'Overview', 'woosidebars' ),
-		'content'	=>
-			'<p>' . __( 'All custom widget areas are listed on this screen. To add a new customised widget area, click the "Add New" button.', 'woosidebars' ) . '</p>'
-		) );
-		get_current_screen()->add_help_tab( array(
-		'id'		=> 'wooframework-sbm',
-		'title'		=> __( 'Sidebar Manager', 'woosidebars' ),
-		'content'	=>
-			'<p>' . __( 'WooSidebars is intended to replace the Sidebar Manager found in the WooFramework. Please ensure that all sidebars have been transferred over from the Sidebar Manager, if you choose to use WooSidebars instead.', 'woosidebars' ) . '</p>' .
-			'<p>' . __( 'To transfer a sidebar from the Sidebar Manager:', 'woosidebars' ) . '</p>' .
-			'<ul>' . "\n" .
-			'<li>' . __( 'Create a new custom widget area in WooSidebars.', 'woosidebars' ) . '</li>' . "\n" .
-			'<li>' . sprintf( __( 'Visit the %sAppearance &rarr; Widgets%s screen and drag the widgets from the old sidebar into the newly created sidebar.', 'woosidebars' ), '<a href="' . esc_url( admin_url( 'widgets.php' ) ) . '">', '</a>' ) . '</li>' . "\n" .
-			'<li>' . __( 'Repeat this process for each of your custom sidebars, including dependencies if necessary (the WooSidebars conditions system replaces the need for dependencies).', 'woosidebars' ) . '</li>' . "\n" .
-			'<li>' . __( 'Once you are certain that you widgets have been moved across for all widget areas, remove the sidebar from the Sidebar Manager (don\'t forget to transfer any dependencies over as well, if necessary).', 'woosidebars' ) . '</li>' . "\n" .
-			'</ul>' . "\n"
-		) );
-
-		get_current_screen()->set_help_sidebar(
-		'<p><strong>' . __( 'For more information:', 'woosidebars' ) . '</strong></p>' .
-		'<p><a href="http://support.woothemes.com/?ref=' . 'woosidebars' . '" target="_blank">' . __( 'Support HelpDesk', 'woosidebars' ) . '</a></p>' .
-		'<p><a href="http://docs.woothemes.com/document/woosidebars/?ref=' . 'woosidebars' . '" target="_blank">' . __( 'WooSidebars Documentation', 'woosidebars' ) . '</a></p>'
-		);
-	} // End add_contextual_help()
 
 	/**
 	 * load_localisation function.

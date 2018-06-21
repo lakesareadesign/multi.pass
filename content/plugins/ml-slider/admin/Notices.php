@@ -1,11 +1,11 @@
 <?php
 
-if (!defined('ABSPATH')) die('No direct access allowed');
+if (!defined('ABSPATH')) die('No direct access.');
 
 if (!class_exists('Updraft_Notices_1_0')) require_once(METASLIDER_PATH.'admin/lib/Updraft_Notices.php');
 
 /**
- * Meta Slider notices
+ * Meta Slider Notices
  */
 class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
@@ -23,30 +23,31 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	 */
 	protected $notices_content;
 
-    /**
-     * Plugin details
-     *
-	 * @var object $plugin
-	 */
-	protected $plugin;
-
-
 	/**
 	 * Populates ad content and loads assets
-	 *
-	 * @param array $plugin Plugin details
 	 */
-	public function __construct($plugin) {
+	public function __construct() {
+		/*
+		 * There are three options you can use to force ads to show. 
+		 * The second two require the first to be set to true
+		 * 
+		 * define('METASLIDER_FORCE_NOTICES', true);
+		 * define('METASLIDER_DISABLE_SEASONAL_NOTICES', true);
+		 * 
+		 * Be sure not to set both of these at the same time
+		 * define('METASLIDER_FORCE_LITE_NOTICES', true);
+		 * define('METASLIDER_FORCE_PRO_NOTICES', true);
+		 * 
+		 */
         $this->ads = metaslider_pro_is_installed() ? $this->pro_notices() : $this->lite_notices();
         
         // To avoid showing the user ads off the start, lets wait
         $this->notices_content = ($this->ad_delay_has_finished()) ? $this->ads : array();
-        $this->plugin = $plugin;
 
         // If $notices_content is empty, we still want to offer seasonal ads
         if (empty($this->notices_content) && !metaslider_pro_is_installed()) {
             $this->notices_content = $this->valid_seasonal_notices();
-        }
+		}
         
         add_action('admin_enqueue_scripts', array($this, 'add_notice_assets'));
         add_action('wp_ajax_notice_handler', array($this, 'ajax_notice_handler'));
@@ -75,12 +76,19 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	 * @return array returns an array of notices
 	 */
 	protected function lite_notices() {
+
+		if (defined('METASLIDER_FORCE_PRO_NOTICES') && METASLIDER_FORCE_PRO_NOTICES) {
+
+			// Override to force pro, but make sure both overrides arent set
+			return (!defined('METASLIDER_FORCE_LITE_NOTICES')) ? $this->pro_notices() : array();
+		}
+
 		return array_merge(array(
 			'updraftplus' => array(
 				'title' => __('Always backup WordPress to avoid losing your site!', 'ml-slider'),
 				'text' => __("UpdraftPlus is the world's #1 backup plugin from the makers of MetaSlider. Backup to the cloud, on a schedule and restore with 1 click!", 'ml-slider'),
 				'image' => 'updraft_logo.png',
-				'button_link' => 'https://wordpress.org/plugins/updraftplus/',
+				'button_link' => 'updraftplus_wordpress',
 				'button_meta' => 'updraftplus',
 				'dismiss_time' => 'updraftplus',
 				'hide_time' => 12,
@@ -91,7 +99,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'title' => __('Keyy: Instant and secure logon with a wave of your phone', 'ml-slider'),
 				'text' => __('No more forgotten passwords. Find out more about our revolutionary new WordPress plugin', 'ml-slider'),
 				'image' => 'keyy_logo.png',
-				'button_link' => 'https://getkeyy.com/?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'keyy',
 				'button_meta' => 'keyy',
 				'dismiss_time' => 'keyy',
 				'hide_time' => 12,
@@ -102,7 +110,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'title' => __('Save Time and Money. Manage multiple WordPress sites from one location.', 'ml-slider'),
 				'text' => __('UpdraftCentral is a highly efficient way to take backup, update and manage multiple WP sites from one location', 'ml-slider'),
 				'image' => 'updraft_logo.png',
-				'button_link' => 'https://updraftcentral.com?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'updraftcentral',
 				'button_meta' => 'updraftcentral',
 				'dismiss_time' => 'updraftcentral',
 				'hide_time' => 12,
@@ -113,7 +121,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'title' => __('Like MetaSlider and have a minute to spare?', 'ml-slider'),
 				'text' => __('Please help MetaSlider by giving a positive review at wordpress.org.', 'ml-slider'),
 				'image' => 'metaslider_logo.png',
-				'button_link' => 'https://wordpress.org/support/plugin/ml-slider/reviews/?rate=5#new-post',
+				'button_link' => 'metaslider_rate',
 				'button_meta' => 'review',
 				'dismiss_time' => 'rate_plugin',
 				'hide_time' => 12,
@@ -123,7 +131,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 			// 'title' => __('Help us to get even better MetaSlider', 'ml-slider'),
 			// 'text' => __('Let us know how you use MetaSlider by answering 4 simple questions. We will make MetaSlider to suit you better.', 'ml-slider'),
 			// 'image' => 'metaslider_logo.png',
-			// 'button_link' => 'https://www.metaslider.com/survey?utm_source=metaslider-plugin-page&utm_medium=banner',
+			// 'button_link' => 'metaslider_survey',
 			// 'button_meta' => 'lets_start',
 			// 'dismiss_time' => 'lite_survey',
 			// 'hide_time' => 12,
@@ -133,7 +141,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'title' => __('Spice up your site with animated layers and video slides', 'ml-slider'),
 				'text' => __('With the MetaSlider Add-on pack you can give your slideshows a professional look!', 'ml-slider'),
 				'image' => 'metaslider_logo.png',
-				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'metaslider',
 				'button_meta' => 'ml-slider',
 				'dismiss_time' => 'pro_layers',
 				'hide_time' => 12,
@@ -143,7 +151,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'title' => __('Increase your revenue and conversion with video slides and many more features', 'ml-slider'),
 				'text' => __('Upgrade today to benefit from many more premium features. Find out more.', 'ml-slider'),
 				'image' => 'metaslider_logo.png',
-				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'metaslider',
 				'button_meta' => 'ml-slider',
 				'dismiss_time' => 'pro_features',
 				'hide_time' => 12,
@@ -153,7 +161,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'title' => __('Can you translate? Want to improve MetaSlider for speakers of your language?', 'ml-slider'),
 				'text' => __('Please go here for instructions - it is easy.', 'ml-slider'),
 				'image' => 'metaslider_logo.png',
-				'button_link' => 'https://translate.wordpress.org/projects/wp-plugins/ml-slider',
+				'button_link' => 'metaslider_translate',
 				'button_meta' => 'lets_start',
 				'dismiss_time' => 'translation',
 				'hide_time' => 12,
@@ -178,18 +186,14 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	 * @return string
 	 */
     protected function pro_notices() {
-        return array(
-			'pro_survey' => array(
-				'title' => __("We’re making changes and need your help.", 'ml-slider'), 
-				'text' => __('If you could spare a minute, we would like to ask you 4 easy questions about how you use MetaSlider. Your voice is important to us!', 'ml-slider'),
-				'image' => 'metaslider_logo.png',
-				'button_link' => 'https://www.metaslider.com/survey-pro',
-                'button_meta' => 'lets_start',
-                'dismiss_time' => 'pro_survey',
-                'hide_time' => '',
-				'supported_positions' => array('header'),
-			),
-        );
+
+		if (defined('METASLIDER_FORCE_LITE_NOTICES') && METASLIDER_FORCE_LITE_NOTICES) {
+			
+			// Override to force pro, but make sure both overrides arent set
+			return (!defined('METASLIDER_FORCE_PRO_NOTICES')) ? $this->lite_notices() : array();
+		}
+
+        return array();
     }
     
 	/**
@@ -200,12 +204,18 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	 * @return string
 	 */
     protected function seasonal_notices() {
+
+
+        if (defined('METASLIDER_DISABLE_SEASONAL_NOTICES') && METASLIDER_DISABLE_SEASONAL_NOTICES) {
+            return array();
+        }
+
         return array(
 			'blackfriday2018' => array(
 				'title' => __('Black Friday - 50% off the MetaSlider Add-on Pack until November 30th', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/black_friday.png',
-				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'metaslider',
 				'button_meta' => 'ml-slider',
 				'dismiss_time' => 'blackfriday2018',
 				'discount_code' => 'blackfriday2018sale',
@@ -218,7 +228,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'title' => __('Christmas sale - 50% off the MetaSlider Add-on Pack until December 25th', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/christmas.png',
-				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'metaslider',
 				'button_meta' => 'ml-slider',
 				'dismiss_time' => 'christmas2018',
 				'discount_code' => 'christmas2018sale',
@@ -231,7 +241,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'title' => __('Happy New Year - 50% off the MetaSlider Add-on Pack until January 14th', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/new_year.png',
-				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'metaslider',
 				'button_meta' => 'ml-slider',
 				'dismiss_time' => 'newyear2019',
 				'discount_code' => 'newyear2019sale',
@@ -244,7 +254,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'title' => __('Spring sale - 50% off the MetaSlider Add-on Pack until April 30th', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/spring.png',
-				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'metaslider',
 				'button_meta' => 'ml-slider',
 				'dismiss_time' => 'spring2018',
 				'discount_code' => 'spring2018sale',
@@ -254,10 +264,10 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'supported_positions' => array('header', 'dashboard'),
 			),
 			'summer2018' => array(
-				'title' => __('Summer sale - 50% off the MetaSlider Add-on Pack until July 31st', 'ml-slider'),
+				'title' => __('Summer sale - 20% off the MetaSlider Add-on Pack until July 31st', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/summer.png',
-				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'metaslider',
 				'button_meta' => 'ml-slider',
 				'dismiss_time' => 'summer2018',
 				'discount_code' => 'summer2018sale',
@@ -280,49 +290,49 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'title' => __('MetaSlider Add-on Pack:'), 
 				'text' => __('Increase your conversion rate with video slides and many more options.', 'ml-slider'),
 				'image' => '',
-				'button_link' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade') . '?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'metaslider',
                 'button_meta' => 'ml-slider',
 			),
 			// 'wpo_pro' => array(
 			// 'title' => __('WP-Optimize Premium'), 
 			// 'text' => __('offers unparalleled choice and flexibility, allowing you to select one or a combination of over a dozen optimization options.', 'ml-slider'),
 			// 'image' => '',
-			// 'button_link' => 'https://getwpo.com?utm_source=metaslider-plugin-page&utm_medium=banner',
+			// 'button_link' => 'wp_optimize',
             // 'button_meta' => 'ml-slider',
 			// ),
 			// 'udp_pro' => array(
 			// 'title' => __('UpdraftPlus Premium'), 
 			// 'text' => __('provides personal support, the ability to copy sites, more storage destinations, encrypted backups for security, multiple backup destinations, better reporting, no adverts and plenty more.', 'ml-slider'),
 			// 'image' => '',
-			// 'button_link' => 'https://updraftplus.com?utm_source=metaslider-plugin-page&utm_medium=banner',
+			// 'button_link' => 'updraftplus',
             // 'button_meta' => 'ml-slider',
 			// ),
 			'udp' => array(
 				'title' => __('UpdraftPlus'), 
 				'text' => __('simplifies backups and restoration. It is the world\'s highest ranking and most popular scheduled backup plugin, with over a million currently-active installs.', 'ml-slider'),
 				'image' => '',
-				'button_link' => 'https://wordpress.org/plugins/updraftplus/',
+				'button_link' => 'updraftplus_wordpress',
                 'button_meta' => 'updraftplus',
 			),
 			'wpo' => array(
 				'title' => __('WP-Optimize:'), 
 				'text' => __('auto-clean your WordPress database so that it runs at maximum efficiency.', 'ml-slider'),
 				'image' => '',
-				'button_link' => 'https://wordpress.org/plugins/wp-optimize/',
+				'button_link' => 'wp_optimize_wordpress',
                 'button_meta' => 'wp-optimize',
 			),
 			'keyy' => array(
 				'title' => __('Keyy:'), 
 				'text' => htmlspecialchars(__('Simple & secure login with a wave of your phone.', 'ml-slider')),
 				'image' => '',
-				'button_link' => 'https://getkeyy.com/?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'keyy',
                 'button_meta' => 'keyy',
 			),
 			'updraftcentral' => array(
 				'title' => __('UpdraftCentral'), 
 				'text' => __('is a highly efficient way to manage, update and backup multiple websites from one place.', 'ml-slider'),
 				'image' => '',
-				'button_link' => 'https://updraftcentral.com?utm_source=metaslider-plugin-page&utm_medium=banner',
+				'button_link' => 'updraftcentral',
                 'button_meta' => 'updraftcentral',
 			),
         );
@@ -373,6 +383,9 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	 * @return bool returns true when we dont want to show the ad
 	 */
 	protected function check_notice_dismissed($ad_identifier) {
+		if ($this->force_ads()) {
+			return false;
+		}
 		return (time() < get_option("ms_hide_{$ad_identifier}_ads_until"));
     }
 	
@@ -420,7 +433,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
         $page = isset($_GET['page']) ? $_GET['page'] : '';
 
         // I'm thinking to limit the check to the actual settings page for now
-        // This way, if the activaye the plugin but don't start using it until 
+        // This way, if they activate the plugin but don't start using it until
         // a few weeks after, it won't bother them with ads.
 		// return ('index.php' === $pagenow) || ($page === 'metaslider');
 		return ($page === 'metaslider');
@@ -433,6 +446,12 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	 * @return bool returns true when we dont want to show the ad
 	 */
 	protected function ad_delay_has_finished() {
+		
+		if ($this->force_ads()) {
+
+			// If there's an override, return true
+			return true;
+		}
 
         if (metaslider_pro_is_installed()) {
 
@@ -483,7 +502,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
      */
     public function show_dashboard_notices() {
         $current_page = get_current_screen();
-        if ('dashboard' === $current_page->base && metaslider_user_sees_notices($this->plugin)) {
+        if ('dashboard' === $current_page->base && metaslider_user_is_ready_for_notices()) {
 
             // Override the delay to show the thankyou notice on activation
             // if (!empty($_GET['ms_activated'])) {
@@ -551,9 +570,8 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 			'go_there' => __('Go there', 'ml-slider')
 		);
 		$message = isset($messages[$type]) ? $messages[$type] : __('Read more', 'ml-slider');
-		$link = apply_filters('updraftplus_com_link', $link);
 
-		return '<a class="updraft_notice_link" href="' . esc_url($link) . '">' . $message . '</a>';
+		return '<a class="updraft_notice_link" href="' . $this->get_notice_url($link) . '">' . $message . '</a>';
 	}
 
 	/**
@@ -666,4 +684,48 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
         
 		return $result ? $result : new WP_Error('update_failed', __('The attempt to update the option failed.', 'ml-slider'), array('status' => 409));
     }
+    
+/**
+ * Returns the url for a notice link
+ *
+ * @param string $link_id the link to get the url
+ * @return string the url for the link id
+ */
+	public function get_notice_url($link_id) {
+		$urls = array(
+			'keyy' => 'https://getkeyy.com',
+			'metaslider' => apply_filters('metaslider_hoplink', 'https://www.metaslider.com/upgrade'),
+			'metaslider_rate' => 'https://wordpress.org/support/plugin/ml-slider/reviews?rate=5#new-post',
+			'metaslider_survey' => 'https://www.metaslider.com/survey',
+			'metaslider_survey_pro' => 'https://www.metaslider.com/survey-pro',
+			'metaslider_translate' => 'https://translate.wordpress.org/projects/wp-plugins/ml-slider',
+			'updraftplus' => apply_filters('updraftplus_com_link', 'https://updraftplus.com'),
+			'updraftplus_wordpress' => 'https://wordpress.org/plugins/updraftplus/',
+			'updraftcentral' => 'https://updraftcentral.com',
+			'wp_optimize' => 'https://getwpo.com',
+			'wp_optimize_wordpress' => 'https://wordpress.org/plugins/wp-optimize/'
+		);
+
+		// Return the website url if the ID was not set
+		if (!isset($urls[$link_id])) return 'https://www.metaslider.com';
+		
+		// Return if analytics code is already set
+		if (strpos($urls[$link_id], 'utm_source')) return esc_url($urls[$link_id]);
+
+		// Add our analytics code
+		return esc_url(add_query_arg(array(
+			'utm_source' => 'metaslider-plugin-page',
+			'utm_medium' => 'banner'
+		), $urls[$link_id]));
+	}
+
+	/**
+	 * Forces ads to show when any override is set
+	 */
+	private function force_ads() {
+		return (defined('METASLIDER_FORCE_NOTICES') && METASLIDER_FORCE_NOTICES) ||
+			(defined('METASLIDER_FORCE_PRO_NOTICES') && METASLIDER_FORCE_PRO_NOTICES) ||
+			(defined('METASLIDER_FORCE_LITE_NOTICES') && METASLIDER_FORCE_LITE_NOTICES) ||
+			(defined('METASLIDER_DISABLE_SEASONAL_NOTICES') && METASLIDER_DISABLE_SEASONAL_NOTICES);
+	}
 }

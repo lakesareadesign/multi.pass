@@ -1,9 +1,9 @@
 === WooSidebars ===
-Contributors: woothemes, mattyza
+Contributors: woothemes, Automattic, mattyza
 Tags: widgets, sidebars, widget-areas
 Requires at least: 4.1
-Tested up to: 4.3
-Stable tag: 1.4.3
+Tested up to: 4.9.6
+Stable tag: 1.4.5
 License: GPLv3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -12,8 +12,6 @@ WooSidebars adds functionality to display different widgets in a sidebar, accord
 == Description ==
 
 With WooSidebars, it's possible to change the widgets that display in a sidebar (widgetized area) according to a context (for example, a specific page, a specific blog post, certain categories or the search results screen). Setting up a custom widget area to display across multiple conditions is as easy as a few clicks.
-
-[vimeo http://vimeo.com/42980663]
 
 Looking for a helping hand? [View plugin documentation](http://docs.woothemes.com/documentation/plugins/woosidebars/).
 
@@ -71,6 +69,12 @@ Looking to contribute code to this plugin? [Fork the repository over at GitHub](
 
 == Upgrade Notice ==
 
+= 1.4.5 =
+Fixes a fatal error, by removing the no longer relevant contextual help.
+
+= 1.4.4 =
+Bug fix and maintenance release. Enables "pages and their children" as a widget area condition.
+
 = 1.4.3 =
 Bug fix and maintenance release.
 
@@ -100,6 +104,14 @@ Updated for WordPress 3.5+ compatibility. Adjusted "Advanced" tab logic. Fixed b
 Moved to WordPress.org. Woo! Added scope to methods and properties where missing.
 
 == Changelog ==
+
+= 1.4.5 =
+* 2018-06-18
+* Fixes a fatal error, by removing the no longer relevant contextual help.
+
+= 1.4.4 =
+* 2018-06-08
+* Bug fix and maintenance release. Enables "pages and their children" as a widget area condition.
 
 = 1.4.3 =
 * 2015-09-22

@@ -6189,7 +6189,7 @@
 			// Loop through the form data.
 			for ( i = 0; i < data.length; i++ ) {
 
-				value = data[ i ].value.replace( /\r/gm, '' );
+				value = data[ i ].value.replace( /\r/gm, '' ).replace( /&#39;/g, "'" );
 
 				// Don't save text editor textareas.
 				if ( data[ i ].name.indexOf( 'flrich' ) > -1 ) {
@@ -6743,7 +6743,7 @@
 				asHtmlID                    : field.attr('name'),
 				selectedItemProp            : 'name',
 				searchObjProps              : 'name',
-				minChars                    : 3,
+				minChars                    : 2,
 				keyDelay                    : 1000,
 				fadeOut                     : false,
 				usePlaceholder              : true,

@@ -615,3 +615,13 @@ div.metabox-prefs {
 .tablenav .tablenav-pages a {
     background-position-y: -380px;
 }
+
+.postlist::-webkit-scrollbar {
+  -webkit-appearance: none;
+  width: 7px;
+}
+.postlist::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background-color: rgba(0, 0, 0, .5);
+  -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}

@@ -6,7 +6,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.7.2
+ * Version:     3.8.1
  * Author:      Team Updraft
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -16,11 +16,9 @@
  * Domain Path: /languages
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // disable direct access
-}
+if (!defined('ABSPATH')) die('No direct access.');
 
-if ( ! class_exists( 'MetaSliderPlugin' ) ) :
+if (!class_exists('MetaSliderPlugin')) :
 
 /**
  * Register the plugin.
@@ -34,14 +32,7 @@ class MetaSliderPlugin {
      *
      * @var string
      */
-    public $version = '3.7.2';
-
-    /**
-     * The lowest tier price for upgrades
-     *
-     * @var string
-     */
-    public $pro_price = '39';
+    public $version = '3.8.1';
 
     /**
      * Specific SLider
@@ -49,42 +40,69 @@ class MetaSliderPlugin {
      * @var MetaSlider
      */
     public $slider = null;
-
-
-    /**
-     * Init
-     */
-    public static function init() {
-
-        $metaslider = new self();
-
-    }
-
+    
+	/**
+	 * Instance object
+	 *
+	 * @var object
+	 * @see get_instance()
+	 */
+	protected static $instance = NULL;
 
     /**
      * Constructor
      */
-    public function __construct() {
+    public function __construct() {}
+
+	/**
+	 * Used to access the instance
+     *
+     * @return object - class instance
+	 */
+	public static function get_instance() {
+		if (NULL === self::$instance) self::$instance = new self();
+		return self::$instance;
+	}
+
+    /**
+     * Setup
+     */
+    public function setup() {        
         $this->define_constants();
         $this->includes();
         $this->setup_actions();
         $this->setup_filters();
         $this->setup_shortcode();
         $this->register_slide_types();
-        $this->admin = new MetaSlider_Admin_Pages($this);
-    }
-
+		$this->admin = new MetaSlider_Admin_Pages($this);
+		
+		/*
+		Load in slideshow related classes
+		require_once(METASLIDER_PATH . 'admin/slideshows/bootstrap.php');
+		
+		Load in some optional functions that require more modern versions of WP (4.4)
+		Coming soon!
+		if (function_exists('register_rest_route')) {
+			require_once(METASLIDER_PATH . 'admin/routes/api.php');
+			add_action('rest_api_init', array(new MetaSlider_Api(), 'register_routes'));
+		}
+        if (function_exists('register_block_type')) {
+            $this->gutenberg = new MetaSlider_Gutenberg($this);
+		}
+		*/
+	}
 
     /**
      * Define MetaSlider constants
      */
     private function define_constants() {
-        define('METASLIDER_VERSION',    $this->version);
-        define('METASLIDER_BASE_URL',   trailingslashit(plugins_url('ml-slider')));
-        define('METASLIDER_ASSETS_URL', trailingslashit(METASLIDER_BASE_URL . 'assets'));
-        define('METASLIDER_ADMIN_URL',  trailingslashit(METASLIDER_BASE_URL . 'admin'));
-        define('METASLIDER_PATH',       plugin_dir_path(__FILE__));
-        define('METASLIDER_PRO_PRICE',  $this->pro_price);
+    	if (!defined('METASLIDER_VERSION')) { 
+	        define('METASLIDER_VERSION',    $this->version);
+	        define('METASLIDER_BASE_URL',   trailingslashit(plugins_url('ml-slider')));
+	        define('METASLIDER_ASSETS_URL', trailingslashit(METASLIDER_BASE_URL . 'assets'));
+	        define('METASLIDER_ADMIN_URL',  trailingslashit(METASLIDER_BASE_URL . 'admin'));
+	        define('METASLIDER_PATH',       plugin_dir_path(__FILE__));
+		}
     }
 
     /**
@@ -105,10 +123,10 @@ class MetaSliderPlugin {
             'simple_html_dom'        => METASLIDER_PATH . 'inc/simple_html_dom.php',
             'metaslider_notices'     => METASLIDER_PATH . 'admin/Notices.php',
             'metaslider_admin_pages' => METASLIDER_PATH . 'admin/Pages.php',
-            'metaslider_tour'        => METASLIDER_PATH . 'admin/Tour.php'
+            'metaslider_tour'        => METASLIDER_PATH . 'admin/Tour.php',
+            'metaslider_gutenberg'   => METASLIDER_PATH . 'admin/Gutenberg.php'
         );
     }
-
 
     /**
      * Load required classes
@@ -116,7 +134,6 @@ class MetaSliderPlugin {
     private function includes() {
         require_once(METASLIDER_PATH . 'admin/lib/helpers.php');
         $autoload_is_disabled = defined( 'METASLIDER_AUTOLOAD_CLASSES' ) && METASLIDER_AUTOLOAD_CLASSES === false;
-
         if ( function_exists( "spl_autoload_register" ) && ! ( $autoload_is_disabled ) ) {
 
             // >= PHP 5.2 - Use auto loading
@@ -558,74 +575,76 @@ class MetaSliderPlugin {
         }
     }
 
-    /**
-     * Update the slider
-     *
-     * @return null
-     */
-    public function update_slider() {
+	/**
+	 * Update the slider
+	 *
+	 * @return string a JSON string with success or failure (and errors)
+	 */
+	public function update_slider() {
 
-        check_admin_referer( "metaslider_update_slider" );
+		// Wordpress will just die() if this fails
+		check_admin_referer("metaslider_update_slider");
 
-        $capability = apply_filters( 'metaslider_capability', 'edit_others_posts' );
+		if (!current_user_can(apply_filters('metaslider_capability', 'edit_others_posts'))) {
+			return wp_send_json_error(array(
+				'message' => __('The security check failed. Please refresh the page and try again.', 'ml-slider')
+			), 401);
+		}
 
-        if ( ! current_user_can( $capability ) ) {
-            return;
-        }
+		$slider_id = absint($_POST['slider_id']);
+		if (!$slider_id) {
+			return wp_send_json_error(array(
+				'message' => __("The slideshow you're trying to update was not found.", 'ml-slider')
+			), 401);
+		}
+		
+		$errors = new WP_Error();
 
-        $slider_id = absint( $_POST['slider_id'] );
-
-        if ( ! $slider_id ) {
-            return;
-        }
-
-        // update settings
-        if ( isset( $_POST['settings'] ) ) {
-
-            $new_settings = $_POST['settings'];
-
-            $old_settings = get_post_meta( $slider_id, 'ml-slider_settings', true );
+		// update settings
+		if (isset($_POST['settings'])) {
+			$new_settings = $_POST['settings'];
+			$old_settings = get_post_meta($slider_id, 'ml-slider_settings', true);
 
             // convert submitted checkbox values from 'on' or 'off' to boolean values
-            $checkboxes = apply_filters( "metaslider_checkbox_settings", array( 'noConflict', 'fullWidth', 'hoverPause', 'links', 'reverse', 'random', 'printCss', 'printJs', 'smoothHeight', 'center', 'carouselMode', 'autoPlay' ) );
+            $checkboxes = apply_filters("metaslider_checkbox_settings", array('noConflict', 'fullWidth', 'hoverPause', 'links', 'reverse', 'random', 'printCss', 'printJs', 'smoothHeight', 'center', 'carouselMode', 'autoPlay', 'firstSlideFadeIn'));
 
-            foreach ( $checkboxes as $checkbox ) {
-                if ( isset( $new_settings[$checkbox] ) && $new_settings[$checkbox] == 'on' ) {
-                    $new_settings[$checkbox] = "true";
-                } else {
-                    $new_settings[$checkbox] = "false";
-                }
+			foreach ($checkboxes as $checkbox) {
+				$new_settings[$checkbox] = (isset($new_settings[$checkbox]) && 'on' == $new_settings[$checkbox]) ? 'true' : 'false';
+			}
+
+			$settings = array_merge((array) $old_settings, $new_settings);
+
+			// update the slider settings
+			// TODO this will return false if the data is unchanged, so we should consider checking the data prior to updating it.
+			$result = update_post_meta($slider_id, 'ml-slider_settings', $settings);
+			// if (!$result) $errors->add('update_failed', __('There was an error while updating the post meta. Most likely this means nothing has changed.', 'ml-slider'));
+		}
+
+		// update slideshow title
+		if (isset($_POST['title'])) {
+			$result = wp_update_post(array(
+				'ID' => $slider_id,
+				'post_title' => esc_html($_POST['title'])
+			));
+			if (!$result) $errors->add('update_failed', __('There was an error while updating the title.', 'ml-slider'));
+		}
+
+		// update individual slides
+		// TODO Refactor this to return better error handling.
+        if (isset($_POST['attachment'])) {
+            foreach ($_POST['attachment'] as $slide_id => $fields) {
+                do_action("metaslider_save_{$fields['type']}_slide", $slide_id, $slider_id, $fields);
             }
+		}
+		
+		if (count($errors->get_error_messages())) {
+			return wp_send_json_error($errors, 409);
+		}
 
-            $settings = array_merge( (array)$old_settings, $new_settings );
-
-            // update the slider settings
-            update_post_meta( $slider_id, 'ml-slider_settings', $settings );
-
-        }
-
-        // update slideshow title
-        if ( isset( $_POST['title'] ) ) {
-
-            $slide = array(
-                'ID' => $slider_id,
-                'post_title' => esc_html( $_POST['title'] )
-            );
-
-            wp_update_post( $slide );
-
-        }
-
-        // update individual slides
-        if ( isset( $_POST['attachment'] ) ) {
-
-            foreach ( $_POST['attachment'] as $slide_id => $fields ) {
-                do_action( "metaslider_save_{$fields['type']}_slide", $slide_id, $slider_id, $fields );
-            }
-
-        }
-
-    }
+		return wp_send_json_success(array(
+			'message' => __('The slideshow was successfully updated.', 'ml-slider'),
+		), 200);
+	}
 
     /**
      * Delete a slide via ajax.
@@ -997,140 +1016,125 @@ class MetaSliderPlugin {
     /**
      * Building setting rows
      *
-     * @param  array $aFields array of field to render
+     * @param  array $settings array of fields to render
      * @return string
      */
-    public function build_settings_rows( $aFields ) {
+    public function build_settings_rows($settings) {
 
         // order the fields by priority
-        uasort( $aFields, array( $this, "compare_elems" ) );
-
-        $return = "";
+        uasort($settings, array($this, "compare_elems"));
+        $output = "";
 
         // loop through the array and build the settings HTML
-        foreach ( $aFields as $id => $row ) {
-            // checkbox input type
-            if ( $row['type'] == 'checkbox' ) {
-                $return .= "<tr><td class='tipsy-tooltip' title=\"{$row['helptext']}\">{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='checkbox' name='settings[{$id}]' {$row['checked']} />";
+        foreach ($settings as $id => $row) {
+            $helptext = isset($row['helptext']) ? htmlentities2($row['helptext']) : '';
 
-                if ( isset( $row['after'] ) ) {
-                    $return .= "<span class='after'>{$row['after']}</span>";
-                }
+            switch ($row['type']) {
 
-                $return .= "</td></tr>";
-            }
-
-            // navigation row
-            if ( $row['type'] == 'navigation' ) {
-                $navigation_row = "<tr class='{$row['type']}'><td class='tipsy-tooltip' title=\"{$row['helptext']}\">{$row['label']}</td><td><ul>";
-                
-                foreach ( $row['options'] as $k => $v ) {
-                    $tease = isset($v['addon_required']) ? 'disabled' : '';
-
-                    if ( $row['value'] === true && $k === 'true' ) {
-                        $checked = checked( true, true, false );
-                    } else if ( $row['value'] === false && $k === 'false' ) {
-                        $checked = checked( true, true, false );
-                    } else {
-                        $checked = checked( $k, $row['value'], false );
+                // checkbox input type
+                case 'checkbox':
+                    $output .= "<tr><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='checkbox' name='settings[{$id}]' {$row['checked']} />";
+                    if (isset($row['after'])) {
+                        $output .= "<span class='after'>{$row['after']}</span>";
                     }
+                    $output .= "</td></tr>";
+                    break;
 
-                    $disabled = $k == 'thumbnails' ? 'disabled' : '';
-                    $navigation_row .= "<li><label class='{$tease}'><input {$tease} type='radio' name='settings[{$id}]' value='{$k}' {$checked} {$disabled}/>{$v['label']}</label>";
-                    
-                    if (isset($v['addon_required']) && $v['addon_required']) {
-                        $navigation_row .= sprintf(" <a target='_blank' class='get-addon' href='%s' title='%s'>%s</a>", metaslider_get_upgrade_link(), __('Get the add-on pack today!', 'ml-slider'), __('Learn More', 'ml-slider'));
+                // navigation row
+                case 'navigation':
+                    $navigation_row = "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><ul>";
+                    foreach ($row['options'] as $option_name => $option_value) {
+                        $tease = isset($option_value['addon_required']) ? 'disabled' : '';
+                        if (true === $row['value'] && 'true' === $option_name) {
+                            $checked = checked(true, true, false);
+                        } else if (false === $row['value'] && 'false' === $option_name) {
+                            $checked = checked(true, true, false);
+                        } else {
+                            $checked = checked($option_name, $row['value'], false);
+                        }
+                        $disabled = $option_name == 'thumbnails' ? 'disabled' : '';
+                        $navigation_row .= "<li><label class='{$tease}'><input {$tease} type='radio' name='settings[{$id}]' value='{$option_name}' {$checked} {$disabled}/>{$option_value['label']}</label>";
+                        if (isset($option_value['addon_required']) && $option_value['addon_required']) {
+                            $navigation_row .= sprintf(" <a target='_blank' class='get-addon' href='%s' title='%s'>%s</a>", metaslider_get_upgrade_link(), __('Get the add-on pack today!', 'ml-slider'), __('Learn More', 'ml-slider'));
+                        }
+                        $navigation_row .= "</li>";
                     }
+                    $navigation_row .= "</ul></td></tr>";
+                    $output .= apply_filters('metaslider_navigation_options', $navigation_row, $this->slider);
+                    break;
 
-                    $navigation_row .= "</li>";
-                }
+                // navigation row
+                case 'radio':
+                    $navigation_row = "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><ul>";
+                    foreach ($row['options'] as $option_name => $option_value) {
+                        $checked = checked($option_name, $row['value'], false);
+                        $class = isset($option_value['class']) ? $option_value['class'] : "";
+                        $navigation_row .= "<li><label><input type='radio' name='settings[{$id}]' value='{$option_name}' {$checked} class='radio {$class}'/>{$option_value['label']}</label></li>";
+                    }
+                    $navigation_row .= "</ul></td></tr>";
+                    $output .= apply_filters('metaslider_navigation_options', $navigation_row, $this->slider);
+                    break;
 
-                $navigation_row .= "</ul></td></tr>";
+                // header/divider row
+                case 'divider':
+                    $output .= "<tr class='{$row['type']}'><td colspan='2' class='divider'><b>{$row['value']}</b></td></tr>";
+                    break;
 
-                $return .= apply_filters( 'metaslider_navigation_options', $navigation_row, $this->slider );
-            }
+                // slideshow select row
+                case 'slider-lib':
+                    $output .= "<tr class='{$row['type']}'><td colspan='2' class='slider-lib-row'>";
+                    foreach ($row['options'] as $option_name => $option_value) {
+                        $checked = checked($option_name, $row['value'], false);
+                        $output .= "<input class='select-slider' id='{$option_name}' rel='{$option_name}' type='radio' name='settings[type]' value='{$option_name}' {$checked} />
+                        <label tabindex='0' for='{$option_name}'>{$option_value['label']}</label>";
+                    }
+                    $output .= "</td></tr>";
+                    break;
 
-            // navigation row
-            if ( $row['type'] == 'radio' ) {
-                $navigation_row = "<tr class='{$row['type']}'><td class='tipsy-tooltip' title=\"{$row['helptext']}\">{$row['label']}</td><td><ul>";
+                // number input type
+                case 'number':
+                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='number' min='{$row['min']}' max='{$row['max']}' step='{$row['step']}' name='settings[{$id}]' value='" . absint($row['value']) . "' /><span class='after'>{$row['after']}</span></td></tr>";
+                    break;
 
-                foreach ( $row['options'] as $k => $v ) {
-                    $checked = checked( $k, $row['value'], false );
-                    $class = isset( $v['class'] ) ? $v['class'] : "";
-                    $navigation_row .= "<li><label><input type='radio' name='settings[{$id}]' value='{$k}' {$checked} class='radio {$class}'/>{$v['label']}</label></li>";
-                }
+                // select drop down
+                case 'select':
+                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><select class='option {$row['class']} {$id}' name='settings[{$id}]'>";
+                    foreach ($row['options'] as $option_name => $option_value) {
+                        $selected = selected($option_name, $row['value'], false);
+                        $output .= "<option class='{$option_value['class']}' value='{$option_name}' {$selected}>{$option_value['label']}</option>";
+                    }
+                    $output .= "</select></td></tr>";
+                    break;
 
-                $navigation_row .= "</ul></td></tr>";
+                // theme drop down
+                case 'theme':
+                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><select class='option {$row['class']} {$id}' name='settings[{$id}]'>";
+                    $themes = "";
+                    foreach ($row['options'] as $option_name => $option_value) {
+                        $selected = selected($option_name, $row['value'], false);
+                        $themes .= "<option class='{$option_value['class']}' value='{$option_name}' {$selected}>{$option_value['label']}</option>";
+                    }
+                    $output .= apply_filters('metaslider_get_available_themes', $themes, $this->slider->get_setting('theme'));
+                    $output .= "</select></td></tr>";
+                    break;
 
-                $return .= apply_filters( 'metaslider_navigation_options', $navigation_row, $this->slider );
-            }
+                // text input type
+                case 'text':
+                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='text' name='settings[{$id}]' value='" . esc_attr($row['value']) . "' /></td></tr>";
+                    break;
 
-            // header/divider row
-            if ( $row['type'] == 'divider' ) {
-                $return .= "<tr class='{$row['type']}'><td colspan='2' class='divider'><b>{$row['value']}</b></td></tr>";
-            }
+                // text input type
+                case 'textarea':
+                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}' colspan='2'>{$row['label']}</td></tr><tr><td colspan='2'><textarea class='option {$row['class']} {$id}' name='settings[{$id}]' />{$row['value']}</textarea></td></tr>";
+                    break;
 
-            // slideshow select row
-            if ( $row['type'] == 'slider-lib' ) {
-                $return .= "<tr class='{$row['type']}'><td colspan='2' class='slider-lib-row'>";
-
-                foreach ( $row['options'] as $k => $v ) {
-                    $checked = checked( $k, $row['value'], false );
-                    $return .= "<input class='select-slider' id='{$k}' rel='{$k}' type='radio' name='settings[type]' value='{$k}' {$checked} />
-                    <label tabindex='0' for='{$k}'>{$v['label']}</label>";
-                }
-
-                $return .= "</td></tr>";
-            }
-
-            // number input type
-            if ( $row['type'] == 'number' ) {
-                $return .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title=\"{$row['helptext']}\">{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='number' min='{$row['min']}' max='{$row['max']}' step='{$row['step']}' name='settings[{$id}]' value='" . absint( $row['value'] ) . "' /><span class='after'>{$row['after']}</span></td></tr>";
-            }
-
-            // select drop down
-            if ( $row['type'] == 'select' ) {
-                $return .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title=\"{$row['helptext']}\">{$row['label']}</td><td><select class='option {$row['class']} {$id}' name='settings[{$id}]'>";
-                foreach ( $row['options'] as $k => $v ) {
-                    $selected = selected( $k, $row['value'], false );
-                    $return .= "<option class='{$v['class']}' value='{$k}' {$selected}>{$v['label']}</option>";
-                }
-                $return .= "</select></td></tr>";
-            }
-
-            // theme drop down
-            if ( $row['type'] == 'theme' ) {
-                $return .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title=\"{$row['helptext']}\">{$row['label']}</td><td><select class='option {$row['class']} {$id}' name='settings[{$id}]'>";
-                $themes = "";
-
-                foreach ( $row['options'] as $k => $v ) {
-                    $selected = selected( $k, $row['value'], false );
-                    $themes .= "<option class='{$v['class']}' value='{$k}' {$selected}>{$v['label']}</option>";
-                }
-
-                $return .= apply_filters( 'metaslider_get_available_themes', $themes, $this->slider->get_setting( 'theme' ) );
-
-                $return .= "</select></td></tr>";
-            }
-
-            // text input type
-            if ( $row['type'] == 'text' ) {
-                $return .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title=\"{$row['helptext']}\">{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='text' name='settings[{$id}]' value='" . esc_attr( $row['value'] ) . "' /></td></tr>";
-            }
-
-            // text input type
-            if ( $row['type'] == 'textarea' ) {
-                $return .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title=\"{$row['helptext']}\" colspan='2'>{$row['label']}</td></tr><tr><td colspan='2'><textarea class='option {$row['class']} {$id}' name='settings[{$id}]' />{$row['value']}</textarea></td></tr>";
-            }
-
-            // text input type
-            if ( $row['type'] == 'title' ) {
-                $return .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title=\"{$row['helptext']}\">{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='text' name='{$id}' value='" . esc_attr( $row['value'] ) . "' /></td></tr>";
+                // text input type
+                case 'title':
+                    $output .= "<tr class='{$row['type']}'><td class='tipsy-tooltip' title='{$helptext}'>{$row['label']}</td><td><input class='option {$row['class']} {$id}' type='text' name='{$id}' value='" . esc_attr( $row['value']) . "' /></td></tr>";
+                    break;
             }
         }
-
-        return $return;
-
+        return $output;
     }
 
 
@@ -1151,15 +1155,16 @@ class MetaSliderPlugin {
             'easeInBack', 'easeOutBack', 'easeInOutBack', 'easeInBounce', 'easeOutBounce',
             'easeInOutBounce'
         );
+        $output = array();
 
-        foreach ( $options as $option ) {
-            $return[$option] = array(
-                'label' => ucfirst( preg_replace( '/(\w+)([A-Z])/U', '\\1 \\2', $option ) ),
+        foreach ( $options as $option) {
+            $output[$option] = array(
+                'label' => ucfirst( preg_replace( '/(\w+)([A-Z])/U', '\\1 \\2', $option)),
                 'class' => ''
             );
         }
 
-        return $return;
+        return $output;
 
     }
 
@@ -1289,7 +1294,7 @@ class MetaSliderPlugin {
             var metaslider_slider_id = <?php echo $slider_id; ?>;
         </script>
 
-        <div class="wrap metaslider metaslider-ui">
+        <div id="metaslider-ui" class="wrap metaslider metaslider-ui">
             <h1 class="wp-heading-inline metaslider-title">
                 <img width=50 height=50 src="<?php echo METASLIDER_ADMIN_URL ?>images/metaslider_logo_large.png" alt="MetaSlider">
                 MetaSlider
@@ -1297,7 +1302,7 @@ class MetaSliderPlugin {
                     echo ' Pro';
                 } ?>
             </h1>
-			<?php if (metaslider_user_sees_notices($this)) {
+			<?php if (metaslider_user_is_ready_for_notices()) {
                 echo $this->notices->do_notice(false, 'header', true); 
             } ?>
             <form accept-charset="UTF-8" action="<?php echo admin_url( 'admin-post.php'); ?>" method="post">
@@ -1308,8 +1313,8 @@ class MetaSliderPlugin {
                 <?php $this->print_slideshow_selector(); ?>
 
                 <?php if ( ! $this->slider ) return; ?>
-
-                <div id='poststuff' class="metaslider-inner wp-clearfix">
+				
+				<div id='poststuff' class="metaslider-inner wp-clearfix">
                     <div id='post-body' class='metabox-holder columns-2'>
 
                         <div id='post-body-content'>
@@ -1596,6 +1601,14 @@ class MetaSliderPlugin {
                                                             'value' => $this->slider->get_setting( 'carouselMargin' ),
                                                             'helptext' => __( "Pixel margin between slides in carousel.", "ml-slider" ),
                                                             'after' => __( "px", "ml-slider" )
+                                                        ),
+                                                        'firstSlideFadeIn' => array(
+                                                            'priority' => 47,
+                                                            'type' => 'checkbox',
+                                                            'label' => __("Fade in", "ml-slider"),
+                                                            'class' => 'option flex',
+                                                            'checked' => 'true' == $this->slider->get_setting('firstSlideFadeIn') ? 'checked' : '',
+                                                            'helptext' => __("Fade in the first slide", "ml-slider"),
                                                         ),
                                                         'random' => array(
                                                             'priority' => 50,
@@ -2065,4 +2078,4 @@ class MetaSliderPlugin {
 
 endif;
 
-add_action( 'plugins_loaded', array( 'MetaSliderPlugin', 'init' ), 10 );
+add_action('plugins_loaded', array(MetaSliderPlugin::get_instance(), 'setup'), 10);

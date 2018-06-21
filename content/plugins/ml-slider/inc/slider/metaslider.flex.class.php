@@ -1,8 +1,6 @@
 <?php
 
-if ( ! defined( 'ABSPATH' ) ) {
-    exit; // disable direct access
-}
+if (!defined('ABSPATH')) die('No direct access.');
 
 /**
  * Flex Slider specific markup, javascript, css and settings.
@@ -122,35 +120,31 @@ class MetaFlexSlider extends MetaSlider {
         return $css;
     }
 
-    /**
-     * Enable the parameters that are accepted by the slider
-     *
-     * @param  string $param Parameters
-     * @return array|boolean enabled parameters (false if parameter doesn't exist)
-     */
-    protected function get_param( $param ) {
-        $params = array(
-            'effect' => 'animation',
-            'direction' => 'direction',
-            'prevText' => 'prevText',
-            'nextText' => 'nextText',
-            'delay' => 'slideshowSpeed',
-            'animationSpeed' => 'animationSpeed',
-            'hoverPause' => 'pauseOnHover',
-            'reverse' => 'reverse',
-            'navigation' => 'controlNav',
-            'links' =>'directionNav',
-            'carouselMode' => 'carouselMode',
-            'easing' => 'easing',
-            'autoPlay' => 'slideshow'
-        );
-
-        if ( isset( $params[$param] ) ) {
-            return $params[$param];
-        }
-
-        return false;
-    }
+	/**
+	 * Enable the parameters that are accepted by the slider
+	 *
+	 * @param  string $param Parameters
+	 * @return array|boolean enabled parameters (false if parameter doesn't exist)
+	 */
+	protected function get_param($param) {
+		$params = array(
+			'effect' => 'animation',
+			'direction' => 'direction',
+			'prevText' => 'prevText',
+			'nextText' => 'nextText',
+			'delay' => 'slideshowSpeed',
+			'animationSpeed' => 'animationSpeed',
+			'hoverPause' => 'pauseOnHover',
+			'reverse' => 'reverse',
+			'navigation' => 'controlNav',
+			'links' =>'directionNav',
+			'carouselMode' => 'carouselMode',
+			'easing' => 'easing',
+			'autoPlay' => 'slideshow',
+			'firstSlideFadeIn' => 'fadeFirstSlide'
+		);
+		return isset($params[$param]) ? $params[$param] : false;
+	}
 
     /**
      * Include slider assets

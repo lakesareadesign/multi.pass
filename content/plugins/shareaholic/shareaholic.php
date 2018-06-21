@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 8.7.0
+ * @version 8.7.2
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related posts
 Plugin URI: https://shareaholic.com/publishers/
 Description: The world's leading all-in-one Audience Amplification Platform that helps grow your website traffic, engagement, conversions & monetization. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 8.7.0
+Version: 8.7.2
 Author: Shareaholic
 Author URI: https://shareaholic.com
 Text Domain: shareaholic
@@ -63,7 +63,7 @@ if (!class_exists('Shareaholic')) {
     const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
     const REC_API_URL = 'http://recommendations.shareaholic.com';
 
-    const VERSION = '8.7.0';
+    const VERSION = '8.7.2';
 
     /**
      * Starts off as false so that ::get_instance() returns
@@ -139,7 +139,7 @@ if (!class_exists('Shareaholic')) {
       add_action('pre_post_update', array('ShareaholicUtilities', 'before_post_is_updated'));
 
       // do something before a site's permalink structure changes
-      add_action('update_option_permalink_structure', array('ShareaholicUtilities', 'notify_content_manager_sitemap'));
+      add_action('update_option_permalink_structure', array('ShareaholicUtilities', 'notify_content_manager_singledomain'));
 
       // Show ToS notice
       if (!ShareaholicUtilities::has_accepted_terms_of_service()) {
@@ -238,7 +238,6 @@ if (!class_exists('Shareaholic')) {
       add_option( 'Activated_Plugin_Shareaholic', 'shareaholic' );
       $api_key = ShareaholicUtilities::get_option('api_key');
       if (ShareaholicUtilities::has_accepted_terms_of_service() && !empty($api_key)) {
-        ShareaholicUtilities::notify_content_manager_sitemap();
         ShareaholicUtilities::notify_content_manager_singledomain();
       }
 

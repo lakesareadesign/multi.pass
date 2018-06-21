@@ -79,7 +79,7 @@ class Appointments_Admin_Settings_Page {
 			}
 			$content .= implode( ' | ', $links );
 			$content .= '</ul>';
-			wp_enqueue_script( 'app-settings', appointments_plugin_url() . 'admin/js/admin-settings.js', array( 'jquery' ), appointments_get_db_version(), true );
+			wp_enqueue_script( 'app-settings', appointments_plugin_url() . 'admin/js/admin-settings.js', array( 'jquery', 'jquery-ui-slider' ), appointments_get_db_version(), true );
 			$appointments = appointments();
 			$classes = $appointments->get_classes();
 			$presets = array();
@@ -343,6 +343,7 @@ class Appointments_Admin_Settings_Page {
 		 * yes/no options
 		 */
 		$options_names = array(
+			'always_load_scripts',
 			'allow_overwork',
 			'allow_overwork_break',
 			'allow_worker_confirm',

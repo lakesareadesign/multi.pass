@@ -47,12 +47,13 @@ jQuery(function($) {
         /**
          * Filter out spaces when copying the shortcode.
          */
-        document.getElementById('ms-entire-code')
-                .addEventListener('copy', function(event) {
-                    var text = window.getSelection()
-                        .toString().split("'").map(function(string, index) {
-                            return (index === 1) ? string.replace(/\s/g, '').replace('ri', 'r i') : string;
-                        }).join("'");
+		document.getElementById('ms-entire-code') &&
+			document.getElementById('ms-entire-code').addEventListener('copy', function(event) {
+				var text = window.getSelection()
+					.toString().split("'")
+					.map(function(string, index) {
+						return (index === 1) ? string.replace(/\s/g, '').replace('ri', 'r i') : string;
+					}).join("'");
             event.clipboardData.setData('text/plain', text);
             event.preventDefault()
         });
@@ -137,6 +138,7 @@ jQuery(function($) {
                     $(".metaslider .left table").append(response);
                     MetaSlider_Helpers.loading(false);
                     $(".metaslider .left table").trigger('resizeSlides');
+                    $(document).trigger('metaslider/slides-added');
                 }
             });
         });
@@ -659,60 +661,62 @@ jQuery(function($) {
             return confirm(metaslider.confirm);
         });
     
-        // AJAX save & preview
-        $(".metaslider form").find("button[type=submit]").on("click", function(e) {
-            e.preventDefault();
-    
-            $(".metaslider .spinner").show().css('visibility', 'visible');
-            $(".metaslider input[type=submit]").attr("disabled", "disabled");
-    
-            // update slide order
-            $(".metaslider .left table").trigger('updateSlideOrder');
-    
-            fixIE10PlaceholderText();
-    
-            // get some values from elements on the page:
-            var the_form = $(this).parents("form");
-            var data = the_form.serialize();
-            var url = the_form.attr("action");
-            var button = $(this);
-    
-            $.ajax({
-                type: "POST",
-                data : data,
-                cache: false,
-                url: url,
-                success: function(data) {
-                    var response = $(data);
-                    $.when($(".metaslider .left table").trigger("resizeSlides")).done(function() {
-    
-                        $("button[data-thumb]", response).each(function() {
-                            var $this = $(this);
-                            var editor_id = $this.attr("data-editor_id");
-                            $("button[data-editor_id=" + editor_id + "]")
-                                .attr("data-thumb", $this.attr("data-thumb"))
-                                .attr("data-width", $this.attr("data-width"))
-                                .attr("data-height", $this.attr("data-height"));
-                        });
-    
-                        fixIE10PlaceholderText();
-    
-                        if ("ms-preview" === button.prop("id")) {
-                            $.colorbox({
-                                iframe: true,
-                                href: metaslider.iframeurl + "&slider_id=" + button.data("slider_id"),
-                                transition: "elastic",
-                                innerHeight: getLightboxHeight(),
-                                innerWidth: getLightboxWidth(),
-                                scrolling: false,
-                                fastIframe: false
-                            });
-                        }
-    
-                    });
-                }
-            });
-        });
+	// AJAX save & preview
+	$(".metaslider form").find("button[type=submit]").on("click", function(e) {
+		e.preventDefault()
+		$(".metaslider .spinner").show().css('visibility', 'visible')
+		$(".metaslider input[type=submit]").attr("disabled", "disabled")
+
+		// update slide order
+		$(".metaslider .left table").trigger('updateSlideOrder')
+		fixIE10PlaceholderText();
+
+		// get some values from elements on the page:
+		var the_form = $(this).parents("form")
+		var url = the_form.attr("action")
+		var button = $(this)
+
+		var form_data = new FormData()
+		the_form.serializeArray().forEach(function(data) {
+			form_data.append(data.name, data.value)
+		})
+
+		$.ajax({
+			type: "POST",
+			data: form_data,
+			cache: false,
+			contentType: false,
+			processData: false,
+			url: url,
+			success: function(data) {
+				var response = $(data)
+				$.when($(".metaslider .left table").trigger("resizeSlides")).done(function() {
+
+					$("button[data-thumb]", response).each(function() {
+						var $this = $(this)
+						var editor_id = $this.attr("data-editor_id")
+						$("button[data-editor_id=" + editor_id + "]")
+							.attr("data-thumb", $this.attr("data-thumb"))
+							.attr("data-width", $this.attr("data-width"))
+							.attr("data-height", $this.attr("data-height"))
+					});
+					fixIE10PlaceholderText()
+
+					if ("ms-preview" === button.prop("id")) {
+						$.colorbox({
+							iframe: true,
+							href: metaslider.iframeurl + "&slider_id=" + button.data("slider_id"),
+							transition: "elastic",
+							innerHeight: getLightboxHeight(),
+							innerWidth: getLightboxWidth(),
+							scrolling: true,
+							fastIframe: false
+						})
+					}
+				})
+			}
+		})
+	})
 
     // UI/Feedback
     // Events for the slideshow title
@@ -774,7 +778,7 @@ var MetaSlider_Helpers = {
             jQuery(".metaslider .spinner").hide().css('visibility', '');
             jQuery(".metaslider button[type=submit]").removeAttr("disabled");
         }
-    },
+    }
 };
 
 /**
@@ -789,7 +793,7 @@ var MS_Binder = function(selector) {
  
 MS_Binder.prototype.bind = function(value){
     if (value === this.value) return;
-     
+    
     this.value = value;
     this.dom.innerText = this.value;
 };
@@ -880,7 +884,7 @@ MS_Notification.prototype.fire = function(delay, callback) {
             MS_Notification.call(_this[_callback]());
         });
     } else {
-        
+
         // If the callback is a custom function
         this.notice.on('click', function() {
             _this.hide();

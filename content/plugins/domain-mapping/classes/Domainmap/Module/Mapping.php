@@ -236,6 +236,11 @@ class Domainmap_Module_Mapping extends Domainmap_Module {
 			// Return true or false.
 			return $this->use_mapped_for_customizer();
 		}
+
+		// If no mapped domain is set to even use.
+		if (!self::utils()->get_mapped_domain(false, false)) {
+			return false;
+		}
 		/*
 		 * Frontend
 		 */
@@ -1229,6 +1234,7 @@ class Domainmap_Module_Mapping extends Domainmap_Module {
 
 	/**
 	 * Sets proper $redirect_to based on admin mapping opted in settings
+	 * Note that this overrides the redirect_to query string on the login url.
 	 *
 	 * @since 4.4.0.4
 	 *
@@ -1243,16 +1249,18 @@ class Domainmap_Module_Mapping extends Domainmap_Module {
 	 */
 	function set_proper_login_redirect( $redirect_to, $requested_redirect_to ){
 		$admin_mapping = $this->_plugin->get_option( 'map_admindomain' );
+		$login_mapping = $this->_plugin->get_option( 'map_logindomain' );
 
 		$scheme = $this->use_ssl() ? 'https' : 'http';
 
-		if( $admin_mapping == "original"   ){
+		// If admin is original or admin is user and login was original, keep on original domain to prevent an inability to login.
+		if( $admin_mapping === "original" || ($admin_mapping === "user" && $login_mapping === "original") ){
 			if (self::utils()->is_mapped_domain( $redirect_to )) {
 				return set_url_scheme( $this->unswap_mapped_url( $redirect_to, false, true ), $scheme );
 			}
 		}
 
-		if( $admin_mapping == "mapped" && self::utils()->is_original_domain( $redirect_to ) ){
+		if( $admin_mapping === "mapped" && self::utils()->is_original_domain( $redirect_to ) ){
 			return set_url_scheme( $this->swap_mapped_url( $redirect_to, false, false, false, false ), $scheme );
 		}
 
@@ -1291,9 +1299,9 @@ class Domainmap_Module_Mapping extends Domainmap_Module {
 
 		if( !self::utils()->is_login() || is_main_site() ) return $url;
 
-		$admin_mapping = $this->_plugin->get_option( 'map_admindomain' );
+		$admin_mapping = $this->use_mapped_domain();
 
-		$scheme = (self::$_force_admin_ssl || is_ssl() ) ? "https" : "http";
+		$scheme = $this->use_ssl();
 
 		if( $path === "wp-login.php" ){
 

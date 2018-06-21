@@ -5,10 +5,18 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+3.5.9.2 - 05/06/2018
+
+*Fixed:
+    - Unable to signup when GDPR Privacy Policy page is not set.
+    - Fatal error on PHP 5.2.
+
 3.5.9.1 - 04/06/2018
 
 *Added:
-    - Improved subscriber information for Stripe.
+    - Added GDPR personal data export.
+    - Added GDPR personal data eraser.
+    - Added GDPR message to privacy page.
 *Fixed:
     - Blog ID value was passed as a string instead of int.
     - DOM error on pricing table page.
@@ -815,4 +823,4 @@ Change Log:
 - Initial Release.
 
 
-133620-1528232224-au
+133620-1529543933-au

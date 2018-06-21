@@ -3,8 +3,8 @@ Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image slider,flexslider,flex slider,nivoslider,nivo slider,responsive,responsive slides,coinslider,coin slider,slideshow,carousel,responsive slider,vertical slides
 Donate link: https://david.dw-perspective.org.uk/donate
 Requires at least: 3.5
-Stable tag: 3.7.2
-Tested up to: 4.9
+Stable tag: 3.8.1
+Tested up to: 5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -12,7 +12,7 @@ Easy to use WordPress slider plugin. Create SEO-optimized responsive slideshows 
 
 == Description ==
 
-With MetaSlider, you can create your own unique, SEO-optimized slideshow in a matter of seconds!
+Create powerful, SEO-optimized slideshows in minutes with the world's #1 slider plugin!
 
 With WordPress’ most popular slider plugin, enhancing your blog or website couldn’t be easier: simply select images from your WordPress Media Library, drag and drop them into place, and then set the slide captions, links and SEO fields all from one page.
 
@@ -151,10 +151,30 @@ See https://www.metaslider.com/documentation/image-cropping/
 
 == Changelog ==
 
+= 3.8.1 - 2018/Jun/07 =
+
+* FIX: Limits responsive image srcset to slideshows with cropping disabled only
+* FIX: Increases responsive image srcset maximum size to Full
+
+= 3.8.0 - 2018/Jun/04 =
+
+* FEATURE: Adds compatibility with new Pro schedule feature
+* FEATURE: Adds compatibility with retina plugin https://wordpress.org/plugins/wp-retina-2x/
+* FEATURE: Adds option to enable or disable initial fade in
+* FEATURE: Improves Responsiveness
+* TWEAK: Adds default Flexslider fonts to repo for users that require them.
+* FIX: Fixes error when trying to save many slides
+* FIX: Fixes broken markup in settings in some languages.
+* FIX: Fixes bug that always strips referral tags. 
+* FIX: Adds a check to the copy/paste element to make sure it exists before adding an event
+* REFACTOR: Removes plugin dependency on Notice class
+* REFACTOR: Standardizes the code to deny direct access
+* REFACTOR: Updates how the plugin handles setting updates.
+
 = 3.7.2 - 2018/Mar/20 =
 
-* TWEAK: Remove an obsolete admin notice
-* SECURITY: Prevent a non-persistent logged-in XSS attack. The attacker must persuade a logged-in admin-level WP user to click on a malicious link specifically targeted to your site; this can result in his chosen JavaScript being run inside your browser on the MetaSlider page. Hence, the risk is low, but you should certainly update.
+* TWEAK: Removes an obsolete admin notice
+* SECURITY: Prevents a non-persistent logged-in XSS attack. The attacker must persuade a logged-in admin-level WP user to click on a malicious link specifically targeted to your site; this can result in his chosen JavaScript being run inside your browser on the MetaSlider page. Hence, the risk is low, but you should certainly update.
 
 = 3.7.1 - 2018/Mar/13 =
 
@@ -174,7 +194,7 @@ See https://www.metaslider.com/documentation/image-cropping/
 = 3.6.7 - 2017/Dec/15 =
 
 * FEATURE: Adds back in some instructions on how to display the slideshow
-* TWEAK: Removes unnecessary type attribute that was causing valiation errors
+* TWEAK: Removes unnecessary type attribute that was causing validation errors
 * TWEAK: Adds DocBlock checking with CI for PHP and JS files
 * FIX: Adds compatibility fixes for older WP versions.
 
@@ -642,4 +662,4 @@ More info/Comments: http://www.metaslider.com/coming-soon-meta-slider-2-6-free/
 * Initial version
 
 == Upgrade Notice ==
-* 3.7.2 : Fix non-persistent admin XSS attack (requiring clicking on a targeted, crafted link specific to your site leading to one-time execution of his chosen JavaScript in your browser - so, low risk but you should certainly update)
+* 3.8.1 : This update includes added support for retina images, responsive images, and addresses a few bugs (including in 3.8.0), including when a slideshow has a large quantity of slides.

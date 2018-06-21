@@ -355,7 +355,6 @@ class ShareaholicUtilities {
       /*
       $api_key = ShareaholicUtilities::get_option('api_key');
       if (ShareaholicUtilities::has_accepted_terms_of_service() && !empty($api_key)) {
-        ShareaholicUtilities::notify_content_manager_sitemap();
         ShareaholicUtilities::notify_content_manager_singledomain();
       }
       */
@@ -1042,25 +1041,6 @@ class ShareaholicUtilities {
       }
     }
   }
-
-   /**
-    * Wrapper for the Shareaholic Content Manager Single Domain worker API
-    *
-    * @param string $domain
-    */
-    public static function notify_content_manager_sitemap() {
-      $text_sitemap_url = admin_url('admin-ajax.php') . '?action=shareaholic_permalink_list&n=1000&format=text';
-      
-      $cm_sitemap_job_url = Shareaholic::CM_API_URL . '/jobs/sitemap';
-      $payload = array (
-        'args' => array (
-          $text_sitemap_url,
-          array ('force' => true)
-        )
-      );
-      
-      $response = ShareaholicCurl::post($cm_sitemap_job_url, $payload, 'json');
-    }
     
    /**
     * Wrapper for the Shareaholic Content Manager Single Domain worker API

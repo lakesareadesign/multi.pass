@@ -22,7 +22,7 @@ table#psts_checkout_grid {
 	text-shadow: 1px 1px 2px #222;
 	background: #b8cad8;
 	background: -moz-linear-gradient(top, #b8cad8 1%, #5d7a93 3%, #5d7a93 36%, #4f687c 56%, #234966 99%);
-	background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,#b8cad8), color-stop(4%,#5d7a93), color-stop(36%,#5d7a93), color-stop(56%,#4f687c), color-stop(99%,#234966));
+	background: -webkit-gradient(linear, left top, left bottom, color-stop(2%,#b8cad8), color-stop(4%,#5d7a93), color-stop(36%,#5d7a93), color-stop(56%,#4f687c), color-stop(99%,#234966));	     	 	   	  	 	
 	background: -webkit-linear-gradient(top, #b8cad8 1%,#5d7a93 3%,#5d7a93 36%,#4f687c 56%,#234966 99%);
 	background: -o-linear-gradient(top, #b8cad8 1%,#5d7a93 3%,#5d7a93 36%,#4f687c 56%,#234966 99%);
 	background: -ms-linear-gradient(top, #b8cad8 1%,#5d7a93 3%,#5d7a93 36%,#4f687c 56%,#234966 99%);
@@ -1420,4 +1420,4 @@ ul.pricing-column.chosen-plan {
 }
 
 
-/* 133620-1528232224-au */
+/* 133620-1529543933-au */

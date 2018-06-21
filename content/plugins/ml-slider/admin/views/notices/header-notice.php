@@ -1,4 +1,4 @@
-<?php if (!defined('ABSPATH')) die('No direct access allowed'); ?>
+<?php if (!defined('ABSPATH')) die('No direct access.'); ?>
 
 <div class="updraft-ad-container updated">
 	<div class="updraft_notice_container">

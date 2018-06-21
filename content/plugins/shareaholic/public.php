@@ -70,7 +70,8 @@ class ShareaholicPublic {
           '//grace.shareaholic.com',
           '//analytics.shareaholic.com',
           '//recs.shareaholic.com',
-          '//go.shareaholic.com' 
+          '//go.shareaholic.com',
+          '//partner.shareaholic.com'
         );
       }
     }
@@ -831,7 +832,7 @@ class ShareaholicPublic {
   }
   
   /**
-   * Function to return related permalinks for a given permalink to bootstrap the Related Content app until the off-line processing routines complete
+   * Function to return related permalinks for a given permalink to bootstrap the Related Posts app until cloud-based processing routines complete
    *
    * @return list of related permalinks in JSON
    */
@@ -866,18 +867,30 @@ class ShareaholicPublic {
     }
     
     if ($match == "random"){
-      $args = array( 'posts_per_page' => $n, 'orderby' => 'rand' );
+      // Determine which page types to show
+      $post_types = get_post_types(array('public' => true));
+      $post_types_exclude = array('page', 'attachment', 'nav_menu_item');      
+      $post_types_filtered = array_diff($post_types, $post_types_exclude);      
+
+      // Query
+      $args = array( 'post_type' => $post_types_filtered, 'posts_per_page' => $n, 'orderby' => 'rand' );
       $rand_posts = get_posts( $args );
       foreach ( $rand_posts as $post ){
-        $related_link = array(
-          'page_id' => $post->ID,
-          'url' => get_permalink($post->ID),
-          'title' => $post->post_title,
-          'description' => $post->post_excerpt,
-          'image_url' => ShareaholicUtilities::permalink_thumbnail($post->ID),
-          'score' => 1
-        );
-        array_push($related_permalink_list, $related_link);
+        if ($post->post_title) {
+          $related_link = array(
+            'page_id' => $post->ID,
+            'url' => get_permalink($post->ID),
+            'display_url' => get_permalink($post->ID),
+            'title' => $post->post_title,
+            'description' => $post->post_excerpt,
+            'author' => get_userdata($post->post_author)->display_name,
+            'published_date' => get_the_date( DATE_W3C ),
+            'modified_date' => get_the_modified_date( DATE_W3C ),
+            'image_url' => preg_replace('#^https?://#', '//', ShareaholicUtilities::permalink_thumbnail($post->ID)),
+            'score' => 1
+          );
+          array_push($related_permalink_list, $related_link);
+        }
       }
       wp_reset_postdata();
     } else {

@@ -3,7 +3,7 @@ Contributors: shareaholic
 Tags:  Social Tools, Related Posts, Google Analytics, Share Buttons, Social Sharing, Image Sharing, Related Content, woocommerce, typepad, amazon, analytics, arto, baidu, bitly, blogger, buffer, cookie compliance, cookie consent, delicious, digg, diigo, disqus, email button, eu cookie law, evernote, facebook, facebook sharing, fancy, fark, feedly, flipboard, floated share buttons, floating share buttons, follow buttons, GDPR, gmail, google bookmarks, google classroom, google plus, hootsuite, hotmail, houzz, inbound.org, instagram, instagram sharing, instapaper, izeby, kaboodle, kik, kindle, line, linkedin, livejournal, meneame, mister wong, mixi, odnoklassniki, box.net, onenote, pinboard.in, pinterest, pinterest sharing, plurk, pocket, printfriendly, recommendations, reddit, sexybookmarks, share buttons, share image, shareaholic, shareholic, sms, social bookmarking, social media, social plugin, social share buttons, spotify, stumbleupon, stumpedia, symphony, tinyurl, tumblr, twitter, viadeo, vk, wanelo, weheartit, weibo, whatsapp, wykop, xing, yahoo, yammer, ycombinator, hacker news, youtube, yummly, zillow
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 8.7.0
+Stable tag: 8.7.2
 
 Consolidate plugins with a high-speed suite of social tools: social share buttons, related content, related posts, ad monetization & Google Analytics.
 
@@ -225,6 +225,13 @@ The default Shareaholic thumbnail width is 640px with dynamic height and no crop
 Each time you change Shareaholic's thumbnail dimensions like this, you will probably want to have WordPress regenerate appropriate sized thumbnails for all of your images. We highly recommend the [Regenerate Thumbnails](https://wordpress.org/plugins/regenerate-thumbnails/) plugin for this purpose.
 
 == Changelog ==
+= 8.7.2 (2018-06-11) =
+* Bugfix: Use a more standard array structure
+
+= 8.7.1 (2018-06-10) =
+* Enhancements: Improvements to installation flow
+* General cleanup
+
 = 8.7.0 (2018-06-04) =
 * Performance Enhancement: Settings file is now loaded from a globally distributed CDN (Amazon), which will make Shareaholic faster on your site
 * Performance Enhancement: Added support for DNS-Prefetch and Preload which will make Shareaholic EVEN FASTER!!
@@ -735,6 +742,12 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Show Related Posts data status
 
 == Upgrade Notice ==
+= 8.7.2 =
+* Various performance updates and bug fixes
+
+= 8.7.1 =
+* Various performance updates and bug fixes
+
 = 8.7.0 =
 * Several performance upgrades to make Shareaholic EVEN FASTER!!
 
