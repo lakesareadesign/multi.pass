@@ -33,8 +33,7 @@ if ( class_exists( 'WP_Customize_Control' ) && ! class_exists( 'Academy_Customiz
 
 			switch ( $this->type ) {
 
-				case 'heading' :
-
+				case 'heading':
 					if ( isset( $this->label ) ) {
 						echo '<hr><span class="customize-control-title">' . $this->label . '</span>';
 					}

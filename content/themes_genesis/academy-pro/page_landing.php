@@ -24,13 +24,12 @@ add_filter( 'body_class', 'academy_add_body_class' );
 function academy_add_body_class( $classes ) {
 
 	$classes[] = 'landing-page';
-
 	return $classes;
 
 }
 
 // Removes skip links.
-remove_action ( 'genesis_before_header', 'genesis_skip_links', 5 );
+remove_action( 'genesis_before_header', 'genesis_skip_links', 5 );
 
 add_action( 'wp_enqueue_scripts', 'academy_dequeue_skip_links' );
 /**

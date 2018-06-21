@@ -49,3 +49,8 @@ CHANGELOG
 = 1.0.1 =
 * Clear mobile menu.
 * Change primary menu links border method.
+
+= 1.0.2 =
+* Adjust layout to allow more than 2 posts to display in the front-page-1 section.
+* Fix an issue with category archive description display.
+* Show off-screen menu on mobile widths if no header menu is set.

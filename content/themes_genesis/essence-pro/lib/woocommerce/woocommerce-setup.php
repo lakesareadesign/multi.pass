@@ -85,11 +85,11 @@ function essence_remove_post_meta() {
 	if ( class_exists( 'WooCommerce' ) && is_woocommerce() ) {
 		remove_action( 'essence_entry_header', 'genesis_post_info' );
 		remove_filter( 'body_class', 'essence_half_width_entry_class' );
+		add_filter( 'genesis_term_intro_text_output', 'essence_intro_text_filter', 10, 1 );
 	}
 
 }
 
-add_filter( 'genesis_term_intro_text_output', 'essence_intro_text_filter', 10, 1 );
 /**
  * Show the Genesis Archive Description, if set.
  * Otherwise, show the default WordPress Archive Description.

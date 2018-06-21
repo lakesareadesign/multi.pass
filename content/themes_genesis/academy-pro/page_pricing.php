@@ -24,7 +24,6 @@ add_filter( 'body_class', 'academy_add_body_class' );
 function academy_add_body_class( $classes ) {
 
 	$classes[] = 'pricing-page';
-
 	return $classes;
 
 }

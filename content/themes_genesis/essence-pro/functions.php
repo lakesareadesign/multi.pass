@@ -55,7 +55,7 @@ require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.p
 // Defines the child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Essence Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/essence/' );
-define( 'CHILD_THEME_VERSION', '1.0.1' );
+define( 'CHILD_THEME_VERSION', '1.0.2' );
 
 add_action( 'wp_enqueue_scripts', 'essence_enqueue_scripts_styles' );
 /**
@@ -246,10 +246,10 @@ add_action( 'genesis_theme_settings_metaboxes', 'essence_remove_genesis_metaboxe
  *
  * @param string $_genesis_theme_settings_pagehook The page hook name.
  */
-function essence_remove_genesis_metaboxes( $_genesis_theme_settings_pagehook ) {
+function essence_remove_genesis_metaboxes( $_genesis_theme_settings ) {
 
-	remove_meta_box( 'genesis-theme-settings-header', $_genesis_admin_settings, 'main' );
-	remove_meta_box( 'genesis-theme-settings-nav', $_genesis_admin_settings, 'main' );
+	remove_meta_box( 'genesis-theme-settings-header', $_genesis_theme_settings, 'main' );
+	remove_meta_box( 'genesis-theme-settings-nav', $_genesis_theme_settings, 'main' );
 
 }
 

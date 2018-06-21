@@ -31,7 +31,7 @@ if ( $video_hosted_url ) {
 }
 
 // Sets up logo section data.
-$logo_header = get_theme_mod( 'academy-hero-logo-header', academy_get_default_hero_logo_header() );
+$logo_header    = get_theme_mod( 'academy-hero-logo-header', academy_get_default_hero_logo_header() );
 $logo_image_ids = get_theme_mod( 'academy-hero-logos-images', array() );
 
 // Prepares logo data if images are set.
@@ -51,9 +51,9 @@ $classes = array(
 );
 
 if ( $video_src_url || $video_thumb || $video_hosted_url ) {
-	$classes['columns']  = 'has-columns';
-	$classes['left']    .= ' one-half first';
-	$classes['right']   .= ' one-half';
+	$classes['columns'] = 'has-columns';
+	$classes['left']   .= ' one-half first';
+	$classes['right']  .= ' one-half';
 }
 
 echo '<div class="wrap hero-section ' . esc_attr( $classes['columns'] ) . '">';
@@ -71,11 +71,11 @@ if ( $title || $description || is_active_sidebar( 'hero-section' ) ) {
 	}
 
 	if ( $button_primary_text ) {
-		echo '<a class="button primary" href="' .esc_html( $button_primary_url ) . '">' . $button_primary_text . '</a>';
+		echo '<a class="button primary" href="' . esc_html( $button_primary_url ) . '">' . $button_primary_text . '</a>';
 	}
 
 	if ( $button_secondary_text ) {
-		echo '<a class="button text" href="' .esc_html( $button_secondary_url ) . '">' . $button_secondary_text . '</a>';
+		echo '<a class="button text" href="' . esc_html( $button_secondary_url ) . '">' . $button_secondary_text . '</a>';
 	}
 
 	echo '</div>';
@@ -88,7 +88,7 @@ if ( $video_src_url ) {
 		echo '<div class="hero-video-container">';
 
 		$attr = array(
-			'src' => $video_src_url,
+			'src'     => $video_src_url,
 			'poster'  => $video_thumb,
 			'preload' => 'none',
 		);
@@ -124,7 +124,6 @@ if ( $logos ) {
 		if ( $logo_image ) {
 			echo '<img class="hero-section-logo" src="' . $logo_image . '" alt="' . $logo_alt . '" />';
 		}
-
 	}
 
 	echo '</div>';

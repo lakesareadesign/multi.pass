@@ -11,47 +11,51 @@
  */
 
 // Starts the engine.
-include_once( get_template_directory() . '/lib/init.php' );
+require_once get_template_directory() . '/lib/init.php';
 
 // Sets up the Theme.
-include_once( get_stylesheet_directory() . '/lib/theme-defaults.php' );
+require_once get_stylesheet_directory() . '/lib/theme-defaults.php';
 
-// Sets localization (do not remove).
 add_action( 'after_setup_theme', 'academy_localization_setup' );
-function academy_localization_setup(){
+/**
+ * Sets localization (do not remove).
+ *
+ * @since 1.0.0
+ */
+function academy_localization_setup() {
 
 	load_child_theme_textdomain( 'academy-pro', get_stylesheet_directory() . '/languages' );
 
 }
 
 // Adds the theme helper functions.
-include_once( get_stylesheet_directory() . '/lib/helper-functions.php' );
+require_once get_stylesheet_directory() . '/lib/helper-functions.php';
 
 // Adds image upload and color select to WordPress Theme Customizer.
-require_once( get_stylesheet_directory() . '/lib/customizer/customize.php' );
+require_once get_stylesheet_directory() . '/lib/customizer/customize.php';
 
 // Adds the theme image functions.
-include_once( get_stylesheet_directory() . '/lib/featured-images.php' );
+require_once get_stylesheet_directory() . '/lib/featured-images.php';
 
 // Includes customizer CSS.
-include_once( get_stylesheet_directory() . '/lib/customizer/output.php' );
+require_once get_stylesheet_directory() . '/lib/customizer/output.php';
 
 // Adss the Grid Layout.
-include_once( get_stylesheet_directory() . '/lib/grid-layout.php' );
+require_once get_stylesheet_directory() . '/lib/grid-layout.php';
 
 // Adds WooCommerce support.
-include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-setup.php' );
+require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-setup.php';
 
 // Includes the customizer CSS for the WooCommerce plugin.
-include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-output.php' );
+require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-output.php';
 
 // Includes notice to install Genesis Connect for WooCommerce.
-include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.php' );
+require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.php';
 
 // Defines the child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Academy Pro' );
 define( 'CHILD_THEME_URL', 'https://my.studiopress.com/themes/academy/' );
-define( 'CHILD_THEME_VERSION', '1.0.4' );
+define( 'CHILD_THEME_VERSION', '1.0.5' );
 
 add_action( 'wp_enqueue_scripts', 'academy_enqueue_scripts_styles' );
 /**
@@ -89,13 +93,13 @@ function academy_enqueue_scripts_styles() {
 
 add_action( 'body_class', 'academy_top_banner_classes' );
 /**
-* Adds top-banner body classes.
-*
-* @since 1.0.0
-*
-* @param array $classes Current classes.
-* @return array $classes Updated class array.
-*/
+ * Adds top-banner body classes.
+ *
+ * @since 1.0.0
+ *
+ * @param array $classes Current classes.
+ * @return array $classes Updated class array.
+ */
 function academy_top_banner_classes( $classes ) {
 
 	if ( get_theme_mod( 'academy-top-banner-visibility', true ) ) {
@@ -133,7 +137,11 @@ function academy_half_width_entry_class( $classes ) {
 
 }
 
-// Defines the responsive menu settings.
+/**
+ * Defines the responsive menu settings.
+ *
+ * @since 1.0.0
+ */
 function academy_responsive_menu_settings() {
 
 	$settings = array(
@@ -160,32 +168,36 @@ add_theme_support( 'html5', array( 'caption', 'comment-form', 'comment-list', 'g
 add_theme_support( 'genesis-accessibility', array( '404-page', 'drop-down-menu', 'headings', 'rems', 'search-form', 'skip-links' ) );
 
 // Relocates skip links.
-remove_action ( 'genesis_before_header', 'genesis_skip_links', 5 );
-add_action ( 'genesis_before', 'genesis_skip_links', 5 );
+remove_action( 'genesis_before_header', 'genesis_skip_links', 5 );
+add_action( 'genesis_before', 'genesis_skip_links', 5 );
 
 // Adds viewport meta tag for mobile browsers.
 add_theme_support( 'genesis-responsive-viewport' );
 
 // Adds support for custom header.
-add_theme_support( 'custom-header', array(
-	'flex-height'     => true,
-	'header-selector' => '.site-title a',
-	'header-text'     => false,
-	'height'          => 160,
-	'width'           => 600,
-) );
+add_theme_support(
+	'custom-header', array(
+		'flex-height'     => true,
+		'header-selector' => '.site-title a',
+		'header-text'     => false,
+		'height'          => 160,
+		'width'           => 600,
+	)
+);
 
 // Adds structural wrap to site-inner.
-add_theme_support( 'genesis-structural-wraps', array(
-	'header',
-	'menu-primary',
-	'menu-secondary',
-	'site-inner',
-	'footer-widgets',
-	'footer',
-) );
+add_theme_support(
+	'genesis-structural-wraps', array(
+		'header',
+		'menu-primary',
+		'menu-secondary',
+		'site-inner',
+		'footer-widgets',
+		'footer',
+	)
+);
 
-// Move breadcrumbs to bellow header
+// Move breadcrumbs to bellow header.
 remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
 add_action( 'genesis_after_header', 'genesis_do_breadcrumbs' );
 
@@ -193,8 +205,8 @@ add_action( 'genesis_after_header', 'genesis_do_breadcrumbs' );
 add_theme_support( 'genesis-after-entry-widget-area' );
 
 // Adds image sizes.
-add_image_size( 'featured-image', 880, 360, TRUE );
-add_image_size( 'large-portrait', 300, 350, TRUE );
+add_image_size( 'featured-image', 880, 360, true );
+add_image_size( 'large-portrait', 300, 350, true );
 
 add_filter( 'image_size_names_choose', 'academy_media_library_sizes' );
 /**
@@ -268,7 +280,12 @@ function academy_skip_links_output( $links ) {
 }
 
 // Renames primary and secondary navigation menus.
-add_theme_support( 'genesis-menus', array( 'primary' => __( 'Header Menu', 'academy-pro' ), 'secondary' => __( 'Footer Menu', 'academy-pro' ) ) );
+add_theme_support(
+	'genesis-menus', array(
+		'primary'   => __( 'Header Menu', 'academy-pro' ),
+		'secondary' => __( 'Footer Menu', 'academy-pro' ),
+	)
+);
 
 // Repositions primary navigation menu.
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
@@ -394,7 +411,14 @@ function academy_content_limit_read_more_markup( $output, $content, $link ) {
 remove_action( 'genesis_entry_content', 'genesis_do_post_image', 8 );
 add_action( 'genesis_entry_header', 'genesis_do_post_image', 8 );
 
-// Sets up the widget counts.
+/**
+ * Counts used widgets in given sidebar.
+ *
+ * @since 1.0.0
+ *
+ * @param string $id The sidebar ID.
+ * @return int|void The number of widgets, or nothing.
+ */
 function academy_count_widgets( $id ) {
 
 	$sidebars_widgets = wp_get_sidebars_widgets();
@@ -469,10 +493,12 @@ add_action( 'genesis_before_footer', 'academy_footer_cta' );
  */
 function academy_footer_cta() {
 
-	genesis_widget_area( 'footer-cta', array(
-		'before' => '<div id="footer-cta" class="footer-cta"><h2 class="genesis-sidebar-title screen-reader-text">' . __( 'Footer CTA', 'academy-pro' ) . '</h2><div class="flexible-widgets widget-area ' . academy_widget_area_class( 'footer-cta' ) . '"><div class="wrap">',
-		'after'  => '</div></div></div>',
-	) );
+	genesis_widget_area(
+		'footer-cta', array(
+			'before' => '<div id="footer-cta" class="footer-cta"><h2 class="genesis-sidebar-title screen-reader-text">' . __( 'Footer CTA', 'academy-pro' ) . '</h2><div class="flexible-widgets widget-area ' . academy_widget_area_class( 'footer-cta' ) . '"><div class="wrap">',
+			'after'  => '</div></div></div>',
+		)
+	);
 
 }
 
@@ -485,7 +511,7 @@ add_filter( 'genesis_post_info', 'academy_post_info_filter' );
  * @param string $post_info Current post info.
  * @return string New post info.
  */
-function academy_post_info_filter($post_info) {
+function academy_post_info_filter( $post_info ) {
 
 	$post_info = 'posted on [post_date] [post_edit]';
 
@@ -502,9 +528,55 @@ add_action( 'genesis_meta', 'academy_move_page_titles' );
 function academy_move_page_titles() {
 
 	if ( is_page() && ! is_page_template( 'page_blog.php' ) && ! is_front_page() ) {
+		remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_open', 5 );
+		remove_action( 'genesis_entry_header', 'genesis_entry_header_markup_close', 15 );
 		remove_action( 'genesis_entry_header', 'genesis_do_post_title' );
+		add_action( 'genesis_before_content_sidebar_wrap', 'genesis_entry_header_markup_open', 5 );
+		add_action( 'genesis_before_content_sidebar_wrap', 'genesis_entry_header_markup_close', 15 );
 		add_action( 'genesis_before_content_sidebar_wrap', 'genesis_do_post_title' );
 	}
+
+}
+
+add_filter( 'genesis_attr_entry', 'academy_entry_attributes', 10, 3 );
+/**
+ * Add itemref attribute to link entry-title to page content.
+ *
+ * @since  1.0.5
+ *
+ * @param  array $attributes Entry attributes.
+ * @return array The new $attributes.
+ */
+function academy_entry_attributes( $attributes, $context, $args ) {
+
+	if ( is_page() && ! is_front_page() && ! isset( $args['params']['is_widget'] ) ) {
+		$attributes['itemref'] = 'page-title';
+	}
+
+	return $attributes;
+
+}
+
+add_filter( 'genesis_attr_entry-header', 'academy_add_entry_header_attributes' );
+/**
+ * Adds custom attributes for the page title.
+ *
+ * @since 1.0.5
+ *
+ * @param array $attributes The element attributes.
+ * @return array $attributes The element attributes.
+ */
+function academy_add_entry_header_attributes( $attributes ) {
+
+	if ( is_page() && ! is_front_page() && ! isset( $args['params']['is_widget'] ) ) {
+
+		// Adds id.
+		$attributes['id'] = 'page-title';
+
+	}
+
+	// Returns the attributes.
+	return $attributes;
 
 }
 
@@ -536,38 +608,52 @@ function academy_do_top_banner() {
 }
 
 // Registers widget areas.
-genesis_register_sidebar( array(
-	'id'          => 'front-page-1',
-	'name'        => __( 'Front Page 1', 'academy-pro' ),
-	'description' => __( 'This is the front page 1 section.', 'academy-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-2',
-	'name'        => __( 'Front Page 2', 'academy-pro' ),
-	'description' => __( 'This is the front page 2 section.', 'academy-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-3',
-	'name'        => __( 'Front Page 3', 'academy-pro' ),
-	'description' => __( 'This is the front page 3 section.', 'academy-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-4',
-	'name'        => __( 'Front Page 4', 'academy-pro' ),
-	'description' => __( 'This is the front page 4 section.', 'academy-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-5',
-	'name'        => __( 'Front Page 5', 'academy-pro' ),
-	'description' => __( 'This is the front page 5 section.', 'academy-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'front-page-6',
-	'name'        => __( 'Front Page 6', 'academy-pro' ),
-	'description' => __( 'This is the front page 6 section.', 'academy-pro' ),
-) );
-genesis_register_sidebar( array(
-	'id'          => 'footer-cta',
-	'name'        => __( 'Footer CTA', 'academy-pro' ),
-	'description' => __( 'This is the bottom call to action section.', 'academy-pro' ),
-) );
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-1',
+		'name'        => __( 'Front Page 1', 'academy-pro' ),
+		'description' => __( 'This is the front page 1 section.', 'academy-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-2',
+		'name'        => __( 'Front Page 2', 'academy-pro' ),
+		'description' => __( 'This is the front page 2 section.', 'academy-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-3',
+		'name'        => __( 'Front Page 3', 'academy-pro' ),
+		'description' => __( 'This is the front page 3 section.', 'academy-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-4',
+		'name'        => __( 'Front Page 4', 'academy-pro' ),
+		'description' => __( 'This is the front page 4 section.', 'academy-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-5',
+		'name'        => __( 'Front Page 5', 'academy-pro' ),
+		'description' => __( 'This is the front page 5 section.', 'academy-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'front-page-6',
+		'name'        => __( 'Front Page 6', 'academy-pro' ),
+		'description' => __( 'This is the front page 6 section.', 'academy-pro' ),
+	)
+);
+genesis_register_sidebar(
+	array(
+		'id'          => 'footer-cta',
+		'name'        => __( 'Footer CTA', 'academy-pro' ),
+		'description' => __( 'This is the bottom call to action section.', 'academy-pro' ),
+	)
+);

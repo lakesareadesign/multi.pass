@@ -25,10 +25,11 @@ function academy_css() {
 
 	$intro_paragraph = get_theme_mod( 'academy-use-paragraph-styling', 1 );
 
-	$css = '';
+	$css       = '';
 	$front_css = '';
 
-	$front_css .= ( academy_customizer_get_default_primary_color() !== $color_primary ) ? sprintf( '
+	$front_css .= ( academy_customizer_get_default_primary_color() !== $color_primary ) ? sprintf(
+		'
 
 		.content .flexible-widgets > .wrap::after,
 		.hero-section::after {
@@ -41,9 +42,11 @@ function academy_css() {
 			border-color: %1$s;
 		}
 
-		', $color_primary ) : '';
+		', $color_primary
+	) : '';
 
-	$css .= ( $intro_paragraph ) ? sprintf( '
+	$css .= ( $intro_paragraph ) ? sprintf(
+		'
 
 		.single .content .entry-content > p:first-of-type {
 			font-size: 26px;
@@ -51,9 +54,11 @@ function academy_css() {
 			letter-spacing: -0.7px;
 		}
 
-		' ) : '';
+		'
+	) : '';
 
-	$css .= ( academy_customizer_get_default_primary_color() !== $color_primary ) ? sprintf( '
+	$css .= ( academy_customizer_get_default_primary_color() !== $color_primary ) ? sprintf(
+		'
 
 		a,
 		h4,
@@ -192,7 +197,8 @@ function academy_css() {
 			background-color: %1$s;
 		}
 
-		', $color_primary, academy_color_brightness( $color_primary, '+', 20 ), academy_color_contrast( $color_primary ) ) : '';
+		', $color_primary, academy_color_brightness( $color_primary, '+', 20 ), academy_color_contrast( $color_primary )
+	) : '';
 
 	if ( $css ) {
 		wp_add_inline_style( $handle, $css );

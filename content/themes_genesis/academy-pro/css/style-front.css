@@ -510,13 +510,17 @@ Loads on the front page */
 		margin-bottom: 0;
 	}
 
+	.front-page-4 .flexible-widgets.widget-area .widget:nth-child(n) {
+		clear: both;
+		float: none;
+	}
+
 	.front-page-4 .flexible-widgets .widget .widget-wrap {
 		padding: 50px 30px 40px 30px;
 	}
 
 	.front-page-4 blockquote::before {
-		left: 0;
-		top: -30px;
+		text-align: left;
 	}
 
 	.front-page-4 blockquote cite img {

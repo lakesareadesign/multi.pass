@@ -157,6 +157,10 @@ Loads on the front page */
 	font-size: 3.6rem;
 }
 
+.front-page-1 .flexible-widgets.widget-full .featuredpost .entry:nth-of-type(3n+1) {
+	clear: none;
+}
+
 /* Front Page 2
 --------------------------------------------- */
 

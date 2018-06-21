@@ -18,7 +18,7 @@ add_action( 'genesis_meta', 'academy_front_page_genesis_meta' );
  */
 function academy_front_page_genesis_meta() {
 
-	// Screen reader text.
+	// Adds screen reader text.
 	add_action( 'genesis_before_loop', 'academy_print_screen_reader' );
 
 	// Outputs hero if set to visible.
@@ -49,13 +49,15 @@ function academy_front_page_genesis_meta() {
 		add_action( 'genesis_loop', 'academy_front_page_widgets' );
 
 		// Removes structural wrap from site-inner.
-		add_theme_support( 'genesis-structural-wraps', array(
-			'header',
-			'menu-primary',
-			'menu-secondary',
-			'footer-widgets',
-			'footer',
-		) );
+		add_theme_support(
+			'genesis-structural-wraps', array(
+				'header',
+				'menu-primary',
+				'menu-secondary',
+				'footer-widgets',
+				'footer',
+			)
+		);
 
 	}
 
@@ -83,12 +85,15 @@ function academy_enqueue_front_script_styles() {
 function academy_front_body_class( $classes ) {
 
 	$classes[] = 'front-page';
-
 	return $classes;
 
 }
 
-// Adds markup for front page widgets.
+/**
+ * Adds markup for front page widgets.
+ *
+ * @since 1.0.0
+ */
 function academy_front_page_widgets() {
 
 	if ( is_active_sidebar( 'front-page-1' ) ) {
@@ -137,20 +142,20 @@ function academy_do_front_page_hero() {
  */
 function academy_do_widget( $id ) {
 
-	$count = academy_count_widgets( $id );
+	$count   = academy_count_widgets( $id );
 	$columns = ( 'front-page-4' === $id ) ? academy_alternate_widget_area_class( $id ) : academy_widget_area_class( $id );
 
-	genesis_widget_area( $id, array(
-		'before' => "<div id=\"$id\" class=\"$id\"><div class=\"flexible-widgets widget-area $columns\"><div class=\"wrap\">",
-		'after'  => "</div></div></div>",
-	) );
+	genesis_widget_area(
+		$id, array(
+			'before' => "<div id=\"$id\" class=\"$id\"><div class=\"flexible-widgets widget-area $columns\"><div class=\"wrap\">",
+			'after'  => "</div></div></div>",
+		)
+	);
 
 }
 
 /**
  * Function to output the accessible screen reader header for the content.
- *
- * @return string HTML string to output.
  *
  * @since 1.0.0
  */

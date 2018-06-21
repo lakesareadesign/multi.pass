@@ -86,20 +86,28 @@ function essence_header_left_widget() {
 
 }
 
-add_action( 'genesis_meta', 'essence_off_screen_menu_check' );
+add_filter( 'body_class', 'essence_header_menu_body_class' );
 /**
- * Adds the no-off-screen-menu body class when the menu is not set.
+ * Defines the header-menu body class.
  *
  * @since 1.0.0
+ *
+ * @param array $classes Classes array.
+ * @return array $classes Updated class array.
  */
-function essence_off_screen_menu_check() {
+function essence_header_menu_body_class( $classes ) {
 
-	if ( ! has_nav_menu( 'off-screen' ) ) {
-		add_filter( 'body_class', 'essence_no_off_screen_menu_body_class' );
+	$menu_locations = get_theme_mod( 'nav_menu_locations' );
+
+	if ( ! empty( $menu_locations['primary'] ) ) {
+		$classes[] = 'header-menu';
 	}
+
+	return $classes;
 
 }
 
+add_filter( 'body_class', 'essence_no_off_screen_menu_body_class' );
 /**
  * Defines the no-off-screen-menu body class.
  *
@@ -110,7 +118,10 @@ function essence_off_screen_menu_check() {
  */
 function essence_no_off_screen_menu_body_class( $classes ) {
 
-	$classes[] = 'no-off-screen-menu';
+	if ( ! has_nav_menu( 'off-screen' ) ) {
+		$classes[] = 'no-off-screen-menu';		
+	}
+
 	return $classes;
 
 }

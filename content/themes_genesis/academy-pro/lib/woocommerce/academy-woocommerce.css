@@ -1017,12 +1017,14 @@ div.woocommerce-info.wc-memberships-restriction-message.wc-memberships-restricte
 	}
 
 	.woocommerce ul.products li.product,
+	.woocommerce ul.products[class*="columns-"] li.product,
 	.woocommerce ul.products li.product .button,
 	.woocommerce .woocommerce-ordering,
 	.woocommerce-page ul.products li.product,
 	.woocommerce-page ul.products li.product .button,
 	.woocommerce-page .woocommerce-ordering,
 	.woocommerce.content-sidebar ul.products li.product,
+	.woocommerce-page ul.products[class*="columns-"] li.product,
 	.woocommerce-page.content-sidebar ul.products li.product {
 		margin-right: 0;
 		width: 100%;

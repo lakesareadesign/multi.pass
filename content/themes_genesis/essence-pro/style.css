@@ -5,7 +5,7 @@
 	Author: StudioPress
 	Author URI: https://www.studiopress.com/
 
-	Version: 1.0.1
+	Version: 1.0.2
 
 	Tags: one-column, two-columns, left-sidebar, right-sidebar, e-commerce, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
@@ -1171,9 +1171,11 @@ img.alignright,
 	padding: 0;
 }
 
-.flexible-widgets .featured-content .entry {
+.flexible-widgets .featured-content .entry,
+.flexible-widgets .featuredpost .entry:last-of-type {
 	background-color: #fff;
 	box-shadow: 0 25px 60px 0 rgba(0, 0, 0, 0.05);
+	margin-bottom: 40px;
 	text-align: center;
 }
 
@@ -2586,10 +2588,19 @@ p.entry-meta {
 		display: none;
 	}
 
-	.genesis-responsive-menu {
+	.header-menu .genesis-responsive-menu {
 		clear: both;
 		display: none;
 		position: relative;
+	}
+
+	.header-menu button.off-screen-item {
+		display: none;
+	}
+
+	.off-screen-menu .genesis-nav-menu a {
+		margin-bottom: 0;
+		padding: 10px;
 	}
 
 	.genesis-responsive-menu .wrap {
@@ -2601,11 +2612,11 @@ p.entry-meta {
 		visibility: hidden;
 	}
 
-	button.off-screen-item {
+	.menu-toggle {
 		display: none;
 	}
 
-	.menu-toggle,
+	.header-menu .menu-toggle,
 	.sub-menu-toggle {
 		border-width: 0;
 		background-color: transparent;
@@ -2679,7 +2690,7 @@ p.entry-meta {
 		background-color: #000;
 	}
 
-	.genesis-responsive-menu .genesis-nav-menu .menu-item {
+	.genesis-responsive-menu.nav-primary .genesis-nav-menu .menu-item {
 		display: block;
 		float: none;
 		margin-bottom: 1px;

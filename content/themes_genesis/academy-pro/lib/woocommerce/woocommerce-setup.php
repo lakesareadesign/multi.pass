@@ -45,10 +45,9 @@ function academy_woocommerce_breakpoint() {
 		'sidebar-content',
 	);
 
-	if ( in_array( $current, $layouts ) ) {
+	if ( in_array( $current, $layouts, true ) ) {
 		return '1200px';
-	}
-	else {
+	} else {
 		return '1023px';
 	}
 
@@ -68,7 +67,7 @@ function academy_default_products_per_page() {
 
 }
 
-add_filter('loop_shop_columns', 'academy_woo_loop_columns');
+add_filter( 'loop_shop_columns', 'academy_woo_loop_columns' );
 /**
  * Modifies number of product columns.
  *
@@ -80,7 +79,7 @@ function academy_woo_loop_columns() {
 
 	$site_layout = genesis_site_layout();
 
-	if ( $site_layout == ( 'full-width-content' ) ) {
+	if ( 'full-width-content' === $site_layout ) {
 		return 4;
 	} else {
 		return 2;
@@ -88,13 +87,14 @@ function academy_woo_loop_columns() {
 
 }
 
-add_filter( 'woocommerce_pagination_args', 	'academy_woocommerce_pagination' );
+add_filter( 'woocommerce_pagination_args', 'academy_woocommerce_pagination' );
 /**
  * Updates the next and previous arrows to the default Genesis style.
  *
  * @since 1.0.0
  *
- * @return string New next and previous text string.
+ * @param array $args The pagination arguments.
+ * @return array Arguments with modified next and previous text strings.
  */
 function academy_woocommerce_pagination( $args ) {
 
@@ -115,7 +115,7 @@ function academy_woocommerce_image_dimensions_after_theme_setup() {
 
 	global $pagenow;
 
-	if ( ! isset( $_GET['activated'] ) || $pagenow != 'themes.php' || ! class_exists( 'WooCommerce' ) ) {
+	if ( ! isset( $_GET['activated'] ) || 'themes.php' !== $pagenow || ! class_exists( 'WooCommerce' ) ) {
 		return;
 	}
 
@@ -128,11 +128,13 @@ add_action( 'activated_plugin', 'academy_woocommerce_image_dimensions_after_woo_
  * Defines the WooCommerce image sizes on WooCommerce activation.
  *
  * @since 1.0.0
+ *
+ * @param string $plugin The plugin path or slug.
  */
 function academy_woocommerce_image_dimensions_after_woo_activation( $plugin ) {
 
 	// Checks to see if WooCommerce is being activated.
-	if ( $plugin !== 'woocommerce/woocommerce.php' ) {
+	if ( 'woocommerce/woocommerce.php' !== $plugin ) {
 		return;
 	}
 
@@ -147,25 +149,32 @@ function academy_woocommerce_image_dimensions_after_woo_activation( $plugin ) {
  */
 function academy_update_woocommerce_image_dimensions() {
 
-	$catalog = array(
-		'width'  => '500', // px
-		'height' => '500', // px
-		'crop'   => 1,     // true
-	);
-	$single = array(
-		'width'  => '830', // px
-		'height' => '830', // px
-		'crop'   => 1,     // true
-	);
-	$thumbnail = array(
-		'width'  => '180', // px
-		'height' => '180', // px
-		'crop'   => 1,     // true
+	// Updates image size options.
+	update_option( 'woocommerce_single_image_width', 830 );    // Single product image.
+	update_option( 'woocommerce_thumbnail_image_width', 500 ); // Catalog image.
+
+	// Updates image cropping option.
+	update_option( 'woocommerce_thumbnail_cropping', '1:1' );
+
+}
+
+add_filter( 'woocommerce_get_image_size_gallery_thumbnail', 'academy_gallery_image_thumbnail' );
+/**
+ * Filters the WooCommerce gallery image dimensions.
+ *
+ * @since 1.0.5
+ *
+ * @param array $size The gallery image size and crop arguments.
+ * @return array The modified gallery image size and crop arguments.
+ */
+function academy_gallery_image_thumbnail( $size ) {
+
+	$size = array(
+		'width'  => 180,
+		'height' => 180,
+		'crop'   => 1,
 	);
 
-	// Creates image sizes.
-	update_option( 'shop_catalog_image_size', $catalog );     // Product category thumbs.
-	update_option( 'shop_single_image_size', $single );       // Single product image.
-	update_option( 'shop_thumbnail_image_size', $thumbnail ); // Image gallery thumbs.
+	return $size;
 
 }

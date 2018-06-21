@@ -117,9 +117,12 @@ function academy_get_default_video_thumbnail() {
 }
 
 /**
- * Calculates color contrast.
+ * Calculates if white or black would contrast more with the provided color.
  *
  * @since 1.0.0
+ *
+ * @param string $color A color in hex format.
+ * @return string The hex code for the most contrasting color: dark grey or white.
  */
 function academy_color_contrast( $color ) {
 
@@ -160,10 +163,10 @@ function academy_color_brightness( $color, $op, $change ) {
 		$blue  = max( 0, min( 255, $blue + $change ) );
 	}
 
-	$newhex = '#';
-	$newhex .= strlen( dechex( $red ) ) === 1 ? '0'.dechex( $red ) : dechex( $red );
-	$newhex .= strlen( dechex( $green ) ) === 1 ? '0'.dechex( $green ) : dechex( $green );
-	$newhex .= strlen( dechex( $blue ) ) === 1 ? '0'.dechex( $blue ) : dechex( $blue );
+	$newhex  = '#';
+	$newhex .= strlen( dechex( $red ) ) === 1 ? '0' . dechex( $red ) : dechex( $red );
+	$newhex .= strlen( dechex( $green ) ) === 1 ? '0' . dechex( $green ) : dechex( $green );
+	$newhex .= strlen( dechex( $blue ) ) === 1 ? '0' . dechex( $blue ) : dechex( $blue );
 
 	// Force darken if brighten color is the same as color inputted.
 	if ( $newhex === $hexcolor && $op === '+' ) {

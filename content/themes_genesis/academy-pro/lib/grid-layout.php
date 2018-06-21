@@ -9,11 +9,13 @@
  */
 
 // Registers the grid layout for category archives.
-genesis_register_layout( 'academy-grid', array(
-	'label' => __( 'Three-column Grid', 'academy-pro' ),
-	'img'   => get_stylesheet_directory_uri() . '/images/grid.gif',
-	'type'  => array( 'category', 'post_tag' ),
-) );
+genesis_register_layout(
+	'academy-grid', array(
+		'label' => __( 'Three-column Grid', 'academy-pro' ),
+		'img'   => get_stylesheet_directory_uri() . '/images/grid.gif',
+		'type'  => array( 'category', 'post_tag' ),
+	)
+);
 
 // Adds site layouts back to categories and tags.
 if ( function_exists( 'genesis_add_type_to_layout' ) ) {

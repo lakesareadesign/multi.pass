@@ -42,15 +42,17 @@ function academy_featured_image() {
 
 	$add_single_image = get_theme_mod( 'academy_single_image_setting', academy_customizer_get_default_image_setting() );
 
-	$image = genesis_get_image( array(
-		'format'  => 'html',
-		'size'    => 'featured-image',
-		'context' => '',
-		'attr'    => array(
-			'alt' => the_title_attribute( 'echo=0' ),
-			'class' => 'academy-single-image post-image',
-		),
-	) );
+	$image = genesis_get_image(
+		array(
+			'format'  => 'html',
+			'size'    => 'featured-image',
+			'context' => '',
+			'attr'    => array(
+				'alt'   => the_title_attribute( 'echo=0' ),
+				'class' => 'academy-single-image post-image',
+			),
+		)
+	);
 
 	if ( $add_single_image && $image && is_singular( 'post' ) ) {
 		printf( '<div class="single-featured-image">%s</div>', $image );

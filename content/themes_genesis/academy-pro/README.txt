@@ -48,3 +48,11 @@ CHANGELOG
 
 = 1.0.4 =
 * Fix grid displaing on tag archives when not enabled.
+
+= 1.0.5 =
+* Update placeholder text CSS.
+* Style comments checkbox.
+* Correct spacing between testimonials on mobile views.
+* Standards improvements.
+* Add itemref to page entry.
+* Update pricing table CSS for sidebar layouts.
