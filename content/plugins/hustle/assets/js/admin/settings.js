@@ -6,7 +6,7 @@
 		Modules_Activity = Hustle.get("Settings.Modules_Activity"),
 		Services = Hustle.get("Settings.Services");
 
-	var e_new = new E_News();
+//	var e_new = new E_News();
 	var m_activity = new Modules_Activity();
 	var service = new Services();
 

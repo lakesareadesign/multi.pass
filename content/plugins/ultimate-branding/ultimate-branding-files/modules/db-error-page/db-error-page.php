@@ -1,24 +1,4 @@
 <?php
-/*
-Plugin Name: DB Error Page
-Description: Allows to create a custom database error page.
-License: GNU General Public License (Version 2 - GPLv2)
-Copyright 2018 Incsub (http://incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
 if ( ! class_exists( 'ub_db_error_page' ) ) {
 
 	class ub_db_error_page extends ub_helper {
@@ -29,7 +9,6 @@ if ( ! class_exists( 'ub_db_error_page' ) ) {
 		private $db_error_file;
 		private $db_error_dir;
 		protected $file = __FILE__;
-
 
 		public function __construct() {
 			parent::__construct();
@@ -64,7 +43,7 @@ if ( ! class_exists( 'ub_db_error_page' ) ) {
 			 */
 			if ( empty( $this->data['document']['title'] ) && empty( $this->data['document']['content'] ) ) {
 				$this->data['document']['title'] = __( 'We&rsquo;ll be back soon!', 'ub' );
-				$this->data['document']['content'] = wpautop( __( 'We\'re currently experiencing technical issues &mdash; Please check back soon...', 'ub' ) );
+				$this->data['document']['content'] = wpautop( __( 'We\'re currently experiencing technical issues &mdash; Please check back soon...', 'ub' ) );	   	 		 		 	   		
 				$this->data['document']['content_meta'] = $this->data['document']['content'];
 			}
 			/**

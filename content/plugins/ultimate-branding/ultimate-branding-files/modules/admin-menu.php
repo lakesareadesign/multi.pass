@@ -1,33 +1,4 @@
 <?php
-/*
-  Plugin Name: Admin Menu Manager
-  Plugin URI:
-  Description: Show or hide admin menu items based on a user role (in development)
-  Author: Marko Miljus (Incsub)
-  Version: 1.0.0
-  Author URI: http://premium.wpmudev.org
-  Network: false
-  WDP ID:
- */
-
-/*
-  Copyright 2007-2014 Incsub (http://incsub.com)
-
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-  the Free Software Foundation.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
-
 class ub_admin_menu extends ub_helper {
 
 	function __construct() {
@@ -37,16 +8,23 @@ class ub_admin_menu extends ub_helper {
 		add_action( 'admin_menu', array( &$this, 'ub_check_admin_menus' ) );
 
 		register_activation_hook( __FILE__, array( &$this, 'ub_admin_menu_install' ) );
-		register_deactivation_hook( __FILE__, array( &$this, 'ub_admin_menu_uninstall' ) );
+		/**
+		 * add options names
+		 *
+		 * @since 2.1.0
+		 */
+		add_filter( 'ultimate_branding_options_names', array( $this, 'add_options_names' ) );
 	}
 
-	function ub_admin_menu_uninstall() {
-		global $UB_network;
-		if ( $UB_network ) {
-			delete_site_option( 'ub_admin_menu' );
-		} else {
-			delete_option( 'ub_admin_menu' );
-		}
+	/**
+	 * Add option names
+	 *
+	 * @since 2.1.0
+	 */
+	public function add_options_names( $options ) {
+		$options[] = 'ub_admin_menu';
+		$options[] = 'ub_default_admin_menu';
+		return $options;
 	}
 
 	function ub_is_admin_menu_set() {
@@ -138,62 +116,6 @@ class ub_admin_menu extends ub_helper {
 	function ub_admin_menu_install() {
 		global $wp_roles, $menu, $submenu;
 		if ( ! $this->ub_is_default_admin_menu_set() ) {
-
-			/*$wp_admin_menu = $menu;
-
-            $user_roles = array_keys($wp_roles->roles);
-            $ub_admin_menu_options = array();
-
-            if (isset($wp_admin_menu) && '' != $wp_admin_menu) {
-
-                foreach ($wp_admin_menu as $item) {
-
-                    if ($item[2] != '') {
-
-                        $role_details = array();
-
-                        foreach ($user_roles as $role) {
-
-                            //Check if menu item is available for the role / capability)
-                            $role_details = get_role($role);
-
-                            if (array_key_exists($item[1], $role_details->capabilities)) {
-                                $ub_admin_menu_options['ub_enable_menu_' . $role][] = htmlentities($item[2]);
-                            }
-
-                            $role_details = array();
-                        }
-                    }
-                }
-            }
-
-            // submenu items
-            $wp_admin_submenu = $submenu;
-
-            if (isset($wp_admin_submenu) && '' != $wp_admin_submenu) {
-
-                foreach ($wp_admin_submenu[$item[2]] as $subitem) {
-
-                    if ($item[2] != '') {
-
-                        $role_details = array();
-
-                        foreach ($user_roles as $role) {
-
-                            //Check if menu item is available for the role / capability)
-                            $role_details = get_role($role);
-
-                            if (array_key_exists($subitem[1], $role_details->capabilities)) {
-                                $ub_admin_menu_options['ub_enable_submenu_' . $role][] = htmlentities($subitem[2]);
-                            }
-
-                            $role_details = array();
-                        }
-                    }
-                }
-            }*/
-
-			//print_r($ub_admin_menu_options);
 			ub_add_option( 'ub_default_admin_menu', $menu );
 			ub_add_option( 'ub_default_admin_submenu', $submenu );
 		}

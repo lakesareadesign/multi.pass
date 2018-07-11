@@ -81,12 +81,13 @@
 				 * @param {*} e 
 				 */
 				var load_more_lists = function(e){
+					e.preventDefault();
 					var $this = $(e.target),
 						$form = $this.closest("form"),
 						data = $form.serialize(),
 						$placeholder = $("#optin-provider-account-options");
 
-					$placeholder.html( $( "#wpoi_loading_indicator" ).html() );
+					$placeholder.html( $( "#wpoi-loading-indicator" ).html() );
 
 					data += "&action=refresh_provider_account_details&load_more=true";
 					data += "&optin=sendinblue";

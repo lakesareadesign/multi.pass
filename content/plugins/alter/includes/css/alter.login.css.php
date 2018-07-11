@@ -13,7 +13,13 @@ $output .= '@font-face {
   font-style: normal;
 }';
 
-$login_bg_img = (!empty($this->aof_options['login_bg_img'])) ? $this->aof_options['login_bg_img'] : "";
+//$login_bg_img = (!empty($this->aof_options['login_bg_img'])) ? $this->aof_options['login_bg_img'] : "";
+if(!empty($this->aof_options['login_external_bg_url']) && filter_var($this->aof_options['login_external_bg_url'], FILTER_VALIDATE_URL)) {
+  $login_bg_img = esc_url( $this->aof_options['login_external_bg_url']);
+}
+else {
+  $login_bg_img = (is_numeric($this->aof_options['login_bg_img'])) ? $this->alter_get_image_url($this->aof_options['login_bg_img']) : $this->aof_options['login_bg_img'];
+}
 $admin_login_logo = (!empty($this->aof_options['admin_login_logo'])) ? $this->aof_options['admin_login_logo'] : "";
 
 if(!empty($this->aof_options['login_external_logo_url']) && filter_var($this->aof_options['login_external_logo_url'], FILTER_VALIDATE_URL)) {
@@ -128,8 +134,8 @@ if($form_width < 550) {
 
 if(!empty($login_logo)) {
   $login_logo_size = (!empty($this->aof_options['admin_logo_resize'])) ? $this->aof_options['admin_logo_size_percent']."%" : "auto";
-$output .= '.login h1 a {
-    background-image: url("' . $login_logo . '");
+$output .= 'body.login h1 a, #login h1 a {
+    background-image: url("' . $login_logo . '")!important;
   background-size: '. $login_logo_size .';
   background-position: center center;
   height: '. $this->aof_options['admin_logo_height'] .'px;

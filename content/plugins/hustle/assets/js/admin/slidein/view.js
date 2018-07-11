@@ -446,8 +446,8 @@ Hustle.define("Slidein.View", function($, doc, win){
 				save_changes: function(e) {
 						e.preventDefault();
 						var me = this,
-							$btn = $(e.target);
-							
+							$btn = $(e.currentTarget);
+
 						me.$('.wpmudev-button-save, .wpmudev-button-continue').addClass('wpmudev-button-onload').prop('disabled', true);
 						var save = this.save($btn);
 
@@ -468,6 +468,13 @@ Hustle.define("Slidein.View", function($, doc, win){
 									$btn.data( 'id', resp.data );
 									$btn.siblings().data( 'id', resp.data );
 									Module.hasChanges = false;
+
+									// redirect from the last page
+									var current = optin_vars.current.section || false;
+									if ( 'settings' === current ) {
+										var module_id = resp.data;
+										return window.location.replace( '?page=' + optin_vars.current.listing_page + '&module=' + module_id );
+									}
 								}
 							} ).always( function() {
 								me.$('.wpmudev-button-save, .wpmudev-button-continue').removeClass('wpmudev-button-onload').prop('disabled', false);
@@ -482,8 +489,8 @@ Hustle.define("Slidein.View", function($, doc, win){
 						var me = this;
 						// Disable buttons during save.
 						me.$('.wpmudev-button-save, .wpmudev-button-continue').addClass('wpmudev-button-onload').prop('disabled', true);
-										
-						var save = this.save($(e.target));
+
+						var save = this.save($(e.currentTarget));
 						if ( save ) {
 							save.done( function(resp) {
 								if (typeof resp === 'string') {
@@ -519,8 +526,9 @@ Hustle.define("Slidein.View", function($, doc, win){
 						// Disable buttons during save.
 						me.$('.wpmudev-button-save, .wpmudev-button-continue').addClass('wpmudev-button-onload').prop('disabled', true);
 
-						var save = this.save($(e.target));
-							
+						this.model.set( 'active', 1, { silent:true } );
+						var save = this.save($(e.currentTarget));
+
 						if ( save ) {
 							save.done( function(resp) {
 								if ( resp.success ) {

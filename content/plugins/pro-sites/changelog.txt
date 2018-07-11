@@ -5,6 +5,14 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+3.5.9.3 - 26/06/2018
+
+*Added:
+    - Added Indian Rupee support to PayPal.
+*Fixed:
+    - Stripe API error.
+    - Trial period continues to be doubled.
+
 3.5.9.2 - 05/06/2018
 
 *Fixed:
@@ -823,4 +831,4 @@ Change Log:
 - Initial Release.
 
 
-133620-1529543933-au
+133620-1531347918-au

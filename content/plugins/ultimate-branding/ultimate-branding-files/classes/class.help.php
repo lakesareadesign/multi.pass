@@ -178,7 +178,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			$help = ob_get_clean();
 			$this->screen->add_help_tab( array(
 				'id'      => 'adminbar',
-				'title'   => __( 'Custom Admin Bar' , 'ub' ),
+				'title'   => __( 'Admin Bar' , 'ub' ),
 				'content' => $help,
 			) );
 		}
@@ -189,7 +189,7 @@ if ( ! class_exists( 'UB_Help' ) ) {
 			$help = ob_get_clean();
 			$this->screen->add_help_tab( array(
 				'id'      => 'css',
-				'title'   => __( 'Custom CSS' , 'ub' ),
+				'title'   => __( 'Cascading Style Sheets' , 'ub' ),
 				'content' => $help,
 			) );
 		}

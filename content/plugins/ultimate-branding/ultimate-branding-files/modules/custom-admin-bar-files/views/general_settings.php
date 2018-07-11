@@ -2,10 +2,20 @@
 /**
  * Renders general setting box
  */
+
+$boxes = array();
+$settings = get_user_meta( get_current_user_id(), 'closedpostboxes_ultimate_branding', true );
+if ( isset( $settings['adminbar'] ) ) {
+	$boxes = $settings['adminbar'];
+}
+$id = 'general';
+if ( ! isset( $boxes[ $id ] ) ) {
+	$boxes[ $id ] = 'open';
+}
 ?>
 <div class="postbox-container">
-    <div class="meta-box-sortables not-sortable">
-        <div class="postbox">
+    <div class="meta-box-sortables not-sortable simple-options">
+        <div class="postbox <?php echo esc_attr( $boxes[ $id ] ); ?>" id="<?php echo esc_attr( $id ); ?>">
             <button type="button" class="handlediv button-link" aria-expanded="true">
                 <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), __( 'General Settings', 'ub' ) ); ?></span>
                 <span class="toggle-indicator" aria-hidden="true"></span>
@@ -34,10 +44,18 @@
         </div>
     </div>
 </div>
-                    <?php if ( $enable_hiding_default_bars ) :  ?>
+                    <?php if ( $enable_hiding_default_bars ) :
+
+
+						$id = 'hide';
+						if ( ! isset( $boxes[ $id ] ) ) {
+							$boxes[ $id ] = 'open';
+						}
+
+?>
 <div class="postbox-container">
-    <div class="meta-box-sortables not-sortable">
-        <div class="postbox">
+    <div class="meta-box-sortables not-sortable simple-options">
+        <div class="postbox <?php echo esc_attr( $boxes[ $id ] ); ?>" id="<?php echo esc_attr( $id ); ?>">
             <button type="button" class="handlediv button-link" aria-expanded="true">
                 <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), __( 'Hide WordPress Menu Items', 'ub' ) ); ?></span>
                 <span class="toggle-indicator" aria-hidden="true"></span>
@@ -66,10 +84,18 @@
         </div>
     </div>
 </div>
-                    <?php endif; ?>
+                    <?php endif;
+
+
+
+$id = 'advance';
+if ( ! isset( $boxes[ $id ] ) ) {
+	$boxes[ $id ] = 'open';
+}
+?>
 <div class="postbox-container">
-    <div class="meta-box-sortables not-sortable">
-        <div class="postbox">
+    <div class="meta-box-sortables not-sortable simple-options">
+        <div class="postbox <?php echo esc_attr( $boxes[ $id ] ); ?>" id="<?php echo esc_attr( $id ); ?>">
             <button type="button" class="handlediv button-link" aria-expanded="true">
                 <span class="screen-reader-text"><?php printf( __( 'Toggle panel: %s', 'ub' ), __( 'Advance Settings', 'ub' ) ); ?></span>
                 <span class="toggle-indicator" aria-hidden="true"></span>

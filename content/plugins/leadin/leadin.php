@@ -3,7 +3,7 @@
 Plugin Name: HubSpot - Free Marketing Plugin for WordPress
 Plugin URI: http://www.hubspot.com/products/marketing/free
 Description: HubSpot Marketing Free is the ultimate marketing plugin for WordPress for building an email list, generating and tracking leads, and tracking user behavior on your website.
-Version: 6.1.5
+Version: 6.1.7
 Author: HubSpot
 Author URI: http://www.hubspot.com
 License: GPL2
@@ -33,7 +33,7 @@ if ( ! defined( 'LEADIN_DB_VERSION' ) ) {
 }
 
 if ( ! defined( 'LEADIN_PLUGIN_VERSION' ) ) {
-	define( 'LEADIN_PLUGIN_VERSION', '6.1.5' );
+	define( 'LEADIN_PLUGIN_VERSION', '6.1.7' );
 }
 
 if ( ! defined( 'LEADIN_SOURCE' ) ) {
@@ -188,11 +188,69 @@ function activate_leadin_on_new_blog( $blog_id, $user_id, $domain, $path, $site_
 	}
 }
 
+
+//=============================================
+// Shortcodes
+//=============================================
+function addHubspotShortcode($attributes) {
+    $parsedAttributes = shortcode_atts(array(
+        'type' => NULL,
+        'portal' => NULL,
+        'id' => NULL,
+    ), $attributes);
+
+    if (
+        !isset($parsedAttributes['type']) ||
+        !isset($parsedAttributes['portal']) ||
+        !isset($parsedAttributes['id'])
+    ) {
+        return;
+    }
+
+    $portalId = $parsedAttributes['portal'];
+    $id = $parsedAttributes['id'];
+
+    switch ($parsedAttributes['type']) {
+        case 'form':
+            return '
+                <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/shell.js"></script>
+                <script>
+                  hbspt.forms.create({
+                    portalId: '. $portalId . ',
+                    formId: "' . $id . '",
+                    shortcode: "wp"
+                  });
+                </script>
+            ';
+        case 'cta':
+            return '
+                <!--HubSpot Call-to-Action Code -->
+                <span class="hs-cta-wrapper" id="hs-cta-wrapper-' . $id . '">
+                    <span class="hs-cta-node hs-cta-' . $id . '" id="'. $id . '">
+                        <!--[if lte IE 8]>
+                        <div id="hs-cta-ie-element"></div>
+                        <![endif]-->
+                        <a href="https://cta-redirect.hubspot.com/cta/redirect/' . $portalId . '/'. $id . '" >
+                            <img class="hs-cta-img" id="hs-cta-img-' . $id . '" style="border-width:0px;" src="https://no-cache.hubspot.com/cta/default/' . $portalId . '/' . $id . '.png"  alt="New call-to-action"/>
+                        </a>
+                    </span>
+                    <script charset="utf-8" src="//js.hubspot.com/cta/current.js"></script>
+                    <script type="text/javascript">
+                        hbspt.cta.load(' . $portalId . ', \''. $id . '\', {});
+                    </script>
+                </span>
+                <!-- end HubSpot Call-to-Action Code -->
+            ';
+    }
+}
+
 /**
  * Checks the stored database version against the current data version + updates if needed
  */
-function leadin_init() {
-	$leadin_wp = new WPLeadIn();
+function leadin_init()
+{
+    $leadin_wp = new WPLeadIn();
+    add_shortcode('hubspot', 'addHubspotShortcode');
 }
 
 

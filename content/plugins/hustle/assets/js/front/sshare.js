@@ -168,17 +168,25 @@
 			var me = this,
 				$this = this.$(e.target),
 				$anchor = $this.closest('a.hustle-social-icon-native'),
-				social = $anchor.data('social');
-				
-			this._update_social_counter($anchor);
-			// update other module with same social icon
-			$('a[data-social="'+ social +'"]').not($anchor).each( function(){
-				me._update_social_counter($(this));
-			} );
-				
+				social = $anchor.data('social');	
+			
+			if ( !$anchor.hasClass('hustle-social-icon-counter-native') ) {
+				this._update_social_counter($anchor);
+				// update other module with same social icon
+				$('a[data-social="'+ social +'"]').not($anchor).not('.hustle-social-icon-counter-native').each( function(){
+					me._update_social_counter($(this));
+				} );
+			} else {
+				this._add_check_native_social_counter($anchor);
+				// update other module with same social icon
+				$('a[data-social="'+ social +'"].hustle-social-icon-counter-native').not($anchor).each( function(){
+					me._add_check_native_social_counter($(this));
+				} );
+			}
+
 			// update social counter and log conversion
 			this.log_conversion(this.module_display_type, this.opts, social, 'native');
-				
+			
 			if ( social && typeof Optin.SShare_native_share_enpoints[social] != 'undefined' ) {
 				window.open(
 					Optin.SShare_native_share_enpoints[social]+ hustle_vars.current_url, 
@@ -203,6 +211,16 @@
 				if ( $counter.length ) {
 					var val = parseInt($counter.text()) + 1;
 					$counter.text(val);
+				}
+			}, 5000);
+		},
+		_add_check_native_social_counter: function($a){
+			_.delay(function(){
+				var $counter = $a.find('.hustle-shares-counter span');
+				if ( $counter.length ) {
+					// add a checkmark icon
+					var val = '<svg xmlns="http://www.w3.org/2000/svg" width="50" height="38" viewBox="0 0 50 38" preserveAspectRatio="xMaxYMax" class="hustle-icon hustle-i_checkmark"><path class="hustle-icon-path" d="M45.114.46c-.61-.614-1.604-.614-2.21 0L19.607 23.65c-.61.618-1.607.618-2.213 0L7.186 13.254c-.302-.308-.698-.46-1.096-.462-.402-.002-.81.15-1.116.462L.464 17.31c-.3.307-.464.693-.464 1.095 0 .404.163.827.465 1.134l10.293 10.8c.608.617 1.606 1.617 2.213 2.23l4.426 4.46c.61.61 1.602.61 2.213 0L49.54 7.15c.61-.61.61-1.617 0-2.23L45.114.46z"></path></svg>';
+					$counter.html(val);
 				}
 			}, 5000);
 		},
@@ -267,7 +285,7 @@
 				if( !id ) return;
 				
 				var module = _.find(Modules, function ( mod, key ) {
-					return id == key;
+					return id === parseInt( mod[ 'module_id' ] );
 				});
 				
 				if (!module) return;

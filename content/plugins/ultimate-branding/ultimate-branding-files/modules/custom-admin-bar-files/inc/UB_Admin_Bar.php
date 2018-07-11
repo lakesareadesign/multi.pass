@@ -47,6 +47,30 @@ class UB_Admin_Bar {
 		add_action( 'init', array( $this, 'try_to_show_admin_bar' ) );
 		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
 		add_action( 'ultimate_branding_import', array( $this, 'import' ) );
+		/**
+		 * add options names
+		 *
+		 * @since 2.1.0
+		 */
+		add_filter( 'ultimate_branding_options_names', array( $this, 'add_options_names' ) );
+	}
+
+	/**
+	 * Add option names
+	 *
+	 * @since 2.1.0
+	 */
+	public function add_options_names( $options ) {
+		$ids = ub_get_option( self::OPTION_KEY );
+		if ( is_array( $ids ) ) {
+			foreach ( $ids as $id ) {
+				$options[] = self::_get_menu_composite_id( $id );
+			}
+		}
+		$options[] = self::OPTION_KEY;
+		$options[] = self::STYLE;
+		$options[] = self::ORDER;
+		return $options;
 	}
 
 	public function try_to_show_admin_bar() {
@@ -118,6 +142,7 @@ class UB_Admin_Bar {
 	private static function _get_menu_composite_id( $id ) {
 		return self::MENU_OPTION_KEY . $id;
 	}
+
 	/**
 	 * Updates row that keeps id of the menus
 	 *
@@ -288,6 +313,10 @@ class UB_Admin_Bar {
     max-width: 100%;
     max-height: 28px;
     padding: 2px 0;
+}
+#wpadminbar .ub-menu-item.dashicons {
+    font-family: dashicons;
+    top: 2px;
 }
 UBSTYLE;
 		$save_style = stripslashes( ub_get_option( self::STYLE ) );

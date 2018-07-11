@@ -1,12 +1,14 @@
 Hustle.define("Embedded.Listing", function($){
 	"use strict";
-	var Delete_Confirmation = Hustle.get("Delete_Confirmation");
+	var Delete_Confirmation = Hustle.get("Delete_Confirmation"),
+		Upgrade_Modal = Hustle.get("Upgrade_Modal");
 
 	return Backbone.View.extend({
 		el: "#wpmudev-hustle",
 		logShown: false,
 		events: {
 	        "click .wpmudev-row .wpmudev-box-head" : "toggle_module_accordion",
+			"click #hustle-free-version-create": "show_upgrade_modal",
 			"click .wpmudev-row .wpmudev-box-head .wpmudev-box-action" : "module_toggle_clicked",
 			"click .hustle-delete-module": "delete_module",
 			"click .module-active-state": "toggle_module_activity",
@@ -31,6 +33,10 @@ Hustle.define("Embedded.Listing", function($){
 				}
 			});
 			
+			this.upgrade_modal = new Upgrade_Modal();
+			if ( Module.Utils.get_url_param( 'requires_pro' ) ) {
+				this.show_upgrade_modal();
+			}
 		},
 		module_toggle_clicked: function(e) {
 			e.stopPropagation();
@@ -59,6 +65,14 @@ Hustle.define("Embedded.Listing", function($){
 				this.delete_confirmation.$el.addClass('wpmudev-modal-active');
 			}
 
+		},
+		show_upgrade_modal: function(e) {
+			if ( typeof( e ) !== 'undefined' ) {
+				e.preventDefault();
+			}
+			if ( this.upgrade_modal ) {
+				this.upgrade_modal.$el.addClass('wpmudev-modal-active');
+			}
 		},
 		toggle_module_activity: function(e){
 			var $this = this.$(e.target),

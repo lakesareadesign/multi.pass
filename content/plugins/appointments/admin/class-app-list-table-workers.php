@@ -19,16 +19,27 @@ class Appointments_WP_List_Table_Workers extends WP_List_Table {
 		$this->currency = appointments_get_option( 'currency' );
 	}
 
+	/**
+	 * Handle default column
+	 *
+	 * @since 2.4.0
+	 */
 	public function column_default( $item, $column_name ) {
-		switch ( $column_name ) {
-			case 'dummy':
-				$is_dummy = $item->is_dummy();
-			return sprintf(
-				'<span data-state="%d">%s</span>',
-				esc_attr( $is_dummy ),
-				$is_dummy? esc_html_x( 'Yes', 'dummy worker', 'appointments' ):esc_html_x( 'No', 'dummy worker', 'appointments' )
-			);
-		}
+		return apply_filters( 'appointments_list_column_'.$column_name, '', $item );
+	}
+
+	/**
+	 * Handle dummy column
+	 *
+	 * @since 2.4.0
+	 */
+	public function column_dummy( $item ) {
+		$is_dummy = $item->is_dummy();
+		return sprintf(
+			'<span data-state="%d">%s</span>',
+			esc_attr( $is_dummy ),
+			$is_dummy? esc_html_x( 'Yes', 'dummy worker', 'appointments' ):esc_html_x( 'No', 'dummy worker', 'appointments' )
+		);
 	}
 
 	/**
@@ -150,7 +161,12 @@ class Appointments_WP_List_Table_Workers extends WP_List_Table {
 			'services_provided' => __( 'Services Provided', 'appointments' ),
 			'page' => __( 'Description page', 'appointments' ),
 		);
-		return $columns;
+		/**
+		 * Allow to filter columns
+		 *
+		 * @since 2.4.0
+		 */
+		return apply_filters( 'manage_appointments_service_provider_columns', $columns );
 	}
 
 	public function get_bulk_actions() {
@@ -183,9 +199,9 @@ class Appointments_WP_List_Table_Workers extends WP_List_Table {
 	}
 
 	public function prepare_items() {
-		$per_page = 20;
+		$per_page = $this->get_items_per_page( 'app_workers_per_page', 20 );;
 		$columns = $this->get_columns();
-		$hidden = array();
+		$hidden = get_hidden_columns( $this->screen );
 		/**
 		 * services
 		 */
@@ -196,10 +212,15 @@ class Appointments_WP_List_Table_Workers extends WP_List_Table {
 		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->process_bulk_action();
-		$total_items = appointments_get_workers( array( 'count' => true ) );;
+		$total_items = appointments_get_workers( array( 'count' => true ) );
 		$current_page = $this->get_pagenum();
 		$offset = ( $current_page - 1 ) * $per_page;
-		$data = appointments_get_workers( array( 'orderby' => 'name', 'offset' => $offset, 'limit' => $per_page ) );
+		$args = array(
+			'orderby' => 'name',
+			'offset' => $offset,
+			'limit' => $per_page,
+		);
+		$data = appointments_get_workers( $args );
 		$this->items = $data;
 		/**
 		 * REQUIRED. We also have to register our pagination options & calculations.

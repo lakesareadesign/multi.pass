@@ -1,7 +1,7 @@
 <?php
 /*
  * AcmeeFramework
- * @author   KannanC
+ * @author   AcmeeDesign
  * @url     http://acmeedesign.com
  * Class for lists of Google fonts
 */
@@ -672,6 +672,6 @@ if ( ! class_exists( 'AOFgfonts' ) ) {
             );
             return $fonts;
         }
-    
+
     }
 }

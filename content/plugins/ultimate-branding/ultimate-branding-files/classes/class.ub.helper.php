@@ -1,26 +1,12 @@
 <?php
 /*
 Copyright 2017-2018 Incsub (email: admin@incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 if ( ! class_exists( 'ub_helper' ) ) {
 
 	class ub_helper{
-		protected $options;
+		protected $options = array();
 		protected $data = null;
 		protected $option_name;
 		protected $url;
@@ -131,6 +117,30 @@ if ( ! class_exists( 'ub_helper' ) ) {
 			return $default;
 		}
 
+		/**
+		 * set value
+		 *
+		 * @since 2.1.0
+		 *
+		 * @param string $key key
+		 * @param string $subkey subkey
+		 * @param mixed $value Value to store.
+		 */
+		protected function set_value( $key, $subkey, $value = null ) {
+			$data = $this->get_value();
+			if ( null === $value ) {
+				if ( isset( $data[ $key ] ) && isset( $data[ $key ][ $subkey ] ) ) {
+					unset( $data[ $key ][ $subkey ] );
+				}
+			} else {
+				if ( ! isset( $data[ $key ] ) ) {
+					$data[ $key ] = array();
+				}
+				$data[ $key ][ $subkey ] = $value;
+			}
+			$this->update_value( $value );
+		}
+
 		public function admin_options_page() {
 			$this->set_options();
 			$this->set_data();
@@ -157,6 +167,14 @@ if ( ! class_exists( 'ub_helper' ) ) {
 			$value = $_POST['simple_options'];
 			if ( $value == '' ) {
 				$value = 'empty';
+			}
+			/**
+			 * check empty options
+			 */
+			if ( empty( $this->options ) ) {
+				$msg = sprintf( 'Ultimate Branding Admin: empty options array for %s variable. Please contact with plugin developers.', $this->option_name );
+				error_log( $msg, 0 );
+				return;
 			}
 			foreach ( $this->options as $section_key => $section_data ) {
 				if ( ! isset( $section_data['fields'] ) ) {
@@ -411,14 +429,14 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		 */
 		protected function css_border_options() {
 			$options = array(
-				'dotted' => __( 'dotted border', 'ub' ),
-				'dashed' => __( 'dashed border', 'ub' ),
-				'solid' => __( 'solid border', 'ub' ),
-				'double' => __( 'double border', 'ub' ),
-				'groove' => __( '3D grooved border. The effect depends on the border-color value', 'ub' ),
-				'ridge' => __( '3D ridged border. The effect depends on the border-color value', 'ub' ),
-				'inset' => __( '3D inset border. The effect depends on the border-color value', 'ub' ),
-				'outset' => __( '3D outset border. The effect depends on the border-color value', 'ub' ),
+				'dotted' => __( 'Dotted', 'ub' ),
+				'dashed' => __( 'Dashed', 'ub' ),
+				'solid' => __( 'Solid', 'ub' ),
+				'double' => __( 'Double', 'ub' ),
+				'groove' => __( '3D grooved', 'ub' ),
+				'ridge' => __( '3D ridged', 'ub' ),
+				'inset' => __( '3D inset', 'ub' ),
+				'outset' => __( '3D outset', 'ub' ),
 			);
 			return $options;
 		}
@@ -427,23 +445,29 @@ if ( ! class_exists( 'ub_helper' ) ) {
 			if ( empty( $color ) ) {
 				$color = 'transparent';
 			}
-			return sprintf( 'background-color:%s;', $color );
+			return sprintf( 'background-color: %s;', $color );
 		}
 
 		protected function css_color( $color ) {
 			if ( empty( $color ) ) {
 				$color = 'inherit';
 			}
-			return sprintf( 'color:%s;', $color );
+			return sprintf( 'color: %s;', $color );
 		}
 
 		protected function css_width( $width, $units = 'px' ) {
 			if ( empty( $width ) ) {
 				return '';
 			}
-			return sprintf( 'width:%s%s;', $width, $units );
+			return sprintf( 'width: %s%s;', $width, $units );
 		}
 
+		protected function css_height( $height, $units = 'px' ) {
+			if ( empty( $height ) ) {
+				return '';
+			}
+			return sprintf( 'height: %s%s;', $height, $units );
+		}
 
 		/**
 		 * CSS color.

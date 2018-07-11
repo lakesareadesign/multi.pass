@@ -1,3 +1,9 @@
+<h4>2.1.3.4 - 06/25/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Removed the Chrome parallax fix as the issue is now fixed in Chrome beta and canary.</li>
+</ul>
+
 <h4>2.1.3.3 - 06/20/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

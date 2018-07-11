@@ -34,7 +34,7 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 *
 		 * @since  1.0.0
 		 */
-		static public function instance() {
+		public static function instance() {
 			static $Inst = null;
 
 			if ( null === $Inst ) {
@@ -113,9 +113,15 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		public function wdev_register_plugin( $plugin_id, $title, $url_wp, $cta_email = '', $drip_plugin = '' ) {
 
 			// Ignore incorrectly registered plugins to avoid errors later.
-			if ( empty( $plugin_id ) ) { return; }
-			if ( empty( $title ) ) { return; }
-			if ( empty( $url_wp ) ) { return; }
+			if ( empty( $plugin_id ) ) {
+				return;
+			}
+			if ( empty( $title ) ) {
+				return;
+			}
+			if ( empty( $url_wp ) ) {
+				return;
+			}
 
 			if ( false === strpos( $url_wp, '://' ) ) {
 				$url_wp = 'https://wordpress.org/' . trim( $url_wp, '/' );
@@ -209,7 +215,9 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 		 */
 		public function all_admin_notices() {
 			$info = $this->choose_message();
-			if ( ! $info ) { return; }
+			if ( ! $info ) {
+				return;
+			}
 
 			$this->render_message( $info );
 		}
@@ -236,9 +244,15 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 			// The "current" time can be changed via $_GET to test the module.
 			if ( defined( 'WP_DEBUG' ) && WP_DEBUG && ! empty( $_GET['time'] ) ) {
 				$custom_time = $_GET['time'];
-				if ( ' ' == $custom_time[0] ) { $custom_time[0] = '+'; }
-				if ( $custom_time ) { $now = strtotime( $custom_time ); }
-				if ( ! $now ) { $now = time(); }
+				if ( ' ' == $custom_time[0] ) {
+					$custom_time[0] = '+';
+				}
+				if ( $custom_time ) {
+					$now = strtotime( $custom_time );
+				}
+				if ( ! $now ) {
+					$now = time();
+				}
 			}
 
 			$tomorrow = $now + DAY_IN_SECONDS;
@@ -256,11 +270,11 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 				$can_display = true;
 				if ( wp_is_mobile() ) {
 					// Do not display rating message on mobile devices.
-					if ( 'rate' == $item['type'] ) {
+					if ( 'rate' === $item['type'] ) {
 						$can_display = false;
 					}
 				}
-				if ( 'email' == $item['type'] ) {
+				if ( 'email' === $item['type'] ) {
 					if ( ! $plugin->drip_plugin || ! $plugin->cta_email ) {
 						// Do not display email message with missing email params.
 						$can_display = false;
@@ -272,7 +286,9 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 					$can_display = false;
 				}
 
-				if ( ! $can_display ) { continue; }
+				if ( ! $can_display ) {
+					continue;
+				}
 
 				if ( $is_sticky ) {
 					// If sticky item is present then choose it!
@@ -357,9 +373,9 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 				<input type="hidden" name="url_wp" value="<?php echo esc_attr( $plugin->url_wp ); ?>" />
 				<input type="hidden" name="drip_plugin" value="<?php echo esc_attr( $plugin->drip_plugin ); ?>" />
 				<?php
-				if ( 'email' == $info->type ) {
+				if ( 'email' === $info->type ) {
 					$this->render_email_message( $plugin );
-				} elseif ( 'rate' == $info->type ) {
+				} elseif ( 'rate' === $info->type ) {
 					$this->render_rate_message( $plugin );
 				}
 				?>
@@ -387,18 +403,18 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 				<div class="frash-notice-message">
 					<?php
 					printf(
-						$msg,
-						'<strong>' . $plugin->title . '</strong>'
+						esc_html( $msg ),
+						'<strong>' . esc_attr( $plugin->title ) . '</strong>'
 					);
 					?>
 				</div>
 				<div class="frash-notice-cta">
 					<input type="email" name="email" value="<?php echo esc_attr( $admin_email ); ?>" />
-					<button class="frash-notice-act button-primary" data-msg="<?php _e( 'Thanks :)', 'wdev_frash' ); ?>">
+					<button class="frash-notice-act button-primary" data-msg="<?php esc_attr_e( 'Thanks :)', 'wdev_frash' ); ?>">
 						<?php echo esc_html( $plugin->cta_email ); ?>
 					</button>
-					<button class="frash-notice-dismiss" data-msg="<?php _e( 'Saving', 'wdev_frash' ); ?>">
-						<?php _e( 'No thanks', 'wdev_frash' ); ?>
+					<button class="frash-notice-dismiss" data-msg="<?php esc_attr_e( 'Saving', 'wdev_frash' ); ?>">
+						<?php esc_attr_e( 'No thanks', 'wdev_frash' ); ?>
 					</button>
 				</div>
 			<?php
@@ -414,7 +430,7 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 			$user = wp_get_current_user();
 			$user_name = $user->display_name;
 
-			$msg = __( "Hey %s, you've been using %s for a week now and we hope you’re enjoying it!", 'wdev_frash' ) . '<br />'. __( "We put a lot of development time into building this free plugin so anyone can create awesome opt-ins that convert. We would really appreciated it if you dropped us a quick rating!", 'wdev_frash' );
+			$msg = __( 'Hey %1$s, you\'ve been using %2$s for a week now and we hope you\'re enjoying it!', 'wdev_frash' ) . '<br />'. __( "We put a lot of development time into building this free plugin so anyone can create awesome opt-ins that convert. We would really appreciated it if you dropped us a quick rating!", 'wdev_frash' );
 			$msg = apply_filters( 'wdev-rating-message-' . $plugin->id, $msg );
 
 			?>
@@ -422,22 +438,23 @@ if ( ! class_exists( 'WDev_Frash' ) ) {
 				<div class="frash-notice-message">
 					<?php
 					printf(
-						$msg,
-						'<strong>' . $user_name . '</strong>',
-						'<strong>' . $plugin->title . '</strong>'
+						esc_html( $msg ),
+						'<strong>' . esc_attr( $user_name ) . '</strong>',
+						'<strong>' . esc_attr( $plugin->title ) . '</strong>'
 					);
 					?>
 				</div>
 				<div class="frash-notice-cta">
-					<button class="frash-notice-act button-primary" data-msg="<?php _e( 'Thanks :)', 'wdev_frash' ); ?>">
+					<button class="frash-notice-act button-primary" data-msg="<?php esc_attr_e( 'Thanks :)', 'wdev_frash' ); ?>">
 						<?php
 						printf(
-							__( 'Rate %s', 'wdev_frash' ),
+							esc_attr__( 'Rate %s', 'wdev_frash' ),
 							esc_html( $plugin->title )
-						); ?>
+						);
+						?>
 					</button>
-					<button class="frash-notice-dismiss" data-msg="<?php _e( 'Saving', 'wdev_frash' ); ?>">
-						<?php _e( 'No thanks', 'wdev_frash' ); ?>
+					<button class="frash-notice-dismiss" data-msg="<?php esc_attr_e( 'Saving', 'wdev_frash' ); ?>">
+						<?php esc_attr_e( 'No thanks', 'wdev_frash' ); ?>
 					</button>
 				</div>
 			<?php

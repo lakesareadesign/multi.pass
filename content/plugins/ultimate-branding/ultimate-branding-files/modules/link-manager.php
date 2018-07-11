@@ -1,9 +1,4 @@
 <?php
-/*
-  Plugin Name:  Link Manager
-  Description: Enables the Link Manager that existed in WordPress until version 3.5.
- */
-
 if ( ! class_exists( 'ub_link_manager' ) ) {
 	class ub_link_manager extends ub_helper {
 		public function __construct() {

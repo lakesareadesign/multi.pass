@@ -2,7 +2,7 @@
 
 	<header id="wpmudev-hustle-title">
 
-		<h1><?php echo $page_title; ?></h1>
+		<h1><?php echo esc_html( $page_title ); ?></h1>
 
 	</header>
 
@@ -16,7 +16,7 @@
 
 					<div class="wpmudev-box-head">
 
-						<h3><?php _e('UPGRADE TO SUPER HUSTLE', Opt_In::TEXT_DOMAIN); ?></h3>
+						<h3><?php esc_attr_e('UPGRADE TO SUPER HUSTLE', Opt_In::TEXT_DOMAIN); ?></h3>
 
 					</div>
 
@@ -34,11 +34,11 @@
 
 								<div class="content-800">
 
-									<h2><?php _e('Ready to unlock the full magic of Hustle?', Opt_In::TEXT_DOMAIN); ?></h2>
+									<h2><?php esc_attr_e('Ready to unlock the full magic of Hustle?', Opt_In::TEXT_DOMAIN); ?></h2>
 
-									<h6><?php _e('Thank you for installing Hustle! To help you get started, we\'ve put together some free guides on email marketing... Spam-free, promise!', Opt_In::TEXT_DOMAIN); ?></h6>
+									<h6><?php esc_attr_e('Thank you for installing Hustle! To help you get started, we\'ve put together some free guides on email marketing... Spam-free, promise!', Opt_In::TEXT_DOMAIN); ?></h6>
 
-									<p><a href="https://premium.wpmudev.org/project/hustle/" target="_blank" class="wph-button wph-button--inline wph-button--filled wph-button--blue"><?php _e('Get Free Guides', Opt_In::TEXT_DOMAIN); ?></a></p>
+									<p><a href="https://premium.wpmudev.org/project/hustle/" target="_blank" class="wph-button wph-button--inline wph-button--filled wph-button--blue"><?php esc_attr_e('Get Free Guides', Opt_In::TEXT_DOMAIN); ?></a></p>
 
 								</div>
 

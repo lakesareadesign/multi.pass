@@ -190,35 +190,51 @@ jQuery(document).ready(function() {
 		}
 		um_admin_modal_responsive();
 	});
-	
+
+
+
 	/**
 		clone a condition
 	**/
-	jQuery(document).on('click', '.um-admin-new-condition', function(){
+	jQuery(document).on('click', '.um-admin-new-condition', function() {
+
 		if ( jQuery(this).hasClass('disabled') )
 			return false;
 
-		var content = jQuery(this).parents('.um-admin-btn-content');
-		var length = content.find('.um-admin-cur-condition').length;
+		var content = jQuery(this).parents('.um-admin-btn-content'),
+			length = content.find('.um-admin-cur-condition').length;
+
 		if ( length < 5 ) {
 			//content.find('select').select2('destroy');
 
-			var cloned = jQuery(this).parents('.um-admin-cur-condition').clone();
-			cloned.find('input[type=text],select').each(function(){
-				jQuery(this).attr('id', jQuery(this).attr('id') + length );
-				jQuery(this).attr('name', jQuery(this).attr('name') + length );
-			});
-			cloned.find('input[type=text]').val('');
-			cloned.find('.um-admin-new-condition').replaceWith('<p><a href="#" class="um-admin-remove-condition button um-admin-tipsy-n" title="Remove condition"><i class="um-icon-close" style="margin-right:0!important"></i></a></p>');
+			var template = jQuery('.um-admin-btn-content').find('.um-admin-cur-condition-template').clone();
+			template.find('input[type=text]').val('');
+			template.find('select').val('');
 
-			cloned.appendTo( content );
-			cloned.find('select').val('');
+			template.appendTo( content );
+			jQuery(template).removeClass("um-admin-cur-condition-template");
+			jQuery(template).addClass("um-admin-cur-condition");
+
 			um_admin_live_update_scripts();
 			um_admin_modal_responsive();
 		} else {
 			jQuery(this).addClass('disabled');
 			alert( 'You already have 5 rules' );
 		}
+		//need fields refactor
+        var conditions = jQuery('.um-admin-cur-condition');
+		jQuery(conditions).each( function ( i ) {
+			id = i === 0 ? '' : i;
+			jQuery( this ).find('[id^="_conditional_action"]').attr('name', '_conditional_action' + id);
+			jQuery( this ).find('[id^="_conditional_action"]').attr('id', '_conditional_action' + id);
+			jQuery( this ).find('[id^="_conditional_field"]').attr('name', '_conditional_field' + id);
+			jQuery( this ).find('[id^="_conditional_field"]').attr('id', '_conditional_field' + id);
+			jQuery( this ).find('[id^="_conditional_operator"]').attr('name', '_conditional_operator' + id);
+			jQuery( this ).find('[id^="_conditional_operator"]').attr('id', '_conditional_operator' + id);
+			jQuery( this ).find('[id^="_conditional_value"]').attr('name', '_conditional_value' + id);
+			jQuery( this ).find('[id^="_conditional_value"]').attr('id', '_conditional_value' + id);
+        } );
+
 	});
 	
 	/**
@@ -242,6 +258,19 @@ jQuery(document).ready(function() {
 		jQuery('.um-admin-new-condition').removeClass('disabled');
 		jQuery('.tipsy').remove();
 		condition.remove();
+        //need fields refactor
+        var conditions = jQuery('.um-admin-cur-condition');
+        jQuery(conditions).each( function ( i ) {
+            id = i === 0 ? '' : i;
+            jQuery( this ).find('[id^="_conditional_action"]').attr('name', '_conditional_action' + id);
+            jQuery( this ).find('[id^="_conditional_action"]').attr('id', '_conditional_action' + id);
+            jQuery( this ).find('[id^="_conditional_field"]').attr('name', '_conditional_field' + id);
+            jQuery( this ).find('[id^="_conditional_field"]').attr('id', '_conditional_field' + id);
+            jQuery( this ).find('[id^="_conditional_operator"]').attr('name', '_conditional_operator' + id);
+            jQuery( this ).find('[id^="_conditional_operator"]').attr('id', '_conditional_operator' + id);
+            jQuery( this ).find('[id^="_conditional_value"]').attr('name', '_conditional_value' + id);
+            jQuery( this ).find('[id^="_conditional_value"]').attr('id', '_conditional_value' + id);
+        } );
 		um_admin_live_update_scripts();
 		um_admin_modal_responsive();
 	});

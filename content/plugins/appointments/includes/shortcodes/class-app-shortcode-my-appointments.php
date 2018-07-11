@@ -253,6 +253,7 @@ class App_Shortcode_MyAppointments extends App_Shortcode {
 		$colspan = substr_count( $ret, '<th' );
 		$ret .= '</thead><tbody>';
 		if ( $results ) {
+			$show_submit_confirm_button = false;
 			foreach ( $results as $r ) {
 				$ret .= '<tr><td>';
 				$ret .= $appointments->get_service_name( $r->service ) . '</td>';
@@ -275,9 +276,19 @@ class App_Shortcode_MyAppointments extends App_Shortcode {
 				$ret .= apply_filters( 'app-shortcode-my_appointments-after_status', '', $r );
 				// If allowed so, a worker can confirm an appointment himself
 				if ( $allow_confirm ) {
-					if ( 'pending' == $r->status ) {
-						$is_readonly = ''; } else { 						$is_readonly = ' readonly="readonly"'; }
-					$ret .= '<td><input class="app-my-appointments-confirm" type="checkbox" name="app_confirm['.$r->ID.']" '.$is_readonly.' /></td>';
+					$is_readonly = '';
+					if ( 'pending' != $r->status ) {
+						$is_readonly = ' readonly="readonly" disabled="disabled"';
+					}
+					$ret .= '<td>';
+					if ( 'confirmed' === $r->status ) {
+						$ret .= '-';
+					} else {
+						$ret .= '<input class="app-my-appointments-confirm" type="checkbox" name="app_confirm['.$r->ID.']" '.$is_readonly.' />';
+						$show_submit_confirm_button = true;
+					}
+
+					$ret .= '</td>';
 				}
 				// If allowed so, a client can cancel an appointment
 				if ( $a_cancel ) {
@@ -285,13 +296,19 @@ class App_Shortcode_MyAppointments extends App_Shortcode {
 					$stat = $r->status;
 					$in_allowed_stat = apply_filters( 'app_cancel_allowed_status', ('pending' == $stat || 'confirmed' == $stat || 'paid' == $stat), $stat, $r->ID );
 					if ( $in_allowed_stat ) {
-						$is_readonly = ''; } else { 						$is_readonly = ' readonly="readonly"'; }
+						$is_readonly = '';
+					} else {
+						$is_readonly = ' readonly="readonly"';
+					}
 					$ret .= '<td><input id="cancel-' . $r->ID . '" data-app-id="' . $r->ID . '" class="app-my-appointments-cancel" type="checkbox" name="app_cancel['.$r->ID.']" '.$is_readonly.' /></td>';
 				}
 
 				if ( $args['gcal'] && 'yes' == $appointments->options['gcal'] ) {
 					if ( isset( $appointments->options['gcal_same_window'] ) && $appointments->options['gcal_same_window'] ) {
-						$target = '_self'; } else { 						$target = '_blank'; }
+						$target = '_self';
+					} else {
+						$target = '_blank';
+					}
 					$ret .= '<td><a title="'.__( 'Click to submit this appointment to your Google Calendar account','appointments' )
 					        .'" href="'.$appointments->gcal( $r->service, strtotime( $r->start, $appointments->local_time ), strtotime( $r->end, $appointments->local_time ), true, $r->address, $r->city )
 					        .'" target="'.$target.'">'.$appointments->gcal_image.'</a></td>';
@@ -309,7 +326,7 @@ class App_Shortcode_MyAppointments extends App_Shortcode {
 		$ret .= '</tbody></table>';
 		$ret  = apply_filters( 'app_my_appointments_after_table', $ret, $results );
 
-		if ( $this->_can_display_editable( $allow_confirm ) ) {
+		if ( $show_submit_confirm_button && $this->_can_display_editable( $allow_confirm ) ) {
 			$ret .= '<div class="submit">' .
 			       '<input type="submit" name="app_bp_settings_submit" value="' . esc_attr( __( 'Submit Confirm', 'appointments' ) ) . '" class="auto">' .
 			       '<input type="hidden" name="app_bp_settings_user" value="' . esc_attr( $bp->displayed_user->id ) . '">' .

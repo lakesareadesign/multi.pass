@@ -4,8 +4,7 @@
  *
  * Class Opt_In_Get_Response_Api
  */
-class Opt_In_Get_Response_Api
-{
+class Opt_In_Get_Response_Api {
 
 	private $_api_key;
 
@@ -18,7 +17,7 @@ class Opt_In_Get_Response_Api
 	 * @param $api_key
 	 * @param array $args
 	 */
-	function __construct( $api_key, $args = array() ){
+	public function __construct( $api_key, $args = array() ){
 		$this->_api_key = $api_key;
 
 		if( isset( $args['endpoint'] ) )
@@ -47,7 +46,7 @@ class Opt_In_Get_Response_Api
 		if( "GET" === $verb ){
 			$url .= ( "?" . http_build_query( $args ) );
 		}else{
-			$_args['body'] = json_encode( $args['body'] );
+			$_args['body'] = wp_json_encode( $args['body'] );
 		}
 
 		$res = wp_remote_request( $url, $_args );
@@ -112,7 +111,7 @@ class Opt_In_Get_Response_Api
 		return empty( $res ) ? __("Successful subscription", Opt_In::TEXT_DOMAIN) : $res;
 	}
 
-	function get_custom_fields() {
+	public function get_custom_fields() {
 		$args = array( 'fields' => array( 'name' ) );
 		$res = $this->_get( 'custom-fields', array(
 			'body' => $args,
@@ -126,7 +125,7 @@ class Opt_In_Get_Response_Api
 	 *
 	 * @param (array) $custom_field
 	 **/
-	function add_custom_field( $custom_field ) {
+	public function add_custom_field( $custom_field ) {
 		$res = $this->_post( 'custom-fields', array(
 			'body' => $custom_field,
 		));

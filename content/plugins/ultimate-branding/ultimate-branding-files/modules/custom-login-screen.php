@@ -1,30 +1,4 @@
 <?php
-/*
-Plugin Name: Login Screen
-Plugin URI:
-Description: Allow to customize login screen.
-Author: Marcin (Incsub)
-Version: 1.0.2
-Author URI:
-Network: true
-
-Copyright 2017-2018 Incsub (email: admin@incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
 if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 
 	class ub_custom_login_screen extends ub_helper {
@@ -300,9 +274,24 @@ body {
 				 * form_button_color
 				 */
 				$this->css_background_color_from_data( $v, 'form_button_color', '.login form .button' );
-				$this->css_background_color_from_data( $v, 'form_button_color_active', '.login form .button:active' );
-				$this->css_background_color_from_data( $v, 'form_button_color_focus', '.login form .button:focus' );
-				$this->css_background_color_from_data( $v, 'form_button_color_hover', '.login form .button:hover' );
+				$this->css_color_from_data( $v, 'form_text_button_color', '.login form .button' );
+				/**
+				 * form button: active, focus, hover
+				 */
+				$button_keys = array( 'focus', 'hover', 'active' );
+				foreach ( $button_keys as $button_key ) {
+					/**
+					 * background-color
+					 */
+					$bkey = sprintf( 'form_button_color_%s', $button_key );
+					$bvalue = sprintf( '.login form .button:%s', $button_key );
+					$this->css_background_color_from_data( $v, $bkey, $bvalue );
+					/**
+					 * color
+					 */
+					$bkey = sprintf( 'form_button_text_color_%s', $button_key );
+					$this->css_color_from_data( $v, $bkey, $bvalue );
+				}
 				/**
 				 * form_button_text_color
 				 */
@@ -653,31 +642,61 @@ body {
 							'description' => __( 'Choose the style of the form.', 'ub' ),
 							'default' => 'flat',
 						),
+						/**
+						 * form: button
+						 */
 						'form_button_color' => array(
 							'type' => 'color',
-							'label' => __( 'Button color', 'ub' ),
-							'default' => '#2ea2cc',
+							'label' => __( 'Button background color', 'ub' ),
+							'default' => '#0085ba',
 						),
+						'form_button_text_color' => array(
+							'type' => 'color',
+							'label' => __( 'Button text color', 'ub' ),
+							'default' => '#ffffff',
+						),
+						/**
+						 * form button: active
+						 */
 						'form_button_color_active' => array(
 							'type' => 'color',
-							'label' => __( 'Button color on active', 'ub' ),
+							'label' => __( 'Button background color (active)', 'ub' ),
 							'default' => '#0073aa',
 						),
+						'form_button_text_color_active' => array(
+							'type' => 'color',
+							'label' => __( 'Button text color (active)', 'ub' ),
+							'default' => '#ffffff',
+						),
+						/**
+						 * form button: focus
+						 */
 						'form_button_color_focus' => array(
 							'type' => 'color',
-							'label' => __( 'Button color on focus', 'ub' ),
-							'default' => '#5b9dd92',
+							'label' => __( 'Button background color (focus)', 'ub' ),
+							'default' => '#008ec2',
 						),
 						'form_button_text_color_focus' => array(
 							'type' => 'color',
-							'label' => __( 'Button Text color focus', 'ub' ),
+							'label' => __( 'Button text color (focus)', 'ub' ),
 							'default' => '#ffffff',
+						),
+						/**
+						 * form button: hover
+						 */
+						'form_button_color_hover' => array(
+							'type' => 'color',
+							'label' => __( 'Button background color (hover)', 'ub' ),
+							'default' => '#008ec2',
 						),
 						'form_button_text_color_hover' => array(
 							'type' => 'color',
-							'label' => __( 'Button Text color hover', 'ub' ),
+							'label' => __( 'Button text color (hover)', 'ub' ),
 							'default' => '#ffffff',
 						),
+						/**
+						 * Shadow
+						 */
 						'form_button_text_shadow' => array(
 							'type' => 'checkbox',
 							'label' => __( 'Button text shadow', 'ub' ),

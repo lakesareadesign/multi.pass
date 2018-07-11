@@ -5,11 +5,10 @@
  *
  * @property string $mail_service_label
  */
-class Hustle_Module_Decorator extends Opt_In
-{
+class Hustle_Module_Decorator extends Opt_In {
 	private $_module;
 
-	function __construct( Hustle_Module_Model $module ){
+	public function __construct( Hustle_Module_Model $module ){
 		$this->_module = $module;
 	}
 
@@ -22,7 +21,7 @@ class Hustle_Module_Decorator extends Opt_In
 	 * @param $field
 	 * @return mixed
 	 */
-	function __get( $field ){
+	public function __get( $field ){
 
 		if( method_exists( $this, "get_" . $field ) )
 			return $this->{"get_". $field}();
@@ -32,8 +31,7 @@ class Hustle_Module_Decorator extends Opt_In
 
 	}
 
-	private function _get_layout_colors()
-	{
+	private function _get_layout_colors() {
 		if ( !$this->_module->design->colors->customize && $this->_module->design->colors->palette )
 			return $this->get_palette( $this->_module->design->colors->palette );
 		else
@@ -49,7 +47,7 @@ class Hustle_Module_Decorator extends Opt_In
 				$prefix = '.wph-modal.module_id_' . $this->_module->module_id . ' ';
 				$styles = $this->_get_common_styles($prefix);
 				break;
-			case 'slidein';
+			case 'slidein':
 				$prefix = '.wph-modal.module_id_' . $this->_module->module_id . ' ';
 				$styles = $this->_get_common_styles($prefix);
 				break;
@@ -74,36 +72,39 @@ class Hustle_Module_Decorator extends Opt_In
 		$stylable_elements = $this->_get_popup_stylable_elements();
 		$content = $this->_module->get_content()->to_array();
 		$design = $this->_module->get_design()->to_array();
+		$defaults = $this->_module->get_design()->defaults;
 		$layout_style = $design['style'];
 		$form_layout = $design['form_layout'];
 
 		/* COMMON STYLES  */
 
+		$colors = (int) $design['customize_colors'] ? $design : $defaults;
+
 		// image_container_bg
-		$styles .= ' ' . $prefix . $stylable_elements['img_container'] . '{ background-color: '. $design['image_container_bg'] .'; }';
+		$styles .= ' ' . $prefix . $stylable_elements['img_container'] . '{ background-color: '. $colors['image_container_bg'] .'; }';
 
 		// title_color
-		$styles .= ' ' . $prefix . $stylable_elements['modal_title'] . '{ color: '. $design['title_color'] .'; }';
+		$styles .= ' ' . $prefix . $stylable_elements['modal_title'] . '{ color: '. $colors['title_color'] .'; }';
 
 		// subtitle_color
-		$styles .= ' ' . $prefix . $stylable_elements['modal_subtitle_color'] . '{ color: '. $design['subtitle_color'] .'; }';
+		$styles .= ' ' . $prefix . $stylable_elements['modal_subtitle_color'] . '{ color: '. $colors['subtitle_color'] .'; }';
 
 		// content color
-		$styles .= ' ' . $prefix . $stylable_elements['content_article'] . '{ color: '. $design['content_color'] .'; }';
-		$styles .= ' ' . $prefix . $stylable_elements['content_bq_article'] . '{ border-left-color: '. $design['link_static_color'] .'; }';
-		$styles .= ' ' . $prefix . $stylable_elements['content_bq_article'] . ':hover { border-left-color: '. $design['link_hover_color'] .'; }';
+		$styles .= ' ' . $prefix . $stylable_elements['content_article'] . '{ color: '. $colors['content_color'] .'; }';
+		$styles .= ' ' . $prefix . $stylable_elements['content_bq_article'] . '{ border-left-color: '. $colors['link_static_color'] .'; }';
+		$styles .= ' ' . $prefix . $stylable_elements['content_bq_article'] . ':hover { border-left-color: '. $colors['link_hover_color'] .'; }';
 
 		// close button
-		$styles .= ' ' . $prefix . $stylable_elements['close_button'] . '{ fill: '. $design['close_button_static_color'] .'; }';
-		$styles .= ' ' . $prefix . $stylable_elements['close_button'] . ':hover { fill: '. $design['close_button_hover_color'] .'; }';
+		$styles .= ' ' . $prefix . $stylable_elements['close_button'] . '{ fill: '. $colors['close_button_static_color'] .'; }';
+		$styles .= ' ' . $prefix . $stylable_elements['close_button'] . ':hover { fill: '. $colors['close_button_hover_color'] .'; }';
 
 		// overlay bg
-		$styles .= ' ' . $prefix . $stylable_elements['overlay'] . '{ background-color: '. $design['overlay_bg'] .'; }';
+		$styles .= ' ' . $prefix . $stylable_elements['overlay'] . '{ background-color: '. $colors['overlay_bg'] .'; }';
 
 		// border
 		if ( (int) $design['border'] ) {
 			$border_style = $design['border_weight'] . 'px ' . $design['border_type'] . ' ' . $design['border_color'];
-			if ( $layout_style == 'cabriolet' ) {
+			if ( 'cabriolet' === $layout_style ) {
 				$styles .= ' ' . $prefix . $stylable_elements['modal_body_cabriolet'] . '{ border: '. $border_style .'; border-radius: '. $design['border_radius'] .'px; }';
 			} else {
 				$styles .= ' ' . $prefix . $stylable_elements['modal_body'] . '{ border: '. $border_style .'; border-radius: '. $design['border_radius'] .'px; }';
@@ -118,7 +119,7 @@ class Hustle_Module_Decorator extends Opt_In
 				. $design['drop_shadow_spread'] . 'px '
 				. $design['drop_shadow_color'];
 
-			if ( $layout_style == 'cabriolet' ) {
+			if ( 'cabriolet' === $layout_style ) {
 				$styles .= ' ' . $prefix . $stylable_elements['modal_body_cabriolet'] . '{ box-shadow: '. $box_shadow .'; }';
 			} else {
 				$styles .= ' ' . $prefix . $stylable_elements['modal_body'] . '{ box-shadow: '. $box_shadow .'; }';
@@ -131,42 +132,62 @@ class Hustle_Module_Decorator extends Opt_In
 			/* Pop-up with Opt-in */
 
 			// cta button
-			$styles .= ' ' . $prefix . $stylable_elements['optin_cta_button'] . '{ color: '. $design['cta_button_static_color'] .'; background-color: '. $design['cta_button_static_bg'] .'; ' . ( (int) $design['border'] ? 'border-radius: ' . $design['border_radius'] . 'px; ' : '' ) . '}';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_cta_button'] . ':hover { color: '. $design['cta_button_hover_color'] .'; background-color: '. $design['cta_button_hover_bg'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_cta_button'] . '{ color: '. $colors['cta_button_static_color'] .'; background-color: '. $colors['cta_button_static_bg'] .'; ' . ( (int) $colors['border'] ? 'border-radius: ' . $colors['border_radius'] . 'px; ' : '' ) . '}';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_cta_button'] . ':hover { color: '. $colors['cta_button_hover_color'] .'; background-color: '. $colors['cta_button_hover_bg'] .'; }';
 
 			// main_bg_color
-			$styles .= ' ' . $prefix . $stylable_elements['modal_body'] . '{ background-color: '. $design['main_bg_color'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['modal_success'] . '{ background-color: '. $design['main_bg_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['modal_body'] . '{ background-color: '. $colors['main_bg_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['modal_success'] . '{ background-color: '. $colors['main_bg_color'] .'; }';
 
 			// form area bg
-			if ( $form_layout == 'one' || $form_layout == 'two' ) {
-				$styles .= ' ' . $prefix . $stylable_elements['footer'] . '{ background-color: '. $design['form_area_bg'] .'; }';
+			if ( in_array( $form_layout, array( 'one', 'two' ), true ) ) {
+				$styles .= ' ' . $prefix . $stylable_elements['footer'] . '{ background-color: '. $colors['form_area_bg'] .'; }';
 			} else {
-				$styles .= ' ' . $prefix . $stylable_elements['optin_wrap'] . '{ background-color: '. $design['form_area_bg'] .'; }';
+				$styles .= ' ' . $prefix . $stylable_elements['optin_wrap'] . '{ background-color: '. $colors['form_area_bg'] .'; }';
 			}
 
 			// optin content link
-			$styles .= ' ' . $prefix . $stylable_elements['optin_content_link'] . '{ color: '. $design['link_static_color'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_content_link'] . ':hover { color: '. $design['link_hover_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_content_link'] . '{ color: '. $colors['link_static_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_content_link'] . ':hover { color: '. $colors['link_hover_color'] .'; }';
 
 			// optin inputs
-			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . ' input { color: '. $design['optin_form_field_text_static_color'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . '{ background-color: '. $design['optin_input_static_bg'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . ' input:hover { color: '. $design['optin_form_field_text_hover_color'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . ':hover { background-color: '. $design['optin_input_hover_bg'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . ' input { color: '. $colors['optin_form_field_text_static_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . '{ background-color: '. $colors['optin_input_static_bg'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . ' input:hover { color: '. $colors['optin_form_field_text_hover_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . ':hover { background-color: '. $colors['optin_input_hover_bg'] .'; }';
 
 			// optin input icon
-			$styles .= ' ' . $prefix . $stylable_elements['optin_input_icon'] . '{ fill: '. $design['optin_input_icon'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_input_icon'] . '{ fill: '. $colors['optin_input_icon'] .'; }';
 
 			// optin submit button
-			$styles .= ' ' . $prefix . $stylable_elements['optin_button'] . '{ color: '. $design['optin_submit_button_static_color'] .'; background-color: '. $design['optin_submit_button_static_bg'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_button'] . ':hover { color: '. $design['optin_submit_button_hover_color'] .'; background-color: '. $design['optin_submit_button_hover_bg'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_button'] . '{ color: '. $colors['optin_submit_button_static_color'] .'; background-color: '. $colors['optin_submit_button_static_bg'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_button'] . ':hover { color: '. $colors['optin_submit_button_hover_color'] .'; background-color: '. $colors['optin_submit_button_hover_bg'] .'; }';
 
 			// optin error message.
-			$styles .= ' ' . $prefix . $stylable_elements['optin_submit_failure'] . ' { color: '. $design['optin_error_text_color'] .'; background: ' . $design['optin_error_text_bg'] . ';}';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_submit_failure'] . ' { color: '. $colors['optin_error_text_color'] .'; background: ' . $colors['optin_error_text_bg'] . ';}';
 
 			// optin placeholder
-			$styles .= ' ' . $prefix . $stylable_elements['optin_placeholder'] . '{ color: '. $design['optin_placeholder_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_placeholder'] . '{ color: '. $colors['optin_placeholder_color'] .'; }';
+
+			//success thick
+			$styles .= ' ' . $prefix . $stylable_elements['optin_success_tick'] . '{ fill: ' . $colors['optin_success_tick_color'] . '; }';
+
+			//success message
+			$styles .= ' ' . $prefix . $stylable_elements['optin_success_content'] . '{ color: ' . $colors['optin_success_content_color'] . '; }';
+
+
+			// mailchimp stuffs
+			$styles .= ' ' . $prefix . $stylable_elements['optin_checkbox'] . '{ background-color: '. $colors['optin_check_radio_bg'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_checkbox_checked'] . '{ background-color: '. $colors['optin_check_radio_bg'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_radio'] . '{ background-color: '. $colors['optin_check_radio_bg'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_radio_checked'] . '{ background-color: '. $colors['optin_check_radio_bg'] .'; }';
+
+			$styles .= ' ' . $prefix . $stylable_elements['optin_checkbox_selector'] . '{ color: '. $colors['optin_check_radio_bg'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_checkbox_checked_selector'] . '{ color: '. $colors['optin_check_radio_tick_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_radio_selector'] . '{ color: '. $colors['optin_check_radio_bg'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_radio_checked_selector'] . '{ color: '. $colors['optin_check_radio_tick_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_mc_group_title'] . '{ color: '. $colors['optin_mailchimp_title_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['optin_mc_group_labels'] . '{ color: '. $colors['optin_mailchimp_labels_color'] .'; }';
 
 			// form fields border
 			if ( (int) $design['form_fields_border'] ) {
@@ -186,65 +207,44 @@ class Hustle_Module_Decorator extends Opt_In
 				$styles .= ' ' . $prefix . $stylable_elements['optin_button'] . '{ border: '. $button_border_style.'; border-radius: '. $design['button_border_radius'] .'px; }';
 			}
 
-			//success thick
-			$styles .= ' ' . $prefix . $stylable_elements['optin_success_tick'] . '{ fill: ' . $design['optin_success_tick_color'] . '; }';
-
-			//success message
-			$styles .= ' ' . $prefix . $stylable_elements['optin_success_content'] . '{ color: ' . $design['optin_success_content_color'] . '; }';
-
-
-			// mailchimp stuffs
-			$styles .= ' ' . $prefix . $stylable_elements['optin_checkbox'] . '{ background-color: '. $design['optin_check_radio_bg'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_checkbox_checked'] . '{ background-color: '. $design['optin_check_radio_bg'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_radio'] . '{ background-color: '. $design['optin_check_radio_bg'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_radio_checked'] . '{ background-color: '. $design['optin_check_radio_bg'] .'; }';
-
-			$styles .= ' ' . $prefix . $stylable_elements['optin_checkbox_selector'] . '{ color: '. $design['optin_check_radio_bg'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_checkbox_checked_selector'] . '{ color: '. $design['optin_check_radio_tick_color'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_radio_selector'] . '{ color: '. $design['optin_check_radio_bg'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_radio_checked_selector'] . '{ color: '. $design['optin_check_radio_tick_color'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_mc_group_title'] . '{ color: '. $design['optin_mailchimp_title_color'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['optin_mc_group_labels'] . '{ color: '. $design['optin_mailchimp_labels_color'] .'; }';
-
-
 		} else {
 
 			/* Pop-up without Opt-in */
 
 			// cta button
-			$styles .= ' ' . $prefix . $stylable_elements['cta_button'] . '{ color: '. $design['cta_button_static_color'] .'; background-color: '. $design['cta_button_static_bg'] .'; ' . ( (int) $design['border'] ? 'border-radius: ' . $design['border_radius'] . 'px; ' : '' ) . '}';
-			$styles .= ' ' . $prefix . $stylable_elements['cta_button'] . ':hover { color: '. $design['cta_button_hover_color'] .'; background-color: '. $design['cta_button_hover_bg'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['cta_button'] . '{ color: '. $colors['cta_button_static_color'] .'; background-color: '. $colors['cta_button_static_bg'] .'; ' . ( (int) $colors['border'] ? 'border-radius: ' . $colors['border_radius'] . 'px; ' : '' ) . '}';
+			$styles .= ' ' . $prefix . $stylable_elements['cta_button'] . ':hover { color: '. $colors['cta_button_hover_color'] .'; background-color: '. $colors['cta_button_hover_bg'] .'; }';
 
 			// main_bg_color
-			if ( $layout_style == 'cabriolet' ) {
-				$styles .= ' ' . $prefix . $stylable_elements['modal_body_cabriolet'] . '{ background-color: '. $design['main_bg_color'] .'; }';
+			if ( 'cabriolet' === $layout_style ) {
+				$styles .= ' ' . $prefix . $stylable_elements['modal_body_cabriolet'] . '{ background-color: '. $colors['main_bg_color'] .'; }';
 			} else {
-				$styles .= ' ' . $prefix . $stylable_elements['modal_body'] . '{ background-color: '. $design['main_bg_color'] .'; }';
+				$styles .= ' ' . $prefix . $stylable_elements['modal_body'] . '{ background-color: '. $colors['main_bg_color'] .'; }';
 			}
 
 			// content_color
-			$styles .= ' ' . $prefix . $stylable_elements['content'] . '{ color: '. $design['content_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['content'] . '{ color: '. $colors['content_color'] .'; }';
 
 
 			// content link colors
-			$styles .= ' ' . $prefix . $stylable_elements['content_bq'] . '{ border-left-color: '. $design['link_static_color'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['content_bq'] . ':hover { border-left-color: '. $design['link_hover_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['content_bq'] . '{ border-left-color: '. $colors['link_static_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['content_bq'] . ':hover { border-left-color: '. $colors['link_hover_color'] .'; }';
 
-			$styles .= ' ' . $prefix . $stylable_elements['content_link'] . '{ color: '. $design['link_static_color'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['content_link'] . ':hover { color: '. $design['link_hover_color'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['content_link_article'] . '{ color: '. $design['link_static_color'] .'; }';
-			$styles .= ' ' . $prefix . $stylable_elements['content_link_article'] . ':hover { color: '. $design['link_hover_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['content_link'] . '{ color: '. $colors['link_static_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['content_link'] . ':hover { color: '. $colors['link_hover_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['content_link_article'] . '{ color: '. $colors['link_static_color'] .'; }';
+			$styles .= ' ' . $prefix . $stylable_elements['content_link_article'] . ':hover { color: '. $colors['link_hover_color'] .'; }';
 
 			// feature image
 			$horizontal_fit = '';
 			$vertical_fit = '';
-			if ( $design['feature_image_fit'] == 'contain' || $design['feature_image_fit'] == 'cover' ) {
-				if ( $design['feature_image_horizontal'] == 'custom' ) {
+			if ( 'contain' === $design['feature_image_fit'] || 'cover' === $design['feature_image_fit'] ) {
+				if ( 'custom' === $design['feature_image_horizontal'] ) {
 					$horizontal_fit = $design['feature_image_horizontal_px'] . 'px';
 				} else {
 					$horizontal_fit = $design['feature_image_horizontal'];
 				}
-				if ( $design['feature_image_vertical'] == 'custom' ) {
+				if ( 'custom' === $design['feature_image_vertical'] ) {
 					$vertical_fit = $design['feature_image_vertical_px'] . 'px';
 				} else {
 					$vertical_fit = $design['feature_image_vertical'];
@@ -284,10 +284,10 @@ class Hustle_Module_Decorator extends Opt_In
 		if ( (bool) $designs['customize_colors'] ) {
 
 			// icon bg
-			if ( $designs['icon_style'] === 'rounded' || $designs['icon_style'] === 'squared' ) {
+			if ( 'rounded' === $designs['icon_style'] || 'squared' === $designs['icon_style'] ) {
 				$styles .= sprintf( $prefix . $stylable_elements['icon_bg_color'] . '{ background-color: %s; }',
 						$designs['icon_bg_color'] );
-			} elseif ( $designs['icon_style'] === 'outline' ) {
+			} elseif ( 'outline' === $designs['icon_style'] ) {
 				$styles .= sprintf( $prefix . $stylable_elements['floating_counter_border'] . '{ border: 1px solid %s; }',
 						$designs['icon_bg_color'] );
 			}
@@ -301,7 +301,7 @@ class Hustle_Module_Decorator extends Opt_In
 			// border
 			if (
 				$designs['floating_counter_border'] &&
-				($content['service_type'] === 'native' && (int) $content['click_counter'])
+				( 'native' === $content['service_type'] && (int) $content['click_counter'])
 			) {
 				$styles .= sprintf( $prefix . $stylable_elements['floating_counter_border'] . '{ border: 1px solid %s; }',
 						$designs['floating_counter_border'] );
@@ -339,10 +339,10 @@ class Hustle_Module_Decorator extends Opt_In
 		if ( (bool) $designs['customize_widget_colors'] ) {
 
 			// widget icon bg
-			if ( $designs['icon_style'] === 'rounded' || $designs['icon_style'] === 'squared' ) {
+			if ( 'rounded' === $designs['icon_style'] || 'squared' === $designs['icon_style'] ) {
 				$styles .= sprintf( $prefix . $stylable_elements['widget_icon_bg_color'] . '{ background-color: %s; }',
 						$designs['widget_icon_bg_color'] );
-			} elseif ( $designs['icon_style'] === 'outline' ) {
+			} elseif ( 'outline' === $designs['icon_style'] ) {
 				$styles .= sprintf( $prefix . $stylable_elements['widget_counter_border'] . '{ border: 1px solid %s; }',
 						$designs['widget_icon_bg_color'] );
 			}
@@ -356,7 +356,7 @@ class Hustle_Module_Decorator extends Opt_In
 			// widget border
 			if (
 				$designs['widget_counter_border'] &&
-				($content['service_type'] === 'native' && (int) $content['click_counter'])
+				( 'native' === $content['service_type'] && (int) $content['click_counter'])
 			) {
 				$styles .= sprintf( $prefix . $stylable_elements['widget_counter_border'] . '{ border: 1px solid %s; }',
 						$designs['widget_counter_border'] );
@@ -379,8 +379,7 @@ class Hustle_Module_Decorator extends Opt_In
 		return $styles;
 	}
 
-	private function  _get_popup_stylable_elements()
-	{
+	private function  _get_popup_stylable_elements() {
 		return array(
 			'modal_body' => '.hustle-modal .hustle-modal-body',
 			'modal_success' => '.hustle-modal .hustle-modal-success',
@@ -439,8 +438,9 @@ class Hustle_Module_Decorator extends Opt_In
 		);
 	}
 
-	function _str_replace_last( $search , $replace , $str ) {
-		if( ( $pos = strrpos( $str , $search ) ) !== false ) {
+	public function _str_replace_last( $search , $replace , $str ) {
+		$pos = strrpos( $str , $search );
+		if( false !== $pos ) {
 			$search_length  = strlen( $search );
 			$str    = substr_replace( $str , $replace , $pos , $search_length );
 		}
@@ -466,7 +466,7 @@ class Hustle_Module_Decorator extends Opt_In
 			}
 
 			if($index > 0){
-				if($index == (count($ids) -1) ){
+				if( (count($ids) - 1) === (int)$index ){
 					$out .= __( ' and ', Opt_In::TEXT_DOMAIN ) . $title;
 				} else {
 					$out .= ', ' . $title;
@@ -488,7 +488,7 @@ class Hustle_Module_Decorator extends Opt_In
 		$hosting_sidebars = array();
 	   foreach( (array) $sidebars_widgets as $sidebar_index => $widgets ){
 		   foreach( (array) $widgets as $key => $widget_id ){
-			   $matches = preg_match("/^" . Opt_In_Widget::Widget_Id ."\\-\\d+/", $widget_id );
+			   $matches = preg_match("/^" . Opt_In_Widget::WIDGET_ID ."\\-\\d+/", $widget_id );
 				if( $matches ){
 
 					 $params =  $wp_registered_widgets[$widget_id]['params'];
@@ -505,7 +505,6 @@ class Hustle_Module_Decorator extends Opt_In
 
 	   }
 
-
 		return $hosting_sidebars;
 	}
 
@@ -516,7 +515,7 @@ class Hustle_Module_Decorator extends Opt_In
 	 * @param $id
 	 * @return bool
 	 */
-	function get_service_name_from_id( $id ){
+	public function get_service_name_from_id( $id ){
 		foreach( $this->_providers as $provider ){
 			if( $provider['id'] === $id )
 				return $provider['name'];
@@ -530,7 +529,7 @@ class Hustle_Module_Decorator extends Opt_In
 	 *
 	 * @return string
 	 */
-	function get_mail_service_label(){
+	public function get_mail_service_label(){
 
 		$module_content = $this->_module->get_content();
 		$active_email_service = $module_content->active_email_service;
@@ -555,7 +554,7 @@ class Hustle_Module_Decorator extends Opt_In
 	 * @param $section
 	 * @return string
 	 */
-	function get_edit_url( $page, $section ){
+	public function get_edit_url( $page, $section ){
 		if( empty( $section )  ) {
 			$url = admin_url("admin.php?page=". $page ."&id=" . $this->_module->id);
 		}
@@ -572,9 +571,9 @@ class Hustle_Module_Decorator extends Opt_In
 	 * @param bool|true $return_array
 	 * @return array|string
 	 */
-	function get_condition_labels( $return_array = true ){
+	public function get_condition_labels( $return_array = true ){
 
-		$settings = ( $this->_module->module_type == 'social_sharing' )
+		$settings = ( 'social_sharing' === $this->_module->module_type )
 			? $this->_module->get_sshare_display_settings()->to_array()
 			: $this->_module->get_display_settings()->to_array();
 
@@ -586,10 +585,14 @@ class Hustle_Module_Decorator extends Opt_In
 		 */
 		foreach( $conditions as $condition ){
 			$label = $condition->label();
-			if( !empty( $label ) ) $labels[] = $label;
+			if( !empty( $label ) ) {
+				$labels[] = $label;
+			}
 		}
 
-		$labels = $labels === array() ? array( "everywhere" => __("Show everywhere", Opt_In::TEXT_DOMAIN) ) : $labels;
+		$labels = array() === $labels ? array(
+			"everywhere" => __( "Show everywhere", Opt_In::TEXT_DOMAIN )
+			) : $labels;
 		return $return_array ? $labels : implode( ", ", $labels );
 	}
 }

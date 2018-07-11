@@ -4,6 +4,39 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 Change Log:
 ----------------------------------------------------------------------
 
+3.0.4 - 2018-07-09
+----------------------------------------------------------------------
+- Add SendGrid and Zapier integrations.
+- Add API share counters to Social Sharing modules.
+- Add "Save draft" option when saving modules.
+- Add filter to prevent Google fonts from loading.
+- Show GDPR checkbox as required on form submission.
+- Fix SendinBlue "Load more" button behaviour.
+- Improve module appearance on fontend for IE.
+- Fix "Continue" button behaviour on backend for IE.
+- Show GDPR checkbox even if the main content is empty.
+- Fix various UX issues on frontend and backend.
+- Fix various styling issues on frontend and backend.
+- Fix module's behaviours under certain display conditions.
+- Fix "Floating in respect to CSS selector" setting on Social Share modules not saving.
+- Improve compatibility with Forminator, Contact Form 7, WPBakery Page Builder, The Grid, and Upfront plugins, and with Bridge theme.
+- Fix migration of social stats.
+- Fix PHP notices when changing email provider to Infusionsoft.
+- Improve alert behavior on module edit pages when navigating away.
+- Improve email providers process of subscription and saving settings.
+- Make Youtube video stop when closing popup.
+- Fix stats from all sub-sites modules showing up on multisite.
+- Fix connection issue with Hubspot.
+- Serve resources from a consistent URL in GTmetrix.
+- Fix Mautic URL saving issue.
+- Improve the way modules are prioritized to show up.
+- Fix module fields not showing in frontend when enabling and changing "Custom size".
+- Fix "on click" trigger when no animation is set.
+- Fix "After Content" display settings having different results after upgrade.
+- Fix "exit intent" triggering when interacting with forms.
+- Increase free version limitations.
+- Add new "Upgrade" modal.
+
 3.0.3 - 2018-05-28
 ----------------------------------------------------------------------
 - Add GDPR frontend checkbox option to modules.
@@ -288,4 +321,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1528232176-au
+133620-1531347827-au

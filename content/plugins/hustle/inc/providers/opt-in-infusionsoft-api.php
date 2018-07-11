@@ -17,17 +17,17 @@ class Opt_In_Infusionsoft_Api {
 	/**
 	 * @var object $xml SimpleXMLElement class instance
 	 **/
-	var $xml;
+	public $xml;
 
 	/**
 	 * @var object $params SimpleXMLElement params node.
 	 **/
-	var $params;
+	public $params;
 
 	/**
 	 * @var object $struct SimpleXMLElement struct node.
 	 **/
-	var $struct;
+	public $struct;
 
 	/**
 	 * Opt_In_Infusionsoft_Api constructor.
@@ -35,13 +35,13 @@ class Opt_In_Infusionsoft_Api {
 	 * @param $api_key
 	 * @param $app_name
 	 */
-	function __construct( $api_key, $app_name ){
+	public function __construct( $api_key, $app_name ){
 		$this->_api_key = $api_key;
 		$this->_app_name = $app_name;
 		return  $this;
 	}
 
-	function set_method( $method_name ) {
+	public function set_method( $method_name ) {
 		$xml = '<?xml version="1.0" encoding="UTF-8"?><methodCall></methodCall>';
 		$this->xml = new SimpleXMLElement( $xml );
 		$this->xml->addChild( 'methodName', $method_name );
@@ -50,12 +50,12 @@ class Opt_In_Infusionsoft_Api {
 		$this->struct = false;
 	}
 
-	function set_param( $value, $type = 'string' ) {
+	public function set_param( $value, $type = 'string' ) {
 		$param = $this->params->addChild( 'param' );
 		return $param->addChild( 'value' )->addChild( $type, $value );
 	}
 
-	function set_member( $name, $value = '', $type = 'string' ) {
+	public function set_member( $name, $value = '', $type = 'string' ) {
 		if ( ! $this->struct ) {
 			$this->struct = $this->params->addChild( 'param' )->addChild( 'value' )->addChild( 'struct' );
 		}
@@ -70,7 +70,7 @@ class Opt_In_Infusionsoft_Api {
 	/**
 	 * Contains the list of built-in custom fields.
 	 **/
-	function builtin_custom_fields() {
+	public function builtin_custom_fields() {
 		$custom_fields = array(
 			'Anniversary',
 			'AssistantName',
@@ -128,7 +128,7 @@ class Opt_In_Infusionsoft_Api {
 	/**
 	 * Get the custom fields at InfusionSoft account.
 	 **/
-	function get_custom_fields() {
+	public function get_custom_fields() {
 		$this->set_method( 'DataService.query' );
 		$this->set_param( 'DataFormField' );
 		$this->set_param( 1000, 'int' );
@@ -148,7 +148,7 @@ class Opt_In_Infusionsoft_Api {
 
 		if ( ! empty( $extra_custom_fields ) ) {
 			foreach ( $extra_custom_fields as $custom_field ) {
-				if ( is_object( $custom_field ) && ! empty( $custom_field->name ) && 'Name' == $custom_field->name ) {
+				if ( is_object( $custom_field ) && ! empty( $custom_field->name ) && 'Name' === $custom_field->name ) {
 					$name = (string) $custom_field->value->asXML();
 					array_push( $custom_fields, $name );
 				}
@@ -163,7 +163,7 @@ class Opt_In_Infusionsoft_Api {
 	 *
 	 * @param array $contact			An array of contact details.
 	 **/
-	function add_contact( $contact ) {
+	public function add_contact( $contact ) {
 		if ( false === $this->email_exist( $contact['Email'] ) ) {
 			$this->optInEmail( $contact['Email'] ); //First optin the email
 
@@ -187,7 +187,7 @@ class Opt_In_Infusionsoft_Api {
 		}
 	}
 
-	function email_exist( $email ) {
+	public function email_exist( $email ) {
 		$this->set_method( 'ContactService.findByEmail' );
 		$this->set_param( $email );
 		$data = $this->params->addChild( 'param' )->addChild( 'value' )->addChild( 'array' )->addChild( 'data' );
@@ -260,7 +260,7 @@ class Opt_In_Infusionsoft_Api {
 
 	}
 
-	function get_lists(){
+	public function get_lists(){
 		$page = 0;
 		$xml = "<?xml version='1.0' encoding='UTF-8'?>
 				<methodCall>
@@ -374,7 +374,7 @@ class Opt_In_Infusionsoft_XML_Res extends  SimpleXMLElement{
 	 *
 	 * @return mixed
 	 */
-	function get_value( $xml_structure = '' ){
+	public function get_value( $xml_structure = '' ){
 		$value = reset( $this->params->param->value );
 
 		if ( ! empty( $xml_structure ) ) {
@@ -396,10 +396,10 @@ class Opt_In_Infusionsoft_XML_Res extends  SimpleXMLElement{
 	 *
 	 * @return array
 	 */
-	function get_tags_list(){
+	public function get_tags_list(){
 		$lists = array();
-
-		for( $i = 0; $i < count( $this->get_value()->data->value ); $i++ ){
+		$count = count( $this->get_value()->data->value );
+		for( $i = 0; $i < $count; $i++ ){
 			$list = $this->get_value()->data->value[$i];
 			$label = (string) $list->struct->member[0]->value;
 			if ( !empty( $label ) ) {
@@ -417,7 +417,7 @@ class Opt_In_Infusionsoft_XML_Res extends  SimpleXMLElement{
 	 *
 	 * @return bool
 	 */
-	function is_faulty(){
+	public function is_faulty(){
 		return isset( $this->fault );
 	}
 
@@ -426,7 +426,7 @@ class Opt_In_Infusionsoft_XML_Res extends  SimpleXMLElement{
 	 *
 	 * @return bool|WP_Error
 	 */
-	function get_fault(){
+	public function get_fault(){
 		if( !$this->is_faulty() ) return false;
 
 		$err = new WP_Error();

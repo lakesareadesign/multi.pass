@@ -5,7 +5,7 @@ Hustle.define("SShare.Design_View", function($, doc, win){
 		target_container: $('#wpmudev-hustle-box-section-design'),
 		social_icons: {},
 		service_type: 'native',
-		click_counter: true,
+		click_counter: 'click',
 		excluded_rerender: [ 
 			'floating_social_bg',
 			'floating_counter_color',
@@ -122,7 +122,7 @@ Hustle.define("SShare.Design_View", function($, doc, win){
 				$floating_icon_path.css( 'fill', design_data.icon_color );
 				
 				// If counter exists, use counter border (overrides icon_bg_border).
-				if (this.service_type === 'native' && _.isTrue(this.click_counter)) {
+				if ( this.service_type === 'native' &&  this.click_counter !== 'none' ) {
 					// floating_counter_border
 					$floating_icon.css( 'border-color', design_data.floating_counter_border );
 				}
@@ -162,7 +162,7 @@ Hustle.define("SShare.Design_View", function($, doc, win){
 				$widget_icon_path.css( 'fill', design_data.widget_icon_color );
 				
 				// If counter exists, use counter border (overrides widget_icon_bg_border).
-				if (this.service_type === 'native' && _.isTrue(this.click_counter)) {
+				if ( this.service_type === 'native' && this.click_counter !== 'none' ) {
 					// widget_counter_border
 					$widget_icon.css( 'border-color', design_data.widget_counter_border );
 				}

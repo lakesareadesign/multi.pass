@@ -45,7 +45,7 @@ class WPLeadIn {
 		$slumberMode = get_option( 'leadin_slumber_mode' );
 
 		if ( empty( $portalId ) ) {
-			echo '<!-- Leadin embed JS disabled as a portalId has not yet been configured -->';
+			echo '<!-- HubSpot embed JS disabled as a portalId has not yet been configured -->';
 			return;
 		}
 

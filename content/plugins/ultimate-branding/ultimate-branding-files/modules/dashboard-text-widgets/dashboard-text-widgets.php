@@ -1,9 +1,4 @@
 <?php
-/*
-  Plugin Name:  Dashboard Text Widgets
-  Description: Enables the Dashboard text widgets.
- */
-
 if ( ! class_exists( 'ub_dashboard_text_widgets' ) ) {
 	class ub_dashboard_text_widgets extends ub_helper {
 		private $list_table;

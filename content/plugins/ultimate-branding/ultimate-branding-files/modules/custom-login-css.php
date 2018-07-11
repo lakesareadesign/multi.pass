@@ -1,97 +1,64 @@
 <?php
-/*
-Plugin Name: Login CSS
-Description: Add extra CSS to the login page
-Author: Barry (Incsub)
-Version: 1.0
-Author URI:
-Network: true
+if ( ! class_exists( 'ub_custom_login_css' ) ) {
+	class ub_custom_login_css extends ub_helper {
+		protected $option_name = 'global_login_css';
 
-Copyright 2012-2017 Incsub (email: admin@incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
-class ub_custom_login_css extends ub_helper {
-
-	function __construct() {
-
-		add_action( 'ultimatebranding_settings_css', array( $this, 'custom_login_css_options' ) );
-		add_filter( 'ultimatebranding_settings_css_process', array( $this, 'update_custom_login_css' ), 10, 1 );
-
-		add_action( 'login_head', array( &$this, 'custom_login_css_output' ), 99 );
-	}
-
-	function update_custom_login_css( $status ) {
-
-		$logincss = $_POST['logincss'];
-		if ( $logincss == '' ) {
-			$logincss = 'empty';
+		public function __construct() {
+			parent::__construct();
+			$this->set_options();
+			add_action( 'ultimatebranding_settings_css', array( $this, 'admin_options_page' ) );
+			add_filter( 'ultimatebranding_settings_css_process', array( $this, 'update' ), 10, 1 );
+			add_action( 'login_head', array( &$this, 'output' ) );
+			add_action( 'init', array( $this, 'upgrade_options' ) );
 		}
 
-		ub_update_option( 'global_login_css' , $logincss );
-
-		if ( $status === false ) {
-			return $status;
-		} else {
-			return true;
-		}
-	}
-
-	function custom_login_css_output() {
-		$logincss = ub_get_option( 'global_login_css' );
-		if ( $logincss == 'empty' ) {
-			$logincss = '';
-		}
-		if ( ! empty( $logincss ) ) {
-?>
-            <style type="text/css">
-                <?php echo stripslashes( $logincss ); ?>
-            </style>
-<?php
-		}
-	}
-
-	function custom_login_css_options() {
-
-		$logincss = ub_get_option( 'global_login_css' );
-		if ( $logincss == 'empty' ) {
-			$logincss = '';
+		/**
+		 * Upgrade option
+		 *
+		 * @since 2.0.0
+		 */
+		public function upgrade_options() {
+			$v = $this->get_value();
+			if ( ! is_string( $v ) ) {
+				return;
+			}
+			$v = array( 'login' => array( 'css' => $v ) );
+			$this->update_value( $v );
 		}
 
-?>
-            <div class="postbox">
-            <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Login CSS', 'ub' ) ?></span></h3>
-            <div class="inside">
-                <table class="form-table">
-                    <tr valign="top">
-                        <th scope="row"><?php _e( 'CSS Styles', 'ub' ) ?></th>
-                        <td>
-                            <textarea  name='logincss' id="ub_logincss" style='display: none'><?php echo stripslashes( $logincss );  ?></textarea>
-                            <div class="ub_css_editor" id="ub_logincss_editor" data-input="#ub_logincss" style='width:100%; height: 20em;'><?php echo stripslashes( $logincss );  ?></div>
-                            <br />
-                            <?php _e( 'What is added here will be added to the header of the login page for every site.', 'ub' ) ?>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-<?php
+		/**
+		 * Set options
+		 *
+		 * @since 2.0.0
+		 */
+		protected function set_options() {
+			$this->options = array(
+				'login' => array(
+					'title' => __( 'Login CSS', 'ub' ),
+					'hide-reset' => true,
+					'hide-th' => true,
+					'fields' => array(
+						'css' => array(
+							'type' => 'css_editor',
+							'label' => __( 'Cascading Style Sheets', 'ub' ),
+							'description' => __( 'What is added here will be added to the header of the login page for every site.', 'ub' ),
+						),
+					),
+				),
+			);
+		}
+
+		public function output() {
+			$v = $this->get_value( 'login', 'css' );
+			if ( empty( $v ) ) {
+				return;
+			}
+			printf(
+				'<style id="%s" type="text/css">%s</style>',
+				esc_attr( __CLASS__ ),
+				esc_html( stripslashes( $v ) )
+			);
+		}
 	}
 }
-
-$ub_custom_login_css = new ub_custom_login_css();
-
-?>
+new ub_custom_login_css();

@@ -7,8 +7,7 @@
  *
  * Class Opt_In_Geo
  */
-class Opt_In_Geo
-{
+class Opt_In_Geo {
 	/**
 	 * Site option key
 	 *
@@ -117,7 +116,7 @@ class Opt_In_Geo
 			}
 		}
 
-		if ( '' == $type ) {
+		if ( empty($type) ) {
 			$service = (object) array(
 				'url' => $remote_ip_url,
 				'label' => 'wp-config.php',
@@ -132,7 +131,7 @@ class Opt_In_Geo
 		} else {
 			$geo_service = $this->_get_geo_services();
 
-			$service = @$geo_service[ $type ];
+			$service = isset( $geo_service[ $type ] ) ? $geo_service[ $type ] : null;
 		}
 
 		return $service;
@@ -153,14 +152,15 @@ class Opt_In_Geo
 			$response = wp_remote_get( $url );
 
 			if ( ! is_wp_error( $response )
-				&& '200' == $response['response']['code']
-				&& 'XX' != $response['body']
+				&& 200 === (int)$response['response']['code']
+				&& 'XX' !== $response['body']
 			) {
-				if ( 'text' == $service->type ) {
+				if ( 'text' === $service->type ) {
 					$country = trim( $response['body'] );
-				} else if ( 'json' == $service->type ) {
+				} else if ( 'json' === $service->type ) {
 					$data = (array) json_decode( $response['body'] );
-					$country = @$data[ @$service->field ];
+					$country = isset( $service->field ) && isset( $data[ $service->field ] )
+							? $data[ $service->field ] : null;
 				}
 			}
 		}
@@ -196,7 +196,7 @@ class Opt_In_Geo
 	 * @param $ip
 	 * @return string
 	 */
-	function get_country_from_ip( $ip ){
+	public function get_country_from_ip( $ip ){
 		$ip = (string) $ip;
 
 		if( "127.0.0.1" === $ip  )

@@ -1,30 +1,4 @@
 <?php
-/*
-Plugin Name: Export & Import
-Plugin URI:
-Description: Module allow to export and import Ultimate Branding settings.
-Author: Marcin (Incsub)
-Version: 1.0
-Author URI:
-Network: true
-
-Copyright 2017 Incsub (email: admin@incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
 if ( ! class_exists( 'ub_export_import' ) ) {
 
 	class ub_export_import extends ub_helper {
@@ -214,9 +188,10 @@ if ( ! class_exists( 'ub_export_import' ) ) {
 		 */
 		private function greet_import() {
 			$content = '';
-			$content .= '<p>'.__( 'Howdy! Upload your JSON file and we&#8217;ll import Ultimate Branding configuration.', 'ub' ).'</p>';
-			$content .= '<p>'.__( 'Choose a JSON (.json) file to upload, then click Upload file and import.', 'ub' ).'</p>';
-			return $content;
+			$content .= __( 'Howdy! Upload your JSON file and we&#8217;ll import Ultimate Branding configuration.', 'ub' );
+			$content .= PHP_EOL.PHP_EOL;
+			$content .= __( 'Choose a JSON (.json) file to upload, then click Upload file and import.', 'ub' );
+			return wpautop( $content );
 		}
 
 		/**
@@ -226,10 +201,12 @@ if ( ! class_exists( 'ub_export_import' ) ) {
 		 */
 		private function greet_export() {
 			$content = '';
-			$content .= '<p>'. __( 'When you click the button below Ultimate Branding will create an JSON file for you to save to your computer.', 'ub' ) .'</p>';
-			$content .= '<p>'. __( 'This format will contain your Ultimate Branding settings.' ) .'</p>';
-			$content .= '<p>'. __( 'Once you&#8217;ve saved the download file, you can use the Import function in another WordPress installation to import the configuration from this site.' ) .'</p>';
-			return $content;
+			$content .= __( 'When you click the button below Ultimate Branding will create a JSON file for you to save to your computer.', 'ub' );
+			$content .= ' ';
+			$content .= __( 'This file will contain your Ultimate Branding settings.' );
+			$content .= PHP_EOL.PHP_EOL;
+			$content .= __( 'Once you&#8217;ve saved the download file, you can use the Import function in another WordPress installation to import the configuration from this site.' );
+			return wpautop( $content );
 		}
 
 		public function import_messages( $messages ) {

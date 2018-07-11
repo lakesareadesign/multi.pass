@@ -1,30 +1,4 @@
 <?php
-/*
-Plugin Name: Text Change
-Plugin URI: http://premium.wpmudev.org/project/site-wide-text-change
-Description: Would you like to be able to change any wording, anywhere in the entire admin area on your whole site? Without a single hack? Well, if that's the case then this plugin is for you!
-Author: Barry (Incsub), Ulrich Sossou (incsub)
-Network: true
- */
-/*
-Copyright 2007-2018 Incsub (http://incsub.com)
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-// Un comment for full belt and braces replacements, warning:
-// 1. TEST TEST TEST
-// define( 'SWTC-BELTANDBRACES', 'yes' );
-/**
- * Plugin main class
- **/
 class ub_Site_Wide_Text_Change {
 	/**
 	 * Current version of the plugin
@@ -58,6 +32,23 @@ class ub_Site_Wide_Text_Change {
 		 */
         add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
         add_action( 'ultimatebranding_settings_textchange_after_title', array( $this, 'add_new_button' ) );
+		/**
+		 * add options names
+		 *
+		 * @since 2.1.0
+		 */
+		add_filter( 'ultimate_branding_options_names', array( $this, 'add_options_names' ) );
+	}
+
+	/**
+	 * Add option names
+	 *
+	 * @since 2.1.0
+	 */
+	public function add_options_names( $options ) {
+		$options[] = 'translation_table';
+		$options[] = 'translation_ops';
+		return $options;
     }
 
 	/**
@@ -452,10 +443,7 @@ class ub_Site_Wide_Text_Change {
 	 * @since 1.8.6
 	 */
 	public function export( $data ) {
-		$options = array(
-			'translation_table',
-			'translation_ops',
-		);
+		$options = $this->add_options_names( array() );
 		foreach ( $options as $key ) {
 			$data['modules'][ $key ] = ub_get_option( $key );
 		}

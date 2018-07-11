@@ -61,7 +61,7 @@
 			this.show_modal(false);
 		},
 		edit_service: function($btn) {
-			this.view.is_service_modal_updated = false;
+			this.view.is_service_modal_updated = true;
 
 			var $this = $btn.closest('a'),
 				service = $this.data('id'),
@@ -91,6 +91,7 @@
 				this.view.is_service_modal_updated = true;
 			}
 
+			this.add_service_modal.find('#optin-provider-account-options').html('');
 			this.view.editing_service = id;
 			this.get_provider_details(id, nonce);
 		},

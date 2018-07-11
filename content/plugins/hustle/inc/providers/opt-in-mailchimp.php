@@ -16,39 +16,41 @@ if( !class_exists("Opt_In_Mailchimp") ):
 		protected  static $api;
 		protected  static $errors;
 
+		protected $id = self::ID;
+
 		const GROUP_TRANSIENT = "hustle-mailchimp-group-transient";
 		const LIST_PAGES = "hustle-mailchimp-list-pages";
 
-		static function instance(){
-			return new self;
+
+		/**
+		 * @return Opt_In_Provider_Interface|Opt_In_Provider_Abstract class
+		 */
+		public static function instance(){
+			return new self();
+		}
+
+		/**
+		 * Get Provider Details
+		 * General function to get provider details from database based on key
+		 *
+		 * @param Hustle_Module_Model $module
+		 * @param String $field - the field name
+		 *
+		 * @return String
+		 */
+		protected static function _get_provider_details( Hustle_Module_Model $module, $field ) {
+			$details = '';
+			$name = self::ID;
+			if ( isset( $module->content->email_services[$name][$field] ) ) {
+				 $details = $module->content->email_services[$name][$field];
+			}
+			return $details;
 		}
 
 		public static function register_ajax_endpoints(){
 			add_action( "wp_ajax_hustle_mailchimp_get_list_groups", array( __CLASS__ , "ajax_get_list_groups" ) );
 			add_action( "wp_ajax_hustle_mailchimp_get_group_interests", array( __CLASS__ , "ajax_get_group_interests" ) );
 			add_action( "wp_ajax_hustle_mailchimp_get_current_settings", array( __CLASS__ , "ajax_get_current_settings" ) );
-		}
-
-		/**
-		 * Updates api option
-		 *
-		 * @param $option_key
-		 * @param $option_value
-		 * @return bool
-		 */
-		function update_option( $option_key, $option_value ){
-			return update_site_option( self::ID . "_" . $option_key, $option_value);
-		}
-
-		/**
-		 * Retrieves api option from db
-		 *
-		 * @param $option_key
-		 * @param $default
-		 * @return mixed
-		 */
-		function get_option( $option_key, $default ){
-			return get_site_option( self::ID . "_" . $option_key, $default );
 		}
 
 		/**
@@ -161,7 +163,10 @@ if( !class_exists("Opt_In_Mailchimp") ):
 						unset( $subscribe_data['merge_fields'] );
 						unset( $subscribe_data['status'] );
 						$response = $api->update_subscription( $list_id, $email, $subscribe_data );
-						return array( 'message' => $response, 'existing' => true);
+						return array(
+							'message' => $response,
+							'existing' => true,
+						);
 					} else {
 						$err = new WP_Error();
 						$err->add( 'email_exist', __( 'This email address has already subscribed', Opt_In::TEXT_DOMAIN ) );
@@ -188,13 +193,13 @@ if( !class_exists("Opt_In_Mailchimp") ):
 		 *
 		 * @return Object Returns the member if the email address already exists otherwise false.
 		 */
-		function get_member( $email, Hustle_Module_Model $module, $data ) {
+		public function get_member( $email, Hustle_Module_Model $module, $data ) {
 			$api = self::api( self::_get_api_key( $module ) );
 
 			try {
 				$member_info = $api->check_email( self::_get_list_id( $module ), $email);
 				// Mailchimp returns WP error if can't find member on a list
-				if ( is_wp_error( $member_info ) && $member_info->get_error_code() == 404 ) {
+				if ( is_wp_error( $member_info ) && 404 === (int)$member_info->get_error_code() ) {
 					return false;
 				}
 				return $member_info;
@@ -206,7 +211,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 			}
 		}
 
-		function get_options( $module_id ) {
+		public function get_options() {
 
 			//Load more function
 			$load_more = filter_input( INPUT_POST, 'load_more' );
@@ -298,7 +303,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 		 *
 		 * @return array
 		 */
-		function lists_pagination( $api_key ) {
+		public function lists_pagination( $api_key ) {
 
 			$lists      = array();
 			$list_pages = get_site_transient( self::LIST_PAGES );
@@ -327,7 +332,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 					if ( count( $_lists ) >= $total ) {
 						$offset = 0; //We have reached the end. No more pagination
 					} else {
-						$offset = $offset + 1;
+						$offset++;
 					}
 
 					$list_pages['offset'] = $offset;
@@ -343,7 +348,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 			return array( $lists, $total );
 		}
 
-		function get_account_options( $module_id ){
+		public function get_account_options( $module_id ){
 			$module = Hustle_Module_Model::instance()->get( $module_id );
 
 			$api_key    = self::_get_api_key( $module );
@@ -403,7 +408,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 									'value'         => "pending",
 									"attributes"    => array(
 										'class'   => "toggle-checkbox",
-										'checked' => ( $checked != 'pending') ? 'checked' : ''
+										'checked' => 'pending' !== $checked ? 'checked' : ''
 									)
 								),
 								"label" => array(
@@ -431,11 +436,11 @@ if( !class_exists("Opt_In_Mailchimp") ):
 			);
 		}
 
-		function is_authorized(){
+		public function is_authorized(){
 			return true;
 		}
 
-		function get_args( $data ) {
+		public function get_args( $data ) {
 			if ( $data && isset( $data['email_services'] ) ) {
 				$email_services = $data['email_services'];
 				$list_id = ( isset( $email_services['mailchimp']['list_id'] ) )
@@ -541,7 +546,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 		 * @param $interest
 		 * @return mixed
 		 */
-		static function normalize_group_interest( $interest ){
+		public static function normalize_group_interest( $interest ){
 			$interest = (array) $interest;
 			$interest_arr = array();
 			$interest_arr["label"] = $interest['name'];
@@ -575,13 +580,14 @@ if( !class_exists("Opt_In_Mailchimp") ):
 
 			foreach( $groups as $group ){
 				$group = (array) $group;
-				if( $group["id"] == $group_id )
+				if( (string)$group["id"] === (string)$group_id )
 					$the_group = $group;
 			}
 
-			if( $the_group === array() ) return $interests;
+			if( array() === $the_group )
+				return $interests;
 
-			if( in_array($the_group['type'], array("radio", "checkboxes", "hidden")) )
+			if( in_array($the_group['type'], array("radio", "checkboxes", "hidden"), true) )
 				$interests = array();
 
 			$interests = array_merge( $interests,  array_map( array(__CLASS__, "normalize_group_interest" ),  $the_group['interests']) );
@@ -613,28 +619,6 @@ if( !class_exists("Opt_In_Mailchimp") ):
 			return $interest['value'];
 		}
 
-		/**
-		* Get Provider Details
-		* General function to get provider details from database based on key
-		*
-		* @param Hustle_Module_Model $module
-		* @param String $field - the field name
-		*
-		* @return String
-		*/
-		private static function _get_provider_details( Hustle_Module_Model $module, $field ) {
-			$details = '';
-			$name = self::ID;
-			if ( !is_null( $module->content->email_services )
-				&& isset( $module->content->email_services[$name] )
-				&& isset( $module->content->email_services[$name][$field] ) ) {
-
-				$details = $module->content->email_services[$name][$field];
-			}
-			return $details;
-		}
-
-
 		private static function _get_api_key( Hustle_Module_Model $module ) {
 			return self::_get_provider_details( $module, 'api_key' );
 		}
@@ -646,7 +630,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 		private function _get_auto_optin( Hustle_Module_Model $module ) {
 			$auto_optin = 'pending';
 			$saved_auto_optin = self::_get_provider_details( $module, 'auto_optin' );
-			if ( !empty( $saved_auto_optin ) && $saved_auto_optin !== 'pending' ) {
+			if ( !empty( $saved_auto_optin ) && 'pending' !== $saved_auto_optin ) {
 				$auto_optin = 'subscribed';
 			}
 			return $auto_optin;
@@ -671,7 +655,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 			$type = "dropdown" === $type || "hidden" === $type ? "select" : $type;
 
 
-			$class = ( $type === 'select' ) ? 'wpmudev-select' : '';
+			$class = ( 'select' === $type ) ? 'wpmudev-select' : '';
 
 			$first = current( $interests );
 
@@ -679,18 +663,18 @@ if( !class_exists("Opt_In_Mailchimp") ):
 
 			$name = "mailchimp_groups_interests";
 
-			if( $type === "checkboxes" )
+			if( "checkboxes" === $type )
 				$name .= "[]";
 
 			$choose_prompt = __("Choose default interest:", Opt_In::TEXT_DOMAIN);
 
-			if( $_type === "checkboxes" )
+			if( "checkboxes" === $_type )
 				$choose_prompt = __("Choose default interest(s):", Opt_In::TEXT_DOMAIN);
 
-			if( $_type === "hidden" )
+			if( "hidden" === $_type )
 				$choose_prompt = __("Set default interest:", Opt_In::TEXT_DOMAIN);
 
-			if( $type === "radios" )
+			if( "radios" === $type )
 				$choose_prompt .= sprintf(" ( <a href='#' data-name='mailchimp_groups_interests' class='wpoi-leave-group-intrests-blank wpoi-leave-group-intrests-blank-radios' >%s</a> )", __("clear selection", Opt_In::TEXT_DOMAIN) );
 
 			return array(
@@ -728,7 +712,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 		 *
 		 * @since 1.0.1
 		 */
-		static function ajax_get_list_groups(){
+		public static function ajax_get_list_groups(){
 			Opt_In_Utils::validate_ajax_call( 'mailchimp_choose_email_list' );
 
 			$list_id = filter_input( INPUT_GET, 'optin_email_list' );
@@ -752,7 +736,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 		 *
 		 * @since 1.0.1
 		 */
-		static function ajax_get_group_interests(){
+		public static function ajax_get_group_interests(){
 			Opt_In_Utils::validate_ajax_call( 'mailchimp_groups' );
 
 			$list_id 	= filter_input( INPUT_GET, 'optin_email_list' );
@@ -778,7 +762,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 			) );
 		}
 
-		static function ajax_get_current_settings() {
+		public static function ajax_get_current_settings() {
 			Opt_In_Utils::validate_ajax_call( 'optin_provider_current_settings' );
 
 			$list_id 		= filter_input( INPUT_GET, 'list_id' );
@@ -799,7 +783,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 			) );
 		}
 
-		static function add_custom_field( $fields, $module_id ) {
+		public static function add_custom_field( $fields, $module_id ) {
 			$module     = Hustle_Module_Model::instance()->get( $module_id );
 			$api_key    = self::_get_api_key( $module );
 			$list_id    = self::_get_list_id( $module );
@@ -814,7 +798,7 @@ if( !class_exists("Opt_In_Mailchimp") ):
 					$api->add_custom_field( $list_id, array(
 						'tag'   => strtoupper( $field['name'] ),
 						'name'  => $field['label'],
-						'type'  => ( $field['type'] == 'email' || $field['type'] == 'name' || $field['type'] == 'address' || $field['type'] == 'phone' ) ? 'text' : $field['type']
+						'type'  => ( 'email' === $field['type'] || 'name' === $field['type'] || 'address' === $field['type'] || 'phone' === $field['type'] ) ? 'text' : $field['type']
 					) );
 				}
 
@@ -827,9 +811,16 @@ if( !class_exists("Opt_In_Mailchimp") ):
 				}*/
 
 			}catch (Exception $e){
-				return array( 'error' => true, 'code' => 'custom', 'message' => $e->getMessage() );
+				return array(
+					'error' => true,
+					'code' => 'custom',
+					'message' => $e->getMessage(),
+				);
 			}
-			return array( 'success' => true, 'fields' => $fields );
+			return array(
+				'success' => true,
+				'fields' => $fields,
+			);
 		}
 	}
 

@@ -45,6 +45,6 @@ if (!class_exists('ALTERADMINBAR')) {
 
     }
 
-    new ALTERADMINBAR();
+    //new ALTERADMINBAR();
 
 }

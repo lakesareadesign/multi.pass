@@ -8,29 +8,45 @@ if ( ! class_exists( 'Opt_In_MailerLite' ) ) :
 		const ID = "mailerlite";
 		const NAME = "MailerLite";
 
-		static function instance() {
-			return new self;
+		protected $id = self::ID;
+
+
+		/**
+		 * @return Opt_In_Provider_Interface|Opt_In_Provider_Abstract class
+		 */
+		public static function instance(){
+			return new self();
 		}
 
-		static function api( $api_key ) {
+		/**
+		 * Get Provider Details
+		 * General function to get provider details from database based on key
+		 *
+		 * @param Hustle_Module_Model $module
+		 * @param String $field - the field name
+		 *
+		 * @return String
+		 */
+		protected static function _get_provider_details( Hustle_Module_Model $module, $field ) {
+			$details = '';
+			$name = self::ID;
+			if ( isset( $module->content->email_services[$name][$field] ) ) {
+				 $details = $module->content->email_services[$name][$field];
+			}
+			return $details;
+		}
+
+		public static function api( $api_key ) {
             $api = new Opt_In_MailerLite_Api( $api_key );
 
             return $api;
 		}
 
-		function is_authorized() {
+		public function is_authorized() {
 			return true;
 		}
 
-		function update_option($option_key, $option_value){
-			return update_site_option( self::ID . "_" . $option_key, $option_value);
-		}
-
-		function get_option($option_key, $default){
-			return get_site_option( self::ID . "_" . $option_key, $default );
-		}
-
-		function subscribe( Hustle_Module_Model $module, array $data ) {
+		public function subscribe( Hustle_Module_Model $module, array $data ) {
 
 			$api_key 	= self::_get_api_key( $module );
 			$list_id 	= self::_get_list_id( $module );
@@ -110,7 +126,7 @@ if ( ! class_exists( 'Opt_In_MailerLite' ) ) :
             } else {
                 if ( !isset( $member_groups['error'] ) ) {
 					foreach( $member_groups as $member_group => $group ){
-						if ( $group['id'] == $group_id ) {
+						if ( (string)$group['id'] === (string)$group_id ) {
 							return true;
 						}
 					}
@@ -121,7 +137,7 @@ if ( ! class_exists( 'Opt_In_MailerLite' ) ) :
             return false;
         }
 
-		function get_options( $module_id ){
+		public function get_options(){
 			$api 	= self::api( $this->api_key );
 			$lists 	= array();
 			$value 	= '';
@@ -166,7 +182,7 @@ if ( ! class_exists( 'Opt_In_MailerLite' ) ) :
 			);
 		}
 
-		function get_account_options( $module_id ) {
+		public function get_account_options( $module_id ) {
 			$api_key = '';
 
 			if ( $module_id  ) {
@@ -214,27 +230,6 @@ if ( ! class_exists( 'Opt_In_MailerLite' ) ) :
 			);
 		}
 
-		/**
-		* Get Provider Details
-		* General function to get provider details from database based on key
-		*
-		* @param Hustle_Module_Model $module
-		* @param String $field - the field name
-		*
-		* @return String
-		*/
-		private static function _get_provider_details( Hustle_Module_Model $module, $field ) {
-			$details = '';
-			$name = self::ID;
-			if ( !is_null( $module->content->email_services )
-				&& isset( $module->content->email_services[$name] )
-				&& isset( $module->content->email_services[$name][$field] ) ) {
-
-				$details = $module->content->email_services[$name][$field];
-			}
-			return $details;
-		}
-
 		private static function _get_api_key( Hustle_Module_Model $module ) {
 			return self::_get_provider_details( $module, 'api_key' );
 		}
@@ -243,7 +238,7 @@ if ( ! class_exists( 'Opt_In_MailerLite' ) ) :
 			return self::_get_provider_details( $module, 'list_id' );
 		}
 
-		static function add_custom_field( $fields, $module_id ) {
+		public static function add_custom_field( $fields, $module_id ) {
 			$module 	= Hustle_Module_Model::instance()->get( $module_id );
 			$api_key 	= self::_get_api_key( $module );
 
@@ -257,12 +252,17 @@ if ( ! class_exists( 'Opt_In_MailerLite' ) ) :
 			}
 
 			if ( $exist ) {
-				return array( 'success' => true, 'field' => $fields );
+				return array(
+					'success' => true,
+					'field' => $fields,
+				);
 			}
 
-			return array( 'error' => true, 'code' => '' );
+			return array(
+				'error' => true,
+				'code' => '',
+			);
 		}
 	}
 
 endif;
-?>

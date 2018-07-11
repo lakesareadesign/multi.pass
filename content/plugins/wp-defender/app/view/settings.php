@@ -235,7 +235,7 @@
 									<p>{USER_NAME}</p>
 								</div>
 								<div class="col span_8_of_12">
-									<?php esc_html_e( "We’ll grab the users first name, or display name is first name isn’t available", wp_defender()->domain ) ?>
+									<?php esc_html_e( "We’ll grab the users first name, or display name if first name isn’t available", wp_defender()->domain ) ?>
 								</div>
 							</div>
 							<div class="wd-clearfix"></div>

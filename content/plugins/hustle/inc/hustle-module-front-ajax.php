@@ -4,7 +4,7 @@ class Hustle_Module_Front_Ajax {
 
 	private $_hustle;
 
-	function __construct( Opt_In $hustle ){
+	public function __construct( Opt_In $hustle ){
 		$this->_hustle = $hustle;
 		// When module is viewed
 		add_action("wp_ajax_module_viewed", array( $this, "module_viewed" ));
@@ -24,7 +24,7 @@ class Hustle_Module_Front_Ajax {
 	}
 
 
-	function submit_form(){
+	public function submit_form(){
 		$data = $_POST['data'];
 		parse_str( $data['form'], $form_data );
 
@@ -105,14 +105,14 @@ class Hustle_Module_Front_Ajax {
 			$collected_errs_messages = array_merge( $collected_errs_messages, $local_saved->get_error_messages() );
 		}
 
-		if( $collected_errs_messages !== array()  ){
+		if( array() !== $collected_errs_messages  ){
 			wp_send_json_error( $collected_errs_messages);
 		}
 
 		wp_send_json_error( $api_result );
 	}
 
-	function log_cta_conversion(){
+	public function log_cta_conversion(){
 		$data = json_decode( file_get_contents( 'php://input' ) );
 		$data = get_object_vars( $data );
 
@@ -134,7 +134,7 @@ class Hustle_Module_Front_Ajax {
 			wp_send_json_success( __("Stats Successfully saved", Opt_In::TEXT_DOMAIN) );
 	}
 
-	function log_sshare_conversion(){
+	public function log_sshare_conversion(){
 		$data = json_decode( file_get_contents( 'php://input' ) );
 		$data = get_object_vars( $data );
 
@@ -150,7 +150,7 @@ class Hustle_Module_Front_Ajax {
 		$ss = Hustle_SShare_Model::instance()->get( $module_id );
 
 		// only update the social counter for Native Social Sharing
-		if( $service_type && $service_type == 'native' && $source ) {
+		if( $service_type && 'native' === $service_type && $source ) {
 			$social = str_replace( '_icon', '', $source );
 			$services_content = $ss->get_sshare_content()->to_array();
 
@@ -182,7 +182,7 @@ class Hustle_Module_Front_Ajax {
 			wp_send_json_success( __("Stats Successfully saved", Opt_In::TEXT_DOMAIN) );
 	}
 
-	function module_viewed(){
+	public function module_viewed(){
 		$data = json_decode( file_get_contents( 'php://input' ) );
 		$data = get_object_vars( $data );
 
@@ -213,7 +213,7 @@ class Hustle_Module_Front_Ajax {
 
 	}
 
-	function log_conversion( $module, $data ) {
+	public function log_conversion( $module, $data ) {
 		$module_type = ( isset( $data['type'] ) ) ? $data['type'] : '';
 		$tracking_types = $module->get_tracking_types();
 		if ( $tracking_types && ( (bool) $tracking_types[$module_type] ) ) {

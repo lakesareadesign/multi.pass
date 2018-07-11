@@ -47,6 +47,20 @@ class App_Locations_WorkerLocations {
 		add_action( 'wpmudev_appointments_insert_appointment', array( $this, 'record_appointment_location' ), 40 );
 
 		add_filter( 'app-shortcodes-register', array( $this, 'register_shortcodes' ) );
+		/**
+		 * Add service location
+		 *
+		 * @since 2.4.0
+		 */
+		add_filter( 'app_pre_confirmation_reply', array( $this, 'add_location_to_reply_array' ) );
+		/**
+		 * Add location to columns
+		 *
+		 * @since 2.4.0
+		 */
+		add_filter( 'manage_appointments_service_provider_columns', array( $this, 'add_columns' ) );
+		add_filter( 'default_hidden_columns', array( $this, 'add_default_hidden_columns' ), 10, 2 );
+		add_filter( 'appointments_list_column_location', array( $this, 'get_column_location' ), 10, 2 );
 	}
 
 	function show_nags() {
@@ -89,8 +103,9 @@ class App_Locations_WorkerLocations {
 		if ( empty( $appointment->worker ) ) { return false; }
 
 		$location_id = self::worker_to_location_id( $appointment->worker );
-		if ( ! $location_id ) { return false; }
-
+		if ( ! $location_id ) {
+			return false;
+		}
 		appointments_update_appointment( $appointment_id, array( 'location' => $location_id ) );
 	}
 
@@ -174,12 +189,17 @@ class App_Locations_WorkerLocations {
 				<label for="worker_location"><?php _e( 'Location', 'appointments' ); ?></label>
 			</th>
 			<td>
-				<select name="worker_location" id="worker_location">
-					<option value=""></option>
-					<?php foreach ( $locations as $location ) :  ?>
+<?php if ( empty( $locations ) ) {
+	_e( 'There is no locations to choose. Please add some first.', 'appointments' );
+} else {
+?>
+		<select name="worker_location" id="worker_location">
+			<option value=""></option>
+			<?php foreach ( $locations as $location ) :  ?>
 						<option value="<?php echo $location->get_id(); ?>"><?php echo esc_html( $location->get_admin_label() ); ?></option>
 					<?php endforeach; ?>
-				</select>
+		</select>
+<?php } ?>
 			</td>
 		</tr>
 		<?php
@@ -270,6 +290,69 @@ class App_Locations_WorkerLocations {
 			$worker->worker_location = self::worker_to_location_id( $worker->ID );
 		}
 		return $worker;
+	}
+
+	/**
+	 * Add worker Location to reply array
+	 *
+	 * @since 2.4.0
+	 */
+	public function add_location_to_reply_array( $reply_array ) {
+		$worker_id = isset( $reply_array['worker_id'] )? $reply_array['worker_id'] : 0;
+		$location = $this->_worker_to_location( $worker_id );
+		if ( false === $location ) {
+			return $reply_array;
+		}
+		$content = $location->get_display_markup();
+		if ( ! empty( $content ) ) {
+			$reply_array['worker_location'] = sprintf(
+				'<label class="app-worker-location"><span>%s: </span>%s</label>',
+				esc_html__( 'Location', 'appointments' ),
+				$content
+			);
+		}
+		return $reply_array;
+	}
+
+	/**
+	 * Add column "Location" to Service Providers list
+	 *
+	 * @since 2.4.0
+	 */
+	public function add_columns( $columns ) {
+		$columns['location'] = __( 'Location', 'appointments' );
+		return $columns;
+	}
+
+	/**
+	 * Hide by default column "Location" to Service Providers list
+	 *
+	 * @since 2.4.0
+	 */
+	public function add_default_hidden_columns( $hidden, $screen ) {
+		$hidden[] = 'location';
+		return $hidden;
+	}
+
+	/**
+	 * Add column "Location" content to Service Providers list
+	 *
+	 * @since 2.4.0
+	 */
+	public function get_column_location( $content, $item ) {
+		if ( ! is_a( $item, 'Appointments_Worker' ) ) {
+			return $content;
+		}
+		$no = __( 'No Location', 'appointments' );
+		$location = $this->_worker_to_location( $item->ID );
+		if ( empty( $location ) ) {
+			return $no;
+		}
+		$content = $location->get_display_markup();
+		if ( empty( $content ) ) {
+			return $no;
+		}
+		return $content;
 	}
 }
 App_Locations_WorkerLocations::serve();

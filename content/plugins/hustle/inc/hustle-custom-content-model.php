@@ -13,17 +13,16 @@
  * @property array $types_display
  * @property Hustle_Custom_Content_Decorator $decorated
  */
-class Hustle_Custom_Content_Model extends Hustle_Model
-{
+class Hustle_Custom_Content_Model extends Hustle_Model {
 
     /**
      * @return Hustle_Custom_Content_Model
      */
-    static function instance(){
-        return new self;
+    public static function instance(){
+        return new self();
     }
 
-    function get_optin_provider(){
+    public function get_optin_provider(){
         return "custom_content";
     }
 
@@ -40,8 +39,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
         'widget',
     );
 
-    function __get($field)
-    {
+    public function __get($field) {
         $from_parent = parent::__get($field);
         if( !empty( $from_parent ) )
             return $from_parent;
@@ -53,11 +51,11 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      *
      * @return array
      */
-    function get_types(){
+    public function get_types(){
         return $this->types;
     }
 
-    function get_type(){
+    public function get_type(){
         return $this->get_optin_provider();
     }
 
@@ -65,9 +63,9 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      * @param $type
      * @return null|Hustle_Custom_Content_Model_Stats
      */
-    function get_stats( $type ){
+    public function get_stats( $type ){
 
-        if( in_array( $type, $this->types ) ){
+        if( in_array( $type, $this->types, true ) ){
             if( !isset( $this->_stats[ $type ] ) )
                 $this->_stats[ $type ] = new Hustle_Custom_Content_Model_Stats($this, $type);
 
@@ -82,7 +80,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      *
      * @return Hustle_Custom_Content_Decorator
      */
-    function get_decorated(){
+    public function get_decorated(){
 
         if( !$this->_decorator )
             $this->_decorator = new Hustle_Custom_Content_Decorator( $this );
@@ -90,7 +88,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
         return $this->_decorator;
     }
 
-    function get_data(){
+    public function get_data(){
         return array_merge( (array) $this->_data, array(
             "subtitle" => $this->subtitle,
             "content" => $this->content,
@@ -100,33 +98,32 @@ class Hustle_Custom_Content_Model extends Hustle_Model
     /**
      * @return Hustle_Custom_Content_Design
      */
-    function get_design()
-    {
+    public function get_design() {
         return new Hustle_Custom_Content_Design( $this->get_settings_meta( self::KEY_DESIGN, "{}", true ), $this );
     }
 
-	function get_after_content() {
+	public function get_after_content() {
 		return new Hustle_Custom_Content_Meta_After_Content( $this->get_settings_meta( self::KEY_AFTER_CONTENT, "{}", true ), $this );
 	}
 
     /**
      * @return Hustle_Custom_Content_Meta_Popup
      */
-    function get_popup(){
+    public function get_popup(){
         return new Hustle_Custom_Content_Meta_Popup( $this->get_settings_meta( self::KEY_POPUP, "{}", true ), $this );
     }
 
     /**
      * @return Hustle_Custom_Content_Meta_Slide_In
      */
-    function get_slide_in(){
+    public function get_slide_in(){
         return new Hustle_Custom_Content_Meta_Slide_In( $this->get_settings_meta( self::KEY_SLIDE_IN, "{}", true ), $this );
     }
 
     /**
      * @return Hustle_Custom_Content_Meta_Magic_Bar
      */
-    function get_magic_bar(){
+    public function get_magic_bar(){
         return new Hustle_Custom_Content_Meta_Magic_Bar( $this->get_settings_meta( self::KEY_MAGIC_BAR, "{}", true ), $this );
     }
 
@@ -147,7 +144,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      * @param null $environment
      * @return false|int|WP_Error
      */
-    function toggle_state( $environment = null, $settings = false ){
+    public function toggle_state( $environment = null, $settings = false ){
         if( is_null( $environment ) ) {
 			return parent::toggle_state( $environment );
 		}
@@ -157,13 +154,13 @@ class Hustle_Custom_Content_Model extends Hustle_Model
             $prev_value = $obj_settings->$environment;
             $prev_value->enabled = !isset( $prev_value->enabled ) || "false" === $prev_value->enabled ? "true": "false";
             $new_value = array_merge( (array) $obj_settings, array( $environment => $prev_value ));
-            return $this->update_meta( self::KEY_SETTINGS,  json_encode( $new_value ) );
+            return $this->update_meta( self::KEY_SETTINGS,  wp_json_encode( $new_value ) );
 
         } else {
-            if( in_array( $environment, $this->types ) ) { // we are toggling state of a specific environment
+            if( in_array( $environment, $this->types, true ) ) { // we are toggling state of a specific environment
                 $prev_value = $this->{$environment}->to_object();
                 $prev_value->enabled = !isset( $prev_value->enabled ) || "false" === $prev_value->enabled ? "true": "false";
-                return $this->update_meta( $environment,  json_encode( $prev_value ) );
+                return $this->update_meta( $environment,  wp_json_encode( $prev_value ) );
             } else{
                 return new WP_Error("Invalid_env", "Invalid environment . " . $environment);
             }
@@ -176,7 +173,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      * @since 2.0
      * @return mixed|void
      */
-    function get_content(){
+    public function get_content(){
 		global $wp_filter;
 
 		$the_content_filters = false;
@@ -210,7 +207,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 			foreach ( $callbacks as $priority => $callback ) {
 				foreach ( $callback as $filter_name => $filter_callback ) {
                     $allowed_match_found = (bool) preg_match( '%run_shortcode|autoembed%', $filter_name );
-					if ( ! in_array( $filter_name, $allowed_filters ) && !$allowed_match_found ) {
+					if ( ! in_array( $filter_name, $allowed_filters, true ) && !$allowed_match_found ) {
 						unset( $wp_filter['the_content']->callbacks[ $priority ][ $filter_name ] );
 					}
 
@@ -232,7 +229,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 		return $message;
     }
 
-    function get_module_type(){
+    public function get_module_type(){
         return "custom_content";
     }
 
@@ -242,8 +239,8 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      * @param $type_name
      * @return bool
      */
-    function has_type( $type_name ){
-        return in_array( $type_name, $this->types );
+    public function has_type( $type_name ){
+        return in_array( $type_name, $this->types, true );
     }
 
 
@@ -252,7 +249,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      *
      * @return array
      */
-    function get_types_display_conditions(){
+    public function get_types_display_conditions(){
         $display = array();
 
         foreach( $this->types as $type )
@@ -261,10 +258,10 @@ class Hustle_Custom_Content_Model extends Hustle_Model
         return $display;
     }
 
-    function should_display_type( $type ){
+    public function should_display_type( $type ){
 		// if the type method not exists e.g. shortcode,
 		// return true since don't have display conditions
-		if ( !method_exists($this,"get_$type") ) {
+		if ( !method_exists($this, "get_$type") ) {
 			return true;
 		}
 
@@ -279,10 +276,10 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 
 			if ( is_singular() ) {
 				// unset not needed post_type
-				if ( $post->post_type == 'post' ) {
+				if ( 'post' === $post->post_type ) {
 					unset($_conditions->pages);
 					$skip_all_cpt = true;
-				} elseif ( $post->post_type == 'page' ) {
+				} elseif ( 'page' === $post->post_type ) {
 					unset($_conditions->posts);
 					unset($_conditions->categories);
 					unset($_conditions->tags);
@@ -295,7 +292,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 			} else {
 
                 // do not display after_content on archive page
-                if ( $type == 'after_content' ) {
+                if ( 'after_content' === $type ) {
                     return false;
                 }
 
@@ -315,7 +312,7 @@ class Hustle_Custom_Content_Model extends Hustle_Model
 			foreach ($_conditions as $condition_key => $args) {
 				// only cpt have 'post_type' and 'post_type_label' properties
 				if ( is_array($args) && isset($args['post_type']) && isset($args['post_type_label']) ) {
-					if ( $skip_all_cpt || $post->post_type != $args['post_type'] ) {
+					if ( $skip_all_cpt || $post->post_type !== $args['post_type'] ) {
 						continue;
 					}
 					$condition = Hustle_Condition_Factory::build('cpt', $args);
@@ -338,15 +335,15 @@ class Hustle_Custom_Content_Model extends Hustle_Model
      * @param $type
      * @return array
      */
-    function get_type_conditions( $type ){
+    public function get_type_conditions( $type ){
         $conditions = array();
-        if( !in_array( $type, $this->types ) ) $conditions;
+        if( !in_array( $type, $this->types, true ) ) $conditions;
 
         $method = "get_$type";
 
-        if ( $type == 'shortcode' ) {
+        if ( 'shortcode' === $type ) {
             $settings = $this->get_parent_settings()->get_shortcode();
-        } elseif ( $type == 'widget' ) {
+        } elseif ( 'widget' === $type ) {
             $settings = $this->get_parent_settings()->get_widget();
         } else {
             $settings = $this->{$method}();

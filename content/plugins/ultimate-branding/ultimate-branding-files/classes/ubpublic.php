@@ -18,7 +18,6 @@ if ( ! class_exists( 'UltimateBrandingPublic' ) ) {
 			'global-header-content.php' => 'global-header-content/global-header-content.php',
 			'htmlemail.php' => 'htmlemail.php',
 			'image-upload-size.php' => 'image-upload-size.php',
-			'login-image.php' => 'login-image/login-image.php',
 			'maintenance/maintenance.php' => 'maintenance/maintenance.php',
 			'rebranded-meta-widget.php' => 'rebranded-meta-widget/rebranded-meta-widget.php',
 			'signup-blog-description.php' => 'signup-blog-description.php',

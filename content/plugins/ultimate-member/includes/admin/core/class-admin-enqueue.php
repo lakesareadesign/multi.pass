@@ -156,7 +156,6 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 			wp_enqueue_script( 'um_admin_settings' );
 
 			$localize_data = array(
-				'delete_email_template' => UM()->get_ajax_route( 'um\core\Mail', 'delete_email_template' ),
 				'onbeforeunload_text' => __( 'Are sure, maybe some settings not saved', 'ultimate-member' ),
 				'texts' => array(
 					'remove' => __( 'Remove', 'ultimate-member' ),
@@ -293,7 +292,10 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 		/**
 		 * Load global css
 		 */
-		function load_global_css() {
+		function load_global_scripts() {
+			wp_register_script( 'um_admin_global', $this->js_url . 'um-admin-global.js', array('jquery'), ultimatemember_version, true );
+			wp_enqueue_script( 'um_admin_global' );
+
 			wp_register_style( 'um_admin_global', $this->css_url . 'um-admin-global.css' );
 			wp_enqueue_style( 'um_admin_global' );
 		}
@@ -303,7 +305,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 		 * Load jQuery custom code
 		 */
 		function load_custom_scripts() {
-			wp_register_script( 'um_admin_scripts', $this->js_url . 'um-admin-scripts.js', '', '', true );
+			wp_register_script( 'um_admin_scripts', $this->js_url . 'um-admin-scripts.js',  array('jquery','wp-util'), '', true );
 			wp_enqueue_script( 'um_admin_scripts' );
 		}
 
@@ -357,11 +359,12 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 			 * ?>
 			 */
 			$localize_data = apply_filters('um_admin_enqueue_localize_data', array(
-					'ajaxurl' => admin_url( 'admin-ajax.php' )
+					'ajaxurl'   => admin_url( 'admin-ajax.php' ),
+					'nonce'     => wp_create_nonce( "um-admin-nonce" )
 				)
 			);
 
-			wp_localize_script( 'um_admin_scripts', 'um_admin_scripts', $localize_data );
+			wp_localize_script( 'um_admin_global', 'um_admin_scripts', $localize_data );
 		}
 
 
@@ -391,7 +394,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
                 }*/
 
 				$this->load_functions();
-				$this->load_global_css();
+				$this->load_global_scripts();
 				$this->load_form();
 				$this->load_forms();
 				$this->load_modal();
@@ -424,7 +427,8 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
             
 			} else {
 
-				$this->load_global_css();
+				$this->load_global_scripts();
+				$this->load_localize_scripts();
 
 			}
 

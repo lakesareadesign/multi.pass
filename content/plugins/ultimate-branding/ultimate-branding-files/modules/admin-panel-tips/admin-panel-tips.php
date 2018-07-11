@@ -1,26 +1,4 @@
 <?php
-/*
-Plugin Name: Admin Panel Tips
-Description: Provide your users with helpful random tips (or promotions/news) in their admin panels.
-
-Copyright 2007-2017 Incsub (http://incsub.com)
-Author - S H Mohanjith
-Contributors - Ivan Shaovchev, Andrew Billits, Aaron Edwards, Marcin Pietrzak
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-
 if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 	class ub_admin_panel_tips extends ub_helper {
 

@@ -1,32 +1,4 @@
 <?php
-/*
-Plugin Name: Blog Description on Blog Creation
-Description: Allows new bloggers to be able to set their tagline when they create a blog in Multisite
-Version: 1.1
-Author: Aaron Edwards & Andrew Billits (Incsub)
-Author URI: http://premium.wpmudev.org
-Network: true
-WDP ID: 104
-Contributors - Umesh Kumar, Marcin Pietrzak
- */
-
-/*
-Copyright 2007-2017 Incsub (http://incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
 if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly
 }

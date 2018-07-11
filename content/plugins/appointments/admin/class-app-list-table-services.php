@@ -19,6 +19,15 @@ class Appointments_WP_List_Table_Services extends WP_List_Table {
 	}
 
 	/**
+	 * Handle default column
+	 *
+	 * @since 2.4.0
+	 */
+	public function column_default( $item, $column_name ) {
+		return apply_filters( 'appointments_list_column_'.$column_name, '', $item );
+	}
+
+	/**
 	 * Column price.
 	 *
 	 * @since 2.3.1
@@ -129,12 +138,17 @@ class Appointments_WP_List_Table_Services extends WP_List_Table {
 			'price' => sprintf( __( 'Price (%s)', 'appointments' ), $this->currency ),
 			'page' => __( 'Description page', 'appointments' ),
 		);
-		return $columns;
+		/**
+		 * Allow to filter columns
+		 *
+		 * @since 2.4.0
+		 */
+		return apply_filters( 'manage_appointments_service_columns', $columns );
 	}
 
 	public function get_bulk_actions() {
 		$actions = array(
-			'delete'    => 'Delete',
+			'delete' => __( 'Delete', 'appointments' ),
 		);
 		return $actions;
 	}
@@ -157,16 +171,20 @@ class Appointments_WP_List_Table_Services extends WP_List_Table {
 	}
 
 	public function prepare_items() {
-		$per_page = 5;
+		$per_page = $this->get_items_per_page( 'app_services_per_page', 20 );;
 		$columns = $this->get_columns();
-		$hidden = array();
+		$hidden = get_hidden_columns( $this->screen );
 		$sortable = $this->get_sortable_columns();
 		$this->_column_headers = array( $columns, $hidden, $sortable );
 		$this->process_bulk_action();
-		$data = appointments_get_services();
 		$current_page = $this->get_pagenum();
-		$total_items = count( $data );
-		$data = appointments_get_services( array( 'orderby' => 'name' ) );
+		$total_items = appointments_get_services( array( 'count' => true ) );
+		$args = array(
+			'orderby' => 'name',
+			'paged' => $this->get_pagenum() - 1,
+			'limit' => $per_page,
+		);
+		$data = appointments_get_services( $args );
 		$this->items = $data;
 		/**
 		 * REQUIRED. We also have to register our pagination options & calculations.

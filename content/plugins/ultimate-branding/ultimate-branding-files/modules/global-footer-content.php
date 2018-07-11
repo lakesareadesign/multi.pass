@@ -1,314 +1,246 @@
 <?php
-/*
-Plugin Name: Global Footer Content
-Plugin URI: http://premium.wpmudev.org/project/global-footer-content
-Description: Simply insert any code that you like into the footer of every blog
-Author: Barry (Incsub), S H Mohanjith (Incsub), Andrew Billits (Incsub)
- */
+if ( ! class_exists( 'ub_footer_content' ) ) {
+	class ub_footer_content extends ub_helper {
+		protected $option_name = 'ub_global_footer_content';
 
-class ub_global_footer_content extends ub_helper {
-
-	var $global_footer_content_settings_page;
-	var $global_footer_content_settings_page_long;
-	var $global_footer_content;
-
-	public function __construct() {
-		add_action( 'ultimatebranding_settings_footer', array( &$this, 'global_footer_content_site_admin_options' ) );
-		add_filter( 'ultimatebranding_settings_footer_process', array( &$this, 'update_global_footer_options' ), 10, 1 );
-		add_action( 'wp_footer', array( &$this, 'global_footer_content_output' ), 10 );
-		add_action( 'wp_enqueue_scripts', array( &$this, 'enqueue_scripts' ) );
-
-		$this->global_footer_content = get_option( 'global_footer_content' );
-		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
-	}
-
-	public function enqueue_scripts() {
-		global $ub_version;
-		wp_enqueue_style( 'ub_global_footer_style', ub_files_url( 'modules/global-footer-content-files/css/main.css' )  . '', false, $ub_version );
-		wp_enqueue_script( 'ub_global_footer_js', ub_files_url( 'modules/global-footer-content-files/js/main.js' ), array(), $ub_version, true );
-	}
-
-	public function update_global_footer_options( $status ) {
-
-		$global_footer = $_POST['ub_global_footer'];
-		$global_footer_main = isset( $_POST['ub_global_footer_main'] )? $_POST['ub_global_footer_main']:'';
-
-		if ( '' === $global_footer['content'] ) {
-			$global_footer['content'] = 'empty';
+		public function __construct() {
+			parent::__construct();
+			$this->set_options();
+			add_action( 'ultimatebranding_settings_footer', array( $this, 'admin_options_page' ) );
+			add_filter( 'ultimatebranding_settings_footer_process', array( $this, 'update' ), 10, 1 );
+			add_action( 'wp_footer', array( $this, 'output' ) );
+			add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
+			add_action( 'init', array( $this, 'upgrade_options' ) );
+			add_filter( 'ultimate_branding_options_names', array( $this, 'add_legacy_options_names' ) );
 		}
 
-		if ( isset( $global_footer['themefooter'] ) ) {
-			$global_footer['themefooter'] = ( 'on' === $global_footer['themefooter'] ) ? 'checked' : '';
-		} else {
-			$global_footer['themefooter'] = '';
-		}
-
-		if ( isset( $global_footer['shortcodes'] ) ) {
-			$global_footer['shortcodes'] = ( 'on' === $global_footer['shortcodes'] ) ? 'checked' : '';
-		} else {
-			$global_footer['shortcodes'] = '';
-		}
-
-		$status *= ub_update_option( 'global_footer_content' , $global_footer['content'] );
-		$status *= ub_update_option( 'global_footer_bgcolor', $global_footer['bgcolor'] );
-		$status *= ub_update_option( 'global_footer_fixedheight', $global_footer['fixedheight'] );
-		$status *= ub_update_option( 'global_footer_themefooter', $global_footer['themefooter'] );
-		$status *= ub_update_option( 'global_footer_shortcodes', $global_footer['shortcodes'] );
-
-		if ( is_multisite() ) {
-			if ( '' === $global_footer_main['content'] ) {
-				$global_footer_main['content'] = 'empty';
-			}
-
-			if ( isset( $global_footer_main['themefooter'] ) ) {
-				$global_footer_main['themefooter'] = ( 'on' === $global_footer_main['themefooter'] ) ? 'checked' : '';
-			} else {
-				$global_footer_main['themefooter'] = '';
-			}
-
-			if ( isset( $global_footer_main['shortcodes'] ) ) {
-				$global_footer_main['shortcodes'] = ( 'on' === $global_footer_main['shortcodes'] ) ? 'checked' : '';
-			} else {
-				$global_footer_main['shortcodes'] = '';
-			}
-
-			$status *= ub_update_option( 'global_footer_main_content' , $global_footer_main['content'] );
-			$status *= ub_update_option( 'global_footer_main_bgcolor', $global_footer_main['bgcolor'] );
-			$status *= ub_update_option( 'global_footer_main_fixedheight', $global_footer_main['fixedheight'] );
-			$status *= ub_update_option( 'global_footer_main_themefooter', $global_footer_main['themefooter'] );
-			$status *= ub_update_option( 'global_footer_main_shortcodes', $global_footer_main['shortcodes'] );
-		}
-
-		return true;
-	}
-
-	public function global_footer_content_output() {
-		$global_footer_content = ub_get_option( 'global_footer_content' );
-		$global_footer_main_content = ub_get_option( 'global_footer_main_content' );
-		if ( $global_footer_content === 'empty' ) {
-			$global_footer_content = '';
-		}
-		if ( $global_footer_main_content === 'empty' ) {
-			$global_footer_main_content = '';
-		}
 		/**
-		 * $global_footer_content
+		 * Add legacy option names to delete
+		 *
+		 * @since 2.1.0
 		 */
-		if ( ! empty( $global_footer_content ) && ( ! is_multisite() || ! is_main_site() ) ) {
-
-			/**
-			 * Avoid using wp_content filter, because it breaks compatibility with themes with UI builders.
-			 */
-			$global_footer_content = apply_filters( 'wptexturize', $global_footer_content );
-			$global_footer_content = apply_filters( 'convert_smilies', $global_footer_content );
-			$global_footer_content = apply_filters( 'convert_chars', $global_footer_content );
-			$global_footer_content = apply_filters( 'wpautop', $global_footer_content );
-
-			$global_footer_bgcolor = ub_get_option( 'global_footer_bgcolor', '' );
-			$global_footer_height = ub_get_option( 'global_footer_fixedheight', '' );
-			$global_footer_themefooter = ub_get_option( 'global_footer_themefooter', '' );
-			$global_footer_shortcodes = ub_get_option( 'global_footer_shortcodes', '' );
-
-			if ( 'checked' == $global_footer_shortcodes ) {
-				$global_footer_content = do_shortcode( $global_footer_content );
+		public function add_legacy_options_names( $options ) {
+			$keys = array( 'content', 'bgcolor', 'fixedheight', 'themefooter', 'shortcodes' );
+			foreach ( $keys as $key ) {
+				$options[] = 'global_footer_'.$key;
+				$options[] = 'global_footer_main_'.$key;
 			}
-
-			$style = '' !== $global_footer_bgcolor ? 'background-color:' . $global_footer_bgcolor . ';' : '';
-			$style .= '' !== $global_footer_height ? 'height:' . $global_footer_height .'px;overflow:hidden;' : '';
-			$class = 'checked' === $global_footer_themefooter ? 'ub_global_footer_inside' : '';
-?>
-            <div id="ub_global_footer_content" style="<?php echo $style ?>" class="<?php echo $class; ?>">
-                <?php echo wpautop( stripslashes( $global_footer_content ) );?>
-            </div>
-<?php
+			return $options;
 		}
+
 		/**
-		 * $global_footer_main_content
+		 * Upgrade option
+		 *
+		 * @since 2.1.0
 		 */
-		if ( ! empty( $global_footer_main_content ) && ( is_multisite() && is_main_site() ) ) {
-			/**
-			 * Avoid using wp_content filter, because it breaks compatibility with themes with UI builders.
-			 */
-			$global_footer_main_content = apply_filters( 'wptexturize', $global_footer_main_content );
-			$global_footer_main_content = apply_filters( 'convert_smilies', $global_footer_main_content );
-			$global_footer_main_content = apply_filters( 'convert_chars', $global_footer_main_content );
-			$global_footer_main_content = apply_filters( 'wpautop', $global_footer_main_content );
-
-			$global_footer_main_bgcolor = ub_get_option( 'global_footer_main_bgcolor', '' );
-			$global_footer_main_height = ub_get_option( 'global_footer_main_fixedheight', '' );
-			$global_footer_main_themefooter = ub_get_option( 'global_footer_main_themefooter', '' );
-			$global_footer_main_shortcodes = ub_get_option( 'global_footer_main_shortcodes', '' );
-
-			if ( 'checked' == $global_footer_main_shortcodes ) {
-				$global_footer_main_content = do_shortcode( $global_footer_main_content );
+		public function upgrade_options() {
+			$v = $this->get_value();
+			if ( ! empty( $v ) ) {
+				return;
 			}
-
-			$style = '' !== $global_footer_main_bgcolor ? 'background-color:' . $global_footer_main_bgcolor . ';' : '';
-			$style .= '' !== $global_footer_main_height ? 'height:' . $global_footer_main_height .'px;overflow:hidden;' : '';
-			$class = 'checked' === $global_footer_main_themefooter ? 'ub_global_footer_inside' : '';
-?>
-            <div id="ub_global_footer_content"  style="<?php echo $style ?>" class="<?php echo $class; ?>">
-                <?php echo wpautop( stripslashes( $global_footer_main_content ) );?>
-            </div>
-<?php
+			$data = array(
+				'subsites' => array(
+					'content' => ub_get_option( 'global_footer_content', '' ),
+					'bg_color' => ub_get_option( 'global_footer_bgcolor', '' ),
+					'height' => intval( ub_get_option( 'global_footer_fixedheight', '' ) ),
+					'theme_footer' => ub_get_option( 'global_footer_themefooter', '' )? 'on':'off',
+					'shortcodes' => ub_get_option( 'global_footer_shortcodes', '' )? 'on':'off',
+				),
+				'main' => array(
+					'content' => ub_get_option( 'global_footer_main_content', '' ),
+					'bg_color' => ub_get_option( 'global_footer_main_bgcolor', '' ),
+					'height' => intval( ub_get_option( 'global_footer_main_fixedheight', '' ) ),
+					'theme_footer' => ub_get_option( 'global_footer_main_themefooter', '' )? 'on':'off',
+					'shortcodes' => ub_get_option( 'global_footer_main_shortcodes', '' )? 'on':'off',
+				),
+			);
+			$this->update_value( $data );
 		}
-	}
 
-	public function global_footer_content_site_admin_options() {
-
-		// footer content
-		$global_footer_content = ub_get_option( 'global_footer_content', '' );
-		if ( $global_footer_content == 'empty' ) {
-			$global_footer_content = '';
+		/**
+		 * Set options
+		 *
+		 * @since 2.1.0
+		 */
+		protected function set_options() {
+			$this->options = array(
+				'subsites' => array(
+					'title' => __( 'Footer Content For Subsites', 'ub' ),
+					'fields' => array(
+						'content' => array(
+							'label' => __( 'Content', 'ub' ),
+							'type' => 'wp_editor',
+							'description' => __( 'What is added here will be shown on every blog or site in your network. You can add tracking code, embeds, terms of service links, etc.'. 'ub' ),
+						),
+						'bg_color' => array(
+							'label' => __( 'Background color', 'ub' ),
+							'type' => 'color',
+							'description' => __( 'Click on "Clear" button to make background transparent.', 'ub' ),
+						),
+						'height' => array(
+							'label' => __( 'Fixed height', 'ub' ),
+							'type' => 'number',
+							'description' => __( 'Choose height of footer. Leave "0" to fit height to content.', 'ub' ),
+							'default' => 0,
+						),
+						'theme_footer' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Integrate in theme footer', 'ub' ),
+							'description' => __( 'If selected, the plugin will try to place the footer content block inside the theme footer element.', 'ub' ),
+							'options' => array(
+								'on' => __( 'On', 'ub' ),
+								'off' => __( 'Off', 'ub' ),
+							),
+							'default' => 'on',
+							'classes' => array( 'switch-button' ),
+						),
+						'shortcodes' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Proceed shortcodes', 'ub' ),
+							'description' => __( 'Be careful it can break compatibility with themes with UI builders.', 'ub' ),
+							'options' => array(
+								'on' => __( 'On', 'ub' ),
+								'off' => __( 'Off', 'ub' ),
+							),
+							'classes' => array( 'switch-button' ),
+							'default' => 'off',
+						),
+					),
+				),
+				'main' => array(
+					'title' => __( 'Footer Content For Main Site', 'ub' ),
+					'fields' => array(
+						'content' => array(
+							'label' => __( 'Content', 'ub' ),
+							'type' => 'wp_editor',
+							'description' => __( 'What is added here will be shown on every blog or site in your network. You can add tracking code, embeds, terms of service links, etc.'. 'ub' ),
+						),
+						'bg_color' => array(
+							'label' => __( 'Background color', 'ub' ),
+							'type' => 'color',
+							'description' => __( 'Click on "Clear" button to make background transparent.', 'ub' ),
+						),
+						'height' => array(
+							'label' => __( 'Fixed height', 'ub' ),
+							'type' => 'number',
+							'description' => __( 'Choose height of footer. Leave "0" to fit height to content.', 'ub' ),
+							'default' => 0,
+						),
+						'theme_footer' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Integrate in theme footer', 'ub' ),
+							'description' => __( 'If selected, the plugin will try to place the footer content block inside the theme footer element.', 'ub' ),
+							'options' => array(
+								'on' => __( 'On', 'ub' ),
+								'off' => __( 'Off', 'ub' ),
+							),
+							'default' => 'on',
+							'classes' => array( 'switch-button' ),
+						),
+						'shortcodes' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Proceed shortcodes', 'ub' ),
+							'description' => __( 'Be careful it can break compatibility with themes with UI builders.', 'ub' ),
+							'options' => array(
+								'on' => __( 'On', 'ub' ),
+								'off' => __( 'Off', 'ub' ),
+							),
+							'classes' => array( 'switch-button' ),
+							'default' => 'off',
+						),
+					),
+				),
+			);
 		}
 
-		// footer background color
-		$global_footer_bgcolor = ub_get_option( 'global_footer_bgcolor', '' );
-
-		// fixed height
-		$global_footer_fixedheight = ub_get_option( 'global_footer_fixedheight', '' );
-
-		// integrate in theme footer
-		$global_footer_themefooter = ub_get_option( 'global_footer_themefooter', '' );
-
-		// proceed shortcodes
-		$global_footer_shortcodes = ub_get_option( 'global_footer_shortcodes', '' );
-?>
-            <div class="postbox">
-            <h3 class="hndle" style='cursor:auto;'><span><?php echo is_multisite() ? __( 'Global Footer Content For Subsites', 'ub' ) : __( 'Global Footer Content', 'ub' ) ?></span></h3>
-            <div class="inside">
-                <table class="form-table">
-                    <tr valign="top">
-                        <th scope="row"><?php _e( 'Footer Content', 'ub' ) ?></th>
-                        <td>
-<?php
-		$args = array( 'textarea_name' => 'ub_global_footer[content]', 'textarea_rows' => 5 );
-		wp_editor( stripslashes( $global_footer_content ), 'global_footer_content', $args );
-?>
-                            <br />
-                            <?php _e( 'What is added here will be shown on every blog or site in your network. You can add tracking code, embeds, terms of service links, etc.', 'ub' ) ?>
-                        </td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row"><?php _e( 'Background Color', 'ub' ) ?></th>
-                        <td>
-                            <input name="ub_global_footer[bgcolor]" class="ub_color_picker" id="ub_footer_background_color" type="text"   value="<?php echo $global_footer_bgcolor; ?>"/>
-                            <br />
-                            <?php _e( "Click on 'clear' button to make background transparent", 'ub' ) ?>
-                        </td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row"><?php _e( 'Fixed Height', 'ub' ) ?></th>
-                        <td>
-                            <input class="text-60"  name="ub_global_footer[fixedheight]"  id="ub_footer_fixedheight" type="number" step="1"   value="<?php echo $global_footer_fixedheight; ?>"/>&nbsp;px
-                            <br />
-                            <?php _e( 'Choose height of footer. Leave blank to fit height to content', 'ub' ) ?>
-                        </td>
-                    </tr>
-                    <tr valign="top">
-                        <th scope="row"><?php _e( 'Integrate in theme footer', 'ub' ) ?></th>
-                        <td>
-                            <input class="text-60"  name="ub_global_footer[themefooter]"  id="ub_footer_themefooter" type="checkbox" <?php echo $global_footer_themefooter; ?>/>
-                            <br />
-                            <?php _e( 'If selected, the plugin will try to place the footer content block inside the theme footer element.', 'ub' ) ?>
-                        </td>
-                    </tr>
-
-                    <tr valign="top">
-                        <th scope="row"><?php _e( 'Proceed shortcode', 'ub' ) ?></th>
-                        <td>
-                            <input class="text-60"  name="ub_global_footer[shortcodes]"  id="ub_footer_shortcodes" type="checkbox" <?php echo $global_footer_shortcodes; ?>/>
-                            <p class="description"><?php _e( 'Be careful it can break compatibility with themes with UI builders.', 'ub' ) ?></p>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-<?php if ( ( is_multisite() && is_super_admin() ) ) :
-	$global_footer_main_content = ub_get_option( 'global_footer_main_content', '' );
-	$global_footer_main_bgcolor = ub_get_option( 'global_footer_main_bgcolor', '' );
-	$global_footer_main_fixedheight = ub_get_option( 'global_footer_main_fixedheight', '' );
-	$global_footer_main_themefooter = ub_get_option( 'global_footer_main_themefooter', '' );
-	$global_footer_main_shortcodes = ub_get_option( 'global_footer_main_shortcodes', '' );
-	if ( $global_footer_main_content == 'empty' ) {
-		$global_footer_main_content = '';
-	}
-?>
-            <div class="postbox">
-                <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Global Footer Content For Main Site', 'ub' ) ?></span></h3>
-                <div class="inside">
-                    <table class="form-table">
-                        <tr valign="top">
-                            <th scope="row"><?php _e( 'Footer Content', 'ub' ) ?></th>
-                            <td>
-<?php
-$args = array( 'textarea_name' => 'ub_global_footer_main[content]', 'textarea_rows' => 5 );
-wp_editor( stripslashes( $global_footer_main_content ), 'global_footer_main_content', $args );
-?>
-                                <br />
-                                <?php _e( 'What is added here will be shown on every blog or site in your network. You can add tracking code, embeds, terms of service links, etc.', 'ub' ) ?>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <th scope="row"><?php _e( 'Background Color', 'ub' ) ?></th>
-                            <td>
-                                <input name="ub_global_footer_main[bgcolor]" class="ub_color_picker" id="ub_footer_main_background_color" type="text"   value="<?php echo $global_footer_main_bgcolor; ?>"/>
-                                <br />
-                                <?php _e( "Click on 'clear' button to make background transparent", 'ub' ) ?>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <th scope="row"><?php _e( 'Fixed Height', 'ub' ) ?></th>
-                            <td>
-                                <input class="text-60"  name="ub_global_footer_main[fixedheight]"  id="ub_footer_main_fixedheight" type="number" step="1"   value="<?php echo $global_footer_main_fixedheight; ?>"/>&nbsp;px
-                                <br />
-                                <?php _e( 'Choose height of footer. Leave blank to fit height to content', 'ub' ) ?>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <th scope="row"><?php _e( 'Integrate in theme footer', 'ub' ) ?></th>
-                            <td>
-                                <input class="text-60"  name="ub_global_footer_main[themefooter]"  id="ub_footer_main_themefooter" type="checkbox" <?php echo $global_footer_main_themefooter; ?>/>&nbsp
-                                <br />
-                                <?php _e( 'If selected, the plugin will try to place the footer content block inside the theme footer element.', 'ub' ) ?>
-                            </td>
-                        </tr>
-                        <tr valign="top">
-                            <th scope="row"><?php _e( 'Proceed shortcode', 'ub' ) ?></th>
-                            <td>
-                                <input class="text-60"  name="ub_global_footer_main[shortcodes]"  id="ub_footer_main_shortcodes" type="checkbox" <?php echo $global_footer_main_shortcodes; ?>/>
-                                <p class="description"><?php _e( 'Be careful it can break compatibility with themes with UI builders.', 'ub' ) ?></p>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
-            </div>
-        <?php endif; ?>
-<?php
-	}
-	/**
-	 * Export data.
-	 *
-	 * @since 1.8.6
-	 */
-	public function export( $data ) {
-		$options = array(
-			'global_footer_bgcolor',
-			'global_footer_content',
-			'global_footer_fixedheight',
-			'global_footer_main_bgcolor',
-			'global_footer_main_content',
-			'global_footer_main_fixedheight',
-			'global_footer_main_themefooter',
-			'global_footer_themefooter',
-			'global_footer_main_shortcodes',
-			'global_footer_shortcodes',
-		);
-		foreach ( $options as $key ) {
-			$data['modules'][ $key ] = ub_get_option( $key );
+		public function enqueue_scripts() {
+			$root = 'modules/global-footer-content/global-footer-content.';
+			wp_enqueue_style( __CLASS__, ub_files_url( $root.'css' )  . '', false, $this->build );
+			wp_enqueue_script( __CLASS__, ub_files_url( $root.'js' ), array(), $this->build, true );
 		}
-		return $data;
+
+		/**
+		 * output common helper
+		 *
+		 * @since 2.1.0
+		 */
+		private function _output( $key ) {
+			$v = $this->get_value( $key );
+			$content = '';
+			/**
+			 * try content meta
+			 */
+			if ( isset( $v['content_meta'] ) && ! empty( $v['content_meta'] ) ) {
+				$content = $v['content_meta'];
+			}
+			/**
+			 * try content
+			 */
+			if ( empty( $content ) && isset( $v['content'] ) && ! empty( $v['content'] ) ) {
+				$content = $v['content'];
+				if ( ! empty( $content ) ) {
+					$filters = array( 'wptexturize', 'convert_smilies', 'convert_chars', 'wpautop' );
+					foreach ( $filters as $filter ) {
+						$content = apply_filters( $filter, $content );
+					}
+				}
+			}
+			/**
+			 * at least - check
+			 */
+			if ( empty( $content ) ) {
+				return;
+			}
+			/**
+			 * shortcodes
+			 */
+			if ( isset( $v['shortcodes'] ) && 'on' === $v['shortcodes'] ) {
+				$content = do_shortcode( $content );
+			}
+			/**
+			 * style
+			 */
+			$style = '';
+			if ( isset( $v['bg_color'] ) ) {
+				$style .= $this->css_background_color( $v['bg_color'] );
+			}
+			if ( isset( $v['height'] ) ) {
+				$style .= $this->css_height( $v['height'] );
+			}
+			/**
+			 * use theme footer
+			 */
+			$class = '';
+			if ( isset( $v['theme_footer'] ) && 'on' === $v['theme_footer'] ) {
+				$class = 'inside';
+			}
+			/**
+			 * show
+			 */
+			printf(
+				'<div id="ub_footer_content" style="%s" class="%s">%s</div>',
+				esc_attr( $style ),
+				esc_attr( $class ),
+				$content
+			);
+		}
+
+		/**
+		 * output
+		 *
+		 * @since 2.0.0
+		 */
+		public function output() {
+			/**
+			 * main site footer
+			 */
+			if ( is_main_site() ) {
+				$this->_output( 'main' );
+				return;
+			}
+			$this->_output( 'subsites' );
+		}
 	}
 }
 
-$ub_globalfootertext = new ub_global_footer_content();
+new ub_footer_content();

@@ -1,35 +1,4 @@
 <?php
-/*
-Plugin Name: E-mail Template
-Plugin URI: https://premium.wpmudev.org/project/html-email-templates/
-Description: Allows you to add HTML templates for all of the standard Wordpress e-mails.
-Version: 2.0.6
-Network: true
-WDP ID: 142
-*/
-
-/*
-Copyright 2010-2017 Incsub
-Author - Aaron Edwards
-Contributors - Barry Getty, Umesh Kumar
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License as published by
-the Free Software Foundation; either version 2 of the License, or
-(at your option) any later version.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-
-Portions of this code are from or inspired by Mohammad Jangda's "HTML E-mails" plugin: http://wordpress.org/extend/plugins/html-emails/
-*/
-
 class ub_html_emailer {
 	//This is where the class variables go, don't forget to use @var to tell what they're for
 	/**
@@ -152,6 +121,24 @@ class ub_html_emailer {
 		 * export
 		 */
 		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
+		/**
+		 * add options names
+		 *
+		 * @since 2.1.0
+		 */
+		add_filter( 'ultimate_branding_options_names', array( $this, 'add_options_names' ) );
+	}
+
+	/**
+	 * Add option names
+	 *
+	 * @since 2.1.0
+	 */
+	public function add_options_names( $options ) {
+		$options[] = 'htmlemail_settings';
+		$options[] = 'html_template';
+		$options[] = 'modify_html_email';
+		return $options;
 	}
 
 	/**
@@ -346,7 +333,7 @@ class ub_html_emailer {
 
 					<?php if ( current_user_can( 'unfiltered_html' ) ) { //it's only safe to allow live previews for unfiltered_html cap to prevent XSS ?>
                         <a name="preview_template" id="preview_template" class="button button-secondary"
-							href="<?php echo plugins_url( 'preview.html?TB_iframe=true&height=500&width=700', __FILE__ ); ?>"
+							href="<?php echo plugins_url( 'htmlemail-files/preview.html?TB_iframe=true&height=500&width=700', __FILE__ ); ?>"
 							title="<?php esc_attr_e( 'Live Preview', 'htmlemail' ); ?>"><?php _e( 'Preview', 'htmlemail' ); ?></a>
 					<?php } ?>
 
@@ -572,6 +559,9 @@ class ub_html_emailer {
 				$content = preg_replace( "/\b($setting)\b/i", $value, $content );
 			}
 		}
+		if ( is_ssl() ) {
+			$content = preg_replace( '@http://@', 'https://', $content );
+		}
 
 		return $content;
 	}
@@ -739,7 +729,7 @@ class ub_html_emailer {
 		$date             = date_i18n( get_option( 'date_format' ) );
 		$time             = date_i18n( get_option( 'time_format' ) );
 
-		$message = 'This is a test message I want to try out to see if it works. This will be replaced with wordpress e-mail content.
+		$message = 'This is a test message I want to try out to see if it works. This will be replaced with WordPress e-mail content.
              Is it working well?';
 
 		$from_email = get_option( 'admin_email' );
@@ -993,11 +983,7 @@ class ub_html_emailer {
 	 * @since 1.8.6
 	 */
 	public function export( $data ) {
-		$options = array(
-			'htmlemail_settings',
-			'html_template',
-			'modify_html_email',
-		);
+		$options = $this->add_options_names( array() );
 		foreach ( $options as $key ) {
 			$data['modules'][ $key ] = ub_get_option( $key );
 		}

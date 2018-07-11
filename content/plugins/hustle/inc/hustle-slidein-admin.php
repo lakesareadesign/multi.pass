@@ -9,7 +9,7 @@ class Hustle_Slidein_Admin {
 	private $_hustle;
 	private $_email_services;
 
-	function __construct( Opt_In $hustle, Hustle_Email_Services $email_services ){
+	public function __construct( Opt_In $hustle, Hustle_Email_Services $email_services ){
 
 		$this->_hustle = $hustle;
 		$this->_email_services = $email_services;
@@ -26,7 +26,7 @@ class Hustle_Slidein_Admin {
 	 *
 	 * @since 1.0
 	 */
-	function register_admin_menu() {
+	public function register_admin_menu() {
 
 		// Optins
 		add_submenu_page( 'hustle', __("Slide-ins", Opt_In::TEXT_DOMAIN) , __("Slide-ins", Opt_In::TEXT_DOMAIN) , "manage_options", Hustle_Module_Admin::SLIDEIN_LISTING_PAGE,  array( $this, "render_slidein_listing" )  );
@@ -39,13 +39,13 @@ class Hustle_Slidein_Admin {
 	 *
 	 * @since 2.0
 	 */
-	function hide_unwanted_submenus(){
+	public function hide_unwanted_submenus(){
 		remove_submenu_page( 'hustle', Hustle_Module_Admin::SLIDEIN_WIZARD_PAGE );
 	}
 
-	function register_current_json( $current_array ){
+	public function register_current_json( $current_array ){
 
-		if( Hustle_Module_Admin::is_edit() && isset( $_GET['page'] ) && $_GET['page'] == Hustle_Module_Admin::SLIDEIN_WIZARD_PAGE ){
+		if( Hustle_Module_Admin::is_edit() && isset( $_GET['page'] ) && Hustle_Module_Admin::SLIDEIN_WIZARD_PAGE === $_GET['page'] ){
 
 			$module = Hustle_Module_Model::instance()->get( filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT) );
 			// $ss = Hustle_Social_Sharing_Model::instance()->get( filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT) );
@@ -73,7 +73,7 @@ class Hustle_Slidein_Admin {
 	 *
 	* @since 1.0
 	 */
-	function render_slidein_wizard_page( ) {
+	public function render_slidein_wizard_page() {
 
 		$module_id = filter_input( INPUT_GET, "id", FILTER_VALIDATE_INT );
 		$provider = filter_input( INPUT_GET, "provider" );
@@ -99,12 +99,12 @@ class Hustle_Slidein_Admin {
 	 *
 	* @since 3.0
 	 */
-	function check_free_version() {
-		if (  isset( $_GET['page'] ) && $_GET['page'] == Hustle_Module_Admin::SLIDEIN_WIZARD_PAGE ) {
+	public function check_free_version() {
+		if ( isset( $_GET['page'] ) && Hustle_Module_Admin::SLIDEIN_WIZARD_PAGE === $_GET['page'] ) {
 			$collection_args = array( 'module_type' => 'slidein' );
 			$total_slideins = count(Hustle_Module_Collection::instance()->get_all( null, $collection_args ));
-			if ( Opt_In_Utils::_is_free() && ! Hustle_Module_Admin::is_edit() && $total_slideins >= 1 ) {
-				wp_safe_redirect( 'admin.php?page=' . Hustle_Module_Admin::UPGRADE_PAGE );
+			if ( Opt_In_Utils::_is_free() && ! Hustle_Module_Admin::is_edit() && $total_slideins >= 3 ) {
+				wp_safe_redirect( 'admin.php?page=' . Hustle_Module_Admin::SLIDEIN_LISTING_PAGE . '&' . Hustle_Module_Admin::UPGRADE_MODAL_PARAM . '=true' );
 				exit;
 			}
 		}
@@ -115,7 +115,7 @@ class Hustle_Slidein_Admin {
 	 *
 	 * @since 2.0
 	 */
-	function render_slidein_listing(){
+	public function render_slidein_listing(){
 		$current_user = wp_get_current_user();
 		$new_module = isset( $_GET['module'] ) ? Hustle_Module_Model::instance()->get( intval($_GET['module'] ) ) : null;
 		$updated_module = isset( $_GET['updated_module'] ) ? Hustle_Module_Model::instance()->get( intval($_GET['updated_module'] ) ) : null;
@@ -125,7 +125,8 @@ class Hustle_Slidein_Admin {
 			'new_module' =>  $new_module,
 			'updated_module' =>  $updated_module,
 			'add_new_url' => admin_url("admin.php?page=hustle_slidein"),
-			'user_name' => ucfirst($current_user->display_name)
+			'user_name' => ucfirst($current_user->display_name),
+			'is_free' => Opt_In_Utils::_is_free()
 		));
 	}
 

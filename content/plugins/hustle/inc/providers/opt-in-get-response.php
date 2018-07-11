@@ -22,31 +22,32 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
 
 	protected  static $errors;
 
+	protected $id = self::ID;
 
-	static function instance(){
-		return new self;
+
+	/**
+	 * @return Opt_In_Provider_Interface|Opt_In_Provider_Abstract class
+	 */
+	public static function instance(){
+		return new self();
 	}
 
 	/**
-	 * Updates api option
+	 * Get Provider Details
+	 * General function to get provider details from database based on key
 	 *
-	 * @param $option_key
-	 * @param $option_value
-	 * @return bool
-	 */
-	function update_option($option_key, $option_value){
-		return update_site_option( self::ID . "_" . $option_key, $option_value);
-	}
-
-	/**
-	 * Retrieves api option from db
+	 * @param Hustle_Module_Model $module
+	 * @param String $field - the field name
 	 *
-	 * @param $option_key
-	 * @param $default
-	 * @return mixed
+	 * @return String
 	 */
-	function get_option($option_key, $default){
-		return get_site_option( self::ID . "_" . $option_key, $default );
+	protected static function _get_provider_details( Hustle_Module_Model $module, $field ) {
+		$details = '';
+		$name = self::ID;
+		if ( isset( $module->content->email_services[$name][$field] ) ) {
+ 			$details = $module->content->email_services[$name][$field];
+		}
+		return $details;
 	}
 
 	/**
@@ -141,7 +142,10 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
 						$module->add_meta( $meta_key, $custom_field_id );
 					}
 				}
-				$new_data['customFieldValues'][] = array( 'customFieldId' => $custom_field_id, 'value' => array( $value ) );
+				$new_data['customFieldValues'][] = array(
+					'customFieldId' => $custom_field_id,
+					'value' => array( $value ),
+				);
 			}
 		}
 
@@ -168,7 +172,7 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
 	 * @param $module_id
 	 * @return array
 	 */
-	function get_options( $module_id ){
+	public function get_options(){
 		$campains = self::api( $this->api_key )->get_campains();
 
 		if( is_wp_error( $campains ) )
@@ -214,7 +218,7 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
 	 * @param $module_id
 	 * @return array
 	 */
-	function get_account_options( $module_id ){
+	public function get_account_options( $module_id ){
 
 		$module     = Hustle_Module_Model::instance()->get( $module_id );
 		$api_key    = self::_get_api_key( $module );
@@ -258,27 +262,6 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
 		);
 	}
 
-	/**
-	 * Get Provider Details
-	 * General function to get provider details from database based on key
-	 *
-	 * @param Hustle_Module_Model $module
-	 * @param String $field - the field name
-	 *
-	 * @return String
-	 */
-	private static function _get_provider_details( Hustle_Module_Model $module, $field ) {
-		$details = '';
-		$name = self::ID;
-		if ( !is_null( $module->content->email_services )
-			&& isset( $module->content->email_services[$name] )
-			&& isset( $module->content->email_services[$name][$field] ) ) {
-
-			$details = $module->content->email_services[$name][$field];
-		}
-		return $details;
-	}
-
 	private static function _get_email_list( Hustle_Module_Model $module ) {
 		return self::_get_provider_details( $module, 'list_id' );
 	}
@@ -287,11 +270,11 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
 		return self::_get_provider_details( $module, 'api_key' );
 	}
 
-	function is_authorized(){
+	public function is_authorized(){
 		return true;
 	}
 
-	static function add_custom_field( $fields, $module_id ) {
+	public static function add_custom_field( $fields, $module_id ) {
 
 		$module     = Hustle_Module_Model::instance()->get( $module_id );
 		$api_key    = self::_get_api_key( $module );
@@ -300,7 +283,7 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
 		$api_fields = $api->get_custom_fields();
 
 		foreach ( $fields as $field ) {
-			$type = ! in_array( $field['type'], array( 'text', 'number' ) ) ? 'text' : $field['type'];
+			$type = ! in_array( $field['type'], array( 'text', 'number' ), true ) ? 'text' : $field['type'];
 			$key = $field['name'];
 			$exist = false;
 
@@ -314,7 +297,7 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
 					// Update meta
 					$module->add_meta( $meta_key, $custom_field_id );
 
-					if ( $name == $key ) {
+					if ( $name === $key ) {
 						$exist = true;
 					}
 				}
@@ -333,7 +316,10 @@ class Opt_In_Get_Response extends Opt_In_Provider_Abstract implements  Opt_In_Pr
 			}
 		}
 
-		return array( 'success' => true, 'field' => $field );
+		return array(
+			'success' => true,
+			'field' => $field,
+		);
 	}
 }
 

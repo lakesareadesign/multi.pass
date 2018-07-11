@@ -3,7 +3,7 @@
 Plugin Name: Hustle Pro
 Plugin URI: https://premium.wpmudev.org/project/hustle/
 Description: Start collecting email addresses and quickly grow your mailing list with big bold pop-ups, slide-ins, widgets, or in post opt-in forms.
-Version: 3.0.3
+Version: 3.0.4
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org
 WDP ID: 1107020
@@ -36,14 +36,17 @@ if ( ! function_exists( 'hustle_activated_deactivated' ) ) {
 		if ( get_site_option( 'hustle_free_deactivated' ) && is_super_admin() ) { ?>
 			<div class="notice notice-success is-dismissible">
 				<p><?php esc_html_e( 'Congratulations! You have activated Hustle Pro! We have automatically deactivated the free version.', 'hustle' ); ?></p>
-			</div> <?php
+			</div>
+		<?php
 			delete_site_option( 'hustle_free_deactivated' );
 		}
 		// for Free
-		if ( get_site_option( 'hustle_free_activated' ) && is_super_admin() ) { ?>
+		if ( get_site_option( 'hustle_free_activated' ) && is_super_admin() ) {
+			?>
 			<div class="notice notice-error is-dismissible">
 				<p><?php esc_html_e( 'You already have Hustle Pro activated. If you really wish to go back to the free version of Hustle, please deactivate the Pro version first.', 'hustle' ); ?></p>
-			</div> <?php
+			</div>
+			<?php
 			delete_site_option( 'hustle_free_activated' );
 		}
 	}
@@ -59,10 +62,10 @@ if ( ! function_exists( 'hustle_activated' ) ) {
 			// deactivate free version
 			deactivate_plugins( 'wordpress-popup/popover.php' );
 
-			if ( $plugin == 'hustle/opt-in.php' ) {
+			if ( 'hustle/opt-in.php' === $plugin ) {
 				//Store in database about free version deactivated, in order to show a notice on page load
 				update_site_option( 'hustle_free_deactivated', 1 );
-			} else if ( $plugin == 'wordpress-popup/popover.php' ) {
+			} else if ( 'wordpress-popup/popover.php' === $plugin ) {
 				//Store in database about free version being activated even pro is already active
 				update_site_option( 'hustle_free_activated', 1 );
 			}
@@ -106,7 +109,7 @@ if( !class_exists( "Opt_In" ) ):
 
 class Opt_In extends Opt_In_Static{
 
-	const VERSION = "3.0.3";
+	const VERSION = "3.0.4";
 
 	const TEXT_DOMAIN = "hustle";
 
@@ -122,12 +125,18 @@ class Opt_In extends Opt_In_Static{
 
 	protected $_providers = array(
 		array(
+			"id" => "zapier",
+			"name" => "Zapier",
+			"file_name" => "opt-in-zapier.php",
+			"class_name" => "Opt_In_Zapier",
+		),
+		array(
 			"id" => "aweber",
 			"name" => "AWeber",
 			"file_name" => "opt-in-aweber.php",
 			"class_name" => "Opt_In_Aweber"
 		),
-	   array(
+		array(
 			"id" => "activecampaign",
 			"name" => "ActiveCampaign",
 			"file_name" => "opt-in-activecampaign.php",
@@ -211,22 +220,28 @@ class Opt_In extends Opt_In_Static{
 			"file_name" => "opt-in-mailerlite.php",
 			"class_name" => "Opt_In_MailerLite",
 		),
-
 		array(
 			"id" => "icontact",
 			"name" => "IContact",
 			"file_name" => "opt-in-icontact.php",
 			"class_name" => "Opt_In_IContact",
 		),
+		array(
+			"id" => "sendgrid",
+			"name" => "SendGrid",
+			"file_name" => "opt-in-sendgrid.php",
+			"class_name" => "Opt_In_SendGrid",
+		),
 	);
 
 	/**
 	 * @var $_skip_providers array
-	 * these providers will be skipped on PHP version lower than 5.3
+	 * these providers will be skipped on PHP version lower than certain version
 	 */
 	protected $_skip_providers = array(
-		'mautic',
-		'constantcontact'
+		'mautic' => '5.3',
+		'constantcontact' => '5.3',
+		'sendgrid' => '5.6',
 	);
 
 	/**
@@ -240,7 +255,7 @@ class Opt_In extends Opt_In_Static{
 	 *
 	 * @since 1.0.0
 	 */
-	function __construct(){
+	public function __construct(){
 
 		self::$plugin_base_file = plugin_basename( __FILE__ );
 		self::$plugin_url = plugin_dir_url( self::$plugin_base_file );
@@ -265,7 +280,7 @@ class Opt_In extends Opt_In_Static{
 	 *
 	 * @param Hustle_Email_Services $email_services
 	 */
-	function set_email_services( Hustle_Email_Services $email_services){
+	public function set_email_services( Hustle_Email_Services $email_services){
 		self::$_email_services = $email_services;
 	}
 
@@ -310,7 +325,7 @@ class Opt_In extends Opt_In_Static{
 	 *
 	 * @return array
 	 */
-	function get_providers(){
+	public function get_providers(){
 		return self::$_registered_providers;
 	}
 
@@ -323,9 +338,9 @@ class Opt_In extends Opt_In_Static{
 	 * @since 1.0.0
 	 */
 	public static function get_provider_by_id( $id ){
-		if('test' == $id ) return false;
+		if('test' === $id ) return false;
 
-		return  self::$_registered_providers !== array() && isset( self::$_registered_providers[$id],  self::$_registered_providers[$id]['class'])  ?  self::$_registered_providers[$id]['class']  : false;
+		return  array() !== self::$_registered_providers && isset( self::$_registered_providers[$id],  self::$_registered_providers[$id]['class'])  ?  self::$_registered_providers[$id]['class']  : false;
 	}
 	/**
 	 * Loads text domain
@@ -344,7 +359,7 @@ class Opt_In extends Opt_In_Static{
 	 * @param $class
 	 * @return bool
 	 */
-	function autoload( $class ) {
+	public function autoload( $class ) {
 
 		$dirs = array("inc", "inc/providers", "inc/display-conditions", "inc/popup", "inc/slidein", "inc/embed", "inc/sshare");
 
@@ -379,7 +394,7 @@ class Opt_In extends Opt_In_Static{
 
 		foreach ( $this->_providers as $provider) {
 
-			if ( ( version_compare( PHP_VERSION, '5.3', '<' ) && in_array( $provider['id'], $this->_skip_providers ) ) ) {
+			if( !empty( $this->_skip_providers[ $provider['id'] ] ) && version_compare( PHP_VERSION, $this->_skip_providers[ $provider['id'] ], '<' ) ) {
 				continue;
 			}
 
@@ -406,8 +421,7 @@ class Opt_In extends Opt_In_Static{
 	 * @param bool|false $return
 	 * @return string
 	 */
-	public function render( $file, $params = array(), $return = false )
-	{
+	public function render( $file, $params = array(), $return = false ) {
 //        $params = array_merge( array('self' => $this), $params );
 		/**
 		 * assign $file to a variable which is unlikely to be used by users of the method
@@ -429,7 +443,7 @@ class Opt_In extends Opt_In_Static{
 		}else{
 			$template_path = self::$template_path . $Opt_In_To_Be_File_Name . '.php';
 
-			if ( file_exists( $template_path ) ) include( $template_path );
+			if ( file_exists( $template_path ) ) include $template_path;
 		}
 
 		if($return){
@@ -453,8 +467,7 @@ class Opt_In extends Opt_In_Static{
 	 * @param bool|false $return
 	 * @return string
 	 */
-	public static function static_render( $file, $params = array(), $return = false )
-	{
+	public static function static_render( $file, $params = array(), $return = false ) {
 		$params = array_merge( $params );
 		/**
 		 * assign $file to a variable which is unlikely to be used by users of the method
@@ -467,11 +480,11 @@ class Opt_In extends Opt_In_Static{
 		}
 
 
-		$template_file = trailingslashit( Opt_In::$plugin_path ) . Opt_In::VIEWS_FOLDER . "/" . $Opt_In_To_Be_File_Name . '.php';
+		$template_file = trailingslashit( self::$plugin_path ) . self::VIEWS_FOLDER . "/" . $Opt_In_To_Be_File_Name . '.php';
 		if( file_exists( $template_file ) ){
 			include $template_file;
 		}else{
-			include( Opt_In::$template_path . $Opt_In_To_Be_File_Name . '.php' );
+			include self::$template_path . $Opt_In_To_Be_File_Name . '.php';
 		}
 
 		if($return){
@@ -496,7 +509,7 @@ class Opt_In extends Opt_In_Static{
 	}
 
 
-	function current_page_type() {
+	public function current_page_type() {
 		/**
 		 * @var $wp_query WP_Query
 		 */
@@ -612,7 +625,7 @@ class Opt_In extends Opt_In_Static{
 			// loop through each style and split apart the key from the value
 			$count = count($a_styles);
 			for ($a=0;$a<$count;$a++) {
-				if (trim($a_styles[$a]) != '') {
+				if ( trim($a_styles[$a]) ) {
 					$a_key_value = explode(':', $a_styles[$a]);
 					// build the master css array
 					if ( count($a_key_value) > 2 ) {
@@ -724,7 +737,7 @@ class Opt_In extends Opt_In_Static{
 			'selected' => 1,
 			'typemustmatch' => 1,
 		);
-		if( $htmlOptions === array() )
+		if( array() === $htmlOptions )
 			return '';
 
 		$html='';
@@ -745,7 +758,7 @@ class Opt_In extends Opt_In_Static{
 					$html .= '="' . $name . '"';
 				}
 			}
-			elseif( $value!==null )
+			elseif( null !== $value )
 				$html .= ' ' . $name . '="' . ($raw ? $value : esc_attr($value) ) . '"';
 		}
 

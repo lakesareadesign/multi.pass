@@ -28,6 +28,13 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		 */
 		private $tab = 'dashboard';
 
+		/**
+		 * base URL
+		 *
+		 * @since 2.1.0
+		 */
+		private $base_url = null;
+
 		public function __construct() {
 			ub_set_ub_version();
 			global $ub_version;
@@ -118,10 +125,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 							switch ( $key ) {
 								case 'favicons.php': ub_update_option( 'ub_favicon_dir', get_option( 'ub_favicon_dir' ) );
 									ub_update_option( 'ub_favicon_url', get_option( 'ub_favicon_url' ) );
-							break;
-								case 'login-image.php': ub_update_option( 'ub_login_image_dir', get_option( 'ub_login_image_dir' ) );
-									ub_update_option( 'ub_login_image_url', get_option( 'ub_login_image_url' ) );
-							break;
+								break;
 								case 'image-upload-size.php':
 									$roles = wp_roles()->get_names();
 									foreach ( $roles as $role ) {
@@ -152,8 +156,6 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 								case 'custom-login-css.php': ub_update_option( 'global_login_css', get_option( 'global_login_css' ) );
 								break;
 								case 'custom-admin-css.php': ub_update_option( 'global_admin_css', get_option( 'global_admin_css' ) );
-								break;
-								case 'admin-message.php': ub_update_option( 'admin_message', get_site_option( 'admin_message' ) );
 								break;
 							}
 						}
@@ -430,13 +432,20 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			if ( ! preg_match( '/^(de)?activate$/', $action ) ) {
 				return;
 			}
+			$modules = array();
 			foreach ( $_POST['module'] as $module ) {
 				switch ( $action ) {
 					case 'activate':
-						$this->activate_module( $module );
+						$result = $this->activate_module( $module );
+						if ( $result && isset( $this->configuration[ $module ] ) ) {
+							$modules[] = $this->configuration[ $module ]['name'];
+						}
 					break;
 					case 'deactivate':
-						$this->deactivate_module( $module );
+						$result = $this->deactivate_module( $module );
+						if ( $result && isset( $this->configuration[ $module ] ) ) {
+							$modules[] = $this->configuration[ $module ]['name'];
+						}
 					break;
 				}
 			}
@@ -445,18 +454,43 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			if ( 'activate' === $action ) {
 				$message = array(
 					'class' => 'success',
-					'message' => __( 'Modules was successfully activated.', 'ub' ),
+					'message' => sprintf(
+						_n(
+							'Module %s was successfully activated.',
+							'Modules %s was successfully activated.',
+							count( $modules ),
+							'ub'
+						),
+						implode( ', ', array_map( array( $this, 'bold' ), $modules ) )
+					),
 				);
 			} else if ( 'deactivate' === $action ) {
 				$message = array(
 					'class' => 'success',
-					'message' => __( 'Modules was deactivated without errors.', 'ub' ),
+					'message' => sprintf(
+						_n(
+							'Module %s was deactivated without errors.',
+							'Modules %s was deactivated without errors.',
+							count( $modules ),
+							'ub'
+						),
+						implode( ', ', array_map( array( $this, 'bold' ), $modules ) )
+					),
 				);
 			}
 			if ( ! empty( $message ) && ! in_array( $message, $messages ) ) {
 				$messages[] = $message;
 				ub_update_option( 'ultimatebranding_messages', $messages );
 			}
+		}
+
+		/**
+		 * add bold
+		 *
+		 * @since 2.1.0
+		 */
+		private function bold( $a ) {
+			return sprintf( '"<b>%s</b>"', $a );
 		}
 
 		/**
@@ -632,7 +666,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 			echo '<div class="wrap nosubsub ultimate-branding">';
 			printf( '<h1>%s</h1>', esc_html__( 'Ultimate Branding', 'ub' ) );
 			echo '<nav class="tabs">';
-			echo '<ul class="-primary">';
+			echo '<ul class="ub-primary">';
 			$base_url = $this->get_base_url();
 			/**
 			 * dashboard link
@@ -1050,7 +1084,8 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		 * @since 1.8.7
 		 */
 		private function set_configuration() {
-			$this->configuration = ub_get_modules_list();
+			$modules = ub_get_modules_list();
+			$this->configuration = apply_filters( 'ultimatebranding_available_modules', $modules );
 			/**
 			 * add key to data
 			 */
@@ -1185,19 +1220,21 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		 * @since 1.8.8
 		 */
 		private function get_base_url() {
-			global $page;
-			if ( empty( $page ) ) {
-				if ( isset( $_REQUEST['page'] ) ) {
-					$page = esc_html( $_REQUEST['page'] );
+			if ( empty( $this->base_url ) ) {
+				global $page;
+				if ( empty( $page ) ) {
+					if ( isset( $_REQUEST['page'] ) ) {
+						$page = esc_html( $_REQUEST['page'] );
+					}
 				}
+				$this->base_url = add_query_arg(
+					array(
+						'page' => $page,
+					),
+					is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' )
+				);
 			}
-			$base_url = add_query_arg(
-				array(
-					'page' => $page,
-				),
-				is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' )
-			);
-			return $base_url;
+			return $this->base_url;
 		}
 
 		/**
@@ -1300,16 +1337,11 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 				/**
 				 * Get plugin data
 				 */
-				$module_data = array( 'Name' => 'Plugin Name' );
-				$file = false;
-				if ( isset( $this->modules[ $_POST['module'] ] ) ) {
-					$file = ub_files_dir( 'modules/' . $_POST['module'] );
-					if ( ! is_file( $file ) ) {
-						$file = ub_files_dir( 'modules/' . $this->modules[ $_POST['module'] ] );
-					}
-					if ( is_file( $file ) ) {
-						$module_data = get_file_data( $file, $module_data, 'plugin' );
-					}
+				$module_data = array(
+					'name' => __( 'Unknown', 'ub' ),
+				);
+				if ( isset( $this->configuration[ $_POST['module'] ] ) ) {
+					$module_data = $this->configuration[ $_POST['module'] ];
 				}
 				/**
 				 * try to activate or deactivate
@@ -1321,7 +1353,7 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 							'class' => 'success',
 							'message' => sprintf(
 								__( 'Module "%s" was activated successfully.', 'ub' ),
-								sprintf( '<strong>%s</strong>', $module_data['Name'] )
+								sprintf( '<strong>%s</strong>', $module_data['name'] )
 							),
 						);
 					}
@@ -1332,7 +1364,7 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 							'class' => 'success',
 							'message' => sprintf(
 								__( 'Module "%s" was deactivated without errors.', 'ub' ),
-								sprintf( '<strong>%s</strong>', $module_data['Name'] )
+								sprintf( '<strong>%s</strong>', $module_data['name'] )
 							),
 						);
 					}
@@ -1365,6 +1397,15 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 				$bn = $b['page_title'];
 			}
 			return strcmp( $an, $bn );
+		}
+
+		/**
+		 * Get tab url
+		 */
+		public function get_tab_url( $tab ) {
+			$base_url = $this->get_base_url();
+			$url = add_query_arg( 'tab', $data['tab'], $base_url );
+			return $url;
 		}
 	}
 }

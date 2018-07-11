@@ -158,8 +158,8 @@
 
 			this.$el.appendTo(this.parent);
 			this.$el.display = $.proxy( this, 'display' );
-			this.$el.on( 'show', $.proxy( this, 'on_module_show' ) );
-			this.$el.on( 'hide', $.proxy( this, 'on_module_hide' ) );
+			this.$el.on( 'hustle_show', $.proxy( this, 'on_module_show' ) );
+			this.$el.on( 'hustle_hide', $.proxy( this, 'on_module_hide' ) );
 			this.$el.data(this.data);
 			this.html = this.$el.html();
 
@@ -198,7 +198,7 @@
 
 			this.$el.removeClass( this.settings.animation_out );
 			this.add_mask();
-			this.$el.trigger( 'show', this );
+			this.$el.trigger( 'hustle_show', this );
 			// Add escape key listener.
 			$(document).on( 'keydown', $.proxy( this.escape_key, this ) );
 
@@ -209,12 +209,14 @@
 					data_type = ( typeof this.data.type !== 'undefined' )
 						? this.data.type
 						: this.data.module_type;
-				if ( after_submit === 'close' ) {
+				if ( after_submit === 'close' || after_submit === 'default' ) {
                // Fix for CF7.
 					if(this.$el.find( "form.wpcf7-form" ).length > 0 ) {
-						document.addEventListener( 'wpcf7mailsent', function( event ) {
-							me.close();
-						}, false );
+						this.$el.on( 'wpcf7mailsent', function( e ){
+							setTimeout( function() {
+									me.close();
+								}, 2000 );
+							});
 					} else {
 						this.$el.find( "form" ).on("submit", _.bind( this.close, this ) );
 					}
@@ -230,8 +232,8 @@
 
 		add_mask: function() {
 			var me = this,
-			  no_scroll = _.isFalse(this.settings.allow_scroll_page),
-			  no_bg_click = _.isFalse(this.settings.not_close_on_background_click);
+			  no_scroll = ! _.isTrue(this.settings.allow_scroll_page),
+			  no_bg_click = ! _.isTrue(this.settings.not_close_on_background_click);
 
 			if (
 				// Only add mask to popups.
@@ -355,12 +357,17 @@
 
 			// handle per session
 			if ( _.isTrue( this.triggers.on_exit_intent_per_session ) ) {
-				$(doc).one("mouseleave", _.debounce( function(e){
-					me.set_exit_timer();
+				$(doc).on("mouseleave", _.debounce( function(e){
+					if(!$('input').is(':focus')) {
+						me.set_exit_timer();
+						$( this ).off( e );
+					}
 				}, 300 ));
 			} else {
 				$(doc).on("mouseleave", _.debounce( function(e){
-					me.set_exit_timer();
+					if(!$('input').is(':focus')) {
+						me.set_exit_timer();
+					}
 				}, 300 ));
 			}
 
@@ -482,6 +489,9 @@
 				if ( this.data.settings.animation_out === 'bounceOut' ) {
 					time_out = 755;
 				}
+				if ( this.data.settings.animation_out.length === 0 || this.data.settings.animation_out === 'no_animation' ) {
+					time_out = 0;
+				}
 
 				setTimeout(function(){
 					me.$el.removeClass('wph-modal-active');
@@ -491,8 +501,10 @@
 			}
 
 			if ($modal.hasClass('hustle-modal-static')) {
-				$modal.removeClass('hustle-modal-static').hide();
-				me.$el.removeClass('wph-modal-active').hide();
+				setTimeout(function(){
+					$modal.removeClass('hustle-modal-static');
+					me.$el.removeClass('wph-modal-active');
+				}, 0);
 			}
 
 			// Allow scrolling if previously disabled.
@@ -508,6 +520,9 @@
 			} else if ( this.settings.after_close === 'no_show_all' ) {
 				Optin.cookie.set( this.cookie_key, this.module_id, this.expiration_days );
 			}
+			$modal.find("iframe").each( function(){
+				$( this ).attr("src", $( this ).attr("src"));
+			});
 		},
 		escape_key: function(e) {
 			// If escape key, close.

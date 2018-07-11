@@ -1,6 +1,6 @@
 var Module = window.Module || {};
 
-Hustle.define("Model", function() {
+Hustle.define("Model", function($) {
 	"use strict";
 
 	return Backbone.Model.extend({
@@ -96,7 +96,7 @@ Module.Model  = Hustle.get("Models.M").extend({
 	defaults: {
 		module_name: '',
 		module_type: 'popup',
-		active: 1,
+		active: 0,
 		test_mode: 0
 	}
 });

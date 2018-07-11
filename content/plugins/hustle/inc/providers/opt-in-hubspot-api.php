@@ -26,17 +26,17 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		/**
 		* @var bool
 		*/
-		var $is_error = false;
+		public $is_error = false;
 
 		/**
 		* @var string
 		*/
-		var $error_message;
+		public $error_message;
 
 		/**
 		* @var boolean
 		*/
-		var $sending = false;
+		public $sending = false;
 
 		/**
 		* Opt_In_HubSpot_Api constructor.
@@ -52,7 +52,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		/**
 		* Helper function to listen to request callback sent from WPMUDEV
 		*/
-		function process_callback_request() {
+		public function process_callback_request() {
 			if ( $this->validate_callback_request( 'hubspot' ) ) {
 				$code 			= filter_input( INPUT_GET, 'code', FILTER_SANITIZE_STRING );
 				// Get the referer page that sent the request
@@ -69,7 +69,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 				// Allow retry but don't log referrer
 				$authorization_uri = $this->get_authorization_uri( false, false, $current_page );
 
-				$this->wp_die( __( 'Hubspot integration failed!', Opt_In::TEXT_DOMAIN ), $authorization_uri, $referer );
+				$this->wp_die( esc_attr__( 'Hubspot integration failed!', Opt_In::TEXT_DOMAIN ), esc_url( $authorization_uri ), esc_url( $referer ) );
 			}
 		}
 
@@ -78,7 +78,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return bool|mixed
 		*/
-		function get_token( $key ) {
+		public function get_token( $key ) {
 			$auth = $this->get_auth_token();
 
 			if ( ! empty( $auth ) && ! empty( $auth[ $key ] ) )
@@ -93,7 +93,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return string
 		*/
-		function get_redirect_uri() {
+		public function get_redirect_uri() {
 			return $this->_get_redirect_uri(
 				'hubspot',
 				'authorize',
@@ -101,7 +101,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 			);
 		}
 
-		function refresh_access_token() {
+		public function refresh_access_token() {
 			$args = array(
 				'grant_type' => 'refresh_token',
 				'refresh_token' => $this->get_token( 'refresh_token' ),
@@ -116,7 +116,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		* @param array $args
 		* @return bool
 		*/
-		function get_access_token( array $args ) {
+		public function get_access_token( array $args ) {
 			$args = wp_parse_args ( $args, array(
 				'redirect_uri' => $this->get_redirect_uri(),
 				'grant_type' => 'authorization_code',
@@ -157,7 +157,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return mixed
 		*/
-		function _request( $endpoint, $method = 'GET', $query_args = array(), $access_token = '', $x_www = false, $json = false ) {
+		public function _request( $endpoint, $method = 'GET', $query_args = array(), $access_token = '', $x_www = false, $json = false ) {
 			// Avoid multiple call at once
 			if ( $this->sending )
 				return false;
@@ -173,7 +173,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 			$args = wp_parse_args( $args, $query_args );
 
 			if ( ! $x_www && $json )
-				$args = json_encode($args);
+				$args = wp_json_encode($args);
 
 			$_args = array(
 				'method' => $method,
@@ -184,7 +184,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 				'body' => $args,
 			);
 
-			if ( 'POST' == $method && $x_www )
+			if ( 'POST' === $method && $x_www )
 				$_args['headers']['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
 
 			$response = wp_remote_request( $url, $_args );
@@ -195,7 +195,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 				$body = json_decode( wp_remote_retrieve_body( $response ) );
 
 				if ( $response['response']['code'] <= 204
-					|| isset( $body->status ) && 'error' == $body->status )
+					|| isset( $body->status ) && 'error' === $body->status )
 					return $body;
 			}
 			return $response;
@@ -210,7 +210,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return mixed
 		*/
-		function send_authenticated_post( $end_point, $query_args = array(), $x_www = false, $json = false ) {
+		public function send_authenticated_post( $end_point, $query_args = array(), $x_www = false, $json = false ) {
 			$access_token = $this->get_token( 'access_token' );
 			return $this->_request( $end_point, 'POST', $query_args, $access_token, $x_www, $json );
 		}
@@ -223,7 +223,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return mixed
 		*/
-		function send_authenticated_get( $endpoint, $query_args = array() ) {
+		public function send_authenticated_get( $endpoint, $query_args = array() ) {
 			$access_token = $this->get_token( 'access_token' );
 			return $this->_request( $endpoint, 'GET', $query_args, $access_token );
 		}
@@ -233,7 +233,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return array|null
 		*/
-		function get_auth_token() {
+		public function get_auth_token() {
 			return is_multisite() ? get_site_option( $this->option_name ) : get_option( $this->option_name );
 		}
 
@@ -243,7 +243,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		* @param array $token
 		* @return void
 		*/
-		function update_auth_token( array $token ) {
+		public function update_auth_token( array $token ) {
 			if ( is_multisite() )
 				update_site_option( $this->option_name, $token );
 			else
@@ -253,14 +253,14 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		/**
 		* @return bool
 		*/
-		function is_authorized() {
+		public function is_authorized() {
 			$auth = $this->get_auth_token();
 
 			if ( empty( $auth ) )
 				return false;
 
 			// Attempt to refresh token
-			return $refresh = $this->refresh_access_token();
+			return $this->refresh_access_token();
 		}
 
 		/**
@@ -270,7 +270,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return string
 		*/
-		function get_authorization_uri( $module_id = 0, $log_referrer = true, $page = 'hustle_embedded' ) {
+		public function get_authorization_uri( $module_id = 0, $log_referrer = true, $page = 'hustle_embedded' ) {
 			$args = array(
 				'client_id' => self::CLIENT_ID,
 				'scope' => 'contacts',
@@ -299,7 +299,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return array
 		*/
-		function get_contact_list() {
+		public function get_contact_list() {
 			$listing = array();
 
 			$args = array(
@@ -310,7 +310,10 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 
 			if ( ! is_wp_error( $res ) && ! empty( $res->lists ) )
 				foreach ( $res->lists as $list )
-					$listing[ $list->listId ] = array( 'value' => $list->listId, 'label' => $list->name );
+					$listing[ $list->listId ] = array(
+						'value' => $list->listId,
+						'label' => $list->name,
+					);
 
 			return $listing;
 		}
@@ -322,7 +325,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return bool|mixed
 		*/
-		function email_exists( $email ) {
+		public function email_exists( $email ) {
 			$args = array( 'showListMemberships' => true );
 			$endpoint = 'contacts/v1/contact/email/' . $email . '/profile';
 
@@ -339,7 +342,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return array
 		*/
-		function get_properties() {
+		public function get_properties() {
 			$properties = array();
 			$res = $this->send_authenticated_get( 'properties/v1/contacts/properties' );
 			if ( ! is_wp_error( $res ) && ! isset( $res->status ) )
@@ -356,7 +359,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return bool
 		*/
-		function add_property( array $property ) {
+		public function add_property( array $property ) {
 			$res = $this->send_authenticated_post( 'properties/v1/contacts/properties', $property, false, true );
 
 			return ! is_wp_error( $res ) && ! empty( $res->name );
@@ -369,16 +372,19 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return mixed
 		*/
-		function add_contact( $data ) {
+		public function add_contact( $data ) {
 			$props = array();
 
 			foreach ( $data as $key => $value ) {
-				if ( 'first_name' == $key || 'f_name' == $key )
+				if ( 'first_name' === $key || 'f_name' === $key )
 					$key = 'firstname';
-				if ( 'last_name' == $key || 'l_name' == $key )
+				if ( 'last_name' === $key || 'l_name' === $key )
 					$key = 'lastname';
 
-				$props[] = array( 'property' => $key, 'value' => $value );
+				$props[] = array(
+					'property' => $key,
+					'value' => $value,
+				);
 			}
 
 			$args = array( 'properties' => $props );
@@ -400,7 +406,7 @@ if( !class_exists("Opt_In_HubSpot_Api") ):
 		*
 		* @return bool|mixed
 		*/
-		function add_to_contact_list( $contact_id, $email, $email_list ) {
+		public function add_to_contact_list( $contact_id, $email, $email_list ) {
 			$args = array(
 				'listId' => $email_list,
 				'vid' => array( $contact_id ),

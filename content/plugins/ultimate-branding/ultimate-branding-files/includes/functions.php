@@ -353,7 +353,7 @@ function set_ultimate_branding( $base ) {
 }
 
 function ub_enqueue_switch_button() {
-	wp_enqueue_script( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/js/vendor/jquery.switch_button.js' ), array( 'jquery', 'jquery-effects-core' ), '1.12.1' );	   	 		 		 	   		
+	wp_enqueue_script( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/js/vendor/jquery.switch_button.js' ), array( 'jquery', 'jquery-effects-core' ), '1.12.1' );
 	wp_enqueue_style( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/css/vendor/jquery.switch_button.css' ), array(), '1.12.1' );
 	$i18n = array(
 		'labels' => array(
@@ -383,4 +383,29 @@ function ub_get_main_site_ID() {
 		$mainblogid = get_main_site_for_network();
 	}
 	return $mainblogid;
+}
+
+/**
+ * register_deactivation_hook
+ *
+ * @since 2.1.0
+ */
+function ub_register_deactivation_hook() {
+	/**
+	 * add global options
+	 */
+	$options = array(
+		'ultimate_branding_messages',
+		'ultimatebranding_activated_modules',
+	);
+	$modules = ub_get_modules_list( 'keys' );
+	foreach ( $modules as $module ) {
+		include_once( ub_files_dir( 'modules/' . $module ) );
+	}
+	$options = apply_filters( 'ultimate_branding_options_names', $options );
+	foreach ( $options as $option_name ) {
+		delete_option( $option_name );
+		delete_site_option( $option_name );
+	}
+	do_action( 'ultimatebranding_deactivate_plugin', $options );
 }

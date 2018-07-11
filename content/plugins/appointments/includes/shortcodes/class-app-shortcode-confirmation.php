@@ -143,7 +143,9 @@ class App_Shortcode_Confirmation extends App_Shortcode {
 			<fieldset class="<?php echo esc_attr( $gdpr_checkbox_show? 'check-gdpr-agree':'' ); ?>">
 				<legend><?php echo $args['title']; ?></legend>
 				<div class="appointments-confirmation-service"></div>
+				<div class="appointments-confirmation-service_location" style="display:none"></div>
 				<div class="appointments-confirmation-worker" style="display:none"></div>
+				<div class="appointments-confirmation-worker_location" style="display:none"></div>
 				<div class="appointments-confirmation-start"></div>
 				<div class="appointments-confirmation-end"></div>
 				<div class="appointments-confirmation-price" style="display:none"></div>
@@ -200,7 +202,7 @@ class App_Shortcode_Confirmation extends App_Shortcode {
 <?php if ( $gdpr_checkbox_show ) { ?>
 				<div class="appointments-gdpr-confirmation">
 					<label data-alert="<?php echo esc_attr( appointments_get_option( 'gdpr_checkbox_alert' ) ); ?>">
-						<input type="checkbox" class="appointments-gdpr-agree" id="<?php echo esc_attr( apply_filters( 'app-shortcode-confirmation-gdpr_field_id', 'appointments-field-gdpr-agree' ) ); ?>" />&nbsp;<?php echo esc_html( appointments_get_option( 'gdpr_checkbox_text' ) ); ?><b class="required">*</b>
+						<input type="checkbox" class="appointments-gdpr-agree" id="<?php echo esc_attr( apply_filters( 'app-shortcode-confirmation-gdpr_field_id', 'appointments-field-gdpr-agree' ) ); ?>" /><b class="required">*</b>&nbsp;<?php echo esc_html( appointments_get_option( 'gdpr_checkbox_text' ) ); ?>
 					</label>
 				</div>
 <?php } ?>

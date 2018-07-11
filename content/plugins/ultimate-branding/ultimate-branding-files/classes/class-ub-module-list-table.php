@@ -30,16 +30,17 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
 
 class UB_Module_List_Table extends WP_List_Table {
 
-	private $modules;
+	private $modules = array();
 	private $totals = array(
 		'all' => 0,
 		'active' => 0,
 		'inactive' => 0,
 	);
-	private $configuration;
+	private $configuration = array();
+	private $base_url = '';
 
 	public function __construct( $args = array() ) {
-		global $status;
+		global $status, $page;
 		parent::__construct( array(
 			'singular' => 'module',
 			'plural' => 'modules',
@@ -51,6 +52,20 @@ class UB_Module_List_Table extends WP_List_Table {
 			$status = $_REQUEST['module_status'];
 		}
 		ub_enqueue_switch_button();
+		/**
+		 * set base_url
+		 */
+		if ( empty( $page ) ) {
+			if ( isset( $_REQUEST['page'] ) ) {
+				$page = esc_html( $_REQUEST['page'] );
+			}
+		}
+		$this->base_url = add_query_arg(
+			array(
+				'page' => $page,
+			),
+			is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' )
+		);
 	}
 
 	public function get_columns() {
@@ -65,7 +80,9 @@ class UB_Module_List_Table extends WP_List_Table {
 	public function prepare_items() {
 		$columns = $this->get_columns();
 		$this->_column_headers = array( $columns, array(), array() );
-		$this->configuration = ub_get_modules_list();
+		if ( empty( $this->configuration ) ) {
+			$this->configuration = ub_get_modules_list();
+		}
 		/**
 		 * set fake navigation
 		 */
@@ -78,18 +95,12 @@ class UB_Module_List_Table extends WP_List_Table {
 	}
 
 	public function set_modules( $modules ) {
+		if ( empty( $this->configuration ) ) {
+			$this->configuration = ub_get_modules_list();
+		}
 		global $status;
 		$search = ( isset( $_REQUEST['s'] ) ) ? $_REQUEST['s'] : false;
 		$this->process_bulk_action();
-		/**
-		 * Do not translate this table, it have file placeholders to read
-		 */
-		$default_headers = array(
-			'author_uri' => 'Author URI',
-			'author' => 'Author',
-			'description' => 'Description',
-			'name' => 'Plugin Name',
-		);
 		$this->modules = $modules;
 		$this->items = array();
 		/**
@@ -105,10 +116,15 @@ class UB_Module_List_Table extends WP_List_Table {
 				continue;
 			}
 			$this->totals['all']++;
-			$module_data = get_file_data( $file, $default_headers, 'plugin' );
+			$module_data['tab'] = isset( $this->configuration[ $module ]['tab'] )? $this->configuration[ $module ]['tab']:false;
+			$module_data['name'] = $this->configuration[ $module ]['name'];
+			$module_data['description'] = $this->configuration[ $module ]['description'];
 			$module_data['module'] = $module;
 			$module_data['plugin'] = $plugin;
 			$module_data['is_active'] = ub_is_active_module( $module );
+			if ( empty( $module_data['name'] ) ) {
+				$module_data['name'] = $module;
+			}
 			if ( $module_data['is_active'] ) {
 				$this->totals['active']++;
 			} else {
@@ -123,8 +139,6 @@ class UB_Module_List_Table extends WP_List_Table {
 					if (
 						preg_match( $search, $module_data['name'] )
 						|| preg_match( $search, $module_data['description'] )
-						|| preg_match( $search, $module_data['author'] )
-						|| preg_match( $search, $module_data['author_uri'] )
 					) {
 						$this->items[ $module_data['name'] ] = $module_data;
 					}
@@ -137,11 +151,15 @@ class UB_Module_List_Table extends WP_List_Table {
 	}
 
 	public function column_title( $item ) {
-		$content = '<strong>';
-		$content .= $item['name'];
-		$content .= '</strong>';
+		global $ubadmin;
+		$string = '<strong>%s</strong>';
+		if ( $item['is_active'] && ! empty( $item['tab'] ) ) {
+			$url = add_query_arg( 'tab', $item['tab'], $this->base_url );
+			$string = sprintf( $string, sprintf( '<a href="%s">%%s</a>', esc_url( $url ) ) );
+		}
+		$content = sprintf( $string, $item['name'] );
 		$content .= sprintf(
-			'<p class="Description">%s</p>',
+			'<p class="description">%s</p>',
 			$item['description']
 		);
 		return $content;

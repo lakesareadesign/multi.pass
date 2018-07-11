@@ -24,37 +24,37 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
 
 	protected  static $errors;
 
+	protected $id = self::ID;
 
-	static function instance(){
-		return new self;
+	/**
+	 * @return Opt_In_Provider_Interface|Opt_In_Provider_Abstract class
+	 */
+	public static function instance(){
+		return new self();
 	}
 
 	/**
-	 * Updates api option
+	 * Get Provider Details
+	 * General function to get provider details from database based on key
 	 *
-	 * @param $option_key
-	 * @param $option_value
-	 * @return bool
-	 */
-	function update_option($option_key, $option_value){
-		return update_site_option( self::ID . "_" . $option_key, $option_value);
-	}
-
-	/**
-	 * Retrieves api option from db
+	 * @param Hustle_Module_Model $module
+	 * @param String $field - the field name
 	 *
-	 * @param $option_key
-	 * @param $default
-	 * @return mixed
+	 * @return String
 	 */
-	function get_option($option_key, $default ){
-		return get_site_option( self::ID . "_" . $option_key, $default );
+	protected static function _get_provider_details( Hustle_Module_Model $module, $field ) {
+		$details = '';
+		$name = self::ID;
+		if ( isset( $module->content->email_services[$name][$field] ) ) {
+ 			$details = $module->content->email_services[$name][$field];
+		}
+		return $details;
 	}
 
 	/**
 	 * Helper function get an option in static mode.
 	 **/
-	static function static_get_option( $option_key, $default ) {
+	public static function static_get_option( $option_key, $default ) {
 		return get_site_option( self::ID . "_" . $option_key, $default );
 	}
 
@@ -78,7 +78,7 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
 		return self::$api;
 	}
 
-	function subscribe( Hustle_Module_Model $module, array $data  ){
+	public function subscribe( Hustle_Module_Model $module, array $data  ){
 
 		$consumerKey = $this->get_option( self::CONSUMER_KEY, false );
 		$consumerSecret = $this->get_option( self::CONSUMER_SECRET, false );
@@ -172,11 +172,12 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
 			return $subscriber;
 
 		} catch(Exception $e) {
-			return self::$errors['subcription'] =  $e;
+			self::$errors['subcription'] = $e;
+			return true;
 		}
 	}
 
-	function get_options( $module_id ){
+	public function get_options(){
 
 		if( $this->get_option( self::AUTH_CODE, '' ) !== $this->api_key ){
 
@@ -237,7 +238,7 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
 
 
 
-	function get_account_options( $module_id ){
+	public function get_account_options( $module_id ){
 
 		return array(
 			'auth_code_label' => array(
@@ -277,30 +278,9 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
 	}
 
 
-	function is_authorized(){
+	public function is_authorized(){
 		return true;
 	}
-
-	/**
-	 * Get Provider Details
-	 * General function to get provider details from database based on key
-	 *
-	 * @param Hustle_Module_Model $module
-	 * @param String $field - the field name
-	 *
-	 * @return String
-	 */
-	private static function _get_provider_details( Hustle_Module_Model $module, $field ) {
-		$details = '';
-		$name = self::ID;
-		if ( !is_null( $module->content->email_services )
-			&& isset( $module->content->email_services[$name] )
-			&& isset( $module->content->email_services[$name][$field] ) ) {
-			$details = $module->content->email_services[$name][$field];
-		}
-		return $details;
-	}
-
 
 	private static function _get_api_key( Hustle_Module_Model $module ) {
 		return self::_get_provider_details( $module, 'api_key' );
@@ -310,7 +290,7 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
 		return self::_get_provider_details( $module, 'list_id' );
 	}
 
-	static function add_custom_field( $fields, $module_id ) {
+	public static function add_custom_field( $fields, $module_id ) {
 		$consumerKey    = self::static_get_option( self::CONSUMER_KEY, false );
 		$consumerSecret = self::static_get_option( self::CONSUMER_SECRET, false );
 		$accessToken    = self::static_get_option( self::ACCESS_TOKEN, false );
@@ -343,7 +323,7 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
 					if ( $custom_fields && ! empty( $custom_fields->data ) && ! empty( $custom_fields->data['entries'] ) ) {
 
 						foreach ( $custom_fields->data['entries'] as $custom_field ) {
-							if ( $custom_field['name'] == $label ) {
+							if ( $custom_field['name'] === $label ) {
 								$exist = true;
 							}
 						}
@@ -360,10 +340,16 @@ class Opt_In_Aweber extends Opt_In_Provider_Abstract  implements  Opt_In_Provide
 		}
 
 		if ( $exist ) {
-			return array( 'success' => true, 'fields' => $fields );
+			return array(
+				'success' => true,
+				'fields' => $fields,
+			);
 		}
 
-		return array( 'error' => true, 'code' => 'cannot_create_custom_field' );
+		return array(
+			'error' => true,
+			'code' => 'cannot_create_custom_field',
+		);
 	}
 }
 endif;

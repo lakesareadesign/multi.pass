@@ -9,9 +9,9 @@ if ( $is_edit && $module ) {
 
 	<div class="wpmudev-box-left">
 
-		<h4><strong><?php _e( "Email collection module", Opt_In::TEXT_DOMAIN ); ?></strong></h4>
+		<h4><strong><?php esc_attr_e( "Email collection module", Opt_In::TEXT_DOMAIN ); ?></strong></h4>
 
-		<label class="wpmudev-helper"><?php _e( "Configure if you want to collect emails from visitors who see this embed and how you want those emails to be stored.", Opt_In::TEXT_DOMAIN ); ?></label>
+		<label class="wpmudev-helper"><?php esc_attr_e( "Configure if you want to collect emails from visitors who see this embed and how you want those emails to be stored.", Opt_In::TEXT_DOMAIN ); ?></label>
 
 	</div>
 
@@ -27,7 +27,7 @@ if ( $is_edit && $module ) {
 
 			</div>
 
-			<label class="wpmudev-switch-label" for="wph-embedded-email_collection"><?php _e( "Add email collection to this embed", Opt_In::TEXT_DOMAIN ); ?></label>
+			<label class="wpmudev-switch-label" for="wph-embedded-email_collection"><?php esc_attr_e( "Add email collection to this embed", Opt_In::TEXT_DOMAIN ); ?></label>
 
 		</div>
 
@@ -35,7 +35,7 @@ if ( $is_edit && $module ) {
 
 			<thead>
 
-				<tr><th><?php _e( "Email Collection Service", Opt_In::TEXT_DOMAIN ); ?></th></tr>
+				<tr><th><?php esc_attr_e( "Email Collection Service", Opt_In::TEXT_DOMAIN ); ?></th></tr>
 
 			</thead>
 
@@ -64,8 +64,8 @@ if ( $is_edit && $module ) {
                                 <td><?php $this->render( "general/icons/icon-hustle", array() ); ?></td>
 
                                 <td>
-                                    <span class="wpmudev-table_name"><?php _e( "Local Hustle List", Opt_In::TEXT_DOMAIN ); ?></span>
-                                    <span class="wpmudev-table_desc"><?php _e( "Will save email addresses to an exportable CSV list", Opt_In::TEXT_DOMAIN ); ?></span>
+                                    <span class="wpmudev-table_name"><?php esc_attr_e( "Local Hustle List", Opt_In::TEXT_DOMAIN ); ?></span>
+                                    <span class="wpmudev-table_desc"><?php esc_attr_e( "Will save email addresses to an exportable CSV list", Opt_In::TEXT_DOMAIN ); ?></span>
                                 </td>
 
                             </tr>
@@ -87,7 +87,7 @@ if ( $is_edit && $module ) {
 
 					if ( $total_email_services > 1 ) {
 						if ( $active_email_service ) {
-							if ( $active_email_service != $service_key ) {
+							if ( $active_email_service !== $service_key ) {
 								continue;
 							}
 						} else if ( $total_email_services_count > 0 ) {
@@ -116,16 +116,16 @@ if ( $is_edit && $module ) {
 
                                         <div class="wpmudev-switch">
 
-                                            <input id="wph-embedded-list_<?php echo $service_key; ?>" class="toggle-checkbox wph-email-service-toggle" type="checkbox" data-attribute="<?php echo $service_key; ?>_service_provider" <?php echo ( $active_email_service == $service_key ) ? 'checked="checked"' : '';?> >
+                                            <input id="wph-embedded-list_<?php echo esc_attr( $service_key ); ?>" class="toggle-checkbox wph-email-service-toggle" type="checkbox" data-attribute="<?php echo esc_attr( $service_key ); ?>_service_provider" <?php checked( $active_email_service, $service_key ); ?> >
 
-                                            <label class="wpmudev-switch-design" for="wph-embedded-list_<?php echo $service_key; ?>" aria-hidden="true"></label>
+                                            <label class="wpmudev-switch-design" for="wph-embedded-list_<?php echo esc_attr( $service_key ); ?>" aria-hidden="true"></label>
 
                                         </div>
 
                                     </td>
 
                                     <td class="wph-email-providers-icon">
-                                    <?php if ( $service_key == 'mad_mimi' ) : ?>
+                                    <?php if ( 'mad_mimi' === $service_key ) : ?>
 
                                         <div class="wpmudev-icon wpmudev-i_madmimi"></div>
 
@@ -138,10 +138,10 @@ if ( $is_edit && $module ) {
                                     </td>
 
 									<td>
-										<a data-id="<?php echo $service_key; ?>" href="#" class="wpmudev-table_name wph-email-service-edit-link" data-nonce="<?php echo wp_create_nonce('change_provider_name') ?>" >
-											<span class="wpmudev-table_name"><?php echo $service_name; ?></span>
-											<span class="wpmudev-table_desc"><?php echo $api_key; ?></span>
-											<span class="wpmudev-table_desc"><?php _e( "Click here to edit or change your email provider", Opt_In::TEXT_DOMAIN ); ?></span>
+										<a data-id="<?php echo esc_attr( $service_key ); ?>" href="#" class="wpmudev-table_name wph-email-service-edit-link" data-nonce="<?php echo esc_attr( wp_create_nonce('change_provider_name') ); ?>" >
+											<span class="wpmudev-table_name"><?php echo esc_html( $service_name ); ?></span>
+											<span class="wpmudev-table_desc"><?php echo esc_html( $api_key ); ?></span>
+											<span class="wpmudev-table_desc"><?php esc_attr_e( "Click here to edit or change your email provider", Opt_In::TEXT_DOMAIN ); ?></span>
 										</a>
 
 									</td>
@@ -155,7 +155,7 @@ if ( $is_edit && $module ) {
                     </td></tr>
 
                 <?php endforeach; ?>
-			<?php else:?>
+			<?php else: ?>
 			<tr class="wph-wizard-content-email-providers"><td>
 
 				<table cellspacing="0" cellpadding="0" class="wpmudev-table_inner">
@@ -178,10 +178,10 @@ if ( $is_edit && $module ) {
 
 							<td class="wph-email-providers-icon"><?php $this->render( "general/icons/icon-mailchimp", array() ); ?></td>
 
-							<td><a data-id="mailchimp" href="#" class="wph-email-service-edit-link" data-nonce="<?php echo wp_create_nonce('change_provider_name') ?>">
-								<span class="wpmudev-table_name"><?php _e( "MailChimp", Opt_In::TEXT_DOMAIN ); ?></span>
-								<span class="wpmudev-table_desc"><# if ( _.isEmpty ( email_services.mailchimp.api_key ) ) { #><?php _e( "Connect to start growing your lists.", Opt_In::TEXT_DOMAIN ); ?><# } else { #>{{email_services.mailchimp.api_key}}<# } #></span>
-								<span class="wpmudev-table_desc"><?php _e( "Click here to edit or change your email provider", Opt_In::TEXT_DOMAIN ); ?></span>
+							<td><a data-id="mailchimp" href="#" class="wph-email-service-edit-link" data-nonce="<?php echo esc_attr( wp_create_nonce('change_provider_name') ); ?>">
+								<span class="wpmudev-table_name"><?php esc_attr_e( "MailChimp", Opt_In::TEXT_DOMAIN ); ?></span>
+								<span class="wpmudev-table_desc"><# if ( _.isEmpty ( email_services.mailchimp.api_key ) ) { #><?php esc_attr_e( "Connect to start growing your lists.", Opt_In::TEXT_DOMAIN ); ?><# } else { #>{{email_services.mailchimp.api_key}}<# } #></span>
+								<span class="wpmudev-table_desc"><?php esc_attr_e( "Click here to edit or change your email provider", Opt_In::TEXT_DOMAIN ); ?></span>
 							</a></td>
 
 						</tr>
@@ -199,8 +199,8 @@ if ( $is_edit && $module ) {
 
 				<tr>
 					<td>
-						<a href="#" class="wph-email-service-edit-link wpmudev-button wpmudev-button-blue" data-id="<?php echo $active_service; ?>" data-nonce="<?php echo wp_create_nonce('change_provider_name') ?>" ><?php _e( "Add Another Service", Opt_In::TEXT_DOMAIN ); ?></a>
-						<label class="wpmudev-label--notice"><span><?php _e( 'At this time you can only integrate one email service. To change this, edit your existing integration.', Opt_In::TEXT_DOMAIN ); ?></span></label>
+						<a href="#" class="wph-email-service-edit-link wpmudev-button wpmudev-button-blue" data-id="<?php echo esc_attr( $active_service ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce('change_provider_name') ); ?>" ><?php esc_html_e( "Add Another Service", Opt_In::TEXT_DOMAIN ); ?></a>
+						<label class="wpmudev-label--notice"><span><?php esc_html_e( 'Only one integration can be used at a time...you pick!', Opt_In::TEXT_DOMAIN ); ?></span></label>
 					</td>
 				</tr>
 
@@ -212,18 +212,20 @@ if ( $is_edit && $module ) {
 
 </div><?php // #wph-wizard-content-email ?>
 
-<?php $this->render( "admin/embedded/wizard/boxes/box-form_elements", array(
+<?php
+$this->render( "admin/embedded/wizard/boxes/box-form_elements", array(
     'module'  => $module,
     'default_form_fields' => $default_form_fields
-) ); ?>
+) );
+?>
 
 <?php $this->render( "admin/embedded/wizard/boxes/box-form_submission", array() ); ?>
 
 
 <?php // Opt-in provider icons template ?>
 <?php foreach( $providers as $provider ) : ?>
-    <script id="wpmudev-<?php echo $provider['id']; ?>-optin-provider-icon-svg" type="text/template">
-        <?php if ( $provider['id'] == 'mad_mimi' ) : ?>
+    <script id="wpmudev-<?php echo esc_attr( $provider['id'] ); ?>-optin-provider-icon-svg" type="text/template">
+        <?php if ( 'mad_mimi' === $provider['id'] ) : ?>
 
             <div class="wpmudev-icon wpmudev-i_madmimi"></div>
 
@@ -234,3 +236,4 @@ if ( $is_edit && $module ) {
         <?php endif; ?>
     </script>
 <?php endforeach; ?>
+<?php

@@ -278,6 +278,8 @@ if (!class_exists('ALTERADMINMENU')) {
 
           global $menu, $submenu;
 
+          //echo '<pre>'; print_r($submenu); echo '</pre>';
+
           $current_user_role = parent::alter_get_user_role();
           $current_user_id = get_current_user_id();
           $alter_menu_access = $this->aof_options['show_all_menu_to_admin'];

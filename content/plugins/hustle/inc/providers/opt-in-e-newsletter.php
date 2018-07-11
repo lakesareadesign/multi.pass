@@ -3,6 +3,8 @@
 if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
     class Opt_In_E_Newsletter extends Opt_In_Provider_Abstract implements  Opt_In_Provider_Interface {
 
+		protected $id = self::ID;
+
         /**
          * @var $_email_newsletter Email_Newsletter
          */
@@ -25,37 +27,36 @@ if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
         const NAME = "e-Newsletter";
 
 
-		static function instance(){
-			return new self;
+		/**
+		 * @return Opt_In_Provider_Interface|Opt_In_Provider_Abstract class
+		 */
+		public static function instance(){
+			return new self();
 		}
 
 		/**
-		 * Updates api option
+		 * Get Provider Details
+		 * General function to get provider details from database based on key
 		 *
-		 * @param $option_key
-		 * @param $option_value
-		 * @return bool
+		 * @param Hustle_Module_Model $module
+		 * @param String $field - the field name
+		 *
+		 * @return String
 		 */
-		function update_option( $option_key, $option_value ) {
-			return update_site_option( self::ID . "_" . $option_key, $option_value );
+		protected static function _get_provider_details( Hustle_Module_Model $module, $field ) {
+			$details = '';
+			$name = self::ID;
+			if ( isset( $module->content->email_services[$name][$field] ) ) {
+				 $details = $module->content->email_services[$name][$field];
+			}
+			return $details;
 		}
 
-		/**
-		 * Retrieves api option from db
-		 *
-		 * @param $option_key
-		 * @param $default
-		 * @return mixed
-		 */
-		function get_option( $option_key, $default ) {
-			return get_site_option( self::ID . "_" . $option_key, $default );
-		}
-
-		function get_options( $module_id ) {
+		public function get_options() {
 			return array();
 		}
 
-		function get_account_options( $module_id ){
+		public function get_account_options( $module_id ){
 
             $module = Hustle_Module_Model::instance()->get( $module_id );
 
@@ -105,7 +106,7 @@ if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
 									'value'         => "pending",
 									"attributes"    => array(
 										'class'   => "toggle-checkbox",
-										'checked' => ( $checked != 'pending') ? 'checked' : ''
+										'checked' => ( 'pending' !== $checked) ? 'checked' : ''
 									)
 								),
 								"label" => array(
@@ -130,7 +131,7 @@ if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
 						),
 					)
 				),
-				"lists_setup" => array (
+				"lists_setup" => array(
 					"id"    => "optin-provider-account-options",
                     "class" => "wpmudev-provider-block",
                     "type"  => "wrapper",
@@ -163,36 +164,14 @@ if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
             );
         }
 
-        function is_authorized(){
+        public function is_authorized(){
             return true;
-        }
-
-
-	    /**
-        * Get Provider Details
-        * General function to get provider details from database based on key
-        *
-        * @param Hustle_Module_Model $module
-        * @param String $field - the field name
-        *
-        * @return String
-        */
-        private static function _get_provider_details( Hustle_Module_Model $module, $field ) {
-            $details = '';
-            $name = self::ID;
-            if ( !is_null( $module->content->email_services )
-                && isset( $module->content->email_services[$name] )
-                && isset( $module->content->email_services[$name][$field] ) ) {
-
-				$details = $module->content->email_services[$name][$field];
-			}
-            return $details;
         }
 
 		private function _get_auto_optin( Hustle_Module_Model $module ) {
             $auto_optin = 'subscribed';
             $saved_auto_optin = self::_get_provider_details( $module, 'auto_optin' );
-            if ( !empty( $saved_auto_optin ) && $saved_auto_optin !== 'subscribed' ) {
+            if ( !empty( $saved_auto_optin ) && 'subscribed' !== $saved_auto_optin ) {
                 $auto_optin = 'pending';
             }
 			return $auto_optin;
@@ -231,7 +210,7 @@ if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
             if( !$this->is_member( $_data['member_email'] ) ){
                 $insert_data = $e_newsletter->create_update_member_user( "",  $_data, $subscribe );
 
-                if( isset( $insert_data['results'] ) && in_array( "member_inserted", (array) $insert_data['results'] )  ) {
+                if( isset( $insert_data['results'] ) && in_array( "member_inserted", (array) $insert_data['results'], true )  ) {
                     $e_newsletter->add_members_to_groups( $insert_data['member_id'], $groups );
 
                     if( isset( $e_newsletter->settings['subscribe_newsletter'] ) && $e_newsletter->settings['subscribe_newsletter'] ) {
@@ -259,7 +238,7 @@ if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
          * @since 1.1.1
          * @return bool
          */
-        function is_plugin_active(){
+        public function is_plugin_active(){
             return class_exists( 'Email_Newsletter' ) && isset( $this->_email_newsletter ) && isset( $this->_email_builder );
         }
 
@@ -269,7 +248,7 @@ if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
          * @since 1.1.1
          * @return array
          */
-        function get_groups(){
+        public function get_groups(){
             return (array) $this->_email_newsletter->get_groups();
         }
 
@@ -282,7 +261,7 @@ if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
          * @param $email
          * @return bool
          */
-        function is_member( $email ){
+        public function is_member( $email ){
             $member = $this->_email_newsletter->get_member_by_email( $email );
             return !!$member;
         }
@@ -295,7 +274,7 @@ if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
          * @param Hustle_Module_Model $module
          * @param array $groups
          */
-        function sync_with_current_local_collection( Hustle_Module_Model $module, $groups = array() ){
+        public function sync_with_current_local_collection( Hustle_Module_Model $module, $groups = array() ){
 
             $groups = array() === $groups ?  $this->get_groups() : $groups;
 
@@ -312,7 +291,7 @@ if ( !class_exists ('Opt_In_E_Newsletter', false ) ) {
 				if( !$this->is_member( $data['member_email'] ) ){
 					$insert_data = $this->_email_newsletter->create_update_member_user( "",  $data, 1 );
 
-					if( isset( $insert_data['results'] ) && in_array( "member_inserted", (array) $insert_data['results'] )  )
+					if( isset( $insert_data['results'] ) && in_array( "member_inserted", (array) $insert_data['results'], true )  )
 					$this->_email_newsletter->add_members_to_groups( $insert_data['member_id'],  $groups );
 				}
             }

@@ -1,13 +1,4 @@
 jQuery(function ($) {
-    // General stuff
-    $(document).on("click", ".handlediv, h3.hndle", function(event){
-        event.preventDefault();
-        $(this).closest(".postbox").toggleClass("closed");
-    });
-
-    $(document).on("click", ".hndle input", function(e){
-        e.preventPropagation();
-    });
 
     // Parent entry title
     function titleUrlSwitch () {

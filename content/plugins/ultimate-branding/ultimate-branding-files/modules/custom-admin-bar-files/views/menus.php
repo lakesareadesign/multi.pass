@@ -6,17 +6,28 @@
  * @var $sub UB_Admin_Bar_Menu
  */
 $order = 1;
+$boxes = array();
+$settings = get_user_meta( get_current_user_id(), 'closedpostboxes_ultimate_branding', true );
+if ( isset( $settings['adminbar'] ) ) {
+	$boxes = $settings['adminbar'];
+}
+$simple_options = new simple_options();
 foreach ( UB_Admin_Bar::menus() as $menu ) :
+	$id = 'menu-'.$menu->id;
+	if ( ! isset( $boxes[ $id ] ) ) {
+		$boxes[ $id ] = 'closed';
+	}
 ?>
-<div class="meta-box-sortables parent_admin_bar parent_admin_bar_prev not-sortable">
-        <div class="postbox closed">
-            <div class="handlediv" title="Click to toggle"><br>
-            </div>
-            <h3 class="hndle">
-                <a href="#" data-id="<?php echo $menu->id; ?>" class="wdcab_step_delete button-secondary pull-right ub_delete_row"><?php _e( 'Delete', 'ub' ); ?></a>
-
-                <?php echo $menu->title_image; ?>
-            </h3>
+<div class="meta-box-sortables parent_admin_bar parent_admin_bar_prev not-sortable simple-options">
+        <div class="postbox <?php echo esc_attr( $boxes[ $id ] ); ?>" id="<?php echo esc_attr( $id ); ?>">
+<?php
+$after = sprintf(
+	'<a href="#" data-id="%d" class="wdcab_step_delete button-secondary pull-right ub_delete_row">%s</a>',
+	$menu->id,
+	esc_html__( 'Delete', 'ub' )
+);
+echo $simple_options->box_title( $menu->title_image, $after );
+?>
             <div class="inside">
                 <table class="form-table">
                     <tbody>

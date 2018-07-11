@@ -1,142 +1,77 @@
 <?php
-/*
-Plugin Name: Dashboard Footer Content
-Plugin URI: http://premium.wpmudev.org/project/admin-footer-text
-Description: Display text in admin dashboard footer.
-Author: Barry (Incsub), S H Mohanjith (Incsub), Andrew Billits (Incsub)
-Version: 1.0.8
-Author URI: http://premium.wpmudev.org
-WDP ID: 53
- */
+if ( ! class_exists( 'ub_admin_footer_text' ) ) {
+	class ub_admin_footer_text extends ub_helper {
+		protected $option_name = 'admin_footer_text';
 
-/*
-Copyright 2007-2018 Incsub (http://incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
-/**
- * Escaping for textarea values.
- *
- * @since 3.1
- *
- * Added for compatibility with WordPress 3.0.*
- *
- * @param string $text
- * @return string
- */
-if ( ! function_exists( 'esc_textarea' ) ) {
-	function esc_textarea( $text ) {
-		$safe_text = htmlspecialchars( $text, ENT_QUOTES );
-		return apply_filters( 'esc_textarea', $safe_text, $text );
-	}
-}
-
-class ub_Admin_Footer_Text extends ub_helper {
-	var $admin_footer_text_default = '';
-	var $update_text_default = '';
-	protected $option_name = 'admin_footer_text';
-
-	public function __construct() {
-		parent::__construct();
-		add_action( 'init', array( &$this, 'initialise_plugin' ) );
-	}
-
-	public function initialise_plugin() {
-		add_action( 'ultimatebranding_settings_footer', array( $this, 'output_admin_options' ) );
-		add_filter( 'ultimatebranding_settings_footer_process', array( $this, 'update_admin_options' ), 10, 1 );
-		// remove all the remaining filters for the admin footer so that they don't mess the footer up
-		remove_all_filters( 'admin_footer_text' );
-		add_filter( 'admin_footer_text', array( $this, 'output' ), 1, 1 );
-		add_filter( 'update_footer' , array( $this, 'blank_version' ), 99 );
+		public function __construct() {
+			parent::__construct();
+			$this->set_options();
+			add_action( 'ultimatebranding_settings_footer', array( $this, 'admin_options_page' ) );
+			add_filter( 'ultimatebranding_settings_footer_process', array( $this, 'update' ), 10, 1 );
+			// remove all the remaining filters for the admin footer so that they don't mess the footer up
+			remove_all_filters( 'admin_footer_text' );
+			add_filter( 'admin_footer_text', array( $this, 'output' ), 1, 1 );
+			add_filter( 'update_footer' , '__return_empty_string', 99 );
 			add_action( 'admin_head', array( $this, 'add_css_for_footer' ) );
-	}
-
-	public function update_admin_options( $status ) {
-		ub_update_option( $this->option_name , stripslashes( $_POST['admin_footer_text'] ) );
-		if ( $status === false ) {
-			return $status;
-		} else {
-			return true;
+			add_action( 'init', array( $this, 'upgrade_options' ) );
 		}
-	}
 
-	/**
-	 * Chamge #wpfooter position to static.
-	 *
-	 * @since 1.9.9
-	 */
-	public function add_css_for_footer() {
-		$admin_footer_text = ub_get_option( 'admin_footer_text' );
-		if ( empty( $admin_footer_text ) ) {
-			return;
+		/**
+		 * Chamge #wpfooter position to static.
+		 *
+		 * @since 1.9.9
+		 */
+		public function add_css_for_footer() {
+			$admin_footer_text = ub_get_option( 'admin_footer_text' );
+			if ( empty( $admin_footer_text ) ) {
+				return;
+			}
+			echo '<style type="text/css">#wpfooter {position:static}</style>';
 		}
-		echo '<style type="text/css">#wpfooter {position:static}</style>';
-	}
 
-	public function output( $footer_text ) {
-		$admin_footer_text = ub_get_option( 'admin_footer_text' );
-		if ( empty( $admin_footer_text ) ) {
-			$footer_text = $this->admin_footer_text_default;
-		} else {
-			$footer_text = $admin_footer_text;
+		public function output( $footer_text ) {
+			$value = $this->get_value( 'footer', 'content', '' );
+			return do_shortcode( $value );
 		}
-		return do_shortcode( $footer_text );
-	}
 
-	public function blank_version( $version ) {
-		return '';
-	}
-
-	public function output_admin_options() {
-		$admin_footer_text = ub_get_option( 'admin_footer_text' );
-		if ( empty( $admin_footer_text ) ) {
-			$admin_footer_text = $this->admin_footer_text_default;
+		/**
+		 * set options
+		 *
+		 * @since 2.1.0
+		 */
+		protected function set_options() {
+			$this->options = array(
+				'footer' => array(
+					'title' => __( 'Dashboard Footer Text', 'ub' ),
+					'hide-reset' => true,
+					'fields' => array(
+						'content' => array(
+							'type' => 'wp_editor',
+							'label' => __( 'Text', 'ub' ),
+						),
+					),
+				),
+			);
 		}
-?>
-            <div class="postbox">
-            <h3 class="hndle" style='cursor:auto;'><span><?php _e( 'Dashboard Footer Content', 'ub' ) ?></span></h3>
-            <div class="inside">
-                <table class="form-table">
-                    <tr valign="top">
-                        <th scope="row"><?php _e( 'Footer Text', 'ub' ) ?></th>
-                        <td>
-<?php
-		$args = array( 'textarea_name' => 'admin_footer_text', 'textarea_rows' => 5 );
-		wp_editor( stripslashes( $admin_footer_text ) , 'admin_footer_text', $args );
-?>
-                            <br />
-                            <?php _e( 'HTML Allowed.', 'ub' ) ?>
-                        </td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-<?php
-	}
 
-	/**
-	 * Setting field for singlesite
-	 **/
-	public function site_option() {
-		$admin_footer_text = get_option( 'admin_footer_text' );
-		if ( empty( $admin_footer_text ) ) {
-			$admin_footer_text = $this->admin_footer_text_default;
+		/**
+		 * Upgrade option
+		 *
+		 * @since 2.1.0
+		 */
+		public function upgrade_options() {
+			$v = $this->get_value();
+			if ( is_array( $v ) ) {
+				return;
+			}
+			$data = array(
+				'footer' => array(
+					'content' => $v,
+				),
+			);
+			$this->update_value( $data );
 		}
-		echo '<textarea name="admin_footer_text" type="text" rows="5" wrap="soft" id="admin_footer_text" style="width: 95%" />' . esc_textarea( $admin_footer_text ) . '</textarea>
-            <p class="description"> ' . __( 'HTML Allowed.', 'ub' ) . '</p>';
 	}
 }
 
-$ub_adminfootertext = new ub_Admin_Footer_Text();
+new ub_admin_footer_text;

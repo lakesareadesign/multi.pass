@@ -9,6 +9,8 @@ if ( ! class_exists( 'UB_Blog_Favicons' ) ) :
 
 	class UB_Blog_Favicons extends WP_List_Table{
 
+		private $favicons;
+
 		/**
 	 * Construst the table
 	 *
@@ -32,12 +34,11 @@ if ( ! class_exists( 'UB_Blog_Favicons' ) ) :
 	 */
 		public function get_columns() {
 			return  array(
-			'blog_id'    => __( 'Blog ID', 'ub' ),
-			'domain'    => __( 'Domain', 'ub' ),
-			'favicon'    => __( 'Favicon', 'ub' ),
+			'blog_id' => __( 'Blog ID', 'ub' ),
+			'domain'  => __( 'Domain', 'ub' ),
+			'favicon' => __( 'Favicon', 'ub' ),
 			);
 		}
-
 
 		/**
 	 * Defines sortable columns
@@ -99,9 +100,7 @@ if ( ! class_exists( 'UB_Blog_Favicons' ) ) :
 				'total_pages' => $total_pages,
 				'orderby'	=> 'subsite',
 			) );
-
 		}
-
 
 		/**
 	 * Renders blog_id column
@@ -131,7 +130,6 @@ if ( ! class_exists( 'UB_Blog_Favicons' ) ) :
 			return sprintf( "<a href='%s'>%s</a>",$url, $label );
 		}
 
-
 		/**
 	 * Renders favicon column
 	 *
@@ -142,12 +140,12 @@ if ( ! class_exists( 'UB_Blog_Favicons' ) ) :
 		public function column_favicon( $site ) {
 			$input_prefix = 'ub_favicons[' . $site->blog_id . ']';
 			$reset_nonce_name = 'ub_favicons_' . $site->blog_id . '_reset';
-			$fav = ub_favicons::get_favicon( $site->blog_id );
-			$url = ub_favicons::has_favicon( $site->blog_id ) ? esc_url( ub_favicons::get_favicon( $site->blog_id, false ) ) : '';
+			$fav = $this->favicons->get_favicon( $site->blog_id );
+			$url = $this->favicons->has_favicon( $site->blog_id ) ? esc_url( $this->favicons->get_favicon( $site->blog_id, false ) ) : '';
 		?>
             <ul>
                 <li class="ub_favicons_fav_li">
-                    <img class="ub_favicons_fav" height="16" width="16" data-default="<?php echo ub_favicons::get_main_favicon(); ?>" src="<?php echo $fav; ?>" alt=""/>
+                    <img class="ub_favicons_fav" height="16" width="16" data-default="<?php echo esc_attr( $this->favicons->get_main_favicon() ); ?>" src="<?php echo esc_url( $fav ); ?>" alt=""/>
                 </li>
                 <li class="ub_favicons_text_li">
                     <input class="ub_favicons_fav_url" name="<?php echo $input_prefix ?>[url]" value="<?php  echo $url ; ?>" type="text"/> <button class="button ub_favicons_browse"><?php _e( 'Browse', 'ub' ); ?></button>
@@ -202,6 +200,15 @@ if ( ! class_exists( 'UB_Blog_Favicons' ) ) :
             <br class="clear" />
             </div>
 	<?php
+		}
+
+		/**
+	 * set ub_favicons object
+	 *
+	 * @since 2.1.0
+	 */
+		public function set_ub_favicons( $obj ) {
+			$this->favicons = $obj;
 		}
 	}
 endif;

@@ -1,14 +1,12 @@
 <?php
 
 
-class Hustle_Settings_Admin_Ajax
-{
+class Hustle_Settings_Admin_Ajax {
 	private $_hustle;
 
 	private $_admin;
 
-	function __construct( Opt_In $hustle, Hustle_Settings_Admin $admin )
-	{
+	public function __construct( Opt_In $hustle, Hustle_Settings_Admin $admin ) {
 		$this->_hustle = $hustle;
 		$this->_admin = $admin;
 
@@ -18,7 +16,7 @@ class Hustle_Settings_Admin_Ajax
 		add_action("wp_ajax_hustle_shortcode_render", array( $this, "shortcode_render" ));
 	}
 
-	function toggle_module_for_user(){
+	public function toggle_module_for_user(){
 		Opt_In_Utils::validate_ajax_call("hustle_modules_toggle");
 
 		$id = filter_input( INPUT_POST, 'id', FILTER_VALIDATE_INT );
@@ -34,7 +32,7 @@ class Hustle_Settings_Admin_Ajax
 		wp_send_json_success( sprintf( __("Successfully toggled for user type %s", Opt_In::TEXT_DOMAIN), $user_type ) );
 	}
 
-	function get_providers_edit_modal_content(){
+	public function get_providers_edit_modal_content(){
 		Opt_In_Utils::validate_ajax_call("hustle_edit_providers");
 
 		$id = filter_input( INPUT_GET, 'id', FILTER_VALIDATE_INT );
@@ -44,7 +42,7 @@ class Hustle_Settings_Admin_Ajax
 			wp_send_json_error(__("Invalid Request", Opt_In::TEXT_DOMAIN));
 
 
-		if( $source === "optin" ){
+		if( "optin" === $source ){
 			$module = Hustle_Module_Model::instance()->get( $id );
 
 			$html = $this->_hustle->render("admin/settings/providers-edit-modal-content", array(
@@ -62,10 +60,10 @@ class Hustle_Settings_Admin_Ajax
 
 	}
 
-	function save_providers_edit_modal(){
+	public function save_providers_edit_modal(){
 		Opt_In_Utils::validate_ajax_call("hustle-edit-service-save");
 
-		var_dump($_POST);die;
+//		var_dump($_POST);die;
 		$id = filter_input( INPUT_POST, 'id', FILTER_VALIDATE_INT );
 		$source = filter_input( INPUT_POST, 'source', FILTER_SANITIZE_STRING );
 
@@ -73,7 +71,7 @@ class Hustle_Settings_Admin_Ajax
 			wp_send_json_error(__("Invalid Request", Opt_In::TEXT_DOMAIN));
 
 
-		if( $source === "optin" ){
+		if( "optin" === $source ){
 			$module = Hustle_Module_Model::instance()->get( $id );
 
 			$html = $this->_hustle->render("admin/settings/providers-edit-modal-content", array(
@@ -89,7 +87,7 @@ class Hustle_Settings_Admin_Ajax
 		}
 	}
 
-	function shortcode_render() {
+	public function shortcode_render() {
 		Opt_In_Utils::validate_ajax_call("hustle_shortcode_render");
 
 		$content = filter_input( INPUT_POST, 'content' );

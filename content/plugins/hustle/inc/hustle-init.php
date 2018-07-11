@@ -6,13 +6,13 @@ if( !class_exists("Hustle_Init") ):
  */
 class Hustle_Init {
 
-	function __construct( Opt_In $hustle ){
+	public function __construct( Opt_In $hustle ){
 
 		$hustle_db = new Hustle_Db();
 		$email_services = new Hustle_Email_Services();
 		$hustle->set_email_services( $email_services );
 
-		// Hustle Migration from Wordpress Popup and Hustle 2.x
+		// Hustle Migration from WordPress Popup and Hustle 2.x
 		$hustle_migration = new Hustle_Migration( $hustle );
 
 		// Hubspot

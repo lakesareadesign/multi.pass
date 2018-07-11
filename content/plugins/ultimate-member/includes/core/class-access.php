@@ -244,9 +244,10 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 			global $post;
 
 			$curr = UM()->permalinks()->get_current_url();
+			$ms_empty_role_access = is_multisite() && is_user_logged_in() && !UM()->roles()->get_priority_user_role( um_user('ID') );
 
 			if ( is_front_page() ) {
-				if ( is_user_logged_in() ) {
+				if ( is_user_logged_in() && !$ms_empty_role_access ) {
 
 					$user_default_homepage = um_user( 'default_homepage' );
 					if ( ! empty( $user_default_homepage ) )
@@ -300,7 +301,7 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 					}
 				}
 			} elseif ( is_category() ) {
-				if ( ! is_user_logged_in() ) {
+				if ( ! is_user_logged_in() || $ms_empty_role_access ) {
 
 					$access = UM()->options()->get( 'accessible' );
 
@@ -324,7 +325,7 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 
 			$access = UM()->options()->get( 'accessible' );
 
-			if ( $access == 2 && ! is_user_logged_in() ) {
+			if ( $access == 2 && ( !is_user_logged_in() || $ms_empty_role_access ) ) {
 
 				//build exclude URLs pages
 				$redirects = array();
@@ -1021,19 +1022,22 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 					}
 
 					//post is private
-					if ( '1' == $restriction['_um_accessible'] ) {
+					if ( '0' == $restriction['_um_accessible'] ) {
+						$filtered_items[] = $menu_item;
+						continue;
+					} elseif ( '1' == $restriction['_um_accessible'] ) {
 						//if post for not logged in users and user is not logged in
 						if ( ! is_user_logged_in() ) {
 							$filtered_items[] = $menu_item;
 							continue;
 						} else {
 
-                            if ( current_user_can( 'administrator' ) ) {
-                                $filtered_items[] = $menu_item;
-                                continue;
-                            }
+							if ( current_user_can( 'administrator' ) ) {
+								$filtered_items[] = $menu_item;
+								continue;
+							}
 
-						    //if not single query when exclude if set _um_access_hide_from_queries
+							//if not single query when exclude if set _um_access_hide_from_queries
 							if ( empty( $restriction['_um_access_hide_from_queries'] ) ) {
 								$filtered_items[] = $menu_item;
 								continue;
@@ -1043,10 +1047,10 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 						//if post for logged in users and user is not logged in
 						if ( is_user_logged_in() ) {
 
-                            if ( current_user_can( 'administrator' ) ) {
-                                $filtered_items[] = $menu_item;
-                                continue;
-                            }
+							if ( current_user_can( 'administrator' ) ) {
+								$filtered_items[] = $menu_item;
+								continue;
+							}
 
 							$custom_restrict = $this->um_custom_restriction( $restriction );
 
@@ -1077,8 +1081,6 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 							}
 						}
 					}
-
-					continue;
 				}
 
 				//add all other posts

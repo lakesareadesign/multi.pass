@@ -1,6 +1,6 @@
 <?php
 
-require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
+require_once ABSPATH . 'wp-admin/includes/upgrade.php';
 if( !class_exists( "Hustle_Db" ) ):
 
 /**
@@ -17,9 +17,9 @@ class Hustle_Db {
 
 	const TABLE_HUSTLE_MODULES_META = "hustle_modules_meta";
 
-	static $db;
+	public static $db;
 
-	function __construct(){
+	public function __construct(){
 
 		$this->_create_tables();
 	}
@@ -88,26 +88,26 @@ class Hustle_Db {
 		}
 
 		return array(
-				self::TABLE_HUSTLE_MODULES  => array(
-					'`module_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT',
-					"`blog_id` bigint(20) unsigned NOT NULL DEFAULT '0'",
-					'`module_name` VARCHAR(255) NOT NULL',
-					'`module_type` VARCHAR(100) NOT NULL',
-					'`active` TINYINT DEFAULT 1',
-					'`test_mode` TINYINT DEFAULT 0',
-					'PRIMARY KEY (`module_id`)',
-					'KEY `blog_id` (`blog_id`)',
-					'KEY `active` (`active`)'
-				),
-				self::TABLE_HUSTLE_MODULES_META => array(
-					"`meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT",
-					"`module_id` bigint(20) unsigned NOT NULL DEFAULT '0'",
-					"`meta_key` varchar(191) " . $collate . " DEFAULT NULL",
-					"`meta_value` longtext " . $collate,
-					"PRIMARY KEY (`meta_id`)",
-					"KEY `module_id` (`module_id`)",
-					"KEY `meta_key` (`meta_key`(191))"
-				)
+			self::TABLE_HUSTLE_MODULES  => array(
+				'`module_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT',
+				"`blog_id` bigint(20) unsigned NOT NULL DEFAULT '0'",
+				'`module_name` VARCHAR(255) NOT NULL',
+				'`module_type` VARCHAR(100) NOT NULL',
+				'`active` TINYINT DEFAULT 1',
+				'`test_mode` TINYINT DEFAULT 0',
+				'PRIMARY KEY (`module_id`)',
+				'KEY `blog_id` (`blog_id`)',
+				'KEY `active` (`active`)'
+			),
+			self::TABLE_HUSTLE_MODULES_META => array(
+				"`meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT",
+				"`module_id` bigint(20) unsigned NOT NULL DEFAULT '0'",
+				"`meta_key` varchar(191) " . $collate . " DEFAULT NULL",
+				"`meta_value` longtext " . $collate,
+				"PRIMARY KEY (`meta_id`)",
+				"KEY `module_id` (`module_id`)",
+				"KEY `meta_key` (`meta_key`(191))"
+			)
 		);
 	}
 }

@@ -1,82 +1,77 @@
-=== HubSpot - Free Marketing Plugin for WordPress ===
+=== Form Builder, Live Chat and Lead Generation Tools from HubSpot ===
 Contributors: leadin, sredmond, HubSpotDev
 Tags:  crm, contacts, lead tracking, click tracking, visitor tracking, analytics, marketing automation, inbound marketing, subscription, marketing, lead generation, mailchimp, constant contact, newsletter, popup, popover, email list, email, contacts database, contact form, forms, form widget, popup form
 Requires at least: 3.7
 Tested up to: 4.8
-Stable tag: 6.1.5
+Stable tag: 6.1.7
 
 Add the free HubSpot Marketing plugin to your WordPress site! Easy to set up. The plugin has everything you need to capture, track, and convert leads.
 
 == Description ==
 
-<a href="https://www.hubspot.com/products/marketing/free" alt="WordPress marketing automation and lead tracking plugin" target="_blank">HubSpot Marketing Free</a> is the ultimate marketing plugin for WordPress for building an email list, generating and tracking leads, and tracking user behavior on your website.
+Whether you’re just getting started with HubSpot or already a HubSpot power user, <b>Form Builder, Live Chat and Lead Generation Tools from HubSpot</b> will let you connect your WordPress website to your HubSpot account without having to deal with code.
 
-It’s a free plugin that includes everything you need to capture, track, and convert leads – all in one tool.
+It is the all-in-one WordPress plugin for capturing leads, building an email list and tracking visitor behavior on your website.
 
-This includes lead gen dashboard, lead capture tools like pop-ups and slide-ins and modal forms, a form capture tool, a contact database, and lead insights for the first 7 days of website activity after lead capture. All these features work immediately, right out of the box, with no dev help required.
+The plugin includes forms and pop-ups to capture leads, a dashboard to show the emails you’ve captured and a contact database with insights on your leads.
 
-HubSpot Marketing Free automatically captures form submissions from your site, even if they come from a different tool. The moment a lead shares their email, you’ll know who they are, where they work, and what pages they visited – all in real time. When they view an offer or check your pricing, you’ll be ready to follow up right away.
+All these features work immediately once you connect your HubSpot account to WordPress. No coding required.
 
-With simple but powerful analytics, you’ll learn more about what’s working and what’s not, like which traffic sources or pieces of content are driving the most conversions. It's a risk-free way to find out what inbound marketing can do for you. And it’s completely free.
+The <b>Lead Generation Tools from HubSpot</b> also automatically capture form submissions on your site even if they come from a different form tool. Whether you use Gravity Forms, Ninja Forms, Contact Forms 7 or any other WordPress form plugin, those leads will automatically be added to your contact database. No need to set up API integrations.
 
-By adding this plugin to your WordPress site, you’ll also gain access to HubSpot’s free CRM and Sales tools, as well as HubSpot Academy, our free online educational resource, where you can learn how to build, manage, and run effective marketing campaigns.  All our features are 100% responsive and mobile-friendly.
+Here’s how <b>Form Builder, Live Chat and Lead Generation Tools from HubSpot</b> will help you upgrade your marketing:
 
-[youtube https://www.youtube.com/watch?v=FHRyhT-Njm4]
+= Free Form Builder & Pop-ups: Capture every qualified lead =
 
-Want to start collecting leads in minutes? Here’s how with the HubSpot Marketing Free plugin for WordPress:
+Add high-converting forms and pop-ups to your website in minutes. No coding required. You can choose from three type of pop-ups:
 
-= Forms & Pop-ups: To capture every qualified lead =
-
-Add high-converting contact forms and pop-ups in minutes, not hours. No coding or dev help required. You can choose from four different type of pop-ups:
-
-- Overlay modals: Center screen pop-ups that appear on top of page content
-- Top banners: Small banners at the very top of the page
-- Slide-in boxes: Small boxes that slide in from the side/bottom of the page
+- Overlay modal: A pop-up that appears in the center of the screen
+- Banner: A small banner at the top of the page
+- Slide-in box: A small box that slides in from the side of the page
 
 If you’re already using forms on your site, then awesome! HubSpot Marketing Free automatically captures form submissions, even if they come from a different tool. It supports the most popular form building plugins available: Ninja Forms, Gravity Forms, Contact Form 7, and more.
 
-= Contact Insights: To see who your leads are and what they’re doing =
+= Contact Insights: Understand who your leads are and what they’re doing =
 
-When a lead submits a form, additional contact info from across the web is pulled in automatically, including job title and social profiles. You’ll see how they arrived and what they viewed even before they filled out your form. And when they come back, tracking picks up where it left off.
+When a lead submits a form, the HubSpot plugin automatically enriches their profile with public information from across the web such as job title and social profiles. Their contact profile will also show you how they got to your website and what pages they viewed.
 
-Every activity is logged in a tidy timeline, so you know exactly where a lead is and what they're interested in.
+= Built-in Analytics: Analyze and improve your conversions =
 
-= Built-in Analytics: To analyze and improve your conversions =
+Using the built-in analytics, you will see which pages and traffic sources drive the most conversions so you can double down on what’s working and see where you can improve. The data is yours. You don’t have to pay for it.
 
-Built-in analytics make it easy to learn which pages, offers, and traffic sources are driving the most conversions. See how many times leads visit before they buy, spot trends in how visitors navigate your site, and use those insights to drive more conversions.
+= Let your site visitors talk to you when they want =
+
+The paid version of HubSpot allows you to embed a live chat widget on your WordPress site so visitors can chat with you when they want to.
 
 = Start turning visitors into leads today =
 
-See how visitors interact with your site and turn more of them into paying customers. Get HubSpot Marketing Free for forms, analytics, pop-ups, and email integration for your site. It's a risk-free way to see what inbound marketing can do for you.
+Get <b>Form Builder, Live Chat and Lead Generation Tools from HubSpot</b> and start converting website visitors into leads now.
 
-> “HubSpot Marketing Free dramatically cuts down the time I spend on marketing. We used to spend tons of time generating very few inbound leads, but those numbers have gone through the roof with minimal effort.” – Brian Ruhlmann, Director of Sales & Marketing, AdmitHub
+> “HubSpot dramatically cuts down the time I spend on marketing. We used to spend tons of time generating very few inbound leads, but those numbers have gone through the roof with minimal effort.” – Brian Ruhlmann, Director of Sales & Marketing, AdmitHub
 
-= Full Features List =
+= Full Feature List =
 
-- Dashboard: A central hub for your marketing analytics. Learn which forms, pages, offers, and traffic sources are driving the most conversions.
-- Lead Flows: HubSpot’s answer to pop-up forms. Add user-friendly pop-up forms with ease. No code required.
-- Collected Forms: Already using forms? Fantastic. HubSpot's form collector automatically captures submissions, even if they come from a different tool.
-- Contacts Database: A single database for viewing and managing your interactions with contacts.
-- Kickback Emails: Follow up on form submissions with a quick email (or use your own ESP).
-- Integrations: Easily connect to MailChimp, Shopify, Magento, and more with no extra dev work required.
+- Dashboard: A central hub for your marketing analytics. Learn which forms, pages and traffic sources drive the most conversions.
+- Lead Flows: Add user-friendly pop-up forms with ease. No code required.
+- Collected Forms: Already using another forms plugin? No need to change them. HubSpot automatically captures submissions, even if they come from a different tool.
+- Live Chat: A paid feature that allows you to add a live chat widget to your site.
+- Contacts Database: A single simple database for contact management.
+- Kickback Emails: Follow up on form submissions with a quick email.
+- Integrations: Easily connect to MailChimp, Shopify, Magento and more.
 
-= What do people love about the HubSpot Marketing Free plugin? =
+= What people love about the HubSpot WordPress plugin? =
 
-- It’s easy to configure and use, even for non-tech people.
-- It’s lightweight and integrates with HubSpot CRM and Sales, as well as third-party software like MailChimp, Shopify, Magento, and more.
-- You get lead intelligence, including a timeline of which pages a lead visitors and when, and what they end up converting on.
-- It teaches you which pages and offers convert best so you know which pages to optimize.
+- It’s easy to configure and use without code.
+- It’s lightweight and integrates with HubSpot CRM and third-party software like MailChimp, Shopify, Magento and more.
+- The best WordPress marketing plugin to learn which pages and offers convert best so you know which pages to optimize.
 - It saves you time you can use to focus on other marketing activities.
 - It’s 100% responsive and mobile-friendly.
-- We provide great support.
 
-> “HubSpot Marketing Free educates marketers beyond just the anonymous analytics they get from Google Analytics. Instead, it digs down to individual users.” – Michael Shoup, Founder / CEO, 12South Marketing
+> “HubSpot educates marketers beyond just the anonymous analytics they get from Google Analytics. Instead, it digs down to individual users.” – Michael Shoup, Founder / CEO, 12South Marketing
 
 == Support ==
 
-Having trouble? <a href="https://community.hubspot.com/" target="_blank">Browse our HubSpot Community page</a> for help documentation and support.
-
-Want to learn how best to use HubSpot Marketing Free? <a href="https://academy.hubspot.com/learning-track/lead-capture-follow-up-hubspot" target="_blank">Check out our self-paced course from HubSpot Academy</a>. It’ll teach you how to use HubSpot Marketing Free to capture leads off your website and then how to follow up efficiently using the HubSpot CRM.
+Having trouble? <a href="https://community.hubspot.com/">Browse our HubSpot Community page</a> for help documentation and support.
 
 == Installation ==
 
@@ -147,8 +142,14 @@ Please <a href="https://community.hubspot.com/" target="_blank">head over to our
 
 == Changelog ==
 
-- Current version: 6.1.5
-- Current version release: 2017-05-22
+- Current version: 6.1.7
+- Current version release: 2018-06-26
+
+= 6.1.7 (2018.06.26) =
+- Update plugin description
+
+= 6.1.6 (2018.06.22) =
+- Add shortcodes to use forms and ctas tools
 
 = 6.1.5 (2018.05.22) =
 - Code cleanup

@@ -5,8 +5,7 @@
  *
  * Class Opt_In_Data
  */
-abstract class Hustle_Data
-{
+abstract class Hustle_Data {
 
 	const KEY_CONTENT				= "content";
 	const KEY_DESIGN                = "design";
@@ -59,7 +58,7 @@ abstract class Hustle_Data
 	 *
 	 * Opt_In_Data constructor.
 	 */
-	function __construct(){
+	public function __construct(){
 		global $wpdb;
 		$this->_wpdb = $wpdb;
 	}
@@ -114,7 +113,7 @@ abstract class Hustle_Data
 	 * @param $property
 	 * @param $val
 	 */
-	function __set($property, $val){
+	public function __set($property, $val){
 		$this->{$property} = $val;
 	}
 
@@ -127,7 +126,7 @@ abstract class Hustle_Data
 	 * @param $field
 	 * @return mixed
 	 */
-	function __get( $field ){
+	public function __get( $field ){
 
 		if( method_exists( $this, "get_" . $field ) )
 			return $this->{"get_". $field}();

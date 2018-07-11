@@ -4,6 +4,23 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log:
 ----------------------------------------------------------------------
 
+DATE: 09 July, 2018  - VERSION: 2.1.0
+==================================
+- Added default post type "post" on "Author Box" module.
+- Added "Show latest entries" to "Author Box" module.
+- Added "Show number of posts" to "Author Box" module.
+- Fixed a problem with custom icons on "Admin Bar" module.
+- Fixed a problem with remembering fold/unfold status on "Admin Bar" module.
+- Fixed a problem with tabs on IE.
+- Fixed module "Remove WP Dashboard Link for users without site".
+- Fixed problem with mixed content for "Email Template" module preview.
+- Improved "Author Box" module output.
+- Improved handling pseudoclasses for buttons on login form on "Custom Login Screen" module.
+- Module "Login Image" was removed, please use "Login Screen" instead.
+- Refactored modules list on plugin Dashboard.
+- Refactored modules "Login CSS, "Admin CSS", "Footer Content", "Favicons" - Improved UX, fixed problem with folding sections.
+- Renamed modules: "Custom Login CSS" to "Login CSS", "Custom Admin CSS" to "Admin CSS", "Custom Admin Bar" to "Admin Bar", "Global Footer Content" to "Footer Content".
+
 DATE: 17 May, 2018  - VERSION: 2.0.0
 ==================================
 - Added ability to choose social media icons position on "Author Box" module.
@@ -523,4 +540,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 
 
 
-133620-1528232250-au
+133620-1531347936-au

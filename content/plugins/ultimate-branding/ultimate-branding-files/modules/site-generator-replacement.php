@@ -1,30 +1,4 @@
 <?php
-/*
-  Plugin Name: Site Generator Replacement
-  Plugin URI: http://premium.wpmudev.org/project/site-generator-replacement
-  Description: Easily customize ALL "Site Generator" text and links. Edit under Site Admin "Options" menu.
-  Author: Barry (Incsub), S H Mohanjith (Incsub), Andrew Billits (Incsub)
-  Version: 1.0.2
-  Network: true
- */
-
-/*
-  Copyright 2007-2017 Incsub (http://incsub.com)
-
-  This program is free software; you can redistribute it and/or modify
-  it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-  the Free Software Foundation.
-
-  This program is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-  GNU General Public License for more details.
-
-  You should have received a copy of the GNU General Public License
-  along with this program; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
 class ub_site_generator_replacement {
 
 	var $site_generator_replacement_settings_page;
@@ -45,15 +19,30 @@ class ub_site_generator_replacement {
 		 * export
 		 */
 		add_filter( 'ultimate_branding_export_data', array( $this, 'export' ) );
+		/**
+		 * add options names
+		 *
+		 * @since 2.1.0
+		 */
+		add_filter( 'ultimate_branding_options_names', array( $this, 'add_options_names' ) );
+	}
+
+	/**
+	 * Add option names
+	 *
+	 * @since 2.1.0
+	 */
+	public function add_options_names( $options ) {
+		$options[] = 'site_generator_replacement';
+		$options[] = 'site_generator_replacement_link';
+		return $options;
 	}
 
 	function site_generator_replacement_content( $gen, $type ) {
-
 		if ( is_multisite() ) {
 			$current_site = get_current_site();
 		} else {
 			$current_site = new stdClass();
-
 			$current_site->site_name = get_bloginfo( 'name' );
 			$current_site->domain = get_bloginfo( 'url' );
 			$current_site->path = '';
@@ -142,7 +131,7 @@ class ub_site_generator_replacement {
                         </th>
                         <td>
                             <input type="text" name="site_generator_replacement" id="site_generator_replacement" style="width: 95%" value="<?php echo stripslashes( $global_site_generator ); ?>" />
-                            <?php _e( '<br /><small>Change the "generator" information from WordPress to something you prefer.</small>', 'ub' ); ?>
+                            <p class="description"><?php _e( 'Change the "generator" information from WordPress to something you prefer.', 'ub' ); ?></p>
                         </td>
                     </tr>
                     <tr valign="top">
@@ -151,7 +140,7 @@ class ub_site_generator_replacement {
                         </th>
                         <td>
                             <input type="text" name="site_generator_replacement_link" id="site_generator_replacement_link" style="width: 95%" value="<?php echo stripslashes( $global_site_link ); ?>" />
-                            <?php _e( '<br /><small>Change the "generator link" from WordPress to something you prefer.</small>', 'ub' ); ?>
+                            <p class="description"><?php _e( 'Change the "generator link" from WordPress to something you prefer.', 'ub' ); ?></p>
                         </td>
                     </tr>
                 </table>
@@ -166,10 +155,7 @@ class ub_site_generator_replacement {
 	 * @since 1.8.6
 	 */
 	public function export( $data ) {
-		$options = array(
-			'site_generator_replacement',
-			'site_generator_replacement_link',
-		);
+		$this->add_options_names( $options = array() );
 		foreach ( $options as $key ) {
 			$data['modules'][ $key ] = ub_get_option( $key );
 		}
@@ -177,6 +163,4 @@ class ub_site_generator_replacement {
 	}
 }
 
-$ub_site_generator_replacement = new ub_site_generator_replacement();
-
-
+new ub_site_generator_replacement();

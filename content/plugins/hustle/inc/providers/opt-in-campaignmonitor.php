@@ -29,31 +29,31 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
 	 */
 	protected  static $errors;
 
+	protected $id = self::ID;
 
-	static function instance(){
-		return new self;
+	/**
+	 * @return Opt_In_Provider_Interface|Opt_In_Provider_Abstract class
+	 */
+	public static function instance(){
+		return new self();
 	}
 
 	/**
-	 * Updates api option
+	 * Get Provider Details
+	 * General function to get provider details from database based on key
 	 *
-	 * @param $option_key
-	 * @param $option_value
-	 * @return bool
-	 */
-	function update_option($option_key, $option_value){
-		return update_site_option( self::ID . "_" . $option_key, $option_value);
-	}
-
-	/**
-	 * Retrieves api option from db
+	 * @param Hustle_Module_Model $module
+	 * @param String $field - the field name
 	 *
-	 * @param $option_key
-	 * @param $default
-	 * @return mixed
+	 * @return String
 	 */
-	function get_option($option_key, $default){
-		return get_site_option( self::ID . "_" . $option_key, $default );
+	protected static function _get_provider_details( Hustle_Module_Model $module, $field ) {
+		$details = '';
+		$name = self::ID;
+		if ( isset( $module->content->email_services[$name][$field] ) ) {
+ 			$details = $module->content->email_services[$name][$field];
+		}
+		return $details;
 	}
 
 	/**
@@ -177,7 +177,7 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
 		return $err;
 	}
 
-	function get_options( $module_id ){
+	public function get_options(){
 		$cids = array();
 		$lists = array();
 		$clients = self::api( $this->api_key )->get_clients();
@@ -226,10 +226,10 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
 		);
 	}
 
-	function get_account_options( $module_id ){
+	public function get_account_options( $module_id ){
 
 		$module     = Hustle_Module_Model::instance()->get( $module_id );
-		$api_key    = self::_get_api_key( $module );;
+		$api_key    = self::_get_api_key( $module );
 
 		$api_key_tooltip = '<span class="wpoi-tooltip tooltip-right" tooltip="' . __('Once logged in, click on your profile picture at the top-right corner to open te menu, then click on Account Settings and finally click on API keys.', Opt_In::TEXT_DOMAIN) . '"><span class="dashicons dashicons-warning wpoi-icon-info"></span></span>';
 		return array(
@@ -265,35 +265,22 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
 			"instructions" => array(
 				"id" => "optin_api_instructions",
 				"for" => "",
-				"value" => __("To get your API key, log in to your <a href='https://login.createsend.com/l/?ReturnUrl=%2Faccount%2Fapikeys' target='_blank'>Campaign Monitor account</a>, then click on your profile picture at the top-right corner to open a menu, then select <strong>Account Settings</strong> and finally click on <strong>API keys</strong>.", Opt_In::TEXT_DOMAIN),
+				"value" => sprintf(
+					esc_html__( 'To get your API key, log in to your %1$s, then click on your profile picture at the top-right corner to open a menu, then select %2$s and finally click on %3$s.', Opt_In::TEXT_DOMAIN),
+					sprintf( '<a href="%1$s" target="_blank">%2$s</a>',
+						'https://login.createsend.com/l/?ReturnUrl=%2Faccount%2Fapikeys',
+						esc_html__( 'Campaign Monitor account' )
+					),
+					sprintf( '<strong>%s</strong>', esc_html__( 'Account Settings' ) ),
+					sprintf( '<strong>%s</strong>', esc_html__( 'API keys' ) )
+				),
 				"type" => "small",
 			),
 		);
 	}
 
-	function is_authorized(){
+	public function is_authorized(){
 		return true;
-	}
-
-	/**
-	 * Get Provider Details
-	 * General function to get provider details from database based on key
-	 *
-	 * @param Hustle_Module_Model $module
-	 * @param String $field - the field name
-	 *
-	 * @return String
-	 */
-	private static function _get_provider_details( Hustle_Module_Model $module, $field ) {
-		$details = '';
-		$name = self::ID;
-		if ( !is_null( $module->content->email_services )
-			&& isset( $module->content->email_services[$name] )
-			&& isset( $module->content->email_services[$name][$field] ) ) {
-
-			$details = $module->content->email_services[$name][$field];
-		}
-		return $details;
 	}
 
 	private static function _get_api_key( Hustle_Module_Model $module ) {
@@ -305,7 +292,7 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
 		return self::_get_provider_details( $module, 'list_id' );
 	}
 
-	static function add_custom_field( $fields, $module_id ) {
+	public static function add_custom_field( $fields, $module_id ) {
 		$module     = Hustle_Module_Model::instance()->get( $module_id );
 		$api_key    = self::_get_api_key( $module );
 		$list_id    = self::_get_api_list_id( $module );
@@ -319,7 +306,7 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
 		    $meta_key   = "cm_field_{$key}";
 			if ( ! empty( $custom_fields ) && ! empty( $custom_fields->response ) ) {
 				foreach ( $custom_fields->response as $custom_field ) {
-					if ( $custom_field->FieldName == $field['label'] ) {
+					if ( $custom_field->FieldName === $field['label'] ) {
 						$exist = true;
 					}
 					$module->add_meta( "cm_field_". $custom_field->Key, $custom_field->FieldName );
@@ -341,9 +328,15 @@ class Opt_In_Campaignmonitor extends Opt_In_Provider_Abstract implements  Opt_In
 		}
 
 		if ( $exist ) {
-			return array( 'success' => true, 'field' => $fields );
+			return array(
+				'success' => true,
+				'field' => $fields,
+			);
 		} else {
-			return array( 'error' => true, 'code' => 'cannot_create_custom_field' );
+			return array(
+				'error' => true,
+				'code' => 'cannot_create_custom_field',
+			);
 		}
 	}
 }

@@ -16,7 +16,7 @@ class Opt_In_ConvertKit_Api {
 	 * Opt_In_ConvertKit_Api constructor.
 	 * @param $api_key
 	 */
-	function __construct( $api_key, $api_secret = '' ) {
+	public function __construct( $api_key, $api_secret = '' ) {
 		$this->_api_key = $api_key;
 		$this->_api_secret = $api_secret;
 	}
@@ -43,7 +43,7 @@ class Opt_In_ConvertKit_Api {
 		if( "GET" === $verb ){
 			$url .= ( "?" . http_build_query( $args ) );
 		}else{
-			$_args['body'] = json_encode( $args['body'] );
+			$_args['body'] = wp_json_encode( $args['body'] );
 		}
 
 		$res = wp_remote_request( $url, $_args );
@@ -141,7 +141,7 @@ class Opt_In_ConvertKit_Api {
 	 *
 	 * @return (object) Returns data of existing subscriber if exist otherwise false.
 	 **/
-	function is_subscriber( $email ) {
+	public function is_subscriber( $email ) {
 		$url = 'subscribers';
 		$args = array(
 			'api_key' => $this->_api_key,

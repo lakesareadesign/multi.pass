@@ -261,13 +261,6 @@
 	-webkit-justify-content: flex-start;
 }
 
-/* Fix parallax issue in chrome 67/68 */
-html:not(.fl-builder-edit) .fl-row-bg-parallax > .fl-row-content-wrap,
-html:not(.fl-builder-edit) .fl-row-bg-overlay > .fl-row-content-wrap {
-    -webkit-transform: translate3d(0,0,0);
-            transform: translate3d(0,0,0);
-}
-
 /* Full height iPad with portrait orientation. */
 @media all and (device-width: 768px) and (device-height: 1024px) and (orientation:portrait){
   .fl-row-full-height .fl-row-content-wrap{

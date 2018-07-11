@@ -291,6 +291,13 @@ function get_aof_options() {
       );
 
   $panel_fields[] = array(
+      'name' => __( 'External background url', 'alter' ),
+      'id' => 'login_external_bg_url',
+      'type' => 'text',
+      'desc' => __( 'Load image from external source.', 'alter' ),
+  );
+
+  $panel_fields[] = array(
       'name' => __( 'Background image', 'alter' ),
       'id' => 'login_bg_img',
       'type' => 'upload',

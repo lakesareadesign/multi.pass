@@ -2,7 +2,7 @@
 /*
 Plugin Name: HTML E-mail Templates
 Plugin URI: https://premium.wpmudev.org/project/html-email-templates/
-Description: Allows you to add HTML templates for all of the standard Wordpress e-mails. In Multisite templates can be set network wide or can be allowed to set site wise template, if template override for the site is enabled and template is not specified for a site, network template will be used.
+Description: Allows you to add HTML templates for all of the standard WordPress e-mails. In Multisite templates can be set network wide or can be allowed to set site wise template, if template override for the site is enabled and template is not specified for a site, network template will be used.
 Author: WPMU DEV
 Version: 2.0.7
 Author URI: http://premium.wpmudev.org/
@@ -435,7 +435,7 @@ $count ++;
 
                     <?php if ( current_user_can( 'unfiltered_html' ) ) { //it's only safe to allow live previews for unfiltered_html cap to prevent XSS ?>
                         <a name="preview_template" id="preview_template" class="button button-secondary"
-                            href="<?php echo plugins_url( 'preview.html?TB_iframe=true&height=500&width=700', __FILE__ ); ?>"
+                            href="<?php echo plugins_url( 'htmlemail-files/preview.html?TB_iframe=true&height=500&width=700', __FILE__ ); ?>"
                             title="<?php esc_attr_e( 'Live Preview', 'htmlemail' ); ?>"><?php _e( 'Preview', 'htmlemail' ); ?></a>
                     <?php } ?>
 
@@ -888,7 +888,7 @@ if ( is_network_admin() ) {
 			$date             = date_i18n( get_option( 'date_format' ) );
 			$time             = date_i18n( get_option( 'time_format' ) );
 
-			$message = 'This is a test message I want to try out to see if it works. This will be replaced with wordpress e-mail content.
+			$message = 'This is a test message I want to try out to see if it works. This will be replaced with WordPress e-mail content.
                 Is it working well?';
 
 			$from_email = get_option( 'admin_email' );

@@ -1,26 +1,4 @@
 <?php
-/*
-Plugin Name: Dashboard Feeds
-Description: Customize the dashboard for every user in a flash with this straightforward dashboard feed replacement widget... no more WP development news or Matt's latest photo set :)
-
-License: GNU General Public License (Version 2 - GPLv2)
-
-Copyright 2012-2017 Incsub (http://incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-
 if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 
 	class WPMUDEV_Dashboard_Feeds {

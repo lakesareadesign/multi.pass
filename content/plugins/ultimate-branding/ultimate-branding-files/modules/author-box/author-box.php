@@ -1,25 +1,4 @@
 <?php
-/*
-Plugin Name: Author Box
-Description: Adds a responsive author box at the end of your posts, showing the author name, author gravatar and author description and social profiles.
-Customize the author_box Mode page and create Coming Soon Page.
-License: GNU General Public License (Version 2 - GPLv2)
-Copyright 2018 Incsub (http://incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-*/
-
 if ( ! class_exists( 'ub_author_box' ) ) {
 
 	/**
@@ -84,6 +63,10 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 			foreach ( $p as $key => $data ) {
 				$post_types[ $key ] = $data->label;
 			}
+			$value = $this->get_value( 'show', 'display_name_link', 'on' );
+			if ( 'off' === $value ) {
+				$this->set_value( 'name_options', 'link', $value );
+			}
 			$options = array(
 				'show' => array(
 					'title' => __( 'General configuration', 'ub' ),
@@ -106,6 +89,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							'multiple' => true,
 							'classes' => array( 'ub-select2' ),
 							'description' => __( 'Please select post types in which the author box will be displayed.', 'ub' ),
+							'default' => array( 'post' ),
 						),
 						'display_name' => array(
 							'type' => 'checkbox',
@@ -116,19 +100,6 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							),
 							'default' => 'on',
 							'classes' => array( 'switch-button' ),
-							'slave-class' => 'display-name',
-						),
-						'display_name_link' => array(
-							'type' => 'checkbox',
-							'label' => __( 'Link name', 'ub' ),
-							'description' => __( 'Link author name to author archive.', 'ub' ),
-							'options' => array(
-								'on' => __( 'Link', 'ub' ),
-								'off' => __( 'no', 'ub' ),
-							),
-							'default' => 'on',
-							'classes' => array( 'switch-button' ),
-							'master' => 'display-name',
 						),
 						'description' => array(
 							'type' => 'checkbox',
@@ -163,6 +134,18 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							'classes' => array( 'switch-button' ),
 							'slave-class' => 'social-media',
 						),
+						'entries' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Show latest entries', 'ub' ),
+							'description' => __( 'Add author latests entries', 'ub' ),
+							'options' => array(
+								'on' => __( 'Show', 'ub' ),
+								'off' => __( 'Hide', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+							'slave-class' => 'entries',
+						),
 					),
 				),
 				'box' => array(
@@ -196,7 +179,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							'master' => 'border',
 						),
 						'border_style' => array(
-							'type' => 'select',
+							'type' => 'radio',
 							'label' => __( 'Border style', 'ub' ),
 							'default' => 'solid',
 							'master' => 'border',
@@ -219,6 +202,37 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							'default' => 'transparent',
 							'master' => 'background',
 						),
+					),
+				),
+				'name_options' => array(
+					'title' => __( 'Display name options', 'ub' ),
+					'fields' => array(
+						'link' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Link name', 'ub' ),
+							'description' => __( 'Link author name to author archive.', 'ub' ),
+							'options' => array(
+								'on' => __( 'Link', 'ub' ),
+								'off' => __( 'no', 'ub' ),
+							),
+							'default' => 'on',
+							'classes' => array( 'switch-button' ),
+						),
+						'counter' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Show number of posts', 'ub' ),
+							'options' => array(
+								'on' => __( 'Show', 'ub' ),
+								'off' => __( 'Hide', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+						),
+					),
+					'master' => array(
+						'section' => 'show',
+						'field' => 'display_name',
+						'value' => 'on',
 					),
 				),
 				'avatar' => array(
@@ -267,11 +281,66 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 						'value' => 'on',
 					),
 				),
+				'entries_settings' => array(
+					'title' => __( 'Entries Settings', 'ub' ),
+					'fields' => array(
+						'the_same_type' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Show entries type', 'ub' ),
+							'options' => array(
+								'on' => __( 'Only the same', 'ub' ),
+								'off' => __( 'Any', 'ub' ),
+							),
+							'default' => 'on',
+							'classes' => array( 'switch-button' ),
+						),
+						'limit' => array(
+							'type' => 'number',
+							'label' => __( 'Number of entries', 'ub' ),
+							'default' => 5,
+							'min' => 1,
+							'classes' => array( 'ui-slider' ),
+						),
+						'link_in_new_tab' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Open links', 'ub' ),
+							'description' => __( 'Would you like open link in new or the same window/tab?', 'ub' ),
+							'options' => array(
+								'on' => __( 'new', 'ub' ),
+								'off' => __( 'the same', 'ub' ),
+							),
+							'default' => 'off',
+							'classes' => array( 'switch-button' ),
+							'master' => 'entries',
+						),
+						'title_show' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Show Title', 'ub' ),
+							'options' => array(
+								'on' => __( 'Yes', 'ub' ),
+								'off' => __( 'No', 'ub' ),
+							),
+							'default' => 'on',
+							'classes' => array( 'switch-button' ),
+							'slave-class' => 'title-show',
+						),
+						'title' => array(
+							'label' => __( 'Title', 'ub' ),
+							'default' => __( 'Read more the same author:', 'ub' ),
+							'master' => 'title-show',
+						),
+					),
+					'master' => array(
+						'section' => 'show',
+						'field' => 'entries',
+						'value' => 'on',
+					),
+				),
 				'social_media_settings' => array(
 					'title' => __( 'Social Media Settings', 'ub' ),
 					'fields' => array(
 						'position' => array(
-							'type' => 'select',
+							'type' => 'radio',
 							'label' => __( 'Icons position', 'ub' ),
 							'options' => array(
 								'bottom' => __( 'Bottom of the box', 'ub' ),
@@ -507,37 +576,34 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 				return $content;
 			}
 			$user_id = get_the_author_meta( 'ID' );
+			$box_content = '';
 			/**
-			 * social_media
+			 * social media
 			 */
 			$social_media = $this->get_social_media_content();
 			$social_media_position = $this->get_value( 'social_media_settings', 'position', 'bottom' );
-			$content .= '<div class="ub-author-box">';
-			if ( 'top' === $social_media_position ) {
-				$content .= $social_media;
-			}
-			$content .= '<div class="ub-author-box-content">';
 			/**
 			 * Gravatar
 			 */
 			$show = $this->get_value( 'show', 'avatar', false );
 			if ( 'on' == $show ) {
 				$size = $this->get_value( 'avatar', 'size', 96 );
-				$content .= sprintf( '<div class="ub-author-box-avatar" style="min-width: %dpx;">', $size );
-				$content .= get_avatar( $user_id, $size );
+				$box_content .= sprintf( '<div class="ub-author-box-avatar" style="min-width: %dpx;">', $size );
+				$box_content .= get_avatar( $user_id, $size );
 				if ( 'under-avatar' === $social_media_position ) {
-					$content .= $social_media;
+					$box_content .= $social_media;
 				}
-				$content .= '</div>';
+				$box_content .= '</div>';
 			}
 			/**
 			 * name
 			 */
-			$content .= '<div class="ub-author-box-desc">';
+
+			$part = '';
 			$show = $this->get_value( 'show', 'display_name', false );
 			if ( 'on' == $show ) {
 				$value = get_the_author_meta( 'display_name' );
-				$link = $this->get_value( 'show', 'display_name_link', false );
+				$link = $this->get_value( 'name_options', 'link', 'on' );
 				if ( 'on' == $link ) {
 					$value = sprintf(
 						'<a href="%s">%s</a>',
@@ -545,7 +611,23 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 						$value
 					);
 				}
-				$content .= sprintf( '<h4>%s</h4>', $value );
+				$show = $this->get_value( 'name_options', 'counter', false );
+				if ( 'on' === $show ) {
+					$args = array(
+						'author' => get_the_author_meta( 'ID' ),
+						'post_type' => get_post_type(),
+						'fields' => 'ids',
+						'nopaging' => true,
+					);
+					$type = $this->get_value( 'entries_settings', 'the_same_type', 'on' );
+					if ( 'off' === $type ) {
+						$args['post_type'] = 'any';
+					}
+					$the_query = new WP_Query( $args );
+					$number = count( $the_query->posts );
+					$value .= sprintf( ' (%d)', number_format_i18n( $number ) );
+				}
+				$part .= sprintf( '<h4>%s</h4>', $value );
 			}
 			/**
 			 * description
@@ -554,17 +636,87 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 			if ( 'on' == $show ) {
 				$description = get_the_author_meta( 'user_description' );
 				if ( $description ) {
-					$content .= sprintf( '<div class="description">%s</div>', wpautop( $description ) );
+					$part .= sprintf( '<div class="description">%s</div>', wpautop( $description ) );
 				}
 			}
-			$content .= '</div>';
-			$content .= '</div>';
-			if ( 'bottom' === $social_media_position ) {
-				$content .= $social_media;
+			/**
+			 * last entries
+			 */
+			$show = $this->get_value( 'show', 'entries', false );
+			if ( 'on' === $show ) {
+				$args = array(
+					'exclude' => get_the_ID(),
+					'author' => get_the_author_meta( 'ID' ),
+					'posts_per_page' => $this->get_value( 'entries_settings', 'limit', 5 ),
+					'post_type' => get_post_type(),
+				);
+				$type = $this->get_value( 'entries_settings', 'the_same_type', 'on' );
+				if ( 'off' === $type ) {
+					$args['post_type'] = 'any';
+				}
+				$entries = '';
+				$the_query = new WP_Query( $args );
+				if ( $the_query->have_posts() ) {
+					$target = $this->get_value( 'entries_settings', 'link_in_new_tab', false );
+					$target = ( 'on' === $target )? ' target="_blank"':'';
+					while ( $the_query->have_posts() ) {
+						$the_query->the_post();
+						$entries .= sprintf(
+							'<li><a href="%s"%s>%s</a></li>',
+							get_the_permalink(),
+							$target,
+							get_the_title()
+						);
+					}
+					wp_reset_postdata();
+				}
+				wp_reset_query();
+				if ( ! empty( $entries ) ) {
+					$part .= '<div class="ub-author-box-more">';
+					$show = $this->get_value( 'entries_settings', 'title_show', 'on' );
+					if ( 'on' === $show ) {
+						$title = $this->get_value( 'entries_settings', 'title', '' );
+						if ( ! empty( $title ) ) {
+							$part .= sprintf( '<h4>%s</h4>', $title );
+						}
+					}
+					$part .= sprintf( '<ul>%s</ul>', $entries );
+					$part .= '</div>';
+				}
 			}
-			$content .= '</div>';
+			/**
+			 * wrap description
+			 */
+			if ( ! empty( $part ) ) {
+				$box_content .= sprintf( '<div class="ub-author-box-desc">%s</div>', $part );
+			}
+			/**
+			 * wrap box content
+			 */
+			if ( ! empty( $box_content ) ) {
+				$box_content = sprintf( '<div class="ub-author-box-content">%s</div>', $box_content );
+			}
+			/**
+			 * social_media
+			 */
+			if ( ! empty( $social_media ) ) {
+				switch ( $social_media_position ) {
+					case 'top':
+						$box_content = $social_media . $box_content;
+					break;
+					case 'bottom':
+						$box_content .= $social_media;
+				}
+			}
+			/**
+			 * wrap all
+			 */
+			if ( ! empty( $box_content ) ) {
+				$content .= sprintf( '<div class="ub-author-box">%s</div>', $box_content );
+			}
 			return $content;
 		}
+
 		/**
 		 * Social media helper
 		 *
@@ -587,6 +739,9 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 			$sm = '';
 			$data = $this->get_value( 'social_media' );
 			$value = get_the_author_meta( 'ub_author_box' );
+			if ( empty( $value ) ) {
+				$value = array();
+			}
 			$value['wp-profile-website'] = get_the_author_meta( 'user_url' );
 			$value['mail'] = get_the_author_meta( 'user_email' );
 			$order = $this->get_value( '_social_media_sortable' );

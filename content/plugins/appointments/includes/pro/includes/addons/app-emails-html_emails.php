@@ -18,7 +18,7 @@ class App_Emails_HtmlEmails {
 	}
 
 	private function _add_hooks () {
-		add_filter('app-emails-content_type', array($this, 'switch_content_type'));
+		add_filter('app-emails-content_type', array($this, 'switch_content_type'));		   		 	  		  	 	 	
 	}
 
 	public function switch_content_type () {

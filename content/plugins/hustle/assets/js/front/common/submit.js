@@ -47,6 +47,18 @@
 		return errors.length === 0;
 	}
 
+	function get_module( allModules, module_id ) {
+		var mod;
+		$.each( allModules, function( key, val ) {
+			if ( module_id === parseInt( $(this)[0][ 'module_id' ] ) ) {
+				mod = val;
+				return false;
+			}
+		});
+
+		return mod;
+	}
+
 	$(document).on("submit", 'form.hustle-modal-optin_form',function(e){
 		e.preventDefault();
 		
@@ -56,7 +68,7 @@
 			$modal_parent = $modal.parent(),
 			module_id = $modal_parent.data( 'id'),
 			type = $modal_parent.data('type'),
-			module = Modules[ module_id ],
+			module = get_module( Modules, module_id ),
 			self = this,
 			is_test = _.isTrue( module.test_mode ),
 			get_success_message = function(){

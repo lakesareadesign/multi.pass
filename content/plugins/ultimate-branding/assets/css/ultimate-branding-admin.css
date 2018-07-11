@@ -35,11 +35,11 @@
   border-bottom: 1px solid #ccc;
   margin-bottom: 1em;
 }
-.toplevel_page_branding .tabs .-primary {
+.toplevel_page_branding .tabs .ub-primary {
   display: flex;
   margin-bottom: 0;
 }
-.toplevel_page_branding .tabs .-primary li {
+.toplevel_page_branding .tabs .ub-primary li {
   margin-bottom: 0;
 }
 .toplevel_page_branding .tabs .ub-tab-more-button:hover {
@@ -48,11 +48,11 @@
 .toplevel_page_branding .tabs > li {
   flex-grow: 1;
 }
-.toplevel_page_branding .tabs:not(.--jsfied) {
+.toplevel_page_branding .tabs:not(.ub-jsfied) {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
 }
-.toplevel_page_branding .tabs .-secondary {
+.toplevel_page_branding .tabs .ub-secondary {
   background-color: #fff;
   display: none;
   position: absolute;
@@ -60,19 +60,19 @@
   top: 100%;
   z-index: 999999;
 }
-.toplevel_page_branding .tabs .-secondary li {
+.toplevel_page_branding .tabs .ub-secondary li {
   width: 100%;
   margin: 0;
 }
-.toplevel_page_branding .tabs .-secondary li .nav-tab {
+.toplevel_page_branding .tabs .ub-secondary li .nav-tab {
   display: block;
   float: none;
   margin: 1px;
 }
-.toplevel_page_branding .tabs.--show-secondary .-secondary {
+.toplevel_page_branding .tabs.ub-show-secondary .ub-secondary {
   display: block;
 }
-.toplevel_page_branding .tabs .--hidden {
+.toplevel_page_branding .tabs .ub-hidden {
   display: none;
 }
 
@@ -214,6 +214,10 @@ li.link_row h4 {
 .postbox .simple-option-gallery .images .image-wrapper .button-select-image {
   float: right;
 }
+.postbox .simple-option-css_editor .ub_css_editor {
+  width: 100%;
+  min-height: 20em;
+}
 
 .ub-deprecated-module,
 .ub-module-error,
@@ -261,4 +265,4 @@ li.link_row h4 {
 }
 
 
-/* 133620-1528232250-au */
+/* 133620-1531347936-au */

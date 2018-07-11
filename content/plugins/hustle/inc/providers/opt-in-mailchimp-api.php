@@ -21,7 +21,7 @@ class Opt_In_Mailchimp_Api {
 	 * Opt_In_Mailchimp_Api constructor.
 	 * @param $api_key
 	 */
-	function __construct( $api_key, $data_center ) {
+	public function __construct( $api_key, $data_center ) {
 		$this->_api_key = $api_key;
 		$this->_data_center = $data_center;
 		$this->_endpoint = str_replace( '<dc>', $data_center, $this->_endpoint );
@@ -50,7 +50,7 @@ class Opt_In_Mailchimp_Api {
 		if( "GET" === $verb ){
 			$url .= ( "?" . http_build_query( $args ) );
 		}else{
-			$_args['body'] = json_encode( $args['body'] );
+			$_args['body'] = wp_json_encode( $args['body'] );
 		}
 
 		$res = wp_remote_request( $url, $_args );

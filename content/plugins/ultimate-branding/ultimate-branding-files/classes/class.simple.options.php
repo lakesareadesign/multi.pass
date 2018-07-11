@@ -3,7 +3,7 @@
 Class Name: Simple Options
 Class URI: http://iworks.pl/
 Description: Simple option class to manage options.
-Version: 1.0.9
+Version: 1.2.0
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GPLv2 or later
@@ -26,6 +26,12 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 
 == CHANGELOG ==
+
+= 1.2.0 =
+- Added "checkboxes" field type.
+
+= 1.1.0 =
+- Added "css_editor" field type.
 
 = 1.0.9 =
 - Added default "large-text" class to "textarea" and "email",
@@ -89,9 +95,13 @@ if ( ! class_exists( 'simple_options' ) ) {
 			foreach ( $options as $section_key => $option ) {
 				if ( ! isset( $option['fields'] ) ) {
 					if ( isset( $option['description'] ) ) {
-						$content .= sprintf( '<div class="postbox" id="%s">', esc_attr( $section_key ) );
-						$content .= sprintf( '<h3 class="hndle">%s</h3>', $option['title'] );
-						$content .= sprintf( '<div class="inside description">%s</div>', $option['description'] );
+						$classes = array( 'postbox' );
+						if ( isset( $boxes[ $section_key ] ) ) {
+							$classes[] = $boxes[ $section_key ];
+						}
+						$content .= sprintf( '<div class="%s" id="%s">', esc_attr( implode( ' ', $classes ) ), esc_attr( $section_key ) );
+						$content .= $this->box_title( $option['title'] );
+						$content .= sprintf( '<div class="inside description">%s</div>', wpautop( $option['description'] ) );
 						$content .= '</div>';
 					}
 					continue;
@@ -120,6 +130,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 						$master_fields[ $master_field ] = $master_value;
 						$extra[] = sprintf( 'data-master-%s="%s"', $master_field, esc_attr( $master_value ) );
 					}
+
 					$value = $this->get_single_value( $options, $input, $master_fields['section'], $master_fields['field'] );
 					$classes[] = 'section-is-slave';
 					if ( $master_fields['value'] != $value ) {
@@ -132,23 +143,15 @@ if ( ! class_exists( 'simple_options' ) ) {
 				/**
 				 * postbox
 				 */
+				$classes = array_unique( $classes );
 				$content .= sprintf(
-					'<div class="postbox %s" id="%s" %s>',
+					'<div class="%s" id="%s" %s>',
 					esc_attr( implode( ' ', $classes ) ),
 					esc_attr( $section_key ),
 					implode( ' ', $extra )
 				);
-				/**
-				 * fold
-				 */
-				$content .= '<button type="button" class="handlediv button-link" aria-expanded="true">';
-				$content .= '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s', 'ub' ), $option['title'] ) . '</span>';
-				$content .= '<span class="toggle-indicator" aria-hidden="true"></span>';
-				$content .= '</button>';
-				/**
-				 * Section title
-				 */
-				$content .= sprintf( ' <h2 class="hndle">%s</h2>', $option['title'] );
+
+				$content .= $this->box_title( $option['title'] );
 				/**
 				 * open inside
 				 */
@@ -315,6 +318,25 @@ if ( ! class_exists( 'simple_options' ) ) {
 							$content .= '</ul>';
 						break;
 
+						case 'checkboxes':
+							$content .= '<ul>';
+							foreach ( $data['options'] as $checkbox_value => $checkbox_label ) {
+								$checked = is_array( $value ) && array_key_exists( $checkbox_value, $value );
+								$content .= sprintf(
+									'<li><label><input type="checkbox" id="%s_%s" name="simple_options[%s][%s][%s]" value="1" class="%s" %s /> %s</label></li>',
+									esc_attr( $html_id ),
+									esc_attr( $checkbox_value ),
+									esc_attr( $section_key ),
+									esc_attr( $id ),
+									esc_attr( $checkbox_value ),
+									isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
+									checked( 1, $checked, false ),
+									esc_html( $checkbox_label )
+								);
+							}
+							$content .= '</ul>';
+							break;
+
 						case 'checkbox':
 							$slave = '';
 							if ( isset( $data['slave-class'] ) ) {
@@ -431,6 +453,31 @@ if ( ! class_exists( 'simple_options' ) ) {
 								isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
 								implode( ' ', $extra ),
 								$select_options
+							);
+						break;
+
+							/**
+							 * CSS Editor
+							 *
+							 * @since 1.1.0
+							 */
+						case 'css_editor':
+							if ( ! is_string( $value ) ) {
+								$value = '';
+							}
+							$data['classes'][] = 'hidden';
+							$content .= sprintf(
+								'<textarea id="%s" name="%s" class="%s">%s</textarea>',
+								esc_attr( $html_id ),
+								esc_attr( $field_name ),
+								isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
+								esc_attr( stripslashes( $value ) )
+							);
+							$content .= sprintf(
+								'<div class="ub_css_editor" id="%s_editor" data-input="#%s">%s</div>',
+								esc_attr( $html_id ),
+								esc_attr( $html_id ),
+								esc_html( stripslashes( $value ) )
 							);
 						break;
 
@@ -780,6 +827,27 @@ if ( ! class_exists( 'simple_options' ) ) {
     </div>
 </script>
 <?php
+		}
+
+		/**
+		 * box title
+		 *
+		 * @since 2.1.0
+		 */
+		public function box_title( $title, $after = '' ) {
+			$content = '';
+			/**
+			 * fold
+			 */
+			$content .= '<button type="button" class="handlediv button-link" aria-expanded="true">';
+			$content .= '<span class="screen-reader-text">' . sprintf( __( 'Toggle panel: %s', 'ub' ), esc_html( $title ) ) . '</span>';
+			$content .= '<span class="toggle-indicator" aria-hidden="true"></span>';
+			$content .= '</button>';
+			/**
+			 * Section title
+			 */
+			$content .= sprintf( ' <h2 class="hndle">%s%s</h2>', $title, $after );
+			return $content;
 		}
 	}
 }

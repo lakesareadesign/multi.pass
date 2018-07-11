@@ -1,4 +1,4 @@
-/*! Ultimate Branding - v2.0.0
+/*! Ultimate Branding - v2.1.0
  * https://premium.wpmudev.org/project/ultimate-branding/
  * Copyright (c) 2018; * Licensed GPLv2+ */
 /* global window, jQuery, ace */
@@ -687,23 +687,23 @@ jQuery( window.document ).ready(function($){
     "use strict";
 
     var container = $('.tabs');
-    var primary = $('.-primary', container );
-    var primaryItems = $('.-primary > li:not(.-more)', container);
+    var primary = $('.ub-primary', container );
+    var primaryItems = $('.ub-primary > li:not(.ub-more)', container);
 
-    container.addClass('--jsfied');
+    container.addClass('ub-jsfied');
 
     // insert "more" button and duplicate the list
-    primary.append( '<li class="-more"><button type="button" class="ub-tab-more-button nav-tab" aria-haspopup="true" aria-expanded="false">'+ub_admin.tab_more+'</button><ul class="-secondary">'+primary.html()+'</ul></li>');
+    primary.append( '<li class="ub-more"><button type="button" class="ub-tab-more-button nav-tab" aria-haspopup="true" aria-expanded="false">'+ub_admin.tab_more+'</button><ul class="ub-secondary">'+primary.html()+'</ul></li>');
 
-    var secondary = $('.-secondary', container);
+    var secondary = $('.ub-secondary', container);
     var secondaryItems = $('li', secondary );
     var allItems = $('li', container );
-    var moreLi = $('.-more', primary );
+    var moreLi = $('.ub-more', primary );
     var moreBtn = $('button', moreLi );
 
     moreBtn.on( 'click', function() {
-        container.toggleClass('--show-secondary');
-        moreBtn.attr('aria-expanded', container.hasClass('--show-secondary'));
+        container.toggleClass('ub-show-secondary');
+        moreBtn.attr('aria-expanded', container.hasClass('ub-show-secondary'));
     });
 
     var stopWidth, hiddenItems, primaryWidth;
@@ -712,7 +712,7 @@ jQuery( window.document ).ready(function($){
         /**
          * Show all items to allow calculate
          */
-        allItems.removeClass( '--hidden' );
+        allItems.removeClass( 'ub-hidden' );
         /**
          * calculate how much elements should be shown
          */
@@ -726,7 +726,7 @@ jQuery( window.document ).ready(function($){
             if(primaryWidth >= stopWidth + $(this).width()) {
                 stopWidth += $(this).width();
             } else {
-                $(this).addClass('--hidden');
+                $(this).addClass('ub-hidden');
                 hiddenItems.push(i);
             }
         });
@@ -735,13 +735,13 @@ jQuery( window.document ).ready(function($){
          * hide it
          */
         if( !hiddenItems.length ) {
-            moreLi.addClass('--hidden');
-            container.removeClass('--show-secondary');
+            moreLi.addClass('ub-hidden');
+            container.removeClass('ub-show-secondary');
             moreBtn.attr('aria-expanded', false);
         } else {
             secondaryItems.each( function( i ) {
                 if(!hiddenItems.includes(i)) {
-                    $(this).addClass('--hidden');
+                    $(this).addClass('ub-hidden');
                 }
             });
         }
@@ -759,12 +759,12 @@ jQuery( window.document ).ready(function($){
     $(window.document).on('click', function( e ) {
         var el = $(e.target);
         while( 1 === el.length ) {
-            if ( el.hasClass( 'ub-tab-more-button' ) || el.hasClass( '-secondary' ) ) {
+            if ( el.hasClass( 'ub-tab-more-button' ) || el.hasClass( 'ub-secondary' ) ) {
                 return;
             }
             el = el.parent();
         }
-        container.removeClass('--show-secondary');
+        container.removeClass('ub-show-secondary');
         moreBtn.attr('aria-expanded', false);
     });
 

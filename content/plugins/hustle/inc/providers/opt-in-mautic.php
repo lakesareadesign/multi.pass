@@ -16,11 +16,35 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 		const ID = "mautic";
 		const NAME = "Mautic";
 
-		static function instance() {
-			return new self;
+		protected $id = self::ID;
+
+
+		/**
+		 * @return Opt_In_Provider_Interface|Opt_In_Provider_Abstract class
+		 */
+		public static function instance(){
+			return new self();
 		}
 
-		static function api( $base_url = '', $username = '', $password = '' ) {
+		/**
+		 * Get Provider Details
+		 * General function to get provider details from database based on key
+		 *
+		 * @param Hustle_Module_Model $module
+		 * @param String $field - the field name
+		 *
+		 * @return String
+		 */
+		protected static function _get_provider_details( Hustle_Module_Model $module, $field ) {
+			$details = '';
+			$name = self::ID;
+			if ( isset( $module->content->email_services[$name][$field] ) ) {
+				 $details = $module->content->email_services[$name][$field];
+			}
+			return $details;
+		}
+
+		public static function api( $base_url = '', $username = '', $password = '' ) {
 			try {
 				return new Opt_In_Mautic_Api( $base_url, $username, $password );
 			} catch ( Exception $e ) {
@@ -28,19 +52,11 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 			}
 		}
 
-		function is_authorized() {
+		public function is_authorized() {
 			return true;
 		}
 
-		function update_option($option_key, $option_value){
-			return update_site_option( self::ID . "_" . $option_key, $option_value);
-		}
-
-		function get_option($option_key, $default){
-			return get_site_option( self::ID . "_" . $option_key, $default );
-		}
-
-		function subscribe( Hustle_Module_Model $module, array $data ) {
+		public function subscribe( Hustle_Module_Model $module, array $data ) {
 
 			$url 		= self::_get_api_url( $module );
 			$username 	= self::_get_api_username( $module );
@@ -91,7 +107,7 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 			return $contact_id;
 		}
 
-		function get_options( $module_id ){
+		public function get_options(){
 			$api 		= self::api( $this->url, $this->username, $this->password );
 			$segments 	= array();
 			$value 		= '';
@@ -103,7 +119,10 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 
 			if ( ! empty( $segments ) ) {
 				foreach ( $segments as $segment ) {
-					$list[ $segment['id'] ] = array( 'value' => $segment['id'], 'label' => $segment['name'] );
+					$list[ $segment['id'] ] = array(
+						'value' => $segment['id'],
+						'label' => $segment['name'],
+					);
 				}
 			}
 
@@ -128,7 +147,7 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 			);
 		}
 
-		function get_account_options( $module_id ) {
+		public function get_account_options( $module_id ) {
 			$url = '';
 			$username = '';
 			$password = '';
@@ -207,27 +226,6 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 			return $options;
 		}
 
-		/**
-		* Get Provider Details
-		* General function to get provider details from database based on key
-		*
-		* @param Hustle_Module_Model $module
-		* @param String $field - the field name
-		*
-		* @return String
-		*/
-		private static function _get_provider_details( Hustle_Module_Model $module, $field ) {
-			$details = '';
-			$name = self::ID;
-			if ( !is_null( $module->content->email_services )
-				&& isset( $module->content->email_services[$name] )
-				&& isset( $module->content->email_services[$name][$field] ) ) {
-
-				$details = $module->content->email_services[$name][$field];
-			}
-			return $details;
-		}
-
 		private static function _get_api_url( Hustle_Module_Model $module ) {
 			return self::_get_provider_details( $module, 'url' );
 		}
@@ -244,7 +242,7 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 			return self::_get_provider_details( $module, 'list_id' );
 		}
 
-		static function add_custom_field( $fields, $module_id ) {
+		public static function add_custom_field( $fields, $module_id ) {
 			$module 	= Hustle_Module_Model::instance()->get( $module_id );
 			$url 		= self::_get_api_url( $module );
 			$username 	= self::_get_api_username( $module );
@@ -260,10 +258,10 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 
 				if ( is_array( $custom_fields ) ) {
 					foreach ( $custom_fields as $custom_field ) {
-						if ( $label == $custom_field['label'] ) {
+						if ( $label === $custom_field['label'] ) {
 							$exist = true;
 							$field['name'] = $custom_field['alias'];
-						} elseif ( $custom_field['alias'] == $alias ) {
+						} elseif ( $custom_field['alias'] === $alias ) {
 							$exist = true;
 						}
 					}
@@ -273,7 +271,7 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 					$custom_field = array(
 						'label' => $label,
 						'alias' => $alias,
-						'type' 	=> ( $field['type'] == 'email' || $field['type'] == 'name' || $field['type'] == 'address' || $field['type'] == 'phone' ) ? 'text' : $field['type'],
+						'type' 	=> ( 'email' === $field['type'] || 'name' === $field['type'] || 'address' === $field['type'] || 'phone' === $field['type'] ) ? 'text' : $field['type'],
 					);
 
 					$exist = $api->add_custom_field( $custom_field );
@@ -281,10 +279,16 @@ if ( ! class_exists( 'Opt_In_Mautic' ) ) :
 			}
 
 			if ( $exist ) {
-				return array( 'success' => true, 'field' => $fields );
+				return array(
+					'success' => true,
+					'field' => $fields,
+				);
 			}
 
-			return array( 'error' => true, 'code' => '' );
+			return array(
+				'error' => true,
+				'code' => '',
+			);
 		}
 	}
 endif;

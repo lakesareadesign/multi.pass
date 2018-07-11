@@ -103,7 +103,7 @@ if ( ! class_exists( 'Opt_In_IContact_Api' ) ) :
          */
         private function _build_url( $full_path = false ) {
             $base_url = $this->_end_point;
-            if ( $full_path != false ) {
+            if ( false !== $full_path ) {
                 return $base_url . "/a/{$this->account_id}/c/{$this->folder_id}";
             }
             return $base_url;
@@ -215,9 +215,9 @@ if ( ! class_exists( 'Opt_In_IContact_Api' ) ) :
                 switch ( $method ) {
                     case 'PUT' :
                     case 'POST' :
-                        $args['body'] = json_encode( $input );
+                        $args['body'] = wp_json_encode( $input );
                         break;
-                    default :
+                    default:
                         $args['body'] = $input;
                         break;
                 }
@@ -260,7 +260,7 @@ if ( ! class_exists( 'Opt_In_IContact_Api' ) ) :
             $valid_statuses = array( 'normal', 'pending', 'unsubscribed' );
 
             // Validate status
-            if (! empty( $status ) && !in_array( $status, $valid_statuses ) ) {
+            if (! empty( $status ) && !in_array( $status, $valid_statuses, true ) ) {
                 $status = 'normal';
             }
 
@@ -277,12 +277,12 @@ if ( ! class_exists( 'Opt_In_IContact_Api' ) ) :
                     $contact_id = $contact['contacts'][0]['contactId'];
 
                     $subscriptions = $this->_do_request( "/a/{$this->account_id}/c/{$this->folder_id}/subscriptions", 'POST', array(
-                                        array(
-                                            'contactId' => $contact_id,
-                                            'listId'    => $list_id,
-                                            'status'    => $status
-                                        )
-                                    ) );
+						array(
+							'contactId' => $contact_id,
+							'listId'    => $list_id,
+							'status'    => $status
+						)
+					) );
 
                     if ( is_wp_error( $subscriptions ) ) {
                         return $subscriptions;
@@ -358,4 +358,3 @@ if ( ! class_exists( 'Opt_In_IContact_Api' ) ) :
     }
 
 endif;
-?>

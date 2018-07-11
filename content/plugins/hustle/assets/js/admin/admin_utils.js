@@ -40,5 +40,25 @@
 		}
 	};
 	
+	Module.Utils = {
+		
+		/*
+		 * Return URL param value
+		 */
+		get_url_param: function ( param ) {
+			var page_url = window.location.search.substring(1),
+				url_params = page_url.split('&');
+
+			for ( var i = 0; i < url_params.length; i++ ) {
+				var param_name = url_params[i].split('=');
+				if ( param_name[0] === param ) {
+					return param_name[1];
+				}
+			}
+
+			return false;
+		},
+	}
+	
 	
 }(jQuery));

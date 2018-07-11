@@ -1,4 +1,4 @@
-<h2><?php _e( 'Custom Admin Bar','ub' ); ?></h2>
+<h2><?php _e( 'Admin Bar','ub' ); ?></h2>
 <p>
 <?php _e( 'This module allows you to remove some of the default menu items from the Admin Bar and add / edit the menu items that are shown in the leftmost menu on the Admin Bar (the one with the WordPress W on it).','ub' ); ?>
 </p>

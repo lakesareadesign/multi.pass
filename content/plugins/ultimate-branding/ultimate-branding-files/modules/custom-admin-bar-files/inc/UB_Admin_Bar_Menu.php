@@ -180,9 +180,14 @@ class UB_Admin_Bar_Menu {
 				esc_url_raw( $this->menu->title )
 			);
 		}
-		$icon = $this->use_icon ? "<span class='dashicons dashicons-{$this->icon}'></span>" : '';
+		$icon = $this->use_icon ? "<span class='ab-icon ub-menu-item dashicons dashicons-{$this->icon}'></span>" : '';
 		$title_class = $this->use_icon ? 'ub_adminbar_text has_icon' : 'ub_adminbar_text';
-		return $icon . "<span class='{$title_class}'>" . $this->menu->title . '<span>';
+		return sprintf(
+			'%s<span class="%s">%s</span>',
+			$icon,
+			esc_attr( $title_class ),
+			$this->menu->title
+		);
 	}
 
 	/**

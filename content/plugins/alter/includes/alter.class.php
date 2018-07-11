@@ -27,7 +27,7 @@ if (!class_exists('ALTER')) {
 	    add_action( 'admin_bar_menu', array($this, 'alter_add_title_menu'), 1 );
 	    add_action( 'admin_bar_menu', array($this, 'alter_add_nav_menus'), 99);
 
-      add_action( 'admin_bar_menu', array($this, 'alter_save_adminbar_nodes'), 999 );
+      add_action( 'wp_before_admin_bar_render', array($this, 'alter_save_adminbar_nodes'), 999 );
       add_action('wp_before_admin_bar_render', array($this, 'alter_remove_admin_bar_items'), 999);
 
       if($this->aof_options['disable_styles_login'] != 1) {
@@ -164,6 +164,8 @@ if (!class_exists('ALTER')) {
       wp_enqueue_script( 'alter-scriptjs', ALTER_DIR_URI . 'assets/js/script.js', array( 'jquery' ), '', true );
       wp_enqueue_script( 'alter-sortjs', ALTER_DIR_URI . 'assets/js/sortjs.js', array( 'jquery' ), '', true );
     }
+
+    wp_enqueue_style('alterfmk', ALTER_DIR_URI . 'assets/css/alter.framework.css', '', ALTER_VERSION);
 
     if(isset($this->aof_options['disable_admin_pages_styles']) && $this->aof_options['disable_admin_pages_styles'] == 1)
       return;

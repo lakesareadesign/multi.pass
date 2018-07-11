@@ -7,8 +7,7 @@
  *
  * Class Opt_In_Utils
  */
-class Opt_In_Utils
-{
+class Opt_In_Utils {
 
 	/**
 	 * Instance of Opt_In_Geo
@@ -17,8 +16,7 @@ class Opt_In_Utils
 	 */
 	private $_geo;
 
-	function __construct( Opt_In_Geo $geo )
-	{
+	public function __construct( Opt_In_Geo $geo ) {
 		$this->_geo = $geo;
 	}
 
@@ -37,13 +35,9 @@ class Opt_In_Utils
 
 			if ( ! $Comment && is_user_logged_in() ) {
 				// For logged-in users we can also check the database.
-				$sql = "
-					SELECT COUNT(1)
-					FROM {$wpdb->comments}
-					WHERE user_id = %s
-				";
-				$sql = $wpdb->prepare( $sql, get_current_user_id() );
-				$count = absint( $wpdb->get_var( $sql ) );
+				$count = absint( $wpdb->get_var( $wpdb->prepare(
+						"SELECT COUNT(1) FROM {$wpdb->comments} WHERE user_id = %s",
+								get_current_user_id() ) ) );
 				$Comment = $count > 0;
 			}
 		}
@@ -59,7 +53,7 @@ class Opt_In_Utils
 		$referrer = '';
 
 		$is_ajax = (defined( 'DOING_AJAX' ) && DOING_AJAX)
-			|| ( ! empty( $_POST['_po_method_'] ) && 'raw' == $_POST['_po_method_'] );
+			|| ( ! empty( $_POST['_po_method_'] ) && 'raw' === $_POST['_po_method_'] );
 
 		if ( isset( $_REQUEST['thereferrer'] ) ) {
 			$referrer = $_REQUEST['thereferrer'];
@@ -81,8 +75,12 @@ class Opt_In_Utils
 	 */
 	public function test_referrer( $list ) {
 		$response = false;
-		if ( is_string( $list ) ) { $list = array( $list ); }
-		if ( ! is_array( $list ) ) { return true; }
+		if ( is_string( $list ) ) {
+			$list = array( $list );
+		}
+		if ( ! is_array( $list ) ) {
+			return true;
+		}
 
 		$referrer = $this->get_referrer();
 
@@ -124,7 +122,7 @@ class Opt_In_Utils
 				if ( false === strpos( $match, '://' ) ) {
 					$match = '\w+://' . $match;
 				}
-				if ( substr( $match, -1 ) != '/' ) {
+				if ( '/' !== substr( $match, -1 ) ) {
 					$match .= '/?';
 				} else {
 					$match .= '?';
@@ -148,7 +146,7 @@ class Opt_In_Utils
 	 *
 	 * @return string
 	 */
-	function get_current_url(){
+	public function get_current_url(){
 		if( !did_action("plugins_loaded") )
 			new Exception("This method should only be called after plugins_loaded hook is fired");
 
@@ -161,7 +159,7 @@ class Opt_In_Utils
 	 *
 	 * @return string
 	 */
-	function get_current_actual_url(){
+	public function get_current_actual_url(){
 		if( !did_action("plugins_loaded") )
 			new Exception("This method should only be called after plugins_loaded hook is fired");
 
@@ -181,11 +179,11 @@ class Opt_In_Utils
 		$response = true;
 		$country = $this->_geo->get_user_country();
 
-		if ( 'XX' == $country ) {
+		if ( 'XX' === $country ) {
 			return $response;
 		}
 
-		return in_array( $country, (array) $country_codes );
+		return in_array( $country, (array) $country_codes, true );
 	}
 
 	/**
@@ -205,7 +203,7 @@ class Opt_In_Utils
 	 * @param $action string ajax call action name
 	 */
 	public static function validate_ajax_call( $action ){
-		if( !self::is_user_allowed() || !check_ajax_referer( $action ) )
+		if( !self::is_user_allowed() || !check_ajax_referer( $action, false, false ) )
 			wp_send_json_error( __("Invalid request, you are not allowed to make this request", Opt_In::TEXT_DOMAIN) );
 	}
 
@@ -225,7 +223,7 @@ class Opt_In_Utils
 		$is_free = self::_is_free();
 
 		if ( $is_free ) {
-			if ( 'opt-ins' == $type ) {
+			if ( 'opt-ins' === $type ) {
 				$optins = Opt_In_Collection::instance()->get_all_optins( null );
 				$is_free = count( $optins ) > 1;
 			} else {

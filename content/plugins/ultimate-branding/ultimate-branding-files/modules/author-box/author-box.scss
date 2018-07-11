@@ -3,11 +3,13 @@ $grey_2: #eee;
 .ub-author-box {
     margin-top: 20px;
     .ub-author-box-content {
-        padding: 10px;
         display: flex;
         .ub-author-box-avatar {
-            margin-right: 20px;
+            margin {
+                right: 20px;
+            }
             .social-media {
+                margin-top: 1em;
                 li {
                     padding: 5px;
                     a {
@@ -15,6 +17,16 @@ $grey_2: #eee;
                     }
                 }
             }
+        }
+        .ub-author-box-more {
+            ul {
+                list: {
+                    style: none;
+                }
+            }
+        }
+        > div {
+            margin: 10px;
         }
     }
     @media screen and (max-width: 501px) {

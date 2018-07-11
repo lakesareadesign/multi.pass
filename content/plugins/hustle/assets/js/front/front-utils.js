@@ -1,7 +1,7 @@
 var Optin = Optin || {};
 (function( $, doc ) {
 	"use strict";
-	$.each(['show', 'hide'], function (i, ev) {
+	$.each(['hustle_show', 'hustle_hide'], function (i, ev) {
 		var el = $.fn[ev];
 		$.fn[ev] = function () {
 			this.trigger(ev);

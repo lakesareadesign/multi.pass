@@ -4,8 +4,7 @@
  *
  * Class Opt_In_Mad_Mimi_Api
  */
-class Opt_In_Mad_Mimi_Api
-{
+class Opt_In_Mad_Mimi_Api {
 
 	private $_user_name;
 	private $_api_key;
@@ -13,7 +12,7 @@ class Opt_In_Mad_Mimi_Api
 	private $_endpoint = "https://api.madmimi.com/";
 
 
-	function __construct( $username, $api_key, $args = array() ){
+	public function __construct( $username, $api_key, $args = array() ){
 		$this->_user_name = $username;
 		$this->_api_key = $api_key;
 
@@ -35,7 +34,7 @@ class Opt_In_Mad_Mimi_Api
 
 		$url = add_query_arg( array(
 			'api_key' => $this->_api_key,
-			'username' => $this->_user_name,
+			'username' => rawurlencode( $this->_user_name ),
 		), $url );
 
 		$_args = array(
@@ -46,7 +45,7 @@ class Opt_In_Mad_Mimi_Api
 			if( "GET" === $verb ){
 				$url = add_query_arg( $args, $url );
 			}else{
-				$_args['body'] = json_encode( $args['body'] );
+				$_args['body'] = wp_json_encode( $args['body'] );
 			}
 		}
 
@@ -130,7 +129,7 @@ class Opt_In_Mad_Mimi_Api
 	 *
 	 * @return array|WP_Error
 	 */
-	function search_email_lists( $email ) {
+	public function search_email_lists( $email ) {
 		$res = $this->_get( "audience_members/$email/lists.xml");
 
 		if( is_wp_error( $res ) )
@@ -140,7 +139,7 @@ class Opt_In_Mad_Mimi_Api
 		return isset ( $res->list ) ? $res->list : array();
 	}
 
-	function search_by_email( $email ) {
+	public function search_by_email( $email ) {
 		$action = 'audience_members/search.xml?query=' . $email;
 		$res = $this->_get( $action );
 

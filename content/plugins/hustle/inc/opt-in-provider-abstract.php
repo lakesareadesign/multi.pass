@@ -11,9 +11,10 @@ abstract class Opt_In_Provider_Abstract{
 	 * @param $field
 	 * @param $value
 	 */
-	function set_arg( $field, $value ){
+	public function set_arg( $field, $value ){
 		$this->{$field} = $value;
 	}
+
 
 	/**
 	 * Updates provider option with the new value
@@ -23,15 +24,20 @@ abstract class Opt_In_Provider_Abstract{
 	 * @param $option_value
 	 * @return bool
 	 */
-	abstract function update_option( $option_key, $option_value );
+	public function update_option($option_key, $option_value){
+		return update_site_option( $this->id . "_" . $option_key, $option_value);
+	}
+
 
 	/**
 	 * Retrieves provider option from db
 	 *
 	 * @uses get_site_option
 	 * @param $option_key
+	 * @param $default
 	 * @return mixed
 	 */
-	abstract function get_option( $option_key, $default );
-
+	public function get_option($option_key, $default){
+		return get_site_option( $this->id . "_" . $option_key, $default );
+	}
 }

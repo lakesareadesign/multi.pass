@@ -11,10 +11,10 @@ Hustle.define( "SShare.Models",  function(){
 	var Content = Hustle.get("Models.M").extend({
 		defaults: {
 			module_name: '',
-			active: 1,
+			active: 0,
 			test_mode: 0,
 			service_type: 'native',
-			click_counter: 1,
+			click_counter: 'click',
 			social_icons: ''
 		}
 	});

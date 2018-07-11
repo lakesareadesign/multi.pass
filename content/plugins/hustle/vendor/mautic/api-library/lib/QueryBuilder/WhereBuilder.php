@@ -286,7 +286,7 @@ class WhereBuilder
                     );
                     break;
                 default:
-                    $this->clauses = array_merge($this->clauses, $clause->getClauses());	  	 			 			  	      
+                    $this->clauses = array_merge($this->clauses, $clause->getClauses());
             }
         }
     }

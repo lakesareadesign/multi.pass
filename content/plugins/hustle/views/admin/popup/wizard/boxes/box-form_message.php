@@ -194,8 +194,9 @@
 			'drag_drop_upload' => true,
         ) ); ?>
 
-        <label class="wpmudev-helper"><?php _e( "This can be a standard ‘Thank you’ message, or even a link to a freebie / secret content.", Opt_In::TEXT_DOMAIN ); ?></label>
+        <label class="wpmudev-helper"><?php esc_attr_e( "This can be a standard ‘Thank you’ message, or even a link to a freebie / secret content.", Opt_In::TEXT_DOMAIN ); ?></label>
 
 	</div>
 
 </div><?php // #wph-wizard-content-form_message ?>
+<?php

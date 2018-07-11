@@ -2,7 +2,7 @@
 
 if( !class_exists("Opt_In_Infusion_Soft") ):
 
-	include_once("opt-in-infusionsoft-api.php");
+	include_once "opt-in-infusionsoft-api.php";
 class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_Provider_Interface {
 
 	const ID = "infusionsoft";
@@ -25,8 +25,32 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
 	 */
 	protected  static $api;
 
-	static function instance() {
-		return new self;
+	protected $id = self::ID;
+
+
+	/**
+	 * @return Opt_In_Provider_Interface|Opt_In_Provider_Abstract class
+	 */
+	public static function instance(){
+		return new self();
+	}
+
+	/**
+	 * Get Provider Details
+	 * General function to get provider details from database based on key
+	 *
+	 * @param Hustle_Module_Model $module
+	 * @param String $field - the field name
+	 *
+	 * @return String
+	 */
+	protected static function _get_provider_details( Hustle_Module_Model $module, $field ) {
+		$details = '';
+		$name = self::ID;
+		if ( isset( $module->content->email_services[$name][$field] ) ) {
+ 			$details = $module->content->email_services[$name][$field];
+		}
+		return $details;
 	}
 
 	/**
@@ -51,30 +75,8 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
 		return self::$api;
 	}
 
-	/**
-	 * Updates api option
-	 *
-	 * @param $option_key
-	 * @param $option_value
-	 * @return bool
-	 */
-	function update_option($option_key, $option_value) {
-		return update_site_option(self::ID . "_" . $option_key, $option_value);
-	}
 
-	/**
-	 * Retrieves api option from db
-	 *
-	 * @param $option_key
-	 * @param $default
-	 * @return mixed
-	 */
-	function get_option($option_key, $default) {
-		return get_site_option(self::ID . "_" . $option_key, $default);
-	}
-
-
-	function subscribe(Hustle_Module_Model $module, array $contact) {
+	public function subscribe( Hustle_Module_Model $module, array $contact ) {
 
 		$api_key        = self::_get_api_key( $module );
 		$account_name   = self::_get_account_name( $module );
@@ -151,7 +153,7 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
 		} else {
 			$error_code = $contact_id->get_error_code();
 
-			if ( 'email_exist' != $error_code ) {
+			if ( 'email_exist' !== $error_code ) {
 				$original_contact['error'] = $contact_id->get_error_message( $error_code );
 				$module->log_error( $original_contact );
 			}
@@ -160,7 +162,7 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
 		}
 	}
 
-	function get_options( $module_id ) {
+	public function get_options() {
 		$lists  = self::api( $this->api_key, $this->account_name )->get_lists();
 		if( is_wp_error( $lists ) )
 			wp_send_json_error( $lists->get_error_messages() );
@@ -190,7 +192,7 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
 	}
 
 
-	function get_account_options( $module_id ) {
+	public function get_account_options( $module_id ) {
 		$account_name = "";
 		$api_key = "";
 		if( $module_id ){
@@ -255,7 +257,7 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
 				"id"    => "optin_api_instructions",
 				"for"   => "",
 				"value" => sprintf(
-					__("Log in to your infusion account to get <a target='_blank' href='%s'>API ( encrypted ) key </a> and <a href='%s' target='_blank' >account name</a>", Opt_In::TEXT_DOMAIN),
+					__('Log in to your infusion account to get <a target="_blank" href="%1$s">API ( encrypted ) key </a> and <a href"%2$s" target="_blank" >account name</a>', Opt_In::TEXT_DOMAIN),
 					"http://help.infusionsoft.com/userguides/get-started/tips-and-tricks/api-key",
 					"http://help.mobit.com/infusionsoft-integration/how-to-find-your-infusionsoft-account-name"
 					),
@@ -265,29 +267,8 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
 	}
 
 
-	function is_authorized() {
+	public function is_authorized() {
 		return true;
-	}
-
-	/**
-	 * Get Provider Details
-	 * General function to get provider details from database based on key
-	 *
-	 * @param Hustle_Module_Model $module
-	 * @param String $field - the field name
-	 *
-	 * @return String
-	 */
-	private static function _get_provider_details( Hustle_Module_Model $module, $field ) {
-		$details = '';
-		$name = self::ID;
-		if ( !is_null( $module->content->email_services )
-			&& isset( $module->content->email_services[$name] )
-			&& isset( $module->content->email_services[$name][$field] ) ) {
-
-			$details = $module->content->email_services[$name][$field];
-		}
-		return $details;
 	}
 
 	private static function _get_email_list( Hustle_Module_Model $module ) {
@@ -307,7 +288,7 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
 	 * @return bool
 	 */
 	public static function show_selected_list( $val, $module ){
-		if( $module->content->active_email_service === Opt_In_Infusion_Soft::ID )
+		if( self::ID === $module->content->active_email_service )
 			return false;
 
 		return true;
@@ -315,11 +296,11 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
 
 	public static function render_selected_tag( $module ) {
 		$list_id 	= self::_get_email_list( $module );
-		if( $module->content->active_email_service !== Opt_In_Infusion_Soft::ID || !$list_id ) return;
-		printf( __("Selected tag: %s (Press the GET TAGS button to update value) ", Opt_In::TEXT_DOMAIN), $list_id );
+		if( self::ID !== $module->content->active_email_service || !$list_id ) return;
+		printf( esc_attr__("Selected tag: %s (Press the GET TAGS button to update value) ", Opt_In::TEXT_DOMAIN), esc_attr( $list_id ) );
 	}
 
-	static function add_custom_field( $fields, $module_id ) {
+	public static function add_custom_field( $fields, $module_id ) {
 		$account_name   = "";
 		$api_key        = "";
 		$module         = Hustle_Module_Model::instance()->get( $module_id );
@@ -333,21 +314,30 @@ class Opt_In_Infusion_Soft extends Opt_In_Provider_Abstract  implements  Opt_In_
 
 		foreach ( $fields as $field ) {
 			// Check if custom field name exist on existing custom fields
-			if ( in_array( $field['name'], $custom_fields ) ) {
-				return array( 'success' => true, 'field' => $field );
+			if ( in_array( $field['name'], $custom_fields, true ) ) {
+				return array(
+					'success' => true,
+					'field' => $field,
+				);
 			}
 
 			// Check if label can be use as name
 			$label = str_replace( ' ', '', ucwords( $field['label'] ) );
-			if ( in_array( $label, $custom_fields ) ) {
+			if ( in_array( $label, $custom_fields, true ) ) {
 				// Replace the field name
 				$field['name'] = $label;
 
-				return array( 'success' => true, 'field' => $field );
+				return array(
+					'success' => true,
+					'field' => $field,
+				);
 			}
 		}
 
-		return array( 'error' => true, 'code' => 'custom_field_not_exist' );
+		return array(
+			'error' => true,
+			'code' => 'custom_field_not_exist',
+		);
 	}
 }
 

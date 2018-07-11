@@ -1,2 +1,1 @@
-<script id="optin-convertkit-args" type="text/template">
-</script>
+<script id="optin-convertkit-args" type="text/template"></script>

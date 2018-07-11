@@ -80,14 +80,14 @@ if ( ! class_exists( 'Opt_In_MailerLite_Api' ) ) :
          * PUT Http request
          */
         private function _put( $path, $input = array() ) {
-            return $this->_do_request( $path, "PUT", json_encode( $input ) );
+            return $this->_do_request( $path, "PUT", wp_json_encode( $input ) );
         }
 
         /**
          * POST Http request
          */
         private function _post( $path, $input = array() ) {
-            return $this->_do_request( $path, "POST", json_encode( $input ) );
+            return $this->_do_request( $path, "POST", wp_json_encode( $input ) );
         }
 
         /**
@@ -112,7 +112,7 @@ if ( ! class_exists( 'Opt_In_MailerLite_Api' ) ) :
          * @param Integer $group_id - the group id
          * @param Array $subscriber_data - An array containing the keys email and fields(name,value)
          */
-        public function add_subscriber( $group_id,  $subscriber_data, $resubscribe = 0 ) {
+        public function add_subscriber( $group_id, $subscriber_data, $resubscribe = 0 ) {
             $subscriber_data['resubscribe'] = $resubscribe;
             return $this->_post( 'groups/' . $group_id . '/subscribers', $subscriber_data );
         }
@@ -136,4 +136,3 @@ if ( ! class_exists( 'Opt_In_MailerLite_Api' ) ) :
         }
     }
 endif;
-?>

@@ -1,50 +1,23 @@
 <?php
-/*
-Plugin Name: Global Header Content
-Description: Simply insert any code that you like into the header of every blog
-Author: Marko Miljus (Incsub)
- */
-
-/*
-Copyright 2007-2017 Incsub (http://incsub.com)
-
-This program is free software; you can redistribute it and/or modify
-it under the terms of the GNU General Public License (Version 2 - GPLv2) as published by
-the Free Software Foundation.
-
-This program is distributed in the hope that it will be useful,
-but WITHOUT ANY WARRANTY; without even the implied warranty of
-MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-GNU General Public License for more details.
-
-You should have received a copy of the GNU General Public License
-along with this program; if not, write to the Free Software
-Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
- */
-
-
 class ub_global_header_content extends ub_helper {
 
 	var $global_header_content_settings_page;
 	var $global_header_content_settings_page_long;
 	protected $option_name = 'global_header_content';
 
-	function __construct() {
+	public function __construct() {
 		parent::__construct();
 		add_action( 'ultimatebranding_settings_header', array( $this, 'global_header_content_site_admin_options' ) );
 		add_filter( 'ultimatebranding_settings_header_process', array( $this, 'update_global_header_options' ), 10, 1 );
 		add_action( 'wp_footer', array( $this, 'global_header_content_output' ) );
 	}
 
-	function update_global_header_options( $status ) {
-
+	public function update_global_header_options( $status ) {
 		$global_header_content = $_POST[ $this->option_name ];
 		if ( $global_header_content == '' ) {
 			$global_header_content = 'empty';
 		}
-
 		ub_update_option( $this->option_name , $global_header_content );
-
 		if ( $status === false ) {
 			return $status;
 		} else {
@@ -52,7 +25,7 @@ class ub_global_header_content extends ub_helper {
 		}
 	}
 
-	function global_header_content_output() {
+	public function global_header_content_output() {
 		$global_header_content = ub_get_option( $this->option_name );
 		if ( $global_header_content == 'empty' ) {
 			$global_header_content = '';
@@ -72,7 +45,7 @@ class ub_global_header_content extends ub_helper {
 <?php
 	}
 
-	function global_header_content_site_admin_options() {
+	public function global_header_content_site_admin_options() {
 
 		global $wpdb, $wp_roles, $current_user, $global_header_content_settings_page;
 

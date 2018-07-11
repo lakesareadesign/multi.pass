@@ -14,114 +14,152 @@ if ( ! defined( 'UB_MAIN_BLOG_ID' ) ) { define( 'UB_MAIN_BLOG_ID', 1 ); }
 function ub_get_modules_list( $mode = 'full' ) {
 	global $wp_version;
 	$modules = array(
-		/*
-        'admin-menu.php' => array(
-            'module' => 'admin-menu.php',
-            'tab' => 'admin-menu',
-            'page_title' => __( 'Admin Menu Manager', 'ub' ),
-        ),
-         */
+		/**
+		 * Admin Menu Manager module do not work.
+		 */
+		'admin-menu.php' => array(
+			'module' => 'admin-menu.php',
+			'tab' => 'admin-menu',
+			'page_title' => __( 'Admin Menu Manager', 'ub' ),
+			'disabled' => true,
+			'name' => __( 'Admin Menu Manager', 'ub' ),
+			'description' => __( 'Show or hide admin menu items based on a user role (in development).', 'ub' ),
+		),
 		'admin-footer-text.php' => array(
 			'module' => 'admin-footer-text/admin-footer-text.php',
 			'tab' => 'footer',
 			'page_title' => __( 'Footer Content', 'ub' ),
 			'title' => __( 'Admin Footer Content', 'ub' ),
+			'name' => __( 'Dashboard Footer Content', 'ub' ),
+			'description' => __( 'Display text in admin dashboard footer.', 'ub' ),
 		),
 		'admin-help-content.php' => array(
 			'module' => 'admin-help-content/admin-help-content.php',
 			'tab' => 'help',
 			'page_title' => __( 'Help Content', 'ub' ),
+			'name' => __( 'Admin Help Content', 'ub' ),
+			'description' => __( 'Change the "help content" that slides down all AJAXy.', 'ub' ),
 		),
 		'custom-admin-bar.php' => array(
 			'module' => 'custom-admin-bar/custom-admin-bar.php',
 			'tab' => 'adminbar',
 			'page_title' => __( 'Admin Bar', 'ub' ),
+			'name' => __( 'Admin Bar', 'ub' ),
+			'description' => __( 'Adds a custom drop-down entry to your admin bar.', 'ub' ),
 		),
 		'admin-bar-logo.php' => array(
 			'module' => 'admin-bar-logo.php',
 			'tab' => 'adminbar',
 			'page_title' => __( 'Admin Bar', 'ub' ),
 			'title' => __( 'Admin Bar Logo', 'ub' ),
+			'name' => __( 'Admin Bar Logo', 'ub' ),
+			'description' => __( 'Allow to change admin bar logo.', 'ub' ),
 		),
 		'custom-dashboard-welcome.php' => array(
 			'module' => 'custom-dashboard-welcome.php',
 			'tab' => 'widgets',
 			'page_title' => __( 'Widgets', 'ub' ),
 			'title' => __( 'Dashboard Welcome', 'ub' ),
+			'name' => __( 'Dashboard Welcome', 'ub' ),
+			'description' => __( 'Allow to change the dashboard welcome message.', 'ub' ),
 		),
 		'custom-email-from.php' => array(
 			'module' => 'custom-email-from/custom-email-from.php',
 			'tab' => 'from-email',
 			'page_title' => __( 'E-mail From', 'ub' ),
+			'name' => __( 'E-mail From', 'ub' ),
+			'description' => __( 'Allow to setup from email for WordPress outgoing mails.', 'ub' ),
 		),
 		'global-footer-content.php' => array(
 			'module' => 'global-footer-content/global-footer-content.php',
 			'tab' => 'footer',
 			'page_title' => __( 'Footer Content', 'ub' ),
-			'title' => __( 'Global Footer Content', 'ub' ),
+			'title' => __( 'Footer Content', 'ub' ),
 			'network-only' => true,
+			'name' => __( 'Footer Content', 'ub' ),
+			'description' => __( 'Simply insert any code that you like into the footer of every blog.', 'ub' ),
 		),
 		'global-header-content.php' => array(
 			'module' => 'global-header-content/global-header-content.php',
 			'tab' => 'header',
 			'page_title' => __( 'Header Content', 'ub' ),
-			'title' => __( 'Global Header Content', 'ub' ),
+			'title' => __( 'Header Content', 'ub' ),
 			'network-only' => true,
+			'name' => __( 'Header Content', 'ub' ),
+			'description' => __( 'Simply insert any code that you like into the header of every blog.', 'ub' ),
 		),
 		'rebranded-meta-widget.php' => array(
 			'module' => 'rebranded-meta-widget/rebranded-meta-widget.php',
 			'tab' => 'widgets',
 			'page_title' => __( 'Widgets', 'ub' ),
 			'title' => __( 'Rebranded Meta Widget', 'ub' ),
+			'name' => __( 'Rebranded Meta Widget', 'ub' ),
+			'description' => __( 'Simply replaces the default Meta widget in all Multisite blogs with one that has the "Powered By" link branded for your site.', 'ub' ),
 		),
 		'remove-dashboard-link-for-users-without-site.php' => array(
-			'module' => 'remove-dashboard-link-for-users-without-site/remove-dashboard-link-for-users-without-site.php',
+			'module' => 'remove-dashboard-link-for-users-without-site.php',
+			'name' => __( 'Remove WP Dashboard Link for users without site', 'ub' ),
+			'description' => __( 'Removes "Dashboard" link from admin panel for users without site (in WP Multisite) and redirect page to the "Profile".', 'ub' ),
 		),
 		'remove-permalinks-menu-item.php' => array(
 			'module' => 'remove-permalinks-menu-item/remove-permalinks-menu-item.php',
 			'tab' => 'permalinks',
 			'page_title' => __( 'Permalinks Menu', 'ub' ),
+			'name' => __( 'Remove Permalinks Menu Item', 'ub' ),
+			'description' => __( 'Removes the "permalinks" configuration options.', 'ub' ),
 		),
 		'remove-wp-dashboard-widgets.php' => array(
 			'module' => 'remove-wp-dashboard-widgets/remove-wp-dashboard-widgets.php',
 			'tab' => 'widgets',
 			'page_title' => __( 'Widgets', 'ub' ),
 			'title' => __( 'Remove WP Dashboard Widgets', 'ub' ),
+			'name' => __( 'Remove WP Dashboard Widgets', 'ub' ),
+			'description' => __( 'Removes the WordPress dashboard widgets.', 'ub' ),
 		),
 		'site-generator-replacement.php' => array(
 			'module' => 'site-generator-replacement/site-generator-replacement.php',
 			'tab' => 'sitegenerator',
 			'page_title' => __( 'Site Generator', 'ub' ),
+			'name' => __( 'Site Generator Replacement', 'ub' ),
+			'description' => __( 'Easily customize ALL "Site Generator" text and links. Edit under Site Admin "Options" menu.', 'ub' ),
 		),
 		'site-wide-text-change.php' => array(
 			'module' => 'site-wide-text-change/site-wide-text-change.php',
 			'tab' => 'textchange',
 			'page_title' => __( 'Text Change', 'ub' ),
 			'menu_title' => __( 'Text Change', 'ub' ),
+			'name' => __( 'Text Change', 'ub' ),
+			'description' => __( 'Would you like to be able to change any wording, anywhere in the entire admin area on your whole site? Without a single hack? Well, if that\'s the case then this plugin is for you!', 'ub' ),
 		),
 		'custom-admin-css.php' => array(
-			'module' => 'custom-admin-css.php',
+			'module' => 'custom-admin-css',
 			'tab' => 'css',
 			'menu_title' => __( 'CSS', 'ub' ),
 			'page_title' => __( 'Cascading Style Sheets', 'ub' ),
+			'name' => __( 'Admin CSS', 'ub' ),
+			'description' => __( 'Add extra CSS to the admin panel.', 'ub' ),
 		),
 		'custom-login-css.php' => array(
-			'module' => 'custom-login-css.php',
+			'module' => 'custom-login-css',
 			'tab' => 'css',
 			'page_title' => __( 'Cascading Style Sheets', 'ub' ),
 			'menu_title' => __( 'CSS', 'ub' ),
+			'name' => __( 'Login CSS', 'ub' ),
+			'description' => __( 'Add extra CSS to the login page.', 'ub' ),
 		),
 		'ultimate-color-schemes.php' => array(
 			'module' => 'ultimate-color-schemes.php',
 			'tab' => 'ultimate-color-schemes',
 			'page_title' => __( 'Color Schemes', 'ub' ),
+			'name' => __( 'Color Schemes', 'ub' ),
+			'description' => __( 'Customize admin color schemes.', 'ub' ),
 		),
 		'admin-message.php' => array(
 			'module' => 'admin-message.php',
 			'tab' => 'admin-message',
 			'page_title' => __( 'Admin Message', 'ub' ),
-			'deprecated' => true,
-			'deprecated_version' => '2.1',
+			'name' => __( 'Admin Message', 'ub' ),
+			'description' => __( 'Display a message in admin dashboard.', 'ub' ),
 		),
 		/**
 		 * Images
@@ -130,16 +168,9 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'module' => 'favicons.php',
 			'tab' => 'images',
 			'page_title' => __( 'Images', 'ub' ),
-			'title' => __( 'Multisite Favicons', 'ub' ),
-		),
-		'login-image.php' => array(
-			'module' => 'login-image/login-image.php',
-			'tab' => 'images',
-			'page_title' => __( 'Images', 'ub' ),
-			'title' => __( 'Login Image', 'ub' ),
-			'deprecated' => true,
-			'deprecated_version' => '2.1',
-			'replaced_by' => 'custom-login-screen.php',
+			'title' => __( 'Favicons', 'ub' ),
+			'name' => __( 'Favicons', 'ub' ),
+			'description' => __( 'Change the Favicon.', 'ub' ),
 		),
 		/**
 		 * Images: Image upload size
@@ -151,6 +182,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'images',
 			'page_title' => __( 'Images', 'ub' ),
 			'title' => __( 'Limit Image Upload Filesize', 'ub' ),
+			'name' => __( 'Image Upload Size', 'ub' ),
+			'description' => __( 'Allows you to limit the filesize of uploaded images.', 'ub' ),
 		),
 		/**
 		 * Email Template
@@ -161,6 +194,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'module' => 'htmlemail',
 			'tab' => 'htmlemail',
 			'page_title' => __( 'Email Template', 'ub' ),
+			'name' => __( 'E-mail Template', 'ub' ),
+			'description' => __( 'Allows you to add HTML templates for all of the standard WordPress e-mails.', 'ub' ),
 		),
 		/**
 		 * Custom Login Screen
@@ -173,6 +208,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'page_title' => __( 'Login screen', 'ub' ),
 			'title' => __( 'Login screen', 'ub' ),
 			'wp' => '4.6',
+			'name' => __( 'Login Screen', 'ub' ),
+			'description' => __( 'Allow to customize login screen.', 'ub' ),
 		),
 		/**
 		 * Custom MS email content
@@ -185,6 +222,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'custom-ms-register-emails',
 			'page_title' => __( 'MultiSite Registration emails', 'ub' ),
 			'menu_title' => __( 'Registration emails', 'ub' ),
+			'name' => __( 'MultiSite Registration e-mails', 'ub' ),
+			'description' => __( '', 'ub' ),
 		),
 		/**
 		 * Export - Import
@@ -196,6 +235,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'export-import',
 			'page_title' => __( 'Export & Import Ultimate Branding configuration', 'ub' ),
 			'menu_title' => __( 'Export/Import', 'ub' ),
+			'name' => __( 'Export & Import', 'ub' ),
+			'description' => __( 'Module allow to export and import Ultimate Branding settings.', 'ub' ),
 		),
 		'admin-panel-tips/admin-panel-tips.php' => array(
 			'module' => 'admin-panel-tip',
@@ -204,6 +245,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'admin-panel-tips',
 			'page_title' => __( 'Admin Panel Tips', 'ub' ),
 			'menu_title' => __( 'Tips', 'ub' ),
+			'name' => __( 'Admin Panel Tips', 'ub' ),
+			'description' => __( 'Provide your users with helpful random tips (or promotions/news) in their admin panels.', 'ub' ),
 		),
 		/**
 		 * Comments Control
@@ -215,6 +258,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'network-only' => true,
 			'tab' => 'comments-control',
 			'page_title' => __( 'Comments Control', 'ub' ),
+			'name' => __( 'Comments Control', 'ub' ),
+			'description' => __( 'Fine tune comment throttling.', 'ub' ),
 		),
 		/**
 		 * Dashboard Feeds
@@ -225,6 +270,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'module' => 'dashboard-feeds',
 			'tab' => 'dashboard-feeds',
 			'page_title' => __( 'Dashboard Feeds', 'ub' ),
+			'name' => __( 'Dashboard Feeds', 'ub' ),
+			'description' => __( 'Customize the dashboard for every user in a flash with this straightforward dashboard feed replacement widget... no more WP development news or Matt\'s latest photo set :)', 'ub' ),
 		),
 		/**
 		 * Link Manager
@@ -235,6 +282,9 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'module' => 'link-manager',
 			'tab' => 'link-manager',
 			'page_title' => __( 'Link Manager', 'ub' ),
+			'name' => __( 'Link Manager', 'ub' ),
+			'description' => __( 'Enables the Link Manager that existed in WordPress until version 3.5.', 'ub' ),
+			'wp' => '3.5',
 		),
 		/**
 		 * Coming Soon Page & Maintenance Mode
@@ -247,6 +297,9 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'page_title' => __( 'Coming Soon Page & Maintenance Mode', 'ub' ),
 			'menu_title' => __( 'Maintenance', 'ub' ),
 			'wp' => '4.6',
+			'since' => '1.9.1',
+			'name' => __( 'Coming Soon Page & Maintenance Mode', 'ub' ),
+			'description' => __( 'Customize the Maintenance Mode page and create Coming Soon Page.', 'ub' ),
 		),
 		/**
 		 * Dashboard widgets
@@ -257,6 +310,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'module' => 'dashboard-text-widgets',
 			'tab' => 'dashboard-text-widgets',
 			'page_title' => __( 'Dashboard Text Widgets', 'ub' ),
+			'name' => __( 'Dashboard Text Widgets', 'ub' ),
+			'description' => __( 'Enables the Dashboard text widgets.', 'ub' ),
 		),
 		/**
 		 * Blog creation
@@ -273,6 +328,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			 * https://app.asana.com/0/47431170559378/582548491040986
 			 */
 			'disabled' => true,
+			'name' => __( 'Blog Description on Blog Creation', 'ub' ),
+			'description' => __( 'Allows new bloggers to be able to set their tagline when they create a blog in Multisite.', 'ub' ),
 		),
 		/**
 		 * Author Box
@@ -284,6 +341,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'author-box',
 			'page_title' => __( 'Author Box', 'ub' ),
 			'menu_title' => __( 'Author Box', 'ub' ),
+			'name' => __( 'Author Box', 'ub' ),
+			'description' => __( 'Adds a responsive author box at the end of your posts, showing the author name, author gravatar and author description and social profiles.', 'ub' ),
 		),
 		/**
 		 * SMTP
@@ -295,6 +354,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'smtp',
 			'page_title' => __( 'SMTP', 'ub' ),
 			'since' => '2.0.0',
+			'name' => __( 'SMTP', 'ub' ),
+			'description' => __( 'SMTP allows you to configure and send all outgoing emails via a SMTP server. This will prevent your emails from going into the junk/spam folder of the recipients.', 'ub' ),
 		),
 		/**
 		 * db-error-page
@@ -306,6 +367,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'db-error-page',
 			'page_title' => __( 'DB Error Page', 'ub' ),
 			'since' => '2.0.0',
+			'name' => __( 'DB Error Page', 'ub' ),
+			'description' => __( 'Allows to create a custom database error page.', 'ub' ),
 		),
 		/**
 		 * ms-site-check
@@ -318,6 +381,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'page_title' => __( 'Site Status Pages', 'ub' ),
 			'network-only' => true,
 			'since' => '2.0.0',
+			'name' => __( 'Sites Status Pages', 'ub' ),
+			'description' => __( 'Allows to create custom pages for deleted, inactive, archived, or spammed blog.', 'ub' ),
 		),
 	);
 	/**
@@ -338,5 +403,3 @@ function ub_get_modules_list( $mode = 'full' ) {
 	}
 	return $modules;
 }
-
-?>
