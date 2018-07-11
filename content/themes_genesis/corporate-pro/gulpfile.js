@@ -1,11 +1,11 @@
 //process.env.DISABLE_NOTIFIER = true; // Uncomment to disable all Gulp notifications.
 
-/**		
- * Corporate Pro.		
- *		
- * This file adds gulp tasks to the Corporate Pro theme.		
- *		
- * @author Seo themes		
+/**
+ * Corporate Pro.
+ *
+ * This file adds gulp tasks to the Corporate Pro theme.
+ *
+ * @author Seo themes
  */
 
 // Require our dependencies.
@@ -94,16 +94,11 @@ gulp.task('woocommerce', function () {
 		// Format non-minified stylesheet.
 		.pipe(csscomb())
 
-		// Add .min suffix.
-		.pipe(rename({
-			suffix: '.min'
-		}))
-
 		// Write source map.
 		.pipe(sourcemaps.write('./'))
 
 		// Output non minified css to theme directory.
-		.pipe(gulp.dest('assets/styles/min/'))
+		.pipe(gulp.dest('./'))
 
 		// Inject changes via browsersync.
 		.pipe(browsersync.reload({
@@ -157,6 +152,9 @@ gulp.task('styles', ['woocommerce'], function () {
 		// Format non-minified stylesheet.
 		.pipe(csscomb())
 
+		// Write source map.
+		.pipe(sourcemaps.write('./'))
+
 		// Output non minified css to theme directory.
 		.pipe(gulp.dest('./'))
 
@@ -164,39 +162,6 @@ gulp.task('styles', ['woocommerce'], function () {
 		.pipe(browsersync.reload({
 			stream: true
 		}))
-
-		// Process sass again.
-		.pipe(sass({
-			outputStyle: 'compressed'
-		}))
-
-		// Combine similar rules.
-		.pipe(cleancss({
-			level: {
-				2: {
-					all: true
-				}
-			}
-		}))
-
-		// Minify and optimize style.css again.
-		.pipe(cssnano({
-			safe: false,
-			discardComments: {
-				removeAll: true,
-			},
-		}))
-
-		// Add .min suffix.
-		.pipe(rename({
-			suffix: '.min'
-		}))
-
-		// Write source map.
-		.pipe(sourcemaps.write('./'))
-
-		// Output the compiled sass to this directory.
-		.pipe(gulp.dest('assets/styles/min'))
 
 		// Filtering stream to only css files.
 		.pipe(filter('**/*.css'))
@@ -337,13 +302,13 @@ gulp.task('watch', function () {
 
 	// HTTPS (optional).
 	browsersync({
-		proxy: 'https://corporate-pro.dev',
+		proxy: 'https://corporate.test',
 		port: 8000,
 		notify: false,
 		open: false,
 		https: {
-			"key": "/Users/seothemes/.valet/Certificates/corporate-pro.dev.key",
-			"cert": "/Users/seothemes/.valet/Certificates/corporate-pro.dev.crt"
+			"key": "/Users/seothemes/.valet/Certificates/corporate.test.key",
+			"cert": "/Users/seothemes/.valet/Certificates/corporate.test.crt"
 		}
 	});
 

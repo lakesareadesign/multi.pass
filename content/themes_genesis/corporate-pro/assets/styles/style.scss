@@ -1,12 +1,12 @@
-/**
+/*!
  * Theme Name:  Corporate Pro
  * Theme URI:   http://seothemes.com/themes/corporate-pro/
  * Description: Corporate Pro child theme for the Genesis Framework.
  * Author:      SEO Themes
  * Author URI:  http://seothemes.com/
- * Version:     1.0.0
+ * Version:     1.0.1
  * Text Domain: corporate-pro
- * Tags:        one-column, two-columns, left-sidebar, right-sidebar, accessibility-ready, custom-logo, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, rtl-language-support, sticky-post, theme-options, threaded-comments, translation-ready.
+ * Tags:        one-column, two-columns, left-sidebar, right-sidebar, accessibility-ready, custom-logo, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, theme-options, threaded-comments, translation-ready
  * Template:    genesis
  * Template     Version: 2.6.1
  * License:     GPL-2.0+
@@ -84,16 +84,16 @@
 	- Print Styles
 */
 
-@import 'utilities';
-@import 'reset';
-@import 'defaults';
-@import 'layout';
-@import 'common';
-@import 'header';
-@import 'menus';
-@import 'content';
-@import 'sidebars';
-@import 'footer';
-@import 'plugins';
-@import 'home';
-@import 'print';
+@import "utilities";
+@import "reset";
+@import "defaults";
+@import "layout";
+@import "common";
+@import "header";
+@import "menus";
+@import "content";
+@import "sidebars";
+@import "footer";
+@import "plugins";
+@import "home";
+@import "print";

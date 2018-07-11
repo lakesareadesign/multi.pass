@@ -46,7 +46,7 @@ function cafe_customizer(){
 		'priority'    => 35,
 	) );
 
-	foreach( $images as $image ){
+	foreach( $images as $key => $image ) {
 
 		$wp_customize->add_setting( $image .'-image', array(
 			'default'  => sprintf( '%s/images/bg-%s.jpg', get_stylesheet_directory_uri(), $image ),
@@ -56,8 +56,8 @@ function cafe_customizer(){
 		$wp_customize->add_control( new WP_Customize_Image_Control( $wp_customize, $image .'-image', array(
 			'label'    => sprintf( __( 'Featured Section %s Image:', 'cafe-pro' ), $image ),
 			'section'  => 'cafe-settings',
-			'settings' => $image .'-image',
-			'priority' => $image+1,
+			'settings' => $image . '-image',
+			'priority' => $key + 1,
 		) ) );
 
 	}

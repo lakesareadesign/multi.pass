@@ -132,11 +132,11 @@ theme/
 │   ├── colors.php
 │   ├── customize.php
 │   ├── defaults.php
-│   ├── header.php
+│   ├── general.php
 │   ├── helpers.php
+│   ├── hero.php
 │   ├── plugins.php
 │   ├── rgba.php
-│   ├── theme.php
 │   └── widgets.php
 ├── languages/
 │   └── corporate-pro.pot

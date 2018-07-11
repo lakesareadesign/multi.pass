@@ -54,3 +54,6 @@ CHANGELOG
 * Update 404 page styles
 * Update flexible widgets to work with customizer
 * Update jquery.scrollTo.min.js and jquery.localScroll.min.js to latest versions
+
+= 1.0.5 =
+* PHP 7.1 compatibility

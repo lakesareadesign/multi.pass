@@ -55,37 +55,37 @@ genesis_register_sidebar( array(
 genesis_register_sidebar( array(
 	'id'          => 'front-page-3',
 	'name'        => __( 'Front Page 3', 'corporate-pro' ),
-	'description' => __( 'This widget area can be used to display a video section on the home page.', 'corporate-pro' ),
+	'description' => __( 'This widget area can be used to display a video section and grid of icons on the home page.', 'corporate-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-4',
 	'name'        => __( 'Front Page 4', 'corporate-pro' ),
-	'description' => __( 'This widget area can be used to display a grid of icon boxes on the home page.', 'corporate-pro' ),
+	'description' => __( 'This widget area can be used to display a large image on the home page.', 'corporate-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-5',
 	'name'        => __( 'Front Page 5', 'corporate-pro' ),
-	'description' => __( 'This widget area can be used to display a large image on the home page.', 'corporate-pro' ),
+	'description' => __( 'This widget area can be used to display an image gallery on the home page.', 'corporate-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-6',
 	'name'        => __( 'Front Page 6', 'corporate-pro' ),
-	'description' => __( 'This widget area can be used to display an image gallery on the home page.', 'corporate-pro' ),
+	'description' => __( 'This widget area can be used to display a call to action banner on the home page.', 'corporate-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-7',
 	'name'        => __( 'Front Page 7', 'corporate-pro' ),
-	'description' => __( 'This widget area can be used to display a call to action banner on the home page.', 'corporate-pro' ),
+	'description' => __( 'This widget area can be used to display a pricing table and testimonials on the home page.', 'corporate-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-8',
 	'name'        => __( 'Front Page 8', 'corporate-pro' ),
-	'description' => __( 'This widget area can be used to display a pricing table and testimonials on the home page.', 'corporate-pro' ),
+	'description' => __( 'This widget area can be used to display recent blog posts on the home page.', 'corporate-pro' ),
 ) );
 genesis_register_sidebar( array(
 	'id'          => 'front-page-9',
 	'name'        => __( 'Front Page 9', 'corporate-pro' ),
-	'description' => __( 'This widget area can be used to display recent blog posts on the home page.', 'corporate-pro' ),
+	'description' => __( 'This widget area can be used to display a newsletter sign up form on the home page.', 'corporate-pro' ),
 ) );
 
 add_action( 'genesis_before_header_wrap', 'corporate_before_header' );

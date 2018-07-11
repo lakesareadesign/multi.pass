@@ -60,6 +60,12 @@ function corporate_body_classes( $classes ) {
 
 	}
 
+	if ( corporate_sidebar_has_widget( 'front-page-1', 'seo_slider' ) ) {
+
+		$classes[] = 'has-hero-slider';
+
+	}
+
 	$classes[] = 'no-js';
 
 	return $classes;
@@ -474,9 +480,12 @@ function corporate_post_meta_filter( $post_meta ) {
 
 	if ( is_archive() || is_home() || is_search() || ! is_post_type_archive() ) {
 
-		$cat_img = '<img width=\'20\' height=\'20\' src=\'' . CHILD_THEME_URI . '/assets/images/cats.svg\'>';
+		$cat_alt = apply_filters( 'corporate_cat_alt', __( 'Category icon', 'corporate-pro' ) );
+		$tag_alt = apply_filters( 'corporate_tag_alt', __( 'Tag icon', 'corporate-pro' ) );
 
-		$tag_img = '<img width=\'20\' height=\'20\' src=\'' . CHILD_THEME_URI . '/assets/images/tags.svg\'>';
+		$cat_img = '<img width=\'20\' height=\'20\' alt=\'' . $cat_alt . '\' src=\'' . CHILD_THEME_URI . '/assets/images/cats.svg\'>';
+
+		$tag_img = '<img width=\'20\' height=\'20\' alt=\'' . $tag_alt . '\' src=\'' . CHILD_THEME_URI . '/assets/images/tags.svg\'>';
 
 		$post_meta = '[post_categories before="' . $cat_img . '" sep=",&nbsp;"] [post_tags before="' . $tag_img . '" sep=",&nbsp;"]';
 

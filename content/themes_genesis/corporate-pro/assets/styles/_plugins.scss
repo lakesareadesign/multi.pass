@@ -2,7 +2,9 @@
 --------------------------------------------- */
 
 .sidebar {
+
 	.enews {
+
 		input {
 			margin-bottom: 1em;
 		}
@@ -10,81 +12,94 @@
 }
 
 .site-footer {
+
 	.enews {
+
 		form {
 			position: relative;
 			margin-top: 0.618em;
 		}
+
 		input[type="text"],
 		input[type="email"] {
 			margin-top: 1rem;
 		}
+
 		input[type="submit"] {
 			position: absolute;
 			right: 0;
 			bottom: 0;
+			padding-right: 0;
+			color: transparent;
 			background: transparent;
 			box-shadow: none;
-			color: transparent;
-			padding-right: 0;
+
 			&:hover,
 			&:focus {
-				+.send-icon {
+
+				+ .send-icon {
 					opacity: 1;
 				}
 			}
 		}
+
 		.send-icon {
 			display: block;
-			height: 1.8rem;
-			width: 1.8rem;
-			background-image: url('assets/images/paper-plane.svg');
-			background-size: contain;
-			background-repeat: no-repeat;
-			background-position: center;
 			position: absolute;
 			right: 2em;
 			bottom: 1em;
+			width: 1.8rem;
+			height: 1.8rem;
 			margin: 0;
-			pointer-events: none;
 			opacity: 0.236;
+			background: center / contain no-repeat url(assets/images/paper-plane.svg);
+			pointer-events: none;
+
 			@include transition;
 		}
 	}
 }
 
-
 /* ## Genesis Portfolio Pro
 --------------------------------------------- */
 
 .archive.genesis-pro-portfolio {
+
 	.content {
 		display: flex;
 		flex-wrap: wrap;
 		justify-content: space-between;
 	}
+
 	.entry {
-		padding: 0;
-		border: 0;
 		width: 100%;
 		margin: 0 0 6vw;
+		padding: 0;
+		border: 0;
+
 		@include overlay;
+
 		@include breakpoint(xs) {
 			width: $one-half;
 			margin-bottom: 2.5rem;
 			margin-left: $margin;
+
 			&:nth-of-type(odd) {
 				margin-left: 0;
 			}
 		}
+
 		&:before {
 			opacity: 0;
 		}
+
 		&:hover,
 		&:focus {
+
 			&:before {
 				opacity: 1;
 			}
+
 			.entry-header {
 				top: 0;
 				bottom: 0;
@@ -93,26 +108,28 @@
 			}
 		}
 	}
+
 	.entry-header {
+		display: flex;
 		position: absolute;
 		z-index: 1;
 		top: 0;
-		left: 0;
 		right: 0;
 		bottom: 0;
+		left: 0;
 		margin-top: 100%;
-		display: flex;
-		align-items: center;
-		justify-content: center;
 		opacity: 0;
 		pointer-events: none;
+		align-items: center;
+		justify-content: center;
+
 		@include transition;
+
 		a {
 			color: $white;
 		}
 	}
 }
-
 
 /* ## Genesis Simple FAQs
 --------------------------------------------- */
@@ -121,52 +138,57 @@ div.gs-faq {
 	padding: 0;
 	border-top: $site-border;
 	box-shadow: $site-shadow;
+
 	.gs-faq__question {
-		font-size: 1.8rem;
-		font-weight: $bolder;
-		color: $dark;
-		background: transparent;
-		border-radius: 0;
-		background-color: $white;
-		box-shadow: none;
+		display: block;
+		position: relative;
+		z-index: 1;
+		height: auto;
 		margin: 0;
 		padding: 1.5em 3em 1.5em 1.5em;
-		height: auto;
-		line-height: 1;
-		display: block;
 		border: $site-border;
 		border-top: 0;
-		z-index: 1;
-		position: relative;
+		border-radius: 0;
+		color: $dark;
+		background-color: $white;
+		box-shadow: none;
+		font-size: 1.8rem;
+		font-weight: $bolder;
+		line-height: 1;
+
 		&:hover,
 		&:focus {
 			color: $accent;
 		}
+
 		&:after {
-			content: '+';
 			position: absolute;
-			right: 1em;
 			top: 1.5em;
+			right: 1em;
 			line-height: 1;
+			content: "+";
 		}
+
 		&.gs-faq--expanded {
+
 			&:after {
-				content: '-';
+				content: "-";
 			}
 		}
+
 		&:last-of-type {
 			margin-bottom: 0;
 		}
 	}
+
 	.gs-faq__answer {
-		padding: 3rem;
 		margin: 0;
+		padding: 3rem;
 		border: $site-border;
 		border-top: 0;
 		background-color: $white;
 	}
 }
-
 
 /* ## Genesis Simple Share
 --------------------------------------------- */
@@ -174,7 +196,6 @@ div.gs-faq {
 .share-after {
 	margin-top: 4rem;
 }
-
 
 /* ## Genesis Testimonial Slider
 --------------------------------------------- */
@@ -198,78 +219,85 @@ div.gs-faq {
 }
 
 ul.testimonials-list {
+
 	li {
+
 		&:before {
-			content: '“';
 			display: block;
-			font-size: 8rem;
-			font-family: $font-serif;
-			line-height: 1;
 			margin: 0 0 -0.5em;
 			color: rgba($dark, 0.2);
+			font-family: $font-serif;
+			font-size: 8rem;
+			line-height: 1;
+			content: "“";
 		}
 	}
+
 	blockquote {
 		padding: 0 2em 1em;
 		border: 0;
 	}
+
 	img {
 		width: 6rem;
 		margin: 2rem auto;
 	}
+
 	h5 {
-		font-size: 1em;
 		color: $dark;
+		font-size: 1em;
 	}
 }
 
-.lSSlideOuter .lSPager.lSpg>li a {
+.lSSlideOuter .lSPager.lSpg > li a {
 	opacity: 0.1;
 	background-color: $dark;
 }
 
-.lSSlideOuter .lSPager.lSpg>li.active a,
-.lSSlideOuter .lSPager.lSpg>li:hover a {
+.lSSlideOuter .lSPager.lSpg > li.active a,
+.lSSlideOuter .lSPager.lSpg > li:hover a {
 	opacity: 0.3;
 	background-color: $dark;
 }
 
 .gts-company {
-	font-size: small;
 	display: block;
 	margin-bottom: 1em;
+	font-size: small;
 }
-
 
 /* ## Google Map
 --------------------------------------------- */
 
 .agm-canvas {
+
 	.contact-page & {
+
 		@media (max-width: map-get($breakpoints, sm)) {
 			height: 30rem !important;
 		}
+
 		&:before {
 			//content: "";
 			display: block;
 			position: absolute;
+			z-index: 1;
 			top: 0;
-			left: 0;
 			right: 0;
 			bottom: 0;
+			left: 0;
 			background-color: rgba($dark, 0.618);
-			z-index: 1;
 		}
 	}
-	.contact-page.has-before-header & {}
 }
-
 
 /* ## Ninja Forms
 --------------------------------------------- */
 
 .nf-field {
+
 	.nf-field-element {
+
 		input,
 		select {
 			height: 3em;
@@ -277,11 +305,15 @@ ul.testimonials-list {
 	}
 }
 
-
 /* ## SEO Slider
 --------------------------------------------- */
 
 .slick-slide {
+
+	.slick-initialized & {
+		display: flex;
+	}
+
 	.no-js &:first-of-type {
 		display: block;
 		width: 100%;
@@ -292,13 +324,14 @@ ul.testimonials-list {
 	box-shadow: none;
 }
 
-
 /* ## Simple Social Icons
 --------------------------------------------- */
 
 .simple-social-icons {
 	overflow: hidden;
+
 	svg {
+
 		&[class^="social-"],
 		&[class*=" social-"] {
 			display: inline-block;
@@ -309,48 +342,53 @@ ul.testimonials-list {
 			fill: currentColor;
 		}
 	}
+
 	ul {
+		display: flex;
 		margin: -0.5em -0.5em 0 0;
 		padding: 0;
-		display: flex;
 		flex-wrap: wrap;
 		justify-content: flex-start;
+
 		li {
-			background: none;
-			border: none;
-			list-style-type: none;
 			margin: 0.5em 0.5em 0 0;
 			padding: 0;
+			border: none;
+			background: none;
+			list-style-type: none;
+
 			a {
-				border: none;
+				display: inline-block;
 				-moz-box-sizing: content-box;
 				-webkit-box-sizing: content-box;
 				box-sizing: content-box;
-				display: inline-block;
+				width: 1em;
+				height: 1em;
+				margin: 2px;
+				border: none;
+				font-weight: $normal;
 				font-style: normal;
 				font-variant: normal;
-				font-weight: normal;
-				height: 1em;
-				line-height: 1em;
+				line-height: 1;
 				text-align: center;
 				text-decoration: none;
 				text-transform: none;
-				width: 1em;
-				margin: 2px;
 			}
 		}
+
 		&.aligncenter {
 			justify-content: center;
 		}
+
 		&.alignleft {
 			justify-content: flex-start;
 		}
+
 		&.alignright {
 			justify-content: flex-end;
 		}
 	}
 }
-
 
 /* ## WooCommerce Menu Cart
 --------------------------------------------- */
@@ -360,35 +398,35 @@ ul.testimonials-list {
 }
 
 .wpmenucart-contents {
-	text-decoration: none;
+	position: relative;
+	margin-top: 1em;
 	color: $dark;
 	font-size: 1.8rem;
-	margin-top: 1em;
-	position: relative;
+	text-decoration: none;
+
 	@include breakpoint(md) {
 		margin-left: 1em;
 	}
+
 	.cartcontents {
-		position: absolute;
-		right: -0.4rem;
-		top: -0.4rem;
-		;
-		box-shadow: 0 0 0 1px $white;
-		background-color: $accent;
-		color: $white;
-		height: 1.2rem;
-		width: 1.2rem;
-		border-radius: 1.2rem;
 		display: flex;
-		align-items: center;
-		justify-content: center;
-		text-align: center;
+		position: absolute;
+		top: -0.4rem;
+		right: -0.4rem;
+		width: 1.2rem;
+		height: 1.2rem;
+		border-radius: 1.2rem;
+		color: $white;
+		background-color: $accent;
+		box-shadow: 0 0 0 1px $white;
 		font-size: 0.7rem;
 		font-weight: $bold;
-		line-height: 1.2rem;
+		line-height: 1;
+		text-align: center;
+		align-items: center;
+		justify-content: center;
 	}
 }
-
 
 /* ## WP Featherlight
 --------------------------------------------- */

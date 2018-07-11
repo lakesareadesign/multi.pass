@@ -319,3 +319,31 @@ function corporate_hex_to_rgba( $colour, $opacity ) {
 	return $rgba;
 
 }
+
+/**
+ * Check if Front Page 1 contains slider widget.
+ *
+ * @since  1.0.1
+ *
+ * @uses   $sidebars_widgets
+ *
+ * @param  string $sidebar Name of sidebar, e.g `primary`.
+ * @param  string $widget  Widget ID to check, e.g `custom_html`.
+ *
+ * @return bool
+ */
+function corporate_sidebar_has_widget( $sidebar, $widget ) {
+
+	global $sidebars_widgets;
+
+	if ( strpos( $sidebars_widgets[ $sidebar ][0], $widget ) !== false && is_active_sidebar( $sidebar ) ) {
+
+		return true;
+
+	} else {
+
+		return false;
+
+	}
+
+}

@@ -221,7 +221,7 @@ function corporate_scripts_styles() {
 	// Conditionally load WooCommerce styles.
 	if ( corporate_is_woocommerce_page() ) {
 
-		wp_enqueue_style( CHILD_TEXT_DOMAIN . '-woocommerce', CHILD_THEME_URI . '/assets/styles/min/woocommerce.min.css', array(), CHILD_THEME_VERSION );
+		wp_enqueue_style( CHILD_TEXT_DOMAIN . '-woocommerce', CHILD_THEME_URI . '/woocommerce.css', array(), CHILD_THEME_VERSION );
 
 	}
 
