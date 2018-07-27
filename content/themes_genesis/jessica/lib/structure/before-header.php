@@ -9,7 +9,7 @@
  * @category     Jessica
  * @package      Admin
  * @author       9seeds
- * @copyright    Copyright (c) 2012, 9seeds
+ * @copyright    Copyright (c) 2018, 9seeds
  * @license      http://opensource.org/licenses/gpl-2.0.php GNU Public License
  * @since        1.0.0
  *

@@ -1,0 +1,212 @@
+#, fuzzy
+msgid ""
+msgstr ""
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Project-Id-Version: Niche Pro\n"
+"POT-Creation-Date: 2018-07-11 07:59-0700\n"
+"PO-Revision-Date: 2018-07-11 07:59-0700\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.0.8\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
+"X-Poedit-WPHeader: style.css\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
+"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
+"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
+"X-Poedit-SearchPath-0: .\n"
+"X-Poedit-SearchPathExcluded-0: *.js\n"
+
+#: functions.php:67 functions.php:69
+msgid "Menu"
+msgstr ""
+
+#: functions.php:247
+msgid "Header Menu"
+msgstr ""
+
+#: functions.php:310
+msgid "Index Page"
+msgstr ""
+
+#: functions.php:311
+msgid ""
+"This is the widget area on the \"index\" page template. It's perfect for a "
+"portfolio or an index of your categories."
+msgstr ""
+
+#: functions.php:319
+msgid "Instagram Landing Page"
+msgstr ""
+
+#: functions.php:320
+msgid ""
+"This is the widget area on the \"instagram\" page template. It's perfect for "
+"a adding links and info about your site and brand."
+msgstr ""
+
+#: functions.php:328
+msgid "Home Page 1"
+msgstr ""
+
+#: functions.php:329
+msgid "This is the first widget area on the home page."
+msgstr ""
+
+#: functions.php:337
+msgid "Home Page 2"
+msgstr ""
+
+#: functions.php:338
+msgid "This is the second widget area on the home page."
+msgstr ""
+
+#: functions.php:346
+msgid "Home Page 3"
+msgstr ""
+
+#: functions.php:347
+msgid "This is the third widget area on the home page."
+msgstr ""
+
+#: functions.php:355
+msgid "Between Posts Area"
+msgstr ""
+
+#: functions.php:356
+msgid "This widget area shows up after the 2nd post."
+msgstr ""
+
+#: functions.php:364
+msgid "Footer Social links"
+msgstr ""
+
+#: functions.php:365
+msgid ""
+"This widget area in the bottom left which is optimized to show your social "
+"media icons."
+msgstr ""
+
+#: functions.php:373
+msgid "Instagram Feed"
+msgstr ""
+
+#: functions.php:374
+msgid "This is the Instagram feed widget"
+msgstr ""
+
+#: functions.php:496 functions.php:516
+msgid "Read More"
+msgstr ""
+
+#: inc/customize.php:71
+msgid "Set the default text color."
+msgstr ""
+
+#: inc/customize.php:72
+msgid "Text Color"
+msgstr ""
+
+#: inc/customize.php:93
+msgid ""
+"Set the link color. This color also shows up when hovering on menu items."
+msgstr ""
+
+#: inc/customize.php:94
+msgid "Link Color"
+msgstr ""
+
+#: inc/customize.php:115
+msgid ""
+"Set the button color. By design, the button hover will show a 1px border "
+"with a transparent background."
+msgstr ""
+
+#: inc/customize.php:116
+msgid "Button Color"
+msgstr ""
+
+#: inc/customize.php:137
+msgid ""
+"Set the light accent color. This shows up as the navigation background, "
+"pagination background, and the .highlight class for widgets."
+msgstr ""
+
+#: inc/customize.php:138
+msgid "Light Accent Color"
+msgstr ""
+
+#: inc/customize.php:159
+msgid "Set the dark accent color. This shows up as the footer background."
+msgstr ""
+
+#: inc/customize.php:160
+msgid "Dark Accent Color"
+msgstr ""
+
+#: inc/customize.php:181
+msgid "Set the border color."
+msgstr ""
+
+#: inc/customize.php:182
+msgid "Border Color"
+msgstr ""
+
+#. translators: %s: child theme name
+#: inc/woocommerce/woocommerce-notice.php:55
+#, php-format
+msgid ""
+"Please install and activate <a href=\"https://wordpress.org/plugins/genesis-"
+"connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> "
+"to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: inc/woocommerce/woocommerce-notice.php:70
+msgid "install and activate Genesis Connect for WooCommerce"
+msgstr ""
+
+#. translators: 1: plugin install prompt presented as link, 2: child theme name
+#: inc/woocommerce/woocommerce-notice.php:74
+#, php-format
+msgid "Please %1$s to <strong>enable WooCommerce support for %2$s</strong>."
+msgstr ""
+
+#: inc/woocommerce/woocommerce-setup.php:73
+msgid "Previous Page"
+msgstr ""
+
+#: inc/woocommerce/woocommerce-setup.php:74
+msgid "Next Page"
+msgstr ""
+
+#. Theme Name of the plugin/theme
+msgid "Niche Pro"
+msgstr ""
+
+#. Theme URI of the plugin/theme
+msgid "https://niche.designbybloom.co/"
+msgstr ""
+
+#. Description of the plugin/theme
+msgid "This is the Niche Pro theme for the Genesis Framework"
+msgstr ""
+
+#. Author of the plugin/theme
+msgid "Bloom"
+msgstr ""
+
+#. Author URI of the plugin/theme
+msgid "https://designbybloom.co"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Index"
+msgstr ""
+
+#. Template Name of the plugin/theme
+msgid "Instagram"
+msgstr ""

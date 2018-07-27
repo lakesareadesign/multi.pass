@@ -47,7 +47,7 @@ function wsm_register_required_plugins() {
 		array(
 			'name'     				=> 'Soliloquy', // The plugin name
 			'slug'     				=> 'soliloquy', // The plugin slug (typically the folder name)
-			'source'   				=> 'https://s3.amazonaws.com/wsm_files/plugins/soliloquy.zip', // The plugin source
+			'source'   				=> 'https://files.9seeds.com/plugins/soliloquy.zip', // The plugin source
 			'required' 				=> false, // If false, the plugin is only 'recommended' instead of required
 			'force_activation' 		=> false, // If true, plugin is activated upon theme activation and cannot be deactivated until theme switch
 			'force_deactivation' 	=> false, // If true, plugin is deactivated upon theme switch, useful for theme-specific plugins

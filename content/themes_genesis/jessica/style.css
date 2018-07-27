@@ -1,12 +1,12 @@
 /*
 	Theme Name: Jessica
 	Description: Jessica is a flexible WordPress eCommerce theme that lets you pick from three different eCommerce plugins. The theme is pre-styled for WooCommerce, iThemes Exchange, and WP e-Commerce. You pick the store plugin that's right for you! By 9seeds on the <a href="https://9seeds.com/studiopress/">Genesis framework</a>.
-	Author: 9seeds
+	Author: 9seeds, LLC
 	Author URI: https://9seeds.com/
-	Version: 1.3.5
+	Version: 1.4.0
 	Template: genesis
 
-	Copyright 2014 - 9seeds
+	Copyright 2018 - 9seeds, LLC
 	License: GPL-2.0+
 	License URI: http://www.gnu.org/licenses/gpl-2.0.html
 	Text Domain: jessica
@@ -4204,7 +4204,19 @@ li.comment {
 }
 
 .comment-respond label {
-	display: none;
+	/* display: none; */
+}
+
+.comment-respond p {
+	margin-bottom: 8px;
+}
+
+.comment-respond input[type="checkbox"] {
+	margin-right: 8px;
+}
+
+.comment-respond .comment-form-cookies-consent{
+	margin-bottom: 20px;
 }
 
 .woocommerce .comment-respond label {

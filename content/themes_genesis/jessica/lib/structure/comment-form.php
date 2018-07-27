@@ -8,7 +8,7 @@
  * @package      Structure
  * @author       9seeds
  * @license      http://opensource.org/licenses/gpl-2.0.php GNU Public License
- * @since        1.0.0
+ * @since        2.6.1
  */
 
 /** Edit comments form text **/
@@ -24,30 +24,36 @@ function wsm_genesis_comment_form_args( $defaults ) {
 	$aria_req  = ( $req ? ' aria-required="true"' : '' );
 
 	$author = '<p class="comment-form-author">' .
-			 '<input id="author" name="author" type="text" placeholder="' . __( 'Name', 'jessica' ) .   ( $req ? '*' : '' ) .'" value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" tabindex="1"' . $aria_req . ' />' .
-			 '<label for="author">' . __( 'Name', 'jessica' ) .   ( $req ? '<span class="required">*</span>' : '' ) .'</label> ' .
+			'<label for="author">' . __( 'Name', 'jessica' ) .   ( $req ? '<span class="required">*</span>' : '' ) .'</label> ' .
+			 '<input id="author" name="author" type="text"  value="' . esc_attr( $commenter['comment_author'] ) . '" size="30" tabindex="1"' . $aria_req . ' />' .
 			 '</p><!-- .form-section-author .form-section -->';
 
 	$email = '<p class="comment-form-email">' .
-			'<input id="email" name="email" type="text" placeholder="' . __( 'Email', 'jessica' ) .   ( $req ? '*' : '' ) .'" value="' . esc_attr( $commenter['comment_author_email'] ) . '" size="30" tabindex="2"' . $aria_req . ' />' .
 			'<label for="email">' . __( 'Email', 'jessica' ) . ( $req ? '<span class="required">*</span>' : '' ) . '</label> ' .
+			'<input id="email" name="email" type="text"  value="' . esc_attr( $commenter['comment_author_email'] ) . '" size="30" tabindex="2"' . $aria_req . ' />' .
 			'</p><!-- .form-section-email .form-section -->';
 
-		$url = '<p class="comment-form-url">' .
-			'<input id="url" name="url" type="text" placeholder="' . __( 'Website', 'jessica' ) . '" value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" tabindex="2" />' .
-	         '<label for="url">' . __( 'Website', 'jessica' ) . '</label> ' .
-	         '</p><!-- .form-section-url .form-section -->';
+	$url = '<p class="comment-form-url">' .
+		'<label for="url">' . __( 'Website', 'jessica' ) . '</label> ' .
+		'<input id="url" name="url" type="text"  value="' . esc_attr( $commenter['comment_author_url'] ) . '" size="30" tabindex="2" />' .
+		'</p><!-- .form-section-url .form-section -->';
 
 	$comment_field = '<p class="comment-form-comment">' .
 					'<label for="comment">' . __( 'Comment', 'jessica' ) . '</label>' .
-	                  '<textarea id="comment" name="comment" placeholder="' . __( 'Comment', 'jessica' ) . '" cols="45" rows="8" tabindex="4" aria-required="true"></textarea>' .
-	                 '</p>';
+	                '<textarea id="comment" name="comment"  cols="45" rows="8" tabindex="4" aria-required="true"></textarea>' .
+					'</p>';
+					 
+	$cookies = '<p class="comment-form-cookies-consent">'.
+	'<input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes">'.
+	'<label for="wp-comment-cookies-consent">Save my name, email, and website in this browser for the next time I comment.</label>'.
+	'</p>';
 
 	$args = array(
 		'fields'               => array(
 			'author' => $author,
 			'email'  => $email,
 			'url'    => $url,
+			'cookies' => $cookies,
 		),
 		'comment_field'        => $comment_field,
 		'title_reply'          => __( 'Leave a Comment', 'jessica' ),

@@ -1,28 +1,28 @@
 <?php
 /**
- * This file adds the custom portfolio post type archive template to the Hello Theme.
+ * This file adds the custom portfolio post type archive template to the Hello Pro Theme.
  *
  * @author brandiD
  * @package Personal Branding
  * @subpackage Customizations
  */
 
-//* Force full width content layout
+// * Force full width content layout
 add_filter( 'genesis_pre_get_option_site_layout', '__genesis_return_full_width_content' );
 
-//* Remove the breadcrumb navigation
+// * Remove the breadcrumb navigation
 remove_action( 'genesis_before_loop', 'genesis_do_breadcrumbs' );
 
-//* Remove the post info function
+// * Remove the post info function
 remove_action( 'genesis_entry_header', 'genesis_post_info', 5 );
 
-//* Remove the post content
+// * Remove the post content
 remove_action( 'genesis_entry_content', 'genesis_do_post_content' );
 
-//* Remove the post image
+// * Remove the post image
 remove_action( 'genesis_entry_content', 'genesis_do_post_image', 8 );
 
-//* Add portfolio body class to the head
+// * Add portfolio body class to the head
 add_filter( 'body_class', 'hello_pro_add_portfolio_body_class' );
 function hello_pro_add_portfolio_body_class( $classes ) {
 
@@ -31,7 +31,7 @@ function hello_pro_add_portfolio_body_class( $classes ) {
 
 }
 
-//* Add the featured image after post title
+// * Add the featured image after post title
 add_action( 'genesis_entry_header', 'hello_pro_portfolio_grid' );
 function hello_pro_portfolio_grid() {
 
@@ -41,7 +41,7 @@ function hello_pro_portfolio_grid() {
 
 }
 
-//* Remove the post meta function
+// * Remove the post meta function
 remove_action( 'genesis_entry_footer', 'genesis_post_meta' );
 
 genesis();

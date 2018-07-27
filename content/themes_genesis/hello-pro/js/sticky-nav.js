@@ -1,60 +1,71 @@
 jQuery(document).ready(function($) {
 
-	// Set margin-top on .site-inner
-	function siteInnerTopMargin(){
-		var navHeight = $('.site-header').outerHeight();
+  // Optimization: Store the references outside the event handler:
+  var $window = $(window);
 
-		// If Primary Nav is being used, apply top margin to that
-		if ( $( "nav.nav-primary" ).length ) {
-			$( "nav.nav-primary" ).css("margin-top", navHeight);
-		}else{
-			// otherwise apply top margin to .site-inner div
-			$('.site-inner').css("margin-top", navHeight);
-		}
+  // maximum height of site-header element (before sticky)
+  var maxHeaderHeight = $('body.sticky-header .site-header:not(.sticky)').outerHeight();
 
-	}
-	siteInnerTopMargin();
+  // Set margin-top on .site-inner
+  function siteInnerTopMargin() {
+
+    // If Primary Nav is being used, apply top margin to that
+    if ($("nav.nav-primary").length) {
+      // maximum height of site-header element (before sticky)
+      newMaxHeaderHeight = $('body.sticky-header .site-header:not(.sticky)').outerHeight();
+
+      if (newMaxHeaderHeight) {
+        // set value to NEW max height
+        $("nav.nav-primary").css("margin-top", newMaxHeaderHeight);
+      } else {
+        // set value to OLD max height
+        $("nav.nav-primary").css("margin-top", maxHeaderHeight);
+      }
+
+    } else {
+      // otherwise apply top margin to .site-inner div
+      if ($(window).width() > 1023) {
+        // outerHeight of site-header element
+        var headerHeight = $('body.sticky-header .site-header').outerHeight();
+        // set value to element height
+        $('body.sticky-header .site-inner').css("margin-top", headerHeight);
+      } else {
+        // remove margin
+        $('body.sticky-header .site-inner').css("margin-top", 0);
+      }
+    }
+
+  }
+  siteInnerTopMargin();
 
 
+  /* // STICKY NAV // */
+  // Do sticky nav on smartscroll
+  $(window).smartscroll(function(e) {
 
-	// Optimization: Store the references outside the event handler:
-	var $window = $(window);
+    var elemHeight = $('body.sticky-header .site-header').outerHeight() + 20;
 
+    var scroll = $(window).scrollTop();
 
-	/* // STICKY NAV // */
-	// Do sticky nav on smartscroll
-	jQuery(window).smartscroll(function(e){
+    // If we've scrolled past the height of the header element
+    if (scroll >= elemHeight) {
 
-		var windowsize = $window.width();
-		if (windowsize > 800) {
-			//sticky nav
+      $("body.sticky-header .site-header").addClass("sticky");
 
+      setTimeout(function() {
+        $("body.sticky-header .site-header").addClass("active");
+      });
 
-			var elemHeight = $('.site-header').outerHeight() + 20;
+    } else {
+      $("body.sticky-header .site-header").removeClass("sticky").removeClass("active");
+    }
 
-			var scroll = $(window).scrollTop();
+  });
 
-			if (scroll >= elemHeight) {
-				$(".site-header").addClass("sticky");
-
-				setTimeout(function() {
-					$(".site-header").addClass("active");
-				});
-
-			} else {
-				$(".site-header").removeClass("sticky").removeClass("active");
-			}
-
-		}else{
-			//no sticky nav on mobile
-		}
-
-	});
-
-	// Execute functions on smartresize
-	jQuery(window).smartresize(function(e){
-		siteInnerTopMargin();
-	});
+  // Execute functions on smartresize
+  $(window).smartresize(function(e) {
+    siteInnerTopMargin();
+  });
 
 
 });
