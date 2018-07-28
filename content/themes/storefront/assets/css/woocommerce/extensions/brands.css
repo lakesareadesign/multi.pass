@@ -35,11 +35,9 @@
  */
 .tax-product_brand .woocommerce-products-header {
   display: -webkit-box;
-  display: -ms-flexbox;
   display: flex;
   -webkit-box-orient: vertical;
   -webkit-box-direction: normal;
-      -ms-flex-direction: column;
           flex-direction: column;
   margin: 0 0 2.2906835em;
   text-align: center; }
@@ -47,16 +45,13 @@
     margin: 0 0 1em;
     width: auto;
     max-height: 2.2906835em;
-    -ms-flex-item-align: center;
-        -ms-grid-row-align: center;
+    -ms-grid-row-align: center;
         align-self: center;
     -webkit-box-ordinal-group: 2;
-        -ms-flex-order: 1;
             order: 1; }
   .tax-product_brand .woocommerce-products-header .woocommerce-products-header__title,
   .tax-product_brand .woocommerce-products-header .term-description {
     -webkit-box-ordinal-group: 3;
-        -ms-flex-order: 2;
             order: 2; }
 
 div#brands_a_z::before, div#brands_a_z::after {
@@ -122,17 +117,17 @@ div#brands_a_z ul.brands {
     margin-right: 4.347826087%;
     -webkit-transition: all 0.5s ease;
     transition: all 0.5s ease; }
-  h3 {
+  div#brands_a_z h3 {
     width: 73.9130434783%;
     float: right;
     margin-right: 0;
     clear: right;
     text-transform: uppercase; }
-    h3:first-of-type {
+    div#brands_a_z h3:first-of-type {
       margin-top: 0; }
-  a.top {
+  div#brands_a_z a.top {
     clear: right; }
-  ul.brands {
+  div#brands_a_z ul.brands {
     width: 73.9130434783%;
     float: right;
     margin-right: 0;
