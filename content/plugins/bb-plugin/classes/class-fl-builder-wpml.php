@@ -71,7 +71,7 @@ final class FLBuilderWPML {
 	static public function filter_parent_template_node_id( $template_node_id, $parent, $layout_data ) {
 		$root = FLBuilderModel::get_node_template_root( $parent->type, $layout_data );
 
-		if ( $root && isset( $root->template_node_id ) && ! empty( $root->template_node_id ) ) {
+		if ( $root && isset( $root->template_root_node ) && isset( $root->template_node_id ) && ! empty( $root->template_node_id ) ) {
 			$template_node_id = $root->template_node_id;
 		}
 

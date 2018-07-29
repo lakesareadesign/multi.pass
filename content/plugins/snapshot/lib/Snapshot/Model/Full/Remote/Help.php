@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * DEV remote help handling model helper
@@ -19,7 +19,8 @@ class Snapshot_Model_Full_Remote_Help extends Snapshot_Model_Full {
 	 *
 	 * @return string Model type tag
 	 */
-	public function get_model_type () { return 'remote'; }
+	public function get_model_type () {
+ return 'remote'; }
 
 	private function __construct () {}
 	private function __clone () {}
@@ -30,7 +31,8 @@ class Snapshot_Model_Full_Remote_Help extends Snapshot_Model_Full {
 	 * @return Snapshot_Model_Full_Remote_Help
 	 */
 	public static function get () {
-		if (empty(self::$_instance)) self::$_instance = new self;
+		if (empty(self::$_instance))
+			self::$_instance = new self();
 		return self::$_instance;
 	}
 
@@ -41,7 +43,7 @@ class Snapshot_Model_Full_Remote_Help extends Snapshot_Model_Full {
 	 *
 	 * @return string
 	 */
-	public function get_help_url ($url=false) {
+	public function get_help_url ($url= false) {
 		$fallback = trailingslashit(Snapshot_Model_Full_Remote_Api::get()->get_dev_remote_host()) . 'hub/my-websites/';
 
 		$urls = $this->get_help_urls();
@@ -91,9 +93,11 @@ class Snapshot_Model_Full_Remote_Help extends Snapshot_Model_Full {
 		$domain = Snapshot_Model_Full_Remote_Api::get()->get_domain();
 		if (empty($domain)) return false;
 
-		$response = Snapshot_Model_Full_Remote_Api::get()->get_dev_api_unprotected_response('get-urls', array(
-			'domain' => $domain,
-		));
+		$response = Snapshot_Model_Full_Remote_Api::get()->get_dev_api_unprotected_response(
+            'get-urls', array(
+				'domain' => $domain,
+			)
+		);
 		if (is_wp_error($response)) return false;
 		if (200 !== (int)wp_remote_retrieve_response_code($response)) return false;
 

@@ -231,4 +231,3 @@ $this->render( "admin/slidein/wizard/boxes/box-form_elements", array(
         <?php endif; ?>
     </script>
 <?php endforeach; ?>
-<?php

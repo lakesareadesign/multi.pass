@@ -17,8 +17,8 @@
       <div id='app_settings'>
 
       <div class="app">
-        <h2>Getting Started</h2>
-        <p><?php echo sprintf(__('%sLearn the basics of how to get started and configure Shareaholic through our popular WordPress plugin.%s', 'shareaholic'), '<a href="https://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin" target="_blank">','</a>'); ?> <?php echo sprintf(__('If you are upgrading from an earlier version of Shareaholic for WordPress and need help, have a question or have a bug to report, please %slet us know%s.', 'shareaholic'), '<a href="https://shareaholic.com/help/message" target="_blank">','</a>'); ?>
+        <h2><?php echo sprintf(__('Getting Started')); ?></h2>
+        <p><?php echo sprintf(__('%sLearn the basics of how to get started and configure Shareaholic through our popular WordPress plugin.%s', 'shareaholic'), '<a href="https://support.shareaholic.com/hc/en-us/categories/200101476-WordPress-Plugin" target="_blank">','</a>'); ?> <?php echo sprintf(__('If you are upgrading from an earlier version of Shareaholic for WordPress and need help, have a question or have a bug to report, please %slet us know%s.', 'shareaholic'), '<a href="https://www.shareaholic.com/help/message" target="_blank">','</a>'); ?>
         </p>
       </div>
   
@@ -71,7 +71,7 @@
         
         <div class='fieldset-footer'>
           <p>
-            Brand your shares with your @Twitterhandle, pick your favorite URL shortener, share buttons for images, etc.
+            <?php echo sprintf(__('Brand your shares with your @Twitterhandle, pick your favorite URL shortener, share buttons for images, etc.')); ?>
           </p>
           <p>
             <button class='app_wide_settings btn btn-success wide-button' data-href='share_buttons/edit'><?php _e('Edit Settings', 'shareaholic'); ?></button>
@@ -119,14 +119,19 @@
 
         <div class='fieldset-footer'>
           <p>
-            Re-sync your content, exclude pages from being recommended, etc.
+            <?php echo sprintf(__('Rebuild your Content Index, exclude pages from being recommended, tweak algorithms, and more.', 'shareaholic')); ?>
           </p>
           <p>
             <button class='app_wide_settings btn btn-success wide-button' data-href='recommendations/edit'><?php _e('Edit Settings', 'shareaholic'); ?></button>
           </p>
         </div>
+        <div class='fieldset-footer'>
+          <p>
+            <?php echo sprintf(__('Note: Shareaholic offloads Related Posts processing to the cloud, so there is no additional load on your server or database, giving you the fastest and most efficient Related Posts solution on the market. The %scloud API%s starts working as soon as your site is live. Until the cloud-based system starts, we use a basic placeholder API powered by the plugin. This API is temporary and does not respect advanced settings such as content exclusion rules.', 'shareaholic'), '<a href="https://shrlc.com/1IzOGiI" target="_blank">','</a>'); ?>
+          </p>
+        </div>
       </div>
-    
+          
       <div class="app">
         <h2>
           <i class="icon icon-affiliate"></i> <?php echo sprintf(__('Monetization Settings', 'shareaholic')); ?>

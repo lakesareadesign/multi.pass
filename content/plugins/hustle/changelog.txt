@@ -4,6 +4,14 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 Change Log:
 ----------------------------------------------------------------------
 
+3.0.4.2 - 2018-07-16
+----------------------------------------------------------------------
+- Fix PHP errors.
+
+3.0.4.1 - 2018-07-11
+----------------------------------------------------------------------
+- Fix PHP errors.
+
 3.0.4 - 2018-07-09
 ----------------------------------------------------------------------
 - Add SendGrid and Zapier integrations.
@@ -321,4 +329,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1531347827-au
+133620-1532820610-au

@@ -150,7 +150,7 @@ ol.sortUls li .alter-sort-list .menu-seperator {
   line-height: 1;
   display: inline-block;
   height: 4px;
-  width: 94%;
+  width: 86%;
   border-top: 3px solid #e6dbdb;
 }
 ol.sortUls li.sortable-placeholder {
@@ -288,6 +288,15 @@ div.wps_kb_link a {
   -webkit-border-radius: 3px;
   border-radius: 3px;
   border-radius: 3px
+}
+
+.wps-wrap .button-primary {
+  display: block;
+  margin: 12px 0;
+}
+
+#wps-button-reset {
+  background:#fd2828!important;
 }
 
 @media only screen and (min-width:782px) and (max-width: 960px) {
@@ -466,8 +475,8 @@ if(isset($this->aof_options['admin_menu_width']) && !empty($this->aof_options['a
         $css_styles .= 'margin-right: '. $wp_content_margin . 'px';
       } else {
         $css_styles .= 'margin-left: '. $wp_content_margin . 'px';
-      $css_styles .= '}';
-    }
+      }
+    $css_styles .= '}';
     $css_styles .= '#adminmenu .wp-submenu {';
       if(is_rtl())
         $css_styles .= 'right:' . $admin_menu_width . 'px';

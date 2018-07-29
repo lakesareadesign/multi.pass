@@ -18,7 +18,7 @@ $data = array(
 
 <div id="container" class="snapshot-three wps-page-snapshots">
 
-	<?php if ( $count_all_snapshots == 0 ) { ?>
+	<?php if ( 0 === $count_all_snapshots ) { ?>
 
 		<section class="wpmud-box get-started-box">
 
@@ -34,10 +34,10 @@ $data = array(
 
 						<div class="wps-image img-snappie-three"></div>
 
-						<p><?php _e( 'Create and store snapshots of your website. You choose what you want to back up and where you want to save it. Let\'s get started!', SNAPSHOT_I18N_DOMAIN ); ?></p>
+						<p><?php esc_html_e( 'Create and store snapshots of your website. You choose what you want to back up and where you want to save it. Let\'s get started!', SNAPSHOT_I18N_DOMAIN ); ?></p>
 
 						<p>
-							<a href="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-new-snapshot' ); ?>" class="button button-blue"><?php _e( 'Create Snapshot', SNAPSHOT_I18N_DOMAIN ) ?></a>
+							<a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-new-snapshot' ) . '&snapshot-noonce-field=' . esc_attr( wp_create_nonce  ( 'snapshot-nonce' ) ) ); ?>" class="button button-blue"><?php esc_html_e( 'Create Snapshot', SNAPSHOT_I18N_DOMAIN ); ?></a>
 						</p>
 
 					</div>
@@ -56,9 +56,9 @@ $data = array(
 
 			<div class="wpmud-box-title has-button">
 
-				<h3><?php _e( 'Available Snapshots', SNAPSHOT_I18N_DOMAIN ); ?></h3>
+				<h3><?php esc_html_e( 'Available Snapshots', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 
-				<a href="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-new-snapshot' ); ?>" class="button button-small button-blue"><?php _e( 'New Snapshot', SNAPSHOT_I18N_DOMAIN ); ?></a>
+				<a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-new-snapshot' ) . '&snapshot-noonce-field=' . esc_attr( wp_create_nonce  ( 'snapshot-nonce' ) ) ); ?>" class="button button-small button-blue"><?php esc_html_e( 'New Snapshot', SNAPSHOT_I18N_DOMAIN ); ?></a>
 
 			</div>
 
@@ -72,19 +72,19 @@ $data = array(
 
 							<form>
 
-								<span class="filter-label"><?php _e( 'Filter by', SNAPSHOT_I18N_DOMAIN ); ?></span>
+								<span class="filter-label"><?php esc_html_e( 'Filter by', SNAPSHOT_I18N_DOMAIN ); ?></span>
+
+								<input type="hidden" name="page" value="snapshot_pro_snapshots">
 
 								<select name='destination'>
-									<option><?php _e( 'All Destinations', SNAPSHOT_I18N_DOMAIN ); ?></option>
+									<option><?php esc_html_e( 'All Destinations', SNAPSHOT_I18N_DOMAIN ); ?></option>
 									<?php foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $destination ) : ?>
-										<option <?php echo ( $key === $filter ) ? 'selected' : '' ?> value="<?php echo $key ?>"><?php echo $destination['name'] ?></option>
+										<option <?php echo ( $key === $filter ) ? 'selected' : ''; ?> value="<?php echo esc_attr( $key ); ?>"><?php echo esc_html( $destination['name'] ); ?></option>
 									<?php endforeach; ?>
 								</select>
 
-								<input type="hidden" name="paged" value="<?php echo $paged ?>">
-								<input type="hidden" name="page" value="<?php echo sanitize_text_field( $_GET['page'] ) ?>">
-
-								<button type="submit" class="button button-outline button-gray"><?php _e( 'Filter', SNAPSHOT_I18N_DOMAIN ); ?></button>
+								<?php wp_nonce_field( 'snapshot-pagination-nonce', 'snapshot-pagination-nonce', false ); ?>
+								<button type="submit" class="button button-outline button-gray"><?php esc_html_e( 'Filter', SNAPSHOT_I18N_DOMAIN ); ?></button>
 
 							</form>
 
@@ -92,7 +92,7 @@ $data = array(
 
 						<div class="my-snapshots">
 
-							<form id="snapshot-edit-listing" action="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshot_pro_snapshots' ); ?>" method="post">
+							<form id="snapshot-edit-listing" action="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshot_pro_snapshots' ) ); ?>" method="post">
 								<input type="hidden" name="snapshot-action" value="delete-bulk"/>
 								<?php wp_nonce_field( 'snapshot-delete', 'snapshot-noonce-field' ); ?>
 								<?php $this->render( "snapshots/partials/filter", false, $data, false, false ); ?>
@@ -117,15 +117,15 @@ $data = array(
 
 											</th>
 
-											<th class="msc-name"><?php _e( 'Name', SNAPSHOT_I18N_DOMAIN ); ?></th>
+											<th class="msc-name"><?php esc_html_e( 'Name', SNAPSHOT_I18N_DOMAIN ); ?></th>
 
-											<th class="msc-type"><?php _e( 'Type', SNAPSHOT_I18N_DOMAIN ); ?></th>
+											<th class="msc-type"><?php esc_html_e( 'Type', SNAPSHOT_I18N_DOMAIN ); ?></th>
 
-											<th class="msc-frequency"><?php _e( 'Frequency', SNAPSHOT_I18N_DOMAIN ); ?></th>
+											<th class="msc-frequency"><?php esc_html_e( 'Frequency', SNAPSHOT_I18N_DOMAIN ); ?></th>
 
-											<th class="msc-size"><?php _e( 'Size', SNAPSHOT_I18N_DOMAIN ); ?></th>
+											<th class="msc-size"><?php esc_html_e( 'Size', SNAPSHOT_I18N_DOMAIN ); ?></th>
 
-											<th class="msc-date"><?php _e( 'Date', SNAPSHOT_I18N_DOMAIN ); ?></th>
+											<th class="msc-date"><?php esc_html_e( 'Date', SNAPSHOT_I18N_DOMAIN ); ?></th>
 
 											<th class="msc-info">&nbsp;</th>
 
@@ -135,7 +135,8 @@ $data = array(
 
 										<tbody>
 										<?php $per_page_snapshots = array_slice( $snapshots, $offset, $per_page ); ?>
-										<?php foreach ( $per_page_snapshots as $key => $snapshot ) :
+										<?php
+                                        foreach ( $per_page_snapshots as $key => $snapshot ) :
 											$snapshot_locker = null;
 											$snapshot_locker = new Snapshot_Helper_Locker( WPMUDEVSnapshot::instance()->get_setting( 'backupLockFolderFull' ), $snapshot['timestamp'] );
 											if ( ! empty( $snapshot['data'] ) ) {
@@ -150,7 +151,7 @@ $data = array(
 
 											$destination_type = '';
 
-											if ( $snapshot['destination'] == 'local' ) {
+											if ( 'local' === $snapshot['destination'] ) {
 
 												$destination_type = 'local';
 
@@ -172,7 +173,7 @@ $data = array(
 
 											$destination_name = '';
 
-											if ( $snapshot['destination'] == 'local' ) {
+											if ( 'local' === $snapshot['destination'] ) {
 
 												$destination_name = 'Local Snapshot';
 
@@ -186,7 +187,8 @@ $data = array(
 
 												}
 
-											} ?>
+											}
+                                            ?>
 
 											<tr>
 
@@ -194,9 +196,9 @@ $data = array(
 
 													<div class="wps-input--checkbox">
 
-														<input type="checkbox" name="delete-bulk[]" id="my-snapshot-<?php echo $snapshot['timestamp']; ?>" value="<?php echo $snapshot['timestamp']; ?>"/>
+														<input type="checkbox" name="delete-bulk[]" id="my-snapshot-<?php echo esc_attr( $snapshot['timestamp'] ); ?>" value="<?php echo esc_attr( $snapshot['timestamp'] ); ?>"/>
 
-														<label for="my-snapshot-<?php echo $snapshot['timestamp']; ?>"></label>
+														<label for="my-snapshot-<?php echo esc_attr( $snapshot['timestamp'] ); ?>"></label>
 
 													</div>
 
@@ -205,50 +207,53 @@ $data = array(
 												<td class="msc-name">
 
 													<p>
-														<a href="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-snapshots' ); ?>&amp;snapshot-action=view&amp;item=<?php echo $snapshot['timestamp']; ?>"><?php echo stripslashes( $snapshot['name'] ); ?></a>
-														<small><?php echo $destination_name; ?></small>
+														<a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-snapshots' ) ); ?>&amp;snapshot-action=view&amp;item=<?php echo esc_attr( $snapshot['timestamp'] ); ?>&amp;snapshot-noonce-field=<?php echo esc_attr( wp_create_nonce  ( 'snapshot-nonce' ) ); ?>"><?php echo esc_html( stripslashes( $snapshot['name'] ) ); ?></a>
+														<small><?php echo wp_kses_post( $destination_name ); ?></small>
 													</p>
 
 												</td>
 
 												<td class="msc-type">
 
-													<span class="wps-typecon <?php echo $destination_type; ?>"></span>
+													<span class="wps-typecon <?php echo esc_attr( $destination_type ); ?>"></span>
 
 												</td>
 
-												<td class="msc-frequency" data-text="<?php _e('Frequency', SNAPSHOT_I18N_DOMAIN); ?>:">
+												<td class="msc-frequency" data-text="<?php esc_html_e('Frequency', SNAPSHOT_I18N_DOMAIN); ?>:">
 													<?php
 													$interval_text = Snapshot_Helper_Utility::get_sched_display( $snapshot['interval'] );
 													if ( $interval_text ) {
-														echo $interval_text;
+														echo wp_kses_post( $interval_text );
 													} else {
-														_e('Once off', SNAPSHOT_I18N_DOMAIN);
+														esc_html_e('Once off', SNAPSHOT_I18N_DOMAIN);
 													}
 													?>
 												</td>
 
-												<td class="msc-size" data-text="<?php _e('Size', SNAPSHOT_I18N_DOMAIN); ?>:">
+												<td class="msc-size" data-text="<?php esc_html_e('Size', SNAPSHOT_I18N_DOMAIN); ?>:">
 
-													<?php if ( isset( $data_item['file_size'] ) ) {
+													<?php
+                                                    if ( isset( $data_item['file_size'] ) ) {
 
 														$file_size = Snapshot_Helper_Utility::size_format( $data_item['file_size'] );
 
-														echo $file_size;
+														echo esc_html( $file_size );
 
 													} else {
 
 														echo "-";
 
-													} ?>
+													}
+                                                    ?>
 
 												</td>
 
-												<td class="msc-date" data-text="<?php _e('Date', SNAPSHOT_I18N_DOMAIN); ?>:">
+												<td class="msc-date" data-text="<?php esc_html_e('Date', SNAPSHOT_I18N_DOMAIN); ?>:">
 
-													<?php if ( isset( $data_item['timestamp'] ) ) {
+													<?php
+                                                    if ( isset( $data_item['timestamp'] ) ) {
 
-														echo Snapshot_Helper_Utility::show_date_time( $data_item['timestamp'] );
+														echo esc_html( Snapshot_Helper_Utility::show_date_time( $data_item['timestamp'] ) );
 
 													} else {
 
@@ -284,20 +289,20 @@ $data = array(
 
 																<ul class="wps-menu-list">
 
-																	<li class="wps-menu-list-title"><?php _e( 'Options', SNAPSHOT_I18N_DOMAIN ); ?></li>
+																	<li class="wps-menu-list-title"><?php esc_html_e( 'Options', SNAPSHOT_I18N_DOMAIN ); ?></li>
 																	<li>
-																		<a href="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-snapshots' ); ?>&amp;snapshot-action=edit&amp;item=<?php echo $snapshot['timestamp']; ?>"><?php _e( 'Edit', SNAPSHOT_I18N_DOMAIN ); ?></a>
+																		<a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-snapshots' ) ); ?>&amp;snapshot-action=edit&amp;item=<?php echo esc_attr( $snapshot['timestamp'] ) . '&snapshot-noonce-field=' . esc_attr( wp_create_nonce  ( 'snapshot-nonce' ) ); ?>"><?php esc_html_e( 'Edit', SNAPSHOT_I18N_DOMAIN ); ?></a>
 																	</li>
 																	<li>
-																		<a href="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-snapshots' ); ?>&amp;snapshot-action=backup&amp;item=<?php echo $snapshot['timestamp']; ?>"><?php _e( 'Regenerate', SNAPSHOT_I18N_DOMAIN ); ?></a>
+																		<a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-snapshots' ) ); ?>&amp;snapshot-action=backup&amp;item=<?php echo esc_attr( $snapshot['timestamp'] ) . '&snapshot-noonce-field=' . esc_attr( wp_create_nonce  ( 'snapshot-nonce' ) ); ?>"><?php esc_html_e( 'Regenerate', SNAPSHOT_I18N_DOMAIN ); ?></a>
 																	</li>
 																	<?php if ( isset( $data_item['timestamp'] ) && ! empty( $data_item['timestamp'] ) ): ?>
 																		<li>
-																			<a href="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-snapshots' ); ?>&snapshot-action=restore&item=<?php echo $snapshot['timestamp']; ?>&snapshot-data-item=<?php echo $data_item['timestamp']; ?>"><?php _e( 'Restore', SNAPSHOT_I18N_DOMAIN ); ?></a>
+																			<a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-snapshots' ) ); ?>&snapshot-action=restore&item=<?php echo esc_attr( $snapshot['timestamp'] ); ?>&snapshot-data-item=<?php echo esc_attr( $data_item['timestamp'] ) . '&snapshot-noonce-field=' . esc_attr( wp_create_nonce  ( 'snapshot-nonce' ) ); ?>"><?php esc_html_e( 'Restore', SNAPSHOT_I18N_DOMAIN ); ?></a>
 																		</li>
 																	<?php endif; ?>
 																	<li>
-																		<a href="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-snapshots' ); ?>&amp;snapshot-action=delete-item&amp;item=<?php echo $snapshot['timestamp']; ?>&amp;snapshot-noonce-field=<?php echo wp_create_nonce( 'snapshot-delete-item' ); ?>"><?php _e( 'Delete', SNAPSHOT_I18N_DOMAIN ); ?></a>
+																		<a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-snapshots' ) ); ?>&amp;snapshot-action=delete-item&amp;item=<?php echo esc_attr( $snapshot['timestamp'] ); ?>&amp;snapshot-noonce-field=<?php echo esc_attr( wp_create_nonce( 'snapshot-delete-item' ) ); ?>"><?php esc_html_e( 'Delete', SNAPSHOT_I18N_DOMAIN ); ?></a>
 																	</li>
 
 																</ul>

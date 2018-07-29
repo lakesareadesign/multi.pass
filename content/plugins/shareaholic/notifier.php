@@ -15,7 +15,7 @@ class ShareaholicNotifier {
    * The url of the publisher API
    */
 
-  const URL = 'http://api.shareaholic.com/publisher/1.0';
+  const URL = 'https://api.shareaholic.com/publisher/1.0';
 
   /**
    * Handles publishing or updating a post

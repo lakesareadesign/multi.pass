@@ -243,7 +243,7 @@ class JE_Expert_Model extends IG_Post_Model
 
         //gather information
         $view = array(
-            'ip' => $_SERVER['REMOTE_ADDR'],
+            'ip' => md5( $_SERVER['REMOTE_ADDR'] ),
             'user_id' => is_user_logged_in() ? get_current_user_id() : 0,
             'date_view' => date('Y-m-d H:i:s')
         );

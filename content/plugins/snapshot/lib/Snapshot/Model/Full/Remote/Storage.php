@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Remote storage handling model helper
@@ -21,7 +21,9 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 *
 	 * @return string Model type tag
 	 */
-	public function get_model_type() { return 'remote'; }
+	public function get_model_type() {
+ 		return 'remote';
+ 	}
 
 	private function __construct() { }
 
@@ -34,7 +36,7 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 */
 	public static function get() {
 		if ( empty( self::$_instance ) ) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
 		return self::$_instance;
 	}
@@ -114,7 +116,7 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		$size = $this->_get_used_remote_space();
 
 		return apply_filters(
-			$this->get_filter( 'api-space-used' ),
+			$this->get_filter( 'api_space_used' ),
 			$size
 		);
 	}
@@ -171,7 +173,7 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		}
 
 		return (float) apply_filters(
-			$this->get_filter( 'api-space-total' ),
+			$this->get_filter( 'api_space_total' ),
 			$total
 		);
 	}
@@ -223,7 +225,7 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 
 		if ( false === $total || ! is_numeric( $total ) ) {
 			return apply_filters(
-				$this->get_filter( 'api-space-free' ),
+				$this->get_filter( 'api_space_free' ),
 				$free
 			);
 		}
@@ -231,7 +233,7 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		$used = $this->get_used_remote_space();
 		if ( false === $used || ! is_numeric( $used ) ) {
 			return apply_filters(
-				$this->get_filter( 'api-space-free' ),
+				$this->get_filter( 'api_space_free' ),
 				$free
 			);
 		}
@@ -239,7 +241,7 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		$free = (float) $total - (float) $used;
 
 		return apply_filters(
-			$this->get_filter( 'api-space-free' ),
+			$this->get_filter( 'api_space_free' ),
 			$free
 		);
 	}
@@ -286,7 +288,8 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 	 */
 	public function get_backup_rotation_list( $path ) {
 		$candidate_list = $this->get_remote_list();
-		$automated_list = $raw_list = array();
+		$raw_list = array();
+		$automated_list = $raw_list;
 
 		// First, separate automated from regular full backups
 		foreach ($candidate_list as $item) {
@@ -304,14 +307,18 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		$remove_automated = array();
 		if (count($automated_list) > $max_automated) {
 			$oldest = $this->_get_oldest_filename($automated_list);
-			if (!empty($oldest)) $remove_automated[] = $oldest;
+			if (!empty($oldest))
+				$remove_automated[] = $oldest;
 			$safety = 0;
-			while (count($automated_list) - count($remove_automated) > $max_automated) {
+			$difference = count($automated_list) - count($remove_automated);
+			while ( $difference > $max_automated ) {
 				$safety++;
 				if ($safety > 20) break;
 				$oldest = $this->_get_newer_filename($automated_list, $oldest);
 				if (empty($oldest)) break;
 				$remove_automated[] = $oldest;
+
+				$difference = count($automated_list) - count($remove_automated);
 			}
 		}
 
@@ -419,12 +426,14 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 			if ( empty( $nfo ) ) {
 				return false;
 			} // Error getting the API info, bail out
-			$s3_handler = new AmazonS3( array(
-				'key' => $nfo['AccessKeyId'],
-				'secret' => $nfo['SecretAccessKey'],
-				'token' => $nfo['SessionToken'],
-				'certificate_authority' => trailingslashit( ABSPATH . WPINC ) . 'certificates/ca-bundle.crt',
-			) );
+			$s3_handler = new AmazonS3(
+                 array(
+					'key' => $nfo['AccessKeyId'],
+					'secret' => $nfo['SecretAccessKey'],
+					'token' => $nfo['SessionToken'],
+					'certificate_authority' => trailingslashit( ABSPATH . WPINC ) . 'certificates/ca-bundle.crt',
+				)
+            );
 		}
 		return $s3_handler;
 	}
@@ -519,7 +528,8 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 			delete_site_option( $key ); // Clean up the temp storage
 
 			// Drop the local file!
-			@unlink( $path );
+			if ( is_writable( $path ) )
+				unlink( $path );
 
 			// Delete cache
 			Snapshot_Model_Transient::delete( $this->get_filter( "backups" ) );
@@ -627,11 +637,13 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 			}
 
 			if ($automate_initiated > $this->get_max_automate_backups_limit() || $user_initiated > $this->get_max_backups_limit()) {
-				Snapshot_Helper_Log::info(sprintf(
-					'More than upper limit backups u(%d/%d) -- a(%d/%d) -- removing some.',
-					$user_initiated, $this->get_max_backups_limit(),
-					$automate_initiated, $this->get_max_automate_backups_limit()
-				), 'Remote');
+				Snapshot_Helper_Log::info(
+                    sprintf(
+						'More than upper limit backups u(%d/%d) -- a(%d/%d) -- removing some.',
+						$user_initiated, $this->get_max_backups_limit(),
+						$automate_initiated, $this->get_max_automate_backups_limit()
+					), 'Remote'
+                );
 				$status = $this->rotate_backups( $path );
 				return $status
 					? false // Not done in this pass
@@ -665,13 +677,15 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 			$is_done = false;
 			try {
 // http://docs.aws.amazon.com/AWSSDKforPHP/latest/#m=AmazonS3/upload_part
-				$response = $s3->upload_part( $nfo['Bucket'], trailingslashit( $nfo['Prefix'] ) . basename( $path ), $upload_id, array(
-					'expect' => '100-continue',
-					'fileUpload' => $path,
-					'partNumber' => $idx + 1,
-					'seekTo' => $part['seekTo'],
-					'length' => $part['length'],
-				) );
+				$response = $s3->upload_part(
+					$nfo['Bucket'], trailingslashit( $nfo['Prefix'] ) . basename( $path ), $upload_id, array(
+						'expect' => '100-continue',
+						'fileUpload' => $path,
+						'partNumber' => $idx + 1,
+						'seekTo' => $part['seekTo'],
+						'length' => $part['length'],
+					)
+                );
 				$part['done'] = $response->isOk();
 				$parts[ $idx ] = $part;
 				update_site_option( $key, $parts );
@@ -869,7 +883,7 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 
 		// Okay, so even if we errored out, proceed to filter whatever we have left
 		$raw = apply_filters(
-			$this->get_filter( "backups-get" ),
+			$this->get_filter( "backups_get" ),
 			$raw
 		);
 
@@ -909,7 +923,7 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		}
 
 		$backups = apply_filters(
-			$this->get_filter( "backups-refresh" ),
+			$this->get_filter( "backups_refresh" ),
 			$backups // API-obtained backup list
 		);
 

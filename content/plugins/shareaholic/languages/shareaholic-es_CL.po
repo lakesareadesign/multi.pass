@@ -67,13 +67,13 @@ msgstr ""
 #. translators: plugin header field 'PluginURI'
 #: shareaholic.php:0
 #@ shareaholic
-msgid "https://shareaholic.com/publishers/"
+msgid "https://www.shareaholic.com/publishers/"
 msgstr ""
 
 #. translators: plugin header field 'AuthorURI'
 #: shareaholic.php:0
 #@ shareaholic
-msgid "https://shareaholic.com"
+msgid "https://www.shareaholic.com"
 msgstr ""
 
 #: templates/advanced_settings.php:9

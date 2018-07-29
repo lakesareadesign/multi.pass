@@ -1,11 +1,11 @@
 <?php
-	$options = empty( $options ) ? $_view['options'] : $options;
+$options = empty( $options ) ? $_view['options'] : $options;
 ?>
 
 <div class="wds-table-fields wds-separator-top">
 	<div class="label">
-		<label class="wds-label"><?php _e( 'Twitter Cards', 'wds' ); ?></label>
-		<p class="wds-label-description"><?php _e( 'With Twitter Cards, you can attach rich photos, videos and media experiences to Tweets, helping to drive traffic to your website.', 'wds' ); ?></p>
+		<label class="wds-label"><?php esc_html_e( 'Twitter Cards', 'wds' ); ?></label>
+		<p class="wds-label-description"><?php esc_html_e( 'With Twitter Cards, you can attach rich photos, videos and media experiences to Tweets, helping to drive traffic to your website.', 'wds' ); ?></p>
 	</div>
 
 	<?php $twitter_card_enabled = $options['twitter-card-enable']; ?>
@@ -24,14 +24,16 @@
 			</span>
 
 			<div class="wds-toggle-description">
-				<label for="twitter-card-enable" class="wds-label"><?php esc_html_e( 'Enable Twitter Cards', 'wds' ); ?></label>
+				<label for="twitter-card-enable"
+				       class="wds-label"><?php esc_html_e( 'Enable Twitter Cards', 'wds' ); ?></label>
 			</div>
 		</div>
 
 		<div class="wds-toggleable-inside wds-conditional">
 			<p></p>
 			<select name="<?php echo esc_attr( $_view['option_name'] ); ?>[twitter-card-type]"
-					class="select-container" style="width: 100%">
+                    id="twitter-card-type"
+			        class="select-container" style="width: 100%">
 				<option
 					<?php selected( $options['twitter-card-type'], Smartcrawl_Twitter_Printer::CARD_SUMMARY ); ?>
 					value="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_SUMMARY ); ?>">
@@ -45,19 +47,21 @@
 				</option>
 			</select>
 
-			<div class="wds-conditional-inside" data-conditional-val="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_SUMMARY ); ?>">
+			<div class="wds-conditional-inside"
+			     data-conditional-val="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_SUMMARY ); ?>">
 				<?php
-					$this->_render('social/social-twitter-embed', array(
-						'tweet_url' => 'https://twitter.com/_HassanAkhtar/status/875530001294270464',
-					));
+				$this->_render( 'social/social-twitter-embed', array(
+					'tweet_url' => 'https://twitter.com/_HassanAkhtar/status/875530001294270464',
+				) );
 				?>
 			</div>
-			<div class="wds-conditional-inside" data-conditional-val="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_IMAGE ); ?>">
+			<div class="wds-conditional-inside"
+			     data-conditional-val="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_IMAGE ); ?>">
 				<?php
-					$this->_render('social/social-twitter-embed', array(
-						'tweet_url' => 'https://twitter.com/Twitter/status/593828669740584960',
-						'large'     => true,
-					));
+				$this->_render( 'social/social-twitter-embed', array(
+					'tweet_url' => 'https://twitter.com/Twitter/status/593828669740584960',
+					'large'     => true,
+				) );
 				?>
 			</div>
 			<p class="wds-field-legend"><?php esc_html_e( 'A preview of how your Homepage will appear as a Twitter Card.', 'wds' ); ?></p>

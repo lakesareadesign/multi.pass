@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Model_Queue_Bhfileset extends Snapshot_Model_Queue {
 
@@ -24,7 +24,9 @@ class Snapshot_Model_Queue_Bhfileset extends Snapshot_Model_Queue {
 		return $this->_lister->is_done();
 	}
 
-	public function get_type () { return 'fileset'; }
+	public function get_type () {
+		return 'fileset';
+	}
 
 	public function get_root () {
 		return untrailingslashit(wp_normalize_path(ABSPATH));
@@ -52,6 +54,8 @@ class Snapshot_Model_Queue_Bhfileset extends Snapshot_Model_Queue {
 	 * @param array $files Files being preprocessed
 	 * @param int $chunk Current chunk
 	 *
+	 * @todo implement a solution for calculating filesize for files > 2GB on 32bit PHP
+	 *
 	 * @return array Preprocessed files
 	 */
 	public function detect_large_files ($files, $chunk) {
@@ -62,7 +66,7 @@ class Snapshot_Model_Queue_Bhfileset extends Snapshot_Model_Queue {
 
 		$result = array();
 		foreach ($files as $file) {
-			$size = @filesize($file);
+			$size = filesize($file);
 			if (false !== $size && ($size < 0 || $size > $threshold)) { // Negative size takes care of integer overflow
 				// This file is larger than we expected, we might have issues here
 				Snapshot_Helper_Log::warn("Processing a large file: {$file} ({$size})", "Queue");
@@ -71,7 +75,7 @@ class Snapshot_Model_Queue_Bhfileset extends Snapshot_Model_Queue {
 				// 1 or more GBs and over... Not for now though.
 
 				// Reject oversized files - false by default
-				if (apply_filters('snapshot-queue-fileset-reject_oversized', false, $file, $size, $chunk)) {
+				if (apply_filters('snapshot_queue_fileset_reject_oversized', false, $file, $size, $chunk)) {
 					Snapshot_Helper_Log::warn("Rejecting {$file} because of the size constraint", "Queue");
 					continue;
 				}
@@ -96,7 +100,7 @@ class Snapshot_Model_Queue_Bhfileset extends Snapshot_Model_Queue {
 		}
 
 		return (float)apply_filters(
-			'snapshot-queue-fileset-filesize_threshold',
+			'snapshot_queue_fileset_filesize_threshold',
 			$threshold
 		);
 	}

@@ -30,7 +30,7 @@ var html   = null,
 		'<?php echo $name; ?>' : <?php echo json_encode( $field ); ?>
 	};
 
-html = FLBuilderSettingsForms.renderFields( fields );
+html = FLBuilderSettingsForms.renderFields( fields, <?php echo json_encode( $settings ); ?> );
 
 jQuery( '#fl-field-<?php echo $name; ?>' ).after( html ).remove();
 

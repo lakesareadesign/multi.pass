@@ -119,4 +119,3 @@
 	</div>
 
 </div><?php // #wph-modal-palette ?>
-<?php

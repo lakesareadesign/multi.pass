@@ -59,6 +59,8 @@
             var snapshot_blog_search = $('input[name="snapshot-blog-id-search"]').val();
 
             var snapshot_restore_plugin = $('input#snapshot-restore-option-plugins', this).attr('checked');
+
+            var security = jQuery(':hidden#snapshot-ajax-nonce').val();
             if (snapshot_restore_plugin === "checked") {
                 snapshot_restore_plugin = "yes";
             } else {
@@ -125,7 +127,7 @@
             var tablesArray = [];
             var filesArray = [];
 
-            var snapshot_item_data = $('input:radio[name="snapshot-restore-file"]').val();
+            var snapshot_item_data = $('input:radio[name="snapshot-restore-file"]:checked').val();
 
             function snapshot_restore_tables_proc(action, idx) {
                 var table_name, data;
@@ -155,7 +157,8 @@
                         'snapshot-files-sections': snapshot_form_files_sections,
                         'snapshot-tables-option': snapshot_form_tables_option,
                         'snapshot-tables-array': snapshot_form_tables_array,
-                        'snapshot_blog_search': snapshot_blog_search
+                        'snapshot_blog_search': snapshot_blog_search,
+                        'security': security,
                     };
 
                     snapshot_ajax_hdl_xhr = $.ajax({
@@ -290,7 +293,8 @@
                             'snapshot-blog-id': snapshot_form_blog_id,
                             'snapshot_table': table_name,
                             'table_data': table_data,
-                            'snapshot_blog_search': snapshot_blog_search
+                            'snapshot_blog_search': snapshot_blog_search,
+                            'security': security,
                         };
 
                         snapshot_ajax_hdl_xhr = $.ajax({
@@ -416,7 +420,8 @@
                             'item_key': snapshot_item_key,
                             'item_data': snapshot_item_data,
                             'file_data_idx': file_idx,
-                            'snapshot-blog-id': snapshot_form_blog_id
+                            'snapshot-blog-id': snapshot_form_blog_id,
+                            'security': security,
 
                         };
 
@@ -526,7 +531,8 @@
                         'item_data': snapshot_item_data,
                         'snapshot-blog-id': snapshot_form_blog_id,
                         'snapshot_restore_plugin': snapshot_restore_plugin,
-                        'snapshot_restore_theme': snapshot_restore_theme
+                        'snapshot_restore_theme': snapshot_restore_theme,
+                        'security': security,
                     };
 
                     snapshot_ajax_hdl_xhr = $.ajax({

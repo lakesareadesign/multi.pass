@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Breadth-first filesystem lister model
  *
@@ -169,7 +169,7 @@ class Snapshot_Model_Bflister {
 			? intval( SNAPSHOT_FILESET_CHUNK_SIZE )
 			: 250
 		;
-		return (int) apply_filters( 'snapshot-model-bflister-paths_limit', $limit );
+		return (int) apply_filters( 'snapshot_model_bflister_paths_limit', $limit );
 	}
 
 	/**
@@ -178,7 +178,9 @@ class Snapshot_Model_Bflister {
 	 * @return array
 	 */
 	public function process_files() {
-		if ( $this->is_done() ) { return $this->_files; }
+		if ( $this->is_done() ) {
+			return $this->_files;
+		}
 
 		$processed = 0;
 		$limit = $this->get_paths_limit();
@@ -204,7 +206,9 @@ class Snapshot_Model_Bflister {
 							break;
 						}
 					}
-					if ( ! $include_this_file ) { continue; }
+					if ( ! $include_this_file ) {
+						continue;
+					}
 				}
 
 				if ( is_file( $item ) && ! is_link( $item ) ) {
@@ -223,7 +227,7 @@ class Snapshot_Model_Bflister {
 					//Snapshot_Helper_Log::info("Adding file to queue: {$item}");
 					$this->_files[] = $item;
 				} elseif ( is_dir( $item ) && ! is_link( $item ) ) {
-					if ( ! in_array( $item, $paths ) ) {
+					if ( ! in_array( $item, $paths, true ) ) {
 						$paths[] = $item;
 					}
 				}

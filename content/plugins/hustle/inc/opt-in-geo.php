@@ -131,7 +131,7 @@ class Opt_In_Geo {
 		} else {
 			$geo_service = $this->_get_geo_services();
 
-			$service = isset( $geo_service[ $type ] ) ? $geo_service[ $type ] : null;
+			$service = isset( $geo_service[ $type ] ) ? $geo_service[ $type ] : null;	  	 			 			  	      
 		}
 
 		return $service;

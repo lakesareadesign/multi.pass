@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Helper_Zip_Archive extends Snapshot_Helper_Zip_Abstract {
 
@@ -6,15 +6,18 @@ class Snapshot_Helper_Zip_Archive extends Snapshot_Helper_Zip_Abstract {
 	private $extractWarningString;
 
 	public function initialize () {
-		$this->_zip = new ZipArchive;
+		$this->_zip = new ZipArchive();
 	}
 
-	public function add ($files=array(), $relative_path=false) {
-		if (!is_array($files)) $files = array($files);
-		if (empty($files)) return false;
+	public function add ($files = array(), $relative_path = false) {
+		if (!is_array($files))
+			$files = array($files);
+		if (empty($files))
+			return false;
 
 		$flags = null;
-		if (!file_exists($this->_path)) $flags = ZipArchive::CREATE;
+		if (!file_exists($this->_path))
+			$flags = ZipArchive::CREATE;
 
 		$handle = $this->_zip->open($this->_path, $flags);
 		if (!$handle) return false;
@@ -73,6 +76,8 @@ class Snapshot_Helper_Zip_Archive extends Snapshot_Helper_Zip_Abstract {
 		$this->extractWarningNumber = null;
 		$this->extractWarningString = null;
 
+		// We use set_error_handler() as logging code and not debug code.
+		// phpcs:ignore
 		set_error_handler(array($this, 'extractWarning'));
 		$status = $this->_zip->extractTo($destination);
 		restore_error_handler();
@@ -112,8 +117,7 @@ class Snapshot_Helper_Zip_Archive extends Snapshot_Helper_Zip_Abstract {
 	* Method to handle warnings, used for warnings handling around
 	* backup zip extraction.
 	*/
-	public function extractWarning($errno, $errstr)
-	{
+	public function extractWarning($errno, $errstr) {
 		$this->extractWarningNumber = $errno;
 		$this->extractWarningString = $errstr;
 	}

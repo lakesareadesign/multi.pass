@@ -3,19 +3,19 @@
  * The main file!
  *
  * @package shareaholic
- * @version 8.7.2
+ * @version 8.8.2
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related posts
-Plugin URI: https://shareaholic.com/publishers/
+Plugin URI: https://www.shareaholic.com/publishers/
 Description: The world's leading all-in-one Audience Amplification Platform that helps grow your website traffic, engagement, conversions & monetization. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 8.7.2
+Version: 8.8.2
 Author: Shareaholic
-Author URI: https://shareaholic.com
+Author URI: https://www.shareaholic.com
 Text Domain: shareaholic
 Domain Path: /languages
-Credits & Thanks: https://shareaholic.com/tools/wordpress/credits
+Credits & Thanks: https://www.shareaholic.com/tools/wordpress/credits
 */
 
 
@@ -58,12 +58,11 @@ if (!class_exists('Shareaholic')) {
    * @package shareaholic
    */
   class Shareaholic {
-    const URL = 'https://shareaholic.com';
+    const URL = 'https://www.shareaholic.com';
     const API_URL = 'https://web.shareaholic.com'; // uses static IPs for firewall whitelisting
     const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
-    const REC_API_URL = 'http://recommendations.shareaholic.com';
 
-    const VERSION = '8.7.2';
+    const VERSION = '8.8.2';
 
     /**
      * Starts off as false so that ::get_instance() returns

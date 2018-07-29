@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Hub actions controller
@@ -34,7 +34,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	protected function __construct () {
 		parent::__construct();
 		$cron = Snapshot_Controller_Full_Cron::get();
-		add_action($cron->get_filter('cron-error-stop'), array($this, 'clear_flag'));
+		add_action($cron->get_filter('cron_error_stop'), array($this, 'clear_flag'));
 		add_site_option(self::OPTIONS_FLAG, '');
 	}
 
@@ -45,7 +45,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 */
 	public static function get () {
 		if (empty(self::$_instance)) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
 		return self::$_instance;
 	}
@@ -159,7 +159,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 
 		return empty($status)
 			? new WP_Error(self::ACTION_CLEAR_API_CACHE, 'Error re-connecting to refresh API cache')
-			: array('code' => 0,)
+			: array('code' => 0)
 		;
 	}
 
@@ -175,7 +175,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 *
 	 * @return void
 	 */
-	public function json_clear_cache ($params, $action, $request=false) {
+	public function json_clear_cache ($params, $action, $request = false) {
 		Snapshot_Helper_Log::info('Cache cleanup request received, attempting to process', 'Remote');
 		$status = $this->clear_api_cache();
 
@@ -242,7 +242,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 *
 	 * @return void
 	 */
-	public function json_set_key ($params, $action, $request=false) {
+	public function json_set_key ($params, $action, $request = false) {
 		Snapshot_Helper_Log::info('OTP set key request received', 'Remote');
 
 		$token = $this->get_valid_key_token($params);
@@ -293,7 +293,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 *
 	 * @return void
 	 */
-	public function json_deactivate_backups ($params, $action, $request=false) {
+	public function json_deactivate_backups ($params, $action, $request = false) {
 		Snapshot_Helper_Log::info("Managed backups deactivation request received", 'Remote');
 		$status = $this->deactivate_backups();
 		if ($status && !is_wp_error($status)) {
@@ -318,10 +318,11 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 */
 	public function validate_schedule_params ($params) {
 		$status = true;
-		if (!isset($params->active)) $status = false;
+		if (!isset($params->active))
+			$status = false;
 
 		$frequencies = array_keys($this->_model->get_frequencies());
-		if (!isset($params->frequency) || !in_array($params->frequency, $frequencies)) {
+		if (!isset($params->frequency) || !in_array($params->frequency, $frequencies, true)) {
 			$status = new WP_Error(self::ACTION_SCHEDULE_BACKUPS, "Invalid parameter: frequency");
 		}
 		$freq = !is_wp_error($status)
@@ -376,7 +377,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 			$this->_model->set_config('frequency', $params->frequency);
 			$this->_model->set_config('schedule_time', $params->time);
 
-			if (in_array($params->frequency, array('weekly', 'monthly'))) {
+			if (in_array($params->frequency, array('weekly', 'monthly'), true)) {
 				$this->_model->set_config('schedule_offset', $params->offset);
 			}
 
@@ -401,7 +402,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 		$response = array();
 		$domain = Snapshot_Model_Full_Remote_Api::get()->get_domain();
 		if (!empty($domain)) {
-			$lmodel = new Snapshot_Model_Full_Local;
+			$lmodel = new Snapshot_Model_Full_Local();
 			$frequency = $params->frequency;
 			$time = $params->time;
 			$offset = !empty($params->offset)
@@ -422,7 +423,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 				'backup_time' => $time,
 				'backup_offset' => $offset,
 				'backup_limit' => Snapshot_Model_Full_Remote_Storage::get()->get_max_backups_limit(),
-				'local_full_backups' => json_encode($lmodel->get_backups()),
+				'local_full_backups' => wp_json_encode($lmodel->get_backups()),
 			);
 			Snapshot_Helper_Log::info("Automated rescheduling, created response array", "Remote");
 		} else {
@@ -446,7 +447,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 *
 	 * @return void
 	 */
-	public function json_schedule_backups ($params, $action, $request=false) {
+	public function json_schedule_backups ($params, $action, $request = false) {
 		//save settings, and return the same object as normally gets sent
 		//to REST api (so we can skip that callback eventually when triggered
 		//remotely)
@@ -469,7 +470,8 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 
 		// Now, construct the response
 		$status = $this->construct_schedule_response($params);
-		if (empty($status)) $status = new WP_Error(self::ACTION_SCHEDULE_BACKUPS, 'Error constructing response');
+		if (empty($status))
+			$status = new WP_Error(self::ACTION_SCHEDULE_BACKUPS, 'Error constructing response');
 
 		return is_wp_error($status)
 			? $this->send_response_error($status, $request)
@@ -497,7 +499,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 *
 	 * @return WP_Error|bool Status
 	 */
-	public function start_backup ($params=false) {
+	public function start_backup ($params = false) {
 		$cron = Snapshot_Controller_Full_Cron::get();
 		$via_automate = true;
 
@@ -538,7 +540,8 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 		$status = $cron->is_running();
 		Snapshot_Helper_Log::info("Remotely triggered backup started", "Remote");
 
-		if (empty($status)) $status = new WP_Error(self::ACTION_START_BACKUP, "Backup not running");
+		if (empty($status))
+			$status = new WP_Error(self::ACTION_START_BACKUP, "Backup not running");
 
 		return $status;
 	}
@@ -552,7 +555,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 *
 	 * @return void
 	 */
-	public function json_start_backup ($params, $action, $request=false) {
+	public function json_start_backup ($params, $action, $request = false) {
 		Snapshot_Helper_Log::info("Remote backup initiating request received", "Remote");
 
 		// No remotely triggered backups if the key has not been set
@@ -564,7 +567,8 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 		}
 
 		$status = $this->start_backup($params);
-		if (empty($status)) $status = new WP_Error(self::ACTION_START_BACKUP, 'Error starting backup');
+		if (empty($status))
+			$status = new WP_Error(self::ACTION_START_BACKUP, 'Error starting backup');
 
 		return !is_wp_error($status)
 			? $this->send_response_success(true, $request)
@@ -598,11 +602,12 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 *
 	 * @return void
 	 */
-	public function json_stop_backup ($params, $action, $request=false) {
+	public function json_stop_backup ($params, $action, $request = false) {
 		Snapshot_Helper_Log::info("Remote backup cancelling request received", "Remote");
 
 		$status = $this->stop_backup();
-		if (empty($status)) $status = new WP_Error(self::ACTION_STOP_BACKUP, 'Error stopping backup');
+		if (empty($status))
+			$status = new WP_Error(self::ACTION_STOP_BACKUP, 'Error stopping backup');
 
 		if (!is_wp_error($status)) {
 			// Notify back that we're cancelled
@@ -680,7 +685,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 *
 	 * @return void
 	 */
-	public function json_delete_backup ($params, $action, $request=false) {
+	public function json_delete_backup ($params, $action, $request = false) {
 		Snapshot_Helper_Log::info("Remote backup deleting request received", "Remote");
 
 		$backup_id = $this->get_valid_backup_id($params);
@@ -689,7 +694,8 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 		}
 
 		$status = $this->delete_backup($backup_id);
-		if (empty($status)) $status = new WP_Error(self::ACTION_DELETE_BACKUP, "Deleting backup failed");
+		if (empty($status))
+			$status = new WP_Error(self::ACTION_DELETE_BACKUP, "Deleting backup failed");
 
 		return !is_wp_error($status)
 			? $this->send_response_success(true, $request)
@@ -714,7 +720,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 *
 	 * @return void
 	 */
-	public function json_restore_backup ($params, $action, $request=false) {
+	public function json_restore_backup ($params, $action, $request = false) {
 		Snapshot_Helper_Log::info("Remote backup restoring request received", "Remote");
 
 		$backup_id = $this->get_valid_backup_id($params);
@@ -724,7 +730,8 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 		}
 
 		$status = $this->restore_backup($backup_id);
-		if (empty($status)) $status = new WP_Error(self::ACTION_RESTORE_BACKUP, "Deleting backup failed");
+		if (empty($status))
+			$status = new WP_Error(self::ACTION_RESTORE_BACKUP, "Deleting backup failed");
 
 		return !is_wp_error($status)
 			? $this->send_response_success(true, $request)
@@ -745,7 +752,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 *
 	 * @return bool
 	 */
-	public function send_response_error ($info, $request=false) {
+	public function send_response_error ($info, $request = false) {
 		$status = array();
 		if (is_wp_error($info)) {
 			$code = $info->get_error_code();
@@ -774,7 +781,7 @@ class Snapshot_Controller_Full_Hub extends Snapshot_Controller_Full {
 	 *
 	 * @return bool
 	 */
-	public function send_response_success ($info, $request=false) {
+	public function send_response_success ($info, $request = false) {
 		$status = $info;
 		if (!empty($status) && is_object($request) && is_callable(array($request, 'send_json_success'))) {
 			return $request->send_json_success($status);

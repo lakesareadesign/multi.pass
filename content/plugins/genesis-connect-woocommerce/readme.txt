@@ -1,9 +1,9 @@
 === Plugin Name ===
-Contributors: nathanrice, studiopress, studiograsshopper
+Contributors: nathanrice, studiopress, studiograsshopper, modernnerd, marksabbath, calvinkoepke, curtismchale
 Tags: genesis, genesiswp, studiopress, woocommerce
 Requires at least: 3.3
-Tested up to: 4.7
-Stable tag: 0.9.10
+Tested up to: 4.9
+Stable tag: 1.0
 
 This plugin allows you to seamlessly integrate WooCommerce with the Genesis Framework and Genesis child themes.
 
@@ -15,7 +15,7 @@ To allow easy customization of these templates, and ensure that you do not lose 
 
 Additionally, the plugin makes [Genesis Simple Sidebars](http://wordpress.org/extend/plugins/genesis-simple-sidebars/) and [Genesis Simple Menus](http://wordpress.org/extend/plugins/genesis-simple-menus/) compatible with WooCommerce.
 
-**This version is compatible with WooCommerce 3.0+**
+**This version is compatible with WooCommerce 3.3+**
 
 == Installation ==
 
@@ -47,10 +47,6 @@ There's no need! Genesis Connect for WooCommerce modifies the default Genesis br
 
 1. Go to the *Dashboard > Settings > Reading* page select A Static Page and select "Shop" as the front page.
 2. It is recommended to turn off Genesis breadcrumbs for the Home page in *Dashboard > Genesis > Theme Settings > Breadcrumb options*.
-
-= Does it work with Genesis Simple Sidebars? =
-
-Yes.
 
 = Does it work with Genesis Simple Sidebars? =
 
@@ -134,6 +130,24 @@ For the benefit of theme developers and customizers, here is a summary of possib
 * The above information is based on WooCommerce 1.4.4
 
 == Changelog ==
+
+= 1.0 =
+* Released 7 August 2018.
+* Add WooCommerce version check support.
+* Reinstate Genesis Featured Products widget. (Enable with `add_theme_support( 'gencwooc-featured-products-widget' );`.)
+* Prevent ‘ID was called incorrectly’ error if Genesis Featured Products widget is in use.
+* Remove product Microdata to prevent conflict with JSON-LD from WooCommerce 3.
+* Prevent deprecation notice if Genesis Simple Sidebars is in use.
+* The Genesis Featured Products widget now hides products with a price or sale price of '0' if ‘hide free products’ is ticked.
+* Prevent blank pages if WooCommerce Shop page is not set. (Thanks, Tim Jensen!)
+* Prevent fatal error on WooCommerce pages if non-Genesis theme or mobile plugin such as WPtouch is active.
+* Add support for Genesis Scripts to products. (Thanks, Graham Washbrook!)
+* The shop page now uses the default site layout if “Default Layout set in Theme Settings” is selected.
+* Show a notice instead of dying if WooCommerce is not active.
+* Show a notice instead of failing silently if a Genesis child theme is not active.
+* Use the default template for product oembeds.
+* Show the Genesis archive headline and intro text on product taxonomy archives if set. Fall back to the archive name and description.
+* Allow network activation on WordPress multisite networks.
 
 = 0.9.10 =
 * Update theme templates for WooCommerce 3.3

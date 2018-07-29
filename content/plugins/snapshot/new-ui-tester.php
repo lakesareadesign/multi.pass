@@ -12,9 +12,23 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 
 	public function snapshots() {
 
-		if ( isset( $_REQUEST['snapshot-action'] ) && 'new' === $_REQUEST['snapshot-action'] ) {
-			$this->render( 'snapshots/snapshot', false, array( 'action' => 'add', 'item' => array() ) );
-			return;
+		if ( isset( $_REQUEST['snapshot-action'] ) ) {
+			if ( ! isset( $_REQUEST['snapshot-noonce-field']  ) ) {
+				return;
+			}
+			if ( ! wp_verify_nonce( $_REQUEST['snapshot-noonce-field'], 'snapshot-nonce' ) ) {
+				return;
+			}
+
+			if ( 'new' === $_REQUEST['snapshot-action'] ) {
+				$this->render(
+						'snapshots/snapshot', false, array(
+						'action' => 'add',
+						'item' => array()
+						)
+				);
+				return;
+			}
 		}
 
 		if ( isset( $_REQUEST['item'], WPMUDEVSnapshot::instance()->config_data['items'][ sanitize_text_field( $_REQUEST['item'] ) ] ) ) {
@@ -32,14 +46,26 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 			switch ( $snapshot_action ) {
 				case 'backup':
 					$force_backup = true;
+					// no break.
 				case 'edit':
-					$this->render( 'snapshots/snapshot', false, array( 'action' => 'update', 'item' => $item, 'force_backup' => $force_backup ) );
+					$this->render(
+                         'snapshots/snapshot', false, array(
+							'action' => 'update',
+							'item' => $item,
+							'force_backup' => $force_backup
+							)
+                        );
 					break;
 
 				case 'restore':
 					if ( ( isset( $_GET['snapshot-data-item'] ) ) && ( isset( $item['data'][ intval( $_GET['snapshot-data-item'] ) ] ) ) ) {
 						$data_item_key = intval( $_GET['snapshot-data-item'] );
-						$this->render( 'snapshots/restore', false, array( 'item' => $item, 'data_item_key' => $data_item_key ) );
+						$this->render(
+                             'snapshots/restore', false, array(
+								'item' => $item,
+								'data_item_key' => $data_item_key
+								)
+                            );
 					} else {
 						$this->render( 'snapshots/item', false, array( 'item' => $item ) );
 					}
@@ -54,7 +80,7 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 			$count_all_snapshots = count( $snapshots );
 			$all_destinations = WPMUDEVSnapshot::instance()->config_data['destinations'];
 			$filter = ( isset( $_GET['destination'] ) ) ? sanitize_text_field( $_GET['destination'] ) : '';
-			if ( $filter !== '' && isset( $all_destinations[ $filter ] ) ) {
+			if ( '' !== $filter && isset( $all_destinations[ $filter ] ) ) {
 				$filtred_snapshot = array();
 				foreach ( $snapshots as $key => $snapshot ) {
 					if ( isset( $snapshot['destination'] ) && $snapshot['destination'] === $filter ) {
@@ -92,6 +118,12 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 		$snapshot_action = 'default';
 
 		if ( isset( $_REQUEST['snapshot-action'] ) ) {
+			if ( ! isset( $_REQUEST['destination-noonce-field']  ) ) {
+				return;
+			}
+			if ( ! wp_verify_nonce( $_REQUEST['destination-noonce-field'], 'snapshot-destination' ) ) {
+				return;
+			}
 			$snapshot_action = sanitize_text_field( $_REQUEST['snapshot-action'] );
 		}
 
@@ -109,7 +141,7 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 	}
 
 	public function managed_backups() {
-		$model = new Snapshot_Model_Full_Backup;
+		$model = new Snapshot_Model_Full_Backup();
 
 		$is_dashboard_active = $model->is_dashboard_active();
 		$is_dashboard_installed = $is_dashboard_active
@@ -121,7 +153,7 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 
 		$apiKey = $model->get_config( 'secret-key', '' );
 
-		$has_snapshot_key = $is_client && Snapshot_Model_Full_Remote_Api::get()->get_token() != false && ! empty( $apiKey );
+		$has_snapshot_key = $is_client && Snapshot_Model_Full_Remote_Api::get()->get_token() !== false && ! empty( $apiKey );
 
 		if ( ! $is_client ) {
 
@@ -135,9 +167,16 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 			$snapshot_action = 'default';
 			if ( isset( $_REQUEST['snapshot-action'] ) ) {
 				$snapshot_action = sanitize_text_field( $_REQUEST['snapshot-action'] );
+
+				if ( ! isset( $_REQUEST['snapshot-full_backups-noonce-field']  ) ) {
+					return;
+				}
+				if ( ! wp_verify_nonce( $_REQUEST['snapshot-full_backups-noonce-field'], 'snapshot-full_backups' ) ) {
+					return;
+				}
 			}
 
-			function __snapshot_sort_managed_backups_array ( $a, $b ){
+			function _snapshot_sort_managed_backups_array ( $a, $b ){
 				return $b['timestamp'] - $a['timestamp'];
 			}
 
@@ -151,12 +190,18 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 						$item = $model->get_backup( sanitize_text_field( $_GET['item'] ) );
 					}
 					if ( $item ) {
-						$this->render( "managed-backups/restore", false, array( 'model' => $model, 'item' => $item ) );
+						$this->render(
+                             "managed-backups/restore", false, array(
+								'model' => $model,
+								'item' => $item
+								)
+                            );
 						break;
 					}
+					// Potentially no break.
 				default:
 					$backups = $model->get_backups();
-					usort( $backups, '__snapshot_sort_managed_backups_array' );
+					usort( $backups, '_snapshot_sort_managed_backups_array' );
 					$last_backup = reset( $backups );
 					$filter = ( isset( $_GET['date'] ) ) ? sanitize_text_field( $_GET['date'] ) : '';
 					$timestamps = wp_list_pluck( $backups, 'timestamp' );
@@ -165,7 +210,7 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 						$months[ date( 'mY', $month ) ] = date( 'F Y', $month );
 					}
 
-					if ( $filter !== '' && is_int( $filter ) ) {
+					if ( '' !== $filter && is_int( $filter ) ) {
 						$filtred_snapshot = array();
 						foreach ( $backups as $key => $snapshot ) {
 							if ( isset( $snapshot['timestamp'] ) && date( 'mY', $snapshot['timestamp'] ) === $filter ) {
@@ -235,6 +280,7 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 			ob_start();
 		}
 
+		// phpcs:ignore
 		extract( $params, EXTR_SKIP );
 
 		include $template_file;
@@ -285,7 +331,7 @@ class WPMUDEVSnapshot_New_Ui_Tester {
 		$class = ' validation-error';
 
 		if ( $echo ) {
-			echo $class;
+			echo esc_attr( $class );
 		}
 
 		return $class;

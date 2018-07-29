@@ -19,10 +19,12 @@ if ( ! smartcrawl_core_is_multisite() ) {
 
 function smartcrawl_core_is_multisite() {
 	if ( function_exists( 'is_multisite' ) ) {
-		return is_multisite(); }
+		return is_multisite();
+	}
 
 	if ( ! function_exists( 'wpmu_signup_blog' ) ) {
-		return false; }
+		return false;
+	}
 
 	return true;
 }
@@ -66,7 +68,8 @@ if ( ! function_exists( 'get_blogs_of_user' ) ) {
 if ( ! function_exists( 'is_site_admin' ) ) {
 	function is_site_admin( $user_id = false ) {
 		if ( current_user_can( 'manage_options' ) ) {
-			return true; }
+			return true;
+		}
 
 		return false;
 	}
@@ -74,9 +77,9 @@ if ( ! function_exists( 'is_site_admin' ) ) {
 
 if ( ! function_exists( 'get_current_user_id' ) ) {
 	function get_current_user_id() {
-		global $current_user;
-		get_currentuserinfo();
-		return $current_user->data->ID;
+		$user = wp_get_current_user();
+
+		return $user->ID;
 	}
 }
 

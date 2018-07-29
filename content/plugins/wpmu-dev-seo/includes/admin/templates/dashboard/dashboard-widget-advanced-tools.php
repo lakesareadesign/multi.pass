@@ -1,18 +1,22 @@
 <?php
-	$page_url = Smartcrawl_Settings_Admin::admin_url( Smartcrawl_Settings::TAB_AUTOLINKS );
+if ( ! smartcrawl_subsite_setting_page_enabled( 'wds_autolinks' ) ) {
+	return;
+}
 
-	$redirection_model = new Smartcrawl_Model_Redirection;
-	$redirection_count = count( $redirection_model->get_all_redirections() );
+$page_url = Smartcrawl_Settings_Admin::admin_url( Smartcrawl_Settings::TAB_AUTOLINKS );
 
-	$option_name = Smartcrawl_Settings::TAB_SETTINGS . '_options';
-	$options = $_view['options'];
-	$autolinking_enabled = smartcrawl_get_array_value( $options, 'autolinks' );
-	$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
-	$is_member = $service->is_member();
-	$moz_connected = ! empty( $options['access-id'] ) && ! empty( $options['secret-key'] );
+$redirection_model = new Smartcrawl_Model_Redirection();
+$redirection_count = count( $redirection_model->get_all_redirections() );
+
+$option_name = Smartcrawl_Settings::TAB_SETTINGS . '_options';
+$options = $_view['options'];
+$autolinking_enabled = smartcrawl_get_array_value( $options, 'autolinks' );
+$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
+$is_member = $service->is_member();
+$moz_connected = ! empty( $options['access-id'] ) && ! empty( $options['secret-key'] );
 ?>
 
-<section id="<?php echo Smartcrawl_Settings_Dashboard::BOX_ADVANCED_TOOLS; ?>" class="dev-box">
+<section id="<?php echo esc_attr( Smartcrawl_Settings_Dashboard::BOX_ADVANCED_TOOLS ); ?>" class="dev-box">
 	<div class="box-title">
 		<div class="buttons buttons-icon">
 			<a href="<?php echo esc_attr( $page_url ); ?>" class="wds-settings-link">
@@ -35,7 +39,7 @@
 		<div class="wds-separator-top cf">
 			<span class="wds-small-text"><strong><?php esc_html_e( 'Moz Integration', 'wds' ); ?></strong></span>
 
-			<?php if ( $moz_connected ) :  ?>
+			<?php if ( $moz_connected ) : ?>
 				<span class="wds-box-stat-value">
 					<a href="<?php echo esc_attr( $page_url ); ?>#tab_moz"
 					   class="button button-small button-dark button-dark-o">
@@ -55,25 +59,27 @@
 			<?php endif; ?>
 		</div>
 
-		<div class="wds-separator-top wds-autolinking-section <?php echo ! $is_member ? 'wds-box-blocked-area' : ''; ?>">
+		<div
+			class="wds-separator-top wds-autolinking-section <?php echo ! $is_member ? 'wds-box-blocked-area' : ''; ?>">
 			<span class="wds-small-text"><strong><?php esc_html_e( 'Automatic Linking', 'wds' ); ?></strong></span>
-			<?php if ( $autolinking_enabled && $is_member ) :  ?>
-				<span class="wds-box-stat-value wds-box-stat-value-success"><?php esc_html_e( 'Active', 'wds' ); ?></span>
+			<?php if ( $autolinking_enabled && $is_member ) : ?>
+				<span
+					class="wds-box-stat-value wds-box-stat-value-success"><?php esc_html_e( 'Active', 'wds' ); ?></span>
 			<?php else : ?>
 				<p class="wds-small-text">
 					<?php esc_html_e( 'Configure SmartCrawl to automatically link certain key words to a page on your blog or even a whole new site all together.', 'wds' ); ?>
 				</p>
 				<button type="button"
-						data-option-id="<?php echo esc_attr( $option_name ); ?>"
-						data-flag="<?php echo 'autolinks'; ?>"
-						class="wds-activate-component button button-small wds-button-with-loader wds-button-with-right-loader wds-disabled-during-request">
+				        data-option-id="<?php echo esc_attr( $option_name ); ?>"
+				        data-flag="<?php echo 'autolinks'; ?>"
+				        class="wds-activate-component button button-small wds-button-with-loader wds-button-with-right-loader wds-disabled-during-request">
 
 					<?php esc_html_e( 'Activate', 'wds' ); ?>
 				</button>
-				<?php if ( ! $is_member ) :  ?>
+				<?php if ( ! $is_member ) : ?>
 					<button class="wds-upgrade-button button-pro wds-has-tooltip"
-							data-content="<?php _e( 'Get SmartCrawl Pro today Free', 'wds' ); ?>"
-							type="button">
+					        data-content="<?php esc_attr_e( 'Get SmartCrawl Pro today Free', 'wds' ); ?>"
+					        type="button">
 						<?php esc_html_e( 'Pro feature', 'wds' ); ?>
 					</button>
 				<?php endif; ?>
@@ -90,7 +96,7 @@
 			<?php
 			if ( ! $is_member ) {
 
-				$this->_render('mascot-message', array(
+				$this->_render( 'mascot-message', array(
 					'key'         => 'seo-checkup-upsell',
 					'dismissible' => false,
 					'message'     => sprintf(
@@ -98,7 +104,7 @@
 						esc_html__( 'Upgrade to Pro and automatically link your articles both internally and externally with automatic linking - a favourite among SEO pros.', 'wds' ),
 						esc_html__( '- Try SmartCrawl Pro FREE today!', 'wds' )
 					),
-				));
+				) );
 			}
 			?>
 		</div>

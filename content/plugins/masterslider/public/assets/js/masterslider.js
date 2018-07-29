@@ -1,10 +1,10 @@
 /*! 
  * Master Slider – Responsive Touch Swipe Slider
- * Copyright © 2016 All Rights Reserved. 
+ * Copyright © 2018 All Rights Reserved. 
  *
  * @author Averta [www.averta.net]
- * @version 2.50.0
- * @date Aug 2016
+ * @version 2.61.2
+ * @date Jul 2018
  */
 
 
@@ -12,17 +12,17 @@
 window.averta = {};
 
 ;(function($){
-	
+
 	//"use strict";
-	
+
 	window.package = function(name){
 		if(!window[name]) window[name] = {};
 	};
-	
+
 	var extend = function(target , object){
 		for(var key in object)	target[key] = object[key];
 	};
-	
+
 	Function.prototype.extend = function(superclass){
 		if(typeof superclass.prototype.constructor === "function"){
 			extend(this.prototype , superclass.prototype);
@@ -30,9 +30,9 @@ window.averta = {};
 		}else{
 			this.prototype.extend(superclass);
 			this.prototype.constructor = this;
-		}	
+		}
 	};
-	
+
 	// Converts JS prefix to CSS prefix
 	var trans = {
 		'Moz'    : '-moz-',
@@ -42,8 +42,8 @@ window.averta = {};
 		'ms'	 : '-ms-',
 		'Icab'   : '-icab-'
 	};
-	
-	window._mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+
+	window._mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
 	window._touch  = 'ontouchstart' in document;
 	$(document).ready(function(){
 		window._jcsspfx 		= getVendorPrefix();	   // JS CSS VendorPrefix
@@ -52,31 +52,31 @@ window.averta = {};
 		window._css3d   		= supports3DTransforms();
 		window._css2d   		= supportsTransforms();
 	});
-	
-	
+
+
 	// Thanks to LEA VEROU
 	// http://lea.verou.me/2009/02/find-the-vendor-prefix-of-the-current-browser/
 	function getVendorPrefix() {
-	
+
 		if('result' in arguments.callee) return arguments.callee.result;
-	
+
 		var regex = /^(Moz|Webkit|Khtml|O|ms|Icab)(?=[A-Z])/;
-	
+
 		var someScript = document.getElementsByTagName('script')[0];
-	
+
 		for(var prop in someScript.style){
 			if(regex.test(prop)){
 				return arguments.callee.result = prop.match(regex)[0];
 			}
 		}
-	
+
 		if('WebkitOpacity' in someScript.style) return arguments.callee.result = 'Webkit';
 		if('KhtmlOpacity' in someScript.style) return arguments.callee.result = 'Khtml';
-	
+
 		return arguments.callee.result = '';
 	}
-	
-	
+
+
 	// Thanks to Steven Benner.
 	// http://stevenbenner.com/2010/03/javascript-regex-trick-parse-a-query-string-into-an-object/
 	window.parseQueryString = function(url){
@@ -85,16 +85,16 @@ window.averta = {};
 		    new RegExp("([^?=&]+)(=([^&]*))?", "g"),
 		    function($0, $1, $2, $3) { queryString[$1] = $3; }
 		);
-		
+
 		return queryString;
 	};
-	
+
 	function checkStyleValue(prop){
 		 var b = document.body || document.documentElement;
 	    var s = b.style;
 	    var p = prop;
 	    if(typeof s[p] == 'string') {return true; }
-	
+
 	    // Tests for vendor specific prop
 	    v = ['Moz', 'Webkit', 'Khtml', 'O', 'ms'],
 	    p = p.charAt(0).toUpperCase() + p.substr(1);
@@ -103,15 +103,15 @@ window.averta = {};
 	    }
 	    return false;
 	}
-	
+
 	function supportsTransitions() {
 	   return checkStyleValue('transition');
 	}
-	
+
 	function supportsTransforms(){
 	   return checkStyleValue('transform');
 	}
-	
+
 	function supports3DTransforms(){
 		if(!supportsTransforms()) return false;
 	    var el = document.createElement('i'),
@@ -125,48 +125,48 @@ window.averta = {};
 	        'Transform':'transform',
 	        'transform':'transform'
 	    };
-		
+
 		el.style.display = 'block';
 
 	    // Add it to the body to get the computed style
 	    document.body.insertBefore(el, null);
-		
+
 	    for(var t in transforms){
 	        if( el.style[t] !== undefined ){
 	            el.style[t] = 'translate3d(1px,1px,1px)';
 	            has3d = window.getComputedStyle(el).getPropertyValue(transforms[t]);
 	        }
 	    }
-	
+
 	    document.body.removeChild(el);
-	
+
 	    return (has3d != null && has3d.length > 0 && has3d !== "none");
 	}
-	
+
 	/**
 	 * Provides requestAnimationFrame in a cross browser way.
 	 * @author paulirish / http://paulirish.com/
 	 */
 	var fps60 = 50/3;
-	
+
 	if ( !window.requestAnimationFrame ) {
-	 
+
 		window.requestAnimationFrame = ( function() {
-	 
+
 			return window.webkitRequestAnimationFrame ||
 			window.mozRequestAnimationFrame ||
 			window.oRequestAnimationFrame ||
 			window.msRequestAnimationFrame ||
 			function( /* function FrameRequestCallback */ callback, /* DOMElement Element */ element ) {
-	 
+
 				window.setTimeout( callback, fps60 );
-	 
+
 			};
-	 
+
 		} )();
-	 
+
 	}
-	
+
 	if (!window.getComputedStyle) {
 	    window.getComputedStyle = function(el, pseudo) {
 	        this.el = el;
@@ -207,10 +207,10 @@ window.averta = {};
 	}
 
 
-	/** 
+	/**
 	 * check ie browser
-	 * @param  {Number | string}  version 
-	 * @return {Boolean} 
+	 * @param  {Number | string}  version
+	 * @return {Boolean}
 	 */
 	window.isMSIE = function ( version ) {
 		if ( !$.browser.msie ) {
@@ -236,7 +236,7 @@ window.averta = {};
 	        dataAttrsToDelete = [],
 	        dataAttrs = $target[0].attributes,
 	        dataAttrsLen = dataAttrs.length;
-	 	
+
 	    exclude = exclude || [];
 
 	    // loop through attributes and make a list of those
@@ -257,41 +257,41 @@ window.averta = {};
 	        $target.removeAttr( attrName );
 	    })
 	};
-	
+
 	if(jQuery){
 		$.jqLoadFix = function(){
 			if(this.complete){
 				var that = this;
-				setTimeout(function(){$(that).load();} , 1);
-			}	
+				setTimeout(function(){$(that).trigger('load');} , 1);
+			}
 		};
-		
+
 		jQuery.uaMatch = jQuery.uaMatch || function( ua ) {
 			ua = ua.toLowerCase();
-		
+
 			var match = /(chrome)[ \/]([\w.]+)/.exec( ua ) ||
 				/(webkit)[ \/]([\w.]+)/.exec( ua ) ||
 				/(opera)(?:.*version|)[ \/]([\w.]+)/.exec( ua ) ||
 				/(msie) ([\w.]+)/.exec( ua ) ||
 				ua.indexOf("compatible") < 0 && /(mozilla)(?:.*? rv:([\w.]+)|)/.exec( ua ) ||
 				[];
-		
+
 			return {
 				browser: match[ 1 ] || "",
 				version: match[ 2 ] || "0"
 			};
 		};
-		
+
 		// Don't clobber any existing jQuery.browser in case it's different
 		//if ( !jQuery.browser ) {
 			matched = jQuery.uaMatch( navigator.userAgent );
 			browser = {};
-		
+
 			if ( matched.browser ) {
 				browser[ matched.browser ] = true;
 				browser.version = matched.version;
 			}
-		
+
 			// Chrome is Webkit, but Webkit is also Safari.
 			if ( browser.chrome ) {
 				browser.webkit = true;
@@ -299,7 +299,7 @@ window.averta = {};
 				browser.safari = true;
 			}
 
-			// hofix for IE11 detection 
+			// hofix for IE11 detection
 			var isIE11 = !!navigator.userAgent.match(/Trident\/7\./);
 			if (isIE11) {
 				browser.msie = "true";
@@ -307,9 +307,9 @@ window.averta = {};
 			}
 
 			jQuery.browser = browser;
-			
+
 		//}
-		
+
 		$.fn.preloadImg = function(src , _event){
 			this.each(function(){
 				var $this = $(this);
@@ -992,26 +992,26 @@ window.averta = {};
 
 /* ================== bin-debug/js/pro/tools/Aligner.js =================== */
 ;(function(){
-	
+
 	"use strict";
-	
+
 	window.MSAligner = function(type , $container , $img ){
-		
+
 		this.$container = $container;
-		this.$img	    = $img;	
-	
+		this.$img	    = $img;
+
 		this.type 		= type || 'stretch'; // fill , fit , stretch , tile , center
-		
+
 		this.widthOnly = false;
 		this.heightOnly = false;
 	};
-	
+
 	var p = MSAligner.prototype;
-	
+
 	/*-------------- METHODS --------------*/
-	
+
 	p.init = function(w , h){
-		
+
 		this.baseWidth = w;
 		this.baseHeight = h;
 		this.imgRatio = w / h;
@@ -1037,55 +1037,55 @@ window.averta = {};
 				});
 			break;
 			case 'fill':
-			case 'fit' :				
+			case 'fit' :
 				this.needAlign = true;
 				this.align();
 			break;
 		}
-		
+
 	};
-	
+
 	p.align = function(){
 		if(!this.needAlign) return;
 
-		var cont_w = this.$container.width();
-		var cont_h = this.$container.height();
+		var cont_w = this.$container[0].offsetWidth;
+		var cont_h = this.$container[0].offsetHeight;
 
 		var contRatio = cont_w / cont_h;
-		
+
 		if(this.type == 'fill'){
 			if(this.imgRatio < contRatio ){
 				this.$img.width(cont_w);
-				this.$img.height(cont_w * this.imgRatio2);				
+				this.$img.height(cont_w * this.imgRatio2);
 			}else{
 				this.$img.height(cont_h);
 				this.$img.width(cont_h * this.imgRatio);
 			}
-				
+
 		}else if(this.type == 'fit'){
-			
+
 			if(this.imgRatio < contRatio){
 				this.$img.height(cont_h);
-				this.$img.width(cont_h * this.imgRatio);				
+				this.$img.width(cont_h * this.imgRatio);
 			}else{
 				this.$img.width(cont_w);
-				this.$img.height(cont_w * this.imgRatio2);	
+				this.$img.height(cont_w * this.imgRatio2);
 			}
 		}
-		
+
 		this.setMargin();
-		
+
 	};
 
 	p.setMargin = function(){
 
-		var cont_w = this.$container.width();
-		var cont_h = this.$container.height();
-		
+		var cont_w = this.$container[0].offsetWidth;
+		var cont_h = this.$container[0].offsetHeight;
+
 		this.$img.css('margin-top' , (cont_h - this.$img[0].offsetHeight) / 2 + 'px');
 		this.$img.css('margin-left', (cont_w - this.$img[0].offsetWidth ) / 2 + 'px');
 	}
-	
+
 })();
 
 /* ================== bin-debug/js/pro/tools/pointer-events-polyfill.js =================== */
@@ -4234,11 +4234,15 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 
         $video.addClass('ms-slide-bgvideo');
 
+        // if ( $video.data('loop') !== false ) {
+        //     this.bgvideo.addEventListener('ended' , function(){
+        //         //that.bgvideo.currentTime = -1;
+        //         that.bgvideo.play();
+        //     });
+        // }
+
         if ( $video.data('loop') !== false ) {
-            this.bgvideo.addEventListener('ended' , function(){
-                //that.bgvideo.currentTime = -1;
-                that.bgvideo.play();
-            });
+            this.bgvideo.loop = true;
         }
 
         if ( $video.data('mute') !== false ) {
@@ -4248,6 +4252,8 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
         if ( $video.data('autopause') === true ) {
             this.autoPauseBgVid = true;
         }
+
+        this.bgvideo.setAttribute( 'playsinline', '' );
 
         this.bgvideo_fillmode = $video.data('fill-mode') || 'fill'; // fill , fit , none
 
@@ -5394,8 +5400,8 @@ MSSliderEvent.DESTROY				= 'ms_destroy';
 	};
 
 	MasterSlider.author  		= 'Averta Ltd. (www.averta.net)';
-	MasterSlider.version 		= '2.50.0';
-	MasterSlider.releaseDate 	= 'Aug 2016';
+	MasterSlider.version 		= '2.61.2';
+	MasterSlider.releaseDate 	= 'Jul 2018';
 
 	// Master Slider plugins.
 	MasterSlider._plugins = []
@@ -6705,93 +6711,93 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
 
 /* ================== bin-debug/js/pro/views/WaveView.js =================== */
 ;(function($){
-	
+
 	"use strict";
-	
+
 	window.MSWaveView = function(options){
 		MSBasicView.call(this , options);
 		this.$element.removeClass('ms-basic-view').addClass('ms-wave-view');
 		this.$slideCont.css(window._csspfx + 'transform-style' , 'preserve-3d');
 
-		// Auto update z index of slides 
+		// Auto update z index of slides
 		// @since 1.7
 		this.autoUpdateZIndex = true;
 	};
-	
+
 	MSWaveView.extend(MSBasicView);
 	MSWaveView._3dreq = true;
 	MSWaveView._fallback = MSBasicView;
-	
+
 	var p  = MSWaveView.prototype;
 	var _super  = MSBasicView.prototype;
-	 
+
 	/*-------------- METHODS --------------*/
-	
+
 	/*p.__setSlideTransDuration = function(value){
 		for(var i=0; i<this.slidesCount; ++i)
 			this.slides[i].$element.css(window._csspfx + 'transition-duration' , value + 'ms');
 	};*/
-	
+
 	p._horizUpdate = function(controller , value){
-		
+
 		_super._horizUpdate.call(this, controller , value);
-		
+
 		var cont_scroll = -value;
 		var slide_pos , slide , distance;
-		
+
 		for(var i = 0; i < this.slidesCount; ++i){
 			slide = this.slideList[i];
 			//slide_pos = parseInt(slide.$element.css('left'));
 			distance = -cont_scroll - slide.position;
 			this.__updateSlidesHoriz(slide , distance);
 		}
-		
+
 	};
-	
+
 	p._vertiUpdate = function(controller , value){
-		
+
 		_super._vertiUpdate.call(this, controller , value);
-		
+
 		var cont_scroll = -value;
 		var slide_pos , slide , distance;
-		
+
 		for(var i = 0; i < this.slidesCount; ++i){
 			slide = this.slideList[i];
 			//slide_pos = parseInt(slide.$element.css('left'));
 			distance = -cont_scroll - slide.position;
 			this.__updateSlidesVertic(slide , distance);
 		}
-		
+
 	};
-	
-	
+
+
 	p.__updateSlidesHoriz = function(slide , distance){
 		var value =  Math.abs(distance * 100 / this.__width);
 		//var value2 = Math.min(value , 100);
 	//	var sp = Math.min(100 , )
 		//slide.$bg_img.css('opacity' , (100 -  Math.abs(distance * 120 / this.__width / 3)) / 100);
-		slide.$element.css(window._csspfx + 'transform' , 'translateZ('+ -value * 3 +'px) rotateY(0.01deg)'/* translateX('+(distance < 0 ? 1 : -1) * -value * 5+'px)'*/);
+		slide.$element[0].style[window._csspfx + 'transform'] = 'translateZ('+ -value * 3 +'px) rotateY(0.01deg)'/* translateX('+(distance < 0 ? 1 : -1) * -value * 5+'px)'*/;
 	};
-	
+
 	p.__updateSlidesVertic = function(slide , distance){
 		this.__updateSlidesHoriz(slide , distance);
 	};
-	
+
 	/*
 	p.swipeMove = function(status){
-		
+
 		if(status.phase == 'start'){
 			this.__setSlideTransDuration(0);
 		}else if(status.phase == 'end'){
 			this.__setSlideTransDuration(this.__slideDuration);
 		}
-		
+
 		_super.swipeMove.call(this , status);
 	};
-	
+
 	p.create = function(index){
 		_super.create.call(this , index);
-		
+
 		for(var i = 0; i<this.slidesCount ; ++i){
 			this.slides[i].$element.css(window._csspfx + 'transition-property' , window._csspfx 		+ 'transform');
 			this.slides[i].$element.css(window._csspfx + 'transition-duration' , this.slideDuration + 'ms');
@@ -9836,9 +9842,3 @@ MSViewEvents.CHANGE_END	     	= 'slideChangeEnd';
         }
     }
 })(jQuery, window, document);
-/**
- * Addon file, it will be appended to master slider front-end main js file.
- */
-;( function ($) { 
-	window.msCli = function(f){f=f||'pause';var m=masterslider_instances;for(var i in m){m[i].api[f]();}}
-})(jQuery);

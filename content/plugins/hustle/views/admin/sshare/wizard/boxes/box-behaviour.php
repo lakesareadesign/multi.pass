@@ -75,4 +75,3 @@
 	</div>
 
 </div><?php // #wph-wizard-services-behaviour ?>
-<?php

@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Helper_Zip_Pclzip extends Snapshot_Helper_Zip_Abstract {
 
@@ -8,14 +8,16 @@ class Snapshot_Helper_Zip_Pclzip extends Snapshot_Helper_Zip_Abstract {
 			define('PCLZIP_TEMPORARY_DIR', trailingslashit(WPMUDEVSnapshot::instance()->get_setting('backupBaseFolderFull')));
 		}
 		if (!class_exists('PclZip')) {
-			require_once(ABSPATH . '/wp-admin/includes/class-pclzip.php');
+			require_once ABSPATH . '/wp-admin/includes/class-pclzip.php';
 		}
 		$this->_zip = new PclZip($this->_path);
 	}
 
-	public function add ($files=array(), $relative_path=false) {
-		if (!is_array($files)) $files = array($files);
-		if (empty($files)) return false;
+	public function add ($files = array(), $relative_path = false) {
+		if (!is_array($files))
+			$files = array($files);
+		if (empty($files))
+			return false;
 
 		// Extend processing time.
 		Snapshot_Helper_Utility::check_server_timeout();

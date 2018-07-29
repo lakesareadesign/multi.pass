@@ -21,6 +21,7 @@
 				id: wp.autosave.getPostData().post_id,
 				action: "wds_metabox_update",
 				post: wp.autosave.getPostData(),
+                _wds_nonce: _wds_metabox.nonce
 			}, 'json').done(function (rsp) {
 				var description = (rsp || {}).description || '',
 					title = (rsp || {}).title || '';
@@ -81,7 +82,8 @@
 			post_id: wp.autosave.getPostData().post_id,
 			wds_title: title,
 			wds_description: description,
-			wds_focus_keywords: focus_keywords
+			wds_focus_keywords: focus_keywords,
+            _wds_nonce: _wds_metabox.nonce
 		}, extended_data);
 
 		return $.post(ajaxurl, data, 'json').done(function (rsp) {
@@ -110,13 +112,12 @@
 	}
 
 	function render_update_after_autosave() {
-		render_update({
-			autosave_update: true
-		});
+		render_update();
 	}
 
 	function render_update_refresh_click() {
 		var $metabox = $("#wds-wds-meta-box"),
+			$refresh_button = $(this),
 			$seo_report = $('.wds-report .wds-accordion', $metabox),
 			$seo_notification = $('.wds-nav-item.active label .wds-issues')
 		;
@@ -127,9 +128,11 @@
 		$seo_report.hide();
 		$seo_notification.attr('class', 'wds-issues wds-item-loading');
 		$seo_report.after('<div class="wds-analysis-working"><p>' + l10nWdsMetabox.content_analysis_working + '</p></div>');
+		$refresh_button.prop('disabled', true);
 
 		var cback = function() {
-			render_update({autosave_update: true}).always(function() {
+			render_update().always(function() {
+				$refresh_button.prop('disabled', false);
 				$seo_report.show();
 				$('.wds-analysis-working', $metabox).remove();
 			});
@@ -222,7 +225,8 @@
 		return $.post(ajaxurl, {
 			action: action,
 			post_id: wp.autosave.getPostData().post_id,
-			check_id: check_id
+			check_id: check_id,
+            _wds_nonce: _wds_metabox.nonce
 		}, 'json');
 	}
 
@@ -275,7 +279,8 @@
 			action: "wds-metabox-preview",
 			title: title,
 			description: description,
-			post_id: post_id
+			post_id: post_id,
+            _wds_nonce: _wds_metabox.nonce
 		}, 'json').done(function (data) {
 			if ((data || {}).success) {
 				$('.wds-metabox-preview').replaceWith(
@@ -290,10 +295,11 @@
 
 	function init () {
 		window.render_update = render_update;
-		window.Wds.dismissible_message('metabox-seo-analysis');
+		window.Wds.dismissible_message();
 
 		$(document)
 			.on('after-autosave', render_update_after_autosave)
+            .on('after-autosave', refresh_preview)
 			.on('click', '#wds-wds-meta-box .wds-ignore', handle_ignore_toggle)
 			.on('click', '#wds-wds-meta-box .wds-unignore', handle_ignore_toggle)
 			.on('click', '#wds-wds-meta-box a[href="#reload"]', handle_update)

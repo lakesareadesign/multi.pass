@@ -29,12 +29,7 @@
 
 		<div class="form-col">
 			<input readonly="readonly" type="text" class="inline<?php $this->input_error_class( 'name' ); ?>" name="snapshot-destination[name]" id="snapshot-destination-name"
-				value="<?php
-					echo !empty($item['name'])
-						? esc_attr( stripslashes( $item['name'] ) )
-						: ''
-					;
-				?>">
+				value="<?php echo !empty($item['name']) ? esc_attr( stripslashes( $item['name'] ) ) : '' ; ?>">
 			<?php $this->input_error_message( 'name' ); ?>
 		</div>
 	</div>

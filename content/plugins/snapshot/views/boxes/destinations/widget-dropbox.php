@@ -16,9 +16,17 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 		<i class="wps-typecon dropbox"></i>
 
-		<h3><?php _e( 'Dropbox', SNAPSHOT_I18N_DOMAIN ); ?></h3>
-
-		<a class="button button-small button-outline" href="<?php echo add_query_arg( array( 'snapshot-action' => 'add' , 'type' => 'dropbox' ), WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-destinations') ); ?>" class="button button-outline"><?php _e( 'Add Destination', SNAPSHOT_I18N_DOMAIN ); ?></a>
+		<h3><?php esc_html_e( 'Dropbox', SNAPSHOT_I18N_DOMAIN ); ?></h3>
+		<?php
+		$add_destination_link = add_query_arg(
+									array(
+										'snapshot-action' => 'add' ,
+										'type' => 'dropbox',
+										'destination-noonce-field' => wp_create_nonce( 'snapshot-destination' ),
+										), WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-destinations')
+									);
+		?>
+		<a class="button button-small button-outline" href="<?php echo esc_url( $add_destination_link ); ?>" class="button button-outline"><?php esc_html_e( 'Add Destination', SNAPSHOT_I18N_DOMAIN ); ?></a>
 
 	</div>
 
@@ -28,7 +36,14 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-				<?php $this->render( "destinations/partials/dropbox-destination-list", false, array( 'item' => $item,'destinations' => ( isset( $destinations[ 'dropbox' ] ) ? $destinations[ 'dropbox' ] : array() ) ), false, false ); ?>
+				<?php
+                $this->render(
+								"destinations/partials/dropbox-destination-list", false, array(
+									'item' => $item,
+									'destinations' => ( isset( $destinations[ 'dropbox' ] ) ? $destinations[ 'dropbox' ] : array() )
+								), false, false
+                    		);
+				?>
 
 			</div>
 

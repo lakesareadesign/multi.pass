@@ -20,7 +20,7 @@ if ( ! class_exists( 'MSP_Main_Widget' ) ) :
 class MSP_Main_Widget extends MSP_Widget {
 
 	public $fields   = array(
-                            
+
                             array(
                                 'name'    => 'Title',
                                 'id'      => 'title',
@@ -34,7 +34,7 @@ class MSP_Main_Widget extends MSP_Widget {
                                 'value'   => '-1',
                                 'options' => array()
                             )
-                            
+
                         );
 
 	/*--------------------------------------------------*/
@@ -80,7 +80,7 @@ class MSP_Main_Widget extends MSP_Widget {
 		if ( ! empty( $title ) ) { echo $before_title . $title . $after_title; }
 
 		echo get_masterslider( $instance['id'] );
-		
+
 		echo $after_widget;
 	} // end widget
 
@@ -90,6 +90,14 @@ class MSP_Main_Widget extends MSP_Widget {
 
 endif;
 
+/**
+ * Register the main widget
+ *
+ * @return void
+ */
+function ms_register_main_widget(){
+    register_widget("MSP_Main_Widget");
+}
 
 // init the widget
-add_action( 'widgets_init', create_function( '', 'register_widget("MSP_Main_Widget");' ) );
+add_action( 'widgets_init', 'ms_register_main_widget' );

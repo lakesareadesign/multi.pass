@@ -24,38 +24,10 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 	 */
 	public static function get_instance() {
 		if ( empty( self::$_instance ) ) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
+
 		return self::$_instance;
-	}
-
-	/**
-	 * Static known public post types getter
-	 *
-	 * @return array A list of known post type *objects* keyed by name
-	 */
-	public static function get_post_types() {
-		static $post_types;
-
-		if ( empty( $post_types ) ) {
-			$exclusions = array(
-				'revision',
-				'nav_menu_item',
-				'attachment',
-			);
-			$raw = get_post_types(array(
-				'public' => true,
-			), 'objects');
-			foreach ( $raw as $pt => $pto ) {
-				if ( in_array( $pt, $exclusions ) ) { continue; }
-				$post_types[ $pt ] = $pto;
-			}
-		}
-
-		return is_array( $post_types )
-			? $post_types
-			: array()
-		;
 	}
 
 	/**
@@ -71,13 +43,8 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 			$this->save_redirects( $input );
 
 			$result = self::get_specific_options( $this->option_name );
-
-			if ( isset( $input['redirect-attachments'] ) ) {
-				$result['redirect-attachments'] = ! empty( $input['redirect-attachments'] );
-			}
-			if ( isset( $input['redirect-attachments-images_only'] ) ) {
-				$result['redirect-attachments-images_only'] = ! empty( $input['redirect-attachments-images_only'] );
-			}
+			$result['redirect-attachments'] = ! empty( $input['redirect-attachments'] );
+			$result['redirect-attachments-images_only'] = ! empty( $input['redirect-attachments-images_only'] );
 
 			if ( isset( $input['redirections-code'] ) ) {
 				$this->_validate_and_save_extra_options( $input );
@@ -90,7 +57,9 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 
 		$result = array();
 
-		if ( ! empty( $input['wds_autolinks-setup'] ) ) { $result['wds_autolinks-setup'] = true; }
+		if ( ! empty( $input['wds_autolinks-setup'] ) ) {
+			$result['wds_autolinks-setup'] = true;
+		}
 
 		if ( $service->is_member() ) {
 			// Booleans.
@@ -107,21 +76,23 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 			);
 
 			foreach ( $booleans as $bool ) {
-				if ( ! empty( $input[ $bool ] ) ) { $result[ $bool ] = true; }
+				if ( ! empty( $input[ $bool ] ) ) {
+					$result[ $bool ] = true;
+				}
 			}
 
 			// Boolean Arrays.
 			$post_type_names = array_keys( self::get_post_types() );
 			foreach ( array_merge( $post_type_names, array( 'comment' ) ) as $post_type ) {
-				$result[ $post_type ] = in_array( $post_type, $input );
+				$result[ $post_type ] = in_array( $post_type, $input, true );
 			}
 			foreach ( $post_type_names as $post_type ) {
-				$result[ "l{$post_type}" ] = in_array( "l{$post_type}", $input );
+				$result["l{$post_type}"] = in_array( "l{$post_type}", $input, true );
 			}
 			foreach ( get_taxonomies() as $taxonomy ) {
 				$tax = get_taxonomy( $taxonomy );
 				$key = strtolower( $tax->labels->name );
-				$result[ "l{$key}" ] = in_array( "l{$key}", $input );
+				$result["l{$key}"] = in_array( "l{$key}", $input, true );
 			}
 
 			// Numerics.
@@ -136,7 +107,7 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 					if ( is_numeric( $input[ $num ] ) ) {
 						$result[ $num ] = (int) $input[ $num ];
 					} elseif ( ! empty( $input[ $num ] ) ) {
-						add_settings_error( $num, $num, __( 'Limit values must be numeric' ) );
+						add_settings_error( $this->option_name, 'numeric-limits', __( 'Limit values must be numeric' ) );
 					}
 				}
 			}
@@ -147,7 +118,9 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 				'ignorepost',
 			);
 			foreach ( $strings as $str ) {
-				if ( isset( $input[ $str ] ) ) { $result[ $str ] = sanitize_text_field( $input[ $str ] ); }
+				if ( isset( $input[ $str ] ) ) {
+					$result[ $str ] = sanitize_text_field( $input[ $str ] );
+				}
 			}
 
 			// Custom keywords, they need newlines.
@@ -162,11 +135,54 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 					$str = str_replace( $match[0], '', $str );
 					$found = true;
 				}
-				if ( $found ) { $str = trim( preg_replace( '/ +/', ' ', $str ) ); }
+				if ( $found ) {
+					$str = trim( preg_replace( '/ +/', ' ', $str ) );
+				}
 			}
 		}
 
 		return $result;
+	}
+
+	/**
+	 * Saves redirects part of the input
+	 *
+	 * @param array $input Raw input.
+	 */
+	public function save_redirects( $input ) {
+		$urls = ! empty( $input['urls'] ) && is_array( $input['urls'] )
+			? $input['urls']
+			: array();
+		$redirection_model = new Smartcrawl_Model_Redirection();
+
+		$new_urls = array();
+		$new_types = array();
+		foreach ( $urls as $index => $url_details ) {
+			$source = smartcrawl_get_array_value( $url_details, 'source' );
+			$source = trim( esc_url( $source ) );
+
+			$destination = smartcrawl_get_array_value( $url_details, 'destination' );
+			$destination = trim( esc_url( $destination ) );
+
+			if ( ! trim( $source ) || ! trim( $destination ) ) {
+				continue;
+			}
+			if ( ! preg_match( '/^https?:\/\//', $source ) ) {
+				$source = home_url( $source );
+			}
+			if ( ! preg_match( '/^https?:\/\//', $destination ) ) {
+				$destination = home_url( $destination );
+			}
+
+			$new_urls[ $source ] = $destination;
+
+			$type = smartcrawl_get_array_value( $url_details, 'type' );
+			$status = $redirection_model->get_valid_redirection_status_type( $type );
+
+			$new_types[ $source ] = $status;
+		}
+		$redirection_model->set_all_redirections( $new_urls );
+		$redirection_model->set_all_redirection_types( $new_types );
 	}
 
 	/**
@@ -181,6 +197,47 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 	}
 
 	/**
+	 * Gets site service instance
+	 *
+	 * @return object
+	 */
+	private function get_site_service() {
+		$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SITE );
+
+		return $service;
+	}
+
+	/**
+	 * Static known public post types getter
+	 *
+	 * @return array A list of known post type *objects* keyed by name
+	 */
+	public static function get_post_types() {
+		static $post_types;
+
+		if ( empty( $post_types ) ) {
+			$exclusions = array(
+				'revision',
+				'nav_menu_item',
+				'attachment',
+			);
+			$raw = get_post_types( array(
+				'public' => true,
+			), 'objects' );
+			foreach ( $raw as $pt => $pto ) {
+				if ( in_array( $pt, $exclusions, true ) ) {
+					continue;
+				}
+				$post_types[ $pt ] = $pto;
+			}
+		}
+
+		return is_array( $post_types )
+			? $post_types
+			: array();
+	}
+
+	/**
 	 * Initializes the admin pane
 	 */
 	public function init() {
@@ -192,7 +249,10 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 		$this->page_title = __( 'SmartCrawl Wizard: Advanced Tools', 'wds' );
 
 		add_action( 'wp_ajax_wds-load_exclusion-post_data', array( $this, 'json_load_post' ) );
-		add_action( 'wp_ajax_wds-load_exclusion_posts-posts_data-specific', array( $this, 'json_load_posts_specific' ) );
+		add_action( 'wp_ajax_wds-load_exclusion_posts-posts_data-specific', array(
+			$this,
+			'json_load_posts_specific',
+		) );
 		add_action( 'wp_ajax_wds-load_exclusion_posts-posts_data-paged', array( $this, 'json_load_posts_paged' ) );
 		add_action( 'admin_init', array( $this, 'reset_moz_api_credentials' ) );
 
@@ -203,7 +263,8 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 	 * Resets Moz API creds
 	 */
 	public function reset_moz_api_credentials() {
-		if ( isset( $_POST['reset-moz-credentials'] ) ) { // Just a presence flag.
+		$post_data = $this->get_request_data();
+		if ( isset( $post_data['reset-moz-credentials'] ) ) { // Just a presence flag.
 			$options = self::get_specific_options( 'wds_settings_options' );
 			unset( $options['access-id'] );
 			unset( $options['secret-key'] );
@@ -224,23 +285,61 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 	 * Outputs AJAX response
 	 */
 	public function json_load_post() {
+		$post_data = $this->get_request_data();
 		$result = array(
-			'id' => 0,
+			'id'    => 0,
 			'title' => '',
-			'type' => '',
+			'type'  => '',
 		);
-		if ( ! current_user_can( 'edit_others_posts' ) ) { wp_send_json( $result ); }
+		if ( ! current_user_can( 'edit_others_posts' ) || empty( $post_data ) ) {
+			wp_send_json( $result );
+		}
 
-		$post_id = ! empty( $_POST['id'] ) && is_numeric( $_POST['id'] )
-			? (int) $_POST['id']
-			: false
-		;
-		if ( empty( $post_id ) ) { wp_send_json( $result ); }
+		$post_id = ! empty( $post_data['id'] ) && is_numeric( $post_data['id'] )
+			? (int) $post_data['id']
+			: false;
+		if ( empty( $post_id ) ) {
+			wp_send_json( $result );
+		}
 
 		$post = get_post( $post_id );
-		if ( ! $post ) { wp_send_json( $result ); }
+		if ( ! $post ) {
+			wp_send_json( $result );
+		}
 
 		wp_send_json( $this->_post_to_response_data( $post ) );
+	}
+
+	/**
+	 * Makes the post response format uniform
+	 *
+	 * @param object $post WP_Post instance.
+	 *
+	 * @return array Post response hash
+	 */
+	private function _post_to_response_data( $post ) {
+		$result = array(
+			'id'    => 0,
+			'title' => '',
+			'type'  => '',
+			'date'  => '',
+		);
+		if ( empty( $post ) || empty( $post->ID ) ) {
+			return $result;
+		}
+		static $date_format;
+
+		if ( empty( $date_format ) ) {
+			$date_format = get_option( 'date_format' );
+		}
+
+		$post_id = $post->ID;
+		$result['id'] = $post_id;
+		$result['title'] = get_the_title( $post_id );
+		$result['type'] = get_post_type( $post_id );
+		$result['date'] = get_post_time( $date_format, false, $post_id );
+
+		return $result;
 	}
 
 	/**
@@ -249,31 +348,35 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 	 * Outputs AJAX response
 	 */
 	public function json_load_posts_specific() {
+		$post_data = $this->get_request_data();
 		$result = array(
-			'meta' => array(),
+			'meta'  => array(),
 			'posts' => array(),
 		);
-		if ( ! current_user_can( 'edit_others_posts' ) ) { wp_send_json( $result ); }
+		if ( ! current_user_can( 'edit_others_posts' ) || empty( $post_data ) ) {
+			wp_send_json( $result );
+		}
 
-		$post_ids = ! empty( $_POST['posts'] ) && is_array( $_POST['posts'] )
-			? array_values( array_filter( array_map( 'intval', $_POST['posts'] ) ) )
-			: array()
-		;
-		if ( empty( $post_ids ) ) { wp_send_json( $result ); }
+		$post_ids = ! empty( $post_data['posts'] ) && is_array( $post_data['posts'] )
+			? array_values( array_filter( array_map( 'intval', $post_data['posts'] ) ) )
+			: array();
+		if ( empty( $post_ids ) ) {
+			wp_send_json( $result );
+		}
 
 		$args = array(
-			'post_status' => 'publish',
-			'posts_per_page' => -1,
-			'post__in' => $post_ids,
+			'post_status'         => 'publish',
+			'posts_per_page'      => - 1,
+			'post__in'            => $post_ids,
 			'ignore_sticky_posts' => true,
-			'post_type' => 'any',
+			'post_type'           => 'any',
 		);
 
 		$query = new WP_Query( $args );
 
 		$result['meta'] = array(
 			'total' => $query->max_num_pages,
-			'page' => 1,
+			'page'  => 1,
 		);
 
 		foreach ( $query->posts as $post ) {
@@ -289,22 +392,25 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 	 * Outputs AJAX response
 	 */
 	public function json_load_posts_paged() {
+		$post_data = $this->get_request_data();
 		$result = array(
-			'meta' => array(),
+			'meta'  => array(),
 			'posts' => array(),
 		);
-		if ( ! current_user_can( 'edit_others_posts' ) ) { wp_send_json( $result ); }
+		if ( ! current_user_can( 'edit_others_posts' ) || empty( $post_data ) ) {
+			wp_send_json( $result );
+		}
 		$args = array(
-			'post_status' => 'publish',
-			'posts_per_page' => 10,
+			'post_status'         => 'publish',
+			'posts_per_page'      => 10,
 			'ignore_sticky_posts' => true,
 		);
 		$page = 1;
-		if ( ! empty( $_POST['type'] ) && in_array( $_POST['type'], array_keys( self::get_post_types() ) ) ) {
-			$args['post_type'] = sanitize_key( $_POST['type'] );
+		if ( ! empty( $post_data['type'] ) && in_array( $post_data['type'], array_keys( self::get_post_types() ), true ) ) {
+			$args['post_type'] = sanitize_key( $post_data['type'] );
 		}
-		if ( ! empty( $_POST['page'] ) && is_numeric( $_POST['page'] ) ) {
-			$args['paged'] = (int) $_POST['page'];
+		if ( ! empty( $post_data['page'] ) && is_numeric( $post_data['page'] ) ) {
+			$args['paged'] = (int) $post_data['page'];
 			$page = $args['paged'];
 		}
 
@@ -312,7 +418,7 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 
 		$result['meta'] = array(
 			'total' => $query->max_num_pages,
-			'page' => $page,
+			'page'  => $page,
 		);
 
 		foreach ( $query->posts as $post ) {
@@ -320,34 +426,6 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 		}
 
 		wp_send_json( $result );
-	}
-
-	/**
-	 * Makes the post response format uniform
-	 *
-	 * @param object $post WP_Post instance.
-	 *
-	 * @return array Post response hash
-	 */
-	private function _post_to_response_data( $post ) {
-		$result = array(
-			'id' => 0,
-			'title' => '',
-			'type' => '',
-			'date' => '',
-		);
-		if ( empty( $post ) || empty( $post->ID ) ) { return $result; }
-		static $date_format;
-
-		if ( empty( $date_format ) ) { $date_format = get_option( 'date_format' ); }
-
-		$post_id = $post->ID;
-		$result['id'] = $post_id;
-		$result['title'] = get_the_title( $post_id );
-		$result['type'] = get_post_type( $post_id );
-		$result['date'] = get_post_time( $date_format, false, $post_id );
-
-		return $result;
 	}
 
 	/**
@@ -364,26 +442,26 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 		$post_types = array();
 		foreach ( self::get_post_types() as $post_type => $pt ) {
 			$key = strtolower( $pt->name );
-			$post_types[ "l{$key}" ] = $pt->labels->name;
+			$post_types["l{$key}"] = $pt->labels->name;
 
-			$arguments['insert'][ "{$key}" ] = $pt->labels->name;
+			$arguments['insert']["{$key}"] = $pt->labels->name;
 		}
 
 		$taxonomies = array();
 		foreach ( get_taxonomies() as $taxonomy ) {
-			if ( ! in_array( $taxonomy, array( 'nav_menu', 'link_category', 'post_format' ) ) ) {
+			if ( ! in_array( $taxonomy, array( 'nav_menu', 'link_category', 'post_format' ), true ) ) {
 				$tax = get_taxonomy( $taxonomy );
 				$key = strtolower( $tax->labels->name );
 
-				$taxonomies[ "l{$key}" ] = $tax->labels->name;
+				$taxonomies["l{$key}"] = $tax->labels->name;
 			}
 		}
-		$redirection_model = new Smartcrawl_Model_Redirection;
+		$redirection_model = new Smartcrawl_Model_Redirection();
 		$arguments['redirections'] = $redirection_model->get_all_redirections();
 		$arguments['redirection_types'] = $redirection_model->get_all_redirection_types();
 
 		$arguments['linkto'] = array_merge( $post_types, $taxonomies );
-		$arguments['insert']['comment'] = __( 'Comments' , 'wds' );
+		$arguments['insert']['comment'] = __( 'Comments', 'wds' );
 
 		$arguments['active_tab'] = $this->_get_last_active_tab( 'tab_automatic_linking' );
 
@@ -439,53 +517,9 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 	}
 
 	/**
-	 * Saves redirects part of the input
-	 *
-	 * @param array $input Raw input.
+	 * @return array
 	 */
-	public function save_redirects( $input ) {
-		$urls = ! empty( $input['urls'] ) && is_array( $input['urls'] )
-			? $input['urls']
-			: array();
-		$redirection_model = new Smartcrawl_Model_Redirection;
-
-		$new_urls = array();
-		$new_types = array();
-		foreach ( $urls as $index => $url_details ) {
-			$source = smartcrawl_get_array_value( $url_details, 'source' );
-			$source = trim( esc_url( $source ) );
-
-			$destination = smartcrawl_get_array_value( $url_details, 'destination' );
-			$destination = trim( esc_url( $destination ) );
-
-			if ( ! trim( $source ) || ! trim( $destination ) ) {
-				continue;
-			}
-			if ( ! preg_match( '/^https?:\/\//', $source ) ) { $source = home_url( $source ); }
-			if ( ! preg_match( '/^https?:\/\//', $destination ) ) { $destination = home_url( $destination ); }
-
-			$new_urls[ $source ] = $destination;
-
-			$type = smartcrawl_get_array_value( $url_details, 'type' );
-			$status = $redirection_model->get_valid_redirection_status_type( $type );
-
-			$new_types[ $source ] = $status;
-		}
-		$redirection_model->set_all_redirections( $new_urls );
-		$redirection_model->set_all_redirection_types( $new_types );
+	private function get_request_data() {
+		return isset( $_POST['_wds_nonce'] ) && wp_verify_nonce( $_POST['_wds_nonce'], 'wds-autolinks-nonce' ) ? $_POST : array();
 	}
-
-	/**
-	 * Gets site service instance
-	 *
-	 * @return object
-	 */
-	private function get_site_service() {
-		if ( ! class_exists( 'Smartcrawl_Service' ) ) {
-			require_once( SMARTCRAWL_PLUGIN_DIR . 'core/class_wds_service.php' );
-		}
-		$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SITE );
-		return $service;
-	}
-
 }

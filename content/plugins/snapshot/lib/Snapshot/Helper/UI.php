@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Snapshot utility class for creating common UI components.
  *
@@ -20,12 +20,9 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 
 			while ( $_minute < 60 ) {
 				?>
-				<option value="<?php echo $_minute ?>" <?php
-				if ( $_minute == $minute_value ) {
-					echo ' selected="selected" ';
-				} ?>><?php
-				echo sprintf( "%02d", $_minute ) ?></option><?php
-				$_minute += 1;
+				<option value="<?php echo esc_attr( $_minute ); ?>"<?php if ( $_minute === $minute_value ) echo ' selected="selected" '; ?>><?php echo wp_kses_post( sprintf( "%02d", $_minute ) ); ?></option>
+				<?php
+				$_minute++;
 			}
 		}
 
@@ -38,9 +35,9 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 
 			while ( $_hour < 24 ) {
 
-				if ( $_hour == 0 ) {
+				if ( 0 === $_hour ) {
 					$_hour_label = __( "Midnight", SNAPSHOT_I18N_DOMAIN );
-				} else if ( $_hour == 12 ) {
+				} else if ( 12 === $_hour ) {
 					$_hour_label = __( "Noon", SNAPSHOT_I18N_DOMAIN );
 				} else if ( $_hour < 13 ) {
 					$_hour_label = $_hour . __( "am", SNAPSHOT_I18N_DOMAIN );
@@ -49,12 +46,9 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 				}
 
 				?>
-				<option value="<?php echo $_hour ?>" <?php
-				if ( $_hour == $hour_value ) {
-					echo ' selected="selected" ';
-				}
-				?>><?php echo $_hour_label; ?></option><?php
-				$_hour += 1;
+				<option value="<?php echo esc_attr( $_hour ); ?>"<?php if ( intval( $hour_value ) === $_hour ) echo ' selected="selected" '; ?>><?php echo esc_html( $_hour_label ); ?></option>
+				<?php
+				$_hour++;
 			}
 		}
 
@@ -67,12 +61,9 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 
 			while ( $_dom < 32 ) {
 				?>
-				<option value="<?php echo $_dom ?>" <?php
-				if ( $_dom == $mday_value ) {
-					echo ' selected="selected" ';
-				}
-				?>><?php echo $_dom ?></option><?php
-				$_dom += 1;
+				<option value="<?php echo esc_attr( $_dom ); ?>"<?php if ( intval( $mday_value ) === $_dom ) echo ' selected="selected" '; ?>><?php echo esc_html( $_dom ); ?></option>
+				<?php
+				$_dom++;
 			}
 		}
 
@@ -93,11 +84,8 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 
 			foreach ( $_dow as $_key => $_label ) {
 				?>
-				<option value="<?php echo $_key ?>"<?php
-				if ( $_key == $wday_value ) {
-					echo ' selected="selected" ';
-				}
-				?>><?php echo $_label ?></option><?php
+				<option value="<?php echo esc_attr( $_key ); ?>"<?php if ( intval( $_key ) === intval( $wday_value ) ) echo ' selected="selected" '; ?>><?php echo esc_html( $_label ); ?></option>
+				<?php
 			}
 		}
 
@@ -141,28 +129,36 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 				//echo "destinationClasses<pre>"; print_r($destinationClasses); echo "</pre>";
 				//die();
 				foreach ( $destinations as $type => $destination_items ) {
-					if ( ( $type == 'local' ) || ( isset( $destinationClasses[ $type ] ) ) ) {
+					if ( ( 'local' === $type ) || ( isset( $destinationClasses[ $type ] ) ) ) {
 
 
-						if ( $type == 'local' ) {
+						if ( 'local' === $type ) {
 							$type_name = $type;
 						} else {
 							$destinationClass = $destinationClasses[ $type ];
 							$type_name        = $destinationClass->name_display;
 						}
 						?>
-						<optgroup label="<?php echo $type_name ?>"><?php
+						<optgroup label="<?php echo esc_attr( $type_name ); ?>">
+						<?php
 						foreach ( $destination_items as $key => $destination ) {
-							?>
-							<option class="<?php echo $type ?>" value="<?php echo $destination['key']; ?>" <?php
-							if ( $selected_destination == $destination['key'] ) {
+						?>
+							<option class="<?php echo esc_attr( $type ); ?>" value="<?php echo esc_attr( $destination['key'] ); ?>"
+							<?php
+							if ( $selected_destination === $destination['key'] ) {
 								echo ' selected="selected" ';
 								global $snapshot_destination_selected_type;
 								$snapshot_destination_selected_type = $type;
 							}
-							?>><?php echo stripslashes( $destination['name'] ); ?></option><?php
+							?>
+							>
+								<?php echo esc_html( stripslashes( $destination['name'] ) ); ?>
+							</option>
+						<?php
 						}
-						?></optgroup><?php
+						?>
+						</optgroup>
+						<?php
 					}
 				}
 			}
@@ -185,7 +181,7 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 					$item["type"] = "local";
 				}
 				$item["key"] = $key;
-				if( $i % 2 == 0){
+				if( 0 === $i % 2){
 					$destinations['row1'][] = $item;
 				} else {
 					$destinations['row2'][] = $item;
@@ -207,13 +203,13 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 
 							<div class="wps-input--radio">
 
-								<input data-destination-type="<?php echo $destination['type'] ?>" <?php echo ( $destination['key'] == $selected_destination ) ? "checked" : "" ?> type="radio" name="snapshot-destination" id="snap-<?php echo $destination['key'] ?>" value="<?php echo $destination['key'] ?>" />
+								<input data-destination-type="<?php echo esc_attr( $destination['type'] ); ?>" <?php echo ( $destination['key'] === $selected_destination ) ? "checked" : ""; ?> type="radio" name="snapshot-destination" id="snap-<?php echo esc_attr( $destination['key'] ); ?>" value="<?php echo esc_attr( $destination['key'] ); ?>" />
 
-								<label for="snap-<?php echo $destination['key'] ?>"></label>
+								<label for="snap-<?php echo esc_attr( $destination['key'] ); ?>"></label>
 
 					    </div>
 
-							<label for="snap-<?php echo $destination['key'] ?>"><span><?php echo $destination['name'] ?></span><i class="wps-typecon <?php echo $destination['type'] ?>"></i></label>
+							<label for="snap-<?php echo esc_attr( $destination['key'] ); ?>"><span><?php echo esc_html( $destination['name'] ); ?></span><i class="wps-typecon <?php echo esc_attr( $destination['type'] ); ?>"></i></label>
 
 					</div>
 
@@ -225,13 +221,13 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 
 							<div class="wps-input--radio">
 
-								<input data-destination-type="<?php echo $destination['type'] ?>" <?php echo ( $destination['key'] == $selected_destination ) ? "checked" : "" ?> type="radio" name="snapshot-destination" id="snap-<?php echo $destination['key'] ?>" value="<?php echo $destination['key'] ?>" />
+								<input data-destination-type="<?php echo esc_attr( $destination['type'] ); ?>" <?php echo ( $destination['key'] === $selected_destination ) ? "checked" : ""; ?> type="radio" name="snapshot-destination" id="snap-<?php echo esc_attr( $destination['key'] ); ?>" value="<?php echo esc_attr( $destination['key'] ); ?>" />
 
-								<label for="snap-<?php echo $destination['key'] ?>"></label>
+								<label for="snap-<?php echo esc_attr( $destination['key'] ); ?>"></label>
 
 						</div>
 
-							<label for="snap-<?php echo $destination['key'] ?>"><span><?php echo $destination['name'] ?></span><i class="wps-typecon <?php echo $destination['type'] ?>"></i></label>
+							<label for="snap-<?php echo esc_attr( $destination['key'] ); ?>"><span><?php echo esc_html( $destination['name'] ); ?></span><i class="wps-typecon <?php echo esc_attr( $destination['type'] ); ?>"></i></label>
 
 					</div>
 
@@ -239,7 +235,7 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 
 				</div>
 				<?php if( count( $all_destinations ) < 2 ) : ?>
-				<div class="wps-notice"><p><?php printf( __( "You haven't added any third party destinations yet. It's much safer to store your snapshots off-site so we recommend you add <a href='%s'>another destination</a>.", SNAPSHOT_I18N_DOMAIN ), WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-destinations') ); ?></p></div>
+				<div class="wps-notice"><p><?php echo wp_kses_post( sprintf( __( "You haven't added any third party destinations yet. It's much safer to store your snapshots off-site so we recommend you add <a href='%s'>another destination</a>.", SNAPSHOT_I18N_DOMAIN ), WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-destinations') ) ); ?></p></div>
 				<?php endif; ?>
 			</div>
 			<?php
@@ -260,20 +256,44 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 			}
 		}
 
-		public static function table_pagination($total = 1,$echo = true){
+		public static function table_pagination($total = 1, $echo = true){
+			// We need to remove the message parameter in order to make the pagination work,
+			// in case the user has deleted a snapshot
+			add_filter( 'paginate_links', array( 'Snapshot_Helper_UI', 'remove_delete_message' ) );
 
 			$big = 999999999; // need an unlikely integer
+			if ( isset( $_GET['paged'] ) ){
+				if ( ! isset( $_REQUEST['snapshot-pagination-nonce']  ) ) {
+					return;
+				}
+				if ( ! wp_verify_nonce( $_REQUEST['snapshot-pagination-nonce'], 'snapshot-pagination-nonce' ) ) {
+					return;
+				}
+			}
 			$paged = ( !isset( $_GET['paged'] ) ) ? 1 : intval( $_GET['paged'] );
+			$old_base = ( strpos( get_pagenum_link( $big, false ), '&message=') !== false ?
+				remove_query_arg( 'message', get_pagenum_link( $big, false ) )
+				:
+				get_pagenum_link( $big )
+			);
+
+			$base = str_replace( '&#038;snapshot-pagination-nonce=' . wp_create_nonce( 'snapshot-pagination-nonce' ), '', str_replace( '&#038;paged=' . $big, '%_%', esc_url( $old_base ) ) );
+
+			if ( isset( $_GET['destination'] ) && 'All Destinations' !== $_GET['destination'] )
+				$base = str_replace( '&#038;destination=' . $_GET['destination'], '', $base);
+			if ( isset( $_GET['destination'] ) && 'All Destinations' === $_GET['destination'] )
+				$base = str_replace( '&#038;destination=All+Destinations', '', $base);
 
 			$pages = paginate_links( array(
-					'base' => str_replace( $big, '%#%', esc_url( get_pagenum_link( $big ) ) ),
-					'format' => '?paged=%#%',
+					'base' => $base,
+					'format' => '&paged=%#%&snapshot-pagination-nonce=' . wp_create_nonce( 'snapshot-pagination-nonce' ),
 					'current' => max( 1, $paged ),
 					'total' => $total,
 					'type'  => 'array',
 					'prev_next'   => true,
-					'prev_text'    => __(''),
-					'next_text'    => __(''),
+					'prev_text'    => '',
+					'next_text'    => '',
+					'add_args' => false,
 				)
 			);
 
@@ -284,11 +304,26 @@ if ( ! class_exists( 'Snapshot_Helper_UI' ) ) {
 				}
 
 				if ( $echo ) {
-					echo $pagination;
+					echo wp_kses( $pagination, array(
+						'li' => array( 'class' => array() ),
+						'a' => array( 'href' => array(),
+							'class' => array()
+						),
+						'span' => array( 'aria-current' => array(),
+							'class' => array()
+						)
+					) );
 				} else {
 					return $pagination;
 				}
 			}
+		}
+
+		public static function remove_delete_message( $link ) {
+				return
+				isset( $_REQUEST['message'] ) // phpcs:ignore
+				? remove_query_arg( 'message', $link )
+				: $link;
 		}
 
 

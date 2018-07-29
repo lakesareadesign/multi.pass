@@ -21,4 +21,3 @@
     </div>
 
 </div><?php // #wph-wizard-settings-submit ?>
-<?php

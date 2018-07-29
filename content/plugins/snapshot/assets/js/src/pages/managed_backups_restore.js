@@ -75,6 +75,7 @@
                 $archive = $("form#managed-backup-restore :hidden.archive"),
                 $restore = $("form#managed-backup-restore :text.location"),
                 $creds = $("form#managed-backup-restore .request-filesystem-credentials-form input"),
+                $security = $("form#managed-backup-restore :hidden#snapshot-ajax-nonce"),
                 rq = {},
                 callback = function (request) {
                     request.action = "snapshot-full_backup-restore";
@@ -113,7 +114,8 @@
                 idx: backup,
                 archive: $archive.val(),
                 restore: $restore.val(),
-                credentials: {}
+                credentials: {},
+                security: $security.val()
             };
             $creds.each(function () {
                 var $me = $(this);

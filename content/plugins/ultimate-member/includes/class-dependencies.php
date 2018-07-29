@@ -48,7 +48,7 @@ if ( ! class_exists( 'um\Dependencies' ) ) {
 			'profile-completeness'  => '2.0.1',
 			'recaptcha'             => '2.0.2',
 			'reviews'               => '2.0.3',
-			'social-activity'       => '2.0.1',
+			'social-activity'       => '2.0.6',
 			'social-login'          => '2.0.1',
 			'terms-conditions'      => '2.0',
 			'user-location'         => '2.0',
@@ -57,7 +57,8 @@ if ( ! class_exists( 'um\Dependencies' ) ) {
 			'woocommerce'           => '2.0.1',
 			'restrict-content'      => '2.0',
 			'beaver-builder'        => '2.0',
-			'photos'                => '1.1',
+			'user-photos'           => '2.0.1',
+			'user-exporter'         => '1.0.0',
 		);
 
 
@@ -162,7 +163,7 @@ if ( ! class_exists( 'um\Dependencies' ) ) {
 				} elseif ( empty( $this->ext_required_version[$ext_key] ) || version_compare( $this->ext_required_version[$ext_key], $ext_ver, '>' ) ) {
 					$message = sprintf( __( 'Sorry, but this version of <strong>%s</strong> does not work with extension <strong>"%s" %s</strong> version.', 'ultimate-member' ), ultimatemember_plugin_name, $ext_title, $ext_ver ) .
 					           '<br />' .
-					           sprintf( __( 'Please update extension <strong>"%s"</strong> to the latest version, or install previous versions of <strong>%s</strong>.', 'ultimate-member' ), $ext_title, ultimatemember_plugin_name );
+					           sprintf( __( 'Please update extension <strong>"%s"</strong> to the latest version.', 'ultimate-member' ), $ext_title );
 				}
 
 				return $message;

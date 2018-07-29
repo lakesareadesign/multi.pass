@@ -71,4 +71,3 @@ function wpmudev_copy_field($field_value) {
 	</div>
 
 </div><?php // #wph-wizard-settings-shortcode ?>
-<?php

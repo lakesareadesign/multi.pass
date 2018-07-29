@@ -4,7 +4,7 @@
  *	Shortcode List
  *
  * 	@author		Kerry Kline
- * 	@copyright	Copyright (c) 2013-2017, Kerry Kline
+ * 	@copyright	Copyright (c) 2013-2015, Kerry Kline
  * 	@link		http://www.bnecreative.com
  *
  *	@since 		v1.0
@@ -13,11 +13,12 @@
  *	@notice		As of v2.0. This shortcode is no longer maintained
  *				and is depreciated! It has been replaced with
  *				[bne_testimonials] which also displays the slider
- *				layout. Please use that shortcode instead.
+ *				and masonry layouts. Please use that shortcode instead.
  *
 */
 
-
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 /* ===========================================================
@@ -51,13 +52,23 @@ function bne_testimonials_list_shortcode( $atts ) {
 		'page_id'			=> $id
 	);
 
+	
+	// NOTICE!!!! This shortcode is no longer maintained. Use the new v2x ones.
+	$output = '';
+	if( current_user_can('edit_pages') ) {
+		$output .= '<div class="bne-testimonial-warning">Admin Notice (not public): This shortcode was depreciated on June 16, 2017 and will be removed in a future update. Please update this shortcode to use [bne_testimonials layout="list"].</div>';
+	}
+
+
+
+
 
 	// Setup the Query
 	$bne_testimonials = new WP_Query( $query_args );
 	if( $bne_testimonials->have_posts() ) {
 
 		// BNE Element Wrapper
-		$output = '<div class="bne-element-container '.$class.'">';
+		$output .= '<div class="bne-element-container '.$class.'">';
 
 			// Above List Filter
 			$output .= apply_filters('bne_testimonials_list_above', '');
@@ -69,7 +80,8 @@ function bne_testimonials_list_shortcode( $atts ) {
 				while ( $bne_testimonials->have_posts() ) : $bne_testimonials->the_post();
 
 					// Pull in Plugin Options
-					$options = bne_testimonials_options_array( $image_style, $lightbox_rel, $image, $name, null );
+					$options = bne_testimonials_options_array( $image_style, $lightbox_rel, $image, $name );
+
 
 					// Build Single Testimonial
 					$output .= '<div class="single-bne-testimonial">';
@@ -104,7 +116,7 @@ function bne_testimonials_list_shortcode( $atts ) {
 
 	// If No Testimonials, display warning message
 	} else {
-		$output = '<div class="bne-testimonial-warning">'.__('No testimonials were found.', 'bne-testimonials').'</div>';
+		$output .= '<div class="bne-testimonial-warning">'.__('No testimonials were found.', 'bne-testimonials').'</div>';
 	}
 
 

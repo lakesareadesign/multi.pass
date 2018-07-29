@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Helper_Fs {
 
@@ -13,7 +13,8 @@ class Snapshot_Helper_Fs {
 	 */
 	public function get_home_dir () {
 		$path = realpath('~/');
-		if (empty($path)) $path = getenv('HOME');
+		if (empty($path))
+			$path = getenv('HOME');
 		if (empty($path)) return false;
 
 		$path = wp_normalize_path($path);
@@ -30,7 +31,8 @@ class Snapshot_Helper_Fs {
 	 */
 	public function get_webroot () {
 		$path = getenv('DOCUMENT_ROOT');
-		if (empty($path)) $path = $_SERVER['DOCUMENT_ROOT'];
+		if (empty($path))
+			$path = $_SERVER['DOCUMENT_ROOT'];
 		if (empty($path)) return false;
 
 		$path = wp_normalize_path($path);
@@ -72,7 +74,8 @@ class Snapshot_Helper_Fs {
 				$path = realpath("{$path}/../");
 			}
 		}
-		if (empty($path)) $path = $this->get_uploads();
+		if (empty($path))
+			$path = $this->get_uploads();
 
 		$directory = !empty($path) && is_writable($path)
 			? wp_normalize_path($path)

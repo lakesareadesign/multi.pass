@@ -72,10 +72,16 @@ if ( ! class_exists( 'um\admin\core\Admin_Menu' ) ) {
 
 					<script type="text/javascript">
 						jQuery( 'a.um-admin-rating-link' ).click(function() {
-							jQuery.post(
-								'<?php echo UM()->get_ajax_route( get_class( $this ), 'ultimatemember_rated' ) ?>',
-								{}
-							);
+							jQuery.ajax({
+								url: wp.ajax.settings.url,
+								type: 'post',
+								data: {
+									action: 'um_rated'
+								},
+								success: function(){
+
+								}
+							});
 							jQuery(this).parent().text( jQuery( this ).data( 'rated' ) );
 						});
 					</script>
@@ -362,7 +368,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Menu' ) ) {
 
 				<div id="um-metaboxes-general" class="wrap">
 
-					<h2>Ultimate Member <sup><?php echo ultimatemember_version; ?></sup></h2>
+					<h1>Ultimate Member <sup><?php echo ultimatemember_version; ?></sup></h1>
 
 					<?php wp_nonce_field( 'um-metaboxes-general' ); ?>
 					<?php wp_nonce_field( 'closedpostboxes', 'closedpostboxesnonce', false ); ?>

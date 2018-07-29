@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Handles secret key exchange
@@ -41,7 +41,8 @@ class Snapshot_Model_Full_Remote_Key extends Snapshot_Model_Full {
 	 * @return Snapshot_Model_Full_Remote_Key
 	 */
 	public static function get () {
-		if (empty(self::$_instance)) self::$_instance = new self;
+		if (empty(self::$_instance))
+			self::$_instance = new self();
 		return self::$_instance;
 	}
 
@@ -101,7 +102,7 @@ class Snapshot_Model_Full_Remote_Key extends Snapshot_Model_Full {
 			$this->set_config('active', !empty($key));
 
 			if (!empty($key)) {
-				$model = new Snapshot_Model_Full_Backup;
+				$model = new Snapshot_Model_Full_Backup();
 				$model->remote()->remove_token();
 				Snapshot_Controller_Full_Cron::get()->reschedule();
 				$model->update_remote_schedule();
@@ -142,13 +143,13 @@ class Snapshot_Model_Full_Remote_Key extends Snapshot_Model_Full {
 	 *
 	 * @return string|bool Secret key as string, or (bool)false on failure
 	 */
-	public function get_remote_key ($otp_token=false) {
+	public function get_remote_key ($otp_token= false) {
 		$api = Snapshot_Model_Full_Remote_Api::get();
 		$key = $api->get_dashboard_api_key();
 
 		if (empty($key)) return false;
 
-		$signature = new Snapshot_Model_Full_Remote_Signature;
+		$signature = new Snapshot_Model_Full_Remote_Signature();
 
 		$timestamp = (int)gmdate("U");
 		$nonce = wp_generate_password(64, true);

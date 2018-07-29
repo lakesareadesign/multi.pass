@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Deals with the remote DEV API connection handling.
  *
@@ -51,7 +51,9 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 	 * @return Snapshot_Model_Full_Remote_Api
 	 */
 	public static function get() {
-		if ( empty( self::$_instance ) ) { self::$_instance = new self; }
+		if ( empty( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
 		return self::$_instance;
 	}
 
@@ -84,7 +86,8 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 	 */
 	public function has_api_error() {
 		$err = Snapshot_Model_Transient::get( $this->get_filter( 'api_error' ) ); // current value.
-		if ( ! empty( $err ) ) { return true; }
+		if ( ! empty( $err ) ) {
+return true; }
 
 		$nfo = $this->has_api_info();
 		if ( ! $nfo ) {
@@ -130,7 +133,8 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 	 * @return bool
 	 */
 	public function connect() {
-		if ( ! empty( $this->_api_info ) ) { return true; // Already connected.
+		if ( ! empty( $this->_api_info ) ) {
+return true; // Already connected.
 		}
 		$body = Snapshot_Model_Transient::get( $this->get_filter( 'api_info' ), false );
 
@@ -138,11 +142,14 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 			Snapshot_Model_Transient::delete( $this->get_filter( 'api_info' ) );
 
 			$domain = $this->get_domain();
-			if ( empty( $domain ) ) { return false; }
+			if ( empty( $domain ) ) {
+return false; }
 
-			$response = $this->get_dev_api_response('credentials', array(
+			$response = $this->get_dev_api_response(
+                'credentials', array(
 				'domain' => $domain,
-			));
+			)
+                );
 
 			$error = sprintf(
 				_x(
@@ -165,8 +172,12 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 			$response_code = (int) wp_remote_retrieve_response_code( $response );
 			if ( 200 !== $response_code ) {
 				// Deal with the API errors here.
-				if ( ! empty( $body ) ) { $body = json_decode( $body, true ); }
-				if ( ! empty( $body['message'] ) ) { $error = $body['message']; }
+				if ( ! empty( $body ) ) {
+					$body = json_decode( $body, true );
+				}
+				if ( ! empty( $body['message'] ) ) {
+					$error = $body['message'];
+				}
 
 				$this->_set_error( $error );
 				Snapshot_Helper_Log::warn( "Unable to connect to the API: {$response_code}", 'Remote' );
@@ -218,23 +229,26 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 
 		$key = $this->get_config( 'secret-key', false );
 		if ( empty( $key ) ) {
-			$this->_set_error( sprintf( Snapshot_View_Full_Backup::get_message( 'missing_secret_key' ),Snapshot_Model_Full_Remote_Help::get()->get_current_site_management_link() ) );
+			$this->_set_error( sprintf( Snapshot_View_Full_Backup::get_message( 'missing_secret_key' ), Snapshot_Model_Full_Remote_Help::get()->get_current_site_management_link() ) );
 			Snapshot_Helper_Log::info( 'Missing secret key', 'Remote' );
 			return false;
 		}
 
 		$domain = $this->get_domain();
-		if ( empty( $domain ) ) { return false; }
+		if ( empty( $domain ) ) {
+return false; }
 
 		$args = array(
 			'domain' => $domain,
 		);
 
-		if ( ! empty( $local_token ) ) { $args['token'] = $local_token; }
+		if ( ! empty( $local_token ) ) {
+			$args['token'] = $local_token;
+		}
 
 		// Sign the request with key hash and timestamp.
 		if ( ! empty( $key ) ) {
-			$model = new Snapshot_Model_Full_Remote_Signature;
+			$model = new Snapshot_Model_Full_Remote_Signature();
 			$timestamp = (int) gmdate( 'U' );
 			$key_data = array(
 				'key' => $key,
@@ -269,8 +283,12 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 
 		if ( 200 !== (int) wp_remote_retrieve_response_code( $response ) ) {
 			// Deal with the API errors here.
-			if ( ! empty( $body ) ) { $body = json_decode( $body, true ); }
-			if ( ! empty( $body['message'] ) ) { $error = $body['message']; }
+			if ( ! empty( $body ) ) {
+				$body = json_decode( $body, true );
+			}
+			if ( ! empty( $body['message'] ) ) {
+				$error = $body['message'];
+			}
 
 			if ( ! empty( $body['code'] ) && 'invalid_secret_key' === $body['code'] ) {
 				$error = sprintf(
@@ -287,7 +305,11 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 				$this->set_config( 'disable_cron', true ); // Also kill all crons.
 			}
 			$this->_set_error( $error );
-			if ( ! empty( $args['token'] ) ) { Snapshot_Helper_Log::warn( 'Unable to exchange token', 'Remote' ); } else { Snapshot_Helper_Log::warn( 'Unable to get fresh token', 'Remote' ); }
+			if ( ! empty( $args['token'] ) ) {
+				Snapshot_Helper_Log::warn( 'Unable to exchange token', 'Remote' );
+			} else {
+				Snapshot_Helper_Log::warn( 'Unable to get fresh token', 'Remote' );
+			}
 			return false;
 		}
 
@@ -341,10 +363,12 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 
 		$secret_key = $this->get_config( 'secret-key', false );
 		if ( empty( $secret_key ) ) {
-			$this->_set_error(sprintf(
+			$this->_set_error(
+                sprintf(
 				Snapshot_View_Full_Backup::get_message( 'missing_secret_key' ),
 				Snapshot_Model_Full_Remote_Help::get()->get_current_site_management_link()
-			));
+			)
+                );
 			return new WP_Error(
 				$this->get_filter( 'missing_secret_key' ),
 				sprintf(
@@ -354,7 +378,7 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 			);
 		}
 
-		if ( ! in_array( $endpoint, array( 'credentials', 'backups-size', 'register-settings', 'get-token' ) ) ) {
+		if ( ! in_array( $endpoint, array( 'credentials', 'backups-size', 'register-settings', 'get-token' ), true ) ) {
 			return new WP_Error(
 				$this->get_filter( 'invalid_endoint' ),
 				__( 'Invalid endpoint', SNAPSHOT_I18N_DOMAIN )
@@ -384,7 +408,7 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 			$method = 'POST';
 		}
 
-		if ( is_array( $body ) && ! in_array( $endpoint, array( 'backups-size', 'get-token' ) ) && empty( $body['token'] ) ) {
+		if ( is_array( $body ) && ! in_array( $endpoint, array( 'backups-size', 'get-token' ), true ) && empty( $body['token'] ) ) {
 			$body['token'] = $this->get_token();
 		}
 
@@ -417,12 +441,16 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 		$result = wp_remote_request( $remote_url, $request_arguments );
 
 		$response_code = apply_filters(
-			'snapshot-mocks-api_response-code',
+			'snapshot_mocks_api_response_code',
 			(int) wp_remote_retrieve_response_code( $result )
 		);
 		if ( 200 !== $response_code ) {
 			$error = wp_remote_retrieve_body( $result );
-			if ( empty( $error ) ) { $error = time(); } else { $error = json_decode( $error, true ); }
+			if ( empty( $error ) ) {
+				$error = time();
+			} else {
+				$error = json_decode( $error, true );
+			}
 
 			Snapshot_Helper_Log::warn( "API connection to {$endpoint} returned non-200: {$response_code}", 'Remote' );
 
@@ -442,7 +470,7 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 			// First up, let's try parsing the response body. It should be valid JSON.
 			// If it's not, we have a problem and we should be keeping/re-setting the error.
 			$body = apply_filters(
-				'snapshot-mocks-api_response-body',
+				'snapshot_mocks_api_response_body',
 				wp_remote_retrieve_body( $result )
 			);
 			if ( empty( $body ) || null === json_decode( $body ) ) {
@@ -488,7 +516,7 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 			);
 		}
 
-		if ( ! in_array( $endpoint, array( 'get-urls', 'backups-size', 'get-key', 'current-local-status' ) ) ) {
+		if ( ! in_array( $endpoint, array( 'get-urls', 'backups-size', 'get-key', 'current-local-status' ), true ) ) {
 			return new WP_Error(
 				$this->get_filter( 'invalid_endoint' ),
 				__( 'Invalid endpoint', SNAPSHOT_I18N_DOMAIN )
@@ -544,7 +572,11 @@ class Snapshot_Model_Full_Remote_Api extends Snapshot_Model_Full {
 		$response_code = (int) wp_remote_retrieve_response_code( $result );
 		if ( 200 !== $response_code ) {
 			$error = wp_remote_retrieve_body( $result );
-			if ( empty( $error ) ) { $error = time(); } else { $error = json_decode( $error, true ); }
+			if ( empty( $error ) ) {
+				$error = time();
+			} else {
+				$error = json_decode( $error, true );
+			}
 
 			Snapshot_Helper_Log::warn( "API connection to {$endpoint} returned non-200: {$response_code}", 'Remote' );
 

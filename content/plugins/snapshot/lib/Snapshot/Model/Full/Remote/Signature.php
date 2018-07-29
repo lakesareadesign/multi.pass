@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Signature handling model helper
@@ -51,7 +51,7 @@ class Snapshot_Model_Full_Remote_Signature {
 	 *
 	 * @return string
 	 */
-	public function get_raw_signature ($components=array()) {
+	public function get_raw_signature ($components= array()) {
 		$result = array();
 		foreach ($components as $key => $value) {
 			$result[] = $this->get_hash_sig_pair($key, $value);
@@ -83,7 +83,7 @@ class Snapshot_Model_Full_Remote_Signature {
 	 *
 	 * @return string
 	 */
-	public function get_signature ($components=array(), $secret, $algo=false) {
+	public function get_signature ($components= array(), $secret, $algo= false) {
 		$raw = $this->get_raw_signature($components);
 		return $this->get_hashed_signature($raw, $secret, $algo);
 	}
@@ -95,7 +95,7 @@ class Snapshot_Model_Full_Remote_Signature {
 	 *
 	 * @return bool
 	 */
-	public function is_valid_signature ($signature=false) {
+	public function is_valid_signature ($signature= false) {
 		if (empty($signature) || !is_string($signature)) return false;
 
 		$valid = false;
@@ -105,7 +105,8 @@ class Snapshot_Model_Full_Remote_Signature {
 				'/^' .
 					preg_quote($algo, '/') .
 					preg_quote($this->get_algo_delimiter(), '/') .
-				'[a-zA-Z0-9]/', $signature)
+				'[a-zA-Z0-9]/', $signature
+                )
 			) continue;
 
 			$valid = true;
@@ -124,7 +125,7 @@ class Snapshot_Model_Full_Remote_Signature {
 	 *
 	 * @return string
 	 */
-	public function get_signature_algo ($signature=false) {
+	public function get_signature_algo ($signature= false) {
 		$fallback = $this->get_default_algo();
 		$algo = false;
 
@@ -146,9 +147,9 @@ class Snapshot_Model_Full_Remote_Signature {
 	 *
 	 * @return bool
 	 */
-	public function is_known_algo ($algo=false) {
+	public function is_known_algo ($algo= false) {
 		if (empty($algo)) return false;
-		return in_array($algo, hash_algos());
+		return in_array( $algo, hash_algos(), true );
 	}
 
 	/**
@@ -158,9 +159,9 @@ class Snapshot_Model_Full_Remote_Signature {
 	 *
 	 * @return bool
 	 */
-	public function is_preferred_algo ($algo=false) {
+	public function is_preferred_algo ($algo= false) {
 		if (!$this->is_known_algo($algo)) return false;
-		return in_array($algo, $this->get_preferred_algos());
+		return in_array( $algo, $this->get_preferred_algos(), true );
 	}
 
 	/**
@@ -186,7 +187,7 @@ class Snapshot_Model_Full_Remote_Signature {
 	 *
 	 * @return string
 	 */
-	public function get_preferred_algo ($preferred=false) {
+	public function get_preferred_algo ($preferred= false) {
 		$preferred = !empty($preferred) ? $preferred : $this->get_default_algo();
 
 		if (!$this->is_preferred_algo($preferred)) {

@@ -164,6 +164,18 @@ final class FLBuilderServiceGetResponse extends FLBuilderService {
 			),
 		), $settings);
 
+		FLBuilder::render_settings_field( 'cycle_day', array(
+			'row_class'     => 'fl-builder-service-field-row',
+			'class'         => 'fl-builder-service-cycleday-select',
+			'type'          => 'select',
+			'label'         => _x( 'Cycle Day', 'Day of autoresponder cycle.', 'fl-builder' ),
+			'help'          => __( 'This should match the cycle day settings for the selected list\'s Autoresponder.', 'fl-builder' ),
+			'options'       => range( 0, 30 ),
+			'preview'       => array(
+				'type'          => 'none',
+			),
+		), $settings);
+
 		return ob_get_clean();
 	}
 
@@ -198,12 +210,15 @@ final class FLBuilderServiceGetResponse extends FLBuilderService {
 					$name = $names[0];
 				}
 
+				$cyle_day = isset( $settings->cycle_day ) ? $settings->cycle_day : 0;
+
 				$data = array(
 					'email' => $email,
 					'name'  => $name,
 					'campaign' => array(
 						'campaignId' => $settings->list_id,
 					),
+					'dayOfCycle' => $cyle_day,
 				);
 
 				// Check if email exists

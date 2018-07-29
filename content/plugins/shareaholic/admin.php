@@ -57,7 +57,7 @@ class ShareaholicAdmin {
   public static function go_premium() {
     echo <<<JQUERY
 <script type="text/javascript">
-window.location = "https://shareaholic.com/plans";
+window.location = "https://www.shareaholic.com/plans";
 </script>
 JQUERY;
   }
@@ -588,7 +588,7 @@ JQUERY;
     if (function_exists('wp_mail')) {
       $site_url = get_bloginfo('url');
       $api_key = ShareaholicUtilities::get_option('api_key');
-      $payment_url = 'https://shareaholic.com/user-settings/payments';
+      $payment_url = 'https://www.shareaholic.com/user-settings/payments';
       $shr_wp_dashboard_url = esc_url(admin_url("admin.php?page=shareaholic-settings"));
       $sign_up_link = esc_url(admin_url("admin.php?shareaholic_redirect_url=shareaholic.com/signup/"));    
       $to = get_bloginfo('admin_email');
@@ -615,8 +615,8 @@ JQUERY;
       <p>Let's get started,<br /><br />
     
       The Shareaholic Team<br />
-      <a href='http://support.shareaholic.com'>support.shareaholic.com</a><br /><br />
-      <img width='200' height='36' src='https://shareaholic.com/assets/layouts/shareaholic-logo.png' alt='Shareaholic' title='Shareaholic' /><br />
+      <a href='https://support.shareaholic.com'>support.shareaholic.com</a><br /><br />
+      <img width='200' height='36' src='https://www.shareaholic.com/assets/layouts/shareaholic-logo.png' alt='Shareaholic' title='Shareaholic' /><br />
       <p style='font-size:12px;color:#C3C2C2;'>This is an automated, one-time e-mail sent by your WordPress CMS directly to the website admin</p><br />
       <img width='0' height='0' src='https://www.google-analytics.com/collect?v=1&tid=UA-12964573-6&cid=$api_key&t=event&ec=email&ea=open&el=$site_url-$api_key&cs=lifecycle&cm=email&cn=wp_welcome_email' />";
         
@@ -648,7 +648,7 @@ JQUERY;
     
     if ($current_screen->id === 'options-permalink' || $current_screen->id === 'options-general') {
       $css_class = 'notice notice-warning is-dismissible';
-      $message = 'WARNING: Updating your URL or permalink structure will reset the social share counts for your pages. <a href="https://shareaholic.com/plans">Upgrade to Shareaholic Premium</a> to enable <a href="https://support.shareaholic.com/hc/en-us/articles/115002083586">Share Count Recovery</a>.';
+      $message = 'WARNING: Updating your URL or permalink structure will reset the social share counts for your pages. <a href="https://www.shareaholic.com/plans">Upgrade to Shareaholic Premium</a> to enable <a href="https://support.shareaholic.com/hc/en-us/articles/115002083586">Share Count Recovery</a>.';
       echo "<div class='$css_class'><p style='font-weight: bold;'>";
       _e($message, 'Shareaholic');
       echo '</p></div>';

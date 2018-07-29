@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Deals with managed (full) backups restoration
@@ -20,7 +20,7 @@ class Snapshot_Helper_Restore {
 	private function __construct() {}
 
 	public static function from( $archive ) {
-		$me = new self;
+		$me = new self();
 		$me->set_archive_path( $archive );
 		$me->_spawn_queues();
 		return $me;
@@ -37,9 +37,12 @@ class Snapshot_Helper_Restore {
 
 	public function set_archive_path( $archive ) {
 		$fullpath = realpath( $archive );
-		if ( empty( $fullpath ) || ! is_readable( $fullpath ) ) { return false; }
+		if ( empty( $fullpath ) || ! is_readable( $fullpath ) ) {
+			return false;
+		}
 
-		$status = ! ! ($this->_archive = wp_normalize_path( $fullpath ));
+		$this->_archive = wp_normalize_path( $fullpath );
+		$status = ! ! ( $this->_archive );
 		if ( $status ) {
 			$this->_seed = sha1_file( $this->_archive );
 		}
@@ -48,7 +51,9 @@ class Snapshot_Helper_Restore {
 	}
 
 	public function get_manifest() {
-		if ( ! empty( $this->_manifest ) ) { return $this->_manifest; }
+		if ( ! empty( $this->_manifest ) ) {
+			return $this->_manifest;
+		}
 
 		if ( empty( $this->_archive ) ) {
 			Snapshot_Helper_Log::warn( 'Unable to fetch manifest from unknown archive.' );
@@ -60,7 +65,9 @@ class Snapshot_Helper_Restore {
 		$manifest_file = Snapshot_Model_Manifest::get_file_name();
 		$manifest_path = wp_normalize_path( $root . '/' . $manifest_file );
 
-		if ( file_exists( $manifest_path ) ) { @unlink( $manifest_path ); }
+		if ( is_writable( $manifest_path ) ) {
+			unlink( $manifest_path );
+		}
 
 		$status = $zip->extract_specific( $root, array( $manifest_file ) );
 		if ( empty( $status ) ) {
@@ -84,7 +91,9 @@ class Snapshot_Helper_Restore {
 	}
 
 	public function get_queues() {
-		if ( empty( $this->_queues ) ) { $this->_spawn_queues(); }
+		if ( empty( $this->_queues ) ) {
+			$this->_spawn_queues();
+		}
 		return $this->_queues;
 	}
 
@@ -133,7 +142,9 @@ class Snapshot_Helper_Restore {
 	 * @return int
 	 */
 	public function get_current_step() {
-		if ( ! empty( $this->_current_step ) ) { return (int) $this->_current_step; }
+		if ( ! empty( $this->_current_step ) ) {
+			return (int) $this->_current_step;
+		}
 		$this->_current_step = (int) $this->_get_session_value( 'general', 'current_step', 0 );
 
 		return (int) $this->_current_step;
@@ -146,10 +157,14 @@ class Snapshot_Helper_Restore {
 	 */
 	public function get_current_status_estimate() {
 		$total = $this->get_total_steps_estimate();
-		if ( empty( $total ) ) { return -1; }
+		if ( empty( $total ) ) {
+			return -1;
+		}
 
 		$current = $this->get_current_step();
-		if ( empty( $current ) ) { return 0; }
+		if ( empty( $current ) ) {
+			return 0;
+		}
 
 		$status = ($current / $total) * 100;
 
@@ -175,7 +190,9 @@ class Snapshot_Helper_Restore {
 	public function is_done() {
 		$queues = is_array( $this->_queues ) ? $this->_queues : array();
 		foreach ( $queues as $idx => $queue ) {
-			if ( ! $this->_queue_done( $idx ) ) { return false; }
+			if ( ! $this->_queue_done( $idx ) ) {
+				return false;
+			}
 		}
 		return true;
 	}
@@ -212,14 +229,18 @@ class Snapshot_Helper_Restore {
 		$status = false;
 
 		foreach ( $queues as $type => $queue ) {
-			if ( $this->_queue_done( $type ) ) { continue; }
+			if ( $this->_queue_done( $type ) ) {
+				continue;
+			}
 
 			if ( 'fileset' === $type && $queue instanceof Snapshot_Model_Queue_Bhfileset ) {
 				$type = 'bhfileset';
 			}
 
 			$method = '_process_' . $type . '_queue';
-			if ( ! is_callable( array( $this, $method ) ) ) { continue; }
+			if ( ! is_callable( array( $this, $method ) ) ) {
+				continue;
+			}
 
 			$status = call_user_func_array( array( $this, $method ), array( $queue ) );
 			break;
@@ -229,7 +250,9 @@ class Snapshot_Helper_Restore {
 			$this->increase_processing_step();
 		}
 
-		if ( $this->is_done() ) { Snapshot_Helper_Log::info( 'Restoration from queues complete' ); }
+		if ( $this->is_done() ) {
+			Snapshot_Helper_Log::info( 'Restoration from queues complete' );
+		}
 
 		return $status;
 	}
@@ -265,7 +288,9 @@ class Snapshot_Helper_Restore {
 		Snapshot_Helper_Log::info( sprintf( 'Restoring fileset chunk %d of %d', $lister->get_current_step(), $lister->get_total_steps() ) );
 
 		$done = $lister->is_done();
-		if ( ! ! $done ) { return true; }
+		if ( ! ! $done ) {
+			return true;
+		}
 
 		$file_items = $lister->get_files();
 		foreach ( $file_items as $item ) {
@@ -273,7 +298,9 @@ class Snapshot_Helper_Restore {
 			$path = trim( wp_normalize_path( dirname( $filepath ) ), '/' );
 			$fullpath = trailingslashit( wp_normalize_path( "{$destination}{$path}" ) );
 
-			if ( ! is_dir( $fullpath ) ) { wp_mkdir_p( $fullpath ); }
+			if ( ! is_dir( $fullpath ) ) {
+				wp_mkdir_p( $fullpath );
+			}
 
 			// Attempt regular copy first.
 			if ( ! copy( $item, $fullpath . basename( $item ) ) ) {
@@ -282,7 +309,9 @@ class Snapshot_Helper_Restore {
 				// Fall back to WP stuff.
 				if ( is_callable( array( $wp_filesystem, 'copy' ) ) ) {
 					$res = $wp_filesystem->copy( $item, $fullpath . basename( $item ) );
-					if ( $res ) { $status = true; }
+					if ( $res ) {
+						$status = true;
+					}
 				}
 				if ( ! $status ) {
 					Snapshot_Helper_Log::error( 'Error copying file: ' . basename( $item ) );
@@ -319,7 +348,9 @@ class Snapshot_Helper_Restore {
 		$destination = trailingslashit( wp_normalize_path( $this->_destination ) );
 
 		$all_files = $this->_get_files_list( $prefix );
-		if ( empty( $all_files ) ) { return false; }
+		if ( empty( $all_files ) ) {
+			return false;
+		}
 
 		/*
         * // Enable for debugging
@@ -339,10 +370,15 @@ class Snapshot_Helper_Restore {
 			$path = trim( wp_normalize_path( dirname( $filepath ) ), '/' );
 			$fullpath = trailingslashit( wp_normalize_path( "{$destination}{$path}" ) );
 
-			if ( ! is_dir( $fullpath ) ) { wp_mkdir_p( $fullpath ); }
+			if ( ! is_dir( $fullpath ) ) {
+				wp_mkdir_p( $fullpath );
+			}
 
 			$this->copyWarningNumber = null;
 			$this->copyWarningString = null;
+
+			// We use set_error_handler() as logging code and not debug code.
+			// phpcs:ignore
 			set_error_handler(array($this, 'copyWarning'));
 
 			// Attempt regular copy first.
@@ -352,7 +388,9 @@ class Snapshot_Helper_Restore {
 				// Fall back to WP stuff.
 				if ( is_callable( array( $wp_filesystem, 'copy' ) ) ) {
 					$res = $wp_filesystem->copy( $file, $fullpath . basename( $file ) );
-					if ( $res ) { $status = true; }
+					if ( $res ) {
+						$status = true;
+					}
 				}
 			}
 			restore_error_handler();
@@ -364,10 +402,12 @@ class Snapshot_Helper_Restore {
 		if ( $status ) {
 			Snapshot_Helper_Log::info( "Restored fileset chunk {$chunk}" );
 
-			$chunk += 1;
+			$chunk++;
 			$done = ! ! ($start + $chunk_size >= count( $all_files ));
 
-			if ( $done ) { Snapshot_Helper_Log::info( 'Fileset restoration complete' ); }
+			if ( $done ) {
+				Snapshot_Helper_Log::info( 'Fileset restoration complete' );
+			}
 
 			$this->_set_session_value( 'fileset', 'chunk', $chunk );
 			$this->_set_session_value( 'fileset', 'done', $done );
@@ -394,7 +434,9 @@ class Snapshot_Helper_Restore {
 		$source = untrailingslashit( $this->get_intermediate_destination() );
 
 		foreach ( $all_files as $file ) {
-			if ( ! preg_match( '/\.sql$/i', $file ) ) { continue; }
+			if ( ! preg_match( '/\.sql$/i', $file ) ) {
+				continue;
+			}
 			$filepath = preg_replace( '/^' . preg_quote( $source, '/' ) . '/i', '', $file );
 			$filepath = trim( wp_normalize_path( dirname( $filepath ) ), '/' );
 			if ( 0 !== strlen( $filepath ) ) {
@@ -408,7 +450,9 @@ class Snapshot_Helper_Restore {
 
 	private function _process_tableset_queue( $q ) {
 		$tables = $this->_get_session_value( 'tableset', 'tables', array() );
-		if ( ! is_array( $tables ) ) { $tables = array(); }
+		if ( ! is_array( $tables ) ) {
+			$tables = array();
+		}
 		$source = untrailingslashit( $this->get_intermediate_destination() );
 
 		$all_tables = $this->_get_tables_list();
@@ -416,7 +460,7 @@ class Snapshot_Helper_Restore {
 			return true; // No sqls found.
 		}
 		$status = true;
-		$db = new Snapshot_Model_Database_Backup;
+		$db = new Snapshot_Model_Database_Backup();
 
 		/*
         * // Enable for debugging
@@ -431,15 +475,19 @@ class Snapshot_Helper_Restore {
         return true;
 		 */
 
-		do_action( 'snapshot-full_backups-restore-tables', $all_tables, $tables );
+		do_action( 'snapshot_full_backups_restore_tables', $all_tables, $tables );
+
+		// global $wp_filesystem;
 
 		foreach ( $all_tables as $table_file ) {
 			$table = basename( $table_file );
-			if ( in_array( $table, $tables ) ) { continue; }
+			if ( in_array( $table, $tables, true ) ) {
+				continue;
+			}
 
 			Snapshot_Helper_Log::info( "Begin restoring table: {$table}" );
 
-			$sql = file_get_contents( $table_file );
+			$sql = file_get_contents( $table_file ); // phpcs:ignore
 			$db->restore_databases( $sql );
 
 			if ( count( $db->errors ) ) {
@@ -452,9 +500,13 @@ class Snapshot_Helper_Restore {
 					if ( count( $tables ) === count( $all_tables ) ) {
 						if ( $this->_postprocess_global_tables() ) {
 							$this->_set_session_value( 'tableset', 'done', true );
-						} else { Snapshot_Helper_Log::warn( 'There has been an issue prostprocessing global tables' ); }
+						} else {
+							Snapshot_Helper_Log::warn( 'There has been an issue prostprocessing global tables' );
+						}
 					}
-				} else { Snapshot_Helper_Log::warn( "There has been an issue prostprocessing table {$table}" ); }
+				} else {
+					Snapshot_Helper_Log::warn( "There has been an issue prostprocessing table {$table}" );
+				}
 			}
 			break; // Do one table at the time.
 		}
@@ -499,7 +551,9 @@ class Snapshot_Helper_Restore {
 
 	private function _get_path( $frag ) {
 		$frag = preg_replace( '/[^-_a-z0-9]/', '', $frag );
-		if ( empty( $frag ) ) { return false; }
+		if ( empty( $frag ) ) {
+			return false;
+		}
 
 		return trailingslashit( wp_normalize_path( $this->_get_root() . $frag ) );
 	}
@@ -526,10 +580,14 @@ class Snapshot_Helper_Restore {
 
 	private function _spawn_queues() {
 		$fullpath = $this->get_intermediate_destination();
-		if ( empty( $fullpath ) ) { return false; }
+		if ( empty( $fullpath ) ) {
+			return false;
+		}
 
 		$manifest = $this->get_manifest();
-		if ( ! $manifest ) { return false; }
+		if ( ! $manifest ) {
+			return false;
+		}
 		$queues = $manifest->get( 'QUEUES' );
 
 		// Boot session.
@@ -537,10 +595,14 @@ class Snapshot_Helper_Restore {
 		$this->_session = new Snapshot_Helper_Session( $loc, $this->_seed );
 		$this->_session->load_session();
 
-		if ( ! $this->_extract() ) { return false; }
+		if ( ! $this->_extract() ) {
+			return false;
+		}
 
 		foreach ( $queues as $raw ) {
-			if ( empty( $raw['type'] ) || empty( $raw['sources'] ) ) { continue; }
+			if ( empty( $raw['type'] ) || empty( $raw['sources'] ) ) {
+				continue;
+			}
 			$queue_type = ucfirst( $raw['type'] );
 
 			if ( ! ! preg_match( '/fileset$/i', $queue_type ) ) {
@@ -551,7 +613,9 @@ class Snapshot_Helper_Restore {
 			}
 
 			$class_name = 'Snapshot_Model_Queue_' . $queue_type;
-			if ( ! class_exists( $class_name ) ) { continue; }
+			if ( ! class_exists( $class_name ) ) {
+				continue;
+			}
 
 			$queue = new $class_name('restore');
 
@@ -568,14 +632,20 @@ class Snapshot_Helper_Restore {
 	}
 
 	private function _get_session_value( $section, $key, $fallback = false ) {
-		if ( ! isset( $this->_session->data[ $section ] ) ) { return $fallback; }
-		if ( ! isset( $this->_session->data[ $section ][ $key ] ) ) { return $fallback; }
+		if ( ! isset( $this->_session->data[ $section ] ) ) {
+			return $fallback;
+		}
+		if ( ! isset( $this->_session->data[ $section ][ $key ] ) ) {
+			return $fallback;
+		}
 
 		return $this->_session->data[ $section ][ $key ];
 	}
 
 	private function _set_session_value( $section, $key, $value ) {
-		if ( empty( $this->_session->data[ $section ] ) ) { $this->_session->data[ $section ] = array(); }
+		if ( empty( $this->_session->data[ $section ] ) ) {
+			$this->_session->data[ $section ] = array();
+		}
 
 		$this->_session->data[ $section ][ $key ] = $value;
 		return $this->_session->save_session();
@@ -585,8 +655,7 @@ class Snapshot_Helper_Restore {
 	* Method to handle warnings, used for warnings handling around
 	* backup zip copy.
 	*/
-	public function copyWarning($errno, $errstr)
-	{
+	public function copyWarning($errno, $errstr) {
 		$this->copyWarningNumber = $errno;
 		$this->copyWarningString = $errstr;
 	}

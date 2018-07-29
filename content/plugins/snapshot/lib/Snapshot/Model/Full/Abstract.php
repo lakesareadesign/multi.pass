@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 abstract class Snapshot_Model_Full_Abstract extends Snapshot_Model_Full {
 

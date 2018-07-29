@@ -7,8 +7,9 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 
 	public static function get_instance() {
 		if ( empty( self::$_instance ) ) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
+
 		return self::$_instance;
 	}
 
@@ -36,11 +37,13 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 			);
 		}
 
-		if ( ! empty( $input['wds_settings-setup'] ) ) { $result['wds_settings-setup'] = true; }
+		if ( ! empty( $input['wds_settings-setup'] ) ) {
+			$result['wds_settings-setup'] = true;
+		}
 
 		$booleans = array_keys( Smartcrawl_Settings::get_known_components() );
 		foreach ( $booleans as $bool ) {
-			if ( ! empty( $input[ $bool ] ) ) { $result[ $bool ] = true; }
+			$result[ $bool ] = ! empty( $input[ $bool ] );
 		}
 
 		// Analysis/readability
@@ -50,7 +53,9 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 
 		if ( ! empty( $input['redirections-code'] ) && is_numeric( $input['redirections-code'] ) ) {
 			$code = (int) $input['redirections-code'];
-			if ( in_array( $code, array( 301, 302 ) ) ) { $result['redirections-code'] = $code; }
+			if ( in_array( $code, array( 301, 302 ), true ) ) {
+				$result['redirections-code'] = $code;
+			}
 		}
 		if ( ! empty( $input['metabox-lax_enforcement'] ) ) {
 			$result['metabox-lax_enforcement'] = true;
@@ -73,20 +78,25 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 			'secret-key',
 		);
 		foreach ( $strings as $str ) {
-			if ( ! empty( $input[ $str ] ) ) { $result[ $str ] = sanitize_text_field( $input[ $str ] ); }
+			if ( ! empty( $input[ $str ] ) ) {
+				$result[ $str ] = sanitize_text_field( $input[ $str ] );
+			}
 		}
 
 		// Roles
 		foreach ( $this->_get_permission_contexts() as $ctx ) {
-			if ( empty( $input[ $ctx ] ) ) { continue; }
+			if ( empty( $input[ $ctx ] ) ) {
+				continue;
+			}
 			$roles = array_keys( $this->_get_filtered_roles( "wds-{$ctx}" ) );
 			$check_context = is_array( $input[ $ctx ] )
 				? $input[ $ctx ]
-				: array( $input[ $ctx ] )
-			;
+				: array( $input[ $ctx ] );
 			$result[ $ctx ] = array();
 			foreach ( $check_context as $ctx_item ) {
-				if ( in_array( $ctx_item, $roles ) ) { $result[ $ctx ][] = $ctx_item; }
+				if ( in_array( $ctx_item, $roles, true ) ) {
+					$result[ $ctx ][] = $ctx_item;
+				}
 			}
 		}
 
@@ -97,154 +107,37 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 		return $result;
 	}
 
-	/**
-	 * Processes extra options passed on from the main form
-	 *
-	 * This is a side-effect method - the extra options don't update
-	 * the tab option key, but go to an extternal location
-	 *
-	 * @param array $input Raw form input
-	 */
-	private function _validate_and_save_extra_options( $input ) {
-		// Blog tabs
-		if ( is_multisite() && current_user_can( 'manage_network_options' ) ) {
-			if ( isset( $input['wds_blog_tabs'] ) || isset( $input['wds_sitewide_mode'] ) ) {
-				$raw = ! empty( $input['wds_blog_tabs'] ) && is_array( $input['wds_blog_tabs'] )
-					? $input['wds_blog_tabs']
-					: array()
-				;
-				$tabs = array();
-				foreach ( $raw as $key => $tab ) {
-					if ( ! empty( $tab ) ) { $tabs[ $key ] = true; }
-				}
+	private function get_old_user_role_options() {
+		$option_keys = array(
+			'seo_metabox_permission_level',
+			'seo_metabox_301_permission_level',
+			'urlmetrics_metabox_permission_level',
+		);
 
-				update_site_option( 'wds_blog_tabs', $tabs );
+		$old_options = self::get_specific_options( $this->option_name );
 
-				update_site_option( 'wds_sitewide_mode', (int) ! empty( $input['wds_sitewide_mode'] ) );
+		$user_role_options = array();
+		foreach ( $option_keys as $option_key ) {
+			$option_value = smartcrawl_get_array_value( $old_options, $option_key );
+			if ( $option_value ) {
+				$user_role_options[ $option_key ] = $option_value;
 			}
 		}
 
-		// Sitemaps validation/save
-		$sitemaps = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_SITEMAP );
-		$sitemaps_updated = false;
-		if ( ! empty( $input['verification-google'] ) ) {
-			$sitemaps['verification-google'] = sanitize_text_field( $input['verification-google'] );
-			$sitemaps_updated = true;
-		}
-		if ( ! empty( $input['verification-bing'] ) ) {
-			$sitemaps['verification-bing'] = sanitize_text_field( $input['verification-bing'] );
-			$sitemaps_updated = true;
-		}
-		if ( ! empty( $input['verification-pages'] ) ) {
-			$pages = $input['verification-pages'];
-			if ( in_array( $pages, array( '', 'home' ) ) ) { $sitemaps['verification-pages'] = $pages; }
-			$sitemaps_updated = true;
-		}
-
-		// Meta tags
-		if ( ! empty( $input['verification-google-meta'] ) ) {
-			$sitemaps['verification-google-meta'] = $input['verification-google-meta'];
-			$sitemaps['verification-google'] = false;
-			$sitemaps_updated = true;
-		}
-		if ( ! empty( $input['verification-bing-meta'] ) ) {
-			$sitemaps['verification-bing-meta'] = $input['verification-bing-meta'];
-			$sitemaps['verification-bing'] = false;
-			$sitemaps_updated = true;
-		}
-
-		$custom_values_key = 'additional-metas';
-		if ( ! empty( $input[ $custom_values_key ] ) && is_array( $input[ $custom_values_key ] ) ) {
-			$custom_values = $input[ $custom_values_key ];
-			$sanitized_custom_values = array();
-			foreach ( $custom_values as $index => $custom_value ) {
-				if ( trim( $custom_value ) ) {
-					$sanitized = wp_kses($custom_value, array(
-						'meta' => array(
-							'charset'    => array(),
-							'content'    => array(),
-							'http-equiv' => array(),
-							'name'       => array(),
-							'scheme'     => array(),
-						),
-					));
-					if ( preg_match( '/<meta\b/', trim( $sanitized ) ) ) {
-						$sanitized_custom_values[] = $sanitized;
-					}
-				}
-			}
-			$sitemaps[ $custom_values_key ] = $sanitized_custom_values;
-			$sitemaps_updated = true;
-		}
-
-		if ( $sitemaps_updated ) {
-			Smartcrawl_Settings::update_component_options( Smartcrawl_Settings::COMP_SITEMAP, $sitemaps );
-		}
-	}
-
-	public function init() {
-		$this->option_name = 'wds_settings_options';
-		$this->name        = 'settings';
-		$this->slug        = Smartcrawl_Settings::TAB_SETTINGS;
-		$this->action_url  = admin_url( 'options.php' );
-		$this->title       = __( 'Settings', 'wds' );
-		$this->page_title  = __( 'SmartCrawl Wizard: Settings', 'wds' );
-
-		add_action( 'admin_init', array( $this, 'activate_component' ) );
-		add_action( 'admin_init', array( $this, 'save_moz_api_credentials' ) );
-		add_action( 'network_admin_notices', array( $this, 'import_notice' ) );
-
-		if ($this->display_single_site_import_notice()) {
-			add_action('admin_notices', array($this, 'import_notice'));
-		}
-
-		if ( ! class_exists( 'Smartcrawl_Controller_IO' ) ) {
-			require_once( SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_controller_io.php' );
-		}
-		Smartcrawl_Controller_IO::serve();
-
-		parent::init();
+		return $user_role_options;
 	}
 
 	/**
-	 * Updates the options to activate a component.
-	 */
-	function activate_component() {
-		if ( isset( $_POST['wds-activate-component'] ) ) {
-
-			$component = sanitize_key( $_POST['wds-activate-component'] );
-			$options = self::get_specific_options( $this->option_name );
-			$options[ $component ] = 1;
-
-			self::update_specific_options( $this->option_name, $options );
-
-			wp_redirect( esc_url_raw( add_query_arg( array() ) ) );
-		}
-	}
-
-	function save_moz_api_credentials() {
-		if ( isset( $_POST['wds-moz-access-id'] ) || isset( $_POST['wds-moz-secret-key'] ) ) {
-			$options = self::get_specific_options( $this->option_name );
-			$options['access-id'] = sanitize_text_field( $_POST['wds-moz-access-id'] );
-			$options['secret-key'] = sanitize_text_field( $_POST['wds-moz-secret-key'] );
-
-			self::update_specific_options( $this->option_name, $options );
-
-			wp_redirect( esc_url_raw( add_query_arg( array() ) ) );
-		}
-	}
-
-	/**
-	 * Get allowed blog tabs
+	 * Get a list of permission contexts used for roles filtering
 	 *
 	 * @return array
 	 */
-	public static function get_blog_tabs() {
-		$blog_tabs = get_site_option( 'wds_blog_tabs' );
-		return is_array( $blog_tabs )
-			? $blog_tabs
-			: array()
-		;
+	protected function _get_permission_contexts() {
+		return array(
+			'seo_metabox_permission_level',
+			'seo_metabox_301_permission_level',
+			'urlmetrics_metabox_permission_level',
+		);
 	}
 
 	/**
@@ -262,25 +155,149 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 			'edit_published_posts' => sprintf( __( '%s (and up)', 'wds' ), __( 'Author' ) ),
 			'edit_posts'           => sprintf( __( '%s (and up)', 'wds' ), __( 'Contributor' ) ),
 		);
-		if ( ! is_multisite() ) { unset( $default_roles['manage_network'] ); }
+		if ( ! is_multisite() ) {
+			unset( $default_roles['manage_network'] );
+		}
 
 		return ! empty( $context_filter )
 			? (array) apply_filters( $context_filter, $default_roles )
-			: $default_roles
-		;
+			: $default_roles;
 	}
 
 	/**
-	 * Get a list of permission contexts used for roles filtering
+	 * Processes extra options passed on from the main form
 	 *
-	 * @return array
+	 * This is a side-effect method - the extra options don't update
+	 * the tab option key, but go to an extternal location
+	 *
+	 * @param array $input Raw form input
 	 */
-	protected function _get_permission_contexts() {
-		return array(
-			'seo_metabox_permission_level',
-			'seo_metabox_301_permission_level',
-			'urlmetrics_metabox_permission_level',
-		);
+	private function _validate_and_save_extra_options( $input ) {
+		// Blog tabs
+		if ( is_multisite() && ! empty( $input['save_blog_tabs'] ) && current_user_can( 'manage_network_options' ) ) {
+			$raw = ! empty( $input['wds_blog_tabs'] ) && is_array( $input['wds_blog_tabs'] )
+				? $input['wds_blog_tabs']
+				: array();
+			$tabs = array();
+			foreach ( $raw as $key => $tab ) {
+				if ( ! empty( $tab ) ) {
+					$tabs[ $key ] = true;
+				}
+			}
+
+			update_site_option( 'wds_blog_tabs', $tabs );
+
+			update_site_option( 'wds_sitewide_mode', (int) ! empty( $input['wds_sitewide_mode'] ) );
+		}
+
+		// Sitemaps validation/save
+		$sitemaps = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_SITEMAP );
+		$sitemaps_updated = false;
+		if ( isset( $input['verification-pages'] ) ) {
+			$pages = $input['verification-pages'];
+			if ( in_array( $pages, array( '', 'home' ), true ) ) {
+				$sitemaps['verification-pages'] = $pages;
+			}
+			$sitemaps_updated = true;
+		}
+
+		// Meta tags
+		if ( isset( $input['verification-google-meta'] ) ) {
+			$sitemaps['verification-google-meta'] = smartcrawl_is_valid_meta_tag( $input['verification-google-meta'] ) ? $input['verification-google-meta'] : '';
+			$sitemaps_updated = true;
+		}
+		if ( isset( $input['verification-bing-meta'] ) ) {
+			$sitemaps['verification-bing-meta'] = smartcrawl_is_valid_meta_tag( $input['verification-bing-meta'] ) ? $input['verification-bing-meta'] : '';
+			$sitemaps_updated = true;
+		}
+
+		$custom_values_key = 'additional-metas';
+		if ( ! empty( $input[ $custom_values_key ] ) && is_array( $input[ $custom_values_key ] ) ) {
+			$custom_values = $input[ $custom_values_key ];
+			$sanitized_custom_values = array();
+			foreach ( $custom_values as $index => $custom_value ) {
+				if ( trim( $custom_value ) ) {
+					$sanitized = wp_kses( $custom_value, array(
+						'meta' => array(
+							'charset'    => array(),
+							'content'    => array(),
+							'http-equiv' => array(),
+							'name'       => array(),
+							'scheme'     => array(),
+						),
+					) );
+					if ( preg_match( '/<meta\b/', trim( $sanitized ) ) ) {
+						$sanitized_custom_values[] = $sanitized;
+					}
+				}
+			}
+			$sitemaps[ $custom_values_key ] = $sanitized_custom_values;
+			$sitemaps_updated = true;
+		}
+
+		if ( $sitemaps_updated ) {
+			Smartcrawl_Settings::update_component_options( Smartcrawl_Settings::COMP_SITEMAP, $sitemaps );
+		}
+	}
+
+	public function init() {
+		$this->option_name = 'wds_settings_options';
+		$this->name = 'settings';
+		$this->slug = Smartcrawl_Settings::TAB_SETTINGS;
+		$this->action_url = admin_url( 'options.php' );
+		$this->title = __( 'Settings', 'wds' );
+		$this->page_title = __( 'SmartCrawl Wizard: Settings', 'wds' );
+
+		add_action( 'admin_init', array( $this, 'activate_component' ) );
+		add_action( 'admin_init', array( $this, 'save_moz_api_credentials' ) );
+		add_action( 'admin_footer', array( $this, 'add_native_dismissible_notice_javascript' ) );
+		add_action( 'network_admin_notices', array( $this, 'wp_org_rating_request' ) );
+		add_action( 'admin_notices', array( $this, 'wp_org_rating_request' ) );
+		add_action( 'network_admin_notices', array( $this, 'import_notice' ) );
+
+		if ( $this->display_single_site_import_notice() ) {
+			add_action( 'admin_notices', array( $this, 'import_notice' ) );
+		}
+
+		Smartcrawl_Controller_IO::serve();
+
+		parent::init();
+	}
+
+	private function display_single_site_import_notice() {
+		// Always display on non-multisite
+		return ! is_multisite()
+		       // or when site-wide flag is off and the current site is the main network site
+		       || ( is_main_site() && ! smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' ) );
+	}
+
+	/**
+	 * Updates the options to activate a component.
+	 */
+	public function activate_component() {
+		$data = $this->get_request_data();
+		if ( isset( $data['wds-activate-component'] ) ) {
+			$component = sanitize_key( $data['wds-activate-component'] );
+			$options = self::get_specific_options( $this->option_name );
+			$options[ $component ] = 1;
+
+			self::update_specific_options( $this->option_name, $options );
+
+			wp_redirect( esc_url_raw( add_query_arg( array() ) ) );
+		}
+	}
+
+	public function save_moz_api_credentials() {
+		$data = $this->get_request_data();
+		if ( isset( $data['wds-moz-access-id'] ) || isset( $data['wds-moz-secret-key'] ) ) {
+			$options = self::get_specific_options( $this->option_name );
+			$options['access-id'] = sanitize_text_field( $data['wds-moz-access-id'] );
+			$options['secret-key'] = sanitize_text_field( $data['wds-moz-secret-key'] );
+
+			self::update_specific_options( $this->option_name, $options );
+
+			wp_redirect( esc_url_raw( add_query_arg( array() ) ) );
+		}
 	}
 
 	/**
@@ -292,16 +309,16 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 		$arguments['default_roles'] = $this->_get_filtered_roles();
 
 		$arguments['active_components'] = Smartcrawl_Settings::get_known_components();
-		if ( ! empty( $arguments['active_components'][ Smartcrawl_Settings::COMP_SEOMOZ ] ) ) { unset( $arguments['active_components'][ Smartcrawl_Settings::COMP_SEOMOZ ] ); }
 
 		$arguments['slugs'] = array(
-			Smartcrawl_Settings::TAB_ONPAGE => __( 'Title & Meta', 'wds' ),
-			Smartcrawl_Settings::TAB_CHECKUP => __( 'SEO Checkup', 'wds' ),
-			Smartcrawl_Settings::TAB_SITEMAP => __( 'Sitemaps', 'wds' ),
+			Smartcrawl_Settings::TAB_CHECKUP   => __( 'SEO Checkup', 'wds' ),
+			Smartcrawl_Settings::TAB_ONPAGE    => __( 'Title & Meta', 'wds' ),
+			Smartcrawl_Settings::TAB_SOCIAL    => __( 'Social', 'wds' ),
+			Smartcrawl_Settings::TAB_SITEMAP   => __( 'Sitemap', 'wds' ),
 			Smartcrawl_Settings::TAB_AUTOLINKS => __( 'Advanced Tools', 'wds' ),
-			Smartcrawl_Settings::TAB_SOCIAL => __( 'Social', 'wds' ),
-			Smartcrawl_Settings::TAB_SETTINGS => __( 'Settings', 'wds' ),
+			Smartcrawl_Settings::TAB_SETTINGS  => __( 'Settings', 'wds' ),
 		);
+		$arguments['plugin_modules'] = $this->get_plugin_modules();
 
 		if ( is_multisite() ) {
 			$arguments['blog_tabs'] = self::get_blog_tabs();
@@ -324,18 +341,53 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 			'home' => __( 'Home page', 'wds' ),
 		);
 
-		$arguments['google_msg'] = ! empty( $smartcrawl_options['verification-google'] )
-			? '<code>' . esc_html( '<meta name="google-site-verification" value="' ) . esc_attr( $smartcrawl_options['verification-google'] ) . esc_html( '" />' ) . '</code>'
-			: '<small>' . esc_html( __( 'No META tag will be added', 'wds' ) ) . '</small>';
-
-		$arguments['bing_msg'] = ! empty( $smartcrawl_options['verification-bing'] )
-			? '<code>' . esc_html( '<meta name="msvalidate.01" content="' ) . esc_attr( $smartcrawl_options['verification-bing'] ) . esc_html( '" />' ) . '</code>'
-			: '<small>' . esc_html( __( 'No META tag will be added', 'wds' ) ) . '</small>';
-
 		$arguments['active_tab'] = $this->_get_last_active_tab( 'tab_general_settings' );
 
 		wp_enqueue_script( 'wds-admin-settings' );
 		$this->_render_page( 'settings/settings', $arguments );
+	}
+
+	private function get_plugin_modules() {
+		// All available modules:
+		$all_plugin_modules = array(
+			'checkup'   => __( 'SEO Checkup', 'wds' ),
+			'onpage'    => __( 'Title & Meta', 'wds' ),
+			'social'    => __( 'Social', 'wds' ),
+			'sitemap'   => __( 'Sitemap', 'wds' ),
+			'autolinks' => __( 'Advanced Tools', 'wds' ),
+		);
+
+		if ( ! is_multisite() || is_network_admin() ) {
+			return $all_plugin_modules;
+		}
+
+		// The modules that are to be shown in the sub-site settings:
+		$sub_site_modules = array();
+		$active_blog_tabs = self::get_blog_tabs();
+		foreach ( $all_plugin_modules as $plugin_module => $label ) {
+			if (
+				array_key_exists( 'wds_' . $plugin_module, $active_blog_tabs )
+				// Only display the checkup option on the main site or network admin (handled above)
+				&& ( 'checkup' !== $plugin_module || is_main_site() )
+			) {
+				$sub_site_modules[ $plugin_module ] = $label;
+			}
+		}
+
+		return $sub_site_modules;
+	}
+
+	/**
+	 * Get allowed blog tabs
+	 *
+	 * @return array
+	 */
+	public static function get_blog_tabs() {
+		$blog_tabs = get_site_option( 'wds_blog_tabs' );
+
+		return is_array( $blog_tabs )
+			? $blog_tabs
+			: array();
 	}
 
 	/**
@@ -390,102 +442,127 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 			$this->options['secret-key'] = '';
 		}
 
-		if ( ! isset( $this->options['analysis-seo'] ) ) { $this->options['analysis-seo'] = false; }
-		if ( ! isset( $this->options['analysis-readability'] ) ) { $this->options['analysis-readability'] = false; }
-		if ( ! isset( $this->options['extras-admin_bar'] ) ) { $this->options['extras-admin_bar'] = true; }
+		if ( ! isset( $this->options['analysis-seo'] ) ) {
+			$this->options['analysis-seo'] = false;
+		}
+		if ( ! isset( $this->options['analysis-readability'] ) ) {
+			$this->options['analysis-readability'] = false;
+		}
+		if ( ! isset( $this->options['extras-admin_bar'] ) ) {
+			$this->options['extras-admin_bar'] = true;
+		}
 
 		apply_filters( 'wds_defaults', $this->options );
 
 		self::update_specific_options( $this->option_name, $this->options );
 	}
 
-	private function get_old_user_role_options() {
-		$option_keys = array(
-			'seo_metabox_permission_level',
-			'seo_metabox_301_permission_level',
-			'urlmetrics_metabox_permission_level',
-		);
-
-		$old_options = self::get_specific_options( $this->option_name );
-
-		$user_role_options = array();
-		foreach ( $option_keys as $option_key ) {
-			if ( $option_value = smartcrawl_get_array_value( $old_options, $option_key ) ) {
-				$user_role_options[ $option_key ] = $option_value;
-			}
-		}
-
-		return $user_role_options;
-	}
-
-	private function get_yoast_importer()
-	{
-		if (!class_exists('SmartCrawl_Yoast_Importer')) {
-			require_once(SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_yoast_importer.php');
-		}
-
-		return new SmartCrawl_Yoast_Importer();
-	}
-
-	private function get_aioseop_importer()
-	{
-		if (!class_exists('SmartCrawl_AIOSEOP_Importer')) {
-			require_once(SMARTCRAWL_PLUGIN_DIR . '/core/class_wds_aioseop_importer.php');
-		}
-
-		return new SmartCrawl_AIOSEOP_Importer();
-	}
-
-	function import_notice()
-	{
-		if (!current_user_can('manage_options')) {
+	public function import_notice() {
+		if ( ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 
 		$this->show_import_notice(
-			$this->get_yoast_importer(),
-			esc_html__('Yoast SEO', 'wds'),
+			new Smartcrawl_Yoast_Importer(),
+			'yoast-seo',
+			esc_html__( 'Yoast SEO', 'wds' ),
 			'wordpress-seo/wp-seo.php'
 		);
 
 		$this->show_import_notice(
-			$this->get_aioseop_importer(),
-			esc_html__('All In One SEO', 'wds'),
+			new Smartcrawl_AIOSEOP_Importer(),
+			'all-in-one-seo',
+			esc_html__( 'All In One SEO', 'wds' ),
 			'all-in-one-seo-pack/all_in_one_seo_pack.php'
 		);
 	}
 
 	/**
-	 * @param $importer SmartCrawl_Importer
+	 * @param $importer Smartcrawl_Importer
+	 * @param $plugin_key
 	 * @param $plugin_name string
+	 * @param $plugin
 	 */
-	function show_import_notice($importer, $plugin_name, $plugin)
-	{
-		if (!$importer->data_exists() || !is_plugin_active($plugin)) {
+	private function show_import_notice( $importer, $plugin_key, $plugin_name, $plugin ) {
+		if ( ! $importer->data_exists() || ! is_plugin_active( $plugin ) ) {
 			return;
 		}
 
 		$auto_import_url = sprintf(
 			'<a href="%s">%s</a>',
-			Smartcrawl_Settings_Admin::admin_url(Smartcrawl_Settings::TAB_SETTINGS) . '#tab_import_export',
-			esc_html__('auto-import', 'wds')
+			Smartcrawl_Settings_Admin::admin_url( Smartcrawl_Settings::TAB_SETTINGS ) . '#tab_import_export',
+			esc_html__( 'auto-import', 'wds' )
 		);
 		$message = sprintf(
-			esc_html__("We've detected you have %s installed. Do you want to %s your configuration into SmartCrawl?"),
+			esc_html__( "We've detected you have %1\$s, installed. Do you want to %2\$s your configuration into SmartCrawl?" ),
 			$plugin_name,
 			$auto_import_url
 		);
+		$message_key = sprintf( '%s-import', $plugin_key );
+		$dismissed_messages = get_user_meta( get_current_user_id(), 'wds_dismissed_messages', true );
+		$is_message_dismissed = smartcrawl_get_array_value( $dismissed_messages, $message_key ) === true;
+
+		if ( $is_message_dismissed ) {
+			return;
+		}
 
 		?>
-		<div class="notice-warning notice is-dismissible"><p><?php echo $message; ?></p></div>
+		<div class="notice-warning notice is-dismissible wds-native-dismissible-notice"
+		     data-message-key="<?php echo esc_attr( $message_key ); ?>">
+			<p><?php echo wp_kses_post($message); ?></p>
+		</div>
 		<?php
 	}
 
-	private function display_single_site_import_notice()
-	{
-		// Always display on non-multisite
-		return !is_multisite()
-		// or when site-wide flag is off and the current site is the main network site
-		|| (is_main_site() && !smartcrawl_is_switch_active('SMARTCRAWL_SITEWIDE'));
+	public function add_native_dismissible_notice_javascript() {
+		$this->_render( 'native-dismissible-notice-javascript' );
+	}
+
+	public function wp_org_rating_request() {
+		$service = $this->get_service();
+		if ( $service->is_member() ) {
+			return;
+		}
+
+		if ( is_multisite() && ! is_network_admin() ) {
+			return;
+		}
+
+		$now = current_time( 'timestamp' );
+		$free_install_date = get_site_option( 'wds-free-install-date' );
+		if ( ( $now - (int) $free_install_date ) < 604800 ) {
+			return;
+		}
+
+		$key = 'wp-org-rating-request';
+		$dismissed_messages = get_user_meta( get_current_user_id(), 'wds_dismissed_messages', true );
+		$is_message_dismissed = smartcrawl_get_array_value( $dismissed_messages, $key ) === true;
+		if ( $is_message_dismissed ) {
+			return;
+		}
+
+		?>
+		<div class="notice-info notice is-dismissible wds-native-dismissible-notice"
+		     data-message-key="<?php echo esc_attr( $key ); ?>">
+			<p><?php esc_html_e( 'We have spent countless hours developing this free plugin for you, and we would really appreciate it if you dropped us a quick rating.', 'wds' ); ?></p>
+			<a target="_blank" href="https://wordpress.org/plugins/smartcrawl-seo#reviews" class="button button-small">
+				<?php esc_html_e( 'Rate SmartCrawl', 'wds' ); ?>
+			</a>
+			<p></p>
+		</div>
+		<?php
+	}
+
+	/**
+	 * @return Smartcrawl_Checkup_Service
+	 */
+	private static function get_service() {
+		$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
+
+		return $service;
+	}
+
+	private function get_request_data() {
+		return isset( $_POST['_wds_nonce'] ) && wp_verify_nonce( $_POST['_wds_nonce'], 'wds-settings-nonce' ) ? $_POST : array();
 	}
 }

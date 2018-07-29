@@ -37,7 +37,9 @@ if( ! function_exists( 'get_masterslider' ) ) {
         global $msp_instances, $mspdb;
 
         if( ! $mspdb->get_slider( $slider_id, 'ID' ) ){
-            if( $slider_data = $mspdb->get_slider( $slider_id, 'alias' ) ){
+            if( empty( $slider_id ) ){
+                return '';
+            } elseif( $slider_data = $mspdb->get_slider( $slider_id, 'alias' ) ){
                 $slider_id   = $slider_data['ID'];
             } else{
                 return __( 'Invalid slider ID or alias.', MSWP_TEXT_DOMAIN );
@@ -585,8 +587,8 @@ function msp_the_post_thumbnail( $post_id = null, $size = array( null, null ), $
     if( ! function_exists( 'msp_get_auto_post_thumbnail' ) ){
 
         function msp_get_auto_post_thumbnail( $post_id = null, $image_from = 'auto', $size = 'full', $crop = null , $quality = 100 ) {
-
-            $image = msp_get_auto_post_thumbnail_src( $post_id, $image_from, $size, $crop, $quality );
+            $post  = get_post( $post_id );
+            $image = msp_get_auto_post_thumbnail_src( $post->ID, $image_from, $size, $crop, $quality );
 
             return isset( $image[0] ) && ! empty( $image[0] ) ? '<img src="'.$image[0].'" alt="'.$post->post_title.'" />' : '';
         }
@@ -1114,69 +1116,124 @@ function msp_get_template_tag_value( $tag_name, $post = null, $args = null ){
 
 		case 'wc_price':
 			if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-			$product = get_product( $post );
-			$value = wc_price( $product->get_price(), 2 );
+			$value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $value = wc_price( $product->get_price(), 2 );
+                }
+            }
 			break;
 
 		case 'wc_regular_price':
 			if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-			$product = get_product( $post );
-			$value = wc_price( $product->get_regular_price() );
+			$value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $value = wc_price( $product->get_regular_price() );
+                }
+            }
 			break;
 
 		case 'wc_sale_price':
 			if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-			$product = get_product( $post );
-			$value = $product->get_sale_price() ? wc_price( $product->get_sale_price() ) : '';
-			break;
+			$value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $value = $product->get_sale_price() ? wc_price( $product->get_sale_price() ) : '';
+                }
+            }
+            break;
 
 		case 'wc_stock_status':
 			if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-			$product = get_product( $post );
-			$value = $product->is_in_stock() ? __( 'In Stock', MSWP_TEXT_DOMAIN ) : __( 'Out of Stock', MSWP_TEXT_DOMAIN );
+			$value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $value = $product->is_in_stock() ? __( 'In Stock', MSWP_TEXT_DOMAIN ) : __( 'Out of Stock', MSWP_TEXT_DOMAIN );
+                }
+            }
 			break;
 
 		case 'wc_stock_quantity':
 			if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-			$product = get_product( $post );
-			$value = (int) $product->get_stock_quantity();
-			break;
+            $value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $value = (int) $product->get_stock_quantity();
+                }
+            }
+            break;
 
 		case 'wc_weight':
 			if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-			$product = get_product( $post );
-			$value = $product->get_weight() ? wc_format_decimal( $product->get_weight(), 2 ) : '';
-			break;
+			$value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $value = $product->get_weight() ? wc_format_decimal( $product->get_weight(), 2 ) : '';
+                }
+            }
+            break;
 
 		case 'wc_product_cats':
 			if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-			$product = get_product( $post );
-			$value = wp_get_post_terms( $product->id, 'product_cat', array( 'fields' => 'names' ) );
-			break;
+			$value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $value = wp_get_post_terms( $product->id, 'product_cat', array( 'fields' => 'names' ) );
+                }
+            }
+            break;
 
 		case 'wc_product_tags':
 			if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-			$product = get_product( $post );
-			$value = wp_get_post_terms( $product->id, 'product_tag', array( 'fields' => 'names' ) );
-			break;
+			$value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $value = wp_get_post_terms( $product->id, 'product_tag', array( 'fields' => 'names' ) );
+                }
+            }
+            break;
 
 		case 'wc_total_sales':
 			if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-			$product = get_product( $post );
-			$value = metadata_exists( 'post', $product->id, 'total_sales' ) ? (int) get_post_meta( $product->id, 'total_sales', true ) : 0;
-			break;
+			$value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $value = metadata_exists( 'post', $product->id, 'total_sales' ) ? (int) get_post_meta( $product->id, 'total_sales', true ) : 0;
+                }
+            }
+            break;
 
 		case 'wc_average_rating':
 			if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-			$product = get_product( $post );
-			$value = wc_format_decimal( $product->get_average_rating(), 2 );
-			break;
+			$value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $value = wc_format_decimal( $product->get_average_rating(), 2 );
+                }
+            }
+            break;
 
 		case 'wc_rating_count':
 			if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-			$product = get_product( $post );
-			$value = (int) $product->get_rating_count();
-			break;
+			$value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $value = (int) $product->get_rating_count();
+                }
+            }
+            break;
 
         case 'wc_add_to_cart_link':
             if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
@@ -1185,10 +1242,15 @@ function msp_get_template_tag_value( $tag_name, $post = null, $args = null ){
 
         case 'wc_add_to_cart':
             if ( ! msp_is_plugin_active( 'woocommerce/woocommerce.php' ) ) break;
-            $link    = get_permalink( $post ) . '?add-to-cart=' . $post->ID;
-            $product = get_product( $post );
-            $label   = $product->add_to_cart_text();
-            $value   = sprintf( '<a href="%s">%s</a>', $link, $label );
+            $value = '';
+            if( $post ){
+                $product = wc_get_product( $post );
+                if( $product instanceof WC_Product ){
+                    $link    = get_permalink( $post ) . '?add-to-cart=' . $post->ID;
+                    $label   = $product->add_to_cart_text();
+                    $value   = sprintf( '<a href="%s">%s</a>', $link, $label );
+                }
+            }
             break;
 
 		default:
@@ -1213,9 +1275,12 @@ function msp_get_template_tag_value( $tag_name, $post = null, $args = null ){
 
                 if( isset( $matches[0] ) && is_numeric( $matches[0] ) ){
                     $points_length = (int) $matches[0];
-
-                    $product = get_product( $post );
-                    $value = wc_price( $product->get_price(), array( 'decimals' => $points_length ) );
+                    if( $post ){
+                        $product = wc_get_product( $post );
+                        if( $product instanceof WC_Product ){
+                            $value = wc_price( $product->get_price(), array( 'decimals' => $points_length ) );
+                        }
+                    }
                     break;
                 }
 

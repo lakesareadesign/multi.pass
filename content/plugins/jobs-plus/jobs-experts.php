@@ -3,7 +3,7 @@
  * Plugin Name: Jobs and Experts
  * Plugin URI: https://premium.wpmudev.org/project/jobs-and-experts/
  * Description: Match people with projects to industry professionals – it’s more than your average WordPress jobs board.
- * Version: 1.0.2.5
+ * Version: 1.0.3
  * Author:WPMU DEV
  * Author URI: http://premium.wpmudev.org
  * Text Domain: jbp
@@ -405,6 +405,8 @@ class Jobs_Experts {
 		$landing = new JE_Landing_Shortcode_Controller();
 		$shared  = new JE_Shared_Controller();
 
+		//GDPR
+		new JE_GDPR_Controller();
 		//load addon
 		//load add on
 		$addons = $this->settings()->plugins;

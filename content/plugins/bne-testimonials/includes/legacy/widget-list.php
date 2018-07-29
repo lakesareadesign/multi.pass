@@ -1,17 +1,26 @@
 <?php
 /*
- * 	BNE Testimonials
+ * 	BNE Testimonials Wordpress Plugin
  *	Widget List Class
  *
  * 	@author		Kerry Kline
- * 	@copyright	Copyright (c) 2013-2017, Kerry Kline
+ * 	@copyright	Copyright (c) 2013-2015, Kerry Kline
  * 	@link		http://www.bnecreative.com
  *
  *	@since 		v1.1
  *	@updated	v2.0
  *
+ *	@notice		As of v2.0. This Widget is no longer maintained
+ *				and is depreciated! It has been replaced with
+ *				Bne_Testimonials_Widget which uses the shortcode
+ *				generator to setup the testimonial display.
  *
 */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
+
+
 class bne_testimonials_list_widget extends WP_Widget {
 
 	function __construct() {
@@ -40,6 +49,7 @@ class bne_testimonials_list_widget extends WP_Widget {
 			$name = esc_attr($instance['name']);
 			$image = esc_attr($instance['image']);
 			$image_style = esc_attr($instance['image_style']);
+			$lightbox_rel = esc_attr($instance['lightbox_rel']);
 			$class = esc_attr($instance['class']);
 
 		} else {
@@ -51,6 +61,7 @@ class bne_testimonials_list_widget extends WP_Widget {
 			$name = 'true';
 			$image = 'true';
 			$image_style = 'square';
+			$lightbox_rel = '';
 			$class = '';
 
 		}
@@ -179,6 +190,15 @@ class bne_testimonials_list_widget extends WP_Widget {
 			<!-- Advanced Options -->
 			<div style="border: 1px solid #cccccc; margin: 0 0 5px 0; padding: 8px;">
 				<h4 style="margin:2px 0px;"><?php echo _e('Advanced Options'); ?></h4>
+				<!-- Lightbox Rel Setting -->
+				<p>
+					<label for="<?php echo $this->get_field_id('lightbox_rel'); ?>"><?php _e('Featured Image Lightbox', 'bne-testimonials'); ?>:  </label>
+					<span>rel="</span>
+					<input class="widefat" id="<?php echo $this->get_field_id('lightbox_rel'); ?>" name="<?php echo $this->get_field_name('lightbox_rel'); ?>" type="text" value="<?php echo $lightbox_rel; ?>" style="display:inline-block; width: 100px;"/>
+					<span>"</span>
+					<span style="display:block;padding:5px 0" class="description"><?php echo _e('Only works if a lightbox plugin is installed or your theme provides one which uses the "rel" attribute on the anchor tag. For example, prettyPhoto uses rel="prettyPhoto".', 'bne-testimonials'); ?></span>
+				</p>
+
 				<!-- Custom Class -->
 				<p>
 					<label for="<?php echo $this->get_field_id('class'); ?>"><?php _e('Optional CSS Class Name', 'bne-testimonials'); ?>:</label>
@@ -205,6 +225,7 @@ class bne_testimonials_list_widget extends WP_Widget {
 		$instance['name'] = strip_tags($new_instance['name']);
 		$instance['image'] = strip_tags($new_instance['image']);
 		$instance['image_style'] = strip_tags($new_instance['image_style']);
+		$instance['lightbox_rel'] = strip_tags($new_instance['lightbox_rel']);
 		$instance['class'] = strip_tags($new_instance['class']);
 
 		return $instance;
@@ -223,11 +244,8 @@ class bne_testimonials_list_widget extends WP_Widget {
 			$name = $instance['name'];
 			$image = $instance['image'];
 			$image_style = $instance['image_style'];
+			$lightbox_rel = $instance['lightbox_rel'];
 			$class = $instance['class'];
-
-			// Set Post Order Direction based on Orderby Type
-			//if ($order == 'date') { $order_direction = 'DESC'; } else { $order_direction = 'ASC'; }
-
 
 		// Testimonial Loop Args
 		$query_args = array(
@@ -245,6 +263,8 @@ class bne_testimonials_list_widget extends WP_Widget {
 		// Before Widget
 		echo $before_widget;
 
+
+
 		// Display the widget
 		echo '<div class="bne_testimonial_list_widget">';
 
@@ -252,6 +272,8 @@ class bne_testimonials_list_widget extends WP_Widget {
 		if ( $title ) {
 		  echo $before_title . $title . $after_title;
 		}
+
+
 
 		// Begin the Query
 		$bne_testimonials = new WP_Query( $query_args );
@@ -272,7 +294,7 @@ class bne_testimonials_list_widget extends WP_Widget {
 					while ( $bne_testimonials->have_posts() ) : $bne_testimonials->the_post();
 
 						// Pull in Plugin Options
-						$options = bne_testimonials_options_array( $image_style, null, $image, $name, null );
+						$options = bne_testimonials_options_array( $image_style, $lightbox_rel, $image, $name );
 
 						// Build Single Testimonial
 						echo '<div class="single-bne-testimonial">';
@@ -315,5 +337,8 @@ class bne_testimonials_list_widget extends WP_Widget {
 
 }
 
-// Register Widget
-add_action('widgets_init', create_function('', 'return register_widget("bne_testimonials_list_widget");'));
+/* Register the widget */
+function bne_testimonials_list_widget() {
+	register_widget( 'bne_testimonials_list_widget' );
+}
+add_action( 'widgets_init', 'bne_testimonials_list_widget' );

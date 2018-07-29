@@ -60,24 +60,24 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 33);
+/******/ 	return __webpack_require__(__webpack_require__.s = 34);
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ 33:
+/***/ 34:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-__webpack_require__(34);
-
 __webpack_require__(35);
+
+__webpack_require__(36);
 
 /***/ }),
 
-/***/ 34:
+/***/ 35:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -99,12 +99,11 @@ var _wp$blocks = wp.blocks,
     createBlock = _wp$blocks.createBlock,
     serialize = _wp$blocks.serialize;
 var Button = wp.components.Button;
+var compose = wp.compose.compose;
 var _wp$data = wp.data,
     withDispatch = _wp$data.withDispatch,
     withSelect = _wp$data.withSelect;
-var _wp$element = wp.element,
-    Component = _wp$element.Component,
-    compose = _wp$element.compose;
+var Component = wp.element.Component;
 var addFilter = wp.hooks.addFilter;
 
 /**
@@ -157,15 +156,18 @@ var ConvertToBuilderButton = function (_Component) {
 		value: function convertToBuilder() {
 			var _props = this.props,
 			    getBlocks = _props.getBlocks,
-			    replaceBlocks = _props.replaceBlocks;
+			    insertBlock = _props.insertBlock,
+			    removeBlocks = _props.removeBlocks;
 
 			var blocks = getBlocks();
+			var clientIds = blocks.map(function (block) {
+				return block.clientId;
+			});
 			var content = serialize(blocks).replace(/<!--(.*?)-->/g, '');
 			var block = createBlock('fl-builder/layout', { content: content });
 
-			replaceBlocks(blocks.map(function (block) {
-				return block.uid;
-			}), [block]);
+			removeBlocks(clientIds);
+			insertBlock(block, 0);
 		}
 	}]);
 
@@ -180,7 +182,8 @@ var ConvertToBuilderButton = function (_Component) {
 var ConvertToBuilderButtonConnected = compose(withDispatch(function (dispatch, ownProps) {
 	var editor = dispatch('core/editor');
 	return {
-		replaceBlocks: editor.replaceBlocks
+		insertBlock: editor.insertBlock,
+		removeBlocks: editor.removeBlocks
 	};
 }), withSelect(function (select) {
 	var editor = select('core/editor');
@@ -198,7 +201,7 @@ addFilter('editPost.MoreMenu.tools', 'fl-builder/convert-to-builder/button', fun
 
 /***/ }),
 
-/***/ 35:
+/***/ 36:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -206,7 +209,7 @@ addFilter('editPost.MoreMenu.tools', 'fl-builder/convert-to-builder/button', fun
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-__webpack_require__(36);
+__webpack_require__(37);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -226,14 +229,14 @@ var _wp$components = wp.components,
     Button = _wp$components.Button,
     Placeholder = _wp$components.Placeholder,
     Spinner = _wp$components.Spinner;
+var compose = wp.compose.compose;
 var _wp$data = wp.data,
     subscribe = _wp$data.subscribe,
     withDispatch = _wp$data.withDispatch,
     withSelect = _wp$data.withSelect;
 var _wp$element = wp.element,
     Component = _wp$element.Component,
-    RawHTML = _wp$element.RawHTML,
-    compose = _wp$element.compose;
+    RawHTML = _wp$element.RawHTML;
 
 /**
  * Edit Component
@@ -372,21 +375,21 @@ var LayoutBlockEdit = function (_Component) {
 		key: 'convertToBuilder',
 		value: function convertToBuilder() {
 			var _props2 = this.props,
-			    id = _props2.id,
+			    clientId = _props2.clientId,
 			    getBlocks = _props2.getBlocks,
 			    setAttributes = _props2.setAttributes,
 			    removeBlocks = _props2.removeBlocks;
 
 			var blocks = getBlocks();
 			var content = serialize(blocks);
-			var uids = blocks.map(function (block) {
-				return block.uid;
-			}).filter(function (uid) {
-				return uid !== id;
+			var clientIds = blocks.map(function (block) {
+				return block.clientId;
+			}).filter(function (id) {
+				return id !== clientId;
 			});
 
 			setAttributes({ content: content.replace(/<!--(.*?)-->/g, '') });
-			removeBlocks(uids);
+			removeBlocks(clientIds);
 			this.launchBuilder();
 		}
 	}, {
@@ -394,15 +397,15 @@ var LayoutBlockEdit = function (_Component) {
 		value: function convertToBlocks() {
 			var _props3 = this.props,
 			    attributes = _props3.attributes,
+			    clientId = _props3.clientId,
 			    replaceBlocks = _props3.replaceBlocks,
-			    onReplace = _props3.onReplace,
-			    id = _props3.id;
+			    onReplace = _props3.onReplace;
 
 
 			if (attributes.content && !confirm(strings.warning)) {
 				return;
 			} else if (attributes.content) {
-				replaceBlocks([id], rawHandler({
+				replaceBlocks([clientId], rawHandler({
 					HTML: attributes.content,
 					mode: 'BLOCKS'
 				}));
@@ -472,7 +475,7 @@ if (builder.access && builder.unrestricted || builder.enabled) {
 
 /***/ }),
 
-/***/ 36:
+/***/ 37:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin

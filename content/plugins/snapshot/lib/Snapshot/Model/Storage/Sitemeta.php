@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Storage implementation in WP site options
  *

@@ -39,7 +39,7 @@
  *	@updated 	v2.0
  * 
 */
-function bne_testimonials_options_array( $image_style, $lightbox_rel, $image, $name, $rating ) {
+function bne_testimonials_options_array( $image_style, $lightbox_rel, $image, $name ) {
 	$testimonial_id = get_the_ID();
 	$thumbnail_id = get_post_thumbnail_id( $testimonial_id );
 	$featured_image_class = 'bne-testimonial-featured-image '.$image_style;
@@ -55,8 +55,6 @@ function bne_testimonials_options_array( $image_style, $lightbox_rel, $image, $n
 		'name' 				=> 	$name,
 		'tagline'			=> 	sanitize_text_field( get_post_meta( $testimonial_id, 'tagline', true ) ),
 		'website_url'		=> 	esc_url( get_post_meta( $testimonial_id, 'website-url', true ) ),
-		'show_rating'		=>	$rating,
-		'rating'			=>	get_post_meta( $testimonial_id, 'rating', true )
 	);
 
 	return $options;
@@ -87,7 +85,7 @@ function bne_testimonials_single_structure( $options ) {
 	}
 
 	// Testimonial Details
-	if ( $options['tagline'] || $options['website_url'] || $options['show_rating'] ) {
+	if ( $options['tagline'] || $options['website_url'] ) {
 		$output .= bne_testimonials_details( $options );
 	}
 

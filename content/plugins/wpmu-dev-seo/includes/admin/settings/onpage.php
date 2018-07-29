@@ -2,12 +2,14 @@
 
 class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 
+	const PT_ARCHIVE_PREFIX = 'pt-archive-';
 	private static $_instance;
 
 	public static function get_instance() {
 		if ( empty( self::$_instance ) ) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
+
 		return self::$_instance;
 	}
 
@@ -22,30 +24,59 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 		$result = array();
 
 		// Setup
-		if ( ! empty( $input['wds_onpage-setup'] ) ) { $result['wds_onpage-setup'] = true; }
+		if ( ! empty( $input['wds_onpage-setup'] ) ) {
+			$result['wds_onpage-setup'] = true;
+		}
 
 		// Meta robots
-		if ( ! empty( $input['meta_robots-noindex-main_blog_archive'] ) ) { $result['meta_robots-noindex-main_blog_archive'] = true; }
-		if ( ! empty( $input['meta_robots-nofollow-main_blog_archive'] ) ) { $result['meta_robots-nofollow-main_blog_archive'] = true; }
-		if ( ! empty( $input['meta_robots-main_blog_archive-subsequent_pages'] ) ) { $result['meta_robots-main_blog_archive-subsequent_pages'] = true; }
+		if ( ! empty( $input['meta_robots-noindex-main_blog_archive'] ) ) {
+			$result['meta_robots-noindex-main_blog_archive'] = true;
+		}
+		if ( ! empty( $input['meta_robots-nofollow-main_blog_archive'] ) ) {
+			$result['meta_robots-nofollow-main_blog_archive'] = true;
+		}
+		if ( ! empty( $input['meta_robots-main_blog_archive-subsequent_pages'] ) ) {
+			$result['meta_robots-main_blog_archive-subsequent_pages'] = true;
+		}
 
-		if ( ! empty( $input['meta_robots-noindex-search'] ) ) { $result['meta_robots-noindex-search'] = true; }
-		if ( ! empty( $input['meta_robots-nofollow-search'] ) ) { $result['meta_robots-nofollow-search'] = true; }
+		if ( ! empty( $input['meta_robots-noindex-search'] ) ) {
+			$result['meta_robots-noindex-search'] = true;
+		}
+		if ( ! empty( $input['meta_robots-nofollow-search'] ) ) {
+			$result['meta_robots-nofollow-search'] = true;
+		}
 
 		$tax_options = $this->_get_tax_options( '' );
 		foreach ( $tax_options as $option => $_tax ) {
 			$rbts = $this->get_robots_options_for( $option );
-			if ( ! empty( $rbts ) && is_array( $rbts ) ) { foreach ( array_keys( $rbts ) as $item ) {
-					if ( ! empty( $input[ $item ] ) ) { $result[ $item ] = true; }
-			}
+			if ( ! empty( $rbts ) && is_array( $rbts ) ) {
+				foreach ( array_keys( $rbts ) as $item ) {
+					if ( ! empty( $input[ $item ] ) ) {
+						$result[ $item ] = true;
+					}
+				}
 			}
 		}
 		$other_options = $this->_get_other_types_options( '' );
 		foreach ( $other_options as $option => $_tax ) {
 			$rbts = $this->get_robots_options_for( $option );
-			if ( ! empty( $rbts ) && is_array( $rbts ) ) { foreach ( array_keys( $rbts ) as $item ) {
-					if ( ! empty( $input[ $item ] ) ) { $result[ $item ] = true; }
+			if ( ! empty( $rbts ) && is_array( $rbts ) ) {
+				foreach ( array_keys( $rbts ) as $item ) {
+					if ( ! empty( $input[ $item ] ) ) {
+						$result[ $item ] = true;
+					}
+				}
 			}
+		}
+
+		$archive_post_types = smartcrawl_get_archive_post_types();
+		foreach ( $archive_post_types as $archive_post_type ) {
+			$archive_pt_robot_options = $this->get_robots_options_for( $archive_post_type );
+
+			foreach ( array_keys( $archive_pt_robot_options ) as $archive_pt_robot_option ) {
+				if ( ! empty( $input[ $archive_pt_robot_option ] ) ) {
+					$result[ $archive_pt_robot_option ] = true;
+				}
 			}
 		}
 
@@ -56,61 +87,69 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 			'404',
 			'bp_groups',
 			'bp_profile',
-			'mp_marketplace-base',
-			'mp_marketplace-categories',
-			'mp_marketplace-tags',
 		);
 		foreach ( get_post_types( array( 'public' => true ) ) as $pt ) {
 			$strings[] = $pt;
 			// Allow post types robots noindex/nofollow
-			if ( isset( $input[ "meta_robots-noindex-{$pt}" ] ) ) { $result[ "meta_robots-noindex-{$pt}" ] = true; }
-			if ( isset( $input[ "meta_robots-nofollow-{$pt}" ] ) ) { $result[ "meta_robots-nofollow-{$pt}" ] = true; }
+			if ( isset( $input["meta_robots-noindex-{$pt}"] ) ) {
+				$result["meta_robots-noindex-{$pt}"] = true;
+			}
+			if ( isset( $input["meta_robots-nofollow-{$pt}"] ) ) {
+				$result["meta_robots-nofollow-{$pt}"] = true;
+			}
 		}
 		$strings = array_merge( $strings, array_values( $tax_options ) );
 		$strings = array_merge( $strings, array_values( $other_options ) );
+		$strings = array_merge( $strings, $archive_post_types );
 
 		foreach ( $strings as $str ) {
-			if ( isset( $input[ "title-{$str}" ] ) ) { $result[ "title-{$str}" ] = $this->_sanitize_preserve_macros( $input[ "title-{$str}" ] ); }
-			if ( isset( $input[ "metadesc-{$str}" ] ) ) { $result[ "metadesc-{$str}" ] = $this->_sanitize_preserve_macros( $input[ "metadesc-{$str}" ] ); }
-			if ( isset( $input[ "metakeywords-{$str}" ] ) ) { $result[ "metakeywords-{$str}" ] = $this->_sanitize_preserve_macros( $input[ "metakeywords-{$str}" ] ); }
+			if ( isset( $input["title-{$str}"] ) ) {
+				$result["title-{$str}"] = $this->_sanitize_preserve_macros( $input["title-{$str}"] );
+			}
+			if ( isset( $input["metadesc-{$str}"] ) ) {
+				$result["metadesc-{$str}"] = $this->_sanitize_preserve_macros( $input["metadesc-{$str}"] );
+			}
+			if ( isset( $input["metakeywords-{$str}"] ) ) {
+				$result["metakeywords-{$str}"] = $this->_sanitize_preserve_macros( $input["metakeywords-{$str}"] );
+			}
 
 			// OpenGraph
-			if ( isset( $input[ "og-active-{$str}" ] ) ) {
-				$result[ "og-active-{$str}" ] = (boolean) $input[ "og-active-{$str}" ];
+			if ( isset( $input["og-active-{$str}"] ) ) {
+				$result["og-active-{$str}"] = (boolean) $input["og-active-{$str}"];
 			}
-			if ( isset( $input[ "og-title-{$str}" ] ) ) {
-				$result[ "og-title-{$str}" ] = $this->_sanitize_preserve_macros( $input[ "og-title-{$str}" ] );
+			if ( isset( $input["og-title-{$str}"] ) ) {
+				$result["og-title-{$str}"] = $this->_sanitize_preserve_macros( $input["og-title-{$str}"] );
 			}
-			if ( isset( $input[ "og-description-{$str}" ] ) ) {
-				$result[ "og-description-{$str}" ] = $this->_sanitize_preserve_macros( $input[ "og-description-{$str}" ] );
+			if ( isset( $input["og-description-{$str}"] ) ) {
+				$result["og-description-{$str}"] = $this->_sanitize_preserve_macros( $input["og-description-{$str}"] );
 			}
 
-			$result[ "og-images-{$str}" ] = array();
-			if ( ! empty( $input[ "og-images-{$str}" ] ) && is_array( $input[ "og-images-{$str}" ] ) ) {
-				foreach ( $input[ "og-images-{$str}" ] as $img ) {
-					$result[ "og-images-{$str}" ][] = esc_url( $img );
+			$result["og-images-{$str}"] = array();
+			if ( ! empty( $input["og-images-{$str}"] ) && is_array( $input["og-images-{$str}"] ) ) {
+				foreach ( $input["og-images-{$str}"] as $img ) {
+					$result["og-images-{$str}"][] = esc_url( $img );
 				}
 			}
-			$result[ "og-images-{$str}" ] = array_values( array_filter( array_unique( $result[ "og-images-{$str}" ] ) ) );
+			$result["og-images-{$str}"] = array_values( array_filter( array_unique( $result["og-images-{$str}"] ) ) );
 
 			// Twitter cards
-			if (isset($input["twitter-active-{$str}"])) {
-				$result["twitter-active-{$str}"] = (boolean)$input["twitter-active-{$str}"];
+			if ( isset( $input["twitter-active-{$str}"] ) ) {
+				$result["twitter-active-{$str}"] = (boolean) $input["twitter-active-{$str}"];
 			}
-			if (isset($input["twitter-title-{$str}"])) {
-				$result["twitter-title-{$str}"] = $this->_sanitize_preserve_macros($input["twitter-title-{$str}"]);
+			if ( isset( $input["twitter-title-{$str}"] ) ) {
+				$result["twitter-title-{$str}"] = $this->_sanitize_preserve_macros( $input["twitter-title-{$str}"] );
 			}
-			if (isset($input["twitter-description-{$str}"])) {
-				$result["twitter-description-{$str}"] = $this->_sanitize_preserve_macros($input["twitter-description-{$str}"]);
+			if ( isset( $input["twitter-description-{$str}"] ) ) {
+				$result["twitter-description-{$str}"] = $this->_sanitize_preserve_macros( $input["twitter-description-{$str}"] );
 			}
 
 			$result["twitter-images-{$str}"] = array();
-			if (!empty($input["twitter-images-{$str}"]) && is_array($input["twitter-images-{$str}"])) {
-				foreach ($input["twitter-images-{$str}"] as $img) {
-					$result["twitter-images-{$str}"][] = esc_url($img);
+			if ( ! empty( $input["twitter-images-{$str}"] ) && is_array( $input["twitter-images-{$str}"] ) ) {
+				foreach ( $input["twitter-images-{$str}"] as $img ) {
+					$result["twitter-images-{$str}"][] = esc_url( $img );
 				}
 			}
-			$result["twitter-images-{$str}"] = array_values(array_filter(array_unique($result["twitter-images-{$str}"])));
+			$result["twitter-images-{$str}"] = array_values( array_filter( array_unique( $result["twitter-images-{$str}"] ) ) );
 		}
 
 		// Special case handling for home page keywords
@@ -121,12 +160,10 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 
 		$result['enable-author-archive'] = isset( $input['enable-author-archive'] )
 			? (boolean) $input['enable-author-archive']
-			: false
-		;
+			: false;
 		$result['enable-date-archive'] = isset( $input['enable-date-archive'] )
 			? (boolean) $input['enable-date-archive']
-			: false
-		;
+			: false;
 
 		if ( isset( $input['preset-separator'] ) ) {
 			$result['preset-separator'] = sanitize_text_field( $input['preset-separator'] );
@@ -140,6 +177,78 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 	}
 
 	/**
+	 * Spawn taxonomy options and names, indexed by taxonomy option names
+	 *
+	 * @param string $pfx Prefix options with this
+	 *
+	 * @return array
+	 */
+	protected function _get_tax_options( $pfx = '' ) {
+		$pfx = ! empty( $pfx ) ? rtrim( $pfx, '_' ) . '_' : $pfx;
+		$opts = array();
+		foreach ( get_taxonomies( array( '_builtin' => false ), 'objects' ) as $taxonomy ) {
+			$name = $pfx . str_replace( '-', '_', $taxonomy->name );
+			$opts[ $name ] = $taxonomy->name;
+		}
+
+		return $opts;
+	}
+
+	/**
+	 * Spawns a set of robots options for a given type
+	 *
+	 * @param string $type Archives type to generate the robots options for
+	 * @param bool $include_subsequent_pages_option Whether to include the subsequent pages option.
+	 *
+	 * @return array Generated meta robots option array
+	 */
+	public static function get_robots_options_for( $type, $include_subsequent_pages_option = true ) {
+		$options = array(
+			"meta_robots-noindex-{$type}"  => array(
+				'label'       => __( 'Noindex', 'wds' ),
+				'description' => __( 'Disabling indexing means that this content will not be indexed and searchable in search engines.', 'wds' ),
+			),
+			"meta_robots-nofollow-{$type}" => array(
+				'label'       => __( 'Nofollow', 'wds' ),
+				'description' => __( 'Disabling following means search engines will not follow and crawl links it finds in this content.', 'wds' ),
+			),
+		);
+
+		if ( $include_subsequent_pages_option ) {
+			$options["meta_robots-{$type}-subsequent_pages"] = array(
+				'label'       => __( 'Apply to all pages except the first', 'wds' ),
+				'description' => __( 'If you select this option, the first page will be left alone, but the indexing settings will be applied to subsequent pages.', 'wds' ),
+			);
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Spawn taxonomy options and names, indexed by taxonomy option names
+	 *
+	 * @param string $pfx Prefix options with this
+	 *
+	 * @return array
+	 */
+	protected function _get_other_types_options( $pfx = '' ) {
+		$pfx = ! empty( $pfx ) ? rtrim( $pfx, '_' ) . '_' : $pfx;
+		$opts = array();
+		$other_types = array(
+			'category',
+			'post_tag',
+			'author',
+			'date',
+		);
+		foreach ( $other_types as $value ) {
+			$name = $pfx . $value;
+			$opts[ $name ] = $value;
+		}
+
+		return $opts;
+	}
+
+	/**
 	 * Preserve macros in sanitization
 	 *
 	 * @param string $str String to sanitize
@@ -147,7 +256,9 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 	 * @return string Sanitized string
 	 */
 	private function _sanitize_preserve_macros( $str ) {
-		if ( empty( $str ) ) { return $str; }
+		if ( empty( $str ) ) {
+			return $str;
+		}
 
 		$rpl = '__SMARTCRAWL_MACRO_QUOTES_REPLACEMENT__';
 		$str = preg_replace( '/%%/', $rpl, $str );
@@ -160,12 +271,12 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 	}
 
 	public function init() {
-		$this->option_name     = 'wds_onpage_options';
-		$this->name            = Smartcrawl_Settings::COMP_ONPAGE;
-		$this->slug            = Smartcrawl_Settings::TAB_ONPAGE;
-		$this->action_url      = admin_url( 'options.php' );
-		$this->title           = __( 'Title & Meta', 'wds' );
-		$this->page_title      = __( 'SmartCrawl Wizard: Title & Meta', 'wds' );
+		$this->option_name = 'wds_onpage_options';
+		$this->name = Smartcrawl_Settings::COMP_ONPAGE;
+		$this->slug = Smartcrawl_Settings::TAB_ONPAGE;
+		$this->action_url = admin_url( 'options.php' );
+		$this->title = __( 'Title & Meta', 'wds' );
+		$this->page_title = __( 'SmartCrawl Wizard: Title & Meta', 'wds' );
 
 		add_action( 'wp_ajax_wds-onpage-preview', array( $this, 'json_create_preview' ) );
 
@@ -177,7 +288,7 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 	 * Preview building handler
 	 */
 	public function json_create_preview() {
-		$data = stripslashes_deep( $_POST );
+		$data = $this->get_request_data();
 
 		$src_type = ! empty( $data['type'] ) ? sanitize_text_field( $data['type'] ) : false;
 		$src_title = ! empty( $data['title'] ) ? $this->_sanitize_preserve_macros( $data['title'] ) : false;
@@ -194,9 +305,15 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 		switch ( $src_type ) {
 			case 'search-page':
 				set_query_var( 's', 'Example search phrase' );
+				// Handled the same way as homepage so fall-through intentional
 			case 'author-archive':
 				set_query_var( 'author', get_current_user_id() );
+				// Handled the same way as homepage so fall-through intentional
 			case 'date-archive':
+				set_query_var( 'monthnum', 3 );
+				set_query_var( 'year', 2018 );
+				// Handled the same way as homepage so fall-through intentional
+
 			case 'homepage':
 			case '404-page':
 				$title = smartcrawl_replace_vars( $src_title );
@@ -224,7 +341,7 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 			case 'bp-profile':
 				$bp_profile_args = array(
 					'full_name' => bp_get_loggedin_user_fullname(),
-					'username' => bp_get_loggedin_user_username(),
+					'username'  => bp_get_loggedin_user_username(),
 				);
 
 				$title = smartcrawl_replace_vars( $src_title, $bp_profile_args );
@@ -251,6 +368,22 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 			}
 		}
 
+		if ( ! $updated ) {
+			$archive_post_type_prefix = self::PT_ARCHIVE_PREFIX;
+			foreach ( smartcrawl_get_archive_post_types() as $archive_post_type ) {
+				if ( $archive_post_type !== $src_type ) {
+					continue;
+				}
+
+				$updated = true;
+				$archive_pt = str_replace( $archive_post_type_prefix, '', $archive_post_type );
+
+				$title = smartcrawl_replace_vars( $src_title, get_post_type_object( $archive_pt ) );
+				$description = smartcrawl_replace_vars( $src_meta, get_post_type_object( $archive_pt ) );
+				$link = get_post_type_archive_link( $archive_pt );
+			}
+		}
+
 		// Custom taxonomy?
 		if ( ! $updated ) {
 			foreach ( get_taxonomies() as $tax ) {
@@ -268,15 +401,27 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 			}
 		}
 
-		wp_send_json(array(
-			'status' => $updated,
-			'markup' => $this->_load('onpage/onpage-preview', array(
-				'link' => $link,
-				'title' => $title,
+		wp_send_json( array(
+			'status'   => $updated,
+			'markup'   => $this->_load( 'onpage/onpage-preview', array(
+				'link'        => $link,
+				'title'       => $title,
 				'description' => $description,
-			)),
+			) ),
 			'warnings' => $warnings,
-		));
+		) );
+	}
+
+	private function _get_random_bp_group() {
+		$groups = groups_get_groups( array(
+			'orderby'  => 'random',
+			'per_page' => 1,
+		) );
+
+		$total = isset( $groups['total'] ) ? $groups['total'] : 0;
+		$groups = isset( $groups['groups'] ) ? $groups['groups'] : array();
+
+		return $total > 0 ? $groups[0] : null;
 	}
 
 	/**
@@ -289,17 +434,17 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 	private function _get_random_post( $type = 'post' ) {
 		$args = array(
 			'posts_per_page' => 1,
-			'post_type' => $type,
-			'orderby' => 'random',
+			'post_type'      => $type,
+			'orderby'        => 'random',
 		);
 		if ( 'attachment' === $type ) {
 			$args['post_status'] = 'any';
 		}
 		$q = new WP_Query( $args );
+
 		return ! empty( $q->post )
 			? (array) $q->post
-			: array()
-		;
+			: array();
 	}
 
 	/**
@@ -321,7 +466,69 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 		}
 
 		shuffle( $terms );
+
 		return (array) $terms[0];
+	}
+
+	/**
+	 * Add admin settings page
+	 */
+	public function options_page() {
+		parent::options_page();
+
+		$smartcrawl_options = Smartcrawl_Settings::get_options();
+
+		$arguments = array(
+			'macros'                        => self::get_macros(),
+			'meta_robots_main_blog_archive' => self::get_robots_options_for( 'main_blog_archive' ),
+		);
+
+		foreach ( $this->_get_tax_options( 'meta_robots_' ) as $option => $tax ) {
+			$tax = str_replace( '-', '_', $tax );
+			if ( empty( $arguments[ $option ] ) ) {
+				$arguments[ $option ] = self::get_robots_options_for( $tax );
+			}
+		}
+
+		foreach ( $this->_get_other_types_options( 'meta_robots_' ) as $option => $value ) {
+			if ( empty( $arguments[ $option ] ) ) {
+				$arguments[ $option ] = self::get_robots_options_for( $value );
+			}
+		}
+
+		$archive_post_types = smartcrawl_get_archive_post_type_labels();
+		foreach ( $archive_post_types as $archive_post_type => $archive_post_type_label ) {
+			$arguments['archive_post_type_robots'][ $archive_post_type ] = self::get_robots_options_for( $archive_post_type );
+		}
+		$arguments['archive_post_types'] = $archive_post_types;
+
+		$arguments['meta_robots_search'] = self::get_robots_options_for( 'search', false );
+
+		// Allow for post type options
+		foreach ( get_post_types( array( 'public' => true ) ) as $post_type ) {
+			$arguments['post_robots'][ $post_type ] = self::get_robots_options_for( $post_type, false );
+		}
+
+		$arguments['radio_options'] = array(
+			__( 'No', 'wds' ),
+			__( 'Yes', 'wds' ),
+		);
+
+		$arguments['engines'] = array(
+			'ping-google' => __( 'Google', 'wds' ),
+			'ping-bing'   => __( 'Bing', 'wds' ),
+		);
+
+		$arguments['separators'] = smartcrawl_get_separators();
+
+		$arguments['show_homepage_options'] = $this->_show_homepage_options();
+		$arguments['homepage_title'] = $this->_get_homepage_title( $smartcrawl_options );
+		$arguments['homepage_description'] = $this->_get_homepage_description( $smartcrawl_options );
+
+		$arguments['active_tab'] = $this->_get_last_active_tab( 'tab_homepage' );
+
+		wp_enqueue_script( 'wds-admin-onpage' );
+		$this->_render_page( 'onpage/onpage-settings', $arguments );
 	}
 
 	/**
@@ -360,6 +567,8 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 			'%%spell_pagenumber%%'     => __( 'Current page number, spelled out as numeral in English', 'wds' ),
 			'%%spell_pagetotal%%'      => __( 'Current page total, spelled out as numeral in English', 'wds' ),
 			'%%spell_page%%'           => __( 'Current page number, spelled out as numeral in English', 'wds' ),
+			'%%pt_plural%%'            => __( 'Post type label plural' ),
+			'%%pt_single%%'            => __( 'Post type label singular' ),
 		);
 
 		if ( defined( 'BP_VERSION' ) ) {
@@ -372,241 +581,11 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 		return $macros;
 	}
 
-	/**
-	 * Spawns a set of robots options for a given type
-	 *
-	 * @param string $type Archives type to generate the robots options for
-	 * @param bool   $include_subsequent_pages_option Whether to include the subsequent pages option.
-	 *
-	 * @return array Generated meta robots option array
-	 */
-	public static function get_robots_options_for( $type, $include_subsequent_pages_option = true ) {
-		$options = array(
-			"meta_robots-noindex-{$type}"          => array(
-				'label'       => __( 'Noindex', 'wds' ),
-				'description' => __( 'Disabling indexing means that this content will not be indexed and searchable in search engines.', 'wds' ),
-			),
-			"meta_robots-nofollow-{$type}"         => array(
-				'label'       => __( 'Nofollow', 'wds' ),
-				'description' => __( 'Disabling following means search engines will not follow and crawl links it finds in this content.', 'wds' ),
-			),
-		);
-
-		if ( $include_subsequent_pages_option ) {
-			$options[ "meta_robots-{$type}-subsequent_pages" ] = array(
-				'label'       => __( 'Apply to all pages except the first', 'wds' ),
-				'description' => __( 'If you select this option, the first page will be left alone, but the indexing settings will be applied to subsequent pages.', 'wds' ),
-			);
-		}
-
-		return $options;
-	}
-
-	/**
-	 * Spawn taxonomy options and names, indexed by taxonomy option names
-	 *
-	 * @param string $pfx Prefix options with this
-	 *
-	 * @return array
-	 */
-	protected function _get_tax_options( $pfx = '' ) {
-		$pfx = ! empty( $pfx ) ? rtrim( $pfx, '_' ) . '_' : $pfx;
-		$opts = array();
-		foreach ( get_taxonomies( array( '_builtin' => false ), 'objects' ) as $taxonomy ) {
-			$name = $pfx . str_replace( '-', '_', $taxonomy->name );
-			$opts[ $name ] = $taxonomy->name;
-		}
-		return $opts;
-	}
-
-	/**
-	 * Spawn taxonomy options and names, indexed by taxonomy option names
-	 *
-	 * @param string $pfx Prefix options with this
-	 *
-	 * @return array
-	 */
-	protected function _get_other_types_options( $pfx = '' ) {
-		$pfx = ! empty( $pfx ) ? rtrim( $pfx, '_' ) . '_' : $pfx;
-		$opts = array();
-		$other_types = array(
-			'category',
-			'post_tag',
-			'author',
-			'date',
-		);
-		foreach ( $other_types as $value ) {
-			$name = $pfx . $value;
-			$opts[ $name ] = $value;
-		}
-		return $opts;
-	}
-
-	/**
-	 * Add admin settings page
-	 */
-	public function options_page() {
-		parent::options_page();
-
-		$smartcrawl_options = Smartcrawl_Settings::get_options();
-
-		$arguments = array(
-			'macros' => self::get_macros(),
-			'meta_robots_main_blog_archive' => self::get_robots_options_for( 'main_blog_archive' ),
-		);
-
-		foreach ( $this->_get_tax_options( 'meta_robots_' ) as $option => $tax ) {
-			$tax = str_replace( '-', '_', $tax );
-			if ( empty( $arguments[ $option ] ) ) { $arguments[ $option ] = self::get_robots_options_for( $tax ); }
-		}
-
-		foreach ( $this->_get_other_types_options( 'meta_robots_' ) as $option => $value ) {
-			if ( empty( $arguments[ $option ] ) ) { $arguments[ $option ] = self::get_robots_options_for( $value ); }
-		}
-
-		$arguments['meta_robots_search'] = self::get_robots_options_for( 'search', false );
-
-		// Allow for post type options
-		$arguments['post_robots'] = array(
-			'attachment' => self::get_robots_options_for( 'attachment', false ),
-		);
-
-		$arguments['radio_options'] = array(
-			__( 'No', 'wds' ),
-			__( 'Yes', 'wds' ),
-		);
-
-		$arguments['engines'] = array(
-			'ping-google' => __( 'Google', 'wds' ),
-			'ping-bing' => __( 'Bing', 'wds' ),
-		);
-
-		$arguments['separators'] = smartcrawl_get_separators();
-
-		$arguments['show_homepage_options'] = $this->_show_homepage_options();
-		$arguments['homepage_title'] = $this->_get_homepage_title( $smartcrawl_options );
-		$arguments['homepage_description'] = $this->_get_homepage_description( $smartcrawl_options );
-
-		$arguments['active_tab'] = $this->_get_last_active_tab( 'tab_homepage' );
-
-		wp_enqueue_script( 'wds-admin-onpage' );
-		$this->_render_page( 'onpage/onpage-settings', $arguments );
-	}
-
-	/**
-	 * Default settings
-	 */
-	public function defaults() {
-
-		if ( is_multisite() && SMARTCRAWL_SITEWIDE ) {
-			$this->options = get_site_option( $this->option_name );
-		} else {
-			$this->options = get_option( $this->option_name );
-		}
-
-		if ( empty( $this->options['title-home'] ) ) {
-			$this->options['title-home'] = '%%sitename%%';
-		}
-
-		if ( empty( $this->options['metadesc-home'] ) ) {
-			$this->options['metadesc-home'] = '%%sitedesc%%';
-		}
-
-		if ( empty( $this->options['keywords-home'] ) ) {
-			$this->options['keywords-home'] = '';
-		}
-
-		if ( empty( $this->options['onpage-stylesheet'] ) ) {
-			$this->options['onpage-stylesheet'] = 0;
-		}
-
-		if ( empty( $this->options['onpage-dashboard-widget'] ) ) {
-			$this->options['onpage-dashboard-widget'] = 1;
-		}
-
-		if ( empty( $this->options['onpage-disable-automatic-regeneration'] ) ) {
-			$this->options['onpage-disable-automatic-regeneration'] = 0;
-		}
-
-		foreach ( get_post_types( array( 'public' => true ) ) as $posttype ) {
-			if ( in_array( $posttype, array( 'revision', 'nav_menu_item' ) ) ) { continue; }
-			if ( preg_match( '/^upfront_/', $posttype ) ) { continue; }
-
-			$type_obj = get_post_type_object( $posttype );
-			if ( ! is_object( $type_obj ) ) { continue; }
-
-			if ( empty( $this->options[ 'title-' . $posttype ] ) ) {
-				$this->options[ 'title-' . $posttype ] = '%%title%% %%sep%% %%sitename%%';
-			}
-
-			if ( empty( $this->options[ 'metadesc-' . $posttype ] ) ) {
-				$this->options[ 'metadesc-' . $posttype ] = '%%excerpt%%';
-			}
-		}
-
-		foreach ( get_taxonomies( array( '_builtin' => false ), 'objects' ) as $taxonomy ) {
-			if ( empty( $this->options[ 'title-' . $taxonomy->name ] ) ) {
-				$this->options[ 'title-' . $taxonomy->name ] = '';
-			}
-
-			if ( empty( $this->options[ 'metadesc-' . $taxonomy->name ] ) ) {
-				$this->options[ 'metadesc-' . $taxonomy->name ] = '';
-			}
-		}
-
-		$other_types = array(
-			'category'                  => array( 'title' => '%%category%% %%sep%% %%sitename%%', 'desc' => '%%category_description%%' ),
-			'post_tag'                  => array( 'title' => '%%tag%% %%sep%% %%sitename%%', 'desc' => '%%tag_description%%' ),
-			'author'                    => array( 'title' => '%%name%% %%sep%% %%sitename%%', 'desc' => '' ),
-			'date'                      => array( 'title' => '%%currentdate%% %%sep%% %%sitename%%', 'desc' => '' ),
-			'search'                    => array( 'title' => '%%searchphrase%% %%sep%% %%sitename%%', 'desc' => '' ),
-			'404'                       => array( 'title' => 'Page not found %%sep%% %%sitename%%', 'desc' => '' ),
-			'bp_groups'                 => array( 'title' => '%%bp_group_name%% %%sep%% %%sitename%%', 'desc' => '%%bp_group_description%%' ),
-			'bp_profile'                => array( 'title' => '%%bp_user_username%% %%sep%% %%sitename%%', 'desc' => '%%bp_user_full_name%%' ),
-			'mp_marketplace-base'       => array( 'title' => '', 'desc' => '' ),
-			'mp_marketplace-categories' => array( 'title' => '', 'desc' => '' ),
-			'mp_marketplace-tags'       => array( 'title' => '', 'desc' => '' ),
-		);
-
-		foreach ( $other_types as $key => $value ) {
-			if ( empty( $this->options[ 'title-' . $key ] ) ) {
-				$this->options[ 'title-' . $key ] = $value['title'];
-			}
-
-			if ( empty( $this->options[ 'metadesc-' . $key ] ) ) {
-				$this->options[ 'metadesc-' . $key ] = $value['desc'];
-			}
-		}
-
-		if ( ! isset( $this->options['preset-separator'] ) ) {
-			$this->options['preset-separator'] = 'pipe';
-		}
-
-		if ( ! isset( $this->options['separator'] ) ) {
-			$this->options['separator'] = '';
-		}
-
-		if ( ! isset( $this->options['enable-author-archive'] ) ) {
-			$this->options['enable-author-archive'] = true;
-		}
-
-		if ( ! isset( $this->options['enable-date-archive'] ) ) {
-			$this->options['enable-date-archive'] = true;
-		}
-
-		if ( is_multisite() && SMARTCRAWL_SITEWIDE ) {
-			update_site_option( $this->option_name, $this->options );
-		} else {
-			update_option( $this->option_name, $this->options );
-		}
-
-	}
-
 	private function _show_homepage_options() {
 		if ( is_multisite() ) {
-			$show_homepage_options = SMARTCRAWL_SITEWIDE || 'posts' == get_site_option( 'show_on_front' );
+			$show_homepage_options = SMARTCRAWL_SITEWIDE || 'posts' === get_site_option( 'show_on_front' );
 		} else {
-			$show_homepage_options = 'posts' == get_option( 'show_on_front' );
+			$show_homepage_options = 'posts' === get_option( 'show_on_front' );
 		}
 
 		return $show_homepage_options;
@@ -645,15 +624,174 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 		}
 	}
 
-	private function _get_random_bp_group() {
-		$groups = groups_get_groups(array(
-			'orderby'  => 'random',
-			'per_page' => 1,
-		));
+	/**
+	 * Default settings
+	 */
+	public function defaults() {
 
-		$total = isset( $groups['total'] ) ? $groups['total'] : 0;
-		$groups = isset( $groups['groups'] ) ? $groups['groups'] : array();
+		if ( is_multisite() && SMARTCRAWL_SITEWIDE ) {
+			$this->options = get_site_option( $this->option_name );
+		} else {
+			$this->options = get_option( $this->option_name );
+		}
 
-		return $total > 0 ? $groups[0] : null;
+		if ( empty( $this->options['title-home'] ) ) {
+			$this->options['title-home'] = '%%sitename%%';
+		}
+
+		if ( empty( $this->options['metadesc-home'] ) ) {
+			$this->options['metadesc-home'] = '%%sitedesc%%';
+		}
+
+		if ( empty( $this->options['keywords-home'] ) ) {
+			$this->options['keywords-home'] = '';
+		}
+
+		if ( empty( $this->options['onpage-stylesheet'] ) ) {
+			$this->options['onpage-stylesheet'] = 0;
+		}
+
+		if ( empty( $this->options['onpage-dashboard-widget'] ) ) {
+			$this->options['onpage-dashboard-widget'] = 1;
+		}
+
+		if ( empty( $this->options['onpage-disable-automatic-regeneration'] ) ) {
+			$this->options['onpage-disable-automatic-regeneration'] = 0;
+		}
+
+		foreach ( get_post_types( array( 'public' => true ) ) as $posttype ) {
+			if ( in_array( $posttype, array( 'revision', 'nav_menu_item' ), true ) ) {
+				continue;
+			}
+			if ( preg_match( '/^upfront_/', $posttype ) ) {
+				continue;
+			}
+
+			$type_obj = get_post_type_object( $posttype );
+			if ( ! is_object( $type_obj ) ) {
+				continue;
+			}
+
+			if ( empty( $this->options[ 'title-' . $posttype ] ) ) {
+				$this->options[ 'title-' . $posttype ] = '%%title%% %%sep%% %%sitename%%';
+			}
+
+			if ( empty( $this->options[ 'metadesc-' . $posttype ] ) ) {
+				$this->options[ 'metadesc-' . $posttype ] = '%%excerpt%%';
+			}
+		}
+
+		foreach ( smartcrawl_get_archive_post_types() as $archive_post_type ) {
+			if ( empty( $this->options[ 'title-' . $archive_post_type ] ) ) {
+				$this->options[ 'title-' . $archive_post_type ] = '%%pt_plural%% %%sep%% %%sitename%%';
+			}
+		}
+
+		foreach ( get_taxonomies( array( '_builtin' => false ), 'objects' ) as $taxonomy ) {
+			if ( empty( $this->options[ 'title-' . $taxonomy->name ] ) ) {
+				$this->options[ 'title-' . $taxonomy->name ] = '';
+			}
+
+			if ( empty( $this->options[ 'metadesc-' . $taxonomy->name ] ) ) {
+				$this->options[ 'metadesc-' . $taxonomy->name ] = '';
+			}
+		}
+
+		$other_types = array(
+			'category'   => array(
+				'title' => '%%category%% %%sep%% %%sitename%%',
+				'desc'  => '%%category_description%%',
+			),
+			'post_tag'   => array(
+				'title' => '%%tag%% %%sep%% %%sitename%%',
+				'desc'  => '%%tag_description%%',
+			),
+			'author'     => array(
+				'title' => '%%name%% %%sep%% %%sitename%%',
+				'desc'  => '',
+			),
+			'date'       => array(
+				'title' => '%%currentdate%% %%sep%% %%sitename%%',
+				'desc'  => '',
+			),
+			'search'     => array(
+				'title' => '%%searchphrase%% %%sep%% %%sitename%%',
+				'desc'  => '',
+			),
+			'404'        => array(
+				'title' => 'Page not found %%sep%% %%sitename%%',
+				'desc'  => '',
+			),
+			'bp_groups'  => array(
+				'title' => '%%bp_group_name%% %%sep%% %%sitename%%',
+				'desc'  => '%%bp_group_description%%',
+			),
+			'bp_profile' => array(
+				'title' => '%%bp_user_username%% %%sep%% %%sitename%%',
+				'desc'  => '%%bp_user_full_name%%',
+			),
+		);
+
+		foreach ( $other_types as $key => $value ) {
+			if ( empty( $this->options[ 'title-' . $key ] ) ) {
+				$this->options[ 'title-' . $key ] = $value['title'];
+			}
+
+			if ( empty( $this->options[ 'metadesc-' . $key ] ) ) {
+				$this->options[ 'metadesc-' . $key ] = $value['desc'];
+			}
+		}
+
+		if ( ! isset( $this->options['preset-separator'] ) ) {
+			$this->options['preset-separator'] = 'pipe';
+		}
+
+		if ( ! isset( $this->options['separator'] ) ) {
+			$this->options['separator'] = '';
+		}
+
+		if ( ! isset( $this->options['enable-author-archive'] ) ) {
+			$this->options['enable-author-archive'] = true;
+		}
+
+		if ( ! isset( $this->options['enable-date-archive'] ) ) {
+			$this->options['enable-date-archive'] = true;
+		}
+
+		if ( is_multisite() && SMARTCRAWL_SITEWIDE ) {
+			update_site_option( $this->option_name, $this->options );
+		} else {
+			update_option( $this->option_name, $this->options );
+		}
+
+	}
+
+	/**
+	 * @return array
+	 */
+	private function get_archive_post_types( $prefix = '' ) {
+		$archive_post_types = array();
+		$post_type_args = array(
+			'public'      => true,
+			'has_archive' => true,
+		);
+
+		foreach ( get_post_types( $post_type_args ) as $post_type ) {
+			if ( in_array( $post_type, array( 'revision', 'nav_menu_item' ), true ) ) {
+				continue;
+			}
+
+			$post_type_object = get_post_type_object( $post_type );
+			$archive_post_types[ $prefix . $post_type ] = $post_type_object->labels->name;
+		}
+
+		return $archive_post_types;
+	}
+
+	/**
+	 * @return array
+	 */
+	private function get_request_data() {
+		return isset( $_POST['_wds_nonce'] ) && wp_verify_nonce( $_POST['_wds_nonce'], 'wds-onpage-nonce' ) ? $_POST : array();
 	}
 }

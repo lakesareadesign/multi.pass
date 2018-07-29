@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Storage implementation in Snapshot Session
  *
@@ -25,7 +25,9 @@ class Snapshot_Model_Storage_Session extends Snapshot_Model_Storage {
 	}
 
 	public function load() {
-		if ( empty( $this->_session ) ) { return false; }
+		if ( empty( $this->_session ) ) {
+			return false;
+		}
 
 		if ( empty( $this->_session->data ) ) {
 			$this->_session->load_session();
@@ -40,7 +42,9 @@ class Snapshot_Model_Storage_Session extends Snapshot_Model_Storage {
 	}
 
 	public function save() {
-		if ( empty( $this->_session ) ) { return false; }
+		if ( empty( $this->_session ) ) {
+			return false;
+		}
 
 		$this->_session->data[ $this->get_namespace() ] = $this->_data;
 

@@ -11,19 +11,19 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 	class SnapshotDestinationFTP extends Snapshot_Model_Destination {
 
 		// The slug and name are used to identify the Destination Class
-		var $name_slug;
-		var $name_display;
+		public $name_slug;
+		public $name_display;
 
 		// These vars are used when connecting and sending file to the destination. There is an
 		// inteface function which populates these from the destination data.
-		var $destination_info;
-		var $error_array;
-		var $sftp_connection;
-		var $ftp_connection;
-		var $form_errors;
-		var $protocols;
+		public $destination_info;
+		public $error_array;
+		public $sftp_connection;
+		public $ftp_connection;
+		public $form_errors;
+		public $protocols;
 
-		function on_creation() {
+		public function on_creation() {
 			//private destination slug. Lowercase alpha (a-z) and dashes (-) only please! Must be unique for all destinations
 			$this->name_slug = 'ftp';
 
@@ -36,70 +36,77 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 			$this->load_scripts();
 
 			$this->protocols = array(
-				'ftp'          => __( 'FTP', SNAPSHOT_I18N_DOMAIN ),
-				'sftp'         => __( 'SFTP', SNAPSHOT_I18N_DOMAIN ),
-//				'ftps-implicit-ssl'		=>	__('FTP with Implicit SSL', SNAPSHOT_I18N_DOMAIN),
-				'ftps-tcl-ssl' => __( 'FTP with TSL/SSL', SNAPSHOT_I18N_DOMAIN )
+				'ftp' => __( 'FTP', SNAPSHOT_I18N_DOMAIN ),
+				'sftp' => __( 'SFTP', SNAPSHOT_I18N_DOMAIN ),
+                'ftps-tcl-ssl' => __( 'FTP with TSL/SSL', SNAPSHOT_I18N_DOMAIN )
 			);
 		}
 
-		function destination_ajax_proc() {
+		public function destination_ajax_proc() {
 			$this->init();
+			check_ajax_referer( 'snapshot-ajax-nonce', 'security' );
 
 			//echo "_REQUEST<pre>"; print_r($_REQUEST); echo "</pre>";
 			if ( ! isset( $_POST['snapshot_action'] ) ) {
 				$this->error_array['errorStatus']  = true;
 				$this->error_array['errorArray'][] = "Error: Missing 'snapshot_action' value.";
-				echo json_encode( $this->error_array );
+				echo wp_json_encode( $this->error_array );
 				die();
 			}
 
 			if ( ! isset( $_POST['destination_info'] ) ) {
 				$this->error_array['errorStatus']  = true;
 				$this->error_array['errorArray'][] = "Error: Missing 'destination_info' values.";
-				echo json_encode( $this->error_array );
+				echo wp_json_encode( $this->error_array );
 				die();
 			}
 			$destination_info = $_POST['destination_info'];
 			if ( ! $this->validate_form_data( $destination_info ) ) {
 				$this->error_array['errorStatus']  = true;
 				$this->error_array['errorArray'][] = implode( ', ', $this->form_errors );
-				echo json_encode( $this->error_array );
+				echo wp_json_encode( $this->error_array );
 				die();
 			}
 
-			if ( ( $destination_info['protocol'] == "sftp" && version_compare( phpversion(), "5.3.8", "<" ) ) ) {
+			if ( ( "sftp" === $destination_info['protocol'] && version_compare( phpversion(), "5.3.8", "<" ) ) ) {
 				$this->error_array['errorStatus']  = true;
 				$this->error_array['errorArray'][] = "Error: the SFTP destination requires PHP v5.3.8+.";
-				echo json_encode( $this->error_array );
+				echo wp_json_encode( $this->error_array );
 				die();
 			}
 
-			if ( sanitize_text_field( $_POST['snapshot_action'] ) == "connection-test" ) {
+			if ( sanitize_text_field( $_POST['snapshot_action'] ) === "connection-test" ) {
 				$this->load_class_destination( $destination_info );
 				//echo "destination_info<pre>"; print_r($this->destination_info); echo "</pre>";
 
 				if ( ! $this->login() ) {
-					echo json_encode( $this->error_array );
+					echo wp_json_encode( $this->error_array );
 					die();
 				}
 				if ( ! $this->set_remote_directory() ) {
-					echo json_encode( $this->error_array );
+					echo wp_json_encode( $this->error_array );
 					die();
 				}
 				$this->error_array['responseArray'][] = "Success!";
 
 			}
-			echo json_encode( $this->error_array );
+			echo wp_json_encode( $this->error_array );
 			die();
 		}
 
-		function load_scripts() {
-			if ( ( ! isset( $_GET['page'] ) ) || ( ! in_array( sanitize_text_field( $_GET['page'] ), array( "snapshots_destinations_panel","snapshot_pro_destinations" ) ) ) ) {
+		public function load_scripts() {
+			if ( ! isset( $_REQUEST['destination-noonce-field']  ) ) {
+				return;
+			}
+			if ( ! wp_verify_nonce( $_REQUEST['destination-noonce-field'], 'snapshot-destination' ) ) {
 				return;
 			}
 
-			if ( ( ! isset( $_GET['type'] ) ) || ( sanitize_text_field( $_GET['type'] ) != $this->name_slug ) ) {
+			if ( ( ! isset( $_GET['page'] ) ) || ( ! in_array( sanitize_text_field( $_GET['page'] ), array( "snapshots_destinations_panel", "snapshot_pro_destinations" ), true ) ) ) {
+				return;
+			}
+
+			if ( ( ! isset( $_GET['type'] ) ) || ( sanitize_text_field( $_GET['type'] ) !== $this->name_slug ) ) {
 				return;
 			}
 
@@ -112,7 +119,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 
 		}
 
-		function validate_form_data( $d_info ) {
+		public function validate_form_data( $d_info ) {
 
 			// Will contain the filtered fields from the form (d_info).
 			$destination_info = array();
@@ -135,17 +142,17 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 			return $destination_info;
 		}
 
-		function display_listing_table( $destinations, $edit_url, $delete_url ) {
+		public function display_listing_table( $destinations, $edit_url, $delete_url ) {
 			?>
 			<table class="widefat">
 				<thead>
 				<tr class="form-field">
-					<th class="snapshot-col-delete"><?php _e( 'Delete', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-name"><?php _e( 'Name', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-server"><?php _e( 'Host', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-login"><?php _e( 'Login', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-directory"><?php _e( 'Directory', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-used"><?php _e( 'Used', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th class="snapshot-col-delete"><?php esc_html_e( 'Delete', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th class="snapshot-col-name"><?php esc_html_e( 'Name', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th class="snapshot-col-server"><?php esc_html_e( 'Host', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th class="snapshot-col-login"><?php esc_html_e( 'Login', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th class="snapshot-col-directory"><?php esc_html_e( 'Directory', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th class="snapshot-col-used"><?php esc_html_e( 'Used', SNAPSHOT_I18N_DOMAIN ); ?></th>
 				</tr>
 				<thead>
 				<tbody>
@@ -160,44 +167,68 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 						if ( ! isset( $row_class ) ) {
 							$row_class = "";
 						}
-						$row_class = ( $row_class == '' ? 'alternate' : '' );
+						$row_class = ( '' === $row_class ? 'alternate' : '' );
 
 						?>
-						<tr class="<?php echo $row_class; ?><?php
+						<tr class="<?php echo esc_attr( $row_class ); ?>
+						<?php
 						if ( isset( $item['type'] ) ) {
-							echo ' snapshot-row-filter-type-' . $item['type'];
-						} ?>">
+							echo ' snapshot-row-filter-type-' . esc_attr( $item['type'] );
+						}
+                        ?>
+                        ">
 							<td class="snapshot-col-delete" style="width:5px;"><input type="checkbox"
-							                                                          name="delete-bulk-destination[<?php echo $idx; ?>]"
-							                                                          id="delete-bulk-destination-<?php echo $idx; ?>">
+							                                                          name="delete-bulk-destination[<?php echo esc_attr( $idx ); ?>]"
+							                                                          id="delete-bulk-destination-<?php echo esc_attr( $idx ); ?>">
 							</td>
 
 							<td class="snapshot-col-name"><a
-									href="<?php echo $edit_url ?>item=<?php echo $idx; ?>"><?php echo stripslashes( $item['name'] ) ?></a>
+									href="<?php echo esc_url( $edit_url ); ?>item=<?php echo esc_attr( $idx ); ?>"><?php echo esc_html( stripslashes( $item['name'] ) ); ?></a>
 
 								<div class="row-actions" style="margin:0; padding:0;">
-									<span class="edit"><a href="<?php echo $edit_url ?>item=<?php echo $idx; ?>"><?php
-											_e( 'edit', SNAPSHOT_I18N_DOMAIN ); ?></a></span> | <span class="delete"><a
-											href="<?php
-											echo $delete_url ?>item=<?php echo $idx; ?>&amp;snapshot-noonce-field=<?php
-											echo wp_create_nonce( 'snapshot-delete-destination' ); ?>"><?php _e( 'delete', SNAPSHOT_I18N_DOMAIN ); ?></a></span>
+									<span class="edit">
+										<a href="<?php echo esc_url( $edit_url ); ?>item=<?php echo esc_attr( $idx ); ?>">
+											<?php
+											esc_html_e( 'edit', SNAPSHOT_I18N_DOMAIN );
+                                            ?>
+                                        </a>
+                                    </span> |
+                                    <span class="delete">
+                                    	<a
+											href="
+                                            <?php
+											echo esc_url( $delete_url );
+                                            ?>
+                                            item=<?php echo esc_attr( $idx ); ?>&amp;destination-noonce-field=
+                                            <?php
+											echo esc_attr( wp_create_nonce( 'snapshot-destination' ) );
+                                            ?>
+                                            "><?php esc_html_e( 'delete', SNAPSHOT_I18N_DOMAIN ); ?>
+                                        </a>
+                                    </span>
 								</div>
 							</td>
-							<td class="snapshot-col-server"><?php
+							<td class="snapshot-col-server">
+                            <?php
 								if ( isset( $item['address'] ) ) {
-									echo $item['address'];
+									echo esc_html( $item['address'] );
 								}
-								?></td>
-							<td class="snapshot-col-username"><?php
+								?>
+                                </td>
+							<td class="snapshot-col-username">
+                            <?php
 								if ( isset( $item['username'] ) ) {
-									echo $item['username'];
+									echo esc_html( $item['username'] );
 								}
-								?></td>
-							<td class="snapshot-col-username"><?php
+								?>
+                                </td>
+							<td class="snapshot-col-username">
+                            <?php
 								if ( isset( $item['directory'] ) ) {
-									echo $item['directory'];
+									echo esc_html( $item['directory'] );
 								}
-								?></td>
+								?>
+                                </td>
 
 							<td class="snapshot-col-used"><?php Snapshot_Model_Destination::show_destination_item_count( $idx ); ?></td>
 						</tr>
@@ -206,7 +237,8 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 				} else {
 					?>
 					<tr class="form-field">
-					<td colspan="4"><?php _e( 'No FTP Destinations', SNAPSHOT_I18N_DOMAIN ); ?></td></tr><?php
+					<td colspan="4"><?php esc_html_e( 'No FTP Destinations', SNAPSHOT_I18N_DOMAIN ); ?></td></tr>
+					<?php
 				}
 				?>
 				</tbody>
@@ -217,46 +249,47 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 				<div class="tablenav">
 					<div class="alignleft actions">
 						<input class="button-secondary" type="submit"
-						       value="<?php _e( 'Delete Destination', SNAPSHOT_I18N_DOMAIN ); ?>"/>
+						       value="<?php esc_html_e( 'Delete Destination', SNAPSHOT_I18N_DOMAIN ); ?>"/>
 					</div>
 				</div>
 			<?php
 			}
 		}
 
-		function display_details_form( $item = 0 ) {
+		public function display_details_form( $item = 0 ) {
 			if ( ! $item ) {
 				$item = array();
 			}
 
 			//echo "item<pre>"; print_r($item); echo "</pre>";
 			?>
-			<p><?php _e( 'Define an FTP destination connection. You can define multiple destinations which use FTP. Each destination can connect to different servers with different remote paths.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+			<p><?php esc_html_e( 'Define an FTP destination connection. You can define multiple destinations which use FTP. Each destination can connect to different servers with different remote paths.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 
 			<div id="poststuff" class="metabox-holder">
 			<div style="display: none" id="snapshot-destination-test-result"></div>
 			<div class="postbox" id="snapshot-destination-item">
 
 				<h3 class="hndle">
-					<span><?php echo $this->name_display; ?> <?php _e( 'Destination', SNAPSHOT_I18N_DOMAIN ); ?></span>
+					<span><?php echo esc_html( $this->name_display ); ?> <?php esc_html_e( 'Destination', SNAPSHOT_I18N_DOMAIN ); ?></span>
 				</h3>
 
 				<div class="inside">
 
 					<input type="hidden" name="snapshot-destination[type]" id="snapshot-destination-type"
-					       value="<?php echo $this->name_slug; ?>"/>
+					       value="<?php echo esc_attr( $this->name_slug ); ?>"/>
 					<table class="form-table">
 						<?php
 						if ( ( isset( $this->form_errors ) ) && ( count( $this->form_errors ) ) ) {
 							?>
 							<tr class="form-field">
-								<th scope="row"><?php _e( "Form Errors", SNAPSHOT_I18N_DOMAIN ); ?></th>
+								<th scope="row"><?php esc_html_e( "Form Errors", SNAPSHOT_I18N_DOMAIN ); ?></th>
 								<td>
 									<ul>
 										<?php
 										foreach ( $this->form_errors as $error ) {
 											?>
-											<li><?php echo $error; ?></li><?php
+											<li><?php echo esc_html( $error ); ?></li>
+											<?php
 										}
 										?>
 									</ul>
@@ -267,71 +300,91 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 						?>
 						<tr class="form-field">
 							<th scope="row"><label
-									for="snapshot-destination-name"><?php _e( 'Destination Name', SNAPSHOT_I18N_DOMAIN ); ?></label>
+									for="snapshot-destination-name"><?php esc_html_e( 'Destination Name', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								*
 							</th>
 							<td><input type="text" name="snapshot-destination[name]" id="snapshot-destination-name"
-							           value="<?php if ( isset( $item['name'] ) ) {
-								           echo stripslashes( $item['name'] );
-							           } ?>"/>
+							           value="
+                                       <?php
+                                       if ( isset( $item['name'] ) ) {
+								           echo esc_attr( stripslashes( $item['name'] ) );
+							           }
+                                       ?>
+                                       "/>
 							</td>
 						</tr>
 
 						<tr class="form-field">
 							<th scope="row"><label
-									for="snapshot-destination-address"><?php _e( 'Server Address', SNAPSHOT_I18N_DOMAIN ); ?></label>
+									for="snapshot-destination-address"><?php esc_html_e( 'Server Address', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								*
 							</th>
 							<td><input type="text" name="snapshot-destination[address]"
 							           id="snapshot-destination-address"
-							           value="<?php if ( isset( $item['address'] ) ) {
-								           echo $item['address'];
-							           } ?>"/>
+							           value="
+                                       <?php
+                                       if ( isset( $item['address'] ) ) {
+								           echo esc_attr( $item['address'] );
+							           }
+                                       ?>
+                                       "/>
 
-								<p class="description"><?php _e( 'This should remote server address as in somehost.co or ftp.somehost.com or maybe the IP address 123.456.789.255. Do not use ftp://somehost.com', SNAPSHOT_I18N_DOMAIN ); ?></p>
+								<p class="description"><?php esc_html_e( 'This should remote server address as in somehost.co or ftp.somehost.com or maybe the IP address 123.456.789.255. Do not use ftp://somehost.com', SNAPSHOT_I18N_DOMAIN ); ?></p>
 							</td>
 						</tr>
 
 						<tr class="form-field">
 							<th scope="row"><label
-									for="snapshot-destination-username"><?php _e( 'Username', SNAPSHOT_I18N_DOMAIN ); ?></label>
+									for="snapshot-destination-username"><?php esc_html_e( 'Username', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								*
 							</th>
 							<td><input type="text" name="snapshot-destination[username]"
 							           id="snapshot-destination-username"
-							           value="<?php if ( isset( $item['name'] ) ) {
-								           echo $item['username'];
-							           } ?>"/></td>
+							           value="
+                                       <?php
+                                       if ( isset( $item['name'] ) ) {
+								           echo esc_attr( $item['username'] );
+							           }
+                                       ?>
+                                       "/></td>
 						</tr>
 
 						<tr class="form-field">
 							<th scope="row"><label
-									for="snapshot-destination-password"><?php _e( 'Password', SNAPSHOT_I18N_DOMAIN ); ?></label>
+									for="snapshot-destination-password"><?php esc_html_e( 'Password', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								*
 							</th>
 							<td><input type="password" name="snapshot-destination[password]"
 							           id="snapshot-destination-password"
-							           value="<?php if ( isset( $item['name'] ) ) {
-								           echo $item['password'];
-							           } ?>"/></td>
+							           value="
+                                       <?php
+                                       if ( isset( $item['name'] ) ) {
+								           echo esc_attr( $item['password'] );
+							           }
+                                       ?>
+                                       "/></td>
 						</tr>
 						<tr class="form-field">
 							<th scope="row"><label
-									for="snapshot-destination-directory"><?php _e( 'Remote Path', SNAPSHOT_I18N_DOMAIN ); ?></label>
+									for="snapshot-destination-directory"><?php esc_html_e( 'Remote Path', SNAPSHOT_I18N_DOMAIN ); ?></label>
 							</th>
 							<td><input type="text" name="snapshot-destination[directory]"
 							           id="snapshot-destination-directory"
-							           value="<?php if ( isset( $item['directory'] ) ) {
-								           echo $item['directory'];
-							           } ?>"/>
+							           value="
+                                       <?php
+                                       if ( isset( $item['directory'] ) ) {
+								           echo esc_attr( $item['directory'] );
+							           }
+                                       ?>
+                                       "/>
 
-								<p class="description"><?php _e( 'The remote path will be used to store the snapshot archives. The remote path must already existing on the server. If the remote path is blank then the FTP home directory will be used as the destination for snapshot files. This is a global setting and will be used by all snapshot configurations using this destination. You can also defined a directory used by a specific snapshot.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+								<p class="description"><?php esc_html_e( 'The remote path will be used to store the snapshot archives. The remote path must already existing on the server. If the remote path is blank then the FTP home directory will be used as the destination for snapshot files. This is a global setting and will be used by all snapshot configurations using this destination. You can also defined a directory used by a specific snapshot.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 							</td>
 						</tr>
 
 						<tr class="form-field">
 							<th scope="row"><label
-									for="snapshot-destination-protocol"><?php _e( 'Connection Protocol', SNAPSHOT_I18N_DOMAIN ); ?></label>
+									for="snapshot-destination-protocol"><?php esc_html_e( 'Connection Protocol', SNAPSHOT_I18N_DOMAIN ); ?></label>
 							</th>
 							<td>
 								<select name="snapshot-destination[protocol]" id="snapshot-destination-protocol">
@@ -339,19 +392,25 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 									foreach ( $this->protocols as $protocol_key => $protocol_label ) {
 										?>
 										<option
-										value="<?php echo $protocol_key ?>" <?php if ( ( isset( $item['protocol'] ) ) && ( $item['protocol'] == $protocol_key ) ) {
+										value="<?php echo esc_attr( $protocol_key ); ?>"
+										<?php
+                                        if ( ( isset( $item['protocol'] ) ) && ( $item['protocol'] === $protocol_key ) ) {
 											echo ' selected="selected" ';
-										} ?> ><?php echo $protocol_label; ?></option><?php
+										}
+                                        ?>
+                                         ><?php echo esc_html( $protocol_label ); ?></option>
+                                        <?php
 									}
 									?>
 								</select>
 
-								<p class="description"><?php _e( 'FTP: uses standard PHP library functions.  (default)<br />SFTP: Implementation use the <a href="http://phpseclib.sourceforge.net" target="_blank">PHP Secure Communications Library</a>. This option may not work depending on how your PHP binaries are compiled.<br />FTPS with TSL/SSL. This option attempts a secure connection. Will only work if PHP and OpenSSL are properly configured on your host and the destination host. This option will not work under Windows using the default PHP binaries. Check the PHP docs for ftp_ssl_connection', SNAPSHOT_I18N_DOMAIN ); ?></p>
+								<p class="description"><?php echo wp_kses_post( __( 'FTP: uses standard PHP library functions.  (default)<br />SFTP: Implementation use the <a href="http://phpseclib.sourceforge.net" target="_blank">PHP Secure Communications Library</a>. This option may not work depending on how your PHP binaries are compiled.<br />FTPS with TSL/SSL. This option attempts a secure connection. Will only work if PHP and OpenSSL are properly configured on your host and the destination host. This option will not work under Windows using the default PHP binaries. Check the PHP docs for ftp_ssl_connection', SNAPSHOT_I18N_DOMAIN ) ); ?></p>
 							</td>
 						</tr>
 
 						<?php //if (!isset($item['ssl'])) { $item['ssl'] = "yes"; } ?>
-						<?php /* ?>
+						<?php
+                        /* ?>
 					<tr class="form-field">
 						<th scope="row"><label for="snapshot-destination-ssl"><?php _e('Use sFTP Connection', SNAPSHOT_I18N_DOMAIN); ?></label></th>
 						<td>
@@ -363,62 +422,84 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 							<p class="description"><?php _e('Default: Yes. If set to yes, will attempt to connect to the remote server using a secure connection using the <a href="http://phpseclib.sourceforge.net" target="_blank">PHP Secure Communications Library</a>. This option may not work depending on how your PHP binaries are compiled. This option will not work under Windows. Suggestion is to try SSL. If the test connection fails then try setting SSL to no.', SNAPSHOT_I18N_DOMAIN); ?></p>
 						</td>
 					</tr>
-<?php */ ?>
+<?php */
+?>
 						<tr class="form-field">
 							<th scope="row"><label
-									for="snapshot-destination-port"><?php _e( 'Server Port (optional)', SNAPSHOT_I18N_DOMAIN ); ?></label>
+									for="snapshot-destination-port"><?php esc_html_e( 'Server Port (optional)', SNAPSHOT_I18N_DOMAIN ); ?></label>
 							</th>
 							<td><input type="text" name="snapshot-destination[port]" id="snapshot-destination-port"
-							           value="<?php if ( isset( $item['port'] ) ) {
-								           echo $item['port'];
-							           } ?>"/>
+							           value="
+                                       <?php
+                                       if ( isset( $item['port'] ) ) {
+								           echo esc_attr( $item['port'] );
+							           }
+                                       ?>
+                                       "/>
 
-								<p class="description"><?php _e( 'In most normal cases the port should be left blank. Only in rare cases where the system administrator set the default FTP/sFTP port to some other value should the port be set here. If left blank the port will be assumed as 21 for FTP or 22 for sFTP.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+								<p class="description"><?php esc_html_e( 'In most normal cases the port should be left blank. Only in rare cases where the system administrator set the default FTP/sFTP port to some other value should the port be set here. If left blank the port will be assumed as 21 for FTP or 22 for sFTP.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 							</td>
 						</tr>
 
 						<tr class="form-field">
 							<th scope="row"><label
-									for="snapshot-destination-timeout"><?php _e( 'Server Timeout', SNAPSHOT_I18N_DOMAIN ); ?></label>
+									for="snapshot-destination-timeout"><?php esc_html_e( 'Server Timeout', SNAPSHOT_I18N_DOMAIN ); ?></label>
 							</th>
 							<td><input type="text" name="snapshot-destination[timeout]"
 							           id="snapshot-destination-timeout"
-							           value="<?php if ( isset( $item['timeout'] ) ) {
-								           echo $item['timeout'];
-							           } ?>"/>
+							           value="
+                                       <?php
+                                       if ( isset( $item['timeout'] ) ) {
+								           echo esc_attr( $item['timeout'] );
+							           }
+                                       ?>
+                                       "/>
 
-								<p class="description"><?php _e( 'The default timeout for PHP FTP connections is 90 seconds. Sometimes this timeout needs to be longer for slower connections to busy servers.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+								<p class="description"><?php esc_html_e( 'The default timeout for PHP FTP connections is 90 seconds. Sometimes this timeout needs to be longer for slower connections to busy servers.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 							</td>
 						</tr>
 
-						<?php if ( ! isset( $item['passive'] ) ) {
+						<?php
+                        if ( ! isset( $item['passive'] ) ) {
 							$item['passive'] = "no";
-						} ?>
+						}
+                        ?>
 						<tr class="form-field">
 							<th scope="row"><label
-									for="snapshot-destination-passive"><?php _e( 'Passive Mode', SNAPSHOT_I18N_DOMAIN ); ?></label>
+									for="snapshot-destination-passive"><?php esc_html_e( 'Passive Mode', SNAPSHOT_I18N_DOMAIN ); ?></label>
 							</th>
 							<td>
 								<select name="snapshot-destination[passive]" id="snapshot-destination-passive">
-									<option value="yes" <?php if ( $item['passive'] == "yes" ) {
+									<option value="yes"
+                                    <?php
+                                    if ( "yes" === $item['passive'] ) {
 										echo ' selected="selected" ';
-									} ?> >Yes
+									}
+                                    ?>
+                                     >Yes
 									</option>
-									<option value="no" <?php if ( $item['passive'] == "no" ) {
+									<option value="no"
+                                    <?php
+                                    if ( "no" === $item['passive'] ) {
 										echo ' selected="selected" ';
-									} ?> >No
+									}
+                                    ?>
+                                     >No
 									</option>
 								</select>
 
-								<p class="description"><?php _e( 'Default: No. This options turns on or off passive mode. In passive mode, data connections are initiated by the client, rather than by the server. It may be needed if the client is behind firewall.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+								<p class="description"><?php esc_html_e( 'Default: No. This options turns on or off passive mode. In passive mode, data connections are initiated by the client, rather than by the server. It may be needed if the client is behind firewall.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 							</td>
 						</tr>
 
 						<tr class="form-field" id="snapshot-destination-test-connection-container">
 							<th scope="row">&nbsp;</th>
 							<td>
-								<button id="snapshot-destination-test-connection" class="button-seconary" name=""><?php
-									_e( 'Test Connection', SNAPSHOT_I18N_DOMAIN ); ?></button>
+								<button id="snapshot-destination-test-connection" class="button-seconary" name="">
+								<?php
+									esc_html_e( 'Test Connection', SNAPSHOT_I18N_DOMAIN );
+								?>
+                                </button>
 								<div id="snapshot-ajax-destination-test-result" style="display:none"></div>
 
 							</td>
@@ -429,7 +510,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 		<?php
 		}
 
-		function init() {
+		public function init() {
 
 			if ( isset( $this->destination_info ) ) {
 				unset( $this->destination_info );
@@ -456,7 +537,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 			}
 		}
 
-		function load_class_destination( $d_info ) {
+		public function load_class_destination( $d_info ) {
 
 			if ( isset( $d_info['type'] ) ) {
 				$this->destination_info['type'] = esc_attr( $d_info['type'] );
@@ -489,7 +570,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 					$this->destination_info['ssl'] = "no";
 				}
 
-				if ( $this->destination_info['ssl'] == "no" ) {
+				if ( "no" === $this->destination_info['ssl'] ) {
 					$this->destination_info['protocol'] = "ftp";
 				} else {
 					$this->destination_info['protocol'] = "sftp";
@@ -509,9 +590,9 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 
 				$this->destination_info['port'] = intval( $d_info['port'] );
 
-				if ( $this->destination_info['port'] == 0 ) {
+				if ( 0 === $this->destination_info['port'] ) {
 
-					if ( $this->destination_info['protocol'] == "sftp" ) {
+					if ( "sftp" === $this->destination_info['protocol'] ) {
 						$this->destination_info['port'] = 22;
 					} else {
 						$this->destination_info['port'] = 21;
@@ -520,7 +601,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 
 			} else {
 
-				if ( $this->destination_info['protocol'] == "sftp" ) {
+				if ( "sftp" === $this->destination_info['protocol'] ) {
 					$this->destination_info['port'] = 22;
 				} else {
 					$this->destination_info['port'] = 21;
@@ -531,9 +612,9 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 
 				$this->destination_info['timeout'] = intval( $d_info['timeout'] );
 
-				if ( $this->destination_info['timeout'] == 0 ) {
+				if ( 0 === $this->destination_info['timeout'] ) {
 
-					if ( $this->destination_info['protocol'] == "sftp" ) {
+					if ( "sftp" === $this->destination_info['protocol'] ) {
 						$this->destination_info['timeout'] = 90;
 					} else {
 						$this->destination_info['timeout'] = 90;
@@ -542,7 +623,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 
 			} else {
 
-				if ( $this->destination_info['protocol'] == "sftp" ) {
+				if ( "sftp" === $this->destination_info['protocol'] ) {
 					$this->destination_info['timeout'] = 90;
 				} else {
 					$this->destination_info['timeout'] = 90;
@@ -557,16 +638,17 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 			}
 		}
 
-		function login() {
-			if ( $this->destination_info['protocol'] == "sftp" ) {
+		public function login() {
+			if ( "sftp" === $this->destination_info['protocol'] ) {
 
 				$this->error_array['responseArray'][] = "Using sFTP connection";
 				$this->error_array['responseArray'][] = "Connecting to host: " . $this->destination_info['address']
 				                                        . " Port: " . $this->destination_info['port']
 				                                        . " Timeout: " . $this->destination_info['timeout'];
 
+				// phpcs:ignore
 				set_include_path( dirname( __FILE__ ) . DIRECTORY_SEPARATOR . 'phpseclib1.0.10' . PATH_SEPARATOR . get_include_path() );
-				require_once( 'Net/SFTP.php' );
+				require_once  'Net/SFTP.php' ;
 
 				$this->sftp_connection = new Net_SFTP( $this->destination_info['address'], $this->destination_info['port'], $this->destination_info['timeout'] );
 
@@ -586,7 +668,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 					return true;
 				}
 			} else {
-				if ( $this->destination_info['protocol'] == "ftp" ) {
+				if ( "ftp" === $this->destination_info['protocol'] ) {
 					$this->error_array['responseArray'][] = "Using FTP connection";
 
 					$this->error_array['responseArray'][] = "Connecting to host: " . $this->destination_info['address']
@@ -594,7 +676,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 					                                        . " Timeout: " . $this->destination_info['timeout'];
 
 					$this->ftp_connection = ftp_connect( $this->destination_info['address'], intval( $this->destination_info['port'] ) );
-				} else if ( $this->destination_info['protocol'] == "ftps-tcl-ssl" ) {
+				} else if ( "ftps-tcl-ssl" === $this->destination_info['protocol'] ) {
 
 					$this->error_array['responseArray'][] = "Using FTP with TSL/SSL connection";
 
@@ -632,7 +714,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 				} else {
 
 					// turn passive mode on/off
-					if ( $this->destination_info['passive'] == "no" ) {
+					if ( "no" === $this->destination_info['passive'] ) {
 						$this->error_array['responseArray'][] = "Passive mode off.";
 						ftp_pasv( $this->ftp_connection, false );
 					} else {
@@ -640,7 +722,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 						ftp_pasv( $this->ftp_connection, true );
 					}
 
-					@ftp_set_option( $this->ftp_connection, FTP_TIMEOUT_SEC, $this->destination_info['timeout'] );
+					ftp_set_option( $this->ftp_connection, FTP_TIMEOUT_SEC, $this->destination_info['timeout'] );
 					$this->error_array['responseArray'][] = "Timeout set to " . $this->destination_info['timeout'];
 
 					$this->error_array['responseArray'][] = "Login success.";
@@ -651,8 +733,8 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 			}
 		}
 
-		function logout() {
-			if ( $this->destination_info['protocol'] == "sftp" ) {
+		public function logout() {
+			if ( "sftp" === $this->destination_info['protocol'] ) {
 				unset( $this->sftp_connection );
 			} else {
 				ftp_close( $this->ftp_connection );
@@ -660,17 +742,17 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 
 		}
 
-		function get_remote_directory() {
+		public function get_remote_directory() {
 
-			if ( $this->destination_info['protocol'] == "sftp" ) {
+			if ( "sftp" === $this->destination_info['protocol'] ) {
 				return $this->sftp_connection->pwd();
 			} else {
 				return ftp_pwd( $this->ftp_connection );
 			}
 		}
 
-		function set_remote_directory() {
-			if ( $this->destination_info['protocol'] == "sftp" ) {
+		public function set_remote_directory() {
+			if ( "sftp" === $this->destination_info['protocol'] ) {
 
 				if ( strlen( $this->destination_info['directory'] ) ) {
 					if ( ! $this->mkdir( $this->destination_info['directory'] ) ) {
@@ -713,10 +795,10 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 			}
 		}
 
-		function send_file( $filename ) {
-			if ( $this->destination_info['protocol'] == "sftp" ) {
+		public function send_file( $filename ) {
+			if ( "sftp" === $this->destination_info['protocol'] ) {
 				$put_ret = $this->sftp_connection->put( basename( $filename ), $filename, NET_SFTP_LOCAL_FILE );
-				if ( $put_ret != true ) {
+				if ( true !== $put_ret ) {
 					$this->error_array['errorStatus']     = true;
 					$this->error_array['responseArray'][] = "PUT file failed: " . basename( $filename );
 					$this->error_array['errorArray']      = array_merge( $error_array['errorArray'], $this->sftp_connection->getSFTPErrors() );
@@ -825,7 +907,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 			;
 		}
 
-		function sendfile_to_remote( $destination_info, $filename ) {
+		public function sendfile_to_remote( $destination_info, $filename ) {
 
 			$this->init();
 
@@ -846,13 +928,13 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 			return $this->error_array;
 		}
 
-		function mkdir( $directory ) {
+		public function mkdir( $directory ) {
 			if ( ! strlen( $directory ) ) {
 				return;
 			}
 
 			$this->error_array['responseArray'][] = "Changing Directory: " . $directory;
-			if ( $this->destination_info['protocol'] == "sftp" ) {
+			if ( "sftp" === $this->destination_info['protocol'] ) {
 
 				if ( ! $this->sftp_connection ) {
 					return false;
@@ -861,7 +943,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 				$directory_parts = explode( '/', $directory );
 				if ( ( $directory_parts ) && ( count( $directory_parts ) ) ) {
 					$current_path = '';
-					if ( $directory[0] == "/" ) {
+					if ( "/" === $directory[0] ) {
 						$current_path = '/';
 					} else {
 						$current_path = $this->sftp_connection->pwd();
@@ -873,12 +955,12 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 						if ( ! $this->sftp_connection->stat( $current_path ) ) {
 
 							if ( ! $this->sftp_connection->mkdir( $current_path ) ) {
-								return false;;
+								return false;
 							}
 						}
 						$this->sftp_connection->chdir( $current_path );
 
-						if ( $current_path != "/" ) {
+						if ( "/" !== $current_path ) {
 							$current_path .= "/";
 						}
 					}
@@ -894,7 +976,7 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 				$directory_parts = explode( '/', $directory );
 				if ( ( $directory_parts ) && ( count( $directory_parts ) ) ) {
 					$current_path = '';
-					if ( $directory[0] == "/" ) {
+					if ( "/" === $directory[0] ) {
 						$current_path = '/';
 					} else {
 						$current_path = ftp_pwd( $this->ftp_connection );
@@ -911,11 +993,11 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 								return false;
 
 							} else {
-								@ftp_chdir( $this->ftp_connection, $current_path );
+								ftp_chdir( $this->ftp_connection, $current_path );
 							}
 						}
 
-						if ( $current_path != "/" ) {
+						if ( "/" !== $current_path ) {
 							$current_path .= "/";
 						}
 					}
@@ -926,13 +1008,13 @@ if ( ( ! class_exists( 'SnapshotDestinationFTP' ) )
 			}
 		}
 
-		function ftp_directory_exists( $dir ) {
+		public function ftp_directory_exists( $dir ) {
 			// Get the current working directory
 			$origin = ftp_pwd( $this->ftp_connection );
 
-			// Attempt to change directory, suppress errors
-			if ( @ftp_chdir( $this->ftp_connection, $dir ) ) {
-				@ftp_chdir( $this->ftp_connection, $dir );
+			// Attempt to change directory
+			if ( ftp_chdir( $this->ftp_connection, $dir ) ) {
+				ftp_chdir( $this->ftp_connection, $dir );
 
 				return true;
 			}

@@ -33,7 +33,7 @@
   
   <div class="pvl">
     <a id='get_started' class="btn_main"><?php echo sprintf(__('Get Started »', 'shareaholic')); ?></a>
-    <p><small style="font-size:12px; color: rgb(136, 136, 136);"><?php echo sprintf(__('By clicking "Get Started" you agree to Shareholic\'s %sTerms of Service%s and %sPrivacy Policy%s.', 'shareaholic'), '<a href="https://shareaholic.com/terms/?src=wp_admin" target="_new">', '</a>', '<a href="https://shareaholic.com/privacy/?src=wp_admin" target="_new">', '</a>'); ?></small>
+    <p><small style="font-size:12px; color: rgb(136, 136, 136);"><?php echo sprintf(__('By clicking "Get Started" you agree to Shareholic\'s %sTerms of Service%s and %sPrivacy Policy%s.', 'shareaholic'), '<a href="https://www.shareaholic.com/terms/?src=wp_admin" target="_new">', '</a>', '<a href="https://www.shareaholic.com/privacy/?src=wp_admin" target="_new">', '</a>'); ?></small>
 </p>
 
 <p><small style="font-size:10px; line-height: 17px; display: block; font-weight:normal; color: rgb(136, 136, 136);"><?php echo sprintf(__('Note: Shareaholic incorporates trusted 3rd party services like Google Analytics to enhance social analytics and service reliability.', 'shareaholic')); ?> <?php echo sprintf(__('You can toggle this setting under "Advanced Settings" at any time.', 'shareaholic')); ?></small></p>

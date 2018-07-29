@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Model_Fileset_Htaccess extends Snapshot_Model_Fileset {
 
@@ -6,7 +6,7 @@ class Snapshot_Model_Fileset_Htaccess extends Snapshot_Model_Fileset {
 		return '';
 	}
 
-	public function get_files ($chunk=false) {
+	public function get_files ($chunk = false) {
 		$path = $this->get_root();
 		if (empty($path)) return array();
 
@@ -18,7 +18,8 @@ class Snapshot_Model_Fileset_Htaccess extends Snapshot_Model_Fileset {
 
 		foreach ($tests as $test) {
 			$file = trailingslashit($path) . basename($test);
-			if (file_exists($file)) $files[] = $file;
+			if (file_exists($file))
+				$files[] = $file;
 		}
 
 		return $this->_process_file_list($files, $chunk);

@@ -5,6 +5,14 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+1.5.8 - 08/05/2018
+----------------------------------------------------------------------
+- Fix: Bug from bad git merge breaking group shortcodes
+
+1.5.7 - 08/03/2018
+----------------------------------------------------------------------
+- Fix: PHP 5.4 and under compatibility (unfortunately)
+
 1.5.6 - 04/03/2018
 ----------------------------------------------------------------------
 - Fix: UX showing as domain registered when it really wasn't completely. Visit settings page to fix any no-access errors.
@@ -145,4 +153,4 @@ Change Log:
 - Initial Release
 
 
-133620-1522806834-au
+133620-1534734147-au

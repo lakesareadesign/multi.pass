@@ -46,4 +46,3 @@
     </div>
 
 </div><?php // #wph-wizard-settings-animation ?>
-<?php

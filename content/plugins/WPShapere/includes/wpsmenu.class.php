@@ -443,6 +443,8 @@ if(!class_exists('CUSTOMIZEADMINMENU')) {
             $topmenutitle = isset($this->aof_options['custom_admin_menu']['top_menu_title']) ? $this->aof_options['custom_admin_menu']['top_menu_title'] : array();
             $topmenuicon = isset($this->aof_options['custom_admin_menu']['menu_icon']) ? $this->aof_options['custom_admin_menu']['menu_icon'] : array();
             $submenutitle = isset($this->aof_options['custom_admin_menu']['sub_menu_title']) ? $this->aof_options['custom_admin_menu']['sub_menu_title'] : array();
+
+            //echo '<pre>'; print_r($menu); echo '</pre>';
             if(isset($this->hide_menu) && !empty($this->hide_menu)){
                 foreach($this->hide_menu as $key => $row) {
                     array_splice($menu, $key, 0, array($row));
@@ -467,7 +469,7 @@ if(!class_exists('CUSTOMIZEADMINMENU')) {
                 <h2><?php _e('Manage Admin Menu', 'wps'); ?></h2>
                 <div id="message" class="updated below-h2"><p>
                 <?php _e('By default, all menu items will be shown to administrator users. ', 'wps');
-                echo '<a href="' . admin_url() . 'admin.php?page='. WPSHAPERE_MENU_SLUG .'"><strong>';
+                echo '<a href="' . admin_url() . 'admin.php?page='. WPSHAPERE_MENU_SLUG .'#aof_options_tab9"><strong>';
                 echo __('Click here ', 'wps');
                 echo '</strong></a>';
                 echo __('to customize who can access to all menu items.', 'wps');
@@ -526,6 +528,8 @@ if(!class_exists('CUSTOMIZEADMINMENU')) {
                                 <?php $this->Issubpage($value[0]); ?>
 
                                 <div class="alter-menu-contents" id="s">
+
+                                  <?php if(!empty($value[0])) : ?>
                                     <div class="menu_title">
                                         <label for="menu_title"><em><?php _e('Rename Title', 'wps'); ?></em></label>
                                         <input type="text" id="<?php echo "customtitle-top-li-".$tsl;?>" name="custom_admin_menu[top_menu_title][<?php echo $value[2];?>]" value="<?php echo $custom_menu_title;?>" />
@@ -535,6 +539,8 @@ if(!class_exists('CUSTOMIZEADMINMENU')) {
                                         <div id="" data-target="#menu-icon-for-<?php echo $mm_cu; ?>" class="icon-picker <?php echo $menu_icon_class[0] . " " . $menu_icon_class[1]; ?>"></div>
                                         <input type="hidden" id="menu-icon-for-<?php echo $mm_cu++; ?>" name="custom_admin_menu[menu_icon][<?php echo $value[2];?>]" value="<?php echo trim($menu_icon_data); ?>" />
                                     </div>
+                                  <?php endif; ?>
+                                  
                                     <?php echo self::hide_for_menu("top_menu", $value[2], '', $inm); ?>
 
                                     <ol class="menu_child_<?php echo $menu_key; ?> submenu subsortUls" id="sub_menu">
@@ -616,7 +622,7 @@ if(!class_exists('CUSTOMIZEADMINMENU')) {
 
         public function Issubpage($title)
         {
-            if (!empty($title) && isset($title))
+            //if (!empty($title) && isset($title)) //allowed hiding of separators @since 5.0.5
                 echo '<a href="#" class="alter-edit-expand"><i class="fa fa-chevron-down" aria-hidden="true"></i> <span>Edit</span></a>';
         }
 

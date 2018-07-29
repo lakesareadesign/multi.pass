@@ -100,7 +100,7 @@ class ShareaholicUtilities {
    */
   public static function admin_plugin_action_links($links) {
     $settings_link = '<a href="'.esc_url(admin_url('admin.php?page=shareaholic-settings')).'">'.__('Settings', 'shareaholic').'</a>';
-    $premium_link = '<a href="https://shareaholic.com/plans" target="_blank" rel="noopener noreferrer">'.__('Upgrade to Premium', 'shareaholic').'</a>';
+    $premium_link = '<a href="https://www.shareaholic.com/plans" target="_blank" rel="noopener noreferrer">'.__('Upgrade to Premium', 'shareaholic').'</a>';
     $helpdesk_link = '<a href="https://support.shareaholic.com/" target="_blank" rel="noopener noreferrer">'.__('FAQ', 'shareaholic').'</a>';
     
     array_unshift($links, $helpdesk_link);
@@ -132,7 +132,7 @@ class ShareaholicUtilities {
    		'parent' => 'wp_shareaholic_adminbar_menu',
    		'id' => 'wp_shareaholic_adminbar_submenu-analytics',
    		'title' => __('Social Analytics', 'shareaholic'),
-   		'href' => 'https://shareaholic.com/publishers/analytics/'. ShareaholicUtilities::get_host(),
+   		'href' => 'https://www.shareaholic.com/publishers/analytics/'. ShareaholicUtilities::get_host(),
    		'meta' => Array( 'target' => '_blank' )
    	));
    	*/
@@ -148,7 +148,7 @@ class ShareaholicUtilities {
    		'parent' => 'wp_shareaholic_adminbar_menu',
    		'id' => 'wp_shareaholic_adminbar_submenu-general',
    		'title' => __('Dashboard', 'shareaholic'),
-   		'href' => 'https://shareaholic.com/publisher_tools/'.self::get_option('api_key').'/websites/edit/?verification_key='.self::get_option('verification_key'),
+   		'href' => 'https://www.shareaholic.com/publisher_tools/'.self::get_option('api_key').'/websites/edit/?verification_key='.self::get_option('verification_key'),
    		'meta' => Array( 'target' => '_blank' )
    	));
    	$wp_admin_bar->add_menu(array(

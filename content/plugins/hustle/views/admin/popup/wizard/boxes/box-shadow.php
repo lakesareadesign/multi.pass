@@ -73,4 +73,3 @@
 	</div>
 
 </div><?php // #wph-wizard-design-shadow ?>
-<?php

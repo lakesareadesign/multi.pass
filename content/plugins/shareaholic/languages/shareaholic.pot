@@ -449,7 +449,7 @@ msgid "Shareaholic | share buttons, analytics, related content"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "https://shareaholic.com/publishers/"
+msgid "https://www.shareaholic.com/publishers/"
 msgstr ""
 
 #. Description of the plugin/theme
@@ -461,5 +461,5 @@ msgid ""
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "https://shareaholic.com"
+msgid "https://www.shareaholic.com"
 msgstr ""

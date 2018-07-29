@@ -11,11 +11,12 @@ if ( ! defined( 'WPMUDEV_SNAPSHOT_DESTINATION_GOOGLE_DRIVE_LOAD_LIB' ) ) {
 if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpversion(), '5.2', '>' )
 	 && stristr( WPMUDEV_SNAPSHOT_DESTINATIONS_EXCLUDE, 'SnapshotDestinationGoogleDrive' ) === false ) {
 
-	if ( WPMUDEV_SNAPSHOT_DESTINATION_GOOGLE_DRIVE_LOAD_LIB == 'head' ) {
+	if ( WPMUDEV_SNAPSHOT_DESTINATION_GOOGLE_DRIVE_LOAD_LIB === 'head' ) {
+		// phpcs:ignore
 		set_include_path( dirname( __FILE__ ) . PATH_SEPARATOR . get_include_path() );
-		require_once( dirname( __FILE__ ) . '/Google/Client.php' );
-		require_once( dirname( __FILE__ ) . '/Google/Http/MediaFileUpload.php' );
-		require_once( dirname( __FILE__ ) . '/Google/Service/Drive.php' );
+		require_once  dirname( __FILE__ ) . '/Google/Client.php' ;
+		require_once  dirname( __FILE__ ) . '/Google/Http/MediaFileUpload.php' ;
+		require_once  dirname( __FILE__ ) . '/Google/Service/Drive.php' ;
 	}
 
 	class SnapshotDestinationGoogleDrive extends Snapshot_Model_Destination {
@@ -44,7 +45,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 		public $error_array;
 		public $form_errors;
 
-		function on_creation() {
+		public function on_creation() {
 			//private destination slug. Lowercase alpha (a-z) and dashes (-) only please!
 			$this->name_slug = 'google-drive';
 
@@ -52,13 +53,14 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			$this->name_display = __( 'Google Drive', SNAPSHOT_I18N_DOMAIN );
 		}
 
-		function init() {
+		public function init() {
 
-			if ( WPMUDEV_SNAPSHOT_DESTINATION_GOOGLE_DRIVE_LOAD_LIB == __FUNCTION__ ) {
+			if ( WPMUDEV_SNAPSHOT_DESTINATION_GOOGLE_DRIVE_LOAD_LIB === __FUNCTION__ ) {
+				// phpcs:ignore
 				set_include_path( dirname( __FILE__ ) . PATH_SEPARATOR . get_include_path() );
-				require_once( dirname( __FILE__ ) . '/Google/Client.php' );
-				require_once( dirname( __FILE__ ) . '/Google/Http/MediaFileUpload.php' );
-				require_once( dirname( __FILE__ ) . '/Google/Service/Drive.php' );
+				require_once  dirname( __FILE__ ) . '/Google/Client.php' ;
+				require_once  dirname( __FILE__ ) . '/Google/Http/MediaFileUpload.php' ;
+				require_once  dirname( __FILE__ ) . '/Google/Service/Drive.php' ;
 			}
 
 			if ( isset( $this->destination_info ) ) {
@@ -85,11 +87,14 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 				unset( $this->connection );
 			}
 
+			// We use set_error_handler() as logging code and not debug code.
+			// phpcs:ignore
 			set_error_handler( array( &$this, 'ErrorHandler' ) );
 
 		}
 
-		function ErrorHandler( $errno, $errstr, $errfile, $errline ) {
+		public function ErrorHandler( $errno, $errstr, $errfile, $errline ) {
+			// phpcs:ignore
 			if ( ! error_reporting() ) {
 				return;
 			}
@@ -113,6 +118,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 					break;
 			}
 
+			// phpcs:ignore
 			if ( ! ( error_reporting() & $errno ) ) {
 				return;
 			}
@@ -123,12 +129,12 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			$this->error_array['errorArray'][] = $error_string;
 
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				echo json_encode( $this->error_array );
+				echo wp_json_encode( $this->error_array );
 				die();
 			}
 		}
 
-		function getAuthorizationUrl() {
+		public function getAuthorizationUrl() {
 
 			$this->login();
 			if ( is_object( $this->client ) ) {
@@ -138,20 +144,21 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			}
 		}
 
-		function destination_ajax_proc() {
+		public function destination_ajax_proc() {
 			$this->init();
+			check_ajax_referer( 'snapshot-ajax-nonce', 'security' );
 
 			if ( ! isset( $_POST['snapshot_action'] ) ) {
 				$this->error_array['errorStatus'] = true;
 				$this->error_array['errorArray'][] = "Error: Missing 'snapshot_action' value.";
-				echo json_encode( $this->error_array );
+				echo wp_json_encode( $this->error_array );
 				die();
 			}
 
 			if ( ! isset( $_POST['destination_info'] ) ) {
 				$this->error_array['errorStatus'] = true;
 				$this->error_array['errorArray'][] = "Error: Missing 'destination_info' values.";
-				echo json_encode( $this->error_array );
+				echo wp_json_encode( $this->error_array );
 				die();
 			}
 			$destination_info = $_POST['destination_info'];
@@ -159,44 +166,50 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			if ( ! $this->validate_form_data( $destination_info ) ) {
 				$this->error_array['errorStatus'] = true;
 				$this->error_array['errorArray'][] = implode( ', ', $this->form_errors );
-				echo json_encode( $this->error_array );
+				echo wp_json_encode( $this->error_array );
 				die();
 			}
 
 			$this->load_class_destination( $destination_info );
 
-			if ( $_POST['snapshot_action'] == "connection-test" ) {
+			if ( "connection-test" === $_POST['snapshot_action'] ) {
 
 				if ( ! $this->login() ) {
-					echo json_encode( $this->error_array );
+					echo wp_json_encode( $this->error_array );
 					die();
 				}
 
 				$tmpfname = tempnam( sys_get_temp_dir(), 'Snapshot_' );
-				$handle = fopen( $tmpfname, "w" );
-				fwrite( $handle, "WPMU DEV Snapshot Test connection file." );
-				fclose( $handle );
+				global $wp_filesystem;
 
-				$this->send_file( $tmpfname );
-				echo json_encode( $this->error_array );
-				die();
-
-			} else if ( $_POST['snapshot_action'] == "aws-get-bucket-list" ) {
-
-				if ( ! $this->login() ) {
-					echo json_encode( $this->error_array );
+				if( Snapshot_Helper_Utility::connect_fs() ) {
+					$wp_filesystem->put_contents($tmpfname, "WPMU DEV Snapshot Test connection file.", FS_CHMOD_FILE);
+				} else {
+					$this->error_array['responseArray'][] = "Cannot initialize filesystem ";
+					echo wp_json_encode( $this->error_array );
 					die();
 				}
 
-				echo json_encode( $this->error_array );
+				$this->send_file( $tmpfname );
+				echo wp_json_encode( $this->error_array );
+				die();
+
+			} else if ( "aws-get-bucket-list" === $_POST['snapshot_action'] ) {
+
+				if ( ! $this->login() ) {
+					echo wp_json_encode( $this->error_array );
+					die();
+				}
+
+				echo wp_json_encode( $this->error_array );
 				die();
 			}
 
-			echo json_encode( $this->error_array );
+			echo wp_json_encode( $this->error_array );
 			die();
 		}
 
-		function login() {
+		public function login() {
 
 			try {
 
@@ -225,9 +238,11 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 						} else {
 							//echo "access_token2 NOT expired<br />";
 							//return true;
+							assert(true); // Nothing to see here.
 						}
 					} else {
 						//echo "access_token1 NOT expired<br />";
+						assert(true); // Nothing to see here.
 					}
 				}
 
@@ -237,7 +252,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 //				$this->error_array['errorArray'][] 		= sprintf(__("Error: Could not connect to %s :", SNAPSHOT_I18N_DOMAIN), $this->name_display) . $e->getMessage();
 
 				if ( isset( $this->snapshot_logger ) ) {
-					$this->snapshot_logger->log_message( sprintf( __( "Error: Could not connect to %s: Error: %s", SNAPSHOT_I18N_DOMAIN ), $this->name_display, $e ) );
+					$this->snapshot_logger->log_message( sprintf( __( "Error: Could not connect to %1\$s: Error: %2\$s", SNAPSHOT_I18N_DOMAIN ), $this->name_display, $e ) );
 				}
 
 				//echo "error_array<pre>"; print_r($error_array); echo "</pre>";
@@ -249,7 +264,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			return true;
 		}
 
-		function sendfile_to_remote( $destination_info, $filename ) {
+		public function sendfile_to_remote( $destination_info, $filename ) {
 			$this->init();
 			$this->load_class_destination( $destination_info );
 
@@ -290,9 +305,11 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			}
 
 			try {
-				$items = $this->connection->files->listFiles(array(
-					'q' => join(' and ', $query)
-				))->items;
+				$items = $this->connection->files->listFiles(
+                    array(
+						'q' => join(' and ', $query)
+					)
+                )->items;
 			} catch (Exception $e) {
 				$this->handle_exception($e, 'list');
 			}
@@ -336,7 +353,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			return true;
 		}
 
-		function send_file( $filename ) {
+		public function send_file( $filename ) {
 
 			$this->snapshot_logger->log_message( "Sending file to directory: " . $this->destination_info['directory'] );
 
@@ -364,6 +381,8 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 				// Call the API with the media upload, defer so it doesn't immediately return.
 				$this->client->setDefer( true );
 				$request = $this->connection->files->insert( $file );
+				//Add Support for Team Drive
+				$request->setQueryParam('supportsTeamDrives', 'true' );
 				if ( is_object( $request ) ) {
 					// Create a media file upload to represent our upload process.
 					$media = new Google_0814_Http_MediaFileUpload(
@@ -381,13 +400,14 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 					// Upload the various chunks. $status will be false until the process is
 					// complete.
 					$status = false;
-					$handle = fopen( $filename, "rb" );
+					$handle = fopen( $filename, "rb" ); // phpcs:ignore
 					$chunk_int = 0;
 					$chunk_parts_sum = 0;
+
 					while ( ! $status && ! feof( $handle ) ) {
-						$chunk = fread( $handle, $chunkSizeBytes );
+						$chunk = fread( $handle, $chunkSizeBytes ); // phpcs:ignore
 						$status = $media->nextChunk( $chunk );
-						$chunk_int += 1;
+						$chunk_int++;
 						$chunk_parts_sum += strlen( $chunk );
 						//echo "[". $chunk_int ."] [". number_format(($chunk_parts_sum/$filename_size)*100, 4) ."%] status[". $status ."]<br />";
 
@@ -395,10 +415,11 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 
 						$this->progress_of_files( array( 'file_offset' => $chunk_parts_sum ) );
 					}
-					fclose( $handle );
+
+					fclose( $handle ); // phpcs:ignore
 
 					$httpResultCode = $media->getHttpResultCode();
-					if ( ( $httpResultCode == 200 ) && ( $status != false ) ) {
+					if ( ( 200 === $httpResultCode ) && ( false !== $status ) ) {
 						//echo "status<pre>"; print_r($status); echo "</pre>";
 
 						//$this->snapshot_logger->log_message( "Send file success: " . basename($filename));
@@ -433,7 +454,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			}
 		}
 
-		function progress_of_files( $file_array ) {
+		public function progress_of_files( $file_array ) {
 
 			if ( is_object( $this->snapshot_locker ) ) {
 				$locker_info = $this->snapshot_locker->get_locker_info();
@@ -444,7 +465,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			}
 		}
 
-		function load_fields( $input, $result = null ) {
+		public function load_fields( $input, $result = null ) {
 			$result = is_array( $result ) ? $result : array();
 			$fields = array( 'type', 'name', 'directory', 'clientid', 'clientsecret', 'redirecturi', 'access_token' );
 
@@ -455,7 +476,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			return $result;
 		}
 
-		function load_class_destination( $d_info ) {
+		public function load_class_destination( $d_info ) {
 			$this->destination_info = $this->load_fields( $d_info, $this->destination_info );
 
 			$text_fields = array( 'type', 'name', 'directory', 'clientid', 'clientsecret', 'redirecturi', 'access_token' );
@@ -464,7 +485,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			foreach ( $text_fields as $field ) {
 				if ( empty( $d_info[ $field ] ) ) {
 					$this->destination_info[ $field ] =  '';
-				} elseif ( in_array( $field, $special_fields) ) {
+				} elseif ( in_array( $field, $special_fields, true) ) {
 					$this->destination_info[ $field ] =  $d_info[ $field ];
 				} else {
 					$this->destination_info[ $field ] =  sanitize_text_field( stripslashes( $d_info[ $field ] ) );
@@ -472,7 +493,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			}
 		}
 
-		function validate_form_data( $d_info ) {
+		public function validate_form_data( $d_info ) {
 			$this->init();
 			$this->form_errors = array();
 
@@ -525,23 +546,30 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			}
 
 			if ( $form_step < 4 ) {
-				$destination_info['form-step-url'] = esc_url_raw( add_query_arg( array( 'step' => $form_step, 'snapshot-action' => 'edit' ) ) );
+				$destination_info['form-step-url'] = esc_url_raw(
+					add_query_arg(
+						array(
+							'step' => $form_step,
+							'snapshot-action' => 'edit'
+						)
+                    )
+                );
 			}
 
 			return $destination_info;
 		}
 
-		function display_listing_table( $destinations, $edit_url, $delete_url ) {
+		public function display_listing_table( $destinations, $edit_url, $delete_url ) {
 
 			?>
 			<table class="widefat">
 				<thead>
 				<tr class="form-field">
-					<th class="snapshot-col-delete"><?php _e( 'Delete', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-name"><?php _e( 'Name', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-access-key"><?php _e( 'Client ID', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-directory"><?php _e( 'Directory', SNAPSHOT_I18N_DOMAIN ); ?></th>
-					<th class="snapshot-col-used"><?php _e( 'Used', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th class="snapshot-col-delete"><?php esc_html_e( 'Delete', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th class="snapshot-col-name"><?php esc_html_e( 'Name', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th class="snapshot-col-access-key"><?php esc_html_e( 'Client ID', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th class="snapshot-col-directory"><?php esc_html_e( 'Directory', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th class="snapshot-col-used"><?php esc_html_e( 'Used', SNAPSHOT_I18N_DOMAIN ); ?></th>
 				</tr>
 				<thead>
 				<tbody>
@@ -553,35 +581,44 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 						if ( ! isset( $row_class ) ) {
 							$row_class = "";
 						}
-						$row_class = ( $row_class == '' ? 'alternate' : '' );
+						$row_class = ( '' === $row_class ? 'alternate' : '' );
 
 						?>
-						<tr class="<?php echo $row_class; ?><?php
+						<tr class="<?php echo esc_attr( $row_class ); ?>
+						<?php
 						if ( isset( $item['type'] ) ) {
-							echo ' snapshot-row-filter-type-' . $item['type'];
-						} ?>">
+							echo ' snapshot-row-filter-type-' . esc_attr( $item['type'] );
+						}
+                        ?>
+                        ">
 							<td class="snapshot-col-delete">
-								<input type="checkbox" name="delete-bulk-destination[<?php echo $idx; ?>]" id="delete-bulk-destination-<?php echo $idx; ?>">
+								<input type="checkbox" name="delete-bulk-destination[<?php echo esc_attr( $idx ); ?>]" id="delete-bulk-destination-<?php echo esc_attr( $idx ); ?>">
 							</td>
 
 							<td class="snapshot-col-name"><a
-										href="<?php echo $edit_url; ?>item=<?php echo $idx; ?>"><?php echo stripslashes( $item['name'] ) ?></a>
+										href="<?php echo esc_url( $edit_url ); ?>item=<?php echo esc_attr( $idx ); ?>"><?php echo esc_html( stripslashes( $item['name'] ) ); ?></a>
 
 								<div class="row-actions" style="margin:0; padding:0;">
 									<span class="edit"><a
-												href="<?php echo $edit_url; ?>item=<?php echo $idx; ?>"><?php _e( 'edit', SNAPSHOT_I18N_DOMAIN ); ?></a></span>
+												href="<?php echo esc_url( $edit_url ); ?>item=<?php echo esc_attr( $idx ); ?>"><?php esc_html_e( 'edit', SNAPSHOT_I18N_DOMAIN ); ?></a></span>
 									| <span class="delete"><a
-												href="<?php echo $delete_url; ?>item=<?php echo $idx; ?>&amp;snapshot-noonce-field=<?php echo wp_create_nonce( 'snapshot-delete-destination' ); ?>"><?php _e( 'delete', SNAPSHOT_I18N_DOMAIN ); ?></a></span>
+												href="<?php echo esc_url( $delete_url ); ?>item=<?php echo esc_attr( $idx ); ?>&amp;destination-noonce-field=<?php echo esc_attr( wp_create_nonce( 'snapshot-destination' ) ); ?>"><?php esc_html_e( 'delete', SNAPSHOT_I18N_DOMAIN ); ?></a></span>
 								</div>
 							</td>
-							<td class="snapshot-col-server"><?php
+							<td class="snapshot-col-server">
+                            <?php
 								if ( isset( $item['clientid'] ) ) {
-									echo $item['clientid'];
-								} ?></td>
-							<td class="snapshot-col-directory"><?php
+									echo esc_html( $item['clientid'] );
+								}
+                                ?>
+                                </td>
+							<td class="snapshot-col-directory">
+                            <?php
 								if ( isset( $item['directory'] ) ) {
-									echo $item['directory'];
-								} ?></td>
+									echo esc_html( $item['directory'] );
+								}
+                                ?>
+                                </td>
 							<td class="snapshot-col-used"><?php Snapshot_Model_Destination::show_destination_item_count( $idx ); ?></td>
 						</tr>
 						<?php
@@ -589,9 +626,13 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 				} else {
 					?>
 					<tr class="form-field">
-					<td colspan="4"><?php
-						echo sprintf( __( 'No %s Destinations', SNAPSHOT_I18N_DOMAIN ), $this->name_display ); ?></td>
-					</tr><?php
+					<td colspan="4">
+                    <?php
+						echo sprintf( esc_html__( 'No %s Destinations', SNAPSHOT_I18N_DOMAIN ), esc_html( $this->name_display ) );
+                        ?>
+                        </td>
+					</tr>
+                    <?php
 				}
 				?>
 				</tbody>
@@ -602,7 +643,7 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 				<div class="tablenav">
 					<div class="alignleft actions">
 						<input class="button-secondary" type="submit"
-							   value="<?php _e( 'Delete Destination', SNAPSHOT_I18N_DOMAIN ); ?>"/>
+							   value="<?php esc_attr_e( 'Delete Destination', SNAPSHOT_I18N_DOMAIN ); ?>"/>
 					</div>
 				</div>
 				<?php
@@ -611,9 +652,10 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			<?php
 		}
 
-		function display_details_form( $item = 0 ) {
+		public function display_details_form( $item = 0 ) {
 
 			$this->init();
+			check_ajax_referer( 'snapshot-ajax-nonce', 'security' );
 
 			if ( ( ! isset( $_GET['item'] ) ) || ( empty( $item['name'] ) ) ) {
 				$form_step = 1;
@@ -626,25 +668,29 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 			}
 
 			?>
-			<input type="hidden" name="snapshot-destination[form-step]" id="snapshot-destination-form-step" value="<?php echo $form_step ?>"/>
+			<input type="hidden" name="snapshot-destination[form-step]" id="snapshot-destination-form-step" value="<?php echo esc_attr( $form_step ); ?>"/>
 
-			<p><?php _e( 'Define an Google Drive destination connection. You can define multiple destinations which use Google Drive. Each destination can use different security keys and/or directory.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+			<p><?php esc_html_e( 'Define an Google Drive destination connection. You can define multiple destinations which use Google Drive. Each destination can use different security keys and/or directory.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 			<div id="poststuff" class="metabox-holder">
 			<div style="display: none" id="snapshot-destination-test-result"></div>
 			<div class="postbox" id="snapshot-destination-item">
 
-				<h3 class="hndle"><span><?php _e( 'Google Drive Destination', SNAPSHOT_I18N_DOMAIN ); ?></span></h3>
+				<h3 class="hndle"><span><?php esc_html_e( 'Google Drive Destination', SNAPSHOT_I18N_DOMAIN ); ?></span></h3>
 
 				<div class="inside">
 					<input type="hidden" name="snapshot-destination[type]" id="snapshot-destination-type"
-						   value="<?php echo $this->name_slug; ?>"/>
+						   value="<?php echo esc_attr( $this->name_slug ); ?>"/>
 					<?php
 					if ( ( ! isset( $_GET['item'] ) ) || ( empty( $item['name'] ) ) ) {
 						$form_step = 1;
 						?>
-						<p><?php _e( 'Step 1: Define a name for this Destination', SNAPSHOT_I18N_DOMAIN ) ?><?php if ( $form_step > 1 ) {
-								echo ' - ' . __( '<strong>COMPLETE</strong>' );
-							} ?></p>
+						<p><?php esc_html_e( 'Step 1: Define a name for this Destination', SNAPSHOT_I18N_DOMAIN ); ?>
+							<?php
+	                        if ( $form_step > 1 ) {
+									echo ' - ' . wp_kses_post( __( '<strong>COMPLETE</strong>' ) );
+							}
+	                        ?>
+						</p>
 						<?php
 					}
 					/*
@@ -657,41 +703,57 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 					<table class="form-table">
 						<tr class="form-field">
 							<th scope="row"><label
-										for="snapshot-destination-name"><?php _e( 'Destination Name', SNAPSHOT_I18N_DOMAIN ); ?></label>
+										for="snapshot-destination-name"><?php esc_html_e( 'Destination Name', SNAPSHOT_I18N_DOMAIN ); ?></label>
 							</th>
 							<td>
-								<?php if ( $form_step == 1 ) { ?>
+								<?php if ( 1 === $form_step ) { ?>
 									<input type="text" name="snapshot-destination[name]" id="snapshot-destination-name"
-										   value="<?php if ( isset( $item['name'] ) ) {
-											   echo stripslashes( sanitize_text_field( $item['name'] ) );
-										   } ?>"/>
-								<?php } else if ( $form_step > 1 ) {
-									echo stripslashes( sanitize_text_field( $item['name'] ) )
-									?><input type="hidden" name="snapshot-destination[name]"
-											 id="snapshot-destination-name" value="<?php if ( isset( $item['name'] ) ) {
-										echo stripslashes( sanitize_text_field( $item['name'] ) );
-									} ?>" /><?php
-								} ?>
+										   value="
+                                           <?php
+                                           if ( isset( $item['name'] ) ) {
+											   echo esc_attr( stripslashes( sanitize_text_field( $item['name'] ) ) );
+										   }
+                                           ?>
+                                           "/>
+								<?php
+                                } else if ( $form_step > 1 ) {
+									echo esc_attr( stripslashes( sanitize_text_field( $item['name'] ) ) );
+									?>
+                                    <input type="hidden" name="snapshot-destination[name]"
+											 id="snapshot-destination-name" value="
+                                             <?php
+                                             if ( isset( $item['name'] ) ) {
+										echo esc_attr( stripslashes( sanitize_text_field( $item['name'] ) ) );
+									}
+                                    ?>
+                                    " />
+                                    <?php
+								}
+                                ?>
 							</td>
 						</tr>
 						<tr class="form-field">
 							<th scope="row" style="width:10%"><label
-										for="snapshot-destination-directory"><?php _e( 'Directory ID (optional)', SNAPSHOT_I18N_DOMAIN ); ?></label>
+										for="snapshot-destination-directory"><?php esc_html_e( 'Directory ID (optional)', SNAPSHOT_I18N_DOMAIN ); ?></label>
 							</th>
 							<td style="width:40%"><input type="text" name="snapshot-destination[directory]"
 														 id="snapshot-destination-directory"
-														 value="<?php if ( isset( $item['directory'] ) ) {
-															 echo $item['directory'];
-														 } ?>"/><br/>
+														 value="
+                                                         <?php
+                                                         if ( isset( $item['directory'] ) ) {
+															 echo esc_attr( $item['directory'] );
+														 }
+                                                         ?>
+                                                         "/><br/>
 
-								<p class="description"><?php echo sprintf( __( 'Note: This is not a traditional directory path like /usr/local/path but a unique ID assigned by Google for the directory with your Drive. See the instructions to the right on how to obtain the Directory ID.', SNAPSHOT_I18N_DOMAIN ) ) ?></p>
+								<p class="description"><?php echo sprintf( esc_html__( 'Note: This is not a traditional directory path like /usr/local/path but a unique ID assigned by Google for the directory with your Drive. See the instructions to the right on how to obtain the Directory ID.', SNAPSHOT_I18N_DOMAIN ) ); ?></p>
 							</td>
 							<td style="width:50%">
-								<p><?php _e( 'Instructions', SNAPSHOT_I18N_DOMAIN ) ?></p>
+								<p><?php esc_html_e( 'Instructions', SNAPSHOT_I18N_DOMAIN ); ?></p>
 								<ol>
-									<li><?php echo sprintf( __( 'Go to your %s', SNAPSHOT_I18N_DOMAIN ), '<a href="https://drive.google.com/#my-drive">' . __( 'Drive account. Navigate to or create a new directory where you want to upload the Snapshot archives. Make sure you are viewing the destination directory.', SNAPSHOT_I18N_DOMAIN ) . '</a>' ) ?></li>
-									<li><?php _e( 'The URL for the directory will be something similar to <em>https://drive.google.com/#folders/0B6GD66ctHXXCOWZKNDRIRGJJXS3</em>. The Directory ID would be the last part after /#folders/ <strong><em>0B6GD66ctHXXCOWZKNDRIRGJJXS3</em></strong>.', SNAPSHOT_I18N_DOMAIN ) ?></li>
-									<li><?php _e( 'You can define multiple Directory IDs seperated by comma', SNAPSHOT_I18N_DOMAIN ) ?></li>
+									<li><?php echo sprintf( esc_html__( 'Go to your %s', SNAPSHOT_I18N_DOMAIN ), '<a href="https://drive.google.com/#my-drive">' . esc_html__( 'Drive account. Navigate to or create a new directory where you want to upload the Snapshot archives. Make sure you are viewing the destination directory.', SNAPSHOT_I18N_DOMAIN ) . '</a>' ); ?></li>
+									<li><?php wp_kses_post( 'The URL for the directory will be something similar to <em>https://drive.google.com/#folders/0B6GD66ctHXXCOWZKNDRIRGJJXS3</em>. The Directory ID would be the last part after /#folders/ <strong><em>0B6GD66ctHXXCOWZKNDRIRGJJXS3</em></strong>.', SNAPSHOT_I18N_DOMAIN ); ?></li>
+									<li><?php esc_html_e( 'You can define multiple Directory IDs seperated by comma', SNAPSHOT_I18N_DOMAIN ); ?></li>
 								</ol>
 							</td>
 						</tr>
@@ -699,46 +761,59 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 					<?php
 					if ( $form_step > 1 ) {
 						?>
-						<p><?php _e( 'Step 2: Google Drive Access Credentials', SNAPSHOT_I18N_DOMAIN ) ?><?php if ( $form_step > 2 ) {
-								echo ' - ' . __( '<strong>COMPLETE</strong>' );
-							} ?></p>
+						<p><?php esc_html_e( 'Step 2: Google Drive Access Credentials', SNAPSHOT_I18N_DOMAIN ); ?>
+							<?php
+                        	if ( $form_step > 2 ) {
+								echo ' - ' . esc_html__( '<strong>COMPLETE</strong>' );
+							}
+                            ?>
+                        </p>
 						<table class="form-table">
 							<tr class="form-field">
 								<th scope="row" style="width:10%"><label
-											for="snapshot-destination-clientid"><?php _e( 'Client ID', SNAPSHOT_I18N_DOMAIN ); ?></label>
+											for="snapshot-destination-clientid"><?php esc_html_e( 'Client ID', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td style="width:40%"><input type="text" name="snapshot-destination[clientid]"
 															 id="snapshot-destination-clientid"
-															 value="<?php if ( isset( $item['clientid'] ) ) {
-																 echo sanitize_text_field( $item['clientid'] );
-															 } ?>"/></td>
+															 value="
+                                                             <?php
+                                                             if ( isset( $item['clientid'] ) ) {
+																 echo esc_attr( sanitize_text_field( $item['clientid'] ) );
+															 }
+                                                             ?>
+                                                             "/></td>
 								<td rowspan="3" style="width: 50%">
-									<p><?php _e( 'Instructions', SNAPSHOT_I18N_DOMAIN ) ?></p>
+									<p><?php esc_html_e( 'Instructions', SNAPSHOT_I18N_DOMAIN ); ?></p>
 									<ol>
-										<li><?php echo sprintf( __( 'Go to the %s', SNAPSHOT_I18N_DOMAIN ), '<a href="https://console.developers.google.com/project">' . __( 'Google Project Console', SNAPSHOT_I18N_DOMAIN ) . '</a>' ) ?></li>
-										<li><?php _e( 'Select existing or Add a new Project. If you add a new project you will see a popup. Enter a project name. The Project ID is not important and can be ignored.', SNAPSHOT_I18N_DOMAIN ); ?></li>
-										<li><?php _e( 'Once the Project creation is completed go to the <strong>API Manager</strong>. Here you need to enable the <strong>Drive API</strong>', SNAPSHOT_I18N_DOMAIN ) ?></li>
-										<li><?php _e( 'Next, go to the <strong>API Manager > Credentials</strong> section. Click <strong>Add New Credentials > OAuth 2.0 client ID</strong>. In the popup select the <strong>Application Type</strong> as <strong>Web application</strong>. In the field <strong>Authorized redirect URI</strong> copy the value from the <strong>Redirect URI</strong> field to the left. Then click the <strong>Create Client ID</strong> button.', SNAPSHOT_I18N_DOMAIN ) ?></li>
-										<li><?php _e( 'After the popup closes copy the Client ID and Client Secret from the Google page and paste into the form fields on the left.', SNAPSHOT_I18N_DOMAIN ) ?></li>
+										<li><?php echo sprintf( esc_html__( 'Go to the %s', SNAPSHOT_I18N_DOMAIN ), '<a href="https://console.developers.google.com/project">' . esc_html__( 'Google Project Console', SNAPSHOT_I18N_DOMAIN ) . '</a>' ); ?></li>
+										<li><?php esc_html_e( 'Select existing or Add a new Project. If you add a new project you will see a popup. Enter a project name. The Project ID is not important and can be ignored.', SNAPSHOT_I18N_DOMAIN ); ?></li>
+										<li><?php echo wp_kses_post( 'Once the Project creation is completed go to the <strong>API Manager</strong>. Here you need to enable the <strong>Drive API</strong>', SNAPSHOT_I18N_DOMAIN ); ?></li>
+										<li><?php echo wp_kses_post( 'Next, go to the <strong>API Manager > Credentials</strong> section. Click <strong>Add New Credentials > OAuth 2.0 client ID</strong>. In the popup select the <strong>Application Type</strong> as <strong>Web application</strong>. In the field <strong>Authorized redirect URI</strong> copy the value from the <strong>Redirect URI</strong> field to the left. Then click the <strong>Create Client ID</strong> button.', SNAPSHOT_I18N_DOMAIN ); ?></li>
+										<li><?php esc_html_e( 'After the popup closes copy the Client ID and Client Secret from the Google page and paste into the form fields on the left.', SNAPSHOT_I18N_DOMAIN ); ?></li>
 									</ol>
 								</td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><label
-											for="snapshot-destination-clientsecret"><?php _e( 'Client Secret', SNAPSHOT_I18N_DOMAIN ); ?></label>
+											for="snapshot-destination-clientsecret"><?php esc_html_e( 'Client Secret', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td><input type="password" name="snapshot-destination[clientsecret]"
 										   id="snapshot-destination-clientsecret"
-										   value="<?php if ( isset( $item['clientsecret'] ) ) {
-											   echo sanitize_text_field( $item['clientsecret'] );
-										   } ?>"/></td>
+										   value="
+                                           <?php
+                                           if ( isset( $item['clientsecret'] ) ) {
+											   echo esc_attr( sanitize_text_field( $item['clientsecret'] ) );
+										   }
+                                           ?>
+                                           "/></td>
 							</tr>
 
 							<tr class="form-field">
 								<th scope="row"><label
-											for="snapshot-destination-redirecturi"><?php _e( 'Redirect URI', SNAPSHOT_I18N_DOMAIN ); ?></label>
+											for="snapshot-destination-redirecturi"><?php esc_html_e( 'Redirect URI', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
-								<td><?php
+								<td>
+                                <?php
 									if ( ( is_multisite() ) && ( is_network_admin() ) ) {
 										$item['redirecturi'] = network_admin_url( 'admin.php' );
 									} else {
@@ -762,10 +837,14 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 									}
 
 
-									echo $item['redirecturi'];
+									if ( isset( $_GET['destination-noonce-field'] ) ) {
+										$item['redirecturi'] = esc_url_raw( add_query_arg( 'destination-noonce-field', $_GET['destination-noonce-field'], $item['redirecturi'] ) );
+									}
+
+									echo esc_html( $item['redirecturi'] );
 									?>
 									<input type="hidden" name="snapshot-destination[redirecturi]" id="snapshot-destination-redirecturi"
-										   value="<?php echo sanitize_text_field( $item['redirecturi'] ) ?>"/>
+										   value="<?php echo esc_attr( sanitize_text_field( $item['redirecturi'] ) ); ?>"/>
 
 								</td>
 							</tr>
@@ -776,13 +855,18 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 					<?php
 					if ( $form_step > 2 ) {
 						?>
-						<p><?php _e( 'Step 3: Google Authorize', SNAPSHOT_I18N_DOMAIN ) ?><?php if ( $form_step > 3 ) {
-								echo ' - ' . __( '<strong>COMPLETE</strong>' );
-							} ?></p>
+						<p><?php esc_html_e( 'Step 3: Google Authorize', SNAPSHOT_I18N_DOMAIN ); ?>
+							<?php
+                        	if ( $form_step > 3 ) {
+								echo ' - ' . wp_kses_post( __( '<strong>COMPLETE</strong>' ) );
+							}
+                            ?>
+                        </p>
 						<table class="form-table">
 							<tr class="form-field" id="snapshot-destination-test-connection-container">
 								<th scope="row">&nbsp;</th>
-								<td><?php
+								<td>
+                                <?php
 									$this->load_class_destination( $item );
 									if ( ( isset( $_GET['code'] ) ) && ( ! empty( $_GET['code'] ) ) ) {
 										//echo "code[". $_GET['code'] ."]<br />";
@@ -794,10 +878,11 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 											//echo "access_token<pre>"; "[". $this->destination_info['access_token'] ."]<br />";
 											if ( ! empty( $this->destination_info['access_token'] ) ) {
 												?>
-												<p><?php _e( 'Success. The Google Access Token has been received. <strong>You must save this form one last time to retain the token.</strong> The stored token will be used in the future when connecting to Google', SNAPSHOT_I18N_DOMAIN ); ?></p>
+												<p><?php echo wp_kses_post( __( 'Success. The Google Access Token has been received. <strong>You must save this form one last time to retain the token.</strong> The stored token will be used in the future when connecting to Google', SNAPSHOT_I18N_DOMAIN ) ); ?></p>
 												<input type="hidden" name="snapshot-destination[access_token]"
 													   id="snapshot-destination-access_token"
-													   value="<?php echo urlencode( $this->destination_info['access_token'] ) ?>" /><?php
+													   value="<?php echo rawurlencode( $this->destination_info['access_token'] ); ?>" />
+												<?php
 											}
 										}
 									} else {
@@ -810,13 +895,16 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 										$auth_url = $this->getAuthorizationUrl();
 										if ( ! empty( $auth_url ) ) {
 
-											?><a id="snapshot-destination-authorize-connection" class="button-secondary"
-												 href="<?php echo $auth_url; ?>"><?php echo $auth_button_label ?></a><?php
+											?>
+                                            <a id="snapshot-destination-authorize-connection" class="button-secondary"
+												 href="<?php echo esc_url( $auth_url ); ?>"><?php echo esc_html( $auth_button_label ); ?></a>
+										<?php
 										} else {
-											_e( 'Unable to obtain Authorization URL from Google', SNAPSHOT_I18N_DOMAIN );
+											esc_html_e( 'Unable to obtain Authorization URL from Google', SNAPSHOT_I18N_DOMAIN );
 										}
 									}
-									?></td>
+									?>
+                                    </td>
 							</tr>
 						</table>
 						<?php
@@ -825,13 +913,13 @@ if ( ! class_exists( 'SnapshotDestinationGoogleDrive' ) && version_compare( phpv
 					<?php
 					if ( ( $form_step > 3 ) && ( ! empty( $this->destination_info['access_token'] ) ) ) {
 						?>
-						<p><?php _e( 'Authorization complete.', SNAPSHOT_I18N_DOMAIN ) ?></p>
+						<p><?php esc_html_e( 'Authorization complete.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 						<p>
-							<strong><?php _e( 'You must save this form one last time to retain the token.', SNAPSHOT_I18N_DOMAIN ); ?></strong>
+							<strong><?php esc_html_e( 'You must save this form one last time to retain the token.', SNAPSHOT_I18N_DOMAIN ); ?></strong>
 						</p>
 						<input type="hidden" name="snapshot-destination[access_token]"
 							   id="snapshot-destination-access_token"
-							   value="<?php echo urlencode( $this->destination_info['access_token'] ) ?>"/>
+							   value="<?php echo rawurlencode( $this->destination_info['access_token'] ); ?>"/>
 						<?php
 
 					}

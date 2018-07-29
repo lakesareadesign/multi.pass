@@ -7,7 +7,8 @@
 
 		return $.post(ajaxurl, {
 			action: 'wds-get-sitemap-report',
-			open_type: $open_section.length ? $open_section.data('type') : ''
+			open_type: $open_section.length ? $open_section.data('type') : '',
+			_wds_nonce:_wds_sitemaps.nonce
 		}).done(function (data) {
 			data = (data || {});
 			if (data.success && data.markup) {
@@ -20,7 +21,8 @@
 	function change_issue_status(issue_id, action) {
 		return $.post(ajaxurl, {
 			action: action,
-			issue_id: issue_id
+			issue_id: issue_id,
+			_wds_nonce:_wds_sitemaps.nonce
 		}).done(function (data) {
 			var status = parseInt(
 				(data || {}).status || '0',
@@ -98,30 +100,36 @@
 		return ignore_issue(issue_ids);
 	}
 
-	function add_to_sitemap(path, issue_id) {
+	function add_to_sitemap(path, issue_id, success_callback) {
 		return $.post(ajaxurl, {
 			action: 'wds-sitemap-add_extra',
-			path: path
+			path: path,
+			_wds_nonce:_wds_sitemaps.nonce
 		}).done(function (data) {
 			var status = parseInt(
 				(data || {}).status || '0',
 				10
 			);
 			if (status > 0) {
-				reload_report();
+				success_callback(data);
 			}
 		});
 	}
 
 	function add_single_to_sitemap(e) {
 		var $link = $(e.target),
+			$container = $link.closest('.wds-crawl-issues-table'),
 			$item = $link.closest('[data-issue-id]'),
 			issue_id = $item.data('issueId'),
 			path = $item.data('path');
 
 		before_ajax_request($link.closest('.wds-links-dropdown'));
 
-		return add_to_sitemap(path, issue_id);
+		return add_to_sitemap(path, issue_id, function(data) {
+			$container.prev('.wds-notice').remove();
+			$((data || {}).add_all_message).insertBefore($container);
+			update_report_state();
+		});
 	}
 
 	function add_all_to_sitemap(e) {
@@ -140,7 +148,11 @@
 			paths.push($(issue).data('path'));
 		});
 
-		return add_to_sitemap(paths, issue_ids);
+		return add_to_sitemap(paths, issue_ids, function(data) {
+			$container.prev('.wds-notice').remove();
+			$((data || {}).add_all_message).insertBefore($container);
+			update_report_state();
+		});
 	}
 
 	function update_report_state() {
@@ -181,7 +193,7 @@
 
 		var $link = $(e.target),
 			$container = $link.closest('[data-issue-id]'),
-			$dialog = $container.find('.wds-occurences'),
+			$dialog = $container.find('.wds-occurrences'),
 			dialog_id = $dialog.attr("id");
 
 		if (dialog_id) {
@@ -212,7 +224,8 @@
 			$modal = $container.closest('.wds-redirect'),
 			$fields = $container.find("input"),
 			data = {
-				action: 'wds-service-redirect'
+				action: 'wds-service-redirect',
+			    _wds_nonce:_wds_sitemaps.nonce
 			};
 
 		before_ajax_request($button);
@@ -247,7 +260,8 @@
 
         return $.post(ajaxurl, {
             action: 'wds-toggle-sitemap-status',
-            sitemap_active: new_status
+            sitemap_active: new_status,
+			_wds_nonce:_wds_sitemaps.nonce
         }).done(function (data) {
             data = (data || {});
             if (data.success) {
@@ -263,6 +277,7 @@
 		window.Wds.upsell();
 		window.Wds.conditional_fields();
 		window.Wds.qtips($('.wds-has-tooltip'));
+		window.Wds.dismissible_message();
 
 		$('select.select-container').select2({
 			minimumResultsForSearch: -1
@@ -278,7 +293,7 @@
 			.on('click', '.wds-crawl-issues-table .wds-ignore-all', ignore_group_issues)
 			.on('click', '.wds-ignored-items-table .wds-unignore', restore_single_issue)
 			.on('click', '.tab-title .wds-ignore-all', ignore_all_issues)
-			.on('click', '[href="#occurences"]', list_occurrences)
+			.on('click', '[href="#occurrences"]', list_occurrences)
 			.on('click', '[href="#redirect"]', open_redirect_dialog)
 			.on('change', '.sitemap-status-toggle', toggle_sitemap_status);
 	}

@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Facilitates destination spawning
  *
@@ -20,7 +20,7 @@ class Snapshot_Model_Destination_Factory {
 	 *
 	 * @return Snapshot_Model_Destination|bool
 	 */
-	public static function from_item ($item, $bootstrap=true) {
+	public static function from_item ($item, $bootstrap= true) {
 		$snapshot = WPMUDEVSnapshot::instance();
 		if (empty($item['destination'])) return false;
 
@@ -36,7 +36,7 @@ class Snapshot_Model_Destination_Factory {
 	 *
 	 * @return Snapshot_Model_Destination|bool
 	 */
-	public static function get_destination ($destination_key, $bootstrap=true) {
+	public static function get_destination ($destination_key, $bootstrap= true) {
 		if (empty($destination_key)) return false;
 
 		$snapshot = WPMUDEVSnapshot::instance();

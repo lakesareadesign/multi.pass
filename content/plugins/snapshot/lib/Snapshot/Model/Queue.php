@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Queue abstraction
@@ -155,7 +155,7 @@ abstract class Snapshot_Model_Queue {
 	 *
 	 * @param int $size Chunk size to use
 	 */
-	public function set_chunk_size ($size=0) {
+	public function set_chunk_size ($size= 0) {
 		if (!is_numeric($size)) return false;
 		$this->_chunk_size = (int)$size;
 	}
@@ -214,8 +214,9 @@ abstract class Snapshot_Model_Queue {
 	 * @param string $src Source key to update
 	 * @param array $info Info hash
 	 */
-	protected function _update_source ($src, $info=array()) {
-		if (!is_array($info)) $info = array();
+	protected function _update_source ($src, $info= array()) {
+		if (!is_array($info))
+			$info = array();
 		$new_info = array_merge($this->_get_source_defaults($src), $info);
 
 		$sources = $this->_get('sources', array());
@@ -236,7 +237,7 @@ abstract class Snapshot_Model_Queue {
 	 *
 	 * @return array
 	 */
-	protected function _get_source_info ($src, $fallback=array()) {
+	protected function _get_source_info ($src, $fallback= array()) {
 		$all = $this->_get('sources', array());
 		foreach ($all as $idx => $info) {
 			if ($idx === $src) return $info;
@@ -282,7 +283,7 @@ abstract class Snapshot_Model_Queue {
 	 *
 	 * @return mixed Whatever was in `$fallback` argument, defaults to (bool)false
 	 */
-	protected function _get ($key, $fallback=false) {
+	protected function _get ($key, $fallback= false) {
 		$this->_session->load_session();
 		$type = $this->get_type();
 		return isset($this->_session->data[$type][$key])
@@ -299,7 +300,8 @@ abstract class Snapshot_Model_Queue {
 	 */
 	protected function _set ($key, $value) {
 		$type = $this->get_type();
-		if (empty($this->_session->data[$type])) $this->_session->data[$type] = array();
+		if (empty($this->_session->data[$type]))
+			$this->_session->data[$type] = array();
 
 		$this->_session->data[$type][$key] = $value;
 		$this->_session->save_session();

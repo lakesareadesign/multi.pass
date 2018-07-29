@@ -74,7 +74,14 @@
 							<input type="submit" value="<?php _e('Subscribe', $this->plugin_slug); ?>" />
 						</div>
 						<?php if (!empty($this->plugin_settings['gdpr']['status']) && $this->plugin_settings['gdpr']['status'] == 1) { ?>
-							<div class="privacy_checkbox"><input type="checkbox" name="acceptance" value="YES" data-rule-required="true" data-msg-required="<?php esc_attr_e('This field is required.', $this->plugin_slug); ?>"><label for="acceptance"><?php _e("I've read and agree with the site's privacy policy", $this->plugin_slug); ?></label></div>
+							<div class="privacy_checkbox">
+								<label>
+									<input type="checkbox" name="acceptance" value="YES" data-rule-required="true" data-msg-required="<?php esc_attr_e('This field is required.', $this->plugin_slug); ?>">
+									
+									<?php _e("I've read and agree with the site's privacy policy", $this->plugin_slug); ?>
+								</label>
+							</div>
+						
 							<?php if(!empty($this->plugin_settings['gdpr']['subscribe_form_tail'])) { ?>
 								<p class="privacy_tail"><?php echo $this->plugin_settings['gdpr']['subscribe_form_tail']; ?></p>
 						<?php }} ?>
@@ -91,6 +98,10 @@
 					<?php if (!empty($this->plugin_settings['modules']['social_facebook'])) { ?>
 						<a class="fb" href="<?php echo stripslashes($this->plugin_settings['modules']['social_facebook']); ?>">facebook</a>
 					<?php } ?>
+
+					<?php if (!empty($this->plugin_settings['modules']['social_instagram'])) { ?>
+						<a class="instagram" href="<?php echo stripslashes($this->plugin_settings['modules']['social_instagram']); ?>">instagram</a>
+					<?php } ?>    
 
 					<?php if (!empty($this->plugin_settings['modules']['social_pinterest'])) { ?>
 						<a class="pin" href="<?php echo stripslashes($this->plugin_settings['modules']['social_pinterest']); ?>">pinterest</a>
@@ -135,7 +146,14 @@
 							<?php do_action('wpmm_contact_form_after_message'); ?>
 
 							<?php if (!empty($this->plugin_settings['gdpr']['status']) && $this->plugin_settings['gdpr']['status'] == 1) { ?>
-								<div class="privacy_checkbox"><input type="checkbox" name="acceptance" value="YES" data-rule-required="true" data-msg-required="<?php esc_attr_e('This field is required.', $this->plugin_slug); ?>"><label for="acceptance"><?php _e("I've read and agree with the site's privacy policy", $this->plugin_slug); ?></label></div>
+								<div class="privacy_checkbox">
+									<label>
+										<input type="checkbox" name="acceptance" value="YES" data-rule-required="true" data-msg-required="<?php esc_attr_e('This field is required.', $this->plugin_slug); ?>">
+										
+										<?php _e("I've read and agree with the site's privacy policy", $this->plugin_slug); ?>
+									</label>
+								</div>
+							
 								<?php if(!empty($this->plugin_settings['gdpr']['contact_form_tail'])) { ?>
 									<p class="privacy_tail"><?php echo $this->plugin_settings['gdpr']['contact_form_tail']; ?></p>
 								<?php }} ?>

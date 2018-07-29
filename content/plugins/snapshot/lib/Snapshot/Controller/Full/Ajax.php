@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Authenticated AJAX action controller
@@ -21,7 +21,7 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 */
 	public static function get() {
 		if ( empty( self::$_instance ) ) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
 		return self::$_instance;
 	}
@@ -57,7 +57,9 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * Deactivate
 	 */
 	public function json_deactivate() {
-		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) { die; /* Only some users can reload */ }
+		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) {
+			die; /* Only some users can reload */
+		}
 		return wp_send_json_success( Snapshot_Controller_Full_Admin::get()->deactivate() );
 	}
 
@@ -72,31 +74,41 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * Outputs log file content
 	 */
 	public function json_get_log() {
-		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) { die; /* Only some users can reload */ }
+		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) {
+			die; /* Only some users can reload */
+		}
 		$response = __( 'Your log file is empty', SNAPSHOT_I18N_DOMAIN );
 		$content = Snapshot_Helper_Log::get()->get_log();
 		if ( ! empty( $content ) ) {
 			$response = '<textarea readonly style="width:100%; height:100%">' . esc_textarea( $content ) . '</textarea>';
 		}
 
-		die( $response );
+		die( wp_kses_post( $response ) );
 	}
 
 	/**
 	 * Sets up backup key exchange
 	 */
 	public function json_remote_key_exchange() {
-		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) { die; /* Only some users can reload */ }
+		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) {
+			die; /* Only some users can reload */
+		}
 		$rmt = Snapshot_Model_Full_Remote_Key::get();
 
 		$token = $rmt->get_remote_key();
-		if ( empty( $token ) ) { return wp_send_json_error( __( 'Unable to get exchange token', SNAPSHOT_I18N_DOMAIN ) ); }
+		if ( empty( $token ) ) {
+			return wp_send_json_error( __( 'Unable to get exchange token', SNAPSHOT_I18N_DOMAIN ) );
+		}
 
 		$key = $rmt->get_remote_key( $token );
-		if ( empty( $key ) ) { return wp_send_json_error( __( 'Unable to exchange key', SNAPSHOT_I18N_DOMAIN ) ); }
+		if ( empty( $key ) ) {
+			return wp_send_json_error( __( 'Unable to exchange key', SNAPSHOT_I18N_DOMAIN ) );
+		}
 
 		$status = $rmt->set_key( $key );
-		if ( $status ) { $this->_model->set_config( 'active', true ); /* Also activate */ }
+		if ( $status ) {
+			$this->_model->set_config( 'active', true ); /* Also activate */
+		}
 		return wp_send_json_success( $status );
 	}
 
@@ -104,7 +116,9 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * Forces backup list reloads
 	 */
 	public function json_reload_backups() {
-		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) { die; /* Only some users can reload */ }
+		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) {
+			die; /* Only some users can reload */
+		}
 
 		$status = $this->_model->remote()->reset_backups_cache( true );
 
@@ -119,7 +133,9 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * @since v3.0.5-BETA-6
 	 */
 	public function json_reset_api() {
-		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) { die; /* Only some users can do this */ }
+		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) {
+			die; /* Only some users can do this */
+		}
 
 		$hub = Snapshot_Controller_Full_Hub::get();
 		$status = $hub->clear_api_cache();
@@ -138,18 +154,26 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * Prepare backup for download
 	 */
 	public function json_download_backup() {
-		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) { die; /* Only some users can restore */ }
-		if ( ! $this->_is_backup_processing_ready() ) { die; }
+		check_admin_referer( 'snapshot_download_backup' );
+
+		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) {
+			die; /* Only some users can restore */
+		}
+		if ( ! $this->_is_backup_processing_ready() ) {
+			die;
+		}
 
 		$data = stripslashes_deep( $_POST );
 		$timestamp = ! empty( $data['idx'] ) && is_numeric( $data['idx'] )
 			? $data['idx']
 			: false
 		;
-		if ( ! $timestamp ) { wp_send_json(array(
-			'task' => 'clearing',
-			'status' => false,
-		)); }
+		if ( ! $timestamp ) {
+			wp_send_json(array(
+				'task' => 'clearing',
+				'status' => false,
+			));
+		}
 
 		$archive_path = $this->_model->local()->get_backup( $timestamp );
 		if ( empty( $archive_path ) || ! file_exists( $archive_path ) ) {
@@ -195,18 +219,25 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * Delete remote backup and force cache cleanup.
 	 */
 	public function json_delete_backup() {
-		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) { die; /* Only some users can restore */ }
-		if ( ! $this->_is_backup_processing_ready() ) { die; }
+		check_admin_referer( 'snapshot_delete_backup' );
+		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) {
+			die; /* Only some users can restore */
+		}
+		if ( ! $this->_is_backup_processing_ready() ) {
+			die;
+		}
 
 		$data = stripslashes_deep( $_POST );
 		$timestamp = ! empty( $data['idx'] ) && is_numeric( $data['idx'] )
 			? $data['idx']
 			: false
 		;
-		if ( ! $timestamp ) { wp_send_json(array(
-			'task' => 'clearing',
-			'status' => false,
-		)); }
+		if ( ! $timestamp ) {
+			wp_send_json(array(
+				'task' => 'clearing',
+				'status' => false,
+			));
+		}
 
 		$status = $this->_model->delete_backup( $timestamp );
 
@@ -225,7 +256,9 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * Check requirements
 	 */
 	public function json_check_requirements() {
-		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) { die; }
+		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) {
+			die;
+		}
 
 		$minimum_exec_time = 150;
 
@@ -237,27 +270,39 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 			: false
 		;
 
-		if ( ! $wp_state ) { Snapshot_Helper_Log::note( 'There has been an issue with determining WordPress state' ); }
+		if ( ! $wp_state ) {
+			Snapshot_Helper_Log::note( 'There has been an issue with determining WordPress state' );
+		}
 
 		// Fileset.
 		$set = Snapshot_Model_Fileset::get_source( 'full' );
 		$location = $set->get_root();
 
-		if ( empty( $location ) || ! file_exists( $location ) ) { Snapshot_Helper_Log::note( 'There has been an issue with determining location' ); }
+		if ( empty( $location ) || ! file_exists( $location ) ) {
+			Snapshot_Helper_Log::note( 'There has been an issue with determining location' );
+		}
 
 		// Tables.
 		$tables = Snapshot_Model_Queue_Tableset::get_all_tables();
-		if ( empty( $tables ) ) { Snapshot_Helper_Log::note( 'There has been an issue with determining your database setup' ); }
+		if ( empty( $tables ) ) {
+			Snapshot_Helper_Log::note( 'There has been an issue with determining your database setup' );
+		}
 
 		$open_basedir = ini_get( 'open_basedir' );
-		if ( $open_basedir ) { Snapshot_Helper_Log::note( 'It seems that open_basedir is in effect' ); }
+		if ( $open_basedir ) {
+			Snapshot_Helper_Log::note( 'It seems that open_basedir is in effect' );
+		}
 
 		$exec_time = ini_get( 'max_execution_time' );
 		$runtime = (int) $exec_time >= $minimum_exec_time;
-		if ( ! $runtime ) { Snapshot_Helper_Log::note( "Run time might not be enough: {$exec_time}" ); }
+		if ( ! $runtime ) {
+			Snapshot_Helper_Log::note( "Run time might not be enough: {$exec_time}" );
+		}
 
 		$mysqli = (bool) function_exists( 'mysqli_connect' );
-		if ( ! $mysqli ) { Snapshot_Helper_Log::note( 'We do not seem to have mysqli available' ); }
+		if ( ! $mysqli ) {
+			Snapshot_Helper_Log::note( 'We do not seem to have mysqli available' );
+		}
 
 		wp_send_json(array(
 			'webserver' => array(
@@ -305,8 +350,14 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * Process restore requests
 	 */
 	public function json_start_restore() {
-		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) { die; /* Only some users can restore. */ }
-		if ( ! $this->_is_backup_processing_ready() ) { die; }
+		check_ajax_referer( 'snapshot-ajax-nonce', 'security' );
+
+		if ( ! current_user_can( Snapshot_View_Full_Backup::get()->get_page_role() ) ) {
+			die; /* Only some users can restore. */
+		}
+		if ( ! $this->_is_backup_processing_ready() ) {
+			die;
+		}
 
 		$data = stripslashes_deep( $_POST );
 		$archive = ! empty( $data['archive'] ) && is_numeric( $data['archive'] )
@@ -392,7 +443,7 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 
 		// TODO: this should be handled separately.
 		if ( 'clearing' === $task ) {
-			@unlink( $archive_path );
+			unlink( $archive_path );
 		}
 
 		wp_send_json(array(
@@ -405,7 +456,9 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * Sends back backup size estimate
 	 */
 	public function json_estimate_backup() {
-		if ( ! $this->_is_backup_processing_ready() ) { die; }
+		if ( ! $this->_is_backup_processing_ready() ) {
+			die;
+		}
 
 		$idx = $this->_get_backup_type();
 		$backup = Snapshot_Helper_Backup::load( $idx );
@@ -426,7 +479,9 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * First in the cascade of requests actually performing the backup
 	 */
 	public function json_start_backup() {
-		if ( ! $this->_is_backup_processing_ready() ) { die; }
+		if ( ! $this->_is_backup_processing_ready() ) {
+			die;
+		}
 
 		// Signal intent - starting action.
 		Snapshot_Helper_Log::start();
@@ -447,6 +502,8 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * This will get called repeatedly, as long as the backup isn't ready
 	 */
 	public function json_process_backup() {
+		check_ajax_referer( 'snapshot-ajax-nonce', 'security' );
+
 		$data = stripslashes_deep( $_POST );
 		$idx = ! empty( $data['idx'] ) ? $data['idx'] : $this->_get_backup_type();
 
@@ -471,7 +528,7 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 			 * @param string $key Error message key.
 			 * @param string $msg Human-friendly message description.
 			 */
-			do_action( $this->get_filter( 'ajax-error-stop' ), 'process', $key, $msg ); // Notify anyone interested.
+			do_action( $this->get_filter( 'ajax_error_stop' ), 'process', $key, $msg ); // Notify anyone interested.
 
 			die( esc_js( $msg ) );
 		}
@@ -487,6 +544,8 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 	 * The last in the cascade of requests actually performing the backup
 	 */
 	public function json_finish_backup() {
+		check_ajax_referer( 'snapshot-ajax-nonce', 'security' );
+
 		$data = stripslashes_deep( $_POST );
 		$idx = ! empty( $data['idx'] ) ? $data['idx'] : $this->_get_backup_type();
 
@@ -510,7 +569,7 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 			 * @param string $key Error message key.
 			 * @param string $msg Human-friendly message description.
 			 */
-			do_action( $this->get_filter( 'ajax-error-stop' ), 'finish', $key, $msg ); // Notify anyone interested.
+			do_action( $this->get_filter( 'ajax_error_stop' ), 'finish', $key, $msg ); // Notify anyone interested.
 
 			die( esc_js( $msg ) );
 		}

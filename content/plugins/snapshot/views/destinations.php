@@ -1,5 +1,5 @@
 <?php
-$model = new Snapshot_Model_Full_Backup;
+$model = new Snapshot_Model_Full_Backup();
 $backups =  $model->get_backups();
 
 $has_backups = !empty( $backups );

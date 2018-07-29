@@ -1,9 +1,18 @@
 Plugin Name: Custom Sidebars Pro
 Author: Javier Marquez (Incsub), Philipp Stracker (Incsub), Marcin Pietrzak (Incsub)
-Buildtime: 2018-05-28T05:12:50.846Z
+Buildtime: 2018-08-13T06:52:06.337Z
 
 Change Log:
 ----------------------------------------------------------------------
+
+3.2.0 ( 2018-08-13 )
+----------------------------------------------------------------------
+- Added ability show/hide widgets depend on screen size, using CSS media queries.
+- Added integration with "WP Multilang" - now you can choose a sidebar to depend on "WP Multilang" language.
+- Allow using categories and tags for pages.
+- Improved plugin initialization now, plugin classes are loaded only on necessary admin pages.
+- Improved UX for Custom Sidebars Metabox on special pages: "Front Page", "Blog Page" and "WooCommerce Shop Page".
+- Updated "WPMU Dev code library" to version 3.0.9.
 
 3.1.6 ( 2018-05-28 )
 ----------------------------------------------------------------------
@@ -443,4 +452,4 @@ Change Log:
 - Initial release
 
 
-133620-1528232149-au
+133620-1534734113-au

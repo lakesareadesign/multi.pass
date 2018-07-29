@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 abstract class Snapshot_Helper_Zip_Abstract {
 
@@ -26,7 +26,7 @@ abstract class Snapshot_Helper_Zip_Abstract {
 	 *
 	 * @return bool
 	 */
-	abstract public function add ($files=array(), $relative_path=false);
+	abstract public function add ($files = array(), $relative_path = false);
 
 	/**
 	 * Extract files from prepared archive
@@ -61,7 +61,7 @@ abstract class Snapshot_Helper_Zip_Abstract {
 		$this->initialize();
 	}
 
-	protected function _to_root_relative ($file, $relative_path=false) {
+	protected function _to_root_relative ($file, $relative_path = false) {
 		$file = wp_normalize_path($file);
 		$root = $this->_get_root_path();
 

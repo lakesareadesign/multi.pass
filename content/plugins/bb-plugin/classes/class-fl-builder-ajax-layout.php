@@ -214,7 +214,10 @@ final class FLBuilderAJAXLayout {
 		}
 
 		// Return the response.
-		return self::render( $render_id );
+		return array(
+			'layout' => self::render( $render_id ),
+			'config' => FLBuilderUISettingsForms::get_node_js_config(),
+		);
 	}
 
 	/**
@@ -320,6 +323,7 @@ final class FLBuilderAJAXLayout {
 
 			$post_data 		 = FLBuilderModel::get_post_data();
 			$partial_refresh = false;
+			$node_type = null;
 
 			// Check for partial refresh if we have a node ID.
 			if ( isset( $post_data['node_id'] ) ) {

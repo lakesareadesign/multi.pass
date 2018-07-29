@@ -4,6 +4,70 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+2.2.2 - 2018-07-13
+----------------------------------------------------------------------
+- New: support for custom post type archives
+- New: noindex/nofollow for post types
+- New: new OpenGraph tags og:url, og:type, og:image:width and og:image:height
+- New: code optimization
+- New: integration test suite for quality assurance
+- New: link each page to the relevant documentation section on the plugin website
+- New: import social profile links from AIOSEOP
+- New: dynamically adjust the toggles under "Site Owner Permissions"
+- New: update Google result preview when content is changed
+- New: prompt requesting reviews on WP.org
+
+- Fix: hide settings for disabled modules from plugin dashboard
+- Fix: BuddyPress group titles missing
+- Fix: links to enable OpenGraph and Twitter settings pointing to inaccessible pages
+- Fix: duplicate text in SEO Checkup section of metabox
+- Fix: plugin css conflicting with some WP admin components
+- Fix: analysis indicators not displaying correct colors in WP post list
+- Fix: settings need to be saved before reports for SEO Checkup are sent
+- Fix: on WP dashboard, 'update sitemap' link in the sitemap widget not working
+- Fix: typo in opengraph settings
+- Fix: when new URL scan is run, the URL Crawler section not loaded automatically
+- Fix: google/bing verification codes from yoast not imported correctly
+- Fix: columns in the post tables take more space then they should
+- Fix: google verification meta can't be removed once added
+- Fix: meta description not working on WooCommerce shop page
+- Fix: redundant save settings button under URL Crawler report
+- Fix: typo in the upgrade popup
+- Fix: when import from yoast notice dismissed, it comes back on page load
+- Fix: seo column in post list shows wrong color indicator when focus keyword missing
+- Fix: google/bing verification tags disappear when sitemap settings saved
+- Fix: XML sitemap opened in the current tab
+- Fix: when "Upgrade to Pro" clicked, pro version details opened in the current tab
+- Fix: values under "Site Owner Permissions" not saved when everything turned off
+- Fix: last checked time on SEO Checkup inconsistent
+- Fix: if modules disabled by network admin, site admin can still see them in settings
+- Fix: autolinks page has "TBC" as the description of a setting
+- Fix: author archive meta description not saved
+- Fix: dashboard sections display number of issues even if the corresponding module is disabled
+- Fix: on network sub-sites, disabled modules not behaving properly
+- Fix: previews are not refreshing on title and meta admin page
+- Fix: url crawler not always listing the URLs resulting in errors
+- Fix: hide SEO Checkup on network sub-sites
+- Fix: remove code for old google site verification settings
+- Fix: date archive settings not respected
+- Fix: admin bar menu should always match the admin menu
+- Fix: in url crawler, no message is shown when all missing urls added to sitemap
+- Fix: MOZ metabox not styled
+- Fix: Redirect Attachments options in Advanced Tools not saved when in off state
+- Fix: automatic linking toggle in post metabox displays wrong state
+- Fix: redundant MarketPress options
+- Fix: autolinks "Exclusions" don't work when "Case Sensitive Matching" is off
+- Fix: autolinks "Min Lengths" setting not working consistently
+- Fix: twitter settings for date archives not working consistently
+- Fix: meta description settings for search and 404 pages not working consistently
+- Fix: google verification meta settings not working consistently
+- Fix: quick edit fields not loading values
+- Fix: unwanted space before date archive title
+- Fix: minor inconsistencies in SEO analysis
+- Fix: no error message displayed when default user removed in reporting section under SEO Checkup
+- Fix: statistics on dashboard not refreshed when checkup completes in SEO Checkup section
+- Fix: MOZ data displayed even when wrong credentials added
+
 2.2.1 - 2018-03-31
 ----------------------------------------------------------------------
 - Fix: post list pages performance issue.
@@ -444,4 +508,4 @@ exist yet
 - Initial Release.
 
 
-133620-1522806829-au
+133620-1532820629-au

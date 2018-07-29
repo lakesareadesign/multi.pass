@@ -130,7 +130,6 @@ class MSP_Import_Custom_Sliders {
 	 */
 	function header() {
 		echo '<div class="wrap">';
-		screen_icon();
 		$ms_theme_sliders_page_title = apply_filters( 'masterslider_import_demo_sliders_page_title', __( "Import Sliders" , MSWP_TEXT_DOMAIN ) );
 		echo '<h2>' . $ms_theme_sliders_page_title . '</h2><br />';
 	}

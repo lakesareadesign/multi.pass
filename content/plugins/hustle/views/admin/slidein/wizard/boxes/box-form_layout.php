@@ -132,4 +132,3 @@
 	</div>
 
 </div><?php // #wph-wizard-content-form_layout ?>
-<?php

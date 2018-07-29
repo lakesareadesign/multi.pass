@@ -42,4 +42,3 @@
 	</div>
 
 </div><?php // #wph-wizard-design-palette ?>
-<?php

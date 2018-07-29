@@ -5,6 +5,32 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+
+3.1.9.1
+----------------------------------------------------------------------
+- Fix: Larger backups at Google Drive don't complete 
+- Fix: Restoring from older snapshot versions fails
+- Fix: Can't edit/update Destination settings
+- Fix: Dashboard Destinations list not aligned correctly
+
+- Add: Snapshot is not working with Google Team Drives
+
+3.1.9
+----------------------------------------------------------------------
+- Add: Specify the backup type (Managed, Automate, Local)
+- Improve: Apply coding standards
+- Improve: Clean up old UI
+
+- Fix: Pagination in Snapshots screen is broken after a Snapshot is deleted
+- Fix: Scheduled backups are not performed when site admin is moved
+- Fix: Files are not uploaded to Google Drive on some hosts
+- Fix: Error in Managed Backup screen with specific time zones
+- Fix: Error on snapshots in php 5.2
+- Fix: Invalid link at WP admin top bar
+- Fix: Regular snapshots limit
+- Fix: Warning appears in logs when backup is created
+- Fix: Snapshot says Gzip instead of Zip
+
 3.1.8
 ----------------------------------------------------------------------
 - Add: GDPR - export user personal data
@@ -492,4 +518,4 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 - Initial stable release
 
 
-133620-1528232234-au
+133620-1534734138-au

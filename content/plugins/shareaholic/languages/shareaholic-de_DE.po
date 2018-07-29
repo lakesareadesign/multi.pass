@@ -131,8 +131,8 @@ msgstr "Shareaholic | Teilen Buttons, Analysen, Verwandeter Inhalt"
 #. translators: plugin header field 'PluginURI'
 #: shareaholic.php:0
 #@ shareaholic
-msgid "https://shareaholic.com/publishers/"
-msgstr "https://shareaholic.com/publishers/"
+msgid "https://www.shareaholic.com/publishers/"
+msgstr "https://www.shareaholic.com/publishers/"
 
 #. translators: plugin header field 'Author'
 #: admin.php:343
@@ -144,8 +144,8 @@ msgstr "Shareaholic"
 #. translators: plugin header field 'AuthorURI'
 #: shareaholic.php:0
 #@ shareaholic
-msgid "https://shareaholic.com"
-msgstr "https://shareaholic.com"
+msgid "https://www.shareaholic.com"
+msgstr "https://www.shareaholic.com"
 
 #: templates/advanced_settings.php:9
 #@ shareaholic

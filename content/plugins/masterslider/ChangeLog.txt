@@ -1,3 +1,11 @@
+Version 3.2.7 / (29.07.2017)
+============================
+- [New]: Adding MasterSlider element to Elementor Page builder.
+- [Fix]: Compatibility with PHP 7.2 applied.
+- [Fix]: An issue with deprecated functions for WooCommerce slider fixed.
+- [Fix]: An issue with autoplay option on mobile devices fixed.
+- [Improvement]: Fixing an issue with cropping images for post slider.
+
 Version 3.2.2 / (01.11.2017)
 ============================
 - [Improvement]: Performance improvement in post slider.

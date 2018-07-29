@@ -34,8 +34,8 @@ if ( $query->have_posts() ) :
 		// Render the navigation.
 		if ( 'yes' == $settings->navigation && $query->have_posts() ) : ?>
 			<div class="fl-post-carousel-navigation" aria-label="carousel buttons">
-				<a class="carousel-prev" href="#" aria-label="previous" aria-role="button"><div class="fl-post-carousel-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-left.svg'; ?></div></a>
-				<a class="carousel-next" href="#" aria-label="next" aria-role="button"><div class="fl-post-carousel-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-right.svg'; ?></div></a>
+				<a class="carousel-prev" href="#" aria-label="previous" role="button"><div class="fl-post-carousel-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-left.svg'; ?></div></a>
+				<a class="carousel-next" href="#" aria-label="next" role="button"><div class="fl-post-carousel-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-right.svg'; ?></div></a>
 			</div>
 		<?php endif; ?>
 	</div>

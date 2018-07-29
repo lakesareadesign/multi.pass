@@ -39,8 +39,8 @@
 		// Render the navigation.
 		if ( $settings->arrows && count( $settings->slides ) > 0 ) : ?>
 			<div class="fl-content-slider-navigation" aria-label="content slider buttons">
-				<a class="slider-prev" href="#" aria-label="previous" aria-role="button"><div class="fl-content-slider-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-left.svg'; ?></div></a>
-				<a class="slider-next" href="#" aria-label="next" aria-role="button"><div class="fl-content-slider-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-right.svg'; ?></div></a>
+				<a class="slider-prev" href="#" aria-label="previous" role="button"><div class="fl-content-slider-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-left.svg'; ?></div></a>
+				<a class="slider-next" href="#" aria-label="next" role="button"><div class="fl-content-slider-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-right.svg'; ?></div></a>
 			</div>
 		<?php endif; ?>
 		<div class="fl-clear"></div>

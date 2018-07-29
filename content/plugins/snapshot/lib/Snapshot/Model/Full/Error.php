@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Full backup error handling model
@@ -49,7 +49,8 @@ class Snapshot_Model_Full_Error extends Snapshot_Model_Full {
 	 * @return Snapshot_Model_Full_Error
 	 */
 	public static function get () {
-		if (empty(self::$_instance)) self::$_instance = new self;
+		if (empty(self::$_instance))
+			self::$_instance = new self();
 		return self::$_instance;
 	}
 
@@ -153,7 +154,7 @@ class Snapshot_Model_Full_Error extends Snapshot_Model_Full {
 	 *
 	 * @return string Current error key
 	 */
-	public function get_current_error_key ($object=false) {
+	public function get_current_error_key ($object= false) {
 		if (empty($object) || !($object instanceof Snapshot_Helper_Backup)) return self::ERROR_GENERAL;
 
 		$error_key = array();
@@ -161,9 +162,12 @@ class Snapshot_Model_Full_Error extends Snapshot_Model_Full {
 		if ($queue && $queue instanceof Snapshot_Model_Queue_Tableset) {
 			$error_key[] = $queue->get_type();
 			$source = $queue->get_current_source();
-			if (is_array($source) && isset($source['chunk'])) $error_key[] = $source['chunk'];
-			else $error_key[] = self::PART_UNKNOWN;
-		} else $error_key = array(self::PART_UNKNOWN, self::PART_UNKNOWN);
+			if (is_array($source) && isset($source['chunk']))
+				$error_key[] = $source['chunk'];
+			else
+				$error_key[] = self::PART_UNKNOWN;
+		} else
+			$error_key = array(self::PART_UNKNOWN, self::PART_UNKNOWN);
 		$error_key = join(':', $error_key);
 
 		return $error_key;
@@ -189,13 +193,17 @@ class Snapshot_Model_Full_Error extends Snapshot_Model_Full {
 
 		// Okay, so we might have queue:source error format, let's try that
 		$err = explode(':', $error_key);
-		$queue = $source = false;
+		$source = false;
+		$queue = $source;
 
 		if (empty($err[0]) || self::PART_UNKNOWN === $err[0]) return $fallback; // Unknown queue, let's just fall back
-		else $queue = $err[0];
+		else
+			$queue = $err[0];
 
-		if (empty($err[1]) || self::PART_UNKNOWN === $err[1]) $source = __('unknown source', SNAPSHOT_I18N_DOMAIN);
-		else $source = $err[1];
+		if (empty($err[1]) || self::PART_UNKNOWN === $err[1])
+			$source = __('unknown source', SNAPSHOT_I18N_DOMAIN);
+		else
+			$source = $err[1];
 
 		return sprintf(
 			__('Error with %1$s queue, source: %2$s', SNAPSHOT_I18N_DOMAIN),

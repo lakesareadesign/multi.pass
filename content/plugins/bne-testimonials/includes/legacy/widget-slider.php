@@ -1,17 +1,24 @@
 <?php
 /*
- * 	BNE Testimonials
+ * 	BNE Testimonials Wordpress Plugin
  *	Widget Slider Class
  *
  * 	@author		Kerry Kline
- * 	@copyright	Copyright (c) 2013-2017, Kerry Kline
+ * 	@copyright	Copyright (c) 2013-2015, Kerry Kline
  * 	@link		http://www.bnecreative.com
  *
  *	@since 		v1.1
  *	@updated	v2.0
  *
+ *	@notice		As of v2.0. This Widget is no longer maintained
+ *				and is depreciated! It has been replaced with
+ *				Bne_Testimonials_Widget which uses the shortcode
+ *				generator to setup the testimonial display.
  *
 */
+
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 class bne_testimonials_slider_widget extends WP_Widget {
@@ -34,6 +41,7 @@ class bne_testimonials_slider_widget extends WP_Widget {
 		// Check values
 		if( $instance) {
 
+
 			$title = esc_attr($instance['title']);
 			$number_of_post = esc_attr($instance['number_of_post']);
 			$order = esc_attr($instance['order']);
@@ -49,6 +57,7 @@ class bne_testimonials_slider_widget extends WP_Widget {
 			$smooth = esc_attr($instance['smooth']);
 			$pause = esc_attr($instance['pause']);
 			$speed = esc_attr($instance['speed']);
+			$lightbox_rel = esc_attr($instance['lightbox_rel']);
 			$class = esc_attr($instance['class']);
 
 		} else {
@@ -67,6 +76,7 @@ class bne_testimonials_slider_widget extends WP_Widget {
 			$smooth = 'true';
 			$pause = 'true';
 			$speed = '7000';
+			$lightbox_rel = '';
 			$class = '';
 
 		}
@@ -261,6 +271,15 @@ class bne_testimonials_slider_widget extends WP_Widget {
 			<!-- Advanced Options -->
 			<div style="border: 1px solid #cccccc; margin: 0 0 5px 0; padding: 8px;">
 				<h4 style="margin:2px 0px;"><?php echo _e('Advanced Options'); ?></h4>
+				<!-- Lightbox Rel Setting -->
+				<p>
+					<label for="<?php echo $this->get_field_id('lightbox_rel'); ?>"><?php _e('Featured Image Lightbox', 'bne-testimonials'); ?>: </label>
+					<span> rel="</span>
+					<input class="widefat" id="<?php echo $this->get_field_id('lightbox_rel'); ?>" name="<?php echo $this->get_field_name('lightbox_rel'); ?>" type="text" value="<?php echo $lightbox_rel; ?>" style="display:inline-block; width: 100px;"/>
+					<span>"</span>
+					<span style="display:block;padding:5px 0" class="description"><?php echo _e('Only works if a lightbox plugin is installed or your theme provides one which uses the "rel" attribute on the anchor tag. For example, prettyPhoto uses rel="prettyPhoto".', 'bne-testimonials'); ?></span>
+				</p>
+
 				<!-- Custom Class -->
 				<p>
 					<label for="<?php echo $this->get_field_id('class'); ?>"><?php _e('Optional CSS Class Name', 'bne-testimonials'); ?>:</label>
@@ -294,6 +313,7 @@ class bne_testimonials_slider_widget extends WP_Widget {
 		$instance['smooth'] = strip_tags($new_instance['smooth']);
 		$instance['pause'] = strip_tags($new_instance['pause']);
 		$instance['speed'] = strip_tags($new_instance['speed']);
+		$instance['lightbox_rel'] = strip_tags($new_instance['lightbox_rel']);
 		$instance['class'] = strip_tags($new_instance['class']);
 		
 		
@@ -306,6 +326,7 @@ class bne_testimonials_slider_widget extends WP_Widget {
 	// Display the Widget on the Frontend
 	function widget($args, $instance) {
 		
+				
 		extract( $args );
 			// these are the widget options
 			$title = apply_filters('widget_title', $instance['title']);
@@ -323,6 +344,7 @@ class bne_testimonials_slider_widget extends WP_Widget {
 			$smooth = $instance['smooth'];
 			$pause = $instance['pause'];
 			$speed = $instance['speed'];
+			$lightbox_rel = $instance['lightbox_rel'];
 			$class = $instance['class'];
 
 		// Before Widget
@@ -344,6 +366,11 @@ class bne_testimonials_slider_widget extends WP_Widget {
 		// Enqueue our Scripts & Styles
 		wp_enqueue_script( 'flexslider' );
 
+
+
+
+
+
 		// Display the widget
 		echo '<div class="bne_testimonial_slider_widget">';
 
@@ -357,6 +384,8 @@ class bne_testimonials_slider_widget extends WP_Widget {
 			 $animation_speed = '700';
 		}
 
+
+
 		// Begin the Query
 		$bne_testimonials = new WP_Query( $query_args );
 		if( $bne_testimonials->have_posts() ) {
@@ -364,20 +393,23 @@ class bne_testimonials_slider_widget extends WP_Widget {
 			// Setup a Random ID to accomidate multiple sliders on the same page.
 			$slider_random_id = rand(10,100);
 
-			// Load Flexslider API Options
-			echo '<script type="text/javascript">
-						jQuery(document).ready(function($) {
-							$(\'#bne-slider-id-'.$slider_random_id.' .bne-testimonial-slider\').flexslider({
-								animation:   "'.$animation.'",
-								animationSpeed: '.$animation_speed.',
-								smoothHeight: '.$smooth.',
-								pauseOnHover: '.$pause.',
-								controlNav:   '.$nav.',
-								directionNav: '.$arrows.',
-								slideshowSpeed: '.$speed.'
-							});
+			// Init Flexslider
+			wp_add_inline_script( 'flexslider', 
+				'jQuery(document).ready(function($){
+					$(window).load(function() {
+						$("#bne-slider-id-'.$slider_random_id.' .bne-testimonial-slider").flexslider({
+							animation: "'.$animation.'",
+							animationSpeed: '.$animation_speed.',
+							smoothHeight: '.$smooth.',
+							pauseOnHover: '.$pause.',
+							controlNav: '.$nav.',
+							directionNav: '.$arrows.',
+							slideshowSpeed: '.$speed.'
 						});
-					</script>';
+					});
+				});'
+			);
+
 
 			// Build Slider
 			echo '<div class="bne-element-container '.$class.'">';
@@ -396,7 +428,7 @@ class bne_testimonials_slider_widget extends WP_Widget {
 								while ( $bne_testimonials->have_posts() ) : $bne_testimonials->the_post();
 
 									// Pull in Plugin Options
-									$options = bne_testimonials_options_array( $image_style, null, $image, $name, null );
+									$options = bne_testimonials_options_array( $image_style, $lightbox_rel, $image, $name );
 
 									// Build Single Testimonial
 									echo '<li class="single-bne-testimonial">';
@@ -443,5 +475,8 @@ class bne_testimonials_slider_widget extends WP_Widget {
 
 }
 
-// Register Widget
-add_action('widgets_init', create_function('', 'return register_widget("bne_testimonials_slider_widget");'));
+/* Register the widget */
+function bne_testimonials_slider_widget() {
+	register_widget( 'bne_testimonials_slider_widget' );
+}
+add_action( 'widgets_init', 'bne_testimonials_slider_widget' );

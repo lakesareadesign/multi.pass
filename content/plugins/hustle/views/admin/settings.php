@@ -42,4 +42,3 @@
 	</main>
 
 <?php endif; ?>
-<?php

@@ -1,7 +1,8 @@
 .og-image.item img {
 	width: 100%;
 	height: 100%;
-	object-fit: cover;
+	-o-object-fit: cover;
+	   object-fit: cover;
 }
 .og-images .item {
 	border-radius: 4px;
@@ -57,4 +58,4 @@
 }
 
 
-/* 133620-1522806829-au */
+/* 133620-1532820629-au */

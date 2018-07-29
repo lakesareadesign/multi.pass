@@ -526,8 +526,8 @@ msgid "Shareaholic | share buttons, analytics, related content"
 msgstr "Shareaholic | butang perkongsian, analitik, kandungan berkaitan"
 
 #. Plugin URI of the plugin/theme
-msgid "https://shareaholic.com/publishers/"
-msgstr "https://shareaholic.com/publishers/"
+msgid "https://www.shareaholic.com/publishers/"
+msgstr "https://www.shareaholic.com/publishers/"
 
 #. Description of the plugin/theme
 msgid ""
@@ -544,5 +544,5 @@ msgstr ""
 # Lela Iskandar Suhaimi
 # http://www.jomjalan.com.my
 #. Author URI of the plugin/theme
-msgid "https://shareaholic.com"
-msgstr "https://shareaholic.com"
+msgid "https://www.shareaholic.com"
+msgstr "https://www.shareaholic.com"

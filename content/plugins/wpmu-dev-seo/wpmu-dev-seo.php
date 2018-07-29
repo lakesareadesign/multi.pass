@@ -3,7 +3,7 @@
  * Plugin Name: SmartCrawl
  * Plugin URI: http://premium.wpmudev.org/project/wpmu-dev-seo/
  * Description: Every SEO option that a site requires, in one easy bundle.
- * Version: 2.2.1
+ * Version: 2.2.2
  * Network: true
  * Text Domain: wds
  * Author: WPMU DEV
@@ -45,10 +45,10 @@ class Smartcrawl_Loader {
 	 * Init Plugin
 	 */
 	public function plugin_init() {
-		require_once( plugin_dir_path( __FILE__ ) . 'config.php' );
+		require_once plugin_dir_path( __FILE__ ) . 'config.php';
 
 		// Init plugin.
-		require_once( SMARTCRAWL_PLUGIN_DIR . 'init.php' );
+		require_once SMARTCRAWL_PLUGIN_DIR . 'init.php';
 	}
 
 	/**
@@ -57,33 +57,47 @@ class Smartcrawl_Loader {
 	 * @return void
 	 */
 	public static function activate() {
-		require_once( plugin_dir_path( __FILE__ ) . 'config.php' );
+		require_once plugin_dir_path( __FILE__ ) . 'config.php';
 
 		// Init plugin
-		require_once( SMARTCRAWL_PLUGIN_DIR . 'init.php' );
+		require_once SMARTCRAWL_PLUGIN_DIR . 'init.php';
 
-		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings.php' );
-
-		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/dashboard.php' );
 		Smartcrawl_Settings_Dashboard::get_instance()->defaults();
 
-		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/checkup.php' );
 		Smartcrawl_Checkup_Settings::get_instance()->defaults();
 
-		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/onpage.php' );
 		Smartcrawl_Onpage_Settings::get_instance()->defaults();
 
-		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/social.php' );
 		Smartcrawl_Social_Settings::get_instance()->defaults();
 
-		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/sitemap.php' );
 		Smartcrawl_Sitemap_Settings::get_instance()->defaults();
 
-		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/autolinks.php' );
 		Smartcrawl_Autolinks_Settings::get_instance()->defaults();
 
-		require_once( SMARTCRAWL_PLUGIN_DIR . 'admin/settings/settings.php' );
 		Smartcrawl_Settings_Settings::get_instance()->defaults();
+
+		self::save_free_installation_timestamp();
+	}
+
+	private static function save_free_installation_timestamp() {
+		$service = self::get_service();
+		if ( $service->is_member() ) {
+			return;
+		}
+
+		$free_install_date = get_site_option( 'wds-free-install-date' );
+		if ( empty( $free_install_date ) ) {
+			update_site_option( 'wds-free-install-date', current_time( 'timestamp' ) );
+		}
+	}
+
+	/**
+	 * @return Smartcrawl_Checkup_Service
+	 */
+	private static function get_service() {
+		$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
+
+		return $service;
 	}
 
 	/**
@@ -91,7 +105,8 @@ class Smartcrawl_Loader {
 	 *
 	 * @return void
 	 */
-	public static function deactivate() {}
+	public static function deactivate() {
+	}
 
 	/**
 	 * Gets the version number string
@@ -103,9 +118,12 @@ class Smartcrawl_Loader {
 		if ( empty( $version ) ) {
 			$version = defined( 'SMARTCRAWL_VERSION' ) && SMARTCRAWL_VERSION ? SMARTCRAWL_VERSION : null;
 		}
+
 		return $version;
 	}
 }
+
+require_once 'autoloader.php';
 
 define( 'SMARTCRAWL_PLUGIN_BASENAME', plugin_basename( __FILE__ ) );
 
@@ -119,5 +137,5 @@ if ( defined( 'SMARTCRAWL_CONDITIONAL_EXECUTION' ) && SMARTCRAWL_CONDITIONAL_EXE
 		array( 'Smartcrawl_Loader', 'plugin_init' )
 	);
 } else {
-	$Smartcrawl_Loader = new Smartcrawl_Loader();
+	$smartcrawl_loader = new Smartcrawl_Loader();
 }

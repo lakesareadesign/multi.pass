@@ -36,4 +36,3 @@
 	</div><?php // .wpmudev-col ?>
 
 </div><?php // .wpmudev-row ?>
-<?php

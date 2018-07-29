@@ -158,4 +158,3 @@
     </div>
 
 </div><?php // #wph-wizard-services-icons ?>
-<?php

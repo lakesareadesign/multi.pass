@@ -1,5 +1,5 @@
 <?php
-	$progress = empty( $progress ) ? 0 : $progress;
+$progress = empty( $progress ) ? 0 : $progress;
 ?>
 
 <div class="wds-progress">

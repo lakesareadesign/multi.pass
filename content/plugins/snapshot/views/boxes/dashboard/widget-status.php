@@ -19,7 +19,7 @@ $is_client = $is_dashboard_active && $has_dashboard_key;
 
 $apiKey = $model->get_config( 'secret-key', '' );
 
-$has_snapshot_key = $is_client && Snapshot_Model_Full_Remote_Api::get()->get_token() != false && ! empty( $apiKey );
+$has_snapshot_key = $is_client && Snapshot_Model_Full_Remote_Api::get()->get_token() !== false && ! empty( $apiKey );
 
 if ( ! empty( $latest_backup ) && $latest_backup ) {
 
@@ -40,19 +40,19 @@ $latest_snapshot = Snapshot_Helper_Utility::latest_backup( $snapshot );
 
 ?>
 
-<section class="wps-backups-status<?php if ( ! $is_client ) : echo ' wps-backups-status-free'; endif; ?> wpmud-box">
+<section class="wps-backups-status<?php if ( ! $is_client ) echo ' wps-backups-status-free'; ?> wpmud-box">
 
 	<div class="wpmud-box-content">
 		<div class="wps-backups-summary">
 
 			<div class="wps-backups-summary-align">
 
-				<h3><?php printf( __( 'Hello, %s!', SNAPSHOT_I18N_DOMAIN ), wp_get_current_user()->display_name ); ?></h3>
+				<h3><?php echo wp_kses_post( sprintf( __( 'Hello, %s!', SNAPSHOT_I18N_DOMAIN ), wp_get_current_user()->display_name ) ); ?></h3>
 
 				<?php if ( $is_client ) : ?>
-					<p><?php _e( 'Welcome to the Dashboard. Here you can manage all your snapshots and backups.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+					<p><?php esc_html_e( 'Welcome to the Dashboard. Here you can manage all your snapshots and backups.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 				<?php else : ?>
-					<p><?php _e( 'Welcome to the Dashboard. Here you can manage all your snapshots.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+					<p><?php esc_html_e( 'Welcome to the Dashboard. Here you can manage all your snapshots.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 				<?php endif; ?>
 
 			</div>
@@ -62,16 +62,21 @@ $latest_snapshot = Snapshot_Helper_Utility::latest_backup( $snapshot );
 			<table cellpadding="0" cellspacing="0">
 				<tbody>
 				<tr>
-					<th><?php _e( 'Last Snapshot', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th><?php esc_html_e( 'Last Snapshot', SNAPSHOT_I18N_DOMAIN ); ?></th>
 
 					<?php if ( isset( $latest_snapshot['timestamp'] ) ) : ?>
 						<td class="fancy-date-time">
-							<?php echo Snapshot_Helper_Utility::show_date_time( $latest_snapshot['timestamp'], 'F j, Y ' ) ?>
-							<span><?php
-								printf(
-									esc_html__( 'at %s', SNAPSHOT_I18N_DOMAIN ),
-									Snapshot_Helper_Utility::show_date_time( $latest_snapshot['timestamp'], 'g:ia' )
-								); ?></span>
+							<?php echo esc_html( Snapshot_Helper_Utility::show_date_time( $latest_snapshot['timestamp'], 'F j, Y ' ) ); ?>
+							<span>
+                            <?php
+								echo wp_kses_post(
+									sprintf(
+											esc_html__( 'at %s', SNAPSHOT_I18N_DOMAIN ),
+											Snapshot_Helper_Utility::show_date_time( $latest_snapshot['timestamp'], 'g:ia' )
+									)
+								);
+							?>
+							</span>
 						</td>
 					<?php else: ?>
 						<td><?php esc_html_e( 'Never', SNAPSHOT_I18N_DOMAIN ); ?></span></td>
@@ -79,7 +84,7 @@ $latest_snapshot = Snapshot_Helper_Utility::latest_backup( $snapshot );
 				</tr>
 
 				<tr>
-					<th><?php _e( 'Available Destinations', SNAPSHOT_I18N_DOMAIN ); ?></th>
+					<th><?php esc_html_e( 'Available Destinations', SNAPSHOT_I18N_DOMAIN ); ?></th>
 					<td>
 						<span class="wps-count"><?php echo count( WPMUDEVSnapshot::instance()->config_data['destinations'] ); ?></span>
 					</td>
@@ -87,11 +92,11 @@ $latest_snapshot = Snapshot_Helper_Utility::latest_backup( $snapshot );
 
 				<?php if ( $is_client ) : ?>
 					<tr>
-						<th><?php _e( 'Managed Backups Schedule', SNAPSHOT_I18N_DOMAIN ); ?></th>
+						<th><?php esc_html_e( 'Managed Backups Schedule', SNAPSHOT_I18N_DOMAIN ); ?></th>
 
 						<?php if ( ! $has_snapshot_key ) { ?>
 							<td>
-								<a id="view-snapshot-key" class="button button-small button-blue"><?php _e( 'Activate', SNAPSHOT_I18N_DOMAIN ) ?></a>
+								<a id="view-snapshot-key" class="button button-small button-blue"><?php esc_html_e( 'Activate', SNAPSHOT_I18N_DOMAIN ); ?></a>
 							</td>
 						<?php } elseif ( $model->get_config( 'disable_cron', false ) ) { ?>
 
@@ -105,15 +110,22 @@ $latest_snapshot = Snapshot_Helper_Utility::latest_backup( $snapshot );
 						<?php } else { ?>
 
 							<td class="fancy-date-time">
-								<?php $frequencies = $model->get_frequencies(); echo esc_html( $frequencies[$model->get_frequency()] ); ?>
-								<span><?php
+								<?php
+								$frequencies = $model->get_frequencies();
+								echo esc_html( $frequencies[$model->get_frequency()] );
+								?>
+								<span>
+                                <?php
 									$schedule_times = $model->get_schedule_times();
-									printf(
-										esc_html__( 'at %s', SNAPSHOT_I18N_DOMAIN ),
-										$schedule_times[$model->get_schedule_time()]
+									echo wp_kses_post(
+										sprintf(
+												esc_html__( 'at %s', SNAPSHOT_I18N_DOMAIN ),
+												$schedule_times[$model->get_schedule_time()]
+										)
 									);
 
-									?></span>
+								?>
+								</span>
 							</td>
 
 						<?php } ?>

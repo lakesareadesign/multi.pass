@@ -135,6 +135,8 @@
 			var snapshot_form_destination_sync = 'archive';
 			var snapshot_form_files_ignore = '';
 
+			var security = jQuery(':hidden#snapshot-ajax-nonce').val();
+
 			if (snapshot_form_files_option !== "none") {
 				if (snapshot_form_files_option === "all") {
 
@@ -302,6 +304,7 @@
 						'snapshot-destination-directory': snapshot_form_destination_directory,
 						'snapshot-destination-sync': snapshot_form_destination_sync,
 						'snapshot-clean-remote': snapshot_clean_remote,
+						'security': security,
 					};
 
 					jQuery('[id^=snapshot-interval-offset]').each(function () {
@@ -436,7 +439,8 @@
 							'snapshot-item': snapshot_form_item,
 							'snapshot-data-item': snapshot_form_data_item,
 							'snapshot-blog-id': snapshot_form_blog_id,
-							'snapshot-table-data-idx': table_idx
+							'snapshot-table-data-idx': table_idx,
+							'security': security,
 						};
 
 						snapshot_ajax_hdl_xhr = jQuery.ajax({
@@ -576,7 +580,8 @@
 							'snapshot-item': snapshot_form_item,
 							'snapshot-data-item': snapshot_form_data_item,
 							'snapshot-blog-id': snapshot_form_blog_id,
-							'snapshot-file-data-key': file_data_key
+							'snapshot-file-data-key': file_data_key,
+							'security': security,
 						};
 
 						snapshot_ajax_hdl_xhr = jQuery.ajax({
@@ -688,6 +693,7 @@
 						'snapshot-item': snapshot_form_item,
 						'snapshot-data-item': snapshot_form_data_item,
 						'snapshot-blog-id': snapshot_form_blog_id,
+						'security': security,
 					};
 
 					snapshot_ajax_hdl_xhr = jQuery.ajax({

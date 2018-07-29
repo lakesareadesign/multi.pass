@@ -47,7 +47,7 @@
 				<# for( var i in rows) {
 					var row = rows[i];
 					image = row.image,
-					hasImage = !_.isUndefined(image) && !image.endsWith('blank.jpg'),
+					hasImage = !_.isUndefined(image) && null !== image && !image.endsWith('blank.jpg'),
 					hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '' ;
 					var globalClass = row.isGlobal ? ' fl-builder-block-global' : '';
 				#>
@@ -272,7 +272,7 @@
 				var row = rows[i],
 					globalClass = row.isGlobal ? 'fl-builder-block-global' : '',
 					image = row.image,
-					hasImage = !_.isUndefined( image ) && !image.endsWith( 'blank.jpg' ),
+					hasImage = !_.isUndefined( image ) && null !== image && !image.endsWith( 'blank.jpg' ),
 					hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '' ;
 			#>
 			<span class="fl-builder-block fl-builder-block-saved-row {{globalClass}} {{hasImageClass}}" data-id="{{row.id}}">

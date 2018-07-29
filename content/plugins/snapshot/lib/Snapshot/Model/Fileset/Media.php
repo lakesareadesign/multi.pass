@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Model_Fileset_Media extends Snapshot_Model_Fileset {
 
@@ -8,7 +8,7 @@ class Snapshot_Model_Fileset_Media extends Snapshot_Model_Fileset {
 		return Snapshot_Helper_Utility::get_blog_upload_path($this->get_blog_id());
 	}
 
-	public function get_files ($chunk=false) {
+	public function get_files ($chunk = false) {
 		$path = $this->get_root();
 		if (empty($path)) return array();
 
@@ -39,6 +39,7 @@ class Snapshot_Model_Fileset_Media extends Snapshot_Model_Fileset {
 	 */
 	public function set_blog_id ($blog_id) {
 		if (!is_numeric($blog_id)) return false;
-		return $this->_blog_id = (int)$blog_id;
+		$this->_blog_id = (int)$blog_id;
+		return $this->_blog_id;
 	}
 }

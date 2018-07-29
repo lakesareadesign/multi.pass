@@ -134,4 +134,3 @@
     </div>
 
 </div><?php // #wph-wizard-settings-position ?>
-<?php

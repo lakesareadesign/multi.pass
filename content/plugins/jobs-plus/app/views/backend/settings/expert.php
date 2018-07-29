@@ -3,7 +3,7 @@
         <span><?php printf(esc_html__('%s Status Options', je()->domain), $pro_labels->singular_name); ?></span>
     </h3>
 </div>
-<?php $form = new IG_Active_Form($model);
+<?php $form = new IG_Active_Form($model);									     						
 $form->open(array("attributes" => array("class" => "form-horizontal")));?>
 <div class="form-group">
     <label class="col-md-3 control-label">

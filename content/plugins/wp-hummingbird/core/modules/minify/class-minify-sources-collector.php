@@ -53,7 +53,6 @@ class WP_Hummingbird_Sources_Collector {
 			update_option( self::$styles_option, $this->collected['styles'] );
 			update_option( self::$scripts_option, $this->collected['scripts'] );
 		}
-
 	}
 
 	/**

@@ -43,8 +43,8 @@
 	function render_preview_change (e) {
 		var $hub = $(this).closest(".wds-content-tabs-inner"),
 			$tab = $hub.closest(".tab").find(':radio[name="wds-admin-active-tab"]'),
-			$title = $hub.find(':text[name*="title-"]').not('[name*="og-"]'),
-			$meta = $hub.find('textarea[name*="metadesc-"]').not('[name="og-"]'),
+			$title = $hub.find(':text[name*="title-"]').not('[name*="og-"]').not('[name*="twitter-"]'),
+			$meta = $hub.find('textarea[name*="metadesc-"]').not('[name="og-"]').not('[name*="twitter-"]'),
 			$target = $hub.find(".wds-preview-container")
 		;
 
@@ -57,7 +57,8 @@
 			action: "wds-onpage-preview",
 			type: $hub.data("type"),
 			title: $title.val(),
-			description: $meta.val()
+			description: $meta.val(),
+			_wds_nonce: _wds_onpage.nonce
 		}, 'json')
 			.done(function (rsp) {
 				var status = (rsp || {}).status || false,

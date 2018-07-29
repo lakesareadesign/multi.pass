@@ -16,7 +16,7 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 		<i class="wps-typecon local"></i>
 
-		<h3><?php _e( 'Local', SNAPSHOT_I18N_DOMAIN ); ?></h3>
+		<h3><?php esc_html_e( 'Local', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 
 	</div>
 
@@ -26,7 +26,14 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 			<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
 
-				<?php $this->render("destinations/partials/local-destination-list", false, array('item' => $item, 'destinations' => ( isset( $destinations[ 'local' ] ) ? $destinations[ 'local' ] : array() ) ), false, false); ?>
+				<?php
+                $this->render(
+					"destinations/partials/local-destination-list", false, array(
+						'item' => $item,
+						'destinations' => ( isset( $destinations[ 'local' ] ) ? $destinations[ 'local' ] : array() )
+					), false, false
+				);
+				?>
 
 			</div>
 

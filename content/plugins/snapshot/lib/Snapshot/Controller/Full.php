@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Full backups controller abstraction
@@ -26,7 +26,7 @@ class Snapshot_Controller_Full {
 	 * implementing classes.
 	 */
 	protected function __construct () {
-		$this->_model = new Snapshot_Model_Full_Backup;
+		$this->_model = new Snapshot_Model_Full_Backup();
 	}
 
 	/**
@@ -41,7 +41,7 @@ class Snapshot_Controller_Full {
 	 */
 	public static function get () {
 		if (empty(self::$_instance)) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
 		return self::$_instance;
 	}
@@ -111,7 +111,7 @@ class Snapshot_Controller_Full {
 	 * @return bool
 	 */
 	protected function _start_backup ($idx) {
-		$backup = new Snapshot_Helper_Backup;
+		$backup = new Snapshot_Helper_Backup();
 
 		Snapshot_Helper_Log::info("Starting backup");
 
@@ -435,7 +435,7 @@ class Snapshot_Controller_Full {
 	 */
 	private function _restore_backup_cleanup ($restore, $archive_path) {
 		$restore->clear();
-		@unlink($archive_path);
+		unlink($archive_path);
 
 		/**
 		 * Restore finishing hook

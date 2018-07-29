@@ -158,7 +158,7 @@ class MSP_Gallery_Extention {
 		foreach ( $attachments as $id => $attachment ) {
 
 			$attrs   = '';
-			$img_src = msp_get_the_resized_attachment_src( $id, 1400 );
+			$img_src = wp_get_attachment_image_src( $id, 'large' );
 
 			$attrs  .= sprintf( '%s="%s" ', 'src'     , $img_src );
 			$attrs  .= sprintf( '%s="%s" ', 'src_full', $img_src );
@@ -214,6 +214,8 @@ class MSP_Gallery_Extention {
 				$tab    = '<div class=&quot;ms-thumb-alt&quot;>' . $attachment->post_title . '</div>';
 				$attrs .= sprintf( '%s="%s" ', 'tab' , $tab );
 			}
+
+            $attrs = apply_filters( 'masterslider_gallery_slide_attrs', $attrs );
 
 			$slides_shortcode .= sprintf( '[ms_slide %1$s]%3$s%2$s[/ms_slide]%3$s', $attrs, $info, "\n" );
 		}

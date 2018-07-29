@@ -850,6 +850,7 @@ class ShareaholicPublic {
     if ($permalink == NULL){
       // default to random match if no permalink is available
       $match = "random";
+      $post_id = 0;
     } else {
       $post_id = url_to_postid($permalink);
       
@@ -865,36 +866,37 @@ class ShareaholicPublic {
         }
       }
     }
-    
+
     if ($match == "random"){
       // Determine which page types to show
       $post_types = get_post_types(array('public' => true));
-      $post_types_exclude = array('page', 'attachment', 'nav_menu_item');      
-      $post_types_filtered = array_diff($post_types, $post_types_exclude);      
-
+      $post_types_exclude = array('page', 'attachment', 'nav_menu_item');     
+      $post_types_filtered = array_diff($post_types, $post_types_exclude);
+      
       // Query
-      $args = array( 'post_type' => $post_types_filtered, 'posts_per_page' => $n, 'orderby' => 'rand' );
+      $args = array( 'post_type' => $post_types_filtered, 'post__not_in' => array($post_id), 'posts_per_page' => $n, 'orderby' => 'rand' );
       $rand_posts = get_posts( $args );
       foreach ( $rand_posts as $post ){
         if ($post->post_title) {
           $related_link = array(
-            'page_id' => $post->ID,
+            'content_id' => $post->ID,
             'url' => get_permalink($post->ID),
-            'display_url' => get_permalink($post->ID),
             'title' => $post->post_title,
             'description' => $post->post_excerpt,
             'author' => get_userdata($post->post_author)->display_name,
+            'image_url' => preg_replace('#^https?://#', '//', ShareaholicUtilities::permalink_thumbnail($post->ID)),
+            'score' => 1,
             'published_date' => get_the_date( DATE_W3C ),
             'modified_date' => get_the_modified_date( DATE_W3C ),
-            'image_url' => preg_replace('#^https?://#', '//', ShareaholicUtilities::permalink_thumbnail($post->ID)),
-            'score' => 1
+            'channel_id' => 'plugin',
+            'display_url' => get_permalink($post->ID),
           );
           array_push($related_permalink_list, $related_link);
         }
       }
       wp_reset_postdata();
     } else {
-      // other methods coming soon
+      // other match methods can be added here
     }
     
     // Construct results array

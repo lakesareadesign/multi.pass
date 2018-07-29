@@ -6,7 +6,7 @@
  * 	@copyright	Copyright (c) 2017, Kerry Kline
  * 	@link		http://www.bnecreative.com
  *
- * 	@updated	June 16, 2017
+ * 	@updated	June 21, 2017
 */
 
 
@@ -196,15 +196,15 @@ html[xmlns] .bne-testimonial-slider.bne-flexslider .slides {display: block;}
 }
 
 .bne-testimonial-slider.bne-flexslider .flex-direction-nav li a {
-	background-image: url('../images/slider-arrows.png');
+	background-image: url('../images/slider-arrows.png') !important;
 	background-position: 0 0;
 	background-repeat: no-repeat;
 	display: block;
 	margin: 0 1px;
 	outline: 0;
 	text-indent: -9999px;
-	width: 16px;
-	height: 16px;
+	width: 16px !important;
+	height: 16px !important;
 	padding: 0px;
 	position: relative;
 	left: 0;
@@ -218,8 +218,8 @@ html[xmlns] .bne-testimonial-slider.bne-flexslider .slides {display: block;}
 	transition: none;
 }
 
-.bne-testimonial-slider.bne-flexslider .flex-direction-nav .flex-prev { background-position: 0 0; }
-.bne-testimonial-slider.bne-flexslider .flex-direction-nav .flex-next { background-position: 0 -16px; }
+.bne-testimonial-slider.bne-flexslider .flex-direction-nav .flex-prev { background-position: 0 0 !important; }
+.bne-testimonial-slider.bne-flexslider .flex-direction-nav .flex-next { background-position: 0 -16px !important; }
 
 /* == Direction Nav Background - Use 2x image for retina == */
 @media 	only screen and (-webkit-min-device-pixel-ratio: 1.5),
@@ -229,8 +229,8 @@ html[xmlns] .bne-testimonial-slider.bne-flexslider .slides {display: block;}
 		only screen and (min-resolution: 1.5dppx) {
 
 		.bne-testimonial-slider.bne-flexslider .flex-direction-nav li a {
-			background-image: url('../images/slider-arrows_2x.png');
-			background-size: 32px 64px;
+			background-image: url('../images/slider-arrows_2x.png') !important;
+			background-size: 32px 64px !important;
 		}
 }
 

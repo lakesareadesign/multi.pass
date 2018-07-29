@@ -113,7 +113,11 @@
 				if (pid) {
 					_post_id = pid;
 					// Send post request
-					$.post(ajaxurl, { action: 'wds-load_exclusion-post_data', id: pid }, _.noop, 'json')
+					$.post(ajaxurl, {
+							action: 'wds-load_exclusion-post_data',
+							id: pid,
+							_wds_nonce: _wds_postlist.nonce
+						}, _.noop, 'json')
 						.done(function (data) {
 							set(data);
 						})
@@ -492,14 +496,16 @@
 						return $.post(ajaxurl, {
 							action: 'wds-load_exclusion_posts-posts_data-paged',
 							type: type,
-							page: pg
+							page: pg,
+							_wds_nonce: _wds_postlist.nonce
 						}, _.noop, 'json');
 					},
 					_load_specific_posts = function (type) {
 						return $.post(ajaxurl, {
 							action: 'wds-load_exclusion_posts-posts_data-specific',
 							type: type,
-							posts: ps
+							posts: ps,
+							_wds_nonce: _wds_postlist.nonce
 						}, _.noop, 'json');
 					},
 					promise = false === pg && ps.length ? _load_specific_posts(this.get_type()) : _load_paged_posts(this.get_type())

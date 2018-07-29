@@ -6,8 +6,11 @@
 */
 
 defined('ABSPATH') || die;
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
 
-if (!class_exists('ALTER_IMP_EXP')) {
+if (!class_exists('WPS_IMP_EXP')) {
 
     class WPS_IMP_EXP extends WPSHAPERE
     {
@@ -53,7 +56,7 @@ if (!class_exists('ALTER_IMP_EXP')) {
                     <form name="wps_master_reset_form" method="post" onsubmit="return confirm('Do you really want to Reset?');">
                     <input type="hidden" name="reset_to_default" value="wps_master_reset" />
                     <?php wp_nonce_field('wps_reset_nonce','wps_reset_field'); ?>
-                    <input class="button button-primary button-hero" type="submit" value="<?php echo __('Reset All Settings', 'wps'); ?>" />
+                    <input id="wps-button-reset" class="button button-primary" type="submit" value="<?php echo __('Reset All Settings', 'wps'); ?>" />
                     </form>
                 </div>
 

@@ -17,7 +17,7 @@
 		// Setup the new CSS vars if we have new CSS.
 		if ( this._data.css ) {
 			this._loader  = $('<img src="' + this._data.css + '" />');
-			this._oldCss  = $('link[href*="/cache/' + this._post + '"]');
+			this._oldCss  = $('link[href*="/cache/' + this._post + '-layout"]');
 			this._newCss  = $('<link rel="stylesheet" id="fl-builder-layout-' + this._post + '-css"  href="'+ this._data.css +'" />');
 		}
 

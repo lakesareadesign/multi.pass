@@ -49,4 +49,3 @@
 	</div>
 
 </div><?php // #wph-wizard-design-size ?>
-<?php

@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Model_Time {
 
@@ -6,7 +6,7 @@ class Snapshot_Model_Time {
 
 	public static function get () {
 		if (empty(self::$_instance)) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
 		return self::$_instance;
 	}
@@ -18,7 +18,7 @@ class Snapshot_Model_Time {
 	 *
 	 * @return int
 	 */
-	public function get_next_monday ($timestamp=false) {
+	public function get_next_monday ($timestamp= false) {
 		$timestamp = !empty($timestamp)
 			? $timestamp
 			: $this->get_utc_time()
@@ -112,9 +112,38 @@ class Snapshot_Model_Time {
 	 *
 	 * @return string Full filter name
 	 */
-	public function get_filter ($filter=false) {
+	public function get_filter ($filter= false) {
 		if (empty($filter)) return false;
 		if (!is_string($filter)) return false;
 		return 'snapshot-model-time-' . $filter;
+	}
+
+	/**
+	 * Get local hours for equivalent UTC hours
+	 *
+	 * @param $utc_time
+	 *
+	 * @return float|int Local hours in second
+	 */
+	public function convert_to_local_timestamp( $utc_time ) {
+		if ( ! is_numeric( $utc_time ) ) {
+			return $utc_time;
+		}
+		$utc_time = (int) $utc_time;
+		$offset   = $this->get_utc_diff();
+
+		$seconds = $utc_time - $offset; // Deal with seconds, not hours
+		if ( $seconds < 0 ) {
+			$seconds += DAY_IN_SECONDS;
+		}
+		if ( $seconds >= DAY_IN_SECONDS ) {
+			$seconds -= DAY_IN_SECONDS;
+		}
+		if ( 0 === intval( $seconds ) ) {
+			$seconds = 1;
+		}
+
+		return $seconds;
+
 	}
 }

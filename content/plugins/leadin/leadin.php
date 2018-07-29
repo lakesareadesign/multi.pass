@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: HubSpot - Free Marketing Plugin for WordPress
-Plugin URI: http://www.hubspot.com/products/marketing/free
-Description: HubSpot Marketing Free is the ultimate marketing plugin for WordPress for building an email list, generating and tracking leads, and tracking user behavior on your website.
-Version: 6.1.7
+Plugin Name: Form Builder, Live Chat and Lead Generation Tools from HubSpot
+Plugin URI: http://www.hubspot.com/products/wordpress/contact-form
+Description: Whether you’re just getting started with HubSpot or already a HubSpot power user, Form Builder, Live Chat and Lead Generation Tools from HubSpot will let you connect your WordPress website to your HubSpot account without having to deal with code.
+Version: 6.1.9
 Author: HubSpot
 Author URI: http://www.hubspot.com
 License: GPL2
@@ -33,7 +33,7 @@ if ( ! defined( 'LEADIN_DB_VERSION' ) ) {
 }
 
 if ( ! defined( 'LEADIN_PLUGIN_VERSION' ) ) {
-	define( 'LEADIN_PLUGIN_VERSION', '6.1.7' );
+	define( 'LEADIN_PLUGIN_VERSION', '6.1.9' );
 }
 
 if ( ! defined( 'LEADIN_SOURCE' ) ) {

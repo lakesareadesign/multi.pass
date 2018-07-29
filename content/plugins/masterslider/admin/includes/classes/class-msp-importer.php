@@ -70,7 +70,6 @@ class MSP_Importer {
 	 */
 	function header() {
 		echo '<div class="wrap">';
-		screen_icon();
 		echo '<h2>' . __( 'Importing Master Slider', 'wordpress-importer' ) . '</h2><br />';
 	}
 

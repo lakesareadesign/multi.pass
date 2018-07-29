@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Remotes handling hub - API and storage.
@@ -105,7 +105,7 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 	 *
 	 * @return bool
 	 */
-	public function reset_backups_cache ($forced=false) {
+	public function reset_backups_cache ($forced= false) {
 		Snapshot_Model_Transient::delete($this->get_filter("backups"));
 		return $this->reset_api_caches($forced);
 	}
@@ -117,7 +117,7 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 	 *
 	 * @return bool
 	 */
-	public function reset_api_caches ($forced=false) {
+	public function reset_api_caches ($forced= false) {
 		// Also reset any API error, so we actually force new request if needed
 		Snapshot_Model_Transient::delete($this->get_filter("api_error"));
 
@@ -181,7 +181,7 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 	 *
 	 * @return bool
 	 */
-	public function send_backup (Snapshot_Helper_Backup $backup) {
+	public function send_backup ( Snapshot_Helper_Backup $backup) {
 		$path = $backup->get_destination_path();
 		if (empty($path)) {
 			Snapshot_Helper_Log::warn("Unable to determine destination path for upload", "Remote");
@@ -265,14 +265,14 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 	 *
 	 * @return bool
 	 */
-	public function update_schedule ($frequency, $time, $timestamp=false) {
-		if (empty($frequency) || !in_array($frequency, array('daily', 'weekly', 'monthly'))) return false;
+	public function update_schedule ($frequency, $time, $timestamp= false) {
+		if (empty($frequency) || !in_array($frequency, array('daily', 'weekly', 'monthly'), true)) return false;
 		if (!is_numeric($time) || $time < 0 || $time > DAY_IN_SECONDS) return false;
 
 		$domain = Snapshot_Model_Full_Remote_Api::get()->get_domain();
 		if (empty($domain)) return false;
 
-		$lmodel = new Snapshot_Model_Full_Local;
+		$lmodel = new Snapshot_Model_Full_Local();
 
 		// If there's no cron jobs allowed, send nothing.
 		if ($this->get_config('disable_cron', false)) {
@@ -290,7 +290,7 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 			'backup_time' => $time,
 			'backup_offset' => (int)$offset,
 			'backup_limit' => Snapshot_Model_Full_Remote_Storage::get()->get_max_backups_limit(),
-			'local_full_backups' => json_encode($lmodel->get_backups()),
+			'local_full_backups' => wp_json_encode($lmodel->get_backups()),
 		);
 
 		// Also include last backup timestamp, if supplied.
@@ -304,7 +304,7 @@ class Snapshot_Model_Full_Remote extends Snapshot_Model_Full_Abstract {
 		return 200 === (int)wp_remote_retrieve_response_code($response);
 	}
 
-	public function get_help_url ($url=false) {
+	public function get_help_url ($url= false) {
 		return Snapshot_Model_Full_Remote_Help::get()->get_help_url($url);
 	}
 

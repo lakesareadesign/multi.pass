@@ -363,8 +363,13 @@ final class FLBuilderAdminSettings {
 
 			$modules = array();
 
-			if ( is_array( $_POST['fl-modules'] ) ) {
+			if ( isset( $_POST['fl-modules'] ) && is_array( $_POST['fl-modules'] ) ) {
 				$modules = array_map( 'sanitize_text_field', $_POST['fl-modules'] );
+			}
+
+			if ( empty( $modules ) ) {
+				self::add_error( __( 'Error! You must have at least one module enabled.', 'fl-builder' ) );
+				return;
 			}
 
 			FLBuilderModel::update_admin_settings_option( '_fl_builder_enabled_modules', $modules, true );

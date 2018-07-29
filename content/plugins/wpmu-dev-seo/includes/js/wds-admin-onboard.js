@@ -36,7 +36,8 @@
 			if ($item.is(":checked")) {
 				$.post(ajaxurl, {
 					action: "wds-boarding-toggle",
-					target: $item.attr("name")
+					target: $item.attr("name"),
+					_wds_nonce: _wds_onboard.nonce
 				}).always(dfr.resolve);
 			} else setTimeout(dfr.resolve);
 

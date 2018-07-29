@@ -6,7 +6,7 @@
  * @option int $compare
  * @return bool
  */
-function ninja_forms_three_throttle( $threshold = 5 ) {
+function ninja_forms_three_throttle( $threshold = 25 ) {
     $compare = get_option( 'ninja_forms_three_throttle', 0 );
     if( ! $compare ){
         $compare = rand( 1, 100 );

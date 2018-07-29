@@ -43,7 +43,7 @@
 
 		$row.find('.wds-analysis').qtip('destroy', true);
 
-		if (!forced && !already_requested && !$seo.find(".wds-status-none").length && !$rdb.find(".wds-status-none").length) {
+		if (!forced && !already_requested && !$seo.find(".wds-status-invalid").length && !$rdb.find(".wds-status-invalid").length) {
 			var dfr = $.Deferred();
 			setTimeout(dfr.resolve);
 			return dfr.promise();
@@ -52,6 +52,7 @@
 		return $.post(ajaxurl, {
 			action: action,
 			post_id: pid,
+			_wds_nonce: _wds_analysis.nonce
 		})
 			.done(function (rsp) {
 				if (!(rsp || {}).success) {

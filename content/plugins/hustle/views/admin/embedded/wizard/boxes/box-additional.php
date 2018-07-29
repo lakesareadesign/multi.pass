@@ -72,4 +72,3 @@
     </div>
 
 </div><?php // #wph-wizard-settings-additional ?>
-<?php

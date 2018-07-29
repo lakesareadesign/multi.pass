@@ -2379,6 +2379,14 @@ button.fl-builder-button.fl-builder-bar-title-caret:focus {
 .fl-block-overlay-actions .fl-block-move {
 	cursor: move;
 }
+.fl-block-has-rules {
+	color: #00A0D2 !important;
+    cursor: pointer;
+	padding: 7px;
+    position: absolute;
+    right: 0;
+    top: 0;
+}
 .fl-block-overlay-title {
 	color: #fff !important;
 	float: left;
@@ -2519,6 +2527,9 @@ button.fl-builder-button.fl-builder-bar-title-caret:focus {
 }
 .fl-block-overlay-muted .fl-row-overlay .fl-block-overlay-actions {
 	background: #555D66;
+}
+.fl-block-overlay-muted .fl-row-overlay .fl-block-has-rules {
+	color: #555D66 !important;
 }
 .fl-block-overlay-muted .fl-row-overlay .fl-block-col-resize {
 	display:none;
@@ -3470,8 +3481,12 @@ body .fl-lightbox-has-tab-overflow .fl-builder-settings-tabs-more {
 .fl-builder-settings-fields input[type=search],
 .fl-builder-settings-fields input[type=tel],
 .fl-builder-settings-fields input[type=url],
-.fl-builder-settings-fields select {
+.fl-builder-settings-fields select:not(multiple) {
 	height: 36px !important;
+}
+.fl-builder-settings-fields select,
+.fl-builder-settings-fields select[multiple] {
+	height: auto !important;
 }
 .fl-builder-settings-fields input[type=number] {
 	width: 70px;
@@ -3540,6 +3555,12 @@ body .fl-lightbox-has-tab-overflow .fl-builder-settings-tabs-more {
 }
 .fl-font-field .fl-font-field-weight {
 	width:30% !important;
+}
+
+/* Add predefined value dropdown for text field */
+.fl-builder-settings-fields .fl-text-field-add-value {
+	min-width: 50%;
+	margin-top: .62em;
 }
 
 .fl-lightbox-width-slim input.text-full + .fl-field-description,
@@ -3820,7 +3841,7 @@ i.fl-field-responsive-toggle:hover {
 	border: none;
 	border-radius: 0;
 }
-.fl-builder-edit button.button-link.media-modal-close {
+.fl-builder-edit button.media-modal-close {
 	position: absolute;
 	box-shadow: none;
 	-webkit-box-shadow: none;
@@ -3950,12 +3971,7 @@ span.select2-container.select2-container--open {
 	background: transparent;
 	border: none;
 }
-.mce-ico {
-	font-family: tinymce, Arial !important;
-}
-.mce-toolbar i.mce-ico {
-	font: 400 20px/1 dashicons !important;
-}
+
 .wp-core-ui .quicktags-toolbar input.button.button-small {
 	margin: 1px !important;
 }

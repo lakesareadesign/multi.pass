@@ -1,5 +1,5 @@
 <?php
-	$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
+$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
 ?>
 
 <div class="wds-report">

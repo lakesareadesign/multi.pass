@@ -37,4 +37,3 @@
     </div>
 
 </div><?php // #wpmudev-dashboard-widget-modules ?>
-<?php

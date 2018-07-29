@@ -265,7 +265,7 @@ FLBuilder::register_module('FLContentSliderModule', array(
 						'default'       => '5',
 						'maxlength'     => '4',
 						'size'          => '5',
-						'sanitize'		=> 'absint',
+						'sanitize'			=> 'FLBuilderUtils::sanitize_non_negative_number',
 						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
 					),
 					'loop'          => array(
@@ -292,7 +292,7 @@ FLBuilder::register_module('FLContentSliderModule', array(
 						'default'       => '0.5',
 						'maxlength'     => '4',
 						'size'          => '5',
-						'sanitize'		=> 'absint',
+						'sanitize'			=> 'FLBuilderUtils::sanitize_non_negative_number',
 						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
 					),
 					'play_pause'    => array(

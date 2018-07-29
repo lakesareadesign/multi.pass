@@ -67,7 +67,7 @@ class FLMenuModule extends FLBuilderModule {
 
 			if ( in_array( $toggle, array( 'hamburger', 'hamburger-label' ) ) ) {
 
-				echo '<button class="fl-menu-mobile-toggle ' . $toggle . '"><span class="svg-container">';
+				echo '<button class="fl-menu-mobile-toggle ' . $toggle . '" aria-label="' . __( 'Menu', 'fl-builder' ) . '"><span class="svg-container">';
 				include FL_BUILDER_DIR . 'img/svg/hamburger-menu.svg';
 				echo '</span>';
 
@@ -79,7 +79,7 @@ class FLMenuModule extends FLBuilderModule {
 
 			} elseif ( 'text' == $toggle ) {
 
-				echo '<button class="fl-menu-mobile-toggle text"><span class="fl-menu-mobile-toggle-label">' . __( 'Menu', 'fl-builder' ) . '</span></button>';
+				echo '<button class="fl-menu-mobile-toggle text"><span class="fl-menu-mobile-toggle-label" aria-label="' . __( 'Menu', 'fl-builder' ) . '">' . __( 'Menu', 'fl-builder' ) . '</span></button>';
 
 			}
 		}

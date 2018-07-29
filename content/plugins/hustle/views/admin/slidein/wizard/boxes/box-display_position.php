@@ -144,4 +144,3 @@ $can_close = false;
     </div>
 
 </div><?php // #wph-wizard-settings-display_position ?>
-<?php

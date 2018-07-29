@@ -1,11 +1,13 @@
 <?php
 /*
 Plugin Name: Genesis Connect for WooCommerce
-Plugin URI: http://www.studiopress.com/plugins/genesis-connect-woocommerce
-Version: 0.9.10
+Plugin URI: https://wordpress.org/plugins/genesis-connect-woocommerce/
+Version: 1.0
 Author: StudioPress
-Author URI: http://www.studiopress.com/
+Author URI: https://www.studiopress.com/
 Description: Allows you to seamlessly integrate WooCommerce with the Genesis Framework and Genesis child themes.
+WC requires at least: 3.3.0
+WC tested up to: 3.4
 
 License: GNU General Public License v2.0 (or later)
 License URI: http://www.opensource.org/licenses/gpl-license.php
@@ -13,37 +15,12 @@ License URI: http://www.opensource.org/licenses/gpl-license.php
 Special thanks to Ade Walker (http://www.studiograsshopper.ch/) for his contributions to this plugin.
 */
 
-
-register_activation_hook( __FILE__, 'gencwooc_activation' );
-/**
- * Check the environment when plugin is activated
- *
- * Requirements:
- * - WooCommerce needs to be installed and activated
- *
- * Note: register_activation_hook() isn't run after auto or manual upgrade, only on activation
- * Note: this version of GCW is based on WooCommerce 2.1+
- *
- * @since 0.9.0
- */
-function gencwooc_activation() {
-
-	//* If Genesis is not the active theme, deactivate and die.
-	if ( 'genesis' != get_option( 'template' ) ) {
-		deactivate_plugins( plugin_basename( __FILE__ ) );
-		wp_die( sprintf( __( 'Sorry, you can\'t activate unless you have installed <a href="%s">Genesis</a>', 'gencwooc' ), 'http://my.studiopress.com/themes/genesis/' ) );
-	}
-
-}
-
-
-
 /** Define the Genesis Connect for WooCommerce constants */
 define( 'GCW_TEMPLATE_DIR', dirname( __FILE__ ) . '/templates' );
 define( 'GCW_LIB_DIR', dirname( __FILE__ ) . '/lib');
+define( 'GCW_ADMIN_DIR', dirname( __FILE__ ) . '/admin');
+define( 'GCW_WIDGETS_DIR', dirname( __FILE__ ) . '/widgets' );
 define( 'GCW_SP_DIR', dirname( __FILE__ ) . '/sp-plugins-integration' );
-
-
 
 add_action( 'after_setup_theme', 'gencwooc_setup' );
 /**
@@ -57,11 +34,29 @@ add_action( 'after_setup_theme', 'gencwooc_setup' );
  */
 function gencwooc_setup() {
 
-	/** Fail silently if WooCommerce is not activated */
-	if ( ! in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
-		return;
+	require_once GCW_ADMIN_DIR . '/notices.php';
+	$ready = true;
 
-	/** Environment is OK, let's go! */
+	if ( ! function_exists( 'is_plugin_active' ) ) {
+		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+	}
+
+	if ( ! is_plugin_active( 'woocommerce/woocommerce.php' ) ) {
+		add_action( 'admin_notices', 'gencwooc_woocommerce_notice' );
+		$ready = false;
+	}
+
+	if ( ! function_exists( 'genesis' ) ) {
+		if ( ! is_multisite() ) {
+			add_action( 'admin_notices', 'gencwooc_genesis_notice' );
+		}
+
+		$ready = false;
+	}
+
+	if ( ! $ready ) {
+		return;
+	}
 
 	global $woocommerce;
 
@@ -78,22 +73,29 @@ function gencwooc_setup() {
 	/** Ensure WooCommerce 2.0+ compatibility */
 	add_theme_support( 'woocommerce' );
 
-	/** Add Genesis Layout and SEO options to Product edit screen */
-	add_post_type_support( 'product', array( 'genesis-layouts', 'genesis-seo' ) );
+	/** Add Genesis Layout, Genesis Scripts and SEO options to Product edit screen */
+	add_post_type_support( 'product', array( 'genesis-layouts', 'genesis-scripts', 'genesis-seo' ) );
 
 	/** Add Studiopress plugins support */
 	add_post_type_support( 'product', array( 'genesis-simple-sidebars', 'genesis-simple-menus' ) );
+
+	/** Add Widgets */
+	if ( current_theme_supports( 'gencwooc-featured-products-widget' ) ) {
+		require_once( GCW_WIDGETS_DIR . '/woocommerce-featured-widgets.php' );
+	}
 
 	/** Take control of shop template loading */
 	remove_filter( 'template_include', array( &$woocommerce, 'template_loader' ) );
 	add_filter( 'template_include', 'gencwooc_template_loader', 20 );
 
 	/** Integration - Genesis Simple Sidebars */
-	if ( in_array( 'genesis-simple-sidebars/plugin.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
+	if ( is_plugin_active( 'genesis-simple-sidebars/plugin.php' ) ) {
 		require_once( GCW_SP_DIR . '/genesis-simple-sidebars.php' );
+	}
 
 	/** Integration - Genesis Simple Menus */
-	if ( in_array( 'genesis-simple-menus/simple-menu.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) )
+	if ( is_plugin_active( 'genesis-simple-menus/simple-menu.php' ) ) {
 		require_once( GCW_SP_DIR . '/genesis-simple-menus.php' );
+	}
 
 }

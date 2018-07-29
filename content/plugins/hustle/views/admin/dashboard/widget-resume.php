@@ -77,4 +77,3 @@
     </div>
 
 </div><?php // #wpmudev-dashboard-widget-resume ?>
-<?php

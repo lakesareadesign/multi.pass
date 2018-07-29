@@ -4,7 +4,7 @@
 </section>
 
 <?php
-$model = new Snapshot_Model_Full_Backup;
+$model = new Snapshot_Model_Full_Backup();
 $apiKey = $model->get_config('secret-key', '');
 $data = array(
 	"hasApikey" => !empty($apiKey),
@@ -18,7 +18,7 @@ $data = array(
 	<section class="wpmud-box wps-widget-getkey">
 
 		<div class="wpmud-box-title">
-			<h3><?php _e('Get Started', SNAPSHOT_I18N_DOMAIN); ?></h3>
+			<h3><?php esc_html_e('Get Started', SNAPSHOT_I18N_DOMAIN); ?></h3>
 		</div>
 
 		<div class="wpmud-box-content">
@@ -31,12 +31,12 @@ $data = array(
 
 					<div class="wps-getkey-box">
 
-						<p><?php printf( __( '%s, as a WPMU DEV member you get 10GB free cloud storage included in your membership. Create and store full backups of your website, including WordPress core files. And if disaster strikes, you can quickly and easily restore your website any time. <br/>Add your Snapshot Key to enable this service.', SNAPSHOT_I18N_DOMAIN ), wp_get_current_user()->display_name ); ?></p>
+						<p><?php echo wp_kses_post( sprintf( __( '%s, as a WPMU DEV member you get 10GB free cloud storage included in your membership. Create and store full backups of your website, including WordPress core files. And if disaster strikes, you can quickly and easily restore your website any time. <br/>Add your Snapshot Key to enable this service.', SNAPSHOT_I18N_DOMAIN ), wp_get_current_user()->display_name ) ); ?></p>
 
 					</div>
 
 					<p>
-						<a id="view-snapshot-key" class="button <?php echo !empty($apiKey) ? 'has-key' : ''; ?> button-blue"><?php _e( 'Activate Managed Backups', SNAPSHOT_I18N_DOMAIN ); ?></a>
+						<a id="view-snapshot-key" class="button <?php echo !empty($apiKey) ? 'has-key' : ''; ?> button-blue"><?php esc_html_e( 'Activate Managed Backups', SNAPSHOT_I18N_DOMAIN ); ?></a>
 					</p>
 
 				</div>

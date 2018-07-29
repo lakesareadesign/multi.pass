@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Model_Full_Local extends Snapshot_Model_Full_Abstract {
 
@@ -61,7 +61,9 @@ class Snapshot_Model_Full_Local extends Snapshot_Model_Full_Abstract {
 		$path = $this->get_backup($timestamp);
 		if (empty($path)) return false;
 
-		return @unlink($path);
+		if ( ! is_writable( $path ) ) return false;
+
+		return unlink($path);
 	}
 
 	/**

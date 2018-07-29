@@ -338,23 +338,28 @@ window.Wds.optimum_length_indicator = function ($element, lower, upper) {
 	$element.on('input propertychange', update_indicator);
 };
 
-window.Wds.dismissible_message = function (message_key) {
+window.Wds.dismissible_message = function () {
 	var $ = jQuery;
 
 	function remove_message(event) {
 		event.preventDefault();
 
-		var $this = $(this);
-		$this.closest('.wds-mascot-message, .wds-notice').remove();
+		var $dismiss_link = $(this),
+			$message_box = $dismiss_link.closest('.wds-mascot-message, .wds-notice'),
+			message_key = $message_box.data('key');
 
-		$.post(
-			ajaxurl,
-			{
-				action: 'wds_dismiss_message',
-				message: message_key
-			},
-			'json'
-		);
+		$message_box.remove();
+		if (message_key) {
+			$.post(
+				ajaxurl,
+				{
+					action: 'wds_dismiss_message',
+					message: message_key,
+                	_wds_nonce: _wds_admin.nonce
+				},
+				'json'
+			);
+		}
 	}
 
 	$(document).on('click', '.wds-mascot-bubble-dismiss, .wds-notice-dismiss', remove_message);
@@ -373,7 +378,8 @@ window.Wds.hook_user_search = function () {
 				option_name: $container.data('optionName'),
 				users_key: $container.data('usersKey'),
 				new_user_key: $container.data('newUserKey'),
-				action: 'wds-user-search-add-user'
+				action: 'wds-user-search-add-user',
+                _wds_nonce: _wds_admin.nonce
 			},
 			data = $container.find('input, select').serialize() + '&' + $.param(params);
 
@@ -402,11 +408,13 @@ window.Wds.hook_user_search = function () {
 				url: ajaxurl,
 				dataType: 'json',
 				delay: 500,
+                type:'POST',
 				data: function (params) {
 					return {
 						action: 'wds-user-search',
 						query: params.term,
-						page: params.page
+						page: params.page,
+						_wds_nonce: _wds_admin.nonce
 					};
 				},
 				processResults: function (data) {
@@ -449,7 +457,7 @@ window.Wds.upsell = function () {
 	function do_upgrade_action() {
 		var $button = $(this);
 
-		window.location.href = $button.data('target');
+		window.open($button.data('target'), '_blank');
 	}
 
 	function open_upsell_modal(e) {

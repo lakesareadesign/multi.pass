@@ -240,36 +240,51 @@ class FLPostGridModule extends FLBuilderModule {
 	 * @return void
 	 */
 	static public function schema_meta() {
+
+		do_action( 'fl_before_schema_meta' );
+
 		// General Schema Meta
+		ob_start();
 		echo '<meta itemscope itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="' . esc_url( get_permalink() ) . '" content="' . the_title_attribute( array(
 			'echo' => false,
 		) ) . '" />';
 		echo '<meta itemprop="datePublished" content="' . get_the_time( 'Y-m-d' ) . '" />';
 		echo '<meta itemprop="dateModified" content="' . get_the_modified_date( 'Y-m-d' ) . '" />';
 
+		echo apply_filters( 'fl_schema_meta_general', ob_get_clean() );
+
 		// Publisher Schema Meta
+		ob_start();
 		echo '<div itemprop="publisher" itemscope itemtype="https://schema.org/Organization">';
 		echo '<meta itemprop="name" content="' . get_bloginfo( 'name' ) . '">';
 
+		// Fetch logo from theme or filter.
+		$image = '';
 		if ( class_exists( 'FLTheme' ) && 'image' == FLTheme::get_setting( 'fl-logo-type' ) ) {
+			$image = FLTheme::get_setting( 'fl-logo-image' );
+		}
+		$image = apply_filters( 'fl_schema_meta_publisher_image_url', $image );
+		if ( $image ) {
 			echo '<div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">';
-			echo '<meta itemprop="url" content="' . FLTheme::get_setting( 'fl-logo-image' ) . '">';
+			echo '<meta itemprop="url" content="' . $image . '">';
 			echo '</div>';
 		}
 
 		echo '</div>';
+		echo apply_filters( 'fl_schema_meta_publisher', ob_get_clean() );
 
 		// Author Schema Meta
+		ob_start();
 		echo '<div itemscope itemprop="author" itemtype="https://schema.org/Person">';
 		echo '<meta itemprop="url" content="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '" />';
 		echo '<meta itemprop="name" content="' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '" />';
 		echo '</div>';
+		echo apply_filters( 'fl_schema_meta_author', ob_get_clean() );
 
 		// Image Schema Meta
 		if ( has_post_thumbnail() ) {
 
 			$image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
-
 			if ( is_array( $image ) ) {
 				echo '<div itemscope itemprop="image" itemtype="https://schema.org/ImageObject">';
 				echo '<meta itemprop="url" content="' . $image[0] . '" />';
@@ -280,10 +295,14 @@ class FLPostGridModule extends FLBuilderModule {
 		}
 
 		// Comment Schema Meta
+		ob_start();
 		echo '<div itemprop="interactionStatistic" itemscope itemtype="https://schema.org/InteractionCounter">';
 		echo '<meta itemprop="interactionType" content="https://schema.org/CommentAction" />';
 		echo '<meta itemprop="userInteractionCount" content="' . wp_count_comments( get_the_ID() )->approved . '" />';
 		echo '</div>';
+		echo apply_filters( 'fl_schema_meta_comments', ob_get_clean() );
+
+		do_action( 'fl_after_schema_meta' );
 	}
 
 	/**

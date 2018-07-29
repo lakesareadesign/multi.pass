@@ -2,6 +2,7 @@
 /*
  * Configuration for the options function
  */
+
 function is_wps_single() {
    if(!is_multisite())
 	return true;
@@ -72,6 +73,7 @@ function get_wps_options() {
       'adminmenu' => __( 'Admin menu Options', 'wps' ),
       'footer' => __( 'Footer Options', 'wps' ),
       'email' => __( 'Email Options', 'wps' ),
+      'privilege_users' => __( 'Set Privilege users', 'wps' ),
       );
 
   $panel_fields = array();
@@ -188,6 +190,7 @@ function get_wps_options() {
       'default' => false,
       );
 
+/*
   $panel_fields[] = array(
       'name' => __( 'Menu Customization options', 'wps' ),
       'type' => 'title',
@@ -210,7 +213,7 @@ function get_wps_options() {
       'desc' => __( 'Select admin users who can have access to all menu items. Note: Atleast one user must be selected in order to activate Privilege feature.', 'wps' ),
       'options' => $admin_users_array,
       );
-
+*/
 
   //Login Options
   $panel_fields[] = array(
@@ -437,6 +440,70 @@ function get_wps_options() {
       'type' => 'title',
       );
 
+if(defined('POWERBOX_PATH')) {
+
+  $panel_fields[] = array(
+      'name' => __( 'Set number of widgets required.', 'wps' ),
+      'id' => 'set_dash_widget_count',
+      'type' => 'number',
+      'default' => '5',
+      'max' => '50',
+      );
+
+  $dash_counts = (isset($wps_options['set_dash_widget_count']) && !empty($wps_options['set_dash_widget_count'])) ? $wps_options['set_dash_widget_count'] : 5;
+    for ($w=0; $w < $dash_counts; $w++) {
+
+      $n = $w + 1;
+      $panel_fields[] = array(
+          'type' => 'note',
+          'desc' => __( 'Widget', 'wps' ) . " " . $n,
+          );
+
+      $panel_fields[] = array(
+          'name' => __( 'Widget Type', 'wps' ),
+          'id' => 'wps_widget_'.$n.'_type',
+          'options' => array(
+              '1' => __( 'RSS Feed', 'wps' ),
+              '2' => __( 'Text Content', 'wps' ),
+              '3' => __( 'Video Content', 'wps' ),
+          ),
+          'type' => 'radio',
+          'default' => '2',
+          );
+
+          $panel_fields[] = array(
+            'name' => __( 'Widget Position', 'wps' ),
+            'id' => 'wps_widget_'.$n.'_position',
+            'options' => array(
+                'normal' => __( 'Left', 'wps' ),
+                'side' => __( 'Right', 'wps' ),
+            ),
+            'type' => 'select',
+          );
+
+          $panel_fields[] = array(
+            'name' => __( 'Widget Title', 'wps' ),
+            'id' => 'wps_widget_'.$n.'_title',
+            'type' => 'text',
+          );
+
+          $panel_fields[] = array(
+            'name' => __( 'RSS Feed url', 'wps' ),
+            'id' => 'wps_widget_'.$n.'_rss',
+            'type' => 'text',
+            'desc' => __( 'Put your RSS feed url here if you want to show your own RSS feeds. Otherwise fill your static contents in the below editor.', 'wps' ),
+          );
+
+          $panel_fields[] = array(
+            'name' => __( 'Widget Content', 'wps' ),
+            'id' => 'wps_widget_'.$n.'_content',
+            'type' => 'wpeditor',
+          );
+
+    } //close of for
+  }
+  else {
+
   $panel_fields[] = array(
       'type' => 'note',
       'desc' => __( 'Widget 1', 'wps' ),
@@ -621,6 +688,7 @@ function get_wps_options() {
       'type' => 'wpeditor',
       );
 
+} //end of elseif
 
   //AdminBar Options
   $panel_fields[] = array(
@@ -732,6 +800,13 @@ function get_wps_options() {
       'id' => 'admin_bar_sbmenu_link_hover_color',
       'type' => 'wpcolor',
       'default' => '#333333',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Custom welcome Text', 'wps' ),
+      'id' => 'adminbar_custom_welcome_text',
+      'type' => 'text',
+      'desc' => __( 'Custom welcome text instead of default "Howdy".', 'wps' ),
       );
 
   if(!empty($adminbar_items)) {
@@ -1182,6 +1257,84 @@ function get_wps_options() {
       'id' => 'email_from_name',
       'type' => 'text',
       );
+
+  //Privilege feature
+  $panel_fields[] = array(
+      'name' => __( 'Set Privilege users', 'aof' ),
+      'type' => 'openTab'
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Select Privilege users', 'wps' ),
+      'id' => 'privilege_users',
+      'type' => 'multicheck',
+      'desc' => __( 'Select admin users who can have access to all menu items. Note: Atleast one user must be selected in order to activate Privilege feature.', 'wps' ),
+      'options' => $admin_users_array,
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Widget Customization options', 'wps' ),
+      'type' => 'title',
+      );
+
+  $panel_fields[] = array(
+          'name' => __( 'Widgets display', 'wps' ),
+          'id' => 'show_all_widgets_to_admin',
+          'type' => 'radio',
+      'options' => array(
+          '1' => __( 'Show all widgets to all admin users', 'wps' ),
+          '2' => __( 'Show all widgets to specific admin users', 'wps' ),
+          '3' => __( 'Hide selected widgets to specific admin users also', 'wps' ),
+      ),
+      'default' => '1',
+  );
+
+  $panel_fields[] = array(
+      'name' => __( 'Menu Customization options', 'wps' ),
+      'type' => 'title',
+      );
+
+  $panel_fields[] = array(
+          'name' => __( 'Menu display', 'wps' ),
+          'id' => 'show_all_menu_to_admin',
+          'type' => 'radio',
+      'options' => array(
+          '1' => __( 'Show all Menu links to all admin users', 'wps' ),
+          '2' => __( 'Show all Menu links to specific admin users', 'wps' ),
+      ),
+      'default' => '1',
+  );
+
+if(defined('POWERBOX_PATH')) {
+  $panel_fields[] = array(
+      'name' => __( 'Hide plugins options', 'wps' ),
+      'type' => 'title',
+      );
+
+  $panel_fields[] = array(
+          'name' => __( 'Plugins list display', 'wps' ),
+          'id' => 'show_all_plugins_list_to_admin',
+          'type' => 'radio',
+      'options' => array(
+          '1' => __( 'Show all plugins list to all admin users', 'wps' ),
+          '2' => __( 'Show all plugins list to specific admin users', 'wps' ),
+          '3' => __( 'Hide selected plugins to specific admin users also', 'wps' ),
+      ),
+      'default' => '1',
+  );
+
+  $panel_fields[] = array(
+          'name' => __( 'Users list display', 'wps' ),
+          'id' => 'show_all_users_list_to_admin',
+          'type' => 'radio',
+      'options' => array(
+          '1' => __( 'Show all users list to all admin users', 'wps' ),
+          '2' => __( 'Show all users list to specific admin users', 'wps' ),
+          '3' => __( 'Hide selected users to specific admin users also', 'wps' ),
+      ),
+      'default' => '1',
+  );
+}
 
   $output = array('wps_tabs' => $panel_tabs, 'wps_fields' => $panel_fields);
   return $output;

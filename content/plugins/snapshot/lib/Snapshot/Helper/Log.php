@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Helper_Log {
 
@@ -16,7 +16,7 @@ class Snapshot_Helper_Log {
 
 	public static function get () {
 		if (empty(self::$_instance)) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
 		return self::$_instance;
 	}
@@ -51,8 +51,8 @@ class Snapshot_Helper_Log {
 	 *
 	 * @return bool
 	 */
-	public static function error ($msg, $section=false) {
-		return self::get()->_log(Snapshot_Helper_Log::LEVEL_ERROR, $msg, $section);
+	public static function error ($msg, $section = false) {
+		return self::get()->_log(self::LEVEL_ERROR, $msg, $section);
 	}
 
 	/**
@@ -63,8 +63,8 @@ class Snapshot_Helper_Log {
 	 *
 	 * @return bool
 	 */
-	public static function warn ($msg, $section=false) {
-		return self::get()->_log(Snapshot_Helper_Log::LEVEL_WARNING, $msg, $section);
+	public static function warn ($msg, $section = false) {
+		return self::get()->_log(self::LEVEL_WARNING, $msg, $section);
 	}
 
 	/**
@@ -75,8 +75,8 @@ class Snapshot_Helper_Log {
 	 *
 	 * @return bool
 	 */
-	public static function note ($msg, $section=false) {
-		return self::get()->_log(Snapshot_Helper_Log::LEVEL_NOTICE, $msg, $section);
+	public static function note ($msg, $section = false) {
+		return self::get()->_log(self::LEVEL_NOTICE, $msg, $section);
 	}
 
 	/**
@@ -87,8 +87,8 @@ class Snapshot_Helper_Log {
 	 *
 	 * @return bool
 	 */
-	public static function info ($msg, $section=false) {
-		return self::get()->_log(Snapshot_Helper_Log::LEVEL_INFO, $msg, $section);
+	public static function info ($msg, $section = false) {
+		return self::get()->_log(self::LEVEL_INFO, $msg, $section);
 	}
 
 	/**
@@ -98,7 +98,7 @@ class Snapshot_Helper_Log {
 	 *
 	 * @return string Actual severity level name (as translatable string)
 	 */
-	public static function get_level_name ($level=false) {
+	public static function get_level_name ($level = false) {
 		return self::get()->_get_level_name($level);
 	}
 
@@ -109,12 +109,13 @@ class Snapshot_Helper_Log {
 	 */
 	public function get_known_levels () {
 		static $levels;
-		if (empty($levels)) $levels = array(
-			Snapshot_Helper_Log::LEVEL_ERROR => __('Error', SNAPSHOT_I18N_DOMAIN),
-			Snapshot_Helper_Log::LEVEL_WARNING => __('Warning', SNAPSHOT_I18N_DOMAIN),
-			Snapshot_Helper_Log::LEVEL_NOTICE => __('Notice', SNAPSHOT_I18N_DOMAIN),
-			Snapshot_Helper_Log::LEVEL_INFO => __('Info', SNAPSHOT_I18N_DOMAIN),
-		);
+		if (empty($levels))
+			$levels = array(
+				self::LEVEL_ERROR => __('Error', SNAPSHOT_I18N_DOMAIN),
+				self::LEVEL_WARNING => __('Warning', SNAPSHOT_I18N_DOMAIN),
+				self::LEVEL_NOTICE => __('Notice', SNAPSHOT_I18N_DOMAIN),
+				self::LEVEL_INFO => __('Info', SNAPSHOT_I18N_DOMAIN),
+			);
 		return $levels;
 	}
 
@@ -127,7 +128,7 @@ class Snapshot_Helper_Log {
 	 */
 	public function get_known_sections () {
 		return array(
-			Snapshot_Helper_Log::SECTION_DEFAULT => __('Default', SNAPSHOT_I18N_DOMAIN),
+			self::SECTION_DEFAULT => __('Default', SNAPSHOT_I18N_DOMAIN),
 			'Cron' => __('Cron', SNAPSHOT_I18N_DOMAIN),
 			'Remote' => __('Remote', SNAPSHOT_I18N_DOMAIN),
 			'Queue' => __('Queue', SNAPSHOT_I18N_DOMAIN),
@@ -144,7 +145,7 @@ class Snapshot_Helper_Log {
 	public function get_section_constant_name ($section) {
 		$section = is_string($section) && !empty($section) && preg_match('/^[a-z]+$/i', $section)
 			? $section
-			: Snapshot_Helper_Log::SECTION_DEFAULT
+			: self::SECTION_DEFAULT
 		;
 		return 'SNAPSHOT_LOGGABLE_' . strtoupper($section);
 	}
@@ -155,7 +156,7 @@ class Snapshot_Helper_Log {
 	 * @return int
 	 */
 	public function get_default_level () {
-		return Snapshot_Helper_Log::LEVEL_DEFAULT;
+		return self::LEVEL_DEFAULT;
 	}
 
 	/**
@@ -167,7 +168,14 @@ class Snapshot_Helper_Log {
 		$file = $this->_get_log_file();
 		if (empty($file) || !is_readable($file)) return '';
 
-		return file_get_contents($file);
+		// return file_get_contents($file);
+		global $wp_filesystem;
+
+		if( Snapshot_Helper_Utility::connect_fs() ) {
+			return $wp_filesystem->get_contents( $file );
+		} else {
+			return new WP_Error( "filesystem_error", "Cannot initialize filesystem" );
+		}
 	}
 
 	/**
@@ -176,10 +184,18 @@ class Snapshot_Helper_Log {
 	 * @return bool
 	 */
 	public function clear_log () {
+
 		$file = $this->_get_log_file();
 		if (empty($file) || !is_readable($file)) return false;
 
-		return false !== file_put_contents($file, '');
+		// return false !== file_put_contents($file, '');
+		global $wp_filesystem;
+
+		if( Snapshot_Helper_Utility::connect_fs() ) {
+			return false !== $wp_filesystem->put_contents( $file, '', FS_CHMOD_FILE );
+		} else {
+			return false;
+		}
 	}
 
 	/**
@@ -191,8 +207,8 @@ class Snapshot_Helper_Log {
 	 *
 	 * @return bool
 	 */
-	protected function _log ($level, $msg, $section=false) {
-		$section = !empty($section) ? $section : Snapshot_Helper_Log::SECTION_DEFAULT;
+	protected function _log ($level, $msg, $section = false) {
+		$section = !empty($section) ? $section : self::SECTION_DEFAULT;
 
 		if (!$this->_is_loggable_level($level, $section)) return false;
 		if (!$this->_is_loggable_section($section)) return false;
@@ -204,7 +220,7 @@ class Snapshot_Helper_Log {
 		$level_name = $this->_get_level_name($level);
 
 		$line = "[{$section}][{$timestamp}][{$level_name}] {$msg}\n";
-		return !!file_put_contents($log_file, $line, FILE_APPEND|LOCK_EX);
+		return !!file_put_contents($log_file, $line, FILE_APPEND|LOCK_EX); // phpcs:ignore
 	}
 
 	/**
@@ -240,7 +256,7 @@ class Snapshot_Helper_Log {
 		*/
 		return !empty($levels[$level])
 			? $levels[$level]
-			: $levels[Snapshot_Helper_Log::LEVEL_DEFAULT]
+			: $levels[self::LEVEL_DEFAULT]
 		;
 	}
 
@@ -252,10 +268,11 @@ class Snapshot_Helper_Log {
 	 * @return int
 	 */
 	protected function _get_section_level ($section) {
-		$level = Snapshot_Helper_Log::LEVEL_DEFAULT;
+		$level = self::LEVEL_DEFAULT;
 		if (!empty($section)) {
 			$const = $this->get_section_constant_name($section);
-			if (defined($const)) $level = constant($const);
+			if (defined($const))
+				$level = constant($const);
 		}
 		return $level;
 	}

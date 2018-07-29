@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Full backup creation helper
@@ -78,7 +78,8 @@ class Snapshot_Helper_Backup {
 	 * @param int $blog_id Blog ID.
 	 */
 	public function set_blog_id( $blog_id = null ) {
-		return $this->_blog_id = $blog_id;
+		$this->_blog_id = $blog_id;
+		return $this->_blog_id;
 	}
 
 	/**
@@ -92,10 +93,14 @@ class Snapshot_Helper_Backup {
 	public function create( $idx ) {
 		$status = false; // Start with assumed failure.
 
-		if ( ! preg_match( '/^[-_a-z0-9]+$/', $idx ) ) { return $this->_set_error( sprintf( __( 'Invalid destination: %s', SNAPSHOT_I18N_DOMAIN ), $idx ) ); }
+		if ( ! preg_match( '/^[-_a-z0-9]+$/', $idx ) ) {
+			return $this->_set_error( sprintf( __( 'Invalid destination: %s', SNAPSHOT_I18N_DOMAIN ), $idx ) );
+		}
 
 		$path = $this->resolve_backup( $idx );
-		if ( empty( $path ) ) { return $status; }
+		if ( empty( $path ) ) {
+			return $status;
+		}
 
 		$this->_idx = $idx;
 		$this->_timestamp = time();
@@ -112,7 +117,9 @@ class Snapshot_Helper_Backup {
 	 * @return bool
 	 */
 	public function add_queue( $queue ) {
-		if ( ! ($queue instanceof Snapshot_Model_Queue) ) { return false; }
+		if ( ! ($queue instanceof Snapshot_Model_Queue) ) {
+			return false;
+		}
 		$this->_queues[] = $queue;
 		return true;
 	}
@@ -145,7 +152,7 @@ class Snapshot_Helper_Backup {
 		}
 		return (bool) preg_match(
 			'/' .
-				preg_quote( Snapshot_Helper_Backup::FINAL_PREFIX, '/' ) . '-' . $timestamp . '-(full|automated)-[A-Za-z0-9]+\.zip$' .
+				preg_quote( self::FINAL_PREFIX, '/' ) . '-' . $timestamp . '-(full|automated)-[A-Za-z0-9]+\.zip$' .
 			'/',
 			$filename
 		);
@@ -160,7 +167,9 @@ class Snapshot_Helper_Backup {
 	 * @return bool
 	 */
 	public static function is_automated_backup( $filename, $timestamp = false ) {
-		if ( ! self::is_full_backup( $filename, $timestamp ) ) { return false; }
+		if ( ! self::is_full_backup( $filename, $timestamp ) ) {
+			return false;
+		}
 
 		return (bool) preg_match( '/-automated-/', $filename );
 	}
@@ -196,19 +205,25 @@ class Snapshot_Helper_Backup {
 	public static function load( $idx ) {
 		$session = self::get_session( $idx );
 		$session->load_session();
-		if ( empty( $session->data ) || ! is_array( $session->data ) ) { return false; }
+		if ( empty( $session->data ) || ! is_array( $session->data ) ) {
+			return false;
+		}
 
-		$me = new self;
+		$me = new self();
 		$me->create( $idx );
 
 		$queues = ! empty( $session->data['queues'] ) && is_array( $session->data['queues'] )
 			? $session->data['queues']
 			: array()
 		;
-		if ( empty( $queues ) ) { return false; }
+		if ( empty( $queues ) ) {
+			return false;
+		}
 
 		foreach ( $queues as $item ) {
-			if ( empty( $item['type'] ) || empty( $item['sources'] ) ) { continue; }
+			if ( empty( $item['type'] ) || empty( $item['sources'] ) ) {
+				continue;
+			}
 			$class = 'Snapshot_Model_Queue_' . ucfirst( $item['type'] );
 			$queue = new $class($idx);
 			foreach ( $item['sources'] as $source ) {
@@ -240,11 +255,15 @@ class Snapshot_Helper_Backup {
 	 * @return array
 	 */
 	public function get_queues() {
-		if ( empty( $this->_queues ) ) { return array(); }
+		if ( empty( $this->_queues ) ) {
+			return array();
+		}
 
 		$result = array();
 		foreach ( $this->_queues as $queue ) {
-			if ( ! ($queue instanceof Snapshot_Model_Queue) ) { continue; }
+			if ( ! ($queue instanceof Snapshot_Model_Queue) ) {
+				continue;
+			}
 			$result[] = array(
 				'type' => strtolower( preg_replace( '/Snapshot_Model_Queue_/', '', get_class( $queue ) ) ),
 				'sources' => $queue->get_sources(),
@@ -260,9 +279,13 @@ class Snapshot_Helper_Backup {
 	 */
 	public function get_total_steps_estimate() {
 		$size = $this->_estimate;
-		if ( ! empty( $size ) ) { return $size; }
+		if ( ! empty( $size ) ) {
+			return $size;
+		}
 
-		if ( empty( $this->_queues ) ) { return $size; }
+		if ( empty( $this->_queues ) ) {
+			return $size;
+		}
 		if ( $this->will_do_system_backup() ) {
 			return 2; // Two steps: FS and DB.
 		}
@@ -284,11 +307,15 @@ class Snapshot_Helper_Backup {
 		$total = $this->_estimate;
 		if ( empty( $total ) ) {
 			$total = $this->get_total_steps_estimate();
-			if ( empty( $total ) ) { return -1; }
+			if ( empty( $total ) ) {
+				return -1;
+			}
 		}
 
 		$current = $this->_current_step;
-		if ( empty( $current ) ) { return 0; }
+		if ( empty( $current ) ) {
+			return 0;
+		}
 
 		$status = ($current / $total) * 100;
 
@@ -303,7 +330,9 @@ class Snapshot_Helper_Backup {
 	public function is_done() {
 		$queues = is_array( $this->_queues ) ? $this->_queues : array();
 		foreach ( $queues as $queue ) {
-			if ( ! $queue->is_done() ) { return false; }
+			if ( ! $queue->is_done() ) {
+				return false;
+			}
 		}
 		return true;
 	}
@@ -336,9 +365,11 @@ class Snapshot_Helper_Backup {
 
 		// Now drop all intermediate backup files.
 		$intermediate_path = $this->get_archive_path( $this->_idx );
-		if ( ! file_exists( $intermediate_path ) ) { return false; }
+		if ( ! is_writable( $intermediate_path ) ) {
+			return false;
+		}
 
-		return @unlink( $intermediate_path );
+		return unlink( $intermediate_path );
 	}
 
 	/**
@@ -349,11 +380,15 @@ class Snapshot_Helper_Backup {
 	public function postprocess() {
 		// Lastly, move archive - first, get the intermediate archive path.
 		$intermediate_path = $this->get_archive_path( $this->_idx );
-		if ( ! file_exists( $intermediate_path ) ) { return false; }
+		if ( ! file_exists( $intermediate_path ) ) {
+			return false;
+		}
 
 		// Next up, create the new filename.
 		$destination = $this->get_destination_path();
-		if ( file_exists( $destination ) ) { return false; }
+		if ( file_exists( $destination ) ) {
+			return false;
+		}
 
 		// Lastly, move it.
 		return rename( $intermediate_path, $destination );
@@ -411,7 +446,9 @@ class Snapshot_Helper_Backup {
 	 */
 	public function get_path( $idx ) {
 		$destination = preg_replace( '/[^-_a-z0-9]/', '', Snapshot_Helper_String::conceal( basename( $idx ) ) );
-		if ( empty( $destination ) ) { return $this->_set_error( sprintf( __( 'Invalid destination: %s', SNAPSHOT_I18N_DOMAIN ), $idx ) ); }
+		if ( empty( $destination ) ) {
+			return $this->_set_error( sprintf( __( 'Invalid destination: %s', SNAPSHOT_I18N_DOMAIN ), $idx ) );
+		}
 
 		return trailingslashit( WPMUDEVSnapshot::instance()->get_setting( 'backupBackupFolderFull' ) ) . $destination;
 	}
@@ -446,15 +483,21 @@ class Snapshot_Helper_Backup {
 	 */
 	public function resolve_backup( $idx ) {
 		$path = $this->get_path( $idx );
-		if ( empty( $path ) ) { return false; }
+		if ( empty( $path ) ) {
+			return false;
+		}
 
 		if ( file_exists( $path ) ) {
 			return true; // Already done, moving on.
 		}
 		wp_mkdir_p( $path );
 
-		if ( ! file_exists( $path ) ) { return $this->_set_error( sprintf( __( 'Backup path creation failed: %s', SNAPSHOT_I18N_DOMAIN ), $path ) ); }
-		if ( ! is_writable( $path ) ) { return $this->_set_error( sprintf( __( 'Backup path not writable: %s', SNAPSHOT_I18N_DOMAIN ), $path ) ); }
+		if ( ! file_exists( $path ) ) {
+			return $this->_set_error( sprintf( __( 'Backup path creation failed: %s', SNAPSHOT_I18N_DOMAIN ), $path ) );
+		}
+		if ( ! is_writable( $path ) ) {
+			return $this->_set_error( sprintf( __( 'Backup path not writable: %s', SNAPSHOT_I18N_DOMAIN ), $path ) );
+		}
 
 		return $path;
 	}
@@ -468,7 +511,9 @@ class Snapshot_Helper_Backup {
 	 */
 	public function will_do_system_backup() {
 		// First up, are we expected to try system backup?
-		if ( ! (defined( 'SNAPSHOT_ATTEMPT_SYSTEM_BACKUP' ) && SNAPSHOT_ATTEMPT_SYSTEM_BACKUP) ) { return false; }
+		if ( ! (defined( 'SNAPSHOT_ATTEMPT_SYSTEM_BACKUP' ) && SNAPSHOT_ATTEMPT_SYSTEM_BACKUP) ) {
+			return false;
+		}
 		return $this->supports_system_backup();
 	}
 
@@ -490,7 +535,9 @@ class Snapshot_Helper_Backup {
 			! Snapshot_Helper_System::is_available( 'escapeshellcmd' )
 			||
 			! Snapshot_Helper_System::is_available( 'exec' )
-		) { return false; }
+		) {
+			return false;
+		}
 
 		return Snapshot_Helper_System::has_command( 'zip' )
 			&& Snapshot_Helper_System::has_command( 'ln' )
@@ -519,7 +566,9 @@ class Snapshot_Helper_Backup {
 		$status = false;
 
 		foreach ( $queues as $queue ) {
-			if ( $queue->is_done() ) { continue; }
+			if ( $queue->is_done() ) {
+				continue;
+			}
 
 			$current_source = $queue->get_current_source();
 
@@ -531,9 +580,13 @@ class Snapshot_Helper_Backup {
 
 			$next_source = $queue->get_current_source();
 
-			if ( ! empty( $files ) ) { $status = $zip->add( $files, $prefix ); } elseif ( ! empty( $current_source['chunk'] ) && ! empty( $next_source['chunk'] ) ) {
+			if ( ! empty( $files ) ) {
+				$status = $zip->add( $files, $prefix );
+			} elseif ( ! empty( $current_source['chunk'] ) && ! empty( $next_source['chunk'] ) ) {
 				$status = $current_source['chunk'] !== $next_source['chunk'];
-			} else { $status = false; }
+			} else {
+				$status = false;
+			}
 
 			break;
 		}
@@ -574,7 +627,9 @@ class Snapshot_Helper_Backup {
 		$status = false;
 
 		foreach ( $queues as $queue ) {
-			if ( $queue->is_done() ) { continue; }
+			if ( $queue->is_done() ) {
+				continue;
+			}
 
 			if ( $queue instanceof Snapshot_Model_Queue_Fileset ) {
 				$status = $this->system_process_files( $queue );
@@ -608,17 +663,23 @@ class Snapshot_Helper_Backup {
 	 * @return bool
 	 */
 	public function system_process_tables( $queue ) {
-		if ( ! ($queue instanceof Snapshot_Model_Queue_Tableset) ) { return false; }
+		if ( ! ($queue instanceof Snapshot_Model_Queue_Tableset) ) {
+			return false;
+		}
 
 		$tables = $queue->get_sources();
 		if ( empty( $tables ) ) {
 			return true; // Nothing to do here.
 		}
 		$dump_path = Snapshot_Helper_System::get_command( 'mysqldump' );
-		if ( empty( $dump_path ) ) { return false; }
+		if ( empty( $dump_path ) ) {
+			return false;
+		}
 
 		$zip_path = Snapshot_Helper_System::get_command( 'zip' );
-		if ( empty( $zip_path ) ) { return false; }
+		if ( empty( $zip_path ) ) {
+			return false;
+		}
 
 		$backup_path = $this->get_path( $this->_idx );
 		$db_name = escapeshellcmd( DB_NAME );
@@ -646,7 +707,9 @@ class Snapshot_Helper_Backup {
 			$command = "cd {$backup_path}";
 			// Actual mysqldump command string.
 			$command .= " && {$dump_path} {$connection} -u{$db_user}";
-			if ( ! empty( $db_pass ) ) { $command .= " -p{$db_pass}"; }
+			if ( ! empty( $db_pass ) ) {
+				$command .= " -p{$db_pass}";
+			}
 			$command .= " {$db_name} {$table} > {$tblfile}";
 
 			$status = Snapshot_Helper_System::run(
@@ -696,16 +759,22 @@ class Snapshot_Helper_Backup {
 	 * @return bool
 	 */
 	public function system_process_files( $queue ) {
-		if ( ! ($queue instanceof Snapshot_Model_Queue_Fileset) ) { return false; }
+		if ( ! ($queue instanceof Snapshot_Model_Queue_Fileset) ) {
+			return false;
+		}
 
 		$src = $queue->get_current_source_type();
 		$source = Snapshot_Model_Fileset::get_source( $src );
 
 		$zip_path = Snapshot_Helper_System::get_command( 'zip' );
-		if ( empty( $zip_path ) ) { return false; }
+		if ( empty( $zip_path ) ) {
+			return false;
+		}
 
 		$ln_path = Snapshot_Helper_System::get_command( 'ln' );
-		if ( empty( $ln_path ) ) { return false; }
+		if ( empty( $ln_path ) ) {
+			return false;
+		}
 
 		$find_path = Snapshot_Helper_System::get_command( 'find' );
 		$has_find = ! empty( $find_path ) && ! (defined( 'SNAPSHOT_SYSTEM_ZIP_ONLY' ) && SNAPSHOT_SYSTEM_ZIP_ONLY);
@@ -726,15 +795,21 @@ class Snapshot_Helper_Backup {
 			Snapshot_Helper_Log::info( 'Attempt backing up everything using find (quicker)' );
 			$max_size = Snapshot_Model_Queue_Fileset::get_size_threshold();
 			$command .= " && {$find_path} -L www";
-			if ( ! empty( $exclusions ) ) { $command .= ' ' . join( ' ', $exclusions ); }
-			if ( ! empty( $max_size ) ) { $command .= ' -not \( -type f -size +' . $max_size . 'c -prune \)'; }
+			if ( ! empty( $exclusions ) ) {
+				$command .= ' ' . join( ' ', $exclusions );
+			}
+			if ( ! empty( $max_size ) ) {
+				$command .= ' -not \( -type f -size +' . $max_size . 'c -prune \)';
+			}
 			$command .= ' -print';
 			$command .= " | {$zip_path} {$archive} -@";
 		} else {
 			// No find - process files via zip utility.
 			// This can take _a while_ to work through.
 			$command .= " && {$zip_path} -r {$archive} .";
-			if ( ! empty( $exclusions ) ) { $command .= ' ' . join( ' ', $exclusions ); }
+			if ( ! empty( $exclusions ) ) {
+				$command .= ' ' . join( ' ', $exclusions );
+			}
 		}
 		// Clean up - remove symlink.
 		$command .= " && rm {$target_prefix}";
@@ -762,7 +837,7 @@ class Snapshot_Helper_Backup {
 	 * @return array
 	 */
 	public function get_system_exclusion_paths( $source, $format = false ) {
-		$raw_exclusions = Snapshot_Model_Fileset::get_excluded_paths();
+		$raw_exclusions = Snapshot_Model_Fileset::get_excluded_paths( $format );
 		$exclusions = array();
 
 		foreach ( $raw_exclusions as $excl ) {
@@ -771,9 +846,12 @@ class Snapshot_Helper_Backup {
 				'',
 				$excl
 			);
-			if ( empty( $excl ) ) { continue; }
+			if ( empty( $excl ) ) {
+				continue;
+			}
+			$excl = is_file( path_join( $source->get_root(), $excl ) ) ? $excl : trailingslashit( $excl );
 			$exclusions[] = $format
-				? '-not \( -path \'*' . escapeshellcmd( trailingslashit( $excl ) ) . '*\' -prune \)'
+				? '-not \( -path \'*' . escapeshellcmd( $excl ) . '*\' -prune \)'
 				: '-x ' . escapeshellarg( '*' . trailingslashit( $excl ) . '*' );
 		}
 		return $exclusions;
@@ -787,7 +865,9 @@ class Snapshot_Helper_Backup {
 	public function get_current_queue() {
 		$queues = is_array( $this->_queues ) ? $this->_queues : array();
 		foreach ( $queues as $queue ) {
-			if ( $queue->is_done() ) { continue; }
+			if ( $queue->is_done() ) {
+				continue;
+			}
 
 			return $queue;
 		}
@@ -810,7 +890,9 @@ class Snapshot_Helper_Backup {
 	 */
 	public function get_manifest() {
 		static $manifest;
-		if ( empty( $manifest ) ) { $manifest = Snapshot_Model_Manifest::create( $this ); }
+		if ( empty( $manifest ) ) {
+			$manifest = Snapshot_Model_Manifest::create( $this );
+		}
 
 		return $manifest;
 	}
@@ -827,7 +909,7 @@ class Snapshot_Helper_Backup {
 		$path = ! empty( $path ) ? $path : trailingslashit( $this->get_path( $this->_idx ) );
 		$file = $path . Snapshot_Model_Manifest::get_file_name();
 
-		file_put_contents( $file, $manifest->get_flat() );
+		file_put_contents( $file, $manifest->get_flat() ); //phpcs:ignore
 
 		return $file;
 	}
@@ -843,12 +925,16 @@ class Snapshot_Helper_Backup {
 		$zip = Snapshot_Helper_Zip::get( $archive );
 
 		$file = $this->create_manifest_file( $path );
-		if ( ! file_exists( $file ) ) { return false; }
+		if ( ! file_exists( $file ) ) {
+			return false;
+		}
 
 		$zip->set_root( $path );
 		$status = $zip->add( array( $file ) );
 
-		if ( file_exists( $file ) ) { @unlink( $file ); }
+		if ( is_writable( $file ) ) {
+			unlink( $file );
+		}
 
 		return $status;
 	}

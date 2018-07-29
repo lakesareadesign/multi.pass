@@ -69,4 +69,3 @@
 	</div>
 
 </div><?php // #wph-wizard-content-cta ?>
-<?php

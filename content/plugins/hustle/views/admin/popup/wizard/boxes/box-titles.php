@@ -39,4 +39,3 @@
 	</div>
 
 </div><?php // #wph-wizard-content-titles ?>
-<?php

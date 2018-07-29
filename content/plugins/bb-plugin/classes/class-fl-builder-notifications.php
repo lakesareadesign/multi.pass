@@ -93,7 +93,7 @@ final class FLBuilderNotifications {
 			update_option( self::$option, $stored_data );
 
 		} else {
-			error_log( 'respose was not a 200' );
+			error_log( 'response was not a 200' );
 		}
 		return $stored_data;
 

@@ -47,4 +47,3 @@
 	</div>
 
 </div><?php // #wph-wizard-content-image ?>
-<?php

@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Controller_Full_Log extends Snapshot_Controller_Full {
 
@@ -19,7 +19,7 @@ class Snapshot_Controller_Full_Log extends Snapshot_Controller_Full {
 
 	public static function get () {
 		if (empty(self::$_instance)) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
 		return self::$_instance;
 	}
@@ -39,7 +39,7 @@ class Snapshot_Controller_Full_Log extends Snapshot_Controller_Full {
 	 */
 	public function is_enabled () {
 		return (bool)apply_filters(
-			'snapshot-full_backups-log_enabled',
+			'snapshot_full_backups_log_enabled',
 			$this->is_explicitly_enabled() || $this->is_implicitly_enabled()
 		);
 	}
@@ -55,7 +55,7 @@ class Snapshot_Controller_Full_Log extends Snapshot_Controller_Full {
 	 */
 	public function is_explicitly_enabled () {
 		return (bool)apply_filters(
-			'snapshot-full_backups-log_enabled-explicit',
+			'snapshot_full_backups_log_enabled_explicit',
 			(bool)$this->_model->get_config('full_log_enable', false)
 		);
 	}
@@ -71,10 +71,10 @@ class Snapshot_Controller_Full_Log extends Snapshot_Controller_Full {
 	 * @return bool
 	 */
 	public function is_implicitly_enabled () {
-		$enabled = $this->_model->get_config('full_log_enable', Snapshot_Controller_Full_Log::LOG_IMPLICIT);
+		$enabled = $this->_model->get_config('full_log_enable', self::LOG_IMPLICIT);
 		return (bool)apply_filters(
-			'snapshot-full_backups-log_enabled-implicit',
-			Snapshot_Controller_Full_Log::LOG_IMPLICIT === $enabled // Check if we're implicitly enabled
+			'snapshot_full_backups_log_enabled_implicit',
+			self::LOG_IMPLICIT === $enabled // Check if we're implicitly enabled
 		);
 	}
 
@@ -122,8 +122,8 @@ class Snapshot_Controller_Full_Log extends Snapshot_Controller_Full {
 		foreach ($log_setup as $section => $level) {
 			$level = (int)$level;
 			if (empty($level)) continue; // No logging for this section, carry on
-			if (!in_array($section, array_keys($known_sections))) continue; // Unknown section
-			if (!in_array($level, array_keys($known_levels))) continue; // Unknown level
+			if (!in_array($section, array_keys($known_sections), true)) continue; // Unknown section
+			if (!in_array($level, array_keys($known_levels), true)) continue; // Unknown level
 
 			$const = $log->get_section_constant_name($section);
 			if (defined($const)) continue; // Already defined, let's not error
@@ -170,7 +170,7 @@ class Snapshot_Controller_Full_Log extends Snapshot_Controller_Full {
 	 *
 	 * @return bool
 	 */
-	public function process_submissions (Snapshot_Model_Post $data) {
+	public function process_submissions ( Snapshot_Model_Post $data) {
 		if (
 			!current_user_can(Snapshot_View_Full_Backup::get()->get_page_role())
 			||
@@ -197,13 +197,13 @@ class Snapshot_Controller_Full_Log extends Snapshot_Controller_Full {
 		if (!empty($submitted) && is_array($submitted)) {
 			$log_setup = $this->_model->get_config('full_log_setup', array());
 			foreach ($submitted as $section => $level) {
-				if (!in_array($section, array_keys($known_sections))) continue;
+				if (!in_array($section, array_keys($known_sections), true)) continue;
 
 				// Set up default loggins
 				$log_setup[$section] = Snapshot_Helper_Log::LEVEL_DEFAULT;
 
 				$level = (int)$level;
-				if ($level && !in_array($level, array_keys($known_levels))) continue;
+				if ($level && !in_array($level, array_keys($known_levels), true)) continue;
 				$log_setup[$section] = $level;
 
 			}

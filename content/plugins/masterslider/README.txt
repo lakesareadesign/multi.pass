@@ -1,10 +1,10 @@
 === Master Slider WordPress Plugin ===
 Contributors: averta
 Tags: slider, image slider, slideshow, video gallery,
-Requires PHP: 5.3
-Requires at least: 4.6
-Tested up to: 4.8.3
-Stable tag: 3.2.2
+Requires PHP: 5.4
+Requires at least: 4.7
+Tested up to: 4.9.7
+Stable tag: 3.2.7
 License URI: LICENSE.txt
 
 == Description ==
@@ -17,6 +17,7 @@ License URI: LICENSE.txt
 This section describes how to install the plugin and get it working.
 
 e.g.
+
 
 = Uploading in WordPress Dashboard =
 

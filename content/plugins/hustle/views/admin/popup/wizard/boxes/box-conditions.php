@@ -11,4 +11,3 @@
     </div>
 
 </div><?php // #wph-wizard-settings-conditions ?>
-<?php

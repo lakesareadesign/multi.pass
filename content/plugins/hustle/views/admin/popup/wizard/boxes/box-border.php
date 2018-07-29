@@ -71,4 +71,3 @@
 	</div>
 
 </div><?php // #wph-wizard-design-border ?>
-<?php

@@ -17,6 +17,7 @@ class ConvertKit {
 	  */
 	public function __construct($api_key) {
 		$this->api_key = $api_key;
+		$this->api_url_base .= 'v' . $this->api_version . '/';
 	}
 
 	/**
@@ -49,7 +50,7 @@ class ConvertKit {
 		  $api_response = $this->_get_api_response($resource);
 
 		  self::$response = $api_response;
-		  if (is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {		  	
+		  if (is_wp_error($api_response) || isset($api_response['error']) || isset($api_response['error_message'])) {
 			$this->resources[$resource] = array();
 		  } else {
 		  	$this->resources[$resource] = $api_response;
@@ -69,7 +70,7 @@ class ConvertKit {
 		$request = sprintf('forms/%s/subscribe', $form_id);
 		$args    = array(
 		  'email' => $options['email'],
-		  'fname' => $options['fname']
+		  'first_name' => isset( $options['fname'] ) ? $options['fname'] : '',
 		);
 		return $this->make_request($request, 'POST', $args);
 	}
@@ -89,15 +90,15 @@ class ConvertKit {
 	}
 
 	/**
-	 * Get API response 
+	 * Get API response
 	 * @param  string $path
 	 * @return array|object
 	 */
 	private function _get_api_response($path = '') {
-		$args = array('k' => $this->api_key, 'v' => $this->api_version);
+		$args = array('api_key' => $this->api_key);
 		$url = add_query_arg($args, path_join($this->api_url_base, $path));
 		$response = wp_remote_get($url);
-		
+
 		if(is_wp_error($response)) {
 			$data = $response;
 		} else {
@@ -128,16 +129,6 @@ class ConvertKit {
 	}
 
 	/**
-	* Merge default request arguments with those of this request
-	*
-	* @param  array  $args Request arguments
-	* @return array        Request arguments
-	*/
-	public function filter_request_arguments($args = array()) {
-		return array_merge($args, array('k' => $this->api_key, 'v' => $this->api_version));
-	}
-
-	/**
 	* Build the full request URL
 	*
 	* @param  string $request Request path
@@ -146,5 +137,15 @@ class ConvertKit {
 	*/
 	public function build_request_url($request, array $args) {
 		return $this->api_url_base . $request . '?' . http_build_query($this->filter_request_arguments($args));
+	}
+
+	/**
+	* Merge default request arguments with those of this request
+	*
+	* @param  array  $args Request arguments
+	* @return array        Request arguments
+	*/
+	public function filter_request_arguments($args = array()) {
+		return array_merge($args, array('api_key' => $this->api_key));
 	}
 }

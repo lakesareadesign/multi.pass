@@ -1,11 +1,10 @@
 <?php
-
 /*
- * 	BNE Testimonials Wordpress Plugin (Legacy)
+ * 	BNE Testimonials Wordpress Plugin
  *	Shortcode Slider Function
  *
  * 	@author		Kerry Kline
- * 	@copyright	Copyright (c) 2013-2017, Kerry Kline
+ * 	@copyright	Copyright (c) 2013-2015, Kerry Kline
  * 	@link		http://www.bnecreative.com
  *
  *	@since 		v1.7
@@ -13,11 +12,13 @@
  *
  *	@notice		As of v2.0. This shortcode is no longer maintained
  *				and is depreciated! It has been replaced with
- *				[bne_testimonials] which also displays the list
- *				layout. Please use that shortcode instead.
+ *				[bne_testimonials] which also displays the slider
+ *				and masonry layouts. Please use that shortcode instead.
  *
 */
 
+// Exit if accessed directly
+if ( ! defined( 'ABSPATH' ) ) exit;
 
 
 
@@ -63,6 +64,15 @@ function bne_testimonials_slider_shortcode( $atts ) {
 	// Enqueue our Scripts
 	wp_enqueue_script( 'flexslider' );
 
+
+	// NOTICE!!!! This shortcode is no longer maintained. Use the new v2x ones.
+	$output = '';
+	if( current_user_can('edit_pages') ) {
+		$output .= '<div class="bne-testimonial-warning">Admin Notice (not public): This shortcode was depreciated on June 16, 2017 and will be removed in a future update. Please update this shortcode to use [bne_testimonials layout="slider"].</div>';
+	}
+
+
+
 	// Setup the Query
 	$bne_testimonials = new WP_Query( $query_args );
 	if( $bne_testimonials->have_posts() ) {
@@ -70,20 +80,22 @@ function bne_testimonials_slider_shortcode( $atts ) {
 		// Setup a Random ID to accomidate multiple sliders on the same page.
 		$slider_random_id = rand(1,1000);
 
-		// Load Flexslider API
-		$output = '<script type="text/javascript">
-								jQuery(document).ready(function($) {
-									$(\'#bne-slider-id-'.$slider_random_id.' .bne-testimonial-slider\').flexslider({
-										animation:     "'.$animation.'",
-										animationSpeed: '.$animation_speed.',
-										smoothHeight: 	'.$smooth.',
-										pauseOnHover: 	'.$pause.',
-										controlNav:   	'.$nav.',
-										directionNav: 	'.$arrows.',
-										slideshowSpeed: '.$speed.'
-									});
-								});
-							</script>';
+		// Init Flexslider
+		wp_add_inline_script( 'flexslider', 
+			'jQuery(document).ready(function($){
+				$(window).load(function() {
+					$("#bne-slider-id-'.$slider_random_id.' .bne-testimonial-slider").flexslider({
+						animation: "'.$animation.'",
+						animationSpeed: '.$animation_speed.',
+						smoothHeight: '.$smooth.',
+						pauseOnHover: '.$pause.',
+						controlNav: '.$nav.',
+						directionNav: '.$arrows.',
+						slideshowSpeed: '.$speed.'
+					});
+				});
+			});'
+		);
 
 		// Build Slider
 		$output .= '<div class="bne-element-container '.$class.'">';
@@ -102,7 +114,7 @@ function bne_testimonials_slider_shortcode( $atts ) {
 							while ( $bne_testimonials->have_posts() ) : $bne_testimonials->the_post();
 
 								// Pull in Plugin Options
-								$options = bne_testimonials_options_array( $image_style, $lightbox_rel, $image, $name, null );
+								$options = bne_testimonials_options_array( $image_style, $lightbox_rel, $image, $name );
 
 								// Build Single Testimonial
 								$output .= '<li class="single-bne-testimonial">';
@@ -137,7 +149,7 @@ function bne_testimonials_slider_shortcode( $atts ) {
 
 	// If No Testimonials, display warning message
 	} else {
-		$output = '<div class="bne-testimonial-warning">No testimonials were found.</div>';
+		$output .= '<div class="bne-testimonial-warning">No testimonials were found.</div>';
 	}
 
 	wp_reset_postdata();

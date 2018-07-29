@@ -300,14 +300,14 @@ msgstr "Shareaholic | botones para compartir, analytics, contenido relacionado"
 #. translators: plugin header field 'PluginURI'
 #: shareaholic.php:0
 #@ shareaholic
-msgid "https://shareaholic.com/publishers/"
-msgstr "https://shareaholic.com/publishers/"
+msgid "https://www.shareaholic.com/publishers/"
+msgstr "https://www.shareaholic.com/publishers/"
 
 #. translators: plugin header field 'AuthorURI'
 #: shareaholic.php:0
 #@ shareaholic
-msgid "https://shareaholic.com"
-msgstr "https://shareaholic.com"
+msgid "https://www.shareaholic.com"
+msgstr "https://www.shareaholic.com"
 
 #: admin.php:342
 #@ shareaholic

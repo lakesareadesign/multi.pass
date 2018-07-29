@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Storage abstraction root.
  * All storage implementations will be sharing the common API, with concrete implementations.
@@ -67,7 +67,8 @@ abstract class Snapshot_Model_Storage {
 			$namespace = self::DEFAULT_NAMESPACE . "-{$namespace}";
 		}
 
-		return $this->_namespace = $namespace;
+		$this->_namespace = $namespace;
+		return $this->_namespace;
 	}
 
 	/**
@@ -127,7 +128,7 @@ abstract class Snapshot_Model_Storage {
 	 * @return string
 	 */
 	public function encode( $data ) {
-		return json_encode( $data );
+		return wp_json_encode( $data );
 	}
 
 	/**

@@ -2,7 +2,7 @@
 $backup_folder = WPMUDEVSnapshot::instance()->config_data['config']['backupFolder'];
 $backup_folder = isset($backup_folder) ? $backup_folder : 'snapshots';
 $use_folder = isset(WPMUDEVSnapshot::instance()->config_data['config']['backupUseFolder']) ? WPMUDEVSnapshot::instance()->config_data['config']['backupUseFolder'] :
-	(($backup_folder !== 'snapshots') ? 2 : 1);
+	(('snapshots' !== $backup_folder) ? 2 : 1);
 $custom_directory = $use_folder;
 ?>
 
@@ -16,7 +16,7 @@ $custom_directory = $use_folder;
 
 		<div class="wpmud-box-title">
 
-			<h3><?php _e('General', SNAPSHOT_I18N_DOMAIN);?> </h3>
+			<h3><?php esc_html_e('General', SNAPSHOT_I18N_DOMAIN); ?> </h3>
 
 		</div>
 
@@ -34,7 +34,7 @@ $custom_directory = $use_folder;
 
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-						<label class="label-box"><?php _e('Local Directory', SNAPSHOT_I18N_DOMAIN); ?></label>
+						<label class="label-box"><?php esc_html_e('Local Directory', SNAPSHOT_I18N_DOMAIN); ?></label>
 
 					</div>
 
@@ -42,7 +42,7 @@ $custom_directory = $use_folder;
 
 						<div class="wpmud-box-mask">
 
-							<label class="label-title"><?php _e('Choose where your snapshots will be stored whilst they are being uploaded to your third party integrations.', SNAPSHOT_I18N_DOMAIN); ?></label>
+							<label class="label-title"><?php esc_html_e('Choose where your snapshots will be stored whilst they are being uploaded to your third party integrations.', SNAPSHOT_I18N_DOMAIN); ?></label>
 
 							<div id="wps-localdir-options" class="wps-input--group">
 
@@ -56,7 +56,7 @@ $custom_directory = $use_folder;
 
 									</div>
 
-									<label for="no_files"><?php _e('Use default directory', SNAPSHOT_I18N_DOMAIN);?></label>
+									<label for="no_files"><?php esc_html_e('Use default directory', SNAPSHOT_I18N_DOMAIN); ?></label>
 
 								</div>
 
@@ -70,7 +70,7 @@ $custom_directory = $use_folder;
 
 									</div>
 
-									<label for="common_files"><?php _e('Use custom directory', SNAPSHOT_I18N_DOMAIN);?></label>
+									<label for="common_files"><?php esc_html_e('Use custom directory', SNAPSHOT_I18N_DOMAIN); ?></label>
 
 								</div>
 
@@ -78,9 +78,9 @@ $custom_directory = $use_folder;
 
 							<div class="wpmud-box-gray hidden">
 
-								<input type="text" name="backupFolder" id="snapshot-settings-backupFolder" value="<?php echo $backup_folder; ?>" placeholder="<?php _e('Enter directory URL here', SNAPSHOT_I18N_DOMAIN);?>" />
+								<input type="text" name="backupFolder" id="snapshot-settings-backupFolder" value="<?php echo esc_attr( $backup_folder ); ?>" placeholder="<?php esc_html_e('Enter directory URL here', SNAPSHOT_I18N_DOMAIN); ?>" />
 
-								<p><small><?php printf(__('Your current snapshot directory lives at: <a href="#">%s</a>. If you choose a custom directory, Snapshot will automatically transfer any archives to the new directory for you.', SNAPSHOT_I18N_DOMAIN),trailingslashit( WPMUDEVSnapshot::instance()->get_setting( 'backupBaseFolderFull' ) ));?></small></p>
+								<p><small><?php echo wp_kses_post( sprintf(__('Your current snapshot directory lives at: <a href="#">%s</a>. If you choose a custom directory, Snapshot will automatically transfer any archives to the new directory for you.', SNAPSHOT_I18N_DOMAIN), trailingslashit( WPMUDEVSnapshot::instance()->get_setting( 'backupBaseFolderFull' ) )) ); ?></small></p>
 
 							</div>
 
@@ -94,7 +94,7 @@ $custom_directory = $use_folder;
 
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-						<label class="label-box"><?php _e('Global File Exclusions', SNAPSHOT_I18N_DOMAIN); ?></label>
+						<label class="label-box"><?php esc_html_e('Global File Exclusions', SNAPSHOT_I18N_DOMAIN); ?></label>
 
 					</div>
 
@@ -102,11 +102,11 @@ $custom_directory = $use_folder;
 
 						<div class="wpmud-box-mask">
 
-							<label class="label-title"><?php _e('Define specific files or folders you want to exclude from any Snapshot or Full Backup.', SNAPSHOT_I18N_DOMAIN); ?></label>
+							<label class="label-title"><?php esc_html_e('Define specific files or folders you want to exclude from any Snapshot or Full Backup.', SNAPSHOT_I18N_DOMAIN); ?></label>
 
-							<textarea name="filesIgnore" id="filesIgnore" placeholder="<?php _e('Enter file URLs to be excluded, one per line.', SNAPSHOT_I18N_DOMAIN);?>"><?php if ( ( isset( WPMUDEVSnapshot::instance()->config_data['config']['filesIgnore'] ) ) && ( is_array( WPMUDEVSnapshot::instance()->config_data['config']['filesIgnore'] ) ) && ( count( WPMUDEVSnapshot::instance()->config_data['config']['filesIgnore'] ) ) ) { echo implode( "\n", WPMUDEVSnapshot::instance()->config_data['config']['filesIgnore'] ); } ?></textarea>
+							<textarea name="filesIgnore" id="filesIgnore" placeholder="<?php esc_html_e('Enter file URLs to be excluded, one per line.', SNAPSHOT_I18N_DOMAIN); ?>"><?php if ( ( isset( WPMUDEVSnapshot::instance()->config_data['config']['filesIgnore'] ) ) && ( is_array( WPMUDEVSnapshot::instance()->config_data['config']['filesIgnore'] ) ) && ( count( WPMUDEVSnapshot::instance()->config_data['config']['filesIgnore'] ) ) ) echo wp_kses_post( implode( "\n", WPMUDEVSnapshot::instance()->config_data['config']['filesIgnore'] ) ); ?></textarea>
 
-							<p><small><?php _e('The exclude feature uses pattern matching so you can easily select files to exclude from your backups. Example: to exclude the Twenty Ten theme, you can use twentyten, theme/twentyten or public/wp-content/theme/twentyten. <strong>The local folder is excluded from Snapshot backups by default.</strong>', SNAPSHOT_I18N_DOMAIN);?></small></p>
+							<p><small><?php echo wp_kses_post( __('The exclude feature uses pattern matching so you can easily select files to exclude from your backups. Example: to exclude the Twenty Ten theme, you can use twentyten, theme/twentyten or public/wp-content/theme/twentyten. <strong>The local folder or any unreadable files are excluded from Snapshot backups by default.</strong>', SNAPSHOT_I18N_DOMAIN) ); ?></small></p>
 
 						</div>
 
@@ -114,7 +114,8 @@ $custom_directory = $use_folder;
 
 				</div><!-- #wps-settings--exclusions -->
 
-				<?php $error_reporting_errors = array(
+				<?php
+                $error_reporting_errors = array(
 					E_ERROR   => array(
 						'label_log' => __( 'Errors', SNAPSHOT_I18N_DOMAIN ),
 						'description' => __( 'Fatal run-time errors. These indicate errors that can not be recovered from, such as a memory allocation problem. Execution of the script is halted.', SNAPSHOT_I18N_DOMAIN ),
@@ -122,7 +123,7 @@ $custom_directory = $use_folder;
 					),
 					E_WARNING => array(
 						'label_log' => __( 'Warnings', SNAPSHOT_I18N_DOMAIN ),
-						'description' => __( 'Run-time warnings (non-fatal errors). Executeion of the script is not halted.', SNAPSHOT_I18N_DOMAIN ),
+						'description' => __( 'Run-time warnings (non-fatal errors). Execution of the script is not halted.', SNAPSHOT_I18N_DOMAIN ),
 						'label_stop' => __( 'Stop the backup process if a warning occurs', SNAPSHOT_I18N_DOMAIN )
 					),
 					E_NOTICE  => array(
@@ -130,13 +131,14 @@ $custom_directory = $use_folder;
 						'description' => __( 'Run-time notices. Indicate that the script encountered something that could indicate an error, but could also happen in the normal course of running a script.', SNAPSHOT_I18N_DOMAIN ),
 						'label_stop' => __( 'Stop the backup process if a notice occurs', SNAPSHOT_I18N_DOMAIN )
 					),
-				); ?>
+				);
+                ?>
 
 				<div id="wps-settings--error" class="row">
 
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-						<label class="label-box"><?php _e('Error Reporting', SNAPSHOT_I18N_DOMAIN); ?></label>
+						<label class="label-box"><?php esc_html_e('Error Reporting', SNAPSHOT_I18N_DOMAIN); ?></label>
 
 					</div>
 
@@ -144,11 +146,13 @@ $custom_directory = $use_folder;
 
 						<div class="wpmud-box-mask">
 
-							<label class="label-title"><?php _e('Choose how you want Snapshot to handle error conditions during the backup and restore process.', SNAPSHOT_I18N_DOMAIN); ?></label>
+							<label class="label-title"><?php esc_html_e('Choose how you want Snapshot to handle error conditions during the backup and restore process.', SNAPSHOT_I18N_DOMAIN); ?></label>
 
-							<?php foreach ( $error_reporting_errors as $error_key => $error_label ){
+							<?php
+                            foreach ( $error_reporting_errors as $error_key => $error_label ){
 
-								$checked_log = $checked_stop = false;
+                            	$checked_stop = false;
+								$checked_log = $checked_stop;
 								$error_class = 'hidden';
 
 								if (isset( WPMUDEVSnapshot::instance()->config_data['config']['errorReporting'][ $error_key ]['log'])){
@@ -156,21 +160,22 @@ $custom_directory = $use_folder;
 									$error_class = '';
 								}
 
-								$checked_stop = isset( WPMUDEVSnapshot::instance()->config_data['config']['errorReporting'][ $error_key ]['stop']); ?>
+								$checked_stop = isset( WPMUDEVSnapshot::instance()->config_data['config']['errorReporting'][ $error_key ]['stop']);
+                                ?>
 
 								<div class="wps-input--item wps-input--parent">
 
 									<div class="wps-input--checkbox">
 
-										<input type="checkbox" id="checkbox-<?php echo $error_key; ?>" class="input-error-log" name="errorReporting[<?php echo $error_key; ?>][log]" <?php checked( $checked_log, true ); ?>>
+										<input type="checkbox" id="checkbox-<?php echo esc_attr( $error_key ); ?>" class="input-error-log" name="errorReporting[<?php echo esc_attr( $error_key ); ?>][log]" <?php checked( $checked_log, true ); ?>>
 
-										<label for="checkbox-<?php echo $error_key; ?>"></label>
+										<label for="checkbox-<?php echo esc_attr( $error_key ); ?>"></label>
 
 									</div>
 
-									<label for="checkbox-<?php echo $error_key; ?>"><?php echo $error_label['label_log'];?></label>
+									<label for="checkbox-<?php echo esc_attr( $error_key ); ?>"><?php echo wp_kses_post( $error_label['label_log'] ); ?></label>
 
-									<p><small class="description"><?php echo $error_label['description'];?></small></p>
+									<p><small class="description"><?php echo wp_kses_post( $error_label['description'] ); ?></small></p>
 
 								</div>
 
@@ -180,13 +185,13 @@ $custom_directory = $use_folder;
 
 										<div class="wps-input--checkbox">
 
-											<input type="checkbox" id="checkbox-<?php echo $error_key; ?>1" name="errorReporting[<?php echo $error_key; ?>][stop]" class="input-error-stop" <?php checked( $checked_stop, true ); ?>>
+											<input type="checkbox" id="checkbox-<?php echo esc_attr( $error_key ); ?>1" name="errorReporting[<?php echo esc_attr( $error_key ); ?>][stop]" class="input-error-stop" <?php checked( $checked_stop, true ); ?>>
 
-											<label for="checkbox-<?php echo $error_key; ?>1"></label>
+											<label for="checkbox-<?php echo esc_attr( $error_key ); ?>1"></label>
 
 										</div>
 
-										<label for="checkbox-<?php echo $error_key; ?>1"><?php echo $error_label['label_stop'];?></label>
+										<label for="checkbox-<?php echo esc_attr( $error_key ); ?>1"><?php echo esc_html( $error_label['label_stop'] ); ?></label>
 
 									</div>
 
@@ -206,7 +211,7 @@ $custom_directory = $use_folder;
 
 						<div class="form-button-container">
 
-							<input class="button button-blue" type="submit" value="<?php _e('Save Changes', SNAPSHOT_I18N_DOMAIN);?>">
+							<input class="button button-blue" type="submit" value="<?php esc_html_e('Save Changes', SNAPSHOT_I18N_DOMAIN); ?>">
 
 						</div>
 
@@ -221,14 +226,15 @@ $custom_directory = $use_folder;
 	</section>
 
 	<?php
-	$model = new Snapshot_Model_Full_Backup;
-	$apiKey = $model->get_config('secret-key', ''); ?>
+	$model = new Snapshot_Model_Full_Backup();
+	$apiKey = $model->get_config('secret-key', '');
+    ?>
 
 	<section class="wpmud-box">
 
 		<div class="wpmud-box-title">
 
-			<h3><?php _e('Full Backups', SNAPSHOT_I18N_DOMAIN);?> </h3>
+			<h3><?php esc_html_e('Full Backups', SNAPSHOT_I18N_DOMAIN); ?> </h3>
 
 		</div>
 
@@ -246,7 +252,7 @@ $custom_directory = $use_folder;
 
 					<div class="col-xs-12 col-sm-3 col-md-3 col-lg-3">
 
-						<label class="label-box"><?php _e('Snapshot Key', SNAPSHOT_I18N_DOMAIN); ?></label>
+						<label class="label-box"><?php esc_html_e('Snapshot Key', SNAPSHOT_I18N_DOMAIN); ?></label>
 
 					</div>
 
@@ -254,21 +260,21 @@ $custom_directory = $use_folder;
 
 						<div class="wpmud-box-mask">
 
-							<label class="label-title"><?php _e('Your Snapshot Key is the secret link between WPMU DEV and your website.', SNAPSHOT_I18N_DOMAIN); ?></label>
+							<label class="label-title"><?php esc_html_e('Your Snapshot Key is the secret link between WPMU DEV and your website.', SNAPSHOT_I18N_DOMAIN); ?></label>
 
 							<div class="wpmud-box-gray">
 
 								<div class="wps-input--item">
 
-									<input type="text" name="secret-key" id="secret-key" placeholder="<?php esc_attr_e('Your secret key here', SNAPSHOT_I18N_DOMAIN); ?>" class="input-group" value="<?php echo $apiKey;?>" />
+									<input type="text" name="secret-key" id="secret-key" placeholder="<?php esc_attr_e('Your secret key here', SNAPSHOT_I18N_DOMAIN); ?>" class="input-group" value="<?php echo esc_attr( $apiKey ); ?>" />
 
-									<a href="<?php echo esc_attr($model->get_current_secret_key_link());?>" target='_blank' class="button button-gray input-group"><?php _e('Reset', SNAPSHOT_I18N_DOMAIN);?></a>
+									<a href="<?php echo esc_attr($model->get_current_secret_key_link()); ?>" target='_blank' class="button button-gray input-group"><?php esc_html_e('Reset', SNAPSHOT_I18N_DOMAIN); ?></a>
 
 								</div>
 
 							</div>
 
-							<p><small><?php _e('You may want to reset your key for security reasons or if an error has occurred. Click "Reset" above and follow the instructions provided.', SNAPSHOT_I18N_DOMAIN);?></small></p>
+							<p><small><?php esc_html_e('You may want to reset your key for security reasons or if an error has occurred. Click "Reset" above and follow the instructions provided.', SNAPSHOT_I18N_DOMAIN); ?></small></p>
 
 						</div>
 
@@ -282,7 +288,7 @@ $custom_directory = $use_folder;
 
 						<div class="form-button-container">
 
-							<button type="submit" name="activate" name="activate" value="yes"class="button button-blue"><?php _e('Save Changes', SNAPSHOT_I18N_DOMAIN);?></button>
+							<button type="submit" name="activate" name="activate" value="yes"class="button button-blue"><?php esc_html_e('Save Changes', SNAPSHOT_I18N_DOMAIN); ?></button>
 
 						</div>
 

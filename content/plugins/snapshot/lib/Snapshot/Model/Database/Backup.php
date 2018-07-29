@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Class for creating Snapshot backups
  *
@@ -12,16 +12,18 @@
 if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 	class Snapshot_Model_Database_Backup {
 
-		var $errors;
+		public $errors;
 
 		private $fp;
 		private $status_fp;
+		private $filename;
+		private $temp_ftell_after;
 
-		function __construct() {
+		public function __construct() {
 			$this->errors = array();
 		}
 
-		function Snapshot_Model_Database_Backup() {
+		public function Snapshot_Model_Database_Backup() {
 			$this->__construct();
 		}
 
@@ -33,23 +35,42 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 		 *
 		 * @return none
 		 */
-		function set_fp( $fp ) {
+		public function set_fp( $fp ) {
 			if ( $fp ) {
 				$this->fp = $fp;
 			}
 		}
 
+		public function set_status_fp( $status_fp ) {
+			if ( $status_fp ) {
+				$this->status_fp = $status_fp;
+			}
+		}
+
 		/**
-		 * Sets the open file point to be used when writing out the
+		 * Sets the filename where we'll write out the
 		 * table dumps. Not needed on the import step.
 		 *
 		 * @param string $args
 		 *
 		 * @return none
 		 */
-		function set_status_fp( $status_fp ) {
-			if ( $status_fp ) {
-				$this->status_fp = $status_fp;
+		public function set_file( $filename ) {
+			if ( $filename ) {
+				$this->filename = $filename;
+			}
+		}
+
+		/**
+		 * Gets the temp_ftell_after to be used in retrieving the current position of the pointer.
+		 *
+		 * @return int/bool
+		 */
+		public function get_temp_ftell_after() {
+			if ( $this->temp_ftell_after ) {
+				return $this->temp_ftell_after;
+			} else {
+				return false;
 			}
 		}
 
@@ -60,7 +81,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 		 *
 		 * @return none
 		 */
-		function error( $error ) {
+		public function error( $error ) {
 
 			$this->errors[] = $error;
 		}
@@ -72,9 +93,10 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 		 *
 		 * @return null
 		 */
-		function stow( $query_line ) {
+		public function stow( $query_line ) {
 			//echo "query_line=[". $query_line ."]<br />";
-			if ( false === @fwrite( $this->fp, $query_line ) ) {
+
+			if ( false === @fwrite( $this->fp, $query_line ) ) { // phpcs:ignore
 				$this->error( __( 'There was an error writing a line to the backup script:', SNAPSHOT_I18N_DOMAIN ) . '  ' . $query_line . '  ' . $php_errormsg );
 			}
 		}
@@ -83,7 +105,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 		 * Better addslashes for SQL queries.
 		 * Taken from phpMyAdmin.
 		 */
-		function sql_addslashes( $a_string = '', $is_like = false ) {
+		public function sql_addslashes( $a_string = '', $is_like = false ) {
 			if ( $is_like ) {
 				$a_string = str_replace( '\\', '\\\\\\\\', $a_string );
 			} else {
@@ -97,19 +119,22 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 		 * Add backquotes to tables and db-names in
 		 * SQL queries. Taken from phpMyAdmin.
 		 */
-		function backquote( $a_name ) {
-			if ( ! empty( $a_name ) && $a_name != '*' ) {
-				if ( is_array( $a_name ) ) {
-					$result = array();
-					reset( $a_name );
-					while ( list( $key, $val ) = each( $a_name ) ) {
-						$result[ $key ] = '`' . $val . '`';
-					}
+		public function backquote( $a_name ) {
+			if ( ! empty( $a_name ) && '*' !== $a_name ) {
+				// We removed the is_array check because we always use strings with that function.
+				//
+				// if ( is_array( $a_name ) ) {
+				// 	$result = array();
+				// 	reset( $a_name );
+				// 	while ( list( $key, $val ) = each( $a_name ) ) {
+				// 		$result[ $key ] = '`' . $val . '`';
+				// 	}
 
-					return $result;
-				} else {
-					return '`' . $a_name . '`';
-				}
+				// 	return $result;
+				// } else {
+				// 	return '`' . $a_name . '`';
+				// }
+				return '`' . $a_name . '`';
 			} else {
 				return $a_name;
 			}
@@ -128,7 +153,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 		 * @return none
 		 */
 
-		function backup_tables( $tables ) {
+		public function backup_tables( $tables ) {
 
 			if ( is_array( $tables ) ) {
 				foreach ( $tables as $table ) {
@@ -149,22 +174,23 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 		 *
 		 * @return void
 		 */
-		function backup_table( $table, $rows_start = 0, $rows_end = '', $rows_total = '', $sql = '' ) {
+		public function backup_table( $table, $rows_start = 0, $rows_end = '', $rows_total = '', $sql = '' ) {
 
 			global $wpdb;
 
 			$total_rows = 0;
-
-			$table_structure = $wpdb->get_results( "DESCRIBE `" . $table . "`" );
+			// Use of esc_sql() instead of $wpdb->prepare() because of backticks in query.
+			$table_structure = $wpdb->get_results( esc_sql( "DESCRIBE `{$table}`" ) );
 			if ( ! $table_structure ) {
 				$this->error( __( 'Error getting table details', SNAPSHOT_I18N_DOMAIN ) . ": $table" );
 
 				return false;
 			}
 
-			if ( $rows_start == 0 ) {
+			if ( 0 === $rows_start ) {
 				//$this->stow('SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO"' . ";\n");
-				$table_create = $wpdb->get_row( "SHOW CREATE TABLE `" . $table . "`", ARRAY_A );
+				// Use of esc_sql() instead of $wpdb->prepare() because of backticks in query.
+				$table_create = $wpdb->get_row( esc_sql( "SHOW CREATE TABLE `{$table}`" ), ARRAY_A );
 				//echo "table_create<pre>"; print_r($table_create); echo "</pre>";
 				//die();
 
@@ -180,9 +206,9 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 			}
 
 			if ( ! empty( $sql ) ) {
-				$table_data = $wpdb->get_results( $sql, ARRAY_A );
+				$table_data = $wpdb->get_results( esc_sql( $sql ), ARRAY_A );
 			} else {
-				$table_data = $wpdb->get_results( "SELECT * FROM `" . $table . "` LIMIT {$rows_start}, {$rows_end}", ARRAY_A );
+				$table_data = $wpdb->get_results( $wpdb->prepare( esc_sql( "SELECT * FROM `{$table}`") . " LIMIT %d, %d", $rows_start, $rows_end ), ARRAY_A );
 			}
 
 			//echo "table_data<pre>"; print_r($table_data); echo "</pre>";
@@ -207,11 +233,11 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 						}
 					}
 					$this->stow( " \n" . $entries . implode( ', ', $values ) . ');' );
-					$total_rows += 1;
+					$total_rows++;
 				}
 			}
 
-			if ( $rows_end == $rows_total ) {
+			if ( $rows_end === $rows_total ) {
 
 				// Create footer/closing comment in SQL-file
 				$this->stow( "\n" );
@@ -223,7 +249,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 		}
 
 
-		function restore_databases( $buffer ) {
+		public function restore_databases( $buffer ) {
 			global $wpdb;
 
 			$sql                         = '';
@@ -264,7 +290,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 				}
 
 				$first_sql_delimiter = strpos( $buffer, $sql_delimiter, $i );
-				if ( $first_sql_delimiter === false ) {
+				if ( false === $first_sql_delimiter ) {
 					$first_sql_delimiter = $big_value;
 				} else {
 					$found_delimiter = true;
@@ -274,7 +300,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 				$i = min( $first_position, $first_sql_delimiter );
 				//echo "i=[". $i ."]<br />";
 
-				if ( $i == $big_value ) {
+				if ( $i === $big_value ) {
 					// none of the above was found in the string
 
 					$i = $old_i;
@@ -283,7 +309,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 					}
 
 					// at the end there might be some whitespace...
-					if ( trim( $buffer ) == '' ) {
+					if ( trim( $buffer ) === '' ) {
 						$buffer = '';
 						$len    = 0;
 						break;
@@ -306,7 +332,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 						$pos = strpos( $buffer, $quote, $i + 1 );
 
 						// No quote? Too short string
-						if ( $pos === false ) {
+						if ( false === $pos ) {
 							// We hit end of string => unclosed quote, but we handle it as end of query
 							if ( $finished ) {
 								$endq = true;
@@ -320,12 +346,12 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 						// Was not the quote escaped?
 						$j = $pos - 1;
 
-						while ( $buffer[ $j ] == '\\' ) {
+						while ( '\\' === $buffer[ $j ] ) {
 							$j --;
 						}
 
 						// Even count means it was not escaped
-						$endq = ( ( ( ( $pos - 1 ) - $j ) % 2 ) == 0 );
+						$endq = ( ( ( ( $pos - 1 ) - $j ) % 2 ) === 0 );
 
 						// Skip the string
 						$i = $pos;
@@ -342,7 +368,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 					$i ++;
 
 					// Aren't we at the end?
-					if ( $finished && $i == $len ) {
+					if ( $finished && $i === $len ) {
 						$i --;
 					} else {
 						continue;
@@ -350,23 +376,23 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 				}
 
 				// Not enough data to decide
-				if ( ( ( $i == ( $len - 1 ) && ( $ch == '-' || $ch == '/' ) )
-				       || ( $i == ( $len - 2 ) && ( ( $ch == '-' && $buffer[ $i + 1 ] == '-' )
-				                                    || ( $ch == '/' && $buffer[ $i + 1 ] == '*' ) ) ) ) && ! $finished
+				if ( ( ( ( $len - 1 ) === $i && ( '-' === $ch || '/' === $ch ) )
+				       || ( ( $len - 2 ) === $i && ( ( '-' === $ch && '-' === $buffer[ $i + 1 ] )
+				                                    || ( '/' === $ch && '*' === $buffer[ $i + 1 ] ) ) ) ) && ! $finished
 				) {
 					break;
 				}
 
 
 				// Comments
-				if ( $ch == '#'
-				     || ( $i < ( $len - 1 ) && $ch == '-' && $buffer[ $i + 1 ] == '-'
+				if ( '#' === $ch
+				     || ( $i < ( $len - 1 ) && '-' === $ch && '-' === $buffer[ $i + 1 ]
 				          && ( ( $i < ( $len - 2 ) && $buffer[ $i + 2 ] <= ' ' )
-				               || ( $i == ( $len - 1 ) && $finished ) ) )
-				     || ( $i < ( $len - 1 ) && $ch == '/' && $buffer[ $i + 1 ] == '*' )
+				               || ( ( $len - 1 ) === $i && $finished ) ) )
+				     || ( $i < ( $len - 1 ) && '/' === $ch && '*' === $buffer[ $i + 1 ] )
 				) {
 					// Copy current string to SQL
-					if ( $start_pos != $i ) {
+					if ( $start_pos !== $i ) {
 						$sql .= substr( $buffer, $start_pos, $i - $start_pos );
 					}
 
@@ -375,10 +401,10 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 
 					// do not use PHP_EOL here instead of "\n", because the export
 					// file might have been produced on a different system
-					$i = strpos( $buffer, $ch == '/' ? '*/' : "\n", $i );
+					$i = strpos( $buffer, '/' === $ch ? '*/' : "\n", $i );
 
 					// didn't we hit end of string?
-					if ( $i === false ) {
+					if ( false === $i ) {
 						if ( $finished ) {
 							$i = $len - 1;
 						} else {
@@ -387,7 +413,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 					}
 
 					// Skip *
-					if ( $ch == '/' ) {
+					if ( '/' === $ch ) {
 						$i ++;
 					}
 
@@ -402,7 +428,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 					$start_pos = $i;
 
 					// Aren't we at the end?
-					if ( $i == $len ) {
+					if ( $i === $len ) {
 						$i --;
 					} else {
 						continue;
@@ -410,7 +436,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 				}
 
 				// Change delimiter, if redefined, and skip it (don't send to server!)
-				if ( strtoupper( substr( $buffer, $i, $length_of_delimiter_keyword ) ) == $delimiter_keyword
+				if ( strtoupper( substr( $buffer, $i, $length_of_delimiter_keyword ) ) === $delimiter_keyword
 				     && ( $i + $length_of_delimiter_keyword < $len )
 				) {
 					// look for EOL on the character immediately after 'DELIMITER '
@@ -430,7 +456,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 					continue;
 				}
 
-				if ( $found_delimiter || ( $finished && ( $i == $len - 1 ) ) ) {
+				if ( $found_delimiter || ( $finished && ( $i === $len - 1 ) ) ) {
 					$tmp_sql = $sql;
 
 					if ( $start_pos < $len ) {
@@ -448,7 +474,7 @@ if ( ! class_exists( 'Snapshot_Model_Database_Backup' ) ) {
 					if ( ! preg_match( '/^([\s]*;)*$/', trim( $tmp_sql ) ) ) {
 						$sql = $tmp_sql;
 						//echo "sql=[". $sql ."]<br />";
-						$ret_db = $wpdb->query( $sql );
+						$ret_db = $wpdb->query( $sql ); // phpcs:ignore
 						//echo "ret_db<pre>"; print_r($ret_db); echo "</pre>";
 
 						$buffer = substr( $buffer, $i + strlen( $sql_delimiter ) );

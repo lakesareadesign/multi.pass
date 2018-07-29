@@ -1,5 +1,5 @@
 <?php
-	$items = empty( $items ) ? array() : $items;
+$items = empty( $items ) ? array() : $items;
 
 if ( ! $items ) {
 	return;
@@ -7,9 +7,9 @@ if ( ! $items ) {
 ?>
 
 <?php
-	$this->_render('toggle-group', array(
-		'label'       => __( 'Indexing', 'wds' ),
-		'description' => __( 'Choose whether you want your website to appear in search results.', 'wds' ),
-		'separator'   => true,
-		'items'       => $items,
-	));
+$this->_render( 'toggle-group', array(
+	'label'       => __( 'Indexing', 'wds' ),
+	'description' => __( 'Choose whether you want your website to appear in search results.', 'wds' ),
+	'separator'   => true,
+	'items'       => $items,
+) );

@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Tableset queue implementation
@@ -22,7 +22,7 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 	 *
 	 * @return Snapshot_Model_Queue_Tableset Pre-configured instance
 	 */
-	public static function all ($idx, $include_other=true) {
+	public static function all ($idx, $include_other= true) {
 		$me = new self($idx);
 		$me->clear();
 
@@ -45,8 +45,8 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 	 *
 	 * @return array
 	 */
-	public static function get_all_tables ($include_other=true) {
-		$all_tables = apply_filters('snapshot-queue-tableset-full', (is_multisite() && $include_other), $include_other)
+	public static function get_all_tables ($include_other= true) {
+		$all_tables = apply_filters('snapshot_queue_tableset_full', (is_multisite() && $include_other), $include_other)
 			? self::get_all_database_tables_ms() // Include others on MS - we want all
 			: Snapshot_Helper_Utility::get_database_tables() // Yeah, let's go with selection
 		;
@@ -80,14 +80,17 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 		$tables = array();
 
 		$db_name = Snapshot_Helper_Utility::get_db_name();
-		if (empty($db_name) && defined('DB_NAME')) $db_name = DB_NAME;
-		if (empty($db_name)) return array();
+		if (empty($db_name) && defined('DB_NAME'))
+			$db_name = DB_NAME;
+		if (empty($db_name))
+			return array();
 
 		$all_tables = $wpdb->get_col($wpdb->prepare('SELECT table_name FROM information_schema.tables WHERE table_schema = %s', $db_name));
 		if (empty($all_tables)) return array();
 
 		foreach ($all_tables as $tbl) {
-			if (!empty($tbl)) $tables[] = $tbl;
+			if (!empty($tbl))
+				$tables[] = $tbl;
 		}
 
 		return array('all' => $tables);
@@ -120,7 +123,8 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 	 */
 	public function get_files () {
 		$chunk_size = $this->get_chunk_size();
-		$chunk = $total = 0;
+		$total = 0;
+		$chunk = $total;
 		$result = array();
 
 		$src = $this->_get_next_source();
@@ -128,14 +132,16 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 //if (preg_match('/link/', $src)) return false;
 		$info = $this->_get_source_info($src);
 
-		if (!empty($info['chunk'])) $chunk = (int)$info['chunk'];
-		if (!empty($info['total'])) $total = (int)$info['total'];
+		if (!empty($info['chunk']))
+			$chunk = (int)$info['chunk'];
+		if (!empty($info['total']))
+			$total = (int)$info['total'];
 
 		$start = $chunk * $chunk_size;
-		$source = new Snapshot_Model_Database_Backup;
+		$source = new Snapshot_Model_Database_Backup();
 		$file = $this->_get_temp_file_name($src);
 
-		$fp = fopen($file, 'a');
+		$fp = fopen($file, 'a'); // phpcs:ignore
 		if (!$fp) return $result;
 
 		fseek($fp, 0, SEEK_END);
@@ -143,7 +149,7 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 
 		$source->backup_table($src, $start, $chunk_size, $total);
 
-		fclose($fp);
+		fclose($fp); // phpcs:ignore
 
 		$info['chunk'] = $chunk + 1;
 		if ($start + $chunk_size >= $total) {
@@ -175,7 +181,8 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 			$steps = 1;
 			if (!empty($info['total']) && (int)$info['total']) {
 				$steps = (int)$info['total'] / $chunk_size;
-				if ($steps > (int)$steps) $steps = (int)$steps + 1;
+				if ($steps > (int)$steps)
+					$steps = (int)$steps + 1;
 				$steps = $steps ? $steps : 1;
 			}
 			$size += $steps;
@@ -200,7 +207,8 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 		$fallback = parent::get_chunk_size();
 		if (defined('SNAPSHOT_TABLESET_FALLBACK_CHUNK_SIZE') && is_numeric(SNAPSHOT_TABLESET_FALLBACK_CHUNK_SIZE)) {
 			$size = intval(SNAPSHOT_TABLESET_FALLBACK_CHUNK_SIZE);
-			if ($size) $fallback = $size;
+			if ($size)
+				$fallback = $size;
 		}
 
 		$config = WPMUDEVSnapshot::instance()->config_data['config'];
@@ -219,7 +227,8 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 		$all = $this->_get('sources', array());
 		foreach ($all as $src => $info) {
 			$file = $this->_get_temp_file_name($src);
-			@unlink($file);
+			if ( is_writable( $file ) )
+				unlink($file);
 		}
 		parent::clear();
 		return true;
@@ -239,9 +248,11 @@ class Snapshot_Model_Queue_Tableset extends Snapshot_Model_Queue {
 		$nfo = $this->_get_source_info($src, false);
 		if (empty($nfo) || !is_array($nfo)) return false;
 
-		return array_merge($nfo, array(
-			'chunk' => $src . ':' . $nfo['chunk'],
-		));
+		return array_merge(
+            $nfo, array(
+				'chunk' => $src . ':' . $nfo['chunk'],
+			)
+        );
 	}
 
 	/**

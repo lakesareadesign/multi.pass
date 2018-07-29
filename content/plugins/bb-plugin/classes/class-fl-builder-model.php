@@ -2132,7 +2132,7 @@ final class FLBuilderModel {
 			foreach ( $cols as $col_id => $col ) {
 
 				// Set the new size.
-				$data[ $col_id ]->settings->size = round( $new_width, 2 );
+				$data[ $col_id ]->settings->size = round( $new_width, 3 );
 			}
 
 			// Update the layout data.
@@ -2242,7 +2242,7 @@ final class FLBuilderModel {
 		}
 
 		// Save new sibling size.
-		$data[ $sibling->node ]->settings->size = round( 100 - $siblings_width - $new_width, 2 );
+		$data[ $sibling->node ]->settings->size = round( 100 - $siblings_width - $new_width, 3 );
 
 		// Save new column size.
 		$data[ $col->node ]->settings->size = $new_width;
@@ -2295,7 +2295,7 @@ final class FLBuilderModel {
 		$data 			= self::get_layout_data();
 		$post_data		= self::get_post_data();
 		$cols			= self::get_nodes( 'column', $group_id );
-		$width			= round( 100 / count( $cols ), 2 );
+		$width			= round( 100 / count( $cols ), 3 );
 
 		foreach ( $cols as $col_id => $col ) {
 			$data[ $col_id ]->settings->size = $width;
@@ -2377,7 +2377,7 @@ final class FLBuilderModel {
 		} elseif ( 7 === $num_cols ) {
 			$new_width = 14.28;
 		} else {
-			$new_width = round( 100 / $num_cols, 2 );
+			$new_width = round( 100 / $num_cols, 3 );
 		}
 
 		// Get the new column position.
@@ -4917,6 +4917,16 @@ final class FLBuilderModel {
 	}
 
 	/**
+	 * Checks if a node has visibility rules or not.
+	 *
+	 * @param object $node
+	 * @return bool
+	 */
+	static public function node_has_visibility_rules( $node ) {
+		return isset( $node->settings->visibility_display ) && ( '' !== $node->settings->visibility_display );
+	}
+
+	/**
 	 * Checks to see if a node is the root node of a global template.
 	 *
 	 * @since 1.6.3
@@ -5994,6 +6004,24 @@ final class FLBuilderModel {
 	 */
 	static public function is_codechecking_enabled() {
 		return apply_filters( 'fl_code_checking_enabled', true );
+	}
+
+	/**
+	 * Returns Ace Editor defaults as an array.
+	 *
+	 * @since 2.1
+	 * @return array
+	 */
+	static public function ace_editor_settings() {
+
+		$defaults = array(
+			'enableBasicAutocompletion' => true,
+			'enableLiveAutocompletion'  => true,
+			'enableSnippets'            => false,
+			'showLineNumbers'           => false,
+			'showFoldWidgets'           => false,
+		);
+		return apply_filters( 'fl_ace_editor_settings', $defaults );
 	}
 
 	/**

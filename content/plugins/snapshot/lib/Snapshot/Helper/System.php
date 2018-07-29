@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Helper_System {
 
@@ -12,7 +12,7 @@ class Snapshot_Helper_System {
 	 *
 	 * @return bool
 	 */
-	public static function is_available ($func, $ignore_safe_mode=false) {
+	public static function is_available ($func, $ignore_safe_mode = false) {
 		static $available = array();
 		if (isset($available[$func])) return $available[$func];
 
@@ -30,11 +30,13 @@ class Snapshot_Helper_System {
 			);
 			$status = !in_array(
 				$func,
-				preg_split('/,\s*/', $disabled)
+				preg_split('/,\s*/', $disabled),
+				true
 			);
 		}
 
-		return !!($available[$func] = $status);
+		$available[$func] = $status;
+		return !!( $available[$func] );
 
 	}
 
@@ -53,6 +55,9 @@ class Snapshot_Helper_System {
 		) return '';
 
 		$cmd = escapeshellcmd($cmd);
+
+		// We have checked if system commands are available before this point.
+		// phpcs:ignore
 		return exec("command -v {$cmd}");
 	}
 
@@ -78,7 +83,7 @@ class Snapshot_Helper_System {
 	 *
 	 * @return bool|WP_Error instace on failure (with info), (bool)true on success
 	 */
-	public static function run ($command, $context='') {
+	public static function run ($command, $context = '') {
 		$context = !empty($context)
 			? "command meant to {$context}"
 			: 'generic command'
@@ -93,6 +98,8 @@ class Snapshot_Helper_System {
 
 		Snapshot_Helper_Log::info("About to run {$context}{$cmd_string}");
 
+		// We have checked if system commands are available before this point.
+		// phpcs:ignore
 		exec($command, $output, $status);
 
 		if (!empty($status)) {
@@ -165,7 +172,9 @@ class Snapshot_Helper_System {
 			"",
 			"localhost",
 			"127.0.0.1",
-		))) return false;
+			),
+			true
+		)) return false;
 
 		return !is_numeric($port)
 			? (false !== strpos($port, '/')) // Make sure it's actual full path, or not a socket
@@ -181,7 +190,7 @@ class Snapshot_Helper_System {
 	 *
 	 * @return string|mixed Extracted string, or fallback on failure
 	 */
-	public static function get_raw_db_mode ($connection, $fallback=false) {
+	public static function get_raw_db_mode ($connection, $fallback = false) {
 		if (false === strpos($connection, ':')) return $fallback; // No port info, use default
 
 		$raw = explode(':', $connection);

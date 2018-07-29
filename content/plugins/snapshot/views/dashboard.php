@@ -11,11 +11,11 @@
 
 			<?php
 
-			$model  = new Snapshot_Model_Full_Backup;
+			$model  = new Snapshot_Model_Full_Backup();
 			$apiKey = $model->get_config( 'secret-key', '' );
 
 			$is_client = $model->is_dashboard_active() && $model->has_dashboard_key();
-			$has_snapshot_key = $is_client && Snapshot_Model_Full_Remote_Api::get()->get_token() != false && ! empty( $apiKey );
+			$has_snapshot_key = $is_client && Snapshot_Model_Full_Remote_Api::get()->get_token() !== false && ! empty( $apiKey );
 
 			$data = array(
 				"hasApikey" => ! empty( $apiKey ),

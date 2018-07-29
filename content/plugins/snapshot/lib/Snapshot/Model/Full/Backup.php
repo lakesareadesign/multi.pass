@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Overall full backup model
@@ -25,8 +25,8 @@ class Snapshot_Model_Full_Backup extends Snapshot_Model_Full_Abstract {
 	 * Also populates internal facade references
 	 */
 	public function __construct() {
-		$this->_storage = new Snapshot_Model_Full_Remote;
-		$this->_local = new Snapshot_Model_Full_Local;
+		$this->_storage = new Snapshot_Model_Full_Remote();
+		$this->_local = new Snapshot_Model_Full_Local();
 	}
 
 	/**
@@ -279,7 +279,7 @@ class Snapshot_Model_Full_Backup extends Snapshot_Model_Full_Abstract {
 			if ( $seconds >= DAY_IN_SECONDS ) {
 				$seconds -= DAY_IN_SECONDS;
 			}
-			if ( 0 == $seconds ) {
+			if ( 0 === intval( $seconds ) ) {
 				$seconds = 1;
 			} // Because 0 will show current time in Hub :(
 			$times[ $seconds ] = date_i18n( $tf, $midnight + $i );
@@ -296,9 +296,10 @@ class Snapshot_Model_Full_Backup extends Snapshot_Model_Full_Abstract {
 	 * @return int Relative schedule time
 	 */
 	public function get_schedule_time() {
-		$default = 3600;
-		$value = $this->get_config( 'schedule_time', $default );
-		$value = is_numeric( $value ) ? (int) $value : $default;
+		$default = Snapshot_Model_Time::get()->convert_to_local_timestamp( 3600 );
+		$value   = $this->get_config( 'schedule_time', $default );
+		$value   = is_numeric( $value ) ? (int) $value : $default;
+
 		return (int) apply_filters(
 			$this->get_filter( 'schedule_time' ),
 			$value
@@ -312,10 +313,12 @@ class Snapshot_Model_Full_Backup extends Snapshot_Model_Full_Abstract {
 	 *
 	 * @return int
 	 */
-	public function get_offset_base ($frequency=false) {
+	public function get_offset_base ($frequency= false) {
 		$offset = $this->get_config('schedule_offset', 0);
-		if (empty($frequency)) $frequency = $this->get_frequency();
-		if ('weekly' === $frequency && $offset > 6) return 0;
+		if (empty($frequency))
+			$frequency = $this->get_frequency();
+		if ('weekly' === $frequency && $offset > 6)
+			return 0;
 
 		return (int)$offset;
 	}
@@ -328,8 +331,9 @@ class Snapshot_Model_Full_Backup extends Snapshot_Model_Full_Abstract {
 	 *
 	 * @return int
 	 */
-	public function get_offset ($timestamp, $frequency=false) {
-		if (empty($frequency)) $frequency = $this->get_frequency();
+	public function get_offset ($timestamp, $frequency= false) {
+		if (empty($frequency))
+			$frequency = $this->get_frequency();
 		$base = $this->get_offset_base($frequency);
 		$offset = $timestamp;
 
@@ -363,8 +367,9 @@ class Snapshot_Model_Full_Backup extends Snapshot_Model_Full_Abstract {
 	 *
 	 * @return array
 	 */
-	public function get_offsets ($frequency=false) {
-		if (empty($frequency)) $frequency = $this->get_frequency();
+	public function get_offsets ($frequency= false) {
+		if (empty($frequency))
+			$frequency = $this->get_frequency();
 		$offsets = array();
 
 		if ('weekly' === $frequency) {

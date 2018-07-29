@@ -290,6 +290,8 @@
 		{
 			if($(this).is(':checked')) {
 				$('.fl-module-cb').prop('checked', true);
+			} else {
+				$('.fl-module-cb').prop('checked', false);
 			}
 		},
 

@@ -39,4 +39,3 @@
 <?php $this->render( "admin/slidein/wizard/boxes/box-form_message", array() ); ?>
 
 <?php $this->render( "admin/slidein/wizard/boxes/box-form_success", array() ); ?>
-<?php

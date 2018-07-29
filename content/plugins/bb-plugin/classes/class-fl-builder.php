@@ -62,7 +62,7 @@ final class FLBuilder {
 	 * @since 2.1
 	 */
 	static public $fa4_url = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-	static public $fa5_url = 'https://use.fontawesome.com/releases/v5.0.13/css/all.css';
+	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.2.0/css/all.css';
 
 	/**
 	 * Initializes hooks.
@@ -377,8 +377,6 @@ final class FLBuilder {
 		$js_url  = plugins_url( '/js/', FL_BUILDER_FILE );
 		$min     = ( self::is_debug() ) ? '' : '.min';
 
-		$fa5_url = ( apply_filters( 'fl_enable_fa5_pro', false ) ) ? str_replace( 'use', 'pro', self::$fa5_url ) : self::$fa5_url;
-
 		// Register additional CSS
 		wp_register_style( 'fl-slideshow',           $css_url . 'fl-slideshow.css', array( 'yui3' ), $ver );
 		wp_register_style( 'jquery-bxslider',        $css_url . 'jquery.bxslider.css', array(), $ver );
@@ -387,7 +385,7 @@ final class FLBuilder {
 
 		// Register icon CDN CSS
 		wp_register_style( 'font-awesome',           self::$fa4_url, array(), $ver );
-		wp_register_style( 'font-awesome-5',         $fa5_url, array(), $ver );
+		wp_register_style( 'font-awesome-5',         self::get_fa5_url(), array(), $ver );
 		wp_register_style( 'foundation-icons',       'https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css', array(), $ver );
 
 		// Register additional JS
@@ -502,7 +500,7 @@ final class FLBuilder {
 			}
 
 			// Enqueue Google Fonts
-			FLBuilderFonts::enqueue_styles();
+			FLBuilderFonts::enqueue_google_fonts();
 
 			// Enqueue layout CSS
 			self::enqueue_layout_cached_asset( 'css', $rerender );
@@ -1833,6 +1831,7 @@ final class FLBuilder {
 		$overlay_bgs  = array( 'photo', 'parallax', 'slideshow', 'video' );
 		$active		  = FLBuilderModel::is_builder_active();
 		$visible 	  = FLBuilderModel::is_node_visible( $row );
+		$has_rules 	  = FLBuilderModel::node_has_visibility_rules( $row );
 		$attrs        = array(
 			'id'          => $row->settings->id,
 			'class'       => array(
@@ -1864,6 +1863,9 @@ final class FLBuilder {
 		}
 		if ( $active && ! $visible ) {
 			$attrs['class'][] = 'fl-node-hidden';
+		}
+		if ( $active && $has_rules ) {
+			$attrs['class'][] = 'fl-node-has-rules';
 		}
 
 		// Data
@@ -2025,6 +2027,7 @@ final class FLBuilder {
 		$nested       = FLBuilderModel::get_nodes( 'column-group', $col );
 		$active		  = FLBuilderModel::is_builder_active();
 		$visible 	  = FLBuilderModel::is_node_visible( $col );
+		$has_rules 	  = FLBuilderModel::node_has_visibility_rules( $col );
 		$attrs        = array(
 			'id'          => $col->settings->id,
 			'class'       => array(
@@ -2053,6 +2056,9 @@ final class FLBuilder {
 		}
 		if ( $active && ! $visible ) {
 			$attrs['class'][] = 'fl-node-hidden';
+		}
+		if ( $active && $has_rules ) {
+			$attrs['class'][] = 'fl-node-has-rules';
 		}
 
 		// Style
@@ -2170,6 +2176,7 @@ final class FLBuilder {
 		$custom_class = apply_filters( 'fl_builder_module_custom_class', $module->settings->class, $module );
 		$active		  = FLBuilderModel::is_builder_active();
 		$visible 	  = FLBuilderModel::is_node_visible( $module );
+		$has_rules 	  = FLBuilderModel::node_has_visibility_rules( $module );
 		$attrs        = array(
 			'id'          => esc_attr( $module->settings->id ),
 			'class'       => array(
@@ -2193,6 +2200,9 @@ final class FLBuilder {
 		}
 		if ( $active && ! $visible ) {
 			$attrs['class'][] = 'fl-node-hidden';
+		}
+		if ( $active && $has_rules ) {
+			$attrs['class'][] = 'fl-node-has-rules';
 		}
 
 		// Data
@@ -3090,6 +3100,15 @@ final class FLBuilder {
 		}
 
 		return apply_filters( 'fl_is_debug', $debug );
+	}
+
+	/**
+	 * Get the fa5 url.
+	 * @since 2.2
+	 * @return string url
+	 */
+	static public function get_fa5_url() {
+		return ( apply_filters( 'fl_enable_fa5_pro', false ) ) ? self::$fa5_pro_url : plugins_url( '/fonts/fontawesome/css/all.min.css', FL_BUILDER_FILE );
 	}
 
 	/**

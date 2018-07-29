@@ -123,4 +123,3 @@
 	</div>
 
 </div><?php // #wph-wizard-content-form_image ?>
-<?php

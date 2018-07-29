@@ -236,4 +236,3 @@
 	</div>
 
 </div><?php // #wph-wizard-design-shape ?>
-<?php

@@ -1,6 +1,6 @@
 <?php
 /**
- * @package WP Smush
+ * @package WP_Smush
  * @subpackage Admin
  * @version 1.0
  *
@@ -62,7 +62,7 @@ if ( ! class_exists( 'WpSmushHelper' ) ) {
 				return $savings;
 			}
 
-			$pngjpg_savings = get_post_meta( $attachment_id, WP_SMUSH_PREFIX . 'pngjpg_savings', true );
+			$pngjpg_savings = get_post_meta( $attachment_id, WP_SMUSH_PREFIX . 'pngjpg_savings', true );								 	 	   		   
 			if( empty( $pngjpg_savings ) || !is_array( $pngjpg_savings )) {
 				return $savings;
 			}

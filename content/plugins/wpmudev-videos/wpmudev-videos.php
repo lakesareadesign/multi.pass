@@ -4,7 +4,7 @@ Plugin Name: WPMU DEV Videos
 Plugin URI: https://premium.wpmudev.org/project/unbranded-video-tutorials/
 Description: A simple way to integrate WPMU DEV's over 40 unbranded support videos into your websites.
 Author: WPMU DEV
-Version: 1.5.6
+Version: 1.5.8
 Author URI: https://premium.wpmudev.org/
 Network: true
 WDP ID: 248
@@ -35,7 +35,7 @@ class WPMUDEV_Videos {
 	//---Config---------------------------------------------------------------//
 	//------------------------------------------------------------------------//
 
-	var $version = '1.5.6';
+	var $version = '1.5.8';
 	var $api_url = 'https://premium.wpmudev.org/video-api-register.php';
 	var $video_list;
 	var $video_cats;
@@ -53,7 +53,7 @@ class WPMUDEV_Videos {
 
 		//attach videos to contextual help dropdowns if set
 		if ( $this->get_setting( 'contextual_help', 1 ) ) {
-			include_once( dirname( __FILE__ ) . '/includes/contextual-help.php' );
+			include_once dirname( __FILE__ ) . '/includes/contextual-help.php';
 		}
 
 		add_shortcode( 'wpmudev-video', array( &$this, 'handle_shortcode' ) );
@@ -102,8 +102,11 @@ class WPMUDEV_Videos {
 			'settings'                     => __( 'Settings', 'wpmudev_vids' ),
 			'playlists'                    => __( 'Creating Playlists', 'wpmudev_vids' ),
 		);
-
-		if ( ! is_multisite() ) {
+		// if multisite check if non-multisite videos are enabled; defaults to "NO"
+		if ( is_multisite() ) {
+			$show_multisite_videos = $this->get_setting( 'non-multisite', 0 );
+		}
+		if ( ! is_multisite() || ( $show_multisite_videos == 1 ) ) {
 			$this->video_list['running-updates'] = __( 'Running Updates', 'wpmudev_vids' );
 			$this->video_list['install-themes']  = __( 'Install a Theme', 'wpmudev_vids' );
 			$this->video_list['install-plugin']  = __( 'Install and Configure a Plugin', 'wpmudev_vids' );
@@ -113,15 +116,15 @@ class WPMUDEV_Videos {
 		$this->video_cats = array(
 			'dashboard'  => array(
 				'name' => __( 'The Dashboard', 'wpmudev_vids' ),
-				'list' => array( 'dashboard', 'admin-bar', 'quickpress', 'change-password' )
+				'list' => array( 'dashboard', 'admin-bar', 'quickpress', 'change-password' ),
 			),
 			'posts'      => array(
 				'name' => __( 'Posts', 'wpmudev_vids' ),
-				'list' => array( 'add-new-post', 'trash-post', 'restore-post', 'revisions' )
+				'list' => array( 'add-new-post', 'trash-post', 'restore-post', 'revisions' ),
 			),
 			'pages'      => array(
 				'name' => __( 'Pages', 'wpmudev_vids' ),
-				'list' => array( 'add-new-page', 'trash-post', 'restore-page', 'pages-v-posts' )
+				'list' => array( 'add-new-page', 'trash-post', 'restore-page', 'pages-v-posts' ),
 			),
 			'editor'     => array(
 				'name' => __( 'The Visual Editor', 'wpmudev_vids' ),
@@ -134,8 +137,8 @@ class WPMUDEV_Videos {
 					'lists',
 					'oEmbed',
 					'playlists',
-					'excerpt'
-				)
+					'excerpt',
+				),
 			),
 			'images'     => array(
 				'name' => __( 'Working With Images', 'wpmudev_vids' ),
@@ -147,24 +150,24 @@ class WPMUDEV_Videos {
 					'edit-image',
 					'replace-image',
 					'delete-image',
-					'featured-image'
-				)
+					'featured-image',
+				),
 			),
 			'media'      => array(
 				'name' => __( 'Media Library', 'wpmudev_vids' ),
-				'list' => array( 'media-library', 'add-media', 'image-editor' )
+				'list' => array( 'media-library', 'add-media', 'image-editor' ),
 			),
 			'appearance' => array(
 				'name' => __( 'Appearance', 'wpmudev_vids' ),
-				'list' => array( 'change-theme', 'customize', 'widgets', 'menus' )
+				'list' => array( 'change-theme', 'customize', 'widgets', 'menus' ),
 			),
 			'organizing' => array(
 				'name' => __( 'Organizing Content', 'wpmudev_vids' ),
-				'list' => array( 'categories', 'tags' )
+				'list' => array( 'categories', 'tags' ),
 			),
 			'comments'   => array(
 				'name' => __( 'Managing Comments', 'wpmudev_vids' ),
-				'list' => array( 'comments' )
+				'list' => array( 'comments' ),
 			),
 			'other'      => array(
 				'name' => __( 'Users, Tools, and Settings', 'wpmudev_vids' ),
@@ -174,9 +177,9 @@ class WPMUDEV_Videos {
 					'settings',
 					'running-updates',
 					'install-themes',
-					'install-plugin'
-				)
-			)
+					'install-plugin',
+				),
+			),
 		);
 
 	}
@@ -208,12 +211,12 @@ class WPMUDEV_Videos {
 			if ( is_multisite() && is_network_admin() ) {
 				$page = add_submenu_page( 'settings.php', __( 'WPMU DEV Videos', 'wpmudev_vids' ), __( 'WPMU DEV Videos', 'wpmudev_vids' ), 'manage_network_options', 'wpmudev-videos', array(
 					&$this,
-					'settings_output'
+					'settings_output',
 				) );
-			} else if ( ! is_multisite() ) {
+			} elseif ( ! is_multisite() ) {
 				$page = add_submenu_page( 'options-general.php', __( 'WPMU DEV Videos', 'wpmudev_vids' ), __( 'WPMU DEV Videos', 'wpmudev_vids' ), 'manage_options', 'wpmudev-videos', array(
 					&$this,
-					'settings_output'
+					'settings_output',
 				) );
 			}
 		}
@@ -222,20 +225,20 @@ class WPMUDEV_Videos {
 			if ( $this->get_setting( 'menu_location', 'dashboard' ) == 'dashboard' ) {
 				$page           = add_submenu_page( 'index.php', $this->get_setting( 'menu_title' ), $this->get_setting( 'menu_title' ), 'read', 'video-tuts', array(
 					&$this,
-					'page_output'
+					'page_output',
 				) );
 				$this->page_url = admin_url( "index.php?page=video-tuts" );
-			} else if ( $this->get_setting( 'menu_location' ) == 'support_system' ) {
+			} elseif ( $this->get_setting( 'menu_location' ) == 'support_system' ) {
 				$page           = add_submenu_page( 'ticket-manager', $this->get_setting( 'menu_title' ), $this->get_setting( 'menu_title' ), 'read', 'video-tuts', array(
 					&$this,
-					'page_output'
+					'page_output',
 				) );
 				$this->page_url = admin_url( "admin.php?page=video-tuts" );
-			} else if ( $this->get_setting( 'menu_location' ) == 'top' ) {
+			} elseif ( $this->get_setting( 'menu_location' ) == 'top' ) {
 				$icon           = version_compare( $wp_version, '3.8', '>=' ) ? 'dashicons-format-video' : plugins_url( 'includes/icon.png', __FILE__ );
 				$page           = add_menu_page( $this->get_setting( 'menu_title' ), $this->get_setting( 'menu_title' ), 'read', 'video-tuts', array(
 					&$this,
-					'page_output'
+					'page_output',
 				), $icon, 57.24 );
 				$this->page_url = admin_url( "admin.php?page=video-tuts" );
 			}
@@ -263,12 +266,36 @@ class WPMUDEV_Videos {
 			'group'      => false,
 			'show_title' => true,
 			'width'      => 500,
-			'height'     => false
+			'height'     => false,
 		), $atts ) );
 
 		if ( ! $height ) {
 			$height = ceil( ( $width * 9 ) / 16 );
 		}
+
+		/**
+		 * Video list filter.
+		 *
+		 * Use this hook to add your custom videos to the $this->video_list array in the same format
+		 *  like 'slug' => 'label'. Example `return $video_list['newslug'] = 'Label';`
+		 *
+		 * @since 1.5
+		 *
+		 * @param array $this ->video_list Registered videos.
+		 */
+		$this->video_list = apply_filters( 'wpmudev_vids_list', $this->video_list );
+
+		/**
+		 * Video category filter.
+		 *
+		 * Use this hook to add your custom videos registered via 'wpmudev_vids_list' filter to the desired categories, or a new category.
+		 *
+		 * @since 1.5
+		 *
+		 * @param array $this ->video_cats Registered video categories.
+		 */
+		$this->video_cats = apply_filters( 'wpmudev_vids_categories', $this->video_cats );
+
 
 		if ( $group && isset( $this->video_cats[ $group ] ) ) {
 			$hidden = $this->get_setting( 'hide' );
@@ -278,14 +305,19 @@ class WPMUDEV_Videos {
 				if ( ! isset( $this->video_list[ $video ] ) || isset( $hidden[ $video ] ) ) {
 					continue; //exclude videos not in the main list (multisite ones) or hidden videos
 				}
-				$output .= '<p class="wpmudev_video"><iframe src="' . $this->create_embed_url( $video ) . '" frameborder="0" width="' . $width . '" height="' . $height . '" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></p>';
+
+				$video_embed_html = '<iframe src="' . $this->create_embed_url( $video ) . '" frameborder="0" width="' . $width . '" height="' . $height . '" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+				$output           .= '<p class="wpmudev_video">' . apply_filters( 'wpmudev_vids_embed_html', $video_embed_html, $video ) . '</p>';
 			}
 
 			return '<div class="wpmudev_video_group">' . $output . '</div>';
 		}
 
 		if ( $video && isset( $this->video_list[ $video ] ) ) {
-			return '<p class="wpmudev_video"><iframe src="' . $this->create_embed_url( $video ) . '" frameborder="0" width="' . $width . '" height="' . $height . '" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe></p>';
+			$video_embed_html = '<iframe src="' . $this->create_embed_url( $video ) . '" frameborder="0" width="' . $width . '" height="' . $height . '" webkitAllowFullScreen mozallowfullscreen allowFullScreen></iframe>';
+			$output           = '<p class="wpmudev_video">' . apply_filters( 'wpmudev_vids_embed_html', $video_embed_html, $video ) . '</p>';
+
+			return $output;
 		} else {
 			return '';
 		}
@@ -318,9 +350,9 @@ class WPMUDEV_Videos {
 	function is_mapped() {
 
 		//As of WP 4.9 Referrer-Policy:same-origin is sent in admin, so we have to use mapping mode now always
-        if ( is_admin() ) {
-	        return true;
-        }
+		if ( is_admin() ) {
+			return true;
+		}
 
 		//allow users of other domain mapping plugins to turn on support
 		if ( defined( 'WPMUDEV_VIDS_DOMAIN_MAPPED' ) ) {
@@ -353,13 +385,15 @@ class WPMUDEV_Videos {
 
 			echo '<div class="updated fade"><p>' . __( 'Settings saved.', 'wpmudev_vids' ) . '</p></div>';
 		}
+
+		$api_key = $this->get_apikey();
 		?>
         <div class="wrap">
             <h2><?php _e( 'WPMU DEV Video Settings', 'wpmudev_vids' ) ?></h2>
 
-	        <?php if ( empty( $this->get_apikey() ) ) { ?>
+			<?php if ( empty( $api_key ) ) { ?>
                 <div class="notice error"><p><?php _e( 'Please install and login to the <a href="https://premium.wpmudev.org/project/wpmu-dev-dashboard/" target="_blank">WPMU DEV Dashboard plugin</a> to enable video tutorials.', 'wpmudev_vids' ); ?></p></div>
-	        <?php } ?>
+			<?php } ?>
 
             <form action="" method="post">
                 <div id="poststuff" class="metabox-holder">
@@ -378,7 +412,7 @@ class WPMUDEV_Videos {
 										$result = wp_remote_get( $this->api_url . '?domain_id=' . network_site_url() );
 										if ( is_wp_error( $result ) ) {
 											echo '<div class="error"><p>' . sprintf( __( 'Whoops, your server is having trouble connecting to the WPMU DEV API! If this problem continues, please contact your host and ask them to "make sure php and any firewall is configured to allow an HTTP GET call via curl or fsockopen to %s.', 'wpmudev_vids' ), $this->api_url ) . '</p></div>';
-										} else if ( ! is_numeric( $result['body'] ) ) {
+										} elseif ( ! is_numeric( $result['body'] ) ) {
 											?>
                                             <span
                                                     class="description"><?php printf( __( 'Please register this domain "%s" below: ', 'wpmudev_vids' ), network_site_url() ); ?></span>
@@ -392,8 +426,9 @@ class WPMUDEV_Videos {
 										} else {
 											$site_id = intval( $result['body'] );
 											$this->update_setting( 'site_id', $site_id );
-											if ( empty( $this->get_apikey() ) ) { ?>
-                                                <div class="notice error inline"><p><strong><?php _e( 'Please install and login to the <a href="https://premium.wpmudev.org/project/wpmu-dev-dashboard/" target="_blank">WPMU DEV Dashboard plugin</a> to finish enabling video tutorials.', 'wpmudev_vids' ); ?></strong></p></div>
+											if ( empty( $api_key ) ) { ?>
+                                                <div class="notice error inline"><p>
+                                                        <strong><?php _e( 'Please install and login to the <a href="https://premium.wpmudev.org/project/wpmu-dev-dashboard/" target="_blank">WPMU DEV Dashboard plugin</a> to finish enabling video tutorials.', 'wpmudev_vids' ); ?></strong></p></div>
 											<?php } else { ?>
                                                 <div class="notice updated inline"><p><strong><?php printf( __( 'Successfully Registered! Video Site ID: %s', 'wpmudev_vids' ), $site_id ); ?></strong></p></div>
 											<?php } ?>
@@ -413,6 +448,21 @@ class WPMUDEV_Videos {
                                                 class="description"><?php _e( 'This will add the appropriate video tutorials to the help dropdowns on WordPress admin screens.', 'wpmudev_vids' ) ?></span>
                                     </td>
                                 </tr>
+								<?php if ( is_multisite() ) { ?>
+                                    <tr>
+                                        <th scope="row"><?php _e( 'Enable non-Multisite videos?', 'wpmudev_vids' ) ?></th>
+                                        <td>
+                                            <label><input value="1" name="wpmudev_vids[non-multisite]"
+                                                          type="radio"<?php checked( $this->get_setting( 'non-multisite', 0 ), 1 ) ?> /> <?php _e( 'Yes', 'wpmudev_vids' ) ?>
+                                            </label>
+                                            <label><input value="0" name="wpmudev_vids[non-multisite]"
+                                                          type="radio"<?php checked( $this->get_setting( 'non-multisite', 0 ), 0 ) ?> /> <?php _e( 'No', 'wpmudev_vids' ) ?>
+                                            </label>
+                                            <br/><span
+                                                    class="description"><?php _e( 'Should videos that are not relevant to Multisite be enabled anyway?.', 'wpmudev_vids' ) ?></span>
+                                        </td>
+                                    </tr>
+								<?php } ?>
                                 <tr>
                                     <th scope="row"><?php _e( 'Menu Location', 'wpmudev_vids' ) ?></th>
                                     <td>
@@ -448,7 +498,10 @@ class WPMUDEV_Videos {
 										<span
                                                 class="description"><?php _e( 'Check any videos here that you want to hide from users on the videos page or in group shortcodes.', 'wpmudev_vids' ) ?></span><br/>
 										<?php
+										$this->video_list = apply_filters( 'wpmudev_vids_list', $this->video_list );
+
 										$hidden = $this->get_setting( 'hide' );
+
 										foreach ( $this->video_list as $key => $label ) {
 											$checked = isset( $hidden[ $key ] ) ? ' checked="checked"' : '';
 											?>
@@ -474,7 +527,9 @@ class WPMUDEV_Videos {
                         <div class="inside">
                             <p><?php _e( 'These shortcodes allow you to easily embed video tutorials in posts and pages on your sites. Simply type or paste them into your post or page content where you would like them to appear. Also properly handles SSL protected pages. You may also pass "width" and/or "height" arguments to customize the size of the videos.', 'wpmudev_vids' ) ?></p>
                             <table class="form-table">
-								<?php foreach ( $this->video_list as $url => $label ) { ?>
+								<?php $this->video_list = apply_filters( 'wpmudev_vids_list', $this->video_list );
+
+								foreach ( $this->video_list as $url => $label ) { ?>
                                     <tr>
                                         <th scope="row"><?php esc_attr_e( $label ); ?></th>
                                         <td>
@@ -523,17 +578,6 @@ class WPMUDEV_Videos {
 	function page_output() {
 		global $wpdb, $current_site;
 
-		//remove any hidden videos from the list
-		$hidden = $this->get_setting( 'hide' );
-		if ( is_array( $hidden ) && count( $hidden ) ) {
-			foreach ( $this->video_cats as $cat_key => $cat ) {
-				foreach ( $cat['list'] as $key => $video ) {
-					if ( isset( $hidden[ $video ] ) ) {
-						unset( $this->video_cats[ $cat_key ]['list'][ $key ] );
-					}
-				}
-			}
-		}
 
 		/**
 		 * Video list filter.
@@ -547,6 +591,7 @@ class WPMUDEV_Videos {
 		 */
 		$this->video_list = apply_filters( 'wpmudev_vids_list', $this->video_list );
 
+
 		/**
 		 * Video category filter.
 		 *
@@ -557,6 +602,21 @@ class WPMUDEV_Videos {
 		 * @param array $this ->video_cats Registered video categories.
 		 */
 		$this->video_cats = apply_filters( 'wpmudev_vids_categories', $this->video_cats );
+
+
+		//remove any hidden videos from the list
+		$hidden = $this->get_setting( 'hide' );
+		if ( is_array( $hidden ) && count( $hidden ) ) {
+			foreach ( $this->video_cats as $cat_key => $cat ) {
+				foreach ( $cat['list'] as $key => $video ) {
+					if ( isset( $hidden[ $video ] ) ) {
+						unset( $this->video_cats[ $cat_key ]['list'][ $key ] );
+					}
+				}
+			}
+		}
+
+
 		?>
         <style type="text/css">#poststuff .postbox .inside iframe {
                 display: block;
@@ -649,7 +709,7 @@ $wpmudev_notices[] = array(
 		'settings_page_wpmudev-videos',
 		'settings_page_wpmudev-videos-network',
 		'toplevel_page_video-tuts',
-		'dashboard_page_video-tuts'
-	)
+		'dashboard_page_video-tuts',
+	),
 );
 include_once( dirname( __FILE__ ) . '/includes/dash-notice/wpmudev-dash-notification.php' );

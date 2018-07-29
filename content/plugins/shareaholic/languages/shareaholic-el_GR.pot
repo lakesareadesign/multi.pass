@@ -179,8 +179,8 @@ msgid "Shareaholic | share buttons, analytics, related content"
 msgstr "Shareaholic | κουμπιά για share, στατιστικά, σχετικό περιεχόμενο"
 
 #. Plugin URI of the plugin/theme
-msgid "https://shareaholic.com/publishers/"
-msgstr "https://shareaholic.com/publishers/"
+msgid "https://www.shareaholic.com/publishers/"
+msgstr "https://www.shareaholic.com/publishers/"
 
 #. Description of the plugin/theme
 msgid ""
@@ -199,6 +199,6 @@ msgid "Shareaholic"
 msgstr "Shareaholic"
 
 #. Author URI of the plugin/theme
-msgid "https://shareaholic.com"
-msgstr "https://shareaholic.com"
+msgid "https://www.shareaholic.com"
+msgstr "https://www.shareaholic.com"
 

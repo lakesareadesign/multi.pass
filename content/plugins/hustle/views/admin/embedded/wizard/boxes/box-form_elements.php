@@ -75,4 +75,3 @@ if ( $module ) {
 	</div>
 
 </div><?php // #wph-wizard-content-form_elements ?>
-<?php

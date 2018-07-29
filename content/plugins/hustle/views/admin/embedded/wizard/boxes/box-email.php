@@ -236,4 +236,3 @@ $this->render( "admin/embedded/wizard/boxes/box-form_elements", array(
         <?php endif; ?>
     </script>
 <?php endforeach; ?>
-<?php

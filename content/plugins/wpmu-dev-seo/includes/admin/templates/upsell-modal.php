@@ -1,6 +1,6 @@
 <dialog id="wds-upsell-modal"
-		class="dev-overlay wds-modal wds-upsell-modal"
-		title="<?php esc_attr_e( 'Upgrade To Pro', 'wds' ); ?>">
+        class="dev-overlay wds-modal wds-upsell-modal"
+        title="<?php esc_attr_e( 'Upgrade To Pro', 'wds' ); ?>">
 
 	<div class="box-content modal">
 		<p><?php esc_html_e( 'Here’s what you’ll get by uprading to SmartCrawl Pro', 'wds' ); ?></p>
@@ -30,9 +30,9 @@
 
 		<p style="text-align: center">
 			<button class="wds-navigate-to-pro button-green"
-					data-target="<?php echo esc_url( 'https://premium.wpmudev.org/project/smartcrawl-wordpress-seo/?campaign=wds_modal_upgrade&source=smartcrawl&medium=plugin' ); ?>">
+			        data-target="<?php echo esc_url( 'https://premium.wpmudev.org/project/smartcrawl-wordpress-seo/?campaign=wds_modal_upgrade&source=smartcrawl&medium=plugin' ); ?>">
 
-				<?php esc_html_e( 'Upgrate to Pro', 'wds' ); ?>
+				<?php esc_html_e( 'Upgrade to Pro', 'wds' ); ?>
 			</button>
 		</p>
 

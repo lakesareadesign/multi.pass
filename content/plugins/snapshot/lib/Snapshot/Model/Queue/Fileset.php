@@ -1,10 +1,12 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 
 	private $_current;
 
-	public function get_type () { return 'fileset'; }
+	public function get_type () {
+		return 'fileset';
+	}
 
 	public function get_root () {
 		if (!($this->_current instanceof Snapshot_Model_Fileset)) return false;
@@ -21,7 +23,8 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 
 		$info = $this->_get_source_info($src);
 
-		if (!empty($info['chunk'])) $chunk = (int)$info['chunk'];
+		if (!empty($info['chunk']))
+			$chunk = (int)$info['chunk'];
 		$source = Snapshot_Model_Fileset::get_source($src);
 
 		$this->_current = $source;
@@ -32,7 +35,8 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 		if (defined('SNAPSHOT_FILESET_USE_PRECACHE') && SNAPSHOT_FILESET_USE_PRECACHE) {
 			if ($this->has_cached_source_files()) {
 				$all_files = $this->get_cached_source_files();
-				if (!is_array($all_files) || empty($all_files)) $all_files = $source->get_files();
+				if ( !is_array($all_files) || empty($all_files) )
+					$all_files = $source->get_files();
 			} else {
 				$all_files = $source->get_files();
 				$this->set_cached_source_files($all_files);
@@ -45,7 +49,8 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 		$files = $this->preprocess_fileset($files, $chunk);
 
 		$info['chunk'] = $chunk + 1;
-		if ($start + $chunk_size >= count($all_files)) $info['done'] = true;
+		if ( $start + $chunk_size >= count($all_files) )
+			$info['done'] = true;
 		$this->_update_source($src, $info);
 
 		Snapshot_Helper_Log::note("Fetching [" . count($files) . "] files as chunk {$info['chunk']}", "Queue");
@@ -63,7 +68,7 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 	 */
 	public function preprocess_fileset ($files, $chunk) {
 		return (array)apply_filters(
-			'snapshot-queue-fileset-preprocess',
+			'snapshot_queue_fileset_preprocess',
 			$this->detect_large_files($files, $chunk),
 			$chunk
 		);
@@ -75,6 +80,8 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 	 * @param array $files Files being preprocessed
 	 * @param int $chunk Current chunk
 	 *
+	 * @todo implement a solution for calculating filesize for files > 2GB on 32bit PHP
+	 *
 	 * @return array Preprocessed files
 	 */
 	public function detect_large_files ($files, $chunk) {
@@ -85,7 +92,7 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 
 		$result = array();
 		foreach ($files as $file) {
-			$size = @filesize($file);
+			$size = filesize($file);
 			if (false !== $size && ($size < 0 || $size > $threshold)) { // Negative size takes care of integer overflow
 				// This file is larger than we expected, we might have issues here
 				Snapshot_Helper_Log::warn("Processing a large file: {$file} ({$size})", "Queue");
@@ -94,7 +101,7 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 				// 1 or more GBs and over... Not for now though.
 
 				// Reject oversized files - false by default
-				if (apply_filters('snapshot-queue-fileset-reject_oversized', false, $file, $size, $chunk)) {
+				if (apply_filters('snapshot_queue_fileset_reject_oversized', false, $file, $size, $chunk)) {
 					Snapshot_Helper_Log::warn("Rejecting {$file} because of the size constraint", "Queue");
 					continue;
 				}
@@ -119,7 +126,7 @@ class Snapshot_Model_Queue_Fileset extends Snapshot_Model_Queue {
 		}
 
 		return (float)apply_filters(
-			'snapshot-queue-fileset-filesize_threshold',
+			'snapshot_queue_fileset_filesize_threshold',
 			$threshold
 		);
 	}

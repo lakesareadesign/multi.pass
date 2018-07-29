@@ -7,6 +7,14 @@
 ?>
 <div id="container" class="wrap wrap-wds wds-page wds-dashboard">
 	<section id="header">
+		<div class="actions">
+			<a target="_blank" class="button button-small button-light actions-button"
+			   href="https://premium.wpmudev.org/docs/wpmu-dev-plugins/smartcrawl/#chapter-7">
+				<i class="wds-icon-academy"></i>
+				<?php esc_html_e( 'View Documentation', 'wds' ); ?>
+			</a>
+		</div>
+
 		<h1><?php esc_html_e( 'Dashboard', 'wds' ); ?></h1>
 	</section>
 

@@ -1,4 +1,6 @@
-
+<?php
+assert(true);
+?>
 <div class="footer">Made with <i class="wdv-icon wdv-icon-heart" aria-hidden="true"></i> by WPMU DEV</div>
 
 <script type="text/html" id="ss-modal-template">

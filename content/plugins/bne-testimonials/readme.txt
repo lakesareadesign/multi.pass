@@ -2,9 +2,9 @@
 Author URI: http://www.bnecreative.com
 Contributors: bluenotes
 Tags: testimonials, testimonial widget, random testimonials, flexslider, feedback, reviews
-Requires at least: 4.5
-Tested up to: 4.8
-Stable tag: 2.0
+Requires at least: 4.7
+Tested up to: 4.9.8
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -92,6 +92,16 @@ Possible, but most likely not in the free version. If you would like to see new 
 
 
 == Changelog ==
+
+= 2.0.2 August 6, 2018 =
+* Notice!! v1.x Legacy shortcodes which are [bne_testimonials_list] and [bne_testimonials_slider] were depreciated back on June 16, 2017 and will soon output their newer default versions. If you have not already, please update these to their newer variants as they will be completely removed in a future update.
+* Code cleanup and optimization.
+
+= 2.0.1 July 15, 2018 =
+* Update CMB2 Library to v2.4.2
+* Compatibility with PHP v7.2
+* Fix: Legacy widget slider to enqueue inline JS in the footer after flexslider.js.
+
 
 = 2.0 June 16, 2017 =
 * Complete re-write matching the code base and structure of the pro version.

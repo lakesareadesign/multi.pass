@@ -9,42 +9,42 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 ) {
 	//require_once( dirname( __FILE__ ) . '/amazon-s3-php-class/S3.php' );
 	if ( ! class_exists( 'CFRuntime' ) ) {
-		@require_once( dirname( __FILE__ ) . '/AWSSDKforPHP/sdk.class.php' );
+		require_once  dirname( __FILE__ ) . '/AWSSDKforPHP/sdk.class.php' ;
 	}
 
 	if ( class_exists( 'AmazonS3' ) ) {
 		class Snapshot_Model_Destination_AWS extends Snapshot_Model_Destination {
 
 			// The slug and name are used to identify the Destination Class
-			var $name_slug;
-			var $name_display;
+			public $name_slug;
+			public $name_display;
 
-			var $aws_connection;
+			public $aws_connection;
 
 			// These vars are used when connecting and sending file to the destination. There is an
 			// inteface function which populates these from the destination data.
-			var $destination_info;
-			var $error_array;
-			var $form_errors;
+			public $destination_info;
+			public $error_array;
+			public $form_errors;
 
 			private $_regions = array();
 			private $_ssl = array();
 			private $_storage = array();
 			private $_acl = array();
 
-			function get_regions(){
+			public function get_regions(){
 				return $this->_regions;
 			}
 
-			function get_storage(){
+			public function get_storage(){
 				return $this->_storage;
 			}
 
-			function get_acl(){
+			public function get_acl(){
 				return $this->_acl;
 			}
 
-			function on_creation() {
+			public function on_creation() {
 				//private destination slug. Lowercase alpha (a-z) and dashes (-) only please!
 				$this->name_slug = 'aws';
 
@@ -55,13 +55,19 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				$this->load_scripts();
 			}
 
-			function load_scripts() {
-
-				if ( ( ! isset( $_GET['page'] ) ) || ( ! in_array( sanitize_text_field( $_GET['page'] ), array( "snapshots_destinations_panel","snapshot_pro_destinations" ) ) ) ) {
+			public function load_scripts() {
+				if ( ! isset( $_REQUEST['destination-noonce-field']  ) ) {
+					return;
+				}
+				if ( ! wp_verify_nonce( $_REQUEST['destination-noonce-field'], 'snapshot-destination' ) ) {
 					return;
 				}
 
-				if ( ( ! isset( $_GET['type'] ) ) || ( sanitize_text_field( $_GET['type'] ) != $this->name_slug ) ) {
+				if ( ( ! isset( $_GET['page'] ) ) || ( ! in_array( sanitize_text_field( $_GET['page'] ), array( "snapshots_destinations_panel", "snapshot_pro_destinations" ), true ) ) ) {
+					return;
+				}
+
+				if ( ( ! isset( $_GET['type'] ) ) || ( sanitize_text_field( $_GET['type'] ) !== $this->name_slug ) ) {
 					return;
 				}
 
@@ -74,7 +80,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				}
 			}
 
-			function init() {
+			public function init() {
 
 				if ( isset( $this->destination_info ) ) {
 					unset( $this->destination_info );
@@ -96,6 +102,8 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 					unset( $this->aws_connection );
 				}
 
+				// We use set_error_handler() as logging code and not debug code.
+				// phpcs:ignore
 				set_error_handler( array( &$this, 'ErrorHandler' ) );
 
 				$this->_ssl = array(
@@ -129,7 +137,8 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 
 			}
 
-			function ErrorHandler( $errno, $errstr, $errfile, $errline ) {
+			public function ErrorHandler( $errno, $errstr, $errfile, $errline ) {
+				// phpcs:ignore
 				if ( ! error_reporting() ) {
 					return;
 				}
@@ -153,6 +162,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 						break;
 				}
 
+				// phpcs:ignore
 				if ( ! ( error_reporting() & $errno ) ) {
 					return;
 				}
@@ -163,12 +173,12 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				$this->error_array['errorArray'][] = $error_string;
 
 				if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-					echo json_encode( $this->error_array );
+					echo wp_json_encode( $this->error_array );
 					die();
 				}
 			}
 
-			function sendfile_to_remote( $destination_info, $filename ) {
+			public function sendfile_to_remote( $destination_info, $filename ) {
 				$this->init();
 
 				$this->load_class_destination( $destination_info );
@@ -267,20 +277,21 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				return $resp->isOk();
 			}
 
-			function destination_ajax_proc() {
+			public function destination_ajax_proc() {
 				$this->init();
+				check_ajax_referer( 'snapshot-ajax-nonce', 'security' );
 
 				if ( ! isset( $_POST['snapshot_action'] ) ) {
 					$this->error_array['errorStatus']  = true;
 					$this->error_array['errorArray'][] = "Error: Missing 'snapshot_action' value.";
-					echo json_encode( $this->error_array );
+					echo wp_json_encode( $this->error_array );
 					die();
 				}
 
 				if ( ! isset( $_POST['destination_info'] ) ) {
 					$this->error_array['errorStatus']  = true;
 					$this->error_array['errorArray'][] = "Error: Missing 'destination_info' values.";
-					echo json_encode( $this->error_array );
+					echo wp_json_encode( $this->error_array );
 					die();
 				}
 				$destination_info = $_POST['destination_info'];
@@ -288,53 +299,59 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				if ( ! $this->validate_form_data( $destination_info ) ) {
 					$this->error_array['errorStatus']  = true;
 					$this->error_array['errorArray'][] = implode( ', ', $this->form_errors );
-					echo json_encode( $this->error_array );
+					echo wp_json_encode( $this->error_array );
 					die();
 				}
 
 				$this->load_class_destination( $destination_info );
 
-				if ( $_POST['snapshot_action'] == "connection-test" ) {
+				if ( "connection-test" === $_POST['snapshot_action'] ) {
 
 					if ( ! $this->login() ) {
-						echo json_encode( $this->error_array );
+						echo wp_json_encode( $this->error_array );
 						die();
 					}
 
 					$tmpfname = tempnam( sys_get_temp_dir(), 'Snapshot_' );
-					$handle   = fopen( $tmpfname, "w" );
-					fwrite( $handle, "WPMU DEV Snapshot Test connection file." );
-					fclose( $handle );
+					global $wp_filesystem;
+
+					if( Snapshot_Helper_Utility::connect_fs() ) {
+						$wp_filesystem->put_contents($tmpfname, "WPMU DEV Snapshot Test connection file.", FS_CHMOD_FILE);
+					} else {
+						$this->error_array['responseArray'][] = "Cannot initialize filesystem ";
+						echo wp_json_encode( $this->error_array );
+						die();
+					}
 
 					$this->send_file( $tmpfname );
-					echo json_encode( $this->error_array );
+					echo wp_json_encode( $this->error_array );
 					die();
 
-				} else if ( $_POST['snapshot_action'] == "aws-get-bucket-list" ) {
+				} else if ( "aws-get-bucket-list" === $_POST['snapshot_action'] ) {
 
 					if ( ! $this->login() ) {
-						echo json_encode( $this->error_array );
+						echo wp_json_encode( $this->error_array );
 						die();
 					}
 
 					if ( ! $this->get_buckets() ) {
-						echo json_encode( $this->error_array );
+						echo wp_json_encode( $this->error_array );
 						die();
 					}
 
-					echo json_encode( $this->error_array );
+					echo wp_json_encode( $this->error_array );
 					die();
 				}
 
-				echo json_encode( $this->error_array );
+				echo wp_json_encode( $this->error_array );
 				die();
 			}
 
-			function login() {
+			public function login() {
 				//echo "destination_info<pre>"; print_r($this->destination_info); echo "</pre>";
 				$this->error_array['responseArray'][] = "Connecting to AWS ";
 
-				if ( $this->destination_info['ssl'] == "yes" ) {
+				if ( "yes" === $this->destination_info['ssl'] ) {
 					$use_ssl                              = true;
 					$this->error_array['responseArray'][] = "Using SSL: Yes";
 				} else {
@@ -343,18 +360,20 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				}
 
 				try {
-					$this->aws_connection = new AmazonS3( array(
-						'key'                   => $this->destination_info['awskey'],
-						$this->destination_info['secretkey'],
-						$use_ssl,
-						'secret'                => $this->destination_info['secretkey'],
-						'certificate_authority' => $use_ssl
-					) );
+					$this->aws_connection = new AmazonS3(
+                         array(
+							'key'                   => $this->destination_info['awskey'],
+							$this->destination_info['secretkey'],
+							$use_ssl,
+							'secret'                => $this->destination_info['secretkey'],
+							'certificate_authority' => $use_ssl
+						)
+                    );
 
 					//$this->aws_connection->set_region('objects.dreamhost.com');
 
 
-					if ( ( $this->destination_info['region'] == 'other' )
+					if ( ( 'other' === $this->destination_info['region'] )
 					     && ( isset( $this->destination_info['region-other'] ) )
 					     && ( ! empty( $this->destination_info['region-other'] ) )
 					) {
@@ -376,7 +395,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				return true;
 			}
 
-			function get_buckets() {
+			public function get_buckets() {
 
 				try {
 					$buckets = $this->aws_connection->list_buckets();
@@ -405,7 +424,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				foreach ( $buckets->body->Buckets->Bucket as $bucket ) {
 					$this->error_array['responseArray'][0] .= '<option value="' . $bucket->Name . '" ';
 
-					if ( $this->destination_info['bucket'] == $bucket->Name ) {
+					if ( $this->destination_info['bucket'] === $bucket->Name ) {
 						$this->error_array['responseArray'][0] .= ' selected="selected" ';
 					}
 					$this->error_array['responseArray'][0] .= '>' . $bucket->Name . '</option>';
@@ -414,17 +433,17 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				return true;
 			}
 
-			function send_file( $filename ) {
+			public function send_file( $filename ) {
 
 				if ( ! $this->aws_connection->if_bucket_exists( $this->destination_info['bucket'] ) ) {
 					$this->error_array['errorStatus']  = true;
 					$this->error_array['errorArray'][] = "Error: Setting bucket :" . $this->destination_info['bucket'];
-					echo json_encode( $this->error_array );
+					echo wp_json_encode( $this->error_array );
 					die();
 				}
 
 				if ( ! empty( $this->destination_info['directory'] ) ) {
-					if ( $this->destination_info['directory'][0] == "/" ) {
+					if ( "/" === $this->destination_info['directory'][0] ) {
 						$this->destination_info['directory'] = substr( $this->destination_info['directory'], 1 );
 					}
 
@@ -438,7 +457,8 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				                                        ": Directory: " . $this->destination_info['directory'];
 
 				try {
-					$result = (array) $this->aws_connection->create_object( $this->destination_info['bucket'],
+					$result = (array) $this->aws_connection->create_object(
+                        $this->destination_info['bucket'],
 						$remote_filename,
 						array(
 							'acl'        => $this->destination_info['acl'],
@@ -477,7 +497,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				}
 			}
 
-			function load_class_destination( $d_info ) {
+			public function load_class_destination( $d_info ) {
 
 				if ( isset( $d_info['type'] ) ) {
 					$this->destination_info['type'] = esc_attr( $d_info['type'] );
@@ -552,7 +572,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				}
 			}
 
-			function validate_form_data( $d_info ) {
+			public function validate_form_data( $d_info ) {
 				$this->init();
 
 				// Will contain the filtered fields from the form (d_info).
@@ -602,18 +622,18 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				return $destination_info;
 			}
 
-			function display_listing_table( $destinations, $edit_url, $delete_url ) {
+			public function display_listing_table( $destinations, $edit_url, $delete_url ) {
 
 				?>
 				<table class="widefat">
 					<thead>
 					<tr class="form-field">
-						<th class="snapshot-col-delete"><?php _e( 'Delete', SNAPSHOT_I18N_DOMAIN ); ?></th>
-						<th class="snapshot-col-name"><?php _e( 'Name', SNAPSHOT_I18N_DOMAIN ); ?></th>
-						<th class="snapshot-col-access-key"><?php _e( 'AWS Access Key ID', SNAPSHOT_I18N_DOMAIN ); ?></th>
-						<th class="snapshot-col-bucket"><?php _e( 'Bucket', SNAPSHOT_I18N_DOMAIN ); ?></th>
-						<th class="snapshot-col-directory"><?php _e( 'Directory', SNAPSHOT_I18N_DOMAIN ); ?></th>
-						<th class="snapshot-col-used"><?php _e( 'Used', SNAPSHOT_I18N_DOMAIN ); ?></th>
+						<th class="snapshot-col-delete"><?php esc_html_e( 'Delete', SNAPSHOT_I18N_DOMAIN ); ?></th>
+						<th class="snapshot-col-name"><?php esc_html_e( 'Name', SNAPSHOT_I18N_DOMAIN ); ?></th>
+						<th class="snapshot-col-access-key"><?php esc_html_e( 'AWS Access Key ID', SNAPSHOT_I18N_DOMAIN ); ?></th>
+						<th class="snapshot-col-bucket"><?php esc_html_e( 'Bucket', SNAPSHOT_I18N_DOMAIN ); ?></th>
+						<th class="snapshot-col-directory"><?php esc_html_e( 'Directory', SNAPSHOT_I18N_DOMAIN ); ?></th>
+						<th class="snapshot-col-used"><?php esc_html_e( 'Used', SNAPSHOT_I18N_DOMAIN ); ?></th>
 					</tr>
 					<thead>
 					<tbody>
@@ -625,40 +645,52 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 							if ( ! isset( $row_class ) ) {
 								$row_class = "";
 							}
-							$row_class = ( $row_class == '' ? 'alternate' : '' );
+							$row_class = ( '' === $row_class ? 'alternate' : '' );
 
 							?>
-							<tr class="<?php echo $row_class; ?><?php
+							<tr class="<?php echo esc_attr( $row_class ); ?>
+							<?php
 							if ( isset( $item['type'] ) ) {
-								echo ' snapshot-row-filter-type-' . $item['type'];
-							} ?>">
+								echo esc_attr( ' snapshot-row-filter-type-' . $item['type'] );
+							}
+                            ?>
+                            ">
 								<td class="snapshot-col-delete"><input type="checkbox"
-								                                       name="delete-bulk-destination[<?php echo $idx; ?>]"
-								                                       id="delete-bulk-destination-<?php echo $idx; ?>">
+								                                       name="delete-bulk-destination[<?php echo esc_attr( $idx ); ?>]"
+								                                       id="delete-bulk-destination-<?php echo esc_attr( $idx ); ?>">
 								</td>
 
 								<td class="snapshot-col-name"><a
-										href="<?php echo $edit_url; ?>item=<?php echo $idx; ?>"><?php echo stripslashes( $item['name'] ) ?></a>
+										href="<?php echo esc_url( $edit_url ); ?>item=<?php echo esc_attr( $idx ); ?>"><?php echo esc_html( stripslashes( $item['name'] ) ); ?></a>
 
 									<div class="row-actions" style="margin:0; padding:0;">
 										<span class="edit"><a
-												href="<?php echo $edit_url; ?>item=<?php echo $idx; ?>"><?php _e( 'edit', SNAPSHOT_I18N_DOMAIN ); ?></a></span>
+												href="<?php echo esc_url( $edit_url ); ?>item=<?php echo esc_attr( $idx ); ?>"><?php esc_html_e( 'edit', SNAPSHOT_I18N_DOMAIN ); ?></a></span>
 										| <span class="delete"><a
-												href="<?php echo $delete_url; ?>item=<?php echo $idx; ?>&amp;snapshot-noonce-field=<?php echo wp_create_nonce( 'snapshot-delete-destination' ); ?>"><?php _e( 'delete', SNAPSHOT_I18N_DOMAIN ); ?></a></span>
+												href="<?php echo esc_url( $delete_url ); ?>item=<?php echo esc_attr( $idx ); ?>&amp;destination-noonce-field=<?php echo esc_attr( wp_create_nonce( 'snapshot-destination' ) ); ?>"><?php esc_html_e( 'delete', SNAPSHOT_I18N_DOMAIN ); ?></a></span>
 									</div>
 								</td>
-								<td class="snapshot-col-server"><?php
+								<td class="snapshot-col-server">
+                                	<?php
 									if ( isset( $item['awskey'] ) ) {
-										echo $item['awskey'];
-									} ?></td>
-								<td class="snapshot-col-bucket"><?php
+										echo esc_html( $item['awskey'] );
+									}
+                                    ?>
+                                </td>
+								<td class="snapshot-col-bucket">
+                                	<?php
 									if ( isset( $item['bucket'] ) ) {
-										echo $item['bucket'];
-									} ?></td>
-								<td class="snapshot-col-directory"><?php
+										echo esc_html( $item['bucket'] );
+									}
+                                    ?>
+                                </td>
+								<td class="snapshot-col-directory">
+                                	<?php
 									if ( isset( $item['directory'] ) ) {
-										echo $item['directory'];
-									} ?></td>
+										echo esc_html( $item['directory'] );
+									}
+                                    ?>
+                                </td>
 								<td class="snapshot-col-used"><?php Snapshot_Model_Destination::show_destination_item_count( $idx ); ?></td>
 							</tr>
 						<?php
@@ -666,8 +698,12 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 					} else {
 						?>
 						<tr class="form-field">
-						<td colspan="4"><?php
-							_e( 'No Amazon S3 Destinations', SNAPSHOT_I18N_DOMAIN ); ?></td></tr><?php
+						<td colspan="4">
+                        <?php
+							esc_html_e( 'No Amazon S3 Destinations', SNAPSHOT_I18N_DOMAIN );
+                        ?>
+                        </td></tr>
+                            <?php
 					}
 					?>
 					</tbody>
@@ -678,7 +714,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 					<div class="tablenav">
 						<div class="alignleft actions">
 							<input class="button-secondary" type="submit"
-							       value="<?php _e( 'Delete Destination', SNAPSHOT_I18N_DOMAIN ); ?>"/>
+							       value="<?php esc_attr_e( 'Delete Destination', SNAPSHOT_I18N_DOMAIN ); ?>"/>
 						</div>
 					</div>
 				<?php
@@ -687,71 +723,89 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 			<?php
 			}
 
-			function display_details_form( $item = 0 ) {
+			public function display_details_form( $item = 0 ) {
 
 				$this->init();
 				//echo "item<pre>"; print_r($item); echo "</pre>";
 				?>
-				<p><?php _e( 'Define an Amazon AWS destination connection. You can define multiple destinations which use Amazon AWS. Each destination can use different security keys and/or buckets.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+				<p><?php esc_html_e( 'Define an Amazon AWS destination connection. You can define multiple destinations which use Amazon AWS. Each destination can use different security keys and/or buckets.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 				<div id="poststuff" class="metabox-holder">
 				<div style="display: none" id="snapshot-destination-test-result"></div>
 				<div class="postbox" id="snapshot-destination-item">
 
-					<h3 class="hndle"><span><?php _e( 'Amazon S3 Destination', SNAPSHOT_I18N_DOMAIN ); ?></span></h3>
+					<h3 class="hndle"><span><?php esc_html_e( 'Amazon S3 Destination', SNAPSHOT_I18N_DOMAIN ); ?></span></h3>
 
 					<div class="inside">
 						<input type="hidden" name="snapshot-destination[type]" id="snapshot-destination-type"
-						       value="<?php echo $this->name_slug; ?>"/>
+						       value="<?php echo esc_attr( $this->name_slug ); ?>"/>
 
 						<table class="form-table">
 							<tr class="form-field">
 								<th scope="row"><label
-										for="snapshot-destination-name"><?php _e( 'Destination Name', SNAPSHOT_I18N_DOMAIN ); ?></label>
+										for="snapshot-destination-name"><?php esc_html_e( 'Destination Name', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td><input type="text" name="snapshot-destination[name]" id="snapshot-destination-name"
-								           value="<?php if ( isset( $item['name'] ) ) {
-									           echo stripslashes( sanitize_text_field( $item['name'] ) );
-								           } ?>"/></td>
+								           value="
+                                           <?php
+                                           if ( isset( $item['name'] ) ) {
+									           echo esc_attr( stripslashes( sanitize_text_field( $item['name'] ) ) );
+								           }
+                                           ?>
+                                           "/></td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><label
-										for="snapshot-destination-awskey"><?php _e( 'AWS Access Key ID', SNAPSHOT_I18N_DOMAIN ); ?></label>
+										for="snapshot-destination-awskey"><?php esc_html_e( 'AWS Access Key ID', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td><input type="text" name="snapshot-destination[awskey]"
 								           id="snapshot-destination-awskey"
-								           value="<?php if ( isset( $item['awskey'] ) ) {
-									           echo sanitize_text_field( $item['awskey'] );
-								           } ?>"/><br/><a
+								           value="
+                                           <?php
+                                           if ( isset( $item['awskey'] ) ) {
+									           echo esc_attr( sanitize_text_field( $item['awskey'] ) );
+								           }
+                                           ?>
+                                           "/><br/><a
 										href="https://aws-portal.amazon.com/gp/aws/securityCredentials" target="_blank">Access
 										AWS Console</a></td>
 							</tr>
 							<tr class="form-field">
 								<th scope="row"><label
-										for="snapshot-destination-secretkey"><?php _e( 'AWS Secret Access Key', SNAPSHOT_I18N_DOMAIN ); ?></label>
+										for="snapshot-destination-secretkey"><?php esc_html_e( 'AWS Secret Access Key', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td><input type="password" name="snapshot-destination[secretkey]"
 								           id="snapshot-destination-secretkey"
-								           value="<?php if ( isset( $item['secretkey'] ) ) {
-									           echo sanitize_text_field( $item['secretkey'] );
-								           } ?>"/></td>
+								           value="
+                                           <?php
+                                           if ( isset( $item['secretkey'] ) ) {
+									           echo esc_attr( sanitize_text_field( $item['secretkey'] ) );
+								           }
+                                           ?>
+                                           "/></td>
 							</tr>
 
-							<?php if ( ! isset( $item['ssl'] ) ) {
+							<?php
+                            if ( ! isset( $item['ssl'] ) ) {
 								$item['ssl'] = "yes";
-							} ?>
+							}
+                            ?>
 							<tr class="form-field">
 								<th scope="row"><label
-										for="snapshot-destination-ssl"><?php _e( 'Use SSL Connection', SNAPSHOT_I18N_DOMAIN ); ?></label>
+										for="snapshot-destination-ssl"><?php esc_html_e( 'Use SSL Connection', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td>
 									<select name="snapshot-destination[ssl]" id="snapshot-destination-ssl">
 										<?php
 										foreach ( $this->_ssl as $_key => $_name ) {
 											?>
-											<option value="<?php echo $_key; ?>" <?php
-											if ( $item['region'] == $_key ) {
+											<option value="<?php echo esc_attr( $_key ); ?>"
+											<?php
+											if ( $item['region'] === $_key ) {
 												echo ' selected="selected" ';
-											} ?> ><?php echo $_name; ?></option><?php
+											}
+                                            ?>
+                                             ><?php echo esc_html( $_name ); ?></option>
+                                            <?php
 
 										}
 										?>
@@ -760,57 +814,75 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 							</tr>
 
 
-							<?php if ( ! isset( $item['region'] ) ) {
+							<?php
+                            if ( ! isset( $item['region'] ) ) {
 								$item['region'] = AmazonS3::REGION_US_E1;
-							} ?>
+							}
+                            ?>
 							<tr class="form-field">
 								<th scope="row"><label
-										for="snapshot-destination-region"><?php _e( 'AWS Region', SNAPSHOT_I18N_DOMAIN ); ?></label>
+										for="snapshot-destination-region"><?php esc_html_e( 'AWS Region', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td>
 									<select name="snapshot-destination[region]" id="snapshot-destination-region">
 										<?php
 										foreach ( $this->_regions as $_key => $_name ) {
 											?>
-											<option value="<?php echo $_key; ?>" <?php
-											if ( $item['region'] == $_key ) {
+											<option value="<?php echo esc_attr( $_key ); ?>"
+											<?php
+											if ( $item['region'] === $_key ) {
 												echo ' selected="selected" ';
-											} ?> ><?php
-											echo $_name; ?> (<?php echo $_key ?>)</option><?php
+											}
+                                            ?>
+                                             >
+                                            <?php
+											echo esc_html( $_name );
+                                            ?>
+                                             (<?php echo esc_html( $_key ); ?>)</option>
+                                            <?php
 
 										}
 										?>
 									</select>
 
-									<div id="snapshot-destination-region-other-container" <?php
-									if ( $item['region'] != 'other' ) {
+									<div id="snapshot-destination-region-other-container"
+                                    <?php
+									if ( 'other' !== $item['region'] ) {
 										echo ' style="display:none;" ';
-									} ?>>
+									}
+                                    ?>
+                                    >
 										<br/><label
-											id="snapshot-destination-region-other"><?php _e( 'Alternate Region host', SNAPSHOT_I18N_DOMAIN ) ?></label><br/>
+											id="snapshot-destination-region-other"><?php esc_html_e( 'Alternate Region host', SNAPSHOT_I18N_DOMAIN ); ?></label><br/>
 										<input name="snapshot-destination[region-other]"
 										       id="snapshot-destination-region-other"
-										       value="<?php echo $item['region-other'] ?>"/>
+										       value="<?php echo esc_attr( $item['region-other'] ); ?>"/>
 									</div>
 								</td>
 							</tr>
 
-							<?php if ( ! isset( $item['storage'] ) ) {
+							<?php
+                            if ( ! isset( $item['storage'] ) ) {
 								$item['storage'] = AmazonS3::STORAGE_STANDARD;
-							} ?>
+							}
+                            ?>
 							<tr class="form-field">
 								<th scope="row"><label
-										for="snapshot-destination-storage"><?php _e( 'Storage Type', SNAPSHOT_I18N_DOMAIN ); ?></label>
+										for="snapshot-destination-storage"><?php esc_html_e( 'Storage Type', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td>
 									<select name="snapshot-destination[storage]" id="snapshot-destination-storage">
 										<?php
 										foreach ( $this->_storage as $_key => $_name ) {
 											?>
-											<option value="<?php echo $_key; ?>" <?php
-											if ( $item['storage'] == $_key ) {
+											<option value="<?php echo esc_attr( $_key ); ?>"
+											<?php
+											if ( $item['storage'] === $_key ) {
 												echo ' selected="selected" ';
-											} ?> ><?php echo $_name; ?></option><?php
+											}
+                                            ?>
+                                             ><?php echo esc_html( $_name ); ?></option>
+                                            <?php
 
 										}
 										?>
@@ -821,71 +893,104 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 
 							<tr class="form-field" id="snapshot-destination-bucket-container">
 								<th scope="row"><label
-										for="snapshot-destination-bucket"><?php _e( 'Bucket Name', SNAPSHOT_I18N_DOMAIN ); ?></label>
+										for="snapshot-destination-bucket"><?php esc_html_e( 'Bucket Name', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td>
 									<select name="snapshot-destination[bucket]" id="snapshot-destination-bucket-list"
 									        style="display: none">
 											<?php if ( isset( $item['bucket'] ) ) { ?>
-									        <option value="<?php echo $item['bucket']; ?>" selected="selected"><?php echo $item['bucket']; ?></option>
-											<?php }	 ?>
+									        <option value="<?php echo esc_attr( $item['bucket'] ); ?>" selected="selected"><?php echo esc_html( $item['bucket'] ); ?></option>
+											<?php } ?>
 									</select>
 									<button id="snapshot-destination-aws-get-bucket-list" class="button-seconary"
-									        name=""><?php
-										_e( 'Select Bucket', SNAPSHOT_I18N_DOMAIN ); ?></button>
+									        name="">
+                                            <?php
+											esc_html_e( 'Select Bucket', SNAPSHOT_I18N_DOMAIN );
+	                                        ?>
+                                    </button>
 									<div id="snapshot-ajax-destination-bucket-error" style="display:none"></div>
 								</td>
 							</tr>
 
-							<?php if ( ! isset( $item['acl'] ) ) {
+							<?php
+                            if ( ! isset( $item['acl'] ) ) {
 								$item['acl'] = AmazonS3::ACL_PRIVATE;
-							} ?>
+							}
+                            ?>
 							<tr class="form-field">
 								<th scope="row"><label
-										for="snapshot-destination-acl"><?php _e( 'File permissions for uploaded files',
-											SNAPSHOT_I18N_DOMAIN ); ?></label></th>
+										for="snapshot-destination-acl">
+                                        <?php
+                                        esc_html_e(
+											'File permissions for uploaded files',
+											SNAPSHOT_I18N_DOMAIN
+                                        );
+                                        ?>
+                                        </label></th>
 								<td>
 									<select name="snapshot-destination[acl]" id="snapshot-destination-acl">
 										<option
-											value="<?php echo AmazonS3::ACL_PRIVATE; ?>" <?php if ( $item['acl'] == AmazonS3::ACL_PRIVATE ) {
-											echo ' selected="selected" ';
-										} ?> ><?php _e( 'Private', SNAPSHOT_I18N_DOMAIN ) ?></option>
+											value="<?php echo esc_attr( AmazonS3::ACL_PRIVATE ); ?>"
+											<?php
+                                            if (  AmazonS3::ACL_PRIVATE === $item['acl'] ) {
+												echo ' selected="selected" ';
+											}
+	                                        ?>
+                                         ><?php esc_html_e( 'Private', SNAPSHOT_I18N_DOMAIN ); ?></option>
 										<option
-											value="<?php echo AmazonS3::ACL_PUBLIC ?>" <?php if ( $item['acl'] == AmazonS3::ACL_PUBLIC ) {
-											echo ' selected="selected" ';
-										} ?> ><?php _e( 'Public Read', SNAPSHOT_I18N_DOMAIN ) ?></option>
+											value="<?php echo esc_attr( AmazonS3::ACL_PUBLIC ); ?>"
+											<?php
+                                            if ( AmazonS3::ACL_PUBLIC === $item['acl'] ) {
+												echo ' selected="selected" ';
+											}
+	                                        ?>
+                                         ><?php esc_html_e( 'Public Read', SNAPSHOT_I18N_DOMAIN ); ?></option>
 										<option
-											value="<?php echo AmazonS3::ACL_OPEN ?>" <?php if ( $item['acl'] == AmazonS3::ACL_OPEN ) {
-											echo ' selected="selected" ';
-										} ?> ><?php _e( 'Public Read/Write', SNAPSHOT_I18N_DOMAIN ) ?></option>
+											value="<?php echo esc_attr( AmazonS3::ACL_OPEN ); ?>"
+											<?php
+                                            if ( AmazonS3::ACL_OPEN === $item['acl'] ) {
+												echo ' selected="selected" ';
+											}
+	                                        ?>
+                                         ><?php esc_html_e( 'Public Read/Write', SNAPSHOT_I18N_DOMAIN ); ?></option>
 										<option
-											value="<?php echo AmazonS3::ACL_AUTH_READ ?>" <?php if ( $item['acl'] == AmazonS3::ACL_AUTH_READ ) {
-											echo ' selected="selected" ';
-										} ?> ><?php _e( 'Authenticated Read', SNAPSHOT_I18N_DOMAIN ) ?></option>
+											value="<?php echo esc_attr( AmazonS3::ACL_AUTH_READ ); ?>"
+											<?php
+                                            if ( AmazonS3::ACL_AUTH_READ === $item['acl'] ) {
+												echo ' selected="selected" ';
+											}
+	                                        ?>
+                                         ><?php esc_html_e( 'Authenticated Read', SNAPSHOT_I18N_DOMAIN ); ?></option>
 									</select>
 								</td>
 							</tr>
 
 							<tr class="form-field">
 								<th scope="row"><label
-										for="snapshot-destination-directory"><?php _e( 'Directory (optional)', SNAPSHOT_I18N_DOMAIN ); ?></label>
+										for="snapshot-destination-directory"><?php esc_html_e( 'Directory (optional)', SNAPSHOT_I18N_DOMAIN ); ?></label>
 								</th>
 								<td><input type="text" name="snapshot-destination[directory]"
 								           id="snapshot-destination-directory"
-								           value="<?php if ( isset( $item['directory'] ) ) {
-									           echo $item['directory'];
-								           } ?>"/>
+								           value="
+                                           <?php
+                                           if ( isset( $item['directory'] ) ) {
+									           echo esc_attr( $item['directory'] );
+								           }
+                                           ?>
+                                           "/>
 
-									<p class="description"><?php _e( 'If directory is blank the snapshot file will be stored at the bucket root. If the directory is provided it will be created inside the bucket. This is a global setting and will be used by all snapshot configurations using this destination. You can also defined a directory used by a specific snapshot.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+									<p class="description"><?php esc_html_e( 'If directory is blank the snapshot file will be stored at the bucket root. If the directory is provided it will be created inside the bucket. This is a global setting and will be used by all snapshot configurations using this destination. You can also defined a directory used by a specific snapshot.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 
 								</td>
 							</tr>
 							<tr class="form-field" id="snapshot-destination-test-connection-container">
 								<th scope="row">&nbsp;</th>
 								<td>
-									<button id="snapshot-destination-test-connection" class="button-seconary"
-									        name=""><?php
-										_e( 'Test Connection', SNAPSHOT_I18N_DOMAIN ); ?></button>
+									<button id="snapshot-destination-test-connection" class="button-seconary" name="">
+										<?php
+										esc_html_e( 'Test Connection', SNAPSHOT_I18N_DOMAIN );
+										?>
+                                    </button>
 									<div id="snapshot-ajax-destination-test-result" style="display:none"></div>
 								</td>
 							</tr>

@@ -26,7 +26,7 @@ return array(
 	'wpseo_titles/person_name'                 => 'wds_social_options/override_name',
 	'wpseo_titles/website_name'                => 'wds_social_options/sitename',
 	// Content types
-	'wpseo_titles/noindex-POSTTYPE'            => 'wds_sitemap_options/post_types-POSTTYPE-not_in_sitemap',
+	'wpseo_titles/noindex-POSTTYPE'            => false,
 	'wpseo_titles/title-POSTTYPE'              => 'wds_onpage_options/title-POSTTYPE',
 	'wpseo_titles/metadesc-POSTTYPE'           => 'wds_onpage_options/metadesc-POSTTYPE',
 	// Media
@@ -46,6 +46,8 @@ return array(
 	'wpseo_titles/metadesc-archive-wpseo'      => 'wds_onpage_options/metadesc-date',
 	'wpseo_titles/title-search-wpseo'          => 'wds_onpage_options/title-search',
 	'wpseo_titles/title-404-wpseo'             => 'wds_onpage_options/title-404',
+	'wpseo_titles/title-ptarchive-POSTTYPE'    => false,
+	'wpseo_titles/metadesc-ptarchive-POSTTYPE' => false,
 
 	/**
 	 * YOAST > SOCIAL

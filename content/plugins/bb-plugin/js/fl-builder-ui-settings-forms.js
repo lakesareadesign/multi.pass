@@ -445,8 +445,39 @@
 			// Field extras
 			for ( name in data.extras ) {
 				field = $( '#fl-field-' + name ).find( '.fl-field-control-wrapper' );
-				field.prepend( data.extras[ name ].before );
-				field.append( data.extras[ name ].after );
+				if ( data.extras[ name ].multiple ) {
+					field.each( function( i, field_item ) {
+						if ( ( i in data.extras[ name ].before ) && ( data.extras[ name ].before[ i ] != "" ) ) {
+							$( this ).prepend(
+								'<div class="fl-form-field-before">' +
+								data.extras[ name ].before[ i ] +
+								'</div>'
+							);
+						}
+						if ( ( i in data.extras[ name ].after ) && ( data.extras[ name ].after[ i ] != "" ) ) {
+							$( this ).append(
+								'<div class="fl-form-field-after">' +
+								data.extras[name].after[ i ] +
+								'</div>'
+							);
+						}
+					});
+				} else {
+					if ( data.extras[ name ].before != "" ) {
+						field.prepend(
+							'<div class="fl-form-field-before">' +
+							data.extras[name].before +
+							'</div>'
+						);
+					}
+					if ( data.extras[ name ].after != "" ) {
+						field.append(
+							'<div class="fl-form-field-after">' +
+							data.extras[name].after +
+							'</div>'
+						);
+					}
+				}
 			}
 
 			// Sections
@@ -643,6 +674,7 @@
 			// Apply templates
 			FLBuilder.addHook( 'didApplyTemplateComplete', this.updateOnApplyTemplate.bind( this ) );
 			FLBuilder.addHook( 'didApplyRowTemplateComplete', this.updateOnApplyTemplate.bind( this ) );
+			FLBuilder.addHook( 'didApplyColTemplateComplete', this.updateOnApplyTemplate.bind( this ) );
 			FLBuilder.addHook( 'didSaveGlobalNodeTemplate', this.updateOnApplyTemplate.bind( this ) );
 			FLBuilder.addHook( 'didRestoreRevisionComplete', this.updateOnApplyTemplate.bind( this ) );
 		},

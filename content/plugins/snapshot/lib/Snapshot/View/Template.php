@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_View_Template {
 
@@ -20,7 +20,7 @@ class Snapshot_View_Template {
 			return self::$_instances[ $relative ];
 		}
 
-		$view = new self;
+		$view = new self();
 		$view->set_relative_path( $relative );
 
 		self::$_instances[ $relative ] = $view;
@@ -67,10 +67,10 @@ class Snapshot_View_Template {
 		$path = "{$root}/{$template}.php";
 
 		if ( ! empty( $vars ) ) {
-			extract( $vars );
+			extract( $vars ); // phpcs:ignore
 		}
 
-		return file_exists( $path ) ? include( $path ) : false;
+		return file_exists( $path ) ? include  $path  : false;
 	}
 
 	/**

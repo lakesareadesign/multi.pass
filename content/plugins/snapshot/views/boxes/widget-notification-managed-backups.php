@@ -23,13 +23,13 @@ if ( isset( $disable_notif_snapshot_page ) ) {
 
 		<div class="wpmud-box-content-wrap">
 
-			<p><?php printf( __( '%s, have you heard about WPMU DEV’s Managed Backups? As a WPMU DEV member, you get 10GB free and secure cloud storage, which you can use to store full backups of your website, including WordPress core files. If disaster strikes, you can quickly and easily restore your website any time.', SNAPSHOT_I18N_DOMAIN ), wp_get_current_user()->display_name ); ?></p>
+			<p><?php echo wp_kses_post( sprintf( __( '%s, have you heard about WPMU DEV’s Managed Backups? As a WPMU DEV member, you get 10GB free and secure cloud storage, which you can use to store full backups of your website, including WordPress core files. If disaster strikes, you can quickly and easily restore your website any time.', SNAPSHOT_I18N_DOMAIN ), wp_get_current_user()->display_name ) ); ?></p>
 
 			<p class="align-buttons">
 
-				<a href="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-managed-backups' ); ?>" class="button button-blue"><?php _e( 'Try managed backups', SNAPSHOT_I18N_DOMAIN ); ?></a>
+				<a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url( 'snapshots-newui-managed-backups' ) ); ?>" class="button button-blue"><?php esc_html_e( 'Try managed backups', SNAPSHOT_I18N_DOMAIN ); ?></a>
 
-				<a id="disable-notif" href="#" data-security="<?php echo $ajax_nonce; ?>"><?php _e( 'No thanks', SNAPSHOT_I18N_DOMAIN ); ?></a>
+				<a id="disable-notif" href="#" data-security="<?php echo esc_attr( $ajax_nonce ); ?>"><?php esc_html_e( 'No thanks', SNAPSHOT_I18N_DOMAIN ); ?></a>
 
 			</p>
 

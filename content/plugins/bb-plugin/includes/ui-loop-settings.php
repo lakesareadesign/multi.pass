@@ -79,6 +79,7 @@ do_action( 'fl_builder_loop_settings_before_form', $settings ); // e.g Add custo
 				'meta_value_num' => __( 'Meta Value (Numeric)', 'fl-builder' ),
 				'rand'        	 => __( 'Random', 'fl-builder' ),
 				'title'          => __( 'Title', 'fl-builder' ),
+				'post__in'       => __( 'Selection Order', 'fl-builder' ),
 			),
 			'toggle'		=> array(
 				'meta_value' 	=> array(

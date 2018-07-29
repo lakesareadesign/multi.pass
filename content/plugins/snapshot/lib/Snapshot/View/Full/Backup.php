@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Full backups admin view class
@@ -32,7 +32,7 @@ class Snapshot_View_Full_Backup {
 	 * Also sets up the model reference.
 	 */
 	private function __construct() {
-		$this->_model = new Snapshot_Model_Full_Backup;
+		$this->_model = new Snapshot_Model_Full_Backup();
 	}
 
 	/**
@@ -47,7 +47,7 @@ class Snapshot_View_Full_Backup {
 	 */
 	public static function get() {
 		if ( empty( self::$_instance ) ) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
 
 		return self::$_instance;
@@ -59,7 +59,7 @@ class Snapshot_View_Full_Backup {
 	public function run() {
 		$hook = ( is_multisite() && is_network_admin() ? 'network_' : '' ) . 'admin_menu';
 		add_action( $hook, array( $this, 'add_pages' ) );
-		add_action( 'snapshot-destinations-render_list-before', array( $this, 'render_full_destination' ) );
+		add_action( 'snapshot_destinations_render_list_before', array( $this, 'render_full_destination' ) );
 	}
 
 	/**
@@ -180,7 +180,7 @@ class Snapshot_View_Full_Backup {
 			? '-network'
 			: '';
 
-		return in_array( $screen->id, array( $idx, "{$idx}{$sfx}" ) );
+		return in_array( $screen->id, array( $idx, "{$idx}{$sfx}" ), true );
 	}
 
 	/**

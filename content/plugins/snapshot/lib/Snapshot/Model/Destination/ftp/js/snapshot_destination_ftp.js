@@ -52,7 +52,8 @@ jQuery(document).ready( function($) {
 		var data = {
 			action: 'snapshot_destination_ftp',
 			snapshot_action: 'connection-test',
-			destination_info: destination_info
+			destination_info: destination_info,
+			security: jQuery( '#snapshot-ajax-nonce' ).val()
 		};
 
 	    jQuery.ajax({

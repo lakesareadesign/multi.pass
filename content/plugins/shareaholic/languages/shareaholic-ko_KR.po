@@ -97,8 +97,8 @@ msgstr "Shareaholic | 공유 버튼, 분석, 관련 콘텐츠"
 #. translators: plugin header field 'PluginURI'
 #: shareaholic.php:0
 #@ shareaholic
-msgid "https://shareaholic.com/publishers/"
-msgstr "https://shareaholic.com/publishers/"
+msgid "https://www.shareaholic.com/publishers/"
+msgstr "https://www.shareaholic.com/publishers/"
 
 #. translators: plugin header field 'Description'
 #: shareaholic.php:0
@@ -109,7 +109,7 @@ msgstr "웹 사이트의 트래픽, 참여, 전환 및 수익 창출을 촉진�
 #. translators: plugin header field 'AuthorURI'
 #: shareaholic.php:0
 #@ shareaholic
-msgid "https://shareaholic.com"
+msgid "https://www.shareaholic.com"
 msgstr ""
 
 #. translators: plugin header field 'Version'

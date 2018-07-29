@@ -34,8 +34,8 @@ if ( $query->have_posts() ) :
 	// Render the navigation.
 	if ( 'yes' == $settings->navigation && $query->have_posts() ) : ?>
 		<div class="fl-post-slider-navigation" aria-label="post slider buttons">
-			<a class="slider-prev" href="#" aria-label="previous" aria-role="button"><div class="fl-post-slider-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-left.svg'; ?></div></a>
-			<a class="slider-next" href="#" aria-label="next" aria-role="button"><div class="fl-post-slider-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-right.svg'; ?></div></a>
+			<a class="slider-prev" href="#" aria-label="previous" role="button"><div class="fl-post-slider-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-left.svg'; ?></div></a>
+			<a class="slider-next" href="#" aria-label="next" role="button"><div class="fl-post-slider-svg-container"><?php include FL_BUILDER_DIR . 'img/svg/arrow-right.svg'; ?></div></a>
 		</div>
 	<?php endif; ?>
 	</div>

@@ -7,8 +7,9 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 
 	public static function get_instance() {
 		if ( empty( self::$_instance ) ) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
+
 		return self::$_instance;
 	}
 
@@ -22,7 +23,9 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 	public function validate( $input ) {
 		$result = array();
 
-		if ( ! empty( $input['wds_social-setup'] ) ) { $result['wds_social-setup'] = true; }
+		if ( ! empty( $input['wds_social-setup'] ) ) {
+			$result['wds_social-setup'] = true;
+		}
 
 		$result['disable-schema'] = ! empty( $input['disable-schema'] );
 
@@ -35,19 +38,39 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 			'youtube_url',
 		);
 		foreach ( $urls as $type ) {
-			if ( empty( $input[ $type ] ) ) { continue; }
-			if ( ! preg_match( '/^https?:\/\//', $input[ $type ] ) ) { continue; }
+			if ( empty( $input[ $type ] ) ) {
+				continue;
+			}
+			if ( ! preg_match( '/^https?:\/\//', $input[ $type ] ) ) {
+				continue;
+			}
 			$result[ $type ] = $input[ $type ];
 		}
 
-		if ( ! empty( $input['sitename'] ) ) { $result['sitename'] = sanitize_text_field( $input['sitename'] ); }
-		if ( ! empty( $input['override_name'] ) ) { $result['override_name'] = sanitize_text_field( $input['override_name'] ); }
-		if ( ! empty( $input['organization_name'] ) ) { $result['organization_name'] = sanitize_text_field( $input['organization_name'] ); }
-		if ( ! empty( $input['organization_logo'] ) ) { $result['organization_logo'] = sanitize_text_field( $input['organization_logo'] ); }
-		if ( ! empty( $input['schema_type'] ) ) { $result['schema_type'] = sanitize_text_field( $input['schema_type'] ); }
-		if ( ! empty( $input['twitter_username'] ) ) { $result['twitter_username'] = sanitize_text_field( $input['twitter_username'] ); }
-		if ( ! empty( $input['twitter-card-type'] ) ) { $result['twitter-card-type'] = sanitize_text_field( $input['twitter-card-type'] ); }
-		if ( ! empty( $input['fb-app-id'] ) ) { $result['fb-app-id'] = sanitize_text_field( $input['fb-app-id'] ); }
+		if ( ! empty( $input['sitename'] ) ) {
+			$result['sitename'] = sanitize_text_field( $input['sitename'] );
+		}
+		if ( ! empty( $input['override_name'] ) ) {
+			$result['override_name'] = sanitize_text_field( $input['override_name'] );
+		}
+		if ( ! empty( $input['organization_name'] ) ) {
+			$result['organization_name'] = sanitize_text_field( $input['organization_name'] );
+		}
+		if ( ! empty( $input['organization_logo'] ) ) {
+			$result['organization_logo'] = sanitize_text_field( $input['organization_logo'] );
+		}
+		if ( ! empty( $input['schema_type'] ) ) {
+			$result['schema_type'] = sanitize_text_field( $input['schema_type'] );
+		}
+		if ( ! empty( $input['twitter_username'] ) ) {
+			$result['twitter_username'] = sanitize_text_field( $input['twitter_username'] );
+		}
+		if ( ! empty( $input['twitter-card-type'] ) ) {
+			$result['twitter-card-type'] = sanitize_text_field( $input['twitter-card-type'] );
+		}
+		if ( ! empty( $input['fb-app-id'] ) ) {
+			$result['fb-app-id'] = sanitize_text_field( $input['fb-app-id'] );
+		}
 
 		$result['og-enable'] = ! empty( $input['og-enable'] );
 		$result['twitter-card-enable'] = ! empty( $input['twitter-card-enable'] );
@@ -61,23 +84,20 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 		);
 
 		if ( ! empty( $input['pinterest-verify'] ) ) {
-			if ( ! class_exists( 'Smartcrawl_Pinterest_Printer' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/tools/class_wds_pinterest_printer.php' ); }
 			$pin = Smartcrawl_Pinterest_Printer::get();
 			$raw = trim( $input['pinterest-verify'] );
 			$tag = $pin->get_verified_tag( $raw );
 			$result['pinterest-verify'] = str_replace( ' ', '', $raw ) === str_replace( ' ', '', $tag ) ? $tag : false;
 			$result['pinterest-verification-status'] = str_replace( ' ', '', $raw ) === str_replace( ' ', '', $tag ) ? '' : 'fail';
-		} else { $result['pinterest-verification-status'] = false; }
+		} else {
+			$result['pinterest-verification-status'] = false;
+		}
 
 		return $result;
 	}
 
 	private function _toggle_og_globally( $new_value ) {
-		$this->toggle_setting_globally('og-active', $new_value);
-	}
-
-	private function _toggle_twitter_cards_globally( $new_value ) {
-		$this->toggle_setting_globally('twitter-active', $new_value);
+		$this->toggle_setting_globally( 'og-active', $new_value );
 	}
 
 	private function toggle_setting_globally( $prefix, $new_value ) {
@@ -92,9 +112,6 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 			'post_tag',
 			'bp_groups',
 			'bp_profile',
-			'mp_marketplace-base',
-			'mp_marketplace-categories',
-			'mp_marketplace-tags',
 		);
 
 		foreach ( get_taxonomies( array( '_builtin' => false ), 'objects' ) as $taxonomy ) {
@@ -105,20 +122,28 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 			$strings[] = $post_type;
 		}
 
-		foreach ($strings as $string) {
-			$existing_settings[ sprintf('%s-%s', $prefix, $string) ] = $new_value;
+		foreach ( smartcrawl_get_archive_post_types() as $archive_post_type ) {
+			$strings[] = $archive_post_type;
+		}
+
+		foreach ( $strings as $string ) {
+			$existing_settings[ sprintf( '%s-%s', $prefix, $string ) ] = $new_value;
 		}
 
 		Smartcrawl_Settings::update_specific_options( 'wds_onpage_options', $existing_settings );
 	}
 
+	private function _toggle_twitter_cards_globally( $new_value ) {
+		$this->toggle_setting_globally( 'twitter-active', $new_value );
+	}
+
 	public function init() {
 		$this->option_name = 'wds_social_options';
-		$this->name        = Smartcrawl_Settings::COMP_SOCIAL;
-		$this->slug        = Smartcrawl_Settings::TAB_SOCIAL;
-		$this->action_url  = admin_url( 'options.php' );
-		$this->title       = __( 'Social', 'wds' );
-		$this->page_title  = __( 'SmartCrawl Wizard: Social', 'wds' );
+		$this->name = Smartcrawl_Settings::COMP_SOCIAL;
+		$this->slug = Smartcrawl_Settings::TAB_SOCIAL;
+		$this->action_url = admin_url( 'options.php' );
+		$this->title = __( 'Social', 'wds' );
+		$this->page_title = __( 'SmartCrawl Wizard: Social', 'wds' );
 
 		parent::init();
 	}
@@ -131,16 +156,13 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 
 		$options = Smartcrawl_Settings::get_component_options( $this->name );
 		$options = wp_parse_args(
-			(is_array( $options ) ? $options : array()),
+			( is_array( $options ) ? $options : array() ),
 			$this->get_default_options()
 		);
 
 		$arguments = array(
 			'options' => $options,
 		);
-		if ( ! class_exists( 'Smartcrawl_Schema_Printer' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/tools/class_wds_schema_printer.php' ); }
-		if ( ! class_exists( 'Smartcrawl_Twitter_Printer' ) ) { require_once( SMARTCRAWL_PLUGIN_DIR . '/tools/class_wds_twitter_printer.php' ); }
-
 		$arguments['active_tab'] = $this->_get_last_active_tab( 'tab_accounts' );
 		wp_enqueue_script( 'wds-admin-social' );
 		wp_enqueue_media();
@@ -156,28 +178,28 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 	public function get_default_options() {
 		return array(
 			// Accounts
-			'sitename' => get_bloginfo( 'name' ),
-			'disable-schema' => false,
-			'schema_type' => '',
-			'override_name' => '',
-			'organization_name' => '',
-			'organization_logo' => '',
-			'twitter_username' => '',
-			'facebook_url' => '',
-			'instagram_url' => '',
-			'linkedin_url' => '',
-			'pinterest_url' => '',
-			'gplus_url' => '',
-			'youtube_url' => '',
+			'sitename'            => get_bloginfo( 'name' ),
+			'disable-schema'      => false,
+			'schema_type'         => '',
+			'override_name'       => '',
+			'organization_name'   => '',
+			'organization_logo'   => '',
+			'twitter_username'    => '',
+			'facebook_url'        => '',
+			'instagram_url'       => '',
+			'linkedin_url'        => '',
+			'pinterest_url'       => '',
+			'gplus_url'           => '',
+			'youtube_url'         => '',
 			// Twitter
 			'twitter-card-enable' => false,
-			'twitter-card-type' => '',
+			'twitter-card-type'   => '',
 			// Pinterest
-			'pinterest-verify' => '',
+			'pinterest-verify'    => '',
 			// OpenGraph
-			'og-enable' => true,
+			'og-enable'           => true,
 			// Facebook-specific
-			'fb-app-id' => '',
+			'fb-app-id'           => '',
 		);
 	}
 
@@ -189,7 +211,9 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 		$options = is_array( $options ) ? $options : array();
 
 		foreach ( $this->get_default_options() as $opt => $default ) {
-			if ( ! isset( $options[ $opt ] ) ) { $options[ $opt ] = $default; }
+			if ( ! isset( $options[ $opt ] ) ) {
+				$options[ $opt ] = $default;
+			}
 		}
 
 		if ( is_multisite() && SMARTCRAWL_SITEWIDE ) {

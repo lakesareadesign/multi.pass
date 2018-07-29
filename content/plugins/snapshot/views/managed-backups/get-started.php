@@ -7,7 +7,7 @@
 	<section class="wpmud-box get-started-box">
 
 		<div class="wpmud-box-title">
-			<h3><?php _e( 'Get Started', SNAPSHOT_I18N_DOMAIN ); ?></h3>
+			<h3><?php esc_html_e( 'Get Started', SNAPSHOT_I18N_DOMAIN ); ?></h3>
 		</div>
 
 		<div class="wpmud-box-content">
@@ -16,7 +16,7 @@
 
 					<div class="wps-image img-snappie-four"></div>
 
-					<p><?php printf( __( '%s, as a WPMU DEV member you get 10GB free cloud storage included in your membership. Install the WPMU DEV Dashboard plugin and then come back to add WPMU DEV as a destination.', SNAPSHOT_I18N_DOMAIN ), wp_get_current_user()->display_name ); ?></p>
+					<p><?php echo wp_kses_post( sprintf( __( '%s, as a WPMU DEV member you get 10GB free cloud storage included in your membership. Install the WPMU DEV Dashboard plugin and then come back to add WPMU DEV as a destination.', SNAPSHOT_I18N_DOMAIN ), wp_get_current_user()->display_name ) ); ?></p>
 
 					<?php
 

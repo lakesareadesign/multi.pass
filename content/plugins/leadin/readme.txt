@@ -3,13 +3,13 @@ Contributors: leadin, sredmond, HubSpotDev
 Tags:  crm, contacts, lead tracking, click tracking, visitor tracking, analytics, marketing automation, inbound marketing, subscription, marketing, lead generation, mailchimp, constant contact, newsletter, popup, popover, email list, email, contacts database, contact form, forms, form widget, popup form
 Requires at least: 3.7
 Tested up to: 4.8
-Stable tag: 6.1.7
+Stable tag: 6.1.9
 
-Add the free HubSpot Marketing plugin to your WordPress site! Easy to set up. The plugin has everything you need to capture, track, and convert leads.
+The HubSpot WordPress plugin is a powerful FREE contact form and pop-up form plugin. Create WordPress forms in minutes, capture leads and gain insights on your website traffic.
 
 == Description ==
 
-Whether you’re just getting started with HubSpot or already a HubSpot power user, <b>Form Builder, Live Chat and Lead Generation Tools from HubSpot</b> will let you connect your WordPress website to your HubSpot account without having to deal with code.
+Whether you’re just getting started with HubSpot or already a HubSpot power user, **Form Builder, Live Chat and Lead Generation Tools from HubSpot** will let you connect your WordPress website to your HubSpot account without having to deal with code.
 
 It is the all-in-one WordPress plugin for capturing leads, building an email list and tracking visitor behavior on your website.
 
@@ -17,9 +17,9 @@ The plugin includes forms and pop-ups to capture leads, a dashboard to show the 
 
 All these features work immediately once you connect your HubSpot account to WordPress. No coding required.
 
-The <b>Lead Generation Tools from HubSpot</b> also automatically capture form submissions on your site even if they come from a different form tool. Whether you use Gravity Forms, Ninja Forms, Contact Forms 7 or any other WordPress form plugin, those leads will automatically be added to your contact database. No need to set up API integrations.
+The **Lead Generation Tools from HubSpot** also automatically capture form submissions on your site even if they come from a different form tool. Whether you use Gravity Forms, Ninja Forms, Contact Forms 7 or any other WordPress form plugin, those leads will automatically be added to your contact database. No need to set up API integrations.
 
-Here’s how <b>Form Builder, Live Chat and Lead Generation Tools from HubSpot</b> will help you upgrade your marketing:
+Here’s how **Form Builder, Live Chat and Lead Generation Tools from HubSpot** will help you upgrade your marketing:
 
 = Free Form Builder & Pop-ups: Capture every qualified lead =
 
@@ -45,7 +45,7 @@ The paid version of HubSpot allows you to embed a live chat widget on your WordP
 
 = Start turning visitors into leads today =
 
-Get <b>Form Builder, Live Chat and Lead Generation Tools from HubSpot</b> and start converting website visitors into leads now.
+Get **Form Builder, Live Chat and Lead Generation Tools from HubSpot** and start converting website visitors into leads now.
 
 > “HubSpot dramatically cuts down the time I spend on marketing. We used to spend tons of time generating very few inbound leads, but those numbers have gone through the roof with minimal effort.” – Brian Ruhlmann, Director of Sales & Marketing, AdmitHub
 
@@ -84,13 +84,13 @@ The easiest way to install this plugin is to use the WordPress Admin interface. 
 1. Upload the 'leadin' folder to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
-Having trouble? Check out our <a href="https://academy.hubspot.com/" target="_blank">help documentation & support</a>
+Having trouble? Check out our <a href="https://knowledge.hubspot.com/articles/kcs_article/integrations/how-can-i-install-the-hubspot-tracking-code-for-wordpress" target="_blank">help documentation</a>
 
 == Frequently Asked Questions ==
 
 = Requirements =
 
-- Your website or blog must be using WordPress.org version 3.7 or higher on your server.  We recommend the latest version.
+- Your website or blog must be using WordPress.org version 3.7 or higher on your server. We recommend the latest version.
 - The tracking code cannot be installed on WordPress.com sites, as they do not allow you to add plugins or Javascript.
 - The wp_footer function must be included in your WordPress theme’s footer file (footer.php).
 - This function is required for our tracking code to be installed on every page of your site.
@@ -98,52 +98,66 @@ Having trouble? Check out our <a href="https://academy.hubspot.com/" target="_bl
 
 = What does the plugin do? =
 
-This plugin installs the HubSpot Marketing Free tracking code on your WordPress site. HubSpot Marketing Free is an arsenal of tools you can use to convert visitors into leads. Get a dashboard, lead flows (i.e. pop-ups), collected forms, kickback emails, and more – 100% free.
+This plugin installs the HubSpot tracking code on your WordPress site. HubSpot provides an arsenal of marketing and sales tools you can use to convert visitors into leads.
 
 = What is HubSpot? =
 
-HubSpot is inbound marketing and sales software that helps companies attract visitors, convert leads, and close customers.
+HubSpot provides inbound marketing, sales and CRM software that helps companies attract visitors, convert leads, and close customers.
 
-HubSpot Marketing Free is a free tool that includes the basics you need to capture, track, and convert leads. These basics include a lead gen dashboard, pop-ups/slide-ins/modal forms, a form scraping tool, a contact database, and lead insights for the first 7 days of website activity after lead capture.
+The HubSpot WordPress Plugin is a free tool that includes the basics you need to capture, track, and convert leads. These basics include a lead generation dashboard, pop-up and slide-in forms, a form scraping tool, a contact database, and lead insights.
 
-This plugin acts as a bridge between your WordPress site and your HubSpot Marketing Free account, connecting the two together.
+This plugin connects your free or paid HubSpot account with your WordPress website.
+
+= Who should use the HubSpot WordPress plugin? =
+
+HubSpot is perfect for business owners, small businesses, bloggers, designers, photographers, anyone with a WordPress website. If you want to create custom WordPress forms, this plugin is for you whether you’re a current HubSpot user (free or paid tiers) or hoping to try out the free tools.
+
+= Do I need to have coding skills to use the HubSpot WordPress plugin? =
+
+Not at all. You can create and manage forms without any coding by using our user-friendly drag and drop form builder.
 
 = How do I upgrade? =
 
-HubSpot Marketing Starter is built for folks who want to remove HubSpot branding from pop-up forms, and free forms, as well as expand lead insights beyond the 7 days included in marketing free. If you've signed up for HubSpot Marketing Free and would like to upgrade to HubSpot Marketing Starter, <a href="https://knowledge.hubspot.com/articles/kcs_article/account/how-do-i-upgrade-to-marketing-starter-from-marketing-free" target="_blank">follow these instructions</a>.
+The HubSpot Starter tier is built for those who want to remove HubSpot branding from their forms and get more lead insights. If you’d like to upgrade to the HubSpot Starter tier, <a href="https://knowledge.hubspot.com/articles/kcs_article/account/how-do-i-upgrade-to-marketing-starter-from-marketing-free" target="_blank">follow these instructions</a>.
 
 = Why aren’t my pop-ups (i.e. lead flows) working? =
 
 There are 3 main reasons your lead flows may not be working:
 
 1. Your tracking code is not installed properly. Please see the instructions above, or <a href="https://knowledge.hubspot.com/articles/kcs_article/lead-flows/why-arent-my-lead-flows-displaying" target="_blank">this article for troubleshooting</a>.
-2. You have previously cancelled, or pressed “x,” on your pop-up. Once you dismiss the pop-up we will not show it for 14-days.
-3. You, or your contact, already filled out the pop-up form. Once a pop-up it will not display again for the same user.
+2. You previously cancelled, or pressed “x,” on your pop-up. Once you dismiss the pop-up we will not show it for 14-days.
+3. You, or your contact, already filled out the pop-up form. Once a pop-up form is submitted, it will not display again for the same user.
 
 = What will my visitors see if I have multiple lead flows active on a page? =
 
-If a visitor has previously dismissed a lead flow: They won't be presented with that same lead flow for 14 days. If they have previously submitted that lead flow and are viewing a page with that same lead flow on the same browser without clearing their cookies, they will not be shown the same lead flow again.
+**If a visitor has previously dismissed a pop-up form:**  They won’t be presented with that same pop-up form for 14 days. If they previously submitted that pop-up and view a page with the same pop-up on the same browser without clearing their cookies, they will not be shown the same pop-up form again.
 
-If more than one lead flow is set to a single URL: The lead flow set to the most specific page URL will take priority. For example, if you have a lead flow set to load on "All Pages" and a lead flow set to load on "http://www.domain.com/home", the lead flow set to load on "http://www.domain.com/home" will display. This applies to lead flows that have the same flow triggers (On 50% page scroll, On exit intent, etc) or the same type (Pop-up box, Dropdown banner, etc).
+**If more than one pop-up is set to a single URL:** The pop-up form set to the most specific page URL will take priority. For example, if you have a pop-up set to load on “All Pages” and a pop-up is set to load on “http://www.domain.com/home”, the pop-up form set to load on “http://www.domain.com/home” will display. This applies to pop-ups that have the same triggers (On 50% page scroll, On exit intent, etc) or the same type (pop-up box, dropdown banner, etc).
 
-If there are two lead flows with different flow triggers set to load on the same page with the same location specificity: The lead flows won't conflict each other and will wait for their respective triggers, given that the user has not previously submitted or dismissed either lead flow. For example, if a lead flow is set to load on all pages and is triggered on 50% page scroll and another lead flow is set to load on all pages and is triggered on exit intent, the two flows will load when the user triggers each lead flow.
+**If there are two pop-ups with different triggers set to load on the same page with the same location specificity:** The pop-up form won’t conflict each other and will wait for their respective triggers, given that the user has not previously submitted or dismissed either pop-up form. For example, if a pop-up form is set to load on all pages and is triggered on 50% page scroll and another pop-up is set to load on all pages and is triggered on exit intent, the two pop-ups will load when the user triggers each pop-up.
 
-<a href="https://knowledge.hubspot.com/articles/kcs_article/lead-flows/what-will-my-visitors-see-if-i-have-multiple-lead-flows-active-on-a-page" target="_blank">Check out this HubSpot Academy article</a> for more details.
+<a href="https://knowledge.hubspot.com/getting-started-with-the-hubspot-crm-free/lead-flows-and-collected-forms-faq" target="_blank">Check out this help article</a> for more details.
 
 = My question is not listed. =
 
-Please <a href="https://community.hubspot.com/" target="_blank">head over to our HubSpot Community</a> for more detailed documentation and support. Thank you!
+Please <a href="https://community.hubspot.com/" target="_blank">visit the HubSpot Community</a> for more detailed documentation and support. Thank you!
 
 == Screenshots ==
 
-1. See the visit history of each contact.
-2. Dashboard shows you where your leads are coming from.
-3. Capture form submissions, even if they come from a different tool.
+1. Convert site visitors into leads.
+2. No coding required.
+3. Manage all your leads in one place.
 
 == Changelog ==
 
-- Current version: 6.1.7
-- Current version release: 2018-06-26
+- Current version: 6.1.9
+- Current version release: 2018-07-27
+
+= 6.1.9 (2018.07.27) =
+- Update screenshots on description
+
+= 6.1.8 (2018.07.27) =
+- Update plugin description II
 
 = 6.1.7 (2018.06.26) =
 - Update plugin description

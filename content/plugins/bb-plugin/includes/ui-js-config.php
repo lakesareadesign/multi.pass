@@ -53,6 +53,7 @@ echo 'FLBuilderConfig              = ' . json_encode( apply_filters('fl_builder_
 	'isWhiteLabeled'                => FLBuilderModel::is_white_labeled(),
 	'inlineEnabled'                 => FLBuilderModel::is_inline_enabled(),
 	'CheckCodeErrors'               => FLBuilderModel::is_codechecking_enabled(),
+	'AceEditorSettings'             => FLBuilderModel::ace_editor_settings(),
 
 ) ) ) . ';';
 

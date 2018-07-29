@@ -156,4 +156,3 @@ if ( isset( $selected ) && is_array( $selected ) ) {
 <?php else: ?>
     <input <?php Opt_In::render_attributes( isset( $attributes ) ? $attributes : array() ); ?> type="<?php echo esc_attr( $type ); ?>" value="<?php echo esc_attr( $value ); ?>" class="<?php echo esc_attr( $type_class ); ?> <?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>" name="<?php echo esc_attr( $name ); ?>" placeholder="<?php echo isset($placeholder ) ? esc_attr($placeholder)  : ''; ?>" id="<?php echo isset( $id ) ? esc_attr( $id ) : ''; ?>"  />
 <?php endif; ?>
-<?php

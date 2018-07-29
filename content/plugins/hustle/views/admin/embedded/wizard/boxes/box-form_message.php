@@ -201,4 +201,3 @@
 	</div>
 
 </div><?php // #wph-wizard-content-form_message ?>
-<?php

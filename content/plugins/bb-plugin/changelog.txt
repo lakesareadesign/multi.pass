@@ -1,3 +1,65 @@
+<h4>2.1.4.2 - 08/06/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed text editors losing formatting when publishing because of WP 4.9.8 update.</li>
+</ul>
+
+<h4>2.1.4.1 - 08/02/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed switching between Gutenberg and Beaver Builder.</li>
+	<li>Fixed <code>fl_schema_meta_publisher_image_url</code> filter.</li>
+	<li>Updated translation files.</li>
+</ul>
+
+<h4>2.1.4 - 07/30/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Font Awesome updated to 5.2! The font is now part of the plugin package, no more glitchy CDN.</li>
+	<li>Visible indicator added if a node has visibility rules applied.</li>
+	<li>Add repeater support to <code>fl_builder_before_control</code> and <code>fl_builder_after_control</code>. Props Ian Forrest.</li>
+	<li>Allow users to select/deselect all modules. Show a warning if all modules are disabled.</li>
+	<li>Allow users to filter the default config for the ace editor using filter <code>fl_ace_editor_settings</code>.</li>
+	<li>Contact Form Module: Add field connection to module subject field.</li>
+	<li>Add 'Selection Order' to loop orderby options in Posts Module.</li>
+	<li>New filter <code>fl_builder_field_js_config</code> makes it possible to add predefined text field support. Props Oliver Juhas.</li>
+	<li>Add Aria labels to Mobile Menu button.</li>
+	<li>New actions/filters added to post-grid module schema function.
+		<ul>
+			<li>Actions: <code>fl_before_schema_meta</code>, <code>fl_after_schema_meta</code></li>
+			<li>Filters: <code>fl_schema_meta_general</code>, <code>fl_schema_meta_publisher_image_url</code>, <code>fl_schema_meta_publisher</code>, <code>fl_schema_meta_author</code></li>
+		</ul>
+	</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed issue with paginated category archives not correctly returning a 404 when there are no posts.</li>
+	<li>Fixed saved column settings reverting to default when first dropped in.</li>
+	<li>Fixed a compatibility With TinyMCE Advanced.</li>
+	<li>Fixed media modal close issue in Firefox and Safari.</li>
+	<li>Fixed Google fonts not loading in saved rows/modules inserted via shortcode.</li>
+	<li>Added field Cycle Day for GetResponse to fix autoresponder issue.</li>
+	<li>Fix Content Slider Delay and Transition Speed to accept positive float value.</li>
+	<li>Increase height of the multi-select element in the Settings UI.</li>
+	<li>Modified logic for listing Ontraport campaigns so all display in the dropdown.</li>
+	<li>Fixed a "connections" JS error when using layout shortcode.</li>
+	<li>Fixed an issue with Subscribe Form and AWeber.</li>
+	<li>Fixed a Themer layout CSS issue, CSS would sometimes fail to load and a refresh was required.</li>
+</ul>
+
+<h4>2.1.3.5 - 07/12/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed WPML global row issue.</li>
+	<li>Fixed an issue with column width CSS.</li>
+	<li>Added missing settings var to legacy settings field. Fixes a Subscribe Form issue.</li>
+	<li>Fixed the missing list in the dropdown due to outdated API methods for ConvertKit.</li>
+	<li>Fixed javascript error in IE11. Added polyfill for endsWith().</li>
+	<li>Fixed a malformed JSON bug in notifications system.</li>
+	<li>Fixed styling issue with Gallery Module captions.</li>
+</ul>
+
 <h4>2.1.3.4 - 06/25/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>
@@ -7,7 +69,7 @@
 <h4>2.1.3.3 - 06/20/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>
-	<li>Tweaked Chrome fix CSS as it broke editing modules inside a parllax row. Sorry.</li>
+	<li>Tweaked Chrome fix CSS as it broke editing modules inside a parallax row. Sorry.</li>
 </ul>
 
 <h4>2.1.3.2 - 06/20/2018</h4>
@@ -23,6 +85,7 @@
 	<li>Fixed PHP error if using php 5.2.</li>
 </ul>
 
+<h4>2.1.3 - 06/19/2018</h4>
 <p><strong>Enhancements</strong></p>
 <ul>
 	<li>Better support for translating global rows using WPML.</li>

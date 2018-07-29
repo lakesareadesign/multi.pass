@@ -286,4 +286,3 @@
 	<button class="wph-reset-color-palette wpmudev-button wpmudev-button-sm wpmudev-button-ghost"><?php esc_attr_e( "Reset palette", Opt_In::TEXT_DOMAIN ); ?></button>
 
 </div><?php // #wph-modal-palette ?>
-<?php

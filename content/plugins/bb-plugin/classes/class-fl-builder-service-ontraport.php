@@ -145,14 +145,19 @@ final class FLBuilderServiceOntraport extends FLBuilderService {
 	public function render_fields( $account, $settings ) {
 		$account_data   = $this->get_account_data( $account );
 		$api 			= $this->get_api( $account_data['app_id'], $account_data['api_key'] );
-		$campaigns      = json_decode( $api->campaignbuilder()->retrieveMultiple( array(
+		$campaigns = json_decode( $api->campaignbuilder()->retrieveMultiplePaginated( array(
 			'listFields' => 'id, name',
+			'start'      => 0,
+			'range'      => 50,
 		)));
-
 		$campaigns_list = array();
 
-		if ( $campaigns && count( $campaigns->data ) > 0 ) {
-			$campaigns_list = $campaigns->data;
+		if ( $campaigns ) {
+			foreach ( $campaigns as $obj ) {
+				if ( isset( $obj->data ) && count( $obj->data ) > 0 ) {
+					$campaigns_list = array_merge( $campaigns_list, $obj->data );
+				}
+			}
 		}
 
 		$response       = array(

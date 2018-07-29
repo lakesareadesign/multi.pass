@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Model_Fileset_Config extends Snapshot_Model_Fileset {
 
@@ -6,7 +6,7 @@ class Snapshot_Model_Fileset_Config extends Snapshot_Model_Fileset {
 		return '';
 	}
 
-	public function get_files ($chunk=false) {
+	public function get_files ($chunk = false) {
 		$path = $this->get_root();
 		if (empty($path)) return array();
 

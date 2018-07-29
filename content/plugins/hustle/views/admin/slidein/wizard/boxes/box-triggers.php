@@ -250,4 +250,3 @@
 	</div>
 
 </div><?php // #wph-wizard-settings-triggers ?>
-<?php

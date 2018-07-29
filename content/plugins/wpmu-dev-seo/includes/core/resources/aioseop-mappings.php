@@ -1,4 +1,5 @@
 <?php
+// phpcs:ignoreFile -- Contains a simple array of mappings
 
 return array(
 	/**
@@ -44,6 +45,8 @@ return array(
 	/**
 	 * General Settings > Noindex Settings
 	 */
+	'aioseop_options/aiosp_cpostnoindex'                                                           => false,
+	'aioseop_options/aiosp_cpostnofollow'                                                          => false,
 	'aioseop_options/aiosp_tax_noindex'                                                            => false,
 	'aioseop_options/aiosp_category_noindex'                                                       => '!!wds_onpage_options/meta_robots-noindex-category',
 	'aioseop_options/aiosp_archive_date_noindex'                                                   => '!!wds_onpage_options/meta_robots-noindex-date',

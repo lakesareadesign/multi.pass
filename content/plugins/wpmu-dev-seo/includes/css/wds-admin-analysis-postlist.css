@@ -50,5 +50,21 @@
 	margin-bottom: 0;
 }
 
+.manage-column.column-page-title {
+	width: 10%;
+}
 
-/* 133620-1522806829-au */
+.manage-column.column-page-meta-robots {
+	width: 80px;
+}
+
+.manage-column.column-seo {
+	width: 55px;
+}
+
+.manage-column.column-readability {
+	width: 80px;
+}
+
+
+/* 133620-1532820629-au */

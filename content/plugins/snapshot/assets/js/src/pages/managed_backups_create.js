@@ -345,13 +345,14 @@
 			 *
 			 * @return {Object} jQuery promise
 			 */
-			finish_backup: function () {
+			finish_backup: function ( nonce ) {
 				this.update_progress();
 				var prm = $.post(ajaxurl, {
-					action: "snapshot-full_backup-finish"
+					action: "snapshot-full_backup-finish",
+					security: nonce
 				}, noop, 'json');
 				prm.then(function (data) {
-					if (!data.status) return Sfb.ManualBackup.finish_backup();
+					if (!data.status) return Sfb.ManualBackup.finish_backup( nonce );
 					jQuery("#wps-build-error").addClass("hidden");
 					jQuery("#wps-build-progress").addClass("hidden");
 					jQuery("#wps-build-success").removeClass("hidden");
@@ -368,10 +369,11 @@
 			 *
 			 * @return {Object} jQuery promise
 			 */
-			process_files: function () {
+			process_files: function ( nonce ) {
 				this.update_progress();
 				$.post(ajaxurl, {
-					action: "snapshot-full_backup-process"
+					action: "snapshot-full_backup-process",
+					security: nonce
 				}, noop, 'json').then(function (data) {
 					Sfb.ManualBackup.current++;
 					var is_done = false;
@@ -380,8 +382,8 @@
 					} catch (e) {
 						return error_handler();
 					}
-					if (!is_done) Sfb.ManualBackup.process_files();
-					else Sfb.ManualBackup.finish_backup();
+					if (!is_done) Sfb.ManualBackup.process_files( nonce );
+					else Sfb.ManualBackup.finish_backup( nonce );
 				}).fail(Sfb.ManualBackup.error_handler);
 			},
 
@@ -413,6 +415,8 @@
 			handle_start_click: function (e) {
 				jQuery('#managed-backup-update').addClass('hidden');
 				jQuery('#container.wps-page-builder').removeClass('hidden');
+
+				var security = jQuery("form#managed-backup-update :hidden#snapshot-ajax-nonce");
 				Sfb.ManualBackup.current = 1;
 
 				Sfb.ManualBackup.start_backup().then(function (data) {
@@ -420,10 +424,10 @@
 					if (!backup) return Sfb.ManualBackup.error_handler(data);
 
 					if (Sfb.ManualBackup.skip_estimate) {
-						return Sfb.ManualBackup.process_files();
+						return Sfb.ManualBackup.process_files( security.val() );
 					} else {
 						return Sfb.ManualBackup.estimate_backup().then(function () {
-							return Sfb.ManualBackup.process_files();
+							return Sfb.ManualBackup.process_files( security.val() );
 						});
 					}
 				});

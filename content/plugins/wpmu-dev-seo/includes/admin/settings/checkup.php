@@ -24,8 +24,9 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 	 */
 	public static function get_instance() {
 		if ( empty( self::$_instance ) ) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
+
 		return self::$_instance;
 	}
 
@@ -37,28 +38,6 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 	 * @return array Validated input
 	 */
 	public function validate( $input ) {
-		if ( empty( $input['checkup-cron-enable'] ) ) {
-			$result['checkup-cron-enable'] = false;
-			return $result;
-		} else { $result['checkup-cron-enable'] = true; }
-
-		$frequency = ! empty( $input['checkup-frequency'] )
-			? Smartcrawl_Controller_Cron::get()->get_valid_frequency( $input['checkup-frequency'] )
-			: Smartcrawl_Controller_Cron::get()->get_default_frequency();
-		$result['checkup-frequency'] = $frequency;
-
-		$dow = isset( $input['checkup-dow'] ) && is_numeric( $input['checkup-dow'] )
-			? (int) $input['checkup-dow']
-			: 0
-		;
-		$result['checkup-dow'] = in_array( $dow, range( 0,6 ) ) ? $dow : 0;
-
-		$tod = isset( $input['checkup-tod'] ) && is_numeric( $input['checkup-tod'] )
-			? (int) $input['checkup-tod']
-			: 0
-		;
-		$result['checkup-tod'] = in_array( $tod, range( 0,23 ) ) ? $tod : 0;
-
 		if ( ! empty( $input['email-recipients'] ) && is_array( $input['email-recipients'] ) ) {
 			$result['email-recipients'] = array();
 			foreach ( $input['email-recipients'] as $user ) {
@@ -67,16 +46,62 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 					$user = $user_obj->ID;
 				}
 
-				if ( is_numeric( $user ) ) { $result['email-recipients'][] = (int) $user; }
+				if ( is_numeric( $user ) ) {
+					$result['email-recipients'][] = (int) $user;
+				}
 			}
 			$result['email-recipients'] = array_values( array_filter( array_unique( $result['email-recipients'] ) ) );
 		}
 		if ( empty( $result['email-recipients'] ) ) {
 			$defaults = $this->get_default_options();
 			$result['email-recipients'] = $defaults['email-recipients'];
+
+			add_settings_error(
+				$this->option_name,
+				'email-recipients-required',
+				esc_html__( 'There has to be at least one email recipient. The default recipient has been added back.', 'wds' )
+			);
 		}
 
+		if ( empty( $input['checkup-cron-enable'] ) ) {
+			$result['checkup-cron-enable'] = false;
+
+			return $result;
+		} else {
+			$result['checkup-cron-enable'] = true;
+		}
+
+		$frequency = ! empty( $input['checkup-frequency'] )
+			? Smartcrawl_Controller_Cron::get()->get_valid_frequency( $input['checkup-frequency'] )
+			: Smartcrawl_Controller_Cron::get()->get_default_frequency();
+		$result['checkup-frequency'] = $frequency;
+
+		$dow = isset( $input['checkup-dow'] ) && is_numeric( $input['checkup-dow'] )
+			? (int) $input['checkup-dow']
+			: 0;
+		$result['checkup-dow'] = in_array( $dow, range( 0, 6 ), true ) ? $dow : 0;
+
+		$tod = isset( $input['checkup-tod'] ) && is_numeric( $input['checkup-tod'] )
+			? (int) $input['checkup-tod']
+			: 0;
+		$result['checkup-tod'] = in_array( $tod, range( 0, 23 ), true ) ? $tod : 0;
+
 		return $result;
+	}
+
+	/**
+	 * Gets default options set and their initial values
+	 *
+	 * @return array
+	 */
+	public function get_default_options() {
+		return array(
+			'checkup-cron-enable' => false,
+			'checkup-frequency'   => 'weekly',
+			'checkup-dow'         => rand( 0, 6 ),
+			'checkup-tod'         => rand( 0, 23 ),
+			'email-recipients'    => array( get_current_user_id() ),
+		);
 	}
 
 	/**
@@ -84,11 +109,11 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 	 */
 	public function init() {
 		$this->option_name = 'wds_checkup_options';
-		$this->name        = Smartcrawl_Settings::COMP_CHECKUP;
-		$this->slug        = Smartcrawl_Settings::TAB_CHECKUP;
-		$this->action_url  = admin_url( 'options.php' );
-		$this->title       = __( 'SEO Checkup', 'wds' );
-		$this->page_title  = __( 'SmartCrawl Wizard: SEO Checkup', 'wds' );
+		$this->name = Smartcrawl_Settings::COMP_CHECKUP;
+		$this->slug = Smartcrawl_Settings::TAB_CHECKUP;
+		$this->action_url = admin_url( 'options.php' );
+		$this->title = __( 'SEO Checkup', 'wds' );
+		$this->page_title = __( 'SmartCrawl Wizard: SEO Checkup', 'wds' );
 
 		parent::init();
 
@@ -101,18 +126,27 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 	public function ajax_checkup_status() {
 		$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
 		$percentage = $service->status();
-		return wp_send_json_success(array(
+		wp_send_json_success( array(
 			'percentage' => $percentage,
-		));
+		) );
 	}
 
 	/**
 	 * Process run action
 	 */
 	public function process_run_action() {
-		if ( ! empty( $_GET['run-checkup'] ) ) { // Simple presence switch, no value.
+		if ( isset( $_GET['_wds_nonce'], $_GET['run-checkup'] ) && wp_verify_nonce( $_GET['_wds_nonce'], 'wds-checkup-nonce' ) ) { // Simple presence switch, no value.
 			return $this->run_checkup();
 		}
+	}
+
+	public static function checkup_url() {
+		$checkup_url = Smartcrawl_Settings_Admin::admin_url( Smartcrawl_Settings::TAB_CHECKUP );
+
+		return esc_url_raw( add_query_arg( array(
+			'run-checkup' => 'yes',
+			'_wds_nonce'  => wp_create_nonce( 'wds-checkup-nonce' ),
+		), $checkup_url ) );
 	}
 
 	/**
@@ -123,7 +157,7 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 
 		$options = Smartcrawl_Settings::get_component_options( $this->name );
 		$options = wp_parse_args(
-			(is_array( $options ) ? $options : array()),
+			( is_array( $options ) ? $options : array() ),
 			$this->get_default_options()
 		);
 
@@ -139,21 +173,6 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 	}
 
 	/**
-	 * Gets default options set and their initial values
-	 *
-	 * @return array
-	 */
-	public function get_default_options() {
-		return array(
-			'checkup-cron-enable' => false,
-			'checkup-frequency' => 'weekly',
-			'checkup-dow' => rand( 0, 6 ),
-			'checkup-tod' => rand( 0, 23 ),
-			'email-recipients' => array( get_current_user_id() ),
-		);
-	}
-
-	/**
 	 * Default settings
 	 */
 	public function defaults() {
@@ -161,7 +180,9 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 		$options = is_array( $options ) ? $options : array();
 
 		foreach ( $this->get_default_options() as $opt => $default ) {
-			if ( ! isset( $options[ $opt ] ) ) { $options[ $opt ] = $default; }
+			if ( ! isset( $options[ $opt ] ) ) {
+				$options[ $opt ] = $default;
+			}
 		}
 
 		if ( is_multisite() && SMARTCRAWL_SITEWIDE ) {

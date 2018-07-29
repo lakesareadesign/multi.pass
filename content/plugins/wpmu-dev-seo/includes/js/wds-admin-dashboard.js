@@ -4,7 +4,8 @@
 	function reload_box(box_id) {
 		$.post(ajaxurl, {
 			action: 'wds-reload-box',
-			box_id: box_id
+			box_id: box_id,
+			_wds_nonce: _wds_dashboard.nonce
 		}, function (data) {
 			if ((data || {}).success) {
 				if (!$.isArray(box_id)) {
@@ -33,16 +34,18 @@
 			dependent = $box.data('dependent'),
 			reload_boxes = [box_id];
 
-		if (dependent) {
-			reload_boxes.push(dependent);
-		}
+        if (dependent) {
+            var dependents = dependent.split(';');
+            reload_boxes = reload_boxes.concat(dependents);
+        }
 
 		before_ajax_request($button);
 
 		$.post(ajaxurl, {
 			action: 'wds-activate-component',
 			option: $button.data('optionId'),
-			flag: $button.data('flag')
+			flag: $button.data('flag'),
+			_wds_nonce: _wds_dashboard.nonce
 		}, function (data) {
 			if ((data || {}).success) {
 				reload_box(reload_boxes);
@@ -68,8 +71,12 @@
 
 		if ($boxes_requiring_refresh.length) {
 			$.each($boxes_requiring_refresh, function () {
-				var $box = $(this).closest('.dev-box');
-				box_ids.push($box.attr('id'));
+                var $box = $(this).closest('.dev-box'),
+                    box_id = $box.attr('id');
+
+                if (!box_ids.includes(box_id)) {
+                    box_ids.push(box_id);
+                }
 			});
 
 			reload_box(box_ids);
@@ -88,7 +95,7 @@
 
 		window.Wds.upsell();
 		window.Wds.accordion();
-		window.Wds.dismissible_message('dashboard-sitemap-disabled-warning');
+		window.Wds.dismissible_message();
 
 		$(document).on('click', '.wds-activate-component', activate_component);
 	}

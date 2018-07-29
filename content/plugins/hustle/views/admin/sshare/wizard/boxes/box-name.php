@@ -19,4 +19,3 @@
 	</div>
 
 </div><?php // #wph-wizard-content-name ?>
-<?php

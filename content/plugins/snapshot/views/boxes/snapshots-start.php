@@ -1,3 +1,6 @@
+<?php
+assert(true);
+?>
 <div class="wpmud-box-title buttons">
 
 	<h3>Snapshots</h3>

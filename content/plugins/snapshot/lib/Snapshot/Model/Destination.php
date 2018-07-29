@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Class for dealing with destinations.
  *
@@ -31,21 +31,21 @@ abstract class Snapshot_Model_Destination {
 		}
 
 		if ( empty( $this->name_display ) || empty ( $this->name_slug ) ) {
-			wp_die( __( 'You must override all required vars in your Snapshot Destination class!', SNAPSHOT_I18N_DOMAIN ) );
+			wp_die( esc_html__( 'You must override all required vars in your Snapshot Destination class!', SNAPSHOT_I18N_DOMAIN ) );
 		}
 
 	}
 
 	public function display_listing_table( $destinations, $edit_url, $delete_url ) {
-		wp_die( __( "You must override the function 'display_listing_table' in your Snapshot Destination class!", SNAPSHOT_I18N_DOMAIN ) );
+		wp_die( esc_html__( "You must override the function 'display_listing_table' in your Snapshot Destination class!", SNAPSHOT_I18N_DOMAIN ) );
 	}
 
 	public function sendfile_to_remote( $destination_info, $filename ) {
-		wp_die( __( "You must override the function 'sendfile_to_remote' in your Snapshot Destination class!", SNAPSHOT_I18N_DOMAIN ) );
+		wp_die( esc_html__( "You must override the function 'sendfile_to_remote' in your Snapshot Destination class!", SNAPSHOT_I18N_DOMAIN ) );
 	}
 
 	public function display_details_form( $item = 0 ) {
-		wp_die( __( "You must override the function 'display_details_form' in your Snapshot Destination class!", SNAPSHOT_I18N_DOMAIN ) );
+		wp_die( esc_html__( "You must override the function 'display_details_form' in your Snapshot Destination class!", SNAPSHOT_I18N_DOMAIN ) );
 	}
 
 	public static function load_destinations() {
@@ -62,15 +62,19 @@ abstract class Snapshot_Model_Destination {
 			return;
 		}
 
-		if ( ! $dh = opendir( $dir ) ) {
+		$dh = opendir( $dir );
+		if ( ! $dh ) {
 			return;
 		}
 
-		while ( ( $plugin = readdir( $dh ) ) !== false ) {
-			if ( $plugin[0] == '.' ) {
+		$plugin = readdir( $dh );
+		while ( false !== $plugin ) {
+			if ( '.' === $plugin[0] ) {
+				$plugin = readdir( $dh );
 				continue;
 			}
-			if ( $plugin[0] == '_' ) {
+			if ( '_' === $plugin[0] ) {
+				$plugin = readdir( $dh );
 				continue;
 			}    // Ignore this starting with underscore
 
@@ -81,6 +85,7 @@ abstract class Snapshot_Model_Destination {
 					$snapshot_destination_files[] = $_destination_dir_file;
 				}
 			}
+			$plugin = readdir( $dh );
 		}
 		closedir( $dh );
 
@@ -92,10 +97,10 @@ abstract class Snapshot_Model_Destination {
 				//echo "file=[". $file ."]<br />";
 				if ( strpos( $file, 'dropbox' ) !== false ) {
 					if ( version_compare( phpversion(), '5.5.0', '>=' ) ) {
-						include( $file );
+						include  $file ;
 					}
 				} else {
-					include( $file );
+					include  $file ;
 				}
 			}
 		}
@@ -122,13 +127,13 @@ abstract class Snapshot_Model_Destination {
 		if ( isset( WPMUDEVSnapshot::instance()->config_data['items'] ) ) {
 			$destination_count = 0;
 			foreach ( WPMUDEVSnapshot::instance()->config_data['items'] as $snapshot_item ) {
-				if ( ( isset( $snapshot_item['destination'] ) ) && ( $snapshot_item['destination'] == $destination_key ) ) {
-					$destination_count += 1;
+				if ( ( isset( $snapshot_item['destination'] ) ) && ( $snapshot_item['destination'] === $destination_key ) ) {
+					$destination_count++;
 				}
 			}
 			if ( $destination_count ) {
-				?><a href="<?php echo WPMUDEVSnapshot::instance()->get_setting( 'SNAPSHOT_MENU_URL' );
-				?>snapshot_pro_snapshots&amp;destination=<?php echo $destination_key; ?>"><?php echo $destination_count ?></a><?php
+				?><a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->get_setting( 'SNAPSHOT_MENU_URL' ) ); ?>snapshot_pro_snapshots&amp;destination=<?php echo esc_attr( $destination_key ); ?>"><?php echo esc_html( $destination_count ); ?></a>
+                <?php
 			} else {
 				echo '<span>0</span>';
 			}
@@ -141,8 +146,8 @@ abstract class Snapshot_Model_Destination {
 		if ( isset( WPMUDEVSnapshot::instance()->config_data['items'] ) ) {
 			$destination_count = 0;
 			foreach ( WPMUDEVSnapshot::instance()->config_data['items'] as $snapshot_item ) {
-				if ( ( isset( $snapshot_item['destination'] ) ) && ( $snapshot_item['destination'] == $destination_key ) ) {
-					$destination_count += 1;
+				if ( ( isset( $snapshot_item['destination'] ) ) && ( $snapshot_item['destination'] === $destination_key ) ) {
+					$destination_count++;
 				}
 			}
 			return $destination_count;
@@ -236,7 +241,7 @@ abstract class Snapshot_Model_Destination {
 		return $output;
 	}
 
-	public abstract function validate_form_data( $d_info );
+	abstract public function validate_form_data( $d_info );
 
 	/**
 	 * Uniform exception handling
@@ -255,7 +260,7 @@ abstract class Snapshot_Model_Destination {
 		if ( isset( $this->snapshot_logger ) && isset($e) ) {
 			$this->snapshot_logger->log_message(
 				sprintf(
-					__("Error: Could not perform %s [%s]: Error: %s", SNAPSHOT_I18N_DOMAIN),
+					__("Error: Could not perform %1\$s [%2\$s]: Error: %3\$s", SNAPSHOT_I18N_DOMAIN),
 					$action, $this->name_display, $e
 				)
 			);

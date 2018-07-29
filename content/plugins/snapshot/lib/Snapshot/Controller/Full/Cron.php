@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Automatic backup controller
@@ -36,7 +36,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	 */
 	public static function get () {
 		if (empty(self::$_instance)) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
 		return self::$_instance;
 	}
@@ -357,7 +357,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 			 * @param string $key Error message key
 			 * @param string $msg Human-friendly message description
 			 */
-			do_action($this->get_filter('cron-error-stop'), 'process', $key, $msg); // Notify anyone interested
+			do_action($this->get_filter('cron_error_stop'), 'process', $key, $msg); // Notify anyone interested
 
 			return false; // Just fully stop
 		}
@@ -439,7 +439,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 			 * @param string $key Error message key
 			 * @param string $msg Human-friendly message description
 			 */
-			do_action($this->get_filter('cron-error-stop'), 'finish', $key, $msg); // Notify anyone interested
+			do_action($this->get_filter('cron_error_stop'), 'finish', $key, $msg); // Notify anyone interested
 
 			return false; // Just fully stop
 		}
@@ -534,8 +534,9 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	 *
 	 * @return bool
 	 */
-	private function _ping_self ($job=false) {
-		if (!in_array($job, $this->get_known_job_actions())) $job = self::BACKUP_KICKSTART_ACTION;
+	private function _ping_self ($job = false) {
+		if (!in_array($job, $this->get_known_job_actions(), true))
+			$job = self::BACKUP_KICKSTART_ACTION;
 
 		return $this->_send_self_request_ping($job);
 	}
@@ -547,22 +548,29 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	 *
 	 * @return bool
 	 */
-	private function _send_self_request_ping ($job=false) {
+	private function _send_self_request_ping ($job = false) {
 		if ($this->_model->get_config('disable_cron', false)) return false;
 
-		$job = empty($job) || !in_array($job, $this->get_known_job_actions())
+		$job = empty($job) || !in_array($job, $this->get_known_job_actions(), true)
 			? self::BACKUP_KICKSTART_ACTION
 			: $job
 		;
 
+		if ( defined('SNAPSHOT_CHANGED_ADMIN_URL') &&  false !== filter_var( SNAPSHOT_CHANGED_ADMIN_URL, FILTER_VALIDATE_URL ) ) {
+			$admin_url = esc_url_raw( trailingslashit( SNAPSHOT_CHANGED_ADMIN_URL ) );
+		} else {
+			$admin_url = trailingslashit( admin_url() );
+		}
+
 		$params = array(
-			'url' => admin_url('admin-ajax.php?action=snapshot-full_backup-respawn_cron&doing_wp_cron=1'),
+			'url' => $admin_url . 'admin-ajax.php?action=snapshot-full_backup-respawn_cron&doing_wp_cron=1',
 			'args' => array(
 				'timeout'   => 0.01,
 				'blocking'  => false,
 				'sslverify' => false,
 				'body' => array(
 					'job' => $job,
+					'security' => wp_create_nonce( 'snapshot-ajax-nonce' )
 				),
 			)
 		);
@@ -572,7 +580,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 			$params = $this->set_auth_cookies($params);
 		}
 
-		wp_remote_post($params['url'], $params['args']);
+		wp_remote_post( $params['url'], $params['args'] );
 
 		return true;
 	}
@@ -585,9 +593,9 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 
 		if ($this->_model->get_config('disable_cron', false)) die;
 		if (!defined('DISABLE_WP_CRON')) define('DISABLE_WP_CRON', true); // No. Bad cron. Not happening.
-
+		check_ajax_referer( 'snapshot-ajax-nonce', 'security' );
 		$data = stripslashes_deep($_POST);
-		$type = empty($data['job']) || !in_array($data['job'], $this->get_known_job_actions())
+		$type = empty($data['job']) || !in_array($data['job'], $this->get_known_job_actions(), true)
 			? self::BACKUP_KICKSTART_ACTION
 			: $data['job']
 		;
@@ -616,7 +624,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	 */
 	public function get_kickstart_delay () {
 		return (int)apply_filters(
-			$this->get_filter('kickstart-delay'),
+			$this->get_filter('kickstart_delay'),
 			5 * 60
 		);
 	}
@@ -747,7 +755,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 		$this->_unschedule_backup_event(self::BACKUP_KICKSTART_ACTION); // Kill kickstart event
 
 		$kickstart_time = apply_filters(
-			$this->get_filter('backup-kickstart'),
+			$this->get_filter('backup_kickstart'),
 			Snapshot_Model_Time::get()->get_utc_time() + $this->get_kickstart_delay()
 		);
 
@@ -855,7 +863,7 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 	 *
 	 * @return string Full filter name
 	 */
-	public function get_filter ($filter=false) {
+	public function get_filter ($filter = false) {
 		if (empty($filter)) return false;
 		if (!is_string($filter)) return false;
 		return 'snapshot-controller-full-cron-' . $filter;
@@ -872,16 +880,19 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 		if (!defined('WPE_APIKEY')) return array(); // Not WPEngine
 		if (is_user_logged_in()) return array(); // Already authenticated
 
-		$user = $user_id = false;
+		$user_id = false;
+		$user = $user_id;
 		if (is_multisite()) {
 			$superadmins = get_super_admins();
-			if ($superadmins && !empty($superadmins[0])) $user = get_user_by('login', $superadmins[0]);
+			if ($superadmins && !empty($superadmins[0]))
+				$user = get_user_by('login', $superadmins[0]);
 		} else {
 			$admins = get_users(array(
 				'role' => 'administrator',
 				'number' => 1,
 			));
-			if ($admins && !empty($admins[0])) $user = $admins[0];
+			if ($admins && !empty($admins[0]))
+				$user = $admins[0];
 		}
 		if (empty($user) || !is_object($user)) return array();
 		$user_id = $user->ID;
@@ -923,7 +934,8 @@ class Snapshot_Controller_Full_Cron extends Snapshot_Controller_Full {
 		$raw = $this->get_auth_cookies();
 		if (empty($raw)) return $params;
 
-		if (empty($params['args']['cookies'])) $params['args']['cookies'] = array();
+		if (empty($params['args']['cookies']))
+			$params['args']['cookies'] = array();
 		foreach ($raw as $key => $val) {
 			$params['args']['cookies'][] = new WP_Http_Cookie(array(
 				'name' => $key,

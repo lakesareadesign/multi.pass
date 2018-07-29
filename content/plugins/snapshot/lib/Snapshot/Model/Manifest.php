@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Model_Manifest {
 
@@ -12,13 +12,13 @@ class Snapshot_Model_Manifest {
 	private function __construct() {}
 
 	public static function create( Snapshot_Helper_Backup $backup ) {
-		$me = new self;
+		$me = new self();
 		$me->_create_manifest( $backup );
 		return $me;
 	}
 
 	public static function consume( $path ) {
-		$me = new self;
+		$me = new self();
 		$me->_consume_manifest( $path );
 		return $me;
 	}
@@ -29,7 +29,9 @@ class Snapshot_Model_Manifest {
 
 
 	public function get( $key ) {
-		if ( isset( $this->_data[ $key ] ) ) { return $this->_data[ $key ]; }
+		if ( isset( $this->_data[ $key ] ) ) {
+			return $this->_data[ $key ];
+		}
 		return $this->_get_live_value( $key );
 	}
 
@@ -38,7 +40,9 @@ class Snapshot_Model_Manifest {
 	}
 
 	public function get_flat() {
-		if ( empty( $this->_data ) ) { return ''; }
+		if ( empty( $this->_data ) ) {
+			return '';
+		}
 
 		$result = '';
 		$delimiter = self::ENTRY_DELIMITER;
@@ -84,7 +88,9 @@ class Snapshot_Model_Manifest {
 	}
 
 	protected function _get_wp_blog_id() {
-		if ( ! empty( $this->_backup ) && is_callable( array( $this->_backup, 'get_blog_id' ) ) ) { return $this->_backup->get_blog_id(); }
+		if ( ! empty( $this->_backup ) && is_callable( array( $this->_backup, 'get_blog_id' ) ) ) {
+			return $this->_backup->get_blog_id();
+		}
 
 		global $wpdb;
 		return (int) $wpdb->blogid;
@@ -129,7 +135,7 @@ class Snapshot_Model_Manifest {
 			$blog_details = get_blog_details( $blog_id );
 			return $blog_details->domain;
 		} else {
-			$parts = parse_url( $this->_get_wp_home() );
+			$parts = wp_parse_url( $this->_get_wp_home() );
 			return isset( $parts['host'] )
 				? $parts['host']
 				: $this->get_fallback_value();
@@ -142,7 +148,7 @@ class Snapshot_Model_Manifest {
 			$blog_details = get_blog_details( $blog_id );
 			return $blog_details->path;
 		} else {
-			$parts = parse_url( $this->_get_wp_home() );
+			$parts = wp_parse_url( $this->_get_wp_home() );
 			return isset( $parts['path'] )
 				? $parts['path']
 				: $this->get_fallback_value();
@@ -197,8 +203,12 @@ class Snapshot_Model_Manifest {
 			// Normalize manifest queues for backwards compatibility.
 			if ( is_array( $queues ) ) {
 				foreach ( $queues as $idx => $queue ) {
-					if ( empty( $queue['type'] ) ) { continue; }
-					if ( 'bhfileset' !== $queue['type'] ) { continue; }
+					if ( empty( $queue['type'] ) ) {
+						continue;
+					}
+					if ( 'bhfileset' !== $queue['type'] ) {
+						continue;
+					}
 					$queues[ $idx ]['type'] = 'fileset';
 					break;
 				}
@@ -212,12 +222,18 @@ class Snapshot_Model_Manifest {
 
 	private function _get_live_value( $header ) {
 		$headers = $this->get_headers();
-		if ( ! in_array( $header, $headers ) ) { return $this->get_fallback_value(); }
+		if ( ! in_array( $header, $headers, true ) ) {
+			return $this->get_fallback_value();
+		}
 
 		$method_name = '_get_' . strtolower( preg_replace( '/[^_a-z]/i', '_', $header ) );
-		if ( ! is_callable( array( $this, $method_name ) ) ) { $method_name = 'get_fallback_value'; }
+		if ( ! is_callable( array( $this, $method_name ) ) ) {
+			$method_name = 'get_fallback_value';
+		}
 
-		if ( ! is_callable( array( $this, $method_name ) ) ) { return $this->get_fallback_value(); }
+		if ( ! is_callable( array( $this, $method_name ) ) ) {
+			return $this->get_fallback_value();
+		}
 
 		return call_user_func( array( $this, $method_name ) );
 	}
@@ -232,17 +248,26 @@ class Snapshot_Model_Manifest {
 
 	private function _consume_manifest( $path ) {
 		$fullpath = realpath( $path );
-		if ( empty( $fullpath ) || ! is_readable( $fullpath ) ) { return false; }
+		if ( empty( $fullpath ) || ! is_readable( $fullpath ) ) {
+			return false;
+		}
 
-		$raw = file_get_contents( $fullpath );
-		if ( empty( $raw ) ) { return false; }
+		$raw = file_get_contents( $fullpath ); // phpcs:ignore
+
+		if ( empty( $raw ) ) {
+			return false;
+		}
 
 		$data = explode( self::LINE_DELIMITER, $raw );
-		if ( empty( $data ) ) { return false; }
+		if ( empty( $data ) ) {
+			return false;
+		}
 
 		foreach ( $data as $line ) {
 			$line = trim( $line );
-			if ( empty( $line ) ) { continue; }
+			if ( empty( $line ) ) {
+				continue;
+			}
 
 			list($key, $value) = explode( self::ENTRY_DELIMITER, $line, 2 );
 			$value = maybe_unserialize( $value );
@@ -256,7 +281,11 @@ class Snapshot_Model_Manifest {
 
 	private function _untrim( $value ) {
 		if ( ! is_array( $value ) ) {
-			if ( is_numeric( $value ) && ! strstr( $value, '.' ) ) { $value = (int) $value; } else { $value = trim( $value ); }
+			if ( is_numeric( $value ) && ! strstr( $value, '.' ) ) {
+				$value = (int) $value;
+			} else {
+				$value = trim( $value );
+			}
 
 			return $value;
 		}

@@ -10,35 +10,35 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 	class SnapshotDestinationDropbox extends Snapshot_Model_Destination {
 
 		// The slug and name are used to identify the Destination Class
-		var $name_slug;
-		var $name_display;
+		public $name_slug;
+		public $name_display;
 
 		// Do not change this! This is set from Dropbox and is the KEY/SECRET for this Dropbox App.
 		const DROPBOX_APP_KEY = 'g1j0k3ob0fwcgnc';
 		const DROPBOX_APP_SECRET = 'di1vr3xgf86f4fl';
 
-		var $tokens = array();
+		public $tokens = array();
 
-		var $excluded_files = array();
-		var $excluded_file_chars = array();
+		public $excluded_files = array();
+		public $excluded_file_chars = array();
 
-		var $dropbox_connection;
-		var $oauth;
+		public $dropbox_connection;
+		public $oauth;
 
-		var $snapshot_logger;
-		var $snapshot_locker;
+		public $snapshot_logger;
+		public $snapshot_locker;
 
 		// These vars are used when connecting and sending file to the destination. There is an
 		// inteface function which populates these from the destination data.
-		var $destination_info;
-		var $error_array;
-		var $form_errors;
+		public $destination_info;
+		public $error_array;
+		public $form_errors;
 
-		function load_library() {
-			require_once( dirname( __FILE__ ) . '/vendor/autoload.php' );
+		public function load_library() {
+			require_once  dirname( __FILE__ ) . '/vendor/autoload.php' ;
 		}
 
-		function on_creation() {
+		public function on_creation() {
 			//private destination slug. Lowercase alpha (a-z) and dashes (-) only please!
 			$this->name_slug = 'dropbox';
 
@@ -67,7 +67,14 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			// we load the stored item option and grab the new access token. Then store the options and redirect the user to
 			// the Destination Dropbox form where they will finally save the destination info.
 
-			if ( ! isset( $_GET['page'] ) || ! in_array( sanitize_text_field( $_GET['page'] ), array( 'snapshots_destinations_panel', 'snapshot_pro_destinations' ) ) ) {
+			if ( ! isset( $_REQUEST['destination-noonce-field']  ) ) {
+				return;
+			}
+			if ( ! wp_verify_nonce( $_REQUEST['destination-noonce-field'], 'snapshot-destination' ) ) {
+				return;
+			}
+
+			if ( ! isset( $_GET['page'] ) || ! in_array( sanitize_text_field( $_GET['page'] ), array( 'snapshots_destinations_panel', 'snapshot_pro_destinations' ), true ) ) {
 				return;
 			}
 
@@ -79,7 +86,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 
 		}
 
-		function init() {
+		public function init() {
 
 			if ( isset( $this->destination_info ) ) {
 				unset( $this->destination_info );
@@ -96,12 +103,16 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			$this->error_array['errorArray'] = array();
 			$this->error_array['responseArray'] = array();
 
+			// We use set_error_handler() as logging code and not debug code.
+			// phpcs:ignore
 			set_error_handler( array( &$this, 'ErrorHandler' ) );
 		}
 
-		function validate_form_data( $d_info ) {
+		public function validate_form_data( $d_info ) {
 
-			if ( isset( $d_info['force-authorize'] ) && 'on' == $d_info['force-authorize']  ) {
+			check_admin_referer( 'add_dropbox_destination' );
+
+			if ( isset( $d_info['force-authorize'] ) && 'on' === $d_info['force-authorize']  ) {
 				unset( $d_info['force-authorize'] );
 
 				if ( isset( $d_info['tokens']['access'] ) ) {
@@ -120,7 +131,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 
 				update_option( 'snapshot-dropbox-tokens', $d_info );
 
-				$dropbox_url = $auth_helper->getAuthUrl( );
+				$dropbox_url = $auth_helper->getAuthUrl();
 				wp_redirect( $dropbox_url );
 				die;
 			}
@@ -228,7 +239,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 				&&
 				!empty( $this->destination_info['tokens']['access']['token_secret'] )
 			) {
-				$oauth2_token = $this->dropbox->getOAuth2Client()->getAccessTokenFromOauth1( $this->destination_info['tokens']['access']['token'],$this->destination_info['tokens']['access']['token_secret'] );
+				$oauth2_token = $this->dropbox->getOAuth2Client()->getAccessTokenFromOauth1( $this->destination_info['tokens']['access']['token'], $this->destination_info['tokens']['access']['token_secret'] );
 				$oauth2_token = $oauth2_token['oauth2_token'];
 
 				$this->destination_info['tokens']['access']['access_token'] = $oauth2_token;
@@ -287,12 +298,14 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			$prepared = array();
 			foreach ($items as $item) {
 				if (!isset($item['metadata'])) continue;
-				$data = wp_parse_args($item['metadata'], array(
-					'client_modified' => time(),
-					'server_modified' => time(),
-					'path_lower' => '',
-					'name' => '',
-				));
+				$data = wp_parse_args(
+                    $item['metadata'], array(
+						'client_modified' => time(),
+						'server_modified' => time(),
+						'path_lower' => '',
+						'name' => '',
+					)
+                );
 				if (empty($data['path_lower'])) continue;
 
 				$client = strtotime($data['client_modified']);
@@ -323,7 +336,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			return true;
 		}
 
-		function sendfile_to_remote( $destination_info, $filename ) {
+		public function sendfile_to_remote( $destination_info, $filename ) {
 
 			$this->init();
 
@@ -334,7 +347,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			$this->oauth = new Kunnu\Dropbox\DropboxApp( $this->get_app_key(), $this->get_app_secret() );
 			$this->dropbox = new Kunnu\Dropbox\Dropbox( $this->oauth );
 			if ( empty( $this->destination_info['tokens']['access']['access_token'] ) && isset( $this->destination_info['tokens']['access']['token_secret'] ) && ! empty( $this->destination_info['tokens']['access']['token_secret'] ) ) {
-				$oauth2_token = $this->dropbox->getOAuth2Client()->getAccessTokenFromOauth1( $this->destination_info['tokens']['access']['token'],$this->destination_info['tokens']['access']['token_secret'] );
+				$oauth2_token = $this->dropbox->getOAuth2Client()->getAccessTokenFromOauth1( $this->destination_info['tokens']['access']['token'], $this->destination_info['tokens']['access']['token_secret'] );
 				$oauth2_token = $oauth2_token['oauth2_token'];
 
 				$this->destination_info['tokens']['access']['access_token'] = $oauth2_token;
@@ -394,7 +407,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			}
 		}
 
-		function progress_of_files( $file_array ) {
+		public function progress_of_files( $file_array ) {
 
 			$locker_info = $this->snapshot_locker->get_locker_info();
 			foreach ( $file_array as $_key => $_val ) {
@@ -403,7 +416,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			$this->snapshot_locker->set_locker_info( $locker_info );
 		}
 
-		function syncfiles_to_remote( $destination_info, $sync_files, $sync_files_option = '' ) {
+		public function syncfiles_to_remote( $destination_info, $sync_files, $sync_files_option = '' ) {
 
 			$this->init();
 
@@ -414,7 +427,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			$this->oauth = new Kunnu\Dropbox\DropboxApp( $this->get_app_key(), $this->get_app_secret() );
 			$this->dropbox = new Kunnu\Dropbox\Dropbox( $this->oauth );
 			if ( empty( $this->destination_info['tokens']['access']['access_token'] ) && isset( $this->destination_info['tokens']['access']['token_secret'] ) && ! empty( $this->destination_info['tokens']['access']['token_secret'] ) ) {
-				$oauth2_token = $this->dropbox->getOAuth2Client()->getAccessTokenFromOauth1( $this->destination_info['tokens']['access']['token'],$this->destination_info['tokens']['access']['token_secret'] );
+				$oauth2_token = $this->dropbox->getOAuth2Client()->getAccessTokenFromOauth1( $this->destination_info['tokens']['access']['token'], $this->destination_info['tokens']['access']['token_secret'] );
 				$oauth2_token = $oauth2_token['oauth2_token'];
 
 				$this->destination_info['tokens']['access']['access_token'] = $oauth2_token;
@@ -442,10 +455,12 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			foreach ( $sync_files['included'] as $section => $section_files ) {
 				$file_counter_total += count( $section_files );
 			}
-			$this->progress_of_files( array(
-				'files_count' => $file_counter_item,
-				'files_total' => $file_counter_total,
-			) );
+			$this->progress_of_files(
+                 array(
+					'files_count' => $file_counter_item,
+					'files_total' => $file_counter_total,
+				)
+            );
 
 			foreach ( $sync_files['included'] as $section => $section_files ) {
 				$file_counter_section = count( $section_files );
@@ -455,7 +470,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 				$file_send_success_count = 0;
 
 				foreach ( $section_files as $file_idx => $filename ) {
-					$file_counter_item += 1;
+					$file_counter_item++;
 					$file_send_ratio = $file_counter_item . "/" . $file_counter_total;
 
 					$_r_filename = str_replace( $_ABSPATH, '', $filename );
@@ -479,7 +494,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 					$_directory_file = $directory_file . $_filename;
 
 					$_file = strtolower( basename( $_filename ) );
-					if ( array_search( $_file, $this->sync_excluded_files ) !== false ) {
+					if ( array_search( $_file, $this->sync_excluded_files, true ) !== false ) {
 
 						$this->snapshot_logger->log_message( "[" . $file_send_ratio . "] File not allowed by Dropbox." . $_r_filename );
 						unset( $sync_files['included'][ $section ][ $file_idx ] );
@@ -510,7 +525,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 						$this->snapshot_logger->log_message( "[" . $file_send_ratio . "] Sync file: " . $_filename . " -> " . $_directory_file . " success" );
 
 						unset( $sync_files['included'][ $section ][ $file_idx ] );
-						$file_send_success_count += 1;
+						$file_send_success_count++;
 
 						// Update our option on every 10th file to keep things updated in case of abort or failure.
 						if ( $file_send_success_count > 10 ) {
@@ -522,8 +537,6 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 						$file_consecutive_errors = 0;
 
 					} catch ( Exception $e ) {
-						fclose( $_file_h );
-
 						//$this->error_array['errorStatus'] 	= true;
 						$this->snapshot_logger->log_message( "[" . $file_send_ratio . "] Sync file: " . $_filename . " -> " . $_directory . " FAILED" );
 						$this->snapshot_logger->log_message( $e->getMessage() );
@@ -532,7 +545,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 						$file_send_success_count = 0;
 						$this->progress_of_files( array( 'files_count' => $file_counter_item ) );
 
-						$file_consecutive_errors += 1;
+						$file_consecutive_errors++;
 						if ( $file_consecutive_errors >= 10 ) {
 							break;
 						}
@@ -549,7 +562,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 
 			update_option( $sync_files_option, $sync_files );
 
-			if ( $this->error_array['errorStatus'] != true ) {
+			if ( true !== $this->error_array['errorStatus'] ) {
 				$this->error_array['sendFileStatus'] = true;
 				$this->error_array['syncFilesLast'] = time();
 				$this->error_array['syncFilesTotal'] = $file_counter_total;
@@ -558,7 +571,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			return $this->error_array;
 		}
 
-		function load_class_destination( $d_info ) {
+		public function load_class_destination( $d_info ) {
 
 			if ( isset( $d_info['type'] ) ) {
 				$this->destination_info['type'] = esc_attr( $d_info['type'] );
@@ -596,7 +609,8 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 
 		}
 
-		function ErrorHandler( $errno, $errstr, $errfile, $errline ) {
+		public function ErrorHandler( $errno, $errstr, $errfile, $errline ) {
+			// phpcs:ignore
 			if ( ! error_reporting() ) {
 				return;
 			}
@@ -614,18 +628,12 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 
 				case E_USER_WARNING:
 					return;
-					$errType = "Warning";
-					break;
 
 				case E_USER_NOTICE:
 					return;
-					$errType = "Notice";
-					break;
 
 				default:
 					return;
-					$errType = "Unknown";
-					break;
 			}
 
 			$error_string = $errType . ": errno:" . $errno . " " . $errstr . " " . $errfile . " on line " . $errline;
@@ -634,7 +642,7 @@ if ( ! class_exists( 'SnapshotDestinationDropbox' )
 			$this->error_array['errorArray'][] = $error_string;
 
 			if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
-				echo json_encode( $this->error_array );
+				echo wp_json_encode( $this->error_array );
 				die;
 			}
 		}

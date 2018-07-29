@@ -162,3 +162,4 @@ $this->render("admin/dashboard/widget-sshare-stats-modal", array(
     "ss_share_stats" => $data->ss_share_stats_data,
     "total_stats" => $data->ss_total_share_stats
 ));
+?>

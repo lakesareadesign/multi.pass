@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * String helper class
@@ -18,7 +18,7 @@ class Snapshot_Helper_String {
 		$base = pathinfo($string, PATHINFO_FILENAME);
 		$ext = pathinfo($string, PATHINFO_EXTENSION);
 
-		$out = Snapshot_Helper_String::conceal_string($base);
+		$out = self::conceal_string($base);
 		if (!empty($ext)) $out .= '.' . $ext;
 
 		return $out;
@@ -51,7 +51,7 @@ class Snapshot_Helper_String {
 		$name = pathinfo($string, PATHINFO_FILENAME);
 		$ext = pathinfo($string, PATHINFO_EXTENSION);
 
-		$out = Snapshot_Helper_String::reveal_string($name);
+		$out = self::reveal_string($name);
 		if (!empty($ext)) $out .= '.' . $ext;
 
 		return $out;
@@ -97,7 +97,8 @@ class Snapshot_Helper_String {
 		if (empty($key)) return $string;
 
 		$out = '';
-		for ($i=0; $i<strlen($string); $i++) {
+		$string_length = strlen($string);
+		for ($i=0; $i<$string_length; $i++) {
 			$out .= $string[$i] ^ $key;
 		}
 

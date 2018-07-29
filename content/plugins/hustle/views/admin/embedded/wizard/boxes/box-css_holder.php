@@ -21,4 +21,3 @@
     </div>
 
 </div><?php // #wph-wizard-design-css_holder ?>
-<?php

@@ -101,4 +101,3 @@
     </div>
 
 </div><?php // #wpmudev-dashboard-widget-data ?>
-<?php

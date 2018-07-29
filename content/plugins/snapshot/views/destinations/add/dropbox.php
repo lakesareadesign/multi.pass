@@ -2,10 +2,12 @@
 
 /** @var WPMUDEVSnapshot_New_Ui_Tester $this */
 
-$item = array_merge( array(
-	'name' => '',
-	'directory' => '',
-), $item );
+$item = array_merge(
+	array(
+		'name' => '',
+		'directory' => '',
+	), $item
+);
 
 ?>
 
@@ -50,8 +52,7 @@ $item = array_merge( array(
 			</div>
 
 			<div class="form-col">
-				<input type="text" class="<?php $this->input_error_class( 'directory' ); ?>" name="snapshot-destination[directory]" id="snapshot-destination-directory" value="<?php
-					echo esc_attr( stripslashes( $item['directory'] ) ); ?>">
+				<input type="text" class="<?php $this->input_error_class( 'directory' ); ?>" name="snapshot-destination[directory]" id="snapshot-destination-directory" value="<?php echo esc_attr( stripslashes( $item['directory'] ) ); ?>">
 				<?php $this->input_error_message( 'directory' ); ?>
 			</div>
 		</div>
@@ -74,7 +75,7 @@ $item = array_merge( array(
 						$item_object->oauth = new Kunnu\Dropbox\DropboxApp( $destination_class->get_app_key(), $destination_class->get_app_secret() );
 						$item_object->dropbox = new Kunnu\Dropbox\Dropbox( $item_object->oauth );
 						if ( isset( $item['tokens']['access']['token_secret'] ) && ! empty( $item['tokens']['access']['token_secret'] ) ) {
-							$oauth2_token = $item_object->dropbox->getOAuth2Client()->getAccessTokenFromOauth1( $item['tokens']['access']['token'],$item['tokens']['access']['token_secret'] );
+							$oauth2_token = $item_object->dropbox->getOAuth2Client()->getAccessTokenFromOauth1( $item['tokens']['access']['token'], $item['tokens']['access']['token_secret'] );
 							$oauth2_token = $oauth2_token['oauth2_token'];
 
 							$item['tokens']['access']['access_token'] = $oauth2_token;
@@ -90,20 +91,22 @@ $item = array_merge( array(
 					} catch ( Dropbox_Exception_Forbidden $e ) {
 						$auth_error = true;
 						echo '<p>', esc_html__( 'An error occurred when attempting to connect to Dropbox: ', SNAPSHOT_I18N_DOMAIN ), '</p>';
-						printf( '<div class="wps-auth-message error"><p>%s</p></div>', $e->getMessage() );
+						echo wp_kses_post( sprintf( '<div class="wps-auth-message error"><p>%s</p></div>', $e->getMessage() ) );
 					} catch ( Kunnu\Dropbox\Exceptions\DropboxClientException $e ) {
 						$auth_error = true;
 						echo '<p>', esc_html__( 'An error occurred when attempting to connect to Dropbox: ', SNAPSHOT_I18N_DOMAIN ), '</p>';
-						printf( '<div class="wps-auth-message error"><p>%s</p></div>', $e->getMessage() );
+						echo wp_kses_post( sprintf( '<div class="wps-auth-message error"><p>%s</p></div>', $e->getMessage() ) );
 					} catch ( Exception $e ) {
 						$auth_error = true;
 						echo '<p>', esc_html__( 'An error occurred when attempting to connect to Dropbox: ', SNAPSHOT_I18N_DOMAIN ), '</p>';
-						printf( '<div class="wps-auth-message error"><p>%s</p></div>', $e->getMessage() );
+						echo wp_kses_post( sprintf( '<div class="wps-auth-message error"><p>%s</p></div>', $e->getMessage() ) );
 					}
 					?>
 
-					<?php if ( ! $auth_error ) {
-						if ( empty( $item['directory'] ) && isset( $item['tokens']['access']['access_token'] ) && ! empty( $item['tokens']['access']['access_token'] ) ) { ?>
+					<?php
+                    if ( ! $auth_error ) {
+						if ( empty( $item['directory'] ) && isset( $item['tokens']['access']['access_token'] ) && ! empty( $item['tokens']['access']['access_token'] ) ) {
+                        ?>
 						<div class="wps-auth-message wps-notice">
 							<p><?php esc_html_e( "You've authenticated this Dropbox destination. To finish adding this destination, please specify a folder to store the snapshots in and click Save Destination.", SNAPSHOT_I18N_DOMAIN ); ?></p>
 						</div>
@@ -246,7 +249,7 @@ $item = array_merge( array(
 
 			</div>
 
-			<?php if ( isset( $item['tokens']['access']['token_secret'] ) ) :?>
+			<?php if ( isset( $item['tokens']['access']['token_secret'] ) ) : ?>
 
 			<div class="form-col">
 
@@ -258,8 +261,11 @@ $item = array_merge( array(
 
 			</div>
 
-			<input type="hidden" name="snapshot-destination[directory]" id="snapshot-destination-directory" value="<?php
-					echo esc_attr( stripslashes( $item['directory'] ) ); ?>">
+			<input type="hidden" name="snapshot-destination[directory]" id="snapshot-destination-directory" value="
+				<?php
+				echo esc_attr( stripslashes( $item['directory'] ) );
+                ?>
+                ">
 
 			<?php else : ?>
 
@@ -300,23 +306,28 @@ $item = array_merge( array(
 	<?php
 
 	// Store the Token - Access as hidden fields
-	if ( isset( $item['tokens']['access']['token'] ) ) { ?>
+	if ( isset( $item['tokens']['access']['token'] ) ) {
+    ?>
 
 		<input type="hidden" name="snapshot-destination[tokens][access][token]" value="<?php echo esc_attr( $item['tokens']['access']['token'] ); ?>">
 
-	<?php }
+	<?php
+    }
 
-	if ( isset( $item['tokens']['access']['token_secret'] ) ) { ?>
+	if ( isset( $item['tokens']['access']['token_secret'] ) ) {
+    ?>
 
 		<input type="hidden" name="snapshot-destination[tokens][access][token_secret]" value="<?php echo esc_attr( $item['tokens']['access']['token_secret'] ); ?>">
 
-	<?php }
+	<?php
+    }
 
-	if ( isset( $item['tokens']['access']['access_token'] ) ) { ?>
+	if ( isset( $item['tokens']['access']['access_token'] ) ) {
+    ?>
 
 		<input type="hidden" name="snapshot-destination[tokens][access][access_token]" value="<?php echo esc_attr( $item['tokens']['access']['access_token'] ); ?>">
 
-	<?php } 	?>
+	<?php } ?>
 
 	<input type="hidden" name="snapshot-destination[type]" id="snapshot-destination-type" value="<?php echo esc_attr( $item['type'] ); ?>">
 

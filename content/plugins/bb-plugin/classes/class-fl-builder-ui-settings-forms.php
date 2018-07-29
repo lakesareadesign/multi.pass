@@ -229,7 +229,7 @@ class FLBuilderUISettingsForms {
 					}
 
 					foreach ( $section['fields'] as $field_key => &$field ) {
-						self::prep_field_for_js_config( $field );
+						self::prep_field_for_js_config( $field, $field_key, $form_key );
 					}
 				}
 			}
@@ -243,9 +243,20 @@ class FLBuilderUISettingsForms {
 	 *
 	 * @since 2.0
 	 * @param array $field
+	 * @param string $field_key
+	 * @param string $form_key
 	 * @return void
 	 */
-	static private function prep_field_for_js_config( &$field ) {
+	static private function prep_field_for_js_config( &$field, $field_key = '', $form_key = '' ) {
+
+		/**
+		 * This filter hook replaces pre-2.0 `fl_builder_render_settings_field` one.
+		 *
+		 * @param  array  $field      An array of setup data for the field.
+		 * @param  string $field_key  The field name/key.
+		 * @param  string $form_key   Module/form key.
+		 */
+		$field = apply_filters( 'fl_builder_field_js_config', $field, $field_key, $form_key );
 
 		// Convert class to className for JS compat.
 		if ( isset( $field['class'] ) ) {
@@ -634,19 +645,37 @@ class FLBuilderUISettingsForms {
 			}
 
 			$value = isset( $settings->$name ) ? $settings->$name : '';
+			$is_multiple = isset( $field['multiple'] ) ? $field['multiple'] : false;
 
-			ob_start();
-			do_action( 'fl_builder_before_control', $name, $value, $field, $settings );
-			do_action( 'fl_builder_before_control_' . $field['type'], $name, $value, $field, $settings );
-			$before = ob_get_clean();
+			if ( $is_multiple ) {
+				$before = array();
+				$after = array();
+				foreach ( $value as $repeater_item_value ) {
+					ob_start();
+					do_action( 'fl_builder_before_control', $name, $repeater_item_value, $field, $settings );
+					do_action( 'fl_builder_before_control_' . $field['type'], $name, $value, $field, $settings );
+					$before[] = ob_get_clean();
 
-			ob_start();
-			do_action( 'fl_builder_after_control_' . $field['type'], $name, $value, $field, $settings );
-			do_action( 'fl_builder_after_control', $name, $value, $field, $settings );
-			$after = ob_get_clean();
+					ob_start();
+					do_action( 'fl_builder_after_control_' . $field['type'], $name, $value, $field, $settings );
+					do_action( 'fl_builder_after_control', $name, $repeater_item_value, $field, $settings );
+					$after[] = ob_get_clean();
+				}
+			} else {
+				ob_start();
+				do_action( 'fl_builder_before_control', $name, $value, $field, $settings );
+				do_action( 'fl_builder_before_control_' . $field['type'], $name, $value, $field, $settings );
+				$before = ob_get_clean();
+
+				ob_start();
+				do_action( 'fl_builder_after_control_' . $field['type'], $name, $value, $field, $settings );
+				do_action( 'fl_builder_after_control', $name, $value, $field, $settings );
+				$after = ob_get_clean();
+			}
 
 			if ( ! empty( $before ) || ! empty( $after ) ) {
 				$response['extras'][ $name ] = array(
+					'multiple' => $is_multiple,
 					'before' => $before,
 					'after'  => $after,
 				);

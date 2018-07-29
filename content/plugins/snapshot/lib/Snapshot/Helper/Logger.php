@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /*
 Snapshots Logger Class
 Dexcription: This logger class is used from various parts of the Snapshots plugin to write messages to the log or archive items.
@@ -7,14 +7,14 @@ Dexcription: This logger class is used from various parts of the Snapshots plugi
 if ( ! class_exists( 'Snapshot_Helper_Logger' ) ) {
 	class Snapshot_Helper_Logger {
 
-		var $DEBUG;
-		var $logFolder;
-		var $logFileFull;
-		var $item_key;
-		var $data_item_key;
-		var $log_fp;
+		private $DEBUG;
+		private $logFolder;
+		private $logFileFull;
+		private $item_key;
+		private $data_item_key;
+		private $log_fp;
 
-		function __construct( $backupLogFolderFull, $item_key, $data_item_key ) {
+		public function __construct( $backupLogFolderFull, $item_key, $data_item_key ) {
 			$this->logFolder     = trailingslashit( $backupLogFolderFull );
 			$this->item_key      = $item_key;
 			$this->data_item_key = $data_item_key;
@@ -22,28 +22,28 @@ if ( ! class_exists( 'Snapshot_Helper_Logger' ) ) {
 			$this->start_logger();
 		}
 
-		function Snapshot_Helper_Logger( $backupLogFolderFull, $item_key, $data_item_key ) {
+		public function Snapshot_Helper_Logger( $backupLogFolderFull, $item_key, $data_item_key ) {
 			$this->__construct( $backupLogFolderFull, $item_key, $data_item_key );
 		}
 
-		function __destruct() {
+		public function __destruct() {
 			if ( $this->log_fp ) {
-				fclose( $this->log_fp );
+				fclose( $this->log_fp ); // phpcs:ignore
 			}
 		}
 
-		function start_logger() {
+		public function start_logger() {
 			$this->logFileFull = $this->logFolder . "/" . $this->item_key . "_" . $this->data_item_key . ".log";
-			$this->log_fp      = fopen( $this->logFileFull, 'a' );
+			$this->log_fp      = fopen( $this->logFileFull, 'a' ); // phpcs:ignore
 		}
 
-		function get_log_filename() {
+		public function get_log_filename() {
 			return $this->logFileFull;
 		}
 
-		function log_message( $message ) {
+		public function log_message( $message ) {
 			if ( $this->log_fp ) {
-				fwrite( $this->log_fp, Snapshot_Helper_Utility::show_date_time( time(), 'Y-m-d H:i:s' ) . ": " . $message . "\r\n" );
+				fwrite( $this->log_fp, Snapshot_Helper_Utility::show_date_time( time(), 'Y-m-d H:i:s' ) . ": " . $message . "\r\n" ); // phpcs:ignore
 				fflush( $this->log_fp );
 			}
 		}

@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 class Snapshot_Model_Transient {
 
@@ -23,7 +23,7 @@ class Snapshot_Model_Transient {
 	 *
 	 * @return mixed
 	 */
-	public static function get ($transient, $fallback=false) {
+	public static function get ($transient, $fallback= false) {
 		$raw = get_site_option($transient, false);
 		if (false === $raw) return $fallback;
 
@@ -57,9 +57,10 @@ class Snapshot_Model_Transient {
  	 *
  	 * @return mixed
 	 */
-	public static function get_expired ($transient, $fallback=false) {
+	public static function get_expired ($transient, $fallback= false) {
 		$value = get_site_option($transient . self::EXPIRY_SUFFIX, false);
-		if (false !== $value) self::$_expired_cache[$transient] = true;
+		if (false !== $value)
+			self::$_expired_cache[$transient] = true;
 		return false !== $value
 			? $value
 			: $fallback
@@ -74,7 +75,7 @@ class Snapshot_Model_Transient {
  	 *
  	 * @return mixed
 	 */
-	public static function get_any ($transient, $fallback=false) {
+	public static function get_any ($transient, $fallback= false) {
 		$value = self::get($transient, false);
 
 		return false === $value
@@ -126,7 +127,7 @@ class Snapshot_Model_Transient {
 	 * @param mixed $value Value to store
 	 * @param int $timeout Optional timeout, defaults to our own TTL
 	 */
-	public static function set ($transient, $value, $timeout=0) {
+	public static function set ($transient, $value, $timeout= 0) {
 		if (empty($transient)) return false;
 		$timeout = !empty($timeout) && is_numeric($timeout)
 			? (int)$timeout
@@ -143,10 +144,12 @@ class Snapshot_Model_Transient {
 		if (isset(self::$_expired_cache[$transient])) unset(self::$_expired_cache[$transient]);
 
 		// Store the new value with expiry
-		return update_site_option($transient, array(
-			'value' => $value,
-			'expiry' => $expiry,
-		), false);
+		return update_site_option(
+            $transient, array(
+				'value' => $value,
+				'expiry' => $expiry,
+			), false
+		);
 	}
 
 	/**
@@ -174,7 +177,7 @@ class Snapshot_Model_Transient {
 		if (empty($ttls)) {
 			$ttls = self::get_known_ttls();
 		}
-		$ttl = empty($period_name) || !in_array($period_name, array_keys($ttls))
+		$ttl = empty($period_name) || !in_array($period_name, array_keys($ttls), true)
 			? self::get_default_ttl()
 			: $period_name
 		;

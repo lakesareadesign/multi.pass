@@ -5,7 +5,7 @@
 		<div class="wpmud-box-title has-button">
 
 			<div class="wps-title-progress">
-				<h3><?php _e('Create Backup', SNAPSHOT_I18N_DOMAIN); ?></h3>
+				<h3><?php esc_html_e('Create Backup', SNAPSHOT_I18N_DOMAIN); ?></h3>
 			</div>
 
 		</div>
@@ -19,14 +19,14 @@
 							<div class="wps-auth-message error"><p></p></div>
 
 							<p>
-								<a id="wps-build-error-back" class="button button-outline button-gray"><?php _e('Back', SNAPSHOT_I18N_DOMAIN); ?></a>
-								<a href="#" id="wps-build-error-again" class="button button-gray"><?php _e('Try Again', SNAPSHOT_I18N_DOMAIN); ?></a>
+								<a id="wps-build-error-back" class="button button-outline button-gray"><?php esc_html_e('Back', SNAPSHOT_I18N_DOMAIN); ?></a>
+								<a href="#" id="wps-build-error-again" class="button button-gray"><?php esc_html_e('Try Again', SNAPSHOT_I18N_DOMAIN); ?></a>
 							</p>
 						</div>
 
 						<div id="wps-build-progress">
 
-							<p><?php _e('Your backup is in progress. <strong>You need to keep this page open for the backup to complete.</strong> Once your website has been backed up, it will be uploaded to WPMU DEV servers. If your site is small, this will only take a few minutes, but could take a couple of hours for larger sites.', SNAPSHOT_I18N_DOMAIN); ?></p>
+							<p><?php echo wp_kses_post( __('Your backup is in progress. <strong>You need to keep this page open for the backup to complete.</strong> Once your website has been backed up, it will be uploaded to WPMU DEV servers. If your site is small, this will only take a few minutes, but could take a couple of hours for larger sites.', SNAPSHOT_I18N_DOMAIN) ); ?></p>
 
 							<div class="wpmud-box-gray">
 
@@ -54,7 +54,7 @@
 
 							<div class="wps-auth-message success">
 
-								<p><?php _e('Your backup has been successfully created and uploaded to WPMU DEV servers!.', SNAPSHOT_I18N_DOMAIN); ?></p>
+								<p><?php esc_html_e('Your backup has been successfully created and uploaded to WPMU DEV servers!.', SNAPSHOT_I18N_DOMAIN); ?></p>
 
 							</div>
 
@@ -74,7 +74,7 @@
 
 
 							<p>
-								<a href="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-managed-backups'); ?>" class="button button-gray"><?php _e('View Backups', SNAPSHOT_I18N_DOMAIN); ?></a>
+								<a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-managed-backups') ); ?>" class="button button-gray"><?php esc_html_e('View Backups', SNAPSHOT_I18N_DOMAIN); ?></a>
 							</p>
 
 						</div>

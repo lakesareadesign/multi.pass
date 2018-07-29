@@ -17,7 +17,7 @@ class Messages extends Api
     /**
      * {@inheritdoc}
      */
-    protected $endpoint = 'messages';	  	 			 			  	      
+    protected $endpoint = 'messages';
 
     /**
      * {@inheritdoc}

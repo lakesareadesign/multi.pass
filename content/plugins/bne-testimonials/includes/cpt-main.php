@@ -118,7 +118,7 @@ class BNE_Testimonials_CPT {
 		add_filter( 'admin_post_thumbnail_html', array( $this, 'post_thumbnail_html' ) );
 		
 		// CPT CMB2 Fields
-		add_action( 'cmb2_init', array( $this, 'cmb2_metabox' ) );
+		add_action( 'cmb2_admin_init', array( $this, 'cmb2_metabox' ) );
 		add_action( 'cmb2_before_post_form_details_metabox', array( $this, 'cmb2_metabox_scripts' ), 10, 2 );
 		
 	}

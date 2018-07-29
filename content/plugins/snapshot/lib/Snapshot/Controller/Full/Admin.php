@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 /**
  * Admin pages controller
@@ -37,7 +37,7 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	 */
 	public static function get() {
 		if ( empty( self::$_instance ) ) {
-			self::$_instance = new self;
+			self::$_instance = new self();
 		}
 		return self::$_instance;
 	}
@@ -72,7 +72,8 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 			return false;
 		}
 
-		if ( ! $this->_view->is_current_admin_page() && ! ( isset( $_GET['page'] ) && in_array( sanitize_text_field( $_GET['page'] ), array( "snapshot_pro_settings", "snapshot_pro_managed_backups" ) ) ) ) {
+		// phpcs:ignore
+		if ( ! $this->_view->is_current_admin_page() && ! ( isset( $_GET['page'] ) && in_array( sanitize_text_field( $_GET['page'] ), array( "snapshot_pro_settings", "snapshot_pro_managed_backups" ), true ) ) ) {
 			return false;
 		}
 
@@ -80,8 +81,9 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 			return false;
 		}
 
-		if ( isset( $_GET['action'] ) && $_GET['page'] === 'snapshot_pro_managed_backups' && $_GET['action'] === 'delete' ) {
-			$_POST = $_GET;
+		// phpcs:ignore
+		if ( isset( $_GET['action'] ) && 'snapshot_pro_managed_backups' === $_GET['page'] && 'delete' === $_GET['action'] ) {
+			$_POST = $_GET; // phpcs:ignore
 		}
 		$data = new Snapshot_Model_Post();
 
@@ -106,9 +108,6 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 		}
 		if ( $data->has( 'snapshot-enable-cron' ) ) {
 			$this->_reenable_cron_backups( $data );
-		}
-		if ( $data->has( 'download' ) ) {
-			$this->_download_backup( $data );
 		}
 		if ( $data->has( 'snapshot-full_backups-list-nonce' ) && $data->has( 'delete-bulk' ) && $data->has( 'action' ) && 'delete' === $data->value( 'action' ) ) {
 			$this->_bulk_delete( $data );
@@ -166,55 +165,6 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 	}
 
 	/**
-	 * Downloads the requested file
-	 *
-	 * On success, sends over the download file
-	 *
-	 * @param Snapshot_Model_Post $data Request data
-	 *
-	 * @return bool False on failure
-	 */
-	private function _download_backup( Snapshot_Model_Post $data ) {
-		if ( ! current_user_can( $this->_view->get_page_role() ) ||
-		     ! wp_verify_nonce( $data->value( 'nonce' ), 'snapshot-full_backups-download' ) ) {
-			return false;
-		}
-
-		if ( ! $data->is_numeric( 'download' ) ) {
-			return false;
-		}
-		$timestamp = (int) $data->value( 'download' );
-
-		$file = $this->_model->local()->get_backup( $timestamp );
-		if ( empty( $file ) || ! file_exists( $file ) ) {
-			// Try to deal with remote file directly
-			$url = $this->_model->remote()->get_backup_link( $timestamp );
-			if ( ! $url ) {
-				wp_safe_redirect( add_query_arg( 'error', self::CODE_ERROR_DOWNLOAD ) );
-			} else {
-				wp_redirect( $url );
-			}
-			die;
-		}
-
-		// So we have a local backup file... carry on packing
-
-		ob_end_clean(); // Clean up anything up until now
-		header( 'Content-Description: File Transfer' );
-		header( 'Content-Type: application/zip' );
-		header( 'Content-Disposition: attachment; filename="' . basename( $file ) . '"' );
-		header( 'Content-Length: ' . filesize( $file ) );
-		header( 'Content-Transfer-Encoding: binary' );
-		header( 'Expires: 0' );
-		header( 'Cache-Control: must-revalidate, post-check=0, pre-check=0' );
-		header( 'Pragma: public' );
-		readfile( $file );
-
-		@unlink( $file ); // Kill the file, we don't need it anymore
-		die;
-	}
-
-	/**
 	 * Save backup activation
 	 *
 	 * @param Snapshot_Model_Post $data Request data
@@ -229,7 +179,9 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 		) {
 			return false;
 		}
-		if ( $this->_model->is_active() && ! ( isset( $_GET['page'] ) && in_array( sanitize_text_field( $_GET['page'] ), array( "snapshot_pro_settings", "snapshot_pro_managed_backups" ) ) ) ) {
+		// We have checked for nonces by using the is_valid_action function above.
+		// phpcs:ignore
+		if ( $this->_model->is_active() && ! ( isset( $_GET['page'] ) && in_array( sanitize_text_field( $_GET['page'] ), array( "snapshot_pro_settings", "snapshot_pro_managed_backups" ), true ) ) ) {
 			if ( $data->is_true( 'activate' ) ) {
 				return false;
 			} // Pleonasm
@@ -408,7 +360,7 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 		if ( ! $data->is_in_range( 'frequency', array_keys( $this->_model->get_frequencies() ) ) ) {
 			return false;
 		}
-		if ( ! $data->is_in_range( 'schedule_time', array_keys( $this->_model->get_schedule_times() ) ) ) {
+		if ( ! $data->is_in_numeric_range( 'schedule_time', array_keys( $this->_model->get_schedule_times() ) ) ) {
 			return false;
 		}
 
@@ -418,7 +370,8 @@ class Snapshot_Controller_Full_Admin extends Snapshot_Controller_Full {
 		$offset = 0;
 		if ($data->has('offset') && $data->is_numeric('offset')) {
 			$valid_freqs = array('weekly', 'monthly');
-			if ($data->is_in_range('frequency', $valid_freqs)) $offset = (int)$data->value('offset', 0);
+			if ($data->is_in_range('frequency', $valid_freqs))
+				$offset = (int)$data->value('offset', 0);
 		}
 		$this->_model->set_config('schedule_offset', $offset);
 

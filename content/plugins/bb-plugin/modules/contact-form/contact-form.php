@@ -253,6 +253,7 @@ FLBuilder::register_module('FLContactFormModule', array(
 						'label'		  => __( 'Email Subject', 'fl-builder' ),
 						'default'		=> 'Contact Form Submission',
 						'help'			=> __( 'You can choose the subject of the email. Defaults to Contact Form Submission.', 'fl-builder' ),
+						'connections'   => array( 'custom_field', 'string', 'html' ),
 					),
 					'email_toggle'	  => array(
 						'type'		  => 'select',

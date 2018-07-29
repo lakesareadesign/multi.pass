@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * This file defines the Snapshot_Helper_Debug class.
  *
@@ -56,7 +56,7 @@ class Snapshot_Helper_Debug {
 	 * @param  mixed $message Array, object or text to output to log.
 	 */
 	public static function log( $message, $echo_file = false ) {
-		$trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS );
+		$trace = debug_backtrace( DEBUG_BACKTRACE_IGNORE_ARGS ); // phpcs:ignore
 		$exception = new Exception();
 		$debug = array_shift( $trace );
 		$caller = array_shift( $trace );
@@ -67,7 +67,7 @@ class Snapshot_Helper_Debug {
 			$msg = isset( $caller['class'] ) ? $caller['class'] . '[' . $callee['line'] . ']: ' : '';
 
 			if ( is_array( $message ) || is_object( $message ) ) {
-				$msg .= print_r( $message, true );
+				$msg .= print_r( $message, true ); // phpcs:ignore
 			} else {
 				$msg .= $message;
 			}
@@ -76,12 +76,12 @@ class Snapshot_Helper_Debug {
 				$msg .= "\nIn " . $callee['file'] . ' on line ' . $callee['line'];
 			}
 
-			error_log( $msg );
+			error_log( $msg ); // phpcs:ignore
 		}
 	}
 
 	public static function debug_trace( $return = false ) {
-		$traces = debug_backtrace();
+		$traces = debug_backtrace(); // phpcs:ignore
 		$fields = array(
 			'file',
 			'line',
@@ -103,12 +103,12 @@ class Snapshot_Helper_Debug {
 		if ( $return ) {
 			return implode( "\n", $log );
 		} else {
-			error_log( implode( "\n", $log ) );
+			error_log( implode( "\n", $log ) ); // phpcs:ignore
 		}
 	}
 
 	public static function process_error_backtrace( $errno, $errstr, $errfile, $errline, $errcontext ) {
-		if ( ! ( error_reporting() & $errno ) ) {
+		if ( ! ( error_reporting() & $errno ) ) { // phpcs:ignore
 			return;
 		}
 
@@ -122,14 +122,14 @@ class Snapshot_Helper_Debug {
 				$fatal = false;
 				break;
 
-			default             :
+			default:
 				$type = 'fatal error';
 				$fatal = true;
 				break;
 		}
 
 		$message = "[$type]: '$errstr' file: $errfile, line: $errline";
-		error_log( $message );
+		error_log( $message ); // phpcs:ignore
 		self::debug_trace();
 
 		if ( $fatal ) {
@@ -151,14 +151,15 @@ class Snapshot_Helper_Debug {
 					$error_reporting_str = $error_reporting_str || $er_key;
 				}
 			}
-			$after_error_reporting = error_reporting($error_reporting_str);
+			$after_error_reporting = error_reporting($error_reporting_str); // phpcs:ignore
 		} else {
-			error_reporting(0);
+			error_reporting(0); // phpcs:ignore
 		}
 	}
 
 }
 
+// phpcs:ignore
 set_error_handler(
 	array( 'Snapshot_Helper_Debug', 'process_error_backtrace')
 );

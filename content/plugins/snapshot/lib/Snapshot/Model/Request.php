@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 
 abstract class Snapshot_Model_Request {
 
@@ -52,7 +52,7 @@ abstract class Snapshot_Model_Request {
 	 *
 	 * @return mixed Value or fallback
 	 */
-	public function value ($key, $fallback=false) {
+	public function value ($key, $fallback= false) {
 		return isset($this->_data[$key])
 			? $this->_data[$key]
 			: $fallback
@@ -86,7 +86,7 @@ abstract class Snapshot_Model_Request {
 		$value = $this->value($key);
 		if (empty($value)) return false;
 
-		return in_array($value, $this->_get_positives());
+		return in_array($value, $this->_get_positives(), true);
 	}
 
 	/**
@@ -97,9 +97,22 @@ abstract class Snapshot_Model_Request {
 	 *
 	 * @return bool
 	 */
-	public function is_in_range ($key, $range=array()) {
+	public function is_in_range ($key, $range= array()) {
 		$value = $this->value($key);
-		return in_array($value, $range);
+		return in_array($value, $range, true);
+	}
+
+	/**
+	 * Checks if a value is within the submitted numeric range
+	 *
+	 * @param string $key Key to check
+	 * @param array $range Range of values to check against
+	 *
+	 * @return bool
+	 */
+	public function is_in_numeric_range ($key, $range= array()) {
+		$value = intval( $this->value($key) );
+		return in_array($value, $range, true);
 	}
 
 	/**

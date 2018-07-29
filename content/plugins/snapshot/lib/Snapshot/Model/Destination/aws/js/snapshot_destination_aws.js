@@ -70,7 +70,8 @@ jQuery(document).ready( function($) {
 		var data = {
 			action: 'snapshot_destination_aws',
 			snapshot_action: "connection-test",
-			destination_info: destination_info
+			destination_info: destination_info,
+			security: jQuery( '#snapshot-ajax-nonce' ).val()
 		};
 
 	    jQuery.ajax({
@@ -148,7 +149,8 @@ jQuery(document).ready( function($) {
 		var data = {
 			action: 'snapshot_destination_aws',
 			snapshot_action: "aws-get-bucket-list",
-			destination_info: destination_info
+			destination_info: destination_info,
+			security: jQuery( '#snapshot-ajax-nonce' ).val()
 		};
 
 		jQuery( "#snapshot-ajax-destination-bucket-error" ).html('');

@@ -99,4 +99,3 @@
 	</div>
 
 </div><?php // #wph-wizard-design-style_order ?>
-<?php

@@ -23,9 +23,9 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 	<div class="wpmud-box-title has-button">
 
-		<h3 class="has-count"><?php _e( 'Destinations', SNAPSHOT_I18N_DOMAIN ); ?><span class="wps-count"><?php echo count( WPMUDEVSnapshot::instance()->config_data['destinations'] ) ?></span></h3>
+		<h3 class="has-count"><?php esc_html_e( 'Destinations', SNAPSHOT_I18N_DOMAIN ); ?><span class="wps-count"><?php echo count( WPMUDEVSnapshot::instance()->config_data['destinations'] ); ?></span></h3>
 
-		<a href="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-destinations'); ?>" class="button button-blue button-small"><?php _e( 'Add New', SNAPSHOT_I18N_DOMAIN ); ?></a>
+		<a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-destinations') ); ?>" class="button button-blue button-small"><?php esc_html_e( 'Add New', SNAPSHOT_I18N_DOMAIN ); ?></a>
 
 	</div>
 
@@ -35,7 +35,7 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 			<div class="col-xs-12">
 
-				<p><?php _e( 'Destinations are where your snapshots are uploaded and stored. Store files on Dropbox, Google Drive, Amazon S3, FTP/SFTP, or your local computer.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+				<p><?php esc_html_e( 'Destinations are where your snapshots are uploaded and stored. Store files on Dropbox, Google Drive, Amazon S3, FTP/SFTP, or your local computer.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 
 				<table class="has-footer" cellpadding="0" cellspacing="0">
 
@@ -43,9 +43,9 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 						<tr>
 
-							<th class="wpsd-name"><?php _e( 'Active Destinations', SNAPSHOT_I18N_DOMAIN ); ?></th>
+							<th class="wpsd-name"><?php esc_html_e( 'Active Destinations', SNAPSHOT_I18N_DOMAIN ); ?></th>
 
-							<th class="wpsd-type"><?php _e( 'Type', SNAPSHOT_I18N_DOMAIN ); ?></th>
+							<th class="wpsd-type"><?php esc_html_e( 'Type', SNAPSHOT_I18N_DOMAIN ); ?></th>
 
 						</tr>
 
@@ -53,7 +53,8 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 					<tbody>
 
-						<?php foreach($destinations as $key => $destination) :
+						<?php
+                        foreach($destinations as $key => $destination) :
 								if( $key > 2 )	break;
 						?>
 
@@ -61,16 +62,26 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 								<td class="wpsd-name">
 
-									<span class="wps-typecon <?php echo $destination['type']; ?>"></span>
+									<span class="wps-typecon <?php echo esc_attr( $destination['type'] ); ?>"></span>
 
 									<p>
-									<a href="<?php echo add_query_arg( array( 'snapshot-action' => 'edit' , 'type' => urlencode( $destination['type'] ) , 'item' => urlencode( $key ) ), WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-destinations') ); ?>"><?php echo $destination['name']; ?></a>
+										<?php
+										$destination_link = add_query_arg(
+																array(
+																	'snapshot-action' => 'edit' ,
+																	'type' => rawurlencode( $destination['type'] ) ,
+																	'item' => rawurlencode( $key ),
+																	'destination-noonce-field' => wp_create_nonce( 'snapshot-destination' )
+																), WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-destinations')
+															);
+										?>
+									<a href="<?php echo esc_url( $destination_link ); ?>"><?php echo esc_html( $destination['name'] ); ?></a>
 
 									</p>
 
 								</td>
 
-								<td class="wpsd-type"><?php echo $destination['type_name_display']; ?></td>
+								<td class="wpsd-type"><?php echo esc_attr( $destination['type_name_display'] ); ?></td>
 
 							</tr>
 
@@ -84,7 +95,7 @@ foreach ( WPMUDEVSnapshot::instance()->config_data['destinations'] as $key => $i
 
 							<td colspan="2">
 
-								<a href="<?php echo WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-destinations'); ?>" class="button button-outline button-gray"><?php echo __( 'View All', SNAPSHOT_I18N_DOMAIN ) ?></a>
+								<a href="<?php echo esc_url( WPMUDEVSnapshot::instance()->snapshot_get_pagehook_url('snapshots-newui-destinations') ); ?>" class="button button-outline button-gray"><?php echo esc_html__( 'View All', SNAPSHOT_I18N_DOMAIN ); ?></a>
 
 							</td>
 

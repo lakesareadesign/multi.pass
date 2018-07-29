@@ -1,4 +1,4 @@
-<?php
+<?php // phpcs:ignore
 /**
  * Snapshot Utility class
  *
@@ -25,7 +25,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			$db_class = get_class( $wpdb );
 
-			if ( $db_class === "m_wpdb" ) {
+			if ( "m_wpdb" === $db_class ) {
 
 				$test_sql   = "SELECT ID FROM " . $wpdb->prefix . "posts LIMIT 1";
 				$query_data = $wpdb->analyze_query( $test_sql );
@@ -64,12 +64,13 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			global $wpdb;
 
-			if ( ( ! $blog_id ) || ( $blog_id == 0 ) ) {
+			if ( ( ! $blog_id ) || ( 0 === $blog_id ) ) {
 				$blog_id = $wpdb->blogid;
 			}
 
 			if ( is_multisite() ) {
-				if ( $blog_tables = get_site_transient( 'snapshot-blog-tables-' . $blog_id ) ) {
+				$blog_tables = get_site_transient( 'snapshot-blog-tables-' . $blog_id );
+				if ( $blog_tables ) {
 					return $blog_tables;
 				}
 			}
@@ -87,7 +88,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			$old_blog_id = $wpdb->blogid;
 
-			if ( ( $blog_id ) && ( $blog_id != $wpdb->blogid ) ) {
+			if ( ( $blog_id ) && ( $blog_id !== $wpdb->blogid ) ) {
 				$wpdb->set_blog_id( $blog_id );
 			}
 
@@ -99,7 +100,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 				}
 				$wpdb_prefix = str_replace( '_', '\_', $wpdb->prefix );
 
-				if ( $wpdb->prefix == $wpdb->base_prefix ) {
+				if ( $wpdb->prefix === $wpdb->base_prefix ) {
 					// Under Multisite and when the prefix and base prefox match we assume this is the primary site.
 					// For example the default base prefix is 'wp_' and for the primary site the tables all start as 'wp_???'
 					// for secondary site the prefix will be something like 'wp_2_', 'wp_3_'. So on the primary site tables
@@ -111,15 +112,16 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 											AND table_name LIKE '". $wpdb->prefix ."%'
 											AND table_name NOT REGEXP '^". $wpdb_prefix ."[[:digit:]]+\_'";
 					*/
-					$show_all_tables_sql = "SELECT table_name FROM information_schema.tables
-									WHERE table_schema = '" . $db_name . "'
-									AND table_name NOT REGEXP '^" . $wpdb_prefix . "[[:digit:]]+\_'";
+					$table_placeholder = "^{$wpdb_prefix}[[:digit:]]+\_";
+					$tables_all_rows = $wpdb->query( $wpdb->prepare( "SELECT table_name FROM information_schema.tables
+									WHERE table_schema = %s
+									AND table_name NOT REGEXP %s", $db_name, $table_placeholder ) );
 
 				} else {
-
-					$show_all_tables_sql = "SELECT table_name FROM information_schema.tables
-									WHERE table_schema = '" . $db_name . "'
-									AND table_name LIKE '" . $wpdb_prefix . "%'";
+					$table_placeholder = "{$wpdb_prefix}";
+					$tables_all_rows = $wpdb->query( $wpdb->prepare( "SELECT table_name FROM information_schema.tables
+									WHERE table_schema = %s
+									AND table_name LIKE %s", $db_name, $table_placeholder . '%' ) );
 				}
 			} else {
 				$db_name     = DB_NAME;
@@ -130,19 +132,15 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 												WHERE table_schema = '". $db_name ."'
 												AND table_name LIKE '". $wpdb_prefix ."%'";
 				*/
-
-				$show_all_tables_sql = "SELECT table_name FROM information_schema.tables
-								WHERE table_schema = '" . $db_name . "'";
+				$tables_all_rows = $wpdb->query( $wpdb->prepare( "SELECT table_name FROM information_schema.tables
+								WHERE table_schema = %s", $db_name ) );
 			}
 
-			if ( ( isset( $show_all_tables_sql ) ) && ( strlen( $show_all_tables_sql ) ) ) {
-				//echo "show_all_tables_sql=[". $show_all_tables_sql ."]<br />";
-				$tables_all_rows = $wpdb->query( $show_all_tables_sql );
 				if ( $tables_all_rows ) {
 					foreach ( $wpdb->last_result as $table_set ) {
 						foreach ( $table_set as $table_name ) {
-							$sql_describe    = "DESCRIBE `" . $table_name . "`; ";
-							$table_structure = $wpdb->query( $sql_describe );
+							// Use of esc_sql() instead of $wpdb->prepare() because of backticks in query.
+							$table_structure = $wpdb->query( esc_sql( "DESCRIBE `{$table_name}`; " ) );
 							if ( empty( $table_structure ) ) {
 								continue;
 							}
@@ -150,7 +148,6 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 						}
 					}
 				}
-			}
 
 			if ( count( $tables_all ) ) {
 
@@ -163,7 +160,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 				$tables['wp']  = array_intersect( $tables_all, $tables_wp );
 
 				foreach ( $tables['non'] as $_idx => $table ) {
-					if ( substr( $table, 0, 3 ) != "wp_" ) {
+					if ( substr( $table, 0, 3 ) !== "wp_" ) {
 						$tables['other'][ $_idx ] = $table;
 						unset( $tables['non'][ $_idx ] );
 					}
@@ -212,7 +209,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			//echo "tables<pre>"; print_r($tables); echo "</pre>";
 
-			if ( $old_blog_id != $wpdb->blogid ) {
+			if ( $old_blog_id !== $wpdb->blogid ) {
 				$wpdb->set_blog_id( $old_blog_id );
 			}
 
@@ -233,7 +230,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		public static function get_table_meta( $table_name, $blog_id = 0, $site_id = 1 ) {
 			global $wpdb;
 
-			if ( ( $blog_id ) && ( $blog_id != $wpdb->blogid ) ) {
+			if ( ( $blog_id ) && ( $blog_id !== $wpdb->blogid ) ) {
 				$wpdb->set_blog_id( $blog_id );
 			}
 
@@ -248,9 +245,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 				$wpdb_prefix = str_replace( '_', '\_', $wpdb->prefix );
 			}
 
-			$table_meta_sql = "SELECT * FROM information_schema.TABLES WHERE table_schema = '" . $db_name . "' AND table_name = '" . $table_name . "'";
-			//echo "table_meta_sql[". $table_meta_sql ."]<br />";
-			$result = $wpdb->get_row( $table_meta_sql );
+			$result = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM information_schema.TABLES WHERE table_schema = %s AND table_name = %s", $db_name, $table_name ) );
 
 			//echo "result<pre>"; print_r($result); echo "</pre>";
 			return $result;
@@ -269,9 +264,13 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			global $wpdb;
 
-			if ( $show_counts_only == true ) {
-				$sql_str = "SELECT count(blog_id) as blogs_count FROM $wpdb->blogs WHERE archived = '0' AND spam = 0 AND deleted = 0";
-				$result  = $wpdb->get_row( $sql_str );
+			$archived = '0';
+			$spam = 0;
+			$deleted = 0;
+
+			if ( true === $show_counts_only ) {
+
+				$result = $wpdb->get_row( $wpdb->prepare( "SELECT count(blog_id) as blogs_count FROM $wpdb->blogs WHERE archived = %s AND spam = %d AND deleted = %d", $archived, $spam, $deleted ) );
 				if ( isset( $result->blogs_count ) ) {
 					return $result->blogs_count;
 				} else {
@@ -285,9 +284,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 				if ( ( is_multisite() ) && ( is_network_admin() ) ) {
 
-					$sql_str = "SELECT blog_id FROM $wpdb->blogs WHERE archived = '0' AND spam = 0 AND deleted = 0";
-					//echo "sql_str=[". $sql_str ."]<br />";
-					$blog_ids = $wpdb->get_col( $sql_str );
+					$blog_ids = $wpdb->get_col( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE archived = %s AND spam = %d AND deleted = %d", $archived, $spam, $deleted ) );
 					//echo "blog_ids<pre>"; print_r($blog_ids); echo "</pre>";
 					if ( $blog_ids ) {
 						$blogs = array();
@@ -452,13 +449,13 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 			$current_timeout = intval( $current_timeout );
 
 			// If the max execution time is zero (means no timeout). We leave it.
-			if ( $current_timeout === 0 ) {
+			if ( 0 === $current_timeout ) {
 				return true;
 			}
 
 			// Else we try to set the timeout to some other value. If success we are golden.
 			$new_timeout = $current_timeout;
-			@set_time_limit(0);
+			@set_time_limit(0); //phpcs:ignore
 			$new_timeout = ini_get( 'max_execution_time' );
 			$new_timeout = intval( $new_timeout );
 
@@ -504,7 +501,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		 * @return array
 		 */
 		public static function scandir( $base = '' ) {
-			if ( defined('SNAPSHOT_IGNORE_SYMLINKS') && SNAPSHOT_IGNORE_SYMLINKS == true) {
+			if ( defined('SNAPSHOT_IGNORE_SYMLINKS') && SNAPSHOT_IGNORE_SYMLINKS === true) {
 				if ( is_link ( $base ) )
 					return array();
 			}
@@ -517,9 +514,9 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 				return array();
 			}
 
-			Snapshot_Helper_Utility::check_server_timeout();
+			self::check_server_timeout();
 
-			$result = @scandir($base);
+			$result = scandir($base);
 			$data = !empty($result) ? array_diff( $result, array( '.', '..' ) ) : array();
 
 			$subs = array();
@@ -567,9 +564,8 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			$segment_set = array();
 
-			$sql_str = "SELECT count(*) as total_rows FROM `" . $table_name . "` " . $where . "; ";
-			//echo "sql_str[". $sql_str ."]<br />";
-			$table_data = $wpdb->get_row( $sql_str );
+			// Use of esc_sql() instead of $wpdb->prepare() because of backticks in query.
+			$table_data = $wpdb->get_row( esc_sql( "SELECT count(*) as total_rows FROM `{$table_name}` {$where}; " ) );
 			if ( ( isset( $table_data->total_rows ) ) && intval( $table_data->total_rows ) ) {
 
 				$last_rows                 = 0;
@@ -600,115 +596,6 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 			}
 
 			return $table_set;
-		}
-
-		/**
-		 * Similar to the function ::get_table_segments this utility take a single file and will
-		 * build the segments array needed based on the Settings for segment size. This function is mostly used
-		 * for pre-1.0.2 archive where the database content for all tables was contained in a single file.
-		 *
-		 * @since 1.0.2
-		 *
-		 * @param $backupFile
-		 *
-		 * @return array
-		 */
-		public static function get_table_segments_from_single( $backupFile ) {
-
-			$table_segments = array();
-
-			if ( ! file_exists( $backupFile ) ) {
-				return $table_segments;
-			}
-
-			$backupFolderFull = dirname( $backupFile );
-
-			$fp = fopen( $backupFile, 'r' );
-			if ( $fp ) {
-
-				$table_buffer     = array();
-				$table_name       = "";
-				$table_line_count = 0;
-
-				while ( ( $line = fgets( $fp, 4096 ) ) !== false ) {
-
-					$line = trim( $line );
-					if ( ! strlen( $line ) ) {
-						continue;
-					}
-
-					if ( $line[0] == "#" ) {
-						continue;
-					}
-
-					if ( substr( $line, 0, strlen( 'TRUNCATE' ) ) == "TRUNCATE" ) {
-
-						if ( isset( $out_fp ) ) {
-
-							fflush( $out_fp );
-
-							if ( isset( $table_segments_item ) ) {
-								$table_segments_item['ftell_after'] = ftell( $out_fp );
-
-								$table_segments_item['rows_end']   = $table_line_count;
-								$table_segments_item['rows_total'] = $table_line_count;
-
-								$table_segments[] = $table_segments_item;
-							}
-							$table_line_count = 0;
-
-							fclose( $out_fp );
-						}
-
-						$table_names = explode( '`', $line );
-						if ( isset( $table_names[1] ) ) {
-							$table_name = trim( $table_names[1] );
-
-							$outFile = trailingslashit( $backupFolderFull ) . $table_name . ".sql";
-							$out_fp  = fopen( $outFile, 'w+' );
-
-							if ( isset( $table_segments_item ) ) {
-								unset( $table_segments_item );
-							}
-
-							$table_segments_item                  = array();
-							$table_segments_item['ftell_after']   = 0;
-							$table_segments_item['ftell_before']  = 0;
-							$table_segments_item['rows_end']      = 0;
-							$table_segments_item['rows_start']    = 0;
-							$table_segments_item['rows_total']    = 0;
-							$table_segments_item['segment_idx']   = 0;
-							$table_segments_item['segment_total'] = 0;
-							$table_segments_item['table_name']    = $table_name;
-						}
-
-					} else {
-						$table_line_count += 1;
-					}
-					fwrite( $out_fp, $line . "\r\n" );
-				}
-
-				if ( isset( $out_fp ) ) {
-
-					fflush( $out_fp );
-
-					if ( isset( $table_segments_item ) ) {
-						$table_segments_item['ftell_after'] = ftell( $out_fp );
-
-						$table_segments_item['rows_end']   = $table_line_count;
-						$table_segments_item['rows_total'] = $table_line_count;
-
-						$table_segments[] = $table_segments_item;
-					}
-					$table_line_count = 0;
-
-					fclose( $out_fp );
-				}
-
-				fclose( $fp );
-			}
-
-			return $table_segments;
 		}
 
 		/**
@@ -829,14 +716,14 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			$_offset_seconds = 0;
 
-			if ( ( $interval == "snapshot-hourly" ) && ( isset( $interval_offset['snapshot-hourly'] ) ) ) {
+			if ( ( "snapshot-hourly" === $interval ) && ( isset( $interval_offset['snapshot-hourly'] ) ) ) {
 				$_offset = $interval_offset['snapshot-hourly'];
 
-			} else if ( ( ( $interval == "snapshot-daily" ) || ( $interval == "snapshot-twicedaily" ) ) && ( isset( $interval_offset['snapshot-daily'] ) ) ) {
+			} else if ( ( ( "snapshot-daily" === $interval ) || ( "snapshot-twicedaily" === $interval ) ) && ( isset( $interval_offset['snapshot-daily'] ) ) ) {
 				$_offset = $interval_offset['snapshot-daily'];
-			} else if ( ( ( $interval == "snapshot-weekly" ) || ( $interval == "snapshot-twiceweekly" ) ) && ( isset( $interval_offset['snapshot-weekly'] ) ) ) {
+			} else if ( ( ( "snapshot-weekly" === $interval ) || ( "snapshot-twiceweekly" === $interval ) ) && ( isset( $interval_offset['snapshot-weekly'] ) ) ) {
 				$_offset = $interval_offset['snapshot-weekly'];
-			} else if ( ( ( $interval == "snapshot-monthly" ) || ( $interval == "snapshot-twicemonthly" ) ) && ( isset( $interval_offset['snapshot-monthly'] ) ) ) {
+			} else if ( ( ( "snapshot-monthly" === $interval ) || ( "snapshot-twicemonthly" === $interval ) ) && ( isset( $interval_offset['snapshot-monthly'] ) ) ) {
 				$_offset = $interval_offset['snapshot-monthly'];
 			} else {
 				return $_offset_seconds;
@@ -967,8 +854,8 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 				$objects = scandir( $dir );
 
 				foreach ( $objects as $object ) {
-					if ( $object != "." && $object != ".." ) {
-						if ( filetype( $dir . "/" . $object ) == "dir" ) {
+					if ( "." !== $object && ".." !== $object ) {
+						if ( filetype( $dir . "/" . $object ) === "dir" ) {
 							self::recursive_rmdir( $dir . "/" . $object );
 						} else {
 							unlink( $dir . "/" . $object );
@@ -1010,7 +897,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			foreach ($items as $key => $backup) {
 				if( isset( $backup['data'] ) ){
-					$data_backup = Snapshot_Helper_Utility::latest_data_item( $backup['data'] );
+					$data_backup = self::latest_data_item( $backup['data'] );
 						if( isset( $data_backup["timestamp"] ) ) {
 							$last_files[$data_backup["timestamp"]] = $data_backup;
 						}
@@ -1031,26 +918,32 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		public static function secure_folder( $folder ) {
 
 			if ( ! file_exists( trailingslashit( $folder ) . "index.php" ) ) {
-				$fp = fopen( trailingslashit( $folder ) . "index.php", "w+" );
-				if ( $fp ) {
-					fwrite( $fp, "<?php // Silence is golden. ?>" );
-					fclose( $fp );
+				global $wp_filesystem;
+
+				if( self::connect_fs() ) {
+					$wp_filesystem->put_contents( trailingslashit( $folder ) . "index.php", "<?php // Silence is golden. ?>", FS_CHMOD_FILE );
+				} else {
+					return new WP_Error("filesystem_error", "Cannot initialize filesystem");
 				}
+
 			}
 			if ( ! file_exists( trailingslashit( $folder ) . ".htaccess" ) ) {
-				$fp = fopen( trailingslashit( $folder ) . ".htaccess", "w+" );
-				if ( $fp ) {
-					fwrite( $fp, "IndexIgnore *\r\n" );
-					fwrite( $fp, "Options -Indexes`\r\n" );
-					fclose( $fp );
+				global $wp_filesystem;
+
+				if( self::connect_fs() ) {
+					$wp_filesystem->put_contents( trailingslashit( $folder ) . ".htaccess", "IndexIgnore *\r\nOptions -Indexes`\r\n", FS_CHMOD_FILE );
+				} else {
+					return new WP_Error("filesystem_error", "Cannot initialize filesystem");
 				}
 			}
 
 			if ( ! file_exists( trailingslashit( $folder ) . "CACHEDIR.TAG" ) ) {
-				$fp = fopen( trailingslashit( $folder ) . "CACHEDIR.TAG", "w+" );
-				if ( $fp ) {
-					//fwrite($fp, "This file exclide IndexIgnore *\r\n");
-					fclose( $fp );
+				global $wp_filesystem;
+
+				if( self::connect_fs() ) {
+					$wp_filesystem->put_contents( trailingslashit( $folder ) . "CACHEDIR.TAG", "", FS_CHMOD_FILE );
+				} else {
+					return new WP_Error("filesystem_error", "Cannot initialize filesystem");
 				}
 			}
 
@@ -1075,18 +968,18 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 				switch_to_blog( $switched_blog_id );
 				$uploads = wp_upload_dir();
 
-				if ( $key == "basedir" ) {
+				if ( "basedir" === $key ) {
 					if ( isset( $uploads['basedir'] ) ) {
 						$upload_path = str_replace( '\\', '/', $uploads['basedir'] );
 						$upload_path = str_replace( $home_path, '', $upload_path );
 					}
-				} else if ( $key == "baseurl" ) {
+				} else if ( "baseurl" === $key ) {
 
 					if ( isset( $uploads['baseurl'] ) ) {
 						$upload_path        = array();
 						$upload_path['raw'] = str_replace( '\\', '/', $uploads['baseurl'] );
 
-						if ( ( defined( 'UPLOADS' ) ) && ( UPLOADS != '' ) ) {
+						if ( ( defined( 'UPLOADS' ) ) && ( UPLOADS !== '' ) ) {
 							$UPLOADS                = str_replace( '/' . $blog_id_org . '/', '/' . $switched_blog_id . '/', untrailingslashit( UPLOADS ) );
 							$upload_path['rewrite'] = str_replace( $UPLOADS, 'files', $upload_path['raw'] );
 							$upload_path['rewrite'] = str_replace( get_option( 'siteurl' ) . '/', '', $upload_path['rewrite'] );
@@ -1098,19 +991,19 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			} else {
 				$uploads = wp_upload_dir();
-				if ( $key == "basedir" ) {
+				if ( "basedir" === $key ) {
 					if ( isset( $uploads['basedir'] ) ) {
 						$upload_path = str_replace( '\\', '/', $uploads['basedir'] );
 						$upload_path = str_replace( $home_path, '', $upload_path );
 					}
-				} else if ( $key == "baseurl" ) {
+				} else if ( "baseurl" === $key ) {
 					if ( isset( $uploads['baseurl'] ) ) {
 						$upload_path = str_replace( get_site_url(), '', $uploads['baseurl'] );
 					}
 				}
 			}
 
-			if ( $key == "basedir" ) {
+			if ( "basedir" === $key ) {
 				if ( ! $upload_path ) {
 					$upload_path = trailingslashit( WP_CONTENT_DIR ) . "uploads";
 					$upload_path = str_replace( '\\', '/', $upload_path );
@@ -1141,15 +1034,15 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 					foreach ( $item['tables-sections'] as $section_key => $section_tables ) {
 
-						if ( $section_key == "wp" ) {
+						if ( "wp" === $section_key ) {
 							$section_label = __( 'core', SNAPSHOT_I18N_DOMAIN );
-						} else if ( $section_key == "non" ) {
+						} else if ( "non" === $section_key ) {
 							$section_label = __( 'non-core', SNAPSHOT_I18N_DOMAIN );
-						} else if ( $section_key == "other" ) {
+						} else if ( "other" === $section_key ) {
 							$section_label = __( 'other', SNAPSHOT_I18N_DOMAIN );
-						} else if ( $section_key == "error" ) {
+						} else if ( "error" === $section_key ) {
 							$section_label = __( 'error', SNAPSHOT_I18N_DOMAIN );
-						} else if ( $section_key == "global" ) {
+						} else if ( "global" === $section_key ) {
 							$section_label = __( 'global', SNAPSHOT_I18N_DOMAIN );
 						}
 
@@ -1220,23 +1113,26 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			$buffer = '';
 			$cnt    = 0;
+			$status = false;
 
-			// $handle = fopen($filename, 'rb');
-			$handle = fopen( $filename, 'rb' );
-			if ( $handle === false ) {
+			global $wp_filesystem;
+
+			if( self::connect_fs() ) {
+				$file = $wp_filesystem->get_contents( $filename );
+
+				$splitFile = str_split($file, $CHUNK_SIZE);
+				foreach($splitFile as $buffer) {
+					echo $buffer; // phpcs:ignore
+					flush();
+					if ( $retbytes ) {
+						$cnt += strlen( $buffer );
+					}
+				}
+				$status = true;
+			} else {
 				return false;
 			}
 
-			while ( ! feof( $handle ) ) {
-				$buffer = fread( $handle, $CHUNK_SIZE );
-				echo $buffer;
-				flush();
-				if ( $retbytes ) {
-					$cnt += strlen( $buffer );
-				}
-			}
-
-			$status = fclose( $handle );
 			if ( $retbytes && $status ) {
 				return $cnt; // return num. bytes delivered like readfile() does.
 			}
@@ -1252,13 +1148,17 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 			$someFolder = trailingslashit( $someFolder );
 
 			// Cleanup any files from a previous restore attempt
-			if ( $dh = opendir( $someFolder ) ) {
-				while ( ( $file = readdir( $dh ) ) !== false ) {
-					if ( ( $file == '.' ) || ( $file == '..' ) ) {
+			$dh = opendir( $someFolder );
+			if ( $dh ) {
+				$file = readdir( $dh );
+				while ( false !== $file ) {
+					if ( ( '.' === $file ) || ( '..' === $file ) ) {
+						$file = readdir( $dh );
 						continue;
 					}
 
 					self::recursive_rmdir( $someFolder . $file );
+					$file = readdir( $dh );
 				}
 				closedir( $dh );
 			}
@@ -1275,12 +1175,12 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 				return false;
 			}
 
-			$fp = @fopen( $manifestFile, 'w+' );
-			if ( $fp ) {
+			global $wp_filesystem;
+
+			if( self::connect_fs() ) {
 				foreach ( $manifest_array as $token => $token_data ) {
-					fwrite( $fp, $token . ":" . maybe_serialize( $token_data ) . "\r\n" );
+					$wp_filesystem->put_contents($manifestFile, $wp_filesystem->get_contents( $manifestFile ) . $token . ":" . maybe_serialize( $token_data ) . "\r\n", FS_CHMOD_FILE);
 				}
-				fclose( $fp );
 
 				return true;
 			}
@@ -1329,7 +1229,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 			/* Parse the raw manifest data into its proper form */
 			foreach ( $manifest as $key => $value ) {
 
-				if ( $key == "TABLES" ) {
+				if ( "TABLES" === $key ) {
 					if ( is_serialized( $value ) ) {
 						$value = maybe_unserialize( $value );
 					} else {
@@ -1341,7 +1241,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 						$value = $table_values;
 					}
-				} else if ( ( $key == "TABLES-DATA" ) || ( $key == "ITEM" ) || ( $key == "FILES-DATA" ) || ( $key == 'WP_UPLOAD_URLS' ) ) {
+				} else if ( ( "TABLES-DATA" === $key ) || ( "ITEM" === $key ) || ( "FILES-DATA" === $key ) || ( 'WP_UPLOAD_URLS' === $key ) ) {
 					if ( is_serialized( $value ) ) {
 						$value = maybe_unserialize( $value );
 					} else {
@@ -1419,27 +1319,13 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			if ( ! isset( $snapshot_manifest['WP_BLOG_DOMAIN'] ) ) {
 				if ( isset( $snapshot_manifest['WP_SITEURL'] ) ) {
-					$snapshot_manifest['WP_BLOG_DOMAIN'] = parse_url( $snapshot_manifest['WP_SITEURL'], PHP_URL_HOST );
+					$snapshot_manifest['WP_BLOG_DOMAIN'] = wp_parse_url( $snapshot_manifest['WP_SITEURL'], PHP_URL_HOST );
 				}
 			}
 
 			if ( ! isset( $snapshot_manifest['WP_BLOG_PATH'] ) ) {
 				if ( isset( $snapshot_manifest['WP_SITEURL'] ) ) {
-					$snapshot_manifest['WP_BLOG_PATH'] = parse_url( $snapshot_manifest['WP_SITEURL'], PHP_URL_PATH );
-				}
-			}
-
-
-			if ( isset( $snapshot_manifest['SNAPSHOT_VERSION'] ) ) {
-				if ( ( $snapshot_manifest['SNAPSHOT_VERSION'] == "1.0" ) && ( ! isset( $snapshot_manifest['TABLES-DATA'] ) ) ) {
-
-					$backupFile     = trailingslashit( $sessionRestoreFolder ) . 'snapshot_backups.sql';
-					$table_segments = self::get_table_segments_from_single( $backupFile );
-
-					if ( $table_segments ) {
-						$snapshot_manifest['TABLES-DATA'] = $table_segments;
-						unlink( $backupFile );
-					}
+					$snapshot_manifest['WP_BLOG_PATH'] = wp_parse_url( $snapshot_manifest['WP_SITEURL'], PHP_URL_PATH );
 				}
 			}
 
@@ -1475,13 +1361,13 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 			//echo "zipLibrary[". WPMUDEVSnapshot::instance()->config_data['config']['zipLibrary'] ."]<br />";
 			//die();
 
-			if ( WPMUDEVSnapshot::instance()->config_data['config']['zipLibrary'] == "PclZip" ) {
+			if ( "PclZip" === WPMUDEVSnapshot::instance()->config_data['config']['zipLibrary'] ) {
 				if ( ! defined( 'PCLZIP_TEMPORARY_DIR' ) ) {
 					define( 'PCLZIP_TEMPORARY_DIR', $restoreFolder );
 				}
 
 				if ( ! class_exists( 'class PclZip' ) ) {
-					require_once( ABSPATH . '/wp-admin/includes/class-pclzip.php' );
+					require_once ABSPATH . '/wp-admin/includes/class-pclzip.php';
 				}
 
 				$zipArchive         = new PclZip( $archiveFilename );
@@ -1489,9 +1375,9 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			} else {
 
-				$zip = new ZipArchive;
+				$zip = new ZipArchive();
 				$res = $zip->open( $archiveFilename );
-				if ( $res === true ) {
+				if ( true === $res ) {
 					$zip->extractTo( $restoreFolder, array( 'snapshot_manifest.txt' ) );
 					$zip->close();
 				}
@@ -1583,8 +1469,8 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 					}
 				} else {
 					$siteurl                            = get_option( 'siteurl' );
-					$RESTORE['LOCAL']['WP_BLOG_DOMAIN'] = parse_url( $siteurl, PHP_URL_HOST );
-					$RESTORE['LOCAL']['WP_BLOG_PATH']   = parse_url( $siteurl, PHP_URL_PATH );
+					$RESTORE['LOCAL']['WP_BLOG_DOMAIN'] = wp_parse_url( $siteurl, PHP_URL_HOST );
+					$RESTORE['LOCAL']['WP_BLOG_PATH']   = wp_parse_url( $siteurl, PHP_URL_PATH );
 					//$RESTORE['LOCAL']['WP_BLOG_ID']		= $blog_id;
 				}
 
@@ -1660,20 +1546,20 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 				if ( isset( $manifest_data['WP_BLOG_DOMAIN'] ) ) {
 					$RESTORE['IMPORT']['WP_BLOG_DOMAIN'] = $manifest_data['WP_BLOG_DOMAIN'];
 				} else if ( isset( $manifest_data['WP_SITEURL'] ) ) {
-					$RESTORE['LOCAL']['WP_BLOG_DOMAIN'] = parse_url( $manifest_data['WP_SITEURL'], PHP_URL_HOST );
+					$RESTORE['LOCAL']['WP_BLOG_DOMAIN'] = wp_parse_url( $manifest_data['WP_SITEURL'], PHP_URL_HOST );
 				}
 
 				if ( isset( $manifest_data['WP_BLOG_PATH'] ) ) {
 					$RESTORE['IMPORT']['WP_BLOG_PATH'] = $manifest_data['WP_BLOG_PATH'];
 				} else if ( isset( $manifest_data['WP_SITEURL'] ) ) {
-					$RESTORE['IMPORT']['WP_BLOG_PATH'] = parse_url( $manifest_data['WP_SITEURL'], PHP_URL_PATH );
+					$RESTORE['IMPORT']['WP_BLOG_PATH'] = wp_parse_url( $manifest_data['WP_SITEURL'], PHP_URL_PATH );
 				}
 
 				//echo "RESTORE<pre>"; print_r($RESTORE); echo "</pre>";
 				//die();
 
-				if ( ( $RESTORE['IMPORT']['WP_BLOG_DOMAIN'] != $RESTORE['LOCAL']['WP_BLOG_DOMAIN'] )
-				     || ( $RESTORE['IMPORT']['WP_BLOG_PATH'] != $RESTORE['LOCAL']['WP_BLOG_PATH'] )
+				if ( ( $RESTORE['IMPORT']['WP_BLOG_DOMAIN'] !== $RESTORE['LOCAL']['WP_BLOG_DOMAIN'] )
+				     || ( $RESTORE['IMPORT']['WP_BLOG_PATH'] !== $RESTORE['LOCAL']['WP_BLOG_PATH'] )
 				) {
 
 					$item['IMPORT'] = $RESTORE['IMPORT'];
@@ -1685,14 +1571,15 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 						if ( is_subdomain_install() ) {
 							$sql_str = $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s LIMIT 1", $RESTORE['IMPORT']['WP_BLOG_DOMAIN'] );
 							//$sql_str = $wpdb->prepare("SELECT blog_id FROM $wpdb->blogs WHERE domain = %s LIMIT 1", $RESTORE['LOCAL']['WP_BLOG_DOMAIN']);
+							$blog = $wpdb->get_row( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s LIMIT 1", $RESTORE['IMPORT']['WP_BLOG_DOMAIN'] ) );
 						} else {
 							$snapshot_blog_id_search_path   = trailingslashit( $RESTORE['IMPORT']['WP_BLOG_PATH'] );
 							$snapshot_blog_id_search_domain = untrailingslashit( $RESTORE['IMPORT']['WP_BLOG_DOMAIN'] );
 							$sql_str                        = $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s LIMIT 1",
 								$snapshot_blog_id_search_domain, $snapshot_blog_id_search_path );
+							$blog = $wpdb->get_row( $wpdb->prepare( "SELECT blog_id FROM $wpdb->blogs WHERE domain = %s AND path = %s LIMIT 1",
+								$snapshot_blog_id_search_domain, $snapshot_blog_id_search_path ) );
 						}
-						//echo "sql_str=[". $sql_str ."]<br />";
-						$blog = $wpdb->get_row( $sql_str );
 						if ( ( isset( $blog->blog_id ) ) && ( $blog->blog_id > 0 ) ) { // found
 							//echo "blog<pre>"; print_r($blog); echo "</pre>";
 							$item['blog-id'] = $blog->blog_id;
@@ -1752,7 +1639,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 					}
 				}
 
-				if ( $CONFIG_CHANGED == true ) {
+				if ( true === $CONFIG_CHANGED ) {
 					WPMUDEVSnapshot::instance()->save_config();
 				}
 			} else {
@@ -1819,12 +1706,16 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 				// The 'G' modifier is available since PHP 5.1.0
 				case 'g':
 					$val *= 1024;
+					// No break
 				case 'm':
 					$val *= 1024;
+					// No break
 				case 'k':
 					$val *= 1024;
+					// No break
 				case 'b':
 					$val = $val;
+					// No break
 			}
 
 			return $val;
@@ -1845,6 +1736,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 			$lock_info['locked'] = false;
 			$lock_info['file']   = trailingslashit( WPMUDEVSnapshot::instance()->get_setting( 'backupLockFolderFull' ) ) . $item_key . ".lock";
 			if ( file_exists( $lock_info['file'] ) ) {
+				// phpcs:ignore
 				$lock_fp = fopen( $lock_info['file'], 'r' );
 				if ( $lock_fp ) {
 
@@ -1857,6 +1749,7 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 					if ( $lock_info ) {
 						$lock_info = maybe_unserialize( $lock_info );
 					}
+					// phpcs:ignore
 					fclose( $lock_fp );
 				}
 			}
@@ -1918,16 +1811,16 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 		 */
 		public static function replace_value( $value, $old_site_url, $new_site_url ) {
 			if ( is_serialized( $value ) ) {
-				$unserialized     = @unserialize( $value );
+				$unserialized     = maybe_unserialize( $value );
 				$unserialized_new = self::replace_value( $unserialized, $old_site_url, $new_site_url ); // recurse!
-				return serialize( $unserialized_new );
+				return maybe_serialize( $unserialized_new );
 			} elseif ( is_array( $value ) ) {
 				foreach ( $value as $key => &$val ) {
 					$val = self::replace_value( $val, $old_site_url, $new_site_url ); // recurse!
 				}
 
 				return $value;
-			} elseif ( ( is_object( $value ) ) || ( gettype( $value ) == 'object' ) ) {
+			} elseif ( ( is_object( $value ) ) || ( gettype( $value ) === 'object' ) ) {
 				try {
 					$new_object = clone $value;
 					foreach ( $value as $key => $val ) {
@@ -1936,11 +1829,12 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 					return $new_object;
 				} catch ( Exception $e ) {
+					assert(true);
 				}
 			} elseif ( is_string( $value ) ) {
 				return str_replace( $old_site_url, $new_site_url, $value ); // no more recursion
 			} else {
-				//echo "type unknown [". $val ."]<br />";
+				assert(true); //echo "type unknown [". $val ."]<br />";
 			}
 
 			return $value;
@@ -1963,21 +1857,27 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 				unlink( $local_file );
 			}
 
-			$local_fp = fopen( $local_file, 'w+b' );
-			if ( ! $local_fp ) {
-				echo "Unable to open local file [" . $local_file . "] for writing. Check parent folder permissions and reload the page.";
+			global $wp_filesystem;
+
+			if( self::connect_fs() ) {
+				$create_file = $wp_filesystem->put_contents( $local_file, '' );
+
+				if ( $create_file ){
+					$response = wp_remote_get( $remote_url, array(
+										'sslverify' => false
+									)
+								);
+					$wp_filesystem->put_contents( $local_file, $response['body'] );
+					return self::size_format( $response['headers']['content-length'] );
+				} else {
+					echo wp_kses_post( "Unable to open local file [" . $local_file . "] for writing. Check parent folder permissions and reload the page." );
+					die();
+				}
+			} else {
+				echo wp_kses_post( "Cannot initialize filesystem." );
 				die();
 			}
 
-			$remote_fp = curl_init( $remote_url );
-			curl_setopt( $remote_fp, CURLOPT_FILE, $local_fp );
-			curl_setopt( $remote_fp, CURLOPT_SSL_VERIFYPEER, false );
-			curl_setopt( $remote_fp, CURLOPT_BINARYTRANSFER, 1 );
-			//curl_setopt($remote_fp, CURLOPT_RETURNTRANSFER, true);
-			$data = curl_exec( $remote_fp );
-
-			curl_close( $remote_fp );
-			fclose( $local_fp );
 		}
 
 		/**
@@ -2104,6 +2004,32 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 			return $results;
 		}
 
+		/**
+		 * Connect to the filesystem
+		 *
+		 * @param $url
+		 * @param $method
+		 * @param $context
+		 * @param $fields
+		 *
+		 * @return bool
+		 */
+		public static function connect_fs( $url = '', $method = '', $context = '', $fields = null ) {
+			global $wp_filesystem;
+			$credentials = request_filesystem_credentials($url, $method, false, $context, $fields);
+			if( false === ($credentials) ) {
+				return false;
+			}
+
+			//check if credentials are correct or not.
+			if( ! WP_Filesystem( $credentials ) )
+			{
+				request_filesystem_credentials( $url, $method, true, $context );
+				return false;
+			}
+
+			return true;
+		}
 
 	}
 }
