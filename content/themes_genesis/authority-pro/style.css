@@ -5,7 +5,7 @@
 	Author: StudioPress
 	Author URI: https://www.studiopress.com/
 
-	Version: 1.0.3
+	Version: 1.0.5
 
 	Tags: one-column, two-columns, left-sidebar, right-sidebar, e-commerce, accessibility-ready, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
@@ -475,13 +475,14 @@ input[type="radio"] {
 	width: auto;
 }
 
-::-moz-placeholder {
+::placeholder {
 	color: #333;
 	opacity: 1;
 }
 
-::-webkit-input-placeholder {
+::-ms-input-placeholder {
 	color: #333;
+	opacity: 1;
 }
 
 button,
@@ -2002,6 +2003,11 @@ p.center {
 .comment-respond label {
 	display: block;
 	margin-right: 12px;
+}
+
+.comment-form-cookies-consent label {
+	display: inline;
+	padding-left: 10px;
 }
 
 .comment-reply {

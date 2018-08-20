@@ -13,7 +13,7 @@ defined( 'WPINC' ) || die;
 require_once trailingslashit( get_template_directory() ) . 'lib/init.php';
 
 define( 'CHILD_THEME_NAME', 'Foodie Pro Theme' );
-define( 'CHILD_THEME_VERSION', '3.1.4' );
+define( 'CHILD_THEME_VERSION', '3.1.7' );
 define( 'CHILD_THEME_URL', 'https://feastdesignco.com/product/foodie-pro/' );
 define( 'CHILD_THEME_DEVELOPER', 'Feast Design Co.' );
 define( 'FOODIE_PRO_DIR', trailingslashit( get_stylesheet_directory() ) );
@@ -34,7 +34,9 @@ add_theme_support(
 
 add_theme_support( 'custom-header', array(
 	'width'           => 640,
+	'flex-width'	  => true,
 	'height'          => 340,
+	'flex-height'	  => true,
 	'header-selector' => '.site-title a',
 	'header-text'     => false,
 ) );
@@ -43,6 +45,9 @@ add_theme_support( 'custom-background' );
 add_theme_support( 'genesis-connect-woocommerce' );
 add_theme_support( 'genesis-after-entry-widget-area' );
 add_theme_support( 'genesis-footer-widgets', 4 );
+
+remove_action( 'wp_head', 'genesis_custom_header_style');
+remove_action( 'genesis_site_description', 'genesis_seo_site_description' );
 
 genesis_register_sidebar( array(
 	'id'			=> 'before-header',
@@ -276,15 +281,46 @@ add_action( 'genesis_after_entry_content', 'genesis_prev_next_post_nav', 5 );
 // Modify the author says text in comments.
 add_filter( 'comment_author_says_text', '__return_empty_string' );
 
-add_filter( 'genesis_footer_creds_text', 'foodie_pro_footer_creds_text' );
+add_filter( 'genesis_seo_title', 'feast_filter_genesis_seo_site_title', 10, 2 );
+/**
+ * Replace genesis_seo_title to display normal header image at whatever dimensions user uploaded at
+ * See: https://feastdesignco.com/rethinking-the-header/
+ *
+ * @since  3.1.5
+ * @access public
+ * @param  string $creds Default credits.
+ * @return string Modified Feast credits.
+ */
+function feast_filter_genesis_seo_site_title( $title, $inside ){
+	$child_inside = sprintf( '<a href="%s" title="%s" ><img src="%s" title="%s" alt="%s logo"  nopin="nopin" /></a>', 
+				trailingslashit( home_url() ), 
+				esc_attr( get_bloginfo( 'name' ) ), 
+				get_header_image(),
+				esc_attr( get_bloginfo( 'name' ) ), 
+				esc_attr( get_bloginfo( 'name' ) ) 
+			);
+	$title = str_replace( $inside, $child_inside, $title );
+	return $title;		
+}
+
+
+add_filter( 'genesis_footer_creds_text', 'feast_footer_creds_text', 10 );
 /**
  * Customize the footer text
+ * Edit the line that says get_bloginfo( 'name' ) with your custom site name if desired
+ * Edit the empty quotes ('' // additional custom....) with additional text if desired
  *
  * @since  1.0.0
- *
+ * @access public
  * @param  string $creds Default credits.
- * @return string Modified Shay Bocks credits.
+ * @return string Modified Feast credits.
  */
-function foodie_pro_footer_creds_text( $creds ) {
-	return '[footer_copyright before="Copyright "] &middot; <a href="https://feastdesignco.com/product/foodie-pro/">Foodie Pro</a> & <a href="https://www.studiopress.com/">The Genesis Framework</a>';
+function feast_footer_creds_text( $creds ) {
+	return sprintf( 'Copyright &copy; %u %s on the <a href="%s" target="_blank" rel="noopener">%s</a><br/>%s',
+		date( 'Y' ),
+		get_bloginfo( 'name' ),
+		CHILD_THEME_URL, 
+		CHILD_THEME_NAME,
+		'' // additional custom footer text here
+	);
 }

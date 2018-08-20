@@ -1,11 +1,11 @@
-=== Foodie Pro Genesis 3.1.4 Child Theme ===
+=== Foodie Pro Genesis 3.1.7 Child Theme ===
 
 Set up tutorials can be found at https://feastdesignco.com/how-to
 
 
 === Installation Instructions ===
 
-1. Upload the Foodie theme folder via FTP to your wp-content/themes/ directory. (The Genesis parent theme needs to be in the wp-content/themes/ directory as well.)
+1. Upload the Foodie Pro theme by navigating to Admin > Appearance > Themes > Add New > Upload Theme > Choose File (Note: the Genesis parent theme needs to be uploaded first as well - but don't activate it.)
 2. Go to your WordPress dashboard and select Appearance.
 3. Activate the Foodie Pro theme.
 4. Inside your WordPress dashboard, go to Genesis > Theme Settings and configure them to your liking.
@@ -18,7 +18,20 @@ Please visit https://feastdesignco.com/support/ or https://my.studiopress.com/su
 
 === Changelog ===
 
+= 3.1.7 = 
+
+* Minor bug fixes
+
+= 3.1.6 =
+
+* Updated footer function for ease of editing (we now recommend the "Genesis Simple Edits" plugin as well)
+* Updated header to use <img> rather than background-image, with site title in its proper place (alt tag)
+* Header will now display at whatever resolution it's uploaded at - no coding changes required
+* Updated CSS to fix search-engine-unfriendly hidden-text (text-indent:-9999px;)
+* Updated <pre> style to more closely resemble gist/github
+
 = 3.1.4 =
+
 * Renamed recipes-top to recipe-index-search
 * Renamed recipes-bottom to recipe-index-featured-posts
 * Updated aligncenter images CSS

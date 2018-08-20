@@ -30,7 +30,7 @@ function infinity_customizer_register() {
 		'priority'    => 35,
 	) );
 
-	foreach( $images as $image ) {
+	foreach( $images as $key => $image ) {
 
 		$wp_customize->add_setting( $image .'-infinity-image', array(
 			'default'           => sprintf( '%s/images/bg-%s.jpg', get_stylesheet_directory_uri(), $image ),
@@ -42,7 +42,7 @@ function infinity_customizer_register() {
 			'label'    => sprintf( __( 'Featured Section %s Image:', 'infinity-pro' ), $image ),
 			'section'  => 'infinity-settings',
 			'settings' => $image .'-infinity-image',
-			'priority' => $image+1,
+			'priority' => $key + 1,
 		) ) );
 
 	}

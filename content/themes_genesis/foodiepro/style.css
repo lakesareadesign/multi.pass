@@ -3,7 +3,7 @@
  * Description: This is the Foodie Pro child theme created for the Genesis Framework.
  * Author: Feast Design Co
  * Author URI: https://feastdesignco.com/
- * Version: 3.1.4
+ * Version: 3.1.7
  *
  * Tags: black, orange, white, one-column, two-columns, three-columns, fixed-width, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
  *
@@ -215,16 +215,12 @@ hr {
 	height: 0;
 }
 
-pre {
-	overflow: auto;
-}
-
 code,
 kbd,
 pre,
 samp {
 	font-family: monospace, monospace;
-	font-size: 1em;
+	font-size: 0.7em;
 }
 
 
@@ -485,10 +481,13 @@ blockquote::before {
 pre {
 	background: #efefef;
 	color: #010101;
-	margin-bottom: 37px;
 	overflow: scroll;
-	padding: 37px;
+	padding:5px 5px 5px 40px;
 	white-space: pre;
+	margin:15px 0;
+	font-size:0.7em;
+	border:1px solid #DDD;
+	border-radius:3px;
 }
 
 cite {
@@ -1614,25 +1613,12 @@ Site Header
 	width: 100%;
 }
 
-.header-image .site-description,
-.header-image .site-title a {
-	display: block;
-	text-indent: -9999px;
-}
-
-/* Logo, hide text */
-.header-image .site-title > a {
-	-webkit-background-size: contain !important;
-	background-size: contain !important;
-	display: block;
-	height: 170px;
-	margin: 10px auto;
-	max-width: 320px;
-	text-indent: -9999px;
-}
-
 .header-image .site-title a {
 	width: 100%;
+}
+
+.site-title img {
+	max-width:100%;
 }
 
 
@@ -2626,3 +2612,8 @@ Media Queries
 		width: 100%;
 	}
 }
+
+/*
+CSS Customizations should be put into Appearances > Customize > Additional CSS
+But if you have to put them here, put them below this line so they're easy to copy in an update
+---------------------------------------------------------------------------------------------------- */

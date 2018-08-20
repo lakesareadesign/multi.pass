@@ -52,3 +52,7 @@ CHANGELOG
 * Update image functions for WooCommerce 3.3+.
 * Update shop page CSS for WooCommerce 3.3+.
 * Update default hero section image and name.
+
+= 1.0.5 =
+* Update Hero input appearance for webkit browsers.
+* Style comments checkbox.

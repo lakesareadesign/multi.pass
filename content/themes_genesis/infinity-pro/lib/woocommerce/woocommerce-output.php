@@ -89,6 +89,7 @@ function infinity_woocommerce_customizer_css() {
 			color: %2$s;
 		}
 
+		ul.woocommerce-error,
 		.woocommerce-error,
 		.woocommerce-info,
 		.woocommerce-message {

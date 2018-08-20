@@ -56,7 +56,7 @@ require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.p
 // Defines the child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Authority Pro' );
 define( 'CHILD_THEME_URL', 'https://my.studiopress.com/themes/authority/' );
-define( 'CHILD_THEME_VERSION', '1.0.4' );
+define( 'CHILD_THEME_VERSION', '1.0.5' );
 
 add_action( 'wp_enqueue_scripts', 'authority_enqueue_scripts_styles' );
 /**

@@ -110,10 +110,10 @@
 .hero-section-column.left .hero-email input:not([type="submit"]) {
 	border: 0;
 	background: #fff;
-	border-left: 0px solid #fff;
+	border: 1px solid #f4f4f4;
 	box-shadow: 0 10px 60px rgba(0,0,0,.14);
 	padding: 20px 24px;
-
+	-webkit-appearance: none;
 	-webkit-transition: box-shadow .15s cubic-bezier(.44,.51,.24,.99);
 	-moz-transition:    box-shadow .15s cubic-bezier(.44,.51,.24,.99);
 	-ms-transition:     box-shadow .15s cubic-bezier(.44,.51,.24,.99);

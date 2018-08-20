@@ -66,7 +66,7 @@ add_filter( 'genesiswooc_default_products_per_page', 'infinity_default_products_
  *
  * @return int Number of products per page.
  */
-function infinity_default_products_per_page( $count ) {
+function infinity_default_products_per_page() {
 	return 8;
 }
 

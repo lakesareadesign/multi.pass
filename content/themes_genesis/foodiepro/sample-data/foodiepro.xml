@@ -35,7 +35,7 @@
 	<wp:base_site_url>https://foodiepro.com</wp:base_site_url>
 	<wp:base_blog_url>https://foodiepro.com</wp:base_blog_url>
 
-	<wp:author><wp:author_id>1</wp:author_id><wp:author_login><![CDATA[shaybocks]]></wp:author_login><wp:author_email><![CDATA[hello@feastdesignco.com]]></wp:author_email><wp:author_display_name><![CDATA[Shay Bocks]]></wp:author_display_name><wp:author_first_name><![CDATA[Shay]]></wp:author_first_name><wp:author_last_name><![CDATA[Bocks]]></wp:author_last_name></wp:author>
+	<wp:author><wp:author_id>1</wp:author_id><wp:author_login><![CDATA[feastdesignco]]></wp:author_login><wp:author_email><![CDATA[hello@feastdesignco.com]]></wp:author_email><wp:author_display_name><![CDATA[Shay Bocks]]></wp:author_display_name><wp:author_first_name><![CDATA[Shay]]></wp:author_first_name><wp:author_last_name><![CDATA[Bocks]]></wp:author_last_name></wp:author>
 
 	<wp:category>
 		<wp:term_id>34</wp:term_id>
@@ -200,7 +200,7 @@
 		<title>Easy Recipe</title>
 		<link>https://foodiepro.com/easy-recipe/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:25 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=5</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -255,7 +255,7 @@
 		<title>Genesis Enews Extended</title>
 		<link>https://foodiepro.com/genesis-enews-extended/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:25 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=6</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -310,7 +310,7 @@
 		<title>Genesis Latest Tweets</title>
 		<link>https://foodiepro.com/genesis-latest-tweets/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:25 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=7</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -365,7 +365,7 @@
 		<title>Genesis Responsive Slider</title>
 		<link>https://foodiepro.com/genesis-responsive-slider/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:25 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=8</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -420,7 +420,7 @@
 		<title>Home</title>
 		<link>https://foodiepro.com/home/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:35 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=536</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -468,14 +468,14 @@
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[_menu_item_url]]></wp:meta_key>
-			<wp:meta_value><![CDATA[http://shaybocks.co/foodiepro]]></wp:meta_value>
+			<wp:meta_value><![CDATA[https://feastdesignco.com/product/foodie-pro/]]></wp:meta_value>
 		</wp:postmeta>
 	</item>
 	<item>
 		<title>Layouts</title>
 		<link>https://foodiepro.com/page-layouts/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:35 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=537</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -530,7 +530,7 @@
 		<title>Foodie Child Theme for the Genesis Framework</title>
 		<link>https://foodiepro.com/?post_type=cookbook_recipe&#038;p=596</link>
 		<pubDate>Fri, 06 Jan 2017 15:55:56 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">urn:uuid:b25d8988-480b-42a1-a2b9-11b6126e6928</guid>
 		<description></description>
 		<content:encoded><![CDATA[<p>She’s sleek and svelte with her minimalist approach and clean design, but she sure packs a punch when it comes to features.</p>]]></content:encoded>
@@ -581,7 +581,7 @@
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[cookbook_instructions]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:2:{s:3:"raw";s:358:"<ol><li><a href="https://feastdesignco.com/product/foodie-pro/">Buy now</a> from Feast Design Co.</li><li>Download your new child theme.</li><li>Install your theme on top of <a href="//www.shareasale.com/r.cfm?b=460183&amp;u=839365&amp;m=28169&amp;urllink=&amp;afftrack=”">Genesis 2.0</a>.</li><li>Configure settings &amp; widgets.</li><li>Enjoy!</li></ol>";s:6:"parsed";a:1:{i:0;a:2:{s:3:"tag";s:2:"ol";s:7:"content";a:5:{i:0;s:89:"<a href="https://feastdesignco.com/product/foodie-pro/">Buy now</a> from Feast Design Co.";i:1;s:30:"Download your new child theme.";i:2;s:146:"Install your theme on top of <a href="//www.shareasale.com/r.cfm?b=460183&amp;u=839365&amp;m=28169&amp;urllink=&amp;afftrack=”">Genesis 2.0</a>.";i:3;s:33:"Configure settings &amp; widgets.";i:4;s:6:"Enjoy!";}}}}]]></wp:meta_value>
+			<wp:meta_value><![CDATA[a:2:{s:3:"raw";s:358:"<ol><li><a href="https://feastdesignco.com/product/foodie-pro/">Buy now</a> from Feast Design Co.</li><li>Download your new child theme.</li><li>Install your theme on top of <a href="https://shareasale.com/r.cfm?b=242694&u=1599607&m=28169&urllink=&afftrack=">Genesis 2.0</a>.";i:3;s:33:"Configure settings &amp; widgets.";i:4;s:6:"Enjoy!";}}}}]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[cookbook_notes]]></wp:meta_key>
@@ -612,7 +612,7 @@
 		<title>Foodie Child Theme for the Genesis Framework</title>
 		<link>https://foodiepro.com/?post_type=cookbook_recipe&#038;p=609</link>
 		<pubDate>Fri, 06 Jan 2017 16:20:16 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">urn:uuid:5d1a0637-d371-43d4-9306-b7501d8c9fa3</guid>
 		<description></description>
 		<content:encoded><![CDATA[<p>She’s sleek and svelte with her minimalist approach and clean design, but she sure packs a punch when it comes to features.</p>]]></content:encoded>
@@ -663,7 +663,7 @@
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[cookbook_instructions]]></wp:meta_key>
-			<wp:meta_value><![CDATA[a:2:{s:3:"raw";s:384:"<ol><li><a href="https://feastdesignco.com/product/foodie-pro/" rel="nofollow">Buy now</a> from Feast Design Co.</li><li>Download your new child theme.</li><li>Install your theme on top of <a href="http://www.shareasale.com/r.cfm?b=460183&amp;u=839365&amp;m=28169&amp;urllink=&amp;afftrack=%E2%80%9D">Genesis 2.0</a>.</li><li>Configure settings &amp; widgets.</li><li>Enjoy!</li></ol>";s:6:"parsed";a:1:{i:0;a:2:{s:3:"tag";s:2:"ol";s:7:"content";a:5:{i:0;s:104:"<a href="https://feastdesignco.com/product/foodie-pro/" rel="nofollow">Buy now</a> from Feast Design Co.";i:1;s:30:"Download your new child theme.";i:2;s:157:"Install your theme on top of <a href="http://www.shareasale.com/r.cfm?b=460183&amp;u=839365&amp;m=28169&amp;urllink=&amp;afftrack=%E2%80%9D">Genesis 2.0</a>.";i:3;s:33:"Configure settings &amp; widgets.";i:4;s:6:"Enjoy!";}}}}]]></wp:meta_value>
+			<wp:meta_value><![CDATA[a:2:{s:3:"raw";s:384:"<ol><li><a href="https://feastdesignco.com/product/foodie-pro/" rel="nofollow">Buy now</a> from Feast Design Co.</li><li>Download your new child theme.</li><li>Install your theme on top of <a href="https://shareasale.com/r.cfm?b=242694&u=1599607&m=28169&urllink=&afftrack=">Genesis 2.0</a>.</li><li>Configure settings &amp; widgets.</li><li>Enjoy!</li></ol>";s:6:"parsed";a:1:{i:0;a:2:{s:3:"tag";s:2:"ol";s:7:"content";a:5:{i:0;s:104:"<a href="https://feastdesignco.com/product/foodie-pro/" rel="nofollow">Buy now</a> from Feast Design Co.";i:1;s:30:"Download your new child theme.";i:2;s:157:"Install your theme on top of <a href="https://shareasale.com/r.cfm?b=242694&u=1599607&m=28169&urllink=&afftrack=">Genesis 2.0</a>.";i:3;s:33:"Configure settings &amp; widgets.";i:4;s:6:"Enjoy!";}}}}]]></wp:meta_value>
 		</wp:postmeta>
 		<wp:postmeta>
 			<wp:meta_key><![CDATA[cookbook_notes]]></wp:meta_key>
@@ -706,7 +706,7 @@
 		<title>foodielogo</title>
 		<link>https://foodiepro.com/foodielogo-4/</link>
 		<pubDate>Fri, 13 Jan 2017 17:28:23 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2017/01/foodielogo-1.png</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -745,7 +745,7 @@
 		<title>green_juice</title>
 		<link>https://foodiepro.com/threaded-comments/green_juice/</link>
 		<pubDate>Fri, 13 Jan 2017 18:08:38 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2017/01/green_juice.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -776,7 +776,7 @@
 		<title>bread</title>
 		<link>https://foodiepro.com/threaded-comments/bread-2/</link>
 		<pubDate>Fri, 13 Jan 2017 18:11:48 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2017/01/bread.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -807,7 +807,7 @@
 		<title>Making a carrot cake</title>
 		<link>https://foodiepro.com/threaded-comments/making-a-carrot-cake/</link>
 		<pubDate>Fri, 13 Jan 2017 18:20:28 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2017/01/carrotcake.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -838,7 +838,7 @@
 		<title>Overhead shot of hazelnuts on a marble background</title>
 		<link>https://foodiepro.com/threaded-comments/overhead-shot-of-hazelnuts-on-a-marble-background/</link>
 		<pubDate>Fri, 13 Jan 2017 18:28:30 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2017/01/nuts.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -869,7 +869,7 @@
 		<title>Homemade tortellini</title>
 		<link>https://foodiepro.com/image-aligned-right/homemade-tortellini/</link>
 		<pubDate>Fri, 13 Jan 2017 18:31:56 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2012/01/pasta.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -900,7 +900,7 @@
 		<title>Fresh spices on marble table</title>
 		<link>https://foodiepro.com/image-centered/fresh-spices-on-marble-table/</link>
 		<pubDate>Fri, 13 Jan 2017 18:32:36 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2012/01/spice.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -931,7 +931,7 @@
 		<title>Delicious salad with figs and pears</title>
 		<link>https://foodiepro.com/unordered-list/delicious-salad-with-figs-and-pears/</link>
 		<pubDate>Fri, 13 Jan 2017 18:34:15 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2012/01/salad.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -962,7 +962,7 @@
 		<title>Kitchen utensils and dishes</title>
 		<link>https://foodiepro.com/ordered-list/kitchen-utensils-and-dishes/</link>
 		<pubDate>Fri, 13 Jan 2017 18:44:33 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2012/01/boards.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -993,7 +993,7 @@
 		<title>Carrot cake topped with walnuts</title>
 		<link>https://foodiepro.com/carrot-cake-topped-with-walnuts/</link>
 		<pubDate>Fri, 13 Jan 2017 19:13:07 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2012/01/granola.jpg</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -1024,7 +1024,7 @@
 		<title>sale</title>
 		<link>https://foodiepro.com/sale/</link>
 		<pubDate>Fri, 13 Jan 2017 19:39:22 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2017/01/sale.png</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -1055,7 +1055,7 @@
 		<title>sale_leaderboard</title>
 		<link>https://foodiepro.com/sale_leaderboard/</link>
 		<pubDate>Sat, 14 Jan 2017 00:04:07 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/wp-content/uploads/2017/01/sale_leaderboard.png</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -1086,7 +1086,7 @@
 		<title>Page Layouts</title>
 		<link>https://foodiepro.com/layouts/</link>
 		<pubDate>Sun, 15 Aug 2010 19:08:02 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[Below is a list of 6 post/page layouts that come with the Genesis theme framework:
@@ -1149,7 +1149,7 @@
 		<title>Content/Sidebar</title>
 		<link>https://foodiepro.com/layouts/cs/</link>
 		<pubDate>Sun, 15 Aug 2010 19:09:00 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.
@@ -1229,7 +1229,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Sidebar/Content</title>
 		<link>https://foodiepro.com/layouts/sc/</link>
 		<pubDate>Sun, 15 Aug 2010 19:09:20 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.
@@ -1309,7 +1309,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Content/Sidebar/Sidebar</title>
 		<link>https://foodiepro.com/layouts/css/</link>
 		<pubDate>Sun, 15 Aug 2010 19:09:42 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.
@@ -1389,7 +1389,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Sidebar/Sidebar/Content</title>
 		<link>https://foodiepro.com/layouts/ssc/</link>
 		<pubDate>Sun, 15 Aug 2010 19:10:30 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.
@@ -1469,7 +1469,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Sidebar/Content/Sidebar</title>
 		<link>https://foodiepro.com/layouts/scs/</link>
 		<pubDate>Sun, 15 Aug 2010 19:10:48 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.
@@ -1549,7 +1549,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Full Width Content</title>
 		<link>https://foodiepro.com/layouts/fwc/</link>
 		<pubDate>Sun, 15 Aug 2010 19:11:13 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.
@@ -1629,7 +1629,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Gravity Forms</title>
 		<link>https://foodiepro.com/gravity-forms/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:36 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=538</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -1684,7 +1684,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title></title>
 		<link>https://foodiepro.com/539/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:36 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=539</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your…]]></content:encoded>
@@ -1739,7 +1739,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title></title>
 		<link>https://foodiepro.com/540/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:36 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=540</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your…]]></content:encoded>
@@ -1794,7 +1794,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Contact</title>
 		<link>https://foodiepro.com/543/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:36 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=543</guid>
 		<description></description>
 		<content:encoded><![CDATA[[gravityform id=1 name=ContactForm title=false description=false] * This contact form was developed with a third party plugin called Gravity Forms and is not included in the Genesis Framework. It is for display only here on the demo site – though we highly recommend using it.]]></content:encoded>
@@ -1849,7 +1849,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title></title>
 		<link>https://foodiepro.com/553/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:36 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=553</guid>
 		<description></description>
 		<content:encoded><![CDATA[ ]]></content:encoded>
@@ -1904,7 +1904,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title></title>
 		<link>https://foodiepro.com/554/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:36 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=554</guid>
 		<description></description>
 		<content:encoded><![CDATA[ ]]></content:encoded>
@@ -1959,7 +1959,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title></title>
 		<link>https://foodiepro.com/555/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:36 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=555</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your…]]></content:encoded>
@@ -2014,7 +2014,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title></title>
 		<link>https://foodiepro.com/556/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:36 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=556</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your…]]></content:encoded>
@@ -2069,7 +2069,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title></title>
 		<link>https://foodiepro.com/557/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:36 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=557</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your…]]></content:encoded>
@@ -2124,7 +2124,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title></title>
 		<link>https://foodiepro.com/558/</link>
 		<pubDate>Fri, 06 Jan 2017 03:48:36 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=558</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your…]]></content:encoded>
@@ -2179,7 +2179,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title></title>
 		<link>https://foodiepro.com/589/</link>
 		<pubDate>Fri, 06 Jan 2017 15:36:31 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=589</guid>
 		<description></description>
 		<content:encoded><![CDATA[ ]]></content:encoded>
@@ -2234,7 +2234,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title></title>
 		<link>https://foodiepro.com/625/</link>
 		<pubDate>Fri, 13 Jan 2017 17:53:54 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=625</guid>
 		<description></description>
 		<content:encoded><![CDATA[ ]]></content:encoded>
@@ -2289,7 +2289,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title></title>
 		<link>https://foodiepro.com/664/</link>
 		<pubDate>Fri, 13 Jan 2017 22:54:18 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?p=664</guid>
 		<description></description>
 		<content:encoded><![CDATA[ ]]></content:encoded>
@@ -2344,7 +2344,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Sample Post to Explore Foodie&#039;s Style</title>
 		<link>https://foodiepro.com/ordered-list/</link>
 		<pubDate>Sun, 01 Jan 2012 18:54:32 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=9</guid>
 		<description></description>
 		<content:encoded><![CDATA[<img class="alignnone size-full wp-image-649" src="https://foodiepro.com/wp-content/uploads/2012/01/boards.jpg" alt="" width="1182" height="1691" />
@@ -2488,7 +2488,7 @@ Remember, any changes you make to the style sheet and template files will be not
 		<title>Get the Garnish Intensive Discovery Workshop!</title>
 		<link>https://foodiepro.com/unordered-list/</link>
 		<pubDate>Sun, 01 Jan 2012 18:54:48 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=11</guid>
 		<description></description>
 		<content:encoded><![CDATA[<img class="size-full wp-image-642" src="https://foodiepro.com/wp-content/uploads/2012/01/salad.jpg" alt="" width="1155" height="1732" />
@@ -2515,7 +2515,7 @@ Start anywhere else, and you’re just making wild guesses – and if you don’
  	<li>PDF workbook to hash through the discovery process for yourself</li>
  	<li>Facebook community support</li>
 </ul>
-<a class="button" href="http://feastdesignco.com/garnish">Buy Now</a> &nbsp; &nbsp; at feastdesignco.com]]></content:encoded>
+<a class="button" href="https://feastdesignco.com/product/garnish-intense-discovery-workshop/">Buy Now</a> &nbsp; &nbsp; at feastdesignco.com]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
 		<wp:post_id>11</wp:post_id>
 		<wp:post_date><![CDATA[2012-01-01 18:54:48]]></wp:post_date>
@@ -2584,7 +2584,7 @@ Start anywhere else, and you’re just making wild guesses – and if you don’
 		<title>Page Templates</title>
 		<link>https://foodiepro.com/templates/</link>
 		<pubDate>Sun, 15 Aug 2010 19:11:56 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress. This is an example of a WordPress page, you could edit this to put information about yourself or your site so readers know where you are coming from. You can create as many pages like this one or sub-pages as you like and manage all of your content inside of WordPress.
@@ -2648,7 +2648,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Archive Page</title>
 		<link>https://foodiepro.com/templates/archive/</link>
 		<pubDate>Sun, 15 Aug 2010 19:12:26 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -2702,7 +2702,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Blog Page</title>
 		<link>https://foodiepro.com/templates/blog/</link>
 		<pubDate>Sun, 15 Aug 2010 19:12:43 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
@@ -2756,7 +2756,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Contact Page</title>
 		<link>https://foodiepro.com/contact/</link>
 		<pubDate>Sun, 15 Aug 2010 19:13:33 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis</guid>
 		<description></description>
 		<content:encoded><![CDATA[[gravityform id=1 name=ContactForm title=false description=false]
@@ -2812,7 +2812,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Column Classes</title>
 		<link>https://foodiepro.com/columns/</link>
 		<pubDate>Thu, 03 Feb 2011 18:06:59 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?page_id=181</guid>
 		<description></description>
 		<content:encoded><![CDATA[Below are examples of column classes that are available with the Genesis Framework parent theme:
@@ -2910,8 +2910,8 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Recipes</title>
 		<link>https://foodiepro.com/recipes/</link>
 		<pubDate>Fri, 09 Aug 2013 01:11:32 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
-		<guid isPermaLink="false">http://maggiemae.shaybocks.com/?page_id=302</guid>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
+		<guid isPermaLink="false">https://feastdesignco.com</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>
 		<excerpt:encoded><![CDATA[]]></excerpt:encoded>
@@ -2964,7 +2964,7 @@ This is an example of a WordPress page, you could edit this to put information a
 		<title>Put Your Best Food Forward with A Great Theme</title>
 		<link>https://foodiepro.com/image-centered/</link>
 		<pubDate>Sun, 01 Jan 2012 18:55:21 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=13</guid>
 		<description></description>
 		<content:encoded><![CDATA[[caption id="attachment_640" align="alignnone" width="1155"]<img class="size-full wp-image-640" src="https://foodiepro.com/wp-content/uploads/2012/01/spice.jpg" alt="" width="1155" height="1732" /> Different kind of spices on white table[/caption]
@@ -3043,7 +3043,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Download Your Free Checklist Right Here And Get Started!</title>
 		<link>https://foodiepro.com/image-aligned-right/</link>
 		<pubDate>Sun, 01 Jan 2012 18:56:30 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=16</guid>
 		<description></description>
 		<content:encoded><![CDATA[[caption id="attachment_638" align="alignnone" width="1155"]<img class="size-full wp-image-638" src="https://foodiepro.com/wp-content/uploads/2012/01/pasta.jpg" alt="" width="1155" height="1732" /> Making italian tortellini with vegan filling[/caption]
@@ -3124,7 +3124,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Cookbook Plugin Makes Recipe Publishing Easy (recipe inside!)</title>
 		<link>https://foodiepro.com/image-aligned-left/</link>
 		<pubDate>Sun, 01 Jan 2012 18:57:05 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=18</guid>
 		<description></description>
 		<content:encoded><![CDATA[<img class="alignnone size-full wp-image-634" src="https://foodiepro.com/wp-content/uploads/2017/01/nuts.jpg" alt="" width="1155" height="1732" />
@@ -3146,7 +3146,7 @@ This is an example of a WordPress post, you could edit this to put information a
 
 	<div class="cookbook-extras"><a class="cookbook-button-link cookbook-button-link-print-preview" href="https://foodiepro.com/image-aligned-left/cookbook-print/609/" rel="nofollow" target="_blank">Print</a></div><h2 class="cookbook-name" itemprop="name">Foodie Child Theme for the Genesis Framework</h2><div class="cookbook-container cookbook-container-time"><p class="cookbook-details cookbook-details-prep-time"><span class="cookbook-element-title cookbook-element-title-prep-time">Prep</span> <time class="cookbook-element-wrapper cookbook-element-wrapper-prep-time" itemprop="prepTime" datetime="PT30M"><span class="cookbook-element-content cookbook-element-content-prep-time"><span class="cookbook-time-value cookbook-time-value-minutes">30</span> <span class="cookbook-time-label cookbook-time-label-minutes">mins</span></span></time></p><p class="cookbook-details cookbook-details-cook-time"><span class="cookbook-element-title cookbook-element-title-cook-time">Cook</span> <time class="cookbook-element-wrapper cookbook-element-wrapper-cook-time" itemprop="cookTime" datetime="PT30M"><span class="cookbook-element-content cookbook-element-content-cook-time"><span class="cookbook-time-value cookbook-time-value-minutes">30</span> <span class="cookbook-time-label cookbook-time-label-minutes">mins</span></span></time></p><p class="cookbook-details cookbook-details-total-time"><span class="cookbook-element-title cookbook-element-title-total-time">Total</span> <time class="cookbook-element-wrapper cookbook-element-wrapper-total-time" itemprop="totalTime" datetime="PT60M"><span class="cookbook-element-content cookbook-element-content-total-time"><span class="cookbook-time-value cookbook-time-value-minutes">60</span> <span class="cookbook-time-label cookbook-time-label-minutes">mins</span></span></time></p></div><p class="cookbook-details cookbook-details-author" itemtype="https://schema.org/Person" itemscope="itemscope" itemprop="author"><span class="cookbook-element-title cookbook-element-title-author">Author</span> <span class="cookbook-element-content cookbook-author" itemprop="name">Shay Bocks</span></p><p class="cookbook-details cookbook-details-servings"><span class="cookbook-element-title cookbook-element-title-servings">Yield</span> <span class="cookbook-element-content cookbook-element-content-servings-yield" itemprop="recipeYield"><span class="cookbook-servings">1</span> <span class="cookbook-servings-unit">theme</span></span></p>
 	<div class="cookbook-summary" itemprop="description"><p>She’s sleek and svelte with her minimalist approach and clean design, but she sure packs a punch when it comes to features.</p>
-</div><div class="cookbook-container cookbook-container-ingredients"><h3 class="cookbook-title cookbook-title-ingredients">Ingredients</h3><ul class="cookbook-ingredients-list"><li class="cookbook-ingredient" itemprop="recipeIngredient">years of food blog experience</li><li class="cookbook-ingredient" itemprop="recipeIngredient">high-quality css and kickass development</li><li class="cookbook-ingredient" itemprop="recipeIngredient">2 handfuls of passion</li><li class="cookbook-ingredient" itemprop="recipeIngredient">a ton of restraint</li><li class="cookbook-ingredient" itemprop="recipeIngredient">a pinch of class</li></ul></div><div class="cookbook-container cookbook-container-instructions"><h3 class="cookbook-title cookbook-title-instructions">Instructions</h3><ol class="cookbook-instructions-list"><li class="cookbook-instruction" itemprop="recipeInstructions"><a href="https://feastdesignco.com/product/foodie-pro/" rel="nofollow">Buy now</a> from Feast Design Co.</li><li class="cookbook-instruction" itemprop="recipeInstructions">Download your new child theme.</li><li class="cookbook-instruction" itemprop="recipeInstructions">Install your theme on top of <a href="http://www.shareasale.com/r.cfm?b=460183&amp;u=839365&amp;m=28169&amp;urllink=&amp;afftrack=%E2%80%9D">Genesis 2.0</a>.</li><li class="cookbook-instruction" itemprop="recipeInstructions">Configure settings &amp; widgets.</li><li class="cookbook-instruction" itemprop="recipeInstructions">Enjoy!</li></ol></div>
+</div><div class="cookbook-container cookbook-container-ingredients"><h3 class="cookbook-title cookbook-title-ingredients">Ingredients</h3><ul class="cookbook-ingredients-list"><li class="cookbook-ingredient" itemprop="recipeIngredient">years of food blog experience</li><li class="cookbook-ingredient" itemprop="recipeIngredient">high-quality css and kickass development</li><li class="cookbook-ingredient" itemprop="recipeIngredient">2 handfuls of passion</li><li class="cookbook-ingredient" itemprop="recipeIngredient">a ton of restraint</li><li class="cookbook-ingredient" itemprop="recipeIngredient">a pinch of class</li></ul></div><div class="cookbook-container cookbook-container-instructions"><h3 class="cookbook-title cookbook-title-instructions">Instructions</h3><ol class="cookbook-instructions-list"><li class="cookbook-instruction" itemprop="recipeInstructions"><a href="https://feastdesignco.com/product/foodie-pro/" rel="nofollow">Buy now</a> from Feast Design Co.</li><li class="cookbook-instruction" itemprop="recipeInstructions">Download your new child theme.</li><li class="cookbook-instruction" itemprop="recipeInstructions">Install your theme on top of <a href="https://shareasale.com/r.cfm?b=242694&u=1599607&m=28169&urllink=&afftrack=">Genesis 2.0</a>.</li><li class="cookbook-instruction" itemprop="recipeInstructions">Configure settings &amp; widgets.</li><li class="cookbook-instruction" itemprop="recipeInstructions">Enjoy!</li></ol></div>
 	<p class="cookbook-tag cookbook-tag-courses"><span class="cookbook-element-title cookbook-element-title-courses">Courses</span> <span class="cookbook-element-content cookbook-courses" itemprop="recipeCategory">WordPress Themes</span></p><p class="cookbook-tag cookbook-tag-cuisine"><span class="cookbook-element-title cookbook-element-title-cuisine">Cuisine</span> <span class="cookbook-element-content cookbook-cuisine" itemprop="recipeCuisine">Food &amp; Lifestyle Blogs</span></p>
 </div>
 
@@ -3237,7 +3237,7 @@ This is an example of a WordPress post, you could edit this to put information a
 		<title>Bake your cake from scratch, not your blog.</title>
 		<link>https://foodiepro.com/threaded-comments/</link>
 		<pubDate>Thu, 05 Jan 2017 18:57:18 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">http://demo.studiopress.com/genesis/?p=20</guid>
 		<description></description>
 		<content:encoded><![CDATA[<img class="alignnone size-full wp-image-632" src="https://foodiepro.com/wp-content/uploads/2017/01/carrotcake.jpg" alt="" width="1155" height="1732" />
@@ -3252,15 +3252,15 @@ For some of the best help you can find in the WordPress hosting space, I always 
 
 If you registered your domain with Namecheap in the last step, they even have an easy-to-follow guide that will show you how to <a href="https://getflywheel.com/wordpress-support/pointing-domains-flywheel-namecheap/">connect your domain to your Flywheel account</a>.
 <h3>PUT YOUR BEST FOOD FORWARD WITH A GREAT THEME</h3>
-Style, speed, and stability matter when you’re putting yourself out there on the internet, and you won’t find a better combination of all three than the <a href="http://www.shareasale.com/r.cfm?b=346198&amp;u=839365&amp;m=28169&amp;urllink=&amp;afftrack=">Genesis</a> framework. Developed by some of the world’s foremost WordPress security experts, and featuring an expansive library of themes built by savvy designers for every purpose imaginable, it’s no surprise that Genesis is the most popular starting point for building professional sites with WordPress.
+Style, speed, and stability matter when you’re putting yourself out there on the internet, and you won’t find a better combination of all three than the <a href="https://shareasale.com/r.cfm?b=242694&u=1599607&m=28169&urllink=&afftrack=">Genesis</a> framework. Developed by some of the world’s foremost WordPress security experts, and featuring an expansive library of themes built by savvy designers for every purpose imaginable, it’s no surprise that Genesis is the most popular starting point for building professional sites with WordPress.
 
-To get started, purchase the <a href="http://www.shareasale.com/r.cfm?b=346198&amp;u=839365&amp;m=28169&amp;urllink=&amp;afftrack=">Genesis Framework</a> and a Genesis child theme to install along with it. Our favorite pick is <a href="http://feastdesignco.com/shop/foodie-pro/">our very own Foodie Pro theme</a> (oh hey!) into which we’ve poured all of the design experience and best practices we’ve learned from building food blogs for our own clients.
+To get started, purchase the <a href="https://shareasale.com/r.cfm?b=242694&u=1599607&m=28169&urllink=&afftrack=">Genesis Framework</a> and a Genesis child theme to install along with it. Our favorite pick is <a href="https://feastdesignco.com/product/foodie-pro/">our very own Foodie Pro theme</a> (oh hey!) into which we’ve poured all of the design experience and best practices we’ve learned from building food blogs for our own clients.
 
-If you’re looking for a theme that puts your best food forward in style, <a href="http://feastdesignco.com/shop/foodie-pro/">Foodie Pro</a> has everything you need, from font and color options in the Customizer to minimalist style, easy-to-install widgets and an improved recipe index.
+If you’re looking for a theme that puts your best food forward in style, <a href="https://feastdesignco.com/product/foodie-pro/">Foodie Pro</a> has everything you need, from font and color options in the Customizer to minimalist style, easy-to-install widgets and an improved recipe index.
 <h3>Install A Recipe Plugin</h3>
-It’s easy enough to just type recipes into your post in WordPress, but if you’re putting this much work into making everything look good and work well, your recipes deserve the same tender loving care. I always say that you’ve got three options to choose from here: <a href="https://cookbookplugin.com/cook/35/">Cookbook Plugin</a>, <a href="https://wordpress.org/plugins/easyrecipe/">Easy Recipe</a>, and <a href="https://wordpress.org/plugins/meal-planner-pro/">Meal Planner Pro</a>. Each one is a little bit different, so be sure to weigh the pro’s and cons, but they’ll all help you organize, showcase, and share your recipes in style.
+It’s easy enough to just type recipes into your post in WordPress, but if you’re putting this much work into making everything look good and work well, your recipes deserve the same tender loving care. I always say that you’ve got three options to choose from here: <a href="https://bootstrapped.ventures/wp-recipe-maker/?ref=76">WP Recipe Maker</a>, . Each one is a little bit different, so be sure to weigh the pro’s and cons, but they’ll all help you organize, showcase, and share your recipes in style.
 
-👇 The recipe below was created with the <a href="https://cookbookplugin.com/cook/35/">Cookbook Plugin</a>, a collaboration between <a href="http://feastdesignco.com/">Feast Design Co.</a> and <a href="http://wpsitecare.com/">WP Site Care</a>.
+👇 The recipe below was created with the <a href="https://bootstrapped.ventures/wp-recipe-maker/?ref=76">WP Recipe Maker</a>, a collaboration between <a href="https://feastdesignco.com/">Feast Design Co.</a> and <a href="http://wpsitecare.com/">WP Site Care</a>.
 
 [cookbook_recipe id="596"]
 <h3></h3>
@@ -3422,7 +3422,7 @@ Note: Some of the links above are affiliate links, which means the seller will k
 		<wp:comment>
 			<wp:comment_id>8</wp:comment_id>
 			<wp:comment_author><![CDATA[admin]]></wp:comment_author>
-			<wp:comment_author_email><![CDATA[shaybocks@gmail.com]]></wp:comment_author_email>
+			<wp:comment_author_email><![CDATA[hello@feastdesignco.com]]></wp:comment_author_email>
 			<wp:comment_author_url></wp:comment_author_url>
 			<wp:comment_author_IP><![CDATA[71.120.131.113]]></wp:comment_author_IP>
 			<wp:comment_date><![CDATA[2013-08-03 10:22:16]]></wp:comment_date>
@@ -3436,7 +3436,7 @@ Note: Some of the links above are affiliate links, which means the seller will k
 		<wp:comment>
 			<wp:comment_id>9</wp:comment_id>
 			<wp:comment_author><![CDATA[admin]]></wp:comment_author>
-			<wp:comment_author_email><![CDATA[shaybocks@gmail.com]]></wp:comment_author_email>
+			<wp:comment_author_email><![CDATA[hello@feastdesignco.com]]></wp:comment_author_email>
 			<wp:comment_author_url></wp:comment_author_url>
 			<wp:comment_author_IP><![CDATA[71.120.131.113]]></wp:comment_author_IP>
 			<wp:comment_date><![CDATA[2013-08-08 20:06:25]]></wp:comment_date>
@@ -3456,7 +3456,7 @@ Note: Some of the links above are affiliate links, which means the seller will k
 		<title>FAQ</title>
 		<link>https://foodiepro.com/faq/</link>
 		<pubDate>Fri, 06 Jan 2017 15:31:32 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?page_id=581</guid>
 		<description></description>
 		<content:encoded><![CDATA[These are the features you can expect from this fresh update of everyone's favorite minimalist blog theme:
@@ -3487,9 +3487,9 @@ Note: Some of the links above are affiliate links, which means the seller will k
 <hr />
 
 <h3>What else will I need to make this theme work?</h3>
-<em>This child theme requires the <a href="http://www.shareasale.com/r.cfm?b=346198&amp;u=839365&amp;m=28169&amp;urllink=&amp;afftrack=">Genesis Framework</a>, which must be purchased separately.</em> Need managed hosting? We're raving fans of <a href="http://share.getf.ly/n52u8m">Flywheel</a>! While not required to make the theme work at its basic level, we recommend the following plugins for full functionality:
+<em>This child theme requires the <a href="httphttps://shareasale.com/r.cfm?b=242694&u=1599607&m=28169&urllink=&afftrack=">Genesis Framework</a>, which must be purchased separately.</em> Need managed hosting? We're raving fans of <a href="http://share.getf.ly/n52u8m">Flywheel</a>! While not required to make the theme work at its basic level, we recommend the following plugins for full functionality:
 <ul>
- 	<li><a href="http://cookbookplugin.com">Cookbook Recipe Plugin</a></li>
+ 	<li><a href="https://bootstrapped.ventures/wp-recipe-maker/?ref=76">WP Recipe Maker</a></li>
  	<li><a href="https://www.e-junkie.com/ecom/gb.php?cl=54585&amp;c=ib&amp;aff=255182">Gravity Forms</a></li>
  	<li><a href="https://wordpress.org/plugins/genesis-enews-extended/">Genesis Enews Extended</a></li>
  	<li><a href="https://wordpress.org/plugins/simple-social-icons/">Simple Social Icons</a></li>
@@ -3515,7 +3515,7 @@ We can help with that! Here are a few options for you:
 <ol>
  	<li><a href="https://feastdesignco.com/design-it-for-me">Hire us</a> to design your brand identity and customize your theme.  Our illustrators know their way around a pen or brush and we'd love to create a one-of-a-kind option for you.</li>
  	<li>Pen it yourself!  We've even got a workshop to give you an <a href="https://feastdesignco.com/product/intro-hand-lettering/">introduction to hand lettering</a>, including guidance on how to digitize your own handwriting and illustrations.</li>
- 	<li>Grab a cheap font from <a href="https://creativemarket.com/?u=shaybocks">Creative Market </a>and fake it till you make it!</li>
+ 	<li>Grab a cheap font from <a href="https://creativemarket.com/?u=feastdesignco">Creative Market </a>and fake it till you make it!</li>
 </ol>
 
 <hr />
@@ -3533,17 +3533,17 @@ If you are using excerpts on the archive pages, blog page, or in the Featured Po
 <hr />
 
 <h3>What recipe plugin do you recommend?</h3>
-I'm glad you asked! Sure, you need a plugin that will make your recipes look great and get attention from Google, but we think you also need a simple, streamlined solution. It was our honor to collaborate with <a href="http://wpsitecare.com">WP Site Care</a> to give you just that--enter <a href="http://cookbookplugin.com">CookbookPlugin.com</a>. Check it out and thank us later!
+I'm glad you asked! Sure, you need a plugin that will make your recipes look great and get attention from Google, but we think you also need a simple, streamlined solution. It was our honor to collaborate with <a href="http://wpsitecare.com">WP Site Care</a> to give you just that--enter <a href="https://bootstrapped.ventures/wp-recipe-maker/?ref=76">WP Recipe Maker</a>. Check it out and thank us later!
 
 <hr />
 
 <h3>What if I have more questions? How can I get support?</h3>
-We have a dedicated support team to help you get your theme set up. Check out our <a href="http://feastdesignco.com/tutorials">helpful tutorials</a> or <a href="http://feastdesignco.com/support">submit a support ticket</a> if you need additional assistance.
+We have a dedicated support team to help you get your theme set up. Check out our <a href="https://feastdesignco.com/tutorials">helpful tutorials</a> or <a href="https://feastdesignco.com/support">submit a support ticket</a> if you need additional assistance.
 
 <hr />
 
 <h3>Can you install and customize it for me?</h3>
-Absolutely! Check out our <a href="http://feastdesignco.com/done-for-you" target="_blank">Done For You</a> services for more details.
+Absolutely! Check out our <a href="https://feastdesignco.com/done-for-you" target="_blank">Done For You</a> services for more details.
 
 <hr />
 
@@ -3582,7 +3582,7 @@ Absolutely! Check out our <a href="http://feastdesignco.com/done-for-you" target
 		<title>Shop</title>
 		<link>https://foodiepro.com/shop/</link>
 		<pubDate>Fri, 13 Jan 2017 22:52:03 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/shop/</guid>
 		<description></description>
 		<content:encoded><![CDATA[This theme requires the WooCommerce plugin to set up your shop.  Easily add affiliate products and/or your own products and start making money through your blog.  For demo purposes, we've added some of our favorite resources to help you set up and grow your blog.  <em>We may receive payment if you decide to invest in one of these products--at no cost to you.  We only recommend products that we know and love.</em>
@@ -3625,7 +3625,7 @@ Absolutely! Check out our <a href="http://feastdesignco.com/done-for-you" target
 		<title>Cart</title>
 		<link>https://foodiepro.com/cart/</link>
 		<pubDate>Fri, 13 Jan 2017 22:52:03 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/cart/</guid>
 		<description></description>
 		<content:encoded><![CDATA[[woocommerce_cart]]]></content:encoded>
@@ -3647,7 +3647,7 @@ Absolutely! Check out our <a href="http://feastdesignco.com/done-for-you" target
 		<title>Checkout</title>
 		<link>https://foodiepro.com/checkout/</link>
 		<pubDate>Fri, 13 Jan 2017 22:52:03 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/checkout/</guid>
 		<description></description>
 		<content:encoded><![CDATA[[woocommerce_checkout]]]></content:encoded>
@@ -3669,7 +3669,7 @@ Absolutely! Check out our <a href="http://feastdesignco.com/done-for-you" target
 		<title>My Account</title>
 		<link>https://foodiepro.com/my-account/</link>
 		<pubDate>Fri, 13 Jan 2017 22:52:03 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/my-account/</guid>
 		<description></description>
 		<content:encoded><![CDATA[[woocommerce_my_account]]]></content:encoded>
@@ -3691,7 +3691,7 @@ Absolutely! Check out our <a href="http://feastdesignco.com/done-for-you" target
 		<title>Foodie Pro</title>
 		<link>https://foodiepro.com/product/foodie-pro/</link>
 		<pubDate>Fri, 13 Jan 2017 22:53:49 +0000</pubDate>
-		<dc:creator><![CDATA[shaybocks]]></dc:creator>
+		<dc:creator><![CDATA[feastdesignco]]></dc:creator>
 		<guid isPermaLink="false">https://foodiepro.com/?post_type=product&#038;p=663</guid>
 		<description></description>
 		<content:encoded><![CDATA[]]></content:encoded>

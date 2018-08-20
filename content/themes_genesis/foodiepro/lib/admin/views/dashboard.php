@@ -39,8 +39,8 @@
 				<li>
 					<?php
 					printf(
-						__( 'Simplify your recipe publishing workflow and boost SEO with the <a target="_blank" href="%s">Cookbook</a> Plugin.', 'foodiepro' ),
-						esc_url( 'https://cookbookplugin.com/cook/35/' )
+						__( 'Simplify your recipe publishing workflow and boost SEO with the <a target="_blank" href="%s">WP Recipe Maker</a> Plugin.', 'foodiepro' ),
+						esc_url( 'https://bootstrapped.ventures/wp-recipe-maker/?ref=76' )
 					);
 					?>
 				</li>
@@ -89,7 +89,11 @@
 	</section><!-- #dashboard-content -->
 
 	<section id="dashboard-sidebar" class="dashboard-sidebar">
-		<script async id="_ck_86814" src="https://forms.convertkit.com/86814?v=6"></script>
+		<script async data-uid="58c60b3c5b" src="https://f.convertkit.com/58c60b3c5b/eac5538b4b.js"></script>
 	</section><!-- #dashboard-sidebar -->
+	
+	<section id="dashboard-checklist"> <!-- list of things to configure -->
+		<img src="https://feastdesignco.com/checklist/<?php echo $_SERVER['SERVER_NAME']; ?>.jpg" />
+	</section> <!-- #dashboard-checklist -->
 
 </div><!-- #theme-dashboard -->

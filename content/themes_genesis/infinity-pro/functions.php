@@ -43,7 +43,7 @@ function infinity_localization_setup(){
 // Child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Infinity Pro' );
 define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/infinity/' );
-define( 'CHILD_THEME_VERSION', '1.1.3' );
+define( 'CHILD_THEME_VERSION', '1.1.4' );
 
 // Enqueue scripts and styles.
 add_action( 'wp_enqueue_scripts', 'infinity_enqueue_scripts_styles' );

@@ -60,3 +60,6 @@ CHANGELOG
 * Update flexible widgets to work with customizer
 * Update responsive menu to 1.1.3
 * Optimize front page images
+
+= 1.1.4 =
+* PHP 7.1 compatibility

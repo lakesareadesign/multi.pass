@@ -527,11 +527,13 @@ Loaded on WooCommerce pages */
 	line-height: 0.8;
 }
 
+ul.woocommerce-error,
 .woocommerce-error,
 .woocommerce-info,
 .woocommerce-message {
 	background-color: #f5f5f5;
 	border-top-color: #d43c67;
+	margin-left: 0;
 }
 
 .woocommerce-error::before,
