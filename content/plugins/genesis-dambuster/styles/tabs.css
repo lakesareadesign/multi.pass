@@ -1,7 +1,7 @@
 /*tabbed metabox */
 
 .genesis-dambuster-metabox .metabox-tabs { display: inline-block; margin:0 0 -6px; padding: 0; color: #000000;}
-.genesis-dambuster-metabox .metabox-tabs li {list-style: none; display: inline; font-size: 11px; }
+.genesis-dambuster-metabox .metabox-tabs li {list-style: none; display: inline; font-size: 10px; }
 .genesis-dambuster-metabox .metabox-tabs li.link { margin-left: 4px; }
 .genesis-dambuster-metabox .metabox-tabs li.link a { text-decoration: none; }
 .genesis-dambuster-metabox .metabox-tabs li.link a:hover { text-decoration: underline; }

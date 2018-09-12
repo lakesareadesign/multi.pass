@@ -50,7 +50,6 @@ class Utils extends Behavior {
 			$post_vars['headers'] = array_merge( $headers, array(
 				'Authorization' => 'Basic ' . $api_key
 			) );
-
 			$response = wp_remote_request( $endPoint,
 				apply_filters( 'wd_wpmudev_call_request_args',
 					$post_vars ) );

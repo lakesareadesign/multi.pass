@@ -258,6 +258,13 @@ final class FLBuilderServiceMailChimp extends FLBuilderService {
 
 			try {
 				$api     = $this->get_api( $account_data['api_key'] );
+				/**
+				 * Use this filter to enable double opt-ins for MailChimp integrations.
+				 * Returning true enables double opt-ins; returning false enables single opt-ins.
+				 * The default return value for this filter is false.
+				 * @see fl_builder_mailchimp_double_option
+				 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+				 */
 				$double  = apply_filters( 'fl_builder_mailchimp_double_option', false );
 				$data    = array(
 					'email'        => $email,

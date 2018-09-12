@@ -459,7 +459,12 @@ final class FLBuilderAJAXLayout {
 		// Get the rendered HTML.
 		$html = ob_get_clean();
 
-		// Render shortcodes.
+		/**
+		 * Use this filter to prevent the builder from rendering shortcodes.
+		 * It is useful if you don’t want shortcodes rendering while the builder UI is active.
+		 * @see fl_builder_render_shortcodes
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		if ( apply_filters( 'fl_builder_render_shortcodes', true ) ) {
 			$html = apply_filters( 'fl_builder_before_render_shortcodes', $html );
 			ob_start();

@@ -136,8 +136,11 @@ class FLPhotoModule extends FLBuilderModule {
 			// Save the photo.
 			$editor->save( $cropped_path['path'] );
 
-			// Let third party media plugins hook in.
-			do_action( 'fl_builder_photo_cropped', $cropped_path );
+			/**
+			 * Let third party media plugins hook in.
+			 * @see fl_builder_photo_cropped
+			 */
+			do_action( 'fl_builder_photo_cropped', $cropped_path, $editor );
 
 			// Return the new url.
 			return $cropped_path['url'];

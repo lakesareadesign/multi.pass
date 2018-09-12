@@ -34,20 +34,18 @@ function mstba_site_submenu_install_plugins() {
 	
 	/** Bail early, if not in a subsite admin */
 	if ( /*! is_multisite() ||*/ is_network_admin() || class_exists( 'Multisite_Add_New_Plugin' ) ) {
-
 		return NULL;
-
-	}  // end if
+	}
 
 	/** Add "Plugins" submenu "Add New" */
 	add_plugins_page(
-		__( 'Add New', 'multisite-toolbar-additions' ),
-		__( 'Add New', 'multisite-toolbar-additions' ),
+		esc_attr__( 'Add New', 'multisite-toolbar-additions' ),
+		esc_attr__( 'Add New', 'multisite-toolbar-additions' ),
 		'manage_network',
-		'plugin-install.php'
+		network_admin_url( 'plugin-install.php' )
 	);
 
-}  // end of function mstba_site_submenu_install_plugins
+}  // end function
 
 
 add_action( 'admin_menu', 'mstba_site_submenu_additions', 20 );
@@ -61,17 +59,15 @@ function mstba_site_submenu_additions() {
 	
 	/** Bail early, if not in a subsite admin */
 	if ( /*! is_multisite() ||*/ is_network_admin() ) {
-
 		return NULL;
-
-	}  // end if
+	}
 
 	/** Add "Plugins" submenu "Network Plugins" */
 	add_plugins_page(
 		__( 'Network Plugins', 'multisite-toolbar-additions' ),
 		__( 'Network Plugins', 'multisite-toolbar-additions' ),
 		'manage_network',
-		'network/plugins.php'
+		network_admin_url( 'plugins.php' )
 	);
 
 	/** Add "Themes" submenu "Network Theme Editor" */
@@ -83,9 +79,9 @@ function mstba_site_submenu_additions() {
 			__( 'Network Theme Editor', 'multisite-toolbar-additions' ),
 			__( 'Network Theme Editor', 'multisite-toolbar-additions' ),
 			'manage_network',
-			'network/theme-editor.php'
+			network_admin_url( 'theme-editor.php' )
 		);
 
 	}  // end if
 
-}  // end of function mstba_site_submenu_additions
+}  // end function

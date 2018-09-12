@@ -45,13 +45,14 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 		}
 
 		/**
-	 * Register Widgets
-	 *
-	 * @since 2.0.0
-	 */
+		 * Register Widgets
+		 *
+		 * @since 2.0.0
+		 */
 		public function widgets() {
 			register_widget( 'Author_Box_Widget' );
 		}
+
 		/**
 		 * Set options for module
 		 *
@@ -349,6 +350,18 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							),
 							'default' => 'bottom',
 						),
+						'type' => array(
+							'type' => 'checkbox',
+							'label' => __( 'Type', 'ub' ),
+							'description' => __( 'Choose "text" if you want to style list yourself.', 'ub' ),
+							'options' => array(
+								'on' => __( 'Icons', 'ub' ),
+								'off' => __( 'Text', 'ub' ),
+							),
+							'default' => 'on',
+							'classes' => array( 'switch-button' ),
+							'slave-class' => 'social-media-type',
+						),
 						'colors' => array(
 							'type' => 'checkbox',
 							'label' => __( 'Colors', 'ub' ),
@@ -359,7 +372,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							),
 							'default' => 'off',
 							'classes' => array( 'switch-button' ),
-							'master' => 'social-media',
+							'master' => 'social-media-type',
 						),
 						'social_media_link_in_new_tab' => array(
 							'type' => 'checkbox',
@@ -371,7 +384,6 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							),
 							'default' => 'off',
 							'classes' => array( 'switch-button' ),
-							'master' => 'social-media',
 						),
 						'background_color' => array(
 							'type' => 'color',
@@ -736,6 +748,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 			/**
 			 * process
 			 */
+			$social = $this->get_social_media_array();
 			$sm = '';
 			$data = $this->get_value( 'social_media' );
 			$value = get_the_author_meta( 'ub_author_box' );
@@ -745,6 +758,15 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 			$value['wp-profile-website'] = get_the_author_meta( 'user_url' );
 			$value['mail'] = get_the_author_meta( 'user_email' );
 			$order = $this->get_value( '_social_media_sortable' );
+
+			/**
+			 * show icons?
+			 */
+			$icons = $this->get_value( 'social_media_settings', 'type' );
+			/**
+			 * class pattern
+			 */
+			$pattern = 'off' === $icons? '':'social-logo social-logo-%s';
 			if ( ! empty( $order ) && is_array( $order ) ) {
 				foreach ( $order as $key ) {
 					if ( ! isset( $data[ $key ] ) ) {
@@ -756,20 +778,23 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 					if ( isset( $value[ $key ] ) ) {
 						$v = trim( $value[ $key ] );
 						if ( $v ) {
-							$class = $key;
+							$class = sprintf( $pattern, $key );
 							switch ( $key ) {
 								case 'wp-profile-website':
-									$class = 'share';
+									$class = sprintf( $pattern, 'share' );
+									$social[ $key ] = array( 'label' => __( 'Website', 'ub' ) );
 								break;
 								case 'mail':
 									$v = 'mailto:'.$v;
 								break;
 							}
 							$sm .= sprintf(
-								'<li><a href="%s"%s><span class="social-logo social-logo-%s"></span></a></li>',
+								'<li class="ub-social-%s"><a href="%s"%s><span class="%s">%s</span></a></li>',
+								esc_attr( $key ),
 								esc_url( $v ),
 								$target,
-								esc_attr( $class )
+								esc_attr( $class ),
+								'off' === $icons? esc_html( $social[ $key ]['label'] ):''
 							);
 						}
 					}
@@ -787,19 +812,22 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 					if ( isset( $value[ $key ] ) ) {
 						$v = trim( $value[ $key ] );
 						if ( $v ) {
-							$class = $key;
+							$class = sprintf( $pattern, $key );
 							switch ( $key ) {
 								case 'wp-profile-website':
-									$class = 'share';
+									$class = sprintf( $pattern, 'share' );
 								break;
 								case 'mail':
 									$v = 'mailto:'.$v;
 								break;
 							}
 							$sm .= sprintf(
-								'<li><a href="%s">span class="social-logo social-%s"></span></a></li>',
+								'<li class="ub-social-%s"><a href="%s"%s>span class="%s">%s</span></a></li>',
+								esc_attr( $key ),
 								esc_url( $v ),
-								esc_attr( $class )
+								$target,
+								esc_attr( $class ),
+								'off' === $icons? esc_html( $social[ $key ]['label'] ):''
 							);
 						}
 					}

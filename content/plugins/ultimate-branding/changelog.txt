@@ -4,6 +4,19 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log:
 ----------------------------------------------------------------------
 
+DATE: 05 September, 2018  - VERSION: 2.2.0
+==================================
+- Added ability to preserve plugin settings on uninstall.
+- Added ability to turn off comments.
+- Added new module "Cookie Notice" which allows creating cookie notice message.
+- Added text mode for social profiles on "Author Box" module.
+- Fixed a conflict with "Contact Form 7" plugin when "Comming Soon & Maintenance" module was turned on, but not used.
+- Fixed a problem with "reset section to default".
+- Fixed a problem with display proper favicons after Ultimate Branding upgrade.
+- Fixed a problem with "Footer Content" module on single site installation.
+- Fixed a problem with saving more than one custom parent menu in "Admin Bar" module.
+- Improved subsites list UX on "Favicons" module.
+
 DATE: 09 July, 2018  - VERSION: 2.1.0
 ==================================
 - Added default post type "post" on "Author Box" module.
@@ -540,4 +553,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 
 
 
-133620-1531347936-au
+133620-1536712542-au

@@ -60,7 +60,7 @@ function custom_sidebars_replace_not_allowed( $page_name, $img, $archive = null 
 	);
 	echo '</ul>';
 	echo '</p>';
-	$url = esc_url( CSB_IMG_URL . 'metabox/' . $img . '?version=3.2.0' );
+	$url = esc_url( CSB_IMG_URL . 'metabox/' . $img . '?version=3.2.1' );
 	printf(
 		'<a href="%s" target="_blank"><img src="%s" style="width:100%%" /><a>',
 		$url,
@@ -84,7 +84,7 @@ if ( $is_front  ) {
 	custom_sidebars_replace_not_allowed( $page_name, 'wooshop-info.png', $archive );
 } else {
 	echo '<p>';
-	_e( 'Here you can replace the default sidebars. Simply select what sidebar you want to show for this post!', 'custom-sidebars' );							 			 	 	 		  
+	_e( 'Here you can replace the default sidebars. Simply select what sidebar you want to show for this post!', 'custom-sidebars' );
 	echo '</p>';
 	if ( ! empty( $sidebars ) ) {
 		global $wp_registered_sidebars;

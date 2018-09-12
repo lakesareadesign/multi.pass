@@ -1,3 +1,22 @@
+<h4>2.1.4.5 - 09/10/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fix image settings apparently reverting to thumbnail in rare cases.</li>
+</ul>
+
+<h4>2.1.4.4 - 09/04/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed issue when duplicating with multiple copies of a module appearing after refreshing.</li>
+</ul>
+
+<h4>2.1.4.3 - 08/20/2018</h4>
+<p><strong>HotFix</strong></p>
+<ul>
+	<li>Fixed compatibility with Gutenberg.</li>
+	<li>Added editor variable to fl_builder_photo_cropped action.</li>
+</ul>
+
 <h4>2.1.4.2 - 08/06/2018</h4>
 <p><strong>HotFix</strong></p>
 <ul>

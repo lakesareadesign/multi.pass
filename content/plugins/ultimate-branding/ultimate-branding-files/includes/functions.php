@@ -302,7 +302,7 @@ function ub_register_activation_hook() {
  * @since 1.9.5
  */
 function set_ultimate_branding( $base ) {
-	global $UB_dir, $UB_url, $UB_network;
+	global $UB_dir, $UB_url, $UB_network, $uba;
 	/**
 	 * Set UB_dir
 	 */
@@ -391,12 +391,17 @@ function ub_get_main_site_ID() {
  * @since 2.1.0
  */
 function ub_register_deactivation_hook() {
+	$value = ub_get_option( 'ultimate_branding_delete_settings', 'delete' );
+	if ( 'preserve' === $value ) {
+		return;
+	}
 	/**
 	 * add global options
 	 */
 	$options = array(
-		'ultimate_branding_messages',
 		'ultimatebranding_activated_modules',
+		'ultimate_branding_delete_settings',
+		'ultimate_branding_messages',
 	);
 	$modules = ub_get_modules_list( 'keys' );
 	foreach ( $modules as $module ) {

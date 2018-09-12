@@ -82,7 +82,7 @@ if ( 'wpi_custom_scheme' == $color ) {
                 <?php $default_color = ub_get_option( 'ucs_default_color_scheme', false ); ?>
 
                 <tr valign="top">
-                    <th scope="row"><label><?php _e( 'Default Admin Color Scheme (for Newely Registered Users)', 'ub' ); ?></label></th>
+                    <th scope="row"><label><?php _e( 'Default Admin Color Scheme (for Newly Registered Users)', 'ub' ); ?></label></th>
                     <td>
 
                         <select name="ucs_default_color_scheme" id="ucs_default_color_scheme">

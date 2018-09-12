@@ -123,7 +123,7 @@ final class FLBuilderAdminSettings {
 		$name = FLBuilderModel::get_branding();
 
 		if ( ! empty( $icon ) ) {
-			echo '<img src="' . $icon . '" />';
+			echo '<img role="presentation" src="' . $icon . '" />';
 		}
 
 		echo '<span>' . sprintf( _x( '%s Settings', '%s stands for custom branded "Page Builder" name.', 'fl-builder' ), FLBuilderModel::get_branding() ) . '</span>';

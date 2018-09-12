@@ -1,9 +1,13 @@
 Plugin Name: Custom Sidebars Pro
 Author: Javier Marquez (Incsub), Philipp Stracker (Incsub), Marcin Pietrzak (Incsub)
-Buildtime: 2018-08-13T06:52:06.337Z
+Buildtime: 2018-08-22T20:24:50.415Z
 
 Change Log:
 ----------------------------------------------------------------------
+
+3.2.1 ( 2018-08-22 )
+----------------------------------------------------------------------
+- Fixed a problem with sidebar replacement on front page.
 
 3.2.0 ( 2018-08-13 )
 ----------------------------------------------------------------------
@@ -452,4 +456,4 @@ Change Log:
 - Initial release
 
 
-133620-1534734113-au
+133620-1536712513-au

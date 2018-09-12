@@ -19,7 +19,7 @@ if ( ! $tweet_url ) {
 			/**
 			 * @var WP_Embed $wp_embed
 			 */
-			echo wp_kses_post( $wp_embed->autoembed( $tweet_url ) );	     	 	 	  		 		
+			echo wp_kses_post( $wp_embed->autoembed( $tweet_url ) );
 			?>
 		<?php endwhile; ?>
 		<?php wp_reset_postdata(); ?>

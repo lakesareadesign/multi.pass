@@ -44,6 +44,11 @@
 				$post_types			= get_post_types( array(
 					'public' => true,
 				), 'objects' );
+				/**
+				 * Use this filter to modify the post types that are shown in the admin settings for enabling and disabling post types.
+				 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+				 * @see fl_builder_admin_settings_post_types
+				 */
 				$post_types         = apply_filters( 'fl_builder_admin_settings_post_types', $post_types );
 
 				foreach ( $post_types as $post_type ) :

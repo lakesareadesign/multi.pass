@@ -1,10 +1,11 @@
 === Multisite Toolbar Additions ===
-Contributors: daveshine, deckerweb, wpautobahn
+Contributors: daveshine, deckerweb, wpautobahn, toolbarextras
 Donate link: https://www.paypal.me/deckerweb
 Tags: toolbar, adminbar, admin bar, multisite, network, administration, menu, super admins, links, settings, deckerweb, ddwtoolbar
 Requires at least: 3.6
-Tested up to: 4.9.4
-Stable tag: 1.9.0
+Tested up to: 4.9.8
+Requires PHP: 5.6
+Stable tag: 1.9.2
 License: GPL-2.0+
 License URI: https://opensource.org/licenses/GPL-2.0
 
@@ -32,7 +33,7 @@ Adds a lot useful admin links to the WordPress Toolbar / Admin Bar in Multisite,
 * Network Settings, Updates, plus Site Upgrade
 * Special "+ New" (new content) section, like on site dashboards, but only for Network admin with Network specific items!
 * Extra special *Custom Nav Menu* vieable for Site Admins but only editable for Super Admins, setup via WP Menu system, [see FAQ for more...](https://wordpress.org/plugins/multisite-toolbar-additions/faq/).
-* Multisite aware plugin support, to date for: *Quick Cache, WP Super Cache, WP-Piwik, WPMS Site Maintenance Mode, Code Snippets, BackWPup, User Management Tools, Network Mass Email, Organizational Message Notifier, Snapshot (premium), Ultimate Branding (premium), Login Security Solution, Smart Admin Tweaks (premium), Smart Cleanup Tools (premium), Smart Options Optimizer (premium), Simple System Info (premium), Smart Security Tools (premium), Hide My WP (premium), Blog Copier, NS Cloner, NS Cloner Pro, Multisite Robots.txt Manager, WordPress MU Domain Mapping, WP Migrate DB Pro (premium), WPMS Admin Reports*
+* Multisite aware plugin support, to date for: *WP Super Cache, WP-Piwik, WPMS Site Maintenance Mode, Code Snippets, BackWPup, User Management Tools, Network Mass Email, Organizational Message Notifier, Snapshot (premium), Ultimate Branding (premium), Login Security Solution, Smart Admin Tweaks (premium), Smart Cleanup Tools (premium), Smart Options Optimizer (premium), Simple System Info (premium), Smart Security Tools (premium), Hide My WP (premium), Blog Copier, NS Cloner, NS Cloner Pro, Multisite Robots.txt Manager, WordPress MU Domain Mapping, WP Migrate DB Pro (premium), WPMS Admin Reports*
 
 = (Sub) Site Specific Features & Benefits =
  * Widgets
@@ -44,7 +45,6 @@ Adds a lot useful admin links to the WordPress Toolbar / Admin Bar in Multisite,
 = Included Plugin Support =
 *Out of the box the plugin supports the following other plugins' admin menu links in the Toolbar if installed and activated:*
 
-* ["Quick Cache" (free, by PriMoThemes.com / WebSharks, Inc.)](https://wordpress.org/plugins/quick-cache/) - also network wide
 * ["WP Super Cache" (free, by Donncha O Caoimh)](https://wordpress.org/plugins/wp-super-cache/) - also network wide
 * ["WP-Piwik" (free, by Andr&eacute; Br&auml;kling)](https://wordpress.org/plugins/wp-piwik/) - also network wide
 * ["WPMS Site Maintenance Mode" (free, 7 Media Web Solutions, LLC)](https://wordpress.org/plugins/wpms-site-maintenance-mode/) - also network wide
@@ -103,6 +103,8 @@ You can also contribute code-wise via our [Multisite Toolbar Additions GitHub Re
 = Liked Multisite Toolbar Additions Plugin? =
 - Join our [Facebook Community Group](https://www.facebook.com/groups/ToolbarExtras/).
 - Or rate us on [WordPress](https://wordpress.org/support/plugin/multisite-toolbar-additions/reviews/?filter=5/#new-post) :)
+- *Try my other admin bar related plugin:* **[Toolbar Extras for Elementor](https://wordpress.org/plugins/toolbar-extras/)**
+- *Try my other plugin:* **[Cleaner Plugin Installer](https://wordpress.org/plugins/cleaner-plugin-installer/)**
 
 = This Plugin ... =
 - ... scratches my own itch!
@@ -314,9 +316,10 @@ if ( ! is_admin() ) {
 `
 
 
-**Final note:** I DON'T recommend to add customization code snippets to your main theme's/child theme's `functions.php` file! **Please use a functionality plugin or an MU-plugin instead!** This way you can also use this better for Multisite environments. In general you are then more independent from theme/child theme changes etc. If you don't know how to create such a plugin yourself just use one of my recommended 'Code Snippets' plugins. Read & bookmark these Sites:
+**Final note:** I DON'T recommend to add customization code snippets to your main theme's/ child theme's `functions.php` file! **Please use a functionality plugin or an MU-plugin instead!** This way you can also use this better for Multisite environments. In general you are then more independent from theme/child theme changes etc. If you don't know how to create such a plugin yourself just use one of my recommended 'Code Snippets' plugins. Read & bookmark these Sites:
 
 * [**"Code Snippets"** plugin by Shea Bunge](https://wordpress.org/plugins/code-snippets/) - also network wide!
+* [**PHP Code Snippets (Insert PHP)** plugin by webcraftic](https://wordpress.org/plugins/insert-php/)
 * [**"What is a functionality plugin and how to create one?"**](http://wpcandy.com/teaches/how-to-create-a-functionality-plugin) - *blog post by WPCandy*
 * [**"Creating a custom functions plugin for end users"**](http://justintadlock.com/archives/2011/02/02/creating-a-custom-functions-plugin-for-end-users) - *blog post by Justin Tadlock*
 
@@ -338,13 +341,35 @@ All the custom & branding stuff code above can also be found as a Gist on Github
 
 == Changelog ==
 
+= 1.9.2 - 2018-09-08 =
+* New: Added plugin update message also to Plugins page (overview table)
+* Update: Fixed and improved various Plugins page links for Super Admins within the Admin area
+* Update: Fixed CSS class name in the admin
+* Update: Fixed wrong textdomain for one string
+* Update: Improved plugin installer recommendations
+* Update: `.pot` file for translators, plus German translations
+
+
+= 1.9.1 - 2018-08-22 =
+* New: Added first language packs via WordPress.org translations platform - for German (de_DE - informal) and German Formal (de_DE_formal) - thanks to Team WordPress DE! ;-)
+* New: Added `composer.json` file to the plugin's root folder - this is great for developers using Composer
+* New: Added `README.md` file for plugin's GitHub.com repository to make it more readable there
+* Fix: Fatal error related to to Network Admin/ Multisite context.
+* Removed: Plugin support for "Quick Cache" was removed as this plugin is no longer existing
+* Update: Some smaller code tweaks and improvements
+* Update: `.pot` file for translators, plus German translations
+* Update: Readme.txt file
+* *Trivia fact: this plugin is now 6 (six!) years old. Whoa, that's a lot. ;-)*
+
+
 = 1.9.0 - 2018-04-01 =
 * *Maintenance release*
 * Tweak: Improved security.
 * Tweak: Updated all internal plugin links to current state, deleted the ones that were dead or no longer needed.
 * Tweak: Added new plugin icon and banner on WordPress.org
-* Update: .pot file for translators, plus German translations
-* Update: Readme file.
+* Update: `.pot` file for translators, plus German translations
+* Update: Readme.txt file.
+
 
 = 1.8.0 - 2014-10-20 =
 * **Unreleased - private beta version!**
@@ -362,8 +387,10 @@ All the custom & branding stuff code above can also be found as a Gist on Github
  * NEW: Added support for "iThemes Security Pro" (premium, by iThemes).
  * UPDATE: Updated and improved support for these plugins: "Snapshot", "Smart Security Tools", "Smart Options Optimizer", "Simple System Info", "Stream", "Quick Cache Pro".
 
+
 = 1.7.1 - 2014-04/05 =
 * *Unreleased - private beta version!*
+
 
 = 1.7.0 - 2014-03-04 =
 * NEW: Highly improved "Nav Menu" support, all editable menus are now listed as sub level items for "Menus" entry. (Could be disabled via constant if needed.)
@@ -383,10 +410,18 @@ All the custom & branding stuff code above can also be found as a Gist on Github
  * NEW: Added support for "WPMS Admin Reports" (free, by Joe Motacek).
  * UPDATE: Updated and improved support for these plugins: "WP Migrate DB Pro".
 
+
 = Older Changelogs =
 See packaged `changelog.txt` file in the plugin folder.
 
+
 == Upgrade Notice ==
+
+= 1.9.2 =
+Maintenance release. Various tweaks, improvements and fixes.
+
+= 1.9.1 =
+Maintenance release. Various tweaks, improvements and fixes.
 
 = 1.9.0 =
 Maintenance release.
@@ -415,3 +450,13 @@ Enjoy using *Multisite Toolbar Additions*? **[Please consider making a donation]
 
 == Last but not least ==
 **Special Thanks go out to my family for allowing me to do such spare time projects (aka free plugins) and supporting me in every possible way!**
+
+== My Other Plugins ==
+* [**Toolbar Extras for Elementor - WordPress Admin Bar Enhanced**](https://wordpress.org/plugins/toolbar-extras/)
+* [**Builder Template Categories - for WordPress Page Builders**](https://wordpress.org/plugins/builder-template-categories/)
+* [Genesis What's New Info](https://wordpress.org/plugins/genesis-whats-new-info/)
+* [Genesis Layout Extras](https://wordpress.org/plugins/genesis-layout-extras/)
+* [Genesis Widgetized Not Found & 404](https://wordpress.org/plugins/genesis-widgetized-notfound/)
+* [Genesis Widgetized Footer](https://wordpress.org/plugins/genesis-widgetized-footer/)
+* [Genesis Widgetized Archive](https://wordpress.org/plugins/genesis-widgetized-archive/)
+* [Cleaner Plugin Installer](https://wordpress.org/plugins/cleaner-plugin-installer/)

@@ -101,6 +101,7 @@ class UB_Custom_Dashboard_Welcome extends ub_helper{
 	 * @since 1.8.9
 	 */
 	protected function set_options() {
+		$this->module = 'widgets';
 		$this->options = array(
 			'dashboard_widget' => array(
 				'title' => __( 'Dashboard Welcome' ),

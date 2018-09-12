@@ -540,6 +540,11 @@ final class FLBuilder {
 		$active		= FLBuilderModel::is_builder_active();
 		$preview	= FLBuilderModel::is_builder_draft_preview();
 		$handle		= 'fl-builder-layout-' . $post_id;
+		/**
+		 * Use this filter to add dependencies to the dependency array when the main builder layout CSS file is enqueued using wp_enqueue_style.
+		 * @see fl_builder_layout_style_dependencies
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$css_deps 	= apply_filters( 'fl_builder_layout_style_dependencies', array() );
 		$css_media 	= apply_filters( 'fl_builder_layout_style_media', 'all' );
 
@@ -1827,6 +1832,11 @@ final class FLBuilder {
 	 * @return void
 	 */
 	static public function render_row_attributes( $row ) {
+		/**
+		 * Use this filter to work with the custom class a user adds to a row under Row Settings > Advanced > Class.
+		 * @see fl_builder_row_custom_class
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$custom_class = apply_filters( 'fl_builder_row_custom_class', $row->settings->class, $row );
 		$overlay_bgs  = array( 'photo', 'parallax', 'slideshow', 'video' );
 		$active		  = FLBuilderModel::is_builder_active();
@@ -2022,6 +2032,11 @@ final class FLBuilder {
 	 * @return void
 	 */
 	static public function render_column_attributes( $col ) {
+		/**
+		 * Use this filter to work with the custom class a user adds to a column under Column Settings > Advanced > Class.
+		 * @see fl_builder_column_custom_class
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$custom_class = apply_filters( 'fl_builder_column_custom_class', $col->settings->class, $col );
 		$overlay_bgs  = array( 'photo' );
 		$nested       = FLBuilderModel::get_nodes( 'column-group', $col );
@@ -2173,6 +2188,11 @@ final class FLBuilder {
 	 * @return void
 	 */
 	static public function render_module_attributes( $module ) {
+		/**
+		 * Use this filter to work with the custom class a user adds to a module in the Class field on the Advanced tab.
+		 * @see fl_builder_module_custom_class
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$custom_class = apply_filters( 'fl_builder_module_custom_class', $module->settings->class, $module );
 		$active		  = FLBuilderModel::is_builder_active();
 		$visible 	  = FLBuilderModel::is_node_visible( $module );
@@ -2402,7 +2422,11 @@ final class FLBuilder {
 			$css .= FLBuilderModel::get_layout_settings()->css;
 		}
 
-		// Filter the CSS.
+		/**
+		 * Use this filter to modify the CSS that is compiled and cached for each builder layout.
+		 * @see fl_builder_render_css
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$css = apply_filters( 'fl_builder_render_css', $css, $nodes, $global_settings, $include_global );
 
 		// Minify the CSS.
@@ -2832,7 +2856,11 @@ final class FLBuilder {
 			include FL_BUILDER_DIR . 'classes/class-fl-jsmin.php';
 		}
 
-		// Filter the JS.
+		/**
+		 * Use this filter to modify the JavaScript that is compiled and cached for each builder layout.
+		 * @see fl_builder_render_js
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		$js = apply_filters( 'fl_builder_render_js', $js, $nodes, $global_settings, $include_global );
 
 		// Only proceed if we have JS.
@@ -2844,7 +2872,7 @@ final class FLBuilder {
 					$min = FLJSMin::minify( $js );
 				} catch ( Exception $e ) {}
 
-				if ( $min ) {
+				if ( isset( $min ) ) {
 					$js = $min;
 				}
 			}

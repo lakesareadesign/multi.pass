@@ -9,11 +9,6 @@ if ( ! defined( 'LEADIN_PORTAL_ID' ) ) {
 	DEFINE( 'LEADIN_PORTAL_ID', intval( get_option( 'leadin_portalId' ) ) );
 }
 
-if ( ! defined( 'LEADIN_HAPIKEY' ) ) {
-	DEFINE( 'LEADIN_HAPIKEY', get_option( 'leadin_hapikey' ) );
-}
-
-
 function leadin_get_resource_url( $path ) {
 	$resource_root = constant( 'LEADIN_ADMIN_ASSETS_BASE_URL' );
 

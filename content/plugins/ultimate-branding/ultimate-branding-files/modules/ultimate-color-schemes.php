@@ -420,7 +420,7 @@ if ( ! class_exists( 'Ultimate_Color_Schemes' ) ) {
 			$url = add_query_arg( 'tab', 'ultimate-color-schemes', $url );
 ?>
     <p><a href="<?php echo esc_url( $url ); ?>"><?php esc_attr_e( 'Back to Color Schemes main screen!', 'ub' ); ?></a></p>
-                <p class='description'><?php printf( __( 'Here you can customize "%s" color scheme which use can set within your <a href="%s">user profile page</a>', 'ub' ), esc_html( $color_scheme_name ), get_edit_user_link( get_current_user_id() ) ); ?></p>
+                <p class='description'><?php printf( __( 'Here you can customize "%s" color scheme which use can set within your <a href="%s">user profile page</a>.', 'ub' ), esc_html( $color_scheme_name ), get_edit_user_link( get_current_user_id() ) ); ?></p>
 <?php
 				$id = 'color-scheme-name';
 ?>

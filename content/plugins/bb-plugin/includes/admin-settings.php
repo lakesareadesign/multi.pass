@@ -1,9 +1,9 @@
 <div class="wrap <?php FLBuilderAdminSettings::render_page_class(); ?>">
 
-	<h2 class="fl-settings-heading">
+	<h1 class="fl-settings-heading">
 		<?php FLBuilderAdminSettings::render_page_heading(); ?>
-	</h2>
-	
+	</h1>
+
 	<?php FLBuilderAdminSettings::render_update_message(); ?>
 
 	<div class="fl-settings-nav">

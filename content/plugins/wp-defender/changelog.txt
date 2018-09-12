@@ -4,6 +4,17 @@ Tested up to: 4.7.4
 
 Change Log:
 
+2.0 - 2018-04-09
+----------------------------------------------------------------------
+- New: added tweak “Disable XML-RPC”
+- Improvement: Two factor authentication can now be force enabled by role.
+- Improvement: better clarification on Mask Login Area page
+- Fix: Compatibility with Appointments login when Mask Login enabled.
+- Fix: /login/ will be blocked instead of redirect to right login URL
+- Fix: new site registration emails login URL now show right Login URL instead of the original one if Mask URL enabled.
+- Fix: Accessibility fix for factor authentication
+- Changes: Show Admin Pointer when first activate Defender and remove the redirect behavior
+
 1.9.1 - 2018-09-07
 ----------------------------------------------------------------------
 - Fix: Mask Login Area description text is misleading
@@ -253,4 +264,4 @@ Fixed: Scanning was sometimes slow or getting stuck
 - First release
 
 
-133620-1531347822-au
+133620-1536712517-au

@@ -36,8 +36,8 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
         $this->template = $this->plugin->get_template();
 		add_action('load-post.php', array($this, 'load_post_page'));	
 		add_action('load-post-new.php', array($this, 'load_post_page'));	
-		add_action('save_post', array($this, 'save_post_tweaks'));
-		add_action('do_meta_boxes', array($this, 'do_meta_boxes'), 30, 2 );
+		add_action('save_post', array($this, 'save_post_tweaks'),10,2);
+		add_action('add_meta_boxes', array($this, 'add_meta_boxes'), 30, 2 );
 		add_action('admin_menu',array($this, 'admin_menu'));
 	}
 
@@ -74,19 +74,19 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
 		add_action ('admin_enqueue_scripts',array($this, 'enqueue_metabox_scripts'));
 	}
 
-
 	function save_tweaks() {
 		check_admin_referer(__CLASS__);
 		return $this->save_options($this->template, __('Dambuster Settings', GENESIS_DAMBUSTER_DOMAIN ));
 	}
 
-	function save_post_tweaks($post_id) {
+	function save_post_tweaks($post_id, $post) {
         $this->save_postmeta($post_id, self::DAMBUSTER_TWEAKS, Genesis_Dambuster_Template::DAMBUSTER_METAKEY, $this->template->get_defaults()); 
 	}
 
-	function do_meta_boxes( $post_type, $context) {
-        if ($this->is_metabox_active($post_type, $context)) {
-            add_meta_box('genesis-dambuster-settings', 'Genesis Dambuster',  array($this,'post_panel'), $post_type);		
+	function add_meta_boxes( $post_type, $post) {
+        if ($this->plugin->is_post_type_enabled($post_type)) {
+        	$args = array( '__block_editor_compatible_meta_box' => true);
+            add_meta_box('genesis-dambuster-settings', 'Genesis Dambuster',  array($this,'post_panel'), $post_type, 'advanced', 'default', $args);		
 			$current_screen = get_current_screen();
 			if (method_exists($current_screen,'add_help_tab'))
 	    		$current_screen->add_help_tab( array(
@@ -136,14 +136,14 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
 	function display_panel($post, $metabox) {
         $options = $metabox['args']['options'];	 	
         print $this->tabbed_metabox( $metabox['id'], array (
-         'Template Width' => $this->width_panel($options),
+         'Width' => $this->width_panel($options),
          'Header' => $this->header_panel($options),
          'Above Content' => $this->above_panel($options),
          'Below Content' => $this->below_panel($options),
          'Footer' => $this->footer_panel($options),
          'Background' => $this->background_panel($options),
          'Advanced' => $this->advanced_panel($options),
-         'Helper Classes' => $this->helper_panel($options),
+         'Helpers' => $this->helper_panel($options),
       ));
    }	
 
@@ -156,13 +156,13 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
             $toggle_panel = array( 'Enable' => $this->enable_post_panel($meta));
 
         print $this->tabbed_metabox( $metabox['id'],$toggle_panel + array(
-            'Template Width' => $this->width_post_panel($meta), 
+            'Width' => $this->width_post_panel($meta), 
             'Header' => $this->header_post_panel($meta), 
             'Above Content' => $this->above_post_panel($meta), 
             'Below Content' => $this->below_post_panel($meta), 
             'Footer' => $this->footer_post_panel($meta),
             'Background' => $this->background_post_panel($meta),
-            'Helper Classes' => $this->helper_post_panel($meta),
+            'Helpers' => $this->helper_post_panel($meta),
         ));
     }
 

@@ -26,9 +26,10 @@ if ( ! class_exists( 'ub_admin_message' ) ) {
 		/**
 		 * set options
 		 *
-		 * @since 2.1.1
+		 * @since 2.2.0
 		 */
 		protected function set_options() {
+			$this->module = 'admin-message';
 			$this->options = array(
 				'admin' => array(
 					'title' => __( 'Message', 'ub' ),
@@ -45,7 +46,7 @@ if ( ! class_exists( 'ub_admin_message' ) ) {
 		/**
 		 * Upgrade option
 		 *
-		 * @since 2.1.1
+		 * @since 2.2.0
 		 */
 		public function upgrade_options() {
 			$v = $this->get_value();

@@ -132,8 +132,8 @@ class UB_Admin_Bar {
 				if ( is_numeric( $parent_id ) && isset( $new_sub['title'] ) && ! empty( $new_sub['title'] ) ) {
 					$sub_insert = $this->_insert_sub_menu( $new_sub, $parent_id );
 				}
+				$this->_update_menus_record( $parent_id );
 			}
-			$this->_update_menus_record( $parent_id );
 			return $parent_id && $sub_insert;
 		}
 		return true;
@@ -279,7 +279,7 @@ class UB_Admin_Bar {
 	 *
 	 * @return array UB_Admin_Bar_Menu|bool false
 	 */
-	public static  function menus() {
+	public static function menus() {
 		global $wpdb;
 		$ids = maybe_unserialize( ub_get_option( self::OPTION_KEY ) );
 		$menus = array();

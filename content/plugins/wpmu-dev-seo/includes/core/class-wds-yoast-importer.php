@@ -21,7 +21,7 @@ class Smartcrawl_Yoast_Importer extends Smartcrawl_Importer {
 			return false;
 		}
 
-		return strpos( $version, '7.' ) === 0;
+		return strpos( $version, '7.' ) === 0 || strpos( $version, '8.' ) === 0;
 	}
 
 	public function import_options() {

@@ -121,10 +121,18 @@ if ( ! class_exists( 'ub_favicons' ) ) {
 						if ( $blog_id == $site->blog_id ) {
 							continue;
 						}
+						$details = get_blog_details( $site->blog_id );
+						$label = sprintf(
+							'<span class="ub-title">%s</span><br ><small><a href="%s" target="_blank">%s</a></small>',
+							esc_html( $details->blogname ),
+							esc_url( $details->siteurl ),
+							esc_url( $details->siteurl )
+						);
 						$key = 'blog_id_'.$site->blog_id;
 						$this->options['sites']['fields'][ $key ] = array(
 							'type' => 'media',
-							'label' => $site->domain,
+							'label' => $label,
+							'label_rich' => true,
 							'description' => __( 'Upload your own logo.', 'ub' ),
 						);
 					}
@@ -151,6 +159,9 @@ if ( ! class_exists( 'ub_favicons' ) ) {
 					'size' => ub_get_option( 'ub_favicon_size', '' ),
 					'url' => ub_get_option( 'ub_favicon_url', '' ),
 					'use_as_default' => ub_get_option( 'ub_favicons_use_as_default', '' )? 'on':'off',
+					'favicon_meta' => array(
+						ub_get_option( 'ub_favicon', '' ),
+					),
 				),
 				'sites' => array(),
 			);
@@ -369,6 +380,11 @@ if ( ! class_exists( 'ub_favicons' ) ) {
 				$url = $this->get_url_valid_shema( $favicon[0] );
 			} elseif ( is_string( $favicon ) ) {
 				$url = $this->get_url_valid_shema( $favicon );
+			} else {
+				$favicon = $this->get_value( 'global', 'favicon', false );
+				if ( is_string( $favicon ) ) {
+					$url = $this->get_url_valid_shema( $favicon );
+				}
 			}
 			if ( $add_tail ) {
 				$tail = md5( time() );

@@ -12,7 +12,7 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		parent::__construct( $plugin_file_path );
 		$this->plugin_slug    = 'wp-migrate-db-pro-multisite-tools';
 		$this->plugin_version = $GLOBALS['wpmdb_meta']['wp-migrate-db-pro-multisite-tools']['version'];
-		if ( ! $this->meets_version_requirements( '1.8.1' ) ) {
+		if ( ! $this->meets_version_requirements( '1.8.2' ) ) {
 			return;
 		}
 
@@ -27,12 +27,12 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 
 		add_action( 'wpmdb_before_migration_options', array( $this, 'migration_form_controls' ) );
 		add_action( 'wpmdb_load_assets', array( $this, 'load_assets' ) );
-		add_action( 'wpmdb_diagnostic_info', array( $this, 'diagnostic_info' ) );
 		add_filter( 'wpmdb_accepted_profile_fields', array( $this, 'accepted_profile_fields' ) );
 		add_filter( 'wpmdb_establish_remote_connection_data', array( $this, 'establish_remote_connection_data' ) );
 		add_filter( 'wpmdb_data', array( $this, 'js_variables' ) );
 		add_filter( 'wpmdb_key_rules', array( $this, 'filter_key_rules'), 10, 2 );
 
+		add_filter( 'wpmdb_diagnostic_info', array( $this, 'diagnostic_info' ) );
 		add_filter( 'wpmdb_exclude_table', array( $this, 'filter_table_for_subsite' ), 10, 2 );
 		add_filter( 'wpmdb_tables', array( $this, 'filter_tables_for_subsite' ), 10, 2 );
 		add_filter( 'wpmdb_table_sizes', array( $this, 'filter_table_sizes_for_subsite' ), 10, 2 );
@@ -295,12 +295,11 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 		$plugins_url = trailingslashit( plugins_url() ) . trailingslashit( $this->plugin_folder_name );
 		$version     = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : $this->plugin_version;
 		$ver_string  = '-' . str_replace( '.', '', $this->plugin_version );
-		$min         = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? '' : '.min';
 
-		$src = $plugins_url . 'asset/dist/css/styles.css';
+		$src = $plugins_url . 'asset/build/css/styles.css';
 		wp_enqueue_style( 'wp-migrate-db-pro-multisite-tools-styles', $src, array( 'wp-migrate-db-pro-styles' ), $version );
 
-		$src = $plugins_url . "asset/dist/js/script{$ver_string}{$min}.js";
+		$src = $plugins_url . "asset/build/js/bundle{$ver_string}.js";
 		wp_enqueue_script( 'wp-migrate-db-pro-multisite-tools-script',
 			$src,
 			array(
@@ -316,12 +315,11 @@ class WPMDBPro_Multisite_Tools extends WPMDBPro_Addon {
 	/**
 	 * Adds extra information to the core plugin's diagnostic info
 	 */
-	public function diagnostic_info() {
+	public function diagnostic_info( $diagnostic_info ) {
 		if ( is_multisite() ) {
-			echo 'Sites: ';
-			echo number_format( get_blog_count() );
-			echo "\r\n";
+			$diagnostic_info['multisite-tools'] =  array( 'Sites' => number_format( get_blog_count() ) );
 		}
+		return $diagnostic_info;
 	}
 
 	/**

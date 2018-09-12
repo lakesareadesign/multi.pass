@@ -25,7 +25,7 @@ class Protect_Information extends Rule {
 	}
 
 	public function getTitle() {
-		return __( "Prevent Information Disclosure", wp_defender()->domain );
+		return __( "Prevent Information Disclosure", wp_defender()->domain );	  	 	   	 		 		 				
 	}
 
 	function revert() {

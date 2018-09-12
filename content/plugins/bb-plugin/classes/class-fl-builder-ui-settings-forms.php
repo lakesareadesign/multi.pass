@@ -90,12 +90,12 @@ class FLBuilderUISettingsForms {
 	 * errors we were running into on some hosts.
 	 *
 	 * @since 2.1.0.2
-	 * @param string $buffer
+	 * @param string $buffer $mode
 	 * @return string
 	 */
 
-	static public function compress_settings_config( $buffer ) {
-		@ob_gzhandler( $buffer ); // @codingStandardsIgnoreLine
+	static public function compress_settings_config( $buffer, $mode ) {
+		@ob_gzhandler( $buffer, null ); // @codingStandardsIgnoreLine
 		return $buffer;
 	}
 
@@ -806,6 +806,12 @@ class FLBuilderUISettingsForms {
 	 */
 	static public function render_settings_field( $name, $field, $settings = null ) {
 
+		/**
+		 * Use this filter to modify the config array for a field before it is rendered.
+		 * @see fl_builder_render_settings_field
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @since 2.0
+		 */
 		$field              = apply_filters( 'fl_builder_render_settings_field', $field, $name, $settings ); // Allow field settings filtering first
 		$i                  = null;
 		$is_multiple        = isset( $field['multiple'] ) && true === (bool) $field['multiple'];

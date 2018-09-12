@@ -1,146 +1,197 @@
-=== Form Builder, Live Chat and Lead Generation Tools from HubSpot ===
-Contributors: leadin, sredmond, HubSpotDev
-Tags:  crm, contacts, lead tracking, click tracking, visitor tracking, analytics, marketing automation, inbound marketing, subscription, marketing, lead generation, mailchimp, constant contact, newsletter, popup, popover, email list, email, contacts database, contact form, forms, form widget, popup form
+=== Contact Form Builder for WordPress - Conversion Tools by HubSpot ===
+Contributors: HubSpotDev, leadin
+Tags: form, forms, form builder, contact form, email
 Requires at least: 3.7
-Tested up to: 4.8
-Stable tag: 6.1.9
+Tested up to: 4.9
+Stable tag: 6.1.11
 
-The HubSpot WordPress plugin is a powerful FREE contact form and pop-up form plugin. Create WordPress forms in minutes, capture leads and gain insights on your website traffic.
+The Contact Form Builder plugin, a part of HubSpot's Conversion Tools, allows you to create WordPress forms using <a href="https://hubspot.com/products/marketing/forms?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">HubSpot's drag & drop Form Builder</a> in a few clicks to start capturing leads on your website.
 
 == Description ==
 
-Whether you’re just getting started with HubSpot or already a HubSpot power user, **Form Builder, Live Chat and Lead Generation Tools from HubSpot** will let you connect your WordPress website to your HubSpot account without having to deal with code.
+Whether you’re just getting started with HubSpot or already a HubSpot power user, **Contact Form Builder for WordPress and Conversion Tools by HubSpot** will let you use HubSpot tools on your WordPress website and connect the two platforms without dealing with code.
 
-It is the all-in-one WordPress plugin for capturing leads, building an email list and tracking visitor behavior on your website.
+A free HubSpot account will allow you to take advantage of all the plugin features. <a href=“https://app.hubspot.com/signup/marketing?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces” target=“_blank”>Click here to create your account</a>.
 
 The plugin includes forms and pop-ups to capture leads, a dashboard to show the emails you’ve captured and a contact database with insights on your leads.
 
-All these features work immediately once you connect your HubSpot account to WordPress. No coding required.
+All these features work immediately once you connect your WordPress site with your HubSpot account.
 
-The **Lead Generation Tools from HubSpot** also automatically capture form submissions on your site even if they come from a different form tool. Whether you use Gravity Forms, Ninja Forms, Contact Forms 7 or any other WordPress form plugin, those leads will automatically be added to your contact database. No need to set up API integrations.
+Let's take a look at how HubSpot's Contact Form Builder for WordPress can help you get more leads and email subscribers.
 
-Here’s how **Form Builder, Live Chat and Lead Generation Tools from HubSpot** will help you upgrade your marketing:
+= Drag and Drop Form Builder =
 
-= Free Form Builder & Pop-ups: Capture every qualified lead =
+Add contact forms and email capture pop-ups to your website in minutes using the drag and drop form builder. You can choose from three type of forms:
 
-Add high-converting forms and pop-ups to your website in minutes. No coding required. You can choose from three type of pop-ups:
-
+- Inline form: A form you can embed directly on your site pages
 - Overlay modal: A pop-up that appears in the center of the screen
-- Banner: A small banner at the top of the page
+- Banner: An banner at the top of the page
 - Slide-in box: A small box that slides in from the side of the page
 
-If you’re already using forms on your site, then awesome! HubSpot Marketing Free automatically captures form submissions, even if they come from a different tool. It supports the most popular form building plugins available: Ninja Forms, Gravity Forms, Contact Form 7, and more.
+= Fully Integrated Customer Relationship Management =
 
-= Contact Insights: Understand who your leads are and what they’re doing =
+Your HubSpot account comes with a <a href="https://www.hubspot.com/products/crm?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">free HubSpot CRM</a>. When someone fills out your form, their data is sent directly to your HubSpot CRM so you can easily organize and segment your contacts into lists.
 
-When a lead submits a form, the HubSpot plugin automatically enriches their profile with public information from across the web such as job title and social profiles. Their contact profile will also show you how they got to your website and what pages they viewed.
+The plugin automatically enriches your contact profiles with public information from across the web. You can view each contact in your HubSpot CRM to find out how they found your website and which pages they viewed.
 
-= Built-in Analytics: Analyze and improve your conversions =
+If you’re already using a form tool on your site like Ninja Forms, Gravity Forms, or Contact Form 7, no problem. HubSpot's Conversion Tools will automatically capture those form submissions and add them to your CRM so you can keep all your contacts in one place.
 
-Using the built-in analytics, you will see which pages and traffic sources drive the most conversions so you can double down on what’s working and see where you can improve. The data is yours. You don’t have to pay for it.
+= Analyze and Improve Your Conversions =
 
-= Let your site visitors talk to you when they want =
+Using the built-in analytics, you will see which pages and traffic sources drive the most conversions so you can double down on what’s working and see where you can improve.
 
-The paid version of HubSpot allows you to embed a live chat widget on your WordPress site so visitors can chat with you when they want to.
+= Let Your Site Visitors Talk to You When They Want =
 
-= Start turning visitors into leads today =
+As a part of HubSpot's Conversion Tools, the plugin also allows you to embed a <a href="https://www.hubspot.com/products/crm/live-chat?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">live chat</a> widget on your WordPress site so visitors can chat with you when they want to.
 
-Get **Form Builder, Live Chat and Lead Generation Tools from HubSpot** and start converting website visitors into leads now.
+= Full Plugin Feature List =
 
-> “HubSpot dramatically cuts down the time I spend on marketing. We used to spend tons of time generating very few inbound leads, but those numbers have gone through the roof with minimal effort.” – Brian Ruhlmann, Director of Sales & Marketing, AdmitHub
-
-= Full Feature List =
-
+- <a href="https://www.hubspot.com/products/marketing/forms?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">Drag and Drop Form Builder</a>: Easily create contact forms in minutes.
 - Dashboard: A central hub for your marketing analytics. Learn which forms, pages and traffic sources drive the most conversions.
-- Lead Flows: Add user-friendly pop-up forms with ease. No code required.
-- Collected Forms: Already using another forms plugin? No need to change them. HubSpot automatically captures submissions, even if they come from a different tool.
-- Live Chat: A paid feature that allows you to add a live chat widget to your site.
-- Contacts Database: A single simple database for contact management.
-- Kickback Emails: Follow up on form submissions with a quick email.
+- <a href="https://www.hubspot.com/products/marketing/lead-flows?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">Pop-Ups</a>: Add user-friendly pop-up forms with ease. No code required.
+- Collected Forms: Already using another forms plugin? No need to change them. The plugin automatically captures submissions and syncs them with your HubSpot CRM.
+- <a href="https://www.hubspot.com/products/crm/live-chat?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">Live Chat</a>: Add a live chat widget to your site so visitors can chat with you.
+- <a href="https://www.hubspot.com/products/crm?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">Contacts Database</a>: A single simple database for contact management.
 - Integrations: Easily connect to MailChimp, Shopify, Magento and more.
 
-= What people love about the HubSpot WordPress plugin? =
+**Features of HubSpot Form Builder include, but are not limited to:**
 
-- It’s easy to configure and use without code.
-- It’s lightweight and integrates with HubSpot CRM and third-party software like MailChimp, Shopify, Magento and more.
-- The best WordPress marketing plugin to learn which pages and offers convert best so you know which pages to optimize.
-- It saves you time you can use to focus on other marketing activities.
-- It’s 100% responsive and mobile-friendly.
+- Unlimited fields: Use as many fields as you'd like on a form
+- Unlimited submissions: Don't worry about hitting submission limits.
+- Dropdown select menus: Give users a dropdown menu of options.
+- Radio select: List out all options available.
+- Multiple checkboxes: Users can select multiple options.
+- Required fields: Make fields required so users can't skip them.
+- File uploads: Collect files through your contact forms.
+- Spam protection: Smart CAPTCHA will stop spam contact form submissions.
+- Smart conditional logic: Show or hide fields and contact form sections based on user behavior.
+- Form submission notification emails: Set up a notification email with a summary whenever someone submits your form.
+- Form submission follow up emails: Send a follow up email when someone submits your form.
+- Custom success behavior: Give users a success message or redirect them elsewhere after they complete a form.
+- Mobile-responsive contact forms: Your forms will work on any screen size.
+- <a href="https://www.hubspot.com/integrations/mailchimp?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">MailChimp Forms</a>: Create MailChimp newsletter signup forms in WordPress and connect your contact form to grow your email list.
+
+= What do people have to say about HubSpot Form Builder for WordPress? =
 
 > “HubSpot educates marketers beyond just the anonymous analytics they get from Google Analytics. Instead, it digs down to individual users.” – Michael Shoup, Founder / CEO, 12South Marketing
 
+> “HubSpot dramatically cuts down the time I spend on marketing. We used to spend tons of time generating very few inbound leads, but those numbers have gone through the roof with minimal effort.” – Brian Ruhlmann, Director of Sales & Marketing, AdmitHub
+
+Give HubSpot Form Builder a try.
+
+Want to learn about more features? <a href="https://hubspot.com/pricing?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">See if HubSpot's paid tiers are for you</a>.
+
 == Support ==
 
-Having trouble? <a href="https://community.hubspot.com/">Browse our HubSpot Community page</a> for help documentation and support.
+Having trouble with the form builder? <a href="https://community.hubspot.com?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">Browse our HubSpot Community page</a> for help documentation and support.
 
 == Installation ==
 
 = Search =
 
-The easiest way to install this plugin is to use the WordPress Admin interface. Go to your admin dashboard, find the "Plugins" menu, and click on "Add New". Search for "HubSpot" and click "Install Now". Follow the WordPress instructions and you're done.
+The easiest way to install this plugin is to use the WordPress Admin interface.
+
+- Go to your admin dashboard
+- Find the "Plugins" menu
+- Click on "Add New"
+- Search for "HubSpot"
+- Click "Install Now"
+- Go to your "Plugins" menu
+- Click "Activate" on the HubSpot Form Builder plugin
+- Log in or sign up for a HubSpot account
+
+Your WordPress site and HubSpot account will be connected and you're ready to get started with HubSpot's Conversion Tools.
 
 = Upload =
 
 1. Upload the 'leadin' folder to the '/wp-content/plugins/' directory
 2. Activate the plugin through the 'Plugins' menu in WordPress
 
-Having trouble? Check out our <a href="https://knowledge.hubspot.com/articles/kcs_article/integrations/how-can-i-install-the-hubspot-tracking-code-for-wordpress" target="_blank">help documentation</a>
+Having trouble? Check out our <a href="https://knowledge.hubspot.com/articles/kcs_article/integrations/how-can-i-install-the-hubspot-tracking-code-for-wordpress?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">help documentation</a>
 
 == Frequently Asked Questions ==
 
 = Requirements =
 
 - Your website or blog must be using WordPress.org version 3.7 or higher on your server. We recommend the latest version.
-- The tracking code cannot be installed on WordPress.com sites, as they do not allow you to add plugins or Javascript.
+- The plugin cannot be installed on WordPress.com sites, as they do not allow you to add plugins or Javascript.
 - The wp_footer function must be included in your WordPress theme’s footer file (footer.php).
-- This function is required for our tracking code to be installed on every page of your site.
+- This function is required for our Javascript snippet to be installed on every page of your site.
 - You must be a WordPress admin to be able to install plugins for your site. If you are not the admin, you can forward these instructions to the person who manages your WordPress install.
 
 = What does the plugin do? =
 
-This plugin installs the HubSpot tracking code on your WordPress site. HubSpot provides an arsenal of marketing and sales tools you can use to convert visitors into leads.
+This plugin connects your free or paid HubSpot account with your WordPress website by installing the HubSpot Javascript snippet on your WordPress site. This code will allow you to use HubSpot's suite of conversion tools on your WordPress site.
 
 = What is HubSpot? =
 
-HubSpot provides inbound marketing, sales and CRM software that helps companies attract visitors, convert leads, and close customers.
+<a href="https://hubspot.com?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">HubSpot</a>a> provides inbound marketing, sales, customer service and CRM software to help companies grow better.
 
-The HubSpot WordPress Plugin is a free tool that includes the basics you need to capture, track, and convert leads. These basics include a lead generation dashboard, pop-up and slide-in forms, a form scraping tool, a contact database, and lead insights.
+= Who should use the HubSpot Conversion Tools for WordPess? =
 
-This plugin connects your free or paid HubSpot account with your WordPress website.
-
-= Who should use the HubSpot WordPress plugin? =
-
-HubSpot is perfect for business owners, small businesses, bloggers, designers, photographers, anyone with a WordPress website. If you want to create custom WordPress forms, this plugin is for you whether you’re a current HubSpot user (free or paid tiers) or hoping to try out the free tools.
+HubSpot is perfect for agencies, business owners, small businesses, bloggers, designers, anyone with a WordPress website. If you want to create custom WordPress contact forms, this plugin is for you.
 
 = Do I need to have coding skills to use the HubSpot WordPress plugin? =
 
-Not at all. You can create and manage forms without any coding by using our user-friendly drag and drop form builder.
+Not at all. You can create and manage forms without any coding using our user-friendly drag and drop form builder.
+
+= What type of WordPress forms can I build with HubSpot Form Builder? =
+
+Here are some types of WordPress forms you can create:
+
+* Simple Contact Forms
+* Advanced Contact Forms
+* Custom Contact Forms
+* Dynamic Contact Forms (where fields change based on user's answers)
+* Request a Quote Contact Form
+* Job Application Contact Form
+* Feedback Survey Contact Form
+* Make a Suggestion Contact Form
+* Testimonials Contact Form
+* Change Request Forms
+* Online Booking Forms
+* Online RSVP Forms
+* WordPress Post Submission Forms (Great for Guest Posts)
+* Lead Capture Forms
+* Newsletter Signup Forms
+* MailChimp forms
+* AWeber Forms
+* Constant Contact Forms
+* GetResponse Signup Forms
+* Campaign Monitor Forms
+* Partnership Agreement Forms
+* File Download Forms
+* Make a Referral Contact Form
+* Volunteer Registration Contact Form
 
 = How do I upgrade? =
 
-The HubSpot Starter tier is built for those who want to remove HubSpot branding from their forms and get more lead insights. If you’d like to upgrade to the HubSpot Starter tier, <a href="https://knowledge.hubspot.com/articles/kcs_article/account/how-do-i-upgrade-to-marketing-starter-from-marketing-free" target="_blank">follow these instructions</a>.
+The HubSpot's paid tiers are built for those who want more advanced functionality. If you’d like to learn more about HubSpot's paid tiers, <a href="https://hubspot.com/pricing?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">view our pricing page</a>.
 
-= Why aren’t my pop-ups (i.e. lead flows) working? =
+= Why aren’t my pop-ups working? =
 
-There are 3 main reasons your lead flows may not be working:
+There are three reasons your pop-up forms may not be working:
 
-1. Your tracking code is not installed properly. Please see the instructions above, or <a href="https://knowledge.hubspot.com/articles/kcs_article/lead-flows/why-arent-my-lead-flows-displaying" target="_blank">this article for troubleshooting</a>.
+1. Your tracking code is not installed properly. Please see the instructions above, or <a href="https://knowledge.hubspot.com/articles/kcs_article/lead-flows/why-arent-my-lead-flows-displaying?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">this article for troubleshooting</a>.
 2. You previously cancelled, or pressed “x,” on your pop-up. Once you dismiss the pop-up we will not show it for 14-days.
 3. You, or your contact, already filled out the pop-up form. Once a pop-up form is submitted, it will not display again for the same user.
 
-= What will my visitors see if I have multiple lead flows active on a page? =
+= What will my visitors see if I have multiple pop-up forms active on a page? =
 
-**If a visitor has previously dismissed a pop-up form:**  They won’t be presented with that same pop-up form for 14 days. If they previously submitted that pop-up and view a page with the same pop-up on the same browser without clearing their cookies, they will not be shown the same pop-up form again.
+**If a visitor has previously dismissed a pop-up form:**
+They won’t be presented with that same pop-up form for 14 days. If they previously submitted that pop-up and view a page with the same pop-up on the same browser without clearing their cookies, they will not be shown the same pop-up form again.
 
-**If more than one pop-up is set to a single URL:** The pop-up form set to the most specific page URL will take priority. For example, if you have a pop-up set to load on “All Pages” and a pop-up is set to load on “http://www.domain.com/home”, the pop-up form set to load on “http://www.domain.com/home” will display. This applies to pop-ups that have the same triggers (On 50% page scroll, On exit intent, etc) or the same type (pop-up box, dropdown banner, etc).
+**If more than one pop-up is set to a single URL:**
+The pop-up form set to the most specific page URL will take priority. For example, if you have a pop-up set to load on “All Pages” and a pop-up is set to load on “http://www.domain.com/home”, the pop-up form set to load on “http://www.domain.com/home” will display. This applies to pop-ups that have the same triggers (On 50% page scroll, On exit intent, etc) or the same type (pop-up box, dropdown banner, etc).
 
-**If there are two pop-ups with different triggers set to load on the same page with the same location specificity:** The pop-up form won’t conflict each other and will wait for their respective triggers, given that the user has not previously submitted or dismissed either pop-up form. For example, if a pop-up form is set to load on all pages and is triggered on 50% page scroll and another pop-up is set to load on all pages and is triggered on exit intent, the two pop-ups will load when the user triggers each pop-up.
+**If there are two pop-ups with different triggers set to load on the same page with the same location specificity:**
+The pop-up form won’t conflict each other and will wait for their respective triggers, given that the user has not previously submitted or dismissed either pop-up form. For example, if a pop-up form is set to load on all pages and is triggered on 50% page scroll and another pop-up is set to load on all pages and is triggered on exit intent, the two pop-ups will load when the user triggers each pop-up.
 
-<a href="https://knowledge.hubspot.com/getting-started-with-the-hubspot-crm-free/lead-flows-and-collected-forms-faq" target="_blank">Check out this help article</a> for more details.
+<a href="https://knowledge.hubspot.com/getting-started-with-the-hubspot-crm-free/lead-flows-and-collected-forms-faq?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">Check out this help article</a> for more details.
 
 = My question is not listed. =
 
-Please <a href="https://community.hubspot.com/" target="_blank">visit the HubSpot Community</a> for more detailed documentation and support. Thank you!
+Please <a href="https://community.hubspot.com?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">visit the HubSpot Community</a> for more detailed documentation and support. Thank you!
 
 == Screenshots ==
 
@@ -150,20 +201,26 @@ Please <a href="https://community.hubspot.com/" target="_blank">visit the HubSpo
 
 == Changelog ==
 
-- Current version: 6.1.9
-- Current version release: 2018-07-27
+- Current version: 6.1.11
+- Current version release: 2018-08-30
+
+= 6.1.11 (2018.08.30) =
+- Plugin description update
+
+= 6.1.10 (2018.08.28) =
+- Plugin readme update
 
 = 6.1.9 (2018.07.27) =
-- Update screenshots on description
+- New product screenshots with HubSpot Form Builder redesign
 
 = 6.1.8 (2018.07.27) =
-- Update plugin description II
+- Plugin description updated to describe HubSpot Conversion Tools
 
 = 6.1.7 (2018.06.26) =
-- Update plugin description
+- Plugin description updated to describe HubSpot Form Builder
 
 = 6.1.6 (2018.06.22) =
-- Add shortcodes to use forms and ctas tools
+- Add shortcodes to use forms and CTA tools
 
 = 6.1.5 (2018.05.22) =
 - Code cleanup
@@ -179,7 +236,7 @@ Please <a href="https://community.hubspot.com/" target="_blank">visit the HubSpo
 - Fix an issue where accounts could not be disconnected
 
 = 6.0.0 (2016.11.10) =
-- Leadin is now HubSpot Marketing Free - learn more at http://www.hubspot.com/products/marketing/free
+- Leadin is now HubSpot Marketing Free - learn more at http://www.hubspot.com/products/marketing
 
 = 5.5.3 (2016.09.01) =
 - Clean up remaining deployment issues

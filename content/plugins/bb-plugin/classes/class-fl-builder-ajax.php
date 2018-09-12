@@ -183,7 +183,10 @@ final class FLBuilderAJAX {
 			return;
 		}
 
-		// Allow developers to modify actions before they are called.
+		/**
+		 * Allow developers to modify actions before they are called.
+		 * @see fl_ajax_before_call_action
+		 */
 		do_action( 'fl_ajax_before_call_action', $action );
 
 		// Make sure the action exists.
@@ -207,13 +210,24 @@ final class FLBuilderAJAX {
 			define( 'DOING_AJAX', true );
 		}
 
-		// Allow developers to hook before the action runs.
+		/**
+		 * Allow developers to hook before the action runs.
+		 * @see fl_ajax_before_
+		 * @link https://kb.wpbeaverbuilder.com/article/116-plugin-action-reference
+		 */
 		do_action( 'fl_ajax_before_' . $action['action'], $keys_args );
 
-		// Call the action and allow developers to filter the result.
+		/**
+		 * Call the action and allow developers to filter the result.
+		 * @see fl_ajax_
+		 */
 		$result = apply_filters( 'fl_ajax_' . $action['action'], call_user_func_array( $action['method'], $args ), $keys_args );
 
-		// Allow developers to hook after the action runs.
+		/**
+		 * Allow developers to hook after the action runs.
+		 * @see fl_ajax_after_
+		 * @link https://kb.wpbeaverbuilder.com/article/116-plugin-action-reference
+		 */
 		do_action( 'fl_ajax_after_' . $action['action'], $keys_args );
 
 		// JSON encode the result.

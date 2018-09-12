@@ -503,7 +503,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 		private function menu( $capability ) {
 			$image = 'PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxNTAiIGhlaWdodD0iMTUwIj48ZyB0cmFuc2Zvcm09Im1hdHJpeCguMzAzMDMgMCAwIC0uMzAzMDMgLTc2LjUxNSAyNTAuNzYpIj48ZyB0cmFuc2Zvcm09InRyYW5zbGF0ZSgzNjUsNzY1KSI+PHBhdGggZD0ibTAgMHYtMjM1YzAtNTUuMDU3IDMzLjEyOS0xMDIuNTIgODAuNS0xMjMuNTF2MzU4LjUxaC04MC41em0xMzUtNDAwYy05MC45ODEgMC0xNjUgNzQuMDE5LTE2NSAxNjV2MjY1aDE0MC41di0zOTcuNzdjNy45NDgtMS40NjMgMTYuMTM2LTIuMjI4IDI0LjUtMi4yMjggNzQuNDM5IDAgMTM1IDYwLjU2MSAxMzUgMTM1djI2NWgzMHYtMjY1YzAtOTAuOTgxLTc0LjAxOS0xNjUtMTY1LTE2NSIgZmlsbD0iIzViNWM3MiIvPjwvZz48L2c+PC9zdmc+Cg==';
 			// Add in our menu page
-			add_menu_page(
+			$hook = add_menu_page(
 				__( 'Branding', 'ub' ),
 				__( 'Branding', 'ub' ),
 				$capability,
@@ -511,6 +511,57 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 				array( $this, 'handle_main_page' ),
 				'data:image/svg+xml;base64,'.$image
 			);
+			add_action( 'load-'.$hook, array( $this, 'screen_settings' ) );
+		}
+
+		/**
+		 * Add Screen Options
+		 *
+		 * @since 2.2.0
+		 */
+		public function screen_settings() {
+			if ( 'dashboard' === $this->tab ) {
+				if (
+					isset( $_POST['ub_delete'] )
+					&& isset( $_POST['screenoptionnonce'] )
+					&& wp_verify_nonce( $_POST['screenoptionnonce'], 'screen-options-nonce' )
+				) {
+					$value = $_POST['ub_delete'];
+					if ( empty( $value ) || ! preg_match( '/^(delete|preserve)$/', $value ) ) {
+						$value = 'delete';
+					}
+					ub_update_option( 'ultimate_branding_delete_settings', $value );
+				}
+				add_action( 'screen_settings', array( $this, 'screen_settings_output' ), 10, 2 );
+				add_filter( 'screen_options_show_submit', '__return_true' );
+			}
+		}
+
+		/**
+		 * Show content oc "Screen Options" tab.
+		 *
+		 * @since 2.2.0
+		 */
+		public function screen_settings_output( $settings, $screen ) {
+			$value = ub_get_option( 'ultimate_branding_delete_settings', 'delete' );
+			if ( empty( $value ) || ! preg_match( '/^(delete|preserve)$/', $value ) ) {
+				$value = 'delete';
+			}
+			$settings .= '<fieldset class="ub-prefs">';
+			$settings .= sprintf( '<legend>%s</legend>', esc_html__( 'Plugin settings on deactivate', 'ub' ) );
+			$settings .= sprintf( '<p class="description">%s</p>', esc_html__( 'What should we do with plugin configuration, when plugin is deactivated?', 'ub' ) );
+			$settings .= sprintf(
+				'<label><input name="ub_delete" class="switch-button" type="radio" value="delete" %s /> %s</label>',
+				checked( $value, 'delete', false ),
+				esc_html__( 'Delete', 'ub' )
+			);
+			$settings .= sprintf(
+				'<label><input name="ub_delete" class="switch-button" type="radio" value="preserve" %s /> %s</label>',
+				checked( $value, 'preserve', false ),
+				esc_html__( 'Preserve', 'ub' )
+			);
+			$settings .= '</fieldset>';
+			return $settings;
 		}
 
 		/**
@@ -1285,6 +1336,7 @@ if ( has_filter( 'ultimatebranding_settings_admin_message_process' ) ) {
 		public function handle_smtp_panel() {}
 		public function handle_db_error_page_panel() {}
 		public function handle_ms_site_check_panel() {}
+		public function handle_cookie_notice_panel() {}
 
 		/**
 		 * sanitize tab

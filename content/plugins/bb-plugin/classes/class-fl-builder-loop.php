@@ -312,6 +312,11 @@ final class FLBuilderLoop {
 			$args['post__not_in'][] = $exclude_self;
 		}
 
+		/**
+		 * Filter all the args passed to WP_Query.
+		 * @see fl_builder_loop_query_args
+		 * @link https://kb.wpbeaverbuilder.com/article/591-create-a-filter-to-customize-the-display-of-post-data
+		 */
 		$args = apply_filters( 'fl_builder_loop_query_args', $args );
 
 		// Build the query.

@@ -12,10 +12,17 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 			$this->set_options();
 			add_action( 'ultimatebranding_settings_maintenance', array( $this, 'admin_options_page' ) );
 			add_filter( 'ultimatebranding_settings_maintenance_process', array( $this, 'update' ), 10, 1 );
-			add_action( 'template_redirect', array( $this, 'render' ), 0 );
-			add_filter( 'rest_authentication_errors', array( $this, 'only_allow_logged_in_rest_access' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_action( 'wp_ajax_ultimatebranding_maintenance_search_sites', array( $this, 'search_sites' ) );
+
+			/**
+			 * use, depend on status
+			 */
+			$status = $this->get_value( 'mode', 'mode' );
+			if ( 'off' !== $status ) {
+				add_action( 'template_redirect', array( $this, 'render' ), 0 );
+				add_filter( 'rest_authentication_errors', array( $this, 'only_allow_logged_in_rest_access' ) );
+			}
 		}
 
 		/**
@@ -421,6 +428,13 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				return;
 			}
 			/**
+			 * check status
+			 */
+			$status = $this->get_value( 'mode', 'mode' );
+			if ( 'off' == $status ) {
+				return;
+			}
+			/**
 			 * check sites options
 			 */
 			$sites = $this->get_value( 'mode', 'sites' );
@@ -433,13 +447,6 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 				if ( ! in_array( $blog_id, $sites ) ) {
 					return;
 				}
-			}
-			/**
-			 * check status
-			 */
-			$status = $this->get_value( 'mode', 'mode' );
-			if ( 'off' == $status ) {
-				return;
 			}
 			/**
 			 * set data
@@ -509,7 +516,7 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 			 */
 			if ( empty( $this->data['document']['title'] ) && empty( $this->data['document']['content'] ) ) {
 				$this->data['document']['title'] = __( 'We&rsquo;ll be back soon!', 'ub' );
-				$this->data['document']['content'] = __( 'Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment. We&rsquo;ll be back online shortly!', 'ub' );
+				$this->data['document']['content'] = __( 'Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment. We&rsquo;ll be back online shortly!', 'ub' );	   	 		 		 	   		
 				if ( 'coming-soon' == $status ) {
 					$this->data['document']['title'] = __( 'Coming Soon', 'ub' );
 					$this->data['document']['content'] = __( 'Stay tuned!', 'ub' );
@@ -782,10 +789,17 @@ var ub_animate_background = setInterval( function( ) {
 		}
 
 		function only_allow_logged_in_rest_access( $access ) {
+			/**
+			 * check status
+			 */
+			$status = $this->get_value( 'mode', 'mode' );
+			if ( 'off' == $status ) {
+				return $access;
+			}
 			$current_WP_version = get_bloginfo( 'version' );
 			if ( version_compare( $current_WP_version, '4.7', '>=' ) ) {
 				if ( ! is_user_logged_in() ) {
-					return new WP_Error( 'rest_cannot_access', __( 'Only authenticated users can access the REST API.', 'coming-soon' ), array( 'status' => rest_authorization_required_code() ) );
+					return new WP_Error( 'rest_cannot_access', __( 'Only authenticated users can access the REST API.', 'ub' ), array( 'status' => rest_authorization_required_code() ) );
 				}
 			}
 			return $access;

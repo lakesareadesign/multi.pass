@@ -43,7 +43,7 @@ if ( ! class_exists( 'ub_db_error_page' ) ) {
 			 */
 			if ( empty( $this->data['document']['title'] ) && empty( $this->data['document']['content'] ) ) {
 				$this->data['document']['title'] = __( 'We&rsquo;ll be back soon!', 'ub' );
-				$this->data['document']['content'] = wpautop( __( 'We\'re currently experiencing technical issues &mdash; Please check back soon...', 'ub' ) );	   	 		 		 	   		
+				$this->data['document']['content'] = wpautop( __( 'We\'re currently experiencing technical issues &mdash; Please check back soon...', 'ub' ) );
 				$this->data['document']['content_meta'] = $this->data['document']['content'];
 			}
 			/**
@@ -328,6 +328,7 @@ var ub_animate_background = setInterval( function( ) {
 		 * @since 2.0.0
 		 */
 		protected function set_options() {
+			$this->module = 'db-error-page';
 			if ( ! $this->is_ready ) {
 				$value = __( 'Whoops! Something went wrong.', 'ub' );
 				if ( false == $this->is_ready_dir ) {

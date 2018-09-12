@@ -225,6 +225,12 @@ final class FLBuilderModel {
 	 * @return string
 	 */
 	static public function get_upgrade_url( $params = array() ) {
+		/**
+		 * Use this filter to modify the upgrade URL in Beaver Builder Lite.
+		 * This can be used to add an affiliate ID.
+		 * @see fl_builder_upgrade_url
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		return apply_filters( 'fl_builder_upgrade_url', self::get_store_url( '', $params ) );
 	}
 
@@ -310,6 +316,11 @@ final class FLBuilderModel {
 			$value[] = 'fl-builder-template';
 		}
 
+		/**
+		 * Use this filter to modify the post types that the builder works with.
+		 * @see fl_builder_post_types
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		return apply_filters( 'fl_builder_post_types', $value );
 	}
 
@@ -321,6 +332,12 @@ final class FLBuilderModel {
 	 * @return array
 	 */
 	static public function get_global_posts() {
+		/**
+		 * Use this filter to specify a post or posts whose CSS and JavaScript assets should be loaded globally.
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @see fl_builder_global_posts
+		 * @since 1.0
+		 */
 		return apply_filters( 'fl_builder_global_posts', array() );
 	}
 
@@ -670,6 +687,11 @@ final class FLBuilderModel {
 			fl_builder_filesystem()->file_put_contents( $dir_info['path'] . 'index.html', '' );
 		}
 
+		/**
+		 * Use this filter to modify the upload directory path and URL that the builder uses to store things like the cache and custom icons.
+		 * @see fl_builder_get_upload_dir
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		return apply_filters( 'fl_builder_get_upload_dir', $dir_info );
 	}
 
@@ -705,7 +727,11 @@ final class FLBuilderModel {
 			// Add an index file for security.
 			fl_builder_filesystem()->file_put_contents( $dir_info['path'] . 'index.html', '' );
 		}
-
+		/**
+		 * Use this filter to modify the cache directory path and URL that the builder uses to store cached images, JavaScript, and CSS files.
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 * @see fl_builder_get_cache_dir
+		 */
 		return apply_filters( 'fl_builder_get_cache_dir', $dir_info );
 	}
 
@@ -2686,13 +2712,21 @@ final class FLBuilderModel {
 				return;
 			}
 
-			// Filter the enabled flag.
+			/**
+			 * Use this filter to override the modules that are enabled in the builder.
+			 * @see fl_builder_register_module
+			 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+			 */
 			$instance->enabled = apply_filters( 'fl_builder_register_module', $instance->enabled, $instance );
 
 			// Save the instance in the modules array.
 			self::$modules[ $instance->slug ] = $instance;
 
-			// Add the form to the instance.
+			/**
+			 * Use this filter to modify the config array for a settings form when it is registered.
+			 * @see fl_builder_register_settings_form
+			 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+			 */
 			self::$modules[ $instance->slug ]->form = apply_filters( 'fl_builder_register_settings_form', $form, $instance->slug );
 			self::$modules[ $instance->slug ]->form['advanced'] = self::$settings_forms['module_advanced'];
 		}
@@ -2856,7 +2890,11 @@ final class FLBuilderModel {
 	static public function get_module_categories() {
 		$categories = array();
 
-		// Add any predefined custom categories.
+		/**
+		 * Use this filter to add custom module categories that will show up before the default module categories in the builder’s UI.
+		 * @see fl_builder_module_categories
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		foreach ( apply_filters( 'fl_builder_module_categories', array() ) as $custom_category ) {
 			$categories[ $custom_category ] = array();
 		}
@@ -3551,6 +3589,11 @@ final class FLBuilderModel {
 	 * @return void
 	 */
 	static public function register_settings_form( $id, $form ) {
+		/**
+		 * Use this filter to modify the config array for a settings form when it is registered.
+		 * @see fl_builder_register_settings_form
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		self::$settings_forms[ $id ] = apply_filters( 'fl_builder_register_settings_form', $form, $id );
 
 		// Since 2.0 we need to store the form ID on each tab to ensure that
@@ -3683,7 +3726,11 @@ final class FLBuilderModel {
 			}
 		}
 
-		// Cache the defaults.
+		/**
+		 * Use this filter to change the defaults for any of the settings forms in the builder including global, row, column and module settings.
+		 * @see fl_builder_settings_form_defaults
+		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
+		 */
 		self::$settings_form_defaults[ $type ] = apply_filters( 'fl_builder_settings_form_defaults', $defaults, $form_type );
 
 		return self::$settings_form_defaults[ $type ];
@@ -4371,7 +4418,11 @@ final class FLBuilderModel {
 		$data			= self::get_layout_data( 'draft', $post_id );
 		$settings 		= self::get_layout_settings( 'draft', $post_id );
 
-		// Fire the before action.
+		/**
+		 * This action allows you to hook into before the data is saved for a layout.
+		 * @see fl_builder_before_save_layout
+		 * @link https://kb.wpbeaverbuilder.com/article/116-plugin-action-reference
+		 */
 		do_action( 'fl_builder_before_save_layout', $post_id, $publish, $data, $settings );
 
 		// Delete the old published layout.
@@ -4415,7 +4466,11 @@ final class FLBuilderModel {
 		// Rerender the assets for this layout.
 		FLBuilder::render_assets();
 
-		// Fire the after action.
+		/**
+		 * This action allows you to hook into after the data is saved for a layout.
+		 * @see fl_builder_after_save_layout
+		 * @link https://kb.wpbeaverbuilder.com/article/116-plugin-action-reference
+		 */
 		do_action( 'fl_builder_after_save_layout', $post_id, $publish, $data, $settings );
 	}
 

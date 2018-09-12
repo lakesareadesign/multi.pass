@@ -50,7 +50,21 @@ class WPLeadInAdmin {
 		add_action( 'admin_menu', array( &$this, 'leadin_add_menu_items' ) );
 		add_action( 'admin_print_scripts', array( &$this, 'add_leadin_admin_scripts' ) );
 		add_filter( 'plugin_action_links_' . 'leadin/leadin.php', array( $this, 'leadin_plugin_settings_link' ) );
-
+		
+		if ($affiliate = $this->get_affiliate_code()) {
+		    add_option( 'hubspot_affiliate_code', $affiliate );
+		}
+	}
+	
+	function get_affiliate_code() {
+	    $affiliate = get_option( 'hubspot_affiliate_code');
+	    if (!$affiliate && file_exists(LEADIN_PLUGIN_DIR . '/hs_affiliate.txt' )) {
+	        $affiliate = trim(preg_replace('/\s\s+/', ' ', file_get_contents(LEADIN_PLUGIN_DIR . '/hs_affiliate.txt')));
+	    }
+	    if ($affiliate) {
+	        return $affiliate;
+	    }
+	    return false;
 	}
 
 	function leadin_update_check() {
@@ -123,7 +137,7 @@ class WPLeadInAdmin {
 	 */
 
 	function leadin_build_app() {
-		global $wp_version;
+	    global $wp_version;
 
 		echo '<div id="leadin" class="wrap ' . ( $wp_version < 3.8 && ! is_plugin_active( 'mp6/mp6.php' ) ? 'pre-mp6' : '' ) . '"></div>';
 
@@ -150,7 +164,7 @@ class WPLeadInAdmin {
 
 		$leadin_config = array(
 			'portalId'              => get_option( 'leadin_portalId' ),
-			'hapikey'               => get_option( 'leadin_hapikey' ),
+			'affiliateCode'         => get_option( 'hubspot_affiliate_code' ),
 			'slumberMode'           => get_option( 'leadin_slumber_mode' ),
 			'env'                   => constant( 'LEADIN_ENV' ),
 			'user'                  => $this->leadin_get_user_for_tracking(),

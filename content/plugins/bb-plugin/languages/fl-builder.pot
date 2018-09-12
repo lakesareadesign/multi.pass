@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: bb-plugin\n"
 "Report-Msgid-Bugs-To: hello@wpbeaverbuilder.com\n"
-"POT-Creation-Date: 2018-07-30 15:06:32+00:00\n"
+"POT-Creation-Date: 2018-09-04 17:54:40+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -61,7 +61,7 @@ msgid "Icons"
 msgstr ""
 
 #: classes/class-fl-builder-admin-settings.php:192
-#: classes/class-fl-builder.php:959
+#: classes/class-fl-builder.php:964
 msgid "Tools"
 msgstr ""
 
@@ -170,7 +170,7 @@ msgid ""
 "Please <a href=\"%s\">deactivate one</a> before continuing."
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2865
+#: classes/class-fl-builder-model.php:2903
 #: classes/class-fl-builder-module.php:351 modules/audio/audio.php:20
 #: modules/button/button.php:15 modules/heading/heading.php:15
 #: modules/html/html.php:15 modules/photo/photo.php:26
@@ -179,7 +179,7 @@ msgstr ""
 msgid "Basic"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2866
+#: classes/class-fl-builder-model.php:2904
 #: modules/content-slider/content-slider.php:15 modules/gallery/gallery.php:15
 #: modules/icon/icon.php:15 modules/icon-group/icon-group.php:15
 #: modules/map/map.php:15 modules/slideshow/slideshow.php:15
@@ -187,14 +187,14 @@ msgstr ""
 msgid "Media"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2867 modules/callout/callout.php:15
+#: classes/class-fl-builder-model.php:2905 modules/callout/callout.php:15
 #: modules/contact-form/contact-form.php:15 modules/cta/cta.php:15
 #: modules/menu/menu.php:20 modules/social-buttons/social-buttons.php:15
 #: modules/subscribe-form/subscribe-form.php:19
 msgid "Actions"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2868
+#: classes/class-fl-builder-model.php:2906
 #: extensions/fl-builder-core-templates-admin/includes/admin-core-templates.php:8
 #: modules/accordion/accordion.php:15 modules/countdown/countdown.php:147
 #: modules/cta/cta.php:113 modules/gallery/gallery.php:227
@@ -210,12 +210,12 @@ msgstr ""
 msgid "Layout"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2869 modules/countdown/countdown.php:15
+#: classes/class-fl-builder-model.php:2907 modules/countdown/countdown.php:15
 #: modules/numbers/numbers.php:15
 msgid "Info"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2870
+#: classes/class-fl-builder-model.php:2908
 #: modules/post-carousel/post-carousel.php:15
 #: modules/post-carousel/post-carousel.php:240
 #: modules/post-grid/post-grid.php:13 modules/post-grid/post-grid.php:15
@@ -224,71 +224,71 @@ msgstr ""
 msgid "Posts"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2871
+#: classes/class-fl-builder-model.php:2909
 #: classes/class-fl-builder-module.php:353 includes/column-settings.php:318
 #: includes/module-settings.php:6 includes/row-settings.php:585
 #: modules/content-slider/content-slider.php:333
 msgid "Advanced"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2872
-#: classes/class-fl-builder-model.php:2888
+#: classes/class-fl-builder-model.php:2910
+#: classes/class-fl-builder-model.php:2926
 msgid "Other"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2889
-#: classes/class-fl-builder-model.php:3024
-#: classes/class-fl-builder-model.php:3444
+#: classes/class-fl-builder-model.php:2927
+#: classes/class-fl-builder-model.php:3062
+#: classes/class-fl-builder-model.php:3482
 #: extensions/fl-builder-user-templates/includes/admin-add-new-form.php:42
 #: includes/admin-settings-modules.php:32 includes/ui-js-config.php:205
 #: modules/widget/widget.php:15 modules/widget/widget.php:16
 msgid "WordPress Widgets"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3482
+#: classes/class-fl-builder-model.php:3520
 msgid "1 Column"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3487
+#: classes/class-fl-builder-model.php:3525
 msgid "2 Columns"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3492
+#: classes/class-fl-builder-model.php:3530
 msgid "3 Columns"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3497
+#: classes/class-fl-builder-model.php:3535
 msgid "4 Columns"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3502
+#: classes/class-fl-builder-model.php:3540
 msgid "5 Columns"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3507
+#: classes/class-fl-builder-model.php:3545
 msgid "6 Columns"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3512
+#: classes/class-fl-builder-model.php:3550
 msgid "Left Sidebar"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3517
+#: classes/class-fl-builder-model.php:3555
 msgid "Right Sidebar"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3522
+#: classes/class-fl-builder-model.php:3560
 msgid "Left & Right Sidebar"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:4544
-#: classes/class-fl-builder-model.php:4582
-#: classes/class-fl-builder-model.php:4651
-#: classes/class-fl-builder-model.php:5848 includes/ui-js-config.php:187
+#: classes/class-fl-builder-model.php:4599
+#: classes/class-fl-builder-model.php:4637
+#: classes/class-fl-builder-model.php:4706
+#: classes/class-fl-builder-model.php:5903 includes/ui-js-config.php:187
 msgid "Uncategorized"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:5803
+#: classes/class-fl-builder-model.php:5858
 #: extensions/fl-builder-core-templates-admin/includes/core-template-settings.php:20
 #: extensions/fl-builder-user-templates/includes/node-template-settings.php:6
 #: extensions/fl-builder-user-templates/includes/user-template-settings.php:7
@@ -302,7 +302,7 @@ msgstr ""
 #: modules/html/html.php:27 modules/icon/icon.php:28
 #: modules/icon-group/icon-group.php:130 modules/map/map.php:27
 #: modules/menu/menu.php:161 modules/numbers/numbers.php:93
-#: modules/photo/photo.php:432 modules/pricing-table/pricing-table.php:135
+#: modules/photo/photo.php:435 modules/pricing-table/pricing-table.php:135
 #: modules/rich-text/rich-text.php:27 modules/separator/separator.php:28
 #: modules/sidebar/sidebar.php:28 modules/slideshow/slideshow.php:249
 #: modules/social-buttons/social-buttons.php:61
@@ -313,15 +313,15 @@ msgstr ""
 msgid "General"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:5804 includes/ui-js-config.php:215
+#: classes/class-fl-builder-model.php:5859 includes/ui-js-config.php:215
 msgid "Landing Pages"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:5805 includes/ui-js-config.php:218
+#: classes/class-fl-builder-model.php:5860 includes/ui-js-config.php:218
 msgid "Content Pages"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:6038
+#: classes/class-fl-builder-model.php:6093
 #: extensions/fl-builder-user-templates/classes/class-fl-builder-user-templates-post-type.php:36
 #: extensions/fl-builder-white-label/classes/class-fl-builder-white-label.php:137
 msgid "Beaver Builder"
@@ -1004,7 +1004,7 @@ msgid ""
 "connected."
 msgstr ""
 
-#: classes/class-fl-builder-service-mailchimp.php:333
+#: classes/class-fl-builder-service-mailchimp.php:340
 msgid "There was an error subscribing to MailChimp. %s"
 msgstr ""
 
@@ -1428,85 +1428,85 @@ msgstr ""
 msgid "Rebuilt the theme cache"
 msgstr ""
 
-#: classes/class-fl-builder.php:951
+#: classes/class-fl-builder.php:956
 msgid "Unnamed Menu"
 msgstr ""
 
-#: classes/class-fl-builder.php:967
+#: classes/class-fl-builder.php:972
 #: extensions/fl-builder-user-templates/includes/user-template-settings.php:4
 #: includes/ui-js-config.php:144
 msgid "Save Template"
 msgstr ""
 
-#: classes/class-fl-builder.php:975
+#: classes/class-fl-builder.php:980
 msgid "Duplicate Layout"
 msgstr ""
 
-#: classes/class-fl-builder.php:981
+#: classes/class-fl-builder.php:986
 msgid "Preview Layout"
 msgstr ""
 
-#: classes/class-fl-builder.php:992
+#: classes/class-fl-builder.php:997
 msgid "Layout CSS & Javascript"
 msgstr ""
 
-#: classes/class-fl-builder.php:999 includes/global-settings.php:4
+#: classes/class-fl-builder.php:1004 includes/global-settings.php:4
 #: includes/ui-js-config.php:95
 msgid "Global Settings"
 msgstr ""
 
-#: classes/class-fl-builder.php:1010
+#: classes/class-fl-builder.php:1015
 msgid "Change UI Brightness"
 msgstr ""
 
-#: classes/class-fl-builder.php:1017 classes/class-fl-builder.php:1040
+#: classes/class-fl-builder.php:1022 classes/class-fl-builder.php:1045
 msgid "WordPress Admin"
 msgstr ""
 
-#: classes/class-fl-builder.php:1024 classes/class-fl-builder.php:1094
+#: classes/class-fl-builder.php:1029 classes/class-fl-builder.php:1099
 msgid "Help"
 msgstr ""
 
-#: classes/class-fl-builder.php:1031
+#: classes/class-fl-builder.php:1036
 msgid "Keyboard Shortcuts"
 msgstr ""
 
-#: classes/class-fl-builder.php:1069 includes/ui-js-config.php:109
+#: classes/class-fl-builder.php:1074 includes/ui-js-config.php:109
 msgid "Manage Templates"
 msgstr ""
 
-#: classes/class-fl-builder.php:1083
+#: classes/class-fl-builder.php:1088
 msgid "Customize Theme"
 msgstr ""
 
-#: classes/class-fl-builder.php:1113
+#: classes/class-fl-builder.php:1118
 msgid "Take A Tour"
 msgstr ""
 
-#: classes/class-fl-builder.php:1121
+#: classes/class-fl-builder.php:1126
 msgid "View Knowledge Base"
 msgstr ""
 
-#: classes/class-fl-builder.php:1129
+#: classes/class-fl-builder.php:1134
 #: extensions/fl-builder-white-label/includes/admin-settings-help-button.php:59
 #: includes/ui-js-config.php:184
 msgid "Contact Support"
 msgstr ""
 
-#: classes/class-fl-builder.php:1317
+#: classes/class-fl-builder.php:1322
 msgid "Upgrade Today"
 msgstr ""
 
-#: classes/class-fl-builder.php:1321
+#: classes/class-fl-builder.php:1326
 msgid "Buy Now"
 msgstr ""
 
-#: classes/class-fl-builder.php:1325 includes/ui-js-config.php:90
+#: classes/class-fl-builder.php:1330 includes/ui-js-config.php:90
 #: includes/ui-js-templates.php:289
 msgid "Done"
 msgstr ""
 
-#: classes/class-fl-builder.php:3074
+#: classes/class-fl-builder.php:3102
 msgid "The uploaded file is not a valid %s extension."
 msgstr ""
 
@@ -1564,7 +1564,7 @@ msgstr ""
 #: modules/icon/icon.php:67 modules/icon/icon.php:130
 #: modules/icon-group/icon-group.php:81 modules/menu/menu.php:214
 #: modules/menu/menu.php:302 modules/menu/menu.php:511
-#: modules/photo/photo.php:561 modules/post-carousel/post-carousel.php:154
+#: modules/photo/photo.php:564 modules/post-carousel/post-carousel.php:154
 #: modules/post-carousel/post-carousel.php:170
 #: modules/post-carousel/post-carousel.php:213
 #: modules/post-carousel/post-carousel.php:222
@@ -1621,7 +1621,7 @@ msgstr ""
 #: modules/icon/icon.php:68 modules/icon/icon.php:131
 #: modules/icon-group/icon-group.php:82 modules/menu/menu.php:213
 #: modules/menu/menu.php:303 modules/menu/menu.php:512
-#: modules/photo/photo.php:560 modules/post-carousel/post-carousel.php:155
+#: modules/photo/photo.php:563 modules/post-carousel/post-carousel.php:155
 #: modules/post-carousel/post-carousel.php:171
 #: modules/post-carousel/post-carousel.php:214
 #: modules/post-carousel/post-carousel.php:223
@@ -2237,7 +2237,7 @@ msgstr ""
 msgid "Select the post types you would like the builder to work with."
 msgstr ""
 
-#: includes/admin-settings-post-types.php:73
+#: includes/admin-settings-post-types.php:78
 msgid "Save Post Types"
 msgstr ""
 
@@ -2594,7 +2594,7 @@ msgstr ""
 #: modules/heading/heading.php:93 modules/heading/heading.php:222
 #: modules/icon/icon.php:153 modules/icon/icon.php:183
 #: modules/icon-group/icon-group.php:112 modules/menu/menu.php:293
-#: modules/photo/photo.php:484 modules/post-grid/post-grid.php:442
+#: modules/photo/photo.php:487 modules/post-grid/post-grid.php:442
 #: modules/pricing-table/pricing-table.php:356
 #: modules/pricing-table/pricing-table.php:397
 #: modules/social-buttons/social-buttons.php:97
@@ -2679,7 +2679,7 @@ msgstr ""
 #: modules/content-slider/content-slider.php:426
 #: modules/content-slider/content-slider.php:497
 #: modules/content-slider/content-slider.php:930 modules/photo/photo.php:24
-#: modules/photo/photo.php:456
+#: modules/photo/photo.php:459
 msgid "Photo"
 msgstr ""
 
@@ -2942,7 +2942,7 @@ msgstr ""
 
 #: includes/column-settings.php:445 includes/module-settings.php:59
 #: includes/row-settings.php:653 modules/gallery/gallery.php:291
-#: modules/photo/photo.php:498
+#: modules/photo/photo.php:501
 msgid "Never"
 msgstr ""
 
@@ -3217,7 +3217,7 @@ msgstr ""
 
 #: includes/row-settings.php:253 includes/row-settings.php:347
 #: modules/audio/audio.php:83 modules/gallery/gallery.php:244
-#: modules/photo/photo.php:442 modules/slideshow/slideshow.php:259
+#: modules/photo/photo.php:445 modules/slideshow/slideshow.php:259
 #: modules/video/video.php:112
 msgid "Media Library"
 msgstr ""
@@ -3475,7 +3475,7 @@ msgstr ""
 #: modules/heading/heading.php:94 modules/heading/heading.php:223
 #: modules/icon/icon.php:155 modules/icon/icon.php:184
 #: modules/icon-group/icon-group.php:114 modules/menu/menu.php:294
-#: modules/photo/photo.php:485 modules/post-grid/post-grid.php:443
+#: modules/photo/photo.php:488 modules/post-grid/post-grid.php:443
 #: modules/post-grid/post-grid.php:478 modules/post-slider/post-slider.php:660
 #: modules/post-slider/post-slider.php:679
 #: modules/pricing-table/pricing-table.php:357
@@ -3494,7 +3494,7 @@ msgstr ""
 #: modules/heading/heading.php:92 modules/heading/heading.php:221
 #: modules/icon/icon.php:154 modules/icon/icon.php:182
 #: modules/icon-group/icon-group.php:113 modules/menu/menu.php:292
-#: modules/photo/photo.php:483 modules/post-grid/post-grid.php:441
+#: modules/photo/photo.php:486 modules/post-grid/post-grid.php:441
 #: modules/post-grid/post-grid.php:476 modules/post-slider/post-slider.php:659
 #: modules/post-slider/post-slider.php:678
 #: modules/pricing-table/pricing-table.php:355
@@ -3758,7 +3758,7 @@ msgstr ""
 msgid "OK"
 msgstr ""
 
-#: includes/ui-js-config.php:122 modules/photo/photo.php:520
+#: includes/ui-js-config.php:122 modules/photo/photo.php:523
 msgid "Photo Page"
 msgstr ""
 
@@ -4457,7 +4457,7 @@ msgstr ""
 #: modules/content-slider/content-slider.php:748 modules/cta/cta.php:264
 #: modules/heading/heading.php:45 modules/heading/heading.php:49
 #: modules/icon/icon.php:40 modules/icon/icon.php:44
-#: modules/icon-group/icon-group.php:141 modules/photo/photo.php:510
+#: modules/icon-group/icon-group.php:141 modules/photo/photo.php:513
 #: modules/slideshow/slideshow.php:339
 msgid "Link"
 msgstr ""
@@ -4581,7 +4581,7 @@ msgid "Click Action"
 msgstr ""
 
 #: modules/button/button.php:133 modules/gallery/gallery.php:303
-#: modules/photo/photo.php:518
+#: modules/photo/photo.php:521
 msgid "Lightbox"
 msgstr ""
 
@@ -4592,7 +4592,7 @@ msgstr ""
 #: modules/button/button.php:160 modules/callout/callout.php:455
 #: modules/content-slider/content-slider.php:718 modules/cta/cta.php:272
 #: modules/heading/heading.php:57 modules/icon/icon.php:52
-#: modules/icon-group/icon-group.php:145 modules/photo/photo.php:545
+#: modules/icon-group/icon-group.php:145 modules/photo/photo.php:548
 #: modules/pricing-table/pricing-table.php:206
 msgid "Link Target"
 msgstr ""
@@ -4600,7 +4600,7 @@ msgstr ""
 #: modules/button/button.php:163 modules/callout/callout.php:458
 #: modules/content-slider/content-slider.php:721 modules/cta/cta.php:275
 #: modules/heading/heading.php:60 modules/icon/icon.php:55
-#: modules/icon-group/icon-group.php:148 modules/photo/photo.php:548
+#: modules/icon-group/icon-group.php:148 modules/photo/photo.php:551
 #: modules/pricing-table/pricing-table.php:209
 msgid "Same Window"
 msgstr ""
@@ -4608,14 +4608,14 @@ msgstr ""
 #: modules/button/button.php:164 modules/callout/callout.php:459
 #: modules/content-slider/content-slider.php:722 modules/cta/cta.php:276
 #: modules/heading/heading.php:61 modules/icon/icon.php:56
-#: modules/icon-group/icon-group.php:149 modules/photo/photo.php:549
+#: modules/icon-group/icon-group.php:149 modules/photo/photo.php:552
 #: modules/pricing-table/pricing-table.php:210
 msgid "New Window"
 msgstr ""
 
 #: modules/button/button.php:172 modules/callout/callout.php:467
 #: modules/content-slider/content-slider.php:727 modules/cta/cta.php:284
-#: modules/photo/photo.php:557 modules/pricing-table/pricing-table.php:218
+#: modules/photo/photo.php:560 modules/pricing-table/pricing-table.php:218
 msgid "Link No Follow"
 msgstr ""
 
@@ -4741,7 +4741,7 @@ msgstr ""
 #: modules/contact-form/contact-form.php:563 modules/cta/cta.php:127
 #: modules/heading/heading.php:89 modules/heading/heading.php:201
 #: modules/icon/icon.php:150 modules/icon/icon.php:165
-#: modules/icon-group/icon-group.php:109 modules/photo/photo.php:480
+#: modules/icon-group/icon-group.php:109 modules/photo/photo.php:483
 #: modules/pricing-table/pricing-table.php:352
 #: modules/pricing-table/pricing-table.php:394
 #: modules/social-buttons/social-buttons.php:94
@@ -4823,32 +4823,32 @@ msgstr ""
 msgid "Image Type"
 msgstr ""
 
-#: modules/callout/callout.php:337 modules/photo/photo.php:467
+#: modules/callout/callout.php:337 modules/photo/photo.php:470
 #: modules/post-carousel/post-carousel.php:305
 #: modules/post-slider/post-slider.php:510 modules/slideshow/slideshow.php:308
 msgid "Crop"
 msgstr ""
 
-#: modules/callout/callout.php:341 modules/photo/photo.php:471
+#: modules/callout/callout.php:341 modules/photo/photo.php:474
 #: modules/post-carousel/post-carousel.php:309
 #: modules/post-slider/post-slider.php:514
 msgid "Landscape"
 msgstr ""
 
-#: modules/callout/callout.php:342 modules/photo/photo.php:472
+#: modules/callout/callout.php:342 modules/photo/photo.php:475
 #: modules/post-carousel/post-carousel.php:310
 #: modules/post-slider/post-slider.php:515
 msgid "Panorama"
 msgstr ""
 
-#: modules/callout/callout.php:343 modules/photo/photo.php:473
+#: modules/callout/callout.php:343 modules/photo/photo.php:476
 #: modules/post-carousel/post-carousel.php:311
 #: modules/post-slider/post-slider.php:516
 msgid "Portrait"
 msgstr ""
 
 #: modules/callout/callout.php:344
-#: modules/content-slider/content-slider.php:384 modules/photo/photo.php:474
+#: modules/content-slider/content-slider.php:384 modules/photo/photo.php:477
 #: modules/post-carousel/post-carousel.php:312
 #: modules/post-carousel/post-carousel.php:491
 #: modules/post-slider/post-slider.php:517
@@ -4857,7 +4857,7 @@ msgid "Square"
 msgstr ""
 
 #: modules/callout/callout.php:345
-#: modules/content-slider/content-slider.php:383 modules/photo/photo.php:475
+#: modules/content-slider/content-slider.php:383 modules/photo/photo.php:478
 #: modules/post-carousel/post-carousel.php:313
 #: modules/post-carousel/post-carousel.php:490
 #: modules/post-slider/post-slider.php:518
@@ -5721,11 +5721,11 @@ msgstr ""
 msgid "Show Captions"
 msgstr ""
 
-#: modules/gallery/gallery.php:292 modules/photo/photo.php:499
+#: modules/gallery/gallery.php:292 modules/photo/photo.php:502
 msgid "On Hover"
 msgstr ""
 
-#: modules/gallery/gallery.php:293 modules/photo/photo.php:500
+#: modules/gallery/gallery.php:293 modules/photo/photo.php:503
 msgid "Below Photo"
 msgstr ""
 
@@ -6114,46 +6114,46 @@ msgstr ""
 msgid "Upload a photo or display one from the media library."
 msgstr ""
 
-#: modules/photo/photo.php:439
+#: modules/photo/photo.php:442
 msgid "Photo Source"
 msgstr ""
 
-#: modules/photo/photo.php:443 modules/photo/photo.php:517
+#: modules/photo/photo.php:446 modules/photo/photo.php:520
 msgid "URL"
 msgstr ""
 
-#: modules/photo/photo.php:462
+#: modules/photo/photo.php:465
 msgid "Photo URL"
 msgstr ""
 
-#: modules/photo/photo.php:463
+#: modules/photo/photo.php:466
 msgid "http://www.example.com/my-photo.jpg"
 msgstr ""
 
-#: modules/photo/photo.php:491 modules/photo/photo.php:505
+#: modules/photo/photo.php:494 modules/photo/photo.php:508
 msgid "Caption"
 msgstr ""
 
-#: modules/photo/photo.php:495
+#: modules/photo/photo.php:498
 msgid "Show Caption"
 msgstr ""
 
-#: modules/photo/photo.php:514
+#: modules/photo/photo.php:517
 msgid "Link Type"
 msgstr ""
 
-#: modules/photo/photo.php:519
+#: modules/photo/photo.php:522
 msgid "Photo File"
 msgstr ""
 
-#: modules/photo/photo.php:530
+#: modules/photo/photo.php:533
 msgid ""
 "Link type applies to how the image should be linked on click. You can "
 "choose a specific URL, the individual photo or a separate page with the "
 "photo."
 msgstr ""
 
-#: modules/photo/photo.php:537 modules/slideshow/slideshow.php:352
+#: modules/photo/photo.php:540 modules/slideshow/slideshow.php:352
 msgid "Link URL"
 msgstr ""
 
@@ -7174,26 +7174,26 @@ msgctxt "Plugin action link label."
 msgid "Change Log"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2685
+#: classes/class-fl-builder-model.php:2711
 msgctxt "%s stands for the module filename"
 msgid ""
 "A module with the filename %s.php already exists! Please namespace your "
 "module filenames to ensure compatibility with Beaver Builder."
 msgstr ""
 
-#: classes/class-fl-builder-model.php:2712
+#: classes/class-fl-builder-model.php:2746
 msgctxt "%s stands for the module alias key"
 msgid ""
 "The module alias %s already exists! Please namespace your module aliases to "
 "ensure compatibility with Beaver Builder."
 msgstr ""
 
-#: classes/class-fl-builder-model.php:3918
+#: classes/class-fl-builder-model.php:3965
 msgctxt "%s stands for post/page title."
 msgid "Copy of %s"
 msgstr ""
 
-#: classes/class-fl-builder-model.php:4599
+#: classes/class-fl-builder-model.php:4654
 msgctxt "Default user template category."
 msgid "Uncategorized"
 msgstr ""
@@ -7328,7 +7328,7 @@ msgctxt "Account name for a third party service such as MailChimp."
 msgid "Error: An account with that name already exists."
 msgstr ""
 
-#: classes/class-fl-builder-ui-settings-forms.php:870
+#: classes/class-fl-builder-ui-settings-forms.php:876
 #: includes/ui-js-config.php:62
 msgctxt "Field name to add."
 msgid "Add %s"
@@ -7369,82 +7369,82 @@ msgctxt "current blog name"
 msgid "Rebuilt the theme cache for blog %s"
 msgstr ""
 
-#: classes/class-fl-builder.php:1060
+#: classes/class-fl-builder.php:1065
 msgctxt "label for the WordPress Dashboard link"
 msgid "Dashboard"
 msgstr ""
 
-#: classes/class-fl-builder.php:1150
+#: classes/class-fl-builder.php:1155
 msgctxt "A keyboard shortcut with no label given"
 msgid "Untitled Shortcut"
 msgstr ""
 
-#: classes/class-fl-builder.php:1158
+#: classes/class-fl-builder.php:1163
 msgctxt "Keyboard action to show modules tab"
 msgid "Open Modules Tab"
 msgstr ""
 
-#: classes/class-fl-builder.php:1162
+#: classes/class-fl-builder.php:1167
 msgctxt "Keyboard action to show rows tab"
 msgid "Open Rows Tab"
 msgstr ""
 
-#: classes/class-fl-builder.php:1166
+#: classes/class-fl-builder.php:1171
 msgctxt "Keyboard action to show templates tab"
 msgid "Open Templates Tab"
 msgstr ""
 
-#: classes/class-fl-builder.php:1170
+#: classes/class-fl-builder.php:1175
 msgctxt "Keyboard action to show saved tab"
 msgid "Open Saved Tab"
 msgstr ""
 
-#: classes/class-fl-builder.php:1175
+#: classes/class-fl-builder.php:1180
 msgctxt "Keyboard action to open save template form"
 msgid "Save New Template"
 msgstr ""
 
-#: classes/class-fl-builder.php:1180
+#: classes/class-fl-builder.php:1185
 msgctxt "Keyboard action to toggle preview mode"
 msgid "Toggle Preview Mode"
 msgstr ""
 
-#: classes/class-fl-builder.php:1184
+#: classes/class-fl-builder.php:1189
 msgctxt "Keyboard action to open the global settings panel"
 msgid "Open Global Settings"
 msgstr ""
 
-#: classes/class-fl-builder.php:1188
+#: classes/class-fl-builder.php:1193
 msgctxt "Keyboard action to open the layout settings panel"
 msgid "Open Layout Settings"
 msgstr ""
 
-#: classes/class-fl-builder.php:1192
+#: classes/class-fl-builder.php:1197
 msgctxt "Keyboard action to switch between light and dark UI brightness"
 msgid "Change UI Brightness"
 msgstr ""
 
-#: classes/class-fl-builder.php:1196
+#: classes/class-fl-builder.php:1201
 msgctxt "Keyboard action to open the module search panel"
 msgid "Display Module Search"
 msgstr ""
 
-#: classes/class-fl-builder.php:1201
+#: classes/class-fl-builder.php:1206
 msgctxt "Keyboard action to save changes"
 msgid "Save Layout"
 msgstr ""
 
-#: classes/class-fl-builder.php:1206
+#: classes/class-fl-builder.php:1211
 msgctxt "Keyboard action to publish any pending changes"
 msgid "Publish changes without leaving builder"
 msgstr ""
 
-#: classes/class-fl-builder.php:1211
+#: classes/class-fl-builder.php:1216
 msgctxt "Keyboard action to dismiss the current task or panel"
 msgid "Dismiss Active Panel"
 msgstr ""
 
-#: classes/class-fl-builder.php:1293
+#: classes/class-fl-builder.php:1298
 msgctxt "Currently editing message"
 msgid "Currently Editing %s"
 msgstr ""
@@ -8000,7 +8000,7 @@ msgctxt "Image type."
 msgid "None"
 msgstr ""
 
-#: modules/callout/callout.php:340 modules/photo/photo.php:470
+#: modules/callout/callout.php:340 modules/photo/photo.php:473
 #: modules/post-carousel/post-carousel.php:308
 #: modules/post-slider/post-slider.php:513
 msgctxt "Photo Crop."
@@ -8066,7 +8066,7 @@ msgctxt "Click action."
 msgid "None"
 msgstr ""
 
-#: modules/photo/photo.php:516
+#: modules/photo/photo.php:519
 msgctxt "Link type."
 msgid "None"
 msgstr ""

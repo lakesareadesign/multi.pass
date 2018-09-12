@@ -10,8 +10,8 @@ if ( is_admin() ) {
 }
 
 function leadin_registration_ajax() {
+	delete_option( 'leadin_hapikey' );
 	$existingPortalId = get_option( 'leadin_portalId' );
-	$existingHapikey  = get_option( 'leadin_hapikey' );
 
 	if ( ! empty( $existingPortalId ) ) {
 		header( 'HTTP/1.0 400 Bad Request' );
@@ -21,9 +21,6 @@ function leadin_registration_ajax() {
 	$data = json_decode( file_get_contents( 'php://input' ), true );
 
 	$newPortalId = $data['portalId'];
-	$slumberMode = $data['slumberMode'];
-
-	error_log( $data['hapikey'] );
 
 	if ( empty( $newPortalId ) ) {
 		error_log( 'Registration error' );
@@ -33,10 +30,6 @@ function leadin_registration_ajax() {
 
 	add_option( 'leadin_portalId', $newPortalId );
 	add_option( 'leadin_slumber_mode', '1' );
-
-	if ( ! empty( $existingHapikey ) ) {
-		delete_option( 'leadin_hapikey' );
-	}
 
 	wp_die( '{"message": "Success!"}' );
 }

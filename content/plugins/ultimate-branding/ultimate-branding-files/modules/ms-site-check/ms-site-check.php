@@ -310,6 +310,7 @@ var ub_animate_background = setInterval( function( ) {
 		 * @since 2.0.0
 		 */
 		protected function set_options() {
+			$this->module = 'ms-site-check';
 			if ( ! $this->is_ready ) {
 				$value = __( 'Whoops! Something went wrong.', 'ub' );
 				if ( false == $this->is_ready_dir ) {

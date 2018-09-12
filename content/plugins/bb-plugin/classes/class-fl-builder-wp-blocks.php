@@ -61,7 +61,7 @@ final class FLBuilderWPBlocks {
 		wp_enqueue_script(
 			'fl-builder-wp-editor',
 			FL_BUILDER_URL . 'js/build/wp-editor.bundle' . $min . '.js',
-			array( 'wp-blocks', 'wp-components', 'wp-element', 'wp-i18n', 'wp-utils' ),
+			array( 'wp-editor' ),
 			FL_BUILDER_VERSION
 		);
 

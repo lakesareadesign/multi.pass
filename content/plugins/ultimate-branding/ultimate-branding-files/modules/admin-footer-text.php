@@ -42,7 +42,7 @@ if ( ! class_exists( 'ub_admin_footer_text' ) ) {
 		protected function set_options() {
 			$this->options = array(
 				'footer' => array(
-					'title' => __( 'Dashboard Footer Text', 'ub' ),
+					'title' => __( 'Admin Dashboard Footer Text', 'ub' ),
 					'hide-reset' => true,
 					'fields' => array(
 						'content' => array(

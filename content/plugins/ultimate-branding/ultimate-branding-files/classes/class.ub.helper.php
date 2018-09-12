@@ -8,12 +8,14 @@ if ( ! class_exists( 'ub_helper' ) ) {
 	class ub_helper{
 		protected $options = array();
 		protected $data = null;
-		protected $option_name;
+		protected $option_name = 'unknown';
 		protected $url;
 		protected $build;
+		protected $tab;
 		protected $tab_name;
 		protected $deprecated_version = false;
 		protected $file = __FILE__;
+		protected $uba;
 
 		/**
 		 * Module name
@@ -52,7 +54,8 @@ if ( ! class_exists( 'ub_helper' ) ) {
 					'page' => 'branding',
 				);
 				if ( is_a( $uba, 'UltimateBrandingAdmin' ) ) {
-					$params['tab'] = $uba->get_current_tab();
+					$this->tab = $params['tab'] = $uba->get_current_tab();
+					$this->uba = $uba;
 				}
 				$this->url = add_query_arg(
 					$params,
@@ -79,29 +82,26 @@ if ( ! class_exists( 'ub_helper' ) ) {
 			$this->set_data();
 			$value = $this->data;
 			if ( null == $section ) {
-				return $value;;
+				return $value;
 			}
 			if ( null == $name && isset( $value[ $section ] ) ) {
 				return $value[ $section ];
 			}
-			if ( empty( $value ) ) {
-				/**
-				 * If default is empty, then try to return default defined by
-				 * configuration.
-				 *
-				 * @since 1.9.5
-				 */
-				if (
-					empty( $default )
-					&& isset( $this->options )
-					&& isset( $this->options[ $section ] )
-					&& isset( $this->options[ $section ]['fields'] )
-					&& isset( $this->options[ $section ]['fields'][ $name ] )
-					&& isset( $this->options[ $section ]['fields'][ $name ]['default'] )
-				) {
-					$default = $this->options[ $section ]['fields'][ $name ]['default'];
-				}
-				return $default;
+			/**
+			 * If default is empty, then try to return default defined by
+			 * configuration.
+			 *
+			 * @since 1.9.5
+			 */
+			if (
+				empty( $default )
+				&& isset( $this->options )
+				&& isset( $this->options[ $section ] )
+				&& isset( $this->options[ $section ]['fields'] )
+				&& isset( $this->options[ $section ]['fields'][ $name ] )
+				&& isset( $this->options[ $section ]['fields'][ $name ]['default'] )
+			) {
+				$default = $this->options[ $section ]['fields'][ $name ]['default'];
 			}
 			if ( isset( $value[ $section ] ) ) {
 				if ( empty( $name ) ) {
@@ -303,6 +303,9 @@ if ( ! class_exists( 'ub_helper' ) ) {
 		 * @since 1.9.2
 		 */
 		public function get_module_option_name( $option_name, $module ) {
+			if ( $module === $this->module ) {
+				return $this->option_name;
+			}
 			return $option_name;
 		}
 
@@ -467,6 +470,23 @@ if ( ! class_exists( 'ub_helper' ) ) {
 				return '';
 			}
 			return sprintf( 'height: %s%s;', $height, $units );
+		}
+
+		/**
+		 * CSS Radius
+		 *
+		 * @since 2.2.0
+		 */
+		protected function css_radius( $radius, $units = 'px' ) {
+			if ( empty( $radius ) ) {
+				return '';
+			}
+			$keys = array( '-webkit-border-radius', '-moz-border-radius', 'border-radius' );
+			$content = '';
+			foreach ( $keys as $key ) {
+				$content .= sprintf( '%s: %s%s;', $key, esc_attr( $radius ), esc_attr( $units ) );
+			}
+			return $content;
 		}
 
 		/**

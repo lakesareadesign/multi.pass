@@ -63,7 +63,9 @@ if ( ! class_exists( 'ub_footer_content' ) ) {
 		 * @since 2.1.0
 		 */
 		protected function set_options() {
-			$this->options = array(
+			$this->module = 'footer';
+			global $UB_network;
+			$data = array(
 				'subsites' => array(
 					'title' => __( 'Footer Content For Subsites', 'ub' ),
 					'fields' => array(
@@ -151,6 +153,11 @@ if ( ! class_exists( 'ub_footer_content' ) ) {
 					),
 				),
 			);
+			if ( ! $UB_network ) {
+				unset( $data['subsites'] );
+				$data['main']['title'] = __( 'Footer Content', 'ub' );
+			}
+			$this->options = $data;
 		}
 
 		public function enqueue_scripts() {

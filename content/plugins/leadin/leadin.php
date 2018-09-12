@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Form Builder, Live Chat and Lead Generation Tools from HubSpot
+Plugin Name: Contact Form Builder for WordPress – Conversion Tools by HubSpot
 Plugin URI: http://www.hubspot.com/products/wordpress/contact-form
-Description: Whether you’re just getting started with HubSpot or already a HubSpot power user, Form Builder, Live Chat and Lead Generation Tools from HubSpot will let you connect your WordPress website to your HubSpot account without having to deal with code.
-Version: 6.1.9
+Description: Whether you’re just getting started with HubSpot or already a HubSpot power user, Contact Form Builder for WordPress and Conversion Tools by HubSpot will let you use HubSpot tools on your WordPress website and connect the two platforms without dealing with code.
+Version: 6.1.11
 Author: HubSpot
 Author URI: http://www.hubspot.com
 License: GPL2
@@ -33,7 +33,7 @@ if ( ! defined( 'LEADIN_DB_VERSION' ) ) {
 }
 
 if ( ! defined( 'LEADIN_PLUGIN_VERSION' ) ) {
-	define( 'LEADIN_PLUGIN_VERSION', '6.1.9' );
+	define( 'LEADIN_PLUGIN_VERSION', '6.1.11' );
 }
 
 if ( ! defined( 'LEADIN_SOURCE' ) ) {
@@ -125,6 +125,7 @@ function add_leadin_defaults() {
 			'beta_tester'             => 0,
 			'converted_to_tags'       => 1,
 			'names_added_to_contacts' => 1,
+			'affiliate_code'          => '',
 		);
 
 		// Add the Pro flag if this is a pro installation

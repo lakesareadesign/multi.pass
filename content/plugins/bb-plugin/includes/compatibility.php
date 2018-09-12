@@ -9,7 +9,7 @@
  *
  * Runs cropped photos stored in cache through tinyPNG.
  */
-function fl_builder_tinypng_support( $cropped_path ) {
+function fl_builder_tinypng_support( $cropped_path, $editor ) {
 
 	if ( class_exists( 'Tiny_Settings' ) ) {
 		try {
@@ -24,7 +24,7 @@ function fl_builder_tinypng_support( $cropped_path ) {
 		}
 	}
 }
-add_action( 'fl_builder_photo_cropped', 'fl_builder_tinypng_support' );
+add_action( 'fl_builder_photo_cropped', 'fl_builder_tinypng_support', 10, 2 );
 
 /**
  * Support for WooCommerce Memberships.

@@ -5,8 +5,8 @@ msgstr ""
 "Project-Id-Version: Ultimate Branding\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/ultimate-"
 "branding\n"
-"POT-Creation-Date: 2018-07-09 05:13:04+00:00\n"
-"PO-Revision-Date: 2018-06-25 10:04:32+0000\n"
+"POT-Creation-Date: 2018-09-04 17:42:44+00:00\n"
+"PO-Revision-Date: 2018-08-30 08:30:21+0000\n"
 "Language: pl\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -138,6 +138,7 @@ msgid "Module Name"
 msgstr "Nazwa modułu"
 
 #: ultimate-branding-files/classes/class-ub-module-list-table.php:75
+#: ultimate-branding-files/modules/comments-control.php:167
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:124
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:155
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:186
@@ -164,9 +165,9 @@ msgstr[1] "Wyłączone <span class=\"count\">(%s)</span>"
 msgstr[2] "Wyłączone <span class=\"count\">(%s)</span>"
 
 #: ultimate-branding-files/classes/class.help.php:82
-#: ultimate-branding-files/classes/ubadmin.php:536
-#: ultimate-branding-files/classes/ubadmin.php:537
-#: ultimate-branding-files/classes/ubadmin.php:685
+#: ultimate-branding-files/classes/ubadmin.php:587
+#: ultimate-branding-files/classes/ubadmin.php:588
+#: ultimate-branding-files/classes/ubadmin.php:736
 msgid "Dashboard"
 msgstr "Kokpit"
 
@@ -226,32 +227,32 @@ msgstr "Pasek administratora"
 msgid "Cascading Style Sheets"
 msgstr "Kaskadowe arkusze stylów"
 
-#: ultimate-branding-files/classes/class.simple.options.php:595
+#: ultimate-branding-files/classes/class.simple.options.php:620
 msgid "Default is: <code><strong>%s</strong></code>"
 msgstr "Domyślnie: <code><strong>%s</strong></code>"
 
-#: ultimate-branding-files/classes/class.simple.options.php:600
+#: ultimate-branding-files/classes/class.simple.options.php:625
 msgid "Default color is: <code><strong>%s</strong></code>"
 msgstr "Domyślny kolor to: <code><strong>%s</strong></code>"
 
-#: ultimate-branding-files/classes/class.simple.options.php:629
+#: ultimate-branding-files/classes/class.simple.options.php:654
 msgid "Are you sure to reset \"%s\" section?"
 msgstr "Czy na pewno zresetować sekcję \"%s\"?"
 
-#: ultimate-branding-files/classes/class.simple.options.php:634
+#: ultimate-branding-files/classes/class.simple.options.php:659
 msgid "reset section to default"
 msgstr "resetuj sekcję do wartości domyślnych"
 
-#: ultimate-branding-files/classes/class.simple.options.php:824
+#: ultimate-branding-files/classes/class.simple.options.php:849
 msgid "Remove"
 msgstr "Usuń"
 
-#: ultimate-branding-files/classes/class.simple.options.php:825
+#: ultimate-branding-files/classes/class.simple.options.php:850
 #: ultimate-branding-files/modules/favicons/UB_Blog_Favicons.php:151
 msgid "Browse"
 msgstr "Przeglądaj"
 
-#: ultimate-branding-files/classes/class.simple.options.php:843
+#: ultimate-branding-files/classes/class.simple.options.php:868
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/general_settings.php:20
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/general_settings.php:60
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/general_settings.php:100
@@ -260,163 +261,163 @@ msgstr "Przeglądaj"
 msgid "Toggle panel: %s"
 msgstr "Przełącz panel: %s"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:370
+#: ultimate-branding-files/classes/class.ub.helper.php:373
 msgid "Amazon"
 msgstr "Amazon"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:371
+#: ultimate-branding-files/classes/class.ub.helper.php:374
 msgid "Blogger"
 msgstr "Blogger"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:372
+#: ultimate-branding-files/classes/class.ub.helper.php:375
 msgid "CodePen"
 msgstr "CodePen"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:373
+#: ultimate-branding-files/classes/class.ub.helper.php:376
 msgid "Dribbble"
 msgstr "Dribbble"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:374
+#: ultimate-branding-files/classes/class.ub.helper.php:377
 msgid "Dropbox"
 msgstr "Dropbox"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:375
+#: ultimate-branding-files/classes/class.ub.helper.php:378
 msgid "Eventbrite"
 msgstr "Eventbrite"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:376
+#: ultimate-branding-files/classes/class.ub.helper.php:379
 msgid "Facebook"
 msgstr "Facebook"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:377
+#: ultimate-branding-files/classes/class.ub.helper.php:380
 msgid "Flickr"
 msgstr "Flickr"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:378
+#: ultimate-branding-files/classes/class.ub.helper.php:381
 msgid "Foursquare"
 msgstr "Foursquare"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:379
+#: ultimate-branding-files/classes/class.ub.helper.php:382
 msgid "Ghost"
 msgstr "Ghost"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:380
+#: ultimate-branding-files/classes/class.ub.helper.php:383
 msgid "Github"
 msgstr "Github"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:381
+#: ultimate-branding-files/classes/class.ub.helper.php:384
 msgid "G+"
 msgstr "G+"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:382
+#: ultimate-branding-files/classes/class.ub.helper.php:385
 msgid "Instagram"
 msgstr "Instagram"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:383
+#: ultimate-branding-files/classes/class.ub.helper.php:386
 msgid "LinkedIn"
 msgstr "LinkedIn"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:384
+#: ultimate-branding-files/classes/class.ub.helper.php:387
 msgid "Mail"
 msgstr "Mail"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:385
+#: ultimate-branding-files/classes/class.ub.helper.php:388
 msgid "Pinterest"
 msgstr "Pinterest"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:386
+#: ultimate-branding-files/classes/class.ub.helper.php:389
 msgid "Pocket"
 msgstr "Pocket"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:387
+#: ultimate-branding-files/classes/class.ub.helper.php:390
 msgid "Polldaddy"
 msgstr "Polldaddy"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:388
+#: ultimate-branding-files/classes/class.ub.helper.php:391
 msgid "Reddit"
 msgstr "Reddit"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:389
+#: ultimate-branding-files/classes/class.ub.helper.php:392
 msgid "Skype"
 msgstr "Skype"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:390
+#: ultimate-branding-files/classes/class.ub.helper.php:393
 msgid "Spotify"
 msgstr "Spotify"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:391
+#: ultimate-branding-files/classes/class.ub.helper.php:394
 msgid "Squarespace"
 msgstr "Squarespace"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:392
+#: ultimate-branding-files/classes/class.ub.helper.php:395
 msgid "Stumbleupon"
 msgstr "Stumbleupon"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:393
+#: ultimate-branding-files/classes/class.ub.helper.php:396
 msgid "Telegram"
 msgstr "Telegram"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:394
+#: ultimate-branding-files/classes/class.ub.helper.php:397
 msgid "Tumblr"
 msgstr "Tumblr"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:395
+#: ultimate-branding-files/classes/class.ub.helper.php:398
 msgid "Twitter"
 msgstr "Twitter"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:396
+#: ultimate-branding-files/classes/class.ub.helper.php:399
 msgid "Vimeo"
 msgstr "Vimeo"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:397
+#: ultimate-branding-files/classes/class.ub.helper.php:400
 msgid "Whatsapp"
 msgstr "Whatsapp"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:398
+#: ultimate-branding-files/classes/class.ub.helper.php:401
 msgid "WordPress"
 msgstr "WordPress"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:399
+#: ultimate-branding-files/classes/class.ub.helper.php:402
 msgid "Xanga"
 msgstr "Xanga"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:400
+#: ultimate-branding-files/classes/class.ub.helper.php:403
 msgid "Youtube"
 msgstr "Youtube"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:432
+#: ultimate-branding-files/classes/class.ub.helper.php:435
 msgid "Dotted"
 msgstr "Kropkowana"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:433
+#: ultimate-branding-files/classes/class.ub.helper.php:436
 msgid "Dashed"
 msgstr "Kreskowana"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:434
+#: ultimate-branding-files/classes/class.ub.helper.php:437
 msgid "Solid"
 msgstr "Stała"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:435
+#: ultimate-branding-files/classes/class.ub.helper.php:438
 msgid "Double"
 msgstr "Podwójna"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:436
+#: ultimate-branding-files/classes/class.ub.helper.php:439
 msgid "3D grooved"
 msgstr "3D wklęsły"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:437
+#: ultimate-branding-files/classes/class.ub.helper.php:440
 msgid "3D ridged"
 msgstr "3D wypukły"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:438
+#: ultimate-branding-files/classes/class.ub.helper.php:441
 msgid "3D inset"
 msgstr "3D do wewnątrz"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:439
+#: ultimate-branding-files/classes/class.ub.helper.php:442
 msgid "3D outset"
 msgstr "3D na zewnątrz"
 
-#: ultimate-branding-files/classes/class.ub.helper.php:618
+#: ultimate-branding-files/classes/class.ub.helper.php:638
 msgid "Something went wrong!"
 msgstr "Coś poszło nie tak!"
 
@@ -469,104 +470,125 @@ msgstr[2] "Włączono moduły: %s."
 
 #: ultimate-branding-files/classes/ubadmin.php:507
 #: ultimate-branding-files/classes/ubadmin.php:508
-#: ultimate-branding-files/classes/ubadmin.php:1252
+#: ultimate-branding-files/classes/ubadmin.php:1303
 msgid "Branding"
 msgstr "Branding"
+
+#: ultimate-branding-files/classes/ubadmin.php:551
+msgid "Plugin settings on deactivate"
+msgstr "Ustawienia wtyczki w czasie wyłaczania"
+
+#: ultimate-branding-files/classes/ubadmin.php:552
+msgid ""
+"What should we do with plugin configuration, when plugin is deactivated?"
+msgstr "Co mam zrobić z konfiguracją wtyczki w czasie jej wyłączania?"
+
+#: ultimate-branding-files/classes/ubadmin.php:556
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/_sub_menus.php:14
+#: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:27
+#: ultimate-branding-files/modules/dashboard-feeds/dashboard-feeds.php:831
+#: ultimate-branding-files/modules/dashboard-text-widgets/dashboard-text-widgets.php:277
+msgid "Delete"
+msgstr "Usuń"
+
+#: ultimate-branding-files/classes/ubadmin.php:561
+msgid "Preserve"
+msgstr "Zachowaj"
 
 #. Plugin Name of the plugin/theme
 msgid "Ultimate Branding"
 msgstr "Ultimate Branding"
 
-#: ultimate-branding-files/classes/ubadmin.php:786
+#: ultimate-branding-files/classes/ubadmin.php:837
 msgid "Unknown module"
 msgstr "Nieznany moduł"
 
-#: ultimate-branding-files/classes/ubadmin.php:787
+#: ultimate-branding-files/classes/ubadmin.php:838
 msgid "Cheatin&#8217; uh?"
 msgstr "Oszukujemy, co?"
 
-#: ultimate-branding-files/classes/ubadmin.php:809
+#: ultimate-branding-files/classes/ubadmin.php:860
 msgid "Search"
 msgstr "Szukaj"
 
-#: ultimate-branding-files/classes/ubadmin.php:820
+#: ultimate-branding-files/classes/ubadmin.php:871
 msgid "Notifications"
 msgstr "Powiadomienia"
 
-#: ultimate-branding-files/classes/ubadmin.php:823
+#: ultimate-branding-files/classes/ubadmin.php:874
 msgid ""
 "Please deactivate the following plugin(s) to make Ultimate Branding to work:"
 msgstr ""
 "Proszę wyłączyć następujące wtyczki, w celu umożliwienia działani wtyczki "
 "Ultimate Branding:"
 
-#: ultimate-branding-files/classes/ubadmin.php:867
-#: ultimate-branding-files/classes/ubadmin.php:877
+#: ultimate-branding-files/classes/ubadmin.php:918
+#: ultimate-branding-files/classes/ubadmin.php:928
 #: ultimate-branding-files/includes/config.php:160
 #: ultimate-branding-files/includes/config.php:161
 msgid "Admin Message"
 msgstr "Wiadomość Admina"
 
-#: ultimate-branding-files/classes/ubadmin.php:872
+#: ultimate-branding-files/classes/ubadmin.php:923
 msgid "Settings saved."
 msgstr "Ustawienia zostały zapisane."
 
-#: ultimate-branding-files/classes/ubadmin.php:873
+#: ultimate-branding-files/classes/ubadmin.php:924
 msgid "Settings cleared."
 msgstr "Ustawienia wyczyszczone."
 
-#: ultimate-branding-files/classes/ubadmin.php:874
+#: ultimate-branding-files/classes/ubadmin.php:925
 msgid "Settings could not be saved."
 msgstr "Ustawienia nie mogły zostać zapisane."
 
-#: ultimate-branding-files/classes/ubadmin.php:900
-#: ultimate-branding-files/classes/ubadmin.php:1012
+#: ultimate-branding-files/classes/ubadmin.php:951
+#: ultimate-branding-files/classes/ubadmin.php:1063
 msgid "Save Changes"
 msgstr "Zapisz zmiany"
 
-#: ultimate-branding-files/classes/ubadmin.php:901
+#: ultimate-branding-files/classes/ubadmin.php:952
 msgid "Reset"
 msgstr "Resetuj"
 
-#: ultimate-branding-files/classes/ubadmin.php:917
+#: ultimate-branding-files/classes/ubadmin.php:968
 msgid "Custom MS Registered e-mails"
 msgstr "Własne maile rejestracyjne w multisite."
 
-#: ultimate-branding-files/classes/ubadmin.php:927
+#: ultimate-branding-files/classes/ubadmin.php:978
 #: ultimate-branding-files/includes/config.php:236
 msgid "Export & Import Ultimate Branding configuration"
 msgstr "Eksport/import konfiguracji Ultimate Branding"
 
-#: ultimate-branding-files/classes/ubadmin.php:937
-#: ultimate-branding-files/includes/config.php:284
+#: ultimate-branding-files/classes/ubadmin.php:988
 #: ultimate-branding-files/includes/config.php:285
+#: ultimate-branding-files/includes/config.php:286
 msgid "Link Manager"
 msgstr "Zarządzanie odnośnikami"
 
-#: ultimate-branding-files/classes/ubadmin.php:1117
+#: ultimate-branding-files/classes/ubadmin.php:1168
 msgid ""
 "Module \"<b>%s</b>\" was turned off because module \"<b>%s</b>\" is active."
 msgstr ""
 "Moduł \"<b>%s</b>\" został wyłączony, poniważ jest aktywny moduł \"<b>%s</b>"
 "\"."
 
-#: ultimate-branding-files/classes/ubadmin.php:1202
+#: ultimate-branding-files/classes/ubadmin.php:1253
 msgid "This module is not active!"
 msgstr "Moduł nie jest włączony!"
 
-#: ultimate-branding-files/classes/ubadmin.php:1205
+#: ultimate-branding-files/classes/ubadmin.php:1256
 msgid "Turn on %s module."
 msgstr "Włącz moduł %s."
 
-#: ultimate-branding-files/classes/ubadmin.php:1341
+#: ultimate-branding-files/classes/ubadmin.php:1393
 msgid "Unknown"
 msgstr "Nieznany"
 
-#: ultimate-branding-files/classes/ubadmin.php:1355
+#: ultimate-branding-files/classes/ubadmin.php:1407
 msgid "Module \"%s\" was activated successfully."
 msgstr "Poprawnie włączono moduł \"%s\"."
 
-#: ultimate-branding-files/classes/ubadmin.php:1366
+#: ultimate-branding-files/classes/ubadmin.php:1418
 msgid "Module \"%s\" was deactivated without errors."
 msgstr "Poprawnie wyłączono moduł \"%s\"."
 
@@ -751,7 +773,7 @@ msgstr ""
 
 #: ultimate-branding-files/help/contextual.help.php:9
 msgid "Setting a Help Sidebar?"
-msgstr ""
+msgstr "Ustawianie paska bocznego pomocy?"
 
 #: ultimate-branding-files/help/contextual.help.php:11
 msgid ""
@@ -956,6 +978,7 @@ msgstr ""
 #: ultimate-branding-files/includes/config.php:76
 #: ultimate-branding-files/includes/config.php:77
 #: ultimate-branding-files/includes/config.php:79
+#: ultimate-branding-files/modules/global-footer-content.php:158
 msgid "Footer Content"
 msgstr "Treść stopki"
 
@@ -996,8 +1019,8 @@ msgstr "Umożliwia zmianę logo w pasku administratora."
 
 #: ultimate-branding-files/includes/config.php:62
 #: ultimate-branding-files/includes/config.php:63
-#: ultimate-branding-files/modules/custom-dashboard-welcome.php:106
-#: ultimate-branding-files/modules/custom-dashboard-welcome.php:111
+#: ultimate-branding-files/modules/custom-dashboard-welcome.php:107
+#: ultimate-branding-files/modules/custom-dashboard-welcome.php:112
 msgid "Dashboard Welcome"
 msgstr "Powitanie panelu administratora"
 
@@ -1117,9 +1140,8 @@ msgid "Customize admin color schemes."
 msgstr "Dostosuj schematy kolorów administratora"
 
 #: ultimate-branding-files/includes/config.php:162
-#, fuzzy
 msgid "Display a message in admin dashboard."
-msgstr "Wyświetl tekst w stopce kokpitu administracyjnego."
+msgstr "Wyświetla wiadomość w kokpicie administratora."
 
 #: ultimate-branding-files/includes/config.php:170
 #: ultimate-branding-files/includes/config.php:183
@@ -1224,12 +1246,12 @@ msgstr "Kontrola komentarzy"
 msgid "Fine tune comment throttling."
 msgstr "Precyzyjne dostrajanie ograniczeń komentowania."
 
-#: ultimate-branding-files/includes/config.php:272
 #: ultimate-branding-files/includes/config.php:273
+#: ultimate-branding-files/includes/config.php:274
 msgid "Dashboard Feeds"
 msgstr "Kanały kokpitu"
 
-#: ultimate-branding-files/includes/config.php:274
+#: ultimate-branding-files/includes/config.php:275
 msgid ""
 "Customize the dashboard for every user in a flash with this straightforward "
 "dashboard feed replacement widget... no more WP development news or Matt's "
@@ -1239,46 +1261,46 @@ msgstr ""
 "widgetowi zastępującemu standardowy widgżet ... i już nie ma już nowości "
 "rozwojowych WP ani najnowszego zestawu zdjęć Matta :)"
 
-#: ultimate-branding-files/includes/config.php:286
+#: ultimate-branding-files/includes/config.php:287
 msgid "Enables the Link Manager that existed in WordPress until version 3.5."
 msgstr ""
 "Włącza stronę zarządzania odnośnikami, która istniała w WordPressie aż do "
 "wersji 3.5."
 
-#: ultimate-branding-files/includes/config.php:297
-#: ultimate-branding-files/includes/config.php:301
+#: ultimate-branding-files/includes/config.php:298
+#: ultimate-branding-files/includes/config.php:302
 msgid "Coming Soon Page & Maintenance Mode"
 msgstr "Strona otwarte wkrótce i tryb konserwacji"
 
-#: ultimate-branding-files/includes/config.php:298
-#: ultimate-branding-files/modules/maintenance/maintenance.php:49
+#: ultimate-branding-files/includes/config.php:299
+#: ultimate-branding-files/modules/maintenance/maintenance.php:56
 msgid "Maintenance"
 msgstr "Konserwacja"
 
-#: ultimate-branding-files/includes/config.php:302
+#: ultimate-branding-files/includes/config.php:303
 msgid "Customize the Maintenance Mode page and create Coming Soon Page."
 msgstr ""
 "Dostosuj stronę trybu konserwacji i utwórz stronę \"Wkrótce dostępne\"."
 
-#: ultimate-branding-files/includes/config.php:312
 #: ultimate-branding-files/includes/config.php:313
+#: ultimate-branding-files/includes/config.php:314
 msgid "Dashboard Text Widgets"
 msgstr "Widżety tekstowe pulpitu administratora"
 
-#: ultimate-branding-files/includes/config.php:314
+#: ultimate-branding-files/includes/config.php:315
 msgid "Enables the Dashboard text widgets."
 msgstr "Włącza widgety tekstowe kokpitu."
 
-#: ultimate-branding-files/includes/config.php:325
-#: ultimate-branding-files/includes/config.php:331
+#: ultimate-branding-files/includes/config.php:326
+#: ultimate-branding-files/includes/config.php:332
 msgid "Blog Description on Blog Creation"
 msgstr "Opis bloga na stronie tworzenia bloga"
 
-#: ultimate-branding-files/includes/config.php:326
+#: ultimate-branding-files/includes/config.php:327
 msgid "Multisite"
 msgstr "Multisite"
 
-#: ultimate-branding-files/includes/config.php:332
+#: ultimate-branding-files/includes/config.php:333
 msgid ""
 "Allows new bloggers to be able to set their tagline when they create a blog "
 "in Multisite."
@@ -1286,15 +1308,15 @@ msgstr ""
 "Pozwala nowym blogerom na ustawienie swojego sloganu podczas tworzenia bloga "
 "w witrynie Multisite."
 
-#: ultimate-branding-files/includes/config.php:342
 #: ultimate-branding-files/includes/config.php:343
 #: ultimate-branding-files/includes/config.php:344
+#: ultimate-branding-files/includes/config.php:345
 #: ultimate-branding-files/modules/author-box/class-author-box-widget.php:16
 #: ultimate-branding-files/modules/author-box/class-author-box-widget.php:18
 msgid "Author Box"
 msgstr "Boks autora"
 
-#: ultimate-branding-files/includes/config.php:345
+#: ultimate-branding-files/includes/config.php:346
 msgid ""
 "Adds a responsive author box at the end of your posts, showing the author "
 "name, author gravatar and author description and social profiles."
@@ -1302,12 +1324,12 @@ msgstr ""
 "Dodaje responsywną informację o autorze na końcu wpisów, pokazując autora, "
 "gravatar i opis oraz profile społeczne."
 
-#: ultimate-branding-files/includes/config.php:355
-#: ultimate-branding-files/includes/config.php:357
+#: ultimate-branding-files/includes/config.php:356
+#: ultimate-branding-files/includes/config.php:358
 msgid "SMTP"
 msgstr "SMTP"
 
-#: ultimate-branding-files/includes/config.php:358
+#: ultimate-branding-files/includes/config.php:359
 msgid ""
 "SMTP allows you to configure and send all outgoing emails via a SMTP server. "
 "This will prevent your emails from going into the junk/spam folder of the "
@@ -1317,31 +1339,45 @@ msgstr ""
 "wiadomości e-mail za pośrednictwem serwera SMTP. Zwiększa to szansę na "
 "uniknięcie przesunięcia wiadomości do spamu."
 
-#: ultimate-branding-files/includes/config.php:368
-#: ultimate-branding-files/includes/config.php:370
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:347
+#: ultimate-branding-files/includes/config.php:369
+#: ultimate-branding-files/includes/config.php:371
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:348
 msgid "DB Error Page"
 msgstr "Strona błędu bazy danych"
 
-#: ultimate-branding-files/includes/config.php:371
+#: ultimate-branding-files/includes/config.php:372
 msgid "Allows to create a custom database error page."
 msgstr "Umożliwia stworzenie własnej strony błędu łączenia się z bazą danych."
 
-#: ultimate-branding-files/includes/config.php:381
+#: ultimate-branding-files/includes/config.php:382
 msgid "Site Status Pages"
 msgstr "Strony statusów witryny"
 
-#: ultimate-branding-files/includes/config.php:384
+#: ultimate-branding-files/includes/config.php:385
 msgid "Sites Status Pages"
 msgstr "Strony statusowe witryn"
 
-#: ultimate-branding-files/includes/config.php:385
+#: ultimate-branding-files/includes/config.php:386
 msgid ""
 "Allows to create custom pages for deleted, inactive, archived, or spammed "
 "blog."
 msgstr ""
 "Umożliwia tworzenie własnych stron dla usuniętych, nieaktywnych, "
 "zarchiwizowanych lub oznaczonych jako spam blogów."
+
+#: ultimate-branding-files/includes/config.php:396
+#: ultimate-branding-files/includes/config.php:398
+msgid "Cookie Notice"
+msgstr "Informacja o ciasteczkach"
+
+#: ultimate-branding-files/includes/config.php:399
+msgid ""
+"Cookie Notice allows you to elegantly inform users that your site uses "
+"cookies and to comply with the EU cookie law GDPR regulations."
+msgstr ""
+"Informacja o ciasteczkach w elegancki sposób informuje odwiedzających "
+"witrynę o używaniu ciasteczek, co pozwala na spełnienie wymogów prawnych "
+"obowiązujących w Unii Europejskiej m.in. RODO."
 
 #: ultimate-branding-files/includes/functions.php:233
 msgid "%s module is deprecated. Please use %s module."
@@ -1369,26 +1405,27 @@ msgstr "Wyłącz"
 
 #: ultimate-branding-files/modules/admin-bar-logo.php:31
 #: ultimate-branding-files/modules/custom-login-screen.php:485
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:453
-#: ultimate-branding-files/modules/maintenance/maintenance.php:139
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:541
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:454
+#: ultimate-branding-files/modules/maintenance/maintenance.php:146
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:542
 msgid "Logo image"
 msgstr "Logo"
 
 #: ultimate-branding-files/modules/admin-bar-logo.php:32
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:454
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:455
 #: ultimate-branding-files/modules/favicons.php:86
-#: ultimate-branding-files/modules/favicons.php:128
-#: ultimate-branding-files/modules/maintenance/maintenance.php:140
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:542
+#: ultimate-branding-files/modules/favicons.php:136
+#: ultimate-branding-files/modules/maintenance/maintenance.php:147
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:543
 msgid "Upload your own logo."
 msgstr "Dodaj własne logo."
 
 #: ultimate-branding-files/modules/admin-footer-text.php:45
-msgid "Dashboard Footer Text"
-msgstr "Tekst stopki panelu administratora"
+msgid "Admin Dashboard Footer Text"
+msgstr "Stopka panelu administratora"
 
 #: ultimate-branding-files/modules/admin-footer-text.php:50
+#: ultimate-branding-files/modules/author-box/author-box.php:359
 msgid "Text"
 msgstr "Tekst"
 
@@ -1397,6 +1434,8 @@ msgid ""
 "You can change the content in this Help drop-down by going to Branding > "
 "Help Content."
 msgstr ""
+"Można zmienić zawartość menu rozwijanego pomoc, przechodząc do Branding > "
+"Treść pomocy."
 
 #: ultimate-branding-files/modules/admin-help-content.php:93
 msgid "Admin Help"
@@ -1469,10 +1508,10 @@ msgstr "Ustawienia pomocy dla panelu administratora"
 msgid "Show menu items for"
 msgstr "Pokaż elementy menu dla"
 
-#: ultimate-branding-files/modules/admin-message.php:34
-#, fuzzy
+#: ultimate-branding-files/modules/admin-message.php:35
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:84
 msgid "Message"
-msgstr "Wiadomość Admina"
+msgstr "Wiadomość"
 
 #: ultimate-branding-files/modules/admin-panel-tips/admin-panel-tips.php:31
 #: ultimate-branding-files/modules/admin-panel-tips/admin-panel-tips.php:244
@@ -1589,25 +1628,26 @@ msgid "Tip Description"
 msgstr "Opis porady"
 
 #: ultimate-branding-files/modules/admin-panel-tips/admin-panel-tips.php:208
-#: ultimate-branding-files/modules/author-box/author-box.php:99
-#: ultimate-branding-files/modules/author-box/author-box.php:109
-#: ultimate-branding-files/modules/author-box/author-box.php:119
-#: ultimate-branding-files/modules/author-box/author-box.php:131
-#: ultimate-branding-files/modules/author-box/author-box.php:143
-#: ultimate-branding-files/modules/author-box/author-box.php:159
-#: ultimate-branding-files/modules/author-box/author-box.php:226
+#: ultimate-branding-files/modules/author-box/author-box.php:100
+#: ultimate-branding-files/modules/author-box/author-box.php:110
+#: ultimate-branding-files/modules/author-box/author-box.php:120
+#: ultimate-branding-files/modules/author-box/author-box.php:132
+#: ultimate-branding-files/modules/author-box/author-box.php:144
+#: ultimate-branding-files/modules/author-box/author-box.php:160
+#: ultimate-branding-files/modules/author-box/author-box.php:227
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:108
 #: ultimate-branding-files/modules/custom-login-screen.php:477
 #: ultimate-branding-files/modules/custom-login-screen.php:576
 #: ultimate-branding-files/modules/custom-login-screen.php:600
 #: ultimate-branding-files/modules/custom-login-screen.php:840
 #: ultimate-branding-files/modules/custom-login-screen.php:864
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:445
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:546
-#: ultimate-branding-files/modules/maintenance/maintenance.php:131
-#: ultimate-branding-files/modules/maintenance/maintenance.php:219
-#: ultimate-branding-files/modules/maintenance/maintenance.php:257
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:533
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:609
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:446
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:547
+#: ultimate-branding-files/modules/maintenance/maintenance.php:138
+#: ultimate-branding-files/modules/maintenance/maintenance.php:226
+#: ultimate-branding-files/modules/maintenance/maintenance.php:264
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:534
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:610
 msgid "Hide"
 msgstr "Ukryj"
 
@@ -1616,7 +1656,7 @@ msgid "Show Tips"
 msgstr "Pokaż porady"
 
 #: ultimate-branding-files/modules/admin-panel-tips/admin-panel-tips.php:234
-#: ultimate-branding-files/modules/author-box/author-box.php:320
+#: ultimate-branding-files/modules/author-box/author-box.php:321
 #: ultimate-branding-files/modules/custom-admin-bar-files/inc/UB_Admin_Bar_Forms.php:314
 #: ultimate-branding-files/modules/custom-login-screen.php:705
 #: ultimate-branding-files/modules/custom-login-screen.php:725
@@ -1630,7 +1670,7 @@ msgid "Yes"
 msgstr "Tak"
 
 #: ultimate-branding-files/modules/admin-panel-tips/admin-panel-tips.php:235
-#: ultimate-branding-files/modules/author-box/author-box.php:321
+#: ultimate-branding-files/modules/author-box/author-box.php:322
 #: ultimate-branding-files/modules/custom-admin-bar-files/inc/UB_Admin_Bar_Forms.php:315
 #: ultimate-branding-files/modules/custom-login-screen.php:706
 #: ultimate-branding-files/modules/custom-login-screen.php:726
@@ -1655,141 +1695,150 @@ msgstr "Pozwala wybrać gdzie ma być widoczna podpowiedź:"
 msgid "Everywhere (except Branding)"
 msgstr "Wszędzie (wyłączając Branding)"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:72
+#: ultimate-branding-files/modules/author-box/author-box.php:73
 msgid "General configuration"
 msgstr "Głowna konfiguracja"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:76
+#: ultimate-branding-files/modules/author-box/author-box.php:77
 msgid "Add box to content"
 msgstr "Dodaj blok do treści"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:78
+#: ultimate-branding-files/modules/author-box/author-box.php:79
+#: ultimate-branding-files/modules/comments-control.php:170
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:96
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:145
 #: ultimate-branding-files/modules/custom-login-screen.php:962
 #: ultimate-branding-files/modules/custom-login-screen.php:978
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:376
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:394
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:524
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:377
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:395
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:525
 #: ultimate-branding-files/modules/favicons.php:101
-#: ultimate-branding-files/modules/global-footer-content.php:91
-#: ultimate-branding-files/modules/global-footer-content.php:102
-#: ultimate-branding-files/modules/global-footer-content.php:134
-#: ultimate-branding-files/modules/global-footer-content.php:145
-#: ultimate-branding-files/modules/maintenance/maintenance.php:64
-#: ultimate-branding-files/modules/maintenance/maintenance.php:81
-#: ultimate-branding-files/modules/maintenance/maintenance.php:206
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:362
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:373
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:442
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:478
+#: ultimate-branding-files/modules/global-footer-content.php:93
+#: ultimate-branding-files/modules/global-footer-content.php:104
+#: ultimate-branding-files/modules/global-footer-content.php:136
+#: ultimate-branding-files/modules/global-footer-content.php:147
+#: ultimate-branding-files/modules/maintenance/maintenance.php:71
+#: ultimate-branding-files/modules/maintenance/maintenance.php:88
+#: ultimate-branding-files/modules/maintenance/maintenance.php:213
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:363
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:374
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:443
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:479
 #: ultimate-branding-files/modules/smtp/smtp.php:259
 #: ultimate-branding-files/modules/smtp/smtp.php:298
 msgid "On"
 msgstr "Włącz"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:79
+#: ultimate-branding-files/modules/author-box/author-box.php:80
+#: ultimate-branding-files/modules/comments-control.php:171
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:97
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:146
 #: ultimate-branding-files/modules/custom-login-screen.php:963
 #: ultimate-branding-files/modules/custom-login-screen.php:979
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:377
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:395
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:525
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:378
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:396
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:526
 #: ultimate-branding-files/modules/favicons.php:102
-#: ultimate-branding-files/modules/global-footer-content.php:92
-#: ultimate-branding-files/modules/global-footer-content.php:103
-#: ultimate-branding-files/modules/global-footer-content.php:135
-#: ultimate-branding-files/modules/global-footer-content.php:146
-#: ultimate-branding-files/modules/maintenance/maintenance.php:47
-#: ultimate-branding-files/modules/maintenance/maintenance.php:65
-#: ultimate-branding-files/modules/maintenance/maintenance.php:82
-#: ultimate-branding-files/modules/maintenance/maintenance.php:207
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:363
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:374
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:443
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:479
+#: ultimate-branding-files/modules/global-footer-content.php:94
+#: ultimate-branding-files/modules/global-footer-content.php:105
+#: ultimate-branding-files/modules/global-footer-content.php:137
+#: ultimate-branding-files/modules/global-footer-content.php:148
+#: ultimate-branding-files/modules/maintenance/maintenance.php:54
+#: ultimate-branding-files/modules/maintenance/maintenance.php:72
+#: ultimate-branding-files/modules/maintenance/maintenance.php:89
+#: ultimate-branding-files/modules/maintenance/maintenance.php:214
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:364
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:375
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:444
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:480
 #: ultimate-branding-files/modules/smtp/smtp.php:260
 #: ultimate-branding-files/modules/smtp/smtp.php:299
 msgid "Off"
 msgstr "Wyłącz"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:83
+#: ultimate-branding-files/modules/author-box/author-box.php:84
 msgid "Turn it off if you want to use Author Box widget."
 msgstr "Wyłącz jeżeli ma być używany tylko jako widgżet."
 
-#: ultimate-branding-files/modules/author-box/author-box.php:87
+#: ultimate-branding-files/modules/author-box/author-box.php:88
+#: ultimate-branding-files/modules/comments-control.php:179
 msgid "Post types"
 msgstr "Typy treści"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:91
+#: ultimate-branding-files/modules/author-box/author-box.php:92
 msgid "Please select post types in which the author box will be displayed."
 msgstr "Proszę wybrać typy treści dla których będzie pokazywany bo autora."
 
-#: ultimate-branding-files/modules/author-box/author-box.php:96
+#: ultimate-branding-files/modules/author-box/author-box.php:97
 msgid "Show name"
 msgstr "Pokaż nazwę"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:98
-#: ultimate-branding-files/modules/author-box/author-box.php:108
-#: ultimate-branding-files/modules/author-box/author-box.php:118
-#: ultimate-branding-files/modules/author-box/author-box.php:130
-#: ultimate-branding-files/modules/author-box/author-box.php:142
-#: ultimate-branding-files/modules/author-box/author-box.php:158
-#: ultimate-branding-files/modules/author-box/author-box.php:225
+#: ultimate-branding-files/modules/author-box/author-box.php:99
+#: ultimate-branding-files/modules/author-box/author-box.php:109
+#: ultimate-branding-files/modules/author-box/author-box.php:119
+#: ultimate-branding-files/modules/author-box/author-box.php:131
+#: ultimate-branding-files/modules/author-box/author-box.php:143
+#: ultimate-branding-files/modules/author-box/author-box.php:159
+#: ultimate-branding-files/modules/author-box/author-box.php:226
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:107
 #: ultimate-branding-files/modules/custom-login-screen.php:476
 #: ultimate-branding-files/modules/custom-login-screen.php:575
 #: ultimate-branding-files/modules/custom-login-screen.php:599
 #: ultimate-branding-files/modules/custom-login-screen.php:839
 #: ultimate-branding-files/modules/custom-login-screen.php:863
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:444
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:545
-#: ultimate-branding-files/modules/maintenance/maintenance.php:130
-#: ultimate-branding-files/modules/maintenance/maintenance.php:218
-#: ultimate-branding-files/modules/maintenance/maintenance.php:256
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:532
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:608
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:445
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:546
+#: ultimate-branding-files/modules/maintenance/maintenance.php:137
+#: ultimate-branding-files/modules/maintenance/maintenance.php:225
+#: ultimate-branding-files/modules/maintenance/maintenance.php:263
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:533
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:609
 msgid "Show"
 msgstr "Pokaż"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:106
+#: ultimate-branding-files/modules/author-box/author-box.php:107
 msgid "Show description"
 msgstr "Pokazuj opis"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:116
+#: ultimate-branding-files/modules/author-box/author-box.php:117
 msgid "Show avatar"
 msgstr "Pokazuj awatara"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:127
+#: ultimate-branding-files/modules/author-box/author-box.php:128
 msgid "Show social media profiles"
 msgstr "Pokazuj profile mediów społecznościowych"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:128
+#: ultimate-branding-files/modules/author-box/author-box.php:129
 msgid "Author can add it on user profile page"
 msgstr "Autor może dodawać w swoim profilu"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:139
+#: ultimate-branding-files/modules/author-box/author-box.php:140
 msgid "Show latest entries"
 msgstr "Pokaż ostatnie wpisy"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:140
+#: ultimate-branding-files/modules/author-box/author-box.php:141
 msgid "Add author latests entries"
 msgstr "Dodaj ostatnie wpisy autora"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:152
+#: ultimate-branding-files/modules/author-box/author-box.php:153
 msgid "Box options"
 msgstr "Opcje boksu"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:156
+#: ultimate-branding-files/modules/author-box/author-box.php:157
 msgid "Show border"
 msgstr "Pokaż obramowanie"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:167
-#: ultimate-branding-files/modules/author-box/author-box.php:264
+#: ultimate-branding-files/modules/author-box/author-box.php:168
+#: ultimate-branding-files/modules/author-box/author-box.php:265
 msgid "Border width"
 msgstr "Grubość obramowania"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:172
-#: ultimate-branding-files/modules/author-box/author-box.php:196
-#: ultimate-branding-files/modules/author-box/author-box.php:250
-#: ultimate-branding-files/modules/author-box/author-box.php:260
-#: ultimate-branding-files/modules/author-box/author-box.php:269
+#: ultimate-branding-files/modules/author-box/author-box.php:173
+#: ultimate-branding-files/modules/author-box/author-box.php:197
+#: ultimate-branding-files/modules/author-box/author-box.php:251
+#: ultimate-branding-files/modules/author-box/author-box.php:261
+#: ultimate-branding-files/modules/author-box/author-box.php:270
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:237
 #: ultimate-branding-files/modules/custom-login-screen.php:497
 #: ultimate-branding-files/modules/custom-login-screen.php:518
 #: ultimate-branding-files/modules/custom-login-screen.php:543
@@ -1801,237 +1850,277 @@ msgstr "Grubość obramowania"
 msgid "px"
 msgstr "px"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:177
-#: ultimate-branding-files/modules/author-box/author-box.php:273
+#: ultimate-branding-files/modules/author-box/author-box.php:178
+#: ultimate-branding-files/modules/author-box/author-box.php:274
 #: ultimate-branding-files/modules/custom-login-screen.php:799
 msgid "Border color"
 msgstr "Kolor obramowania"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:183
+#: ultimate-branding-files/modules/author-box/author-box.php:184
 msgid "Border style"
 msgstr "Styl obramowania"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:190
-#: ultimate-branding-files/modules/author-box/author-box.php:254
+#: ultimate-branding-files/modules/author-box/author-box.php:191
+#: ultimate-branding-files/modules/author-box/author-box.php:255
 msgid "Radius corners"
 msgstr "Zaokrąglone narożniki"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:191
-#: ultimate-branding-files/modules/author-box/author-box.php:244
-#: ultimate-branding-files/modules/author-box/author-box.php:255
+#: ultimate-branding-files/modules/author-box/author-box.php:192
+#: ultimate-branding-files/modules/author-box/author-box.php:245
+#: ultimate-branding-files/modules/author-box/author-box.php:256
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:232
 #: ultimate-branding-files/modules/custom-login-screen.php:512
 #: ultimate-branding-files/modules/custom-login-screen.php:563
 msgid "How much would you like to round the border?"
 msgstr "Jak bardzo zaokrąglić obramowanie?"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:201
-#: ultimate-branding-files/modules/author-box/author-box.php:378
+#: ultimate-branding-files/modules/author-box/author-box.php:202
+#: ultimate-branding-files/modules/author-box/author-box.php:390
 #: ultimate-branding-files/modules/custom-login-screen.php:547
 #: ultimate-branding-files/modules/custom-login-screen.php:618
 #: ultimate-branding-files/modules/custom-login-screen.php:794
 #: ultimate-branding-files/modules/custom-login-screen.php:938
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:414
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:483
-#: ultimate-branding-files/modules/global-footer-content.php:76
-#: ultimate-branding-files/modules/global-footer-content.php:119
-#: ultimate-branding-files/modules/maintenance/maintenance.php:100
-#: ultimate-branding-files/modules/maintenance/maintenance.php:169
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:502
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:571
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:415
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:484
+#: ultimate-branding-files/modules/global-footer-content.php:78
+#: ultimate-branding-files/modules/global-footer-content.php:121
+#: ultimate-branding-files/modules/maintenance/maintenance.php:107
+#: ultimate-branding-files/modules/maintenance/maintenance.php:176
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:503
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:572
 msgid "Background color"
 msgstr "Kolor tła"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:208
+#: ultimate-branding-files/modules/author-box/author-box.php:209
 msgid "Display name options"
 msgstr "Pokaż opcję wyświetlanej nazwy"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:212
+#: ultimate-branding-files/modules/author-box/author-box.php:213
 msgid "Link name"
 msgstr "Odnośnik nazwy"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:213
+#: ultimate-branding-files/modules/author-box/author-box.php:214
 msgid "Link author name to author archive."
 msgstr "Dodaj odnośnik do archiwum autora"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:215
+#: ultimate-branding-files/modules/author-box/author-box.php:216
 msgid "Link"
 msgstr "Odnośnik"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:216
+#: ultimate-branding-files/modules/author-box/author-box.php:217
 msgid "no"
 msgstr "nie"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:223
+#: ultimate-branding-files/modules/author-box/author-box.php:224
 msgid "Show number of posts"
 msgstr "Pokaż liczbę wpisów"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:239
+#: ultimate-branding-files/modules/author-box/author-box.php:240
 msgid "Avatar options"
 msgstr "Opcje awatara"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:243
+#: ultimate-branding-files/modules/author-box/author-box.php:244
 msgid "Size"
 msgstr "Wielkość"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:285
+#: ultimate-branding-files/modules/author-box/author-box.php:286
 msgid "Entries Settings"
 msgstr "Ustawienia wpisów"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:289
+#: ultimate-branding-files/modules/author-box/author-box.php:290
 msgid "Show entries type"
 msgstr "Pokaż typ wpisów"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:291
+#: ultimate-branding-files/modules/author-box/author-box.php:292
 msgid "Only the same"
 msgstr "Tylko ten sam"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:292
+#: ultimate-branding-files/modules/author-box/author-box.php:293
 msgid "Any"
 msgstr "Dowolny"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:299
+#: ultimate-branding-files/modules/author-box/author-box.php:300
 msgid "Number of entries"
 msgstr "Liczba wpisów"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:306
-#: ultimate-branding-files/modules/author-box/author-box.php:366
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:566
-#: ultimate-branding-files/modules/maintenance/maintenance.php:277
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:629
+#: ultimate-branding-files/modules/author-box/author-box.php:307
+#: ultimate-branding-files/modules/author-box/author-box.php:379
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:567
+#: ultimate-branding-files/modules/maintenance/maintenance.php:284
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:630
 msgid "Open links"
 msgstr "Otwieraj odnośniki"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:307
-#: ultimate-branding-files/modules/author-box/author-box.php:367
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:567
-#: ultimate-branding-files/modules/maintenance/maintenance.php:278
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:630
+#: ultimate-branding-files/modules/author-box/author-box.php:308
+#: ultimate-branding-files/modules/author-box/author-box.php:380
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:568
+#: ultimate-branding-files/modules/maintenance/maintenance.php:285
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:631
 msgid "Would you like open link in new or the same window/tab?"
 msgstr "Czy odnośniki mają być otwierane w nowym czy tym samym oknie/zakładce?"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:309
-#: ultimate-branding-files/modules/author-box/author-box.php:369
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:569
-#: ultimate-branding-files/modules/maintenance/maintenance.php:280
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:632
+#: ultimate-branding-files/modules/author-box/author-box.php:310
+#: ultimate-branding-files/modules/author-box/author-box.php:382
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:570
+#: ultimate-branding-files/modules/maintenance/maintenance.php:287
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:633
 msgid "new"
 msgstr "nowym"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:310
-#: ultimate-branding-files/modules/author-box/author-box.php:370
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:570
-#: ultimate-branding-files/modules/maintenance/maintenance.php:281
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:633
+#: ultimate-branding-files/modules/author-box/author-box.php:311
+#: ultimate-branding-files/modules/author-box/author-box.php:383
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:571
+#: ultimate-branding-files/modules/maintenance/maintenance.php:288
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:634
 msgid "the same"
 msgstr "tym samym"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:318
+#: ultimate-branding-files/modules/author-box/author-box.php:319
 msgid "Show Title"
 msgstr "Pokaż tytuł"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:328
+#: ultimate-branding-files/modules/author-box/author-box.php:329
 #: ultimate-branding-files/modules/dashboard-feeds/dashboard-feeds.php:794
 #: ultimate-branding-files/modules/dashboard-text-widgets/dashboard-text-widgets.php:248
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:384
-#: ultimate-branding-files/modules/maintenance/maintenance.php:72
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:432
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:468
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:385
+#: ultimate-branding-files/modules/maintenance/maintenance.php:79
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:433
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:469
 msgid "Title"
 msgstr "Tytuł"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:329
+#: ultimate-branding-files/modules/author-box/author-box.php:330
 msgid "Read more the same author:"
 msgstr "Przeczytaj więcej tego samego autora:"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:340
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:538
-#: ultimate-branding-files/modules/maintenance/maintenance.php:249
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:601
+#: ultimate-branding-files/modules/author-box/author-box.php:341
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:539
+#: ultimate-branding-files/modules/maintenance/maintenance.php:256
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:602
 msgid "Social Media Settings"
 msgstr "Ustawienia social mediów"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:344
+#: ultimate-branding-files/modules/author-box/author-box.php:345
 msgid "Icons position"
 msgstr "Pozycja ikon"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:346
+#: ultimate-branding-files/modules/author-box/author-box.php:347
 msgid "Bottom of the box"
 msgstr "Na dole"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:347
+#: ultimate-branding-files/modules/author-box/author-box.php:348
 msgid "Top of the box"
 msgstr "Na górze"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:348
+#: ultimate-branding-files/modules/author-box/author-box.php:349
 msgid "Under avatar"
 msgstr "Pod awatarem"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:354
-#: ultimate-branding-files/modules/author-box/author-box.php:357
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:554
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:557
-#: ultimate-branding-files/modules/maintenance/maintenance.php:265
-#: ultimate-branding-files/modules/maintenance/maintenance.php:268
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:617
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:620
-msgid "Colors"
-msgstr "Kolory"
-
 #: ultimate-branding-files/modules/author-box/author-box.php:355
+msgid "Type"
+msgstr "Typ"
+
+#: ultimate-branding-files/modules/author-box/author-box.php:356
+msgid "Choose \"text\" if you want to style list yourself."
+msgstr "Proszę wybrać \"tekst\" w celu samodzielnego ostylowanie list."
+
+#: ultimate-branding-files/modules/author-box/author-box.php:358
+msgid "Icons"
+msgstr "Ikony"
+
+#: ultimate-branding-files/modules/author-box/author-box.php:367
+#: ultimate-branding-files/modules/author-box/author-box.php:370
 #: ultimate-branding-files/modules/db-error-page/db-error-page.php:555
-#: ultimate-branding-files/modules/maintenance/maintenance.php:266
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:558
+#: ultimate-branding-files/modules/maintenance/maintenance.php:272
+#: ultimate-branding-files/modules/maintenance/maintenance.php:275
 #: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:618
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:621
+msgid "Colors"
+msgstr "Kolorystyka"
+
+#: ultimate-branding-files/modules/author-box/author-box.php:368
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:556
+#: ultimate-branding-files/modules/maintenance/maintenance.php:273
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:619
 msgid "Would you like show colored icons?"
 msgstr "Czy ikony mają być kolorowe?"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:358
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:558
-#: ultimate-branding-files/modules/maintenance/maintenance.php:269
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:621
+#: ultimate-branding-files/modules/author-box/author-box.php:371
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:559
+#: ultimate-branding-files/modules/maintenance/maintenance.php:276
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:622
 msgid "Monochrome"
 msgstr "Monochromatyczne"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:390
+#: ultimate-branding-files/modules/author-box/author-box.php:402
 msgid "Social Media Profiles"
 msgstr "Profile mediów społecznościowych"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:401
+#: ultimate-branding-files/modules/author-box/author-box.php:413
 msgid "WordPress profile website"
 msgstr "Strona www z profilu"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:402
+#: ultimate-branding-files/modules/author-box/author-box.php:414
 msgid "WordPress profile mail"
 msgstr "Adres email z profilu"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:419
+#: ultimate-branding-files/modules/author-box/author-box.php:431
 #: ultimate-branding-files/modules/favicons.php:77
 #: ultimate-branding-files/modules/smtp/smtp.php:318
 msgid "Allow"
 msgstr "Włącz"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:420
+#: ultimate-branding-files/modules/author-box/author-box.php:432
 #: ultimate-branding-files/modules/favicons.php:78
 #: ultimate-branding-files/modules/smtp/smtp.php:319
 msgid "Disallow"
 msgstr "Wyłącz"
 
-#: ultimate-branding-files/modules/author-box/author-box.php:481
+#: ultimate-branding-files/modules/author-box/author-box.php:493
 msgid "Social Media profiles"
 msgstr "Profile w mediach społecznościowych"
+
+#: ultimate-branding-files/modules/author-box/author-box.php:785
+msgid "Website"
+msgstr "Strona WWW"
 
 #: ultimate-branding-files/modules/author-box/class-author-box-widget.php:37
 msgid "Widget has no configuration."
 msgstr "Widżet nie posiada konfiguracji."
 
-#: ultimate-branding-files/modules/comments-control.php:71
+#: ultimate-branding-files/modules/comments-control.php:163
+msgid "Disable Comments"
+msgstr "Wyłącz wszystkie komentarze"
+
+#: ultimate-branding-files/modules/comments-control.php:168
+msgid ""
+"Would you like to disable comments? Warning: This option is global and will "
+"affect your entire site. Use it only if you want to disable comments "
+"everywhere."
+msgstr ""
+"Czy wyłączyć komentowanie? Ostrzeżenie: opcja jest globalna i dotyczy całej "
+"witryny. Proszę jej użyć tylko wtedy, gdy komentarze mają zostać wszędzie "
+"wyłączone."
+
+#: ultimate-branding-files/modules/comments-control.php:181
+#: ultimate-branding-files/modules/comments-control.php:190
+msgid "Certain post types"
+msgstr "Wybrane typy treści"
+
+#: ultimate-branding-files/modules/comments-control.php:182
+msgid "All"
+msgstr "Wszystkie"
+
+#: ultimate-branding-files/modules/comments-control.php:198
 msgid "Allowed rules apply before denied rules"
 msgstr "Regułu dopuszczenia przed regułami zakazu"
 
-#: ultimate-branding-files/modules/comments-control.php:76
+#: ultimate-branding-files/modules/comments-control.php:203
 msgid "IP whitelist"
 msgstr "Biała lista IP"
 
-#: ultimate-branding-files/modules/comments-control.php:77
+#: ultimate-branding-files/modules/comments-control.php:204
 msgid ""
 "IPs for which comments will not be throttled. One IP per line or comma "
 "separated."
@@ -2039,16 +2128,189 @@ msgstr ""
 "Adresy IP dla których komentarze nie będą ograniczane. Jeden adres IP na "
 "każdą linię lub rozdzielone przecinkami."
 
-#: ultimate-branding-files/modules/comments-control.php:82
+#: ultimate-branding-files/modules/comments-control.php:209
 msgid "IP blacklist"
 msgstr "Czarna lista IP"
 
-#: ultimate-branding-files/modules/comments-control.php:83
+#: ultimate-branding-files/modules/comments-control.php:210
 msgid ""
 "IPs for which comments will be throttled. One IP per line or comma separated."
 msgstr ""
 "Adresy IP, dla których nastąpi tłumienie komentarzy. Jeden adres IP na linię "
 "lub oddzielony przecinkiem."
+
+#: ultimate-branding-files/modules/comments-control.php:271
+#: ultimate-branding-files/modules/comments-control.php:306
+msgid "Comments are closed."
+msgstr "Komentrze są wyłączone."
+
+#: ultimate-branding-files/modules/comments-control.php:412
+msgid ""
+"The <em>Comments Control</em> module is active, but is not properly "
+"configured. Visit the <a href=\"%s\">configuration page</a> to choose which "
+"post types to disable comments on."
+msgstr ""
+"Moduł <em>Kontrola komentarzy</em> jest aktywny, ale nie został poprawnie "
+"skonfigurowany. Proszę wejść na <a href=\"%s\"> stronę konfiguracji</a>, aby "
+"wybrać typy treści dla który zostaną wyłączone komentarze."
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:80
+msgid "Configuration"
+msgstr "Konfiguracja"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:85
+msgid ""
+"We use cookies to ensure that we give you the best experience on our "
+"website. If you continue to use this site we will assume that you are happy "
+"with it."
+msgstr ""
+"Ta strona korzysta z ciasteczek aby świadczyć usługi na najwyższym poziomie. "
+"Dalsze korzystanie ze strony oznacza, że zgadzasz się na ich użycie."
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:88
+msgid "Button text"
+msgstr "Tekst przycisku"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:89
+msgid "OK"
+msgstr "OK"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:93
+msgid "Reloading"
+msgstr "Przeładowuję"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:94
+msgid "Enable to reload the page after cookies are accepted."
+msgstr "Włącz aby przeładowywać stronę po akceptacji ciasteczek."
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:104
+msgid "Logged users"
+msgstr "Zalogowani"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:105
+msgid "Show for logged users?"
+msgstr "Pokazywać dla zalogowanych?"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:115
+msgid "Cookie expiry"
+msgstr "Wygasanie cookie"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:117
+msgid "1 hour"
+msgstr "Godzina"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:118
+msgid "1 day"
+msgstr "dzień"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:119
+msgid "1 week"
+msgstr "tydzień"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:120
+msgid "1 month"
+msgstr "miesiąc"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:121
+msgid "3 months"
+msgstr "kwartał"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:122
+msgid "6 months"
+msgstr "pół roku"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:123
+msgid "1 year"
+msgstr "rok"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:126
+msgid "The ammount of time that cookie should be stored for."
+msgstr "Okres czasu przez jaki będzie przechowywane ciasteczko."
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:130
+msgid "Cookie Version"
+msgstr "Wersja ciasteczka"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:132
+msgid ""
+"A version number for the cookie - update this to invalidate the cookie and "
+"force all users to view the notification again."
+msgstr ""
+"Wersja ciasteczka - po zmianie spowoduje nieważność poprzedniej wersji i "
+"ponowne wyświetlenie wiadomości. "
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:138
+msgid "Privacy Policy"
+msgstr "Polityka prywatności"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:142
+msgid "Privacy policy"
+msgstr "Polityka prywatności"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:143
+msgid "Enable privacy policy link."
+msgstr "Włącz link do polityki prywatności."
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:153
+msgid "The text of the privacy policy button."
+msgstr "Treść przycisku polityki prywatności."
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:160
+msgid "Box"
+msgstr "Boks"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:164
+#: ultimate-branding-files/modules/custom-login-screen.php:892
+msgid "Position"
+msgstr "Pozycja"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:166
+msgid "Top"
+msgstr "Na górze"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:167
+msgid "Bottom"
+msgstr "Na dole"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:169
+msgid "Select location for your cookie notice."
+msgstr "Wybierz pozycję wiadomości o ciasteczkach."
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:187
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:211
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:410
+#: ultimate-branding-files/modules/maintenance/maintenance.php:102
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:498
+msgid "Color"
+msgstr "Kolor"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:192
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:216
+msgid "Background Color"
+msgstr "Kolor tła"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:197
+#: ultimate-branding-files/modules/custom-login-screen.php:627
+#: ultimate-branding-files/modules/custom-login-screen.php:943
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:508
+msgid "Background transparency"
+msgstr "Przezroczystość tła"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:207
+msgid "Buttons"
+msgstr "Przyciski"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:221
+msgid "Color Hover"
+msgstr "Kolor po najechaniu"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:226
+msgid "Background Color Hover"
+msgstr "Kolor tła po najechaniu"
+
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:231
+msgid "Buttons Radius"
+msgstr "Zaokrąglenie przycisku"
 
 #: ultimate-branding-files/modules/custom-admin-bar-files/inc/UB_Admin_Bar.php:128
 msgid "New Menu Title"
@@ -2157,13 +2419,6 @@ msgstr "Tytuł:"
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/add_new.php:104
 msgid "Open in new window"
 msgstr "Otwórz w nowym oknie"
-
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/_sub_menus.php:14
-#: ultimate-branding-files/modules/custom-admin-bar-files/views/menus.php:27
-#: ultimate-branding-files/modules/dashboard-feeds/dashboard-feeds.php:831
-#: ultimate-branding-files/modules/dashboard-text-widgets/dashboard-text-widgets.php:277
-msgid "Delete"
-msgstr "Usuń"
 
 #: ultimate-branding-files/modules/custom-admin-bar-files/views/_sub_menus.php:21
 msgid "Type:"
@@ -2371,31 +2626,31 @@ msgstr ""
 "To, co tutaj zostanie dodane, zostanie dodane do nagłówka każdej strony "
 "administracyjnej we wszystkich witrynach."
 
-#: ultimate-branding-files/modules/custom-dashboard-welcome.php:112
+#: ultimate-branding-files/modules/custom-dashboard-welcome.php:113
 msgid "Leave empty to remove custom welcome widget"
 msgstr "Zostaw puste aby usunąć własny widżet powitalny"
 
-#: ultimate-branding-files/modules/custom-dashboard-welcome.php:118
+#: ultimate-branding-files/modules/custom-dashboard-welcome.php:119
 msgid "Shortcodes"
 msgstr "Shortcodes"
 
-#: ultimate-branding-files/modules/custom-dashboard-welcome.php:119
-#: ultimate-branding-files/modules/global-footer-content.php:100
-#: ultimate-branding-files/modules/global-footer-content.php:143
+#: ultimate-branding-files/modules/custom-dashboard-welcome.php:120
+#: ultimate-branding-files/modules/global-footer-content.php:102
+#: ultimate-branding-files/modules/global-footer-content.php:145
 msgid "Be careful it can break compatibility with themes with UI builders."
 msgstr "Prosimy o ostrożność, to może posuć możliwość używania page builderów."
 
-#: ultimate-branding-files/modules/custom-dashboard-welcome.php:121
+#: ultimate-branding-files/modules/custom-dashboard-welcome.php:122
 msgid "Parse shortocodes"
 msgstr "Parsuj shortcode'y"
 
-#: ultimate-branding-files/modules/custom-dashboard-welcome.php:122
+#: ultimate-branding-files/modules/custom-dashboard-welcome.php:123
 msgid "Stop parsing"
 msgstr "Przestań parsować"
 
 #: ultimate-branding-files/modules/custom-email-from.php:34
 msgid "E-mail From Headers"
-msgstr ""
+msgstr "Nagłówki \"From\" maila."
 
 #: ultimate-branding-files/modules/custom-email-from.php:38
 msgid "E-mail Address"
@@ -2485,6 +2740,18 @@ msgid ""
 "\n"
 "--The Team @ SITE_NAME"
 msgstr ""
+"Cześć USERNAME,\n"
+"\n"
+"Twoje nowe konto zostało skonfigurowane.\n"
+"\n"
+"Możesz się zalogować używając następujących danych:\n"
+"Login: USERNAME\n"
+"\n"
+"LOGINLINK\n"
+"\n"
+"Dziękujemy!\n"
+"\n"
+"--Zespół @ SITE_NAME"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:450
 msgid "https://wordpress.org/"
@@ -2516,19 +2783,19 @@ msgid "Logo & Background"
 msgstr "Logo i tło"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:473
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:437
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:441
-#: ultimate-branding-files/modules/maintenance/maintenance.php:123
-#: ultimate-branding-files/modules/maintenance/maintenance.php:127
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:525
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:529
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:438
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:442
+#: ultimate-branding-files/modules/maintenance/maintenance.php:130
+#: ultimate-branding-files/modules/maintenance/maintenance.php:134
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:526
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:530
 msgid "Logo"
 msgstr "Logo"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:474
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:442
-#: ultimate-branding-files/modules/maintenance/maintenance.php:128
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:530
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:443
+#: ultimate-branding-files/modules/maintenance/maintenance.php:135
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:531
 msgid "Would you like to show the logo?"
 msgstr "Czy logo ma być pokazywane?"
 
@@ -2537,9 +2804,9 @@ msgid "Upload your own logo. Max width: 320px"
 msgstr "Załaduj własne logo. Maksymalna dłuugość: 320px"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:491
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:459
-#: ultimate-branding-files/modules/maintenance/maintenance.php:145
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:547
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:460
+#: ultimate-branding-files/modules/maintenance/maintenance.php:152
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:548
 msgid "Logo width"
 msgstr "Długość logo"
 
@@ -2572,9 +2839,9 @@ msgstr ""
 "wysokość marginesu."
 
 #: ultimate-branding-files/modules/custom-login-screen.php:552
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:497
-#: ultimate-branding-files/modules/maintenance/maintenance.php:183
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:585
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:498
+#: ultimate-branding-files/modules/maintenance/maintenance.php:190
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:586
 msgid "Background Image"
 msgstr "Obrazek tła"
 
@@ -2644,12 +2911,6 @@ msgstr "Umożliwia zmianę ramki i ciena używanego pola formularza."
 msgid "Background image"
 msgstr "Obrazek tła"
 
-#: ultimate-branding-files/modules/custom-login-screen.php:627
-#: ultimate-branding-files/modules/custom-login-screen.php:943
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:507
-msgid "Background transparency"
-msgstr "Przezroczystość tła"
-
 #: ultimate-branding-files/modules/custom-login-screen.php:631
 msgid "It will not affected if you set for background image."
 msgstr "Nie ma znaczenia, jeżeli nie ustawiono obrazka tła."
@@ -2700,7 +2961,7 @@ msgstr "Kolor tła przycisku (hover)"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:694
 msgid "Button text color (hover)"
-msgstr ""
+msgstr "Kolor tekstu klawisza po najechaniu"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:702
 msgid "Button text shadow"
@@ -2744,7 +3005,7 @@ msgstr "Etykieta hasła"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:759
 msgid "Login button text"
-msgstr ""
+msgstr "Treść klawisza logowania"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:760
 msgid "Log In"
@@ -2802,7 +3063,7 @@ msgstr "Kolor odnośników"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:814
 msgid "Hover link color"
-msgstr ""
+msgstr "Kolor linków po najechaniu"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:819
 msgid "Transparency"
@@ -2828,6 +3089,7 @@ msgstr "Kolor odnośników \"￼Zaloguj się | Nie pamiętasz hasła?\""
 #: ultimate-branding-files/modules/custom-login-screen.php:854
 msgid "\"Register | Lost your password?\" link hover color"
 msgstr ""
+"Kolor linków \"Zarejestruj się | Nie pamiętasz hasła?\" przy najecheniu"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:860
 msgid "\"Back to\" link"
@@ -2835,7 +3097,7 @@ msgstr "Link \"Powrót do\""
 
 #: ultimate-branding-files/modules/custom-login-screen.php:861
 msgid "Would you like to show the \"&larr; Back to\" link?"
-msgstr ""
+msgstr "Czy pokazywać link \"&larr; Powrót do\"?"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:872
 msgid "\"Back to\" link color"
@@ -2849,25 +3111,21 @@ msgstr "Kolor odnośnika \"Powrót do\" gdy kursor jest nad nim"
 msgid "Form Canvas & Position"
 msgstr "Kształt i pozycja formularza"
 
-#: ultimate-branding-files/modules/custom-login-screen.php:892
-msgid "Position"
-msgstr "Pozycja"
-
 #: ultimate-branding-files/modules/custom-login-screen.php:894
 msgid "Default postion"
 msgstr "Domyślna pozycja"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:895
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:469
-#: ultimate-branding-files/modules/maintenance/maintenance.php:155
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:557
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:470
+#: ultimate-branding-files/modules/maintenance/maintenance.php:162
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:558
 msgid "Left"
 msgstr "Do lewej"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:896
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:471
-#: ultimate-branding-files/modules/maintenance/maintenance.php:157
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:559
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:472
+#: ultimate-branding-files/modules/maintenance/maintenance.php:164
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:560
 msgid "Right"
 msgstr "Do prawej"
 
@@ -2876,9 +3134,9 @@ msgid "Padding top"
 msgstr "Górny odstęp"
 
 #: ultimate-branding-files/modules/custom-login-screen.php:911
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:428
-#: ultimate-branding-files/modules/maintenance/maintenance.php:114
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:516
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:429
+#: ultimate-branding-files/modules/maintenance/maintenance.php:121
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:517
 msgid "Width"
 msgstr "Szerokość"
 
@@ -3029,7 +3287,7 @@ msgstr ""
 
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:120
 msgid "Filters the message content of the new blog notification e-mail"
-msgstr ""
+msgstr "Filtruje treść wiadomości z nowego powiadomienia e-mail na blogu"
 
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:125
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:187
@@ -3055,10 +3313,12 @@ msgstr "Filtruje treść powiadomienia e-mail dla rejestracji nowego użytkownik
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:156
 msgid "Would you like to replace the new user sign-up notification e-mail?"
 msgstr ""
+"Czy zastąpić nową wiadomość e-mail z powiadomieniem o rejestracji "
+"użytkownika?"
 
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:182
 msgid "The welcome e-mail after site activation"
-msgstr ""
+msgstr "Powitalna wiadomość e-mail po aktywacji witryny"
 
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:201
 msgid "New %1$s Site: %2$s"
@@ -3103,6 +3363,10 @@ msgid ""
 "on their own Dashboards. When the feed is saved here again it will replace "
 "the custom settings."
 msgstr ""
+"Zaznaczony spowoduje usunięcie linku \"konfiguracja\" w nagłówku widżetu. "
+"(Zalecane)<br />Niezaznaczone zezwala poszczególnym użytkownikom na "
+"kontrolowanie tego widgetu na własnych pulpitach. Gdy konfiguracja zostanie "
+"tutaj ponownie zapisana, zastąpi własne ustawienia."
 
 #: ultimate-branding-files/modules/dashboard-feeds/dashboard-feeds.php:536
 msgid "Give the feed a title (optional):"
@@ -3184,6 +3448,8 @@ msgstr ""
 msgid ""
 "Check - Hide Combined Primary and Secondary Dashboard Feed Widget on Network."
 msgstr ""
+"Zaznaczony ukrywa połączony główny i dodatkowy widget kanałów na pulpicie "
+"sieci."
 
 #: ultimate-branding-files/modules/dashboard-feeds/dashboard-feeds.php:796
 msgid "Feed URL"
@@ -3262,12 +3528,12 @@ msgid "Show this feed on Network Dashboard."
 msgstr "Pokaż ten kanał na pulpicie sieci."
 
 #: ultimate-branding-files/modules/db-error-page/db-error-page.php:45
-#: ultimate-branding-files/modules/maintenance/maintenance.php:511
+#: ultimate-branding-files/modules/maintenance/maintenance.php:518
 msgid "We&rsquo;ll be back soon!"
 msgstr "Wkrótce wracamy!"
 
 #: ultimate-branding-files/modules/db-error-page/db-error-page.php:46
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:405
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:406
 msgid ""
 "We're currently experiencing technical issues &mdash; Please check back "
 "soon..."
@@ -3282,126 +3548,120 @@ msgstr "Wystąpił problem z bazą danych."
 msgid "Database Error"
 msgstr "Błąd bazy danych"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:332
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:314
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:333
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:315
 msgid "Whoops! Something went wrong."
 msgstr "Ups! Coś poszło nie tak."
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:335
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:336
 msgid ""
 "Directory %s is not writable, we are unable to create db-error.php file."
 msgstr ""
 "Nie można zapisywać w katalogu %s, więc wprowadzenie zmian nie jest możliwe."
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:340
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:341
 msgid "File %s is not writable, we are unable to change it."
 msgstr ""
 "Nie można zapisywać do pliku %s, więc wprowadzenie zmian nie jest możliwe."
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:351
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:328
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:352
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:329
 msgid "Error"
 msgstr "Błąd"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:369
-#: ultimate-branding-files/modules/maintenance/maintenance.php:57
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:370
+#: ultimate-branding-files/modules/maintenance/maintenance.php:64
 msgid "Document"
 msgstr "Dokument"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:373
-#: ultimate-branding-files/modules/maintenance/maintenance.php:61
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:374
+#: ultimate-branding-files/modules/maintenance/maintenance.php:68
 msgid "Show title"
 msgstr "Pokaż tytuł"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:374
-#: ultimate-branding-files/modules/maintenance/maintenance.php:62
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:375
+#: ultimate-branding-files/modules/maintenance/maintenance.php:69
 msgid "Would you like to show title?"
 msgstr "Czy tytuł ma być pokazywany?"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:385
-#: ultimate-branding-files/modules/maintenance/maintenance.php:73
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:433
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:469
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:386
+#: ultimate-branding-files/modules/maintenance/maintenance.php:80
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:434
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:470
 msgid "Enter a headline for your page."
 msgstr "Wprowadź nagłówej witryny."
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:386
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:387
 msgid "503 Service Temporarily Unavailable"
 msgstr "503 Serwis jest chwilo niedostępny"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:391
-#: ultimate-branding-files/modules/maintenance/maintenance.php:78
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:439
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:475
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:392
+#: ultimate-branding-files/modules/maintenance/maintenance.php:85
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:440
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:476
 msgid "Show content"
 msgstr "Pokaż treść"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:392
-#: ultimate-branding-files/modules/maintenance/maintenance.php:79
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:440
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:476
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:393
+#: ultimate-branding-files/modules/maintenance/maintenance.php:86
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:441
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:477
 msgid "Would you like to show content?"
 msgstr "Czy treść ma być pokazywana?"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:403
-#: ultimate-branding-files/modules/global-footer-content.php:71
-#: ultimate-branding-files/modules/global-footer-content.php:114
-#: ultimate-branding-files/modules/maintenance/maintenance.php:90
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:451
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:487
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:404
+#: ultimate-branding-files/modules/global-footer-content.php:73
+#: ultimate-branding-files/modules/global-footer-content.php:116
+#: ultimate-branding-files/modules/maintenance/maintenance.php:97
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:452
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:488
 msgid "Content"
 msgstr "Treść"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:409
-#: ultimate-branding-files/modules/maintenance/maintenance.php:95
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:497
-msgid "Color"
-msgstr "Kolor"
-
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:419
-#: ultimate-branding-files/modules/maintenance/maintenance.php:105
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:420
+#: ultimate-branding-files/modules/maintenance/maintenance.php:112
 msgid "background transparency"
 msgstr "przezroczystość tła"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:467
-#: ultimate-branding-files/modules/maintenance/maintenance.php:153
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:555
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:468
+#: ultimate-branding-files/modules/maintenance/maintenance.php:160
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:556
 msgid "Logo Position"
 msgstr "Pozycja logo"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:470
-#: ultimate-branding-files/modules/maintenance/maintenance.php:156
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:558
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:471
+#: ultimate-branding-files/modules/maintenance/maintenance.php:163
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:559
 msgid "Center"
 msgstr "Do środka"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:479
-#: ultimate-branding-files/modules/maintenance/maintenance.php:165
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:567
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:480
+#: ultimate-branding-files/modules/maintenance/maintenance.php:172
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:568
 msgid "Background"
 msgstr "Tło"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:488
-#: ultimate-branding-files/modules/maintenance/maintenance.php:174
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:576
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:489
+#: ultimate-branding-files/modules/maintenance/maintenance.php:181
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:577
 msgid "Multiple images mode"
 msgstr "Tryb wielu obrazków"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:490
-#: ultimate-branding-files/modules/maintenance/maintenance.php:176
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:578
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:491
+#: ultimate-branding-files/modules/maintenance/maintenance.php:183
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:579
 msgid "Slideshow"
 msgstr "Pokaz slajdów"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:491
-#: ultimate-branding-files/modules/maintenance/maintenance.php:177
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:579
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:492
+#: ultimate-branding-files/modules/maintenance/maintenance.php:184
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:580
 msgid "Random"
 msgstr "Losowo"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:498
-#: ultimate-branding-files/modules/maintenance/maintenance.php:184
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:586
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:499
+#: ultimate-branding-files/modules/maintenance/maintenance.php:191
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:587
 msgid ""
 "You can upload a background image here. The image will stretch to fit the "
 "page, and will automatically resize as the window size changes. You'll have "
@@ -3412,62 +3672,62 @@ msgstr ""
 "rozmiaru okna. Najlepsze wyniki zostanąuzyskane dla obrazków o minimalnej "
 "szerokości 1024 pikseli."
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:502
-#: ultimate-branding-files/modules/maintenance/maintenance.php:188
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:590
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:503
+#: ultimate-branding-files/modules/maintenance/maintenance.php:195
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:591
 msgid "Slideshow duration"
 msgstr "Czas przłączania slajdów"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:503
-#: ultimate-branding-files/modules/maintenance/maintenance.php:189
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:591
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:504
+#: ultimate-branding-files/modules/maintenance/maintenance.php:196
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:592
 msgid ""
 "Duration in minutes, we strongly recommended do not use less than 5 minutes."
 msgstr ""
 "Czas trwania w minutach. Mocno zalecamy nie ustawianie mniej niż 5 minut."
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:507
-#: ultimate-branding-files/modules/maintenance/maintenance.php:193
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:595
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:508
+#: ultimate-branding-files/modules/maintenance/maintenance.php:200
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:596
 msgid "minutes"
 msgstr "minut"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:517
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:518
 msgid "Send Mail Settings"
 msgstr "Ustawienia wysłania maila"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:521
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:522
 msgid "Send mail?"
 msgstr "Wysyłać wiadomość?"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:522
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:523
 msgid ""
 "Try to send mail when somebody enter a site and a db problem is occured."
 msgstr ""
 "Spróbuj wysłać wiadomość jeżeli ktoś owiedzi witrynę w momencie wystąpienia "
 "błędu."
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:532
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:533
 #: ultimate-branding-files/modules/smtp/smtp.php:333
 msgid "To"
 msgstr "Adresat"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:542
-#: ultimate-branding-files/modules/maintenance/maintenance.php:215
-#: ultimate-branding-files/modules/maintenance/maintenance.php:253
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:605
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:543
+#: ultimate-branding-files/modules/maintenance/maintenance.php:222
+#: ultimate-branding-files/modules/maintenance/maintenance.php:260
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:606
 msgid "Show on front-end"
 msgstr "Pokaż na stronie publicznej"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:543
-#: ultimate-branding-files/modules/maintenance/maintenance.php:254
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:606
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:544
+#: ultimate-branding-files/modules/maintenance/maintenance.php:261
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:607
 msgid "Would you like to show social media?"
 msgstr "Czy pokazywać ikony mediów społecznościowych?"
 
-#: ultimate-branding-files/modules/db-error-page/db-error-page.php:579
-#: ultimate-branding-files/modules/maintenance/maintenance.php:290
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:642
+#: ultimate-branding-files/modules/db-error-page/db-error-page.php:580
+#: ultimate-branding-files/modules/maintenance/maintenance.php:297
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:643
 msgid "Social Media"
 msgstr "Media społecznościowe"
 
@@ -3515,7 +3775,6 @@ msgstr ""
 "importuj."
 
 #: ultimate-branding-files/modules/export-import.php:204
-#, fuzzy
 msgid ""
 "When you click the button below Ultimate Branding will create a JSON file "
 "for you to save to your computer."
@@ -3524,9 +3783,8 @@ msgstr ""
 "plik JSON, aby zapisać go na komputerze."
 
 #: ultimate-branding-files/modules/export-import.php:206
-#, fuzzy
 msgid "This file will contain your Ultimate Branding settings."
-msgstr "Moduł pozwala na eksport i import ustawień wtyczki Ultimate Branding."
+msgstr "Plik będzie zawierał ustawienia wtyczki Ultimate Branding."
 
 #: ultimate-branding-files/modules/export-import.php:208
 msgid ""
@@ -3553,7 +3811,7 @@ msgid "Domain"
 msgstr "Domena"
 
 #: ultimate-branding-files/modules/favicons/UB_Blog_Favicons.php:39
-#: ultimate-branding-files/modules/favicons.php:465
+#: ultimate-branding-files/modules/favicons.php:481
 msgid "Favicon"
 msgstr "Favicon"
 
@@ -3589,48 +3847,50 @@ msgstr "Użyj domyślnej ikony dla wszystkich witryn w sieci."
 msgid "Sub-sites"
 msgstr "Podwitryny"
 
-#: ultimate-branding-files/modules/favicons.php:266
+#: ultimate-branding-files/modules/favicons.php:277
 msgid "Blavatar"
 msgstr "Blawatar"
 
-#: ultimate-branding-files/modules/favicons.php:288
+#: ultimate-branding-files/modules/favicons.php:299
 msgid "Use this as default favicon for all sub-sites"
 msgstr "Użyj jako domyślnej ikony dla serwisów"
 
-#: ultimate-branding-files/modules/favicons.php:291
+#: ultimate-branding-files/modules/favicons.php:302
 msgid "Sub-site favicons"
 msgstr "Ikony serwisów"
 
-#: ultimate-branding-files/modules/favicons.php:508
+#: ultimate-branding-files/modules/favicons.php:524
 msgid "Change"
 msgstr "Zmień"
 
-#: ultimate-branding-files/modules/global-footer-content.php:68
+#: ultimate-branding-files/modules/global-footer-content.php:70
 msgid "Footer Content For Subsites"
 msgstr "Treść stopki witryn (oprócz głównej)"
 
-#: ultimate-branding-files/modules/global-footer-content.php:78
-#: ultimate-branding-files/modules/global-footer-content.php:121
+#: ultimate-branding-files/modules/global-footer-content.php:80
+#: ultimate-branding-files/modules/global-footer-content.php:123
 msgid "Click on \"Clear\" button to make background transparent."
 msgstr "Proszę kliknąć klawisz \"Wyczyść\" aby ustawić przeźroczyste tło."
 
-#: ultimate-branding-files/modules/global-footer-content.php:81
-#: ultimate-branding-files/modules/global-footer-content.php:124
+#: ultimate-branding-files/modules/global-footer-content.php:83
+#: ultimate-branding-files/modules/global-footer-content.php:126
 msgid "Fixed height"
 msgstr "Ustalona wysokość"
 
-#: ultimate-branding-files/modules/global-footer-content.php:83
-#: ultimate-branding-files/modules/global-footer-content.php:126
+#: ultimate-branding-files/modules/global-footer-content.php:85
+#: ultimate-branding-files/modules/global-footer-content.php:128
 msgid "Choose height of footer. Leave \"0\" to fit height to content."
 msgstr ""
+"Proszę wybrać wysokość stopki. Pozostawienie \"0\" spowoduje dopasowanie "
+"wysokość do zawartości."
 
-#: ultimate-branding-files/modules/global-footer-content.php:88
-#: ultimate-branding-files/modules/global-footer-content.php:131
+#: ultimate-branding-files/modules/global-footer-content.php:90
+#: ultimate-branding-files/modules/global-footer-content.php:133
 msgid "Integrate in theme footer"
 msgstr "Integracja ze stopką motywu"
 
-#: ultimate-branding-files/modules/global-footer-content.php:89
-#: ultimate-branding-files/modules/global-footer-content.php:132
+#: ultimate-branding-files/modules/global-footer-content.php:91
+#: ultimate-branding-files/modules/global-footer-content.php:134
 msgid ""
 "If selected, the plugin will try to place the footer content block inside "
 "the theme footer element."
@@ -3638,12 +3898,12 @@ msgstr ""
 "Po wybraniu wtyczka spróbuje umieścić blok treści stopki wewnątrz elementu "
 "\"footer\" motywu."
 
-#: ultimate-branding-files/modules/global-footer-content.php:99
-#: ultimate-branding-files/modules/global-footer-content.php:142
+#: ultimate-branding-files/modules/global-footer-content.php:101
+#: ultimate-branding-files/modules/global-footer-content.php:144
 msgid "Proceed shortcodes"
 msgstr "Wykonuj shortcode'y"
 
-#: ultimate-branding-files/modules/global-footer-content.php:111
+#: ultimate-branding-files/modules/global-footer-content.php:113
 msgid "Footer Content For Main Site"
 msgstr "Treść stopki głownej witryny"
 
@@ -4006,7 +4266,7 @@ msgstr "Mb"
 msgid "Entering 0 will set the Default WordPress upload limit."
 msgstr "Wprowadzając 0 ustawiany jest domyślny limit WordPressa."
 
-#: ultimate-branding-files/modules/image-upload-size.php:69
+#: ultimate-branding-files/modules/image-upload-size.php:70
 msgid "kB"
 msgstr "kB"
 
@@ -4019,7 +4279,7 @@ msgstr "Menu odnośników będzie widoczne."
 msgid "This module has no configuration."
 msgstr "Moduł nie posiada konfiguracji."
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:35
+#: ultimate-branding-files/modules/maintenance/maintenance.php:42
 msgid ""
 "A Coming Soon should be used when a domain is new and you are building out "
 "the site."
@@ -4027,7 +4287,7 @@ msgstr ""
 "Trybu Wkrótce Otwarcie należy użyć, gdy domena jest nowa i witryna jest w "
 "trakcie budowy."
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:36
+#: ultimate-branding-files/modules/maintenance/maintenance.php:43
 msgid ""
 "Maintenance should only be used when your established site is truly down for "
 "maintenance."
@@ -4035,7 +4295,7 @@ msgstr ""
 "Tryb konserwacja powinen być używana tylko wtedy, gdy twoja istniejąca "
 "strona jest naprawdę niedostępna z powodu prac."
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:37
+#: ultimate-branding-files/modules/maintenance/maintenance.php:44
 msgid ""
 "Maintenance Mode returns a special header code (503) to notify search "
 "engines that your site is currently down so it does not negatively affect "
@@ -4045,97 +4305,97 @@ msgstr ""
 "wyszukiwarki, że witryna jest obecnie niedostępna i nie powinono to wpływać  "
 "negatywnie na jej reputację."
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:41
+#: ultimate-branding-files/modules/maintenance/maintenance.php:48
 msgid "Working mode"
 msgstr "Tryp pracy"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:45
+#: ultimate-branding-files/modules/maintenance/maintenance.php:52
 msgid "Mode"
 msgstr "Tryb"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:48
-#: ultimate-branding-files/modules/maintenance/maintenance.php:514
+#: ultimate-branding-files/modules/maintenance/maintenance.php:55
+#: ultimate-branding-files/modules/maintenance/maintenance.php:521
 msgid "Coming Soon"
 msgstr "Wrótce"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:199
+#: ultimate-branding-files/modules/maintenance/maintenance.php:206
 msgid "Countdown Timer"
 msgstr "Licznik"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:203
+#: ultimate-branding-files/modules/maintenance/maintenance.php:210
 msgid "Use Timer"
 msgstr "Użyj timera"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:204
+#: ultimate-branding-files/modules/maintenance/maintenance.php:211
 msgid "Would you like to use timer?"
 msgstr "Używać timera?"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:216
+#: ultimate-branding-files/modules/maintenance/maintenance.php:223
 msgid "Would you like to show the timer?"
 msgstr "Czy pokazywać timer?"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:227
+#: ultimate-branding-files/modules/maintenance/maintenance.php:234
 msgid "Till date"
 msgstr "Do dnia"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:232
+#: ultimate-branding-files/modules/maintenance/maintenance.php:239
 msgid "Till time"
 msgstr "Do godziny"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:237
+#: ultimate-branding-files/modules/maintenance/maintenance.php:244
 msgid "Countdown template"
 msgstr "Szablon licznika"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:239
+#: ultimate-branding-files/modules/maintenance/maintenance.php:246
 msgid "Final Countdown"
 msgstr "Final Countdown"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:240
+#: ultimate-branding-files/modules/maintenance/maintenance.php:247
 msgid "FlipClock"
 msgstr "FlipClock"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:241
+#: ultimate-branding-files/modules/maintenance/maintenance.php:248
 msgid "Raw"
 msgstr "Surowy"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:317
+#: ultimate-branding-files/modules/maintenance/maintenance.php:324
 msgid "Apply to"
 msgstr "Działa na"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:319
+#: ultimate-branding-files/modules/maintenance/maintenance.php:326
 msgid "All sites"
 msgstr "Wszystkie witryny"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:320
+#: ultimate-branding-files/modules/maintenance/maintenance.php:327
 msgid "Selected sites"
 msgstr "Wybrane witryny"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:331
+#: ultimate-branding-files/modules/maintenance/maintenance.php:338
 msgid "Sites"
 msgstr "Witryny"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:340
+#: ultimate-branding-files/modules/maintenance/maintenance.php:347
 msgid "Sites added"
 msgstr "Witryna została dodana"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:345
+#: ultimate-branding-files/modules/maintenance/maintenance.php:352
 msgid "Add a site"
 msgstr "Dodaj witrynę"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:349
+#: ultimate-branding-files/modules/maintenance/maintenance.php:356
 msgid "Add site"
 msgstr "Dodaj witrynę"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:375
-#: ultimate-branding-files/modules/maintenance/maintenance.php:808
+#: ultimate-branding-files/modules/maintenance/maintenance.php:382
+#: ultimate-branding-files/modules/maintenance/maintenance.php:822
 msgid "remove site"
 msgstr "usuń witrynę"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:399
+#: ultimate-branding-files/modules/maintenance/maintenance.php:406
 msgid "Select a site"
 msgstr "Wybierz witrynę"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:512
+#: ultimate-branding-files/modules/maintenance/maintenance.php:519
 msgid ""
 "Sorry for the inconvenience but we&rsquo;re performing some maintenance at "
 "the moment. We&rsquo;ll be back online shortly!"
@@ -4143,66 +4403,66 @@ msgstr ""
 "Przepraszamy za problemy, ale w tej chwili przeprowadzamy konserwację. "
 "Wkrótce znowu będziemy online!"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:515
+#: ultimate-branding-files/modules/maintenance/maintenance.php:522
 msgid "Stay tuned!"
 msgstr "Już niedługo!"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:733
+#: ultimate-branding-files/modules/maintenance/maintenance.php:740
 msgid "Days"
 msgstr "Dni"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:734
+#: ultimate-branding-files/modules/maintenance/maintenance.php:741
 msgid "Hours"
 msgstr "Godzin"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:735
+#: ultimate-branding-files/modules/maintenance/maintenance.php:742
 msgid "Minutes"
 msgstr "Minut"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:736
+#: ultimate-branding-files/modules/maintenance/maintenance.php:743
 msgid "Seconds"
 msgstr "Sekund"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:788
+#: ultimate-branding-files/modules/maintenance/maintenance.php:802
 msgid "Only authenticated users can access the REST API."
 msgstr "Tylko uwierzytelnieni użytkownicy mogą korzystać z  REST API."
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:890
+#: ultimate-branding-files/modules/maintenance/maintenance.php:904
 msgid "We are back now!"
 msgstr "Wracamy!"
 
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:317
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:318
 msgid "Directory %s is not writable, we are unable to create files."
 msgstr ""
 "Nie można swtorzyć plików, ponieważ nie można zapisywać do katalogu %s."
 
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:324
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:325
 msgid "Custom Sites Pages"
 msgstr "Własne strony witryn"
 
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:343
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:344
 msgid "Use"
 msgstr "Używaj"
 
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:360
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:424
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:361
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:425
 msgid "Suspended"
 msgstr "Zawieszona"
 
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:371
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:460
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:372
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:461
 msgid "Deleted"
 msgstr "Skasowana"
 
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:434
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:435
 msgid "This site has been archived or suspended."
 msgstr "Witryna została zarchiwizowana lub zawieszona."
 
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:470
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:471
 msgid "This site is no longer available."
 msgstr "Witryna nie jest już dostępna."
 
-#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:493
+#: ultimate-branding-files/modules/ms-site-check/ms-site-check.php:494
 msgid "Document settings"
 msgstr "Ustawienia dokumentu"
 
@@ -4221,7 +4481,7 @@ msgstr "Zaloguj/wyloguj, admin, feed i linki twórców."
 
 #: ultimate-branding-files/modules/rebranded-meta-widget.php:67
 msgid "Syndicate this site using RSS 2.0"
-msgstr ""
+msgstr "Subskrybuj tę stronę za pomocą RSS 2.0"
 
 #: ultimate-branding-files/modules/rebranded-meta-widget.php:67
 msgid "Entries <abbr title=\"Really Simple Syndication\">RSS</abbr>"
@@ -4293,6 +4553,8 @@ msgstr "Zmień \"link generatora\" z WordPress."
 #: ultimate-branding-files/modules/site-wide-text-change.php:58
 msgid "Warning, this page is not loaded with the full replacements processed."
 msgstr ""
+"Ostrzeżenie: strona została załadowana z nie przetworzonymi w pełni "
+"zamiennikami."
 
 #: ultimate-branding-files/modules/site-wide-text-change.php:91
 #: ultimate-branding-files/modules/site-wide-text-change.php:154
@@ -4354,6 +4616,9 @@ msgid ""
 "internationisation of the text, you should leave this blank unless you know "
 "what it means.\">domain</abbr>"
 msgstr ""
+"w tym tekście <abbr title=\"Domena tekstowa jest powiązana z "
+"internacjonalizacją tekstu, powinieneś zostawić to puste, chyba że wiesz co "
+"to znaczy.\">domena</abbr>"
 
 #: ultimate-branding-files/modules/site-wide-text-change.php:185
 msgid "Admin only"
@@ -4583,7 +4848,7 @@ msgstr ""
 "Schemat kolorów będzie stosowany dla każdego użytkownika na witrynie / sieci."
 
 #: ultimate-branding-files/modules/ultimate-color-schemes-files/global-options.php:85
-msgid "Default Admin Color Scheme (for Newely Registered Users)"
+msgid "Default Admin Color Scheme (for Newly Registered Users)"
 msgstr "Domyślny schemat kolorów (dla nowych użytkowników)"
 
 #: ultimate-branding-files/modules/ultimate-color-schemes-files/global-options.php:89
@@ -4594,6 +4859,8 @@ msgstr "Użyj domyślnych ustawień WordPressa"
 msgid ""
 "Please note that user will see forced color scheme instead if you set it."
 msgstr ""
+"Proszę pamiętać, że użytkownik zobaczy wymuszony schemat kolorów, jeśli "
+"zostanie on ustawiony."
 
 #: ultimate-branding-files/modules/ultimate-color-schemes.php:422
 msgid "Back to Color Schemes main screen!"
@@ -4602,8 +4869,10 @@ msgstr "Powrót do głównej strony modułu \"Schematy kolorystyczne\""
 #: ultimate-branding-files/modules/ultimate-color-schemes.php:423
 msgid ""
 "Here you can customize \"%s\" color scheme which use can set within your <a "
-"href=\"%s\">user profile page</a>"
+"href=\"%s\">user profile page</a>."
 msgstr ""
+"Tutaj można dostosować schemat kolorów \"%s\", którego użycie można ustawić "
+"na <a href=\"%s\">stronie profilu użytkownika</a>."
 
 #: ultimate-branding-files/modules/ultimate-color-schemes.php:429
 #: ultimate-branding-files/modules/ultimate-color-schemes.php:432
@@ -4688,6 +4957,11 @@ msgctxt "Tip Singular Name"
 msgid "Tip"
 msgstr "Podpowiedź"
 
+#: ultimate-branding-files/modules/cookie-notice/cookie-notice.php:155
+msgctxt "Privacy Policy button text"
+msgid "Privacy Policy"
+msgstr "Polityka prywatności"
+
 #: ultimate-branding-files/modules/custom-ms-register-emails.php:100
 msgctxt "New site notification e-mail subject"
 msgid "[%1$s] Activate %2$s"
@@ -4728,22 +5002,22 @@ msgctxt "DB Error module: mail"
 msgid "Site Name: %s"
 msgstr "Nazwa witryny: %s"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:878
+#: ultimate-branding-files/modules/maintenance/maintenance.php:892
 msgctxt "day letter of timer"
 msgid "d"
 msgstr "d"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:881
+#: ultimate-branding-files/modules/maintenance/maintenance.php:895
 msgctxt "hour letter of timer"
 msgid "h"
 msgstr "h"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:884
+#: ultimate-branding-files/modules/maintenance/maintenance.php:898
 msgctxt "minute letter of timer"
 msgid "m"
 msgstr "m"
 
-#: ultimate-branding-files/modules/maintenance/maintenance.php:887
+#: ultimate-branding-files/modules/maintenance/maintenance.php:901
 msgctxt "second letter of timer"
 msgid "s"
 msgstr "s"

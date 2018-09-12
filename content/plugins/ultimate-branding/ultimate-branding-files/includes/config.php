@@ -260,6 +260,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'page_title' => __( 'Comments Control', 'ub' ),
 			'name' => __( 'Comments Control', 'ub' ),
 			'description' => __( 'Fine tune comment throttling.', 'ub' ),
+			'wp' => '3.9',
 		),
 		/**
 		 * Dashboard Feeds
@@ -383,6 +384,19 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'since' => '2.0.0',
 			'name' => __( 'Sites Status Pages', 'ub' ),
 			'description' => __( 'Allows to create custom pages for deleted, inactive, archived, or spammed blog.', 'ub' ),
+		),
+		/**
+		 * Cookie Notice
+		 *
+		 * @since 2.2.0
+		 */
+		'cookie-notice/cookie-notice.php' => array(
+			'module' => 'cookie-notice',
+			'tab' => 'cookie-notice',
+			'page_title' => __( 'Cookie Notice', 'ub' ),
+			'since' => '2.2.0',
+			'name' => __( 'Cookie Notice', 'ub' ),
+			'description' => __( 'Cookie Notice allows you to elegantly inform users that your site uses cookies and to comply with the EU cookie law GDPR regulations.', 'ub' ),
 		),
 	);
 	/**

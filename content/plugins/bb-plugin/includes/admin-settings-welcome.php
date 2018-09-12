@@ -20,7 +20,7 @@ $fb_url            = 'https://www.facebook.com/groups/beaverbuilders/';
 ?>
 <div id="fl-welcome-form" class="fl-settings-form">
 
-	<h3 class="fl-settings-form-header"><?php _e( 'Welcome to Beaver Builder!', 'fl-builder' ); ?></h3>
+	<h2 class="fl-settings-form-header"><?php _e( 'Welcome to Beaver Builder!', 'fl-builder' ); ?></h2>
 
 	<div class="fl-settings-form-content fl-welcome-page-content">
 
@@ -34,7 +34,7 @@ $fb_url            = 'https://www.facebook.com/groups/beaverbuilders/';
 
 		</p>
 
-		<h4><?php _e( 'Getting Started - Building your first page.', 'fl-builder' ); ?></h4>
+		<h2><?php _e( 'Getting Started - Building your first page.', 'fl-builder' ); ?></h2>
 
 		<div class="fl-welcome-col-wrap">
 
@@ -44,7 +44,7 @@ $fb_url            = 'https://www.facebook.com/groups/beaverbuilders/';
 
 				<p><?php _e( 'Ready to start building? Add a new page and jump into Beaver Builder by clicking the Page Builder tab shown on the image.', 'fl-builder' ); ?></p>
 
-				<h4><?php _e( 'Join the Community', 'fl-builder' ); ?></h4>
+				<h3><?php _e( 'Join the Community', 'fl-builder' ); ?></h3>
 
 				<p><?php _e( 'There\'s a wonderful community of "Beaver Builders" out there and we\'d love it if <em>you</em> joined us!', 'fl-builder' ); ?></p>
 
@@ -58,7 +58,7 @@ $fb_url            = 'https://www.facebook.com/groups/beaverbuilders/';
 			</div>
 
 			<div class="fl-welcome-col">
-				<img class="fl-welcome-img" src="<?php echo FL_BUILDER_URL; ?>img/screenshot-getting-started.png" alt="">
+				<img role="presentation" class="fl-welcome-img" src="<?php echo FL_BUILDER_URL; ?>img/screenshot-getting-started.png" alt="" />
 			</div>
 
 		</div>

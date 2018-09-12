@@ -47,6 +47,7 @@ if ( ! class_exists( 'ub_Image_Upload_Size' ) ) {
 					'title' => __( 'Set Image filesize Limit', 'ub' ) . ' - ' . __( 'Default WP upload limit: ' ) . round( $this->get_wp_limit() / 1000 ) . __( 'Mb', 'ub' ),
 					'description' => __( 'Entering 0 will set the Default WordPress upload limit.', 'ub' ),
 					'fields' => array(),
+					'hide-reset' => true,
 				),
 			);
 			$max = $this->get_wp_limit();

@@ -29,6 +29,7 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 = 1.2.0 =
 - Added "checkboxes" field type.
+- Added "label_rich" to allow HTML rich label.
 
 = 1.1.0 =
 - Added "css_editor" field type.
@@ -239,7 +240,8 @@ if ( ! class_exists( 'simple_options' ) ) {
 							$content .= sprintf(
 								'<th scope="row"><label for="%s">%s</label></th>',
 								esc_attr( $html_id ),
-								isset( $data['label'] )? esc_html( $data['label'] ):'&nbsp;'
+								isset( $data['label'] )?
+								( isset( $data['label_rich'] ) && $data['label_rich'] ? $data['label'] : esc_html( $data['label'] ) ):'&nbsp;'
 							);
 						}
 						if ( isset( $data['hide-th'] ) && true === $data['hide-th'] ) {
@@ -317,6 +319,29 @@ if ( ! class_exists( 'simple_options' ) ) {
 							}
 							$content .= '</ul>';
 						break;
+
+						case 'checkboxes':
+							if ( empty( $value ) || ! is_array( $value ) ) {
+								$value = array();
+							}
+							if ( isset( $data['options'] ) && is_array( $data['options'] ) ) {
+								$content .= '<ul>';
+								foreach ( $data['options'] as $checkbox_value => $checkbox_label ) {
+									$content .= sprintf(
+										'<li><label><input type="checkbox" id="%s_%s" name="simple_options[%s][%s][%s]" value="1" class="%s" %s /> %s</label></li>',
+										esc_attr( $html_id ),
+										esc_attr( $checkbox_value ),
+										esc_attr( $section_key ),
+										esc_attr( $id ),
+										esc_attr( $checkbox_value ),
+										isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
+										checked( 1, array_key_exists( $checkbox_value, $value ), false ),
+										esc_html( $checkbox_label )
+									);
+								}
+								$content .= '</ul>';
+							}
+							break;
 
 						case 'checkboxes':
 							$content .= '<ul>';

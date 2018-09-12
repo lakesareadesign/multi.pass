@@ -100,10 +100,17 @@ class Main extends Controller {
 		if ( ! Auth_API::isEnableForCurrentRole( $user ) ) {
 			return;
 		}
+
+		//check if this role is forced
+		if ( ! Auth_API::isForcedRole( $user ) ) {
+			return;
+		}
+
 		//user already enable OTP
 		if ( Auth_API::isUserEnableOTP( $user->ID ) ) {
 			return;
 		}
+
 		$screen = get_current_screen();
 		if ( $screen->id != 'profile' ) {
 			wp_redirect( admin_url( 'profile.php' ) . '#show2AuthActivator' );
@@ -546,6 +553,10 @@ class Main extends Controller {
 		if ( ! isset( $data['userRoles'] ) ) {
 			$data['userRoles'] = array();
 		}
+		if ( ! isset( $data['forceAuthRoles'] ) ) {
+			$data['forceAuthRoles'] = array();
+		}
+
 		$setting = Auth_Settings::instance();
 		$setting->import( $data );
 		$setting->save();
@@ -649,18 +660,21 @@ class Main extends Controller {
 
 	/**
 	 * Replace email variables.
+	 *
 	 * @param  string $content Content to replace.
-	 * @param  array  $values  Variables values.
+	 * @param  array $values Variables values.
+	 *
 	 * @return string
 	 */
 	public function replace_email_vars( $content, $values ) {
 		$content = apply_filters( 'the_content', $content );
-		$tags = array( 'display_name', 'passcode' );
+		$tags    = array( 'display_name', 'passcode' );
 		foreach ( $tags as $key => $tag ) {
 			$upper_tag = strtoupper( $tag );
 			$content   = str_replace( '{{' . $upper_tag . '}}', $values[ $tag ], $content );
 			$content   = str_replace( '{{' . $tag . '}}', $values[ $tag ], $content );
 		}
+
 		return $content;
 	}
 }

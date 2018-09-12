@@ -1,6 +1,6 @@
 <?php
 $option_name = empty( $_view['option_name'] ) ? '' : $_view['option_name'];
-$meta_robots_search = empty( $meta_robots_search ) ? array() : $meta_robots_search;
+$meta_robots_search = empty( $meta_robots_search ) ? array() : $meta_robots_search;	     	 	 	  		 		
 ?>
 
 <?php $this->_render( 'onpage/onpage-preview' ); ?>
