@@ -3,7 +3,7 @@
 Plugin Name: Instagram Feed
 Plugin URI: https://smashballoon.com/instagram-feed
 Description: Display beautifully clean, customizable, and responsive Instagram feeds
-Version: 1.9.1
+Version: 1.10
 Author: Smash Balloon
 Author URI: https://smashballoon.com/
 License: GPLv2 or later
@@ -23,7 +23,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'SBIVER', '1.9.1' );
+define( 'SBIVER', '1.10' );
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -64,6 +64,7 @@ function display_instagram($atts, $content = null) {
         'followtextcolor' => isset($options[ 'sb_instagram_follow_btn_text_color' ]) ? $options[ 'sb_instagram_follow_btn_text_color' ] : '',
         'followtext' => isset($options[ 'sb_instagram_follow_btn_text' ]) ? $options[ 'sb_instagram_follow_btn_text' ] : '',
         'showheader' => isset($options[ 'sb_instagram_show_header' ]) ? $options[ 'sb_instagram_show_header' ] : '',
+        'headersize' => isset($options[ 'sb_instagram_header_size' ]) ? $options[ 'sb_instagram_header_size' ] : '',
         'showbio' => isset($options[ 'sb_instagram_show_bio' ]) ? $options[ 'sb_instagram_show_bio' ] : '',
         'headercolor' => isset($options[ 'sb_instagram_header_color' ]) ? $options[ 'sb_instagram_header_color' ] : '',
         'class' => '',
@@ -207,7 +208,8 @@ function display_instagram($atts, $content = null) {
     $sb_instagram_show_header = $atts['showheader'];
     ( $sb_instagram_show_header == 'on' || $sb_instagram_show_header == 'true' || $sb_instagram_show_header == true ) ? $sb_instagram_show_header = true : $sb_instagram_show_header = false;
     if( $atts[ 'showheader' ] === 'false' ) $sb_instagram_show_header = false;
-    $sb_instagram_header_color = str_replace('#', '', $atts['headercolor']);
+	$sb_instagram_header_size_class = in_array( strtolower( $atts['headersize'] ), array( 'medium', 'large' ) ) ? ' sbi_'.strtolower( $atts['headersize'] ) : '';
+	$sb_instagram_header_color = str_replace('#', '', $atts['headercolor']);
 
 	//As this is a new option in the update then set it to be true if it doesn't exist yet
 	if ( !array_key_exists( 'sb_instagram_show_bio', $options ) ) $sb_instagram_show_bio = 'true';
@@ -227,7 +229,7 @@ function display_instagram($atts, $content = null) {
     $sb_instagram_btn_background = str_replace('#', '', $atts['buttoncolor']);
     $sb_instagram_btn_text_color = str_replace('#', '', $atts['buttontextcolor']);
     //Load more button styles
-    $sb_instagram_button_styles = 'style="';
+    $sb_instagram_button_styles = 'style="display: none; ';
     if ( !empty($sb_instagram_btn_background) ) $sb_instagram_button_styles .= 'background: #'.$sb_instagram_btn_background.'; ';
     if ( !empty($sb_instagram_btn_text_color) ) $sb_instagram_button_styles .= 'color: #'.$sb_instagram_btn_text_color.';';
     $sb_instagram_button_styles .= '"';
@@ -244,7 +246,9 @@ function display_instagram($atts, $content = null) {
     if ( !empty($sb_instagram_follow_btn_text_color) ) $sb_instagram_follow_btn_styles .= 'color: #'.$sb_instagram_follow_btn_text_color.';';
     $sb_instagram_follow_btn_styles .= '"';
     //Follow button HTML
-    $sb_instagram_follow_btn_html = '<div class="sbi_follow_btn"><a href="https://www.instagram.com/" '.$sb_instagram_follow_btn_styles.' target="_blank"><i class="fa fab fa-instagram"></i>'.esc_html( stripslashes( $sb_instagram_follow_btn_text ) ).'</a></div>';
+	$sb_instagram_follow_btn_classes = '';
+	if( strpos($sb_instagram_follow_btn_styles, 'background') !== false ) $sb_instagram_follow_btn_classes = ' sbi_custom';
+    $sb_instagram_follow_btn_html = '<div class="sbi_follow_btn'.$sb_instagram_follow_btn_classes.'"><a href="https://www.instagram.com/" '.$sb_instagram_follow_btn_styles.' target="_blank"><i class="fa fab fa-instagram"></i>'.esc_html( stripslashes( $sb_instagram_follow_btn_text ) ).'</a></div>';
 
     //Mobile
     $sb_instagram_disable_mobile = $atts['disablemobile'];
@@ -362,7 +366,7 @@ function display_instagram($atts, $content = null) {
     $sb_instagram_content .= '" '.$sb_instagram_styles .' data-id="' . $sb_instagram_user_id . '" data-num="' . trim($atts['num']) . '" data-res="' . trim($atts['imageres']) . '" data-cols="' . trim($sb_instagram_cols) . '" data-options=\'{&quot;sortby&quot;: &quot;'.$atts['sortby'].'&quot;, &quot;showbio&quot;: &quot;'.$sb_instagram_show_bio.'&quot;,'.$at_front_string.' &quot;headercolor&quot;: &quot;'.$sb_instagram_header_color.'&quot;, &quot;imagepadding&quot;: &quot;'.$sb_instagram_image_padding.'&quot;,'.$at_middle_string.' &quot;disablecache&quot;: &quot;'.$sb_instagram_disable_cache.'&quot;, &quot;sbiCacheExists&quot;: &quot;'.$sbi_cache_exists.'&quot;,'.$at_back_string.' &quot;sbiHeaderCache&quot;: &quot;'.$sbiHeaderCache.'&quot;'.$use_backup_json.'}\'>';
 
     //Header
-    if( $sb_instagram_show_header ) $sb_instagram_content .= '<div class="sb_instagram_header" style="padding: '.(2*intval($sb_instagram_image_padding)) . $sb_instagram_image_padding_unit .'; padding-bottom: 0;"></div>';
+    if( $sb_instagram_show_header ) $sb_instagram_content .= '<div class="sb_instagram_header'.$sb_instagram_header_size_class.'" style="padding: '.(2*intval($sb_instagram_image_padding)) . $sb_instagram_image_padding_unit .'; padding-bottom: 0;"></div>';
 
     //Images container
 	$padding_style = (int)$sb_instagram_image_padding > 0 ? ' style="padding: '.$sb_instagram_image_padding . $sb_instagram_image_padding_unit . ';"' : '';
@@ -377,16 +381,16 @@ function display_instagram($atts, $content = null) {
     }
 
     //Loader
-    if( !$sb_instagram_error ) $sb_instagram_content .= '<div class="sbi_loader fa-spin"></div>';
+    if( !$sb_instagram_error ) $sb_instagram_content .= '<div class="sbi_loader"></div>';
 
     //Load section
-    $sb_instagram_content .= '</div><div id="sbi_load"';
+    $sb_instagram_content .= '</div><div id="sbi_load" class="sbi_hidden"';
 
     if(($sb_instagram_image_padding == 0 || !isset($sb_instagram_image_padding)) && ($sb_instagram_show_btn || $sb_instagram_show_follow_btn)) $sb_instagram_content .= ' style="padding-top: 5px"';
     $sb_instagram_content .= '>';
 
     //Load More button
-    if( $sb_instagram_show_btn && !$sb_instagram_error ) $sb_instagram_content .= '<a class="sbi_load_btn" href="javascript:void(0);" '.$sb_instagram_button_styles.'><span class="sbi_btn_text">' . esc_html( stripslashes( $sb_instagram_load_btn_text ) ).'</span><i class="fa fa-spinner fa-pulse" aria-hidden="true" style="display:none;"></i></a>';
+    if( $sb_instagram_show_btn && !$sb_instagram_error ) $sb_instagram_content .= '<a class="sbi_load_btn" href="javascript:void(0);" '.$sb_instagram_button_styles.'><span class="sbi_btn_text">' . esc_html( stripslashes( $sb_instagram_load_btn_text ) ).'</span><div class="sbi_loader sbi_hidden"></div></a>';
 
     //Follow button
     if( $sb_instagram_show_follow_btn && !$sb_instagram_error ) $sb_instagram_content .= $sb_instagram_follow_btn_html;
@@ -402,7 +406,7 @@ function display_instagram($atts, $content = null) {
 		$access_token = isset( $options['sb_instagram_at'] ) ? $options['sb_instagram_at'] : '';
 
 		$sb_instagram_content .= '<script type="text/javascript">var sb_instagram_js_options = {"sb_instagram_at":"'.sbi_get_parts( $access_token ).'", "font_method":"'.$font_method.'"};</script>';
-		$sb_instagram_content .= "<script type='text/javascript' src='".plugins_url( '/js/sb-instagram.js?ver='.SBIVER , __FILE__ )."'></script>";
+		$sb_instagram_content .= "<script type='text/javascript' src='".plugins_url( '/js/sb-instagram.min.js?ver='.SBIVER , __FILE__ )."'></script>";
 	}
  
     //Return our feed HTML to display

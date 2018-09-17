@@ -177,9 +177,10 @@ class FileProcessor {
 			}
 		} else {
 			foreach ( $directory_info AS $key => $info ) {
-				if ( false !== stripos( $key, $directory_key ) ) {
+				$pattern ='/^' . $directory_key . '(\/|\\\)/'; // Account for Windows slashes
+				if ( 1 === preg_match( $pattern, $key ) ) {
 					$nice_name = html_entity_decode( $info['Name'] );
-					continue;
+					break;
 				}
 			}
 		}

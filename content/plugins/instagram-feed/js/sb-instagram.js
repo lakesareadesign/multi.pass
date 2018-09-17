@@ -387,6 +387,8 @@ if(!sbi_js_exists){
                             headersecondarycolor = feedOptions.headersecondarycolor,
                             media = feedOptions.media;
 
+                        $loadBtn.find('.sbi_loader').css('background-color', $loadBtn.css('color'));
+
                         //On first load imagesArr is empty so set it to be the images
                         if(imagesArr == ''){
                             imagesArr = images;
@@ -520,9 +522,9 @@ if(!sbi_js_exists){
                             var playBtnHtml = item.type === 'video' || videoIsFirstCarouselItemClass ? '<i class="fa fa-play sbi_playbtn"></i>' : '';
 
                             //TEMPLATE:
-                            imagesHTML += '<div class="sbi_item sbi_type_'+item.type+' sbi_new" id="sbi_'+item.id+'" data-date="'+created_time_raw+'">' +
-                                    '<div class="sbi_photo_wrap">'+carouselTypeIcon+playBtnHtml +
-                                        '<a class="sbi_photo" href="'+item.link+'" target="_blank">' +
+                            imagesHTML += '<div class="sbi_item sbi_type_'+item.type+' sbi_new sbi_transition" id="sbi_'+item.id+'" data-date="'+created_time_raw+'">' +
+                                    '<div class="sbi_photo_wrap">'+
+                                        '<a class="sbi_photo" href="'+item.link+'" target="_blank">' + carouselTypeIcon + playBtnHtml +
                                         '<img src="'+data_image+'" alt="'+captionText.replace(/<>/g, " ")+'" width="200" height="200" />' +
                                         '</a>' +
                                     '</div>' +
@@ -554,15 +556,30 @@ if(!sbi_js_exists){
                             //Add the images to the feed
                             $self.find('#sbi_images').append(imagesHTML);
                             sbiAfterImagesLoaded(imagesArr,sbiTransientNames.feed);
+                            //Loop through items and remove class to reveal them
+                            var time = 10;
+                            $self.find('.sbi_transition').each(function() {
+                                var $sbi_item_transition_el = jQuery(this);
+
+                                setTimeout( function(){
+                                    $sbi_item_transition_el.removeClass('sbi_transition');
+                                }, time)
+                                time += 10;
+                            });
 
                             imagesHTML = '';
 
                             //Remove the initial loader
-                            $self.find('.sbi_loader').remove();
+                            $self.find('#sbi_images > .sbi_loader').remove();
 
-                            //Hide the spinner in the load more button
-                            $loadBtn.find('.fa-spinner').hide();
-                            $loadBtn.find('.sbi_btn_text').css('opacity', 1);
+                            //Show the Load More button
+                            $self.find('#sbi_load').removeClass('sbi_hidden');
+
+                            setTimeout(function(){
+                                //Hide the loader in the load more button
+                                $loadBtn.find('.sbi_loader').addClass('sbi_hidden');
+                                $loadBtn.find('.sbi_btn_text').removeClass('sbi_hidden');
+                            }, 500);
                         }
 
 
@@ -621,8 +638,8 @@ if(!sbi_js_exists){
                             //Load More button
                             $self.find('#sbi_load .sbi_load_btn').off().on('click', function(){
 
-                                $loadBtn.find('.fa-spinner').show();
-                                $loadBtn.find('.sbi_btn_text').css('opacity', 0);
+                                jQuery(this).find('.sbi_loader').removeClass('sbi_hidden');
+                                jQuery(this).find('.sbi_btn_text').addClass('sbi_hidden');
                                 //Reset the photosAvailable var so it can be used again
                                 photosAvailable = 0;
 
@@ -741,8 +758,9 @@ if(!sbi_js_exists){
                                     var sbi_num_cols = sbiGetColumnCount($self, parseInt(cols), parseInt(cols));
 
                                     //Figure out what the width should be using the number of cols
-                                    var sbi_photo_width_manual = ( $self.find('#sbi_images').width() / sbi_num_cols ) - (imagepadding*2);
-
+                                    //Figure out what the width should be using the number of cols
+                                    var imagesPadding = jQuery('#sbi_images').innerWidth() - jQuery('#sbi_images').width(),
+                                        sbi_photo_width_manual = ( $self.find('#sbi_images').width() / sbi_num_cols ) - imagesPadding;
                                     //If the width is less than it should be then set it manually
                                     if( sbi_photo_width <= (sbi_photo_width_manual) ) sbi_photo_width = sbi_photo_width_manual;
 
@@ -849,9 +867,9 @@ if(!sbi_js_exists){
 
                         //Header profile pic hover
                         $self.find('.sb_instagram_header .sbi_header_link').hover(function(){
-                            $self.find('.sb_instagram_header .sbi_header_img_hover').fadeIn(200);
+                            $self.find('.sb_instagram_header .sbi_header_img_hover').addClass('sbi_fade_in');
                         }, function(){
-                            $self.find('.sb_instagram_header .sbi_header_img_hover').stop().fadeOut(600);
+                            $self.find('.sb_instagram_header .sbi_header_img_hover').removeClass('sbi_fade_in');
                         });
 
                         sbSVGify($self.find('.sb_instagram_header'));

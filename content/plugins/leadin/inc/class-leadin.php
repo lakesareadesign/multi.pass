@@ -49,7 +49,7 @@ class WPLeadIn {
 			return;
 		}
 
-		$embedUrl = '//' . $embedDomain . '/' . $portalId . '.js';
+		$embedUrl = '//' . $embedDomain . '/' . $portalId . '.js?integration=wordpress';
 		$embedId  = 'leadin-scriptloader-js';
 
 		if ( is_single() ) {

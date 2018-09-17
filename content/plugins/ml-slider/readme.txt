@@ -3,7 +3,7 @@ Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image slider,flexslider,flex slider,nivoslider,nivo slider,responsive,responsive slides,coinslider,coin slider,slideshow,carousel,responsive slider,vertical slides
 Donate link: https://david.dw-perspective.org.uk/donate
 Requires at least: 3.5
-Stable tag: 3.8.1
+Stable tag: 3.9.0
 Tested up to: 5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -150,6 +150,31 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Administration panel - selecting slides
 
 == Changelog ==
+
+= 3.9.0 - 2018/Sept/11 =
+
+* FEATURE: Adds the option to toggle autoplay for Coin Slider
+* FEATURE: Adds keyboard shortcuts to preview
+* FEATURE: Adds full width toggle to preview
+* FEATURE: Adds a light and dark preview option
+* FEATURE: Adds ability to import images if none exist
+* FEATURE: Adds Gutenberg block
+* FEATURE: Adds ability to use the title in a shortcode
+* FEATURE: Adds translation functionality to JS components
+* FEATURE: Adds ability to preview a slideshow with a theme
+* FEATURE: Adds ability for a theme developer to add instructions
+* TWEAK: Adds a title to the theme module
+* TWEAK: Updates Pro slide types descriptions
+* TWEAK: Adds placeholder and comparison table entries for schedule functionality
+* TWEAK: Adds compatibility with Pro feature ability to change layer slide background
+* TWEAK: Adds ability to import images with captions, title, alt and desc. from a theme.
+* TWEAK: Updates option name on slideshow select box as title name changes.
+* TWEAK: Adds default Flexslider fonts to repo for users that require them.
+* TWEAK: Adds filters to slides edit buttons
+* TWEAK: Tweaks edits buttons style
+* FIX: Limits image srcset to image and layer slides (fixes post feed image)
+* FIX: Fixes broken Nivo themes (due to css specificity)
+* FIX: Fixes bug where icons would jump during delete
 
 = 3.8.1 - 2018/Jun/07 =
 
@@ -662,4 +687,4 @@ More info/Comments: http://www.metaslider.com/coming-soon-meta-slider-2-6-free/
 * Initial version
 
 == Upgrade Notice ==
-* 3.8.1 : This update includes added support for retina images, responsive images, and addresses a few bugs (including in 3.8.0), including when a slideshow has a large quantity of slides.
+* 3.9.0 : This update adds a new way to preview your slideshows, import images, and various other tweaks. It also includes basic support for Gutenberg. Update now especially if you're experiencing issues with images not showing on post slides

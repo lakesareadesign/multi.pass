@@ -4,7 +4,7 @@ Donate link: http://j.mp/1QvdGgX
 Tags: wp-admin, admin, post state, color, post colours, list, highlight
 Requires at least: 3.8
 Tested up to: 4.9.8
-Stable tag: 2.0.1
+Stable tag: 2.0.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -23,10 +23,12 @@ Highlights the left border color and background color and reformats the post sta
 * Support for custom post statuses like Archived via [Archive Post Status](http://wordpress.org/plugins/archived-post-status/) plugin  
 * Supports the 4.2 status of the Front Page and Posts Page (blog page) to easily spot those posts/pages
 * Supports the 4.3 tags of Scheduled Posts to see upcoming posts/pages
+* Supports the 4.9.6 tags of Privacy Policy Page 
 * Define custom colors using the color picker in the Admin Settings screen
 * Define custom dash icons using the dashicons picker in the Admin Settings screen
 * Enable/disable view in Admin Settings screen
 * Enable/disable icons in Admin Settings screen
+* Change the background color lightness value from 0 (dark) to (1) light
 * Reset settings to defaults in Admin Settings screen
 
 > <strong>IMPORTANT NOTE</strong><br>
@@ -36,10 +38,11 @@ Highlights the left border color and background color and reformats the post sta
 
 * Icons appear inside the tag, if enabled.
 * Published status: color, no tag.
-* Scheduled status: color, with tag* (*from Wordpress 4.3)
+* Scheduled status: color, with tag (WP 4.3+)
 * Protected status: overrides color, but still adds tag (multiple tags support)
 * Sticky status: tag only (multiple tags support).
-* Front Page, Blog Posts: tag only (Wordpress 4.2 feature)
+* Front Page, Blog Posts: tag only (WP 4.2+)
+* Privacy Policy Page (WP 4.9.6+)
 
 = Acknowledgements =
 
@@ -94,10 +97,14 @@ There is a back-end setting to change the value of the lightness. The default is
 
 == Changelog ==
 
+= 2.0.2 =
+* Fixed a bug in the migration check for install and version
+
 = 2.0.1 =
 * Refactor plugin as a PHP Class
 * Settings API Library used to manage settings Tabs and update settings
 * Added additional Lightness value in the advanced tab, to directly control the lightness of the background color.
+* Added support for the new Privacy Policy Page (since WP 4.9.6)
 
 = 1.1.8 =
 * Compatibility for WP 4.9.8

@@ -343,6 +343,15 @@ jQuery(document).ready(function($) {
   });
 
 
+  jQuery('#sbi_admin .sbi_lock').hover(function(){
+    jQuery(this).siblings('.sbi_pro_tooltip').show();
+  }, function(){
+    jQuery('.sbi_pro_tooltip').hide();
+  });
+
+  
+
+
   //Add the color picker
 	if( jQuery('.sbi_colorpick').length > 0 ) jQuery('.sbi_colorpick').wpColorPicker();
 
@@ -421,5 +430,55 @@ jQuery(document).ready(function($) {
 	jQuery('#sbi_admin .sbi-show-pro').on('click', function(){
 		jQuery(this).parent().next('.sbi-pro-options').toggle();
 	});
+
+	/* Pro 3.0 JS */
+    function sbiUpdateLayoutTypeOptionsDisplay() {
+        setTimeout(function(){
+            jQuery('.sb_instagram_layout_settings').hide();
+            jQuery('.sb_instagram_layout_settings.sbi_layout_type_'+jQuery('.sb_layout_type:checked').val()).show();
+        }, 1);
+    }
+    jQuery('.sb_layout_type').change(sbiUpdateLayoutTypeOptionsDisplay);
+
+    jQuery('.sbi_close_options').on('click', function(){
+        jQuery('.sb_instagram_layout_settings').hide();
+    });
+
+    function sbiUpdateHighlightOptionsDisplay() {
+        jQuery('.sb_instagram_highlight_sub_options').hide();
+        var selected = jQuery('#sb_instagram_highlight_type').val();
+
+        if (selected === 'pattern') {
+            jQuery('.sb_instagram_highlight_pattern').show();
+        } else if (selected === 'id') {
+            jQuery('.sb_instagram_highlight_ids').show();
+        } else {
+            jQuery('.sb_instagram_highlight_hashtag').show();
+        }
+
+    }
+    sbiUpdateHighlightOptionsDisplay();
+    jQuery('#sb_instagram_highlight_type').change(sbiUpdateHighlightOptionsDisplay);
+
+    //Open/close the expandable option sections
+    jQuery('.sbi-expandable-options').hide();
+    jQuery('.sbi-expand-button a').on('click', function(e){
+        e.preventDefault();
+        var $self = jQuery(this);
+        $self.parent().next('.sbi-expandable-options').toggle();
+        if( $self.text().indexOf('Show') !== -1 ){
+            $self.text( $self.text().replace('Show', 'Hide') );
+        } else {
+            $self.text( $self.text().replace('Hide', 'Show') );
+        }
+    });
+
+    //Selecting a post layout
+    jQuery('.sbi_layout_cell').click(function(){
+        var $self = jQuery(this);
+        $('.sb_layout_type').trigger('change');
+        $self.addClass('sbi_layout_selected').find('.sb_layout_type').attr('checked', 'checked');
+        $self.siblings().removeClass('sbi_layout_selected');
+    });
 
 });

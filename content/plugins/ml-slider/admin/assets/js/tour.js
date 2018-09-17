@@ -44,6 +44,7 @@ main_tour.addStep('step_add_slide', {
     title: metaslider_tour.main_tour.step1.title,
     text: metaslider_tour.main_tour.step1.message,
     attachTo: 'button.add-slide bottom',
+    classes: 'shepherd-theme-arrows shepherd-main-tour super-index',
     tetherOptions: {
         offset: '-5px 0'
     },
@@ -189,7 +190,11 @@ main_tour.on('cancel', function() {
     });
 });
 
-metaslider_tour.main_tour.show && main_tour.start();
+jQuery(function($) {
+    $(window).bind('load', function() {
+        metaslider_tour.main_tour.show && main_tour.start();
+    });
+});
 
 // Specifics for lite users (i.e. ads)
 if (!metaslider_tour.main_tour.is_pro) {

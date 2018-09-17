@@ -25,7 +25,7 @@ class MetaSlider {
         $this->id = $id;
         $this->settings = array_merge( $shortcode_settings, $this->get_settings() );
         $this->identifier = 'metaslider_' . $this->id;
-        $this->populate_slides();
+		$this->populate_slides();
     }
 
     /**
@@ -254,6 +254,10 @@ class MetaSlider {
         if ('false' != $this->get_setting('cssClass')) {
             $class .= " " . $this->get_setting('cssClass');
         }
+        // when passed in the shortcode, the attribute names are lowercased.
+        if ('false' != $this->get_setting('cssclass')) {
+            $class .= " " . $this->get_setting('cssclass');
+        }        
 
         // handle any custom classes
         $class = apply_filters('metaslider_css_classes', $class, $this->id, $this->settings);
@@ -308,7 +312,9 @@ class MetaSlider {
         $script .= "\n            $('#" . $identifier . "')." . $this->js_function . "({ ";
         $script .= "\n                " . $this->get_javascript_parameters();
         $script .= "\n            });";
+        $script .= "\n            $(document).trigger('metaslider/initialized', '#$identifier');";
         $script .= $custom_js_after;
+        $script .= "\n            $(document).trigger('metaslider/initialized', '#$identifier');";
         $script .= "\n        };";
 
         $timer = "\n        var timer_" . $identifier . " = function() {";
@@ -342,36 +348,30 @@ class MetaSlider {
      * Custom JavaScript to execute immediately before the slideshow is initialized
      */
     private function get_custom_javascript_before() {
-        $type = $this->get_setting( 'type' );
-
+        $type = $this->get_setting('type');
         $javascript = "";
 
-        if ( $this->get_setting( 'noConflict' ) == 'true' && $type == 'flex' ) {
-            $javascript = "$('#metaslider_{$this->id}').addClass('flexslider'); /* theme/plugin conflict avoidance */";
+		// theme/plugin conflict avoidance 
+        if ('true' === $this->get_setting('noConflict') && 'flex' === $type) {
+            $javascript = "$('#metaslider_{$this->id}').addClass('flexslider');";
         }
 
-        $custom_js = apply_filters( "metaslider_{$type}_slider_javascript_before", $javascript, $this->id );
+        $custom_js = apply_filters("metaslider_{$type}_slider_javascript_before", $javascript, $this->id);
+		$custom_js .= apply_filters("metaslider_slider_javascript", "", $this->id, $this->identifier);
 
-        if ( strlen( $custom_js ) ) {
-            return "\n            {$custom_js}";
-        }
-
-        return "";
+        return $custom_js;
     }
 
     /**
      * Custom Javascript to execute immediately after the slideshow is initialized
+	 * 
+	 * @return string
      */
     private function get_custom_javascript_after() {
-        $type = $this->get_setting( 'type' );
-
-        $custom_js = apply_filters( "metaslider_{$type}_slider_javascript", "", $this->id );
-
-        if ( strlen( $custom_js ) ) {
-            return "            {$custom_js}";
-        }
-
-        return "";
+        $type = $this->get_setting('type');
+		$custom_js = apply_filters("metaslider_{$type}_slider_javascript", "", $this->id);
+        $custom_js .= apply_filters("metaslider_slider_javascript", "", $this->id, $this->identifier);
+        return $custom_js;
     }
 
     /**
@@ -470,7 +470,6 @@ class MetaSlider {
             wp_enqueue_style( 'metaslider-' . $this->get_setting( 'type' ) . '-slider', METASLIDER_ASSETS_URL . $this->css_path, false, METASLIDER_VERSION );
             wp_enqueue_style( 'metaslider-public', METASLIDER_ASSETS_URL . 'metaslider/public.css', false, METASLIDER_VERSION );
         }
-
         do_action( 'metaslider_register_public_styles' );
     }
 

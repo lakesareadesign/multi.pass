@@ -3,7 +3,7 @@ Contributors: automattic, woothemes, allendav, kellychoffman, jkudish, jeffstiel
 Tags: canada-post, shipping, stamps, usps, woocommerce, taxes, payment, stripe
 Requires at least: 4.6
 Tested up to: 4.9.6
-Stable tag: 1.16.0
+Stable tag: 1.16.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -47,7 +47,7 @@ This section describes how to install the plugin and get it working.
 = What services are included? =
 
 * Real-time shipping rates from USPS or Canada Post
-* USPS label purchase/printing (domestic USA only)
+* USPS label purchase/printing
 * Automated tax calculation
 * Stripe account provisioning (through WooCommerce setup wizard)
 * PayPal Checkout payment authorization
@@ -58,11 +58,11 @@ Yes, real-time rates in checkout are totally free.
 
 = Can I buy and print shipping labels for US domestic and international packages? =
 
-You can buy and print USPS shipping labels for domestic packages only. International shipping is not yet supported.
+Yes! You can buy and print USPS shipping labels for domestic and international destinations.
 
 = This works with WooCommerce, right? =
 
-Yep! WooCommerce version 2.6 or newer, please.
+Yep! WooCommerce version 3.0 or newer, please.
 
 = Why is a Jetpack Connection and WordPress.com account required? =
 
@@ -90,6 +90,10 @@ The source code is freely available [in GitHub](https://github.com/Automattic/wo
 10. Checking and exporting the label purchase reports
 
 == Changelog ==
+
+= 1.16.1 =
+* Clear shipping rates when changing package weight or signature requirement so they can be recalculated
+* Correctly purchase a "First Class Envelope" or a "First Class Package Service" label depending if the package is an envelope or not
 
 = 1.16.0 =
 * Add international destinations support to USPS label printing

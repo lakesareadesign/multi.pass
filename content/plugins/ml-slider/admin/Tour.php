@@ -34,7 +34,7 @@ Class MetaSlider_Tour {
 		wp_enqueue_script('metaslider-shepherd-js', METASLIDER_ADMIN_URL . 'assets/tether-shepherd/shepherd.min.js', array('metaslider-tether-js'), METASLIDER_VERSION, true);
 		wp_enqueue_style('metaslider-shepherd-css', METASLIDER_ADMIN_URL . 'assets/tether-shepherd/shepherd-theme-arrows.css', false, METASLIDER_VERSION);
 
-		wp_register_script('metaslider-tour-js', METASLIDER_ADMIN_URL . 'assets/js/tour.js', array('metaslider-tether-js'), METASLIDER_VERSION, true);
+		wp_register_script('metaslider-tour-js', METASLIDER_ADMIN_URL . 'assets/js/tour-' . sanitize_title(METASLIDER_VERSION) . '.js', array('metaslider-tether-js'), METASLIDER_VERSION, true);
 		wp_localize_script('metaslider-tour-js', 'metaslider_tour', array(
 			'no_slideshows' => array(
 				'show' => ! (bool) count($this->plugin->all_meta_sliders()),

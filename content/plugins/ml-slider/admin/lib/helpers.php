@@ -179,3 +179,5 @@ function metaslider_optimize_url($url, $text, $html = null, $class = '') {
 	    return sprintf('<a class="%1$s" href="%2$s">%3$s</a>', esc_attr($class), esc_attr($url), htmlspecialchars($text));
     }
 }
+
+ 

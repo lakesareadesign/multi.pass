@@ -51,7 +51,7 @@ class WPMDBPro_Theme_Plugin_Files extends WPMDBPro_Addon {
 		$this->plugin_slug    = 'wp-migrate-db-pro-theme-plugin-files';
 		$this->plugin_version = $GLOBALS['wpmdb_meta']['wp-migrate-db-pro-theme-plugin-files']['version'];
 
-		if ( ! $this->meets_version_requirements( '1.8.2' ) ) {
+		if ( ! $this->meets_version_requirements( '1.8.3' ) ) {
 			return;
 		}
 
@@ -428,7 +428,7 @@ class WPMDBPro_Theme_Plugin_Files extends WPMDBPro_Addon {
 	 * Finalize T&P migration if necessary. Always runs on destination site.
 	 */
 	public function maybe_finalize_tp_migration() {
-		if ( ! in_array( $this->wpmdbpro->state_data['stage'], array( 'themes', 'plugins' ) ) ) {
+		if ( isset( $this->wpmdbpro->state_data['stage'] ) && ! in_array( $this->wpmdbpro->state_data['stage'], array( 'themes', 'plugins' ) ) ) {
 			return false;
 		}
 
@@ -547,7 +547,7 @@ class WPMDBPro_Theme_Plugin_Files extends WPMDBPro_Addon {
 	 * @throws Exception
 	 */
 	public function verify_file_transfer() {
-		if ( ! in_array( $this->wpmdbpro->state_data['stage'], array( 'themes', 'plugins' ) ) ) {
+		if ( isset( $this->wpmdbpro->state_data['stage'] ) && ! in_array( $this->wpmdbpro->state_data['stage'], array( 'themes', 'plugins' ) ) ) {
 			return false;
 		}
 

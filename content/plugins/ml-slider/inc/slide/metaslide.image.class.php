@@ -6,6 +6,12 @@ if (!defined('ABSPATH')) die('No direct access.');
  * Generic Slider super class. Extended by library specific classes.
  */
 class MetaImageSlide extends MetaSlide {
+    /**
+     * Slide type 
+     *
+     * @var string
+     */
+    public $identifier = 'image';
 
     /**
      * Register slide type
@@ -15,7 +21,7 @@ class MetaImageSlide extends MetaSlide {
         add_filter('metaslider_get_image_slide', array($this, 'get_slide' ), 10, 2);
         add_action('metaslider_save_image_slide', array($this, 'save_slide' ), 5, 3);
         add_action('wp_ajax_create_image_slide', array($this, 'ajax_create_image_slides'));
-        add_action('wp_ajax_resize_image_slide', array($this, 'ajax_resize_slide'));
+		add_action('wp_ajax_resize_image_slide', array($this, 'ajax_resize_slide'));
     }
 
     /**
@@ -23,22 +29,25 @@ class MetaImageSlide extends MetaSlide {
      * Currently this is used via an ajax call, but plans to keep this only called
      * by PHP methods, such as in an import situation.
      *
-     * @param int   $slider_id The id of the slider
-     * @param array $data      The data information for the new slide
+     * @param int   $slideshow_id The id of the slider
+     * @param array $data      	  The data information for the new slide
      *
-     * @return int | WP_error The status message and if success, the count
+     * @return array | WP_error The status message and if success, an array of slide ids
      */
-    protected function create_slides($slider_id, $data) {
-        $errors = array();
+    public function create_slides($slideshow_id, $data) {
+		$errors = array();
+		$slide_ids = array();
         foreach ($data as $slide_data) {
 
             // TODO check type and create slides based on that type
             // $method = 'create_' . $slide['type'] . '_slide';
             // $this->slider->add_slide($this->{$method}());
-            $message = $this->add_slide($slider_id, $slide_data);
-            if (is_wp_error($message)) {
-                array_push($errors, $message);
-            }
+            $result = $this->add_slide($slideshow_id, $slide_data);
+            if (is_wp_error($result)) {
+                array_push($errors, $result);
+			} else {
+				array_push($slide_ids, $result);
+			}
         }
 
         // We don't bail on an error, so we need to send back a list of errors, if any
@@ -50,19 +59,19 @@ class MetaImageSlide extends MetaSlide {
             return $error_response;
         }
 
-        return count($data);
+        return $slide_ids;
     }
 
     /**
      * Adds a single slide.
      * TODO refactor and put this in a Slider class
      *
-     * @param int   $slider_id The id of the slider
-     * @param array $data      The data information for the new slide
+     * @param int   $slideshow_id The id of the slider
+     * @param array $data      	  The data information for the new slide
      *
-     * @return string | WP_error The status message and if success, echo string for now
+     * @return string | WP_Error The status message and if success, echo string for now
      */
-    protected function add_slide($slider_id, $data) {
+    protected function add_slide($slideshow_id, $data) {
         
         // For now this only handles images, so check it's an image
         if (!wp_attachment_is_image($data['id'])) {
@@ -74,7 +83,7 @@ class MetaImageSlide extends MetaSlide {
             return new WP_Error('create_failed', __('This isn\'t an accepted image. Please try again.', 'ml-slider'), array('status' => 409));
         }
 
-        $slide_id = $this->insert_slide($data['id'], $data['type'], $slider_id);
+        $slide_id = $this->insert_slide($data['id'], $data['type'], $slideshow_id);
         if (is_wp_error($slide_id)) {
             return $slide_id;
 		}
@@ -82,7 +91,7 @@ class MetaImageSlide extends MetaSlide {
         
         // TODO refactor these and investigate why they are needed (legacy?)
         $this->set_slide($slide_id);
-        $this->set_slider($slider_id);
+        $this->set_slider($slideshow_id);
         $this->tag_slide_to_slider();
         
         // set default inherit values
@@ -95,12 +104,14 @@ class MetaImageSlide extends MetaSlide {
         $this->settings['height'] = 0;
 
         // TODO refactor to have a view file and return data
-        echo $this->get_admin_slide();
+		echo $this->get_admin_slide();
+		
+		return $slide_id;
     }
 
     /**
      * Ajax wrapper to create multiple slides.
-     * TODO: depricate this in favor of only allowing single slide creation
+     * TODO: deprecate this in favor of only allowing single slide creation
      *
      * @return string The status message and if success, the count of slides added
      */
@@ -112,66 +123,97 @@ class MetaImageSlide extends MetaSlide {
             ), 401);
         }
 
-        /**
-         * TODO create a slide object class with data requirements and types
-         *
-         * @param  int $image_id Image ID
-         * @return array
-         */
-        function make_image_slide_data($image_id) {
-            return array(
-                'type' => 'image',
-                'id'   => absint($image_id)
-            );
-        }
-
-        $result = $this->create_slides(
-            absint($_POST['slider_id']), array_map('make_image_slide_data',$_POST['selection'])
+        $slide_ids = $this->create_slides(
+            absint($_POST['slider_id']), array_map(array($this, 'make_image_slide_data'), $_POST['selection'])
         );
 
-        // TODO for now leave these out since it "echos" the slide...
-        // if (is_wp_error($result)) {
-        // return wp_send_json_error(array(
-        // 'messages' => $result->get_error_messages()
-        // ), 409);
-        // }
-        // return wp_send_json_success($result, 200);
-    }
+        if (is_wp_error($slide_ids)) {
+        	return wp_send_json_error(array(
+        		'messages' => $slide_ids->get_error_messages()
+        	), 409);
+        }
+		
+		// TODO This currently just echos out the slide, so returning 
+		// a JSON object here causes an issue. See get_admin_slide()
+		// return wp_send_json_success($slide_ids, 200);
+	}
 
+	/**
+	 * Adds the type and image id to an array
+	 *
+	 * @param  int $image_id Image ID
+	 * @return array
+	 */
+	public function make_image_slide_data($image_id) {
+		return array(
+			'type' => 'image',
+			'id'   => absint($image_id)
+		);
+	}
 
     /**
-     * Create a new slide and echo the admin HTML
+     * Ajax wrapper to create new cropped images.
+     *
+     * @return string The status message
      */
     public function ajax_resize_slide() {
 
-        check_admin_referer( 'metaslider_resize' );
+        if (!wp_verify_nonce($_REQUEST['_wpnonce'], 'metaslider_resize')) {
+            return wp_send_json_error(array(
+                'message' => __('The security check failed. Please refresh the page and try again.', 'ml-slider')
+            ), 401);
+		}
 
-        $slider_id = absint( $_POST['slider_id'] );
-        $slide_id = absint( $_POST['slide_id'] );
+		$slideshow_id = absint($_POST['slider_id']);
+		$slide_id = absint($_POST['slide_id']);
+		$settings = get_post_meta($slideshow_id, 'ml-slider_settings', true);
+		if (empty($settings) || !is_array($settings)) $settings = array();
 
-        $this->set_slide( $slide_id );
-        $this->set_slider( $slider_id );
+		$result = $this->resize_slide($slide_id, $slideshow_id, $settings);
 
-        $settings = get_post_meta( $slider_id, 'ml-slider_settings', true );
+        do_action("metaslider_ajax_resize_image_slide", $slide_id, $slideshow_id, $settings);
 
-        // create a copy of the correct sized image
+        if (is_wp_error($result)) {
+        	return wp_send_json_error(array(
+        		'messages' => $result->get_error_messages()
+        	), 409);
+        }
+        return wp_send_json_success($result, 200);
+	}
+
+	/**
+	 * Function to create new cropped images.
+	 *
+	 * @param string $slide_id	   - The id of the slide being cropped
+	 * @param string $slideshow_id - The id of the slideshow
+	 * @param array  $settings	   - The settings for the slideshow
+	 * 
+	 * @return array
+	 */
+	public function resize_slide($slide_id, $slideshow_id, $settings = array()) {
+
+        // Required for the eventual cropping to take place
+        $this->set_slide($slide_id);
+		$this->set_slider($slideshow_id);
+
+		// Use what's provided, or grab it from the database. If settings is false, set it as an empty array
+		$settings = empty($settings) ? get_post_meta($slideshow_id, 'ml-slider_settings', true) : $settings;
+		if (!$settings) $settings = array();
+
+        // Create a copy of the correct sized image
         $imageHelper = new MetaSliderImageHelper(
             $slide_id,
-            $settings['width'],
-            $settings['height'],
-            isset( $settings['smartCrop'] ) ? $settings['smartCrop'] : 'false',
+            isset($settings['width']) ? $settings['width'] : 0,
+            isset($settings['height']) ? $settings['height'] : 0,
+            isset($settings['smartCrop']) ? $settings['smartCrop'] : 'false',
             $this->use_wp_image_editor()
         );
 
-        $url = $imageHelper->get_image_url( true );
-
-        echo $url . " (" . $settings['width'] . 'x' . $settings['height'] . ")";
-
-        do_action( "metaslider_ajax_resize_image_slide", $slide_id, $slider_id, $settings );
-
-        wp_die();
+		$url = $imageHelper->get_image_url(true);
+		
+		do_action("metaslider_resize_image_slide", $slide_id, $slideshow_id, $settings);
+        return array('img_url' => $url);
     }
-
 
     /**
      * Return the HTML used to display this slide in the admin screen
@@ -188,7 +230,7 @@ class MetaImageSlide extends MetaSlide {
         ob_start();
         echo $this->get_delete_button_html();
         echo $this->get_update_image_button_html();
-        do_action('metaslider-slide-edit-buttons', 'image', $attachment_id);
+        do_action('metaslider-slide-edit-buttons', 'image', $this->slide->ID, $attachment_id);
         $edit_buttons = ob_get_clean();
 
         // slide row HTML
@@ -280,7 +322,7 @@ class MetaImageSlide extends MetaSlide {
         ob_start();
         include METASLIDER_PATH .'admin/views/slides/tabs/seo.php';
         $seo_tab = ob_get_clean();
-
+        
         $tabs = array(
             'general' => array(
                 'title' => __("General", "ml-slider"),
@@ -310,6 +352,17 @@ class MetaImageSlide extends MetaSlide {
             );
 
         }
+
+        // Adds schedule tab 
+        ob_start();
+		include METASLIDER_PATH .'admin/views/slides/tabs/schedule.php';
+		$schedule_tab = ob_get_contents();
+		ob_end_clean();
+
+        $tabs['schedule'] = array(
+            'title' => __('Schedule', 'ml-slider'),
+            'content' => $schedule_tab
+        );
 
         return apply_filters("metaslider_image_slide_tabs", $tabs, $this->slide, $this->slider, $this->settings);
 

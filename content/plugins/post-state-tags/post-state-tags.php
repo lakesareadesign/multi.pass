@@ -3,7 +3,7 @@
  * Plugin Name: Post State Tags
  * Plugin URI:  http://wordpress.org/plugins/post-state-tags/
  * Description: Make your WordPress post state list stand out with colors and color tags (draft, pending, sticky, etc)
- * Version:     2.0.1
+ * Version:     2.0.2
  * Author:      BRANDbrilliance
  * Author URI:  http://www.brandbrilliance.co.za/
  * License:     GPL-2.0+
@@ -627,7 +627,7 @@ class Post_State_Tags {
 
 	
 	/**
-	 *  Reset Colors
+	 *  Reset Settings
 	 *
 	 *  @since    1.1.0
 	 *  @created  
@@ -994,19 +994,36 @@ class Post_State_Tags {
 
 		}
 
+
+		// old options have a incorrect setting prefix
+		/*
+		bb_pst_setting_enabled	
+		bb_pst_setting_icons	
+		bb_pst_installed	
+		bb_pst_version	
+		*/
+
 		// convert advanced settings
 		$new_options = array();
 
-		if ( null !== get_option($this->pfx . 'setting-enabled') ) 
-			$new_options[ $this->pfx . 'setting-enabled' ] = get_option($this->pfx . 'setting-enabled');
+		if ( null !== get_option('bb_pst_setting_enabled') ) 
+			$new_options[ $this->pfx . 'setting-enabled' ] = ( get_option($this->pfx . 'setting-enabled') == '1' ? 'on' :  'off');
 
-		if ( null !== get_option($this->pfx . 'setting-icons') ) 
-			$new_options[ $this->pfx . 'setting-enabled' ] = get_option($this->pfx . 'setting-icons');
+		if ( null !== get_option('bb_pst_setting_icons') ) 
+			$new_options[ $this->pfx . 'setting-enabled' ] = ( get_option($this->pfx . 'setting-icons') == '1' ? 'on' :  'off');
+
+		// add lightness value
+		$new_options[ $this->pfx .'setting-lightvalue' ] = $this->lightvalue;
+
+		$this->update_options( $this->pfx . 'advanced', $new_options );
+
 
 		$this->update_options( $this->pfx . 'advanced', $new_options);
 
-		delete_option($this->pfx . 'setting-enabled');
-		delete_option($this->pfx . 'setting-icons');
+		delete_option('bb_pst_installed');
+		delete_option('bb_pst_version');
+		delete_option('bb_pst_setting_enabled');
+		delete_option('bb_pst_setting_icons');
 	
 	}
 
@@ -1023,12 +1040,18 @@ class Post_State_Tags {
 	public function migrate_check() 
 	{
 
+		// old options have a incorrect setting prefix
+		/*
+		bb_pst_installed	
+		bb_pst_version	
+		*/
+
 		// not installed, so reset settings to new installation
 		if ( ! get_option($this->pfx . 'installed'))
 		{
 
 			// check if older version exists
-			if ( version_compare(get_option($this->pfx . 'version'), '2.0.1', '<'))
+			if ( version_compare(get_option('bb_pst_version'), '2.0.1', '<'))
 			{
 				$this->migrate_options();
 			}
