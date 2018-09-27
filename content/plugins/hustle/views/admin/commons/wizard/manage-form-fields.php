@@ -56,7 +56,7 @@
 
         <a href="" id="wph-cancel-edit-form" class="wpmudev-button wpmudev-button-ghost"><?php esc_attr_e( "Cancel", Opt_In::TEXT_DOMAIN ); ?></a>
 
-        <a href="" id="wph-save-edit-form" class="wpmudev-button wpmudev-button-blue" data-nonce="<?php echo esc_attr( wp_create_nonce( 'optin_add_module_fields' ) ); ?>" ><?php esc_attr_e( "Save Form", Opt_In::TEXT_DOMAIN ); ?></a>
+        <a href="" id="wph-save-edit-form" class="wpmudev-button wpmudev-button-blue"><?php esc_attr_e( "Save Form", Opt_In::TEXT_DOMAIN ); ?></a>
 
     </div>
 

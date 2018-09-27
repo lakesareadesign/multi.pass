@@ -29,7 +29,7 @@ class Su_Generator_Views {
 	public static function select( $id, $field ) {
 
 		// Multiple selects
-		$multiple = ( isset( $field['multiple'] ) ) ? ' multiple' : '';
+		$multiple = isset( $field['multiple'] ) && $field['multiple'] ? ' multiple' : '';
 		$return = '<select name="' . $id . '" id="su-generator-attr-' . $id . '" class="su-generator-attr"' . $multiple . '>';
 		// Create options
 		foreach ( $field['values'] as $option_value => $option_title ) {
@@ -82,7 +82,7 @@ class Su_Generator_Views {
 	public static function term( $id, $field ) {
 
 		// Get categories
-		$field['values'] = Su_Tools::get_terms( 'category' );
+		$field['values'] = Su_Generator::get_terms( 'category' );
 
 		// Create select
 		return self::select( $id, $field );
@@ -127,8 +127,8 @@ class Su_Generator_Views {
 
 	public static function border( $id, $field ) {
 		$defaults = ( $field['default'] === 'none' ) ? array ( '0', 'solid', '#000000' ) : explode( ' ', str_replace( 'px', '', $field['default'] ) );
-		$borders = Su_Tools::select( array(
-				'options' => Su_Data::borders(),
+		$borders = su_html_dropdown( array(
+				'options' => su_get_config( 'borders' ),
 				'class' => 'su-generator-bp-style',
 				'selected' => $defaults[1]
 			) );
@@ -140,7 +140,7 @@ class Su_Generator_Views {
 		$field = wp_parse_args( $field, array(
 				'default' => 'none'
 			) );
-		$sources = Su_Tools::select( array(
+		$sources = su_html_dropdown( array(
 				'options'  => array(
 					'media'         => __( 'Media library', 'shortcodes-ultimate' ),
 					'posts: recent' => __( 'Recent posts', 'shortcodes-ultimate' ),
@@ -151,19 +151,19 @@ class Su_Generator_Views {
 				'none'     => __( 'Select images source', 'shortcodes-ultimate' ) . '&hellip;',
 				'class'    => 'su-generator-isp-sources'
 			) );
-		$categories = Su_Tools::select( array(
-				'options'  => Su_Tools::get_terms( 'category' ),
+		$categories = su_html_dropdown( array(
+				'options'  => Su_Generator::get_terms( 'category' ),
 				'multiple' => true,
 				'size'     => 10,
 				'class'    => 'su-generator-isp-categories'
 			) );
-		$taxonomies = Su_Tools::select( array(
-				'options'  => Su_Tools::get_taxonomies(),
+		$taxonomies = su_html_dropdown( array(
+				'options'  => Su_Generator::get_taxonomies(),
 				'none'     => __( 'Select taxonomy', 'shortcodes-ultimate' ) . '&hellip;',
 				'selected' => '0',
 				'class'    => 'su-generator-isp-taxonomies'
 			) );
-		$terms = Su_Tools::select( array(
+		$terms = su_html_dropdown( array(
 				'class'    => 'su-generator-isp-terms',
 				'multiple' => true,
 				'size'     => 10,

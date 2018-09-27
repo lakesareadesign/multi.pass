@@ -183,7 +183,7 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 	 */
 	protected function get_shortcodes() {
 
-		$shortcodes = Su_Data::shortcodes();
+		$shortcodes = su_get_all_shortcodes();
 
 		foreach ( $shortcodes as $id => $shortcode ) {
 
@@ -258,7 +258,7 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 	 */
 	protected function get_groups() {
 
-		$groups  = Su_Data::groups();
+		$groups  = su_get_config( 'groups' );
 		$current = ( isset( $_GET['group'] ) ) ? sanitize_title( $_GET['group'] ) : 'all';
 		$groups['all'] = __( 'All shortcodes', 'shortcodes-ultimate' );
 

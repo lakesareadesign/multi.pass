@@ -22,7 +22,6 @@
     <div class="wpmudev-box-body">
 
         <form id="wph-optin-service-details-form">
-            <?php wp_nonce_field( 'refresh_provider_details' ); ?>
             <div id="wph-provider-select" class="wpmudev-provider-block">
                 <label><?php esc_attr_e('Choose email service provider:', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -30,7 +29,7 @@
 
                 <?php foreach( $providers as $provider ) : ?>
 
-					<option value="<?php echo esc_attr( $provider['id'] ); ?>" {{_.isTrue('<?php echo esc_html( $provider['id'] ); ?>' === service) ? 'selected' : ''}}><?php echo esc_html(  $provider['name'] ); ?></option>
+                    <option value="<?php echo esc_attr( $provider['slug'] ); // phpcs:ignore ?>" {{_.isTrue('<?php echo esc_html( $provider['slug'] ); ?>' === service) ? 'selected' : ''}}><?php echo esc_html( $provider['title'] ); ?></option>
 
                 <?php endforeach; ?>
 
@@ -40,19 +39,7 @@
 
             <div id="wph-provider-account-details" class="wpmudev-provider-block"></div>
 
-            <div id="optin-provider-account-options" class="wpmudev-provider-block">
-
-                <div id="optin-provider-account-selected-list" class="wpmudev-provider-block" data-nonce="<?php echo esc_attr( wp_create_nonce('optin_provider_current_settings') ); ?>" >
-
-                    <label class="wpmudev-label--notice">
-
-                        <span><?php esc_attr_e('Selected list (campaign), Press the Fetch Lists button to update value.', Opt_In::TEXT_DOMAIN ); ?></span>
-
-                    </label>
-
-                </div>
-
-            </div>
+            <div id="optin-provider-account-options" class="wpmudev-provider-block"></div>
 
             <div id="wpoi-loading-indicator" style="display: none;">
 
@@ -63,18 +50,11 @@
                 </label>
 
             </div>
-        <form>
+        </form>
 
     </div>
 
-    <div class="wpmudev-box-footer">
-
-        <a href="" id="wph-cancel-add-service" class="wpmudev-button wpmudev-button-ghost"><?php esc_attr_e( "Cancel", Opt_In::TEXT_DOMAIN ); ?></a>
-
-        <a href="" class="wph-save-optin-service wpmudev-button wpmudev-button-blue {{ ( _.isFalse(is_new) ) ? 'wpmudev-hidden' : '' }}"><?php esc_attr_e( "Add Service", Opt_In::TEXT_DOMAIN ); ?></a>
-        <a href="" class="wph-save-optin-service wpmudev-button wpmudev-button-blue {{ ( _.isTrue(is_new) ) ? 'wpmudev-hidden' : '' }}"><?php esc_attr_e( "Update Service", Opt_In::TEXT_DOMAIN ); ?></a>
-
-    </div>
+    <div class="wpmudev-box-footer"></div>
 
 </script>
 
@@ -98,14 +78,3 @@
 		});
 	}#>
 </script>
-
-<?php
-if ( isset($providers) ) {
-
-    // adding provider args for each service
-    foreach( $providers as $provider ) {
-        $this->render("admin/provider/" . $provider['id'] . '/args');
-    }
-
-}
-?>

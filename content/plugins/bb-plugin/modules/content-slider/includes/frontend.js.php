@@ -20,8 +20,8 @@
 			onSliderLoad: function(currentIndex) {
 				$('.fl-node-<?php echo $id; ?> .fl-content-slider-wrapper').addClass('fl-content-slider-loaded');
 
-				// Remove autoplay video sources
-				$('.fl-node-<?php echo $id; ?> iframe[src*="autoplay"]').each( function(){
+				// Remove video sources
+				$('.fl-node-<?php echo $id; ?> iframe').each( function(){
 					var src = $( this ).attr( 'src' );
 					$( this ).attr( 'data-url', src );
 
@@ -37,22 +37,32 @@
 				$('.fl-node-<?php echo $id; ?> .bx-viewport > .bx-controls .bx-pager-link').addClass('disabled');
 			},
 			onSlideAfter: function( ele, oldIndex, newIndex ) {
+				var prevSlide = $( '.fl-node-<?php echo $id; ?> .fl-slide-' + oldIndex + ':not(.bx-clone)'),
+					newSlide  = $( '.fl-node-<?php echo $id; ?> .fl-slide-' + newIndex + ':not(.bx-clone)');
 
 				// Swap autoplay video sources
-				$( '.fl-node-<?php echo $id; ?> .fl-slide-' + newIndex + ':not(.bx-clone) iframe[data-url*="autoplay"]:visible' ).each( function(){
-					var src = $( this ).attr( 'data-url' );
-					$( this ).attr( 'src', src );
-				} );
+				if ( newSlide.find( 'iframe:visible').length ) {
+					newSlide.find( 'iframe:visible').each(function(){
+						var src = $( this ).attr( 'data-url' );
+						$( this ).attr( 'src', src );
+					});
+				}
 
-				$( '.fl-node-<?php echo $id; ?> .fl-slide-' + oldIndex + ':not(.bx-clone) iframe[src*="autoplay"]:visible' ).each( function(){
-					var src = $( this ).attr( 'src' );
-					$( this ).attr( 'src', '' );
-				} );
+				if ( prevSlide.find( 'iframe:visible').length ) {
+					prevSlide.find( 'iframe:visible').each(function(){
+						var src = $( this ).attr( 'src' );
+						$( this ).attr( 'src', '' );
+					});
+				}
 
 				$('.fl-node-<?php echo $id; ?> .fl-content-slider-navigation a').removeClass('disabled');
 				$('.fl-node-<?php echo $id; ?> .bx-viewport > .bx-controls .bx-pager-link').removeClass('disabled');
+
 				/* Pause and play videos if autoplay */
-				$( '.fl-node-<?php echo $id; ?> .fl-slide-' + oldIndex + ':not(.bx-clone)').find('video[autoplay]').trigger('pause')
+				if ( prevSlide.find( 'video').length ) {
+					prevSlide.find( 'video').trigger( 'pause' );
+				}
+
 				$( '.fl-node-<?php echo $id; ?> .fl-slide-' + newIndex + ':not(.bx-clone)').find('video[autoplay]').trigger('play')
 			}
 		});

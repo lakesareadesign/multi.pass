@@ -15,6 +15,7 @@ class Hustle_Popup_Admin {
 		$this->_email_services = $email_services;
 
 		add_action( 'admin_init', array( $this, "check_free_version" ) );
+		add_action( 'admin_init', array( $this, "export_module" ) );
 		add_action( 'admin_menu', array( $this, "register_admin_menu" ) );
 		add_action( 'admin_head', array( $this, "hide_unwanted_submenus" ) );
 		add_filter( 'hustle_optin_vars', array( $this, "register_current_json" ) );
@@ -102,6 +103,63 @@ class Hustle_Popup_Admin {
 				wp_safe_redirect( 'admin.php?page=' . Hustle_Module_Admin::POPUP_LISTING_PAGE . '&' . Hustle_Module_Admin::UPGRADE_MODAL_PARAM . '=true' );
 				exit;
 			}
+		}
+	}
+
+	/**
+	 * Export module settings
+	 */
+	public function export_module(){
+		$action = filter_input( INPUT_GET, 'action' );
+		if ( Opt_In::EXPORT_MODULE_ACTION === $action ) {
+			wp_verify_nonce( Opt_In::EXPORT_MODULE_ACTION );
+
+			$id = filter_input( INPUT_GET, 'id', FILTER_VALIDATE_INT );
+			$type = trim( filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING ) );
+
+			//check required parameters
+			if( !$id || !$type )
+				die(esc_html__("Invalid Request", Opt_In::TEXT_DOMAIN));
+
+			$module =  Hustle_Module_Model::instance()->get($id);
+
+			//check type
+			if( Hustle_Module_Model::import_export_check_type( $type, $module->module_type ) )
+				die( sprintf( esc_html__("Invalid environment: %s", Opt_In::TEXT_DOMAIN), esc_html( $module->module_type ) ));
+
+			//set needed settings
+			$settings['module_name'] = $module->module_name;
+			$settings['module_type'] = $module->module_type;
+			$settings['active'] = $module->active;
+			$settings['test_mode'] = $module->test_mode;
+			$settings[ $this->_hustle->get_const_var( "KEY_CONTENT", $module ) ] = $module->get_content()->to_array();
+			$settings[ $this->_hustle->get_const_var( "KEY_DESIGN", $module ) ] = $module->get_design()->to_array();
+			$settings[ $this->_hustle->get_const_var( "KEY_SETTINGS", $module ) ] = $module->get_display_settings()->to_array();
+			$settings[ $this->_hustle->get_const_var( "KEY_SHORTCODE_ID", $module ) ] = $module->get_shortcode_id();
+
+			$filename = sanitize_file_name( $module->module_name . '.json' );
+
+			if ( ob_get_length() )
+				ob_clean();
+
+			/**
+			 * Print HTTP headers
+			 */
+			header( 'Content-Description: File Transfer' );
+			header( 'Content-Disposition: attachment; filename=' . $filename );
+			header( 'Content-Type: text/plain; charset=' . get_option( 'blog_charset' ), true );
+			/**
+			 * Check PHP version, for PHP < 3 do not add options
+			 */
+			$version = phpversion();
+			$compare = version_compare( $version, '5.3', '<' );
+			if ( $compare ) {
+				echo json_encode( $settings );
+				exit;
+			}
+			$option = defined( 'JSON_PRETTY_PRINT' )? JSON_PRETTY_PRINT : null;
+			echo json_encode( $settings, $option );
+			exit;
 		}
 	}
 

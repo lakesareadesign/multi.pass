@@ -46,11 +46,16 @@ class Hustle_Settings_Admin {
 	 */
 	public function render_page(){
 		$current_user = wp_get_current_user();
+		$email_settings = Hustle_Module_Model::get_email_settings();
 
 		$this->_hustle->render("admin/settings", array(
 			"user_name" => ucfirst($current_user->display_name),
 			"modules" => Hustle_Module_Collection::instance()->get_all(true),
 			"modules_state_toggle_nonce" => wp_create_nonce( "hustle_modules_toggle" ),
+			"email_name" => $email_settings['sender_email_name'],
+			"email_address" => $email_settings['sender_email_address'],
+			"unsubscription_messages" => Hustle_Module_Model::get_unsubscribe_messages(),
+			"unsubscription_email" => Hustle_Module_Model::get_unsubscribe_email_settings(),
 		));
 	}
 

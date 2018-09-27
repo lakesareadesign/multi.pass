@@ -516,7 +516,7 @@ if ( ! class_exists( 'ub_maintenance' ) ) {
 			 */
 			if ( empty( $this->data['document']['title'] ) && empty( $this->data['document']['content'] ) ) {
 				$this->data['document']['title'] = __( 'We&rsquo;ll be back soon!', 'ub' );
-				$this->data['document']['content'] = __( 'Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment. We&rsquo;ll be back online shortly!', 'ub' );	   	 		 		 	   		
+				$this->data['document']['content'] = __( 'Sorry for the inconvenience but we&rsquo;re performing some maintenance at the moment. We&rsquo;ll be back online shortly!', 'ub' );
 				if ( 'coming-soon' == $status ) {
 					$this->data['document']['title'] = __( 'Coming Soon', 'ub' );
 					$this->data['document']['content'] = __( 'Stay tuned!', 'ub' );

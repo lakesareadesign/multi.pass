@@ -15,14 +15,6 @@ class Hustle_Init {
 		// Hustle Migration from WordPress Popup and Hustle 2.x
 		$hustle_migration = new Hustle_Migration( $hustle );
 
-		// Hubspot
-		$hustle_hubpost = new Opt_In_HubSpot_Api();
-
-		if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
-			//Constant Contact
-			$hustle_constantcontact = new Opt_In_ConstantContact_Api();
-		}
-
 		// Admin
 		if( is_admin() ) {
 			$module_admin = new Hustle_Module_Admin( $hustle );

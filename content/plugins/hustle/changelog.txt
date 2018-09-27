@@ -4,6 +4,32 @@ Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio 
 Change Log:
 ----------------------------------------------------------------------
 
+3.0.5 - 2018-09-20
+----------------------------------------------------------------------
+- Allow users to unsubscribe from local lists.
+- Allow adding providers as external plugins.
+- Add import/export module functionality.
+- Add duplicate module functionality.
+- Add option to choose if the module should show up after subscription.
+- Fix console error when updating custom form fields.
+- Fix inline social sharing not displaying properly.
+- Use embeds IDs instead of names as unique identifier.
+- Make native social counters retrieve their info asynchronously.
+- Fix MU installation not redirecting to Hustle Dashboard.
+- Fix Slide-in "Test" status not behaving properly.
+- Make embeds widgets follow the defined visibility rules.
+- Allow using the same email twice when subscribing to Mailchimp.
+- Switch to Mailchimp for Hustle's Free Opt-in subscription form.
+- Fix opt-in form behavior with each provider.
+- Fix iContact settings error.
+- Fix Constant Contact settings error.
+- Fix Sendgrid library conflict.
+- Fix Custom fields behavior on some providers.
+- Fix PHP error when using category conditions in multiple modules.
+- Fix checkboxes and radios issue when the same embed is twice in the same page. 
+- Fix various UI details in dashboard and frontend.
+- Add "upgrade" link on plugins page for Free version.
+
 3.0.4.2 - 2018-07-16
 ----------------------------------------------------------------------
 - Fix PHP errors.
@@ -329,4 +355,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1532820610-au
+133620-1538021306-au

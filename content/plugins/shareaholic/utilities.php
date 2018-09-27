@@ -709,7 +709,7 @@ class ShareaholicUtilities {
         $data,
         'json'
       );
-            
+
       if ($response && preg_match('/20*/', $response['response']['code'])) {
         self::update_options(array(
           'api_key' => $response['body']['api_key'],
@@ -1299,6 +1299,21 @@ class ShareaholicUtilities {
        return $first_img;
      }
    }
+   
+   /**
+    * WP Rocket Compatability - Excludes Shareaholic scripts from JS minification, etc
+    *
+    * @param Array $excluded_external An array of JS hosts
+    * @return Array the updated array of hosts
+    */
+    function rocket_exclude_js($excluded_external) {
+      if (defined('WP_ROCKET_VERSION')) {
+        $excluded_external[] = 'apps.shareaholic.com';
+        $excluded_external[] = 'dsms0mj1bbhn4.cloudfront.net';
+        
+        return $excluded_external;
+      }
+    }
    
   /*
    * Clears cache created by caching plugins like W3 Total Cache

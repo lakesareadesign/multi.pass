@@ -1,3 +1,53 @@
+<h4>2.1.5.1 - 09/26/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed ImagesLoaded script not being enqueued in Gallery Module.</li>
+	<li>Fixed a PHP warning when using Events shortcodes.</li>
+	<li>Added Swift to list of supported cache plugins.</li>
+</ul>
+
+<h4>2.1.5 - 09/24/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+  <li>Revisions are now saved whenever any rows, columns, modules or layouts are published and are limited to 25.</li>
+  <li>Cache helper plugin is now merged into Beaver Builder. See https://kb.wpbeaverbuilder.com/article/549-cache-clearing-tool for details.</li>
+  <li>Update bundled Font Awesome to version 5.3.1.</li>
+  <li>Native Google italics are now supported.</li>
+  <li>Pre-connect to Google fonts to speed up font rendering.</li>
+  <li>Added caption on lightbox of the Photo Module.</li>
+  <li>More fl_builder_render_assets_inline fixes.</li>
+  <li>Changed delete_users capability to manage_options for builder UI and added <code>fl_builder_admin_settings_capability</code> filter.</li>
+  <li>Changed connections type to photo for row’s background fallback photo.</li>
+  <li>Added aria-hidden attribute to icons for better screenreader experience.</li>
+  <li>Added placeholder support for link field type.</li>
+  <li>New filter <code>fl_builder_google_fonts_pre_enqueue</code> makes it possible to dequeue any fonts added by modules.</li>
+  <li>New filter <code>fl_builder_load_modules_paths</code> to add/remove modules before they are loaded.</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+  <li>Fixed javascript error if invalid color preset is saved.</li>
+  <li>Fixed license not saving properly if pasted licence contains non-alphanumeric chars.</li>
+  <li>Fixed compatibility with lodash >4 contains is not a function error.</li>
+  <li>Fixed post icon color option incorrectly appearing for grid layout in Posts Carousel module.</li>
+  <li>Fixed Subscribe Module: Active Campaign - When form is the type, user does not get re-subscribed.</li>
+  <li>Fixed Event Calendar widget not loading assets when added as a widget module.</li>
+  <li>Fixed Audio Module not properly refreshing when adding multiple items.</li>
+  <li>Fixed nodes being duplicated turning into global when they shouldn't be.</li>
+  <li>Fixed margin issue on media library thumbnails.</li>
+  <li>Fixed attachment JS config doesn't account for fields with multiple set to true.</li>
+  <li>Fixed issue with post-grid infinite scroll if post slug contains numbers.</li>
+  <li>Fixed Subscribe Form module - mailchimp only shows 10 groups within a list, limit changed to 50.</li>
+  <li>Fixed 404 pagination on archive when taxonomy has custom slug.</li>
+  <li>Fixed blurry checkbox in Subscribe and Contact Form modules.</li>
+  <li>Fixed thumbs layout in gallery module.</li>
+  <li>Fixed video where it keeps playing even if not in an active slide in Content Slider.</li>
+  <li>Fixed menu module spacing when there are multiple menu items.</li>
+  <li>Fixed colors and fonts affecting the media uploader popup.</li>
+  <li>Fixed CORS issue on Pantheon hosting.</li>
+</ul>
+
+
 <h4>2.1.4.5 - 09/10/2018</h4>
 <p><strong>HotFix</strong></p>
 <ul>

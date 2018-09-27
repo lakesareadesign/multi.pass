@@ -2,15 +2,15 @@
 
 	<div class="wpmudev-box-left">
 
-		<h4><strong><?php esc_attr_e( "Embed name", Opt_In::TEXT_DOMAIN ); ?></strong></h4>
+		<h4><strong><?php esc_attr_e( "Embed ID", Opt_In::TEXT_DOMAIN ); ?></strong></h4>
 
-		<label class="wpmudev-helper"><?php esc_attr_e( "Pick a name for your Embed module. This is for you to be able to identify embeds and will not be displayed on your site.", Opt_In::TEXT_DOMAIN ); ?></label>
+		<label class="wpmudev-helper"><?php esc_attr_e( "Pick a unique ID for your Embed module. This is for you to be able to identify embeds and will not be displayed on your site.", Opt_In::TEXT_DOMAIN ); ?></label>
 
 	</div>
 
 	<div class="wpmudev-box-right">
 
-		<label><?php esc_attr_e( "Embed name", Opt_In::TEXT_DOMAIN ); ?></label>
+		<label><?php esc_attr_e( "Embed ID", Opt_In::TEXT_DOMAIN ); ?></label>
 
 		<input type="text" data-attribute="module_name" id="wph_embedded_new_name" class="wpmudev-input_text wpmudev-required" name="module_name" placeholder="<?php esc_attr_e('Type name here...', Opt_In::TEXT_DOMAIN); ?>" value="{{module_name}}">
 

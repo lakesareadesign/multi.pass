@@ -22,7 +22,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.facebook ? '' : social_icons.facebook.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.facebook ? '' : social_icons.facebook.link }}">
 
             </div>
 
@@ -42,7 +42,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.twitter ? '' : social_icons.twitter.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.twitter ? '' : social_icons.twitter.link }}">
 
             </div>
 
@@ -62,7 +62,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.google ? '' : social_icons.google.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.google ? '' : social_icons.google.link }}">
 
             </div>
 
@@ -82,7 +82,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.pinterest ? '' : social_icons.pinterest.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.pinterest ? '' : social_icons.pinterest.link }}">
 
             </div>
 
@@ -102,7 +102,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.reddit ? '' : social_icons.reddit.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.reddit ? '' : social_icons.reddit.link }}">
 
             </div>
 
@@ -122,7 +122,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.linkedin ? '' : social_icons.linkedin.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.linkedin ? '' : social_icons.linkedin.link }}">
 
             </div>
 
@@ -142,7 +142,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.vkontakte ? '' : social_icons.vkontakte.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.vkontakte ? '' : social_icons.vkontakte.link }}">
 
             </div>
 
@@ -162,7 +162,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.fivehundredpx ? '' : social_icons.fivehundredpx.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.fivehundredpx ? '' : social_icons.fivehundredpx.link }}">
 
             </div>
 
@@ -182,7 +182,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.houzz ? '' : social_icons.houzz.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.houzz ? '' : social_icons.houzz.link }}">
 
             </div>
 
@@ -202,7 +202,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.instagram ? '' : social_icons.instagram.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.instagram ? '' : social_icons.instagram.link }}">
 
             </div>
 
@@ -222,7 +222,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.twitch ? '' : social_icons.twitch.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.twitch ? '' : social_icons.twitch.link }}">
 
             </div>
 
@@ -242,7 +242,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.youtube ? '' : social_icons.youtube.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.youtube ? '' : social_icons.youtube.link }}">
 
             </div>
 
@@ -262,7 +262,7 @@
 
                 </div>
 
-                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value= 'undefined' === "{{ typeof social_icons.telegram ? '' : social_icons.telegram.link }}">
+                <input class="wpmudev-input_text" type="text" placeholder="<?php esc_attr_e( "Type URL here", Opt_In::TEXT_DOMAIN ); ?>" value="{{ 'undefined' === typeof social_icons.telegram ? '' : social_icons.telegram.link }}">
 
             </div>
 

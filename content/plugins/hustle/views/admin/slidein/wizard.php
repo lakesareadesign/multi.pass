@@ -84,7 +84,11 @@
                                 'is_edit' => $is_edit,
                                 'module' => $module,
                                 'providers' => $providers,
-								'default_form_fields' => $default_form_fields
+								'default_form_fields' => $default_form_fields,
+								'allowed_extensions' => array(
+									'image_ext' => Opt_In_Utils::get_allowed_image_extensions(),
+									'render_ext' => Opt_In_Utils::get_allowed_renderable_extensions(),
+								),
                             ) );
 							?>
 

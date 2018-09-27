@@ -136,6 +136,7 @@
 		{
 			var path 		= $(this.nodeClass + ' .fl-builder-pagination a.next').attr('href'),
 				pagePattern = /(.*?(\/|\&|\?)paged-[0-9]{1,}(\/|=))([0-9]{1,})+(.*)/,
+				wpPattern   = /^(.*?\/?page\/?)(?:\d+)(.*?$)/,
 				pageMatched = null,
 				scrollData	= {
 					navSelector     : this.nodeClass + ' .fl-builder-pagination',
@@ -158,6 +159,9 @@
 					path = pageMatched[1] + currPage + pageMatched[5];
 					return path;
 				}
+			}
+			else if ( wpPattern.test( path ) ) {
+				scrollData.path = path.match( wpPattern ).slice( 1 );
 			}
 
 			$(this.wrapperClass).infinitescroll( scrollData, $.proxy(this._infiniteScrollComplete, this) );

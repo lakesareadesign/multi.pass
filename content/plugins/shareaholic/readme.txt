@@ -1,10 +1,11 @@
 === WordPress Share Buttons, Related Posts, Monetization - Shareaholic ===
 Contributors: shareaholic
-Tags:  buttons, related posts, google analytics, share buttons, social sharing, image sharing, related content, woocommerce, typepad, amazon, analytics, arto, baidu, bitly, blogger, buffer, cookie compliance, cookie consent, delicious, digg, diigo, disqus, email button, eu cookie law, evernote, facebook, facebook sharing, fancy, fark, feedly, flipboard, floated share buttons, floating share buttons, follow buttons, GDPR, gmail, google bookmarks, google classroom, google plus, hootsuite, hotmail, houzz, inbound.org, instagram, instagram sharing, instapaper, izeby, kaboodle, kik, kindle, line, linkedin, livejournal, meneame, mister wong, mixi, odnoklassniki, box.net, onenote, pinboard.in, pinterest, pinterest sharing, plurk, pocket, printfriendly, recommendations, reddit, sexybookmarks, share buttons, share image, shareaholic, shareholic, sms, social bookmarking, social media, social plugin, social share buttons, spotify, stumbleupon, stumpedia, symphony, tinyurl, tumblr, twitter, viadeo, vk, wanelo, weheartit, weibo, whatsapp, wykop, xing, yahoo, yammer, ycombinator, hacker news, youtube, yummly, zillow
+Tags:  buttons, related posts, google analytics, share buttons, social sharing, image sharing, related content, woocommerce, typepad, amazon, analytics, arto, baidu, bitly, blogger, buffer, cookie compliance, cookie consent, delicious, digg, diigo, disqus, email button, eu cookie law, evernote, facebook, facebook sharing, fancy, fark, feedly, flipboard, floated share buttons, floating share buttons, follow buttons, GDPR, gmail, google bookmarks, google classroom, google plus, hootsuite, hotmail, houzz, inbound.org, instagram, instagram sharing, instapaper, kik, kindle, line, linkedin, livejournal, meneame, mister wong, mix, mixi, odnoklassniki, box.net, onenote, pinboard.in, pinterest, pinterest sharing, plurk, pocket, printfriendly, recommendations, reddit, sexybookmarks, share buttons, share image, shareaholic, shareholic, sms, social bookmarking, social media, social plugin, social share buttons, spotify, stumbleupon, stumpedia, symphony, tinyurl, tumblr, twitter, viadeo, vk, wanelo, weheartit, weibo, whatsapp, wykop, xing, yahoo, yammer, ycombinator, hacker news, youtube, yummly, zillow
 Requires at least: 3.0
 Tested up to: 5.0
 Requires PHP: 5.2
-Stable tag: 8.8.2
+Stable tag: 8.8.3
+
 
 Consolidate plugins with a high-speed suite of social tools: social share buttons, related content, related posts, ad monetization & Google Analytics.
 
@@ -15,7 +16,7 @@ Shareaholic is the **world's leading suite of social, analytics, monetization, a
 
 Our plugin and suite of tools make it easy for any website — big or small — to engage and grow their traffic, market their content, gain insight, and monetize their audience. And it all lives in one simple dashboard. Built on lightweight JavaScript, our functionality is highly customizable, without hurting your page load speed. In fact, we’re recognized by WP Engine as being a [“Essential Speed Friendly Social Media & SEO Toolkit”](https://wpengine.com/solution-center/shareaholic-the-essential-social-media-toolkit/).
 
-Our single plugin combines the functionality of many social, content, and monetization plugins including: JetPack, Contextual Related Posts (CRP), Social Warfare, Yet Another Related Posts Plugin (YARPP), Shariff, AddThis, AddToAny, and many others.
+Our single plugin combines the functionality of many social, content, and monetization plugins including: JetPack, Contextual Related Posts (CRP), Social Warfare, Tasty Pins, Yet Another Related Posts Plugin (YARPP), Shariff, AddThis, AddToAny, and many others.
 
 = Social Media Share Buttons =
 
@@ -159,9 +160,9 @@ Shareaholic is used all over the world. Our goal is to support Shareaholic in th
 
 == Social Platform Integrations == 
 
-* Social Follow Buttons: Facebook follow buttons, Twitter follow buttons, Instagram follow buttons, YouTube follow buttons, LinkedIn, Spotify, Google+, Pinterest follow buttons, Etsy, BuzzFeed, iTunes, Tumblr, Vimeo, eBay, 500px, about.me, Baidu, Behance, Better Business Bureau (BBB), Bloglovin, Disqus, Dribbble, Feedly, Flickr, Foursquare, Github, Google Classroom, Houzz, LinkedIn, LiveJournal, Odnoklassniki (OK), Polyvore, RSS, Skype, SlideShare, SoundCloud, Stack Overflow, StumbleUpon, Tripadvisor, Vine, VK, Yelp, Zillow
+* Social Follow Buttons: Facebook follow buttons, Twitter follow buttons, Instagram follow buttons, YouTube follow buttons, LinkedIn, Spotify, Google+, Pinterest follow buttons, Etsy, BuzzFeed, iTunes, Tumblr, Vimeo, eBay, 500px, about.me, Meetup, Patreon, Medium, Snapchat, Slack, Baidu, Behance, Better Business Bureau (BBB), Bloglovin, Disqus, Dribbble, Feedly, Flickr, Foursquare, Github, Google Classroom, Houzz, LinkedIn, LiveJournal, Odnoklassniki (OK), Polyvore, RSS, Skype, SlideShare, Strava, SoundCloud, Stack Overflow, StumbleUpon, Tripadvisor, Vine, VK, Yelp, Zillow
 
-* Social Share Buttons: Facebook share buttons, LinkedIn share buttons, Pinterest share buttons, Reddit share buttons, Skype share buttons, SMS share button, StumbleUpon share buttons, Tumblr share buttons, Twitter share buttons, WhatsApp share buttons, Amazon Kindle share buttons, Amazon share buttons, Amazon Wish List, AOL Mail, Arto, Baidu, Bit.ly, Blogger Post, Box, Buffer, Delicious, Digg, Diigo, Diigolet, Email This, Evernote, Facebook Send, Fancy, Fark, Flipboard share buttons, GMail share buttons, Google Bookmarks, Google Classroom, Google Mail, Google+, HootSuite share buttons, Houzz share buttons, Inbound.org, Instapaper, iZeby, Kaboodle, Kik, Line share buttons, LinkedIn share buttons, Mail, Meneame, Microsoft OneNote, Mister-Wong, Mixi, MSDN, Odnoklassniki (OK), Outlook, Pinboard.in, Pinterest, Plurk, Pocket share buttons, Print share buttons, PrintFriendly share buttons, Read Later share buttons, Reddit share buttons, Sina Weibo, Skype share buttons, SMS, Soup.io, Stumpedia, Symphony, Techmeme, TinyURL, TypePad Post, Viadeo, Vkontakte (VK), Wanelo, We Heart It, WhatsApp,Windows Live Favorites, WordPress share buttons, Wykop, Xing, Yahoo Bookmarks, Yahoo Messenger, Yahoo! Mail, Yammer, YC Hacker News, Yummly share buttons
+* Social Share Buttons: Facebook share buttons, LinkedIn share buttons, Pinterest share buttons, Reddit share buttons, Skype share buttons, SMS share button, StumbleUpon share buttons, Tumblr share buttons, Twitter share buttons, Telegram, Mix, WhatsApp share buttons, Amazon Kindle share buttons, Amazon share buttons, Amazon Wish List, AOL Mail, Arto, Baidu, Bit.ly, Blogger Post, Box, Buffer, Delicious, Digg, Diigo, Diigolet, Email This, Evernote, Facebook Send, Fancy, Fark, Flipboard share buttons, GMail share buttons, Google Bookmarks, Google Classroom, Google Mail, Google+, HootSuite share buttons, Houzz share buttons, Inbound.org, Instapaper, Kik, Line share buttons, LinkedIn share buttons, Mail, Meneame, Microsoft OneNote, Mister-Wong, Mixi, MSDN, Odnoklassniki (OK), Outlook, Pinboard.in, Pinterest, Plurk, Pocket share buttons, Print share buttons, PrintFriendly share buttons, Read Later share buttons, Reddit share buttons, Sina Weibo, Skype share buttons, SMS, Soup.io, Stumpedia, Symphony, Techmeme, TinyURL, TypePad Post, Viadeo, Vkontakte (VK), Wanelo, We Heart It, WhatsApp,Windows Live Favorites, WordPress share buttons, Wykop, Xing, Yahoo Bookmarks, Yahoo Messenger, Yahoo! Mail, Yammer, YC Hacker News, Yummly share buttons, Viber, Trello, Facebook Messenger
 
 == Screenshots ==
 
@@ -247,6 +248,32 @@ The default Shareaholic thumbnail width is 640px with dynamic height and no crop
 Each time you change Shareaholic's thumbnail dimensions like this, you will probably want to have WordPress regenerate appropriate sized thumbnails for all of your images. We highly recommend the [Regenerate Thumbnails](https://wordpress.org/plugins/regenerate-thumbnails/) plugin for this purpose.
 
 == Changelog ==
+
+= 8.8.3 (2018-09-24) =
+* Enhancement: Compatability with WP Rocket
+* New Share Buttons:
+  * Telegram button added
+  * Print icon added
+  * Facebook Messenger
+  * Mix (the new StumbleUpon)
+  * Viber
+  * Trello
+* New Follow Buttons:
+  * Instagram button updated
+  * Stackoverflow button updated
+  * Slack
+  * Snapchat
+  * Patreon
+  * Medium
+  * Strava
+  * Meetup
+* Share/Follow Buttons Archived:
+  * StumbleUpon
+  * Izeby
+  * Polyvore
+  * Kaboodle
+* Bugfix: Related Posts Content Age Filter fixed
+* Bugfix: Logo padding in Share and Follow Buttons fixed
 
 = 8.8.2 (2018-08-08) =
 * Various [Related Posts](https://www.shareaholic.com/website-tools/related-content) enhancements
@@ -776,6 +803,9 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 
 == Upgrade Notice ==
 
+= 8.8.3 =
+New Share and Follow Buttons! Plus compatability with WP Rocket.
+
 = 8.8.2 =
 Various [Related Posts](https://www.shareaholic.com/website-tools/related-content) enhancements
 
@@ -849,6 +879,3 @@ Various bug fixes and enhancements
 
 = 8.1.0 =
 New Tools Badge! Introducing a brand new way to launch the Shareaholic Console without ever leaving your website! Contains quick-links to your site analytics, help center, and much more to help you manage your site with greater ease. If you'd rather hide this badge or change its location, you can do so from your settings. It is 100% configurable.
-
-= 8.0.1 =
-Version 8 is here bringing with it a brand new revamped and streamlined UI!

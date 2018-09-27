@@ -17,7 +17,8 @@
         'is_edit' => $is_edit,
         'module' => $module,
         'providers' => $providers,
-        'default_form_fields' => $default_form_fields
+        'default_form_fields' => $default_form_fields,
+		'allowed_extensions' => $allowed_extensions,
     ) );
 	?>
 

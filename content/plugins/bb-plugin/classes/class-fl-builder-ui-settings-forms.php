@@ -409,13 +409,21 @@ class FLBuilderUISettingsForms {
 
 					$base = str_replace( '_src', '', $key );
 
-					if ( isset( $node->settings->$base ) && is_numeric( $node->settings->$base ) ) {
+					if ( isset( $node->settings->$base ) ) {
 
-						$id   = $node->settings->$base;
-						$data = self::prep_attachment_for_js_config( $id );
-
-						if ( $data ) {
-							$attachments[ $id ] = $data;
+						if ( is_numeric( $node->settings->$base ) ) {
+							$id   = $node->settings->$base;
+							$data = self::prep_attachment_for_js_config( $id );
+							if ( $data ) {
+								$attachments[ $id ] = $data;
+							}
+						} elseif ( is_array( $node->settings->$base ) ) {
+							foreach ( $node->settings->$base as $id ) {
+								$data = self::prep_attachment_for_js_config( $id );
+								if ( $data ) {
+									$attachments[ $id ] = $data;
+								}
+							}
 						}
 					}
 				}
@@ -424,12 +432,17 @@ class FLBuilderUISettingsForms {
 				if ( isset( $fields[ $key ] ) && 'video' === $fields[ $key ]['type'] ) {
 
 					if ( is_numeric( $value ) ) {
-
 						$id   = $value;
 						$data = self::prep_attachment_for_js_config( $id );
-
 						if ( $data ) {
 							$attachments[ $id ] = $data;
+						}
+					} elseif ( is_array( $value ) ) {
+						foreach ( $value as $id ) {
+							$data = self::prep_attachment_for_js_config( $id );
+							if ( $data ) {
+								$attachments[ $id ] = $data;
+							}
 						}
 					}
 				}
@@ -647,7 +660,7 @@ class FLBuilderUISettingsForms {
 			$value = isset( $settings->$name ) ? $settings->$name : '';
 			$is_multiple = isset( $field['multiple'] ) ? $field['multiple'] : false;
 
-			if ( $is_multiple ) {
+			if ( $is_multiple && is_array( $value ) ) {
 				$before = array();
 				$after = array();
 				foreach ( $value as $repeater_item_value ) {
@@ -815,7 +828,7 @@ class FLBuilderUISettingsForms {
 		$field              = apply_filters( 'fl_builder_render_settings_field', $field, $name, $settings ); // Allow field settings filtering first
 		$i                  = null;
 		$is_multiple        = isset( $field['multiple'] ) && true === (bool) $field['multiple'];
-		$supports_multiple  = 'editor' != $field['type'] && 'photo' != $field['type'] && 'service' != $field['type'];
+		$supports_multiple  = 'editor' != $field['type'] && 'service' != $field['type'];
 		$settings           = ! $settings ? new stdClass() : $settings;
 		$preview            = isset( $field['preview'] ) ? json_encode( $field['preview'] ) : json_encode( array(
 			'type' => 'refresh',

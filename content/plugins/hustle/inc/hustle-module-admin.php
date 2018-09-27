@@ -43,6 +43,7 @@ class Hustle_Module_Admin {
 
 		add_filter( 'w3tc_save_options', array( $this, 'filter_w3tc_save_options' ), 10, 1 );
 		add_filter('plugin_action_links', array( $this, 'add_plugin_action_links' ), 10, 5 );
+		add_filter('network_admin_plugin_action_links', array( $this, 'add_plugin_action_links' ), 10, 5 );
 
 	}
 
@@ -160,10 +161,10 @@ class Hustle_Module_Admin {
 		/**
 		 * Add all posts
 		 */
-		$allPosts = new stdClass();
-		$allPosts->id = "all";
-		$allPosts->text = __("ALL POSTS", Opt_In::TEXT_DOMAIN);
-		array_unshift($posts, $allPosts);
+		$all_posts = new stdClass();
+		$all_posts->id = "all";
+		$all_posts->text = __("ALL POSTS", Opt_In::TEXT_DOMAIN);
+		array_unshift($posts, $all_posts);
 
 		$pages = array_map(array($this, "posts_to_select2_data"), get_posts(array(
 			'numberposts' => -1,
@@ -173,10 +174,10 @@ class Hustle_Module_Admin {
 		/**
 		 * Add all pages
 		 */
-		$allPages = new stdClass();
-		$allPages->id = "all";
-		$allPages->text = __("ALL PAGES", Opt_In::TEXT_DOMAIN);
-		array_unshift($pages, $allPages);
+		$all_pages = new stdClass();
+		$all_pages->id = "all";
+		$all_pages->text = __("ALL PAGES", Opt_In::TEXT_DOMAIN);
+		array_unshift($pages, $all_pages);
 
 		/**
 		 * Add all custom post types
@@ -200,16 +201,17 @@ class Hustle_Module_Admin {
 				'post_type' => $cpt->name
 			)));
 			// all posts under this custom post type
-			$allCPTPosts = new stdClass();
-			$allCPTPosts->id = "all";
-			$allCPTPosts->text = __("ALL ", Opt_In::TEXT_DOMAIN) . $cpt->label;
-			array_unshift($cpt_array['data'], $allCPTPosts);
+			$all_cpt_posts = new stdClass();
+			$all_cpt_posts->id = "all";
+			$all_cpt_posts->text = __("ALL ", Opt_In::TEXT_DOMAIN) . $cpt->label;
+			array_unshift($cpt_array['data'], $all_cpt_posts);
 
 			$post_types[$cpt->name] = $cpt_array;
 		}
 
 		$optin_vars = array(
 			'messages' => array(
+				'settings_saved' => __( 'Settings saved.' , Opt_In::TEXT_DOMAIN ),
 				'dont_navigate_away' => __("Changes are not saved, are you sure you want to navigate away?", Opt_In::TEXT_DOMAIN),
 				'undefined_name_service_provider' => __("Please define proper Opt-in name and service provider", Opt_In::TEXT_DOMAIN),
 				'undefined_name' => __("Please define proper Opt-in name", Opt_In::TEXT_DOMAIN),
@@ -339,6 +341,7 @@ class Hustle_Module_Admin {
 						'custom_field_not_supported' => __('Custom fields are not supported by the active provider', Opt_In::TEXT_DOMAIN)
 					),
 				),
+				// Maybe Legacy: providers' texts
 				'providers' => array(
 					'select_list' => __('Selected list (campaign), Press the Fetch Lists button to update value.', Opt_In::TEXT_DOMAIN ),
 					'no_fetch_list'	=> __('Selected list (campaign).', Opt_In::TEXT_DOMAIN ),
@@ -391,11 +394,11 @@ class Hustle_Module_Admin {
 			'is_edit' => self::is_edit(),
 			'current' => array(),
 			'is_admin' => (int) is_admin(),
+			// Maybe Legacy -> These don't seem to be used anywhere.
 			// 'module_fields' => Opt_In_Meta_Design::default_fields(),
 			// 'get_module_field_nonce' => wp_create_nonce( 'optin_add_module_field' ),
 			'error_log_nonce' => wp_create_nonce( 'hustle_get_error_logs' ),
 			'clear_log_nonce' => wp_create_nonce( 'optin_clear_logs' ),
-	        // 'hubspot_nonce' => wp_create_nonce( 'hustle_hubspot_referrer' ),
 		);
 
 		$ap_vars = array(
@@ -406,7 +409,7 @@ class Hustle_Module_Admin {
 		$optin_vars['countries'] = $this->_hustle->get_countries();
 		$optin_vars['animations'] = $this->_hustle->get_animations();
 		// $optin_vars['services'] = $this->_email_services->get_all();
-		$optin_vars['providers'] = $this->_hustle->get_providers();
+		$optin_vars['providers'] = Opt_In_Utils::get_activable_providers_list();
 
 		$optin_vars = apply_filters("hustle_optin_vars", $optin_vars);
 
@@ -589,9 +592,27 @@ class Hustle_Module_Admin {
 			$plugin = Opt_In::$plugin_base_file;
 
 		if ($plugin === $plugin_file) {
-			$dashboard_url = 'admin.php?page=hustle';
-			$settings = array('settings' => '<a href="'. $dashboard_url .'">' . __('Settings', Opt_In::TEXT_DOMAIN) . '</a>');
-			$actions = array_merge($settings, $actions);
+			$settings = array();
+			if ( ! is_network_admin() ) {
+				$dashboard_url = 'admin.php?page=hustle';
+				$settings = array('settings' => '<a href="'. $dashboard_url .'">' . __('Settings', Opt_In::TEXT_DOMAIN) . '</a>');
+			}
+			$actions = array_merge( $actions, $settings );
+
+			// Documentation link.
+//			$actions['docs'] = '<a href="' . lib3()->get_link( 'hustle', 'docs', '' ) . '" aria-label="' . esc_attr( __( 'View Hustle Documentation', Opt_In::TEXT_DOMAIN ) ) . '" target="_blank">' . esc_html__( 'Docs', Opt_In::TEXT_DOMAIN ) . '</a>';
+
+			// Upgrade link.
+			if ( Opt_In_Utils::_is_free() ) {
+				if ( ! lib3()->is_member() ) {
+					$url = lib3()->get_link( 'hustle', 'plugin', 'hustle_pluginlist_upgrade' );
+				} else {
+					$url = lib3()->get_link( 'hustle', 'install_plugin', '' );
+				}
+				if ( is_network_admin() || ! is_multisite() ) {
+					$actions['upgrade'] = '<a href="' . esc_url( $url ) . '" aria-label="' . esc_attr( __( 'Upgrade to Hustle Pro', Opt_In::TEXT_DOMAIN ) ) . '" target="_blank" style="color: #1ABC9C;">' . esc_html__( 'Upgrade', Opt_In::TEXT_DOMAIN ) . '</a>';
+				}
+			}
 		}
 
 		return $actions;

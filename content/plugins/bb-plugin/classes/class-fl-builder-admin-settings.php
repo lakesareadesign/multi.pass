@@ -76,10 +76,10 @@ final class FLBuilderAdminSettings {
 	 * @return void
 	 */
 	static public function menu() {
-		if ( current_user_can( 'delete_users' ) ) {
+		if ( FLBuilderAdmin::current_user_can_access_settings() ) {
 
 			$title = FLBuilderModel::get_branding();
-			$cap   = 'delete_users';
+			$cap   = FLBuilderAdmin::admin_settings_capability();
 			$slug  = 'fl-builder-settings';
 			$func  = __CLASS__ . '::render';
 
@@ -335,7 +335,7 @@ final class FLBuilderAdminSettings {
 	 */
 	static public function save() {
 		// Only admins can save settings.
-		if ( ! current_user_can( 'delete_users' ) ) {
+		if ( ! FLBuilderAdmin::current_user_can_access_settings() ) {
 			return;
 		}
 
@@ -463,6 +463,12 @@ final class FLBuilderAdminSettings {
 
 				$unzipped	 = unzip_file( $path, $new_path );
 
+				// unzip returned a WP_Error
+				if ( is_wp_error( $unzipped ) ) {
+					self::add_error( sprintf( __( 'Unzip Error: %s', 'fl-builder' ), $unzipped->get_error_message() ) );
+					return;
+				}
+
 				// Unzip failed.
 				if ( ! $unzipped ) {
 					self::add_error( __( 'Error! Could not unzip file.', 'fl-builder' ) );
@@ -557,7 +563,7 @@ final class FLBuilderAdminSettings {
 	 * @return void
 	 */
 	static private function clear_cache() {
-		if ( ! current_user_can( 'delete_users' ) ) {
+		if ( ! FLBuilderAdmin::current_user_can_access_settings() ) {
 			return;
 		} elseif ( isset( $_POST['fl-cache-nonce'] ) && wp_verify_nonce( $_POST['fl-cache-nonce'], 'cache' ) ) {
 			if ( is_network_admin() ) {
@@ -584,7 +590,7 @@ final class FLBuilderAdminSettings {
 	 * @return void
 	 */
 	static private function debug() {
-		if ( ! current_user_can( 'delete_users' ) ) {
+		if ( ! FLBuilderAdmin::current_user_can_access_settings() ) {
 			return;
 		} elseif ( isset( $_POST['fl-debug-nonce'] ) && wp_verify_nonce( $_POST['fl-debug-nonce'], 'debug' ) ) {
 			$debugmode = get_option( 'fl_debug_mode', false );

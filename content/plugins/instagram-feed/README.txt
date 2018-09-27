@@ -3,7 +3,7 @@ Contributors: smashballoon, craig-at-smash-balloon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram widget, Instagram gallery
 Requires at least: 3.0
 Tested up to: 4.9
-Stable tag: 1.10
+Stable tag: 1.10.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -310,6 +310,10 @@ We understand that sometimes you need help, have issues or just have questions. 
 * Plus more customization options added all the time!
 
 == Changelog ==
+= 1.10.1 =
+* Tweak: Automatic image resolution detection setting now works better with wide images. Resizing the browser will now automatically raise the image resolution if needed.
+* Fix: Fixed an issue where the Load More button would disappear if all posts for a feed were cached.
+
 = 1.10 =
 * New: We've made improvements to the way photos are loaded into the feed, adding a smooth transition to display photos subtly rather than suddenly.
 * New: More header sizes; you can now choose from three sizes: small, medium, and large. Change this on the "Customize" tab.

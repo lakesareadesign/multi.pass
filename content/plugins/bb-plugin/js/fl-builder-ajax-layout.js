@@ -16,12 +16,17 @@
 
 		// Setup the new CSS vars if we have new CSS.
 		if ( this._data.css ) {
-			this._loader  = $('<img src="' + this._data.css + '" />');
-			this._oldCss  = $('link[href*="/cache/' + this._post + '-layout"]');
-			this._newCss  = $('<link rel="stylesheet" id="fl-builder-layout-' + this._post + '-css"  href="'+ this._data.css +'" />');
+			if ( 'inline' === FLBuilderConfig.enqueueMethod ) {
+				this._oldCss  = $('#fl-builder-layout-' + this._post + '-inline-css');
+				this._newCss  = $('<style id="fl-builder-layout-' + this._post + '-inline-css" type="text/css">'+ this._data.css +'</style>');
+			} else {
+				this._loader  = $('<img src="' + this._data.css + '" />');
+				this._oldCss  = $('link[href*="/cache/' + this._post + '-layout"]');
+				this._newCss  = $('<link rel="stylesheet" id="fl-builder-layout-' + this._post + '-css"  href="'+ this._data.css +'" />');
+			}
 		}
 
-		// Setup partial refresh vars.
+		// Setup partial or full JS refresh vars.
 		if ( this._data.partial ) {
 			if ( this._data.js ) {
 				this._oldJs = $('#fl-builder-partial-refresh-js');
@@ -31,17 +36,19 @@
 				if ( this._data.oldNodeId ) {
 					this._oldScriptsStyles 	= $( '.fl-builder-node-scripts-styles[data-node="' + this._data.oldNodeId + '"]' );
 					this._content 			= $( '.fl-node-' + this._data.oldNodeId );
-				}
-				else {
+				} else {
 					this._oldScriptsStyles 	= $( '.fl-builder-node-scripts-styles[data-node="' + this._data.nodeId + '"]' );
 					this._content 			= $( '.fl-node-' + this._data.nodeId ).eq(0);
 				}
 			}
-		}
-		// Setup full refresh vars.
-		else {
-			this._oldJs   			= $('script[src*="/cache/' + this._post + '"]');
-			this._newJs   			= $('<script src="'+ this._data.js +'"></script>');
+		} else {
+			if ( 'inline' === FLBuilderConfig.enqueueMethod ) {
+				this._oldJs = $('#fl-builder-layout-' + this._post + '-inline-js');
+				this._newJs = $('<script id="fl-builder-layout-' + this._post + '-inline-js">'+ this._data.js +'</script>');
+			} else {
+				this._oldJs = $('script[src*="/cache/' + this._post + '"]');
+				this._newJs = $('<script src="'+ this._data.js +'"></script>');
+			}
 			this._oldScriptsStyles 	= $( '.fl-builder-layout-scripts-styles' );
 			this._content 			= $( FLBuilder._contentClass );
 		}
@@ -200,17 +207,20 @@
 			this._body.height( this._body.height() );
 
 			// Load the new CSS.
-			if ( this._loader )  {
-
-				// Load CSS using modern methods or fallback to the old way.
-				if ( 'onload' in document.createElement( 'link' ) ) {
-					this._newCss.on( 'load', $.proxy( this._finish, this ) );
+			if ( this._data.css )  {
+				if ( 'inline' === FLBuilderConfig.enqueueMethod ) {
 					this._addNewCSS();
+					this._finish();
 				} else {
-					this._loader.on( 'error', $.proxy( this._loadNewCSSFallbackComplete, this ) );
-					this._body.append( this._loader );
+					// Load CSS stylesheet using modern methods or fallback to the old way.
+					if ( 'onload' in document.createElement( 'link' ) ) {
+						this._newCss.on( 'load', $.proxy( this._finish, this ) );
+						this._addNewCSS();
+					} else {
+						this._loader.on( 'error', $.proxy( this._loadNewCSSFallbackComplete, this ) );
+						this._body.append( this._loader );
+					}
 				}
-
 			} else {
 				// We don't have new CSS, finish the render.
 				this._finish();
@@ -354,7 +364,7 @@
 
 			// Remove elements that shouldn't be in data.html.
 			html.find( '> *, script' ).each( function() {
-				if ( ! $( this ).hasClass( nodeClass ) ) {
+				if ( ! $( this ).hasClass( nodeClass ) && 'application/json' != $( this ).attr( 'type' ) ) {
 					removed 	   = $( this ).remove();
 					scriptsStyles += removed[0].outerHTML;
 				}

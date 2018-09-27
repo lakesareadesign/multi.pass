@@ -7,6 +7,13 @@ jQuery(function($) {
 			closeBtnInside: false,
 			tLoading: '',
 			preloader: true,
+			image: {
+					titleSrc: function(item) {
+						<?php if ( 'below' == $settings->show_caption || 'hover' == $settings->show_caption ) : ?>
+							return $( item.el ).closest( '.fl-photo' ).find( '.fl-photo-caption' ).text();
+						<?php endif; ?>
+					}
+			},
 			callbacks: {
 				open: function() {
 					$('.mfp-preloader').html('<i class="fas fa-spinner fa-spin fa-3x fa-fw"></i>');

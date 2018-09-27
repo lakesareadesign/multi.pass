@@ -532,7 +532,7 @@ if ( ! class_exists( 'UltimateBrandingAdmin' ) ) {
 					}
 					ub_update_option( 'ultimate_branding_delete_settings', $value );
 				}
-				add_action( 'screen_settings', array( $this, 'screen_settings_output' ), 10, 2 );
+				// add_action( 'screen_settings', array( $this, 'screen_settings_output' ), 10, 2 );
 				add_filter( 'screen_options_show_submit', '__return_true' );
 			}
 		}

@@ -13,6 +13,9 @@ Hustle.define("SShare.Listing", function($, doc, win){
 			"change .social-sharing-toggle-activity": "toggle_module_activity",
 			"change .social-sharing-toggle-tracking-activity": "toggle_tracking_activity",
 			"change [name='wph-module-status']": "module_status_updated",
+			"click .module-duplicate": "duplicate",
+			'click .import-module-settings': 'import_settings',
+			"change #wph-optin-service-import-form input[type=file]": "toggle_notice",
 		},
 		delete_confirmations: {},
 		initialize: function(){
@@ -25,6 +28,32 @@ Hustle.define("SShare.Listing", function($, doc, win){
 				}
 			});
 			
+			var self = this,
+				$item = $('#wpmudev-hustle-content .wpmudev-row'),
+				totalItems = $item.length,
+				itemCount  = totalItems;
+			
+			$item.each(function() {
+
+				$(this).css('z-index', itemCount);
+				itemCount--;
+
+				var $dropdown = $(this).find('.wpmudev-dots-dropdown'),
+						$button = $dropdown.find('.wpmudev-dots-button'),
+						$droplist = $dropdown.find('.wpmudev-dots-nav');
+
+				$button.on('click', function(){
+						$(this).toggleClass('wpmudev-active');
+						$droplist.toggleClass('wpmudev-hide');
+						self.$('.wpmudev-dots-nav').not($droplist).each( function() {
+							if ( !$(this).hasClass('wpmudev-hide') ) {
+								$(this).toggleClass('wpmudev-hide');
+							}
+						});
+				});
+
+			});
+
 			this.upgrade_modal = new Upgrade_Modal();
 			if ( Module.Utils.get_url_param( 'requires_pro' ) ) {
 				this.show_upgrade_modal();
@@ -176,6 +205,40 @@ Hustle.define("SShare.Listing", function($, doc, win){
 			}
 
 		},
+		toggle_notice: function(e) {
+			//hide/show notice for selecting file
+			if ( $(e.target).val() ) {
+				$('#select_file_error').addClass('wpmudev-hidden');
+			} else {
+				$('#select_file_error').removeClass('wpmudev-hidden');
+			}
+		},
+		import_settings: function(e) {
+			//show import popup
+			e.preventDefault();
+			e.stopPropagation();
+
+			var $this = this.$(e.target),
+					id = $this.data("id"),
+					type = $this.data("type"),
+					name = $this.data("name"),
+					nonce = $this.data("nonce"),
+					Modal_Import = Hustle.get("Modal_Import");
+
+			// Get rid of old import.
+			if ( this.importShown ) {
+				this.importShown.remove();
+			}
+			// Render modal.
+			this.importShown = new Modal_Import({
+				model: {
+					id: id,
+					name: name,
+					nonce: nonce,
+					type: type
+				}
+			});
+		},
 		show_upgrade_modal: function(e) {
 			if ( typeof( e ) !== 'undefined' ) {
 				e.preventDefault();
@@ -210,6 +273,31 @@ Hustle.define("SShare.Listing", function($, doc, win){
 				// nothing for now
 			});
 		},
+
+		/**
+		 * Duplicate Social share
+		 *
+		 * @since 3.0.5
+		 */
+		duplicate: function(e){
+			var $this = $(e.target),
+			id = $this.data("id"),
+			nonce = $this.data("nonce"),
+			type = $this.data("type");
+			$.ajax({
+				url: ajaxurl,
+				type: "POST",
+				data: {
+					action: "hustle_social_share_duplicate",
+					id: id,
+					type: type,
+					_ajax_nonce: nonce
+				},
+				complete: function(){
+					location.reload();
+				}
+			});
+		}
 
 	});
 

@@ -332,7 +332,7 @@ FLBuilder::register_settings_form('row', array(
 							'preview'         => array(
 								'type'            => 'refresh',
 							),
-							'connections'   => array( 'custom_field' ),
+							'connections'   => array( 'photo' ),
 						),
 					),
 				),

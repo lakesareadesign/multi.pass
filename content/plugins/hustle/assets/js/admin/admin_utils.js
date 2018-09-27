@@ -58,6 +58,18 @@
 
 			return false;
 		},
+
+		service_supports_fields: function( save_local_list, active_email_service ) {
+			if ( '1' === String(save_local_list) ) {
+				return true;
+			} else if (
+				! _.isEmpty( active_email_service ) && 
+				typeof( optin_vars.providers[active_email_service] ) !== 'undefined'
+			) {
+				return optin_vars.providers[active_email_service].supports_fields;
+			}
+			return false;
+		},
 	}
 	
 	

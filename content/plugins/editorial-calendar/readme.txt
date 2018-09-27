@@ -2,8 +2,8 @@
 Contributors: cvernon, justinstresslimit, jkudish, MaryVogt, zgrossbart
 Tags: posts, post, calendar, AJAX, admin, administration
 Requires at least: 4.0
-Tested up to: 4.9.6
-Stable tag: 3.6.8
+Tested up to: 4.9.8
+Stable tag: 3.7.1
 
 The Editorial Calendar makes it possible to see all your posts and drag and drop them to manage your blog.
 
@@ -194,6 +194,16 @@ The `edcal_default_status` property controls the default status for new posts in
 7. Use the new unscheduled drafts section to manage drafts before you schedule them.
 
 == Changelog ==
+
+= 3.7.1 =
+
+We now have an option so you can choose if you want to scroll the calendar with the mouse wheel or not.
+
+= 3.7 =
+
+The calendar no longer responds to the mouse wheel.  We did some user testing and it was a better experience without having to worry about the mouse wheel.
+
+The current date range is now doing a better display job and not jumping around when the date changes.
 
 = 3.6.8 =
 

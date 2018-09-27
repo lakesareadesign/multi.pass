@@ -68,9 +68,11 @@ class Hustle_Module_Widget extends WP_Widget {
 			? Hustle_Module_Front::SSHARE_WIDGET_CSS_CLASS
 			: Hustle_Module_Front::WIDGET_CSS_CLASS;
 
+		//unique id for the same optins on one page
+		$unique_id = wp_rand();
 		?>
 
-		<div class="<?php echo esc_attr( $widget_css_class ); ?> module_id_<?php echo esc_attr( $instance['module_id'] ); ?>" data-type="widget" data-id="<?php echo esc_attr( $instance['module_id'] ); ?>"></div>
+		<div class="<?php echo esc_attr( $widget_css_class ); ?> module_id_<?php echo esc_attr( $instance['module_id'] ); ?>" data-type="widget" data-id="<?php echo esc_attr( $instance['module_id'] ); ?>" data-unique_id="<?php echo esc_attr( $unique_id ); ?>"></div>
 		<?php
 
 		echo $args['after_widget'];

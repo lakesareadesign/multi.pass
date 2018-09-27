@@ -193,6 +193,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 					}
 				)
 			;
+			data.unique_id = '';
 			// Append to preview after content updated.
 			me.$('#wph-preview-modal').append(template(data));
 			// Apply custom CSS and preview styles after content is appended.
@@ -847,14 +848,49 @@ Hustle.define("Embedded.View", function($, doc, win){
 			// custom css
 			this.design_view.update_custom_css();
 		},
+		provider_add_custom_fields: function(id, nonce, changed, me) {
+			var active_email_service = me.content_view.model.get('active_email_service');
+			if (
+				Module.Utils.service_supports_fields( 0, active_email_service ) !== true || 
+				(
+					! ('form_elements' in changed) && 
+					! ('email_services' in changed) &&
+					! ('active_email_service' in changed)
+				) 
+			) {
+				return;
+			}
+			if ( typeof me.content_view.model.get('form_elements') === 'object' ) {
+				var post_data = JSON.stringify(me.content_view.model.get('form_elements')),
+					module_id = id,
+					data = {
+						'action' : 'add_module_fields',
+						'_ajax_nonce'  : nonce,
+						'data'   : post_data,
+						'provider' : active_email_service,
+						'module_id' : module_id
+					};
+
+				$.post( ajaxurl, data, function( response ){
+
+				}).fail(function( response ) {
+					console.log('There was an error saving the custom fields.');
+				});
+			}
+		},
 		save: function($btn) {
 			if ( !Module.Validate.validate_module_name() ) return false;
 
+			var changed = this.content_view.model.changed;
+
+
 			this.set_content_from_tinymce(true);
 			this.sanitize_data();
-
+	
 			// preparing the data
 			var me = this,
+				id = ( !$btn.data('id') ) ? '-1' : $btn.data('id'),
+				nonce =  $btn.data('nonce'),
 				module = this.model.toJSON(),
 				content = this.content_view.model.toJSON(),
 				design = this.design_view.model.toJSON(),
@@ -866,8 +902,8 @@ Hustle.define("Embedded.View", function($, doc, win){
 				type: 'POST',
 				data: {
 					action: 'hustle_save_embedded_module',
-					_ajax_nonce: $btn.data('nonce'),
-					id: ( !$btn.data('id') ) ? '-1' : $btn.data('id'),
+					_ajax_nonce: nonce,
+					id: id,
 					module: module,
 					content: content,
 					design: design,
@@ -875,9 +911,27 @@ Hustle.define("Embedded.View", function($, doc, win){
 					shortcode_id: me._get_shortcode_id()
 				},
 				complete: function(resp) {
+					me.provider_add_custom_fields(id, nonce, changed, me);
 					var response = resp.responseJSON;
 				}
 			});
+		},
+		//show error message if ajax isn't a success
+		show_error: function(resp) {
+			$( '<label><span>' + resp.data + '</span></label>' ).prop({
+				class: "wpmudev-label--notice",
+				id: "wpmudev-hustle-error-message"
+			})
+			.insertAfter( $('.wpmudev-box-footer') );
+			$('#wpmudev-hustle-error-message').delay(5000).fadeOut("slow", function() {
+				$(this).remove();
+			});
+			return this;
+		},
+		//remove loading icon
+		remove_loading_icon: function(me) {
+			me.$('.wpmudev-button-save, .wpmudev-button-continue').removeClass('wpmudev-button-onload').prop('disabled', false);
+			return this;
 		},
 		save_changes: function(e) {
 			e.preventDefault();
@@ -886,6 +940,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 
 			me.$('.wpmudev-button-save, .wpmudev-button-continue').addClass('wpmudev-button-onload').prop('disabled', true);
 			var save = this.save($btn);
+			var obj = this;
 
 			if ( save ) {
 				save.done( function(resp) {
@@ -915,11 +970,11 @@ Hustle.define("Embedded.View", function($, doc, win){
 						obj.show_error(resp);
 					}
 				} ).always( function() {
-					me.$('.wpmudev-button-save, .wpmudev-button-continue').removeClass('wpmudev-button-onload').prop('disabled', false);
+					obj.remove_loading_icon(me);
 				});
 			} else {
 				// If saving did not work, remove loading icon.
-				me.$('.wpmudev-button-save, .wpmudev-button-continue').removeClass('wpmudev-button-onload').prop('disabled', false);
+				this.remove_loading_icon(me);
 			}
 		},
 		save_continue: function(e) {
@@ -929,6 +984,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 			me.$('.wpmudev-button-save, .wpmudev-button-continue').addClass('wpmudev-button-onload').prop('disabled', true);
 
 			var save = this.save($(e.currentTarget));
+			var obj = this;
 
 			if ( save ) {
 				save.done( function(resp) {
@@ -953,11 +1009,13 @@ Hustle.define("Embedded.View", function($, doc, win){
 							target_link += '&id=' + module_id;
 						}
 						return window.location.replace(target_link);
+					} else {
+						obj.show_error(resp).remove_loading_icon(me);
 					}
 				} );
 			} else {
 				// If saving did not work, remove loading icon.
-				me.$('.wpmudev-button-save, .wpmudev-button-continue').removeClass('wpmudev-button-onload').prop('disabled', false);
+				this.remove_loading_icon(me);
 			}
 
 		},
@@ -969,6 +1027,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 
 			this.model.set( 'active', 1, { silent:true } );
 			var save = this.save($(e.currentTarget));
+			var obj = this;
 
 			if ( save ) {
 				save.done( function(resp) {
@@ -976,10 +1035,12 @@ Hustle.define("Embedded.View", function($, doc, win){
 						var module_id = resp.data;
 						window.onbeforeunload = null;
 						return window.location.replace( '?page=' + optin_vars.current.listing_page + '&module=' + module_id );
+					} else {
+						obj.show_error(resp).remove_loading_icon(me);
 					}
 				} );
 			} else {
-				me.$('.wpmudev-button-save, .wpmudev-button-continue').removeClass('wpmudev-button-onload').prop('disabed', false);
+				this.remove_loading_icon(me);
 			}
 
 		},
@@ -1096,6 +1157,20 @@ Hustle.define("Embedded.View", function($, doc, win){
 				var $target_div = this.$('#wph-wizard-content-form_success_options');
 				if ( $target_div.length ) {
 					if ( changed['auto_close_success_message'] ) {
+						$target_div.addClass('wpmudev-show');
+						$target_div.removeClass('wpmudev-hidden');
+					} else {
+						$target_div.addClass('wpmudev-hidden');
+						$target_div.removeClass('wpmudev-show');
+					}
+				}
+			}
+
+			// save_local_list
+			if ( 'save_local_list' in changed ) {
+				var $target_div = this.$('#wph-wizard-content-local_list_name');
+				if ( $target_div.length ) {
+					if ( changed['save_local_list'] ) {
 						$target_div.addClass('wpmudev-show');
 						$target_div.removeClass('wpmudev-hidden');
 					} else {

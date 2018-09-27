@@ -123,6 +123,20 @@
 			
 			this.html = this.$el.html();
 			this.log_view(this.module_display_type, this.opts);
+			this.update_network_shares();
+		},
+		update_network_shares: function() {
+			_.delay(function() {
+				$.ajax({
+					type: "POST",
+					url: inc_opt.ajaxurl,
+					dataType: "json",
+					data: {
+						action: 'update_network_shares',
+						page_id: inc_opt.page_id,
+					},
+				});
+			}, 5000);
 		},
 		_handle_icons_order: function() {
 			var reordered = {},

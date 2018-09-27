@@ -15,5 +15,5 @@
 
 <ul class="ul-disc">
 	<li><?php _e( 'See help tab at the top right corner of this page for more information.', 'shortcodes-ultimate' ); ?></li>
-	<li><?php printf( __( 'Open %s file to see default styles.', 'shortcodes-ultimate' ), '<a href="' . $this->plugin_url . 'public/css/shortcodes.css" target="_blank">shortcodes.css</a>' ); ?></li>
+	<li><?php printf( __( 'Open %s file to see default styles.', 'shortcodes-ultimate' ), '<a href="' . $this->plugin_url . 'includes/css/shortcodes.css" target="_blank">shortcodes.css</a>' ); ?></li>
 </ul>

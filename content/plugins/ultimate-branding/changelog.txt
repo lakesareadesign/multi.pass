@@ -4,6 +4,10 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log:
 ----------------------------------------------------------------------
 
+DATE: 20 September, 2018  - VERSION: 2.2.1
+==================================
+- It was disabled delete plugin settings during deactivate or delete.
+
 DATE: 05 September, 2018  - VERSION: 2.2.0
 ==================================
 - Added ability to preserve plugin settings on uninstall.
@@ -553,4 +557,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 
 
 
-133620-1536712542-au
+133620-1538021326-au

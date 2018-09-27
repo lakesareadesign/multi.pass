@@ -10,6 +10,7 @@
 				var $this = $(this),
 					id = $this.data('id'),
 					type = $this.data('type'),
+					unique_id = $this.data('unique_id'),
 					is_admin = hustle_vars.is_admin === '1';
 				
 				if( !id ) return;
@@ -36,28 +37,47 @@
 						module.settings[ type + '_enabled' ] = 'true';
 					}
 				}
-				
-				
+
+
 				if ( !_.isTrue( module.settings[ type + '_enabled' ] ) ) return;
-				
-				// sanitize cta_url 
+
+				//check if user is already subscribed
+				var display = true;
+				var cookie_key = Optin.EMBEDDED_COOKIE_PREFIX + id + '_success';
+
+				if ( 'no_show_on_post' === module.content.after_subscription ) {
+					if ( parseInt( inc_opt.page_id, 10 ) > 0 ) {
+						display = !_.isTrue( Optin.cookie.get( cookie_key + '_' + inc_opt.page_id ) );
+					} else {
+						display = true;
+					}
+				} else if ( 'no_show_all' === module.content.after_subscription ) {
+					display = !_.isTrue( Optin.cookie.get( cookie_key ) );
+				}
+				if ( ! display ) return;
+
+				// sanitize cta_url
 				if ( module.content.cta_url ) {
 					if (!/^(f|ht)tps?:\/\//i.test(module.content.cta_url)) {
 						module.content.cta_url = "http://" + module.content.cta_url;
 					}
 				}
-				
+				if ( typeof unique_id === 'undefined' )
+					unique_id = '';
+
+				module.unique_id = unique_id;
+
 				var template = ( parseInt(module.content.use_email_collection, 10) )
 					? Optin.template("wpmudev-hustle-modal-with-optin-tpl")
 					: Optin.template("wpmudev-hustle-modal-without-optin-tpl");
-				
+
 				$this.html( template(module) );
 
 				// supply with provider args
-				if ( typeof module.content.args !== 'undefined' && typeof module.content.active_email_service !== 'undefined' ) {
-					var provider_template = Optin.template( 'optin-'+ module.content.active_email_service +'-args-tpl' ),
+				if ( typeof module.content.args !== 'undefined' && module.content.args !== null && typeof module.content.active_email_service !== 'undefined' ) {
+					var provider_template = Optin.template( 'optin-'+ module.content.active_email_service + '-' + module.module_id + '-args-tpl' ),
 						provider_content = provider_template( module.content.args),
-						$target_provider_container = $('.hustle-modal-provider-args-container');
+						$target_provider_container = $('.module_id_' + module.module_id + ' .hustle-modal-provider-args-container');
 						
 					if ( $target_provider_container.length ) {
 						$target_provider_container.html(provider_content);

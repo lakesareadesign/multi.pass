@@ -89,6 +89,11 @@ var edcal = {
        This is a preference value indicating if you see the post time
      */
     timePref: true,
+	
+	/*
+	   This is a preference value indiciating if we should scroll the calendar with mouse wheel scrolls
+	*/
+	wheelScrollPref: true,
 
     /*
        This is a preference value indicating if we should prompt for feeback
@@ -223,6 +228,23 @@ var edcal = {
        This variable indicates if the drafts drawer is visible or not.
     */
     isDraftsDrawerVisible: false,
+	
+	enableMouseWheel: function() {
+		if (edcal.wheelScrollPref) {
+	        jQuery('#edcal_scrollable').bind('mousewheel', function(event, delta) {
+	            var dir = delta > 0 ? false : true, vel = Math.abs(delta);
+	            //edcal.output(dir + ' at a velocity of ' + vel);
+
+	            if (!edcal.isMoving && vel > 0.2) {
+	                edcal.move(1, dir);
+	            }
+            
+	            return false;
+	        });
+		} else {
+			jQuery('#edcal_scrollable').unbind('mousewheel');
+		}
+	},
 
     /*
      * Initializes the calendar
@@ -292,17 +314,6 @@ var edcal = {
 
         edcal.moveTo(curDate.clone());
         
-        jQuery('#edcal_scrollable').bind('mousewheel', function(event, delta) {
-            var dir = delta > 0 ? false : true, vel = Math.abs(delta);
-            edcal.output(dir + ' at a velocity of ' + vel);
-
-            if (!edcal.isMoving && vel > 0.2) {
-                edcal.move(1, dir);
-            }
-            
-            return false;
-        });
-        
         /*
            We are handling all of our own events so we just cancel all events from
            the scrollable.
@@ -310,6 +321,8 @@ var edcal = {
         api.onBeforeSeek(function(evt, direction) {
             return false;
         });
+		
+		edcal.enableMouseWheel();
 
         /*
          * We also want to listen for a few other key events
@@ -2434,7 +2447,7 @@ var edcal = {
              /*
               * Set up the visible fields option
               */
-             var optionsHtml = '<div class="metabox-prefs" id="calendar-fields-prefs">' +
+             var optionsHtml = '<div class="metabox-prefs calendar-fields-prefs">' +
                                 '<h5>' + edcal.str_show_opts + '</h5>' +
                                 '<label for="author-hide">' +
                                     '<input type="checkbox" ' + edcal.isPrefChecked(edcal.authorPref) + 'value="true" id="author-hide" ' +
@@ -2448,7 +2461,14 @@ var edcal = {
                                     '<input type="checkbox" ' + edcal.isPrefChecked(edcal.timePref) + 'value="true" id="time-hide" ' +
                                            'name="time-hide" class="hide-column-tog" />' + edcal.str_opt_time +
                                 '</label>' +
-                            '</div>';
+                            '</div>' +
+							'<div class="metabox-prefs calendar-fields-prefs">' +
+                                '<h5>' + edcal.str_show_wheel_opts + '</h5>' +
+	                            '<label for="wheel-support">' +
+	                                '<input type="checkbox" ' + edcal.isPrefChecked(edcal.wheelScrollPref) + 'value="true" id="wheel-support" ' +
+	                                       'name="wheel-support" class="hide-column-tog" />' + edcal.str_opt_wheel +
+								'</label>' + 
+			 				'</div>';
 
              /*
               * Set up the number of posts option
@@ -2564,11 +2584,13 @@ var edcal = {
              humanMsg.displayMsg(edcal.str_weekserror);
              return;
          }
+		 
+		 edcal.enableMouseWheel();
 
          var url = edcal.ajax_url() + '&action=edcal_saveoptions&weeks=' +
              encodeURIComponent(jQuery('#edcal_weeks_pref').val());
 
-         jQuery('#calendar-fields-prefs').find('input, textarea, select').each(function() {
+         jQuery('div.calendar-fields-prefs').find('input, textarea, select').each(function() {
              url += '&' + encodeURIComponent(this.name) + '=' + encodeURIComponent(this.checked);
          });
 

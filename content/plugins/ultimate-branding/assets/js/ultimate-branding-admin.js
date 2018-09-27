@@ -1,4 +1,4 @@
-/*! Ultimate Branding - v2.2.0
+/*! Ultimate Branding - v2.2.1
  * https://premium.wpmudev.org/project/ultimate-branding/
  * Copyright (c) 2018; * Licensed GPLv2+ */
 /* global window, jQuery, ace */

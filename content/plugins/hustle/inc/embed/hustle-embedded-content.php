@@ -18,6 +18,7 @@ class Hustle_Embedded_Content extends Hustle_Meta {
 		'cta_target' => 'blank',
 		'use_email_collection' => 0,
 		'save_local_list' => 0,
+		'local_list_name' => '',
 		'active_email_service' => '',
 		'email_services' => '',
 		'form_elements' => '',

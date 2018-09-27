@@ -74,6 +74,26 @@ final class FLBuilderAdmin {
 	}
 
 	/**
+	 * Restrict builder settings accessibility based on the defined capability.
+	 *
+	 * @since 2.0.6
+	 * @return void
+	 */
+	static public function current_user_can_access_settings() {
+		return current_user_can( self::admin_settings_capability() );
+	}
+
+	/**
+	 * Define capability.
+	 *
+	 * @since 2.0.6
+	 * @return string
+	 */
+	static public function admin_settings_capability() {
+		return apply_filters( 'fl_builder_admin_settings_capability', 'manage_options' );
+	}
+
+	/**
 	 * Show a message if there is an activation error and
 	 * deactivates the plugin.
 	 *
@@ -113,7 +133,7 @@ final class FLBuilderAdmin {
 	 * @return void
 	 */
 	static public function trigger_activate_notice() {
-		if ( current_user_can( 'delete_users' ) ) {
+		if ( self::current_user_can_access_settings() ) {
 			set_transient( '_fl_builder_activation_admin_notice', true, 30 );
 		}
 	}

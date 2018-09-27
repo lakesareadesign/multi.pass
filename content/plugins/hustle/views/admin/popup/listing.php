@@ -226,6 +226,27 @@
 														<li><a href="#" class="button-view-log-list" data-total="<?php echo esc_attr( $log_count ); ?>" data-id="<?php echo esc_attr( $module->id ); ?>" data-name="<?php echo esc_attr( $module->module_name ); ?>" ><?php esc_attr_e( "View error log", Opt_In::TEXT_DOMAIN ); ?></a></li>
 													<?php endif; ?>
 														<li><a href="#" class="module-toggle-tracking-activity" data-id="<?php echo esc_attr( $module->id ); ?>" data-type="<?php echo esc_attr( $module->module_type ); ?>" <?php checked( $module->is_track_type_active( $module->module_type ), true); ?> data-nonce="<?php echo esc_attr( wp_create_nonce('popup_toggle_tracking_activity') ); ?>" data-current="<?php echo esc_attr( $module->is_track_type_active( $module->module_type ) ); ?>" ><?php ( $module->is_track_type_active( $module->module_type ) ) ? esc_attr_e( "Disable tracking", Opt_In::TEXT_DOMAIN ) : esc_attr_e( "Enable tracking", Opt_In::TEXT_DOMAIN ); ?></a></li>
+														<li><a href="#" class="module-duplicate" data-id="<?php echo esc_attr( $module->id ); ?>" data-type="<?php echo esc_attr( $module->module_type ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce('duplicate_popup') ); ?>" ><?php esc_attr_e( "Duplicate", Opt_In::TEXT_DOMAIN ); ?></a></li>
+														<?php
+															/**
+															 * single optin export
+															 */
+															$action = Opt_In::EXPORT_MODULE_ACTION;
+															$nonce = wp_create_nonce( $action );
+															$url = add_query_arg(
+																array(
+																	'page' => Hustle_Module_Admin::POPUP_LISTING_PAGE,
+																	'action' => $action,
+																	'id' => $module->id,
+																	'type' => $module->module_type,
+																	Opt_In::EXPORT_MODULE_ACTION => $nonce,
+																),
+																admin_url( 'admin.php' )
+															);
+															$url = wp_nonce_url( $url, $action, $nonce );
+														?>
+														<li><a href="<?php echo esc_url( $url ); ?>"><?php esc_attr_e( "Export module settings", Opt_In::TEXT_DOMAIN ); ?></a></li>
+														<li><a href="#" class="import-module-settings" data-id="<?php echo esc_attr( $module->id ); ?>" data-name="<?php echo esc_attr( $module->module_name ); ?>" data-type="<?php echo esc_attr( $module->module_type ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce('import_settings' . $module->id ) ); ?>"><?php esc_attr_e( "Import module settings", Opt_In::TEXT_DOMAIN ); ?></a></li>
 													<li><a href="#" class="hustle-delete-module" data-nonce="<?php echo esc_attr( wp_create_nonce('hustle_delete_module') ); ?>" data-id="<?php echo esc_attr( $module->id ); ?>" ><?php esc_attr_e( "Delete Pop-Up", Opt_In::TEXT_DOMAIN ); ?></a></li>
 
 												</ul>
@@ -255,6 +276,8 @@
 		<?php $this->render("admin/commons/listing/modal-error"); ?>
 
 		<?php $this->render("admin/commons/listing/modal-email"); ?>
+
+		<?php $this->render("admin/commons/listing/modal-import"); ?>
 
 		<?php $this->render("admin/commons/listing/delete-confirmation"); ?>
 

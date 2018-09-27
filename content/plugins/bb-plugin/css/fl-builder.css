@@ -3646,9 +3646,20 @@ body .fl-lightbox-has-tab-overflow .fl-builder-settings-tabs-more {
 .wp-core-ui h3,
 .wp-core-ui h4,
 .wp-core-ui h5,
-.wp-core-ui h6 {
+.wp-core-ui h6,
+.wp-core-ui p {
 	color: #333;
+	font-family: inherit;
 }
+
+.wp-core-ui #media-attachment-date-filters {
+	width: 275px;
+}
+
+.wp-core-ui input[type=search]::placeholder{
+	color:#333;
+}
+
 .wp-core-ui .submitbox .submitdelete {
 	color: #a00;
 }
@@ -3840,6 +3851,12 @@ i.fl-field-responsive-toggle:hover {
 	padding: 0;
 	border: none;
 	border-radius: 0;
+}
+.fl-builder-edit .media-modal-content .attachment-preview .thumbnail {
+	margin-bottom: 0;
+}
+.fl-builder-edit .media-modal-content .attachment-preview .thumbnail img {
+	max-width: none;
 }
 .fl-builder-edit button.media-modal-close {
 	position: absolute;

@@ -491,7 +491,9 @@ class MailChimp
 		$results = $this->get(
 			'lists/' . $list_id . '/interest-categories',
 		 	array(
-				'fields' => 'categories.id,categories.title,total_items'
+				'fields' => 'categories.id,categories.title,total_items',
+				'count'  => 50,
+				'offset' => 0,
 			)
 		);
 
@@ -500,7 +502,9 @@ class MailChimp
 				$subgroups = $this->get(
 					'lists/' . $list_id . '/interest-categories/' . $category[ 'id' ] . '/interests',
 				 	array(
-						'fields' => 'interests.id,interests.name,total_items'
+						'fields' => 'interests.id,interests.name,total_items',
+						'count'  => 50,
+						'offset' => 0,
 					)
 				);
 

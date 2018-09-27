@@ -857,6 +857,11 @@ var FLBuilderColorPicker;
 		 * @since  1.6.4
 		 */
 		_addPreset: function( preset ){
+
+			if( ! this._CheckValidColor( preset ) ) {
+				alert( this.options.labels.noneColorSelected );
+				return false;
+			}
 			var color = preset.toString().replace( /^#/, '' );
 
 			// check if color is empty
@@ -877,6 +882,32 @@ var FLBuilderColorPicker;
 				// CALLBACK FOR COLOR ADDED
 				$(this).trigger( 'presetAdded', { presets: FLBuilderColorPresets } );
 			}
+		},
+
+		/**
+		 * Validates a color string, supports all types.
+		 * If not hex, rgba? or hsl then return false.
+		 * @return {Boolean}
+		 */
+		_CheckValidColor: function(color) {
+
+			// first check we are valid.
+			if( ! color.match( /^#/ ) && ! color.match( /^rgb/ ) && ! color.match( /^hsl/ ) ) {
+				return false;
+			}
+
+			var e = document.getElementById( 'divValidColor' );
+			if ( !e ) {
+				e = document.createElement( 'div' );
+				e.id = 'divValidColor';
+			}
+			e.style.borderColor = '';
+			e.style.borderColor = color;
+			var tmpcolor = e.style.borderColor;
+			if ( tmpcolor.length == 0 ) {
+				return false;
+			}
+			return true;
 		},
 
 		/**

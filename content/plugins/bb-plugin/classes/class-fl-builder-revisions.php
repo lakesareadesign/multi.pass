@@ -48,14 +48,22 @@ final class FLBuilderRevisions {
 			'authors' 	 => array(),
 		);
 
+		$current_data = serialize( get_post_meta( $post_id, '_fl_builder_data', true ) );
+
 		if ( count( $revisions ) > 1 ) {
 
 			foreach ( $revisions as $revision ) {
+
+				$revision_data = serialize( get_post_meta( $revision->ID, '_fl_builder_data', true ) );
 
 				if ( ! current_user_can( 'read_post', $revision->ID ) ) {
 					continue;
 				}
 				if ( wp_is_post_autosave( $revision ) ) {
+					continue;
+				}
+
+				if ( $revision_data == $current_data ) {
 					continue;
 				}
 

@@ -99,17 +99,33 @@
 
 		// Check if module should display.
 		should_display: function() {
+			var display;
 			if ( this.settings.after_close === 'no_show_on_post' ) {
 				if ( parseInt( inc_opt.page_id, 10 ) > 0 ) {
-					return !_.isTrue( Optin.cookie.get( this.cookie_key + '_' + inc_opt.page_id ) );
+					display = !_.isTrue( Optin.cookie.get( this.cookie_key + '_' + inc_opt.page_id ) );
 				} else {
-					return true;
+					display = true;
 				}
 			} else if ( this.settings.after_close === 'no_show_all' ) {
-				return !_.isTrue( Optin.cookie.get( this.cookie_key ) );
+				display = !_.isTrue( Optin.cookie.get( this.cookie_key ) );
 			} else {
-				return true;
+				display = true;
 			}
+			if ( !display ) {
+				return display;
+			}
+			//check if user is already subscribed
+			if ( 'no_show_on_post' === this.data.content.after_subscription ) {
+				if ( parseInt( inc_opt.page_id, 10 ) > 0 ) {
+					display = !_.isTrue( Optin.cookie.get( this.cookie_key + '_success_' + inc_opt.page_id ) );
+				} else {
+					display = true;
+				}
+			} else if ( 'no_show_all' === this.data.content.after_subscription ) {
+				display = !_.isTrue( Optin.cookie.get( this.cookie_key + '_success' ) );
+			}
+
+			return display;
 		},
 
 		get_expiration_days: function() {
@@ -136,6 +152,9 @@
 
 		render: function() {
 
+			if ( 'undefined' === typeof( this.data.unique_id ) ) {
+				this.data.unique_id = '';
+			}
 			var template = ( parseInt(this.data.content.use_email_collection, 10) )
 				? Optin.template("wpmudev-hustle-modal-with-optin-tpl")
 				: Optin.template("wpmudev-hustle-modal-without-optin-tpl");
@@ -146,8 +165,8 @@
 			this.$el.html( html );
 
 			// supply with provider args
-			if ( typeof this.data.content.args !== 'undefined' && typeof this.data.content.active_email_service !== 'undefined' ) {
-				var provider_template = Optin.template( 'optin-'+ this.data.content.active_email_service +'-args-tpl' ),
+			if ( typeof this.data.content.args !== 'undefined' && this.data.content.args !== null && typeof this.data.content.active_email_service !== 'undefined' ) {
+				var provider_template = Optin.template( 'optin-'+ this.data.content.active_email_service + '-' + this.module_id + '-args-tpl' ),
 					provider_content = provider_template(this.data.content.args),
 					$target_provider_container = this.$('.hustle-modal-provider-args-container');
 

@@ -77,10 +77,9 @@ class Opt_In_Front_Ajax {
         $provider = false;
         if( $optin->optin_provider ){
 
-            $provider = Opt_In::get_provider_by_id( $optin->optin_provider );
-            $provider = Opt_In::provider_instance( $provider );
+            $provider = Opt_In_Utils::get_provider_by_slug( $optin->optin_provider );
 
-            if( !is_subclass_of( $provider, "Opt_In_Provider_Abstract") && !$test_mode )
+            if( !is_subclass_of( $provider, "Hustle_Provider_Abstract") && !$test_mode )
                wp_send_json_error( __("Invalid provider", Opt_In::TEXT_DOMAIN) );
 
         } else if ( $local_save ) {

@@ -185,10 +185,13 @@ final class FLBuilderModel {
 		add_action( 'save_post',                                        __CLASS__ . '::save_revision' );
 		add_action( 'save_post',                                        __CLASS__ . '::set_node_template_default_type', 10, 3 );
 		add_action( 'wp_restore_post_revision',                         __CLASS__ . '::restore_revision', 10, 2 );
+		add_action( 'fl_builder_after_save_layout',                     __CLASS__ . '::save_layout_revision' );
+		add_action( 'fl_builder_after_save_user_template',              __CLASS__ . '::save_layout_revision' );
 
 		/* Filters */
 		add_filter( 'heartbeat_received',                               __CLASS__ . '::lock_post', 10, 2 );
-		add_filter( 'fl_builder_register_settings_form', 				__CLASS__ . '::filter_row_settings_for_resize', 10, 2 );
+		add_filter( 'fl_builder_register_settings_form',                __CLASS__ . '::filter_row_settings_for_resize', 10, 2 );
+		add_filter( 'wp_revisions_to_keep',                             __CLASS__ . '::limit_revisions', 10, 2 );
 
 		/* Core Templates */
 		self::register_core_templates();
@@ -793,6 +796,19 @@ final class FLBuilderModel {
 	}
 
 	/**
+	 * Returns the method used to enqueue layout css and js assets.
+	 * Possible values are 'file' and 'inline'. By default, the file
+	 * method is used. Return true for the fl_builder_render_assets_inline
+	 * filter to enable inline enqueuing.
+	 *
+	 * @since 2.1.5
+	 * @return string
+	 */
+	static public function get_asset_enqueue_method() {
+		return apply_filters( 'fl_builder_render_assets_inline', false ) ? 'inline' : 'file';
+	}
+
+	/**
 	 * Deletes either the preview, draft or live CSS and/or JS asset cache
 	 * for the current post based on the data returned from get_asset_info.
 	 * Both the CSS and JS asset cache will be delete if a type is not specified.
@@ -802,6 +818,11 @@ final class FLBuilderModel {
 	 * @return void
 	 */
 	static public function delete_asset_cache( $type = false ) {
+
+		if ( 'inline' === FLBuilderModel::get_asset_enqueue_method() ) {
+			return false;
+		}
+
 		$info  = self::get_asset_info();
 		$types = $type ? array( $type ) : array( 'css', 'css_partial', 'js', 'js_partial' );
 
@@ -826,7 +847,7 @@ final class FLBuilderModel {
 		$post_id   = $post_id ? $post_id : self::get_post_id();
 		$cache_dir = self::get_cache_dir();
 
-		if ( $post_id ) {
+		if ( $post_id && 'file' === FLBuilderModel::get_asset_enqueue_method() ) {
 
 			$paths = array(
 				$cache_dir['path'] . $post_id . '-layout.css',
@@ -2655,6 +2676,7 @@ final class FLBuilderModel {
 	 */
 	static public function load_modules() {
 		$paths = glob( FL_BUILDER_DIR . 'modules/*' );
+		$paths = apply_filters( 'fl_builder_load_modules_paths', $paths );
 		$module_path = '';
 
 		// Make sure we have an array.
@@ -3701,7 +3723,7 @@ final class FLBuilderModel {
 
 			$default           = isset( $field['default'] ) ? $field['default'] : '';
 			$is_multiple       = isset( $field['multiple'] ) && true === $field['multiple'];
-			$supports_multiple = 'editor' != $field['type'] && 'photo' != $field['type'];
+			$supports_multiple = 'editor' != $field['type'] && 'service' != $field['type'];
 			$responsive        = isset( $field['responsive'] ) && $field['responsive'] ? $field['responsive'] : false;
 			$responsive_name   = '';
 
@@ -4016,7 +4038,9 @@ final class FLBuilderModel {
 
 		// Update template ID and template node ID
 		$template_id = get_post_meta( $new_post_id, '_fl_builder_template_id', true );
-		if ( $template_id ) {
+		$global = get_post_meta( $post_id, '_fl_builder_template_global', true );
+
+		if ( $template_id && $global ) {
 			foreach ( $data as $node_id => $node ) {
 				$data[ $node_id ]->template_id = $template_id;
 				$data[ $node_id ]->template_node_id = $node_id;
@@ -4060,6 +4084,7 @@ final class FLBuilderModel {
 	 * @return void
 	 */
 	static public function save_revision( $post_id ) {
+
 		$parent_id = wp_is_post_revision( $post_id );
 
 		if ( $parent_id ) {
@@ -4073,6 +4098,46 @@ final class FLBuilderModel {
 				self::update_layout_settings( $settings, 'published', $post_id );
 			}
 		}
+	}
+
+	/**
+	 * Limit the amount of revisions possible for fl-builder-template type.
+	 * @since 2.1.5
+	 */
+	static public function limit_revisions( $num, $post ) {
+
+		if ( 'fl-builder-template' == $post->post_type ) {
+			/**
+			 * Limit the ammount of revisions for the fl-builder-template type.
+			 * @see fl_builder_template_revisions
+			 */
+			$num = apply_filters( 'fl_builder_template_revisions', 25 );
+		}
+		return $num;
+	}
+
+	/**
+	 * Maybe save a post revision when templates/rows etc are published.
+	 * @since 2.1.5
+	 */
+	static public function save_layout_revision( $post_id ) {
+		add_filter( 'wp_save_post_revision_post_has_changed',    array( __CLASS__, 'save_layout_revision_changed_filter' ), 10, 3 );
+		wp_save_post_revision( $post_id );
+		remove_filter( 'wp_save_post_revision_post_has_changed', array( __CLASS__, 'save_layout_revision_changed_filter' ), 10, 3 );
+	}
+
+	/**
+	 * Filter save_layout_revision_changed_filter return true here if the builder data has $post_has_changed
+	 * this forces a post revision.
+	 * @since 2.1.5
+	 */
+	static public function save_layout_revision_changed_filter( $post_has_changed, $last_revision, $post ) {
+
+		// get builder data for compare
+		$old = serialize( get_post_meta( $last_revision->ID, '_fl_builder_data', true ) );
+		$new = serialize( get_post_meta( $post->ID,          '_fl_builder_data', true ) );
+
+		return $old != $new;
 	}
 
 	/**

@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the SmartCrawl package.
 msgid ""
 msgstr ""
-"Project-Id-Version: SmartCrawl 2.2.2.1\n"
+"Project-Id-Version: SmartCrawl 2.2.2.5\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpmu-dev-seo\n"
-"POT-Creation-Date: 2018-08-20 15:23:24+00:00\n"
+"POT-Creation-Date: 2018-09-26 20:23:56+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -3926,32 +3926,26 @@ msgstr ""
 msgid "Readability:"
 msgstr ""
 
-#: includes/core/class-wds-controller-cron-free.php:221
 #: includes/core/class-wds-controller-cron.php:387
 msgid "Daily"
 msgstr ""
 
-#: includes/core/class-wds-controller-cron-free.php:222
 #: includes/core/class-wds-controller-cron.php:388
 msgid "Weekly"
 msgstr ""
 
-#: includes/core/class-wds-controller-cron-free.php:223
 #: includes/core/class-wds-controller-cron.php:389
 msgid "Monthly"
 msgstr ""
 
-#: includes/core/class-wds-controller-cron-free.php:368
 #: includes/core/class-wds-controller-cron.php:590
 msgid "SmartCrawl Daily"
 msgstr ""
 
-#: includes/core/class-wds-controller-cron-free.php:375
 #: includes/core/class-wds-controller-cron.php:597
 msgid "SmartCrawl Weekly"
 msgstr ""
 
-#: includes/core/class-wds-controller-cron-free.php:382
 #: includes/core/class-wds-controller-cron.php:604
 msgid "SmartCrawl Monthly"
 msgstr ""
@@ -4105,13 +4099,11 @@ msgstr ""
 msgid "Your request timed out"
 msgstr ""
 
-#: includes/core/service/class-wds-seo-service-free.php:189
 #: includes/core/service/class-wds-seo-service.php:318
 #: includes/core/service/class-wds-uptime-service.php:74
 msgid "Unspecified error"
 msgstr ""
 
-#: includes/core/service/class-wds-seo-service-free.php:201
 #: includes/core/service/class-wds-seo-service.php:330
 #: includes/core/service/class-wds-uptime-service.php:88
 msgid "Manage"

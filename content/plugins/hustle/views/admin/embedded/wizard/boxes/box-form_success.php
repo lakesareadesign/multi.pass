@@ -41,6 +41,19 @@
 
         </div>
 
+		<br>
+
+		<div id="wph-wizard-content-after_subscription_options">
+
+			<label><?php esc_attr_e( "After Hustle's form is submitted and opening this page again", Opt_In::TEXT_DOMAIN ); ?></label>
+			<select class="wpmudev-select" data-attribute="after_subscription" >
+				<option value="keep_show" {{ ( 'keep_show' === after_subscription ) ? 'selected' : '' }} ><?php esc_attr_e( "Keep showing this message", Opt_In::TEXT_DOMAIN ); ?></option>
+				<option value="no_show_on_post" {{ ( 'no_show_on_post' === after_subscription ) ? 'selected' : '' }} ><?php esc_attr_e( "No longer show this message on this post / page", Opt_In::TEXT_DOMAIN ); ?></option>
+				<option value="no_show_all" {{ ( 'no_show_all' === after_subscription ) ? 'selected' : '' }} ><?php esc_attr_e( "No longer show this message across the site", Opt_In::TEXT_DOMAIN ); ?></option>
+			</select>
+
+		</div>
+
 	</div>
 
 </div><?php // #wph-wizard-content-form_success ?>

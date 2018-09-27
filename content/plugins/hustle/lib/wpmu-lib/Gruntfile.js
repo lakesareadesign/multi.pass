@@ -21,7 +21,7 @@ module.exports = function( grunt ) {
 			'css/wpmu-card-list.3.css':   'css/sass/wpmu-card-list.scss',
 			'css/wpmu-html.3.css':        'css/sass/wpmu-html.scss',
 			'css/select2.3.css':          'css/sass/select2/select2.scss',
-			'css/fontawesome.3.css':      'css/sass/font-awesome/font-awesome.scss',
+			'css/fontawesome.3.css':      'css/sass/font-awesome/fontawesome.scss',
 			'css/animate.3.css':          'css/sass/animate-css/animate.scss',
 			'css/jquery-ui.wpmui.3.css':  'css/sass/jquery-ui/jquery-ui-1.11.4.custom.scss'
 		},

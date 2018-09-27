@@ -112,9 +112,9 @@ class Shortcodes_Ultimate {
 	private function load_dependencies() {
 
 		/**
-		 * Various filters.
+		 * The class responsible for adding, storing and accessing shortcodes data.
 		 */
-		require_once $this->plugin_path . 'includes/filters.php';
+		require_once $this->plugin_path . 'includes/class-shortcodes-ultimate-shortcodes.php';
 
 		/**
 		 * The class responsible for plugin upgrades.
@@ -135,6 +135,35 @@ class Shortcodes_Ultimate {
 		 */
 		require_once $this->plugin_path . 'admin/class-shortcodes-ultimate-notice.php';
 		require_once $this->plugin_path . 'admin/class-shortcodes-ultimate-notice-rate.php';
+
+		/**
+		 * Filters.
+		 */
+		require_once $this->plugin_path . 'includes/filters.php';
+
+		/**
+		 * Functions.
+		 */
+		require_once $this->plugin_path . 'includes/functions-helpers.php';
+		require_once $this->plugin_path . 'includes/functions-html.php';
+		require_once $this->plugin_path . 'includes/functions-shortcodes.php';
+		require_once $this->plugin_path . 'includes/functions-galleries.php';
+
+		/**
+		 * Deprecated stuff.
+		 */
+		require_once $this->plugin_path . 'includes/deprecated/class-su-data.php';
+		require_once $this->plugin_path . 'includes/deprecated/class-su-tools.php';
+		require_once $this->plugin_path . 'includes/deprecated/functions.php';
+
+		/**
+		 * Shortcodes.
+		 */
+		require_once $this->plugin_path . 'includes/shortcodes/_all.php';
+
+		// foreach ( glob( $this->plugin_path . 'includes/shortcodes/*.php' ) as $shortcode_file ) {
+		//  require_once $shortcode_file;
+		// }
 
 	}
 
@@ -206,16 +235,28 @@ class Shortcodes_Ultimate {
 		add_action( 'admin_notices',                array( $this->rate_notice, 'display_notice' )   );
 		add_action( 'admin_post_su_dismiss_notice', array( $this->rate_notice, 'dismiss_notice' )   );
 
+
+		/**
+		 * Add/Save 'Slide link' field on attachment page.
+		 */
+		add_filter( 'attachment_fields_to_edit', 'su_slide_link_input', 10, 2 );
+		add_filter( 'attachment_fields_to_save', 'su_slide_link_save', 10, 2 );
+
 	}
 
 	/**
-	 * Register all of the hooks related to both admin area and public part
-	 * functionality of the plugin.
+	 * Register all of the hooks related to both admin area and public part of
+	 * the plugin.
 	 *
 	 * @since    5.0.4
 	 * @access   private
 	 */
 	private function define_common_hooks() {
+
+		/**
+		 * Register available shortcodes.
+		 */
+		add_action( 'init', array( 'Shortcodes_Ultimate_Shortcodes', 'register' ) );
 
 		/**
 		 * Disable wptexturize filter for nestable shortcodes.

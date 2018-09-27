@@ -5,8 +5,9 @@ class Hustle_Module_Front {
 	private $_hustle;
 
 	private $_modules = array();
+	private $_active_modules_with_args = array();
 	private $_optin_layouts = array();
-	private $_args_layouts = array();
+	private $_args_layouts = array(); // Is this unused?
 
 	private $_styles;
 
@@ -28,6 +29,8 @@ class Hustle_Module_Front {
 		add_shortcode("wd_hustle_cc", array( $this, "shortcode" ));
 		// Legacy social sharing support.
 		add_shortcode("wd_hustle_ss", array( $this, "shortcode" ));
+
+		add_shortcode("wd_hustle_unsubscribe", array( $this, "unsubscribe_shortcode" ));
 
 		if( is_admin() ) return;
 
@@ -202,10 +205,12 @@ class Hustle_Module_Front {
 
 			// handle provider args
 			if ( isset( $data['content']['active_email_service'] ) ) {
-				$provider = Opt_In::get_provider_by_id( $data['content']['active_email_service'] );
-				$provider = Opt_In::provider_instance( $provider );
-				if( method_exists( $provider, 'get_args' ) ) {
-					$data['content']['args'] = $provider->get_args($data['content']);
+				$provider = Opt_In_Utils::get_provider_by_slug( $data['content']['active_email_service'] );
+				if( is_callable( array( $provider, 'get_args' ) ) ) {
+					$data['content']['args'] = $provider->get_args( $data['content'] );
+					if ( ! empty( $data['content']['args'] ) ) {
+						$data['content']['args']['module_id'] = $data['module_id'];
+					}
 				}
 			}
 
@@ -221,10 +226,8 @@ class Hustle_Module_Front {
 					'embedded' === $module->module_type || 'social_sharing' === $module->module_type
 				)
 				&& (
-					// Is widget?
-					( isset($data['settings']['widget_enabled']) && 'true' === $data['settings']['widget_enabled'] )
 					// Is shortcode?
-					|| ( isset($data['settings']['shortcode_enabled']) && 'true' === $data['settings']['shortcode_enabled'] )
+					isset($data['settings']['shortcode_enabled']) && 'true' === $data['settings']['shortcode_enabled']
 				);
 			if ( $is_active && ( $is_allowed || $is_content_module ) ){
 
@@ -234,9 +237,13 @@ class Hustle_Module_Front {
 				}
 				$module_front_data[] = $data;
 				$this->_styles .= $module->get_decorated()->get_module_styles( $module->module_type );
-				//check if any active module has a dropdown group list
-				if ( isset( $data['content']['args']['group']['type'] ) && 'dropdown' === $data['content']['args']['group']['type'] ) {
-					$has_dropdown++;
+				if ( isset( $data['content']['args'] ) && ! empty( $data['content']['args'] ) ) {
+					// Add this module to the array so we load the template for its arguments
+					$this->_active_modules_with_args[] = $data['content'];
+					//check if any active module has a dropdown group list
+					if ( isset( $data['content']['args']['group']['type'] ) && 'dropdown' === $data['content']['args']['group']['type'] ) {
+						$has_dropdown++;
+					}
 				}
 			}
 			if (
@@ -325,9 +332,58 @@ class Hustle_Module_Front {
 		$this->_hustle->render( "general/modals/optin-false", array() );
 		$this->_hustle->render( "general/sshare", array() );
 
-		foreach( $this->_hustle->get_providers_with_args() as $provider_name ){
-			$this->_hustle->render("general/providers/" . $provider_name );
+		foreach( $this->_active_modules_with_args as $module_data ) {
+			$front_args_file = Opt_In_Utils::get_provider_by_slug( $module_data['active_email_service'] )->get_front_args();
+			if ( $front_args_file ) {
+				$html = '<script id="optin-' . $module_data['active_email_service'] . '-' . esc_attr( $module_data['args']['module_id'] ) . '-args-tpl" type="text/template">';
+				$html .= $this->_hustle->render( $front_args_file, array( 'args' => $module_data['args'] ), true );
+				$html .= '</script>';
+
+				echo $html;
+			}
 		}
+	}
+
+	/**
+	 * Handles the data for the unsubscribe shortcode
+	 *
+	 * @since 3.0.5
+	 * @param array $atts The values passed through the shortcode attributes
+	 * @return string The content to be rendered within the shortcode.
+	 */
+	public function unsubscribe_shortcode( $atts ) {
+
+		$messages = Hustle_Module_Model::get_unsubscribe_messages();
+		if ( isset( $_GET['token'] ) && isset( $_GET['email'] ) ) { // WPCS: CSRF ok.
+
+			$error_message = $messages['invalid_data'];
+			$sanitized_data = Opt_In_Utils::validate_and_sanitize_fields( $_GET ); // WPCS: CSRF ok.
+			$email = $sanitized_data['email'];
+			$nonce = $sanitized_data['token'];
+			// checking if email is valid
+			if ( ! filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
+				return $error_message;
+			}
+			$module = Hustle_Module_Model::instance();
+			$unsubscribed = $module->unsubscribe_email( $email, $nonce );
+			if ( $unsubscribed ) {
+				return $messages['successful_unsubscription'];
+			} else {
+				return $error_message;
+			}
+		}
+
+		// Show all modules' lists by default.
+		$attributes = shortcode_atts( array( 'id' => '-1' ), $atts );
+		$params = array(
+			'ajax_step' => false,
+			'shortcode_attr_id' => $attributes['id'],
+			'messages' => $messages,
+			);
+		$html = $this->_hustle->render( 'general/unsubscribe-form', $params, true );
+		apply_filters( 'hustle_render_unsubscribe_form_html', $html, $params );
+
+		return $html;
 	}
 
 	public function shortcode( $atts, $content ){
@@ -369,8 +425,10 @@ class Hustle_Module_Front {
 		if( !empty( $content ) && ( "popup" === $type || "slidein" === $type ) )
 			return sprintf("<a href='#' class='%s' data-id='%s' data-type='%s'>%s</a>", self::SHORTCODE_TRIGGER_CSS_CLASS . " hustle_module_" . $module->id, $module->id, esc_attr( $type ),  $content );
 
+		//unique id for the same optins on one page
+		$unique_id = wp_rand();
 
-		return sprintf("<div class='%s' data-type='shortcode' data-id='%s'></div>", $shortcode_class . " hustle_module_" . esc_attr( $module->id ) . " module_id_" . esc_attr( $module->id ), esc_attr( $module->id ));
+		return sprintf("<div class='%s' data-type='shortcode' data-id='%s' data-unique_id='%d'></div>", $shortcode_class . " hustle_module_" . esc_attr( $module->id ) . " module_id_" . esc_attr( $module->id ), esc_attr( $module->id ), esc_attr( $unique_id ) );
 	}
 
 	/**
@@ -391,7 +449,10 @@ class Hustle_Module_Front {
 		foreach( $this->_modules as $module ) {
 			if ( 'embedded' === $module['module_type'] && isset( $module['settings'] ) && isset( $module['settings']['after_content_enabled'] ) ) {
 				if ( 'true' === $module['settings']['after_content_enabled'] ) {
-					$content .= sprintf( '<div class="%s" data-id="%s" data-type="after_content" ></div>', self::AFTERCONTENT_CSS_CLASS . ' module_id_' . $module['module_id'], $module['module_id'] );
+					//unique id for the same optins on one page
+					$unique_id = wp_rand();
+
+					$content .= sprintf( '<div class="%s" data-id="%s" data-unique_id="%d" data-type="after_content" ></div>', self::AFTERCONTENT_CSS_CLASS . ' module_id_' . $module['module_id'], $module['module_id'], esc_attr( $unique_id ) );
 				}
 			}
 		}

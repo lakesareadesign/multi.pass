@@ -518,11 +518,11 @@ TinyMCE Rich Editor and Media buttons are not currently used
     width: 4em;
 }
 
-#calendar-fields-prefs {
+div.calendar-fields-prefs {
     margin-bottom: 1em;
 }
 
-#calendar-fields-prefs label {
+div.calendar-fields-prefs label {
     margin-left: 1em;
     line-height: normal;
     vertical-align: baseline;
@@ -624,4 +624,10 @@ div.metabox-prefs {
   border-radius: 4px;
   background-color: rgba(0, 0, 0, .5);
   -webkit-box-shadow: 0 0 1px rgba(255, 255, 255, .5);
+}
+
+#currentRange {
+	min-width: 17em;
+    display: inline-block;
+    text-align: center;
 }

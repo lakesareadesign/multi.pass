@@ -14,6 +14,10 @@ class Hustle_Module_Front_Ajax {
 		add_action("wp_ajax_module_form_submit", array( $this, "submit_form" ));
 		add_action("wp_ajax_nopriv_module_form_submit", array( $this, "submit_form" ));
 
+		// Update the number of shares of each network
+		add_action("wp_ajax_update_network_shares", array( $this, 'update_network_shares' ));
+		add_action("wp_ajax_nopriv_update_network_shares", array( $this, 'update_network_shares' ));
+
 		// When cta is clicked
 		add_action("wp_ajax_hustle_cta_converted", array( $this, "log_cta_conversion" ) );
 		add_action("wp_ajax_nopriv_hustle_cta_converted", array( $this, "log_cta_conversion" ) );
@@ -21,11 +25,15 @@ class Hustle_Module_Front_Ajax {
 		// When SShare is converted to
 		add_action("wp_ajax_hustle_sshare_converted", array( $this, "log_sshare_conversion" ) );
 		add_action("wp_ajax_nopriv_hustle_sshare_converted", array( $this, "log_sshare_conversion" ) );
+
+		// Handles unsubscribe form submisisons
+		add_action("wp_ajax_hustle_unsubscribe_form_submission", array( $this, "unsubscribe_submit_form" ));
+		add_action("wp_ajax_nopriv_hustle_unsubscribe_form_submission", array( $this, "unsubscribe_submit_form" ));
 	}
 
 
 	public function submit_form(){
-		$data = $_POST['data'];
+		$data = $_POST['data']; // WPCS: CSRF ok.
 		parse_str( $data['form'], $form_data );
 
 		if( !is_email( $form_data['email'] ) )
@@ -39,14 +47,24 @@ class Hustle_Module_Front_Ajax {
 		$local_saved = false;
 		$is_save_to_local = (bool) $module->content->save_local_list;
 		$is_test_mode = (bool) $module->test_mode;
-		$has_active_email_service = (bool) $module->content->active_email_service;
+		$active_email_service = $module->content->active_email_service;
+		$has_active_email_service = (bool) $active_email_service;
+		$activable_providers = $this->_hustle->get_providers();
+
+		// If the selected provider is not available, disable it, enable local list, and log errors.
+		if ( $has_active_email_service && ! isset( $activable_providers[ $active_email_service ] ) ) {
+			$is_save_to_local = true;
+			$has_active_email_service = false;
+			$error_data = $form_data;
+			$error_data['error'] = sprintf( __( 'This conversion was stored in your module\'s local list because the selected provider (%s) is not available. ', Opt_In::TEXT_DOMAIN ), $active_email_service );
+			$module->log_error( $error_data );
+		}
 
 		if( $has_active_email_service ){
 
-			$provider = Opt_In::get_provider_by_id( $module->content->active_email_service );
-			$provider = Opt_In::provider_instance( $provider );
+			$provider = Opt_In_Utils::get_provider_by_slug( $module->content->active_email_service );
 
-			if( !is_subclass_of( $provider, "Opt_In_Provider_Abstract") && !$is_test_mode )
+			if( !is_subclass_of( $provider, "Hustle_Provider_Abstract") && !$is_test_mode )
 			   wp_send_json_error( __("Invalid provider", Opt_In::TEXT_DOMAIN) );
 
 		}
@@ -110,6 +128,131 @@ class Hustle_Module_Front_Ajax {
 		}
 
 		wp_send_json_error( $api_result );
+	}
+
+	/**
+	 * Handles the unsubscribe form submission.
+	 *
+	 * @since 3.0.5
+	 */
+	public function unsubscribe_submit_form() {
+
+		parse_str( $_POST['data'], $submitted_data ); // WPCS: CSRF ok.
+		$sanitized_data = Opt_In_Utils::validate_and_sanitize_fields( $submitted_data );
+		$messages = Hustle_Module_Model::get_unsubscribe_messages();
+
+		// Check if we got the email address and if it's valid.
+		if ( isset( $sanitized_data['email'] ) && filter_var( $sanitized_data['email'], FILTER_VALIDATE_EMAIL ) ) {
+
+			$email = $sanitized_data['email'];
+
+			// Handle 'choose_list' form step
+			if ( isset( $sanitized_data['form_step'] ) && 'choose_list' === $sanitized_data['form_step'] ) {
+
+				// If the lists are defined, submit the email with the nonce.
+				if ( isset( $sanitized_data['lists_id'] ) && ! empty( $sanitized_data['lists_id'] ) && isset( $sanitized_data['current_url'] ) ) {
+
+					// Do the process to send the unsubscription email.
+					$email_processed = Hustle_Mail::handle_unsubscription_user_email( $email, $sanitized_data['lists_id'], $sanitized_data['current_url'] );
+
+					if ( $email_processed ) {
+
+						$html = $messages['email_submitted'];
+						$wrapper = '.hustle-form-body';
+
+						$response = array(
+							'html' => apply_filters( 'hustle_unsubscribe_email_processed_html', $html, $sanitized_data ),
+							'wrapper' => apply_filters( 'hustle_unsubscribe_email_processed_wrapper', $wrapper, $sanitized_data ),
+						);
+						wp_send_json_success( $response );
+
+					}
+				}
+
+				$html = $messages['email_not_processed'];
+				apply_filters( 'hustle_unsubscribe_email_not_processed_html', $html, $sanitized_data );
+				wp_send_json_error( array( 'html' => $html ) );
+
+			} elseif ( isset( $sanitized_data['form_step'] ) && 'enter_email' === $sanitized_data['form_step'] ) {
+
+				// The lists are not defined yet. Show the list for the user to select them.
+				$module = Hustle_Module_Model::instance();
+				$modules_id = $module->get_modules_id_by_email_in_local_list( $email );
+
+				// If not showing all, show only the ones defined in the shortcode.
+				if ( '-1' !== $sanitized_data['form_module_id'] && ! empty( $sanitized_data['form_module_id'] ) ) {
+					$form_modules_id = array_map( 'trim', explode( ',', $submitted_data['form_module_id'] ) );
+					$modules_id = array_intersect( $form_modules_id, $modules_id );
+				}
+
+				// If the email is not in any of the selected lists.
+				if ( empty( $modules_id ) ) {
+
+					$html = $messages['email_not_found'];
+					$wrapper = '.hustle-form-body';
+
+					$response = array(
+						'html' => apply_filters( 'hustle_unsubscribe_email_not_found_html', $html, $modules_id, $email ),
+						'wrapper' => apply_filters( 'hustle_unsubscribe_email_not_found_wrapper', $wrapper, $modules_id, $email ),
+					);
+					wp_send_json_success( $response );
+				}
+
+				$params = array(
+					'ajax_step' => true,
+					'modules_id' => $modules_id,
+					'module' => $module,
+					'email' => $sanitized_data['email'],
+					'current_url' => $sanitized_data['current_url'],
+					'messages' => $messages,
+					);
+				$html = $this->_hustle->render( 'general/unsubscribe-form', $params, true );
+				$wrapper = '.hustle-form-body';
+
+				$response = array(
+					'html' => apply_filters( 'hustle_render_unsubscribe_lists_html', $html, $modules_id, $email ),
+					'wrapper' => apply_filters( 'hustle_render_unsubscribe_list_wrapper', $wrapper, $modules_id, $email ),
+				);
+				wp_send_json_success( $response );
+			}
+		} else {
+			// Return an error if the email is missing or is invalid.
+			$html =  $messages['invalid_email'];
+			apply_filters( 'hustle_unsubscribe_invalid_email_address_message', $html, $sanitized_data );
+			wp_send_json_error( array( 'html' => $html ) );
+		}
+
+		wp_send_json_success( $sanitized_data );
+	}
+
+	/**
+	 * Update the number of shares
+	 */
+	public function update_network_shares() {
+		$post_id = filter_input( INPUT_POST, 'page_id', FILTER_VALIDATE_INT );
+
+		if ( !$post_id ) {
+			wp_send_json_success();
+		}
+		$modules = Hustle_Module_Collection::instance()->get_all(true);
+		$modules = apply_filters( 'hustle_sort_modules', $modules );
+		foreach( $modules as $module ) {
+			if ( 'social_sharing' === $module->module_type ) {
+				$data = array(
+					'content' => $module->get_sshare_content()->to_array(),
+					'design' => $module->get_sshare_design()->to_array(),
+					'settings' => $module->get_sshare_display_settings()->to_array(),
+					'tracking_types' => $module->get_tracking_types(),
+					'test_types' => $module->get_test_types()
+				);
+				if( $module->is_click_counter_type_enabled( 'native' ) && !empty( $data['content']['social_icons'] )
+						&& ! $module->check_if_use_stored( $post_id, true ) ) {
+					$module->retrieve_network_shares( $post_id );
+				}
+			}
+		}
+
+		wp_send_json_success();
 	}
 
 	public function log_cta_conversion(){

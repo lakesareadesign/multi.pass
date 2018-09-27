@@ -313,13 +313,36 @@ final class FLBuilderServiceActiveCampaign extends FLBuilderService {
 			$data['email'] = $email;
 			if ( isset( $settings->list_type ) && 'form' == $settings->list_type ) {
 				$data['form'] = $settings->form_id;
+
+				// Get list ID associated with the form.
+				$forms = $api->api( 'form/getforms' );
+
+				if ( $forms ) {
+					foreach ( $forms as $form ) {
+						if ( is_object( $form ) ) {
+							if ( $settings->form_id != $form->id ) {
+								continue;
+							}
+
+							if ( ! isset( $form->lists ) || 0 === count( (array) $form->lists ) ) {
+								continue;
+							}
+
+							$list_id = $form->lists[0];
+						}
+					}
+				}
 			} else {
-				$data['p']                 = array( $settings->list_id );
-				$data['status']            = array(
-					$settings->list_id => 1,
+				$data['p'] = array( $settings->list_id );
+				$list_id = $settings->list_id;
+			}
+
+			if ( $list_id ) {
+				$data['status'] = array(
+					$list_id => 1,
 				);
 				$data['instantresponders'] = array(
-					$settings->list_id => 1,
+					$list_id => 1,
 				);
 			}
 

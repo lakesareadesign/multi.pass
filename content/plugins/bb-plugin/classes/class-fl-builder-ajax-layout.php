@@ -489,6 +489,7 @@ final class FLBuilderAJAXLayout {
 		$partial_refresh_data 	= self::get_partial_refresh_data();
 		$asset_info 		  	= FLBuilderModel::get_asset_info();
 		$asset_ver  			= FLBuilderModel::get_asset_version();
+		$enqueuemethod			= FLBuilderModel::get_asset_enqueue_method();
 		$assets					= array(
 			'js' => '',
 			'css' => '',
@@ -529,14 +530,20 @@ final class FLBuilderAJAXLayout {
 			if ( $min ) {
 				$assets['js'] = $min;
 			}
+		} elseif ( 'inline' === $enqueuemethod ) {
+			$assets['js'] = FLBuilder::render_js();
 		} else {
 			FLBuilder::render_js();
 			$assets['js'] = $asset_info['js_url'] . '?ver=' . $asset_ver;
 		}
 
 		// Render the CSS.
-		FLBuilder::render_css();
-		$assets['css'] = $asset_info['css_url'] . '?ver=' . $asset_ver;
+		if ( 'inline' === $enqueuemethod ) {
+			$assets['css'] = FLBuilder::render_css();
+		} else {
+			FLBuilder::render_css();
+			$assets['css'] = $asset_info['css_url'] . '?ver=' . $asset_ver;
+		}
 
 		// Return the assets.
 		return $assets;

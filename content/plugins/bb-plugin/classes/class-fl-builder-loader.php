@@ -46,7 +46,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @return void
 		 */
 		static private function define_constants() {
-			define( 'FL_BUILDER_VERSION', '2.1.4.5' );
+			define( 'FL_BUILDER_VERSION', '2.1.5.1' );
 			define( 'FL_BUILDER_FILE', trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'fl-builder.php' );
 			define( 'FL_BUILDER_DIR', plugin_dir_path( FL_BUILDER_FILE ) );
 			define( 'FL_BUILDER_URL', plugins_url( '/', FL_BUILDER_FILE ) );
@@ -66,6 +66,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @return void
 		 */
 		static private function load_files() {
+
 			/* Classes */
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-filesystem.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder.php';

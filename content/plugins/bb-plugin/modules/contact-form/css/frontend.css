@@ -17,13 +17,8 @@
 	width: 23px;
 	margin: 0;
 	position: absolute;
-	left: 2px;
+	left: -2px;
 	top: 1px;
-	-ms-transform: scale(1.5);
-	-moz-transform: scale(1.5);
-	-webkit-transform: scale(1.5);
-	-o-transform: scale(1.5);
-	-webkit-margin-start: 3px;
 }
 .fl-contact-form .fl-terms-checkbox label {
 	height: 26px;
@@ -31,7 +26,6 @@
 	vertical-align: middle;
 	position: relative;
 	padding-left: 35px;
-	-webkit-padding-start: 40px;
 }
 .fl-contact-form .fl-terms-checkbox-text {
 	margin: 10px 0;

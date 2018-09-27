@@ -142,7 +142,7 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 							),
 							'gallery'		=> array(
 								'sections'		=> array( 'icons' ),
-								'fields'		=> array( 'hover_transition' ),
+								'fields'		=> array( 'hover_transition', 'post_icon_color' ),
 							),
 						),
 					),
@@ -458,11 +458,6 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 						'help'          => __( 'The color applies to the overlay behind text over the background selections.', 'fl-builder' ),
 						'show_reset'    => true,
 					),
-					'post_icon_color' => array(
-						'type'          => 'color',
-						'label'         => __( 'Post Icon Color', 'fl-builder' ),
-						'show_reset'    => true,
-					),
 					'text_bg_opacity' => array(
 						'type'          => 'text',
 						'label'         => __( 'Text Background Opacity', 'fl-builder' ),
@@ -470,6 +465,11 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 						'maxlength'     => '3',
 						'size'          => '4',
 						'description'   => '%',
+					),
+					'post_icon_color' => array(
+						'type'          => 'color',
+						'label'         => __( 'Post Icon Color', 'fl-builder' ),
+						'show_reset'    => true,
 					),
 				),
 			),

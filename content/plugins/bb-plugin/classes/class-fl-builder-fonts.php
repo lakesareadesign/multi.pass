@@ -14,6 +14,8 @@ final class FLBuilderFonts {
 	 */
 	static private $fonts = array();
 
+	static private $enqueued_google_fonts_done = false;
+
 	/**
 	 * @since 1.9.5
 	 * @return void
@@ -21,6 +23,7 @@ final class FLBuilderFonts {
 	static public function init() {
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::combine_google_fonts', 10000 );
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::enqueue_google_fonts', 9999 );
+		add_filter( 'wp_resource_hints',  __CLASS__ . '::resource_hints', 10, 2 );
 	}
 
 	/**
@@ -99,21 +102,38 @@ final class FLBuilderFonts {
 	 */
 	static public function get_weight_string( $weight ) {
 
-		$weight_string = apply_filters( 'fl_builder_font_weight_strings', array(
-			'default' => __( 'Default', 'fl-builder' ),
-			'regular' => __( 'Regular', 'fl-builder' ),
-			'100' => 'Thin 100',
-			'200' => 'Extra-Light 200',
-			'300' => 'Light 300',
-			'400' => 'Normal 400',
-			'500' => 'Medium 500',
-			'600' => 'Semi-Bold 600',
-			'700' => 'Bold 700',
-			'800' => 'Extra-Bold 800',
-			'900' => 'Ultra-Bold 900',
-		) );
+		$weight_string = self::get_font_weight_strings();
 
 		return $weight_string[ $weight ];
+	}
+
+	/**
+	 * Return font weight strings.
+	 */
+	static public function get_font_weight_strings() {
+		return apply_filters( 'fl_builder_font_weight_strings', array(
+			'default'   => __( 'Default', 'fl-builder' ),
+			'regular'   => __( 'Regular', 'fl-builder' ),
+			'italic'    => __( 'Italic', 'fl-builder' ),
+			'100'       => __( 'Thin', 'fl-builder' ),
+			'100i'      => __( 'Thin Italic', 'fl-builder' ),
+			'200'       => __( 'Extra-Light', 'fl-builder' ),
+			'200i'      => __( 'Extra-Light Italic', 'fl-builder' ),
+			'300'       => __( 'Light', 'fl-builder' ),
+			'300i'      => __( 'Light Italic', 'fl-builder' ),
+			'400'       => __( 'Normal', 'fl-builder' ),
+			'400i'      => __( 'Normal Italic', 'fl-builder' ),
+			'500'       => __( 'Medium', 'fl-builder' ),
+			'500i'      => __( 'Medium Italic', 'fl-builder' ),
+			'600'       => __( 'Semi-Bold', 'fl-builder' ),
+			'600i'      => __( 'Semi-Bold Italic', 'fl-builder' ),
+			'700'       => __( 'Bold', 'fl-builder' ),
+			'700i'      => __( 'Bold Italic', 'fl-builder' ),
+			'800'       => __( 'Extra-Bold', 'fl-builder' ),
+			'800i'      => __( 'Extra-Bold Italic', 'fl-builder' ),
+			'900'       => __( 'Ultra-Bold', 'fl-builder' ),
+			'900i'      => __( 'Ultra-Bold Italic', 'fl-builder' ),
+		) );
 	}
 
 	/**
@@ -126,6 +146,7 @@ final class FLBuilderFonts {
 	static public function font_css( $font ) {
 
 		$system_fonts = apply_filters( 'fl_builder_font_families_system', FLBuilderFontFamilies::$system );
+		$google = FLBuilderFontFamilies::get_google_fallback( $font['family'] );
 
 		$css = '';
 
@@ -133,6 +154,8 @@ final class FLBuilderFonts {
 
 			$css .= 'font-family: "' . $font['family'] . '",' . $system_fonts[ $font['family'] ]['fallback'] . ';';
 
+		} elseif ( $google ) {
+			$css .= 'font-family: "' . $font['family'] . '", ' . $google . ';';
 		} else {
 			$css .= 'font-family: "' . $font['family'] . '", sans-serif;';
 		}
@@ -214,7 +237,13 @@ final class FLBuilderFonts {
 		$google_fonts_domain = apply_filters( 'fl_builder_google_fonts_domain', '//fonts.googleapis.com/' );
 		$google_url = $google_fonts_domain . 'css?family=';
 
-		if ( count( self::$fonts ) > 0 ) {
+		/**
+		 * Allow users to control what fonts are enqueued by modules.
+		 * Returning array() will disable all enqueues.
+		 * @see fl_builder_google_fonts_pre_enqueue
+		 * @link https://kb.wpbeaverbuilder.com/article/648-load-google-fonts-and-font-awesome-icons-locally-gdpr
+		 */
+		if ( count( apply_filters( 'fl_builder_google_fonts_pre_enqueue', self::$fonts ) ) > 0 ) {
 
 			foreach ( self::$fonts as $family => $weights ) {
 				$google_url .= $family . ':' . implode( ',', $weights ) . '|';
@@ -358,12 +387,26 @@ final class FLBuilderFonts {
 						$src,
 						array()
 					);
-
+					self::$enqueued_google_fonts_done = true;
 					// Clears data
 					$enqueued_google_fonts = array();
 				}
 			}
 		}
+	}
+
+	/**
+	 * Preconnect to fonts.gstatic.com to speed up google fonts.
+	 * @since 2.1.5
+	 */
+	static public function resource_hints( $urls, $relation_type ) {
+		if ( true == self::$enqueued_google_fonts_done && 'preconnect' === $relation_type ) {
+			$urls[] = array(
+			'href' => 'https://fonts.gstatic.com',
+			'crossorigin',
+			);
+		}
+		return $urls;
 	}
 
 }
@@ -379,6 +422,17 @@ FLBuilderFonts::init();
 final class FLBuilderFontFamilies {
 
 	/**
+	 * Cache for google fonts
+	 */
+	static private $_google_json = array();
+
+	static public $default = array(
+		'Default' => array(
+			'default'
+		),
+	);
+
+	/**
 	 * Parse fonts.json to get all possible Google fonts.
 	 * @since 1.10.7
 	 * @return array
@@ -386,31 +440,57 @@ final class FLBuilderFontFamilies {
 	static function google() {
 
 		$fonts = array();
-		$json = (array) json_decode( file_get_contents( FL_BUILDER_DIR . 'json/fonts.json' ), true );
+		$json = self::_get_json();
 
 		foreach ( $json as $k => $font ) {
 
 			$name = key( $font );
 
-			foreach ( $font[ $name ] as $key => $variant ) {
-				if ( stristr( $variant, 'italic' ) ) {
-							unset( $font[ $name ][ $key ] );
+			foreach ( $font[ $name ]['variants'] as $key => $variant ) {
+				if ( stristr( $variant, 'italic' ) && 'italic' !== $variant ) {
+					$font[ $name ]['variants'][ $key ] = str_replace( 'talic', '', $variant );
 				}
 				if ( 'regular' == $variant ) {
-					$font[ $name ][ $key ] = '400';
+					$font[ $name ]['variants'][ $key ] = '400';
 				}
 			}
 
-			$fonts[ $name ] = $font[ $name ];
+			$fonts[ $name ] = $font[ $name ]['variants'];
 		}
 		return $fonts;
 	}
 
-	static public $default = array(
-		'Default' => array(
-			'default'
-		),
-	);
+	/**
+	 * @since 2.1.5
+	 */
+	static private function _get_json() {
+		if ( ! empty( self::$_google_json ) ) {
+			$json = self::$_google_json;
+		} else {
+			$json = (array) json_decode( file_get_contents( trailingslashit( FL_BUILDER_DIR ) . 'json/fonts.json' ), true );
+		}
+		/**
+		 * Filter raw google json data
+		 * @see fl_builder_get_google_json
+		 */
+		return apply_filters( 'fl_builder_get_google_json', $json );
+	}
+
+
+	/**
+	 * @since 2.1.5
+	 */
+	static public function get_google_fallback( $font ) {
+		$json = self::_get_json();
+		foreach ( $json as $k => $google ) {
+			$name = key( $google );
+			if ( $name == $font ) {
+				return $google[ $name ]['fallback'];
+			}
+		}
+		return false;
+	}
+
 
 	/**
 	 * Array with a list of system fonts.

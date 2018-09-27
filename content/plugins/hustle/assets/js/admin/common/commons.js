@@ -103,7 +103,7 @@
 			
 			// Modal: Add Another Service
 			// Convert Mailchimp groups instructions input in a div
-			$("input#mailchimp_groups_instructions").each(function(){
+			$("input#group_instructions").each(function(){
 				var $this = $(this);
 				$this.val('<label class="wpmudev-label--notice">' + skbl + '</label>')
 			});

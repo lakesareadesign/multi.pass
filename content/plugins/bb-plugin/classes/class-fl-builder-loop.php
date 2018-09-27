@@ -541,7 +541,11 @@ final class FLBuilderLoop {
 
 		// Add rewrite to the registered tax only.
 		if ( isset( $custom_paged['parent_page'] ) && $custom_paged['parent_page'] != $taxonomy ) {
-			return;
+
+			// Check also for custom taxonomy slug.
+			if ( $custom_paged['parent_page'] != $args['rewrite']['slug'] ) {
+				return;
+			}
 		}
 
 		// Make sure we have a valid term.

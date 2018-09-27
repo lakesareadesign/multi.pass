@@ -510,15 +510,16 @@ class Hustle_Module_Decorator extends Opt_In {
 
 
 	/**
-	 * Gets provider name from $id
+	 * Gets provider name from id/slug
 	 *
-	 * @param $id
-	 * @return bool
+	 * @param $slug
+	 * @return bool | string
 	 */
-	public function get_service_name_from_id( $id ){
-		foreach( $this->_providers as $provider ){
-			if( $provider['id'] === $id )
-				return $provider['name'];
+	public function get_service_name_from_id( $slug ){
+		$registered_providers = $this->get_providers();
+		foreach( $registered_providers as $provider ){
+			if( $provider['slug'] === $slug )
+				return $provider['title'];
 		}
 
 		return false;

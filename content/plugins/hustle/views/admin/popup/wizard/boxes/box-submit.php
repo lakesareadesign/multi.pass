@@ -10,7 +10,7 @@
 
 	<div class="wpmudev-box-right">
 
-		<label><?php esc_attr_e( "After form is submitted", Opt_In::TEXT_DOMAIN ); ?></label>
+		<label><?php esc_attr_e( "After an external form is submitted", Opt_In::TEXT_DOMAIN ); ?></label>
 
         <select class="wpmudev-select" data-attribute="on_submit" >
             <option value="close" {{ ( 'close' === on_submit ) ? 'selected' : '' }} ><?php esc_attr_e( "Close the pop-up", Opt_In::TEXT_DOMAIN ); ?></option>

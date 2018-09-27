@@ -262,7 +262,12 @@ final class FLUpdater {
 		// Activate a subscription?
 		if ( isset( $_POST['fl-updater-nonce'] ) ) {
 			if ( wp_verify_nonce( $_POST['fl-updater-nonce'], 'updater-nonce' ) ) {
-				self::save_subscription_license( $_POST['license'] );
+				$response = self::save_subscription_license( $_POST['license'] );
+				if ( isset( $response->error ) ) {
+					unset( $_POST['fl-updater-nonce'] );
+					FLBuilderAdminSettings::add_error( $response->error );
+					FLBuilderAdminSettings::render_update_message();
+				}
 			}
 		}
 
@@ -309,6 +314,12 @@ final class FLUpdater {
 	 * @return $response mixed
 	 */
 	static public function save_subscription_license( $license ) {
+
+		if ( preg_match( '/[^a-zA-Z\d\s@\.\-_]/', $license ) ) {
+			$response = new StdClass;
+			$response->error = __( 'You submitted an invalid license. Non alphanumeric characters found.', 'fl-builder' );
+			return $response;
+		}
 		$response = FLUpdater::api_request(self::$_updates_api_url, array(
 			'fl-api-method' => 'activate_domain',
 			'license'       => $license,

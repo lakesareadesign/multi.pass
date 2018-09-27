@@ -396,8 +396,41 @@ Hustle.define("Slidein.View", function($, doc, win){
 						return 'Down';
 				},
 
+				provider_add_custom_fields: function(id, nonce, changed, me) {
+					var active_email_service = me.content_view.model.get('active_email_service');
+					if (
+						Module.Utils.service_supports_fields( 0, active_email_service ) !== true || 
+						(
+							! ('form_elements' in changed) && 
+							! ('email_services' in changed) &&
+							! ('active_email_service' in changed)
+						) 
+					) {
+						return;
+					}
+					if ( typeof me.content_view.model.get('form_elements') === 'object' ) {
+						var post_data = JSON.stringify(me.content_view.model.get('form_elements')),
+							active_email_service = me.content_view.model.get('active_email_service'),
+							module_id = id,
+							data = {
+								'action' : 'add_module_fields',
+								'_ajax_nonce'  : nonce,
+								'data'   : post_data,
+								'provider' : active_email_service,
+								'module_id' : module_id
+							};
+		
+						$.post( ajaxurl, data, function( response ){
+		
+						}).fail(function( response ) {
+							console.log('There was an error saving the custom fields.');
+						});
+					}
+				},
 				save: function($btn) {
 						if ( !Module.Validate.validate_module_name() ) return false;
+
+						var changed = this.content_view.model.changed;;
 
 						this.set_content_from_tinymce(true);
 						this.sanitize_data();
@@ -419,6 +452,8 @@ Hustle.define("Slidein.View", function($, doc, win){
 
 						// preparing the data
 						var me = this,
+								id = ( !$btn.data('id') ) ? '-1' : $btn.data('id'),
+								nonce =  $btn.data('nonce'),
 								module = this.model.toJSON(),
 								content = this.content_view.model.toJSON(),
 								design = this.design_view.model.toJSON(),
@@ -430,8 +465,8 @@ Hustle.define("Slidein.View", function($, doc, win){
 								type: 'POST',
 								data: {
 										action: 'hustle_save_slidein_module',
-										_ajax_nonce: $btn.data('nonce'),
-										id: ( !$btn.data('id') ) ? '-1' : $btn.data('id'),
+										_ajax_nonce: nonce,
+										id: id,
 										module: module,
 										content: content,
 										design: design,
@@ -439,6 +474,7 @@ Hustle.define("Slidein.View", function($, doc, win){
 										shortcode_id: me._get_shortcode_id()
 								},
 								complete: function(resp) {
+										me.provider_add_custom_fields(id, nonce, changed, me);
 										var response = resp.responseJSON;
 								}
 						});
@@ -665,6 +701,20 @@ Hustle.define("Slidein.View", function($, doc, win){
 												$target_div.removeClass('wpmudev-show');
 										}
 								}
+						}
+
+						// save_local_list
+						if ( 'save_local_list' in changed ) {
+							var $target_div = this.$('#wph-wizard-content-local_list_name');
+							if ( $target_div.length ) {
+								if ( changed['save_local_list'] ) {
+									$target_div.addClass('wpmudev-show');
+									$target_div.removeClass('wpmudev-hidden');
+								} else {
+									$target_div.addClass('wpmudev-hidden');
+									$target_div.removeClass('wpmudev-show');
+								}
+							}
 						}
 
 						// email service was toggled
@@ -1220,6 +1270,7 @@ Hustle.define("Slidein.View", function($, doc, win){
 							}
 						)
 					;
+					data.unique_id = '';
 					// Append to preview after content updated.
 					me.$('#wph-preview-modal').append(template(data));
 					// Apply custom CSS and preview styles after content is appended.

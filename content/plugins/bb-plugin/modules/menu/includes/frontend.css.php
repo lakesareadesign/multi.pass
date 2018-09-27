@@ -214,7 +214,7 @@ if ( $global_settings->responsive_enabled ) : ?>
 
 		<?php // if menu is horizontal ?>
 		<?php if ( 'horizontal' == $settings->menu_layout ) : ?>
-			.fl-node-<?php echo $id; ?> .menu > li{ float: left; }
+			.fl-node-<?php echo $id; ?> .menu > li{ display: inline-block; }
 
 			.fl-node-<?php echo $id; ?> .menu li{
 				border-left: 1px solid transparent;
@@ -344,7 +344,7 @@ else : ?>
 	<?php // if menu is horizontal ?>
 	<?php if ( 'horizontal' == $settings->menu_layout ) : ?>
 
-		.fl-node-<?php echo $id; ?> .fl-menu .menu > li{ float: left; }
+		.fl-node-<?php echo $id; ?> .fl-menu .menu > li{ display: inline-block; }
 
 		.fl-node-<?php echo $id; ?> .menu li{
 			border-left: 1px solid transparent;
@@ -406,7 +406,7 @@ else : ?>
 
 		<?php if ( 'none' == $settings->submenu_hover_toggle ) : ?>
 			.fl-node-<?php echo $id; ?> .fl-menu .fl-has-submenu-container a{
-				padding-right: <?php echo $toggle_spacing ?>px;
+				padding-right: <?php echo $toggle_width ?>px;
 			}
 			.fl-menu .fl-menu .fl-menu-toggle{
 				display: none;

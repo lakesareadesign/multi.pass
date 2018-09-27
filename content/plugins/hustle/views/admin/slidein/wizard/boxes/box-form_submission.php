@@ -4,7 +4,7 @@
 
 		<h4><strong><?php esc_attr_e( "Successful submission behavior", Opt_In::TEXT_DOMAIN ); ?></strong></h4>
 
-		<label class="wpmudev-helper"><?php esc_attr_e( "Choose what you want to happen after your visitor has successfully submitted their email address.", Opt_In::TEXT_DOMAIN ); ?></label>
+		<label class="wpmudev-helper"><?php esc_attr_e( "Choose what you want to happen after your visitor has successfully submitted their email address through Hustle's form.", Opt_In::TEXT_DOMAIN ); ?></label>
 
 	</div>
 

@@ -261,18 +261,6 @@ function fl_bwp_minify_is_loadable_filter( $args ) {
 add_filter( 'bwp_minify_is_loadable', 'fl_bwp_minify_is_loadable_filter' );
 
 /**
- * Stop autoptimize from optimizing when builder is open.
- * @since 1.10.9
- */
-function fl_autoptimize_filter_noptimize_filter( $args ) {
-	if ( FLBuilderModel::is_builder_active() ) {
-		return true;
-	}
-	return $args;
-}
-add_filter( 'autoptimize_filter_noptimize', 'fl_autoptimize_filter_noptimize_filter' );
-
-/**
 * Fixes an issue on search archives if one of the results contains same shortcode
 * as is currently trying to render.
 *
@@ -460,5 +448,18 @@ add_action( 'template_redirect', 'fl_fix_enjoy_instagram' );
 function fl_fix_enjoy_instagram() {
 	if ( FLBuilderModel::is_builder_active() ) {
 		remove_action( 'wp_head', 'funzioni_in_head' );
+	}
+}
+
+/**
+ * Fix Event Calendar widget not loading assets when added as a widget module.
+ * @since 2.1.5
+ */
+add_action( 'tribe_events_pro_widget_render', 'fl_tribe_events_pro_widget_render_fix', 10, 3 );
+function fl_tribe_events_pro_widget_render_fix( $class, $args, $instance ) {
+	if ( isset( $args['widget_id'] ) && false !== strpos( $args['widget_id'], 'fl_builder_widget' ) ) {
+		if ( class_exists( 'Tribe__Events__Pro__Mini_Calendar' ) ) {
+			Tribe__Events__Pro__Mini_Calendar::instance()->register_assets();
+		}
 	}
 }

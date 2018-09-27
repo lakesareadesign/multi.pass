@@ -269,7 +269,7 @@
 					responsive		 : responsive,
 					rowClass		 : field['row_class'] ? ' ' + field['row_class'] : '',
 					isMultiple     	 : isMultiple,
-					supportsMultiple : 'editor' !== field.type && 'photo' !== field.type && 'service' !== field.type,
+					supportsMultiple : 'editor' !== field.type && 'service' !== field.type,
 					settings 		 : settings,
 					globalSettings   : globalSettings,
 					template		 : $( '#tmpl-fl-builder-field-' + field.type )

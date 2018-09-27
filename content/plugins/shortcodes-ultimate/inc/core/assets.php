@@ -78,16 +78,6 @@ class Su_Assets {
 		wp_register_script( 'swiper', plugins_url( 'assets/js/swiper.js', SU_PLUGIN_FILE ), array( 'jquery' ), '2.6.1', true );
 		// jPlayer
 		wp_register_script( 'jplayer', plugins_url( 'assets/js/jplayer.js', SU_PLUGIN_FILE ), array( 'jquery' ), '2.4.0', true );
-		// Options page
-		wp_register_style( 'su-options-page', plugins_url( 'assets/css/options-page.css', SU_PLUGIN_FILE ), false, SU_PLUGIN_VERSION, 'all' );
-		wp_register_script( 'su-options-page', plugins_url( 'assets/js/options-page.js', SU_PLUGIN_FILE ), array( 'magnific-popup', 'jquery-ui-sortable', 'ace', 'jsrender' ), SU_PLUGIN_VERSION, true );
-		wp_localize_script( 'su-options-page', 'su_options_page', array(
-				'upload_title'  => __( 'Choose files', 'shortcodes-ultimate' ),
-				'upload_insert' => __( 'Add selected files', 'shortcodes-ultimate' ),
-				'not_clickable' => __( 'This button is not clickable', 'shortcodes-ultimate' )
-			) );
-		// Cheatsheet
-		wp_register_style( 'su-cheatsheet', plugins_url( 'assets/css/cheatsheet.css', SU_PLUGIN_FILE ), false, SU_PLUGIN_VERSION, 'all' );
 		// Generator
 		wp_register_style( 'su-generator', plugins_url( 'assets/css/generator.css', SU_PLUGIN_FILE ), array( 'farbtastic', 'magnific-popup' ), SU_PLUGIN_VERSION, 'all' );
 		wp_register_script( 'su-generator', plugins_url( 'assets/js/generator.js', SU_PLUGIN_FILE ), array( 'farbtastic', 'magnific-popup', 'qtip' ), SU_PLUGIN_VERSION, true );
@@ -102,12 +92,14 @@ class Su_Assets {
 				'hotkey'               => get_option( 'su_option_hotkey' )
 			) );
 		// Shortcodes stylesheets
-		wp_register_style( 'su-content-shortcodes', self::skin_url( 'content-shortcodes.css' ), false, SU_PLUGIN_VERSION, 'all' );
-		wp_register_style( 'su-box-shortcodes', self::skin_url( 'box-shortcodes.css' ), false, SU_PLUGIN_VERSION, 'all' );
-		wp_register_style( 'su-media-shortcodes', self::skin_url( 'media-shortcodes.css' ), false, SU_PLUGIN_VERSION, 'all' );
-		wp_register_style( 'su-other-shortcodes', self::skin_url( 'other-shortcodes.css' ), false, SU_PLUGIN_VERSION, 'all' );
-		wp_register_style( 'su-galleries-shortcodes', self::skin_url( 'galleries-shortcodes.css' ), false, SU_PLUGIN_VERSION, 'all' );
-		wp_register_style( 'su-players-shortcodes', self::skin_url( 'players-shortcodes.css' ), false, SU_PLUGIN_VERSION, 'all' );
+		wp_register_style( 'su-shortcodes', plugins_url( 'includes/css/shortcodes.css', SU_PLUGIN_FILE ), false, SU_PLUGIN_VERSION, 'all' );
+		// DEPRECATED - Shortcodes stylesheets
+		wp_register_style( 'su-content-shortcodes', '', false, SU_PLUGIN_VERSION, 'all' );
+		wp_register_style( 'su-box-shortcodes', '', false, SU_PLUGIN_VERSION, 'all' );
+		wp_register_style( 'su-media-shortcodes', '', false, SU_PLUGIN_VERSION, 'all' );
+		wp_register_style( 'su-other-shortcodes', '', false, SU_PLUGIN_VERSION, 'all' );
+		wp_register_style( 'su-galleries-shortcodes', '', false, SU_PLUGIN_VERSION, 'all' );
+		wp_register_style( 'su-players-shortcodes', '', false, SU_PLUGIN_VERSION, 'all' );
 		// RTL stylesheets
 		wp_register_style( 'su-rtl-shortcodes', self::skin_url( 'rtl-shortcodes.css' ), false, SU_PLUGIN_VERSION, 'all' );
 		wp_register_style( 'su-rtl-admin', self::skin_url( 'rtl-admin.css' ), false, SU_PLUGIN_VERSION, 'all' );

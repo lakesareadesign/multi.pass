@@ -66,13 +66,15 @@
 			minItemWidth: <?php echo $settings->photo_size; ?>
 		});
 		<?php else : ?>
-		$('.fl-node-<?php echo $id; ?> .fl-gallery-item').wookmark({
-			align: 'center',
-			autoResize: true,
-			container: $('.fl-node-<?php echo $id; ?> .fl-gallery'),
-			offset: <?php echo $settings->photo_spacing; ?>,
-			itemWidth: 150,
-			verticalOffset: <?php echo ( 'below' == $settings->show_captions ) ? '35' : '0'; ?>
+		$( '.fl-node-<?php echo $id; ?> .fl-gallery' ).imagesLoaded( function(){
+			$('.fl-node-<?php echo $id; ?> .fl-gallery-item').wookmark({
+				align: 'center',
+				autoResize: true,
+				container: $('.fl-node-<?php echo $id; ?> .fl-gallery'),
+				offset: <?php echo $settings->photo_spacing; ?>,
+				itemWidth: 150,
+				verticalOffset: <?php echo ( 'below' == $settings->show_captions ) ? '35' : '0'; ?>
+			});
 		});
 		<?php endif; ?>
 	});

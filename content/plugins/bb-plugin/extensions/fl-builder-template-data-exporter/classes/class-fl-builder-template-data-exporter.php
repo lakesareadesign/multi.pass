@@ -85,10 +85,10 @@ final class FLBuilderTemplateDataExporter {
 	 * @return void
 	 */
 	static public function menu() {
-		if ( self::is_enabled() && current_user_can( 'delete_users' ) ) {
+		if ( self::is_enabled() ) {
 
 			$title = __( 'Template Exporter', 'fl-builder' );
-			$cap   = 'delete_users';
+			$cap   = 'edit_posts';
 			$slug  = 'fl-builder-template-data-exporter';
 			$func  = __CLASS__ . '::render';
 
@@ -119,7 +119,7 @@ final class FLBuilderTemplateDataExporter {
 	 * @return void
 	 */
 	static public function export() {
-		if ( ! current_user_can( 'delete_users' ) ) {
+		if ( ! self::is_enabled() ) {
 			return;
 		}
 		if ( ! isset( $_POST['fl-builder-template-data-exporter-nonce'] ) ) {

@@ -252,7 +252,7 @@ final class FLBuilderUserAccess {
 		}
 
 		// Make sure super admins have administrator access.
-		if ( is_super_admin() && ! in_array( 'administrator', $user->roles ) ) {
+		if ( is_multisite() && is_super_admin() && ! in_array( 'administrator', $user->roles ) ) {
 			$user->roles[] = 'administrator';
 		}
 

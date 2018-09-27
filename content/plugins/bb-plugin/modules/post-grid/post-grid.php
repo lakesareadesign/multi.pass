@@ -24,10 +24,10 @@ class FLPostGridModule extends FLBuilderModule {
 	 */
 	public function enqueue_scripts() {
 		if ( FLBuilderModel::is_builder_active() || 'columns' == $this->settings->layout ) {
-			$this->add_js( 'jquery-imagesloaded' );
+			$this->add_js( 'imagesloaded' );
 		}
 		if ( FLBuilderModel::is_builder_active() || 'grid' == $this->settings->layout ) {
-			$this->add_js( 'jquery-imagesloaded' );
+			$this->add_js( 'imagesloaded' );
 			$this->add_js( 'jquery-masonry' );
 
 		}

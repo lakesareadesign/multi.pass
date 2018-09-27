@@ -7,14 +7,17 @@ Hustle.define("Slidein.Listing", function($){
 		el: "#wpmudev-hustle",
 		logShown: false,
 		events: {
+			'click .import-module-settings': 'import_settings',
 			"click .hustle-delete-module": "delete_module",
 			"click #hustle-free-version-create": "show_upgrade_modal",
 			"click .button-view-email-list": "view_email_list",
 			"click .module-toggle-tracking-activity": "toggle_tracking_activity",
 			"click .button-view-log-list": "view_error_log_list",
 			"click #wpmudev-bulk-action-button": "apply_bulk_action",
+			"click .module-duplicate": "duplicate",
 			"change [name='wph-module-status']": "module_status_updated",
 			"change #wph-all-slideins": "select_all",
+			"change #wph-optin-service-import-form input[type=file]": "toggle_notice",
 		},
 		initialize: function(){
 			var self = this;
@@ -68,6 +71,40 @@ Hustle.define("Slidein.Listing", function($){
 				this.delete_confirmation.opts.nonce = nonce;
 				this.delete_confirmation.$el.addClass('wpmudev-modal-active');
 			}
+		},
+		toggle_notice: function(e) {
+			//hide/show notice for selecting file
+			if ( $(e.target).val() ) {
+				$('#select_file_error').addClass('wpmudev-hidden');
+			} else {
+				$('#select_file_error').removeClass('wpmudev-hidden');
+			}
+		},
+		import_settings: function(e) {
+			//show import popup
+			e.preventDefault();
+			e.stopPropagation();
+
+			var $this = this.$(e.target),
+					id = $this.data("id"),
+					type = $this.data("type"),
+					name = $this.data("name"),
+					nonce = $this.data("nonce"),
+					Modal_Import = Hustle.get("Modal_Import");
+
+			// Get rid of old import.
+			if ( this.importShown ) {
+				this.importShown.remove();
+			}
+			// Render modal.
+			this.importShown = new Modal_Import({
+				model: {
+					id: id,
+					name: name,
+					nonce: nonce,
+					type: type
+				}
+			});
 		},
 		show_upgrade_modal: function(e) {
 			if ( typeof( e ) !== 'undefined' ) {
@@ -212,6 +249,30 @@ Hustle.define("Slidein.Listing", function($){
 					}
 				}
 			}
+		},
+		/**
+		 * Duplicate Slide-In
+		 *
+		 * @since 3.0.6
+		 */
+		duplicate: function(e){
+			var $this = $(e.target),
+			id = $this.data("id"),
+			nonce = $this.data("nonce"),
+			type = $this.data("type");
+			$.ajax({
+				url: ajaxurl,
+				type: "POST",
+				data: {
+					action: "hustle_slidein_duplicate",
+					id: id,
+					type: type,
+					_ajax_nonce: nonce
+				},
+				complete: function(){
+					location.reload();
+				}
+			});
 		}
 	});
 });

@@ -12,6 +12,7 @@ echo 'FLBuilderConfig              = ' . json_encode( apply_filters('fl_builder_
 	'global'                         => $global_settings,
 	'help'                           => FLBuilderModel::get_help_button_settings(),
 	'homeUrl'                        => home_url(),
+	'enqueueMethod'					 => FLBuilderModel::get_asset_enqueue_method(),
 	'isRtl'                          => is_rtl(),
 	'isUserTemplate'                 => false,
 	'lite'                           => true === FL_BUILDER_LITE,
@@ -54,6 +55,7 @@ echo 'FLBuilderConfig              = ' . json_encode( apply_filters('fl_builder_
 	'inlineEnabled'                 => FLBuilderModel::is_inline_enabled(),
 	'CheckCodeErrors'               => FLBuilderModel::is_codechecking_enabled(),
 	'AceEditorSettings'             => FLBuilderModel::ace_editor_settings(),
+	'FontWeights'                   => FLBuilderFonts::get_font_weight_strings(),
 
 ) ) ) . ';';
 

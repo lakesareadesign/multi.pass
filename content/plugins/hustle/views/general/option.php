@@ -39,8 +39,9 @@ if ( isset( $selected ) && is_array( $selected ) ) {
 		foreach( $options as $option ):
 			$option = (array) $option;
 			$value 	= isset( $option['value'] ) ? $option['value'] : '';
+			$_selected = is_array( $selected ) && empty( $selected ) ? '' : $selected;
             ?>
-            <option <?php selected( $selected, $value ); ?> value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $option['label'] ); ?></option>
+            <option <?php selected( $_selected, $value ); ?> value="<?php echo esc_attr( $value ); ?>"><?php echo esc_attr( $option['label'] ); ?></option>
         <?php endforeach; ?>
     </select>
 
@@ -71,6 +72,9 @@ if ( isset( $selected ) && is_array( $selected ) ) {
 
     if( isset( $selected ) )
         $_selected = $selected;
+
+    if( is_array( $_selected ) && empty( $_selected ) )
+        $_selected = '';
 
     echo '<div class="wpmudev-options-list">';
 
@@ -149,7 +153,12 @@ if ( isset( $selected ) && is_array( $selected ) ) {
     <?php echo '</div>'; ?>
 
 <?php elseif( "ajax_button" === $type  ): // button that is not an input submit ?>
-    <button class="<?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>">
+   <button <?php Opt_In::render_attributes( isset( $attributes ) ? $attributes : array() ); ?> <?php echo ( isset( $id ) ? 'id="' . esc_attr( $id ) . '"' : '' ); ?> class="<?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>">
+		<?php echo $value; // phpcs:ignore ?>
+	</button>
+
+<?php elseif( "submit_button" === $type  ): // button that is submit ?>
+   <button type="submit"<?php Opt_In::render_attributes( isset( $attributes ) ? $attributes : array() ); ?> <?php echo ( isset( $id ) ? 'id="' . esc_attr( $id ) . '"' : '' ); ?> class="<?php echo isset( $class ) ? esc_attr( $class ) : ''; ?>">
 		<?php echo $value; // phpcs:ignore ?>
 	</button>
 

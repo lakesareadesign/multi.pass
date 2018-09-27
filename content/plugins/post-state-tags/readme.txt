@@ -4,7 +4,7 @@ Donate link: http://j.mp/1QvdGgX
 Tags: wp-admin, admin, post state, color, post colours, list, highlight
 Requires at least: 3.8
 Tested up to: 4.9.8
-Stable tag: 2.0.2
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -96,6 +96,9 @@ There is a back-end setting to change the value of the lightness. The default is
 3. Screenshot showing the Settings interface where you can adjust settings like colors, icons 
 
 == Changelog ==
+
+= 2.0.3 =
+* Replaced create_function in Settings API library with anonymous function
 
 = 2.0.2 =
 * Fixed a bug in the migration check for install and version

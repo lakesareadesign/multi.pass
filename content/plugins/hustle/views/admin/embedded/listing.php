@@ -84,11 +84,6 @@
 												<span class="wpmudev-button-text"><?php esc_attr_e('Edit', Opt_In::TEXT_DOMAIN); ?></span>
 											</a>
 
-											<a class="wpmudev-button wpmudev-button-sm wpmudev-button-red hustle-delete-module" data-nonce="<?php echo esc_attr( wp_create_nonce('hustle_delete_module') ); ?>" data-id="<?php echo esc_attr( $module->id ); ?>" >
-												<span class="wpmudev-button-icon"><?php $this->render("general/icons/admin-icons/icon-delete" ); ?></span>
-												<span class="wpmudev-button-text"><?php esc_attr_e('Delete', Opt_In::TEXT_DOMAIN); ?></span>
-											</a>
-
 										</div>
 
 									</div>
@@ -120,6 +115,50 @@
 									<?php endif; ?>
 
 								</div>
+
+<div class="wpmudev-element--settings">
+
+<div class="wpmudev-element--content">
+
+	<div class="wpmudev-dots-dropdown">
+
+		<button class="wpmudev-dots-button"><svg height="4" width="16">
+			<circle cx="2" cy="2" r="2" fill="#B5BBBB" />
+			<circle cx="8" cy="2" r="2" fill="#B5BBBB" />
+			<circle cx="14" cy="2" r="2" fill="#B5BBBB" />
+		</svg></button>
+
+		<ul class="wpmudev-dots-nav wpmudev-hide">
+
+			<li><a href="#" class="module-duplicate" data-id="<?php echo esc_attr( $module->id ); ?>" data-type="<?php echo esc_attr( $module->module_type ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce('duplicate_embed') ); ?>" ><?php esc_attr_e( "Duplicate", Opt_In::TEXT_DOMAIN ); ?></a></li>
+				<?php
+					/**
+					 * single optin export
+					 */
+					$action = Opt_In::EXPORT_MODULE_ACTION;
+					$nonce = wp_create_nonce( $action );
+					$url = add_query_arg(
+						array(
+							'page' => Hustle_Module_Admin::POPUP_LISTING_PAGE,
+							'action' => $action,
+							'id' => $module->id,
+							'type' => $module->module_type,
+							Opt_In::EXPORT_MODULE_ACTION => $nonce,
+						),
+						admin_url( 'admin.php' )
+					);
+					$url = wp_nonce_url( $url, $action, $nonce );
+				?>
+				<li><a href="<?php echo esc_url( $url ); ?>"><?php esc_attr_e( "Export module settings", Opt_In::TEXT_DOMAIN ); ?></a></li>
+				<li><a href="#" class="import-module-settings" data-id="<?php echo esc_attr( $module->id ); ?>" data-name="<?php echo esc_attr( $module->module_name ); ?>" data-type="<?php echo esc_attr( $module->module_type ); ?>" data-nonce="<?php echo esc_attr( wp_create_nonce('import_settings' . $module->id ) ); ?>"><?php esc_attr_e( "Import module settings", Opt_In::TEXT_DOMAIN ); ?></a></li>
+				<li><a href="#" class="hustle-delete-module" data-nonce="<?php echo esc_attr( wp_create_nonce('hustle_delete_module') ); ?>" data-id="<?php echo esc_attr( $module->id ); ?>" ><?php esc_attr_e( "Delete Embed", Opt_In::TEXT_DOMAIN ); ?></a></li>
+		</ul>
+
+	</div>
+
+</div>
+
+</div>
 
 								<div class="wpmudev-box-action"><?php $this->render("general/icons/icon-arrow" ); ?></div>
 
@@ -309,6 +348,8 @@
 		<?php $this->render("admin/commons/listing/modal-error"); ?>
 
 		<?php $this->render("admin/commons/listing/modal-email"); ?>
+
+		<?php $this->render("admin/commons/listing/modal-import"); ?>
 
 		<?php $this->render("admin/commons/listing/delete-confirmation"); ?>
 

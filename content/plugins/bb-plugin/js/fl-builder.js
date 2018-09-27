@@ -1366,9 +1366,16 @@
 		{
 			var href = window.location.href;
 
+			try {
+				var flbuilder = typeof window.opener.FLBuilder != 'undefined'
+			}
+			catch(err) {
+				var flbuilder = false
+			}
+
 			if ( FLBuilderConfig.isUserTemplate && typeof window.opener != 'undefined' && window.opener ) {
 
-				if ( typeof window.opener.FLBuilder != 'undefined' ) {
+				if ( flbuilder ) {
 					if ( 'undefined' === typeof FLBuilderGlobalNodeId ) {
 						window.opener.FLBuilder._updateLayout();
 					} else {
@@ -1402,9 +1409,16 @@
 		_exitWithoutRefresh: function() {
 			var href = window.location.href;
 
-			if ( FLBuilderConfig.isUserTemplate && typeof window.opener != 'undefined' && window.opener ) {
+			try {
+				var flbuilder = typeof window.opener.FLBuilder != 'undefined'
+			}
+			catch(err) {
+				var flbuilder = false
+			}
 
-				if ( typeof window.opener.FLBuilder != 'undefined' ) {
+			if ( FLBuilderConfig.isUserTemplate && flbuilder && window.opener ) {
+
+				if ( flbuilder ) {
 					if ( 'undefined' === typeof FLBuilderGlobalNodeId ) {
 						window.opener.FLBuilder._updateLayout();
 					} else {
@@ -8087,19 +8101,7 @@
 		_getFontWeights: function( currentFont ){
 			var selectWeight = currentFont.next( '.fl-font-field-weight' ),
 				font         = currentFont.val(),
-				weightMap    = {
-					'default' : 'Default',
-					'regular' : 'Regular',
-					'100': 'Thin 100',
-					'200': 'Extra-Light 200',
-					'300': 'Light 300',
-					'400': 'Normal 400',
-					'500': 'Medium 500',
-					'600': 'Semi-Bold 600',
-					'700': 'Bold 700',
-					'800': 'Extra-Bold 800',
-					'900': 'Ultra-Bold 900'
-				},
+				weightMap    = FLBuilderConfig.FontWeights,
 				weights      = {};
 
 				selectWeight.html('');

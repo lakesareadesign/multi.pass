@@ -6,6 +6,10 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+= 2.8.2 =
+
+Fix: Compatibility issues with latest WP Offload Media (WP Offload S3) update
+
 = 2.8.1 =
 
 * New: Directory Smush UI/UX
@@ -458,4 +462,4 @@ Change Log:
 - First release
 
 
-133620-1536712538-au
+133620-1538021324-au

@@ -493,6 +493,38 @@ abstract class Hustle_Model extends Hustle_Data {
 	}
 
 	/**
+	 * Toggles test_mode of optin or optin type
+	 *
+	 * @param string|bool $action
+	 * @return false|int|WP_Error
+	 */
+	public function change_test_mode( $action = 'toggle' ){
+		// Clear cache.
+		$this->clear_object_cache();
+
+		if ( true === $action ) {
+			$mode = 1;
+		} elseif ( false === $action ) {
+			$mode = 0;
+		} else {
+			$mode = (1 - $this->test_mode);
+		}
+
+		// If enabling test mode and the module is not live, make the module live so it does show up for testing
+		if ( $mode > 0 && 0 === (int)$this->active ) {
+			$this->toggle_state();
+		}
+
+		return $this->_wpdb->update( $this->get_table(), array(
+			"test_mode" => $mode
+		), array(
+			"module_id" => $this->id
+		), array(
+			"%d"
+		) );
+	}
+
+	/**
 	 * Toggles $type's test mode
 	 *
 	 * @param $type
@@ -500,10 +532,11 @@ abstract class Hustle_Model extends Hustle_Data {
 	 */
 	public function toggle_type_test_mode( $type ){
 
-		if( $this->is_test_type_active( $type ) )
+		if( $this->is_test_type_active( $type ) ){
 			unset( $this->_test_types[ $type ] );
-		else
+		} else {
 			$this->_test_types[ $type ] = true;
+		}
 
 		// Clear cache.
 		$this->clear_object_cache();
@@ -519,10 +552,11 @@ abstract class Hustle_Model extends Hustle_Data {
 	 */
 	public function toggle_type_track_mode( $type ){
 
-		if( $this->is_track_type_active( $type ) )
+		if( $this->is_track_type_active( $type ) ) {
 			unset( $this->_track_types[ $type ] );
-		else
+		} else {
 			$this->_track_types[ $type ] = true;
+		}
 
 		return $this->update_meta( self::TRACK_TYPES, $this->_track_types );
 	}

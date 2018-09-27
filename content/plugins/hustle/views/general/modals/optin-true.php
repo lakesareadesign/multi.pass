@@ -6,7 +6,8 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 <script id="wpmudev-hustle-modal-with-optin-tpl" type="text/template">
 
 	<#
-	var have_mc_group = !_.isEmpty( content.args ) && 'object' === typeof content.args.group ;
+	var have_mc_group = !_.isEmpty( content.args ) && 'object' === typeof content.args.group,
+		has_args = !_.isEmpty( content.args ) && 'object' === typeof content.args;
 	if ( 'object' !== typeof content.form_elements && '' !== content.form_elements ) {
 		content.form_elements = JSON.parse(content.form_elements);
 	}
@@ -134,9 +135,11 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 									<div class="hustle-modal-mc_groups hustle-modal-provider-args-container"></div>
 
-								<# } #>
+								<# } else if ( _.isTrue( has_args ) ) { #>
+									<div class="hustle-modal-provider-args-container"></div>
+                                <# } #>
 
-                                <# if ( 'undefined' !== typeof content.form_elements.submit && 'undefined' !== typeof content.form_elements.submit.label ) { #>
+								<# if ( 'undefined' !== typeof content.form_elements.submit && 'undefined' !== typeof content.form_elements.submit.label ) { #>
 
 									<div class="hustle-modal-optin_button">
 
@@ -265,11 +268,11 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 								<# if ( _.isTrue(content.show_gdpr) && content.show_gdpr !== '' ) { #>
 									<div class="hustle-gdpr-box">
-										<label for="hustle-modal-gdpr" class="hustle-gdpr-checkbox">
-											<input type="checkbox" id="hustle-modal-gdpr" class="hustle-modal-gdpr">
+										<label for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-checkbox">
+											<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-modal-gdpr">
 											<span aria-hidden="true"></span>
 										</label>
-										<div for="hustle-modal-gdpr" class="hustle-gdpr-content">{{{content.gdpr_message}}}</div>
+										<div for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-content">{{{content.gdpr_message}}}</div>
 									</div>
 								<# } #>
 
@@ -394,7 +397,9 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 									<div class="hustle-modal-mc_groups hustle-modal-provider-args-container"></div>
 
-								<# } #>
+								<# } else if ( _.isTrue( has_args ) ) { #>
+									<div class="hustle-modal-provider-args-container"></div>
+                                <# } #>
 
 								<# if ( 'undefined' !== typeof content.form_elements.submit && 'undefined' !== typeof content.form_elements.submit.label ) { #>
 

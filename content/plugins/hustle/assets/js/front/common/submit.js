@@ -47,28 +47,18 @@
 		return errors.length === 0;
 	}
 
-	function get_module( allModules, module_id ) {
-		var mod;
-		$.each( allModules, function( key, val ) {
-			if ( module_id === parseInt( $(this)[0][ 'module_id' ] ) ) {
-				mod = val;
-				return false;
-			}
-		});
-
-		return mod;
-	}
-
 	$(document).on("submit", 'form.hustle-modal-optin_form',function(e){
 		e.preventDefault();
-		
+
 		var $form = $(e.target),
 			$button = $form.find("button"),
 			$modal = $form.closest( '.hustle-modal'),
 			$modal_parent = $modal.parent(),
 			module_id = $modal_parent.data( 'id'),
 			type = $modal_parent.data('type'),
-			module = get_module( Modules, module_id ),
+			module = _.find(Modules, function ( mod, key ) {
+				return module_id === parseInt( mod[ 'module_id' ] );
+			}),
 			self = this,
 			is_test = _.isTrue( module.test_mode ),
 			get_success_message = function(){
@@ -77,10 +67,21 @@
 			$failure = $("<span class='wpoi-submit-failure'>" + inc_opt.l10n.submit_failure +  "</span>")
 			;
 
+		if ( 'embedded' === module.module_type || 'social_sharing' === module.module_type ) {
+			if ( _.isObject( module.test_types ) && 'undefined' !== module.test_types[ type ] && _.isTrue( module.test_types[ type ] ) ) {
+				is_test = true;
+			}
+		}
 
 		$form.parent().find('.wpoi-submit-failure').remove();
 
-		if( $form.data("sending") || !validate_form( $form, is_test ) ) return;
+		if ( is_test ) {
+			$failure.html( inc_opt.l10n.test_cant_submit );
+			$form.append( $failure );
+			return;
+		}
+
+		if( $form.data("sending") || !validate_form( $form, is_test ) )  return;
 
 		$button.attr("disabled", true);
 		$button.addClass("loading");
@@ -105,6 +106,23 @@
 			},
 			success: function(res){
 				if ( res && res.success ) {
+					// save cookies for 'after_subscription' property
+					if ( 'undefined' !== typeof module.content.after_subscription ) {
+						var cookie_key;
+						if ( 'popup' === module.module_type ) {
+							cookie_key = Optin.POPUP_COOKIE_PREFIX + module_id;
+						} else if ( 'slidein' === module.module_type ) {
+							cookie_key = Optin.SLIDE_IN_COOKIE_PREFIX + module_id;
+						} else if ( 'embedded' === module.module_type ) {
+							cookie_key = Optin.EMBEDDED_COOKIE_PREFIX + module_id;
+						}
+						if ( 'no_show_on_post' === module.content.after_subscription ) {
+							Optin.cookie.set( cookie_key + '_success_' + inc_opt.page_id, module_id );
+						} else if ( 'no_show_all' === module.content.after_subscription ) {
+							Optin.cookie.set( cookie_key + '_success', module_id );
+						}
+					}
+
 					if ( module.content.after_successful_submission === 'redirect' ) {
 						window.location.replace( module.content.redirect_url );
 					} else {
@@ -158,6 +176,55 @@
 			}
 		});
 
+	});
+
+	
+	$(document).on("submit", 'form.hustle-unsubscribe-form',function(e){
+		e.preventDefault();
+		var $form = $(e.target),
+			$email_holder = $form.find( '.hustle-email-section' );
+			data = $form.serialize(),
+			$button = $form.find("button"),
+			$failure = $('<span class="wpoi-submit-failure">' + inc_opt.l10n.submit_failure + '</span>');
+
+		// use validate_form() instead
+
+		$button.attr("disabled", true);
+		$button.addClass("loading");
+		$form.addClass("loading");
+		$form.find( '.wpoi-submit-failure' ).remove();
+
+		$.ajax({
+			type: "POST",
+			url: inc_opt.ajaxurl,
+			dataType: "json",
+			data: {
+				action: "hustle_unsubscribe_form_submission",
+				data: data,
+			},
+			success: function(res) {
+				if ( res.success && true === res.success ) {
+					$email_holder.hide();
+
+					if ( res.data.wrapper && res.data.html ) {
+						$form.find( res.data.wrapper ).html( res.data.html );	
+					}
+				} else {
+					if ( res.data.html ) {
+						$failure.html( res.data.html );
+						$form.prepend( $failure );
+					}
+				}
+			},
+			error: function(){
+				$form.prepend( $failure );
+			},
+			complete: function(){
+				$button.attr("disabled", false);
+				$form.removeClass("loading");
+				$button.removeClass("loading");
+			}
+		});
 	});
 
 }(jQuery));

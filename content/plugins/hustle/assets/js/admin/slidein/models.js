@@ -25,11 +25,13 @@ Hustle.define( "Slidein.Models",  function(){
 			cta_target: 'blank',
 			use_email_collection: false,
 			save_local_list: false,
+			local_list_name: '',
 			active_email_service: '',
 			email_services: '',
 			form_elements: '',
 			after_successful_submission: 'show_success',
 			success_message: '',
+			after_subscription: "keep_show", // keep_show|no_show_on_post|no_show_all
 			gdpr_message: 'Yes, I agree with the <a href="#" target="_blank" rel="noopener">privacy policy</a>.',
 			auto_close_success_message: false,
 			auto_close_time: 5,

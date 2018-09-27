@@ -6,7 +6,6 @@ Hustle.define("Pop_Up.Content_View", function($, doc, win){
 		target_container: $('#wpmudev-hustle-box-section-content'),
 		editing_service: '',
 		is_service_modal_updated: false,
-		service_supports_fields: true,
 		current_form_elements: [],
 		content_form_container : $('.wph-form-element-list'),
 		events: {
@@ -15,7 +14,7 @@ Hustle.define("Pop_Up.Content_View", function($, doc, win){
 			'click #wph-edit-form': 'manage_form_fields',
 		},
 		init: function( opts ){
-			
+
 			this.module_id  = opts.module_id;
 			this.module_type  = 'popup';
 			

@@ -51,7 +51,7 @@ class WPMDBPro_Theme_Plugin_Files extends WPMDBPro_Addon {
 		$this->plugin_slug    = 'wp-migrate-db-pro-theme-plugin-files';
 		$this->plugin_version = $GLOBALS['wpmdb_meta']['wp-migrate-db-pro-theme-plugin-files']['version'];
 
-		if ( ! $this->meets_version_requirements( '1.8.3' ) ) {
+		if ( ! $this->meets_version_requirements( '1.8.4' ) ) {
 			return;
 		}
 

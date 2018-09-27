@@ -15,7 +15,7 @@
 		<a href="<?php echo $settings->link; ?>" target="<?php echo $settings->link_target; ?>" aria-label="link to <?php echo $settings->link; ?>"<?php echo $rel; ?>>
 		<?php endif; ?>
 		<?php endif; ?>
-		<i class="<?php echo $settings->icon; ?>"></i>
+		<i class="<?php echo $settings->icon; ?>" aria-hidden="true"></i>
 		<?php if ( ! empty( $settings->link ) ) : ?></a><?php endif; ?>
 	</span>
 

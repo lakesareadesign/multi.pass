@@ -391,6 +391,7 @@ function ub_get_main_site_ID() {
  * @since 2.1.0
  */
 function ub_register_deactivation_hook() {
+    return;
 	$value = ub_get_option( 'ultimate_branding_delete_settings', 'delete' );
 	if ( 'preserve' === $value ) {
 		return;

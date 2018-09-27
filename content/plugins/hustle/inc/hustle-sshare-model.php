@@ -100,7 +100,7 @@ class Hustle_SShare_Model extends Hustle_Module_Model {
 			$stored_counters = get_post_meta( $post_id, self::COUNTER_META_KEY, true );
 			return $stored_counters;
 		} else {
-			return $this->retrieve_network_shares( $post_id );
+			return array();
 		}
 	}
 
@@ -110,9 +110,10 @@ class Hustle_SShare_Model extends Hustle_Module_Model {
 	 * @since 3.0.3
 	 *
 	 * @param integer $post_id
+	 * @param bool $check_expiration_time Optional. Check expiration time or not
 	 * @return bool
 	 */
-	private function check_if_use_stored( $post_id ){
+	public function check_if_use_stored( $post_id, $check_expiration_time = false ){
 		// we don't have anything stored
 		if( !get_post_meta( $post_id, self::COUNTER_META_KEY ) ) {
 			return false;
@@ -122,21 +123,18 @@ class Hustle_SShare_Model extends Hustle_Module_Model {
 			return true;
 		}
 
-		// do use stored values if it's not single. Avoid long loading times to refresh the counters of lots of instances
-		if( !is_singular() ) {
-			return true;
-		}
+		if ( $check_expiration_time ) {
+			// the expiration time of the counter already passed
+			$timestamp = intval( get_post_meta( $post_id, self::TIMESTAMP_META_KEY, true ) );
+			if( 'true' === $timestamp || time() > ( $timestamp + ( 6 * 60 * 60 ) ) ) {
+				return false;
+			}
 
-		// the expiration time of the counter already passed
-		$timestamp = intval( get_post_meta( $post_id, self::TIMESTAMP_META_KEY, true ) );
-		if( 'true' === $timestamp || time() > ( $timestamp + ( 6 * 60 * 60 ) ) ) {
-			return false;
-		}
-
-		// the counter hasn't beeen updated after the last time all counters were cleared
-		$clear_counters_time = get_option( self::REFRESH_OPTION_KEY, false );
-		if( $clear_counters_time && $timestamp < intval( $clear_counters_time ) ) {
-			return false;
+			// the counter hasn't beeen updated after the last time all counters were cleared
+			$clear_counters_time = get_option( self::REFRESH_OPTION_KEY, false );
+			if( $clear_counters_time && $timestamp < intval( $clear_counters_time ) ) {
+				return false;
+			}
 		}
 		return true;
 	}

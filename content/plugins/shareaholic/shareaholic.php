@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 8.8.2
+ * @version 8.8.3
  */
 
 /*
 Plugin Name: Shareaholic | share buttons, analytics, related posts
 Plugin URI: https://www.shareaholic.com/publishers/
 Description: The world's leading all-in-one Audience Amplification Platform that helps grow your website traffic, engagement, conversions & monetization. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 8.8.2
+Version: 8.8.3
 Author: Shareaholic
 Author URI: https://www.shareaholic.com
 Text Domain: shareaholic
@@ -62,7 +62,7 @@ if (!class_exists('Shareaholic')) {
     const API_URL = 'https://web.shareaholic.com'; // uses static IPs for firewall whitelisting
     const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
 
-    const VERSION = '8.8.2';
+    const VERSION = '8.8.3';
 
     /**
      * Starts off as false so that ::get_instance() returns
@@ -155,6 +155,9 @@ if (!class_exists('Shareaholic')) {
       // https://wordpress.org/support/topic/custom-post-type-exclude-issue?replies=10#post-3370550
       add_action('scui_external_hooks_remove', array($this, 'remove_apps'));
       add_action('scui_external_hooks_return', array($this, 'return_apps'));
+      
+      // WP Rocket Compatability
+      add_filter('rocket_minify_excluded_external_js', array('ShareaholicUtilities', 'rocket_exclude_js') );
     }
 
     public static function remove_apps() {
@@ -194,7 +197,7 @@ if (!class_exists('Shareaholic')) {
      */
     public function shareaholic_init() {
       ShareaholicUtilities::localize();
-            
+      
       if (ShareaholicUtilities::has_accepted_terms_of_service() &&
         isset($_GET['page']) && preg_match('/shareaholic/', $_GET['page'])) {
         ShareaholicUtilities::get_or_create_api_key();

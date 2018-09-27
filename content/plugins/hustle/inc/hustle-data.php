@@ -22,6 +22,7 @@ abstract class Hustle_Data {
 	const KEY_FLOATING_SOCIAL 		= "floating_social";
 	const ACTIVE_FOR_ADMIN 			= "active_for_admin";
 	const ACTIVE_FOR_LOGGED_IN 		= "active_for_logged_in_user";
+	const KEY_UNSUBSCRIBE_NONCES 	= "hustle_unsubscribe_nonces";
 
 	/**
 	 * Optins types

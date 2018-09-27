@@ -17,9 +17,14 @@
 			<?php wp_nonce_field( 'cache', 'fl-cache-nonce' ); ?>
 		</p>
 	</form>
-
 	<hr />
-<?php $debug = get_option( 'fl_debug_mode', false ); ?>
+
+	<?php
+	if ( version_compare( PHP_VERSION, '5.3.0', '>' ) && class_exists( '\FLCacheClear\Plugin' ) ) {
+		include FL_BUILDER_CACHE_HELPER_DIR . 'includes/admin-settings-cache-plugins.php';
+	}
+
+	$debug = get_option( 'fl_debug_mode', false ); ?>
 	<?php $header = ( $debug ) ? __( 'Debug Mode Enabled', 'fl-builder' ) : __( 'Debug Mode Disabled', 'fl-builder' ); ?>
 	<h3 class="fl-settings-form-header"><?php echo $header ?></h3>
 

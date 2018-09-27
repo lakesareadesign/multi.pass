@@ -15,8 +15,6 @@ class Opt_In_Admin_Ajax {
         $this->_hustle = $hustle;
         $this->_admin = $admin;
 
-        add_action("wp_ajax_render_provider_account_options", array( $this, "render_provider_account_options" ));
-        add_action("wp_ajax_refresh_provider_account_details", array( $this, "refresh_provider_account_details" ));
         add_action("wp_ajax_inc_opt_save_new", array( $this, "save_optin" ));
         add_action("wp_ajax_inc_opt_prepare_custom_css", array( $this, "prepare_custom_css" ));
         add_action("wp_ajax_inc_opt_toggle_state", array( $this, "toggle_optin_state" ));
@@ -32,104 +30,6 @@ class Opt_In_Admin_Ajax {
 		add_action( "wp_ajax_clear_logs", array( $this, "clear_logs" ) );
 		add_action( "wp_ajax_export_error_logs", array( $this, "export_error_logs" ) );
 		add_action( "wp_ajax_sshare_show_page_content", array( $this, "sshare_show_page_content" ) );
-		add_action( "wp_ajax_update_hubspot_referrer", array( $this, "update_hubspot_referrer" ) );
-        add_action( "wp_ajax_update_constantcontact_referrer", array( $this, "update_constantcontact_referrer" ) );
-    }
-
-    /**
-     * Renders provider account options based on the selected provider ( provider id )
-     *
-     * @since 1.0
-     */
-    public function render_provider_account_options(){
-
-        Opt_In_Utils::validate_ajax_call( "change_provider_name" );
-
-        $provider_id =  filter_input( INPUT_GET, "provider_id" );
-
-        $optin_id =  filter_input( INPUT_GET, "optin" );
-
-        if( empty( $provider_id ) )  wp_send_json_error( __("Invalid provider", Opt_In::TEXT_DOMAIN) );
-
-        /**
-         * @var $provider Opt_In_Provider_Interface
-         */
-        $provider = Opt_In::get_provider_by_id( $provider_id );
-
-        $provider = Opt_In::provider_instance( $provider );
-
-        $options = $provider->is_authorized() ? $provider->get_account_options( $optin_id ) : $provider->get_options();
-
-        $html = "";
-        foreach( $options as $key =>  $option ){
-            $html .= $this->_hustle->render("general/option", array_merge( $option, array( "key" => $key ) ), true);
-        }
-
-        wp_send_json_success( $html );
-    }
-
-    /**
-     * Refreshes provider account details after the account creds are added and submitted
-     *
-     * @since 1.0
-     */
-    public function refresh_provider_account_details(){
-
-        Opt_In_Utils::validate_ajax_call( "refresh_provider_details" );
-
-        $provider_id =  filter_input( INPUT_POST, "optin_new_provider_name" );
-
-        $optin_id =  filter_input( INPUT_POST, "optin" );
-
-        if( empty( $provider_id ) )  wp_send_json_error( __("Invalid provider", Opt_In::TEXT_DOMAIN) );
-
-        $api_key =  filter_input( INPUT_POST, "optin_api_key" );
-        /**
-         * @var $provider Opt_In_Provider_Interface
-         */
-        $provider = Opt_In::get_provider_by_id( $provider_id );
-
-        /**
-         * @var $provider Opt_In_Provider_Abstract
-         */
-        $provider = Opt_In::provider_instance( $provider );
-
-        $provider->set_arg( "api_key", $api_key );
-
-        if( filter_input( INPUT_POST, "optin_secret_key" ) )
-            $provider->set_arg( "secret", filter_input( INPUT_POST, "optin_secret_key" ) );
-        if( filter_input( INPUT_POST, "optin_username" ) )
-            $provider->set_arg( "username", filter_input( INPUT_POST, "optin_username" ) );
-		if ( filter_input( INPUT_POST, "optin_password" ) )
-			$provider->set_arg( "password", filter_input( INPUT_POST, "optin_password" ) );
-
-        if( filter_input( INPUT_POST, "optin_account_name" ) )
-            $provider->set_arg( "account_name", filter_input( INPUT_POST, "optin_account_name" ) );
-
-        if( filter_input( INPUT_POST, "optin_url" ) )
-            $provider->set_arg( "url", filter_input( INPUT_POST, "optin_url" ) );
-
-        $options = $provider->get_options();
-
-        if( !empty( $options ) )
-            $provider->update_option( Opt_In::get_const( $provider, 'LISTS' ), serialize( $options ) );
-
-
-        if( !is_wp_error( $options ) ){
-            $html = "";
-
-            foreach( $options as $key =>  $option ){
-                $html .= $this->_hustle->render("general/option", array_merge( $option, array( "key" => $key ) ), true);
-            }
-
-            wp_send_json_success( $html );
-        }else{
-            /**
-             * @var WP_Error $options
-             */
-            wp_send_json_error( implode( "<br/>", $options->get_error_messages() ) );
-        }
-
     }
 
     /**
@@ -301,6 +201,22 @@ class Opt_In_Admin_Ajax {
             wp_send_json_success( __("Successful", Opt_In::TEXT_DOMAIN) );
         else
             wp_send_json_error( __("Failed", Opt_In::TEXT_DOMAIN) );
+    }
+
+    /**
+     * Checks conditions required to run given provider
+     *
+     * @param $provider
+     * @return bool|WP_Error
+     */
+    private function _is_provider_allowed_to_run( $provider ){
+		$err = new WP_Error();
+		if( ! $provider->is_activable() ){
+			$err->add( $provider->get_title() . " Not Allowed", __("This provider requires a higher PHP version or a higher Hustle version. Please upgrade to use this provider.", Opt_In::TEXT_DOMAIN) );
+			return $err;
+		}
+
+        return true;
     }
 
     /**
@@ -511,8 +427,8 @@ class Opt_In_Admin_Ajax {
 
 		$optin_id = filter_input( INPUT_GET, 'optin_id', FILTER_VALIDATE_INT );
 
-		if ( class_exists( 'Opt_In_HubSpot_Api') ) {
-			$hubspot = new Opt_In_HubSpot_Api();
+		if ( class_exists( 'Hustle_HubSpot_Api') ) {
+			$hubspot = new Hustle_HubSpot_Api();
 			$hubspot->get_authorization_uri( $optin_id );
 		}
 	}
@@ -521,8 +437,8 @@ class Opt_In_Admin_Ajax {
         Opt_In_Utils::validate_ajax_call( "hustle_constantcontact_referrer" );
 
 		$optin_id = filter_input( INPUT_GET, 'optin_id', FILTER_VALIDATE_INT );
-		if ( version_compare( PHP_VERSION, '5.3', '>=' ) && class_exists( 'Opt_In_ConstantContact_Api') ) {
-			$constantcontact = new Opt_In_ConstantContact_Api();
+		if ( version_compare( PHP_VERSION, '5.3', '>=' ) && class_exists( 'Hustle_ConstantContact_Api') ) {
+			$constantcontact = new Hustle_ConstantContact_Api();
 			$constantcontact->get_authorization_uri( $optin_id );
 		}
     }

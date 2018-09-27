@@ -106,7 +106,7 @@
                             // Content type - module | row | layout
                             if ( ! _.isUndefined( query.content ) && ! _.isNull( query.content ) ) {
 
-                                inArray = _.contains( query.content, object.content );
+                                inArray = _.includes( query.content, object.content );
                                 matches = query.content === object.content;
 
                                 if ( ! inArray && ! matches) {
@@ -139,7 +139,7 @@
                                 var hasGroup = false;
                                 for( i in queryGroup ) {
                                     var group = queryGroup[i];
-                                    if ( _.contains( objectGroup, group ) ) {
+                                    if ( _.includes( objectGroup, group ) ) {
                                         hasGroup = true;
                                     }
                                 }
@@ -155,7 +155,7 @@
                                 if ( query.group === false && object.group.length > 0 ) {
 	                                continue;
                                 }
-                                if ( query.group !== false && ! _.contains( object.group, query.group ) ) {
+                                if ( query.group !== false && ! _.includes( object.group, query.group ) ) {
                                     continue;
                                 }
                             }
