@@ -3,9 +3,9 @@
 if ( 'none' != $layout ) {
 
 	if ( '1-col' == $layout ) {
-		echo '<div class="col-md-12 text-center clearfix">';
+		echo '<div class="' . FLLayout::get_col_classes( array( 'md' => 12 ) ) . ' text-center clearfix">';
 	} else {
-		echo '<div class="col-md-6 col-sm-6 text-left clearfix">';
+		echo '<div class="' . FLLayout::get_col_classes( array( 'sm' => 6, 'md' => 6 ) ) . ' text-left clearfix">';
 	}
 
 	do_action( 'fl_top_bar_col1_open' );

@@ -31,9 +31,9 @@ if ( $comments && $comment_count ) {
 	if ( $show_author || $show_date ) {
 		echo '<span class="fl-sep"> | </span>';
 	}
-
+	FLTheme::enqueue_fontawesome();
 	echo '<span class="fl-comments-popup-link">';
-	comments_popup_link( '0 <i class="fa fa-comment"></i>', '1 <i class="fa fa-comment"></i>', '% <i class="fa fa-comment"></i>' );
+	comments_popup_link( '0 <i class="fas fa-comment"></i>', '1 <i class="fas fa-comment"></i>', '% <i class="fas fa-comments"></i>' );
 	echo '</span>';
 }
 

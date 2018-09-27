@@ -1,3 +1,62 @@
+<h4>1.7.0.1 09/17/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Google fonts now use their proper fallbacks instead of being hard coded to sans-serif.</li>
+	<li>Fixed nav-right search icon alignment when bootstrap 4 enabled.</li>
+	<li>Fixed styling issue with flyout menus when bootstrap 4 enabled.</li>
+	<li>Fixed sidebar sizes, only custom sizes were working.</li>
+	<li>Removed unneeded 94% width on nav-left and nav-right.</li>
+	<li>Fixed indentation for submenu items on responsive nav.</li>
+</ul>
+
+<h4>1.7 09/06/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Italic fonts now supported, including Google Fonts.</li>
+	<li>Added Customizer settings for off canvas menus.</li>
+	<li>Added Customizer settings for global button styles.</li>
+	<li>Added additional Customizer settings for heading styles.</li>
+	<li>Added header logo Customizer setting for mobile devices.</li>
+	<li>Added initial frontend support for Gutenberg blocks. Custom typography displays in the Gutenberg editor.</li>
+	<li>Added new Framework Customizer setting for choosing between Bootstrap 3 and 4 or no framework at all.</li>
+	<li>Added Customizer setting for collapsing mobile menu dropdowns when another is opened.</li>
+	<li>Updated to Font Awesome 5. Only loading Font Awesome if needed or explicitly set to load using the new Customizer setting.</li>
+	<li>Enabled the featured image size setting in the Customizer for all image positions.</li>
+	<li>Enabled the theme’s lightbox for images in the builder’s text editor module.</li>
+	<li>Updated Font Awesome url to use latest 5.3.1</li>
+	<li>Added support for system-ui font stack to system font choices.</li>
+	<li>Added indentation when submenu indicator is enabled.</li>
+	<li>Use core WP ImagesLoaded script if available.</li>
+	<li>Support for Font Awesome Pro if using fl_enable_fa5_pro filter.</li>
+	<li>W3C Validation fixes.</li>
+	<li>New filter added <code>fl_theme_get_setting_$key</code>.</li>
+	<li>Update theme to use latest `add_theme_support` format for wide images.</li>
+	<li>Use Less.php compiler FL_THEME_DEPRECATED_LESSC to use old deprecated lessc.</li>
+	<li>Update editor styles with content background color and text colors.</li>
+	<li>More Gutenberg support.</li>
+	<li>Button style fixes, fonts are now properly enqueued.</li>
+</ul>
+
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed WooCommerce column styling overriding WooCommerce module settings.</li>
+	<li>Fixed Themer parts set to show before the header showing after the sticky or fixed headers.</li>
+	<li>Various off canvas menu tweaks.</li>
+	<li>Changed to default FA Facebook icon to facebook-f.</li>
+	<li>Font-family is now wrapped in quotes in outputted css.</li>
+	<li>Google Fonts are now properly enqueued when using custom H1 styles.</li>
+	<li>Logo is now visible when using fade in header.</li>
+	<li>Fixed the hide-heading for mega-menu.</li>
+	<li>Removed border and margin when hide-heading is applied to the menu item.</li>
+	<li>Fixed the facebook branded color.</li>
+	<li>Fixed search form for nav left layout on RTL sites.</li>
+	<li>Fixed alignment when search is enabled and menu has too many items.</li>
+	<li>Applied indentation always when submenu indicator is enabled.</li>
+	<li>Fixed retina logo transition for shrink header.</li>
+	<li>Added check to see if the customizer controls exist to prevent JS error</li>
+</ul>
+
+
 <h4>1.6.5.1 - 05/29/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

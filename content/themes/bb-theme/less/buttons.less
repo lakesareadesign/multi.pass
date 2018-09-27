@@ -1,0 +1,61 @@
+/*
+
+WARNING! DO NOT EDIT THEME FILES IF YOU PLAN ON UPDATING!
+
+Theme files will be overwritten and your changes will be lost
+when updating. Instead, add custom code in the admin under
+Appearance > Theme Settings > Code or create a child theme.
+
+*/
+.fl-page,
+.fl-responsive-preview-content {
+	button,
+	button:visited,
+	input[type=button],
+	input[type=submit],
+	a.fl-button,
+	a.fl-button:visited {
+		color: @button-color;
+		background: @button-bg-color;
+
+		font-family: @button-font-family;
+		font-weight: @button-font-weight;
+		font-size: @button-font-size;
+		line-height: @button-line-height;
+		text-transform: @button-text-transform;
+
+		border-style: @button-border-style;
+		border-width: @button-border-width;
+		border-color: @button-border-color;
+		border-radius: @button-border-radius;
+	}
+
+	button *,
+	button:visited *,
+	input[type=button] *,
+	input[type=submit] *,
+	a.fl-button *,
+	a.fl-button:visited * {
+		color: @button-color;
+	}
+
+	button:hover,
+	input[type=button]:hover,
+	input[type=submit]:hover,
+	a.fl-button:hover {
+		background: @button-bg-hover-color;
+		color: @button-hover-color;
+
+	    border-style: @button-border-style;
+		border-width: @button-border-width;
+		border-color: @button-border-color;
+		border-radius: @button-border-radius;
+	}
+
+	button:hover *,
+	input[type=button]:hover *,
+	input[type=submit]:hover *,
+	a.fl-button:hover * {
+		color: @button-hover-color;
+	}
+}

@@ -21,6 +21,15 @@
 		_styleSheet: null,
 
 		/**
+		 * A reference to the current value of fl-heading-style
+		 *
+		 * @since 1.7
+		 * @access private
+		 * @property String _headingStyleValue
+		 */
+		_headingStyleValue: '',
+
+		/**
 		 * Initializes all live Customizer previews.
 		 *
 		 * @since 1.2.0
@@ -37,9 +46,10 @@
 			this._css( 'fl-body-bg-position', 'body', 'background-position' );
 			this._css( 'fl-body-bg-attachment', 'body', 'background-attachment' );
 			this._css( 'fl-body-bg-size', 'body', 'background-size' );
-			this._css( 'fl-heading-text-color', 'h1, h2, h3, h4, h5, h6', 'color' );
-			this._css( 'fl-heading-text-color', 'h1 a, h2 a, h3 a, h4 a, h5 a, h6 a', 'color' );
-			this._css( 'fl-heading-font-format', 'h1, h2, h3, h4, h5, h6', 'text-transform' );
+
+			this._css( 'fl-title-text-color', 'h1, h1 a', 'color' );
+			this._css( 'fl-title-font-format', 'h1', 'text-transform');
+
 			this._css( 'fl-h1-font-size', 'h1', 'font-size', '{val}px', '36px', 'int' );
 			this._css( 'fl-h2-font-size', 'h2', 'font-size', '{val}px', '30px', 'int' );
 			this._css( 'fl-h3-font-size', 'h3', 'font-size', '{val}px', '24px', 'int' );
@@ -106,9 +116,6 @@
 			this._css( 'fl-nav-item-spacing', '.fl-page-nav .navbar-nav > li > a', 'padding-left', '{val}px', '0' );
 			this._css( 'fl-nav-item-spacing', '.fl-page-nav .navbar-nav > li > a', 'padding-right', '{val}px', '0' );
 
-
-
-
 			// Bind HTML callbacks.
 			this._html( 'fl-topbar-col1-text', '.fl-page-bar-text-1' );
 			this._html( 'fl-topbar-col2-text', '.fl-page-bar-text-2' );
@@ -118,6 +125,9 @@
 
 			// Bind custom callbacks.
 			this._bind( 'fl-css-code', this._cssCodeChanged );
+
+			// Setup Button Styles Preview
+			this._initButtonStyles();
 		},
 
 		/**
@@ -133,7 +143,7 @@
 		{
 			api( key, function( val ) {
 				val.bind( function( newVal ) {
-					callback.call( FLCustomizerPreview, newVal )
+					callback.call( FLCustomizerPreview, newVal );
 				});
 			});
 		},
@@ -220,6 +230,78 @@
 		_cssCodeChanged: function( val )
 		{
 			$( '#fl-theme-custom-css' ).html( val );
+		},
+
+		_initButtonStyles: function() {
+
+			var mainSelector =  		'.fl-page button,' +
+										'.fl-page button:visited,' +
+										'.fl-page input[type=button],' +
+										'.fl-page input[type=submit],' +
+										'.fl-page a.fl-button,' +
+										'.fl-page a.fl-button:visited,' +
+										'.fl-responsive-preview-content button,' +
+										'.fl-responsive-preview-content button:visited,' +
+										'.fl-responsive-preview-content input[type=button],' +
+										'.fl-responsive-preview-content input[type=submit],' +
+										'.fl-responsive-preview-content a.fl-button,' +
+										'.fl-responsive-preview-content a.fl-button:visited';
+
+			var mainInsideSelector =    '.fl-page button *,' +
+										'.fl-page button:visited *,' +
+										'.fl-page input[type=button] *,' +
+										'.fl-page input[type=submit] *,' +
+										'.fl-page a.fl-button *,' +
+										'.fl-page a.fl-button:visited *,' +
+										'.fl-responsive-preview-content button *,' +
+										'.fl-responsive-preview-content button:visited *,' +
+										'.fl-responsive-preview-content input[type=button] *,' +
+										'.fl-responsive-preview-content input[type=submit] *,' +
+										'.fl-responsive-preview-content a.fl-button *,' +
+										'.fl-responsive-preview-content a.fl-button:visited *';
+
+			var hoverSelector = 		'.fl-page button:hover,' +
+										'.fl-page input[type=button]:hover,' +
+										'.fl-page input[type=submit]:hover,' +
+										'.fl-page a.fl-button:hover,' +
+										'.fl-responsive-preview-content button:hover,' +
+										'.fl-responsive-preview-content input[type=button]:hover,' +
+										'.fl-responsive-preview-content input[type=submit]:hover,' +
+										'.fl-responsive-preview-content a.fl-button:hover';
+
+			var hoverInsideSelector = 	'.fl-page button:hover *,' +
+										'.fl-page input[type=button]:hover *,' +
+										'.fl-page input[type=submit]:hover *,' +
+										'.fl-page a.fl-button:hover *,' +
+										'.fl-responsive-preview-content button:hover *,' +
+										'.fl-responsive-preview-content input[type=button]:hover *,' +
+										'.fl-responsive-preview-content input[type=submit]:hover *,' +
+										'.fl-responsive-preview-content a.fl-button:hover *';
+
+			// Color
+			this._css( 'fl-button-color', mainSelector, 'color' );
+			this._css( 'fl-button-color', mainInsideSelector, 'color' );
+			// Hover Color
+			this._css( 'fl-button-hover-color', hoverSelector, 'color' );
+			this._css( 'fl-button-hover-color', hoverInsideSelector, 'color' );
+			// Background Color
+			this._css( 'fl-button-background-color', mainSelector, 'background' );
+			// Background Hover
+			this._css( 'fl-button-background-hover-color', hoverSelector, 'background' );
+			// Border Color
+			this._css( 'fl-button-border-color', mainSelector, 'border-color' );
+			this._css( 'fl-button-border-color', hoverSelector, 'border-color' );
+			// Border Width
+			this._css( 'fl-button-border-width', mainSelector, 'border-width', '{val}px' );
+			this._css( 'fl-button-border-width', hoverSelector, 'border-width', '{val}px' );
+			// Border Style
+			this._css( 'fl-button-border-style', mainSelector, 'border-style' );
+			this._css( 'fl-button-border-style', hoverSelector, 'border-style' );
+			// Border Radius
+			this._css( 'fl-button-border-radius', mainSelector, 'border-radius', '{val}px' );
+			this._css( 'fl-button-border-radius', hoverSelector, 'border-radius', '{val}px' );
+			// Text Transform
+			this._css( 'fl-button-text-transform', mainSelector, 'text-transform' );
 		},
 	};
 

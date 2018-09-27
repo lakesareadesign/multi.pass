@@ -53,12 +53,16 @@
 			callback: function( val ) {
 
 				var col1Layout = api( 'fl-topbar-col1-layout' ).get(),
-					col1Text   = api.control( 'fl-topbar-col1-text' ).container,
+					col1Text   = api.control.has( 'fl-topbar-col1-text' ) ? api.control( 'fl-topbar-col1-text' ).container : null,
 					col2Layout = api( 'fl-topbar-col2-layout' ).get(),
-					col2Text   = api.control( 'fl-topbar-col2-text' ).container;
+					col2Text   = api.control.has( 'fl-topbar-col2-text' ) ? api.control( 'fl-topbar-col2-text' ).container : null;
 
-				col1Text.toggle( 'none' != val && 'text' == col1Layout );
-				col2Text.toggle( '2-cols' == val && 'text' == col2Layout );
+				if ( col1Text ) {
+					col1Text.toggle( 'none' != val && 'text' == col1Layout );
+				}
+				if ( col2Text ) {
+					col2Text.toggle( '2-cols' == val && 'text' == col2Layout );
+				}
 
 				return '1-col' == val || '2-cols' == val;
 			}
@@ -98,17 +102,21 @@
 		}],
 
 		'fl-logo-type': [{
-			controls: [ 'fl-logo-text', 'fl-logo-font-family', 'fl-logo-font-weight', 'fl-logo-font-size' ],
+			controls: [ 'fl-logo-text', 'fl-theme-tagline', 'fl-logo-font-family', 'fl-logo-font-weight', 'fl-logo-font-size' ],
 			callback: function( val ) { return 'text' == val; }
 		},{
-			controls: [ 'fl-logo-image', 'fl-logo-image-retina', 'fl-sticky-header-logo' ],
+			controls: [ 'fl-logo-image', 'fl-logo-image-retina', 'fl-sticky-header-logo', 'fl-mobile-header-logo' ],
 			callback: function( val ) {
 				var fixedHeader  = api( 'fl-fixed-header' ).get(),
-					sitckyLogo   = api.control( 'fl-sticky-header-logo' ).container,
-					stickyretina = api.control( 'fl-sticky-header-logo-retina' ).container;
+					sitckyLogo   = api.control.has( 'fl-sticky-header-logo' ) ? api.control( 'fl-sticky-header-logo' ).container : null,
+					stickyretina = api.control.has( 'fl-sticky-header-logo-retina' ) ? api.control( 'fl-sticky-header-logo-retina' ).container : null;
 
-				sitckyLogo.toggle( 'image' === val && 'fadein' == fixedHeader );
-				stickyretina.toggle( 'image' === val && 'fadein' == fixedHeader );
+				if ( sitckyLogo ) {
+					sitckyLogo.toggle( 'image' === val && 'fadein' == fixedHeader );
+				}
+				if ( stickyretina ) {
+					stickyretina.toggle( 'image' === val && 'fadein' == fixedHeader );
+				}
 
 				return 'image' == val;
 			}
@@ -149,9 +157,11 @@
 			callback: function( val ) {
 
 				var layout = api( 'fl-header-content-layout' ).get(),
-					text   = api.control( 'fl-header-content-text' ).container;
+					text   = api.control.has( 'fl-header-content-text' ) ? api.control( 'fl-header-content-text' ).container : null;
 
-				text.toggle( 'bottom' == val && ('text' == layout || 'social-text' == layout) );
+				if ( text ) {
+					text.toggle( 'bottom' == val && ('text' == layout || 'social-text' == layout) );
+				}
 
 				return 'bottom' == val;
 			}
@@ -219,6 +229,13 @@
 			}
 		}],
 
+		'fl-nav-mobile-layout': [{
+			controls: [ 'fl-nav-mobile-layout-position' ],
+			callback: function( val ) {
+				return 'dropdown' != val;
+			}
+		}],
+
 		'fl-nav-bg-color': [{
 			controls: [ 'fl-nav-bg-gradient' ],
 			callback: function( val ) {
@@ -276,12 +293,16 @@
 			callback: function( val ) {
 
 				var col1Layout = api( 'fl-footer-col1-layout' ).get(),
-					col1Text   = api.control( 'fl-footer-col1-text' ).container,
+					col1Text   = api.control.has( 'fl-footer-col1-text' ) ? api.control( 'fl-footer-col1-text' ).container : null,
 					col2Layout = api( 'fl-footer-col2-layout' ).get(),
-					col2Text   = api.control( 'fl-footer-col2-text' ).container;
+					col2Text   = api.control.has( 'fl-footer-col2-text' ) ? api.control( 'fl-footer-col2-text' ).container : null;
 
-				col1Text.toggle( 'none' != val && ('text' == col1Layout || 'social-text' == col1Layout) );
-				col2Text.toggle( '2-cols' == val && ('text' == col2Layout || 'social-text' == col2Layout) );
+				if ( col1Text )	{
+					col1Text.toggle( 'none' != val && ('text' == col1Layout || 'social-text' == col1Layout) );
+				}
+				if ( col2Text ) {
+					col2Text.toggle( '2-cols' == val && ('text' == col2Layout || 'social-text' == col2Layout) );
+				}
 
 				return '1-col' == val || '2-cols' == val;
 			}
@@ -314,8 +335,8 @@
 			callback: function( val ) { return '' != val; }
 		}],
 
-		'fl-archive-show-thumbs': [{
-			controls: [ 'fl-archive-thumb-size' ],
+		'fl-posts-show-thumbs': [{
+			controls: [ 'fl-posts-thumb-size' ],
 			callback: function( val ) {
 				if( 'beside' == val ) {
 					return true;
@@ -324,13 +345,51 @@
 			}
 		}],
 
-		'fl-posts-show-thumbs': [{
-			controls: [ 'fl-posts-thumb-size' ],
+		'fl-button-style': [{
+			controls: [
+				'fl-button-color-line',
+				'fl-button-color',
+				'fl-button-hover-color',
+				'fl-button-background-color',
+				'fl-button-background-hover-color',
+
+				'fl-button-font-line',
+				'fl-button-font-family',
+				'fl-button-font-weight',
+				'fl-button-font-size',
+				'fl-button-line-height',
+				'fl-button-text-transform',
+
+				'fl-button-border-line',
+				'fl-button-border-style',
+			],
 			callback: function( val ) {
-				if( 'beside' == val ) {
-					return true;
-				}
-                return false;
+				return 'custom' === val;
+			}
+		},{
+			controls: [ 'fl-button-border-width', 'fl-button-border-radius', 'fl-button-border-color' ],
+			callback: function( val ) {
+				return ( 'custom' === val ) && ( 'none' !== api( 'fl-button-border-style' ).get() );
+			}
+		}],
+
+		'fl-button-border-style': [{
+			controls: [ 'fl-button-border-width', 'fl-button-border-radius', 'fl-button-border-color' ],
+			callback: function( val ) {
+				return ( 'none' !== val ) && ( 'custom' === api( 'fl-button-style' ).get() );
+			}
+		}],
+
+		'fl-heading-style': [{
+			controls: [
+				'fl-title-text-color',
+				'fl-title-heading-line',
+				'fl-title-font-family',
+				'fl-title-font-weight',
+				'fl-title-font-format'
+			],
+			callback: function( val ) {
+				return 'title' === val;
 			}
 		}],
 	};

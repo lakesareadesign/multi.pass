@@ -17,20 +17,40 @@ final class FLTheme {
 	static private $fonts;
 
 	/**
+	 * Font Awesome 5 CDN URL.
+	 *
+	 * @since 1.7
+	 * @var string $fa5_url
+	 */
+	static public $fa5_url = 'https://use.fontawesome.com/releases/v5.3.1/css/all.css';
+
+	/**
+	 * Font Awesome 4 CDN URL.
+	 *
+	 * @since 1.7
+	 * @var string $fa4_url
+	 */
+	static public $fa4_url = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
+
+
+	/**
 	 * Returns a Customizer setting.
 	 *
 	 * @since 1.0
 	 * @param array $key The key of the setting to return.
 	 * @return mixed
 	 */
-	static public function get_setting( $key = '' ) {
+	static public function get_setting( $key = '', $default = '' ) {
 		$settings = FLCustomizer::get_mods();
-
+		$setting  = '';
 		if ( isset( $settings[ $key ] ) ) {
-			return $settings[ $key ];
+			$setting = $settings[ $key ];
 		} else {
-			return '';
+			$setting = $default;
 		}
+
+		return apply_filters( 'fl_theme_get_setting_' . $key, $setting, $default, $settings );
+
 	}
 
 	/**
@@ -59,6 +79,19 @@ final class FLTheme {
 		}
 
 		return false;
+	}
+
+	/**
+	 * Checks to see if the current site is in debug mode.
+	 *
+	 * @since 1.7
+	 * @return bool
+	 */
+	static public function is_debug() {
+		if ( method_exists( 'FLBuilder', 'is_debug' ) ) {
+			return FLBuilder::is_debug();
+		}
+		return defined( 'WP_DEBUG' ) && WP_DEBUG;
 	}
 
 	/**
@@ -91,6 +124,12 @@ final class FLTheme {
 
 		// WooCommerce support
 		add_theme_support( 'woocommerce' );
+
+		// Wide block support
+		add_theme_support( 'align-wide' );
+
+		// Default block styles
+		add_theme_support( 'wp-block-styles' );
 
 		// Nav menus
 		register_nav_menus( self::get_nav_locations() );
@@ -143,22 +182,25 @@ final class FLTheme {
 	 */
 	static public function enqueue_scripts() {
 
-		if ( method_exists( 'FLBuilder', 'is_debug' ) ) {
-			$min = ( FLBuilder::is_debug() ) ? '' : '.min';
-		} else {
-			$min = defined( 'WP_DEBUG' ) && WP_DEBUG ? '' : '.min';
-		}
-		wp_register_script( 'jquery-imagesloaded',   FL_THEME_URL . '/js/jquery.imagesloaded.min.js', array( 'jquery' ), FL_THEME_VERSION, true );
-
 		// Fonts
-		wp_enqueue_style( 'font-awesome', FL_THEME_URL . '/css/font-awesome.min.css', array(), FL_THEME_VERSION );
-		wp_enqueue_style( 'mono-social-icons', FL_THEME_URL . '/css/mono-social-icons.css', array(), FL_THEME_VERSION );
+		switch ( self::get_setting( 'fl-awesome' ) ) {
+
+			case 'fa5':
+				self::enqueue_fontawesome();
+				break;
+			case 'fa4':
+				wp_enqueue_style( 'font-awesome', self::$fa4_url, array(), FL_THEME_VERSION );
+				break;
+		}
 
 		// jQuery
-		wp_enqueue_script( 'jquery' );
-		wp_enqueue_script( 'jquery-throttle', FL_THEME_URL . '/js/jquery.throttle.min.js', array(), FL_THEME_VERSION, true );
+		wp_enqueue_script( 'jquery-throttle', FL_THEME_URL . '/js/jquery.throttle.min.js', array( 'jquery' ), FL_THEME_VERSION, true );
 		if ( 'fadein' != self::get_setting( 'fl-fixed-header' ) ) {
-			wp_enqueue_script( 'jquery-imagesloaded' );
+			global $wp_version;
+			if ( version_compare( $wp_version, '4.6', '<' ) ) {
+				wp_register_script( 'imagesloaded',   FL_THEME_URL . '/js/jquery.imagesloaded.min.js', array( 'jquery' ), FL_THEME_VERSION, true );
+			}
+			wp_enqueue_script( 'imagesloaded' );
 		}
 
 		// Lightbox
@@ -186,20 +228,69 @@ final class FLTheme {
 			) );
 		}
 
-		// Bootstrap
-		wp_enqueue_style( 'bootstrap', FL_THEME_URL . '/css/bootstrap.min.css', array(), FL_THEME_VERSION );
-		wp_enqueue_script( 'bootstrap', FL_THEME_URL . '/js/bootstrap.min.js', array(), FL_THEME_VERSION, true );
+		// Layout Framework
+		FLLayout::enqueue_framework();
 
 		// Core theme JS
-		wp_enqueue_script( 'fl-automator', FL_THEME_URL . '/js/theme' . $min . '.js', array(), FL_THEME_VERSION, true );
+		wp_enqueue_script( 'fl-automator', FL_THEME_URL . '/js/theme' . ( self::is_debug() ? '' : '.min' ) . '.js', array(), FL_THEME_VERSION, true );
 
 		// Skin
-		wp_enqueue_style( 'fl-automator-skin', FLCustomizer::css_url(), array(), FL_THEME_VERSION );
+		if ( 'file' == FLTheme::get_asset_enqueue_method() ) {
+			wp_enqueue_style( 'fl-automator-skin', FLCustomizer::css_url(), array(), FL_THEME_VERSION );
+		} else {
+			wp_enqueue_style( 'bb-theme-style', get_stylesheet_uri() );
+			wp_add_inline_style( 'bb-theme-style', self::get_cached_css( true == FLCustomizer::is_customizer_preview() ? 'customizer' : 'skin' ) );
+		}
 
 		// RTL Support
 		if ( is_rtl() ) {
 			wp_enqueue_style( 'fl-automator-rtl', FL_THEME_URL . '/css/rtl.css', array(), FL_THEME_VERSION );
 		}
+	}
+
+	/**
+	 * Fetch CSS from cache
+	 * @since 1.7
+	 */
+	static public function get_cached_css( $slug ) {
+		$css = get_option( 'fl-theme-' . $slug );
+		return $css ? $css : FLCustomizer::refresh_css();
+	}
+
+	/**
+	 * Save CSS to cache
+	 * @since 1.7
+	 */
+	static public function update_cached_css( $slug, $css ) {
+		update_option( 'fl-theme-' . $slug, $css );
+	}
+
+	/**
+	 * Determine cache method.
+	 * @since 1.7
+	 */
+	static public function get_asset_enqueue_method() {
+		if ( class_exists( 'FLBuilderModel' ) && method_exists( 'FLBuilderModel', 'get_asset_enqueue_method' ) ) {
+			$method = FLBuilderModel::get_asset_enqueue_method();
+		} else {
+			$method = 'file';
+		}
+		return $method;
+	}
+
+	/**
+	 * Enqueues Font Awesome 5.
+	 *
+	 * @since 1.7
+	 * @return void
+	 */
+	static public function enqueue_fontawesome() {
+		if ( class_exists( '' ) && method_exists( 'FLBuilder', 'get_fa5_url' ) ) {
+			$url = FLBuilder::get_fa5_url();
+		} else {
+			$url = self::$fa5_url;
+		}
+		wp_enqueue_style( 'font-awesome-5', $url, array(), FL_THEME_VERSION );
 	}
 
 	/**
@@ -318,7 +409,9 @@ final class FLTheme {
 
 		self::add_font( $settings['fl-body-font-family'], apply_filters( 'fl_body_font_family', array( 300, 400, 700 ) ) );
 		self::add_font( $settings['fl-heading-font-family'], $settings['fl-heading-font-weight'] );
+		self::add_font( $settings['fl-title-font-family'], $settings['fl-title-font-weight'] );
 		self::add_font( $settings['fl-nav-font-family'], $settings['fl-nav-font-weight'] );
+		self::add_font( $settings['fl-button-font-family'], $settings['fl-button-font-weight'] );
 
 		if ( 'text' == $settings['fl-logo-type'] ) {
 			self::add_font( $settings['fl-logo-font-family'], $settings['fl-logo-font-weight'] );
@@ -444,6 +537,14 @@ final class FLTheme {
 				$classes[] = 'fl-nav-left';
 			}
 
+			// Responsive Nav Layout (Offcanvas)
+			if ( self::get_setting( 'fl-nav-mobile-layout' ) != 'dropdown' ) {
+				$nav_layout = self::get_setting( 'fl-nav-mobile-layout' );
+				$nav_layout_position = self::get_setting( 'fl-nav-mobile-layout-position' );
+
+				$classes[] = 'fl-nav-mobile-offcanvas fl-offcanvas-' . $nav_layout . '-' . $nav_layout_position;
+			}
+
 			// Shrink Fixed Header
 			if ( (self::get_setting( 'fl-fixed-header' ) == 'shrink') && (self::get_setting( 'fl-header-layout' ) != 'vertical-left') && (self::get_setting( 'fl-header-layout' ) != 'vertical-right') ) {
 				$classes[] = 'fl-shrink';
@@ -492,27 +593,18 @@ final class FLTheme {
 			$classes[] = 'fl-submenu-toggle';
 		}
 
+		// Responsive collapse menu items
+		if ( self::get_setting( 'fl-nav-collapse-menu' ) == '1' ) {
+			$classes[] = 'fl-nav-collapse-menu';
+		}
+
+		// Gutenberg support.
+		// If this is a vanilla Gutenberg page and it has blocks add has-blocks class.
+		if ( is_singular() && function_exists( 'has_block' ) && has_blocks() && ! has_block( 'fl-builder/layout' ) ) {
+			$classes[] = 'has-blocks';
+		}
+
 		return $classes;
-	}
-
-	/**
-	 * Callback method for the nav menu fallback when no menu
-	 * has been selected.
-	 *
-	 * @since 1.0
-	 * @param array $args An array of args for the menu.
-	 * @return void
-	 */
-	static public function nav_menu_fallback( $args ) {
-		$url  = current_user_can( 'edit_theme_options' ) ? admin_url( 'nav-menus.php' ) : esc_url( home_url( '/' ) );
-		$url  = apply_filters( 'fl_nav_menu_fallback_url', $url );
-		$text = current_user_can( 'edit_theme_options' ) ? __( 'Choose Menu', 'fl-automator' ) :  __( 'Home', 'fl-automator' );
-
-		echo '<ul class="fl-page-' . $args['theme_location'] . '-nav nav navbar-nav menu">';
-		echo '<li>';
-		echo '<a href="' . $url . '">' . $text . '</a>';
-		echo '</li>';
-		echo '</ul>';
 	}
 
 	/**
@@ -691,6 +783,7 @@ final class FLTheme {
 		$logo_type      = self::get_setting( 'fl-logo-type' );
 		$logo_image     = self::get_setting( 'fl-logo-image' );
 		$logo_retina    = self::get_setting( 'fl-logo-image-retina' );
+		$mobile_logo    = self::get_setting( 'fl-mobile-header-logo' );
 
 		if ( function_exists( 'apply_filters_deprecated' ) ) {
 			$logo_text    = apply_filters_deprecated( 'fl-logo-text', array( self::get_setting( 'fl-logo-text' ) ), '1.6.3', 'fl_logo_text' );
@@ -702,11 +795,45 @@ final class FLTheme {
 			$logo_text = get_bloginfo( 'name' );
 			echo '<img class="fl-logo-img" itemscope itemtype="https://schema.org/ImageObject" src="' . $logo_image . '"';
 			echo ' data-retina="' . $logo_retina . '"';
+			if ( $mobile_logo ) {
+				echo ' data-mobile="' . $mobile_logo . '"';
+			}
 			echo ' alt="' . esc_attr( $logo_text ) . '" />';
 			echo '<meta itemprop="name" content="' . esc_attr( $logo_text ) . '" />';
 		} else {
 			echo '<div class="fl-logo-text" itemprop="name">' . do_shortcode( $logo_text ) . '</div>';
 		}
+	}
+
+	/**
+	 * Get the WP tagline.
+	 * @return string
+	 * @since 1.7
+	 */
+	static public function get_tagline() {
+		if ( self::get_setting( 'fl-theme-tagline' ) ) {
+			return '<div class="fl-theme-tagline">' . get_bloginfo( 'description' ) . '</div>';
+		}
+	}
+
+	/**
+	 * Callback method for the nav menu fallback when no menu
+	 * has been selected.
+	 *
+	 * @since 1.0
+	 * @param array $args An array of args for the menu.
+	 * @return void
+	 */
+	static public function nav_menu_fallback( $args ) {
+		$url  = current_user_can( 'edit_theme_options' ) ? admin_url( 'nav-menus.php' ) : esc_url( home_url( '/' ) );
+		$url  = apply_filters( 'fl_nav_menu_fallback_url', $url );
+		$text = current_user_can( 'edit_theme_options' ) ? __( 'Choose Menu', 'fl-automator' ) :  __( 'Home', 'fl-automator' );
+
+		echo '<ul class="fl-page-' . $args['theme_location'] . '-nav nav navbar-nav menu">';
+		echo '<li>';
+		echo '<a href="' . $url . '">' . $text . '</a>';
+		echo '</li>';
+		echo '</ul>';
 	}
 
 	/**
@@ -719,6 +846,7 @@ final class FLTheme {
 		$nav_search = self::get_setting( 'fl-header-nav-search' );
 
 		if ( 'visible' == $nav_search ) {
+			FLTheme::enqueue_fontawesome();
 			get_template_part( 'includes/nav-search' );
 		}
 	}
@@ -733,7 +861,8 @@ final class FLTheme {
 		$type = self::get_setting( 'fl-mobile-nav-toggle' );
 
 		if ( 'icon' == $type ) {
-			$text = '<i class="fa fa-bars"></i>';
+			FLTheme::enqueue_fontawesome();
+			$text = '<i class="fas fa-bars"></i>';
 		} else {
 			$text = _x( 'Menu', 'Mobile navigation toggle button text.', 'fl-automator' );
 		}
@@ -755,6 +884,7 @@ final class FLTheme {
 			'facebook',
 			'twitter',
 			'google',
+			'snapchat',
 			'linkedin',
 			'yelp',
 			'xing',
@@ -773,6 +903,7 @@ final class FLTheme {
 			'email',
 		) );
 
+		FLTheme::enqueue_fontawesome();
 		include locate_template( 'includes/social-icons.php' );
 	}
 
@@ -851,7 +982,9 @@ final class FLTheme {
 			$col_length = 12 / $num_active;
 
 			for ( $i = 0; $i < $num_active; $i++ ) {
-				echo '<div class="col-sm-' . $col_length . ' col-md-' . $col_length . '">';
+				$sm_class = FLLayout::get_col_class( 'sm', $col_length );
+				$md_class = FLLayout::get_col_class( 'md', $col_length );
+				echo '<div class="' . $sm_class . ' ' . $md_class . '">';
 				dynamic_sidebar( $active[ $i ] );
 				echo '</div>';
 			}
@@ -999,32 +1132,16 @@ final class FLTheme {
 	}
 
 	/**
-	 * Renders the class for the main content wrapper.
+	 * This method is only here for backwards compatibility with
+	 * child theme files that used this method before the FLLayout
+	 * class existed.
 	 *
 	 * @since 1.0
 	 * @param string $section The section this content belongs to.
 	 * @return void
 	 */
 	static public function content_class( $section = 'blog' ) {
-		$layout       = self::get_setting( 'fl-' . $section . '-layout' );
-		$sidebar_size = self::get_setting( 'fl-' . $section . '-sidebar-size' );
-		$content_size = '8';
-
-		if ( '2' == $sidebar_size ) {
-			$content_size = '10';
-		} elseif ( '3' == $sidebar_size ) {
-			$content_size = '9';
-		}
-
-		if ( ! self::is_sidebar_enabled( $section ) ) {
-			echo 'col-md-12';
-		} elseif ( strstr( $layout, 'left' ) ) {
-			echo 'fl-content-right col-md-' . $content_size;
-		} elseif ( strstr( $layout, 'right' ) ) {
-			echo 'fl-content-left col-md-' . $content_size;
-		} else {
-			echo 'col-md-12';
-		}
+		echo FLLayout::content_class( $section );
 	}
 
 	/**
@@ -1159,7 +1276,9 @@ final class FLTheme {
 	 */
 	static public function post_schema_meta() {
 		// General Schema Meta
-		echo '<meta itemscope itemprop="mainEntityOfPage" itemid="' . get_permalink() . '" />';
+		echo '<meta itemscope itemprop="mainEntityOfPage" itemtype="https://schema.org/WebPage" itemid="' . esc_url( get_permalink() ) . '" content="' . the_title_attribute( array(
+			'echo' => false,
+		) ) . '" />';
 		echo '<meta itemprop="datePublished" content="' . get_the_time( 'Y-m-d' ) . '" />';
 		echo '<meta itemprop="dateModified" content="' . get_the_modified_date( 'Y-m-d' ) . '" />';
 
@@ -1255,12 +1374,14 @@ final class FLTheme {
 	static public function woocommerce_wrapper_start() {
 		$layout = self::get_setting( 'fl-woo-layout' );
 		$col_size = ( 'no-sidebar' == $layout ) ? '12' : '8';
+		$container_class = FLLayout::get_container_class();
+		$row_class = FLLayout::get_row_class();
 
-		echo '<div class="container">';
-		echo '<div class="row">';
+		echo '<div class="' . $container_class . '">';
+		echo '<div class="' . $row_class . '">';
 		self::sidebar( 'left', 'woo' );
 		echo '<div class="fl-content ';
-		self::content_class( 'woo' );
+		FLLayout::content_class( 'woo' );
 		echo '">';
 	}
 
@@ -1302,7 +1423,8 @@ final class FLTheme {
 	 */
 	static public function go_to_top() {
 		if ( self::get_setting( 'fl-scroll-to-top' ) == 'enable' ) {
-			echo '<a href="#" id="fl-to-top"><i class="fa fa-chevron-up"></i></a>';
+			FLTheme::enqueue_fontawesome();
+			echo '<a href="#" id="fl-to-top"><i class="fas fa-chevron-up"></i></a>';
 		}
 	}
 
@@ -1364,5 +1486,16 @@ final class FLTheme {
 									<input type="text" name="url" class="form-control" value="' . esc_attr( $commenter['comment_author_url'] ) . '" tabindex="3" /><br />';
 
 		return $fields;
+	}
+
+	/**
+	 * Filter woocommerce mobile breakpoint.
+	 *
+	 * @param $px The current breakpoint.
+	 * @since 1.7
+	 */
+	static public function woo_mobile_breakpoint( $px ) {
+		$px = '767px';
+		return $px;
 	}
 }

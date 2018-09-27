@@ -1,16 +1,16 @@
 ( function( $ ) {
-	
+
 	/* Internal shorthand */
 	var api = wp.customize;
 
 	/**
 	 * Helper class for the main Customizer interface.
-	 * 
+	 *
 	 * @since 1.2.0
 	 * @class FLCustomizer
 	 */
 	FLCustomizer = {
-	
+
 		/**
 		 * Initializes our custom logic for the Customizer.
 		 *
@@ -26,6 +26,8 @@
 			FLCustomizer._initCodeEditors();
 			FLCustomizer._initSliderControl();
 			FLCustomizer._initCheckboxMultiple();
+			FLCustomizer._initHeadingControls();
+			FLCustomizer._initResponsiveControls();
 		},
 
 		/**
@@ -40,7 +42,7 @@
 				wp.customize.previewer.refresh();
 			} );
 		},
-	
+
 		/**
 		 * Initializes the logic for showing and hiding controls
 		 * when a setting changes.
@@ -53,27 +55,27 @@
 		{
 			// Loop through each setting.
 			$.each(FLCustomizerToggles, function( settingId, toggles ) {
-			
-				// Get the setting object. 
+
+				// Get the setting object.
 				api( settingId, function( setting ) {
-					
+
 					// Loop though the toggles for the setting.
 					$.each( toggles, function( i, toggle ) {
-						
+
 						// Loop through the controls for the toggle.
 						$.each( toggle.controls, function( k, controlId ) {
-							
+
 							// Get the control object.
 							api.control( controlId, function( control ) {
-								
+
 								// Define the visibility callback.
 								var visibility = function( to ) {
 									control.container.toggle( toggle.callback( to ) );
 								};
-			
+
 								// Init visibility.
 								visibility( setting.get() );
-								
+
 								// Bind the visibility callback to the setting.
 								setting.bind( visibility );
 							});
@@ -82,7 +84,7 @@
 				});
 			});
 		},
-	
+
 		/**
 		 * Initializes logic for font controls.
 		 *
@@ -94,7 +96,7 @@
 		{
 			$( '.customize-control-font select' ).each( FLCustomizer._initFont );
 		},
-	
+
 		/**
 		 * Initializes logic for a single font control.
 		 *
@@ -107,13 +109,13 @@
 			var select  = $( this ),
 				link    = select.data( 'customize-setting-link' ),
 				weight  = select.data( 'connected-control' );
-				
+
 			if ( 'undefined' != typeof weight ) {
 				api( link ).bind( FLCustomizer._fontSelectChange );
 				FLCustomizer._setFontWeightOptions.apply( api( link ), [ true ] );
 			}
 		},
-	
+
 		/**
 		 * Callback for when a font control changes.
 		 *
@@ -125,9 +127,9 @@
 		{
 			FLCustomizer._setFontWeightOptions.apply( this, [ false ] );
 		},
-	
+
 		/**
-		 * Sets the options for a font weight control when a 
+		 * Sets the options for a font weight control when a
 		 * font family control changes.
 		 *
 		 * @since 1.2.0
@@ -146,18 +148,9 @@
 				weightValue     = init ? weightSelect.val() : '400',
 				weightObject    = null,
 				weightOptions   = '',
-				weightMap       = {
-					'100': 'Thin 100',
-					'200': 'Extra-Light 200',
-					'300': 'Light 300',
-					'400': 'Normal 400',
-					'500': 'Medium 500',
-					'600': 'Semi-Bold 600',
-					'700': 'Bold 700',
-					'800': 'Extra-Bold 800',
-					'900': 'Ultra-Bold 900'
-				};
-				
+				weightMap       = FLFontFamilies.weights;
+
+
 			if ( 'undefined' != typeof FLFontFamilies.system[ fontValue ] ) {
 				weightObject = FLFontFamilies.system[ fontValue ].weights;
 			}
@@ -177,18 +170,18 @@
 				else {
 					selected = weightObject[ i ] == weightValue ? ' selected="selected"' : '';
 				}
-				
+
 				weightOptions += '<option value="' + weightObject[ i ] + '"' + selected + '>' + weightMap[ weightObject[ i ] ] + '</option>';
 			}
-			
+
 			weightSelect.html( weightOptions );
-			
+
 			if ( ! init ) {
 				api( weightKey ).set( '' );
 				api( weightKey ).set( weightValue );
 			}
 		},
-	
+
 		/**
 		 * Initializes logic for settings presets.
 		 *
@@ -202,7 +195,7 @@
 				api.control( 'fl-preset' ).container.find( 'select' ).on( 'change', FLCustomizer._presetChange );
 			}
 		},
-	
+
 		/**
 		 * Callback for when the preset control changes.
 		 *
@@ -216,25 +209,25 @@
 				settings    = $.extend( {}, FLCustomizerPresetDefaults, FLCustomizerPresets[ val ].settings ),
 				control     = null,
 				picker      = null;
-			
+
 			// Loop the settings.
 			for ( key in settings ) {
-				
+
 				// Get the control instance.
 				control = api.control.instance( key );
-				
+
 				// Set the preset setting.
 				control.setting.set( settings[ key ] );
-				
+
 				// Update the color picker if a color control.
 				picker = control.container.find( '.color-picker-hex' );
-				
+
 				if ( picker.length > 0 ) {
 					picker.wpColorPicker( 'color', settings[ key ] );
 				}
 			}
 		},
-	
+
 		/**
 		 * Initializes code editor controls.
 		 *
@@ -244,26 +237,26 @@
 		_initCodeEditors: function()
 		{
 			ace.require( 'ace/ext/language_tools' );
-			
+
 			$( '.fl-code-editor' ).each( function() {
-				
+
 				var editDiv 		= $( this ),
 					editMode		= editDiv.data( 'mode' ),
 					editTextarea 	= editDiv.siblings( 'textarea' ),
 					editor 			= ace.edit( editDiv[0] );
-				
+
 				editTextarea.hide();
 				editor.$blockScrolling = Infinity;
 				editor.renderer.setShowGutter( false );
 				editor.getSession().setValue( editTextarea.val() );
 				editor.getSession().setMode( 'ace/mode/' + editMode );
-				
+
 				editor.setOptions({
 			        enableBasicAutocompletion: true,
 			        enableLiveAutocompletion: true,
 			        enableSnippets: false
 			    });
-				
+
 				editor.getSession().on( 'change', function( e ) {
 					editTextarea.val( editor.getSession().getValue() ).trigger( 'change' );
 				});
@@ -302,7 +295,7 @@
 					$slider.val($text_input.val());
 					$slider.change();
 				});
-				
+
 			});
 		},
 
@@ -327,10 +320,64 @@
 
 		            $checkbox.parents( '.customize-control' ).find( 'input[type="hidden"]' ).val( checkbox_values ).trigger( 'change' );
 			    });
-			});			
-		}
+			});
+		},
+
+		/**
+		 * Initializes heading controls behavior
+		 *
+		 * @since 1.7
+		 * @method _initHeadingControls
+		 */
+		_initHeadingControls: function() {
+
+			// The controls we want to reposition
+			var keys = [ 'fl-h1-font-size', 'fl-h1-line-height', 'fl-h1-letter-spacing', 'fl-h1-line' ],
+				a = 5.0; // The new starting priority
+
+			var controls = keys.map( function( key, i ) {
+				var control = api.control( key );
+				return {
+					i: i,
+					key: key,
+					control: control,
+					initPriority: control.priority(),
+					titlePriority: a + ( i * .1 ),
+				}
+			});
+
+			api( 'fl-heading-style', function( setting ) {
+				// Initial positioning
+				FLCustomizer._positionHeading1Controls( setting.get(), controls );
+
+				// On fl-heading-style changed
+				setting.bind( function( value ) {
+					FLCustomizer._positionHeading1Controls( value, controls );
+				} );
+			});
+		},
+
+		/**
+		 * Position the h1 controls based on which fl-heading-style option is selected.
+		 */
+		_positionHeading1Controls: function( value, controls ) {
+			controls.map( function( item, i ) {
+				var priority = 'title' === value ? item.titlePriority : item.initPriority;
+				item.control.priority( priority );
+			});
+		},
+
+		_initResponsiveControls: function() {
+			$( '.fl-responsive-customize-control' ).not('.desktop').hide();
+
+			api.previewedDevice.bind( function( new_device ) {
+				new_device = 'tablet' == new_device ? 'medium' : new_device;
+				$( '.fl-responsive-customize-control' ).hide();
+				$( '.fl-responsive-customize-control.' + new_device ).show();
+			});
+		},
 	};
-	
+
 	$( function() { FLCustomizer.init(); } );
-	
+
 })( jQuery );

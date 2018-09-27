@@ -2,7 +2,7 @@
 
 if ( '2-cols' == $layout ) {
 
-	echo '<div class="col-md-6 col-sm-6 text-right clearfix">';
+	echo '<div class="' . FLLayout::get_col_classes( array( 'sm' => 6, 'md' => 6 ) ) . ' text-right clearfix">';
 
 	do_action( 'fl_top_bar_col2_open' );
 

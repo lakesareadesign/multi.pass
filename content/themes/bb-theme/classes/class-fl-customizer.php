@@ -159,6 +159,25 @@ final class FLCustomizer {
 	}
 
 	/**
+	 * Called by the customize_controls_print_styles action to
+	 * print custom styles for the Customizer preview.
+	 *
+	 * @since 1.7
+	 * @return void
+	 */
+	static public function controls_print_styles() {
+		$tablet_margin_left = '-384px'; //Half of -$tablet_width
+		$tablet_width = '768px';
+
+		echo '<style>';
+		echo '.wp-customizer .preview-tablet .wp-full-overlay-main {';
+			echo 'margin-left: ' . $tablet_margin_left . ';';
+			echo 'width: ' . $tablet_width . ';';
+		echo '}';
+		echo '</style>';
+	}
+
+	/**
 	 * Called by the customize_register action to register presets,
 	 * panels, sections, settings and controls.
 	 *
@@ -269,7 +288,7 @@ final class FLCustomizer {
 	 */
 	static public function refresh_css() {
 		self::_clear_css_cache();
-		self::_compile_css();
+		return self::_compile_css();
 	}
 
 	/**
@@ -464,6 +483,17 @@ final class FLCustomizer {
 							$option_data['control']['section']  = $section_key;
 							$option_data['control']['settings'] = $option_key;
 							$option_data['control']['priority'] = $option_priority;
+
+							// Add responsive controls.
+							if ( isset( $option_data['control']['responsive'] ) ) {
+								$option_data['control']['classes'] = array( 'fl-responsive-customize-control' );
+								self::_add_responsive_control( $customizer, $option_key, $option_data );
+							}
+
+							if ( isset( $option_data['control']['responsive'] ) ) {
+								$option_data['control']['classes'][] = 'desktop';
+							}
+
 							$customizer->add_control(
 								new $option_data['control']['class']( $customizer, $option_key, $option_data['control'] )
 							);
@@ -482,6 +512,47 @@ final class FLCustomizer {
 					$section_priority = 0;
 				}
 			}
+		}
+	}
+
+	/**
+	 * Registers the responsive controls if enabled.
+	 *
+	 * @since 1.7
+	 * @access private
+	 * @param object $customizer An instance of WP_Customize_Manager.
+	 * @param string $key The control key.
+	 * @param array  $data The control data.
+	 * @return void
+	 */
+	static private function _add_responsive_control( $customizer, $key, $data ) {
+		$devices = array( 'medium', 'mobile' );
+
+		// We don't need responsive setting.
+		unset( $data['control']['responsive'] );
+
+		$label = $data['control']['label'];
+		$get_classes = $data['control']['classes'];
+
+		foreach ( $devices as $device ) {
+			$option_key = $key . '_' . $device;
+
+			$classes = $get_classes;
+			$classes[] = $device;
+
+			// Add setting
+			$customizer->add_setting( $option_key, $data['setting'] );
+
+			// Add control
+			$data['control']['label'] = $label . ' (' . ucwords( $device ) . ')';
+			$data['control']['settings'] = $option_key;
+			$data['control']['priority'] = $data['control']['priority'] + .1;
+			$data['control']['classes'] = $classes;
+			$customizer->add_control(
+				new $data['control']['class']( $customizer, $option_key, $data['control'] )
+			);
+
+			unset( $classes );
 		}
 	}
 
@@ -608,6 +679,13 @@ final class FLCustomizer {
 				// Loop through the section options.
 				foreach ( $section['options'] as $option_id => $option ) {
 					$mods[ $option_id ] = isset( $option['setting']['default'] ) ? $option['setting']['default'] : '';
+
+					// Add default for responsive controls.
+					if ( isset( $option['control']['responsive'] ) && true == $option['control']['responsive'] ) {
+						foreach ( array( 'medium', 'mobile' ) as $device ) {
+							$mods[ $option_id . '_' . $device ] = isset( $option['setting']['default'] ) ? $option['setting']['default'] : '';
+						}
+					}
 				}
 			}
 		}
@@ -720,6 +798,14 @@ final class FLCustomizer {
 	 * @return void
 	 */
 	static private function _clear_css_cache( $all = false ) {
+
+		if ( 'inline' == FLTheme::get_asset_enqueue_method() ) {
+				update_option( 'fl-theme-skin', '' );
+				update_option( 'fl-theme-customizer', '' );
+				update_option( 'fl-theme-editor', '' );
+				return false;
+		}
+
 		$dir_name   = basename( FL_THEME_DIR );
 		$cache_dir  = self::get_cache_dir();
 		$css_slug   = $all ? '' : self::_css_slug() . '-';
@@ -751,7 +837,6 @@ final class FLCustomizer {
 		} else {
 			$slug = 'skin';
 		}
-
 		return $slug;
 	}
 
@@ -764,27 +849,111 @@ final class FLCustomizer {
 	 */
 	static private function _compile_css() {
 		$theme_info   = wp_get_theme();
-		$mods         = self::get_mods();
-		$preset       = isset( $mods['fl-preset'] ) ? $mods['fl-preset'] : 'default';
 		$cache_dir    = self::get_cache_dir();
 		$new_css_key  = uniqid();
 		$css_slug     = self::_css_slug();
-		$css          = '';
 		$filename     = $cache_dir['path'] . $css_slug . '-' . $new_css_key . '.css';
-		$paths = array();
+		$paths		  = self::_get_less_paths();
 
-		// Theme stylesheet
-		$paths[] = FL_THEME_DIR . '/less/theme.less';
+		// Loop over paths and get contents
+		$css = FLCSS::paths_get_contents( $paths );
 
-		// WooCommerce
-		if ( 'disabled' != $mods['fl-woo-css'] && class_exists( 'WooCommerce' ) ) {
-			$paths[] = FL_THEME_DIR . '/less/woocommerce.less';
+		// Filter less before compiling
+		$css = apply_filters( 'fl_theme_compile_less', $css );
+
+		// Replace {FL_THEME_URL} placeholder.
+		$css = FLCSS::replace_tokens( $css );
+
+		// Compile LESS
+		$css = self::_compile_less( $css );
+
+		// Compress
+		if ( ! WP_DEBUG ) {
+			$css = FLCSS::compress_css( $css );
 		}
 
-		// Events Calendar
-		$css .= file_get_contents( FL_THEME_DIR . '/less/the-events-calendar.less' );
+		if ( 'inline' == FLTheme::get_asset_enqueue_method() ) {
+			// write css to db
+			FLTheme::update_cached_css( $css_slug, $css );
+			return $css;
+		} else {
+			// Save the new css.
+			$write = fl_theme_filesystem()->file_put_contents( $filename, $css );
 
-		// Skin
+			// Save the new css key.
+			update_option( self::$_css_key . '-' . $css_slug, $new_css_key );
+		}
+
+		return $write;
+	}
+
+	/**
+	 * Compiles the provided LESS CSS.
+	 *
+	 * @since 1.2.0
+	 * @access private
+	 * @param string $css The LESS CSS to compile.
+	 * @return string
+	 */
+	static private function _compile_less( $css ) {
+
+		// Fix issue with IE filters
+		$css = FLCSS::normalize_ie_filters( $css );
+
+		// Mixins
+		$mixins = file_get_contents( FL_THEME_DIR . '/less/mixins.less' );
+
+		// Vars
+		$less_vars = self::_get_less_vars();
+
+		// Compile and return
+		return FLCSS::compile_less( $mixins . $less_vars . $css );
+	}
+
+	/**
+	 * Returns an array of less paths for compiling the skin.
+	 *
+	 * @since 1.7
+	 * @access private
+	 * @return array
+	 */
+	static private function _get_less_paths() {
+		$mods   = self::get_mods();
+		$preset = isset( $mods['fl-preset'] ) ? $mods['fl-preset'] : 'default';
+		$paths  = array();
+		$files  = array(
+			'theme' 					=> true,
+			'top-bar' 					=> 'none' !== $mods['fl-topbar-layout'],
+			'nav-toggle-button'			=> 'button' === $mods['fl-mobile-nav-toggle'],
+			'nav-toggle-icon'			=> 'icon' === $mods['fl-mobile-nav-toggle'],
+			'fadein-header' 			=> 'fadein' === $mods['fl-fixed-header'],
+			'shrink-header'				=> 'shrink' === $mods['fl-fixed-header'],
+			'fixed-header'				=> 'fixed' === $mods['fl-fixed-header'],
+			'nav-bottom'				=> 'bottom' === $mods['fl-header-layout'],
+			'nav-right'					=> 'right' === $mods['fl-header-layout'],
+			'nav-left'					=> 'left' === $mods['fl-header-layout'],
+			'nav-centered'				=> 'centered' === $mods['fl-header-layout'],
+			'nav-centered-inline-logo'	=> 'centered-inline-logo' === $mods['fl-header-layout'],
+			'nav-vertical'				=> strstr( $mods['fl-header-layout'], 'vertical' ),
+			'nav-offcanvas'				=> 'dropdown' !== $mods['fl-nav-mobile-layout'],
+			'submenu-indicator'			=> 'enable' === $mods['fl-nav-submenu-indicator'],
+			'footer-widgets'			=> 'disabled' !== $mods['fl-footer-widgets-display'],
+			'footer'					=> 'none' !== $mods['fl-footer-layout'],
+			'woocommerce' 				=> 'disabled' !== $mods['fl-woo-css'] && class_exists( 'WooCommerce' ),
+			'the-events-calendar' 		=> defined( 'TRIBE_EVENTS_FILE' ),
+			'blocks' 					=> true,
+			'buttons' 					=> 'custom' === $mods['fl-button-style'],
+			'responsive-controls'       => true,
+		);
+
+		// Loop files and add paths.
+		foreach ( $files as $slug => $compile ) {
+			if ( $compile ) {
+				$paths[] = FL_THEME_DIR . "/less/$slug.less";
+			}
+		}
+
+		// Add a skin file if we have one.
 		if ( isset( self::$_presets[ $preset ]['skin'] ) ) {
 
 			$skin = self::$_presets[ $preset ]['skin'];
@@ -800,77 +969,18 @@ final class FLCustomizer {
 			}
 		}
 
-		// Filter the array of paths
-		$paths = apply_filters( 'fl_theme_compile_less_paths', $paths );
-
-		// Loop over paths and get contents
-		$css = '';
-		foreach ( $paths as $path ) {
-			if ( file_exists( $path ) ) {
-				$css .= file_get_contents( $path );
-			}
-		}
-
-		// Filter less before compiling
-		$css = apply_filters( 'fl_theme_compile_less', $css );
-
-		// Replace {FL_THEME_URL} placeholder.
-		$css = str_replace( '{FL_THEME_URL}', FL_THEME_URL, $css );
-
-		// Compile LESS
-		$css = self::_compile_less( $css );
-
-		// Compress
-		if ( ! WP_DEBUG ) {
-			$css = preg_replace( '!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css );
-			$css = str_replace( array( "\r\n", "\r", "\n", "\t", '  ', '    ', '    ' ), '', $css );
-		}
-
-		// Save the new css.
-		$write = fl_theme_filesystem()->file_put_contents( $filename, $css );
-
-		// Save the new css key.
-		update_option( self::$_css_key . '-' . $css_slug, $new_css_key );
-		return $write;
-	}
-
-	/**
-	 * Compiles the provided LESS CSS.
-	 *
-	 * @since 1.2.0
-	 * @access private
-	 * @param string $css The LESS CSS to compile.
-	 * @return string
-	 */
-	static private function _compile_less( $css ) {
-		if ( ! class_exists( 'lessc' ) ) {
-			require_once FL_THEME_DIR . '/classes/class-lessc.php';
-		}
-
-		$less = new lessc;
-		$mods = self::get_mods();
-
-		// Fix issue with IE filters
-		$css = preg_replace_callback( '(filter\s?:\s?(.*);)', 'FLCustomizer::_preg_replace_less', $css );
-
-		// Mixins
-		$mixins = file_get_contents( FL_THEME_DIR . '/less/mixins.less' );
-
-		// Vars
-		$less_vars = self::_get_less_vars();
-
-		// Compile and return
-		return $less->compile( $mixins . $less_vars . $css );
+		// Filter and return the array of paths.
+		return apply_filters( 'fl_theme_compile_less_paths', $paths );
 	}
 
 	/**
 	 * Builds a string with LESS variables using Customizer settings.
 	 *
 	 * @since 1.2.0
-	 * @access private
+	 * @access public
 	 * @return string
 	 */
-	static private function _get_less_vars() {
+	static public function _get_less_vars() {
 		$mods                                   = self::get_mods();
 		$defaults   							= self::_get_default_mods();
 		$vars                                   = array();
@@ -912,13 +1022,56 @@ final class FLCustomizer {
 		$vars['text-font']                      = self::_get_font_family_string( $mods['fl-body-font-family'] );
 		$vars['text-size']                      = $mods['fl-body-font-size'] . 'px';
 		$vars['line-height']                    = $mods['fl-body-line-height'];
-		$vars['text-weight']                    = $mods['fl-body-font-weight'];
+		$vars['text-weight']                    = self::_sanitize_weight( $mods['fl-body-font-weight'] );
+
 		$vars['heading-font']                   = self::_get_font_family_string( $mods['fl-heading-font-family'] );
-		$vars['heading-weight']                 = $mods['fl-heading-font-weight'];
+		$vars['heading-weight']                 = self::_sanitize_weight( $mods['fl-heading-font-weight'] );
 		$vars['heading-transform']              = $mods['fl-heading-font-format'];
+
+		$vars['title-color']				= FLColor::hex( $mods['fl-title-text-color'] );
+		$vars['title-font']					= self::_get_font_family_string( $mods['fl-title-font-family'] );
+		$vars['title-weight']				= self::_sanitize_weight( $mods['fl-title-font-weight'] );
+		$vars['title-transform']			= $mods['fl-title-font-format'];
+
+		// Custom title styles
+		if ( isset( $mods['fl-heading-style'] ) && 'title' !== $mods['fl-heading-style'] ) {
+			$vars['title-color']			= FLColor::hex( $mods['fl-heading-text-color'] );
+			$vars['title-font']					= self::_get_font_family_string( $mods['fl-heading-font-family'] );
+			$vars['title-weight']				= self::_sanitize_weight( $mods['fl-heading-font-weight'] );
+			$vars['title-transform']			= $mods['fl-heading-font-format'];
+		}
+
+		// Responsive controls style
+		$responsive_mods = array(
+			'h1-size' => array(
+				'key' => 'fl-h1-font-size',
+				'format' => 'px',
+			),
+			'h1-line-height' => array(
+				'key' => 'fl-h1-line-height',
+				'format' => '',
+			),
+			'h1-letter-spacing' => array(
+				'key' => 'fl-h1-letter-spacing',
+				'format' => 'px',
+			),
+		);
+		foreach ( $responsive_mods as $var => $mod_data ) {
+			foreach ( array( 'medium', 'mobile' ) as $device ) {
+				$option_key = $mod_data['key'] . '_' . $device;
+
+				if ( isset( $mods[ $option_key ] ) ) {
+					$vars[ $device . '-' . $var ] = $mods[ $option_key ] . $mod_data['format'];
+				} else {
+					$vars[ $device . '-' . $var ] = $defaults[ $option_key ] . $mod_data['format'];
+				}
+			}
+		}
+
 		$vars['h1-size']                        = $mods['fl-h1-font-size'] . 'px';
 		$vars['h1-line-height']                 = $mods['fl-h1-line-height'];
 		$vars['h1-letter-spacing']              = $mods['fl-h1-letter-spacing'] . 'px';
+
 		$vars['h2-size']                        = $mods['fl-h2-font-size'] . 'px';
 		$vars['h2-line-height']                 = $mods['fl-h2-line-height'];
 		$vars['h2-letter-spacing']              = $mods['fl-h2-letter-spacing'] . 'px';
@@ -935,8 +1088,23 @@ final class FLCustomizer {
 		$vars['h6-line-height']                 = $mods['fl-h6-line-height'];
 		$vars['h6-letter-spacing']              = $mods['fl-h6-letter-spacing'] . 'px';
 		$vars['logo-font']                      = self::_get_font_family_string( $mods['fl-logo-font-family'] );
-		$vars['logo-weight']                    = $mods['fl-logo-font-weight'];
+		$vars['logo-weight']                    = self::_sanitize_weight( $mods['fl-logo-font-weight'] );
 		$vars['logo-size']                      = $mods['fl-logo-font-size'] . 'px';
+
+		// Button Styles
+		$vars['button-color']					 = $mods['fl-button-color'] ? $mods['fl-button-color'] : $defaults['fl-button-color'];
+		$vars['button-hover-color']    = $mods['fl-button-hover-color'] ? $mods['fl-button-hover-color'] : $defaults['fl-button-hover-color'];
+		$vars['button-bg-color']			 = $mods['fl-button-background-color'] ? $mods['fl-button-background-color'] : $defaults['fl-button-background-color'];
+		$vars['button-bg-hover-color'] = $mods['fl-button-background-hover-color'] ? $mods['fl-button-background-hover-color'] : $defaults['fl-button-background-hover-color'];
+		$vars['button-font-family']    = self::_get_font_family_string( $mods['fl-button-font-family'] );
+		$vars['button-font-weight']    = self::_sanitize_weight( $mods['fl-button-font-weight'] );
+		$vars['button-font-size']      = is_numeric( $mods['fl-button-font-size'] ) ? $mods['fl-button-font-size'] . 'px' : $mods['fl-button-font-size'];
+		$vars['button-line-height']    = $mods['fl-button-line-height'];
+		$vars['button-text-transform'] = $mods['fl-button-text-transform'];
+		$vars['button-border-style']   = $mods['fl-button-border-style'];
+		$vars['button-border-width']   = $mods['fl-button-border-width'] . 'px';
+		$vars['button-border-color']   = $mods['fl-button-border-color'];
+		$vars['button-border-radius']  = $mods['fl-button-border-radius'] . 'px';
 
 		// Top Bar Background Image
 		$vars['topbar-bg-image']                = empty( $mods['fl-topbar-bg-image'] ) ? 'none' : 'url(' . $mods['fl-topbar-bg-image'] . ')';
@@ -980,7 +1148,7 @@ final class FLCustomizer {
 
 		// Nav Fonts
 		$vars['nav-font-family']                = self::_get_font_family_string( $mods['fl-nav-font-family'] );
-		$vars['nav-font-weight']                = $mods['fl-nav-font-weight'];
+		$vars['nav-font-weight']                = self::_sanitize_weight( $mods['fl-nav-font-weight'] );
 		$vars['nav-font-format']                = $mods['fl-nav-font-format'];
 		$vars['nav-font-size']                  = $mods['fl-nav-font-size'] . 'px';
 
@@ -1014,6 +1182,7 @@ final class FLCustomizer {
 			$vars['nav-fg-color']               = $vars['header-fg-color'];
 			$vars['nav-fg-link-color']          = $vars['header-fg-link-color'];
 			$vars['nav-fg-hover-color']         = $vars['header-fg-hover-color'];
+			$vars['nav-bg-opacity']			= FLColor::clean_opa( $mods['fl-nav-bg-opacity'] );
 		} else {
 			$vars['nav-bg-color']				= FLColor::hex_or_transparent( $mods['fl-nav-bg-color'] );
 			$vars['nav-bg-opacity']			= FLColor::clean_opa( $mods['fl-nav-bg-opacity'] );
@@ -1032,6 +1201,9 @@ final class FLCustomizer {
 		$vars['mobile-nav-fg-color']        	= $vars['header-fg-color'];
 		$vars['mobile-nav-fg-link-color']   	= $vars['header-fg-link-color'];
 		$vars['mobile-nav-fg-hover-color']  	= $vars['header-fg-hover-color'];
+
+		// Mobile Nav Breakpoint
+		$vars['mobile-nav-breakpoint']			= $mods['fl-nav-breakpoint'];
 
 		// Content Width
 		$vars['content-width']                  = $mods['fl-content-width'] . 'px';
@@ -1062,14 +1234,10 @@ final class FLCustomizer {
 		}
 
 		// Custom Blog Sidebar Size
-		if ( 'custom' == $mods['fl-blog-sidebar-size'] && 'no-sidebar' != $mods['fl-blog-layout'] ) {
-			$vars['custom-sidebar-size']        = $mods['fl-blog-custom-sidebar-size'] . '%';
-		}
+		$vars['custom-sidebar-size']        = 'custom' == $mods['fl-blog-sidebar-size'] ? $mods['fl-blog-custom-sidebar-size'] . '%' : 0;
 
 		// Custom WooCommerce Sidebar Size
-		if ( 'custom' == $mods['fl-woo-sidebar-size'] && 'no-sidebar' != $mods['fl-woo-layout'] ) {
-			$vars['custom-woo-sidebar-size']    = $mods['fl-woo-custom-sidebar-size'] . '%';
-		}
+		$vars['custom-woo-sidebar-size']    = 'custom' == $mods['fl-woo-sidebar-size'] ? $mods['fl-woo-custom-sidebar-size'] . '%' : 0;
 
 		// Inputs Colors
 		$vars['input-bg-color']               	= FLColor::hex( array( $vars['content-bg-color-2'], $vars['body-bg-color-2'], '#fcfcfc' ) );
@@ -1114,6 +1282,12 @@ final class FLCustomizer {
 			$vars['woo-cats-add-button']        = 'hidden' == $mods['fl-woo-cart-button'] ? 'none' : 'inline-block';
 		}
 
+		if ( true == apply_filters( 'fl_enable_fa5_pro', false ) ) {
+			$vars['font-awesome-family'] = "'Font Awesome 5 Pro'";
+		} else {
+			$vars['font-awesome-family'] = "'Font Awesome 5 Free'";
+		}
+
 		// Let developers add their own vars.
 		$vars = apply_filters( 'fl_less_vars', $vars );
 
@@ -1127,6 +1301,16 @@ final class FLCustomizer {
 	}
 
 	/**
+	 * Sanitize the weight string.
+	 * @since 1.7
+	 */
+	static private function _sanitize_weight( $weight ) {
+
+		$weight = str_replace( 'italic', '', $weight );
+		return empty( $weight ) ? 400 : $weight;
+	}
+
+	/**
 	 * Builds a font family string using the provided font key.
 	 *
 	 * @since 1.2.0
@@ -1137,8 +1321,11 @@ final class FLCustomizer {
 	static private function _get_font_family_string( $font ) {
 		$string = '';
 		$system = FLFontFamilies::get_system();
+		$google = FLFontFamilies::get_google_fallback( $font );
 		if ( isset( $system[ $font ] ) ) {
-			$string = $font . ', ' . $system[ $font ]['fallback'];
+			$string = '"' . $font . '", ' . $system[ $font ]['fallback'];
+		} elseif ( $google ) {
+			$string = '"' . $font . '", ' . $google;
 		} else {
 			$string = '"' . $font . '", sans-serif';
 		}
@@ -1150,11 +1337,11 @@ final class FLCustomizer {
 	 * Regx replace callback for LESS to fix issues with IE filters.
 	 *
 	 * @since 1.2.0
-	 * @access private
+	 * @access public
 	 * @param array $matches
 	 * @return string
 	 */
-	static private function _preg_replace_less( $matches ) {
+	static public function _preg_replace_less( $matches ) {
 		if ( ! empty( $matches[1] ) ) {
 			return 'filter: ~"' . $matches[1] . '";';
 		}

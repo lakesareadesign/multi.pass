@@ -5,12 +5,12 @@ if ( ! defined( 'ABSPATH' ) ) {
 ?>
 <?php get_header(); ?>
 
-<div class="fl-archive container">
-	<div class="row">
+<div class="fl-archive <?php FLLayout::container_class(); ?>">
+	<div class="<?php FLLayout::row_class(); ?>">
 
 		<?php FLTheme::sidebar( 'left' ); ?>
 
-		<div class="fl-content <?php FLTheme::content_class(); ?>" itemscope="itemscope" itemtype="https://schema.org/Blog">
+		<div class="fl-content <?php FLLayout::content_class(); ?>" itemscope="itemscope" itemtype="https://schema.org/Blog">
 
 			<?php FLTheme::archive_page_header(); ?>
 

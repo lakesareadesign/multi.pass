@@ -29,6 +29,14 @@
 		 */
 		_bind: function()
 		{
+			// Base Framework Nav Toggles
+			$( '.fl-framework-base .navbar-toggle' ).on( 'click', this.navbarToggleClick );
+
+			// Mobile Logo
+			if ( ! ( $( 'html.fl-builder-edit' ).length != 0 ) ) {
+				this._initMobileHeaderLogo();
+			}
+
 			// Top Nav Drop Downs
 			if($('.fl-page-bar-nav ul.sub-menu').length != 0) {
 				this._setupDropDowns();
@@ -125,6 +133,13 @@
 				this._fixedHeadersWhenBuilderActive();
 			}
 
+			// Responsive Nav Layout
+			if ( $( 'body.fl-nav-mobile-offcanvas' ).length != 0 && ! $( 'html.fl-builder-edit' ).length != 0 ) {
+				$(window).on('resize', $.throttle(500, this._setupMobileNavLayout));
+				this._setupMobileNavLayout();
+				this._toggleMobileNavLayout();
+			}
+
 			// Footer parallax effect
 			if($('.fl-full-width.fl-footer-effect').length != 0) {
 				$(window).on('resize', $.throttle(500, this._footerEffect));
@@ -201,6 +216,86 @@
 
 				tmpImage.src = src;
 			}
+		},
+
+		/**
+		 * Mobile Header Logo.
+		 *
+		 * @since 1.7
+		 * @access private
+		 * @method _initMobileHeaderLogo
+		 */
+		_initMobileHeaderLogo: function()
+		{
+			this._enableMobileLogo();
+			$( window ).on( 'resize', $.proxy( this._enableMobileLogo, this ) );
+		},
+
+		/**
+		 * Enable Mobile Logo.
+		 *
+		 * @since 1.7
+		 * @access private
+		 * @method _enableMobileLogo
+		 */
+		_enableMobileLogo: function()
+		{
+			var win       = $( window ),
+				logoWrap  = $( '.fl-page-header-logo' ),
+				logos     = logoWrap.find( 'img[data-mobile]' ),
+				image     = null,
+				mobileSrc = null,
+				tmpImage  = null;
+
+			if ( 0 === logos.length ) {
+				return;
+			}
+
+			$( logos ).each( function(){
+				tmpImage  = new Image();
+				image     = $( this );
+				src       = image.attr( 'src' );
+				mobileSrc = image.data( 'mobile' );
+
+				image.attr( 'src', '' );
+				image.attr( 'data-src', src );
+
+				if ( win.width() < 768 ) {
+
+					if ( '' != mobileSrc ) {
+						tmpImage.onload = function() {
+							image.width( tmpImage.width );
+							image.attr( 'src', mobileSrc );
+						};
+
+						tmpImage.src = src;
+						image.show();
+					}
+				}
+				else {
+					if ( 'undefined' !== typeof image.data('src') ) {
+						image.attr( 'src', image.data('src') );
+						image.css( 'width', '' );
+					}
+				}
+			});
+		},
+
+		/**
+		 * Toggles a collapsed navbar when the toggle button is
+		 * clicked and the current framework is the bootstrap base.
+		 *
+		 * @since 1.7
+		 * @param {Object} e
+		 */
+		navbarToggleClick: function( e ) {
+			var button = $( e.target ).closest( 'button' ),
+				target = $( button.data( 'target' ) );
+
+			target.toggleClass( 'collapse' );
+			target.toggleClass( 'in' );
+			e.preventDefault();
+			e.stopPropagation();
 		},
 
 		/**
@@ -326,9 +421,10 @@
 		 */
 		_navItemClickMobile: function(e)
 		{
-			var parent 		= $(this).parent(),
-				href 		= $(this).attr('href'),
-				subMenu 	= parent.find( 'ul.sub-menu' );
+			var nav     = $(this).closest('.fl-page-nav-collapse'),
+				parent  = $(this).parent(),
+				href    = $(this).attr('href'),
+				subMenu = parent.find( 'ul.sub-menu' );
 
 			if( '#' == href && parent.hasClass( 'fl-mobile-sub-menu-open' ) ) {
 				e.preventDefault();
@@ -339,6 +435,13 @@
 				e.preventDefault();
 				parent.addClass('fl-mobile-sub-menu-open');
 				subMenu.fadeIn(200);
+			}
+
+			if ( $( '.fl-nav-collapse-menu' ).length != 0 ) {
+				nav.find( 'li.fl-mobile-sub-menu-open' )
+					.not( $(this).parents( '.fl-mobile-sub-menu-open' ) )
+					.removeClass( 'fl-mobile-sub-menu-open' )
+					.find( 'ul.sub-menu' ).hide();
 			}
 		},
 
@@ -670,6 +773,13 @@
 					totalHeaderHeight = headerHeight;
 				}
 
+				// Fix: Themer parts layout inserted before header.
+				if ( header.prevAll( '.fl-builder-content' ).length > 0 ) {
+					FLTheme._initThemerLayoutFix();
+
+					totalHeaderHeight = topbar.outerHeight();
+				}
+
 				$( '.fl-page' ).css( 'padding-top', totalHeaderHeight );
 				$( win ).on( 'scroll.fl-shrink-header', FLTheme._shrinkHeader );
 			}
@@ -698,6 +808,10 @@
 			}
 			else {
 				header.removeClass( 'fl-shrink-header' );
+			}
+
+			if ( 'undefined' !== typeof header.data( 'original-top' ) ) {
+				FLTheme._fixThemerLayoutOnScroll();
 			}
 		},
 
@@ -740,6 +854,14 @@
 		 			totalHeaderHeight = headerHeight;
 		 		}
 
+				// Fix: Themer parts layout.
+				if ( header.prevAll( '.fl-builder-content' ).length > 0 ) {
+					FLTheme._initThemerLayoutFix();
+					totalHeaderHeight = bar.outerHeight();
+
+					$( win ).on( 'scroll.fl-fixed-header', FLTheme._fixThemerLayoutOnScroll );
+				}
+
 		 		if($('body.fl-scroll-header').length === 0) {
 		 			$('.fl-page').css('padding-top', totalHeaderHeight);
 		 		}
@@ -747,6 +869,7 @@
 		 	else {
 		 		$('.fl-page-header').css('top', 0);
 		 		$('.fl-page').css('padding-top', 0);
+				$( win ).off( 'scroll.fl-fixed-header' );
 		 	}
 		},
 
@@ -769,6 +892,55 @@
 			}
 			else {
 				win.on('scroll.fl-page-header-fixed', FLTheme._toggleFixedHeader);
+			}
+		},
+
+		/**
+		 * Fix the Themer parts layout that are hooks into `fl_page_open`.
+		 *
+		 * @since 1.7
+		 * @access private
+		 * @method _fixThemerLayout
+		 */
+		_initThemerLayoutFix: function() {
+			var header             = $('.fl-page-header'),
+				themerLayouts      = header.prevAll( '.fl-builder-content' ),
+				themerlayoutHeight = 0;
+
+			if ( ! themerLayouts.length ) {
+				return;
+			}
+
+			header.css('position', 'initial');
+
+			$.each( themerLayouts, function() {
+				themerlayoutHeight += $( this ).outerHeight();
+			});
+
+			header.data( 'original-top', themerlayoutHeight );
+		},
+
+		/**
+		 * Fix the Themer parts layout on scroll.
+		 *
+		 * @since 1.7
+		 * @access private
+		 * @method _fixThemerLayout
+		 */
+		_fixThemerLayoutOnScroll: function() {
+			var distanceY     = $( window ).scrollTop(),
+				header        = $( '.fl-page-header' ),
+				headerTop     = header.data( 'original-top' );
+
+			if ( 'undefined' === typeof headerTop ) {
+				return;
+			}
+
+			if ( distanceY >= headerTop ) {
+				header.css( 'position', 'fixed' );
+			}
+			else {
+				header.css( 'position', 'initial' );
 			}
 		},
 
@@ -988,6 +1160,104 @@
 			if($('body.fl-scroll-header').length != 0) {
 				$('body').removeClass('fl-scroll-header');
 			}
+		},
+
+		/**
+		 * Responsive Nav Layout
+		 *
+		 * @since 1.7
+		 * @access private
+		 * @method _setupMobileNavLayout
+		 */
+		_setupMobileNavLayout: function()
+		{
+			var win       = $( window ),
+			    button    = $( 'button.navbar-toggle' ),
+				header    = $( '.fl-page-header:not(.fl-page-header-fixed)' ),
+				navBar    = header.find( '.fl-page-nav-collapse' ),
+				pageWrap  = $( '.fl-page' ),
+				navBarTop = 0,
+				navHeight = win.height(),
+				pushOpacity = $( 'body').hasClass( 'fl-offcanvas-push-opacity-left' ) || $( 'body').hasClass( 'fl-offcanvas-push-opacity-right' ),
+				logoPos   = header.find( '.fl-page-header-logo' ).offset();
+
+			if ( FLTheme._isResponsiveNavEnabled() ) {
+				$( 'body' ).addClass( 'fl-responsive-nav-enabled' );
+
+				button.attr( 'data-toggle', 'offcanvas');
+				navBar.addClass( 'fl-nav-offcanvas-collapse');
+
+				if ( 0 === navBar.find( '.fl-button-close' ).length ) {
+					navBar.prepend( '<div class="fl-button-close"><button class="fl-offcanvas-close"><i class="fas fa-times"></i></button></div>' );
+				}
+
+				if ( pushOpacity && 0 === $( '.fl-offcanvas-opacity' ).length ) {
+					pageWrap.append( '<div class="fl-offcanvas-opacity"></div>' );
+				}
+
+				if ( pageWrap.height() > win.height() ) {
+					navHeight = $( document ).height();
+
+					if ( $( 'body.fl-shrink' ).length != 0 ) {
+						navHeight = navHeight - header.height();
+					}
+				}
+
+				if ( $( 'body.admin-bar' ).length != 0 ) {
+					navBarTop = $( '#wpadminbar' ).height();
+					navHeight = navHeight - navBarTop;
+				}
+
+				if ( $( '.fl-page-bar' ).length != 0 && ! $( '.fl-page-header' ).hasClass( 'fl-page-nav-toggle-button' ) ) {
+					navBarTop = navBarTop + ($( '.fl-page-bar' ).height() + 1);
+				}
+
+				style = 'top: ' + (pageWrap.offset().top - navBarTop) + 'px;height: ' + navHeight + 'px !important';
+				navBar.css('cssText', style );
+
+				// Set button position for larger screens when nav breakpoint is set to always.
+				if ( win.width() >= 992 && ! header.hasClass( 'fl-page-nav-bottom' ) ) {
+					button.css( 'right', logoPos.left );
+				}
+				else {
+					button.css( 'right', '' );
+				}
+			}
+			else {
+				button.attr( 'data-toggle', 'collapse');
+				navBar.removeClass( 'fl-nav-offcanvas-collapse');
+				navBar.find( '.fl-button-close' ).remove();
+				navBar.css( 'height', '' );
+				pageWrap.removeClass( 'fl-nav-offcanvas-active' );
+				$( 'body' ).find( '.fl-offcanvas-opacity' ).remove();
+			}
+		},
+
+		/**
+		 * Toggle the Responsive Nav Layout
+		 *
+		 * @since 1.7
+		 * @access private
+		 * @method _toggleMobileNavLayout
+		 */
+		_toggleMobileNavLayout: function()
+		{
+			$( '.fl-page-nav' ).on( 'click', '.navbar-toggle', function(){
+				$( '.fl-page' ).toggleClass( 'fl-nav-offcanvas-active' );
+			});
+
+			$( '.fl-page-nav' ).on( 'click', '.fl-offcanvas-close', function(){
+				$( '.fl-page' ).toggleClass( 'fl-nav-offcanvas-active' );
+			});
+
+			$( '.fl-page' ).on( 'click', '.fl-offcanvas-opacity', function(){
+				$( '.fl-page' ).toggleClass( 'fl-nav-offcanvas-active' );
+			});
+
+			// Base Framework Nav Toggles
+			$( '.fl-framework-base.fl-nav-mobile-offcanvas .navbar-toggle' ).on( 'click', function() {
+				$( '.fl-page' ).toggleClass( 'fl-nav-offcanvas-active' );
+			} );
 		},
 
 		/**

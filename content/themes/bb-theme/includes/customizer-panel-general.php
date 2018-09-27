@@ -104,6 +104,43 @@ FLCustomizer::add_panel('fl-general', array(
 						),
 					),
 				),
+				/* Framework */
+				'fl-framework' => array(
+					'setting'   => array(
+						'default'   => 'base',
+					),
+					'control'   => array(
+						'class'         => 'WP_Customize_Control',
+						'label'         => __( 'CSS Framework', 'fl-automator' ),
+						'type'          => 'select',
+						'description'   =>
+				__( 'Select a CSS framework for the theme. None is a bare minimal Bootstrap 3. If unsure choose None.', 'fl-automator' ),
+						'choices'       => array(
+							'base' 			 => __( 'None', 'fl-automator' ),
+							'bootstrap'      => __( 'Bootstrap 3', 'fl-automator' ),
+							'bootstrap-4'    => __( 'Bootstrap 4', 'fl-automator' ),
+						),
+					),
+				),
+
+				/* Font Awesome */
+				'fl-awesome' => array(
+					'setting'   => array(
+						'default'   => 'fa4',
+					),
+					'control'   => array(
+						'class'         => 'WP_Customize_Control',
+						'label'         => __( 'Font Awesome Icons', 'fl-automator' ),
+						'type'          => 'select',
+						'description'   =>
+				__( 'Select which icon library to load on all pages. If unsure choose None.', 'fl-automator' ),
+						'choices'       => array(
+							'none'   => __( 'None', 'fl-automator' ),
+							'fa4'          => __( 'Font Awesome 4', 'fl-automator' ),
+							'fa5'          => __( 'Font Awesome 5', 'fl-automator' ),
+						),
+					),
+				),
 			),
 		),
 
@@ -250,15 +287,94 @@ FLCustomizer::add_panel('fl-general', array(
 			'title'   => _x( 'Headings', 'Customizer section title.', 'fl-automator' ),
 			'options' => array(
 
+				'fl-heading-style' => array(
+					'setting' => array(
+						'default' => '',
+					),
+					'control' => array(
+						'class' => 'WP_Customize_Control',
+						'type' => 'select',
+						'label' => __( 'Style Headings', 'fl-automator' ),
+						'priority' => 0,
+						'choices' => array(
+							'' => __( 'All Headings', 'fl-automator' ),
+							'title' => __( 'Custom H1 Style', 'fl-automator' ),
+						),
+					),
+				),
+
+				'fl-title-text-color' => array(
+					'setting' => array(
+						'default' => '#333333',
+					),
+					'control' => array(
+						'class'     => 'WP_Customize_Color_Control',
+						'label'     => __( 'H1 Color', 'fl-automator' ),
+						'priority' => 1.0,
+					),
+				),
+				'fl-title-font-family' => array(
+					'setting'   => array(
+						'default'   => 'Helvetica',
+					),
+					'control'   => array(
+						'class'     => 'FLCustomizerControl',
+						'label'     => __( 'H1 Font Family', 'fl-automator' ),
+						'priority' => 1.1,
+						'type'      => 'font',
+						'connect'   => 'fl-title-font-weight',
+					),
+				),
+				/* Heading Font Weight */
+				'fl-title-font-weight' => array(
+					'setting'   => array(
+						'default'   => '400',
+					),
+					'control'   => array(
+						'class'     => 'FLCustomizerControl',
+						'label'     => __( 'H1 Font Weight', 'fl-automator' ),
+						'type'      => 'font-weight',
+						'priority' => 1.2,
+						'connect'   => 'fl-title-font-family',
+					),
+				),
+				/* Heading Font Format */
+				'fl-title-font-format' => array(
+					'setting'   => array(
+						'default'   => 'none',
+					),
+					'control'   => array(
+						'class'     => 'WP_Customize_Control',
+						'label'     => __( 'H1 Font Format', 'fl-automator' ),
+						'priority' => 1.3,
+						'type'      => 'select',
+						'choices'   => array(
+							'none'       => __( 'Regular', 'fl-automator' ),
+							'capitalize' => __( 'Capitalize', 'fl-automator' ),
+							'uppercase'  => __( 'Uppercase', 'fl-automator' ),
+							'lowercase'  => __( 'Lowercase', 'fl-automator' ),
+						),
+					),
+				),
+
+				/* Below Title Styles */
+				'fl-title-heading-line' => array(
+					'control' => array(
+						'class'     => 'FLCustomizerControl',
+						'type'      => 'line',
+						'priority'  => 2.0,
+					),
+				),
+
 				/* Heading Text Color */
 				'fl-heading-text-color' => array(
 					'setting'   => array(
 						'default'   => '#333333',
-						'transport' => 'postMessage',
 					),
 					'control'   => array(
 						'class'     => 'WP_Customize_Color_Control',
 						'label'     => __( 'Color', 'fl-automator' ),
+						'priority'  => 3.0,
 					),
 				),
 
@@ -273,6 +389,7 @@ FLCustomizer::add_panel('fl-general', array(
 						'label'     => __( 'Font Family', 'fl-automator' ),
 						'type'      => 'font',
 						'connect'   => 'fl-heading-font-weight',
+						'priority'  => 3.1,
 					),
 				),
 
@@ -286,6 +403,7 @@ FLCustomizer::add_panel('fl-general', array(
 						'label'     => __( 'Font Weight', 'fl-automator' ),
 						'type'      => 'font-weight',
 						'connect'   => 'fl-heading-font-family',
+						'priority'  => 3.2,
 					),
 				),
 
@@ -299,6 +417,7 @@ FLCustomizer::add_panel('fl-general', array(
 						'class'     => 'WP_Customize_Control',
 						'label'     => __( 'Font Format', 'fl-automator' ),
 						'type'      => 'select',
+						'priority'  => 3.3,
 						'choices'   => array(
 							'none'       => __( 'Regular', 'fl-automator' ),
 							'capitalize' => __( 'Capitalize', 'fl-automator' ),
@@ -313,6 +432,7 @@ FLCustomizer::add_panel('fl-general', array(
 					'control'   => array(
 						'class'     => 'FLCustomizerControl',
 						'type'      => 'line',
+						'priority'  => 4.0,
 					),
 				),
 
@@ -326,11 +446,13 @@ FLCustomizer::add_panel('fl-general', array(
 						'class' => 'FLCustomizerControl',
 						'label' => sprintf( _x( '%s Font Size', '%s stands for HTML heading tag.', 'fl-automator' ), 'H1' ),
 						'type'  => 'slider',
+						'priority' => 5.0,
 						'choices'     => array(
 							'min'  => 10,
 							'max'  => 72,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -343,12 +465,14 @@ FLCustomizer::add_panel('fl-general', array(
 					'control'   => array(
 						'class' => 'FLCustomizerControl',
 						'label' => sprintf( _x( '%s Line Height', '%s stands for HTML heading tag.', 'fl-automator' ), 'H1' ),
+						'priority' => 5.1,
 						'type'  => 'slider',
 						'choices'     => array(
 							'min'  => 1,
 							'max'  => 2.5,
 							'step' => 0.05,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -361,12 +485,14 @@ FLCustomizer::add_panel('fl-general', array(
 					'control'   => array(
 						'class' => 'FLCustomizerControl',
 						'label' => sprintf( _x( '%s Letter Spacing', '%s stands for HTML heading tag.', 'fl-automator' ), 'H1' ),
+						'priority' => 5.2,
 						'type'  => 'slider',
 						'choices'     => array(
 							'min'  => -3,
 							'max'  => 10,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -375,6 +501,7 @@ FLCustomizer::add_panel('fl-general', array(
 					'control'   => array(
 						'class'     => 'FLCustomizerControl',
 						'type'      => 'line',
+						'priority'  => 5.3,
 					),
 				),
 
@@ -761,6 +888,231 @@ FLCustomizer::add_panel('fl-general', array(
 				),
 			),
 		),
+		/* Buttons Section */
+		'fl-buttons' => array(
+			'title' => _x( 'Buttons', 'Customizer section title.', 'fl-automator' ),
+			'options' => array(
+				'fl-button-style' => array(
+					'setting' => array(
+						'default' => '',
+					),
+					'control' => array(
+						'class'     => 'WP_Customize_Control',
+						'label' => __( 'Button Style', 'fl-automator' ),
+						'type' => 'select',
+						'choices' => array(
+							'' => __( 'None (default)', 'fl-automator' ),
+							'custom' => __( 'Custom', 'fl-automator' ),
+						),
+					),
+				),
+
+				/* Line */
+				'fl-button-color-line' => array(
+					'control'   => array(
+						'class'     => 'FLCustomizerControl',
+						'type'      => 'line',
+					),
+				),
+
+
+				'fl-button-color' => array(
+					'setting' => array(
+						'default' => '#808080',
+						'transport' => 'postMessage',
+					),
+					'control' => array(
+						'class'     => 'WP_Customize_Color_Control',
+						'label'     => __( 'Color', 'fl-automator' ),
+					),
+				),
+				'fl-button-hover-color' => array(
+					'setting' => array(
+						'default' => '#555',
+						'transport' => 'postMessage',
+					),
+					'control' => array(
+						'class'     => 'WP_Customize_Color_Control',
+						'label'     => __( 'Hover Color', 'fl-automator' ),
+					),
+				),
+				'fl-button-background-color' => array(
+					'setting' => array(
+						'default' => '#fff',
+						'transport' => 'postMessage',
+					),
+					'control' => array(
+						'class'     => 'WP_Customize_Color_Control',
+						'label'     => __( 'Background Color', 'fl-automator' ),
+					),
+				),
+				'fl-button-background-hover-color' => array(
+					'setting' => array(
+						'default' => '#eee',
+						'transport' => 'postMessage',
+					),
+					'control' => array(
+						'class'     => 'WP_Customize_Color_Control',
+						'label'     => __( 'Background Hover Color', 'fl-automator' ),
+					),
+				),
+
+				/* Line */
+				'fl-button-font-line' => array(
+					'control'   => array(
+						'class'     => 'FLCustomizerControl',
+						'type'      => 'line',
+					),
+				),
+
+				/* Body Font Family */
+				'fl-button-font-family' => array(
+					'setting'   => array(
+						'default'   => 'Helvetica',
+					),
+					'control'   => array(
+						'class'     => 'FLCustomizerControl',
+						'label'     => __( 'Font Family', 'fl-automator' ),
+						'type'      => 'font',
+						'connect'   => 'fl-button-font-weight',
+					),
+				),
+				/* Body Font Weight */
+				'fl-button-font-weight' => array(
+					'setting'   => array(
+						'default'   => '400',
+					),
+					'control'   => array(
+						'class'     => 'FLCustomizerControl',
+						'label'     => __( 'Font Weight', 'fl-automator' ),
+						'type'      => 'font-weight',
+						'connect'   => 'fl-button-font-family',
+					),
+				),
+
+				'fl-button-font-size' => array(
+					'setting'   => array(
+						'default'   => 'auto',
+					),
+					'control'   => array(
+						'class' => 'FLCustomizerControl',
+						'label' => _x( 'Font Size', 'Font size for buttons.', 'fl-automator' ),
+						'type'  => 'slider',
+						'choices'     => array(
+							'min'  => 10,
+							'max'  => 72,
+							'step' => 1,
+						),
+					),
+				),
+				'fl-button-line-height' => array(
+					'setting'   => array(
+						'default'   => '1.2',
+					),
+					'control'   => array(
+						'class'     => 'FLCustomizerControl',
+						'label'     => __( 'Line Height', 'fl-automator' ),
+						'type'  => 'slider',
+						'choices'     => array(
+							'min'  => 1,
+							'max'  => 2.5,
+							'step' => 0.05,
+						),
+					),
+				),
+				'fl-button-text-transform' => array(
+					'setting'   => array(
+						'default'   => 'none',
+						'transport' => 'postMessage',
+					),
+					'control' => array(
+						'class' => 'WP_Customize_Control',
+						'label' => _x( 'Text Transform', 'Text transform for buttons.', 'fl-automator' ),
+						'type' => 'select',
+						'choices' => array(
+							'none'       => __( 'Regular', 'fl-automator' ),
+							'capitalize' => __( 'Capitalize', 'fl-automator' ),
+							'uppercase'  => __( 'Uppercase', 'fl-automator' ),
+							'lowercase'  => __( 'Lowercase', 'fl-automator' ),
+						),
+					),
+				),
+
+				/* Line */
+				'fl-button-border-line' => array(
+					'control'   => array(
+						'class'     => 'FLCustomizerControl',
+						'type'      => 'line',
+					),
+				),
+				'fl-button-border-style' => array(
+					'setting'   => array(
+						'default'   => 'none',
+						'transport' => 'postMessage',
+					),
+					'control' => array(
+						'class' => 'WP_Customize_Control',
+						'label' => _x( 'Border Style', 'Border style for buttons.', 'fl-automator' ),
+						'type' => 'select',
+						'choices' => array(
+							'none' 		=> __( 'None', 'fl-automator' ),
+							'solid'		=> __( 'Solid', 'fl-automator' ),
+							'dotted'	=> __( 'Dotted', 'fl-automator' ),
+							'dashed'	=> __( 'Dashed', 'fl-automator' ),
+							'double'	=> __( 'Double', 'fl-automator' ),
+							'groove'	=> __( 'Groove', 'fl-automator' ),
+							'ridge'		=> __( 'Ridge', 'fl-automator' ),
+							'inset'		=> __( 'Inset', 'fl-automator' ),
+							'outset'	=> __( 'Outset', 'fl-automator' ),
+							'initial'	=> __( 'Initial', 'fl-automator' ),
+							'inherit'	=> __( 'Inherit', 'fl-automator' ),
+						),
+					),
+				),
+				'fl-button-border-width' => array(
+					'setting'   => array(
+						'default'   => '0',
+						'transport' => 'postMessage',
+					),
+					'control' => array(
+						'class'     => 'FLCustomizerControl',
+						'label' => _x( 'Border Width', 'Border width for buttons.', 'fl-automator' ),
+						'type'  => 'slider',
+						'choices'     => array(
+							'min'  => 0,
+							'max'  => 10,
+							'step' => 1,
+						),
+					),
+				),
+				'fl-button-border-color' => array(
+					'setting' => array(
+						'default' => 'transparent',
+						'transport' => 'postMessage',
+					),
+					'control' => array(
+						'class'     => 'WP_Customize_Color_Control',
+						'label'     => __( 'Border Color', 'fl-automator' ),
+					),
+				),
+				'fl-button-border-radius' => array(
+					'setting' => array(
+						'default' => 0,
+						'transport' => 'postMessage',
+					),
+					'control' => array(
+						'class' => 'FLCustomizerControl',
+						'label' => _x( 'Border Radius', 'Font size for buttons.', 'fl-automator' ),
+						'type'  => 'slider',
+						'choices'     => array(
+							'min'  => 0,
+							'max'  => 25,
+							'step' => 1,
+						),
+					),
+				),
+			),
+		),
 		/* Social Links Section */
 		'fl-social-links' => array(
 			'title'   => _x( 'Social Links', 'Customizer section title.', 'fl-automator' ),
@@ -799,6 +1151,12 @@ FLCustomizer::add_panel('fl-general', array(
 					'control'   => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Google',
+					),
+				),
+				'fl-social-snapchat' => array(
+					'control'   => array(
+						'class' => 'WP_Customize_Control',
+						'label' => 'Snapchat',
 					),
 				),
 				'fl-social-linkedin' => array(

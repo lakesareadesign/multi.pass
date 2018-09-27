@@ -21,7 +21,7 @@ final class FLThemeUpdate {
 		self::wp_4_7_export_css();
 
 		// Get the saved version number.
-		$saved_version = get_option( '_fl_automator_version', '0' );
+		$saved_version = self::get_saved_version();
 
 		// Don't update for dev versions.
 		if ( '{FL_THEME_VERSION}' == FL_THEME_VERSION ) {
@@ -43,10 +43,25 @@ final class FLThemeUpdate {
 			self::v_1_3_1();
 		}
 
+		// Update to 1.7 or greater.
+		if ( version_compare( $saved_version, '1.7-alpha.1', '<' ) ) {
+			self::v_1_7();
+		}
+
 		do_action( 'fl_theme_updated' );
 
 		// Update the saved version number.
 		update_option( '_fl_automator_version', FL_THEME_VERSION );
+	}
+
+	/**
+	 * Returns the theme version saved in the database.
+	 *
+	 * @since 1.7
+	 * @return string
+	 */
+	static public function get_saved_version() {
+		return get_option( '_fl_automator_version', '0' );
 	}
 
 	/**
@@ -293,6 +308,23 @@ final class FLThemeUpdate {
 				// Remove mod so it would only export once.
 				remove_theme_mod( 'fl-css-code' );
 			}
+		}
+	}
+
+	/**
+	 * Updates to version 1.7. This will set the default layout
+	 * framework to Bootstrap 3 for existing sites to maintain
+	 * backwards compatibility.
+	 *
+	 * @since 1.7
+	 * @access private
+	 * @return void
+	 */
+	static private function v_1_7() {
+		$saved_version = self::get_saved_version();
+
+		if ( $saved_version ) {
+			set_theme_mod( 'fl-framework', 'bootstrap' );
 		}
 	}
 }

@@ -1,0 +1,344 @@
+/*
+
+WARNING! DO NOT EDIT THEME FILES IF YOU PLAN ON UPDATING!
+
+Theme files will be overwritten and your changes will be lost
+when updating. Instead, add custom code in the admin under
+Appearance > Theme Settings > Code or create a child theme.
+
+*/
+
+/* Offcanvas Layout for Responsive Nav
+----------------------------------------------------------- */
+
+.fl-nav-mobile-offcanvas.fl-responsive-nav-enabled {
+
+	overflow-x: hidden; /* Prevent scroll on narrow devices */
+
+ 	.fl-page {
+		-webkit-transition: left .20s ease-in-out, right .20s ease-in-out;
+		     -o-transition: left .20s ease-in-out, right .20s ease-in-out;
+		        transition: left .20s ease-in-out, right .20s ease-in-out;
+	}
+
+	.fl-page-bar {
+		-webkit-transition: padding .20s ease-in;
+		     -o-transition: padding .20s ease-in;
+		        transition: padding .20s ease-in;
+	}
+
+	.fl-page-header-container,
+	.fl-page-nav-col,
+	.fl-page-nav {
+		position: static;
+	}
+
+	&.fl-offcanvas-push-right .fl-page,
+	&.fl-offcanvas-push-opacity-right .fl-page {
+		right: 0;
+
+		.fl-nav-offcanvas-collapse {
+			right: -250px;
+		}
+
+		&.fl-nav-offcanvas-active {
+			right: 250px;
+		}
+
+		.fl-button-close {
+			text-align: left;
+		}
+	}
+
+	&.fl-offcanvas-push-left .fl-page,
+	&.fl-offcanvas-push-opacity-left .fl-page {
+		left: 0;
+
+		.fl-nav-offcanvas-collapse {
+			left: -250px;
+		}
+
+		&.fl-nav-offcanvas-active {
+			left: 250px;
+		}
+
+		.fl-button-close {
+			text-align: right;
+		}
+	}
+
+	&.fl-offcanvas-overlay-left .fl-page {
+		.fl-nav-offcanvas-collapse {
+			left: -250px;
+		}
+
+		&.fl-nav-offcanvas-active {
+			.fl-nav-offcanvas-collapse {
+				left: 0;
+			}
+		}
+
+		.fl-button-close {
+			text-align: right;
+		}
+	}
+
+	&.fl-offcanvas-overlay-right .fl-page {
+		.fl-nav-offcanvas-collapse {
+			right: -250px;
+		}
+
+		&.fl-nav-offcanvas-active {
+			.fl-nav-offcanvas-collapse {
+				right: 0;
+			}
+		}
+
+		.fl-button-close {
+			text-align: left;
+		}
+	}
+
+	header[class*=" fl-page-nav-toggle-visible-"].fl-page-header .fl-nav-offcanvas-collapse {
+		padding: 0;
+		-moz-box-shadow: @nav-shadow;
+		-webkit-box-shadow: @nav-shadow;
+		box-shadow: @nav-shadow;
+
+		.fl-change-row-color(
+			fade(@header-bg-color, @header-bg-opacity),
+			@header-fg-color,
+			@header-fg-link-color,
+			@header-fg-hover-color,
+			@header-border-color
+		);
+	}
+
+	.fl-nav-offcanvas-collapse {
+		overflow-y: auto;
+		position: absolute;
+		top: 0;
+		width: 250px;
+		z-index: 205;
+
+		-webkit-transition: all .25s ease-out;
+			 -o-transition: all .25s ease-out;
+				transition: all .25s ease-out;
+	}
+
+	.fl-button-close {
+		display: block;
+	}
+
+	.fl-offcanvas-close {
+		display: inline-block;
+		font-size: 18px;
+		border: 0 none;
+		background: transparent;
+		cursor: pointer;
+		&:hover,
+		&:focus {
+			background: transparent;
+		}
+	}
+
+	.fl-nav-offcanvas-active {
+		header[class*=" fl-page-nav-toggle-visible-"].fl-page-header .fl-nav-offcanvas-collapse {
+			display: block !important;
+			visibility: visible !important;
+		}
+		.fl-offcanvas-opacity {
+			display: block;
+		}
+	}
+
+	.fl-offcanvas-opacity {
+		display: none;
+		position: fixed;
+		width: 100%;
+	    height: 100%;
+	    top: 0;
+	    left: 0;
+	    right: 0;
+	    bottom: 0;
+	    background-color: rgba(0,0,0,0.4);
+	    z-index: 5;
+	    cursor: pointer;
+	}
+
+	/* Shrink Header */
+	&.fl-shrink-header-enabled {
+
+		.fl-page {
+			padding-top: 0!important;
+		}
+
+		.fl-page-header {
+			position: relative;
+
+			&.fl-shrink-header {
+				.fl-page-header-wrap {
+					background: inherit;
+					min-width: 100%;
+					max-width: 90%;
+					position: fixed;
+
+					-webkit-transition: all .25s ease-out;
+					     -o-transition: all .25s ease-out;
+					        transition: all .25s ease-out;
+				}
+			}
+		}
+
+		.fl-shrink-header .navbar-toggle {
+			position: fixed;
+			top: 15px;
+		}
+
+		.fl-page-bar ~ .fl-shrink-header .navbar-toggle {
+			top: 45px;
+		}
+
+		&.admin-bar {
+			.fl-page-bar ~ .fl-shrink-header .navbar-toggle {
+				top: 80px;
+			}
+
+			.fl-shrink-header .navbar-toggle {
+				top: 45px;
+			}
+		}
+
+		.fl-nav-offcanvas-active {
+			.fl-offcanvas-opacity {
+				position: absolute;
+				z-index: 110;
+			}
+
+			.fl-page-bar {
+				z-index: 100;
+			}
+		}
+
+		&.fl-offcanvas-push-left,
+		&.fl-offcanvas-push-opacity-left {
+			.fl-nav-offcanvas-active {
+				.fl-page-bar {
+					padding-left: 250px;
+				}
+
+				.fl-shrink-header .navbar-toggle {
+					position: absolute;
+				}
+			}
+		}
+
+		&.fl-offcanvas-push-right,
+		&.fl-offcanvas-push-opacity-right {
+			.fl-nav-offcanvas-active {
+				.fl-page-bar {
+					padding-right: 250px;
+				}
+
+				.fl-shrink-header .navbar-toggle {
+					right: 270px;
+				}
+			}
+		}
+	}
+
+	/* Fixed Header */
+	&.fl-fixed-header {
+		.fl-page {
+			padding-top: 0!important;
+		}
+
+		.fl-page-header {
+			position: relative;
+
+			.fl-page-header-wrap {
+				background: inherit;
+				min-width: 100%;
+				max-width: 90%;
+				position: fixed;
+
+				-webkit-transition: all .25s ease-out;
+				     -o-transition: all .25s ease-out;
+				        transition: all .25s ease-out;
+			}
+		}
+
+		.navbar-toggle {
+			position: fixed;
+			top: 15px;
+		}
+
+		.fl-page-bar ~ .fl-page-header .navbar-toggle {
+			top: 45px;
+		}
+
+		&.admin-bar {
+			.fl-page-bar ~ .fl-page-header .navbar-toggle {
+				top: 80px;
+			}
+
+			.fl-page-header .navbar-toggle {
+				top: 45px;
+			}
+		}
+
+		.fl-nav-offcanvas-active {
+			.fl-offcanvas-opacity {
+				position: absolute;
+				z-index: 110;
+			}
+
+			.fl-page-bar {
+				z-index: 100;
+			}
+		}
+
+		&.fl-offcanvas-push-left,
+		&.fl-offcanvas-push-opacity-left {
+			.fl-nav-offcanvas-active {
+				.fl-page-bar {
+					padding-left: 250px;
+				}
+
+				.navbar-toggle {
+					position: absolute;
+				}
+			}
+		}
+
+		&.fl-offcanvas-push-right,
+		&.fl-offcanvas-push-opacity-right {
+			.fl-nav-offcanvas-active {
+				.fl-page-bar {
+					padding-right: 250px;
+				}
+
+				.navbar-toggle {
+					right: 270px;
+				}
+			}
+		}
+	}
+}
+
+@media (min-width: 992px) {
+	.fl-responsive-nav-enabled {
+		&.fl-shrink-header-enabled,
+		&.fl-fixed-header {
+			&.admin-bar {
+				.fl-page-bar ~ .fl-page-header {
+					top: 35px!important;
+				}
+
+				.fl-page-header {
+					top: 0;
+				}
+			}
+		}
+	}
+}

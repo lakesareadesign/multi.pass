@@ -24,12 +24,49 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	public $mode = 'html';
 
 	/**
+	 * Reference to the class `$args` parameter.
+	 *
+	 * @since 1.7
+	 * @var array
+	 */
+	public $args = array();
+
+	/**
 	 * If true, the preview button for a control will be rendered.
 	 *
 	 * @since 1.3.3
 	 * @var bool $preview_button
 	 */
 	public $preview_button = false;
+
+	/**
+	 * Constructor.
+	 *
+	 * @since 1.7
+	 */
+	public function __construct( $manager, $id, $args = array() ) {
+		$this->args = $args;
+		parent::__construct( $manager, $id, $args );
+	}
+
+	/**
+	 * Renders the control wrapper and calls $this->render_content() for the internals.
+	 *
+	 * @since 1.7
+	 * @return void
+	 */
+	protected function render() {
+		$id    = 'customize-control-' . str_replace( array( '[', ']' ), array( '-', '' ), $this->id );
+		$class = 'customize-control customize-control-' . $this->type;
+
+		if ( isset( $this->args['classes'] ) ) {
+			$class .= ' ' . implode( ' ', $this->args['classes'] );
+		}
+
+		printf( '<li id="%s" class="%s">', esc_attr( $id ), esc_attr( $class ) );
+		$this->render_content();
+		echo '</li>';
+	}
 
 	/**
 	 * Renders the content for a control based on the type

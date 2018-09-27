@@ -5,6 +5,7 @@ foreach ( $icons as $icon ) {
 
 	$link_target = ' target="_blank"';
 
+
 	if ( ! empty( $settings[ 'fl-social-' . $icon ] ) ) {
 
 		$setting = $settings[ 'fl-social-' . $icon ];
@@ -15,34 +16,26 @@ foreach ( $icons as $icon ) {
 			$icon = 'envelope';
 		}
 
+		$pre = ( 'envelope' == $icon || 'rss' == $icon ) ? 'fas' : 'fab';
+
+		$icon = ( 'facebook' == $icon ) ? 'facebook-f' : $icon;
+
 		if ( ! $circle ) {
-
-			if ( 'blogger' == $icon ) {
-				$class = 'fl-icon fl-icon-color-' . $settings['fl-social-icons-color'] . ' fl-icon-' . $icon . ' fl-icon-' . $icon . '-regular';
-				echo '<a href="' . $settings[ 'fl-social-' . $icon ] . '"' . $link_target . ' class="' . $class . '">' . $icon_sreen_reader . '</a>';
-			} else {
-				printf( '<a href="%s"%s>%s<i class="fa fa-%s %s"></i></a>', $setting, $link_target, $icon_sreen_reader, $icon, $settings['fl-social-icons-color'] );
-			}
+				printf( '<a href="%s"%s>%s<i class="%s fa-%s %s"></i></a>', $setting, $link_target, $icon_sreen_reader, $pre, $icon, $settings['fl-social-icons-color'] );
 		} else {
-
-			if ( 'blogger' == $icon ) {
-				$class = 'fl-icon fallback fl-icon-color-' . $settings['fl-social-icons-color'] . ' fl-icon-' . $icon . ' fl-icon-' . $icon;
-				$class .= $circle ? '-circle' : '-regular';
-				echo '<a href="' . $settings[ 'fl-social-' . $icon ] . '"' . $link_target . ' class="' . $class . '">' . $icon_sreen_reader . '</a>';
-			} else {
 				printf( '<a href="%s" class="fa-stack icon-%s"%s>%s
-				<i class="fa fa-circle fa-stack-2x %s"></i>
-				<i class="fa fa-%s %s fa-stack-1x fa-inverse"></i>
+				<i class="fas fa-circle fa-stack-2x %s"></i>
+				<i class="%s fa-%s %s fa-stack-1x fa-inverse"></i>
 				</a>',
 					$setting,
 					$icon,
 					$link_target,
 					$icon_sreen_reader,
 					$settings['fl-social-icons-color'],
+					$pre,
 					$icon,
 					$settings['fl-social-icons-color']
 				);
-			}
 		}
 	}
 }

@@ -22,7 +22,17 @@ final class FLThemeShortcodes {
 			'format' => 'Y',
 		), $atts );
 
-		return date( $atts['format'] );
+		$date = date( $atts['format'] );
+
+		$tz = get_option( 'timezone_string' );
+
+		if ( $tz ) {
+			$tzdate = new DateTime( date( 'Y-m-d H:i:s' ), new DateTimeZone( 'UTC' ) );
+			$tzdate->setTimezone( new DateTimeZone( $tz ) );
+			$date = $tzdate->format( $atts['format'] );
+		}
+
+		return $date;
 	}
 
 }

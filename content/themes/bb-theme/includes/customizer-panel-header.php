@@ -721,6 +721,18 @@ FLCustomizer::add_panel('fl-header', array(
 					),
 				),
 
+				/* Mobile Header Logo */
+				'fl-mobile-header-logo' => array(
+					'setting'   => array(
+						'default' => '',
+					),
+					'control'   => array(
+						'class'     => 'WP_Customize_Image_Control',
+						'label'     => __( 'Mobile Header Logo', 'fl-automator' ),
+						'description' => __( 'Use a different logo for mobile devices.', 'fl-automator' ),
+					),
+				),
+
 				/* Logo Text */
 				'fl-logo-text' => array(
 					'setting'   => array(
@@ -731,6 +743,19 @@ FLCustomizer::add_panel('fl-header', array(
 						'class'         => 'WP_Customize_Control',
 						'label'         => __( 'Logo Text', 'fl-automator' ),
 						'type'          => 'text',
+					),
+				),
+
+				/* Logo Text */
+				'fl-theme-tagline' => array(
+					'setting'   => array(
+						'default'   => false,
+						'transport' => 'refresh',
+					),
+					'control'   => array(
+						'class'         => 'WP_Customize_Control',
+						'label'         => __( 'Show Tagline', 'fl-automator' ),
+						'type'          => 'checkbox',
 					),
 				),
 
@@ -906,6 +931,39 @@ FLCustomizer::add_panel('fl-header', array(
 					),
 				),
 
+				/* Responsive Nav Layout */
+				'fl-nav-mobile-layout' => array(
+					'setting'   => array(
+						'default'   => 'dropdown',
+					),
+					'control'   => array(
+						'class'     => 'WP_Customize_Control',
+						'label'     => __( 'Responsive Nav Layout', 'fl-automator' ),
+						'type'      => 'select',
+						'choices'   => array(
+							'dropdown'     => __( 'Dropdown', 'fl-automator' ),
+							'overlay'      => __( 'Flyout Overlay', 'fl-automator' ),
+							'push'         => __( 'Flyout Push', 'fl-automator' ),
+							'push-opacity' => __( 'Flyout Push with Opacity', 'fl-automator' ),
+						),
+					),
+				),
+
+				'fl-nav-mobile-layout-position' => array(
+					'setting'   => array(
+						'default'   => 'left',
+					),
+					'control'   => array(
+						'class'     => 'WP_Customize_Control',
+						'label'     => __( 'Responsive Nav Layout Position', 'fl-automator' ),
+						'type'      => 'select',
+						'choices'   => array(
+							'left'     => __( 'Left', 'fl-automator' ),
+							'right'    => __( 'Right', 'fl-automator' ),
+						),
+					),
+				),
+
 				/* Submenu Toggle */
 				'fl-nav-submenu-toggle' => array(
 					'setting'   => array(
@@ -919,6 +977,23 @@ FLCustomizer::add_panel('fl-header', array(
 							'disable'      => __( 'Disabled', 'fl-automator' ),
 							'enable'       => __( 'Enabled', 'fl-automator' ),
 						),
+					),
+				),
+
+				/* Responsive Collapse */
+				'fl-nav-collapse-menu' => array(
+					'setting'	=> array(
+						'default'	=> '0',
+					),
+					'control'	=> array(
+						'class'         => 'WP_Customize_Control',
+						'label'         => __( 'Responsive Collapse', 'fl-automator' ),
+						'type'          => 'select',
+						'choices'       => array(
+							'1'             => __( 'Yes', 'fl-builder' ),
+							'0'             => __( 'No', 'fl-builder' ),
+						),
+						'description'   => __( 'Only allow one menu item at a time to be expanded?', 'fl-builder' ),
 					),
 				),
 			),
