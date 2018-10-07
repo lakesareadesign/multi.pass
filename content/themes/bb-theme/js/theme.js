@@ -204,13 +204,22 @@
 			var image       = $( this ),
 				tmpImage    = new Image(),
 				src         = image.attr( 'src' ),
-				retinaSrc   = image.data( 'retina' );
+				retinaSrc   = image.data( 'retina' ),
+				type        = src.split('.').pop();
 
 			if ( '' != retinaSrc ) {
 
 				tmpImage.onload = function() {
-					image.css( 'max-height', tmpImage.height );
-					image.width( tmpImage.width );
+					var width = tmpImage.width,
+						height = tmpImage.height;
+
+					if ( 'svg' == type ) {
+						width = image.width();
+						height = image.height();
+					}
+
+					image.css( 'max-height', height );
+					image.width( width );
 					image.attr( 'src', retinaSrc );
 				};
 

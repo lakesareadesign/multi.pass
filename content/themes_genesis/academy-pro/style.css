@@ -5,7 +5,7 @@
 	Author: StudioPress
 	Author URI: https://www.studiopress.com/
 
-	Version: 1.0.5
+	Version: 1.0.6
 
 	Tags: one-column, two-columns, left-sidebar, right-sidebar, e-commerce, accessibility-ready, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready
 
@@ -1831,7 +1831,7 @@ img.alignright,
 
 .content .entry .entry-title,
 .content .entry .entry-meta,
-.full-width-content .content .entry .entry-content {
+.content .entry .entry-content {
 	padding: 0 60px;
 }
 

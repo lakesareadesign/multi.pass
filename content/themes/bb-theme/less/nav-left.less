@@ -168,18 +168,6 @@ Appearance > Theme Settings > Code or create a child theme.
 	/* Fade In Fixed Header */
 	.fl-nav-left {
 		.fl-page-header-fixed:not(.fl-page-nav-toggle-visible-always) {
-			.fl-page-header-row {
-				display: table;
-				table-layout: fixed;
-				width: 100%;
-				margin-left: 0;
-				margin-right: 0;
-				> div {
-					display: table-cell;
-					float: none;
-					vertical-align: middle;
-				}
-			}
 			ul.navbar-nav {
 				float: left !important;
 				> li:first-child a {
@@ -187,35 +175,15 @@ Appearance > Theme Settings > Code or create a child theme.
 				}
 			}
 			.fl-page-header-logo {
-				padding-right: 10px;
+				padding-right: 0;
 				text-align: right;
 			}
 			.fl-page-fixed-nav-wrap {
 				padding-left: 0;
 			}
-			.fl-page-header-logo {
-				padding-right: 0;
-			}
 			.fl-page-logo-wrap {
 				padding-left: 15px;
 				padding-right: 0;
-			}
-			.fl-page-nav-wrap {
-				.fl-change-row-color(
-					fade(@header-bg-color, @header-bg-opacity),
-					@header-fg-color,
-					@header-fg-link-color,
-					@header-fg-hover-color,
-					@header-border-color
-				);
-				background: none;
-				border: none;
-				margin-left: 0;
-				margin-right: 0;
-			}
-			.fl-page-header-container.container {
-				padding-bottom: 8px;
-				padding-top: 8px;
 			}
 		}
 	}

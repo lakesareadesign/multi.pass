@@ -47,7 +47,7 @@ CHANGELOG
 * Update customizer text for video embeds.
 
 = 1.0.4 =
-* Fix grid displaing on tag archives when not enabled.
+* Fix grid displaying on tag archives when not enabled.
 
 = 1.0.5 =
 * Update placeholder text CSS.
@@ -56,3 +56,6 @@ CHANGELOG
 * Standards improvements.
 * Add itemref to page entry.
 * Update pricing table CSS for sidebar layouts.
+
+= 1.0.6 =
+* Correct padding on archives using sidebar layouts

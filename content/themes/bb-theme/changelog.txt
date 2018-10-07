@@ -1,3 +1,17 @@
+<h4>1.7.0.3 10/01/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed Fade In header issue.</li>
+</ul>
+
+<h4>1.7.0.2 09/27/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed background and border issue for fixed header > fade in.</li>
+	<li>Fixed retina logo not displaying in Firefox if the logo is SVG.</li>
+	<li>Fixed 15px sub-menu gap.</li>
+</ul>
+
 <h4>1.7.0.1 09/17/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>
