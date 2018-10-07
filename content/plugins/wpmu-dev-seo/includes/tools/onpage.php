@@ -64,9 +64,16 @@ class Smartcrawl_OnPage {
 		add_action( 'wp_head', array( $this, 'smartcrawl_head' ), 10, 1 );
 
 		// wp_title isn't enough. We'll do it anyway: suspenders and belt approach.
-		add_filter( 'wp_title', array( $this, 'smartcrawl_title' ), 10, 3 );
+		add_filter( 'wp_title', array( $this, 'smartcrawl_title' ), 100, 3 );
+
+		// For newer themes using wp_get_document_title()
+		add_filter( 'pre_get_document_title', array( $this, 'smartcrawl_title' ), 100 );
+
 		// Buffer the header output and process it instead.
-		add_action( 'template_redirect', array( $this, 'smartcrawl_start_title_buffer' ), 99 );
+		if ( $this->force_rewrite_title() ) {
+			add_action( 'template_redirect', array( $this, 'smartcrawl_start_title_buffer' ), 99 );
+		}
+
 		// This should now work with BuddyPress as well.
 		add_filter( 'bp_page_title', array( $this, 'smartcrawl_title' ), 10, 3 );
 
@@ -297,7 +304,9 @@ class Smartcrawl_OnPage {
 		global $wp_query, $paged;
 		$smartcrawl_options = Smartcrawl_Settings::get_options();
 
-		$this->smartcrawl_stop_title_buffer(); // STOP processing the buffer.
+		if ( $this->force_rewrite_title() ) {
+			$this->smartcrawl_stop_title_buffer(); // STOP processing the buffer.
+		}
 
 		$robots = '';
 
@@ -907,5 +916,9 @@ class Smartcrawl_OnPage {
 			wp_redirect( $redir, 301 );
 			exit;
 		}
+	}
+
+	private function force_rewrite_title() {
+		return smartcrawl_is_switch_active( 'SMARTCRAWL_FORCE_REWRITE_TITLE' );
 	}
 }

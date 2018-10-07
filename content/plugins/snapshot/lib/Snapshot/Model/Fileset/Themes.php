@@ -16,6 +16,6 @@ class Snapshot_Model_Fileset_Themes extends Snapshot_Model_Fileset {
 		$path = $this->get_root();
 		if (empty($path)) return array();
 
-		return $this->_process_file_list(Snapshot_Helper_Utility::scandir($path), $chunk);	     	 	 				 	 	
+		return $this->_process_file_list(Snapshot_Helper_Utility::scandir($path), $chunk);
 	}
 }

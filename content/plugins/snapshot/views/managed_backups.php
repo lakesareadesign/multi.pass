@@ -482,6 +482,8 @@ $model = new Snapshot_Model_Full_Backup();
 													<?php } ?>
 												</select>
 
+												<label class="offset-weekly-label" for="offset-weekly"><?php esc_html_e( 'Day', SNAPSHOT_I18N_DOMAIN ); ?></label>
+
 												<select id="offset-weekly" class="offset weekly" name="offset" <?php echo esc_attr( $disabled ); ?> >
 													<?php
 														$wday_selected = empty($cron_disabled)
@@ -496,6 +498,8 @@ $model = new Snapshot_Model_Full_Backup();
 														><?php echo esc_html($label); ?></option>
 													<?php } ?>
 												</select>
+
+												<label class="offset-monthly-label" for="offset-monthly"><?php esc_html_e( 'Day', SNAPSHOT_I18N_DOMAIN ); ?></label>
 
 												<select id="offset-monthly" class="offset monthly" name="offset" <?php echo esc_attr( $disabled ); ?> >
 													<?php foreach ( $model->get_offsets('monthly') as $wday => $label ) { ?>

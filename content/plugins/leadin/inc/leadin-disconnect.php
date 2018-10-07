@@ -14,6 +14,12 @@ function leadin_disconnect_ajax() {
 		delete_option( 'leadin_slumber_mode' );
 		delete_option( 'leadin_hapikey' );
 
+		delete_option( 'leadin_accessToken' );
+		delete_option( 'leadin_refreshToken' );
+		delete_option( 'leadin_oauth_mode' );
+		delete_option( 'leadin_userId' );
+		delete_option( 'leadin_connectionTimeInMs' );
+
 		wp_die( '{"message": "Success!"}' );
 	} else {
 		error_log( 'Disconnect error' );

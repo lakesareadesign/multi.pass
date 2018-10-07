@@ -5,6 +5,15 @@
  * The type should be free, premium, or bonus
  */
 return array(
+   'theme-two' => array(
+      'folder' => 'theme-two',
+      'title' => 'Theme Two',
+      'type' => 'free',
+      'supports' => array('flex', 'responsive', 'nivo', 'coin'),
+      'tags' => array('modern', 'clean', 'arrows', 'minimalist'),
+      'description' => __('Description TBC', 'ml-slider'),
+      'images' => array('danny-howe-361436-unsplash.jpg', 'etienne-beauregard-riverin-48305-unsplash.jpg', 'luca-bravo-198062-unsplash.jpg')
+   ),
 	'theme-one' => array(
 		'folder' => 'theme-one',
 		'title' => 'Theme One',
@@ -52,14 +61,65 @@ return array(
 			),
 		),
 		'instructions' => 'Optionally you can add some special instructions for the user to follow. You can also use <strong>HTML</strong>'
-   ),
-   'theme-three' => array(
-      'folder' => 'theme-three',
-      'title' => 'Theme Three',
-      'type' => 'free',
-      'supports' => array('flex', 'responsive', 'nivo'),
-      'tags' => array('TBC'),
-      'description' => __('TBC', 'ml-slider'),
-      'images' => array('wabi-jayme-578762-unsplash.jpg', 'manki-kim-269196-unsplash.jpg', 'danny-howe-361436-unsplash.jpg')
-   ),
+   	),
+	'theme-seven' => array(
+		'folder' => 'theme-seven',
+		'title' => 'Theme Seven',
+		'type' => 'free',
+		'supports' => array('flex', 'responsive', 'nivo'),
+		'tags' => array('TBC'),
+		'description' => __('TBC', 'ml-slider'),
+		'images' => array('wabi-jayme-578762-unsplash.jpg', 'manki-kim-269196-unsplash.jpg', 'danny-howe-361436-unsplash.jpg')
+   	),
+   	'theme-five' => array(
+		'folder' => 'theme-five',
+		'title' => 'Theme Five',
+		'type' => 'free',
+		'supports' => array('flex', 'responsive', 'nivo'),
+		'tags' => array('TBC'),
+		'description' => __('TBC', 'ml-slider'),
+		'images' => array('wabi-jayme-578762-unsplash.jpg', 'manki-kim-269196-unsplash.jpg', 'danny-howe-361436-unsplash.jpg')
+	),
+   	'theme-four' => array(
+		'folder' => 'theme-four',
+		'title' => 'Theme Four',
+		'type' => 'free',
+		'supports' => array('flex', 'responsive', 'nivo'),
+		'tags' => array('TBC'),
+		'description' => __('TBC', 'ml-slider'),
+		'images' => array('wabi-jayme-578762-unsplash.jpg', 'manki-kim-269196-unsplash.jpg', 'danny-howe-361436-unsplash.jpg')
+   	),
+   	'theme-three' => array(
+		'folder' => 'theme-three',
+		'title' => 'Theme Three',
+		'type' => 'free',
+		'supports' => array('flex', 'responsive', 'nivo'),
+		'tags' => array('TBC'),
+		'description' => __('TBC', 'ml-slider'),
+		'images' => array('wabi-jayme-578762-unsplash.jpg', 'manki-kim-269196-unsplash.jpg', 'danny-howe-361436-unsplash.jpg')
+	),
+	'nivo-light' => array(
+		'folder' => 'nivo-light',
+		'title' => 'Nivo Light',
+		'type' => 'free',
+		'supports' => array('nivo'),
+		'tags' => array('nivo only'),
+		'description' => __('The Nivo Light theme.', 'ml-slider')
+	),
+	'nivo-bar' => array(
+		'folder' => 'nivo-bar',
+		'title' => 'Nivo Bar',
+		'type' => 'free',
+		'supports' => array('nivo'),
+		'tags' => array('nivo only'),
+		'description' => __('The Nivo Bar theme.', 'ml-slider')
+	),
+	'nivo-dark' => array(
+		'folder' => 'nivo-dark',
+		'title' => 'Nivo Dark',
+		'type' => 'free',
+		'supports' => array('nivo'),
+		'tags' => array('nivo only'),
+		'description' => __('The Nivo Dark theme.', 'ml-slider')
+	)
 );

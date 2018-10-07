@@ -51,7 +51,7 @@ class WPMDBPro_Theme_Plugin_Files extends WPMDBPro_Addon {
 		$this->plugin_slug    = 'wp-migrate-db-pro-theme-plugin-files';
 		$this->plugin_version = $GLOBALS['wpmdb_meta']['wp-migrate-db-pro-theme-plugin-files']['version'];
 
-		if ( ! $this->meets_version_requirements( '1.8.4' ) ) {
+		if ( ! $this->meets_version_requirements( '1.8.5' ) ) {
 			return;
 		}
 
@@ -267,14 +267,18 @@ class WPMDBPro_Theme_Plugin_Files extends WPMDBPro_Addon {
 	public function get_local_themes() {
 		$themes       = wp_get_themes();
 		$active_theme = wp_get_theme();
-
-		$theme_list = array();
+		$set_active   = false;
+		$theme_list   = array();
 
 		foreach ( $themes as $key => $theme ) {
+			if ( ! is_multisite() ) {
+				$set_active = ( $key == $active_theme->stylesheet );
+			}
+
 			$theme_list[ $key ] = array(
 				array(
 					'name'   => html_entity_decode( $theme->Name ),
-					'active' => ( $key == $active_theme->stylesheet ),
+					'active' => $set_active,
 					'path'   => $this->slash_one_direction( WP_CONTENT_DIR . DIRECTORY_SEPARATOR . 'themes' . DIRECTORY_SEPARATOR . $key ),
 				),
 			);

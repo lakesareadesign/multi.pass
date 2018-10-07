@@ -4,6 +4,7 @@ return array(
 	// Classes in includes/core/
 	'Smartcrawl_AIOSEOP_Importer'                 => '/core/class-wds-aioseop-importer.php',
 	'Smartcrawl_Checks'                           => '/core/class-wds-checks.php',
+	'Smartcrawl_Compatibility'                    => '/core/class-wds-compatibility.php',
 	'Smartcrawl_Controller_Analysis'              => '/core/class-wds-controller-analysis.php',
 	'Smartcrawl_Controller_Cron'                  => '/core/class-wds-controller-cron.php',
 	'Smartcrawl_Controller_Hub'                   => '/core/class-wds-controller-hub.php',

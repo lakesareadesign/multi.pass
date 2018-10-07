@@ -166,6 +166,8 @@ final class FLBuilderFonts {
 			if ( 'i' == substr( $font['weight'], -1 ) ) {
 				$css .= 'font-weight: ' . substr( $font['weight'], 0, -1 ) . ';';
 				$css .= 'font-style: italic;';
+			} elseif ( 'italic' == $font['weight'] ) {
+				$css .= 'font-style: italic;';
 			} else {
 				$css .= 'font-weight: ' . $font['weight'] . ';';
 			}

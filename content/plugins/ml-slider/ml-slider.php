@@ -6,7 +6,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.9.0
+ * Version:     3.9.1
  * Author:      Team Updraft
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -32,7 +32,7 @@ class MetaSliderPlugin {
      *
      * @var string
      */
-    public $version = '3.9.0';
+    public $version = '3.9.1';
 
     /**
      * Specific SLider
@@ -1353,7 +1353,7 @@ class MetaSliderPlugin {
 
                                 <?php do_action( "metaslider_admin_table_before", $this->slider->id ); ?>
 
-                                <table class="widefat sortable metaslider-slides-container">
+                                <table id="metaslider-slides-list" class="widefat sortable metaslider-slides-container">
                                     <thead>
                                         <tr>
                                             <?php if (metaslider_viewing_trashed_slides($this->slider->id)) { 

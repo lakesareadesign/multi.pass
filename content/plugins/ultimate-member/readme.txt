@@ -6,7 +6,7 @@ Donate link:
 Tags: community, member, membership, user-profile, user-registration
 Requires at least: 4.7
 Tested up to: 4.9
-Stable tag: 2.0.25
+Stable tag: 2.0.28
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -58,6 +58,8 @@ Ultimate Member has a range of extensions that allow you to extend the power of 
 * [Notices](https://ultimatemember.com/extensions/notices/) - Alert users to important information using conditional notices
 * [Profile Completeness](https://ultimatemember.com/extensions/profile-completeness/) - Encourage or force users to complete their profiles with the profile completeness extension
 * [Friends](https://ultimatemember.com/extensions/friends/) - Allows users to become friends by sending & accepting/rejecting friend requests
+* [User Photos](https://ultimatemember.com/extensions/user-photos/) - Allow users to upload photos to their profile
+* [Groups](https://ultimatemember.com/extensions/groups/) - Allow users to create and join groups around shared topics, interests etc.
 
 = Free Extensions =
 
@@ -131,11 +133,38 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 
 = Important: UM2.0+ is a significant update to the code base from 1.3.88. Please make sure you take a full-site backup with restore point before updating the plugin =
 
+= 2.0.28: October 5, 2018 =
+
+* Bugfixes:
+  - Fixed Email notifications
+  - Fixed Download files/images for multisites
+  - Fixed Profile/Cover image for multisites
+  - Fixed XSS vulnerabilities (detected by @Serhack)
+  - Fixed trim fields on submit forms
+  - Fixed submitted info
+
+= 2.0.27: October 2, 2018 =
+
+* Bugfixes:
+  - Fixed files class
+
+= 2.0.26: October 2, 2018 =
+
+* Enhancements:
+  - New files/images downloading process
+  - Added dependencies with User Photos and Groups extensions
+
+* Bugfixes:
+  - File/Image email placeholders after registration form submitting
+  - File/Image forms fields values on submit/edit
+  - Fixed multisite file/image upload process
+  - Fixed clearing old user sessions after the changing a password
+  - Made reset password process via WP native functions
+
 = 2.0.25: August 20, 2018 =
 
 * Enhancements:
   - Upgrade minified scripts
-  - Upgrade translates
 
 = 2.0.24: August 15, 2018 =
 

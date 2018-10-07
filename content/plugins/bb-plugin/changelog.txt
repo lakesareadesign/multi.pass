@@ -1,3 +1,15 @@
+<h4>2.1.5.2 - 10/04/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed Pagely cache clear code.</li>
+	<li>Fixed small issue with Google italic fonts./</li>
+	<li>Fixed issue with Enfold theme causing javascript error when builder is open.</li>
+	<li>Updated Events Calender Widget compatibility code.</li>
+	<li>New filter added <code>fl_get_edit_url</code>.</li>
+	<li>New filter added <code>fl_widget_module_args</code>.</li>
+</ul>
+
+
 <h4>2.1.5.1 - 09/26/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

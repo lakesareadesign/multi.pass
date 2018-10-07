@@ -55,10 +55,10 @@ function um_after_insert_user( $user_id, $args ) {
 	UM()->user()->remove_cached_queue();
 
 	um_fetch_user( $user_id );
-	UM()->user()->set_status( um_user( 'status' ) );
 	if ( ! empty( $args['submitted'] ) ) {
 		UM()->user()->set_registration_details( $args['submitted'] );
 	}
+    UM()->user()->set_status( um_user( 'status' ) );
 
 	/**
 	 * UM hook
@@ -585,12 +585,12 @@ function um_add_submit_button_to_register( $args ) {
 
 		<?php if ( isset($args['secondary_btn']) && $args['secondary_btn'] != 0 ) { ?>
 
-			<div class="um-left um-half"><input type="submit" value="<?php echo __( $primary_btn_word,'ultimate-member'); ?>" class="um-button" id="um-submit-btn" /></div>
-			<div class="um-right um-half"><a href="<?php echo $secondary_btn_url; ?>" class="um-button um-alt"><?php echo __( $secondary_btn_word,'ultimate-member'); ?></a></div>
+			<div class="um-left um-half"><input type="submit" value="<?php esc_attr_e( $primary_btn_word,'ultimate-member' ) ?>" class="um-button" id="um-submit-btn" /></div>
+			<div class="um-right um-half"><a href="<?php echo esc_attr( $secondary_btn_url ); ?>" class="um-button um-alt"><?php esc_attr_e( $secondary_btn_word,'ultimate-member'); ?></a></div>
 
 		<?php } else { ?>
 
-			<div class="um-center"><input type="submit" value="<?php echo __( $primary_btn_word,'ultimate-member'); ?>" class="um-button" id="um-submit-btn" /></div>
+			<div class="um-center"><input type="submit" value="<?php esc_attr_e( $primary_btn_word,'ultimate-member' ) ?>" class="um-button" id="um-submit-btn" /></div>
 
 		<?php } ?>
 
@@ -670,7 +670,7 @@ function um_registration_save_files( $user_id, $args ) {
 	 */
 	$files = apply_filters( 'um_user_pre_updating_files_array', $files );
 
-	if ( !empty( $files ) ) {
+	if ( ! empty( $files ) ) {
 		UM()->uploader()->move_temporary_files( $user_id, $files );
 	}
 }

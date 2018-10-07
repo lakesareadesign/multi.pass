@@ -154,15 +154,15 @@ jQuery(function($) {
                 },
                 success: function(response) {
     
-                    /**
-                     * Echo Slide on success
-                     * TODO: instead have it return data and use JS to render it
-                     */
-                    $(".metaslider .left table").append(response);
-                    MetaSlider_Helpers.loading(false);
-                    $(".metaslider .left table").trigger('resizeSlides');
-                    $(document).trigger('metaslider/slides-added');
-                }
+					/**
+					 * Echo Slide on success
+					 * TODO: instead have it return data and use JS to render it
+					 */
+					$('.metaslider table#metaslider-slides-list').append(response)
+					MetaSlider_Helpers.loading(false)
+					$('.metaslider table#metaslider-slides-list').trigger('resizeSlides')
+					$(document).trigger('metaslider/slides-added')
+				}
             });
         });
 
@@ -288,7 +288,7 @@ jQuery(function($) {
                             title: selected_item.title,
                             alt: selected_item.alt,
                         });
-                        $(".metaslider .left table").trigger('resizeSlides');
+                        $(".metaslider table#metaslider-slides-list").trigger('resizeSlides');
                     }
                 });
             });
@@ -523,31 +523,31 @@ jQuery(function($) {
         };
     
         // drag and drop slides, update the slide order on drop
-        $(".metaslider .left table tbody").sortable({
+        $(".metaslider table#metaslider-slides-list > tbody").sortable({
             helper: metaslider_sortable_helper,
             handle: "td.col-1",
             stop: function() {
-                $(".metaslider .left table").trigger("updateSlideOrder");
+                $(".metaslider table#metaslider-slides-list").trigger("updateSlideOrder");
                 $("#ms-save").click();
             }
         });
     
         // bind an event to the slides table to update the menu order of each slide
-        $(".metaslider .left table").live("updateSlideOrder", function(event) {
+        $(".metaslider table#metaslider-slides-list").live("updateSlideOrder", function(event) {
             $("tr", this).each(function() {
                 $("input.menu_order", $(this)).val($(this).index());
             });
         });
 
         $("input.width, input.height").on('change', function(e) {
-            $(".metaslider .left table").trigger('metaslider/size-has-changed', {
+            $(".metaslider table#metaslider-slides-list").trigger('metaslider/size-has-changed', {
                 width: $("input.width").val(),
                 height: $("input.height").val()
             });
         });
 
         // bind an event to the slides table to update the menu order of each slide
-        $(".metaslider .left table").live("resizeSlides", function(event) {
+        $(".metaslider table#metaslider-slides-list").live("resizeSlides", function(event) {
             var slideshow_width = $("input.width").val();
             var slideshow_height = $("input.height").val();
     
@@ -700,7 +700,7 @@ jQuery(function($) {
 		$(".metaslider input[type=submit]").attr("disabled", "disabled")
 
 		// update slide order
-		$(".metaslider .left table").trigger('updateSlideOrder')
+		$(".metaslider table#metaslider-slides-list").trigger('updateSlideOrder')
 		fixIE10PlaceholderText();
 
 		// get some values from elements on the page:
@@ -722,7 +722,7 @@ jQuery(function($) {
 			url: url,
 			success: function(data) {
 				var response = $(data)
-				$.when($(".metaslider .left table").trigger("resizeSlides")).done(function() {
+				$.when($(".metaslider table#metaslider-slides-list").trigger("resizeSlides")).done(function() {
 
 					$("button[data-thumb]", response).each(function() {
 						var $this = $(this)

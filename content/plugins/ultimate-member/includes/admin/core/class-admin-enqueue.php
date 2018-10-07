@@ -57,7 +57,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 		 * Load js for Add/Edit User form
 		 */
 		function load_role_wrapper() {
-			wp_register_script( 'um_admin_role_wrapper', $this->js_url . 'um-admin-role-wrapper.js', '', '', true );
+			wp_register_script( 'um_admin_role_wrapper', $this->js_url . 'um-admin-role-wrapper.js', '', ultimatemember_version, true );
 			wp_enqueue_script( 'um_admin_role_wrapper' );
 
 			$localize_roles_data =  get_option( 'um_roles' );
@@ -286,7 +286,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 		 * Load jQuery custom code
 		 */
 		function load_custom_scripts() {
-			wp_register_script( 'um_admin_scripts', $this->js_url . 'um-admin-scripts.js',  array('jquery','wp-util'), '', true );
+			wp_register_script( 'um_admin_scripts', $this->js_url . 'um-admin-scripts.js',  array('jquery','wp-util', 'wp-color-picker'), '', true );
 			wp_enqueue_script( 'um_admin_scripts' );
 		}
 

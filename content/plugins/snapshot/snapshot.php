@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Snapshot Pro
-Version: 3.1.9.1
+Version: 3.1.9.2
 Description: This plugin allows you to take quick on-demand backup snapshots of your working WordPress database. You can select from the default WordPress tables as well as custom plugin tables within the database structure. All snapshots are logged, and you can restore the snapshot as needed.
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org/
@@ -38,7 +38,7 @@ WDP ID: 257
  *
  */
 
-define('SNAPSHOT_VERSION', '3.1.9.1');
+define('SNAPSHOT_VERSION', '3.1.9.2');
 
 if ( ! defined( 'SNAPSHOT_I18N_DOMAIN' ) ) {
 	define( 'SNAPSHOT_I18N_DOMAIN', 'snapshot' );
@@ -165,6 +165,8 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 
 			add_action( 'admin_head', array( $this, 'enqueue_shared_ui' ) );
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_icon_admin_style' ) );
+
+			add_action( 'admin_enqueue_scripts', array( 'Snapshot_Helper_UI', 'activation_pointers' ) );
 
 			/* Setup the tetdomain for i18n language handling see http://codex.wordpress.org/Function_Reference/load_plugin_textdomain */
 			load_plugin_textdomain( SNAPSHOT_I18N_DOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
@@ -8185,9 +8187,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 
 			if ( ! $network_activation ) {
 				if ( preg_match( '/' . preg_quote( basename( __FILE__ ), '/' ) . '$/', $plugin ) ) {
-					$dashboard_url = 'admin.php?page=snapshot_pro_dashboard';
-					wp_safe_redirect( $dashboard_url );
-					exit;
+					return true;
 				}
 			}
 		}

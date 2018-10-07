@@ -106,6 +106,12 @@ For help with premium add-ons, please [open new support ticket](https://getshort
 
 == Changelog ==
 
+= 5.0.7 =
+
+**Security update**
+
+- Fixed shortcode generator preview vulnerability. [Description](https://www.pluginvulnerabilities.com/2018/09/25/full-disclosure-of-vulnerability-in-wordpress-plugin-with-700000-active-installations/).
+
 = 5.0.6 =
 
 **Fixes**

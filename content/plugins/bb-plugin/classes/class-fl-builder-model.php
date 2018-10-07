@@ -215,7 +215,13 @@ final class FLBuilderModel {
 
 		$scheme = ( isset( $matches[1] ) ) ? $matches[1] : false;
 
-		return set_url_scheme( add_query_arg( 'fl_builder', '', get_permalink( $post->ID ) ), $scheme );
+		$url = set_url_scheme( add_query_arg( 'fl_builder', '', get_permalink( $post->ID ) ), $scheme );
+
+		/**
+		 * Filter the bb edit url, 2 args, $url and $post.
+		 * @see fl_get_edit_url
+		 */
+		return apply_filters( 'fl_get_edit_url', $url, $post );
 	}
 
 	/**

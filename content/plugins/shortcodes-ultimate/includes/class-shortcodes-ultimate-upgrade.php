@@ -76,6 +76,10 @@ final class Shortcodes_Ultimate_Upgrade {
 			$this->upgrade_to_5_0_0();
 		}
 
+		if ( $this->is_previous_version_less_than( '5.0.7' ) ) {
+			$this->upgrade_to_5_0_7();
+		}
+
 		$this->save_current_version();
 
 	}
@@ -162,6 +166,31 @@ final class Shortcodes_Ultimate_Upgrade {
 			$custom_css = stripslashes( $custom_css );
 
 			update_option( 'su_option_custom-css', $custom_css, true );
+
+		}
+
+	}
+
+	/**
+	 * Upgrade the plugin to version 5.0.7
+	 *
+	 * 1. Rename `su_generator_access` option to `su_option_generator_access`.
+	 *
+	 * @since   5.0.0
+	 * @access  private
+	 */
+	private function upgrade_to_5_0_7() {
+
+		/**
+		 * 1. Rename `su_generator_access` option to `su_option_generator_access`.
+		 */
+		$su_generator_access_value = get_option( 'su_generator_access' );
+
+		if ( $su_generator_access_value ) {
+
+			delete_option( 'su_generator_access' );
+
+			add_option( 'su_option_generator_access', $su_generator_access_value, '', false );
 
 		}
 

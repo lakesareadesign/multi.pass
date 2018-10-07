@@ -4,10 +4,10 @@ span.description {
 	font-style: italic;
 }
 label { font-weight: bold; }
-form.restore_form input[type="text"] { width: 80%; }	     	 	 				 	 	
+form.restore_form input[type="text"] { width: 80%; }
 .restore-error { color: red; }
 .restore-success { color: green; }
 .debug { color: green; }
 
 
-/* 133620-1534734138-au */
+/* 133620-1538890217-au */

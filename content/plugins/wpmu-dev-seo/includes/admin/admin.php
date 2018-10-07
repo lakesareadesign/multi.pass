@@ -111,6 +111,8 @@ class Smartcrawl_Admin extends Smartcrawl_Renderable {
 			Smartcrawl_Metabox::run();
 			Smartcrawl_Taxonomy::run();
 		}
+
+		Smartcrawl_Compatibility::run();
 	}
 
 	/**

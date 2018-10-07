@@ -3,7 +3,7 @@ Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image slider,flexslider,flex slider,nivoslider,nivo slider,responsive,responsive slides,coinslider,coin slider,slideshow,carousel,responsive slider,vertical slides
 Donate link: https://david.dw-perspective.org.uk/donate
 Requires at least: 3.5
-Stable tag: 3.9.0
+Stable tag: 3.9.1
 Tested up to: 5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -150,6 +150,10 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Administration panel - selecting slides
 
 == Changelog ==
+
+= 3.9.1 - 2018/Sept/28 =
+
+* FIX: Fixes a bug where some slides get appended inside others.
 
 = 3.9.0 - 2018/Sept/11 =
 
@@ -687,4 +691,4 @@ More info/Comments: http://www.metaslider.com/coming-soon-meta-slider-2-6-free/
 * Initial version
 
 == Upgrade Notice ==
-* 3.9.0 : This update adds a new way to preview your slideshows, import images, and various other tweaks. It also includes basic support for Gutenberg. Update now especially if you're experiencing issues with images not showing on post slides
+* 3.9.1 : Update to this version if you are a pro user experiencing formatting issues on the schedule slides tab.

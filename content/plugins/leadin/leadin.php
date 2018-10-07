@@ -3,7 +3,7 @@
 Plugin Name: Contact Form Builder for WordPress – Conversion Tools by HubSpot
 Plugin URI: http://www.hubspot.com/products/wordpress/contact-form
 Description: Whether you’re just getting started with HubSpot or already a HubSpot power user, Contact Form Builder for WordPress and Conversion Tools by HubSpot will let you use HubSpot tools on your WordPress website and connect the two platforms without dealing with code.
-Version: 6.1.12
+Version: 7.0.0
 Author: HubSpot
 Author URI: http://www.hubspot.com
 License: GPL2
@@ -33,7 +33,7 @@ if ( ! defined( 'LEADIN_DB_VERSION' ) ) {
 }
 
 if ( ! defined( 'LEADIN_PLUGIN_VERSION' ) ) {
-	define( 'LEADIN_PLUGIN_VERSION', '6.1.12' );
+	define( 'LEADIN_PLUGIN_VERSION', '7.0.0' );
 }
 
 if ( ! defined( 'LEADIN_SOURCE' ) ) {
@@ -62,6 +62,7 @@ if ( file_exists( LEADIN_PLUGIN_DIR . '/inc/leadin-constants.php' ) ) {
 require_once LEADIN_PLUGIN_DIR . '/inc/leadin-functions.php';
 require_once LEADIN_PLUGIN_DIR . '/inc/leadin-registration.php';
 require_once LEADIN_PLUGIN_DIR . '/inc/leadin-disconnect.php';
+require_once LEADIN_PLUGIN_DIR . '/inc/leadin-oauth-refresh.php';
 require_once LEADIN_PLUGIN_DIR . '/admin/leadin-admin.php';
 
 require_once LEADIN_PLUGIN_DIR . '/inc/class-leadin.php';

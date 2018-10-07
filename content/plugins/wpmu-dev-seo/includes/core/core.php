@@ -356,7 +356,10 @@ function _wds_hb_convert_tri( $num, $tri ) {
  */
 function smartcrawl_get_trimmed_excerpt( $excerpt, $contents ) {
 	$string = $excerpt ? $excerpt : $contents;
-	$string = trim( preg_replace( '/\r|\n/', ' ', strip_shortcodes( htmlspecialchars( wp_strip_all_tags( strip_shortcodes( $string ) ), ENT_QUOTES ) ) ) );
+	$string = smartcrawl_is_switch_active( 'SMARTCRAWL_FORCE_REWRITE_TITLE' )
+		? strip_shortcodes( $string )
+		: do_shortcode( $string );
+	$string = trim( preg_replace( '/\r|\n/', ' ', strip_shortcodes( htmlspecialchars( wp_strip_all_tags( $string ), ENT_QUOTES ) ) ) );
 
 	return ( preg_match( '/.{156,}/um', $string ) )
 		? preg_replace( '/(.{0,152}).*/um', '$1', $string ) . '...'

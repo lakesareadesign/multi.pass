@@ -26,10 +26,18 @@ if ( isset( $widget_class ) && class_exists( $widget_class ) ) {
 		$widget_class = strtolower( $widget_class );
 	}
 
-	// Render the widget
-	the_widget( $widget_class, $widget_settings, array(
+	/**
+	 * Filter $args passed to the_widget()
+	 * @since 2.1.6
+	 * @see fl_widget_module_args
+	 */
+	$widget_args = apply_filters( 'fl_widget_module_args', array(
 		'widget_id' => 'fl_builder_widget_' . $module->node,
-	) );
+	), $module );
+
+	// Render the widget
+	the_widget( $widget_class, $widget_settings, $widget_args );
+
 } elseif ( isset( $widget_class ) && FLBuilderModel::is_builder_active() ) {
 
 	// Widget doesn't exist!

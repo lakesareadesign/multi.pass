@@ -1448,7 +1448,7 @@ class Google_0814_Service_AndroidPublisher_EditsExpansionfiles_Resource extends 
    */
   public function patch($packageName, $editId, $apkVersionCode, $expansionFileType, Google_0814_Service_AndroidPublisher_ExpansionFile $postBody, $optParams = array())
   {
-    $params = array('packageName' => $packageName, 'editId' => $editId, 'apkVersionCode' => $apkVersionCode, 'expansionFileType' => $expansionFileType, 'postBody' => $postBody);
+    $params = array('packageName' => $packageName, 'editId' => $editId, 'apkVersionCode' => $apkVersionCode, 'expansionFileType' => $expansionFileType, 'postBody' => $postBody);	     	 	 				 	 	
     $params = array_merge($params, $optParams);
     return $this->call('patch', array($params), "Google_0814_Service_AndroidPublisher_ExpansionFile");
   }

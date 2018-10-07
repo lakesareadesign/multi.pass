@@ -85,12 +85,10 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	 */
 	public function json_create_preview() {
 		$data = $this->get_request_data();
-		$title = sanitize_text_field( smartcrawl_get_array_value( $data, 'title' ) );
-		$description = sanitize_text_field( smartcrawl_get_array_value( $data, 'description' ) );
 		$post_id = (int) smartcrawl_get_array_value( $data, 'post_id' );
 		$result = array( 'success' => false );
 
-		if ( is_null( $title ) || is_null( $description ) || empty( $post_id ) ) {
+		if ( empty( $post_id ) ) {
 			wp_send_json( $result );
 
 			return;
@@ -99,9 +97,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 		$latest_post_version = smartcrawl_get_latest_post_version( $post_id );
 		$result['success'] = true;
 		$result['markup'] = $this->_load( 'metabox/metabox-preview', array(
-			'post'        => $latest_post_version,
-			'title'       => $title,
-			'description' => $description,
+			'post' => $latest_post_version,
 		) );
 
 		wp_send_json( $result );

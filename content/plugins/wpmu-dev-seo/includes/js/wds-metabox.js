@@ -137,9 +137,13 @@
 				$('.wds-analysis-working', $metabox).remove();
 			});
 		};
+		var editorSync = (tinyMCE || {}).triggerSave;
+		if (editorSync) {
+			editorSync();
+		}
 		var save = (((wp || {}).autosave || {}).server || {}).triggerSave;
 		if (save) {
-			$(document).one('ajaxComplete', cback);
+			$(document).one('heartbeat-tick.autosave', cback);
 			wp.autosave.server.triggerSave();
 		} else cback();
 	}
@@ -277,8 +281,8 @@
 
 		$.post(ajaxurl, {
 			action: "wds-metabox-preview",
-			title: title,
-			description: description,
+			wds_title: title,
+			wds_description: description,
 			post_id: post_id,
             _wds_nonce: _wds_metabox.nonce
 		}, 'json').done(function (data) {

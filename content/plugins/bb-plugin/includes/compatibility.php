@@ -459,7 +459,25 @@ add_action( 'tribe_events_pro_widget_render', 'fl_tribe_events_pro_widget_render
 function fl_tribe_events_pro_widget_render_fix( $class, $args, $instance ) {
 	if ( isset( $args['widget_id'] ) && false !== strpos( $args['widget_id'], 'fl_builder_widget' ) ) {
 		if ( class_exists( 'Tribe__Events__Pro__Mini_Calendar' ) ) {
-			Tribe__Events__Pro__Mini_Calendar::instance()->register_assets();
+			if ( method_exists( Tribe__Events__Pro__Mini_Calendar::instance(), 'register_assets' ) ) {
+				Tribe__Events__Pro__Mini_Calendar::instance()->register_assets();
+			} else {
+				if ( class_exists( 'Tribe__Events__Pro__Widgets' ) && method_exists( 'Tribe__Events__Pro__Widgets', 'enqueue_calendar_widget_styles' ) ) {
+					Tribe__Events__Pro__Widgets::enqueue_calendar_widget_styles();
+				}
+			}
 		}
 	}
+}
+
+/**
+ * Fix for Enfold theme always loading wp-mediaelement
+ * @since 2.1.5
+ */
+add_filter( 'avf_enqueue_wp_mediaelement', 'fl_builder_not_load_mediaelement', 10, 2 );
+function fl_builder_not_load_mediaelement( $condition, $options ) {
+	if ( FLBuilderModel::is_builder_active() ) {
+		$condition = true;
+	}
+	return $condition;
 }

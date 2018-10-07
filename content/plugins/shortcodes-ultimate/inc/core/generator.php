@@ -183,8 +183,7 @@ class Su_Generator {
 		// Output results
 		do_action( 'su/generator/preview/before' );
 		echo '<h5>' . __( 'Preview', 'shortcodes-ultimate' ) . '</h5>';
-		// echo '<hr />' . stripslashes( $_POST['shortcode'] ) . '<hr />'; // Uncomment for debug
-		echo do_shortcode( str_replace( '\"', '"', $_POST['shortcode'] ) );
+		echo do_shortcode( wp_kses_post( $_POST['shortcode'] ) );
 		echo '<div style="clear:both"></div>';
 		do_action( 'su/generator/preview/after' );
 		die();
@@ -195,8 +194,14 @@ class Su_Generator {
 	}
 
 	public static function access_check() {
-		$by_role = ( get_option( 'su_generator_access' ) ) ? current_user_can( get_option( 'su_generator_access' ) ) : true;
-		return current_user_can( 'edit_posts' ) && $by_role;
+
+		$required_capability = (string) get_option(
+			'su_option_generator_access',
+			'manage_options'
+		);
+
+		return current_user_can( $required_capability );
+
 	}
 
 	public static function ajax_get_icons() {
