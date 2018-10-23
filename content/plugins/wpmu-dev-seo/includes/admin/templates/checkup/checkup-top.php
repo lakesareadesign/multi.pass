@@ -12,7 +12,7 @@ if ( null === $counts || null === $score || false === $score ) {
 	return;
 }
 
-$issue_count = intval( smartcrawl_get_array_value( $counts, 'warning' ) ) + intval( smartcrawl_get_array_value( $counts, 'critical' ) );	     	 	 	  		 		
+$issue_count = intval( smartcrawl_get_array_value( $counts, 'warning' ) ) + intval( smartcrawl_get_array_value( $counts, 'critical' ) );
 $score_class = $issue_count > 0 ? 'wds-score-warning' : 'wds-score-success';
 $opts = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_CHECKUP );
 $reporting_enabled = ! empty( $opts['checkup-cron-enable'] );

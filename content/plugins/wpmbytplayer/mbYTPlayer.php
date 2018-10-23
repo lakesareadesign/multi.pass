@@ -4,12 +4,12 @@ Plugin Name: mb.YTPlayer for background videos
 Plugin URI: http://pupunzi.com/#mb.components/mb.YTPlayer/YTPlayer.html
 Description: Play a Youtube video as background of your page. Go to <strong>mb.ideas > mb.YTPlayer</strong> to activate the background video option for your homepage.
 Author: Pupunzi (Matteo Bicocchi)
-Version: 3.2.3
+Version: 3.2.4
 Author URI: http://pupunzi.com
 Text Domain: wpmbytplayer
 */
 
-define("MBYTPLAYER_VERSION", "3.2.3");
+define("MBYTPLAYER_VERSION", "3.2.4");
 
 // Set unique string for this site
 $lic_domain = $_SERVER['HTTP_HOST'];

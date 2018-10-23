@@ -53,7 +53,7 @@ function smartcrawl_set_value( $meta, $val, $post_id ) {
  *
  * @return string
  */
-function smartcrawl_replace_vars( $string, $args = array() ) {
+function smartcrawl_replace_vars( $string, $args = array(), $expand_shortcodes = true ) {
 	global $wp_query;
 
 	$defaults = array(
@@ -88,7 +88,7 @@ function smartcrawl_replace_vars( $string, $args = array() ) {
 		'%%title%%'                => stripslashes( $r['post_title'] ),
 		'%%sitename%%'             => get_bloginfo( 'name' ),
 		'%%sitedesc%%'             => get_bloginfo( 'description' ),
-		'%%excerpt%%'              => smartcrawl_get_trimmed_excerpt( $r['post_excerpt'], $r['post_content'] ),
+		'%%excerpt%%'              => smartcrawl_get_trimmed_excerpt( $r['post_excerpt'], $r['post_content'], $expand_shortcodes ),
 		'%%excerpt_only%%'         => $r['post_excerpt'],
 		'%%category%%'             => get_the_category_list( ', ', '', $r['ID'] ) !== '' ? strip_tags( get_the_category_list( ', ', '', $r['ID'] ) ) : $r['name'],
 		'%%category_description%%' => ! empty( $r['taxonomy'] ) ? trim( strip_tags( get_term_field( 'description', $r['term_id'], $r['taxonomy'] ) ) ) : '',
@@ -113,7 +113,7 @@ function smartcrawl_replace_vars( $string, $args = array() ) {
 		'%%spell_pagenumber%%'     => smartcrawl_spell_number( $pagenum ),
 		'%%caption%%'              => $r['post_excerpt'],
 		'%%bp_group_name%%'        => $r['name'],
-		'%%bp_group_description%%' => smartcrawl_get_trimmed_excerpt( '', $r['description'] ),
+		'%%bp_group_description%%' => smartcrawl_get_trimmed_excerpt( '', $r['description'], $expand_shortcodes ),
 		'%%bp_user_username%%'     => $r['username'],
 		'%%bp_user_full_name%%'    => $r['full_name'],
 		'%%sep%%'                  => $separator,
@@ -354,11 +354,11 @@ function _wds_hb_convert_tri( $num, $tri ) {
  *
  * @return string
  */
-function smartcrawl_get_trimmed_excerpt( $excerpt, $contents ) {
+function smartcrawl_get_trimmed_excerpt( $excerpt, $contents, $expand_shortcodes = true ) {
 	$string = $excerpt ? $excerpt : $contents;
-	$string = smartcrawl_is_switch_active( 'SMARTCRAWL_FORCE_REWRITE_TITLE' )
+	$string = smartcrawl_is_switch_active( 'SMARTCRAWL_FORCE_REWRITE_TITLE' ) || ! $expand_shortcodes
 		? strip_shortcodes( $string )
-		: do_shortcode( $string );
+		: Smartcrawl_Shortcode_Helper::do_shortcode( $string );
 	$string = trim( preg_replace( '/\r|\n/', ' ', strip_shortcodes( htmlspecialchars( wp_strip_all_tags( $string ), ENT_QUOTES ) ) ) );
 
 	return ( preg_match( '/.{156,}/um', $string ) )

@@ -8,8 +8,8 @@
 
 	<form action="options.php" method="post">
 
-		<?php settings_fields( 'shortcodes-ultimate' ); ?>
-		<?php do_settings_sections( 'shortcodes-ultimate-settings' ); ?>
+		<?php settings_fields( rtrim( $this->plugin_prefix, '-_' ) ); ?>
+		<?php do_settings_sections( $this->plugin_prefix . 'settings' ); ?>
 		<?php submit_button(); ?>
 
 	</form>

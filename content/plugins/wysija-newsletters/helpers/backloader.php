@@ -93,6 +93,7 @@ class WYSIJA_help_backloader extends WYSIJA_help{
 				'admin-widget',
 				'admin-config',
 				'admin-config-form_widget_settings',
+				'wordpress-about',
 			),
 			'js' => array(
 				'admin-ajax-proto',

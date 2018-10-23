@@ -214,6 +214,7 @@ if ( $global_settings->responsive_enabled ) : ?>
 
 		<?php // if menu is horizontal ?>
 		<?php if ( 'horizontal' == $settings->menu_layout ) : ?>
+			.fl-node-<?php echo $id; ?> .fl-menu .menu { font-size: 0px; }
 			.fl-node-<?php echo $id; ?> .menu > li{ display: inline-block; }
 
 			.fl-node-<?php echo $id; ?> .menu li{
@@ -344,6 +345,7 @@ else : ?>
 	<?php // if menu is horizontal ?>
 	<?php if ( 'horizontal' == $settings->menu_layout ) : ?>
 
+		.fl-node-<?php echo $id; ?> .fl-menu .menu { font-size: 0px; }
 		.fl-node-<?php echo $id; ?> .fl-menu .menu > li{ display: inline-block; }
 
 		.fl-node-<?php echo $id; ?> .menu li{

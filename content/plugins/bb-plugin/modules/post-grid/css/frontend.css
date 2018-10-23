@@ -203,6 +203,7 @@ body .fl-post-grid-meta {
 body h2.fl-post-feed-title {
 	margin: 0 0 10px;
 	padding: 0;
+	clear: none;
 }
 body .fl-post-feed-meta {
 	font-size: 14px;

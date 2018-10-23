@@ -1,9 +1,9 @@
 === Plugin Name ===
-Contributors: studiopress, nathanrice, bgardner, laurenmancke, shannonsans
+Contributors: studiopress, nathanrice, bgardner, laurenmancke, shannonsans, modernnerd, marksabbath, damiencarbery, helgatheviking, littlerchicken, tiagohillebrandt, wpmuguru, michaelbeil, norcross, rafaltomal
 Tags: social media, social networking, social profiles
 Requires at least: 4.0
-Tested up to: 4.7
-Stable tag: 2.0.1
+Tested up to: 4.9
+Stable tag: 3.0.0
 
 This plugin allows you to insert social icons in any widget area.
 
@@ -29,6 +29,14 @@ Yes, icons can be reordered with the use of a filter. See: https://github.com/co
 = Can I add an icon? =
 
 Yes, icons can be added with the use of a filter. See: https://github.com/copyblogger/simple-social-icons/wiki/Add-an-additional-icon-in-version-2.0
+
+= My icon styling changed after updating =
+
+If your theme includes custom icon styling, you can try adding this line to your functions.php file:
+
+`add_filter( 'simple_social_disable_custom_css', '__return_true' );`
+
+This will remove icon styling options in the widget settings, and prevent Simple Social Icons from overriding custom theme styling.
 
 = Which services are included? =
 
@@ -58,6 +66,17 @@ Yes, icons can be added with the use of a filter. See: https://github.com/copybl
 NOTE - The rights to each pictogram in the social extension are either trademarked or copyrighted by the respective company.
 
 == Changelog ==
+
+= 3.0.0 =
+* Obfuscate email address from spambots
+* Prevent email links to open in new window if option selected
+* Fix saving email by removing http:// from it
+* Allow icons to accept transparent color on border and background
+* Fix phone by removing http:// from it
+* Updated Medium logo
+* Added a proper uninstall hook
+* Added a filter to disable the CSS
+* Added filter to update the HTML markup
 
 = 2.0.1 =
 * Fixed typo in Snapchat icon markup

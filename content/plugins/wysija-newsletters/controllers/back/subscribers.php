@@ -402,7 +402,7 @@ class WYSIJA_control_back_subscribers extends WYSIJA_control_back{
         if($this->_affected_rows > 1)
             $this->notice(sprintf(__('%1$s subscribers have been added to "%2$s".',WYSIJA),$this->_affected_rows,$result['name']));
         else
-            $this->notice(sprintf(__('%1$s subscriber have been added to "%2$s".',WYSIJA),$this->_affected_rows,$result['name']));
+            $this->notice(sprintf(__('%1$s subscriber has been added to "%2$s".',WYSIJA),$this->_affected_rows,$result['name']));
         $this->redirect_after_bulk_action();
     }
 
@@ -427,7 +427,7 @@ class WYSIJA_control_back_subscribers extends WYSIJA_control_back{
         if ($this->_affected_rows > 1) {
             $this->notice(sprintf(__('%1$s subscribers have been moved to "%2$s".',WYSIJA), $this->_affected_rows, $result['name']));
         } else {
-            $this->notice(sprintf(__('%1$s subscriber have been moved to "%2$s".',WYSIJA), $this->_affected_rows, $result['name']));
+            $this->notice(sprintf(__('%1$s subscriber has been moved to "%2$s".',WYSIJA), $this->_affected_rows, $result['name']));
         }
 
         $this->redirect_after_bulk_action();
@@ -462,7 +462,7 @@ class WYSIJA_control_back_subscribers extends WYSIJA_control_back{
         if($this->_affected_rows > 1)
             $this->notice(sprintf(__('%1$s subscribers have been removed from all existing lists.',WYSIJA),$this->_affected_rows));
         else
-            $this->notice(sprintf(__('%1$s subscriber have been removed from all existing lists.',WYSIJA),$this->_affected_rows));
+            $this->notice(sprintf(__('%1$s subscriber has been removed from all existing lists.',WYSIJA),$this->_affected_rows));
         $this->redirect_after_bulk_action();
     }
 
@@ -485,7 +485,7 @@ class WYSIJA_control_back_subscribers extends WYSIJA_control_back{
         if($this->_affected_rows > 1){
             $this->notice(sprintf(__('%1$s subscribers have been removed from "%2$s".',WYSIJA),$this->_affected_rows, $result['name']));
         }else{
-            $this->notice(sprintf(__('%1$s subscriber have been removed from "%2$s".',WYSIJA),$this->_affected_rows, $result['name']));
+            $this->notice(sprintf(__('%1$s subscriber has been removed from "%2$s".',WYSIJA),$this->_affected_rows, $result['name']));
         }
 
         $this->redirect_after_bulk_action();
@@ -506,7 +506,7 @@ class WYSIJA_control_back_subscribers extends WYSIJA_control_back{
         if($this->_affected_rows > 1){
             $this->notice(sprintf(__('%1$s subscribers have been confirmed.',WYSIJA),$this->_affected_rows));
         }else{
-           $this->notice(sprintf(__('%1$s subscriber have been confirmed.',WYSIJA),$this->_affected_rows));
+           $this->notice(sprintf(__('%1$s subscriber has been confirmed.',WYSIJA),$this->_affected_rows));
         }
 
         $this->redirect_after_bulk_action();
@@ -972,7 +972,7 @@ class WYSIJA_control_back_subscribers extends WYSIJA_control_back{
         if($this->_affected_rows > 1){
             $this->notice(sprintf(__(' %1$s subscribers have been deleted.',WYSIJA),$this->_affected_rows));
         }else{
-            $this->notice(sprintf(__(' %1$s subscriber have been deleted.',WYSIJA),$this->_affected_rows));
+            $this->notice(sprintf(__(' %1$s subscriber has been deleted.',WYSIJA),$this->_affected_rows));
         }
 
         // make sure the total count of subscribers is updated

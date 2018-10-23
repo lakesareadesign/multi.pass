@@ -675,7 +675,7 @@
 						var template = templates[i],
 							image = template.image,
 							id = _.isNumber( template.postId ) ? template.postId : template.id,
-							hasImage = !_.isUndefined(image) && !image.endsWith('blank.jpg'),
+							hasImage = image && !image.endsWith('blank.jpg'),
 							hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '' ;
 					#>
 					<span class="fl-builder-block fl-builder-block-template fl-builder-block-module-template {{hasImageClass}}" data-id="{{id}}" data-type="{{template.type}}">
@@ -825,7 +825,7 @@
 							var template = templates[i],
 								image = template.image,
 								id = _.isNumber( template.postId ) ? template.postId : template.id,
-								hasImage = !_.isUndefined(image) && !image.endsWith('blank.jpg'),
+								hasImage = image && !image.endsWith('blank.jpg'),
 								hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '';
 						#>
 						<span class="fl-builder-block fl-builder-block-template fl-builder-block-row-template {{hasImageClass}}" data-id="{{id}}" data-type="{{template.type}}">
@@ -876,7 +876,7 @@
 							var template = templates[i],
 								image = template.image,
 								id = _.isNumber( template.postId ) ? template.postId : template.id,
-								hasImage = !_.Undefined(image) && !image.endsWith('blank.jpg'),
+								hasImage = image && !image.endsWith('blank.jpg'),
 								hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '';
 						#>
 						<span class="fl-builder-block fl-builder-block-template fl-builder-block-module-template {{hasImageClass}}" data-id="{{id}}" data-type="{{template.type}}">

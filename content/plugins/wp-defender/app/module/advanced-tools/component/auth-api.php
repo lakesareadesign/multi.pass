@@ -312,7 +312,7 @@ class Auth_API extends Component {
 			if ( $isConflict === 0 ) {
 				//no data, init
 				global $wpdb;
-				$sql   = "SELECT blog_id FROM `{$wpdb->prefix}blogs`";
+				$sql   = "SELECT blog_id FROM `{$wpdb->base_prefix}blogs`";
 				$blogs = $wpdb->get_col( $sql );
 				foreach ( $blogs as $id ) {
 					$options = get_blog_option( $id, 'jetpack_active_modules', array() );

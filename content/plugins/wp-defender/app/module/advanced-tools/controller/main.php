@@ -34,7 +34,7 @@ class Main extends Controller {
 		}
 
 		if ( $this->isInPage() || $this->isDashboard() ) {
-			$this->add_action( 'defender_enqueue_assets', 'scripts', 11 );
+			$this->add_action( 'defender_enqueue_assets', 'scripts', 12 );
 		}
 		$this->add_ajax_action( 'saveAdvancedSettings', 'saveSettings' );
 		$this->add_ajax_action( 'saveTwoFactorOPTEmail', 'saveTwoFactorOPTEmail' );
@@ -49,7 +49,7 @@ class Main extends Controller {
 				/**
 				 * hook into wordpress login, can't use authenticate hook as that badly conflict
 				 */
-				$this->add_action( 'wp_login', 'maybeShowOTPLogin', 50, 2 );
+				$this->add_action( 'wp_login', 'maybeShowOTPLogin', 9, 2 );
 				$this->add_action( 'login_form_defenderVerifyOTP', 'defenderVerifyOTP' );
 				$this->add_action( 'set_logged_in_cookie', 'storeSessionKey' );
 				/**
@@ -533,6 +533,9 @@ class Main extends Controller {
 			$data = array(
 				'edit_email_title' => __( 'Edit Email', wp_defender()->domain ),
 			);
+			if ( $this->isInPage() ) {
+				remove_filter( 'admin_body_class', array( 'WDEV_Plugin_Ui', 'admin_body_class' ) );
+			}
 			wp_localize_script( 'adtools', 'defender_adtools', $data );
 		}
 	}

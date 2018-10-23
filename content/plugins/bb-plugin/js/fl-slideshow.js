@@ -2089,12 +2089,18 @@ Y.namespace('FL').SlideshowImage = Y.Base.create('fl-slideshow-image', Y.Widget,
 	 */
 	_loadImageComplete: function(img)
 	{
-		var bb 				= this.get('boundingBox'),
-			showVideoButton = this.get('showVideoButton');
+		var bb            = this.get('boundingBox'),
+			showVideoButton = this.get('showVideoButton'),
+			showAria        = this.get('root').get('bgslideshow')
 
 		this._image = img;
 		this._image.setStyle('visibility', 'hidden');
 		this._image.addClass('fl-slideshow-image-img');
+
+		if( showAria ) {
+			this._image.set( 'aria-hidden', 'true')
+			this._image.set( 'alt', "")
+		}
 
 		// Remove load events.
 		this._image.detachAll();

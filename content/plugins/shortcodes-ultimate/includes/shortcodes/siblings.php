@@ -34,7 +34,7 @@ function su_shortcode_siblings( $atts = null, $content = null ) {
 
 	global $post;
 
-	if ( empty( $post ) || empty( $post->post_parent ) ) {
+	if ( ! ( $post instanceof WP_Post ) ) {
 		return;
 	}
 

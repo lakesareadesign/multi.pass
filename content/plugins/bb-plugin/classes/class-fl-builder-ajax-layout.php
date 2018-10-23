@@ -291,7 +291,7 @@ final class FLBuilderAJAXLayout {
 			'parentId' 	=> $module->parent,
 			'global'	=> FLBuilderModel::is_node_global( $module ),
 			'layout' 	=> self::render( $render_id ),
-			'settings'	=> null === $template_id ? null : $module->settings,
+			'settings'	=> null === $template_id && ! $alias ? null : $module->settings,
 			'legacy'	=> FLBuilderUISettingsForms::pre_render_legacy_module_settings( $module->settings->type, $module->settings ),
 		);
 	}

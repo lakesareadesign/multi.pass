@@ -1,7 +1,13 @@
 Plugin Name: SmartCrawl SEO
 
 Change Log:
-----------------------------------------------------------------------
+----------------------------------------------------------------------- 
+2.2.2.7 - 2018-10-09
+----------------------------------------------------------------------- 
+- Fix: resolved conflict with swift framework mini product widget
+- Fix: resolved styling conflicts with WPBakery and a few other plugins
+- Fix: performance improvement for title and meta rewriting
+
 2.2.2.6 - 2018-10-02
 ----------------------------------------------------------------------
 - Fix: fixed issue causing WSOD on some sites
@@ -536,4 +542,4 @@ exist yet
 - Initial Release.
 
 
-133620-1538890213-au
+133620-1540264229-au

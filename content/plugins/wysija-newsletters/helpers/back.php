@@ -356,7 +356,7 @@ class WYSIJA_help_back extends WYSIJA_help{
             'subscribers'=>array('title'=>__('Subscribers',WYSIJA)), // if the key "subscribers" is changed, please change in the filter "wysija_menus" as well.
             'config'=>array('title'=>__('Settings',WYSIJA)),
             'premium'=>array('title'=>__('Premium',WYSIJA)),
-            'mp3'=>array('title'=>__('Try MailPoet 3 Now!',WYSIJA))
+            'mp3'=>array('title'=>__('Try MailPoet 3',WYSIJA))
         );
         $this->menus = apply_filters('wysija_menus', $this->menus);
         $this->menuHelp = $truelinkhelp;
@@ -600,12 +600,12 @@ class WYSIJA_help_back extends WYSIJA_help{
             return $text;
 
         return
-            "<a target='_blank' href='http://support.mailpoet.com/feedback/?utm_source=wpadmin&utm_campaign=contact_footer'>" . __( 'Contact Support', WYSIJA ) . "</a>" .
+            "<a target='_blank' href='https://www.mailpoet.com/support/'>" . __( 'Contact Support', WYSIJA ) . "</a>" .
             " | " .
             str_replace(
-                array('[stars]','[link]','[/link]'),
-                array('<a target="_blank" href="http://clicky.me/wp-reviews" >&#9733;&#9733;&#9733;&#9733;&#9733;</a>','<a target="_blank" href="http://clicky.me/wp-reviews" >','</a>'),
-                __('Add your [stars] on [link]wordpress.org[/link] and keep this plugin essentially free.',WYSIJA)
+                array('[link]','[/link]'),
+                array('<a href="plugin-install.php?s=mailpoet&tab=search&type=author" >','</a>'),
+                __('You’re using an old version of MailPoet. This version does not get improvements any longer. [link]It’s easy to switch to the new MailPoet.[/link]',WYSIJA)
             ) .
             "";
     }

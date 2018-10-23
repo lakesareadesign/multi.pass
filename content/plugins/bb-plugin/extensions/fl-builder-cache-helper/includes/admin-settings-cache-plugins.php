@@ -1,6 +1,7 @@
 <?php
 
 $settings = \FLCacheClear\Plugin::get_settings();
+$plugins  = \FLCacheClear\Plugin::get_plugins();
 ?>
 
 	<h3 class="fl-settings-form-header"><?php _e( 'Cache Clearing Tool', 'fl-builder' ); ?></h3>
@@ -9,19 +10,7 @@ $settings = \FLCacheClear\Plugin::get_settings();
 		<div class="fl-settings-form-content">
 <p>
 	<?php _e( 'This tool applies to caches created by the following:', 'fl-builder' ); ?>
-	<ul>
-		<li>AutoOptimize</li>
-		<li>Breeze</li>
-		<li>Cache Enabler</li>
-		<li>Swift</li>
-		<li>WP Fastest Cache</li>
-		<li>WP Super Cache</li>
-		<li>W3 Total Cache</li>
-		<li>LiteSpeed Plugin</li>
-		<li>Pagely Hosting</li>
-		<li>SiteGround Hosting</li>
-		<li>WPEngine Hosting</li>
-	</ul>
+	<?php echo $plugins; ?>
 </p>
 <p>
 	<?php _e( 'Enable the following setting to clear the caches created by any of these caching plugins. If enabled, cache clearing occurs when layouts and templates are saved and when WordPress finishes updating plugins and themes. This setting also defines the DONOTCACHEPAGE constant, which is respected by most cache plugins, to keep the page from being cached when the Beaver Builder editor is active.

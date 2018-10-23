@@ -25,6 +25,23 @@ function su_scattr( $value ) {
 	return Su_Tools::do_attr( $value );
 }
 
+/**
+ * Shortcode names prefix in compatibility mode
+ *
+ * @deprecated 5.0.5    Replaced with more clear name su_get_shortcode_prefix().
+ */
+function su_compatibility_mode_prefix() {
+	return su_get_shortcode_prefix();
+}
+
+/**
+ * Shortcut for su_compatibility_mode_prefix()
+ *
+ * @deprecated 5.0.5    Replaced with more clear name su_get_shortcode_prefix().
+ */
+function su_cmpt() {
+	return su_get_shortcode_prefix();
+}
 
 /**
  * Custom do_shortcode function for nested shortcodes

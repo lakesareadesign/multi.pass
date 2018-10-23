@@ -501,6 +501,7 @@ class Utils extends Behavior {
 		}
 		$client_real = isset( $_SERVER['HTTP_X_REAL_IP'] ) ? $_SERVER['HTTP_X_REAL_IP'] : null;
 		$ret         = $remote;
+
 		if ( filter_var( $client, FILTER_VALIDATE_IP ) ) {
 			$ret = $client;
 		} elseif ( filter_var( $client_real, FILTER_VALIDATE_IP ) ) {

@@ -3,7 +3,7 @@
  * Plugin Name: WP Edit
  * Plugin URI: https://wpeditpro.com
  * Description: Ultimate WordPress Content Editing.
- * Version: 4.0.3
+ * Version: 4.0.4
  * Author: Josh Lobe
  * Author URI: https://wpeditpro.com
  * License: GPL2
@@ -1951,7 +1951,6 @@ class wp_edit_class {
 								$ratings = $call_api->ratings;
 						 
 								echo '<table><tbody>';
-									echo '<tr><td>Downloaded:</td><td>' . number_format( $call_api->downloaded ) . ' times</td></tr>';
 									echo '<tr><td>Active Installs:</td><td>' . number_format( $call_api->active_installs ) . '+</td></tr>';
 									echo '<tr><td>Number of Ratings:</td><td>' . $call_api->num_ratings . '</td></tr>';
 								echo '</tbody></table>';

@@ -419,6 +419,11 @@
   "fallback": "sans-serif"
  }
 }, {
+ "Bai Jamjuree": {
+  "variants": ["200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic"],
+  "fallback": "sans-serif"
+ }
+}, {
  "Baloo": {
   "variants": ["regular"],
   "fallback": "sans-serif"
@@ -824,6 +829,11 @@
   "fallback": "sans-serif"
  }
 }, {
+ "Chakra Petch": {
+  "variants": ["300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic"],
+  "fallback": "sans-serif"
+ }
+}, {
  "Changa": {
   "variants": ["200", "300", "regular", "500", "600", "700", "800"],
   "fallback": "sans-serif"
@@ -837,6 +847,11 @@
  "Chango": {
   "variants": ["regular"],
   "fallback": "sans-serif"
+ }
+}, {
+ "Charmonman": {
+  "variants": ["regular", "700"],
+  "fallback": "cursive"
  }
 }, {
  "Chathura": {
@@ -1351,6 +1366,11 @@
 }, {
  "Expletus Sans": {
   "variants": ["regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic"],
+  "fallback": "sans-serif"
+ }
+}, {
+ "Fahkwang": {
+  "variants": ["200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic"],
   "fallback": "sans-serif"
  }
 }, {
@@ -2034,6 +2054,11 @@
   "fallback": "cursive"
  }
 }, {
+ "K2D": {
+  "variants": ["100", "100italic", "200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic", "800", "800italic"],
+  "fallback": "sans-serif"
+ }
+}, {
  "Kadwa": {
   "variants": ["regular", "700"],
   "fallback": "serif"
@@ -2139,6 +2164,16 @@
   "fallback": "sans-serif"
  }
 }, {
+ "KoHo": {
+  "variants": ["200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic"],
+  "fallback": "sans-serif"
+ }
+}, {
+ "Kodchasan": {
+  "variants": ["200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic"],
+  "fallback": "sans-serif"
+ }
+}, {
  "Kosugi": {
   "variants": ["regular"],
   "fallback": "sans-serif"
@@ -2176,6 +2211,11 @@
 }, {
  "Krona One": {
   "variants": ["regular"],
+  "fallback": "sans-serif"
+ }
+}, {
+ "Krub": {
+  "variants": ["200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic"],
   "fallback": "sans-serif"
  }
 }, {
@@ -2432,6 +2472,11 @@
  "Mako": {
   "variants": ["regular"],
   "fallback": "sans-serif"
+ }
+}, {
+ "Mali": {
+  "variants": ["200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic"],
+  "fallback": "cursive"
  }
 }, {
  "Mallanna": {
@@ -2837,6 +2882,11 @@
  "Niconne": {
   "variants": ["regular"],
   "fallback": "cursive"
+ }
+}, {
+ "Niramit": {
+  "variants": ["200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic"],
+  "fallback": "sans-serif"
  }
 }, {
  "Nixie One": {
@@ -4002,6 +4052,11 @@
  "Sriracha": {
   "variants": ["regular"],
   "fallback": "cursive"
+ }
+}, {
+ "Srisakdi": {
+  "variants": ["regular", "700"],
+  "fallback": "sans-serif"
  }
 }, {
  "Stalemate": {

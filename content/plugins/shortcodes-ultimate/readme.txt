@@ -106,6 +106,20 @@ For help with premium add-ons, please [open new support ticket](https://getshort
 
 == Changelog ==
 
+= 5.0.8 =
+
+**Fixes**
+
+- Fixed Live Preview, wasn't representing changed settings
+- Fixed `[su_siblings]`, now it works again at top-level pages
+
+**Other**
+
+- Various code improvements
+- New filters for gallery, slider, and carousel
+- Returned `su_cmpt()` and `su_compatibility_mode_prefix()` utils
+
+
 = 5.0.7 =
 
 **Security update**

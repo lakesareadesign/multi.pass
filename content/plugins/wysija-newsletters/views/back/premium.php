@@ -18,7 +18,7 @@ class WYSIJA_view_back_premium extends WYSIJA_view_back
             <div class="feature-section one-col" style="text-align:center;">
                 <h2><?php _e('Looking for Premium?', WYSIJA) ?></h2>
                 <p class="lead-description"><?php _e('So you know, MailPoet has a completely new version...', WYSIJA) ?></p>
-                <p style="text-align: justify;"><?php _e('The MailPoet team will continue to support the Premium users of version 2 (the one you are using now) until the spring of 2018. A purchase of the Premium for version 2 will be valid for Premium version 3.', WYSIJA) ?></p>
+                <p style="text-align: justify;"><?php _e('The MailPoet team will continue to support the Premium users of version 2 (the one you are using now) until the spring of 2019. A purchase of the Premium for version 2 will be valid for Premium version 3.', WYSIJA) ?></p>
                 <div style="margin:0 auto;">
                     <ol style="display:inline-block; text-align: left;">
                         <li><?php echo str_replace(array('[link]', '[/link]'), array('<a href="http://www.mailpoet.com/faq-mailpoet-version-2/" target="_blank">', '</a>'), __('[link]Read the FAQ on MailPoet version 2[/link] (your version)', WYSIJA)); ?></li>

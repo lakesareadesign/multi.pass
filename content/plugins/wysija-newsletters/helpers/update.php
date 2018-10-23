@@ -571,7 +571,7 @@ class WYSIJA_help_update extends WYSIJA_object {
 						$timeInstalled=$config->getValue('installed_time')+3600;
 						//if it is a fresh install then it redirects to the welcome screen otherwise to the update one
 						if(time()>$timeInstalled){
-							WYSIJA::redirect('admin.php?page=wysija_campaigns&action=whats_new');
+							WYSIJA::redirect('admin.php?page=wysija_mp3&arg=whats_new');
 						}else{
 							WYSIJA::redirect('admin.php?page=wysija_campaigns&action=welcome_new');
 						}

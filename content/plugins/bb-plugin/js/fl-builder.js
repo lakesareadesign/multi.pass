@@ -319,6 +319,7 @@
 			FLBuilder._highlightEmptyCols();
 
 			FLBuilder.addHook('didInitUI', FLBuilder._showTourOrTemplates.bind(FLBuilder) );
+			FLBuilder.addHook('endEditingSession', FLBuilder._doStats.bind(this) );
 
 			FLBuilder.triggerHook('init');
 		},
@@ -2072,6 +2073,28 @@
 				else {
 					FLBuilder._initTemplateSelector();
 				}
+			}
+		},
+
+		/**
+		 * Save browser stats when builder is loaded.
+		 * @since 2.1.6
+		 */
+		_doStats: function() {
+			if( 1 == FLBuilderConfig.statsEnabled ) {
+
+				args = {
+					'screen-width': screen.width,
+					'screen-height': screen.height,
+					'pixel-ratio': window.devicePixelRatio,
+					'user-agent': window.navigator.userAgent,
+					'isrtl': FLBuilderConfig.isRtl
+				}
+
+				FLBuilder.ajax({
+					action: 'save_browser_stats',
+					browser_data: args
+				});
 			}
 		},
 
@@ -6988,6 +7011,7 @@
 				clone       = fieldRow.clone(),
 				form   		= clone.find( '.fl-form-field' ),
 				formType	= null,
+				defaultVal  = null,
 				index       = parseInt(fieldRow.find('label span.fl-builder-field-index').html(), 10) + 1;
 
 			clone.find('th label span.fl-builder-field-index').html(index);
@@ -7001,6 +7025,15 @@
 			if ( form.length ) {
 				formType = form.find( '.fl-form-field-edit' ).data( 'type' );
 				form.find( 'input' ).val( JSON.stringify( FLBuilderSettingsConfig.defaults.forms[ formType ] ) );
+			}
+			else {
+				form = button.closest('form.fl-builder-settings');
+				formType = form.data( 'type' );
+
+				if ( formType && form.hasClass( 'fl-builder-module-settings' ) ) {
+					defaultVal = FLBuilderSettingsConfig.defaults.modules[ formType ][ fieldName ][0];
+					clone.find('input, textarea, select').val( defaultVal );
+				}
 			}
 		},
 

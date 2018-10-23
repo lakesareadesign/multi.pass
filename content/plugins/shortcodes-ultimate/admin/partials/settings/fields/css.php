@@ -5,15 +5,33 @@
 <p class="description"><?php echo $data['description']; ?></p>
 
 <h4 class="title"><?php _e( 'Available variables', 'shortcodes-ultimate' ); ?></h4>
-<ul>
-	<li><code>%home_url%</code> - <?php printf( '%s (%s)', __( 'the URL of the site home page', 'shortcodes-ultimate' ), __( 'with trailing slash', 'shortcodes-ultimate' ) ); ?></li>
-	<li><code>%theme_url%</code> - <?php printf( '%s (%s)', __( 'the URL of the directory of the current theme', 'shortcodes-ultimate' ), __( 'with trailing slash', 'shortcodes-ultimate' ) ); ?></li>
-	<li><code>%plugin_url%</code> - <?php printf( '%s (%s)', __( 'the URL of the directory of the plugin', 'shortcodes-ultimate' ), __( 'with trailing slash', 'shortcodes-ultimate' ) ); ?></li>
-</ul>
+<table class="widefat striped" style="width:auto">
+	<thead>
+		<tr>
+			<td><?php esc_html_e( 'Variable', 'shortcodes-ultimate' ); ?></td>
+			<td><?php esc_html_e( 'Will be replaced with', 'shortcodes-ultimate' ); ?>&hellip;</td>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td><code contenteditable>%home_url%</code></td>
+			<td><?php printf( '%s (%s)', __( 'the URL of the site home page', 'shortcodes-ultimate' ), __( 'with trailing slash', 'shortcodes-ultimate' ) ); ?></td>
+		</tr>
+		<tr>
+			<td><code contenteditable>%theme_url%</code></td>
+			<td><?php printf( '%s (%s)', __( 'the URL of the directory of the current theme', 'shortcodes-ultimate' ), __( 'with trailing slash', 'shortcodes-ultimate' ) ); ?></td>
+		</tr>
+		<tr>
+			<td><code contenteditable>%plugin_url%</code></td>
+			<td><?php printf( '%s (%s)', __( 'the URL of the directory of the plugin', 'shortcodes-ultimate' ), __( 'with trailing slash', 'shortcodes-ultimate' ) ); ?></td>
+		</tr>
+	</tbody>
+</table>
 
 <h4 class="title"><?php _e( 'More information', 'shortcodes-ultimate' ); ?></h4>
 
 <ul class="ul-disc">
-	<li><?php _e( 'See help tab at the top right corner of this page for more information.', 'shortcodes-ultimate' ); ?></li>
-	<li><?php printf( __( 'Open %s file to see default styles.', 'shortcodes-ultimate' ), '<a href="' . $this->plugin_url . 'includes/css/shortcodes.css" target="_blank">shortcodes.css</a>' ); ?></li>
+	<?php // Translators: %s - link to the shortcodes.css file ?>
+	<li><?php printf( __( 'Open %s file to see default styles', 'shortcodes-ultimate' ), '<a href="' . $this->plugin_url . 'includes/css/shortcodes.css" target="_blank">shortcodes.css</a>' ); ?></li>
+	<li><?php esc_html_e( 'Help article', 'shortcodes-ultimate' ); ?>: <a href="http://docs.getshortcodes.com/article/33-custom-css-editor" target="_blank"><?php esc_html_e( 'How to use Custom CSS editor', 'shortcodes-ultimate' ); ?></a></li>
 </ul>

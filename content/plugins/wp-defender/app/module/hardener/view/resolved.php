@@ -12,7 +12,7 @@
             <div class="rules fixed">
 				<?php foreach ( \WP_Defender\Module\Hardener\Model\Settings::instance()->getFixed() as $rule ): ?>
 					<?php
-					$rule->getDescription();
+					$rule->getDescription();	  	 	   	 		 		 				
 					?>
 				<?php endforeach; ?>
             </div>

@@ -39,6 +39,15 @@ class Shortcodes_Ultimate {
 	private $plugin_path;
 
 	/**
+	 * The prefix of the plugin.
+	 *
+	 * @since    5.0.8
+	 * @access   private
+	 * @var      string      $plugin_prefix   The prefix of the plugin.
+	 */
+	private $plugin_prefix;
+
+	/**
 	 * Class instance.
 	 *
 	 * @since  5.1.0
@@ -88,12 +97,14 @@ class Shortcodes_Ultimate {
 	 * @since   5.0.0
 	 * @param string  $plugin_file    The path to the main plugin file.
 	 * @param string  $plugin_version The current version of the plugin.
+	 * @param string  $plugin_prefix  The prefix of the plugin.
 	 */
-	public function __construct( $plugin_file, $plugin_version ) {
+	public function __construct( $plugin_file, $plugin_version, $plugin_prefix ) {
 
 		$this->plugin_file    = $plugin_file;
 		$this->plugin_version = $plugin_version;
 		$this->plugin_path    = plugin_dir_path( $plugin_file );
+		$this->plugin_prefix  = $plugin_prefix;
 
 		$this->load_dependencies();
 		$this->define_admin_hooks();
@@ -161,9 +172,11 @@ class Shortcodes_Ultimate {
 		 */
 		require_once $this->plugin_path . 'includes/shortcodes/_all.php';
 
+		// phpcs:disable
 		// foreach ( glob( $this->plugin_path . 'includes/shortcodes/*.php' ) as $shortcode_file ) {
 		//  require_once $shortcode_file;
 		// }
+		// phpcs:enable
 
 	}
 
@@ -188,48 +201,79 @@ class Shortcodes_Ultimate {
 		 * Top-level menu: Shortcodes
 		 * admin.php?page=shortcodes-ultimate
 		 */
-		$this->top_level_menu = new Shortcodes_Ultimate_Admin_Top_Level( $this->plugin_file, $this->plugin_version );
+		$this->top_level_menu = new Shortcodes_Ultimate_Admin_Top_Level(
+			$this->plugin_file,
+			$this->plugin_version,
+			$this->plugin_prefix
+		);
 
-		add_action( 'admin_menu', array( $this->top_level_menu, 'admin_menu' ), 5 );
+		add_action( 'admin_menu', array( $this->top_level_menu, 'add_menu_pages' ), 5 );
 
 
 		/**
 		 * Submenu: Available shortcodes
 		 * admin.php?page=shortcodes-ultimate
 		 */
-		$this->shortcodes_menu = new Shortcodes_Ultimate_Admin_Shortcodes( $this->plugin_file, $this->plugin_version );
+		$this->shortcodes_menu = new Shortcodes_Ultimate_Admin_Shortcodes(
+			$this->plugin_file,
+			$this->plugin_version,
+			$this->plugin_prefix
+		);
 
-		add_action( 'admin_menu',            array( $this->shortcodes_menu, 'admin_menu' ), 5   );
-		add_action( 'current_screen',        array( $this->shortcodes_menu, 'add_help_tab' )    );
-		add_action( 'admin_enqueue_scripts', array( $this->shortcodes_menu, 'enqueue_scripts' ) );
+		add_action( 'admin_menu',            array( $this->shortcodes_menu, 'add_menu_pages' ), 5 );
+		add_action( 'current_screen',        array( $this->shortcodes_menu, 'add_help_tabs' )     );
+		add_action( 'admin_enqueue_scripts', array( $this->shortcodes_menu, 'enqueue_scripts' )   );
+		add_filter(
+			'plugin_action_links_' . plugin_basename( $this->plugin_file ),
+			array( $this->shortcodes_menu, 'add_action_links' ),
+			20,
+			1
+		);
 
 
 		/**
 		 * Submenu: Settings
 		 * admin.php?page=shortcodes-ultimate-settings
 		 */
-		$this->settings_menu = new Shortcodes_Ultimate_Admin_Settings( $this->plugin_file, $this->plugin_version );
+		$this->settings_menu = new Shortcodes_Ultimate_Admin_Settings(
+			$this->plugin_file,
+			$this->plugin_version,
+			$this->plugin_prefix
+		);
 
-		add_action( 'admin_menu',     array( $this->settings_menu, 'admin_menu' ), 20    );
-		add_action( 'admin_init',     array( $this->settings_menu, 'register_settings' ) );
-		add_action( 'current_screen', array( $this->settings_menu, 'add_help_tab' )      );
+		add_action( 'admin_menu',     array( $this->settings_menu, 'add_menu_pages' ), 20 );
+		add_action( 'admin_init',     array( $this->settings_menu, 'add_settings' )       );
+		add_action( 'current_screen', array( $this->settings_menu, 'add_help_tabs' )      );
+		add_filter(
+			'plugin_action_links_' . plugin_basename( $this->plugin_file ),
+			array( $this->settings_menu, 'add_action_links' ),
+			10,
+			1
+		);
 
 
 		/**
 		 * Submenu: Add-ons
 		 * admin.php?page=shortcodes-ultimate-addons
 		 */
-		$this->addons_menu = new Shortcodes_Ultimate_Admin_Addons( $this->plugin_file, $this->plugin_version );
+		$this->addons_menu = new Shortcodes_Ultimate_Admin_Addons(
+			$this->plugin_file,
+			$this->plugin_version,
+			$this->plugin_prefix
+		);
 
-		add_action( 'admin_menu',            array( $this->addons_menu, 'admin_menu' ), 30  );
-		add_action( 'admin_enqueue_scripts', array( $this->addons_menu, 'enqueue_scripts' ) );
-		add_action( 'current_screen',        array( $this->addons_menu, 'add_help_tab' )    );
+		add_action( 'admin_menu',            array( $this->addons_menu, 'add_menu_pages' ), 30 );
+		add_action( 'admin_enqueue_scripts', array( $this->addons_menu, 'enqueue_scripts' )    );
+		add_action( 'current_screen',        array( $this->addons_menu, 'add_help_tabs' )      );
 
 
 		/**
 		 * Notice: Rate plugin
 		 */
-		$this->rate_notice = new Shortcodes_Ultimate_Notice_Rate( 'rate', $this->plugin_path . 'admin/partials/notices/rate.php' );
+		$this->rate_notice = new Shortcodes_Ultimate_Notice_Rate(
+			'rate',
+			$this->plugin_path . 'admin/partials/notices/rate.php'
+		);
 
 		add_action( 'load-plugins.php',             array( $this->rate_notice, 'defer_first_time' ) );
 		add_action( 'admin_notices',                array( $this->rate_notice, 'display_notice' )   );

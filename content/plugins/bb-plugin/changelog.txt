@@ -1,14 +1,46 @@
+<h4>2.1.6 - 10/22/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Updated Font Awesome to 5.4.1 which includes nearly 400 new icons!</li>
+	<li>Add Product ID As a "Sort By" Field in the WooCommerce Module</li>
+	<li>Accordion labels can now be navigated and receive focus by tapping the Tab key.</li>
+	<li>Added Kinsta, Godaddy and Hummingbird to supported caches.</li>
+	<li>Set aria-hidden for row background slideshow images for screenreader users.</li>
+	<li>Improved anonymous statistics.</li>
+	<li>Show if MODSEC fix is enabled on the debug screen.</li>
+	<li>Added support for 5 & 6 columns in woocommerce module.</li>
+	<li>Whitelist files that will throw false positives in PHP Compatibility Checker plugin.</li>
+	<li>Minify magnificpopup css file.</li>
+	<li>Increase memory limit for the settings_config JS.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Global and layout css was not being applied in preview mode.</li>
+	<li>Fix ImagesLoaded and ultimate member issue.</li>
+	<li>Fix page headings issue on pages with themer layouts.</li>
+	<li>Fixed the pagination on first posts module where it inherits the main WP query which results to 404</li>
+	<li>Fixed Multiple Select Field not showing defaults when Add Item is clicked.</li>
+	<li>Fix Posts module's title alignment on some themes.</li>
+	<li>Fixed JS error thrown if two or more Video modules with embedded video code on same layout.</li>
+	<li>Fixed slideshow embedded in accordion via shortcode.</li>
+	<li>Fixed node templates without featured image throwing a JS error in the content panel.</li>
+	<li>Fixed module alias settings not being rendered when dropping on a page.</li>
+	<li>Renamed class MailChimp to FLBuilderMailChimp to avoid conflict with other plugins.</li>
+	<li>Fixed the menu item spacing caused by inline-block in menu module.</li>
+	<li>Fixed undefined font weight strings in the theme.</li>
+	<li>Fixed issue with Templator, Prevent Direct Access Gold and wp-smush-it plugins.</li>
+</ul>
+
 <h4>2.1.5.2 - 10/04/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>
 	<li>Fixed Pagely cache clear code.</li>
-	<li>Fixed small issue with Google italic fonts./</li>
+	<li>Fixed small issue with Google italic fonts.</li>
 	<li>Fixed issue with Enfold theme causing javascript error when builder is open.</li>
 	<li>Updated Events Calender Widget compatibility code.</li>
 	<li>New filter added <code>fl_get_edit_url</code>.</li>
 	<li>New filter added <code>fl_widget_module_args</code>.</li>
 </ul>
-
 
 <h4>2.1.5.1 - 09/26/2018</h4>
 <p><strong>Hot Fix</strong></p>

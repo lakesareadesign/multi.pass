@@ -4,16 +4,25 @@ Tested up to: 4.7.4
 
 Change Log:
 
+2.0.1 - 2018-18-10
+----------------------------------------------------------------------
+- Fix: permanent ban on 404 lockouts now sends correct email.
+- Fix: IP lockout logs not showing correct results/order on different pages.
+- Fix: IP lockout logs showing wrong badge for 404 lockouts.
+- Fix: 2FA not working properly when using Sensei plugin.
+- Other minor enhancements and fixes.
+
 2.0 - 2018-04-09
 ----------------------------------------------------------------------
 - New: added tweak “Disable XML-RPC”
 - Improvement: Two factor authentication can now be force enabled by role.
-- Improvement: better clarification on Mask Login Area page
-- Fix: Compatibility with Appointments login when Mask Login enabled.
-- Fix: /login/ will be blocked instead of redirect to right login URL
-- Fix: new site registration emails login URL now show right Login URL instead of the original one if Mask URL enabled.
-- Fix: Accessibility fix for factor authentication
-- Changes: Show Admin Pointer when first activate Defender and remove the redirect behavior
+- Improvement: Masking URL description.
+- Fix: Compatibility with Appointments+ login when Mask Login is enabled.
+- Fix: /login/ will be blocked instead of redirecting to right login URL
+- Fix: new site registration email login URL will now show right Login URL instead of the original one when Mask URL is enabled.
+- Fix: Accessibility issue when activating 2FA.
+- Changes: Show Admin Pointer on initial Defender activation, and removing the redirect behavior.
+- Other minor enhancements and fixes
 
 1.9.1 - 2018-09-07
 ----------------------------------------------------------------------
@@ -264,4 +273,4 @@ Fixed: Scanning was sometimes slow or getting stuck
 - First release
 
 
-133620-1536712517-au
+133620-1540264205-au

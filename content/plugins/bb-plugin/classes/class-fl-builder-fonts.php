@@ -23,7 +23,7 @@ final class FLBuilderFonts {
 	static public function init() {
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::combine_google_fonts', 10000 );
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::enqueue_google_fonts', 9999 );
-		add_filter( 'wp_resource_hints',  __CLASS__ . '::resource_hints', 10, 2 );
+		add_filter( 'wp_resource_hints', __CLASS__ . '::resource_hints', 10, 2 );
 	}
 
 	/**
@@ -117,22 +117,31 @@ final class FLBuilderFonts {
 			'italic'    => __( 'Italic', 'fl-builder' ),
 			'100'       => __( 'Thin', 'fl-builder' ),
 			'100i'      => __( 'Thin Italic', 'fl-builder' ),
+			'100italic' => __( 'Thin Italic', 'fl-builder' ),
 			'200'       => __( 'Extra-Light', 'fl-builder' ),
 			'200i'      => __( 'Extra-Light Italic', 'fl-builder' ),
+			'200italic' => __( 'Extra-Light Italic', 'fl-builder' ),
 			'300'       => __( 'Light', 'fl-builder' ),
 			'300i'      => __( 'Light Italic', 'fl-builder' ),
+			'300italic' => __( 'Light Italic', 'fl-builder' ),
 			'400'       => __( 'Normal', 'fl-builder' ),
 			'400i'      => __( 'Normal Italic', 'fl-builder' ),
+			'400italic' => __( 'Normal Italic', 'fl-builder' ),
 			'500'       => __( 'Medium', 'fl-builder' ),
 			'500i'      => __( 'Medium Italic', 'fl-builder' ),
+			'500italic' => __( 'Medium Italic', 'fl-builder' ),
 			'600'       => __( 'Semi-Bold', 'fl-builder' ),
 			'600i'      => __( 'Semi-Bold Italic', 'fl-builder' ),
+			'600italic' => __( 'Semi-Bold Italic', 'fl-builder' ),
 			'700'       => __( 'Bold', 'fl-builder' ),
 			'700i'      => __( 'Bold Italic', 'fl-builder' ),
+			'700italic' => __( 'Bold Italic', 'fl-builder' ),
 			'800'       => __( 'Extra-Bold', 'fl-builder' ),
 			'800i'      => __( 'Extra-Bold Italic', 'fl-builder' ),
+			'800italic' => __( 'Extra-Bold Italic', 'fl-builder' ),
 			'900'       => __( 'Ultra-Bold', 'fl-builder' ),
 			'900i'      => __( 'Ultra-Bold Italic', 'fl-builder' ),
+			'900italic' => __( 'Ultra-Bold Italic', 'fl-builder' ),
 		) );
 	}
 
@@ -146,7 +155,7 @@ final class FLBuilderFonts {
 	static public function font_css( $font ) {
 
 		$system_fonts = apply_filters( 'fl_builder_font_families_system', FLBuilderFontFamilies::$system );
-		$google = FLBuilderFontFamilies::get_google_fallback( $font['family'] );
+		$google       = FLBuilderFontFamilies::get_google_fallback( $font['family'] );
 
 		$css = '';
 
@@ -237,7 +246,7 @@ final class FLBuilderFonts {
 	 */
 	static public function enqueue_google_fonts() {
 		$google_fonts_domain = apply_filters( 'fl_builder_google_fonts_domain', '//fonts.googleapis.com/' );
-		$google_url = $google_fonts_domain . 'css?family=';
+		$google_url          = $google_fonts_domain . 'css?family=';
 
 		/**
 		 * Allow users to control what fonts are enqueued by modules.
@@ -303,11 +312,11 @@ final class FLBuilderFonts {
 		// Check for any enqueued `fonts.googleapis.com` from BB theme or plugin
 		if ( isset( $wp_styles->queue ) ) {
 
-			$google_fonts_domain = 'https://fonts.googleapis.com/css';
+			$google_fonts_domain   = 'https://fonts.googleapis.com/css';
 			$enqueued_google_fonts = array();
-			$families = array();
-			$subsets = array();
-			$font_args = array();
+			$families              = array();
+			$subsets               = array();
+			$font_args             = array();
 
 			// Collect all enqueued google fonts
 			foreach ( $wp_styles->queue as $key => $handle ) {
@@ -338,18 +347,18 @@ final class FLBuilderFonts {
 
 								// Extract the font data
 								if ( isset( $get_font[0] ) && ! empty( $get_font[0] ) ) {
-									$family = $get_font[0];
+									$family  = $get_font[0];
 									$weights = isset( $get_font[1] ) && ! empty( $get_font[1] ) ? explode( ',', $get_font[1] ) : array();
 
 									// Combine weights if family has been enqueued
 									if ( isset( $enqueued_google_fonts[ $family ] ) && $weights != $enqueued_google_fonts[ $family ]['weights'] ) {
-										$combined_weights = array_merge( $weights, $enqueued_google_fonts[ $family ]['weights'] );
+										$combined_weights                            = array_merge( $weights, $enqueued_google_fonts[ $family ]['weights'] );
 										$enqueued_google_fonts[ $family ]['weights'] = array_unique( $combined_weights );
 									} else {
 										$enqueued_google_fonts[ $family ] = array(
-											'handle'	=> $handle,
-											'family'	=> $family,
-											'weights'	=> $weights,
+											'handle'  => $handle,
+											'family'  => $family,
+											'weights' => $weights,
 										);
 
 									}
@@ -404,8 +413,8 @@ final class FLBuilderFonts {
 	static public function resource_hints( $urls, $relation_type ) {
 		if ( true == self::$enqueued_google_fonts_done && 'preconnect' === $relation_type ) {
 			$urls[] = array(
-			'href' => 'https://fonts.gstatic.com',
-			'crossorigin',
+				'href' => 'https://fonts.gstatic.com',
+				'crossorigin',
 			);
 		}
 		return $urls;
@@ -430,7 +439,7 @@ final class FLBuilderFontFamilies {
 
 	static public $default = array(
 		'Default' => array(
-			'default'
+			'default',
 		),
 	);
 
@@ -442,7 +451,7 @@ final class FLBuilderFontFamilies {
 	static function google() {
 
 		$fonts = array();
-		$json = self::_get_json();
+		$json  = self::_get_json();
 
 		foreach ( $json as $k => $font ) {
 
@@ -507,7 +516,7 @@ final class FLBuilderFontFamilies {
 				'700',
 			),
 		),
-		'Verdana' => array(
+		'Verdana'   => array(
 			'fallback' => 'Helvetica, Arial, sans-serif',
 			'weights'  => array(
 				'300',
@@ -515,7 +524,7 @@ final class FLBuilderFontFamilies {
 				'700',
 			),
 		),
-		'Arial' => array(
+		'Arial'     => array(
 			'fallback' => 'Helvetica, Verdana, sans-serif',
 			'weights'  => array(
 				'300',
@@ -523,7 +532,7 @@ final class FLBuilderFontFamilies {
 				'700',
 			),
 		),
-		'Times' => array(
+		'Times'     => array(
 			'fallback' => 'Georgia, serif',
 			'weights'  => array(
 				'300',
@@ -531,7 +540,7 @@ final class FLBuilderFontFamilies {
 				'700',
 			),
 		),
-		'Georgia' => array(
+		'Georgia'   => array(
 			'fallback' => 'Times, serif',
 			'weights'  => array(
 				'300',
@@ -539,7 +548,7 @@ final class FLBuilderFontFamilies {
 				'700',
 			),
 		),
-		'Courier' => array(
+		'Courier'   => array(
 			'fallback' => 'monospace',
 			'weights'  => array(
 				'300',

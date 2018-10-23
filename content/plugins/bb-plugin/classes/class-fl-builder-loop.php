@@ -668,8 +668,10 @@ final class FLBuilderLoop {
 			return false;
 		}
 
-		if ( $query->is_archive && $query->is_category && $query->post_count < 1 ) {
-			return false;
+		if ( $query->is_archive && $query->is_category ) {
+			if ( $query->post_count < 1 && ! isset( $_GET['flpaging'] ) ) {
+				return false;
+			}
 		}
 
 		$is_global_hack = false;
@@ -718,6 +720,7 @@ final class FLBuilderLoop {
 		$permalink_structure = get_option( 'permalink_structure' );
 		$paged = self::get_paged();
 		$base = html_entity_decode( get_pagenum_link() );
+		$add_args = false;
 
 		if ( $total_pages > 1 ) {
 
@@ -728,12 +731,23 @@ final class FLBuilderLoop {
 			$base = self::build_base_url( $permalink_structure, $base );
 			$format = self::paged_format( $permalink_structure, $base );
 
+			// Flag if it's a first posts module in an archive page.
+			// Fix pagination issues in archive page since it's using the main WP query for pagination.
+			if ( $query->is_archive && 1 === self::$loop_counter ) {
+				if ( isset( $query->query['settings']->data_source ) && 'custom_query' == $query->query['settings']->data_source ) {
+					$add_args = array(
+						'flpaging' => 1,
+					);
+				}
+			}
+
 			echo paginate_links(array(
 				'base'	   => $base . '%_%',
 				'format'   => $format,
 				'current'  => $current_page,
 				'total'	   => $total_pages,
 				'type'	   => 'list',
+				'add_args' => $add_args,
 			));
 		}
 	}
@@ -749,6 +763,7 @@ final class FLBuilderLoop {
 	static public function filter_paginate_links( $link ) {
 		$permalink_structure = get_option( 'permalink_structure' );
 		$base 				 = html_entity_decode( get_pagenum_link() );
+		$link_params 		 = wp_parse_url( $link, PHP_URL_QUERY );
 
 		if ( empty( $permalink_structure ) && strrpos( $base, 'paged-' ) ) {
 
@@ -761,13 +776,18 @@ final class FLBuilderLoop {
 				$current_flpaged = $current_paged_args[0];
 				$current_paged_param = $current_flpaged . '=' . $base_args[ $current_flpaged ];
 
-				$link_params = wp_parse_url( $link, PHP_URL_QUERY );
 				$link_params = str_replace( $current_paged_param, '' , $link_params );
 				wp_parse_str( $link_params, $link_args );
 
 				$link = strtok( $link, '?' );
 				$link = add_query_arg( $link_args, $link );
 			}
+		} elseif ( false !== strpos( $link, 'flpaging' ) && self::$loop_counter > 1 ) {
+			$link_params = str_replace( 'flpaging=1', '', $link_params );
+			wp_parse_str( $link_params, $link_args );
+
+			$link = strtok( $link, '?' );
+			$link = add_query_arg( $link_args, $link );
 		}
 
 		return $link;

@@ -29,6 +29,15 @@ abstract class Shortcodes_Ultimate_Admin {
 	protected $plugin_version;
 
 	/**
+	 * The prefix of the plugin.
+	 *
+	 * @since    5.0.8
+	 * @access   protected
+	 * @var      string      $plugin_prefix   The prefix of the plugin.
+	 */
+	protected $plugin_prefix;
+
+	/**
 	 * The URL of the plugin folder.
 	 *
 	 * @since    5.0.0
@@ -98,11 +107,13 @@ abstract class Shortcodes_Ultimate_Admin {
 	 * @access protected
 	 * @param string  $plugin_file    The path of the main plugin file.
 	 * @param string  $plugin_version The current version of the plugin.
+	 * @param string  $plugin_prefix  The prefix of the plugin.
 	 */
-	protected function __construct( $plugin_file, $plugin_version ) {
+	protected function __construct( $plugin_file, $plugin_version, $plugin_prefix ) {
 
 		$this->plugin_file           = $plugin_file;
 		$this->plugin_version        = $plugin_version;
+		$this->plugin_prefix         = $plugin_prefix;
 		$this->plugin_url            = plugin_dir_url( $plugin_file );
 		$this->plugin_path           = plugin_dir_path( $plugin_file );
 		$this->capability            = 'manage_options';
@@ -114,11 +125,18 @@ abstract class Shortcodes_Ultimate_Admin {
 	}
 
 	/**
-	 * Add menu page
+	 * Register menu pages.
 	 *
 	 * @since   5.0.0
 	 */
-	public function admin_menu() {}
+	public function add_menu_pages() {}
+
+	/**
+	 * Register settings.
+	 *
+	 * @since   5.0.8
+	 */
+	public function add_settings() {}
 
 	/**
 	 * Enqueue JavaScript(s) and Stylesheet(s) for the component.
@@ -191,15 +209,34 @@ abstract class Shortcodes_Ultimate_Admin {
 		$page = sanitize_title( $_GET['page'], false );
 
 		// Replace plugin slug with template prefix
-		$page = str_replace( 'shortcodes-ultimate-', '', $page );
-
-		// Load "Available shortcodes" page
-		if ( $page === 'shortcodes-ultimate' ) {
-			$page = 'shortcodes';
-		}
+		$page = str_replace( $this->plugin_prefix, '', $page );
 
 		$this->the_template( 'admin/partials/pages/' . $page );
 
+	}
+
+	/**
+	 * Display settings section.
+	 *
+	 * @param mixed   $args Settings section data.
+	 * @since  5.0.8
+	 */
+	public function the_settings_section( $args ) {
+
+		$section = str_replace( $this->plugin_prefix, '', $args['id'] );
+
+		$this->the_template( 'admin/partials/settings/sections/' . $section, $args );
+
+	}
+
+	/**
+	 * Display settings field.
+	 *
+	 * @param mixed   $args The field data.
+	 * @since  5.0.8
+	 */
+	public function the_settings_field( $args ) {
+		$this->the_template( 'admin/partials/settings/fields/' . $args['type'], $args );
 	}
 
 	/**
@@ -342,6 +379,29 @@ abstract class Shortcodes_Ultimate_Admin {
 	 */
 	protected function get_component_url() {
 		return $this->component_url;
+	}
+
+	/**
+	 * Callback function to sanitize checkbox value.
+	 *
+	 * @since  5.0.0
+	 * @param mixed   $value String 'on' or null.
+	 * @return string        Sanitized checkbox value ('on' or empty string '').
+	 */
+	public function sanitize_checkbox( $value ) {
+		return ! empty( $value ) && 'on' === $value ? 'on' : '';
+	}
+
+	/**
+	 * Callback function to sanitize prefix value.
+	 *
+	 * @since  5.0.1
+	 * @param string  $prefix Prefix value.
+	 * @return string          Sanitized string.
+	 * @see  https://developer.wordpress.org/reference/functions/add_shortcode/ Source of the RegExp.
+	 */
+	public function sanitize_prefix( $prefix ) {
+		return preg_replace( '@[<>&/\[\]\x00-\x20="\']@', '', $prefix );
 	}
 
 	/**

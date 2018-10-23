@@ -40,6 +40,6 @@ class Smartcrawl_Check_Subheadings_Keywords extends Smartcrawl_Check_Abstract {
 	}
 
 	public function get_more_info() {
-		return __( "When trying to rank for certain keywords, those keywords should be found in as many key places as possible. Given that you're writing about the topic it only makes sense that you mention it in at least one of your subheadings. Headings are important to users as they break up your content, sectioning is by subtopics to help readers figure out what the text is about - and the same goes for search engines. With that said, don't force keywords into all your titles - keep it natural, readable and use moderation!", 'wds' );
+		return __( "When trying to rank for certain keywords, those keywords should be found in as many key places as possible. Given that you're writing about the topic it only makes sense that you mention it in at least one of your subheadings. Headings are important to users as they break up your content, sectioning is by subtopics to help readers figure out what the text is about - and the same goes for search engines. With that said, don't force keywords into all your titles - keep it natural, readable and use moderation!", 'wds' );	     	 	 	  		 		
 	}
 }

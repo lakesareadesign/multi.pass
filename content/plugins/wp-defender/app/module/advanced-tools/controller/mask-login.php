@@ -164,6 +164,14 @@ class Mask_Login extends Controller {
 						return Mask_Api::getNewLoginUrl( $subDomain );
 					}
 				}
+			} elseif ( $screen->id == 'my-sites' ) {
+				//case inside my sites page, sometime the login session does not share between sites and we get block
+				//we will add an OTP key for redirect to wp-admin without get block
+				$otp = Mask_Api::createOTPKey();
+
+				return add_query_arg( array(
+					'otp' => $otp
+				), $currentUrl );
 			}
 		}
 
@@ -194,6 +202,11 @@ class Mask_Login extends Controller {
 			return;
 		}
 		if ( is_user_logged_in() ) {
+			return;
+		}
+
+		if ( ( $key = HTTP_Helper::retrieve_get( 'otp', false ) ) !== false
+		     && Mask_Api::verifyOTP( $key ) ) {
 			return;
 		}
 

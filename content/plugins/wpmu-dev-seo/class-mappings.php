@@ -31,6 +31,7 @@ return array(
 	'Smartcrawl_SeoReport'                        => '/core/class-wds-seo-report.php',
 	'Smartcrawl_Service'                          => '/core/class-wds-service.php',
 	'Smartcrawl_Settings'                         => '/core/class-wds-settings.php',
+	'Smartcrawl_Shortcode_Helper'                 => '/core/class-wds-shortcode-helper.php',
 	'Smartcrawl_String'                           => '/core/class-wds-string.php',
 	'Smartcrawl_Type_Traverser'                   => '/core/class-wds-type-traverser.php',
 	'Smartcrawl_WorkUnit'                         => '/core/class-wds-work-unit.php',

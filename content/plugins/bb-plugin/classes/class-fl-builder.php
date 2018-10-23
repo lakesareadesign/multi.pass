@@ -62,7 +62,7 @@ final class FLBuilder {
 	 * @since 2.1
 	 */
 	static public $fa4_url = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.3.1/css/all.css';
+	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.4.1/css/all.css';
 
 	/**
 	 * Initializes hooks.
@@ -380,7 +380,7 @@ final class FLBuilder {
 		// Register additional CSS
 		wp_register_style( 'fl-slideshow',           $css_url . 'fl-slideshow.css', array( 'yui3' ), $ver );
 		wp_register_style( 'jquery-bxslider',        $css_url . 'jquery.bxslider.css', array(), $ver );
-		wp_register_style( 'jquery-magnificpopup',   $css_url . 'jquery.magnificpopup.css', array(), $ver );
+		wp_register_style( 'jquery-magnificpopup',   $css_url . 'jquery.magnificpopup' . $min . '.css', array(), $ver );
 		wp_register_style( 'yui3',                   $css_url . 'yui3.css', array(), $ver );
 
 		// Register icon CDN CSS
@@ -2290,7 +2290,8 @@ final class FLBuilder {
 	 * @return void
 	 */
 	static public function render_custom_css_for_editing() {
-		if ( ! FLBuilderModel::is_builder_active() ) {
+
+		if ( ! FLBuilderModel::is_builder_active() && ! isset( $_GET['fl_builder_preview'] ) ) {
 			return;
 		}
 
@@ -2534,7 +2535,9 @@ final class FLBuilder {
 		}
 
 		// Default page heading
-		if ( FLBuilderModel::is_builder_enabled() ) {
+		global $post;
+		$post_id = isset( $post->ID ) ? $post->ID : false;
+		if ( FLBuilderModel::is_builder_enabled( $post_id ) ) {
 			if ( ! $global_settings->show_default_heading && ! empty( $global_settings->default_heading_selector ) ) {
 				$heading_selector = esc_attr( $global_settings->default_heading_selector );
 

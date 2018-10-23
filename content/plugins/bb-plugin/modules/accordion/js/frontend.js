@@ -124,6 +124,9 @@
 			// WP audio shortcode support
 			FLBuilderLayout.resizeAudio( content );
 
+			// Slideshow module support.
+			FLBuilderLayout.resizeSlideshow();
+
 			if ( item.offset().top < win.scrollTop() + 100 ) {
 				$( 'html, body' ).animate({
 					scrollTop: item.offset().top - 100

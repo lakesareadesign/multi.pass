@@ -98,7 +98,10 @@ function su_shortcode_custom_gallery( $atts = null, $content = null ) {
 			'target'  => 'self',
 			'class'   => ''
 		), $atts, 'custom_gallery' );
-	$slides = (array) su_get_slides( $atts );
+
+	$slides = su_get_slides( $atts );
+	$slides = apply_filters( 'su/shortcode/custom_gallery/slides', $slides, $atts );
+
 	// Loop slides
 	if ( count( $slides ) ) {
 		// Prepare links target

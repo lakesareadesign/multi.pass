@@ -55,7 +55,7 @@ final class FLBuilderAJAX {
 		self::$actions[ $action ] = array(
 			'action' => $action,
 			'method' => $method,
-			'args'	 => $args,
+			'args'   => $args,
 		);
 	}
 
@@ -138,6 +138,8 @@ final class FLBuilderAJAX {
 		// FLBuilderAutoSuggest
 		self::add_action( 'fl_builder_autosuggest', 'FLBuilderAutoSuggest::init' );
 		self::add_action( 'get_autosuggest_values', 'FLBuilderAutoSuggest::get_values', array( 'fields' ) );
+
+		self::add_action( 'save_browser_stats', 'FLBuilderUsage::browser_stats', array( 'browser_data' ) );
 	}
 
 	/**
@@ -195,9 +197,9 @@ final class FLBuilderAJAX {
 		}
 
 		// Get the action data.
-		$action 	= self::$actions[ $action ];
-		$args   	= array();
-		$keys_args  = array();
+		$action    = self::$actions[ $action ];
+		$args      = array();
+		$keys_args = array();
 
 		// Build the args array.
 		foreach ( $action['args'] as $arg ) {
@@ -245,8 +247,8 @@ final class FLBuilderAJAX {
 	 * @return bool
 	 */
 	static private function verify_nonce() {
-		$post_data 	= FLBuilderModel::get_post_data();
-		$nonce 		= false;
+		$post_data = FLBuilderModel::get_post_data();
+		$nonce     = false;
 
 		if ( isset( $post_data['_wpnonce'] ) ) {
 			$nonce = $post_data['_wpnonce'];

@@ -3,8 +3,8 @@ Contributors: josh401
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=A9E5VNRBMVBCS
 Tags: wpedit, wp edit, editor, buttons, button, add, font, font style, font select, table, tables, visual editor, search, replace, colors, color, anchor, advance, advanced, links, link, popup, javascript, upgrade, update, admin, image, images, citations, preview, html, custom css, borders, pages, posts, colorful, php, php widget, shortcode, shortcodes, style, styles, plugin, login, excerpt, id, post, page, youtube, tinymce
 Requires at least: 3.9
-Tested up to: 4.9.6
-Stable tag: 4.0.3
+Tested up to: 4.9.8
+Stable tag: 4.0.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,9 +19,6 @@ Welcome to WP Edit. Finally, take control of the default WordPress editor and un
 WP Edit now uses a custom buttons API which allows other plugin/theme developers to add their editor buttons into the WP Edit button configuration; allowing a WP Edit user to place the plugin/theme buttons into any desired location.
 
 Refer your favorite plugin/theme developers to the [WP Edit Custom Buttons API](http://learn.wpeditpro.com/custom-buttons-api/) documentation to get your favorite buttons added to WP Edit.
-
-= Introduction =
-For a riveting video introduction into the possibilities available with WP Edit; please visit [Jupiter Jim's Marketing Team](http://jupiterjim.club/wordpress/tutorials/change-font-family-font-size-wordpress-4-4-1/).
 
 = Description =
 
@@ -105,6 +102,9 @@ OR...
 3. Eight tabs packed with options.
 
 == Changelog ==
+
+= 4.0.4 =
+* Updated function for php7 and backwards compatibility (to rid php warning). Thanks @kendawes!
 
 = 4.0.3 =
 * Updated readme.

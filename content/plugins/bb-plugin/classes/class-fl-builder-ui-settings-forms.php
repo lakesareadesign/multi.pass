@@ -61,6 +61,11 @@ class FLBuilderUISettingsForms {
 	static public function render_settings_config() {
 		if ( FLBuilderModel::is_builder_active() && isset( $_GET['fl_builder_load_settings_config'] ) ) {
 
+			// Increase available memory.
+			if ( function_exists( 'wp_raise_memory_limit' ) ) {
+				wp_raise_memory_limit( 'bb-plugin' );
+			}
+
 			$type = sanitize_key( $_GET['fl_builder_load_settings_config'] );
 			$handler = 'FLBuilderUISettingsForms::compress_settings_config';
 

@@ -186,49 +186,49 @@ class Smartcrawl_OnPage {
 		}
 
 		if ( Smartcrawl_Endpoint_Resolver::L_BLOG_HOME === $location ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-home'], (array) $post );
+			$title = smartcrawl_replace_vars( $smartcrawl_options['title-home'], (array) $post, false );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_STATIC_HOME === $location ) {
 			$post = get_post( get_option( 'page_for_posts' ) );
 			$fixed_title = smartcrawl_get_value( 'title' );
 			if ( $fixed_title ) {
-				$title = smartcrawl_replace_vars( $fixed_title, (array) $post );
+				$title = smartcrawl_replace_vars( $fixed_title, (array) $post, false );
 			} elseif ( ! empty( $post->post_type ) && isset( $smartcrawl_options[ 'title-' . $post->post_type ] ) && ! empty( $smartcrawl_options[ 'title-' . $post->post_type ] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post );
+				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post, false );
 			}
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_TAX_ARCHIVE === $location ) {
 			$term = $wp_query->get_queried_object();
 			$title = smartcrawl_get_term_meta( $term, $term->taxonomy, 'wds_title' );
 			if ( ! $title && isset( $smartcrawl_options[ 'title-' . $term->taxonomy ] ) && ! empty( $smartcrawl_options[ 'title-' . $term->taxonomy ] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $term->taxonomy ], (array) $term );
+				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $term->taxonomy ], (array) $term, false );
 			}
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_SEARCH === $location && ! empty( $smartcrawl_options['title-search'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-search'], (array) $wp_query->get_queried_object() );
+			$title = smartcrawl_replace_vars( $smartcrawl_options['title-search'], (array) $wp_query->get_queried_object(), false );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_AUTHOR_ARCHIVE === $location ) {
 			$author_id = get_query_var( 'author' );
 			$title = get_the_author_meta( 'wds_title', $author_id );
 			if ( empty( $title ) && isset( $smartcrawl_options['title-author'] ) && ! empty( $smartcrawl_options['title-author'] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options['title-author'], array() );
+				$title = smartcrawl_replace_vars( $smartcrawl_options['title-author'], array(), false );
 			}
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_DATE_ARCHIVE === $location && ! empty( $smartcrawl_options['title-date'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-date'], array( 'post_title' => $title ) );
+			$title = smartcrawl_replace_vars( $smartcrawl_options['title-date'], array( 'post_title' => $title ), false );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_PT_ARCHIVE === $location ) {
 			$title = $this->get_pt_archive_meta_setting( $smartcrawl_options, 'title-', $title );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_ARCHIVE === $location && ! empty( $smartcrawl_options['title-archive'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-archive'], array( 'post_title' => $title ) );
+			$title = smartcrawl_replace_vars( $smartcrawl_options['title-archive'], array( 'post_title' => $title ), false );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_404 === $location && ! empty( $smartcrawl_options['title-404'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-404'], array( 'post_title' => $title ) );
+			$title = smartcrawl_replace_vars( $smartcrawl_options['title-404'], array( 'post_title' => $title ), false );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_BP_GROUPS === $location ) {
 			$bp = buddypress();
 			$group = $bp->groups->current_group;
 			$title = smartcrawl_replace_vars( $smartcrawl_options['title-bp_groups'], array(
 				'name'        => $group->name,
 				'description' => $group->description,
-			) );
+			), false );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_BP_PROFILE === $location ) {
 			$title = smartcrawl_replace_vars( $smartcrawl_options['title-bp_profile'], array(
 				'full_name' => bp_get_displayed_user_fullname(),
 				'username'  => bp_get_displayed_user_username(),
-			) );
+			), false );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_SINGULAR === $location ) {
 			$object = get_queried_object();
 			$post_id = ! empty( $post->ID )
@@ -236,15 +236,15 @@ class Smartcrawl_OnPage {
 				: ( ! empty( $object->ID ) ? $object->ID : false );
 			$fixed_title = smartcrawl_get_value( 'title', $post_id );
 			if ( $fixed_title ) {
-				$title = smartcrawl_replace_vars( $fixed_title, (array) $post );
+				$title = smartcrawl_replace_vars( $fixed_title, (array) $post, false );
 			} elseif ( ! empty( $post->post_type ) && isset( $smartcrawl_options[ 'title-' . $post->post_type ] ) && ! empty( $smartcrawl_options[ 'title-' . $post->post_type ] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post );
+				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post, false );
 			}
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_WOO_SHOP === $location ) { // WooCommerce shop page.
 			$post_id = wc_get_page_id( 'shop' );
 			$fixed_title = smartcrawl_get_value( 'title', $post_id );
 			if ( $fixed_title ) {
-				$title = smartcrawl_replace_vars( $fixed_title, (array) $post );
+				$title = smartcrawl_replace_vars( $fixed_title, (array) $post, false );
 			}
 		}
 

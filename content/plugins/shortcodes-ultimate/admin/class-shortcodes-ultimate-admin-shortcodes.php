@@ -17,8 +17,8 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 	 * @param string  $plugin_file    The path of the main plugin file
 	 * @param string  $plugin_version The current version of the plugin
 	 */
-	public function __construct( $plugin_file, $plugin_version ) {
-		parent::__construct( $plugin_file, $plugin_version );
+	public function __construct( $plugin_file, $plugin_version, $plugin_prefix ) {
+		parent::__construct( $plugin_file, $plugin_version, $plugin_prefix );
 	}
 
 	/**
@@ -26,30 +26,40 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 	 *
 	 * @since   5.0.0
 	 */
-	public function admin_menu() {
+	public function add_menu_pages() {
 
 		/**
 		 * Submenu: Available shortcodes
 		 * admin.php?page=shortcodes-ultimate
 		 */
 		$this->add_submenu_page(
-			'shortcodes-ultimate',
+			rtrim( $this->plugin_prefix, '-_' ),
 			__( 'Available shortcodes', 'shortcodes-ultimate' ),
 			__( 'Available shortcodes', 'shortcodes-ultimate' ),
 			$this->get_capability(),
-			'shortcodes-ultimate',
+			rtrim( $this->plugin_prefix, '-_' ),
 			array( $this, 'the_menu_page' )
 		);
 
 	}
 
 	/**
-	 * Add help tab and set help sidebar at Add-ons page.
+	 * Display menu page.
+	 *
+	 * @since    5.0.8
+	 * @return   string   Menu page markup.
+	 */
+	public function the_menu_page() {
+		$this->the_template( 'admin/partials/pages/shortcodes' );
+	}
+
+	/**
+	 * Add help tabs and set help sidebar at Add-ons page.
 	 *
 	 * @since  5.0.0
 	 * @param WP_Screen $screen WP_Screen instance.
 	 */
-	public function add_help_tab( $screen ) {
+	public function add_help_tabs( $screen ) {
 
 		if ( ! $this->is_component_page() ) {
 			return;
@@ -496,6 +506,26 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 	 */
 	public function get_shortcode_description( $description ) {
 		return str_replace( array( '<b%value>', '</b>', '%su_skins_link%' ), '', $description );
+	}
+
+	/**
+	 * Filter to add action links at plugins screen.
+	 *
+	 * @since 5.0.8
+	 * @param array $links Default links.
+	 */
+	public function add_action_links( $links ) {
+
+		$plugin_links = array(
+			sprintf(
+				'<a href="%s">%s</a>',
+				esc_attr( $this->get_component_url() ),
+				esc_html( __( 'Shortcodes', 'shortcodes-ultimate' ) )
+			),
+		);
+
+		return array_merge( $plugin_links, $links );
+
 	}
 
 	/**

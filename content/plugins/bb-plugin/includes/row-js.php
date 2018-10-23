@@ -16,6 +16,7 @@ YUI({'logExclude': { 'yui': true } }).use('fl-slideshow', function(Y) {
 	var oldSlideshow = Y.one('.fl-node-<?php echo $id; ?> .fl-bg-slideshow .fl-slideshow'),
 		newSlideshow = new Y.FL.Slideshow({
 			autoPlay            : true,
+			bgslideshow         : true,
 			crop                : true,
 			loadingImageEnabled : false,
 			randomize           : <?php echo $settings->ss_randomize; ?>,

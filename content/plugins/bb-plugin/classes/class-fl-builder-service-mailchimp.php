@@ -33,11 +33,11 @@ final class FLBuilderServiceMailChimp extends FLBuilderService {
 		if ( $this->api_instance ) {
 			return $this->api_instance;
 		}
-		if ( ! class_exists( 'Mailchimp' ) ) {
+		if ( ! class_exists( 'FLBuilderMailChimp' ) ) {
 			require_once FL_BUILDER_DIR . 'includes/vendor/mailchimp/mailchimp.php';
 		}
 
-		$this->api_instance = new Mailchimp( $api_key );
+		$this->api_instance = new FLBuilderMailChimp( $api_key );
 
 		return $this->api_instance;
 	}

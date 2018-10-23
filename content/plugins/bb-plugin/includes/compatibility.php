@@ -367,7 +367,7 @@ add_action( 'template_redirect', 'fl_fix_tasty_recipes' );
 function fl_fix_tasty_recipes() {
 	if ( FLBuilderModel::is_builder_active() ) {
 		remove_action( 'wp_enqueue_editor', array( 'Tasty_Recipes\Assets', 'action_wp_enqueue_editor' ) );
-		remove_action( 'media_buttons',     array( 'Tasty_Recipes\Editor', 'action_media_buttons' ) );
+		remove_action( 'media_buttons', array( 'Tasty_Recipes\Editor', 'action_media_buttons' ) );
 	}
 }
 
@@ -408,7 +408,7 @@ function fl_builder_fa_fix() {
 
 	$queue = $wp_styles->queue;
 
-	$fa4 = array_search( 'font-awesome',   $queue );
+	$fa4 = array_search( 'font-awesome', $queue );
 	$fa5 = array_search( 'font-awesome-5', $queue );
 
 	// if fa4 is disabled and both are detected, load fa4 FIRST.
@@ -481,3 +481,54 @@ function fl_builder_not_load_mediaelement( $condition, $options ) {
 	}
 	return $condition;
 }
+
+/**
+ * Fix issue with Templator plugin.
+ * @since 2.1.6
+ */
+add_action( 'template_redirect', 'fl_builder_fix_templator' );
+function fl_builder_fix_templator() {
+	if ( FLBuilderModel::is_builder_active() && class_exists( 'Templator_Import' ) ) {
+		remove_action( 'media_buttons', array( Templator_Import::get_instance(), 'import_template_button' ) );
+	}
+}
+
+/**
+ * Fix issue with Prevent Direct Access Gold.
+ * @since 2.1.6
+ */
+add_action( 'template_redirect', 'fl_builder_fix_protector_gold' );
+function fl_builder_fix_protector_gold() {
+	if ( FLBuilderModel::is_builder_active() && class_exists( 'Prevent_Direct_Access_Gold' ) && ! function_exists( 'get_current_screen' ) ) {
+		function get_current_screen() {
+			$args         = new StdClass;
+			$args->id     = 'Beaver';
+			$args->action = 'Builder';
+			return $args;
+		}
+	}
+}
+
+/**
+ * Fix issue with WPMUDEV Smush It.
+ * @since 2.1.6
+ */
+add_action( 'template_redirect', 'fl_builder_fix_smush_it' );
+function fl_builder_fix_smush_it() {
+	if ( FLBuilderModel::is_builder_active() ) {
+		add_filter( 'wp_smush_enqueue', '__return_false' );
+	}
+}
+
+/**
+ * Whitelist files in bb-theme and bb-theme-builder in PHPCompatibility Checker plugin.
+ * @since 2.1.6
+ */
+add_filter( 'phpcompat_whitelist', 'fl_builder_bbtheme_compat_fix' );
+function fl_builder_bbtheme_compat_fix( $folders ) {
+
+	$folders[] = '*/bb-theme/includes/vendor/Less/*';
+	$folders[] = '*/bb-theme-builder/includes/post-grid-default-html.php';
+	$folders[] = '*/bb-theme-builder/includes/post-grid-default-css.php';
+	return $folders;
+};

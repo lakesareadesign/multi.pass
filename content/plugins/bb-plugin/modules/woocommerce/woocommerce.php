@@ -178,6 +178,8 @@ FLBuilder::register_module('FLWooCommerceModule', array(
 							'2'             => '2',
 							'3'             => '3',
 							'4'             => '4',
+							'5'             => '5',
+							'6'             => '6',
 						),
 					),
 					'orderby'       => array(
@@ -190,6 +192,7 @@ FLBuilder::register_module('FLWooCommerceModule', array(
 							'rating'        => __( 'Rating', 'fl-builder' ),
 							'date'          => __( 'Date', 'fl-builder' ),
 							'price'         => __( 'Price', 'fl-builder' ),
+							'id'			=> __( 'Product ID', 'fl-builder' ),
 						),
 					),
 					'order'         => array(

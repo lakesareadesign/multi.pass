@@ -1,14 +1,14 @@
-# Copyright (C) 2015 Nathan Rice
+# Copyright (C) 2018 StudioPress
 # This file is distributed under the GNU General Public License v2.0 (or later).
 msgid ""
 msgstr ""
-"Project-Id-Version: Simple Social Icons 1.0.14\n"
+"Project-Id-Version: Simple Social Icons 3.0.0\n"
 "Report-Msgid-Bugs-To: StudioPress <translations@studiopress.com>\n"
-"POT-Creation-Date: 2015-11-17 16:53:57+00:00\n"
+"POT-Creation-Date: 2018-10-10 13:33:10+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2015-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
 "Last-Translator: StudioPress <translations@studiopress.com>\n"
 "Language-Team: English <translations@studiopress.com>\n"
 "X-Generator: grunt-wp-i18n 0.4.4\n"
@@ -24,135 +24,183 @@ msgstr ""
 "X-Poedit-SearchPath-0: .\n"
 "X-Textdomain-Support: yes\n"
 
-#: simple-social-icons.php:124
-msgid "Bloglovin URI"
-msgstr ""
-
-#: simple-social-icons.php:125
-msgid "Bloglovin"
-msgstr ""
-
 #: simple-social-icons.php:128
-msgid "Dribbble URI"
+msgid "Behance URI"
 msgstr ""
 
 #: simple-social-icons.php:129
-msgid "Dribbble"
+msgid "Behance"
 msgstr ""
 
 #: simple-social-icons.php:132
-msgid "Email URI"
+msgid "Bloglovin URI"
 msgstr ""
 
 #: simple-social-icons.php:133
-msgid "Email"
+msgid "Bloglovin"
 msgstr ""
 
 #: simple-social-icons.php:136
-msgid "Facebook URI"
+msgid "Dribbble URI"
 msgstr ""
 
 #: simple-social-icons.php:137
-msgid "Facebook"
+msgid "Dribbble"
 msgstr ""
 
 #: simple-social-icons.php:140
-msgid "Flickr URI"
+msgid "Email URI"
 msgstr ""
 
 #: simple-social-icons.php:141
-msgid "Flickr"
+msgid "Email"
 msgstr ""
 
 #: simple-social-icons.php:144
-msgid "GitHub URI"
+msgid "Facebook URI"
 msgstr ""
 
 #: simple-social-icons.php:145
-msgid "GitHub"
+msgid "Facebook"
 msgstr ""
 
 #: simple-social-icons.php:148
-msgid "Google+ URI"
+msgid "Flickr URI"
 msgstr ""
 
 #: simple-social-icons.php:149
-msgid "Google+"
+msgid "Flickr"
 msgstr ""
 
 #: simple-social-icons.php:152
-msgid "Instagram URI"
+msgid "GitHub URI"
 msgstr ""
 
 #: simple-social-icons.php:153
-msgid "Instagram"
+msgid "GitHub"
 msgstr ""
 
 #: simple-social-icons.php:156
-msgid "Linkedin URI"
+msgid "Google+ URI"
 msgstr ""
 
 #: simple-social-icons.php:157
-msgid "Linkedin"
+msgid "Google+"
 msgstr ""
 
 #: simple-social-icons.php:160
-msgid "Pinterest URI"
+msgid "Instagram URI"
 msgstr ""
 
 #: simple-social-icons.php:161
-msgid "Pinterest"
+msgid "Instagram"
 msgstr ""
 
 #: simple-social-icons.php:164
-msgid "RSS URI"
+msgid "Linkedin URI"
 msgstr ""
 
 #: simple-social-icons.php:165
-msgid "RSS"
+msgid "LinkedIn"
 msgstr ""
 
 #: simple-social-icons.php:168
-msgid "StumbleUpon URI"
+msgid "Medium URI"
 msgstr ""
 
 #: simple-social-icons.php:169
-msgid "StumbleUpon"
+msgid "Medium"
 msgstr ""
 
 #: simple-social-icons.php:172
-msgid "Tumblr URI"
+msgid "Periscope URI"
 msgstr ""
 
 #: simple-social-icons.php:173
-msgid "Tumblr"
+msgid "Periscope"
 msgstr ""
 
 #: simple-social-icons.php:176
-msgid "Twitter URI"
+msgid "Phone URI"
 msgstr ""
 
 #: simple-social-icons.php:177
-msgid "Twitter"
+msgid "Phone"
 msgstr ""
 
 #: simple-social-icons.php:180
-msgid "Vimeo URI"
+msgid "Pinterest URI"
 msgstr ""
 
 #: simple-social-icons.php:181
-msgid "Vimeo"
+msgid "Pinterest"
 msgstr ""
 
 #: simple-social-icons.php:184
-msgid "YouTube URI"
+msgid "RSS URI"
 msgstr ""
 
 #: simple-social-icons.php:185
+msgid "RSS"
+msgstr ""
+
+#: simple-social-icons.php:188
+msgid "Snapchat URI"
+msgstr ""
+
+#: simple-social-icons.php:189
+msgid "Snapchat"
+msgstr ""
+
+#: simple-social-icons.php:192
+msgid "StumbleUpon URI"
+msgstr ""
+
+#: simple-social-icons.php:193
+msgid "StumbleUpon"
+msgstr ""
+
+#: simple-social-icons.php:196
+msgid "Tumblr URI"
+msgstr ""
+
+#: simple-social-icons.php:197
+msgid "Tumblr"
+msgstr ""
+
+#: simple-social-icons.php:200
+msgid "Twitter URI"
+msgstr ""
+
+#: simple-social-icons.php:201
+msgid "Twitter"
+msgstr ""
+
+#: simple-social-icons.php:204
+msgid "Vimeo URI"
+msgstr ""
+
+#: simple-social-icons.php:205
+msgid "Vimeo"
+msgstr ""
+
+#: simple-social-icons.php:208
+msgid "Xing URI"
+msgstr ""
+
+#: simple-social-icons.php:209
+msgid "xing"
+msgstr ""
+
+#: simple-social-icons.php:212
+msgid "YouTube URI"
+msgstr ""
+
+#: simple-social-icons.php:213
 msgid "YouTube"
 msgstr ""
 
-#: simple-social-icons.php:191
+#: simple-social-icons.php:238
 msgid "Displays select social icons."
 msgstr ""
 
@@ -160,78 +208,78 @@ msgstr ""
 msgid "Simple Social Icons"
 msgstr ""
 
-#: simple-social-icons.php:276
+#: simple-social-icons.php:325
 msgid "Title:"
 msgstr ""
 
-#: simple-social-icons.php:278
+#: simple-social-icons.php:327
 msgid "Open links in new window?"
 msgstr ""
 
-#: simple-social-icons.php:280
+#: simple-social-icons.php:331
 msgid "Icon Size"
 msgstr ""
 
-#: simple-social-icons.php:282
+#: simple-social-icons.php:333
 msgid "Icon Border Radius:"
 msgstr ""
 
-#: simple-social-icons.php:284
+#: simple-social-icons.php:335
 msgid "Border Width:"
 msgstr ""
 
-#: simple-social-icons.php:287
+#: simple-social-icons.php:338
 msgid "Alignment"
 msgstr ""
 
-#: simple-social-icons.php:289
+#: simple-social-icons.php:340
 msgid "Align Left"
 msgstr ""
 
-#: simple-social-icons.php:290
+#: simple-social-icons.php:341
 msgid "Align Center"
 msgstr ""
 
-#: simple-social-icons.php:291
+#: simple-social-icons.php:342
 msgid "Align Right"
 msgstr ""
 
-#: simple-social-icons.php:297
+#: simple-social-icons.php:348
 msgid "Icon Color:"
 msgstr ""
 
-#: simple-social-icons.php:299
+#: simple-social-icons.php:350
 msgid "Icon Hover Color:"
 msgstr ""
 
-#: simple-social-icons.php:301
+#: simple-social-icons.php:352
 msgid "Background Color:"
 msgstr ""
 
-#: simple-social-icons.php:303
+#: simple-social-icons.php:354
 msgid "Background Hover Color:"
 msgstr ""
 
-#: simple-social-icons.php:305
+#: simple-social-icons.php:356
 msgid "Border Color:"
 msgstr ""
 
-#: simple-social-icons.php:307
+#: simple-social-icons.php:358
 msgid "Border Hover Color:"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "http://wordpress.org/plugins/simple-social-icons/"
+msgid "https://wordpress.org/plugins/simple-social-icons/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "A simple, CSS and icon driven social icons widget."
+msgid "A simple CSS and SVG driven social icons widget."
 msgstr ""
 
 #. Author of the plugin/theme
-msgid "Nathan Rice"
+msgid "StudioPress"
 msgstr ""
 
 #. Author URI of the plugin/theme
-msgid "http://www.nathanrice.net/"
+msgid "https://www.studiopress.com/"
 msgstr ""

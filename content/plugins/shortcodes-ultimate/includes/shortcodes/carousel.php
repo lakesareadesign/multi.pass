@@ -164,8 +164,10 @@ function su_shortcode_carousel( $atts = null, $content = null ) {
 			'speed'      => 600,
 			'class'      => ''
 		), $atts, 'carousel' );
-	// Get slides
-	$slides = (array) su_get_slides( $atts );
+
+	$slides = su_get_slides( $atts );
+	$slides = apply_filters( 'su/shortcode/carousel/slides', $slides, $atts );
+
 	// Loop slides
 	if ( count( $slides ) ) {
 		// Prepare unique ID

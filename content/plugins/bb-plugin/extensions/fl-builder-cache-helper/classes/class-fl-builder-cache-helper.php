@@ -6,6 +6,8 @@ class Plugin {
 
 	private $filters = array();
 
+	private static $plugins = array();
+
 	private $actions = array(
 			'fl_builder_cache_cleared',
 			'fl_builder_after_save_layout',
@@ -77,11 +79,6 @@ class Plugin {
 	 */
 	public function load_files() {
 
-		$settings = self::get_settings();
-		if ( ! $settings['enabled'] ) {
-			return false;
-		}
-
 		foreach ( glob( FL_BUILDER_CACHE_HELPER_DIR . 'plugins/*.php' ) as $file ) {
 
 			$classname = 'FLCacheClear\\' . ucfirst( str_replace( '.php', '', basename( $file ) ) );
@@ -91,6 +88,19 @@ class Plugin {
 			$actions = isset( $class->actions ) ? $class->actions : $this->actions;
 			$filters = isset( $class->filters ) ? $class->filters : $this->filters;
 
+			if ( isset( $class->name ) ) {
+				self::$plugins[ $classname ]['name'] = $class->name;
+			}
+
+			if ( isset( $class->url ) ) {
+				self::$plugins[ $classname ]['url'] = $class->url;
+			}
+
+			$settings = self::get_settings();
+			if ( ! $settings['enabled'] ) {
+				return false;
+			}
+
 			if ( ! empty( $actions ) ) {
 				$this->add_actions( $class, $actions );
 			}
@@ -98,6 +108,22 @@ class Plugin {
 				$this->add_filters( $class, $filters );
 			}
 		}
+	}
+
+	/**
+	 * Return list of plugins to be used on admin page.
+	 */
+	public static function get_plugins() {
+		$plugins = self::$plugins;
+		$output  = '';
+		foreach ( $plugins as $plugin ) {
+			if ( isset( $plugin['url'] ) ) {
+				$output .= sprintf( '<li><a target="_blank" href="%s">%s</a>', $plugin['url'], $plugin['name'] );
+			} else {
+				$output .= sprintf( '<li>%s</li>', $plugin['name'] );
+			}
+		}
+		return '<ul>' . $output . '</ul>';
 	}
 
 	function add_actions( $class, $actions ) {

@@ -3,7 +3,7 @@
 Plugin Name: FancyBox for WordPress
 Plugin URI: https://wordpress.org/plugins/fancybox-for-wordpress/
 Description: Integrates FancyBox by Janis Skarnelis into WordPress.
-Version: 3.0.13
+Version: 3.0.14
 Author: Colorlib
 Author URI: https://colorlib.com/
 
@@ -20,7 +20,7 @@ Author URI: https://colorlib.com/
  * Constants
  */
 
-define( 'FBFW_VERSION', '3.0.12' );
+define( 'FBFW_VERSION', '3.0.14' );
 define( 'FBFW_PATH', plugin_dir_path(__FILE__) );
 define( 'FBFW_URL', plugin_dir_url(__FILE__) );
 

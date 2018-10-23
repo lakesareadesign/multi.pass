@@ -47,7 +47,7 @@
 				<# for( var i in rows) {
 					var row = rows[i];
 					image = row.image,
-					hasImage = !_.isUndefined(image) && null !== image && !image.endsWith('blank.jpg'),
+					hasImage = image && !image.endsWith('blank.jpg'),
 					hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '' ;
 					var globalClass = row.isGlobal ? ' fl-builder-block-global' : '';
 				#>
@@ -90,7 +90,7 @@
 					<# for( var i in columns) {
 						var column = columns[i];
 						image = column.image,
-						hasImage = !_.isUndefined(image) && !image.endsWith('blank.jpg'),
+						hasImage = image && !image.endsWith('blank.jpg'),
 						hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '' ;
 						var globalClass = column.isGlobal ? ' fl-builder-block-global' : '';
 					#>
@@ -132,7 +132,7 @@
 				<# for( var i in modules) {
 					var module = modules[i];
 					image = module.image,
-					hasImage = !_.isUndefined(image) && !image.endsWith('blank.jpg'),
+					hasImage = image && !image.endsWith('blank.jpg'),
 					hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '' ;
 					var globalClass = module.isGlobal ? ' fl-builder-block-global' : '';
 				#>
@@ -181,7 +181,7 @@
 					image = module.image,
 					globalClass = module.isGlobal ? ' fl-builder-block-global' : '',
 					image = module.image,
-					hasImage = !_.isUndefined( image ) && !image.endsWith( 'blank.jpg' ),
+					hasImage = image && !image.endsWith( 'blank.jpg' ),
 					hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '' ;
 			#>
 			<span class="fl-builder-block fl-builder-block-saved-module {{globalClass}} {{hasImageClass}}" data-id="{{module.id}}">
@@ -227,7 +227,7 @@
 					image = column.image,
 					globalClass = column.isGlobal ? ' fl-builder-block-global' : '',
 					image = column.image,
-					hasImage = !_.isUndefined( image ) && !image.endsWith( 'blank.jpg' ),
+					hasImage = image && !image.endsWith( 'blank.jpg' ),
 					hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '' ;
 			#>
 			<span class="fl-builder-block fl-builder-block-saved-column {{globalClass}} {{hasImageClass}}" data-id="{{column.id}}">
@@ -272,12 +272,12 @@
 				var row = rows[i],
 					globalClass = row.isGlobal ? 'fl-builder-block-global' : '',
 					image = row.image,
-					hasImage = !_.isUndefined( image ) && null !== image && !image.endsWith( 'blank.jpg' ),
+					hasImage = image && !image.endsWith( 'blank.jpg' ),
 					hasImageClass = hasImage ? 'fl-builder-block-has-thumbnail' : '' ;
 			#>
 			<span class="fl-builder-block fl-builder-block-saved-row {{globalClass}} {{hasImageClass}}" data-id="{{row.id}}">
 				<span class="fl-builder-block-content">
-					<# if (!_.isUndefined(image) && !image.endsWith('blank.jpg')) { #>
+					<# if (image && !image.endsWith('blank.jpg')) { #>
 					<div class="fl-builder-block-thumbnail" style="background-image:url({{image}})"></div>
 					<# } #>
 					<div class="fl-builder-block-details">

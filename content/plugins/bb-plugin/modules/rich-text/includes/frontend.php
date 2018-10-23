@@ -3,7 +3,7 @@
 
 	global $wp_embed;
 
-	echo wpautop( $wp_embed->autoembed( $settings->text ) );
+	echo wpautop( do_shortcode( $wp_embed->autoembed( $settings->text ) ) );
 
 	?>
 </div>

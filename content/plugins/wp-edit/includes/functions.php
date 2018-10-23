@@ -761,7 +761,16 @@ function wp_edit_user_specific_init() {
 	// Default Visual Tab
 	if(isset($opts_user_meta['default_visual_tab']) && $opts_user_meta['default_visual_tab'] === '1') {
 		
-		add_filter( 'wp_default_editor', create_function('', 'return "tmce";') );
+		// If php version 7 or higher
+		if ( strnatcmp( phpversion(),'7.0.0') >= 0 ) {
+			
+			add_filter( 'wp_default_editor', function() { return 'tmce'; } );
+		}
+		// Else using php below version 7
+		else {
+			
+			add_filter( 'wp_default_editor', create_function('', 'return "tmce";') );
+		}
 	}
 	
 	// Disable Dashboard Widget

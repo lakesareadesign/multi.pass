@@ -45,7 +45,7 @@ final class FL_Debug {
 	}
 
 	private static function formatbytes( $size, $precision = 2 ) {
-		$base = log( $size, 1024 );
+		$base     = log( $size, 1024 );
 		$suffixes = array( '', 'K', 'M', 'G', 'T' );
 
 		return round( pow( 1024, $base - floor( $base ) ), $precision ) . $suffixes[ floor( $base ) ];
@@ -71,7 +71,7 @@ final class FL_Debug {
 
 	private static function get_mu_plugins() {
 		$plugins_data = get_mu_plugins();
-		$plugins = array();
+		$plugins      = array();
 
 		foreach ( $plugins_data as $plugin_path => $plugin ) {
 			$plugins[] = sprintf( '%s version %s by %s', $plugin['Name'], $plugin['Version'], $plugin['Author'] );
@@ -86,6 +86,7 @@ final class FL_Debug {
 	private static function divider() {
 		return '----------------------------------------------';
 	}
+
 
 	private static function prepare_tests() {
 
@@ -128,6 +129,12 @@ final class FL_Debug {
 		self::register( 'fl_debug', $args );
 
 		$args = array(
+			'name' => 'FL Modsec Fix',
+			'data' => defined( 'FL_BUILDER_MODSEC_FIX' ) && FL_BUILDER_MODSEC_FIX ? 'Yes' : 'No',
+		);
+		self::register( 'fl_modsec', $args );
+
+		$args = array(
 			'name' => 'SSL Enabled',
 			'data' => is_ssl() ? 'Yes' : 'No',
 		);
@@ -158,7 +165,7 @@ final class FL_Debug {
 		self::register( 'themes', $args );
 
 		$theme = wp_get_theme();
-		$args = array(
+		$args  = array(
 			'name' => 'Active Theme',
 			'data' => array(
 				sprintf( '%s - v%s', $theme->get( 'Name' ), $theme->get( 'Version' ) ),
@@ -180,12 +187,12 @@ final class FL_Debug {
 		self::register( 'wp_plugins', $args );
 
 		$defaults = array(
-			'active' => array(),
+			'active'   => array(),
 			'deactive' => array(),
 		);
 
 		$plugins = wp_parse_args( self::get_plugins(), $defaults );
-		$args = array(
+		$args    = array(
 			'name' => 'Active Plugins',
 			'data' => $plugins['active'],
 		);
@@ -345,7 +352,7 @@ final class FL_Debug {
 
 		} elseif ( class_exists( 'FLUpdater' ) ) {
 			$subscription = FLUpdater::get_subscription_info();
-			$args = array(
+			$args         = array(
 				'name' => 'Beaver Builder License',
 				'data' => ( $subscription->active ) ? 'Active' : 'Not Active',
 			);
@@ -393,7 +400,7 @@ final class FL_Debug {
 		self::register( 'up_htaccess', $args );
 
 		// detect uploads folder .htaccess file and display it if found.
-		$uploads = wp_upload_dir( null, false );
+		$uploads          = wp_upload_dir( null, false );
 		$uploads_htaccess = trailingslashit( $uploads['basedir'] ) . '.htaccess';
 		$root_htaccess    = trailingslashit( ABSPATH ) . '.htaccess';
 
@@ -401,7 +408,7 @@ final class FL_Debug {
 			ob_start();
 			readfile( $root_htaccess );
 			$htaccess = ob_get_clean();
-			$args = array(
+			$args     = array(
 				'name' => $root_htaccess . "\n",
 				'data' => $htaccess,
 			);
@@ -411,7 +418,7 @@ final class FL_Debug {
 			ob_start();
 			readfile( $uploads_htaccess );
 			$htaccess = ob_get_clean();
-			$args = array(
+			$args     = array(
 				'name' => $uploads_htaccess . "\n",
 				'data' => $htaccess,
 			);
