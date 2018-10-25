@@ -412,7 +412,8 @@ input[type=radio]:checked + label {
 
 .metaslider #poststuff .right .ms-postbox .inside {
     padding: 1rem;
-    margin: 0;
+	margin: 0;
+    background: white;
 }
 
 .ms-postbox .handlediv {
@@ -883,14 +884,15 @@ input[type=radio]:checked + label {
  /* Slider UI wrap */
 .metaslider-ui {
     max-width: 1200px;
-    margin: 0 auto;
+	margin: 0 auto;
+	padding: 0 2rem;
 }
 .metaslider-ui .metaslider-inner {
-    background: rgba(224, 224, 224, 0.25);
-    border: 1px solid #ccc;
+    /* background: rgba(224, 224, 224, 0.25); */
+    /* border: 1px solid #ccc; */
     border-top: 0;
     box-sizing: border-box;
-    padding: 0 1rem 0;
+    /* padding: 0 1rem 0; */
 }
 .metaslider-ui #post-body-content {
     margin-bottom: 0;
@@ -1604,7 +1606,8 @@ input[type="radio"] {
     box-sizing: border-box;
  }
  #ms-notifications {
-    position: fixed;
+	position: fixed;
+	z-index: 9999999;
     overflow: hidden;
     right: 0.5rem;
     bottom: 0.5rem;

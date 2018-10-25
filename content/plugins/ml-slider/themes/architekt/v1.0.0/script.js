@@ -41,6 +41,7 @@
 				var $thumbNav = $(this).find('.filmstrip, .flex-control-thumbs, .nivo-thumbs-enabled');				
 				// gets the slideshow's height
 				var height = get_max_height($(this).find('.ms-image > img, .rslides > li > img, .nivoSlider > img'));
+
 				// if has filmstrip nav
 				if ($(this).find('.filmstrip').length) {
 					// var $thumbNav = $(this).find('.filmstrip');
@@ -63,11 +64,14 @@
 					
 					// margin_bottom += thumbs_height + 15;
 				} else if ($(this).find('.flex-control-thumbs, .nivo-thumbs-enabled').length) {
-					var thumbs_height = $thumbNav.find('img').prop('height'); 					
+					// var thumbs_height = $thumbNav.find('img').prop('height'); 					
 					// thumbnails for flex
-					$(this).find('.flex-control-nav').css({'top': height, 'bottom': 'auto'});
+					// $(this).find('.flex-control-nav').css({'top': height, 'bottom': 'auto'});
 					// Arrows
-					$(this).find('.flex-direction-nav, .nivo-directionNav').css({'top': Math.round(height + $thumbNav.outerHeight() / 2 - 6), 'bottom': 'auto'});
+					$(this).find('.flex-direction-nav, .nivo-directionNav').css({
+						'top': Math.round(height + $thumbNav.outerHeight() + 6),
+						'bottom': 'auto'
+					});
 					margin_bottom += $thumbNav.outerHeight();
 					if ($(this).find('.flex-direction-nav').length) {
 						$(this).css('padding-bottom', margin_bottom + 15);

@@ -1,4 +1,4 @@
-All images in this folder were downloaded from unsplash.com with under the following license. The file names have been left unaltered from their original state, butt he images have been optimized for size for use in this plugin.
+All images in this folder were downloaded from unsplash.com under the following license. The images have been optimized for size for use in this plugin, but otherwise left unaltered. You can find the author of the image in each file name.
 
 From https://unsplash.com/license
 

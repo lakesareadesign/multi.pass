@@ -2,7 +2,7 @@
 
 if (!defined('ABSPATH')) die('No direct access.');
 
-/*
+/**
  * Main theme file
  */
 class MetaSlider_Theme_Architekt extends MetaSlider_Theme_Base {

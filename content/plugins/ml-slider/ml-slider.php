@@ -6,7 +6,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.9.1
+ * Version:     3.10.0
  * Author:      Team Updraft
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -32,7 +32,7 @@ class MetaSliderPlugin {
      *
      * @var string
      */
-    public $version = '3.9.1';
+    public $version = '3.10.0';
 
     /**
      * Specific SLider
@@ -146,7 +146,7 @@ class MetaSliderPlugin {
      */
     private function includes() {
 		require_once(METASLIDER_PATH . 'admin/lib/helpers.php');
-		require_once(METASLIDER_PATH . 'admin/lib/temporary.php');
+		// require_once(METASLIDER_PATH . 'admin/lib/temporary.php');
         $autoload_is_disabled = defined( 'METASLIDER_AUTOLOAD_CLASSES' ) && METASLIDER_AUTOLOAD_CLASSES === false;
         if ( function_exists( "spl_autoload_register" ) && ! ( $autoload_is_disabled ) ) {
 
@@ -633,7 +633,7 @@ class MetaSliderPlugin {
 			$old_settings = get_post_meta($slider_id, 'ml-slider_settings', true);
 
             // convert submitted checkbox values from 'on' or 'off' to boolean values
-            $checkboxes = apply_filters("metaslider_checkbox_settings", array('noConflict', 'fullWidth', 'hoverPause', 'links', 'reverse', 'random', 'printCss', 'printJs', 'smoothHeight', 'center', 'carouselMode', 'autoPlay', 'firstSlideFadeIn'));
+            $checkboxes = apply_filters("metaslider_checkbox_settings", array('noConflict', 'fullWidth', 'hoverPause', 'links', 'reverse', 'random', 'printCss', 'printJs', 'smoothHeight', 'center', 'carouselMode', 'autoPlay', 'firstSlideFadeIn', 'responsive_thumbs'));
 
 			foreach ($checkboxes as $checkbox) {
 				$new_settings[$checkbox] = (isset($new_settings[$checkbox]) && 'on' == $new_settings[$checkbox]) ? 'true' : 'false';
@@ -1408,30 +1408,8 @@ class MetaSliderPlugin {
 							<?php } else {?>
                                 <div class="ms-postbox" id="metaslider_configuration">
                                     <div class='configuration metaslider-actions'>
-										<?php 
-											$slideshow_id = $this->slider->id;
-											$this->themes = MetaSlider_Themes::get_instance();
-											$theme = $this->themes->get_current_theme($slideshow_id);
-											
-											// This is temporary to get the legacy theme. This block can be deleted after this release. Not really sure this is necessary though (i.e has additional checks in other parts of the code.)
-											if (!$theme) {
-												if (!class_exists('MetaSlider_Slideshow_Settings')) {
-													require_once plugin_dir_path(__DIR__) . 'Settings.php';
-												}
-
-												$settings = new MetaSlider_Slideshow_Settings($slideshow_id);
-												if ($legacy_theme = $settings->get_single('theme')) {
-													update_post_meta($slideshow_id, 'metaslider_slideshow_theme', $legacy_theme);
-												}
-
-												$theme = $this->themes->get_current_theme($slideshow_id);
-											} else {
-												$theme = isset($theme['folder']) ? $theme['folder'] : 'none';
-											}
-										?>
 										<metaslider-preview
-											slideshow-id="<?php echo $slideshow_id; ?>"
-											theme-identifier="<?php echo $theme; ?>"
+											slideshow-id="<?php echo $this->slider->id; ?>"
 											:keyboard-control="[18, 80]"
 										></metaslider-preview>
                                         <button class='alignright button button-primary' type='submit' name='save' id='ms-save'>
@@ -1571,19 +1549,15 @@ class MetaSliderPlugin {
                                     </div>
 								</div><?php
                                 $theme = metaslider_themes::get_instance()->get_current_theme($this->slider->id);
-                                if (is_array($theme)) unset($theme['images']);
+								if (is_array($theme)) unset($theme['images']);
+								$theme_error = is_wp_error($theme) ? $theme->get_error_message() : '';
+								if (is_wp_error($theme)) $theme = false;
                                 ?>
-								<!--
 								<metaslider-theme-viewer
-									theme-directory-url="<?php // echo METASLIDER_THEMES_URL; ?>"
-									v-bind:initial-theme='<?php // echo json_encode($theme); ?>'>
+									theme-directory-url="<?php echo METASLIDER_THEMES_URL; ?>"
+									incoming-error-message="<?php echo $theme_error; ?>"
+									v-bind:initial-theme='<?php echo json_encode($theme); ?>'>
 								</metaslider-theme-viewer>
-								-->
-								<div class="ms-postbox callout-box" style="display:none;">
-									<div class="inside wp-clearfix metaslider-theme-viewer">
-										<p><strong><i style="position:relative;top:4px;left:-4px"><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg></i><?php _e('Coming Soon', 'ml-slider'); ?><i style="position:relative;top:4px;right:-4px"><svg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-star'><polygon points='12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2'/></svg></i></strong><?php _e('We\'re bringing themes to MetaSlider! Preview and apply a professional theme to really make your website stand out.', 'ml-slider')?> <a class="ms-ghost-button" href="https://www.metaslider.com/metasliders-bringing-out-new-slider-themes-and-theyre-completely-free/" target="_blank"><?php _e('Read about it here', 'ml-slider'); ?></a></p>
-									</div>
-								</div>
                                 <div class="ms-postbox">
 									<?php echo $this->shortcode_tip(); ?>
                                 </div>
@@ -2106,7 +2080,7 @@ class MetaSliderPlugin {
 		'<div class="inside wp-clearfix metaslider-shortcode">' .
 
 		// Description
-		'<p>' . __('To display your slideshow using id or title , add the following shortcodes (in orange) to your page. If adding the slideshow to your theme files, additionally include the surrounding PHP function (in gray).', 'ml-slider') . '</p>' .
+		'<p>' . __('To display your slideshow using id or title, add the following shortcodes (in orange) to your page. If adding the slideshow to your theme files, additionally include the surrounding PHP function (in gray).', 'ml-slider') . '</p>' .
 		
 		// Shortcode
 		'<pre class="ms-entire" id="ms-entire-code">&lt;?php echo do_shortcode(\'<br>&emsp;&emsp;<div class="ms-shortcode">[metaslider <span id="ms-shortcode-id">id="' . $this->slider->id . '"</span><span style="display:none" id="ms-shortcode-title">title="' . get_the_title($this->slider->id) . '"</span>]</div><br>\'); ?&gt;</pre>' .

@@ -118,6 +118,8 @@ class MetaSlider {
 			'autoPlay' => true,
 			'thumb_width' => 150,
 			'thumb_height' => 100,
+			'responsive_thumbs' => true,
+			'thumb_min_width' => 100,
 			'fullWidth' => false,
 			'noConflict' => true
 		);
@@ -130,6 +132,8 @@ class MetaSlider {
      * @return WP_Query
      */
     public function get_slides() {
+		$slideshow_id = $this->id;
+		$slideshow_settings = $this->settings;
         $args = array(
             'force_no_custom_order' => true,
             'orderby' => 'menu_order',
@@ -143,18 +147,23 @@ class MetaSlider {
                 array(
                     'taxonomy' => 'ml-slider',
                     'field' => 'slug',
-                    'terms' => $this->id
+                    'terms' => $slideshow_id
                 )
             )
         );
 
-        // if there is a var set to include the trashed slides, then include it
-        if (metaslider_viewing_trashed_slides($this->id)) {
+        // If there is a var set to include the trashed slides, then include it
+        if (metaslider_viewing_trashed_slides($slideshow_id)) {
             $args['post_status'] = array('trash');
         }
 
-        $args = apply_filters('metaslider_populate_slides_args', $args, $this->id, $this->settings);
-        return new WP_Query($args);
+		// Filter to update the args before the query is built
+		$args = apply_filters('metaslider_populate_slides_args', $args, $slideshow_id, $slideshow_settings);
+
+		$the_query = new WP_Query($args);
+		
+		// Filter to alter the query itself if needed
+		return apply_filters('metaslider_get_slides_query', $the_query, $slideshow_id, $slideshow_settings);
     }
 
     /**
@@ -164,37 +173,42 @@ class MetaSlider {
      */
     private function populate_slides() {
         $slides = array();
+		$slideshow_id = $this->id;
 
-        $query = $this->get_slides();
+		// Filter to alter the slides query before they are "built"
+        $query = apply_filters('metaslider_populate_slides_query', $this->get_slides(), $slideshow_id);
 
-        while ( $query->have_posts() ) {
-            $query->next_post();
+        while ($query->have_posts()) {
+			$query->next_post();
+			$slide_id = $query->post->ID;
 
-            $type = get_post_meta( $query->post->ID, 'ml-slider_type', true );
+            $type = get_post_meta($slide_id, 'ml-slider_type', true);
             $type = $type ? $type : 'image'; // backwards compatibility, fall back to 'image'
 
-            // skip over deleted media files
-            if ( $type == 'image' && get_post_type( $query->post->ID ) == 'ml-slide' && ! get_post_thumbnail_id( $query->post->ID ) ) {
+            // Skip over deleted media files
+            if ('image' === $type && 'ml-slide' === get_post_type($slide_id) && !get_post_thumbnail_id($slide_id)) {
                 continue;
             }
 
-            if ( has_filter( "metaslider_get_{$type}_slide" ) ) {
-                $return = apply_filters( "metaslider_get_{$type}_slide", $query->post->ID, $this->id );
+			// As far as I can tell this filter is the "meat" of this plugin, so this check should always pass
+			// for image slides, but handles showing only pro slides when the filter is available
+            if (has_filter("metaslider_get_{$type}_slide")) {
 
-                if ( is_array( $return ) ) {
-                    $slides = array_merge( $slides, $return );
-                } else {
-                    $slides[] = $return;
-                }
+				// Note: Extra $slide_id parameter added v3.10.0 as this filter is useless without it.
+				$slide = apply_filters("metaslider_get_{$type}_slide", $slide_id, $slideshow_id, $slide_id);
+
+				// The filter above can handle an array or a string, but it should be an array after this
+				$slides = array_merge($slides, (array) $slide);
             }
         }
 
-        // apply random setting
-        if ( $this->get_setting( 'random' ) == 'true' && !is_admin() ) {
-            shuffle( $slides );
+        // Shuffle slides as needed
+        if (!is_admin() && filter_var($this->get_setting('random'), FILTER_VALIDATE_BOOLEAN)) {
+            shuffle($slides);
         }
 
-        $this->slides = $slides;
+		// Last chance to add/remove/manipulate slide output (Added 3.10.0)
+        $this->slides = apply_filters("metaslider_filter_available_slides", $slides, $slideshow_id);
 
         return $this->slides;
     }
@@ -312,7 +326,6 @@ class MetaSlider {
         $script .= "\n            $('#" . $identifier . "')." . $this->js_function . "({ ";
         $script .= "\n                " . $this->get_javascript_parameters();
         $script .= "\n            });";
-        $script .= "\n            $(document).trigger('metaslider/initialized', '#$identifier');";
         $script .= $custom_js_after;
         $script .= "\n            $(document).trigger('metaslider/initialized', '#$identifier');";
         $script .= "\n        };";

@@ -103,7 +103,7 @@
     width: 170px;
   }
 }
-/* Change vertical nav to accordeon style on mobile screens */
+/* Change vertical nav to accordeon style on mobile screens */							 			 	 	 		  
 @media screen and (max-width: 782px) {
   .lst-vnav {
     margin-bottom: 40px;
@@ -161,4 +161,4 @@
 }
 
 
-/* 133620-1536712513-au */
+/* 133620-1540492234-au */

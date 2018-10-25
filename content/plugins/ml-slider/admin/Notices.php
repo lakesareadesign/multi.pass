@@ -212,7 +212,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
         return array(
 			'blackfriday2018' => array(
-				'title' => __('Black Friday - 50% off the MetaSlider Add-on Pack until November 30th', 'ml-slider'),
+				'title' => __('Black Friday - 20% off the MetaSlider Add-on Pack until November 30th', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/black_friday.png',
 				'button_link' => 'metaslider',
@@ -225,7 +225,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'supported_positions' => array('header', 'dashboard'),
 			),
 			'christmas2018' => array(
-				'title' => __('Christmas sale - 50% off the MetaSlider Add-on Pack until December 25th', 'ml-slider'),
+				'title' => __('Christmas sale - 20% off the MetaSlider Add-on Pack until December 25th', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/christmas.png',
 				'button_link' => 'metaslider',
@@ -238,7 +238,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'supported_positions' => array('header', 'dashboard'),
 			),
 			'newyear2019' => array(
-				'title' => __('Happy New Year - 50% off the MetaSlider Add-on Pack until January 14th', 'ml-slider'),
+				'title' => __('Happy New Year - 20% off the MetaSlider Add-on Pack until January 14th', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/new_year.png',
 				'button_link' => 'metaslider',
@@ -250,29 +250,29 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
                 'hide_time' => '',
 				'supported_positions' => array('header', 'dashboard'),
 			),
-			'spring2018' => array(
-				'title' => __('Spring sale - 50% off the MetaSlider Add-on Pack until April 30th', 'ml-slider'),
+			'spring2019' => array(
+				'title' => __('Spring sale - 20% off the MetaSlider Add-on Pack until April 30th', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/spring.png',
 				'button_link' => 'metaslider',
 				'button_meta' => 'ml-slider',
-				'dismiss_time' => 'spring2018',
-				'discount_code' => 'spring2018sale',
-				'valid_from' => '2018-04-01 00:00:00',
-				'valid_to' => '2018-04-30 23:59:59',
+				'dismiss_time' => 'spring2019',
+				'discount_code' => 'spring2019sale',
+				'valid_from' => '2019-04-01 00:00:00',
+				'valid_to' => '2019-04-30 23:59:59',
                 'hide_time' => '',
 				'supported_positions' => array('header', 'dashboard'),
 			),
-			'summer2018' => array(
+			'summer2019' => array(
 				'title' => __('Summer sale - 20% off the MetaSlider Add-on Pack until July 31st', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/summer.png',
 				'button_link' => 'metaslider',
 				'button_meta' => 'ml-slider',
-				'dismiss_time' => 'summer2018',
-				'discount_code' => 'summer2018sale',
-				'valid_from' => '2018-07-01 00:00:00',
-				'valid_to' => '2018-07-31 23:59:59',
+				'dismiss_time' => 'summer2019',
+				'discount_code' => 'summer2019sale',
+				'valid_from' => '2019-07-01 00:00:00',
+				'valid_to' => '2019-07-31 23:59:59',
                 'hide_time' => '',
 				'supported_positions' => array('header', 'dashboard'),
 			)

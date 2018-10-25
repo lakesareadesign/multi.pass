@@ -251,6 +251,9 @@ $(theme_prefix) {
 	@mixin caption nivo {
 		margin-bottom: -80px;
 		transform: translateY(0);
+		a {
+			color: inherit;
+		}
 	}
 
 	@mixin caption coin {
@@ -334,7 +337,7 @@ $(theme_prefix) {
 
 	/* Thumbnails */
 	&.has-thumb-nav {
-		@mixin arrowsContainer flex, nivo {
+		/* @mixin arrowsContainer flex, nivo {
 			width: 100%;
 			left: 0;
 			right: 0;
@@ -355,7 +358,7 @@ $(theme_prefix) {
 		}
 		@mixin arrowsLink__prev nivo {
 			left: 0;
-		}
+		} */
 		@mixin caption nivo {
 			width: 100%;
 			position: absolute;
@@ -364,6 +367,7 @@ $(theme_prefix) {
 			padding: 15px;
 			background: rgba(255, 255, 255, 0.85);
 			overflow: visible;
+			transform: none;
 		}
 		@mixin caption flex {
 			width: 100%;

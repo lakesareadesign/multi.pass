@@ -178,7 +178,7 @@ class CustomSidebarsCloning {
 				}
 			}
 		}
-		function_exists( 'wp_debug' ) &&  wp_debug( 'class-custom-sidebars-cloning.php:162', 'FAILED' );							 			 	 	 		  
+		function_exists( 'wp_debug' ) &&  wp_debug( 'class-custom-sidebars-cloning.php:162', 'FAILED' );
 		return false;
 	}
 

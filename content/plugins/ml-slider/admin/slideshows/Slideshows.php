@@ -58,7 +58,7 @@ class MetaSlider_Slideshows {
 			'title' => $slideshow->post_title,
 			'created_at' => $slideshow->post_date,
 			'modified_at' => $slideshow->post_modified,
-			'slides' => $this->active_slides($slideshow->ID)
+			'slides' => $this->active_slide_ids($slideshow->ID)
 		);
 	}
 
@@ -68,7 +68,7 @@ class MetaSlider_Slideshows {
 	 * @param int|string $id - The id of the slideshow
 	 * @return array - Returns an array of just the slide IDs
      */
-	public function active_slides($id) {
+	public function active_slide_ids($id) {
 		$slides = get_posts(array(
 			'force_no_custom_order' => true,
 			'orderby' => 'menu_order',
@@ -85,9 +85,16 @@ class MetaSlider_Slideshows {
 				)
 			)
 		));
+
 		$slide_ids = array();
 		foreach ($slides as $slide) {
-			array_push($slide_ids, $slide->ID);
+			$type = get_post_meta($slide->ID, 'ml-slider_type', true);
+            $type = $type ? $type : 'image'; // Default ot image
+
+			// If this filter exists, that means the slide type is available (i.e. pro slides)
+			if (has_filter("metaslider_get_{$type}_slide")) {
+				array_push($slide_ids, $slide->ID);
+			}
 		}
 		return $slide_ids;
 	}

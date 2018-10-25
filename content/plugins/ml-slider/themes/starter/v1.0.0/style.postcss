@@ -61,21 +61,6 @@ $caption_color: #FFF;
 		padding: 0.5rem 0 0.5rem 0 !important;
 		top: 100%;
 	}
-
-	&.has-thumb-nav {
-		@mixin dotsContainer nivo {
-			position: relative;
-			top: auto;
-			bottom: auto;
-			flex-wrap: wrap;
-			justify-content: flex-start;
-			padding-top: 10px !important;
-			margin-left: -5px;
-		}
-		@mixin dotsContainer flex { 
-			padding-top: 0 !important; 
-		} 
-	}
 	
 	@mixin dotsLink {
 		box-shadow: none !important;
@@ -91,14 +76,6 @@ $caption_color: #FFF;
 		background: $(dots_color);
 		border-radius: 10px;
 		margin: 0 5px 0 0;
-	}
-
-	&.has-thumb-nav {
-		@mixin dotsLink nivo {
-			width: auto;
-			height: auto;
-			margin-bottom: 10px
-		}
 	}
 
 	@mixin dotsLinkLastItem {
@@ -187,6 +164,10 @@ $caption_color: #FFF;
 		background: $(caption_background);
 		opacity: 1;
 		margin: 0;
+		a {
+			color: inherit;
+			border: 0;
+		}
 	}
 
 	@mixin caption__text {

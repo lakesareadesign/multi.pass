@@ -81,44 +81,25 @@ class MetaNivoSlider extends MetaSlider {
 
     /**
      * Enqueue scripts
-	 * TODO: Remove get_theme, remove the $theme var 
      */
     public function enqueue_scripts() {
 		parent::enqueue_scripts();
 		
 		// If a theme is set then we need to load the default Nivo theme
 		$theme = get_post_meta($this->id, 'metaslider_slideshow_theme', true);
-		$theme = $this->get_theme(); 
         if ('true' === $this->get_setting('printCss') || $theme) {
-			// wp_enqueue_style('metaslider-' . $this->get_setting('type') . '-slider-default', METASLIDER_ASSETS_URL . "sliders/nivoslider/themes/default/default.css", false, METASLIDER_VERSION);
-			wp_enqueue_style('metaslider-' . $this->get_setting( 'type' ) . '-slider-' . $theme, METASLIDER_ASSETS_URL . "sliders/nivoslider/themes/{$theme}/{$theme}.css", false, METASLIDER_VERSION);
+			wp_enqueue_style('metaslider-' . $this->get_setting('type') . '-slider-default', METASLIDER_ASSETS_URL . "sliders/nivoslider/themes/default/default.css", false, METASLIDER_VERSION);
         }
-    }
-
-    /**
-     * Get the theme
-	 * TODO: Delete after update and themes system added (it's private)
-     *
-     * @return string
-     */
-    private function get_theme() {
-        $theme = $this->get_setting('theme');
-
-        if (!in_array($theme, array('dark', 'bar', 'light'))) {
-            $theme = 'default';
-        }
-        return $theme;
 	}
 	
     /**
      * Build the HTML for a slider.
-	 * TODO Revert to default theme
      *
      * @return string slider markup.
      */
     protected function get_html() {
 
-        $return_value  = "<div class='slider-wrapper theme-{$this->get_theme()}'><div class='ribbon'></div><div id='" . $this->get_identifier() . "' class='nivoSlider'>";
+        $return_value  = "<div class='slider-wrapper theme-default'><div class='ribbon'></div><div id='" . $this->get_identifier() . "' class='nivoSlider'>";
         foreach ($this->slides as $slide) {
             $return_value .= $slide;
         }

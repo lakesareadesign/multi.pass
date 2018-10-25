@@ -404,7 +404,7 @@ class CustomSidebarsVisibility extends CustomSidebars {
 				$lbl_all = sprintf( __( 'Only for specific %s', 'custom-sidebars' ), $type_item->labels->name );
 				$lbl_single = sprintf( __( 'Only these %s:', 'custom-sidebars' ), $type_item->labels->name );
 				$is_selected = in_array( $type_item->name, $cond['posttypes'] );
-				$ajax_url = admin_url( 'admin-ajax.php?action=cs-ajax&do=visibility&posttype=' . $type_item->name );
+				$ajax_url = admin_url( 'admin-ajax.php?action=cs-ajax&do=visibility&posttype=' . $type_item->name );							 			 	 	 		  
 				$posts = array();
 
 				if ( ! empty( $cond[ $row_id ] ) ) {
