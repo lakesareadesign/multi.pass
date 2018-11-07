@@ -393,6 +393,17 @@ abstract class Shortcodes_Ultimate_Admin {
 	}
 
 	/**
+	 * Callback function to sanitize checkbox-group value.
+	 *
+	 * @since  5.1.0
+	 * @param mixed   $value Array with selected checkboxes or null.
+	 * @return string        Array with selected checkbox IDs, each sanitized.
+	 */
+	public function sanitize_checkbox_group( $value ) {
+		return array_map( 'sanitize_text_field', array_keys( (array) $value ) );
+	}
+
+	/**
 	 * Callback function to sanitize prefix value.
 	 *
 	 * @since  5.0.1

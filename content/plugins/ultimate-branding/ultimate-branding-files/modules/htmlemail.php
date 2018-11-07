@@ -52,7 +52,7 @@ class ub_html_emailer {
 	var $settings = array();
 
 	/**
-	 * Content type of e-mail
+	 * Content type of email
 	 * @var bool
 	 */
 	var $is_html = '';
@@ -80,7 +80,7 @@ class ub_html_emailer {
 			$this->plugin_dir = WPMU_PLUGIN_DIR . '/';
 			$this->plugin_url = WPMU_PLUGIN_URL . '/';
 		} else {
-			wp_die( __( 'There was an issue determining where HTML E-mail is installed. Please reinstall.', 'htmlemail' ) );
+			wp_die( __( 'There was an issue determining where HTML Email is installed. Please reinstall.', 'htmlemail' ) );
 		}
 		//Template Directory
 		$this->template_directory = $this->plugin_dir . 'htmlemail-files/lib/templates/';
@@ -142,7 +142,7 @@ class ub_html_emailer {
 	}
 
 	/**
-	 * Removes the <> from password reset link sent in new user e-mails
+	 * Removes the <> from password reset link sent in new user emails
 	 * @return mixed
 	 */
 	function clean_links( $message ) {
@@ -150,7 +150,7 @@ class ub_html_emailer {
 	}
 
 	/**
-	 * Filter the Content, add the template to actual e-mail and then send it
+	 * Filter the Content, add the template to actual email and then send it
 	 *
 	 * @param $args
 	 *
@@ -197,7 +197,7 @@ class ub_html_emailer {
 			$message = wpautop( $message );
 		}
 
-		//Fetch HTML e-mail settings
+		//Fetch HTML email settings
 		$htmlemail_settings = get_site_option( 'htmlemail_settings' );
 
 		//Check if site is allowed to use its own template
@@ -217,7 +217,7 @@ class ub_html_emailer {
 
 		if ( ! empty( $html_template ) ) {
 			if ( strpos( $html_template, '{MESSAGE}' ) !== false ) {
-				//Replace {MESSAGE} in template with actual e-mail content
+				//Replace {MESSAGE} in template with actual email content
 				$key = '{MESSAGE}';
 			} else {
 				//Compatibilty with previous version of the plugin, as it used MESSAGE instead of {MESSAGE}
@@ -240,7 +240,7 @@ class ub_html_emailer {
 		return compact( 'to', 'subject', 'message', 'headers', 'attachments' );
 	}
 
-	//removes the <> symbols from the reset password link so it's not hidden in html mode e-mails
+	//removes the <> symbols from the reset password link so it's not hidden in html mode emails
 	function fix_pass_msg( $msg ) {
 		$msg = str_replace( '<', '', $msg );
 		$msg = str_replace( '>', '', $msg );
@@ -249,7 +249,7 @@ class ub_html_emailer {
 	}
 
 	function convert_plain_text( $phpmailer ) {
-		// Create plain text version of e-mail if it doesn't exist
+		// Create plain text version of email if it doesn't exist
 		if ( $phpmailer->AltBody == '' ) {
 			$phpmailer->AltBody = $this->plain_text_message;
 		}
@@ -261,7 +261,7 @@ class ub_html_emailer {
 	function admin_options_page() {
 		global $current_user;
 
-		//Fetch HTML e-mail settings
+		//Fetch HTML email settings
 		$htmlemail_settings = ub_get_option( 'htmlemail_settings' );
 		$html_template      = ub_get_option( 'html_template' );
 		$modify_html_email  = ub_get_option( 'modify_html_email', 1 );
@@ -270,18 +270,18 @@ class ub_html_emailer {
 		$site_override = isset( $htmlemail_settings['site_override'] ) ? $htmlemail_settings ['site_override'] : '';
 		?>
         <div class="postbox">
-				<h3 class="hndle"><?php esc_html_e( 'HTML E-mail Template', 'htmlemail' ); ?></h3>
+				<h3 class="hndle"><?php esc_html_e( 'HTML Email Template', 'htmlemail' ); ?></h3>
                 <div class="inside">
-				<p class="description"><?php _e( 'This plugin will wrap every WordPress e-mail sent within an HTML template.', 'htmlemail' ); ?></p>
+				<p class="description"><?php _e( 'This plugin will wrap every WordPress email sent within an HTML template.', 'htmlemail' ); ?></p>
 
                 <div class='config-guide'>
-					<h3><?php _e( 'Four easy steps to send better e-mails:', 'htmlemail' ); ?></h3>
+					<h3><?php _e( 'Four easy steps to send better emails:', 'htmlemail' ); ?></h3>
 					<?php
 					$configuration_steps = array(
 						__( 'Either select a pre-designed template <a href="#template-wrapper" class="template-toggle" title="Select template">below</a>  by clicking over a template and then click over the load template button or type/paste your own HTML into the textarea.', 'htmlemail' ),
-						__( 'Click "Preview" to quickly see what your e-mails will look like in a popup.', 'htmlemail' ),
-						__( 'Send a "Test E-mail" to preview your template in actual e-mail clients. You can specify an e-mail address for this to be sent to.', 'htmlemail' ),
-						__( 'Select "Save" and the HTML you have below will be used as your HTML E-mail Template for all transactional e-mails from your site.', 'htmlemail' ),
+						__( 'Click "Preview" to quickly see what your emails will look like in a popup.', 'htmlemail' ),
+						__( 'Send a "Test Email" to preview your template in actual email clients. You can specify an email address for this to be sent to.', 'htmlemail' ),
+						__( 'Select "Save" and the HTML you have below will be used as your HTML Email Template for all transactional emails from your site.', 'htmlemail' ),
 					); ?>
 					<ul class='config-steps'><?php
 						$count = 1;
@@ -295,8 +295,8 @@ class ub_html_emailer {
 					} ?>
                     </ul>
                 </div>
-                <!-- Overwrite HTML E-mails -->
-				<label><input type="checkbox" name="modify_html_email" <?php checked( $modify_html_email, 1 ); ?> value="1"/><strong><?php echo esc_html__( 'Modify HTML E-mails', 'htmlemail' ) ?></strong></label>
+                <!-- Overwrite HTML Emails -->
+				<label><input type="checkbox" name="modify_html_email" <?php checked( $modify_html_email, 1 ); ?> value="1"/><strong><?php echo esc_html__( 'Modify HTML Emails', 'htmlemail' ) ?></strong></label>
                 <h5>
 					<a href="#template-wrapper" class="template-toggle" title="<?php esc_attr_e( 'Click to toggle templates', 'htmlemail' ); ?>"><?php _e( 'Choose from sample Templates', 'htmlemail' ) ?>
                         [<span class="toggle-indicator">+</span>]</a>
@@ -338,7 +338,7 @@ class ub_html_emailer {
 					<?php } ?>
 
                     <input type="button" name="specify_email" class="button-secondary specify_email"
-						value="<?php _e( 'Test E-mail', 'htmlemail' ); ?>"/>
+						value="<?php _e( 'Test Email', 'htmlemail' ); ?>"/>
                     <span class="spinner"></span><br/>
 
                     <div class="preview-email">
@@ -348,7 +348,7 @@ class ub_html_emailer {
                     </div>
                 </div>
                 <div class="template-content-holder">
-					<span class="description"><?php _e( 'Edit the HTML of your e-mail template here. You need to place {MESSAGE} somewhere in the template, preferably a main content section. That will be replaced with the e-mail message.', 'htmlemail' ) ?></span>
+					<span class="description"><?php _e( 'Edit the HTML of your email template here. You need to place {MESSAGE} somewhere in the template, preferably a main content section. That will be replaced with the email message.', 'htmlemail' ) ?></span>
 					<textarea name="template" id="template-content" rows="25" style="width: 100%"><?php echo esc_textarea( $html_template ); ?></textarea><br/>
                 </div>
                 </div>
@@ -672,13 +672,13 @@ class ub_html_emailer {
 		if ( $desc ) {
 			//Return Placeholder desc table
 			$placeholder_desc = array(
-				'{MESSAGE}'          => __( 'E-mail content (required)', 'htmlemail' ),
-				'{SIDEBAR_TITLE}'    => __( "Title for the sidebar in e-mail e.g. What's trending", 'htmlemail' ),
-				'{FROM_NAME}'        => __( "Sender's name if sender's e-mail is associated with a user account", 'htmlemail' ),
-				'{FROM_EMAIL}'       => __( "Sender's e-mail, e-mail specified in site settings", 'htmlemail' ),
+				'{MESSAGE}'          => __( 'Email content (required)', 'htmlemail' ),
+				'{SIDEBAR_TITLE}'    => __( "Title for the sidebar in email e.g. What's trending", 'htmlemail' ),
+				'{FROM_NAME}'        => __( "Sender's name if sender's email is associated with a user account", 'htmlemail' ),
+				'{FROM_EMAIL}'       => __( "Sender's email, email specified in site settings", 'htmlemail' ),
 				'{BLOG_URL}'         => __( 'Blog / Site URL', 'htmlemail' ),
 				'{BLOG_NAME}'        => __( 'Blog / Site name', 'htmlemail' ),
-				'{ADMIN_EMAIL}'      => __( 'E-mail address of the support or contact person. Same as {FROM_EMAIL}', 'htmlemail' ),
+				'{ADMIN_EMAIL}'      => __( 'Email address of the support or contact person. Same as {FROM_EMAIL}', 'htmlemail' ),
 				'{BLOG_DESCRIPTION}' => __( 'Blog Description', 'htmlemail' ),
 				'{DATE}'             => __( 'Current date', 'htmlemail' ),
 				'{TIME}'             => __( 'Current time', 'htmlemail' ),
@@ -716,7 +716,7 @@ class ub_html_emailer {
 	}
 
 	/**
-	 * Replaces placeholder text in e-mail templates
+	 * Replaces placeholder text in email templates
 	 */
 	function replace_placeholders( $content, $demo_message = true ) {
 
@@ -729,7 +729,7 @@ class ub_html_emailer {
 		$date             = date_i18n( get_option( 'date_format' ) );
 		$time             = date_i18n( get_option( 'time_format' ) );
 
-		$message = 'This is a test message I want to try out to see if it works. This will be replaced with WordPress e-mail content.
+		$message = 'This is a test message I want to try out to see if it works. This will be replaced with WordPress email content.
              Is it working well?';
 
 		$from_email = get_option( 'admin_email' );
@@ -746,7 +746,7 @@ class ub_html_emailer {
 		//Sidebar
 		$posts_list = $this->htmlemail_recent_posts();
 		/**
-		 * Filter the post list displayed in e-mail sidebar
+		 * Filter the post list displayed in email sidebar
 		 *
 		 * @since 2.0
 		 *
@@ -754,11 +754,11 @@ class ub_html_emailer {
 		 */
 		$posts_list = apply_filters( 'htmlemail_sidebar_posts', $posts_list );
 		/**
-		 * Filter the sidebar title in e-mail template
+		 * Filter the sidebar title in email template
 		 *
 		 * @since 2.0
 		 *
-		 * @param string $title , Title to be displayed in e-mail
+		 * @param string $title , Title to be displayed in email
 		 */
 		$sidebar_title = apply_filters( 'htmlemail_sidebar_title', $title = "What's new" );
 
@@ -781,7 +781,7 @@ class ub_html_emailer {
 			//          $content = preg_replace( "/(MESSAGE)/", $message, $content );
 
 			if ( strpos( $content, '{MESSAGE}' ) !== false ) {
-				//Replace {MESSAGE} in template with actual e-mail content
+				//Replace {MESSAGE} in template with actual email content
 				$key = '{MESSAGE}';
 			} else {
 				//Compatibility with previous version of the plugin, as it used MESSAGE instead of {MESSAGE}
@@ -816,14 +816,14 @@ class ub_html_emailer {
 			}
 			$content = preg_replace( "/($placeholder)/", $placeholders_list[ $placeholder ], $content );
 		}
-		//Replace admin e-mail, left out due to escaped html
+		//Replace admin email, left out due to escaped html
 		$content = preg_replace( '/(%7BADMIN_EMAIL%7D)/', $admin_email, $content );
 
 		return $content;
 	}
 
 	/**
-	 * Checks if on setting page for HTML E-mail Template
+	 * Checks if on setting page for HTML Email Template
 	 * @global type $html_template
 	 * @global type $hook_suffix
 	 * @return boolean
@@ -895,12 +895,12 @@ class ub_html_emailer {
 	}
 
 	/**
-	 * Send a preview e-mail
+	 * Send a preview email
 	 */
 	function preview_email() {
 		global $current_user;
 
-		//Check for empty e-mail and nonce
+		//Check for empty email and nonce
 		if ( empty( $_POST['preview_html_email_address'] ) || empty( $_POST['_ajax_nonce'] ) ) {
 			wp_send_json_error( __( 'Missing Parameters', 'htmlemail' ) );
 		}
@@ -911,18 +911,18 @@ class ub_html_emailer {
 		}
 
 		$email = ( isset( $_POST['preview_html_email_address'] ) && is_email( $_POST['preview_html_email_address'] ) ) ? $_POST['preview_html_email_address'] : $current_user->user_email;
-		$sent  = wp_mail( $email, 'Test HTML E-mail Subject', "This is a test message I want to try out to see if it works\n\nIs it working well?" );
+		$sent  = wp_mail( $email, 'Test HTML Email Subject', "This is a test message I want to try out to see if it works\n\nIs it working well?" );
 
 		//Success
 		if ( $sent ) {
-			wp_send_json_success( sprintf( __( 'Preview e-mail was mailed to %s!', 'htmlemail' ), $email ) );
+			wp_send_json_success( sprintf( __( 'Preview email was mailed to %s!', 'htmlemail' ), $email ) );
 		}
-		//Unable to send e-mail
-		wp_send_json_error( __( 'Unable to send test e-mail', 'htmlemail' ) );
+		//Unable to send email
+		wp_send_json_error( __( 'Unable to send test email', 'htmlemail' ) );
 	}
 
 	/**
-	 * Return Content type as HTML for plain text e-mail
+	 * Return Content type as HTML for plain text email
 	 *
 	 * @param $content_type
 	 *
@@ -941,7 +941,7 @@ class ub_html_emailer {
 	}
 
 	/**
-	 * Set Content type for Woocommerce e-mails
+	 * Set Content type for Woocommerce emails
 	 */
 	function set_woocommerce_content_type( $content_type ) {
 		return 'Content-Type: ' . 'text/html' . "\r\n";

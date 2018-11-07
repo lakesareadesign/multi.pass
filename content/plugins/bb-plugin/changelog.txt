@@ -1,3 +1,11 @@
+<h4>2.1.6.3 - 10/30/2018</h4>
+<p><strong>Halloween Hot Fix</strong></p>
+<ul>
+	<li>Update Font Awesome to 5.4.2</li>
+	<li>Fix PHP error with Hummingbird cache plugin.</li>
+	<li>Force Imagesloaded to have jQuery as a dependency.</li>
+</ul>
+
 <h4>2.1.6.2 - 10/23/2018</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

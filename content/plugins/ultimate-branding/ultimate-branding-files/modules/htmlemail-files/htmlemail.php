@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: HTML E-mail Templates
+Plugin Name: HTML Email Templates
 Plugin URI: https://premium.wpmudev.org/project/html-email-templates/
-Description: Allows you to add HTML templates for all of the standard WordPress e-mails. In Multisite templates can be set network wide or can be allowed to set site wise template, if template override for the site is enabled and template is not specified for a site, network template will be used.
+Description: Allows you to add HTML templates for all of the standard WordPress emails. In Multisite templates can be set network wide or can be allowed to set site wise template, if template override for the site is enabled and template is not specified for a site, network template will be used.
 Author: WPMU DEV
 Version: 2.0.7
 Author URI: http://premium.wpmudev.org/
@@ -29,7 +29,7 @@ You should have received a copy of the GNU General Public License
 along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
-Portions of this code are from or inspired by Mohammad Jangda's "HTML E-mails" plugin: http://wordpress.org/extend/plugins/html-emails/
+Portions of this code are from or inspired by Mohammad Jangda's "HTML Emails" plugin: http://wordpress.org/extend/plugins/html-emails/
  */
 
 if ( ! class_exists( 'HTML_emailer' ) ) {
@@ -90,7 +90,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 		var $settings = array();
 
 		/**
-		 * Content type of e-mail
+		 * Content type of email
 		 * @var bool
 		 */
 		var $is_html = '';
@@ -118,7 +118,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 				$this->plugin_dir = WPMU_PLUGIN_DIR . '/';
 				$this->plugin_url = WPMU_PLUGIN_URL . '/';
 			} else {
-				wp_die( __( 'There was an issue determining where HTML E-mail is installed. Please reinstall.', 'htmlemail' ) );
+				wp_die( __( 'There was an issue determining where HTML Email is installed. Please reinstall.', 'ub' ) );
 			}
 			//Template Directory
 			$this->template_directory = $this->plugin_dir . 'lib/templates/';
@@ -149,7 +149,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 			add_action( 'wp_ajax_htmlemail_get_template_data', array( $this, 'htmlemail_template_data' ) );
 			add_action( 'wp_ajax_get_preview_data', array( $this, 'get_preview_data' ) );
 
-			//Handle preview e-mail ajax request
+			//Handle preview email ajax request
 			add_action( 'wp_ajax_preview_email', array( $this, 'preview_email' ) );
 
 			// Set Content type HTML
@@ -169,7 +169,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 		}
 
 		/**
-		 * Removes the <> from password reset link sent in new user e-mails
+		 * Removes the <> from password reset link sent in new user emails
 		 * @return mixed
 		 */
 		function clean_links( $message ) {
@@ -177,7 +177,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 		}
 
 		/**
-		 * Filter the Content, add the template to actual e-mail and then send it
+		 * Filter the Content, add the template to actual email and then send it
 		 *
 		 * @param $args
 		 *
@@ -226,7 +226,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 				$message = wpautop( $message );
 			}
 
-			//Fetch HTML e-mail settings
+			//Fetch HTML email settings
 			$htmlemail_settings = get_site_option( 'htmlemail_settings' );
 
 			$current_template_name = isset( $htmlemail_settings['template_name'] ) ? ucfirst( strtolower( $htmlemail_settings['template_name'] ) ) : false;
@@ -255,7 +255,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 
 			if ( ! empty( $html_template ) ) {
 				if ( strpos( $html_template, '{MESSAGE}' ) !== false ) {
-					//Replace {MESSAGE} in template with actual e-mail content
+					//Replace {MESSAGE} in template with actual email content
 					$key = '{MESSAGE}';
 				} else {
 					//Compatibilty with previous version of the plugin, as it used MESSAGE instead of {MESSAGE}
@@ -278,7 +278,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 			return compact( 'to', 'subject', 'message', 'headers', 'attachments' );
 		}
 
-		//removes the <> symbols from the reset password link so it's not hidden in html mode e-mails
+		//removes the <> symbols from the reset password link so it's not hidden in html mode emails
 		function fix_pass_msg( $msg ) {
 			$msg = str_replace( '<', '', $msg );
 			$msg = str_replace( '>', '', $msg );
@@ -287,7 +287,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 		}
 
 		function convert_plain_text( $phpmailer ) {
-			// Create plain text version of e-mail if it doesn't exist
+			// Create plain text version of email if it doesn't exist
 			if ( $phpmailer->AltBody == '' ) {
 				$phpmailer->AltBody = $this->plain_text_message;
 			}
@@ -301,7 +301,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 			//If you change this from add_options_page, MAKE SURE you change the filter_plugin_actions function (below) to
 			//reflect the page filename (ie - options-general.php) of the page your plugin is under!
 			if ( is_multisite() ) {
-				$html_template_network = add_submenu_page( 'settings.php', __( 'HTML E-mail Template', 'htmlemail' ), __( 'HTML E-mail Template', 'htmlemail' ), 'manage_network_options', 'html-template', array(
+				$html_template_network = add_submenu_page( 'settings.php', __( 'HTML Email Template', 'ub' ), __( 'HTML Email Template', 'ub' ), 'manage_network_options', 'html-template', array(
 					&$this,
 					'admin_options_page',
 				) );
@@ -311,7 +311,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 				$site_override = isset( $htmlemail_settings['site_override'] ) ? $htmlemail_settings ['site_override'] : '';
 
 				if ( $site_override ) {
-					$html_template_site = add_options_page( __( 'HTML E-mail Template', 'htmlemail' ), __( 'HTML E-mail Template', 'htmlemail' ), 'manage_options', 'html-template', array(
+					$html_template_site = add_options_page( __( 'HTML Email Template', 'ub' ), __( 'HTML Email Template', 'ub' ), 'manage_options', 'html-template', array(
 						$this,
 						'admin_options_page',
 					) );
@@ -319,7 +319,7 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 				//register scripts for site
 				add_action( "load-{$html_template_site}", array( &$this, 'register_scripts' ) );
 			} else if ( ! is_multisite() ) {
-				$html_template = add_submenu_page( 'options-general.php', __( 'HTML E-mail Template', 'htmlemail' ), __( 'HTML E-mail Template', 'htmlemail' ), 'manage_options', 'html-template', array(
+				$html_template = add_submenu_page( 'options-general.php', __( 'HTML Email Template', 'ub' ), __( 'HTML Email Template', 'ub' ), 'manage_options', 'html-template', array(
 					&$this,
 					'admin_options_page',
 				) );
@@ -337,9 +337,9 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
 		 */
 		function filter_plugin_actions( $links, $file ) {
 			if ( is_multisite() ) {
-				$settings_link = '<a href="' . network_admin_url( 'settings.php?page=html-template' ) . '">' . __( 'Settings', 'htmlemail' ) . '</a>';
+				$settings_link = '<a href="' . network_admin_url( 'settings.php?page=html-template' ) . '">' . __( 'Settings', 'ub' ) . '</a>';
 			} else {
-				$settings_link = '<a href="' . admin_url( 'options-general.php?page=html-template' ) . '">' . __( 'Settings', 'htmlemail' ) . '</a>';
+				$settings_link = '<a href="' . admin_url( 'options-general.php?page=html-template' ) . '">' . __( 'Settings', 'ub' ) . '</a>';
 			}
 
 			array_unshift( $links, $settings_link ); // before other links
@@ -371,35 +371,35 @@ if ( ! class_exists( 'HTML_emailer' ) ) {
         <div class="wrap">
             <form method="post">
                 <?php wp_nonce_field( 'html_email-update-options' ); ?>
-                <h2><?php esc_html_e( 'HTML E-mail Template', 'htmlemail' ); ?></h2>
+                <h2><?php esc_html_e( 'HTML Email Template', 'ub' ); ?></h2>
 
-                <p class="description"><?php _e( 'This plugin will wrap every WordPress e-mail sent within an HTML template.', 'htmlemail' ); ?></p>
+                <p class="description"><?php _e( 'This plugin will wrap every WordPress email sent within an HTML template.', 'ub' ); ?></p>
 
                 <div class='config-guide'>
-                    <h3><?php _e( 'Four easy steps to send better e-mails:', 'htmlemail' ); ?></h3>
+                    <h3><?php _e( 'Four easy steps to send better emails:', 'ub' ); ?></h3>
 <?php
 			$configuration_steps = array(
-				__( 'Either select a pre-designed template <a href="#template-wrapper" class="template-toggle" title="Select template">below</a>  by clicking over a template and then click over the load template button or type/paste your own HTML into the textarea.', 'htmlemail' ),
-				__( 'Click "Preview" to quickly see what your e-mails will look like in a popup.', 'htmlemail' ),
-				__( 'Send a "Test E-mail" to preview your template in actual e-mail clients. You can specify an e-mail address for this to be sent to.', 'htmlemail' ),
-				__( 'Select "Save" and the HTML you have below will be used as your HTML E-mail Template for all transactional e-mails from your site.', 'htmlemail' ),
+				__( 'Either select a pre-designed template <a href="#template-wrapper" class="template-toggle" title="Select template">below</a>  by clicking over a template and then click over the load template button or type/paste your own HTML into the textarea.', 'ub' ),
+				__( 'Click "Preview" to quickly see what your emails will look like in a popup.', 'ub' ),
+				__( 'Send a "Test Email" to preview your template in actual email clients. You can specify an email address for this to be sent to.', 'ub' ),
+				__( 'Select "Save" and the HTML you have below will be used as your HTML Email Template for all transactional emails from your site.', 'ub' ),
 			); ?>
             <ul class='config-steps'><?php
 			$count = 1;
 			foreach ( $configuration_steps as $step ) {
 ?>
                             <li class='config-step'>
-                            <span class="step-count"><?php echo sprintf( __( 'Step %d', 'htmlemail' ), $count ) . '<br />'; ?></span><?php
+                            <span class="step-count"><?php echo sprintf( __( 'Step %d', 'ub' ), $count ) . '<br />'; ?></span><?php
 							echo $step; ?>
 </li><?php
 $count ++;
 			} ?>
                     </ul>
                 </div>
-                <!-- Overwrite HTML E-mails -->
-                <label><input type="checkbox" name="modify_html_email" <?php checked( $modify_html_email, 1 ); ?> value="1"/><strong><?php echo esc_html__( 'Modify HTML E-mails', 'htmlemail' ) ?></strong></label>
+                <!-- Overwrite HTML Emails -->
+                <label><input type="checkbox" name="modify_html_email" <?php checked( $modify_html_email, 1 ); ?> value="1"/><strong><?php echo esc_html__( 'Modify HTML Emails', 'ub' ) ?></strong></label>
                 <h5>
-                    <a href="#template-wrapper" class="template-toggle" title="<?php esc_attr_e( 'Click to toggle templates', 'htmlemail' ); ?>"><?php _e( 'Choose from sample Templates', 'htmlemail' ) ?>
+                    <a href="#template-wrapper" class="template-toggle" title="<?php esc_attr_e( 'Click to toggle templates', 'ub' ); ?>"><?php _e( 'Choose from sample Templates', 'ub' ) ?>
                         [<span class="toggle-indicator">+</span>]</a>
                 </h5>
 
@@ -419,7 +419,7 @@ $count ++;
                                 <a class="template-selector" href="#<?php echo $template['name']; ?>" title="<?php esc_attr_e( 'Click over the template to select it' ); ?>"><?php echo $template['name']; ?>
                                     <br/><img class="theme-preview" src="<?php echo $template['screenshot']; ?>" alt="<?php echo esc_attr( $template['name'] ); ?>"/></a>
 
-                                <a id="load_template_<?php echo $template_name; ?>" class="load_template button-primary disabled" href="#" title="<?php esc_attr_e( 'Load template html', 'htmlemail' ); ?>"><?php echo __( 'Load Template ', 'htmlemail' ) . $template['name']; ?></a>
+                                <a id="load_template_<?php echo $template_name; ?>" class="load_template button-primary disabled" href="#" title="<?php esc_attr_e( 'Load template html', 'ub' ); ?>"><?php echo __( 'Load Template ', 'ub' ) . $template['name']; ?></a>
                                 </div><?php
 						} ?>
 
@@ -431,26 +431,26 @@ $count ++;
 				echo $this->template_images(); ?>
                 <div class="action-wrapper submit">
                     <input type="submit" name="save_html_email_options" class="button-primary"
-                        value="<?php _e( 'Save', 'htmlemail' ); ?>"/>
+                        value="<?php _e( 'Save', 'ub' ); ?>"/>
 
                     <?php if ( current_user_can( 'unfiltered_html' ) ) { //it's only safe to allow live previews for unfiltered_html cap to prevent XSS ?>
                         <a name="preview_template" id="preview_template" class="button button-secondary"
                             href="<?php echo plugins_url( 'htmlemail-files/preview.html?TB_iframe=true&height=500&width=700', __FILE__ ); ?>"
-                            title="<?php esc_attr_e( 'Live Preview', 'htmlemail' ); ?>"><?php _e( 'Preview', 'htmlemail' ); ?></a>
+                            title="<?php esc_attr_e( 'Live Preview', 'ub' ); ?>"><?php _e( 'Preview', 'ub' ); ?></a>
                     <?php } ?>
 
                     <input type="button" name="specify_email" class="button-secondary specify_email"
-                        value="<?php _e( 'Test E-mail', 'htmlemail' ); ?>"/>
+                        value="<?php _e( 'Test Email', 'ub' ); ?>"/>
                     <span class="spinner"></span><br/>
 
                     <div class="preview-email">
                         <input type="text" name="preview_html_email_address" value="<?php echo $current_user->user_email; ?>" placeholder="Email address"/>
-                        <input type="submit" name="preview_html_email" class="button-primary" value="<?php _e( 'Send', 'htmlemail' ); ?>"/>
+                        <input type="submit" name="preview_html_email" class="button-primary" value="<?php _e( 'Send', 'ub' ); ?>"/>
                         <?php wp_nonce_field( 'preview_email', 'preview_email' ); ?>
                     </div>
                 </div>
                 <div class="template-content-holder">
-                    <span class="description"><?php _e( 'Edit the HTML of your e-mail template here. You need to place {MESSAGE} somewhere in the template, preferably a main content section. That will be replaced with the e-mail message.', 'htmlemail' ) ?></span>
+                    <span class="description"><?php _e( 'Edit the HTML of your email template here. You need to place {MESSAGE} somewhere in the template, preferably a main content section. That will be replaced with the email message.', 'ub' ) ?></span>
                     <textarea name="template" id="template-content" rows="25" style="width: 100%"><?php echo esc_textarea( $html_template ); ?></textarea><br/>
                 </div>
 
@@ -458,7 +458,7 @@ $count ++;
 if ( is_network_admin() ) {
 ?>
 <label>
-<input type="checkbox" name="htmlemail_settings[site_override]" <?php echo checked( $site_override, 1 ); ?> value="1"/><?php _e( 'Allow subsites to override this template with their own.', 'htmlemail' ); ?>
+<input type="checkbox" name="htmlemail_settings[site_override]" <?php echo checked( $site_override, 1 ); ?> value="1"/><?php _e( 'Allow subsites to override this template with their own.', 'ub' ); ?>
 </label><?php
 }
 ?>
@@ -480,8 +480,8 @@ if ( is_network_admin() ) {
 				'thickbox',
 			), '', true );
 			//Lolcalize string to js, to make them translatable
-			$template_load_warning = __( 'Your custom template changes will be lost, are you sure you want to continue?', 'htmlemail' );
-			$message_missing       = __( 'You need to place {MESSAGE} somewhere in the template, preferably a main content section.', 'htmlemail' );
+			$template_load_warning = __( 'Your custom template changes will be lost, are you sure you want to continue?', 'ub' );
+			$message_missing       = __( 'You need to place {MESSAGE} somewhere in the template, preferably a main content section.', 'ub' );
 			$htmlemail_help_text   = array(
 				'load_template'   => $template_load_warning,
 				'message_missing' => $message_missing,
@@ -502,7 +502,7 @@ if ( is_network_admin() ) {
 		}
 
 		/**
-		 * Returns template list for E-mails
+		 * Returns template list for Emails
 		 * @return type
 		 */
 		function htmlemail_templates_list() {
@@ -785,27 +785,27 @@ if ( is_network_admin() ) {
 			if ( $desc ) {
 				//Return Placeholder desc table
 				$placeholder_desc = array(
-					'{MESSAGE}'          => __( 'E-mail content (required)', 'htmlemail' ),
-					'{SIDEBAR_TITLE}'    => __( "Title for the sidebar in e-mail e.g. What's trending", 'htmlemail' ),
-					'{FROM_NAME}'        => __( "Sender's name if sender's e-mail is associated with a user account", 'htmlemail' ),
-					'{FROM_EMAIL}'       => __( "Sender's e-mail, e-mail specified in site settings", 'htmlemail' ),
-					'{BLOG_URL}'         => __( 'Blog / Site URL', 'htmlemail' ),
-					'{BLOG_NAME}'        => __( 'Blog / Site name', 'htmlemail' ),
-					'{ADMIN_EMAIL}'      => __( 'E-mail address of the support or contact person. Same as {FROM_EMAIL}', 'htmlemail' ),
-					'{USER_NAME}'		 => __( 'The display name of the recipient', 'htmlemail' ),
+					'{MESSAGE}'          => __( 'Email content (required)', 'ub' ),
+					'{SIDEBAR_TITLE}'    => __( "Title for the sidebar in email e.g. What's trending", 'ub' ),
+					'{FROM_NAME}'        => __( "Sender's name if sender's email is associated with a user account", 'ub' ),
+					'{FROM_EMAIL}'       => __( "Sender's email, email specified in site settings", 'ub' ),
+					'{BLOG_URL}'         => __( 'Blog / Site URL', 'ub' ),
+					'{BLOG_NAME}'        => __( 'Blog / Site name', 'ub' ),
+					'{ADMIN_EMAIL}'      => __( 'Email address of the support or contact person. Same as {FROM_EMAIL}', 'ub' ),
+					'{USER_NAME}'		 => __( 'The display name of the recipient', 'ub' ),
 					'{EMAIL_TITLE}'		 => __( 'By default displays the Blog / Site name. It can be extended with the <code>wpmudev_htmlemail/email_title</code> filter. For example in order to return the subject instead of the Blog / Site name: <code>
                     add_filter( \'wpmudev_htmlemail/email_title\', function( $blog_url, $subject, $mail_args ){
                         return $subject;
             }, 10, 3 );
-            </code>', 'htmlemail' ),
-					'{BG_IMAGE}'		 => __( 'A background image of the e-mail template. You can upload background image from the "Images that can be used in template" section', 'htmlemail' ),
-					'{HEADER_IMAGE}'	 => __( 'An image that appears in the e-mail header. You can upload header image from the "Images that can be used in template" section', 'htmlemail' ),
-					'{BLOG_DESCRIPTION}' => __( 'Blog Description', 'htmlemail' ),
-					'{DATE}'             => __( 'Current date', 'htmlemail' ),
-					'{TIME}'             => __( 'Current time', 'htmlemail' ),
+            </code>', 'ub' ),
+					'{BG_IMAGE}'		 => __( 'A background image of the email template. You can upload background image from the "Images that can be used in template" section', 'ub' ),
+					'{HEADER_IMAGE}'	 => __( 'An image that appears in the email header. You can upload header image from the "Images that can be used in template" section', 'ub' ),
+					'{BLOG_DESCRIPTION}' => __( 'Blog Description', 'ub' ),
+					'{DATE}'             => __( 'Current date', 'ub' ),
+					'{TIME}'             => __( 'Current time', 'ub' ),
 				);
 
-				$output = '<h4><a href="#placeholder-list-wrapper" class="template-toggle" title="' . esc_attr__( 'Variable list', 'htmlemail' ) . '">' . __( 'List of variables that can be used in template', 'htmlemail' ) .
+				$output = '<h4><a href="#placeholder-list-wrapper" class="template-toggle" title="' . esc_attr__( 'Variable list', 'ub' ) . '">' . __( 'List of variables that can be used in template', 'ub' ) .
 				'[<span class="toggle-indicator">+</span>]</a></h4>'
 				. '<div class="placeholders-list-wrapper" id="placeholder-list-wrapper">'
 				. '<table class="template-placeholders-list">';
@@ -849,7 +849,7 @@ if ( is_network_admin() ) {
 
 			}
 
-			$output = '<h4><a href="#template-images-wrapper" class="template-toggle" title="' . esc_attr__( 'Template images', 'htmlemail' ) . '">' . __( 'Images that can be used in template', 'htmlemail' ) .
+			$output = '<h4><a href="#template-images-wrapper" class="template-toggle" title="' . esc_attr__( 'Template images', 'ub' ) . '">' . __( 'Images that can be used in template', 'ub' ) .
 				'[<span class="toggle-indicator">+</span>]</a></h4>';
 
 			$output .= '<div class="template-settings-section template-images-section" id="template-images-wrapper">';
@@ -857,15 +857,15 @@ if ( is_network_admin() ) {
 			$output .= '<div class="template-settings-options template-images-options">';
 
 			$output .= '<div class="template-bg-image-wrap">';
-			$output .= '<label class="options-label">' . __( 'Background image', 'htmlemail' ) . '</label>';
+			$output .= '<label class="options-label">' . __( 'Background Image', 'ub' ) . '</label>';
 			$output .= '<input type="text" id="template-bg-image" name="html_template_images[bg]" value="' . $bg_image . '" />';
-			$output .= '<input type="button" name="upload-bg-btn" id="upload-bg-btn" class="button-secondary template-image-upload" data-image-box="template-bg-image" value="' . __( 'Upload Image', 'htmlemail' ) . '" title="' . __( 'Upload background image', 'htmlemail' ) . '">';
+			$output .= '<input type="button" name="upload-bg-btn" id="upload-bg-btn" class="button-secondary template-image-upload" data-image-box="template-bg-image" value="' . __( 'Upload Image', 'ub' ) . '" title="' . __( 'Upload background image', 'ub' ) . '">';
 			$output .= '</div>';
 
 			$output .= '<div class="template-header-image-wrap">';
-			$output .= '<label class="options-label">' . __( 'Header image', 'htmlemail' ) . '</label>';
+			$output .= '<label class="options-label">' . __( 'Header image', 'ub' ) . '</label>';
 			$output .= '<input type="text" id="template-header-image" name="html_template_images[header]" value="' . $header_image . '" />';
-			$output .= '<input type="button" name="upload-header-btn" id="upload-header-btn" class="button-secondary template-image-upload" data-image-box="template-header-image" value="' . __( 'Upload Image', 'htmlemail' ) . '" title="' . __( 'Upload header image', 'htmlemail' ) . '" />';
+			$output .= '<input type="button" name="upload-header-btn" id="upload-header-btn" class="button-secondary template-image-upload" data-image-box="template-header-image" value="' . __( 'Upload Image', 'ub' ) . '" title="' . __( 'Upload header image', 'ub' ) . '" />';
 			$output .= '</div>';
 
 			$output .= '</div>';
@@ -875,7 +875,7 @@ if ( is_network_admin() ) {
 		}
 
 		/**
-		 * Replaces placeholder text in e-mail templates
+		 * Replaces placeholder text in email templates
 		 */
 		function replace_placeholders( $content, $mail_args = array(), $demo_message = true ) {
 
@@ -888,7 +888,7 @@ if ( is_network_admin() ) {
 			$date             = date_i18n( get_option( 'date_format' ) );
 			$time             = date_i18n( get_option( 'time_format' ) );
 
-			$message = 'This is a test message I want to try out to see if it works. This will be replaced with WordPress e-mail content.
+			$message = 'This is a test message I want to try out to see if it works. This will be replaced with WordPress email content.
                 Is it working well?';
 
 			$from_email = get_option( 'admin_email' );
@@ -920,7 +920,7 @@ if ( is_network_admin() ) {
 			//Sidebar
 			$posts_list = $this->htmlemail_recent_posts();
 			/**
- * Filter the post list displayed in e-mail sidebar
+ * Filter the post list displayed in email sidebar
  *
  * @since 2.0
  *
@@ -928,11 +928,11 @@ if ( is_network_admin() ) {
  */
 			$posts_list = apply_filters( 'htmlemail_sidebar_posts', $posts_list );
 			/**
- * Filter the sidebar title in e-mail template
+ * Filter the sidebar title in email template
  *
  * @since 2.0
  *
- * @param string $title , Title to be displayed in e-mail
+ * @param string $title , Title to be displayed in email
  */
 			$sidebar_title = apply_filters( 'htmlemail_sidebar_title', $title = "What's new" );
 
@@ -955,7 +955,7 @@ if ( is_network_admin() ) {
 				//          $content = preg_replace( "/(MESSAGE)/", $message, $content );
 
 				if ( strpos( $content, '{MESSAGE}' ) !== false ) {
-					//Replace {MESSAGE} in template with actual e-mail content
+					//Replace {MESSAGE} in template with actual email content
 					$key = '{MESSAGE}';
 				} else {
 					//Compatibility with previous version of the plugin, as it used MESSAGE instead of {MESSAGE}
@@ -994,7 +994,7 @@ if ( is_network_admin() ) {
 				}
 				$content = preg_replace( "/($placeholder)/", $placeholders_list[ $placeholder ], $content );
 			}
-			//Replace admin e-mail, left out due to escaped html
+			//Replace admin email, left out due to escaped html
 			$content = preg_replace( '/(%7BADMIN_EMAIL%7D)/', $admin_email, $content );
 
 			return $content;
@@ -1016,7 +1016,7 @@ if ( is_network_admin() ) {
 		}
 
 		/**
-		 * Checks if on setting page for HTML E-mail Template
+		 * Checks if on setting page for HTML Email Template
 		 * @global type $html_template
 		 * @global type $hook_suffix
 		 * @return boolean
@@ -1038,17 +1038,17 @@ if ( is_network_admin() ) {
 		 */
 		function get_preview_data() {
 			if ( ! current_user_can( 'unfiltered_html' ) ) {
-				wp_send_json_error( __( "Whoops, you don't have permissions to preview html.", 'htmlemail' ) );
+				wp_send_json_error( __( "Whoops, you don't have permissions to preview html.", 'ub' ) );
 			}
 			if ( empty( $_POST ) ) {
-				wp_send_json_error( __( 'Whoops, you need to enter some html to preview it!', 'htmlemail' ) );
+				wp_send_json_error( __( 'Whoops, you need to enter some html to preview it!', 'ub' ) );
 			}
 			$content = trim( $_POST['content'] );
 			$content = stripslashes( $content );
 			$content = $this->replace_placeholders( $content );
 
 			if ( empty( $content ) ) {
-				wp_send_json_error( __( 'Whoops, you need to enter some html to preview it!', 'htmlemail' ) );
+				wp_send_json_error( __( 'Whoops, you need to enter some html to preview it!', 'ub' ) );
 			}
 
 			wp_send_json_success( $content );
@@ -1096,34 +1096,34 @@ if ( is_network_admin() ) {
 		}
 
 		/**
-		 * Send a preview e-mail
+		 * Send a preview email
 		 */
 		function preview_email() {
 			global $current_user;
 
-			//Check for empty e-mail and nonce
+			//Check for empty email and nonce
 			if ( empty( $_POST['preview_html_email_address'] ) || empty( $_POST['_ajax_nonce'] ) ) {
-				wp_send_json_error( __( 'Missing Parameters', 'htmlemail' ) );
+				wp_send_json_error( __( 'Missing Parameters', 'ub' ) );
 			}
 
 			//Verify nonce
 			if ( ! wp_verify_nonce( $_POST['_ajax_nonce'], 'preview_email' ) ) {
-				wp_send_json_error( __( 'Nonce verification failed', 'htmlemail' ) );
+				wp_send_json_error( __( 'Nonce verification failed', 'ub' ) );
 			}
 
 			$email = ( isset( $_POST['preview_html_email_address'] ) && is_email( $_POST['preview_html_email_address'] ) ) ? $_POST['preview_html_email_address'] : $current_user->user_email;
-			$sent  = wp_mail( $email, 'Test HTML E-mail Subject', "This is a test message I want to try out to see if it works\n\nIs it working well?" );
+			$sent  = wp_mail( $email, 'Test HTML Email Subject', "This is a test message I want to try out to see if it works\n\nIs it working well?" );
 
 			//Success
 			if ( $sent ) {
-				wp_send_json_success( sprintf( __( 'Preview e-mail was mailed to %s!', 'htmlemail' ), $email ) );
+				wp_send_json_success( sprintf( __( 'Preview email was mailed to %s!', 'ub' ), $email ) );
 			}
 			//Unable to send email
-			wp_send_json_error( __( 'Unable to send test e-mail', 'htmlemail' ) );
+			wp_send_json_error( __( 'Unable to send test email', 'ub' ) );
 		}
 
 		/**
-		 * Return Content type as HTML for plain text e-mail
+		 * Return Content type as HTML for plain text email
 		 *
 		 * @param $content_type
 		 *
@@ -1142,7 +1142,7 @@ if ( is_network_admin() ) {
 		}
 
 		/**
-		 * Set Content type for Woocommerce e-mails
+		 * Set Content type for Woocommerce emails
 		 */
 		function set_woocommerce_content_type( $content_type ) {
 			return 'Content-Type: ' . 'text/html' . "\r\n";
@@ -1155,7 +1155,7 @@ if ( is_network_admin() ) {
 			//Save template content and other settings
 			if ( isset( $_POST['save_html_email_options'] ) ) {
 				if ( ! wp_verify_nonce( $_POST['_wpnonce'], 'html_email-update-options' ) ) {
-					die( __( 'Whoops! There was a problem with the data you posted. Please go back and try again.', 'htmlemail' ) );
+					die( __( 'Whoops! There was a problem with the data you posted. Please go back and try again.', 'ub' ) );
 				}
 
 				$template          = stripslashes( $_POST['template'] );
@@ -1178,7 +1178,7 @@ if ( is_network_admin() ) {
 				ub_update_option( 'modify_html_email', $modify_html_email );
 				ub_update_option( 'html_template_images', $html_template_images );
 
-				echo '<div class="updated"><p>' . esc_html__( 'Success! Your changes were sucessfully saved!', 'htmlemail' ) . '</p></div>';
+				echo '<div class="updated"><p>' . esc_html__( 'Success! Your changes were sucessfully saved!', 'ub' ) . '</p></div>';
 			}
 		}
 	} //End Class

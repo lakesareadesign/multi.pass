@@ -56,7 +56,7 @@ function su_get_config( $key = null ) {
 		return false;
 	}
 
-	return $config[ $key ] = require_once $config_file;
+	return $config[ $key ] = include $config_file;
 
 }
 
@@ -143,8 +143,12 @@ function su_parse_range( $string = '' ) {
  * @param array   $atts Shortcode atts.
  * @return string       Extra CSS class(es) prepended by a space.
  */
-function su_get_css_class( $atts ) {
-	return $atts['class'] ? ' ' . trim( $atts['class'] ) : '';
+if ( ! function_exists( 'su_get_css_class' ) ) {
+
+	function su_get_css_class( $atts ) {
+		return $atts['class'] ? ' ' . trim( $atts['class'] ) : '';
+	}
+
 }
 
 /**
@@ -225,4 +229,17 @@ function su_do_nested_shortcodes( $content, $shortcode ) {
 
 	return do_shortcode( $content );
 
+}
+
+/**
+ * Helper function to force enqueuing of the shortcode generator
+ * assets and templates.
+ *
+ * Usage example:
+ * `add_action( 'admin_init', 'su_enqueue_generator' );`
+ *
+ * @since 5.1.0
+ */
+function su_enqueue_generator() {
+	Su_Generator::enqueue_generator();
 }

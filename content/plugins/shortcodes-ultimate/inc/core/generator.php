@@ -4,63 +4,172 @@
  */
 class Su_Generator {
 
-	/**
-	 * Constructor
-	 */
-	function __construct() {
-		add_action( 'media_buttons',                       array( __CLASS__, 'button' ), 1000 );
+	public function __construct() {
+		add_action(
+			'media_buttons',
+			array( __CLASS__, 'classic_editor_button' ),
+			1000
+		);
+		add_action(
+			'enqueue_block_editor_assets',
+			array( __CLASS__, 'block_editor_button' )
+		);
 
-		add_action( 'wp_ajax_su_generator_settings',       array( __CLASS__, 'settings' ) );
-		add_action( 'wp_ajax_su_generator_preview',        array( __CLASS__, 'preview' ) );
-		add_action( 'su/generator/actions',                array( __CLASS__, 'presets' ) );
+		add_action( 'wp_footer', array( __CLASS__, 'popup' ) );
+		add_action( 'admin_footer', array( __CLASS__, 'popup' ) );
 
-		add_action( 'wp_ajax_su_generator_get_icons',      array( __CLASS__, 'ajax_get_icons' ) );
-		add_action( 'wp_ajax_su_generator_get_terms',      array( __CLASS__, 'ajax_get_terms' ) );
+		add_action( 'wp_ajax_su_generator_settings', array( __CLASS__, 'settings' ) );
+		add_action( 'wp_ajax_su_generator_preview', array( __CLASS__, 'preview' ) );
+		add_action( 'su/generator/actions', array( __CLASS__, 'presets' ) );
+
+		add_action( 'wp_ajax_su_generator_get_icons', array( __CLASS__, 'ajax_get_icons' ) );
+		add_action( 'wp_ajax_su_generator_get_terms', array( __CLASS__, 'ajax_get_terms' ) );
 		add_action( 'wp_ajax_su_generator_get_taxonomies', array( __CLASS__, 'ajax_get_taxonomies' ) );
-		add_action( 'wp_ajax_su_generator_add_preset',     array( __CLASS__, 'ajax_add_preset' ) );
-		add_action( 'wp_ajax_su_generator_remove_preset',  array( __CLASS__, 'ajax_remove_preset' ) );
-		add_action( 'wp_ajax_su_generator_get_preset',     array( __CLASS__, 'ajax_get_preset' ) );
+		add_action( 'wp_ajax_su_generator_add_preset', array( __CLASS__, 'ajax_add_preset' ) );
+		add_action( 'wp_ajax_su_generator_remove_preset', array( __CLASS__, 'ajax_remove_preset' ) );
+		add_action( 'wp_ajax_su_generator_get_preset', array( __CLASS__, 'ajax_get_preset' ) );
 	}
 
 	/**
-	 * Generator button
+	 * @deprecated 5.1.0 Replaced with Su_Generator::classic_editor_button()
 	 */
 	public static function button( $args = array() ) {
-		// Check access
-		if ( !self::access_check() ) return;
-		// Prepare button target
+		self::classic_editor_button( $args );
+	}
+
+	public static function classic_editor_button( $args = array() ) {
+
+		if ( ! self::access_check() ) {
+			return;
+		}
+
+		self::enqueue_generator();
+
 		$target = is_string( $args ) ? $args : 'content';
-		// Prepare args
-		$args = wp_parse_args( $args, array(
+
+		$args = wp_parse_args(
+			$args,
+			array(
 				'target'    => $target,
 				'text'      => __( 'Insert shortcode', 'shortcodes-ultimate' ),
 				'class'     => 'button',
 				'icon'      => plugins_url( 'assets/images/icon.png', SU_PLUGIN_FILE ),
 				'echo'      => true,
-				'shortcode' => false
-			) );
-		// Prepare icon
-		if ( $args['icon'] ) $args['icon'] = '<img src="' . $args['icon'] . '" /> ';
-		// Print button
-		$button = '<a href="javascript:void(0);" class="su-generator-button ' . $args['class'] . '" title="' . $args['text'] . '" data-target="' . $args['target'] . '" data-mfp-src="#su-generator" data-shortcode="' . (string) $args['shortcode'] . '">' . $args['icon'] . $args['text'] . '</a>';
-		// Show generator popup
-		add_action( 'wp_footer',    array( __CLASS__, 'popup' ) );
-		add_action( 'admin_footer', array( __CLASS__, 'popup' ) );
-		// Request assets
-		wp_enqueue_media();
-		su_query_asset( 'css', array( 'simpleslider', 'farbtastic', 'magnific-popup', 'font-awesome', 'su-generator' ) );
-		su_query_asset( 'js', array( 'jquery', 'jquery-ui-core', 'jquery-ui-widget', 'jquery-ui-mouse', 'simpleslider', 'farbtastic', 'magnific-popup', 'jquery-hotkeys', 'su-generator' ) );
-		// Hook
+				'shortcode' => '',
+			)
+		);
+
+		$icon = ( $args['icon'] )
+			? sprintf( '<img src="%s">', $args['icon'] )
+			: '';
+
+		$js_args = sprintf(
+			"'classic', { editorID: '%s', shortcode: '%s' }",
+			esc_attr( $args['target'] ),
+			esc_attr( $args['shortcode'] )
+		);
+
+		$button = sprintf(
+			'<button
+				type="button"
+				class="su-generator-button %1$s"
+				title="%2$s"
+				onclick="SUG.App.insert(%3$s);"
+			>
+				%4$s %5$s
+			</button>',
+			esc_attr( $args['class'] ),
+			esc_attr( $args['text'] ),
+			$js_args,
+			$icon,
+			esc_html( $args['text'] )
+		);
+
 		do_action( 'su/button', $args );
-		// Print/return result
-		if ( $args['echo'] ) echo $button;
+
+		if ( $args['echo'] ) {
+			echo $button;
+		}
+
 		return $button;
+
+	}
+
+	public static function block_editor_button() {
+
+		if ( ! self::access_check() ) {
+			return;
+		}
+
+		self::enqueue_generator();
+
+		wp_enqueue_script(
+			'shortcodes-ultimate-block-editor',
+			plugins_url( 'includes/js/block-editor/index.js', SU_PLUGIN_FILE ),
+			array( 'wp-element', 'wp-editor', 'wp-components', 'su-generator' ),
+			SU_PLUGIN_VERSION,
+			true
+		);
+
+		wp_localize_script(
+			'shortcodes-ultimate-block-editor',
+			'SUBlockEditorL10n',
+			array( 'insertShortcode' => __( 'Insert shortcode', 'shortcodes-ultimate' ) )
+		);
+
+		wp_localize_script(
+			'shortcodes-ultimate-block-editor',
+			'SUBlockEditorSettings',
+			array( 'supportedBlocks' => get_option( 'su_option_supported_blocks', array() ) )
+		);
+
+	}
+
+	public static function enqueue_generator() {
+		do_action( 'su/generator/enqueue' );
+		self::enqueue_assets();
+	}
+
+	public static function enqueue_assets() {
+
+		wp_enqueue_media();
+
+		su_query_asset(
+			'css',
+			array(
+				'simpleslider',
+				'farbtastic',
+				'magnific-popup',
+				'font-awesome',
+				'su-generator',
+			)
+		);
+
+		su_query_asset(
+			'js',
+			array(
+				'jquery',
+				'jquery-ui-core',
+				'jquery-ui-widget',
+				'jquery-ui-mouse',
+				'simpleslider',
+				'farbtastic',
+				'magnific-popup',
+				'su-generator',
+			)
+		);
+
 	}
 
 	/**
 	 * Generator popup form
 	 */
 	public static function popup() {
+
+		if ( ! did_action( 'su/generator/enqueue' ) ) {
+			return;
+		}
+
 		ob_start();
 		$tools = apply_filters( 'su/generator/tools', array(
 				'<a href="' . admin_url( 'admin.php?page=shortcodes-ultimate' ) . '#tab-1" target="_blank" title="' . __( 'Settings', 'shortcodes-ultimate' ) . '">' . __( 'Plugin settings', 'shortcodes-ultimate' ) . '</a>',

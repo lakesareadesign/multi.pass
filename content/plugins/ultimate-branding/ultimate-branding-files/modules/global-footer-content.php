@@ -75,7 +75,7 @@ if ( ! class_exists( 'ub_footer_content' ) ) {
 							'description' => __( 'What is added here will be shown on every blog or site in your network. You can add tracking code, embeds, terms of service links, etc.'. 'ub' ),
 						),
 						'bg_color' => array(
-							'label' => __( 'Background color', 'ub' ),
+							'label' => __( 'Background Color', 'ub' ),
 							'type' => 'color',
 							'description' => __( 'Click on "Clear" button to make background transparent.', 'ub' ),
 						),
@@ -118,7 +118,7 @@ if ( ! class_exists( 'ub_footer_content' ) ) {
 							'description' => __( 'What is added here will be shown on every blog or site in your network. You can add tracking code, embeds, terms of service links, etc.'. 'ub' ),
 						),
 						'bg_color' => array(
-							'label' => __( 'Background color', 'ub' ),
+							'label' => __( 'Background Color', 'ub' ),
 							'type' => 'color',
 							'description' => __( 'Click on "Clear" button to make background transparent.', 'ub' ),
 						),

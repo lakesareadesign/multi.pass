@@ -2,14 +2,19 @@
 $url = plugins_url( '', __FILE__ );
 
 return array(
-	'logo_and_background' => array(
+	'logo' => array(
 		'show_logo' => 'off',
-		'fullscreen_bg' => $url.'/background.jpg',
-		'fullscreen_bg_meta' => array(
-			$url.'/background.jpg',
-			2400,
-			1596,
-			false,
+	),
+	'background' => array(
+		'image' => array(
+			array(
+				'meta' => array(
+					$url.'/background.jpg',
+					2400,
+					1596,
+					false,
+				),
+			),
 		),
 	),
 	'below_form' => array(

@@ -357,8 +357,8 @@ function ub_enqueue_switch_button() {
 	wp_enqueue_style( 'custom-ligin-screen-jquery-switch-button', ub_url( 'assets/css/vendor/jquery.switch_button.css' ), array(), '1.12.1' );
 	$i18n = array(
 		'labels' => array(
-			'label_on' => __( 'on', 'ub' ),
-			'label_off' => __( 'off', 'ub' ),
+			'label_on' => __( 'On', 'ub' ),
+			'label_off' => __( 'Off', 'ub' ),
 			'label_enable' => __( 'Activate', 'ub' ),
 			'label_disable' => __( 'Deactivate', 'ub' ),
 		),
@@ -391,7 +391,15 @@ function ub_get_main_site_ID() {
  * @since 2.1.0
  */
 function ub_register_deactivation_hook() {
-    return;
+}
+
+/**
+ * Set the uninstallation hook for the Ultimate Branding plugin.
+ *
+ * @since 2.3.0
+ */
+function ub_register_uninstall_hook() {
+	return;
 	$value = ub_get_option( 'ultimate_branding_delete_settings', 'delete' );
 	if ( 'preserve' === $value ) {
 		return;

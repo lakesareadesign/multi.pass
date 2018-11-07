@@ -321,7 +321,7 @@ class UB_Admin_Bar {
 UBSTYLE;
 		$save_style = stripslashes( ub_get_option( self::STYLE ) );
 		if ( $editor ) {
-			return $save_style;
+			return '<style>'.$save_style.'</style>';
 		}
 		$styles = empty( $save_style ) ? $style : $save_style;
 		return self::_prefix_styles( $styles );

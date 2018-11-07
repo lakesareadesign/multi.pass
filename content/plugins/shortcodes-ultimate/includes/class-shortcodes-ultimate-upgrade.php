@@ -80,6 +80,10 @@ final class Shortcodes_Ultimate_Upgrade {
 			$this->upgrade_to_5_0_7();
 		}
 
+		if ( $this->is_previous_version_less_than( '5.1.1' ) ) {
+			$this->upgrade_to_5_1_1();
+		}
+
 		$this->save_current_version();
 
 	}
@@ -192,6 +196,27 @@ final class Shortcodes_Ultimate_Upgrade {
 
 			add_option( 'su_option_generator_access', $su_generator_access_value, '', false );
 
+		}
+
+	}
+
+	/**
+	 * Upgrade the plugin to version 5.1.1
+	 *
+	 * 1. Add `su_option_supported_blocks` option.
+	 *
+	 * @since   5.1.1
+	 * @access  private
+	 */
+	private function upgrade_to_5_1_1() {
+
+		/**
+		 * 1. Add `su_option_supported_blocks` option.
+		 */
+		$supported_blocks = 'su_option_supported_blocks';
+
+		if ( false === get_option( $supported_blocks ) ) {
+			add_option( $supported_blocks, array_keys( su_get_config( 'supported-blocks' ) ) );
 		}
 
 	}

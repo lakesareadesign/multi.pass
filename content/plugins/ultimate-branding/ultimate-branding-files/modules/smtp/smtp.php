@@ -324,7 +324,7 @@ if ( ! class_exists( 'ub_smtp' ) ) {
 					),
 				),
 				'test' => array(
-					'title' => __( 'Test email', 'ub' ),
+					'title' => __( 'Test Email', 'ub' ),
 					'description' => __( 'You can use this section to send an email from your server using the above configured SMTP details to see if the email gets delivered.', 'ub' ),
 					'hide-reset' => true,
 					'fields' => array(

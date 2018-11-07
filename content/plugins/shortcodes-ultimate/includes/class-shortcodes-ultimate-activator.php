@@ -79,6 +79,11 @@ class Shortcodes_Ultimate_Activator {
 			'su_option_skip'              => 'on',
 			'su_option_prefix'            => 'su_',
 			'su_option_custom-css'        => '',
+			'su_option_supported_blocks'  => array(
+				'core/paragraph',
+				'core/shortcode',
+				'core/freeform',
+			),
 		);
 
 		foreach ( $defaults as $option => $value ) {

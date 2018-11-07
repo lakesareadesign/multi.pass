@@ -62,8 +62,8 @@ class Su_Assets {
 		// jsRender
 		wp_register_script( 'jsrender', plugins_url( 'assets/js/jsrender.js', SU_PLUGIN_FILE ), array( 'jquery' ), '1.0.0-beta', true );
 		// Magnific Popup
-		wp_register_style( 'magnific-popup', plugins_url( 'assets/css/magnific-popup.css', SU_PLUGIN_FILE ), false, '0.9.9', 'all' );
-		wp_register_script( 'magnific-popup', plugins_url( 'assets/js/magnific-popup.js', SU_PLUGIN_FILE ), array( 'jquery' ), '0.9.9', true );
+		wp_register_style( 'magnific-popup', plugins_url( 'assets/css/magnific-popup.css', SU_PLUGIN_FILE ), false, '1.1.0', 'all' );
+		wp_register_script( 'magnific-popup', plugins_url( 'assets/js/magnific-popup.js', SU_PLUGIN_FILE ), array( 'jquery' ), '1.1.0', true );
 		wp_localize_script( 'magnific-popup', 'su_magnific_popup', array(
 				'close'   => __( 'Close (Esc)', 'shortcodes-ultimate' ),
 				'loading' => __( 'Loading...', 'shortcodes-ultimate' ),
@@ -79,9 +79,9 @@ class Su_Assets {
 		// jPlayer
 		wp_register_script( 'jplayer', plugins_url( 'assets/js/jplayer.js', SU_PLUGIN_FILE ), array( 'jquery' ), '2.4.0', true );
 		// Generator
-		wp_register_style( 'su-generator', plugins_url( 'assets/css/generator.css', SU_PLUGIN_FILE ), array( 'farbtastic', 'magnific-popup' ), SU_PLUGIN_VERSION, 'all' );
-		wp_register_script( 'su-generator', plugins_url( 'assets/js/generator.js', SU_PLUGIN_FILE ), array( 'farbtastic', 'magnific-popup', 'qtip' ), SU_PLUGIN_VERSION, true );
-		wp_localize_script( 'su-generator', 'su_generator', array(
+		wp_register_style( 'su-generator', plugins_url( 'assets/css/generator.css', SU_PLUGIN_FILE ), array( 'farbtastic', 'magnific-popup', 'simpleslider' ), SU_PLUGIN_VERSION, 'all' );
+		wp_register_script( 'su-generator', plugins_url( 'includes/js/generator/index.js', SU_PLUGIN_FILE ), array( 'farbtastic', 'magnific-popup', 'simpleslider' ), SU_PLUGIN_VERSION, true );
+		wp_localize_script( 'su-generator', 'SUGL10n', array(
 				'upload_title'         => __( 'Choose file', 'shortcodes-ultimate' ),
 				'upload_insert'        => __( 'Insert', 'shortcodes-ultimate' ),
 				'isp_media_title'      => __( 'Select images', 'shortcodes-ultimate' ),

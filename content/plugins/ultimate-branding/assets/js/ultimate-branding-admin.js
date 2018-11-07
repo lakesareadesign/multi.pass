@@ -1,26 +1,11 @@
-/*! Ultimate Branding - v2.2.1
+/*! Ultimate Branding - v2.3.0
  * https://premium.wpmudev.org/project/ultimate-branding/
  * Copyright (c) 2018; * Licensed GPLv2+ */
-/* global window, jQuery, ace */
+/* global window, jQuery  */
 
 jQuery( window.document ).ready(function($){
     "use strict";
     $('.ub_color_picker').wpColorPicker();
-    $(".ub_css_editor").each(function(){
-        var editor = ace.edit(this.id);
-        $(this).data("editor", editor);
-        editor.setTheme("ace/theme/monokai");
-        editor.getSession().setMode("ace/mode/css");
-        editor.getSession().setUseWrapMode(true);
-        editor.getSession().setUseWrapMode(false);
-    });
-    $(".ub_css_editor").each(function(){
-        var self = this,
-            $input = $( $(this).data("input") );
-        $(this).data("editor").getSession().on('change', function () {
-            $input.val( $(self).data("editor").getSession().getValue()  );
-        });
-    });
 });
 
 /* global window, jQuery */
@@ -415,6 +400,18 @@ jQuery( window.document ).ready(function($) {
 
 jQuery( window.document ).ready( function( $ ) {
 
+    function ub_bind_reset_image( obj ) {
+        var $this = jQuery( obj );
+        var tr = $this.closest( 'tr' );
+        if ( tr.hasClass( 'simple-option-gallery' ) ) {
+            jQuery('.image-wrapper', tr ).detach();
+        } else {
+            $this.hide();
+            jQuery('input[type=hidden]', tr ).val( null );
+            jQuery('img', tr ).attr( 'src', null );
+        }
+    }
+
     function ub_media_bind( obj, event ) {
         var file_frame;
         var wp_media_post_id;
@@ -451,7 +448,7 @@ jQuery( window.document ).ready( function( $ ) {
             // Do something with attachment.id and/or attachment.url here
             $('.image-preview', container ).attr( 'src', attachment.url ).css( 'width', 'auto' );
             $('.attachment-id', container ).val( attachment.id );
-            $(".image-reset", container).removeClass("disabled");
+            $('.image-reset', container).removeClass('disabled').show();
 
             // Restore the main post ID
             wp.media.model.settings.post.id = wp_media_post_id;
@@ -471,6 +468,10 @@ jQuery( window.document ).ready( function( $ ) {
                     jQuery( ".image-wrapper:last-child .button-select-image", target ).on( 'click', function( event ) {
                         ub_media_bind( this, event );
                     });
+                    jQuery( ".images .image-reset", target ).on( 'click', function() {
+                        ub_bind_reset_image( this );
+                        return false;
+                    });
                 }
             }
 
@@ -489,27 +490,12 @@ jQuery( window.document ).ready( function( $ ) {
             jQuery( ".image-wrapper:last-child .button-select-image", target ).on( 'click', function( event ) {
                 ub_media_bind( this, event );
             });
+            jQuery( ".images .image-reset", target ).on( 'click', function() {
+                ub_bind_reset_image( this );
+                return false;
+            });
         });
     });
-
-    function ub_bind_reset_image( obj ) {
-        var target = jQuery(obj).closest( 'tr');
-        var ub_template = wp.template( 'simple-options-media' );
-        var container = jQuery(obj).closest('.image-wrapper');
-        jQuery('.images', target).append( ub_template({
-            id: container.data('id'),
-            section_key: container.data('section_key'),
-            disabled: 'disabled'
-        }));
-        jQuery( ".image-wrapper:last-child .button-select-image", target ).on( 'click', function( event ) {
-            ub_media_bind( this, event );
-        });
-        jQuery( ".image-wrapper:last-child .image-reset", target ).on( 'click', function() {
-            ub_bind_reset_image( this );
-            return false;
-        });
-        container.detach();
-    }
 
     jQuery(".simple-option-media .image-reset").on("click", function(){
         ub_bind_reset_image( this );
@@ -546,18 +532,20 @@ jQuery( window.document ).ready(function() {
  * Simple Options: select2
  */
 jQuery( window.document ).ready(function($){
-    function UltimateBrandingPublicFormatSite(site) {
+    function UltimateBrandingPublicFormat(site) {
         if (site.loading) {
             return site.text;
         }
         var markup = "<div class='select2-result-site clearfix'>";
-        markup += "<div class='select2-result-site__blogname'>" + site.blogname + "</div>";
-        markup += "<div class='select2-result-site__siteurl'>" + site.siteurl + "</div>";
+        markup += "<div class='select2-result-title'>" + site.title + "</div>";
+        if ( 'undefined' !== typeof site.subtitle ) {
+            markup += "<div class='select2-result-subtitle'>" + site.subtitle + "</div>";
+        }
         markup += "</div>";
         return markup;
     }
-    function UltimateBrandingPublicFormatSiteSelection (site) {
-        return site.blog_id;
+    function UltimateBrandingPublicFormatSelection (site) {
+        return site.title || site.text;
     }
     if (jQuery.fn.select2) {
         $('.ub-select2').select2();
@@ -589,13 +577,13 @@ jQuery( window.document ).ready(function($){
             },
             minimumInputLength: 1,
             escapeMarkup: function (markup) { return markup; },
-            templateResult: UltimateBrandingPublicFormatSite,
-            templateSelection: UltimateBrandingPublicFormatSiteSelection
+            templateResult: UltimateBrandingPublicFormat,
+            templateSelection: UltimateBrandingPublicFormatSelection
         });
     }
 });
 
-/* global window, jQuery, ajaxurl */
+/* global window, jQuery, ajaxurl, ub_admin, wp */
 
 jQuery( window.document ).ready(function($){
     "use strict";
@@ -647,6 +635,118 @@ jQuery( window.document ).ready(function($){
         }
         return false;
     });
+    /**
+     * slave sections
+     */
+    $('.simple-options .postbox.section-is-slave').each( function() {
+        var $this = $(this);
+        var section = $this.data('master-section');
+        var field = $this.data('master-field');
+        var value = $this.data('master-value');
+        $('[name="simple_options['+section+']['+field+']"]').on( 'change', function() {
+            if ( 'checkbox' === $(this).attr('type') ) {
+                if ( 'on' === value && $(this).is(":checked") ) {
+                    $this.show();
+                } else if ( 'off' === value && !$(this).is(":checked") ) {
+                    $this.show();
+                } else {
+                    $this.hide();
+                }
+            } else {
+                if ( $(this).val() === value ) {
+                    $this.show();
+                } else {
+                    $this.hide();
+                }
+            }
+        });
+    });
+    /**
+     * close block
+     */
+    $( 'button.handlediv.button-link, .hndle', $('.simple-options, .ultimate-colors' ) ).on( 'click', function(e) {
+        e.preventDefault();
+        var target = $(this).parent();
+        var form = $(this).closest('form');
+        target.toggleClass( 'closed' );
+        $.post(ajaxurl, {
+            action: 'simple_option',
+            close: target.hasClass( 'closed' ),
+            target: target.attr('id'),
+            nonce: $('[name=postboxes_nonce]', form).val(),
+            tab: $('[name=tab]', form).val()
+        });
+    });
+    /**
+     * Field complex master
+     */
+    $( '.simple-option.simple-option-complex-master' ).each( function() {
+        var $this = $(this);
+        var section = $this.data('master-section');
+        var field = $this.data('master-field');
+        var value = $this.data('master-value');
+        if ( "undefined" === typeof section || "undefined" === typeof field || "undefined" === typeof value) {
+            return;
+        }
+        $( '[name="simple_options[' + section + '][' + field + ']' )
+            .on( 'change', function() {
+                window.console.log($(this));
+                if ( $(this).val() === value ) {
+                    $this.show();
+                } else {
+                    $this.hide();
+                }
+            });
+    });
+    /**
+     * Copy section data
+     */
+    $( '.simple-options .ub-copy-section-settings a' ).on( 'click', function(e) {
+        e.preventDefault();
+        var parent = $(this).closest('div');
+        var data = {
+            'action': 'simple_option',
+            'do': 'copy',
+            'nonce': parent.data('nonce'),
+            'module': parent.data('module'),
+            'section': parent.data('section'),
+            'from': $('select', parent).val()
+        };
+        if ( '-1' === data.from ) {
+            window.alert( window.ub_admin.messages.copy.select_first );
+            return false;
+        }
+        if ( window.confirm( window.ub_admin.messages.copy.confirm ) ) {
+            jQuery.post(ajaxurl, data, function(response) {
+                if ( response.success ) {
+                    window.location.reload();
+                } else {
+                    if ( "undefined" === typeof response.data.message ) {
+                        window.alert( window.ub_admin.messages.wrong );
+                    } else {
+                        window.alert( response.data.message );
+                    }
+                }
+            });
+        }
+        return false;
+    });
+    /**
+     * CSS editor
+     */
+    if ( 'false' !== ub_admin.editor_css ) {
+        jQuery( '.ub_css_editor' ).each( function() {
+            wp.codeEditor.initialize( $(this), ub_admin.editor_css );
+        });
+    }
+    /**
+     * HTML editor
+     */
+    if ( 'false' !== ub_admin.editor_html ) {
+        jQuery( '.ub_html_editor' ).each( function() {
+            wp.codeEditor.initialize( $(this), ub_admin.editor_html );
+        });
+    }
 });
 
 /* global window, jQuery, switch_button */
@@ -658,8 +758,16 @@ jQuery( window.document ).ready(function(){
             jQuery('.simple-option .master-field' ).each( function() {
                 var slave = jQuery(this).data('slave');
                 if ( slave ) {
-                    var slaves = jQuery( '.simple-option.'+slave );
-                    if ( jQuery( '.switch-button-background', jQuery(this).closest('td') ).hasClass( 'checked' ) ) {
+                    var slaves = jQuery( '.simple-option.' + slave );
+                    var show = jQuery( '.switch-button-background', jQuery(this).closest('td') ).hasClass( 'checked' );
+                    /**
+                     * exception:
+                     * module: Comments Control
+                     */
+                    if ( show && 'enabled-posts' === slave ) {
+                        show = jQuery( '.switch-button-background', jQuery( '.simple-option .master-field[data-slave="enabled"]' ).closest( 'td' ) ).hasClass( 'checked' );
+                    }
+                    if ( show ) {
                         slaves.show();
                     } else {
                         slaves.hide();
@@ -772,52 +880,6 @@ jQuery( window.document ).ready(function($){
 
 /* global wp, window, wp_media_post_id, jQuery, ajaxurl, ace, switch_button */
 
-/**
- * close block
- */
-jQuery( window.document ).ready(function(){
-    jQuery( 'button.handlediv.button-link, .hndle', jQuery('.simple-options, .ultimate-colors' ) ).on( 'click', function(e) {
-        e.preventDefault();
-        var target = jQuery(this).parent();
-        var form = jQuery(this).closest('form');
-        target.toggleClass( 'closed' );
-        jQuery.post(ajaxurl, {
-            action: 'simple_option',
-            close: target.hasClass( 'closed' ),
-            target: target.attr('id'),
-            nonce: jQuery('[name=postboxes_nonce]', form).val(),
-            tab: jQuery('[name=tab]', form).val()
-        });
-    });
-});
-/**
- * slave sections
- */
-jQuery( window.document ).ready(function($){
-    $('.simple-options .postbox.section-is-slave').each( function() {
-        var $this = $(this);
-        var section = $this.data('master-section');
-        var field = $this.data('master-field');
-        var value = $this.data('master-value');
-        $('[name="simple_options['+section+']['+field+']"]').on( 'change', function() {
-            if ( 'checkbox' === $(this).attr('type') ) {
-                if ( 'on' === value && $(this).is(":checked") ) {
-                    $this.show();
-                } else if ( 'off' === value && !$(this).is(":checked") ) {
-                    $this.show();
-                } else {
-                    $this.hide();
-                }
-            } else {
-                if ( $(this).val() === value ) {
-                    $this.show();
-                } else {
-                    $this.hide();
-                }
-            }
-        });
-    });
-});
 /**
  * Modules control
  */

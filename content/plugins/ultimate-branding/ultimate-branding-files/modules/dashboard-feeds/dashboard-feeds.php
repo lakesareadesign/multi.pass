@@ -515,7 +515,7 @@ if ( ! class_exists( 'WPMUDEV_Dashboard_Feeds' ) ) {
 
 			<?php
 			if ( 0 >= $version_compare ) {
-				$label_description = __( 'Checked - This will remove the "configure" link on the widget header.(Recommended)<br />Unchecked - allow individual users to control this widget on their own Dashboards. When the feed is saved here again it will replace the custom settings.', 'ub' );
+				$label_description = __( 'Checked - This will remove the "configure" link on the widget header.(Recommended)<br />Unchecked - allow individual users to control this widget on their own Dashboards. When the feed is saved here again it will replace the custom settings.', 'ub' );	   	 		 		 	   		
 
 				if ( $widget_options['number'] == 'df-dashboard_primary' ) {
 					?>

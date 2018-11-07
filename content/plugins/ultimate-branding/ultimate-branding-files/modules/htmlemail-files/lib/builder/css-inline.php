@@ -155,7 +155,7 @@ class CssToInlineStyles
 	private function calculateCSSSpecifity( $selector ) {
 
 		// cleanup selector
-		$selector = str_replace( array( '>', '+' ), array( ' > ', ' + ' ), $selector );	   	 		 		 	   		
+		$selector = str_replace( array( '>', '+' ), array( ' > ', ' + ' ), $selector );
 
 		// init var
 		$specifity = 0;

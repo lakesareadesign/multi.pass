@@ -203,6 +203,18 @@ final class Shortcodes_Ultimate_Admin_Settings extends Shortcodes_Ultimate_Admin
 				'description' => __( 'In this field you can write your custom CSS code for shortcodes. These styles will have higher priority compared to original styles of shortcodes. You can use variables in your CSS code. These variables will be replaced by respective values.', 'shortcodes-ultimate' ),
 			);
 
+			/**
+			 * @since 5.1.0
+			 */
+			$this->plugin_settings[] = array(
+				'id'          => 'su_option_supported_blocks',
+				'type'        => 'checkbox-group',
+				'sanitize'    => array( $this, 'sanitize_checkbox_group' ),
+				'title'       => __( 'Supported blocks', 'shortcodes-ultimate' ),
+				'description' => __( 'Enable the "Insert Shortcode" button in selected blocks', 'shortcodes-ultimate' ),
+				'options'     => su_get_config( 'supported-blocks' ),
+			);
+
 		}
 
 		return apply_filters( 'su/admin/settings', $this->plugin_settings );

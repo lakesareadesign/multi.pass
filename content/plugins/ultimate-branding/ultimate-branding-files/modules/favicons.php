@@ -92,7 +92,7 @@ if ( ! class_exists( 'ub_favicons' ) ) {
 			/**
 			 * multisite only
 			 */
-			if ( $UB_network ) {
+			if ( $UB_network && is_admin() && 'images' === $this->tab ) {
 				$this->options['global']['fields']['use_as_default'] = array(
 					'type' => 'checkbox',
 					'label' => __( 'Default for subsites', 'ub' ),
@@ -118,6 +118,7 @@ if ( ! class_exists( 'ub_favicons' ) ) {
 					$blog_id = ub_get_main_site_ID();
 					$sites = get_sites( array( 'number' => 0 ) );
 					foreach ( $sites as $site ) {
+
 						if ( $blog_id == $site->blog_id ) {
 							continue;
 						}

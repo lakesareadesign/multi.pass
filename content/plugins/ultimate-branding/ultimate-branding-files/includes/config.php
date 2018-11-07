@@ -46,6 +46,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'page_title' => __( 'Admin Bar', 'ub' ),
 			'name' => __( 'Admin Bar', 'ub' ),
 			'description' => __( 'Adds a custom drop-down entry to your admin bar.', 'ub' ),
+			'public' => true,
 		),
 		'admin-bar-logo.php' => array(
 			'module' => 'admin-bar-logo.php',
@@ -54,6 +55,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'title' => __( 'Admin Bar Logo', 'ub' ),
 			'name' => __( 'Admin Bar Logo', 'ub' ),
 			'description' => __( 'Allow to change admin bar logo.', 'ub' ),
+			'public' => true,
 		),
 		'custom-dashboard-welcome.php' => array(
 			'module' => 'custom-dashboard-welcome.php',
@@ -66,9 +68,10 @@ function ub_get_modules_list( $mode = 'full' ) {
 		'custom-email-from.php' => array(
 			'module' => 'custom-email-from/custom-email-from.php',
 			'tab' => 'from-email',
-			'page_title' => __( 'E-mail From', 'ub' ),
-			'name' => __( 'E-mail From', 'ub' ),
+			'page_title' => __( 'Email From', 'ub' ),
+			'name' => __( 'Email From', 'ub' ),
 			'description' => __( 'Allow to setup from email for WordPress outgoing mails.', 'ub' ),
+			'public' => true,
 		),
 		'global-footer-content.php' => array(
 			'module' => 'global-footer-content/global-footer-content.php',
@@ -78,6 +81,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'network-only' => true,
 			'name' => __( 'Footer Content', 'ub' ),
 			'description' => __( 'Simply insert any code that you like into the footer of every blog.', 'ub' ),
+			'public' => true,
 		),
 		'global-header-content.php' => array(
 			'module' => 'global-header-content/global-header-content.php',
@@ -87,6 +91,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'network-only' => true,
 			'name' => __( 'Header Content', 'ub' ),
 			'description' => __( 'Simply insert any code that you like into the header of every blog.', 'ub' ),
+			'public' => true,
 		),
 		'rebranded-meta-widget.php' => array(
 			'module' => 'rebranded-meta-widget/rebranded-meta-widget.php',
@@ -95,6 +100,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'title' => __( 'Rebranded Meta Widget', 'ub' ),
 			'name' => __( 'Rebranded Meta Widget', 'ub' ),
 			'description' => __( 'Simply replaces the default Meta widget in all Multisite blogs with one that has the "Powered By" link branded for your site.', 'ub' ),
+			'public' => true,
 		),
 		'remove-dashboard-link-for-users-without-site.php' => array(
 			'module' => 'remove-dashboard-link-for-users-without-site.php',
@@ -106,7 +112,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'tab' => 'permalinks',
 			'page_title' => __( 'Permalinks Menu', 'ub' ),
 			'name' => __( 'Remove Permalinks Menu Item', 'ub' ),
-			'description' => __( 'Removes the "permalinks" configuration options.', 'ub' ),
+			'description' => __( 'Removes the "Permalinks" Configuration Options.', 'ub' ),
 		),
 		'remove-wp-dashboard-widgets.php' => array(
 			'module' => 'remove-wp-dashboard-widgets/remove-wp-dashboard-widgets.php',
@@ -122,6 +128,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'page_title' => __( 'Site Generator', 'ub' ),
 			'name' => __( 'Site Generator Replacement', 'ub' ),
 			'description' => __( 'Easily customize ALL "Site Generator" text and links. Edit under Site Admin "Options" menu.', 'ub' ),
+			'public' => true,
 		),
 		'site-wide-text-change.php' => array(
 			'module' => 'site-wide-text-change/site-wide-text-change.php',
@@ -130,6 +137,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'menu_title' => __( 'Text Change', 'ub' ),
 			'name' => __( 'Text Change', 'ub' ),
 			'description' => __( 'Would you like to be able to change any wording, anywhere in the entire admin area on your whole site? Without a single hack? Well, if that\'s the case then this plugin is for you!', 'ub' ),
+			'public' => true,
 		),
 		'custom-admin-css.php' => array(
 			'module' => 'custom-admin-css',
@@ -139,20 +147,13 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'name' => __( 'Admin CSS', 'ub' ),
 			'description' => __( 'Add extra CSS to the admin panel.', 'ub' ),
 		),
-		'custom-login-css.php' => array(
-			'module' => 'custom-login-css',
-			'tab' => 'css',
-			'page_title' => __( 'Cascading Style Sheets', 'ub' ),
-			'menu_title' => __( 'CSS', 'ub' ),
-			'name' => __( 'Login CSS', 'ub' ),
-			'description' => __( 'Add extra CSS to the login page.', 'ub' ),
-		),
 		'ultimate-color-schemes.php' => array(
 			'module' => 'ultimate-color-schemes.php',
 			'tab' => 'ultimate-color-schemes',
 			'page_title' => __( 'Color Schemes', 'ub' ),
 			'name' => __( 'Color Schemes', 'ub' ),
 			'description' => __( 'Customize admin color schemes.', 'ub' ),
+			'public' => true,
 		),
 		'admin-message.php' => array(
 			'module' => 'admin-message.php',
@@ -171,6 +172,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'title' => __( 'Favicons', 'ub' ),
 			'name' => __( 'Favicons', 'ub' ),
 			'description' => __( 'Change the Favicon.', 'ub' ),
+			'public' => true,
 		),
 		/**
 		 * Images: Image upload size
@@ -184,6 +186,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'title' => __( 'Limit Image Upload Filesize', 'ub' ),
 			'name' => __( 'Image Upload Size', 'ub' ),
 			'description' => __( 'Allows you to limit the filesize of uploaded images.', 'ub' ),
+			'public' => true,
 		),
 		/**
 		 * Email Template
@@ -194,8 +197,9 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'module' => 'htmlemail',
 			'tab' => 'htmlemail',
 			'page_title' => __( 'Email Template', 'ub' ),
-			'name' => __( 'E-mail Template', 'ub' ),
-			'description' => __( 'Allows you to add HTML templates for all of the standard WordPress e-mails.', 'ub' ),
+			'name' => __( 'Email Template', 'ub' ),
+			'description' => __( 'Allows you to add HTML templates for all of the standard WordPress emails.', 'ub' ),
+			'public' => true,
 		),
 		/**
 		 * Custom Login Screen
@@ -205,11 +209,12 @@ function ub_get_modules_list( $mode = 'full' ) {
 		'custom-login-screen.php' => array(
 			'module' => 'custom-login-screen.php',
 			'tab' => 'login-screen',
-			'page_title' => __( 'Login screen', 'ub' ),
-			'title' => __( 'Login screen', 'ub' ),
+			'page_title' => __( 'Login Screen', 'ub' ),
+			'title' => __( 'Login Screen', 'ub' ),
 			'wp' => '4.6',
 			'name' => __( 'Login Screen', 'ub' ),
 			'description' => __( 'Allow to customize login screen.', 'ub' ),
+			'public' => true,
 		),
 		/**
 		 * Custom MS email content
@@ -220,10 +225,11 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'module' => 'custom-ms-register-emails.php',
 			'network-only' => true,
 			'tab' => 'custom-ms-register-emails',
-			'page_title' => __( 'MultiSite Registration emails', 'ub' ),
-			'menu_title' => __( 'Registration emails', 'ub' ),
-			'name' => __( 'MultiSite Registration e-mails', 'ub' ),
+			'page_title' => __( 'MultiSite Registration Emails', 'ub' ),
+			'menu_title' => __( 'Registration Emails', 'ub' ),
+			'name' => __( 'MultiSite Registration Emails', 'ub' ),
 			'description' => __( '', 'ub' ),
+			'public' => true,
 		),
 		/**
 		 * Export - Import
@@ -233,7 +239,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 		'export-import.php' => array(
 			'module' => 'export-import.php',
 			'tab' => 'export-import',
-			'page_title' => __( 'Export & Import Ultimate Branding configuration', 'ub' ),
+			'page_title' => __( 'Export & Import Ultimate Branding Configuration', 'ub' ),
 			'menu_title' => __( 'Export/Import', 'ub' ),
 			'name' => __( 'Export & Import', 'ub' ),
 			'description' => __( 'Module allow to export and import Ultimate Branding settings.', 'ub' ),
@@ -261,6 +267,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'name' => __( 'Comments Control', 'ub' ),
 			'description' => __( 'Fine tune comment throttling.', 'ub' ),
 			'wp' => '3.9',
+			'public' => true,
 		),
 		/**
 		 * Dashboard Feeds
@@ -301,6 +308,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'since' => '1.9.1',
 			'name' => __( 'Coming Soon Page & Maintenance Mode', 'ub' ),
 			'description' => __( 'Customize the Maintenance Mode page and create Coming Soon Page.', 'ub' ),
+			'public' => true,
 		),
 		/**
 		 * Dashboard widgets
@@ -323,14 +331,15 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'module' => 'signup-blog-description',
 			'network-only' => true,
 			'tab' => 'multisite',
-			'page_title' => __( 'Blog Description on Blog Creation', 'ub' ),
-			'menu_title' => __( 'Multisite', 'ub' ),
+			'page_title' => __( 'Signup Form', 'ub' ),
+			'menu_title' => __( 'Signup Form', 'ub' ),
 			/**
 			 * https://app.asana.com/0/47431170559378/582548491040986
 			 */
 			'disabled' => true,
 			'name' => __( 'Blog Description on Blog Creation', 'ub' ),
 			'description' => __( 'Allows new bloggers to be able to set their tagline when they create a blog in Multisite.', 'ub' ),
+			'public' => true,
 		),
 		/**
 		 * Author Box
@@ -344,6 +353,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'menu_title' => __( 'Author Box', 'ub' ),
 			'name' => __( 'Author Box', 'ub' ),
 			'description' => __( 'Adds a responsive author box at the end of your posts, showing the author name, author gravatar and author description and social profiles.', 'ub' ),
+			'public' => true,
 		),
 		/**
 		 * SMTP
@@ -357,6 +367,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'since' => '2.0.0',
 			'name' => __( 'SMTP', 'ub' ),
 			'description' => __( 'SMTP allows you to configure and send all outgoing emails via a SMTP server. This will prevent your emails from going into the junk/spam folder of the recipients.', 'ub' ),
+			'public' => true,
 		),
 		/**
 		 * db-error-page
@@ -397,6 +408,50 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'since' => '2.2.0',
 			'name' => __( 'Cookie Notice', 'ub' ),
 			'description' => __( 'Cookie Notice allows you to elegantly inform users that your site uses cookies and to comply with the EU cookie law GDPR regulations.', 'ub' ),
+			'public' => true,
+		),
+		/**
+		 * Blog creation: signup code
+		 *
+		 * @since 2.3.0
+		 */
+		'signup-code.php' => array(
+			'module' => 'signup-code',
+			'tab' => 'multisite',
+			'page_title' => __( 'Signup Form', 'ub' ),
+			'menu_title' => __( 'Signup Form', 'ub' ),
+			'name' => __( 'Signup Code', 'ub' ),
+			'description' => __( 'Limit who can sign up for a blog or user account at your site by requiring a special code that you can easily configure yourself.', 'ub' ),
+			'since' => '2.2.1',
+			'public' => true,
+		),
+		/**
+		 * Document
+		 *
+		 * @since 2.3.0
+		 */
+		'document.php' => array(
+			'module' => 'document',
+			'tab' => 'document',
+			'page_title' => __( 'Document', 'ub' ),
+			'since' => '2.3.0',
+			'name' => __( 'Document', 'ub' ),
+			'description' => __( 'Allow to change defults for entry display.', 'ub' ),
+			'public' => true,
+		),
+		/**
+		 * Tracking codes
+		 *
+		 * @since 2.3.0
+		 */
+		'tracking-codes/tracking-codes.php' => array(
+			'module' => 'tracking-codes',
+			'tab' => 'tracking-codes',
+			'page_title' => __( 'Tracking Codes', 'ub' ),
+			'since' => '2.3.0',
+			'name' => __( 'Tracking Codes', 'ub' ),
+			'description' => __( 'Tracking Code module give you the ability to manage your tracking code and scripts in one single page.', 'ub' ),
+			'public' => true,
 		),
 	);
 	/**

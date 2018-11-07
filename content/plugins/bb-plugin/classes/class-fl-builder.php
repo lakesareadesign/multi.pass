@@ -62,7 +62,7 @@ final class FLBuilder {
 	 * @since 2.1
 	 */
 	static public $fa4_url = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.4.1/css/all.css';
+	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.4.2/css/all.css';
 
 	/**
 	 * Initializes hooks.
@@ -402,6 +402,8 @@ final class FLBuilder {
 		wp_register_script( 'yui3',                  $js_url . 'yui3.min.js', array(), $ver, true );
 		wp_register_script( 'youtube-player',        'https://www.youtube.com/iframe_api', array(), $ver, true );
 		wp_register_script( 'vimeo-player',          'https://player.vimeo.com/api/player.js', array(), $ver, true );
+		wp_deregister_script( 'imagesloaded' );
+		wp_register_script( 'imagesloaded', includes_url( 'js/imagesloaded.min.js' ), array( 'jquery' ) );
 	}
 
 	/**

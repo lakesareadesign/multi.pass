@@ -15,4 +15,15 @@ jQuery(document).ready(function () {
         });
         return false;
     });
+    if ( 'function' === typeof jQuery.fn.datepicker ) {
+        jQuery('#till .datepicker').each( function() {
+            $(this).datepicker({
+                altFormat: 'yy-mm-dd',
+                altField: '#'+$(this).data('alt'),
+                selectOtherMonths: true,
+                showButtonPanel: true,
+                minDate: $(this).data('min')
+            });
+        });
+    }
 });

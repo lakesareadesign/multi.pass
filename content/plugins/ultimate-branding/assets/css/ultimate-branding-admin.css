@@ -24,6 +24,9 @@
 .toplevel_page_branding .postbox.description ul {
   list-style: inherit;
 }
+.toplevel_page_branding .postbox .ub-copy-section-settings {
+  float: right;
+}
 .toplevel_page_branding #dashboard-widgets-wrap .hndle {
   cursor: default;
 }
@@ -74,6 +77,19 @@
 }
 .toplevel_page_branding .tabs .ub-hidden {
   display: none;
+}
+.toplevel_page_branding #screen-options-wrap .ub-modules-statistics table {
+  border-collapse: collapse;
+}
+.toplevel_page_branding #screen-options-wrap .ub-modules-statistics table td, .toplevel_page_branding #screen-options-wrap .ub-modules-statistics table th {
+  border: 1px solid #ddd;
+  padding: .3em .5em;
+}
+.toplevel_page_branding #screen-options-wrap .ub-modules-statistics table tbody td {
+  text-align: right;
+}
+.toplevel_page_branding #screen-options-wrap .ub-modules-statistics table tbody td:first-of-type {
+  text-align: initial;
 }
 
 tr.inactivemodule {
@@ -126,13 +142,10 @@ li.link_row h4 {
 .ahc-help_item {
   padding: 10px;
   border: 1px solid #ccc;
-  -moz-border-radius: 3px;
-  -khtml-border-radius: 3px;
-  -webkit-border-radius: 3px;
   border-radius: 3px;
-  -moz-box-shadow: 0 3px 3px #ccc;
-  -webkit-box-shadow: 0 3px 3px #ccc;
-  box-shadow: 0 3px 3px #ccc;
+  -webkit-border-radius: 3px;
+  -moz-border-radius: 3px;
+  @inline box-shadow( 0 3px 3px #ccc );
 }
 
 .ahc-help_item.even {
@@ -259,10 +272,11 @@ li.link_row h4 {
   text-align: center;
 }
 
-.simple-option-select2 select {
+.simple-option-select2 select,
+.simple-option-select2-ajax select {
   min-width: 300px;
   width: 40%;
 }
 
 
-/* 133620-1538021326-au */
+/* 133620-1541616643-au */

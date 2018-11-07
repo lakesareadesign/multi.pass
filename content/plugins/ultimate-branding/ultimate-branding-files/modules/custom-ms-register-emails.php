@@ -96,10 +96,10 @@ if ( ! class_exists( 'ub_custom_ms_register_emails' ) ) {
 		}
 
 		protected function set_options() {
-			$new_blog_message = __( "To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another e-mail* with your login.\n\nAfter you activate, you can visit your site here:\n\n%s" );
-			$new_blog_title = _x( '[%1$s] Activate %2$s', 'New site notification e-mail subject' );
-			$new_sign_up_message = __( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another e-mail* with your login." );
-			$new_sign_up_title = _x( '[%1$s] Activate %2$s', 'New user notification e-mail subject' );
+			$new_blog_message = __( "To activate your blog, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login.\n\nAfter you activate, you can visit your site here:\n\n%s" );
+			$new_blog_title = _x( '[%1$s] Activate %2$s', 'New site notification email subject' );
+			$new_sign_up_message = __( "To activate your user, please click the following link:\n\n%s\n\nAfter you activate, you will receive *another email* with your login." );
+			$new_sign_up_title = _x( '[%1$s] Activate %2$s', 'New user notification email subject' );
 			$welcome_email = __( 'Howdy USERNAME,
 
 Your new SITE_NAME site has been successfully set up at:
@@ -117,12 +117,12 @@ We hope you enjoy your new site. Thanks!
 
 			$this->options = array(
 			'wpmu_signup_blog_notification' => array(
-				'title' => __( 'Filters the message content of the new blog notification e-mail', 'ub' ),
+				'title' => __( 'Filters the message content of the new blog notification email', 'ub' ),
 				'fields' => array(
 					'status' => array(
 						'type' => 'checkbox',
 						'label' => __( 'Status', 'ub' ),
-						'description' => __( 'Would you like to replace the new blog notification e-mail?', 'ub' ),
+						'description' => __( 'Would you like to replace the new blog notification email?', 'ub' ),
 						'options' => array(
 							'on' => __( 'Yes', 'ub' ),
 							'off' => __( 'No', 'ub' ),
@@ -148,12 +148,12 @@ We hope you enjoy your new site. Thanks!
 				),
 			),
 			'wpmu_signup_user_notification' => array(
-				'title' => __( 'Filters the content of the notification e-mail for new user sign-up', 'ub' ),
+				'title' => __( 'Filters the content of the notification email for new user sign-up', 'ub' ),
 				'fields' => array(
 					'status' => array(
 						'type' => 'checkbox',
 						'label' => __( 'Status', 'ub' ),
-						'description' => __( 'Would you like to replace the new user sign-up notification e-mail?', 'ub' ),
+						'description' => __( 'Would you like to replace the new user sign-up notification email?', 'ub' ),
 						'options' => array(
 							'on' => __( 'Yes', 'ub' ),
 							'off' => __( 'No', 'ub' ),
@@ -179,12 +179,12 @@ We hope you enjoy your new site. Thanks!
 				),
 			),
 			'wpmu_welcome_notification' => array(
-				'title' => __( 'The welcome e-mail after site activation', 'ub' ),
+				'title' => __( 'The welcome email after site activation', 'ub' ),
 				'fields' => array(
 					'status' => array(
 						'type' => 'checkbox',
 						'label' => __( 'Status', 'ub' ),
-						'description' => __( 'Would you like to replace the new blog notification e-mail?', 'ub' ),
+						'description' => __( 'Would you like to replace the new blog notification email?', 'ub' ),
 						'options' => array(
 							'on' => __( 'Yes', 'ub' ),
 							'off' => __( 'No', 'ub' ),

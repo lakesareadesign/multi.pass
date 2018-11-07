@@ -176,9 +176,9 @@ if ( ! class_exists( 'ub_comments_control' ) ) {
 						),
 						'by_post_type' => array(
 							'type' => 'checkbox',
-							'label' => __( 'Post types', 'ub' ),
+							'label' => __( 'Post Types', 'ub' ),
 							'options' => array(
-								'on' => __( 'Certain post types', 'ub' ),
+								'on' => __( 'Certain Post Types', 'ub' ),
 								'off' => __( 'All', 'ub' ),
 							),
 							'default' => 'off',
@@ -187,7 +187,7 @@ if ( ! class_exists( 'ub_comments_control' ) ) {
 							'slave-class' => 'enabled-posts',
 						),
 						'post_types' => array(
-							'label' => __( 'Certain post types', 'ub' ),
+							'label' => __( 'Certain Post Types', 'ub' ),
 							'type' => 'checkboxes',
 							'master' => 'enabled-posts',
 							'options' => $this->get_post_types(),
@@ -200,13 +200,13 @@ if ( ! class_exists( 'ub_comments_control' ) ) {
 					'fields' => array(
 						'whitelist' => array(
 							'type' => 'textarea',
-							'label' => __( 'IP whitelist', 'ub' ),
+							'label' => __( 'IP Whitelist', 'ub' ),
 							'description' => __( 'IPs for which comments will not be throttled. One IP per line or comma separated.', 'ub' ),
 							'classes' => array( 'large-text' ),
 						),
 						'blacklist' => array(
 							'type' => 'textarea',
-							'label' => __( 'IP blacklist', 'ub' ),
+							'label' => __( 'IP Blacklist', 'ub' ),
 							'description' => __( 'IPs for which comments will be throttled. One IP per line or comma separated.', 'ub' ),
 							'classes' => array( 'large-text' ),
 						),

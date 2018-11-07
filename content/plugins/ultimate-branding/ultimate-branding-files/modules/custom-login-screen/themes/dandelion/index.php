@@ -2,7 +2,7 @@
 $url = plugins_url( '', __FILE__ );
 
 return array(
-	'logo_and_background' => array(
+	'logo' => array(
 		'logo_upload' => $url.'/logo.png',
 		'logo_upload_meta' => array(
 			$url.'/logo.png',
@@ -10,12 +10,17 @@ return array(
 			200,
 			false,
 		),
-		'fullscreen_bg' => $url.'/background.jpg',
-		'fullscreen_bg_meta' => array(
-			$url.'/background.jpg',
-			2400,
-			1596,
-			false,
+	),
+	'background' => array(
+		'image' => array(
+			array(
+				'meta' => array(
+					$url.'/background.jpg',
+					2400,
+					1596,
+					false,
+				),
+			),
 		),
 	),
 	'form' => array(

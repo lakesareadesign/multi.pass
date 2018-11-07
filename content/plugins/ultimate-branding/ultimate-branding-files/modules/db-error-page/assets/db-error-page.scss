@@ -10,7 +10,6 @@ html,
 }
 body {
     &.ultimate-branding-settings-db-error-page {
-        .mask,
         .overall {
             position: absolute;
             left: 0;
@@ -23,7 +22,7 @@ body {
             align-items: center;
             .page {
                 margin: 0 auto;
-                padding: 1em 2em;
+                padding: 0 2em;
             }
         }
     }

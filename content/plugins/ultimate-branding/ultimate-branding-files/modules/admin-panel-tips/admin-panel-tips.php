@@ -5,11 +5,13 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 		private $admin_url = '';
 		private $post_type = 'admin_panel_tip';
 		private $meta_field_name = '_ub_page';
+		private $meta_field_name_till = '_ub_till';
 		protected $tab_name = 'admin-panel-tips';
 
 		public function __construct() {
 			$this->admin_url = $this->get_admin_url();
 			add_action( 'save_post', array( $this, 'save_post' ), 10, 3 );
+			add_action( 'save_post', array( $this, 'save_post_till' ), 10, 3 );
 			add_action( 'admin_notices', array( $this, 'output' ) );
 			add_action( 'profile_personal_options', array( $this, 'profile_option_output' ) );
 			add_action( 'personal_options_update', array( $this, 'profile_option_update' ) );
@@ -23,7 +25,7 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 			 *
 			 * @since 1.8.8
 			 */
-			add_action( 'add_meta_boxes', array( $this, 'add_meta_box' ) );
+			add_action( 'add_meta_boxes', array( $this, 'add_meta_boxes' ) );
 		}
 
 		protected function set_options() {
@@ -156,25 +158,38 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 			if ( 'branding' == $screen->parent_base ) {
 				return;
 			}
-
 			global $wpdb, $current_site, $current_user;
-
 			//hide if turned off
 			$show_tips = get_user_meta( $current_user->ID,'show_tips', true );
 			if ( 'no' == $show_tips ) {
 				return;
 			}
-
 			$current_screen = get_current_screen();
 			$meta_query = array(
-				'relation' => 'OR',
+				'relation' => 'AND',
 				array(
-					'key' => $this->meta_field_name,
-					'value' => 'everywhere',
+					'relation' => 'OR',
+					array(
+						'key' => $this->meta_field_name,
+						'value' => 'everywhere',
+					),
+					array(
+						'key' => $this->meta_field_name,
+						'value' => $current_screen->parent_file,
+					),
 				),
 				array(
-					'key' => $this->meta_field_name,
-					'value' => $current_screen->parent_file,
+					'relation' => 'OR',
+					array(
+						'key' => $this->meta_field_name_till,
+						'compare' => 'NOT EXISTS',
+					),
+					array(
+						'key' => $this->meta_field_name_till,
+						'value' => time(),
+						'compare' => '>',
+						'type' => 'NUMERIC',
+					),
 				),
 			);
 			$args = array(
@@ -184,6 +199,9 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 				'post_status' => 'publish',
 				'meta_query' => $meta_query,
 			);
+			/**
+			 * get closed tips list
+			 */
 			$post__not_in = get_user_meta( get_current_user_id(), 'tips_dismissed', true );
 			if ( ! empty( $post__not_in ) ) {
 				if ( ! is_array( $post__not_in ) ) {
@@ -191,7 +209,9 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 				}
 				$args['post__not_in'] = $post__not_in;
 			}
-
+			/**
+			 * get tips
+			 */
 			$the_query = new WP_Query( $args );
 			if ( $the_query->posts ) {
 				$post = array_shift( $the_query->posts );
@@ -305,7 +325,7 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 			}
 		}
 
-		function where_to_display__get_meta( $value ) {
+		public function where_to_display__get_meta( $value ) {
 			global $post;
 			$field = get_post_meta( $post->ID, $value, true );
 			if ( ! empty( $field ) ) {
@@ -320,11 +340,19 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 		 *
 		 * @since 1.8.8
 		 */
-		public function add_meta_box() {
+		public function add_meta_boxes() {
 			add_meta_box(
 				'where_to_display',
 				__( 'Where to display?', 'ub' ),
 				array( $this, 'html' ),
+				'admin_panel_tip',
+				'side',
+				'default'
+			);
+			add_meta_box(
+				'till',
+				__( 'Display till', 'ub' ),
+				array( $this, 'add_till' ),
 				'admin_panel_tip',
 				'side',
 				'default'
@@ -428,6 +456,77 @@ if ( ! class_exists( 'ub_admin_panel_tips' ) ) {
 				);
 			}
 			return $admin_url;
+		}
+
+		/**
+		 * Add till
+		 *
+		 * @since 2.3.0
+		 */
+		public function add_till( $post ) {
+			global $menu;
+			wp_nonce_field( '_till_date_nonce', 'till_date_nonce' );
+			printf( '<p>%s</p>', esc_html__( 'Till date:', 'ub' ) );
+			printf( '<p class="description">%s</p>', esc_html__( 'Leave empty to unlimited tip time.', 'ub' ) );
+			$current = get_post_meta( $post->ID, $this->meta_field_name_till, true );
+			if ( ! empty( $current ) ) {
+				$current = date_i18n( get_option( 'date_format' ), $current );
+			}
+			$alt = sprintf( '%s_%s', $this->meta_field_name_till, md5( $current ) );
+			printf(
+				'<input type="text" class="datepicker" name="%s[human]" value="%s" data-alt="%s" data-min="%s" />',
+				esc_attr( $this->meta_field_name_till ),
+				esc_attr( $current ),
+				esc_attr( $alt ),
+				esc_attr( date( 'y-m-d', time() ) )
+			);
+			printf(
+				'<input type="hidden" name="%s[alt]" value="%s" id="%s" />',
+				esc_attr( $this->meta_field_name_till ),
+				esc_attr( $current ),
+				esc_attr( $alt )
+			);
+			wp_enqueue_script( 'jquery-ui-datepicker' );
+			wp_localize_jquery_ui_datepicker();
+			wp_enqueue_style( 'ub-jquery-ui', ub_url( 'assets/css/vendor/jquery-ui.min.css' ), array(), '1.12.1' );
+		}
+
+		/**
+		 * save till meta field
+		 *
+		 * @since 2.3.0
+		 */
+		public function save_post_till( $post_id, $post, $update ) {
+			$post_type = get_post_type( $post_id );
+			if ( $this->post_type != $post_type ) {
+				return;
+			}
+			/**
+			 * check nonce
+			 */
+			if ( ! isset( $_POST['till_date_nonce'] ) || ! wp_verify_nonce( $_POST['till_date_nonce'], '_till_date_nonce' ) ) {
+				return;
+			}
+			/**
+			 * get from edit form
+			 */
+			$values = array();
+			if ( isset( $_POST[ $this->meta_field_name_till ] ) ) {
+				$values = $_POST[ $this->meta_field_name_till ];
+			}
+			delete_post_meta( $post_id, $this->meta_field_name_till );
+			if ( isset( $values['human'] ) ) {
+				if ( empty( $values['human'] ) ) {
+					return;
+				}
+			} else {
+				return;
+			}
+			if ( ! isset( $values['alt'] ) || empty( $values['alt'] ) ) {
+				return;
+			}
+			$date = strtotime( sprintf( '%s 23:59:59', $values['alt'] ) );
+			add_post_meta( $post_id, $this->meta_field_name_till, $date, true );
 		}
 	}
 }

@@ -5,7 +5,7 @@ Donate link: https://paypal.me/anovladimir
 Tags: shortcode, toggle, columns, button, slider, video, map, visual, responsive, shortcodes, youtube, vimeo, audio, mp3, tabs, jquery, box, accordion, toggle, pullquote, list, image, gallery, navigation, permalink, feed, rss, members, membership, guests, carousel, icons, rtl, multilingual
 Requires at least: 3.5
 Requires PHP: 5.2.4
-Tested up to: 4.9
+Tested up to: 5.0
 Stable tag: trunk
 
 A comprehensive collection of visual components for your site
@@ -15,26 +15,62 @@ A comprehensive collection of visual components for your site
 
 [Shortcodes Ultimate](https://getshortcodes.com/) is a comprehensive collection of various visual and functional elements, which you can use in the post editor, text widgets or even in template files. Using Shortcodes Ultimate you can easily create tabs, buttons, boxes, sliders and carousels, responsive videos and much, much more.
 
-= Feature highlights =
-* [50+ beautiful shortcodes](https://getshortcodes.com/shortcodes/)
+
+= Features =
+
+* 50+ beautiful shortcodes
 * 1-click shortcode insertion with live preview
+* Gutenberg-ready
 * Works with any theme
 * Modern responsive design
-* [Comprehensive documentation](http://docs.getshortcodes.com/)
+* Documentation
 * Custom CSS editor
 * Custom widget
-* Translated into 9 languages
+* Translation-ready
 * RTL support
-* Powerful API
+* Developer-friendly
+
+
+= Links =
+
+* [Available shortcodes](https://getshortcodes.com/shortcodes/)
+* [Add-ons](https://getshortcodes.com/add-ons/)
+* [Documentation](https://docs.getshortcodes.com)
+* [Support forum](https://wordpress.org/support/plugin/shortcodes-ultimate)
+* [Premium support](https://getshortcodes.com/support/)
+* [GitHub](https://github.com/vanokhin/shortcodes-ultimate)
+
 
 = Check out premium add-ons! =
+
 * [Extra Shortcodes](https://getshortcodes.com/add-ons/extra-shortcodes/) - 15+ additional shortcodes
-* [Additional Skins](https://getshortcodes.com/add-ons/additional-skins/) - 60+ additional skins for plugin shortcodes
-* [Shortcode Creator](https://getshortcodes.com/add-ons/shortcode-creator/) - allows you to create your own custom shortcodes
+* [Additional Skins](https://getshortcodes.com/add-ons/additional-skins/) - 60+ additional skins
+* [Shortcode Creator](https://getshortcodes.com/add-ons/shortcode-creator/) - create your own custom shortcodes
 * __[Add-ons Bundle](https://getshortcodes.com/add-ons/add-ons-bundle/)__ - All-in-one!
 
+
+= Available Shortcodes =
+
+`
+Heading       Tabs          Spoiler     Accordion
+Divider       Spacer        Highlight   Label
+Quote         Pullquote     Dropcap     Columns
+List          Button        Service     Box
+Note          Expand        Lightbox    Tooltip
+Private       YouTube       Vimeo       Dailymotion
+Audio         Video         Table       Permalink
+Members       Guests        RSS         Menu
+Sub pages     Siblings      Document    Google map
+Slider        Carousel      Gallery     Posts
+Dummy text    Dummy image   Animation   Meta data
+User data     Post data     Template    QR code
+Scheduler
+`
+
+
 = Thanks to these great guys for contribution =
-* [Detailed reviews by advanced users](http://docs.getshortcodes.com/article/84-external-resources)
+
+* [Reviews by advanced users](http://docs.getshortcodes.com/article/84-external-resources)
 * Dmitry Semenov - [Magnific Popup jQuery plugin](http://dimsemenov.com/plugins/magnific-popup/)
 * Craig Thompson - [qTip jQuery plugin](http://qtip2.com/)
 * Vladimir Kharlampidi - [Swiper jQuery plugin](http://www.idangero.us/sliders/swiper/)
@@ -47,16 +83,24 @@ A comprehensive collection of visual components for your site
 * cs_cz locale: [Punc00](http://nuze.cz/)
 * sv_se locale: [Javier Marcilla](http://ninjaseo.es/)
 
+
 == Installation ==
 
-Unzip plugin file and upload "shortcodes-ultimate" folder under your "/wp-content/plugins/" directory.
+= From within dashboard (recommended) =
 
-Resulted plugin path should be:
-"/wp-content/plugins/shortcodes-ultimate/**"
+1. Navigate to `Dashboard` ▸ `Plugins` ▸ `Add New`;
+2. Search for `Shortcodes Ultimate`;
+3. Click `Install`, then `Activate`.
 
-Activate the plugin at "Dashboard – Plugins" administration page.
+[Watch video of the process](https://www.youtube.com/watch?v=6xhplrZJD9c).
 
-[Complete installation guide](http://docs.getshortcodes.com/article/13-plugin-installation).
+= Manual installation =
+
+1. Download a .zip file with plugin;
+2. Unzip downloaded archive and upload `shortcodes-ultimate` folder under your `/wp-content/plugins/` directory (resulted plugin path should be `/wp-content/plugins/shortcodes-ultimate/**`);
+1. Navigate to `Dashboard` ▸ `Plugins` and active the plugin.
+
+[Detailed installation guide](http://docs.getshortcodes.com/article/13-plugin-installation).
 
 
 == Screenshots ==
@@ -93,7 +137,7 @@ Yes! [How to use shortcodes in template files](http://docs.getshortcodes.com/art
 Yes! Shortcodes Ultimate is designed to work with any theme, but your theme must include very basic things: 'wp_head' and 'wp_footer' template tags. Sometimes, the plugin may not work properly because of javascript errors caused by third-party plugins/themes.
 
 = Where can I report a bug? =
-You should [create an issue at GitHub](https://github.com/gndev/shortcodes-ultimate/) or [open new support ticket](https://getshortcodes.com/account/open-support-ticket/) (for premium add-ons only).
+You should [create an issue at GitHub](https://github.com/gndev/shortcodes-ultimate/) or [open new support ticket](https://getshortcodes.com/contact/) (for premium add-ons only).
 
 = Where to find additional information? =
 Plugin has comprehensive [documentation](http://docs.getshortcodes.com/).
@@ -101,10 +145,26 @@ Also, you can find more answers at [support page](https://getshortcodes.com/supp
 
 = Where can I get support or talk to other users? =
 If you get stuck, you can ask for help in [official plugin forum](https://wordpress.org/support/plugin/shortcodes-ultimate).
-For help with premium add-ons, please [open new support ticket](https://getshortcodes.com/account/open-support-ticket/).
+For help with premium add-ons, please [open new support ticket](https://getshortcodes.com/contact/).
 
 
 == Changelog ==
+
+= 5.1.1 =
+
+- Gutenberg compatibility enabled by default
+
+
+= 5.1.0 =
+
+**What's new**
+
+- Added compatibility with the Gutenberg editor. [Learn more](https://vanokhin.com/su-now-supports-gutenberg/).
+
+**Fixes**
+
+- Fixed `<img>` icon appearance of the `[su_service]` shortcode
+
 
 = 5.0.8 =
 

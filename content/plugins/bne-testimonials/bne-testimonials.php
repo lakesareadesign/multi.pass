@@ -1,7 +1,7 @@
 <?php
 /*
  * Plugin Name: BNE Testimonials
- * Version: 2.0.2
+ * Version: 2.0.3
  * Description: Display testimonials on any page or widget area as list or slider. Upgrade to PRO for additional layouts, themes, API, 5-star ratings and schema markup.
  * Author: Kerry Kline
  * Author URI: https://www.bnecreative.com
@@ -45,7 +45,7 @@ class BNE_Testimonials {
 	function __construct() {
 		
 		// Set Constants
-		define( 'BNE_TESTIMONIALS_VERSION', '2.0.2' );
+		define( 'BNE_TESTIMONIALS_VERSION', '2.0.3' );
 		define( 'BNE_TESTIMONIALS_DIR', dirname( __FILE__ ) );
 		define( 'BNE_TESTIMONIALS_URI', plugins_url( '', __FILE__ ) );
 		define( 'BNE_TESTIMONIALS_BASENAME', plugin_basename( __FILE__ ) );
@@ -142,12 +142,11 @@ class BNE_Testimonials {
 		*/
 		
 		// Planned Migration Step 2 of 3
-		//include_once( BNE_TESTIMONIALS_DIR . '/includes/legacy/migrate.php' );
-		include_once( BNE_TESTIMONIALS_DIR . '/includes/legacy/testimonial-output.php' );
-
-		include_once( BNE_TESTIMONIALS_DIR . '/includes/legacy/shortcode-list.php' );
-		include_once( BNE_TESTIMONIALS_DIR . '/includes/legacy/shortcode-slider.php' );	
+		include_once( BNE_TESTIMONIALS_DIR . '/includes/legacy/migrate.php' );
 		
+		//include_once( BNE_TESTIMONIALS_DIR . '/includes/legacy/testimonial-output.php' );
+		//include_once( BNE_TESTIMONIALS_DIR . '/includes/legacy/shortcode-list.php' );
+		//include_once( BNE_TESTIMONIALS_DIR . '/includes/legacy/shortcode-slider.php' );	
 		
 		include_once( BNE_TESTIMONIALS_DIR . '/includes/legacy/widget-list.php' );
 		include_once( BNE_TESTIMONIALS_DIR . '/includes/legacy/widget-slider.php' );

@@ -2,8 +2,8 @@
 Contributors: silkalns
 Tags: fancybox, lightbox, jquery, gallery, image, images, photo, photos, picture, pictures, zoom
 Requires at least: 3.4
-Tested up to: 4.7
-Stable tag: trunk
+Tested up to: 4.9
+Stable tag: 3.1.3
 License: GPL/MIT
 
 Seamlessly integrates FancyBox lightbox into your WordPress blog: Upload, activate, and you're done. Additional configuration optional.
@@ -31,8 +31,20 @@ If you enjoy using FancyBox lightbox for WordPress please leave a [positive feed
 
 == Changelog ==
 
-= 3.0.14 =
-* Minor fixes.
+= 3.1.3 =
+* Fixed "Parse error" - https://wordpress.org/support/topic/no-backend-after-fancybox-update/
+* Fixed "Breaks on query strings" - https://wordpress.org/support/topic/url-with-ssl1-fancybox-doesnt-open/
+* Fixed "Caption problems" - https://wordpress.org/support/topic/border-not-fitting-and-strange-white-line/
+
+= 3.1.2 =
+* Fixed "All links get the fancybox class"
+
+= 3.1.1 =
+* Removed print_r from fancybox.php
+
+= 3.1.0 =
+* Updated FancyBox library to the latest version
+* Changed Admin UI
 
 = 3.0.12 =
 

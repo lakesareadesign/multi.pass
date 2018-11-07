@@ -42,6 +42,83 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 			add_action( 'edit_user_profile', array( $this, 'add_social_media' ) );
 			add_action( 'personal_options_update', array( $this, 'save_user_profile' ) );
 			add_action( 'show_user_profile', array( $this, 'add_social_media' ) );
+			/**
+			 * Social Media Settings
+			 *
+			 * @since 2.3.0
+			 */
+			add_filter( 'ub_get_options_social_media_settings', array( $this, 'social_media_settings' ), 10, 3 );
+			add_filter( 'ub_get_options_social_media', array( $this, 'social_media' ), 10, 3 );
+		}
+
+		/**
+		 * Add Settings to Social Media Settings section
+		 *
+		 * @since 2.3.0
+		 */
+		public function social_media_settings( $data, $defaults, $module ) {
+			if ( $this->module !== $module ) {
+				return $data;
+			}
+			$data['fields'] += array(
+				'position' => array(
+					'type' => 'radio',
+					'label' => __( 'Icons Position', 'ub' ),
+					'options' => array(
+						'bottom' => __( 'Bottom of the box', 'ub' ),
+						'top' => __( 'Top of the box', 'ub' ),
+						'under-avatar' => __( 'Under avatar', 'ub' ),
+					),
+					'default' => 'bottom',
+				),
+				'background_color' => array(
+					'type' => 'color',
+					'label' => __( 'Background Color', 'ub' ),
+					'default' => '#ddd',
+					'master' => 'background',
+				),
+			);
+			$data['master'] = array(
+				'section' => 'show',
+				'field' => 'social_media',
+				'value' => 'on',
+			);
+			return $data;
+		}
+
+		/**
+		 * Mofify Settings to Social Media section
+		 *
+		 * @since 2.3.0
+		 */
+		public function social_media( $data, $defaults, $module ) {
+			if ( $this->module !== $module ) {
+				return $data;
+			}
+			/**
+			 * set type
+			 */
+			$set = array(
+				'type' => 'checkbox',
+				'options' => array(
+					'on' => __( 'Allow', 'ub' ),
+					'off' => __( 'Disallow', 'ub' ),
+				),
+				'default' => 'off',
+				'default_hide' => true,
+				'classes' => array( 'switch-button' ),
+				'master' => 'social-media',
+			);
+			foreach ( $data['fields'] as $key => $v ) {
+				$data['fields'][ $key ] += $set;
+			}
+			/**
+			 * turn on few by default
+			 */
+			$data['fields']['facebook']['default'] = 'on';
+			$data['fields']['twitter']['default'] = 'on';
+			$data['fields']['google']['default'] = 'on';
+			return $data;
 		}
 
 		/**
@@ -68,6 +145,9 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 			if ( 'off' === $value ) {
 				$this->set_value( 'name_options', 'link', $value );
 			}
+			/**
+			 * options
+			 */
 			$options = array(
 				'show' => array(
 					'title' => __( 'General configuration', 'ub' ),
@@ -85,7 +165,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 						),
 						'post_type' => array(
 							'type' => 'select2',
-							'label' => __( 'Post types', 'ub' ),
+							'label' => __( 'Post Types', 'ub' ),
 							'options' => $post_types,
 							'multiple' => true,
 							'classes' => array( 'ub-select2' ),
@@ -199,7 +279,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 						),
 						'background_color' => array(
 							'type' => 'color',
-							'label' => __( 'Background color', 'ub' ),
+							'label' => __( 'Background Color', 'ub' ),
 							'default' => 'transparent',
 							'master' => 'background',
 						),
@@ -214,7 +294,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							'description' => __( 'Link author name to author archive.', 'ub' ),
 							'options' => array(
 								'on' => __( 'Link', 'ub' ),
-								'off' => __( 'no', 'ub' ),
+								'off' => __( 'No', 'ub' ),
 							),
 							'default' => 'on',
 							'classes' => array( 'switch-button' ),
@@ -302,18 +382,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 							'min' => 1,
 							'classes' => array( 'ui-slider' ),
 						),
-						'link_in_new_tab' => array(
-							'type' => 'checkbox',
-							'label' => __( 'Open links', 'ub' ),
-							'description' => __( 'Would you like open link in new or the same window/tab?', 'ub' ),
-							'options' => array(
-								'on' => __( 'new', 'ub' ),
-								'off' => __( 'the same', 'ub' ),
-							),
-							'default' => 'off',
-							'classes' => array( 'switch-button' ),
-							'master' => 'entries',
-						),
+						'link_in_new_tab' => $this->get_options_link_in_new_tab( array( 'master' => 'entries' ) ),
 						'title_show' => array(
 							'type' => 'checkbox',
 							'label' => __( 'Show Title', 'ub' ),
@@ -337,114 +406,12 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 						'value' => 'on',
 					),
 				),
-				'social_media_settings' => array(
-					'title' => __( 'Social Media Settings', 'ub' ),
-					'fields' => array(
-						'position' => array(
-							'type' => 'radio',
-							'label' => __( 'Icons position', 'ub' ),
-							'options' => array(
-								'bottom' => __( 'Bottom of the box', 'ub' ),
-								'top' => __( 'Top of the box', 'ub' ),
-								'under-avatar' => __( 'Under avatar', 'ub' ),
-							),
-							'default' => 'bottom',
-						),
-						'type' => array(
-							'type' => 'checkbox',
-							'label' => __( 'Type', 'ub' ),
-							'description' => __( 'Choose "text" if you want to style list yourself.', 'ub' ),
-							'options' => array(
-								'on' => __( 'Icons', 'ub' ),
-								'off' => __( 'Text', 'ub' ),
-							),
-							'default' => 'on',
-							'classes' => array( 'switch-button' ),
-							'slave-class' => 'social-media-type',
-						),
-						'colors' => array(
-							'type' => 'checkbox',
-							'label' => __( 'Colors', 'ub' ),
-							'description' => __( 'Would you like show colored icons?', 'ub' ),
-							'options' => array(
-								'on' => __( 'Colors', 'ub' ),
-								'off' => __( 'Monochrome', 'ub' ),
-							),
-							'default' => 'off',
-							'classes' => array( 'switch-button' ),
-							'master' => 'social-media-type',
-						),
-						'social_media_link_in_new_tab' => array(
-							'type' => 'checkbox',
-							'label' => __( 'Open links', 'ub' ),
-							'description' => __( 'Would you like open link in new or the same window/tab?', 'ub' ),
-							'options' => array(
-								'on' => __( 'new', 'ub' ),
-								'off' => __( 'the same', 'ub' ),
-							),
-							'default' => 'off',
-							'classes' => array( 'switch-button' ),
-						),
-						'background_color' => array(
-							'type' => 'color',
-							'label' => __( 'Background color', 'ub' ),
-							'default' => '#ddd',
-							'master' => 'background',
-						),
-					),
-					'master' => array(
-						'section' => 'show',
-						'field' => 'social_media',
-						'value' => 'on',
-					),
-				),
-				'social_media' => array(
-					'title' => __( 'Social Media Profiles', 'ub' ),
-					'fields' => array(),
-					'sortable' => true,
-					'master' => array(
-						'section' => 'show',
-						'field' => 'social_media',
-						'value' => 'on',
-					),
-				),
+				/**
+				 * Common: Social Media Settings
+				 */
+				'social_media_settings' => $this->get_options_social_media_settings(),
+				'social_media' => $this->get_options_social_media(),
 			);
-			$social = $this->get_social_media_array();
-			$social['wp-profile-website'] = array( 'label' => __( 'WordPress profile website', 'ub' ) );
-			$social['mail'] = array( 'label' => __( 'WordPress profile mail', 'ub' ) );
-			$order = $this->get_value( '_social_media_sortable' );
-			if ( is_array( $order ) ) {
-				foreach ( $order as $key ) {
-					if ( isset( $social[ $key ] ) ) {
-						$options['social_media']['fields'][ $key ] = $social[ $key ];
-						unset( $social[ $key ] );
-					}
-				}
-			}
-			$options['social_media']['fields'] += $social;
-			/**
-			 * set type
-			 */
-			$set = array(
-				'type' => 'checkbox',
-				'options' => array(
-					'on' => __( 'Allow', 'ub' ),
-					'off' => __( 'Disallow', 'ub' ),
-				),
-				'default' => 'off',
-				'default_hide' => true,
-				'classes' => array( 'switch-button' ),
-				'master' => 'social-media',
-			);
-			foreach ( $options['social_media']['fields'] as $key => $data ) {
-				$options['social_media']['fields'][ $key ] += $set;
-			}
-			/**
-			 * turn on few by default
-			 */
-			$options['social_media']['fields']['facebook']['default'] = 'on';
-			$options['social_media']['fields']['twitter']['default'] = 'on';
-			$options['social_media']['fields']['google']['default'] = 'on';
 			/**
 			 * return options/
 			 */
@@ -483,57 +450,62 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 		 */
 		public function add_social_media( $profileuser ) {
 			$data = $this->get_value( 'social_media' );
-			$show = isset( $data ) && is_array( $data ) && in_array( 'on', $data );
+			$show = isset( $data ) && is_array( $data ) && ! empty( $data );
 			if ( ! $show ) {
 				return;
 			}
+			$content = '';
 			$options = $this->options['social_media']['fields'];
 			$order = $this->get_value( '_social_media_sortable' );
 			$value = get_user_meta( $profileuser->ID, 'ub_author_box', true );
-			printf( '<h2>%s</h2>', esc_html__( 'Social Media profiles', 'ub' ) );
-			echo '<table class="form-table"><tbody>';
 			foreach ( $order as $key ) {
 				if ( ! isset( $data[ $key ] ) ) {
 					continue;
 				}
-				if ( 'on' != $data[ $key ] ) {
+				if ( empty( $data[ $key ] ) || 'off' === $data[ $key ] ) {
 					continue;
 				}
 				if ( preg_match( '/^(mail|wp-profile-)/', $key ) ) {
 					continue;
 				}
-				printf( '<tr class="user-author-box user-author-box-%s">', esc_attr( $key ) );
-				printf( '<th><label for="user-author-box-%s">%s</label></th>', esc_attr( $key ), esc_html( $options[ $key ]['label'] ) );
-				printf(
+				$content .= sprintf( '<tr class="user-author-box user-author-box-%s">', esc_attr( $key ) );
+				$content .= sprintf( '<th><label for="user-author-box-%s">%s</label></th>', esc_attr( $key ), esc_html( $options[ $key ]['label'] ) );
+				$content .= sprintf(
 					'<td><input type="text" id="user-author-box-%s" class="regular-text" value="%s" name="ub_author_box[%s]" /></td>',
 					esc_attr( $key ),
 					esc_attr( isset( $value[ $key ] )? $value[ $key ]:'' ),
 					esc_attr( $key )
 				);
-				echo '</tr>';
+				$content .= '</tr>';
 				unset( $data[ $key ] );
 			}
 			foreach ( $data as $key => $value ) {
 				if ( ! isset( $data[ $key ] ) ) {
 					continue;
 				}
-				if ( 'on' != $data[ $key ] ) {
+				if ( empty( $data[ $key ] ) || 'off' === $data[ $key ] ) {
 					continue;
 				}
 				if ( preg_match( '/^(mail|wp-profile-)/', $key ) ) {
 					continue;
 				}
-				printf( '<tr class="user-author-box user-author-box-%s">', esc_attr( $key ) );
-				printf( '<th><label for="user-author-box-%s">%s</label></th>', esc_attr( $key ), esc_html( $options[ $key ]['label'] ) );
-				printf(
+				$content .= sprintf( '<tr class="user-author-box user-author-box-%s">', esc_attr( $key ) );
+				$content .= sprintf( '<th><label for="user-author-box-%s">%s</label></th>', esc_attr( $key ), esc_html( $options[ $key ]['label'] ) );
+				$content .= sprintf(
 					'<td><input type="text" id="user-author-box-%s" class="regular-text" value="%s" name="ub_author_box[%s]" /></td>',
 					esc_attr( $key ),
 					esc_attr( isset( $value[ $key ] )? $value[ $key ]:'' ),
 					esc_attr( $key )
 				);
-				echo '</tr>';
+				$content .= '</tr>';
 				unset( $data[ $key ] );
 			}
+			if ( empty( $content ) ) {
+				return;
+			}
+			printf( '<h2>%s</h2>', esc_html__( 'Social Media profiles', 'ub' ) );
+			echo '<table class="form-table"><tbody>';
+			echo $content;
 			echo '</tbody></table>';
 		}
 
@@ -758,7 +730,6 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 			$value['wp-profile-website'] = get_the_author_meta( 'user_url' );
 			$value['mail'] = get_the_author_meta( 'user_email' );
 			$order = $this->get_value( '_social_media_sortable' );
-
 			/**
 			 * show icons?
 			 */
@@ -772,7 +743,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 					if ( ! isset( $data[ $key ] ) ) {
 						continue;
 					}
-					if ( 'on' != $data[ $key ] ) {
+					if ( empty( $data[ $key ] ) || 'off' === $data[ $key ] ) {
 						continue;
 					}
 					if ( isset( $value[ $key ] ) ) {
@@ -806,7 +777,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 					if ( ! isset( $data[ $key ] ) ) {
 						continue;
 					}
-					if ( 'on' != $data[ $key ] ) {
+					if ( empty( $data[ $key ] ) || 'off' === $data[ $key ] ) {
 						continue;
 					}
 					if ( isset( $value[ $key ] ) ) {
@@ -884,7 +855,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 					echo 'border:none;';
 				}
 				echo '}';
-				$this->css_background_color_from_data( $v, 'background_color', '.ub-author-box' );
+				$this->css_background_color_from_data( 'box', 'background_color', '.ub-author-box' );
 			}
 			/**
 			 * avatar
@@ -907,10 +878,7 @@ if ( ! class_exists( 'ub_author_box' ) ) {
 			/**
 			 * social media
 			 */
-			if ( isset( $value['social_media_settings'] ) ) {
-				$v = $value['social_media_settings'];
-				$this->css_background_color_from_data( $v, 'background_color', '.ub-author-box .social-media' );
-			}
+			$this->css_background_color_from_data( 'social_media_settings', 'background_color', '.ub-author-box .social-media' );
 			echo '</style>';
 		}
 

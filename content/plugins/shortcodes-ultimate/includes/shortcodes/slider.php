@@ -145,7 +145,7 @@ function su_shortcode_slider( $atts = null, $content = null ) {
 		), $atts, 'slider' );
 
 	$slides = su_get_slides( $atts );
-	$slides = apply_filters( 'su/shortcode/custom_gallery/slides', $slides, $atts );
+	$slides = apply_filters( 'su/shortcode/slider/slides', $slides, $atts );
 
 	// Loop slides
 	if ( count( $slides ) ) {

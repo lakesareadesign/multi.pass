@@ -346,6 +346,15 @@ function su_shortcode_button( $atts = null, $content = null ) {
 		? ' onClick="' . $atts['onclick'] . '"'
 		: '';
 
+	// Prepend `noopener` to the rel attribute value
+	if ( 'blank' === $atts['target'] ) {
+
+		$atts['rel'] = $atts['rel']
+			? 'noopener ' . $atts['rel']
+			: 'noopener';
+
+	}
+
 	// Prepare rel attribute
 	$atts['rel'] = $atts['rel']
 		? ' rel="' . $atts['rel'] . '"'

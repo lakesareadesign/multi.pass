@@ -38,9 +38,8 @@ if ( ! class_exists( 'ub_cookie_notice' ) ) {
 			/**
 			 * #ub-cookie-notice
 			 */
-			$data = $this->get_value( 'box' );
-			$this->css_background_transparency( $data, 'background_color', 'background_transparency', '#ub-cookie-notice' );
-			$this->css_color_from_data( $data, 'color', '#ub-cookie-notice' );
+			$this->css_background_transparency( 'box', 'background_color', 'background_transparency', '#ub-cookie-notice' );
+			$this->css_color_from_data( 'box', 'color', '#ub-cookie-notice' );
 			/**
 			 * #ub-cookie-notice button
 			 */
@@ -139,7 +138,7 @@ if ( ! class_exists( 'ub_cookie_notice' ) ) {
 					'fields' => array(
 						'show' => array(
 							'type' => 'checkbox',
-							'label' => __( 'Privacy policy', 'ub' ),
+							'label' => __( 'Privacy Policy', 'ub' ),
 							'description' => __( 'Enable privacy policy link.', 'ub' ),
 							'options' => array(
 								'on' => __( 'On', 'ub' ),
@@ -154,6 +153,7 @@ if ( ! class_exists( 'ub_cookie_notice' ) ) {
 							'master' => 'privacy-policy',
 							'default' => _x( 'Privacy Policy', 'Privacy Policy button text', 'ub' ),
 						),
+						'link_in_new_tab' => $this->get_options_link_in_new_tab( array( 'master' => 'privacy-policy' ) ),
 					),
 				),
 				'box' => array(
@@ -194,7 +194,7 @@ if ( ! class_exists( 'ub_cookie_notice' ) ) {
 						),
 						'background_transparency' => array(
 							'type' => 'number',
-							'label' => __( 'Background transparency', 'ub' ),
+							'label' => __( 'Background Transparency', 'ub' ),
 							'min' => 0,
 							'max' => 100,
 							'default' => 100,
@@ -318,11 +318,14 @@ if ( ! class_exists( 'ub_cookie_notice' ) ) {
 			if ( function_exists( 'get_privacy_policy_url' ) ) {
 				$show = $this->get_value( 'privacy_policy', 'show' );
 				if ( 'on' === $show ) {
+					$link_in_new_tab = $this->get_value( 'privacy_policy', 'link_in_new_tab', 'off' );
+					$target = ( 'on' === $link_in_new_tab )? ' target="_blank"':'';
 					$link = get_privacy_policy_url();
 					if ( ! empty( $link ) ) {
 						$content .= sprintf(
-							'<a href="%s" class="button ub-cn-privacy-policy">%s</a>',
+							'<a href="%s" class="button ub-cn-privacy-policy"%s>%s</a>',
 							$link,
+							$target,
 							$this->get_value( 'privacy_policy', 'text' )
 						);
 					}

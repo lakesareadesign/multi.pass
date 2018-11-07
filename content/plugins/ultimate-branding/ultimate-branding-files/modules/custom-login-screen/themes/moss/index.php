@@ -2,13 +2,16 @@
 $url = plugins_url( '', __FILE__ );
 
 return array(
-	'logo_and_background' => array(
-		'fullscreen_bg' => $url.'/background.jpg',
-		'fullscreen_bg_meta' => array(
-			$url.'/background.jpg',
-			2400,
-			1596,
-			false,
+	'background' => array(
+		'image' => array(
+			array(
+				'meta' => array(
+					$url.'/background.jpg',
+					2400,
+					1596,
+					false,
+				),
+			),
 		),
 	),
 	'form' => array(
@@ -17,7 +20,11 @@ return array(
 		'form_button_color' => '#119911',
 		'rounded_nb' => 20,
 	),
+	'form_labels' => array(),
+	'form_errors' => array(),
 	'below_form' => array(
 		'show_back_to' => 'off',
 	),
+	'form_canvas' => array(),
+	'redirect' => array(),
 );

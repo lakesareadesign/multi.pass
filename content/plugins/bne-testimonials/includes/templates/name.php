@@ -13,15 +13,19 @@
  *	returns		$output back to the shortcode
  *
  *	@since 		v2.0
+ *	@updated	v2.0.3
  *
 */
 
 // Exit if accessed directly
 if( !defined('ABSPATH') ) exit;
 
+// Empty String
+$output = '';
+
+
 if( 'true' == $atts['name'] ) {
-	
-	$output = '<span class="testimonial-name">'.get_the_title().'</span>';		
-	
-	return apply_filters( 'bne_testimonials_name', $output, $atts );
+	$output .= '<span class="testimonial-name">'.get_the_title().'</span>';		
 }
+
+return apply_filters( 'bne_testimonials_name', $output, $atts );

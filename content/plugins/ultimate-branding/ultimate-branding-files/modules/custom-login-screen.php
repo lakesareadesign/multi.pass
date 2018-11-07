@@ -5,7 +5,9 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 
 		private $proceed_gettext = false;
 		private $patterns = array();
-		protected $option_name = 'global_login_screen';
+		protected $file = __FILE__;
+		protected $option_name = 'ub_login_screen';
+		protected $old_option_name = 'global_login_screen';
 
 		/**
 		 * predefined login themes
@@ -19,6 +21,7 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 
 		public function __construct() {
 			parent::__construct();
+			$this->module = 'login_screen';
 			$this->set_options();
 			add_action( 'ultimatebranding_settings_login_screen', array( $this, 'module_admin_options_page' ) );
 			add_filter( 'ultimatebranding_settings_login_screen_process', array( $this, 'update' ), 10, 1 );
@@ -40,6 +43,65 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 			 * @since 1.9.5
 			 */
 			add_action( 'init', array( $this, 'signup_password_init' ) );
+			/**
+			 * Force language on login form
+			 *
+			 * @since 2.3.0
+			 */
+			add_action( 'setup_theme', array( $this, 'set_language_on_login_form' ) );
+			/**
+			* upgrade options
+			 * merge date from "Login CSS" module
+			 *
+			 * @since 2.3.0
+			 */
+			add_action( 'init', array( $this, 'upgrade_options_module_custom_login_css' ) );
+			add_action( 'init', array( $this, 'upgrade_options' ) );
+			/**
+			 * add related config
+			 *
+			 * @since 2.3.0
+			 */
+			add_filter( 'ultimate_branding_related_modules', array( $this, 'add_related_logo' ) );
+			add_filter( 'ultimate_branding_related_modules', array( $this, 'add_related_background' ) );
+		}
+
+		/**
+		 * Upgrade options
+		 *
+		 * @since 2.3.0
+		 */
+		public function upgrade_options_module_custom_login_css() {
+			global $ub_version;
+			$compare = version_compare( $ub_version, '2.2.0' );
+			if ( 0 < $compare ) {
+				/**
+				 * Move settings from "Login CSS" module
+				 */
+				$module_name = 'custom-login-css.php';
+				$is_active = ub_is_active_module( $module_name );
+				if ( $is_active ) {
+					$value = ub_get_option( 'global_login_css' );
+					if ( ! empty( $value ) ) {
+						if (
+							is_array( $value )
+							&& isset( $value['login'] )
+							&& isset( $value['login']['css'] )
+							&& ! empty( $value['login']['css'] )
+						) {
+							$options = $this->get_value();
+							if ( ! is_array( $options ) ) {
+								$options = array();
+							}
+							$options['css']['css'] = $value['login']['css'];
+							$this->update_value( $options );
+						}
+						ub_delete_option( 'global_login_css' );
+						$uba = new UltimateBrandingAdmin();
+						$uba->deactivate_module( $module_name );
+					}
+				}
+			}
 		}
 
 		/**
@@ -63,7 +125,7 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 		 * @since 1.9.2
 		 */
 		public function get_module_option_name( $option_name, $module ) {
-			if ( is_string( $module ) && 'login-screen' == $module ) {
+			if ( is_string( $module ) && preg_match( '/^login[-_]screen$/', $module ) ) {
 				return $this->option_name;
 			}
 			return $option_name;
@@ -71,7 +133,7 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 
 		public function output() {
 			$this->proceed_gettext = true;
-			$value = ub_get_option( $this->option_name );
+			$value = $this->get_value();
 			if ( $value == 'empty' ) {
 				$value = '';
 			}
@@ -80,10 +142,10 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 			}
 			printf( '<style type="text/css" id="%s">', esc_attr( __CLASS__ ) );
 			/**
-			 * Logo & Background
+			 * Logo
 			 */
-			if ( isset( $value['logo_and_background'] ) ) {
-				$v = $value['logo_and_background'];
+			if ( isset( $value['logo'] ) ) {
+				$v = $value['logo'];
 				/**
 				 * show_logo
 				 */
@@ -152,47 +214,16 @@ if ( ! class_exists( 'ub_custom_login_screen' ) ) {
 				 * logo_transparency
 				 */
 				$this->css_opacity( $v, 'logo_transparency', '#login h1' );
-				/**
-				 * bg_color
-				 */
-				$this->css_background_color_from_data( $v, 'bg_color', 'body' );
-				/**
-				 * fullscreen_bg
-				 */
-				if ( isset( $v['fullscreen_bg'] ) ) {
-					$fullscreen_bg = false;
-					$v = $v['fullscreen_bg'];
-					if ( is_array( $v ) ) {
-						if ( 0 < count( $v ) && isset( $v[0]['meta'] ) ) {
-							$mode = $this->get_value( 'background', 'mode' );
-							$id = 0;
-							do {
-								$id = rand( 0, count( $v ) - 1 );
-							} while ( ! isset( $v[ $id ]['meta'] ) );
-							$meta = $v[ $id ]['meta'];
-							if ( isset( $meta[0] ) ) {
-									$fullscreen_bg = $meta[0];
-							}
-						}
-					} else if ( is_string( $v ) && ! empty( $v ) ) {
-						$fullscreen_bg = $v;
-					}
-					if ( $fullscreen_bg ) {
-?>
-html {
-    background: url(<?php echo $this->make_relative_url( $fullscreen_bg ); ?>) no-repeat center center fixed;
-    -webkit-background-size: cover;
-    -moz-background-size: cover;
-    -o-background-size: cover;
-    background-size: cover;
-}
-body {
-    background-color: transparent;
-}
-<?php
-					}
-				}
 			}
+			/**
+			 * logo
+			 */
+			$this->css_logo_common( '#login h1' );
+			/**
+			 * login screen exception
+			 */
+			$v = $this->get_value( 'logo' );
+			$this->css_hide( $v, 'show', '.login h1' );
 			/**
 			 * Form
 			 */
@@ -213,7 +244,7 @@ body {
 				/**
 				 * label_color
 				 */
-				$this->css_color_from_data( $v, 'label_color', '.login form label' );
+				$this->css_color_from_data( 'form', 'label_color', '.login form label' );
 				/**
 				 * form_bg
 				 */
@@ -257,7 +288,7 @@ body {
 				 * form_bg_color
 				 * form_bg_transparency
 				 */
-				$this->css_background_transparency( $v, 'form_bg_color', 'form_bg_transparency', '.login form' );
+				$this->css_background_transparency( 'form', 'form_bg_color', 'form_bg_transparency', '.login form' );
 				/**
 				 * form_style
 				 */
@@ -273,8 +304,8 @@ body {
 				/**
 				 * form_button_color
 				 */
-				$this->css_background_color_from_data( $v, 'form_button_color', '.login form .button' );
-				$this->css_color_from_data( $v, 'form_text_button_color', '.login form .button' );
+				$this->css_background_color_from_data( 'form', 'form_button_color', '.login form .button' );
+				$this->css_color_from_data( 'form', 'form_text_button_color', '.login form .button' );
 				/**
 				 * form button: active, focus, hover
 				 */
@@ -285,17 +316,17 @@ body {
 					 */
 					$bkey = sprintf( 'form_button_color_%s', $button_key );
 					$bvalue = sprintf( '.login form .button:%s', $button_key );
-					$this->css_background_color_from_data( $v, $bkey, $bvalue );
+					$this->css_background_color_from_data( 'form', $bkey, $bvalue );
 					/**
 					 * color
 					 */
 					$bkey = sprintf( 'form_button_text_color_%s', $button_key );
-					$this->css_color_from_data( $v, $bkey, $bvalue );
+					$this->css_color_from_data( 'form', $bkey, $bvalue );
 				}
 				/**
 				 * form_button_text_color
 				 */
-				$this->css_color_from_data( $v, 'form_button_text_color', '.login form .button' );
+				$this->css_color_from_data( 'form', 'form_button_text_color', '.login form .button' );
 				/**
 				 * show_remember_me
 				 */
@@ -353,7 +384,7 @@ body {
 				/**
 				 * login_error_background_color
 				 */
-				$this->css_background_color_from_data( $v, 'login_error_background_color', '.login #login #login_error' );
+				$this->css_background_color_from_data( 'form_errors', 'login_error_background_color', '.login #login #login_error' );
 				/**
 				 * login_error_border_color
 				 */
@@ -367,9 +398,9 @@ body {
 				/**
 				 * login_error_text_color
 				 */
-				$this->css_color_from_data( $v, 'login_error_text_color', '.login #login #login_error' );
-				$this->css_color_from_data( $v, 'login_error_link_color', '.login #login #login_error a' );
-				$this->css_color_from_data( $v, 'login_error_link_color_hover', '.login #login #login_error a:hover' );
+				$this->css_color_from_data( 'form_errors', 'login_error_text_color', '.login #login #login_error' );
+				$this->css_color_from_data( 'form_errors', 'login_error_link_color', '.login #login #login_error a' );
+				$this->css_color_from_data( 'form_errors', 'login_error_link_color_hover', '.login #login #login_error a:hover' );
 				$this->css_opacity( $v, 'login_error_transarency', '.login #login #login_error' );
 			}
 			/**
@@ -382,25 +413,25 @@ body {
 				 */
 				$this->css_hide( $v, 'show_register_and_lost', '.login #nav' );
 				/**
-				 * show_back_to
-				 */
-				$this->css_hide( $v, 'show_back_to', '.login #backtoblog' );
-				/**
 				 * register_and_lost_color_link
 				 */
-				$this->css_color_from_data( $v, 'register_and_lost_color_link', '.login #nav a' );
+				$this->css_color_from_data( 'below_form', 'register_and_lost_color_link', '.login #nav a' );
 				/**
 				 * register_and_lost_color_hover
 				 */
-				$this->css_color_from_data( $v, 'register_and_lost_color_hover', '.login #nav a:hover' );
+				$this->css_color_from_data( 'below_form', 'register_and_lost_color_hover', '.login #nav a:hover' );
 				/**
-				 * back_to_color_link
+				 * "Back To" link
 				 */
-				$this->css_color_from_data( $v, 'back_to_color_link', '.login #backtoblog a' );
+				$this->css_hide( $v, 'show_back_to', '.login #backtoblog' );
+				$this->css_color_from_data( 'below_form', 'back_to_color_link', '.login #backtoblog a' );
+				$this->css_color_from_data( 'below_form', 'back_to_color_hover', '.login #backtoblog a:hover' );
 				/**
-				 * back_to_color_hover
+				 * "Privacy Policy" link
 				 */
-				$this->css_color_from_data( $v, 'back_to_color_hover', '.login #backtoblog a:hover' );
+				$this->css_hide( $v, 'show_privacy', '.login .privacy-policy-page-link' );
+				$this->css_color_from_data( 'below_form', 'privacy_color_link', '.login .privacy-policy-page-link a' );
+				$this->css_color_from_data( 'below_form', 'privacy_color_hover', '.login .privacy-policy-page-link a:hover' );
 			}
 			/**
 			 * form_canvas
@@ -416,17 +447,25 @@ body {
 				if ( isset( $v['padding_top'] ) ) {
 					printf( 'padding-top: %d%%;', $v['padding_top'] );
 				}
+				$width = 320;
 				if ( isset( $v['width'] ) ) {
+					$width = intval( $v['width'] );
 					printf( 'width: %dpx;', $v['width'] );
 				}
 				if ( isset( $v['fit'] ) && 'on' == $v['fit'] ) {
 					echo 'position: absolute;';
 					echo 'top: 0;';
 					echo 'bottom: 0;';
+					$position_was_set = false;
 					if ( isset( $v['position'] ) ) {
 						if ( preg_match( '/^(left|right)$/', $v['position'] ) ) {
 							printf( '%s: 0;', esc_attr( $v['position'] ) );
+							$position_was_set = true;
 						}
+					}
+					if ( ! $position_was_set ) {
+						echo 'left: 50%;';
+						printf( 'margin-left:-%spx', $width / 2 );
 					}
 				}
 				echo '}';
@@ -438,12 +477,35 @@ body {
 				}
 				if ( isset( $v['fit'] ) && 'on' == $v['fit'] ) {
 					echo '.login form {';
-					echo 'margin-top:0;';
+					echo 'margin-top: 0;';
 					echo '}';
 				}
-				$this->css_background_transparency( $v, 'background_color', 'background_transparency', '#login' );
+				$this->css_background_transparency( 'form_canvas', 'background_color', 'background_transparency', '#login' );
 			}
 			echo '</style>';
+			echo PHP_EOL;
+			/**
+			 * custom css
+			 */
+			$v = $this->get_value( 'css', 'css' );
+			if ( ! empty( $v ) ) {
+				if ( ! preg_match( '/<style/', $v ) ) {
+					printf( '<style type="text/css" id="%s-custom-css">', esc_attr( __CLASS__ ) );
+					echo PHP_EOL;
+				}
+				echo stripslashes( $v );
+				if ( ! preg_match( '/<\/style/', $v ) ) {
+					echo PHP_EOL;
+					echo '</style>';
+				}
+				echo PHP_EOL;
+			}
+			/**
+			 * Common Background
+			 *
+			 * @since 2.3.0
+			 */
+			$this->css_background_common( 'body' );
 		}
 
 		protected function set_options() {
@@ -464,96 +526,62 @@ body {
 			$invalid_password .= ' <a href="WP_LOSTPASSWORD_URL">';
 			$invalid_password .= __( 'Lost your password?', 'ub' );
 			$invalid_password .= '</a>';
+			/**
+			 * languages
+			 *
+			 * @since 2.3.0
+			 */
+			$languages = array(
+				'default' => __( 'Site Default', 'ub' ),
+			);
+			$l = get_available_languages();
+			require_once( ABSPATH . 'wp-admin/includes/translation-install.php' );
+			$translations = wp_get_available_translations();
+			foreach ( $l as $locale ) {
+				if ( isset( $translations[ $locale ] ) ) {
+					$translation = $translations[ $locale ];
+					$languages[ $translation['language'] ] = $translation['native_name'];
+				} else {
+					$languages[ $locale ] = $locale;
+				}
+			}
+			$language = array(
+				'type' => 'select',
+				'label' => __( 'Use Language', 'ub' ),
+				'options' => $languages,
+				'default' => 'default',
+			);
+			if ( 2 > sizeof( $languages ) ) {
+				$language = array(
+					'type' => 'description',
+					'label' => __( 'Use Language', 'ub' ),
+					'value' => __( 'There are no avaialble languages.', 'ub' ),
+				);
+			}
+			/**
+			 * set options
+			 */
 			$this->options = array(
-				'logo_and_background' => array(
-					'title' => __( 'Logo & Background', 'ub' ),
+				'settings' => array(
+					'title' => __( 'General Settings', 'ub' ),
 					'fields' => array(
-						'show_logo' => array(
-							'type' => 'checkbox',
-							'label' => __( 'Logo', 'ub' ),
-							'description' => __( 'Would you like to show the logo?', 'ub' ),
-							'options' => array(
-								'on' => __( 'Show', 'ub' ),
-								'off' => __( 'Hide', 'ub' ),
-							),
-							'default' => 'on',
-							'classes' => array( 'switch-button' ),
-							'slave-class' => 'logo-related',
-						),
-						'logo_upload' => array(
-							'type' => 'media',
-							'label' => __( 'Logo image', 'ub' ),
-							'description' => __( 'Upload your own logo. Max width: 320px', 'ub' ),
-							'master' => 'logo-related',
-						),
-						'logo_width' => array(
-							'type' => 'number',
-							'label' => __( 'Logo width', 'ub' ),
-							'default' => 84,
-							'min' => 0,
-							'max' => 320,
-							'classes' => array( 'ui-slider' ),
-							'master' => 'logo-related',
-							'after' => __( 'px', 'ub' ),
-						),
-						'logo_transparency' => array(
-							'type' => 'number',
-							'label' => __( 'Logo transparency', 'ub' ),
-							'min' => 0,
-							'max' => 100,
-							'default' => 100,
-							'classes' => array( 'ui-slider' ),
-							'master' => 'logo-related',
-							'after' => '%',
-						),
-						'logo_rounded' => array(
-							'type' => 'number',
-							'label' => __( 'Logo radius corners', 'ub' ),
-							'description' => __( 'How much would you like to round the border?', 'ub' ),
-							'attributes' => array( 'placeholder' => '20' ),
-							'default' => 0,
-							'min' => 0,
-							'classes' => array( 'ui-slider' ),
-							'master' => 'logo-related',
-							'after' => __( 'px', 'ub' ),
-						),
-						'login_header_url' => array(
-							'type' => 'text',
-							'label' => __( 'Logo URL', 'ub' ),
-							'default' => $login_header_url,
-							'classes' => array( 'logo-related', 'large-text' ),
-							'master' => 'logo-related',
-						),
-						'login_header_title' => array(
-							'type' => 'text',
-							'label' => __( 'Logo Alt text', 'ub' ),
-							'default' => $login_header_title,
-							'classes' => array( 'logo-related', 'large-text' ),
-							'master' => 'logo-related',
-						),
-						'logo_bottom_margin' => array(
-							'type' => 'number',
-							'label' => __( 'Logo bottom margin', 'ub' ),
-							'description' => __( 'The default value will work for most users, but you may change the margin height here.', 'ub' ),
-							'attributes' => array( 'placeholder' => '25' ),
-							'default' => 25,
-							'min' => 0,
-							'classes' => array( 'ui-slider' ),
-							'master' => 'logo-related',
-							'after' => __( 'px', 'ub' ),
-						),
-						'bg_color' => array(
-							'type' => 'color',
-							'label' => __( 'Background color', 'ub' ),
-							'default' => '#f1f1f1',
-						),
-						'fullscreen_bg' => array(
-							'type' => 'gallery',
-							'label' => __( 'Background Image', 'ub' ),
-							'description' => __( 'You can upload background images here. The image will stretch to fit the page, and will automatically resize as the window size changes. You\'ll have the best results by using images with a minimum width of 1024px. If you add more than one image it will be show random of each request.', 'ub' ),
-						),
+						'locale' => $language,
 					),
 				),
+				/**
+				 * Common: Logo
+				 */
+				'logo' => $this->get_options_logo(
+					array(
+						'url' => $login_header_url,
+						'alt' => $login_header_title,
+						'margin_bottom' => 25,
+					)
+				),
+				/**
+				 * Common: Background
+				 */
+				'background' => $this->get_options_background( array( 'color' => '#f1f1f1' ) ),
 				'form' => array(
 					'title' => __( 'Form', 'ub' ),
 					'fields' => array(
@@ -582,7 +610,7 @@ body {
 						'check_remember_me' => array(
 							'label' => __( 'Check "Remember Me" checkbox', 'ub' ),
 							'type' => 'checkbox',
-							'description' => __( 'Check by defulat "Remember Me" checkbox', 'ub' ),
+							'description' => __( 'Check by default "Remember Me" checkbox', 'ub' ),
 							'options' => array(
 								'on' => __( 'Checked', 'ub' ),
 								'off' => __( 'Unchecked', 'ub' ),
@@ -615,16 +643,16 @@ body {
 						),
 						'form_bg_color' => array(
 							'type' => 'color',
-							'label' => __( 'Background color', 'ub' ),
+							'label' => __( 'Background Color', 'ub' ),
 							'default' => '#ffffff',
 						),
 						'form_bg' => array(
 							'type' => 'media',
-							'label' => __( 'Background image', 'ub' ),
+							'label' => __( 'Background Image', 'ub' ),
 						),
 						'form_bg_transparency' => array(
 							'type' => 'number',
-							'label' => __( 'Background transparency', 'ub' ),
+							'label' => __( 'Background Transparency', 'ub' ),
 							'min' => 0,
 							'max' => 100,
 							'default' => 100,
@@ -791,7 +819,7 @@ body {
 						),
 						'login_error_background_color' => array(
 							'type' => 'color',
-							'label' => __( 'Background color', 'ub' ),
+							'label' => __( 'Background Color', 'ub' ),
 							'default' => '#ffffff',
 						),
 						'login_error_border_color' => array(
@@ -879,6 +907,30 @@ body {
 							'default' => '#2ea2cc',
 							'master' => 'below-form-show-back-to',
 						),
+						'show_privacy' => array(
+							'type' => 'checkbox',
+							'label' => __( '"Privacy Policy" link', 'ub' ),
+							'description' => __( 'Would you like to show the "&larr; Privacy Policy" link? This link is how onlt when you have a policy page.', 'ub' ),
+							'options' => array(
+								'on' => __( 'Show', 'ub' ),
+								'off' => __( 'Hide', 'ub' ),
+							),
+							'default' => 'on',
+							'classes' => array( 'switch-button' ),
+							'slave-class' => 'below-form-show-privacy',
+						),
+						'privacy_color_link' => array(
+							'type' => 'color',
+							'label' => __( '"Privacy Policy" link color', 'ub' ),
+							'default' => '#999999',
+							'master' => 'below-form-show-privacy',
+						),
+						'privacy_color_hover' => array(
+							'type' => 'color',
+							'label' => __( '"Privacy Policy" link hover color', 'ub' ),
+							'default' => '#2ea2cc',
+							'master' => 'below-form-show-privacy',
+						),
 					),
 				),
 				/**
@@ -935,12 +987,12 @@ body {
 						),
 						'background_color' => array(
 							'type' => 'color',
-							'label' => __( 'Background color', 'ub' ),
+							'label' => __( 'Background Color', 'ub' ),
 							'default' => 'transparent',
 						),
 						'background_transparency' => array(
 							'type' => 'number',
-							'label' => __( 'Background transparency', 'ub' ),
+							'label' => __( 'Background Transparency', 'ub' ),
 							'min' => 0,
 							'max' => 100,
 							'default' => 0,
@@ -989,11 +1041,23 @@ body {
 						),
 					),
 				),
+				'css' => array(
+					'title' => __( 'Custom CSS', 'ub' ),
+					'hide-reset' => true,
+					'hide-th' => true,
+					'fields' => array(
+						'css' => array(
+							'type' => 'css_editor',
+							'label' => __( 'Cascading Style Sheets', 'ub' ),
+							'description' => __( 'What is added here will be added to the header of the login page for every site.', 'ub' ),
+						),
+					),
+				),
 			);
 		}
 
 		public function login_headerurl( $value ) {
-			$new = $this->get_value( 'logo_and_background', 'login_header_url' );
+			$new = $this->get_value( 'logo', 'url' );
 			if ( null === $new ) {
 				return $value;
 			}
@@ -1001,7 +1065,7 @@ body {
 		}
 
 		public function login_headertitle( $value ) {
-			$new = $this->get_value( 'logo_and_background', 'login_header_title' );
+			$new = $this->get_value( 'logo', 'alt' );
 			if ( null === $new ) {
 				return $value;
 			}
@@ -1051,24 +1115,6 @@ body {
 			}
 			$string = preg_replace( '/USERNAME/', $username, $string );
 			return $string;
-		}
-
-		private function css_opacity( $data, $key, $selector ) {
-			if ( isset( $data[ $key ] ) && ! empty( $data[ $key ] ) ) {
-				printf( '%s{opacity:%0.2f}', $selector, $data[ $key ] / 100 );
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					echo PHP_EOL;
-				}
-			}
-		}
-
-		private function css_hide( $data, $key, $selector ) {
-			if ( isset( $data[ $key ] ) && 'off' == $data[ $key ] ) {
-				printf( '%s{display:none}', $selector );
-				if ( defined( 'WP_DEBUG' ) && WP_DEBUG ) {
-					echo PHP_EOL;
-				}
-			}
 		}
 
 		/**
@@ -1164,8 +1210,8 @@ foreach ( $themes as $theme ) {
 		$url = $this->get_base_url();
 		$url = add_query_arg(
 			array(
-			'theme' => $theme['id'],
-			'panel' => 'predefined',
+				'theme' => $theme['id'],
+				'panel' => 'predefined',
 			),
 			$url
 		);
@@ -1259,7 +1305,7 @@ foreach ( $themes as $theme ) {
 				$this->notice( $message, 'error' );
 				return;
 			}
-			ub_update_option( $this->option_name, $data );
+			$this->update_value( $data );
 			$message = '<p>';
 			$message .= sprintf(
 				__( '"%s" theme configuration was successfully loaded!', 'ub' ),
@@ -1314,6 +1360,99 @@ foreach ( $themes as $theme ) {
 				}
 			}
 			return $redirect_to;
+		}
+
+		/**
+		 * Upgrade option
+		 *
+		 * @since 2.3.0
+		 */
+		public function upgrade_options() {
+			$update = false;
+			$data = $this->get_value();
+			/**
+			 * Convert 'logo_and_background' section into 'logo'.
+			 */
+			if ( isset( $data['logo_and_background'] ) ) {
+				if ( ! isset( $data['background'] ) || ! is_array( $data['background'] ) ) {
+					$data['background'] = array();
+				}
+				if (
+					isset( $data['logo_and_background'] )
+					&& isset( $data['logo_and_background']['bg_color'] )
+				) {
+					$data['background']['color'] = $data['logo_and_background']['bg_color'];
+					unset( $data['logo_and_background']['bg_color'] );
+					$update = true;
+				}
+				if (
+					isset( $data['logo_and_background'] )
+					&& isset( $data['logo_and_background']['fullscreen_bg'] )
+				) {
+					$data['background']['image'] = $data['logo_and_background']['fullscreen_bg'];
+					unset( $data['logo_and_background']['fullscreen_bg'] );
+					$update = true;
+				}
+				$data['logo'] = $data['logo_and_background'];
+				unset( $data['logo_and_background'] );
+				$update = true;
+			}
+			/**
+			 * convert logo section
+			 */
+			if ( isset( $data['logo'] ) ) {
+				$translate = array(
+					'show_logo'          => 'show',
+					'logo_upload'        => 'image',
+					'logo_upload_meta'   => 'image_meta',
+					'logo_width'         => 'width',
+					'logo_transparency'  => 'transparency',
+					'logo_rounded'       => 'rounded',
+					'logo_bottom_margin' => 'bottom_margin',
+					'login_header_url'   => 'url',
+					'login_header_title' => 'alt',
+					'logo_bottom_margin' => 'margin_bottom',
+				);
+				foreach ( $translate as $old => $new ) {
+					if ( isset( $data['logo'][ $old ] ) ) {
+						$data['logo'][ $new ] = $data['logo'][ $old ];
+						unset( $data['logo'][ $old ] );
+						$update = true;
+					}
+				}
+			}
+			if ( $update ) {
+				$this->update_value( $data );
+			}
+		}
+
+		/**
+		 * Force language on login form
+		 *
+		 * @since 2.3.0
+		 */
+		public function set_language_on_login_form() {
+			$pages = array(
+				'wp-login.php',
+				'wp-register.php',
+				'wp-signup.php',
+			);
+			if ( in_array( $GLOBALS['pagenow'], $pages ) ) {
+				add_filter( 'locale', array( $this, 'set_locale' ), 11 );
+			}
+		}
+
+		/**
+		 * Set locale
+		 *
+		 * @since 2.3.0
+		 */
+		public function set_locale( $locale ) {
+			$value = $this->get_value( 'settings', 'locale', 'default' );
+			if ( ! empty( $value ) && 'default' !== $value ) {
+				return $value;
+			}
+			return $locale;
 		}
 	}
 }

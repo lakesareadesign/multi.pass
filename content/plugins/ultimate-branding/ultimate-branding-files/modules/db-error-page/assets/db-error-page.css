@@ -9,7 +9,6 @@ html,
   background-size: cover;
 }
 
-body.ultimate-branding-settings-db-error-page .mask,
 body.ultimate-branding-settings-db-error-page .overall {
   position: absolute;
   left: 0;
@@ -23,7 +22,7 @@ body.ultimate-branding-settings-db-error-page .overall {
 }
 body.ultimate-branding-settings-db-error-page .overall .page {
   margin: 0 auto;
-  padding: 1em 2em;
+  padding: 0 2em;
 }
 body.has-social #social {
   display: block;
@@ -144,4 +143,4 @@ body.use-color .social-logo-youtube:before {
 }
 
 
-/* 133620-1538021326-au */
+/* 133620-1541616643-au */

@@ -3,8 +3,8 @@ Author URI: http://www.bnecreative.com
 Contributors: bluenotes
 Tags: testimonials, testimonial widget, random testimonials, flexslider, feedback, reviews
 Requires at least: 4.7
-Tested up to: 4.9.8
-Stable tag: 2.0.2
+Tested up to: 5.0
+Stable tag: 2.0.3
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -70,9 +70,6 @@ Testimonials are a great way to strengthen your brand and reliability with new c
 = What options are there for the shortcodes? =
 You can view all available options to add to the shortcode that changes the default behavior by viewing the help page in the Testimonials Admin menu.
 
-= What size are the testimonial featured images? =
-By default, the crop size used is “thumbnail” which is defined on your site from Settings > Media. Usually this will be 150×150 but may be different depending on your website or theme. On the font side, the image will be reduced using CSS to 100×100 to better fit the testimonial format. To use a different crop, add image_size="your_crop_size" to the shortcode.
-
 = Is there support? =
 Of course, but it is limited for the free version. We do not provide customizations or modifications beyond what the plugin currently provides. If you find any bugs or cannot get our plugin to work, please let us know so that we can look into it. Code is never perfect but it is poetry and there is always room for improvement.
 
@@ -92,6 +89,11 @@ Possible, but most likely not in the free version. If you would like to see new 
 
 
 == Changelog ==
+
+= 2.0.3 November 6, 2018
+* Notice!! v1.x Legacy Shortcodes and Widgets (migration step 2 of 3). [bne_testimonials_list] and [bne_testimonials_slider] were depreciated back on June 16, 2017, and will now output their newer default versions [bne_testimonials layout="list"] and [bne_testimonials layout="slider"]. If not already, please update these to the newer versions. The frontend notice displays for admins only.
+* Fix: Setting name="false" would output a "1".
+
 
 = 2.0.2 August 6, 2018 =
 * Notice!! v1.x Legacy shortcodes which are [bne_testimonials_list] and [bne_testimonials_slider] were depreciated back on June 16, 2017 and will soon output their newer default versions. If you have not already, please update these to their newer variants as they will be completely removed in a future update.

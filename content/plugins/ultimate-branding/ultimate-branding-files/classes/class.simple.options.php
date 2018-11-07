@@ -27,6 +27,13 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 == CHANGELOG ==
 
+= 1.3.0 =
+- Added "html_editor" field type.
+
+= 1.2.1 =
+- Added "link" field type.
+- Added "readonly" property.
+
 = 1.2.0 =
 - Added "checkboxes" field type.
 - Added "label_rich" to allow HTML rich label.
@@ -87,12 +94,19 @@ if ( ! class_exists( 'simple_options' ) ) {
 			add_action( 'wp_ajax_simple_option', array( $this, 'ajax' ) );
 		}
 
-		public function build_options( $options, $input = array() ) {
+		/**
+		 * Build options boxes.
+		 *
+		 * @param array $options Options.
+		 * @param array $input Data.
+		 * @param string $module Current module name.
+		 */
+		public function build_options( $options, $input, $module ) {
 			if ( empty( $options ) ) {
 				return;
 			}
 			$boxes = $this->get_boxes();
-			$content = '<div class="meta-box-sortables simple-options">';
+			$content = '';
 			foreach ( $options as $section_key => $option ) {
 				if ( ! isset( $option['fields'] ) ) {
 					if ( isset( $option['description'] ) ) {
@@ -131,7 +145,6 @@ if ( ! class_exists( 'simple_options' ) ) {
 						$master_fields[ $master_field ] = $master_value;
 						$extra[] = sprintf( 'data-master-%s="%s"', $master_field, esc_attr( $master_value ) );
 					}
-
 					$value = $this->get_single_value( $options, $input, $master_fields['section'], $master_fields['field'] );
 					$classes[] = 'section-is-slave';
 					if ( $master_fields['value'] != $value ) {
@@ -215,10 +228,23 @@ if ( ! class_exists( 'simple_options' ) ) {
 					 * begin table row
 					 */
 					if ( 'hidden' !== $data['type'] ) {
+						$master_data = '';
+						$master = isset( $data['master'] )? $data['master']:'';
+						if ( is_array( $master ) ) {
+							foreach ( $master as $master_field => $master_value ) {
+								$master_data .= sprintf( ' data-master-%s="%s"', $master_field, esc_attr( $master_value ) );
+							}
+							$simple_master = '';
+							if ( isset( $master['master'] ) ) {
+								$simple_master = ' '.$master['master'];
+							}
+							$master = 'simple-option-complex-master'.$simple_master;
+						}
 						$content .= sprintf(
-							'<tr class="simple-option simple-option-%s %s">',
+							'<tr class="simple-option simple-option-%s %s" %s>',
 							esc_attr( $data['type'] ),
-							isset( $data['master'] )? esc_attr( $data['master'] ):''
+							esc_attr( $master ),
+							$master_data
 						);
 						/**
 						 * sortable
@@ -245,7 +271,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 							);
 						}
 						if ( isset( $data['hide-th'] ) && true === $data['hide-th'] ) {
-							$content .= '<td colspan="2">';
+							$content .= sprintf( '<td colspan="%d">', $sortable? 3:2 );
 						} else {
 							$content .= '<td>';
 						}
@@ -277,8 +303,12 @@ if ( ! class_exists( 'simple_options' ) ) {
 					switch ( $data['type'] ) {
 
 						case 'description':
-							$content .= $data['value'];
-							break;
+							if ( empty( $data['classes'] ) ) {
+								$content .= $data['value'];
+							} else {
+								$content .= sprintf( '<div class="%s"><p>%s</p></div>', esc_attr( implode( ' ', $data['classes'] ) ), $data['value'] );
+							}
+						break;
 
 						case 'gallery':
 						case 'media':
@@ -441,10 +471,16 @@ if ( ! class_exists( 'simple_options' ) ) {
 						 */
 						case 'select':
 						case 'select2':
+						case 'select2-ajax':
 							if ( isset( $data['multiple'] ) && $data['multiple'] ) {
 								$extra[] = 'multiple="multiple"';
 							}
-							if ( 'select2' == $data['type'] ) {
+							if ( preg_match( '/^select2/', $data['type'] ) ) {
+								if ( 'select2' == $data['type'] ) {
+									$data['classes'][] = 'ub-select2';
+								} else {
+									$data['classes'][] = 'ub-select2-ajax';
+								}
 								if ( ! isset( $this->loaded['select2'] ) ) {
 									$this->loaded['select2'] = true;
 									$version = '4.0.5';
@@ -483,26 +519,23 @@ if ( ! class_exists( 'simple_options' ) ) {
 
 							/**
 							 * CSS Editor
-							 *
 							 * @since 1.1.0
+							 *
+							 * html Editor
+							 * @since 1.3.0
 							 */
 						case 'css_editor':
+						case 'html_editor':
 							if ( ! is_string( $value ) ) {
 								$value = '';
 							}
-							$data['classes'][] = 'hidden';
+							$data['classes'][] = 'ub_'.$data['type'];
 							$content .= sprintf(
 								'<textarea id="%s" name="%s" class="%s">%s</textarea>',
 								esc_attr( $html_id ),
 								esc_attr( $field_name ),
 								isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
 								esc_attr( stripslashes( $value ) )
-							);
-							$content .= sprintf(
-								'<div class="ub_css_editor" id="%s_editor" data-input="#%s">%s</div>',
-								esc_attr( $html_id ),
-								esc_attr( $html_id ),
-								esc_html( stripslashes( $value ) )
 							);
 						break;
 
@@ -541,7 +574,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 										esc_attr( $alt_value )
 									);
 									$field_name .= '[human]';
-								break;
+									break;
 
 								case 'number':
 									$data['classes'][] = 'small-text';
@@ -551,7 +584,7 @@ if ( ! class_exists( 'simple_options' ) ) {
 									if ( isset( $data['max'] ) ) {
 										$extra[] = sprintf( 'max="%d"', $data['max'] );
 									}
-								break;
+									break;
 
 								case 'button':
 								case 'submit':
@@ -562,18 +595,48 @@ if ( ! class_exists( 'simple_options' ) ) {
 									if ( isset( $data['disabled'] ) && $data['disabled'] ) {
 										$extra[] = 'disabled="disabled"';
 									}
-								break;
+									break;
+
+								default:
+									if ( isset( $data['value'] ) && empty( $value ) ) {
+										$value = $data['value'];
+									}
 							}
-							$content .= sprintf(
-								'<input type="%s" id="%s" name="%s" value="%s" class="%s" id="%s" %s />',
-								esc_attr( $data['type'] ),
-								esc_attr( $html_id ),
-								esc_attr( $field_name ),
-								esc_attr( stripslashes( $value ) ),
-								isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
-								esc_attr( $html_id ),
-								implode( ' ', $extra )
-							);
+							/**
+							 * readonly?
+							 */
+							if ( isset( $data['readonly'] ) && $data['readonly'] ) {
+								$extra[] = 'readonly="readonly"';
+							}
+							/**
+							 * add
+							 */
+							if ( 'link' === $data['type'] ) {
+								/**
+								 * since 1.2.1
+								 */
+								$content .= sprintf(
+									'<a href="%s" id="%s" name="%s" class="%s" id="%s" %s >%s</a>',
+									isset( $data['href'] )? esc_attr( $data['href'] ):'',
+									esc_attr( $html_id ),
+									esc_attr( $field_name ),
+									isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
+									esc_attr( $html_id ),
+									implode( ' ', $extra ),
+									esc_html( stripslashes( $value ) )
+								);
+							} else {
+								$content .= sprintf(
+									'<input type="%s" id="%s" name="%s" value="%s" class="%s" id="%s" %s />',
+									esc_attr( $data['type'] ),
+									esc_attr( $html_id ),
+									esc_attr( $field_name ),
+									esc_attr( stripslashes( $value ) ),
+									isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
+									esc_attr( $html_id ),
+									implode( ' ', $extra )
+								);
+							}
 						break;
 					}
 					/**
@@ -616,17 +679,19 @@ if ( ! class_exists( 'simple_options' ) ) {
 							if ( isset( $data['options'] ) && isset( $data['options'][ $default ] ) ) {
 								$default = $data['options'][ $data['default'] ];
 							}
-							$message = sprintf(
-								__( 'Default is: <code><strong>%s</strong></code>', 'ub' ),
-								$default
-							);
-							if ( 'color' == $data['type'] ) {
+							if ( ! empty( $default ) || is_numeric( $default ) ) {
 								$message = sprintf(
-									__( 'Default color is: <code><strong>%s</strong></code>', 'ub' ),
-									$data['default']
+									__( 'Default is: <code><strong>%s</strong></code>', 'ub' ),
+									$default
 								);
+								if ( 'color' == $data['type'] ) {
+									$message = sprintf(
+										__( 'Default color is: <code><strong>%s</strong></code>', 'ub' ),
+										$data['default']
+									);
+								}
+								$content .= sprintf( '<p class="description description-default">%s</p>', $message );
 							}
-							$content .= sprintf( '<p class="description description-default">%s</p>', $message );
 						}
 					}
 					if ( 'hidden' !== $data['type'] ) {
@@ -636,6 +701,10 @@ if ( ! class_exists( 'simple_options' ) ) {
 				}
 				$content .= '</tbody>';
 				/**
+				 * section options, table foot
+				 */
+				$table_footer = '';
+				/**
 				 * add reset
 				 */
 				$show = true;
@@ -643,9 +712,8 @@ if ( ! class_exists( 'simple_options' ) ) {
 					$show = false;
 				}
 				if ( $show ) {
-					$content .= '<tfoot><tr><td colspan="2">';
-					$content .= '<span class="simple-option-reset-section">';
-					$content .= sprintf(
+					$table_footer .= '<span class="simple-option-reset-section">';
+					$table_footer .= sprintf(
 						'<a href="#" data-nonce="%s" data-section="%s" data-question="%s" data-network="%d">%s</a>',
 						esc_attr( wp_create_nonce( 'reset-section-'.$section_key ) ),
 						esc_attr( $section_key ),
@@ -658,13 +726,48 @@ if ( ! class_exists( 'simple_options' ) ) {
 						is_network_admin(),
 						__( 'reset section to default', 'ub' )
 					);
-					$content .= '</span>';
+					$table_footer .= '</span>';
+				}
+				/**
+				 * table foot content filter
+				 *
+				 * @since 2.3.0
+				 *
+				 * @param string $table_footer Current footer.
+				 * @param string $module Current module.
+				 * @param string $section_key Current section.
+				 */
+				$table_footer = apply_filters( 'ultimate_branding_options_footer', $table_footer, $module, $section_key );
+				/**
+				 * check and show options table section footer
+				 */
+				if ( ! empty( $table_footer ) ) {
+					$content .= '<tfoot><tr>';
+					$content .= sprintf( '<td colspan="%d">', $sortable? 3:2 );
+					$content .= $table_footer;
 					$content .= '</td></tr></tfoot>';
 				}
-				$content .= '</table></div>';
+				/**
+				 * section options table end';
+				 */
+				$content .= '</table>';
+				$content .= '</div>';
 				$content .= '</div>';
 			}
-			$content .= '</div>';
+			/**
+			 * wrap
+			 */
+			if ( ! empty( $content ) ) {
+				$content = sprintf(
+					'<div class="meta-box-sortables simple-options">%s</div>',
+					$content
+				);
+			} else {
+				$content = sprintf(
+					'<div class="notice notice-error inline"><p>%s</p></div>',
+					__( 'There is no definied options here.', 'ub' )
+				);
+			}
 			return $content;
 		}
 
@@ -729,7 +832,74 @@ if ( ! class_exists( 'simple_options' ) ) {
 					}
 				}
 			}
-			wp_send_json_error();
+			/**
+			 * actions with "do"
+			 */
+			if ( isset( $_REQUEST['do'] ) && isset( $_REQUEST['nonce'] ) ) {
+				switch ( $_REQUEST['do'] ) {
+					case 'copy':
+						$data = $this->helper_ajax_copy();
+					break;
+				}
+			}
+			wp_send_json_error( array( 'message' => __( 'Something went wrong!', 'ub' ) ) );
+		}
+
+		/**
+		 * Helper AJAX copy
+		 *
+		 * @since 2.3.0
+		 */
+		private function helper_ajax_copy() {
+			if (
+				! isset( $_REQUEST['module'] )
+				|| ! isset( $_REQUEST['section'] )
+				|| ! isset( $_REQUEST['from'] )
+			) {
+				wp_send_json_error( array( 'message' => __( 'Missing required parameters.', 'ub' ) ) );
+			}
+			if ( ! wp_verify_nonce( $_REQUEST['nonce'], 'ub-copy-section-settings-' . $_REQUEST['module'] ) ) {
+				wp_send_json_error( array( 'message' => __( 'Nope! Security check failed!', 'ub' ) ) );
+			}
+			$result = $this->copy_settings( $_REQUEST['module'], $_REQUEST['section'], $_REQUEST['from'] );
+			if ( $result ) {
+				wp_send_json_success();
+			}
+		}
+
+		/**
+		 * Copy settings
+		 *
+		 * @since 2.3.0
+		 */
+		private function copy_settings( $to, $section, $from ) {
+			$from_data = ub_get_option( $from );
+			if ( ! isset( $from_data[ $section ] ) ) {
+				wp_send_json_error( array( 'message' => __( 'Source section is not saved yet and there is nothing to copy!', 'ub' ) ) );
+			}
+			$to_data = ub_get_option( $to );
+			if ( ! is_array( $to_data ) ) {
+				$to_data = array();
+			}
+			$to_data[ $section ] = $from_data[ $section ];
+			/**
+			 * social media exception
+			 */
+			if ( 'social_media' === $section ) {
+				if ( isset( $from_data['_social_media_sortable'] ) ) {
+					$to_data['_social_media_sortable'] = $from_data['_social_media_sortable'];
+				}
+			}
+			$result = ub_update_option( $to, $to_data );
+			if ( $result ) {
+				global $uba;
+				$message = array(
+					'class' => 'info',
+					'message' => __( 'Section data was copied successfully.', 'ub' ),
+				);
+				$uba->add_message( $message );
+			}
+			return $result;
 		}
 
 		/**
