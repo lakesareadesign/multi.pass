@@ -4,7 +4,7 @@
  * Description: This is the Brunch Pro child theme created for the Genesis Framework.
  * Author:      Feast Design Co
  * Author URI:  https://feastdesignco.com/
- * Version:     2.2.2
+ * Version:     3.1.7
  *
  * Tags: black, white, one-column, two-columns, three-columns, fixed-width, custom-menu, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, customizer
  *
@@ -419,7 +419,7 @@ textarea:focus {
 a {
 	color: #44d5af;
 	font-style: italic;
-	text-decoration: none;
+	text-decoration: underline;
 }
 
 a img {
@@ -883,11 +883,7 @@ Common Classes
 }
 
 .search-form input[type="submit"] {
-	background: #fff;
-	border: 1px solid #eee;
-	border-left: 0;
 	clear: none;
-	color: #ccc;
 	float: right;
 	font-weight: 400;
 	letter-spacing: 2px;
@@ -1384,6 +1380,7 @@ Site Header
 .site-title a {
 	color: #302a2c;
 	font-style: normal;
+	text-decoration:none;
 }
 
 .site-title a:hover,
@@ -1403,23 +1400,6 @@ Site Header
 .header-full-width .title-area,
 .header-full-width .site-title {
 	width: 100%;
-}
-
-.header-image .site-description,
-.header-image .site-title a {
-	display: block;
-	text-indent: -9999px;
-}
-
-/* Logo, hide text */
-.header-image .site-title > a {
-	-webkit-background-size: contain !important;
-	background-size: contain !important;
-	display: block;
-	height: 150px;
-	margin: 10px auto;
-	max-width: 320px;
-	text-indent: -9999px;
 }
 
 .header-image .site-title a {
@@ -1832,6 +1812,7 @@ li.comment {
 
 .comment-meta a {
 	color: #302a2c;
+	text-decoration:none;
 }
 
 .comment-reply a {

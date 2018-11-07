@@ -13,7 +13,7 @@ defined( 'WPINC' ) || die;
 require_once get_template_directory() . '/lib/init.php';
 
 define( 'CHILD_THEME_NAME', 'Brunch Pro Theme' );
-define( 'CHILD_THEME_VERSION', '2.2.2' );
+define( 'CHILD_THEME_VERSION', '3.1.7' );
 define( 'CHILD_THEME_URL', 'https://feastdesignco.com/product/brunch-pro/' );
 define( 'CHILD_THEME_DEVELOPER', 'Feast Design Co.' );
 define( 'BRUNCH_PRO_DIR', trailingslashit( get_stylesheet_directory() ) );
@@ -33,7 +33,9 @@ add_theme_support( 'genesis-accessibility', array(
 
 add_theme_support( 'custom-header', array(
 	'width'           => 640,
-	'height'          => 300,
+	'flex-width'	  => true,
+	'height'          => 340,
+	'flex-height'	  => true,
 	'header-selector' => '.site-title a',
 	'header-text'     => false,
 ) );
@@ -172,6 +174,11 @@ function brunch_pro_enqueue_js() {
 	);
 }
 
+// Remove standard Genesis header, replace with our own feast_filter_genesis_seo_site_title
+remove_action( 'genesis_site_description', 'genesis_seo_site_description' );
+remove_action( 'wp_head', 'genesis_custom_header_style');
+
+
 // Move main menu.
 remove_action( 'genesis_after_header', 'genesis_do_nav' );
 add_action( 'genesis_before_header', 'genesis_do_nav' );
@@ -304,19 +311,52 @@ function brunch_pro_excerpt_read_more_link( $output ) {
 	return $output . brunch_pro_get_read_more_link();
 }
 
-add_filter( 'genesis_footer_creds_text', 'brunch_pro_footer_creds_text' );
+add_filter( 'genesis_seo_title', 'feast_filter_genesis_seo_site_title', 10, 2 );
+/**
+ * Replace genesis_seo_title to display normal header image at whatever dimensions user uploaded at
+ * See: https://feastdesignco.com/rethinking-the-header/
+ *
+ * @since  3.1.7
+ * @access public
+ * @param  string $creds Default credits.
+ * @return string Modified Feast credits.
+ */
+function feast_filter_genesis_seo_site_title( $title, $inside ){
+	$child_inside = sprintf( '<a href="%s" title="%s" ><img src="%s" title="%s" alt="%s logo"  nopin="nopin" /></a>', 
+				trailingslashit( home_url() ), 
+				esc_attr( get_bloginfo( 'name' ) ), 
+				get_header_image(),
+				esc_attr( get_bloginfo( 'name' ) ), 
+				esc_attr( get_bloginfo( 'name' ) ) 
+			);
+	if( get_header_image() == '' ) { // overwrite $child_inside if no header image specified
+		$child_inside = sprintf( '<a href="%s">%s</a>', 
+					trailingslashit( home_url() ), 
+					esc_attr( get_bloginfo( 'name' ) )
+				);
+	}
+	$title = str_replace( $inside, $child_inside, $title );
+	return $title;		
+}
+
+
+add_filter( 'genesis_footer_creds_text', 'feast_footer_creds_text', 10 );
 /**
  * Customize the footer text
+ * Edit the line that says get_bloginfo( 'name' ) with your custom site name if desired
+ * Edit the empty quotes ('' // additional custom....) with additional text if desired
  *
  * @since  1.0.0
  * @access public
  * @param  string $creds Default credits.
- * @return string Modified Shay Bocks credits.
+ * @return string Modified Feast credits.
  */
-function brunch_pro_footer_creds_text( $creds ) {
-	return sprintf( '[footer_copyright before="%s"] &middot; [footer_childtheme_link before=""] %s <a href="https://feastdesignco.com/">%s</a>',
-		__( 'Copyright', 'brunch-pro' ),
-		__( 'by', 'brunch-pro' ),
-		CHILD_THEME_DEVELOPER
+function feast_footer_creds_text( $creds ) {
+	return sprintf( 'Copyright &copy; %u %s on the <a href="%s" target="_blank" rel="noopener">%s</a><br/>%s',
+		date( 'Y' ),
+		get_bloginfo( 'name' ),
+		CHILD_THEME_URL, 
+		CHILD_THEME_NAME,
+		'' // additional custom footer text here
 	);
 }

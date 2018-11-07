@@ -1,0 +1,75 @@
+/**
+ * Theme Name:          Mai Law Pro
+ * Description:         Mai Law Pro is a custom child theme for The Genesis Framework.
+ * Author:              Mike Hemberger, BizBudding Inc
+ * Author URI:          https://bizbudding.com/
+ * Version:             1.0.0
+ *
+ * Template:            genesis
+ *
+ * License:             GPL-2.0+
+ * License URI:         http://www.opensource.org/licenses/gpl-license.php
+ */
+
+
+/* Table of Contents
+
+	- Defaults
+	- Media Queries (mobile-first)
+	- Media Queries (mobile-second)
+
+*/
+
+
+/* # Defaults
+---------------------------------------------------------------------------------------------------- */
+
+body {
+	font-family: 'Source Sans Pro', sans-serif;
+	font-weight: 300;
+}
+
+h1,
+.banner-title,
+.heading,
+.widget-title,
+.widgettitle {
+	font-family: 'Roboto Slab', serif;
+	font-weight: 700;
+	letter-spacing: 1px;
+}
+
+h2, h3, h4, h5, h6 {
+	font-family: 'Poppins', sans-serif;
+	font-weight: 400;
+}
+
+.heading {
+	text-align: inherit;
+}
+
+.genesis-nav-menu a {
+	font-weight: normal;
+}
+
+/* # Media Queries (mobile-first)
+---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (min-width: 545px) {}
+
+@media only screen and (min-width: 769px) {}
+
+@media only screen and (min-width: 993px) {}
+
+@media only screen and (min-width: 1160px) {}
+
+/* # Media Queries (mobile-second)
+---------------------------------------------------------------------------------------------------- */
+
+@media only screen and (max-width: 1159px) {}
+
+@media only screen and (max-width: 992px) {}
+
+@media only screen and (max-width: 768px) {}
+
+@media only screen and (max-width: 544px) {}

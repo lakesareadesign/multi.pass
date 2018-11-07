@@ -1,4 +1,4 @@
-=== Brunch Pro Genesis 2.2.2 Child Theme ===
+=== Brunch Pro Genesis 3.1.7 Child Theme ===
 
 Set up tutorials can be found at https://feastdesignco.com/tutorials/
 
@@ -17,6 +17,14 @@ Please visit https://feastdesignco.com/support/ or http://my.studiopress.com/sup
 
 
 === Changelog ===
+
+
+= 3.1.7 =
+
+* Big version bump: all themes are now the same version as features become more consistent
+* Updated header to use <img> rather than background-image, with site title in its proper place (alt tag)
+* Header will now display at whatever resolution it's uploaded at - no coding changes required
+* Updated CSS to fix search-engine-unfriendly hidden-text (text-indent:-9999px;)
 
 = 2.2.2 =
 

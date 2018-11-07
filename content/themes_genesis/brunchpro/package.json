@@ -1,0 +1,35 @@
+{
+  "name": "brunch-pro",
+  "description": "The Brunch Pro child theme created for the Genesis Framework.",
+  "version": "3.1.7",
+  "homepage": "https://feastdesignco.com/product/brunch-pro/",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/feastdesignco/brunchpro/issues"
+  },
+  "contributors": [
+    {
+      "name": "Feast Design Co.",
+      "email": "hello@feastdesignco.com",
+      "url": "https://feastdesignco.com"
+    },
+    {
+      "name": "Robert Neu",
+      "url": "http://robneu.com"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/shaybocks/brunch-pro.git"
+  },
+  "devDependencies": {
+    "autoprefixer": "7.x",
+    "grunt": "~1.0.1",
+    "grunt-contrib-watch": "~1.0.0",
+    "grunt-postcss": "0.x",
+    "grunt-version": "1.x",
+    "grunt-wp-css": "^0.2.1",
+    "grunt-wp-i18n": "~1.0.0",
+    "load-grunt-tasks": "^3.1.0"
+  }
+}
