@@ -4,8 +4,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Appointments +\n"
 "Report-Msgid-Bugs-To: https://wpmudev.org\n"
-"POT-Creation-Date: 2018-06-28 06:48:15+00:00\n"
-"PO-Revision-Date: 2018-06-04 16:07:22+0000\n"
+"POT-Creation-Date: 2018-11-26 06:56:13+00:00\n"
+"PO-Revision-Date: 2018-07-23 07:06:51+0000\n"
 "Language: es\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -1708,7 +1708,7 @@ msgstr "Creado en"
 
 #: admin/pages/class-admin-appointments-page.php:273
 #: admin/pages/class-admin-transactions-page.php:59
-#: admin/views/inline-edit.php:104
+#: admin/views/inline-edit.php:125
 #: includes/pro/includes/addons/app-locations-locations_on_google_maps.php:22
 #: includes/shortcodes/class-app-shortcode-all-appointments.php:30
 #: includes/shortcodes/class-app-shortcode-all-appointments.php:90
@@ -1811,7 +1811,7 @@ msgid "Add new Service Provider"
 msgstr "Agregar nuevo proveedor de servicios"
 
 #: admin/pages/class-admin-settings-page.php:96
-#: admin/pages/class-admin-settings-page.php:581
+#: admin/pages/class-admin-settings-page.php:587
 msgid "Please, select at least one service provided"
 msgstr "Por favor, selecione por lo menos un servicio"
 
@@ -1841,11 +1841,11 @@ msgstr "Ajustes actualizados"
 
 #: admin/pages/class-admin-settings-page.php:233
 msgid "Number of services per page"
-msgstr ""
+msgstr "Número de servicios por página"
 
 #: admin/pages/class-admin-settings-page.php:245
 msgid "Number of service providers per page"
-msgstr ""
+msgstr "Número de proveedores de servicio por página"
 
 #: admin/pages/class-admin-transactions-page.php:18
 #: admin/pages/class-admin-transactions-page.php:19
@@ -1892,7 +1892,7 @@ msgstr "¿Dar un descanso?"
 msgid "Start"
 msgstr "Comenzar"
 
-#: admin/views/form-working-hours.php:38 admin/views/inline-edit.php:93
+#: admin/views/form-working-hours.php:38 admin/views/inline-edit.php:114
 #: includes/pro/includes/addons/app-admin-export_date_range.php:50
 msgid "End"
 msgstr "Fin"
@@ -1936,20 +1936,20 @@ msgstr "Creado"
 msgid "Unknown"
 msgstr ""
 
-#: admin/views/inline-edit.php:114
+#: admin/views/inline-edit.php:135
 #: includes/shortcodes/class-app-shortcode-my-appointments.php:245
 msgid "Confirm"
 msgstr "Confirmar"
 
-#: admin/views/inline-edit.php:117
+#: admin/views/inline-edit.php:138
 msgid "(Re)send confirmation email"
 msgstr "(Re)enviar email de confirmación"
 
-#: admin/views/inline-edit.php:119
+#: admin/views/inline-edit.php:140
 msgid "Send confirmation email"
 msgstr "Enviar email de confirmación"
 
-#: admin/views/inline-edit.php:128
+#: admin/views/inline-edit.php:149
 msgid ""
 "GCal reserved appointments cannot be edited here. Edit them in your Google "
 "calendar."
@@ -1957,11 +1957,11 @@ msgstr ""
 "Citas reservadas GCal no se pueden editar aquí. Editar en el calendario de "
 "Google."
 
-#: admin/views/inline-edit.php:128 admin/views/inline-edit.php:130
+#: admin/views/inline-edit.php:149 admin/views/inline-edit.php:151
 msgid "Save / Update"
 msgstr "Grabar/actualizar"
 
-#: admin/views/inline-edit.php:130
+#: admin/views/inline-edit.php:151
 msgid "Click to save or update"
 msgstr "Clica para salvar o actualizar"
 
@@ -2310,7 +2310,7 @@ msgstr ""
 
 #: admin/views/page-settings-tab-main-section-advanced.php:10
 msgid "Always load scripts"
-msgstr ""
+msgstr "Siempre cargar scripts"
 
 #: admin/views/page-settings-tab-main-section-advanced.php:13
 msgid ""
@@ -2915,7 +2915,7 @@ msgstr "Capacidad del Servicio"
 #: admin/views/page-settings-tab-services-section-edit-service.php:31
 #: admin/views/page-settings-tab-services-section-new-service.php:34
 msgid "To setup capacity add some workers first!"
-msgstr ""
+msgstr "Para configurar la capacidad agregue algunos empleados primero"
 
 #: admin/views/page-settings-tab-services-section-edit-service.php:36
 #: admin/views/page-settings-tab-services-section-new-service.php:39
@@ -3226,13 +3226,13 @@ msgstr "Confirmación de tu Reserva"
 msgid "Reminder for your Appointment"
 msgstr "Recordatorio de tu Reserva"
 
-#: includes/class-app-ajax.php:44
+#: includes/class-app-ajax.php:45
 msgid "Cancellation of appointments is disabled. Please contact website admin."
 msgstr ""
 "La cancelación de reservas está deshabilitada. Por favor contacte con el "
 "administrador de la página."
 
-#: includes/class-app-ajax.php:75
+#: includes/class-app-ajax.php:76
 msgid ""
 "There is an issue with this appointment. Please refresh the page and try "
 "again. If problem persists, please contact website admin."
@@ -3240,36 +3240,40 @@ msgstr ""
 "Hay un problema con esta reserva. Por favor recarga la página e inténtalo de "
 "nuevo. Si el problema persiste, por favor contacta con el webmaster."
 
-#: includes/class-app-ajax.php:81
+#: includes/class-app-ajax.php:82
 msgid ""
 "Appointment could not be cancelled. Please refresh the page and try again."
 msgstr ""
 "La reserva no ha podido ser cancelada. por favor recarga la página e "
 "inténtalo de nuevo."
 
-#: includes/class-app-ajax.php:144 includes/class-app-ajax.php:217
+#: includes/class-app-ajax.php:145 includes/class-app-ajax.php:218
 msgid "Record could not be saved OR you did not make any changes!"
 msgstr ""
 "El registro no se ha podido guardar o no se ha realizado ningún cambio."
 
-#: includes/class-app-ajax.php:200 includes/class-app-ajax.php:212
+#: includes/class-app-ajax.php:201 includes/class-app-ajax.php:213
 #: includes/pro/includes/addons/app-users-additional_fields.php:350
 msgid "<span style=\"color:green;font-weight:bold\">Changes saved.</span>"
 msgstr "<span style=\"color:green;font-weight:bold\">Cambios grabados.</span>"
 
-#: includes/class-app-ajax.php:204
+#: includes/class-app-ajax.php:205
 msgid "Status changed from %s to %s by %s for appointment ID:%d"
 msgstr "Estatus cambiado desde %s a %s por%s para cita ID:%d"
 
-#: includes/class-app-ajax.php:216
+#: includes/class-app-ajax.php:217
 msgid "Confirmation message (re)sent"
 msgstr "Mensaje de confirmación reenviado"
 
-#: includes/class-app-ajax.php:283
+#: includes/class-app-ajax.php:290
 msgid "Not registered user"
 msgstr "No usuario registrado"
 
-#: includes/class-app-ajax.php:320
+#: includes/class-app-ajax.php:330
+msgid "Error while fetching working hours."
+msgstr ""
+
+#: includes/class-app-ajax.php:362
 msgid ""
 "You have already applied for an appointment. Please wait until you hear from "
 "us."
@@ -3277,7 +3281,7 @@ msgstr ""
 "Tu ya has solicitado una cita. Por favor espera hasta que nos pongamos en "
 "contacto contigo."
 
-#: includes/class-app-ajax.php:473 includes/class-app-ajax.php:932
+#: includes/class-app-ajax.php:515 includes/class-app-ajax.php:974
 msgid ""
 "We are sorry, but this time slot is no longer available. Please refresh the "
 "page and try another time slot. Thank you."
@@ -3286,13 +3290,13 @@ msgstr ""
 "confirmación. Por favor refresca la página e inténtalo en otro tramo "
 "horario. Gracias"
 
-#: includes/class-app-ajax.php:540 includes/class-app-ajax.php:548
+#: includes/class-app-ajax.php:582 includes/class-app-ajax.php:590
 msgid "Appointment could not be saved. Please contact website admin."
 msgstr ""
 "No ha sido posible guardar la reserva. Por favor contacte con el "
 "administrador web. "
 
-#: includes/class-app-ajax.php:753
+#: includes/class-app-ajax.php:795
 msgid ""
 "Paypal confirmation arrived, but status could not be changed for some "
 "reason. Please check appointment with ID %s"
@@ -3300,103 +3304,103 @@ msgstr ""
 "La confirmación de PayPal llegó, pero no ha sido posible modificar el "
 "estatus por algún motivo. Por favor revise la reserva con el ID %s."
 
-#: includes/class-app-ajax.php:755
+#: includes/class-app-ajax.php:797
 msgid "Appointment status could not be changed"
 msgstr "No ha sido posible modificar el estatus de la reserva."
 
-#: includes/class-app-ajax.php:761
+#: includes/class-app-ajax.php:803
 msgid ""
 "Last transaction has been reversed. Reason: Payment has been reversed "
 "(charge back)"
 msgstr ""
 "La última transacción ha sido denegada. Razón: El pago ha sido devuelto."
 
-#: includes/class-app-ajax.php:786
+#: includes/class-app-ajax.php:828
 msgid "Last transaction has been reversed. Reason: Payment has been refunded"
 msgstr ""
 "La última transacción ha sido denegada. Razón: El pago ha sido reembolsado. "
 
-#: includes/class-app-ajax.php:811
+#: includes/class-app-ajax.php:853
 msgid "Last transaction has been reversed. Reason: Payment Denied"
 msgstr ""
 "La última transacción ha sido denegada. Razón: El pago ha sido denegado. "
 
-#: includes/class-app-ajax.php:838
+#: includes/class-app-ajax.php:880
 msgid "Customer did not include a confirmed shipping address"
 msgstr "El cliente no ha incluido la dirección de recepción del pedido."
 
-#: includes/class-app-ajax.php:839
+#: includes/class-app-ajax.php:881
 msgid "Funds not captured yet"
 msgstr "No se ha recibido el pago todavía."
 
-#: includes/class-app-ajax.php:840
+#: includes/class-app-ajax.php:882
 msgid "eCheck that has not cleared yet"
 msgstr "Tu clave NO ha sido eliminada."
 
-#: includes/class-app-ajax.php:841
+#: includes/class-app-ajax.php:883
 msgid "Payment waiting for aproval by service provider"
 msgstr "Pago a la espera de aprobación por parte del empleado"
 
-#: includes/class-app-ajax.php:842
+#: includes/class-app-ajax.php:884
 msgid "Payment waiting for service provider to handle multi-currency process"
 msgstr ""
 "Espera el pago por el proveedor de servicios para manejar proceso multi-"
 "moneda"
 
-#: includes/class-app-ajax.php:843
+#: includes/class-app-ajax.php:885
 msgid "Customer did not register or confirm his/her email yet"
 msgstr "El cliente no ha confirmado su e-mail todavía."
 
-#: includes/class-app-ajax.php:844
+#: includes/class-app-ajax.php:886
 msgid "Waiting for service provider to upgrade the PayPal account"
 msgstr "Esperando a que el empleado actualice la cuenta de PayPal."
 
-#: includes/class-app-ajax.php:845
+#: includes/class-app-ajax.php:887
 msgid "Waiting for service provider to verify his/her PayPal account"
 msgstr "Esperando a que el empleado verifique su cuenta de PayPal."
 
-#: includes/class-app-ajax.php:849
+#: includes/class-app-ajax.php:891
 msgid "Last transaction is pending. Reason: "
 msgstr "La última transacción está pendiente. Motivo:"
 
-#: includes/class-app-ajax.php:912
+#: includes/class-app-ajax.php:954
 msgid "You need to login to make an appointment."
 msgstr "Necesitas identificarte para realizar una reserva."
 
-#: includes/class-app-ajax.php:938
+#: includes/class-app-ajax.php:980
 msgid "Service name: "
 msgstr "Nombre del servicio"
 
-#: includes/class-app-ajax.php:939
+#: includes/class-app-ajax.php:981
 msgid "Date and time: "
 msgstr "Fecha y hora"
 
-#: includes/class-app-ajax.php:940
+#: includes/class-app-ajax.php:982
 msgid "Lasts (approx): "
 msgstr "Duración (aprox.)"
 
-#: includes/class-app-ajax.php:940
+#: includes/class-app-ajax.php:982
 msgid "minutes"
 msgstr "minutos"
 
-#: includes/class-app-ajax.php:943
+#: includes/class-app-ajax.php:985
 msgid "Price: "
 msgstr "Precio"
 
-#: includes/class-app-ajax.php:947
+#: includes/class-app-ajax.php:989
 msgid "Service provider: "
 msgstr "Proveedor del servicio"
 
-#: includes/class-app-ajax.php:1034
+#: includes/class-app-ajax.php:1076
 msgid "Nothing to download!"
 msgstr "¡Nada que descargar!"
 
-#: includes/class-app-ajax.php:1143 includes/class-app-ajax.php:1156
-#: includes/class-app-ajax.php:1182
+#: includes/class-app-ajax.php:1185 includes/class-app-ajax.php:1198
+#: includes/class-app-ajax.php:1224
 msgid "Sorry, there was a problem with your request!"
 msgstr ""
 
-#: includes/class-app-ajax.php:1168 includes/class-app-ajax.php:1194
+#: includes/class-app-ajax.php:1210 includes/class-app-ajax.php:1236
 msgid "Service Provider was successfuly deleted."
 msgstr ""
 
@@ -4968,7 +4972,7 @@ msgstr "Mostrar imágenes"
 #: includes/pro/includes/addons/app-locations-locations_on_google_maps.php:234
 #: includes/pro/includes/addons/app-users-limit_services_login.php:78
 msgid "Hide"
-msgstr ""
+msgstr "Esconder"
 
 #: includes/pro/includes/addons/app-locations-locations_on_google_maps.php:238
 msgid "Automatic map overlays"
@@ -4985,7 +4989,7 @@ msgstr "Después de todas mis citas\"shortcode\" salgan"
 #: includes/pro/includes/addons/app-locations-locations_on_google_maps.php:247
 #: includes/pro/includes/addons/app-locations-locations_on_google_maps.php:257
 msgid "Do not insert"
-msgstr ""
+msgstr "No insertar"
 
 #: includes/pro/includes/addons/app-locations-locations_on_google_maps.php:257
 msgid "After All Appointments shortcode output"
@@ -4994,7 +4998,7 @@ msgstr "Después de todas las citas\"shortcode\" salgan"
 #: includes/pro/includes/addons/app-locations-service_locations.php:185
 #: includes/pro/includes/addons/app-locations-worker_locations.php:193
 msgid "There is no locations to choose. Please add some first."
-msgstr ""
+msgstr "No hay ubicaciones para escoger. Por favor agregue un primera."
 
 #: includes/pro/includes/addons/app-locations-service_locations.php:211
 msgid ""
@@ -5032,12 +5036,12 @@ msgstr ""
 
 #: includes/pro/includes/addons/app-locations-service_locations.php:394
 msgid "Service Location"
-msgstr ""
+msgstr "Ubicación del servicio"
 
 #: includes/pro/includes/addons/app-locations-service_locations.php:444
 #: includes/pro/includes/addons/app-locations-worker_locations.php:346
 msgid "No Location"
-msgstr ""
+msgstr "Sin ubicación"
 
 #: includes/pro/includes/addons/app-locations-worker_locations.php:69
 msgid ""
@@ -5287,11 +5291,11 @@ msgstr "'Paddings'"
 
 #: includes/pro/includes/addons/app-schedule-paddings.php:613
 msgid "Before: %s"
-msgstr ""
+msgstr "Antes: %s"
 
 #: includes/pro/includes/addons/app-schedule-paddings.php:623
 msgid "After: %s"
-msgstr ""
+msgstr "Después: %s"
 
 #: includes/pro/includes/addons/app-schedule-paddings.php:643
 msgid "No paddings"
@@ -5304,19 +5308,19 @@ msgstr "Compartir los recursos con"
 
 #: includes/pro/includes/addons/app-schedule-shared_resources.php:81
 msgid "Share with \"%s\""
-msgstr ""
+msgstr "Compartir con \"%s\""
 
 #: includes/pro/includes/addons/app-schedule-shared_resources.php:84
 msgid "Do not share"
-msgstr ""
+msgstr "No compartir"
 
 #: includes/pro/includes/addons/app-schedule-shared_resources.php:208
 msgid "Shared resources"
-msgstr ""
+msgstr "Recursos compartidos"
 
 #: includes/pro/includes/addons/app-schedule-shared_resources.php:239
 msgid "No shared resources"
-msgstr ""
+msgstr "No compartir recursos"
 
 #: includes/pro/includes/addons/app-users-additional_fields.php:101
 msgid "The field %s is required"
@@ -5398,7 +5402,7 @@ msgstr ""
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:78
 msgid "Show"
-msgstr ""
+msgstr "Mostrar"
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:84
 msgid "Name for login button"
@@ -5418,27 +5422,27 @@ msgstr "sitio"
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:92
 msgid "Use"
-msgstr ""
+msgstr "Usar"
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:92
 msgid "Do not use"
-msgstr ""
+msgstr "No usar"
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:104
 msgid "Facebook"
-msgstr ""
+msgstr "Facebook"
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:105
 msgid "Twitter"
-msgstr ""
+msgstr "Twitter"
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:106
 msgid "Google"
-msgstr ""
+msgstr "Google"
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:107
 msgid "WordPress"
-msgstr ""
+msgstr "WordPress"
 
 #: includes/pro/includes/addons/lib/app_service_locations_shortcode.php:9
 msgid "Service Locations"
@@ -6592,7 +6596,7 @@ msgstr ""
 "para mostrar el proveedor de servicios con el ID ingresado. Predeterminado: "
 "El proveedor de servicios es seleccionado/a mediante el menú desplegable."
 
-#: includes/shortcodes/class-app-shortcode-schedule.php:290
+#: includes/shortcodes/class-app-shortcode-schedule.php:291
 msgid ""
 "Creates a weekly table whose cells are clickable to apply for an appointment."
 msgstr ""
@@ -6914,7 +6918,7 @@ msgctxt "paging"
 msgid "%1$s of %2$s"
 msgstr "%1$s of %2$s"
 
-#: admin/views/inline-edit.php:126 appointments.php:1847
+#: admin/views/inline-edit.php:147 appointments.php:1847
 #: includes/class-app-tutorial.php:225
 #: includes/pro/includes/addons/app-locations-location_support.php:155
 #: includes/shortcodes/class-app-shortcode-confirmation.php:212
@@ -6927,7 +6931,7 @@ msgctxt "Settings section"
 msgid "%s Settings"
 msgstr "%s Configuraciones"
 
-#: includes/class-app-ajax.php:136 includes/class-app-ajax.php:144
+#: includes/class-app-ajax.php:137 includes/class-app-ajax.php:145
 msgctxt "Error while editing an appointment"
 msgid "Error"
 msgstr "Error"
@@ -6959,19 +6963,19 @@ msgctxt "Enter \"yes\" for the European Union countries."
 msgid "no"
 msgstr ""
 
-#: includes/helpers.php:955
+#: includes/helpers.php:968
 msgctxt "less than 60 minut"
 msgid "%d minutes"
 msgstr ""
 
-#: includes/helpers.php:959
+#: includes/helpers.php:972
 msgctxt "more than 60 minuts, hours"
 msgid "%d hour"
 msgid_plural "%d hours"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/helpers.php:966
+#: includes/helpers.php:979
 msgctxt "more than 60 minuts, minutes"
 msgid "%d minute"
 msgid_plural "%d minutes"

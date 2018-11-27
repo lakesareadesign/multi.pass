@@ -35,6 +35,7 @@ if ( ! empty( $settings->bg_hover_color ) ) {
 
 ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button,
+.fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button:hover,
 .fl-builder-content .fl-node-<?php echo $id; ?> a.fl-button:visited {
 
 	<?php if ( '' !== $settings->font_size ) : ?>

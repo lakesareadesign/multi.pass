@@ -421,18 +421,33 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 		};
 
 		if ( class_exists( 'Smartcrawl_Settings_Settings' ) && ! wp_script_is( 'wds-admin-settings', 'registered' ) ) {
-			wp_register_script( 'wds-admin-settings', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-settings.js', array(
+			wp_register_script( 'wds-third-party-import', SMARTCRAWL_PLUGIN_URL . 'js/wds-third-party-import.js', array(
 				'wds-admin',
-				'wds-qtip2-script',
+				'underscore',
 				'jquery',
 			), $version );
 
-			wp_localize_script( 'wds-admin-settings', '_wds_setting', array(
-				'strings' => array(
-					'importing' => esc_html__( 'Importing', 'wds' ),
-					'import'    => esc_html__( 'Import', 'wds' ),
+			wp_localize_script( 'wds-third-party-import', '_wds_import', array(
+				'templates' => array(
+					'import-options'        => $this->_load( 'settings/underscore-import-options' ),
+					'import-error'          => $this->_load( 'settings/underscore-import-error' ),
+					'import-progress'       => $this->_load( 'settings/underscore-import-progress' ),
+					'import-progress-reset' => $this->_load( 'settings/underscore-progress-reset' ),
+					'import-success'        => $this->_load( 'settings/underscore-import-success' ),
 				),
+				'strings'   => array(
+					'Yoast'          => esc_html__( 'Yoast', 'wds' ),
+					'All In One SEO' => esc_html__( 'All In One SEO', 'wds' ),
+				),
+				'nonce'     => wp_create_nonce( 'wds-io-nonce' ),
 			) );
+
+			wp_register_script( 'wds-admin-settings', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-settings.js', array(
+				'wds-admin',
+				'wds-third-party-import',
+				'wds-qtip2-script',
+				'jquery',
+			), $version );
 		};
 	}
 
@@ -578,26 +593,6 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 				wp_cache_clear_cache();
 				$this->msg .= __( ' &amp; WP Super Cache flushed', 'wds' );
 			}
-		}
-
-		if ( ! empty( $_GET['imported'] ) ) {
-			$plugin = smartcrawl_get_array_value( $_GET, 'plugin' );
-			$plugin_label = 'yoast' === $plugin ? __( 'Yoast SEO', 'wds' ) : __( 'All In One SEO', 'wds' );
-
-			$plugins_link = sprintf(
-				'<a href="%s">%s</a>',
-				admin_url( 'plugins.php' ),
-				sprintf(
-					__( 'deactivate %s', 'wds' ),
-					$plugin_label
-				)
-			);
-
-			$this->msg = sprintf(
-				__( 'Your %1$s configuration has been successfully imported! We recommend you %2$s to avoid any potential conflicts.', 'wds' ),
-				$plugin_label,
-				$plugins_link
-			);
 		}
 
 		$errors = get_settings_errors( $this->option_name );

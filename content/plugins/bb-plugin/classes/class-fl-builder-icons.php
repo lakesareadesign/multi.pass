@@ -78,7 +78,7 @@ final class FLBuilderIcons {
 		self::register_core_sets();
 
 		// Get the new sets.
-		$sets = self::$sets;
+		$sets = apply_filters( 'fl_builder_current_site_icon_sets', self::$sets );
 
 		// Revert to the original sets.
 		self::$sets = $original_sets;

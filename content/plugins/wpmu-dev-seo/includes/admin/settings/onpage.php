@@ -328,6 +328,19 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 				}
 				break;
 
+			case 'static-homepage':
+				$resolver = Smartcrawl_Endpoint_Resolver::resolve();
+				$front_page = get_post( (int) get_option( 'page_on_front' ) );
+				$resolver->simulate( Smartcrawl_Endpoint_Resolver::L_STATIC_HOME, is_a( $front_page, 'WP_Post' ) ? $front_page : null );
+
+				$title = Smartcrawl_OnPage::get()->get_title();
+				$description = Smartcrawl_OnPage::get()->get_description();
+				$link = get_home_url();
+				$updated = true;
+
+				$resolver->stop_simulation();
+				break;
+
 			case 'bp-group':
 				$group = $this->_get_random_bp_group();
 				if ( ! empty( $group ) ) {
@@ -522,8 +535,6 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 		$arguments['separators'] = smartcrawl_get_separators();
 
 		$arguments['show_homepage_options'] = $this->_show_homepage_options();
-		$arguments['homepage_title'] = $this->_get_homepage_title( $smartcrawl_options );
-		$arguments['homepage_description'] = $this->_get_homepage_description( $smartcrawl_options );
 
 		$arguments['active_tab'] = $this->_get_last_active_tab( 'tab_homepage' );
 
@@ -589,39 +600,6 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 		}
 
 		return $show_homepage_options;
-	}
-
-	private function _get_homepage_title( $options ) {
-		$front_page_id = (int) get_option( 'page_on_front' );
-
-		if ( ! $this->_show_homepage_options() && $front_page_id ) {
-
-			$homepage_title = smartcrawl_get_value( 'title', $front_page_id );
-			if ( empty( $homepage_title ) ) {
-				$front_page = get_post( $front_page_id );
-				$homepage_title = $front_page->post_title;
-			}
-
-			return $homepage_title;
-		} else {
-			return $options['title-home'];
-		}
-	}
-
-	private function _get_homepage_description( $options ) {
-		$front_page_id = (int) get_option( 'page_on_front' );
-
-		if ( ! $this->_show_homepage_options() && $front_page_id ) {
-			$homepage_description = smartcrawl_get_value( 'metadesc', $front_page_id );
-			if ( empty( $homepage_description ) ) {
-				$front_page = get_post( $front_page_id );
-				$homepage_description = substr( strip_tags( $front_page->post_content ), 0, 130 );
-			}
-
-			return $homepage_description;
-		} else {
-			return $options['metadesc-home'];
-		}
 	}
 
 	/**

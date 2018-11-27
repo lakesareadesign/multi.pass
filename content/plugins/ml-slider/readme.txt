@@ -3,7 +3,7 @@ Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image slider,flexslider,flex slider,nivoslider,nivo slider,responsive,responsive slides,coinslider,coin slider,slideshow,carousel,responsive slider,vertical slides
 Donate link: https://david.dw-perspective.org.uk/donate
 Requires at least: 3.5
-Stable tag: 3.10.0
+Stable tag: 3.10.2
 Tested up to: 5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -47,16 +47,19 @@ Apply one of our professional slidehow designs to really make your website stand
 * Lightbox support with the [MetaSlider Lightbox](https://wordpress.org/plugins/ml-slider-lightbox/) add-on
 
 **General:**
+
 * Simple and intuitive interface – perfect for individual users, developers & clients!
 * Fast – requires only the minimum JavaScript/CSS on your page
 * Creatively responsive
 	
 **Creative:**
+
 * Unrestricted full-width support for image slides, including captions, links, title texts and alt. texts.
 * Includes drag and drop slide reordering, intelligent image cropping, set image crop position. 
 * Multiple slideshow configuration options (e.g. for speed, timing, plus many more!)
 
 **Other:**
+
 * Preview from within the admin area
 * Shortcode lets you add the slideshow anyway
 * Fully localized
@@ -65,6 +68,7 @@ Apply one of our professional slidehow designs to really make your website stand
 * Developer Friendly, with extensive hooks & filters
 
 **Support:**
+
 * Includes free basic support (covering installation issues and theme/plugin conflicts).
 
 The <a href="https://www.metaslider.com/upgrade">MetaSlider Pro</a> includes added support for:
@@ -85,9 +89,9 @@ Read more and thanks to:
 * [Coin Slider](http://workshop.rs/projects/coin-slider/)
 * [Nivo Slider](https://github.com/Codeinwp/Nivo-Slider-jQuery)
 
-Find out more at https://www.metaslider.com
+Find out more at <a href="https://www.metaslider.com">metaslider.com</a>
 
-Follow us on Twitter: [@wpmetaslider](https://twitter.com/wpmetaslider)
+Follow us on Twitter: [@wpmetaslider](https://twitter.com/UpdraftPlus)
 
 == Installation ==
 
@@ -153,15 +157,28 @@ See https://www.metaslider.com/documentation/image-cropping/
 
 == Changelog ==
 
-= 3.10.0 - 2018/Oct/15 =
+= 3.10.2 - 2018/Nov/21 =
+
+* FIX: Fixes bug in with captions in NivoSlider
+
+= 3.10.1 - 2018/Nov/20 =
+
+* TWEAK: Removes redundant height and width attributes
+* FIX: Fixes bug in PHP 5.2 where images would not import
+* FIX: Updates various translation errors and adds translator tips
+* FIX: Allows the folder name to be safely changed
+* FIX: Fixes the situation where using a different folder name breaks everything
+* FIX: Fixes a Gutenberg-related bug that appears in WP5.0 beta2
+
+= 3.10.0 - 2018/Oct/25 =
 
 * FEATURE: Adds 11 new themes users can apply to their slideshows
 * FEATURE: Adds ability to preview a slideshow with a theme
 * FEATURE: Adds ability for a theme developer to add instructions
 * FEATURE: Adds unique images by theme if a user is importing images
 * FEATURE: Adds new channel for user feedback
-* FIX: Updates unusable filter when attempting to filter slides by type
 * FEATURE: Adds new developer filters to adjust slide output/visibility
+* FIX: Updates unusable filter when attempting to filter slides by type
 * FIX: Fixes a bug when babel-polyfil is loaded more than once
 * FIX: Adds an extra check for an error before saving the theme
 * TWEAK: Adds a title to the theme module
@@ -703,4 +720,4 @@ More info/Comments: http://www.metaslider.com/coming-soon-meta-slider-2-6-free/
 * Initial version
 
 == Upgrade Notice ==
-* 3.10.0 : Update to this version to experience using our professional themes with your slideshows.
+* 3.10.2 : Upgrade now if your captions disappeared using NivoSlider

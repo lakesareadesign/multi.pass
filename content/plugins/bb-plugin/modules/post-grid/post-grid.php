@@ -262,7 +262,12 @@ class FLPostGridModule extends FLBuilderModule {
 		$image = '';
 		if ( class_exists( 'FLTheme' ) && 'image' == FLTheme::get_setting( 'fl-logo-type' ) ) {
 			$image = FLTheme::get_setting( 'fl-logo-image' );
+		} elseif ( has_custom_logo() ) {
+			$custom_logo_id = get_theme_mod( 'custom_logo' );
+			$logo           = wp_get_attachment_image_src( $custom_logo_id, 'full' );
+			$image          = $logo[0];
 		}
+
 		$image = apply_filters( 'fl_schema_meta_publisher_image_url', $image );
 		if ( $image ) {
 			echo '<div itemprop="logo" itemscope itemtype="https://schema.org/ImageObject">';

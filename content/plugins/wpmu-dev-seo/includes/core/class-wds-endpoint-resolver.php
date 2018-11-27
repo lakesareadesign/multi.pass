@@ -75,7 +75,7 @@ class Smartcrawl_Endpoint_Resolver {
 	public function resolve_location() {
 		if ( is_front_page() && 'posts' === get_option( 'show_on_front' ) ) {
 			$this->set_location( self::L_BLOG_HOME );
-		} elseif ( is_home() && 'posts' !== get_option( 'show_on_front' ) ) {
+		} elseif ( is_front_page() && 'posts' !== get_option( 'show_on_front' ) ) {
 			$this->set_location( self::L_STATIC_HOME );
 		} elseif ( is_category() || is_tag() || is_tax() ) {
 			$this->set_location( self::L_TAX_ARCHIVE );
@@ -139,14 +139,43 @@ class Smartcrawl_Endpoint_Resolver {
 	 * @return bool
 	 */
 	public function simulate_post( $pid ) {
+		$post = get_post( $pid );
+		$query = new WP_Query();
+		$query->queried_object = $post;
+		$query->queried_object_id = $post->ID;
+
+		return $this->simulate( self::L_SINGULAR, $post, $query );
+	}
+
+	public function simulate_taxonomy_term( $term_id ) {
+		$term = get_term( $term_id );
+		$query = new WP_Query();
+		$query->queried_object = $term;
+		$query->queried_object_id = $term->term_id;
+
+		return $this->simulate( self::L_TAX_ARCHIVE, null, $query );
+	}
+
+	public function simulate_post_type( $post_type ) {
+		if ( is_a( $post_type, 'WP_Post_Type' ) ) {
+			$post_type = get_post_type_object( $post_type );
+		}
+		$query = new WP_Query();
+		$query->queried_object = $post_type;
+
+		$this->simulate( self::L_PT_ARCHIVE, null, $query );
+	}
+
+	public function simulate( $location, $context, $query_context = null ) {
 		$this->_presimulation_data[] = array(
-			'location' => $this->get_location(),
-			'context'  => $this->get_context(),
+			'location'      => $this->get_location(),
+			'context'       => $this->get_context(),
+			'query_context' => $this->get_query_context(),
 		);
 
-		$post = get_post( $pid );
-		$this->set_context( $post );
-		$this->set_location( self::L_SINGULAR );
+		$this->set_context( $context );
+		$this->set_location( $location );
+		$this->set_query_context( $query_context );
 
 		return true;
 	}

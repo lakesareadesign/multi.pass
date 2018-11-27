@@ -35,7 +35,11 @@
 		<div><?php esc_html_e( "Search engines haven't been recently updated.", 'wds' ); ?></div>
 	<?php } ?>
 
-	<p><a href='#update_search_engines' id='wds_update_engines'><?php echo esc_html( $update_engines ); ?></a></p>
+	<?php if ( $se_notifications_enabled ): ?>
+		<p><a href='#update_search_engines' id='wds_update_engines'><?php echo esc_html( $update_engines ); ?></a></p>
+	<?php else: ?>
+		<p><?php esc_html_e( 'Search engine notifications are disabled. You can enable them in the sitemap settings.', 'wds' ); ?></p>
+	<?php endif; ?>
 </div>
 <div style='clear:both'></div>
 

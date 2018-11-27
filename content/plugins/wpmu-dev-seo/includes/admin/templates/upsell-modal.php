@@ -20,7 +20,7 @@
 			</li>
 			<li>
 				<span class="wds-strong-text"><?php esc_attr_e( 'Smush Pro', 'wds' ); ?></span>
-				<p class="wds-small-text"><?php esc_attr_e( 'A membership for Hummingbird Pro also gets you the award winning Smush Pro with unlimited advanced lossy compression that’ll give image heavy websites a speed boost.', 'wds' ); ?></p>
+				<p class="wds-small-text"><?php esc_attr_e( 'A membership for SmartCrawl Pro also gets you the award winning Smush Pro with unlimited advanced lossy compression that’ll give image heavy websites a speed boost.', 'wds' ); ?></p>
 			</li>
 		</ul>
 

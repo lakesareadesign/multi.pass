@@ -86,7 +86,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 		return array_merge(array(
 			'updraftplus' => array(
 				'title' => __('Always backup WordPress to avoid losing your site!', 'ml-slider'),
-				'text' => __("UpdraftPlus is the world's #1 backup plugin from the makers of MetaSlider. Backup to the cloud, on a schedule and restore with 1 click!", 'ml-slider'),
+				'text' => _x("UpdraftPlus is the world's #1 backup plugin from the makers of MetaSlider. Backup to the cloud, on a schedule and restore with 1 click!", 'Keep the plugin names "UpdraftPlus" and "MetaSlider" when possible', 'ml-slider'),
 				'image' => 'updraft_logo.png',
 				'button_link' => 'updraftplus_wordpress',
 				'button_meta' => 'updraftplus',
@@ -96,7 +96,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'validity_function' => 'is_updraftplus_installed',
 			),
 			'keyy' => array(
-				'title' => __('Keyy: Instant and secure logon with a wave of your phone', 'ml-slider'),
+				'title' => _x('Keyy: Instant and secure logon with a wave of your phone', 'Keep the plugin name "Keyy" when possible', 'ml-slider'),
 				'text' => __('No more forgotten passwords. Find out more about our revolutionary new WordPress plugin', 'ml-slider'),
 				'image' => 'keyy_logo.png',
 				'button_link' => 'keyy',
@@ -108,7 +108,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 			),
 			'updraftcentral' => array(
 				'title' => __('Save Time and Money. Manage multiple WordPress sites from one location.', 'ml-slider'),
-				'text' => __('UpdraftCentral is a highly efficient way to take backup, update and manage multiple WP sites from one location', 'ml-slider'),
+				'text' => _x('UpdraftCentral is a highly efficient way to take backup, update and manage multiple WP sites from one location', 'Keep the plugin name "UpdraftCentral" when possible', 'ml-slider'),
 				'image' => 'updraft_logo.png',
 				'button_link' => 'updraftcentral',
 				'button_meta' => 'updraftcentral',
@@ -118,8 +118,8 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'validity_function' => 'is_updraftcentral_installed',
 			),
 			'rate_plugin' => array(
-				'title' => __('Like MetaSlider and have a minute to spare?', 'ml-slider'),
-				'text' => __('Please help MetaSlider by giving a positive review at wordpress.org.', 'ml-slider'),
+				'title' => _x('Like MetaSlider and have a minute to spare?', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
+				'text' => _x('Please help MetaSlider by giving a positive review at wordpress.org.', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
 				'image' => 'metaslider_logo.png',
 				'button_link' => 'metaslider_rate',
 				'button_meta' => 'review',
@@ -128,7 +128,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'supported_positions' => array('header'),
 			),
 			// 'lite_survey' => array(
-			// 'title' => __('Help us to get even better MetaSlider', 'ml-slider'),
+			// 'title' => _x('Help us to get even better MetaSlider', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
 			// 'text' => __('Let us know how you use MetaSlider by answering 4 simple questions. We will make MetaSlider to suit you better.', 'ml-slider'),
 			// 'image' => 'metaslider_logo.png',
 			// 'button_link' => 'metaslider_survey',
@@ -139,7 +139,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 			// ),
 			'pro_layers' => array(
 				'title' => __('Spice up your site with animated layers and video slides', 'ml-slider'),
-				'text' => __('With the MetaSlider Add-on pack you can give your slideshows a professional look!', 'ml-slider'),
+				'text' => _x('With the MetaSlider Add-on pack you can give your slideshows a professional look!', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
 				'image' => 'metaslider_logo.png',
 				'button_link' => 'metaslider',
 				'button_meta' => 'ml-slider',
@@ -169,7 +169,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'validity_function' => 'translation_needed',
 			),
 			'thankyou' => array(
-				'title' => __('Thank you for installing MetaSlider', 'ml-slider'),
+				'title' => _x('Thank you for installing MetaSlider', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
 				'text' => __('Supercharge & secure your WordPress site with our other top plugins:', 'ml-slider'),
 				'image' => 'metaslider_logo_large.png',
 				'dismiss_time' => 'thankyou',
@@ -212,7 +212,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 
         return array(
 			'blackfriday2018' => array(
-				'title' => __('Black Friday - 20% off the MetaSlider Add-on Pack until November 30th', 'ml-slider'),
+				'title' => _x('Black Friday - 20% off the MetaSlider Add-on Pack until November 30th', 'Keep the phrase "MetaSlider Add-on Pack" when possible. Also, "Black Friday" is the name of an event in the United States', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/black_friday.png',
 				'button_link' => 'metaslider',
@@ -225,7 +225,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'supported_positions' => array('header', 'dashboard'),
 			),
 			'christmas2018' => array(
-				'title' => __('Christmas sale - 20% off the MetaSlider Add-on Pack until December 25th', 'ml-slider'),
+				'title' => _x('Christmas sale - 20% off the MetaSlider Add-on Pack until December 25th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/christmas.png',
 				'button_link' => 'metaslider',
@@ -238,7 +238,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'supported_positions' => array('header', 'dashboard'),
 			),
 			'newyear2019' => array(
-				'title' => __('Happy New Year - 20% off the MetaSlider Add-on Pack until January 14th', 'ml-slider'),
+				'title' => _x('Happy New Year - 20% off the MetaSlider Add-on Pack until January 14th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/new_year.png',
 				'button_link' => 'metaslider',
@@ -251,7 +251,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'supported_positions' => array('header', 'dashboard'),
 			),
 			'spring2019' => array(
-				'title' => __('Spring sale - 20% off the MetaSlider Add-on Pack until April 30th', 'ml-slider'),
+				'title' => _x('Spring sale - 20% off the MetaSlider Add-on Pack until April 30th', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/spring.png',
 				'button_link' => 'metaslider',
@@ -264,7 +264,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 				'supported_positions' => array('header', 'dashboard'),
 			),
 			'summer2019' => array(
-				'title' => __('Summer sale - 20% off the MetaSlider Add-on Pack until July 31st', 'ml-slider'),
+				'title' => _x('Summer sale - 20% off the MetaSlider Add-on Pack until July 31st', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'),
 				'text' => __('To benefit, use this discount code:', 'ml-slider').' ',
 				'image' => 'seasonal/summer.png',
 				'button_link' => 'metaslider',
@@ -287,49 +287,49 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
     protected function mega_notice_parts() {
         return array(
 			'ms_pro' => array(
-				'title' => __('MetaSlider Add-on Pack:'), 
+				'title' => _x('MetaSlider Add-on Pack:', 'Keep the phrase "MetaSlider Add-on Pack" when possible', 'ml-slider'), 
 				'text' => __('Increase your conversion rate with video slides and many more options.', 'ml-slider'),
 				'image' => '',
 				'button_link' => 'metaslider',
                 'button_meta' => 'ml-slider',
 			),
 			// 'wpo_pro' => array(
-			// 'title' => __('WP-Optimize Premium'), 
+			// 'title' => _x('WP-Optimize Premium', 'Keep the phrase "WP-Optimize Premium" when possible', 'ml-slider'), 
 			// 'text' => __('offers unparalleled choice and flexibility, allowing you to select one or a combination of over a dozen optimization options.', 'ml-slider'),
 			// 'image' => '',
 			// 'button_link' => 'wp_optimize',
             // 'button_meta' => 'ml-slider',
 			// ),
 			// 'udp_pro' => array(
-			// 'title' => __('UpdraftPlus Premium'), 
+			// 'title' => _x('UpdraftPlus Premium', 'Keep the phrase "UpdraftPlus Premium" when possible', 'ml-slider), 
 			// 'text' => __('provides personal support, the ability to copy sites, more storage destinations, encrypted backups for security, multiple backup destinations, better reporting, no adverts and plenty more.', 'ml-slider'),
 			// 'image' => '',
 			// 'button_link' => 'updraftplus',
             // 'button_meta' => 'ml-slider',
 			// ),
 			'udp' => array(
-				'title' => __('UpdraftPlus'), 
+				'title' => _x('UpdraftPlus', 'Keep the plugin name "UpdraftPlus" when possible', 'ml-slider'), 
 				'text' => __('simplifies backups and restoration. It is the world\'s highest ranking and most popular scheduled backup plugin, with over a million currently-active installs.', 'ml-slider'),
 				'image' => '',
 				'button_link' => 'updraftplus_wordpress',
                 'button_meta' => 'updraftplus',
 			),
 			'wpo' => array(
-				'title' => __('WP-Optimize:'), 
+				'title' => _x('WP-Optimize', 'Keep the plugin name "WP-Optimize" when possible', 'ml-slider'), 
 				'text' => __('auto-clean your WordPress database so that it runs at maximum efficiency.', 'ml-slider'),
 				'image' => '',
 				'button_link' => 'wp_optimize_wordpress',
                 'button_meta' => 'wp-optimize',
 			),
 			'keyy' => array(
-				'title' => __('Keyy:'), 
+				'title' => _x('Keyy', 'Keep the plugin name "Keyy" when possible', 'ml-slider'), 
 				'text' => htmlspecialchars(__('Simple & secure login with a wave of your phone.', 'ml-slider')),
 				'image' => '',
 				'button_link' => 'keyy',
                 'button_meta' => 'keyy',
 			),
 			'updraftcentral' => array(
-				'title' => __('UpdraftCentral'), 
+				'title' => _x('UpdraftCentral', 'Keep the plugin name "UpdraftCentral" when possible', 'ml-slider'), 
 				'text' => __('is a highly efficient way to manage, update and backup multiple websites from one place.', 'ml-slider'),
 				'image' => '',
 				'button_link' => 'updraftcentral',
@@ -559,12 +559,12 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	 */
 	public function get_button_link($link, $type) {
 		$messages = array(
-			'updraftplus' => __('Get UpdraftPlus', 'ml-slider'),
-			'keyy' => __('Get Keyy', 'ml-slider'),
-			'wp-optimize' => __('Optimize today', 'ml-slider'),
-			'updraftcentral' => __('Get UpdraftCentral', 'ml-slider'),
+			'updraftplus' => _x('Get UpdraftPlus', 'Keep the plugin name "UpdraftPlus" when possible', 'ml-slider'),
+			'keyy' => _x('Get Keyy', 'Keep the plugin name "Keyy" when possible', 'ml-slider'),
+			'wp-optimize' => _x('Optimize today', 'This refers to WP_Optimize, but please translate "optimize" accordingly', 'ml-slider'),
+			'updraftcentral' => _x('Get UpdraftCentral', 'Keep the plugin name "UpdraftCentral" when possible', 'ml-slider'),
 			'lets_start' => __('Let\'s Start', 'ml-slider'),
-			'review' => __('Review MetaSlider', 'ml-slider'),
+			'review' => _x('Review MetaSlider', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider'),
 			'ml-slider' => __('Find out more', 'ml-slider'),
 			'signup' => __('Sign up', 'ml-slider'),
 			'go_there' => __('Go there', 'ml-slider')

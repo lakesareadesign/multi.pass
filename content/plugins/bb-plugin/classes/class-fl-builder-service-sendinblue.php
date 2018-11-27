@@ -197,13 +197,23 @@ final class FLBuilderServiceSendinBlue extends FLBuilderService {
 
 			if ( $name ) {
 
+				$contact_attrs = $api->get_contact_attributes();
+
 				$names = explode( ' ', $name );
 
 				if ( isset( $names[0] ) ) {
 					$data['NAME'] = $names[0];
+
+					if ( in_array( 'FIRSTNAME', $contact_attrs ) ) {
+						$data['FIRSTNAME'] = $names[0];
+					}
 				}
 				if ( isset( $names[1] ) ) {
 					$data['SURNAME'] = $names[1];
+
+					if ( in_array( 'LASTNAME', $contact_attrs ) ) {
+						$data['LASTNAME'] = $names[1];
+					}
 				}
 			}
 

@@ -51,7 +51,7 @@ $options = empty( $options ) ? $_view['options'] : $options;
 			     data-conditional-val="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_SUMMARY ); ?>">
 				<?php
 				$this->_render( 'social/social-twitter-embed', array(
-					'tweet_url' => 'https://twitter.com/_HassanAkhtar/status/875530001294270464',
+					'tweet_url' => 'https://twitter.com/WordPress/status/1046731890244374528',
 				) );
 				?>
 			</div>

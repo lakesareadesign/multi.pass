@@ -32,6 +32,11 @@
 
 	}
 
+	function refresh_meta_field_placeholders() {
+		// The following line will trigger a call to ajax wds_metabox_update
+		$('input#title').trigger('input');
+	}
+
 	function init () {
 		window.setTimeout( function() {
 			var editor = typeof tinymce !== 'undefined' && tinymce.get('content');
@@ -61,13 +66,9 @@
 	// Boot
 	$(init);
 
-})(jQuery);
-
-/**
- * Deal with SEO analysis updates
- */
-;(function ($, undefined) {
-
+	/**
+	 * Deal with SEO analysis updates
+	 */
 	function render_update(extended_data) {
 		var $metabox = $("#wds-wds-meta-box"),
 			$seo_report = $('.wds-seo-analysis', $metabox),
@@ -103,7 +104,7 @@
 			);
 
 			// Enable the refresh button.
-			if (focus_keywords.length) {
+			if (focus_keywords && focus_keywords.length) {
 				$(".wds-refresh-analysis", $metabox).attr('disabled', false);
 			}
 
@@ -111,31 +112,31 @@
 		});
 	}
 
-	function render_update_after_autosave() {
+	function handle_autosave() {
+		refresh_meta_field_placeholders();
+		refresh_preview();
 		render_update();
 	}
 
-	function render_update_refresh_click() {
-		var $metabox = $("#wds-wds-meta-box"),
-			$refresh_button = $(this),
-			$seo_report = $('.wds-report .wds-accordion', $metabox),
-			$seo_notification = $('.wds-nav-item.active label .wds-issues')
-		;
-		if ($('.wds-analysis-working', $metabox).length) {
-			// We're already working, pass.
-			return false;
-		}
-		$seo_report.hide();
-		$seo_notification.attr('class', 'wds-issues wds-item-loading');
-		$seo_report.after('<div class="wds-analysis-working"><p>' + l10nWdsMetabox.content_analysis_working + '</p></div>');
-		$refresh_button.prop('disabled', true);
+	function handle_page_load() {
+		before_ajax_request_blocking();
+		refresh_meta_field_placeholders();
+		refresh_preview();
+		render_update();
+	}
 
-		var cback = function() {
-			render_update().always(function() {
-				$refresh_button.prop('disabled', false);
-				$seo_report.show();
-				$('.wds-analysis-working', $metabox).remove();
-			});
+	function handle_meta_change() {
+		render_update();
+		refresh_preview();
+	}
+
+	function handle_refresh_click() {
+		before_ajax_request_blocking();
+
+		var cback = function () {
+			handle_autosave();
+			// Re-hook our regular autosave handler
+			$(document).on('after-autosave.smartcrawl', handle_autosave);
 		};
 		var editorSync = (tinyMCE || {}).triggerSave;
 		if (editorSync) {
@@ -143,9 +144,19 @@
 		}
 		var save = (((wp || {}).autosave || {}).server || {}).triggerSave;
 		if (save) {
+			// We are already hooked to autosave so let's disable our regular autosave handler momentarily to avoid multiple calls ...
+			$(document).off('after-autosave.smartcrawl');
+			// hook a new handler to heartbeat-tick.autosave
 			$(document).one('heartbeat-tick.autosave', cback);
 			wp.autosave.server.triggerSave();
 		} else cback();
+	}
+
+	function before_ajax_request_blocking() {
+		$('.wds-analysis-working').show();
+		$('.wds-report-inner').hide();
+		$('.wds-disabled-during-request').prop('disabled', true);
+		$('.wds-nav-item .wds-issues').addClass('wds-item-loading');
 	}
 
 	function before_ajax_request($target_element) {
@@ -185,6 +196,7 @@
 			$readability_report = $('.wds-readability-report', $metabox),
 			$readability_issues = $('label[for="wds_readability"]').find('.wds-issues'),
 			$all_issues = $('.wds-issues'),
+			$analysis_working_message = $('.wds-analysis-working', $metabox),
 			was_metabox_closed = $metabox.is('.closed');
 
 		$all_issues.find('span').html('');
@@ -202,7 +214,7 @@
 			$metabox.addClass('wds-seo-warning');
 			$seo_issues.addClass('wds-issues-warning').find('span').html(seo_errors);
 		}
-		else if (seo_errors == 0) {
+		else if (seo_errors === 0) {
 			$metabox.addClass('wds-seo-success');
 			$seo_issues.addClass('wds-issues-success');
 		}
@@ -217,6 +229,9 @@
 		if ($readability_issues.is('.wds-issues-warning') || $readability_issues.is('.wds-issues-error')) {
 			$readability_issues.find('span').html('1');
 		}
+
+		$('.wds-report-inner').show();
+		$analysis_working_message.hide();
 
 		update_focus_keyword_state();
 	}
@@ -290,28 +305,26 @@
 				$('.wds-metabox-preview').replaceWith(
 					$((data || {}).markup)
 				);
-				render_update();
 			}
 		}).always(function () {
 			$('.wds-preview-container').removeClass("wds-preview-loading");
 		});
 	}
 
-	function init () {
+	function init_analysis () {
 		window.render_update = render_update;
 		window.Wds.dismissible_message();
 
 		$(document)
-			.on('after-autosave', render_update_after_autosave)
-            .on('after-autosave', refresh_preview)
+			.on('after-autosave.smartcrawl', handle_autosave)
 			.on('click', '#wds-wds-meta-box .wds-ignore', handle_ignore_toggle)
 			.on('click', '#wds-wds-meta-box .wds-unignore', handle_ignore_toggle)
 			.on('click', '#wds-wds-meta-box a[href="#reload"]', handle_update)
 			.on('input propertychange', '.wds-focus-keyword input', _.debounce(save_focus_keywords, 2000))
-			.on('input propertychange', '.wds-meta-field', _.debounce(refresh_preview, 2000))
+			.on('input propertychange', '.wds-meta-field', _.debounce(handle_meta_change, 2000))
 
 			// Refresh analysis button handler (both SEO and readability)
-			.on('click', '.wds-refresh-analysis', render_update_refresh_click)
+			.on('click', '.wds-refresh-analysis', handle_refresh_click)
 		;
 		update_metabox_state();
 		hook_select2();
@@ -326,6 +339,9 @@
 				window.Wds.set_cookie('wds-seo-metabox', 'open');
 			}
 		});
+
+		handle_page_load();
+
 		// Set metabox state on page load based on cookie value.
 		// Fixes: https://app.asana.com/0/0/580085427092951/f
 		if ('open' === window.Wds.get_cookie('wds-seo-metabox')) {
@@ -333,5 +349,5 @@
 		}
 	}
 
-	$(init);
+	$(init_analysis);
 })(jQuery);

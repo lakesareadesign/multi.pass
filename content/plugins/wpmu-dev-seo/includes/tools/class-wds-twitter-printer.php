@@ -19,7 +19,7 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 	/**
 	 * Holds resolver instance
 	 *
-	 * @var object Smartcrawl_Entity_Resolver instance
+	 * @var Smartcrawl_Endpoint_Resolver instance
 	 */
 	private $_resolver;
 
@@ -103,7 +103,7 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 
 	private function get_twitter_meta( $key ) {
 		$meta = array();
-		$queried_object = get_queried_object();
+		$queried_object = $this->get_queried_object();
 		if ( is_a( $queried_object, 'WP_Post' ) ) {
 			$meta = smartcrawl_get_value( 'twitter' );
 		} elseif ( is_a( $queried_object, 'WP_Term' ) ) {
@@ -135,7 +135,7 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 			Smartcrawl_Endpoint_Resolver::L_DATE_ARCHIVE   => 'date',
 		);
 
-		$queried_object = get_queried_object();
+		$queried_object = $this->get_queried_object();
 		if ( is_a( $queried_object, 'WP_Post' ) ) {
 			$mapping[ Smartcrawl_Endpoint_Resolver::L_SINGULAR ] = get_post_type( $queried_object );
 		} elseif ( is_a( $queried_object, 'WP_Term' ) ) {
@@ -195,10 +195,17 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 		// Check the plugin settings for required value
 		$value_from_settings = $this->get_twitter_setting( $key );
 		if ( ! empty( $value_from_settings ) ) {
-			return smartcrawl_replace_vars( $value_from_settings, get_queried_object() );
+			return smartcrawl_replace_vars( $value_from_settings, $this->get_queried_object() );
 		}
 
 		return $default;
+	}
+
+	private function get_queried_object() {
+		$resolver = Smartcrawl_Endpoint_Resolver::resolve();
+		$query = $resolver->get_query_context();
+
+		return ! empty( $query ) ? $query->get_queried_object() : null;
 	}
 
 	/**

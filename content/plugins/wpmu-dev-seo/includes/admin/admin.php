@@ -106,6 +106,7 @@ class Smartcrawl_Admin extends Smartcrawl_Renderable {
 
 		Smartcrawl_Controller_Onboard::serve();
 		Smartcrawl_Controller_Analysis::serve();
+		Smartcrawl_Controller_Pointers::run();
 
 		if ( Smartcrawl_Settings::get_setting( 'onpage' ) ) {
 			Smartcrawl_Metabox::run();

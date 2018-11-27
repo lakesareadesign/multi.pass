@@ -1,29 +1,52 @@
 Plugin Name: SmartCrawl SEO
 
 Change Log:
------------------------------------------------------------------------ 
-2.2.2.7 - 2018-10-09
------------------------------------------------------------------------ 
-- Fix: resolved conflict with swift framework mini product widget
-- Fix: resolved styling conflicts with WPBakery and a few other plugins
-- Fix: performance improvement for title and meta rewriting
-
-2.2.2.6 - 2018-10-02
 ----------------------------------------------------------------------
-- Fix: fixed issue causing WSOD on some sites
-- Fix: don't show raw shortcodes in auto-generated meta description
-- Fix: better compatibility of readability and SEO analysis with page builders
-- Fix: made Google preview in the SC metabox more accurate
-
-2.2.2.5 - 2018-09-27
+2.2.3 - 2018-11-12
 ----------------------------------------------------------------------
-- Fix: revert 2.2.2.4 changes causing WSOD on some sites
+- Add: created new UI for Yoast and All In One SEO importers
+- Add: new option to keep existing post meta intact during import
+- Add: opengraph code optimizations and improvements
+- Add: made automatic sitemap updates less resource intensive
+- Add: made macros more extensible through new filters and actions
+- Add: support for dynamic placeholders prefixed with 'ct_' 'ct_desc_' and 'cf_'
 
-2.2.2.4 - 2018-09-25
-----------------------------------------------------------------------
-- Fix: don't show raw shortcodes in auto-generated meta description
-- Fix: better compatibility of readability and SEO analysis with page builders
-- Fix: made Google preview in the SC metabox more accurate
+- Fix: issues caused by shortcode execution (integration with Divi, Avada, WPBakery and Swift page builders)
+- Fix: performance issues due to frequent analysis reruns
+- Fix: minor conflict with Gutenberg
+- Fix: autolinking module modifying inline scripts
+- Fix: outdated meta title and meta description limits
+- Fix: metabox conflict on media edit page
+- Fix: saving menus taking too much time when analysis active
+- Fix: post featured image printed as og:image before more specific images
+- Fix: issues in Avada page builder integration
+- Fix: log file not being written correctly
+- Fix: issues caused by faulty packaging
+- Fix: metabox preview showing raw HTML tags
+- Fix: search engine update link unnecessarily shown on WP dashboard 
+- Fix: misnamed translation file
+- Fix: missing trailing slash in sitemap home URL
+- Fix: dates shown in sitemap dashboard widget not translatable
+- Fix: sitemap creation error shows html tags
+- Fix: format of date printed through %%currentdate%% placeholder not changeable
+- Fix: miscellaneous typos and copy changes
+- Fix: twitter placeholders on category edit page not accurate
+- Fix: sitemap XSL stylesheet URL/path resolution issue
+- Fix: twitter fields displayed unnecessarily on term edit page
+- Fix: update plugin version constant to ensure cache busting
+- Fix: untruncated title and description shown in Google previews
+- Fix: typo in upsell modal
+- Fix: metabox preview showing divi shortcodes
+- Fix: issues caused by shortcode execution
+- Fix: sub-headings check should pass if even one of the sub-headings contains our focus keywords
+- Fix: twitter card preview not loading
+- Fix: static front page handled as single post page
+- Fix: static homepage does not show correct meta values in all scenarios
+- Fix: static homepage built with builders shows shortcodes in 'Title & Meta' settings
+- Fix: metabox preview showing WPBakery shortcodes
+- Fix: warnings in autoloader
+- Fix: importer support for yoast version 9
+- Fix: metabox preview showing raw placeholders
 
 2.2.2.3 - 2018-08-31
 ----------------------------------------------------------------------
@@ -542,4 +565,4 @@ exist yet
 - Initial Release.
 
 
-133620-1540264229-au
+133620-1543295379-au

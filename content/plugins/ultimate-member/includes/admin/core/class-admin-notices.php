@@ -38,7 +38,6 @@ if ( ! class_exists( 'um\admin\core\Admin_Notices' ) ) {
 			$this->old_extensions_notice();
 			$this->install_core_page_notice();
 			$this->exif_extension_notice();
-			$this->localize_note();
 			$this->show_update_messages();
 			$this->check_wrong_install_folder();
 			$this->admin_notice_opt_in();
@@ -298,11 +297,11 @@ if ( ! class_exists( 'um\admin\core\Admin_Notices' ) ) {
 						ob_start(); ?>
 
 						<p>
-							<?php printf( __( 'One or more of your %s pages are not correctly setup. Please visit <strong>%s > Settings</strong> to re-assign your missing pages.', 'ultimate-member' ), ultimatemember_plugin_name, ultimatemember_plugin_name ); ?>
+							<?php printf( __( '%s needs to create several pages (User Profiles, Account, Registration, Login, Password Reset, Logout, Member Directory) to function correctly.', 'ultimate-member' ), ultimatemember_plugin_name ); ?>
 						</p>
 
 						<p>
-							<a href="<?php echo esc_attr( add_query_arg( 'um_adm_action', 'install_core_pages' ) ); ?>" class="button button-primary"><?php _e( 'Setup Pages', 'ultimate-member' ) ?></a>
+							<a href="<?php echo esc_attr( add_query_arg( 'um_adm_action', 'install_core_pages' ) ); ?>" class="button button-primary"><?php _e( 'Create Pages', 'ultimate-member' ) ?></a>
 							&nbsp;
 							<a href="javascript:void(0);" class="button-secondary um_secondary_dimiss"><?php _e( 'No thanks', 'ultimate-member' ) ?></a>
 						</p>
@@ -355,45 +354,6 @@ if ( ! class_exists( 'um\admin\core\Admin_Notices' ) ) {
 					'message'   => '<p>' . sprintf(__( 'Exif is not enabled on your server. Mobile photo uploads will not be rotated correctly until you enable the exif extension. <a href="%s">Hide this notice</a>', 'ultimate-member' ), add_query_arg('um_adm_action', 'um_hide_exif_notice') ) . '</p>',
 				), 10 );
 			}
-		}
-
-
-		/**
-		 * Localization notice
-		 */
-		function localize_note() {
-			$locale = get_option( 'WPLANG' );
-			if ( ! $locale || strstr( $locale, 'en_' ) ) {
-				return;
-			}
-
-			if ( file_exists( WP_LANG_DIR . '/plugins/ultimatemember-' . $locale . '.mo' ) ) {
-				return;
-			}
-
-			$hide_locale_notice = get_option( 'um_hide_locale_notice' );
-			if ( $hide_locale_notice ) {
-				return;
-			}
-
-			if ( isset( UM()->available_languages[ $locale ] ) ) {
-
-				$download_uri = add_query_arg( 'um_adm_action', 'um_language_downloader' );
-
-				$this->add_notice( 'locale', array(
-					'class'     => 'updated',
-					'message'   => '<p>' . sprintf( __( 'Your site language is <strong>%1$s</strong>. Good news! Ultimate Member is already available in <strong>%2$s language</strong>. <a href="%3$s">Download the translation</a> files and start using the plugin in your language now. <a href="%4$s">Hide this notice</a>','ultimate-member'), $locale, UM()->available_languages[ $locale ], $download_uri, add_query_arg( 'um_adm_action', 'um_hide_locale_notice' ) ) . '</p>',
-				), 40 );
-
-			} else {
-
-				$this->add_notice( 'locale', array(
-					'class'     => 'updated',
-					'message'   => '<p>' . sprintf( __( 'Ultimate Member has not yet been translated to your language: <strong>%1$s</strong>. If you have translated the plugin you need put these files <code>ultimatemember-%1$s.po and ultimatemember-%1$s.mo</code> in <strong>/wp-content/languages/plugins/</strong> for the plugin to be translated in your language. <a href="%2$s">Hide this notice</a>', 'ultimate-member' ), $locale, add_query_arg( 'um_adm_action', 'um_hide_locale_notice' ) ) . '</p>',
-				), 40 );
-
-			}
-
 		}
 
 
@@ -531,7 +491,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Notices' ) ) {
 			ob_start(); ?>
 
 			<p>
-				<?php printf( __( 'Thanks for installing <strong>%s</strong>! We hope you like the plugin.  To fund full-time development and support of the plugin we also sell extensions. If you subscribe to our mailing list we will send you a 20%% discount code for our <a href="%s" target="_blank">extensions bundle</a>.', 'ultimate-member' ), ultimatemember_plugin_name, 'https://ultimatemember.com/core-extensions-bundle/' ); ?>
+				<?php printf( __( 'Thanks for installing <strong>%s</strong>! We hope you like the plugin. To fund full-time development and support of the plugin we also sell extensions. If you subscribe to our mailing list we will send you a 20%% discount code for our <a href="%s" target="_blank">extensions bundle</a>.', 'ultimate-member' ), ultimatemember_plugin_name, 'https://ultimatemember.com/core-extensions-bundle/' ); ?>
 			</p>
 
 			<p>
@@ -706,11 +666,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Notices' ) ) {
 
 
 		function dismiss_notice() {
-			$nonce = isset( $_POST["nonce"] ) ? $_POST["nonce"] : "";
-			if ( ! wp_verify_nonce( $nonce, "um-admin-nonce" ) ) {
-				wp_send_json_error( esc_js( __( "Wrong Nonce", 'ultimate-member' ) ) );
-			}
-
+			UM()->admin()->check_ajax_nonce();
 
 			if ( empty( $_POST['key'] ) ) {
 				wp_send_json_error( __( 'Wrong Data', 'ultimate-member' ) );

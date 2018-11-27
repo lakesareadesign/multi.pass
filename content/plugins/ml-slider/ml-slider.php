@@ -6,7 +6,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.10.0
+ * Version:     3.10.2
  * Author:      Team Updraft
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -32,7 +32,7 @@ class MetaSliderPlugin {
      *
      * @var string
      */
-    public $version = '3.10.0';
+    public $version = '3.10.2';
 
     /**
      * Specific SLider
@@ -67,9 +67,11 @@ class MetaSliderPlugin {
     /**
      * Setup
      */
-    public function setup() {        
-        $this->define_constants();
+    public function setup() {
+		define('METASLIDER_PATH', plugin_dir_path(__FILE__));
+
         $this->includes();
+        $this->define_constants();
         $this->setup_actions();
         $this->setup_filters();
 		$this->setup_shortcode();
@@ -100,10 +102,9 @@ class MetaSliderPlugin {
 	private function define_constants() {
 		if (!defined('METASLIDER_VERSION')) {
 			define('METASLIDER_VERSION', $this->version);
-			define('METASLIDER_BASE_URL', trailingslashit(plugins_url('ml-slider')));
+			define('METASLIDER_BASE_URL', trailingslashit(plugin_dir_url(metaslider_plugin_is_installed('ml-slider'))));
 			define('METASLIDER_ASSETS_URL', trailingslashit(METASLIDER_BASE_URL . 'assets'));
 			define('METASLIDER_ADMIN_URL', trailingslashit(METASLIDER_BASE_URL . 'admin'));
-			define('METASLIDER_PATH', plugin_dir_path(__FILE__));
 			
 			// Use the themes in the plugin dir if it's there (useful for developing)
 			if (file_exists(trailingslashit(WP_PLUGIN_DIR) . 'ml-slider-themes/manifest.php')) {
@@ -1236,7 +1237,7 @@ class MetaSliderPlugin {
                     echo "<option value='?page=metaslider&amp;id={$tab['id']}'{$selected}>{$tab['title']}</option>";
                 }
                 echo "</select>";
-                echo "<span class='add-new-menu-action'> " . __( 'or', "ml-slider" ) . " ";
+                echo "<span class='add-new-menu-action'> " . _x('or', 'Use this to separate one action from another action as in Select "or" Create', 'ml-slider') . " ";
                 echo "<a href='". wp_nonce_url(admin_url("admin-post.php?action=metaslider_create_slider"), "metaslider_create_slider") ."' id='create_new_tab' class='' title='" . __('Create a New Slideshow', 'ml-slider') . "'>create a new slideshow</a>";
                 echo "</span></div>";
             }
@@ -1670,7 +1671,7 @@ class MetaSliderPlugin {
                                                             'label' => __( "Slide delay", "ml-slider" ),
                                                             'class' => 'option coin flex responsive nivo',
                                                             'helptext' => __( "How long to display each slide, in milliseconds", "ml-slider" ),
-                                                            'after' => __( "ms", "ml-slider" )
+                                                            'after' => _x("ms", "Short for milliseconds", "ml-slider")
                                                         ),
                                                         'animationSpeed' => array(
                                                             'priority' => 90,
@@ -1683,7 +1684,7 @@ class MetaSliderPlugin {
                                                             'label' => __( "Animation speed", "ml-slider" ),
                                                             'class' => 'option flex responsive nivo',
                                                             'helptext' => __( "Set the speed of animations, in milliseconds", "ml-slider" ),
-                                                            'after' => __( "ms", "ml-slider" )
+                                                            'after' => _x("ms", "Short for milliseconds", "ml-slider")
                                                         ),
                                                         'slices' => array(
                                                             'priority' => 100,
@@ -1696,7 +1697,7 @@ class MetaSliderPlugin {
                                                             'label' => __( "Number of slices", "ml-slider" ),
                                                             'class' => 'option nivo',
                                                             'helptext' => __( "Number of slices", "ml-slider" ),
-                                                            'after' => __( "ms", "ml-slider" )
+                                                            'after' => _x("ms", "Short for milliseconds", "ml-slider")
                                                         ),
                                                         'spw' => array(
                                                             'priority' => 110,
@@ -1772,7 +1773,7 @@ class MetaSliderPlugin {
                                                             'label' => __( "Square delay", "ml-slider" ),
                                                             'class' => 'option coin',
                                                             'helptext' => __( "Delay between squares in ms", "ml-slider" ),
-                                                            'after' => __( "ms", "ml-slider" )
+                                                            'after' => _x("ms", "Short for milliseconds", "ml-slider")
                                                         ),
                                                         'opacity' => array(
                                                             'priority' => 180,
@@ -1798,7 +1799,7 @@ class MetaSliderPlugin {
                                                             'label' => __( "Caption speed", "ml-slider" ),
                                                             'class' => 'option coin',
                                                             'helptext' => __( "Set the fade in speed of the caption", "ml-slider" ),
-                                                            'after' => __( "ms", "ml-slider" )
+                                                            'after' => _x("ms", "Short for milliseconds", "ml-slider")
                                                         ),
                                                         'developerOptions' => array(
                                                             'priority' => 195,
@@ -1920,7 +1921,7 @@ class MetaSliderPlugin {
                 <div class="wrap">
                     <?php
                         if ( count( $sliders ) ) {
-                            echo "<h3 style='margin-bottom: 20px;'>" . __( "Insert MetaSlider", "ml-slider" ) . "</h3>";
+                            echo "<h3 style='margin-bottom: 20px;'>" . _x("Insert MetaSlider", 'Keep the plugin name "MetaSlider" when possible', "ml-slider") . "</h3>";
                             echo "<select id='metaslider-select'>";
                             echo "<option disabled=disabled>" . __( "Choose slideshow", "ml-slider" ) . "</option>";						
                             foreach ( $sliders as $slider ) {
@@ -2036,7 +2037,7 @@ class MetaSliderPlugin {
         $this->upgrade_to_pro_iframe(
             array(
                 "<img src='" . METASLIDER_ADMIN_URL . "images/upgrade/post-feed.png' alt='' />",
-                "<p>" . __('Show off your <strong>blog posts</strong>, <strong>events</strong>, <strong>WooCommerce products</strong> and other content with <strong>Post Feed</strong>.', 'ml-slider') . "</p>",
+				"<p>" . sprintf(_x('Show off your %1$sblog posts%2$s, %1$sevents%2$s, %1$sWooCommerce products%2$s and other content with %1$sPost Feed%2$s.', 'Translators: %1$s opens and %2$s closes a strong tag', 'ml-slider'), '<strong>', '</strong>') . "</p>",
                 "<p>" . __('Customise and control which post types you want to display, their order and how to restrict posts to certain tags or categories.', 'ml-slider') . "</p>",
                 "<p>" . __('Post Feed slides can also be used with other slide types to either show one post at a time or in a carousel mode, allowing you to show off a large number of your latest posts in a small amount of space.', 'ml-slider') . "</p>",
                 "<a class='probutton button button-primary button-hero' href='{$link}' target='_blank'>" . __('Find out more about all the features of the Add-on Pack here', 'ml-slider') . "</a>",

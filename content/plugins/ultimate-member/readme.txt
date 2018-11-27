@@ -6,7 +6,7 @@ Donate link:
 Tags: community, member, membership, user-profile, user-registration
 Requires at least: 4.7
 Tested up to: 4.9
-Stable tag: 2.0.29
+Stable tag: 2.0.33
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -39,7 +39,7 @@ Read about all of the plugin's features at [Ultimate Member](https://ultimatemem
 
 = Paid Extensions =
 
-Ultimate Member has a range of extensions that allow you to extend the power of the plugin
+Ultimate Member has a range of extensions that allow you to extend the power of the plugin. You can purchase all of these extensions at a significant discount with our [All Access Pass](https://ultimatemember.com/pricing/) or you can purchase extensions individually.
 
 * [Private Content](https://ultimatemember.com/extensions/private-content/) - Display private content to logged in users that only they can access
 * [Instagram](https://ultimatemember.com/extensions/instagram/) - Allow users to show their Instagram photos on their profile
@@ -136,6 +136,44 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 == Changelog ==
 
 = Important: UM2.0+ is a significant update to the code base from 1.3.88. Please make sure you take a full-site backup with restore point before updating the plugin =
+
+= 2.0.33: November 22, 2018 =
+
+* Bugfixes:
+  - Fixed AJAX vulnerabilities
+  - Fixed delete user email notification
+  - Fixed profile tabs displaying
+
+= 2.0.32: November 20, 2018 =
+
+* Bugfixes:
+  - Added compatibility with PHP7.2 (removed deprecated functions and ini variables)
+  - Fixed duplicated "redirect_to" field
+  - Fixed errors on the installs < PHP5.6
+  - Fixed download files/images on the installs with the different home URL and site URL
+  - Fixed unique emails in admin email notifications
+  - Remove language notice, all translates are available on wp.org
+
+= 2.0.31: November 14, 2018 =
+
+* Bugfixes:
+  - Fixed compatibility with JS/CSS cache plugins
+
+= 2.0.30: November 12, 2018 =
+
+* Bugfixes:
+  - Fixed crop settings of the big images
+  - Fixed WPML integration with email notifications
+  - Fixed uppercase symbols using at profile page slug
+  - Fixed download files/images with cache
+  - Fixed download files/images with not closed buffers
+  - Fixed looping in case if set 'display_name' as custom fields for display name setting
+  - Fixed cover photo size
+  - Fixed date time internalization
+  - Fixed posts pagination for un-logged users
+  - Fixed conditional JS
+  - Fixed "um_" prefix for role data
+  - Added compatibility for upcoming User Bookmarks extension
 
 = 2.0.29: October 8, 2018 =
 

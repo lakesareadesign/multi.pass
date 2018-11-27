@@ -13,9 +13,9 @@ $plugins  = \FLCacheClear\Plugin::get_plugins();
 	<?php echo $plugins; ?>
 </p>
 <p>
-	<?php _e( 'Enable the following setting to clear the caches created by any of these caching plugins. If enabled, cache clearing occurs when layouts and templates are saved and when WordPress finishes updating plugins and themes. This setting also defines the DONOTCACHEPAGE constant, which is respected by most cache plugins, to keep the page from being cached when the Beaver Builder editor is active.
-', 'fl-builder' ); ?>
-<p>
+	<?php _e( 'Enable the following setting to clear the caches created by any of these caching plugins. If enabled, cache clearing occurs when layouts and templates are saved and when WordPress finishes updating plugins and themes. This setting also defines the DONOTCACHEPAGE constant, which is respected by most cache plugins, to keep the page from being cached when the Beaver Builder editor is active.', 'fl-builder' ); ?>
+</p>
+			<p>
 				<label>
 					<input type="checkbox" name="fl-cache-plugins-enabled" value="1" <?php checked( $settings['enabled'], 1 ); ?> />
 					<span><?php _e( 'Enable the Cache Clearing Tool', 'fl-builder' ); ?></span>
@@ -26,7 +26,7 @@ $plugins  = \FLCacheClear\Plugin::get_plugins();
 			<div class="fl-cache-plugins-settings">
 
 				<p>
-					<?php _e( 'Some hosts use a proxy cache like Varnish or Litespeed.  The following setting attempts to invalidate the cache using a remote request. If you are unsure what this does, leave it disabled.', 'fl-builder' ); ?>
+					<?php _e( 'Some hosts use a proxy cache like Varnish or Litespeed. The following setting attempts to invalidate the cache using a remote request. If you are unsure what this does, leave it disabled.', 'fl-builder' ); ?>
 				</p>
 				<p>
 					<label>

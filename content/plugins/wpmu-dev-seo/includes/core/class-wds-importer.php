@@ -1,10 +1,41 @@
 <?php
 
 abstract class Smartcrawl_Importer {
+	private $status = null;
+
 	abstract public function data_exists();
 
-	public function import_for_all_sites() {
+	abstract protected function get_source_plugins();
+
+	public function get_active_source_plugin() {
+		$source_plugin = $this->get_source_plugins();
+		foreach ( $source_plugin as $plugin ) {
+			if ( is_plugin_active( $plugin ) ) {
+				return $plugin;
+			}
+		}
+
+		return false;
+	}
+
+	public function get_deactivation_link() {
+		$active_plugin = $this->get_active_source_plugin();
+		if ( ! $active_plugin ) {
+			return false;
+		}
+
+		return wp_nonce_url( 'plugins.php?action=deactivate&amp;plugin=' . $active_plugin . '&amp;plugin_status=all', 'deactivate-plugin_' . $active_plugin );
+	}
+
+	public function import_for_all_sites( $options = array() ) {
 		$processed_sites = $this->get_processed_sites_count();
+		$this->update_status( array(
+			'total_sites'     => get_sites( array(
+				'count'  => true,
+				'number' => PHP_INT_MAX,
+			) ),
+			'completed_sites' => $processed_sites,
+		) );
 		$next_site = $this->get_next_site_to_process();
 		if ( ! $next_site ) {
 			$this->reset_network_import_flag();
@@ -13,7 +44,7 @@ abstract class Smartcrawl_Importer {
 		}
 
 		switch_to_blog( $next_site );
-		$site_import_complete = $this->import();
+		$site_import_complete = $this->import( $options );
 		switch_to_blog( get_main_site_id() );
 
 		if ( $site_import_complete ) {
@@ -21,6 +52,18 @@ abstract class Smartcrawl_Importer {
 		}
 		$this->update_processed_site_count( $processed_sites );
 		$this->turn_sitewide_mode_off();
+	}
+
+	public function get_status() {
+		return empty( $this->status ) ? array() : $this->status;
+	}
+
+	protected function set_status( $status ) {
+		$this->status = $status;
+	}
+
+	protected function update_status( $status ) {
+		$this->status = wp_parse_args( $status, $this->get_status() );
 	}
 
 	private function get_processed_sites_count() {
@@ -44,16 +87,37 @@ abstract class Smartcrawl_Importer {
 		delete_site_option( $this->get_next_network_site_option_id() );
 	}
 
-	public function import( $force_restart = false ) {
+	public function import( $options = array() ) {
+		$options = wp_parse_args( $options, array(
+			'import-options'          => true,
+			'import-term-meta'        => true,
+			'import-post-meta'        => true,
+			'force-restart'           => false,
+			'keep-existing-post-meta' => false,
+		) );
+		$import_options = (boolean) smartcrawl_get_array_value( $options, 'import-options' );
+		$import_term_meta = (boolean) smartcrawl_get_array_value( $options, 'import-term-meta' );
+		$import_post_meta = (boolean) smartcrawl_get_array_value( $options, 'import-post-meta' );
+		$force_restart = (boolean) smartcrawl_get_array_value( $options, 'force-restart' );
+		$keep_post_meta = (boolean) smartcrawl_get_array_value( $options, 'keep-existing-post-meta' );
+
 		if ( ! $this->is_import_in_progress() || $force_restart ) {
 			$this->set_import_flag();
-			$this->remove_existing_wds_options();
-			$this->import_options();
-			$this->import_taxonomy_meta();
-			$this->remove_existing_wds_post_meta();
+			if ( $import_options ) {
+				$this->remove_existing_wds_options();
+				$this->import_options();
+			}
+			if ( $import_term_meta ) {
+				$this->remove_existing_wds_taxonomy_meta();
+				$this->import_taxonomy_meta();
+			}
+			if ( $import_post_meta && ! $keep_post_meta ) {
+				$this->remove_existing_wds_post_meta();
+			}
 		}
 
-		$complete = $this->import_post_meta();
+		// If post meta doesn't need to be imported then we're done.
+		$complete = $import_post_meta ? $this->import_post_meta() : true;
 		if ( $complete ) {
 			$this->reset_import_flag();
 		}
@@ -76,6 +140,10 @@ abstract class Smartcrawl_Importer {
 
 		global $wpdb;
 		$wpdb->query( "DELETE FROM {$wpdb->options} WHERE option_name LIKE '%wds-sitemap%'" );
+	}
+
+	private function remove_existing_wds_taxonomy_meta() {
+		delete_option( 'wds_taxonomy_meta' );
 	}
 
 	abstract public function import_options();
@@ -119,10 +187,10 @@ abstract class Smartcrawl_Importer {
 		return $wpdb->get_col( $meta_query ); // phpcs:ignore -- Preparation difficult due to % escaping and complex IN clause
 	}
 
-	private function get_posts_with_target_metas() {
+	protected function get_posts_with_target_metas() {
 		global $wpdb;
 
-		return $wpdb->get_col( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key LIKE '_wds_%' GROUP BY post_id" );
+		return $wpdb->get_col( "SELECT post_id FROM {$wpdb->postmeta} WHERE meta_key LIKE '_wds_%' AND meta_key NOT IN ('_wds_analysis','_wds_readability') GROUP BY post_id" );
 	}
 
 	protected function load_mapping_file( $file ) {

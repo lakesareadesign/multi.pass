@@ -6,16 +6,7 @@ $meta_robots_main_blog_archive = empty( $meta_robots_main_blog_archive ) ? '' : 
 $option_name = empty( $_view['option_name'] ) ? '' : '';
 ?>
 
-<?php
-$this->_render(
-	'onpage/onpage-preview',
-	array(
-		'link'        => home_url(),
-		'title'       => smartcrawl_replace_vars( $homepage_title, array() ),
-		'description' => smartcrawl_replace_vars( $homepage_description, array() ),
-	)
-);
-?>
+<?php $this->_render('onpage/onpage-preview'); ?>
 
 <?php if ( $show_homepage_options ) : ?>
 

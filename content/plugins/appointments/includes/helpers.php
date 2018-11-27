@@ -258,7 +258,7 @@ function appointments_get_weekly_schedule_slots( $now = false, $service_id = 0, 
  *
  * @return array
  */
-function appointments_get_worker_weekly_start_hours( $service_id = 0, $worker_id = 0, $location_id = 0, $force = false ) {
+function appointments_get_worker_weekly_start_hours( $service_id = 0, $worker_id = 0, $location_id = 0, $force = false, $use_admin_min_time = false ) {
 
 	if ( ! $force ) {
 		if ( ! $worker_id || ! appointments_is_worker( $worker_id ) ) {
@@ -280,6 +280,17 @@ function appointments_get_worker_weekly_start_hours( $service_id = 0, $worker_id
 	// Allow direct step increment manipulation,
 	// mainly for service duration based calculus start/stop times
 	$duration = apply_filters( 'app-timetable-step_increment', $duration );
+
+	if ( 'admin_min_time' === $use_admin_min_time ) {
+		$options = appointments_get_options();
+		if ( isset( $options['admin_min_time'] ) ) {
+			$value = intval( $options['admin_min_time'] );
+			if ( 0 < $value ) {
+				$duration = MINUTE_IN_SECONDS * $value;
+			}
+		}
+	}
+
 	if ( ! empty( $worker_working_hours ) && isset( $worker_working_hours->hours ) && ! empty( $worker_working_hours->hours ) ) {
 		$slot_starts = array();
 		//The starting hours set in Working Hours settings page
@@ -673,17 +684,19 @@ function appointments_weekly_calendar( $date = false, $args = array() ) {
 	$appointments = appointments();
 
 	$current_time = current_time( 'timestamp' );
-	$defaults = array(
-		'service_id' => 0,
-		'workers' => array(),
+	$defaults     = array(
+		'service_id'  => 0,
+		'workers'     => array(),
 		'location_id' => 0,
-		'class' => '',
-		'long' => false,
-		'echo' => true,
+		'class'       => '',
+		'long'        => false,
+		'echo'        => true,
 	);
-	$args = wp_parse_args( $args, $defaults );
+	$args         = wp_parse_args( $args, $defaults );
 
-	$args['worker_id'] = $args['workers'][0];
+	if ( ! isset( $args['worker_id'] ) || empty( $args['worker_id'] ) ) {
+		$args['worker_id'] = $args['workers'][0];
+	}
 
 	$schedule_key = sprintf( '%sx%s', $date, $date + ( 7 * 86400 ) );
 

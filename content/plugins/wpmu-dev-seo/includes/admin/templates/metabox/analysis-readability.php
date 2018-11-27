@@ -62,61 +62,69 @@ $refresh_analysis_disabled = 'auto-draft' === get_post_status() ? 'disabled' : '
 		</div>
 	</div>
 
-	<div class="wds-accordion">
-		<div class="wds-check-item wds-accordion-section <?php echo esc_attr( $classes ); ?>">
-			<div class="wds-accordion-handle">
-				<div class="wds-accordion-handle-part">
-					<?php esc_html_e( 'Flesch-Kincaid Test', 'wds' ); ?>
-				</div>
+	<div class="wds-analysis-working">
+		<p>
+			<?php esc_html_e( 'Analyzing content, please wait a few moments', 'wds' ); ?>
+		</p>
+	</div>
 
-				<?php if ( $readability_ignored ) : ?>
-					<div class="wds-unignore-container wds-accordion-handle-part">
+	<div class="wds-report-inner">
+		<div class="wds-accordion">
+			<div class="wds-check-item wds-accordion-section <?php echo esc_attr( $classes ); ?>">
+				<div class="wds-accordion-handle">
+					<div class="wds-accordion-handle-part">
+						<?php esc_html_e( 'Flesch-Kincaid Test', 'wds' ); ?>
+					</div>
+
+					<?php if ( $readability_ignored ) : ?>
+						<div class="wds-unignore-container wds-accordion-handle-part">
+							<button type="button"
+							        class="wds-unignore wds-button-with-loader wds-button-with-left-loader wds-disabled-during-request button button-small button-dark-o"
+							        data-check_id="readability">
+								<?php esc_html_e( 'Restore', 'wds' ); ?>
+							</button>
+						</div>
+					<?php else : ?>
+						<div class="wds-readability-level wds-accordion-handle-part">
+							<span class="wds-check-item-indicator"><?php echo esc_html( $readability_level ); ?></span>
+						</div>
+					<?php endif; ?>
+				</div>
+				<div class="wds-accordion-content">
+					<div class="wds-small-text"><strong><?php esc_html_e( 'Overview', 'wds' ); ?></strong></div>
+					<p class="wds-small-text"><?php esc_html_e( 'The Flesch-Kincaid readability tests are readability tests designed to indicate how difficult a passage in English is to understand. Here are the benchmarks.', 'wds' ); ?></p>
+					<table class="wds-list-table">
+						<tbody>
+						<tr>
+							<th><?php esc_html_e( 'Score', 'wds' ); ?></th>
+							<th><?php esc_html_e( 'Description', 'wds' ); ?></th>
+						</tr>
+
+						<?php foreach ( $readability_levels_map as $label => $level ) : ?>
+							<tr>
+								<?php
+								if ( ! is_array( $level ) || ! isset( $level['max'] ) || ! isset( $level['min'] ) ) {
+									continue;
+								}
+								?>
+								<td><?php echo esc_html( (int) ceil( $level['min'] ) ); ?>
+									- <?php echo esc_html( (int) ceil( $level['max'] ) ); ?></td>
+								<td><?php echo esc_html( $label ); ?></td>
+							</tr>
+						<?php endforeach; ?>
+						</tbody>
+					</table>
+
+					<div class="wds-small-text"><strong><?php esc_html_e( 'How to fix', 'wds' ); ?></strong></div>
+					<p class="wds-small-text"><?php esc_html_e( 'Try to use shorter sentences, with less difficult words to improve readability.', 'wds' ); ?></p>
+
+					<div class="wds-ignore-container">
 						<button type="button"
-						        class="wds-unignore wds-button-with-loader wds-button-with-left-loader wds-disabled-during-request button button-small button-dark-o"
+						        class="wds-ignore wds-button-with-loader wds-button-with-right-loader wds-disabled-during-request button button-small button-dark button-dark-o"
 						        data-check_id="readability">
-							<?php esc_html_e( 'Restore', 'wds' ); ?>
+							<?php esc_html_e( 'Ignore', 'wds' ); ?>
 						</button>
 					</div>
-				<?php else : ?>
-					<div class="wds-readability-level wds-accordion-handle-part">
-						<span class="wds-check-item-indicator"><?php echo esc_html( $readability_level ); ?></span>
-					</div>
-				<?php endif; ?>
-			</div>
-			<div class="wds-accordion-content">
-				<div class="wds-small-text"><strong><?php esc_html_e( 'Overview', 'wds' ); ?></strong></div>
-				<p class="wds-small-text"><?php esc_html_e( 'The Flesch-Kincaid readability tests are readability tests designed to indicate how difficult a passage in English is to understand. Here are the benchmarks.', 'wds' ); ?></p>
-				<table class="wds-list-table">
-					<tbody>
-					<tr>
-						<th><?php esc_html_e( 'Score', 'wds' ); ?></th>
-						<th><?php esc_html_e( 'Description', 'wds' ); ?></th>
-					</tr>
-
-					<?php foreach ( $readability_levels_map as $label => $level ) : ?>
-						<tr>
-							<?php
-							if ( ! is_array( $level ) || ! isset( $level['max'] ) || ! isset( $level['min'] ) ) {
-								continue;
-							}
-							?>
-							<td><?php echo esc_html( (int) ceil( $level['min'] ) ); ?>
-								- <?php echo esc_html( (int) ceil( $level['max'] ) ); ?></td>
-							<td><?php echo esc_html( $label ); ?></td>
-						</tr>
-					<?php endforeach; ?>
-					</tbody>
-				</table>
-
-				<div class="wds-small-text"><strong><?php esc_html_e( 'How to fix', 'wds' ); ?></strong></div>
-				<p class="wds-small-text"><?php esc_html_e( 'Try to use shorter sentences, with less difficult words to improve readability.', 'wds' ); ?></p>
-
-				<div class="wds-ignore-container">
-					<button type="button"
-					        class="wds-ignore wds-button-with-loader wds-button-with-right-loader wds-disabled-during-request button button-small button-dark button-dark-o"
-					        data-check_id="readability">
-						<?php esc_html_e( 'Ignore', 'wds' ); ?>
-					</button>
 				</div>
 			</div>
 		</div>

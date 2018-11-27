@@ -284,18 +284,16 @@ class Smartcrawl_Controller_IO extends Smartcrawl_WorkUnit {
 	}
 
 	public function import_yoast_data() {
-		$this->do_import( new Smartcrawl_Yoast_Importer(), 'yoast' );
+		$options = $this->get_import_options_from_request();
+		$this->do_import( new Smartcrawl_Yoast_Importer(), $options );
 	}
 
 	/**
 	 * @param $importer Smartcrawl_Importer
 	 * @param $plugin
 	 */
-	private function do_import( $importer, $plugin ) {
-		$result = array(
-			'success' => false,
-			'url'     => $this->get_success_url( $plugin ),
-		);
+	private function do_import( $importer, $options = array() ) {
+		$result = array( 'success' => false );
 
 		if ( ! $this->user_has_permission_to_import() ) {
 			$result['message'] = __( "You don't have permission to perform this operation.", 'wds' );
@@ -308,20 +306,18 @@ class Smartcrawl_Controller_IO extends Smartcrawl_WorkUnit {
 		}
 
 		if ( is_multisite() ) {
-			$importer->import_for_all_sites();
+			$importer->import_for_all_sites( $options );
 			$in_progress = $importer->is_network_import_in_progress();
 		} else {
-			$importer->import();
+			$importer->import( $options );
 			$in_progress = $importer->is_import_in_progress();
 		}
 		$result['success'] = true;
 		$result['in_progress'] = $in_progress;
+		$result['status'] = $importer->get_status();
+		$result['deactivation_url'] = $importer->get_deactivation_link();
 
 		die( wp_json_encode( $result ) );
-	}
-
-	private function get_success_url( $plugin ) {
-		return Smartcrawl_Settings_Admin::admin_url( Smartcrawl_Settings::TAB_SETTINGS ) . "&imported=true&plugin={$plugin}#tab_import_export";
 	}
 
 	private function user_has_permission_to_import() {
@@ -339,7 +335,8 @@ class Smartcrawl_Controller_IO extends Smartcrawl_WorkUnit {
 	}
 
 	public function import_aioseop_data() {
-		$this->do_import( new Smartcrawl_AIOSEOP_Importer(), 'aioseop' );
+		$options = $this->get_import_options_from_request();
+		$this->do_import( new Smartcrawl_AIOSEOP_Importer(), $options );
 	}
 
 	private function get_request_data() {
@@ -352,5 +349,13 @@ class Smartcrawl_Controller_IO extends Smartcrawl_WorkUnit {
 		}
 
 		return array();
+	}
+
+	private function get_import_options_from_request() {
+		$request_data = $this->get_request_data();
+		$options = smartcrawl_get_array_value( $request_data, 'items_to_import' );
+		$options['force-restart'] = (boolean) smartcrawl_get_array_value( $request_data, 'restart' );
+
+		return empty( $options ) ? array() : $options;
 	}
 }

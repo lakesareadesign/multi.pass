@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 8.8.3
+ * @version 8.10.2
  */
 
 /*
-Plugin Name: Shareaholic | share buttons, analytics, related posts
-Plugin URI: https://www.shareaholic.com/publishers/
-Description: The world's leading all-in-one Audience Amplification Platform that helps grow your website traffic, engagement, conversions & monetization. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for more settings.
-Version: 8.8.3
+Plugin Name: Shareaholic - Share Buttons, Analytics, Related Posts
+Plugin URI: https://www.shareaholic.com/website-tools/
+Description: The best WordPress all-in-one Social Media and Related Posts solution. Get found on social and grow your following. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for settings.
+Version: 8.10.2
 Author: Shareaholic
 Author URI: https://www.shareaholic.com
 Text Domain: shareaholic
@@ -42,13 +42,11 @@ if(!defined('SHARE_COUNTS_CHECK_CACHE_LENGTH')) define( 'SHARE_COUNTS_CHECK_CACH
 // because define can use function returns and const can't
 if(!defined('SHAREAHOLIC_DEBUG')) define('SHAREAHOLIC_DEBUG', getenv('SHAREAHOLIC_DEBUG'));
 
-
 require_once(SHAREAHOLIC_DIR . '/utilities.php');
 require_once(SHAREAHOLIC_DIR . '/global_functions.php');
 require_once(SHAREAHOLIC_DIR . '/admin.php');
 require_once(SHAREAHOLIC_DIR . '/public.php');
 require_once(SHAREAHOLIC_DIR . '/notifier.php');
-require_once(SHAREAHOLIC_DIR . '/deprecation.php');
 require_once(SHAREAHOLIC_DIR . '/cron.php');
 
 if (!class_exists('Shareaholic')) {
@@ -58,11 +56,12 @@ if (!class_exists('Shareaholic')) {
    * @package shareaholic
    */
   class Shareaholic {
+    
     const URL = 'https://www.shareaholic.com';
     const API_URL = 'https://web.shareaholic.com'; // uses static IPs for firewall whitelisting
     const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
 
-    const VERSION = '8.8.3';
+    const VERSION = '8.10.2';
 
     /**
      * Starts off as false so that ::get_instance() returns

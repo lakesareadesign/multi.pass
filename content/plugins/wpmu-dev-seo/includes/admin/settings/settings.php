@@ -465,15 +465,13 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 		$this->show_import_notice(
 			new Smartcrawl_Yoast_Importer(),
 			'yoast-seo',
-			esc_html__( 'Yoast SEO', 'wds' ),
-			'wordpress-seo/wp-seo.php'
+			esc_html__( 'Yoast SEO', 'wds' )
 		);
 
 		$this->show_import_notice(
 			new Smartcrawl_AIOSEOP_Importer(),
 			'all-in-one-seo',
-			esc_html__( 'All In One SEO', 'wds' ),
-			'all-in-one-seo-pack/all_in_one_seo_pack.php'
+			esc_html__( 'All In One SEO', 'wds' )
 		);
 	}
 
@@ -483,8 +481,8 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 	 * @param $plugin_name string
 	 * @param $plugin
 	 */
-	private function show_import_notice( $importer, $plugin_key, $plugin_name, $plugin ) {
-		if ( ! $importer->data_exists() || ! is_plugin_active( $plugin ) ) {
+	private function show_import_notice( $importer, $plugin_key, $plugin_name ) {
+		if ( ! $importer->data_exists() ) {
 			return;
 		}
 

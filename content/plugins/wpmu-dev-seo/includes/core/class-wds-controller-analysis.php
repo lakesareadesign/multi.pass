@@ -79,9 +79,6 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	 * @return bool
 	 */
 	private function _add_hooks() {
-		// Run fresh analysis on each post save.
-		add_action( 'save_post', array( $this, 'analyze_post' ) );
-
 		// Fetch analysis data via AJAX POST request.
 		add_action( 'wp_ajax_wds-analysis-get-data', array( $this, 'json_get_post_analysis_data' ) );
 		add_action( 'wp_ajax_wds-analysis-get-markup', array( $this, 'json_get_post_analysis_markup' ) );
@@ -130,7 +127,6 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	 * @return bool
 	 */
 	private function _remove_hooks() {
-		remove_action( 'save_post', array( $this, 'analyze_post' ) );
 		remove_action( 'wp_ajax_wds-analysis-get-data', array( $this, 'json_get_post_analysis_data' ) );
 		remove_action( 'wp_ajax_wds-analysis-get-markup', array( $this, 'json_get_post_analysis_markup' ) );
 		remove_action( 'wp_ajax_wds-analysis-recheck', array( $this, 'json_get_post_analysis_recheck' ) );
@@ -536,6 +532,12 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 		return true;
 	}
 
+	private function post_type_requires_analysis( $post_id ) {
+		$post_type = get_post_type_object( get_post_type( $post_id ) );
+
+		return $post_type->name === 'revision' || $post_type->public;
+	}
+
 	/**
 	 * Update post analysis data
 	 *
@@ -547,7 +549,11 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	 * @return bool Status
 	 */
 	public function analyze_post( $post_id ) {
-		if ( empty( $post_id ) || ! is_numeric( $post_id ) ) {
+		if (
+			empty( $post_id )
+			|| ! is_numeric( $post_id )
+			|| ! $this->post_type_requires_analysis( $post_id )
+		) {
 			return false;
 		}
 

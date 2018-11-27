@@ -22,7 +22,11 @@ $og = wp_parse_args( $og, array(
 	'disabled'    => false,
 ) );
 
-$og_printer = Smartcrawl_OpenGraph_Printer::get();
+$resolver = Smartcrawl_Endpoint_Resolver::resolve();
+$resolver->simulate_post($post);
+$og_helper = new Smartcrawl_OpenGraph_Value_Helper();
+$title_placeholder = $og_helper->get_title();
+$description_placeholder = $og_helper->get_description();
 $og_meta_disabled = (bool) smartcrawl_get_array_value( $og, 'disabled' );
 
 $twitter = smartcrawl_get_value( 'twitter' );
@@ -40,8 +44,6 @@ $twitter = wp_parse_args( $twitter, array(
 $twitter_printer = Smartcrawl_Twitter_Printer::get();
 $twitter_meta_disabled = smartcrawl_get_array_value( $twitter, 'disabled' );
 
-$resolver = Smartcrawl_Endpoint_Resolver::resolve();
-$resolver->simulate_post( $post->ID );
 ?>
 <div class="wds-metabox-section wds-social-settings-metabox-section wds-form">
 	<p>
@@ -65,9 +67,9 @@ $resolver->simulate_post( $post->ID );
 			'field_name'              => 'wds-opengraph',
 			'disabled'                => $og_meta_disabled,
 			'current_title'           => $og['title'],
-			'title_placeholder'       => $og_printer->get_tag_value( 'title' ),
+			'title_placeholder'       => $title_placeholder,
 			'current_description'     => $og['description'],
-			'description_placeholder' => $og_printer->get_tag_value( 'description' ),
+			'description_placeholder' => $description_placeholder,
 			'images'                  => $og['images'],
 			'single_image'            => false,
 		) );

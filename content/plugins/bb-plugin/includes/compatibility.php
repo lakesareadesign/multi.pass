@@ -527,8 +527,82 @@ function fl_builder_fix_smush_it() {
 add_filter( 'phpcompat_whitelist', 'fl_builder_bbtheme_compat_fix' );
 function fl_builder_bbtheme_compat_fix( $folders ) {
 
+	// Theme
 	$folders[] = '*/bb-theme/includes/vendor/Less/*';
+	// Themer
 	$folders[] = '*/bb-theme-builder/includes/post-grid-default-html.php';
 	$folders[] = '*/bb-theme-builder/includes/post-grid-default-css.php';
+	// bb-plugin
+	$folders[] = '*/bb-plugin/includes/ui-field*.php';
+	$folders[] = '*/bb-plugin/includes/ui-settings-form*.php';
+	// lite
+	$folders[] = '*/beaver-builder-lite-version/includes/ui-field*.php';
+	$folders[] = '*/beaver-builder-lite-version/includes/ui-settings-form*.php';
 	return $folders;
 };
+
+/**
+ * Remove wpbb post:content from post_content as it causes inception.
+ * @since 2.1.7
+ */
+add_filter( 'fl_builder_editor_content', 'fl_theme_post_content_fix' );
+function fl_theme_post_content_fix( $content ) {
+	return preg_replace( '#\[wpbb\s?post:content.*\]#', '', $content );
+}
+
+/**
+ * Remove Popup-Maker post-type from admin settings post-types.
+ * @since 2.1.7
+ */
+add_filter( 'fl_builder_admin_settings_post_types', 'fl_builder_admin_settings_post_types_popup' );
+function fl_builder_admin_settings_post_types_popup( $types ) {
+	if ( class_exists( 'Popup_Maker' ) && isset( $types['popup'] ) ) {
+		unset( $types['popup'] );
+	}
+	return $types;
+}
+
+/**
+ * If short description is blank and there is a layout in the product content
+ * css will not be enqueued because woocommerce adds the css to the json+ld
+ * @since 2.1.7
+ */
+add_filter( 'woocommerce_product_get_short_description', 'fl_fix_woo_short_description' );
+function fl_fix_woo_short_description( $content ) {
+
+	global $post, $fl_woo_description_fix;
+
+	// if there is a short description no need to carry on.
+	if ( '' != $content ) {
+		return $content;
+	}
+
+	// if the product content contains a layout shortcode then extract any css to add to footer later.
+	if ( false !== strpos( $post->post_content, '[fl_builder_insert_layout' ) ) {
+		$dummy   = do_shortcode( $post->post_content );
+		$scripts = preg_match_all( "#<link rel='stylesheet'.*#", $dummy, $out );
+		if ( is_array( $out ) ) {
+			if ( ! is_array( $fl_woo_description_fix ) ) {
+				$fl_woo_description_fix = array();
+			}
+			foreach ( $out[0] as $script ) {
+				$fl_woo_description_fix[] = $script;
+			}
+		}
+		// now we will use the content as the short description.
+		$content = strip_shortcodes( wp_strip_all_tags( $post->post_content ) );
+	}
+	return $content;
+}
+
+/**
+ * Footer action for fl_fix_woo_short_description to print foundf css.
+ * @since 2.1.7
+ */
+add_action( 'wp_footer', 'fl_fix_woo_short_description_footer' );
+function fl_fix_woo_short_description_footer() {
+	global $fl_woo_description_fix;
+	if ( is_array( $fl_woo_description_fix ) && ! empty( $fl_woo_description_fix ) ) {
+		echo implode( "\n", $fl_woo_description_fix );
+	}
+}

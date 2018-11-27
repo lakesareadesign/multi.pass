@@ -21,7 +21,9 @@ class Smartcrawl_Yoast_Importer extends Smartcrawl_Importer {
 			return false;
 		}
 
-		return strpos( $version, '7.' ) === 0 || strpos( $version, '8.' ) === 0;
+		return strpos( $version, '7.' ) === 0
+		       || strpos( $version, '8.' ) === 0
+		       || strpos( $version, '9.' ) === 0;
 	}
 
 	public function import_options() {
@@ -356,6 +358,11 @@ class Smartcrawl_Yoast_Importer extends Smartcrawl_Importer {
 			$this->add_post_meta( $post_id, $wds_meta );
 		}
 
+		$this->update_status( array(
+			'remaining_posts' => count( $this->get_posts_with_yoast_metas() ),
+			'completed_posts' => count( $this->get_posts_with_target_metas() ),
+		) );
+
 		return count( $all_posts ) === count( $batch_posts );
 	}
 
@@ -421,5 +428,12 @@ class Smartcrawl_Yoast_Importer extends Smartcrawl_Importer {
 
 	protected function get_custom_handlers() {
 		return $this->custom_handlers;
+	}
+
+	protected function get_source_plugins() {
+		return array(
+			'wordpress-seo/wp-seo.php',
+			'wordpress-seo-premium/wp-seo-premium.php',
+		);
 	}
 }

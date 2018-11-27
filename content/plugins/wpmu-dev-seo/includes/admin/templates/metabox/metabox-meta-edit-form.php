@@ -6,17 +6,6 @@
 
 	<div class="wds-toggleable-inside wds-toggleable-inside-box">
 		<div class="wds-table-fields wds-table-fields-stacked">
-			<?php
-			$title_placeholder = smartcrawl_get_seo_title();
-			if ( ! $title_placeholder ) {
-				$title_placeholder = '';
-			}
-
-			$desc_placeholder = smartcrawl_get_seo_desc();
-			if ( ! $desc_placeholder ) {
-				$desc_placeholder = '';
-			}
-			?>
 
 			<?php if ( apply_filters( 'wds-metabox-visible_parts-title_area', true ) ) : ?>
 				<div class="label">
@@ -28,7 +17,6 @@
 				<div class="fields">
 					<input type='text'
 					       id='wds_title'
-					       placeholder='<?php echo esc_html( $title_placeholder ); ?>'
 					       name='wds_title'
 					       value='<?php echo esc_html( smartcrawl_get_value( 'title' ) ); ?>'
 					       class='wds wds-meta-field'/>
@@ -45,7 +33,6 @@
 				<div class="fields">
 					<textarea rows='2'
 					          name='wds_metadesc'
-					          placeholder='<?php echo esc_html( $desc_placeholder ); ?>'
 					          id='wds_metadesc'
 					          class='wds wds-meta-field'><?php echo esc_html( smartcrawl_get_value( 'metadesc' ) ); ?></textarea>
 				</div>

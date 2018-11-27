@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the SmartCrawl package.
 msgid ""
 msgstr ""
-"Project-Id-Version: SmartCrawl 2.2.2.7\n"
+"Project-Id-Version: SmartCrawl 2.2.3\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpmu-dev-seo\n"
-"POT-Creation-Date: 2018-10-09 03:57:31+00:00\n"
+"POT-Creation-Date: 2018-11-12 05:27:21+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -13,14 +13,14 @@ msgstr ""
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "X-Generator: grunt-wp-i18n1.0.2\n"
 
-#: includes/admin/admin.php:133 includes/admin/settings/settings.php:248
+#: includes/admin/admin.php:134 includes/admin/settings/settings.php:248
 #: includes/admin/settings/settings.php:319
 #: includes/admin/templates/advanced-tools/advanced-tools-settings.php:49
-#: includes/admin/templates/onpage/onpage-settings.php:246
+#: includes/admin/templates/onpage/onpage-settings.php:244
 msgid "Settings"
 msgstr ""
 
-#: includes/admin/admin.php:168
+#: includes/admin/admin.php:169
 msgid "Error: options page not found."
 msgstr ""
 
@@ -28,97 +28,99 @@ msgstr ""
 msgid "SmartCrawl"
 msgstr ""
 
-#: includes/admin/admin.php:320 includes/admin/settings/dashboard.php:32
+#: includes/admin/admin.php:321 includes/admin/settings/dashboard.php:32
 #: includes/admin/templates/dashboard/dashboard.php:18
 msgid "Dashboard"
 msgstr ""
 
-#: includes/admin/admin.php:382
+#: includes/admin/admin.php:383
 msgid ""
 "This site discourages search engines from indexing the pages, which will "
 "affect your SEO efforts."
 msgstr ""
 
-#: includes/admin/admin.php:383
+#: includes/admin/admin.php:384
 msgid "You can fix this here"
 msgstr ""
 
-#: includes/admin/metabox.php:115
+#: includes/admin/metabox.php:119
 msgid "{TOTAL_LEFT} characters left"
 msgstr ""
 
-#: includes/admin/metabox.php:116
+#: includes/admin/metabox.php:120
 msgid "Over {MAX_COUNT} characters ({CURRENT_COUNT})"
 msgstr ""
 
-#: includes/admin/metabox.php:117
+#: includes/admin/metabox.php:121
 msgid ""
 "Over {MAX_COUNT} characters ({CURRENT_COUNT}) - make sure your SEO title is "
 "shorter"
 msgstr ""
 
-#: includes/admin/metabox.php:130
+#: includes/admin/metabox.php:137
+#: includes/admin/templates/metabox/analysis-readability.php:67
+#: includes/admin/templates/metabox/analysis-seo-analysis.php:24
 msgid "Analyzing content, please wait a few moments"
 msgstr ""
 
-#: includes/admin/metabox.php:164
+#: includes/admin/metabox.php:172
 msgid "NO ODP (Block Open Directory Project description of the page)"
 msgstr ""
 
-#: includes/admin/metabox.php:165
+#: includes/admin/metabox.php:173
 msgid "NO YDIR (Don't display the Yahoo! Directory titles and abstracts)"
 msgstr ""
 
-#: includes/admin/metabox.php:166 includes/admin/metabox.php:432
+#: includes/admin/metabox.php:174 includes/admin/metabox.php:459
 msgid "No Archive"
 msgstr ""
 
-#: includes/admin/metabox.php:167 includes/admin/metabox.php:433
+#: includes/admin/metabox.php:175 includes/admin/metabox.php:460
 msgid "No Snippet"
 msgstr ""
 
-#: includes/admin/metabox.php:170
+#: includes/admin/metabox.php:178
 msgid "Automatic prioritization"
 msgstr ""
 
-#: includes/admin/metabox.php:171
+#: includes/admin/metabox.php:179
 msgid "1 - Highest priority"
 msgstr ""
 
-#: includes/admin/metabox.php:173
+#: includes/admin/metabox.php:181
 msgid "High priority (root pages default)"
 msgstr ""
 
-#: includes/admin/metabox.php:175
+#: includes/admin/metabox.php:183
 msgid "Secondary priority (subpages default)"
 msgstr ""
 
-#: includes/admin/metabox.php:176
+#: includes/admin/metabox.php:184
 msgid "Medium priority"
 msgstr ""
 
-#: includes/admin/metabox.php:180
+#: includes/admin/metabox.php:188
 msgid "Lowest priority"
 msgstr ""
 
-#: includes/admin/metabox.php:388
+#: includes/admin/metabox.php:415
 #: includes/admin/templates/quick-edit-title.php:5
 msgid "Title Tag"
 msgstr ""
 
-#: includes/admin/metabox.php:390
+#: includes/admin/metabox.php:417
 msgid "Robots Meta"
 msgstr ""
 
-#: includes/admin/metabox.php:411
+#: includes/admin/metabox.php:438
 msgid "Redirects to %s"
 msgstr ""
 
-#: includes/admin/metabox.php:430
+#: includes/admin/metabox.php:457
 msgid "No ODP"
 msgstr ""
 
-#: includes/admin/metabox.php:431
+#: includes/admin/metabox.php:458
 msgid "No YDIR"
 msgstr ""
 
@@ -232,162 +234,162 @@ msgstr ""
 msgid "Your description seems to be a bit on the long side, consider trimming it"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:513
+#: includes/admin/settings/onpage.php:526
 #: includes/admin/templates/sitemap/sitemap-crawl-issues-group.php:41
 msgid "No"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:514
+#: includes/admin/settings/onpage.php:527
 #: includes/admin/settings/sitemap.php:224
 #: includes/admin/settings/sitemap.php:351
 msgid "Yes"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:518
+#: includes/admin/settings/onpage.php:531
 #: includes/admin/settings/sitemap.php:347
 msgid "Google"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:519
+#: includes/admin/settings/onpage.php:532
 #: includes/admin/settings/sitemap.php:348
 msgid "Bing"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:541
+#: includes/admin/settings/onpage.php:552
 #: includes/admin/templates/onpage/onpage-section-settings.php:5
 msgid "Separator"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:542
+#: includes/admin/settings/onpage.php:553
 msgid "Date of the post/page"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:543
+#: includes/admin/settings/onpage.php:554
 msgid "Title of the post/page"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:544
+#: includes/admin/settings/onpage.php:555
 msgid "Site's name"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:545
+#: includes/admin/settings/onpage.php:556
 msgid "Site's tagline / description"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:546
+#: includes/admin/settings/onpage.php:557
 msgid "Post/page excerpt (or auto-generated if it does not exist)"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:547
+#: includes/admin/settings/onpage.php:558
 msgid "Post/page excerpt (without auto-generation)"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:548
+#: includes/admin/settings/onpage.php:559
 msgid "Current tag/tags"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:549
+#: includes/admin/settings/onpage.php:560
 msgid "Post categories (comma separated)"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:550
+#: includes/admin/settings/onpage.php:561
 msgid "Category description"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:551
+#: includes/admin/settings/onpage.php:562
 msgid "Tag description"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:552
+#: includes/admin/settings/onpage.php:563
 msgid "Term description"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:553
+#: includes/admin/settings/onpage.php:564
 msgid "Term name"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:554
+#: includes/admin/settings/onpage.php:565
 msgid "Post/page modified time"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:555
+#: includes/admin/settings/onpage.php:566
 msgid "Post/page ID"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:556
+#: includes/admin/settings/onpage.php:567
 msgid "Post/page author's 'nicename'"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:557
+#: includes/admin/settings/onpage.php:568
 msgid "Post/page author's userid"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:558
+#: includes/admin/settings/onpage.php:569
 msgid "Current search phrase"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:559
+#: includes/admin/settings/onpage.php:570
 msgid "Current time"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:560
+#: includes/admin/settings/onpage.php:571
 msgid "Current date"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:561
+#: includes/admin/settings/onpage.php:572
 msgid "Current month"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:562
+#: includes/admin/settings/onpage.php:573
 msgid "Current year"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:563
+#: includes/admin/settings/onpage.php:574
 msgid "Current page number (i.e. page 2 of 4)"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:564
+#: includes/admin/settings/onpage.php:575
 msgid "Current page total"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:565
+#: includes/admin/settings/onpage.php:576
 msgid "Current page number"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:566
+#: includes/admin/settings/onpage.php:577
 msgid "Attachment caption"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:567
-#: includes/admin/settings/onpage.php:569
+#: includes/admin/settings/onpage.php:578
+#: includes/admin/settings/onpage.php:580
 msgid "Current page number, spelled out as numeral in English"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:568
+#: includes/admin/settings/onpage.php:579
 msgid "Current page total, spelled out as numeral in English"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:570
+#: includes/admin/settings/onpage.php:581
 msgid "Post type label plural"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:571
+#: includes/admin/settings/onpage.php:582
 msgid "Post type label singular"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:575
+#: includes/admin/settings/onpage.php:586
 msgid "BuddyPress group name"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:576
+#: includes/admin/settings/onpage.php:587
 msgid "BuddyPress group description"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:577
+#: includes/admin/settings/onpage.php:588
 msgid "BuddyPress username"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:578
+#: includes/admin/settings/onpage.php:589
 msgid "BuddyPress user's full name"
 msgstr ""
 
@@ -450,33 +452,33 @@ msgstr ""
 msgid "Home page"
 msgstr ""
 
-#: includes/admin/settings/settings.php:468 includes/admin/settings.php:585
+#: includes/admin/settings/settings.php:468
 #: includes/admin/templates/settings/settings-section-import-export.php:44
 msgid "Yoast SEO"
 msgstr ""
 
-#: includes/admin/settings/settings.php:475 includes/admin/settings.php:585
+#: includes/admin/settings/settings.php:474 includes/admin/settings.php:440
 #: includes/admin/templates/settings/settings-section-import-export.php:52
 msgid "All In One SEO"
 msgstr ""
 
-#: includes/admin/settings/settings.php:494
+#: includes/admin/settings/settings.php:492
 msgid "auto-import"
 msgstr ""
 
-#: includes/admin/settings/settings.php:497
+#: includes/admin/settings/settings.php:495
 msgid ""
 "We've detected you have %1$s, installed. Do you want to %2$s your "
 "configuration into SmartCrawl?"
 msgstr ""
 
-#: includes/admin/settings/settings.php:547
+#: includes/admin/settings/settings.php:545
 msgid ""
 "We have spent countless hours developing this free plugin for you, and we "
 "would really appreciate it if you dropped us a quick rating."
 msgstr ""
 
-#: includes/admin/settings/settings.php:549
+#: includes/admin/settings/settings.php:547
 msgid "Rate SmartCrawl"
 msgstr ""
 
@@ -570,6 +572,7 @@ msgstr ""
 
 #: includes/admin/settings.php:296 includes/admin/settings.php:360
 #: includes/admin/templates/advanced-tools/underscore-bulk-update-form.php:31
+#: includes/admin/templates/settings/underscore-import-error.php:10
 #: includes/admin/templates/sitemap/sitemap-occurrences-overlay.php:39
 #: includes/admin/templates/sitemap/sitemap-redirect-overlay.php:59
 msgid "Cancel"
@@ -641,38 +644,20 @@ msgstr ""
 msgid "Please select some items to edit them."
 msgstr ""
 
-#: includes/admin/settings.php:432
-msgid "Importing"
+#: includes/admin/settings.php:439
+msgid "Yoast"
 msgstr ""
 
-#: includes/admin/settings.php:433
-#: includes/admin/templates/settings/settings-section-import-export.php:16
-#: includes/admin/templates/settings/settings-section-import-export.php:34
-#: includes/admin/templates/settings/settings-section-import-export.php:47
-#: includes/admin/templates/settings/settings-section-import-export.php:55
-msgid "Import"
-msgstr ""
-
-#: includes/admin/settings.php:572
+#: includes/admin/settings.php:587
 msgid "Settings updated"
 msgstr ""
 
-#: includes/admin/settings.php:576
+#: includes/admin/settings.php:591
 msgid " &amp; W3 Total Cache Page Cache flushed"
 msgstr ""
 
-#: includes/admin/settings.php:579
+#: includes/admin/settings.php:594
 msgid " &amp; WP Super Cache flushed"
-msgstr ""
-
-#: includes/admin/settings.php:591
-msgid "deactivate %s"
-msgstr ""
-
-#: includes/admin/settings.php:597
-msgid ""
-"Your %1$s configuration has been successfully imported! We recommend you "
-"%2$s to avoid any potential conflicts."
 msgstr ""
 
 #: includes/admin/templates/advanced-tools/advanced-section-automatic-linking-settings.php:14
@@ -793,7 +778,7 @@ msgstr ""
 
 #: includes/admin/templates/advanced-tools/advanced-section-moz.php:21
 #: includes/admin/templates/onpage/onpage-og-disabled.php:10
-#: includes/admin/templates/onpage/onpage-section-homepage.php:82
+#: includes/admin/templates/onpage/onpage-section-homepage.php:73
 #: includes/admin/templates/onpage/onpage-twitter-disabled.php:10
 #: includes/admin/templates/progress-notice.php:27
 #: includes/core/checks/class-wds-check-keywords-used.php:99
@@ -896,22 +881,6 @@ msgstr ""
 #: includes/admin/templates/sitemap/sitemap-settings.php:36
 #: includes/admin/templates/social/social-settings.php:8
 msgid "View Documentation"
-msgstr ""
-
-#: includes/admin/templates/advanced-tools/advanced-tools-settings.php:26
-msgid ""
-"Configure SmartCrawl to automatically link certain key words to a page on "
-"your blog or even"
-msgstr ""
-
-#: includes/admin/templates/advanced-tools/advanced-tools-settings.php:27
-msgid ""
-"a whole new site all together. Internal linking can help boost SEO but "
-"giving search engines"
-msgstr ""
-
-#: includes/admin/templates/advanced-tools/advanced-tools-settings.php:28
-msgid "ample ways to index your site."
 msgstr ""
 
 #: includes/admin/templates/advanced-tools/advanced-tools-settings.php:33
@@ -1031,21 +1000,21 @@ msgid ""
 msgstr ""
 
 #: includes/admin/templates/checkup/checkup-checkup-results.php:53
-#: includes/admin/templates/metabox/analysis-seo-analysis.php:65
+#: includes/admin/templates/metabox/analysis-seo-analysis.php:72
 msgid "Recommendation"
 msgstr ""
 
 #: includes/admin/templates/checkup/checkup-checkup-results.php:62
-#: includes/admin/templates/metabox/analysis-seo-analysis.php:73
+#: includes/admin/templates/metabox/analysis-seo-analysis.php:80
 msgid "More Info"
 msgstr ""
 
 #: includes/admin/templates/checkup/checkup-checkup-results.php:77
 msgid ""
 "Grab the Pro version of SmartCrawl to unlock unlimited SEO Checkups plus "
-"automated scheduled reports to always stay on top of any issues.. These "
-"features are included in a WPMU DEV membership along with 100+ plugins "
-"&amp; themes, 24/7 support and lots of handy site management tools."
+"automated scheduled reports to always stay on top of any issues. These "
+"features are included in a WPMU DEV membership along with 100+ plugins, "
+"24/7 support and lots of handy site management tools."
 msgstr ""
 
 #: includes/admin/templates/checkup/checkup-checkup-results.php:78
@@ -1217,7 +1186,7 @@ msgstr ""
 #: includes/admin/templates/dashboard/dashboard-content-analysis-seo-overview.php:32
 #: includes/admin/templates/dashboard/dashboard-content-analysis-seo-overview.php:57
 #: includes/admin/templates/post-list/post-seo-analysis-good.php:2
-#: includes/core/class-wds-controller-analysis.php:632
+#: includes/core/class-wds-controller-analysis.php:638
 msgid "Good"
 msgstr ""
 
@@ -1411,7 +1380,7 @@ msgid "Edit Posts"
 msgstr ""
 
 #: includes/admin/templates/dashboard/dashboard-widget-onpage.php:23
-#: includes/admin/templates/metabox/metabox-tab-social.php:54
+#: includes/admin/templates/metabox/metabox-tab-social.php:56
 msgid "Titles & Meta"
 msgstr ""
 
@@ -1510,9 +1479,9 @@ msgstr ""
 
 #: includes/admin/templates/dashboard/dashboard-widget-social.php:38
 #: includes/admin/templates/dashboard/onboarding.php:57
-#: includes/admin/templates/metabox/metabox-tab-social.php:63
+#: includes/admin/templates/metabox/metabox-tab-social.php:65
 #: includes/admin/templates/social/social-settings.php:40
-#: includes/admin/templates/term-additions-form.php:30
+#: includes/admin/templates/term-additions-form.php:34
 msgid "OpenGraph"
 msgstr ""
 
@@ -1564,7 +1533,7 @@ msgstr ""
 #: includes/admin/templates/dashboard/onboarding.php:5
 msgid ""
 "Welcome to SmartCrawl, the hottest SEO plugin for WordPress! Let's quickly "
-"set up the basics for you, then you can fine tweak each setting as you go - "
+"set up the basics for you, then you can fine tune each setting as you go - "
 "our recommendations are on by default."
 msgstr ""
 
@@ -1694,70 +1663,70 @@ msgstr ""
 msgid "Refresh"
 msgstr ""
 
-#: includes/admin/templates/metabox/analysis-readability.php:69
+#: includes/admin/templates/metabox/analysis-readability.php:76
 msgid "Flesch-Kincaid Test"
 msgstr ""
 
-#: includes/admin/templates/metabox/analysis-readability.php:77
-#: includes/admin/templates/metabox/analysis-seo-analysis.php:57
+#: includes/admin/templates/metabox/analysis-readability.php:84
+#: includes/admin/templates/metabox/analysis-seo-analysis.php:64
 #: includes/admin/templates/sitemap/sitemap-crawl-issue-ignored.php:24
 msgid "Restore"
 msgstr ""
 
-#: includes/admin/templates/metabox/analysis-readability.php:87
+#: includes/admin/templates/metabox/analysis-readability.php:94
 #: includes/admin/templates/sitemap/sitemap-crawl-issues-group.php:45
 msgid "Overview"
 msgstr ""
 
-#: includes/admin/templates/metabox/analysis-readability.php:88
+#: includes/admin/templates/metabox/analysis-readability.php:95
 msgid ""
 "The Flesch-Kincaid readability tests are readability tests designed to "
 "indicate how difficult a passage in English is to understand. Here are the "
 "benchmarks."
 msgstr ""
 
-#: includes/admin/templates/metabox/analysis-readability.php:92
+#: includes/admin/templates/metabox/analysis-readability.php:99
 msgid "Score"
 msgstr ""
 
-#: includes/admin/templates/metabox/analysis-readability.php:93
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:41
+#: includes/admin/templates/metabox/analysis-readability.php:100
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:29
 #: includes/admin/templates/metabox/metabox-social-meta-tags.php:51
 #: includes/admin/templates/onpage/onpage-social-meta-tags.php:64
 #: includes/admin/templates/term-additions-form.php:88
-#: includes/admin/templates/term-additions-form.php:181
+#: includes/admin/templates/term-additions-form.php:184
 msgid "Description"
 msgstr ""
 
-#: includes/admin/templates/metabox/analysis-readability.php:111
+#: includes/admin/templates/metabox/analysis-readability.php:118
 msgid "How to fix"
 msgstr ""
 
-#: includes/admin/templates/metabox/analysis-readability.php:112
+#: includes/admin/templates/metabox/analysis-readability.php:119
 msgid ""
 "Try to use shorter sentences, with less difficult words to improve "
 "readability."
 msgstr ""
 
-#: includes/admin/templates/metabox/analysis-readability.php:118
-#: includes/admin/templates/metabox/analysis-seo-analysis.php:85
+#: includes/admin/templates/metabox/analysis-readability.php:125
+#: includes/admin/templates/metabox/analysis-seo-analysis.php:92
 #: includes/admin/templates/sitemap/sitemap-crawl-issue-generic.php:39
 #: includes/admin/templates/sitemap/sitemap-crawl-issue-sitemap.php:29
 msgid "Ignore"
 msgstr ""
 
 #: includes/admin/templates/metabox/analysis-seo-analysis.php:14
-#: includes/core/class-wds-controller-analysis.php:355
+#: includes/core/class-wds-controller-analysis.php:351
 msgid "You need to add focus keywords to see recommendations for this article."
 msgstr ""
 
-#: includes/admin/templates/metabox/analysis-seo-analysis.php:25
+#: includes/admin/templates/metabox/analysis-seo-analysis.php:32
 msgid ""
 "You have %d SEO recommendations. We recommend you satisfy as many "
 "improvements as possible to ensure your content gets found."
 msgstr ""
 
-#: includes/admin/templates/metabox/analysis-seo-analysis.php:27
+#: includes/admin/templates/metabox/analysis-seo-analysis.php:34
 msgid "You have optimized your SEO to the max. Bravo!"
 msgstr ""
 
@@ -1767,17 +1736,23 @@ msgstr ""
 msgid "Reload"
 msgstr ""
 
+#: includes/admin/templates/metabox/metabox-dummy-preview.php:2
+#: includes/admin/templates/metabox/metabox-preview.php:22
+msgid "Google Preview"
+msgstr ""
+
 #: includes/admin/templates/metabox/metabox-main.php:25
-#: includes/core/class-wds-controller-analysis.php:295
+#: includes/core/class-wds-controller-analysis.php:291
 msgid "SEO"
 msgstr ""
 
 #: includes/admin/templates/metabox/metabox-main.php:26
-#: includes/core/class-wds-controller-analysis.php:298
+#: includes/core/class-wds-controller-analysis.php:294
 msgid "Readability"
 msgstr ""
 
 #: includes/admin/templates/metabox/metabox-main.php:30
+#: includes/admin/templates/settings/underscore-import-options.php:37
 #: includes/admin/templates/sitemap/sitemap-settings.php:135
 msgid "Advanced"
 msgstr ""
@@ -1786,44 +1761,40 @@ msgstr ""
 msgid "Edit Meta"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:24
-#: includes/admin/templates/term-additions-form.php:6
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:13
+#: includes/admin/templates/term-additions-form.php:10
 msgid "SEO Title"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:25
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:14
 msgid "- Include your focus keywords. 50-%d characters recommended."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:42
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:30
 msgid "- Recommended minimum of 135 characters, maximum %d."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:57
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:44
 msgid "Keywords"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:58
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:73
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:45
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:60
 msgid "- Try to avoid stop words like ‘and’ and ‘the’ which search engines ignore."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:72
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:59
 msgid "News Keywords"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:89
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:76
 msgid "Tags As Keywords"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:90
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:77
 msgid ""
 "If you enable using tags, post tags will be merged in with any other "
 "keywords you enter in the text box."
-msgstr ""
-
-#: includes/admin/templates/metabox/metabox-preview.php:22
-msgid "Google Preview"
 msgstr ""
 
 #: includes/admin/templates/metabox/metabox-seo-analysis-container.php:20
@@ -1858,12 +1829,12 @@ msgstr ""
 #: includes/admin/templates/onpage/onpage-settings.php:28
 #: includes/admin/templates/onpage/onpage-social-meta-tags.php:48
 #: includes/admin/templates/term-additions-form.php:74
-#: includes/admin/templates/term-additions-form.php:167
+#: includes/admin/templates/term-additions-form.php:170
 msgid "Title"
 msgstr ""
 
 #: includes/admin/templates/metabox/metabox-social-meta-tags.php:64
-#: includes/admin/templates/term-additions-form.php:193
+#: includes/admin/templates/term-additions-form.php:196
 msgid "Featured Image"
 msgstr ""
 
@@ -1875,7 +1846,7 @@ msgstr ""
 #: includes/admin/templates/metabox/metabox-social-meta-tags.php:72
 #: includes/admin/templates/onpage/onpage-social-meta-tags.php:94
 #: includes/admin/templates/term-additions-form.php:105
-#: includes/admin/templates/term-additions-form.php:199
+#: includes/admin/templates/term-additions-form.php:202
 msgid "Add image"
 msgstr ""
 
@@ -1947,7 +1918,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/templates/metabox/metabox-tab-advanced.php:90
-#: includes/admin/templates/term-additions-form.php:8
+#: includes/admin/templates/term-additions-form.php:12
 msgid "Canonical"
 msgstr ""
 
@@ -2009,23 +1980,23 @@ msgstr ""
 msgid "= 70+"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-social.php:50
+#: includes/admin/templates/metabox/metabox-tab-social.php:52
 msgid ""
 "Customize this posts title, description and featured images for social "
 "shares. You can also configure the default settings for this post type in "
 "SmartCrawl's %s area."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-social.php:64
+#: includes/admin/templates/metabox/metabox-tab-social.php:66
 msgid "OpenGraph is used on many social networks such as Facebook."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-social.php:81
+#: includes/admin/templates/metabox/metabox-tab-social.php:83
 #: includes/admin/templates/term-additions-form.php:133
 msgid "Twitter"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-social.php:82
+#: includes/admin/templates/metabox/metabox-tab-social.php:84
 msgid "These details will be used in Twitter cards."
 msgstr ""
 
@@ -2096,40 +2067,40 @@ msgstr ""
 msgid "Date Archives Meta Description"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-section-homepage.php:25
+#: includes/admin/templates/onpage/onpage-section-homepage.php:16
 msgid "Page Title"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-section-homepage.php:38
+#: includes/admin/templates/onpage/onpage-section-homepage.php:29
 msgid "Page Description"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-section-homepage.php:52
+#: includes/admin/templates/onpage/onpage-section-homepage.php:43
 msgid "Page Keywords"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-section-homepage.php:59
+#: includes/admin/templates/onpage/onpage-section-homepage.php:50
 msgid "Comma-separated keywords, e.g."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-section-homepage.php:59
+#: includes/admin/templates/onpage/onpage-section-homepage.php:50
 msgid "word1, word2"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-section-homepage.php:90
+#: includes/admin/templates/onpage/onpage-section-homepage.php:81
 msgid ""
 "Your homepage is set to a static page. Configure your homepage SEO via the "
 "page itself %s."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-section-homepage.php:94
+#: includes/admin/templates/onpage/onpage-section-homepage.php:85
 msgid ""
 "Your homepage is set to a static page. Configure your homepage SEO via the "
 "page itself."
 msgstr ""
 
 #: includes/admin/templates/onpage/onpage-section-post-type-archive.php:20
-#: includes/admin/templates/onpage/onpage-settings.php:186
+#: includes/admin/templates/onpage/onpage-settings.php:184
 msgid " Archive Title"
 msgstr ""
 
@@ -2186,87 +2157,87 @@ msgstr ""
 msgid "Customize your homepage title, description and meta."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:89
+#: includes/admin/templates/onpage/onpage-settings.php:87
 msgid "Customize your %s title, description and meta."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:102
+#: includes/admin/templates/onpage/onpage-settings.php:100
 msgid "Post Types"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:120
+#: includes/admin/templates/onpage/onpage-settings.php:118
 msgid "Customize the title, description and meta of %s."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:132
+#: includes/admin/templates/onpage/onpage-settings.php:130
 msgid "Taxonomies"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:140
+#: includes/admin/templates/onpage/onpage-settings.php:138
 msgid "Author Archive"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:141
+#: includes/admin/templates/onpage/onpage-settings.php:139
 msgid ""
 "If you are the only author of your website content Google may see your "
 "author archives as duplicate content to your Blog Homepage. If this is the "
 "case we recommend disabling author archives."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:151
+#: includes/admin/templates/onpage/onpage-settings.php:149
 msgid "Date Archive"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:152
+#: includes/admin/templates/onpage/onpage-settings.php:150
 msgid ""
 "Google may see your date archives as duplicate content to your Blog "
 "Homepage. For this reason we recommend disabling date archives."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:162
+#: includes/admin/templates/onpage/onpage-settings.php:160
 msgid "Search Page"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:163
+#: includes/admin/templates/onpage/onpage-settings.php:161
 msgid "Customize your search page title, description and meta."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:172
+#: includes/admin/templates/onpage/onpage-settings.php:170
 msgid "404 Page"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:173
+#: includes/admin/templates/onpage/onpage-settings.php:171
 msgid "Customize your 404 page title, description and meta."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:188
+#: includes/admin/templates/onpage/onpage-settings.php:186
 msgid ""
 "Customize title, description and meta for the archive page of custom post "
 "type %s."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:206
+#: includes/admin/templates/onpage/onpage-settings.php:204
 msgid "Archives"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:215
+#: includes/admin/templates/onpage/onpage-settings.php:213
 #: includes/admin/templates/sitemap/sitemap-buddypress-settings.php:7
 msgid "BuddyPress Groups"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:216
+#: includes/admin/templates/onpage/onpage-settings.php:214
 msgid "Customize your BuddyPress group title, description and meta options."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:225
+#: includes/admin/templates/onpage/onpage-settings.php:223
 msgid "BuddyPress Profile"
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:226
+#: includes/admin/templates/onpage/onpage-settings.php:224
 msgid "Customize your BuddyPress profile title, description and meta options."
 msgstr ""
 
-#: includes/admin/templates/onpage/onpage-settings.php:236
+#: includes/admin/templates/onpage/onpage-settings.php:234
 msgid "BuddyPress"
 msgstr ""
 
@@ -2427,6 +2398,14 @@ msgstr ""
 
 #: includes/admin/templates/seomoz-dashboard-widget.php:72
 msgid "Homepage Authority"
+msgstr ""
+
+#: includes/admin/templates/settings/import-status-modal.php:3
+#: includes/admin/templates/settings/settings-section-import-export.php:16
+#: includes/admin/templates/settings/settings-section-import-export.php:34
+#: includes/admin/templates/settings/settings-section-import-export.php:47
+#: includes/admin/templates/settings/settings-section-import-export.php:55
+msgid "Import"
 msgstr ""
 
 #: includes/admin/templates/settings/settings-custom-meta-tag.php:5
@@ -2640,6 +2619,98 @@ msgstr ""
 
 #: includes/admin/templates/settings/settings.php:62
 msgid "Import / Export"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-error.php:1
+msgid ""
+"We have encountered an error while importing your data. You may retry the "
+"import or contact our support if the problem persists."
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-error.php:14
+msgid "Try Again"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-options.php:2
+msgid "Choose what you'd like to import from %s."
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-options.php:8
+msgid "Plugin Options"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-options.php:9
+msgid "Import %s settings that are relevant to SmartCrawl."
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-options.php:18
+msgid "Term Meta"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-options.php:19
+msgid ""
+"Import your title & meta settings for categories, tags and custom "
+"taxonomies."
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-options.php:30
+msgid "Post Meta"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-options.php:31
+msgid "Import your title & meta settings for posts and pages."
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-options.php:44
+msgid "Keep Existing Post Meta"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-options.php:45
+msgid ""
+"If you have already set up SmartCrawl on some posts and pages then enable "
+"this option to keep those values from getting overwritten."
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-options.php:55
+msgid "Begin Import"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-options.php:59
+msgid ""
+"Note: Importing can take a while if you have a large amount of content on "
+"your website."
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-progress.php:1
+msgid "Importing your %s settings, please keep this window open …"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-progress.php:4
+msgid "Overall Progress"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-progress.php:12
+msgid "Current Subsite"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-success.php:1
+msgid "All done!"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-success.php:4
+msgid "Your %s settings have been imported successfully and are now active."
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-success.php:6
+msgid "We highly recommend you deactivate %s to avoid potential conflicts."
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-success.php:13
+msgid "Close"
+msgstr ""
+
+#: includes/admin/templates/settings/underscore-import-success.php:18
+msgid "Deactivate"
 msgstr ""
 
 #: includes/admin/templates/settings-message-top.php:52
@@ -2906,7 +2977,7 @@ msgid "Run regular URL crawls"
 msgstr ""
 
 #: includes/admin/templates/sitemap/sitemap-section-settings.php:33
-msgid "Unable to write to sitemap file: <code>%s</code>"
+msgid "Unable to write to sitemap file: %s"
 msgstr ""
 
 #: includes/admin/templates/sitemap/sitemap-section-settings.php:44
@@ -3033,6 +3104,12 @@ msgstr ""
 
 #: includes/admin/templates/sitemaps-dashboard-widget.php:35
 msgid "Search engines haven't been recently updated."
+msgstr ""
+
+#: includes/admin/templates/sitemaps-dashboard-widget.php:41
+msgid ""
+"Search engine notifications are disabled. You can enable them in the "
+"sitemap settings."
 msgstr ""
 
 #: includes/admin/templates/social/social-section-accounts.php:7
@@ -3215,41 +3292,41 @@ msgstr ""
 msgid "Add meta data to your pages to make them look great when shared on Twitter."
 msgstr ""
 
-#: includes/admin/templates/term-additions-form.php:1
+#: includes/admin/templates/term-additions-form.php:5
 msgid "SmartCrawl Settings "
 msgstr ""
 
-#: includes/admin/templates/term-additions-form.php:6
+#: includes/admin/templates/term-additions-form.php:10
 msgid "The SEO title is used on the archive page for this term."
 msgstr ""
 
-#: includes/admin/templates/term-additions-form.php:7
+#: includes/admin/templates/term-additions-form.php:11
 msgid "SEO Description"
 msgstr ""
 
-#: includes/admin/templates/term-additions-form.php:7
+#: includes/admin/templates/term-additions-form.php:11
 msgid ""
 "The SEO description is used for the meta description on the archive page "
 "for this term."
 msgstr ""
 
-#: includes/admin/templates/term-additions-form.php:8
+#: includes/admin/templates/term-additions-form.php:12
 msgid "The canonical link is shown on the archive page for this term."
 msgstr ""
 
-#: includes/admin/templates/term-additions-form.php:11
+#: includes/admin/templates/term-additions-form.php:15
 msgid "Index this %s"
 msgstr ""
 
-#: includes/admin/templates/term-additions-form.php:13
+#: includes/admin/templates/term-additions-form.php:17
 msgid "Noindex this %s"
 msgstr ""
 
-#: includes/admin/templates/term-additions-form.php:17
+#: includes/admin/templates/term-additions-form.php:21
 msgid "Follow this %s"
 msgstr ""
 
-#: includes/admin/templates/term-additions-form.php:19
+#: includes/admin/templates/term-additions-form.php:23
 msgid "Nofollow this %s"
 msgstr ""
 
@@ -3263,11 +3340,11 @@ msgid ""
 "the term page is shared."
 msgstr ""
 
-#: includes/admin/templates/term-additions-form.php:159
+#: includes/admin/templates/term-additions-form.php:162
 msgid "Enable Twitter Cards for this term"
 msgstr ""
 
-#: includes/admin/templates/term-additions-form.php:213
+#: includes/admin/templates/term-additions-form.php:216
 msgid ""
 "This image will be available to use as the featured image when the term "
 "page is shared."
@@ -3303,7 +3380,7 @@ msgstr ""
 
 #: includes/admin/templates/upsell-modal.php:23
 msgid ""
-"A membership for Hummingbird Pro also gets you the award winning Smush Pro "
+"A membership for SmartCrawl Pro also gets you the award winning Smush Pro "
 "with unlimited advanced lossy compression that’ll give image heavy websites "
 "a speed boost."
 msgstr ""
@@ -3668,7 +3745,7 @@ msgid ""
 msgstr ""
 
 #: includes/core/checks/class-wds-check-metadesc-length.php:21
-msgid "Description is a good length"
+msgid "Description has a good length"
 msgstr ""
 
 #: includes/core/checks/class-wds-check-metadesc-length.php:25
@@ -3838,7 +3915,7 @@ msgid ""
 msgstr ""
 
 #: includes/core/checks/class-wds-check-title-length.php:15
-msgid "Title is a good length"
+msgid "Title has a good length"
 msgstr ""
 
 #: includes/core/checks/class-wds-check-title-length.php:19
@@ -3898,23 +3975,23 @@ msgstr ""
 msgid "We encountered an error fetching your content"
 msgstr ""
 
-#: includes/core/class-wds-controller-analysis.php:343
+#: includes/core/class-wds-controller-analysis.php:339
 msgid "N/A"
 msgstr ""
 
-#: includes/core/class-wds-controller-analysis.php:626
+#: includes/core/class-wds-controller-analysis.php:632
 msgid "No Focus Keyword"
 msgstr ""
 
-#: includes/core/class-wds-controller-analysis.php:629
+#: includes/core/class-wds-controller-analysis.php:635
 msgid "Needs Improvement"
 msgstr ""
 
-#: includes/core/class-wds-controller-analysis.php:651
+#: includes/core/class-wds-controller-analysis.php:657
 msgid "SEO:"
 msgstr ""
 
-#: includes/core/class-wds-controller-analysis.php:658
+#: includes/core/class-wds-controller-analysis.php:664
 msgid "Readability:"
 msgstr ""
 
@@ -3972,20 +4049,30 @@ msgid ""
 "support if you need further assistance."
 msgstr ""
 
-#: includes/core/class-wds-controller-io.php:301
+#: includes/core/class-wds-controller-io.php:299
 msgid "You don't have permission to perform this operation."
 msgstr ""
 
-#: includes/core/class-wds-controller-io.php:306
+#: includes/core/class-wds-controller-io.php:304
 msgid "We couldn't find any compatible data to import."
 msgstr ""
 
-#: includes/core/class-wds-controller-io.php:350
+#: includes/core/class-wds-controller-io.php:347
 msgid "Invalid parameters. Try refreshing the page and attempting again."
 msgstr ""
 
 #: includes/core/class-wds-controller-onboard.php:162
 msgid "All done, please hold on..."
+msgstr ""
+
+#: includes/core/class-wds-controller-pointers.php:125
+msgid "Optimize your SEO"
+msgstr ""
+
+#: includes/core/class-wds-controller-pointers.php:126
+msgid ""
+"Configure your SEO Titles & Meta, enable OpenGraph and activate readability "
+"analysis here."
 msgstr ""
 
 #: includes/core/class-wds-controller-sitemap.php:106
@@ -4083,6 +4170,10 @@ msgstr ""
 msgid "Anonymous"
 msgstr ""
 
+#: includes/core/class-wds-replacement-helper.php:116
+msgid "Page %1$s of %2$s"
+msgstr ""
+
 #: includes/core/class-wds-settings.php:284
 msgid "Title & Meta Optimization"
 msgstr ""
@@ -4161,4 +4252,23 @@ msgstr ""
 
 #. Author URI of the plugin/theme
 msgid "http://premium.wpmudev.org"
+msgstr ""
+
+#: includes/admin/templates/advanced-tools/advanced-tools-settings.php:26
+msgctxt "part of a larger text"
+msgid ""
+"Configure SmartCrawl to automatically link certain key words to a page on "
+"your blog or even"
+msgstr ""
+
+#: includes/admin/templates/advanced-tools/advanced-tools-settings.php:27
+msgctxt "part of a larger text"
+msgid ""
+"a whole new site all together. Internal linking can help boost SEO by "
+"giving search engines"
+msgstr ""
+
+#: includes/admin/templates/advanced-tools/advanced-tools-settings.php:28
+msgctxt "part of a larger text"
+msgid "ample ways to index your site."
 msgstr ""

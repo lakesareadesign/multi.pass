@@ -26,13 +26,37 @@
 			var $section = $tab.find('.wds-accordion-section.open .wds-content-tabs-inner');
 			$text = $section.find(':text[name*="title-"]');
 		}
+		else if ($('[data-type="static-homepage"]', $tab).length) {
+			load_static_homepage_preview();
+		}
 		else {
 			$text = $tab.find(':text[name*="title-"]');
 		}
 
-		if ($text.length) {
+		if ($text && $text.length) {
 			render_preview_change.apply($text.get(), arguments);
 		}
+	}
+
+	function load_static_homepage_preview() {
+		var $container = $('[data-type="static-homepage"]'),
+			$preview = $container.find(".wds-preview-container");
+
+		$preview.addClass("wds-preview-loading");
+		$.post(ajaxurl, {
+			action: "wds-onpage-preview",
+			type: $container.data("type"),
+			_wds_nonce: _wds_onpage.nonce
+		}, 'json').done(function (rsp) {
+			var status = (rsp || {}).status || false,
+				html = (rsp || {}).markup || false;
+
+			if (status && !!html) {
+				$preview.replaceWith(html);
+			}
+		}).always(function () {
+			$preview.removeClass("wds-preview-loading");
+		});
 	}
 
 	/**

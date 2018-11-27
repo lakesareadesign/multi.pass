@@ -23,9 +23,9 @@
 					'section_args'     => array(
 						'content'         => sprintf(
 							'%s<br/>%s<br/>%s',
-							__( 'Configure SmartCrawl to automatically link certain key words to a page on your blog or even', 'wds' ),
-							__( 'a whole new site all together. Internal linking can help boost SEO but giving search engines', 'wds' ),
-							__( 'ample ways to index your site.', 'wds' )
+							_x( 'Configure SmartCrawl to automatically link certain key words to a page on your blog or even', 'part of a larger text', 'wds' ),
+							_x( 'a whole new site all together. Internal linking can help boost SEO by giving search engines', 'part of a larger text', 'wds' ),
+							_x( 'ample ways to index your site.', 'part of a larger text', 'wds' )
 						),
 						'image'           => 'autolinking-disabled.png',
 						'component'       => 'autolinks',

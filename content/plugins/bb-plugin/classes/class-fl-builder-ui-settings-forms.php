@@ -293,11 +293,16 @@ class FLBuilderUISettingsForms {
 			$css = '';
 			$js  = '';
 
-			if ( file_exists( $module->dir . 'css/settings.css' ) ) {
-				$css .= '<link class="fl-builder-settings-css" rel="stylesheet" href="' . $module->url . 'css/settings.css" />';
+			$css_file_path = apply_filters( "fl_builder_module_settings_css_file_path_{$module->slug}", "{$module->dir}css/settings.css", $module );
+			$css_file_uri = apply_filters( "fl_builder_module_settings_css_file_uri_{$module->slug}", "{$module->url}css/settings.css", $module );
+			$js_file_path = apply_filters( "fl_builder_module_settings_js_file_path_{$module->slug}", "{$module->dir}js/settings.js", $module );
+			$js_file_uri = apply_filters( "fl_builder_module_settings_js_file_uri_{$module->slug}", "{$module->url}js/settings.js", $module );
+
+			if ( file_exists( $css_file_path ) ) {
+				$css .= '<link class="fl-builder-settings-css" rel="stylesheet" href="' . $css_file_uri . '" />';
 			}
-			if ( file_exists( $module->dir . 'js/settings.js' ) ) {
-				$js .= '<script class="fl-builder-settings-js" src="' . $module->url . 'js/settings.js"></script>';
+			if ( file_exists( $js_file_path ) ) {
+				$js .= '<script class="fl-builder-settings-js" src="' . $js_file_uri . '"></script>';
 			}
 
 			$module_forms[ $module->slug ] = array(

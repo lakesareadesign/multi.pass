@@ -30,8 +30,8 @@ $ignore_post_ids = empty( $ignore_post_ids ) ? '' : $ignore_post_ids;
 		<p>
 			<?php
 			printf(
-				esc_html__( 'Unable to write to sitemap file: <code>%s</code>', 'wds' ),
-				esc_html( smartcrawl_get_sitemap_path() )
+				esc_html__( 'Unable to write to sitemap file: %s', 'wds' ),
+				sprintf( '<code>%s</code>', esc_html( smartcrawl_get_sitemap_path() ) )
 			);
 			?>
 		</p>

@@ -40,6 +40,7 @@ $(theme_prefix) {
 	.nivoSlider {
 		float: none;
 		padding-bottom: 80px;
+		overflow: visible;
 	}
 
 	/** 
@@ -337,6 +338,9 @@ $(theme_prefix) {
 
 	/* Thumbnails */
 	&.has-thumb-nav {
+		div.slider-wrapper .nivo-controlNav.nivo-thumbs-enabled {
+			text-align: left;
+		}
 		/* @mixin arrowsContainer flex, nivo {
 			width: 100%;
 			left: 0;

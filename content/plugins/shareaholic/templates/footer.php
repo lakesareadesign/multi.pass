@@ -4,7 +4,7 @@
     <?php echo sprintf(__('%sShareaholic for WordPress v'. ShareaholicUtilities::get_version() .'%s | %sPrivacy Policy%s | %sTerms of Service%s | %sSupport Center%s | %sAPI%s', 'shareaholic'), '<a href="https://www.shareaholic.com/?src=wp_admin" target="_new">', '</a>', '<a href="https://www.shareaholic.com/privacy/?src=wp_admin" target="_new">', '</a>', '<a href="https://www.shareaholic.com/terms/?src=wp_admin" target="_new">', '</a>', '<a href="https://support.shareaholic.com/" target="_new">', '</a>', '<a href="https://www.shareaholic.com/api/?src=wp_admin" target="_new">', '</a>'); ?>
   </p>
   <p class="text-muted">
-    <?php echo sprintf(__('If you like our work, show some love and %sgive us a 5 star rating%s. Made with much love in Boston, Massachusetts.', 'shareaholic'), '<a href="https://wordpress.org/support/view/plugin-reviews/shareaholic?rate=5#postform" target="_new">', '</a>'); ?>
+    <?php echo sprintf(__('If you like our work, please show some love and %sleave a ⭐️⭐️⭐️⭐️⭐️ review%s. It would help us out a lot and we would really appreciate it.', 'shareaholic'), '<a href="https://wordpress.org/support/view/plugin-reviews/shareaholic?rate=5#postform" target="_new">', '</a>'); ?>
   <br />
   <br />
     <iframe src="//www.facebook.com/plugins/like.php?href=https%3A%2F%2Fwww.facebook.com%2Fshareaholic&amp;width&amp;layout=standard&amp;action=like&amp;show_faces=true&amp;share=false&amp;height=80&amp;width=500&amp;appId=207766518608" scrolling="no" frameborder="0" style="border:none; overflow:hidden; width:500px; height:80px;" allowTransparency="true"></iframe>

@@ -61,6 +61,7 @@ class FLBuilderUIContentPanel {
 		*
 		* @since 2.0
 		* @param Array $data the initial tab data
+		* @see fl_builder_content_panel_data
 		*/
 		return apply_filters( 'fl_builder_content_panel_data', $data );
 	}
@@ -315,6 +316,7 @@ class FLBuilderUIContentPanel {
 		*
 		* @since 2.0
 		* @param Array $data the initial content elements
+		* @see fl_builder_content_elements_data
 		*/
 		return apply_filters( 'fl_builder_content_elements_data', $data );
 	}

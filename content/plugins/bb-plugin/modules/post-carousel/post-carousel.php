@@ -138,7 +138,7 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 						'toggle'		=> array(
 							'grid'			=> array(
 								'sections'		=> array( 'content' ),
-								'fields'		=> array( 'show_image', 'text_color', 'link_color', 'equal_height' ),
+								'fields'		=> array( 'text_color', 'link_color', 'equal_height' ),
 							),
 							'gallery'		=> array(
 								'sections'		=> array( 'icons' ),

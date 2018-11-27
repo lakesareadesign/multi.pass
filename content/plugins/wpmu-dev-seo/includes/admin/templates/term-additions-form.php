@@ -1,3 +1,7 @@
+<?php
+$resolver = Smartcrawl_Endpoint_Resolver::resolve();
+$resolver->simulate_taxonomy_term( $term );
+?>
 <h2><?php esc_html_e( 'SmartCrawl Settings ', 'wds' ); ?></h2>
 <table class="form-table">
 
@@ -25,7 +29,7 @@
 	$options = Smartcrawl_Settings::get_options();
 	?>
 
-	<?php if ( ! empty( $options['og-enable'] ) ) { ?>
+	<?php if ( ! empty( $options['og-enable'] ) && ! empty( $smartcrawl_options["og-active-{$term->taxonomy}"] ) ) { ?>
 	<tr class="form-field">
 		<th scope="row" valign="top"><label for=""><?php esc_html_e( 'OpenGraph', 'wds' ); ?></label></th>
 		<td>
@@ -43,13 +47,9 @@
 					'disabled'    => false,
 				) );
 
-				$ogp = Smartcrawl_OpenGraph_Printer::get();
-
-				$default_title = $ogp->get_generic_og_tag_value( 'og-title', $taxonomy );
-				$default_title = ! empty( $default_title ) ? $default_title : $term->name;
-
-				$default_metadesc = $ogp->get_generic_og_tag_value( 'og-description', $taxonomy );
-				$default_metadesc = ! empty( $default_metadesc ) ? $default_metadesc : $term->name;
+				$value_helper = new Smartcrawl_OpenGraph_Value_Helper();
+				$default_title = $value_helper->get_title();
+				$default_metadesc = $value_helper->get_description();
 
 				$og_meta_disabled = (bool) smartcrawl_get_array_value( $og, 'disabled' );
 				?>
@@ -74,11 +74,11 @@
 										       class="wds-label"><?php esc_html_e( 'Title', 'wds' ); ?></label>
 									</div>
 									<div class="fields">
-										<input type="text"
-										       id="og-title"
-										       name="wds-opengraph[title]"
-										       placeholder="<?php echo $og['title'] ? '' : esc_attr( smartcrawl_replace_vars( $default_title, (array) $term ) ); ?>"
-										       value="<?php echo esc_attr( $og['title'] ); ?>"/>
+                                        <input type="text"
+                                               id="og-title"
+                                               name="wds-opengraph[title]"
+                                               placeholder="<?php echo $og['title'] ? '' : esc_attr( $default_title ); ?>"
+                                               value="<?php echo esc_attr( $og['title'] ); ?>"/>
 									</div>
 								</div>
 
@@ -89,8 +89,8 @@
 									</div>
 									<div class="fields">
 										<textarea name="wds-opengraph[description]"
-										          placeholder="<?php echo $og['description'] ? '' : esc_attr( smartcrawl_replace_vars( $default_metadesc, (array) $term ) ); ?>"
-										          id="og-description"><?php echo esc_textarea( $og['description'] ); ?></textarea>
+                                                  placeholder="<?php echo $og['description'] ? '' : esc_attr( $default_metadesc ); ?>"
+                                                  id="og-description"><?php echo esc_textarea( $og['description'] ); ?></textarea>
 									</div>
 								</div>
 
@@ -125,10 +125,10 @@
 			</div>
 		</td>
 	<tr>
-		<?php } ?>
+	<?php } ?>
 
 
-		<?php if ( ! empty( $options['twitter-card-enable'] ) ) { ?>
+	<?php if ( ! empty( $options['twitter-card-enable'] ) && ! empty( $smartcrawl_options["twitter-active-{$term->taxonomy}"] ) ) { ?>
 	<tr class="form-field">
 		<th scope="row" valign="top"><label for=""><?php esc_html_e( 'Twitter', 'wds' ); ?></label></th>
 		<td>
@@ -144,6 +144,9 @@
 					'description' => false,
 					'disabled'    => false,
 				) );
+				$twitter_printer = Smartcrawl_Twitter_Printer::get();
+				$default_twitter_title = $twitter_printer->get_title_content();
+				$default_twitter_metadesc = $twitter_printer->get_description_content();
 
 				$twitter_meta_disabled = (bool) smartcrawl_get_array_value( $twitter, 'disabled' );
 				?>
@@ -170,7 +173,7 @@
 										<input type="text"
 										       id="twitter-title"
 										       name="wds-twitter[title]"
-										       placeholder="<?php echo $twitter['title'] ? '' : esc_attr( smartcrawl_replace_vars( $term->name ) ); ?>"
+										       placeholder="<?php echo $twitter['title'] ? '' : esc_attr( $default_twitter_title ); ?>"
 										       value="<?php echo esc_attr( $twitter['title'] ); ?>"/>
 									</div>
 								</div>
@@ -182,7 +185,7 @@
 									</div>
 									<div class="fields">
 									<textarea name="wds-twitter[description]"
-									          placeholder="<?php echo $twitter['description'] ? '' : esc_attr( smartcrawl_replace_vars( $term->name ) ); ?>"
+									          placeholder="<?php echo $twitter['description'] ? '' : esc_attr( $default_twitter_metadesc ); ?>"
 									          id="twitter-description"><?php echo esc_textarea( $twitter['description'] ); ?></textarea>
 									</div>
 								</div>
@@ -220,3 +223,4 @@
 <?php } ?>
 
 </table>
+<?php $resolver->stop_simulation(); ?>

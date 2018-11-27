@@ -61,11 +61,9 @@
 				'tab_sections' => array(
 					array(
 						'section_description' => __( 'Customize your homepage title, description and meta.', 'wds' ),
-						'section_type'        => 'homepage',
+						'section_type'        => $show_homepage_options ? 'homepage' : 'static-homepage',
 						'section_template'    => 'onpage/onpage-section-homepage',
 						'section_args'        => array(
-							'homepage_title'                => $homepage_title,
-							'homepage_description'          => $homepage_description,
 							'show_homepage_options'         => $show_homepage_options,
 							'meta_robots_main_blog_archive' => $meta_robots_main_blog_archive,
 						),

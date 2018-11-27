@@ -80,7 +80,21 @@ FLBuilder::register_module('FLWooCommerceModule', array(
 								'fields'        => array( 'product_id' ),
 							),
 							'categories'    => array(
-								'fields'        => array( 'parent_cat_id', 'cat_columns' ),
+								'fields'        => array( 'autoparent', 'parent_cat_id', 'cat_columns' ),
+							),
+						),
+					),
+					'autoparent'    => array(
+						'type'    => 'select',
+						'label'   => __( 'Autoselect Parent', 'fl-builder' ),
+						'default' => 'false',
+						'options' => array(
+							'true'  => __( 'true', 'fl-builder' ),
+							'false' => __( 'false', 'fl-builder' ),
+						),
+						'toggle'  => array(
+							'false' => array(
+								'fields' => array( 'parent_cat_id' ),
 							),
 						),
 					),

@@ -60,8 +60,23 @@ abstract class Smartcrawl_Type_Traverser {
 		}
 	}
 
-	private function get_resolver() {
+	protected function get_resolver() {
 		return Smartcrawl_Endpoint_Resolver::resolve();
+	}
+
+	protected function get_queried_object() {
+		$query_context = $this->get_resolver()->get_query_context();
+		$queried_object = $query_context->get_queried_object();
+
+		return $queried_object;
+	}
+
+	protected function get_query_context() {
+		return $this->get_resolver()->get_query_context();
+	}
+
+	protected function get_context() {
+		return $this->get_resolver()->get_context();
 	}
 
 	abstract public function handle_bp_groups();

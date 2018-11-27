@@ -218,8 +218,10 @@ final class FLBuilderModel {
 		$url = set_url_scheme( add_query_arg( 'fl_builder', '', get_permalink( $post->ID ) ), $scheme );
 
 		/**
-		 * Filter the bb edit url, 2 args, $url and $post.
+		 * Filter the bb edit url.
 		 * @see fl_get_edit_url
+		 * @param $url url
+		 * @param $post post object
 		 */
 		return apply_filters( 'fl_get_edit_url', $url, $post );
 	}
@@ -4728,15 +4730,16 @@ final class FLBuilderModel {
 		);
 
 		$posts = get_posts( array(
-			'post_type' 				=> 'fl-builder-template',
-			'orderby' 					=> 'menu_order title',
-			'order' 					=> 'ASC',
-			'posts_per_page' 			=> '-1',
+			'post_type'        => 'fl-builder-template',
+			'orderby'          => 'menu_order title',
+			'order'            => 'ASC',
+			'posts_per_page'   => '-1',
+			'suppress_filters' => false,
 			'tax_query' => array(
 				array(
 					'taxonomy' => 'fl-builder-template-type',
-					'field' => 'slug',
-					'terms' => $type,
+					'field'    => 'slug',
+					'terms'    => $type,
 				),
 			),
 		) );

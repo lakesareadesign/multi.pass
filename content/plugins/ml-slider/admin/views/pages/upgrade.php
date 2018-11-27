@@ -17,8 +17,8 @@ $width = (in_array(false, $installed_plugins, true)) ? 'metaslider_half_width' :
             <thead>
                 <tr>
                     <th></th>
-                    <th><img src="<?php echo METASLIDER_ADMIN_URL.'images/notices/metaslider_logo.png';?>" alt="MetaSlider <?php esc_attr_e('logo', 'ml-slider');?>" width="80" height="80">MetaSlider<br><span><?php _e('free', 'ml-slider');?></span></th>
-                    <th><img src="<?php echo METASLIDER_ADMIN_URL.'images/notices/metaslider_logo.png';?>" alt="MetaSlider <?php esc_attr_e('logo', 'ml-slider');?>" width="80" height="80"><?php _e('Add-ons', 'ml-slider'); ?><br><span><?php _e('pro', 'ml-slider'); ?></span></th>
+                    <th><img src="<?php echo METASLIDER_ADMIN_URL.'images/notices/metaslider_logo.png';?>" alt="<?php esc_attr_e('MetaSlider logo', 'ml-slider');?>" width="80" height="80">MetaSlider<br><span><?php _e('free', 'ml-slider');?></span></th>
+                    <th><img src="<?php echo METASLIDER_ADMIN_URL.'images/notices/metaslider_logo.png';?>" alt="<?php esc_attr_e('MetaSlider logo', 'ml-slider');?>" width="80" height="80"><?php _e('Add-ons', 'ml-slider'); ?><br><span><?php _e('pro', 'ml-slider'); ?></span></th>
                 </tr>
             </thead>
             <tbody>
@@ -37,21 +37,21 @@ $width = (in_array(false, $installed_plugins, true)) ? 'metaslider_half_width' :
                 <tr>
                     <td><i class="metaslider-premium-image"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-grid"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg></i>
                         <h4><?php _e('Multiple slideshow types', 'ml-slider');?></h4>
-                        <p><?php printf(__('Including %s, %s and we will soon be adding more.', 'ml-slider'), 'FlexSlider', 'Nivo Slider');?></p></td>
+                        <p><?php _x('Including FlexSlider, Nivo Slider and we will soon be adding more.', '"FlexSlider" and "Nivo Slider" are plugin names.', 'ml-slider');?></p></td>
                     <td><i class="dashicons dashicons-yes" aria-label="<?php esc_attr_e('Yes', 'ml-slider');?>"></i></td>
                     <td><i class="dashicons dashicons-yes" aria-label="<?php esc_attr_e('Yes', 'ml-slider');?>"></i></td>
                 </tr>
                 <tr>
                     <td><i class="metaslider-premium-image"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-calendar"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg></i>
                         <h4><?php _e('Regular updates', 'ml-slider');?></h4>
-                        <p><?php printf(__('Our word to keep %s compatible with the latest versions of %s.', 'ml-slider'), 'MetaSlider', 'WordPress');?></p></td>
+                        <p><?php _ex('Our word to keep MetaSlider compatible with the latest versions of WordPress.', 'Keep the plugin name "MetaSlider" when possible', 'ml-slider');?></p></td>
                     <td><i class="dashicons dashicons-yes" aria-label="<?php esc_attr_e('Yes', 'ml-slider');?>"></i></td>
                     <td><i class="dashicons dashicons-yes" aria-label="<?php esc_attr_e('Yes', 'ml-slider');?>"></i></td>
                 </tr>
                 <tr>
                     <td><i class="metaslider-premium-image"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-scissors"><circle cx="6" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><line x1="20" y1="4" x2="8.12" y2="15.88"/><line x1="14.47" y1="14.48" x2="20" y2="20"/><line x1="8.12" y1="8.12" x2="12" y2="12"/></svg></i>
                         <h4><?php _e('Intelligent image cropping', 'ml-slider'); ?></h4>
-                        <p><?php printf(__('Unique %s functionality ensures your slides are perfectly resized.', 'ml-slider'), 'Smart Crop'); ?></p></td>
+                        <p><?php _ex('Unique Smart Crop functionality ensures your slides are perfectly resized.', 'Keep the branding "Smart Crop" together when possible', 'ml-slider'); ?></p></td>
                     <td><i class="dashicons dashicons-yes" aria-label="<?php esc_attr_e('Yes', 'ml-slider');?>"></i></td>
                     <td><i class="dashicons dashicons-yes" aria-label="<?php esc_attr_e('Yes', 'ml-slider');?>"></i></td>
                 </tr>            
@@ -65,14 +65,14 @@ $width = (in_array(false, $installed_plugins, true)) ? 'metaslider_half_width' :
                 <tr>
                     <td><i class="metaslider-premium-image"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-video"><polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/></svg></i>
                         <h4><?php _e('Add video slides', 'ml-slider');?></h4>
-                        <p><?php printf(__('Easily include responsive high definition %s and %s videos.', 'ml-slider'), 'YouTube', 'Vimeo');?></p></td>
+                        <p><?php _ex('Easily include responsive high definition YouTube and Vimeo videos.', '"YouTube" and "Vimeo" are brand names.', 'ml-slider');?></p></td>
                     <td><i class="dashicons dashicons-no-alt" aria-label="<?php esc_attr_e('No', 'ml-slider');?>"></i></td>
                     <td><i class="dashicons dashicons-yes" aria-label="<?php esc_attr_e('Yes', 'ml-slider');?>"></i></td>
                 </tr>
                 <tr>
                     <td><i class="metaslider-premium-image"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-at-sign"><circle cx="12" cy="12" r="4"/><path d="M16 12v1a3 3 0 0 0 6 0v-1a10 10 0 1 0-3.92 7.94"/></svg></i>
-                        <h4><?php printf(__('%s overlay slides', 'ml-slider'), 'HTML');?></h4>
-                        <p><?php printf(__('Create completely customized %s slides using the inline editor.', 'ml-slider'), 'HTML');?></p></td>
+                        <h4><?php _e('HTML overlay slides', 'ml-slider');?></h4>
+                        <p><?php _e('Create completely customized HTML slides using the inline editor.', 'ml-slider');?></p></td>
                     <td><i class="dashicons dashicons-no-alt" aria-label="<?php esc_attr_e('No', 'ml-slider');?>"></i></td>
                     <td><i class="dashicons dashicons-yes" aria-label="<?php esc_attr_e('Yes', 'ml-slider');?>"></i></td>
                 </tr>
@@ -86,14 +86,14 @@ $width = (in_array(false, $installed_plugins, true)) ? 'metaslider_half_width' :
                 <tr>
                     <td><i class="metaslider-premium-image"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-list"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3" y2="6"/><line x1="3" y1="12" x2="3" y2="12"/><line x1="3" y1="18" x2="3" y2="18"/></svg></i>
                         <h4><?php _e('Post feed slides', 'ml-slider');?></h4>
-                        <p><?php printf(__('Easily build slides based on your %s posts.', 'ml-slider'), 'WordPress');?></p></td>
+                        <p><?php _e('Easily build slides based on your WordPress posts.', 'ml-slider');?></p></td>
                     <td><i class="dashicons dashicons-no-alt" aria-label="<?php esc_attr_e('No', 'ml-slider');?>"></i></td>
                     <td><i class="dashicons dashicons-yes" aria-label="<?php esc_attr_e('Yes', 'ml-slider');?>"></i></td>
                 </tr>
                 <tr>
                     <td><i class="metaslider-premium-image"><svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-reactid="231"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg></i>
                         <h4><?php _e('Schedule your slides', 'ml-slider');?></h4>
-                        <p><?php printf(__('Add a start/end date to individual slides.', 'ml-slider'), 'WordPress');?></p></td>
+                        <p><?php _e('Add a start/end date to individual slides.', 'ml-slider');?></p></td>
                     <td><i class="dashicons dashicons-no-alt" aria-label="<?php esc_attr_e('No', 'ml-slider');?>"></i></td>
                     <td><i class="dashicons dashicons-yes" aria-label="<?php esc_attr_e('Yes', 'ml-slider');?>"></i></td>
                 </tr>
@@ -101,7 +101,7 @@ $width = (in_array(false, $installed_plugins, true)) ? 'metaslider_half_width' :
                     <td><i class="metaslider-premium-image">
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" data-reactid="501"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg></i>
                         <h4><?php _e("Toggle your slide's visibility", 'ml-slider');?></h4>
-                        <p><?php printf(__('Allows you to hide any slide, without having to delete them.', 'ml-slider'), 'WordPress');?></p></td>
+                        <p><?php _e('Allows you to hide any slide, without having to delete them.', 'ml-slider');?></p></td>
                     <td><i class="dashicons dashicons-no-alt" aria-label="<?php esc_attr_e('No', 'ml-slider');?>"></i></td>
                     <td><i class="dashicons dashicons-yes" aria-label="<?php esc_attr_e('Yes', 'ml-slider');?>"></i></td>
                 </tr>
@@ -135,13 +135,13 @@ $width = (in_array(false, $installed_plugins, true)) ? 'metaslider_half_width' :
             <div class="inside">
                 <?php
                 echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=updraftplus'), 'install-plugin_updraftplus'), null, '<img class="addons" alt="'.esc_attr("UpdraftPlus").'" src="'. esc_url(METASLIDER_ADMIN_URL.'images/features/updraftplus_logo.png') .'">');
-                echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=updraftplus'), 'install-plugin_updraftplus'), null, '<h3>'.sprintf(__('%s – the ultimate protection for your site, hard work and business', 'ml-slider'), 'UpdraftPlus').'</h3>', 'other-plugin-title');
+                echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=updraftplus'), 'install-plugin_updraftplus'), null, '<h3>'._x('UpdraftPlus – the ultimate protection for your site, hard work and business', 'Keep the plugin name "UpdraftPlus" when possible', 'ml-slider').'</h3>', 'other-plugin-title');
                 ?>
-                <p><?php printf(__("If you’ve got a %s website, you need a backup.", 'ml-slider'), 'WordPress');?></p>
+                <p><?php _e("If you’ve got a WordPress website, you need a backup.", 'ml-slider');?></p>
                 <p><?php _e("Hacking, server crashes, dodgy updates or simple user error can ruin everything.", 'ml-slider');?></p>
-                <p><?php printf(__("With %s, you can rest assured that if the worst does happen, it's no big deal. rather than losing everything, you can simply restore the backup and be up and running again in no time at all.", 'ml-slider'), 'UpdraftPlus');?></p>
+                <p><?php _ex("With UpdraftPlus, you can rest assured that if the worst does happen, it's no big deal. rather than losing everything, you can simply restore the backup and be up and running again in no time at all.", 'Keep the plugin name "UpdraftPlus" when possible', 'ml-slider');?></p>
                 <p><?php _e("You can also migrate your website with few clicks without hassle.", 'ml-slider');?></p>
-                <p><?php printf(__("With a long-standing reputation for excellence and outstanding reviews, it’s no wonder that %s is the world’s most popular %s backup plugin.", 'ml-slider'), 'UpdraftPlus', 'WordPress');?></p>
+                <p><?php _x("With a long-standing reputation for excellence and outstanding reviews, it’s no wonder that UpdraftPlus is the world’s most popular WordPress backup plugin.", 'Keep the plugin name "UpdraftPlus" when possible', 'ml-slider');?></p>
                 <?php echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=updraftplus'), 'install-plugin_updraftplus'), __('Try for free', 'ml-slider')); ?>
             </div>
         </div>
@@ -149,11 +149,11 @@ $width = (in_array(false, $installed_plugins, true)) ? 'metaslider_half_width' :
         if (!$installed_plugins['updraftcentral']) {?>
         <div class="postbox">
             <div class="inside">
-                <?php echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=updraftcentral'), 'install-plugin_updraftcentral'), null, '<img class="addons" alt="'.sprintf(esc_attr__("%s Dashboard", 'ml-slider'), 'UpdraftCentral').'" src="'. METASLIDER_ADMIN_URL.'images/features/updraftcentral_logo.png' .'">');
-                echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=updraftcentral'), 'install-plugin_updraftcentral'), null, '<h3>'.sprintf(__('%s – save hours managing multiple WP sites from one place', 'ml-slider'), 'UpdraftCentral').'</h3>', 'other-plugin-title'); ?>
-                <p><?php printf(__("If you manage a few %s sites, you need UpdraftCentral.", 'ml-slider'), 'WordPress');?></p>
-                <p><?php printf(__("%s is a powerful tool that allows you to efficiently manage, update, backup and even restore multiple websites from just one location. You can also manage users and comments on all the sites at once, and through its central login feature, you can access each WP-dashboard with a single click.", 'ml-slider'), 'UpdraftCentral'); ?></p>
-                <p><?php printf(__("With a wide range of useful features, including automated backup schedules and sophisticated one click updates, UpdraftCentral is sure to boost to your productivity and save you time.", 'ml-slider'), 'UpdraftCentral'); ?></p>
+                <?php echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=updraftcentral'), 'install-plugin_updraftcentral'), null, '<img class="addons" alt="'.esc_attr_x("UpdraftCentral Dashboard", 'Keep the plugin name "UpdraftCentral" when possible', 'ml-slider').'" src="'. METASLIDER_ADMIN_URL.'images/features/updraftcentral_logo.png' .'">');
+                echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=updraftcentral'), 'install-plugin_updraftcentral'), null, '<h3>'._x('UpdraftCentral – save hours managing multiple WP sites from one place', 'Keep the plugin name "UpdraftCentral" when possible', 'ml-slider').'</h3>', 'other-plugin-title'); ?>
+                <p><?php _ex("If you manage a few WordPress sites, you need UpdraftCentral.", 'Keep the plugin name "UpdraftCentral" when possible', 'ml-slider');?></p>
+                <p><?php _ex("UpdraftCentral is a powerful tool that allows you to efficiently manage, update, backup and even restore multiple websites from just one location. You can also manage users and comments on all the sites at once, and through its central login feature, you can access each WP-dashboard with a single click.", 'Keep the plugin name "UpdraftCentral" when possible', 'ml-slider'); ?></p>
+                <p><?php _ex("With a wide range of useful features, including automated backup schedules and sophisticated one click updates, UpdraftCentral is sure to boost to your productivity and save you time.", 'Keep the plugin name "UpdraftCentral" when possible', 'ml-slider'); ?></p>
                 <?php echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=updraftcentral'), 'install-plugin_updraftcentral'), __('Try for free', 'ml-slider')); ?>
             </div>
         </div>
@@ -161,11 +161,11 @@ $width = (in_array(false, $installed_plugins, true)) ? 'metaslider_half_width' :
         if (!$installed_plugins['wp-optimize']) {?>
         <div class="postbox">
             <div class="inside">
-                <?php echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=wp-optimize'), 'install-plugin_wp-optimize'), null, '<img class="addons" alt="'.esc_attr("WP-Optimize").'" src="'. METASLIDER_ADMIN_URL.'images/features/wpo_logo.png' .'">');
-                echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=wp-optimize'), 'install-plugin_wp-optimize'), null, '<h3>'.sprintf(__('%s – faster, fitter, cleaner WP sites for optimal performance.', 'ml-slider'), 'WP-Optimize').'</h3>', 'other-plugin-title'); ?>
-                <p><?php printf(__("%s, the #1 optimization plugin, keeps your %s site at prime speed by cleaning the database without the need for %s.", 'ml-slider'), 'WP-Optimize', 'WordPress', 'phpMyAdmin'); ?></p>
-                <p><?php printf(__("Incredibly simple to use, %s clears out old webpage revisions, spam, trash and unapproved comments, all of which take up megabytes of valuable space and leave your database sluggish and ultimately unfit for purpose.", 'ml-slider'), 'WP-Optimize'); ?></p>
-                <p><?php printf(__("%s has a load of valuable features, including automated weekly clean up scheduling, the retention of a set number of weeks’ data, a display of how much space can be cleared, the enabling / disabling of trackbacks and comments for all published posts, and an ‘administrators only’ security feature.", 'ml-slider'), 'WP-Optimize'); ?></p>
+                <?php echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=wp-optimize'), 'install-plugin_wp-optimize'), null, '<img class="addons" alt="'.esc_attr_x("WP-Optimize", 'Keep the plugin name "WP-Optimize" when possible', 'ml-slider').'" src="'. METASLIDER_ADMIN_URL.'images/features/wpo_logo.png' .'">');
+                echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=wp-optimize'), 'install-plugin_wp-optimize'), null, '<h3>'._x('Wp-Optimize – faster, fitter, cleaner WP sites for optimal performance.', 'Keep the plugin name "WP-Optimize" when possible', 'ml-slider').'</h3>', 'other-plugin-title'); ?>
+                <p><?php _ex("WP-Optimize, the #1 optimization plugin, keeps your WordPress site at prime speed by cleaning the database without the need for phpMyAdmin.", 'Keep the plugin name "WP-Optimize" when possible', 'ml-slider'); ?></p>
+                <p><?php _ex("Incredibly simple to use, WP-Optimize clears out old webpage revisions, spam, trash and unapproved comments, all of which take up megabytes of valuable space and leave your database sluggish and ultimately unfit for purpose.", 'Keep the plugin name "WP-Optimize" when possible', 'ml-slider'); ?></p>
+                <p><?php _ex("WP-Optimize has a load of valuable features, including automated weekly clean up scheduling, the retention of a set number of weeks’ data, a display of how much space can be cleared, the enabling / disabling of trackbacks and comments for all published posts, and an ‘administrators only’ security feature.", 'ml-slider'); ?></p>
                 <?php echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=wp-optimize'), 'install-plugin_wp-optimize'), __('Try for free', 'ml-slider')); ?>
             </div>
         </div>
@@ -173,11 +173,11 @@ $width = (in_array(false, $installed_plugins, true)) ? 'metaslider_half_width' :
         if (!$installed_plugins['keyy']) {?>
         <div class="postbox">
             <div class="inside">
-                <?php echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=keyy'), 'install-plugin_keyy'), null, '<img class="addons" alt="'.sprintf(esc_attr__("%s Two-Factor Authentication", 'ml-slider'), 'Keyy').'" src="'. METASLIDER_ADMIN_URL.'images/features/keyy_logo.png' .'">');
-                echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=keyy'), 'install-plugin_keyy'), null, '<h3>'.sprintf(__('%s – instant &amp; secure logins with a wave of your phone', 'ml-slider'), 'Keyy').'</h3>', 'other-plugin-title'); ?>
-                <p><?php printf(__("%s is a unique 2-factor authentication plugin that allows you to log in to your website with just a wave of your smartphone. It represents the ultimate UX, doing away with the need for usernames, passwords and other 2FA tokens.", 'ml-slider'), 'Keyy');?></p>
-                <p><?php printf(__("Using innovative RSA public-key cryptography, %s is highly secure and prevents password-based hacking risks such as brute-forcing, key-logging, shoulder-surfing and connection sniffing.", 'ml-slider'), 'Keyy'); ?></p>
-                <p><?php printf(__("Logging in with %s is simple. Once users have installed the app onto their smartphone and secured it using a fingerprint or 4-number pin, they just open the app, point it at the moving on-screen barcode and voila!", 'ml-slider'), 'Keyy'); ?></p>
+                <?php echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=keyy'), 'install-plugin_keyy'), null, '<img class="addons" alt="'.esc_attr_x("Keyy Two-Factor Authentication", 'Keep the plugin name "Keyy" when possible', 'ml-slider').'" src="'. METASLIDER_ADMIN_URL.'images/features/keyy_logo.png' .'">');
+                echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=keyy'), 'install-plugin_keyy'), null, '<h3>'._x('Keyy – instant &amp; secure logins with a wave of your phone', 'Keep the plugin name "Keyy" when possible', 'ml-slider').'</h3>', 'other-plugin-title'); ?>
+                <p><?php _ex("Keyy is a unique 2-factor authentication plugin that allows you to log in to your website with just a wave of your smartphone. It represents the ultimate UX, doing away with the need for usernames, passwords and other 2FA tokens.", 'Keep the plugin name "Keyy" when possible', 'ml-slider');?></p>
+                <p><?php _ex("Using innovative RSA public-key cryptography, Keyy is highly secure and prevents password-based hacking risks such as brute-forcing, key-logging, shoulder-surfing and connection sniffing.", 'Keep the plugin name "Keyy" when possible', 'ml-slider'); ?></p>
+                <p><?php _ex("Logging in with Keyy is simple. Once users have installed the app onto their smartphone and secured it using a fingerprint or 4-number pin, they just open the app, point it at the moving on-screen barcode and voila!", 'Keep the plugin name "Keyy" when possible', 'ml-slider'); ?></p>
                 <?php echo metaslider_optimize_url(wp_nonce_url(self_admin_url('update.php?action=install-plugin&plugin=keyy'), 'install-plugin_keyy'), __('Try for free', 'ml-slider')); ?>
             </div>
         </div>

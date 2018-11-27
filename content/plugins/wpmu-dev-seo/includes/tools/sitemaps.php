@@ -286,7 +286,7 @@ class Smartcrawl_Xml_Sitemap {
 	 * Loads all items that will get into a sitemap.
 	 */
 	private function _load_all_items() {
-		$this->_add_item( home_url(), 1, 'daily' ); // Home URL.
+		$this->_add_item( home_url('/'), 1, 'daily' ); // Home URL.
 		$this->_load_post_items();
 		$this->_load_taxonomy_items();
 		// Load BuddyPress-specific items.
@@ -678,8 +678,10 @@ class Smartcrawl_Xml_Sitemap {
 	private function _get_stylesheet( $xsl ) {
 		if ( is_multisite() && defined( 'SUBDOMAIN_INSTALL' ) && ! SUBDOMAIN_INSTALL ) {
 			$plugin_host = wp_parse_url( SMARTCRAWL_PLUGIN_URL, PHP_URL_HOST );
-			$protocol = ( is_ssl() || force_ssl_admin() ) ? 'https://' : 'http://';
-			$xsl_host = preg_replace( '~' . preg_quote( $protocol . $plugin_host . '/' ) . '~', '', SMARTCRAWL_PLUGIN_URL );
+			$xsl_host = preg_replace(
+				'/^https?:\/\/' . preg_quote( $plugin_host . '/', '/' ) . '/',
+				'', SMARTCRAWL_PLUGIN_URL
+			);
 			$xsl_host = '../' . $xsl_host;
 
 			return "<?xml-stylesheet type='text/xml' href='{$xsl_host}admin/templates/xsl/{$xsl}.xsl'?>\n";

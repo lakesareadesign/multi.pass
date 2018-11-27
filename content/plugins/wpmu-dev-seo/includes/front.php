@@ -48,6 +48,8 @@ class Smartcrawl_Front {
 			}
 		}
 
+		Smartcrawl_Compatibility::run();
+
 		add_filter( 'the_content', array( $this, 'process_frontend_rendering' ), 999 );
 
 	}

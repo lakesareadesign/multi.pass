@@ -6812,7 +6812,8 @@
 				queryParam                  : 'fl_as_query',
 				afterSelectionAdd           : FLBuilder._updateAutoSuggestField,
 				afterSelectionRemove        : FLBuilder._updateAutoSuggestField,
-				selectionLimit				: field.data('limit')
+				selectionLimit              : field.data('limit'),
+				canGenerateNewSelections    : false
 			}, field.data( 'args' )));
 
 			FLBuilderSettingsForms.hideFieldLoader( field );

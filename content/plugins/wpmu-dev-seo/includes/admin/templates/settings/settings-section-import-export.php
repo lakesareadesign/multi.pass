@@ -64,3 +64,4 @@
 		</div>
 	</div>
 </div>
+<?php $this->_render( 'settings/import-status-modal' ); ?>

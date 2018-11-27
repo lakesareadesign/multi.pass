@@ -1,22 +1,24 @@
-=== WordPress Share Buttons, Related Posts, Monetization - Shareaholic ===
+=== WordPress Share Buttons, Related Posts, Google Analytics - Shareaholic ===
 Contributors: shareaholic
 Tags:  buttons, related posts, google analytics, share buttons, social sharing, image sharing, related content, woocommerce, typepad, amazon, analytics, arto, baidu, bitly, blogger, buffer, cookie compliance, cookie consent, delicious, digg, diigo, disqus, email button, eu cookie law, evernote, facebook, facebook sharing, fancy, fark, feedly, flipboard, floated share buttons, floating share buttons, follow buttons, GDPR, gmail, google bookmarks, google classroom, google plus, hootsuite, hotmail, houzz, inbound.org, instagram, instagram sharing, instapaper, kik, kindle, line, linkedin, livejournal, meneame, mister wong, mix, mixi, odnoklassniki, box.net, onenote, pinboard.in, pinterest, pinterest sharing, plurk, pocket, printfriendly, recommendations, reddit, sexybookmarks, share buttons, share image, shareaholic, shareholic, sms, social bookmarking, social media, social plugin, social share buttons, spotify, stumbleupon, stumpedia, symphony, tinyurl, tumblr, twitter, viadeo, vk, wanelo, weheartit, weibo, whatsapp, wykop, xing, yahoo, yammer, ycombinator, hacker news, youtube, yummly, zillow
 Requires at least: 3.0
 Tested up to: 5.0
 Requires PHP: 5.2
-Stable tag: 8.8.3
+Stable tag: 8.10.2
 
 
-Consolidate plugins with a high-speed suite of social tools: social share buttons, related content, related posts, ad monetization & Google Analytics.
+Improve Audience Engagement with Award Winning Site-Speed Optimized Social Tools: Share Buttons, Related Posts, Monetization & Google Analytics.
 
 
 == Description ==
 
-Shareaholic is the **world's leading suite of social, analytics, monetization, and share button tools**. Included in the plugin are related content and related post recommendations, social share buttons, Google Analytics social data, and a variety of ad monetization options.
+Shareaholic is the **world's leading suite of Audience Engagement tools**. Included in the plugin are related content and related post recommendations, social share buttons, Google Analytics, and a variety of site monetization options.
 
-Our plugin and suite of tools make it easy for any website — big or small — to engage and grow their traffic, market their content, gain insight, and monetize their audience. And it all lives in one simple dashboard. Built on lightweight JavaScript, our functionality is highly customizable, without hurting your page load speed. In fact, we’re recognized by WP Engine as being a [“Essential Speed Friendly Social Media & SEO Toolkit”](https://wpengine.com/solution-center/shareaholic-the-essential-social-media-toolkit/).
+This plugin makes it easy for any website — big or small — to engage and grow their traffic, market their content, gain insight, and monetize their audience. And it all lives in one simple dashboard.
 
-Our single plugin combines the functionality of many social, content, and monetization plugins including: JetPack, Contextual Related Posts (CRP), Social Warfare, Tasty Pins, Yet Another Related Posts Plugin (YARPP), Shariff, AddThis, AddToAny, and many others.
+This single plugin combines the functionality of many -- social, content, and monetization plugins including: JetPack, Contextual Related Posts (CRP), Social Warfare, Tasty Pins, Yet Another Related Posts Plugin (YARPP), Zemanta, SexyBookmarks, Shariff, AddThis, AddToAny, and many others.
+
+We do all this in a lightweight & lightening fast package by using advanced code optimization techniques such a selective and lazy loading. The plugin loads just the functionality that you have selected and when necessary. Also, because all the tools are vertically integrated, you'll have a set of tools that are designed to work perfectly together with no conflicts, headaches or slow downs. In fact, we’re recognized by WP Engine as being a [“Essential Speed Friendly Social Media & SEO Toolkit”](https://wpengine.com/solution-center/shareaholic-the-essential-social-media-toolkit/).
 
 = Social Media Share Buttons =
 
@@ -166,13 +168,14 @@ Shareaholic is used all over the world. Our goal is to support Shareaholic in th
 
 == Screenshots ==
 
-1. An easy to install plugin for all of you social sharing, related content, ad monetization, and Google Analytics needs. We have share buttons for Facebook, Twitter, Instagram, Pinterest, LinkedIn, Google+, and many more within a single social dashboard. We also offer monetization tools for affiliate links, outstream video ads, native ads, and related posts.
-2. Easily add related content and related post sections to your site to drive increased page views and time on site. 
-3. Add and customize your share buttons to maximize you social sharing on Facebook, Twitter, Instagram, Pinterest, LinkedIn, Google+, and many more.
-4. Because most everyone in our demographic uses ad-blocker, Related Content is a great way to suggest other products they may like because it’s relevant to the post they are reading.
-5. I love that Related Content is already included in the Shareaholic WordPress plugin because it keeps my blog uncluttered and my page load time to a minimum.
-6. Since installing Related Content, I’ve loved seeing more traffic on my older posts.
-7. Because I produce a ton of content every day, I rely on Related Content to pull posts for my readers that they wouldn’t find on their own.
+1. The best plugin for all of your social sharing, related content, ad monetization, and Google Analytics needs. We have share buttons for Facebook, Twitter, Instagram, Pinterest, LinkedIn, Google+, and many more within a single social dashboard. We also offer monetization tools for affiliate links, outstream video ads, native ads, and related posts.
+2. Gets results fast with our secure, scalable and high-performance platform. We invest heavily in our infrastructure. Some of the biggest brands in the world use Shareaholic and you can too.
+3. Improve Site Engagement by Surfacing Related Content
+4. Boost Your Viral Traffic & Audience with Social Share Buttons
+5. Because most everyone in our demographic uses ad-blocker, Related Content is a great way to suggest other products they may like because it’s relevant to the post they are reading.
+6. I love that Related Content is already included in the Shareaholic WordPress plugin because it keeps my blog uncluttered and my page load time to a minimum.
+7. Since installing Related Content, I’ve loved seeing more traffic on my older posts.
+8. Because I produce a ton of content every day, I rely on Related Content to pull posts for my readers that they wouldn’t find on their own. 
 
 == Installation ==
 
@@ -233,6 +236,14 @@ If use double quotes ("'s) in your title or summary, make sure to encode them pr
 
 == Frequently Asked Questions ==
 
+= Is Shareaholic free? =
+
+Yes! Shareaholic's core features are and always will be free.
+
+= Should I purchase a paid plan? =
+
+Shareaholic's paid services include Share Count Recovery, advanced analytics, premium customization settings, priority support, and more. To learn more, visit our [plan comparison page](https://www.shareaholic.com/plans).
+
 = Where can I find a detailed FAQ? =
 
 Please see here: [Shareaholic Helpdesk](https://support.shareaholic.com/hc/en-us)
@@ -248,6 +259,32 @@ The default Shareaholic thumbnail width is 640px with dynamic height and no crop
 Each time you change Shareaholic's thumbnail dimensions like this, you will probably want to have WordPress regenerate appropriate sized thumbnails for all of your images. We highly recommend the [Regenerate Thumbnails](https://wordpress.org/plugins/regenerate-thumbnails/) plugin for this purpose.
 
 == Changelog ==
+= 8.10.2 (2018-11-20) =
+* Bugfix: Fixed issue with Site Profile ID generation introduced in 8.10.0
+
+= 8.10.1 (2018-11-19) =
+* Bugfix: Fixed `Call to undefined function wp_list_sort()`  (thank you Jorge García de Opazo for debugging help)
+
+= 8.10.0 (2018-11-19) =
+* Enhancement: Generate a new Site Profile ID in-case existing one gets deleted
+
+= 8.9.1 (2018-11-16) =
+* Bugfix: Critical fix for bug introduced in last release; fixes JS references
+
+= 8.9.0 (2018-11-15) =
+* Various speed improvements
+* Bugfix: Share Buttons admin UI drag and drop fixed
+* Bugfix: Share Buttons admin UI missing arrow fixed
+* Bugfix: Fix for Firefox blocking Shareaholic's entire admin interface
+* Bugfix: Fix for some Android web browsers blocking Shareaholic
+
+= 8.8.4 (2018-11-09) =
+* Enhancement: Support for additional Structure Tags for [Share Count Recovery](https://www.shareaholic.com/sharecounter/) ([Documentation](https://support.shareaholic.com/hc/en-us/articles/115002083586-Share-Count-Recovery-How-to-Recover-Your-Social-Share-Counts-If-They-ve-Been-Lost))
+  * %hour%
+  * %minute%
+  * %second%
+  * %category%
+* Enhancement: Do not sync non-content pages with Shareaholic Cloud
 
 = 8.8.3 (2018-09-24) =
 * Enhancement: Compatability with WP Rocket
@@ -803,8 +840,33 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 
 == Upgrade Notice ==
 
+= 8.10.2 =
+
+Various reliablity improvements
+
+= 8.10.1 =
+
+Various reliablity improvements
+
+= 8.10.0 =
+
+Various reliablity improvements
+
+= 8.9.1 =
+
+Critical fix for bug introduced in last release; fixes JS references
+
+= 8.9.0 =
+
+Various speed improvements and bug fixes
+
+= 8.8.4 =
+
+Adds support for additional Structure Tags for Share Count Recovery
+
 = 8.8.3 =
-New Share and Follow Buttons! Plus compatability with WP Rocket.
+
+New Share and Follow Buttons! Plus compatability with WP Rocket
 
 = 8.8.2 =
 Various [Related Posts](https://www.shareaholic.com/website-tools/related-content) enhancements

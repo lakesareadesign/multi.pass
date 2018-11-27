@@ -13,7 +13,7 @@
 class ShareaholicAdmin {
 
   const ACTIVATE_TIMESTAMP_OPTION = 'shareaholic_activate_timestamp';
-  const REVIEW_PERIOD = 1296000; // 15 days in seconds
+  const REVIEW_PERIOD = 259200; // 3 days in seconds
   const REVIEW_DISMISS_OPTION = 'shareaholic_review_dismiss';
   
   /**
@@ -148,6 +148,7 @@ JQUERY;
 
   }
   
+  
   /**
    * The function called during the admin_head action.
    *
@@ -172,12 +173,11 @@ JQUERY;
   }
 
   /**
-   * Renders footer
+   * Renders header
    */
   public static function show_header() {
     $settings = ShareaholicUtilities::get_settings();
     $settings['base_link'] = Shareaholic::URL . '/publisher_tools/' . $settings['api_key'] . '/';
-    $settings['website_settings_link'] = $settings['base_link'] . 'websites/edit?verification_key=' . $settings['verification_key'];
     ShareaholicUtilities::load_template('header', array(
       'settings' => $settings
     ));
@@ -249,12 +249,12 @@ JQUERY;
 
     die();
   }
-
+  
   /**
    * Shows the message about failing to create an api key
    */
   public static function failed_to_create_api_key() {
-    ShareaholicUtilities::load_template('failed_to_create_api_key');
+    // ShareaholicUtilities::load_template('failed_to_create_api_key');
     if (isset($_GET['page']) && preg_match('/shareaholic-settings/', $_GET['page'])) {
       ShareaholicUtilities::load_template('failed_to_create_api_key_modal');
     }
@@ -354,6 +354,16 @@ JQUERY;
       'shareaholic-settings',
       array('ShareaholicAdmin', 'admin')
     );
+    /*
+    add_submenu_page(
+      'shareaholic-settings',
+      __('App Manager [beta]', 'shareaholic'),
+      __('App Manager [beta]', 'shareaholic'),
+      'manage_options',
+      'shareaholic-settings-beta',
+      array('ShareaholicAdmin', 'admin_beta')
+    );
+    */
     add_submenu_page(
       'shareaholic-settings',
       __('Advanced Settings', 'shareaholic'),
@@ -438,17 +448,63 @@ JQUERY;
       ShareaholicUtilities::get_new_location_name_ids($api_key);
     }
 
-    self::draw_deprecation_warnings();
     self::draw_admin_form();
     self::draw_verify_api_key();
   }
 
   /**
+   * The function for the admin beta section
+   */
+  public static function admin_beta() {
+    
+    if (!ShareaholicUtilities::has_accepted_terms_of_service()) {
+      ShareaholicUtilities::load_template('terms_of_service_modal', array(
+        'image_url' => SHAREAHOLIC_ASSET_DIR . 'img'
+      ));
+    }
+    
+    if (ShareaholicUtilities::has_accepted_terms_of_service()) {
+      $api_key = ShareaholicUtilities::get_or_create_api_key();      
+      $jwt = ShareaholicAdmin::get_publisher_token();
+      
+      if ($jwt) {
+        ShareaholicUtilities::load_template('admin_beta', array(
+          'jwt' => $jwt,
+          'api_key' => $api_key
+        ));
+      } else {
+        ShareaholicUtilities::load_template('failed_to_create_api_key_modal');
+      }
+    }
+  }
+  
+  /**
+   * Gets the JWT auth for React UI
+   */
+  private static function get_publisher_token() {
+    $settings = ShareaholicUtilities::get_settings();
+    $verificationKey = $settings['verification_key'];
+    
+    $response = ShareaholicCurl::post(Shareaholic::API_URL . "/api/v3/sessions",
+        array('verification_key' => $verificationKey)
+        ,'json');
+            
+    if ($response && preg_match('/20*/', $response['response']['code'])) {
+      return $response['body']['publisher_token'];
+    }
+    return false;
+  }
+  
+  /**
    * The function for the advanced admin section
    */
   public static function advanced_admin() {
     $settings = ShareaholicUtilities::get_settings();
-    $api_key = ShareaholicUtilities::get_or_create_api_key();
+    
+    if (ShareaholicUtilities::has_accepted_terms_of_service()) {
+      $api_key = ShareaholicUtilities::get_or_create_api_key();
+    }
+    
     $action = str_replace( '%7E', '~', $_SERVER['REQUEST_URI']);
 
     if (!ShareaholicUtilities::has_accepted_terms_of_service()) {
@@ -512,19 +568,6 @@ JQUERY;
       'settings' => ShareaholicUtilities::get_settings(),
       'action' => $action
     ));
-  }
-
-  /**
-   * Checks for any deprecations and then shows them
-   * to the end user.
-   */
-  private static function draw_deprecation_warnings() {
-    $deprecations = ShareaholicDeprecation::all();
-    if (!empty($deprecations)) {
-      ShareaholicUtilities::load_template('deprecation_warnings', array(
-        'deprecation_warnings' => $deprecations
-      ));
-    }
   }
 
   /**
@@ -627,7 +670,7 @@ JQUERY;
       $headers.= "Content-type: text/html; charset=utf-8\r\n";
       
       // Send email
-      wp_mail($to, $subject, $message, $headers);
+      // wp_mail($to, $subject, $message, $headers);
     }
   }
   
@@ -648,7 +691,7 @@ JQUERY;
     
     if ($current_screen->id === 'options-permalink' || $current_screen->id === 'options-general') {
       $css_class = 'notice notice-warning is-dismissible';
-      $message = 'WARNING: Updating your URL or permalink structure will reset the social share counts for your pages. <a href="https://www.shareaholic.com/plans">Upgrade to Shareaholic Premium</a> to enable <a href="https://support.shareaholic.com/hc/en-us/articles/115002083586">Share Count Recovery</a>.';
+      $message = 'WARNING: Updating your URL or permalink structure will reset the social share counts for your pages. <a href="https://www.shareaholic.com/plans">Upgrade Shareaholic</a> to enable <a href="https://support.shareaholic.com/hc/en-us/articles/115002083586">Share Count Recovery</a>.';
       echo "<div class='$css_class'><p style='font-weight: bold;'>";
       _e($message, 'Shareaholic');
       echo '</p></div>';

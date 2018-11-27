@@ -162,15 +162,13 @@ class Smartcrawl_OnPage {
 	 * @return string Resolved title
 	 */
 	public function get_title( $title = '' ) {
-		$request_title = $this->get_request_param( 'wds_title' );
-		if ( ! empty( $request_title ) ) {
-			return $request_title;
-		}
-
 		$resolver = $this->get_resolver();
-
 		$post = $resolver->get_context();
 		$wp_query = $resolver->get_query_context();
+		$request_title = $this->get_request_param( 'wds_title' );
+		if ( ! empty( $request_title ) ) {
+			return smartcrawl_replace_vars( $request_title, $post );
+		}
 
 		$smartcrawl_options = Smartcrawl_Settings::get_options();
 
@@ -186,49 +184,49 @@ class Smartcrawl_OnPage {
 		}
 
 		if ( Smartcrawl_Endpoint_Resolver::L_BLOG_HOME === $location ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-home'], (array) $post, false );
+			$title = smartcrawl_replace_vars( $smartcrawl_options['title-home'], (array) $post );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_STATIC_HOME === $location ) {
-			$post = get_post( get_option( 'page_for_posts' ) );
-			$fixed_title = smartcrawl_get_value( 'title' );
+			$post = get_post( get_option( 'page_on_front' ) );
+			$fixed_title = smartcrawl_get_value( 'title', ! empty( $post->ID ) ? $post->ID : 0 );
 			if ( $fixed_title ) {
-				$title = smartcrawl_replace_vars( $fixed_title, (array) $post, false );
+				$title = smartcrawl_replace_vars( $fixed_title, (array) $post );
 			} elseif ( ! empty( $post->post_type ) && isset( $smartcrawl_options[ 'title-' . $post->post_type ] ) && ! empty( $smartcrawl_options[ 'title-' . $post->post_type ] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post, false );
+				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post );
 			}
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_TAX_ARCHIVE === $location ) {
 			$term = $wp_query->get_queried_object();
 			$title = smartcrawl_get_term_meta( $term, $term->taxonomy, 'wds_title' );
 			if ( ! $title && isset( $smartcrawl_options[ 'title-' . $term->taxonomy ] ) && ! empty( $smartcrawl_options[ 'title-' . $term->taxonomy ] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $term->taxonomy ], (array) $term, false );
+				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $term->taxonomy ], (array) $term );
 			}
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_SEARCH === $location && ! empty( $smartcrawl_options['title-search'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-search'], (array) $wp_query->get_queried_object(), false );
+			$title = smartcrawl_replace_vars( $smartcrawl_options['title-search'], (array) $wp_query->get_queried_object() );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_AUTHOR_ARCHIVE === $location ) {
 			$author_id = get_query_var( 'author' );
 			$title = get_the_author_meta( 'wds_title', $author_id );
 			if ( empty( $title ) && isset( $smartcrawl_options['title-author'] ) && ! empty( $smartcrawl_options['title-author'] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options['title-author'], array(), false );
+				$title = smartcrawl_replace_vars( $smartcrawl_options['title-author'], array() );
 			}
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_DATE_ARCHIVE === $location && ! empty( $smartcrawl_options['title-date'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-date'], array( 'post_title' => $title ), false );
+			$title = smartcrawl_replace_vars( $smartcrawl_options['title-date'], array( 'post_title' => $title ) );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_PT_ARCHIVE === $location ) {
 			$title = $this->get_pt_archive_meta_setting( $smartcrawl_options, 'title-', $title );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_ARCHIVE === $location && ! empty( $smartcrawl_options['title-archive'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-archive'], array( 'post_title' => $title ), false );
+			$title = smartcrawl_replace_vars( $smartcrawl_options['title-archive'], array( 'post_title' => $title ) );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_404 === $location && ! empty( $smartcrawl_options['title-404'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-404'], array( 'post_title' => $title ), false );
+			$title = smartcrawl_replace_vars( $smartcrawl_options['title-404'], array( 'post_title' => $title ) );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_BP_GROUPS === $location ) {
 			$bp = buddypress();
 			$group = $bp->groups->current_group;
 			$title = smartcrawl_replace_vars( $smartcrawl_options['title-bp_groups'], array(
 				'name'        => $group->name,
 				'description' => $group->description,
-			), false );
+			) );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_BP_PROFILE === $location ) {
 			$title = smartcrawl_replace_vars( $smartcrawl_options['title-bp_profile'], array(
 				'full_name' => bp_get_displayed_user_fullname(),
 				'username'  => bp_get_displayed_user_username(),
-			), false );
+			) );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_SINGULAR === $location ) {
 			$object = get_queried_object();
 			$post_id = ! empty( $post->ID )
@@ -236,15 +234,15 @@ class Smartcrawl_OnPage {
 				: ( ! empty( $object->ID ) ? $object->ID : false );
 			$fixed_title = smartcrawl_get_value( 'title', $post_id );
 			if ( $fixed_title ) {
-				$title = smartcrawl_replace_vars( $fixed_title, (array) $post, false );
+				$title = smartcrawl_replace_vars( $fixed_title, (array) $post );
 			} elseif ( ! empty( $post->post_type ) && isset( $smartcrawl_options[ 'title-' . $post->post_type ] ) && ! empty( $smartcrawl_options[ 'title-' . $post->post_type ] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post, false );
+				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post );
 			}
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_WOO_SHOP === $location ) { // WooCommerce shop page.
 			$post_id = wc_get_page_id( 'shop' );
 			$fixed_title = smartcrawl_get_value( 'title', $post_id );
 			if ( $fixed_title ) {
-				$title = smartcrawl_replace_vars( $fixed_title, (array) $post, false );
+				$title = smartcrawl_replace_vars( $fixed_title, (array) $post );
 			}
 		}
 
@@ -616,15 +614,13 @@ class Smartcrawl_OnPage {
 	 * @return string Resolved description
 	 */
 	public function get_description( $metadesc = '' ) {
-		$request_description = $this->get_request_param( 'wds_description' );
-		if ( ! empty( $request_description ) ) {
-			return $request_description;
-		}
-
 		$resolver = $this->get_resolver();
-
 		$post = $resolver->get_context();
 		$wp_query = $resolver->get_query_context();
+		$request_description = $this->get_request_param( 'wds_description' );
+		if ( ! empty( $request_description ) ) {
+			return smartcrawl_replace_vars( $request_description, $post );
+		}
 
 		if ( empty( $metadesc ) && is_object( $post ) ) {
 			$metadesc = smartcrawl_get_trimmed_excerpt( $post->post_excerpt, $post->post_content );
@@ -670,7 +666,7 @@ class Smartcrawl_OnPage {
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_BLOG_HOME === $location && isset( $smartcrawl_options['metadesc-home'] ) ) {
 			$metadesc = smartcrawl_replace_vars( $smartcrawl_options['metadesc-home'], array() );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_STATIC_HOME === $location ) {
-			$npost = get_post( get_option( 'page_for_posts' ) );
+			$npost = get_post( get_option( 'page_on_front' ) );
 			$metadesc = is_object( $npost ) && ! empty( $npost->ID )
 				? smartcrawl_get_value( 'metadesc', $npost->ID )
 				: smartcrawl_get_value( 'metadesc' );

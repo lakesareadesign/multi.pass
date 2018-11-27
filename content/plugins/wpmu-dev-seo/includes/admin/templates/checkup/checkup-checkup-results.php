@@ -74,7 +74,7 @@ $show_upsell_message = isset( $show_upsell_message ) ? $show_upsell_message : tr
 			'dismissible' => false,
 			'message'     => sprintf(
 				'%s <a href="#upgrade-to-pro">%s</a>',
-				esc_html__( 'Grab the Pro version of SmartCrawl to unlock unlimited SEO Checkups plus automated scheduled reports to always stay on top of any issues.. These features are included in a WPMU DEV membership along with 100+ plugins &amp; themes, 24/7 support and lots of handy site management tools.', 'wds' ),
+				esc_html__( 'Grab the Pro version of SmartCrawl to unlock unlimited SEO Checkups plus automated scheduled reports to always stay on top of any issues. These features are included in a WPMU DEV membership along with 100+ plugins, 24/7 support and lots of handy site management tools.', 'wds' ),
 				esc_html__( '- Try it all FREE today', 'wds' )
 			),
 		) );

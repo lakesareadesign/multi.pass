@@ -82,7 +82,7 @@ class ShareaholicUtilities {
    */
   private static function defaults() {
     return array(
-      'disable_admin_bar_menu' => 'off',
+      'disable_admin_bar_menu' => 'on',
       'disable_debug_info' => 'off',
       'disable_internal_share_counts_api' => 'on',
       'api_key' => '',
@@ -123,7 +123,7 @@ class ShareaholicUtilities {
 
    	$wp_admin_bar->add_menu(array(
    		'id' => 'wp_shareaholic_adminbar_menu',
-   		'title' => __('Grow', 'shareaholic'),
+   		'title' => __('Social', 'shareaholic'),
    		'href' => esc_url(admin_url('admin.php?page=shareaholic-settings')),
    	));
 
@@ -415,14 +415,14 @@ class ShareaholicUtilities {
    * @param string $asset
    * @return string
    */
-  public static function asset_url($asset) {
+  public static function asset_url($asset = NULL) {
     $env = self::get_env();
     if ($env === 'development') {
       return "http://spreadaholic.com:8080/" . $asset;
     } elseif ($env === 'staging') {
       return '//d2062rwknz205x.cloudfront.net/' . $asset;
     } else {
-      return '//apps.shareaholic.com/' . $asset;
+      return '//dsms0mj1bbhn4.cloudfront.net/' . $asset;
     }
   }
 
@@ -442,13 +442,13 @@ class ShareaholicUtilities {
    * @param string $asset
    * @return string
    */
-  public static function asset_url_admin($asset) {
+  public static function asset_url_admin($asset = NULL) {
     if (preg_match('/spreadaholic/', Shareaholic::URL)) {
       return "http://spreadaholic.com:8080/" . $asset;
     } elseif (preg_match('/stageaholic/', Shareaholic::URL)) {
       return 'https://d2062rwknz205x.cloudfront.net/' . $asset;
     } else {
-      return 'https://apps.shareaholic.com/' . $asset;
+      return 'https://dsms0mj1bbhn4.cloudfront.net/' . $asset;
     }
   }
 
@@ -508,6 +508,15 @@ class ShareaholicUtilities {
    */
   public static function get_new_location_name_ids($api_key) {
     $response = ShareaholicCurl::get(Shareaholic::API_URL . "/publisher_tools/{$api_key}.json");
+    
+    if(is_array($response) && array_key_exists('body', $response)) {
+      $response_code = wp_remote_retrieve_response_code($response);
+      if ($response_code == "404"){
+        delete_option('shareaholic_settings');
+        ShareaholicUtilities::get_or_create_api_key();
+      }
+    }
+    
     $publisher_configuration = $response['body'];
     $result = array();
 
@@ -521,7 +530,7 @@ class ShareaholicUtilities {
       self::update_location_name_ids($result);
     } else {
       ShareaholicUtilities::load_template('failed_to_create_api_key_modal');
-      ShareaholicUtilities::log_bad_response('FailedToCreateApiKey', $response);
+      ShareaholicUtilities::log_bad_response('FailedToFetchPubConfig', $response);
     }
   }
 
@@ -653,12 +662,15 @@ class ShareaholicUtilities {
    * is wrapped in a mutex to keep two requests from
    * trying to create new api keys at the same time.
    *
+   * Note: this function is called on every pageload.
+   * So please keep it as fast as possible.
+   *
    * @return string
    */
   public static function get_or_create_api_key() {
     $api_key = self::get_option('api_key');
-    
-    // ensure api key set is atleast 30 characters, if not, retry to set new api key
+        
+    // ensure api key set is atleast 30 characters
     if ($api_key && (strlen($api_key) > 30)) {
       return $api_key;
     }
@@ -726,7 +738,7 @@ class ShareaholicUtilities {
           ShareaholicUtilities::log_bad_response('FailedToCreateApiKey', $response);
         }
       } else {
-        add_action('admin_notices', array('ShareaholicAdmin', 'failed_to_create_api_key'));
+        // add_action('admin_notices', array('ShareaholicAdmin', 'failed_to_create_api_key'));
         ShareaholicUtilities::log_bad_response('FailedToCreateApiKey', $response);
       }
 
@@ -736,6 +748,8 @@ class ShareaholicUtilities {
       self::get_or_create_api_key();
     }
   }
+  
+  
 
 
   /**
@@ -1011,7 +1025,7 @@ class ShareaholicUtilities {
    * @param string $post_id
    */
    public static function notify_content_manager_singlepage($post = NULL) {
-     
+
      if ($post == NULL) {
        return false;
      }
@@ -1380,12 +1394,51 @@ class ShareaholicUtilities {
   }
   
   /**
+   * List below is from Jetpack, with a few custom additions:
+   * Source: https://github.com/Automattic/jetpack/blob/master/sync/class.jetpack-sync-defaults.php
+  **/ 
+  static $blacklisted_post_types = array(
+    'nav_menu_item',
+    'attachment',
+    'ai1ec_event',
+    'bwg_album',
+    'bwg_gallery',
+    'customize_changeset', // WP built-in post type for Customizer changesets
+    'dn_wp_yt_log',
+    'http',
+    'idx_page',
+    'jetpack_migration',
+    'postman_sent_mail',
+    'rssap-feed',
+    'rssmi_feed_item',
+    'secupress_log_action',
+    'sg_optimizer_jobs',
+    'snitch',
+    'wpephpcompat_jobs',
+    'wprss_feed_item',
+    'wp_automatic',
+    'jp_sitemap_master',
+    'jp_sitemap',
+    'jp_sitemap_index',
+    'jp_img_sitemap',
+    'jp_img_sitemap_index',
+    'jp_vid_sitemap',
+    'jp_vid_sitemap_index',
+  );
+  
+  /**
    * A post just transitioned state. Do something.
    *
    */
   public static function post_transitioned($new_status, $old_status, $post) {
     $post_type = get_post_type($post);
-    if ($new_status == 'publish' && $post_type != 'nav_menu_item' && $post_type != 'attachment') {
+    
+    // exit if blacklisted post type
+    if ($post_type && in_array($post_type, ShareaholicUtilities::$blacklisted_post_types)) {
+      return;
+    }
+    
+    if ($new_status == 'publish') {
       // Post was just published
      ShareaholicUtilities::clear_fb_opengraph(get_permalink($post->ID));
      ShareaholicUtilities::notify_content_manager_singlepage($post);
@@ -1497,6 +1550,14 @@ class ShareaholicUtilities {
    *
    */
   public static function before_post_is_updated($post_id) {
+    
+    $post_type = get_post_type($post_id);
+    
+    // exit if blacklisted post type
+    if ($post_type && in_array($post_type, ShareaholicUtilities::$blacklisted_post_types)) {
+      return;
+    }
+    
     ShareaholicUtilities::notify_content_manager_singlepage(get_post($post_id));
   }
 

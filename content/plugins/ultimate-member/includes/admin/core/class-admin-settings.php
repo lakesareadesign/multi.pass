@@ -1061,19 +1061,25 @@ if ( ! class_exists( 'um\admin\core\Admin_Settings' ) ) {
 		 */
 		function sorting_licenses_options( $settings ) {
 			//sorting  licenses
-			if ( empty( $settings['licenses']['fields'] ) )
+			if ( empty( $settings['licenses']['fields'] ) ) {
 				return $settings;
+			}
+
 			$licenses = $settings['licenses']['fields'];
-			@uasort( $licenses, create_function( '$a,$b', 'return strnatcasecmp($a["label"],$b["label"]);' ) );
+			@uasort( $licenses, function( $a, $b ) {
+				return strnatcasecmp( $a["label"], $b["label"] );
+			} );
 			$settings['licenses']['fields'] = $licenses;
 
-
 			//sorting extensions
-			if ( empty( $settings['extensions']['sections'] ) )
+			if ( empty( $settings['extensions']['sections'] ) ) {
 				return $settings;
+			}
 
 			$extensions = $settings['extensions']['sections'];
-			@uasort( $extensions, create_function( '$a,$b', 'return strnatcasecmp($a["title"],$b["title"]);' ) );
+			@uasort( $extensions, function( $a, $b ) {
+				return strnatcasecmp( $a["title"], $b["title"] );
+			} );
 
 			$keys = array_keys( $extensions );
 			if ( $keys[0] != "" ) {
@@ -1082,7 +1088,9 @@ if ( ! class_exists( 'um\admin\core\Admin_Settings' ) ) {
 				$extensions[$new_key] = $temp;
 				$extensions[""] = $extensions[$keys[0]];
 				unset( $extensions[$keys[0]] );
-				@uasort( $extensions, create_function( '$a,$b', 'return strnatcasecmp($a["title"],$b["title"]);' ) );
+				@uasort( $extensions, function( $a, $b ) {
+					return strnatcasecmp( $a["title"], $b["title"] );
+				} );
 			}
 
 			$settings['extensions']['sections'] = $extensions;
@@ -1099,13 +1107,14 @@ if ( ! class_exists( 'um\admin\core\Admin_Settings' ) ) {
 		 */
 		function get_section_fields( $tab, $section ) {
 
-			if ( empty( $this->settings_structure[$tab] ) )
+			if ( empty( $this->settings_structure[ $tab ] ) ) {
 				return array();
+			}
 
-			if ( ! empty( $this->settings_structure[$tab]['sections'][$section]['fields'] ) ) {
-				return $this->settings_structure[$tab]['sections'][$section]['fields'];
-			} elseif ( ! empty( $this->settings_structure[$tab]['fields'] ) ) {
-				return $this->settings_structure[$tab]['fields'];
+			if ( ! empty( $this->settings_structure[ $tab ]['sections'][ $section ]['fields'] ) ) {
+				return $this->settings_structure[ $tab ]['sections'][ $section ]['fields'];
+			} elseif ( ! empty( $this->settings_structure[ $tab ]['fields'] ) ) {
+				return $this->settings_structure[ $tab ]['fields'];
 			}
 
 			return array();
@@ -1170,7 +1179,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Settings' ) ) {
 			 */
 			do_action( "um_settings_page_before_" . $current_tab . "_" . $current_subtab . "_content" );
 
-			if ( in_array( $current_tab, apply_filters('um_settings_custom_tabs', array( 'licenses', 'install_info' ) ) ) || in_array( $current_subtab, apply_filters('um_settings_custom_subtabs', array() ) ) ) {
+			if ( in_array( $current_tab, apply_filters('um_settings_custom_tabs', array( 'licenses', 'install_info' ) ) ) || in_array( $current_subtab, apply_filters( 'um_settings_custom_subtabs', array(), $current_tab ) ) ) {
 
 				/**
 				 * UM hook

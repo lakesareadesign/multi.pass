@@ -2,7 +2,7 @@
         data-title="<?php esc_attr_e( 'Quick setup', 'wds' ); ?>">
 	<div class="intro">
 		<p>
-			<?php esc_html_e( "Welcome to SmartCrawl, the hottest SEO plugin for WordPress! Let's quickly set up the basics for you, then you can fine tweak each setting as you go - our recommendations are on by default.", 'wds' ); ?>
+			<?php esc_html_e( "Welcome to SmartCrawl, the hottest SEO plugin for WordPress! Let's quickly set up the basics for you, then you can fine tune each setting as you go - our recommendations are on by default.", 'wds' ); ?>
 		</p>
 	</div>
 

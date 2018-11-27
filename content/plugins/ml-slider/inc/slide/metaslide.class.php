@@ -212,7 +212,11 @@ class MetaSlide {
         $attachment_id = $this->get_attachment_id();
         
         if (('disabled' == $this->settings['smartCrop'] || 'disabled_pad' == $this->settings['smartCrop']) && ('image' == $this->identifier || 'html_overlay' == $this->identifier)) {
-            if (isset($attributes['src'])) unset($attributes['src']);
+
+			// This will use WP built in image building so we can remove some of these attributes
+			unset($attributes['src']);
+			unset($attributes['height']);
+			unset($attributes['width']);
             return wp_get_attachment_image($attachment_id, apply_filters('metaslider_default_size', 'full', $this->slider), false, $attributes);
         }
         $html = "<img";

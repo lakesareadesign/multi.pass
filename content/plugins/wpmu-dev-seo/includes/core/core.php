@@ -53,7 +53,7 @@ function smartcrawl_set_value( $meta, $val, $post_id ) {
  *
  * @return string
  */
-function smartcrawl_replace_vars( $string, $args = array(), $expand_shortcodes = true ) {
+function smartcrawl_replace_vars( $string, $args = array() ) {
 	global $wp_query;
 
 	$defaults = array(
@@ -88,7 +88,7 @@ function smartcrawl_replace_vars( $string, $args = array(), $expand_shortcodes =
 		'%%title%%'                => stripslashes( $r['post_title'] ),
 		'%%sitename%%'             => get_bloginfo( 'name' ),
 		'%%sitedesc%%'             => get_bloginfo( 'description' ),
-		'%%excerpt%%'              => smartcrawl_get_trimmed_excerpt( $r['post_excerpt'], $r['post_content'], $expand_shortcodes ),
+		'%%excerpt%%'              => smartcrawl_get_trimmed_excerpt( $r['post_excerpt'], $r['post_content'] ),
 		'%%excerpt_only%%'         => $r['post_excerpt'],
 		'%%category%%'             => get_the_category_list( ', ', '', $r['ID'] ) !== '' ? strip_tags( get_the_category_list( ', ', '', $r['ID'] ) ) : $r['name'],
 		'%%category_description%%' => ! empty( $r['taxonomy'] ) ? trim( strip_tags( get_term_field( 'description', $r['term_id'], $r['taxonomy'] ) ) ) : '',
@@ -101,10 +101,10 @@ function smartcrawl_replace_vars( $string, $args = array(), $expand_shortcodes =
 		'%%name%%'                 => get_the_author_meta( 'display_name', ! empty( $r['post_author'] ) ? $r['post_author'] : get_query_var( 'author' ) ),
 		'%%userid%%'               => ! empty( $r['post_author'] ) ? $r['post_author'] : get_query_var( 'author' ),
 		'%%searchphrase%%'         => esc_html( get_query_var( 's' ) ),
-		'%%currenttime%%'          => date( 'H:i' ),
-		'%%currentdate%%'          => date( 'M jS Y' ),
-		'%%currentmonth%%'         => date( 'F' ),
-		'%%currentyear%%'          => date( 'Y' ),
+		'%%currenttime%%'          => date_i18n( get_option( 'time_format' ) ),
+		'%%currentdate%%'          => date_i18n( get_option( 'date_format' ) ),
+		'%%currentmonth%%'         => date_i18n( 'F' ),
+		'%%currentyear%%'          => date_i18n( 'Y' ),
 		'%%page%%'                 => ( intval( get_query_var( 'paged' ) ) !== 0 ) ? 'Page ' . get_query_var( 'paged' ) . ' of ' . $wp_query->max_num_pages : '',
 		'%%spell_page%%'           => ( intval( get_query_var( 'paged' ) ) !== 0 ) ? 'Page ' . smartcrawl_spell_number( get_query_var( 'paged' ) ) . ' of ' . smartcrawl_spell_number( $wp_query->max_num_pages ) : '',
 		'%%pagetotal%%'            => ( $wp_query->max_num_pages > 1 ) ? $wp_query->max_num_pages : '',
@@ -113,7 +113,7 @@ function smartcrawl_replace_vars( $string, $args = array(), $expand_shortcodes =
 		'%%spell_pagenumber%%'     => smartcrawl_spell_number( $pagenum ),
 		'%%caption%%'              => $r['post_excerpt'],
 		'%%bp_group_name%%'        => $r['name'],
-		'%%bp_group_description%%' => smartcrawl_get_trimmed_excerpt( '', $r['description'], $expand_shortcodes ),
+		'%%bp_group_description%%' => smartcrawl_get_trimmed_excerpt( '', $r['description'] ),
 		'%%bp_user_username%%'     => $r['username'],
 		'%%bp_user_full_name%%'    => $r['full_name'],
 		'%%sep%%'                  => $separator,
@@ -121,7 +121,47 @@ function smartcrawl_replace_vars( $string, $args = array(), $expand_shortcodes =
 		'%%pt_single%%'            => is_a( $args, 'WP_Post_Type' ) ? $args->labels->singular_name : '',
 	);
 
+	$replacements = array_combine(
+		apply_filters( 'wds-known_macros-keys', array_keys( $replacements ) ),
+		apply_filters( 'wds-known_macros-values', array_values( $replacements ) )
+	);
+	$replacements = apply_filters(
+		'wds-known_macros',
+		$replacements
+	);
+
+	$context_object = null;
+	if ( isset( $r['ID'] ) ) {
+		$post_object = get_post( $r['ID'] );
+		if ( is_a( $post_object, 'WP_Post' ) ) {
+			$context_object = $post_object;
+		}
+	}
+	if ( isset( $r['term_id'] ) ) {
+		$term_object = get_term( $r['term_id'] );
+		if ( is_a( $term_object, 'WP_Term' ) ) {
+			$context_object = $term_object;
+		}
+	}
+	if ( $context_object ) {
+		$dynamic_replacements = Smartcrawl_Replacement_Helper::get_dynamic_replacements(
+			$string,
+			$context_object
+		);
+		$replacements = array_merge(
+			$replacements,
+			empty( $dynamic_replacements ) || ! is_array( $dynamic_replacements ) ? array() : $dynamic_replacements
+		);
+	}
+
 	foreach ( $replacements as $var => $repl ) {
+		if ( ! is_scalar( $repl ) ) {
+			$repl_value = '';
+			if ( ! empty( $repl['callback'] ) && is_callable( $repl['callback'] ) ) {
+				$repl_value = call_user_func( $repl['callback'], $var, $r );
+			}
+			$repl = $repl_value;
+		}
 		$repl = apply_filters( 'wds-macro-variable_replacement', $repl, $var );
 		$string = str_replace( $var, $repl, $string );
 	}
@@ -202,7 +242,7 @@ function smartcrawl_get_seo_title( $post = false ) {
 		return smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post );
 	}
 
-	return 'false';
+	return false;
 }
 
 /**
@@ -354,15 +394,96 @@ function _wds_hb_convert_tri( $num, $tri ) {
  *
  * @return string
  */
-function smartcrawl_get_trimmed_excerpt( $excerpt, $contents, $expand_shortcodes = true ) {
+function smartcrawl_get_trimmed_excerpt( $excerpt, $contents ) {
 	$string = $excerpt ? $excerpt : $contents;
-	$string = smartcrawl_is_switch_active( 'SMARTCRAWL_FORCE_REWRITE_TITLE' ) || ! $expand_shortcodes
-		? strip_shortcodes( $string )
-		: Smartcrawl_Shortcode_Helper::do_shortcode( $string );
-	$string = trim( preg_replace( '/\r|\n/', ' ', strip_shortcodes( htmlspecialchars( wp_strip_all_tags( $string ), ENT_QUOTES ) ) ) );
+	// Remove shortcodes but keep the content
+	$string = smartcrawl_remove_shortcodes( $string );
+	// Strip all HTML tags
+	$string = wp_strip_all_tags( $string );
+	// Encode any HTML entities like > and <
+	$string = esc_attr( $string );
+	// Normalize whitespace
+	$string = smartcrawl_normalize_whitespace( $string );
 
-	return ( preg_match( '/.{156,}/um', $string ) )
-		? preg_replace( '/(.{0,152}).*/um', '$1', $string ) . '...'
+	return smartcrawl_truncate_meta_description( $string );
+}
+
+function smartcrawl_normalize_whitespace( $string ) {
+	// Replace whitespace characters with simple spaces
+	$string = str_replace( array( "\r", "\n", "\t" ), ' ', $string );
+	// Replace each set of multiple consecutive spaces with a single space
+	$string = preg_replace( '/[ ]+/', ' ', $string );
+
+	return trim( $string );
+}
+
+/**
+ * Removes the shortcode tags but keeps the content within them. Will convert [shortcode attr="val"]Some text![/shortcode] to: Some text!
+ * @see get_shortcode_regex()
+ */
+function smartcrawl_remove_shortcodes( $content ) {
+	$pattern = get_shortcode_regex();
+	return preg_replace_callback( "/$pattern/s", 'smartcrawl_extract_shortcode_contents', $content );
+}
+
+/**
+ * Our callback function for making get_shortcode_regex() replacements.
+ *
+ * @see get_shortcode_regex()
+ *
+ * @param $matches array This array contains data in the following format:
+ * array(
+ *      0 => full matched string
+ *      1 => the character [ for escaped shortcodes e.g. [[foo]]
+ *      2 => the actual shortcode tag
+ *      3 => shortcode attributes
+ *      4 => ?
+ *      5 => The content nested inside the opening and closing shortcode tags
+ *      6 => the character ] for escaped shortcodes
+ * );
+ *
+ * @return bool|mixed|string
+ */
+function smartcrawl_extract_shortcode_contents( $matches ) {
+	if ( empty( $matches ) || count( $matches ) < 7 ) {
+		// Not the expected regex for some reason. Try returning the full match or fall back to empty string.
+		return isset( $matches[0] ) ? $matches[0] : '';
+	}
+
+	// Allow [[foo]] syntax for escaping a tag.
+	if ( '[' === $matches[1] && ']' === $matches[6] ) {
+		// Return the whole matched string without the surrounding square brackets that were there for escaping
+		return substr( $matches[0], 1, - 1 );
+	}
+
+	$omitted = apply_filters( 'wds-omitted-shortcodes', array() );
+	if (
+		! empty( $matches[5] )
+		&& ! in_array( $matches[2], $omitted )
+	) {
+		// Call the removal method on the content nested in the current shortcode
+		// This will continue recursively until we have removed all shortcodes
+		return smartcrawl_remove_shortcodes( trim( $matches[5] ) . ' ' );
+	}
+
+	// Just remove the content-less, non-escaped shortcodes
+	return '';
+}
+
+function smartcrawl_truncate_meta_title( $string ) {
+	return smartcrawl_truncare_meta( $string, SMARTCRAWL_TITLE_LENGTH_CHAR_COUNT_LIMIT );
+}
+
+function smartcrawl_truncate_meta_description( $string ) {
+	return smartcrawl_truncare_meta( $string, SMARTCRAWL_METADESC_LENGTH_CHAR_COUNT_LIMIT );
+}
+
+function smartcrawl_truncare_meta( $string, $limit ) {
+	$pattern = sprintf( '/.{%d,}/um', $limit + 1 );
+	$replacement_pattern = sprintf( '/(.{0,%d}).*/um', $limit - 4 ); // -4 for 1 space plus ...
+
+	return ( preg_match( $pattern, $string ) )
+		? preg_replace( $replacement_pattern, '$1', $string ) . ' ...'
 		: $string;
 }
 
@@ -392,6 +513,7 @@ function smartcrawl_get_term_meta( $term, $taxonomy, $meta ) {
 function smartcrawl_blog_template_settings( $and ) {
 	// $and .= " AND `option_name` != 'wds_sitemaps_options'"; // Removed plural
 	$and .= " AND `option_name` != 'wds_sitemap_options'"; // Added singular
+
 	return $and;
 }
 
@@ -584,6 +706,7 @@ add_filter( 'post_edit_form_tag', 'register_metabox_collapsed_state' );
  * This applies only for multisite, non-sitewide setups.
  *
  * @param string $slug Slug to check.
+ *
  * @TODO: This function is a duplicate of Smartcrawl_Settings_Admin.is_tab_allowed, make sure only one remains
  *
  * @return bool
@@ -928,24 +1051,11 @@ function smartcrawl_get_allowed_html_for_forms() {
 }
 
 function smartcrawl_file_get_contents( $file ) {
-	if ( ! function_exists( 'WP_Filesystem' ) ) {
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-	}
-	WP_Filesystem();
-	$file_system = new WP_Filesystem_Direct( null );
-	$contents = $file_system->get_contents( $file );
-
-	return $contents;
+	return file_get_contents( $file ); // phpcs:ignore -- WP_Filesystem doesn't work properly
 }
 
-function smartcrawl_file_put_contents( $file, $contents, $mode = false ) {
-	if ( ! function_exists( 'WP_Filesystem' ) ) {
-		require_once ABSPATH . 'wp-admin/includes/file.php';
-	}
-	WP_Filesystem();
-	$file_system = new WP_Filesystem_Direct( null );
-
-	return $file_system->put_contents( $file, $contents, $mode );
+function smartcrawl_file_put_contents( $file, $contents, $flags = 0 ) {
+	return file_put_contents( $file, $contents, $flags ); // phpcs:ignore -- WP_Filesystem doesn't work properly
 }
 
 /**
@@ -963,7 +1073,7 @@ function smartcrawl_get_latest_post_version( $post_id ) {
 	) );
 	if ( count( $post_revisions ) ) {
 		$revision = array_shift( $post_revisions );
-		if ( strtotime( $revision->post_modified ) > strtotime( $post->post_date ) ) {
+		if ( strtotime( $revision->post_modified ) > strtotime( $post->post_modified ) ) {
 			return $revision;
 		}
 	}
@@ -979,9 +1089,13 @@ function smartcrawl_get_latest_post_version( $post_id ) {
  * @return bool
  */
 function smartcrawl_is_valid_meta_tag( $string ) {
-	$string = trim($string);
-	if (!preg_match('/^\<meta/i', $string)) return false;
-	if (!preg_match('/\>$/', $string)) return false;
+	$string = trim( $string );
+	if ( ! preg_match( '/^\<meta/i', $string ) ) {
+		return false;
+	}
+	if ( ! preg_match( '/\>$/', $string ) ) {
+		return false;
+	}
 
 	return true;
 }

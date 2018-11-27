@@ -32,11 +32,11 @@ class Smartcrawl_Controller_Sitemap extends Smartcrawl_Renderable {
 
 		$smartcrawl_options = Smartcrawl_Settings::get_options();
 		if ( isset( $smartcrawl_options['sitemap-disable-automatic-regeneration'] ) && empty( $smartcrawl_options['sitemap-disable-automatic-regeneration'] ) ) {
-			add_action( 'delete_post', array( $this, 'update_sitemap' ) );
-			add_action( 'publish_post', array( $this, 'update_sitemap' ) );
+			add_action( 'delete_post', array( $this, 'drop_sitemap_cache' ) );
+			add_action( 'publish_post', array( $this, 'drop_sitemap_cache' ) );
 
-			add_action( 'delete_page', array( $this, 'update_sitemap' ) );
-			add_action( 'publish_page', array( $this, 'update_sitemap' ) );
+			add_action( 'delete_page', array( $this, 'drop_sitemap_cache' ) );
+			add_action( 'publish_page', array( $this, 'drop_sitemap_cache' ) );
 		}
 	}
 
@@ -222,6 +222,33 @@ class Smartcrawl_Controller_Sitemap extends Smartcrawl_Renderable {
 		return ! empty( $parts[ $part ] )
 			? $parts[ $part ]
 			: $raw;
+	}
+
+	/**
+	 * Drops generated sitemap cache files
+	 *
+	 * This is so the next sitemap request re-generates the caches.
+	 * Serves as performance improvement for post-based action listeners.
+	 *
+	 * On setups with large posts table, fully regenerating sitemap can take a
+	 * while. So instead, we just drop the cache and potentially ping the
+	 * search engines to notify them about the change.
+	 */
+	public function drop_sitemap_cache() {
+		$file = smartcrawl_get_sitemap_path();
+		$gzipped = "{$file}.gz";
+
+		if ( file_exists( $file ) ) {
+			@unlink( $file );
+		}
+
+		if ( file_exists( $gzipped ) ) {
+			@unlink( $gzipped );
+		}
+
+		// Also notify engines of changes.
+		// Do *not* forcefully do so, respect settings.
+		Smartcrawl_Xml_Sitemap::notify_engines();
 	}
 
 	public function update_engines() {

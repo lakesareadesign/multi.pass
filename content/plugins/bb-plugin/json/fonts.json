@@ -2944,6 +2944,16 @@
   "fallback": "sans-serif"
  }
 }, {
+ "Noto Sans SC": {
+  "variants": ["100", "300", "regular", "500", "700", "900"],
+  "fallback": "sans-serif"
+ }
+}, {
+ "Noto Sans TC": {
+  "variants": ["100", "300", "regular", "500", "700", "900"],
+  "fallback": "sans-serif"
+ }
+}, {
  "Noto Serif": {
   "variants": ["regular", "italic", "700", "700italic"],
   "fallback": "serif"

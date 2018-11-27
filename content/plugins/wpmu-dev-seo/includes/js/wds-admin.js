@@ -447,6 +447,7 @@ window.Wds.update_progress_bar = function ($element, value) {
 		return;
 	}
 
+	$element.data('progress', value);
 	$element.find('.wds-progress-bar-current-percent').html(value + '%');
 	$element.find('.wds-progress-bar-inside').width(value + '%');
 };

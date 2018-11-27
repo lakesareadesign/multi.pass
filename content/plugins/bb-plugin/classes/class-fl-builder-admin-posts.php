@@ -48,6 +48,22 @@ final class FLBuilderAdminPosts {
 	}
 
 	/**
+	 * Checks to see if a post type supports the
+	 * WordPress block editor.
+	 *
+	 * @since 2.2
+	 * @param string $post_type
+	 * @return bool
+	 */
+	static public function post_type_supports_block_editor( $post_type ) {
+		if ( ! function_exists( 'use_block_editor_for_post_type' ) ) {
+			return false;
+		}
+
+		return use_block_editor_for_post_type( $post_type );
+	}
+
+	/**
 	 * Sets the body class, loads assets and renders the UI
 	 * if we are on a post type that supports the builder.
 	 *
@@ -59,10 +75,12 @@ final class FLBuilderAdminPosts {
 
 		if ( in_array( $pagenow, array( 'post.php', 'post-new.php' ) ) ) {
 
-			$render_ui  = apply_filters( 'fl_builder_render_admin_edit_ui', true );
+			$render_ui = apply_filters( 'fl_builder_render_admin_edit_ui', true );
+			$post_type = self::get_post_type();
 			$post_types = FLBuilderModel::get_post_types();
+			$supports_blocks = self::post_type_supports_block_editor( $post_type );
 
-			if ( $render_ui && in_array( self::get_post_type(), $post_types ) ) {
+			if ( $render_ui && in_array( $post_type, $post_types ) && ! $supports_blocks ) {
 				add_filter( 'admin_body_class',         __CLASS__ . '::body_class', 99 );
 				add_action( 'admin_enqueue_scripts',    __CLASS__ . '::styles_scripts' );
 				add_action( 'edit_form_after_title',    __CLASS__ . '::render' );

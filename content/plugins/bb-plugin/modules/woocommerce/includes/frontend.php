@@ -11,6 +11,11 @@ $pages = array(
 	'account'       => '[woocommerce_my_account]',
 );
 
+if ( 'categories' === $module->settings->layout && 'true' === $module->settings->autoparent ) {
+	$term_id = get_queried_object_id();
+	$module->settings->parent_cat_id = $term_id;
+}
+
 // WooCommerce Pages
 if ( isset( $pages[ $settings->layout ] ) ) {
 	echo $pages[ $settings->layout ];

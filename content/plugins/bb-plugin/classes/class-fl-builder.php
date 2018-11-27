@@ -49,6 +49,12 @@ final class FLBuilder {
 	static private $enqueued_global_assets = array();
 
 	/**
+	 * @since 2.1.6
+	 */
+	static private $enqueued_module_js_assets  = array();
+	static private $enqueued_module_css_assets = array();
+
+	/**
 	 * Used to store JS that is to be rendered inline on the wp_footer
 	 * action when the fl_builder_render_assets_inline filter is true.
 	 *
@@ -62,7 +68,7 @@ final class FLBuilder {
 	 * @since 2.1
 	 */
 	static public $fa4_url = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.4.2/css/all.css';
+	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.5.0/css/all.css';
 
 	/**
 	 * Initializes hooks.
@@ -2398,7 +2404,8 @@ final class FLBuilder {
 			$settings   = $module->settings;
 			$id         = $module->node;
 
-			if ( fl_builder_filesystem()->file_exists( $file ) ) {
+			if ( ! in_array( $id, self::$enqueued_module_css_assets ) && fl_builder_filesystem()->file_exists( $file ) ) {
+				self::$enqueued_module_css_assets[] = $id;
 				ob_start();
 				include $file;
 				$css .= ob_get_clean();
@@ -3018,7 +3025,8 @@ final class FLBuilder {
 		$settings   = $module->settings;
 		$id         = $module->node;
 
-		if ( fl_builder_filesystem()->file_exists( $file ) ) {
+		if ( ! in_array( $id, self::$enqueued_module_js_assets ) && fl_builder_filesystem()->file_exists( $file ) ) {
+			self::$enqueued_module_js_assets[] = $id;
 			ob_start();
 			include $file;
 			$js .= ob_get_clean();

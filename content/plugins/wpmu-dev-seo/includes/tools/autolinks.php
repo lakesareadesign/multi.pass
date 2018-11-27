@@ -236,8 +236,8 @@ class Smartcrawl_Autolinks {
 
 		// Fix by Daniel Speichert.
 		$reg_post = ! empty( $options['casesens'] )
-			? '/(?!(?:[^<]+[>]+|[^>]+<\/a>|[\[\]]+))(^|\b|[^<\p{L}\/>])($name)([^\p{L}\/>]|\b|$)/msU'
-			: '/(?!(?:[^<]+[>]+|[^>]+<\/a>|[\[\]]+))(^|\b|[^<\p{L}\/>])($name)([^\p{L}\/>]|\b|$)/imsU';
+			? '/(?!(?:[^<]+[>]+|[^>]+<\/a>|[^>]+<\/script>|[\[\]]+))(^|\b|[^<\p{L}\/>])($name)([^\p{L}\/>]|\b|$)/msU'
+			: '/(?!(?:[^<]+[>]+|[^>]+<\/a>|[^>]+<\/script>|[\[\]]+))(^|\b|[^<\p{L}\/>])($name)([^\p{L}\/>]|\b|$)/imsU';
 
 		$strpos_fnc = ! empty( $options['casesens'] ) ? 'strpos' : 'stripos';
 

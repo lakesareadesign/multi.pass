@@ -1,3 +1,44 @@
+<h4>2.1.7 - 11/26/2018</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Updated Font Awesome to 5.5 which includes 208 new icons!</li>
+	<li>Updated Google Fonts.</li>
+	<li>Added general theme logo support to publisher logo in post-grid module.</li>
+	<li>Added support for auto parent in Woocommerce categories.</li>
+	<li>Tweaked Gutenberg support for latest API changes in WP5.</li>
+	<li>Remove <code>popup</code> from list of editable post-types.</li>
+	<li>New module settings filters added:</li>
+	<ul>
+		<li><code>fl_builder_module_settings_css_file_path_{$module->slug}</code></li>
+		<li><code>fl_builder_module_settings_css_file_uri_{$module->slug}</code></li>
+		<li><code>fl_builder_module_settings_js_file_path_{$module->slug}</code></li>
+		<li><code>fl_builder_module_settings_js_file_uri_{$module->slug}</code></li>
+	</ul>
+	<li>New actions and filters for custom icons:</li>
+	<ul>
+		<li>Action <code>fl_builder_admin_settings_remove_icon_set</code></li>
+		<li>Action <code>fl_builder_before_unzip_icon_set</code></li>
+		<li>Action <code>fl_builder_after_unzip_icon_set</code></li>
+		<li>Filter <code>fl_builder_icon_set_upload_path</code></li>
+		<li>Filter <code>fl_builder_icon_set_new_path</code></li>
+		<li>Filter <code>fl_builder_icon_set_check_path</code></li>
+		<li>Filter <code>fl_builder_current_site_icon_sets</code></li>
+	</ul>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Make sure module css/js php files are only used once when compiling.</li>
+	<li>Removed border left and right being set to none from small screen CSS.</li>
+	<li>Using post:content shortcode inside post content can cause infinite loop.</li>
+	<li>Fixed missing rounded corner CSS for hover in button module.</li>
+	<li>Removed toggle from featured image in Gallery module, so image size and crop are available for both layout types.</li>
+	<li>Disabled the tab/comma key in auto-suggest field to avoid selection issue.</li>
+	<li>Fixed contact firstname and lastname attributes not saving when subscribed for sendinblue.</li>
+	<li>Fixed issue with saved rows and WPML.</li>
+	<li>Fixed issue with layout shortcodes in Wocommerce description not rendering their assets.</li>
+</ul>
+
+
 <h4>2.1.6.3 - 10/30/2018</h4>
 <p><strong>Halloween Hot Fix</strong></p>
 <ul>

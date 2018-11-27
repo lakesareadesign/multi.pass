@@ -339,6 +339,11 @@ class Smartcrawl_AIOSEOP_Importer extends Smartcrawl_Importer {
 			$this->import_post_meta_opengraph( $post_id );
 		}
 
+		$this->update_status( array(
+			'remaining_posts' => count( $this->get_posts_with_aioseop_metas() ),
+			'completed_posts' => count( $this->get_posts_with_target_metas() ),
+		) );
+
 		return count( $all_posts ) === count( $batch_posts );
 	}
 
@@ -462,6 +467,9 @@ class Smartcrawl_AIOSEOP_Importer extends Smartcrawl_Importer {
 			'instagram.com' => 'instagram_url',
 			'linkedin.com'  => 'linkedin_url',
 			'plus.google'   => 'gplus_url',
+			'pinterest.com' => 'pinterest_url',
+			'youtu.be'      => 'youtube_url',
+			'youtube.com'   => 'youtube_url',
 		);
 		$social_links = empty( $source_value ) ? array() : explode( "\n", $source_value );
 
@@ -669,5 +677,12 @@ class Smartcrawl_AIOSEOP_Importer extends Smartcrawl_Importer {
 		$use_home_meta_as_social = (bool) smartcrawl_get_array_value( $options, 'aiosp_opengraph_setmeta' );
 
 		return ! $use_home_meta_as_social;
+	}
+
+	protected function get_source_plugins() {
+		return array(
+			'all-in-one-seo-pack/all_in_one_seo_pack.php',
+			'all-in-one-seo-pack-pro/all_in_one_seo_pack.php',
+		);
 	}
 }

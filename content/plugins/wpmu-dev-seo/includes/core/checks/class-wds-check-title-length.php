@@ -12,7 +12,7 @@ class Smartcrawl_Check_Title_Length extends Smartcrawl_Check_Post_Abstract {
 
 	public function get_status_msg() {
 		if ( ! is_numeric( $this->_state ) ) {
-			return __( 'Title is a good length', 'wds' );
+			return __( 'Title has a good length', 'wds' );
 		}
 
 		return 0 === $this->_state

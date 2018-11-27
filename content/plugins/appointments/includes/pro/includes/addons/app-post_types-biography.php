@@ -43,7 +43,7 @@ class App_PostTypes_Biography {
 	}
 
 	public function save_settings ($options) {
-		if (!empty($_POST['biography_post_type'])) $options['biography_post_type'] = $_POST['biography_post_type'];
+		if (!empty($_POST['biography_post_type'])) $options['biography_post_type'] = $_POST['biography_post_type'];		   		 	  		  	 	 	
 		return $options;
 	}
 

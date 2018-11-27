@@ -49,11 +49,6 @@ class ShareaholicPublic {
    * rest of the plugin doesn't need to know exactly what happens.
   */
   public static function wp_head() {
-    // this will only run on pages that would actually call
-    // the deprecated functions. For some reason I could not
-    // get this function to run using a hook, though that
-    // should not discourage anyone in the future. -DG
-    ShareaholicDeprecation::destroy_all();
     self::script_tag();
     self::shareaholic_tags();
     self::draw_og_tags();
@@ -66,6 +61,7 @@ class ShareaholicPublic {
     if ('dns-prefetch' === $relation_type) {
       if ($hints) {
         array_push($hints,
+          '//dsms0mj1bbhn4.cloudfront.net',
           '//apps.shareaholic.com',
           '//grace.shareaholic.com',
           '//analytics.shareaholic.com',

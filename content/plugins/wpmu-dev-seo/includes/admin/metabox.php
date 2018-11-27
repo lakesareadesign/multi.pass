@@ -65,6 +65,10 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 		add_action( 'admin_print_scripts-post.php', array( $this, 'js_load_scripts' ) );
 		add_action( 'admin_print_scripts-post-new.php', array( $this, 'js_load_scripts' ) );
 		add_action( 'wp_ajax_wds-metabox-preview', array( $this, 'json_create_preview' ) );
+		/**
+		 * TODO perhaps we can combine wds-analysis-get-editor-analysis wds-metabox-preview and wds_metabox_update
+		 * since they are used together so frequently
+		 */
 
 		$this->_is_running = true;
 	}
@@ -122,7 +126,10 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 			'lax_enforcement'    => ( isset( $options['metabox-lax_enforcement'] ) ? ! ! $options['metabox-lax_enforcement'] : false ),
 		) );
 		Smartcrawl_Settings_Admin::register_global_admin_scripts();
-		wp_enqueue_script( 'wds_metabox_onpage', SMARTCRAWL_PLUGIN_URL . '/js/wds-metabox.js', array( 'wds-select2' ), $version );
+		wp_enqueue_script( 'wds_metabox_onpage', SMARTCRAWL_PLUGIN_URL . '/js/wds-metabox.js', array(
+			'wds-select2',
+			'autosave',
+		), $version );
 		wp_localize_script( 'wds_metabox_onpage', '_wds_metabox', array(
 			'nonce' => wp_create_nonce( 'wds-metabox-nonce' ),
 		) );
@@ -132,6 +139,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 
 		Smartcrawl_Settings_Admin::enqueue_shared_ui( false );
 
+		wp_enqueue_media();
 		wp_enqueue_script( 'wds-admin-opengraph' );
 		wp_enqueue_style( 'wds-admin-opengraph' );
 		wp_enqueue_style( 'wds-select2' );
@@ -198,8 +206,13 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	public function smartcrawl_create_meta_box() {
 		$show = user_can_see_seo_metabox();
 		if ( function_exists( 'add_meta_box' ) ) {
-			$metabox_title = is_multisite() ? __( 'SmartCrawl', 'wds' ) : 'SmartCrawl'; // Show branding for singular installs.
-			foreach ( get_post_types() as $posttype ) {
+			// Show branding for singular installs.
+			$metabox_title = is_multisite() ? __( 'SmartCrawl', 'wds' ) : 'SmartCrawl';
+			$post_types = get_post_types(array(
+				'show_ui' => true, // Only if it actually supports WP UI.
+			));
+			foreach ( $post_types as $posttype ) {
+				if ( 'attachment' === $posttype ) { continue; }
 				if ( $show ) {
 					add_meta_box( 'wds-wds-meta-box', $metabox_title, array(
 						&$this,
@@ -275,7 +288,10 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 			$input = stripslashes_deep( $request_data['wds-opengraph'] );
 			$result = array();
 
-			$result['disabled'] = ! empty( $input['disabled'] );
+			$og_disabled = ! empty( $input['disabled'] );
+			if ( $og_disabled ) {
+				$result['disabled'] = true;
+			}
 			if ( ! empty( $input['title'] ) ) {
 				$result['title'] = sanitize_text_field( $input['title'] );
 			}
@@ -290,7 +306,9 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 				}
 			}
 
-			if ( ! empty( $result ) ) {
+			if ( empty( $result ) ) {
+				delete_post_meta( $post_id, '_wds_opengraph' );
+			} else {
 				update_post_meta( $post_id, '_wds_opengraph', $result );
 			}
 		}
@@ -299,7 +317,10 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 			$input = stripslashes_deep( $request_data['wds-twitter'] );
 			$twitter = array();
 
-			$twitter['disabled'] = ! empty( $input['disabled'] );
+			$twitter_disabled = ! empty( $input['disabled'] );
+			if ( $twitter_disabled ) {
+				$twitter['disabled'] = true;
+			}
 			if ( ! empty( $input['title'] ) ) {
 				$twitter['title'] = sanitize_text_field( $input['title'] );
 			}
@@ -314,14 +335,20 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 				}
 			}
 
-			if ( ! empty( $twitter ) ) {
+			if ( empty( $twitter ) ) {
+				delete_post_meta( $post_id, '_wds_twitter' );
+			} else {
 				update_post_meta( $post_id, '_wds_twitter', $twitter );
 			}
 		}
 
 		if ( isset( $request_data['wds_focus'] ) ) {
 			$focus = stripslashes_deep( $request_data['wds_focus'] );
-			update_post_meta( $post_id, '_wds_focus-keywords', sanitize_text_field( $focus ) );
+			if ( trim( $focus ) === '' ) {
+				delete_post_meta( $post_id, '_wds_focus-keywords' );
+			} else {
+				update_post_meta( $post_id, '_wds_focus-keywords', sanitize_text_field( $focus ) );
+			}
 		}
 
 		foreach ( $request_data as $key => $value ) {

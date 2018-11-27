@@ -18,7 +18,7 @@ class Smartcrawl_Check_Metadesc_Length extends Smartcrawl_Check_Post_Abstract {
 
 	public function get_status_msg() {
 		if ( ! is_numeric( $this->_state ) ) {
-			return __( 'Description is a good length', 'wds' );
+			return __( 'Description has a good length', 'wds' );
 		}
 
 		return 0 === $this->_state

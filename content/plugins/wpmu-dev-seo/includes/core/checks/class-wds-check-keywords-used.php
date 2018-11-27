@@ -94,7 +94,7 @@ class Smartcrawl_Check_Keywords_Used extends Smartcrawl_Check_Post_Abstract {
 		<br/><br/>
 
 		<?php printf(
-			'%s <a href=\'https://premium.wpmudev.org/blog/wordpress-canonicalization-guide/\' target=\'_blank\'>%s</a>.',
+			"%s <a href='https://premium.wpmudev.org/blog/wordpress-canonicalization-guide/' target='_blank'>%s</a>.",
 			esc_html__( "Note: If you happen to have two pages with the same content, it's important to tell search engines which one to show in search results using the Canonical URL feature. You can read more about this", 'wds' ),
 			esc_html__( 'here' )
 		); ?>

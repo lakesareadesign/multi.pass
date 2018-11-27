@@ -263,6 +263,9 @@ final class FLUpdater {
 		if ( isset( $_POST['fl-updater-nonce'] ) ) {
 			if ( wp_verify_nonce( $_POST['fl-updater-nonce'], 'updater-nonce' ) ) {
 				$response = self::save_subscription_license( $_POST['license'] );
+				if ( '' == $_POST['license'] ) {
+					$response->error = __( 'License Removed', 'fl-builder' );
+				}
 				if ( isset( $response->error ) ) {
 					unset( $_POST['fl-updater-nonce'] );
 					FLBuilderAdminSettings::add_error( $response->error );

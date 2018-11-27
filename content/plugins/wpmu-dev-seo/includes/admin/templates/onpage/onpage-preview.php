@@ -1,15 +1,15 @@
 <?php
 $smartcrawl_options = Smartcrawl_Settings::get_options();
 $link = ! isset( $link ) ? home_url() : $link;
-$title = ! isset( $title ) ? smartcrawl_replace_vars( $smartcrawl_options['title-home'] ) : $title;
-$description = ! isset( $description ) ? smartcrawl_replace_vars( $smartcrawl_options['metadesc-home'] ) : $description;
+$title = ! isset( $title ) ? get_bloginfo( 'name' ) : $title;
+$description = ! isset( $description ) ? get_bloginfo( 'description' ) : $description;
 ?>
 <div class="wds-preview-container">
 	<div class="wds-preview">
 		<div class="wds-preview-title">
 			<h3>
 				<a href="<?php echo esc_url( $link ); ?>">
-					<?php echo esc_html( $title ); ?>
+					<?php echo esc_html( smartcrawl_truncate_meta_title( $title ) ); ?>
 				</a>
 			</h3>
 		</div>
@@ -19,7 +19,7 @@ $description = ! isset( $description ) ? smartcrawl_replace_vars( $smartcrawl_op
 			</a>
 		</div>
 		<div class="wds-preview-meta">
-			<?php echo esc_html( $description ); ?>
+			<?php echo esc_html( smartcrawl_truncate_meta_description( $description ) ); ?>
 		</div>
 	</div>
 	<p class="wds-preview-description"><?php esc_html_e( 'A preview of how your title and meta will appear in Google Search.', 'wds' ); ?></p>

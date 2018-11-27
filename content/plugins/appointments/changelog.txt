@@ -1,3 +1,10 @@
+2018-11-26 - 2.4.1
+-------------------------------
+- Fixed a problem with Service Provider shortcode param name.
+- Fixed a problem with start hour for specific configurations.
+- Fixed a problem with appointments intervals.
+- Fixed a problem with time slots when an appointment has no provider in inline-edit.
+
 2018-06-28 - 2.4.0
 -------------------------------
 - Added ability to show/hide columns on "Services" settings screen.
@@ -956,4 +963,4 @@ V1.0.0:
 - Initial release
 
 
-133620-1531347779-au
+133620-1543295358-au

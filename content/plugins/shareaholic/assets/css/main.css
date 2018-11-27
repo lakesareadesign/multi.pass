@@ -1,10 +1,19 @@
 body {
-  background: #f1f1f1;
+  background: #f1f1f1 !important;
   font-family: sans-serif;
   font-size: 12px !important;
   color: #666666;
   -webkit-font-smoothing: antialiased;
   font-smoothing: antialiased;
+}
+
+.app a, .text-muted a {
+  color: #337ab7;
+  text-decoration: none;
+}
+
+.btn-warning {
+  color: #fff !important;
 }
 
 /* Header */
@@ -221,18 +230,18 @@ table h1,table h2,table h3, table h4, table h5, table h6, table p, table ul, tab
   line-height: 16pt;
   box-shadow: 0px 0px 52px rgba(0,0,0,0.32);
   padding: 0;
-  height: 520px;
+  height: 495px;
 }
 
 .api-key-modal {
-  height: 400px;
+  height: 320px;
 }
 
 h4 {
     background: #424142;
     color: #e6e6e6;
-    font-size: 30px;
-    line-height: 60px;
+    font-size: 24px;
+    line-height: 1.8em;
     height: auto;
     font-weight: 300;
     margin: 0;
@@ -257,8 +266,8 @@ h4 {
 .blocking-modal p {
   margin: 10px;
   font-size: 12px;
-  line-height: 21px;
-  padding: 20px;
+  line-height: 1.6em;
+  padding: 0px 20px 0px 20px;
 }
 
 .blocking-modal img {
@@ -267,12 +276,11 @@ h4 {
 }
 
 .blocking-modal .btn_main {
-  margin-top: -20px;
   margin-bottom: 5px;
   position: relative;
   cursor: pointer;
   display: inline-block;
-  background: #27ae60;
+  background: #FF9800;
   color: white;
   text-transform: uppercase;
   text-decoration: none;
@@ -293,9 +301,17 @@ h4 {
 }
 
 .blocking-modal .btn_main:hover {
-  background: #21A057;
+  background: #f79300;
   color: white;
   border: none;
+}
+
+.blocking-modal .shr-people {
+  background-image: url(../img/happy-people-cover.png);
+  background-position: center;
+  min-height: 200px;
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .blocking-modal .small {

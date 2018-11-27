@@ -38,7 +38,7 @@ return array(
 		'type' => 'free',
 		'supports' => array('flex', 'responsive', 'nivo', 'coin'),
 		'tags' => array('dark', 'minimalist'),
-		'description' => __('A minimilistic, no-frills design that was built to blend in with most themes.', 'ml-slider'),
+		'description' => __('A minimalistic, no-frills design that was built to blend in with most themes.', 'ml-slider'),
 		'images' => array(
 			array(
 				'filename' => 'etienne-beauregard-riverin-48305-unsplash.jpg',

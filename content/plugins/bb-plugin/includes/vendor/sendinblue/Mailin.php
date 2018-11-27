@@ -252,6 +252,18 @@ class Mailin_Rest
         {
                 return $this->get("attribute","");
         }
+		public function get_contact_attributes()
+		{
+			$attrs = $this->get("attribute","");
+			$attr_names = array();
+
+			if ( isset( $attrs['data']['normal_attributes'] ) ) {
+				foreach( $attrs['data']['normal_attributes'] as $data ) {
+					$attr_names[] = $data['name'];
+				}
+			}
+			return $attr_names;
+		}
         public function get_attribute($type)
         {
                 return $this->get("attribute/".$type,"");

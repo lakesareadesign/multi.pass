@@ -195,10 +195,10 @@ Class MetaSlider_Admin_Pages extends MetaSliderPlugin {
 	 */
 	private function gutenberg_get_jed_locale_data($domain) {
 
-		// The default function from Gutenburg 2.3.0 does not work
-		// if (function_exists('gutenberg_get_jed_locale_data')) {
-		// return gutenberg_get_jed_locale_data($domain);
-		// }
+		if (function_exists('gutenberg_get_jed_locale_data')) {
+			return gutenberg_get_jed_locale_data($domain);
+		}
+		
 		$translations = get_translations_for_domain($domain);
 		$locale = array(
 			'' => array(

@@ -72,12 +72,12 @@ class Smartcrawl_Sitemaps_Dashboard_Widget {
 	 * Widget
 	 */
 	public function widget() {
-		$sitemap = get_option( 'wds_sitemap_options' );
+		$sitemap = Smartcrawl_Settings::get_options();
 		$opts = get_option( 'wds_sitemap_dashboard' );
 		$engines = get_option( 'wds_engine_notification' );
 
-		$date = ! empty( $opts['time'] ) ? date( get_option( 'date_format' ), $opts['time'] ) : false;
-		$time = ! empty( $opts['time'] ) ? date( get_option( 'time_format' ), $opts['time'] ) : false;
+		$date = ! empty( $opts['time'] ) ? date_i18n( get_option( 'date_format' ), $opts['time'] ) : false;
+		$time = ! empty( $opts['time'] ) ? date_i18n( get_option( 'time_format' ), $opts['time'] ) : false;
 
 		$datetime = ( $date && $time )
 			? sprintf( __( 'It was last updated on %1$s, at %2$s.', 'wds' ), $date, $time )
@@ -88,6 +88,8 @@ class Smartcrawl_Sitemaps_Dashboard_Widget {
 		$done_msg = __( 'Done updating the sitemap, please hold on...', 'wds' );
 
 		$sitemap_url = smartcrawl_get_sitemap_url();
+		$se_notifications_enabled = (boolean) smartcrawl_get_array_value( $sitemap, 'ping-google' )
+		                            || (boolean) smartcrawl_get_array_value( $sitemap, 'ping-bing' );
 
 		include SMARTCRAWL_PLUGIN_DIR . 'admin/templates/sitemaps-dashboard-widget.php';
 
