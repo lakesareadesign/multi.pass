@@ -72,27 +72,32 @@ class Smartcrawl_Sitemaps_Dashboard_Widget {
 	 * Widget
 	 */
 	public function widget() {
-		$sitemap = Smartcrawl_Settings::get_options();
-		$opts = get_option( 'wds_sitemap_dashboard' );
+		$sitemap_options = Smartcrawl_Settings::get_options();
+		$sitemap_stats = get_option( 'wds_sitemap_dashboard' );
 		$engines = get_option( 'wds_engine_notification' );
+		$last_update_date = ! empty( $sitemap_stats['time'] ) ? date_i18n( get_option( 'date_format' ), $sitemap_stats['time'] ) : false;
+		$last_update_time = ! empty( $sitemap_stats['time'] ) ? date_i18n( get_option( 'time_format' ), $sitemap_stats['time'] ) : false;
+		$last_update_timestamp = ( $last_update_date && $last_update_time )
+			? sprintf( esc_html__( 'It was last updated on %1$s, at %2$s.', 'wds' ), $last_update_date, $last_update_time )
+			: esc_html__( "Your sitemap hasn't been updated recently.", 'wds' );
+		$se_notifications_enabled = (boolean) smartcrawl_get_array_value( $sitemap_options, 'ping-google' )
+		                            || (boolean) smartcrawl_get_array_value( $sitemap_options, 'ping-bing' );
 
-		$date = ! empty( $opts['time'] ) ? date_i18n( get_option( 'date_format' ), $opts['time'] ) : false;
-		$time = ! empty( $opts['time'] ) ? date_i18n( get_option( 'time_format' ), $opts['time'] ) : false;
+		Smartcrawl_Simple_Renderer::render( 'wp-dashboard/sitemaps-widget', array(
+			'engines'                  => $engines,
+			'sitemap_stats'            => $sitemap_stats,
+			'last_update_date'         => $last_update_date,
+			'last_update_time'         => $last_update_time,
+			'last_update_timestamp'    => $last_update_timestamp,
+			'se_notifications_enabled' => $se_notifications_enabled,
+		) );
 
-		$datetime = ( $date && $time )
-			? sprintf( __( 'It was last updated on %1$s, at %2$s.', 'wds' ), $date, $time )
-			: __( "Your sitemap hasn't been updated recently.", 'wds' );
-		$update_sitemap = __( 'Update sitemap now', 'wds' );
-		$update_engines = __( 'Force search engines notification', 'wds' );
-		$working = __( 'Updating...', 'wds' );
-		$done_msg = __( 'Done updating the sitemap, please hold on...', 'wds' );
-
-		$sitemap_url = smartcrawl_get_sitemap_url();
-		$se_notifications_enabled = (boolean) smartcrawl_get_array_value( $sitemap, 'ping-google' )
-		                            || (boolean) smartcrawl_get_array_value( $sitemap, 'ping-bing' );
-
-		include SMARTCRAWL_PLUGIN_DIR . 'admin/templates/sitemaps-dashboard-widget.php';
-
+		Smartcrawl_Simple_Renderer::render( 'wp-dashboard/sitemaps-widget-js', array(
+			'updating'  => __( 'Updating...', 'wds' ),
+			'updated'   => __( 'Done updating the sitemap, please hold on...', 'wds' ),
+			'notifying' => __( 'Notifying...', 'wds' ),
+			'notified'  => __( 'Done notifying search engines, please hold on...', 'wds' ),
+		) );
 	}
 
 }

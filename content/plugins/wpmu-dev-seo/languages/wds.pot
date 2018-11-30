@@ -2,9 +2,9 @@
 # This file is distributed under the same license as the SmartCrawl package.
 msgid ""
 msgstr ""
-"Project-Id-Version: SmartCrawl 2.2.3\n"
+"Project-Id-Version: SmartCrawl 2.2.4\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/wpmu-dev-seo\n"
-"POT-Creation-Date: 2018-11-12 05:27:21+00:00\n"
+"POT-Creation-Date: 2018-11-28 09:02:32+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -63,64 +63,64 @@ msgstr ""
 msgid "Analyzing content, please wait a few moments"
 msgstr ""
 
-#: includes/admin/metabox.php:172
+#: includes/admin/metabox.php:170
 msgid "NO ODP (Block Open Directory Project description of the page)"
 msgstr ""
 
-#: includes/admin/metabox.php:173
+#: includes/admin/metabox.php:171
 msgid "NO YDIR (Don't display the Yahoo! Directory titles and abstracts)"
 msgstr ""
 
-#: includes/admin/metabox.php:174 includes/admin/metabox.php:459
+#: includes/admin/metabox.php:172 includes/admin/metabox.php:457
 msgid "No Archive"
 msgstr ""
 
-#: includes/admin/metabox.php:175 includes/admin/metabox.php:460
+#: includes/admin/metabox.php:173 includes/admin/metabox.php:458
 msgid "No Snippet"
 msgstr ""
 
-#: includes/admin/metabox.php:178
+#: includes/admin/metabox.php:176
 msgid "Automatic prioritization"
 msgstr ""
 
-#: includes/admin/metabox.php:179
+#: includes/admin/metabox.php:177
 msgid "1 - Highest priority"
 msgstr ""
 
-#: includes/admin/metabox.php:181
+#: includes/admin/metabox.php:179
 msgid "High priority (root pages default)"
 msgstr ""
 
-#: includes/admin/metabox.php:183
+#: includes/admin/metabox.php:181
 msgid "Secondary priority (subpages default)"
 msgstr ""
 
-#: includes/admin/metabox.php:184
+#: includes/admin/metabox.php:182
 msgid "Medium priority"
 msgstr ""
 
-#: includes/admin/metabox.php:188
+#: includes/admin/metabox.php:186
 msgid "Lowest priority"
 msgstr ""
 
-#: includes/admin/metabox.php:415
+#: includes/admin/metabox.php:413
 #: includes/admin/templates/quick-edit-title.php:5
 msgid "Title Tag"
 msgstr ""
 
-#: includes/admin/metabox.php:417
+#: includes/admin/metabox.php:415
 msgid "Robots Meta"
 msgstr ""
 
-#: includes/admin/metabox.php:438
+#: includes/admin/metabox.php:436
 msgid "Redirects to %s"
 msgstr ""
 
-#: includes/admin/metabox.php:457
+#: includes/admin/metabox.php:455
 msgid "No ODP"
 msgstr ""
 
-#: includes/admin/metabox.php:458
+#: includes/admin/metabox.php:456
 msgid "No YDIR"
 msgstr ""
 
@@ -468,7 +468,7 @@ msgstr ""
 
 #: includes/admin/settings/settings.php:495
 msgid ""
-"We've detected you have %1$s, installed. Do you want to %2$s your "
+"We've detected you have %1$s settings. Do you want to %2$s your "
 "configuration into SmartCrawl?"
 msgstr ""
 
@@ -968,7 +968,7 @@ msgstr ""
 
 #: includes/admin/templates/advanced-tools/advanced-tools-settings.php:99
 #: includes/admin/templates/dashboard/dashboard-widget-advanced-tools.php:64
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:148
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:155
 #: includes/admin/templates/upsell-modal.php:18
 msgid "Automatic Linking"
 msgstr ""
@@ -1352,7 +1352,7 @@ msgid ""
 msgstr ""
 
 #: includes/admin/templates/dashboard/dashboard-widget-content-analysis.php:40
-#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:8
+#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:13
 msgid "SEO Analysis"
 msgstr ""
 
@@ -1380,7 +1380,7 @@ msgid "Edit Posts"
 msgstr ""
 
 #: includes/admin/templates/dashboard/dashboard-widget-onpage.php:23
-#: includes/admin/templates/metabox/metabox-tab-social.php:56
+#: includes/admin/templates/metabox/metabox-tab-social.php:58
 msgid "Titles & Meta"
 msgstr ""
 
@@ -1479,7 +1479,7 @@ msgstr ""
 
 #: includes/admin/templates/dashboard/dashboard-widget-social.php:38
 #: includes/admin/templates/dashboard/onboarding.php:57
-#: includes/admin/templates/metabox/metabox-tab-social.php:65
+#: includes/admin/templates/metabox/metabox-tab-social.php:67
 #: includes/admin/templates/social/social-settings.php:40
 #: includes/admin/templates/term-additions-form.php:34
 msgid "OpenGraph"
@@ -1659,7 +1659,7 @@ msgid "Readability score"
 msgstr ""
 
 #: includes/admin/templates/metabox/analysis-readability.php:60
-#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:13
+#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:18
 msgid "Refresh"
 msgstr ""
 
@@ -1690,7 +1690,7 @@ msgid "Score"
 msgstr ""
 
 #: includes/admin/templates/metabox/analysis-readability.php:100
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:29
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:37
 #: includes/admin/templates/metabox/metabox-social-meta-tags.php:51
 #: includes/admin/templates/onpage/onpage-social-meta-tags.php:64
 #: includes/admin/templates/term-additions-form.php:88
@@ -1731,7 +1731,7 @@ msgid "You have optimized your SEO to the max. Bravo!"
 msgstr ""
 
 #: includes/admin/templates/metabox/analysis.php:2
-#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:43
+#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:48
 #: includes/admin/templates/metabox/metabox-tab-readability.php:6
 msgid "Reload"
 msgstr ""
@@ -1757,47 +1757,47 @@ msgstr ""
 msgid "Advanced"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:3
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:11
 msgid "Edit Meta"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:13
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:21
 #: includes/admin/templates/term-additions-form.php:10
 msgid "SEO Title"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:14
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:22
 msgid "- Include your focus keywords. 50-%d characters recommended."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:30
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:38
 msgid "- Recommended minimum of 135 characters, maximum %d."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:44
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:52
 msgid "Keywords"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:45
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:60
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:53
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:68
 msgid "- Try to avoid stop words like ‘and’ and ‘the’ which search engines ignore."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:59
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:67
 msgid "News Keywords"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:76
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:84
 msgid "Tags As Keywords"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-meta-edit-form.php:77
+#: includes/admin/templates/metabox/metabox-meta-edit-form.php:85
 msgid ""
 "If you enable using tags, post tags will be merged in with any other "
 "keywords you enter in the text box."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:20
+#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:25
 msgid ""
 "This tool helps you optimize your content to give it the best chance of "
 "being found in search engines when people are looking for it. Start by "
@@ -1806,17 +1806,17 @@ msgid ""
 "highly optimized."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:28
+#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:33
 msgid "Focus keyword"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:29
+#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:34
 msgid ""
 "- Choose a single word, phrase or part of a sentence that people will "
 "likely search for."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:38
+#: includes/admin/templates/metabox/metabox-seo-analysis-container.php:43
 msgid "E.g. broken iphone screen"
 msgstr ""
 
@@ -1860,100 +1860,100 @@ msgid ""
 "the post is shared."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:18
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:24
 #: includes/admin/templates/onpage/onpage-meta-robots.php:11
 msgid "Indexing"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:20
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:26
 msgid "Choose how search engines will index this particular page."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:30
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:36
 msgid "Index - Override Post Type Setting"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:31
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:40
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:37
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:46
 msgid ""
 "Instruct search engines whether or not you want this post to appear in "
 "search results."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:39
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:45
 msgid "Index"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:49
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:55
 msgid "Follow - Override Post Type Setting"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:50
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:59
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:56
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:65
 msgid ""
 "Tells search engines whether or not to follow the links on your page and "
 "crawl them too."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:58
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:64
 msgid "Follow"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:69
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:75
 msgid "Archive"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:70
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:76
 msgid "Instructs search engines to store a cached version of this page."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:79
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:85
 msgid "Snippet"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:80
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:86
 msgid ""
 "Allows search engines to show a snippet of this page in the search results "
 "and prevents them from caching the page."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:90
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:96
 #: includes/admin/templates/term-additions-form.php:12
 msgid "Canonical"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:92
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:98
 msgid ""
 "If you have several similar versions of this page you can point search "
 "engines to the canonical or \"genuine\" version to avoid duplicate content "
 "issues."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:99
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:106
 msgid "Enter the full canonical URL including http:// or https://"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:107
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:114
 msgid "301 Redirect"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:109
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:116
 msgid "Send visitors to this URL to another page."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:116
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:123
 msgid "Enter the URL to send traffic to including http:// or https://"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:125
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:132
 msgid "Sitemap Priority"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:151
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:158
 msgid "You can prevent this particular post from being auto-linked"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-advanced.php:160
+#: includes/admin/templates/metabox/metabox-tab-advanced.php:167
 msgid "Enable automatic linking for this post"
 msgstr ""
 
@@ -1980,23 +1980,23 @@ msgstr ""
 msgid "= 70+"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-social.php:52
+#: includes/admin/templates/metabox/metabox-tab-social.php:54
 msgid ""
 "Customize this posts title, description and featured images for social "
 "shares. You can also configure the default settings for this post type in "
 "SmartCrawl's %s area."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-social.php:66
+#: includes/admin/templates/metabox/metabox-tab-social.php:68
 msgid "OpenGraph is used on many social networks such as Facebook."
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-social.php:83
+#: includes/admin/templates/metabox/metabox-tab-social.php:85
 #: includes/admin/templates/term-additions-form.php:133
 msgid "Twitter"
 msgstr ""
 
-#: includes/admin/templates/metabox/metabox-tab-social.php:84
+#: includes/admin/templates/metabox/metabox-tab-social.php:86
 msgid "These details will be used in Twitter cards."
 msgstr ""
 
@@ -3086,32 +3086,6 @@ msgstr ""
 msgid "You must activate the Sitemap feature to use the URL crawler."
 msgstr ""
 
-#: includes/admin/templates/sitemaps-dashboard-widget.php:5
-msgid "Your sitemap contains %s."
-msgstr ""
-
-#: includes/admin/templates/sitemaps-dashboard-widget.php:10
-msgid "items"
-msgstr ""
-
-#: includes/admin/templates/sitemaps-dashboard-widget.php:27
-msgid "Last notified on %1$s, at %2$s."
-msgstr ""
-
-#: includes/admin/templates/sitemaps-dashboard-widget.php:27
-msgid "Not notified"
-msgstr ""
-
-#: includes/admin/templates/sitemaps-dashboard-widget.php:35
-msgid "Search engines haven't been recently updated."
-msgstr ""
-
-#: includes/admin/templates/sitemaps-dashboard-widget.php:41
-msgid ""
-"Search engine notifications are disabled. You can enable them in the "
-"sitemap settings."
-msgstr ""
-
 #: includes/admin/templates/social/social-section-accounts.php:7
 msgid "Website name"
 msgstr ""
@@ -3407,6 +3381,40 @@ msgstr ""
 
 #: includes/admin/templates/user-search.php:32
 msgid "You"
+msgstr ""
+
+#: includes/admin/templates/wp-dashboard/sitemaps-widget.php:15
+msgid "Your sitemap contains %s."
+msgstr ""
+
+#: includes/admin/templates/wp-dashboard/sitemaps-widget.php:20
+msgid "items"
+msgstr ""
+
+#: includes/admin/templates/wp-dashboard/sitemaps-widget.php:29
+msgid "Update sitemap now"
+msgstr ""
+
+#: includes/admin/templates/wp-dashboard/sitemaps-widget.php:41
+msgid "Last notified on %1$s, at %2$s."
+msgstr ""
+
+#: includes/admin/templates/wp-dashboard/sitemaps-widget.php:41
+msgid "Not notified"
+msgstr ""
+
+#: includes/admin/templates/wp-dashboard/sitemaps-widget.php:51
+msgid "Search engines haven't been recently updated."
+msgstr ""
+
+#: includes/admin/templates/wp-dashboard/sitemaps-widget.php:57
+msgid "Force search engines notification"
+msgstr ""
+
+#: includes/admin/templates/wp-dashboard/sitemaps-widget.php:61
+msgid ""
+"Search engine notifications are disabled. You can enable them in the "
+"sitemap settings."
 msgstr ""
 
 #: includes/core/checks/class-wds-check-content-length.php:16
@@ -4214,28 +4222,28 @@ msgstr ""
 msgid "Sitemaps - SmartCrawl"
 msgstr ""
 
-#: includes/tools/sitemaps-dashboard-widget.php:83
+#: includes/tools/sitemaps-dashboard-widget.php:81
 msgid "It was last updated on %1$s, at %2$s."
 msgstr ""
 
-#: includes/tools/sitemaps-dashboard-widget.php:84
+#: includes/tools/sitemaps-dashboard-widget.php:82
 msgid "Your sitemap hasn't been updated recently."
 msgstr ""
 
-#: includes/tools/sitemaps-dashboard-widget.php:85
-msgid "Update sitemap now"
-msgstr ""
-
-#: includes/tools/sitemaps-dashboard-widget.php:86
-msgid "Force search engines notification"
-msgstr ""
-
-#: includes/tools/sitemaps-dashboard-widget.php:87
+#: includes/tools/sitemaps-dashboard-widget.php:96
 msgid "Updating..."
 msgstr ""
 
-#: includes/tools/sitemaps-dashboard-widget.php:88
+#: includes/tools/sitemaps-dashboard-widget.php:97
 msgid "Done updating the sitemap, please hold on..."
+msgstr ""
+
+#: includes/tools/sitemaps-dashboard-widget.php:98
+msgid "Notifying..."
+msgstr ""
+
+#: includes/tools/sitemaps-dashboard-widget.php:99
+msgid "Done notifying search engines, please hold on..."
 msgstr ""
 
 #. Plugin URI of the plugin/theme

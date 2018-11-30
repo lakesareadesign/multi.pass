@@ -61,4 +61,4 @@ if ( defined( 'WDS_OMIT_PORT_MATCHES' ) ) {
 	define( 'SMARTCRAWL_OMIT_PORT_MATCHES', WDS_OMIT_PORT_MATCHES );
 }
 
-define( 'SMARTCRAWL_PROJECT_TITLE', 'SmartCrawl https://premium.wpmudev.org/project/smartcrawl-wordpress-seo/' );	     	 	 	  		 		
+define( 'SMARTCRAWL_PROJECT_TITLE', 'SmartCrawl https://premium.wpmudev.org/project/smartcrawl-wordpress-seo/' );

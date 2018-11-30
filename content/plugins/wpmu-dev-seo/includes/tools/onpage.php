@@ -186,7 +186,7 @@ class Smartcrawl_OnPage {
 		if ( Smartcrawl_Endpoint_Resolver::L_BLOG_HOME === $location ) {
 			$title = smartcrawl_replace_vars( $smartcrawl_options['title-home'], (array) $post );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_STATIC_HOME === $location ) {
-			$post = get_post( get_option( 'page_on_front' ) );
+			$post = get_post( get_option( 'page_for_posts' ) );
 			$fixed_title = smartcrawl_get_value( 'title', ! empty( $post->ID ) ? $post->ID : 0 );
 			if ( $fixed_title ) {
 				$title = smartcrawl_replace_vars( $fixed_title, (array) $post );
@@ -239,10 +239,14 @@ class Smartcrawl_OnPage {
 				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post );
 			}
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_WOO_SHOP === $location ) { // WooCommerce shop page.
-			$post_id = wc_get_page_id( 'shop' );
-			$fixed_title = smartcrawl_get_value( 'title', $post_id );
-			if ( $fixed_title ) {
-				$title = smartcrawl_replace_vars( $fixed_title, (array) $post );
+			$shop_page = get_post( wc_get_page_id( 'shop' ) );
+			if ( is_a( $shop_page, 'WP_Post' ) ) {
+				$fixed_shop_title = smartcrawl_get_value( 'title', $shop_page->ID );
+				if ( $fixed_shop_title ) {
+					$title = smartcrawl_replace_vars( $fixed_shop_title, (array) $shop_page );
+				} elseif ( isset( $smartcrawl_options['title-page'] ) && ! empty( $smartcrawl_options['title-page'] ) ) {
+					$title = smartcrawl_replace_vars( $smartcrawl_options['title-page'], (array) $shop_page );
+				}
 			}
 		}
 
@@ -265,7 +269,7 @@ class Smartcrawl_OnPage {
 	}
 
 	private function get_request_data() {
-		return isset( $_POST['_wds_nonce'] ) && wp_verify_nonce( $_POST['_wds_nonce'], 'wds-metabox-nonce' ) ? stripslashes_deep( $_POST ) : array();
+		return isset( $_POST['_wds_nonce'] ) && wp_verify_nonce( $_POST['_wds_nonce'], 'wds-metabox-nonce' ) ? stripslashes_deep( $_POST ) : array();	     	 	 	  		 		
 	}
 
 	/**
@@ -333,7 +337,7 @@ class Smartcrawl_OnPage {
 	}
 
 	private function print_html_tag( $html ) {
-		if (!preg_match('/\<(link|meta)/', $html)) {
+		if ( ! preg_match( '/\<(link|meta)/', $html ) ) {
 			// Do not allow plaintext output.
 			return false;
 		}
@@ -424,70 +428,9 @@ class Smartcrawl_OnPage {
 	 * @return bool|mixed|string|WP_Error
 	 */
 	public function get_canonical_url() {
-		global $wp_query, $paged;
-		$canonical = smartcrawl_get_value( 'canonical' );
+		$helper = new Smartcrawl_Canonical_Value_Helper();
 
-		if ( empty( $canonical ) ) {
-			if ( is_singular() ) {
-				$canonical = $this->get_rel_canonical();
-			} else {
-				$canonical = '';
-				if ( is_front_page() ) {
-					$canonical = trailingslashit( get_bloginfo( 'url' ) );
-				} elseif ( is_tax() || is_tag() || is_category() ) {
-					$term = $wp_query->get_queried_object();
-					$canonical = smartcrawl_get_term_meta( $term, $term->taxonomy, 'wds_canonical' );
-					$canonical = $canonical ? $canonical : get_term_link( $term, $term->taxonomy );
-				} elseif ( is_date() ) {
-					$requested_year = get_query_var( 'year' );
-					$requested_month = get_query_var( 'monthnum' );
-					$date_callback = ! empty( $requested_year ) && empty( $requested_month )
-						? 'get_year_link'
-						: 'get_month_link';
-					$canonical = $date_callback( $requested_year, $requested_month );
-				} elseif ( is_author() ) {
-					$user = get_queried_object();
-					$canonical = get_author_posts_url( $user->ID );
-				}
-
-				// only show id not error object.
-				if ( $canonical && ! is_wp_error( $canonical ) ) {
-					if ( $paged && ! is_wp_error( $paged ) ) {
-						$canonical .= trailingslashit( 'page/' . $paged );
-					}
-				}
-			}
-		}
-
-		$canonical = apply_filters( 'wds_filter_canonical', $canonical );
-
-		return $canonical;
-	}
-
-	/**
-	 * Gets singular entity fallback canonical URL
-	 *
-	 * @return string|bool Canonical URL, or (bool)false
-	 */
-	private function get_rel_canonical() {
-		$link = false;
-		if ( ! is_singular() ) {
-			return $link;
-		}
-
-		global $wp_the_query;
-		$id = $wp_the_query->get_queried_object_id();
-		if ( ! $id ) {
-			return;
-		}
-
-		$link = get_permalink( $id );
-		$page = get_query_var( 'cpage' );
-		if ( $page ) {
-			$link = get_comments_pagenum_link( $page );
-		}
-
-		return $link;
+		return $helper->get_canonical();
 	}
 
 	/**
@@ -658,15 +601,19 @@ class Smartcrawl_OnPage {
 				$metadesc = $stored;
 			}
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_WOO_SHOP === $location ) { // WooCommerce shop page.
-			$post_id = wc_get_page_id( 'shop' );
-			$metadesc = smartcrawl_get_value( 'metadesc', $post_id );
-			if ( is_object( $post ) ) {
-				$metadesc = smartcrawl_replace_vars( $metadesc, (array) $post );
+			$shop_page = get_post( wc_get_page_id( 'shop' ) );
+			if ( is_a( $shop_page, 'WP_Post' ) ) {
+				$fixed_shop_desc = smartcrawl_get_value( 'metadesc', $shop_page->ID );
+				if ( $fixed_shop_desc ) {
+					$metadesc = smartcrawl_replace_vars( $fixed_shop_desc, (array) $shop_page );
+				} elseif ( isset( $smartcrawl_options['metadesc-page'] ) && ! empty( $smartcrawl_options['metadesc-page'] ) ) {
+					$metadesc = smartcrawl_replace_vars( $smartcrawl_options['metadesc-page'], (array) $shop_page );
+				}
 			}
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_BLOG_HOME === $location && isset( $smartcrawl_options['metadesc-home'] ) ) {
 			$metadesc = smartcrawl_replace_vars( $smartcrawl_options['metadesc-home'], array() );
 		} elseif ( Smartcrawl_Endpoint_Resolver::L_STATIC_HOME === $location ) {
-			$npost = get_post( get_option( 'page_on_front' ) );
+			$npost = get_post( get_option( 'page_for_posts' ) );
 			$metadesc = is_object( $npost ) && ! empty( $npost->ID )
 				? smartcrawl_get_value( 'metadesc', $npost->ID )
 				: smartcrawl_get_value( 'metadesc' );
@@ -758,6 +705,15 @@ class Smartcrawl_OnPage {
 			$metakey = smartcrawl_get_value( 'keywords', $post_id );
 			$use_tags = smartcrawl_get_value( 'tags_to_keywords', $post_id );
 			$metakey = $use_tags ? $this->_tags_to_keywords( $metakey ) : $metakey;
+		} elseif ( Smartcrawl_Endpoint_Resolver::L_STATIC_HOME === $location ) {
+			$posts_page = get_post( get_option( 'page_for_posts' ) );
+			if ( is_object( $posts_page ) && ! empty( $posts_page->ID ) ) {
+				$metakey = smartcrawl_get_value( 'keywords', $posts_page->ID );
+				if ( smartcrawl_get_value( 'tags_to_keywords', $posts_page->ID ) ) {
+					$extra = array_merge( $extra, $this->get_tag_keywords( $posts_page ) );
+				}
+				$extra = array_merge( $extra, $this->get_focus_keywords( $posts_page ) );
+			}
 		} else {
 			$metakey = $resolver->is_singular( $location ) ? smartcrawl_get_value( 'keywords', $post->ID ) : false;
 			if ( $resolver->is_singular( $location ) ) {

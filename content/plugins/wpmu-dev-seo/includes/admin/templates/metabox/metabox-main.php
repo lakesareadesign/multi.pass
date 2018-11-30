@@ -34,7 +34,7 @@ if ( ! Smartcrawl_Settings::get_setting( 'analysis-readability' ) ) {
 }
 ?>
 <div class="wpmud wds-metabox">
-    <div id="container" class="wds-horizontal-tabs">
+	<div id="container" class="wds-horizontal-tabs">
 		<?php wp_nonce_field( 'wds-metabox-nonce', '_wds_nonce' ); ?>
 		<?php
 		$this->_render( 'metabox/horizontal-tab-nav', array( 'tabs' => $tabs ) );
@@ -83,6 +83,7 @@ if ( ! Smartcrawl_Settings::get_setting( 'analysis-readability' ) ) {
 			'tab_id'           => 'wds_advanced',
 			'content_template' => 'metabox/metabox-tab-advanced',
 			'content_args'     => array(
+				'post'                     => $post,
 				'robots_noindex_value'     => $robots_noindex_value,
 				'robots_nofollow_value'    => $robots_nofollow_value,
 				'robots_index_value'       => $robots_index_value,

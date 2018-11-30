@@ -57,14 +57,39 @@ class Smartcrawl_Redirection_Front {
 	 * @return string Safe redirection URL
 	 */
 	private function _to_safe_redirection( $redirection, $source = false ) {
-		$fallback = home_url();
-
 		$status = $this->_get_redirection_status( $source );
+		$fallback = apply_filters( 'wp_safe_redirect_fallback', home_url(), $status );
+
+		add_filter( 'allowed_redirect_hosts', array( $this, 'allow_external_host' ), 10, 2 );
 
 		$redirection = wp_sanitize_redirect( $redirection );
-		$redirection = wp_validate_redirect( $redirection, apply_filters( 'wp_safe_redirect_fallback', $fallback, $status ) );
+		$redirection = wp_validate_redirect( $redirection, $fallback );
+
+		remove_filter( 'allowed_redirect_hosts', array( $this, 'allow_external_host' ) );
 
 		return $redirection;
+	}
+
+	public function allow_external_host( $allowed_hosts, $host_being_checked ) {
+		$source = $this->_model->get_current_url();
+		$destination = $this->_model->get_redirection( $source );
+		$destination_parts = wp_parse_url( $destination );
+
+		if (
+			empty( $destination_parts['host'] )
+			|| $host_being_checked !== $destination_parts['host']
+		) {
+			return $allowed_hosts;
+		}
+
+		if ( ! is_array( $allowed_hosts ) ) {
+			$allowed_hosts = array();
+		}
+
+		return array_unique( array_merge(
+			$allowed_hosts,
+			array( $destination_parts['host'] )
+		) );
 	}
 
 	/**

@@ -8,6 +8,12 @@ $advanced_options = empty( $advanced_options ) ? array() : $advanced_options;
 $sitemap_priority_options = empty( $sitemap_priority_options ) ? array() : $sitemap_priority_options;
 $post_type_noindexed = empty( $post_type_noindexed ) ? false : true;
 $post_type_nofollowed = empty( $post_type_nofollowed ) ? false : true;
+$post = empty( $post ) ? null : $post;
+if ( $post ) {
+	$post_id = $post->ID;
+} else {
+	return;
+}
 ?>
 
 <div class="wds-metabox-section wds-advanced-metabox-section wds-form">
@@ -94,9 +100,10 @@ $post_type_nofollowed = empty( $post_type_nofollowed ) ? false : true;
 				</div>
 				<div class="fields">
 					<input type='text' id='wds_canonical' name='wds_canonical'
-					       value='<?php echo esc_attr( smartcrawl_get_value( 'canonical' ) ); ?>' class='wds'/>
+					       value='<?php echo esc_attr( smartcrawl_get_value( 'canonical', $post_id ) ); ?>'
+					       class='wds'/>
 					<span
-						class="wds-field-legend"><?php esc_html_e( 'Enter the full canonical URL including http:// or https://', 'wds' ); ?></span>
+							class="wds-field-legend"><?php esc_html_e( 'Enter the full canonical URL including http:// or https://', 'wds' ); ?></span>
 				</div>
 			</div>
 		<?php endif; ?>
@@ -111,9 +118,9 @@ $post_type_nofollowed = empty( $post_type_nofollowed ) ? false : true;
 				</div>
 				<div class="fields">
 					<input type='text' id='wds_redirect' name='wds_redirect'
-					       value='<?php echo esc_attr( smartcrawl_get_value( 'redirect' ) ); ?>' class='wds'/>
+					       value='<?php echo esc_attr( smartcrawl_get_value( 'redirect', $post_id ) ); ?>' class='wds'/>
 					<span
-						class="wds-field-legend"><?php esc_html_e( 'Enter the URL to send traffic to including http:// or https://', 'wds' ); ?></span>
+							class="wds-field-legend"><?php esc_html_e( 'Enter the URL to send traffic to including http:// or https://', 'wds' ); ?></span>
 				</div>
 			</div>
 		<?php endif; ?>
@@ -130,7 +137,7 @@ $post_type_nofollowed = empty( $post_type_nofollowed ) ? false : true;
 					        class="select-container"
 					        style="width: 100%">
 
-						<?php $priority_value = smartcrawl_get_value( 'sitemap-priority' ); ?>
+						<?php $priority_value = smartcrawl_get_value( 'sitemap-priority', $post_id ); ?>
 
 						<?php foreach ( $sitemap_priority_options as $key => $label ) : ?>
 							<option value='<?php echo esc_attr( $key ); ?>' <?php selected( $key, $priority_value ); ?>>
@@ -156,7 +163,7 @@ $post_type_nofollowed = empty( $post_type_nofollowed ) ? false : true;
 				$this->_render( 'toggle-item', array(
 					'inverted'   => true,
 					'field_name' => 'wds_autolinks-exclude',
-					'checked'    => smartcrawl_get_value( 'autolinks-exclude' ) ? 'checked="checked"' : '',
+					'checked'    => smartcrawl_get_value( 'autolinks-exclude', $post_id ) ? 'checked="checked"' : '',
 					'item_label' => esc_html__( 'Enable automatic linking for this post', 'wds' ),
 				) );
 				?>

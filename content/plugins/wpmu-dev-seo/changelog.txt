@@ -1,7 +1,20 @@
 Plugin Name: SmartCrawl SEO
 
 Change Log:
+----------------------------------------------------------------------- 
+2.2.4 - 2018-11-28
 ----------------------------------------------------------------------
+- Add: URL redirection to external domains
+
+- Fix: SEO and readability analysis of password-protected posts
+- Fix: sitemap throws error if there's an image with ampersand sign
+- Fix: metabox showing details from other posts when globals modified
+- Fix: better autolinks compatibility with unicode languages
+- Fix: code improvements for sitemap dashboard
+- Fix: twitter and OG issues on static posts page
+- Fix: third-party import notice appears for very old data
+- Fix: conflicts on woocommerce shop page
+
 2.2.3 - 2018-11-12
 ----------------------------------------------------------------------
 - Add: created new UI for Yoast and All In One SEO importers
@@ -47,6 +60,29 @@ Change Log:
 - Fix: warnings in autoloader
 - Fix: importer support for yoast version 9
 - Fix: metabox preview showing raw placeholders
+
+2.2.2.7 - 2018-10-09
+----------------------------------------------------------------------- 
+- Fix: resolved conflict with swift framework mini product widget
+- Fix: resolved styling conflicts with WPBakery and a few other plugins
+- Fix: performance improvement for title and meta rewriting
+
+2.2.2.6 - 2018-10-02
+----------------------------------------------------------------------
+- Fix: fixed issue causing WSOD on some sites
+- Fix: don't show raw shortcodes in auto-generated meta description
+- Fix: better compatibility of readability and SEO analysis with page builders
+- Fix: made Google preview in the SC metabox more accurate
+
+2.2.2.5 - 2018-09-27
+----------------------------------------------------------------------
+- Fix: revert 2.2.2.4 changes causing WSOD on some sites
+
+2.2.2.4 - 2018-09-25
+----------------------------------------------------------------------
+- Fix: don't show raw shortcodes in auto-generated meta description
+- Fix: better compatibility of readability and SEO analysis with page builders
+- Fix: made Google preview in the SC metabox more accurate
 
 2.2.2.3 - 2018-08-31
 ----------------------------------------------------------------------
@@ -565,4 +601,4 @@ exist yet
 - Initial Release.
 
 
-133620-1543295379-au
+133620-1543595866-au

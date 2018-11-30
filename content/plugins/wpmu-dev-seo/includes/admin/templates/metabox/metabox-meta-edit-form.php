@@ -1,3 +1,11 @@
+<?php
+$post = empty( $post ) ? null : $post;
+if ( $post ) {
+	$post_id = $post->ID;
+} else {
+	return;
+}
+?>
 <div class="wds-toggleable inactive wds-edit-meta-toggleable">
 	<label>
 		<a class="button button-dark button-small"><?php esc_html_e( 'Edit Meta', 'wds' ); ?></a>
@@ -18,7 +26,7 @@
 					<input type='text'
 					       id='wds_title'
 					       name='wds_title'
-					       value='<?php echo esc_html( smartcrawl_get_value( 'title' ) ); ?>'
+					       value='<?php echo esc_html( smartcrawl_get_value( 'title', $post_id ) ); ?>'
 					       class='wds wds-meta-field'/>
 				</div>
 			<?php endif; ?>
@@ -34,7 +42,7 @@
 					<textarea rows='2'
 					          name='wds_metadesc'
 					          id='wds_metadesc'
-					          class='wds wds-meta-field'><?php echo esc_html( smartcrawl_get_value( 'metadesc' ) ); ?></textarea>
+					          class='wds wds-meta-field'><?php echo esc_html( smartcrawl_get_value( 'metadesc', $post_id ) ); ?></textarea>
 				</div>
 			<?php endif; ?>
 
@@ -49,7 +57,7 @@
 					<input type='text'
 					       id='wds_keywords'
 					       name='wds_keywords'
-					       value='<?php echo esc_html( smartcrawl_get_value( 'keywords' ) ); ?>'
+					       value='<?php echo esc_html( smartcrawl_get_value( 'keywords', $post_id ) ); ?>'
 					       class='wds'/>
 				</div>
 
@@ -64,7 +72,7 @@
 						<input type='text'
 						       id='wds_news_keywords'
 						       name='wds_news_keywords'
-						       value='<?php echo esc_attr( smartcrawl_get_value( 'news_keywords' ) ); ?>'
+						       value='<?php echo esc_attr( smartcrawl_get_value( 'news_keywords', $post_id ) ); ?>'
 						       class='wds'/>
 					</div>
 
@@ -72,7 +80,7 @@
 						<?php
 						$this->_render( 'toggle-item', array(
 							'field_name'       => 'wds_tags_to_keywords',
-							'checked'          => smartcrawl_get_value( 'tags_to_keywords' ) ? 'checked="checked"' : '',
+							'checked'          => smartcrawl_get_value( 'tags_to_keywords', $post_id ) ? 'checked="checked"' : '',
 							'item_label'       => esc_html__( 'Tags As Keywords' ),
 							'item_description' => esc_html__( 'If you enable using tags, post tags will be merged in with any other keywords you enter in the text box.' ),
 						) );

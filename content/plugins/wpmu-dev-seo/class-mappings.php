@@ -3,6 +3,7 @@
 return array(
 	// Classes in includes/core/
 	'Smartcrawl_AIOSEOP_Importer'                 => '/core/class-wds-aioseop-importer.php',
+	'Smartcrawl_Canonical_Value_Helper'           => '/core/class-wds-canonical-value-helper.php',
 	'Smartcrawl_Checks'                           => '/core/class-wds-checks.php',
 	'Smartcrawl_Compatibility'                    => '/core/class-wds-compatibility.php',
 	'Smartcrawl_Controller_Analysis'              => '/core/class-wds-controller-analysis.php',

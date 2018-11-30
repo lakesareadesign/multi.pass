@@ -3,7 +3,7 @@
 Plugin Name: Instagram Feed
 Plugin URI: https://smashballoon.com/instagram-feed
 Description: Display beautifully clean, customizable, and responsive Instagram feeds
-Version: 1.10.1
+Version: 1.10.2
 Author: Smash Balloon
 Author URI: https://smashballoon.com/
 License: GPLv2 or later
@@ -23,7 +23,7 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 */
 
-define( 'SBIVER', '1.10.1' );
+define( 'SBIVER', '1.10.2' );
 
 if ( ! defined( 'ABSPATH' ) ) exit; // Exit if accessed directly
 
@@ -248,7 +248,7 @@ function display_instagram($atts, $content = null) {
     //Follow button HTML
 	$sb_instagram_follow_btn_classes = '';
 	if( strpos($sb_instagram_follow_btn_styles, 'background') !== false ) $sb_instagram_follow_btn_classes = ' sbi_custom';
-    $sb_instagram_follow_btn_html = '<div class="sbi_follow_btn'.$sb_instagram_follow_btn_classes.'"><a href="https://www.instagram.com/" '.$sb_instagram_follow_btn_styles.' target="_blank"><i class="fa fab fa-instagram"></i>'.esc_html( stripslashes( $sb_instagram_follow_btn_text ) ).'</a></div>';
+    $sb_instagram_follow_btn_html = '<span class="sbi_follow_btn'.$sb_instagram_follow_btn_classes.'"><a href="https://www.instagram.com/" '.$sb_instagram_follow_btn_styles.' target="_blank"><i class="fa fab fa-instagram"></i>'.esc_html( stripslashes( $sb_instagram_follow_btn_text ) ).'</a></span>';
 
     //Mobile
     $sb_instagram_disable_mobile = $atts['disablemobile'];
@@ -390,7 +390,7 @@ function display_instagram($atts, $content = null) {
     $sb_instagram_content .= '>';
 
     //Load More button
-    if( $sb_instagram_show_btn && !$sb_instagram_error ) $sb_instagram_content .= '<a class="sbi_load_btn" href="javascript:void(0);" '.$sb_instagram_button_styles.'><span class="sbi_btn_text">' . esc_html( stripslashes( $sb_instagram_load_btn_text ) ).'</span><div class="sbi_loader sbi_hidden"></div></a>';
+    if( $sb_instagram_show_btn && !$sb_instagram_error ) $sb_instagram_content .= '<a class="sbi_load_btn" href="javascript:void(0);" '.$sb_instagram_button_styles.'><span class="sbi_btn_text">' . esc_html( stripslashes( $sb_instagram_load_btn_text ) ).'</span><span class="sbi_loader sbi_hidden"></span></a>';
 
     //Follow button
     if( $sb_instagram_show_follow_btn && !$sb_instagram_error ) $sb_instagram_content .= $sb_instagram_follow_btn_html;

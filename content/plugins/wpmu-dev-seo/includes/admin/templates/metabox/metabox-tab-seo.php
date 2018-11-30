@@ -8,7 +8,9 @@ $post = empty( $post ) ? null : $post;
 		$this->_render( 'metabox/metabox-dummy-preview' );
 		?>
 
-		<?php $this->_render( 'metabox/metabox-meta-edit-form' ); ?>
+		<?php $this->_render( 'metabox/metabox-meta-edit-form', array(
+			'post' => $post,
+		) ); ?>
 	</div>
 
 	<?php if ( Smartcrawl_Settings::get_setting( 'analysis-seo' ) ) { ?>

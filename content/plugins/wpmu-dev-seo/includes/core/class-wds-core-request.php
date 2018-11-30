@@ -52,6 +52,22 @@ class Smartcrawl_Core_Request {
 				'value' => $cvalue,
 			) );
 		}
+
+		// Post password cookie.
+		$post = $is_post_revision
+			? get_post( $post_parent )
+			: get_post( $post_id );
+		if ( ! empty( $post->post_password ) ) {
+			if ( ! class_exists( 'PasswordHash' ) ) {
+				require_once ABSPATH . WPINC . '/class-phpass.php';
+			}
+			$hasher = new PasswordHash( 8, true );
+			$cookies[] = new WP_Http_Cookie( array(
+				'name' => 'wp-postpass_' . COOKIEHASH,
+				'value' => $hasher->HashPassword( $post->post_password ),
+			));
+		}
+
 		if ( ! empty( $cookies ) ) {
 			$params['cookies'] = $cookies;
 		}

@@ -492,7 +492,7 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 			esc_html__( 'auto-import', 'wds' )
 		);
 		$message = sprintf(
-			esc_html__( "We've detected you have %1\$s, installed. Do you want to %2\$s your configuration into SmartCrawl?" ),
+			esc_html__( "We've detected you have %1\$s settings. Do you want to %2\$s your configuration into SmartCrawl?" ),
 			$plugin_name,
 			$auto_import_url
 		);

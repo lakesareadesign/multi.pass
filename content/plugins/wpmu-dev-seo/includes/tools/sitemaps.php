@@ -219,7 +219,7 @@ class Smartcrawl_Xml_Sitemap {
 						$text = $image['title'] ? $image['title'] : $image['alt'];
 						$map .= '<image:image>';
 						$map .= '<image:loc>' . esc_url( $image['src'] ) . '</image:loc>';
-						$map .= '<image:title>' . ent2ncr( $text ) . '</image:title>';
+						$map .= '<image:title>' . ent2ncr( esc_attr( $text ) ) . '</image:title>';
 						$map .= "</image:image>\n";
 					}
 				} else {

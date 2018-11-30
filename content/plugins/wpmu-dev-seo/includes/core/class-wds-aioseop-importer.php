@@ -23,7 +23,7 @@ class Smartcrawl_AIOSEOP_Importer extends Smartcrawl_Importer {
 			return false;
 		}
 
-		return strpos( $version, '2.' ) === 0;
+		return strpos( $version, '2.9' ) === 0;
 	}
 
 	public function import_options() {

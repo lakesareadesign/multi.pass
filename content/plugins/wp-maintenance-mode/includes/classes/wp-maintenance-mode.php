@@ -4,7 +4,7 @@ if (!class_exists('WP_Maintenance_Mode')) {
 
 	class WP_Maintenance_Mode {
 
-		const VERSION = '2.2.1';
+		const VERSION = '2.2.2';
 
 		protected $plugin_slug = 'wp-maintenance-mode';
 		protected $plugin_settings;
@@ -135,6 +135,7 @@ if (!class_exists('WP_Maintenance_Mode')) {
 					'contact_email' => get_option('admin_email') ? get_option('admin_email') : '',
 					'contact_effects' => 'move_top|move_bottom',
 					'ga_status' => 0,
+					'ga_anonymize_ip' => 0,
 					'ga_code' => '',
 					'custom_css' => array()
 				),
@@ -167,6 +168,7 @@ if (!class_exists('WP_Maintenance_Mode')) {
 					'status' => 0,
 					'policy_page_label' => __('Privacy Policy', $this->plugin_slug),
 					'policy_page_link' => '',
+					'policy_page_target' => 0,
 					'contact_form_tail' => __('This form collects your name and email so that we can reach you back. Check out our <a href="#">Privacy Policy</a> page to fully understand how we protect and manage your submitted data.', $this->plugin_slug),
 					'subscribe_form_tail' => __('This form collects your email so that we can add you to our newsletter list. Check out our <a href="#">Privacy Policy</a> page to fully understand how we protect and manage your submitted data.', $this->plugin_slug),
 				),
@@ -405,16 +407,18 @@ if (!class_exists('WP_Maintenance_Mode')) {
 					}
 				}
 			}
-			
+
 			/**
 			 * Set options on first activation
 			 */
 			if (empty($v2_options)) {
 				$v2_options = $default_options;
-				
+
 				// set options
 				add_option('wpmm_settings', $v2_options);
 			}
+			
+			$should_update = false;
 
 			/**
 			 * Update from <= v2.0.6 to v2.0.7
@@ -431,16 +435,33 @@ if (!class_exists('WP_Maintenance_Mode')) {
 			 */
 			if (empty($v2_options['bot'])) {
 				$v2_options['bot'] = $default_options['bot'];
-				
+
 				// update options
 				update_option('wpmm_settings', $v2_options);
 			}
 
 			/**
-			 * Update from =< v2.1.2 to 2.1.5
+			 * Update from <= v2.1.2 to 2.1.5
 			 */
 			if (empty($v2_options['gdpr'])) {
 				$v2_options['gdpr'] = $default_options['gdpr'];
+
+				// update options
+				update_option('wpmm_settings', $v2_options);
+			}
+
+			/**
+			 * Update from <= v2.2.1 to 2.2.2
+			 */
+			if (empty($v2_options['modules']['ga_anonymize_ip'])) {
+				$v2_options['modules']['ga_anonymize_ip'] = $default_options['modules']['ga_anonymize_ip'];
+				
+				// update options
+				update_option('wpmm_settings', $v2_options);
+			}
+			
+			if (empty($v2_options['gdpr']['policy_page_target'])) {
+				$v2_options['gdpr']['policy_page_target'] = $default_options['gdpr']['policy_page_target'];
 				
 				// update options
 				update_option('wpmm_settings', $v2_options);
@@ -679,9 +700,13 @@ if (!class_exists('WP_Maintenance_Mode')) {
 		 * @return boolean
 		 */
 		public function check_search_bots() {
-			$is_search_bots = false;
+			$is_search_bot = false;
 
-			if (!empty($this->plugin_settings['general']['bypass_bots']) && $this->plugin_settings['general']['bypass_bots'] == 1) {
+			if (
+					!empty($this->plugin_settings['general']['bypass_bots']) &&
+					$this->plugin_settings['general']['bypass_bots'] == 1 &&
+					isset($_SERVER['HTTP_USER_AGENT'])
+			) {
 				$bots = apply_filters('wpmm_search_bots', array(
 					'Abacho' => 'AbachoBOT',
 					'Accoona' => 'Acoon',
@@ -709,10 +734,10 @@ if (!class_exists('WP_Maintenance_Mode')) {
 					'Yahoo' => 'Yahoo'
 				));
 
-				$is_search_bots = (bool) preg_match('~(' . implode('|', array_values($bots)) . ')~i', $_SERVER['HTTP_USER_AGENT']);
+				$is_search_bot = (bool) preg_match('~(' . implode('|', array_values($bots)) . ')~i', $_SERVER['HTTP_USER_AGENT']);
 			}
 
-			return $is_search_bots;
+			return $is_search_bot;
 		}
 
 		/**
@@ -794,9 +819,22 @@ if (!class_exists('WP_Maintenance_Mode')) {
 
 			// sanitize code
 			$ga_code = wpmm_sanitize_ga_code($this->plugin_settings['modules']['ga_code']);
+
 			if (empty($ga_code)) {
 				return false;
 			}
+
+			// set options
+			$ga_options = array();
+
+			if (
+					!empty($this->plugin_settings['modules']['ga_anonymize_ip']) &&
+					$this->plugin_settings['modules']['ga_anonymize_ip'] == 1
+			) {
+				$ga_options['anonymize_ip'] = true;
+			}
+			
+			$ga_options = (object) $ga_options;
 
 			// show google analytics javascript snippet
 			include_once(WPMM_VIEWS_PATH . 'google-analytics.php');

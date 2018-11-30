@@ -1,6 +1,11 @@
 <?php
 $post = empty( $post ) ? null : $post;
 $refresh_button_disabled = 'auto-draft' === get_post_status() ? 'disabled' : '';
+if ( $post ) {
+	$post_id = $post->ID;
+} else {
+	return;
+}
 ?>
 
 <div class="wds-seo-analysis-container">
@@ -8,8 +13,8 @@ $refresh_button_disabled = 'auto-draft' === get_post_status() ? 'disabled' : '';
 		<label class="wds-label"><?php esc_html_e( 'SEO Analysis', 'wds' ); ?></label>
 
 		<button <?php esc_attr( $refresh_button_disabled ); ?>
-			class="button button-small button-dark button-dark-o wds-refresh-analysis wds-analysis-seo wds-disabled-during-request"
-			type="button">
+				class="button button-small button-dark button-dark-o wds-refresh-analysis wds-analysis-seo wds-disabled-during-request"
+				type="button">
 			<span><?php esc_html_e( 'Refresh', 'wds' ); ?></span>
 		</button>
 	</div>
@@ -33,7 +38,7 @@ $refresh_button_disabled = 'auto-draft' === get_post_status() ? 'disabled' : '';
 				<input type='text'
 				       id='wds_focus'
 				       name='wds_focus'
-				       value='<?php echo esc_html( smartcrawl_get_value( 'focus-keywords' ) ); ?>'
+				       value='<?php echo esc_html( smartcrawl_get_value( 'focus-keywords', $post_id ) ); ?>'
 				       class='wds wds-disabled-during-request'
 				       placeholder="<?php esc_html_e( 'E.g. broken iphone screen', 'wds' ); ?>"/>
 			</div>

@@ -331,7 +331,7 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 			case 'static-homepage':
 				$resolver = Smartcrawl_Endpoint_Resolver::resolve();
 				$front_page = get_post( (int) get_option( 'page_on_front' ) );
-				$resolver->simulate( Smartcrawl_Endpoint_Resolver::L_STATIC_HOME, is_a( $front_page, 'WP_Post' ) ? $front_page : null );
+				$resolver->simulate( Smartcrawl_Endpoint_Resolver::L_SINGULAR, is_a( $front_page, 'WP_Post' ) ? $front_page : null );
 
 				$title = Smartcrawl_OnPage::get()->get_title();
 				$description = Smartcrawl_OnPage::get()->get_description();

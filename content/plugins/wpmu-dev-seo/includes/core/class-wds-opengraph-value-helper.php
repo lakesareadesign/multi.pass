@@ -67,7 +67,7 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 
 		// Add featured image as the last resort
 		if ( has_post_thumbnail( $post ) ) {
-			$this->images[] = get_the_post_thumbnail_url();
+			$this->images[] = get_the_post_thumbnail_url($post);
 		}
 
 		$this->enabled = ! $disabled;
@@ -101,7 +101,7 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 	}
 
 	public function handle_woo_shop() {
-		$this->handle_singular();
+		$this->handle_singular( wc_get_page_id( 'shop' ) );
 	}
 
 	public function handle_blog_home() {
@@ -109,14 +109,7 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 	}
 
 	public function handle_static_home() {
-		// TODO: use post type of the current post here instead of 'home'
-		$this->from_options( 'home' );
-		$post = $this->get_context();
-
-		if ( $this->enabled && is_a( $post, 'WP_Post' ) ) {
-			// Now apply any overrides from the individual post's meta
-			$this->from_post_meta( $post );
-		}
+		$this->handle_singular( get_option( 'page_for_posts' ) );
 	}
 
 	public function handle_search() {
@@ -159,8 +152,11 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 		// TODO: Implement handle_archive() method.
 	}
 
-	public function handle_singular() {
-		$post = $this->get_context();
+	public function handle_singular( $post_id = 0 ) {
+		$post = $post_id ? get_post( $post_id ) : null;
+		if ( ! $post ) {
+			$post = $this->get_context();
+		}
 		if ( is_a( $post, 'WP_Post' ) ) {
 			$this->from_options( $post->post_type );
 

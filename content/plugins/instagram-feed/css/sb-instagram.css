@@ -587,6 +587,7 @@
 #sb_instagram .sb_instagram_error{
   width: 100%;
   text-align: center;
+  line-height: 1.4;
 }
 
 /* Mod only error msgs */

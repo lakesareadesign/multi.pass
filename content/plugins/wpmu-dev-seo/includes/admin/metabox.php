@@ -160,9 +160,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	/**
 	 * Handles actual metabox rendering
 	 */
-	public function smartcrawl_meta_boxes() {
-		global $post;
-
+	public function smartcrawl_meta_boxes($post) {
 		$robots_noindex_value = (int) smartcrawl_get_value( 'meta-robots-noindex' );
 		$robots_nofollow_value = (int) smartcrawl_get_value( 'meta-robots-nofollow' );
 		$robots_index_value = (int) smartcrawl_get_value( 'meta-robots-index' );

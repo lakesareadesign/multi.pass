@@ -105,7 +105,7 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 		$meta = array();
 		$queried_object = $this->get_queried_object();
 		if ( is_a( $queried_object, 'WP_Post' ) ) {
-			$meta = smartcrawl_get_value( 'twitter' );
+			$meta = smartcrawl_get_value( 'twitter', $queried_object->ID );
 		} elseif ( is_a( $queried_object, 'WP_Term' ) ) {
 			$meta = smartcrawl_get_term_meta( $queried_object, $queried_object->taxonomy, 'twitter' );
 		}
@@ -126,7 +126,7 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 		// @todo: make sure are location types from Smartcrawl_Endpoint_Resolver are handled
 		$mapping = array(
 			Smartcrawl_Endpoint_Resolver::L_BLOG_HOME      => 'home',
-			Smartcrawl_Endpoint_Resolver::L_STATIC_HOME    => 'home',
+			Smartcrawl_Endpoint_Resolver::L_STATIC_HOME    => 'page',
 			Smartcrawl_Endpoint_Resolver::L_SEARCH         => 'search',
 			Smartcrawl_Endpoint_Resolver::L_404            => '404',
 			Smartcrawl_Endpoint_Resolver::L_AUTHOR_ARCHIVE => 'author',

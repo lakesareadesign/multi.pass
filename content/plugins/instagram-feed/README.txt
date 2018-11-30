@@ -2,8 +2,8 @@
 Contributors: smashballoon, craig-at-smash-balloon
 Tags: Instagram, Instagram feed, Instagram photos, Instagram widget, Instagram gallery
 Requires at least: 3.0
-Tested up to: 4.9
-Stable tag: 1.10.1
+Tested up to: 5.0
+Stable tag: 1.10.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -310,6 +310,13 @@ We understand that sometimes you need help, have issues or just have questions. 
 * Plus more customization options added all the time!
 
 == Changelog ==
+= 1.10.2 =
+* Confirmed compatibility with the upcoming WordPress 5.0 "Gutenberg" update
+* Fix: Fixed an issue caused by some themes which affected the formatting of the 'Load More' and 'Follow' buttons
+* Fix: Fixed an occassional formatting issue with error messages due to no line-height being set
+* Fix: Minor admin UI fixes
+* Tweak: Removed mention of some Pro features which will be deprecated due to upcoming Instagram API changes
+
 = 1.10.1 =
 * Tweak: Automatic image resolution detection setting now works better with wide images. Resizing the browser will now automatically raise the image resolution if needed.
 * Fix: Fixed an issue where the Load More button would disappear if all posts for a feed were cached.

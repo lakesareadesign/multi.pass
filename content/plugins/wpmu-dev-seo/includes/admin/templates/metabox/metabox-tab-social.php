@@ -6,11 +6,13 @@ $twitter_setting_enabled = empty( $twitter_setting_enabled ) ? false : $twitter_
 $twitter_post_type_enabled = empty( $twitter_post_type_enabled ) ? false : $twitter_post_type_enabled;
 $onpage_url = Smartcrawl_Settings_Admin::admin_url( Smartcrawl_Settings::TAB_ONPAGE );
 
-if ( ! is_a( $post, 'WP_Post' ) ) {
+if ( $post ) {
+	$post_id = $post->ID;
+} else {
 	return;
 }
 
-$og = smartcrawl_get_value( 'opengraph' );
+$og = smartcrawl_get_value( 'opengraph', $post_id );
 if ( ! is_array( $og ) ) {
 	$og = array();
 }
@@ -23,13 +25,13 @@ $og = wp_parse_args( $og, array(
 ) );
 
 $resolver = Smartcrawl_Endpoint_Resolver::resolve();
-$resolver->simulate_post($post);
+$resolver->simulate_post( $post );
 $og_helper = new Smartcrawl_OpenGraph_Value_Helper();
 $title_placeholder = $og_helper->get_title();
 $description_placeholder = $og_helper->get_description();
 $og_meta_disabled = (bool) smartcrawl_get_array_value( $og, 'disabled' );
 
-$twitter = smartcrawl_get_value( 'twitter' );
+$twitter = smartcrawl_get_value( 'twitter', $post_id );
 if ( ! is_array( $twitter ) ) {
 	$twitter = array();
 }

@@ -59,7 +59,7 @@ class Smartcrawl_Robots_Value_Helper extends Smartcrawl_Type_Traverser {
 	}
 
 	public function handle_static_home() {
-		// TODO: Implement handle_static_home() method.
+		$this->handle_singular( get_option( 'page_for_posts' ) );
 	}
 
 	public function handle_search() {
@@ -170,7 +170,7 @@ class Smartcrawl_Robots_Value_Helper extends Smartcrawl_Type_Traverser {
 
 	public function handle_singular( $post_id = 0 ) {
 		if ( ! $post_id ) {
-			global $post;
+			$post = $this->get_context();
 			$post_id = $post->ID;
 		}
 

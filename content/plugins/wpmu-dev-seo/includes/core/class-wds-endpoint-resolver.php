@@ -75,7 +75,7 @@ class Smartcrawl_Endpoint_Resolver {
 	public function resolve_location() {
 		if ( is_front_page() && 'posts' === get_option( 'show_on_front' ) ) {
 			$this->set_location( self::L_BLOG_HOME );
-		} elseif ( is_front_page() && 'posts' !== get_option( 'show_on_front' ) ) {
+        } elseif ( is_home() && 'posts' !== get_option( 'show_on_front' ) ) {
 			$this->set_location( self::L_STATIC_HOME );
 		} elseif ( is_category() || is_tag() || is_tax() ) {
 			$this->set_location( self::L_TAX_ARCHIVE );

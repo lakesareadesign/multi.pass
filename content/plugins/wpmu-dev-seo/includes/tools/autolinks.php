@@ -136,6 +136,13 @@ class Smartcrawl_Autolinks {
 		return $this->the_content_filter( $text );
 	}
 
+	private function is_utf8_matching_enabled() {
+		$is_utf8_site = ( ! defined( 'DB_CHARSET' ) || strpos( DB_CHARSET, 'utf8' ) !== false )
+		                && in_array( get_option( 'blog_charset', '' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) );
+
+		return apply_filters( 'wds-autolinks-utf8-matching-enabled', $is_utf8_site );
+	}
+
 	/**
 	 * Post content filter handler
 	 *
@@ -238,6 +245,11 @@ class Smartcrawl_Autolinks {
 		$reg_post = ! empty( $options['casesens'] )
 			? '/(?!(?:[^<]+[>]+|[^>]+<\/a>|[^>]+<\/script>|[\[\]]+))(^|\b|[^<\p{L}\/>])($name)([^\p{L}\/>]|\b|$)/msU'
 			: '/(?!(?:[^<]+[>]+|[^>]+<\/a>|[^>]+<\/script>|[\[\]]+))(^|\b|[^<\p{L}\/>])($name)([^\p{L}\/>]|\b|$)/imsU';
+
+		if ( $this->is_utf8_matching_enabled() ) {
+			// Enable UTF-8 flag in the regex
+			$reg_post .= 'u';
+		}
 
 		$strpos_fnc = ! empty( $options['casesens'] ) ? 'strpos' : 'stripos';
 
