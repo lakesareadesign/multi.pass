@@ -97,6 +97,9 @@ if (!class_exists('AcmeeFramework')) {
                     case 'textarea':
                         $this->addTextarea($field_array);
                         break;
+                    case 'css':
+                        $this->addCssinput($field_array);
+                        break;
                     case 'checkbox':
                         $this->addCheckbox($field_array);
                         break;
@@ -142,6 +145,17 @@ if (!class_exists('AcmeeFramework')) {
 
             do_action('aof_tab_close');
 
+        }
+
+        function compress_css_field($css) {
+          $cssContents = "";
+          // Remove comments
+          $cssContents = preg_replace('!/\*[^*]*\*+([^/][^*]*\*+)*/!', '', $css);
+          // Remove space after colons
+          $cssContents = str_replace(': ', ':', $cssContents);
+          // Remove whitespace
+          $cssContents = str_replace(array("\r\n", "\r", "\n", "\t", '  ', '    ', '    '), '', $cssContents);
+          return $cssContents;
         }
 
         function licenseValidate() {
@@ -286,8 +300,15 @@ if (!class_exists('AcmeeFramework')) {
                                       $save_data[$field['id']] = $typography;
                                   }
                               }
+                              elseif($field['type'] == "css") {
+                                $field_data = $this->validateInputs($post_value);
+                                $compressed_data = $this->compress_css_field($field_data);
+                                $save_data[$field['id']] = $compressed_data;
+                              }
                               else {
-                                  $save_data[$field['id']] = (isset($post_value)) ? $this->validateInputs($post_value) : "";
+                                $field_data = (isset($post_value)) ? $this->validateInputs($post_value) : "";
+                                $esc_data = str_replace('"',"'", $field_data); //to avoid invalid serialization due to double quotes
+                                $save_data[$field['id']] = (isset($esc_data) && !empty($esc_data)) ? $esc_data : "";
                               }
                             }
                           }
@@ -376,6 +397,12 @@ if (!class_exists('AcmeeFramework')) {
         function addTextarea($fields) {
             $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
             $form_field = '<textarea id="' . $fields['id'] . '" class="regular-text ' . $fields['id'] . '" name="' . $fields['id'] . '" rows="10">' . $meta . '</textarea>';
+            $output = $this->fieldWrap($fields, $form_field);
+            echo $output;
+        }
+        function addCssinput($fields) {
+            $meta = (isset($fields['meta'])) ? $fields['meta'] : "";
+            $form_field = '<textarea id="' . $fields['id'] . '" class="css regular-text ' . $fields['id'] . '" name="' . $fields['id'] . '" rows="7">' . $meta . '</textarea>';
             $output = $this->fieldWrap($fields, $form_field);
             echo $output;
         }

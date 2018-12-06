@@ -3,7 +3,7 @@ Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image slider,flexslider,flex slider,nivoslider,nivo slider,responsive,responsive slides,coinslider,coin slider,slideshow,carousel,responsive slider,vertical slides
 Donate link: https://david.dw-perspective.org.uk/donate
 Requires at least: 3.5
-Stable tag: 3.10.2
+Stable tag: 3.10.3
 Tested up to: 5.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -20,10 +20,12 @@ Choose one of 4 different slideshow types, and use our provided short-code or te
 
 Apply one of our professional slidehow designs to really make your website stand out.
 
+**Gutenberg compatible**
+
 **Included slideshow types:**
 
 * **Flex Slider 2** - responsive, 2 transition effects, carousel mode
-* **Nivo Slider** - responsive, 16 transition effects, 4 themes
+* **Nivo Slider** - responsive, 16 transition effects
 * **Responsive Slides** - responsive & incredibly light weight
 * **Coin Slider** - 4 transition effects
 
@@ -36,6 +38,7 @@ Apply one of our professional slidehow designs to really make your website stand
 * Drag and drop slide reordering
 * Intelligent image cropping
 * Set image crop position
+* Themes - includes 11 free professional slideshow themes
 * Built in Widget and Shortcode
 * Loads of slideshow configuration options - transition effect, speed etc (per slideshow)
 * Fully localized
@@ -64,7 +67,7 @@ Apply one of our professional slidehow designs to really make your website stand
 * Shortcode lets you add the slideshow anyway
 * Fully localized
 * WordPress Multi-site compatible, and 
-* compatible with translation plugins (WPML, PolyLang & qTranslate)
+* Compatible with translation plugins (WPML, PolyLang & qTranslate)
 * Developer Friendly, with extensive hooks & filters
 
 **Support:**
@@ -156,6 +159,10 @@ See https://www.metaslider.com/documentation/image-cropping/
 6. Administration panel - selecting slides
 
 == Changelog ==
+
+= 3.10.3 - 2018/Dec/4 =
+
+* FIX: Update Gutenberg compatibility
 
 = 3.10.2 - 2018/Nov/21 =
 
@@ -720,4 +727,4 @@ More info/Comments: http://www.metaslider.com/coming-soon-meta-slider-2-6-free/
 * Initial version
 
 == Upgrade Notice ==
-* 3.10.2 : Upgrade now if your captions disappeared using NivoSlider
+* 3.10.3 : Upgrade now if your Gutenberg blocks disappeared

@@ -59,7 +59,7 @@ ul#wp-admin-bar-root-default, ul.ab-top-menu {}
 #wp-auth-check-wrap #wp-auth-check {
         width: 450px;
 }
-#adminmenu div.wp-menu-image img { display: none; }
+
 .button, .button-primary, .button-secondary { outline: none}
 .redirect-users { padding-bottom: 20px; border-bottom: 3px solid #939dc1;}
 .redirect_users_to h5 { background: #ea4242; color: #fff; font-size: 12px; padding: 5px 10px}
@@ -67,6 +67,10 @@ ul#wp-admin-bar-root-default, ul.ab-top-menu {}
 .redirect_users_to div.custom_url {display: none;}
 div.updated {margin-left:0;}
 .wp-picker-container .wp-color-result.button,.wp-picker-container .wp-color-result.button:hover,.wp-picker-container .wp-color-result.button:focus{border: 1px solid #d5d5d5 !important;}
+.alter-icon-selected .wp-menu-image.svg, .alter-icon-selected .wp-menu-image img {
+  background: none!important;
+  display: none!important;
+}
 
 /* Clears shit */
 .clearfix:before,

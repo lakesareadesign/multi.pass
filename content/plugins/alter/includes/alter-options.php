@@ -247,7 +247,7 @@ function get_aof_options() {
   $panel_fields[] = array(
       'name' => __( 'Custom CSS for Admin pages', 'alter' ),
       'id' => 'admin_page_custom_css',
-      'type' => 'textarea',
+      'type' => 'css',
       );
 
 
@@ -559,7 +559,7 @@ function get_aof_options() {
   $panel_fields[] = array(
       'name' => __( 'Custom CSS for Login page', 'alter' ),
       'id' => 'login_custom_css',
-      'type' => 'textarea',
+      'type' => 'css',
       );
 
 

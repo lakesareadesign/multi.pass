@@ -8,7 +8,7 @@
     background-color:#fff;
     overflow: hidden;
     padding: 5px;
-    z-index: 999;
+    z-index: 9999;
     box-sizing: border-box;
     -webkit-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.45);
     -moz-box-shadow: 1px 1px 5px 0px rgba(0,0,0,0.45);
@@ -78,7 +78,7 @@
     width: auto;
 }
 
-/* DIV Button with Preview */	
+/* DIV Button with Preview */
 div.icon-picker {
     font-size: 24px;
     height: 33px;

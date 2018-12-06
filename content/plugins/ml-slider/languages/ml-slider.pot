@@ -48,7 +48,7 @@ msgstr ""
 msgid "Create one now!"
 msgstr ""
 
-#: src/admin/assets/js/gutenberg/components/preview.js:171
+#: src/admin/assets/js/gutenberg/components/preview.js:170
 msgid "Loading slideshow"
 msgstr ""
 

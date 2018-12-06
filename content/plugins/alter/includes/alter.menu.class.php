@@ -52,11 +52,23 @@ if (!class_exists('ALTERADMINMENU')) {
             wp_enqueue_style( 'dashicons' );
             wp_enqueue_style('font-awesome', ALTER_DIR_URI . 'assets/font-awesome/css/font-awesome.min.css', '', ALTER_VERSION);
             if($nowpage == 'alter_page_admin_menu_management') {
-                wp_enqueue_script('jquery-ui-sortable');
+                wp_enqueue_script( 'jquery-ui-sortable' );
                 wp_enqueue_script( 'alter-sortable', ALTER_DIR_URI . 'assets/js/sortjs.js', array( 'jquery' ), '', true );
-                wp_enqueue_style('iconPicker-css', ALTER_DIR_URI . 'assets/icon-picker/css/icon-picker.css', '', ALTER_VERSION);
+                wp_enqueue_style( 'iconPicker-css', ALTER_DIR_URI . 'assets/icon-picker/css/icon-picker.css', '', ALTER_VERSION );
                 wp_enqueue_script( 'iconPicker-js', ALTER_DIR_URI . 'assets/icon-picker/js/icon-picker.js', array( 'jquery' ), '', true );
             }
+        }
+
+        function predict_menu_name($menu_slug, $strlen=250, $like = false, $likeword = '') {
+          if(false === $like) {
+            return substr($menu_slug, 0, $strlen);
+          }
+          else {
+            if(strpos($menu_slug, $likeword) !== false) {
+              return true;
+            }
+            else return false;
+          }
         }
 
         function save_menu_data() {
@@ -103,7 +115,7 @@ if (!class_exists('ALTERADMINMENU')) {
                     $mm_cu = 0;
 
                     foreach($this->wp_df_menu as $menu_key => $top_lv_menu) {
-                        $top_lv_menu_slug =parent::alter_clean_slug($top_lv_menu[2]);
+                        $top_lv_menu_slug = parent::alter_clean_slug($top_lv_menu[2]);
                         $menu_icon_class = (isset($alter_toplv_menu_data[$top_lv_menu_slug]['menu_icon']) && !empty($alter_toplv_menu_data[$top_lv_menu_slug]['menu_icon'])) ? parent::alter_get_icon_class($alter_toplv_menu_data[$top_lv_menu_slug]['menu_icon']) : "";
                         ?>
                         <li>
@@ -137,13 +149,30 @@ if (!class_exists('ALTERADMINMENU')) {
                                 foreach ($this->wp_df_submenu[$top_lv_menu[2]] as $sub_menu_k => $sub_menu_v) {
                                     $sub_lv_menu_slug = parent::alter_clean_slug($sub_menu_v[2]);
                                     //print_r($sub_menu_v);
+                                    //echo '<pre>'; print_r($sub_lv_menu_slug); echo '</pre>';
+                                    if($this->predict_menu_name($sub_lv_menu_slug, '', true, 'custombackground') == true || $this->predict_menu_name($sub_lv_menu_slug, '', true, 'customheader') == true) {
+                                      continue;
+                                    }
+                                    elseif($this->predict_menu_name($sub_lv_menu_slug, 12) == 'customizephp') {
+                                      if($this->predict_menu_name($sub_lv_menu_slug, '', true, 'background') == true || $this->predict_menu_name($sub_lv_menu_slug, '', true, 'header') == true)
+                                        continue;
+                                      $sub_lv_menu_name = 'customizephp';
+                                      $sub_lv_menu_value = 'customize.php';
+                                    }
+                                    else {
+                                      $sub_lv_menu_name = $sub_lv_menu_slug;
+                                      $sub_lv_menu_value = $sub_menu_v[2];
+                                    }
                              ?>
                                 <li>
                                     <div class="alter-sort-list submenu_contents">
                                         <span class="menu_title"><?php echo parent::clean_title($sub_menu_v[0]); ?></span>
-                                        <a href="#" class="alter-edit-expand"><i class="fa fa-chevron-down" aria-hidden="true"></i> <span>Edit</span></a>
+                                        <a href="#" class="alter-edit-expand"><i class="fa fa-chevron-down" aria-hidden="true"></i> <span><?php esc_html_e('Edit', 'alter'); ?></span></a>
                                         <div class="alter-menu-contents">
-                                            <input type="hidden" name="sub_lvl_menu[<?php echo $sub_lv_menu_slug; ?>][menu_slug]" value="<?php echo $sub_menu_v[2]; ?>" />
+                                          <?php
+
+                                          ?>
+                                            <input type="hidden" name="sub_lvl_menu[<?php echo $sub_lv_menu_name; ?>][menu_slug]" value="<?php echo $sub_lv_menu_value; ?>" />
                                             <div class="menu_title">
                                                 <label for="menu_title"><em><?php _e('Rename Title', 'alter'); ?></em></label>
                                                 <input type="text" name="sub_lvl_menu[<?php echo $sub_lv_menu_slug; ?>][menu_title]" value="<?php if(isset($alter_sublv_menu_data[$sub_lv_menu_slug]['menu_title'])) echo $alter_sublv_menu_data[$sub_lv_menu_slug]['menu_title']; ?>" />
@@ -198,9 +227,13 @@ if (!class_exists('ALTERADMINMENU')) {
             $output = '<div class="hide-for-roles">' .
                 '<label class="hide-for-roles" for="hide-for-roles"><em>' . __('Hide menu for', 'alter') . '</em></label>';
                 $get_all_roles = parent::alter_get_wproles();
+
                 if(!empty($get_all_roles) && is_array($get_all_roles)) {
                     $role_nm = 0;
                     $role_max_nm = count($get_all_roles);
+                    if($this->predict_menu_name($admin_menu_slug, 12) == 'customizephp') {
+                      $admin_menu_slug = 'customizephp';
+                    }
                     $output .= "<table class='hide-for-roles-inputs'><tbody><tr>";
                     foreach ($get_all_roles as $wprole_name => $wprole_label) {
                         if($level_name == "top_lvl_menu") {
@@ -296,9 +329,9 @@ if (!class_exists('ALTERADMINMENU')) {
 
                   //customize top level menu
                   if($menu_value[4] != 'wp-menu-separator' && !preg_match("/separator/i",$menu_value[4])) {
-                    if(isset($menu_value[5]) && $menu_value[5] != "toplevel_page_jetpack") { //if list ID removed, jetpack v4.3.2 or higher could not load its settings using list ID
-                      $menu_value[5] = ""; //removing list ID in order to override icons set by other plugins
-                    }
+                    //if(isset($menu_value[5]) && $menu_value[5] != "toplevel_page_jetpack") { //if list ID removed, jetpack v4.3.2 or higher could not load its settings using list ID
+                      //$menu_value[5] = ""; //removing list ID in order to override icons set by other plugins
+                    //}
 
                     if(is_super_admin($current_user_id)) {
                         if(!empty($alter_menu_access) && $alter_menu_access == 2 && !empty($alter_privilege_users) && !in_array($current_user_id, $alter_privilege_users)
@@ -341,6 +374,8 @@ if (!class_exists('ALTERADMINMENU')) {
                     }
 
                     if(!empty($menu_icon_class)) {
+                        $menu_value[4] = str_replace('menu-icon-', 'alter-menu-icon-', $menu_value[4]);
+                        $menu_value[4] = str_replace('toplevel_page', 'alter-icon-selected alter-toplevel_page', $menu_value[4]);
                         $iconType = explode(" ", $menu_icon_class);
                         if($iconType[1] != "dashicons-blank") {
                             if($iconType[0] == "dashicons") {
@@ -355,7 +390,12 @@ if (!class_exists('ALTERADMINMENU')) {
                     //customize sub level menu
                     if(isset($submenu[$menu_value[2]]) && !empty($alter_sublv_menu_data)){
                             foreach ($submenu[$menu_value[2]] as $submenu_key => &$submenu_val){ //echo '<pre>'; print_r($submenu_val); echo '</pre>';
-                                $sub_level_menu_slug = parent::alter_clean_slug($submenu_val[2]);
+                              if($this->predict_menu_name($submenu_val[2], 9) == 'customize') {
+                                $sub_level_menu_slug = 'customizephp';
+                              }
+                              else {
+                                $sub_level_menu_slug = parent::alter_clean_slug($submenu_val[2]); //set customize.php for customize menu here
+                              }
                                 $hide_for_roles_for_sub = isset($alter_sublv_menu_data[$sub_level_menu_slug]['hide_for']) ? $alter_sublv_menu_data[$sub_level_menu_slug]['hide_for'] : "";
 
                                     if(is_multisite() && !is_super_admin()) {

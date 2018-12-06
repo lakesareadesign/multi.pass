@@ -62,6 +62,7 @@ if (!class_exists('ALTER_IMP_EXP')) {
                 <div style="padding: 15px 0">
                 <span><?php echo __('Save the below contents to a text file.', 'alter'); ?></span>
                 <textarea class="widefat" rows="10" ><?php echo $this->alter_get_settings(); ?></textarea>
+                <!-- <textarea class="widefat" rows="10" ><?php //echo var_export(get_option('alter_options')); ?></textarea> -->
                 </div>
 
                 <h3><?php echo __('Import Settings', 'alter'); ?></h3>
@@ -82,14 +83,14 @@ if (!class_exists('ALTER_IMP_EXP')) {
         function alter_settings_action() {
             if(isset($_POST['alter_import_settings_field']) ) {
                 if(!wp_verify_nonce( $_POST['alter_import_settings_field'], 'alter_import_settings_nonce' ) )
-                        exit();
+                    exit();
                 $import_data = trim($_POST['alter_import_settings_data']);
                 if(empty($import_data) || !is_serialized($import_data)) {
-                        wp_safe_redirect( admin_url( 'admin.php?page=alter_impexp_settings&status=dataerror' ) );
-                        exit();
+                    wp_safe_redirect( admin_url( 'admin.php?page=alter_impexp_settings&status=dataerror' ) );
+                    exit();
                 }
                 else {
-                    $data = unserialize($import_data); //to avoid double serialization
+                    $data = (is_serialized($import_data)) ? unserialize($import_data) : $import_data; //to avoid double serialization
                     parent::updateOption(ALTER_OPTIONS_SLUG, $data);
                     wp_safe_redirect( admin_url( 'admin.php?page=alter_impexp_settings&status=updated' ) );
                     exit();

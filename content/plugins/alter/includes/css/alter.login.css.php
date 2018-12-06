@@ -13,7 +13,6 @@ $output .= '@font-face {
   font-style: normal;
 }';
 
-//$login_bg_img = (!empty($this->aof_options['login_bg_img'])) ? $this->aof_options['login_bg_img'] : "";
 if(!empty($this->aof_options['login_external_bg_url']) && filter_var($this->aof_options['login_external_bg_url'], FILTER_VALIDATE_URL)) {
   $login_bg_img = esc_url( $this->aof_options['login_external_bg_url']);
 }
@@ -43,7 +42,7 @@ $login_button_color = (!empty($this->aof_options['login_button_color'])) ? $this
 $login_button_hover_color = (!empty($this->aof_options['login_button_hover_color'])) ? $this->aof_options['login_button_hover_color'] : "#101e2f";
 $login_button_text_color = (!empty($this->aof_options['login_button_text_color'])) ? $this->aof_options['login_button_text_color'] : "#ffffff";
 
-  if(empty($this->aof_options['disable_login_bg_img'])) {
+  if($this->aof_options['disable_login_bg_img'] != 1) {
     $output .= 'body,.form-bg{ background-image: url("';
       if(!empty($login_bg_img)) {
         $output .= $login_bg_img;
@@ -420,6 +419,14 @@ body #dashboard-widgets .postbox form .submit { padding: 10px 0 !important; }
 }
 
 ';
+
+if(is_rtl()) {
+  $output .= '.login form .input, .login input[type=text], .login input[type=password], .login input[type=email] {
+    padding-right:45px;
+    padding-Left:20px;
+  }
+    ';
+}
 
 $output .= 'form#loginform .button-primary, form#registerform .button-primary, .button-primary {
   background:'. $login_button_color .';

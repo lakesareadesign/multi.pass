@@ -38,7 +38,7 @@
 		if ( is_callable( $callback ) ) :
 			call_user_func( $callback );
 		else :
-			$this->view( $orig_id . '-meta-box' );
+			$this->view( $orig_id . '-meta-box' );	  	 	   	 		 		 		 	
 		endif;
 	endif;
 	?>

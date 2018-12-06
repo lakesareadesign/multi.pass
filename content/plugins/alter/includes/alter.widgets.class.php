@@ -63,21 +63,6 @@ if (!class_exists('ALTERWIDGETS')) {
             $remove_dash_widgets = (is_serialized($dash_widgets_removal_data)) ? unserialize($dash_widgets_removal_data) : $dash_widgets_removal_data;
 
             //Removing unwanted widgets
-            // if(!empty($remove_dash_widgets) && is_array($remove_dash_widgets)) {
-            //     foreach ($remove_dash_widgets as $widget_to_rm) {
-            //         if($widget_to_rm == "welcome_panel") {
-            //             remove_action('welcome_panel', 'wp_welcome_panel');
-            //         }
-            //         else {
-            //             $widget_data = explode("|", $widget_to_rm);
-            //             $widget_id = $widget_data[0];
-            //             $widget_pos = $widget_data[1];
-            //             unset($wp_meta_boxes['dashboard'][$widget_pos]['core'][$widget_id]);
-            //         }
-            //     }
-            // }
-
-            //Removing unwanted widgets
             if(!empty($remove_dash_widgets) && is_array($remove_dash_widgets)) {
                 foreach ($remove_dash_widgets as $widget_to_rm) {
                     if($widget_to_rm == "welcome_panel") {
@@ -258,14 +243,17 @@ if (!class_exists('ALTERWIDGETS')) {
         function save_custom_widgets() {
             if(isset($_POST['alter_add_widgets'])) {
                 $custom_widgets = array();
-                //echo '<pre>'; print_r($_POST['add_dash_widgets']); echo '</pre>';
                 if(isset($_POST['add_dash_widgets']) && !empty($_POST['add_dash_widgets'])) {
                     foreach($_POST['add_dash_widgets'] as $dash_widget_data) {
                         if(empty($dash_widget_data['widget_title']) && empty($dash_widget_data['widget_rss']) && empty($dash_widget_data['widget_content']) ) {
                             $custom_widgets['add_dash_widgets'][] = "";
                             continue;
                         }
-                        $custom_widgets['add_dash_widgets'][] = $dash_widget_data;
+                        foreach ($dash_widget_data as $data_key => $data_value) {
+                          //$widget_data_array[$data_key] = htmlentities($data_value, ENT_COMPAT);
+                          $widget_data_array[$data_key] = str_replace('"',"'", $data_value);
+                        }
+                        $custom_widgets['add_dash_widgets'][] = $widget_data_array;
                     }
                 }
 
@@ -287,17 +275,17 @@ if (!class_exists('ALTERWIDGETS')) {
             $dash_widget_data = array();
             $i = 1;
             foreach($this->aof_options['add_dash_widgets'] as $add_widget) {
-                if(is_array($add_widget) && !empty($add_widget)) {
-                    $dash_widget_data['type'] = ($add_widget['widget_type'] == 2) ? "rss" : "custom";
-                    $dash_widget_data['pos'] = ($add_widget['widget_position'] == 2) ? "side" : "normal";
-                    $dash_widget_data['title'] = $add_widget['widget_title'];
-                    $dash_widget_data['rss'] = $add_widget['widget_rss'];
-                    $dash_widget_data['content'] = do_shortcode($add_widget['widget_content']);
-                    if(!empty($dash_widget_data['rss']) || !empty($dash_widget_data['content'])) {
-                        add_meta_box('alter_widget_' . $i, $dash_widget_data['title'], array($this, 'output_dash_widget'), 'dashboard', $dash_widget_data['pos'], 'high', $dash_widget_data);
-                        $i++;
-                    }
-                }
+              if(is_array($add_widget) && !empty($add_widget)) {
+                  $dash_widget_data['type'] = ($add_widget['widget_type'] == 2) ? "rss" : "custom";
+                  $dash_widget_data['pos'] = ($add_widget['widget_position'] == 2) ? "side" : "normal";
+                  $dash_widget_data['title'] = $add_widget['widget_title'];
+                  $dash_widget_data['rss'] = $add_widget['widget_rss'];
+                  $dash_widget_data['content'] = do_shortcode($add_widget['widget_content']);
+                  if(!empty($dash_widget_data['rss']) || !empty($dash_widget_data['content'])) {
+                      add_meta_box('alter_widget_' . $i, $dash_widget_data['title'], array($this, 'output_dash_widget'), 'dashboard', $dash_widget_data['pos'], 'high', $dash_widget_data);
+                      $i++;
+                  }
+              }
             }
         }
 

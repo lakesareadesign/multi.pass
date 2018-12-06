@@ -6,6 +6,29 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+= 3.0.0 =
+
+* New: Smush CDN
+* New: Webp support with CDN
+* New: Auto image resize when using CDN
+* New: Plugin structure (Important: plugin globals have been removed)
+* New: Show failure reason during directory Smush
+* New: Settings page with language translation links
+* Security: Fix XSS and phar deserialization vulnerabilities
+* Enhance: Better handling of animated GIFs. Improve performance.
+* Enhance: Update translation strings
+* Enhance: Clean out all the leftover data on plugin uninstall
+* Enhance: Directory Smush modal: support keyboard navigation
+* Enhance: Directory Smush modal: navigate to next node by typing the first letters
+* Enhance: [WPML] PNG to JPEG conversion in media translations
+* Fix: Directory Smush resume button only working when clicked on icon
+* Fix: Errors during image re-check
+* Fix: Meta values are deleted when an image is skipped using wp_smush_image filter.
+* Fix: [WP Offload Media] Backward compatibility errors
+* Fix: [WP Offload Media] Warnings when certain attachment sizes are excluded from compression
+* Fix: [WP Offload Media] Errors during is_animated check with images stored on S3
+* Fix: [WooCommerce] Compatibility issue with WooCommerce 3.5
+
 = 2.9.1 =
 
 * Fix: Errors during update from Free to Pro
@@ -483,4 +506,4 @@ Fix: Compatibility issues with latest WP Offload Media (WP Offload S3) update
 - First release
 
 
-133620-1540264232-au
+133620-1544071514-au

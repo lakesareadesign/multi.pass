@@ -26,7 +26,7 @@ class MetaSlider_Gutenberg {
 		wp_enqueue_script(
 			'metaslider-blocks',
 			plugins_url('assets/js/editor-block-' . sanitize_title(METASLIDER_VERSION) . '.js', __FILE__),
-			array('wp-i18n', 'wp-element', 'wp-blocks', 'wp-components', 'wp-api'),
+			array('wp-i18n', 'wp-element', 'wp-block-library', 'wp-components', 'wp-api'),
 			$version
 		);
 		
@@ -50,7 +50,7 @@ class MetaSlider_Gutenberg {
 		wp_enqueue_style(
 			'metaslider-blocks-editor-css',
 			plugins_url('assets/css/gutenberg/editor-block-' . sanitize_title(METASLIDER_VERSION) . '.css', __FILE__),
-			array('wp-blocks'),
+			array('wp-block-library'),
 			$version
 		);
 		

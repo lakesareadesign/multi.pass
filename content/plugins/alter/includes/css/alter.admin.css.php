@@ -186,14 +186,45 @@ div.updated a:hover { color: <?php echo $this->aof_options['msgbox_link_hover_co
   color: <?php echo $this->aof_options['warn_link_hover_color']; ?>;
 }
 
+<?php
+//alter options css
+if(is_rtl()) {
+  ?>
+.alter-edit-expand {
+  right: auto!important;
+  left: 20px!important;
+}
+  <?php
+}
 
+ //gutenberg styles
+ if(isset($this->aof_options['admin_menu_width']) && !empty($this->aof_options['admin_menu_width'])) {
+   $guttenberg_header_width = $this->aof_options['admin_menu_width'] . 'px';
+ }
+ else {
+   $guttenberg_header_width = '200px';
+ }
+ ?>
+ @media screen and (min-width: 782px){
+   .gutenberg__editor .edit-post-header, .gutenberg__editor .components-notice-list {
+     left: <?php echo $guttenberg_header_width; ?>
+   }
+   .gutenberg__editor .edit-post-header {
+       top: 50px!important;
+   }
+   .gutenberg__editor .edit-post-sidebar {
+     top:105px;
+   }
+ }
+
+?>
 <?php if($this->aof_options['design_type'] == 1) { ?>
 .wp-core-ui .button-primary, .postbox,.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button, .wp-core-ui .button-secondary, .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover, #wpadminbar .menupop .ab-sub-wrapper, #wpadminbar .shortlink-input, .theme-browser .theme, .wrap .add-new-h2, .wrap .page-title-action,.wrap .add-new-h2:hover, .wrap .page-title-action:hover, .wrap .add-new-h2:active {
 	-webkit-box-shadow: none !important;
 	-moz-box-shadow: none !important;
 	box-shadow: none !important;
 	border: none !important;
-                    text-shadow: none !important;
+  text-shadow: none !important;
 }
 input[type=checkbox], input[type=radio], #update-nag, .update-nag, .wp-list-table, .widefat, input[type=email], input[type=number], input[type=password], input[type=search], input[type=tel], input[type=text], input[type=url], select, textarea, #adminmenu .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu, .folded #adminmenu a.wp-has-current-submenu:focus+.wp-submenu, .mce-toolbar .mce-btn-group .mce-btn.mce-listbox, .wp-color-result, .widget-top, .widgets-holder-wrap {
 	-webkit-box-shadow: none !important;

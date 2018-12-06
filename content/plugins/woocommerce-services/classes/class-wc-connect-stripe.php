@@ -46,6 +46,11 @@ if ( ! class_exists( 'WC_Connect_Stripe' ) ) {
 			if ( empty( $return_url ) ) {
 				$return_url = admin_url( 'admin.php?page=wc-settings&tab=checkout&section=stripe' );
 			}
+
+			if ( substr( $return_url, 0, 8 ) !== 'https://' ) {
+				return new WP_Error( 'invalid_url_protocol', __( 'Your site must be served over HTTPS in order to connect your Stripe account via WooCommerce Services', 'woocommerce-services' ) );
+			}
+
 			$result = $this->api->get_stripe_oauth_init( $return_url );
 
 			if ( is_wp_error( $result ) ) {
@@ -182,9 +187,21 @@ if ( ! class_exists( 'WC_Connect_Stripe' ) ) {
 		}
 
 		/**
-		 * Trigger Stripe connection-related admin notice if one is meant to be shown.
+		 * Handle connection and just-in-time messaging around OAuth flow.
 		 */
 		public function maybe_show_notice() {
+			// Handle redirect back from OAuth flow.
+			if ( isset( $_GET[ 'wcs_stripe_code' ] ) && isset( $_GET[ 'wcs_stripe_state' ] ) ) {
+				$response = $this->connect_oauth( $_GET[ 'wcs_stripe_state' ], $_GET[ 'wcs_stripe_code' ] );
+				if ( ! is_wp_error( $response ) ) {
+					WC_Connect_Options::update_option( 'banner_stripe', 'success' );
+				}
+
+				wp_safe_redirect( remove_query_arg( array( 'wcs_stripe_state', 'wcs_stripe_code' ) ) );
+				exit;
+			}
+
+			// Trigger connection-related admin notice if triggered and if on relevant screen.
 			$setting = WC_Connect_Options::get_option( 'banner_stripe', null );
 			if ( is_null( $setting ) ) {
 				return;
@@ -194,16 +211,6 @@ if ( ! class_exists( 'WC_Connect_Stripe' ) ) {
 				add_action( 'admin_notices', array( $this, 'connection_success_notice' ) );
 				WC_Connect_Options::delete_option( 'banner_stripe' );
 				return;
-			}
-
-			if ( isset( $_GET[ 'wcs_stripe_code' ] ) && isset( $_GET[ 'wcs_stripe_state' ] ) ) {
-				$response = $this->connect_oauth( $_GET[ 'wcs_stripe_state' ], $_GET[ 'wcs_stripe_code' ] );
-				if ( ! is_wp_error( $response ) ) {
-					WC_Connect_Options::update_option( 'banner_stripe', 'success' );
-				}
-
-				wp_safe_redirect( remove_query_arg( array( 'wcs_stripe_state', 'wcs_stripe_code' ) ) );
-				exit;
 			}
 
 			$screen = get_current_screen();
@@ -232,7 +239,10 @@ if ( ! class_exists( 'WC_Connect_Stripe' ) ) {
 			$result = $this->get_oauth_url();
 
 			if ( is_wp_error( $result ) ) {
-				$this->logger->log( $result, __CLASS__ );
+				//do not log the invalid url protocol error when attempting to render the banner
+				if ( 'invalid_url_protocol' !== $result->get_error_code() ) {
+					$this->logger->log( $result, __CLASS__ );
+				}
 				return;
 			}
 
@@ -282,7 +292,7 @@ if ( ! class_exists( 'WC_Connect_Stripe' ) ) {
 			$new_settings = array(
 				'connection_status' => array(
 					'type'        => 'title',
-					'title'       => __( 'Connected Stripe account', 'woocommerce-services' ),
+					'title'       => __( 'Stripe Account (connected to WooCommerce Services)', 'woocommerce-services' ),
 					'description' => ob_get_clean(),
 				),
 			);
