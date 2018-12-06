@@ -2,7 +2,6 @@
 /**
  * Storefront NUX Guided Tour Class
  *
- * @author   WooThemes
  * @package  storefront
  * @since    2.0.0
  */
@@ -35,7 +34,7 @@ if ( ! class_exists( 'Storefront_NUX_Guided_Tour' ) ) :
 			global $pagenow;
 
 			if ( 'customize.php' === $pagenow && false === (bool) get_option( 'storefront_nux_guided_tour', false ) ) {
-				add_action( 'customize_controls_enqueue_scripts',      array( $this, 'customize_scripts' ) );
+				add_action( 'customize_controls_enqueue_scripts', array( $this, 'customize_scripts' ) );
 				add_action( 'customize_controls_print_footer_scripts', array( $this, 'print_templates' ) );
 
 				if ( current_user_can( 'manage_options' ) ) {
@@ -108,6 +107,7 @@ if ( ! class_exists( 'Storefront_NUX_Guided_Tour' ) ) :
 
 			$steps[] = array(
 				'title'       => __( 'Welcome to the Customizer', 'storefront' ),
+				/* translators: %s: 'End Of Line' symbol */
 				'message'     => sprintf( __( 'Here you can control the overall look and feel of your store.%sTo get started, let\'s add your logo', 'storefront' ), PHP_EOL . PHP_EOL ),
 				'button_text' => __( 'Let\'s go!', 'storefront' ),
 				'section'     => '#customize-info',
@@ -140,8 +140,9 @@ if ( ! class_exists( 'Storefront_NUX_Guided_Tour' ) ) :
 			);
 
 			$steps[] = array(
-				'title'       =>  '',
-				'message'     => sprintf( __( 'All set! Remember to %ssave & publish%s your changes when you\'re done.%sYou can return to your dashboard by clicking the X in the top left corner.', 'storefront' ), '<strong>', '</strong>', PHP_EOL . PHP_EOL ),
+				'title'       => '',
+				/* translators: 1: open <strong> tag, 2: close <strong> tag, 3: 'End Of Line' symbol */
+				'message'     => sprintf( __( 'All set! Remember to %1$ssave & publish%2$s your changes when you\'re done.%3$sYou can return to your dashboard by clicking the X in the top left corner.', 'storefront' ), '<strong>', '</strong>', PHP_EOL . PHP_EOL ),
 				'section'     => '#customize-header-actions .save',
 				'button_text' => __( 'Done', 'storefront' ),
 			);

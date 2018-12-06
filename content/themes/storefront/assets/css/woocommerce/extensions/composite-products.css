@@ -8,13 +8,13 @@
  * Base
  */
 .composite_summary .summary_element .summary_element_wrapper {
-  box-shadow: 0 0 0 4px transparent; }
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0); }
   .composite_summary .summary_element .summary_element_wrapper.selected, .composite_summary .summary_element .summary_element_wrapper.selected:hover {
     box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06); }
   .composite_summary .summary_element .summary_element_wrapper:hover {
     box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.03); }
   .composite_summary .summary_element .summary_element_wrapper.disabled, .composite_summary .summary_element .summary_element_wrapper.disabled:hover {
-    box-shadow: 0 0 0 4px transparent; }
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0); }
 
 .composite_form .component .component_summary .content {
   margin-bottom: 1.618em; }
@@ -34,13 +34,13 @@
   padding: 0; }
 
 .composite_form .component .component_option_thumbnails .component_option_thumbnail {
-  box-shadow: 0 0 0 4px transparent; }
+  box-shadow: 0 0 0 4px rgba(0, 0, 0, 0); }
   .composite_form .component .component_option_thumbnails .component_option_thumbnail.selected, .composite_form .component .component_option_thumbnails .component_option_thumbnail.selected:hover {
     box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.06); }
   .composite_form .component .component_option_thumbnails .component_option_thumbnail:hover {
     box-shadow: 0 0 0 4px rgba(0, 0, 0, 0.03); }
   .composite_form .component .component_option_thumbnails .component_option_thumbnail.disabled, .composite_form .component .component_option_thumbnails .component_option_thumbnail.disabled:hover {
-    box-shadow: 0 0 0 4px transparent; }
+    box-shadow: 0 0 0 4px rgba(0, 0, 0, 0); }
 
 .composite_form .component .select_label {
   display: block;
@@ -116,7 +116,7 @@
   .widget.widget_composite_summary.widget_position_fixed .widget_composite_summary_content::after {
     clear: both; }
 
-@media (max-width: 66.4989378333em) {
+@media (max-width: ms(18)) {
   .widget.widget_composite_summary.widget_position_fixed .widget_composite_summary_content {
     margin-left: 2.617924em;
     margin-right: 2.617924em;
