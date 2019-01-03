@@ -79,12 +79,24 @@ if ( ! class_exists( 'um\admin\Admin' ) ) {
 
 			if ( empty( $last_request ) || time() > $last_request + DAY_IN_SECONDS ) {
 
-				delete_transient( 'update_plugins' );
-				delete_site_transient( 'update_plugins' );
+				if ( is_multisite() ) {
+					$blogs_ids = get_sites();
+					foreach( $blogs_ids as $b ) {
+						switch_to_blog( $b->blog_id );
+						wp_clean_update_cache();
 
-				UM()->plugin_updater()->um_checklicenses();
+						UM()->plugin_updater()->um_checklicenses();
 
-				update_option( 'um_last_manual_upgrades_request', time() );
+						update_option( 'um_last_manual_upgrades_request', time() );
+						restore_current_blog();
+					}
+				} else {
+					wp_clean_update_cache();
+
+					UM()->plugin_updater()->um_checklicenses();
+
+					update_option( 'um_last_manual_upgrades_request', time() );
+				}
 
 				$url = add_query_arg( array( 'page' => 'ultimatemember', 'update' => 'got_updates' ), admin_url( 'admin.php' ) );
 			} else {

@@ -55,6 +55,7 @@ if (!class_exists('WPSHAPERE')) {
 	    add_action('wp_head', array($this, 'frontendActions'), 99999);
       add_action( 'activated_plugin', array($this, 'wps_activated' ));
       add_action( 'aof_before_heading', array($this, 'wps_welcome_msg'));
+      add_action( 'aof_after_heading', array($this, 'wps_help_link'));
       add_filter( 'login_title', array($this, 'login_page_title') );
 	}
 
@@ -68,12 +69,18 @@ if (!class_exists('WPSHAPERE')) {
    }
 
   function wps_welcome_msg() {
-     if(isset($_GET['status']) && $_GET['status'] == "wps-activated") {
+    if(isset($_GET['status']) && $_GET['status'] == "wps-activated") {
        echo '<h1 style="line-height: 1.2em;font-size: 2.8em;font-weight: 400;">' . __('Welcome to WPShapere ', 'wps') . WPSHAPERE_VERSION . '</h1>';
-       echo '<div class="wps_kb_link"><a target="_blank" href="http://kb.acmeedesign.com/kbase_categories/wpshapere/">';
-       echo __('Visit Knowledgebase', 'wps');
-       echo '</a></div>';
-     }
+       // echo '<div class="wps_kb_link"><a class="wps_kb_link" target="_blank" href="http://kb.acmeedesign.com/kbase_categories/wpshapere/">';
+       // echo __('Visit Knowledgebase', 'wps');
+       // echo '</a></div>';
+    }
+  }
+
+  function wps_help_link() {
+    echo '<div class="wps_kb_link"><a class="wps_kb_link" target="_blank" href="http://kb.acmeedesign.com/kbase_categories/wpshapere/"><span class="dashicons dashicons-editor-help"></span> ';
+    echo __('Visit Knowledgebase', 'wps');
+    echo '</a></div>';
   }
 
   function wps_load_textdomain()
@@ -199,10 +206,12 @@ if (!class_exists('WPSHAPERE')) {
 
 	    //prevent access to wpshapere menu for non-superadmin
 	    if( (!current_user_can('manage_network')) && defined('NETWORK_ADMIN_CONTROL') ){
-		if($screen->id == "toplevel_page_wpshapere-options" || $screen->id == "wpshapere-options_page_wps_admin_menuorder" || $screen->id == "wpshapere-options_page_wps_impexp_settings") {
-		    wp_die("<div style='width:70%; margin: 30px auto; padding:30px; background:#fff'><h4>Sorry, you don't have sufficient previlege to access to this page!</h4></div>");
-		    exit();
-		}
+        if(isset($screen->id)) {
+      		if($screen->id == "toplevel_page_wpshapere-options" || $screen->id == "wpshapere-options_page_wps_admin_menuorder" || $screen->id == "wpshapere-options_page_wps_impexp_settings") {
+      		    wp_die("<div style='width:70%; margin: 30px auto; padding:30px; background:#fff'><h4>Sorry, you don't have sufficient previlege to access to this page!</h4></div>");
+      		    exit();
+      		}
+        }
 	    }
 	?>
 

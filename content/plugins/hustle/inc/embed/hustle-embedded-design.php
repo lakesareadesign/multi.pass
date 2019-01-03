@@ -32,6 +32,12 @@ class Hustle_Embedded_Design extends Hustle_Meta {
 		'cta_button_hover_color' => 'rgba(255,255,255,1)',
 		'cta_button_active_color' => 'rgba(255,255,255,1)',
 
+		// Colors Palette: GDPR Field
+		'gdpr_content'                       => '#ADB5B7',
+		'gdpr_chechbox_background_static'    => '#FDFDFD',
+		'gdpr_checkbox_background_active'    => '#FDFDFD',
+		'gdpr_checkbox_icon'                 => '#38C5B5',
+
 		'optin_input_static_bg' => 'rgba(253,253,253,1)',
 		'optin_input_hover_bg' => 'rgba(253,253,253,1)',
 		'optin_input_active_bg' => 'rgba(253,253,253,1)',
@@ -86,6 +92,12 @@ class Hustle_Embedded_Design extends Hustle_Meta {
 		'button_border_radius' => 5,
 		'button_border_weight' => 3,
 		'button_border_type' => 'solid',
+		'button_border_color' => 'rgba(218,218,218,1)',
+		// Module Basics: GDPR Checkbox
+		'gdpr_border' => 0,
+		'gdpr_border_radius' => 5,
+		'gdpr_border_weight' => 3,
+		'gdpr_border_type' => 'solid',
 		'button_border_color' => 'rgba(218,218,218,1)',
 		'form_fields_icon' => 'static',
 		'form_fields_proximity' => 'joined',

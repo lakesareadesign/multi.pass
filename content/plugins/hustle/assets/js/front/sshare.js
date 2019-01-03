@@ -200,11 +200,11 @@
 
 			// update social counter and log conversion
 			this.log_conversion(this.module_display_type, this.opts, social, 'native');
-			
+
 			if ( social && typeof Optin.SShare_native_share_enpoints[social] != 'undefined' ) {
 				window.open(
-					Optin.SShare_native_share_enpoints[social]+ hustle_vars.current_url, 
-					'MsgWindow', 
+					Optin.SShare_native_share_enpoints[social]+ inc_opt.current_url,
+					'MsgWindow',
 					'menubar=no,toolbar=no,resizable=yes,scrollbars=yes'
 				);
 			}
@@ -294,7 +294,8 @@
 			var $this = $(this),
 				id = $this.data('id'),
 				type = $this.data('type'),
-				is_admin = hustle_vars.is_admin === '1';
+				//is_admin = hustle_vars.is_admin === '1';
+				is_admin = inc_opt.is_admin === '1';
 				
 				if( !id ) return;
 				

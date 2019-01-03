@@ -67,7 +67,10 @@
 				var idArray = elID.getAttribute( 'id' ).split( '-' );
 				var nfOptions = document.getElementById( 'nf-filter-container-' + idArray[ idArray.length -1 ] );
 				var inputEl = document.getElementById( 'nf-formFilter-sidebar' );
-				inputEl.value = '';
+				
+				if( inputEl ) {
+					inputEl.value = '';
+				}
 				nfOptions.style.display = 'none';
 			}
 

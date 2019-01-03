@@ -10,11 +10,8 @@ $css_styles = '';
 $css_styles .= '<style type="text/css">';
 
 //static styles
-$css_styles .= 'html.wp-toolbar {
-        padding-top: 50px;
-}
+$css_styles .= '
 #wpadminbar {
-    height:50px;
     -webkit-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
     -moz-box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
     box-shadow: 0 2px 2px rgba(0, 0, 0, 0.05), 0 1px 0 rgba(0, 0, 0, 0.05);
@@ -41,7 +38,6 @@ li#wp-admin-bar-my-account a {
     margin:10px 21px 20px;
 }
 ul#wp-admin-bar-root-default, ul.ab-top-menu {}
-#wpadminbar .quicklinks>ul>li>a, div.ab-empty-item { padding: 9px !important }
 #wpadminbar .quicklinks ul li li div.ab-empty-item {padding-top: 0!important;padding-bottom: 0!important}
 #adminmenu, #adminmenuwrap {
   transition: all 0.3s ease-in-out 0s;
@@ -49,6 +45,7 @@ ul#wp-admin-bar-root-default, ul.ab-top-menu {}
   -ms-transition: all 0.3s ease-in-out 0s;
   -moz-transition: all 0.3s ease-in-out 0s;
 }
+#adminmenu {margin-top:0}
 .folded #adminmenu, .folded #adminmenu li.menu-top, .folded #adminmenuback, .folded #adminmenuwrap {
     width: 58px;
 }
@@ -281,9 +278,9 @@ div.wps_kb_link a {
   font-size: 12px;
   line-height: 1.2em;
   color: #fff;
-  font-weight: 900;
-  background: #fa56f9;
-  padding: 5px 10px;
+  font-weight: 600;
+  background: #7baf47;
+  padding: 7px 10px;
   text-decoration: none;
   -webkit-border-radius: 3px;
   border-radius: 3px;
@@ -327,9 +324,6 @@ div.wps_kb_link a {
   .auto-fold #wpcontent {
           margin-left: 0;
   }
-  html.wp-toolbar {
-      padding-top: 46px;
-  }
   #wpadminbar .quicklinks>ul>li>a {
       padding: 0;
   }
@@ -342,13 +336,24 @@ div.wps_kb_link a {
 }
 
 @media screen and (max-width: 600px){
-  html.wp-toolbar {
-          padding-top: 0;
-  }
   div#login {
       width: 90% !important;
   }
 }';
+
+  if(empty($this->aof_options['default_adminbar_height'])) {
+    $css_styles .= '#wpadminbar {height:50px;}';
+    $css_styles .= '@media screen and (max-width: 782px){
+      #wpadminbar .quicklinks .ab-empty-item, #wpadminbar .quicklinks a, #wpadminbar .shortlink-input {
+          height: 46px;
+      }
+    }
+    @media only screen and (min-width:782px) {
+      html.wp-toolbar {padding-top: 50px;}
+      #wpadminbar .quicklinks>ul>li>a, div.ab-empty-item { padding: 9px !important }
+    }
+    ';
+  }
 
 $css_styles .= 'html, #wpwrap, #wp-content-editor-tools { background: ' . $this->aof_options['bg_color'] . '; }';
 $css_styles .= 'ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:after { ';
@@ -656,7 +661,7 @@ if($this->aof_options['design_type'] == 1 || $this->aof_options['design_type'] =
 
 if($this->aof_options['design_type'] == 3) {
 
-  $css_styles .= '#adminmenuwrap{-webkit-box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.3);
+  $css_styles .= '#adminmenuback{-webkit-box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.3);
 -moz-box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.3);
 box-shadow: 0px 4px 16px 0px rgba(0,0,0,0.3);}
 ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:after{
@@ -684,22 +689,24 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:a
       opacity: 1 !important;
   }
 
-  #wp-toolbar > ul > li > .ab-sub-wrapper:before {
-      position: absolute;
-      top: -8px;
-      left: 20%;
-      content: "";
-      display: block;
-      border: 6px solid transparent;
-      border-bottom-color: transparent;
-      border-bottom-color: ' . $this->aof_options['admin_bar_menu_bg_hover_color'] . ';
-      transition: all 0.2s ease-in-out;
-      -moz-transition: all 0.2s ease-in-out;
-      -webkit-transition: all 0.2s ease-in-out;
-  }
+  @media screen and (min-width: 782px){
+    #wp-toolbar > ul > li > .ab-sub-wrapper:before {
+        position: absolute;
+        top: -8px;
+        left: 20%;
+        content: "";
+        display: block;
+        border: 6px solid transparent;
+        border-bottom-color: transparent;
+        border-bottom-color: ' . $this->aof_options['admin_bar_menu_bg_hover_color'] . ';
+        transition: all 0.2s ease-in-out;
+        -moz-transition: all 0.2s ease-in-out;
+        -webkit-transition: all 0.2s ease-in-out;
+    }
 
-  #wp-toolbar > ul > li.hover > .ab-sub-wrapper:before {
-  	top: -12px;
+    #wp-toolbar > ul > li.hover > .ab-sub-wrapper:before {
+    	top: -12px;
+    }
   }';
 
   $css_styles .= '#wp-toolbar > ul > li#wp-admin-bar-my-account > .ab-sub-wrapper:before{left:60%}';
@@ -707,6 +714,30 @@ ul#adminmenu a.wp-has-current-submenu:after, ul#adminmenu>li.current>a.current:a
   $css_styles .= '#wpadminbar .ab-top-menu>li.hover>.ab-item,#wpadminbar.nojq .quicklinks .ab-top-menu>li>.ab-item:focus,
   #wpadminbar:not(.mobile) .ab-top-menu>li:hover>.ab-item,#wpadminbar:not(.mobile) .ab-top-menu>li>.ab-item:focus{
     background: ' . $this->aof_options['admin_bar_color'] . '; color: ' . $this->aof_options['admin_bar_menu_color'] . '}';
+
+  //gutenberg styles
+  if(isset($this->aof_options['admin_menu_width']) && !empty($this->aof_options['admin_menu_width'])) {
+    $guttenberg_header_width = $this->aof_options['admin_menu_width'] . 'px';
+  }
+  else {
+    $guttenberg_header_width = '200px';
+  }
+  $css_styles .= "@media screen and (min-width: 782px){
+      .block-editor .edit-post-header, .block-editor .components-notice-list {
+        left: $guttenberg_header_width;
+      }
+    }";
+    if(empty($this->aof_options['default_adminbar_height'])) {
+      $css_styles .= '@media screen and (min-width: 782px){
+        .block-editor .edit-post-header {
+            top: 50px!important;
+        }
+        .block-editor .edit-post-sidebar {
+          top:105px;
+        }
+      }';
+    }
+    //gutenberg styles
 
 }
 
@@ -733,6 +764,15 @@ if($this->aof_options['design_type'] == 2) {
     box-shadow: inset 0 1px 0 '. $this->aof_options['pry_button_hover_shadow_color'] .',0 1px 0 rgba(0,0,0,.15) !important;}';
   $css_styles .= '}';
 }
+
+//Impreza theme options header fixed positioning fix
+$css_styles .= '.usof-header {
+top:50px;
+}
+.usof-nav {
+top:80px;
+}';
+
 
 $css_styles .= $this->aof_options['admin_page_custom_css'];
 $css_styles .= '</style>';

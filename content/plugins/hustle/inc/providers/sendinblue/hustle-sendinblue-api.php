@@ -890,7 +890,7 @@ if ( ! class_exists( 'Hustle_SendinBlue_Api' ) ) :
 		}
 
 		public function delete_token($key){
-			return $this->post("account/deletetoken", wp_json_encode(array("token"=>$key)));	  	 			 			  	      
+			return $this->post("account/deletetoken", wp_json_encode(array("token"=>$key)));
 		}
 
 		/**

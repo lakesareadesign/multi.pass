@@ -264,7 +264,7 @@ class MP_Product_Attributes {
 	 * @param array $terms
 	 */
 	public function sort_terms_by_custom_order( &$terms ) {
-		usort($terms, create_function('$a, $b', 'return ( $a->term_order == $b->term_order ) ? 0 : ( $a->term_order < $b->term_order ) ? -1 : 1;'));
+		usort($terms, create_function('$a, $b', 'return ( $a->term_order == $b->term_order ) ? 0 : ( $a->term_order < $b->term_order ) ? -1 : 1;'));	     	 	 	    	  
 	}
 }
 

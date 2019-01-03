@@ -362,9 +362,14 @@ abstract class Hustle_Provider_Abstract implements Hustle_Provider_Interface{
 			return false;
 		}
 
+		// If it's a test version, skip Hustle version validation
+		if ( false !== stripos( Opt_in::VERSION, 'beta' ) || false !== stripos( Opt_in::VERSION, 'alpha' ) ) {
+			return true;
+		}
+
 		$_min_hustle_version = $reflector->getStaticPropertyValue( '_min_hustle_version' );
 		$is_hustle_version_supported = version_compare( Opt_In::VERSION, $_min_hustle_version, '>=' );
-		if ( ! $is_hustle_version_supported && false === stripos( Opt_in::VERSION, 'beta' ) && false === stripos( Opt_in::VERSION, 'alpha' ) ) {
+		if ( ! $is_hustle_version_supported  ) {
 			return false;
 		}
 

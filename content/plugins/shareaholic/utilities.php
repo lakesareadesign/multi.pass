@@ -84,6 +84,7 @@ class ShareaholicUtilities {
     return array(
       'disable_admin_bar_menu' => 'on',
       'disable_debug_info' => 'off',
+      'enable_user_nicename' => 'off',
       'disable_internal_share_counts_api' => 'on',
       'api_key' => '',
       'verification_key' => '',
@@ -998,41 +999,27 @@ class ShareaholicUtilities {
   }
 
   /**
-   * Answers whether we should ping CM
-   *
-   * @return bool
-   */
-  public static function should_notify_cm() {
-    $settings = ShareaholicUtilities::get_settings();
-    $recommendations_settings = isset($settings['recommendations']) ?
-      $settings["recommendations"] :
-      null;
-
-    if (is_array($recommendations_settings)) {
-      if (in_array("on", $recommendations_settings)) {
-        return true;
-      } else {
-        return false;
-      }
-    } else {
-      return false;
-    }
-  }
-
-  /**
    * Wrapper for the Shareaholic Content Manager Single Page worker API
    *
    * @param string $post_id
    */
-   public static function notify_content_manager_singlepage($post = NULL) {
+   public static function notify_content_manager_singlepage($post = NULL, $status = NULL) {
 
      if ($post == NULL) {
-       return false;
+       return;
      }
      
      $api_key = ShareaholicUtilities::get_option('api_key');
+     
      if (ShareaholicUtilities::has_accepted_terms_of_service() && !empty($api_key)) {
-       if (in_array($post->post_status, array('draft', 'pending', 'auto-draft'))) {
+       
+       if ($status != NULL) {
+         $visiblity = $status;
+       } else {
+         $visiblity = $post->post_status;
+       }
+       
+       if (in_array($post->post_status, array('draft', 'pending'))) {
          // Get the correct permalink for a draft
          $my_post = clone $post;
          $my_post->post_status = 'published';
@@ -1042,39 +1029,49 @@ class ShareaholicUtilities {
          $post_permalink = get_permalink($post->ID);
        }
        
-       if ($post_permalink != NULL) {
+       if ($post_permalink != NULL
+           && (strpos($post_permalink, '__trashed') == false)
+           && !in_array($post->post_status, array('auto-draft', 'inherit')) ) {
          $cm_single_page_job_url = Shareaholic::CM_API_URL . '/jobs/uber_single_page';
          $payload = array (
            'args' => array (
              $post_permalink,
-             array ('force' => true)
-            )
-          );
-                    
+             array (
+               'force' => true
+             ),
+           ),
+           'api_key' => ShareaholicUtilities::get_option('api_key'),
+           'verification_key' => ShareaholicUtilities::get_option('verification_key'),
+           'admin_ajax_path' => admin_url('admin-ajax.php'),
+           'wp_version' => Shareaholic::VERSION,
+           'post_visibility' => $visiblity
+         );
         $response = ShareaholicCurl::post($cm_single_page_job_url, $payload, 'json');
-      }
-    }
-  }
+       }
+       
+     }
+   }
     
    /**
     * Wrapper for the Shareaholic Content Manager Single Domain worker API
     *
-    * @param string $domain
     */
-    public static function notify_content_manager_singledomain($domain = NULL) {
-      if ($domain == NULL) {
-        $domain = get_bloginfo('url');
-      }
-
+    public static function notify_content_manager_singledomain() {
+      $domain = get_bloginfo('url');
       if ($domain != NULL) {
         $cm_single_domain_job_url = Shareaholic::CM_API_URL . '/jobs/single_domain';
         $payload = array (
           'args' => array (
             $domain,
-            array ('force' => true)
-           )
-         );
-                  
+            array (
+              'force' => true
+            ),
+          ),
+          'api_key' => ShareaholicUtilities::get_option('api_key'),
+          'verification_key' => ShareaholicUtilities::get_option('verification_key'),
+          'admin_ajax_path' => admin_url('admin-ajax.php'),
+          'wp_version' => Shareaholic::VERSION
+        );
        $response = ShareaholicCurl::post($cm_single_domain_job_url, $payload, 'json');
       }
     }
@@ -1542,6 +1539,26 @@ class ShareaholicUtilities {
   }
 
 
+  /**
+   * Call the content manager for a post before it is trashed
+   *
+   * We do this because permalink changes on being trashed
+   * and so we tell CM that the old permalink is no longer valid
+   *
+   */
+  public static function before_post_is_trashed($post_id) {
+    
+    $post_type = get_post_type($post_id);
+    
+    // exit if blacklisted post type
+    if ($post_type && in_array($post_type, ShareaholicUtilities::$blacklisted_post_types)) {
+      return;
+    }
+    
+    ShareaholicUtilities::notify_content_manager_singlepage(get_post($post_id), 'trash');
+  }
+  
+  
   /**
    * Call the content manager for a post before it is updated
    *

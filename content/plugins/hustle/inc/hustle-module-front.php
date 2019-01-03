@@ -105,8 +105,20 @@ class Hustle_Module_Front {
 	 *
 	 */
 	public function handle_specific_script( $tag, $handle ) {
+
 		if ( 'hustle_front_fitie' === $handle ) {
-			$tag = "<!--[if IE]>". $tag ."<![endif]-->";
+			$user_agent = $_SERVER['HTTP_USER_AGENT'];
+			$is_ie = (
+				// IE 10 or older
+				false !== stripos($user_agent, 'MSIE') ||
+				// IE 11
+				false !== stripos($user_agent, 'Trident') ||
+				// Edge (IE 12+)
+				false !== stripos($user_agent, 'Edge')
+			);
+			if ( ! $is_ie ) {
+				$tag = '';
+			}
 		}
 		return $tag;
 	}
@@ -117,7 +129,18 @@ class Hustle_Module_Front {
 	 */
 	public function handle_specific_style( $tag, $handle ) {
 		if ( 'hustle_front_ie' === $handle ) {
-			$tag = "<!--[if IE]>". $tag ."<![endif]-->";
+			$user_agent = $_SERVER['HTTP_USER_AGENT'];
+			$is_ie = (
+				// IE 10 or older
+				false !== stripos($user_agent, 'MSIE') ||
+				// IE 11
+				false !== stripos($user_agent, 'Trident') ||
+				// Edge (IE 12+)
+				false !== stripos($user_agent, 'Edge')
+			);
+			if ( ! $is_ie ) {
+				$tag = '';
+			}
 		}
 		return $tag;
 	}

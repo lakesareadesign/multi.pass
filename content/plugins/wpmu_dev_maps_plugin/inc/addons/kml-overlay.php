@@ -98,7 +98,7 @@ class Agm_Kml_UserPages {
 	}
 
 	public function load_scripts() {
-		lib3()->ui->add( AGM_PLUGIN_URL . 'js/user/kml-overlay.min.js', 'front' );	     	 	 		  		  
+		lib3()->ui->add( AGM_PLUGIN_URL . 'js/user/kml-overlay.min.js', 'front' );
 	}
 
 	public function prepare_for_load( $options, $raw ) {

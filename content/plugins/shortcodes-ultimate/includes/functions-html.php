@@ -13,14 +13,17 @@ function su_html_icon( $args ) {
 		$args = array( 'icon' => $args );
 	}
 
-	$args = wp_parse_args( $args, array(
+	$args = wp_parse_args(
+		$args,
+		array(
 			'icon'       => '',
 			'size'       => '',
 			'color'      => '',
 			'style'      => '',
 			'alt'        => '',
 			'enqueue-fa' => false,
-		) );
+		)
+	);
 
 	if ( ! $args['icon'] ) {
 		return;
@@ -42,15 +45,15 @@ function su_html_icon( $args ) {
 		}
 
 		if ( $args['enqueue-fa'] ) {
-			su_query_asset( 'css', 'font-awesome' );
+			su_query_asset( 'css', 'su-icons' );
 		}
 
-		return '<i class="fa fa-' . trim( str_replace( 'icon:', '', $args['icon'] ) ) . '" style="' . $args['style'] . '" aria-label="' . $args['alt'] . '"></i>';
+		return '<i class="sui sui-' . trim( str_replace( 'icon:', '', $args['icon'] ) ) . '" style="' . $args['style'] . '" aria-label="' . $args['alt'] . '"></i>';
 
 	}
 
 	// Image icon
-	elseif ( strpos( $args['icon'], '/' ) !== false ) {
+	if ( strpos( $args['icon'], '/' ) !== false ) {
 
 		if ( $args['size'] ) {
 			$args['style'] .= 'width:' . $args['size'] . 'px;height:' . $args['size'] . 'px;';
@@ -73,7 +76,9 @@ function su_html_icon( $args ) {
  */
 function su_html_dropdown( $args ) {
 
-	$args = wp_parse_args( $args, array(
+	$args = wp_parse_args(
+		$args,
+		array(
 			'id'       => '',
 			'name'     => '',
 			'class'    => '',
@@ -85,7 +90,8 @@ function su_html_dropdown( $args ) {
 			'options'  => array(),
 			'style'    => '',
 			'noselect' => '',
-		) );
+		)
+	);
 
 	$options = array();
 

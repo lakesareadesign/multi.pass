@@ -206,13 +206,13 @@ if(is_rtl()) {
  }
  ?>
  @media screen and (min-width: 782px){
-   .gutenberg__editor .edit-post-header, .gutenberg__editor .components-notice-list {
+   .block-editor .edit-post-header, .block-editor .components-notice-list {
      left: <?php echo $guttenberg_header_width; ?>
    }
-   .gutenberg__editor .edit-post-header {
+   .block-editor .edit-post-header {
        top: 50px!important;
    }
-   .gutenberg__editor .edit-post-sidebar {
+   .block-editor .edit-post-sidebar {
      top:105px;
    }
  }

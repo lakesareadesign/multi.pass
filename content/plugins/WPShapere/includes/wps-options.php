@@ -408,6 +408,71 @@ function get_wps_options() {
       );
 
   $panel_fields[] = array(
+      'name' => __( 'Login button colors', 'wps' ),
+      'type' => 'title',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Button background  color', 'wps' ),
+      'id' => 'login_button_color',
+      'type' => 'wpcolor',
+      'default' => '#7ac600',
+      );
+
+  if(isset($wps_options['design_type']) && $wps_options['design_type'] == 2) {
+    $panel_fields[] = array(
+        'name' => __( 'Button border color', 'wps' ),
+        'id' => 'login_button_border_color',
+        'type' => 'wpcolor',
+        'default' => '#86b520',
+        );
+
+    $panel_fields[] = array(
+        'name' => __( 'Button shadow color', 'wps' ),
+        'id' => 'login_button_shadow_color',
+        'type' => 'wpcolor',
+        'default' => '#98ce23',
+        );
+    }
+
+  $panel_fields[] = array(
+      'name' => __( 'Button text color', 'wps' ),
+      'id' => 'login_button_text_color',
+      'type' => 'wpcolor',
+      'default' => '#ffffff',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Button hover background color', 'wps' ),
+      'id' => 'login_button_hover_color',
+      'type' => 'wpcolor',
+      'default' => '#29ac39',
+      );
+
+  $panel_fields[] = array(
+      'name' => __( 'Button hover text color', 'wps' ),
+      'id' => 'login_button_hover_text_color',
+      'type' => 'wpcolor',
+      'default' => '#ffffff',
+      );
+
+  if(isset($wps_options['design_type']) && $wps_options['design_type'] == 2) {
+    $panel_fields[] = array(
+        'name' => __( 'Button hover border color', 'wps' ),
+        'id' => 'login_button_hover_border_color',
+        'type' => 'wpcolor',
+        'default' => '#259633',
+        );
+
+    $panel_fields[] = array(
+        'name' => __( 'Button hover shadow color', 'wps' ),
+        'id' => 'login_button_hover_shadow_color',
+        'type' => 'wpcolor',
+        'default' => '#3d7a0c',
+        );
+  }
+
+  $panel_fields[] = array(
       'name' => __( 'Custom CSS', 'wps' ),
       'type' => 'title',
       );
@@ -697,6 +762,14 @@ if(defined('POWERBOX_PATH')) {
       );
 
   $panel_fields[] = array(
+      'name' => __( 'Set default adminbar height.', 'wps' ),
+      'id' => 'default_adminbar_height',
+      'type' => 'checkbox',
+      'default' => false,
+      'desc' => __( 'Select this option to set default admin bar height.', 'wps' ),
+      );
+
+  $panel_fields[] = array(
       'name' => __( 'External Logo url', 'wps' ),
       'id' => 'adminbar_external_logo_url',
       'type' => 'text',
@@ -849,7 +922,7 @@ if(defined('POWERBOX_PATH')) {
       'default' => '#7ac600',
       );
 
-  if(isset($wps_options['design_type']) && $wps_options['design_type'] != 1) {
+if(isset($wps_options['design_type']) && $wps_options['design_type'] == 2) {
   $panel_fields[] = array(
       'name' => __( 'Button border color', 'wps' ),
       'id' => 'pry_button_border_color',
@@ -879,7 +952,7 @@ if(defined('POWERBOX_PATH')) {
       'default' => '#29ac39',
       );
 
-  if(isset($wps_options['design_type']) && $wps_options['design_type'] != 1) {
+  if(isset($wps_options['design_type']) && $wps_options['design_type'] == 2) {
   $panel_fields[] = array(
       'name' => __( 'Button hover border color', 'wps' ),
       'id' => 'pry_button_hover_border_color',
@@ -914,7 +987,7 @@ if(defined('POWERBOX_PATH')) {
       'default' => '#ced6c9',
       );
 
-  if(isset($wps_options['design_type']) && $wps_options['design_type'] != 1) {
+  if(isset($wps_options['design_type']) && $wps_options['design_type'] == 2) {
   $panel_fields[] = array(
       'name' => __( 'Button border color', 'wps' ),
       'id' => 'sec_button_border_color',
@@ -928,7 +1001,7 @@ if(defined('POWERBOX_PATH')) {
       'type' => 'wpcolor',
       'default' => '#dde5d7',
       );
-      }
+  }
 
   $panel_fields[] = array(
       'name' => __( 'Button text color', 'wps' ),
@@ -944,7 +1017,7 @@ if(defined('POWERBOX_PATH')) {
       'default' => '#c9c8bf',
       );
 
-  if(isset($wps_options['design_type']) && $wps_options['design_type'] != 1) {
+  if(isset($wps_options['design_type']) && $wps_options['design_type'] == 2) {
   $panel_fields[] = array(
       'name' => __( 'Button hover border color', 'wps' ),
       'id' => 'sec_button_hover_border_color',

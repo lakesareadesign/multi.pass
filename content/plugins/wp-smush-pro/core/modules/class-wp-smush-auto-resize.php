@@ -33,7 +33,7 @@ class WP_Smush_Auto_Resize extends WP_Smush_Module {
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_resize_assets' ) );
 
 		// Set a flag to media library images.
-		add_action( 'smush_image_src_before_cdn', array( $this, 'set_image_flag' ), 99, 2 );
+		add_action( 'smush_image_src_before_cdn', array( $this, 'set_image_flag' ), 99, 2 );								 	 	   		   
 
 		// Generate markup for the template engine.
 		add_action( 'wp_footer', array( $this, 'generate_markup' ) );

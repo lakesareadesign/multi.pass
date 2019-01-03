@@ -206,13 +206,13 @@ if( typeof Backbone !== "undefined")
 
 	Optin.cookie = Hustle.cookie;
 
-	$(document).on('blur', 'input, textarea, select', function(){
+	$(document).on('blur', '.hustle-modal-optin_form input, .hustle-modal-optin_form textarea, .hustle-modal-optin_form select', function(){
 	    var $this = $(this);
 	    if($this.is(':input[type=button], :input[type=submit], :input[type=reset]')) return;
 	    if( $this.val() && $this.val().trim && $this.val().trim() !== '' ) {
-		    $this.parent().addClass('hustle-input-filled');
+		    $this.closest('.hustle-modal-optin_field').addClass('hustle-input-filled');
 		} else{
-			$this.parent().removeClass('hustle-input-filled');
+			$this.closest('.hustle-modal-optin_field').removeClass('hustle-input-filled');
 		}
 	});
 

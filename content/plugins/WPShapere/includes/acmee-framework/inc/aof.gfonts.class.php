@@ -322,6 +322,7 @@ if ( ! class_exists( 'AOFgfonts' ) ) {
                     array( 'name' => 'Just Another Hand', 'subsets' => array('latin'), 'variants' => array('400') ),
                     array( 'name' => 'Just Me Again Down Here', 'subsets' => array('latin','latin-ext'), 'variants' => array('400') ),
                     array( 'name' => 'Kameron', 'subsets' => array('latin'), 'variants' => array('400','700') ),
+                    array( 'name' => 'Kanit', 'subsets' => array('latin', 'thai','vietnamese'), 'variants' => array('100','100i','200','200i','300','300i','400','400i','500','500i','600','600i','700','700i','800','800i','900','900i') ),
                     array( 'name' => 'Kantumruy', 'subsets' => array('khmer'), 'variants' => array('300','400','700') ),
                     array( 'name' => 'Karla', 'subsets' => array('latin','latin-ext'), 'variants' => array('400','italic','700','700italic') ),
                     array( 'name' => 'Kaushan Script', 'subsets' => array('latin','latin-ext'), 'variants' => array('400') ),
@@ -672,6 +673,6 @@ if ( ! class_exists( 'AOFgfonts' ) ) {
             );
             return $fonts;
         }
-    
+
     }
 }

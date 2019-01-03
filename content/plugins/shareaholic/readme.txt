@@ -4,7 +4,7 @@ Tags:  buttons, related posts, google analytics, share buttons, social sharing, 
 Requires at least: 3.0
 Tested up to: 5.0
 Requires PHP: 5.2
-Stable tag: 8.10.2
+Stable tag: 8.10.5
 
 
 Improve Audience Engagement with Award Winning Site-Speed Optimized Social Tools: Share Buttons, Related Posts, Monetization & Google Analytics.
@@ -244,6 +244,14 @@ Yes! Shareaholic's core features are and always will be free.
 
 Shareaholic's paid services include Share Count Recovery, advanced analytics, premium customization settings, priority support, and more. To learn more, visit our [plan comparison page](https://www.shareaholic.com/plans).
 
+= Do I need to have coding skills to use Shareaholic? =
+
+Not at all. You can manage Shareaholic without any coding using our user-friendly drag and drop interface.
+
+= Shareaholic is not displaying for me. Why, and what should I try? =
+
+Something on your own personal device/browser/connection is likely filtering web functionality like major social buttons. The usual cause for this uncommon issue is 3rd party browser add-on software that blocks ads and optionally filters out major social buttons. For example, some security apps and Internet connections have an option to filter social buttons. Usually a social filter option is disabled by default, but if you find that some software is inappropriately filtering Shareaholic, please [let us know](https://www.shareaholic.com/contact).
+
 = Where can I find a detailed FAQ? =
 
 Please see here: [Shareaholic Helpdesk](https://support.shareaholic.com/hc/en-us)
@@ -259,6 +267,19 @@ The default Shareaholic thumbnail width is 640px with dynamic height and no crop
 Each time you change Shareaholic's thumbnail dimensions like this, you will probably want to have WordPress regenerate appropriate sized thumbnails for all of your images. We highly recommend the [Regenerate Thumbnails](https://wordpress.org/plugins/regenerate-thumbnails/) plugin for this purpose.
 
 == Changelog ==
+
+= 8.10.5 (2018-12-26) =
+* Various Admin Panel improvements
+
+= 8.10.4 (2018-12-21) =
+* Enhancement: [New Related Posts Themes](https://www.shareaholic.com/blog/new-related-content-widget-themes/) - two of which are inspired by Medium.com and Wired.com
+* Enhancement: [Related Posts Headline Customizer](https://www.shareaholic.com/website-tools/related-content/) - headline design can now be customized via the UI, including font typeface, size, color, etc
+* Enhancement: Improved content syncing between WordPress and Shareaholic Cloud for more accurate Related Content and Analytics
+* Enhancement: [Share Buttons](https://www.shareaholic.com/website-tools/social-share-buttons/) Post-Share Prompt Slider gets a [design refresh](https://www.shareaholic.com/blog/post-share-prompt-slider-gets-a-design-refresh/)
+
+= 8.10.3 (2018-12-11) =
+* Enhancement: Advanced option to include <code>%author%</code> tag for [Share Count Recovery](https://www.shareaholic.com/sharecounter/)
+
 = 8.10.2 (2018-11-20) =
 * Bugfix: Fixed issue with Site Profile ID generation introduced in 8.10.0
 
@@ -839,6 +860,14 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Show Related Posts data status
 
 == Upgrade Notice ==
+= 8.10.5 =
+Various Admin Panel improvements
+
+= 8.10.4 =
+New themes, improved content syncing for more accurate Related Content and Analytics, refreshed Post-Share Prompt Slider design, Related Posts headline customizer and more!
+
+= 8.10.3 =
+New option to include <code>%author%</code> tag for Share Count Recovery
 
 = 8.10.2 =
 

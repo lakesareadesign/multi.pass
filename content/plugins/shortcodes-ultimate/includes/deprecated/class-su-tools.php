@@ -46,9 +46,9 @@ if ( ! class_exists( 'Su_Tools' ) ) {
 					$args['style'] .= 'color:' . $args['color'] . ';';
 				}
 
-				su_query_asset( 'css', 'font-awesome' );
+				su_query_asset( 'css', 'su-icons' );
 
-				return '<i class="fa fa-' . trim( str_replace( 'icon:', '', $args['icon'] ) ) . '" style="' . $args['style'] . '"></i>';
+				return '<i class="sui sui-' . trim( str_replace( 'icon:', '', $args['icon'] ) ) . '" style="' . $args['style'] . '"></i>';
 
 			}
 

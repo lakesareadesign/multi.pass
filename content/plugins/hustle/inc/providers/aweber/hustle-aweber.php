@@ -101,7 +101,6 @@ class Hustle_Aweber extends Hustle_Provider_Abstract {
 	 * @param $secret
 	 * @return AWeberAPI
 	 */
-	//protected static function api( $api_key, $secret ){
 	public static function api( $api_key, $secret ){
 
 		if( empty( self::$api ) ){
@@ -119,19 +118,12 @@ class Hustle_Aweber extends Hustle_Provider_Abstract {
 
 	public function subscribe( Hustle_Module_Model $module, array $data  ){
 
-		$consumer_key = $this->get_provider_option( self::CONSUMER_KEY, false );
-		$consumer_secret = $this->get_provider_option( self::CONSUMER_SECRET, false );
-		$access_token = $this->get_provider_option( self::ACCESS_TOKEN, false );
-		$access_secret = $this->get_provider_option( self::ACCESS_SECRET, false );
-
-		if( !$consumer_key ||  !$consumer_secret || !$access_token || !$access_secret)
+		$account = $this->get_account();
+		if ( ! $account ) {
 			return false;
+		}
 
-		$api = self::api( $consumer_key, $consumer_secret );
-
-		$account =  $api->getAccount($access_token, $access_secret);
 		$account_id =  isset( $account->data, $account->data['id'] ) ? $account->data['id'] : false;
-
 		if( !$account_id )
 			return false;
 
@@ -220,6 +212,52 @@ class Hustle_Aweber extends Hustle_Provider_Abstract {
 			self::$errors['subcription'] = $e;
 			return $e;
 		}
+	}
+
+	/**
+	 * Gets the Aweber account object, instance of AWeberEntry
+	 *
+	 * @since 3.0.6
+	 *
+	 */
+	public function get_account( $api_key = null ) {
+
+		if ( ! is_null( $api_key ) && $this->get_provider_option( self::AUTH_CODE, '' ) !== $api_key ) {
+
+			// Check if API key is valid
+			try {
+				$aweber_data = AWeberAPI::getDataFromAweberID( $api_key );
+			} catch ( AWeberException $e ) {
+				Hustle_Api_Utils::maybe_log( $e->message );
+				return false;
+			}
+
+			list($consumer_key, $consumer_secret, $access_token, $access_secret) = $aweber_data;
+
+			$this->update_provider_option( self::CONSUMER_KEY, $consumer_key );
+			$this->update_provider_option( self::CONSUMER_SECRET, $consumer_secret );
+			$this->update_provider_option( self::ACCESS_TOKEN, $access_token );
+			$this->update_provider_option( self::ACCESS_SECRET, $access_secret );
+
+			$this->update_provider_option( self::AUTH_CODE, $api_key );
+
+		} else {
+			$consumer_key = $this->get_provider_option( self::CONSUMER_KEY, '' );
+			$consumer_secret = $this->get_provider_option( self::CONSUMER_SECRET, '' );
+			$access_token = $this->get_provider_option( self::ACCESS_TOKEN, '' );
+			$access_secret = $this->get_provider_option( self::ACCESS_SECRET, '' );
+		}
+
+		// Check if account is valid
+		try {
+			$account = self::api( $consumer_key, $consumer_secret )->getAccount( $access_token, $access_secret );
+		} catch ( AWeberException $e ) {
+			Hustle_Api_Utils::maybe_log( $e->message );
+			return false;
+		}
+
+		return $account;
+
 	}
 
 	public static function _get_api_key( Hustle_Module_Model $module ) {

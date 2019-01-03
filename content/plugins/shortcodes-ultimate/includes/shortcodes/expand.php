@@ -116,7 +116,7 @@ function su_shortcode_expand( $atts = null, $content = null ) {
 	$less_icon = ( $atts['less_icon'] ) ? su_html_icon( $atts['less_icon'] ) : '';
 
 	if ( $more_icon || $less_icon ) {
-		su_query_asset( 'css', 'font-awesome' );
+		su_query_asset( 'css', 'su-icons' );
 	}
 
 	// Prepare less link

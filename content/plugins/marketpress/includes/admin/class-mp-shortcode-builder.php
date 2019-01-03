@@ -127,7 +127,10 @@ class MP_Shortcode_Builder {
 		$this->_product_cats = get_terms( 'product_category', 'hide_empty=0' );
 		$this->_product_tags = get_terms( 'product_tag', 'hide_empty=0' );
 
-		add_action( 'media_buttons', array( &$this, 'media_buttons' ) );
+		if ( is_admin() && ! is_customize_preview() ) {
+			add_action( 'media_buttons', array( &$this, 'media_buttons' ) );
+		}
+
 		add_action( 'admin_enqueue_scripts', array( &$this, 'enqueue_styles_scripts' ) );
 		add_action( 'in_admin_footer', array( &$this, 'display_short_code_form' ) );
 		add_filter( 'wp_dropdown_cats', array( &$this, 'wp_dropdown_cats' ), 10, 2 );

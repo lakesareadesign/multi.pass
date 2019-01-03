@@ -33,6 +33,12 @@
                     <?php } ?>>
                   <label class="font-normal" for="debugger"> <?php echo sprintf(__('Disable Debugger (it is recommended NOT to disable the debugger)', 'shareaholic')); ?></label>
                 <br/>
+                <input type='checkbox' id='user_nicename' name='shareaholic[enable_user_nicename]' class='check'
+                  <?php if (isset($settings['enable_user_nicename'])) { ?>
+                    <?php echo ($settings['enable_user_nicename'] == 'on' ? 'checked' : '') ?>
+                    <?php } ?>>
+                  <label class="font-normal" for="user_nicename"> <?php echo sprintf(__('Enable <code>&percnt;author&percnt;</code> permalink tag for Share Count Recovery', 'shareaholic')); ?></label>
+                <br/>  
                 <input type='checkbox' id='share_counts' name='shareaholic[disable_internal_share_counts_api]' class='check'
                   <?php if (isset($settings['disable_internal_share_counts_api'])) { ?>
                     <?php echo ($settings['disable_internal_share_counts_api'] == 'on' ? 'checked' : '') ?>
@@ -60,12 +66,14 @@
           <?php } ?>
           </p>
           <p>
-          <?php if (ShareaholicUtilities::share_counts_api_connectivity_check() == 'SUCCESS') { ?>
-            <span class="key-status passed"><i class="fa fa-circle" aria-hidden="true" class="green"></i> <?php  _e('Server-side Share Counts API is reachable', 'shareaholic'); ?></span>
-            <p class="key-description"><?php _e('The server-side Share Counts API should be working correctly.', 'shareaholic'); ?> <?php _e('All servers and services needed by the API are accessible.', 'shareaholic'); ?></p>
-          <?php } else { // can't connect to any server ?>
-            <span class="key-status failed"><i class="fa fa-circle" aria-hidden="true" class="red"></i> <?php _e('Unable to reach the server-side Share Count API', 'shareaholic'); ?></span> <a href="#" onClick="window.location.reload(); this.innerHTML='<?php _e('Checking...', 'shareaholic'); ?>';"><?php _e('Re-check', 'shareaholic'); ?></a>
-            <p class="key-description"><?php echo sprintf( __('A network problem or firewall is blocking connections from your web server to various Share Count APIs.  <strong>The API cannot work correctly until this is fixed.</strong>  If you continue to face this issue, please contact <a href="#" onclick="%s">us</a> and we will follow up! In the meantime, if you disable the server-side Share Counts API from the Advanced options above, Shareaholic will default to using client-side APIs for share counts successfully -- so nothing to worry about!'), 'SnapEngage.startLink();'); ?></p>
+          <?php if (ShareaholicUtilities::get_option('disable_internal_share_counts_api') == NULL || ShareaholicUtilities::get_option('disable_internal_share_counts_api') == "off"){   ?>
+            <?php if (ShareaholicUtilities::share_counts_api_connectivity_check() == 'SUCCESS') { ?>
+              <span class="key-status passed"><i class="fa fa-circle" aria-hidden="true" class="green"></i> <?php  _e('Server-side Share Counts API is reachable', 'shareaholic'); ?></span>
+              <p class="key-description"><?php _e('The server-side Share Counts API should be working correctly.', 'shareaholic'); ?> <?php _e('All servers and services needed by the API are accessible.', 'shareaholic'); ?></p>
+            <?php } else { // can't connect to any server ?>
+              <span class="key-status failed"><i class="fa fa-circle" aria-hidden="true" class="red"></i> <?php _e('Unable to reach the server-side Share Count API', 'shareaholic'); ?></span> <a href="#" onClick="window.location.reload(); this.innerHTML='<?php _e('Checking...', 'shareaholic'); ?>';"><?php _e('Re-check', 'shareaholic'); ?></a>
+              <p class="key-description"><?php echo sprintf( __('A network problem or firewall is blocking connections from your web server to various Share Count APIs.  <strong>The API cannot work correctly until this is fixed.</strong>  If you continue to face this issue, please contact <a href="#" onclick="%s">us</a> and we will follow up! In the meantime, if you disable the server-side Share Counts API from the Advanced options above, Shareaholic will default to using client-side APIs for share counts successfully -- so nothing to worry about!'), 'SnapEngage.startLink();'); ?></p>
+            <?php } ?>
           <?php } ?>
           </p>
         </div>

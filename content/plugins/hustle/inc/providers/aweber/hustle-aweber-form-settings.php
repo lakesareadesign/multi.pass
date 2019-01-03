@@ -162,7 +162,7 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 	public function ajax_refresh_lists() {
 		Hustle_Api_Utils::validate_ajax_call( 'hustle_aweber_refresh_lists' );
 
-		$submitted_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_REQUEST );
+		$submitted_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_POST ); // WPCS: CSRF ok.
 		$response = array(
 			'html' => $this->refresh_lists_html( $submitted_data ),
 			'wrapper' => $submitted_data['dom_wrapper'],
@@ -182,59 +182,18 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 
 		$api_key = $submitted_data['api_key'];
 
-		if ( $this->provider->get_provider_option( Hustle_Aweber::AUTH_CODE, '' ) !== $api_key ) {
-
-			// Check if API key is valid
-			try {
-				$aweber_data = AWeberAPI::getDataFromAweberID( $api_key );
-			} catch ( AWeberException $e ) {
-				Hustle_Api_Utils::maybe_log( $e->message );
-				return '<label class="wpmudev-label--notice"><span>' . __( 'There was an error connecting to Aweber. Please make sure your authorization code is okay.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
-			}
-
-			list($consumer_key, $consumer_secret, $access_token, $access_secret) = $aweber_data; //AWeberAPI::getDataFromAweberID( $api_key );
-
-			$this->provider->update_provider_option( Hustle_Aweber::CONSUMER_KEY, $consumer_key );
-			$this->provider->update_provider_option( Hustle_Aweber::CONSUMER_SECRET, $consumer_secret );
-			$this->provider->update_provider_option( Hustle_Aweber::ACCESS_TOKEN, $access_token );
-			$this->provider->update_provider_option( Hustle_Aweber::ACCESS_SECRET, $access_secret );
-
-			$this->provider->update_provider_option( Hustle_Aweber::AUTH_CODE, $api_key );
-
-		} else {
-			$consumer_key = $this->provider->get_provider_option( Hustle_Aweber::CONSUMER_KEY, '' );
-			$consumer_secret = $this->provider->get_provider_option( Hustle_Aweber::CONSUMER_SECRET, '' );
-			$access_token = $this->provider->get_provider_option( Hustle_Aweber::ACCESS_TOKEN, '' );
-			$access_secret = $this->provider->get_provider_option( Hustle_Aweber::ACCESS_SECRET, '' );
-		}
-
-		// Check if account is valid
-		try {
-			$account = $this->provider->api( $consumer_key, $consumer_secret )->getAccount( $access_token, $access_secret );
-		} catch ( AWeberException $e ) {
-			Hustle_Api_Utils::maybe_log( $e->message );
+		$account = $this->provider->get_account( $api_key );
+		if ( ! $account ) {
 			return '<label class="wpmudev-label--notice"><span>' . __( 'There was an error connecting to Aweber. Please make sure your authorization code is okay.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
 		}
 
 		$_lists = (array) $account->lists->data;
 
 		if( ! is_wp_error( $_lists ) && ! empty( $_lists ) ) {
+
 			$options = $this->refresh_lists_options( $_lists );
-
-			if ( !is_wp_error( $options ) ) {
-				$html = '';
-				if ( !empty( $options ) ) {
-					foreach( $options as $key =>  $option ){
-						$html .= Hustle_Api_Utils::static_render("general/option", array_merge( $option, array( "key" => $key ) ), true);
-					}
-				}
-				return $html;
-
-			} else {
-				Hustle_Api_Utils::maybe_log( implode( "; ", $options->get_error_messages() ) );
-
-				return '<label class="wpmudev-label--notice"><span>' . __( 'There was an error retrieving the options.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
-			}
+			$html = $this->get_html_for_options( $options );
+			return $html;
 
 		} else {
 			if( is_wp_error( $_lists ) )
@@ -265,7 +224,7 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 		if( !empty( $first ) )
 			$first = $first['value'];
 
-		return array(
+		$options = array(
 			"label" => array(
 				"id"    => "list_id_label",
 				"for"   => "list_id",
@@ -286,14 +245,92 @@ class Hustle_Aweber_Form_Settings extends Hustle_Provider_Form_Settings_Abstract
 				)
 			)
 		);
+
+
+		if ( isset( $data['prev_collection_link'] ) ) {
+			$options['navigation_prev'] = array(
+				"id"    => "aweber-lists-nav-prev",
+				"type"  => "ajax_button",
+				"value" => __("Prev", Opt_In::TEXT_DOMAIN),
+				"class" => "wpmudev-button wpmudev-button-sm hustle_provider_on_click_ajax",
+				"attributes" => array(
+					"data-action" => "hustle_aweber_lists_navigation",
+					"data-nonce"  => wp_create_nonce("hustle_aweber_lists_navigation"),
+					"data-dom_wrapper"  => "#optin-provider-account-options",
+					"data-lists_step" => $data['prev_collection_link'],
+				)
+			);
+		}
+
+		if ( isset( $data['next_collection_link'] ) ) {
+
+			$options['navigation_next'] = array(
+				"id"    => "aweber-lists-nav-next",
+				"type"  => "ajax_button",
+				"value" => __("Next", Opt_In::TEXT_DOMAIN),
+				"class" => "wpmudev-button wpmudev-button-sm hustle_provider_on_click_ajax",
+				"attributes" => array(
+					"data-action" => "hustle_aweber_lists_navigation",
+					"data-nonce"  => wp_create_nonce("hustle_aweber_lists_navigation"),
+					"data-dom_wrapper"  => "#optin-provider-account-options",
+					"data-lists_step" => $data['next_collection_link'],
+				)
+			);
+		}
+
+		return $options;
+	}
+
+	/**
+	 * Loads the lists of the next or previous step of Aweber's lists pagination.
+	 * Useful when having more than 100 lists.
+	 *
+	 * @since 3.0.6
+	 *
+	 */
+	public function load_lists_navigation_page() {
+
+		Hustle_Api_Utils::validate_ajax_call( 'hustle_aweber_lists_navigation' );
+
+		$submitted_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_POST ); // WPCS: CSRF ok.
+
+		$account = $this->provider->get_account();
+
+		if ( $account ) {
+
+			$url = isset( $submitted_data['lists_step'] ) ? $submitted_data['lists_step'] : '' ;
+
+			try {
+				$_lists = $account->loadFromUrl( $url )->data;
+				$options = $this->refresh_lists_options( (array) $_lists );
+				$html = $this->get_html_for_options( $options );
+
+			} catch ( AWeberAPIException $e ) {
+				Hustle_Api_Utils::maybe_log( $e->getMessage() );
+				$html = '<label class="wpmudev-label--notice"><span>' . __( 'No lists were found for this account.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
+
+			}
+		} else {
+			$html = '<label class="wpmudev-label--notice"><span>' . __( 'There was an error connecting to Aweber. Please make sure your authorization code is okay.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
+
+		}
+
+		$response = array(
+			'html' => $html,
+			'wrapper' => $submitted_data['dom_wrapper'],
+		);
+		wp_send_json_success( $response );
 	}
 
 	/**
 	 * Registers AJAX endpoints for provider's custom actions
 	 *
+	 * @since 3.0.5
+	 *
 	 */
 	public function register_ajax_endpoints(){
 		add_action( "wp_ajax_hustle_aweber_refresh_lists", array( $this , "ajax_refresh_lists" ) );
+		add_action( "wp_ajax_hustle_aweber_lists_navigation", array( $this , "load_lists_navigation_page" ) );
 	}
 }
 if ( is_admin() ) {

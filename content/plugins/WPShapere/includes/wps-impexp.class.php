@@ -6,9 +6,6 @@
 */
 
 defined('ABSPATH') || die;
-ini_set('display_errors', 1);
-ini_set('display_startup_errors', 1);
-error_reporting(E_ALL);
 
 if (!class_exists('WPS_IMP_EXP')) {
 
@@ -31,6 +28,7 @@ if (!class_exists('WPS_IMP_EXP')) {
             global $aof_options;
             ?>
             <div class="wrap wps-wrap">
+              <?php parent::wps_help_link(); ?>
         <?php
             if(isset($_GET['page']) && $_GET['page'] == 'wps_impexp_settings' && isset($_GET['status']) && $_GET['status'] == 'updated')
             {

@@ -177,7 +177,19 @@ class FLContactFormModule extends FLBuilderModule {
 
 			// Double check the mailto email is proper and no validation error found, then send.
 			if ( $mailto && false === $response['error'] ) {
-				wp_mail( $mailto, $subject, $template, $headers );
+
+				/**
+				 * Before sending with wp_mail()
+				 * @see fl_module_contact_form_before_send
+				 */
+				do_action( 'fl_module_contact_form_before_send', $mailto, $subject, $template, $headers, $settings );
+				$result = wp_mail( $mailto, $subject, $template, $headers );
+
+				/**
+				 * After sending with wp_mail()
+				 * @see fl_module_contact_form_after_send
+				 */
+				do_action( 'fl_module_contact_form_after_send', $mailto, $subject, $template, $headers, $settings, $result );
 				$response['message'] = __( 'Sent!', 'fl-builder' );
 			}
 

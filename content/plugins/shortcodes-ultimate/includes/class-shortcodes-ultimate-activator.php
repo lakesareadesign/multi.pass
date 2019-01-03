@@ -39,7 +39,8 @@ class Shortcodes_Ultimate_Activator {
 			return;
 		}
 
-		$message = __( 'Shortcodes Ultimate is not activated, because it requires PHP version %s (or higher). Current version of PHP is %s.', 'shortcodes-ultimate' );
+		// Translators: %1$s - required version number, %2$s - current version number
+		$message = __( 'Shortcodes Ultimate is not activated, because it requires PHP version %1$s (or higher). Current version of PHP is %2$s.', 'shortcodes-ultimate' );
 
 		die( sprintf( $message, $required, $current ) );
 
@@ -60,7 +61,8 @@ class Shortcodes_Ultimate_Activator {
 			return;
 		}
 
-		$message = __( 'Shortcodes Ultimate is not activated, because it requires WordPress version %s (or higher). Current version of WordPress is %s.', 'shortcodes-ultimate' );
+		// Translators: %1$s - required version number, %2$s - current version number
+		$message = __( 'Shortcodes Ultimate is not activated, because it requires WordPress version %1$s (or higher). Current version of WordPress is %2$s.', 'shortcodes-ultimate' );
 
 		die( sprintf( $message, $required, $current ) );
 
@@ -75,15 +77,17 @@ class Shortcodes_Ultimate_Activator {
 	private static function setup_defaults() {
 
 		$defaults = array(
-			'su_option_custom-formatting' => 'on',
-			'su_option_skip'              => 'on',
-			'su_option_prefix'            => 'su_',
-			'su_option_custom-css'        => '',
-			'su_option_supported_blocks'  => array(
+			'su_option_custom-formatting'    => 'on',
+			'su_option_skip'                 => 'on',
+			'su_option_prefix'               => 'su_',
+			'su_option_custom-css'           => '',
+			'su_option_supported_blocks'     => array(
 				'core/paragraph',
 				'core/shortcode',
 				'core/freeform',
 			),
+			'su_option_generator_access'     => 'manage_options',
+			'su_option_enable_shortcodes_in' => array( 'category_description' ),
 		);
 
 		foreach ( $defaults as $option => $value ) {

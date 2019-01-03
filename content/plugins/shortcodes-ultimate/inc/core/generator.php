@@ -34,7 +34,7 @@ class Su_Generator {
 	 * @deprecated 5.1.0 Replaced with Su_Generator::classic_editor_button()
 	 */
 	public static function button( $args = array() ) {
-		self::classic_editor_button( $args );
+		return self::classic_editor_button( $args );
 	}
 
 	public static function classic_editor_button( $args = array() ) {
@@ -53,18 +53,20 @@ class Su_Generator {
 				'target'    => $target,
 				'text'      => __( 'Insert shortcode', 'shortcodes-ultimate' ),
 				'class'     => 'button',
-				'icon'      => plugins_url( 'assets/images/icon.png', SU_PLUGIN_FILE ),
+				'icon'      => true,
 				'echo'      => true,
 				'shortcode' => '',
 			)
 		);
 
-		$icon = ( $args['icon'] )
-			? sprintf( '<img src="%s">', $args['icon'] )
-			: '';
+		if ( $args['icon'] ) {
 
-		$js_args = sprintf(
-			"'classic', { editorID: '%s', shortcode: '%s' }",
+			$args['icon'] = '<svg style="vertical-align:middle;position:relative;top:-1px;opacity:.8;width:18px;height:18px" viewBox="0 0 20 20" width="18" height="18" aria-hidden="true"><path fill="currentcolor" d="M8.48 2.75v2.5H5.25v9.5h3.23v2.5H2.75V2.75h5.73zm9.27 14.5h-5.73v-2.5h3.23v-9.5h-3.23v-2.5h5.73v14.5z"/></svg>';
+
+		}
+
+		$onclick = sprintf(
+			"SUG.App.insert( 'classic', { editorID: '%s', shortcode: '%s' } );",
 			esc_attr( $args['target'] ),
 			esc_attr( $args['shortcode'] )
 		);
@@ -74,14 +76,14 @@ class Su_Generator {
 				type="button"
 				class="su-generator-button %1$s"
 				title="%2$s"
-				onclick="SUG.App.insert(%3$s);"
+				onclick="%3$s"
 			>
 				%4$s %5$s
 			</button>',
 			esc_attr( $args['class'] ),
 			esc_attr( $args['text'] ),
-			$js_args,
-			$icon,
+			$onclick,
+			$args['icon'],
 			esc_html( $args['text'] )
 		);
 
@@ -140,7 +142,7 @@ class Su_Generator {
 				'simpleslider',
 				'farbtastic',
 				'magnific-popup',
-				'font-awesome',
+				'su-icons',
 				'su-generator',
 			)
 		);
@@ -173,8 +175,7 @@ class Su_Generator {
 		ob_start();
 		$tools = apply_filters( 'su/generator/tools', array(
 				'<a href="' . admin_url( 'admin.php?page=shortcodes-ultimate' ) . '#tab-1" target="_blank" title="' . __( 'Settings', 'shortcodes-ultimate' ) . '">' . __( 'Plugin settings', 'shortcodes-ultimate' ) . '</a>',
-				'<a href="http://gndev.info/shortcodes-ultimate/" target="_blank" title="' . __( 'Plugin homepage', 'shortcodes-ultimate' ) . '">' . __( 'Plugin homepage', 'shortcodes-ultimate' ) . '</a>',
-				'<a href="http://wordpress.org/support/plugin/shortcodes-ultimate/" target="_blank" title="' . __( 'Support forums', 'shortcodes-ultimate' ) . '">' . __( 'Support forums', 'shortcodes-ultimate' ) . '</a>'
+				'<a href="https://getshortcodes.com/" target="_blank" title="' . __( 'Plugin homepage', 'shortcodes-ultimate' ) . '">' . __( 'Plugin homepage', 'shortcodes-ultimate' ) . '</a>',
 			) );
 
 		// Add add-ons links
@@ -230,8 +231,8 @@ class Su_Generator {
 		$skip = ( get_option( 'su_option_skip' ) === 'on' ) ? ' su-generator-skip' : '';
 		// Prepare actions
 		$actions = apply_filters( 'su/generator/actions', array(
-				'insert' => '<a href="javascript:void(0);" class="button button-primary button-large su-generator-insert"><i class="fa fa-check"></i> ' . __( 'Insert shortcode', 'shortcodes-ultimate' ) . '</a>',
-				'preview' => '<a href="javascript:void(0);" class="button button-large su-generator-toggle-preview"><i class="fa fa-eye"></i> ' . __( 'Live preview', 'shortcodes-ultimate' ) . '</a>'
+				'insert' => '<a href="javascript:void(0);" class="button button-primary button-large su-generator-insert"><i class="sui sui-check"></i> ' . __( 'Insert shortcode', 'shortcodes-ultimate' ) . '</a>',
+				'preview' => '<a href="javascript:void(0);" class="button button-large su-generator-toggle-preview"><i class="sui sui-eye"></i> ' . __( 'Live preview', 'shortcodes-ultimate' ) . '</a>'
 			) );
 		// Shortcode header
 		$return = '<div id="su-generator-breadcrumbs">';
@@ -239,7 +240,7 @@ class Su_Generator {
 		$return .= '</div>';
 		// Shortcode note
 		if ( isset( $shortcode['note'] ) ) {
-			$return .= '<div class="su-generator-note"><i class="fa fa-info-circle"></i><div class="su-generator-note-content">' . wpautop( $shortcode['note'] ) . '</div></div>';
+			$return .= '<div class="su-generator-note"><i class="sui sui-info-circle"></i><div class="su-generator-note-content">' . wpautop( $shortcode['note'] ) . '</div></div>';
 		}
 		// Shortcode has atts
 		if ( isset( $shortcode['atts'] ) && count( $shortcode['atts'] ) ) {
@@ -317,7 +318,7 @@ class Su_Generator {
 		self::access();
 		$icons = array();
 		foreach ( su_get_config( 'icons' ) as $icon ) {
-			$icons[] = '<i class="fa fa-' . $icon . '" title="' . $icon . '"></i>';
+			$icons[] = '<i class="sui sui-' . $icon . '" title="' . $icon . '"></i>';
 		}
 		die( implode( '', $icons ) );
 	}
@@ -344,7 +345,7 @@ class Su_Generator {
 		ob_start();
 ?>
 <div class="su-generator-presets alignright" data-shortcode="<?php echo sanitize_key( $_REQUEST['shortcode'] ); ?>">
-	<a href="javascript:void(0);" class="button button-large su-gp-button"><i class="fa fa-bars"></i> <?php _e( 'Presets', 'shortcodes-ultimate' ); ?></a>
+	<a href="javascript:void(0);" class="button button-large su-gp-button"><i class="sui sui-bars"></i> <?php _e( 'Presets', 'shortcodes-ultimate' ); ?></a>
 	<div class="su-gp-popup">
 		<div class="su-gp-head">
 			<a href="javascript:void(0);" class="button button-small button-primary su-gp-new"><?php _e( 'Save current settings as preset', 'shortcodes-ultimate' ); ?></a>
@@ -373,7 +374,7 @@ class Su_Generator {
 		if ( is_array( $presets ) && count( $presets ) ) {
 			// Print the presets
 			foreach ( $presets as $preset ) {
-				echo '<span data-id="' . $preset['id'] . '"><em>' . stripslashes( $preset['name'] ) . '</em> <i class="fa fa-times"></i></span>';
+				echo '<span data-id="' . $preset['id'] . '"><em>' . stripslashes( $preset['name'] ) . '</em> <i class="sui sui-times"></i></span>';
 			}
 			// Hide default text
 			echo sprintf( '<b style="display:none">%s</b>', __( 'Presets not found', 'shortcodes-ultimate' ) );
@@ -523,7 +524,7 @@ class Su_Generator {
 			else if ( is_array( $shortcode['content'] ) && $args['id'] !== $shortcode['content']['id'] ) {
 
 					$shortcode['content']['nested'] = true;
-					$output .= $this->get_shortcode_code( $shortcode['content'] );
+					$output .= self::get_shortcode_code( $shortcode['content'] );
 
 				}
 

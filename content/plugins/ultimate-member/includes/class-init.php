@@ -198,6 +198,8 @@ if ( ! class_exists( 'UM' ) ) {
 
 				// include hook files
 				add_action( 'plugins_loaded', array( &$this, 'init' ), 0 );
+				//run hook for extensions init
+				add_action( 'plugins_loaded', array( &$this, 'extensions_init' ), -19 );
 
 				add_action( 'init', array( &$this, 'old_update_patch' ), 0 );
 
@@ -406,7 +408,7 @@ if ( ! class_exists( 'UM' ) ) {
 				$array = explode( '\\', strtolower( $class ) );
 				$array[ count( $array ) - 1 ] = 'class-'. end( $array );
 				if ( strpos( $class, 'um_ext' ) === 0 ) {
-					$full_path = str_replace( 'ultimate-member', '', rtrim( um_path, '/' ) ) . str_replace( '_', '-', $array[1] ) . '/includes/';
+					$full_path = str_replace( 'ultimate-member', '', untrailingslashit( um_path ) ) . str_replace( '_', '-', $array[1] ) . DIRECTORY_SEPARATOR . 'includes' . DIRECTORY_SEPARATOR;
 					unset( $array[0], $array[1] );
 					$path = implode( DIRECTORY_SEPARATOR, $array );
 					$path = str_replace( '_', '-', $path );
@@ -479,6 +481,14 @@ if ( ! class_exists( 'UM' ) ) {
 
 
 		/**
+		 *
+		 */
+		function extensions_init() {
+			do_action( 'um_core_loaded' );
+		}
+
+
+		/**
 		 * Include required core files used in admin and on the frontend.
 		 *
 		 * @since 2.0
@@ -541,8 +551,45 @@ if ( ! class_exists( 'UM' ) ) {
 			$this->mobile();
 			$this->external_integrations();
 			$this->gdpr();
-			//$this->uploader();
-			
+		}
+
+
+		/**
+		 * Get extension API
+		 *
+		 * @since 2.0.34
+		 *
+		 * @param $slug
+		 *
+		 * @return um_ext\um_bbpress\Init
+		 */
+		function extension( $slug ) {
+			if ( empty( $this->classes[ $slug ] ) ) {
+				$class = "um_ext\um_{$slug}\Init";
+
+				/**
+				 * @var $class um_ext\um_bbpress\Init
+				 */
+				$this->classes[ $slug ] = $class::instance();
+			}
+
+			return $this->classes[ $slug ];
+		}
+
+
+		/**
+		 * @param $class
+		 *
+		 * @return mixed
+		 */
+		function call_class( $class ) {
+			$key = strtolower( $class );
+
+			if ( empty( $this->classes[ $key ] ) ) {
+				$this->classes[ $key ] = new $class;
+			}
+
+			return $this->classes[ $key ];
 		}
 
 
@@ -822,7 +869,7 @@ if ( ! class_exists( 'UM' ) ) {
 		 * @param $data array
 		 * @return um\admin\core\Admin_Forms()
 		 */
-		function admin_forms( $data ) {
+		function admin_forms( $data = false ) {
 			if ( empty( $this->classes['admin_forms_' . $data['class']] ) ) {
 				$this->classes['admin_forms_' . $data['class']] = new um\admin\core\Admin_Forms( $data );
 			}
@@ -836,13 +883,26 @@ if ( ! class_exists( 'UM' ) ) {
 		 * @param $data array
 		 * @return um\admin\core\Admin_Forms_Settings()
 		 */
-		function admin_forms_settings( $data ) {
+		function admin_forms_settings( $data = false ) {
 			if ( empty( $this->classes['admin_forms_settings_' . $data['class']] ) ) {
 				$this->classes['admin_forms_settings_' . $data['class']] = new um\admin\core\Admin_Forms_Settings( $data );
 			}
 			return $this->classes['admin_forms_settings_' . $data['class']];
 		}
 
+
+		/**
+		 * @since 2.0.34
+		 *
+		 * @return um\Extensions
+		 */
+		function extensions() {
+			if ( empty( $this->classes['extensions'] ) ) {
+				$this->classes['extensions'] = new um\Extensions();
+			}
+
+			return $this->classes['extensions'];
+		}
 
 
 		/**

@@ -3,7 +3,7 @@
 Plugin Name: Hustle Pro
 Plugin URI: https://premium.wpmudev.org/project/hustle/
 Description: Start collecting email addresses and quickly grow your mailing list with big bold pop-ups, slide-ins, widgets, or in post opt-in forms.
-Version: 3.0.5
+Version: 3.0.6.1
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org
 WDP ID: 1107020
@@ -70,24 +70,6 @@ if ( ! function_exists( 'hustle_activated' ) ) {
 				update_site_option( 'hustle_free_activated', 1 );
 			}
 		}
-
-		hustle_redirect_to_dashboard($network_activation);
-	}
-}
-
-// Redirect to dashboard once activated
-if ( ! function_exists( 'hustle_redirect_to_dashboard' ) ) {
-	function hustle_redirect_to_dashboard( $network_activation ) {
-		$flag = get_option( 'hustle_activated_flag', false );
-		delete_option( 'hustle_activated_flag' );
-		if ( !$network_activation && $flag ) {
-			$screen = get_current_screen();
-			if ( 'plugins' === $screen->id ) {
-				$dashboard_url = 'admin.php?page=hustle';
-				wp_safe_redirect( $dashboard_url );
-				exit;
-			}
-		}
 	}
 }
 
@@ -109,7 +91,7 @@ if( !class_exists( "Opt_In" ) ):
 
 class Opt_In extends Opt_In_Static{
 
-	const VERSION = "3.0.5";
+	const VERSION = "3.0.6.1";
 
 	const TEXT_DOMAIN = "hustle";
 
@@ -712,6 +694,8 @@ if( is_admin() && Opt_In_Utils::_is_free() ) {
 if ( ! function_exists( 'hustle_activation' ) ) {
 	function hustle_activation() {
 		update_option( 'hustle_activated_flag', 1 );
+		$hustle_db = new Hustle_Db();
+		$hustle_db->check_tables();
 	}
 }
 register_activation_hook(__FILE__, 'hustle_activation' );

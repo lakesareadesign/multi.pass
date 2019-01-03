@@ -169,13 +169,13 @@
 		/**
 		 * Hide the Page Builder Admin Buttons if Content Editor is hidden in the ACF Field Settings.
 		 *
-		 * @since 2.1.x
+		 * @since 2.1.7
 		 * @access private
 		 * @method _hideFLBuilderAdminButtons
 		 */
 		_hideFLBuilderAdminButtons: function()
 		{
-			if ( $( '.acf-postbox' ).is( ':visible' ) && $( '#postdivrich' ).is( ':hidden' ) ){
+			if ( $( '.acf-postbox' ).is( ':visible' ) && $( '#postdivrich' ).is( ':hidden' ) && ! $( '.fl-enable-builder' ).hasClass('fl-active') ){
 				$( '.fl-builder-admin' ).hide();
 			}
 		},

@@ -26,6 +26,7 @@ if(!class_exists('DEACTIVATELICENSE')) {
           ?>
           <div class="wrap wps-wrap">
             <h2><?php _e('Deactivate License for this site', 'wps'); ?></h2>
+            <?php parent::wps_help_link(); ?>
             <form name="wps_deactiate_license" method="post">
               <br />
               <p><label for="wps_remove_license"><input type="checkbox" name="remove_license" value="1" /> <?php _e('Remove license key for this site.', 'wps'); ?></label></p>

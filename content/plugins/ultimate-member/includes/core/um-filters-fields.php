@@ -10,7 +10,6 @@
  * @return string
  */
 function um_edit_label_all_fields( $label, $data ) {
-
 	$asterisk = UM()->options()->get( 'form_asterisk' );
 	if ( $asterisk && isset( $data['required'] ) && $data['required'] == 1 )
 		$label = $label . '<span class="um-req" title="'.__('Required','ultimate-member').'">*</span>';
@@ -208,7 +207,7 @@ function um_profile_field_filter_hook__date( $value, $data ) {
 	if ( $data['pretty_format'] == 1 ) {
 		$value = UM()->datetime()->get_age( $value );
 	} else {
-		$value = UM()->datetime()->format( $value, $data['format'] );
+		$value = date_i18n( $data['format'], strtotime( $value ) );
 	}
 
 	return $value;

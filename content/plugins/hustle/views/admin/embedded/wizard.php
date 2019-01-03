@@ -40,7 +40,7 @@
 
 				<div class="wpmudev-preview-anchor" aria-hidden="true"></div>
 
-				<div class="wpmudev-preview" aria-hidden="true" data-nonce="<?php echo esc_attr( $shortcode_render_nonce ); ?>">
+				<div class="wpmudev-preview" aria-hidden="true" data-nonce="<?php echo esc_attr( $shortcode_render_nonce ); ?>" data-custom-css-nonce="<?php echo esc_attr( wp_create_nonce('hustle_module_prepare_custom_css') ); ?>">
 
 					<?php $this->render( "general/icons/icon-preview", array() ); ?>
 

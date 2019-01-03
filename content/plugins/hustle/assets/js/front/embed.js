@@ -11,7 +11,8 @@
 					id = $this.data('id'),
 					type = $this.data('type'),
 					unique_id = $this.data('unique_id'),
-					is_admin = hustle_vars.is_admin === '1';
+					//is_admin = hustle_vars.is_admin === '1';
+					is_admin = inc_opt.is_admin === '1';
 				
 				if( !id ) return;
 				
@@ -106,7 +107,7 @@
 				} );
 				
 				// Hide close button.
-				$this.find('.hustle-modal-close').hide();
+				$this.find('.hustle-modal-close').remove();
 			});
 			
 		},

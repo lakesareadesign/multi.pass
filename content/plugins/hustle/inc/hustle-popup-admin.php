@@ -46,7 +46,7 @@ class Hustle_Popup_Admin {
 
 	public function register_current_json( $current_array ){
 
-		if( Hustle_Module_Admin::is_edit() && isset( $_GET['page'] ) && Hustle_Module_Admin::POPUP_WIZARD_PAGE === $_GET['page'] ){
+		if( Hustle_Module_Admin::is_edit() && isset( $_GET['page'] ) && Hustle_Module_Admin::POPUP_WIZARD_PAGE === $_GET['page'] ){ // WPCS: CSRF ok.
 
 			$module = Hustle_Module_Model::instance()->get( filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT) );
 			$current_array['current'] = array(
@@ -96,7 +96,7 @@ class Hustle_Popup_Admin {
 	* @since 3.0
 	 */
 	public function check_free_version() {
-		if (  isset( $_GET['page'] ) && Hustle_Module_Admin::POPUP_WIZARD_PAGE === $_GET['page'] ) {
+		if (  isset( $_GET['page'] ) && Hustle_Module_Admin::POPUP_WIZARD_PAGE === $_GET['page'] ) { // WPCS: CSRF ok.
 			$collection_args = array( 'module_type' => 'popup' );
 			$total_popups = count(Hustle_Module_Collection::instance()->get_all( null, $collection_args ));
 			if ( Opt_In_Utils::_is_free() && ! Hustle_Module_Admin::is_edit() && $total_popups >= 3 ) {
@@ -154,11 +154,11 @@ class Hustle_Popup_Admin {
 			$version = phpversion();
 			$compare = version_compare( $version, '5.3', '<' );
 			if ( $compare ) {
-				echo json_encode( $settings );
+				echo wp_json_encode( $settings );
 				exit;
 			}
 			$option = defined( 'JSON_PRETTY_PRINT' )? JSON_PRETTY_PRINT : null;
-			echo json_encode( $settings, $option );
+			echo wp_json_encode( $settings, $option );
 			exit;
 		}
 	}
@@ -170,8 +170,8 @@ class Hustle_Popup_Admin {
 	 */
 	public function render_popup_listing(){
 		$current_user = wp_get_current_user();
-		$new_module = isset( $_GET['module'] ) ? Hustle_Module_Model::instance()->get( intval($_GET['module'] ) ) : null;
-		$updated_module = isset( $_GET['updated_module'] ) ? Hustle_Module_Model::instance()->get( intval($_GET['updated_module'] ) ) : null;
+		$new_module = isset( $_GET['module'] ) ? Hustle_Module_Model::instance()->get( intval($_GET['module'] ) ) : null; // WPCS: CSRF ok.
+		$updated_module = isset( $_GET['updated_module'] ) ? Hustle_Module_Model::instance()->get( intval($_GET['updated_module'] ) ) : null; // WPCS: CSRF ok.
 
 		$this->_hustle->render("admin/popup/listing", array(
 			'popups' => Hustle_Module_Collection::instance()->get_all( null, array( 'module_type' => 'popup' ) ),

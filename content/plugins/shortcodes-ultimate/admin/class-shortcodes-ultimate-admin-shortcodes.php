@@ -86,7 +86,7 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 			return;
 		}
 
-		wp_enqueue_style( 'shortcodes-ultimate-admin', $this->plugin_url . 'admin/css/admin.css', array( 'font-awesome' ), $this->plugin_version );
+		wp_enqueue_style( 'shortcodes-ultimate-admin', $this->plugin_url . 'admin/css/admin.css', array( 'su-icons' ), $this->plugin_version );
 
 	}
 
@@ -477,7 +477,7 @@ final class Shortcodes_Ultimate_Admin_Shortcodes extends Shortcodes_Ultimate_Adm
 		// <i> FontAwesome tag
 		else {
 			$template = '
-				<i class="fa fa-%1$s" style="
+				<i class="sui sui-%1$s" style="
 					display: block;
 					width: %2$spx;
 					height: %2$spx;

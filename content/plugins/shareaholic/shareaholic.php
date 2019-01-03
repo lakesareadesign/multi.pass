@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 8.10.2
+ * @version 8.10.5
  */
 
 /*
-Plugin Name: Shareaholic - Share Buttons, Analytics, Related Posts
+Plugin Name: Fast Share Buttons, Analytics, Related Posts and More
 Plugin URI: https://www.shareaholic.com/website-tools/
-Description: The best WordPress all-in-one Social Media and Related Posts solution. Get found on social and grow your following. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for settings.
-Version: 8.10.2
+Description: The award winning all-in-one Social Media and Related Posts solution for WordPress. Get found on social and grow your following. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for settings.
+Version: 8.10.5
 Author: Shareaholic
 Author URI: https://www.shareaholic.com
 Text Domain: shareaholic
@@ -61,7 +61,7 @@ if (!class_exists('Shareaholic')) {
     const API_URL = 'https://web.shareaholic.com'; // uses static IPs for firewall whitelisting
     const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
 
-    const VERSION = '8.10.2';
+    const VERSION = '8.10.5';
 
     /**
      * Starts off as false so that ::get_instance() returns
@@ -135,6 +135,9 @@ if (!class_exists('Shareaholic')) {
 
       // do something before a post is updated
       add_action('pre_post_update', array('ShareaholicUtilities', 'before_post_is_updated'));
+      
+      // do something before a post is trashed
+      add_action('pre_trash_post', array('ShareaholicUtilities', 'before_post_is_trashed'));
 
       // do something before a site's permalink structure changes
       add_action('update_option_permalink_structure', array('ShareaholicUtilities', 'notify_content_manager_singledomain'));
@@ -267,6 +270,8 @@ if (!class_exists('Shareaholic')) {
       ShareaholicUtilities::log_event("Uninstall");
       ShareaholicUtilities::delete_api_key();
       delete_option('shareaholic_settings');
+      delete_option('shareaholic_activate_timestamp');
+      delete_option('shareaholic_review_dismiss'); // legacy flag for reviews; can remove later
       ShareaholicUtilities::delete_mutex();
     }
   }

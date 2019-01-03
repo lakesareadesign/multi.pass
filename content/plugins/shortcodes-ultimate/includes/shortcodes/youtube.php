@@ -41,7 +41,7 @@ su_add_shortcode( array(
 				'type' => 'bool',
 				'default' => 'no',
 				'name' => __( 'Autoplay', 'shortcodes-ultimate' ),
-				'desc' => __( 'Play video automatically when page is loaded', 'shortcodes-ultimate' )
+				'desc' => __( 'Play video automatically when a page is loaded. Please note, in modern browsers autoplay option only works with the mute option enabled', 'shortcodes-ultimate' )
 			),
 			'mute' => array(
 				'type' => 'bool',

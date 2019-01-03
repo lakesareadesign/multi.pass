@@ -304,9 +304,9 @@ function su_shortcode_button( $atts = null, $content = null ) {
 
 		if ( strpos( $atts['icon'], 'icon:' ) !== false ) {
 
-			$icon = '<i class="fa fa-' . trim( str_replace( 'icon:', '', $atts['icon'] ) ) . '" style="font-size:' . $styles['size'] . 'px;color:' . $atts['icon_color'] . '"></i>';
+			$icon = '<i class="sui sui-' . trim( str_replace( 'icon:', '', $atts['icon'] ) ) . '" style="font-size:' . $styles['size'] . 'px;color:' . $atts['icon_color'] . '"></i>';
 
-			su_query_asset( 'css', 'font-awesome' );
+			su_query_asset( 'css', 'su-icons' );
 
 		}
 		else {

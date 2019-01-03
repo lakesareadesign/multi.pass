@@ -15,7 +15,7 @@
             <select class="wpmudev-select" data-attribute="after_close" >
                 <option value="no_show_on_post" {{ ( 'no_show_on_post' === after_close ) ? 'selected' : '' }} ><?php esc_attr_e( "No longer show this message on this post / page", Opt_In::TEXT_DOMAIN ); ?></option>
                 <option value="no_show_all" {{ ( 'no_show_all' === after_close ) ? 'selected' : '' }} ><?php esc_attr_e( "No longer show this message across the site", Opt_In::TEXT_DOMAIN ); ?></option>
-                <option value="keep_show" {{ ( 'keep_show' === after_close ) ? 'selected' : '' }} ><?php esc_attr_e( "Keep showing this message", Opt_In::TEXT_DOMAIN ); ?></option>
+                <option value="keep_show" {{ ( 'keep_show' === after_close || '' === after_close ) ? 'selected' : '' }} ><?php esc_attr_e( "Keep showing this message", Opt_In::TEXT_DOMAIN ); ?></option>
             </select>
 
             <label><?php esc_attr_e( "Expires (after expiry, user will see the Pop-up again)", Opt_In::TEXT_DOMAIN ); ?></label>

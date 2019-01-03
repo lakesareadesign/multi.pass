@@ -253,6 +253,22 @@
 	};
 	
 	render_admin_select();
+
+	// Dismisses the notice that shows up when the user is a member but doesn't have Hustle Pro installed
+	$(document).ready( function() {
+		$( '#hustle-notice-pro-is-available .notice-dismiss' ).on('click', function(e){
+			
+			var data = {
+				action : 'hustle_dismiss_admin_notice',
+				dismissed_notice: 'hustle_pro_is_available',
+			};
+	 
+			$.post(ajaxurl, data, function (response) {
+				
+				});
+			});
+	});
+
 	
 	//Changed by Paul Kevin
 	//Had to separate this to make it work on the email fields modal

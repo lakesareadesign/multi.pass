@@ -30,6 +30,7 @@ class WPSTHEMES extends WPSHAPERE{
     ?>
     <div class="wrap">
             <h2><?php echo __('Import a Theme', 'wps'); ?></h2>
+            <?php parent::wps_help_link(); ?>
             <p><?php echo __( 'Note: Importing a theme will replace your existing custom set colors.', 'WPSHAPERE') ?></p>
     <?php
     if(isset($_GET['status']) && $_GET['status'] == 'updated')

@@ -35,8 +35,6 @@ class Hustle_Init {
 
 			$social_sharing_admin = new Hustle_SShare_Admin();
 			new Hustle_SShare_Admin_Ajax( $hustle, $social_sharing_admin );
-
-			$upgrade_page = new Hustle_Upgrade_Free_Admin($hustle);
 		}
 
 		// Front

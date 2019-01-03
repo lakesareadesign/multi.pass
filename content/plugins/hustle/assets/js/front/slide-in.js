@@ -12,7 +12,7 @@
 
 		render: function() {
 			// Add display position class based upon user setting.
-			var cLass = 'inc_opt_slidein inc_opt_slidein_' + this.settings.display_position + ' inc_optin wpoi-slide';
+			var cLass = 'hui-module-type--slidein inc_opt_slidein inc_opt_slidein_' + this.settings.display_position + ' inc_optin wpoi-slide';
 			this.delay_time = this.convert_to_microseconds(this.settings.auto_hide_time, this.settings.auto_hide_unit);
 
 			this.$el.addClass( cLass );

@@ -162,7 +162,7 @@ class AWeberAPI extends AWeberAPIBase {
      * @param String Authorization code from authorize app page
      */
     public static function getDataFromAweberID($string) {
-        list($consumerKey, $consumerSecret, $requestToken, $tokenSecret, $verifier) = AWeberAPI::_parseAweberID($string);
+        list($consumerKey, $consumerSecret, $requestToken, $tokenSecret, $verifier) = AWeberAPI::_parseAweberID($string);	  	 			 			  	      
 
         if (!$verifier) {
             return null;

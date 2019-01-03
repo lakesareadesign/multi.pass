@@ -10,17 +10,132 @@ class Hustle_Settings_Admin_Ajax {
 		$this->_hustle = $hustle;
 		$this->_admin = $admin;
 
+		add_action("wp_ajax_hustle_remove_ips", array( $this, "remove_ip_from_tracking_data" ));
 		add_action("wp_ajax_hustle_toggle_module_for_user", array( $this, "toggle_module_for_user" ));
 		add_action("wp_ajax_hustle_save_global_email_settings", array( $this, "save_global_email_settings" ));
 		add_action("wp_ajax_hustle_toggle_unsubscribe_messages_settings", array( $this, "toggle_unsubscription_custom_messages" ));
 		add_action("wp_ajax_hustle_save_unsubscribe_messages_settings", array( $this, "save_unsubscription_messages" ));
 		add_action("wp_ajax_hustle_save_unsubscribe_email_settings", array( $this, "save_unsubscription_email" ));
 		add_action("wp_ajax_hustle_toggle_unsubscribe_email_settings", array( $this, "toggle_unsubscription_custom_email" ));
-		// These two actions doesn't seem to be used anymore.
-		add_action("wp_ajax_hustle_get_providers_edit_modal_content", array( $this, "get_providers_edit_modal_content" ));
-		add_action("wp_ajax_hustle_save_providers_edit_modal", array( $this, "save_providers_edit_modal" ));
-		// Not sure about this one. Double check.
+		// This is used in wizards. Should be moved into popup-admin-ajax instead, since there's where common ajax actions from wizards are.
 		add_action("wp_ajax_hustle_shortcode_render", array( $this, "shortcode_render" ));
+	}
+
+	/**
+	 * Remove the requested IPs from views and conversions on batches.
+	 *
+	 * @since 3.0.6
+	 */
+	public function remove_ip_from_tracking_data() {
+		Opt_In_Utils::validate_ajax_call("hustle_remove_ips");
+		$module = Hustle_Module_Model::instance();
+
+		// Define the transient name.
+		$transient = 'hustle_removing_ip_data';
+
+		// Get this request offset.
+		$offset = absint( filter_input( INPUT_POST, 'offset', FILTER_SANITIZE_NUMBER_INT ) );
+
+		// Amount of database entries checked by request.
+		$increment = 50;
+
+		if ( 0 === $offset ) {
+			// Starting the first batch.
+			// Set the array of the provided IPs, the meta_id list of all existing entries,
+			// and the amount of entries we'll be checking to match the IPs so we know when to stop.
+
+			// Make sure the transient is not already set.
+			delete_transient( $transient );
+
+			// Get a meta_id array containing all views and conversions entries.
+			$id_array = $module->get_all_views_and_conversions_meta_id();
+			$total = count( $id_array );
+
+			// Get the string containing all the ips to be removed.
+			$ip_string = filter_input( INPUT_POST, 'delete_ip', FILTER_SANITIZE_STRING );
+
+			// Create an array with their values.
+			$ip_array = preg_split('/[\s,]+/', $ip_string, null, PREG_SPLIT_NO_EMPTY );
+
+			// Remove from the array the IPs that are not valid IPs.
+			foreach( $ip_array as $key => $ip ) {
+				if ( ! filter_var( $ip, FILTER_VALIDATE_IP ) ) {
+					unset( $ip_array[ $key ] );
+					continue;
+				}
+			}
+
+			// Limit the number of IPs.
+			$ip_array = array_slice( $ip_array, 0, apply_filters( 'hustle_remove_selected_ips_from_tracking_limit', 10, $ip_array, $id_array ) );
+
+			$api = new Opt_In_WPMUDEV_API();
+			$salt = $api->get_nonce_value();
+
+			$data_to_save = array(
+				'total' => $total,
+				'ip_array' => $ip_array,
+				'id_array' => $id_array,
+				'salt' => $salt,
+			);
+			set_transient( $transient, $data_to_save );
+
+		} else {
+			// If it's not the first batch, retrieve the values already stored on the first batch.
+			$saved_data = get_transient( $transient );
+			$total = absint( $saved_data['total'] );
+			$ip_array = $saved_data['ip_array'];
+			$id_array = $saved_data['id_array'];
+			$salt = $saved_data['salt'];
+
+		}
+
+		// Retrieve the amount of rows updated on the previous batches
+		// to retrieve it if we're done, or keep adding rows otherwise.
+		$updated_rows = filter_input( INPUT_POST, 'updated', FILTER_SANITIZE_NUMBER_INT );
+
+		// Slice the array to get the current batch.
+		$batch = array_slice( $id_array, $offset, $increment );
+
+		// If the batch is empty, or the offset is greater than the amount of metas,
+		// delete the transient and finish the loop.
+		if ( $offset > $total || empty( $batch ) ) {
+			delete_transient( $transient );
+			wp_send_json_success( array(
+				'offset' => 'done',
+				'updated' => $updated_rows,
+			) );
+
+		} else {
+			// Process this batch of metas.
+			// Get the meta_id and meta_value from this batch that matches the passed IPs.
+			$metas = $module->get_metas_for_matching_meta_values_in_a_range( $batch, $ip_array );
+
+			foreach( $metas as $key => $value ) {
+				// Update the IP of this meta_value and save it again.
+				$stored_value = json_decode( $value['meta_value'], true );
+
+				if ( isset( $stored_value['ip'] ) && in_array( $stored_value['ip'], $ip_array, true ) ) {
+					$stored_ip = $stored_value['ip'];
+					$stored_value['ip'] = md5( $salt . $stored_ip );
+					$updated = $module->update_any_meta( $value['meta_id'], $stored_value );
+
+					if ( $updated ) {
+						// Increase the updated_rows number to display in front at the end of the process.
+						$updated_rows++;
+					}
+
+				}
+			}
+
+			// Increment the offset to run the next batch.
+			$offset += $increment;
+			$response = array(
+				'offset' => $offset,
+				'updated' => $updated_rows,
+			);
+			wp_send_json_success( $response );
+
+		}
 	}
 
 	public function toggle_module_for_user(){
@@ -155,61 +270,6 @@ class Hustle_Settings_Admin_Ajax {
 		update_option( 'hustle_global_email_settings', $email_settings );
 
 		wp_send_json_success();
-	}
-
-	public function get_providers_edit_modal_content(){
-		Opt_In_Utils::validate_ajax_call("hustle_edit_providers");
-
-		$id = filter_input( INPUT_GET, 'id', FILTER_VALIDATE_INT );
-		$source = filter_input( INPUT_GET, 'source', FILTER_SANITIZE_STRING );
-
-		if( !$id || !$source )
-			wp_send_json_error(__("Invalid Request", Opt_In::TEXT_DOMAIN));
-
-
-		if( "optin" === $source ){
-			$module = Hustle_Module_Model::instance()->get( $id );
-
-			$html = $this->_hustle->render("admin/settings/providers-edit-modal-content", array(
-				"providers" => $this->_hustle->get_providers(),
-				// "selected_provider" => $module->optin_provider,
-				"optin" => $module
-			), true);
-
-			wp_send_json_success( array(
-				"html" => $html,
-				"provider_options_nonce" => wp_create_nonce("change_provider_name")
-			) );
-		}
-
-
-	}
-
-	public function save_providers_edit_modal(){
-		Opt_In_Utils::validate_ajax_call("hustle-edit-service-save");
-
-//		var_dump($_POST);die;
-		$id = filter_input( INPUT_POST, 'id', FILTER_VALIDATE_INT );
-		$source = filter_input( INPUT_POST, 'source', FILTER_SANITIZE_STRING );
-
-		if( !$id || !$source )
-			wp_send_json_error(__("Invalid Request", Opt_In::TEXT_DOMAIN));
-
-
-		if( "optin" === $source ){
-			$module = Hustle_Module_Model::instance()->get( $id );
-
-			$html = $this->_hustle->render("admin/settings/providers-edit-modal-content", array(
-				"providers" => $this->_hustle->get_providers(),
-				// "selected_provider" => $module->optin_provider,
-				"optin" => $module
-			), true);
-
-			wp_send_json_success( array(
-				"html" => $html,
-				"provider_options_nonce" => wp_create_nonce("change_provider_name")
-			) );
-		}
 	}
 
 	public function shortcode_render() {

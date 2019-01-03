@@ -569,8 +569,8 @@ class ShareaholicPublic {
       $server_side_share_count_status =  "on";
     } else {
       $server_side_share_count_status =  "off";
-    }
-    
+    } 
+      
     if (ShareaholicUtilities::has_accepted_terms_of_service() == 1){
       $tos_status = "accepted";
     } else {
@@ -613,12 +613,16 @@ class ShareaholicPublic {
   	'app_locations' => array (
   	  'share_buttons' => ShareaholicUtilities::get_option('share_buttons'),
   	  'recommendations' => ShareaholicUtilities::get_option('recommendations'),
+      'recommendations_display_on_excerpts' => ShareaholicUtilities::get_option('recommendations_display_on_excerpts'),
+      'share_buttons_display_on_excerpts' => ShareaholicUtilities::get_option('share_buttons_display_on_excerpts'),
 	    ),
   	'advanced_settings' => array (
   	  'server_side_share_count_api' => $server_side_share_count_status,
+      'enable_user_nicename' => ShareaholicUtilities::get_option('enable_user_nicename'),
+      'disable_admin_bar_menu' => ShareaholicUtilities::get_option('disable_admin_bar_menu'),
   	  )
     );
-    
+      
     header('Content-Type: application/json');
     echo json_encode($info);
     exit;

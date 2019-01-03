@@ -109,10 +109,10 @@ class Inbound_Events {
         }
 
         $sql = "CREATE TABLE IF NOT EXISTS $table_name (
-			  `id` bigint(9) NOT NULL AUTO_INCREMENT,
-			  `page_id` varchar(20) NOT NULL,
-			  `cta_id` varchar(20) NOT NULL,
-			  `variation_id` bigint(9) NOT NULL,
+			  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+			  `page_id` bigint(20) NOT NULL,
+			  `cta_id` bigint(20) NOT NULL,
+			  `variation_id` bigint(20) NOT NULL,
 			  `lead_id` bigint(20) NOT NULL,
 			  `lead_uid` varchar(255) NOT NULL,
 			  `list_id` bigint(20) NOT NULL,
@@ -846,7 +846,7 @@ class Inbound_Events {
 
         $query .= ' ORDER BY `datetime` DESC';
         //print_r($query);exit;
-        $results = $wpdb->get_var( $query , ARRAY_A );
+        $results = $wpdb->get_var( $query );
 
         return $results;
     }
@@ -937,7 +937,7 @@ class Inbound_Events {
 
         $table_name = $wpdb->prefix . "inbound_events";
 
-        $query = 'SELECT *, count(*) as count FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" GROUP BY source';
+        $query = 'SELECT *, count(*) as count FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" GROUP BY source ORDER BY datetime DESC';
 
         $events = $wpdb->get_results( $query , ARRAY_A );
 

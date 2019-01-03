@@ -12,6 +12,10 @@ body {
   text-decoration: none;
 }
 
+.update-nag {
+  display: none !important;
+}
+
 .btn-warning {
   color: #fff !important;
 }

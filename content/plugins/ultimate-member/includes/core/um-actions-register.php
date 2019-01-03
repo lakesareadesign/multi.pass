@@ -453,51 +453,6 @@ add_action( 'um_submit_form_register', 'um_submit_form_register', 10 );
 
 
 /**
- * Register user with predefined role in options
- *
- * @param $args
- */
-function um_add_user_role( $args ) {
-
-	if ( isset( $args['custom_fields']['role_select'] ) || isset( $args['custom_fields']['role_radio'] ) ) return;
-
-	$use_custom_settings = get_post_meta( $args['form_id'], '_um_register_use_custom_settings', true );
-
-	$role = apply_filters( 'um_registration_user_role', UM()->form()->assigned_role( UM()->form()->form_id ), $args );
-
-	if ( empty( $use_custom_settings ) || empty( $role ) ) return;
-
-	/**
-	 * UM hook
-	 *
-	 * @type filter
-	 * @title um_register_hidden_role_field
-	 * @description Display hidden role field
-	 * @input_vars
-	 * [{"var":"$role","type":"string","desc":"Hidden user role"}]
-	 * @change_log
-	 * ["Since: 2.0"]
-	 * @usage
-	 * <?php add_filter( 'um_register_hidden_role_field', 'function_name', 10, 1 ); ?>
-	 * @example
-	 * <?php
-	 * add_filter( 'um_register_hidden_role_field', 'my_register_hidden_role_field', 10, 1 );
-	 * function my_register_hidden_role_field( $role ) {
-	 *     // your code here
-	 *     return $role;
-	 * }
-	 * ?>
-	 */
-	$role = apply_filters( 'um_register_hidden_role_field', $role );
-	if ( $role ) {
-		echo '<input type="hidden" name="role" id="role" value="' . $role . '" />';
-	}
-
-}
-//add_action( 'um_after_register_fields', 'um_add_user_role', 10, 1 );
-
-
-/**
  * Show the submit button
  *
  * @param $args
@@ -554,7 +509,7 @@ function um_add_submit_button_to_register( $args ) {
 	 * }
 	 * ?>
 	 */
-	$secondary_btn_word = apply_filters('um_register_form_button_two', $secondary_btn_word, $args );
+	$secondary_btn_word = apply_filters( 'um_register_form_button_two', $secondary_btn_word, $args );
 
 	$secondary_btn_url = ( isset( $args['secondary_btn_url'] ) && $args['secondary_btn_url'] ) ? $args['secondary_btn_url'] : um_get_core_page('login');
 	/**
@@ -583,14 +538,22 @@ function um_add_submit_button_to_register( $args ) {
 
 	<div class="um-col-alt">
 
-		<?php if ( isset($args['secondary_btn']) && $args['secondary_btn'] != 0 ) { ?>
+		<?php if ( isset( $args['secondary_btn'] ) && $args['secondary_btn'] != 0 ) { ?>
 
-			<div class="um-left um-half"><input type="submit" value="<?php esc_attr_e( $primary_btn_word,'ultimate-member' ) ?>" class="um-button" id="um-submit-btn" /></div>
-			<div class="um-right um-half"><a href="<?php echo esc_attr( $secondary_btn_url ); ?>" class="um-button um-alt"><?php esc_attr_e( $secondary_btn_word,'ultimate-member'); ?></a></div>
+			<div class="um-left um-half">
+				<input type="submit" value="<?php esc_attr_e( wp_unslash( $primary_btn_word ), 'ultimate-member' ) ?>" class="um-button" id="um-submit-btn" />
+			</div>
+			<div class="um-right um-half">
+				<a href="<?php echo esc_attr( $secondary_btn_url ); ?>" class="um-button um-alt">
+					<?php _e( wp_unslash( $secondary_btn_word ),'ultimate-member' ); ?>
+				</a>
+			</div>
 
 		<?php } else { ?>
 
-			<div class="um-center"><input type="submit" value="<?php esc_attr_e( $primary_btn_word,'ultimate-member' ) ?>" class="um-button" id="um-submit-btn" /></div>
+			<div class="um-center">
+				<input type="submit" value="<?php esc_attr_e( wp_unslash( $primary_btn_word ), 'ultimate-member' ) ?>" class="um-button" id="um-submit-btn" />
+			</div>
 
 		<?php } ?>
 

@@ -872,7 +872,7 @@ body .fl-theme-builder-preview-select-item-child:hover {
 	-moz-animation-duration: 0s;
 	-webkit-animation-duration: 0s;
 	-o-animation-duration: 0s;
-	z-index: 9;
+	z-index: 11;
 }
 .fl-builder-panel.fl-builder-ui-pinned-right {
 	left: auto !important;
@@ -891,7 +891,7 @@ body .fl-theme-builder-preview-select-item-child:hover {
 /* Pinned - Lightbox State */
 .fl-builder-ui-pinned-container .fl-lightbox-wrap {
 	position: absolute;
-	z-index: 9;
+	z-index: 11;
 }
 .fl-builder-ui-pinned-container .fl-lightbox {
 	position: absolute;
@@ -3372,7 +3372,7 @@ body .fl-lightbox-has-tab-overflow .fl-builder-settings-tabs-more {
 	left:0;
 	right:0;
 	background:transparent;
-	z-index: 9;
+	z-index: 11;
 }
 
 /* Settings Tables

@@ -27,6 +27,9 @@ final class FLBuilderWPBlocks {
 		// Actions
 		add_action( 'enqueue_block_editor_assets', 	__CLASS__ . '::enqueue_block_editor_assets' );
 
+		// Filters
+		add_filter( 'excerpt_allowed_blocks', __CLASS__ . '::excerpt_allowed_blocks' );
+
 		// Block Files
 		require_once FL_BUILDER_DIR . 'classes/class-fl-builder-wp-blocks-layout.php';
 	}
@@ -90,6 +93,18 @@ final class FLBuilderWPBlocks {
 				'view' => get_permalink( $post->ID ),
 			),
 		) );
+	}
+
+	/**
+	 * Adds our block(s) to the allowed blocks for excerpts.
+	 *
+	 * @since 2.1.7.1
+	 * @param array $blocks
+	 * @return array
+	 */
+	static public function excerpt_allowed_blocks( $blocks ) {
+		$blocks[] = 'fl-builder/layout';
+		return $blocks;
 	}
 }
 

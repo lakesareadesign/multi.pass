@@ -68,7 +68,7 @@ final class FLBuilder {
 	 * @since 2.1
 	 */
 	static public $fa4_url = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.5.0/css/all.css';
+	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.6.1/css/all.css';
 
 	/**
 	 * Initializes hooks.

@@ -1,8 +1,30 @@
 Plugin Name: Hustle
-Author:Victor Ivanov (Incsub), Robert Setiadi (Incsub), Diobeth Ray Villasencio (Incsub), Leighton Sapir (Incsub), Irene Mitchell (Incsub)
+Author: Danae Millan (Incsub), Daniel Shepard (Incsub), Paul Kevin (Incsub), Leighton Sapir (Incsub)
 
 Change Log:
 ----------------------------------------------------------------------
+
+3.0.6.1 - 2018-12-12
+----------------------------------------------------------------------
+- Fix style conflict with WPMU Dev dashboard.
+- Fix edge case php error on upgrade.
+
+3.0.6 - 2018-12-10
+----------------------------------------------------------------------
+- Adjust the frontend layouts to fix several issues.
+- Improve the way frontend layouts look in IE.
+- Allow anonymizing specific IPs from tracked data.
+- Fix minor UI and UX details in backend and frontend.
+- Fix Mautic issue not allowing users to subscribe.
+- Fix "Country" display conditon not working.
+- Fix saved theme not showing in frontend.
+- Remove the redirect to Hustle dashboard after activation.
+- Create the database tables again after re-installing.
+- Adjust the way custom fields are saved in the providers.
+- Improve compatibility with Forminator.
+- Add Privacy Policy suggestion text.
+- Add notification when user can install Pro version.
+- Allow retrieving more than 100 lists in Aweber.
 
 3.0.5 - 2018-09-20
 ----------------------------------------------------------------------
@@ -355,4 +377,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1538021306-au
+133620-1545065694-au

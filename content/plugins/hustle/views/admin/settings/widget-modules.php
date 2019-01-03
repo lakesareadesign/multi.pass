@@ -1,51 +1,45 @@
 <?php
-/**
- *
- */
-?>
-
-<?php
 $content_hide = false;
 ?>
 
 <div id="wpmudev-settings-widget-modules" class="wpmudev-box wpmudev-box-close">
 
-    <div class="wpmudev-box-head">
+	<div class="wpmudev-box-head">
 
-        <h2><?php esc_attr_e( "Don't show modules to", Opt_In::TEXT_DOMAIN ); ?></h2>
+		<h2><?php esc_html_e( "Don't show modules to", Opt_In::TEXT_DOMAIN ); ?></h2>
 
-        <div class="wpmudev-box-action"><?php $this->render("general/icons/icon-plus" ); ?></div>
+		<div class="wpmudev-box-action"><?php $this->render( 'general/icons/icon-plus' ); ?></div>
 
-    </div>
+	</div>
 
-    <div class="wpmudev-box-body<?php if ( true === $content_hide ) echo ' wpmudev-hidden'; ?>">
+	<div class="wpmudev-box-body<?php if ( true === $content_hide ) { echo ' wpmudev-hidden'; } // phpcs:ignore ?>">
 
-        <table cellspacing="0" cellpadding="0" class="wpmudev-table">
+		<table cellspacing="0" cellpadding="0" class="wpmudev-table">
 
 			<thead>
 
 				<tr>
 
-					<th><?php esc_attr_e( "Module Name", Opt_In::TEXT_DOMAIN ); ?></th>
+					<th><?php esc_html_e( 'Module Name', Opt_In::TEXT_DOMAIN ); ?></th>
 
-					<th><?php esc_attr_e( "Logged-in User", Opt_In::TEXT_DOMAIN ); ?></th>
+					<th><?php esc_html_e( 'Logged-in User', Opt_In::TEXT_DOMAIN ); ?></th>
 
-					<th><?php esc_attr_e( "Admin", Opt_In::TEXT_DOMAIN ); ?></th>
+					<th><?php esc_html_e( 'Admin', Opt_In::TEXT_DOMAIN ); ?></th>
 
 				</tr>
 
 			</thead>
 
-            <tbody>
+			<tbody>
 
-                <?php
-				foreach( $modules as $module ) :
+				<?php
+				foreach ( $modules as $module ) :
 
-					$admin_id = esc_attr( "hustle-module-admin" . $module->id );
-					$logged_id = esc_attr( "hustle-module-logged_in" . $module->id );
+					$admin_id  = esc_attr( 'hustle-module-admin' . $module->id );
+					$logged_id = esc_attr( 'hustle-module-logged_in' . $module->id );
 					?>
 
-                	<tr>
+					<tr>
 
 						<td>
 
@@ -67,25 +61,25 @@ $content_hide = false;
 
 									<?php if ( "popup" === $module->module_type ) { ?>
 
-										<?php $this->render("general/icons/admin-icons/icon-popup" ); ?>
+										<?php $this->render( 'general/icons/admin-icons/icon-popup' ); ?>
 
 									<?php } ?>
 
 									<?php if ( "slidein" === $module->module_type ) { ?>
 
-										<?php $this->render("general/icons/admin-icons/icon-slidein" ); ?>
+										<?php $this->render( 'general/icons/admin-icons/icon-slidein' ); ?>
 
 									<?php } ?>
 
 									<?php if ( "embedded" === $module->module_type ) { ?>
 
-										<?php $this->render("general/icons/admin-icons/icon-shortcode" ); ?>
+										<?php $this->render( 'general/icons/admin-icons/icon-shortcode' ); ?>
 
 									<?php } ?>
 
 									<?php if ( "social_sharing" === $module->module_type ) { ?>
 
-										<?php $this->render("general/icons/admin-icons/icon-shares" ); ?>
+										<?php $this->render( 'general/icons/admin-icons/icon-shares' ); ?>
 
 									<?php } ?>
 
@@ -123,12 +117,12 @@ $content_hide = false;
 
 					</tr>
 
-                <?php endforeach; ?>
+				<?php endforeach; ?>
 
-            </tbody>
+			</tbody>
 
-        </table>
+		</table>
 
-    </div>
+	</div>
 
 </div>

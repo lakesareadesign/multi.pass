@@ -95,6 +95,7 @@ class MP_Gateway_Paypal_Express extends MP_Gateway_API {
 		'IL' => 'Israel',
 		'IT' => 'Italy',
 		'JP' => 'Japan',
+		'MT' => 'Malta',
 		'MX' => 'Mexico',
 		'NL' => 'Netherlands',
 		'NO' => 'Norway',

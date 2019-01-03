@@ -318,7 +318,7 @@ if ( ! class_exists( 'um\core\User' ) ) {
 
 
 		/**
-		 * Generate User Profile Slug and seve to meta
+		 * Generate User Profile Slug and save to meta
 		 *
 		 * @param int $user_id
 		 * @param bool $force
@@ -360,7 +360,7 @@ if ( ! class_exists( 'um\core\User' ) ) {
 
 				} else {
 
-					$user_in_url = sanitize_title( $user_in_url );
+					$user_in_url = urlencode( $user_in_url );
 
 				}
 			}
@@ -1540,7 +1540,7 @@ if ( ! class_exists( 'um\core\User' ) ) {
 		 */
 		function is_private_profile( $user_id ) {
 			$privacy = get_user_meta( $user_id, 'profile_privacy', true );
-			if ( $privacy == __('Only me','ultimate-member') ) {
+			if ( $privacy == __('Only me','ultimate-member') || $privacy == 'Only me' ) {
 				return true;
 			}
 			return false;

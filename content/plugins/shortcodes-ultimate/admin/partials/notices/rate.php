@@ -6,9 +6,11 @@
 
 	<div class="shortcodes-ultimate-notice-rate-content">
 
-		<p><?php _e( 'Hello', 'shortcodes-ultimate' ); ?>,</p>
-		<p><?php _e( 'my name is Vladimir Anokhin. I am the developer of the plugin Shortcodes Ultimate.<br>If you like this plugin, please write few words about it at wordpress.org or twitter. Your opinion will help other people to find this useful plugin much faster.', 'shortcodes-ultimate' ); ?></p>
-		<p><?php _e( 'Thank you!', 'shortcodes-ultimate' ); ?></p>
+		<div class="shortcodes-ultimate-notice-rate-content-text">
+			<p><?php _e( 'Hello', 'shortcodes-ultimate' ); ?>,</p>
+			<p><?php _e( 'my name is Vladimir Anokhin. I am the developer of the Shortcodes Ultimate plugin.<br>If you like this plugin, please write a few words about it at wordpress.org or twitter. Your opinion will help other people.', 'shortcodes-ultimate' ); ?></p>
+			<p><?php _e( 'Thank you!', 'shortcodes-ultimate' ); ?></p>
+		</div>
 
 		<p class="shortcodes-ultimate-notice-rate-actions">
 			<a href="<?php echo $this->get_dismiss_link(); ?>" class="button button-primary" onclick="window.open('https://wordpress.org/support/plugin/shortcodes-ultimate/reviews/?rate=5&filter=5#new-post');"><?php _e( 'Rate plugin', 'shortcodes-ultimate' ); ?></a>
@@ -33,6 +35,9 @@
 	}
 	.shortcodes-ultimate-notice-rate-content {
 		margin-left: 80px;
+	}
+	.shortcodes-ultimate-notice-rate-content-text p {
+		font-size: 15px;
 	}
 	p.shortcodes-ultimate-notice-rate-actions {
 		margin-top: 15px;

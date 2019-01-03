@@ -328,6 +328,7 @@ class MP_Order {
 			 */
 			$msg         = apply_filters( 'mp_order/notification_body', $msg, $this );
 			$msg         = apply_filters( 'mp_order/notification_body/' . mp_get_post_value( 'payment_method', '' ), $msg, $this );
+			$msg         = nl2br( $msg );
 			$attachments = apply_filters( 'mp_order/sendmail_attachments', array(), $this, 'new_order_client' );
 			$this->_send_email_to_buyers( $subject, $msg, $attachments );
 		}

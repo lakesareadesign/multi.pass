@@ -34,6 +34,10 @@ class Hustle_Popup_Admin_Ajax {
 		add_action( "wp_ajax_clear_logs", array( $this, "clear_logs" ) );
 		add_action( "wp_ajax_inc_optin_export_error_logs", array( $this, "export_error_logs" ) );
 		add_action( "wp_ajax_sshare_show_page_content", array( $this, "sshare_show_page_content" ) );
+
+		if ( Opt_In_Utils::_is_free() && ! file_exists( WP_PLUGIN_DIR . '/hustle/opt-in.php' ) ) {
+			add_action( 'wp_ajax_hustle_dismiss_admin_notice', array( $this, 'dismiss_admin_notice' ) );
+		}
 	}
 
 	public function get_provider_form_settings() {
@@ -248,6 +252,19 @@ class Hustle_Popup_Admin_Ajax {
 		if( $module->module_type !== $type && in_array( $type, array( 'popup' ), true ) ) {
 			wp_send_json_error( __("Invalid environment: %s", Opt_In::TEXT_DOMAIN), $type);
 		}
+
+		// Prevent having more than 3 modules when it's free version.
+		$total = count(Hustle_Module_Collection::instance()->get_all( null, array( 'module_type' => 'popup' ) ));
+		if ( Opt_In_Utils::_is_free() && $total >= 3 ) {
+			wp_send_json_error( array( 'requires_pro' => true ) );
+		}
+
+		// Prevent having more than 3 modules when it's free version.
+		$total = count(Hustle_Module_Collection::instance()->get_all( null, array( 'module_type' => 'embedded' ) ));
+		if ( Opt_In_Utils::_is_free() && $total >= 3 ) {
+			wp_send_json_error( array( 'requires_pro' => true ) );
+		}
+
 		$content = $module->get_content()->to_array();
 		$design = $module->get_design()->to_array();
 		$settings = $module->get_display_settings()->to_array();
@@ -662,6 +679,27 @@ class Hustle_Popup_Admin_Ajax {
 		wp_send_json_success( array(
 			'ss_share_stats' => $ss_share_stats
 		) );
+	}
+
+	/**
+	 * Sets an user meta to prevent admin notice from showing up again after dismissed.
+	 *
+	 * @since 3.0.6
+	 */
+	public function dismiss_admin_notice() {
+		$user_id = get_current_user_id();
+		$notice = filter_input( INPUT_POST, 'dismissed_notice', FILTER_SANITIZE_STRING );
+
+		$dismissed_notices = get_user_meta( $user_id, 'hustle_dismissed_admin_notices', true );
+		$dismissed_notices = array_filter( explode( ',', (string) $dismissed_notices ) );
+
+		if ( $notice && ! in_array( $notice, $dismissed_notices, true ) ) {
+			$dismissed_notices[] = $notice;
+			$to_store = implode( ',', $dismissed_notices );
+			update_user_meta( $user_id, 'hustle_dismissed_admin_notices', $to_store );
+		}
+
+		wp_send_json_success();
 	}
 }
 endif;

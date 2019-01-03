@@ -8167,7 +8167,7 @@
 		 */
 		_initTinyMCE: function()
 		{
-			if ( tinymce.ui.FloatPanel ) {
+			if ( typeof tinymce === 'object' && typeof tinymce.ui.FloatPanel !== 'undefined' ) {
 				tinymce.ui.FloatPanel.zIndex = 100100; // Fix zIndex issue in wp 4.8.1
 			}
 

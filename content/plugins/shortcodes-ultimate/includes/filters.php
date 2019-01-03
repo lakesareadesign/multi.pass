@@ -41,7 +41,7 @@ function su_filter_disable_wptexturize( $shortcodes ) {
  */
 function su_filter_custom_formatting( $content ) {
 
-	$replacements = array (
+	$replacements = array(
 		'<p>['    => '[',
 		']</p>'   => ']',
 		']<br />' => ']',

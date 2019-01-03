@@ -47,7 +47,10 @@ class ShareaholicPublicJS {
       
       $base_settings['url_components']['post_id'] = "$post->ID";
       $base_settings['url_components']['postname'] = $post->post_name;
-      $base_settings['url_components']['author'] = get_the_author_meta('user_nicename', $post->post_author);
+      
+      if (ShareaholicUtilities::get_option('enable_user_nicename') == "on"){
+        $base_settings['url_components']['author'] = get_the_author_meta('user_nicename', $post->post_author);
+      }
       
       // ******** copied from WP core - START ******** //
       $category = '';

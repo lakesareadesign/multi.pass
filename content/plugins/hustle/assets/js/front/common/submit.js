@@ -77,15 +77,15 @@
 
 		if ( is_test ) {
 			$failure.html( inc_opt.l10n.test_cant_submit );
-			$form.append( $failure );
+			$( $failure ).insertAfter( $form );
 			return;
 		}
 
 		if( $form.data("sending") || !validate_form( $form, is_test ) )  return;
 
 		$button.attr("disabled", true);
-		$button.addClass("loading");
-		$form.addClass("loading");
+		$button.addClass("hustle-onload");
+		$form.addClass("hustle-onload");
 
 		$form.data("sending", true);
 
@@ -162,22 +162,30 @@
 					}
 					$failure.html( message ? message : inc_opt.l10n.submit_failure );
 
-					$form.append( $failure );
+					$( $failure ).insertAfter( $form );
 				}
 			},
 			error: function(){
-				$form.append( $failure );
+				$( $failure ).insertAfter( $form );
 			},
 			complete: function(){
 				$button.attr("disabled", false);
-				$form.removeClass("loading");
-				$button.removeClass("loading");
+				$form.removeClass("hustle-onload");
+				$button.removeClass("hustle-onload");
 				$form.data("sending", false);
 			}
 		});
 
 	});
 
+	$(document).on("change", 'form.hustle-modal-optin_form',function(e){
+		var $this = $( e.target );
+
+		if ( $this.hasClass( 'hustle-modal-optin_error' ) ) {
+			$this.removeClass( 'hustle-modal-optin_error' );
+			$this.next('label').find('.hustle-i_warning').hide();
+		}
+	});
 	
 	$(document).on("submit", 'form.hustle-unsubscribe-form',function(e){
 		e.preventDefault();
@@ -190,8 +198,8 @@
 		// use validate_form() instead
 
 		$button.attr("disabled", true);
-		$button.addClass("loading");
-		$form.addClass("loading");
+		$button.addClass("hustle-onload");
+		$form.addClass("hustle-onload");
 		$form.find( '.wpoi-submit-failure' ).remove();
 
 		$.ajax({
@@ -221,8 +229,8 @@
 			},
 			complete: function(){
 				$button.attr("disabled", false);
-				$form.removeClass("loading");
-				$button.removeClass("loading");
+				$form.removeClass("hustle-onload");
+				$button.removeClass("hustle-onload");
 			}
 		});
 	});

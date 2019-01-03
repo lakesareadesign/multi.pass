@@ -2,19 +2,15 @@
 	"use strict";
 	if( pagenow !== 'hustle_page_hustle_settings' ) return;
 
-	// E_News is not used anymore here. It can be removed. 
-	// Services doesn't seem to be doing anything either.
-	var //E_News = Hustle.get("Settings.E_News"),
-		Modules_Activity = Hustle.get("Settings.Modules_Activity"),
+	var Modules_Activity = Hustle.get("Settings.Modules_Activity"),
 		Mail_Settings = Hustle.get( 'Settings.Mail_Settings' ),
-		Unsubscribe_Settings = Hustle.get( 'Settings.Unsubscribe_Settings' );
-		//Services = Hustle.get("Settings.Services");
+		Unsubscribe_Settings = Hustle.get( 'Settings.Unsubscribe_Settings' ),
+		Gdpr_Settings = Hustle.get("Settings.Gdpr_Settings");
 
-//	var e_new = new E_News();
 	var m_activity = new Modules_Activity(),
 		mail = new Mail_Settings(),
-		unsubscribe = new Unsubscribe_Settings();
-	//var service = new Services();
+		unsubscribe = new Unsubscribe_Settings(),
+		gdpr_settings = new Gdpr_Settings();
 
 	// Accordion functionality.
 	$(".wpmudev-box .wpmudev-box-head").on('click', function(e) {

@@ -18,7 +18,7 @@
 /*
 Plugin Name: WordPress Editorial Calendar
 Description: The Editorial Calendar makes it possible to see all your posts and drag and drop them to manage your blog.
-Version: 3.7.1
+Version: 3.7.2
 Author: Colin Vernon, Justin Evans, Joachim Kudish, Mary Vogt, and Zack Grossbart
 Author URI: http://www.zackgrossbart.com
 Plugin URI: http://stresslimitdesign.com/editorial-calendar-plugin
@@ -1059,7 +1059,7 @@ class EdCal {
         $my_post['post_title'] = isset($_POST["title"])?wp_strip_all_tags($_POST["title"]):null;
         $my_post['post_content'] = isset($_POST["content"])?$_POST["content"]:null;
         
-        if ($edcal_date_gmt != '0000-00-00 00:00:00' || $my_post['ID'] > 0) {
+        if ($edcal_date_gmt != '0000-00-00 00:00:00') {
             /*
              * We don't want to set a date if this a new post in the drafts
              * drawer since WordPress 3.5 will reject new posts with a 0000 

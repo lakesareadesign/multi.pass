@@ -542,6 +542,13 @@ class Hustle_Embedded_Admin_Ajax {
 		if( $module->module_type !== $type && in_array( $type, array( 'embedded' ), true ) ) {
 			wp_send_json_error( __( 'Invalid environment: %s', Opt_In::TEXT_DOMAIN ), $type );
 		}
+
+		// Prevent having more than 3 modules when it's free version.
+		$total = count(Hustle_Module_Collection::instance()->get_all( null, array( 'module_type' => 'embedded' ) ));
+		if ( Opt_In_Utils::_is_free() && $total >= 3 ) {
+			wp_send_json_error( array( 'requires_pro' => true ) );
+		}
+
 		/**
 		 * get data, need it, $module is a singleton
 		 */

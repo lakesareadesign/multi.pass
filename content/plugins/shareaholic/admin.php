@@ -13,8 +13,10 @@
 class ShareaholicAdmin {
 
   const ACTIVATE_TIMESTAMP_OPTION = 'shareaholic_activate_timestamp';
-  const REVIEW_PERIOD = 259200; // 3 days in seconds
-  const REVIEW_DISMISS_OPTION = 'shareaholic_review_dismiss';
+  const REVIEW_DISMISS_OPTION = 'shareaholic_review_notice';
+  const REVIEW_FIRST_PERIOD = 259200; // 3 days in seconds
+  const REVIEW_LATER_PERIOD = 5184000; // 60 days in seconds
+  const REVIEW_FOREVER_PERIOD = 63113904; // 2 years in seconds
   
   /**
    * Loads before all else
@@ -35,19 +37,86 @@ class ShareaholicAdmin {
   }
 
   /**
-   * Check if the user has dismissed the review message
+   * Check review notice status for current user
    *
    */
   public static function check_review_dismissal() {
+    
+    global $current_user;
+    $user_id = $current_user->ID;
+    
     if (!is_admin() ||
         !current_user_can('manage_options') ||
         !isset($_GET['_wpnonce']) ||
         !wp_verify_nonce($_GET['_wpnonce'], 'review-nonce') ||
+        !isset($_GET['shr_defer_t']) ||
         !isset($_GET[self::REVIEW_DISMISS_OPTION])) {
       return;
     }
+    
+    $the_meta_array = array (
+      'dismiss_defer_period' => $_GET["shr_defer_t"],
+      'dismiss_timestamp' => time()
+    );
+    
+    update_user_meta($user_id, self::REVIEW_DISMISS_OPTION, $the_meta_array);
+  }
+  
+  /**
+   * Check if we should display the review notice
+   *
+   */
+  public static function check_plugin_review() {
+    
+  	global $current_user;
+  	$user_id = $current_user->ID;
+    
+    $show_review_notice = false;
+    $activation_timestamp = get_site_option(self::ACTIVATE_TIMESTAMP_OPTION);
+    $review_dismissal_array = get_user_meta($user_id, self::REVIEW_DISMISS_OPTION, true);
+    $dismiss_defer_period = isset($review_dismissal_array['dismiss_defer_period']) ? $review_dismissal_array['dismiss_defer_period'] : 0;
+    $dismiss_timestamp = isset($review_dismissal_array['dismiss_timestamp']) ? $review_dismissal_array['dismiss_timestamp'] : time();
+    
+    if ($dismiss_timestamp + $dismiss_defer_period <= time()) {
+      $show_review_notice = true;
+    }
 
-    add_site_option(self::REVIEW_DISMISS_OPTION, true);
+    if (!$activation_timestamp) {
+      $activation_timestamp = time();
+      add_site_option(self::ACTIVATE_TIMESTAMP_OPTION, $activation_timestamp);
+    }
+  
+    // display review message after a certain period of time after activation
+    if ((time() - $activation_timestamp > self::REVIEW_FIRST_PERIOD) && $show_review_notice == true) {
+      add_action('admin_notices', array('ShareaholicAdmin', 'display_review_notice'));
+    }
+  }
+
+  public static function display_review_notice() {
+    
+    $dismiss_forever = add_query_arg( array(
+      self::REVIEW_DISMISS_OPTION => true,
+      'shr_defer_t' => self::REVIEW_FOREVER_PERIOD
+    ));
+    
+    $dismiss_forlater = add_query_arg( array(
+      self::REVIEW_DISMISS_OPTION => true,
+      'shr_defer_t' => self::REVIEW_LATER_PERIOD
+    ));
+    
+    $dismiss_forever_url = wp_nonce_url($dismiss_forever, 'review-nonce');
+    $dismiss_forlater_url = wp_nonce_url($dismiss_forlater, 'review-nonce');
+    
+    echo '
+    <div class="notice notice-info" style="background-size: contain; background-position: right bottom; background-repeat: no-repeat; background-image: url(' . plugins_url('assets/img/happy-people-cover.png', __FILE__) . ');">
+      <p style="background: rgba(255, 255, 255, 0.85); text-shadow: white 0px 0px 10px;">' . __('Hey there! We noticed that you have had some success using ', 'shareaholic') . '<a href="' . admin_url('admin.php?page=shareaholic-settings') . '">Shareaholic</a>' . __(' — awesome! Could you please do us a BIG favor and give us a quick 5-star rating on WordPress? Just to help us spread the word and boost our motivation. We would really appreciate it 🙂 ~ Your friends @ Shareaholic', 'shareaholic') . '
+        <br />
+        <br />
+        <a onclick="location.href=\'' . $dismiss_forever_url . '\';" class="button button-primary" href="' . esc_url('https://wordpress.org/support/plugin/shareaholic/reviews/?rate=5#new-post') . '" target="_blank">' . __('Ok, you deserve it', 'shareaholic') . '</a> &nbsp; 
+        <a href="' . $dismiss_forlater_url . '">' . __('No, maybe later', 'shareaholic') . '</a> &nbsp;
+        <a href="' . $dismiss_forever_url . '">' . __('I already did', 'shareaholic') . '</a>
+      </p>
+    </div>';
   }
   
   /**
@@ -108,46 +177,6 @@ JQUERY;
       exit;
     }
   }
-  
-  /**
-   * Check if we should display the review message days after the
-   * plugin has been activated
-   *
-   */
-  public static function check_plugin_review() {
-    $activation_timestamp = get_site_option(self::ACTIVATE_TIMESTAMP_OPTION);
-    $review_dismissal = get_site_option(self::REVIEW_DISMISS_OPTION);
-
-    if ($review_dismissal == true) {
-      return;
-    }
-
-    if (!$activation_timestamp) {
-      $activation_timestamp = time();
-      add_site_option(self::ACTIVATE_TIMESTAMP_OPTION, $activation_timestamp);
-    }
-
-    // display review message after a certain period of time after activation
-    if (time() - $activation_timestamp > self::REVIEW_PERIOD) {
-      add_action('admin_notices', array('ShareaholicAdmin', 'display_review_notice'));
-    }
-  }
-
-  public static function display_review_notice() {
-    $dismiss_url = wp_nonce_url('?'. self::REVIEW_DISMISS_OPTION .'=true', 'review-nonce');
-
-    echo '
-    <div class="updated">
-      <p>' . __('You have been using the ', 'shareaholic') . '<a href="' . admin_url('admin.php?page=shareaholic-settings') . '">Shareaholic plugin</a>' . __(' for some time now, do you like it? If so, please consider leaving us a review on WordPress.org! It would help us out a lot and we would really appreciate it.', 'shareaholic') . '
-        <br />
-        <br />
-        <a onclick="location.href=\'' . esc_url($dismiss_url) . '\';" class="button button-primary" href="' . esc_url('https://wordpress.org/support/plugin/shareaholic/reviews/?rate=5#new-post') . '" target="_blank">' . __('Leave a Review', 'shareaholic') . '</a>
-        <a href="' . esc_url($dismiss_url) . '">' . __('No thanks', 'shareaholic') . '</a>
-      </p>
-    </div>';
-
-  }
-  
   
   /**
    * The function called during the admin_head action.
@@ -525,7 +554,7 @@ JQUERY;
     if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y' &&
         check_admin_referer($action, 'nonce_field')) {
       echo "<div class='updated settings_updated'><p><strong>". sprintf(__('Settings successfully saved', 'shareaholic')) . "</strong></p></div>";
-      foreach (array('disable_og_tags', 'disable_admin_bar_menu', 'disable_debug_info', 'disable_internal_share_counts_api') as $setting) {
+      foreach (array('disable_og_tags', 'disable_admin_bar_menu', 'disable_debug_info', 'enable_user_nicename','disable_internal_share_counts_api') as $setting) {
         if (isset($settings[$setting]) &&
             !isset($_POST['shareaholic'][$setting]) &&
             $settings[$setting] == 'on') {
@@ -553,6 +582,10 @@ JQUERY;
 
       if (isset($_POST['shareaholic']['disable_debug_info'])) {
         ShareaholicUtilities::update_options(array('disable_debug_info' => $_POST['shareaholic']['disable_debug_info']));
+      }
+      
+      if (isset($_POST['shareaholic']['enable_user_nicename'])) {
+        ShareaholicUtilities::update_options(array('enable_user_nicename' => $_POST['shareaholic']['enable_user_nicename']));
       }
       
       if (isset($_POST['shareaholic']['disable_internal_share_counts_api'])) {

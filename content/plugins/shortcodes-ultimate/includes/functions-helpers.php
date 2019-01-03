@@ -15,7 +15,7 @@
  * @return string The URL of the plugin directory (with trailing slash).
  */
 function su_get_plugin_url() {
-	return plugin_dir_url( SU_PLUGIN_FILE );
+	return plugin_dir_url( dirname( __FILE__ ) );
 }
 
 /**
@@ -25,7 +25,17 @@ function su_get_plugin_url() {
  * @return string The filesystem path of the plugin directory (with trailing slash).
  */
 function su_get_plugin_path() {
-	return plugin_dir_path( SU_PLUGIN_FILE );
+	return plugin_dir_path( dirname( __FILE__ ) );
+}
+
+/**
+ * Retrieve the current version of the plugin.
+ *
+ * @since  5.2.0
+ * @return string The current verion of the plugin.
+ */
+function su_get_plugin_version() {
+	return get_option( 'su_option_version', '0' );
 }
 
 /**
@@ -41,7 +51,7 @@ function su_get_config( $key = null ) {
 
 	if (
 		empty( $key ) ||
-		preg_match( "/^(?!-)[a-z0-9-_]+(?<!-)(\/(?!-)[a-z0-9-_]+(?<!-))*$/", $key ) !== 1
+		preg_match( '/^(?!-)[a-z0-9-_]+(?<!-)(\/(?!-)[a-z0-9-_]+(?<!-))*$/', $key ) !== 1
 	) {
 		return false;
 	}
@@ -56,7 +66,9 @@ function su_get_config( $key = null ) {
 		return false;
 	}
 
-	return $config[ $key ] = include $config_file;
+	$config[ $key ] = include $config_file;
+
+	return $config[ $key ];
 
 }
 
@@ -190,7 +202,7 @@ function su_do_attribute( $value ) {
 function su_do_nested_shortcodes_alt( $content, $pre ) {
 
 	if ( strpos( $content, '[_' ) !== false ) {
-		$content = preg_replace( '@(\[_*)_(' . $pre . '|/)@', "$1$2", $content );
+		$content = preg_replace( '@(\[_*)_(' . $pre . '|/)@', '$1$2', $content );
 	}
 
 	return do_shortcode( $content );
@@ -216,18 +228,81 @@ function su_do_nested_shortcodes( $content, $shortcode ) {
 	if ( strpos( $content, '[_' . $prefix . $shortcode ) !== false ) {
 
 		$content = str_replace(
-			array( '[_' . $prefix . $shortcode, '[_/' . $prefix . $shortcode, ),
-			array( '[' . $prefix . $shortcode,  '[/' . $prefix . $shortcode, ),
+			array( '[_' . $prefix . $shortcode, '[_/' . $prefix . $shortcode ),
+			array( '[' . $prefix . $shortcode, '[/' . $prefix . $shortcode ),
 			$content
 		);
 
+		return do_shortcode( $content );
+
 	}
 
-	else {
-		$content = wptexturize( $content );
+	return do_shortcode( wptexturize( $content ) );
+
+}
+
+/**
+ * Helper function to check validity of a given HEX color.
+ *
+ * Valid formats are:
+ * - #aabbcc
+ * - aabbcc
+ * - #abc
+ * - abc
+ *
+ * @since  5.2.0
+ * @param  string $color HEX color to check validity of.
+ * @return bool          True if a given color mathes accepted pattern, False otherwise.
+ */
+function su_is_valid_hex( $color ) {
+	return preg_match( '/^#?([a-f0-9]{3}|[a-f0-9]{6})$/i', $color ) === 1;
+}
+
+/**
+ * Helper function that adjusts brightness of a given HEX color value.
+ *
+ * Examples of use:
+ * `su_adjust_brightness( '#fc0', 50 )` - increase color brightness by 50%
+ * `su_adjust_brightness( 'ffcc00', -50 )` - decrease color brightness by 50%
+ *
+ * @since  5.2.0
+ * @param  string $color A valid HEX color
+ * @param  int $percent  The percent to adjust brightness to.
+ * @return string        Adjusted HEX color value.
+ */
+function su_adjust_brightness( $color, $percent ) {
+
+	if (
+		! su_is_valid_hex( $color ) ||
+		! is_numeric( $percent )
+	) {
+		return $color;
 	}
 
-	return do_shortcode( $content );
+	$percent = max( -100, min( 100, $percent ) );
+	$steps   = round( $percent * 2.55 );
+	$color   = str_replace( '#', '', $color );
+
+	if ( 3 === strlen( $color ) ) {
+		$color =
+			str_repeat( substr( $color, 0, 1 ), 2 ) .
+			str_repeat( substr( $color, 1, 1 ), 2 ) .
+			str_repeat( substr( $color, 2, 1 ), 2 );
+	}
+
+	$color_parts = str_split( $color, 2 );
+	$new_color   = '#';
+
+	foreach ( $color_parts as $color_part ) {
+
+		$color_part = hexdec( $color_part );
+		$color_part = max( 0, min( 255, $color_part + $steps ) );
+
+		$new_color .= str_pad( dechex( $color_part ), 2, '0', STR_PAD_LEFT );
+
+	}
+
+	return $new_color;
 
 }
 

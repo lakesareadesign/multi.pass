@@ -467,6 +467,7 @@ if(!class_exists('CUSTOMIZEADMINMENU')) {
             <div class="wrap wps-wrap">
               <?php $aof_options->licenseValidate(); ?>
                 <h2><?php _e('Manage Admin Menu', 'wps'); ?></h2>
+                <?php parent::wps_help_link(); ?>
                 <div id="message" class="updated below-h2"><p>
                 <?php _e('By default, all menu items will be shown to administrator users. ', 'wps');
                 echo '<a href="' . admin_url() . 'admin.php?page='. WPSHAPERE_MENU_SLUG .'#aof_options_tab9"><strong>';
@@ -540,7 +541,7 @@ if(!class_exists('CUSTOMIZEADMINMENU')) {
                                         <input type="hidden" id="menu-icon-for-<?php echo $mm_cu++; ?>" name="custom_admin_menu[menu_icon][<?php echo $value[2];?>]" value="<?php echo trim($menu_icon_data); ?>" />
                                     </div>
                                   <?php endif; ?>
-                                  
+
                                     <?php echo self::hide_for_menu("top_menu", $value[2], '', $inm); ?>
 
                                     <ol class="menu_child_<?php echo $menu_key; ?> submenu subsortUls" id="sub_menu">

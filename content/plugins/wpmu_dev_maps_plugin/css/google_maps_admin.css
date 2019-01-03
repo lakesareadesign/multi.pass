@@ -53,7 +53,7 @@ button .dashicons,
 .agm-editor .existing_map_item.agm_active_item .map-shortcode, .agm-editor .existing_map_item.agm_active_item.selected .map-shortcode {
   color: #333;
 }
-.agm-editor .existing_map_item.agm_active_item .map_item_actions, .agm-editor .existing_map_item.agm_active_item.selected .map_item_actions {	     	 	 		  		  
+.agm-editor .existing_map_item.agm_active_item .map_item_actions, .agm-editor .existing_map_item.agm_active_item.selected .map_item_actions {
   opacity: 1;
 }
 .agm-editor .existing_map_item.advanced-mode .map-shortcode {
@@ -260,4 +260,4 @@ button .dashicons,
 }
 
 
-/* 133620-1510183718-au */
+/* 133620-1545860047-au */

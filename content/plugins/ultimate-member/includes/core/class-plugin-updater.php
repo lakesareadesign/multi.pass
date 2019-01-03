@@ -63,10 +63,6 @@ if ( ! class_exists( 'um\core\Plugin_Updater' ) ) {
 					'key'   => 'instagram',
 					'title' => 'Instagram',
 				),
-				'um-invitations/um-invitations.php'                     => array(
-					'key'   => 'invitations',
-					'title' => 'Invitations',
-				),
 				'um-mailchimp/um-mailchimp.php'                         => array(
 					'key'   => 'mailchimp',
 					'title' => 'MailChimp',
@@ -125,18 +121,50 @@ if ( ! class_exists( 'um\core\Plugin_Updater' ) ) {
 				),
 			);
 
-			$the_plugs = get_option( 'active_plugins' );
 			$active_um_plugins = array();
-			foreach ( $the_plugs as $key => $value ) {
+			if ( is_multisite() ) {
+				// Per site activated
+				$sites = get_sites();
 
-				if ( in_array( $value, array_keys( $paid_extensions ) ) ) {
-					$license = UM()->options()->get( "um_{$paid_extensions[ $value ]['key']}_license_key" );
+				$sitewide_plugins = get_site_option( 'active_sitewide_plugins' );
+				$sitewide_plugins = array_keys( $sitewide_plugins );
 
-					if ( empty( $license ) )
-						continue;
+				foreach ( $sites as $site ) {
+					switch_to_blog( $site->blog_id );
 
-					$active_um_plugins[ $value ] = $paid_extensions[ $value ];
-					$active_um_plugins[ $value ]['license'] = $license;
+					$the_plugs = get_option( 'active_plugins' );
+					$the_plugs = array_merge( $the_plugs, $sitewide_plugins );
+
+					foreach ( $the_plugs as $key => $value ) {
+
+						if ( in_array( $value, array_keys( $paid_extensions ) ) ) {
+							$license = UM()->options()->get( "um_{$paid_extensions[ $value ]['key']}_license_key" );
+
+							if ( empty( $license ) ) {
+								continue;
+							}
+
+							$active_um_plugins[ $value ] = $paid_extensions[ $value ];
+							$active_um_plugins[ $value ]['license'] = $license;
+						}
+					}
+
+					restore_current_blog();
+				}
+
+			} else {
+				$the_plugs = get_option( 'active_plugins' );
+				foreach ( $the_plugs as $key => $value ) {
+
+					if ( in_array( $value, array_keys( $paid_extensions ) ) ) {
+						$license = UM()->options()->get( "um_{$paid_extensions[ $value ]['key']}_license_key" );
+
+						if ( empty( $license ) )
+							continue;
+
+						$active_um_plugins[ $value ] = $paid_extensions[ $value ];
+						$active_um_plugins[ $value ]['license'] = $license;
+					}
 				}
 			}
 

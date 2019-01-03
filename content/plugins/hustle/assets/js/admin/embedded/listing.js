@@ -294,10 +294,11 @@ Hustle.define("Embedded.Listing", function($){
 		 * @since 3.0.5
 		 */
 		duplicate: function(e){
-			var $this = $(e.target),
-			id = $this.data("id"),
-			nonce = $this.data("nonce"),
-			type = $this.data("type");
+			var  self = this,
+				$this = $(e.target),
+				id = $this.data("id"),
+				nonce = $this.data("nonce"),
+				type = $this.data("type");
 			$.ajax({
 				url: ajaxurl,
 				type: "POST",
@@ -307,7 +308,16 @@ Hustle.define("Embedded.Listing", function($){
 					type: type,
 					_ajax_nonce: nonce
 				},
-				complete: function(){
+				success: function( res ) {
+					if ( res.success ) {
+						location.reload();
+					} else {
+						if ( res.data.requires_pro ) {
+							self.show_upgrade_modal();
+						}
+					}
+				},
+				error: function(){
 					location.reload();
 				}
 			});

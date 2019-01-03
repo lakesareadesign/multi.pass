@@ -629,6 +629,13 @@
 			}
 		}
 
+		// Sort categorized modules in alphabetical order before render.
+		Object.keys(groupedModules.categorized).sort().forEach(function(key) {
+			var value = groupedModules.categorized[key];
+			delete groupedModules.categorized[key];
+			groupedModules.categorized[key] = value;
+		});
+
 		// Render any sections that were not already rendered in the ordered set
 		for( var title in groupedModules.categorized) {
 			var modules = groupedModules.categorized[title],

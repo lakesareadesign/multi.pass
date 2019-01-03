@@ -24,9 +24,6 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 		 * Admin_Metabox constructor.
 		 */
 		function __construct() {
-
-			$this->slug = 'ultimatemember';
-
 			$this->in_edit = false;
 			$this->edit_mode_value = null;
 
@@ -85,6 +82,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Metabox' ) ) {
 
 
 		/**
+		 * Hide Woocommerce Shop page restrict content metabox
 		 * @param $hide
 		 *
 		 * @return bool

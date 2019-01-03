@@ -74,7 +74,7 @@ Scheduler
 * Dmitry Semenov - [Magnific Popup jQuery plugin](http://dimsemenov.com/plugins/magnific-popup/)
 * Craig Thompson - [qTip jQuery plugin](http://qtip2.com/)
 * Vladimir Kharlampidi - [Swiper jQuery plugin](http://www.idangero.us/sliders/swiper/)
-* Dave Gandy - [Font Awesome](http://fortawesome.github.io/Font-Awesome/)
+* [Fork Awesome & Dave Gandy](https://github.com/ForkAwesome/Fork-Awesome)
 * James Smith - [Simple Slider jQuery plugin](http://loopj.com/jquery-simple-slider/)
 * pt_br locale: [Ibidem Translations](http://www.ibidem-translations.com/)
 * fr_fr locale: [Nicolas Leclerc](http://etic-studio.fr/)
@@ -96,9 +96,9 @@ Scheduler
 
 = Manual installation =
 
-1. Download a .zip file with plugin;
+1. Download the plugin as a .zip file;
 2. Unzip downloaded archive and upload `shortcodes-ultimate` folder under your `/wp-content/plugins/` directory (resulted plugin path should be `/wp-content/plugins/shortcodes-ultimate/**`);
-1. Navigate to `Dashboard` ▸ `Plugins` and active the plugin.
+1. Navigate to `Dashboard` ▸ `Plugins` and activate the plugin.
 
 [Detailed installation guide](http://docs.getshortcodes.com/article/13-plugin-installation).
 
@@ -149,6 +149,23 @@ For help with premium add-ons, please [open new support ticket](https://getshort
 
 
 == Changelog ==
+
+= 5.2.0 =
+
+**Improvements**
+
+- Tabs and accordions/spoilers are now accessible from keyboard
+- Tabs are now working better with nested sliders/carousels
+- Improved stability of some responsive elements, such as Google Maps
+- YouTube and YouTube Advanced settings descriptions are now more clear
+- New setting `Required user capability` which allows enabling the `Insert Shortcode` button for non-admin users
+- New setting `Enable shortcodes in` which allows enabling shortcodes in text widgets and category descriptions
+
+**Changes**
+
+- youtube_advanced showinfo parameter is deprecated and removed from the plugin. [Why?](https://developers.google.com/youtube/player_parameters#release_notes_08_23_2018)
+- Font Awesome replaced with [Fork Awesome](https://github.com/ForkAwesome/Fork-Awesome). Font Awesome stylesheet (v 4.7.0) will be completely removed in the next update. All icons are now use CSS class `sui` instead of `fa`
+
 
 = 5.1.1 =
 

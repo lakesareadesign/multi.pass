@@ -461,7 +461,7 @@ class Hustle_Mailchimp_Form_Settings extends Hustle_Provider_Form_Settings_Abstr
 				"name"  => "loadmore_mailchimp_lists",
 				"type"  => "button",
 				"value" => __("Load More Lists", Opt_In::TEXT_DOMAIN),
-				"class" => "wpmudev-button wph-button--spaced wph-button wph-button--filled wph-button--gray mailchimp_optin_load_more_lists wph-email-provider-lists-hide hustle_provider_on_click_ajax",
+				"class" => "wpmudev-button wpmudev-button-sm hustle_provider_on_click_ajax",
 				"attributes"    => array(
 					"data-action" => 'hustle_mailchimp_refresh_lists',
 					"data-nonce" => wp_create_nonce('hustle_mailchimp_refresh_lists'),

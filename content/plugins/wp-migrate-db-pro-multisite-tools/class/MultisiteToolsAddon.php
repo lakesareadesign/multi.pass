@@ -216,18 +216,22 @@ class MultisiteToolsAddon extends AddonAbstract {
 	public function selected_subsite( &$plugin_instance = null ) {
 		$blog_id = 0;
 
-		$this->state_data = $this->migration_state_manager->set_post_data();
+		if ( empty( $this->state_data ) ) {
+			$this->state_data = $this->migration_state_manager->set_post_data();
+		}
 
 		if ( ! empty( $this->state_data['form_data'] ) ) {
-			$this->form_data = $this->parse_migration_form_data( $this->state_data['form_data'] );
+			if ( empty( $this->form_data ) ) {
+				$this->form_data = $this->parse_migration_form_data( $this->state_data['form_data'] );
+			}
 
-			$select_subsite   = $this->util->profile_value( 'mst_select_subsite' );
-			$selected_subsite = $this->util->profile_value( 'mst_selected_subsite' );
+			$select_subsite   = $this->util->profile_value( 'mst_select_subsite', $this->form_data );
+			$selected_subsite = $this->util->profile_value( 'mst_selected_subsite', $this->form_data );
 
 			// TODO: Remove backwards compatibility for CLI once Core/MST/CLI dependencies updated.
 			if ( empty( $select_subsite ) && empty( $selected_subsite ) ) {
-				$select_subsite   = $this->util->profile_value( 'multisite_subsite_export' );
-				$selected_subsite = $this->util->profile_value( 'select_subsite' );
+				$select_subsite   = $this->util->profile_value( 'multisite_subsite_export', $this->form_data );
+				$selected_subsite = $this->util->profile_value( 'select_subsite', $this->form_data );
 			}
 
 			// During a migration, this is where the subsite's id will be derived.

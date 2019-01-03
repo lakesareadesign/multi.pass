@@ -8,13 +8,11 @@ $plugins  = \FLCacheClear\Plugin::get_plugins();
 	<form id="cache-plugins-form" action="<?php FLBuilderAdminSettings::render_form_action( 'tools' ); ?>" method="post">
 
 		<div class="fl-settings-form-content">
-<p>
-	<?php _e( 'This tool applies to caches created by the following:', 'fl-builder' ); ?>
-	<?php echo $plugins; ?>
-</p>
-<p>
-	<?php _e( 'Enable the following setting to clear the caches created by any of these caching plugins. If enabled, cache clearing occurs when layouts and templates are saved and when WordPress finishes updating plugins and themes. This setting also defines the DONOTCACHEPAGE constant, which is respected by most cache plugins, to keep the page from being cached when the Beaver Builder editor is active.', 'fl-builder' ); ?>
-</p>
+			<p><?php _e( 'This tool applies to caches created by the following:', 'fl-builder' ); ?></p>
+			<?php echo $plugins; ?>
+			<p>
+				<?php _e( 'Enable the following setting to clear the caches created by any of these caching plugins. If enabled, cache clearing occurs when layouts and templates are saved and when WordPress finishes updating plugins and themes. This setting also defines the DONOTCACHEPAGE constant, which is respected by most cache plugins, to keep the page from being cached when the Beaver Builder editor is active.', 'fl-builder' ); ?>
+			</p>
 			<p>
 				<label>
 					<input type="checkbox" name="fl-cache-plugins-enabled" value="1" <?php checked( $settings['enabled'], 1 ); ?> />

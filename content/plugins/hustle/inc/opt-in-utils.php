@@ -53,10 +53,10 @@ class Opt_In_Utils {
 		$referrer = '';
 
 		$is_ajax = (defined( 'DOING_AJAX' ) && DOING_AJAX)
-			|| ( ! empty( $_POST['_po_method_'] ) && 'raw' === $_POST['_po_method_'] );
+			|| ( ! empty( $_POST['_po_method_'] ) && 'raw' === $_POST['_po_method_'] ); // WPCS: CSRF ok.
 
-		if ( isset( $_REQUEST['thereferrer'] ) ) {
-			$referrer = $_REQUEST['thereferrer'];
+		if ( isset( $_REQUEST['thereferrer'] ) ) { // WPCS: CSRF ok.
+			$referrer = $_REQUEST['thereferrer']; // WPCS: CSRF ok.
 		} else if ( ! $is_ajax && isset( $_SERVER['HTTP_REFERER'] ) ) {
 			// When doing Ajax request we NEVER use the HTTP_REFERER!
 			$referrer = $_SERVER['HTTP_REFERER'];

@@ -256,7 +256,8 @@ Hustle.define("Slidein.Listing", function($){
 		 * @since 3.0.6
 		 */
 		duplicate: function(e){
-			var $this = $(e.target),
+			var self = this,
+			$this = $(e.target),
 			id = $this.data("id"),
 			nonce = $this.data("nonce"),
 			type = $this.data("type");
@@ -269,7 +270,16 @@ Hustle.define("Slidein.Listing", function($){
 					type: type,
 					_ajax_nonce: nonce
 				},
-				complete: function(){
+				success: function( res ) {
+					if ( res.success ) {
+						location.reload();
+					} else {
+						if ( res.data.requires_pro ) {
+							self.show_upgrade_modal();
+						}
+					}
+				},
+				error: function(){
 					location.reload();
 				}
 			});

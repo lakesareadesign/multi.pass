@@ -108,8 +108,8 @@ function su_shortcode_list( $atts = null, $content = null ) {
 	}
 
 	if ( strpos( $atts['icon'], 'icon:' ) !== false ) {
-		$atts['icon'] = '<i class="fa fa-' . trim( str_replace( 'icon:', '', $atts['icon'] ) ) . '" style="color:' . $atts['icon_color'] . '"></i>';
-		su_query_asset( 'css', 'font-awesome' );
+		$atts['icon'] = '<i class="sui sui-' . trim( str_replace( 'icon:', '', $atts['icon'] ) ) . '" style="color:' . $atts['icon_color'] . '"></i>';
+		su_query_asset( 'css', 'su-icons' );
 	}
 
 	else {

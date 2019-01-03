@@ -2,8 +2,8 @@
 Contributors: cvernon, justinstresslimit, jkudish, MaryVogt, zgrossbart
 Tags: posts, post, calendar, AJAX, admin, administration
 Requires at least: 4.0
-Tested up to: 4.9.8
-Stable tag: 3.7.1
+Tested up to: 5.0
+Stable tag: 3.7.2
 
 The Editorial Calendar makes it possible to see all your posts and drag and drop them to manage your blog.
 
@@ -194,6 +194,10 @@ The `edcal_default_status` property controls the default status for new posts in
 7. Use the new unscheduled drafts section to manage drafts before you schedule them.
 
 == Changelog ==
+
+= 3.7.2 =
+
+This version fixes an error with the drafts drawer that broke compatibility with WordPress 5.0.
 
 = 3.7.1 =
 

@@ -35,8 +35,8 @@ body.interim-login div#login {width: 95% !important; height: auto }
 .login a { text-decoration: underline; color: <?php echo $this->aof_options['form_link_color']; ?> !important }
 .login a:focus, .login a:hover { color: <?php echo $this->aof_options['form_link_hover_color']; ?> !important; }
 .login form { background: <?php if($this->aof_options['login_divbg_transparent'] == 1) echo 'transparent'; else echo $this->aof_options['login_formbg_color']; ?> !important; -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none;<?php if($this->aof_options['login_divbg_transparent'] != 1) echo 'border-bottom: 1px solid ' .$this->aof_options['form_border_color'] . ';'; if($this->aof_options['login_divbg_transparent'] == 1) echo  'padding: 26px 0px 30px !important'; else echo 'padding: 26px 24px 30px !important'; ?> }
-form#loginform .button-primary, form#registerform .button-primary, .button-primary { background:<?php echo $this->aof_options['pry_button_color']; ?> !important; color: <?php echo $this->aof_options['pry_button_text_color']; ?> !important; text-shadow: none;}
-form#loginform .button-primary.focus,form#loginform .button-primary.hover,form#loginform .button-primary:focus,form#loginform .button-primary:hover, form#registerform .button-primary.focus, form#registerform .button-primary.hover,form#registerform .button-primary:focus,form#registerform .button-primary:hover { background: <?php echo $this->aof_options['pry_button_hover_color']; ?> !important;}
+form#loginform .button-primary, form#registerform .button-primary, .button-primary { background:<?php echo $this->aof_options['login_button_color']; ?> !important; color: <?php echo $this->aof_options['login_button_text_color']; ?> !important; text-shadow: none;}
+form#loginform .button-primary.focus,form#loginform .button-primary.hover,form#loginform .button-primary:focus,form#loginform .button-primary:hover, form#registerform .button-primary.focus, form#registerform .button-primary.hover,form#registerform .button-primary:focus,form#registerform .button-primary:hover { background: <?php echo $this->aof_options['login_button_hover_color']; ?> !important; color: <?php echo $this->aof_options['login_button_hover_text_color']; ?> !important;}
 <?php if($this->aof_options['login_divbg_transparent'] == 1) { ?>.login #backtoblog, .login #nav { margin : 0; padding: 0 } .login form { padding-top: 2px !important}<?php } ?>
 .login form input.input { background: #fff url(<?php echo WPSHAPERE_DIR_URI; ?>assets/images/login-sprite.png) no-repeat; padding: 9px 0 9px 32px !important; font-size: 16px !important; line-height: 1; outline: none !important; border: none !important }
 input#user_login { background-position:7px -6px !important; }
@@ -50,7 +50,7 @@ div.updated, .login #login_error, .login .message { border-left: 4px solid <?php
 .login_footer_content { padding: 20px 0; text-align:center }
 <?php if($this->aof_options['hide_backtoblog'] == 1) echo '#backtoblog { display:none !important; }';
 if($this->aof_options['hide_remember'] == 1) echo 'p.forgetmenot { display:none !important; }';
-if($this->aof_options['design_type'] == 1) {
+if($this->aof_options['design_type'] == 1 || $this->aof_options['design_type'] == 3) {
 ?>
 .login .message, .button-primary,.wp-core-ui .button-primary,.button-primary:hover {
 	-webkit-box-shadow: none !important;
@@ -64,9 +64,9 @@ if($this->aof_options['design_type'] == 1) {
 <?php }
 else {
 ?>
-.button-primary, form#loginform .button-primary, form#registerform .button-primary, .button-primary {border-color:<?php echo $this->aof_options['pry_button_border_color']; ?> !important;}
+.button-primary, form#loginform .button-primary, form#registerform .button-primary, .button-primary {border-color:<?php echo $this->aof_options['login_button_border_color']; ?> !important;}
 form#loginform .button-primary.focus,form#loginform .button-primary.hover,form#loginform .button-primary:focus,form#loginform .button-primary:hover, form#registerform .button-primary.focus,
-.button-primary:hover,form#registerform .button-primary.hover,form#registerform .button-primary:focus,form#registerform .button-primary:hover{border-color:<?php echo $this->aof_options['pry_button_hover_border_color']; ?> !important;}
+.button-primary:hover,form#registerform .button-primary.hover,form#registerform .button-primary:focus,form#registerform .button-primary:hover{border-color:<?php echo $this->aof_options['login_button_hover_border_color']; ?> !important;}
 <?php
 }
  //end of design_type

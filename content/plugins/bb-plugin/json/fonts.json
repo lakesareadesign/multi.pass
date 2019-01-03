@@ -2961,12 +2961,22 @@
 }, {
  "Noto Serif JP": {
   "variants": ["200", "300", "regular", "500", "600", "700", "900"],
-  "fallback": "sans-serif"
+  "fallback": "serif"
  }
 }, {
  "Noto Serif KR": {
   "variants": ["200", "300", "regular", "500", "600", "700", "900"],
-  "fallback": "sans-serif"
+  "fallback": "serif"
+ }
+}, {
+ "Noto Serif SC": {
+  "variants": ["200", "300", "regular", "500", "600", "700", "900"],
+  "fallback": "serif"
+ }
+}, {
+ "Noto Serif TC": {
+  "variants": ["200", "300", "regular", "500", "600", "700", "900"],
+  "fallback": "serif"
  }
 }, {
  "Nova Cut": {

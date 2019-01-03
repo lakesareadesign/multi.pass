@@ -1,10 +1,10 @@
 <?php
 /**
- * @var Opt_In_Admin $this
+ * @var Opt_In $this
  */
 ?>
 
-<?php if ( ! count( $modules ) ) : ?>
+<?php if ( 0 === count( $modules ) ) : ?>
 
 	<?php $this->render( 'admin/settings/welcome', array( 'user_name' => $user_name ) ); ?>
 
@@ -58,6 +58,14 @@
 					?>
 
 				</div><?php // #wpmudev-settings-activity ?>
+
+				<div id="wpmudev-settings-gdpr" class="wpmudev-col col-12 col-sm-6">
+
+					<?php
+					$this->render( 'admin/settings/widget-gdpr', array() );
+					?>
+
+				</div><?php // #wpmudev-settings-gdpr ?>
 
 			</div><?php // .wpmudev-row ?>
 

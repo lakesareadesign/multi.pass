@@ -42,6 +42,7 @@ Hustle.define( "Embedded.Models",  function(){
 	});
 	
 	var Design = Hustle.get("Models.M").extend({
+
 		defaults: {
 			form_layout: "one",
 			feature_image_position: "left",
@@ -72,6 +73,11 @@ Hustle.define( "Embedded.Models",  function(){
 			cta_button_static_color: "rgba(255,255,255,1)",
 			cta_button_hover_color: "rgba(255,255,255,1)",
 			cta_button_active_color: "rgba(255,255,255,1)",
+
+			gdpr_content: "#ADB5B7",
+			gdpr_chechbox_background_static: "#FDFDFD",
+			gdpr_checkbox_background_active: "#FDFDFD",
+			gdpr_checkbox_icon: "#38C5B5",
 
 			optin_input_static_bg: "rgba(253,253,253,1)",
 			optin_input_hover_bg: "rgba(253,253,253,1)",
@@ -128,6 +134,11 @@ Hustle.define( "Embedded.Models",  function(){
 			button_border_weight: 3,
 			button_border_type: "solid",
 			button_border_color: "rgba(218,218,218,1)",
+			gdpr_border: false,
+			gdpr_border_radius: 5,
+			gdpr_border_weight: 3,
+			gdpr_border_type: "solid",
+			gdpr_border_color: "rgba(218,218,218,1)",
 			form_fields_icon: "static",
 			form_fields_proximity: "joined",
 			drop_shadow: false,
@@ -135,7 +146,7 @@ Hustle.define( "Embedded.Models",  function(){
 			drop_shadow_y: 0,
 			drop_shadow_blur: 0,
 			drop_shadow_spread: 0,
-			drop_shadow_color: "rgba(0,0,0,0)",
+			drop_shadow_color: "rgba(0,0,0,0.2)",
 			customize_size: false,
 			custom_height: 300,
 			custom_width: 600,

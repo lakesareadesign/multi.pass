@@ -71,13 +71,13 @@ function su_shortcode_service( $atts = null, $content = null ) {
 	if ( strpos( $atts['icon'], 'icon:' ) !== false ) {
 
 		$atts['icon'] = sprintf(
-			'<i class="fa fa-%s" style="font-size:%spx;color:%s"></i>',
+			'<i class="sui sui-%s" style="font-size:%spx;color:%s"></i>',
 			esc_attr( trim( str_replace( 'icon:', '', $atts['icon'] ) ) ),
 			intval( $atts['size'] ),
 			esc_attr( $atts['icon_color'] )
 		);
 
-		su_query_asset( 'css', 'font-awesome' );
+		su_query_asset( 'css', 'su-icons' );
 
 	} else {
 		$atts['icon'] = sprintf(

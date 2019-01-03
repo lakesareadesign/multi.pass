@@ -1,3 +1,27 @@
+<h4>2.1.7.2 - 01/02/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>New actions added to Contact Form Module.</li>
+	<ul>
+		<li>fl_module_contact_form_before_send</li>
+		<li>fl_module_contact_form_after_send</li>
+	</ul>
+	<li>Fixed plugin updates if plugins folder is renamed in WordPress.</li>
+	<li>Fixed pinned UI z-index issue with GeneratePress theme.</li>
+	<li>Fixed minification issues with SiteGround Optimizer plugin.</li>
+	<li>Fixed UI issue with Chrome 72 (beta).</li>
+</ul>
+
+<h4>2.1.7.1 - 12/12/2018</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Update Font Awesome to 5.6.1</li>
+	<li>Fixed hidden editor when ACF is active on post/page edit screen.</li>
+	<li>Fixed PHP fatal error caused by SEO Press plugin when adding layouts/templates.</li>
+	<li>Fixed a JS error when using Cloudfront platform.</li>
+	<li>Fixed missing excerpts for posts module in WP 5.0</li>
+</ul>
+
 <h4>2.1.7 - 11/26/2018</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

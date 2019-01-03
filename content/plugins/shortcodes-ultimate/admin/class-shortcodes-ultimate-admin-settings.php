@@ -39,7 +39,7 @@ final class Shortcodes_Ultimate_Admin_Settings extends Shortcodes_Ultimate_Admin
 
 		parent::__construct( $plugin_file, $plugin_version, $plugin_prefix );
 
-		$this->plugin_settings = array();
+		$this->plugin_settings  = array();
 		$this->setting_defaults = array(
 			'id'          => '',
 			'title'       => '',
@@ -131,11 +131,13 @@ final class Shortcodes_Ultimate_Admin_Settings extends Shortcodes_Ultimate_Admin
 			return;
 		}
 
-		$screen->add_help_tab( array(
+		$screen->add_help_tab(
+			array(
 				'id'      => 'shortcodes-ultimate-general',
 				'title'   => __( 'General settings', 'shortcodes-ultimate' ),
 				'content' => $this->get_template( 'admin/partials/help/settings' ),
-			) );
+			)
+		);
 
 		$screen->set_help_sidebar( $this->get_template( 'admin/partials/help/sidebar' ) );
 
@@ -173,6 +175,21 @@ final class Shortcodes_Ultimate_Admin_Settings extends Shortcodes_Ultimate_Admin
 		if ( empty( $this->plugin_settings ) ) {
 
 			$this->plugin_settings[] = array(
+				'id'          => 'su_option_custom-css',
+				'type'        => 'css',
+				'sanitize'    => 'wp_strip_all_tags',
+				'title'       => __( 'Custom CSS code', 'shortcodes-ultimate' ),
+				'description' => __( 'In this field you can write your custom CSS code for shortcodes. These styles will have higher priority compared to original styles of shortcodes. You can use variables in your CSS code. These variables will be replaced by respective values.', 'shortcodes-ultimate' ),
+			);
+
+			$this->plugin_settings[] = array(
+				'id'          => 'su_option_prefix',
+				'sanitize'    => array( $this, 'sanitize_prefix' ),
+				'title'       => __( 'Shortcodes prefix', 'shortcodes-ultimate' ),
+				'description' => __( 'This prefix will be used in shortcode names. For example: set <code>MY_</code> prefix and shortcodes will look like <code>[MY_button]</code>. Please note that this setting does not change shortcodes that have been inserted earlier. Change this setting very carefully.', 'shortcodes-ultimate' ),
+			);
+
+			$this->plugin_settings[] = array(
 				'id'          => 'su_option_custom-formatting',
 				'type'        => 'checkbox',
 				'sanitize'    => array( $this, 'sanitize_checkbox' ),
@@ -188,21 +205,6 @@ final class Shortcodes_Ultimate_Admin_Settings extends Shortcodes_Ultimate_Admin
 				'description' => __( 'Enable this option if you don\'t want the inserted shortcode to contain any settings that were not changed by you. As a result, inserted shortcodes will be much shorter.', 'shortcodes-ultimate' ),
 			);
 
-			$this->plugin_settings[] = array(
-				'id'          => 'su_option_prefix',
-				'sanitize'    => array( $this, 'sanitize_prefix' ),
-				'title'       => __( 'Shortcodes prefix', 'shortcodes-ultimate' ),
-				'description' => __( 'This prefix will be used in shortcode names. For example: set <code>MY_</code> prefix and shortcodes will look like <code>[MY_button]</code>. Please note that this setting does not change shortcodes that have been inserted earlier. Change this setting very carefully.', 'shortcodes-ultimate' ),
-			);
-
-			$this->plugin_settings[] = array(
-				'id'          => 'su_option_custom-css',
-				'type'        => 'css',
-				'sanitize'    => 'wp_strip_all_tags',
-				'title'       => __( 'Custom CSS code', 'shortcodes-ultimate' ),
-				'description' => __( 'In this field you can write your custom CSS code for shortcodes. These styles will have higher priority compared to original styles of shortcodes. You can use variables in your CSS code. These variables will be replaced by respective values.', 'shortcodes-ultimate' ),
-			);
-
 			/**
 			 * @since 5.1.0
 			 */
@@ -213,6 +215,30 @@ final class Shortcodes_Ultimate_Admin_Settings extends Shortcodes_Ultimate_Admin
 				'title'       => __( 'Supported blocks', 'shortcodes-ultimate' ),
 				'description' => __( 'Enable the "Insert Shortcode" button in selected blocks', 'shortcodes-ultimate' ),
 				'options'     => su_get_config( 'supported-blocks' ),
+			);
+
+			/**
+			 * @since 5.2.0
+			 */
+			$this->plugin_settings[] = array(
+				'id'          => 'su_option_generator_access',
+				'title'       => __( 'Required user capability', 'shortcodes-ultimate' ),
+				'description' => __( 'A user must have this capability to be able to use the "Insert Shortcode" button. Do not change this value if you do not understand its meaning as this may lower the plugin security.', 'shortcodes-ultimate' ),
+			);
+
+			/**
+			 * @since 5.2.0
+			 */
+			$this->plugin_settings[] = array(
+				'id'          => 'su_option_enable_shortcodes_in',
+				'type'        => 'checkbox-group',
+				'sanitize'    => array( $this, 'sanitize_checkbox_group' ),
+				'title'       => __( 'Enable shortcodes in', 'shortcodes-ultimate' ),
+				'description' => __( 'This option allows you to enable shortcodes in places where they are disabled by default', 'shortcodes-ultimate' ),
+				'options'     => array(
+					'category_description' => __( 'Category descriptions', 'shortcodes-ultimate' ),
+					'widget_text'          => __( 'Text widgets', 'shortcodes-ultimate' ),
+				),
 			);
 
 		}

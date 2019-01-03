@@ -4,140 +4,400 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 <script id="wpmudev-hustle-modal-without-optin-tpl" type="text/template">
 
-<div class="hustle-modal hustle-modal-{{design.style}}<# if ( _.isTrue(content.use_feature_image) && _.isFalse(content.has_title) && '' === content.main_content && _.isFalse(content.show_gdpr) && _.isFalse(content.show_cta) ) { #> hustle-modal-image_only<# } #> {{ ( ( '' !== settings.animation_in && 'no_animation' !== settings.animation_in ) || ( '' !== settings.animation_out && 'no_animation' !== settings.animation_out ) ) ? 'hustle-animated' : 'hustle-modal-static' }}">
+<div class="hustle-modal hustle-modal-{{ design.style }}<# if ( ( _.isTrue( content.use_feature_image ) && 'none' === design.feature_image_fit ) && _.isFalse( content.has_title ) && '' === content.main_content && _.isFalse( content.show_gdpr ) && _.isFalse( content.show_cta ) ) { #> hustle-modal-image_only<# } #> {{ ( ( '' !== settings.animation_in && 'no_animation' !== settings.animation_in ) || ( '' !== settings.animation_out && 'no_animation' !== settings.animation_out ) ) ? 'hustle-animated' : 'hustle-modal-static' }}">
 
-    <# if ( "cabriolet" !== design.style ) { #>
+	<# if ( 'simple' === design.style ) { #>
 
-        <div class="hustle-modal-close" aria-hidden="true"><?php echo $close_icon; //phpcs:ignore ?></div>
+		<div class="hustle-modal-close" aria-hidden="true"><?php echo $close_icon; //phpcs:ignore ?></div>
 
-    <# } #>
+		<div class="hustle-modal-body hustle-modal-image_{{ design.feature_image_position }}">
 
-    <div class="hustle-modal-body<# if ( 'simple' === design.style && 'right' === design.feature_image_position ) { #> hustle-modal-image_{{design.feature_image_position}}<# } #>">
+			<# if ( 'left' === design.feature_image_position && ( _.isTrue( content.use_feature_image ) && '' !== content.feature_image ) ) { #>
 
-        <# if ( "simple" === design.style && ( _.isTrue(content.use_feature_image) && '' !== content.feature_image ) ) { #>
+				<div class="hustle-modal-image hustle-modal-image_{{ design.feature_image_fit }}<# if ( _.isTrue( content.feature_image_hide_on_mobile ) ) { #> hustle-modal-mobile_hidden<# } #>">
 
-            <div class="hustle-modal-image hustle-modal-image_{{design.feature_image_fit}}<# if ( _.isTrue(content.feature_image_hide_on_mobile) ) { #> hustle-modal-mobile_hidden<# } #>">
+					<# if ( 'contain' === design.feature_image_fit || 'cover' === design.feature_image_fit ) { #>
 
-                <img src="{{content.feature_image}}"<# if ( "contain" === design.feature_image_fit || "cover" === design.feature_image_fit ) { if ( "custom" !== design.feature_image_horizontal || "custom" !== design.feature_image_vertical ) { #> class="hustle-modal-image_{{design.feature_image_horizontal}}{{design.feature_image_vertical}}"<# } } #>>
+						<# if ( 'custom' !== design.feature_image_horizontal || 'custom' !== design.feature_image_vertical ) { #>
+							<img src="{{ content.feature_image }}" class="hustle-modal-image_{{ design.feature_image_horizontal }}{{ design.feature_image_vertical }}">
+						<# } else { #>
+							<img src="{{ content.feature_image }}">
+						<# } #>
 
-            </div>
+					<# } else { #>
 
-        <# } #>
+						<img src="{{ content.feature_image }}">
 
-        <# if ( "simple" === design.style && (
-            ( _.isTrue(content.has_title) && ( '' !== content.title || '' !== content.sub_title ) ) ||
-            content.main_content !== '' ||
-            ( _.isTrue(content.show_gdpr) && content.show_gdpr !== '' ) ||
-            ( _.isTrue(content.show_cta) && ( '' !== content.cta_label && '' !== content.cta_url ) )
-        ) ) { #>
+					<# } #>
 
-            <div class="hustle-modal-content">
+				</div>
 
-        <# } #>
+			<# } #>
 
-            <# if (
-                ( "simple" === design.style && _.isTrue(content.has_title) && ( '' !== content.title || '' !== content.sub_title ) ) ||
-                ( "minimal" === design.style && _.isTrue(content.has_title) && ( '' !== content.title || '' !== content.sub_title ) ) ||
-                ( "cabriolet" === design.style && ( _.isTrue(content.has_title) || _.isFalse(content.has_title) ) )
-            ) { #>
+			<# if (
+				content.main_content !== '' ||
+				( _.isTrue( content.has_title ) && ( '' !== content.title || '' !== content.sub_title ) ) ||
+				( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) )
+			) { #>
 
-                <header>
+				<div class="hustle-modal-content">
 
-                    <# if ( _.isTrue(content.has_title) ) { #>
-                        <# if ( '' !== content.title ) { #>
-                            <h1 class="hustle-modal-title">{{content.title}}</h1>
-                        <# } #>
-                        <# if ( '' !== content.sub_title ) { #>
-                            <h2 class="hustle-modal-subtitle">{{content.sub_title}}</h2>
-                        <# } #>
-                    <# } #>
+					<div class="hustle-modal-wrap--content">
 
-                    <# if ( "cabriolet" === design.style ) { #>
-                        <div class="hustle-modal-close"><?php echo  $close_icon; //phpcs:ignore ?></div>
-                    <# } #>
+						<# if ( _.isTrue( content.has_title ) && ( '' !== content.title || '' !== content.sub_title ) ) { #>
 
-                </header>
+							<header class="hustle-modal-header">
 
-            <# } #>
+								<# if ( '' !== content.title ) { #>
+									<h1 class="hustle-modal-title">{{ content.title }}</h1>
+								<# } #>
 
-            <# if (
-                ( "simple" === design.style && ( '' !== content.main_content || ( _.isTrue(content.show_gdpr) && content.show_gdpr !== '' ) || ( _.isTrue(content.show_cta) && ( '' !== content.cta_label && '' !== content.cta_url ) ) ) ) ||
-                ( "minimal" === design.style && ( '' !== content.main_content || ( _.isTrue(content.show_gdpr) && content.show_gdpr !== '' ) || _.isTrue(content.use_feature_image) ) ) ||
-                ( "cabriolet" === design.style && ( '' !== content.main_content || ( _.isTrue(content.show_gdpr) && content.show_gdpr !== '' ) || _.isTrue(content.use_feature_image) || ( _.isTrue(content.show_cta) && ( '' !== content.cta_label && '' !== content.cta_url ) ) ) )
-            ) { #>
+								<# if ( '' !== content.sub_title ) { #>
+									<h2 class="hustle-modal-subtitle">{{ content.sub_title }}</h2>
+								<# } #>
 
-                <section<# if ( "simple" !== design.style && 'right' === design.feature_image_position ) { #> class="hustle-modal-image_{{design.feature_image_position}}"<# } #>>
+							</header>
 
-                    <# if ( "simple" !== design.style && ( _.isTrue(content.use_feature_image) && '' !== content.feature_image ) ) { #>
+						<# } #>
 
-                        <div class="hustle-modal-image hustle-modal-image_{{design.feature_image_fit}}<# if ( _.isTrue(content.feature_image_hide_on_mobile) ) { #> hustle-modal-mobile_hidden<# } #>">
+						<# if ( '' !== content.main_content ) { #>
 
-                            <img src="{{content.feature_image}}"<# if ( "contain" === design.feature_image_fit || "cover" === design.feature_image_fit ) { if ( "custom" !== design.feature_image_horizontal || "custom" !== design.feature_image_vertical ) { #> class="hustle-modal-image_{{design.feature_image_horizontal}}{{design.feature_image_vertical}}"<# } } #>>
+							<div class="hustle-modal-message">
 
-                        </div>
+								{{{ content.main_content }}}
 
-                    <# } #>
+							</div>
 
-                    <# if (
-						content.main_content !== '' ||
-						( _.isTrue(content.show_gdpr) && content.show_gdpr !== '' ) ||
-                        ( design.style !== "minimal" && ( content.main_content !== '' || _.isTrue(content.show_cta) ) )
-                    ) { #>
+						<# } #>
 
-                        <div class="hustle-modal-message">
+						<# if (
+							( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) ||
+							( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) )
+						) { #>
 
-							{{{content.main_content}}}
+							<div class="hustle-modal-footer">
 
-							<# if ( _.isTrue(content.show_gdpr) && content.show_gdpr !== '' ) { #>
-								<div class="hustle-gdpr-box">
-									<label for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-checkbox">
-										<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-modal-gdpr">
-										<span aria-hidden="true"></span>
-									</label>
-									<div for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-content">{{{content.gdpr_message}}}</div>
-								</div>
+								<# if ( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) ) { #>
+
+									<a target="_{{ content.cta_target }}" href="{{ content.cta_url }}" class="hustle-modal-cta">{{ content.cta_label }}</a>
+
+								<# } #>
+
+								<# if ( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) { #>
+
+									<div class="hustle-gdpr-box">
+
+										<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
+
+											<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
+
+											<span aria-hidden="true"></span>
+
+										</label>
+
+										<div class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
+
+									</div>
+
+								<# } #>
+
+							</div>
+
+						<# } #>
+
+					</div>
+
+				</div>
+
+			<# } #>
+
+			<# if ( 'right' === design.feature_image_position && ( _.isTrue( content.use_feature_image ) && '' !== content.feature_image ) ) { #>
+
+				<div class="hustle-modal-image hustle-modal-image_{{ design.feature_image_fit }}<# if ( _.isTrue( content.feature_image_hide_on_mobile ) ) { #> hustle-modal-mobile_hidden<# } #>">
+
+					<# if ( 'contain' === design.feature_image_fit || 'cover' === design.feature_image_fit ) { #>
+
+						<# if ( 'custom' !== design.feature_image_horizontal || 'custom' !== design.feature_image_vertical ) { #>
+							<img src="{{ content.feature_image }}" class="hustle-modal-image_{{ design.feature_image_horizontal }}{{ design.feature_image_vertical }}">
+						<# } else { #>
+							<img src="{{ content.feature_image }}">
+						<# } #>
+
+					<# } else { #>
+
+						<img src="{{ content.feature_image }}">
+
+					<# } #>
+
+				</div>
+
+			<# } #>
+
+		</div>
+
+	<# } #>
+
+	<# if ( 'minimal' === design.style ) { #>
+
+		<div class="hustle-modal-close" aria-hidden="true"><?php echo $close_icon; //phpcs:ignore ?></div>
+
+		<div class="hustle-modal-body hustle-modal-image_{{ design.feature_image_position }}">
+
+			<# if ( _.isTrue( content.has_title ) && ( '' !== content.title || '' !== content.sub_title ) ) { #>
+
+				<header class="hustle-modal-header">
+
+					<# if ( '' !== content.title ) { #>
+						<h1 class="hustle-modal-title">{{ content.title }}</h1>
+					<# } #>
+
+					<# if ( '' !== content.sub_title ) { #>
+						<h2 class="hustle-modal-subtitle">{{ content.sub_title }}</h2>
+					<# } #>
+
+				</header>
+
+			<# } #>
+
+			<# if (
+				'' !== content.main_content ||
+				( _.isTrue( content.use_feature_image ) && '' !== content.feature_image )
+			) { #>
+
+				<section class="hustle-modal-content">
+
+					<# if ( 'left' === design.feature_image_position && ( _.isTrue( content.use_feature_image ) && '' !== content.feature_image ) ) { #>
+
+						<div class="hustle-modal-image hustle-modal-image_{{ design.feature_image_fit }}<# if ( _.isTrue( content.feature_image_hide_on_mobile ) ) { #> hustle-modal-mobile_hidden<# } #>">
+
+							<# if ( 'contain' === design.feature_image_fit || 'cover' === design.feature_image_fit ) { #>
+
+								<# if ( 'custom' !== design.feature_image_horizontal || 'custom' !== design.feature_image_vertical ) { #>
+									<img src="{{ content.feature_image }}" class="hustle-modal-image_{{ design.feature_image_horizontal }}{{ design.feature_image_vertical }}">
+								<# } else { #>
+									<img src="{{ content.feature_image }}">
+								<# } #>
+
+							<# } else { #>
+
+								<img src="{{ content.feature_image }}">
+
 							<# } #>
 
-                            <# if ( "minimal" !== design.style && ( _.isTrue(content.show_cta) && ( '' !== content.cta_label && '' !== content.cta_url ) ) ) { #>
+						</div>
 
-                                <div class="hustle-modal-footer">
+					<# } #>
 
-									<a target="_{{content.cta_target}}" href="{{content.cta_url}}" class="hustle-modal-cta">{{content.cta_label}}</a>
+					<# if ( '' !== content.main_content ) { #>
 
-                                </div>
+						<div class="hustle-modal-wrap--content">
 
-                            <# } #>
+							<div class="hustle-modal-message">{{{ content.main_content }}}</div>
 
-                        </div>
+						</div>
 
-                    <# } #>
+					<# } #>
 
-                </section>
+					<# if ( 'right' === design.feature_image_position && ( _.isTrue( content.use_feature_image ) && '' !== content.feature_image ) ) { #>
 
-            <# } #>
+						<div class="hustle-modal-image hustle-modal-image_{{ design.feature_image_fit }}<# if ( _.isTrue( content.feature_image_hide_on_mobile ) ) { #> hustle-modal-mobile_hidden<# } #>">
 
-        <# if ( "simple" === design.style && (
-            ( _.isTrue(content.has_title) && ( '' !== content.title || '' !== content.sub_title ) ) ||
-            content.main_content !== '' ||
-            ( _.isTrue(content.show_gdpr) && content.show_gdpr !== '' ) ||
-            ( _.isTrue(content.show_cta) && ( '' !== content.cta_label && '' !== content.cta_url ) )
-        ) ) { #>
+							<# if ( 'contain' === design.feature_image_fit || 'cover' === design.feature_image_fit ) { #>
 
-            </div>
+								<# if ( 'custom' !== design.feature_image_horizontal || 'custom' !== design.feature_image_vertical ) { #>
+									<img src="{{ content.feature_image }}" class="hustle-modal-image_{{ design.feature_image_horizontal }}{{ design.feature_image_vertical }}">
+								<# } else { #>
+									<img src="{{ content.feature_image }}">
+								<# } #>
 
-        <# } #>
+							<# } else { #>
 
-        <# if ( design.style === "minimal" && ((_.isTrue(content.show_gdpr) && content.gdpr_message !== '' ) || ( _.isTrue(content.show_cta) && ( content.cta_label !== '' && content.cta_url !== '' ) ) ) ) { #>
+								<img src="{{ content.feature_image }}">
 
-            <footer>
+							<# } #>
 
-				<a target="_{{content.cta_target}}" href="{{content.cta_url}}" class="hustle-modal-cta">{{content.cta_label}}</a>
+						</div>
 
-            </footer>
+					<# } #>
 
-		<# } #>
+				</section>
 
-    </div>
+			<# } #>
+
+			<# if (
+				( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) ||
+				( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) )
+			) { #>
+
+				<footer class="hustle-modal-footer">
+
+					<# if ( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) { #>
+
+						<div class="hustle-gdpr-box">
+
+							<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
+
+								<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
+
+								<span aria-hidden="true"></span>
+
+							</label>
+
+							<div class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
+
+						</div>
+
+					<# } #>
+
+					<# if ( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) ) { #>
+
+						<a target="_{{ content.cta_target }}" href="{{ content.cta_url }}" class="hustle-modal-cta">{{ content.cta_label }}</a>
+
+					<# } #>
+
+				</footer>
+
+			<# } #>
+
+		</div>
+
+	<# } #>
+
+	<# if ( 'cabriolet' === design.style ) { #>
+
+		<div class="hustle-modal-body hustle-modal-image_{{ design.feature_image_position }}">
+
+			<# if ( _.isTrue( content.has_title ) && ( '' !== content.title || '' !== content.sub_title ) ) { #><header class="hustle-modal-header hustle-modal-with-title"><# } else { #><header class="hustle-modal-header"><# } #>
+
+				<div class="hustle-modal-close" aria-hidden="true"><?php echo $close_icon; //phpcs:ignore ?></div>
+
+				<# if ( _.isTrue( content.has_title ) && '' !== content.title ) { #>
+					<h1 class="hustle-modal-title">{{ content.title }}</h1>
+				<# } #>
+
+				<# if ( _.isTrue( content.has_title ) && '' !== content.sub_title ) { #>
+					<h2 class="hustle-modal-subtitle">{{ content.sub_title }}</h2>
+				<# } #>
+
+			</header>
+
+			<# if (
+				'' !== content.main_content ||
+				( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) ||
+				( _.isTrue( content.use_feature_image ) && '' !== content.feature_image ) ||
+				( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) )
+			) { #>
+
+				<section class="hustle-modal-content">
+
+					<# if ( 'left' === design.feature_image_position && ( _.isTrue( content.use_feature_image ) && '' !== content.feature_image ) ) { #>
+
+						<div class="hustle-modal-image hustle-modal-image_{{ design.feature_image_fit }}<# if ( _.isTrue( content.feature_image_hide_on_mobile ) ) { #> hustle-modal-mobile_hidden<# } #>">
+
+							<# if ( 'contain' === design.feature_image_fit || 'cover' === design.feature_image_fit ) { #>
+
+								<# if ( 'custom' !== design.feature_image_horizontal || 'custom' !== design.feature_image_vertical ) { #>
+									<img src="{{ content.feature_image }}" class="hustle-modal-image_{{ design.feature_image_horizontal }}{{ design.feature_image_vertical }}">
+								<# } else { #>
+									<img src="{{ content.feature_image }}">
+								<# } #>
+
+							<# } else { #>
+
+								<img src="{{ content.feature_image }}">
+
+							<# } #>
+
+						</div>
+
+					<# } #>
+
+					<# if (
+						'' !== content.main_content ||
+						( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) ||
+						( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) )
+					) { #>
+
+						<div class="hustle-modal-wrap--content">
+
+							<div class="hustle-modal-align">
+
+								<# if ( '' !== content.main_content ) { #>
+
+									<div class="hustle-modal-message">{{{ content.main_content }}}</div>
+
+								<# } #>
+
+								<# if (
+									( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) ||
+									( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) )
+								) { #>
+
+									<div class="hustle-modal-footer">
+
+										<# if ( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) ) { #>
+
+											<a target="_{{ content.cta_target }}" href="{{ content.cta_url }}" class="hustle-modal-cta">{{ content.cta_label }}</a>
+
+										<# } #>
+
+										<# if ( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) { #>
+
+											<div class="hustle-gdpr-box">
+
+												<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
+
+													<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
+
+													<span aria-hidden="true"></span>
+
+												</label>
+
+												<div class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
+
+											</div>
+
+										<# } #>
+
+									</div>
+
+								<# } #>
+
+							</div>
+
+						</div>
+
+					<# } #>
+
+					<# if ( 'right' === design.feature_image_position && ( _.isTrue( content.use_feature_image ) && '' !== content.feature_image ) ) { #>
+
+						<div class="hustle-modal-image hustle-modal-image_{{ design.feature_image_fit }}<# if ( _.isTrue( content.feature_image_hide_on_mobile ) ) { #> hustle-modal-mobile_hidden<# } #>">
+
+							<# if ( 'contain' === design.feature_image_fit || 'cover' === design.feature_image_fit ) { #>
+
+								<# if ( 'custom' !== design.feature_image_horizontal || 'custom' !== design.feature_image_vertical ) { #>
+									<img src="{{ content.feature_image }}" class="hustle-modal-image_{{ design.feature_image_horizontal }}{{ design.feature_image_vertical }}">
+								<# } else { #>
+									<img src="{{ content.feature_image }}">
+								<# } #>
+
+							<# } else { #>
+
+								<img src="{{ content.feature_image }}">
+
+							<# } #>
+
+						</div>
+
+					<# } #>
+
+				</section>
+
+			<# } #>
+
+		</div>
+
+	<# } #>
 
 </div>
 

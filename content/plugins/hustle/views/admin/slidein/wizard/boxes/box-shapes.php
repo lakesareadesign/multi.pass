@@ -187,6 +187,66 @@
 
 		</div><?php // .wpmudev-box-gray ?>
 
+		<div class="wpmudev-switch-labeled">
+
+			<div class="wpmudev-switch">
+
+				<input id="wph-popup-gdpr_border" class="toggle-checkbox" type="checkbox" data-attribute="gdpr_border" {{_.checked(_.isTrue(gdpr_border), true)}}>
+
+				<label class="wpmudev-switch-design" for="wph-popup-gdpr_border" aria-hidden="true"></label>
+
+			</div>
+
+			<label class="wpmudev-switch-label" for="wph-popup-gdpr_border"><?php esc_attr_e( "GDPR checkbox border", Opt_In::TEXT_DOMAIN ); ?></label>
+
+		</div><?php // .wpmudev-switch-labeled ?>
+
+        <div id="wph-wizard-design-gdpr-border-options" class="wpmudev-box-gray {{ ( _.isFalse(gdpr_border) ) ? 'wpmudev-hidden' : 'wpmudev-show' }}">
+
+			<div class="wpmudev-row">
+
+				<div class="wpmudev-col">
+
+					<label><?php esc_attr_e( "Radius", Opt_In::TEXT_DOMAIN ); ?></label>
+
+					<input type="number" value="{{gdpr_border_radius}}" data-attribute="gdpr_border_radius" class="wpmudev-input_number">
+
+				</div>
+
+				<div class="wpmudev-col">
+
+					<label><?php esc_attr_e( "Weight", Opt_In::TEXT_DOMAIN ); ?></label>
+
+					<input type="number" value="{{gdpr_border_weight}}" data-attribute="gdpr_border_weight" class="wpmudev-input_number">
+
+				</div>
+
+				<div class="wpmudev-col">
+
+					<label><?php esc_attr_e( "Type", Opt_In::TEXT_DOMAIN ); ?></label>
+
+                    <select class="wpmudev-select" data-attribute="gdpr_border_type" >
+						<option value="solid" {{ ( 'solid' === gdpr_border_type ) ? 'selected' : '' }} ><?php esc_attr_e( "Solid", Opt_In::TEXT_DOMAIN ); ?></option>
+						<option value="dotted" {{ ( 'dotted' === gdpr_border_type ) ? 'selected' : '' }} ><?php esc_attr_e( "Dotted", Opt_In::TEXT_DOMAIN ); ?></option>
+						<option value="dashed" {{ ( 'dashed' === gdpr_border_type ) ? 'selected' : '' }} ><?php esc_attr_e( "Dashed", Opt_In::TEXT_DOMAIN ); ?></option>
+						<option value="double" {{ ( 'double' === gdpr_border_type ) ? 'selected' : '' }} ><?php esc_attr_e( "Double", Opt_In::TEXT_DOMAIN ); ?></option>
+						<option value="none" {{ ( 'none' === gdpr_border_type ) ? 'selected' : '' }} ><?php esc_attr_e( "None", Opt_In::TEXT_DOMAIN ); ?></option>
+					</select>
+
+				</div>
+
+				<div class="wpmudev-col">
+
+					<label><?php esc_attr_e( "Border color", Opt_In::TEXT_DOMAIN ); ?></label>
+
+                    <div class="wpmudev-picker"><input id="popup_modal_gdpr_border" class="wpmudev-color_picker" type="text"  value="{{gdpr_border_color}}" data-attribute="gdpr_border_color" data-alpha="true" /></div>
+
+				</div>
+
+			</div>
+
+		</div><?php // .wpmudev-box-gray ?>
+
 		<label><?php esc_attr_e( "Form fields icon", Opt_In::TEXT_DOMAIN ); ?></label>
 
 		<div class="wpmudev-tabs">
