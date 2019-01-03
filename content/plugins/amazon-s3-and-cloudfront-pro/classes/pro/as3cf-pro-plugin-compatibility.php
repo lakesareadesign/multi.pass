@@ -69,7 +69,16 @@ class AS3CF_Pro_Plugin_Compatibility extends AS3CF_Plugin_Compatibility {
 		 * @param array $functions Plugins functions which should lead to aborting
 		 *                         our `wp_attachment_metadata_update` filter.
 		 */
-		$functions = apply_filters( 'wpos3_plugin_functions_to_abort_upload', $functions );
+		$functions = apply_filters( 'wpos3_plugin_functions_to_abort_upload', $functions ); // Backwards compatibility
+
+		/**
+		 * Filter the array of functions which should lead to aborting our
+		 * `wp_attachment_metadata_update` filter.
+		 *
+		 * @param array $functions Plugins functions which should lead to aborting
+		 *                         our `wp_attachment_metadata_update` filter.
+		 */
+		$functions = apply_filters( 'as3cf_plugin_functions_to_abort_upload', $functions );
 
 		// Unset any function that doesn't exist.
 		foreach ( (array) $functions as $key => $function ) {
@@ -99,7 +108,7 @@ class AS3CF_Pro_Plugin_Compatibility extends AS3CF_Plugin_Compatibility {
 		$callers = debug_backtrace();
 		foreach ( $callers as $caller ) {
 			if ( isset( $caller['function'] ) && in_array( $caller['function'], $this->plugin_functions_abort_upload ) ) {
-				if ( $this->as3cf->get_setting( 'remove-local-file' ) || ! file_exists( get_attached_file( $post_id, true  ) ) ) {
+				if ( $this->as3cf->get_setting( 'remove-local-file' ) || ! file_exists( get_attached_file( $post_id, true ) ) ) {
 					// abort the rest of the update_attachment_metadata hook
 					// if the file doesn't exist on the server, as the stream wrapper
 					// has taken care of the rest.

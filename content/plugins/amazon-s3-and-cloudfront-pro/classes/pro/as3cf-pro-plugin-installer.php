@@ -44,7 +44,7 @@ class AS3CF_Pro_Plugin_Installer {
 		$this->plugin_slug      = $plugin_slug;
 		$this->plugin_file_path = $plugin_file_path;
 
-		add_action( 'wp_ajax_as3cfpro_install_plugins_' . $this->process_key , array( $this, 'ajax_install_plugins' ) );
+		add_action( 'wp_ajax_as3cfpro_install_plugins_' . $this->process_key, array( $this, 'ajax_install_plugins' ) );
 		add_action( 'admin_init', array( $this, 'maybe_install_plugins' ) );
 		add_action( 'admin_init', array( $this, 'installer_redirect' ) );
 		add_action( 'admin_notices', array( $this, 'maybe_display_installer_notices' ) );
@@ -122,7 +122,7 @@ class AS3CF_Pro_Plugin_Installer {
 
 		if ( $plugins_activated === count( $this->plugins_to_install ) ) {
 			// All plugins installed and activated successfully
-			$url = add_query_arg( array( 'wpos3pro-install' => 1 ), network_admin_url( 'plugins.php' ) );
+			$url = add_query_arg( array( 'as3cfpro-install' => 1 ), network_admin_url( 'plugins.php' ) );
 
 			return esc_url_raw( $url );
 		}
@@ -188,7 +188,7 @@ class AS3CF_Pro_Plugin_Installer {
 	}
 
 	/**
-	 * Redirect to the AWS or Offload S3 page after successfully installing the plugins
+	 * Redirect to the AWS or Offload Media page after successfully installing the plugins
 	 */
 	function installer_redirect() {
 		if ( defined( 'DOING_AJAX' ) && DOING_AJAX ) {
@@ -200,7 +200,7 @@ class AS3CF_Pro_Plugin_Installer {
 			return;
 		}
 
-		if ( ! isset( $_GET['wpos3pro-install'] ) ) {
+		if ( ! isset( $_GET['as3cfpro-install'] ) ) {
 			return;
 		}
 
@@ -212,15 +212,10 @@ class AS3CF_Pro_Plugin_Installer {
 
 		delete_site_transient( 'as3cfpro_installer_notices' );
 
-		$page = 'amazon-web-services';
-		global $amazon_web_services;
-
-		if ( $amazon_web_services->are_access_keys_set() ) {
-			// If we somehow have the access key and secret set, redirect to the AS3CF page
-			$page = 'amazon-s3-and-cloudfront';
-		}
-
-		$url = add_query_arg( array( 'page' => $page ), network_admin_url( 'admin.php' ) );
+		$url = add_query_arg(
+			array( 'page' => 'amazon-s3-and-cloudfront' ),
+			network_admin_url( is_multisite() ? 'settings.php' : 'options-general.php' )
+		);
 
 		wp_redirect( esc_url_raw( $url ) );
 		exit();

@@ -12,6 +12,10 @@
 	If this is not your first certificate with Amazon's Certificate Manager, click <strong>Request a certificate</strong>.
 </p>
 
+<p>
+	<strong>IMPORTANT:</strong> Make sure you switch to the “US East (N. Virginia)” region using the region selector at the top right, CloudFront only works with certificates that are created in that “global” region.
+</p>
+
 <p class="wp-ui-text-icon">
 	<em>
 		* Using HTTPS with CloudFront lets your visitors benefit from significantly faster load times by leveraging HTTP/2 where possible.

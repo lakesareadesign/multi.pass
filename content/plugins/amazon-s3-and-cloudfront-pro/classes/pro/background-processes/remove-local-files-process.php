@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Background_Processes;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Background_Processes;
 
 class Remove_Local_Files_Process extends Background_Tool_Process {
 
@@ -29,14 +29,14 @@ class Remove_Local_Files_Process extends Background_Tool_Process {
 		$this->blog_id = $blog_id;
 
 		foreach ( $attachments as $key => $attachment_id ) {
-			if ( ! $this->as3cf->is_attachment_served_by_s3( $attachment_id, true ) || ! $this->attachment_exist_locally( $attachment_id ) ) {
+			if ( ! $this->as3cf->is_attachment_served_by_provider( $attachment_id, true ) || ! $this->attachment_exist_locally( $attachment_id ) ) {
 				unset( $attachments[ $key ] );
 			}
 		}
 
-		$keys = $this->get_s3_keys( $attachments );
+		$keys = $this->get_provider_keys( $attachments );
 
-		foreach( $attachments as $attachment_id ) {
+		foreach ( $attachments as $attachment_id ) {
 			$this->delete_local_attachment( $attachment_id, $keys );
 		}
 	}
@@ -63,7 +63,7 @@ class Remove_Local_Files_Process extends Background_Tool_Process {
 	/**
 	 * Delete local attachment files.
 	 *
-	 * @param int $attachment_id
+	 * @param int   $attachment_id
 	 * @param array $keys
 	 */
 	protected function delete_local_attachment( $attachment_id, $keys ) {
@@ -71,8 +71,26 @@ class Remove_Local_Files_Process extends Background_Tool_Process {
 		$keys  = isset( $keys[ $attachment_id ] ) ? $keys[ $attachment_id ] : array();
 
 		foreach ( $paths as $path ) {
-			if ( file_exists( $path ) && $this->file_exists_on_s3( $path, $keys ) ) {
-				wp_delete_file( $path );
+			if ( file_exists( $path ) && $this->file_exists_on_provider( $path, $keys ) ) {
+				$files_to_remove[] = $path;
+			}
+		}
+
+		// Delete the files and record original file's size before removal.
+		if ( ! empty( $files_to_remove ) ) {
+			// Get original file's size if still on disk.
+			$filesize = file_exists( $paths[0] ) ? filesize( $paths[0] ) : 0;
+
+			$this->as3cf->remove_local_files( $files_to_remove, $attachment_id );
+
+			// Store filesize in the attachment meta data for use by WP
+			if ( 0 < $filesize && ( $data = wp_get_attachment_metadata( $attachment_id ) ) ) {
+				if ( empty( $data['filesize'] ) ) {
+					$data['filesize'] = $filesize;
+
+					// Update metadata with filesize
+					update_post_meta( $attachment_id, '_wp_attachment_metadata', $data );
+				}
 			}
 		}
 	}
@@ -85,7 +103,7 @@ class Remove_Local_Files_Process extends Background_Tool_Process {
 	 *
 	 * @return bool
 	 */
-	protected function file_exists_on_s3( $path, $keys ) {
+	protected function file_exists_on_provider( $path, $keys ) {
 		foreach ( $keys as $key ) {
 			if ( pathinfo( $path, PATHINFO_BASENAME ) === pathinfo( $key, PATHINFO_BASENAME ) ) {
 				return true;
@@ -136,6 +154,6 @@ class Remove_Local_Files_Process extends Background_Tool_Process {
 	 * @return string
 	 */
 	protected function get_complete_message() {
-		return __( '<strong>WP Offload S3</strong> &mdash; Finished removing media files from local server.', 'amazon-s3-and-cloudfront' );
+		return __( '<strong>WP Offload Media</strong> &mdash; Finished removing media files from local server.', 'amazon-s3-and-cloudfront' );
 	}
 }

@@ -11,5 +11,5 @@
 </p>
 
 <p>
-    <strong>Please refer to <a href="<?php echo $this->dbrains_url( '/wp-offload-s3/doc/configure-cors-to-resolve-web-font-issues/' ) ?>" target="_blank">this guide</a> on how to configure your web server.</strong>
+    <strong>Please refer to <a href="<?php echo $this->dbrains_url( '/wp-offload-media/doc/configure-cors-to-resolve-web-font-issues/' ) ?>" target="_blank">this guide</a> on how to configure your web server.</strong>
 </p>

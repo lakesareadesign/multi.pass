@@ -1,10 +1,10 @@
 <?php
 /*
-Plugin Name: WP Offload S3 - Assets Pull Addon
-Plugin URI: https://deliciousbrains.com/wp-offload-s3/doc/assets-pull-addon/
-Description: An addon for WP Offload S3 to serve your site's JS, CSS, and other enqueued assets from Amazon CloudFront or another CDN.
+Plugin Name: WP Offload Media - Assets Pull Addon
+Plugin URI: https://deliciousbrains.com/wp-offload-media/doc/assets-pull-addon/
+Description: An addon for WP Offload Media to serve your site's JS, CSS, and other enqueued assets from Amazon CloudFront or another CDN.
 Author: Delicious Brains
-Version: 1.0
+Version: 1.1
 Author URI: https://deliciousbrains.com
 Network: True
 
@@ -21,51 +21,55 @@ Network: True
 */
 
 require_once dirname( __FILE__ ) . '/version.php';
-require_once dirname( __FILE__ ) . '/classes/wp-aws-compatibility-check.php';
+require_once dirname( __FILE__ ) . '/classes/as3cf-compatibility-check.php';
 require_once dirname( __FILE__ ) . '/classes/addon-activation-data.php';
 
-$as3cfpro_plugin_version_required = '1.5.1';
+$as3cfpro_plugin_version_required = '2.0';
 
 global $as3cf_assets_pull_compat_check;
-$as3cf_assets_pull_compat_check = new WP_AWS_Compatibility_Check(
-	'WP Offload S3 - Assets Pull Addon',
+$as3cf_assets_pull_compat_check = new AS3CF_Compatibility_Check(
+	'WP Offload Media - Assets Pull Addon',
 	'amazon-s3-and-cloudfront-assets-pull',
 	__FILE__,
-	'WP Offload S3',
+	'WP Offload Media',
 	'amazon-s3-and-cloudfront-pro',
 	$as3cfpro_plugin_version_required,
 	null,
 	false,
-	'https://deliciousbrains.com/wp-offload-s3/'
+	'https://deliciousbrains.com/wp-offload-media/'
 );
 
-function as3cf_assets_pull_init( $aws ) {
-	global $as3cf_assets_pull_compat_check, $as3cf_assets_pull;
+/**
+ * @param Amazon_S3_And_CloudFront_Pro $as3cf
+ */
+function as3cf_assets_pull_init( $as3cf ) {
+	global $as3cf_assets_pull_compat_check;
 	if ( ! $as3cf_assets_pull_compat_check->is_compatible() ) {
 		return;
 	}
 
+	global $as3cf_assets_pull;
 	$abspath = dirname( __FILE__ );
-	require_once $abspath . '/classes/amazon-s3-and-cloudfront-assets-pull.php';
-	require_once $abspath . '/wp-offload-s3-autoloader.php';
 
-	new WP_Offload_S3_Autoloader( 'WP_Offload_S3_Assets_Pull', $abspath );
-	$as3cf_assets_pull = new Amazon_S3_And_CloudFront_Assets_Pull( __FILE__, $aws );
+	require_once $abspath . '/classes/amazon-s3-and-cloudfront-assets-pull.php';
+	require_once $abspath . '/wp-offload-media-autoloader.php';
+
+	new WP_Offload_Media_Autoloader( 'WP_Offload_Media_Assets_Pull', $abspath );
+	$as3cf_assets_pull = new Amazon_S3_And_CloudFront_Assets_Pull( __FILE__ );
 }
-add_action( 'aws_init', 'as3cf_assets_pull_init', 14 );
+
+add_action( 'as3cf_pro_init', 'as3cf_assets_pull_init', 14 );
 
 /**
  * Plugin activation handling.
  *
  * Must be registered before plugins_loaded.
  */
-register_activation_hook( __FILE__, 'DeliciousBrains\\WP_Offload_S3_Assets_Pull\\Addon_Activation_Data::assets_pull_activated' );
-add_action( 'activate_amazon-s3-and-cloudfront-assets/amazon-s3-and-cloudfront-assets.php', 'DeliciousBrains\\WP_Offload_S3_Assets_Pull\\Addon_Activation_Data::assets_s3_activated' );
+register_activation_hook( __FILE__, 'DeliciousBrains\\WP_Offload_Media_Assets_Pull\\Addon_Activation_Data::assets_pull_activated' );
 
 /**
  * Deactivation handling.
  *
  * Must be registered before plugins_loaded.
  */
-register_deactivation_hook( __FILE__, 'DeliciousBrains\\WP_Offload_S3_Assets_Pull\\Addon_Activation_Data::assets_pull_deactivated' );
-add_action( 'deactivate_amazon-s3-and-cloudfront-assets/amazon-s3-and-cloudfront-assets.php', 'DeliciousBrains\\WP_Offload_S3_Assets_Pull\\Addon_Activation_Data::assets_s3_deactivated' );
+register_deactivation_hook( __FILE__, 'DeliciousBrains\\WP_Offload_Media_Assets_Pull\\Addon_Activation_Data::assets_pull_deactivated' );

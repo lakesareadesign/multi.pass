@@ -1,8 +1,8 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Tools;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Tools;
 
-use DeliciousBrains\WP_Offload_S3\Pro\Modal_Tool;
+use DeliciousBrains\WP_Offload_Media\Pro\Modal_Tool;
 
 class Downloader extends Modal_Tool {
 
@@ -27,7 +27,7 @@ class Downloader extends Modal_Tool {
 	public function init() {
 		parent::init();
 
-		if ( ! $this->as3cf->is_pro_plugin_setup() ) {
+		if ( ! $this->as3cf->is_pro_plugin_setup( true ) ) {
 			return;
 		}
 
@@ -40,7 +40,7 @@ class Downloader extends Modal_Tool {
 	 * @return array|bool
 	 */
 	protected function get_sidebar_block_args() {
-		if ( ! $this->as3cf->is_pro_plugin_setup() ) {
+		if ( ! $this->as3cf->is_pro_plugin_setup( true ) ) {
 			return false;
 		}
 
@@ -51,13 +51,13 @@ class Downloader extends Modal_Tool {
 			return false;
 		}
 
-		// Don't show tool if no attachments uploaded to S3
+		// Don't show tool if no attachments uploaded to bucket
 		if ( 0 === $to_process_stats['total_to_process'] ) {
 			return false;
 		}
 
 		$args = array(
-			'title'        => __( 'Download all files from S3 to server', 'amazon-s3-and-cloudfront' ),
+			'title'        => __( 'Download all files from bucket to server', 'amazon-s3-and-cloudfront' ),
 			'button_title' => __( 'Download Files', 'amazon-s3-and-cloudfront' ),
 			'description'  => __( 'If you\'ve ever had the "Remove Files From Server" option on, some Media Library files are likely missing on your server. You can use this tool to download any missing files back to your server.', 'amazon-s3-and-cloudfront' ),
 		);
@@ -72,9 +72,9 @@ class Downloader extends Modal_Tool {
 	 */
 	protected function get_tool_js_strings() {
 		$strings = array(
-			'tool_title'                        => __( 'Downloading Media Library from S3', 'amazon-s3-and-cloudfront' ),
-			'zero_files_processed'              => _x( 'Files Processed', 'Number of files downloaded from S3', 'amazon-s3-and-cloudfront' ),
-			'files_processed'                   => _x( '%1$d of %2$d Files Downloaded', 'Number of files out of total downloaded from S3', 'amazon-s3-and-cloudfront' ),
+			'tool_title'                        => __( 'Downloading Media Library from bucket', 'amazon-s3-and-cloudfront' ),
+			'zero_files_processed'              => _x( 'Files Processed', 'Number of files downloaded from bucket', 'amazon-s3-and-cloudfront' ),
+			'files_processed'                   => _x( '%1$d of %2$d Files Downloaded', 'Number of files out of total downloaded from bucket', 'amazon-s3-and-cloudfront' ),
 			'completed_with_some_errors'        => __( 'Download completed with some errors', 'amazon-s3-and-cloudfront' ),
 			'partial_complete_with_some_errors' => __( 'Download partially completed with some errors', 'amazon-s3-and-cloudfront' ),
 			'cancelling_process'                => _x( 'Cancelling download', 'The download is being cancelled', 'amazon-s3-and-cloudfront' ),
@@ -84,8 +84,8 @@ class Downloader extends Modal_Tool {
 			'process_cancellation_failed'       => __( 'Download cancellation failed', 'amazon-s3-and-cloudfront' ),
 			'process_cancelled'                 => _x( 'Download cancelled', 'The download has been cancelled', 'amazon-s3-and-cloudfront' ),
 			'finalizing_process'                => _x( 'Finalizing download', 'The download is in the last stages', 'amazon-s3-and-cloudfront' ),
-			'sure'                              => _x( 'Are you sure you want to leave whilst download from S3?', 'Confirmation required', 'amazon-s3-and-cloudfront' ),
-			'process_failed'                    => _x( 'Download failed', 'Download of attachments from S3 did not complete', 'amazon-s3-and-cloudfront' ),
+			'sure'                              => _x( 'Are you sure you want to leave whilst downloading from bucket?', 'Confirmation required', 'amazon-s3-and-cloudfront' ),
+			'process_failed'                    => _x( 'Download failed', 'Download of attachments from the bucket did not complete', 'amazon-s3-and-cloudfront' ),
 			'process_paused'                    => _x( 'Download Paused', 'The download has been temporarily stopped', 'amazon-s3-and-cloudfront' ),
 		);
 
@@ -93,7 +93,7 @@ class Downloader extends Modal_Tool {
 	}
 
 	/**
-	 * Get the attachments uploaded to S3
+	 * Get the attachments uploaded to bucket
 	 *
 	 * @param string     $prefix
 	 * @param int        $blog_id
@@ -115,7 +115,7 @@ class Downloader extends Modal_Tool {
 		} else {
 			$select_sql = "SELECT pm.`post_id` as ID, pm.`meta_value` as 'data', {$blog_id} AS 'blog_id'";
 			if ( ! is_null( $offset ) ) {
-				$offset = absint( $offset );
+				$offset     = absint( $offset );
 				$offset_sql .= "AND pm.`post_id` > {$offset}";
 			}
 			if ( ! is_null( $limit ) ) {
@@ -145,16 +145,17 @@ class Downloader extends Modal_Tool {
 	}
 
 	/**
-	 * Download the attachment from S3
+	 * Download the attachment from bucket
 	 *
-	 * @param int   $attachment_id
-	 * @param int   $blog_id
+	 * @param int $attachment_id
+	 * @param int $blog_id
 	 *
 	 * @return bool
+	 * @throws \Exception
 	 */
 	protected function handle_attachment( $attachment_id, $blog_id ) {
-		// Copy back S3 file to local, only when files don't exist locally
-		$result = $this->as3cf->download_attachment_from_s3( $attachment_id, true, true );
+		// Copy back bucket file to local, only when files don't exist locally
+		$result = $this->as3cf->download_attachment_from_provider( $attachment_id, true, true );
 		$return = true;
 
 		if ( is_wp_error( $result ) ) {
@@ -162,7 +163,7 @@ class Downloader extends Modal_Tool {
 
 			if ( $this->progress['error_count'] <= 100 ) {
 				// Build error message
-				$errors = $result->get_error_data();
+				$errors = is_array( $result->get_error_data() ) ? $result->get_error_data() : array();
 
 				$this->errors = array_merge( $this->errors, $errors );
 
@@ -228,7 +229,7 @@ class Downloader extends Modal_Tool {
 	 */
 	protected function get_error_notice_message() {
 		$title   = __( 'Download Errors', 'amazon-s3-and-cloudfront' );
-		$message = __( 'Previous attempts at downloading your media library from S3 have resulted in errors.', 'amazon-s3-and-cloudfront' );
+		$message = __( 'Previous attempts at downloading your media library from the bucket have resulted in errors.', 'amazon-s3-and-cloudfront' );
 
 		return sprintf( '<strong>%s</strong> &mdash; %s', $title, $message );
 	}

@@ -1,11 +1,12 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Background_Processes;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Background_Processes;
 
 use AS3CF_Background_Process;
 use AS3CF_Error;
 use AS3CF_Utils;
-use DeliciousBrains\WP_Offload_S3\Pro\Tool;
+use DeliciousBrains\WP_Offload_Media\Pro\Tool;
+use DeliciousBrains\WP_Offload_Media\Providers\Provider;
 
 abstract class Background_Tool_Process extends AS3CF_Background_Process {
 
@@ -95,7 +96,7 @@ abstract class Background_Tool_Process extends AS3CF_Background_Process {
 			if ( $count ) {
 				$item['blogs'][ $blog_id ]['total_attachments']  = $count;
 				$item['blogs'][ $blog_id ]['last_attachment_id'] = $this->get_blog_last_attachment_id( $blog ) + 1;
-				$item['total_attachments'] += $count;
+				$item['total_attachments']                       += $count;
 			} else {
 				$item['blogs'][ $blog_id ]['processed']         = true;
 				$item['blogs'][ $blog_id ]['total_attachments'] = 0;
@@ -161,7 +162,7 @@ abstract class Background_Tool_Process extends AS3CF_Background_Process {
 		foreach ( $chunks as $chunk ) {
 			$this->process_attachments_chunk( $chunk, $blog_id );
 
-			$item['processed_attachments'] += count( $chunk );
+			$item['processed_attachments']                   += count( $chunk );
 			$item['blogs'][ $blog_id ]['last_attachment_id'] = end( $chunk );
 
 			if ( $this->time_exceeded() || $this->memory_exceeded() ) {
@@ -241,78 +242,31 @@ abstract class Background_Tool_Process extends AS3CF_Background_Process {
 	 * @param array $attachments
 	 *
 	 * @return array
+	 * @throws \Exception
 	 */
-	protected function get_s3_keys( $attachments ) {
+	protected function get_provider_keys( $attachments ) {
 		$regions = array();
 
 		foreach ( $attachments as $attachment_id ) {
-			$s3info = $this->as3cf->get_attachment_s3_info( $attachment_id );
-			$region = empty( $s3info['region'] ) ? 'us-east-1' : $s3info['region'];
-
-			if ( ! isset( $regions[ $region ]['s3client'] ) ) {
-				$regions[ $region ]['s3client'] = $this->as3cf->get_s3client( $region, true );
-			}
-
-			$regions[ $region ]['commands'][ $attachment_id ] = $regions[ $region ]['s3client']->getCommand( 'ListObjects', array(
-				'Bucket' => $s3info['bucket'],
-				'Prefix' => AS3CF_Utils::strip_image_edit_suffix_and_extension( $s3info['key'] ),
-			) );
-		}
-
-		return $this->get_keys_from_regions( $regions );
-	}
-
-	/**
-	 * Get object keys from region results.
-	 *
-	 * @param array $regions
-	 *
-	 * @return array
-	 */
-	protected function get_keys_from_regions( $regions ) {
-		$keys = array();
-
-		foreach ( $regions as $region ) {
-			try {
-				/* @var \Guzzle\Service\Command\CommandInterface $region['s3client'] */
-				$region['s3client']->execute( $region['commands'] );
-			} catch ( \Exception $e ) {
-				AS3CF_Error::log( get_class( $e ) . ' exception caught when executing ListObjects: ' . $e->getMessage() );
+			if ( ! $this->as3cf->is_attachment_served_by_provider( $attachment_id, true ) ) {
 				continue;
 			}
 
-			foreach ( $region['commands'] as $attachment_id => $command ) {
-				$found_keys = $command->getResult()->getPath( 'Contents/*/Key' );
+			$provider_info = $this->as3cf->get_attachment_provider_info( $attachment_id );
 
-				if ( ! empty( $found_keys ) ) {
-					$keys[ $attachment_id ] = $this->validate_attachment_keys( $attachment_id, $found_keys );
-				}
+			$region = empty( $provider_info['region'] ) ? 'us-east-1' : $provider_info['region'];
+
+			if ( ! isset( $regions[ $region ]['provider_client'] ) ) {
+				$regions[ $region ]['provider_client'] = $this->as3cf->get_provider_client( $region, true );
 			}
+
+			$regions[ $region ]['locations'][ $attachment_id ] = array(
+				'Bucket' => $provider_info['bucket'],
+				'Prefix' => AS3CF_Utils::strip_image_edit_suffix_and_extension( $provider_info['key'] ),
+			);
 		}
 
-		return $keys;
-	}
-
-	/**
-	 * Ensure returned keys are for correct attachment.
-	 *
-	 * @param array $keys
-	 *
-	 * @return array
-	 */
-	protected function validate_attachment_keys( $attachment_id, $keys ) {
-		$paths     = AS3CF_Utils::get_attachment_file_paths( $attachment_id, false );
-		$filenames = array_map( 'wp_basename', $paths );
-
-		foreach ( $keys as $key => $value ) {
-			$filename = wp_basename( $value );
-
-			if ( ! in_array( $filename, $filenames ) ) {
-				unset( $keys[ $key ] );
-			}
-		}
-
-		return $keys;
+		return Provider::get_keys_from_regions( $regions );
 	}
 
 	/**

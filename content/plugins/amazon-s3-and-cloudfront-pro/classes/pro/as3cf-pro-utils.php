@@ -60,12 +60,12 @@ class AS3CF_Pro_Utils {
 	 */
 	public static function get_batch_job_keys() {
 		$keys = array(
-			'wpos3_find_replace_batch_%',
-			'wpos3_legacy_upload_%',
-			'wpos3_media_actions_batch_%',
-			'wpos3_settings_change_batch_%',
-			'wpos3_minify_batch_%',
-			'wpos3_process_assets_batch_%',
+			'as3cf_find_replace_batch_%',
+			'as3cf_legacy_upload_%',
+			'as3cf_media_actions_batch_%',
+			'as3cf_settings_change_batch_%',
+			'as3cf_minify_batch_%',
+			'as3cf_process_assets_batch_%',
 		);
 
 		return $keys;

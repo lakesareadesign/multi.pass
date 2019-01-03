@@ -1,6 +1,6 @@
 <?php
 
-class AS3CF_Pro_Installer extends WP_AWS_Compatibility_Check {
+class AS3CF_Pro_Installer extends AS3CF_Compatibility_Check {
 
 	/**
 	 * @var
@@ -16,16 +16,12 @@ class AS3CF_Pro_Installer extends WP_AWS_Compatibility_Check {
 	 * AS3CF_Pro_Installer constructor.
 	 *
 	 * @param $plugin_file_path
-	 * @param $aws_plugin_version_required
 	 */
-	public function __construct( $plugin_file_path, $aws_plugin_version_required ) {
+	public function __construct( $plugin_file_path ) {
 		parent::__construct(
-			'WP Offload S3',
+			'WP Offload Media',
 			'amazon-s3-and-cloudfront-pro',
-			$plugin_file_path,
-			'Amazon Web Services',
-			'amazon-web-services',
-			$aws_plugin_version_required
+			$plugin_file_path
 		);
 
 		// Fire up the plugin installer
@@ -80,10 +76,6 @@ class AS3CF_Pro_Installer extends WP_AWS_Compatibility_Check {
 	public function get_required_plugins() {
 		if ( is_null( $this->required_plugins ) ) {
 			$this->required_plugins = array(
-				'amazon-web-services'      => array(
-					'class' => 'Amazon_Web_Services',
-					'name'  => 'Amazon Web Services',
-				),
 			);
 		}
 

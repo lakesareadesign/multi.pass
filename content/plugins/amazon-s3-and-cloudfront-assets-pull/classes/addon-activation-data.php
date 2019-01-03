@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3_Assets_Pull;
+namespace DeliciousBrains\WP_Offload_Media_Assets_Pull;
 
 class Addon_Activation_Data {
 
@@ -28,22 +28,6 @@ class Addon_Activation_Data {
 	}
 
 	/**
-	 * Record activation of the S3 Assets addon.
-	 */
-	public static function assets_s3_activated() {
-		$inst = new static( 'assets' );
-		$inst->activate();
-	}
-
-	/**
-	 * Record deactivation of the S3 Assets addon.
-	 */
-	public static function assets_s3_deactivated() {
-		$inst = new static( 'assets' );
-		$inst->deactivate();
-	}
-
-	/**
 	 * Addon_Activation_Data constructor.
 	 *
 	 * @param string $addon
@@ -62,7 +46,7 @@ class Addon_Activation_Data {
 	public function get( $key ) {
 		$saved = self::load();
 
-		return isset( $saved[ "{$this->addon}.$key" ] ) ? $saved[ "{$this->addon}.$key" ] : null;
+		return isset( $saved["{$this->addon}.$key"] ) ? $saved["{$this->addon}.$key"] : null;
 	}
 
 	/**
@@ -79,7 +63,7 @@ class Addon_Activation_Data {
 		}
 
 		foreach ( $data as $key => $v ) {
-			$saved[ "{$this->addon}.$key" ] = $v;
+			$saved["{$this->addon}.$key"] = $v;
 		}
 
 		self::save( $saved );

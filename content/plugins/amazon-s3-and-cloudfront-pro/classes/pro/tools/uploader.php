@@ -1,8 +1,8 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Tools;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Tools;
 
-use DeliciousBrains\WP_Offload_S3\Pro\Modal_Tool;
+use DeliciousBrains\WP_Offload_Media\Pro\Modal_Tool;
 
 class Uploader extends Modal_Tool {
 
@@ -51,21 +51,21 @@ class Uploader extends Modal_Tool {
 	 */
 	protected function get_tool_js_strings() {
 		$strings = array(
-			'tool_title'                        => __( 'Uploading Media Library to S3', 'amazon-s3-and-cloudfront' ),
-			'zero_files_processed'              => _x( 'Files Uploaded', 'Number of files uploaded to S3', 'amazon-s3-and-cloudfront' ),
-			'files_processed'                   => _x( '%1$d of %2$d Files Uploaded', 'Number of files out of total uploaded to S3', 'amazon-s3-and-cloudfront' ),
-			'completed_with_some_errors'        => __( 'Upload completed with some errors', 'amazon-s3-and-cloudfront' ),
-			'partial_complete_with_some_errors' => __( 'Upload partially completed with some errors', 'amazon-s3-and-cloudfront' ),
-			'cancelling_process'                => _x( 'Cancelling upload', 'The upload is being cancelled', 'amazon-s3-and-cloudfront' ),
-			'completing_current_request'        => __( 'Completing current media upload batch', 'amazon-s3-and-cloudfront' ),
-			'paused'                            => _x( 'Paused', 'The upload has been temporarily stopped', 'amazon-s3-and-cloudfront' ),
-			'pausing'                           => _x( 'Pausing&hellip;', 'The upload is being paused', 'amazon-s3-and-cloudfront' ),
-			'process_cancellation_failed'       => __( 'Upload cancellation failed', 'amazon-s3-and-cloudfront' ),
-			'process_cancelled'                 => _x( 'Upload cancelled', 'The upload has been cancelled', 'amazon-s3-and-cloudfront' ),
-			'finalizing_process'                => _x( 'Finalizing upload', 'The upload is in the last stages', 'amazon-s3-and-cloudfront' ),
-			'sure'                              => _x( 'Are you sure you want to leave whilst uploading to S3?', 'Confirmation required', 'amazon-s3-and-cloudfront' ),
-			'process_failed'                    => _x( 'Upload failed', 'Copy of data to S3 did not complete', 'amazon-s3-and-cloudfront' ),
-			'process_paused'                    => _x( 'Upload Paused', 'The upload has been temporarily stopped', 'amazon-s3-and-cloudfront' ),
+			'tool_title'                        => __( 'Offloading Media Library', 'amazon-s3-and-cloudfront' ),
+			'zero_files_processed'              => _x( 'Files Offloaded', 'Number of files offloaded to bucket', 'amazon-s3-and-cloudfront' ),
+			'files_processed'                   => _x( '%1$d of %2$d Files Offloaded', 'Number of files out of total offloaded to bucket', 'amazon-s3-and-cloudfront' ),
+			'completed_with_some_errors'        => __( 'Offload completed with some errors', 'amazon-s3-and-cloudfront' ),
+			'partial_complete_with_some_errors' => __( 'Offload partially completed with some errors', 'amazon-s3-and-cloudfront' ),
+			'cancelling_process'                => _x( 'Cancelling offload', 'The offload is being cancelled', 'amazon-s3-and-cloudfront' ),
+			'completing_current_request'        => __( 'Completing current media offload batch', 'amazon-s3-and-cloudfront' ),
+			'paused'                            => _x( 'Paused', 'The offload has been temporarily stopped', 'amazon-s3-and-cloudfront' ),
+			'pausing'                           => _x( 'Pausing&hellip;', 'The offload is being paused', 'amazon-s3-and-cloudfront' ),
+			'process_cancellation_failed'       => __( 'Offload cancellation failed', 'amazon-s3-and-cloudfront' ),
+			'process_cancelled'                 => _x( 'Offload cancelled', 'The offload has been cancelled', 'amazon-s3-and-cloudfront' ),
+			'finalizing_process'                => _x( 'Finalizing offload', 'The offload is in the last stages', 'amazon-s3-and-cloudfront' ),
+			'sure'                              => _x( 'Are you sure you want to leave whilst offloading to bucket?', 'Confirmation required', 'amazon-s3-and-cloudfront' ),
+			'process_failed'                    => _x( 'Offload failed', 'Copy of data to bucket did not complete', 'amazon-s3-and-cloudfront' ),
+			'process_paused'                    => _x( 'Offload Paused', 'The offload has been temporarily stopped', 'amazon-s3-and-cloudfront' ),
 		);
 
 		return $strings;
@@ -209,11 +209,11 @@ class Uploader extends Modal_Tool {
 		);
 
 		$i18n = array(
-			'title_initial'           => __( 'Your Media Library needs to be uploaded to S3', 'amazon-s3-and-cloudfront' ),
-			'title_partial_complete'  => __( "%s%% of your Media Library has been uploaded to S3", 'amazon-s3-and-cloudfront' ),
-			'title_complete'          => __( '100% of your Media Library has been uploaded to S3, congratulations!', 'amazon-s3-and-cloudfront' ),
-			'upload_initial'          => __( 'Upload Now', 'amazon-s3-and-cloudfront' ),
-			'upload_partial_complete' => __( 'Upload Remaining Now', 'amazon-s3-and-cloudfront' ),
+			'title_initial'           => __( 'Your Media Library needs to be offloaded', 'amazon-s3-and-cloudfront' ),
+			'title_partial_complete'  => __( "%s%% of your Media Library has been offloaded", 'amazon-s3-and-cloudfront' ),
+			'title_complete'          => __( '100% of your Media Library has been offloaded, congratulations!', 'amazon-s3-and-cloudfront' ),
+			'upload_initial'          => __( 'Offload Now', 'amazon-s3-and-cloudfront' ),
+			'upload_partial_complete' => __( 'Offload Remaining Now', 'amazon-s3-and-cloudfront' ),
 		);
 
 		switch ( $human_percentage ) {
@@ -271,7 +271,7 @@ class Uploader extends Modal_Tool {
 
 		$response = array(
 			'success' => false,
-			'data'    => __( 'Upload has been stopped', 'amazon-s3-and-cloudfront' ),
+			'data'    => __( 'Offload has been stopped', 'amazon-s3-and-cloudfront' ),
 			'errors'  => array( $error_msg ),
 		);
 
@@ -291,20 +291,20 @@ class Uploader extends Modal_Tool {
 		$this->should_upload_attachment( $attachment_id, $blog_id );
 
 		// Skip item if attachment already on S3
-		if ( $this->as3cf->get_attachment_s3_info( $attachment_id ) ) {
+		if ( $this->as3cf->get_attachment_provider_info( $attachment_id ) ) {
 			return false;
 		}
 
-		$s3object = $this->as3cf->upload_attachment_to_s3( $attachment_id, null, null, false );
+		$provider_object = $this->as3cf->upload_attachment( $attachment_id, null, null, false );
 
 		// Build error message
-		if ( is_wp_error( $s3object ) ) {
+		if ( is_wp_error( $provider_object ) ) {
 			$this->progress['error_count']++;
 
 			if ( $this->progress['error_count'] <= 100 ) {
-				foreach ( $s3object->get_error_messages() as $error_message ) {
-					$error_msg      = sprintf( __( 'Error uploading to S3 - %s', 'amazon-s3-and-cloudfront' ), $error_message );
-					$this->errors[] = $error_msg;
+				foreach ( $provider_object->get_error_messages() as $error_message ) {
+					$error_msg                                            = sprintf( __( 'Error offloading to bucket - %s', 'amazon-s3-and-cloudfront' ), $error_message );
+					$this->errors[]                                       = $error_msg;
 					$this->process_errors[ $blog_id ][ $attachment_id ][] = $error_msg;
 				}
 			}
@@ -355,8 +355,8 @@ class Uploader extends Modal_Tool {
 	 * @return string
 	 */
 	protected function get_error_notice_message() {
-		$title   = __( 'Upload Errors', 'amazon-s3-and-cloudfront' );
-		$message = __( 'Previous attempts at uploading your media library have resulted in errors.', 'amazon-s3-and-cloudfront' );
+		$title   = __( 'Offload Errors', 'amazon-s3-and-cloudfront' );
+		$message = __( 'Previous attempts at offloading your media library have resulted in errors.', 'amazon-s3-and-cloudfront' );
 
 		return sprintf( '<strong>%s</strong> &mdash; %s', $title, $message );
 	}
@@ -370,8 +370,8 @@ class Uploader extends Modal_Tool {
 		$stats = $this->get_attachments_to_process_stats();
 
 		return array_merge( parent::get_status(), array(
-			'total_on_s3' => (int) $this->as3cf->get_media_library_s3_total( true ),
-			'total_items' => (int) $stats['total_attachments'],
+			'total_on_provider' => (int) $this->as3cf->get_media_library_provider_total( true ),
+			'total_items'       => (int) $stats['total_attachments'],
 		) );
 	}
 }

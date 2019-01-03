@@ -2,7 +2,7 @@
 	<span class="close-progress-content close-progress-content-button">&times;</span>
 
 	<div class="progress-header">
-		<h2 class="progress-title"><?php _e( 'Uploading Media Library to S3', 'amazon-s3-and-cloudfront' ); ?></h2>
+		<h2 class="progress-title"><?php _e( 'Offloading Media Library', 'amazon-s3-and-cloudfront' ); ?></h2>
 		<span class="timer">00:00:00</span>
 	</div>
 

@@ -5,7 +5,7 @@ abstract class AS3CF_Async_Request {
 	/**
 	 * @var string
 	 */
-	protected $prefix = 'wpos3';
+	protected $prefix = 'as3cf';
 
 	/**
 	 * @var string

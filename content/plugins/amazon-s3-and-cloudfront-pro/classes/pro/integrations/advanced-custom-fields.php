@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Integrations;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Integrations;
 
 use WP_Error;
 
@@ -29,9 +29,9 @@ class Advanced_Custom_Fields extends Integration {
 		add_filter( 'acf/load_value/type=text', array( $this->as3cf->filter_local, 'filter_post' ) );
 		add_filter( 'acf/load_value/type=textarea', array( $this->as3cf->filter_local, 'filter_post' ) );
 		add_filter( 'acf/load_value/type=wysiwyg', array( $this->as3cf->filter_local, 'filter_post' ) );
-		add_filter( 'acf/update_value/type=text', array( $this->as3cf->filter_s3, 'filter_post' ) );
-		add_filter( 'acf/update_value/type=textarea', array( $this->as3cf->filter_s3, 'filter_post' ) );
-		add_filter( 'acf/update_value/type=wysiwyg', array( $this->as3cf->filter_s3, 'filter_post' ) );
+		add_filter( 'acf/update_value/type=text', array( $this->as3cf->filter_provider, 'filter_post' ) );
+		add_filter( 'acf/update_value/type=textarea', array( $this->as3cf->filter_provider, 'filter_post' ) );
+		add_filter( 'acf/update_value/type=wysiwyg', array( $this->as3cf->filter_provider, 'filter_post' ) );
 
 		/*
 		 * Image Crop Add-on
@@ -75,8 +75,8 @@ class Advanced_Custom_Fields extends Integration {
 			return $this->as3cf->_throw_error( 2, 'File already exists' );
 		}
 
-		if ( ! ( $s3object = $this->as3cf->get_attachment_s3_info( $post_id ) ) ) {
-			return $this->as3cf->_throw_error( 3, 'Attachment not on S3' );
+		if ( ! ( $provider_object = $this->as3cf->get_attachment_provider_info( $post_id ) ) ) {
+			return $this->as3cf->_throw_error( 3, 'Attachment not offloaded' );
 		}
 
 		$callers = debug_backtrace();
@@ -89,15 +89,15 @@ class Advanced_Custom_Fields extends Integration {
 		}
 
 		// Copy back the original file for cropping
-		$result = $this->as3cf->plugin_compat->copy_s3_file_to_server( $s3object, $file );
+		$result = $this->as3cf->plugin_compat->copy_provider_file_to_server( $provider_object, $file );
 
 		if ( false === $result ) {
 			return $this->as3cf->_throw_error( 5, 'Copy back failed' );
 		}
 
 		// Mark the attachment so we know to remove it later after the crop
-		$s3object['acf_cropped_to_remove'] = true;
-		update_post_meta( $post_id, 'amazonS3_info', $s3object );
+		$provider_object['acf_cropped_to_remove'] = true;
+		update_post_meta( $post_id, 'amazonS3_info', $provider_object );
 
 		return true;
 	}
@@ -132,12 +132,12 @@ class Advanced_Custom_Fields extends Integration {
 			return $this->as3cf->_throw_error( 6, 'Attachment ID not available' );
 		}
 
-		if ( ! ( $s3object = $this->as3cf->get_attachment_s3_info( $original_attachment_id ) ) ) {
+		if ( ! ( $provider_object = $this->as3cf->get_attachment_provider_info( $original_attachment_id ) ) ) {
 			// Original attachment not on S3
-			return $this->as3cf->_throw_error( 3, 'Attachment not on S3' );
+			return $this->as3cf->_throw_error( 3, 'Attachment not offloaded' );
 		}
 
-		if ( ! isset( $s3object['acf_cropped_to_remove'] ) ) {
+		if ( ! isset( $provider_object['acf_cropped_to_remove'] ) ) {
 			// Original attachment should exist locally, no need to delete
 			return $this->as3cf->_throw_error( 7, 'Attachment not to be removed from server' );
 		}
@@ -147,8 +147,8 @@ class Advanced_Custom_Fields extends Integration {
 		$this->as3cf->remove_local_files( array( $original_file ) );
 
 		// Remove marker
-		unset( $s3object['acf_cropped_to_remove'] );
-		update_post_meta( $original_attachment_id, 'amazonS3_info', $s3object );
+		unset( $provider_object['acf_cropped_to_remove'] );
+		update_post_meta( $original_attachment_id, 'amazonS3_info', $provider_object );
 
 		return true;
 	}

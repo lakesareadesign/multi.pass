@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Integrations;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Integrations;
 
 use Amazon_S3_And_CloudFront;
 
@@ -30,7 +30,7 @@ class Easy_Digital_Downloads extends Integration {
 		// Hook into edd_requested_file to swap in the S3 secure URL
 		add_filter( 'edd_requested_file', array( $this, 'get_download_url' ), 10, 3 );
 		// Hook into the save download files metabox to apply the private ACL
-		add_filter( 'edd_metabox_save_edd_download_files', array( $this, 'make_edd_files_private_on_s3' ), 11 );
+		add_filter( 'edd_metabox_save_edd_download_files', array( $this, 'make_edd_files_private_on_provider' ), 11 );
 	}
 
 	/**
@@ -76,7 +76,7 @@ class Easy_Digital_Downloads extends Integration {
 		), $file_data );
 
 		// Our S3 upload
-		if ( $this->as3cf->get_attachment_s3_info( $post_id ) ) {
+		if ( $this->as3cf->get_attachment_provider_info( $post_id ) ) {
 			return $this->as3cf->get_secure_attachment_url( $post_id, $expires, null, $headers, true );
 		}
 
@@ -86,7 +86,7 @@ class Easy_Digital_Downloads extends Integration {
 		if ( ( '/' !== $file_name[0] && false === isset( $url['scheme'] ) ) || false !== ( strpos( $file_name, 'AWSAccessKeyId' ) ) ) {
 			$bucket     = ( isset( $edd_options['edd_amazon_s3_bucket'] ) ) ? trim( $edd_options['edd_amazon_s3_bucket'] ) : $this->as3cf->get_setting( 'bucket' );
 			$expires    = time() + $expires;
-			$secure_url = $this->as3cf->get_s3client()->getObjectUrl( $bucket, $file_name, $expires, $headers );
+			$secure_url = $this->as3cf->get_provider_client()->get_object_url( $bucket, $file_name, $expires, $headers );
 
 			return $secure_url;
 		}
@@ -102,7 +102,7 @@ class Easy_Digital_Downloads extends Integration {
 	 *
 	 * @return mixed
 	 */
-	public function make_edd_files_private_on_s3( $files ) {
+	public function make_edd_files_private_on_provider( $files ) {
 		global $post;
 
 		// get existing files attached to download
@@ -114,15 +114,15 @@ class Easy_Digital_Downloads extends Integration {
 			foreach ( $files as $key => $file ) {
 				$new_attachment_ids[] = $file['attachment_id'];
 
-				if ( ! ( $s3object = $this->as3cf->get_attachment_s3_info( $file['attachment_id'] ) ) ) {
+				if ( ! ( $provider_object = $this->as3cf->get_attachment_provider_info( $file['attachment_id'] ) ) ) {
 					// not S3 upload ignore
 					continue;
 				}
 
-				if ( $this->as3cf->is_pro_plugin_setup() ) {
-					$s3object = $this->as3cf->set_attachment_acl_on_s3( $file['attachment_id'], $s3object, Amazon_S3_And_CloudFront::PRIVATE_ACL );
-					if ( $s3object && ! is_wp_error( $s3object ) ) {
-						$this->as3cf->make_acl_admin_notice( $s3object );
+				if ( $this->as3cf->is_pro_plugin_setup( true ) ) {
+					$provider_object = $this->as3cf->set_attachment_acl_on_provider( $file['attachment_id'], $provider_object, $this->as3cf->get_provider()->get_private_acl() );
+					if ( $provider_object && ! is_wp_error( $provider_object ) ) {
+						$this->as3cf->make_acl_admin_notice( $provider_object );
 					}
 				}
 			}
@@ -145,8 +145,8 @@ class Easy_Digital_Downloads extends Integration {
 	function maybe_make_removed_edd_files_public( $attachment_ids, $download_id ) {
 		global $wpdb;
 
-		foreach( $attachment_ids as $id ) {
-			if ( ! ( $s3object = $this->as3cf->get_attachment_s3_info( $id ) ) ) {
+		foreach ( $attachment_ids as $id ) {
+			if ( ! ( $provider_object = $this->as3cf->get_attachment_provider_info( $id ) ) ) {
 				// not an S3 attachment, ignore
 				continue;
 			}
@@ -167,9 +167,9 @@ class Easy_Digital_Downloads extends Integration {
 			}
 
 			// set acl to public
-			$s3object = $this->as3cf->set_attachment_acl_on_s3( $id, $s3object, Amazon_S3_And_CloudFront::DEFAULT_ACL );
-			if ( $s3object && ! is_wp_error( $s3object ) ) {
-				$this->as3cf->make_acl_admin_notice( $s3object );
+			$provider_object = $this->as3cf->set_attachment_acl_on_provider( $id, $provider_object, $this->as3cf->get_provider()->get_default_acl() );
+			if ( $provider_object && ! is_wp_error( $provider_object ) ) {
+				$this->as3cf->make_acl_admin_notice( $provider_object );
 			}
 		}
 	}

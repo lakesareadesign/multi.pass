@@ -593,7 +593,7 @@
 
 			$blocks.detach().appendTo( $sidebar );
 
-			var tab = $( '.aws-main .nav-tab.nav-tab-active' ).data( 'tab' );
+			var tab = $( '.as3cf-main .nav-tab.nav-tab-active' ).data( 'tab' );
 
 			$blocks.filter( '[data-tab="' + tab + '"]' ).show();
 		},

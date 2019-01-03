@@ -1,8 +1,8 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro;
+namespace DeliciousBrains\WP_Offload_Media\Pro;
 
-use DeliciousBrains\WP_Offload_S3\Pro\Integrations\Integration;
+use DeliciousBrains\WP_Offload_Media\Pro\Integrations\Integration;
 
 class Integration_Manager {
 

@@ -17,8 +17,9 @@ foreach ( $errors as $blog_id => $blog_errors ) {
 ?>
 
 <ol class="as3cf-notice-toggle-list as3cf-<?php esc_attr_e( $tool ) ?>-notice-list" data-tool="<?php esc_attr_e( $tool ) ?>">
-	<?php foreach ( $all_errors as $media_error ) : ?>
-
+	<?php foreach ( $all_errors as $media_error ) :
+		$this->switch_to_blog( $media_error->blog_id );
+		?>
 
 		<li class="media-error media-error-<?php esc_attr_e( $media_error->media_id ); ?>"
 		    data-media-id="<?php esc_attr_e( $media_error->media_id ); ?>"
@@ -47,5 +48,9 @@ foreach ( $errors as $blog_id => $blog_errors ) {
 			</ul>
 		</li>
 
-	<?php endforeach; ?>
+		<?php
+		$this->restore_current_blog();
+
+	endforeach;
+	?>
 </ol>

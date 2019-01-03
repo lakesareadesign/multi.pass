@@ -41,7 +41,7 @@ $last_checked_at = $has_checked ? $this->last_checked_datetime( $last_checked['t
 					<p>
 						<span data-as3cf-bind="check_message"><?php echo $check_message ?></span>
 						<span class="more-info">
-							<a href="<?php esc_attr_e( $check_more_info ) ?>" data-as3cf-bind-href="more_info" target="_blank">More&nbsp;info</a>&nbsp;&raquo;
+							<a href="<?php esc_attr_e( $check_more_info ) ?>" data-as3cf-bind-href="more_info" target="_blank">More&nbsp;info&nbsp;&raquo;</a>
 						</span>
 					</p>
 				</div>

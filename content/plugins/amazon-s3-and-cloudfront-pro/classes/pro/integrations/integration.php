@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Integrations;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Integrations;
 
 abstract class Integration {
 

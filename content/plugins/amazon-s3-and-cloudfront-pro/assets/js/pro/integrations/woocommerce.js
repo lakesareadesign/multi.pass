@@ -1,4 +1,4 @@
-(function( $, _ ) {
+( function( $, _ ) {
 
 	var fileFrame;
 	var attachment;
@@ -17,8 +17,8 @@
 	function renderMediaUploader( row ) {
 
 		// Find the correct file name and url inputs
-		fileNameInput = row.find( 'td.file_name input' );
-		fileUrlInput = row.find( 'td.file_url input' );
+		fileNameInput = row.find( 'td.file_name input.input_text' );
+		fileUrlInput = row.find( 'td.file_url input.input_text' );
 
 		// Use existing file frame instance or create one
 		if ( undefined !== fileFrame ) {
@@ -68,8 +68,8 @@
 	 * @return void
 	 */
 	function isAmazonS3Attachment() {
-		wp.ajax.post( 'as3cf_woo_is_amazon_s3_attachment', {
-			_nonce: as3cf_woo.nonces.is_amazon_s3_attachment,
+		wp.ajax.post( 'as3cf_woo_is_amazon_provider_attachment', {
+			_nonce: as3cf_woo.nonces.is_amazon_provider_attachment,
 			attachment_id: attachment.id
 		} ).done( _.bind( updateFileInputs, this ) );
 	}
@@ -109,4 +109,4 @@
 		} );
 	} );
 
-})( jQuery, _ );
+} )( jQuery, _ );

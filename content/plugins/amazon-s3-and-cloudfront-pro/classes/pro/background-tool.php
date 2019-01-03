@@ -1,8 +1,8 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro;
+namespace DeliciousBrains\WP_Offload_Media\Pro;
 
-use DeliciousBrains\WP_Offload_S3\Pro\Background_Processes\Background_Tool_Process;
+use DeliciousBrains\WP_Offload_Media\Pro\Background_Processes\Background_Tool_Process;
 
 abstract class Background_Tool extends Tool {
 

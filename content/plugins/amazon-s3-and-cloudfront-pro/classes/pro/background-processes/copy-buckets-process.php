@@ -1,12 +1,10 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Background_Processes;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Background_Processes;
 
-use Amazon_S3_And_CloudFront;
 use AS3CF_Error;
 use AS3CF_Utils;
 use Exception;
-use Guzzle\Service\Exception\CommandTransferException;
 
 class Copy_Buckets_Process extends Background_Tool_Process {
 
@@ -20,6 +18,8 @@ class Copy_Buckets_Process extends Background_Tool_Process {
 	 *
 	 * @param array $attachments
 	 * @param int   $blog_id
+	 *
+	 * @throws Exception
 	 */
 	protected function process_attachments_chunk( $attachments, $blog_id ) {
 		$bucket = $this->as3cf->get_setting( 'bucket' );
@@ -28,9 +28,9 @@ class Copy_Buckets_Process extends Background_Tool_Process {
 		$attachments_to_copy = array();
 
 		foreach ( $attachments as $attachment_id ) {
-			$s3info = $this->as3cf->get_attachment_s3_info( $attachment_id );
+			$provider_info = $this->as3cf->get_attachment_provider_info( $attachment_id );
 
-			if ( $bucket === $s3info['bucket'] ) {
+			if ( $bucket === $provider_info['bucket'] ) {
 				continue;
 			}
 
@@ -47,53 +47,67 @@ class Copy_Buckets_Process extends Background_Tool_Process {
 	 * @param int    $blog_id
 	 * @param string $bucket
 	 * @param string $region
+	 *
+	 * @throws Exception
 	 */
 	protected function copy_attachments( $attachments, $blog_id, $bucket, $region ) {
 		if ( empty( $attachments ) ) {
 			return;
 		}
 
-		$keys = $this->get_s3_keys( $attachments );
+		$keys = $this->get_provider_keys( $attachments );
 
 		if ( empty( $keys ) ) {
 			return;
 		}
 
-		$client   = $this->as3cf->get_s3client( $region, true );
-		$commands = array();
+		$items   = array();
+		$skipped = array();
 
 		foreach ( $keys as $attachment_id => $attachment_keys ) {
-			$s3_info = $this->as3cf->get_attachment_s3_info( $attachment_id );
+			// If the attachment is offloaded to another provider, skip it.
+			if ( ! $this->as3cf->is_attachment_served_by_provider( $attachment_id, true ) ) {
+				$skipped[] = array(
+					'Key'     => $attachment_keys[0],
+					'Message' => sprintf( __( 'Attachment ID %s is offloaded to a different provider than currently configured', 'amazon-s3-and-cloudfront' ), $attachment_id ),
+				);
+				continue;
+			}
+
+			$provider_info = $this->as3cf->get_attachment_provider_info( $attachment_id );
 
 			foreach ( $attachment_keys as $key ) {
-				$args = array(
+				$args    = array(
 					'Bucket'     => $bucket,
 					'Key'        => $key,
-					'CopySource' => "{$s3_info['bucket']}/{$key}",
+					'CopySource' => urlencode( "{$provider_info['bucket']}/{$key}" ),
 					'ACL'        => $this->determine_key_acl( $attachment_id, $key ),
 				);
-				$size = AS3CF_Utils::get_intermediate_size_from_filename( $attachment_id, wp_basename( $key ) );
-				$args = apply_filters( 'as3cf_object_meta', $args, $attachment_id, $size, true );
-
-				$commands[] = $client->getCommand( 'CopyObject', $args );
+				$size    = AS3CF_Utils::get_intermediate_size_from_filename( $attachment_id, wp_basename( $key ) );
+				$items[] = apply_filters( 'as3cf_object_meta', $args, $attachment_id, $size, true );
 			}
 		}
 
-		try {
-			$client->execute( $commands );
-		} catch ( CommandTransferException $e ) {
-			$failed = $e->getFailedCommands();
-		} catch ( Exception $e ) {
-			AS3CF_Error::log( $e->getMessage() );
+		$failures = array();
 
-			return;
+		if ( ! empty( $items ) ) {
+			$client = $this->as3cf->get_provider_client( $region, true );
+			try {
+				$failures = $client->copy_objects( $items );
+			} catch ( Exception $e ) {
+				AS3CF_Error::log( $e->getMessage() );
+
+				return;
+			}
 		}
 
-		if ( ! empty( $failed ) ) {
-			$keys = $this->handle_failed_keys( $keys, $failed, $blog_id );
+		$failures = $failures + $skipped;
+
+		if ( ! empty( $failures ) ) {
+			$keys = $this->handle_failed_keys( $keys, $failures, $blog_id );
 		}
 
-		$this->update_attachment_s3_info( $keys, $bucket, $region );
+		$this->update_attachment_provider_info( $keys, $bucket, $region );
 	}
 
 	/**
@@ -115,18 +129,16 @@ class Copy_Buckets_Process extends Background_Tool_Process {
 	 * Handle failed keys.
 	 *
 	 * @param array $keys
-	 * @param array $failed
+	 * @param array $failures
 	 * @param int   $blog_id
 	 *
 	 * @return array
 	 */
-	protected function handle_failed_keys( $keys, $failed, $blog_id ) {
-		foreach ( $failed as $failure ) {
+	protected function handle_failed_keys( $keys, $failures, $blog_id ) {
+		foreach ( $failures as $failure ) {
 			foreach ( $keys as $attachment_id => $attachment_keys ) {
-				if ( false !== array_search( $failure->get( 'Key' ), $attachment_keys ) ) {
-					$key       = $failure->get( 'Key' );
-					$message   = $failure->getResult()->get( 'Message' );
-					$error_msg = sprintf( __( 'Error copying %s between buckets: %s', 'amazon-s3-and-cloudfront' ), $key, $message );
+				if ( false !== array_search( $failure['Key'], $attachment_keys ) ) {
+					$error_msg = sprintf( __( 'Error copying %s between buckets: %s', 'amazon-s3-and-cloudfront' ), $failure['Key'], $failure['Message'] );
 
 					$this->record_error( $blog_id, $attachment_id, $error_msg );
 
@@ -147,18 +159,18 @@ class Copy_Buckets_Process extends Background_Tool_Process {
 	 * @param string $bucket
 	 * @param string $region
 	 */
-	protected function update_attachment_s3_info( $keys, $bucket, $region ) {
+	protected function update_attachment_provider_info( $keys, $bucket, $region ) {
 		if ( empty( $keys ) ) {
 			return;
 		}
 
 		foreach ( $keys as $attachment_id => $attachment_keys ) {
-			$s3_info = $this->as3cf->get_attachment_s3_info( $attachment_id );
+			$provider_info = $this->as3cf->get_attachment_provider_info( $attachment_id );
 
-			$s3_info['bucket'] = $bucket;
-			$s3_info['region'] = $region;
+			$provider_info['bucket'] = $bucket;
+			$provider_info['region'] = $region;
 
-			update_post_meta( $attachment_id, 'amazonS3_info', $s3_info );
+			update_post_meta( $attachment_id, 'amazonS3_info', $provider_info );
 		}
 	}
 
@@ -168,7 +180,7 @@ class Copy_Buckets_Process extends Background_Tool_Process {
 	 * @return string
 	 */
 	protected function get_complete_message() {
-		return __( '<strong>WP Offload S3</strong> &mdash; Finished copying media files to new bucket.', 'amazon-s3-and-cloudfront' );
+		return __( '<strong>WP Offload Media</strong> &mdash; Finished copying media files to new bucket.', 'amazon-s3-and-cloudfront' );
 	}
 
 }

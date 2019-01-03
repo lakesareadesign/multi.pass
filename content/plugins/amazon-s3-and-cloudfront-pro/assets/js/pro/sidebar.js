@@ -1,4 +1,4 @@
-(function( $, _ ) {
+( function( $, _ ) {
 
 	/**
 	 * The object that handles the sidebar.
@@ -425,7 +425,7 @@
 			var chart;
 
 			var currentState = function( percentage ) {
-				return data.states[ percentage ] || data.states[1];
+				return data.states[ percentage ] || data.states[ 1 ];
 			};
 			var updateTitle = function( percentage ) {
 				var title = data.i18n[ 'title_' + currentState( percentage ) ] || data.i18n.title_partial_complete;
@@ -454,7 +454,7 @@
 
 					// Only calculate percentage if total_items > 0 to prevent division by zero.
 					if ( status.total_items > 0 ) {
-						percentage = ( status.total_on_s3 / status.total_items ) * 100;
+						percentage = ( status.total_on_provider / status.total_items ) * 100;
 					}
 
 					if ( 0 < percentage && percentage < 1 ) {
@@ -491,7 +491,7 @@
 				];
 
 				this.$el.find( 'svg path' ).attr( 'd',
-					'M0,0 L' + this.radius + ',0 A' + this.radius + ',' + this.radius + ' 0 1,1 ' + coords[0] + ',' + coords[1] + ' Z'
+					'M0,0 L' + this.radius + ',0 A' + this.radius + ',' + this.radius + ' 0 1,1 ' + coords[ 0 ] + ',' + coords[ 1 ] + ' Z'
 				);
 				this.value = percentage;
 			};
@@ -521,4 +521,4 @@
 		}, as3cfpro.Sidebar.handleManualAction );
 	} );
 
-})( jQuery, _ );
+} )( jQuery, _ );

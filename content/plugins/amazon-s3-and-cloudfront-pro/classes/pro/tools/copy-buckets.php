@@ -1,10 +1,10 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Tools;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Tools;
 
-use DeliciousBrains\WP_Offload_S3\Pro\Background_Processes\Background_Tool_Process;
-use DeliciousBrains\WP_Offload_S3\Pro\Background_Processes\Copy_Buckets_Process;
-use DeliciousBrains\WP_Offload_S3\Pro\Background_Tool;
+use DeliciousBrains\WP_Offload_Media\Pro\Background_Processes\Background_Tool_Process;
+use DeliciousBrains\WP_Offload_Media\Pro\Background_Processes\Copy_Buckets_Process;
+use DeliciousBrains\WP_Offload_Media\Pro\Background_Tool;
 
 class Copy_Buckets extends Background_Tool {
 
@@ -19,12 +19,20 @@ class Copy_Buckets extends Background_Tool {
 	protected $tab = 'media';
 
 	/**
+	 * @var array
+	 */
+	protected static $show_tool_constants = array(
+		'AS3CF_SHOW_COPY_BUCKETS_TOOL',
+		'WPOS3_SHOW_COPY_BUCKETS_TOOL',
+	);
+
+	/**
 	 * Initialize the tool.
 	 */
 	public function init() {
 		parent::init();
 
-		if ( ! $this->as3cf->is_pro_plugin_setup() ) {
+		if ( ! $this->as3cf->is_pro_plugin_setup( true ) ) {
 			return;
 		}
 
@@ -40,7 +48,7 @@ class Copy_Buckets extends Background_Tool {
 	 * @return array|bool
 	 */
 	protected function get_sidebar_block_args() {
-		if ( ! $this->as3cf->is_pro_plugin_setup() ) {
+		if ( ! $this->as3cf->is_pro_plugin_setup( true ) ) {
 			return false;
 		}
 
@@ -94,7 +102,7 @@ class Copy_Buckets extends Background_Tool {
 	 * @return bool
 	 */
 	public function should_render() {
-		if ( defined( 'WPOS3_SHOW_COPY_BUCKETS_TOOL' ) && WPOS3_SHOW_COPY_BUCKETS_TOOL ) {
+		if ( false !== static::show_tool_constant() && constant( static::show_tool_constant() ) ) {
 			return true;
 		}
 
@@ -134,7 +142,7 @@ class Copy_Buckets extends Background_Tool {
 	 * @return string
 	 */
 	public function get_more_info_text() {
-		return __( 'Would you like to consolidate your offloaded media files by copying them into the currently selected bucket? All existing S3 URLs will be updated to reference the new bucket.', 'amazon-s3-and-cloudfront' );
+		return __( 'Would you like to consolidate your offloaded media files by copying them into the currently selected bucket? All existing offloaded media URLs will be updated to reference the new bucket.', 'amazon-s3-and-cloudfront' );
 	}
 
 	/**

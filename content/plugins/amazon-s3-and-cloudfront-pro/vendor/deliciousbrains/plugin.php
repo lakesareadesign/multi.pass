@@ -81,6 +81,10 @@ class Delicious_Brains_API_Plugin {
 	 */
 	public $notices_hook;
 	/**
+	 * @var string Action hook fired on plugin page load
+	 */
+	public $load_hook;
+	/**
 	 * @var string URL to purchase a license for the plugin
 	 */
 	public $purchase_url;

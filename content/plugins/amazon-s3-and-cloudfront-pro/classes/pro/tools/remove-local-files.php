@@ -1,10 +1,10 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Tools;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Tools;
 
-use DeliciousBrains\WP_Offload_S3\Pro\Background_Processes\Background_Tool_Process;
-use DeliciousBrains\WP_Offload_S3\Pro\Background_Processes\Remove_Local_Files_Process;
-use DeliciousBrains\WP_Offload_S3\Pro\Background_Tool;
+use DeliciousBrains\WP_Offload_Media\Pro\Background_Processes\Background_Tool_Process;
+use DeliciousBrains\WP_Offload_Media\Pro\Background_Processes\Remove_Local_Files_Process;
+use DeliciousBrains\WP_Offload_Media\Pro\Background_Tool;
 
 class Remove_Local_Files extends Background_Tool {
 
@@ -123,7 +123,7 @@ class Remove_Local_Files extends Background_Tool {
 	}
 
 	/**
-	 * Count media files on S3.
+	 * Count media files in bucket.
 	 *
 	 * @return int
 	 */
@@ -131,7 +131,7 @@ class Remove_Local_Files extends Background_Tool {
 		static $count;
 
 		if ( is_null( $count ) ) {
-			$count = $this->as3cf->get_media_library_s3_total( true );
+			$count = $this->as3cf->get_media_library_provider_total( true );
 		}
 
 		return $count;
@@ -152,7 +152,7 @@ class Remove_Local_Files extends Background_Tool {
 	 * @return string
 	 */
 	public function get_more_info_text() {
-		return __( 'You can use this tool to delete all Media Library files from your local server that have already been uploaded to S3.', 'amazon-s3-and-cloudfront' );
+		return __( 'You can use this tool to delete all Media Library files from your local server that have already been offloaded.', 'amazon-s3-and-cloudfront' );
 	}
 
 	/**

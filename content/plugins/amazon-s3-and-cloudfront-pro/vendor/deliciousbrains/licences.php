@@ -51,12 +51,13 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 	 * Fire up the actions for the licenses
 	 */
 	function actions() {
-		add_action( 'load-' . $this->plugin->hook_suffix, array( $this, 'remove_licence_when_constant_set' ) );
-		add_action( 'load-' . $this->plugin->hook_suffix, array( $this, 'http_disable_ssl' ) );
-		add_action( 'load-' . $this->plugin->hook_suffix, array( $this, 'http_remove_license' ) );
-		add_action( 'load-' . $this->plugin->hook_suffix, array( $this, 'http_refresh_licence' ) );
+		add_action( $this->plugin->load_hook, array( $this, 'remove_licence_when_constant_set' ) );
+		add_action( $this->plugin->load_hook, array( $this, 'http_disable_ssl' ) );
+		add_action( $this->plugin->load_hook, array( $this, 'http_remove_licence' ) );
+		add_action( $this->plugin->load_hook, array( $this, 'http_refresh_licence' ) );
 
 		add_action( 'wp_ajax_' . $this->plugin->prefix . '_activate_licence', array( $this, 'ajax_activate_licence' ) );
+		add_action( 'wp_ajax_' . $this->plugin->prefix . '_remove_licence', array( $this, 'ajax_remove_licence' ) );
 		add_action( 'wp_ajax_' . $this->plugin->prefix . '_check_licence', array( $this, 'ajax_check_licence' ) );
 		add_action( 'wp_ajax_' . $this->plugin->prefix . '_reactivate_licence', array( $this, 'ajax_reactivate_licence' ) );
 	}
@@ -190,7 +191,7 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 		$licence = $this->get_licence_key();
 
 		if ( empty( $licence ) ) {
-			$settings_link = sprintf( '<a href="%s" class="js-action-link enter-licence">%s</a>', $this->admin_url( $this->plugin->settings_url_path ) . $this->plugin->settings_url_hash, __( 'enter your license key', 'amazon-s3-and-cloudfront' ) );
+			$settings_link = sprintf( '<a href="%s" class="js-action-link as3cf-enter-licence">%s</a>', $this->admin_url( $this->plugin->settings_url_path ) . $this->plugin->settings_url_hash, __( 'enter your license key', 'amazon-s3-and-cloudfront' ) );
 			$message       = sprintf( __( 'To finish activating %1$s, %2$s. If you don\'t have a license key, you may <a href="%3$s">purchase one</a>.', 'amazon-s3-and-cloudfront' ), $this->plugin->name, $settings_link, $this->plugin->purchase_url );
 
 			return array( 'errors' => array( 'no_licence' => $message ) );
@@ -271,7 +272,7 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 	 *
 	 * @param bool $trans
 	 *
-	 * @return string|void
+	 * @return string
 	 */
 	function get_licence_status_message( $trans = false ) {
 		$licence               = $this->get_licence_key();
@@ -335,7 +336,7 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 			$message .= sprintf( '<p>%s</p>', $error );
 		}
 
-		return apply_filters( $this->plugin->prefix . '_licence_status_message' , $message, $errors );
+		return apply_filters( $this->plugin->prefix . '_licence_status_message', $message, $errors );
 	}
 
 	/**
@@ -358,7 +359,7 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 
 			$masked_licence .= '<span class="bull">';
 			$masked_licence .= str_repeat( '&bull;', strlen( $licence_part ) ) . '</span>&ndash;';
-			-- $i;
+			--$i;
 		}
 
 		return $masked_licence;
@@ -402,19 +403,47 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 	 *
 	 * @return void
 	 */
-	function http_remove_license() {
+	function http_remove_licence() {
 		if ( isset( $_GET[ $this->plugin->prefix . '-remove-licence' ] ) && wp_verify_nonce( $_GET['nonce'], $this->plugin->prefix . '-remove-licence' ) ) { // input var okay
-			$this->set_licence_key( '' );
-			// delete these transients as they contain information only valid for authenticated licence holders
-			delete_site_transient( 'update_plugins' );
-			delete_site_transient( $this->plugin->prefix . '_upgrade_data' );
-			delete_site_transient( $this->plugin->prefix . '_licence_response' );
-			do_action( $this->plugin->prefix . '_http_remove_licence' );
+			$this->remove_licence();
 
 			// redirecting here because we don't want to keep the query string in the web browsers address bar
 			wp_redirect( $this->admin_url( $this->plugin->settings_url_path . $this->plugin->settings_url_hash ) );
 			exit;
 		}
+	}
+
+	/**
+	 * Ajax licence removal handler.
+	 */
+	public function ajax_remove_licence() {
+		check_ajax_referer( 'remove-licence' );
+
+		if ( $this->is_licence_constant() ) {
+			wp_send_json_error( array(
+				'message' => __( 'Your licence key is currently defined via a constant and must be removed manually.', 'amazon-s3-and-cloudfront' ),
+			) );
+		}
+
+		$this->remove_licence();
+
+		wp_send_json_success( array(
+			'message' => __( 'Licence key removed successfully.', 'amazon-s3-and-cloudfront' ),
+		) );
+	}
+
+	/**
+	 * Remove the license key.
+	 */
+	protected function remove_licence() {
+		$this->set_licence_key( '' );
+
+		// delete these transients as they contain information only valid for authenticated licence holders
+		delete_site_transient( 'update_plugins' );
+		delete_site_transient( $this->plugin->prefix . '_upgrade_data' );
+		delete_site_transient( $this->plugin->prefix . '_licence_response' );
+
+		do_action( $this->plugin->prefix . '_http_remove_licence' );
 	}
 
 	/**
@@ -443,51 +472,48 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 
 	/**
 	 * AJAX handler for activating a licence.
-	 *
-	 * @return string (JSON)
 	 */
 	public function ajax_activate_licence() {
 		$this->check_ajax_referer( 'activate-licence' );
 
-		$licence_key = sanitize_key( $_POST['licence_key'] ); // input var okay
+		$licence_key       = filter_input( INPUT_POST, 'licence_key' );
+		$api_response_json = $this->activate_licence( $licence_key, $this->home_url );
+		$api_response      = json_decode( $api_response_json, true );
+		$api_down          = ! empty( $api_response['dbrains_api_down'] );
+		$response          = array(
+			'message' => __( 'License activated successfully.', 'amazon-s3-and-cloudfront' ),
+		);
 
-		$response = $this->activate_licence( $licence_key, $this->home_url );
+		$errors = isset( $api_response['errors'] ) ? $api_response['errors'] : array();
 
-		$decoded_response = json_decode( $response, true );
+		// Remove insignificant errors
+		unset( $errors['activation_deactivated'], $errors['subscription_expired'] );
 
-		if ( empty( $decoded_response['errors'] ) && empty( $decoded_response['dbrains_api_down'] ) ) {
+		if ( ! $errors && ! $api_down ) {
 			$this->set_licence_key( $licence_key );
-			$decoded_response['masked_licence'] = $this->get_formatted_masked_licence();
+			$response['masked_licence'] = $this->get_masked_licence();
 		} else {
-			if ( isset( $decoded_response['errors']['activation_deactivated'] ) ) {
-				$this->set_licence_key( $licence_key );
-			} elseif ( isset( $decoded_response['errors']['subscription_expired'] ) || isset( $decoded_response['dbrains_api_down'] ) ) {
-				$this->set_licence_key( $licence_key );
-				$decoded_response['masked_licence'] = $this->get_formatted_masked_licence();
+			set_site_transient( $this->plugin->prefix . '_licence_response', $api_response_json, $this->transient_timeout );
+
+			$response['message'] = $this->get_licence_status_message( $api_response );
+
+			if ( $api_down ) {
+				$errors[] = $api_response['dbrains_api_down'];
 			}
 
-			set_site_transient( $this->plugin->prefix . '_licence_response', $response, $this->transient_timeout );
-
-			$errors = sprintf( '<div class="notification-message warning-notice inline-message invalid-licence">%s</div>', $this->get_licence_status_message( $decoded_response ) );
-
-			$decoded_response['htmlErrors'] = array( $errors );
-
-			if ( isset( $decoded_response['dbrains_api_down'] ) ) {
-				$decoded_response['errors'][] = $decoded_response['dbrains_api_down'];
-			}
-
-			$decoded_response = apply_filters( $this->plugin->prefix . '_activate_licence_response', $decoded_response );
+			$response['errors'] = $errors;
+			$response           = apply_filters( $this->plugin->prefix . '_activate_licence_response', $response );
 		}
 
-		$result = $this->end_ajax( json_encode( $decoded_response ) );
+		if ( $errors ) {
+			wp_send_json_error( $response );
+		}
 
-		return $result;
+		wp_send_json_success( $response );
 	}
 
 	/**
 	 * AJAX handler for checking a licence.
-	 *
-	 * @return string (JSON)
 	 */
 	public function ajax_check_licence() {
 		$this->check_ajax_referer( 'check-licence' );
@@ -526,11 +552,7 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 
 		$decoded_response = apply_filters( $this->plugin->prefix . '_ajax_check_licence_response', $decoded_response );
 
-		$response = json_encode( $decoded_response );
-
-		$result = $this->end_ajax( $response );
-
-		return $result;
+		wp_send_json( $decoded_response );
 	}
 
 	/**
@@ -595,9 +617,31 @@ abstract class Delicious_Brains_API_Licences extends Delicious_Brains_API_Base {
 		if ( false === $result ) {
 			$return = array(
 				$this->plugin->prefix . '_error' => 1,
-				'body'                           => sprintf( __( 'Invalid nonce for: %s', 'amazon-s3-and-cloudfront' ), $action )
+				'body'                           => sprintf( __( 'Invalid nonce for: %s', 'amazon-s3-and-cloudfront' ), $action ),
 			);
 			$this->end_ajax( json_encode( $return ) );
 		}
+	}
+
+	/**
+	 * Get the raw licence masked with bullets except for the last segment.
+	 *
+	 * @return bool|string false if no licence, masked string otherwise.
+	 */
+	public function get_masked_licence() {
+		$licence_key = $this->get_licence_key();
+
+		if ( ! $licence_key ) {
+			return false;
+		}
+
+		$licence_segments  = explode( '-', $licence_key );
+		$visible_segment   = array_pop( $licence_segments );
+		$masked_segments   = array_map( function ( $segment ) {
+			return str_repeat( '•', strlen( $segment ) );
+		}, $licence_segments );
+		$masked_segments[] = $visible_segment;
+
+		return join( '-', $masked_segments );
 	}
 }

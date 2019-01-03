@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Integrations;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Integrations;
 
 use Amazon_S3_And_CloudFront;
 use AS3CF_Error;
@@ -49,10 +49,10 @@ class Meta_Slider extends Integration {
 	 * @return string
 	 */
 	public function metaslider_attachment_url( $url, $slide_id ) {
-		$s3_url = $this->as3cf->get_attachment_url( $slide_id );
+		$provider_url = $this->as3cf->get_attachment_url( $slide_id );
 
-		if ( ! is_wp_error( $s3_url ) && false !== $s3_url ) {
-			return $s3_url;
+		if ( ! is_wp_error( $provider_url ) && false !== $provider_url ) {
+			return $provider_url;
 		}
 
 		return $url;
@@ -88,11 +88,11 @@ class Meta_Slider extends Integration {
 	 * @param bool  $pre
 	 * @param mixed $data
 	 * @param int   $post_id
-	 * @param mixed $old_s3object
+	 * @param mixed $old_provider_object
 	 *
 	 * @return bool
 	 */
-	public function layer_slide_abort_upload( $pre, $data, $post_id, $old_s3object ) {
+	public function layer_slide_abort_upload( $pre, $data, $post_id, $old_provider_object ) {
 		if ( ! $this->is_layer_slide() ) {
 			return $pre;
 		}
@@ -100,7 +100,7 @@ class Meta_Slider extends Integration {
 		if ( $this->as3cf->get_setting( 'remove-local-file' ) ) {
 			// Download full size image locally so that custom sizes can be generated
 			$file = get_attached_file( $post_id, true );
-			$this->as3cf->plugin_compat->copy_s3_file_to_server( $old_s3object, $file );
+			$this->as3cf->plugin_compat->copy_provider_file_to_server( $old_provider_object, $file );
 
 			$this->post_id = $post_id;
 		}
@@ -117,12 +117,12 @@ class Meta_Slider extends Integration {
 	 *
 	 * @param array $paths
 	 * @param int   $post_id
-	 * @param array $s3object
+	 * @param array $provider_object
 	 * @param bool  $remove_backup_sizes
 	 *
 	 * @return array
 	 */
-	public function layer_slide_remove_attachment_paths( $paths, $post_id, $s3object, $remove_backup_sizes ) {
+	public function layer_slide_remove_attachment_paths( $paths, $post_id, $provider_object, $remove_backup_sizes ) {
 		$slider = get_post_meta( $post_id, 'ml-slider_type', true );
 
 		if ( 'html_overlay' !== $slider ) {
@@ -213,39 +213,40 @@ class Meta_Slider extends Integration {
 			return;
 		}
 
-		if ( ! $this->as3cf->is_plugin_setup() ) {
+		if ( ! $this->as3cf->is_plugin_setup( true ) ) {
 			return;
 		}
 
-		if ( ! ( $s3object = $this->as3cf->get_attachment_s3_info( $object_id ) ) && ! $this->as3cf->get_setting( 'copy-to-s3' ) ) {
+		if ( ! ( $provider_object = $this->as3cf->get_attachment_provider_info( $object_id ) ) && ! $this->as3cf->get_setting( 'copy-to-s3' ) ) {
 			// Abort if not already uploaded to S3 and the copy setting is off
 			return;
 		}
 
-		$this->upload_attachment_backup_sizes( $object_id, $s3object, $data );
+		$this->upload_attachment_backup_sizes( $object_id, $provider_object, $data );
 	}
 
 	/**
 	 * Upload attachment backup sizes
 	 *
 	 * @param int   $object_id
-	 * @param array $s3object
+	 * @param array $provider_object
 	 * @param mixed $data
 	 */
-	private function upload_attachment_backup_sizes( $object_id, $s3object, $data ) {
+	private function upload_attachment_backup_sizes( $object_id, $provider_object, $data ) {
 		$region = '';
-		$prefix = trailingslashit( dirname( $s3object['key'] ) );
-		$acl    = Amazon_S3_And_CloudFront::DEFAULT_ACL;
+		$prefix = trailingslashit( dirname( $provider_object['key'] ) );
 
-		if ( isset( $s3object['region'] ) ) {
-			$region = $s3object['region'];
+		if ( isset( $provider_object['region'] ) ) {
+			$region = $provider_object['region'];
 		}
 
-		if ( isset( $s3object['acl'] ) ) {
-			$acl = $s3object['acl'];
-		}
+		$provider_client = $this->as3cf->get_provider_client( $region, true );
 
-		$s3client = $this->as3cf->get_s3client( $region, true );
+		$acl = $this->as3cf->get_provider()->get_default_acl();
+
+		if ( isset( $provider_object['acl'] ) ) {
+			$acl = $provider_object['acl'];
+		}
 
 		foreach ( $data as $file ) {
 			if ( ! isset( $file['path'] ) ) {
@@ -257,7 +258,7 @@ class Meta_Slider extends Integration {
 			}
 
 			$args = array(
-				'Bucket'       => $s3object['bucket'],
+				'Bucket'       => $provider_object['bucket'],
 				'Key'          => $prefix . $file['file'],
 				'ACL'          => $acl,
 				'SourceFile'   => $file['path'],
@@ -268,9 +269,9 @@ class Meta_Slider extends Integration {
 			$args = apply_filters( 'as3cf_object_meta', $args, $object_id, $size, false );
 
 			try {
-				$s3client->putObject( $args );
+				$provider_client->upload_object( $args );
 			} catch ( Exception $e ) {
-				AS3CF_Error::log( 'Error uploading ' . $args['SourceFile'] . ' to S3: ' . $e->getMessage(), 'META_SLIDER' );
+				AS3CF_Error::log( 'Error offloading ' . $args['SourceFile'] . ' to the bucket: ' . $e->getMessage(), 'META_SLIDER' );
 			}
 		}
 	}

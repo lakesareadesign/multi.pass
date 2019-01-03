@@ -1,16 +1,17 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3_Assets_Pull;
+namespace DeliciousBrains\WP_Offload_Media_Assets_Pull;
 
 use AS3CF_Utils;
-use DeliciousBrains\WP_Offload_S3_Assets_Pull\Exceptions\Domain_Check_Exception;
-use DeliciousBrains\WP_Offload_S3_Assets_Pull\Exceptions\HTTP_Response_Exception;
-use DeliciousBrains\WP_Offload_S3_Assets_Pull\Exceptions\Invalid_Response_Code_Exception;
-use DeliciousBrains\WP_Offload_S3_Assets_Pull\Exceptions\Invalid_Response_Type_Exception;
-use DeliciousBrains\WP_Offload_S3_Assets_Pull\Exceptions\Malformed_Query_String_Exception;
-use DeliciousBrains\WP_Offload_S3_Assets_Pull\Exceptions\Malformed_Response_Exception;
-use DeliciousBrains\WP_Offload_S3_Assets_Pull\Exceptions\Ssl_Connection_Exception;
-use DeliciousBrains\WP_Offload_S3_Assets_Pull\Exceptions\Unresolveable_Hostname_Exception;
+use DeliciousBrains\WP_Offload_Media_Assets_Pull\Exceptions\Domain_Check_Exception;
+use DeliciousBrains\WP_Offload_Media_Assets_Pull\Exceptions\HTTP_Response_Exception;
+use DeliciousBrains\WP_Offload_Media_Assets_Pull\Exceptions\Invalid_Response_Code_Exception;
+use DeliciousBrains\WP_Offload_Media_Assets_Pull\Exceptions\Invalid_Response_Type_Exception;
+use DeliciousBrains\WP_Offload_Media_Assets_Pull\Exceptions\Malformed_Query_String_Exception;
+use DeliciousBrains\WP_Offload_Media_Assets_Pull\Exceptions\Malformed_Response_Exception;
+use DeliciousBrains\WP_Offload_Media_Assets_Pull\Exceptions\S3_Bucket_Origin_Exception;
+use DeliciousBrains\WP_Offload_Media_Assets_Pull\Exceptions\Ssl_Connection_Exception;
+use DeliciousBrains\WP_Offload_Media_Assets_Pull\Exceptions\Unresolveable_Hostname_Exception;
 use InvalidArgumentException;
 use WP_Error;
 use WP_Http;
@@ -18,7 +19,7 @@ use WP_Http;
 /**
  * Class Domain_Check
  *
- * @package DeliciousBrains\WP_Offload_S3_Assets_Pull
+ * @package DeliciousBrains\WP_Offload_Media_Assets_Pull
  *
  * @property-read $domain
  */
@@ -108,6 +109,8 @@ class Domain_Check {
 	 * @param string $url
 	 *
 	 * @return array
+	 *
+	 * @throws Domain_Check_Exception
 	 */
 	public function test_endpoint( $url ) {
 		$this->validate();
@@ -115,6 +118,7 @@ class Domain_Check {
 
 		$response = $this->dispatch_request( $url );
 
+		$this->check_response_headers( wp_remote_retrieve_headers( $response ) );
 		$this->check_response_code( wp_remote_retrieve_response_code( $response ) );
 		$this->check_response_type( wp_remote_retrieve_header( $response, 'content-type' ) );
 		$this->check_response_body( wp_remote_retrieve_body( $response ) );
@@ -212,7 +216,7 @@ class Domain_Check {
 		$response    = wp_remote_get( $request_url, array(
 			// CloudFront origin timeout is configurable in Origin settings
 			'timeout'   => apply_filters( 'as3cf_assets_pull_test_endpoint_timeout', 15 ),
-			
+
 			// Verify SSL certificates by default
 			'sslverify' => apply_filters( 'as3cf_assets_pull_test_endpoint_sslverify', true, $this->domain ),
 		) );
@@ -242,6 +246,19 @@ class Domain_Check {
 
 		if ( empty( $raw_body['ver'] ) ) {
 			throw new Malformed_Query_String_Exception( 'Query string missing "ver" parameter. Check your configuration.' );
+		}
+	}
+
+	/**
+	 * Checks response headers for possible errors.
+	 *
+	 * @param array $response_headers
+	 *
+	 * @throws S3_Bucket_Origin_Exception
+	 */
+	public static function check_response_headers( $response_headers ) {
+		if ( ! empty( $response_headers['server'] ) && 'AmazonS3' === $response_headers['server'] ) {
+			throw new S3_Bucket_Origin_Exception( 'S3 bucket set as CDN origin.' );
 		}
 	}
 

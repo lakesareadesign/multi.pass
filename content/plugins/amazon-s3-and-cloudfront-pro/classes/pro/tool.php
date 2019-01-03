@@ -1,7 +1,8 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro;
+namespace DeliciousBrains\WP_Offload_Media\Pro;
 
+use AS3CF_Utils;
 use AS3CF_Pro_Utils;
 
 abstract class Tool {
@@ -14,7 +15,7 @@ abstract class Tool {
 	/**
 	 * @var string
 	 */
-	protected $prefix = 'wpos3';
+	protected $prefix = 'as3cf';
 
 	/**
 	 * @var string
@@ -57,6 +58,11 @@ abstract class Tool {
 	protected $errors_key;
 
 	/**
+	 * @var array
+	 */
+	protected static $show_tool_constants = array();
+
+	/**
 	 * AS3CF_Tool constructor.
 	 *
 	 * @param \Amazon_S3_And_CloudFront_Pro $as3cf
@@ -64,7 +70,7 @@ abstract class Tool {
 	public function __construct( $as3cf ) {
 		$this->as3cf             = $as3cf;
 		$this->tool_slug         = str_replace( array( ' ', '_' ), '-', $this->tool_key );
-		$this->errors_key_prefix = 'wpos3_tool_errors_';
+		$this->errors_key_prefix = 'as3cf_tool_errors_';
 		$this->errors_key        = $this->errors_key_prefix . $this->tool_key;
 	}
 
@@ -317,4 +323,12 @@ abstract class Tool {
 		return '';
 	}
 
+	/**
+	 * Get the constant used to define whether tool should always be shown (implemented as required by subclass).
+	 *
+	 * @return string|false Constant name if defined, otherwise false
+	 */
+	public static function show_tool_constant() {
+		return AS3CF_Utils::get_first_defined_constant( static::$show_tool_constants );
+	}
 }

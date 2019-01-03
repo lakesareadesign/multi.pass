@@ -7,6 +7,6 @@
 	<?php echo $plugins; ?>
 
 	<p>
-		<?php _e( 'Integrations are now included in the core WP Offload S3 plugin. Once these addons are removed this message will go away.', 'amazon-s3-and-cloudfront' ); ?>
+		<?php _e( 'Integrations are now included in the core WP Offload Media plugin. Once these addons are removed this message will go away.', 'amazon-s3-and-cloudfront' ); ?>
 	</p>
 </div>

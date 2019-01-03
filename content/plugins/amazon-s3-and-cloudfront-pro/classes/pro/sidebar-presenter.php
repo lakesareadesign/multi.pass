@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro;
+namespace DeliciousBrains\WP_Offload_Media\Pro;
 
 use Amazon_S3_And_CloudFront_Pro;
 
@@ -50,7 +50,6 @@ class Sidebar_Presenter {
 	public function init( $as3cf ) {
 		$this->as3cf = $as3cf;
 
-		add_action( 'as3cf_after_settings', array( $this, 'render_sidebar' ) );
 		add_action( 'as3cfpro_load_assets', array( $this, 'load_assets' ) );
 
 		// JS data

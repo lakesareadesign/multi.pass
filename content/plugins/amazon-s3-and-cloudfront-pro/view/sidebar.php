@@ -1,25 +1,25 @@
 <div class="as3cf-sidebar">
 
-	<a class="as3cf-banner" href="<?php echo $this->dbrains_url( '/wp-offload-s3/', array(
+	<a class="as3cf-banner" href="<?php echo $this->dbrains_url( '/wp-offload-media/', array(
 		'utm_campaign' => 'WP+Offload+S3',
 		'utm_content'  => 'sidebar',
 	) ); ?>">
-		<h1>Upgrade</h1>
 	</a>
 
 	<div class="as3cf-upgrade-details">
+		<h1>Upgrade</h1>
 
 		<ul>
-			<li><?php echo wptexturize( __( 'Upload existing Media Library to S3', 'amazon-s3-and-cloudfront' ) ); // xss ok ?></li>
-			<li><?php echo wptexturize( __( 'Manage S3 files in WordPress', 'amazon-s3-and-cloudfront' ) ); // xss ok ?></li>
-			<li><?php echo wptexturize( __( 'Assets addon - Serve your CSS & JS from S3/CloudFront', 'amazon-s3-and-cloudfront' ) ); // xss ok ?></li>
-			<li><?php echo wptexturize( __( 'WooCommerce addon', 'amazon-s3-and-cloudfront' ) ); // xss ok ?></li>
-			<li><?php echo wptexturize( __( 'Easy Digital Downloads addon', 'amazon-s3-and-cloudfront' ) ); // xss ok ?></li>
+			<li><?php echo wptexturize( __( 'Offload existing Media Library items', 'amazon-s3-and-cloudfront' ) ); // xss ok ?></li>
+			<li><?php echo wptexturize( __( 'Manage offloaded files in WordPress', 'amazon-s3-and-cloudfront' ) ); // xss ok ?></li>
+			<li><?php echo wptexturize( __( 'Assets addon - Serve your CSS & JS from CloudFront or another CDN', 'amazon-s3-and-cloudfront' ) ); // xss ok ?></li>
+			<li><?php echo wptexturize( __( 'WooCommerce integration', 'amazon-s3-and-cloudfront' ) ); // xss ok ?></li>
+			<li><?php echo wptexturize( __( 'Easy Digital Downloads integration', 'amazon-s3-and-cloudfront' ) ); // xss ok ?></li>
 			<li><?php echo wptexturize( __( 'PriorityExpert™ email support', 'amazon-s3-and-cloudfront' ) ); // xss ok ?></li>
 		</ul>
 
 		<p>
-			<a href="<?php echo $this->dbrains_url( '/wp-offload-s3/', array(
+			<a href="<?php echo $this->dbrains_url( '/wp-offload-media/', array(
 				'utm_campaign' => 'WP+Offload+S3',
 				'utm_content'  => 'sidebar',
 			) ); ?>"><?php echo __( 'Visit deliciousbrains.com &rarr;', 'amazon-s3-and-cloudfront' ); ?></a>

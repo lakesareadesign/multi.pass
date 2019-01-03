@@ -1,9 +1,9 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Upgrades;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Upgrades;
 
 use Amazon_S3_And_CloudFront;
-use DeliciousBrains\WP_Offload_S3\Upgrades\Network_Upgrade;
+use DeliciousBrains\WP_Offload_Media\Upgrades\Network_Upgrade;
 
 class Disable_Compatibility_Plugins extends Network_Upgrade {
 
@@ -77,9 +77,9 @@ class Disable_Compatibility_Plugins extends Network_Upgrade {
 	 * @return string
 	 */
 	protected function render_notice( $plugins ) {
-		$title     = __( 'WP Offload S3 Addons Deactivated', 'amazon-s3-and-cloudfront' );
-		$message   = __( "We've deactivated the following WP Offload S3 addons:", 'amazon-s3-and-cloudfront' );
-		$more_info = __( 'Integrations are now included in the core WP Offload S3 plugin. The addon plugins listed above can safely be removed.', 'amazon-s3-and-cloudfront' );
+		$title     = __( 'WP Offload Media Addons Deactivated', 'amazon-s3-and-cloudfront' );
+		$message   = __( "We've deactivated the following WP Offload Media addons:", 'amazon-s3-and-cloudfront' );
+		$more_info = __( 'Integrations are now included in the core WP Offload Media plugin. The addon plugins listed above can safely be removed.', 'amazon-s3-and-cloudfront' );
 
 		return '<p><strong>' . $title . '</strong> &mdash; ' . $message . '</p>' . $plugins . '<p>' . $more_info . '</p>';
 	}

@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3_Assets_Pull;
+namespace DeliciousBrains\WP_Offload_Media_Assets_Pull;
 
 use WP_REST_Controller;
 use WP_REST_Request;

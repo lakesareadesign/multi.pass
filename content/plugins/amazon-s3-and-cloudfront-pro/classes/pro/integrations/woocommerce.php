@@ -1,8 +1,7 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Integrations;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Integrations;
 
-use Amazon_S3_And_CloudFront;
 use Exception;
 
 class Woocommerce extends Integration {
@@ -25,8 +24,8 @@ class Woocommerce extends Integration {
 	 */
 	public function init() {
 		add_action( 'admin_enqueue_scripts', array( $this, 'admin_scripts' ) );
-		add_action( 'wp_ajax_as3cf_woo_is_amazon_s3_attachment', array( $this, 'ajax_is_amazon_s3_attachment' ) );
-		add_action( 'woocommerce_process_product_file_download_paths', array( $this, 'make_files_private_on_s3' ), 10, 3 );
+		add_action( 'wp_ajax_as3cf_woo_is_amazon_provider_attachment', array( $this, 'ajax_is_amazon_provider_attachment' ) );
+		add_action( 'woocommerce_process_product_file_download_paths', array( $this, 'make_files_private_on_provider' ), 10, 3 );
 		add_action( 'woocommerce_download_file_as3cf', array( $this, 'download_file' ), 10, 2 );
 		add_filter( 'woocommerce_file_download_method', array( $this, 'add_download_method' ) );
 	}
@@ -40,7 +39,7 @@ class Woocommerce extends Integration {
 		$screen = get_current_screen();
 
 		if ( in_array( $screen->id, array( 'product', 'edit-product' ) ) ) {
-			if ( ! $this->as3cf->is_pro_plugin_setup() ) {
+			if ( ! $this->as3cf->is_pro_plugin_setup( true ) ) {
 				// Don't allow new shortcodes if Pro not set up
 				return;
 			}
@@ -58,7 +57,7 @@ class Woocommerce extends Integration {
 					'input_placeholder'  => __( 'Retrieving...', 'as3cf-woocommerce' ),
 				),
 				'nonces'  => array(
-					'is_amazon_s3_attachment' => wp_create_nonce( 'as3cf_woo_is_amazon_s3_attachment' ),
+					'is_amazon_provider_attachment' => wp_create_nonce( 'as3cf_woo_is_amazon_provider_attachment' ),
 				),
 			) );
 		}
@@ -67,12 +66,17 @@ class Woocommerce extends Integration {
 	/**
 	 * Ajax get s3 info.
 	 */
-	public function ajax_is_amazon_s3_attachment() {
-		$this->as3cf->verify_ajax_request();
-
+	public function ajax_is_amazon_provider_attachment() {
 		$return = false;
 
-		if ( $this->as3cf->get_attachment_s3_info( intval( $_POST['attachment_id'] ) ) ) {
+		/**
+		 * Filter to allow changing the user capability required for adding an offloaded item to a WooCommerce product.
+		 *
+		 * @param string $capability Registered capability identifier
+		 */
+		$capability = apply_filters( 'as3cfpro_woo_use_attachment_capability', null );
+
+		if ( $this->as3cf->verify_ajax_request( $capability, true ) && $this->as3cf->get_attachment_provider_info( intval( $_POST['attachment_id'] ) ) ) {
 			$return = true;
 		}
 
@@ -82,13 +86,13 @@ class Woocommerce extends Integration {
 	/**
 	 * Make file private on Amazon S3.
 	 *
-	 * @param int $post_id
-	 * @param int $deprecated
+	 * @param int   $post_id
+	 * @param int   $deprecated
 	 * @param array $files
 	 *
 	 * @return array
 	 */
-	public function make_files_private_on_s3( $post_id, $deprecated, $files ) {
+	public function make_files_private_on_provider( $post_id, $deprecated, $files ) {
 		$new_attachments = array();
 
 		foreach ( $files as $file ) {
@@ -101,16 +105,16 @@ class Woocommerce extends Integration {
 
 			$new_attachments[] = $attachment_id;
 
-			if ( ! ( $s3object = $this->as3cf->get_attachment_s3_info( $attachment_id ) ) ) {
+			if ( ! ( $provider_object = $this->as3cf->get_attachment_provider_info( $attachment_id ) ) ) {
 				// Not S3 upload, ignore
 				continue;
 			}
 
-			if ( $this->as3cf->is_pro_plugin_setup() ) {
+			if ( $this->as3cf->is_pro_plugin_setup( true ) ) {
 				// Only set new files as private if the Pro plugin is setup
-				$s3object = $this->as3cf->set_attachment_acl_on_s3( $attachment_id, $s3object, Amazon_S3_And_CloudFront::PRIVATE_ACL );
-				if ( $s3object && ! is_wp_error( $s3object ) ) {
-					$this->as3cf->make_acl_admin_notice( $s3object );
+				$provider_object = $this->as3cf->set_attachment_acl_on_provider( $attachment_id, $provider_object, $this->as3cf->get_provider()->get_private_acl() );
+				if ( $provider_object && ! is_wp_error( $provider_object ) ) {
+					$this->as3cf->make_acl_admin_notice( $provider_object );
 				}
 			}
 		}
@@ -176,7 +180,7 @@ class Woocommerce extends Integration {
 	/**
 	 * Remove private ACL from S3 if no longer used by WooCommerce.
 	 *
-	 * @param int $post_id
+	 * @param int   $post_id
 	 * @param array $new_attachments
 	 *
 	 * @return void
@@ -195,7 +199,7 @@ class Woocommerce extends Integration {
 			}
 		}
 
-		$removed_attachments = array_diff( $old_attachments , $new_attachments );
+		$removed_attachments = array_diff( $old_attachments, $new_attachments );
 
 		if ( empty( $removed_attachments ) ) {
 			return;
@@ -204,13 +208,13 @@ class Woocommerce extends Integration {
 		global $wpdb;
 
 		foreach ( $removed_attachments as $attachment_id ) {
-			if ( ! ( $s3object = $this->as3cf->get_attachment_s3_info( $attachment_id ) ) ) {
+			if ( ! ( $provider_object = $this->as3cf->get_attachment_provider_info( $attachment_id ) ) ) {
 				// Not an S3 attachment, ignore
 				continue;
 			}
 
-			$bucket = preg_quote( $s3object['bucket'], '@' );
-			$key    = preg_quote( $s3object['key'], '@' );
+			$bucket = preg_quote( $provider_object['bucket'], '@' );
+			$key    = preg_quote( $provider_object['key'], '@' );
 
 			// Check the attachment isn't used by other downloads
 			$sql = $wpdb->prepare( "
@@ -223,8 +227,8 @@ class Woocommerce extends Integration {
 
 			$results = $wpdb->get_results( $sql, ARRAY_A );
 
-			foreach( $results as $result ) {
-				// WP Offload S3
+			foreach ( $results as $result ) {
+				// WP Offload Media
 				if ( preg_match( '@\[amazon_s3\sid=[\'\"]*' . $attachment_id . '[\'\"]*\]@', $result['meta_value'] ) ) {
 					continue 2;
 				}
@@ -239,9 +243,9 @@ class Woocommerce extends Integration {
 			}
 
 			// Set ACL to public
-			$s3object = $this->as3cf->set_attachment_acl_on_s3( $attachment_id, $s3object, Amazon_S3_And_CloudFront::DEFAULT_ACL );
-			if ( $s3object && ! is_wp_error( $s3object ) ) {
-				$this->as3cf->make_acl_admin_notice( $s3object );
+			$provider_object = $this->as3cf->set_attachment_acl_on_provider( $attachment_id, $provider_object, $this->as3cf->get_provider()->get_default_acl() );
+			if ( $provider_object && ! is_wp_error( $provider_object ) ) {
+				$this->as3cf->make_acl_admin_notice( $provider_object );
 			}
 		}
 	}
@@ -273,7 +277,7 @@ class Woocommerce extends Integration {
 			'file' => $file_path,
 		);
 
-		if ( ! $attachment_id || ! $this->as3cf->get_attachment_s3_info( $attachment_id ) ) {
+		if ( ! $attachment_id || ! $this->as3cf->get_attachment_provider_info( $attachment_id ) ) {
 			/*
 			This addon is meant to be a drop-in replacement for the
 			WooCommerce Amazon S3 Storage extension. The latter doesn't encourage people
@@ -295,7 +299,7 @@ class Woocommerce extends Integration {
 				try {
 					$expires    = time() + $expires;
 					$headers    = apply_filters( 'as3cf_woocommerce_download_headers', array( 'ResponseContentDisposition' => 'attachment' ), $file_data );
-					$secure_url = $this->as3cf->get_s3client( $region, true )->getObjectUrl( $atts['bucket'], $atts['object'], $expires, $headers );
+					$secure_url = $this->as3cf->get_provider_client( $region, true )->get_object_url( $atts['bucket'], $atts['object'], $expires, $headers );
 				} catch ( Exception $e ) {
 					return;
 				}
@@ -321,8 +325,8 @@ class Woocommerce extends Integration {
 		}
 
 		$file_data['attachment_id'] = $attachment_id;
-		$headers    = apply_filters( 'as3cf_woocommerce_download_headers', array( 'ResponseContentDisposition' => 'attachment' ), $file_data );
-		$secure_url = $this->as3cf->get_secure_attachment_url( $attachment_id, $expires, null, $headers, true );
+		$headers                    = apply_filters( 'as3cf_woocommerce_download_headers', array( 'ResponseContentDisposition' => 'attachment' ), $file_data );
+		$secure_url                 = $this->as3cf->get_secure_attachment_url( $attachment_id, $expires, null, $headers, true );
 
 		header( 'Location: ' . $secure_url );
 		exit;

@@ -1,13 +1,13 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3_Assets_Pull\Exceptions;
+namespace DeliciousBrains\WP_Offload_Media_Assets_Pull\Exceptions;
 
 class Domain_Check_Exception extends \Exception {
 
 	/**
 	 * @var string Relative path for dbrains link
 	 */
-	protected $more_info = '/wp-offload-s3/doc/assets-pull-domain-check-errors/';
+	protected $more_info = '/wp-offload-media/doc/assets-pull-domain-check-errors/';
 
 	/**
 	 * Get the exception name in key form.

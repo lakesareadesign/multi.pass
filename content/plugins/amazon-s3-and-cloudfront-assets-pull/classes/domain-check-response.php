@@ -1,8 +1,8 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3_Assets_Pull;
+namespace DeliciousBrains\WP_Offload_Media_Assets_Pull;
 
-use DeliciousBrains\WP_Offload_S3_Assets_Pull\Exceptions\Signature_Verification_Exception;
+use DeliciousBrains\WP_Offload_Media_Assets_Pull\Exceptions\Signature_Verification_Exception;
 
 class Domain_Check_Response extends \WP_REST_Response {
 
@@ -34,6 +34,6 @@ class Domain_Check_Response extends \WP_REST_Response {
 	 * @return string
 	 */
 	protected function raw_signature() {
-		return network_home_url() . '|' . json_encode( $this->jsonSerialize() ) . '|' . AUTH_SALT;
+		return \AS3CF_Utils::reduce_url( network_home_url() ) . '|' . json_encode( $this->jsonSerialize() ) . '|' . AUTH_SALT;
 	}
 }

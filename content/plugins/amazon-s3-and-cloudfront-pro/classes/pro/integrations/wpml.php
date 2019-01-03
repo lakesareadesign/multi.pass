@@ -1,6 +1,6 @@
 <?php
 
-namespace DeliciousBrains\WP_Offload_S3\Pro\Integrations;
+namespace DeliciousBrains\WP_Offload_Media\Pro\Integrations;
 
 class Wpml extends Integration {
 
@@ -22,8 +22,8 @@ class Wpml extends Integration {
 	 */
 	public function init() {
 		add_action( 'wpml_media_create_duplicate_attachment', array( $this, 'store_duplicate_attachment_ids' ), 10, 2 );
-		add_action( 'wpos3_post_upload_attachment', array( $this, 'duplicate_s3_meta' ), 10, 2 );
-		add_filter( 'as3cf_pre_upload_attachment', array( $this, 'duplicate_s3_meta_on_upload' ), 10, 2 );
+		add_action( 'as3cf_post_upload_attachment', array( $this, 'duplicate_provider_meta' ), 10, 2 );
+		add_filter( 'as3cf_pre_upload_attachment', array( $this, 'duplicate_provider_meta_on_upload' ), 10, 2 );
 	}
 
 	/**
@@ -34,9 +34,9 @@ class Wpml extends Integration {
 	 * @param int $duplicated_attachment_id
 	 */
 	public function store_duplicate_attachment_ids( $attachment_id, $duplicated_attachment_id ) {
-		if ( ( $old_s3object = $this->as3cf->get_attachment_s3_info( $attachment_id ) ) ) {
+		if ( ( $old_provider_object = $this->as3cf->get_attachment_provider_info( $attachment_id ) ) ) {
 			// Attachment already uploaded to S3, duplicate
-			update_post_meta( $duplicated_attachment_id, 'amazonS3_info', $old_s3object );
+			update_post_meta( $duplicated_attachment_id, 'amazonS3_info', $old_provider_object );
 			$this->duplicate_filesize_total( $attachment_id, $duplicated_attachment_id );
 
 			return;
@@ -47,7 +47,7 @@ class Wpml extends Integration {
 			return;
 		}
 
-		$language_duplicates = get_post_meta( $attachment_id, 'wpos3_wpml_duplicates', true );
+		$language_duplicates = get_post_meta( $attachment_id, 'as3cf_wpml_duplicates', true );
 		if ( ! is_array( $language_duplicates ) ) {
 			$language_duplicates = array();
 		}
@@ -56,43 +56,43 @@ class Wpml extends Integration {
 
 		// Store the duplicate attachment IDs because at this point the created attachment
 		// does not have our S3 metadata yet
-		update_post_meta( $attachment_id, 'wpos3_wpml_duplicates', $language_duplicates );
+		update_post_meta( $attachment_id, 'as3cf_wpml_duplicates', $language_duplicates );
 	}
 
 	/**
 	 * Duplicate our S3 metadata when WPML Media duplicates an attachment for other languages
 	 *
 	 * @param int   $post_id
-	 * @param array $s3Object
+	 * @param array $provider_object
 	 */
-	public function duplicate_s3_meta( $post_id, $s3Object ) {
-		if ( ! ( $language_duplicates = get_post_meta( $post_id, 'wpos3_wpml_duplicates', true ) ) ) {
+	public function duplicate_provider_meta( $post_id, $provider_object ) {
+		if ( ! ( $language_duplicates = get_post_meta( $post_id, 'as3cf_wpml_duplicates', true ) ) ) {
 			// No languages to duplicate for
 			return;
 		}
 
 		foreach ( $language_duplicates as $duplicated_id ) {
-			update_post_meta( $duplicated_id, 'amazonS3_info', $s3Object );
+			update_post_meta( $duplicated_id, 'amazonS3_info', $provider_object );
 			$this->duplicate_filesize_total( $post_id, $duplicated_id );
 		}
 
 		// Cleanup our cache of duplicated IDs
-		delete_post_meta( $post_id, 'wpos3_wpml_duplicates' );
+		delete_post_meta( $post_id, 'as3cf_wpml_duplicates' );
 	}
 
 	/**
-	 * Duplicate 'wpos3_filesize_total' meta if exists for an attachment
+	 * Duplicate 'as3cf_filesize_total' meta if exists for an attachment
 	 *
 	 * @param int $attachment_id
 	 * @param int $new_attachment_id
 	 */
 	private function duplicate_filesize_total( $attachment_id, $new_attachment_id ) {
-		if ( ! ( $filesize = get_post_meta( $attachment_id, 'wpos3_filesize_total', true ) ) ) {
+		if ( ! ( $filesize = get_post_meta( $attachment_id, 'as3cf_filesize_total', true ) ) ) {
 			// No filezie to duplicate
 			return;
 		}
 
-		update_post_meta( $new_attachment_id, 'wpos3_filesize_total', $filesize );
+		update_post_meta( $new_attachment_id, 'as3cf_filesize_total', $filesize );
 	}
 
 	/**
@@ -105,13 +105,13 @@ class Wpml extends Integration {
 	 *
 	 * @return bool
 	 */
-	public function duplicate_s3_meta_on_upload( $pre, $attachment_id ) {
+	public function duplicate_provider_meta_on_upload( $pre, $attachment_id ) {
 		if ( ! get_post_meta( $attachment_id, 'wpml_media_processed', true ) ) {
 			// Attachment hasn't been duplicated by WPML, carry on.
 			return $pre;
 		}
 
-		if ( $this->as3cf->get_attachment_s3_info( $attachment_id ) ) {
+		if ( $this->as3cf->get_attachment_provider_info( $attachment_id ) ) {
 			// Attachment already uploaded to S3, carry on.
 			return $pre;
 		}

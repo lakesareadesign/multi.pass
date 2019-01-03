@@ -135,8 +135,8 @@
 		},
 
 		/**
- 		 * Show bucket select UI.
- 		 */
+		 * Show bucket select UI.
+		 */
 		unlockBucketSelect: function() {
 			$( '#as3cf-change-bucket' ).show();
 			$( '#as3cf-bucket-select-locked' ).hide();
@@ -154,7 +154,7 @@
 
 			var uploader = as3cfpro.Sidebar.getTool( 'media', 'uploader' );
 
-			if ( null != uploader.total_on_s3 && uploader.total_on_s3 <= 0 ) {
+			if ( null != uploader.total_on_provider && uploader.total_on_provider <= 0 ) {
 				return;
 			}
 

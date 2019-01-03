@@ -443,23 +443,19 @@
 				CloudFrontSetupWizard.launch( config.wizard.cloudfront.launch_on_load );
 			}
 
-			if ( currentPullDomain && currentPullDomain !== config.domain_status.domain ) {
+			if ( config.settings.domain && config.settings.domain !== config.domain_status.domain ) {
 				checkDomainStatus();
 			}
 		} )
 	;
 
 	CloudFrontSetupWizard.$el
-		.on( 'as3cf.wizard.launched', function() {
-			if ( ! config.settings.domain && ! currentPullDomain ) {
-				CloudFrontSetupWizard.$el.find( '[name="domain"]' )
-					.val( 'assets.' + location.hostname )
-					.trigger( 'change' )
-				;
-			} else {
-				$assetsTab.trigger( 'as3cf.assetsPull.settingChanged', [ 'domain', currentPullDomain ] );
-			}
-		} )
+		.on( 'as3cf.wizard.launched', _.once( function() {
+			CloudFrontSetupWizard.$el.find( '[name="domain"]' )
+				.val( currentPullDomain || 'assets.' + location.hostname )
+				.trigger( 'change' )
+			;
+		} ) )
 		.on( 'as3cf.wizard.validate', function( event, validations, el, wizard ) {
 			var $el = $( el );
 

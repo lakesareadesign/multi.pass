@@ -23,86 +23,16 @@ if ( ! class_exists( 'AS3CF_Utils' ) ) {
 	 *
 	 */
 	class AS3CF_Utils {
+
 		/**
 		 * Get post ID.
 		 *
-		 * @param null|int|WP_Post $post    Optional. Post ID or post object. Defaults to current post.
+		 * @param null|int|WP_Post $post Optional. Post ID or post object. Defaults to current post.
 		 *
 		 * @return int
 		 */
 		public static function get_post_id( $post = null ) {
 			return (int) get_post_field( 'ID', $post );
-		}
-
-		/**
-		 * Checks if another version of WP Offload S3 (Lite) is active and deactivates it.
-		 * To be hooked on `activated_plugin` so other plugin is deactivated when current plugin is activated.
-		 *
-		 * @param string $plugin
-		 *
-		 * @return bool
-		 */
-		public static function deactivate_other_instances( $plugin ) {
-			if ( ! in_array( basename( $plugin ), array( 'amazon-s3-and-cloudfront-pro.php', 'wordpress-s3.php' ) ) ) {
-				return false;
-			}
-
-			$plugin_to_deactivate             = 'wordpress-s3.php';
-			$deactivated_notice_id            = '1';
-			$activated_plugin_min_version     = '1.1';
-			$plugin_to_deactivate_min_version = '1.0';
-			if ( basename( $plugin ) === $plugin_to_deactivate ) {
-				$plugin_to_deactivate             = 'amazon-s3-and-cloudfront-pro.php';
-				$deactivated_notice_id            = '2';
-				$activated_plugin_min_version     = '1.0';
-				$plugin_to_deactivate_min_version = '1.1';
-			}
-
-			$version = self::get_plugin_version_from_basename( $plugin );
-
-			if ( version_compare( $version, $activated_plugin_min_version, '<' ) ) {
-				return false;
-			}
-
-			if ( is_multisite() ) {
-				$active_plugins = (array) get_site_option( 'active_sitewide_plugins', array() );
-				$active_plugins = array_keys( $active_plugins );
-			} else {
-				$active_plugins = (array) get_option( 'active_plugins', array() );
-			}
-
-			foreach ( $active_plugins as $basename ) {
-				if ( false !== strpos( $basename, $plugin_to_deactivate ) ) {
-					$version = self::get_plugin_version_from_basename( $basename );
-
-					if ( version_compare( $version, $plugin_to_deactivate_min_version, '<' ) ) {
-						return false;
-					}
-
-					set_transient( 'as3cf_deactivated_notice_id', $deactivated_notice_id, HOUR_IN_SECONDS );
-					deactivate_plugins( $basename );
-
-					return true;
-				}
-			}
-
-			return false;
-		}
-
-		/**
-		 * Get plugin data from basename
-		 *
-		 * @param string $basename
-		 *
-		 * @return string
-		 */
-		public static function get_plugin_version_from_basename( $basename ) {
-			require_once ABSPATH . 'wp-admin/includes/plugin.php';
-
-			$plugin_path = WP_PLUGIN_DIR . '/' . $basename;
-			$plugin_data = get_plugin_data( $plugin_path );
-
-			return $plugin_data['Version'];
 		}
 
 		/**
@@ -168,9 +98,9 @@ if ( ! class_exists( 'AS3CF_Utils' ) ) {
 		/**
 		 * Parses a URL into its components. Compatible with PHP < 5.4.7.
 		 *
-		 * @param     $url string The URL to parse.
+		 * @param  string $url       The URL to parse.
 		 *
-		 * @param int $component PHP_URL_ constant for URL component to return.
+		 * @param int     $component PHP_URL_ constant for URL component to return.
 		 *
 		 * @return mixed An array of the parsed components, mixed for a requested component, or false on error.
 		 */
@@ -203,6 +133,10 @@ if ( ! class_exists( 'AS3CF_Utils' ) ) {
 		 * @return bool
 		 */
 		public static function is_url( $string ) {
+			if ( ! is_string( $string ) ) {
+				return false;
+			}
+
 			if ( preg_match( '@^(?:https?:)?//[a-zA-Z0-9\-]+@', $string ) ) {
 				return true;
 			}
@@ -321,12 +255,12 @@ if ( ! class_exists( 'AS3CF_Utils' ) ) {
 		 * Get an attachment's edited S3 keys.
 		 *
 		 * @param int   $attachment_id
-		 * @param array $s3object
+		 * @param array $provider_object
 		 *
 		 * @return array
 		 */
-		public static function get_attachment_edited_keys( $attachment_id, $s3object ) {
-			$prefix = trailingslashit( pathinfo( $s3object['key'], PATHINFO_DIRNAME ) );
+		public static function get_attachment_edited_keys( $attachment_id, $provider_object ) {
+			$prefix = trailingslashit( pathinfo( $provider_object['key'], PATHINFO_DIRNAME ) );
 			$paths  = self::get_attachment_edited_file_paths( $attachment_id );
 			$paths  = array_map( function ( $path ) use ( $prefix ) {
 				return array( 'Key' => $prefix . wp_basename( $path ) );
@@ -412,14 +346,86 @@ if ( ! class_exists( 'AS3CF_Utils' ) ) {
 		 * @return string
 		 */
 		public static function current_base_domain() {
-			$domain = static::current_domain();
-			$parts  = explode( '.', $domain, 2 );
+			return static::base_domain( static::current_domain() );
+		}
 
-			if ( isset( $parts[1] ) && in_array( $parts[0], array( 'www' ) ) ) {
-				return $parts[1];
+		/**
+		 * Get the base domain of the supplied domain.
+		 *
+		 * @param string $domain
+		 *
+		 * @return string
+		 */
+		public static function base_domain( $domain ) {
+			if ( WP_Http::is_ip_address( $domain ) ) {
+				return $domain;
 			}
 
-			return $domain;
+			$parts = explode( '.', $domain );
+
+			// localhost etc.
+			if ( is_string( $parts ) ) {
+				return $domain;
+			}
+
+			if ( count( $parts ) < 3 ) {
+				return $domain;
+			}
+
+			// Just knock off the first segment.
+			unset( $parts[0] );
+
+			return implode( '.', $parts );
+		}
+
+		/**
+		 * Very basic check of whether domain is real.
+		 *
+		 * @param string $domain
+		 *
+		 * @return bool
+		 *
+		 * Note: Very early version, may extend with further "local" domain checks if relevant.
+		 */
+		public static function is_public_domain( $domain ) {
+			// We're not going to test SEO etc. for ip addresses.
+			if ( WP_Http::is_ip_address( $domain ) ) {
+				return false;
+			}
+
+			$parts = explode( '.', $domain );
+
+			// localhost etc.
+			if ( is_string( $parts ) ) {
+				return false;
+			}
+
+			// TODO: Maybe check domain TLD.
+
+			return true;
+		}
+
+		/**
+		 * Is given URL considered SEO friendly?
+		 *
+		 * @param string $url
+		 *
+		 * @return bool
+		 */
+		public static function seo_friendly_url( $url ) {
+			$domain      = static::base_domain( parse_url( $url, PHP_URL_HOST ) );
+			$base_domain = static::current_base_domain();
+
+			// If either domain is not a public domain then skip checks.
+			if ( ! static::is_public_domain( $domain ) || ! static::is_public_domain( $base_domain ) ) {
+				return true;
+			}
+
+			if ( substr( $domain, -strlen( $base_domain ) ) === $base_domain ) {
+				return true;
+			}
+
+			return false;
 		}
 
 		/**
@@ -431,6 +437,61 @@ if ( ! class_exists( 'AS3CF_Utils' ) ) {
 			}
 
 			call_user_func_array( 'deactivate_plugins', func_get_args() );
+		}
+
+		/**
+		 * Get the first defined constant from the given list of constant names.
+		 *
+		 * @param array $constants
+		 *
+		 * @return string|false string constant name if defined, otherwise false if none are defined
+		 */
+		public static function get_first_defined_constant( $constants ) {
+			if ( ! empty( $constants ) ) {
+				foreach ( (array) $constants as $constant ) {
+					if ( defined( $constant ) ) {
+						return $constant;
+					}
+				}
+			}
+
+			return false;
+		}
+
+		/**
+		 * Ensure returned keys are for correct attachment.
+		 *
+		 * @param array $keys
+		 *
+		 * @return array
+		 */
+		public static function validate_attachment_keys( $attachment_id, $keys ) {
+			$paths     = self::get_attachment_file_paths( $attachment_id, false );
+			$filenames = array_map( 'wp_basename', $paths );
+
+			foreach ( $keys as $key => $value ) {
+				$filename = wp_basename( $value );
+
+				if ( ! in_array( $filename, $filenames ) ) {
+					unset( $keys[ $key ] );
+				}
+			}
+
+			return $keys;
+		}
+
+		/**
+		 * Sanitize custom domain
+		 *
+		 * @param string $domain
+		 *
+		 * @return string
+		 */
+		public static function sanitize_custom_domain( $domain ) {
+			$domain = preg_replace( '@^[a-zA-Z]*:\/\/@', '', $domain );
+			$domain = preg_replace( '@[^a-zA-Z0-9\.\-]@', '', $domain );
+
+			return $domain;
 		}
 	}
 }
