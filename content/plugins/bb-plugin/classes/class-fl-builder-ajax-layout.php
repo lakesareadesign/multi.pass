@@ -71,48 +71,50 @@ final class FLBuilderAJAXLayout {
 	 * @since 1.7
 	 * @param string $cols The type of column layout to use.
 	 * @param int $position The position of the new row in the layout.
+	 * @param string $module Optional. The node ID of an existing module to move to this row.
+	 * @return array
+	 */
+	static public function render_new_row( $cols = '1-col', $position = false, $module = null ) {
+		// Add the row.
+		$row = FLBuilderModel::add_row( $cols, $position, $module );
+
+		// Render the row.
+		do_action( 'fl_builder_before_render_ajax_layout_html' );
+		ob_start();
+		FLBuilder::render_row( $row );
+		$html = ob_get_clean();
+		do_action( 'fl_builder_after_render_ajax_layout_html' );
+
+		// Return the response.
+		return array(
+			'partial'	=> true,
+			'nodeType'	=> $row->type,
+			'html' 		=> $html,
+			'js'		=> 'FLBuilder._renderLayoutComplete();',
+		);
+	}
+
+	/**
+	 * Renders the layout data for a new row template.
+	 *
+	 * @since 2.2
+	 * @param int $position The position of the new row in the layout.
 	 * @param string $template_id The ID of a row template to render.
 	 * @param string $template_type The type of template. Either "user" or "core".
 	 * @return array
 	 */
-	static public function render_new_row( $cols = '1-col', $position = false, $template_id = null, $template_type = 'user' ) {
-		// Add a row template?
-		if ( null !== $template_id ) {
-
-			if ( 'core' == $template_type ) {
-				$template = FLBuilderModel::get_template( $template_id, 'row' );
-				$row      = FLBuilderModel::apply_node_template( $template_id, null, $position, $template );
-			} else {
-				$row = FLBuilderModel::apply_node_template( $template_id, null, $position );
-			}
-
-			// Return the response.
-			return array(
-				'layout' => self::render( $row->node ),
-				'config' => FLBuilderUISettingsForms::get_node_js_config(),
-			);
+	static public function render_new_row_template( $position, $template_id, $template_type = 'user' ) {
+		if ( 'core' == $template_type ) {
+			$template = FLBuilderModel::get_template( $template_id, 'row' );
+			$row      = FLBuilderModel::apply_node_template( $template_id, null, $position, $template );
 		} else {
-
-			// Add the row.
-			$row = FLBuilderModel::add_row( $cols, $position );
-
-			do_action( 'fl_builder_before_render_ajax_layout_html' );
-
-			// Render the row.
-			ob_start();
-			FLBuilder::render_row( $row );
-			$html = ob_get_clean();
-
-			do_action( 'fl_builder_after_render_ajax_layout_html' );
-
-			// Return the response.
-			return array(
-				'partial'	=> true,
-				'nodeType'	=> $row->type,
-				'html' 		=> $html,
-				'js'		=> 'FLBuilder._renderLayoutComplete();',
-			);
+			$row = FLBuilderModel::apply_node_template( $template_id, null, $position );
 		}
+
+		return array(
+			'layout' => self::render( $row->node ),
+			'config' => FLBuilderUISettingsForms::get_node_js_config(),
+		);
 	}
 
 	/**
@@ -137,19 +139,18 @@ final class FLBuilderAJAXLayout {
 	 * @param string $node_id The node ID of a row to add the new group to.
 	 * @param string $cols The type of column layout to use.
 	 * @param int $position The position of the new column group in the row.
+	 * @param string $module Optional. The node ID of an existing module to move to this group.
 	 * @return array
 	 */
-	static public function render_new_column_group( $node_id, $cols = '1-col', $position = false ) {
+	static public function render_new_column_group( $node_id, $cols = '1-col', $position = false, $module = null ) {
 		// Add the group.
-		$group = FLBuilderModel::add_col_group( $node_id, $cols, $position );
-
-		do_action( 'fl_builder_before_render_ajax_layout_html' );
+		$group = FLBuilderModel::add_col_group( $node_id, $cols, $position, $module );
 
 		// Render the group.
+		do_action( 'fl_builder_before_render_ajax_layout_html' );
 		ob_start();
 		FLBuilder::render_column_group( $group );
 		$html = ob_get_clean();
-
 		do_action( 'fl_builder_after_render_ajax_layout_html' );
 
 		// Return the response.
@@ -169,11 +170,12 @@ final class FLBuilderAJAXLayout {
 	 * @param string $insert Either before or after.
 	 * @param string $type The type of column(s) to insert.
 	 * @param boolean $nested Whether these columns are nested or not.
+	 * @param string $module Optional. The node ID of an existing module to move to this group.
 	 * @return array
 	 */
-	static public function render_new_columns( $node_id, $insert, $type, $nested ) {
+	static public function render_new_columns( $node_id, $insert, $type, $nested, $module = null ) {
 		// Add the column(s).
-		$group = FLBuilderModel::add_cols( $node_id, $insert, $type, $nested );
+		$group = FLBuilderModel::add_cols( $node_id, $insert, $type, $nested, $module );
 
 		// Return the response.
 		return self::render( $group->node );
@@ -330,7 +332,8 @@ final class FLBuilderAJAXLayout {
 
 				// Get the node.
 				$node_id = $post_data['node_id'];
-				$node 	 = FLBuilderModel::get_node( $post_data['node_id'] );
+				$node = FLBuilderModel::get_node( $post_data['node_id'] );
+				$node_type = null;
 
 				// Check a module for partial refresh.
 				if ( $node && 'module' == $node->type ) {
@@ -510,6 +513,10 @@ final class FLBuilderAJAXLayout {
 				case 'row':
 					$assets['js'] = FLBuilder::render_row_js( $partial_refresh_data['node'] );
 					$assets['js'] .= FLBuilder::render_row_modules_js( $partial_refresh_data['node'] );
+				break;
+
+				case 'column-group':
+					$assets['js'] = FLBuilder::render_column_group_modules_js( $partial_refresh_data['node'] );
 				break;
 
 				case 'column':

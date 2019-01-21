@@ -35,7 +35,7 @@
                 $data = str_replace( '&gt;', '>', $data );
 
                 if ($data != $this->value) {
-                    $this->warning = __( 'Unsafe strings were found in your CSS and have been filtered out.', 'redux-framework' );
+                    $this->warning = __( 'Unsafe strings were found in your CSS and have been filtered out.', 'ultra_framework' );
                 }
 
                 $this->value = $data;

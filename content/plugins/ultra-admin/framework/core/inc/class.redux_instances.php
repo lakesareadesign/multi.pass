@@ -79,22 +79,22 @@
 
         function support_args() {
 
-            $this->options             = get_option( 'redux-framework-tracking' );
+            $this->options             = get_option( 'ultra_framework-tracking' );
             $this->options['dev_mode'] = false;
 
             if ( ! isset( $this->options['hash'] ) || ! $this->options['hash'] || empty( $this->options['hash'] ) ) {
                 $this->options['hash'] = md5( network_site_url() . '-' . $_SERVER['REMOTE_ADDR'] );
-                update_option( 'redux-framework-tracking', $this->options );
+                update_option( 'ultra_framework-tracking', $this->options );
             }
 
             if ( isset( $_GET['redux_framework_disable_tracking'] ) && ! empty( $_GET['redux_framework_disable_tracking'] ) ) {
                 $this->options['allow_tracking'] = false;
-                update_option( 'redux-framework-tracking', $this->options );
+                update_option( 'ultra_framework-tracking', $this->options );
             }
 
             if ( isset( $_GET['redux_framework_enable_tracking'] ) && ! empty( $_GET['redux_framework_enable_tracking'] ) ) {
                 $this->options['allow_tracking'] = true;
-                update_option( 'redux-framework-tracking', $this->options );
+                update_option( 'ultra_framework-tracking', $this->options );
             }
 
             header( "Expires: Mon, 26 Jul 1997 05:00:00 GMT" );

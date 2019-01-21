@@ -57,23 +57,23 @@
                 $this->parent = $parent;
 
 
-                $this->options             = get_option( 'redux-framework-tracking' );
+                $this->options             = get_option( 'ultra_framework-tracking' );
                 $this->options['dev_mode'] = $parent->args['dev_mode'];
 
 
                 if ( ! isset( $this->options['hash'] ) || ! $this->options['hash'] || empty( $this->options['hash'] ) ) {
                     $this->options['hash'] = md5( network_site_url() . '-' . $_SERVER['REMOTE_ADDR'] );
-                    update_option( 'redux-framework-tracking', $this->options );
+                    update_option( 'ultra_framework-tracking', $this->options );
                 }
 
                 if ( isset( $_GET['redux_framework_disable_tracking'] ) && ! empty( $_GET['redux_framework_disable_tracking'] ) ) {
                     $this->options['allow_tracking'] = 'no';
-                    update_option( 'redux-framework-tracking', $this->options );
+                    update_option( 'ultra_framework-tracking', $this->options );
                 }
 
                 if ( isset( $_GET['redux_framework_enable_tracking'] ) && ! empty( $_GET['redux_framework_enable_tracking'] ) ) {
                     $this->options['allow_tracking'] = 'yes';
-                    update_option( 'redux-framework-tracking', $this->options );
+                    update_option( 'ultra_framework-tracking', $this->options );
                 }
 
                 if ( isset( $_GET['page'] ) && $_GET['page'] == $this->parent->args['page_slug'] ) {
@@ -126,18 +126,18 @@
                 $id    = '#wpadminbar';
                 $nonce = wp_create_nonce( 'redux_activate_tracking' );
 
-                $content = '<h3>' . __( 'Help improve Our Panel', 'redux-framework' ) . '</h3>';
-                $content .= '<p>' . __( 'Please helps us improve our panel by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test to ensure compatibility.', 'redux-framework' ) . '</p>';
+                $content = '<h3>' . __( 'Help improve Our Panel', 'ultra_framework' ) . '</h3>';
+                $content .= '<p>' . __( 'Please helps us improve our panel by allowing us to gather anonymous usage stats so we know which configurations, plugins and themes to test to ensure compatibility.', 'ultra_framework' ) . '</p>';
                 $opt_arr = array(
                     'content'  => $content,
                     'position' => array( 'edge' => 'top', 'align' => 'center' )
                 );
-                $button2 = __( 'Allow tracking', 'redux-framework' );
+                $button2 = __( 'Allow tracking', 'ultra_framework' );
 
                 $function2 = 'redux_store_answer("yes","' . $nonce . '")';
                 $function1 = 'redux_store_answer("no","' . $nonce . '")';
 
-                $this->print_scripts( $id, $opt_arr, __( 'Do not allow tracking', 'redux-framework' ), $button2, $function2, $function1 );
+                $this->print_scripts( $id, $opt_arr, __( 'Do not allow tracking', 'ultra_framework' ), $button2, $function2, $function1 );
             }
 
             /**
@@ -148,13 +148,13 @@
                 $nonce = wp_create_nonce( 'redux_activate_tracking' );
 
 
-                $content = '<h3>' . __( 'Welcome to the Redux Demo Panel', 'redux-framework' ) . '</h3>';
-                $content .= '<p><strong>' . __( 'Getting Started', 'redux-framework' ) . '</strong><br>' . sprintf( __( 'This panel demonstrates the many features of Redux.  Before digging in, we suggest you get up to speed by reviewing %1$s.', 'redux-framework' ), '<a href="' . 'http://' . 'docs.reduxframework.com/redux-framework/getting-started/" target="_blank">' . __( 'our documentation', 'redux-framework' ) . '</a>' );
-                $content .= '<p><strong>' . __( 'Redux Generator', 'redux-framework' ) . '</strong><br>' . sprintf( __( 'Want to get a head start? Use the %1$s. It will create a customized boilerplate theme or a standalone admin folder complete with all things Redux (with the help of Underscores and TGM). Save yourself a headache and try it today.', 'redux-framework' ), '<a href="' . 'http://' . 'generate.reduxframework.com/" target="_blank">' . __( 'Redux Generator', 'redux-framework' ) . '</a>' );
-                $content .= '<p><strong>' . __( 'Redux Extensions', 'redux-framework' ) . '</strong><br>' . sprintf( __( 'Did you know we have extensions, which greatly enhance the features of Redux?  Visit our %1$s to learn more!', 'redux-framework' ), '<a href="' . 'http://' . 'reduxframework.com/extensions/" target="_blank">' . __( 'extensions directory', 'redux-framework' ) . '</a>' );
-                $content .= '<p><strong>' . __( 'Like Redux?', 'redux-framework' ) . '</strong><br>' . sprintf( __( 'If so, please %1$s and consider making a %2$s to keep development of Redux moving forward.', 'redux-framework' ), '<a target="_blank" href="' . 'http://' . 'wordpress.org/support/view/plugin-reviews/redux-framework">' . __( 'leave us a favorable review on WordPress.org', 'redux-framework' ) . '</a>', '<a href="' . 'https://' . 'www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N5AD7TSH8YA5U" target="_blank">' . __( 'donation', 'redux-framework' ) . '</a>' );
-                $content .= '<p><strong>' . __( 'Newsletter', 'redux-framework' ) . '</strong><br>' . __( 'If you\'d like to keep up to with all things Redux, please subscribe to our newsletter', 'redux-framework' ) . ':</p>';
-                $content .= '<form action="' . 'http://' . 'reduxframework.us7.list-manage2.com/subscribe/post?u=564f5178f6cc288064f332efd&amp;id=ace5bbc1f9&SOURCE=panel" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate><p style="text-align: center;"><label for="mce-EMAIL">' . __( 'Email address', 'redux-framework' ) . ' </label><input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL"><input type="hidden" value="panel" name="SOURCE">&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="' . __( 'Subscribe', 'redux-framework' ) . '" name="subscribe" id="mc-embedded-subscribe" class="button button-primary"></p></form>';
+                $content = '<h3>' . __( 'Welcome to the Redux Demo Panel', 'ultra_framework' ) . '</h3>';
+                $content .= '<p><strong>' . __( 'Getting Started', 'ultra_framework' ) . '</strong><br>' . sprintf( __( 'This panel demonstrates the many features of Redux.  Before digging in, we suggest you get up to speed by reviewing %1$s.', 'ultra_framework' ), '<a href="' . 'http://' . 'docs.reduxframework.com/ultra_framework/getting-started/" target="_blank">' . __( 'our documentation', 'ultra_framework' ) . '</a>' );
+                $content .= '<p><strong>' . __( 'Redux Generator', 'ultra_framework' ) . '</strong><br>' . sprintf( __( 'Want to get a head start? Use the %1$s. It will create a customized boilerplate theme or a standalone admin folder complete with all things Redux (with the help of Underscores and TGM). Save yourself a headache and try it today.', 'ultra_framework' ), '<a href="' . 'http://' . 'generate.reduxframework.com/" target="_blank">' . __( 'Redux Generator', 'ultra_framework' ) . '</a>' );
+                $content .= '<p><strong>' . __( 'Redux Extensions', 'ultra_framework' ) . '</strong><br>' . sprintf( __( 'Did you know we have extensions, which greatly enhance the features of Redux?  Visit our %1$s to learn more!', 'ultra_framework' ), '<a href="' . 'http://' . 'reduxframework.com/extensions/" target="_blank">' . __( 'extensions directory', 'ultra_framework' ) . '</a>' );
+                $content .= '<p><strong>' . __( 'Like Redux?', 'ultra_framework' ) . '</strong><br>' . sprintf( __( 'If so, please %1$s and consider making a %2$s to keep development of Redux moving forward.', 'ultra_framework' ), '<a target="_blank" href="' . 'http://' . 'wordpress.org/support/view/plugin-reviews/ultra_framework">' . __( 'leave us a favorable review on WordPress.org', 'ultra_framework' ) . '</a>', '<a href="' . 'https://' . 'www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=N5AD7TSH8YA5U" target="_blank">' . __( 'donation', 'ultra_framework' ) . '</a>' );
+                $content .= '<p><strong>' . __( 'Newsletter', 'ultra_framework' ) . '</strong><br>' . __( 'If you\'d like to keep up to with all things Redux, please subscribe to our newsletter', 'ultra_framework' ) . ':</p>';
+                $content .= '<form action="' . 'http://' . 'reduxframework.us7.list-manage2.com/subscribe/post?u=564f5178f6cc288064f332efd&amp;id=ace5bbc1f9&SOURCE=panel" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate><p style="text-align: center;"><label for="mce-EMAIL">' . __( 'Email address', 'ultra_framework' ) . ' </label><input type="email" value="" name="EMAIL" class="required email" id="mce-EMAIL"><input type="hidden" value="panel" name="SOURCE">&nbsp;&nbsp;&nbsp;&nbsp;<input type="submit" value="' . __( 'Subscribe', 'ultra_framework' ) . '" name="subscribe" id="mc-embedded-subscribe" class="button button-primary"></p></form>';
                 $opt_arr = array(
                     'content'      => $content,
                     'position'     => array( 'edge' => 'top', 'align' => 'center' ),
@@ -163,7 +163,7 @@
 
                 $function1 = 'redux_store_answer("tour","' . $nonce . '")';
 
-                $this->print_scripts( $id, $opt_arr, __( 'Close', 'redux-framework' ), false, '', $function1 );
+                $this->print_scripts( $id, $opt_arr, __( 'Close', 'ultra_framework' ), false, '', $function1 );
             }
 
             /**
@@ -475,7 +475,7 @@
         function redux_allow_tracking_callback() {
             // Verify that the incoming request is coming with the security nonce
             if ( wp_verify_nonce( $_REQUEST['nonce'], 'redux_activate_tracking' ) ) {
-                $options = get_option( 'redux-framework-tracking' );
+                $options = get_option( 'ultra_framework-tracking' );
 
                 if ( $_REQUEST['allow_tracking'] == "tour" ) {
                     $options['tour'] = 1;
@@ -483,7 +483,7 @@
                     $options['allow_tracking'] = $_REQUEST['allow_tracking'];
                 }
 
-                if ( update_option( 'redux-framework-tracking', $options ) ) {
+                if ( update_option( 'ultra_framework-tracking', $options ) ) {
                     die( '1' );
                 } else {
                     die( '0' );

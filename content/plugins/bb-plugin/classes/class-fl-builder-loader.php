@@ -46,7 +46,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @return void
 		 */
 		static private function define_constants() {
-			define( 'FL_BUILDER_VERSION', '2.1.7.2' );
+			define( 'FL_BUILDER_VERSION', '2.2.0.5' );
 			define( 'FL_BUILDER_FILE', trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'fl-builder.php' );
 			define( 'FL_BUILDER_DIR', plugin_dir_path( FL_BUILDER_FILE ) );
 			define( 'FL_BUILDER_URL', plugins_url( '/', FL_BUILDER_FILE ) );
@@ -76,8 +76,10 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-admin-settings.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-ajax.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-ajax-layout.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-art.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-auto-suggest.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-color.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-css.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-export.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-extensions.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-fonts.php';
@@ -92,6 +94,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-photo.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-revisions.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-services.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-settings-compat.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-shortcodes.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-timezones.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-ui-content-panel.php';
@@ -103,6 +106,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-utils.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-wpml.php';
 			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-privacy.php';
+			require_once FL_BUILDER_DIR . 'classes/class-fl-builder-settings-presets.php';
 
 			/* WP CLI Commands */
 			if ( defined( 'WP_CLI' ) ) {

@@ -102,28 +102,28 @@ FLBuilder::register_module('FLSocialButtonModule', array(
 					'show_facebook'   => array(
 						'type'          => 'select',
 						'label'         => __( 'Show Facebook', 'fl-builder' ),
-						'default'       => 1,
+						'default'       => '1',
 						'options'       => array(
-							1      => __( 'Yes', 'fl-builder' ),
-							0     => __( 'No', 'fl-builder' ),
+							'1'     => __( 'Yes', 'fl-builder' ),
+							'0'     => __( 'No', 'fl-builder' ),
 						),
 					),
 					'show_twitter'   => array(
 						'type'          => 'select',
 						'label'         => __( 'Show Twitter', 'fl-builder' ),
-						'default'       => 1,
+						'default'       => '1',
 						'options'       => array(
-							1      => __( 'Yes', 'fl-builder' ),
-							0     => __( 'No', 'fl-builder' ),
+							'1'     => __( 'Yes', 'fl-builder' ),
+							'0'     => __( 'No', 'fl-builder' ),
 						),
 					),
 					'show_gplus'   => array(
 						'type'          => 'select',
 						'label'         => __( 'Show Google+', 'fl-builder' ),
-						'default'       => 1,
+						'default'       => '1',
 						'options'       => array(
-							1      => __( 'Yes', 'fl-builder' ),
-							0     => __( 'No', 'fl-builder' ),
+							'1'     => __( 'Yes', 'fl-builder' ),
+							'0'     => __( 'No', 'fl-builder' ),
 						),
 					),
 				),

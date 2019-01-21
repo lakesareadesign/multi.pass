@@ -1,4 +1,4 @@
-<div <?php $module->render_post_class(); ?> itemscope itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+<<?php echo $module->get_posts_container(); ?> <?php $module->render_post_class(); ?> itemscope itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
 
 	<?php FLPostGridModule::schema_meta(); ?>
 	<?php $module->render_featured_image( array( 'above-title', 'beside', 'beside-right' ) ); ?>
@@ -98,4 +98,4 @@
 	</div>
 
 	<div class="fl-clear"></div>
-</div>
+</<?php echo $module->get_posts_container(); ?>>

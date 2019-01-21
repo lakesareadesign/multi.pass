@@ -3,7 +3,7 @@
 Plugin Name: Alter - White Label Wordpress
 Plugin URI: http://acmeedesign.com
 Description: White label branding for WordPress. Turn your WordPress admin to look like your own software!
-Version: 2.3.5
+Version: 2.3.6
 Author: AcmeeDesign
 Author URI: http://acmeedesign.com
 Text-Domain: alter
@@ -14,7 +14,7 @@ Text-Domain: alter
 *   ALTER Version
 */
 
-define( 'ALTER_VERSION' , '2.3.5' );
+define( 'ALTER_VERSION' , '2.3.6' );
 
 /*
 *   ALTER Path Constant

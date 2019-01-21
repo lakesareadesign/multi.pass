@@ -113,21 +113,26 @@ if (!class_exists('ALTERADMINMENU')) {
                     $alter_toplv_menu_data = (isset($this->aof_options['custom_admin_menu']['top_level_menu']) && !empty($this->aof_options['custom_admin_menu']['top_level_menu'])) ? $this->aof_options['custom_admin_menu']['top_level_menu'] : "";
                     $alter_sublv_menu_data = (isset($this->aof_options['custom_admin_menu']['sub_level_menu']) && !empty($this->aof_options['custom_admin_menu']['sub_level_menu'])) ? $this->aof_options['custom_admin_menu']['sub_level_menu'] : "";
                     $mm_cu = 0;
+                    $inm = 0;
 
                     foreach($this->wp_df_menu as $menu_key => $top_lv_menu) {
-                        $top_lv_menu_slug = parent::alter_clean_slug($top_lv_menu[2]);
-                        $menu_icon_class = (isset($alter_toplv_menu_data[$top_lv_menu_slug]['menu_icon']) && !empty($alter_toplv_menu_data[$top_lv_menu_slug]['menu_icon'])) ? parent::alter_get_icon_class($alter_toplv_menu_data[$top_lv_menu_slug]['menu_icon']) : "";
-                        ?>
+                      $inm++;
+                      $top_lv_menu_slug = parent::alter_clean_slug($top_lv_menu[2]);
+                      $menu_icon_class = (isset($alter_toplv_menu_data[$top_lv_menu_slug]['menu_icon']) && !empty($alter_toplv_menu_data[$top_lv_menu_slug]['menu_icon'])) ? parent::alter_get_icon_class($alter_toplv_menu_data[$top_lv_menu_slug]['menu_icon']) : "";
+                      ?>
                         <li>
-                            <?php if(!empty($top_lv_menu[0])) { ?>
+                            <?php
+                              $menu_title = ((!empty($top_lv_menu[0]))) ? parent::clean_title($top_lv_menu[0]) : "Separator";
+                              ?>
                             <div class="alter-sort-list alter-top-menu-<?php echo $menu_key; ?>">
                                 <span class="menu_title">
                                     <i class="fa fa-caret-down" aria-hidden="true"></i><i class="fa fa-caret-up" aria-hidden="true"></i>
-                                 <?php echo parent::clean_title($top_lv_menu[0]); ?>
+                                 <?php echo wp_kses($menu_title, array()); ?>
                                 </span>
                                 <a href="#" class="alter-edit-expand"><i class="fa fa-chevron-down" aria-hidden="true"></i> <span>Edit</span></a>
                                 <div class="alter-menu-contents">
                                     <input type="hidden" name="top_lvl_menu[<?php echo $top_lv_menu_slug; ?>][menu_slug]" value="<?php echo $top_lv_menu[2]; ?>" />
+                                <?php if(!empty($top_lv_menu[0])) { ?>
                                     <div class="menu_title">
                                         <label for="menu_title"><em><?php _e('Rename Title', 'alter'); ?></em></label>
                                         <input type="text" name="top_lvl_menu[<?php echo $top_lv_menu_slug; ?>][menu_title]" value="<?php if(isset($alter_toplv_menu_data[$top_lv_menu_slug]['menu_title'])) echo $alter_toplv_menu_data[$top_lv_menu_slug]['menu_title']; ?>" />
@@ -137,7 +142,8 @@ if (!class_exists('ALTERADMINMENU')) {
                                         <div id="" data-target="#menu-icon-for-<?php echo $mm_cu; ?>" class="icon-picker <?php echo $menu_icon_class; ?>"></div>
                                         <input type="hidden" id="menu-icon-for-<?php echo $mm_cu; ?>" name="top_lvl_menu[<?php echo $top_lv_menu_slug; ?>][menu_icon]" value="<?php if(!empty($alter_toplv_menu_data[$top_lv_menu_slug]['menu_icon'])) echo $alter_toplv_menu_data[$top_lv_menu_slug]['menu_icon']; ?>" />
                                     </div>
-                                    <?php echo self::hide_for_menu("top_lvl_menu", $top_lv_menu_slug); ?>
+                                <?php } ?>
+                                    <?php echo self::hide_for_menu("top_lvl_menu", $top_lv_menu_slug, $inm); ?>
 
 
                             <?php
@@ -147,9 +153,8 @@ if (!class_exists('ALTERADMINMENU')) {
                             <?php
                                 $sm_cu = 0;
                                 foreach ($this->wp_df_submenu[$top_lv_menu[2]] as $sub_menu_k => $sub_menu_v) {
+                                    $inm++;
                                     $sub_lv_menu_slug = parent::alter_clean_slug($sub_menu_v[2]);
-                                    //print_r($sub_menu_v);
-                                    //echo '<pre>'; print_r($sub_lv_menu_slug); echo '</pre>';
                                     if($this->predict_menu_name($sub_lv_menu_slug, '', true, 'custombackground') == true || $this->predict_menu_name($sub_lv_menu_slug, '', true, 'customheader') == true) {
                                       continue;
                                     }
@@ -178,7 +183,7 @@ if (!class_exists('ALTERADMINMENU')) {
                                                 <input type="text" name="sub_lvl_menu[<?php echo $sub_lv_menu_slug; ?>][menu_title]" value="<?php if(isset($alter_sublv_menu_data[$sub_lv_menu_slug]['menu_title'])) echo $alter_sublv_menu_data[$sub_lv_menu_slug]['menu_title']; ?>" />
                                             </div>
                                             <a href="#" class="alter-edit-expand"><i class="fa fa-chevron-down" aria-hidden="true"></i> <span>Edit</span></a>
-                                            <?php echo self::hide_for_menu("sub_lvl_menu", $sub_lv_menu_slug); ?>
+                                            <?php echo self::hide_for_menu("sub_lvl_menu", $sub_lv_menu_slug, $inm); ?>
                                         </div>
                                     </div>
                                 </li>
@@ -193,17 +198,6 @@ if (!class_exists('ALTERADMINMENU')) {
                                     </div>
                             </div>
 
-                        <?php
-                            }
-                            elseif($top_lv_menu[4] == "wp-menu-separator" || $top_lv_menu[4] == "wp-menu-separator menu-top-first") {
-                                ?>
-                                <div class="alter-sort-list alter-top-menu-<?php echo $menu_key; ?>">
-                                    <input type="hidden" name="top_lvl_menu[<?php echo $top_lv_menu_slug; ?>][menu_slug]" value="<?php echo $top_lv_menu[2]; ?>" />
-                                    <span class="wp-menu-seperator"><?php esc_html_e('Separator', 'alter'); ?></span>
-                                </div>
-                            <?php
-                            }
-                            ?>
                         </li>
                         <?php
                         $mm_cu++;
@@ -219,7 +213,7 @@ if (!class_exists('ALTERADMINMENU')) {
 <?php
         }
 
-        function hide_for_menu($level, $admin_menu_slug) {
+        function hide_for_menu($level, $admin_menu_slug, $menu_count) {
             $level_name = (empty($level)) ? "top_lvl_menu" : $level;
 
             $alter_menu_data = $this->alter_menu_data();
@@ -234,7 +228,10 @@ if (!class_exists('ALTERADMINMENU')) {
                     if($this->predict_menu_name($admin_menu_slug, 12) == 'customizephp') {
                       $admin_menu_slug = 'customizephp';
                     }
-                    $output .= "<table class='hide-for-roles-inputs'><tbody><tr>";
+                    $output .= "<table id='box-input-{$menu_count}' class='hide-for-roles-inputs'><tbody>";
+                    $output .= "<tr><td style='width:200px;display:block'><a class='alter-role-selector select_all' rel='box-input-{$menu_count}' href='#select_all'>Select all</a>
+                    <a class='alter-role-selector select_none' rel='box-input-{$menu_count}' href='#select_none'>Select none</a></td></tr>";
+                    $output .= "<tr>";
                     foreach ($get_all_roles as $wprole_name => $wprole_label) {
                         if($level_name == "top_lvl_menu") {
                             $chk_value_array = (isset($alter_menu_data['top_level_menu'][$admin_menu_slug]['hide_for'])) ? $alter_menu_data['top_level_menu'][$admin_menu_slug]['hide_for'] : "";
@@ -328,7 +325,7 @@ if (!class_exists('ALTERADMINMENU')) {
                   $menu_icon_class = (isset($alter_toplv_menu_data[$top_level_menu_slug]['menu_icon']) && !empty($alter_toplv_menu_data[$top_level_menu_slug]['menu_icon'])) ? parent::alter_get_icon_class($alter_toplv_menu_data[$top_level_menu_slug]['menu_icon']) : "";
 
                   //customize top level menu
-                  if($menu_value[4] != 'wp-menu-separator' && !preg_match("/separator/i",$menu_value[4])) {
+                  //if($menu_value[4] != 'wp-menu-separator' && !preg_match("/separator/i",$menu_value[4])) {
                     //if(isset($menu_value[5]) && $menu_value[5] != "toplevel_page_jetpack") { //if list ID removed, jetpack v4.3.2 or higher could not load its settings using list ID
                       //$menu_value[5] = ""; //removing list ID in order to override icons set by other plugins
                     //}
@@ -422,7 +419,9 @@ if (!class_exists('ALTERADMINMENU')) {
                             }
                     }
 
-                  } //end if
+                //  } //end if
+
+
                 }
             }
 

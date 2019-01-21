@@ -20,9 +20,9 @@
             public function ftp_form() {
                 if ( isset( $this->parent->ftp_form ) && ! empty( $this->parent->ftp_form ) ) {
                     echo '<div class="wrap"><div class="error"><p>';
-                    echo __( 'Unable to modify required files. Please ensure that', 'redux-framework' );
+                    echo __( 'Unable to modify required files. Please ensure that', 'ultra_framework' );
                     echo ' <code>' . Redux_Helpers::cleanFilePath( trailingslashit( WP_CONTENT_DIR ) ) . '/uploads/</code> ';
-                    echo __( 'has the proper read/write permissions or enter your FTP information below.', 'redux-framework' );
+                    echo __( 'has the proper read/write permissions or enter your FTP information below.', 'ultra_framework' );
                     echo '</p></div><h2></h2>' . $this->parent->ftp_form . '</div>';
                 }
             }

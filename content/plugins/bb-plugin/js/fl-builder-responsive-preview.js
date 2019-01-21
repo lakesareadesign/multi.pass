@@ -67,6 +67,7 @@
 			last.remove();
 			body.append( mask );
 			body.append( frame );
+			body.css( 'overflow', 'hidden' );
 		},
 
 		/**
@@ -77,6 +78,7 @@
 		 */
 		destroy: function() {
 			$( '#fl-builder-preview-mask, #fl-builder-preview-frame' ).remove();
+			$( 'body' ).css( 'overflow', 'visible' );
 		},
 	}
 } )( jQuery );

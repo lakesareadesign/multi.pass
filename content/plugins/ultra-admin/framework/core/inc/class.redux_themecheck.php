@@ -58,7 +58,7 @@
                             ?>
                             <div class="updated">
                             <p><?php
-                                    echo sprintf( __( 'The theme you are testing has %s embedded. We invite you to read the %sTheme-Check Documentation%s to understand some warnings you will see because of Redux.', 'redux-framework' ), '<a href="http://reduxframework.com" target="_blank">Redux Framework</a>', '<a href="http://docs.reduxframework.com/core/theme-check/">', '</a>' );
+                                    echo sprintf( __( 'The theme you are testing has %s embedded. We invite you to read the %sTheme-Check Documentation%s to understand some warnings you will see because of Redux.', 'ultra_framework' ), '<a href="http://reduxframework.com" target="_blank">Redux Framework</a>', '<a href="http://docs.reduxframework.com/core/theme-check/">', '</a>' );
                                 ?>
                             </div><?php
                         }
@@ -106,7 +106,7 @@
                             ?>
                             <div class="error">
                             <p><?php
-                                    _e( 'The following directories & files are still located in your <strong>Redux</strong>  directory. They may cause errors in Theme-Check.', 'redux-framework' );
+                                    _e( 'The following directories & files are still located in your <strong>Redux</strong>  directory. They may cause errors in Theme-Check.', 'ultra_framework' );
                                     echo '<br /><ul style="margin-left:15px;">';
                                     foreach ( $errors as $error ) {
                                         echo '<li><strong>~/' . $error . '</strong></li>';

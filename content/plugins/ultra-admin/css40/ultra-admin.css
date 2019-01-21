@@ -3839,3 +3839,89 @@ a, .no-plugin-results a{color:rgba(50,50,58,1) /*#32323a*/;} a:hover, .no-plugin
 
 
 
+/*Network My sites page*/
+#myblogs .my-sites{
+	display: flex;
+    flex-wrap: wrap;
+}
+
+/* New editor wp 5.x*/
+
+@media (min-width: 960px){
+	.auto-fold .edit-post-header {
+	    left: 230px;
+	}
+	.auto-fold .components-notice-list {
+	    left: 250px;
+	    margin-top: 15px;
+	}
+}
+@media (min-width: 782px){
+	.folded .edit-post-header {
+	    left: 60px;
+	}
+	.folded .components-notice-list {
+	    left: 80px;
+	    right: 20px;
+	    margin-top: 15px;
+	}
+	.edit-post-header {
+	    top: 40px;
+	}
+	.edit-post-sidebar {
+	    top: 96px;
+	}
+}
+.edit-post-layout.is-sidebar-opened .components-notice-list {
+    right: 300px;
+}
+.edit-post-layout .components-notice-list .components-notice{
+	min-height: 36px;
+}
+.components-notice__content{
+	margin: 7px 0;
+}
+.edit-post-layout .components-notice-list .components-notice .components-notice__dismiss {
+    margin: 7px 5px;
+}
+@media (min-width: 600px){
+	.edit-post-header {
+	    padding: 8px 20px;
+	}
+}
+.components-panel__header.edit-post-sidebar__panel-tabs ul{
+	margin: 0px;
+	height: 47px;
+}
+.edit-post-sidebar__panel-tab:focus{
+	outline: none;
+}
+.components-panel__body>.components-panel__body-title{
+	line-height: 0px;
+}
+.components-modal__content input[type=checkbox]:checked:focus, .components-modal__content input[type=radio]:checked:focus, .components-popover input[type=checkbox]:checked:focus, .components-popover input[type=radio]:checked:focus, .edit-post-sidebar input[type=checkbox]:checked:focus, .edit-post-sidebar input[type=radio]:checked:focus, .editor-block-list__block input[type=checkbox]:checked:focus, .editor-block-list__block input[type=radio]:checked:focus, .editor-post-permalink input[type=checkbox]:checked:focus, .editor-post-permalink input[type=radio]:checked:focus, .editor-post-publish-panel input[type=checkbox]:checked:focus, .editor-post-publish-panel input[type=radio]:checked:focus{
+	box-shadow: none;
+}
+.components-modal__content input[type=checkbox]:focus, .components-modal__content input[type=radio]:focus, .components-popover input[type=checkbox]:focus, .components-popover input[type=radio]:focus, .edit-post-sidebar input[type=checkbox]:focus, .edit-post-sidebar input[type=radio]:focus, .editor-block-list__block input[type=checkbox]:focus, .editor-block-list__block input[type=radio]:focus, .editor-post-permalink input[type=checkbox]:focus, .editor-post-permalink input[type=radio]:focus, .editor-post-publish-panel input[type=checkbox]:focus, .editor-post-publish-panel input[type=radio]:focus{
+	box-shadow: none;
+}
+.edit-post-sidebar input[type=text]:focus,
+.components-form-token-field__input-container,
+.components-form-token-field__input-container.is-active {
+    box-shadow: none;
+    outline: 0px solid transparent;
+    outline-offset: 0px;
+    border-radius: 2px;
+}
+.edit-post-visual-editor {
+    position: relative;
+    padding: 100px 0 50px 0;
+}
+ .components-toolbar__control.components-button:not(:disabled).is-active>svg, .components-toolbar__control.components-button:not(:disabled):hover>svg{
+	box-shadow: none;
+}
+.components-button.is-primary, .components-button.is-primary:hover{
+	text-shadow: none;
+	border: none;
+	box-shadow: none;
+}

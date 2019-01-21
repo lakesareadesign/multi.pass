@@ -1,11 +1,11 @@
 <div class="wrap about-wrap" xmlns="http://www.w3.org/1999/html">
-    <h1><?php _e( 'Redux Framework - Support', 'redux-framework' ); ?></h1>
+    <h1><?php _e( 'Redux Framework - Support', 'ultra_framework' ); ?></h1>
 
     <div
-        class="about-text"><?php printf( __( 'We are an open source project used by developers to make powerful control panels.', 'redux-framework' ), $this->display_version ); ?></div>
+        class="about-text"><?php printf( __( 'We are an open source project used by developers to make powerful control panels.', 'ultra_framework' ), $this->display_version ); ?></div>
     <div
         class="redux-badge"><i
-            class="el el-redux"></i><span><?php printf( __( 'Version %s', 'redux-framework' ), ReduxFramework::$_version ); ?></span>
+            class="el el-redux"></i><span><?php printf( __( 'Version %s', 'ultra_framework' ), ReduxFramework::$_version ); ?></span>
     </div>
 
     <?php $this->actions(); ?>
@@ -17,44 +17,44 @@
         <form id="supportform">
 
             <ul id="progressbar" class=" breadcrumb">
-                <li class="active"><?php _e( 'Generate a Support URL', 'redux-framework' ); ?></li>
-                <li href="#"><?php _e( 'Select Support Type', 'redux-framework' ); ?></li>
-                <li href="#"><?php _e( 'How to Get Support', 'redux-framework' ); ?></li>
+                <li class="active"><?php _e( 'Generate a Support URL', 'ultra_framework' ); ?></li>
+                <li href="#"><?php _e( 'Select Support Type', 'ultra_framework' ); ?></li>
+                <li href="#"><?php _e( 'How to Get Support', 'ultra_framework' ); ?></li>
             </ul>
 
             <!-- fieldsets -->
             <fieldset>
-                <h2 class="fs-title"><?php _e( 'Submit a Support Request', 'redux-framework' ); ?></h2>
+                <h2 class="fs-title"><?php _e( 'Submit a Support Request', 'ultra_framework' ); ?></h2>
 
                 <h3 class="fs-title"
-                    style="margin-top:0;"><?php _e( 'To get started, we will need to generate a support hash.', 'redux-framework' ); ?></h3>
+                    style="margin-top:0;"><?php _e( 'To get started, we will need to generate a support hash.', 'ultra_framework' ); ?></h3>
 
                 <p><?php
-                        echo sprintf( wp_kses( __( 'This will provide to your developer all the information they may need to remedy your issue. This action WILL send information securely to a remote server. To see the type of information sent, please look at the  <a href="%s">Status tab</a>.', 'redux-framework' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( admin_url( 'tools.php?page=redux-status' ) ) );
+                        echo sprintf( wp_kses( __( 'This will provide to your developer all the information they may need to remedy your issue. This action WILL send information securely to a remote server. To see the type of information sent, please look at the  <a href="%s">Status tab</a>.', 'ultra_framework' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( admin_url( 'tools.php?page=redux-status' ) ) );
                     ?>
                 </p>
 
                 <p><a href="#" class="docs button button-primary button-large redux_support_hash"><?php _e( 'Generate
-                        a Support URL', 'redux-framework' ); ?></a></p>
+                        a Support URL', 'ultra_framework' ); ?></a></p>
                 <input type="button" name="next" class="next hide action-button"
                        value="Next"/>
             </fieldset>
 
             <fieldset>
-                <h2 class="fs-title"><?php _e( 'Select Your Support Type', 'redux-framework' ); ?></h2>
+                <h2 class="fs-title"><?php _e( 'Select Your Support Type', 'ultra_framework' ); ?></h2>
 
                 <h3 class="fs-subtitle" style="text-align: center;">
-                    <?php _e( 'What type of user are you?', 'redux-framework' ); ?>
+                    <?php _e( 'What type of user are you?', 'ultra_framework' ); ?>
                 </h3>
 
                 <table id="user_type">
                     <tr>
-                        <td id="is_user"><i class="el el-user"></i><br/><?php _e( 'User', 'redux-framework' ); ?><br/>
-                            <small><?php _e( 'I am a user, using a pre-built product.', 'redux-framework' ); ?></small>
+                        <td id="is_user"><i class="el el-user"></i><br/><?php _e( 'User', 'ultra_framework' ); ?><br/>
+                            <small><?php _e( 'I am a user, using a pre-built product.', 'ultra_framework' ); ?></small>
                         </td>
                         <td id="is_developer"><i
-                                class="el el-github"></i><br/><?php _e( 'Developer', 'redux-framework' ); ?><br/>
-                            <small><?php _e( 'I am a developer, building a product using Redux.', 'redux-framework' ); ?></small>
+                                class="el el-github"></i><br/><?php _e( 'Developer', 'ultra_framework' ); ?><br/>
+                            <small><?php _e( 'I am a developer, building a product using Redux.', 'ultra_framework' ); ?></small>
                         </td>
                     </tr>
                 </table>
@@ -62,19 +62,19 @@
                 <input type="button" name="next" class="next action-button hide" value="Next"/>
             </fieldset>
             <fieldset id="final_support">
-                <h2 class="fs-title"><?php _e( 'How to Get Support', 'redux-framework' ); ?></h2>
+                <h2 class="fs-title"><?php _e( 'How to Get Support', 'ultra_framework' ); ?></h2>
 
                 <div class="is_developer">
-                    <p><?php _e( 'Please proceed to the Redux Framework issue tracker and supply us with your support URL below. Please also provide any information that will help us to reproduce your issue.', 'redux-framework' ); ?></p>
-                    <a href="https://github.com/reduxframework/redux-framework/issues" target="_blank"><h4>
-                            https://github.com/reduxframework/redux-framework/issues</h4></a>
+                    <p><?php _e( 'Please proceed to the Redux Framework issue tracker and supply us with your support URL below. Please also provide any information that will help us to reproduce your issue.', 'ultra_framework' ); ?></p>
+                    <a href="https://github.com/reduxframework/ultra_framework/issues" target="_blank"><h4>
+                            https://github.com/reduxframework/ultra_framework/issues</h4></a>
 
                 </div>
                 <div class="is_user">
-                    <p align="left"><?php _e( 'Listed below are the Wordpress plugins and/or theme installed on your site that utilize Redux Framework. We do not directly support products created with our framework.  It is the responsibility of the plugin or theme developer to support their work. You will need to contact the author(s) of the products listed below with your support questions.', 'redux-framework' ); ?></p>
+                    <p align="left"><?php _e( 'Listed below are the Wordpress plugins and/or theme installed on your site that utilize Redux Framework. We do not directly support products created with our framework.  It is the responsibility of the plugin or theme developer to support their work. You will need to contact the author(s) of the products listed below with your support questions.', 'ultra_framework' ); ?></p>
 
                     <p>
-                        <strong><?php _e( 'Please be sure to include for your developer - via cut and paste - the Support URL in the box below.', 'redux-framework' ); ?></strong>
+                        <strong><?php _e( 'Please be sure to include for your developer - via cut and paste - the Support URL in the box below.', 'ultra_framework' ); ?></strong>
                     </p>
                     <?php
 
@@ -181,7 +181,7 @@
                     <!--                       value="-->
                     <?php //echo urlencode( json_encode( $plugin_data ) ); ?><!--"><label-->
                     <!--                    for="p-->
-                    <?php //echo $dirname; ?><!--"><strong>--><?php //_e( 'Plugin', 'redux-framework' );?>
+                    <?php //echo $dirname; ?><!--"><strong>--><?php //_e( 'Plugin', 'ultra_framework' );?>
                     <!--                        : </strong> --><?php //echo $plugin_data['Name']; ?>
                     <!--                    <small>v--><?php //echo $plugin_data['Version']; ?><!--</small>-->
                     <!--                </label>-->
@@ -198,7 +198,7 @@
                     <!--               value="-->
                     <?php //echo urlencode( json_encode( $active_theme ) ); ?><!--"><label-->
                     <!--            for="-->
-                    <?php //echo sanitize_html_class( $active_theme->Name ); ?><!--"><strong>--><?php //_e( 'Theme', 'redux-framework' ); ?>
+                    <?php //echo sanitize_html_class( $active_theme->Name ); ?><!--"><strong>--><?php //_e( 'Theme', 'ultra_framework' ); ?>
                     <!--                : </strong> --><?php //echo $active_theme->Name; ?>
                     <!--            <small>v--><?php //echo $active_theme->Version; ?><!--</small>-->
                     <!--        </label>-->
@@ -212,7 +212,7 @@
 
                 <p><em>
                         <?php
-                            echo sprintf( wp_kses( __( 'Should the developer not be responsive, read the <a href="%s" target="_blank">following article</a> before asking for support from us directly.', 'redux-framework' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( 'http://docs.reduxframework.com/core/support-defined/' ) );
+                            echo sprintf( wp_kses( __( 'Should the developer not be responsive, read the <a href="%s" target="_blank">following article</a> before asking for support from us directly.', 'ultra_framework' ), array( 'a' => array( 'href' => array() ) ) ), esc_url( 'http://docs.reduxframework.com/core/support-defined/' ) );
                         ?>
                     </em>
 

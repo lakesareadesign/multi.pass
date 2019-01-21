@@ -26,6 +26,95 @@ class FLMenuModule extends FLBuilderModule {
 		add_action( 'pre_get_posts', 		__CLASS__ . '::set_pre_get_posts_query', 10, 2 );
 	}
 
+	/**
+	 * Ensure backwards compatibility with old settings.
+	 *
+	 * @since 2.2
+	 * @param object $settings A module settings object.
+	 * @param object $helper A settings compatibility helper.
+	 * @return object
+	 */
+	public function filter_settings( $settings, $helper ) {
+
+		// We need to double the old opacity inputs because the bg color used
+		// to be applied to the menu and the list items which layers the color.
+		if ( isset( $settings->menu_bg_opacity ) && is_numeric( $settings->menu_bg_opacity ) ) {
+			$settings->menu_bg_opacity = $settings->menu_bg_opacity * 1.5;
+			$settings->mobile_menu_bg_opacity = $settings->menu_bg_opacity;
+		}
+
+		// Handle old opacity inputs.
+		$helper->handle_opacity_inputs( $settings, 'menu_bg_opacity', 'menu_bg_color' );
+		$helper->handle_opacity_inputs( $settings, 'mobile_menu_bg_opacity', 'mobile_menu_bg' );
+		$helper->handle_opacity_inputs( $settings, 'submenu_bg_opacity', 'submenu_bg_color' );
+		$helper->handle_opacity_inputs( $settings, 'separator_opacity', 'separator_color' );
+
+		// Remove old align default.
+		if ( 'default' === $settings->menu_align ) {
+			$settings->menu_align = '';
+		}
+
+		// Handle old horizontal_spacing.
+		if ( isset( $settings->horizontal_spacing ) ) {
+			$settings->link_spacing_left = $settings->horizontal_spacing;
+			$settings->link_spacing_right = $settings->horizontal_spacing;
+			unset( $settings->horizontal_spacing );
+		}
+
+		// Handle old vertical_spacing.
+		if ( isset( $settings->vertical_spacing ) ) {
+			$settings->link_spacing_top = $settings->vertical_spacing;
+			$settings->link_spacing_bottom = $settings->vertical_spacing;
+			unset( $settings->vertical_spacing );
+		}
+
+		// Make sure we have a typography array.
+		if ( ! isset( $settings->typography ) || ! is_array( $settings->typography ) ) {
+			$settings->typography = array();
+			$settings->typography_medium = array();
+			$settings->typography_responsive = array();
+		}
+
+		// Handle old font setting.
+		if ( isset( $settings->font ) ) {
+			$settings->typography['font_family'] = $settings->font['family'];
+			$settings->typography['font_weight'] = $settings->font['weight'];
+			unset( $settings->font );
+		}
+
+		// Handle old font size setting.
+		if ( isset( $settings->text_size ) ) {
+			$settings->typography['font_size'] = array(
+				'length' => $settings->text_size,
+				'unit' => 'px',
+			);
+			unset( $settings->text_size );
+		}
+
+		// Handle old text transform setting.
+		if ( isset( $settings->text_transform ) ) {
+			$settings->typography['text_transform'] = $settings->text_transform;
+			unset( $settings->text_transform );
+		}
+
+		// Handle old submenu spacing.
+		if ( isset( $settings->submenu_spacing ) ) {
+			$settings->submenu_spacing_top = $settings->submenu_spacing;
+			$settings->submenu_spacing_right = $settings->submenu_spacing;
+			$settings->submenu_spacing_bottom = $settings->submenu_spacing;
+			$settings->submenu_spacing_left = $settings->submenu_spacing;
+			unset( $settings->submenu_spacing );
+		}
+
+		// Return the filtered settings.
+		return $settings;
+	}
+
+	/**
+	 * Get the WordPress menu options.
+	 *
+	 * @return array
+	 */
 	public static function _get_menus() {
 		$get_menus = get_terms( 'nav_menu', array(
 			'hide_empty' => true,
@@ -151,6 +240,16 @@ class FLMenuModule extends FLBuilderModule {
 
 		return $media_width;
 	}
+
+	/**
+	 * Checks to see if responsive menu style is flyout.
+	 *
+	 * @since 2.2
+	 * @return bool
+	 */
+	public function is_responsive_menu_flyout() {
+		return strpos( $this->settings->mobile_full_width, 'flyout-' ) !== false;
+	}
 }
 
 /**
@@ -253,6 +352,9 @@ FLBuilder::register_module('FLMenuModule', array(
 							'no'			=> __( 'Inline', 'fl-builder' ),
 							'below'			=> __( 'Below Row', 'fl-builder' ),
 							'yes'			=> __( 'Overlay', 'fl-builder' ),
+							'flyout-overlay'       => __( 'Flyout Overlay', 'fl-builder' ),
+							'flyout-push'          => __( 'Flyout Push', 'fl-builder' ),
+							'flyout-push-opacity'  => __( 'Flyout Push with Opacity', 'fl-builder' ),
 						),
 						'toggle'		=> array(
 							'yes'	=> array(
@@ -261,6 +363,27 @@ FLBuilder::register_module('FLMenuModule', array(
 							'below'	=> array(
 								'fields'		=> array( 'mobile_menu_bg' ),
 							),
+							'flyout-overlay' => array(
+								'fields'        => array( 'mobile_menu_bg', 'flyout_position' ),
+							),
+							'flyout-push' => array(
+								'fields'        => array( 'mobile_menu_bg', 'flyout_position' ),
+							),
+							'flyout-push-opacity' => array(
+								'fields'        => array( 'mobile_menu_bg', 'flyout_position' ),
+							),
+						),
+					),
+					'flyout_position' => array(
+						'type'          => 'select',
+						'label'         => __( 'Flyout Position', 'fl-builder' ),
+						'default'       => 'left',
+						'options'       => array(
+							'left'         => __( 'Left', 'fl-builder' ),
+							'right'        => __( 'Right', 'fl-builder' ),
+						),
+						'preview'      => array(
+							'type'         => 'none',
 						),
 					),
 					'mobile_breakpoint' => array(
@@ -281,99 +404,44 @@ FLBuilder::register_module('FLMenuModule', array(
 		'title'         => __( 'Style', 'fl-builder' ), // Tab title
 		'sections'      => array( // Tab Sections
 			'general_style'    => array(
-				'title'         => '',
+				'title'         => __( 'Menu', 'fl-builder' ),
 				'fields'        => array(
 					'menu_align' => array(
-						'type'          => 'select',
+						'type'          => 'align',
 						'label'         => __( 'Menu Alignment', 'fl-builder' ),
-						'default'       => 'default',
-						'options'       => array(
-							'default'		=> __( 'Default', 'fl-builder' ),
-							'left'			=> __( 'Left', 'fl-builder' ),
-							'center'		=> __( 'Center', 'fl-builder' ),
-							'right'			=> __( 'Right', 'fl-builder' ),
-						),
+						'default'       => '',
+						'responsive'	=> true,
 					),
-					'drop_shadow' => array(
-						'type'          => 'select',
-						'label'         => __( 'Submenu Drop Shadow', 'fl-builder' ),
-						'default'       => 'yes',
-						'options'       => array(
-							'no'			=> __( 'No', 'fl-builder' ),
-							'yes'			=> __( 'Yes', 'fl-builder' ),
-						),
-					),
-				),
-			),
-			'spacing'    	=> array(
-				'title'         => __( 'Spacing', 'fl-builder' ),
-				'fields'        => array(
-					'horizontal_spacing' => array(
-						'type'          => 'text',
-						'label'         => __( 'Link Horizontal Spacing', 'fl-builder' ),
-						'default'       => '14',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+					'menu_bg_color'   => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Menu Background Color', 'fl-builder' ),
+						'show_reset'    => true,
+						'show_alpha'	=> true,
 						'preview'      => array(
 							'type'         => 'css',
-							'rules'		   => array(
-								array(
-									'selector'     => '.menu a',
-									'property'     => 'padding-left',
-									'unit'		   => 'px',
-								),
-								array(
-									'selector'     => '.menu a',
-									'property'     => 'padding-right',
-									'unit'		   => 'px',
-								),
-							),
+							'selector'     => '.menu',
+							'property'     => 'background-color',
 						),
 					),
-					'vertical_spacing' => array(
-						'type'          => 'text',
-						'label'         => __( 'Link Vertical Spacing', 'fl-builder' ),
-						'default'       => '10',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
-						'preview'      => array(
-							'type'         => 'css',
-							'rules'		   => array(
-								array(
-									'selector'     => '.menu a',
-									'property'     => 'padding-top',
-									'unit'		   => 'px',
-								),
-								array(
-									'selector'     => '.menu a',
-									'property'     => 'padding-bottom',
-									'unit'		   => 'px',
-								),
-							),
-						),
-					),
-					'submenu_spacing' => array(
-						'type'          => 'text',
-						'label'         => __( 'Submenu Spacing', 'fl-builder' ),
-						'default'       => '0',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
-						'preview'      => array(
-							'type'         => 'none',
-						),
+					'mobile_menu_bg'   => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Menu Background Color (Mobile)', 'fl-builder' ),
+						'show_reset'    => true,
+						'show_alpha'	=> true,
 					),
 				),
 			),
 			'text_style'    => array(
-				'title'         => __( 'Text', 'fl-builder' ),
+				'title'         => __( 'Links', 'fl-builder' ),
 				'fields'        => array(
 					'link_color'    => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Link Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'	=> true,
 						'preview'      => array(
 							'type'         => 'css',
 							'rules'		   => array(
@@ -390,118 +458,65 @@ FLBuilder::register_module('FLMenuModule', array(
 					),
 					'link_hover_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Link Hover Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'	=> true,
 						'preview'      => array(
 							'type'         => 'css',
 							'selector'     => '.fl-menu a, .menu > li.current-menu-item > a, .menu > li.current-menu-item > .fl-has-submenu-container > a, .sub-menu > li.current-menu-item > a',
 							'property'     => 'color',
 						),
 					),
-					'font'          => array(
-						'type'          => 'font',
-						'default'		=> array(
-							'family'		=> 'Default',
-							'weight'		=> 300,
-						),
-						'label'         => __( 'Link Font', 'fl-builder' ),
-						'preview'         => array(
-							'type'            => 'font',
-							'selector'        => '.menu',
-						),
-					),
-					'text_size' => array(
-						'type'          => 'text',
-						'label'         => __( 'Link Size', 'fl-builder' ),
-						'default'       => '16',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
-						'preview'      => array(
-							'type'         => 'css',
-							'selector'     => '.menu',
-							'property'     => 'font-size',
-							'unit'		   => 'px',
-						),
-					),
-					'text_transform' => array(
-						'type'          => 'select',
-						'label'         => __( 'Link Format', 'fl-builder' ),
-						'default'       => 'none',
-						'options'       => array(
-							'none'			=> __( 'None', 'fl-builder' ),
-							'uppercase'		=> __( 'Uppercase', 'fl-builder' ),
-							'lowercase'		=> __( 'Lowercase', 'fl-builder' ),
-							'capitalize'	=> __( 'Capitalize', 'fl-builder' ),
-						),
-						'preview'      => array(
-							'type'         => 'css',
-							'selector'     => '.menu',
-							'property'     => 'text-transform',
-						),
-					),
-				),
-			),
-			'menu_style'    => array(
-				'title'         => __( 'Backgrounds', 'fl-builder' ),
-				'fields'        => array(
-					'menu_bg_color'   => array(
-						'type'          => 'color',
-						'label'         => __( 'Menu Background Color', 'fl-builder' ),
-						'show_reset'    => true,
-						'preview'      => array(
-							'type'         => 'css',
-							'selector'     => '.menu',
-							'property'     => 'background-color',
-						),
-					),
-					'mobile_menu_bg'   => array(
-						'type'          => 'color',
-						'label'         => __( 'Menu Background Color (Mobile)', 'fl-builder' ),
-						'show_reset'    => true,
-					),
-					'menu_bg_opacity' => array(
-						'type'          => 'text',
-						'label'         => __( 'Menu Background Opacity', 'fl-builder' ),
-						'default'       => '100',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => '%',
-					),
-					'submenu_bg_color' => array(
-						'type'          => 'color',
-						'label'         => __( 'Submenu Background Color', 'fl-builder' ),
-						'show_reset'    => true,
-						'default'		=> 'ffffff',
-						'preview'      => array(
-							'type'         => 'css',
-							'selector'     => '.fl-menu .sub-menu',
-							'property'     => 'background-color',
-						),
-					),
-					'submenu_bg_opacity' => array(
-						'type'          => 'text',
-						'label'         => __( 'Submenu Background Opacity', 'fl-builder' ),
-						'default'       => '100',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => '%',
-					),
-
 					'link_hover_bg_color' => array(
 						'type'          => 'color',
-						'label'         => __( 'Link Background Hover Color', 'fl-builder' ),
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Link Hover Background Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'	=> true,
 						'preview'      => array(
 							'type'         => 'css',
 							'selector'     => '.menu > li.current-menu-item > a, .menu > li.current-menu-item > .fl-has-submenu-container > a, .sub-menu > li.current-menu-item > a, .sub-menu > li.current-menu-item > .fl-has-submenu-container > a',
 							'property'     => 'background-color',
 						),
 					),
+					'link_spacing' => array(
+						'type'          => 'dimension',
+						'label'         => __( 'Link Padding', 'fl-builder' ),
+						'default'       => '14',
+						'units'			=> array( 'px', 'em' ),
+						'slider'		=> true,
+						'preview'      => array(
+							'type'         	=> 'css',
+							'selector'      => '.menu a',
+							'property'      => 'padding',
+						),
+					),
+					'typography'    => array(
+						'type'        	=> 'typography',
+						'label'       	=> __( 'Link Typography', 'fl-builder' ),
+						'responsive'  	=> array(
+							'default'		=> array(
+								'default'		=> array(
+									'font_size'		=> array(
+										'length'		=> '16',
+										'unit'			=> 'px',
+									),
+								),
+							),
+							'medium' => array(),
+							'responsive' => array(),
+						),
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-menu .menu, .fl-menu .menu > li',
+							'important'		  => true,
+						),
+					),
 				),
 			),
 			'separator_style'    => array(
-				'title'         => __( 'Separator', 'fl-builder' ),
+				'title'         => __( 'Separators', 'fl-builder' ),
 				'fields'        => array(
 					'show_separator' => array(
 						'type'          => 'select',
@@ -519,16 +534,67 @@ FLBuilder::register_module('FLMenuModule', array(
 					),
 					'separator_color'   => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Separator Color', 'fl-builder' ),
+						'default'		=> '000000',
 						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'      => array(
+							'type'         => 'css',
+							'selector'     => '.menu.fl-menu-horizontal li, .menu.fl-menu-horizontal li li, .menu.fl-menu-vertical li, .menu.fl-menu-accordion li, .menu.fl-menu-expanded li',
+							'property'     => 'border-color',
+						),
 					),
-					'separator_opacity' => array(
-						'type'          => 'text',
-						'label'         => __( 'Separator Opacity', 'fl-builder' ),
-						'default'       => '100',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => '%',
+				),
+			),
+			'submenu_style'    => array(
+				'title'         => __( 'Dropdowns', 'fl-builder' ),
+				'fields'        => array(
+					'submenu_bg_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Dropdown Background Color', 'fl-builder' ),
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'default'		=> 'ffffff',
+						'preview'      => array(
+							'type'         => 'css',
+							'selector'     => '.fl-menu .sub-menu',
+							'property'     => 'background-color',
+						),
+					),
+					'drop_shadow' => array(
+						'type'          => 'select',
+						'label'         => __( 'Dropdown Shadow', 'fl-builder' ),
+						'default'       => 'yes',
+						'options'       => array(
+							'no'			=> __( 'No', 'fl-builder' ),
+							'yes'			=> __( 'Yes', 'fl-builder' ),
+						),
+					),
+					'submenu_spacing' => array(
+						'type'          => 'dimension',
+						'label'         => __( 'Dropdown Padding', 'fl-builder' ),
+						'default'       => '0',
+						'units'			=> array( 'px', 'em' ),
+						'slider'		=> true,
+						'preview'      => array(
+							'type'         	=> 'css',
+							'selector'		=> 'ul.sub-menu',
+							'property'		=> 'padding',
+						),
+					),
+					'submenu_link_spacing' => array(
+						'type'          => 'dimension',
+						'label'         => __( 'Dropdown Link Padding', 'fl-builder' ),
+						'default'       => '',
+						'units'			=> array( 'px', 'em' ),
+						'slider'		=> true,
+						'preview'      => array(
+							'type'         	=> 'css',
+							'selector'      => 'ul.sub-menu a',
+							'property'      => 'padding',
+						),
 					),
 				),
 			),

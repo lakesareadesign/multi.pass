@@ -92,7 +92,7 @@
         }
 
         public function change_wp_footer() {
-            echo 'If you like <strong>Redux</strong> please leave us a <a href="https://wordpress.org/support/view/plugin-reviews/redux-framework?filter=5#postform" target="_blank" class="redux-rating-link" data-rated="Thanks :)">★★★★★</a> rating. A huge thank you from Redux in advance!';
+            echo 'If you like <strong>Redux</strong> please leave us a <a href="https://wordpress.org/support/view/plugin-reviews/ultra_framework?filter=5#postform" target="_blank" class="redux-rating-link" data-rated="Thanks :)">★★★★★</a> rating. A huge thank you from Redux in advance!';
         }
 
         public function support_hash() {
@@ -165,7 +165,7 @@
                 $return['identifier'] = $data['identifier'];
             } else {
                 $return['status']  = "error";
-                $return['message'] = __( "Support hash could not be generated. Please try again later.", 'redux-framework' );
+                $return['message'] = __( "Support hash could not be generated. Please try again later.", 'ultra_framework' );
             }
 
             echo json_encode( $return );
@@ -185,7 +185,7 @@
 
             // About Page
             add_management_page(
-                __( 'Welcome to Redux Framework', 'redux-framework' ), __( 'Redux Framework', 'redux-framework' ), $this->minimum_capability, 'redux-about', array(
+                __( 'Welcome to Redux Framework', 'ultra_framework' ), __( 'Redux Framework', 'ultra_framework' ), $this->minimum_capability, 'redux-about', array(
                     $this,
                     'about_screen'
                 )
@@ -193,7 +193,7 @@
 
             // Changelog Page
             add_management_page(
-                __( 'Redux Framework Changelog', 'redux-framework' ), __( 'Redux Framework Changelog', 'redux-framework' ), $this->minimum_capability, 'redux-changelog', array(
+                __( 'Redux Framework Changelog', 'ultra_framework' ), __( 'Redux Framework Changelog', 'ultra_framework' ), $this->minimum_capability, 'redux-changelog', array(
                     $this,
                     'changelog_screen'
                 )
@@ -201,7 +201,7 @@
 
             // Support Page
             add_management_page(
-                __( 'Get Support', 'redux-framework' ), __( 'Get Support', 'redux-framework' ), $this->minimum_capability, 'redux-support', array(
+                __( 'Get Support', 'ultra_framework' ), __( 'Get Support', 'ultra_framework' ), $this->minimum_capability, 'redux-support', array(
                     $this,
                     'get_support'
                 )
@@ -209,7 +209,7 @@
 
             // Support Page
             add_management_page(
-                __( 'Redux Extensions', 'redux-framework' ), __( 'Redux Extensions', 'redux-framework' ), $this->minimum_capability, 'redux-extensions', array(
+                __( 'Redux Extensions', 'ultra_framework' ), __( 'Redux Extensions', 'ultra_framework' ), $this->minimum_capability, 'redux-extensions', array(
                     $this,
                     'redux_extensions'
                 )
@@ -218,7 +218,7 @@
 
             // Credits Page
             add_management_page(
-                __( 'The people that develop Redux Framework', 'redux-framework' ), __( 'The people that develop Redux Framework', 'redux-framework' ), $this->minimum_capability, 'redux-credits', array(
+                __( 'The people that develop Redux Framework', 'ultra_framework' ), __( 'The people that develop Redux Framework', 'ultra_framework' ), $this->minimum_capability, 'redux-credits', array(
                     $this,
                     'credits_screen'
                 )
@@ -226,7 +226,7 @@
 
             // Status Page
             add_management_page(
-                __( 'Redux Framework Status', 'redux-framework' ), __( 'Redux Framework Status', 'redux-framework' ), $this->minimum_capability, 'redux-status', array(
+                __( 'Redux Framework Status', 'ultra_framework' ), __( 'Redux Framework Status', 'ultra_framework' ), $this->minimum_capability, 'redux-status', array(
                     $this,
                     'status_screen'
                 )
@@ -331,27 +331,27 @@
             <h2 class="nav-tab-wrapper">
                 <a class="nav-tab <?php echo $selected == 'redux-about' ? 'nav-tab-active' : ''; ?>"
                    href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'redux-about' ), 'tools.php' ) ) ); ?>">
-                    <?php _e( "What's New", 'redux-framework' ); ?>
+                    <?php _e( "What's New", 'ultra_framework' ); ?>
                 </a>
                 <a class="nav-tab <?php echo $selected == 'redux-extensions' ? 'nav-tab-active' : ''; ?>"
                    href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'redux-extensions' ), 'tools.php' ) ) ); ?>">
-                    <?php _e( 'Extensions', 'redux-framework' ); ?>
+                    <?php _e( 'Extensions', 'ultra_framework' ); ?>
                 </a>
                 <a class="nav-tab <?php echo $selected == 'redux-changelog' ? 'nav-tab-active' : ''; ?>"
                    href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'redux-changelog' ), 'tools.php' ) ) ); ?>">
-                    <?php _e( 'Changelog', 'redux-framework' ); ?>
+                    <?php _e( 'Changelog', 'ultra_framework' ); ?>
                 </a>
                 <a class="nav-tab <?php echo $selected == 'redux-credits' ? 'nav-tab-active' : ''; ?>"
                    href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'redux-credits' ), 'tools.php' ) ) ); ?>">
-                    <?php _e( 'Credits', 'redux-framework' ); ?>
+                    <?php _e( 'Credits', 'ultra_framework' ); ?>
                 </a>
                 <a class="nav-tab <?php echo $selected == 'redux-support' ? 'nav-tab-active' : ''; ?>"
                    href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'redux-support' ), 'tools.php' ) ) ); ?>">
-                    <?php _e( 'Support', 'redux-framework' ); ?>
+                    <?php _e( 'Support', 'ultra_framework' ); ?>
                 </a>
                 <a class="nav-tab <?php echo $selected == 'redux-status' ? 'nav-tab-active' : ''; ?>"
                    href="<?php echo esc_url( admin_url( add_query_arg( array( 'page' => 'redux-status' ), 'tools.php' ) ) ); ?>">
-                    <?php _e( 'Status', 'redux-framework' ); ?>
+                    <?php _e( 'Status', 'ultra_framework' ); ?>
                 </a>
             </h2>
         <?php
@@ -462,7 +462,7 @@
                 return $Parsedown->text( trim( str_replace( '# Redux Framework Changelog', '', wp_remote_retrieve_body( wp_remote_get( ReduxFramework::$_url . '../CHANGELOG.md' ) ) ) ) );
             }
 
-            return '<script src="http://gist-it.appspot.com/https://github.com/reduxframework/redux-framework/blob/master/CHANGELOG.md?slice=2:0&footer=0">// <![CDATA[// ]]></script>';
+            return '<script src="http://gist-it.appspot.com/https://github.com/reduxframework/ultra_framework/blob/master/CHANGELOG.md?slice=2:0&footer=0">// <![CDATA[// ]]></script>';
 
         }
 
@@ -470,7 +470,7 @@
             ?>
             <p class="redux-actions">
                 <a href="http://docs.reduxframework.com/" class="docs button button-primary">Docs</a>
-                <a href="https://wordpress.org/plugins/redux-framework/" class="review-us button button-primary"
+                <a href="https://wordpress.org/plugins/ultra_framework/" class="review-us button button-primary"
                    target="_blank">Review Us</a>
                 <a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=MMFMHWUPKHKPW"
                    class="review-us button button-primary" target="_blank">Donate</a>
@@ -508,7 +508,7 @@
 
             foreach ( $contributors as $contributor ) {
                 $contributor_list .= '<li class="wp-person">';
-                $contributor_list .= sprintf( '<a href="%s" title="%s" target="_blank">', esc_url( 'https://github.com/' . $contributor->login ), esc_html( sprintf( __( 'View %s', 'redux-framework' ), $contributor->login ) )
+                $contributor_list .= sprintf( '<a href="%s" title="%s" target="_blank">', esc_url( 'https://github.com/' . $contributor->login ), esc_html( sprintf( __( 'View %s', 'ultra_framework' ), $contributor->login ) )
                 );
                 $contributor_list .= sprintf( '<img src="%s" width="64" height="64" class="gravatar" alt="%s" />', esc_url( $contributor->avatar_url ), esc_html( $contributor->login ) );
                 $contributor_list .= '</a>';
@@ -536,7 +536,7 @@
                 return $contributors;
             }
 
-            $response = wp_remote_get( 'https://api.github.com/repos/ReduxFramework/redux-framework/contributors', array( 'sslverify' => false ) );
+            $response = wp_remote_get( 'https://api.github.com/repos/ReduxFramework/ultra_framework/contributors', array( 'sslverify' => false ) );
 
             if ( is_wp_error( $response ) || 200 != wp_remote_retrieve_response_code( $response ) ) {
                 return array();

@@ -67,7 +67,7 @@
     width: 125px;
 
     -moz-box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;
-    -webkit-box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;
+    -webkit-box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;	     	 	   	  	 	
     box-shadow: 0 5px 20px #ddd inset, 0 3px 0 #999 inset;
 
     position: relative;
@@ -124,4 +124,4 @@
 }
 
 
-/* 133620-1531347918-au */
+/* 133620-1548091580-au */

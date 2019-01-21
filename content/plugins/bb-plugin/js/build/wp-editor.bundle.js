@@ -60,24 +60,10 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 33);
+/******/ 	return __webpack_require__(__webpack_require__.s = 35);
 /******/ })
 /************************************************************************/
 /******/ ({
-
-/***/ 33:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-__webpack_require__(50);
-
-__webpack_require__(35);
-
-__webpack_require__(46);
-
-/***/ }),
 
 /***/ 35:
 /***/ (function(module, exports, __webpack_require__) {
@@ -85,9 +71,70 @@ __webpack_require__(46);
 "use strict";
 
 
+__webpack_require__(36);
+
+__webpack_require__(37);
+
+__webpack_require__(39);
+
+/***/ }),
+
+/***/ 36:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var registerStore = wp.data.registerStore;
+
+
+var DEFAULT_STATE = {
+	launching: false
+};
+
+var actions = {
+	setLaunching: function setLaunching(launching) {
+		return {
+			type: 'SET_LAUNCHING',
+			launching: launching
+		};
+	}
+};
+
+var selectors = {
+	isLaunching: function isLaunching(state) {
+		return state.launching;
+	}
+};
+
+registerStore('fl-builder', {
+	reducer: function reducer() {
+		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_STATE;
+		var action = arguments[1];
+
+		switch (action.type) {
+			case 'SET_LAUNCHING':
+				state.launching = action.launching;
+		}
+
+		return state;
+	},
+
+	actions: actions,
+	selectors: selectors
+});
+
+/***/ }),
+
+/***/ 37:
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-__webpack_require__(36);
+__webpack_require__(38);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -356,14 +403,14 @@ if (builder.access && builder.unrestricted || builder.enabled) {
 
 /***/ }),
 
-/***/ 36:
+/***/ 38:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
 
 /***/ }),
 
-/***/ 46:
+/***/ 39:
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -371,7 +418,7 @@ if (builder.access && builder.unrestricted || builder.enabled) {
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
-__webpack_require__(47);
+__webpack_require__(40);
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -514,57 +561,10 @@ registerPlugin('fl-builder-plugin-sidebar', {
 
 /***/ }),
 
-/***/ 47:
+/***/ 40:
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ 50:
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var registerStore = wp.data.registerStore;
-
-
-var DEFAULT_STATE = {
-	launching: false
-};
-
-var actions = {
-	setLaunching: function setLaunching(launching) {
-		return {
-			type: 'SET_LAUNCHING',
-			launching: launching
-		};
-	}
-};
-
-var selectors = {
-	isLaunching: function isLaunching(state) {
-		return state.launching;
-	}
-};
-
-registerStore('fl-builder', {
-	reducer: function reducer() {
-		var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : DEFAULT_STATE;
-		var action = arguments[1];
-
-		switch (action.type) {
-			case 'SET_LAUNCHING':
-				state.launching = action.launching;
-		}
-
-		return state;
-	},
-
-	actions: actions,
-	selectors: selectors
-});
 
 /***/ })
 

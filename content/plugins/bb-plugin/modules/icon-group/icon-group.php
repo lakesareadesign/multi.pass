@@ -44,31 +44,84 @@ FLBuilder::register_module('FLIconGroupModule', array(
 	'style'         => array( // Tab
 		'title'         => __( 'Style', 'fl-builder' ), // Tab title
 		'sections'      => array( // Tab Sections
+			'structure'     => array( // Section
+				'title'         => __( 'Icon', 'fl-builder' ), // Section Title
+				'fields'        => array( // Section Fields
+					'size'          => array(
+						'type'          => 'unit',
+						'label'         => __( 'Size', 'fl-builder' ),
+						'default'       => '30',
+						'sanitize'		=> 'floatval',
+						'responsive'	=> true,
+						'units'			=> array( 'px', 'em', 'rem' ),
+						'slider'		=> true,
+						'preview'		=> array(
+							'type'			=> 'none',
+						),
+					),
+					'spacing'       => array(
+						'type'          => 'unit',
+						'label'         => __( 'Spacing', 'fl-builder' ),
+						'default'       => '10',
+						'sanitize'		=> 'absint',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
+						'preview'		=> array(
+							'type'			=> 'none',
+						),
+					),
+					'align'         => array(
+						'type'          => 'align',
+						'label'         => __( 'Alignment', 'fl-builder' ),
+						'default'       => 'center',
+						'preview'		=> array(
+							'type'			=> 'none',
+						),
+					),
+				),
+			),
 			'colors'        => array( // Section
-				'title'         => __( 'Colors', 'fl-builder' ), // Section Title
+				'title'         => __( 'Icon Colors', 'fl-builder' ), // Section Title
 				'fields'        => array( // Section Fields
 					'color'         => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'		=> '.fl-icon i, .fl-icon i::before',
+							'property'		=> 'color',
+							'important'		=> true,
+						),
 					),
 					'hover_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Hover Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
 						'preview'       => array(
-							'type'          => 'none',
+							'type'          => 'css',
+							'selector'		=> '.fl-icon i:hover, .fl-icon i:hover::before',
+							'property'		=> 'color',
+							'important'		=> true,
 						),
 					),
 					'bg_color'      => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Background Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
 					),
 					'bg_hover_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Background Hover Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
 						'preview'       => array(
 							'type'          => 'none',
 						),
@@ -80,38 +133,6 @@ FLBuilder::register_module('FLIconGroupModule', array(
 						'options'       => array(
 							'0'             => __( 'No', 'fl-builder' ),
 							'1'             => __( 'Yes', 'fl-builder' ),
-						),
-					),
-				),
-			),
-			'structure'     => array( // Section
-				'title'         => __( 'Structure', 'fl-builder' ), // Section Title
-				'fields'        => array( // Section Fields
-					'size'          => array(
-						'type'          => 'text',
-						'label'         => __( 'Size', 'fl-builder' ),
-						'default'       => '30',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
-						'sanitize'		=> 'absint',
-					),
-					'spacing'       => array(
-						'type'          => 'text',
-						'label'         => __( 'Spacing', 'fl-builder' ),
-						'default'       => '10',
-						'maxlength'     => '2',
-						'size'          => '4',
-						'description'   => 'px',
-					),
-					'align'         => array(
-						'type'          => 'select',
-						'label'         => __( 'Alignment', 'fl-builder' ),
-						'default'       => 'center',
-						'options'       => array(
-							'center'        => __( 'Center', 'fl-builder' ),
-							'left'          => __( 'Left', 'fl-builder' ),
-							'right'         => __( 'Right', 'fl-builder' ),
 						),
 					),
 				),
@@ -139,15 +160,8 @@ FLBuilder::register_settings_form('icon_group_form', array(
 						'link'          => array(
 							'type'          => 'link',
 							'label'         => __( 'Link', 'fl-builder' ),
-						),
-						'link_target'	=> array(
-							'type'          => 'select',
-							'label'         => __( 'Link Target', 'fl-builder' ),
-							'default'       => '_blank',
-							'options'       => array(
-								'_self' 		=> __( 'Same Window', 'fl-builder' ),
-								'_blank'    	=> __( 'New Window', 'fl-builder' ),
-							),
+							'show_target'	=> true,
+							'show_nofollow'	=> true,
 						),
 					),
 				),
@@ -161,26 +175,34 @@ FLBuilder::register_settings_form('icon_group_form', array(
 					'fields'        => array( // Section Fields
 						'color'         => array(
 							'type'          => 'color',
+							'connections'	=> array( 'color' ),
 							'label'         => __( 'Color', 'fl-builder' ),
 							'show_reset'    => true,
+							'show_alpha'	=> true,
 						),
 						'hover_color' => array(
 							'type'          => 'color',
+							'connections'	=> array( 'color' ),
 							'label'         => __( 'Hover Color', 'fl-builder' ),
 							'show_reset'    => true,
+							'show_alpha'	=> true,
 							'preview'       => array(
 								'type'          => 'none',
 							),
 						),
 						'bg_color'      => array(
 							'type'          => 'color',
+							'connections'	=> array( 'color' ),
 							'label'         => __( 'Background Color', 'fl-builder' ),
 							'show_reset'    => true,
+							'show_alpha'	=> true,
 						),
 						'bg_hover_color' => array(
 							'type'          => 'color',
+							'connections'	=> array( 'color' ),
 							'label'         => __( 'Background Hover Color', 'fl-builder' ),
 							'show_reset'    => true,
+							'show_alpha'	=> true,
 							'preview'       => array(
 								'type'          => 'none',
 							),

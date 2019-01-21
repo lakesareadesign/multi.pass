@@ -89,8 +89,8 @@ FLBuilder::register_module('FLWooCommerceModule', array(
 						'label'   => __( 'Autoselect Parent', 'fl-builder' ),
 						'default' => 'false',
 						'options' => array(
-							'true'  => __( 'true', 'fl-builder' ),
-							'false' => __( 'false', 'fl-builder' ),
+							'true'  => __( 'Yes', 'fl-builder' ),
+							'false' => __( 'No', 'fl-builder' ),
 						),
 						'toggle'  => array(
 							'false' => array(

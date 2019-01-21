@@ -32,14 +32,14 @@
 			// Only init if the builder isn't active.
 			if ( 0 === $('.fl-builder-edit').length ) {
 
+				// Init module animations.
+				FLBuilderLayout._initModuleAnimations();
+
 				// Init anchor links.
 				FLBuilderLayout._initAnchorLinks();
 
 				// Init the browser hash.
 				FLBuilderLayout._initHash();
-
-				// Init module animations.
-				FLBuilderLayout._initModuleAnimations();
 
 				// Init forms.
 				FLBuilderLayout._initForms();
@@ -191,6 +191,23 @@
 				YUI().use('node-event-simulate', function(Y) {
 					Y.one(window).simulate("resize");
 				});
+			}
+		},
+
+		/**
+		 * Public method for reloading an embedded Google Map within the tabs or hidden element.
+		 *
+		 * @since 2.2
+		 * @method reloadGoogleMap
+		 */
+		reloadGoogleMap: function(element){
+			var $element  = 'undefined' == typeof element ? $( 'body' ) : $( element ),
+			    googleMap = $element.find( 'iframe[src*="google.com/maps"]' );
+
+			if ( googleMap.length ) {
+			    googleMap.attr( 'src', function(i, val) {
+			        return val;
+			    });
 			}
 		},
 
@@ -874,7 +891,7 @@
 		 */
 		_initModuleAnimations: function()
 		{
-			if(typeof jQuery.fn.waypoint !== 'undefined' && !FLBuilderLayout._isMobile()) {
+			if(typeof jQuery.fn.waypoint !== 'undefined') {
 				$('.fl-animation').each( function() {
 					var node = $( this ),
 						nodeTop = node.offset().top,
@@ -909,15 +926,21 @@
 		_doModuleAnimation: function()
 		{
 			var module = 'undefined' == typeof this.element ? $(this) : $(this.element),
-				delay  = parseFloat(module.data('animation-delay'));
+				delay = parseFloat(module.data('animation-delay')),
+				duration = parseFloat(module.data('animation-duration'));
+
+			if ( ! isNaN( duration ) ) {
+				module.css( 'animation-duration', duration + 's' );
+			}
 
 			if(!isNaN(delay) && delay > 0) {
 				setTimeout(function(){
 					module.addClass('fl-animated');
 				}, delay * 1000);
-			}
-			else {
-				module.addClass('fl-animated');
+			} else {
+				setTimeout(function(){
+					module.addClass('fl-animated');
+				}, 1);
 			}
 		},
 

@@ -152,3 +152,25 @@ ul.fl-menu-horizontal li.mega-menu > ul.sub-menu ul.sub-menu {
 	position: static;
 	visibility: visible;
 }
+
+/* Mobile menu - below row clone */
+.fl-menu-mobile-clone {
+	clear: both;
+}
+.fl-menu-mobile-clone .fl-menu .menu {
+	float: none !important;
+}
+
+/* Mobile menu - Flyout */
+.fl-menu-mobile-close {
+	display: none;
+}
+.fl-menu-mobile-close,
+.fl-menu-mobile-close:hover,
+.fl-menu-mobile-close:focus {
+	background: none;
+	border: 0 none;
+	color: inherit;
+	font-size: 18px;
+	padding: 10px 6px 10px 14px;
+}

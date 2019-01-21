@@ -19,6 +19,59 @@ class FLCalloutModule extends FLBuilderModule {
 	}
 
 	/**
+	 * Ensure backwards compatibility with old settings.
+	 *
+	 * @since 2.2
+	 * @param object $settings A module settings object.
+	 * @param object $helper A settings compatibility helper.
+	 * @return object
+	 */
+	public function filter_settings( $settings, $helper ) {
+
+		// Make sure we have a typography array.
+		if ( ! isset( $settings->typography ) || ! is_array( $settings->typography ) ) {
+			$settings->typography = array();
+		}
+
+		// Handle old title size settings.
+		if ( isset( $settings->title_size ) && 'custom' === $settings->title_size ) {
+			$settings->typography['font_size'] = array(
+				'length' => $settings->title_custom_size,
+				'unit' => 'px',
+			);
+			unset( $settings->title_size );
+			unset( $settings->title_custom_size );
+		}
+
+		// Handle old button module settings.
+		$helper->filter_child_module_settings( 'button', $settings, array(
+			'btn_3d'					=> 'three_d',
+			'btn_style'					=> 'style',
+			'btn_padding'				=> 'padding',
+			'btn_padding_top'			=> 'padding_top',
+			'btn_padding_bottom'		=> 'padding_bottom',
+			'btn_padding_left'			=> 'padding_left',
+			'btn_padding_right'			=> 'padding_right',
+			'btn_mobile_align'			=> 'mobile_align',
+			'btn_align_responsive'		=> 'align_responsive',
+			'btn_font_size'				=> 'font_size',
+			'btn_font_size_unit'		=> 'font_size_unit',
+			'btn_typography'			=> 'typography',
+			'btn_bg_color'				=> 'bg_color',
+			'btn_bg_hover_color'		=> 'bg_hover_color',
+			'btn_bg_opacity'			=> 'bg_opacity',
+			'btn_bg_hover_opacity'		=> 'bg_hover_opacity',
+			'btn_border'				=> 'border',
+			'btn_border_hover_color'	=> 'border_hover_color',
+			'btn_border_radius'			=> 'border_radius',
+			'btn_border_size'			=> 'border_size',
+		) );
+
+		// Return the filtered settings.
+		return $settings;
+	}
+
+	/**
 	 * @method update
 	 * @param $settings {object}
 	 */
@@ -106,37 +159,100 @@ class FLCalloutModule extends FLBuilderModule {
 	}
 
 	/**
+	 * Returns an array of settings used to render a button module.
+	 *
+	 * @since 2.2
+	 * @return array
+	 */
+	public function get_button_settings() {
+		$settings = array(
+			'link'          => $this->settings->link,
+			'link_target'   => $this->settings->link_target,
+			'link_nofollow' => $this->settings->link_nofollow,
+			'text'          => $this->settings->cta_text,
+		);
+
+		foreach ( $this->settings as $key => $value ) {
+			if ( strstr( $key, 'btn_' ) ) {
+				$key = str_replace( 'btn_', '', $key );
+				$settings[ $key ] = $value;
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
 	 * @method render_button
 	 */
 	public function render_button() {
 		if ( 'button' == $this->settings->cta_type ) {
-
-			$btn_settings = array(
-				'align'             => '',
-				'bg_color'          => $this->settings->btn_bg_color,
-				'bg_hover_color'    => $this->settings->btn_bg_hover_color,
-				'bg_opacity'        => $this->settings->btn_bg_opacity,
-				'border_radius'     => $this->settings->btn_border_radius,
-				'border_size'       => $this->settings->btn_border_size,
-				'font_size'         => $this->settings->btn_font_size,
-				'icon'              => $this->settings->btn_icon,
-				'icon_position'     => $this->settings->btn_icon_position,
-				'icon_animation'    => $this->settings->btn_icon_animation,
-				'link'              => $this->settings->link,
-				'link_nofollow'     => $this->settings->link_nofollow,
-				'link_target'       => $this->settings->link_target,
-				'padding'           => $this->settings->btn_padding,
-				'style'             => $this->settings->btn_style,
-				'text'              => $this->settings->cta_text,
-				'text_color'        => $this->settings->btn_text_color,
-				'text_hover_color'  => $this->settings->btn_text_hover_color,
-				'width'             => $this->settings->btn_width,
-			);
-
 			echo '<div class="fl-callout-button">';
-			FLBuilder::render_module_html( 'button', $btn_settings );
+			FLBuilder::render_module_html( 'button', $this->get_button_settings() );
 			echo '</div>';
 		}
+	}
+
+	/**
+	 * Returns an array of settings used to render an icon module.
+	 *
+	 * @since 2.2
+	 * @return array
+	 */
+	public function get_icon_settings() {
+		$settings = array(
+			'align'          		=> '',
+			'exclude_wrapper' 		=> true,
+			'icon'           		=> $this->settings->icon,
+			'link'           		=> $this->settings->link,
+			'link_target'    		=> $this->settings->link_target,
+			'text'           		=> '',
+			'three_d'        		=> $this->settings->icon_3d,
+		);
+
+		foreach ( $this->settings as $key => $value ) {
+			if ( strstr( $key, 'icon_' ) ) {
+				$key = str_replace( 'icon_', '', $key );
+				$settings[ $key ] = $value;
+			}
+		}
+
+		return $settings;
+	}
+
+	/**
+	 * Returns an array of settings used to render a photo module.
+	 *
+	 * @since 2.2
+	 * @return array
+	 */
+	public function get_photo_settings() {
+		$photo_data = FLBuilderPhoto::get_attachment_data( $this->settings->photo );
+
+		if ( ! $photo_data && isset( $this->settings->photo_data ) ) {
+			$photo_data = $this->settings->photo_data;
+		} elseif ( ! $photo_data ) {
+			$photo_data = -1;
+		}
+
+		$settings = array(
+			'link_url_target' => $this->settings->link_target,
+			'link_nofollow'   => $this->settings->link_nofollow,
+			'link_type'       => 'url',
+			'link_url'        => $this->settings->link,
+			'photo'           => $photo_data,
+			'photo_src'       => $this->settings->photo_src,
+			'photo_source'    => 'library',
+		);
+
+		foreach ( $this->settings as $key => $value ) {
+			if ( strstr( $key, 'photo_' ) ) {
+				$key = str_replace( 'photo_', '', $key );
+				$settings[ $key ] = $value;
+			}
+		}
+
+		return $settings;
 	}
 
 	/**
@@ -144,50 +260,14 @@ class FLCalloutModule extends FLBuilderModule {
 	 */
 	public function render_image( $position ) {
 		if ( 'photo' == $this->settings->image_type && $this->settings->photo_position == $position ) {
-
 			if ( empty( $this->settings->photo ) ) {
 				return;
 			}
-
-			$photo_data = FLBuilderPhoto::get_attachment_data( $this->settings->photo );
-
-			if ( ! $photo_data && isset( $this->settings->photo_data ) ) {
-				$photo_data = $this->settings->photo_data;
-			} elseif ( ! $photo_data ) {
-				$photo_data = -1;
-			}
-
-			$photo_settings = array(
-				'align'         => 'center',
-				'crop'          => $this->settings->photo_crop,
-				'link_target'   => $this->settings->link_target,
-				'link_type'     => 'url',
-				'link_url'      => $this->settings->link,
-				'photo'         => $photo_data,
-				'photo_src'     => $this->settings->photo_src,
-				'photo_source'  => 'library',
-			);
-
 			echo '<div class="fl-callout-photo">';
-			FLBuilder::render_module_html( 'photo', $photo_settings );
+			FLBuilder::render_module_html( 'photo', $this->get_photo_settings() );
 			echo '</div>';
 		} elseif ( 'icon' == $this->settings->image_type && $this->settings->icon_position == $position ) {
-
-			$icon_settings = array(
-				'bg_color'       => $this->settings->icon_bg_color,
-				'bg_hover_color' => $this->settings->icon_bg_hover_color,
-				'color'          => $this->settings->icon_color,
-				'exclude_wrapper' => true,
-				'hover_color'    => $this->settings->icon_hover_color,
-				'icon'           => $this->settings->icon,
-				'link'           => $this->settings->link,
-				'link_target'    => $this->settings->link_target,
-				'size'           => $this->settings->icon_size,
-				'text'           => '',
-				'three_d'        => $this->settings->icon_3d,
-			);
-
-			FLBuilder::render_module_html( 'icon', $icon_settings );
+			FLBuilder::render_module_html( 'icon', $this->get_icon_settings() );
 		}
 	}
 }
@@ -210,6 +290,19 @@ FLBuilder::register_module('FLCalloutModule', array(
 							'selector'      => '.fl-callout-title-text',
 						),
 						'connections'   => array( 'string' ),
+					),
+					'title_tag'     => array(
+						'type'          => 'select',
+						'label'         => __( 'Heading Tag', 'fl-builder' ),
+						'default'       => 'h3',
+						'options'       => array(
+							'h1'            => 'h1',
+							'h2'            => 'h2',
+							'h3'            => 'h3',
+							'h4'            => 'h4',
+							'h5'            => 'h5',
+							'h6'            => 'h6',
+						),
 					),
 				),
 			),
@@ -235,62 +328,107 @@ FLBuilder::register_module('FLCalloutModule', array(
 		'title'         => __( 'Style', 'fl-builder' ),
 		'sections'      => array(
 			'overall_structure' => array(
-				'title'         => __( 'Structure', 'fl-builder' ),
+				'title'         => '',
 				'fields'        => array(
-					'align'         => array(
-						'type'          => 'select',
-						'label'         => __( 'Overall Alignment', 'fl-builder' ),
-						'default'       => 'left',
-						'options'       => array(
-							'center'        => __( 'Center', 'fl-builder' ),
-							'left'          => __( 'Left', 'fl-builder' ),
-							'right'         => __( 'Right', 'fl-builder' ),
+					'bg_color'      => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Background Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'	=> true,
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'      => '.fl-module-content',
+							'property'      => 'background-color',
 						),
+					),
+					'border' 		=> array(
+						'type'          => 'border',
+						'label'         => __( 'Border', 'fl-builder' ),
+						'responsive'	=> true,
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'		=> '.fl-module-content',
+						),
+					),
+					'align'         => array(
+						'type'          => 'align',
+						'label'         => __( 'Alignment', 'fl-builder' ),
+						'default'       => 'left',
 						'help'          => __( 'The alignment that will apply to all elements within the callout.', 'fl-builder' ),
 						'preview'       => array(
 							'type'          => 'none',
 						),
 					),
+					'padding' 	 	=> array(
+						'type'        	=> 'dimension',
+						'label'       	=> __( 'Padding', 'fl-builder' ),
+						'default'       => '',
+						'responsive'	=> true,
+						'slider'		=> true,
+						'units'		  	=> array(
+							'px',
+							'em',
+							'%',
+						),
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'      => '.fl-module-content',
+							'property'      => 'padding',
+						),
+					),
 				),
 			),
 			'title_structure' => array(
-				'title'         => __( 'Heading Structure', 'fl-builder' ),
+				'title'         => __( 'Heading', 'fl-builder' ),
 				'fields'        => array(
-					'title_tag'     => array(
-						'type'          => 'select',
-						'label'         => __( 'Heading Tag', 'fl-builder' ),
-						'default'       => 'h3',
-						'options'       => array(
-							'h1'            => 'h1',
-							'h2'            => 'h2',
-							'h3'            => 'h3',
-							'h4'            => 'h4',
-							'h5'            => 'h5',
-							'h6'            => 'h6',
+					'title_color'    => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Heading Color', 'fl-builder' ),
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-callout-title, .fl-callout-title-text, .fl-callout-title-text:hover',
+							'property'		=> 'color',
 						),
 					),
-					'title_size'    => array(
-						'type'          => 'select',
-						'label'         => __( 'Heading Size', 'fl-builder' ),
-						'default'       => 'default',
-						'options'       => array(
-							'default'       => __( 'Default', 'fl-builder' ),
-							'custom'        => __( 'Custom', 'fl-builder' ),
-						),
-						'toggle'        => array(
-							'custom'        => array(
-								'fields'        => array( 'title_custom_size' ),
-							),
+					'title_typography' => array(
+						'type'        	=> 'typography',
+						'label'       	=> __( 'Heading Typography', 'fl-builder' ),
+						'responsive'  	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-callout-title',
 						),
 					),
-					'title_custom_size' => array(
-						'type'              => 'text',
-						'label'             => __( 'Heading Custom Size', 'fl-builder' ),
-						'default'           => '24',
-						'maxlength'         => '3',
-						'size'              => '4',
-						'description'       => 'px',
-						'sanitize'			=> 'absint',
+				),
+			),
+			'content' 		=> array(
+				'title'         => __( 'Text', 'fl-builder' ),
+				'fields'        => array(
+					'content_color'    => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Text Color', 'fl-builder' ),
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-callout-text, .fl-callout-cta-link',
+							'property'		=> 'color',
+						),
+					),
+					'content_typography' => array(
+						'type'        	=> 'typography',
+						'label'       	=> __( 'Text Typography', 'fl-builder' ),
+						'responsive'  	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-callout-text, .fl-callout-cta-link',
+						),
 					),
 				),
 			),
@@ -314,7 +452,7 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'toggle'        => array(
 							'none'          => array(),
 							'photo'         => array(
-								'sections'      => array( 'photo' ),
+								'sections'      => array( 'photo', 'photo_style' ),
 							),
 							'icon'          => array(
 								'sections'      => array( 'icon', 'icon_colors', 'icon_structure' ),
@@ -332,6 +470,22 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'label'         => __( 'Photo', 'fl-builder' ),
 						'connections'   => array( 'photo' ),
 					),
+					'photo_position' => array(
+						'type'          => 'select',
+						'label'         => __( 'Position', 'fl-builder' ),
+						'default'       => 'above-title',
+						'options'       => array(
+							'above-title'   => __( 'Above Heading', 'fl-builder' ),
+							'below-title'   => __( 'Below Heading', 'fl-builder' ),
+							'left'          => __( 'Left of Text and Heading', 'fl-builder' ),
+							'right'         => __( 'Right of Text and Heading', 'fl-builder' ),
+						),
+					),
+				),
+			),
+			'photo_style'   => array(
+				'title'         => __( 'Photo Style', 'fl-builder' ),
+				'fields'        => array(
 					'photo_crop'    => array(
 						'type'          => 'select',
 						'label'         => __( 'Crop', 'fl-builder' ),
@@ -345,15 +499,48 @@ FLBuilder::register_module('FLCalloutModule', array(
 							'circle'        => __( 'Circle', 'fl-builder' ),
 						),
 					),
-					'photo_position' => array(
-						'type'          => 'select',
-						'label'         => __( 'Position', 'fl-builder' ),
-						'default'       => 'above-title',
-						'options'       => array(
-							'above-title'   => __( 'Above Heading', 'fl-builder' ),
-							'below-title'   => __( 'Below Heading', 'fl-builder' ),
-							'left'          => __( 'Left of Text and Heading', 'fl-builder' ),
-							'right'         => __( 'Right of Text and Heading', 'fl-builder' ),
+					'photo_width' 	=> array(
+						'type'			=> 'unit',
+						'label'			=> __( 'Width', 'fl-builder' ),
+						'responsive'	=> true,
+						'units'			=> array(
+							'px',
+							'vw',
+							'%',
+						),
+						'slider'		=> array(
+							'px'			=> array(
+								'min'			=> 0,
+								'max'			=> 1000,
+								'step'			=> 10,
+							),
+						),
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'		=> '.fl-photo-img',
+							'property'		=> 'width',
+							'important'		=> true,
+						),
+					),
+					'photo_align'   => array(
+						'type'          => 'align',
+						'label'         => __( 'Align', 'fl-builder' ),
+						'default'       => '',
+						'responsive'	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-photo',
+							'property'		=> 'text-align',
+							'important'		=> true,
+						),
+					),
+					'photo_border' => array(
+						'type'          => 'border',
+						'label'         => __( 'Border', 'fl-builder' ),
+						'responsive'	=> true,
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'		=> '.fl-photo-img',
 						),
 					),
 				),
@@ -385,26 +572,40 @@ FLBuilder::register_module('FLCalloutModule', array(
 				'fields'        => array(
 					'icon_color'    => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-icon i, .fl-icon i:before',
+							'property'		=> 'color',
+							'important'		=> true,
+						),
 					),
 					'icon_hover_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Hover Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
 						'preview'       => array(
 							'type'          => 'none',
 						),
 					),
 					'icon_bg_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Background Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
 					),
 					'icon_bg_hover_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Background Hover Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
 						'preview'       => array(
 							'type'          => 'none',
 						),
@@ -424,55 +625,36 @@ FLBuilder::register_module('FLCalloutModule', array(
 				'title'         => __( 'Icon Structure', 'fl-builder' ),
 				'fields'        => array(
 					'icon_size'     => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Size', 'fl-builder' ),
 						'default'       => '30',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'responsive'	=> true,
+						'units'			=> array( 'px', 'em', 'rem' ),
+						'slider'		=> true,
+						'preview'		=> array(
+							'type'			=> 'none',
+						),
 					),
 				),
 			),
 		),
 	),
 	'cta'           => array(
-		'title'         => __( 'Call To Action', 'fl-builder' ),
+		'title'         => __( 'Link', 'fl-builder' ),
 		'sections'      => array(
 			'link'          => array(
-				'title'         => __( 'Link', 'fl-builder' ),
+				'title'         => '',
 				'fields'        => array(
 					'link'          => array(
 						'type'          => 'link',
 						'label'         => __( 'Link', 'fl-builder' ),
 						'help'          => __( 'The link applies to the entire module. If choosing a call to action type below, this link will also be used for the text or button.', 'fl-builder' ),
+						'show_target'	=> true,
+						'show_nofollow' => true,
 						'preview'       => array(
 							'type'          => 'none',
 						),
 						'connections'   => array( 'url' ),
-					),
-					'link_target'   => array(
-						'type'          => 'select',
-						'label'         => __( 'Link Target', 'fl-builder' ),
-						'default'       => '_self',
-						'options'       => array(
-							'_self'         => __( 'Same Window', 'fl-builder' ),
-							'_blank'        => __( 'New Window', 'fl-builder' ),
-						),
-						'preview'       => array(
-							'type'          => 'none',
-						),
-					),
-					'link_nofollow'          => array(
-						'type'          => 'select',
-						'label'         => __( 'Link No Follow', 'fl-builder' ),
-						'default'       => 'no',
-						'options' 		=> array(
-							'yes' 			=> __( 'Yes', 'fl-builder' ),
-							'no' 			=> __( 'No', 'fl-builder' ),
-						),
-						'preview'       => array(
-							'type'          => 'none',
-						),
 					),
 				),
 			),
@@ -485,17 +667,18 @@ FLBuilder::register_module('FLCalloutModule', array(
 						'default'       => 'none',
 						'options'       => array(
 							'none'          => _x( 'None', 'Call to action.', 'fl-builder' ),
-							'link'          => __( 'Text', 'fl-builder' ),
+							'link'          => __( 'Link', 'fl-builder' ),
 							'button'        => __( 'Button', 'fl-builder' ),
 						),
 						'toggle'        => array(
 							'none'          => array(),
 							'link'          => array(
 								'fields'        => array( 'cta_text' ),
+								'sections'      => array( 'link_text' ),
 							),
 							'button'        => array(
-								'fields'        => array( 'cta_text', 'btn_icon', 'btn_icon_position', 'btn_icon_animation' ),
-								'sections'      => array( 'btn_style', 'btn_colors', 'btn_structure', 'btn_responsive_style' ),
+								'fields'        => array( 'cta_text' ),
+								'sections'      => array( 'btn_icon', 'btn_style', 'btn_text', 'btn_colors', 'btn_border' ),
 							),
 						),
 					),
@@ -509,10 +692,60 @@ FLBuilder::register_module('FLCalloutModule', array(
 							'selector'		=> '.fl-callout-cta-link, .fl-button-text',
 						),
 					),
+				),
+			),
+			'link_text'     => array(
+				'title'         => __( 'Link Text', 'fl-builder' ),
+				'fields'        => array(
+					'link_color' 	=> array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Link Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> 'a.fl-callout-cta-link',
+							'property'		=> 'color',
+							'important'		=> true,
+						),
+					),
+					'link_hover_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Link Hover Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> 'a.fl-callout-cta-link:hover, a.fl-callout-cta-link:focus',
+							'property'		=> 'color',
+							'important'		=> true,
+						),
+					),
+					'link_typography' => array(
+						'type'        	=> 'typography',
+						'label'       	=> __( 'Link Typography', 'fl-builder' ),
+						'responsive'  	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> 'a.fl-callout-cta-link',
+						),
+					),
+				),
+			),
+			'btn_icon'      => array(
+				'title'         => __( 'Button Icon', 'fl-builder' ),
+				'fields'        => array(
 					'btn_icon'      => array(
 						'type'          => 'icon',
 						'label'         => __( 'Button Icon', 'fl-builder' ),
 						'show_remove'   => true,
+						'show'			=> array(
+							'fields'		=> array( 'btn_icon_position', 'btn_icon_animation' ),
+						),
 					),
 					'btn_icon_position' => array(
 						'type'          => 'select',
@@ -525,7 +758,7 @@ FLBuilder::register_module('FLCalloutModule', array(
 					),
 					'btn_icon_animation' => array(
 						'type'          => 'select',
-						'label'         => __( 'Icon Visibility', 'fl-builder' ),
+						'label'         => __( 'Button Icon Visibility', 'fl-builder' ),
 						'default'       => 'disable',
 						'options'       => array(
 							'disable'        => __( 'Always Visible', 'fl-builder' ),
@@ -534,101 +767,10 @@ FLBuilder::register_module('FLCalloutModule', array(
 					),
 				),
 			),
-			'btn_colors'     => array(
-				'title'         => __( 'Button Colors', 'fl-builder' ),
-				'fields'        => array(
-					'btn_bg_color'  => array(
-						'type'          => 'color',
-						'label'         => __( 'Background Color', 'fl-builder' ),
-						'default'       => '',
-						'show_reset'    => true,
-					),
-					'btn_bg_hover_color' => array(
-						'type'          => 'color',
-						'label'         => __( 'Background Hover Color', 'fl-builder' ),
-						'default'       => '',
-						'show_reset'    => true,
-						'preview'       => array(
-							'type'          => 'none',
-						),
-					),
-					'btn_text_color' => array(
-						'type'          => 'color',
-						'label'         => __( 'Text Color', 'fl-builder' ),
-						'default'       => '',
-						'show_reset'    => true,
-					),
-					'btn_text_hover_color' => array(
-						'type'          => 'color',
-						'label'         => __( 'Text Hover Color', 'fl-builder' ),
-						'default'       => '',
-						'show_reset'    => true,
-						'preview'       => array(
-							'type'          => 'none',
-						),
-					),
-				),
-			),
 			'btn_style'     => array(
 				'title'         => __( 'Button Style', 'fl-builder' ),
 				'fields'        => array(
-					'btn_style'     => array(
-						'type'          => 'select',
-						'label'         => __( 'Style', 'fl-builder' ),
-						'default'       => 'flat',
-						'options'       => array(
-							'flat'          => __( 'Flat', 'fl-builder' ),
-							'gradient'      => __( 'Gradient', 'fl-builder' ),
-							'transparent'   => __( 'Transparent', 'fl-builder' ),
-						),
-						'toggle'        => array(
-							'transparent'   => array(
-								'fields'        => array( 'btn_bg_opacity', 'btn_bg_hover_opacity', 'btn_border_size' ),
-							),
-						),
-					),
-					'btn_border_size' => array(
-						'type'          => 'text',
-						'label'         => __( 'Border Size', 'fl-builder' ),
-						'default'       => '2',
-						'description'   => 'px',
-						'maxlength'     => '3',
-						'size'          => '5',
-						'placeholder'   => '0',
-					),
-					'btn_bg_opacity' => array(
-						'type'          => 'text',
-						'label'         => __( 'Background Opacity', 'fl-builder' ),
-						'default'       => '0',
-						'description'   => '%',
-						'maxlength'     => '3',
-						'size'          => '5',
-						'placeholder'   => '0',
-					),
-					'btn_bg_hover_opacity' => array(
-						'type'          => 'text',
-						'label'         => __( 'Background Hover Opacity', 'fl-builder' ),
-						'default'       => '0',
-						'description'   => '%',
-						'maxlength'     => '3',
-						'size'          => '5',
-						'placeholder'   => '0',
-					),
-					'btn_button_transition' => array(
-						'type'          => 'select',
-						'label'         => __( 'Transition', 'fl-builder' ),
-						'default'       => 'disable',
-						'options'       => array(
-							'disable'        => __( 'Disabled', 'fl-builder' ),
-							'enable'         => __( 'Enabled', 'fl-builder' ),
-						),
-					),
-				),
-			),
-			'btn_structure' => array(
-				'title'         => __( 'Button Structure', 'fl-builder' ),
-				'fields'        => array(
-					'btn_width'     => array(
+					'btn_width'      => array(
 						'type'          => 'select',
 						'label'         => __( 'Button Width', 'fl-builder' ),
 						'default'       => 'auto',
@@ -636,45 +778,147 @@ FLBuilder::register_module('FLCalloutModule', array(
 							'auto'          => _x( 'Auto', 'Width.', 'fl-builder' ),
 							'full'          => __( 'Full Width', 'fl-builder' ),
 						),
+						'toggle'        => array(
+							'auto'          => array(
+								'fields'        => array( 'btn_align' ),
+							),
+						),
 					),
-					'btn_font_size' => array(
-						'type'          => 'text',
-						'label'         => __( 'Font Size', 'fl-builder' ),
-						'default'       => '14',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+					'btn_align'      => array(
+						'type'          => 'align',
+						'label'         => __( 'Button Align', 'fl-builder' ),
+						'default'       => '',
+						'responsive'	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-button-wrap',
+							'property'		=> 'text-align',
+						),
 					),
-					'btn_padding'   => array(
-						'type'          => 'text',
-						'label'         => __( 'Padding', 'fl-builder' ),
-						'default'       => '10',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
-					),
-					'btn_border_radius' => array(
-						'type'          => 'text',
-						'label'         => __( 'Round Corners', 'fl-builder' ),
-						'default'       => '4',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+					'btn_padding' 	=> array(
+						'type'        	=> 'dimension',
+						'label'       	=> __( 'Button Padding', 'fl-builder' ),
+						'responsive'  	=> true,
+						'slider'		=> true,
+						'units'		  	=> array( 'px' ),
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'      => 'a.fl-button',
+							'property'      => 'padding',
+						),
 					),
 				),
 			),
-			'btn_responsive_style' 	=> array(
-				'title'         		=> __( 'Responsive Button Style', 'fl-builder' ),
-				'fields'        		=> array(
-					'btn_mobile_align' => array(
-						'type'          => 'select',
-						'label'         => __( 'Alignment', 'fl-builder' ),
-						'default'       => 'center',
-						'options'       => array(
-							'center'        => __( 'Center', 'fl-builder' ),
-							'left'          => __( 'Left', 'fl-builder' ),
-							'right'         => __( 'Right', 'fl-builder' ),
+			'btn_text'     => array(
+				'title'         => __( 'Button Text', 'fl-builder' ),
+				'fields'        => array(
+					'btn_text_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Button Text Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> 'a.fl-button, a.fl-button *',
+							'property'		=> 'color',
+							'important'		=> true,
 						),
+					),
+					'btn_text_hover_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Button Text Hover Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> 'a.fl-button:hover, a.fl-button:hover *, a.fl-button:focus, a.fl-button:focus *',
+							'property'		=> 'color',
+							'important'		=> true,
+						),
+					),
+					'btn_typography' => array(
+						'type'        	=> 'typography',
+						'label'       	=> __( 'Button Typography', 'fl-builder' ),
+						'responsive'  	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> 'a.fl-button',
+						),
+					),
+				),
+			),
+			'btn_colors'   => array(
+				'title'         => __( 'Button Background', 'fl-builder' ),
+				'fields'        => array(
+					'btn_bg_color'   => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Button Background Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'       => array(
+							'type'          => 'none',
+						),
+					),
+					'btn_bg_hover_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Button Background Hover Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'       => array(
+							'type'          => 'none',
+						),
+					),
+					'btn_style'    => array(
+						'type'          => 'select',
+						'label'         => __( 'Button Background Style', 'fl-builder' ),
+						'default'       => 'flat',
+						'options'       => array(
+							'flat'          => __( 'Flat', 'fl-builder' ),
+							'gradient'      => __( 'Gradient', 'fl-builder' ),
+						),
+					),
+					'btn_button_transition' => array(
+						'type'          => 'select',
+						'label'         => __( 'Button Background Animation', 'fl-builder' ),
+						'default'       => 'disable',
+						'options'       => array(
+							'disable'        => __( 'Disabled', 'fl-builder' ),
+							'enable'         => __( 'Enabled', 'fl-builder' ),
+						),
+						'preview'		=> array(
+							'type'			=> 'none',
+						),
+					),
+				),
+			),
+			'btn_border'   => array(
+				'title'         => __( 'Button Border', 'fl-builder' ),
+				'fields'        => array(
+					'btn_border' 	=> array(
+						'type'          => 'border',
+						'label'         => __( 'Button Border', 'fl-builder' ),
+						'responsive'	=> true,
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'		=> 'a.fl-button',
+							'important'		=> true,
+						),
+					),
+					'btn_border_hover_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Button Border Hover Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
 						'preview'       => array(
 							'type'          => 'none',
 						),

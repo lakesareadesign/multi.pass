@@ -35,30 +35,7 @@
 	<?php endif; ?>
 
 	<div class="fl-form-button" data-wait-text="<?php esc_attr_e( 'Please Wait...', 'fl-builder' ); ?>">
-	<?php
-
-	FLBuilder::render_module_html( 'button', array(
-		'align'             => '',
-		'bg_color'          => $settings->btn_bg_color,
-		'bg_hover_color'    => $settings->btn_bg_hover_color,
-		'bg_opacity'        => $settings->btn_bg_opacity,
-		'border_radius'     => $settings->btn_border_radius,
-		'border_size'       => $settings->btn_border_size,
-		'font_size'         => $settings->btn_font_size,
-		'icon'              => $settings->btn_icon,
-		'icon_position'     => $settings->btn_icon_position,
-		'icon_animation'    => $settings->btn_icon_animation,
-		'link'              => '#',
-		'link_target'       => '_self',
-		'padding'           => $settings->btn_padding,
-		'style'             => $settings->btn_style,
-		'text'              => $settings->btn_text,
-		'text_color'        => $settings->btn_text_color,
-		'text_hover_color'  => $settings->btn_text_hover_color,
-		'width'             => 'full',
-	));
-
-	?>
+	<?php FLBuilder::render_module_html( 'button', $module->get_button_settings() ); ?>
 	</div>
 
 	<?php if ( 'inline' == $settings->layout ) : ?>

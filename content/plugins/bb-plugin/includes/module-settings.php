@@ -9,28 +9,39 @@ FLBuilder::register_settings_form('module_advanced', array(
 			'title'         => __( 'Spacing', 'fl-builder' ),
 			'fields'        => array(
 				'margin' 		=> array(
-					'type'        => 'dimension',
-					'label'       => __( 'Margins', 'fl-builder' ),
-					'description' => 'px',
-					'preview'     => array(
-						'type' => 'none',
+					'type'        	=> 'dimension',
+					'label'       	=> __( 'Margins', 'fl-builder' ),
+					'slider'		=> true,
+					'units'		  	=> array(
+						'px',
+						'%',
+					),
+					'preview'       => array(
+						'type'          => 'css',
+						'selector'      => '.fl-module-content',
+						'property'      => 'margin',
 					),
 					'responsive'  => array(
+						'default_unit' => array(
+							'default'    => $global_settings->module_margins_unit,
+							'medium'     => $global_settings->module_margins_medium_unit,
+							'responsive' => $global_settings->module_margins_responsive_unit,
+						),
 						'placeholder' => array(
-							'default'    => ( isset( $global_settings->module_margins ) ) ? $global_settings->module_margins : '',
-							'medium'     => ( isset( $global_settings->module_margins_medium ) ) ? $global_settings->module_margins_medium : '',
-							'responsive' => ( isset( $global_settings->module_margins_responsive ) ) ? $global_settings->module_margins_responsive : '',
+							'default'    => $global_settings->module_margins,
+							'medium'     => $global_settings->module_margins_medium,
+							'responsive' => $global_settings->module_margins_responsive,
 						),
 					),
 				),
 			),
 		),
-		'responsive'   => array(
-			'title'         => __( 'Responsive Layout', 'fl-builder' ),
+		'visibility'   => array(
+			'title'         => __( 'Visibility', 'fl-builder' ),
 			'fields'        => array(
 				'responsive_display' => array(
 					'type'          => 'select',
-					'label'         => __( 'Display', 'fl-builder' ),
+					'label'         => __( 'Breakpoint', 'fl-builder' ),
 					'options'       => array(
 						''                  => __( 'Always', 'fl-builder' ),
 						'desktop'           => __( 'Large Devices Only', 'fl-builder' ),
@@ -39,16 +50,10 @@ FLBuilder::register_settings_form('module_advanced', array(
 						'medium-mobile'     => __( 'Medium &amp; Small Devices Only', 'fl-builder' ),
 						'mobile'            => __( 'Small Devices Only', 'fl-builder' ),
 					),
-					'help'          => __( 'Choose whether to show or hide this module at different device sizes.', 'fl-builder' ),
 					'preview'         => array(
 						'type'            => 'none',
 					),
 				),
-			),
-		),
-		'visibility'   => array(
-			'title'         => __( 'Visibility', 'fl-builder' ),
-			'fields'        => array(
 				'visibility_display' => array(
 					'type'          => 'select',
 					'label'         => __( 'Display', 'fl-builder' ),
@@ -77,34 +82,15 @@ FLBuilder::register_settings_form('module_advanced', array(
 				),
 			),
 		),
-		'animation'    => array(
+		'animation'     => array(
 			'title'         => __( 'Animation', 'fl-builder' ),
 			'fields'        => array(
-				'animation'     => array(
-					'type'          => 'select',
-					'label'         => __( 'Style', 'fl-builder' ),
-					'options'       => array(
-						''              => _x( 'None', 'Animation style.', 'fl-builder' ),
-						'fade-in'       => _x( 'Fade In', 'Animation style.', 'fl-builder' ),
-						'slide-left'    => _x( 'Slide Left', 'Animation style.', 'fl-builder' ),
-						'slide-right'   => _x( 'Slide Right', 'Animation style.', 'fl-builder' ),
-						'slide-up'      => _x( 'Slide Up', 'Animation style.', 'fl-builder' ),
-						'slide-down'    => _x( 'Slide Down', 'Animation style.', 'fl-builder' ),
-					),
-					'preview'         => array(
-						'type'            => 'none',
-					),
-				),
-				'animation_delay' => array(
-					'type'          => 'text',
-					'label'         => __( 'Delay', 'fl-builder' ),
-					'default'       => '0.0',
-					'maxlength'     => '4',
-					'size'          => '5',
-					'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
-					'help'          => __( 'The amount of time in seconds before this animation starts.', 'fl-builder' ),
-					'preview'         => array(
-						'type'            => 'none',
+				'animation' => array(
+					'type'          => 'animation',
+					'label'         => __( 'Animation', 'fl-builder' ),
+					'preview'		=> array(
+						'type'			=> 'animation',
+						'selector'		=> '{node}',
 					),
 				),
 			),
@@ -112,6 +98,23 @@ FLBuilder::register_settings_form('module_advanced', array(
 		'css_selectors' => array(
 			'title'         => __( 'HTML Element', 'fl-builder' ),
 			'fields'        => array(
+				'container_element' => array(
+					'type'          => 'select',
+					'label'         => __( 'Container Element', 'fl-builder' ),
+					'default'       => 'div',
+					'options'		=> apply_filters( 'fl_builder_node_container_element_options', array(
+						'div'               => '&lt;div&gt;',
+						'section'           => '&lt;section&gt;',
+						'article'           => '&lt;article&gt;',
+						'aside'             => '&lt;aside&gt;',
+						'header'            => '&lt;header&gt;',
+						'footer'            => '&lt;footer&gt;',
+					) ),
+					'help'          => __( 'Optional. Choose an appropriate HTML5 content sectioning element to use for this module to improve accessibility and machine-readability.', 'fl-builder' ),
+					'preview'         => array(
+						'type'            => 'none',
+					),
+				),
 				'id'            => array(
 					'type'          => 'text',
 					'label'         => __( 'ID', 'fl-builder' ),

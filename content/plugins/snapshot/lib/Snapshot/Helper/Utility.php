@@ -1113,30 +1113,28 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 
 			$buffer = '';
 			$cnt    = 0;
-			$status = false;
 
-			global $wp_filesystem;
-
-			if( self::connect_fs() ) {
-				$file = $wp_filesystem->get_contents( $filename );
-
-				$splitFile = str_split($file, $CHUNK_SIZE);
-				foreach($splitFile as $buffer) {
-					echo $buffer; // phpcs:ignore
-					flush();
-					if ( $retbytes ) {
-						$cnt += strlen( $buffer );
-					}
-				}
-				$status = true;
-			} else {
+			$handle = fopen( $filename, 'rb' ); // phpcs:ignore
+			if ( false === $handle ) {
 				return false;
 			}
 
+			while ( ! feof( $handle ) ) {
+				$buffer = fread( $handle, $CHUNK_SIZE ); // phpcs:ignore
+				echo $buffer; // phpcs:ignore
+				flush();
+				if( ob_get_level() > 0 ){
+					ob_flush();
+				}
+				if ( $retbytes ) {
+					$cnt += strlen( $buffer );
+				}
+			}
+
+			$status = fclose( $handle ); // phpcs:ignore
 			if ( $retbytes && $status ) {
 				return $cnt; // return num. bytes delivered like readfile() does.
 			}
-
 			return $status;
 		}
 
@@ -2029,6 +2027,24 @@ if ( ! class_exists( 'Snapshot_Helper_Utility' ) ) {
 			}
 
 			return true;
+		}
+
+		/**
+		 * Checks whether we're on WPMU DEV Hosting
+		 *
+		 * @return bool
+		 */
+		public static function is_wpmu_hosting() {
+			return isset( $_SERVER['WPMUDEV_HOSTED'] ) && ! empty( $_SERVER['WPMUDEV_HOSTED'] );
+		}
+
+		/**
+		 * Checks whether we're on WPEngine
+		 *
+		 * @return bool
+		 */
+		public static function is_wpengine_hosting() {
+			return defined('WPE_APIKEY');
 		}
 
 	}

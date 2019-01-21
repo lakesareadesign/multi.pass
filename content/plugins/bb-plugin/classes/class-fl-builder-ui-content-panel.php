@@ -159,6 +159,7 @@ class FLBuilderUIContentPanel {
 				$data['views'][] = array(
 					'handle' => $slug,
 					'name' => $group['name'],
+					'hasChildren' => count( $group['categories'] ) > 1,
 					'query' => array(
 						'kind' => 'template',
 						'type' => 'core',
@@ -177,6 +178,7 @@ class FLBuilderUIContentPanel {
 						'handle' => $cat_slug,
 						'name' => $category['name'],
 						'isSubItem' => true,
+						'parent' => $slug,
 						'query' => array(
 							'kind' => 'template',
 							'type' => 'core',
@@ -230,6 +232,7 @@ class FLBuilderUIContentPanel {
 			$data['views'][] = array(
 				'handle' => $slug,
 				'name' => $group['name'],
+				'hasChildren' => count( $group['categories'] ) > 1,
 				'query' => array(
 					'kind' => 'template',
 					'type' => 'core',
@@ -248,6 +251,7 @@ class FLBuilderUIContentPanel {
 					'handle' => $cat_slug,
 					'name' => $category['name'],
 					'isSubItem' => true,
+					'parent' => $slug,
 					'query' => array(
 						'kind' => 'template',
 						'type' => 'core',

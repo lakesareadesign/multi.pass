@@ -1,11 +1,11 @@
 <div class="wrap about-wrap">
-    <h1><?php _e( 'Redux Framework - Changelog', 'redux-framework' ); ?></h1>
+    <h1><?php _e( 'Redux Framework - Changelog', 'ultra_framework' ); ?></h1>
 
     <div
-        class="about-text"><?php _e( 'Our core mantra at Redux is backwards compatibility. With hundreds of thousands of instances worldwide, you can be assured that we will take care of you and your clients.', 'redux-framework' ); ?></div>
+        class="about-text"><?php _e( 'Our core mantra at Redux is backwards compatibility. With hundreds of thousands of instances worldwide, you can be assured that we will take care of you and your clients.', 'ultra_framework' ); ?></div>
     <div
         class="redux-badge"><i
-            class="el el-redux"></i><span><?php printf( __( 'Version %s', 'redux-framework' ), ReduxFramework::$_version ); ?></span>
+            class="el el-redux"></i><span><?php printf( __( 'Version %s', 'ultra_framework' ), ReduxFramework::$_version ); ?></span>
     </div>
 
     <?php $this->actions(); ?>

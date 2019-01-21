@@ -44,4 +44,36 @@ FLBuilder::register_module('FLRichTextModule', array(
 			),
 		),
 	),
+	'style'       => array( // Tab
+		'title'         => __( 'Style', 'fl-builder' ), // Tab title
+		'sections'      => array( // Tab Sections
+			'style'       => array( // Section
+				'title'         => '', // Section Title
+				'fields'        => array( // Section Fields
+					'color'    		=> array(
+						'type'        	=> 'color',
+						'connections'	=> array( 'color' ),
+						'label'       	=> __( 'Color', 'fl-builder' ),
+						'show_reset'	=> true,
+						'show_alpha'	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-rich-text, .fl-rich-text *',
+							'property'		=> 'color',
+							'important'		=> true,
+						),
+					),
+					'typography'    => array(
+						'type'        	=> 'typography',
+						'label'       	=> __( 'Typography', 'fl-builder' ),
+						'responsive'  	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-rich-text, .fl-rich-text *',
+						),
+					),
+				),
+			),
+		),
+	),
 ));

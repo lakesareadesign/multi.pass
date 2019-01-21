@@ -4,16 +4,33 @@ Snapshots Plugin Destinations Dropbox
 Author: Paul Menard (Incsub)
 */
 
-if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare( phpversion(), "5.2", ">" ) )
+if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare( PHP_VERSION, "5.5.0", ">=" ) )
      && ( stristr( WPMUDEV_SNAPSHOT_DESTINATIONS_EXCLUDE, 'Snapshot_Model_Destination_AWS' ) === false )
 ) {
 	//require_once( dirname( __FILE__ ) . '/amazon-s3-php-class/S3.php' );
-	if ( ! class_exists( 'CFRuntime' ) ) {
-		require_once  dirname( __FILE__ ) . '/AWSSDKforPHP/sdk.class.php' ;
+	if ( ! class_exists( 'Aws\S3\S3Client' ) ) {
+		require_once  dirname( __FILE__ ) . '/vendor/autoload.php' ;
 	}
 
-	if ( class_exists( 'AmazonS3' ) ) {
+	if ( class_exists( 'Aws\S3\S3Client' ) ) {
 		class Snapshot_Model_Destination_AWS extends Snapshot_Model_Destination {
+
+			const REGION_US_E1 = 'us-east-1';
+			const REGION_US_W2 = 'us-west-2';
+			const REGION_US_W1 = 'us-west-1';
+			const REGION_EU_W1 = 'eu-west-1';
+			const REGION_APAC_SE1 = 'ap-southeast-1';
+			const REGION_APAC_SE2 = 'ap-southeast-2';
+			const REGION_APAC_NE1 = 'ap-northeast-1';
+			const REGION_SA_E1 = 'sa-east-1';
+
+			const STORAGE_STANDARD = 'STANDARD';
+			const STORAGE_REDUCED = 'REDUCED_REDUNDANCY';
+
+			const ACL_PRIVATE = 'private';
+			const ACL_PUBLIC = 'public-read';
+			const ACL_OPEN = 'public-read-write';
+			const ACL_AUTH_READ = 'authenticated-read';
 
 			// The slug and name are used to identify the Destination Class
 			public $name_slug;
@@ -112,27 +129,27 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				);
 
 				$this->_regions = array(
-					AmazonS3::REGION_US_E1            => __( 'US Standard', SNAPSHOT_I18N_DOMAIN ),
-					AmazonS3::REGION_US_W2            => __( 'US West (Oregon) Region', SNAPSHOT_I18N_DOMAIN ),
-					AmazonS3::REGION_US_W1            => __( 'US West (Northern California) Region', SNAPSHOT_I18N_DOMAIN ),
-					AmazonS3::REGION_EU_W1            => __( 'EU (Ireland) Region', SNAPSHOT_I18N_DOMAIN ),
-					AmazonS3::REGION_APAC_SE1         => __( 'Asia Pacific (Singapore) Region', SNAPSHOT_I18N_DOMAIN ),
-					's3-ap-southeast-2.amazonaws.com' => __( 'Asia Pacific (Sydney) Region', SNAPSHOT_I18N_DOMAIN ),
-					AmazonS3::REGION_APAC_NE1         => __( 'Asia Pacific (Tokyo) Region', SNAPSHOT_I18N_DOMAIN ),
-					AmazonS3::REGION_SA_E1            => __( 'South America (Sao Paulo) Region', SNAPSHOT_I18N_DOMAIN ),
+					self::REGION_US_E1            => __( 'US Standard', SNAPSHOT_I18N_DOMAIN ),
+					self::REGION_US_W2            => __( 'US West (Oregon) Region', SNAPSHOT_I18N_DOMAIN ),
+					self::REGION_US_W1            => __( 'US West (Northern California) Region', SNAPSHOT_I18N_DOMAIN ),
+					self::REGION_EU_W1            => __( 'EU (Ireland) Region', SNAPSHOT_I18N_DOMAIN ),
+					self::REGION_APAC_SE1         => __( 'Asia Pacific (Singapore) Region', SNAPSHOT_I18N_DOMAIN ),
+					self::REGION_APAC_SE2         => __( 'Asia Pacific (Sydney) Region', SNAPSHOT_I18N_DOMAIN ),
+					self::REGION_APAC_NE1         => __( 'Asia Pacific (Tokyo) Region', SNAPSHOT_I18N_DOMAIN ),
+					self::REGION_SA_E1            => __( 'South America (Sao Paulo) Region', SNAPSHOT_I18N_DOMAIN ),
 					'other'                           => __( 'other', SNAPSHOT_I18N_DOMAIN )
 				);
 
 				$this->_storage = array(
-					AmazonS3::STORAGE_STANDARD => __( 'Standard', SNAPSHOT_I18N_DOMAIN ),
-					AmazonS3::STORAGE_REDUCED  => __( 'Reduced Redundancy', SNAPSHOT_I18N_DOMAIN )
+					self::STORAGE_STANDARD => __( 'Standard', SNAPSHOT_I18N_DOMAIN ),
+					self::STORAGE_REDUCED  => __( 'Reduced Redundancy', SNAPSHOT_I18N_DOMAIN )
 				);
 
 				$this->_acl = array(
-					AmazonS3::ACL_PRIVATE   => __( 'Private', SNAPSHOT_I18N_DOMAIN ),
-					AmazonS3::ACL_PUBLIC    => __( 'Public Read', SNAPSHOT_I18N_DOMAIN ),
-					AmazonS3::ACL_OPEN      => __( 'Public Read/Write', SNAPSHOT_I18N_DOMAIN ),
-					AmazonS3::ACL_AUTH_READ => __( 'Authenticated Read', SNAPSHOT_I18N_DOMAIN )
+					self::ACL_PRIVATE   => __( 'Private', SNAPSHOT_I18N_DOMAIN ),
+					self::ACL_PUBLIC    => __( 'Public Read', SNAPSHOT_I18N_DOMAIN ),
+					self::ACL_OPEN      => __( 'Public Read/Write', SNAPSHOT_I18N_DOMAIN ),
+					self::ACL_AUTH_READ => __( 'Authenticated Read', SNAPSHOT_I18N_DOMAIN )
 				);
 
 			}
@@ -187,7 +204,8 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 					return $this->error_array;
 				}
 
-				if ( ! $this->send_file( $filename ) ) {
+				$test_connection = false;
+				if ( ! $this->send_file( $filename, $test_connection ) ) {
 					return $this->error_array;
 				}
 
@@ -215,18 +233,19 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 
 				$resp = false;
 				try {
-					$resp = $this->aws_connection->list_objects(
-						$this->destination_info['bucket'],
+					$resp = $this->aws_connection->listObjects(
 						array(
-							'prefix' => join('/', $prefix),
+							'Bucket' => $this->destination_info['bucket'],
+							'Prefix' => join('/', $prefix),
 						)
 					);
 				} catch (Exception $e) {
 					$this->handle_exception($e, 'listing');
 				}
 
-				if ($resp && $resp->isOk()) {
-					foreach ($resp->body->Contents as $item) {
+				if ( $resp ) {
+					$resp_array = $resp->toArray();
+					foreach ($resp_array['Contents'] as $item) {
 						$items[] = $item;
 					}
 
@@ -246,8 +265,8 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 			public function get_prepared_items ($items) {
 				$prepared = array();
 				foreach ($items as $item) {
-					$ts = strtotime((string)$item->LastModified);
-					$path = (string)$item->Key;
+					$ts = strtotime((string)$item['LastModified']);
+					$path = (string)$item['Key'];
 
 					$prepared[$ts] = array(
 						'created' => date('r', $ts),
@@ -270,11 +289,11 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 			 * @return bool
 			 */
 			public function remove_file ($file_id) {
-				$resp = $this->aws_connection->delete_object(
-					$this->destination_info['bucket'],
-					$file_id
-				);
-				return $resp->isOk();
+				$resp = $this->aws_connection->deleteObject(array(
+					'Bucket' => $this->destination_info['bucket'],
+					'Key' => $file_id,
+				));
+				return (bool)$resp;
 			}
 
 			public function destination_ajax_proc() {
@@ -323,7 +342,8 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 						die();
 					}
 
-					$this->send_file( $tmpfname );
+					$test_connection = true;
+					$this->send_file( $tmpfname, $test_connection );
 					echo wp_json_encode( $this->error_array );
 					die();
 
@@ -350,6 +370,12 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 			public function login() {
 				//echo "destination_info<pre>"; print_r($this->destination_info); echo "</pre>";
 				$this->error_array['responseArray'][] = "Connecting to AWS ";
+				if ( version_compare(PHP_VERSION, '5.5', '<') ) {
+					// Too old PHP, can't do anything about it.
+					$this->error_array['errorStatus']  = true;
+					$this->error_array['errorArray'][] = "Error: Could not connect to AWS due to old PHP version.";
+					return false;
+				}
 
 				if ( "yes" === $this->destination_info['ssl'] ) {
 					$use_ssl                              = true;
@@ -359,46 +385,19 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 					$this->error_array['responseArray'][] = "Using SSL: No";
 				}
 
-				try {
-					$this->aws_connection = new AmazonS3(
-                         array(
-							'key'                   => $this->destination_info['awskey'],
-							$this->destination_info['secretkey'],
-							$use_ssl,
-							'secret'                => $this->destination_info['secretkey'],
-							'certificate_authority' => $use_ssl
-						)
-                    );
-
-					//$this->aws_connection->set_region('objects.dreamhost.com');
-
-
-					if ( ( 'other' === $this->destination_info['region'] )
-					     && ( isset( $this->destination_info['region-other'] ) )
-					     && ( ! empty( $this->destination_info['region-other'] ) )
-					) {
-						$this->error_array['responseArray'][] = "Setting Region: " .
-						                                        $this->_regions[ $this->destination_info['region'] ] . " (" . $this->destination_info['region-other'] . ")";
-						$this->aws_connection->set_region( $this->destination_info['region-other'] );
-					} else {
-						$this->error_array['responseArray'][] = "Setting Region: " .
-						                                        $this->_regions[ $this->destination_info['region'] ] . " (" . $this->destination_info['region'] . ")";
-						$this->aws_connection->set_region( $this->destination_info['region'] );
-					}
-				} catch ( Exception $e ) {
-					$this->error_array['errorStatus']  = true;
-					$this->error_array['errorArray'][] = "Error: Could not connect to AWS :" . $e->getMessage();
-
-					return false;
+				if ( 'other' === $this->destination_info['region'] ) {
+					$connection_region = $this->destination_info['region-other'];
+				} else {
+					$connection_region = $this->destination_info['region'];
 				}
+				require  dirname( __FILE__ ) . '/login.php' ;
 
-				return true;
+				return $status;
 			}
 
 			public function get_buckets() {
-
 				try {
-					$buckets = $this->aws_connection->list_buckets();
+					$buckets = $this->aws_connection->listBuckets();
 				} catch ( Exception $e ) {
 					$this->error_array['errorStatus']  = true;
 					$this->error_array['errorArray'][] = "Error: Could not list buckets :" . $e->getMessage();
@@ -406,14 +405,14 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 					return false;
 				}
 
-				if ( ( $buckets->status < 200 ) || ( $buckets->status >= 300 ) ) {
+				if ( ( $buckets['@metadata']['statusCode'] < 200 ) || ( $buckets['@metadata']['statusCode'] >= 300 ) ) {
 					$this->error_array['errorStatus']  = true;
 					$this->error_array['errorArray'][] = "Error: Could not list buckets :" . $buckets->body->Message;
 
 					return false;
 				}
 
-				if ( ( ! isset( $buckets->body->Buckets->Bucket ) ) || ( count( $buckets->body->Buckets->Bucket ) < 1 ) ) {
+				if ( ( ! isset( $buckets['Buckets'] ) ) || ( count( $buckets['Buckets'] ) < 1 ) ) {
 					$this->error_array['errorStatus']  = true;
 					$this->error_array['errorArray'][] = "Error: No Buckets found";
 
@@ -421,27 +420,19 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				}
 
 				$this->error_array['responseArray'][0] = '';
-				foreach ( $buckets->body->Buckets->Bucket as $bucket ) {
-					$this->error_array['responseArray'][0] .= '<option value="' . $bucket->Name . '" ';
+				foreach ($buckets['Buckets'] as $bucket) {
+					$this->error_array['responseArray'][0] .= '<option value="' . $bucket['Name'] . '" ';
 
-					if ( $this->destination_info['bucket'] === $bucket->Name ) {
+					if ( $this->destination_info['bucket'] === $bucket['Name'] ) {
 						$this->error_array['responseArray'][0] .= ' selected="selected" ';
 					}
-					$this->error_array['responseArray'][0] .= '>' . $bucket->Name . '</option>';
+					$this->error_array['responseArray'][0] .= '>' . $bucket['Name'] . '</option>';
 				}
 
 				return true;
 			}
 
-			public function send_file( $filename ) {
-
-				if ( ! $this->aws_connection->if_bucket_exists( $this->destination_info['bucket'] ) ) {
-					$this->error_array['errorStatus']  = true;
-					$this->error_array['errorArray'][] = "Error: Setting bucket :" . $this->destination_info['bucket'];
-					echo wp_json_encode( $this->error_array );
-					die();
-				}
-
+			public function send_file( $filename, $test_connection ) {
 				if ( ! empty( $this->destination_info['directory'] ) ) {
 					if ( "/" === $this->destination_info['directory'][0] ) {
 						$this->destination_info['directory'] = substr( $this->destination_info['directory'], 1 );
@@ -451,50 +442,132 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				}
 				$remote_filename = $this->destination_info['directory'] . basename( $filename );
 
-				$this->error_array['responseArray'][] = "Using Storage: " . $this->_storage[ $this->destination_info['storage'] ];
-				$this->error_array['responseArray'][] = "Using ACL: " . $this->destination_info['acl'];
-				$this->error_array['responseArray'][] = "Sending file to: Bucket: " . $this->destination_info['bucket'] .
-				                                        ": Directory: " . $this->destination_info['directory'];
-
-				try {
-					$result = (array) $this->aws_connection->create_object(
-                        $this->destination_info['bucket'],
-						$remote_filename,
-						array(
-							'acl'        => $this->destination_info['acl'],
-							'fileUpload' => $filename,
-							'length'     => filesize( $filename ),
-							'storage'    => $this->destination_info['storage'],
-							'curlopts'   => array()
-						)
-					);
-
-					//echo "result<pre>"; print_r($result['header']['_info']['url']); echo "</pre>";
-
-					if ( ( $result["status"] >= 200 ) && ( $result["status"] < 300 ) ) {
-						$this->error_array['responseArray'][] = "Send file success: " . basename( $filename );
-						$this->error_array['sendFileStatus']  = true;
-
-						//$this->error_array['responseArray'][] = "File URL: ". $result['header']['_info']['url'];
-						return true;
-
-					} else {
-						$body = $result['body'];
-						$message = $body->Message;
-						if ( strpos( $message, 'AWS4-HMAC-SHA256' ) !== false ) {
-							$this->error_array['errorArray'][] = "Bucket location region is incorrect. Please select the right one.";
-						}
+				if ( ! $test_connection ) {
+					if ( ! file_exists( $filename ) ) {
 						$this->error_array['errorStatus']  = true;
-						$this->error_array['errorArray'][] = 'Error: Send file failed :' . $result['status'] . ' : ' . $message;
+						$this->error_array['errorArray'][] = "Error: Could not find file to upload";
 
 						return false;
 					}
-				} catch ( Exception $e ) {
-					$this->error_array['errorStatus']  = true;
-					$this->error_array['errorArray'][] = "Error: Send file failed :" . $e->getMessage();
 
-					return false;
+					$upload = $this->get_initialized_upload( $filename, $remote_filename );
+
+					if ( ! $upload ) {
+						$this->error_array['errorStatus']  = true;
+						$this->error_array['errorArray'][] = "Error: Could not initialize the backup upload";
+
+						return false;
+					}
+
+					$this->error_array['responseArray'][] = "Using Storage: " . $this->_storage[ $this->destination_info['storage'] ];
+					$this->error_array['responseArray'][] = "Using ACL: " . $this->destination_info['acl'];
+					$this->error_array['responseArray'][] = "Sending file to: Bucket: " . $this->destination_info['bucket'] .
+															": Directory: " . $this->destination_info['directory'];
+
+					$is_done = true;
+
+					$part = $upload->get_next_part();
+					if ( ! empty( $part ) ) {
+						$is_done = false;
+						$idx = $part->get_index();
+						try {
+							$response = $this->aws_connection->uploadPart(array(
+								'Bucket' => $this->destination_info['bucket'],
+								'Key' => $remote_filename,
+								'UploadId' => $upload->get_transfer_id(),
+								'PartNumber' => $part->get_part_number(),
+								'Body' => $upload->get_payload( $part ),
+							));
+							$upload->complete_part( $idx );
+							$upload->save();
+
+							$is_done = $upload->is_done();
+						} catch( Exception $e ) {
+							$this->error_array['errorStatus']  = true;
+							$this->error_array['errorArray'][] = "Error: Send file failed :" . $e->getMessage();
+
+							return false;
+						}
+					}
+
+					// Check if upload is finished and if it did, finalize it and log success message.
+					if ( $is_done ) {
+						$finalized_upload = $this->finalize_upload( $upload, $remote_filename );
+						if ( $finalized_upload ) {
+							$this->error_array['responseArray'][] = "Send file success: " . basename( $filename );
+							$this->error_array['sendFileStatus']  = true;
+						} else {
+							$this->error_array['errorStatus']  = true;
+							$this->error_array['errorArray'][] = "Unable to finalize the upload";
+
+							return false;
+						}
+
+					} else {
+						// Check if the non-finished upload has already tried to send all of its parts.
+						if ( ( $idx + 1 ) === count($upload->get_parts() ) ) {
+							// If so, we can not recover, so log failed message.
+							$this->error_array['errorStatus']  = true;
+							$this->error_array['errorArray'][] = "Unable to finalize the upload";
+
+							return false;
+						}
+					}
+
+				} else {
+					try {
+						$bucket_exists = $this->aws_connection->headBucket(array(
+							'Bucket' => $this->destination_info['bucket'],
+						));
+					} catch ( Exception $e ) {
+						// Display error message
+						$this->error_array['errorStatus']  = true;
+						$this->error_array['errorArray'][] = "Error: " . $e->getMessage();
+						echo wp_json_encode( $this->error_array );
+						die();
+					}
+
+					$this->error_array['responseArray'][] = "Using Storage: " . $this->_storage[ $this->destination_info['storage'] ];
+					$this->error_array['responseArray'][] = "Using ACL: " . $this->destination_info['acl'];
+					$this->error_array['responseArray'][] = "Sending file to: Bucket: " . $this->destination_info['bucket'] .
+															": Directory: " . $this->destination_info['directory'];
+
+					try {
+						$s3Client = $this->aws_connection;
+						$result = $s3Client->putObject(array(
+							'ACL'        => $this->destination_info['acl'],
+							'Bucket' => $this->destination_info['bucket'],
+							'Key' => $remote_filename,
+							'SourceFile' => $filename,
+							'StorageClass'    => $this->destination_info['storage'],
+						));
+
+						$result = $s3Client->getObject(array(
+							'Bucket' => $this->destination_info['bucket'],
+							'Key' => $remote_filename,
+						));
+						$result_array = $result->toArray();
+
+						if ( ( $result_array["@metadata"]["statusCode"] >= 200 ) && ( $result_array["@metadata"]["statusCode"] < 300 ) ) {
+							$this->error_array['responseArray'][] = "Send file success: " . basename( $filename );
+							$this->error_array['sendFileStatus']  = true;
+
+							return true;
+
+						} else {
+							$this->error_array['errorStatus']  = true;
+							$this->error_array['errorArray'][] = 'Error: Send file failed :' . $result_array['status'] . ' : ' . $message;
+
+							return false;
+						}
+					} catch ( Exception $e ) {
+						$this->error_array['errorStatus']  = true;
+						$this->error_array['errorArray'][] = "Error: Send file failed :" . $e->getMessage();
+
+						return false;
+					}
 				}
+
 			}
 
 			public function load_class_destination( $d_info ) {
@@ -529,10 +602,10 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 					if ( isset( $this->_regions[ esc_attr( $d_info['region'] ) ] ) ) {
 						$this->destination_info['region'] = esc_attr( $d_info['region'] );
 					} else {
-						$this->destination_info['region'] = AmazonS3::REGION_US_E1;
+						$this->destination_info['region'] = 's3.amazonaws.com';
 					}
 				} else {
-					$this->destination_info['region'] = AmazonS3::REGION_US_E1;
+					$this->destination_info['region'] = self::REGION_US_E1;
 				}
 
 				if ( ( isset( $d_info['region-other'] ) ) && ( strlen( $d_info['region-other'] ) ) ) {
@@ -543,20 +616,20 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 					if ( isset( $this->_storage[ esc_attr( $d_info['storage'] ) ] ) ) {
 						$this->destination_info['storage'] = esc_attr( $d_info['storage'] );
 					} else {
-						$this->destination_info['storage'] = AmazonS3::STORAGE_STANDARD;
+						$this->destination_info['storage'] = self::STORAGE_STANDARD;
 					}
 				} else {
-					$this->destination_info['storage'] = AmazonS3::STORAGE_STANDARD;
+					$this->destination_info['storage'] = self::STORAGE_STANDARD;
 				}
 
 				if ( ( isset( $d_info['acl'] ) ) && ( strlen( $d_info['acl'] ) ) ) {
 					if ( isset( $this->_acl[ $d_info['acl'] ] ) ) {
 						$this->destination_info['acl'] = $d_info['acl'];
 					} else {
-						$this->destination_info['acl'] = AmazonS3::ACL_PRIVATE;
+						$this->destination_info['acl'] = self::ACL_PRIVATE;
 					}
 				} else {
-					$this->destination_info['acl'] = AmazonS3::ACL_PRIVATE;
+					$this->destination_info['acl'] = self::ACL_PRIVATE;
 				}
 
 				if ( ( isset( $d_info['bucket'] ) ) && ( strlen( $d_info['bucket'] ) ) ) {
@@ -592,29 +665,29 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 				$destination_info['ssl'] = ( 'yes' === $destination_info['ssl'] ) ? 'yes' : 'no';
 
 				if ( empty( $d_info['region'] ) ) {
-					$destination_info['region'] = AmazonS3::REGION_US_E1;
+					$destination_info['region'] = self::REGION_US_E1;
 				} else {
 					$region = esc_attr( $d_info['region'] );
-					$destination_info['region'] = isset( $this->_regions[ $region ] ) ? $region : AmazonS3::REGION_US_E1;
+					$destination_info['region'] = isset( $this->_regions[ $region ] ) ? $region : self::REGION_US_E1;
 				}
 
-				if ( empty( $d_info['region-other'] ) ) {
+				if ( ! empty( $d_info['region-other'] ) ) {
 					$destination_info['region-other'] = $d_info['region-other'];
 				}
 
 
 				if ( empty( $d_info['storage'] ) ) {
-					$destination_info['storage'] = AmazonS3::STORAGE_STANDARD;
+					$destination_info['storage'] = self::STORAGE_STANDARD;
 				} else {
 					$storage = esc_attr( $d_info['storage'] );
-					$destination_info['storage'] = isset( $this->_storage[ $storage ] ) ? $storage : AmazonS3::STORAGE_STANDARD;
+					$destination_info['storage'] = isset( $this->_storage[ $storage ] ) ? $storage : self::STORAGE_STANDARD;
 				}
 
 				if ( empty( $d_info['acl'] ) ) {
-					$destination_info['acl'] = AmazonS3::ACL_PRIVATE;
+					$destination_info['acl'] = self::ACL_PRIVATE;
 				} else {
 					$acl = esc_attr( $d_info['acl'] );
-					$destination_info['acl'] = isset( $this->_acl[ $acl ] ) ? $acl : AmazonS3::ACL_PRIVATE;
+					$destination_info['acl'] = isset( $this->_acl[ $acl ] ) ? $acl : self::ACL_PRIVATE;
 				}
 
 				//var_dump( $destination_info ); exit;
@@ -816,7 +889,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 
 							<?php
                             if ( ! isset( $item['region'] ) ) {
-								$item['region'] = AmazonS3::REGION_US_E1;
+								$item['region'] = self::REGION_US_E1;
 							}
                             ?>
 							<tr class="form-field">
@@ -863,7 +936,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 
 							<?php
                             if ( ! isset( $item['storage'] ) ) {
-								$item['storage'] = AmazonS3::STORAGE_STANDARD;
+								$item['storage'] = self::STORAGE_STANDARD;
 							}
                             ?>
 							<tr class="form-field">
@@ -914,7 +987,7 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 
 							<?php
                             if ( ! isset( $item['acl'] ) ) {
-								$item['acl'] = AmazonS3::ACL_PRIVATE;
+								$item['acl'] = self::ACL_PRIVATE;
 							}
                             ?>
 							<tr class="form-field">
@@ -930,33 +1003,33 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 								<td>
 									<select name="snapshot-destination[acl]" id="snapshot-destination-acl">
 										<option
-											value="<?php echo esc_attr( AmazonS3::ACL_PRIVATE ); ?>"
+											value="<?php echo esc_attr( self::ACL_PRIVATE ); ?>"
 											<?php
-                                            if (  AmazonS3::ACL_PRIVATE === $item['acl'] ) {
+                                            if (  self::ACL_PRIVATE === $item['acl'] ) {
 												echo ' selected="selected" ';
 											}
 	                                        ?>
                                          ><?php esc_html_e( 'Private', SNAPSHOT_I18N_DOMAIN ); ?></option>
 										<option
-											value="<?php echo esc_attr( AmazonS3::ACL_PUBLIC ); ?>"
+											value="<?php echo esc_attr( self::ACL_PUBLIC ); ?>"
 											<?php
-                                            if ( AmazonS3::ACL_PUBLIC === $item['acl'] ) {
+                                            if ( self::ACL_PUBLIC === $item['acl'] ) {
 												echo ' selected="selected" ';
 											}
 	                                        ?>
                                          ><?php esc_html_e( 'Public Read', SNAPSHOT_I18N_DOMAIN ); ?></option>
 										<option
-											value="<?php echo esc_attr( AmazonS3::ACL_OPEN ); ?>"
+											value="<?php echo esc_attr( self::ACL_OPEN ); ?>"
 											<?php
-                                            if ( AmazonS3::ACL_OPEN === $item['acl'] ) {
+                                            if ( self::ACL_OPEN === $item['acl'] ) {
 												echo ' selected="selected" ';
 											}
 	                                        ?>
                                          ><?php esc_html_e( 'Public Read/Write', SNAPSHOT_I18N_DOMAIN ); ?></option>
 										<option
-											value="<?php echo esc_attr( AmazonS3::ACL_AUTH_READ ); ?>"
+											value="<?php echo esc_attr( self::ACL_AUTH_READ ); ?>"
 											<?php
-                                            if ( AmazonS3::ACL_AUTH_READ === $item['acl'] ) {
+                                            if ( self::ACL_AUTH_READ === $item['acl'] ) {
 												echo ' selected="selected" ';
 											}
 	                                        ?>
@@ -998,6 +1071,96 @@ if ( ( ! class_exists( 'Snapshot_Model_Destination_AWS' ) ) && ( version_compare
 					</div>
 				</div>
 			<?php
+			}
+
+			/**
+			 * Finalizes the multipart upload to S3
+			 *
+			 * @param object $upload Snapshot_Model_Transfer_Upload instance
+			 * @param string $remote_path Path to remote file including potential subdirectory
+			 *
+			 * @return bool
+			 */
+			public function finalize_upload( $upload, $remote_path ) {
+				if ( ! $this->login() ) {
+					return false;
+				}
+
+				$path = $upload->get_path();
+				$parts = $this->aws_connection->listParts(array(
+					'Bucket' => $this->destination_info['bucket'],
+					'Key' => $remote_path,
+					'UploadId' => $upload->get_transfer_id(),
+				));
+				$complete = $this->aws_connection->completeMultipartUpload(array(
+					'Bucket' => $this->destination_info['bucket'],
+					'Key' => $remote_path,
+					'UploadId' => $upload->get_transfer_id(),
+					'MultipartUpload' => array(
+						'Parts' => $parts['Parts'],
+					),
+				));
+
+				if ( $complete ) {
+					$upload->complete();
+					return true;
+				} else {
+					return false;
+				}
+			}
+
+			/**
+			 * Initializes the upload transfer
+			 *
+			 * @param string $path Local path to the file to be uploaded
+			 * @param string $remote_path Path ro remote file including potential subdirectory
+			 *
+			 * @return object Initialized Snapshot_Model_Transfer_Upload instance
+			 */
+			public function get_initialized_upload( $path, $remote_path ) {
+				$upload = new Snapshot_Model_Transfer_Upload( $path );
+				if ( $upload->is_initialized() ) {
+					return $upload;
+				}
+
+				if ( $this->login() ) {
+
+					try {
+						$response = $this->aws_connection->createMultipartUpload(array(
+							'Bucket' => $this->destination_info['bucket'],
+							'Key' => $remote_path,
+							'ACL' => $this->destination_info['acl'],
+							'StorageClass'    => $this->destination_info['storage'],
+						));
+					} catch ( Exception $e ) {
+						return false;
+					}
+
+					$upload->initialize( $response['UploadId'] );
+				}
+
+				return $upload;
+			}
+
+			/**
+			 * Gets the region of the bucket of a configured aws destination
+			 *
+			 * @param array $destination_info Info of the destination.
+			 *
+			 * @return string
+			 */
+			public function get_updated_region( $destination_info ) {
+				$this->init();
+
+				$this->load_class_destination( $destination_info );
+
+				require  dirname( __FILE__ ) . '/updated-region.php' ;
+
+				if ( $status ) {
+					return $resp['LocationConstraint'];
+				} else {
+					return false;
+				}
 			}
 		}
 

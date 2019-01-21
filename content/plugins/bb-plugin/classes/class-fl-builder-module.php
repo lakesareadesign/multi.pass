@@ -274,13 +274,26 @@ class FLBuilderModule {
 
 	/**
 	 * Should be overridden by subclasses to
-	 * work with settings data before it is saved.
+	 * work with settings data _before it is saved_.
 	 *
 	 * @since 1.0
-	 * @param object A settings object that is going to be saved.
+	 * @param object $settings A settings object that is going to be saved.
 	 * @return object
 	 */
 	public function update( $settings ) {
+		return $settings;
+	}
+
+	/**
+	 * Should be overridden by subclasses to
+	 * work with settings data _before it is used to display a module_.
+	 *
+	 * @since 2.0.3
+	 * @param object $settings A settings object.
+	 * @param object $helper A settings compatibility helper.
+	 * @return object
+	 */
+	public function filter_settings( $settings, $helper ) {
 		return $settings;
 	}
 

@@ -191,6 +191,7 @@
          * @return void
          */
         onPublishAndRemain: function() {
+			FLBuilder.MainMenu.hide();
             if (this.layoutNeedsPublish) {
                 FLBuilder._publishLayout(false);
             } else {

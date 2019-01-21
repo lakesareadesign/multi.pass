@@ -171,8 +171,7 @@
 				}
 
 				FLBuilder._closePanel();
-				FLBuilder._showLightbox();
-				FLBuilder._setLightboxContent( template( config ) );
+				FLBuilder._showLightbox( template( config ) );
 			} else {
 				config.lightbox.setContent( template( config ) );
 			}
@@ -237,7 +236,7 @@
 				value 			 = null,
 				isMultiple       = false,
 				responsive		 = null,
-				responsiveFields = [ 'dimension', 'unit' ],
+				responsiveFields = [ 'align', 'border', 'dimension', 'unit', 'photo', 'select', 'typography' ],
 				settings		 = ! settings ? this.config.settings : settings,
 				globalSettings   = FLBuilderConfig.global;
 
@@ -247,6 +246,11 @@
 				isMultiple 		 	= field.multiple ? true : false;
 				supportsResponsive 	= $.inArray( field['type'], responsiveFields ) > -1,
 				value 			 	= ! _.isUndefined( settings[ name ] ) ? settings[ name ] : '';
+
+				// Make sure this field has a type, if not the sky falls.
+				if ( ! field.type ) {
+					continue;
+				}
 
 				// Use a default value if not set in the settings.
 				if ( _.isUndefined( settings[ name ] ) && field['default'] ) {
@@ -499,6 +503,7 @@
 				this.settings = FLBuilder._getSettingsForChangedCheck( this.config.nodeId, form );
 
 				if ( FLBuilder.preview ) {
+					this.settings = $.extend( this.settings, FLBuilder.preview._savedSettings );
 					FLBuilder.preview._savedSettings = this.settings;
 				}
 			}

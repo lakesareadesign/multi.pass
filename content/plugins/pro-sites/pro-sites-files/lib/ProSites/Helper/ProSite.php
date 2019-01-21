@@ -83,10 +83,12 @@ if ( ! class_exists( 'ProSites_Helper_ProSite' ) ) {
 
 			$is_recurring  = $psts->is_blog_recurring( $blog_id );
 			$trialing      = ProSites_Helper_Registration::is_trial( $blog_id );
+			$gateway       = ProSites_Helper_ProSite::get_site_gateway( $blog_id );
 			$trial_message = '';
 			if ( $trialing ) {
 				// assuming its recurring
-				$trial_message = '<div id="psts-general-error" class="psts-warning">' . __( 'You are still within your trial period. Once your trial finishes your account will be automatically charged.', 'psts' ) . '</div>';
+				$trial_message = 'manual' === $gateway ? __( 'You are still within your trial period.', 'psts' ) : __( 'You are still within your trial period. Once your trial finishes your account will be automatically charged.', 'psts' );
+				$trial_message = '<div id="psts-general-error" class="psts-warning">' . $trial_message . '</div>';
 			}
 			$end_date = date_i18n( get_option( 'date_format' ), $psts->get_expire( $blog_id ) );
 			$level_id = $psts->get_level( $blog_id );
@@ -441,6 +443,41 @@ if ( ! class_exists( 'ProSites_Helper_ProSite' ) ) {
 			}
 
 			return $scheme;
+		}
+
+		/**
+		 * Check if a site is free.
+		 *
+		 * This helper function will check if a site
+		 * was created using free plan and never been a Pro Site.
+		 *
+		 * @param int|bool $blog_id Blog ID.
+		 *
+		 * @since 3.6.0
+		 *
+		 * @return bool
+		 */
+		public static function is_free_site( $blog_id = false ) {
+
+			global $wpdb;
+
+			// Try to get current blog id is user is logged in.
+			if ( empty( $blog_id ) && function_exists( 'is_user_logged_in' ) && is_user_logged_in() ) {
+				$blog_id = $wpdb->blogid;
+			}
+
+			// Make sure it is int.
+			$blog_id = (int) $blog_id;
+
+			// If still blog id is empty return false.
+			if ( empty( $blog_id ) ) {
+				return false;
+			}
+
+			// Check if an entry exist in Pro Sites table for current blog id.
+			$is_pro_site = $wpdb->get_var( $wpdb->prepare( "SELECT blog_ID FROM {$wpdb->base_prefix}pro_sites WHERE blog_ID = %d", $blog_id ) );
+
+			return empty( $is_pro_site );
 		}
 	}
 }

@@ -38,7 +38,7 @@
 
             public function render() {
                 echo '<div id="dev_mode_default_section_group' . '" class="redux-group-tab">';
-                echo '<h3>' . __( 'Options Object', 'redux-framework' ) . '</h3>';
+                echo '<h3>' . __( 'Options Object', 'ultra_framework' ) . '</h3>';
                 echo '<div class="redux-section-desc">';
                 echo '<div id="redux-object-browser"></div>';
                 echo '</div>';
@@ -51,7 +51,7 @@
 
                 echo '<div id="redux-object-json" class="hide">' . $json . '</div>';
 
-                echo '<a href="#" id="consolePrintObject" class="button">' . __( 'Show Object in Javascript Console Object', 'redux-framework' ) . '</a>';
+                echo '<a href="#" id="consolePrintObject" class="button">' . __( 'Show Object in Javascript Console Object', 'ultra_framework' ) . '</a>';
 
                 echo '</div>';
             }
@@ -66,15 +66,15 @@
                     $icon       = ( ! isset( $this->parent->args['dev_mode_icon'] ) ) ? '<i class="el el-info-circle' . $icon_class . '"></i>' : '<i class="icon-' . $this->parent->args['dev_mode_icon'] . $icon_class . '"></i> ';
                 }
 
-                echo '<a href="javascript:void(0);" id="dev_mode_default_section_group_li_a" class="redux-group-tab-link-a custom-tab" data-rel="dev_mode_default">' . $icon . ' <span class="group_title">' . __( 'Options Object', 'redux-framework' ) . '</span></a>';
+                echo '<a href="javascript:void(0);" id="dev_mode_default_section_group_li_a" class="redux-group-tab-link-a custom-tab" data-rel="dev_mode_default">' . $icon . ' <span class="group_title">' . __( 'Options Object', 'ultra_framework' ) . '</span></a>';
                 echo '</li>';
             }
 
             public function add_submenu() {
                 add_submenu_page(
                     $this->parent->args['page_slug'],
-                    __( 'Options Object', 'redux-framework' ),
-                    __( 'Options Object', 'redux-framework' ),
+                    __( 'Options Object', 'ultra_framework' ),
+                    __( 'Options Object', 'ultra_framework' ),
                     $this->parent->args['page_permissions'],
                     $this->parent->args['page_slug'] . '&tab=dev_mode_default',
                     '__return_null'

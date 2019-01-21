@@ -15,7 +15,7 @@
 
 			<?php if ( isset( $this->parent->args['dev_mode'] ) && $this->parent->args['dev_mode'] ) : ?>
 				<span
-					class="redux-dev-mode-notice"><?php _e( 'Developer Mode Enabled', 'redux-framework' ); ?></span>
+					class="redux-dev-mode-notice"><?php _e( 'Developer Mode Enabled', 'ultra_framework' ); ?></span>
 			<?php endif; ?>
 
 			<h2><?php echo $this->parent->args['display_name']; ?></h2>

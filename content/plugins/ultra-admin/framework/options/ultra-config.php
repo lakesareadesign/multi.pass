@@ -82,14 +82,14 @@
         // This is where your data is stored in the database and also becomes your global variable name.
         'display_name'         => 'Ultra Admin',
         // Name that appears at the top of your panel
-        'display_version'      => '8.1',
+        'display_version'      => '8.2',
         // Version that appears at the top of your panel
         'menu_type'            => $menu_type,
         //Specify if the admin menu should appear or not. Options: menu or submenu (Under appearance only)
         'allow_sub_menu'       => true,
         // Show the sections below the admin menu item or not
-        'menu_title'           => __( 'Ultra Admin', 'redux-framework-ultra-demo' ),
-        'page_title'           => __( 'Ultra Admin', 'redux-framework-ultra-demo' ),
+        'menu_title'           => __( 'Ultra Admin', 'ultra_framework-ultra-demo' ),
+        'page_title'           => __( 'Ultra Admin', 'ultra_framework-ultra-demo' ),
         // You will need to generate a Google API key to use this feature.
         // Please visit: https://developers.google.com/fonts/docs/developer_api#Auth
         'google_api_key'       => '',
@@ -201,19 +201,19 @@
     $tabs = array(
         array(
             'id'      => 'redux-help-tab-1',
-            'title'   => __( 'Theme Information 1', 'redux-framework-ultra-demo' ),
-            'content' => __( '<p>This is the tab content, HTML is allowed.</p>', 'redux-framework-ultra-demo' )
+            'title'   => __( 'Theme Information 1', 'ultra_framework-ultra-demo' ),
+            'content' => __( '<p>This is the tab content, HTML is allowed.</p>', 'ultra_framework-ultra-demo' )
         ),
         array(
             'id'      => 'redux-help-tab-2',
-            'title'   => __( 'Theme Information 2', 'redux-framework-ultra-demo' ),
-            'content' => __( '<p>This is the tab content, HTML is allowed.</p>', 'redux-framework-ultra-demo' )
+            'title'   => __( 'Theme Information 2', 'ultra_framework-ultra-demo' ),
+            'content' => __( '<p>This is the tab content, HTML is allowed.</p>', 'ultra_framework-ultra-demo' )
         )
     );
     Redux::setHelpTab( $opt_name, $tabs );
 
     // Set the help sidebar
-    $content = __( '<p>This is the sidebar content, HTML is allowed.</p>', 'redux-framework-ultra-demo' );
+    $content = __( '<p>This is the sidebar content, HTML is allowed.</p>', 'ultra_framework-ultra-demo' );
     Redux::setHelpSidebar( $opt_name, $content );
 */
 
@@ -950,7 +950,7 @@
                     array(
                         'id' => 'dynamic-css-type',
                         'type' => 'image_select',
-                        'title' => __('Choose Theme', 'believe_framework'),
+                        'title' => __('Choose Theme', 'ultra_framework'),
                         'desc' => __('Select the default themes inbuilt with the plugin or choose custom theme options defined below.', 'ultra_framework'),
                         'options' => $ultra_color_thumbs,
                         'default' => 'custom'
@@ -1220,8 +1220,8 @@
                     array(
                             'id'       => 'logo-url',
                             'type'     => 'text',
-                            'title'    => __( 'Logo URL', 'redux-framework-demo' ),
-                            'subtitle' => __( 'On clicking logo, user will be redirected to this mentioned url.', 'redux-framework-demo' ),
+                            'title'    => __( 'Logo URL', 'ultra_framework' ),
+                            'subtitle' => __( 'On clicking logo, user will be redirected to this mentioned url.', 'ultra_framework' ),
                             'validate' => 'url',
                             'default'  => '',
                             //                        'text_hint' => array(
@@ -1850,8 +1850,8 @@
                         array(
                             'id'       => 'custom-css',
                             'type'     => 'ace_editor',
-                            'title'    => __( 'Custom CSS Code', 'redux-framework-demo' ),
-                            'subtitle' => __( 'Paste your CSS code here. This code will be applied in all your admin panel', 'redux-framework-demo' ),
+                            'title'    => __( 'Custom CSS Code', 'ultra_framework' ),
+                            'subtitle' => __( 'Paste your CSS code here. This code will be applied in all your admin panel', 'ultra_framework' ),
                             'mode'     => 'css',
                             'theme'    => 'monokai',
                             'desc'     => 'In case if you need to overwrite any CSS setting, you can add !important at the end of CSS property. eg: color: #da2234 !important; ',
@@ -1918,8 +1918,8 @@
     function dynamic_section_delete_ultra_conflict( $sections ) {
         //$sections = array();
         $sections[] = array(
-            'title'  => __( 'Section via hook', 'redux-framework-ultra-demo' ),
-            'desc'   => __( '<p class="description">This is a section created by adding a filter to the sections array. Can be used by child themes to add/remove sections from the options.</p>', 'redux-framework-ultra-demo' ),
+            'title'  => __( 'Section via hook', 'ultra_framework-ultra-demo' ),
+            'desc'   => __( '<p class="description">This is a section created by adding a filter to the sections array. Can be used by child themes to add/remove sections from the options.</p>', 'ultra_framework-ultra-demo' ),
             'icon'   => 'el el-paper-clip',
             // Leave this as a blank section, no options just some intro text set above.
             'fields' => array()
@@ -1946,7 +1946,7 @@
         return $defaults;
     }
 
-    // Remove the demo link and the notice of integrated demo from the redux-framework plugin
+    // Remove the demo link and the notice of integrated demo from the ultra_framework plugin
     function remove_demo_delete_ultra_conflict() {
 
         // Used to hide the demo mode link from the plugin page. Only used when Redux is a plugin.

@@ -18,10 +18,10 @@
 			z-index: 10;
 			padding: <?php echo $padding ?>px;
 		<?php if ( ! empty( $settings->text_color ) ) : ?>
-			color: #<?php echo $settings->text_color ?>;
+			color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 		<?php endif; ?>
 		<?php if ( ! empty( $settings->text_bg_color ) ) : ?>
-			background-color: #<?php echo $settings->text_bg_color ?>;
+			background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_bg_color ); ?>;
 		<?php endif; ?>
 		}
 
@@ -36,10 +36,10 @@
 
 		.fl-node-<?php echo $id; ?> .fl-post-slider-thumb{
 		<?php if ( ! empty( $settings->text_color ) ) : ?>
-			color: #<?php echo $settings->text_color ?>;
+			color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 		<?php endif; ?>
 		<?php if ( ! empty( $settings->text_bg_color ) ) : ?>
-			background-color: #<?php echo $settings->text_bg_color ?>;
+			background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_bg_color ); ?>;
 		<?php endif; ?>
 			padding: <?php echo $padding ?>px;
 		}
@@ -59,10 +59,10 @@
 	.fl-node-<?php echo $id; ?> .fl-post-slider-no-thumb{
 		padding: <?php echo $padding; ?>px;
 	<?php if ( ! empty( $settings->text_color ) ) : ?>
-		color: #<?php echo $settings->text_color ?>;
+		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 	<?php endif; ?>
 	<?php if ( ! empty( $settings->text_bg_color ) ) : ?>
-		background-color: #<?php echo $settings->text_bg_color ?>;
+		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_bg_color ); ?>;
 	<?php endif; ?>
 	}
 
@@ -167,7 +167,7 @@
 				height: <?php echo $text_bg_height ?>;
 				padding: <?php echo $padding; ?>px;
 			<?php if ( ! empty( $settings->text_color ) ) : ?>
-				color: #<?php echo $settings->text_color ?>;
+				color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 			<?php endif; ?>
 			<?php $module->render_slider_gradient_bg() ?>
 		}
@@ -207,7 +207,7 @@
 			<?php endif; ?>
 				padding: <?php echo $padding; ?>px;
 			<?php if ( ! empty( $settings->text_color ) ) : ?>
-				color: #<?php echo $settings->text_color ?>;
+				color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 			<?php endif; ?>
 			<?php $module->render_slider_gradient_bg() ?>
 		}
@@ -221,10 +221,10 @@
 			padding: <?php echo $padding; ?>px;
 			overflow: hidden;
 			<?php if ( ! empty( $settings->text_color ) ) : ?>
-				color: #<?php echo $settings->text_color ?>;
+				color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 			<?php endif; ?>
 			<?php if ( ! empty( $settings->text_bg_color ) ) : ?>
-				background-color: #<?php echo $settings->text_bg_color ?>;
+				background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_bg_color ); ?>;
 			<?php endif; ?>
 		}
 		.fl-node-<?php echo $id; ?> .fl-post-slider-thumb .fl-post-slider-content{
@@ -257,10 +257,10 @@
 	.fl-node-<?php echo $id; ?> .fl-post-slider-no-thumb{
 		padding: <?php echo $padding; ?>px;
 	<?php if ( ! empty( $settings->text_color ) ) : ?>
-		color: #<?php echo $settings->text_color ?>;
+		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 	<?php endif; ?>
 	<?php if ( ! empty( $settings->text_bg_color ) ) : ?>
-		background-color: #<?php echo $settings->text_bg_color ?>;
+		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_bg_color ); ?>;
 	<?php endif; ?>
 	}
 <?php endif; ?>
@@ -268,22 +268,22 @@
 
 <?php if ( ! empty( $settings->link_color ) ) : ?>
 .fl-node-<?php echo $id; ?> .fl-post-slider-content a{
-	color: #<?php echo $settings->link_color ?>;
+	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ); ?>;
 }
 <?php endif; ?>
 
 <?php if ( ! empty( $settings->link_hover_color ) ) : ?>
 .fl-node-<?php echo $id; ?> .fl-post-slider-content a:hover{
-	color: #<?php echo $settings->link_hover_color ?>;
+	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ); ?>;
 }
 <?php endif; ?>
 
 <?php if ( 'yes' == $settings->navigation ) : ?>
 	.fl-node-<?php echo $id; ?> .fl-post-slider-navigation path{
 		<?php if ( isset( $settings->arrows_text_color ) && ! empty( $settings->arrows_text_color ) ) : ?>
-			fill: #<?php echo $settings->arrows_text_color; ?>;
+			fill: <?php echo FLBuilderColor::hex_or_rgb( $settings->arrows_text_color ); ?>;
 		<?php elseif ( ! empty( $settings->text_color ) ) : ?>
-			fill: #<?php echo $settings->text_color ?>;
+			fill: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 		<?php endif; ?>
 	}
 

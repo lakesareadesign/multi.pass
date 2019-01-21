@@ -28,6 +28,22 @@ class FLPostSliderModule extends FLBuilderModule {
 	}
 
 	/**
+	 * Ensure backwards compatibility with old settings.
+	 *
+	 * @since 2.2
+	 * @param object $settings A module settings object.
+	 * @param object $helper A settings compatibility helper.
+	 * @return object
+	 */
+	public function filter_settings( $settings, $helper ) {
+
+		// Handle old opacity inputs.
+		$helper->handle_opacity_inputs( $settings, 'text_bg_opacity', 'text_bg_color' );
+
+		return $settings;
+	}
+
+	/**
 	 * Remove pagination parameters
 	 *
 	 * @param array $query_args 	Generated query args to override
@@ -304,12 +320,12 @@ class FLPostSliderModule extends FLBuilderModule {
 	 */
 	public function render_slider_gradient_bg() {
 
-		if ( empty( $this->settings->text_bg_color ) || empty( $this->settings->text_bg_opacity ) ) {
+		if ( empty( $this->settings->text_bg_color ) ) {
 			return;
 		}
 
 		// set defaults
-		$color_start = 'rgba(' . implode( ',', FLBuilderColor::hex_to_rgb( $this->settings->text_bg_color ) ) . ',' . ( $this->settings->text_bg_opacity / 100 ) . ')';
+		$color_start = $this->settings->text_bg_color;
 		$color_end = 'rgba(' . implode( ',', FLBuilderColor::hex_to_rgb( $this->settings->text_bg_color ) ) . ',0)';
 
 		// check if bg_gradient is set to "yes"
@@ -349,8 +365,7 @@ class FLPostSliderModule extends FLBuilderModule {
 		} else {
 
 			// if gradient isn't selected, set the background with default values
-			$bg = 'background-color: #' . $this->settings->text_bg_color . ';';
-			$bg .= 'background-color: ' . $color_start . ';';
+			$bg = 'background-color: ' . $color_start . ';';
 		}
 
 		echo $bg;
@@ -369,12 +384,14 @@ FLBuilder::register_module('FLPostSliderModule', array(
 				'title'         => '',
 				'fields'        => array(
 					'height'        => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Height', 'fl-builder' ),
 						'default'       => '400',
-						'maxlength'     => '4',
-						'size'          => '5',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> array(
+							'max'			=> 500,
+							'step'			=> 10,
+						),
 						'help'          => __( 'This setting is the minimum height of the post slider. Content will expand the height automatically.', 'fl-builder' ),
 					),
 					'auto_play'     => array(
@@ -386,13 +403,6 @@ FLBuilder::register_module('FLPostSliderModule', array(
 							'true'          => __( 'Yes', 'fl-builder' ),
 						),
 					),
-					'speed'         => array(
-						'type'          => 'text',
-						'label'         => __( 'Delay', 'fl-builder' ),
-						'default'       => '5',
-						'size'          => '5',
-						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
-					),
 					'slider_loop'     => array(
 						'type'          => 'select',
 						'label'         => __( 'Loop', 'fl-builder' ),
@@ -400,6 +410,16 @@ FLBuilder::register_module('FLPostSliderModule', array(
 						'options'       => array(
 							'false'            	=> __( 'No', 'fl-builder' ),
 							'true'				=> __( 'Yes', 'fl-builder' ),
+						),
+					),
+					'speed'         => array(
+						'type'          => 'unit',
+						'label'         => __( 'Delay', 'fl-builder' ),
+						'default'       => '5',
+						'units'			=> array( 'seconds' ),
+						'slider'		=> array(
+							'max'			=> 10,
+							'step'			=> .5,
 						),
 					),
 					'transition'     => array(
@@ -412,17 +432,19 @@ FLBuilder::register_module('FLPostSliderModule', array(
 						),
 					),
 					'transitionDuration' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Transition Speed', 'fl-builder' ),
 						'default'       => '1',
-						'size'          => '5',
-						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
+						'units'			=> array( 'seconds' ),
+						'slider'		=> array(
+							'max'			=> 10,
+							'step'			=> .5,
+						),
 					),
 					'posts_per_page' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Number of Posts', 'fl-builder' ),
 						'default'       => '10',
-						'size'          => '4',
 					),
 				),
 			),
@@ -638,12 +660,18 @@ FLBuilder::register_module('FLPostSliderModule', array(
 						),
 					),
 					'title_custom_size' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Heading Size', 'fl-builder' ),
 						'default'       => '24',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-post-slider-title',
+							'property'		=> 'font-size',
+							'unit'			=> 'px',
+							'important'		=> true,
+						),
 					),
 				),
 			),
@@ -688,20 +716,18 @@ FLBuilder::register_module('FLPostSliderModule', array(
 						),
 					),
 					'text_width'   => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Text Width', 'fl-builder' ),
 						'default'       => '50',
-						'description'   => '%',
-						'maxlength'     => '3',
-						'size'          => '5',
+						'units'			=> array( '%' ),
+						'slider'		=> true,
 					),
 					'text_padding' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Text Padding', 'fl-builder' ),
 						'default'       => '50',
-						'description'   => 'px',
-						'maxlength'     => '4',
-						'size'          => '5',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
 					),
 				),
 			),
@@ -710,8 +736,10 @@ FLBuilder::register_module('FLPostSliderModule', array(
 				'fields'        => array(
 					'text_color'    => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Text Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'	=> true,
 						'default'		=> 'ffffff',
 						'preview'		=> array(
 							'type'			=> 'css',
@@ -725,8 +753,10 @@ FLBuilder::register_module('FLPostSliderModule', array(
 					),
 					'link_color'    => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Link Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'	=> true,
 						'default'		=> 'cccccc',
 						'preview'		=> array(
 							'type'			=> 'css',
@@ -741,24 +771,23 @@ FLBuilder::register_module('FLPostSliderModule', array(
 					),
 					'link_hover_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Link Hover Color', 'fl-builder' ),
 						'default'		=> 'ffffff',
 						'show_reset'    => true,
+						'show_alpha'	=> true,
+						'preview'		=> array(
+							'type'			=> 'none',
+						),
 					),
 					'text_bg_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Text Background Color', 'fl-builder' ),
 						'help'          => __( 'The color applies to the overlay behind text over the background selections.', 'fl-builder' ),
 						'default'		=> '333333',
 						'show_reset'    => true,
-					),
-					'text_bg_opacity' => array(
-						'type'          => 'text',
-						'label'         => __( 'Text Background Opacity', 'fl-builder' ),
-						'default'       => '50',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => '%',
+						'show_alpha'	=> true,
 					),
 					'bg_gradient' => array(
 						'type'          => 'select',
@@ -786,6 +815,7 @@ FLBuilder::register_module('FLPostSliderModule', array(
 				'fields'        => array(
 					'arrows_bg_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Arrows Background Color', 'fl-builder' ),
 						'show_reset'    => true,
 						'show_alpha'	=> true,
@@ -801,8 +831,15 @@ FLBuilder::register_module('FLPostSliderModule', array(
 					),
 					'arrows_text_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Arrows Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-post-slider-navigation path',
+							'property'		=> 'fill',
+						),
 					),
 				),
 			),

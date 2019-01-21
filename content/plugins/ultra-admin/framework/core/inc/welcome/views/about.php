@@ -1,31 +1,31 @@
 <div class="wrap about-wrap">
-    <h1><?php printf( __( 'Welcome to Redux Framework %s', 'redux-framework' ), $this->display_version ); ?></h1>
+    <h1><?php printf( __( 'Welcome to Redux Framework %s', 'ultra_framework' ), $this->display_version ); ?></h1>
 
     <div
-        class="about-text"><?php printf( __( 'Thank you for updating to the latest version! Redux Framework %s is a huge step forward in Redux Development. Look at all that\'s new.', 'redux-framework' ), $this->display_version ); ?></div>
+        class="about-text"><?php printf( __( 'Thank you for updating to the latest version! Redux Framework %s is a huge step forward in Redux Development. Look at all that\'s new.', 'ultra_framework' ), $this->display_version ); ?></div>
     <div
         class="redux-badge"><i
-            class="el el-redux"></i><span><?php printf( __( 'Version %s', 'redux-framework' ), ReduxFramework::$_version ); ?></span>
+            class="el el-redux"></i><span><?php printf( __( 'Version %s', 'ultra_framework' ), ReduxFramework::$_version ); ?></span>
     </div>
 
     <?php $this->actions(); ?>
     <?php $this->tabs(); ?>
 
     <div id="redux-message" class="updated">
-        <h4><?php _e( 'What is Redux Framework?', 'redux-framework' ); ?></h4>
+        <h4><?php _e( 'What is Redux Framework?', 'ultra_framework' ); ?></h4>
 
         <p><?php _e( 'Redux Framework is the core of many products on the web. It is an option framework which developers use to
-            enhance their products.', 'redux-framework' ); ?></p>
+            enhance their products.', 'ultra_framework' ); ?></p>
 
         <p class="submit">
             <a class="button-primary" href="http://reduxframework.com"
-               target="_blank"><?php _e( 'Learn More', 'redux-framework' ); ?></a>
+               target="_blank"><?php _e( 'Learn More', 'ultra_framework' ); ?></a>
         </p>
     </div>
 
     <div class="changelog">
 
-        <h2><?php _e( 'New in this Release', 'redux-framework' ); ?></h2>
+        <h2><?php _e( 'New in this Release', 'ultra_framework' ); ?></h2>
 
         <div class="changelog about-integrations">
             <div class="wc-feature feature-section col three-col">

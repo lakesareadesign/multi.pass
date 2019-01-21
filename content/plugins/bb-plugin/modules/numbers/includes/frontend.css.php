@@ -1,20 +1,24 @@
-<?php if ( ! empty( $settings->number_size ) || ! empty( $settings->number_color ) ) : ?>
+<?php
+
+FLBuilderCSS::responsive_rule( array(
+	'settings'		=> $settings,
+	'setting_name' 	=> 'number_size',
+	'selector' 		=> ".fl-node-$id .fl-number-string",
+	'prop' 			=> 'font-size',
+) );
+
+?>
+
+<?php if ( ! empty( $settings->number_color ) ) : ?>
 	.fl-node-<?php echo $id ?> .fl-number-string{
-	<?php
-	if ( ! empty( $settings->number_size ) ) {
-		echo 'font-size: ' . $settings->number_size . 'px;';
-	}
-	if ( ! empty( $settings->number_color ) ) {
-		echo 'color: #' . $settings->number_color . ';';
-	}
-	?>
+		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->number_color ); ?>;
 	}
 <?php endif; ?>
 
 <?php if ( ! empty( $settings->text_color ) ) : ?>
 	.fl-node-<?php echo $id ?> .fl-module-content .fl-number-before-text,
 	.fl-node-<?php echo $id ?> .fl-module-content .fl-number-after-text{
-		color: #<?php echo $settings->text_color ?>;
+		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ) ?>;
 	}
 <?php endif; ?>
 
@@ -52,7 +56,7 @@
 	.fl-node-<?php echo $id ?> .svg .fl-bar-bg{
 	<?php
 	if ( ! empty( $settings->circle_bg_color ) ) {
-		echo 'stroke: #' . $settings->circle_bg_color . ';';
+		echo 'stroke: ' . FLBuilderColor::hex_or_rgb( $settings->circle_bg_color ) . ';';
 	} else {
 		echo 'stroke: transparent;';
 	}
@@ -62,7 +66,7 @@
 	.fl-node-<?php echo $id ?> .svg .fl-bar{
 	<?php
 	if ( ! empty( $settings->circle_color ) ) {
-		echo 'stroke: #' . $settings->circle_color . ';';
+		echo 'stroke: ' . FLBuilderColor::hex_or_rgb( $settings->circle_color ) . ';';
 	} else {
 		echo 'stroke: transparent;';
 	}
@@ -71,11 +75,11 @@
 <?php elseif ( isset( $settings->layout ) && 'bars' == $settings->layout ) : ?>
 	.fl-node-<?php echo $id ?> .fl-number-bars-container{
 		width: 100%;
-		background-color: #<?php echo $settings->bar_bg_color ?>;
+		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->bar_bg_color ) ?>;
 	}
 	.fl-node-<?php echo $id ?> .fl-number-bar{
 		width: 0;
-		background-color: #<?php echo $settings->bar_color ?>;
+		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->bar_color ) ?>;
 		<?php if ( empty( $settings->number ) ) : ?>
 		padding-left: 0px;
 		padding-right: 0px;

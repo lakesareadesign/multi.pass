@@ -146,7 +146,7 @@ echo ultra_css_border_color($primary_border_str, "primary-color", "1.0","all") .
 echo ".has-dfw .quicktags-toolbar{border-color:".$ultraadmin['primary-color']." !important;}";
 
 
-$primary_border_bottom = "div.mce-toolbar-grp>div, .plugin-install-php .wp-filter, #ws_menu_editor .ws_main_container .ws_toolbar";
+$primary_border_bottom = "div.mce-toolbar-grp>div, .plugin-install-php .wp-filter, #ws_menu_editor .ws_main_container .ws_toolbar,.edit-post-sidebar__panel-tab.is-active";
 echo ultra_css_border_color($primary_border_bottom, "primary-color", "1.0","bottom") . "\n";
 
 $primary_border_top = ".post-com-count:hover:after";
@@ -443,7 +443,7 @@ $ultrastr = " .wp-core-ui .button, .wp-core-ui .button-secondary, "
  		   .".wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover,"
  		   ."#wp-fullscreen-buttons .mce-btn:focus .mce-ico, #wp-fullscreen-buttons .mce-btn:hover .mce-ico, .mce-toolbar .mce-btn-group .mce-btn:focus .mce-ico, .mce-toolbar .mce-btn-group .mce-btn:hover .mce-ico, .qt-fullscreen:focus .mce-ico, .qt-fullscreen:hover .mce-ico,"
  		   .".media-frame a.button, .media-frame a.button:hover,"
- 		   .".wordfenceWrap input[type='button'], .wordfenceWrap input[type='submit'], .wordfenceWrap input[type='button']:hover, .wordfenceWrap input[type='submit']:hover, .wordfenceWrap input[type='button']:focus, .wordfenceWrap input[type='submit']:focus";
+ 		   .".wordfenceWrap input[type='button'], .wordfenceWrap input[type='submit'], .wordfenceWrap input[type='button']:hover, .wordfenceWrap input[type='submit']:hover, .wordfenceWrap input[type='button']:focus, .wordfenceWrap input[type='submit']:focus,.components-button.is-primary";
 echo ultra_css_color($ultrastr, "button-text-color", "1.0") . "\n";
 
 
@@ -462,14 +462,14 @@ echo " \n/* -- Button primary bg color -- */\n";
 $ultrastr = " .wp-core-ui .button-primary,"
 		   .".row-actions span a:hover,"
 		   .".plugin-card .install-now.button, .plugin-card .button,"
-		   .".wordfenceWrap input[type='button'], .wordfenceWrap input[type='submit']";
+		   .".wordfenceWrap input[type='button'], .wordfenceWrap input[type='submit'],.components-button.is-primary";
 echo ultra_css_bgcolor($ultrastr, "button-primary-bg", "1.0") . "\n";
 
 
 echo " \n/* -- Button primary hover bg color -- */\n";
 $ultrastr = " .wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover,"
 		   ."#adminmenu .awaiting-mod, #adminmenu .update-plugins, #sidemenu li a span.update-plugins,"
-		   .".wordfenceWrap input[type='button']:hover, .wordfenceWrap input[type='submit']:hover, .wordfenceWrap input[type='button']:focus, .wordfenceWrap input[type='submit']:focus";
+		   .".wordfenceWrap input[type='button']:hover, .wordfenceWrap input[type='submit']:hover, .wordfenceWrap input[type='button']:focus, .wordfenceWrap input[type='submit']:focus,.components-button.is-primary:hover";
 echo ultra_css_bgcolor($ultrastr, "button-primary-hover-bg", "1.0") . "\n";
 
 

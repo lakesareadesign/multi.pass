@@ -73,7 +73,7 @@ class ProSites_Gateway_Stripe {
 		), 10, 3 );
 
 		$stripe_version = $psts->get_setting( 'stripe_version' );
-		//update install script if necessary
+		// Update install script if necessary.
 		if ( empty( $stripe_version ) || $stripe_version != $psts->version ) {
 			$this->install();
 		}
@@ -88,14 +88,14 @@ class ProSites_Gateway_Stripe {
 
 	}
 
-	private static function install() {
+	private function install() {
 		global $wpdb, $psts;
 
 		$table_name = $wpdb->base_prefix . 'pro_sites_stripe_customers';
 		$table1     = "CREATE TABLE $table_name (
 		  blog_id bigint(20) NOT NULL,
 			customer_id char(20) NOT NULL,
-			subscription_id char(22) NOT NULL,
+			subscription_id char(22) NULL,
 			PRIMARY KEY  (blog_id),
 			UNIQUE KEY ix_subscription_id (subscription_id)
 		) DEFAULT CHARSET=utf8;";
@@ -103,6 +103,12 @@ class ProSites_Gateway_Stripe {
 		if ( ! defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) || ( defined( 'DO_NOT_UPGRADE_GLOBAL_TABLES' ) && ! DO_NOT_UPGRADE_GLOBAL_TABLES ) ) {
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 			dbDelta( $table1 );
+
+			// Modify stripe customers table, if we have latest version.
+			if ( version_compare( $psts->version,'3.5.9.3', '>=' ) ) {
+				// Handle failed upgrades.
+				$this->upgrade_table_indexes();
+			}
 		}
 
 		if ( $psts->get_setting( 'stripe_secret_key' ) ) {
@@ -113,6 +119,53 @@ class ProSites_Gateway_Stripe {
 			} else {
 				self::update_plan_ids_v2();
 			}
+		}
+	}
+
+	/**
+	 * Upgrade stripe customers table structure.
+	 *
+	 * We are using dbDelta in install() method to create and
+	 * upgrade stripe customers database table. But if the PS
+	 * plugin was installed before version 3.5, there is a chance
+	 * that the upgrade will fail to set unique id for subscription id.
+	 * And the old customer id will still be a unique id.
+	 * We need to drop the old unique id and then add new unique id.
+	 * Also we need to make unique id nullable, because we may get error
+	 * for old entries without subscription id.
+	 *
+	 * @since 3.6.0
+	 *
+	 * @return void
+	 */
+	private function upgrade_table_indexes() {
+
+		global $wpdb;
+
+		// Our stripe table.
+		$table_name = $wpdb->base_prefix . 'pro_sites_stripe_customers';
+
+		// Get all indexes on customer id and subscription id.
+		$indexes = $wpdb->get_results( "SHOW INDEX FROM $table_name WHERE column_name = 'customer_id'" );
+		if ( ! empty( $indexes ) ) {
+			foreach ( $indexes as $index ) {
+				// If it is a unique key, drop it.
+				if ( empty( $index->Non_unique ) ) {
+					$wpdb->query( "ALTER TABLE $table_name DROP INDEX $index->Key_name" );
+				}
+			}
+		}
+
+		// Sometimes old installation may have empty subscription ids, so we need to make sure nullable.
+		$wpdb->query( "ALTER TABLE $table_name CHANGE subscription_id subscription_id char(22) NULL" );
+		// Make sure all empty subscription IDs are NULL. dbDelta will not hable this.
+		$wpdb->query( "UPDATE $table_name SET subscription_id = NULL WHERE subscription_id = ''" );
+
+		// If unique key is not set for subscription id, set.
+		$index_exists = $wpdb->query( "SHOW INDEX FROM $table_name WHERE KEY_NAME = 'ix_subscription_id'" );
+		if ( empty( $index_exists ) ) {
+			// Set unique key to subscription id.
+			$wpdb->query( "ALTER TABLE $table_name ADD UNIQUE KEY ix_subscription_id (subscription_id)" );
 		}
 	}
 
@@ -303,8 +356,7 @@ class ProSites_Gateway_Stripe {
 	 * @return array|void
 	 */
 	public static function get_stripe_plans( $count = 100, $offset = false, $listed = 0, $last_object = '' ) {
-
-		if ( wp_cache_get( 'stripe_plans_cached', 'psts' ) ) {
+		if ( wp_cache_get( 'stripe_plans_cached', 'psts' ) && ! empty( self::$stripe_plans ) ) {
 			return self::$stripe_plans;
 		}
 
@@ -1067,6 +1119,9 @@ class ProSites_Gateway_Stripe {
 
 			$subscription = self::get_subscription( $event_json );
 
+			// The subscription_id from stripe.
+			$subscription_id = isset( $subscription->id ) ? $subscription->id : '';
+
 			//If we have subscription object and Payment succeeded, Add it to DB
 			if ( $subscription && 'invoice.payment_succeeded' == $event_type ) {
 				self::record_transaction( $event_json );
@@ -1084,7 +1139,7 @@ class ProSites_Gateway_Stripe {
 
 				// Convert 3.4 -> 3.5+
 				if ( ! empty( $subscription ) && ! isset( $subscription->metadata->blog_id ) && ! isset( $subscription->blog_id ) ) {
-					$blog_id = ProSites_Gateway_Stripe::get_blog_id( $customer_id );
+					$blog_id = ProSites_Gateway_Stripe::get_blog_id( $customer_id, $subscription_id );
 					self::set_subscription_blog_id( $subscription, $customer_id, $blog_id, $blog_id );
 					$subscription->blog_id = $blog_id;
 					self::set_subscription_meta( $subscription, $customer_id );
@@ -1299,7 +1354,6 @@ class ProSites_Gateway_Stripe {
 				$last_line_item = $line_item;
 				// Get subscription
 				if ( 'subscription' == $line_item->type ) {
-					$subscription = $line_item;
 					continue;
 				}
 				// Get setup fee
@@ -1321,7 +1375,7 @@ class ProSites_Gateway_Stripe {
 				return false;
 			}
 			if ( ! $subscription ) {
-				if ( 'invoiceitem' == $line_item->type && isset( $line_item->subscription ) && isset( $line_item->period ) && isset( $line_item->plan ) ) {
+				if ( in_array( $line_item->type, array( 'invoiceitem', 'subscription' ) ) && isset( $line_item->subscription ) && isset( $line_item->period ) && isset( $line_item->plan ) ) {
 					try {
 						$customer     = Stripe_Customer::retrieve( $object->customer );
 						if( !empty( $customer->subscriptions ) ) {
@@ -1449,14 +1503,33 @@ class ProSites_Gateway_Stripe {
 
 	}
 
-	public static function get_blog_id( $customer_id ) {
+	/**
+	 * Get blog id from stripe table.
+	 *
+	 * @param string $customer_id Stripe customer id.
+	 * @param string $subscription_id Stripe subscription id.
+	 *
+	 * @return int|null|string
+	 */
+	public static function get_blog_id( $customer_id, $subscription_id = '' ) {
 		global $wpdb;
 
-		$blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}pro_sites_stripe_customers WHERE customer_id = %s", $customer_id ) );
+		// Where condition for customer id.
+		$where = "WHERE customer_id = %s";
+		$where_args = array( $customer_id );
 
-		// ProSites 3.4 fallback
+		// If subscription id is found, add that too.
+		if ( ! empty( $subscription_id ) ) {
+			$where .= " AND subscription_id = %s";
+			$where_args[] = $subscription_id;
+		}
+
+		// Query.
+		$blog_id = $wpdb->get_var( $wpdb->prepare( "SELECT blog_id FROM {$wpdb->base_prefix}pro_sites_stripe_customers {$where}", $where_args ) );
+
+		// ProSites 3.4 fallback.
 		if ( empty( $blog_id ) ) {
-			// Attempt to get it from customer description
+			// Attempt to get it from customer description.
 			$customer = Stripe_Customer::retrieve( $customer_id );
 			$parts    = explode( ' ', $customer->description );
 			$id       = array_pop( $parts );
@@ -1522,12 +1595,13 @@ class ProSites_Gateway_Stripe {
 		$current_plan = self::get_current_plan( $blog_id );
 		$new_plan     = ( $level . '_' . $period );
 
+		$last_extended = (int) get_blog_option( $blog_id, 'psts_stripe_last_email_receipt' );
 		// Last extended + 5 minutes.
-		$receipt_window = (int) get_blog_option( $blog_id, 'psts_stripe_last_email_receipt' ) + 300;
+		$last_extended = empty( $last_extended ) ? time() : $last_extended + 300;
 
 		$extended = false;
 		// If new subscription.
-		if ( $current_plan != $new_plan ) {
+		if ( $current_plan != $new_plan || $is_payment ) {
 			$psts->extend( $blog_id, $period, $gateway, $level, $amount, $expire, $is_recurring );
 			$extended = true;
 		} elseif ( ! $is_payment ) {
@@ -1536,7 +1610,7 @@ class ProSites_Gateway_Stripe {
 		}
 
 		// We need to send receipt, if not sent already.
-		if ( $is_payment && time() < $receipt_window ) {
+		if ( $is_payment && time() > $last_extended ) {
 			$psts->email_notification( $blog_id, 'receipt', false, $args );
 			// Track email receipt sent.
 			update_blog_option( $blog_id, 'psts_stripe_last_email_receipt', time() );
@@ -2363,8 +2437,10 @@ class ProSites_Gateway_Stripe {
 				// Create/update subscription
 				try {
 
-					$result = false;
-					$sub    = false;
+					$result        = false;
+					$sub           = false;
+					// Flag to check if subscription was cancelled.
+					$was_cancelled = false;
 
 					// Brand new blog...
 					if ( empty( $blog_id ) ) {
@@ -2373,75 +2449,111 @@ class ProSites_Gateway_Stripe {
 
 						$customer_data = self::get_customer_data( $blog_id );
 
+						// Set blog_id to meta data.
+						$args['metadata']['blog_id'] = $blog_id;
+
 						try {
-							$sub          = $c->subscriptions->retrieve( $customer_data->subscription_id );
-							$sub_id       = $sub->id;
-							$prev_plan    = $sub->plan->id;
-							$sub->plan    = isset( $args['plan'] ) ? $args['plan'] : $sub->plan;
-							$changed_plan = $sub->plan;
-							$sub->prorate = isset( $args['prorate'] ) ? $args['prorate'] : $sub->prorate;
-							if ( isset( $args['coupon'] ) ) {
-								$sub->coupon = $args['coupon'];
+							// Retrieve existing subscription.
+							$sub = $c->subscriptions->retrieve( $customer_data->subscription_id );
+							// If subscription doesn't exist or cancelled.
+							if ( empty( $sub ) || 'canceled' === $sub->status ) {
+								// Set flag to true.
+								$was_cancelled = true;
+								// Create new subscription.
+								$sub = $c->subscriptions->create( $args );
+								// Add to log.
+								$psts->log_action( $blog_id, sprintf( __( 'Previous subscription (%s) was cancelled or deleted. So new subscription has been created.', 'psts' ), $customer_data->subscription_id ) );
 							}
-							if ( isset( $args['trial_end'] ) ) {
-								$sub->trial_end = $args['trial_end'];
-							}
+						} catch ( Exception $e ) {
+							// On failure, create new subscription.
+							$was_cancelled = true;
+							// Create new subscription.
+							$sub = $c->subscriptions->create( $args );
+							// Add to log.
+							$psts->log_action( $blog_id, sprintf( __( 'Previous subscription (%s) was cancelled or deleted. So new subscription has been created.', 'psts' ), $customer_data->subscription_id ) );
+						}
 
-							$sub->metadata->period = $args['metadata']['period'];
-							$sub->metadata->level  = $args['metadata']['level'];
-							if ( isset( $args['metadata']['activation'] ) ) {
-								$sub->metadata->activation = $args['metadata']['activation'];
-							} else {
-								$activation_key = ProSites_Helper_ProSite::get_activation_key( $blog_id );
-								if ( ! empty( $activation_key ) ) {
-									$sub->metadata->activation = $activation_key;
+						try {
+							// Subscription id.
+							$sub_id = $sub->id;
+							// We don't have to update subscription if we have created new subscription.
+							if ( ! $was_cancelled ) {
+								$prev_plan    = $sub->plan->id;
+								$sub->plan    = isset( $args['plan'] ) ? $args['plan'] : $sub->plan;
+								$changed_plan = $sub->plan;
+								$sub->prorate = isset( $args['prorate'] ) ? $args['prorate'] : $sub->prorate;
+								if ( isset( $args['coupon'] ) ) {
+									$sub->coupon = $args['coupon'];
 								}
+								if ( isset( $args['trial_end'] ) ) {
+									$sub->trial_end = $args['trial_end'];
+								}
+
+								$sub->metadata->period = $args['metadata']['period'];
+								$sub->metadata->level  = $args['metadata']['level'];
+								if ( isset( $args['metadata']['activation'] ) ) {
+									$sub->metadata->activation = $args['metadata']['activation'];
+								} else {
+									$activation_key = ProSites_Helper_ProSite::get_activation_key( $blog_id );
+									if ( ! empty( $activation_key ) ) {
+										$sub->metadata->activation = $activation_key;
+									}
+								}
+								$sub->metadata->blog_id = $blog_id;
+								if ( isset( $args['metadata']['domain'] ) ) {
+									$sub->metadata->domain = $args['metadata']['domain'];
+								}
+
+								// Apply tax?
+								if ( $tax_object->apply_tax ) {
+									$sub->tax_percent            = self::$is_zdc ? $tax_object->tax_rate : ( $tax_object->tax_rate * 100 );
+									$sub->metadata->tax_evidence = $evidence_string;
+								}
+
+								$sub->save();
+
+								// As per Stripe API, to charge immediately, apply an invoice now
+								if ( $prev_plan != $changed_plan ) {
+									$customer_args = array(
+										'customer'     => $customer_id,
+										'subscription' => $sub_id,
+										'metadata'     => array(
+											'plan_change' => 'yes',
+											'period'      => $args['metadata']['period'],
+											'level'       => $args['metadata']['level'],
+											'blog_id'     => $blog_id
+										),
+									);
+									$invoice       = Stripe_Invoice::create( $customer_args );
+									$invoice       = $invoice->pay();
+
+									$plan_parts  = explode( '_', $changed_plan );
+									$new_period  = array_pop( $plan_parts );
+									$new_level   = array_pop( $plan_parts );
+									$plan_parts  = explode( '_', $prev_plan );
+									$prev_period = array_pop( $plan_parts );
+									$prev_level  = array_pop( $plan_parts );
+
+									$updated = array(
+										'render'      => true,
+										'blog_id'     => $blog_id,
+										'level'       => $new_level,
+										'period'      => $new_period,
+										'prev_level'  => $prev_level,
+										'prev_period' => $prev_period,
+									);
+
+									ProSites_Helper_Session::session( 'plan_updated', $updated );
+								}
+
 							}
-							$sub->metadata->blog_id = $blog_id;
-							if ( isset( $args['metadata']['domain'] ) ) {
-								$sub->metadata->domain = $args['metadata']['domain'];
-							}
 
-							// Apply tax?
-							if ( $tax_object->apply_tax ) {
-								$sub->tax_percent            = self::$is_zdc ? $tax_object->tax_rate : ( $tax_object->tax_rate * 100 );
-								$sub->metadata->tax_evidence = $evidence_string;
-							}
-
-							$sub->save();
-
-							// As per Stripe API, to charge immediately, apply an invoice now
-							if ( $prev_plan != $changed_plan ) {
-								$customer_args = array(
-									'customer'     => $customer_id,
-									'subscription' => $sub_id,
-									'metadata'     => array(
-										'plan_change' => 'yes',
-										'period'      => $args['metadata']['period'],
-										'level'       => $args['metadata']['level'],
-										'blog_id'     => $blog_id
-									),
-								);
-								$invoice       = Stripe_Invoice::create( $customer_args );
-								$invoice       = $invoice->pay();
-
-								$plan_parts  = explode( '_', $changed_plan );
-								$new_period  = array_pop( $plan_parts );
-								$new_level   = array_pop( $plan_parts );
-								$plan_parts  = explode( '_', $prev_plan );
-								$prev_period = array_pop( $plan_parts );
-								$prev_level  = array_pop( $plan_parts );
-
-								$updated = array(
-									'render'      => true,
-									'blog_id'     => $blog_id,
-									'level'       => $new_level,
-									'period'      => $new_period,
-									'prev_level'  => $prev_level,
-									'prev_period' => $prev_period,
-								);
-								ProSites_Helper_Session::session( 'plan_updated', $updated );
-
+							// If we have created new subscription.
+							if ( $was_cancelled ) {
+								// Set expiry date.
+								$expire = $sub->current_period_end;
+								// Update customer data in db.
+								self::set_customer_data( $blog_id, $customer_id, $sub_id );
 							}
 
 						} catch ( Exception $e ) {
@@ -2531,7 +2643,7 @@ class ProSites_Gateway_Stripe {
 
 
 					// Update the sub with the new blog id (old subscriptions will update later).
-					if ( ! empty( $blog_id ) ) {
+					if ( ! empty( $blog_id ) && ! $was_cancelled ) {
 						$sub                    = $c->subscriptions->retrieve( $sub_id );
 						$sub->metadata->blog_id = $blog_id;
 						$sub->save();
@@ -2812,7 +2924,8 @@ class ProSites_Gateway_Stripe {
 					$args['cancel']               = true;
 					$args['cancellation_message'] = '<div class="psts-cancel-notification">
 													<p class="label"><strong>' . __( 'Your subscription has been canceled', 'psts' ) . '</strong></p>
-													<p>' . sprintf( __( 'This site should continue to have %1$s features until %2$s.', 'psts' ), $level, $end_date ) . '</p>';
+													<p>' . sprintf( __( 'This site should continue to have %1$s features until %2$s.', 'psts' ), $level, $end_date ) . '</p>
+													</div>';
 				}
 			}
 
@@ -2824,7 +2937,8 @@ class ProSites_Gateway_Stripe {
 					$args['cancel']               = true;
 					$args['cancellation_message'] = '<div class="psts-cancel-notification">
 													<p class="label"><strong>' . __( 'Your subscription has been canceled', 'psts' ) . '</strong></p>
-													<p>' . sprintf( __( 'This site should continue to have %1$s features until %2$s.', 'psts' ), $level, $end_date ) . '</p>';
+													<p>' . sprintf( __( 'This site should continue to have %1$s features until %2$s.', 'psts' ), $level, $end_date ) . '</p>
+													</div>';
 				}
 				// We don't need to log in error log if the subscription was cancelled normally.
 				if ( empty( $subscription->canceled_at ) ) {

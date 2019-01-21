@@ -7,7 +7,7 @@ class Stripe_Error extends Exception
   )
   {
     parent::__construct($message);
-    $this->httpStatus = $httpStatus;
+    $this->httpStatus = $httpStatus;	     	 	   	  	 	
     $this->httpBody = $httpBody;
     $this->jsonBody = $jsonBody;
   }

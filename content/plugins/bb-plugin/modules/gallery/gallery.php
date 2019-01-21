@@ -275,15 +275,6 @@ FLBuilder::register_module('FLGalleryModule', array(
 							'400'           => _x( 'Large', 'Photo size.', 'fl-builder' ),
 						),
 					),
-					'photo_spacing' => array(
-						'type'          => 'text',
-						'label'         => __( 'Photo Spacing', 'fl-builder' ),
-						'default'       => '20',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
-						'sanitize'		=> 'absint',
-					),
 					'show_captions' => array(
 						'type'          => 'select',
 						'label'         => __( 'Show Captions', 'fl-builder' ),
@@ -317,6 +308,36 @@ FLBuilder::register_module('FLGalleryModule', array(
 						'type' 			=> 'photo-sizes',
 						'label'			=> __( 'Lightbox Photo Size', 'fl-builder' ),
 						'default'		=> 'large',
+					),
+				),
+			),
+		),
+	),
+	'style'       => array( // Tab
+		'title'         => __( 'Style', 'fl-builder' ), // Tab title
+		'sections'      => array( // Tab Sections
+			'general'       => array( // Section
+				'title'         => '', // Section Title
+				'fields'        => array( // Section Fields
+					'photo_spacing' => array(
+						'type'          => 'unit',
+						'label'         => __( 'Photo Spacing', 'fl-builder' ),
+						'default'       => '20',
+						'sanitize'		=> 'absint',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
+						'preview'		=> array(
+							'type'			=> 'none',
+						),
+					),
+					'photo_border' 		=> array(
+						'type'          => 'border',
+						'label'         => __( 'Photo Border', 'fl-builder' ),
+						'responsive'	=> true,
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'		=> '.fl-photo-img',
+						),
 					),
 				),
 			),

@@ -23,6 +23,22 @@ class FLPostCarouselModule extends FLBuilderModule {
 	}
 
 	/**
+	 * Ensure backwards compatibility with old settings.
+	 *
+	 * @since 2.2
+	 * @param object $settings A module settings object.
+	 * @param object $helper A settings compatibility helper.
+	 * @return object
+	 */
+	public function filter_settings( $settings, $helper ) {
+
+		// Handle old opacity inputs.
+		$helper->handle_opacity_inputs( $settings, 'text_bg_opacity', 'text_bg_color' );
+
+		return $settings;
+	}
+
+	/**
 	 * Remove pagination parameters
 	 *
 	 * @param array $query_args 	Generated query args to override
@@ -155,13 +171,6 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 							'true'          => __( 'Yes', 'fl-builder' ),
 						),
 					),
-					'speed'         => array(
-						'type'          => 'text',
-						'label'         => __( 'Delay', 'fl-builder' ),
-						'default'       => '5',
-						'size'          => '5',
-						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
-					),
 					'carousel_loop'     => array(
 						'type'          => 'select',
 						'label'         => __( 'Loop', 'fl-builder' ),
@@ -171,12 +180,15 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 							'true'				=> __( 'Yes', 'fl-builder' ),
 						),
 					),
-					'transition_duration' => array(
-						'type'          => 'text',
-						'label'         => __( 'Transition Speed', 'fl-builder' ),
-						'default'       => '1',
-						'size'          => '5',
-						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
+					'speed'         => array(
+						'type'          => 'unit',
+						'label'         => __( 'Delay', 'fl-builder' ),
+						'default'       => '5',
+						'units'			=> array( 'seconds' ),
+						'slider'		=> array(
+							'max'			=> 10,
+							'step'			=> .5,
+						),
 					),
 					'direction'   => array(
 						'type'          => 'select',
@@ -187,18 +199,15 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 							'prev'          => __( 'Left To Right', 'fl-builder' ),
 						),
 					),
-					'posts_per_page' => array(
-						'type'          => 'text',
-						'label'         => __( 'Number of Posts', 'fl-builder' ),
-						'default'       => '10',
-						'size'          => '4',
-					),
-
-					'move_slides' => array(
-						'type'          => 'text',
-						'label'         => __( 'Number of slides to move at a time', 'fl-builder' ),
+					'transition_duration' => array(
+						'type'          => 'unit',
+						'label'         => __( 'Transition Speed', 'fl-builder' ),
 						'default'       => '1',
-						'size'          => '2',
+						'units'			=> array( 'seconds' ),
+						'slider'		=> array(
+							'max'			=> 10,
+							'step'			=> .5,
+						),
 					),
 				),
 			),
@@ -239,21 +248,34 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 			'posts'          => array(
 				'title'         => __( 'Posts', 'fl-builder' ),
 				'fields'        => array(
+					'posts_per_page' => array(
+						'type'          => 'unit',
+						'label'         => __( 'Number of Posts', 'fl-builder' ),
+						'default'       => '10',
+						'size'          => '4',
+					),
+					'move_slides' => array(
+						'type'          => 'unit',
+						'label'         => __( 'Number of Posts to Move', 'fl-builder' ),
+						'default'       => '1',
+						'size'          => '2',
+					),
 					'slide_width'  => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Post Max Width', 'fl-builder' ),
 						'default'       => '300',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> array(
+							'max'			=> 500,
+							'step'			=> 10,
+						),
 					),
 					'space_between'  => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Post Spacing', 'fl-builder' ),
 						'default'       => '30',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
 					),
 					'equal_height'   => array(
 						'type'          => 'select',
@@ -347,12 +369,11 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 						),
 					),
 					'post_icon_size'  => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Post Icon Size', 'fl-builder' ),
 						'default'       => '24',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
 					),
 				),
 			),
@@ -438,38 +459,53 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 				'fields'        => array(
 					'text_color'    => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Text Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-post-carousel',
+							'property'		=> 'color',
+						),
 					),
 					'link_color'    => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Link Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-post-carousel-text a',
+							'property'		=> 'color',
+						),
 					),
 					'link_hover_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Link Hover Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'	=> true,
+						'preview'		=> array(
+							'type'			=> 'none',
+						),
 					),
 					'text_bg_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Text Background Color', 'fl-builder' ),
 						'default'       => 'ffffff',
 						'help'          => __( 'The color applies to the overlay behind text over the background selections.', 'fl-builder' ),
 						'show_reset'    => true,
-					),
-					'text_bg_opacity' => array(
-						'type'          => 'text',
-						'label'         => __( 'Text Background Opacity', 'fl-builder' ),
-						'default'       => '100',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => '%',
+						'show_alpha'	=> true,
 					),
 					'post_icon_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Post Icon Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'	=> true,
 					),
 				),
 			),
@@ -478,6 +514,7 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 				'fields'        => array(
 					'arrows_bg_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Arrows Background Color', 'fl-builder' ),
 						'show_reset'    => true,
 						'show_alpha'	=> true,
@@ -493,8 +530,15 @@ FLBuilder::register_module('FLPostCarouselModule', array(
 					),
 					'arrows_text_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Arrows Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-post-carousel-navigation path',
+							'property'		=> 'fill',
+						),
 					),
 				),
 			),

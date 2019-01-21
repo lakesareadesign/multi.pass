@@ -209,6 +209,7 @@ final class FLBuilderUserTemplates {
 				'handle' => 'savedModules',
 				'name' => __( 'Saved Modules', 'fl-builder' ),
 				'templateName' => 'fl-content-panel-saved-modules',
+				'hasChildren' => count( $saved_modules['categorized'] ) > 1,
 				'query' => array(
 					'kind' => 'template',
 					'type' => 'user',
@@ -224,6 +225,7 @@ final class FLBuilderUserTemplates {
 						'name' => $category['name'],
 						'templateName' => 'fl-content-panel-saved-modules',
 						'isSubItem' => true,
+						'parent' => 'savedModules',
 						'query' => array(
 							'kind' => 'template',
 							'type' => 'user',
@@ -247,6 +249,7 @@ final class FLBuilderUserTemplates {
 					'handle' => 'savedColumns',
 					'name' => __( 'Saved Columns', 'fl-builder' ),
 					'templateName' => 'fl-content-panel-saved-columns',
+					'hasChildren' => count( $saved_cols['categorized'] ) > 1,
 					'query' => array(
 						'kind' => 'template',
 						'type' => 'user',
@@ -263,6 +266,7 @@ final class FLBuilderUserTemplates {
 						'name' => $category['name'],
 						'templateName' => 'fl-content-panel-saved-columns',
 						'isSubItem' => true,
+						'parent' => 'savedColumns',
 						'query' => array(
 							'kind' => 'template',
 							'type' => 'user',
@@ -287,6 +291,7 @@ final class FLBuilderUserTemplates {
 					'handle' => 'savedRows',
 					'name' => __( 'Saved Rows', 'fl-builder' ),
 					'templateName' => 'fl-content-panel-saved-rows',
+					'hasChildren' => count( $saved_rows['categorized'] ) > 1,
 					'query' => array(
 						'kind' => 'template',
 						'type' => 'user',
@@ -302,6 +307,7 @@ final class FLBuilderUserTemplates {
 							'name' => $category['name'],
 							'templateName' => 'fl-content-panel-saved-rows',
 							'isSubItem' => true,
+							'parent' => 'savedRows',
 							'query' => array(
 								'kind' => 'template',
 								'type' => 'user',
@@ -320,6 +326,7 @@ final class FLBuilderUserTemplates {
 				$data['tabs']['templates']['views'][50] = array(
 					'handle' => 'user-templates',
 					'name' => __( 'Saved Templates', 'fl-builder' ),
+					'hasChildren' => count( $saved_layouts['categorized'] ) > 1,
 					'query' => array(
 						'kind' => 'template',
 						'type' => 'user',
@@ -335,6 +342,7 @@ final class FLBuilderUserTemplates {
 							'handle' => 'user-' . $handle,
 							'name' => $category['name'],
 							'isSubItem' => true,
+							'parent' => 'user-templates',
 							'query' => array(
 								'kind' => 'template',
 								'type' => 'user',

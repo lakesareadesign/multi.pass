@@ -1,5 +1,8 @@
 html.wp-toolbar {
-        padding-top: 56px;
+  /* padding-top: 56px; */
+}
+body.wp-admin {
+  margin-top: 24px;
 }
 #wpadminbar, #wpadminbar li#wp-admin-bar-alter_admin_title {
     height: 56px;
@@ -205,6 +208,16 @@ div.updated {margin-left:0;}
   font-weight: bold;
   text-align: center;
   padding: 5px 0;
+}
+
+.alter-role-selector {
+  font-size: 12px;
+  color: #232323;
+  text-decoration: none;
+}
+
+.alter-role-selector:hover {
+  text-decoration: underline;
 }
 
 @media screen and (max-width: 1400px) {

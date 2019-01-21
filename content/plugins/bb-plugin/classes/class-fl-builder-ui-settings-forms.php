@@ -263,6 +263,11 @@ class FLBuilderUISettingsForms {
 		 */
 		$field = apply_filters( 'fl_builder_field_js_config', $field, $field_key, $form_key );
 
+		// Bail if the field has no type.
+		if ( ! isset( $field['type'] ) ) {
+			return;
+		}
+
 		// Convert class to className for JS compat.
 		if ( isset( $field['class'] ) ) {
 			$field['className'] = $field['class'];
@@ -348,6 +353,10 @@ class FLBuilderUISettingsForms {
 					continue;
 				}
 
+				if ( isset( $field['inline_editor'] ) && ! $field['inline_editor'] ) {
+					continue;
+				}
+
 				if ( ! isset( $editables[ $module->slug ] ) ) {
 					$editables[ $module->slug ] = array();
 				}
@@ -357,6 +366,7 @@ class FLBuilderUISettingsForms {
 					'field'	   => array(
 						'name'		=> $key,
 						'type'		=> $field['type'],
+						'toolbar'	=> isset( $field['inline_editor'] ) ? $field['inline_editor'] : null,
 					),
 				);
 			}
@@ -477,6 +487,7 @@ class FLBuilderUISettingsForms {
 			return false;
 		}
 
+		$post			= get_post( $id );
 		$filename 		= wp_basename( $url );
 		$base_url 		= str_replace( $filename, '', $url );
 		$meta     		= wp_get_attachment_metadata( $id );
@@ -515,6 +526,7 @@ class FLBuilderUISettingsForms {
 			'id'		=> $id,
 			'url'   	=> $url,
 			'filename' 	=> $filename,
+			'caption'	=> $post->post_excerpt,
 			'sizes' 	=> apply_filters( 'fl_builder_photo_sizes_select', $sizes ),
 		);
 	}
@@ -654,6 +666,9 @@ class FLBuilderUISettingsForms {
 		// Render legacy custom fields.
 		if ( isset( $data['fields'] ) ) {
 			foreach ( $data['fields'] as $name ) {
+				if ( ! isset( $fields[ $name ] ) ) {
+					continue;
+				}
 				ob_start();
 				self::render_settings_field( $name, (array) $fields[ $name ], $settings );
 				$response['fields'][ $name ] = ob_get_clean();
@@ -836,6 +851,11 @@ class FLBuilderUISettingsForms {
 		 * @since 2.0
 		 */
 		$field              = apply_filters( 'fl_builder_render_settings_field', $field, $name, $settings ); // Allow field settings filtering first
+
+		if ( ! isset( $field['type'] ) ) {
+			return;
+		}
+
 		$i                  = null;
 		$is_multiple        = isset( $field['multiple'] ) && true === (bool) $field['multiple'];
 		$supports_multiple  = 'editor' != $field['type'] && 'service' != $field['type'];

@@ -35,9 +35,20 @@ final class FLBuilderFonts {
 	static public function js() {
 		$default = json_encode( apply_filters( 'fl_builder_font_families_default', FLBuilderFontFamilies::$default ) );
 		$system  = json_encode( apply_filters( 'fl_builder_font_families_system', FLBuilderFontFamilies::$system ) );
-		$google  = json_encode( apply_filters( 'fl_builder_font_families_google', FLBuilderFontFamilies::google() ) );
+		$google  = json_encode( apply_filters( 'fl_builder_font_families_google', self::prepare_google_fonts( FLBuilderFontFamilies::google() ) ) );
 
 		echo 'var FLBuilderFontFamilies = { default: ' . $default . ', system: ' . $system . ', google: ' . $google . ' };';
+	}
+
+	static public function prepare_google_fonts( $fonts ) {
+		foreach ( $fonts as $family => $variants ) {
+			foreach ( $variants as $k => $variant ) {
+				if ( 'italic' == $variant || 'i' == substr( $variant, -1 ) ) {
+					unset( $fonts[ $family ][ $k ] );
+				}
+			}
+		}
+		return $fonts;
 	}
 
 	/**
@@ -195,9 +206,33 @@ final class FLBuilderFonts {
 	static public function add_fonts_for_module( $module ) {
 		$fields = FLBuilderModel::get_settings_form_fields( $module->form );
 
+		// needed for italics.
+		$google = FLBuilderFontFamilies::google();
+
 		foreach ( $fields as $name => $field ) {
 			if ( 'font' == $field['type'] && isset( $module->settings->$name ) ) {
 				self::add_font( $module->settings->$name );
+			} elseif ( 'typography' == $field['type'] && ! empty( $module->settings->$name ) && isset( $module->settings->{ $name }['font_family'] ) ) {
+				$fname  = $module->settings->{ $name }['font_family'];
+				$weight = $module->settings->{ $name }['font_weight'];
+
+				// handle google italics.
+				if ( isset( $google[ $fname ] ) ) {
+					$selected_weight = $module->settings->{ $name }['font_weight'];
+					$italic          = ( isset( $module->settings->{ $name }['font_style'] ) ) ? $module->settings->{ $name }['font_style'] : '';
+
+					if ( in_array( $selected_weight . 'i', $google[ $fname ] ) && 'italic' == $italic ) {
+						$weight = $selected_weight . 'i';
+					}
+					if ( ( '400' == $selected_weight || 'regular' == $selected_weight ) && 'italic' == $italic && in_array( 'italic', $google[ $fname ] ) ) {
+						$weight = '400i';
+					}
+				}
+
+				self::add_font( array(
+					'family' => $module->settings->{ $name }['font_family'],
+					'weight' => $weight,
+				) );
 			} elseif ( isset( $field['form'] ) ) {
 				$form = FLBuilderModel::$settings_forms[ $field['form'] ];
 				self::add_fonts_for_nested_module_form( $module, $form['tabs'], $name );
@@ -420,6 +455,33 @@ final class FLBuilderFonts {
 		return $urls;
 	}
 
+	/**
+	 * Find font fallback, used by FLBuilderCSS
+	 * @since 2.2
+	 */
+	static public function get_font_fallback( $font_family ) {
+		$fallback = 'sans-serif';
+		$default  = apply_filters( 'fl_builder_font_families_default', FLBuilderFontFamilies::$default );
+		$system   = apply_filters( 'fl_builder_font_families_system', FLBuilderFontFamilies::$system );
+		$google   = apply_filters( 'fl_builder_font_families_google', FLBuilderFontFamilies::google() );
+		foreach ( $default as $font => $data ) {
+			if ( $font_family == $font && isset( $data['fallback'] ) ) {
+				$fallback = $data['fallback'];
+			}
+		}
+		foreach ( $system as $font => $data ) {
+			if ( $font_family == $font && isset( $data['fallback'] ) ) {
+				$fallback = $data['fallback'];
+			}
+		}
+		foreach ( $google as $font => $data ) {
+			if ( $font_family == $font ) {
+				$fallback = FLBuilderFontFamilies::get_google_fallback( $font );
+			}
+		}
+		return $fallback;
+	}
+
 }
 
 FLBuilderFonts::init();
@@ -437,71 +499,24 @@ final class FLBuilderFontFamilies {
 	 */
 	static private $_google_json = array();
 
+	/**
+	 * Array with a list of default font weights.
+	 * @var array
+	 */
 	static public $default = array(
 		'Default' => array(
 			'default',
+			'100',
+			'200',
+			'300',
+			'400',
+			'500',
+			'600',
+			'700',
+			'800',
+			'900',
 		),
 	);
-
-	/**
-	 * Parse fonts.json to get all possible Google fonts.
-	 * @since 1.10.7
-	 * @return array
-	 */
-	static function google() {
-
-		$fonts = array();
-		$json  = self::_get_json();
-
-		foreach ( $json as $k => $font ) {
-
-			$name = key( $font );
-
-			foreach ( $font[ $name ]['variants'] as $key => $variant ) {
-				if ( stristr( $variant, 'italic' ) && 'italic' !== $variant ) {
-					$font[ $name ]['variants'][ $key ] = str_replace( 'talic', '', $variant );
-				}
-				if ( 'regular' == $variant ) {
-					$font[ $name ]['variants'][ $key ] = '400';
-				}
-			}
-
-			$fonts[ $name ] = $font[ $name ]['variants'];
-		}
-		return $fonts;
-	}
-
-	/**
-	 * @since 2.1.5
-	 */
-	static private function _get_json() {
-		if ( ! empty( self::$_google_json ) ) {
-			$json = self::$_google_json;
-		} else {
-			$json = (array) json_decode( file_get_contents( trailingslashit( FL_BUILDER_DIR ) . 'json/fonts.json' ), true );
-		}
-		/**
-		 * Filter raw google json data
-		 * @see fl_builder_get_google_json
-		 */
-		return apply_filters( 'fl_builder_get_google_json', $json );
-	}
-
-
-	/**
-	 * @since 2.1.5
-	 */
-	static public function get_google_fallback( $font ) {
-		$json = self::_get_json();
-		foreach ( $json as $k => $google ) {
-			$name = key( $google );
-			if ( $name == $font ) {
-				return $google[ $name ]['fallback'];
-			}
-		}
-		return false;
-	}
-
 
 	/**
 	 * Array with a list of system fonts.
@@ -557,4 +572,64 @@ final class FLBuilderFontFamilies {
 			),
 		),
 	);
+
+	/**
+	 * Parse fonts.json to get all possible Google fonts.
+	 * @since 1.10.7
+	 * @return array
+	 */
+	static function google() {
+
+		$fonts = array();
+		$json  = self::_get_json();
+
+		foreach ( $json as $k => $font ) {
+
+			$name = key( $font );
+
+			foreach ( $font[ $name ]['variants'] as $key => $variant ) {
+				if ( stristr( $variant, 'italic' ) && 'italic' !== $variant ) {
+					$font[ $name ]['variants'][ $key ] = str_replace( 'talic', '', $variant );
+				}
+				if ( 'regular' == $variant ) {
+					$font[ $name ]['variants'][ $key ] = '400';
+				}
+			}
+
+			$fonts[ $name ] = $font[ $name ]['variants'];
+		}
+		return $fonts;
+	}
+
+	/**
+	 * @since 2.1.5
+	 */
+	static private function _get_json() {
+		if ( ! empty( self::$_google_json ) ) {
+			$json = self::$_google_json;
+		} else {
+			$json = (array) json_decode( file_get_contents( trailingslashit( FL_BUILDER_DIR ) . 'json/fonts.json' ), true );
+			self::$_google_json = $json;
+		}
+		/**
+		 * Filter raw google json data
+		 * @see fl_builder_get_google_json
+		 */
+		return apply_filters( 'fl_builder_get_google_json', $json );
+	}
+
+
+	/**
+	 * @since 2.1.5
+	 */
+	static public function get_google_fallback( $font ) {
+		$json = self::_get_json();
+		foreach ( $json as $k => $google ) {
+			$name = key( $google );
+			if ( $name == $font ) {
+				return $google[ $name ]['fallback'];
+			}
+		}
+		return false;
+	}
 }

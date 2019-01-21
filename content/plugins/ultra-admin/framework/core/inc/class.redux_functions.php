@@ -103,7 +103,7 @@ if ( ! class_exists( 'Redux_Functions' ) ) {
         private static function verFromGit() {
             // Get the raw framework.php from github
             $gitpage = wp_remote_get(
-                'https://raw.github.com/ReduxFramework/redux-framework/master/ReduxCore/framework.php', array(
+                'https://raw.github.com/ReduxFramework/ultra_framework/master/ReduxCore/framework.php', array(
                     'headers'   => array(
                         'Accept-Encoding' => ''
                     ),
@@ -180,7 +180,7 @@ if ( ! class_exists( 'Redux_Functions' ) ) {
             if ( version_compare( $ver, $curVer, '>' ) ) {
                 self::$_parent->admin_notices[] = array(
                     'type'    => 'updated',
-                    'msg'     => '<strong>A new build of Redux is now available!</strong><br/><br/>Your version:  <strong>' . $curVer . '</strong><br/>New version:  <strong><span style="color: red;">' . $ver . '</span></strong><br/><br/><em>If you are not a developer, your theme/plugin author shipped with <code>dev_mode</code> on. Contact them to fix it, but in the meantime you can use our <a href="' . 'https://' . 'wordpress.org/plugins/redux-developer-mode-disabler/" target="_blank">dev_mode disabler</a>.</em><br /><br /><a href="' . 'https://' . 'github.com/ReduxFramework/redux-framework">Get it now</a>&nbsp;&nbsp;|',
+                    'msg'     => '<strong>A new build of Redux is now available!</strong><br/><br/>Your version:  <strong>' . $curVer . '</strong><br/>New version:  <strong><span style="color: red;">' . $ver . '</span></strong><br/><br/><em>If you are not a developer, your theme/plugin author shipped with <code>dev_mode</code> on. Contact them to fix it, but in the meantime you can use our <a href="' . 'https://' . 'wordpress.org/plugins/redux-developer-mode-disabler/" target="_blank">dev_mode disabler</a>.</em><br /><br /><a href="' . 'https://' . 'github.com/ReduxFramework/ultra_framework">Get it now</a>&nbsp;&nbsp;|',
                     'id'      => 'dev_notice_' . $ver,
                     'dismiss' => true,
                 );
@@ -234,7 +234,7 @@ if ( ! class_exists( 'Redux_Functions' ) ) {
                             }
 
                             // Print the notice with the dismiss link
-                            echo '<div ' . $add_style . ' class="' . $notice['type'] . '"><p>' . $notice['msg'] . '&nbsp;&nbsp;<a href="?dismiss=true&amp;id=' . $notice['id'] . $pageName . $curTab . '">' . __( 'Dismiss', 'redux-framework' ) . '</a>.</p></div>';
+                            echo '<div ' . $add_style . ' class="' . $notice['type'] . '"><p>' . $notice['msg'] . '&nbsp;&nbsp;<a href="?dismiss=true&amp;id=' . $notice['id'] . $pageName . $curTab . '">' . __( 'Dismiss', 'ultra_framework' ) . '</a>.</p></div>';
                         }
                     } else {
 

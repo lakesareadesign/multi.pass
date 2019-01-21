@@ -39,7 +39,9 @@
 		<?php if ( ! FLBuilderModel::is_post_user_template( 'row' ) && ! FLBuilderModel::is_post_user_template( 'column' ) ) : ?>
 		<div id="fl-builder-blocks-saved-rows" class="fl-builder-blocks-section fl-builder-blocks-node-template">
 
-			<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Rows', 'fl-builder' ) ?></span>
+			<div class="fl-builder-blocks-section-header">
+				<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Rows', 'fl-builder' ) ?></span>
+			</div>
 			<div class="fl-builder-blocks-section-content fl-builder-saved-rows">
 			<# if (rows.length === 0) { #>
 				<span class="fl-builder-block-no-node-templates"><?php _e( 'No saved rows found.', 'fl-builder' ); ?></span>
@@ -82,7 +84,9 @@
 		<?php if ( ! FLBuilderModel::is_post_user_template( 'column' ) ) : ?>
 		<div id="fl-builder-blocks-saved-columns" class="fl-builder-blocks-section fl-builder-blocks-node-template">
 
-			<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Columns', 'fl-builder' ) ?></span>
+			<div class="fl-builder-blocks-section-header">
+				<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Columns', 'fl-builder' ) ?></span>
+			</div>
 			<div class="fl-builder-blocks-section-content fl-builder-saved-columns">
 				<# if (columns.length === 0) { #>
 					<span class="fl-builder-block-no-node-templates"><?php _e( 'No saved columns found.', 'fl-builder' ); ?></span>
@@ -124,7 +128,9 @@
 		<?php endif; ?>
 		<div id="fl-builder-blocks-saved-modules" class="fl-builder-blocks-section fl-builder-blocks-node-template">
 
-			<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Modules', 'fl-builder' ) ?></span>
+			<div class="fl-builder-blocks-section-header">
+				<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Modules', 'fl-builder' ) ?></span>
+			</div>
 			<div class="fl-builder-blocks-section-content fl-builder-saved-modules">
 			<# if (modules.length === 0) { #>
 			<span class="fl-builder-block-no-node-templates"><?php _e( 'No saved modules found.', 'fl-builder' ); ?></span>

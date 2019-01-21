@@ -40,29 +40,50 @@ FLBuilder::register_settings_form('global', array(
 							'type'              => 'unit',
 							'label'             => __( 'Margins', 'fl-builder' ),
 							'default'           => '0',
-							'placeholder'       => '0',
-							'responsive'        => true,
-							'description'       => 'px',
 							'sanitize'			=> 'absint',
+							'responsive'        => array(
+								'placeholder' => array(
+									'default'    => '0',
+									'medium'     => '',
+									'responsive' => '',
+								),
+							),
+							'units'	=> array(
+								'px',
+								'%',
+							),
 						),
 						'row_padding'       => array(
 							'type'              => 'unit',
 							'label'             => __( 'Padding', 'fl-builder' ),
 							'default'           => '20',
-							'placeholder'       => '0',
-							'responsive'        => true,
-							'description'       => 'px',
 							'sanitize'			=> 'absint',
+							'responsive'        => array(
+								'placeholder' => array(
+									'default'    => '0',
+									'medium'     => '',
+									'responsive' => '',
+								),
+							),
+							'units'	=> array(
+								'px',
+								'em',
+								'%',
+							),
 						),
 						'row_width'         => array(
-							'type'              => 'text',
+							'type'              => 'unit',
 							'label'             => __( 'Max Width', 'fl-builder' ),
 							'default'           => '1100',
 							'maxlength'         => '4',
 							'size'              => '5',
-							'description'       => 'px',
 							'sanitize'			=> 'absint',
 							'help'              => __( 'All rows will default to this width. You can override this and make a row full width in the settings for each row.', 'fl-builder' ),
+							'units'	=> array(
+								'px',
+								'vw',
+								'%',
+							),
 						),
 						'row_width_default' => array(
 							'type'    => 'select',
@@ -89,6 +110,46 @@ FLBuilder::register_settings_form('global', array(
 						),
 					),
 				),
+				'columns'      => array(
+					'title'         => __( 'Columns', 'fl-builder' ),
+					'fields'        => array(
+						'column_margins'       => array(
+							'type'              => 'unit',
+							'label'             => __( 'Margins', 'fl-builder' ),
+							'default'           => '',
+							'sanitize'			=> 'absint',
+							'responsive'        => array(
+								'placeholder' => array(
+									'default'    => '0',
+									'medium'     => '',
+									'responsive' => '',
+								),
+							),
+							'units'	=> array(
+								'px',
+								'%',
+							),
+						),
+						'column_padding'   => array(
+							'type'              => 'unit',
+							'label'             => __( 'Padding', 'fl-builder' ),
+							'default'           => '',
+							'sanitize'			=> 'absint',
+							'responsive'        => array(
+								'placeholder' => array(
+									'default'    => '0',
+									'medium'     => '',
+									'responsive' => '',
+								),
+							),
+							'units'	=> array(
+								'px',
+								'em',
+								'%',
+							),
+						),
+					),
+				),
 				'modules'       => array(
 					'title'         => __( 'Modules', 'fl-builder' ),
 					'fields'        => array(
@@ -96,10 +157,18 @@ FLBuilder::register_settings_form('global', array(
 							'type'              => 'unit',
 							'label'             => __( 'Margins', 'fl-builder' ),
 							'default'           => '20',
-							'placeholder'       => '0',
-							'responsive'        => true,
-							'description'       => 'px',
 							'sanitize'			=> 'absint',
+							'responsive'        => array(
+								'placeholder' => array(
+									'default'    => '0',
+									'medium'     => '',
+									'responsive' => '',
+								),
+							),
+							'units'	=> array(
+								'px',
+								'%',
+							),
 						),
 					),
 				),

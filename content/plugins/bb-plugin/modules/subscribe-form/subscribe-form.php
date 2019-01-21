@@ -28,6 +28,44 @@ class FLSubscribeFormModule extends FLBuilderModule {
 	}
 
 	/**
+	 * Ensure backwards compatibility with old settings.
+	 *
+	 * @since 2.2
+	 * @param object $settings A module settings object.
+	 * @param object $helper A settings compatibility helper.
+	 * @return object
+	 */
+	public function filter_settings( $settings, $helper ) {
+
+		// Handle old button module settings.
+		$helper->filter_child_module_settings( 'button', $settings, array(
+			'btn_3d'					=> 'three_d',
+			'btn_style'					=> 'style',
+			'btn_padding'				=> 'padding',
+			'btn_padding_top'			=> 'padding_top',
+			'btn_padding_bottom'		=> 'padding_bottom',
+			'btn_padding_left'			=> 'padding_left',
+			'btn_padding_right'			=> 'padding_right',
+			'btn_mobile_align'			=> 'mobile_align',
+			'btn_align_responsive'		=> 'align_responsive',
+			'btn_font_size'				=> 'font_size',
+			'btn_font_size_unit'		=> 'font_size_unit',
+			'ography'			=> 'typography',
+			'btn_bg_color'				=> 'bg_color',
+			'btn_bg_hover_color'		=> 'bg_hover_color',
+			'btn_bg_opacity'			=> 'bg_opacity',
+			'btn_bg_hover_opacity'		=> 'bg_hover_opacity',
+			'btn_border'				=> 'border',
+			'btn_border_hover_color'	=> 'border_hover_color',
+			'btn_border_radius'			=> 'border_radius',
+			'btn_border_size'			=> 'border_size',
+		) );
+
+		// Return the filtered settings.
+		return $settings;
+	}
+
+	/**
 	 * @method enqueue_scripts
 	 */
 	public function enqueue_scripts() {
@@ -144,6 +182,29 @@ class FLSubscribeFormModule extends FLBuilderModule {
 		echo json_encode( $result );
 
 		die();
+	}
+
+	/**
+	 * Returns an array of settings used to render a button module.
+	 *
+	 * @since 2.2
+	 * @return array
+	 */
+	public function get_button_settings() {
+		$settings = array(
+			'link'        => '#',
+			'link_target' => '_self',
+			'width'       => 'full',
+		);
+
+		foreach ( $this->settings as $key => $value ) {
+			if ( strstr( $key, 'btn_' ) ) {
+				$key = str_replace( 'btn_', '', $key );
+				$settings[ $key ] = $value;
+			}
+		}
+
+		return $settings;
 	}
 }
 
@@ -280,14 +341,22 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 							'selector'		=> '.fl-button-text',
 						),
 					),
+				),
+			),
+			'btn_icon'      => array(
+				'title'         => __( 'Button Icon', 'fl-builder' ),
+				'fields'        => array(
 					'btn_icon'      => array(
 						'type'          => 'icon',
 						'label'         => __( 'Button Icon', 'fl-builder' ),
 						'show_remove'   => true,
+						'show'			=> array(
+							'fields'		=> array( 'btn_icon_position', 'btn_icon_animation' ),
+						),
 					),
 					'btn_icon_position' => array(
 						'type'          => 'select',
-						'label'         => __( 'Icon Position', 'fl-builder' ),
+						'label'         => __( 'Button Icon Position', 'fl-builder' ),
 						'default'       => 'before',
 						'options'       => array(
 							'before'        => __( 'Before Text', 'fl-builder' ),
@@ -296,7 +365,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 					),
 					'btn_icon_animation' => array(
 						'type'          => 'select',
-						'label'         => __( 'Icon Visibility', 'fl-builder' ),
+						'label'         => __( 'Button Icon Visibility', 'fl-builder' ),
 						'default'       => 'disable',
 						'options'       => array(
 							'disable'        => __( 'Always Visible', 'fl-builder' ),
@@ -305,133 +374,143 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 					),
 				),
 			),
-			'btn_colors'     => array(
-				'title'         => __( 'Button Colors', 'fl-builder' ),
+			'btn_style'     => array(
+				'title'         => __( 'Button Style', 'fl-builder' ),
 				'fields'        => array(
-					'btn_bg_color'  => array(
-						'type'          => 'color',
-						'label'         => __( 'Background Color', 'fl-builder' ),
-						'default'       => '',
-						'show_reset'    => true,
-					),
-					'btn_bg_hover_color' => array(
-						'type'          => 'color',
-						'label'         => __( 'Background Hover Color', 'fl-builder' ),
-						'default'       => '',
-						'show_reset'    => true,
+					'btn_padding' 	=> array(
+						'type'        	=> 'dimension',
+						'label'       	=> __( 'Button Padding', 'fl-builder' ),
+						'responsive'  	=> true,
+						'slider'		=> true,
+						'units'		  	=> array( 'px' ),
 						'preview'       => array(
-							'type'          => 'none',
-						),
-					),
-					'btn_text_color' => array(
-						'type'          => 'color',
-						'label'         => __( 'Text Color', 'fl-builder' ),
-						'default'       => '',
-						'show_reset'    => true,
-					),
-					'btn_text_hover_color' => array(
-						'type'          => 'color',
-						'label'         => __( 'Text Hover Color', 'fl-builder' ),
-						'default'       => '',
-						'show_reset'    => true,
-						'preview'       => array(
-							'type'          => 'none',
+							'type'          => 'css',
+							'selector'      => 'a.fl-button, .fl-form-field input, .fl-form-field input[type=text]',
+							'property'      => 'padding',
 						),
 					),
 				),
 			),
-			'btn_style'     => array(
-				'title'         => __( 'Button Style', 'fl-builder' ),
+			'btn_text'     => array(
+				'title'         => __( 'Button Text', 'fl-builder' ),
 				'fields'        => array(
-					'btn_style'     => array(
+					'btn_text_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Button Text Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> 'a.fl-button, a.fl-button *',
+							'property'		=> 'color',
+							'important'		=> true,
+						),
+					),
+					'btn_text_hover_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Button Text Hover Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> 'a.fl-button:hover, a.fl-button:hover *, a.fl-button:focus, a.fl-button:focus *',
+							'property'		=> 'color',
+							'important'		=> true,
+						),
+					),
+					'btn_typography' => array(
+						'type'        	=> 'typography',
+						'label'       	=> __( 'Button Typography', 'fl-builder' ),
+						'responsive'  	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> 'a.fl-button, .fl-form-field input, .fl-form-field input[type=text]',
+						),
+					),
+				),
+			),
+			'btn_colors'   => array(
+				'title'         => __( 'Button Background', 'fl-builder' ),
+				'fields'        => array(
+					'btn_bg_color'   => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Button Background Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'       => array(
+							'type'          => 'none',
+						),
+					),
+					'btn_bg_hover_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Button Background Hover Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'       => array(
+							'type'          => 'none',
+						),
+					),
+					'btn_style'    => array(
 						'type'          => 'select',
-						'label'         => __( 'Style', 'fl-builder' ),
+						'label'         => __( 'Button Background Style', 'fl-builder' ),
 						'default'       => 'flat',
 						'options'       => array(
 							'flat'          => __( 'Flat', 'fl-builder' ),
 							'gradient'      => __( 'Gradient', 'fl-builder' ),
-							'transparent'   => __( 'Transparent', 'fl-builder' ),
 						),
-						'toggle'        => array(
-							'transparent'   => array(
-								'fields'        => array( 'btn_bg_opacity', 'btn_bg_hover_opacity', 'btn_border_size' ),
-							),
-						),
-					),
-					'btn_border_size' => array(
-						'type'          => 'text',
-						'label'         => __( 'Border Size', 'fl-builder' ),
-						'default'       => '2',
-						'description'   => 'px',
-						'maxlength'     => '3',
-						'size'          => '5',
-						'placeholder'   => '0',
-					),
-					'btn_bg_opacity' => array(
-						'type'          => 'text',
-						'label'         => __( 'Background Opacity', 'fl-builder' ),
-						'default'       => '0',
-						'description'   => '%',
-						'maxlength'     => '3',
-						'size'          => '5',
-						'placeholder'   => '0',
-					),
-					'btn_bg_hover_opacity' => array(
-						'type'          => 'text',
-						'label'         => __( 'Background Hover Opacity', 'fl-builder' ),
-						'default'       => '0',
-						'description'   => '%',
-						'maxlength'     => '3',
-						'size'          => '5',
-						'placeholder'   => '0',
 					),
 					'btn_button_transition' => array(
 						'type'          => 'select',
-						'label'         => __( 'Transition', 'fl-builder' ),
+						'label'         => __( 'Button Background Animation', 'fl-builder' ),
 						'default'       => 'disable',
 						'options'       => array(
 							'disable'        => __( 'Disabled', 'fl-builder' ),
 							'enable'         => __( 'Enabled', 'fl-builder' ),
 						),
+						'preview'		=> array(
+							'type'			=> 'none',
+						),
 					),
 				),
 			),
-			'btn_structure' => array(
-				'title'         => __( 'Button Structure', 'fl-builder' ),
+			'btn_border'   => array(
+				'title'         => __( 'Button Border', 'fl-builder' ),
 				'fields'        => array(
-					'btn_font_size' => array(
-						'type'          => 'text',
-						'label'         => __( 'Font Size', 'fl-builder' ),
-						'default'       => '14',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
-						'sanitize'		=> 'absint',
+					'btn_border' 	=> array(
+						'type'          => 'border',
+						'label'         => __( 'Button Border', 'fl-builder' ),
+						'responsive'	=> true,
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'		=> 'a.fl-button',
+							'important'		=> true,
+						),
 					),
-					'btn_padding'   => array(
-						'type'          => 'text',
-						'label'         => __( 'Padding', 'fl-builder' ),
-						'default'       => '10',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
-						'sanitize'		=> 'absint',
-					),
-					'btn_border_radius' => array(
-						'type'          => 'text',
-						'label'         => __( 'Round Corners', 'fl-builder' ),
-						'default'       => '4',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
-						'sanitize'		=> 'absint',
+					'btn_border_hover_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Button Border Hover Color', 'fl-builder' ),
+						'default'       => '',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'       => array(
+							'type'          => 'none',
+						),
 					),
 				),
 			),
 		),
 	),
 	'reCAPTCHA'	=> array(
-		'title'         => __( 'reCAPTCHA', 'fl-builder' ),
+		'title'         => __( 'Captcha', 'fl-builder' ),
 		'sections'      => array(
 			'recaptcha_general' => array(
 				'title'         => '',

@@ -34,7 +34,7 @@ if ( $settings->arrows ) :
 	if ( isset( $settings->arrows_text_color ) && ! empty( $settings->arrows_text_color ) ) :
 	?>
 	.fl-node-<?php echo $id; ?> .fl-content-slider-navigation path {
-		fill: #<?php echo $settings->arrows_text_color; ?>;
+		fill: <?php echo FLBuilderColor::hex_or_rgb( $settings->arrows_text_color ); ?>;
 	}
 	<?php
 	endif;
@@ -53,7 +53,7 @@ for ( $i = 0; $i < count( $settings->slides ); $i++ ) {
 	// Slide Background Color
 	if ( 'color' == $slide->bg_layout && ! empty( $slide->bg_color ) ) {
 		echo '.fl-node-' . $id . ' .fl-slide-' . $i;
-		echo ' { background-color: #' . $slide->bg_color . '; }';
+		echo ' { background-color: ' . FLBuilderColor::hex_or_rgb( $slide->bg_color ) . '; }';
 	}
 
 	// Foreground Photo/Video
@@ -124,20 +124,15 @@ for ( $i = 0; $i < count( $settings->slides ); $i++ ) {
 		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-title, ';
 		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text, ';
 		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text * ';
-		echo '{ color: #' . $slide->text_color . '; }';
+		echo '{ color: ' . FLBuilderColor::hex_or_rgb( $slide->text_color ) . '; }';
 		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text strong ';
 		echo '{ color: inherit; }';
 	}
 
 	// Text BG Color
 	if ( ! empty( $slide->text_bg_color ) ) {
-		$r = hexdec( substr( $slide->text_bg_color,0,2 ) );
-		$g = hexdec( substr( $slide->text_bg_color,2,2 ) );
-		$b = hexdec( substr( $slide->text_bg_color,4,2 ) );
-		$a = $slide->text_bg_opacity / 100;
 		echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-content ';
-		echo '{ background-color: rgba(' . $r . ',' . $g . ',' . $b . ',' . $a . ');';
-
+		echo '{ background-color: ' . FLBuilderColor::hex_or_rgb( $slide->text_bg_color ) . ';';
 		echo 'padding-top: ' . $slide->text_padding_top . 'px;';
 		echo 'padding-right: ' . $slide->text_padding_right . 'px;';
 		echo 'padding-bottom: ' . $slide->text_padding_bottom . 'px;';
@@ -160,7 +155,7 @@ for ( $i = 0; $i < count( $settings->slides ); $i++ ) {
 			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-title, ';
 			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text, ';
 			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text * ';
-			echo '{ color: #' . $slide->r_text_color . '; }';
+			echo '{ color: ' . FLBuilderColor::hex_or_rgb( $slide->r_text_color ) . '; }';
 			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-text strong ';
 			echo '{ color: inherit; }';
 		} else {
@@ -173,7 +168,7 @@ for ( $i = 0; $i < count( $settings->slides ); $i++ ) {
 		// Responsive Text BG Color
 		if ( ! empty( $slide->r_text_bg_color ) ) {
 			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-content ';
-			echo '{ background-color: #' . $slide->r_text_bg_color . '; }';
+			echo '{ background-color: ' . FLBuilderColor::hex_or_rgb( $slide->r_text_bg_color ) . '; }';
 		} else {
 			echo '.fl-node-' . $id . ' .fl-slide-' . $i . ' .fl-slide-content ';
 			echo '{ background-color: transparent; }';
@@ -189,31 +184,6 @@ for ( $i = 0; $i < count( $settings->slides ); $i++ ) {
 
 	// Button Styles
 	if ( 'button' == $slide->cta_type ) {
-
-		if ( ! isset( $slide->btn_style ) ) {
-			$slide->btn_style = 'flat';
-		}
-
-		FLBuilder::render_module_css('button', $id . ' .fl-slide-' . $i, array(
-			'align'             => '',
-			'bg_color'          => $slide->btn_bg_color,
-			'bg_hover_color'    => $slide->btn_bg_hover_color,
-			'bg_opacity'        => isset( $slide->btn_bg_opacity ) ? $slide->btn_bg_opacity : 0,
-			'bg_hover_opacity'  => isset( $slide->btn_bg_hover_opacity ) ? $slide->btn_bg_hover_opacity : 0,
-			'button_transition' => $slide->btn_button_transition,
-			'border_radius'     => $slide->btn_border_radius,
-			'border_size'       => isset( $slide->btn_border_size ) ? $slide->btn_border_size : 2,
-			'font_size'         => $slide->btn_font_size,
-			'icon'              => isset( $slide->btn_icon ) ? $slide->btn_icon : '',
-			'icon_position'     => isset( $slide->btn_icon_position ) ? $slide->btn_icon_position : '',
-			'link'              => $slide->link,
-			'link_target'       => $slide->link_target,
-			'padding'           => $slide->btn_padding,
-			'style'             => ( isset( $slide->btn_3d ) && $slide->btn_3d ) ? 'gradient' : $slide->btn_style,
-			'text'              => $slide->cta_text,
-			'text_color'        => $slide->btn_text_color,
-			'text_hover_color'  => $slide->btn_text_hover_color,
-			'width'             => 'auto',
-		));
+		FLBuilder::render_module_css( 'button', $id . ' .fl-slide-' . $i, $module->get_button_settings( $slide ) );
 	}
 }

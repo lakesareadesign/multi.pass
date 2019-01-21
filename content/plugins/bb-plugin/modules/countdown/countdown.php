@@ -19,6 +19,22 @@ class FLCountdownModule extends FLBuilderModule {
 	}
 
 	/**
+	 * Ensure backwards compatibility with old settings.
+	 *
+	 * @since 2.2
+	 * @param object $settings A module settings object.
+	 * @param object $helper A settings compatibility helper.
+	 * @return object
+	 */
+	public function filter_settings( $settings, $helper ) {
+
+		// Old opacity setting.
+		$helper->handle_opacity_inputs( $settings, 'number_bg_opacity', 'number_bg_color' );
+
+		return $settings;
+	}
+
+	/**
 	 * Builds an string with the respective ISO formatted time.
 	 *
 	 * @since 1.6.4
@@ -168,8 +184,10 @@ FLBuilder::register_module('FLCountdownModule', array(
 				'fields'        => array(
 					'number_color'    => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Number Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
 						'preview'      => array(
 							'type'         => 'css',
 							'selector'     => '.fl-countdown .fl-countdown-unit-number',
@@ -178,8 +196,10 @@ FLBuilder::register_module('FLCountdownModule', array(
 					),
 					'label_color' => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Text Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
 						'preview'      => array(
 							'type'         => 'css',
 							'selector'     => '.fl-countdown .fl-countdown-unit-label',
@@ -187,12 +207,12 @@ FLBuilder::register_module('FLCountdownModule', array(
 						),
 					),
 					'number_size' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Number Size', 'fl-builder' ),
 						'default'       => '24',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'responsive'	=> true,
+						'units'			=> array( 'px', 'em', 'rem' ),
+						'slider'		=> true,
 						'preview'      => array(
 							'type'         => 'css',
 							'selector'     => '.fl-countdown .fl-countdown-unit-number',
@@ -201,12 +221,12 @@ FLBuilder::register_module('FLCountdownModule', array(
 						),
 					),
 					'label_size' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Text Size', 'fl-builder' ),
 						'default'       => '13',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'responsive'	=> true,
+						'units'			=> array( 'px', 'em', 'rem' ),
+						'slider'		=> true,
 						'preview'      => array(
 							'type'         => 'css',
 							'selector'     => '.fl-countdown .fl-countdown-unit-label',
@@ -215,12 +235,11 @@ FLBuilder::register_module('FLCountdownModule', array(
 						),
 					),
 					'horizontal_padding' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Horizontal Padding', 'fl-builder' ),
 						'default'       => '10',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
 						'preview'      => array(
 							'type'         => 'css',
 							'rules'		   => array(
@@ -238,12 +257,11 @@ FLBuilder::register_module('FLCountdownModule', array(
 						),
 					),
 					'vertical_padding' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Vertical Padding', 'fl-builder' ),
 						'default'       => '10',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
 						'preview'      => array(
 							'type'         => 'css',
 							'rules'		   => array(
@@ -261,13 +279,12 @@ FLBuilder::register_module('FLCountdownModule', array(
 						),
 					),
 					'number_spacing' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Number Spacing', 'fl-builder' ),
 						'default'       => '10',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
-						'preview'      => array(
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
+						'preview'      	=> array(
 							'type'         => 'css',
 							'rules'		   => array(
 								array(
@@ -290,29 +307,22 @@ FLBuilder::register_module('FLCountdownModule', array(
 				'fields'        => array(
 					'number_bg_color'   => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Number Background Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
 						'preview'      => array(
 							'type'         => 'css',
 							'selector'     => '.fl-countdown .fl-countdown-unit',
 							'property'     => 'background-color',
 						),
 					),
-					'number_bg_opacity' => array(
-						'type'          => 'text',
-						'label'         => __( 'Number Background Opacity', 'fl-builder' ),
-						'default'       => '100',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => '%',
-					),
 					'border_radius' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Number Border Radius', 'fl-builder' ),
 						'default'       => '0',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
 						'preview'      => array(
 							'type'         => 'css',
 							'selector'     => '.fl-countdown .fl-countdown-unit',
@@ -355,40 +365,68 @@ FLBuilder::register_module('FLCountdownModule', array(
 					),
 					'separator_color'   => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Separator Color', 'fl-builder' ),
 						'show_reset'    => true,
+						'show_alpha'    => true,
 					),
 					'separator_size' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Separator Size', 'fl-builder' ),
 						'default'       => '15',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
 					),
 				),
 			),
 			'circle_bar_style'    => array(
 				'title'         => __( 'Circle Styles', 'fl-builder' ),
 				'fields'        => array(
+					'circle_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Circle Foreground Color', 'fl-builder' ),
+						'default'		=> 'f7951e',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'      => array(
+							'type'         => 'css',
+							'selector'     => '.fl-countdown .svg .fl-number',
+							'property'     => 'stroke',
+						),
+					),
+					'circle_bg_color' => array(
+						'type'          => 'color',
+						'connections'	=> array( 'color' ),
+						'label'         => __( 'Circle Background Color', 'fl-builder' ),
+						'default'		=> 'eaeaea',
+						'show_reset'    => true,
+						'show_alpha'    => true,
+						'preview'      => array(
+							'type'         => 'css',
+							'selector'     => '.fl-countdown .svg .fl-number-bg',
+							'property'     => 'stroke',
+						),
+					),
 					'circle_width' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Circle Size', 'fl-builder' ),
 						'default'       => '200',
-						'maxlength'     => '4',
-						'size'          => '4',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> array(
+							'max'			=> 300,
+						),
 						'preview'      => array(
 							'type'         => 'css',
 							'rules'		   => array(
 								array(
 									'selector'     => '.fl-countdown-number',
-									'property'     => 'max-width',
+									'property'     => 'width',
 									'unit'		   => 'px',
 								),
 								array(
 									'selector'     => '.fl-countdown-number',
-									'property'     => 'max-height',
+									'property'     => 'height',
 									'unit'		   => 'px',
 								),
 								array(
@@ -406,39 +444,16 @@ FLBuilder::register_module('FLCountdownModule', array(
 
 					),
 					'circle_dash_width' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Circle Stroke Size', 'fl-builder' ),
 						'default'       => '10',
-						'maxlength'     => '2',
-						'size'          => '4',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
 						'preview'      => array(
 							'type'         => 'css',
 							'selector'     => '.svg circle',
 							'property'     => 'stroke-width',
 							'unit'		   => 'px',
-						),
-					),
-					'circle_color' => array(
-						'type'          => 'color',
-						'label'         => __( 'Circle Foreground Color', 'fl-builder' ),
-						'default'		=> 'f7951e',
-						'show_reset'    => true,
-						'preview'      => array(
-							'type'         => 'css',
-							'selector'     => '.fl-countdown .svg .fl-number',
-							'property'     => 'stroke',
-						),
-					),
-					'circle_bg_color' => array(
-						'type'          => 'color',
-						'label'         => __( 'Circle Background Color', 'fl-builder' ),
-						'default'		=> 'eaeaea',
-						'show_reset'    => true,
-						'preview'      => array(
-							'type'         => 'css',
-							'selector'     => '.fl-countdown .svg .fl-number-bg',
-							'property'     => 'stroke',
 						),
 					),
 				),

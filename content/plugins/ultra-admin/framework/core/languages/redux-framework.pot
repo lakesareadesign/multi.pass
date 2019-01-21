@@ -787,7 +787,7 @@ msgstr ""
 msgid ""
 "Redux is created by a community of developers world wide. Want to have your "
 "name listed too? <a "
-"href=\"https://github.com/reduxframework/redux-framework/blob/master/"
+"href=\"https://github.com/reduxframework/ultra_framework/blob/master/"
 "CONTRIBUTING.md\" target=\"_blank\">Contribute to Redux</a>."
 msgstr ""
 
@@ -1517,7 +1517,7 @@ msgid "You do not have sufficient permissions to access this page."
 msgstr ""
 
 #. Plugin URI of the plugin/theme
-msgid "http://wordpress.org/plugins/redux-framework"
+msgid "http://wordpress.org/plugins/ultra_framework"
 msgstr ""
 
 #. Description of the plugin/theme

@@ -518,7 +518,7 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 
 	public function wp_org_rating_request() {
 		$service = $this->get_service();
-		if ( $service->is_member() ) {
+		if ( $service->is_member() || ! current_user_can( 'manage_options' ) ) {
 			return;
 		}
 

@@ -6,4 +6,4 @@
 6. Download updated config file from https://icomoon.io/app/#/projects and replace orginal one in GIT.
 
 
-133620-1538890217-au
+133620-1548091589-au

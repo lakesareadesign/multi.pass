@@ -295,14 +295,6 @@
 
 			// Hide the loader.
 			FLBuilder.hideAjaxLoader();
-
-			// Run the callback.
-			if ( typeof this._callback != 'undefined' ) {
-				this._callback();
-			}
-
-			// Fire the complete hook.
-			FLBuilder.triggerHook( 'didRenderLayoutComplete' );
 		},
 
 		/**
@@ -423,7 +415,7 @@
 					siblings = siblings.filter( ':not(.fl-builder-node-clone)' );
 
 					// Add the new node.
-					if ( 0 === siblings.length || siblings.length == this._data.nodePosition ) {
+					if ( 0 === siblings.length || this._data.nodePosition >= siblings.length ) {
 						this._data.nodeParent.append( this._data.html );
 					}
 					else {
@@ -454,6 +446,11 @@
 				if ( isChild ) {
 					previewNode.html( FLBuilder.preview.elements.node.html() );
 				}
+			}
+
+			// Fire the addNewHTML callback if we have one.
+			if ( this._data.onAddNewHTML ) {
+				this._data.onAddNewHTML();
 			}
 		},
 
@@ -577,6 +574,8 @@
 					this._head.append( this._newJs );
 				}
 
+				FLBuilder.triggerHook( 'didRenderLayoutJSComplete' );
+
 			}, this ), 50 );
 		},
 
@@ -589,14 +588,21 @@
 		 */
 		_complete: function()
 		{
-			FLBuilder._setupEmptyLayout();
-			FLBuilder._highlightEmptyCols();
-			FLBuilder._initDropTargets();
-			FLBuilder._initSortables();
-			FLBuilder._resizeLayout();
+			if ( FLBuilder._dragging ) {
+				FLBuilder._highlightRowsAndColsForDrag();
+				FLBuilder._refreshSortables();
+			} else {
+				FLBuilder._setupEmptyLayout();
+				FLBuilder._highlightEmptyCols();
+				FLBuilder._initDropTargets();
+				FLBuilder._initSortables();
+				FLBuilder._resizeLayout();
+			}
+
 			FLBuilder._initMediaElements();
 			FLBuilderLayout.init();
-			FLBuilderResponsiveEditing.refreshPreview();
+			FLBuilderResponsiveEditing.refreshPreview( this._callback );
+			FLBuilder.triggerHook( 'didRenderLayoutComplete' );
 
 			this._body.height( 'auto' );
 		}

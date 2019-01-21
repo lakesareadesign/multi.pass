@@ -1,9 +1,6 @@
 <?php
 
 	$layout		      = isset( $settings->layout ) ? $settings->layout : 'grid';
-	$text_bg_color    = ! empty( $settings->text_bg_color ) ? $settings->text_bg_color : 'ffffff';
-	$text_bg_opacity  = ! empty( $settings->text_bg_opacity ) ? $settings->text_bg_opacity : '100';
-	$text_bg          = 'rgba(' . implode( ',', FLBuilderColor::hex_to_rgb( $text_bg_color ) ) . ',' . ( $text_bg_opacity / 100 ) . ')';
 	$posts_per_view   = ! empty( $settings->posts_per_view ) ? $settings->posts_per_view : 3;
 	$icon_position    = isset( $settings->post_icon_position ) ? $settings->post_icon_position : 'above';
 
@@ -29,24 +26,23 @@
 
 	<?php if ( ! empty( $settings->text_color ) ) : ?>
 	.fl-node-<?php echo $id; ?> .fl-post-carousel{
-		color: #<?php echo $settings->text_color ?>;
+		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 	}
 	<?php endif; ?>
 
 	.fl-node-<?php echo $id; ?> .fl-post-carousel-post{
-		background-color: #<?php echo $text_bg_color; ?>;
-		background-color: <?php echo $text_bg; ?>;
+		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_bg_color ); ?>;
 	}
 
 	<?php if ( ! empty( $settings->link_color ) ) : ?>
 	.fl-node-<?php echo $id; ?> .fl-post-carousel-text a{
-		color: #<?php echo $settings->link_color ?>;
+		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ); ?>;
 	}
 	<?php endif; ?>
 
 	<?php if ( ! empty( $settings->link_hover_color ) ) : ?>
 	.fl-node-<?php echo $id; ?> .fl-post-carousel-text a:hover{
-		color: #<?php echo $settings->link_hover_color ?>;
+		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ); ?>;
 	}
 	<?php endif; ?>
 
@@ -55,13 +51,12 @@
 	<?php if ( ! empty( $settings->link_hover_color ) ) : ?>
 	.fl-node-<?php echo $id; ?> .fl-post-carousel-link,
 	.fl-node-<?php echo $id; ?> .fl-post-carousel-link .fl-post-carousel-title{
-		color: #<?php echo $settings->link_hover_color ?>;
+		color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ); ?>;
 	}
 	<?php endif; ?>
 
 	.fl-node-<?php echo $id; ?> .fl-post-carousel-text-wrap{
-		background-color: #<?php echo $text_bg_color; ?>;
-		background-color: <?php echo $text_bg; ?>;
+		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_bg_color ); ?>;
 	}
 
 <?php endif; ?>
@@ -76,9 +71,9 @@
 
 	.fl-node-<?php echo $id; ?> .fl-post-carousel-navigation path{
 	<?php if ( isset( $settings->arrows_text_color ) && ! empty( $settings->arrows_text_color ) ) : ?>
-		fill: #<?php echo $settings->arrows_text_color; ?>;
+		fill: <?php echo FLBuilderColor::hex_or_rgb( $settings->arrows_text_color ); ?>;
 	<?php elseif ( 'gallery' == $layout && ! empty( $settings->link_hover_color ) ) : ?>
-		fill: #<?php echo $settings->link_hover_color ?>;
+		fill: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ); ?>;
 	<?php else : ?>
 		fill: currentColor;
 	<?php endif; ?>
@@ -128,7 +123,7 @@
 				font-size: <?php echo $settings->post_icon_size ?>px;
 			<?php endif; ?>
 			<?php if ( ! empty( $settings->post_icon_color ) ) : ?>
-				color: #<?php echo $settings->post_icon_color ?>;
+				color: <?php echo FLBuilderColor::hex_or_rgb( $settings->post_icon_color ); ?>;
 			<?php endif; ?>
 			}
 		<?php endif; ?>

@@ -13,7 +13,7 @@
 
                 $this->parent                    = $parent;
                 $this->field                     = $field;
-                $this->field['msg']              = ( isset( $this->field['msg'] ) ) ? $this->field['msg'] : __( 'That URL slug is in use, please choose another. <code>%s</code> is open for use.', 'redux-framework' );
+                $this->field['msg']              = ( isset( $this->field['msg'] ) ) ? $this->field['msg'] : __( 'That URL slug is in use, please choose another. <code>%s</code> is open for use.', 'ultra_framework' );
                 $this->field['flush_permalinks'] = ( isset( $this->field['flush_permalinks'] ) ) ? $this->field['flush_permalinks'] : false;
                 $this->value                     = $value;
                 $this->current                   = $current;

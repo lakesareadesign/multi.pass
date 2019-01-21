@@ -1,8 +1,7 @@
 <?php if ( 'columns' == $settings->layout ) : ?>
 <div class="fl-post-column">
 <?php endif; ?>
-
-<div <?php $module->render_post_class(); ?> itemscope itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+<<?php echo $module->get_posts_container(); ?> <?php $module->render_post_class(); ?> itemscope itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
 
 	<?php FLPostGridModule::schema_meta(); ?>
 	<?php $module->render_featured_image( 'above-title' ); ?>
@@ -85,7 +84,7 @@
 		<?php do_action( 'fl_builder_post_grid_after_content', $settings, $module ); ?>
 
 	</div>
-</div>
+</<?php echo $module->get_posts_container(); ?>>
 
 <?php if ( 'columns' == $settings->layout ) : ?>
 </div>

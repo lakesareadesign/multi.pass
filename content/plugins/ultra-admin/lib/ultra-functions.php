@@ -564,7 +564,7 @@ function ultra_regenerate_all_dynamic_css_file(){
     global $ultra_css_ver;
     global $ultraadmin;
 
-    if(sizeof($ultraadmin) == 0){
+    if (isset($ultraadmin) && is_array($ultraadmin) && sizeof($ultraadmin) == 0) {
         //switch_to_blog(1);
         $get_ultraadmin = get_option("ultra_demo");
         $ultraadmin = $get_ultraadmin;

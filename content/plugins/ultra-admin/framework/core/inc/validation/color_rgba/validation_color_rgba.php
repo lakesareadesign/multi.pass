@@ -11,7 +11,7 @@
             function __construct( $parent, $field, $value, $current ) {
                 $this->parent       = $parent;
                 $this->field        = $field;
-                $this->field['msg'] = ( isset( $this->field['msg'] ) ) ? $this->field['msg'] : __( 'This field must be a valid color value.', 'redux-framework' );
+                $this->field['msg'] = ( isset( $this->field['msg'] ) ) ? $this->field['msg'] : __( 'This field must be a valid color value.', 'ultra_framework' );
                 $this->value        = $value;
                 $this->current      = $current;
 

@@ -89,6 +89,11 @@
   "fallback": "sans-serif"
  }
 }, {
+ "Aleo": {
+  "variants": ["300", "300italic", "regular", "italic", "700", "700italic"],
+  "fallback": "serif"
+ }
+}, {
  "Alex Brush": {
   "variants": ["regular"],
   "fallback": "cursive"
@@ -407,6 +412,16 @@
  "Averia Serif Libre": {
   "variants": ["300", "300italic", "regular", "italic", "700", "700italic"],
   "fallback": "sans-serif"
+ }
+}, {
+ "B612": {
+  "variants": ["regular", "italic", "700", "700italic"],
+  "fallback": "sans-serif"
+ }
+}, {
+ "B612 Mono": {
+  "variants": ["regular", "italic", "700", "700italic"],
+  "fallback": "monospace"
  }
 }, {
  "Bad Script": {
@@ -847,6 +862,11 @@
  "Chango": {
   "variants": ["regular"],
   "fallback": "sans-serif"
+ }
+}, {
+ "Charm": {
+  "variants": ["regular", "700"],
+  "fallback": "cursive"
  }
 }, {
  "Charmonman": {
@@ -2469,6 +2489,11 @@
   "fallback": "serif"
  }
 }, {
+ "Major Mono Display": {
+  "variants": ["regular"],
+  "fallback": "monospace"
+ }
+}, {
  "Mako": {
   "variants": ["regular"],
   "fallback": "sans-serif"
@@ -3774,6 +3799,11 @@
   "fallback": "sans-serif"
  }
 }, {
+ "Sarabun": {
+  "variants": ["100", "100italic", "200", "200italic", "300", "300italic", "regular", "italic", "500", "500italic", "600", "600italic", "700", "700italic", "800", "800italic"],
+  "fallback": "sans-serif"
+ }
+}, {
  "Sarala": {
   "variants": ["regular", "700"],
   "fallback": "sans-serif"
@@ -4079,6 +4109,11 @@
   "fallback": "sans-serif"
  }
 }, {
+ "Staatliches": {
+  "variants": ["regular"],
+  "fallback": "sans-serif"
+ }
+}, {
  "Stalemate": {
   "variants": ["regular"],
   "fallback": "cursive"
@@ -4226,6 +4261,11 @@
 }, {
  "Text Me One": {
   "variants": ["regular"],
+  "fallback": "sans-serif"
+ }
+}, {
+ "Thasadith": {
+  "variants": ["regular", "italic", "700", "700italic"],
   "fallback": "sans-serif"
  }
 }, {
@@ -4501,6 +4541,21 @@
 }, {
  "Yrsa": {
   "variants": ["300", "regular", "500", "600", "700"],
+  "fallback": "serif"
+ }
+}, {
+ "ZCOOL KuaiLe": {
+  "variants": ["regular"],
+  "fallback": "sans-serif"
+ }
+}, {
+ "ZCOOL QingKe HuangYou": {
+  "variants": ["regular"],
+  "fallback": "sans-serif"
+ }
+}, {
+ "ZCOOL XiaoWei": {
+  "variants": ["regular"],
   "fallback": "serif"
  }
 }, {

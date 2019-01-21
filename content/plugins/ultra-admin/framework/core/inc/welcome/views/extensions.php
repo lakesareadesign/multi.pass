@@ -73,19 +73,19 @@
 
 
 <div class="wrap about-wrap">
-    <h1><?php _e( 'Redux Framework - Extensions', 'redux-framework' ); ?></h1>
+    <h1><?php _e( 'Redux Framework - Extensions', 'ultra_framework' ); ?></h1>
 
     <div
-        class="about-text"><?php printf( __( 'Supercharge your Redux experience. Our extensions provide you with features that will take your products to the next level.', 'redux-framework' ), $this->display_version ); ?></div>
+        class="about-text"><?php printf( __( 'Supercharge your Redux experience. Our extensions provide you with features that will take your products to the next level.', 'ultra_framework' ), $this->display_version ); ?></div>
     <div
         class="redux-badge"><i
-            class="el el-redux"></i><span><?php printf( __( 'Version %s', 'redux-framework' ), ReduxFramework::$_version ); ?></span>
+            class="el el-redux"></i><span><?php printf( __( 'Version %s', 'ultra_framework' ), ReduxFramework::$_version ); ?></span>
     </div>
 
     <?php $this->actions(); ?>
     <?php $this->tabs(); ?>
 
-    <p class="about-description"><?php _e( "While some are built specificially for developers, extensions such as Custom Fonts are sure to make any user happy.", 'redux-framework' ); ?></p>
+    <p class="about-description"><?php _e( "While some are built specificially for developers, extensions such as Custom Fonts are sure to make any user happy.", 'ultra_framework' ); ?></p>
 
     <div class="extensions">
         <div class="feature-section theme-browser rendered" style="clear:both;">

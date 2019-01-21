@@ -103,30 +103,30 @@
                 ?>
                 <fieldset id="<?php echo $id; ?>" class="redux-field redux-container-<?php echo $this->field['type'] . ' ' . $this->field['class']; ?>" data-id="<?php echo $this->field['id']; ?>">
 
-                <h4><?php _e( 'Import Options', 'redux-framework' ); ?></h4>
-                <p><a href="javascript:void(0);" id="redux-import-code-button" class="button-secondary"><?php _e( 'Import from File', 'redux-framework' ); ?></a> <a href="javascript:void(0);" id="redux-import-link-button" class="button-secondary"><?php _e( 'Import from URL', 'redux-framework' ) ?></a></p>
+                <h4><?php _e( 'Import Options', 'ultra_framework' ); ?></h4>
+                <p><a href="javascript:void(0);" id="redux-import-code-button" class="button-secondary"><?php _e( 'Import from File', 'ultra_framework' ); ?></a> <a href="javascript:void(0);" id="redux-import-link-button" class="button-secondary"><?php _e( 'Import from URL', 'ultra_framework' ) ?></a></p>
 
                 <div id="redux-import-code-wrapper">
-                <p class="description" id="import-code-description"><?php echo apply_filters( 'redux-import-file-description', __( 'Input your backup file below and hit Import to restore your sites options from a backup.', 'redux-framework' ) ); ?></p>
+                <p class="description" id="import-code-description"><?php echo apply_filters( 'redux-import-file-description', __( 'Input your backup file below and hit Import to restore your sites options from a backup.', 'ultra_framework' ) ); ?></p>
                 <textarea id="import-code-value" name="<?php echo $this->parent->args['opt_name']; ?>[import_code]" class="large-text noUpdate" rows="2"></textarea>
                 </div>
 
                 <div id="redux-import-link-wrapper">
-                <p class="description" id="import-link-description"><?php echo apply_filters( 'redux-import-link-description', __( 'Input the URL to another sites options set and hit Import to load the options from that site.', 'redux-framework' ) ); ?></p>
+                <p class="description" id="import-link-description"><?php echo apply_filters( 'redux-import-link-description', __( 'Input the URL to another sites options set and hit Import to load the options from that site.', 'ultra_framework' ) ); ?></p>
                 <textarea class="large-text noUpdate" id="import-link-value" name="<?php echo $this->parent->args['opt_name'] ?>[import_link]" rows="2"></textarea>
                 </div>
 
-                <p id="redux-import-action"><input type="submit" id="redux-import" name="import" class="button-primary" value="<?php _e( 'Import', 'redux-framework' ) ?>">&nbsp;&nbsp;<span><?php echo apply_filters( 'redux-import-warning', __( 'WARNING! This will overwrite all existing option values, please proceed with caution!', 'redux-framework' ) ) ?></span></p>
+                <p id="redux-import-action"><input type="submit" id="redux-import" name="import" class="button-primary" value="<?php _e( 'Import', 'ultra_framework' ) ?>">&nbsp;&nbsp;<span><?php echo apply_filters( 'redux-import-warning', __( 'WARNING! This will overwrite all existing option values, please proceed with caution!', 'ultra_framework' ) ) ?></span></p>
 
                 <div class="hr"/><div class="inner"><span>&nbsp;</span></div></div>
-                <h4><?php _e( 'Export Options', 'redux-framework' ) ?></h4>
+                <h4><?php _e( 'Export Options', 'ultra_framework' ) ?></h4>
                 <div class="redux-section-desc">
-                <p class="description"><?php echo apply_filters( 'redux-backup-description', __( 'Here you can copy/download your current option settings. Keep this safe as you can use it as a backup should anything go wrong, or you can use it to restore your settings on this site (or any other site).', 'redux-framework' ) ) ?></p>
+                <p class="description"><?php echo apply_filters( 'redux-backup-description', __( 'Here you can copy/download your current option settings. Keep this safe as you can use it as a backup should anything go wrong, or you can use it to restore your settings on this site (or any other site).', 'ultra_framework' ) ) ?></p>
                 </div>
                 <?php
                 $link = admin_url( 'admin-ajax.php?action=redux_download_options-' . $this->parent->args['opt_name'] . '&secret=' . $secret );
                 ?>
-                <p><a href="javascript:void(0);" id="redux-export-code-copy" class="button-secondary"><?php _e( 'Copy Data', 'redux-framework' ) ?></a> <a href="<?php echo $link; ?>" id="redux-export-code-dl" class="button-primary"><?php _e( 'Download Data File', 'redux-framework' ) ?></a> <a href="javascript:void(0);" id="redux-export-link" class="button-secondary"><?php _e( 'Copy Export URL', 'redux-framework' ) ?></a></p>
+                <p><a href="javascript:void(0);" id="redux-export-code-copy" class="button-secondary"><?php _e( 'Copy Data', 'ultra_framework' ) ?></a> <a href="<?php echo $link; ?>" id="redux-export-code-dl" class="button-primary"><?php _e( 'Download Data File', 'ultra_framework' ) ?></a> <a href="javascript:void(0);" id="redux-export-link" class="button-secondary"><?php _e( 'Copy Export URL', 'ultra_framework' ) ?></a></p>
                 <p></p>
                 <textarea class="large-text noUpdate" id="redux-export-code" rows="2"></textarea>
                 <textarea class="large-text noUpdate" id="redux-export-link-value" data-url="<?php echo $link; ?>" rows="2"><?php echo $link; ?></textarea>

@@ -40,16 +40,16 @@
 
 		<div class="redux-action_bar">
 			<span class="spinner"></span>
-			<?php submit_button( __( 'Save Changes', 'redux-framework' ), 'primary', 'redux_save', false ); ?>
+			<?php submit_button( __( 'Save Changes', 'ultra_framework' ), 'primary', 'redux_save', false ); ?>
 
 			<?php if ( false === $this->parent->args['hide_reset'] ) : ?>
-				<?php submit_button( __( 'Reset Section', 'redux-framework' ), 'secondary', $this->parent->args['opt_name'] . '[defaults-section]', false ); ?>
-				<?php submit_button( __( 'Reset All', 'redux-framework' ), 'secondary', $this->parent->args['opt_name'] . '[defaults]', false ); ?>
+				<?php submit_button( __( 'Reset Section', 'ultra_framework' ), 'secondary', $this->parent->args['opt_name'] . '[defaults-section]', false ); ?>
+				<?php submit_button( __( 'Reset All', 'ultra_framework' ), 'secondary', $this->parent->args['opt_name'] . '[defaults]', false ); ?>
 			<?php endif; ?>
 
 		</div>
 
-		<div class="redux-ajax-loading" alt="<?php _e( 'Working...', 'redux-framework' ) ?>">&nbsp;</div>
+		<div class="redux-ajax-loading" alt="<?php _e( 'Working...', 'ultra_framework' ) ?>">&nbsp;</div>
 		<div class="clear"></div>
 
 	</div>

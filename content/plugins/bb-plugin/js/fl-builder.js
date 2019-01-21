@@ -28,14 +28,21 @@
 		_actionsLightbox            : null,
 
 		/**
-		 * A jQuery reference to a module element that should be
-		 * added to a new node after it has been rendered.
+		 * An array of AJAX data that needs to be requested
+		 * after the current request has finished.
 		 *
-		 * @since 1.0
-		 * @access private
-		 * @property {Object} _addModuleAfterNodeRender
+		 * @since 2.2
+		 * @property {Array} _ajaxQueue
 		 */
-		_addModuleAfterNodeRender   : null,
+		_ajaxQueue                  : [],
+
+		/**
+		 * A reference to the current AJAX request object.
+		 *
+		 * @since 2.2
+		 * @property {Object} _ajaxRequest
+		 */
+		_ajaxRequest                : null,
 
 		/**
 		 * An object that holds data for column resizing.
@@ -110,6 +117,15 @@
 		 * @property {FLBuilderAJAXLayout} _layout
 		 */
 		_layout                     : null,
+
+		/**
+		 * An array of layout data that needs to be rendered
+		 * after the current rendered is finished.
+		 *
+		 * @since 2.2
+		 * @property {Array} _layoutQueue
+		 */
+		_layoutQueue                 : [],
 
 		/**
 		 * A cached copy of custom layout CSS that is used to
@@ -453,13 +469,26 @@
 		 */
 		_initScrollbars: function()
 		{
-			$('.fl-nanoscroller').nanoScroller({
+			var scrollers = $('.fl-nanoscroller').nanoScroller({
 				alwaysVisible: true,
 				preventPageScrolling: true,
 				paneClass: 'fl-nanoscroller-pane',
 				sliderClass: 'fl-nanoscroller-slider',
 				contentClass: 'fl-nanoscroller-content'
-			});
+			}),
+				settingsScroller = scrollers.filter('.fl-builder-settings-fields'),
+				pane = settingsScroller.find('.fl-nanoscroller-pane');
+
+			if ( pane.length ) {
+				var display = pane.get(0).style.display;
+				var content = settingsScroller.find('.fl-nanoscroller-content');
+
+				if ( display === "none" ) {
+					content.removeClass('has-scrollbar');
+				} else {
+					content.addClass('has-scrollbar');
+				}
+			}
 		},
 
 		/**
@@ -493,26 +522,26 @@
 
 			// Module Connections.
 			if ( 'row' == FLBuilderConfig.userTemplateType || 'column' == FLBuilderConfig.userTemplateType )  {
-				moduleConnections = FLBuilder._contentClass + ' .fl-col-group-drop-target, ' +
-									FLBuilder._contentClass + ' .fl-col-drop-target, ' +
-							  		FLBuilder._contentClass + ' .fl-col-content';
+				moduleConnections = FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-group-drop-target, ' +
+									FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-drop-target, ' +
+							  		FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-content';
 			}
 			else {
 				moduleConnections = FLBuilder._contentClass + ' .fl-row-drop-target, ' +
-									FLBuilder._contentClass + ' .fl-col-group-drop-target, ' +
-									FLBuilder._contentClass + ' .fl-col-drop-target, ' +
-							  		FLBuilder._contentClass + ' .fl-col:not(.fl-node-global) .fl-col-content';
+									FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-group-drop-target, ' +
+									FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-drop-target, ' +
+							  		FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col:not(.fl-builder-node-loading):not(.fl-node-global) .fl-col-content';
 			}
 
 			// Column Connections.
 			if ( 'row' == FLBuilderConfig.userTemplateType )  {
-				columnConnections = FLBuilder._contentClass + ' .fl-col-group-drop-target, ' +
-									FLBuilder._contentClass + ' .fl-col-drop-target';
+				columnConnections = FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-group-drop-target, ' +
+									FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-drop-target';
 			}
 			else {
 				columnConnections = FLBuilder._contentClass + ' .fl-row-drop-target, ' +
-									FLBuilder._contentClass + ' .fl-col-group-drop-target, ' +
-									FLBuilder._contentClass + ' .fl-col-drop-target';
+									FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-group-drop-target, ' +
+									FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-drop-target';
 			}
 
 			// Row Connections.
@@ -520,13 +549,13 @@
 				rowConnections = moduleConnections;
 			}
 			else if ( 'row' == FLBuilderConfig.userTemplateType )  {
-				rowConnections = FLBuilder._contentClass + ' .fl-col-group-drop-target, ' +
-								 FLBuilder._contentClass + ' .fl-col-drop-target';
+				rowConnections = FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-group-drop-target, ' +
+								 FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-drop-target';
 			}
 			else {
 				rowConnections = FLBuilder._contentClass + ' .fl-row-drop-target, ' +
-								 FLBuilder._contentClass + ' .fl-col-group-drop-target, ' +
-								 FLBuilder._contentClass + ' .fl-col-drop-target';
+								 FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-group-drop-target, ' +
+								 FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-drop-target';
 			}
 
 			// Row layouts from the builder panel.
@@ -611,6 +640,19 @@
 			$(FLBuilder._contentClass + ' .fl-row-drop-target').sortable( defaults );
 			$(FLBuilder._contentClass + ' .fl-col-group-drop-target').sortable( defaults );
 			$(FLBuilder._contentClass + ' .fl-col-drop-target').sortable( defaults );
+		},
+
+		/**
+		 * Refreshes the items for all jQuery sortables so any
+		 * new items will be recognized.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _refreshSortables
+		 */
+		_refreshSortables: function()
+		{
+			$( '.ui-sortable' ).sortable( 'refresh' );
 		},
 
 		/**
@@ -767,9 +809,6 @@
 			$('body').delegate('.fl-builder-field-add', 'click', FLBuilder._addFieldClicked);
 			$('body').delegate('.fl-builder-field-copy', 'click', FLBuilder._copyFieldClicked);
 			$('body').delegate('.fl-builder-field-delete', 'click', FLBuilder._deleteFieldClicked);
-
-			/* Select Fields */
-			$('body').delegate('.fl-builder-settings-fields select', 'change', FLBuilder._settingsSelectChanged);
 
 			/* Photo Fields */
 			$('body').delegate('.fl-photo-field .fl-photo-select', 'click', FLBuilder._selectSinglePhoto);
@@ -2242,7 +2281,14 @@
 		 */
 		_renderLayout: function( data, callback )
 		{
-			FLBuilder._layout = new FLBuilderAJAXLayout( data, callback );
+			if ( FLBuilder._layout ) {
+				FLBuilder._layoutQueue.push( {
+					data: data,
+					callback: callback,
+				} );
+			} else {
+				FLBuilder._layout = new FLBuilderAJAXLayout( data, callback );
+			}
 		},
 
 		/**
@@ -2258,6 +2304,11 @@
 			if ( FLBuilder._layout ) {
 				FLBuilder._layout._complete();
 				FLBuilder._layout = null;
+			}
+
+			if ( FLBuilder._layoutQueue.length ) {
+				var item = FLBuilder._layoutQueue.shift();
+				FLBuilder._layout = new FLBuilderAJAXLayout( item.data, item.callback );
 			}
 		},
 
@@ -2337,7 +2388,7 @@
 				groups    = $( FLBuilder._contentClass + ' .fl-row' + notGlobal ).find( '.fl-col-group' ),
 				group     = null,
 				cols      = null,
-				rootCol   = 'column' == FLBuilderConfig.userTemplateType ? $( FLBuilder._contentClass + '> .fl-col' ).eq(0) : null;
+				rootCol   = 'column' == FLBuilderConfig.userTemplateType ? $( FLBuilder._contentClass + '> .fl-col' ).eq(0) : null,
 				i         = 0;
 
 			// Remove old drop targets.
@@ -2367,7 +2418,6 @@
 				rootCol.append( '<div class="fl-drop-target fl-col-drop-target"></div>' );
 				rootCol.append( '<div class="fl-drop-target fl-drop-target-last fl-col-drop-target fl-col-drop-target-last"></div>' );
 			}
-
 
 			// Loop through the column groups.
 			for ( i = 0; i < groups.length; i++ ) {
@@ -2483,7 +2533,6 @@
 		 */
 		_blockDragStart: function(e, ui)
 		{
-
 			// Let the builder know dragging has started.
 			FLBuilder._dragging = true;
 
@@ -2690,6 +2739,7 @@
 			FLBuilder._dragEnabled = false;
 			FLBuilder._dragging = false;
 			FLBuilder._bindOverlayEvents();
+			FLBuilder._removeEmptyRowAndColHighlights();
 			FLBuilder._highlightEmptyCols();
 			FLBuilder._enableGlobalRows();
 			FLBuilder._enableGlobalCols();
@@ -2715,6 +2765,7 @@
 				FLBuilder._dragEnabled = false;
 				FLBuilder._dragging = false;
 				FLBuilder._bindOverlayEvents();
+				FLBuilder._removeEmptyRowAndColHighlights();
 				FLBuilder._highlightEmptyCols();
 				FLBuilder._enableGlobalRows();
 				FLBuilder._setupEmptyLayout();
@@ -2838,7 +2889,7 @@
 		 */
 		_buildOverlayOverflowMenu: function( overlay )
 		{
-			var header        = overlay.find( '.fl-block-overlay-header' )
+			var header        = overlay.find( '.fl-block-overlay-header' ),
 				actions       = overlay.find( '.fl-block-overlay-actions' ),
 				hasRules	  = overlay.find( '.fl-block-has-rules' ),
 				original      = actions.data( 'original' ),
@@ -3010,11 +3061,12 @@
 		 */
 		_rowMouseenter: function()
 		{
-			var row        = $( this ),
-                rowTop     = row.offset().top,
-                childTop   = null,
-                overlay    = null,
-                template   = wp.template( 'fl-row-overlay' );
+			var row        	= $( this ),
+                rowTop     	= row.offset().top,
+                childTop   	= null,
+                overlay    	= null,
+                template   	= wp.template( 'fl-row-overlay' ),
+				mode 		= FLBuilderResponsiveEditing._mode;
 
 
 			if ( row.closest( '.fl-builder-node-loading' ).length ) {
@@ -3040,7 +3092,7 @@
                 }
 
                 // Put action headers on the bottom if they're hidden.
-                if ( overlay.offset().top < 43 ) {
+                if ( ( 'default' === mode && overlay.offset().top < 43 ) || ( 'default' !== mode && 0 === row.index() ) ) {
                     overlay.addClass( 'fl-row-overlay-header-bottom' );
                 }
 
@@ -3267,8 +3319,9 @@
 		 * @method _addRow
 		 * @param {String} cols The type of column layout to use.
 		 * @param {Number} position The position of the new row.
+		 * @param {String} module Optional. The node ID of an existing module to move to this row.
 		 */
-		_addRow: function(cols, position)
+		_addRow: function(cols, position, module)
 		{
 			FLBuilder._showNodeLoadingPlaceholder( $( FLBuilder._contentClass ), position );
 
@@ -3277,14 +3330,14 @@
 			FLBuilder.ajax({
 				action: 'render_new_row',
 				cols: cols,
-				position: position
+				position: position,
+				module: module,
 			}, FLBuilder._addRowComplete);
 		},
 
 		/**
 		 * Adds the HTML for a new row to the layout when the AJAX
-		 * add operation is complete. Adds a module if one is queued
-		 * to go in the new row.
+		 * add operation is complete.
 		 *
 		 * @since 1.0
 		 * @access private
@@ -3295,8 +3348,7 @@
 		{
 			var data 	= 'object' === typeof response ? response : JSON.parse(response),
 				content = $(FLBuilder._contentClass),
-				rowId   = $(data.html).data('node'),
-				module  = FLBuilder._addModuleAfterNodeRender;
+				rowId   = $(data.html).data('node');
 
 			// Add new row info to the data.
 			data.nodeParent 	= content;
@@ -3304,14 +3356,6 @@
 
 			// Render the layout.
 			FLBuilder._renderLayout( data, function(){
-
-				// Add a module to the newly created row.
-				if(module !== null) {
-					$('.fl-node-' + rowId + ' .fl-col-content').append(module);
-					FLBuilder._reorderModule(module);
-					FLBuilder._addModuleAfterNodeRender = null;
-				}
-
 				FLBuilder._removeNodeLoadingPlaceholder( $( '.fl-node-' + rowId ) );
 				FLBuilder.triggerHook( 'didAddRow', rowId );
 			} );
@@ -3379,9 +3423,9 @@
 		 */
 		_rowCopyClicked: function(e)
 		{
-			var row      	= $( this ).closest( '.fl-row' ),
+			var win		 	= $( window ),
+				row      	= $( this ).closest( '.fl-row' ),
 				nodeId   	= row.attr( 'data-node' ),
-				position 	= $( FLBuilder._contentClass + ' > .fl-row' ).index( row ) + 1,
 				clone    	= row.clone(),
 				form	 	= $( '.fl-builder-settings[data-node]' ),
 				formNodeId 	= form.attr( 'data-node' ),
@@ -3396,13 +3440,13 @@
 			clone.addClass( 'fl-node-' + nodeId + '-clone fl-builder-node-clone' );
 			clone.find( '.fl-block-overlay' ).remove();
 			row.after( clone );
-
-			$( 'html, body' ).animate( {
-				scrollTop: clone.offset().top - 75
-			}, 500 );
-
 			FLBuilder._showNodeLoading( nodeId + '-clone' );
-			FLBuilder._newRowPosition = position;
+
+			if ( win.scrollTop() + win.height() < clone.offset().top ) {
+				$( 'html, body' ).animate( {
+					scrollTop: clone.offset().top + clone.height() - win.height()
+				}, 500 );
+			}
 
 			FLBuilder.ajax( {
 				action: 'copy_row',
@@ -3411,7 +3455,10 @@
 				settings_id: formNodeId
 			}, function( response ) {
 				var data = JSON.parse( response );
+				data.nodeParent = $( FLBuilder._contentClass );
+				data.nodePosition = $( FLBuilder._contentClass + ' > .fl-row' ).index( clone );
 				data.duplicatedRow = nodeId;
+				data.onAddNewHTML = function() { clone.remove() };
 				FLBuilder._rowCopyComplete( data );
 			} );
 
@@ -3428,17 +3475,11 @@
 		 */
 		_rowCopyComplete: function( data )
 		{
-			data.nodeParent   = $( FLBuilder._contentClass );
-			data.nodePosition = FLBuilder._newRowPosition;
-
 			FLBuilder._renderLayout( data, function() {
-
 				FLBuilder.triggerHook( 'didDuplicateRow', {
 					newNodeId : data.nodeId,
 					oldNodeId : data.duplicatedRow
 				} );
-
-				data.nodeParent.find( '.fl-builder-node-loading' ).eq( 0 ).remove();
 			} );
 		},
 
@@ -3560,7 +3601,6 @@
 				rows 	  = $(FLBuilder._contentClass + ' .fl-row' + notGlobal),
 				cols 	  = $(FLBuilder._contentClass + ' .fl-col' + notGlobal);
 
-			$( '.fl-row-highlight' ).removeClass('fl-row-highlight');
 			cols.removeClass('fl-col-highlight').find('.fl-col-content').css( 'height', '' );
 
 			cols.each(function(){
@@ -3571,18 +3611,6 @@
 					col.addClass('fl-col-highlight');
 				}
 			});
-		},
-
-		/**
-		 * Remove any column highlights
-		 *
-		 * @since 2.0
-		 * @access private
-		 * @method _removeEmptyColHighlights
-		 */
-		_removeEmptyColHighlights: function() {
-			$( '.fl-row-highlight' ).removeClass('fl-row-highlight');
-			$( '.fl-col-highlight' ).removeClass('fl-col-highlight');
 		},
 
 		/**
@@ -3607,9 +3635,21 @@
 			$( FLBuilder._contentClass + ' .fl-row' ).addClass( 'fl-row-highlight' );
 
 			// Highlight columns.
-			if ( ! target.closest( '.fl-row-overlay' ).length ) {
+			if ( ! target || ! target.closest( '.fl-row-overlay' ).length ) {
 				$( FLBuilder._contentClass + ' .fl-col' + notGlobal ).addClass( 'fl-col-highlight' );
 			}
+		},
+
+		/**
+		 * Remove any column highlights
+		 *
+		 * @since 2.0
+		 * @access private
+		 * @method _removeEmptyRowAndColHighlights
+		 */
+		_removeEmptyRowAndColHighlights: function() {
+			$( '.fl-row-highlight' ).removeClass('fl-row-highlight');
+			$( '.fl-col-highlight' ).removeClass('fl-col-highlight');
 		},
 
 		/**
@@ -3735,7 +3775,6 @@
 				parentIndex     = parentGroup.find( '> .fl-col' ).index( parentCol ),
 				parentFirst     = hasParentCol ? 0 === parentIndex : false,
 				parentLast      = hasParentCol ? numParentCols === parentIndex + 1 : false,
-				contentWidth    = col.find( '> .fl-col-content' ).width(),
 				row				= col.closest('.fl-row'),
 				rowIsFixedWidth = !! row.find('.fl-row-fixed-width').addBack('.fl-row-fixed-width').length,
 				userCanResizeRows = FLBuilderConfig.rowResize.userCanResizeRows,
@@ -3786,7 +3825,6 @@
 					parentFirst   		: parentFirst,
 					parentLast    		: parentLast,
 					numParentCols 		: numParentCols,
-					contentWidth  		: contentWidth,
 					rowIsFixedWidth 	: rowIsFixedWidth,
 					userCanResizeRows 	: userCanResizeRows,
 					hasRules			: hasRules,
@@ -3936,8 +3974,12 @@
 				newRow     = newParent.closest('.fl-row'),
 				position   = 0;
 
+			// Cancel if a column was dropped into itself.
+			if ( newParent.closest( '[data-node="' + colId + '"]' ).length ) {
+				FLBuilder._resetColumnWidths( oldGroup );
+			}
 			// Cancel the drop if the sortable is disabled?
-			if ( newParent.hasClass( 'fl-sortable-disabled' ) ) {
+			else if ( newParent.hasClass( 'fl-sortable-disabled' ) ) {
 				FLBuilder._resetColumnWidths( oldGroup );
 			}
 			// A column was dropped back into the sortable proxy.
@@ -4102,10 +4144,7 @@
 					}
 				}, function() {
 					if ( col.siblings( '.fl-col' ).length === 0  ) {
-						$( '#fl-builder-settings-section-general' ).hide();
-					}
-					else if( content.width() <= 40 ) {
-						$( '#fl-field-size' ).hide();
+						$( '#fl-field-size, #fl-field-equal_height, #fl-field-content_alignment' ).hide();
 					}
 				} );
 			}
@@ -4142,8 +4181,6 @@
 			col.after( clone );
 
 			FLBuilder._showNodeLoading( nodeId + '-clone' );
-			FLBuilder._newColParent   = group;
-			FLBuilder._newColPosition = col.index() + 1;
 			FLBuilder._resetColumnWidths( group );
 
 			FLBuilder.ajax( {
@@ -4153,7 +4190,10 @@
 				settings_id: formNodeId
 			}, function( response ){
 				var data = JSON.parse( response );
+				data.nodeParent = group;
+				data.nodePosition = clone.index();
 				data.duplicatedColumn = nodeId;
+				data.onAddNewHTML = function() { clone.remove() };
 				FLBuilder._copyColComplete( data );
 			} );
 
@@ -4170,17 +4210,12 @@
 		 */
 		_copyColComplete: function( data )
 		{
-			data.nodeParent   = FLBuilder._newColParent;
-			data.nodePosition = FLBuilder._newColPosition;
-
 			FLBuilder._renderLayout( data, function(){
-
+				FLBuilder._resetColumnWidths( data.nodeParent );
 				FLBuilder.triggerHook( 'didDuplicateColumn', {
 					newNodeId : data.nodeId,
 					oldNodeId : data.duplicatedColumn
 				} );
-
-				data.nodeParent.find( '.fl-builder-node-loading' ).eq( 0 ).remove();
 			} );
 		},
 
@@ -4222,6 +4257,7 @@
 				FLBuilder._deleteCol( col );
 				FLBuilder._removeAllOverlays();
 				FLBuilder._highlightEmptyCols();
+				FLBuilder._resizeLayout();
 			}
 
 			e.stopPropagation();
@@ -4296,8 +4332,9 @@
 		 * @param {String} insert Either before or after.
 		 * @param {String} type The type of column(s) to insert.
 		 * @param {Boolean} nested Whether these columns are nested or not.
+		 * @param {String} module Optional. The node ID of an existing module to move to this group.
 		 */
-		_addCols: function( col, insert, type, nested )
+		_addCols: function( col, insert, type, nested, module )
 		{
 			var parent   = col.closest( '.fl-col-group' ),
 				position = parent.find( '.fl-col' ).index( col );
@@ -4317,7 +4354,8 @@
 				node_id         : col.attr('data-node'),
 				insert 			: insert,
 				type            : type,
-				nested			: nested ? 1 : 0
+				nested			: nested ? 1 : 0,
+				module			: module,
 			}, FLBuilder._addColsComplete );
 		},
 
@@ -4333,40 +4371,16 @@
 		 */
 		_addColsComplete: function( response )
 		{
-			var data       = 'object' === typeof response ? response : JSON.parse( response ),
-				col        = null,
-				moduleData = FLBuilder._addModuleAfterNodeRender,
-				module     = null;
+			var data = 'object' === typeof response ? response : JSON.parse( response ),
+				col = null;
 
 			data.nodeParent   = FLBuilder._newColParent;
 			data.nodePosition = FLBuilder._newColPosition;
 
 			// Render the layout.
 			FLBuilder._renderLayout( data, function() {
-
-				// Add a module to a newly created column.
-				if ( moduleData !== null ) {
-
-					$( '.fl-module[data-node="' + moduleData.module.data( 'node' ) + '"]' ).remove()
-
-					col = $( '.fl-col[data-node="' + moduleData.colId + '"]' );
-
-					if ( 'after' == moduleData.position ) {
-						col.next().find( '.fl-col-content' ).append( moduleData.module );
-					}
-					else {
-						col.prev().find( '.fl-col-content' ).append( moduleData.module );
-					}
-
-					FLBuilder._reorderModule( moduleData.module );
-					FLBuilder._addModuleAfterNodeRender = null;
-				}
-
-				// Remove the loading placeholder.
 				FLBuilder._removeNodeLoadingPlaceholder( $( '.fl-node-' + data.nodeId ) );
-
 				FLBuilder.triggerHook( 'didAddColumn', data.nodeId );
-
 				FLBuilder.triggerHook( 'didResetColumnWidths', {
 					cols : $( '.fl-node-' + data.nodeId ).find( '> .fl-col' )
 				} );
@@ -4382,8 +4396,9 @@
 		 * @param {String} nodeId The node ID of the parent row.
 		 * @param {String} cols The type of column layout to use.
 		 * @param {Number} position The position of the new column group.
+		 * @param {String} module Optional. The node ID of an existing module to move to this group.
 		 */
-		_addColGroup: function(nodeId, cols, position)
+		_addColGroup: function(nodeId, cols, position, module)
 		{
 			var parent = $( '.fl-node-' + nodeId );
 
@@ -4405,7 +4420,8 @@
 				action      : 'render_new_column_group',
 				cols        : cols,
 				node_id     : nodeId,
-				position    : position
+				position    : position,
+				module		: module,
 			}, FLBuilder._addColGroupComplete);
 		},
 
@@ -4424,8 +4440,7 @@
 			var data    = JSON.parse(response),
 				html    = $(data.html),
 				groupId = html.data('node'),
-				colId   = html.find('.fl-col').data('node'),
-				module  = FLBuilder._addModuleAfterNodeRender;
+				colId   = html.find('.fl-col').data('node');
 
 			// Add new column group info to the data.
 			data.nodeParent 	= FLBuilder._newColGroupParent;
@@ -4437,13 +4452,6 @@
 				// Added the nested columns class if needed.
 				if ( data.nodeParent.hasClass( 'fl-col-content' ) ) {
 					data.nodeParent.parents( '.fl-col' ).addClass( 'fl-col-has-cols' );
-				}
-
-				// Add a module to the newly created column group.
-				if(module !== null) {
-					$('.fl-node-' + colId + ' .fl-col-content').append(module);
-					FLBuilder._reorderModule(module);
-					FLBuilder._addModuleAfterNodeRender = null;
 				}
 
 				// Remove the loading placeholder.
@@ -4796,8 +4804,7 @@
 				numParentCols = hasParentCol ? parentCol.closest( '.fl-col-group' ).find( '> .fl-col' ).length : 0,
 				parentFirst   = hasParentCol ? 0 === parentCol.index() : false,
 				parentLast    = hasParentCol ? numParentCols === parentCol.index() + 1 : false,
-				isRootCol     = 'column' == FLBuilderConfig.userTemplateType && ! hasParentCol;
-				contentWidth  = col.find( '> .fl-col-content' ).width(),
+				isRootCol     = 'column' == FLBuilderConfig.userTemplateType && ! hasParentCol,
 				row			  = module.closest('.fl-row'),
 				isGlobalRow   = row.hasClass( 'fl-node-global' ),
 				rowIsFixedWidth = !! row.find('.fl-row-fixed-width').addBack('.fl-row-fixed-width').length,
@@ -4838,7 +4845,6 @@
 					numParentCols 		: numParentCols,
 					parentFirst   		: parentFirst,
 					parentLast    		: parentLast,
-					contentWidth  		: contentWidth,
 					rowIsFixedWidth 	: rowIsFixedWidth,
 					userCanResizeRows 	: userCanResizeRows,
 					hasRules			: hasRules,
@@ -5009,8 +5015,7 @@
 				node     = item.closest( '.fl-row' );
 				position = item.closest( '.fl-builder-content' ).children( '.fl-row' ).index( node );
 				position = item.closest( '.fl-drop-target-last' ).length ? position + 1 : position;
-				FLBuilder._addModuleAfterNodeRender = item;
-				FLBuilder._addRow( '1-col', position );
+				FLBuilder._addRow( '1-col', position, item.attr( 'data-node' ) );
 				item.remove();
 			}
 			// A module was dropped into a column group position.
@@ -5018,16 +5023,14 @@
 				node     = item.closest( '.fl-col-group' );
 				position = item.closest( '.fl-row-content ').find( ' > .fl-col-group' ).index( node );
 				position = item.closest( '.fl-drop-target-last' ).length ? position + 1 : position;
-				FLBuilder._addModuleAfterNodeRender = item;
-				FLBuilder._addColGroup( item.closest( '.fl-row' ).attr( 'data-node' ), '1-col', position );
+				FLBuilder._addColGroup( item.closest( '.fl-row' ).attr( 'data-node' ), '1-col', position, item.attr( 'data-node' ) );
 				item.remove();
 			}
 			// A module was dropped into a column position.
 			else if ( parent.hasClass( 'fl-col-drop-target' ) ) {
 				node     = item.closest( '.fl-col' );
 				position = item.closest( '.fl-col-drop-target-last' ).length ? 'after' : 'before';
-				FLBuilder._addModuleAfterNodeRender = { module: item, colId: node.data( 'node' ), position: position };
-				FLBuilder._addCols( node, position, '1-col', item.closest( '.fl-col-group-nested' ).length > 0 );
+				FLBuilder._addCols( node, position, '1-col', item.closest( '.fl-col-group-nested' ).length > 0, item.attr( 'data-node' ) );
 				item.remove();
 			}
 			// A module was dropped into another column.
@@ -5119,10 +5122,10 @@
 		 */
 		_moduleCopyClicked: function(e)
 		{
-			var module   = $( this ).closest( '.fl-module' ),
+			var win		 = $( window ),
+				module   = $( this ).closest( '.fl-module' ),
 				nodeId   = module.attr( 'data-node' ),
 				parent   = module.parent(),
-				position = parent.find( ' > .fl-col-group, > .fl-module' ).index( module ) + 1,
 				clone    = module.clone(),
 				form	 = $( '.fl-builder-module-settings[data-node=' + nodeId + ']' ),
 				settings = null;
@@ -5132,17 +5135,16 @@
 				FLBuilderSettingsConfig.nodes[ nodeId ] = settings;
 			}
 
-			clone.addClass( 'fl-node-' + nodeId + '-clone fl-builder-node-clone' );
+			clone.addClass( 'fl-node-' + nodeId + '-clone' + ' fl-builder-node-clone' );
 			clone.find( '.fl-block-overlay' ).remove();
 			module.after( clone );
-
-			$( 'html, body' ).animate( {
-				scrollTop: clone.offset().top - 75
-			}, 500 );
-
 			FLBuilder._showNodeLoading( nodeId + '-clone' );
-			FLBuilder._newModuleParent 	 = parent;
-			FLBuilder._newModulePosition = position;
+
+			if ( win.scrollTop() + win.height() < clone.offset().top ) {
+				$( 'html, body' ).animate( {
+					scrollTop: clone.offset().top + clone.height() - win.height()
+				}, 500 );
+			}
 
 			FLBuilder.ajax({
 				action: 'copy_module',
@@ -5150,7 +5152,10 @@
 				settings: settings
 			}, function( response ) {
 				var data = JSON.parse( response );
+				data.nodeParent   = parent;
+				data.nodePosition = parent.find( ' > .fl-col-group, > .fl-module' ).index( clone );
 				data.duplicatedModule = nodeId;
+				data.onAddNewHTML = function() { clone.remove() };
 				FLBuilder._moduleCopyComplete( data );
 			} );
 
@@ -5167,17 +5172,11 @@
 		 */
 		_moduleCopyComplete: function( data )
 		{
-			data.nodeParent   = FLBuilder._newModuleParent;
-			data.nodePosition = FLBuilder._newModulePosition;
-
 			FLBuilder._renderLayout( data, function(){
-
 				FLBuilder.triggerHook( 'didDuplicateModule', {
 					newNodeId : data.nodeId,
 					oldNodeId : data.duplicatedModule
 				} );
-
-				data.nodeParent.find( '.fl-builder-node-loading' ).eq( 0 ).remove();
 			} );
 		},
 
@@ -5358,6 +5357,9 @@
 
 			// Setup a preview layout if we have one.
 			if ( data.layout ) {
+				if ( FLBuilder._newModuleParent ) {
+					FLBuilder._newModuleParent.find( '.fl-builder-node-loading-placeholder' ).hide();
+				}
 				data.layout.nodeParent 	 = FLBuilder._newModuleParent;
 				data.layout.nodePosition = FLBuilder._newModulePosition;
 			}
@@ -5593,7 +5595,7 @@
 				position = ! node.length ? 0 : $( FLBuilder._contentClass + ' .fl-row' ).index( node );
 				position = parent.hasClass( 'fl-drop-target-last' ) ? position + 1 : position;
 				parentId = null;
-				action	 = 'render_new_row';
+				action	 = 'render_new_row_template';
 				callback = FLBuilder._addRowComplete;
 				FLBuilder._newRowPosition = position;
 				FLBuilder._showNodeLoadingPlaceholder( $( FLBuilder._contentClass ), position );
@@ -5816,8 +5818,14 @@
 		 */
 		_initSettingsForms: function()
 		{
+			FLBuilder._initSections();
+			FLBuilder._initButtonGroupFields();
+			FLBuilder._initCompoundFields();
 			FLBuilder._initCodeFields();
 			FLBuilder._initColorPickers();
+			FLBuilder._initGradientPickers();
+			FLBuilder._initIconFields();
+			FLBuilder._initPhotoFields();
 			FLBuilder._initSelectFields();
 			FLBuilder._initEditorFields();
 			FLBuilder._initMultipleFields();
@@ -5826,7 +5834,11 @@
 			FLBuilder._initFontFields();
 			FLBuilder._initOrderingFields();
 			FLBuilder._initTimezoneFields();
+			FLBuilder._initDimensionFields();
+			FLBuilder._initFieldPopupSliders();
+			FLBuilder._initPresetFields();
 			FLBuilder._focusFirstSettingsControl();
+			FLBuilder._calculateSettingsTabsOverflow();
 			FLBuilder._lightbox._resizeEditors();
 
 			$( '.fl-builder-settings-fields' ).css( 'visibility', 'visible' );
@@ -6272,17 +6284,14 @@
 						keys.push( matches[ k ].replace( /\[|\]/g, '' ) );
 					}
 
-					// foo[][key][key]
-					if ( key.match( /\[\]\[[^\]]*\]\[[^\]]+\]/ ) ) {
+					// foo[][key][key] or foo[][key][][key]
+					if ( key.match( /\[\]\[[^\]]*\]\[[^\]]+\]/ ) || key.match( /\[\]\[[^\]]*\]\[\]\[[^\]]+\]/ ) ) {
 
 						if ( 'undefined' == typeof settings[ name ] ) {
 							settings[ name ] = {};
 						}
 						if ( 'undefined' == typeof settings[ name ][ keys[ 0 ] ] ) {
 							settings[ name ][ keys[ 0 ] ] = {};
-						}
-						if ( 'undefined' == typeof settings[ name ][ keys[ 0 ] ][ keys[ 1 ] ] ) {
-							settings[ name ][ keys[ 0 ] ][ keys[ 1 ] ] = {};
 						}
 
 						settings[ name ][ keys[ 0 ] ][ keys[ 1 ] ] = value;
@@ -6735,6 +6744,148 @@
 			$(this).siblings('.fl-help-tooltip-text').fadeOut();
 		},
 
+		/**
+		 * Setup section toggling for all sections
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _initSections
+		 * @return void
+		 */
+		_initSections: function() {
+			$( '.fl-builder-settings:visible' ).find( '.fl-builder-settings-section' ).each( FLBuilder._initSection );
+		},
+
+		/**
+		 * Setup section toggling
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _initSection
+		 * @return void
+		 */
+		_initSection: function() {
+			var wrap = $(this),
+				button = wrap.find('.fl-builder-settings-section-header');
+
+			button.on('click', function() {
+				wrap.toggleClass('fl-builder-settings-section-collapsed')
+			});
+		},
+
+		/* Align Fields
+		----------------------------------------------------------*/
+
+		/**
+		 * Initializes all button group fields within a settings form.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _initButtonGroupFields
+		 */
+		_initButtonGroupFields: function()
+		{
+			$( '.fl-builder-settings:visible' ).find( '.fl-button-group-field' ).each( FLBuilder._initButtonGroupField );
+		},
+
+		/**
+		 * Initializes a button group field within a settings form.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _initButtonGroupField
+		 */
+		_initButtonGroupField: function()
+		{
+			var wrap = $( this ),
+				options = wrap.find( '.fl-button-group-field-option' ),
+				input = wrap.find( 'input' );
+
+			options.on( 'click', function() {
+				var option = $( this );
+				if ( '1' == option.attr( 'data-selected' ) ) {
+					option.attr( 'data-selected', '0' );
+					input.val( '' ).trigger( 'change' );
+				} else {
+					options.attr( 'data-selected', '0' );
+					option.attr( 'data-selected', '1' );
+					input.val( option.data( 'value' ) ).trigger( 'change' );
+				}
+			} );
+
+			// Handle value being changed externally
+			input.on( 'change', function( e ) {
+				var value = input.val(),
+					option = options.filter( '[data-value="' + value + '"]' );
+
+				// Unset other options
+				options.attr('data-selected', '0' );
+
+				// Set the matching one.
+				option.attr( 'data-selected', '1' );
+
+			});
+		},
+
+		/* Compound Fields
+		----------------------------------------------------------*/
+
+		/**
+		 * Initializes all compound fields within a settings form.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _initCompoundFields
+		 */
+		_initCompoundFields: function()
+		{
+			$( '.fl-builder-settings:visible' ).find( '.fl-compound-field' ).each( FLBuilder._initCompoundField );
+		},
+
+		/**
+		 * Initializes a compound field within a settings form.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _initCompoundField
+		 */
+		_initCompoundField: function()
+		{
+			var wrap = $( this ),
+				sections = wrap.find( '.fl-compound-field-section' ),
+				toggles = wrap.find( '.fl-compound-field-section-toggle' ),
+				dimensions = wrap.find( '.fl-compound-field-setting' ).has( '.fl-dimension-field-units' );
+
+			sections.each( function() {
+				var section = $( this );
+				if ( ! section.find( '.fl-compound-field-section-toggle' ).length ) {
+					section.addClass( 'fl-compound-field-section-visible' );
+				}
+			} );
+
+			toggles.on( 'click', function() {
+				var toggle = $( this ),
+					field = toggle.closest( '.fl-field' ),
+					section = toggle.closest( '.fl-compound-field-section' ),
+					className = '.' + section.attr( 'class' ).split( ' ' ).join( '.' );
+
+				field.find( className ).toggleClass( 'fl-compound-field-section-visible' );
+			} );
+
+			// Init linking for compound dimension fields.
+			dimensions.each( function() {
+				var field = $( this ),
+					label = field.find( '.fl-compound-field-label' ),
+					icon = '<i class="fl-dimension-field-link fl-tip dashicons dashicons-admin-links" title="Link Values"></i>';
+
+				if ( ! label.length || field.find( '.fl-shadow-field' ).length ) {
+					return;
+				}
+
+				label.append( icon );
+			} );
+		},
+
 		/* Auto Suggest Fields
 		----------------------------------------------------------*/
 
@@ -7142,7 +7293,18 @@
 		 */
 		_initSelectFields: function()
 		{
-			$('.fl-builder-settings:visible').find('.fl-builder-settings-fields select').trigger('change');
+			var selects = $( '.fl-builder-settings:visible' ).find( 'select' );
+
+			selects.on( 'change', FLBuilder._settingsSelectChanged );
+			selects.trigger( 'change' );
+			selects.on( 'change', FLBuilder._calculateSettingsTabsOverflow );
+
+			// Button groups use the same options and toggling behavior as selects.
+			var buttonGroups = $( '.fl-builder-settings:visible' ).find( '.fl-button-group-field input[type=hidden]' );
+
+			buttonGroups.on( 'change', FLBuilder._settingsSelectChanged );
+			buttonGroups.trigger( 'change' );
+			buttonGroups.on( 'change', FLBuilder._calculateSettingsTabsOverflow );
 		},
 
 		/**
@@ -7161,8 +7323,7 @@
 				hide    = select.attr('data-hide'),
 				trigger = select.attr('data-trigger'),
 				val     = select.val(),
-				i       = 0,
-				k       = 0;
+				i       = 0;
 
 			// TOGGLE sections, fields or tabs.
 			if(typeof toggle !== 'undefined') {
@@ -7187,6 +7348,12 @@
 
 				hide = JSON.parse(hide);
 
+				for(i in hide) {
+					FLBuilder._settingsSelectToggle(hide[i].fields, 'show', '#fl-field-');
+					FLBuilder._settingsSelectToggle(hide[i].sections, 'show', '#fl-builder-settings-section-');
+					FLBuilder._settingsSelectToggle(hide[i].tabs, 'show', 'a[href*=fl-builder-settings-tab-', ']');
+				}
+
 				if(typeof hide[val] !== 'undefined') {
 					FLBuilder._settingsSelectToggle(hide[val].fields, 'hide', '#fl-field-');
 					FLBuilder._settingsSelectToggle(hide[val].sections, 'hide', '#fl-builder-settings-section-');
@@ -7207,8 +7374,6 @@
 					}
 				}
 			}
-
-			FLBuilder._calculateSettingsTabsOverflow();
 		},
 
 		/**
@@ -7280,8 +7445,63 @@
 
 		},
 
+		/* Color Pickers
+		----------------------------------------------------------*/
+
+		/**
+		 * Initializes gradient picker fields for a settings form.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _initGradientPickers
+		 */
+		_initGradientPickers: function()
+		{
+			$( '.fl-builder-settings:visible .fl-gradient-picker' ).each( FLBuilder._initGradientPicker );
+		},
+
+		/**
+		 * Initializes a single gradient picker field.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _initGradientPicker
+		 */
+		_initGradientPicker: function()
+		{
+			var picker = $( this ),
+				type = picker.find( '.fl-gradient-picker-type-select' ),
+				angle = picker.find( '.fl-gradient-picker-angle-wrap' ),
+				position = picker.find( '.fl-gradient-picker-position' );
+
+			type.on( 'change', function() {
+				if ( 'linear' === $( this ).val() ) {
+					angle.show();
+					position.hide();
+				} else {
+					angle.hide();
+					position.show();
+				}
+			} );
+		},
+
 		/* Single Photo Fields
 		----------------------------------------------------------*/
+
+		/**
+		 * Initializes photo fields for a settings form.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _initPhotoFields
+		 */
+		_initPhotoFields: function()
+		{
+			var selects = $( '.fl-builder-settings:visible' ).find( '.fl-photo-field select' );
+
+			selects.on( 'change', FLBuilder._toggleSettingsOnIconChange );
+			selects.trigger( 'change' );
+		},
 
 		/**
 		 * Initializes the single photo selector.
@@ -7797,6 +8017,54 @@
 		----------------------------------------------------------*/
 
 		/**
+		 * Initializes icon fields for a settings form.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _initIconFields
+		 */
+		_initIconFields: function()
+		{
+			var inputs = $( '.fl-builder-settings:visible' ).find( '.fl-icon-field input' );
+
+			inputs.on( 'change', FLBuilder._toggleSettingsOnIconChange );
+			inputs.trigger( 'change' );
+		},
+
+		/**
+		 * Callback for when an icon field changes. If the field
+		 * isn't empty the specified elements (if any) will be shown.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _toggleSettingsOnIconChange
+		 */
+		_toggleSettingsOnIconChange: function()
+		{
+			var input  = $( this ),
+				val    = input.val(),
+				show   = input.attr( 'data-show' ),
+				i      = 0;
+
+			if ( typeof show === 'undefined' ) {
+				return;
+			}
+
+			show = JSON.parse( show );
+
+			FLBuilder._settingsSelectToggle( show.fields, 'hide', '#fl-field-' );
+			FLBuilder._settingsSelectToggle( show.sections, 'hide', '#fl-builder-settings-section-' );
+			FLBuilder._settingsSelectToggle( show.tabs, 'hide', 'a[href*=fl-builder-settings-tab-', ']' );
+
+			if ( val ) {
+				FLBuilder._settingsSelectToggle( show.fields, 'show', '#fl-field-' );
+				FLBuilder._settingsSelectToggle( show.sections, 'show', '#fl-builder-settings-section-' );
+				FLBuilder._settingsSelectToggle( show.tabs, 'show', 'a[href*=fl-builder-settings-tab-', ']' );
+				FLBuilder._calculateSettingsTabsOverflow();
+			}
+		},
+
+		/**
 		 * Shows the icon selector.
 		 *
 		 * @since 1.0
@@ -8008,7 +8276,8 @@
 		_initLinkField: function()
 		{
 			var wrap        = $(this),
-				searchInput = wrap.find('.fl-link-field-search-input');
+				searchInput = wrap.find('.fl-link-field-search-input'),
+				checkboxes	= wrap.find( '.fl-link-field-options-wrap input[type=checkbox]' );
 
 			searchInput.autoSuggest(FLBuilder._ajaxUrl({
 				'fl_action'         : 'fl_builder_autosuggest',
@@ -8028,6 +8297,8 @@
 				selectionLimit              : 1,
 				afterSelectionAdd           : FLBuilder._updateLinkField
 			});
+
+			checkboxes.on( 'click', FLBuilder._linkFieldCheckboxClicked );
 		},
 
 		/**
@@ -8079,6 +8350,29 @@
 			var $button = $(this);
 			$button.parent().hide();
 			$button.closest('.fl-link-field').find('input.fl-link-field-input').focus();
+		},
+
+		/**
+		 * Handles when a link field checkbox option is clicked.
+		 *
+		 * @since 2.2
+		 * @access private
+		 * @method _linkFieldCheckboxClicked
+		 */
+		_linkFieldCheckboxClicked: function()
+		{
+			var checkbox = $( this ),
+				checked = checkbox.is( ':checked' ),
+				input = checkbox.siblings( 'input[type=hidden]' ),
+				value = '';
+
+			if ( checkbox.hasClass( 'fl-link-field-target-cb' ) ) {
+				value = checked ? '_blank' : '_self';
+			} else {
+				value = checked ? 'yes' : 'no';
+			}
+
+			input.val( value );
 		},
 
 		/* Font Fields
@@ -8133,26 +8427,26 @@
 		 * @param  {Object} currentFont The font field element.
 		 */
 		_getFontWeights: function( currentFont ){
-			var selectWeight = currentFont.next( '.fl-font-field-weight' ),
+			var selectWeight = currentFont.closest( '.fl-font-field' ).find( '.fl-font-field-weight' ),
 				font         = currentFont.val(),
+				weight 	 	 = selectWeight.val(),
 				weightMap    = FLBuilderConfig.FontWeights,
 				weights      = {};
 
-				selectWeight.html('');
+			selectWeight.html( '' );
 
-				if ( 'undefined' != typeof FLBuilderFontFamilies.system[ font ] ) {
-					weights = FLBuilderFontFamilies.system[ font ].weights;
-				}
-				else if ( 'undefined' != typeof FLBuilderFontFamilies.google[ font ] ) {
-					weights = FLBuilderFontFamilies.google[ font ];
-				} else {
-					weights = FLBuilderFontFamilies.default[ font ];
-				}
+			if ( 'undefined' != typeof FLBuilderFontFamilies.system[ font ] ) {
+				weights = FLBuilderFontFamilies.system[ font ].weights;
+			} else if ( 'undefined' != typeof FLBuilderFontFamilies.google[ font ] ) {
+				weights = FLBuilderFontFamilies.google[ font ];
+			} else {
+				weights = FLBuilderFontFamilies.default[ font ];
+			}
 
 			$.each( weights, function( key, value ){
-				selectWeight.append( '<option value="' + value + '">' + weightMap[ value ] + '</option>' );
+				var selected = weight === value ? ' selected' : '';
+				selectWeight.append( '<option value="' + value + '"' + selected + '>' + weightMap[ value ] + '</option>' );
 			} );
-
 		},
 
 		/* Editor Fields
@@ -8516,7 +8810,7 @@
 		 */
 		_onNumberFieldBlur: function(e) {
 			var $input = $(e.currentTarget);
-			$input.attr('step', 1).removeClass('mousetrap');
+			$input.attr('step', 'any').removeClass('mousetrap');
 		},
 
 		/* Timezone Fields
@@ -8543,6 +8837,365 @@
 			select.find( 'option[value="' + value + '"]' ).attr( 'selected', 'selected' );
 		},
 
+		/* Dimension Fields
+		----------------------------------------------------------*/
+
+		/**
+		 * Initializes all dimension fields in a form.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @method _initDimensionFields
+		 */
+		_initDimensionFields: function() {
+			var form = $( '.fl-builder-settings:visible' );
+
+			form.find( '.fl-field[data-type=dimension]' ).each( FLBuilder._initDimensionField );
+			form.find( '.fl-dimension-field-link' ).on( 'click', FLBuilder._dimensionFieldLinkClicked );
+			FLBuilder.addHook( 'responsive-editing-switched', this._initResponsiveDimensionFieldLinking );
+
+			form.find( '.fl-compound-field-setting' ).has( '.fl-dimension-field-link' ).each( FLBuilder._initDimensionFieldLinking );
+		},
+
+		/**
+		 * Initializes a single dimension field.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @method _initDimensionField
+		 */
+		_initDimensionField: function() {
+			var field = $( this ),
+				label = field.find( '.fl-field-label label' ),
+				wrap = field.find( '.fl-field-control-wrapper' ),
+				icon = '<i class="fl-dimension-field-link fl-tip dashicons dashicons-admin-links" title="Link Values"></i>';
+
+			label.append( icon );
+			wrap.prepend( icon );
+
+			FLBuilder._initTipTips();
+			FLBuilder._initDimensionFieldLinking.apply( this );
+		},
+
+		/**
+		 * Initializes input linking for a dimension field by
+		 * linking inputs if they all have the same value.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @method _initDimensionFieldLinking
+		 */
+		_initDimensionFieldLinking: function() {
+			var field = $( this ),
+				icon = field.find( '.fl-dimension-field-link' ),
+				inputs = FLBuilder._getDimensionFieldLinkingInputs( field ),
+				equal = FLBuilder._dimensionFieldInputsAreEqual( inputs );
+
+			if ( equal ) {
+				icon.removeClass( 'dashicons-admin-links' );
+				icon.addClass( 'dashicons-editor-unlink' );
+				inputs.off( 'input', FLBuilder._dimensionFieldLinkedValueChange );
+				inputs.on( 'input', FLBuilder._dimensionFieldLinkedValueChange );
+			} else {
+				icon.addClass( 'dashicons-admin-links' );
+				icon.removeClass( 'dashicons-editor-unlink' );
+			}
+		},
+
+		/**
+		 * Initializes input linking for responsive dimension fields
+		 * when the responsive mode is switched.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @method _initDimensionFieldLinking
+		 */
+		_initResponsiveDimensionFieldLinking: function() {
+			var form = $( '.fl-builder-settings:visible' );
+			form.find( '.fl-field[data-type=dimension]' ).each( FLBuilder._initDimensionFieldLinking );
+		},
+
+		/**
+		 * Handles logic for when dimension fields are linked
+		 * or unlinked from each other.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @method _dimensionFieldLinkClicked
+		 */
+		_dimensionFieldLinkClicked: function() {
+			var target = $( this ),
+				compound = target.closest( '.fl-compound-field-setting' ),
+				field = compound.length ? compound : target.closest( '.fl-field' ),
+				icon = field.find( '.fl-dimension-field-link' ),
+				linked = icon.hasClass( 'dashicons-editor-unlink' ),
+				inputs = FLBuilder._getDimensionFieldLinkingInputs( field );
+
+			icon.toggleClass( 'dashicons-admin-links' );
+			icon.toggleClass( 'dashicons-editor-unlink' );
+
+			if ( linked ) {
+				inputs.off( 'input', FLBuilder._dimensionFieldLinkedValueChange );
+			} else {
+				inputs.val( inputs.eq( 0 ).val() ).trigger( 'input' );
+				inputs.on( 'input', FLBuilder._dimensionFieldLinkedValueChange );
+			}
+		},
+
+		/**
+		 * Updates dimension inputs when a linked input changes.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @method _dimensionFieldLinkedValueChange
+		 */
+		_dimensionFieldLinkedValueChange: function() {
+			var input = $( this ),
+				name = input.attr( 'name' ),
+				wrap = input.closest( '.fl-dimension-field-units' ),
+				inputs = wrap.find( 'input:not([name="' + name + '"])' );
+
+			inputs.off( 'input', FLBuilder._dimensionFieldLinkedValueChange );
+			inputs.val( input.val() ).trigger( 'input' );
+			inputs.on( 'input', FLBuilder._dimensionFieldLinkedValueChange );
+		},
+
+		/**
+		 * Returns the inputs for dimension field linking. If this field
+		 * is responsive, then only returns inputs for the current mode.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @method _getDimensionFieldLinkingInputs
+		 * @param {Object} field
+		 * @return {Object}
+		 */
+		_getDimensionFieldLinkingInputs: function( field ) {
+			var responsive = field.find( '.fl-field-responsive-setting' ).length ? true : false,
+				mode = FLBuilderResponsiveEditing._mode,
+				inputs = null;
+
+			if ( responsive ) {
+				inputs = field.find( '.fl-field-responsive-setting-' + mode + ' input' );
+			} else {
+				inputs = field.find( '.fl-dimension-field-unit input' );
+			}
+
+			return inputs;
+		},
+
+		/**
+		 * Checks to see if all inputs for a dimension field have
+		 * the same value or not.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @method _dimensionFieldInputsAreEqual
+		 * @param {Object} inputs
+		 * @return {Boolean}
+		 */
+		_dimensionFieldInputsAreEqual: function( inputs ) {
+			var first = inputs.eq( 0 ).val();
+
+			if ( '' === first ) {
+				return false;
+			}
+
+			for ( var i = 1; i < 4; i++ ) {
+				if ( inputs.eq( i ).val() !== first ) {
+					return false;
+				}
+			}
+
+			return true;
+		},
+
+		/* Field Popup Sliders
+		----------------------------------------------------------*/
+
+		/**
+		 * Initializes unit and dimension field popup slider controls.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @method _initFieldPopupSliders
+		 */
+		_initFieldPopupSliders: function() {
+			var form = $( '.fl-builder-settings:visible' ),
+				sliders = form.find( '.fl-field-popup-slider' );
+
+			sliders.each( FLBuilder._initFieldPopupSlider );
+		},
+
+		/**
+		 * Initializes a single popup slider control.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @method _initFieldPopupSlider
+		 */
+		_initFieldPopupSlider: function() {
+			var body = $( 'body' ),
+				wrapper = $( this ),
+				slider = wrapper.find( '.fl-field-popup-slider-input' ),
+				arrow = wrapper.find( '.fl-field-popup-slider-arrow' ),
+				name = wrapper.data( 'input' ),
+				input = $( 'input[name="' + name + '"]' );
+
+			input.on( 'click', function() {
+
+				if ( ! slider.hasClass( 'fl-field-popup-slider-init' ) ) {
+					slider.slider( {
+						value: input.val(),
+						slide: function( e, ui ) {
+							input.val( ui.value ).trigger( 'input' );
+						},
+					} );
+
+					input.on( 'input', function() {
+						slider.slider( 'value', $( this ).val() );
+					} );
+
+					slider.addClass( 'fl-field-popup-slider-init' );
+					slider.find( '.ui-slider-handle' ).removeAttr( 'tabindex' );
+				}
+
+				FLBuilder._setFieldPopupSliderMinMax( slider );
+				FLBuilder._hideFieldPopupSliders();
+				body.on( 'mousedown', FLBuilder._hideFieldPopupSliders );
+				input.addClass( 'fl-field-popup-slider-focus' );
+				wrapper.show();
+
+				var tab = $( '.fl-builder-settings:visible .fl-builder-settings-tab.fl-active' ),
+					tabOffset = tab.offset(),
+					inputOffset = input.offset(),
+					inputWidth = input.width(),
+					wrapperOffset = wrapper.offset();
+
+				if ( wrapperOffset.top + wrapper.outerHeight() > tabOffset.top + tab.outerHeight() ) {
+					wrapper.addClass( 'fl-field-popup-slider-top' );
+				}
+
+				arrow.css( 'left', ( 2 + inputOffset.left - wrapperOffset.left + inputWidth / 2 ) + 'px' );
+			} );
+
+			input.on( 'focus', function() {
+				FLBuilder._hideFieldPopupSliders();
+			} );
+		},
+
+		/**
+		 * Hides all single slider controls.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @param {Object} e
+		 * @method _hideFieldPopupSliders
+		 */
+		_hideFieldPopupSliders: function( e ) {
+			var target = e ? $( e.target ) : null,
+				body = $( 'body' ),
+				sliders = $( '.fl-field-popup-slider:visible' ),
+				inputs = $( '.fl-field-popup-slider-focus' );
+
+			if ( target ) {
+				if ( target.closest( '.fl-field-popup-slider' ).length ) {
+					return;
+				} else if ( target.closest( '.fl-field-popup-slider-focus' ).length ) {
+					return;
+				}
+			}
+
+			body.off( 'mousedown', FLBuilder._hideFieldPopupSliders );
+			inputs.removeClass( 'fl-field-popup-slider-focus' );
+			sliders.hide();
+		},
+
+		/**
+		 * Sets the min/max/step config for a popup slider.
+		 *
+		 * @since  2.2
+		 * @access private
+		 * @method _setFieldPopupSliderMinMax
+		 * @param {Object} slider
+		 */
+		_setFieldPopupSliderMinMax: function( slider ) {
+			var wrapper = slider.parent(),
+				parent = wrapper.parent().parent(),
+				select = parent.find( 'select.fl-field-unit-select' ),
+				unit = select.val(),
+				data = wrapper.data( 'slider' ),
+				min = 0,
+				max = 100,
+				step = 1;
+
+			if ( '' === unit || 'em' === unit || 'rem' === unit ) {
+				max = 10;
+				step = .1;
+			}
+
+			if ( 'object' === typeof data ) {
+				min = data.min ? parseFloat( data.min ) : min;
+				max = data.max ? parseFloat( data.max ) : max;
+				step = data.step ? parseFloat( data.step ) : step;
+
+				if ( select.length && data[ unit ] ) {
+					min = data[ unit ].min ? parseFloat( data[ unit ].min ) : min;
+					max = data[ unit ].max ? parseFloat( data[ unit ].max ) : max;
+					step = data[ unit ].step ? parseFloat( data[ unit ].step ) : step;
+				}
+			}
+
+			slider.slider( {
+				min: min,
+				max: max,
+				step: step,
+			} );
+		},
+
+
+		/* Preset Fields
+		---------------------------------------------------- */
+		_initPresetFields: function() {
+			var form = $( '.fl-builder-settings:visible' ),
+				fields = form.find( '.fl-preset-select-controls' );
+
+			fields.each( FLBuilder._initPresetField );
+		},
+
+		_initPresetField: function() {
+			var field = $( this ),
+				select = field.find('select'),
+				presetType = field.data('presets'),
+				prefix = field.data('prefix');
+
+			select.on( 'change', FLBuilder._setFormPreset.bind( this, presetType, prefix ) );
+		},
+
+		_setFormPreset: function( type, prefix, e ) {
+			var value = $( e.currentTarget ).val();
+				presetLists = FLBuilderConfig.presets,
+				presets = presetLists[type],
+				form = $( '.fl-builder-settings:visible' );
+
+			if ( 'undefined' !== presets && 'undefined' !== presets[value] ) {
+				var settings = presets[value].settings;
+
+				for( var name in settings ) {
+					var value = settings[name],
+						input;
+					if ( 'undefined' !== typeof prefix && '' !== prefix ) {
+						// Prefix setting name
+						input = form.find('[name="' + prefix + name + '"]');
+					} else {
+						input = form.find('[name="' + name + '"]');
+					}
+					input.val(value).trigger('change').trigger('input');
+				}
+			}
+		},
+
+
 		/* AJAX
 		----------------------------------------------------------*/
 
@@ -8557,6 +9210,15 @@
 		ajax: function(data, callback)
 		{
 			var prop;
+
+			// Queue this request if one is already in progress.
+			if ( FLBuilder._ajaxRequest ) {
+				FLBuilder._ajaxQueue.push( {
+					data: data,
+					callback: callback,
+				} );
+				return;
+			}
 
 			FLBuilder.triggerHook('didBeginAJAX', data );
 
@@ -8591,16 +9253,17 @@
 			data = { fl_builder_data: data };
 
 			// Do the ajax call.
-			return $.post(FLBuilder._ajaxUrl(), data, function(response) {
-
-				FLBuilder._ajaxComplete();
+			FLBuilder._ajaxRequest = $.post(FLBuilder._ajaxUrl(), data, function(response) {
 
 				if(typeof callback !== 'undefined') {
 					callback.call(this, response);
 				}
 
 				FLBuilder.triggerHook('didCompleteAJAX', data );
-			});
+
+			}).always( FLBuilder._ajaxComplete );
+
+			return FLBuilder._ajaxRequest;
 		},
 
 		/**
@@ -8612,7 +9275,13 @@
 		 */
 		_ajaxComplete: function()
 		{
+			FLBuilder._ajaxRequest = null;
 			FLBuilder.hideAjaxLoader();
+
+			if ( FLBuilder._ajaxQueue.length ) {
+				var item = FLBuilder._ajaxQueue.shift();
+				FLBuilder.ajax( item.data, item.callback );
+			}
 		},
 
 		/**
@@ -8678,6 +9347,7 @@
 
 			node.addClass( 'fl-builder-node-loading' );
 
+			FLBuilder._removeAllOverlays();
 			FLBuilder.triggerHook( 'didStartNodeLoading', node );
 		},
 
@@ -8709,6 +9379,9 @@
 		_showNodeLoadingPlaceholder: function( parent, position )
 		{
 			var placeholder = $( '<div class="fl-builder-node-loading-placeholder"></div>' );
+
+			// Make sure we only have one placeholder at a time.
+			$( '.fl-builder-node-loading-placeholder' ).remove();
 
 			// Get sibling rows.
 			if ( parent.hasClass( 'fl-builder-content' ) ) {
@@ -8851,9 +9524,13 @@
 		 * @access private
 		 * @method _showLightbox
 		 */
-		_showLightbox: function()
+		_showLightbox: function( content )
 		{
-			FLBuilder._lightbox.open('<div class="fl-builder-lightbox-loading"></div>');
+			if ( ! content ) {
+				content = '<div class="fl-builder-lightbox-loading"></div>';
+			}
+
+			FLBuilder._lightbox.open( content );
 			FLBuilder._initLightboxScrollbars();
 		},
 
@@ -8880,6 +9557,7 @@
 		_initLightboxScrollbars: function()
 		{
 			FLBuilder._initScrollbars();
+			clearTimeout( FLBuilder._lightboxScrollbarTimeout );
 			FLBuilder._lightboxScrollbarTimeout = setTimeout(FLBuilder._initLightboxScrollbars, 500);
 		},
 
@@ -8896,6 +9574,7 @@
 			FLBuilder.triggerHook( 'settings-lightbox-closed' );
 			FLBuilder._lightbox.empty();
 			clearTimeout( FLBuilder._lightboxScrollbarTimeout );
+			FLBuilder._lightboxScrollbarTimeout = null;
 		},
 
 		/**

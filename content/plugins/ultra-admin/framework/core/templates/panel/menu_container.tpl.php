@@ -60,7 +60,7 @@
                 ?>
                 <a href="javascript:void(0);" id="system_info_default_section_group_li_a"
                    class="redux-group-tab-link-a custom-tab" data-rel="system_info_default"><?php echo $icon; ?><span
-                        class="group_title"><?php _e ( 'System Info', 'redux-framework' ); ?></span></a>
+                        class="group_title"><?php _e ( 'System Info', 'ultra_framework' ); ?></span></a>
             </li>
         <?php endif; ?>
     </ul>

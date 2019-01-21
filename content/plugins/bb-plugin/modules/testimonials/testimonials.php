@@ -36,8 +36,84 @@ class FLTestimonialsModule extends FLBuilderModule {
  * Register the module and its form settings.
  */
 FLBuilder::register_module('FLTestimonialsModule', array(
+	'testimonials'      => array( // Tab
+		'title'         => __( 'Items', 'fl-builder' ), // Tab title
+		'sections'      => array( // Tab Sections
+			'general'       => array( // Section
+				'title'         => '', // Section Title
+				'fields'        => array( // Section Fields
+					'testimonials'     => array(
+						'type'          => 'form',
+						'label'         => __( 'Testimonial', 'fl-builder' ),
+						'form'          => 'testimonials_form', // ID from registered form below
+						'preview_text'  => 'testimonial', // Name of a field to use for the preview text
+						'multiple'      => true,
+					),
+				),
+			),
+		),
+	),
 	'general'      => array( // Tab
-		'title'         => __( 'General', 'fl-builder' ), // Tab title
+		'title'         => __( 'Slider', 'fl-builder' ), // Tab title
+		'sections'      => array( // Tab Sections
+			'slider'       => array( // Section
+				'title'         => '', // Section Title
+				'fields'        => array( // Section Fields
+					'auto_play'     => array(
+						'type'          => 'select',
+						'label'         => __( 'Auto Play', 'fl-builder' ),
+						'default'       => '1',
+						'options'       => array(
+							'0'             => __( 'No', 'fl-builder' ),
+							'1'             => __( 'Yes', 'fl-builder' ),
+						),
+					),
+					'pause'         => array(
+						'type'          => 'unit',
+						'label'         => __( 'Delay', 'fl-builder' ),
+						'default'       => '4',
+						'sanitize'		=> 'FLBuilderUtils::sanitize_non_negative_number',
+						'units'			=> array( 'seconds' ),
+						'slider'		=> array(
+							'max'			=> 10,
+							'step'			=> .5,
+						),
+					),
+					'transition'    => array(
+						'type'          => 'select',
+						'label'         => __( 'Transition', 'fl-builder' ),
+						'default'       => 'slide',
+						'options'       => array(
+							'horizontal'    => _x( 'Slide', 'Transition type.', 'fl-builder' ),
+							'fade'          => __( 'Fade', 'fl-builder' ),
+						),
+					),
+					'speed'         => array(
+						'type'          => 'unit',
+						'label'         => __( 'Transition Speed', 'fl-builder' ),
+						'default'       => '0.5',
+						'sanitize'		=> 'FLBuilderUtils::sanitize_non_negative_number',
+						'units'			=> array( 'seconds' ),
+						'slider'		=> array(
+							'max'			=> 10,
+							'step'			=> .5,
+						),
+					),
+					'direction'   => array(
+						'type'          => 'select',
+						'label'         => __( 'Transition Direction', 'fl-builder' ),
+						'default'       => 'next',
+						'options'       => array(
+							'next'    		=> __( 'Right To Left', 'fl-builder' ),
+							'prev'          => __( 'Left To Right', 'fl-builder' ),
+						),
+					),
+				),
+			),
+		),
+	),
+	'style'      => array( // Tab
+		'title'         => __( 'Style', 'fl-builder' ), // Tab title
 		'sections'      => array( // Tab Sections
 			'general'       => array( // Section
 				'title'         => '', // Section Title
@@ -45,7 +121,7 @@ FLBuilder::register_module('FLTestimonialsModule', array(
 					'layout'       => array(
 						'type'          => 'select',
 						'label'         => __( 'Layout', 'fl-builder' ),
-						'default'       => 'compact',
+						'default'       => 'wide',
 						'options'       => array(
 							'wide'             => __( 'Wide', 'fl-builder' ),
 							'compact'             => __( 'Compact', 'fl-builder' ),
@@ -75,61 +151,42 @@ FLBuilder::register_module('FLTestimonialsModule', array(
 						),
 					),
 					'heading_size'         => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Heading Size', 'fl-builder' ),
 						'default'       => '24',
-						'maxlength'     => '3',
-						'size'          => '4',
-						'description'   => 'px',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'property'		=> 'font-size',
+							'selector'		=> '.fl-testimonials-wrap.compact h3',
+							'unit'			=> 'px',
+						),
 					),
 				),
 			),
-			'slider'       => array( // Section
-				'title'         => __( 'Slider Settings', 'fl-builder' ), // Section Title
+			'text_style'    => array( // Section
+				'title'         => __( 'Text', 'fl-builder' ), // Section Title
 				'fields'        => array( // Section Fields
-					'auto_play'     => array(
-						'type'          => 'select',
-						'label'         => __( 'Auto Play', 'fl-builder' ),
-						'default'       => '1',
-						'options'       => array(
-							'0'             => __( 'No', 'fl-builder' ),
-							'1'             => __( 'Yes', 'fl-builder' ),
+					'text_color'    => array(
+						'type'        	=> 'color',
+						'connections'	=> array( 'color' ),
+						'label'       	=> __( 'Text Color', 'fl-builder' ),
+						'show_reset'	=> true,
+						'show_alpha'	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-testimonial',
+							'property'		=> 'color',
 						),
 					),
-					'pause'         => array(
-						'type'          => 'text',
-						'label'         => __( 'Delay', 'fl-builder' ),
-						'default'       => '4',
-						'maxlength'     => '4',
-						'size'          => '5',
-						'sanitize'			=> 'FLBuilderUtils::sanitize_non_negative_number',
-						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
-					),
-					'transition'    => array(
-						'type'          => 'select',
-						'label'         => __( 'Transition', 'fl-builder' ),
-						'default'       => 'slide',
-						'options'       => array(
-							'horizontal'    => _x( 'Slide', 'Transition type.', 'fl-builder' ),
-							'fade'          => __( 'Fade', 'fl-builder' ),
-						),
-					),
-					'speed'         => array(
-						'type'          => 'text',
-						'label'         => __( 'Transition Speed', 'fl-builder' ),
-						'default'       => '0.5',
-						'maxlength'     => '4',
-						'size'          => '5',
-						'sanitize'			=> 'FLBuilderUtils::sanitize_non_negative_number',
-						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
-					),
-					'direction'   => array(
-						'type'          => 'select',
-						'label'         => __( 'Transition Direction', 'fl-builder' ),
-						'default'       => 'next',
-						'options'       => array(
-							'next'    		=> __( 'Right To Left', 'fl-builder' ),
-							'prev'          => __( 'Left To Right', 'fl-builder' ),
+					'text_typography' => array(
+						'type'        	=> 'typography',
+						'label'       	=> __( 'Text Typography', 'fl-builder' ),
+						'responsive'  	=> true,
+						'preview'		=> array(
+							'type'			=> 'css',
+							'selector'		=> '.fl-testimonial',
 						),
 					),
 				),
@@ -153,12 +210,14 @@ FLBuilder::register_module('FLTestimonialsModule', array(
 					),
 					'arrow_color'       => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Arrow Color', 'fl-builder' ),
 						'default'       => '999999',
 						'show_reset'    => true,
+						'show_alpha'    => true,
 						'preview'       => array(
 							'type'          => 'css',
-							'selector'      => '.fl-testimonials-wrap .fa',
+							'selector'      => '.fl-testimonials-wrap .fas',
 							'property'      => 'color',
 						),
 					),
@@ -183,26 +242,16 @@ FLBuilder::register_module('FLTestimonialsModule', array(
 					),
 					'dot_color'       => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Dot Color', 'fl-builder' ),
 						'default'       => '999999',
 						'show_reset'    => true,
-					),
-				),
-			),
-		),
-	),
-	'testimonials'      => array( // Tab
-		'title'         => __( 'Testimonials', 'fl-builder' ), // Tab title
-		'sections'      => array( // Tab Sections
-			'general'       => array( // Section
-				'title'         => '', // Section Title
-				'fields'        => array( // Section Fields
-					'testimonials'     => array(
-						'type'          => 'form',
-						'label'         => __( 'Testimonial', 'fl-builder' ),
-						'form'          => 'testimonials_form', // ID from registered form below
-						'preview_text'  => 'testimonial', // Name of a field to use for the preview text
-						'multiple'      => true,
+						'show_alpha'    => true,
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'      => '.fl-testimonials-wrap .bx-pager.bx-default-pager a, .fl-testimonials-wrap .bx-pager.bx-default-pager a.active',
+							'property'      => 'background',
+						),
 					),
 				),
 			),

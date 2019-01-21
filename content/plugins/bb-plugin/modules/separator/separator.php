@@ -6,7 +6,8 @@
 class FLSeparatorModule extends FLBuilderModule {
 
 	/**
-	 * @method __construct
+	 * @since 1.0
+	 * @return void
 	 */
 	public function __construct() {
 		parent::__construct(array(
@@ -17,6 +18,42 @@ class FLSeparatorModule extends FLBuilderModule {
 			'partial_refresh'	=> true,
 			'icon'				=> 'minus.svg',
 		));
+	}
+
+	/**
+	 * Ensure backwards compatibility with old settings.
+	 *
+	 * @since 2.2
+	 * @param object $settings A module settings object.
+	 * @param object $helper A settings compatibility helper.
+	 * @return object
+	 */
+	public function filter_settings( $settings, $helper ) {
+
+		// Opacity
+		$helper->handle_opacity_inputs( $settings, 'opacity', 'color' );
+
+		// Width
+		if ( isset( $settings->custom_width ) ) {
+			if ( 'full' === $settings->width ) {
+				$settings->width = '100';
+			} else {
+				$settings->width = $settings->custom_width;
+			}
+			$settings->width_unit = '%';
+			unset( $settings->custom_width );
+		}
+
+		// Alignment
+		if ( 'center' == $settings->align ) {
+			$settings->align = 'auto';
+		} elseif ( 'left' == $settings->align ) {
+			$settings->align = '0 0 0 0';
+		} elseif ( 'right' == $settings->align ) {
+			$settings->align = '0 0 0 auto';
+		}
+
+		return $settings;
 	}
 }
 
@@ -32,74 +69,70 @@ FLBuilder::register_module('FLSeparatorModule', array(
 				'fields'        => array( // Section Fields
 					'color'         => array(
 						'type'          => 'color',
+						'connections'	=> array( 'color' ),
 						'label'         => __( 'Color', 'fl-builder' ),
 						'default'       => 'cccccc',
+						'show_alpha'	=> true,
 						'preview'       => array(
 							'type'          => 'css',
 							'selector'      => '.fl-separator',
 							'property'      => 'border-top-color',
 						),
 					),
-					'opacity'    => array(
-						'type'          => 'text',
-						'label'         => __( 'Opacity', 'fl-builder' ),
-						'default'       => '100',
-						'description'   => '%',
-						'maxlength'     => '3',
-						'size'          => '5',
-						'preview'       => array(
-							'type'          => 'css',
-							'selector'      => '.fl-separator',
-							'property'      => 'opacity',
-							'unit'          => '%',
-						),
-					),
 					'height'        => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Height', 'fl-builder' ),
 						'default'       => '1',
 						'maxlength'     => '2',
 						'size'          => '3',
-						'description'   => 'px',
 						'sanitize'		=> 'absint',
+						'slider'		=> true,
+						'units'			=> array(
+							'px',
+						),
 						'preview'       => array(
 							'type'          => 'css',
 							'selector'      => '.fl-separator',
 							'property'      => 'border-top-width',
-							'unit'          => 'px',
 						),
 					),
-					'width'        => array(
-						'type'          => 'select',
+					'width'  => array(
+						'type'          => 'unit',
 						'label'         => __( 'Width', 'fl-builder' ),
-						'default'       => 'full',
-						'options'       => array(
-							'full'          => __( 'Full Width', 'fl-builder' ),
-							'custom'        => __( 'Custom', 'fl-builder' ),
-						),
-						'toggle'        => array(
-							'full'          => array(),
-							'custom'        => array(
-								'fields'        => array( 'align', 'custom_width' ),
-							),
-						),
-					),
-					'custom_width'  => array(
-						'type'          => 'text',
-						'label'         => __( 'Custom Width', 'fl-builder' ),
-						'default'       => '10',
+						'default'       => '100',
 						'maxlength'     => '3',
 						'size'          => '4',
-						'description'   => '%',
+						'units'   		=> array(
+							'%',
+							'px',
+							'vw',
+						),
+						'slider'		=> array(
+							'px'			=> array(
+								'min'			=> 0,
+								'max'			=> 1000,
+								'step'			=> 10,
+							),
+						),
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'      => '.fl-separator',
+							'property'      => 'max-width',
+						),
 					),
 					'align'         => array(
-						'type'          => 'select',
+						'type'          => 'align',
 						'label'         => __( 'Align', 'fl-builder' ),
 						'default'       => 'center',
-						'options'       => array(
-							'center'      => _x( 'Center', 'Alignment.', 'fl-builder' ),
-							'left'        => _x( 'Left', 'Alignment.', 'fl-builder' ),
-							'right'       => _x( 'Right', 'Alignment.', 'fl-builder' ),
+						'values'        => array(
+							'left'			=> '0 0 0 0',
+							'center'		=> 'auto',
+							'right'			=> '0 0 0 auto',
+						),
+						'preview'       => array(
+							'type'          => 'css',
+							'selector'      => '.fl-separator',
+							'property'      => 'margin',
 						),
 					),
 					'style'         => array(

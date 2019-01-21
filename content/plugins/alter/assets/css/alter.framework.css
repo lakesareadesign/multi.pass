@@ -3,7 +3,7 @@ body.dragging, body.dragging * {
   cursor: move !important;
 }
 div.manage_admin_menu_sorter {
-    width: 700px;
+    width: 750px;
 }
 div.manage_admin_menu_sorter:after {
         content: "";
@@ -138,6 +138,7 @@ ol.sortUls .hide-for-roles span {
 }
 ol.sortUls .hide-for-roles .hide-for-roles-inputs {
     margin-bottom: 10px;
+    font-size: 0.85em;
 }
 div.alter_kb_link {
     padding-top: 10px;

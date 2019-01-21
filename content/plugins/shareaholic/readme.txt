@@ -1,10 +1,10 @@
 === WordPress Share Buttons, Related Posts, Google Analytics - Shareaholic ===
 Contributors: shareaholic
-Tags:  buttons, related posts, google analytics, share buttons, social sharing, image sharing, related content, woocommerce, typepad, amazon, analytics, arto, baidu, bitly, blogger, buffer, cookie compliance, cookie consent, delicious, digg, diigo, disqus, email button, eu cookie law, evernote, facebook, facebook sharing, fancy, fark, feedly, flipboard, floated share buttons, floating share buttons, follow buttons, GDPR, gmail, google bookmarks, google classroom, google plus, hootsuite, hotmail, houzz, inbound.org, instagram, instagram sharing, instapaper, kik, kindle, line, linkedin, livejournal, meneame, mister wong, mix, mixi, odnoklassniki, box.net, onenote, pinboard.in, pinterest, pinterest sharing, plurk, pocket, printfriendly, recommendations, reddit, sexybookmarks, share buttons, share image, shareaholic, shareholic, sms, social bookmarking, social media, social plugin, social share buttons, spotify, stumbleupon, stumpedia, symphony, tinyurl, tumblr, twitter, viadeo, vk, wanelo, weheartit, weibo, whatsapp, wykop, xing, yahoo, yammer, ycombinator, hacker news, youtube, yummly, zillow
+Tags:  buttons, related posts, google analytics, share buttons, social sharing, image sharing, related content, woocommerce, typepad, amazon, analytics, arto, baidu, bitly, blogger, buffer, cookie compliance, cookie consent, delicious, digg, diigo, disqus, email button, eu cookie law, evernote, facebook, facebook sharing, fancy, fark, feedly, flipboard, floated share buttons, floating share buttons, follow buttons, GDPR, gmail, google bookmarks, google classroom, google plus, hootsuite, hotmail, houzz, inbound.org, instagram, instagram sharing, instapaper, kik, kindle, line, linkedin, livejournal, meneame, mister wong, mix, mixi, odnoklassniki, box.net, onenote, pinboard.in, pinterest, pinterest sharing, plurk, pocket, printfriendly, recommendations, reddit, sexybookmarks, share buttons, share image, shareaholic, shareholic, sms, social bookmarking, social media, social plugin, social share buttons, spotify, stumbleupon, stumpedia, symphony, tinyurl, tumblr, twitter, viadeo, vk, wanelo, wechat, weheartit, weibo, whatsapp, wykop, xing, yahoo, yammer, ycombinator, hacker news, youtube, yummly, zillow
 Requires at least: 3.0
 Tested up to: 5.0
 Requires PHP: 5.2
-Stable tag: 8.10.5
+Stable tag: 8.10.7
 
 
 Improve Audience Engagement with Award Winning Site-Speed Optimized Social Tools: Share Buttons, Related Posts, Monetization & Google Analytics.
@@ -93,7 +93,7 @@ To take advantage of this privacy feature, enable "Server Side Share Counts" und
 * Target EU and EEA visitors specifically or show to everyone
 * Supports both IPv4 and IPv6 IP addresses for maximum geo accuracy
 
-Learn more about [Cookie Consent Notice](https://blog.shareaholic.com/cookie-consent-banner-app/)
+Learn more about [Cookie Consent Notice](https://www.shareaholic.com/blog/cookie-consent-banner-app/)
 
 = Monetize your Site =
 
@@ -115,8 +115,8 @@ Learn more about [Cookie Consent Notice](https://blog.shareaholic.com/cookie-con
 * Social Share Count Recovery ([learn more](https://support.shareaholic.com/hc/en-us/articles/115002083586-))
 * Google Analytics integration ([setup guide](https://support.shareaholic.com/hc/en-us/articles/205181045-))
 * [Promoted Content](https://support.shareaholic.com/hc/en-us/articles/202657036)
-* [Post-Share Follow Buttons](https://blog.shareaholic.com/post-share-follow-buttons/)
-* [Shareaholic Teams](https://blog.shareaholic.com/shareaholic-teams-work-together-to-manage-your-website/)
+* [Post-Share Follow Buttons](https://www.shareaholic.com/blog/post-share-follow-buttons/)
+* [Shareaholic Teams](https://www.shareaholic.com/blog/shareaholic-teams-work-together-to-manage-your-website/)
 * Localized in 15+ languages
 * Official support for WooCommerce
 
@@ -268,17 +268,24 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 
 == Changelog ==
 
+= 8.10.7 (2019-01-17) =
+* Enhancement: W3C validation
+
+= 8.10.6 (2019-01-16) =
+* New: [WeChat Share and Follow Buttons](https://www.shareaholic.com/blog/introducing-the-wechat-social-media-buttons/)! For Social Sharing, on desktop, users scan a QR code to share in the WeChat mobile app. On mobile, users copy the link and tap “Open WeChat” to share. Try it out [here](https://www.shareaholic.com/blog/introducing-the-wechat-social-media-buttons/).
+* Bugfix: Fixed issue with Twitter Cards not working with shortened links. They do now! 🙌🏻
+
 = 8.10.5 (2018-12-26) =
 * Various Admin Panel improvements
 
 = 8.10.4 (2018-12-21) =
-* Enhancement: [New Related Posts Themes](https://www.shareaholic.com/blog/new-related-content-widget-themes/) - two of which are inspired by Medium.com and Wired.com
-* Enhancement: [Related Posts Headline Customizer](https://www.shareaholic.com/website-tools/related-content/) - headline design can now be customized via the UI, including font typeface, size, color, etc
+* New: [New Related Posts Themes](https://www.shareaholic.com/blog/new-related-content-widget-themes/) - two of which are inspired by Medium.com and Wired.com
+* New: [Related Posts Headline Customizer](https://www.shareaholic.com/website-tools/related-content/) - headline design can now be customized via the UI, including font typeface, size, color, etc
 * Enhancement: Improved content syncing between WordPress and Shareaholic Cloud for more accurate Related Content and Analytics
 * Enhancement: [Share Buttons](https://www.shareaholic.com/website-tools/social-share-buttons/) Post-Share Prompt Slider gets a [design refresh](https://www.shareaholic.com/blog/post-share-prompt-slider-gets-a-design-refresh/)
 
 = 8.10.3 (2018-12-11) =
-* Enhancement: Advanced option to include <code>%author%</code> tag for [Share Count Recovery](https://www.shareaholic.com/sharecounter/)
+* New: Advanced option to include <code>%author%</code> tag for [Share Count Recovery](https://www.shareaholic.com/sharecounter/)
 
 = 8.10.2 (2018-11-20) =
 * Bugfix: Fixed issue with Site Profile ID generation introduced in 8.10.0
@@ -341,7 +348,7 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 
 = 8.8.0 (2018-07-19) =
 * Bugfix: Fixed Share Buttons configurator. Icon drag and drop now works.
-* Enhancement: New [themes for Related Posts](https://blog.shareaholic.com/new-related-content-app-themes-available-aloha-facebook/)
+* New: Additional [themes for Related Posts](https://www.shareaholic.com/blog/new-related-content-app-themes-available-aloha-facebook/)
 
 = 8.7.2 (2018-06-11) =
 * Bugfix: Use a more standard array structure
@@ -384,7 +391,7 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Critical Update: It has come to our notice that some hosting companies are **incorrectly** flagging "index.html" as malware. This is a standard file and there is absolutely no reason to panic or be concerned. This update fixes the cause of the false positive. Please upgrade ASAP as a precaution.
 
 = 8.5.2 (2017-10-27) =
-* Bugfix: Show [Social Share Count Recovery](https://blog.shareaholic.com/recover-social-share-counts-https/) notice only on specific admin pages
+* Bugfix: Show [Social Share Count Recovery](https://www.shareaholic.com/blog/recover-social-share-counts-https/) notice only on specific admin pages
 * Various performance updates and bug fixes
 
 = 8.5.1 (2017-10-23) =
@@ -393,7 +400,7 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Various performance updates and bug fixes
 
 = 8.5.0 (2017-10-02) =
-* Enhancement: **[Social Share Count Recovery](https://blog.shareaholic.com/recover-social-share-counts-https/)** - adds support to recover social share counts in case where permalink structure changes
+* Enhancement: **[Social Share Count Recovery](https://www.shareaholic.com/blog/recover-social-share-counts-https/)** - adds support to recover social share counts in case where permalink structure changes
 * Various performance updates
 
 = 8.4.4 (2017-09-21) =
@@ -421,9 +428,9 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Various other performance updates and bug fixes
 
 = 8.2.0 (2017-09-11) =
-* New: **[Share Buttons for Images (Image Sharer)](https://blog.shareaholic.com/new-share-buttons-for-images-plugin/)** enhancements - you can now fully customize where these share buttons appear on your images and exactly how they will look and function, including setting opacity, offsets, icon padding, position, custom icon colors, size, and a lot more. All this, without touching ANY code! Also adds support for Facebook, Google+, Twitter, LinkedIn, Email, Fancy.com, Yummly and Houzz.
-* New: **[Shareaholic Teams](https://blog.shareaholic.com/shareaholic-teams-work-together-to-manage-your-website/)** – multi-user permissions to enable your team to work together to manage your website
-* Enhancement: **[Social Share Count Recovery](https://blog.shareaholic.com/recover-social-share-counts-https/)** - adds support to recover social share counts in case where permalink structure changes
+* New: **[Share Buttons for Images (Image Sharer)](https://www.shareaholic.com/blog/new-share-buttons-for-images-plugin/)** enhancements - you can now fully customize where these share buttons appear on your images and exactly how they will look and function, including setting opacity, offsets, icon padding, position, custom icon colors, size, and a lot more. All this, without touching ANY code! Also adds support for Facebook, Google+, Twitter, LinkedIn, Email, Fancy.com, Yummly and Houzz.
+* New: **[Shareaholic Teams](https://www.shareaholic.com/blog/shareaholic-teams-work-together-to-manage-your-website/)** – multi-user permissions to enable your team to work together to manage your website
+* Enhancement: **[Social Share Count Recovery](https://www.shareaholic.com/blog/recover-social-share-counts-https/)** - adds support to recover social share counts in case where permalink structure changes
 * Various other performance updates and bug fixes
 
 = 8.1.0 (2017-07-24) =
@@ -435,7 +442,7 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Version 8 is here bringing with it a brand new revamped and streamlined UI!
 
 = 7.10.1.0 =
-* **[Social Share Count Recovery](https://blog.shareaholic.com/recover-social-share-counts-https/)** ([learn more](https://blog.shareaholic.com/recover-social-share-counts-https/)) - This setting is for anyone who has had to go through the pain and toil of migrating their domain name or changing over from HTTP to HTTPS and thereby losing all of your social share counts. Whether you are moving your site to HTTPS or migrating your domain name, don't lose your share counts. Once active, Shareaholic will begin to fetch share counts for both URL's, add them together and display the combined total. Voilà - all your hard work and social proof will again be fully accounted for.
+* **[Social Share Count Recovery](https://www.shareaholic.com/blog/recover-social-share-counts-https/)** ([learn more](https://www.shareaholic.com/blog/recover-social-share-counts-https/)) - This setting is for anyone who has had to go through the pain and toil of migrating their domain name or changing over from HTTP to HTTPS and thereby losing all of your social share counts. Whether you are moving your site to HTTPS or migrating your domain name, don't lose your share counts. Once active, Shareaholic will begin to fetch share counts for both URL's, add them together and display the combined total. Voilà - all your hard work and social proof will again be fully accounted for.
 * Enhancement: **Share Buttons for Images** are now smarter when choosing which images to activate on. Support added for images within `<header>` tags.
 * Bugfix: Fixed edge case compatability bug with Google Analytics integration (race condition)
 * Various other performance updates and bug fixes
@@ -488,17 +495,17 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 
 = 7.7.0.0 =
 * New: Google Analytics integration for sharing analytics ([setup guide](https://support.shareaholic.com/hc/en-us/articles/205181045-))
-* New: Options to display 4, 6, 8, 12, or 16 related posts! ([learn more](https://blog.shareaholic.com/additional-options-for-the-shareaholic-related-content-app/))
-* New: Giant Floated Share Buttons theme ([learn more](https://blog.shareaholic.com/giant-floated-share-buttons/))
-* New: "Round" Related Content App theme added ([learn more](https://blog.shareaholic.com/new-related-content-app-theme-round/))
-* New: Affiliate Links Earnings Dashboard ([learn more](https://blog.shareaholic.com/affiliate-links-app-earnings-dashboard-now-live/))
-* New: Total Share Counts App - showcase the number of shares your content has received ([learn more](https://blog.shareaholic.com/showcase-your-share-count-totals/))
-* New: Conditionally Display Share Counts & More Advanced Display Rules for your Share Buttons ([learn more](https://blog.shareaholic.com/new-features-conditionally-display-share-counts-more-advanced-display-rules/))
+* New: Options to display 4, 6, 8, 12, or 16 related posts! ([learn more](https://www.shareaholic.com/blog/additional-options-for-the-shareaholic-related-content-app/))
+* New: Giant Floated Share Buttons theme ([learn more](https://www.shareaholic.com/blog/giant-floated-share-buttons/))
+* New: "Round" Related Content App theme added ([learn more](https://www.shareaholic.com/blog/new-related-content-app-theme-round/))
+* New: Affiliate Links Earnings Dashboard ([learn more](https://www.shareaholic.com/blog/affiliate-links-app-earnings-dashboard-now-live/))
+* New: Total Share Counts App - showcase the number of shares your content has received ([learn more](https://www.shareaholic.com/blog/showcase-your-share-count-totals/))
+* New: Conditionally Display Share Counts & More Advanced Display Rules for your Share Buttons ([learn more](https://www.shareaholic.com/blog/new-features-conditionally-display-share-counts-more-advanced-display-rules/))
 * New: Adds support for adding [shortcodes](https://wordpress.org/plugins/shareaholic/installation/) to your sidebar text widgets - it's now so easy for you to include Shareaholic Apps such as Share Buttons, Follow Buttons and Related Content in your sidebar. Simply copy/paste the corresponding [Shareaholic shortcode](https://wordpress.org/plugins/shareaholic/installation/) for the App.
-* New: Custom color, order and theming options for Follow Buttons ([learn more](https://blog.shareaholic.com/new-follow-button-feature-updates/))
-* New: Follow Buttons additions (learn more [here](https://blog.shareaholic.com/13-new-ways-to-grow-your-following/) & [here](https://blog.shareaholic.com/9-new-share-follow-buttons-to-help-grow-your-site-traffic/))
+* New: Custom color, order and theming options for Follow Buttons ([learn more](https://www.shareaholic.com/blog/new-follow-button-feature-updates/))
+* New: Follow Buttons additions (learn more [here](https://www.shareaholic.com/blog/13-new-ways-to-grow-your-following/) & [here](https://www.shareaholic.com/blog/9-new-share-follow-buttons-to-help-grow-your-site-traffic/))
  * Vine
- * Google Classroom ([more](https://blog.shareaholic.com/google-classroom-social-share-button-follow-button/))
+ * Google Classroom ([more](https://www.shareaholic.com/blog/google-classroom-social-share-button-follow-button/))
  * Behance
  * SlideShare
  * About.me
@@ -521,14 +528,14 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
  * LiveJournal
 * New: Share Buttons additions
  * Microsoft OneNote
- * Google Classroom ([more](https://blog.shareaholic.com/google-classroom-social-share-button-follow-button/)
+ * Google Classroom ([more](https://www.shareaholic.com/blog/google-classroom-social-share-button-follow-button/)
  * Kik
  * Line.me
  * Baidu
- * WhatsApp ([more](https://blog.shareaholic.com/now-offering-whatsapp-sms-client-share-buttons/))
- * SMS Client ([more](https://blog.shareaholic.com/now-offering-whatsapp-sms-client-share-buttons/))
+ * WhatsApp ([more](https://www.shareaholic.com/blog/now-offering-whatsapp-sms-client-share-buttons/))
+ * SMS Client ([more](https://www.shareaholic.com/blog/now-offering-whatsapp-sms-client-share-buttons/))
 * Enhancement: Vector share & follow buttons (icons are now SVG - meaning they load fast, scalable to any size, and are stunning on Retina and Retina HD displays)
-* Enhancement: Updates to Google's icons ([learn more](https://blog.shareaholic.com/re-googles-look-evolved/))
+* Enhancement: Updates to Google's icons ([learn more](https://www.shareaholic.com/blog/re-googles-look-evolved/))
 
 = 7.6.2.3 =
 * Bugfix: Limited the summary data attribute to at most 500 characters
@@ -617,7 +624,7 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 
 = 7.5.1.0 =
 * Tweak: Added Cache-Control headers to Related Content and Share Count API's (3 minutes)
-* New: Affiliate Linking App - Now you can earn money from your existing product links with zero additional effort. ([learn more](https://blog.shareaholic.com/introducing-shareaholic-affiliate-links/)) 
+* New: Affiliate Linking App - Now you can earn money from your existing product links with zero additional effort. ([learn more](https://www.shareaholic.com/blog/introducing-shareaholic-affiliate-links/)) 
 * Post-Share Window
   * Added support for Shareaholic ads. ([learn more](https://support.shareaholic.com/hc/en-us/articles/201770175?utm_source=wp_plugin&utm_medium=changelog&utm_campaign=psa_faq))
 * Localization
@@ -637,12 +644,12 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 = 7.5.0.3 =
 * Related Content
  * Faster on-boarding! (in seconds vs hours)
-* Post-Share Follow Buttons [learn more](https://blog.shareaholic.com/new-services-added-to-post-share-follow-buttons-including-youtube-and-instagram/)
+* Post-Share Follow Buttons [learn more](https://www.shareaholic.com/blog/new-services-added-to-post-share-follow-buttons-including-youtube-and-instagram/)
  * Added support for Instagram, YouTube, Bloglovin, Vimeo, Flickr, Dribbble, FourSquare, Yelp, RSS
 * Share Buttons
  * Added support for Meneame, Wykop
 * Floated Share Buttons
- * You can now "offset" its position from the top of the page [learn more](https://blog.shareaholic.com/offset-floated-share-buttons/)
+ * You can now "offset" its position from the top of the page [learn more](https://www.shareaholic.com/blog/offset-floated-share-buttons/)
 
 = 7.5.0.2 =
 * Miscellaneous performance and on-boarding enhancements for the Related Content app
@@ -671,7 +678,7 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Bugfix: Fixed annoying bug where Facebook was trying to cache scheduled posts before they were live
 * [Share Buttons](https://www.sharebuttons.com/) enhancements
   * Shareaholic now resets the Facebook Open Graph cache (title, description and image) for you automatically when a post is published, so the right stuff gets shared, every time.
-  * [Share Counts + Floating Share Buttons](https://blog.shareaholic.com/floating-share-buttons-and-social-share-counts/)!
+  * [Share Counts + Floating Share Buttons](https://www.shareaholic.com/blog/floating-share-buttons-and-social-share-counts/)!
   * New icons for Viadeo, HootSuite, Wanelo
 * [Related Content](https://www.shareaholic.com/publishers/recommendations/) enhancements
   * Greatly improved reliability
@@ -706,9 +713,9 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
   * Multishare toggle for Twitter
   * New services: VK (the 2nd largest social network service in Europe after Facebook), Fancy (recommended for e-commerce sites), Wanelo (recommended for e-commerce sites)
   * New Share Counts library  
-* Floating Share Buttons App (NEW!) [learn more](https://blog.shareaholic.com/floating-share-buttons/)
+* Floating Share Buttons App (NEW!) [learn more](https://www.shareaholic.com/blog/floating-share-buttons/)
   * To enable, click on "Edit General Settings" -> Sign In -> Click on "Site Tools" -> Turn on the "Floated Share Buttons" App
-* Shareable Images App (NEW!) [learn more](https://blog.shareaholic.com/image-share-buttons/)
+* Shareable Images App (NEW!) [learn more](https://www.shareaholic.com/blog/image-share-buttons/)
   * To enable, click on "Edit General Settings" -> Sign In -> Turn on "Shareable Images"
 
 = 7.2.2.0 =
@@ -736,7 +743,7 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * New Admin Bar options!
 
 = 7.1.0.0 =
-* Shareaholic API's now use endpoints with static IP's. [Instruction on allowing Shareaholic to work with your firewall](https://blog.shareaholic.com/shareaholic-hosting-faq/).
+* Shareaholic API's now use endpoints with static IP's. [Instruction on allowing Shareaholic to work with your firewall](https://www.shareaholic.com/blog/shareaholic-hosting-faq/).
 
 = 7.0.9.0 =
 * Confirmed that Shareaholic works well with WordPress 3.8. Upgrade away! 
@@ -860,6 +867,12 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Show Related Posts data status
 
 == Upgrade Notice ==
+= 8.10.7 =
+* W3C validation improvements
+
+= 8.10.6 =
+WeChat Share and Follow Buttons and Twitter Card bug fixes
+
 = 8.10.5 =
 Various Admin Panel improvements
 

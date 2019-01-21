@@ -103,7 +103,7 @@
 
                         $is_plugin = false;
                         foreach ( get_plugins() as $key => $value ) {
-                            if ( strpos( $key, 'redux-framework.php' ) !== false ) {
+                            if ( strpos( $key, 'ultra_framework.php' ) !== false ) {
                                 self::$_dir = trailingslashit( Redux_Helpers::cleanFilePath( WP_CONTENT_DIR . '/plugins/' . plugin_dir_path( $key ) . 'ReduxCore/' ) );
                                 $is_plugin  = true;
                             }
@@ -217,15 +217,15 @@
                 }
 
                 if ( empty ( $this->args['footer_credit'] ) ) {
-                    $this->args['footer_credit'] = '<span id="footer-thankyou">' . sprintf( __( 'Options panel created using %1$s', 'redux-framework' ), '<a href="' . esc_url( $this->framework_url ) . '" target="_blank">' . __( 'Redux Framework', 'redux-framework' ) . '</a> v' . self::$_version ) . '</span>';
+                    $this->args['footer_credit'] = '<span id="footer-thankyou">' . sprintf( __( 'Options panel created using %1$s', 'ultra_framework' ), '<a href="' . esc_url( $this->framework_url ) . '" target="_blank">' . __( 'Redux Framework', 'ultra_framework' ) . '</a> v' . self::$_version ) . '</span>';
                 }
 
                 if ( empty ( $this->args['menu_title'] ) ) {
-                    $this->args['menu_title'] = __( 'Options', 'redux-framework' );
+                    $this->args['menu_title'] = __( 'Options', 'ultra_framework' );
                 }
 
                 if ( empty ( $this->args['page_title'] ) ) {
-                    $this->args['page_title'] = __( 'Options', 'redux-framework' );
+                    $this->args['page_title'] = __( 'Options', 'ultra_framework' );
                 }
 
                 /**
@@ -620,16 +620,16 @@
                  * filter 'redux/textdomain/{opt_name}'
                  *
                  * @param string     The locale of the blog or from the 'locale' hook
-                 * @param string     'redux-framework'  text domain
+                 * @param string     'ultra_framework'  text domain
                  */
-                $locale = apply_filters( "redux/textdomain/{$this->args['opt_name']}", get_locale(), 'redux-framework' );
+                $locale = apply_filters( "redux/textdomain/{$this->args['opt_name']}", get_locale(), 'ultra_framework' );
 
                 if ( strpos( $locale, '_' ) === false ) {
                     if ( file_exists( self::$_dir . 'languages/' . strtolower( $locale ) . '_' . strtoupper( $locale ) . '.mo' ) ) {
                         $locale = strtolower( $locale ) . '_' . strtoupper( $locale );
                     }
                 }
-                load_textdomain( 'redux-framework', self::$_dir . 'languages/' . $locale . '.mo' );
+                load_textdomain( 'ultra_framework', self::$_dir . 'languages/' . $locale . '.mo' );
             }
 // _internationalization()
 
@@ -1378,7 +1378,7 @@
 
                         if ( true == $this->args['system_info'] ) {
                             add_submenu_page(
-                                $this->args['page_slug'], __( 'System Info', 'redux-framework' ), __( 'System Info', 'redux-framework' ), $this->args['page_permissions'], $this->args['page_slug'] . '&tab=system_info_default', '__return_null'
+                                $this->args['page_slug'], __( 'System Info', 'ultra_framework' ), __( 'System Info', 'ultra_framework' ), $this->args['page_permissions'], $this->args['page_slug'] . '&tab=system_info_default', '__return_null'
                             );
                         }
                     }
@@ -1472,7 +1472,7 @@
                     $nodeargs = array(
                         'id'    => $this->args["page_slug"],
                         'title' => $title,
-                        // $theme_data->get( 'Name' ) . " " . __( 'Options', 'redux-framework-demo' ),
+                        // $theme_data->get( 'Name' ) . " " . __( 'Options', 'ultra_framework' ),
                         'href'  => admin_url( 'admin.php?page=' . $this->args["page_slug"] ),
                         'meta'  => array()
                     );
@@ -1681,29 +1681,29 @@
 
                     // Default url values for enabling hints.
                     $dismiss = 'true';
-                    $s       = __( 'Enable', 'redux-framework' );
+                    $s       = __( 'Enable', 'ultra_framework' );
 
                     // Values for disabling hints.
                     if ( 'true' == $hint_status ) {
                         $dismiss = 'false';
-                        $s       = __( 'Disable', 'redux-framework' );
+                        $s       = __( 'Disable', 'ultra_framework' );
                     }
 
                     // Make URL
                     $url = '<a class="redux_hint_status" href="?dismiss=' . $dismiss . '&amp;id=hints&amp;page=' . $curPage . '&amp;tab=' . $curTab . '">' . $s . ' hints</a>';
 
-                    $event = __( 'moving the mouse over', 'redux-framework' );
+                    $event = __( 'moving the mouse over', 'ultra_framework' );
                     if ( 'click' == $this->args['hints']['tip_effect']['show']['event'] ) {
-                        $event = __( 'clicking', 'redux-framework' );
+                        $event = __( 'clicking', 'ultra_framework' );
                     }
 
                     // Construct message
-                    $msg = sprintf( __( 'Hints are tooltips that popup when %d the hint icon, offering addition information about the field in which they appear.  They can be %d d by using the link below.', 'redux-framework' ), $event, strtolower( $s ) ) . '<br/><br/>' . $url;
+                    $msg = sprintf( __( 'Hints are tooltips that popup when %d the hint icon, offering addition information about the field in which they appear.  They can be %d d by using the link below.', 'ultra_framework' ), $event, strtolower( $s ) ) . '<br/><br/>' . $url;
 
                     // Construct hint tab
                     $tab = array(
                         'id'      => 'redux-hint-tab',
-                        'title'   => __( 'Hints', 'redux-framework' ),
+                        'title'   => __( 'Hints', 'ultra_framework' ),
                         'content' => '<p>' . $msg . '</p>'
                     );
 
@@ -1830,7 +1830,7 @@
                 }
 
                 if ( ! empty ( $default_output ) ) {
-                    $default_output = __( 'Default', 'redux-framework' ) . ": " . substr( $default_output, 0, - 2 );
+                    $default_output = __( 'Default', 'ultra_framework' ) . ": " . substr( $default_output, 0, - 2 );
                 }
 
                 if ( ! empty ( $default_output ) ) {
@@ -2669,7 +2669,7 @@
 
                 if ( ! wp_verify_nonce( $_REQUEST['nonce'], "redux_ajax_nonce" ) ) {
                     json_encode( array(
-                        'status' => __( 'Invalid security credential, please reload the page and try again.', 'redux-framework' ),
+                        'status' => __( 'Invalid security credential, please reload the page and try again.', 'ultra_framework' ),
                         'action' => 'reload'
                     ) );
                     die();
@@ -2755,7 +2755,7 @@
                             echo json_encode( array( 'status' => $e->getMessage() ) );
                         }
                     } else {
-                        echo json_encode( array( 'status' => __( 'Your panel has no fields. Nothing to save.', 'redux-framework' ) ) );
+                        echo json_encode( array( 'status' => __( 'Your panel has no fields. Nothing to save.', 'ultra_framework' ) ) );
                     }
                 }
                 if ( isset ( $this->transients['run_compiler'] ) && $this->transients['run_compiler'] ) {

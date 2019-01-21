@@ -58,6 +58,8 @@ if (!class_exists('Inbound_Forms')) {
                 $id = intval($_GET['post']);
             }
 
+            /* filter redirect URL for special cases */
+            $redirect = apply_filters('inbound_forms/input/furl' , $redirect );
 
             $form_name = $name;
             /*$form_name = strtolower(str_replace(array(' ','_', '"', "'"),'-',$form_name)); */
@@ -823,7 +825,6 @@ if (!class_exists('Inbound_Forms')) {
          */
         static function do_actions() {
 
-
             /* only process actions when told to */
             if (!isset($_POST['inbound_submitted']) || (!$_POST['inbound_submitted'] || $_POST['inbound_submitted'] =='false' ) ) {
                 return;
@@ -831,14 +832,24 @@ if (!class_exists('Inbound_Forms')) {
 
             /* if POST does not contain correct nonce then bail */
             if (!defined('DISABLE_INBOUND_FORM_NONCE')) {
-                check_ajax_referer(SECURE_AUTH_KEY, 'inbound_nonce');
+                if (! check_ajax_referer(SECURE_AUTH_KEY, 'inbound_nonce' , false ) ) {
+                    echo __('A security issue most likely involved with nonce validation. Please notify support and ask them to disable caching on this page.' , 'inbound-pro');
+                    wp_send_json_error();
+                    exit;
+                };
             }
 
             $form_post_data = array();
             if (isset($_POST['phone_xoxo']) && $_POST['phone_xoxo'] != "") {
-                wp_die($message = 'Die Die Die');
+                wp_die($message = __('Honeypot enabled. The submission did not go through' , 'inbound-pro'));
                 return false;
             }
+
+            /* make sure form contains mapped email */
+            if (!isset($_POST['mapped_params']) || !strstr($_POST['mapped_params'] , 'wpleads_email_address' ) ) {
+                /*return __('no mapped params' , 'inbound-pro');*/
+            }
+
             /* get form submitted form's meta data */
             $form_meta_data = get_post_meta($_POST['inbound_form_id']);
 
@@ -849,7 +860,6 @@ if (!class_exists('Inbound_Forms')) {
             } else {
                 $redirect = "";
             }
-
 
             /*print_r($_POST); */
             foreach ($_POST as $field => $value) {
@@ -890,8 +900,6 @@ if (!class_exists('Inbound_Forms')) {
                 wp_redirect($redirect);
                 exit();
             }
-
-
 
         }
 

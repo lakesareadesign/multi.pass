@@ -1375,19 +1375,44 @@ final class FLBuilderModel {
 				$settings = $post_data['node_preview_processed_settings'];
 			}
 		} else {
-			$defaults = self::get_node_defaults( $node );
-			$settings = (object) array_merge( (array) $defaults, (array) $node->settings );
-
-			if ( 'module' == $node->type ) {
-				$settings = self::merge_nested_module_defaults( $node->settings->type, $settings );
-			} elseif ( 'column' == $node->type ) {
-				$settings = self::merge_nested_form_defaults( 'general', 'col', $settings );
-			} elseif ( 'row' == $node->type ) {
-				$settings = self::merge_nested_form_defaults( 'general', 'row', $settings );
-			}
+			$settings = self::get_node_settings_with_defaults_merged( $node->type, $node->settings );
 		}
 
 		return ! $filter ? $settings : apply_filters( 'fl_builder_node_settings', $settings, $node );
+	}
+
+	/**
+	 * Returns node settings that are merged with the defaults. In general,
+	 * you should use get_node_settings instead of this method unless you
+	 * don't want any of the other logic that it applies.
+	 *
+	 * @since 2.2
+	 * @param string $type A node type.
+	 * @param object $settings A node settings object.
+	 * @return object
+	 */
+	static public function get_node_settings_with_defaults_merged( $type, $settings ) {
+		$defaults = array();
+
+		if ( 'row' == $type ) {
+			$defaults = FLBuilderModel::get_row_defaults();
+		} elseif ( 'column' == $type ) {
+			$defaults = FLBuilderModel::get_col_defaults();
+		} elseif ( 'module' == $type ) {
+			$defaults = FLBuilderModel::get_module_defaults( $settings->type );
+		}
+
+		$settings = (object) array_merge( (array) $defaults, (array) $settings );
+
+		if ( 'row' == $type ) {
+			$settings = FLBuilderModel::merge_nested_form_defaults( 'general', 'row', $settings );
+		} elseif ( 'column' == $type ) {
+			$settings = FLBuilderModel::merge_nested_form_defaults( 'general', 'col', $settings );
+		} elseif ( 'module' == $type ) {
+			$settings = FLBuilderModel::merge_nested_module_defaults( $settings->type, $settings );
+		}
+
+		return $settings;
 	}
 
 	/**
@@ -1652,9 +1677,10 @@ final class FLBuilderModel {
 	 * @since 1.0
 	 * @param string $cols The type of column layout to use.
 	 * @param int $position The position of the new row.
+	 * @param string $module Optional. The node ID of an existing module to move to this row.
 	 * @return object The new row object.
 	 */
-	static public function add_row( $cols = '1-col', $position = false ) {
+	static public function add_row( $cols = '1-col', $position = false, $module = null ) {
 		$data			 = self::get_layout_data();
 		$settings		 = self::get_row_defaults();
 		$row_node_id	 = self::generate_node_id();
@@ -1676,7 +1702,14 @@ final class FLBuilderModel {
 		}
 
 		// Add a column group.
-		self::add_col_group( $row_node_id, $cols, 0 );
+		$group = self::add_col_group( $row_node_id, $cols, 0 );
+
+		// Move an existing module to the row.
+		if ( $module ) {
+			$cols = self::get_nodes( 'column', $group->node );
+			$col = array_shift( $cols );
+			self::move_node( $module, $col->node, 0 );
+		}
 
 		// Return the updated row.
 		return self::get_node( $row_node_id );
@@ -1807,49 +1840,6 @@ final class FLBuilderModel {
 		$settings = self::get_settings_form_defaults( 'row' );
 		$settings = self::merge_nested_form_defaults( 'general', 'row', $settings );
 		return $settings;
-	}
-
-	/**
-	 * Returns an array of spacing placeholders for row
-	 * margins and padding.
-	 *
-	 * @since 1.9
-	 * @return array
-	 */
-	static public function get_row_spacing_placeholders() {
-		$settings     = FLBuilderModel::get_global_settings();
-		$placeholders = array();
-
-		// Default.
-		$placeholders['row_margins'] = $settings->row_margins;
-		$placeholders['row_padding'] = $settings->row_padding;
-
-		// Medium.
-		$placeholders['row_margins_medium'] = ( '' != $settings->row_margins_medium ) ? $settings->row_margins_medium : $settings->row_margins;
-		$placeholders['row_padding_medium'] = ( '' != $settings->row_padding_medium ) ? $settings->row_padding_medium : $settings->row_padding;
-
-		// Responsive row margins.
-		if ( '' != $settings->row_margins_responsive ) {
-			$placeholders['row_margins_responsive'] = $settings->row_margins_responsive;
-		} elseif ( $settings->auto_spacing ) {
-			$placeholders['row_margins_responsive'] = 0;
-		} else {
-			$placeholders['row_margins_responsive'] = $placeholders['row_margins_medium'];
-		}
-
-		// Responsive row padding.
-		if ( '' != $settings->row_padding_responsive ) {
-			$placeholders['row_padding_tb_responsive'] = $settings->row_padding_responsive;
-			$placeholders['row_padding_lr_responsive'] = $settings->row_padding_responsive;
-		} elseif ( $settings->auto_spacing ) {
-			$placeholders['row_padding_tb_responsive'] = $placeholders['row_padding_medium'];
-			$placeholders['row_padding_lr_responsive'] = 0;
-		} else {
-			$placeholders['row_padding_tb_responsive'] = $placeholders['row_padding_medium'];
-			$placeholders['row_padding_lr_responsive'] = $placeholders['row_padding_medium'];
-		}
-
-		return $placeholders;
 	}
 
 	/**
@@ -1998,9 +1988,10 @@ final class FLBuilderModel {
 	 * @param string $node_id A row node ID.
 	 * @param string $cols The type of column group layout or the ID of an existing column to add.
 	 * @param int $position The position of the new column group.
+	 * @param string $module Optional. The node ID of an existing module to move to this group.
 	 * @return object The new column group object.
 	 */
-	static public function add_col_group( $node_id = null, $cols = '1-col', $position = false ) {
+	static public function add_col_group( $node_id = null, $cols = '1-col', $position = false, $module = null ) {
 		$data				= self::get_layout_data();
 		$group_node_id		= self::generate_node_id();
 		$parent 			= self::get_node( $node_id );
@@ -2080,6 +2071,13 @@ final class FLBuilderModel {
 		// Position the column group.
 		if ( false !== $position ) {
 			self::reorder_node( $group_node_id, $position );
+		}
+
+		// Move an existing module to the group.
+		if ( $module ) {
+			$cols = self::get_nodes( 'column', $group_node_id );
+			$col = array_shift( $cols );
+			self::move_node( $module, $col->node, 0 );
 		}
 
 		// Return the column group.
@@ -2404,9 +2402,10 @@ final class FLBuilderModel {
 	 * @param string $insert Either before or after.
 	 * @param string $type The type of column(s) to insert.
 	 * @param boolean $nested Whether these columns are nested or not.
+	 * @param string $module Optional. The node ID of an existing module to move to this group.
 	 * @return object
 	 */
-	static public function add_cols( $col_id, $insert = 'before', $type = '1-col', $nested = false ) {
+	static public function add_cols( $col_id, $insert = 'before', $type = '1-col', $nested = false, $module = null ) {
 		$data		  = self::get_layout_data();
 		$col	 	  = self::get_node( $col_id );
 		$parent 	  = self::get_node( $col->parent );
@@ -2487,6 +2486,11 @@ final class FLBuilderModel {
 
 		// Update the layout data.
 		self::update_layout_data( $data );
+
+		// Move an existing module to the group.
+		if ( $module ) {
+			self::move_node( $module, $new_col_id, 0 );
+		}
 
 		// Return the column group.
 		return $parent;
@@ -2907,6 +2911,8 @@ final class FLBuilderModel {
 				}
 			}
 		}
+
+		ksort( $groups );
 
 		return $groups;
 	}
@@ -3674,6 +3680,9 @@ final class FLBuilderModel {
 				foreach ( $tab['sections'] as $section ) {
 					if ( isset( $section['fields'] ) ) {
 						foreach ( $section['fields'] as $name => $field ) {
+							if ( ! isset( $field['type'] ) ) {
+								continue;
+							}
 							$fields[ $name ] = $field;
 						}
 					}
@@ -3714,12 +3723,24 @@ final class FLBuilderModel {
 		// Get the fields.
 		$fields = self::get_settings_form_fields( $tabs );
 
-		// Handle dimension fields. We have to do it this way for backwards compat
-		// with old margin, padding, and border fields as the settings expect margin_top
-		// or margin_bottom to exist instead of just the margin key.
+		// Handle a few special cases before getting the defaults.
 		foreach ( $fields as $name => $field ) {
+
+			// Add the root name if needed later for synthetic fields like
+			// the dimension fields being synthesized below.
+			$fields[ $name ]['root_name'] = $name;
+			$field['root_name'] = $name;
+
+			// Handle dimension fields. We have to do it this way for backwards compat
+			// with old margin, padding, and border fields as the settings expect margin_top
+			// or margin_bottom to exist instead of just the margin key.
 			if ( 'dimension' == $field['type'] ) {
-				foreach ( array( 'top', 'right', 'bottom', 'left' ) as $position ) {
+				if ( isset( $field['keys'] ) ) {
+					$keys = array_keys( $field['keys'] );
+				} else {
+					$keys = array( 'top', 'right', 'bottom', 'left' );
+				}
+				foreach ( $keys as $position ) {
 					$fields[ $name . '_' . $position ] = $field;
 				}
 				unset( $fields[ $name ] );
@@ -3733,16 +3754,30 @@ final class FLBuilderModel {
 			$is_multiple       = isset( $field['multiple'] ) && true === $field['multiple'];
 			$supports_multiple = 'editor' != $field['type'] && 'service' != $field['type'];
 			$responsive        = isset( $field['responsive'] ) && $field['responsive'] ? $field['responsive'] : false;
-			$responsive_name   = '';
 
+			// Get the default unit if this field has more than one unit.
+			if ( isset( $field['units'] ) && count( $field['units'] ) > 1 ) {
+				$default_unit = isset( $field['default_unit'] ) ? $field['default_unit'] : $field['units'][0];
+			} else {
+				$default_unit = null;
+			}
+
+			// Set the default.
 			if ( $is_multiple && $supports_multiple ) {
 				$defaults->$name = is_array( $default ) ? $default : array( $default );
-			} elseif ( $responsive ) {
+			} else {
 
 				foreach ( array( 'default', 'medium', 'responsive' ) as $device ) {
 
-					$responsive_name = $name . ( 'default' == $device ? '' : '_' . $device );
+					if ( ! $responsive && 'default' !== $device ) {
+						continue;
+					}
 
+					$response_suffix = ( 'default' == $device ? '' : '_' . $device );
+					$responsive_name = $name . $response_suffix;
+					$unit_name = $field['root_name'] . $response_suffix . '_unit';
+
+					// Add the default value.
 					if ( is_array( $responsive ) && isset( $responsive['default'] ) && isset( $responsive['default'][ $device ] ) ) {
 						$defaults->{ $responsive_name } = $responsive['default'][ $device ];
 					} elseif ( 'default' == $device ) {
@@ -3750,9 +3785,31 @@ final class FLBuilderModel {
 					} else {
 						$defaults->{ $responsive_name } = '';
 					}
+
+					// Add the unit default value.
+					if ( null !== $default_unit ) {
+						if ( is_array( $responsive ) && isset( $responsive['default_unit'] ) && isset( $responsive['default_unit'][ $device ] ) ) {
+							$defaults->{ $unit_name } = $responsive['default_unit'][ $device ];
+						} else {
+							$defaults->{ $unit_name } = $default_unit;
+						}
+					}
+
+					// Add the photo source default value.
+					if ( 'photo' === $field['type'] ) {
+						$defaults->{ $name . $response_suffix . '_src' } = '';
+					}
+
+					// Add the link target and nofollow default values.
+					if ( 'link' === $field['type'] ) {
+						if ( isset( $field['show_target'] ) && $field['show_target'] ) {
+							$defaults->{ $name . '_target' } = '_self';
+						}
+						if ( isset( $field['show_nofollow'] ) && $field['show_nofollow'] ) {
+							$defaults->{ $name . '_nofollow' } = 'no';
+						}
+					}
 				}
-			} else {
-				$defaults->$name = $default;
 			}
 		}
 
@@ -4194,13 +4251,14 @@ final class FLBuilderModel {
 		$post_id	= ! $post_id ? self::get_post_id() : $post_id;
 		$status		= ! $status ? self::get_node_status() : $status;
 
-		// Get published data?
+		// Get layout metadata.
 		if ( 'published' == $status || 'revision' == get_post_type( $post_id ) ) {
 			if ( isset( self::$published_layout_data[ $post_id ] ) ) {
 				$data = self::$published_layout_data[ $post_id ];
 			} else {
 				$data = get_metadata( 'post', $post_id, '_fl_builder_data', true );
 				$data = self::clean_layout_data( $data );
+				$data = FLBuilderSettingsCompat::filter_layout_data( $data );
 				self::$published_layout_data[ $post_id ] = apply_filters( 'fl_builder_get_layout_metadata', $data, $status, $post_id );
 			}
 		} elseif ( 'draft' == $status ) {
@@ -4209,6 +4267,7 @@ final class FLBuilderModel {
 			} else {
 				$data = get_metadata( 'post', $post_id, '_fl_builder_draft', true );
 				$data = self::clean_layout_data( $data );
+				$data = FLBuilderSettingsCompat::filter_layout_data( $data );
 				self::$draft_layout_data[ $post_id ] = apply_filters( 'fl_builder_get_layout_metadata', $data, $status, $post_id );
 			}
 		}
@@ -5784,6 +5843,9 @@ final class FLBuilderModel {
 			// Get new ids for the template nodes.
 			$template->nodes = self::generate_new_node_ids( $template->nodes );
 
+			// Filter the nodes for backwards compatibility with old settings.
+			$template->nodes = FLBuilderSettingsCompat::filter_layout_data( $template->nodes );
+
 			// Get the existing layout data and settings.
 			$layout_data = self::get_layout_data();
 			$layout_settings = self::get_layout_settings();
@@ -5886,7 +5948,9 @@ final class FLBuilderModel {
 						foreach ( $template_data as $key => $template ) {
 
 							// Add the main group to each template.
-							$template_data[ $key ]->group = $args['group'];
+							if ( ! isset( $template_data[ $key ]->group ) ) {
+								$template_data[ $key ]->group = $args['group'];
+							}
 
 							// Reserialize the node data as it's expensive to store in memory.
 							if ( isset( $template->nodes ) ) {
@@ -5928,12 +5992,14 @@ final class FLBuilderModel {
 		$type            = apply_filters( 'fl_builder_template_selector_data_type', $type );
 		$categorized     = array();
 		$templates       = array();
+		$groups 		 = array();
+
+		// This is needed for backwards compat with the old core templates category.
 		$core_categories = array(
 			'general' => __( 'General', 'fl-builder' ),
 			'landing' => __( 'Landing Pages', 'fl-builder' ),
 			'company' => __( 'Content Pages', 'fl-builder' ),
 		);
-		$groups = array();
 
 		// Build the the templates array.
 		foreach ( self::get_templates( $type ) as $key => $template ) {
@@ -6020,6 +6086,7 @@ final class FLBuilderModel {
 						);
 					}
 				}
+				ksort( $groups[ $group_key ]['categories'] );
 				$template['group'][] = $group_key;
 			}
 

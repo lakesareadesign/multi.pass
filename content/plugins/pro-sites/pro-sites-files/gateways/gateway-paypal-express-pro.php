@@ -821,6 +821,7 @@ class ProSites_Gateway_PayPalExpressPro {
 						}
 
 						$psts->email_notification( $blog_id, 'success' );
+						self::email_receipt( $blog_id );
 						$psts->record_transaction( $blog_id, $init_transaction, $paymentAmount );
 
 						if ( $modify ) {
@@ -1832,7 +1833,8 @@ class ProSites_Gateway_PayPalExpressPro {
 					$args['cancel']               = true;
 					$args['cancellation_message'] = '<div class="psts-cancel-notification">
 													<p class="label"><strong>' . __( 'Your subscription has been canceled', 'psts' ) . '</strong></p>
-													<p>' . sprintf( __( 'This site should continue to have %1$s features until %2$s.', 'psts' ), $level, $end_date ) . '</p>';
+													<p>' . sprintf( __( 'This site should continue to have %1$s features until %2$s.', 'psts' ), $level, $end_date ) . '</p>
+													</div>';
 				}
 
 			} else if ( $resArray['ACK'] == 'Success' || $resArray['ACK'] == 'SuccessWithWarning' ) {
@@ -3031,6 +3033,7 @@ class ProSites_Gateway_PayPalExpressPro {
 								$psts->extend( $blog_id, $period, self::get_slug(), $level, $payment );
 
 								$psts->email_notification( $blog_id, 'success' );
+								self::email_receipt( $blog_id );
 
 								$psts->record_stat( $blog_id, 'signup' );
 							}
@@ -3215,6 +3218,30 @@ class ProSites_Gateway_PayPalExpressPro {
 		}
 
 		return $expiry;
+	}
+
+	/**
+	 * Send email receipt to user.
+	 *
+	 * @param int   $blog_id Blog ID.
+	 * @param array $args Arguments.
+	 *
+	 * @return void
+	 */
+	private static function email_receipt( $blog_id, $args = array() ) {
+		global $psts;
+
+		// Last extended + 5 minutes.
+		$last_sent = (int) get_blog_option( $blog_id, 'psts_paypal_last_email_receipt' );
+		$last_sent = empty( $last_sent ) ? time() : $last_sent + 300;
+
+		// We need to send receipt, if not sent already.
+		if ( time() > $last_sent ) {
+			// Send email.
+			$psts->email_notification( $blog_id, 'receipt', false, $args );
+			// Track email receipt sent.
+			update_blog_option( $blog_id, 'psts_paypal_last_email_receipt', time() );
+		}
 	}
 }
 

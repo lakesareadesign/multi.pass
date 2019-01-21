@@ -1,21 +1,12 @@
-<?php
-
-	$text_bg_color    = ! empty( $settings->text_bg_color ) ? $settings->text_bg_color : 'ffffff';
-	$text_bg_opacity  = ! empty( $settings->text_bg_opacity ) ? $settings->text_bg_opacity : '100';
-	$text_bg          = 'rgba(' . implode( ',', FLBuilderColor::hex_to_rgb( $text_bg_color ) ) . ',' . ( $text_bg_opacity / 100 ) . ')';
-
-	?>
-
 <?php if ( ! empty( $settings->text_color ) ) : ?>
 .fl-node-<?php echo $id; ?> .fl-post-gallery-link,
 .fl-node-<?php echo $id; ?> .fl-post-gallery-link .fl-post-gallery-title{
-	color: #<?php echo $settings->text_color ?>;
+	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_color ); ?>;
 }
 <?php endif; ?>
 
 .fl-node-<?php echo $id; ?> .fl-post-gallery-text-wrap{
-	background-color: #<?php echo $text_bg_color; ?>;
-	background-color: <?php echo $text_bg; ?>;
+	background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->text_bg_color ); ?>;
 }
 
 <?php if ( isset( $settings->has_icon ) && 'yes' == $settings->has_icon ) : ?>
@@ -37,7 +28,7 @@
 			font-size: <?php echo $settings->icon_size ?>px;
 		<?php endif; ?>
 		<?php if ( ! empty( $settings->icon_color ) ) : ?>
-			color: #<?php echo $settings->icon_color ?>;
+			color: <?php echo FLBuilderColor::hex_or_rgb( $settings->icon_color ); ?>;
 		<?php endif; ?>
 		}
 	<?php endif; ?>

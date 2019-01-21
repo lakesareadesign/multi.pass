@@ -1,11 +1,11 @@
 <?php
 
-$global_settings      = FLBuilderModel::get_global_settings();
-$spacing_placeholders = FLBuilderModel::get_row_spacing_placeholders();
+$global_settings = FLBuilderModel::get_global_settings();
 
-FLBuilder::register_settings_form('row', array(
+$row_settings = array(
 	'title' => __( 'Row Settings', 'fl-builder' ),
 	'tabs' => array(
+
 		'style'         => array(
 			'title'         => __( 'Style', 'fl-builder' ),
 			'sections'      => array(
@@ -46,8 +46,20 @@ FLBuilder::register_settings_form('row', array(
 						'max_content_width' => array(
 							'type'			=> 'unit',
 							'label'			=> __( 'Fixed Width', 'fl-builder' ),
-							'description'	=> 'px',
 							'placeholder'	=> $global_settings->row_width,
+							'default_unit'  => $global_settings->row_width_unit,
+							'units'			=> array(
+								'px',
+								'vw',
+								'%',
+							),
+							'slider'		=> array(
+								'px'			=> array(
+									'min'			=> 0,
+									'max'			=> $global_settings->row_width,
+									'step'			=> 10,
+								),
+							),
 							'preview'       => array(
 								'type'          => 'none',
 							),
@@ -59,20 +71,46 @@ FLBuilder::register_settings_form('row', array(
 							'options'       => array(
 								'default'        => __( 'Default', 'fl-builder' ),
 								'full'          => __( 'Full Height', 'fl-builder' ),
+								'custom'		=> __( 'Minimum Height', 'fl-builder' ),
 							),
-							'help'          => __( 'Full height rows fill the height of the browser window.', 'fl-builder' ),
+							'help'          => __( 'Full height rows fill the height of the browser window. Minimum height rows are no taller than the value entered.', 'fl-builder' ),
 							'toggle'        => array(
 								'full'         	=> array(
 									'fields'      	=> array( 'content_alignment' ),
+								),
+								'custom'		=> array(
+									'fields'		=> array( 'content_alignment', 'min_height' ),
 								),
 							),
 							'preview'         => array(
 								'type'            => 'none',
 							),
 						),
+						'min_height' => array(
+							'type'				=> 'unit',
+							'label'				=> __( 'Minimum Height', 'fl-builder' ),
+							'responsive'		=> true,
+							'units'				=> array(
+								'px',
+								'vw',
+								'vh',
+							),
+							'slider'		=> array(
+								'px'			=> array(
+									'min'			=> 0,
+									'max'			=> 1000,
+									'step'			=> 10,
+								),
+							),
+							'preview'			=> array(
+								'type'			=> 'css',
+								'selector'		=> '.fl-row-content-wrap',
+								'property'		=> 'min-height',
+							),
+						),
 						'content_alignment' => array(
 							'type'          	=> 'select',
-							'label'         	=> __( 'Content Alignment', 'fl-builder' ),
+							'label'         	=> __( 'Vertical Alignment', 'fl-builder' ),
 							'default'       	=> 'center',
 							'options'       	=> array(
 								'top'          		=> __( 'Top', 'fl-builder' ),
@@ -90,34 +128,42 @@ FLBuilder::register_settings_form('row', array(
 					'fields'        => array(
 						'text_color'    => array(
 							'type'          => 'color',
+							'connections'	=> array( 'color' ),
 							'label'         => __( 'Text Color', 'fl-builder' ),
 							'show_reset'    => true,
-							'preview'         => array(
-								'type'            => 'none',
+							'show_alpha'	=> true,
+							'preview'       => array(
+								'type'          => 'none',
 							),
 						),
 						'link_color'    => array(
 							'type'          => 'color',
+							'connections'	=> array( 'color' ),
 							'label'         => __( 'Link Color', 'fl-builder' ),
 							'show_reset'    => true,
-							'preview'         => array(
-								'type'            => 'none',
+							'show_alpha'	=> true,
+							'preview'       => array(
+								'type'          => 'none',
 							),
 						),
 						'hover_color'    => array(
 							'type'          => 'color',
+							'connections'	=> array( 'color' ),
 							'label'         => __( 'Link Hover Color', 'fl-builder' ),
 							'show_reset'    => true,
-							'preview'         => array(
-								'type'            => 'none',
+							'show_alpha'	=> true,
+							'preview'       => array(
+								'type'          => 'none',
 							),
 						),
 						'heading_color'  => array(
 							'type'          => 'color',
+							'connections'	=> array( 'color' ),
 							'label'         => __( 'Heading Color', 'fl-builder' ),
 							'show_reset'    => true,
-							'preview'         => array(
-								'type'            => 'none',
+							'show_alpha'	=> true,
+							'preview'       => array(
+								'type'          => 'none',
 							),
 						),
 					),
@@ -132,6 +178,7 @@ FLBuilder::register_settings_form('row', array(
 							'options'       => array(
 								'none'          => _x( 'None', 'Background type.', 'fl-builder' ),
 								'color'         => _x( 'Color', 'Background type.', 'fl-builder' ),
+								'gradient'      => _x( 'Gradient', 'Background type.', 'fl-builder' ),
 								'photo'         => _x( 'Photo', 'Background type.', 'fl-builder' ),
 								'video'         => _x( 'Video', 'Background type.', 'fl-builder' ),
 								'slideshow'     => array(
@@ -147,6 +194,9 @@ FLBuilder::register_settings_form('row', array(
 								'color'         => array(
 									'sections'      => array( 'bg_color' ),
 								),
+								'gradient'         => array(
+									'sections'      => array( 'bg_gradient' ),
+								),
 								'photo'         => array(
 									'sections'      => array( 'bg_color', 'bg_photo', 'bg_overlay' ),
 								),
@@ -158,6 +208,9 @@ FLBuilder::register_settings_form('row', array(
 								),
 								'parallax'      => array(
 									'sections'      => array( 'bg_color','bg_parallax', 'bg_overlay' ),
+								),
+								'pattern'		=> array(
+									'sections'		=> array( 'bg_pattern', 'bg_color', 'bg_overlay' ),
 								),
 							),
 							'preview'         => array(
@@ -173,30 +226,36 @@ FLBuilder::register_settings_form('row', array(
 							'type'          => 'photo',
 							'show_remove'   => true,
 							'label'         => __( 'Photo', 'fl-builder' ),
-							'preview'         => array(
-								'type'            => 'none',
-							),
+							'responsive'	=> true,
 							'connections'	=> array( 'photo' ),
+							'preview'         => array(
+								'type'			  => 'css',
+								'selector'        => '> .fl-row-content-wrap',
+								'property'        => 'background-image',
+							),
 						),
 						'bg_repeat'     => array(
 							'type'          => 'select',
 							'label'         => __( 'Repeat', 'fl-builder' ),
 							'default'       => 'none',
+							'responsive'	=> true,
 							'options'       => array(
 								'no-repeat'     => _x( 'None', 'Background repeat.', 'fl-builder' ),
 								'repeat'        => _x( 'Tile', 'Background repeat.', 'fl-builder' ),
 								'repeat-x'      => _x( 'Horizontal', 'Background repeat.', 'fl-builder' ),
 								'repeat-y'      => _x( 'Vertical', 'Background repeat.', 'fl-builder' ),
 							),
-							'help'          => __( 'Repeat applies to how the image should display in the background. Choosing none will display the image as uploaded. Tile will repeat the image as many times as needed to fill the background horizontally and vertically. You can also specify the image to only repeat horizontally or vertically.', 'fl-builder' ),
 							'preview'         => array(
-								'type'            => 'none',
+								'type'			  => 'css',
+								'selector'        => '> .fl-row-content-wrap',
+								'property'        => 'background-repeat',
 							),
 						),
 						'bg_position'   => array(
 							'type'          => 'select',
 							'label'         => __( 'Position', 'fl-builder' ),
 							'default'       => 'center center',
+							'responsive'	=> true,
 							'options'       => array(
 								'left top'      => __( 'Left Top', 'fl-builder' ),
 								'left center'   => __( 'Left Center', 'fl-builder' ),
@@ -208,36 +267,41 @@ FLBuilder::register_settings_form('row', array(
 								'center center' => __( 'Center', 'fl-builder' ),
 								'center bottom' => __( 'Center Bottom', 'fl-builder' ),
 							),
-							'help'          => __( 'Position will tell the image where it should sit in the background.', 'fl-builder' ),
 							'preview'         => array(
-								'type'            => 'none',
+								'type'			  => 'css',
+								'selector'        => '> .fl-row-content-wrap',
+								'property'        => 'background-position',
 							),
 						),
 						'bg_attachment' => array(
 							'type'          => 'select',
 							'label'         => __( 'Attachment', 'fl-builder' ),
 							'default'       => 'scroll',
+							'responsive'	=> true,
 							'options'       => array(
 								'scroll'        => __( 'Scroll', 'fl-builder' ),
 								'fixed'         => __( 'Fixed', 'fl-builder' ),
 							),
-							'help'          => __( 'Attachment will specify how the image reacts when scrolling a page. When scrolling is selected, the image will scroll with page scrolling. This is the default setting. Fixed will allow the image to scroll within the background if fill is selected in the scale setting.', 'fl-builder' ),
 							'preview'         => array(
-								'type'            => 'none',
+								'type'			  => 'css',
+								'selector'        => '> .fl-row-content-wrap',
+								'property'        => 'background-attachment',
 							),
 						),
 						'bg_size'       => array(
 							'type'          => 'select',
 							'label'         => __( 'Scale', 'fl-builder' ),
 							'default'       => 'cover',
+							'responsive'	=> true,
 							'options'       => array(
 								'auto'          => _x( 'None', 'Background scale.', 'fl-builder' ),
 								'contain'       => __( 'Fit', 'fl-builder' ),
 								'cover'         => __( 'Fill', 'fl-builder' ),
 							),
-							'help'          => __( 'Scale applies to how the image should display in the background. You can select either fill or fit to the background.', 'fl-builder' ),
 							'preview'         => array(
-								'type'            => 'none',
+								'type'			  => 'css',
+								'selector'        => '> .fl-row-content-wrap',
+								'property'        => 'background-size',
 							),
 						),
 					),
@@ -271,6 +335,7 @@ FLBuilder::register_settings_form('row', array(
 						),
 						'bg_video'      => array(
 							'type'          => 'video',
+							'show_remove' => true,
 							'label'         => __( 'Video (MP4)', 'fl-builder' ),
 							'help'          => __( 'A video in the MP4 format to use as the background of this row. Most modern browsers support this format.', 'fl-builder' ),
 							'preview'         => array(
@@ -279,6 +344,7 @@ FLBuilder::register_settings_form('row', array(
 						),
 						'bg_video_webm' => array(
 							'type'          => 'video',
+							'show_remove' => true,
 							'label'         => __( 'Video (WebM)', 'fl-builder' ),
 							'help'          => __( 'A video in the WebM format to use as the background of this row. This format is required to support browsers such as FireFox and Opera.', 'fl-builder' ),
 							'preview'         => array(
@@ -377,7 +443,7 @@ FLBuilder::register_settings_form('row', array(
 							'connections'	=> array( 'custom_field' ),
 						),
 						'ss_speed'      => array(
-							'type'          => 'text',
+							'type'          => 'unit',
 							'label'         => __( 'Speed', 'fl-builder' ),
 							'default'       => '3',
 							'size'          => '5',
@@ -408,7 +474,7 @@ FLBuilder::register_settings_form('row', array(
 							),
 						),
 						'ss_transitionDuration' => array(
-							'type'          => 'text',
+							'type'          => 'unit',
 							'label'         => __( 'Transition Speed', 'fl-builder' ),
 							'default'       => '1',
 							'size'          => '5',
@@ -458,6 +524,51 @@ FLBuilder::register_settings_form('row', array(
 						),
 					),
 				),
+				'bg_overlay'     => array(
+					'title'         => __( 'Background Overlay', 'fl-builder' ),
+					'fields'        => array(
+						'bg_overlay_type'  => array(
+							'type'          => 'select',
+							'label'         => __( 'Overlay Type', 'fl-builder' ),
+							'default'       => 'color',
+							'options'       => array(
+								'none'         	=> __( 'None', 'fl-builder' ),
+								'color'         => __( 'Color', 'fl-builder' ),
+								'gradient'      => __( 'Gradient', 'fl-builder' ),
+							),
+							'toggle'        => array(
+								'color'         => array(
+									'fields'      	=> array( 'bg_overlay_color' ),
+								),
+								'gradient'		=> array(
+									'fields'		=> array( 'bg_overlay_gradient' ),
+								),
+							),
+							'preview'         => array(
+								'type'            => 'none',
+							),
+						),
+						'bg_overlay_color'      => array(
+							'type'          => 'color',
+							'connections'	=> array( 'color' ),
+							'label'         => __( 'Overlay Color', 'fl-builder' ),
+							'show_reset'    => true,
+							'show_alpha'    => true,
+							'preview'         => array(
+								'type'            => 'none',
+							),
+						),
+						'bg_overlay_gradient' 	=> array(
+							'type'          => 'gradient',
+							'label'         => __( 'Overlay Gradient', 'fl-builder' ),
+							'preview'       => array(
+								'type'            => 'css',
+								'selector'        => '> .fl-row-content-wrap:after',
+								'property'        => 'background-image',
+							),
+						),
+					),
+				),
 				'bg_color'     => array(
 					'title'         => __( 'Background Color', 'fl-builder' ),
 					'fields'        => array(
@@ -465,44 +576,24 @@ FLBuilder::register_settings_form('row', array(
 							'type'          => 'color',
 							'label'         => __( 'Color', 'fl-builder' ),
 							'show_reset'    => true,
-							'preview'         => array(
+							'show_alpha'	=> true,
+							'preview'       => array(
 								'type'            => 'none',
 							),
 							'connections'	=> array( 'color' ),
 						),
-						'bg_opacity'    => array(
-							'type'          => 'text',
-							'label'         => __( 'Opacity', 'fl-builder' ),
-							'default'       => '100',
-							'description'   => '%',
-							'maxlength'     => '3',
-							'size'          => '5',
-							'preview'         => array(
-								'type'            => 'none',
-							),
-						),
 					),
 				),
-				'bg_overlay'     => array(
-					'title'         => __( 'Background Overlay', 'fl-builder' ),
+				'bg_gradient'     => array(
+					'title'         => __( 'Background Gradient', 'fl-builder' ),
 					'fields'        => array(
-						'bg_overlay_color'      => array(
-							'type'          => 'color',
-							'label'         => __( 'Overlay Color', 'fl-builder' ),
-							'show_reset'    => true,
-							'preview'         => array(
-								'type'            => 'none',
-							),
-						),
-						'bg_overlay_opacity'    => array(
-							'type'          => 'text',
-							'label'         => __( 'Overlay Opacity', 'fl-builder' ),
-							'default'       => '50',
-							'description'   => '%',
-							'maxlength'     => '3',
-							'size'          => '5',
-							'preview'         => array(
-								'type'            => 'none',
+						'bg_gradient' 	=> array(
+							'type'          => 'gradient',
+							'label'         => __( 'Gradient', 'fl-builder' ),
+							'preview'       => array(
+								'type'            => 'css',
+								'selector'        => '> .fl-row-content-wrap',
+								'property'        => 'background-image',
 							),
 						),
 					),
@@ -510,71 +601,13 @@ FLBuilder::register_settings_form('row', array(
 				'border'       => array(
 					'title'         => __( 'Border', 'fl-builder' ),
 					'fields'        => array(
-						'border_type'   => array(
-							'type'          => 'select',
-							'label'         => __( 'Type', 'fl-builder' ),
-							'default'       => '',
-							'help'          => __( 'The type of border to use. Double borders must have a width of at least 3px to render properly.', 'fl-builder' ),
-							'options'       => array(
-								''              => _x( 'None', 'Border type.', 'fl-builder' ),
-								'solid'         => _x( 'Solid', 'Border type.', 'fl-builder' ),
-								'dashed'        => _x( 'Dashed', 'Border type.', 'fl-builder' ),
-								'dotted'        => _x( 'Dotted', 'Border type.', 'fl-builder' ),
-								'double'        => _x( 'Double', 'Border type.', 'fl-builder' ),
-							),
-							'toggle'        => array(
-								''              => array(
-									'fields'        => array(),
-								),
-								'solid'         => array(
-									'fields'        => array( 'border_color', 'border_opacity', 'border' ),
-								),
-								'dashed'        => array(
-									'fields'        => array( 'border_color', 'border_opacity', 'border' ),
-								),
-								'dotted'        => array(
-									'fields'        => array( 'border_color', 'border_opacity', 'border' ),
-								),
-								'double'        => array(
-									'fields'        => array( 'border_color', 'border_opacity', 'border' ),
-								),
-							),
-							'preview'         => array(
-								'type'            => 'none',
-							),
-						),
-						'border_color'  => array(
-							'type'          => 'color',
-							'label'         => __( 'Color', 'fl-builder' ),
-							'show_reset'    => true,
-							'preview'         => array(
-								'type'            => 'none',
-							),
-						),
-						'border_opacity' => array(
-							'type'          => 'text',
-							'label'         => __( 'Opacity', 'fl-builder' ),
-							'default'       => '100',
-							'description'   => '%',
-							'maxlength'     => '3',
-							'size'          => '5',
-							'preview'         => array(
-								'type'            => 'none',
-							),
-						),
-						'border' 	  => array(
-							'type'        => 'dimension',
-							'label'       => __( 'Border', 'fl-builder' ),
-							'description' => 'px',
-							'preview'     => array(
-								'type' => 'none',
-							),
-							'responsive'  => array(
-								'placeholder' => array(
-									'default'    => '0',
-									'medium'     => '',
-									'responsive' => '',
-								),
+						'border' 		=> array(
+							'type'          => 'border',
+							'label'         => __( 'Border', 'fl-builder' ),
+							'responsive'	=> true,
+							'preview'       => array(
+								'type'          => 'css',
+								'selector'		=> '.fl-row-content-wrap',
 							),
 						),
 					),
@@ -588,54 +621,60 @@ FLBuilder::register_settings_form('row', array(
 					'title'         => __( 'Spacing', 'fl-builder' ),
 					'fields'        => array(
 						'margin' 		=> array(
-							'type'        => 'dimension',
-							'label'       => __( 'Margins', 'fl-builder' ),
-							'description' => 'px',
-							'preview'     => array(
-								'type' => 'none',
+							'type'        	=> 'dimension',
+							'label'       	=> __( 'Margins', 'fl-builder' ),
+							'slider'		=> true,
+							'units'		  	=> array(
+								'px',
+								'%',
+								'vw',
+								'vh',
 							),
-							'responsive'  => array(
+							'preview'       => array(
+								'type'          => 'css',
+								'selector'      => '.fl-row-content-wrap',
+								'property'      => 'margin',
+							),
+							'responsive'  	=> array(
+								'default_unit' => array(
+									'default'    => $global_settings->row_margins_unit,
+									'medium'     => $global_settings->row_margins_medium_unit,
+									'responsive' => $global_settings->row_margins_responsive_unit,
+								),
 								'placeholder' => array(
-									'default'    => $spacing_placeholders['row_margins'],
-									'medium'     => $spacing_placeholders['row_margins_medium'],
-									'responsive' => $spacing_placeholders['row_margins_responsive'],
+									'default'    => $global_settings->row_margins,
+									'medium'     => $global_settings->row_margins_medium,
+									'responsive' => $global_settings->row_margins_responsive,
 								),
 							),
 						),
 						'padding' 	  => array(
-							'type'        => 'dimension',
-							'label'       => __( 'Padding', 'fl-builder' ),
-							'description' => 'px',
-							'preview'     => array(
-								'type' => 'none',
+							'type'        	=> 'dimension',
+							'label'       	=> __( 'Padding', 'fl-builder' ),
+							'slider'		=> true,
+							'units'		  	=> array(
+								'px',
+								'em',
+								'%',
+								'vw',
+								'vh',
 							),
-							'responsive'  => array(
-								'placeholder' => array(
-									'default'    => $spacing_placeholders['row_padding'],
-									'medium'     => $spacing_placeholders['row_padding_medium'],
-									'responsive' => $spacing_placeholders['row_padding_tb_responsive'],
+							'preview'       => array(
+								'type'          => 'css',
+								'selector'      => '.fl-row-content-wrap',
+								'property'      => 'padding',
+							),
+							'responsive'  	=> array(
+								'default_unit' => array(
+									'default'    => $global_settings->row_padding_unit,
+									'medium'     => $global_settings->row_padding_medium_unit,
+									'responsive' => $global_settings->row_padding_responsive_unit,
 								),
-							),
-						),
-					),
-				),
-				'responsive'   => array(
-					'title'         => __( 'Responsive Layout', 'fl-builder' ),
-					'fields'        => array(
-						'responsive_display' => array(
-							'type'          => 'select',
-							'label'         => __( 'Display', 'fl-builder' ),
-							'options'       => array(
-								''                  => __( 'Always', 'fl-builder' ),
-								'desktop'           => __( 'Large Devices Only', 'fl-builder' ),
-								'desktop-medium'    => __( 'Large &amp; Medium Devices Only', 'fl-builder' ),
-								'medium'            => __( 'Medium Devices Only', 'fl-builder' ),
-								'medium-mobile'     => __( 'Medium &amp; Small Devices Only', 'fl-builder' ),
-								'mobile'            => __( 'Small Devices Only', 'fl-builder' ),
-							),
-							'help'          => __( 'Choose whether to show or hide this row at different device sizes.', 'fl-builder' ),
-							'preview'         => array(
-								'type'            => 'none',
+								'placeholder' => array(
+									'default'    => $global_settings->row_padding,
+									'medium'     => $global_settings->row_padding_medium,
+									'responsive' => $global_settings->row_padding_responsive,
+								),
 							),
 						),
 					),
@@ -643,6 +682,21 @@ FLBuilder::register_settings_form('row', array(
 				'visibility'   => array(
 					'title'         => __( 'Visibility', 'fl-builder' ),
 					'fields'        => array(
+						'responsive_display' => array(
+							'type'          => 'select',
+							'label'         => __( 'Breakpoint', 'fl-builder' ),
+							'options'       => array(
+								''                  => __( 'All', 'fl-builder' ),
+								'desktop'           => __( 'Large Devices Only', 'fl-builder' ),
+								'desktop-medium'    => __( 'Large &amp; Medium Devices Only', 'fl-builder' ),
+								'medium'            => __( 'Medium Devices Only', 'fl-builder' ),
+								'medium-mobile'     => __( 'Medium &amp; Small Devices Only', 'fl-builder' ),
+								'mobile'            => __( 'Small Devices Only', 'fl-builder' ),
+							),
+							'preview'         => array(
+								'type'            => 'none',
+							),
+						),
 						'visibility_display' => array(
 							'type'          => 'select',
 							'label'         => __( 'Display', 'fl-builder' ),
@@ -671,9 +725,39 @@ FLBuilder::register_settings_form('row', array(
 						),
 					),
 				),
+				'animation'		=> array(
+					'title'         => __( 'Animation', 'fl-builder' ),
+					'fields'        => array(
+						'animation' => array(
+							'type'          => 'animation',
+							'label'         => __( 'Animation', 'fl-builder' ),
+							'preview'		=> array(
+								'type'			=> 'animation',
+								'selector'		=> '{node}',
+							),
+						),
+					),
+				),
 				'css_selectors' => array(
 					'title'         => __( 'HTML Element', 'fl-builder' ),
 					'fields'        => array(
+						'container_element' => array(
+							'type'          => 'select',
+							'label'         => __( 'Container Element', 'fl-builder' ),
+							'default'       => apply_filters( 'fl_builder_row_container_element_default', 'div' ),
+							'options'		=> apply_filters( 'fl_builder_node_container_element_options', array(
+								'div'               => '&lt;div&gt;',
+								'section'           => '&lt;section&gt;',
+								'article'           => '&lt;article&gt;',
+								'aside'             => '&lt;aside&gt;',
+								'header'            => '&lt;header&gt;',
+								'footer'            => '&lt;footer&gt;',
+							) ),
+							'help'          => __( 'Optional. Choose an appropriate HTML5 content sectioning element to use for this row to improve accessibility and machine-readability.', 'fl-builder' ),
+							'preview'         => array(
+								'type'            => 'none',
+							),
+						),
 						'id'            => array(
 							'type'          => 'text',
 							'label'         => __( 'ID', 'fl-builder' ),
@@ -695,4 +779,12 @@ FLBuilder::register_settings_form('row', array(
 			),
 		),
 	),
-));
+);
+
+// Merge Shape Layer Sections
+$style_sections = $row_settings['tabs']['style']['sections'];
+$shape_sections = FLBuilderArt::get_shape_settings_sections();
+$row_settings['tabs']['style']['sections'] = array_merge( $style_sections, $shape_sections );
+
+// Register
+FLBuilder::register_settings_form( 'row', $row_settings );

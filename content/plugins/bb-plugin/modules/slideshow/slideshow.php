@@ -285,13 +285,15 @@ FLBuilder::register_module('FLSlideshowModule', array(
 				'title'         => __( 'Display', 'fl-builder' ),
 				'fields'        => array(
 					'height'        => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Height', 'fl-builder' ),
 						'default'       => '500',
-						'maxlength'     => '4',
-						'size'          => '5',
-						'description'   => 'px',
 						'sanitize'		=> 'absint',
+						'units'			=> array( 'px' ),
+						'slider'		=> array(
+							'step'			=> 10,
+							'max'			=> 1000,
+						),
 					),
 					'color'         => array(
 						'type'          => 'select',
@@ -374,12 +376,12 @@ FLBuilder::register_module('FLSlideshowModule', array(
 						),
 					),
 					'speed'         => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Speed', 'fl-builder' ),
 						'default'       => '3',
-						'size'          => '5',
-						'sanitize'			=> 'FLBuilderUtils::sanitize_non_negative_number',
-						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
+						'sanitize'		=> 'FLBuilderUtils::sanitize_non_negative_number',
+						'units'			=> array( 'seconds' ),
+						'slider'		=> true,
 					),
 					'transition'     => array(
 						'type'          => 'select',
@@ -400,12 +402,12 @@ FLBuilder::register_module('FLSlideshowModule', array(
 						),
 					),
 					'transitionDuration' => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Transition Speed', 'fl-builder' ),
 						'default'       => '1',
-						'size'          => '5',
-						'sanitize'			=> 'FLBuilderUtils::sanitize_non_negative_number',
-						'description'   => _x( 'seconds', 'Value unit for form field of time in seconds. Such as: "5 seconds"', 'fl-builder' ),
+						'sanitize'		=> 'FLBuilderUtils::sanitize_non_negative_number',
+						'units'			=> array( 'seconds' ),
+						'slider'		=> true,
 					),
 					'randomize'     => array(
 						'type'          => 'select',
@@ -584,13 +586,12 @@ FLBuilder::register_module('FLSlideshowModule', array(
 				'title'         => __( 'Thumbs', 'fl-builder' ),
 				'fields'        => array(
 					'thumbs_size'   => array(
-						'type'          => 'text',
+						'type'          => 'unit',
 						'label'         => __( 'Thumbs Size', 'fl-builder' ),
 						'default'       => '50',
-						'maxlength'     => '3',
-						'size'          => '5',
-						'description'   => 'px',
 						'sanitize'		=> 'absint',
+						'units'			=> array( 'px' ),
+						'slider'		=> true,
 					),
 				),
 			),

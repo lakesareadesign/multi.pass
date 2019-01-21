@@ -1,10 +1,10 @@
 <?php
 /**
- * @package Pro Sites
- * @subpackage GDPR
- * @version 3.5.9.1
+ * @package       Pro Sites
+ * @subpackage    GDPR
+ * @version       3.5.9.1
  *
- * @author Joel James <joel@incsub.com>
+ * @author        Joel James <joel@incsub.com>
  *
  * @copyright (c) 2018, Incsub (http://incsub.com)
  */
@@ -89,16 +89,22 @@ class ProSites_GDPR {
 	 */
 	public function add_privacy_policy_confirmation( $errors ) {
 
+		// Make sure we are getting privacy page from main site.
+		switch_to_blog( 1 );
+
 		// Get privacy policy page id.
-		$privacy_link = get_option( 'wp_page_for_privacy_policy', 0 );
+		$privacy_page = get_option( 'wp_page_for_privacy_policy', 0 );
 
 		// If privacy page is not setup, do not add.
-		if ( empty( $privacy_link ) || 'publish' !== get_post_status( $privacy_link ) ) {
+		if ( empty( $privacy_page ) || 'publish' !== get_post_status( $privacy_page ) ) {
 			return;
 		}
 
 		// Make sure link is safe.
-		$privacy_link = esc_url( get_permalink( $privacy_link ) );
+		$privacy_link = esc_url( get_permalink( $privacy_page ) );
+
+		// Restore to previous blog.
+		restore_current_blog();
 
 		// Make sure errors parameter is WP_Error object.
 		if ( empty( $errors ) ) {
@@ -121,7 +127,7 @@ class ProSites_GDPR {
 		 *
 		 * @param string $content Privacy checkbox text.
 		 */
-		$content .= apply_filters( 'psts_privacy_check_text', sprintf( __( 'I have read and accept the %sPrivacy and Policy%s' ), '<a href="' . $privacy_link . '" target="_blank">', '</a>' ) );
+		$content .= apply_filters( 'psts_privacy_check_text', sprintf( __( 'I have read and accept the %sPrivacy Policy%s', 'psts' ), '<a href="' . $privacy_link . '" target="_blank">', '</a>' ) );
 
 		$content .= '</p>';
 
@@ -143,6 +149,9 @@ class ProSites_GDPR {
 	 */
 	public function check_privacy_policy_confirmation( $result = array() ) {
 
+		// Make sure we are getting privacy page from main site.
+		switch_to_blog( 1 );
+
 		// Get privacy policy page id.
 		$privacy_link = get_option( 'wp_page_for_privacy_policy', 0 );
 
@@ -150,6 +159,9 @@ class ProSites_GDPR {
 		if ( empty( $privacy_link ) || 'publish' !== get_post_status( $privacy_link ) ) {
 			return $result;
 		}
+
+		// Restore to previous blog.
+		restore_current_blog();
 
 		// If privacy policy is checked, we are good to go.
 		if ( ! empty( $_POST['psts_privacy_check'] ) ) {
@@ -321,11 +333,11 @@ class ProSites_GDPR {
 			$blog_data = array(
 				array(
 					'name'  => __( 'Site Title', 'psts' ),
-					'value' => $blog->blogname
+					'value' => $blog->blogname,
 				),
 				array(
 					'name'  => __( 'Site URL', 'psts' ),
-					'value' => $blog->siteurl
+					'value' => $blog->siteurl,
 				),
 			);
 			// Add payment details also.
@@ -337,12 +349,12 @@ class ProSites_GDPR {
 					'group_id'    => 'user_sites_detail',
 					'group_label' => __( 'Sites', 'psts' ),
 					'item_id'     => "blogs->{$blog_id}",
-					'data'        => $blog_data
+					'data'        => $blog_data,
 				);
 			} else {
 				$data[] = array(
 					'item_id' => "blogs->{$blog_id}",
-					'data'    => $blog_data
+					'data'    => $blog_data,
 				);
 			}
 		}
@@ -367,8 +379,8 @@ class ProSites_GDPR {
 		switch_to_blog( $blog_id );
 
 		$users_query = new WP_User_Query( array(
-			'role' => 'administrator',
-			'exclude' => array( $user_id )
+			'role'    => 'administrator',
+			'exclude' => array( $user_id ),
 		) );
 
 		$other_admins = $users_query->get_results();
@@ -398,7 +410,7 @@ class ProSites_GDPR {
 	/**
 	 * Set payment details of the blog.
 	 *
-	 * @param int $blog_id Blog ID.
+	 * @param int   $blog_id   Blog ID.
 	 * @param array $blog_data Blog data.
 	 *
 	 * @since 3.5.9.1
@@ -431,7 +443,7 @@ class ProSites_GDPR {
 			if ( ! empty( $nice_name ) ) {
 				$blog_data[] = array(
 					'name'  => __( 'Gateway', 'psts' ),
-					'value' => $nice_name
+					'value' => $nice_name,
 				);
 			}
 
@@ -448,7 +460,7 @@ class ProSites_GDPR {
 	 * We have separate table that stores customer id and
 	 * subscription id of the payment. Add them.
 	 *
-	 * @param int $blog_id Blog ID.
+	 * @param int   $blog_id   Blog ID.
 	 * @param array $blog_data Blog data.
 	 *
 	 * @since 3.5.9.1
@@ -468,12 +480,12 @@ class ProSites_GDPR {
 			// Customer data.
 			$blog_data[] = array(
 				'name'  => __( 'Customer ID', 'psts' ),
-				'value' => $result->customer_id
+				'value' => $result->customer_id,
 			);
 			// Subscription data.
 			$blog_data[] = array(
 				'name'  => __( 'Subscription ID', 'psts' ),
-				'value' => $result->subscription_id
+				'value' => $result->subscription_id,
 			);
 		}
 	}

@@ -56,7 +56,7 @@ final class FLBuilderAdminPosts {
 	 * @return bool
 	 */
 	static public function post_type_supports_block_editor( $post_type ) {
-		if ( ! function_exists( 'use_block_editor_for_post_type' ) ) {
+		if ( ! function_exists( 'use_block_editor_for_post_type' ) || isset( $_GET['classic-editor'] ) ) {
 			return false;
 		}
 

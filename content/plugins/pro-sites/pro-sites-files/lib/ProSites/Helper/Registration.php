@@ -85,13 +85,21 @@ if ( ! class_exists( 'ProSites_Helper_Registration' ) ) {
 			$session_data[ 'new_blog_details' ] = ProSites_Helper_Session::session( 'new_blog_details' );
 			$user_pass = empty( $user_pass ) && isset( $session_data['new_blog_details']['user_pass'] ) ? $session_data['new_blog_details']['user_pass'] : $user_pass;
 
-			if( ! empty( $user_pass ) ) {
-				self::$temp_pass = $user_pass;
-				add_filter( 'update_welcome_email', array( 'ProSites_Helper_Registration', 'update_welcome_email' ), 10, 6 );
+			// Set password to session.
+			if ( ! empty( $user_pass ) ) {
+				$session_data[ 'new_blog_details' ]['user_pass'] = $user_pass;
+				ProSites_Helper_Session::session( 'new_blog_details', $session_data[ 'new_blog_details' ] );
 			}
 
-			// Activate the user signup
+			// Activate the user signup.
 			$result = wpmu_activate_signup( $key );
+
+			// Make sure the user password is the one we send in email.
+			if ( ! is_wp_error( $result ) && ! empty( $result['user_id'] ) && ! empty( $result['password'] ) && ! is_user_logged_in() ) {
+				$user_pass = empty( $user_pass ) ? $result['password'] : $user_pass;
+				// Update the password to make sure.
+				wp_set_password( $user_pass, $result['user_id'] );
+			}
 
 			$signup = $wpdb->get_row( $wpdb->prepare( "SELECT * FROM $wpdb->signups WHERE activation_key = %s", $key ) );
 
@@ -121,10 +129,10 @@ if ( ! class_exists( 'ProSites_Helper_Registration' ) ) {
 
 			} else {
 
-				if( isset( $result['password'] ) ) {
+				if( isset( $signup->user_login ) && ! empty( $user_pass ) && ! is_user_logged_in() ) {
 					$creds = array(
-							'user_login'    => $result['user_id'],
-							'user_password' => $result['password']
+							'user_login'    => $signup->user_login,
+							'user_password' => $user_pass
 					);
 					$user  = wp_signon( $creds, true );
 					if( ! is_wp_error( $user ) ) {
@@ -227,9 +235,22 @@ if ( ! class_exists( 'ProSites_Helper_Registration' ) ) {
 			return $welcome_email;
 		}
 
-		public static function update_welcome_email( $welcome_email, $blog_id, $user_id, $password, $title, $meta ) {
-			if( ! empty( self::$temp_pass ) ) {
-				$welcome_email = str_replace( $password, self::$temp_pass, $welcome_email );
+		/**
+		 * Make sure we are sending correct password in email.
+		 *
+		 * @param string $welcome_email Email content.
+		 * @param int    $blog_id       Blog ID.
+		 * @param int    $user_id       User ID.
+		 * @param string $password      Password.
+		 *
+		 * @return mixed
+		 */
+		public static function update_welcome_email( $welcome_email, $blog_id, $user_id, $password ) {
+			// Get the session data.
+			$session_data = ProSites_Helper_Session::session( 'new_blog_details' );
+			// If password is set in session, update email password.
+			if( ! empty( $session_data['user_pass'] ) ) {
+				$welcome_email = str_replace( $password, $session_data['user_pass'], $welcome_email );
 			}
 			return $welcome_email;
 		}

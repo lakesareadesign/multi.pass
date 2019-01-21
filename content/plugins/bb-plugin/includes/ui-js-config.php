@@ -55,9 +55,10 @@ echo 'FLBuilderConfig              = ' . json_encode( apply_filters('fl_builder_
 	'inlineEnabled'              => FLBuilderModel::is_inline_enabled(),
 	'CheckCodeErrors'            => FLBuilderModel::is_codechecking_enabled(),
 	'AceEditorSettings'          => FLBuilderModel::ace_editor_settings(),
+	'optionSets'				 => apply_filters( 'fl_builder_shared_option_sets', array() ),
+	'presets'					 => FLBuilderSettingsPresets::get_presets(),
 	'FontWeights'                => FLBuilderFonts::get_font_weight_strings(),
 	'statsEnabled'               => get_site_option( 'fl_builder_usage_enabled', false ),
-
 ) ) ) . ';';
 
 echo 'FLBuilderStrings             = ' . json_encode( apply_filters('fl_builder_ui_js_strings', array(
@@ -184,6 +185,7 @@ echo 'FLBuilderStrings             = ' . json_encode( apply_filters('fl_builder_
 	'unloadWarning'                  => esc_attr__( 'The settings you are currently editing will not be saved if you navigate away from this page.', 'fl-builder' ),
 	'viewKnowledgeBase'              => esc_attr__( 'View the Knowledge Base', 'fl-builder' ),
 	'validateRequiredMessage'        => esc_attr__( 'This field is required.', 'fl-builder' ),
+	'schemaAllRequiredMessage'       => esc_attr__( 'All Structured Data fields are required.', 'fl-builder' ),
 	'visitForums'                    => esc_attr__( 'Contact Support', 'fl-builder' ),
 	'watchHelpVideo'                 => esc_attr__( 'Watch the Video', 'fl-builder' ),
 	'welcomeMessage'                 => esc_attr__( 'Welcome! It looks like this might be your first time using the builder. Would you like to take a tour?', 'fl-builder' ),
