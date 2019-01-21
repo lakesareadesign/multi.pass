@@ -156,9 +156,14 @@ add_filter( 'genesis_markup_entry-image-link_content', 'breakthrough_wrap_featur
  */
 function breakthrough_wrap_featured_images( $output, $args ) {
 
+	if ( strpos( $output, '<img' ) === false ) {
+		return $output;
+	}
+
+	$is_archive_thumbnail   = 'entry-image-link' === $args['context'];
 	$is_post_or_page_widget = in_array( $args['context'], array( 'featured-post-widget', 'featured-page-widget' ), true );
 
-	if ( 'entry-image-link' === $args['context'] || ( $is_post_or_page_widget && 'html' === $args['format'] ) ) {
+	if ( $is_archive_thumbnail || $is_post_or_page_widget ) {
 		$output = sprintf( '<div class="breakthrough-featured-image">%s</div>', $output );
 	}
 

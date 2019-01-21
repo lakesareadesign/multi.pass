@@ -6,7 +6,7 @@
  *
  * @package Magazine
  * @author  StudioPress
- * @license GPL-2.0+
+ * @license GPL-2.0-or-later
  * @link    http://my.studiopress.com/themes/magazine/
  */
 
@@ -51,20 +51,20 @@ function magazine_woocommerce_css() {
 
 	$woo_css .= ( magazine_get_default_accent_color() !== $color_accent ) ? sprintf( '
 
-		.woocommerce a.button:focus,
-		.woocommerce a.button:hover,
-		.woocommerce a.button.alt:focus,
-		.woocommerce a.button.alt:hover,
-		.woocommerce button.button:focus,
-		.woocommerce button.button:hover,
-		.woocommerce button.button.alt:focus,
-		.woocommerce button.button.alt:hover,
-		.woocommerce input.button:focus,
-		.woocommerce input.button:hover,
-		.woocommerce input.button.alt:focus,
-		.woocommerce input.button.alt:hover,
-		.woocommerce input[type="submit"]:focus,
-		.woocommerce input[type="submit"]:hover,
+		.woocommerce .content a.button:focus,
+		.woocommerce .content a.button:hover,
+		.woocommerce .content a.button.alt:focus,
+		.woocommerce .content a.button.alt:hover,
+		.woocommerce .content button.button:focus,
+		.woocommerce .content button.button:hover,
+		.woocommerce .content button.button.alt:focus,
+		.woocommerce .content button.button.alt:hover,
+		.woocommerce .content input.button:focus,
+		.woocommerce .content input.button:hover,
+		.woocommerce .content input.button.alt:focus,
+		.woocommerce .content input.button.alt:hover,
+		.woocommerce .content input[type="submit"]:focus,
+		.woocommerce .content input[type="submit"]:hover,
 		.woocommerce span.onsale,
 		.woocommerce #respond input#submit:focus,
 		.woocommerce #respond input#submit:hover,
@@ -91,6 +91,7 @@ function magazine_woocommerce_css() {
 			background-color: %1$s;
 		}
 
+		ul.woocommerce-error,
 		.woocommerce-error,
 		.woocommerce-info,
 		.woocommerce-message {

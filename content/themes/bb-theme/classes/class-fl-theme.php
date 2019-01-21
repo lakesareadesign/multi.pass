@@ -162,9 +162,9 @@ final class FLTheme {
 	static public function get_nav_locations( $location = false ) {
 
 		$locations = array(
-			'bar'     => __( 'Top Bar Menu', 'fl-automator' ),
-			'header'  => __( 'Header Menu', 'fl-automator' ),
-			'footer'  => __( 'Footer Menu', 'fl-automator' ),
+			'bar'    => __( 'Top Bar Menu', 'fl-automator' ),
+			'header' => __( 'Header Menu', 'fl-automator' ),
+			'footer' => __( 'Footer Menu', 'fl-automator' ),
 		);
 
 		if ( $location && isset( $locations[ $location ] ) ) {
@@ -198,7 +198,7 @@ final class FLTheme {
 		if ( 'fadein' != self::get_setting( 'fl-fixed-header' ) ) {
 			global $wp_version;
 			if ( version_compare( $wp_version, '4.6', '<' ) ) {
-				wp_register_script( 'imagesloaded',   FL_THEME_URL . '/js/jquery.imagesloaded.min.js', array( 'jquery' ), FL_THEME_VERSION, true );
+				wp_register_script( 'imagesloaded', FL_THEME_URL . '/js/jquery.imagesloaded.min.js', array( 'jquery' ), FL_THEME_VERSION, true );
 			}
 			wp_enqueue_script( 'imagesloaded' );
 		}
@@ -359,10 +359,10 @@ final class FLTheme {
 	static public function title() {
 		if ( ! function_exists( '_wp_render_title_tag' ) ) {
 
-			$sep            = apply_filters( 'fl_title_separator', ' | ' );
-			$title          = wp_title( $sep, false, 'right' );
-			$name           = get_bloginfo( 'name' );
-			$description    = get_bloginfo( 'description' );
+			$sep         = apply_filters( 'fl_title_separator', ' | ' );
+			$title       = wp_title( $sep, false, 'right' );
+			$name        = get_bloginfo( 'name' );
+			$description = get_bloginfo( 'description' );
 
 			if ( empty( $title ) && empty( $description ) ) {
 				$title = $name;
@@ -386,8 +386,8 @@ final class FLTheme {
 	static public function favicon() {
 		if ( false === get_option( 'site_icon', false ) ) {
 
-			$favicon    = self::get_setting( 'fl-favicon' );
-			$apple      = self::get_setting( 'fl-apple-touch-icon' );
+			$favicon = self::get_setting( 'fl-favicon' );
+			$apple   = self::get_setting( 'fl-apple-touch-icon' );
 
 			if ( ! empty( $favicon ) ) {
 				echo '<link rel="shortcut icon" href="' . $favicon . '" />' . "\n";
@@ -430,7 +430,7 @@ final class FLTheme {
 	 */
 	static public function add_font( $name, $variants = array() ) {
 		$google_fonts_domain = apply_filters( 'fl_theme_google_fonts_domain', 'https://fonts.googleapis.com/' );
-		$google_url = $google_fonts_domain . 'css?family=';
+		$google_url          = $google_fonts_domain . 'css?family=';
 
 		if ( isset( self::$fonts[ $name ] ) ) {
 			foreach ( (array) $variants as $variant ) {
@@ -439,7 +439,7 @@ final class FLTheme {
 				}
 			}
 		} else {
-			$google = FLFontFamilies::get_google();
+			$google               = FLFontFamilies::get_google();
 			self::$fonts[ $name ] = array(
 				'url'      => isset( $google[ $name ] ) ? $google_url . $name : '',
 				'variants' => (array) $variants,
@@ -473,10 +473,10 @@ final class FLTheme {
 	 * @return void
 	 */
 	static public function head() {
-		$settings  = self::get_settings();
+		$settings = self::get_settings();
 
 		// CSS
-		if ( isset( $settings['fl-css-code'] ) && ( ! empty( $settings['fl-css-code'] ) || FLCustomizer::is_customizer_preview()) ) {
+		if ( isset( $settings['fl-css-code'] ) && ( ! empty( $settings['fl-css-code'] ) || FLCustomizer::is_customizer_preview() ) ) {
 			echo '<style id="fl-theme-custom-css">' . $settings['fl-css-code'] . '</style>' . "\n";
 		}
 
@@ -539,31 +539,31 @@ final class FLTheme {
 
 			// Responsive Nav Layout (Offcanvas)
 			if ( self::get_setting( 'fl-nav-mobile-layout' ) != 'dropdown' ) {
-				$nav_layout = self::get_setting( 'fl-nav-mobile-layout' );
+				$nav_layout          = self::get_setting( 'fl-nav-mobile-layout' );
 				$nav_layout_position = self::get_setting( 'fl-nav-mobile-layout-position' );
 
 				$classes[] = 'fl-nav-mobile-offcanvas fl-offcanvas-' . $nav_layout . '-' . $nav_layout_position;
 			}
 
 			// Shrink Fixed Header
-			if ( (self::get_setting( 'fl-fixed-header' ) == 'shrink') && (self::get_setting( 'fl-header-layout' ) != 'vertical-left') && (self::get_setting( 'fl-header-layout' ) != 'vertical-right') ) {
+			if ( ( self::get_setting( 'fl-fixed-header' ) == 'shrink' ) && ( self::get_setting( 'fl-header-layout' ) != 'vertical-left' ) && ( self::get_setting( 'fl-header-layout' ) != 'vertical-right' ) ) {
 				$classes[] = 'fl-shrink';
 			}
 
 			// Fixed Header
-			if ( (self::get_setting( 'fl-fixed-header' ) == 'fixed') && (self::get_setting( 'fl-header-layout' ) != 'vertical-left') && (self::get_setting( 'fl-header-layout' ) != 'vertical-right') ) {
+			if ( ( self::get_setting( 'fl-fixed-header' ) == 'fixed' ) && ( self::get_setting( 'fl-header-layout' ) != 'vertical-left' ) && ( self::get_setting( 'fl-header-layout' ) != 'vertical-right' ) ) {
 				$classes[] = 'fl-fixed-header';
 			}
 
 			// Hide Header Until Scroll
-			if ( (self::get_setting( 'fl-hide-until-scroll-header' ) == 'enable') && (self::get_setting( 'fl-fixed-header' ) == 'hidden') && (self::get_setting( 'fl-header-layout' ) != 'vertical-left') && (self::get_setting( 'fl-header-layout' ) != 'vertical-right') ) {
+			if ( ( self::get_setting( 'fl-hide-until-scroll-header' ) == 'enable' ) && ( self::get_setting( 'fl-fixed-header' ) == 'hidden' ) && ( self::get_setting( 'fl-header-layout' ) != 'vertical-left' ) && ( self::get_setting( 'fl-header-layout' ) != 'vertical-right' ) ) {
 				$classes[] = 'fl-fixed-header';
 				$classes[] = 'fl-scroll-header';
 			}
 		}
 
 		// Footer Parallax Effect
-		if ( (self::get_setting( 'fl-footer-parallax-effect' ) == 'enable') && (self::get_setting( 'fl-layout-width' ) == 'full-width') ) {
+		if ( ( self::get_setting( 'fl-footer-parallax-effect' ) == 'enable' ) && ( self::get_setting( 'fl-layout-width' ) == 'full-width' ) ) {
 			$classes[] = 'fl-footer-effect';
 		}
 
@@ -580,7 +580,7 @@ final class FLTheme {
 		// WooCommerce Columns
 		if ( class_exists( 'woocommerce' ) && is_woocommerce() ) {
 			$fl_woo_columns = self::get_setting( 'fl-woo-columns' );
-			$classes[] = 'woo-' . $fl_woo_columns;
+			$classes[]      = 'woo-' . $fl_woo_columns;
 		}
 
 		// Submenu Indicator
@@ -629,7 +629,7 @@ final class FLTheme {
 	 * @return void
 	 */
 	static public function top_bar_col2() {
-		$settings = self::get_settings();
+		$settings   = self::get_settings();
 		$layout     = $settings['fl-topbar-layout'];
 		$col_layout = $settings['fl-topbar-col2-layout'];
 		$col_text   = $settings['fl-topbar-col2-text'];
@@ -685,10 +685,10 @@ final class FLTheme {
 	 * @return void
 	 */
 	static public function fixed_header_logo() {
-		$logo_type      = self::get_setting( 'fl-logo-type' );
-		$sticky_logo    = self::get_setting( 'fl-sticky-header-logo' );
-		$sticky_retina  = self::get_setting( 'fl-sticky-header-logo-retina' );
-		$header_fixed   = self::get_setting( 'fl-fixed-header' );
+		$logo_type     = self::get_setting( 'fl-logo-type' );
+		$sticky_logo   = self::get_setting( 'fl-sticky-header-logo' );
+		$sticky_retina = self::get_setting( 'fl-sticky-header-logo-retina' );
+		$header_fixed  = self::get_setting( 'fl-fixed-header' );
 
 		if ( $sticky_logo && 'fadein' == $header_fixed && 'image' == $logo_type ) {
 			$logo_text = get_bloginfo( 'name' );
@@ -726,7 +726,7 @@ final class FLTheme {
 	static public function header_classes() {
 		$header_layout   = self::get_setting( 'fl-header-layout' );
 		$nav_toggle_type = self::get_setting( 'fl-mobile-nav-toggle' );
-		$nav_breakpoint	 = self::get_setting( 'fl-nav-breakpoint' );
+		$nav_breakpoint  = self::get_setting( 'fl-nav-breakpoint' );
 
 		echo ' fl-page-nav-' . $header_layout;
 		echo ' fl-page-nav-toggle-' . $nav_toggle_type;
@@ -780,13 +780,13 @@ final class FLTheme {
 	 * @return void
 	 */
 	static public function logo() {
-		$logo_type      = self::get_setting( 'fl-logo-type' );
-		$logo_image     = self::get_setting( 'fl-logo-image' );
-		$logo_retina    = self::get_setting( 'fl-logo-image-retina' );
-		$mobile_logo    = self::get_setting( 'fl-mobile-header-logo' );
+		$logo_type   = self::get_setting( 'fl-logo-type' );
+		$logo_image  = self::get_setting( 'fl-logo-image' );
+		$logo_retina = self::get_setting( 'fl-logo-image-retina' );
+		$mobile_logo = self::get_setting( 'fl-mobile-header-logo' );
 
 		if ( function_exists( 'apply_filters_deprecated' ) ) {
-			$logo_text    = apply_filters_deprecated( 'fl-logo-text', array( self::get_setting( 'fl-logo-text' ) ), '1.6.3', 'fl_logo_text' );
+			$logo_text = apply_filters_deprecated( 'fl-logo-text', array( self::get_setting( 'fl-logo-text' ) ), '1.6.3', 'fl_logo_text' );
 		} else {
 			$logo_text    = apply_filters( 'fl-logo-text', self::get_setting( 'fl-logo-text' ) ); // @codingStandardsIgnoreLine
 		}
@@ -827,7 +827,7 @@ final class FLTheme {
 	static public function nav_menu_fallback( $args ) {
 		$url  = current_user_can( 'edit_theme_options' ) ? admin_url( 'nav-menus.php' ) : esc_url( home_url( '/' ) );
 		$url  = apply_filters( 'fl_nav_menu_fallback_url', $url );
-		$text = current_user_can( 'edit_theme_options' ) ? __( 'Choose Menu', 'fl-automator' ) :  __( 'Home', 'fl-automator' );
+		$text = current_user_can( 'edit_theme_options' ) ? __( 'Choose Menu', 'fl-automator' ) : __( 'Home', 'fl-automator' );
 
 		echo '<ul class="fl-page-' . $args['theme_location'] . '-nav nav navbar-nav menu">';
 		echo '<li>';
@@ -965,7 +965,7 @@ final class FLTheme {
 	 * @return void
 	 */
 	static public function display_footer_widgets() {
-		$active = array();
+		$active     = array();
 		$num_active = 0;
 
 		for ( $i = 1; $i <= 4; $i++ ) {
@@ -1054,9 +1054,9 @@ final class FLTheme {
 	 * @return void
 	 */
 	static public function sidebar( $position, $section = 'blog' ) {
-		$size       = self::get_setting( 'fl-' . $section . '-sidebar-size' );
-		$display    = self::get_setting( 'fl-' . $section . '-sidebar-display' );
-		$layout     = self::get_setting( 'fl-' . $section . '-layout' );
+		$size    = self::get_setting( 'fl-' . $section . '-sidebar-size' );
+		$display = self::get_setting( 'fl-' . $section . '-sidebar-display' );
+		$layout  = self::get_setting( 'fl-' . $section . '-layout' );
 
 		if ( strstr( $layout, $position ) && self::is_sidebar_enabled( $section ) ) {
 			include locate_template( 'sidebar.php' );
@@ -1071,11 +1071,11 @@ final class FLTheme {
 	 * @return boolean
 	 */
 	static public function is_sidebar_enabled( $section = 'blog' ) {
-		 $locations    	= FLCustomizer::sanitize_checkbox_multiple( self::get_setting( 'fl-' . $section . '-sidebar-location' ) );
-		$post_types   	= FLCustomizer::sanitize_checkbox_multiple( self::get_setting( 'fl-' . $section . '-sidebar-location-post-types' ) );
-		$is_woo       	= ('woo' == $section && class_exists( 'WooCommerce' )) ? true : false;
-		$show_sidebar 	= false;
-		$get_post_type 	= get_query_var( 'post_type' );
+		$locations     = FLCustomizer::sanitize_checkbox_multiple( self::get_setting( 'fl-' . $section . '-sidebar-location' ) );
+		$post_types    = FLCustomizer::sanitize_checkbox_multiple( self::get_setting( 'fl-' . $section . '-sidebar-location-post-types' ) );
+		$is_woo        = ( 'woo' == $section && class_exists( 'WooCommerce' ) ) ? true : false;
+		$show_sidebar  = false;
+		$get_post_type = get_query_var( 'post_type' );
 		if ( in_array( 'single', $locations ) && is_single() ) {
 			$show_sidebar = true;
 
@@ -1108,10 +1108,10 @@ final class FLTheme {
 		if ( is_page() ) {
 			$page_template = basename( get_page_template() );
 			switch ( $page_template ) {
-				case 'tpl-full-width.php' :
+				case 'tpl-full-width.php':
 					$show_sidebar = false;
-				break;
-				default :
+					break;
+				default:
 					$show_sidebar = true;
 			}
 		}
@@ -1156,26 +1156,19 @@ final class FLTheme {
 			$page_title = single_cat_title( '', false );
 		} elseif ( is_tag() ) {
 			$page_title = sprintf( _x( 'Posts Tagged &#8216;%s&#8217;', 'Archive title: tag.', 'fl-automator' ), single_tag_title( '', false ) );
-		} // Day
-		elseif ( is_day() ) {
+		} elseif ( is_day() ) { // Day
 			$page_title = sprintf( _x( 'Archive for %s', 'Archive title: day.', 'fl-automator' ), get_the_date() );
-		} // Month
-		elseif ( is_month() ) {
+		} elseif ( is_month() ) { // Month
 			$page_title = sprintf( _x( 'Archive for %s', 'Archive title: month.', 'fl-automator' ), single_month_title( ' ', false ) );
-		} // Year
-		elseif ( is_year() ) {
+		} elseif ( is_year() ) { // Year
 			$page_title = sprintf( _x( 'Archive for %s', 'Archive title: year.', 'fl-automator' ), get_the_time( 'Y' ) );
-		} // Author
-		elseif ( is_author() ) {
+		} elseif ( is_author() ) { // Author
 			$page_title = sprintf( _x( 'Posts by %s', 'Archive title: author.', 'fl-automator' ), get_the_author() );
-		} // Search
-		elseif ( is_search() ) {
+		} elseif ( is_search() ) { // Search
 			$page_title = sprintf( _x( 'Search results for: %s', 'Search results title.', 'fl-automator' ), get_search_query() );
-		} // Paged
-		elseif ( isset( $_GET['paged'] ) && ! empty( $_GET['paged'] ) ) {
+		} elseif ( isset( $_GET['paged'] ) && ! empty( $_GET['paged'] ) ) { // Paged
 			$page_title = _x( 'Archives', 'Archive title: paged archive.', 'fl-automator' );
-		} // Index
-		else {
+		} else { // Index
 			$page_title = '';
 		}
 
@@ -1243,11 +1236,11 @@ final class FLTheme {
 	static public function post_top_meta() {
 		global $post;
 
-		$settings       = self::get_settings();
-		$show_author    = 'visible' == $settings['fl-blog-post-author'] ? true : false;
-		$show_date      = 'visible' == $settings['fl-blog-post-date']   ? true : false;
-		$comments       = comments_open() || '0' != get_comments_number();
-		$comment_count  = 'visible' == $settings['fl-blog-comment-count'] ? true : false;
+		$settings      = self::get_settings();
+		$show_author   = 'visible' == $settings['fl-blog-post-author'] ? true : false;
+		$show_date     = 'visible' == $settings['fl-blog-post-date'] ? true : false;
+		$comments      = comments_open() || '0' != get_comments_number();
+		$comment_count = 'visible' == $settings['fl-blog-comment-count'] ? true : false;
 
 		include locate_template( 'includes/post-top-meta.php' );
 	}
@@ -1372,10 +1365,10 @@ final class FLTheme {
 	 * @return void
 	 */
 	static public function woocommerce_wrapper_start() {
-		$layout = self::get_setting( 'fl-woo-layout' );
-		$col_size = ( 'no-sidebar' == $layout ) ? '12' : '8';
+		$layout          = self::get_setting( 'fl-woo-layout' );
+		$col_size        = ( 'no-sidebar' == $layout ) ? '12' : '8';
 		$container_class = FLLayout::get_container_class();
-		$row_class = FLLayout::get_row_class();
+		$row_class       = FLLayout::get_row_class();
 
 		echo '<div class="' . $container_class . '">';
 		echo '<div class="' . $row_class . '">';
@@ -1479,10 +1472,10 @@ final class FLTheme {
 		$fields['author'] = '<label for="author">' . _x( 'Name', 'Comment form label: comment author name.', 'fl-automator' ) . ( $req ? __( ' (required)', 'fl-automator' ) : '' ) . '</label>
 									<input type="text" name="author" class="form-control" value="' . esc_attr( $commenter['comment_author'] ) . '" tabindex="1"' . ( $req ? ' aria-required="true"' : '' ) . ' /><br />';
 
-		$fields['email']  = '<label for="email">' . _x( 'Email (will not be published)', 'Comment form label: comment author email.', 'fl-automator' ) . ( $req ? __( ' (required)', 'fl-automator' ) : '' ) . '</label>
+		$fields['email'] = '<label for="email">' . _x( 'Email (will not be published)', 'Comment form label: comment author email.', 'fl-automator' ) . ( $req ? __( ' (required)', 'fl-automator' ) : '' ) . '</label>
 									<input type="text" name="email" class="form-control" value="' . esc_attr( $commenter['comment_author_email'] ) . '" tabindex="2"' . ( $req ? ' aria-required="true"' : '' ) . ' /><br />';
 
-		$fields['url']    = '<label for="url">' . _x( 'Website', 'Comment form label: comment author website.', 'fl-automator' ) . '</label>
+		$fields['url'] = '<label for="url">' . _x( 'Website', 'Comment form label: comment author website.', 'fl-automator' ) . '</label>
 									<input type="text" name="url" class="form-control" value="' . esc_attr( $commenter['comment_author_url'] ) . '" tabindex="3" /><br />';
 
 		return $fields;
@@ -1497,5 +1490,14 @@ final class FLTheme {
 	static public function woo_mobile_breakpoint( $px ) {
 		$px = '767px';
 		return $px;
+	}
+
+	/**
+	 * @since 1.7.1
+	 */
+	static public function pingback_url() {
+		if ( is_singular() && pings_open() ) {
+			printf( '<link rel="pingback" href="%s">' . "\n", get_bloginfo( 'pingback_url' ) );
+		}
 	}
 }

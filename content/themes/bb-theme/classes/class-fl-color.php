@@ -38,9 +38,8 @@ final class FLColor {
 			return 'transparent';
 		} elseif ( is_string( $hex ) ) {
 			return strstr( $hex, '#' ) ? $hex : '#' . $hex;
-		} // Hex is an array. Return first that's not false.
-		elseif ( is_array( $hex ) ) {
-
+		} elseif ( is_array( $hex ) ) {
+			// Hex is an array. Return first that's not false.
 			foreach ( $hex as $key => $value ) {
 
 				if ( ! self::is_hex( $hex[ $key ] ) ) {
@@ -110,15 +109,15 @@ final class FLColor {
 
 		// Color is light, darken new color.
 		if ( $yiq >= 128 ) {
-			$level  = $levels[0];
-			$func   = 'darken';
+			$level = $levels[0];
+			$func  = 'darken';
 		} elseif ( $yiq >= 6 ) {
-			$level  = $levels[1];
-			$func   = 'lighten';
-		} // Color is black or close to it, lighten new color.
-		else {
-			$level  = $levels[2];
-			$func   = 'lighten';
+			$level = $levels[1];
+			$func  = 'lighten';
+		} else {
+			// Color is black or close to it, lighten new color.
+			$level = $levels[2];
+			$func  = 'lighten';
 		}
 
 		return ( 0 === $level ) ? $hex : $func . '(' . $hex . ', ' . $level . '%)';
@@ -135,7 +134,7 @@ final class FLColor {
 		$hex = str_replace( '#', '', $hex );
 
 		if ( strlen( $hex ) == 3 ) {
-			$hex = str_repeat( substr( $hex,0,1 ), 2 ) . str_repeat( substr( $hex,1,1 ), 2 ) . str_repeat( substr( $hex,2,1 ), 2 );
+			$hex = str_repeat( substr( $hex, 0, 1 ), 2 ) . str_repeat( substr( $hex, 1, 1 ), 2 ) . str_repeat( substr( $hex, 2, 1 ), 2 );
 		}
 
 		return $hex;
@@ -150,11 +149,11 @@ final class FLColor {
 	 * @return string
 	 */
 	static public function yiq( $hex ) {
-		$hex    = self::clean_hex( $hex );
-		$r      = hexdec( substr( $hex,0,2 ) );
-		$g      = hexdec( substr( $hex,2,2 ) );
-		$b      = hexdec( substr( $hex,4,2 ) );
-		$yiq    = (($r * 299) + ($g * 587) + ($b * 114)) / 1000;
+		$hex = self::clean_hex( $hex );
+		$r   = hexdec( substr( $hex, 0, 2 ) );
+		$g   = hexdec( substr( $hex, 2, 2 ) );
+		$b   = hexdec( substr( $hex, 4, 2 ) );
+		$yiq = ( ( $r * 299 ) + ( $g * 587 ) + ( $b * 114 ) ) / 1000;
 
 		return $yiq;
 	}

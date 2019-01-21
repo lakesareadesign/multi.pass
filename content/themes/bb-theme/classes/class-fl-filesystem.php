@@ -122,14 +122,14 @@ class FL_Theme_Filesystem {
 		if ( ! $wp_filesystem ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
 
-			add_filter( 'filesystem_method',              array( $this, 'filesystem_method' ) );
+			add_filter( 'filesystem_method', array( $this, 'filesystem_method' ) );
 			add_filter( 'request_filesystem_credentials', array( $this, 'request_filesystem_credentials' ) );
 
 			$creds = request_filesystem_credentials( site_url(), '', true, false, null );
 
 			WP_Filesystem( $creds );
 
-			remove_filter( 'filesystem_method',              array( $this, 'filesystem_method' ) );
+			remove_filter( 'filesystem_method', array( $this, 'filesystem_method' ) );
 			remove_filter( 'request_filesystem_credentials', array( $this, 'FLBuilderUtils::request_filesystem_credentials' ) );
 		}
 

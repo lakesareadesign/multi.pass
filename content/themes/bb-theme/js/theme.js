@@ -204,10 +204,21 @@
 			var image       = $( this ),
 				tmpImage    = new Image(),
 				src         = image.attr( 'src' ),
-				retinaSrc   = image.data( 'retina' ),
-				type        = src.split('.').pop();
+				retinaSrc   = image.data( 'retina' )
 
-			if ( '' != retinaSrc ) {
+			// check for cloudflare
+			if( typeof src == 'undefined') {
+				src = image.data( 'cfsrc' )
+			}
+
+			// still no src, bail.
+			if( typeof src == 'undefined') {
+				return false;
+			}
+
+			var type = src.split('.').pop();
+
+			if ( '' != retinaSrc  ) {
 
 				tmpImage.onload = function() {
 					var width = tmpImage.width,
@@ -810,13 +821,19 @@
 		{
 			var distanceY = $( this ).scrollTop(),
 				shrinkOn  = 250,
-				header    = $( '.fl-page-header' );
+				header    = $( '.fl-page-header' ),
+				logo      = $( '.fl-logo-img' );
 
 			if ( distanceY > shrinkOn ) {
 				header.addClass( 'fl-shrink-header' );
 			}
 			else {
 				header.removeClass( 'fl-shrink-header' );
+
+				if ( logo.length ) {
+					logo.css( 'max-height', logo[0].naturalHeight );
+				}
+
 			}
 
 			if ( 'undefined' !== typeof header.data( 'original-top' ) ) {
@@ -1028,7 +1045,8 @@
 		{
 			var win      = $(window),
 				header   = null,
-				distance = $('.fl-page-header-primary').data('fl-distance');
+				distance = $('.fl-page-header-primary').data('fl-distance'),
+				headerHeight = 0;
 
 			if($('.fl-page-bar').length != 0 ) {
 				header = $('.fl-page-header-primary, .fl-page-bar');
@@ -1044,11 +1062,33 @@
 					}
 					else {
 						header.removeClass('fl-show');
+
+						// Offcanvas nav layout fix.
+						if ( $('.fl-responsive-nav-enabled').length ) {
+							headerHeight = $('.fl-page-header-primary').height() * 2;
+
+							if ( $('.fl-page-bar').length != 0 ) {
+								headerHeight += $('.fl-page-bar').height();
+							}
+
+							if ( 'undefined' !== typeof $( '.fl-nav-offcanvas-collapse' ).css('top') ) {
+								headerHeight += parseInt( $( '.fl-nav-offcanvas-collapse' ).css('top') );
+							}
+						}
+
+						if ( $( '.fl-nav-offcanvas-active' ).length && headerHeight > 0 ) {
+							$( '.fl-nav-offcanvas-collapse' ).css({
+								'transform' 		: 'translateY(' + headerHeight + 'px)',
+								'-ms-transform' 	: 'translateY(' + headerHeight + 'px)',
+								'-webkit-transform' : 'translateY(' + headerHeight + 'px)'
+							});
+						}
 					}
 				});
 			}
 			else {
 				win.off('scroll.fl-show-header-on-scroll');
+				$( '.fl-nav-offcanvas-collapse' ).css('transform', '');
 			}
 		},
 
@@ -1221,8 +1261,12 @@
 					navBarTop = navBarTop + ($( '.fl-page-bar' ).height() + 1);
 				}
 
-				style = 'top: ' + (pageWrap.offset().top - navBarTop) + 'px;height: ' + navHeight + 'px !important';
-				navBar.css('cssText', style );
+				if ( $('.fl-scroll-header').length && win.width() >= 992 ) {
+					navBar.css('top', pageWrap.offset().top - navBarTop + 'px' );
+				}
+				else {
+					navBar.css('top', '');
+				}
 
 				// Set button position for larger screens when nav breakpoint is set to always.
 				if ( win.width() >= 992 && ! header.hasClass( 'fl-page-nav-bottom' ) ) {
@@ -1237,8 +1281,10 @@
 				navBar.removeClass( 'fl-nav-offcanvas-collapse');
 				navBar.find( '.fl-button-close' ).remove();
 				navBar.css( 'height', '' );
+				navBar.css( 'top', '' );
 				pageWrap.removeClass( 'fl-nav-offcanvas-active' );
 				$( 'body' ).find( '.fl-offcanvas-opacity' ).remove();
+				$( 'body' ).removeClass( 'fl-responsive-nav-enabled' );
 			}
 		},
 

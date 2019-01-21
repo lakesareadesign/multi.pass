@@ -167,7 +167,7 @@ final class FLCustomizer {
 	 */
 	static public function controls_print_styles() {
 		$tablet_margin_left = '-384px'; //Half of -$tablet_width
-		$tablet_width = '768px';
+		$tablet_width       = '768px';
 
 		echo '<style>';
 		echo '.wp-customizer .preview-tablet .wp-full-overlay-main {';
@@ -264,14 +264,16 @@ final class FLCustomizer {
 
 		// No css key, recompile the css.
 		if ( ! $css_key ) {
-			if ( false !== self::_compile_css() ) {
+			$compiled = self::_compile_css();
+			if ( false !== $compiled && ! is_wp_error( $compiled ) ) {
 				return self::css_url();
 			}
 		}
 
 		// Check to see if the file exists.
 		if ( ! fl_theme_filesystem()->file_exists( $css_path ) ) {
-			if ( false !== self::_compile_css() ) {
+			$compiled = self::_compile_css();
+			if ( false !== $compiled && ! is_wp_error( $compiled ) ) {
 				return self::css_url();
 			}
 		}
@@ -349,8 +351,8 @@ final class FLCustomizer {
 	 * @return array
 	 */
 	static public function get_cache_dir() {
-		$dir_name   = basename( FL_THEME_DIR );
-		$wp_info    = wp_upload_dir();
+		$dir_name = basename( FL_THEME_DIR );
+		$wp_info  = wp_upload_dir();
 
 		// SSL workaround.
 		if ( FLTheme::is_ssl() ) {
@@ -358,9 +360,9 @@ final class FLCustomizer {
 		}
 
 		// Build the paths.
-		$dir_info   = array(
-			'path'      => $wp_info['basedir'] . '/' . $dir_name . '/',
-			'url'       => $wp_info['baseurl'] . '/' . $dir_name . '/',
+		$dir_info = array(
+			'path' => $wp_info['basedir'] . '/' . $dir_name . '/',
+			'url'  => $wp_info['baseurl'] . '/' . $dir_name . '/',
 		);
 
 		// Create the cache dir if it doesn't exist.
@@ -410,11 +412,11 @@ final class FLCustomizer {
 
 		// Presets control
 		$customizer->add_control( new WP_Customize_Control( $customizer, 'fl-preset', array(
-			'section'       => 'fl-presets',
-			'settings'      => 'fl-preset',
-			'description'   => __( 'Start by selecting a preset for your theme.', 'fl-automator' ),
-			'type'          => 'select',
-			'choices'       => $choices,
+			'section'     => 'fl-presets',
+			'settings'    => 'fl-preset',
+			'description' => __( 'Start by selecting a preset for your theme.', 'fl-automator' ),
+			'type'        => 'select',
+			'choices'     => $choices,
 		)));
 	}
 
@@ -427,9 +429,9 @@ final class FLCustomizer {
 	 * @return void
 	 */
 	static private function _register_panels( $customizer ) {
-		$panel_priority     = 1;
-		$section_priority   = 1;
-		$option_priority    = 1;
+		$panel_priority   = 1;
+		$section_priority = 1;
+		$option_priority  = 1;
 
 		// Loop panels
 		foreach ( self::$_panels as $panel_key => $panel_data ) {
@@ -531,23 +533,23 @@ final class FLCustomizer {
 		// We don't need responsive setting.
 		unset( $data['control']['responsive'] );
 
-		$label = $data['control']['label'];
+		$label       = $data['control']['label'];
 		$get_classes = $data['control']['classes'];
 
 		foreach ( $devices as $device ) {
 			$option_key = $key . '_' . $device;
 
-			$classes = $get_classes;
+			$classes   = $get_classes;
 			$classes[] = $device;
 
 			// Add setting
 			$customizer->add_setting( $option_key, $data['setting'] );
 
 			// Add control
-			$data['control']['label'] = $label . ' (' . ucwords( $device ) . ')';
+			$data['control']['label']    = $label . ' (' . ucwords( $device ) . ')';
 			$data['control']['settings'] = $option_key;
 			$data['control']['priority'] = $data['control']['priority'] + .1;
-			$data['control']['classes'] = $classes;
+			$data['control']['classes']  = $classes;
 			$customizer->add_control(
 				new $data['control']['class']( $customizer, $option_key, $data['control'] )
 			);
@@ -581,9 +583,9 @@ final class FLCustomizer {
 				$customizer,
 				'fl-export-import',
 				array(
-					'section'       => 'fl-export-import',
-					'type'          => 'export-import',
-					'priority'      => 1,
+					'section'  => 'fl-export-import',
+					'type'     => 'export-import',
+					'priority' => 1,
 				)
 			));
 		}
@@ -597,7 +599,7 @@ final class FLCustomizer {
 	 * @return bool
 	 */
 	static private function _has_panel_support() {
-		return method_exists( 'WP_Customize_Manager' , 'add_panel' );
+		return method_exists( 'WP_Customize_Manager', 'add_panel' );
 	}
 
 	/**
@@ -609,9 +611,9 @@ final class FLCustomizer {
 	 * @return void
 	 */
 	static private function _move_builtin_sections( $customizer ) {
-		$title_tagline      = $customizer->get_section( 'title_tagline' );
-		$nav                = $customizer->get_section( 'nav' );
-		$static_front_page  = $customizer->get_section( 'static_front_page' );
+		$title_tagline     = $customizer->get_section( 'title_tagline' );
+		$nav               = $customizer->get_section( 'nav' );
+		$static_front_page = $customizer->get_section( 'static_front_page' );
 
 		// Set new panels or set a low priority.
 		if ( self::_has_panel_support() ) {
@@ -701,9 +703,9 @@ final class FLCustomizer {
 	 * @return array
 	 */
 	static private function _get_default_preset_mods() {
-		$keys       = array();
-		$defaults   = self::_get_default_mods();
-		$mods       = array();
+		$keys     = array();
+		$defaults = self::_get_default_mods();
+		$mods     = array();
 
 		foreach ( self::$_presets as $preset => $data ) {
 
@@ -735,9 +737,9 @@ final class FLCustomizer {
 	static private function _get_preset_preview_mods() {
 		if ( self::is_preset_preview() ) {
 
-			$preset_slug                       = $_GET['fl-preview'];
-			$preset                            = self::$_presets[ $preset_slug ];
-			$preset['settings']['fl-preset']   = $_GET['fl-preview'];
+			$preset_slug                     = $_GET['fl-preview'];
+			$preset                          = self::$_presets[ $preset_slug ];
+			$preset['settings']['fl-preset'] = $_GET['fl-preview'];
 
 			if ( current_user_can( 'manage_options' ) ) {
 				return self::_merge_mods( 'saved', $preset['settings'] );
@@ -806,9 +808,9 @@ final class FLCustomizer {
 				return false;
 		}
 
-		$dir_name   = basename( FL_THEME_DIR );
-		$cache_dir  = self::get_cache_dir();
-		$css_slug   = $all ? '' : self::_css_slug() . '-';
+		$dir_name  = basename( FL_THEME_DIR );
+		$cache_dir = self::get_cache_dir();
+		$css_slug  = $all ? '' : self::_css_slug() . '-';
 
 		if ( ! empty( $cache_dir['path'] ) && stristr( $cache_dir['path'], $dir_name ) ) {
 
@@ -848,12 +850,12 @@ final class FLCustomizer {
 	 * @return void
 	 */
 	static private function _compile_css() {
-		$theme_info   = wp_get_theme();
-		$cache_dir    = self::get_cache_dir();
-		$new_css_key  = uniqid();
-		$css_slug     = self::_css_slug();
-		$filename     = $cache_dir['path'] . $css_slug . '-' . $new_css_key . '.css';
-		$paths		  = self::_get_less_paths();
+		$theme_info  = wp_get_theme();
+		$cache_dir   = self::get_cache_dir();
+		$new_css_key = uniqid();
+		$css_slug    = self::_css_slug();
+		$filename    = $cache_dir['path'] . $css_slug . '-' . $new_css_key . '.css';
+		$paths       = self::_get_less_paths();
 
 		// Loop over paths and get contents
 		$css = FLCSS::paths_get_contents( $paths );
@@ -866,6 +868,11 @@ final class FLCustomizer {
 
 		// Compile LESS
 		$css = self::_compile_less( $css );
+
+		if ( is_wp_error( $css ) ) {
+			error_log( 'Less compile aborted. No file written.' );
+			return $css;
+		}
 
 		// Compress
 		if ( ! WP_DEBUG ) {
@@ -922,28 +929,28 @@ final class FLCustomizer {
 		$preset = isset( $mods['fl-preset'] ) ? $mods['fl-preset'] : 'default';
 		$paths  = array();
 		$files  = array(
-			'theme' 					=> true,
-			'top-bar' 					=> 'none' !== $mods['fl-topbar-layout'],
-			'nav-toggle-button'			=> 'button' === $mods['fl-mobile-nav-toggle'],
-			'nav-toggle-icon'			=> 'icon' === $mods['fl-mobile-nav-toggle'],
-			'fadein-header' 			=> 'fadein' === $mods['fl-fixed-header'],
-			'shrink-header'				=> 'shrink' === $mods['fl-fixed-header'],
-			'fixed-header'				=> 'fixed' === $mods['fl-fixed-header'] || 'enable' === $mods['fl-hide-until-scroll-header'],
-			'nav-bottom'				=> 'bottom' === $mods['fl-header-layout'],
-			'nav-right'					=> 'right' === $mods['fl-header-layout'] || 'fadein' === $mods['fl-fixed-header'],
-			'nav-left'					=> 'left' === $mods['fl-header-layout'],
-			'nav-centered'				=> 'centered' === $mods['fl-header-layout'],
-			'nav-centered-inline-logo'	=> 'centered-inline-logo' === $mods['fl-header-layout'],
-			'nav-vertical'				=> strstr( $mods['fl-header-layout'], 'vertical' ),
-			'nav-offcanvas'				=> 'dropdown' !== $mods['fl-nav-mobile-layout'],
-			'submenu-indicator'			=> 'enable' === $mods['fl-nav-submenu-indicator'],
-			'footer-widgets'			=> 'disabled' !== $mods['fl-footer-widgets-display'],
-			'footer'					=> 'none' !== $mods['fl-footer-layout'],
-			'woocommerce' 				=> 'disabled' !== $mods['fl-woo-css'] && class_exists( 'WooCommerce' ),
-			'the-events-calendar' 		=> defined( 'TRIBE_EVENTS_FILE' ),
-			'blocks' 					=> true,
-			'buttons' 					=> 'custom' === $mods['fl-button-style'],
-			'responsive-controls'       => true,
+			'theme'                    => true,
+			'top-bar'                  => 'none' !== $mods['fl-topbar-layout'],
+			'nav-toggle-button'        => 'button' === $mods['fl-mobile-nav-toggle'],
+			'nav-toggle-icon'          => 'icon' === $mods['fl-mobile-nav-toggle'],
+			'fadein-header'            => 'fadein' === $mods['fl-fixed-header'],
+			'shrink-header'            => 'shrink' === $mods['fl-fixed-header'],
+			'fixed-header'             => 'fixed' === $mods['fl-fixed-header'] || 'enable' === $mods['fl-hide-until-scroll-header'],
+			'nav-bottom'               => 'bottom' === $mods['fl-header-layout'],
+			'nav-right'                => 'right' === $mods['fl-header-layout'] || 'fadein' === $mods['fl-fixed-header'],
+			'nav-left'                 => 'left' === $mods['fl-header-layout'],
+			'nav-centered'             => 'centered' === $mods['fl-header-layout'],
+			'nav-centered-inline-logo' => 'centered-inline-logo' === $mods['fl-header-layout'],
+			'nav-vertical'             => strstr( $mods['fl-header-layout'], 'vertical' ),
+			'nav-offcanvas'            => 'dropdown' !== $mods['fl-nav-mobile-layout'],
+			'submenu-indicator'        => 'enable' === $mods['fl-nav-submenu-indicator'],
+			'footer-widgets'           => 'disabled' !== $mods['fl-footer-widgets-display'],
+			'footer'                   => 'none' !== $mods['fl-footer-layout'],
+			'woocommerce'              => 'disabled' !== $mods['fl-woo-css'] && class_exists( 'WooCommerce' ),
+			'the-events-calendar'      => defined( 'TRIBE_EVENTS_FILE' ),
+			'blocks'                   => true,
+			'buttons'                  => 'custom' === $mods['fl-button-style'],
+			'responsive-controls'      => true,
 		);
 
 		// Loop files and add paths.
@@ -981,78 +988,78 @@ final class FLCustomizer {
 	 * @return string
 	 */
 	static public function _get_less_vars() {
-		$mods                                   = self::get_mods();
-		$defaults   							= self::_get_default_mods();
-		$vars                                   = array();
-		$vars_string                            = '';
+		$mods        = self::get_mods();
+		$defaults    = self::_get_default_mods();
+		$vars        = array();
+		$vars_string = '';
 
 		// Layout
-		$boxed                                  = 'boxed' == $mods['fl-layout-width'];
-		$shadow_size                            = $mods['fl-layout-shadow-size'];
-		$shadow_color                           = $mods['fl-layout-shadow-color'];
-		$vars['body-padding']                   = $boxed ? $mods['fl-layout-spacing'] . 'px 0' : '0';
-		$vars['page-shadow']                    = $boxed ? '0 0 ' . $shadow_size . 'px ' . $shadow_color : 'none';
+		$boxed                = 'boxed' == $mods['fl-layout-width'];
+		$shadow_size          = $mods['fl-layout-shadow-size'];
+		$shadow_color         = $mods['fl-layout-shadow-color'];
+		$vars['body-padding'] = $boxed ? $mods['fl-layout-spacing'] . 'px 0' : '0';
+		$vars['page-shadow']  = $boxed ? '0 0 ' . $shadow_size . 'px ' . $shadow_color : 'none';
 
 		// Body Background Image
-		$vars['body-bg-image']                  = empty( $mods['fl-body-bg-image'] ) ? 'none' : 'url(' . $mods['fl-body-bg-image'] . ')';
-		$vars['body-bg-repeat']                 = $mods['fl-body-bg-repeat'];
-		$vars['body-bg-position']               = $mods['fl-body-bg-position'];
-		$vars['body-bg-attachment']             = $mods['fl-body-bg-attachment'];
-		$vars['body-bg-size']                   = $mods['fl-body-bg-size'];
+		$vars['body-bg-image']      = empty( $mods['fl-body-bg-image'] ) ? 'none' : 'url(' . $mods['fl-body-bg-image'] . ')';
+		$vars['body-bg-repeat']     = $mods['fl-body-bg-repeat'];
+		$vars['body-bg-position']   = $mods['fl-body-bg-position'];
+		$vars['body-bg-attachment'] = $mods['fl-body-bg-attachment'];
+		$vars['body-bg-size']       = $mods['fl-body-bg-size'];
 
 		// Body Colors
-		$vars['body-bg-color']                  = FLColor::hex( array( $mods['fl-body-bg-color'], $defaults['fl-body-bg-color'] ) );
-		$vars['body-bg-color-2']             	= FLColor::similar( array( 1, 4, 13 ), $vars['body-bg-color'] );
-		$vars['body-bg-color-3']             	= FLColor::similar( array( 3, 9, 18 ), $vars['body-bg-color'] );
-		$vars['body-border-color']              = FLColor::similar( array( 10, 9, 19 ), $vars['body-bg-color'] );
-		$vars['body-border-color-2']            = FLColor::similar( array( 20, 20, 30 ), $vars['body-bg-color'] );
-		$vars['body-fg-color']                  = FLColor::foreground( $vars['body-bg-color'] );
+		$vars['body-bg-color']       = FLColor::hex( array( $mods['fl-body-bg-color'], $defaults['fl-body-bg-color'] ) );
+		$vars['body-bg-color-2']     = FLColor::similar( array( 1, 4, 13 ), $vars['body-bg-color'] );
+		$vars['body-bg-color-3']     = FLColor::similar( array( 3, 9, 18 ), $vars['body-bg-color'] );
+		$vars['body-border-color']   = FLColor::similar( array( 10, 9, 19 ), $vars['body-bg-color'] );
+		$vars['body-border-color-2'] = FLColor::similar( array( 20, 20, 30 ), $vars['body-bg-color'] );
+		$vars['body-fg-color']       = FLColor::foreground( $vars['body-bg-color'] );
 
 		// Accent Color
-		$vars['accent-color']                   = FLColor::hex( array( $mods['fl-accent'], $defaults['fl-accent'] ) );
-		$vars['accent-hover-color']             = FLColor::hex( array( $mods['fl-accent-hover'], $mods['fl-accent'] ) );
-		$vars['accent-fg-color']                = FLColor::foreground( $vars['accent-color'] );
-		$vars['accent-fg-hover-color']          = FLColor::foreground( $vars['accent-hover-color'] );
+		$vars['accent-color']          = FLColor::hex( array( $mods['fl-accent'], $defaults['fl-accent'] ) );
+		$vars['accent-hover-color']    = FLColor::hex( array( $mods['fl-accent-hover'], $mods['fl-accent'] ) );
+		$vars['accent-fg-color']       = FLColor::foreground( $vars['accent-color'] );
+		$vars['accent-fg-hover-color'] = FLColor::foreground( $vars['accent-hover-color'] );
 
 		// Text Colors
-		$vars['heading-color']                  = FLColor::hex( $mods['fl-heading-text-color'] );
-		$vars['text-color']                     = FLColor::hex( $mods['fl-body-text-color'] );
+		$vars['heading-color'] = FLColor::hex( $mods['fl-heading-text-color'] );
+		$vars['text-color']    = FLColor::hex( $mods['fl-body-text-color'] );
 
 		// Fonts
-		$vars['text-font']                      = self::_get_font_family_string( $mods['fl-body-font-family'] );
-		$vars['text-size']                      = $mods['fl-body-font-size'] . 'px';
-		$vars['line-height']                    = $mods['fl-body-line-height'];
-		$vars['text-weight']                    = self::_sanitize_weight( $mods['fl-body-font-weight'] );
+		$vars['text-font']   = self::_get_font_family_string( $mods['fl-body-font-family'] );
+		$vars['text-size']   = $mods['fl-body-font-size'] . 'px';
+		$vars['line-height'] = $mods['fl-body-line-height'];
+		$vars['text-weight'] = self::_sanitize_weight( $mods['fl-body-font-weight'] );
 
-		$vars['heading-font']                   = self::_get_font_family_string( $mods['fl-heading-font-family'] );
-		$vars['heading-weight']                 = self::_sanitize_weight( $mods['fl-heading-font-weight'] );
-		$vars['heading-transform']              = $mods['fl-heading-font-format'];
+		$vars['heading-font']      = self::_get_font_family_string( $mods['fl-heading-font-family'] );
+		$vars['heading-weight']    = self::_sanitize_weight( $mods['fl-heading-font-weight'] );
+		$vars['heading-transform'] = $mods['fl-heading-font-format'];
+		$vars['heading-style']     = self::_get_style( $mods['fl-heading-font-weight'] );
+		$vars['title-color']       = FLColor::hex( $mods['fl-title-text-color'] );
+		$vars['title-font']        = self::_get_font_family_string( $mods['fl-title-font-family'] );
+		$vars['title-weight']      = self::_sanitize_weight( $mods['fl-title-font-weight'] );
+		$vars['title-transform']   = $mods['fl-title-font-format'];
 
-		$vars['title-color']				= FLColor::hex( $mods['fl-title-text-color'] );
-		$vars['title-font']					= self::_get_font_family_string( $mods['fl-title-font-family'] );
-		$vars['title-weight']				= self::_sanitize_weight( $mods['fl-title-font-weight'] );
-		$vars['title-transform']			= $mods['fl-title-font-format'];
-
+		$vars['custom-h1-style'] = isset( $mods['fl-heading-style'] ) && 'title' === $mods['fl-heading-style'] ? self::_get_style( $mods['fl-title-font-weight'] ) : self::_get_style( $mods['fl-heading-font-weight'] );
 		// Custom title styles
 		if ( isset( $mods['fl-heading-style'] ) && 'title' !== $mods['fl-heading-style'] ) {
-			$vars['title-color']			= FLColor::hex( $mods['fl-heading-text-color'] );
-			$vars['title-font']					= self::_get_font_family_string( $mods['fl-heading-font-family'] );
-			$vars['title-weight']				= self::_sanitize_weight( $mods['fl-heading-font-weight'] );
-			$vars['title-transform']			= $mods['fl-heading-font-format'];
+			$vars['title-color']     = FLColor::hex( $mods['fl-heading-text-color'] );
+			$vars['title-font']      = self::_get_font_family_string( $mods['fl-heading-font-family'] );
+			$vars['title-weight']    = self::_sanitize_weight( $mods['fl-heading-font-weight'] );
+			$vars['title-transform'] = $mods['fl-heading-font-format'];
 		}
-
 		// Responsive controls style
 		$responsive_mods = array(
-			'h1-size' => array(
-				'key' => 'fl-h1-font-size',
+			'h1-size'           => array(
+				'key'    => 'fl-h1-font-size',
 				'format' => 'px',
 			),
-			'h1-line-height' => array(
-				'key' => 'fl-h1-line-height',
+			'h1-line-height'    => array(
+				'key'    => 'fl-h1-line-height',
 				'format' => '',
 			),
 			'h1-letter-spacing' => array(
-				'key' => 'fl-h1-letter-spacing',
+				'key'    => 'fl-h1-letter-spacing',
 				'format' => 'px',
 			),
 		);
@@ -1068,33 +1075,32 @@ final class FLCustomizer {
 			}
 		}
 
-		$vars['h1-size']                        = $mods['fl-h1-font-size'] . 'px';
-		$vars['h1-line-height']                 = $mods['fl-h1-line-height'];
-		$vars['h1-letter-spacing']              = $mods['fl-h1-letter-spacing'] . 'px';
-
-		$vars['h2-size']                        = $mods['fl-h2-font-size'] . 'px';
-		$vars['h2-line-height']                 = $mods['fl-h2-line-height'];
-		$vars['h2-letter-spacing']              = $mods['fl-h2-letter-spacing'] . 'px';
-		$vars['h3-size']                        = $mods['fl-h3-font-size'] . 'px';
-		$vars['h3-line-height']                 = $mods['fl-h3-line-height'];
-		$vars['h3-letter-spacing']              = $mods['fl-h3-letter-spacing'] . 'px';
-		$vars['h4-size']                        = $mods['fl-h4-font-size'] . 'px';
-		$vars['h4-line-height']                 = $mods['fl-h4-line-height'];
-		$vars['h4-letter-spacing']              = $mods['fl-h4-letter-spacing'] . 'px';
-		$vars['h5-size']                        = $mods['fl-h5-font-size'] . 'px';
-		$vars['h5-line-height']                 = $mods['fl-h5-line-height'];
-		$vars['h5-letter-spacing']              = $mods['fl-h5-letter-spacing'] . 'px';
-		$vars['h6-size']                        = $mods['fl-h6-font-size'] . 'px';
-		$vars['h6-line-height']                 = $mods['fl-h6-line-height'];
-		$vars['h6-letter-spacing']              = $mods['fl-h6-letter-spacing'] . 'px';
-		$vars['logo-font']                      = self::_get_font_family_string( $mods['fl-logo-font-family'] );
-		$vars['logo-weight']                    = self::_sanitize_weight( $mods['fl-logo-font-weight'] );
-		$vars['logo-size']                      = $mods['fl-logo-font-size'] . 'px';
+		$vars['h1-size']           = $mods['fl-h1-font-size'] . 'px';
+		$vars['h1-line-height']    = $mods['fl-h1-line-height'];
+		$vars['h1-letter-spacing'] = $mods['fl-h1-letter-spacing'] . 'px';
+		$vars['h2-size']           = $mods['fl-h2-font-size'] . 'px';
+		$vars['h2-line-height']    = $mods['fl-h2-line-height'];
+		$vars['h2-letter-spacing'] = $mods['fl-h2-letter-spacing'] . 'px';
+		$vars['h3-size']           = $mods['fl-h3-font-size'] . 'px';
+		$vars['h3-line-height']    = $mods['fl-h3-line-height'];
+		$vars['h3-letter-spacing'] = $mods['fl-h3-letter-spacing'] . 'px';
+		$vars['h4-size']           = $mods['fl-h4-font-size'] . 'px';
+		$vars['h4-line-height']    = $mods['fl-h4-line-height'];
+		$vars['h4-letter-spacing'] = $mods['fl-h4-letter-spacing'] . 'px';
+		$vars['h5-size']           = $mods['fl-h5-font-size'] . 'px';
+		$vars['h5-line-height']    = $mods['fl-h5-line-height'];
+		$vars['h5-letter-spacing'] = $mods['fl-h5-letter-spacing'] . 'px';
+		$vars['h6-size']           = $mods['fl-h6-font-size'] . 'px';
+		$vars['h6-line-height']    = $mods['fl-h6-line-height'];
+		$vars['h6-letter-spacing'] = $mods['fl-h6-letter-spacing'] . 'px';
+		$vars['logo-font']         = self::_get_font_family_string( $mods['fl-logo-font-family'] );
+		$vars['logo-weight']       = self::_sanitize_weight( $mods['fl-logo-font-weight'] );
+		$vars['logo-size']         = $mods['fl-logo-font-size'] . 'px';
 
 		// Button Styles
-		$vars['button-color']					 = $mods['fl-button-color'] ? $mods['fl-button-color'] : $defaults['fl-button-color'];
+		$vars['button-color']          = $mods['fl-button-color'] ? $mods['fl-button-color'] : $defaults['fl-button-color'];
 		$vars['button-hover-color']    = $mods['fl-button-hover-color'] ? $mods['fl-button-hover-color'] : $defaults['fl-button-hover-color'];
-		$vars['button-bg-color']			 = $mods['fl-button-background-color'] ? $mods['fl-button-background-color'] : $defaults['fl-button-background-color'];
+		$vars['button-bg-color']       = $mods['fl-button-background-color'] ? $mods['fl-button-background-color'] : $defaults['fl-button-background-color'];
 		$vars['button-bg-hover-color'] = $mods['fl-button-background-hover-color'] ? $mods['fl-button-background-hover-color'] : $defaults['fl-button-background-hover-color'];
 		$vars['button-font-family']    = self::_get_font_family_string( $mods['fl-button-font-family'] );
 		$vars['button-font-weight']    = self::_sanitize_weight( $mods['fl-button-font-weight'] );
@@ -1107,179 +1113,179 @@ final class FLCustomizer {
 		$vars['button-border-radius']  = $mods['fl-button-border-radius'] . 'px';
 
 		// Top Bar Background Image
-		$vars['topbar-bg-image']                = empty( $mods['fl-topbar-bg-image'] ) ? 'none' : 'url(' . $mods['fl-topbar-bg-image'] . ')';
-		$vars['topbar-bg-repeat']               = $mods['fl-topbar-bg-repeat'];
-		$vars['topbar-bg-position']             = $mods['fl-topbar-bg-position'];
-		$vars['topbar-bg-attachment']           = $mods['fl-topbar-bg-attachment'];
-		$vars['topbar-bg-size']                 = $mods['fl-topbar-bg-size'];
+		$vars['topbar-bg-image']      = empty( $mods['fl-topbar-bg-image'] ) ? 'none' : 'url(' . $mods['fl-topbar-bg-image'] . ')';
+		$vars['topbar-bg-repeat']     = $mods['fl-topbar-bg-repeat'];
+		$vars['topbar-bg-position']   = $mods['fl-topbar-bg-position'];
+		$vars['topbar-bg-attachment'] = $mods['fl-topbar-bg-attachment'];
+		$vars['topbar-bg-size']       = $mods['fl-topbar-bg-size'];
 
 		// Top Bar Colors
-		$vars['topbar-bg-color']				= FLColor::hex_or_transparent( $mods['fl-topbar-bg-color'] );
-		$vars['topbar-bg-opacity']				= FLColor::clean_opa( $mods['fl-topbar-bg-opacity'] );
-		$vars['topbar-bg-grad']                	= $mods['fl-topbar-bg-gradient'] ? 10 : 0;
-		$vars['topbar-border-color']        	= FLColor::similar( array( 10, 13, 19 ), array( $vars['topbar-bg-color'], $vars['body-bg-color'] ) );
-		$vars['topbar-fg-color']               	= FLColor::hex( array( $mods['fl-topbar-text-color'], $vars['text-color'] ) );
-		$vars['topbar-fg-link-color']          	= FLColor::hex( array( $mods['fl-topbar-link-color'], $vars['topbar-fg-color'] ) );
-		$vars['topbar-fg-hover-color']         	= FLColor::hex( array( $mods['fl-topbar-hover-color'], $vars['topbar-fg-color'] ) );
-		$vars['topbar-dropdown-bg-color']      	= FLColor::hex( array( $mods['fl-topbar-bg-color'], $vars['body-bg-color'] ) );
+		$vars['topbar-bg-color']          = FLColor::hex_or_transparent( $mods['fl-topbar-bg-color'] );
+		$vars['topbar-bg-opacity']        = FLColor::clean_opa( $mods['fl-topbar-bg-opacity'] );
+		$vars['topbar-bg-grad']           = $mods['fl-topbar-bg-gradient'] ? 10 : 0;
+		$vars['topbar-border-color']      = FLColor::similar( array( 10, 13, 19 ), array( $vars['topbar-bg-color'], $vars['body-bg-color'] ) );
+		$vars['topbar-fg-color']          = FLColor::hex( array( $mods['fl-topbar-text-color'], $vars['text-color'] ) );
+		$vars['topbar-fg-link-color']     = FLColor::hex( array( $mods['fl-topbar-link-color'], $vars['topbar-fg-color'] ) );
+		$vars['topbar-fg-hover-color']    = FLColor::hex( array( $mods['fl-topbar-hover-color'], $vars['topbar-fg-color'] ) );
+		$vars['topbar-dropdown-bg-color'] = FLColor::hex( array( $mods['fl-topbar-bg-color'], $vars['body-bg-color'] ) );
 
 		// Header Background Image
-		$vars['header-bg-image']                = empty( $mods['fl-header-bg-image'] ) ? 'none' : 'url(' . $mods['fl-header-bg-image'] . ')';
-		$vars['header-bg-repeat']               = $mods['fl-header-bg-repeat'];
-		$vars['header-bg-position']             = $mods['fl-header-bg-position'];
-		$vars['header-bg-attachment']           = $mods['fl-header-bg-attachment'];
-		$vars['header-bg-size']                 = $mods['fl-header-bg-size'];
+		$vars['header-bg-image']      = empty( $mods['fl-header-bg-image'] ) ? 'none' : 'url(' . $mods['fl-header-bg-image'] . ')';
+		$vars['header-bg-repeat']     = $mods['fl-header-bg-repeat'];
+		$vars['header-bg-position']   = $mods['fl-header-bg-position'];
+		$vars['header-bg-attachment'] = $mods['fl-header-bg-attachment'];
+		$vars['header-bg-size']       = $mods['fl-header-bg-size'];
 
 		// Header Colors
-		$vars['header-bg-color']				= FLColor::hex_or_transparent( $mods['fl-header-bg-color'] );
-		$vars['header-bg-opacity']				= FLColor::clean_opa( $mods['fl-header-bg-opacity'] );
-		$vars['header-bg-grad']                 = $mods['fl-header-bg-gradient'] ? 10 : 0;
-		$vars['header-border-color']        	= FLColor::similar( array( 10, 13, 19 ), array( $vars['header-bg-color'], $vars['body-bg-color'] ) );
-		$vars['header-fg-color']                = FLColor::hex( array( $mods['fl-header-text-color'], $vars['text-color'] ) );
-		$vars['header-fg-link-color']           = FLColor::hex( array( $mods['fl-header-link-color'], $vars['header-fg-color'] ) );
-		$vars['header-fg-hover-color']          = FLColor::hex( array( $mods['fl-header-hover-color'], $vars['header-fg-color'] ) );
-		$vars['header-padding']                 = $mods['fl-header-padding'] . 'px';
+		$vars['header-bg-color']       = FLColor::hex_or_transparent( $mods['fl-header-bg-color'] );
+		$vars['header-bg-opacity']     = FLColor::clean_opa( $mods['fl-header-bg-opacity'] );
+		$vars['header-bg-grad']        = $mods['fl-header-bg-gradient'] ? 10 : 0;
+		$vars['header-border-color']   = FLColor::similar( array( 10, 13, 19 ), array( $vars['header-bg-color'], $vars['body-bg-color'] ) );
+		$vars['header-fg-color']       = FLColor::hex( array( $mods['fl-header-text-color'], $vars['text-color'] ) );
+		$vars['header-fg-link-color']  = FLColor::hex( array( $mods['fl-header-link-color'], $vars['header-fg-color'] ) );
+		$vars['header-fg-hover-color'] = FLColor::hex( array( $mods['fl-header-hover-color'], $vars['header-fg-color'] ) );
+		$vars['header-padding']        = $mods['fl-header-padding'] . 'px';
 
 		// Vertical Header
-		$vars['vertical-header-width']          = $mods['fl-vertical-header-width'] . 'px';
+		$vars['vertical-header-width'] = $mods['fl-vertical-header-width'] . 'px';
 
 		// Fixed Header Background Color
-		$vars['fixed-header-bg-color']          = FLColor::hex( array( $vars['header-bg-color'], $vars['body-bg-color'] ) );
+		$vars['fixed-header-bg-color'] = FLColor::hex( array( $vars['header-bg-color'], $vars['body-bg-color'] ) );
 
 		// Nav Fonts
-		$vars['nav-font-family']                = self::_get_font_family_string( $mods['fl-nav-font-family'] );
-		$vars['nav-font-weight']                = self::_sanitize_weight( $mods['fl-nav-font-weight'] );
-		$vars['nav-font-format']                = $mods['fl-nav-font-format'];
-		$vars['nav-font-size']                  = $mods['fl-nav-font-size'] . 'px';
+		$vars['nav-font-family'] = self::_get_font_family_string( $mods['fl-nav-font-family'] );
+		$vars['nav-font-weight'] = self::_sanitize_weight( $mods['fl-nav-font-weight'] );
+		$vars['nav-font-format'] = $mods['fl-nav-font-format'];
+		$vars['nav-font-size']   = $mods['fl-nav-font-size'] . 'px';
 
 		// Nav Background Image
-		$vars['nav-bg-image']                	= empty( $mods['fl-nav-bg-image'] ) ? 'none' : 'url(' . $mods['fl-nav-bg-image'] . ')';
-		$vars['nav-bg-repeat']               	= $mods['fl-nav-bg-repeat'];
-		$vars['nav-bg-position']             	= $mods['fl-nav-bg-position'];
-		$vars['nav-bg-attachment']           	= $mods['fl-nav-bg-attachment'];
-		$vars['nav-bg-size']                 	= $mods['fl-nav-bg-size'];
+		$vars['nav-bg-image']      = empty( $mods['fl-nav-bg-image'] ) ? 'none' : 'url(' . $mods['fl-nav-bg-image'] . ')';
+		$vars['nav-bg-repeat']     = $mods['fl-nav-bg-repeat'];
+		$vars['nav-bg-position']   = $mods['fl-nav-bg-position'];
+		$vars['nav-bg-attachment'] = $mods['fl-nav-bg-attachment'];
+		$vars['nav-bg-size']       = $mods['fl-nav-bg-size'];
 
 		// Nav Shadow
-		$nav_shadow_size                        = $mods['fl-nav-shadow-size'];
-		$nav_shadow_color                       = $mods['fl-nav-shadow-color'];
-		$vars['nav-shadow']                     = $nav_shadow_size ? '0 0 ' . $nav_shadow_size . 'px ' . $nav_shadow_color : 'none';
+		$nav_shadow_size    = $mods['fl-nav-shadow-size'];
+		$nav_shadow_color   = $mods['fl-nav-shadow-color'];
+		$vars['nav-shadow'] = $nav_shadow_size ? '0 0 ' . $nav_shadow_size . 'px ' . $nav_shadow_color : 'none';
 
 		// Nav Layout
-		$vars['nav-item-spacing']               = $mods['fl-nav-item-spacing'] . 'px';
-		$vars['nav-menu-top-spacing']           = $mods['fl-nav-menu-top-spacing'] . 'px';
-		$vars['header-logo-top-spacing']        = $mods['fl-header-logo-top-spacing'] . 'px';
+		$vars['nav-item-spacing']        = $mods['fl-nav-item-spacing'] . 'px';
+		$vars['nav-menu-top-spacing']    = $mods['fl-nav-menu-top-spacing'] . 'px';
+		$vars['header-logo-top-spacing'] = $mods['fl-header-logo-top-spacing'] . 'px';
 
 		// Right Nav, Left Nav, Vertical Nav, Centered Inline Logo Nav Colors
 		if ( 'right' == $mods['fl-header-layout'] ||
-			 'left' == $mods['fl-header-layout'] ||
-			 'vertical-left' == $mods['fl-header-layout'] ||
-			 'vertical-right' == $mods['fl-header-layout'] ||
-			 'centered-inline-logo' == $mods['fl-header-layout']
-		   ) {
-			$vars['nav-bg-color']               = $vars['header-bg-color'];
-			$vars['nav-bg-grad']                = 0;
-			$vars['nav-border-color']           = $vars['header-border-color'];
-			$vars['nav-fg-color']               = $vars['header-fg-color'];
-			$vars['nav-fg-link-color']          = $vars['header-fg-link-color'];
-			$vars['nav-fg-hover-color']         = $vars['header-fg-hover-color'];
-			$vars['nav-bg-opacity']			= FLColor::clean_opa( $mods['fl-nav-bg-opacity'] );
+			'left' == $mods['fl-header-layout'] ||
+			'vertical-left' == $mods['fl-header-layout'] ||
+			'vertical-right' == $mods['fl-header-layout'] ||
+			'centered-inline-logo' == $mods['fl-header-layout']
+		) {
+			$vars['nav-bg-color']       = $vars['header-bg-color'];
+			$vars['nav-bg-grad']        = 0;
+			$vars['nav-border-color']   = $vars['header-border-color'];
+			$vars['nav-fg-color']       = $vars['header-fg-color'];
+			$vars['nav-fg-link-color']  = $vars['header-fg-link-color'];
+			$vars['nav-fg-hover-color'] = $vars['header-fg-hover-color'];
+			$vars['nav-bg-opacity']     = FLColor::clean_opa( $mods['fl-nav-bg-opacity'] );
 		} else {
-			$vars['nav-bg-color']				= FLColor::hex_or_transparent( $mods['fl-nav-bg-color'] );
-			$vars['nav-bg-opacity']			= FLColor::clean_opa( $mods['fl-nav-bg-opacity'] );
-			$vars['nav-bg-grad']                = $mods['fl-nav-bg-gradient'] ? 5 : 0;
-			$vars['nav-border-color']        	= FLColor::similar( array( 10, 13, 19 ), array( $vars['nav-bg-color'], $vars['body-bg-color'] ) );
-			$vars['nav-fg-color']               = FLColor::hex( array( $mods['fl-nav-link-color'], $vars['text-color'] ) );
-			$vars['nav-fg-link-color']          = FLColor::hex( array( $mods['fl-nav-link-color'], $vars['text-color'] ) );
-			$vars['nav-fg-hover-color']         = FLColor::hex( array( $mods['fl-nav-hover-color'], $vars['nav-fg-color'] ) );
+			$vars['nav-bg-color']       = FLColor::hex_or_transparent( $mods['fl-nav-bg-color'] );
+			$vars['nav-bg-opacity']     = FLColor::clean_opa( $mods['fl-nav-bg-opacity'] );
+			$vars['nav-bg-grad']        = $mods['fl-nav-bg-gradient'] ? 5 : 0;
+			$vars['nav-border-color']   = FLColor::similar( array( 10, 13, 19 ), array( $vars['nav-bg-color'], $vars['body-bg-color'] ) );
+			$vars['nav-fg-color']       = FLColor::hex( array( $mods['fl-nav-link-color'], $vars['text-color'] ) );
+			$vars['nav-fg-link-color']  = FLColor::hex( array( $mods['fl-nav-link-color'], $vars['text-color'] ) );
+			$vars['nav-fg-hover-color'] = FLColor::hex( array( $mods['fl-nav-hover-color'], $vars['nav-fg-color'] ) );
 		}
 
 		// Nav Dropdown Colors
-		$vars['nav-dropdown-bg-color']			= FLColor::hex( array( $vars['nav-bg-color'], $vars['body-bg-color'] ) );
+		$vars['nav-dropdown-bg-color'] = FLColor::hex( array( $vars['nav-bg-color'], $vars['body-bg-color'] ) );
 
 		// Mobile Nav Colors
-		$vars['mobile-nav-btn-color']       	= FLColor::similar( array( 10, 13, 19 ), array( $vars['header-bg-color'], $vars['body-bg-color'] ) );
-		$vars['mobile-nav-fg-color']        	= $vars['header-fg-color'];
-		$vars['mobile-nav-fg-link-color']   	= $vars['header-fg-link-color'];
-		$vars['mobile-nav-fg-hover-color']  	= $vars['header-fg-hover-color'];
+		$vars['mobile-nav-btn-color']      = FLColor::similar( array( 10, 13, 19 ), array( $vars['header-bg-color'], $vars['body-bg-color'] ) );
+		$vars['mobile-nav-fg-color']       = $vars['header-fg-color'];
+		$vars['mobile-nav-fg-link-color']  = $vars['header-fg-link-color'];
+		$vars['mobile-nav-fg-hover-color'] = $vars['header-fg-hover-color'];
 
 		// Mobile Nav Breakpoint
-		$vars['mobile-nav-breakpoint']			= $mods['fl-nav-breakpoint'];
+		$vars['mobile-nav-breakpoint'] = $mods['fl-nav-breakpoint'];
 
 		// Content Width
-		$vars['content-width']                  = $mods['fl-content-width'] . 'px';
+		$vars['content-width'] = $mods['fl-content-width'] . 'px';
 
 		// Content Background Image
-		$vars['content-bg-image']               = empty( $mods['fl-content-bg-image'] ) ? 'none' : 'url(' . $mods['fl-content-bg-image'] . ')';
-		$vars['content-bg-repeat']              = $mods['fl-content-bg-repeat'];
-		$vars['content-bg-position']            = $mods['fl-content-bg-position'];
-		$vars['content-bg-attachment']          = $mods['fl-content-bg-attachment'];
-		$vars['content-bg-size']                = $mods['fl-content-bg-size'];
+		$vars['content-bg-image']      = empty( $mods['fl-content-bg-image'] ) ? 'none' : 'url(' . $mods['fl-content-bg-image'] . ')';
+		$vars['content-bg-repeat']     = $mods['fl-content-bg-repeat'];
+		$vars['content-bg-position']   = $mods['fl-content-bg-position'];
+		$vars['content-bg-attachment'] = $mods['fl-content-bg-attachment'];
+		$vars['content-bg-size']       = $mods['fl-content-bg-size'];
 
 		// Content Colors
-		$vars['content-bg-color']               = FLColor::hex( $mods['fl-content-bg-color'] );
-		$vars['content-bg-opacity']				= FLColor::clean_opa( $mods['fl-content-bg-opacity'] );
+		$vars['content-bg-color']   = FLColor::hex( $mods['fl-content-bg-color'] );
+		$vars['content-bg-opacity'] = FLColor::clean_opa( $mods['fl-content-bg-opacity'] );
 
 		if ( ! FLColor::is_hex( $vars['content-bg-color'] ) ) {
-			$vars['content-bg-color-2']         = $vars['body-bg-color-2'];
-			$vars['content-bg-color-3']         = $vars['body-bg-color-3'];
-			$vars['border-color']               = $vars['body-border-color'];
-			$vars['border-color-2']             = $vars['body-border-color-2'];
-			$vars['content-fg-color']           = $vars['body-fg-color'];
+			$vars['content-bg-color-2'] = $vars['body-bg-color-2'];
+			$vars['content-bg-color-3'] = $vars['body-bg-color-3'];
+			$vars['border-color']       = $vars['body-border-color'];
+			$vars['border-color-2']     = $vars['body-border-color-2'];
+			$vars['content-fg-color']   = $vars['body-fg-color'];
 		} else {
-			$vars['content-bg-color-2']         = FLColor::similar( array( 1, 4, 13 ), $vars['content-bg-color'] );
-			$vars['content-bg-color-3']         = FLColor::similar( array( 3, 9, 18 ), $vars['content-bg-color'] );
-			$vars['border-color']               = FLColor::similar( array( 10, 9, 19 ), $vars['content-bg-color'] );
-			$vars['border-color-2']             = FLColor::similar( array( 20, 20, 30 ), $vars['content-bg-color'] );
-			$vars['content-fg-color']           = FLColor::foreground( $vars['content-bg-color'] );
+			$vars['content-bg-color-2'] = FLColor::similar( array( 1, 4, 13 ), $vars['content-bg-color'] );
+			$vars['content-bg-color-3'] = FLColor::similar( array( 3, 9, 18 ), $vars['content-bg-color'] );
+			$vars['border-color']       = FLColor::similar( array( 10, 9, 19 ), $vars['content-bg-color'] );
+			$vars['border-color-2']     = FLColor::similar( array( 20, 20, 30 ), $vars['content-bg-color'] );
+			$vars['content-fg-color']   = FLColor::foreground( $vars['content-bg-color'] );
 		}
 
 		// Custom Blog Sidebar Size
-		$vars['custom-sidebar-size']        = 'custom' == $mods['fl-blog-sidebar-size'] ? $mods['fl-blog-custom-sidebar-size'] . '%' : 0;
+		$vars['custom-sidebar-size'] = 'custom' == $mods['fl-blog-sidebar-size'] ? $mods['fl-blog-custom-sidebar-size'] . '%' : 0;
 
 		// Custom WooCommerce Sidebar Size
-		$vars['custom-woo-sidebar-size']    = 'custom' == $mods['fl-woo-sidebar-size'] ? $mods['fl-woo-custom-sidebar-size'] . '%' : 0;
+		$vars['custom-woo-sidebar-size'] = 'custom' == $mods['fl-woo-sidebar-size'] ? $mods['fl-woo-custom-sidebar-size'] . '%' : 0;
 
 		// Inputs Colors
-		$vars['input-bg-color']               	= FLColor::hex( array( $vars['content-bg-color-2'], $vars['body-bg-color-2'], '#fcfcfc' ) );
-		$vars['input-bg-focus-color']           = FLColor::hex( array( $vars['content-bg-color'], $vars['body-bg-color'], '#ffffff' ) );
-		$vars['input-border-color']             = FLColor::hex( array( $vars['border-color'], $vars['body-border-color'], '#e6e6e6' ) );
-		$vars['input-border-focus-color']       = FLColor::hex( array( $vars['border-color-2'], $vars['body-border-color-2'], '#cccccc' ) );
+		$vars['input-bg-color']           = FLColor::hex( array( $vars['content-bg-color-2'], $vars['body-bg-color-2'], '#fcfcfc' ) );
+		$vars['input-bg-focus-color']     = FLColor::hex( array( $vars['content-bg-color'], $vars['body-bg-color'], '#ffffff' ) );
+		$vars['input-border-color']       = FLColor::hex( array( $vars['border-color'], $vars['body-border-color'], '#e6e6e6' ) );
+		$vars['input-border-focus-color'] = FLColor::hex( array( $vars['border-color-2'], $vars['body-border-color-2'], '#cccccc' ) );
 
 		// Footer Widget Background Image
-		$vars['footer-widgets-bg-image']        = empty( $mods['fl-footer-widgets-bg-image'] ) ? 'none' : 'url(' . $mods['fl-footer-widgets-bg-image'] . ')';
-		$vars['footer-widgets-bg-repeat']       = $mods['fl-footer-widgets-bg-repeat'];
-		$vars['footer-widgets-bg-position']     = $mods['fl-footer-widgets-bg-position'];
-		$vars['footer-widgets-bg-attachment']   = $mods['fl-footer-widgets-bg-attachment'];
-		$vars['footer-widgets-bg-size']         = $mods['fl-footer-widgets-bg-size'];
+		$vars['footer-widgets-bg-image']      = empty( $mods['fl-footer-widgets-bg-image'] ) ? 'none' : 'url(' . $mods['fl-footer-widgets-bg-image'] . ')';
+		$vars['footer-widgets-bg-repeat']     = $mods['fl-footer-widgets-bg-repeat'];
+		$vars['footer-widgets-bg-position']   = $mods['fl-footer-widgets-bg-position'];
+		$vars['footer-widgets-bg-attachment'] = $mods['fl-footer-widgets-bg-attachment'];
+		$vars['footer-widgets-bg-size']       = $mods['fl-footer-widgets-bg-size'];
 
 		// Footer Widget Colors
-		$vars['footer-widgets-bg-color']		= FLColor::hex_or_transparent( $mods['fl-footer-widgets-bg-color'] );
-		$vars['footer-widgets-bg-opacity']		= FLColor::clean_opa( $mods['fl-footer-widgets-bg-opacity'] );
-		$vars['footer-widgets-bg-grad']         = $mods['fl-footer-widgets-bg-gradient'] ? 15 : 0;
-		$vars['footer-widgets-border-color']    = FLColor::similar( array( 10, 13, 19 ), array( $vars['footer-widgets-bg-color'], $vars['body-bg-color'] ) );
-		$vars['footer-widgets-fg-color']        = FLColor::hex( array( $mods['fl-footer-widgets-text-color'], $vars['text-color'] ) );
-		$vars['footer-widgets-fg-link-color']   = FLColor::hex( array( $mods['fl-footer-widgets-link-color'], $vars['footer-widgets-fg-color'] ) );
-		$vars['footer-widgets-fg-hover-color']  = FLColor::hex( array( $mods['fl-footer-widgets-hover-color'], $vars['footer-widgets-fg-color'] ) );
+		$vars['footer-widgets-bg-color']       = FLColor::hex_or_transparent( $mods['fl-footer-widgets-bg-color'] );
+		$vars['footer-widgets-bg-opacity']     = FLColor::clean_opa( $mods['fl-footer-widgets-bg-opacity'] );
+		$vars['footer-widgets-bg-grad']        = $mods['fl-footer-widgets-bg-gradient'] ? 15 : 0;
+		$vars['footer-widgets-border-color']   = FLColor::similar( array( 10, 13, 19 ), array( $vars['footer-widgets-bg-color'], $vars['body-bg-color'] ) );
+		$vars['footer-widgets-fg-color']       = FLColor::hex( array( $mods['fl-footer-widgets-text-color'], $vars['text-color'] ) );
+		$vars['footer-widgets-fg-link-color']  = FLColor::hex( array( $mods['fl-footer-widgets-link-color'], $vars['footer-widgets-fg-color'] ) );
+		$vars['footer-widgets-fg-hover-color'] = FLColor::hex( array( $mods['fl-footer-widgets-hover-color'], $vars['footer-widgets-fg-color'] ) );
 
 		// Footer Background Image
-		$vars['footer-bg-image']        		= empty( $mods['fl-footer-bg-image'] ) ? 'none' : 'url(' . $mods['fl-footer-bg-image'] . ')';
-		$vars['footer-bg-repeat']       		= $mods['fl-footer-bg-repeat'];
-		$vars['footer-bg-position']     		= $mods['fl-footer-bg-position'];
-		$vars['footer-bg-attachment']   		= $mods['fl-footer-bg-attachment'];
-		$vars['footer-bg-size']         		= $mods['fl-footer-bg-size'];
+		$vars['footer-bg-image']      = empty( $mods['fl-footer-bg-image'] ) ? 'none' : 'url(' . $mods['fl-footer-bg-image'] . ')';
+		$vars['footer-bg-repeat']     = $mods['fl-footer-bg-repeat'];
+		$vars['footer-bg-position']   = $mods['fl-footer-bg-position'];
+		$vars['footer-bg-attachment'] = $mods['fl-footer-bg-attachment'];
+		$vars['footer-bg-size']       = $mods['fl-footer-bg-size'];
 
 		// Footer Colors
-		$vars['footer-bg-color']				= FLColor::hex_or_transparent( $mods['fl-footer-bg-color'] );
-		$vars['footer-bg-opacity']				= FLColor::clean_opa( $mods['fl-footer-bg-opacity'] );
-		$vars['footer-bg-grad']         		= $mods['fl-footer-bg-gradient'] ? 8 : 0;
-		$vars['footer-border-color']    		= FLColor::similar( array( 10, 13, 19 ), array( $vars['footer-bg-color'], $vars['body-bg-color'] ) );
-		$vars['footer-fg-color']        		= FLColor::hex( array( $mods['fl-footer-text-color'], $vars['text-color'] ) );
-		$vars['footer-fg-link-color']           = FLColor::hex( array( $mods['fl-footer-link-color'], $vars['footer-fg-color'] ) );
-		$vars['footer-fg-hover-color']          = FLColor::hex( array( $mods['fl-footer-hover-color'], $vars['footer-fg-color'] ) );
+		$vars['footer-bg-color']       = FLColor::hex_or_transparent( $mods['fl-footer-bg-color'] );
+		$vars['footer-bg-opacity']     = FLColor::clean_opa( $mods['fl-footer-bg-opacity'] );
+		$vars['footer-bg-grad']        = $mods['fl-footer-bg-gradient'] ? 8 : 0;
+		$vars['footer-border-color']   = FLColor::similar( array( 10, 13, 19 ), array( $vars['footer-bg-color'], $vars['body-bg-color'] ) );
+		$vars['footer-fg-color']       = FLColor::hex( array( $mods['fl-footer-text-color'], $vars['text-color'] ) );
+		$vars['footer-fg-link-color']  = FLColor::hex( array( $mods['fl-footer-link-color'], $vars['footer-fg-color'] ) );
+		$vars['footer-fg-hover-color'] = FLColor::hex( array( $mods['fl-footer-hover-color'], $vars['footer-fg-color'] ) );
 
 		// WooCommerce
 		if ( FLTheme::is_plugin_active( 'woocommerce' ) ) {
-			$vars['woo-cats-add-button']        = 'hidden' == $mods['fl-woo-cart-button'] ? 'none' : 'inline-block';
+			$vars['woo-cats-add-button'] = 'hidden' == $mods['fl-woo-cart-button'] ? 'none' : 'inline-block';
 		}
 
 		if ( true == apply_filters( 'fl_enable_fa5_pro', false ) ) {
@@ -1308,6 +1314,18 @@ final class FLCustomizer {
 
 		$weight = str_replace( 'italic', '', $weight );
 		return empty( $weight ) ? 400 : $weight;
+	}
+
+	/**
+	 * Get font style.
+	 * @since 1.7.1
+	 */
+	static private function _get_style( $weight ) {
+
+		if ( false !== strpos( $weight, 'italic' ) ) {
+			return 'italic';
+		}
+		return 'normal';
 	}
 
 	/**

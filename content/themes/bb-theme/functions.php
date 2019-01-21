@@ -11,7 +11,7 @@ Appearance > Theme Settings > Code or create a child theme.
 */
 
 // Defines
-define( 'FL_THEME_VERSION', '1.7.0.3' );
+define( 'FL_THEME_VERSION', '1.7.1.3' );
 define( 'FL_THEME_DIR', get_template_directory() );
 define( 'FL_THEME_URL', get_template_directory_uri() );
 
@@ -36,35 +36,40 @@ if ( defined( 'WP_CLI' ) ) {
 }
 
 // Theme Actions
-add_action( 'after_switch_theme',    	'FLCustomizer::refresh_css' );
-add_action( 'after_setup_theme',     	'FLTheme::setup' );
-add_action( 'init',                  	'FLTheme::init_woocommerce' );
-add_action( 'wp_enqueue_scripts',    	'FLTheme::enqueue_scripts', 999 );
-add_action( 'widgets_init',          	'FLTheme::widgets_init' );
-add_action( 'wp_footer',             	'FLTheme::go_to_top' );
-add_action( 'fl_after_post',            'FLTheme::after_post_widget', 10 );
-add_action( 'fl_after_post_content',    'FLTheme::post_author_box', 10 );
+add_action( 'after_switch_theme', 'FLCustomizer::refresh_css' );
+add_action( 'after_setup_theme', 'FLTheme::setup' );
+add_action( 'init', 'FLTheme::init_woocommerce' );
+add_action( 'wp_enqueue_scripts', 'FLTheme::enqueue_scripts', 999 );
+add_action( 'widgets_init', 'FLTheme::widgets_init' );
+add_action( 'wp_footer', 'FLTheme::go_to_top' );
+add_action( 'fl_after_post', 'FLTheme::after_post_widget', 10 );
+add_action( 'fl_after_post_content', 'FLTheme::post_author_box', 10 );
+// Header Actions
+add_action( 'wp_head', 'FLTheme::pingback_url' );
+add_action( 'fl_head_open', 'FLTheme::title' );
+add_action( 'fl_head_open', 'FLTheme::favicon' );
+add_action( 'fl_head_open', 'FLTheme::fonts' );
 
 // Theme Filters
-add_filter( 'body_class',                  'FLTheme::body_class' );
-add_filter( 'excerpt_more',                'FLTheme::excerpt_more' );
-add_filter( 'loop_shop_columns',           'FLTheme::woocommerce_columns' );
+add_filter( 'body_class', 'FLTheme::body_class' );
+add_filter( 'excerpt_more', 'FLTheme::excerpt_more' );
+add_filter( 'loop_shop_columns', 'FLTheme::woocommerce_columns' );
 add_filter( 'comment_form_default_fields', 'FLTheme::comment_form_default_fields' );
 add_filter( 'woocommerce_style_smallscreen_breakpoint', 'FLTheme::woo_mobile_breakpoint' );
 
 // Theme Updates
-add_action( 'init',                  	'FLThemeUpdate::init' );
+add_action( 'init', 'FLThemeUpdate::init' );
 
 // Admin Actions
-add_action( 'admin_head',            	'FLTheme::favicon' );
+add_action( 'admin_head', 'FLTheme::favicon' );
 
 // Customizer
-add_action( 'customize_preview_init',                    'FLCustomizer::preview_init' );
-add_action( 'customize_controls_enqueue_scripts',        'FLCustomizer::controls_enqueue_scripts' );
-add_action( 'customize_controls_print_footer_scripts',   'FLCustomizer::controls_print_footer_scripts' );
-add_action( 'customize_controls_print_styles',           'FLCustomizer::controls_print_styles' );
-add_action( 'customize_register',                        'FLCustomizer::register' );
-add_action( 'customize_save_after',                      'FLCustomizer::save' );
+add_action( 'customize_preview_init', 'FLCustomizer::preview_init' );
+add_action( 'customize_controls_enqueue_scripts', 'FLCustomizer::controls_enqueue_scripts' );
+add_action( 'customize_controls_print_footer_scripts', 'FLCustomizer::controls_print_footer_scripts' );
+add_action( 'customize_controls_print_styles', 'FLCustomizer::controls_print_styles' );
+add_action( 'customize_register', 'FLCustomizer::register' );
+add_action( 'customize_save_after', 'FLCustomizer::save' );
 
 // Compatibility
 FLThemeCompat::init();

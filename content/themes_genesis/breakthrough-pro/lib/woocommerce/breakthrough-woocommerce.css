@@ -2,7 +2,7 @@
 Loads on WooCommerce pages */
 
 /* WooCommerce Globals
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce.full-width-content .content,
 .woocommerce-page.full-width-content .content {
@@ -58,7 +58,7 @@ Loads on WooCommerce pages */
 }
 
 /* WooCommerce Product Gallery
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce .woocommerce-product-gallery__wrapper {
 	margin: 0;
@@ -83,7 +83,7 @@ Loads on WooCommerce pages */
 
 
 /* WooCommerce Shop Page
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .archive.woocommerce.full-width-content .page-title {
 	margin-bottom: 80px;;
@@ -160,7 +160,7 @@ Loads on WooCommerce pages */
 
 
 /* WooCommerce Product
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce div.product p.price,
 .woocommerce div.product span.price {
@@ -183,7 +183,7 @@ Loads on WooCommerce pages */
 }
 
 /* WooCommerce Product Short Description
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce-product-details__short-description ol,
 .woocommerce-product-details__short-description ul {
@@ -211,7 +211,7 @@ Loads on WooCommerce pages */
 
 
 /* WooCommerce Product Tabs
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce div.product .woocommerce-tabs ul.tabs::before,
 .woocommerce div.product .woocommerce-tabs ul.tabs li {
@@ -241,7 +241,7 @@ Loads on WooCommerce pages */
 
 
 /* WooCommerce Checkout
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce-cart #payment ul.payment_methods li,
 .woocommerce-checkout #payment ul.payment_methods li,
@@ -257,7 +257,7 @@ Loads on WooCommerce pages */
 
 
 /* WooCommerce Cart Page
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce table.shop_table,
 .woocommerce table.shop_table td {
@@ -318,7 +318,7 @@ Loads on WooCommerce pages */
 
 
 /* WooCommerce Payment
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce-cart #payment,
 .woocommerce-checkout #payment,
@@ -348,7 +348,7 @@ Loads on WooCommerce pages */
 
 
 /* WooCommerce Forms
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce a.button,
 .woocommerce a.button.alt,
@@ -465,7 +465,7 @@ Loads on WooCommerce pages */
 }
 
 /* WooCommerce Content Buttons
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce .woocommerce-tabs a.button.small,
 .woocommerce .woocommerce-product-details__short-description a.button.small {
@@ -567,7 +567,7 @@ Loads on WooCommerce pages */
 }
 
 /* WooCommerce Disabled Buttons
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce a.button:disabled,
 .woocommerce a.button:disabled:hover,
@@ -613,7 +613,7 @@ Loads on WooCommerce pages */
 
 
 /* WooCommerce Account Page
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce-account .woocommerce-Address-title h3 {
 	font-size: 26px;
@@ -660,7 +660,7 @@ Loads on WooCommerce pages */
 
 
 /* WooCommerce Breadcrumb
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce .woocommerce-breadcrumb {
 	font-size: 18px;
@@ -684,7 +684,7 @@ Loads on WooCommerce pages */
 
 
 /* WooCommerce Reviews
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce #reviews #comments ol.commentlist li img.avatar {
 	background: transparent;
@@ -707,7 +707,7 @@ Loads on WooCommerce pages */
 
 
 /* WooCommerce Misc
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .woocommerce a.remove {
 	line-height: .9;
@@ -738,7 +738,7 @@ div.woocommerce-info.wc-memberships-restriction-message.wc-memberships-restricte
 
 
 /* WooCommerce Widgets
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 /* Woo Search
 -------------------------------------------------- */
@@ -847,7 +847,7 @@ div.woocommerce-info.wc-memberships-restriction-message.wc-memberships-restricte
 
 
 /* Media Queries
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 @media only screen and (max-width: 1200px) {
 

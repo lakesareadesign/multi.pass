@@ -1,401 +1,143 @@
-#, fuzzy
+# Copyright (C) 2018 StudioPress
+# This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"Project-Id-Version: Authority Pro 1.0.5\n"
-"POT-Creation-Date: 2018-04-11 16:02-0400\n"
-"PO-Revision-Date: 2018-04-11 16:02-0400\n"
+"Project-Id-Version: Authority Pro 1.1.0\n"
+"Report-Msgid-Bugs-To: StudioPress <translations@studiopress.com>\n"
 "Last-Translator: StudioPress <translations@studiopress.com>\n"
 "Language-Team: StudioPress <translations@studiopress.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.5\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: style.css\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.js\n"
+"POT-Creation-Date: 2018-12-10T14:48:00+00:00\n"
+"PO-Revision-Date: 2018-12-10T14:48:00+00:00\n"
+"X-Generator: WP-CLI 2.0.1\n"
+"X-Domain: authority-pro\n"
 
-#: front-page.php:172
-msgid "Main Content"
+#. Theme Name of the theme
+msgid "Authority Pro"
 msgstr ""
 
-#: functions.php:118
+#. Theme URI of the theme
+msgid "https://my.studiopress.com/themes/authority/"
+msgstr ""
+
+#. Description of the theme
+msgid "Authority Pro is perfect for establishing trust and building your online business."
+msgstr ""
+
+#. Author of the theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://www.studiopress.com/"
+msgstr ""
+
+#: functions.php:131
 msgid "Menu"
 msgstr ""
 
-#: functions.php:120
+#: functions.php:133
 msgid "Submenu"
 msgstr ""
 
-#: functions.php:172
+#: functions.php:187
 msgid "Home - Featured Image"
 msgstr ""
 
-#: functions.php:231 lib/grid-layout.php:153
+#: functions.php:246
+#: lib/grid-layout.php:153
 msgid "Skip to footer"
 msgstr ""
 
-#: functions.php:240
+#: functions.php:256
 msgid "Header Menu"
 msgstr ""
 
-#: functions.php:241
+#: functions.php:257
 msgid "Footer Menu"
 msgstr ""
 
-#: functions.php:242
+#: functions.php:258
 msgid "Social Menu"
 msgstr ""
 
-#: functions.php:281
+#: functions.php:298
 msgid "Additional menu"
 msgstr ""
 
-#: functions.php:340
+#: functions.php:359
 msgid "Continue Reading"
 msgstr ""
 
-#: functions.php:471 functions.php:531
+#: functions.php:491
+#: functions.php:565
 msgid "Footer"
 msgstr ""
 
-#: functions.php:487
+#: functions.php:508
 msgid "Close Top Banner"
 msgstr ""
 
-#: functions.php:501
+#: functions.php:523
 msgid "Hero Section"
 msgstr ""
 
-#: functions.php:502
-msgid ""
-"This is the widget area for the Hero Section (must be enabled in Customizer)."
+#: functions.php:524
+msgid "This is the widget area for the Hero Section (must be enabled in Customizer)."
 msgstr ""
 
-#: functions.php:506
+#: functions.php:530
 msgid "Front Page 1"
 msgstr ""
 
-#: functions.php:507
+#: functions.php:531
 msgid "This is the front page 1 section."
 msgstr ""
 
-#: functions.php:511
+#: functions.php:537
 msgid "Front Page 2"
 msgstr ""
 
-#: functions.php:512
+#: functions.php:538
 msgid "This is the front page 2 section."
 msgstr ""
 
-#: functions.php:516
+#: functions.php:544
 msgid "Front Page 3"
 msgstr ""
 
-#: functions.php:517
+#: functions.php:545
 msgid "This is the front page 3 section."
 msgstr ""
 
-#: functions.php:521
+#: functions.php:551
 msgid "Front Page 4"
 msgstr ""
 
-#: functions.php:522
+#: functions.php:552
 msgid "This is the front page 4 section."
 msgstr ""
 
-#: functions.php:526
+#: functions.php:558
 msgid "Front Page 5"
 msgstr ""
 
-#: functions.php:527
+#: functions.php:559
 msgid "This is the front page 5 section."
 msgstr ""
 
-#: functions.php:532
+#: functions.php:566
 msgid "This is the footer section."
 msgstr ""
 
-#: lib/customizer/customize.php:28
-msgid "Set up the Authority Pro settings and defaults."
+#. Template Name of the theme
+msgid "Landing"
 msgstr ""
 
-#: lib/customizer/customize.php:30
-msgid "Authority Pro Settings"
-msgstr ""
-
-#: lib/customizer/customize.php:35
-msgid "Modify the Authority Pro Theme basic settings."
-msgstr ""
-
-#: lib/customizer/customize.php:36
-msgid "Basic Settings"
-msgstr ""
-
-#: lib/customizer/customize.php:47
-msgid "Show the front page hero section?"
-msgstr ""
-
-#: lib/customizer/customize.php:48
-msgid "Check the box to display the hero section on the top of the front page."
-msgstr ""
-
-#: lib/customizer/customize.php:61
-msgid "Enable the \"intro\" paragraph style on single posts?"
-msgstr ""
-
-#: lib/customizer/customize.php:62
-msgid ""
-"Check the box to automatically apply the \"intro\" font size and style to "
-"the first paragraph of all single posts."
-msgstr ""
-
-#: lib/customizer/customize.php:75
-msgid "Show featured image on posts?"
-msgstr ""
-
-#: lib/customizer/customize.php:76
-msgid ""
-"Check the box if you would like to display the featured image above the "
-"content on single posts."
-msgstr ""
-
-#: lib/customizer/customize.php:84
-msgid "Modify the settings for the top banner section."
-msgstr ""
-
-#: lib/customizer/customize.php:84
-msgid ""
-"Each time the customizer is opened, the top banner will be displayed in the "
-"live preview so you can easily customize the content."
-msgstr ""
-
-#: lib/customizer/customize.php:85
-msgid "Top Banner Section"
-msgstr ""
-
-#: lib/customizer/customize.php:95
-msgid "Check the box to display a dismissible banner at the top of all pages."
-msgstr ""
-
-#: lib/customizer/customize.php:96
-msgid "Show Top Banner?"
-msgstr ""
-
-#: lib/customizer/customize.php:109
-msgid "Change the text for the dismissible banner (allows HTML)."
-msgstr ""
-
-#: lib/customizer/customize.php:110
-msgid "Top Banner Text"
-msgstr ""
-
-#: lib/customizer/customize.php:129
-msgid "Modify the settings for the front page hero portrait section."
-msgstr ""
-
-#: lib/customizer/customize.php:130
-msgid "Hero Portrait Section"
-msgstr ""
-
-#: lib/customizer/customize.php:142
-msgid "Change the title text for the front page hero section."
-msgstr ""
-
-#: lib/customizer/customize.php:143
-msgid "Hero Title"
-msgstr ""
-
-#: lib/customizer/customize.php:167
-msgid "Change the description text for the front page hero section."
-msgstr ""
-
-#: lib/customizer/customize.php:168
-msgid "Hero Intro Paragraph"
-msgstr ""
-
-#: lib/customizer/customize.php:191
-msgid ""
-"Select a portrait image. For best results on all devices, the recommended "
-"image size is about 800px by 1200px."
-msgstr ""
-
-#: lib/customizer/customize.php:192
-msgid "Hero Portrait Image"
-msgstr ""
-
-#: lib/customizer/customize.php:205
-msgid "Change the caption text for the portrait image."
-msgstr ""
-
-#: lib/customizer/customize.php:206
-msgid "Hero Portrait Caption"
-msgstr ""
-
-#: lib/customizer/customize.php:224
-msgid "Modify the settings for the front page logo section."
-msgstr ""
-
-#: lib/customizer/customize.php:225
-msgid "Hero Logo Section"
-msgstr ""
-
-#: lib/customizer/customize.php:238
-msgid ""
-"Change the heading text that displays above the logo section if any logos "
-"are uploaded."
-msgstr ""
-
-#: lib/customizer/customize.php:239
-msgid "Hero Logos Heading Text"
-msgstr ""
-
-#: lib/customizer/customize.php:257
-msgid "Hero Logo Images"
-msgstr ""
-
-#: lib/customizer/customize.php:258
-msgid "You can upload and crop up to 6 logo images."
-msgstr ""
-
-#: lib/customizer/customize.php:259
-msgid ""
-"Each logo will be displayed at a maximum size of 200px by 40px. The "
-"recommended logo size is 400px wide by 80px tall."
-msgstr ""
-
-#: lib/customizer/customize.php:266
-msgid "Logo 1"
-msgstr ""
-
-#: lib/customizer/customize.php:267
-msgid "Logo 2"
-msgstr ""
-
-#: lib/customizer/customize.php:268
-msgid "Logo 3"
-msgstr ""
-
-#: lib/customizer/customize.php:269
-msgid "Logo 4"
-msgstr ""
-
-#: lib/customizer/customize.php:270
-msgid "Logo 5"
-msgstr ""
-
-#: lib/customizer/customize.php:271
-msgid "Logo 6"
-msgstr ""
-
-#: lib/customizer/customize.php:280
-#, php-format
-msgid "Select an image to display for %s."
-msgstr ""
-
-#: lib/customizer/customize.php:281
-#, php-format
-msgid "%s"
-msgstr ""
-
-#: lib/customizer/customize.php:298
-msgid ""
-"Change the default primary color (i.e. linked titles, menu links, post info "
-"links, buttons, and more)."
-msgstr ""
-
-#: lib/customizer/customize.php:299
-msgid "Primary Color"
-msgstr ""
-
-#: lib/customizer/customize.php:306
-msgid "Grid Layout Options"
-msgstr ""
-
-#: lib/customizer/customize.php:307
-msgid ""
-"These options apply to the Grid Layout if selected for categories and tags."
-msgstr ""
-
-#: lib/customizer/customize.php:320
-msgid "Apply the grid layout as the default layout for categories and tags?"
-msgstr ""
-
-#: lib/customizer/customize.php:333
-msgid "Display the featured image above the title?"
-msgstr ""
-
-#: lib/customizer/customize.php:346
-msgid "Select one of the following"
-msgstr ""
-
-#: lib/customizer/customize.php:352
-msgid "Entry content"
-msgstr ""
-
-#: lib/customizer/customize.php:353
-msgid "Entry excerpts"
-msgstr ""
-
-#: lib/customizer/customize.php:363
-msgid "Limit content to how many characters? (Enter 0 for no limit)"
-msgstr ""
-
-#: lib/customizer/customize.php:376
-msgid "Grid Layout Posts Per Page"
-msgstr ""
-
-#: lib/grid-layout.php:13
-msgid "Three-column Grid"
-msgstr ""
-
-#: lib/helper-functions.php:36
-msgid ""
-"Check out my fresh new course on building and growing an online audience "
-"— 25&#37; OFF Today Only!"
-msgstr ""
-
-#: lib/helper-functions.php:49
-msgid ""
-"Hey, I’m Kelly. I’ll teach you how to grow your audience and build an "
-"online business."
-msgstr ""
-
-#: lib/helper-functions.php:62
-msgid ""
-"Get instant free access to my weekly newsletter where I share my best tips "
-"about online marketing, personal branding, and entrepreneurship."
-msgstr ""
-
-#: lib/helper-functions.php:75
-msgid "Kelly Taylor, Entrepreuner"
-msgstr ""
-
-#: lib/helper-functions.php:88
-msgid "As Featured In:"
-msgstr ""
-
-#: lib/woocommerce/woocommerce-notice.php:53
-#, php-format
-msgid ""
-"Please install and activate <a href=\"https://wordpress.org/plugins/genesis-"
-"connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> "
-"to <strong>enable WooCommerce support for %s</strong>."
-msgstr ""
-
-#: lib/woocommerce/woocommerce-notice.php:67
-msgid "install and activate Genesis Connect for WooCommerce"
-msgstr ""
-
-#: lib/woocommerce/woocommerce-notice.php:70
-#, php-format
-msgid "Please %1$s to <strong>enable WooCommerce support for %2$s</strong>."
+#. Template Name of the theme
+msgid "Pricing"
 msgstr ""
 
 #: lib/woocommerce/woocommerce-setup.php:99
@@ -406,24 +148,292 @@ msgstr ""
 msgid "Next Page"
 msgstr ""
 
-#. Theme Name of the plugin/theme
-msgid "Authority Pro"
+#. translators: %s: child theme name
+#: lib/woocommerce/woocommerce-notice.php:55
+msgid "Please install and activate <a href=\"https://wordpress.org/plugins/genesis-connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> to <strong>enable WooCommerce support for %s</strong>."
 msgstr ""
 
-#. Theme URI of the plugin/theme
-msgid "https://my.studiopress.com/themes/authority/"
+#: lib/woocommerce/woocommerce-notice.php:69
+msgid "install and activate Genesis Connect for WooCommerce"
 msgstr ""
 
-#. Description of the plugin/theme
-msgid ""
-"Authority Pro is perfect for establishing trust and building your online "
-"business."
+#. translators: 1: plugin install prompt presented as link, 2: child theme name
+#: lib/woocommerce/woocommerce-notice.php:72
+msgid "Please %1$s to <strong>enable WooCommerce support for %2$s</strong>."
 msgstr ""
 
-#. Author of the plugin/theme
-msgid "StudioPress"
+#: lib/grid-layout.php:13
+msgid "Three-column Grid"
 msgstr ""
 
-#. Author URI of the plugin/theme
-msgid "https://www.studiopress.com/"
+#: lib/customizer/customize.php:29
+msgid "Set up the Authority Pro settings and defaults."
+msgstr ""
+
+#: lib/customizer/customize.php:31
+msgid "Authority Pro Settings"
+msgstr ""
+
+#: lib/customizer/customize.php:38
+msgid "Modify the Authority Pro Theme basic settings."
+msgstr ""
+
+#: lib/customizer/customize.php:39
+msgid "Basic Settings"
+msgstr ""
+
+#: lib/customizer/customize.php:54
+msgid "Show the front page hero section?"
+msgstr ""
+
+#: lib/customizer/customize.php:55
+msgid "Check the box to display the hero section on the top of the front page."
+msgstr ""
+
+#: lib/customizer/customize.php:72
+msgid "Enable the \"intro\" paragraph style on single posts?"
+msgstr ""
+
+#: lib/customizer/customize.php:73
+msgid "Check the box to automatically apply the \"intro\" font size and style to the first paragraph of all single posts."
+msgstr ""
+
+#: lib/customizer/customize.php:90
+msgid "Show featured image on posts?"
+msgstr ""
+
+#: lib/customizer/customize.php:91
+msgid "Check the box if you would like to display the featured image above the content on single posts."
+msgstr ""
+
+#: lib/customizer/customize.php:101
+msgid "Modify the settings for the top banner section."
+msgstr ""
+
+#: lib/customizer/customize.php:101
+msgid "Each time the customizer is opened, the top banner will be displayed in the live preview so you can easily customize the content."
+msgstr ""
+
+#: lib/customizer/customize.php:102
+msgid "Top Banner Section"
+msgstr ""
+
+#: lib/customizer/customize.php:116
+msgid "Check the box to display a dismissible banner at the top of all pages."
+msgstr ""
+
+#: lib/customizer/customize.php:117
+msgid "Show Top Banner?"
+msgstr ""
+
+#: lib/customizer/customize.php:134
+msgid "Change the text for the dismissible banner (allows HTML)."
+msgstr ""
+
+#: lib/customizer/customize.php:135
+msgid "Top Banner Text"
+msgstr ""
+
+#: lib/customizer/customize.php:158
+msgid "Modify the settings for the front page hero portrait section."
+msgstr ""
+
+#: lib/customizer/customize.php:159
+msgid "Hero Portrait Section"
+msgstr ""
+
+#: lib/customizer/customize.php:175
+msgid "Change the title text for the front page hero section."
+msgstr ""
+
+#: lib/customizer/customize.php:176
+msgid "Hero Title"
+msgstr ""
+
+#: lib/customizer/customize.php:206
+msgid "Change the description text for the front page hero section."
+msgstr ""
+
+#: lib/customizer/customize.php:207
+msgid "Hero Intro Paragraph"
+msgstr ""
+
+#: lib/customizer/customize.php:237
+msgid "Select a portrait image. For best results on all devices, the recommended image size is about 800px by 1200px."
+msgstr ""
+
+#: lib/customizer/customize.php:238
+msgid "Hero Portrait Image"
+msgstr ""
+
+#: lib/customizer/customize.php:256
+msgid "Change the caption text for the portrait image."
+msgstr ""
+
+#: lib/customizer/customize.php:257
+msgid "Hero Portrait Caption"
+msgstr ""
+
+#: lib/customizer/customize.php:279
+msgid "Modify the settings for the front page logo section."
+msgstr ""
+
+#: lib/customizer/customize.php:280
+msgid "Hero Logo Section"
+msgstr ""
+
+#: lib/customizer/customize.php:297
+msgid "Change the heading text that displays above the logo section if any logos are uploaded."
+msgstr ""
+
+#: lib/customizer/customize.php:298
+msgid "Hero Logos Heading Text"
+msgstr ""
+
+#: lib/customizer/customize.php:321
+msgid "Hero Logo Images"
+msgstr ""
+
+#: lib/customizer/customize.php:322
+msgid "You can upload and crop up to 6 logo images."
+msgstr ""
+
+#: lib/customizer/customize.php:323
+msgid "Each logo will be displayed at a maximum size of 200px by 40px. The recommended logo size is 400px wide by 80px tall."
+msgstr ""
+
+#: lib/customizer/customize.php:332
+msgid "Logo 1"
+msgstr ""
+
+#: lib/customizer/customize.php:333
+msgid "Logo 2"
+msgstr ""
+
+#: lib/customizer/customize.php:334
+msgid "Logo 3"
+msgstr ""
+
+#: lib/customizer/customize.php:335
+msgid "Logo 4"
+msgstr ""
+
+#: lib/customizer/customize.php:336
+msgid "Logo 5"
+msgstr ""
+
+#: lib/customizer/customize.php:337
+msgid "Logo 6"
+msgstr ""
+
+#: lib/customizer/customize.php:350
+msgid "Select an image to display for %s."
+msgstr ""
+
+#: lib/customizer/customize.php:351
+msgid "%s"
+msgstr ""
+
+#: lib/customizer/customize.php:374
+msgid "Change the default primary color (i.e. linked titles, menu links, post info links, buttons, and more)."
+msgstr ""
+
+#: lib/customizer/customize.php:375
+msgid "Primary Color"
+msgstr ""
+
+#: lib/customizer/customize.php:386
+msgid "Grid Layout Options"
+msgstr ""
+
+#: lib/customizer/customize.php:387
+msgid "These options apply to the Grid Layout if selected for categories and tags."
+msgstr ""
+
+#: lib/customizer/customize.php:405
+msgid "Apply the grid layout as the default layout for categories and tags?"
+msgstr ""
+
+#: lib/customizer/customize.php:422
+msgid "Display the featured image above the title?"
+msgstr ""
+
+#: lib/customizer/customize.php:439
+msgid "Select one of the following"
+msgstr ""
+
+#: lib/customizer/customize.php:445
+msgid "Entry content"
+msgstr ""
+
+#: lib/customizer/customize.php:446
+msgid "Entry excerpts"
+msgstr ""
+
+#: lib/customizer/customize.php:460
+msgid "Limit content to how many characters? (Enter 0 for no limit)"
+msgstr ""
+
+#: lib/customizer/customize.php:477
+msgid "Grid Layout Posts Per Page"
+msgstr ""
+
+#: lib/helper-functions.php:36
+msgid "Check out my fresh new course on building and growing an online audience — 25&#37; OFF Today Only!"
+msgstr ""
+
+#: lib/helper-functions.php:49
+msgid "Hey, I’m Kelly. I’ll teach you how to grow your audience and build an online business."
+msgstr ""
+
+#: lib/helper-functions.php:62
+msgid "Get instant free access to my weekly newsletter where I share my best tips about online marketing, personal branding, and entrepreneurship."
+msgstr ""
+
+#: lib/helper-functions.php:75
+msgid "Kelly Taylor, Entrepreuner"
+msgstr ""
+
+#: lib/helper-functions.php:88
+msgid "As Featured In:"
+msgstr ""
+
+#: lib/gutenberg/init.php:62
+msgid "Small"
+msgstr ""
+
+#: lib/gutenberg/init.php:63
+msgid "S"
+msgstr ""
+
+#: lib/gutenberg/init.php:68
+msgid "Normal"
+msgstr ""
+
+#: lib/gutenberg/init.php:69
+msgid "M"
+msgstr ""
+
+#: lib/gutenberg/init.php:74
+msgid "Large"
+msgstr ""
+
+#: lib/gutenberg/init.php:75
+msgid "L"
+msgstr ""
+
+#: lib/gutenberg/init.php:80
+msgid "Larger"
+msgstr ""
+
+#: lib/gutenberg/init.php:81
+msgid "XL"
+msgstr ""
+
+#: lib/gutenberg/init.php:94
+msgid "Primary color"
+msgstr ""
+
+#: front-page.php:174
+msgid "Main Content"
 msgstr ""

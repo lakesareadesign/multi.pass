@@ -17,7 +17,7 @@
 				'after'          => '</div>',
 				'next_or_number' => 'number',
 			) );
-		?>
+			?>
 	</div><!-- .fl-post-content -->
 	<?php do_action( 'fl_after_post_content' ); ?>
 

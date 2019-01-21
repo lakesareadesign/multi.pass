@@ -56,3 +56,9 @@ CHANGELOG
 = 1.0.5 =
 * Update Hero input appearance for webkit browsers.
 * Style comments checkbox.
+
+= 1.1.0 =
+* Add support for Gutenberg editor styling and opt-in features.
+* Update placeholder text CSS.
+* WooCommerce: update list styling in product content and short descriptions.
+* Remove unused customize.js script.

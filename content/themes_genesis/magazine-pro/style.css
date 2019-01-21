@@ -5,14 +5,14 @@
 	Author: StudioPress
 	Author URI: http://www.studiopress.com/
 
-	Version: 3.2.4
+	Version: 3.3.0
 
 	Tags: one-column, two-columns, three-columns, left-sidebar, right-sidebar, custom-background, custom-header, custom-menu, e-commerce, featured-images, footer-widgets, full-width-template, sticky-post, theme-options, threaded-comments, translation-ready, accessibility-ready
 
 	Template: genesis
 	Template Version: 2.1
 
-	License: GPL-2.0+
+	License: GPL-2.0-or-later
 	License URI: http://www.opensource.org/licenses/gpl-license.php
 
 	Text Domain: magazine-pro
@@ -74,7 +74,7 @@
 
 
 /* HTML5 Reset
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 /* Baseline Normalize
 --------------------------------------------- */
@@ -141,7 +141,7 @@ input[type="search"]{
 
 
 /* Defaults
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 /* Typographical Elements
 --------------------------------------------- */
@@ -163,6 +163,7 @@ body {
 	font-size: 1.6rem;
 	font-weight: 300;
 	line-height: 1.625;
+	overflow-x: hidden;
 }
 
 body.magazine-landing {
@@ -203,7 +204,7 @@ a {
 
 a:focus,
 a:hover {
-	color: #e8554e;
+	color: #008285;
 }
 
 p {
@@ -233,17 +234,6 @@ blockquote::before {
 
 blockquote {
 	margin: 40px;
-}
-
-blockquote::before {
-	content: "\201C";
-	display: block;
-	font-size: 30px;
-	font-size: 3rem;
-	height: 0;
-	left: -20px;
-	position: relative;
-	top: -10px;
 }
 
 cite {
@@ -415,15 +405,22 @@ input[type="radio"] {
 	width: auto;
 }
 
-::-moz-placeholder {
+::-ms-input-placeholder {
 	color: #222;
 	font-family: 'Raleway', sans-serif;
 	opacity: 1;
 }
 
-::-webkit-input-placeholder {
+:-ms-input-placeholder {
 	color: #222;
 	font-family: 'Raleway', sans-serif;
+	opacity: 1;
+}
+
+::placeholder {
+	color: #222;
+	font-family: 'Raleway', sans-serif;
+	opacity: 1;
 }
 
 button,
@@ -456,7 +453,7 @@ input:hover[type="submit"],
 .button:hover,
 .entry-content .button:hover {
 	color: #fff;
-	background-color: #e8554e;
+	background-color: #008285;
 }
 
 button.small,
@@ -571,7 +568,7 @@ td {
 
 
 /* Structure and Layout
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 /* Site Containers
 --------------------------------------------- */
@@ -730,7 +727,7 @@ td {
 
 
 /* Common Classes
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 /* WordPress
 --------------------------------------------- */
@@ -949,7 +946,7 @@ img.alignright,
 
 .entry-title a:focus,
 .entry-title a:hover {
-	color: #e8554e;
+	color: #008285;
 }
 
 .widget-title {
@@ -984,7 +981,7 @@ img.alignright,
 
 
 /* Widgets
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .widget,
 .widget li {
@@ -1093,7 +1090,7 @@ img.alignright,
 
 .js .content .home-middle a .entry-time,
 .js .content .home-top a .entry-time {
-	background-color: #e8554e;
+	background-color: #008285;
 	bottom: 24px;
 	color: #fff;
 	font-size: 14px;
@@ -1138,7 +1135,7 @@ img.alignright,
 .home-middle a.more-link:hover,
 .home-top a.more-link:focus,
 .home-top a.more-link:hover {
-	background-color: #e8554e;
+	background-color: #008285;
 	color: #fff;
 }
 
@@ -1153,7 +1150,7 @@ img.alignright,
 
 
 /* Plugins
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 /* Genesis eNews Extended
 --------------------------------------------- */
@@ -1186,7 +1183,7 @@ img.alignright,
 }
 
 .widget-area .enews-widget input[type="submit"] {
-	background-color: #e8554e;
+	background-color: #008285;
 	color: #fff;
 }
 
@@ -1327,7 +1324,7 @@ img#wpstats {
 
 
 /* Skip Links
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .genesis-skip-link {
 	margin: 0;
@@ -1347,7 +1344,7 @@ img#wpstats {
 
 
 /* Site Header
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .primary-nav .site-header {
 	padding-top: 64px;
@@ -1444,7 +1441,7 @@ img#wpstats {
 
 
 /* Site Navigation
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .genesis-nav-menu {
 	clear: both;
@@ -1476,7 +1473,7 @@ img#wpstats {
 .genesis-nav-menu .current-menu-item > a,
 .genesis-nav-menu .sub-menu .current-menu-item > a:focus,
 .genesis-nav-menu .sub-menu .current-menu-item > a:hover {
-	color: #e8554e;
+	color: #008285;
 }
 
 .genesis-nav-menu .sub-menu {
@@ -1566,7 +1563,7 @@ img#wpstats {
 .nav-primary .sub-menu a:focus,
 .nav-primary .sub-menu a:hover,
 .nav-primary .genesis-nav-menu .current-menu-item > a {
-	color: #e8554e;
+	color: #aaa;
 }
 
 .nav-primary .genesis-nav-menu .sub-menu a {
@@ -1608,7 +1605,7 @@ img#wpstats {
 
 
 /* Content Area
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 /* Entries
 --------------------------------------------- */
@@ -1624,7 +1621,7 @@ img#wpstats {
 }
 
 .entry-content a {
-	color: #e8554e;
+	color: #008285;
 }
 
 .entry-content a:focus,
@@ -1655,6 +1652,11 @@ img#wpstats {
 
 .entry-content ul > li {
 	list-style-type: disc;
+}
+
+.entry-content ol ul > li,
+.entry-content ul ul > li {
+	list-style-type: circle;
 }
 
 .entry-content ol ol,
@@ -1728,7 +1730,7 @@ img#wpstats {
 .archive-pagination li a:focus,
 .archive-pagination li a:hover,
 .archive-pagination li.active a {
-	background-color: #e8554e;
+	background-color: #008285;
 }
 
 .entry-pagination a {
@@ -1798,9 +1800,13 @@ li.comment {
 	padding: 24px;
 }
 
+.comment-form-cookies-consent label {
+	display: inline;
+	padding-left: 10px;
+}
 
 /* Sidebars
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .sidebar p:last-child,
 .sidebar ul > li:last-child {
@@ -1833,13 +1839,13 @@ li.comment {
 
 .sidebar .tagcloud a:focus,
 .sidebar .tagcloud a:hover {
-	background-color: #e8554e;
+	background-color: #008285;
 	color: #fff;
 }
 
 
 /* Footer Widgets
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .footer-widgets {
 	background-color: #222;
@@ -1883,6 +1889,15 @@ li.comment {
 	margin-bottom: 0;
 }
 
+.footer-widgets h1,
+.footer-widgets h2,
+.footer-widgets h3,
+.footer-widgets h4,
+.footer-widgets h5,
+.footer-widgets h6 {
+	color: #fff;
+}
+
 .footer-widgets .widget {
 	margin-bottom: 40px;
 }
@@ -1920,7 +1935,7 @@ li.comment {
 
 
 /* Site Footer
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .site-footer {
 	background-color: #222;
@@ -1949,9 +1964,8 @@ li.comment {
 	margin-bottom: 0;
 }
 
-
 /* Media Queries
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 @media only screen and (max-width: 1180px) {
 
@@ -2121,17 +2135,15 @@ li.comment {
 		color: #fff;
 	}
 
-	#genesis-mobile-nav-primary:focus,
-	#genesis-mobile-nav-primary:hover {
-		color: #e8554e;
+	.menu-toggle:hover,
+	.menu-toggle:focus {
+		color: #aaa;
 	}
 
-	.menu-toggle:hover,
-	.menu-toggle:focus,
 	.sub-menu-toggle:hover,
 	.sub-menu-toggle:focus {
 		background-color: #fff;
-		color: #e8554e;
+		color: #aaa;
 		border-width: 0;
 	}
 
@@ -2169,7 +2181,7 @@ li.comment {
 	nav.nav-primary .sub-menu-toggle:focus,
 	nav.nav-primary .sub-menu-toggle:hover {
 		background-color: transparent;
-		color: #e8554e;
+		color: #aaa;
 	}
 
 	.sub-menu-toggle:before {

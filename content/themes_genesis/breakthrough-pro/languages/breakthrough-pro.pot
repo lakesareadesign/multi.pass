@@ -1,120 +1,192 @@
-#, fuzzy
+# Copyright (C) 2018 StudioPress
+# This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"Project-Id-Version: Breakthrough Pro 1.0.0\n"
-"POT-Creation-Date: 2018-09-19 15:39-0400\n"
-"PO-Revision-Date: 2018-09-19 13:59-0400\n"
+"Project-Id-Version: Breakthrough Pro 1.1.0\n"
+"Report-Msgid-Bugs-To: StudioPress <translations@studiopress.com>\n"
 "Last-Translator: StudioPress <translations@studiopress.com>\n"
 "Language-Team: StudioPress <translations@studiopress.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.1.1\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: style.css\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.js\n"
+"POT-Creation-Date: 2018-12-10T14:47:24+00:00\n"
+"PO-Revision-Date: 2018-12-10T14:47:24+00:00\n"
+"X-Generator: WP-CLI 2.0.1\n"
+"X-Domain: breakthrough-pro\n"
 
-#: front-page.php:96
-msgid "Main Content"
+#. Theme Name of the theme
+msgid "Breakthrough Pro"
 msgstr ""
 
-#: functions.php:94
+#. Theme URI of the theme
+msgid "https://my.studiopress.com/themes/breakthrough"
+msgstr ""
+
+#. Description of the theme
+msgid "Breakthrough Pro combines a palette of beautiful colors and minimal design in a sleek, modern layout for a marketing agency to demonstrate its work, services, creativity, and more - perfect for your next breakthrough moment."
+msgstr ""
+
+#. Author of the theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://www.studiopress.com/"
+msgstr ""
+
+#: functions.php:108
 msgid "Menu"
 msgstr ""
 
-#: functions.php:96
+#: functions.php:110
 msgid "Submenu"
 msgstr ""
 
-#: functions.php:191
+#: functions.php:205
 msgid "Header Menu"
 msgstr ""
 
-#: functions.php:192
+#: functions.php:206
 msgid "Footer Menu"
 msgstr ""
 
-#: functions.php:270 lib/headings.php:264
+#: functions.php:284
 msgid "Skip to content"
 msgstr ""
 
-#: functions.php:273
+#: functions.php:287
 msgid "Skip to footer"
 msgstr ""
 
-#: functions.php:325
+#: functions.php:339
 msgid "Continue Reading"
 msgstr ""
 
-#: functions.php:441
+#: functions.php:455
 msgid "Front Page 1"
 msgstr ""
 
-#: functions.php:442
+#: functions.php:456
 msgid "This is the front page 1 section."
 msgstr ""
 
-#: functions.php:448
+#: functions.php:462
 msgid "Front Page 2"
 msgstr ""
 
-#: functions.php:449
+#: functions.php:463
 msgid "This is the front page 2 section."
 msgstr ""
 
-#: functions.php:455
+#: functions.php:469
 msgid "Front Page 3"
 msgstr ""
 
-#: functions.php:456
+#: functions.php:470
 msgid "This is the front page 3 section."
 msgstr ""
 
-#: functions.php:462
+#: functions.php:476
 msgid "Front Page 4"
 msgstr ""
 
-#: functions.php:463
+#: functions.php:477
 msgid "This is the front page 4 section."
 msgstr ""
 
-#: functions.php:469
+#: functions.php:483
 msgid "Front Page 5"
 msgstr ""
 
-#: functions.php:470
+#: functions.php:484
 msgid "This is the front page 5 section."
 msgstr ""
 
-#: functions.php:476
+#: functions.php:490
 msgid "Front Page 6"
 msgstr ""
 
-#: functions.php:477
+#: functions.php:491
 msgid "This is the front page 6 section."
 msgstr ""
 
-#: functions.php:483
+#: functions.php:497
 msgid "Above Footer CTA"
 msgstr ""
 
-#: functions.php:484
+#: functions.php:498
 msgid "Above footer call to action section."
 msgstr ""
 
-#: functions.php:490 functions.php:530
+#: functions.php:504
+#: functions.php:544
 msgid "Footer"
 msgstr ""
 
-#: functions.php:491
+#: functions.php:505
 msgid "This is the footer section."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:115
+msgid "Previous Page"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:116
+msgid "Next Page"
+msgstr ""
+
+#. translators: %s: child theme name
+#: lib/woocommerce/woocommerce-notice.php:55
+msgid "Please install and activate <a href=\"https://wordpress.org/plugins/genesis-connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:70
+msgid "install and activate Genesis Connect for WooCommerce"
+msgstr ""
+
+#. translators: 1: plugin install prompt presented as link, 2: child theme name
+#: lib/woocommerce/woocommerce-notice.php:74
+msgid "Please %1$s to <strong>enable WooCommerce support for %2$s</strong>."
+msgstr ""
+
+#: lib/gutenberg/init.php:62
+msgid "Small"
+msgstr ""
+
+#: lib/gutenberg/init.php:63
+msgid "S"
+msgstr ""
+
+#: lib/gutenberg/init.php:68
+msgid "Normal"
+msgstr ""
+
+#: lib/gutenberg/init.php:69
+msgid "M"
+msgstr ""
+
+#: lib/gutenberg/init.php:74
+msgid "Large"
+msgstr ""
+
+#: lib/gutenberg/init.php:75
+msgid "L"
+msgstr ""
+
+#: lib/gutenberg/init.php:80
+msgid "Larger"
+msgstr ""
+
+#: lib/gutenberg/init.php:81
+msgid "XL"
+msgstr ""
+
+#: lib/gutenberg/init.php:93
+msgid "Primary color"
+msgstr ""
+
+#: lib/gutenberg/init.php:98
+msgid "Secondary color"
 msgstr ""
 
 #: lib/customize.php:25
@@ -166,10 +238,7 @@ msgid "Hero Colored Button URL"
 msgstr ""
 
 #: lib/customize.php:139
-msgid ""
-"Modify the images displayed on the front page, the default image shown on "
-"inside pages, and the footer image. The recommended image size is 1600px "
-"wide by 420px tall. Larger images will be cropped to that size."
+msgid "Modify the images displayed on the front page, the default image shown on inside pages, and the footer image. The recommended image size is 1600px wide by 420px tall. Larger images will be cropped to that size."
 msgstr ""
 
 #: lib/customize.php:140
@@ -185,9 +254,7 @@ msgid "Front Page Image 1"
 msgstr ""
 
 #: lib/customize.php:175
-msgid ""
-"Select an image to appear if the Front Page 1, Front Page 2 or Front Page 3 "
-"sections are in use."
+msgid "Select an image to appear if the Front Page 1, Front Page 2 or Front Page 3 sections are in use."
 msgstr ""
 
 #: lib/customize.php:176
@@ -195,9 +262,7 @@ msgid "Front Page Image 2"
 msgstr ""
 
 #: lib/customize.php:194
-msgid ""
-"Select an image to appear if the Front Page 4 or Front Page 5 sections are "
-"in use."
+msgid "Select an image to appear if the Front Page 4 or Front Page 5 sections are in use."
 msgstr ""
 
 #: lib/customize.php:195
@@ -205,9 +270,7 @@ msgid "Front Page Image 3"
 msgstr ""
 
 #: lib/customize.php:213
-msgid ""
-"Select an image to use at the top of posts, pages, and portfolio items if a "
-"featured image is not set."
+msgid "Select an image to use at the top of posts, pages, and portfolio items if a featured image is not set."
 msgstr ""
 
 #: lib/customize.php:214
@@ -223,9 +286,7 @@ msgid "Footer Image"
 msgstr ""
 
 #: lib/customize.php:251
-msgid ""
-"Change the first color used in titles, menu links, post info links, default "
-"buttons, image overlays and more."
+msgid "Change the first color used in titles, menu links, post info links, default buttons, image overlays and more."
 msgstr ""
 
 #: lib/customize.php:252
@@ -233,9 +294,7 @@ msgid "Color 1"
 msgstr ""
 
 #: lib/customize.php:270
-msgid ""
-"Change the second color used in call-to-action and primary buttons, "
-"breadcrumbs, links, and more."
+msgid "Change the second color used in call-to-action and primary buttons, breadcrumbs, links, and more."
 msgstr ""
 
 #: lib/customize.php:271
@@ -255,9 +314,7 @@ msgid "Enable the \"intro\" paragraph style on single posts?"
 msgstr ""
 
 #: lib/customize.php:298
-msgid ""
-"Check the box to automatically apply the \"intro\" font size and style to "
-"the first paragraph of all single posts."
+msgid "Check the box to automatically apply the \"intro\" font size and style to the first paragraph of all single posts."
 msgstr ""
 
 #: lib/customize.php:315
@@ -265,9 +322,7 @@ msgid "Show featured image on posts?"
 msgstr ""
 
 #: lib/customize.php:316
-msgid ""
-"Check the box if you would like to display the featured image above the "
-"content on single posts."
+msgid "Check the box if you would like to display the featured image above the content on single posts."
 msgstr ""
 
 #: lib/customize.php:333
@@ -275,9 +330,7 @@ msgid "Show featured image on pages?"
 msgstr ""
 
 #: lib/customize.php:334
-msgid ""
-"Check the box if you would like to display the featured image above the "
-"content on single pages."
+msgid "Check the box if you would like to display the featured image above the content on single pages."
 msgstr ""
 
 #: lib/customize.php:352
@@ -285,9 +338,7 @@ msgid "Show featured image on portfolio items?"
 msgstr ""
 
 #: lib/customize.php:353
-msgid ""
-"Check the box if you would like to display the featured image above the "
-"content on single portfolio items."
+msgid "Check the box if you would like to display the featured image above the content on single portfolio items."
 msgstr ""
 
 #: lib/customize.php:371
@@ -295,64 +346,17 @@ msgid "Show a colored overlay on featured images?"
 msgstr ""
 
 #: lib/customize.php:372
-msgid ""
-"Check the box to display a colored overlay on featured and front page images "
-"in supported browsers. Alter the tint by changing Color 1 in the Colors "
-"settings. The overlay will not appear on product images."
+msgid "Check the box to display a colored overlay on featured and front page images in supported browsers. Alter the tint by changing Color 1 in the Colors settings. The overlay will not appear on product images."
 msgstr ""
 
 #: lib/headings.php:207
 msgid "404 Page Not Found"
 msgstr ""
 
-#: lib/woocommerce/woocommerce-notice.php:55
-#, php-format
-msgid ""
-"Please install and activate <a href=\"https://wordpress.org/plugins/genesis-"
-"connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> "
-"to <strong>enable WooCommerce support for %s</strong>."
-msgstr ""
-
-#: lib/woocommerce/woocommerce-notice.php:70
-msgid "install and activate Genesis Connect for WooCommerce"
-msgstr ""
-
-#: lib/woocommerce/woocommerce-notice.php:74
-#, php-format
-msgid "Please %1$s to <strong>enable WooCommerce support for %2$s</strong>."
-msgstr ""
-
-#: lib/woocommerce/woocommerce-setup.php:115
-msgid "Previous Page"
-msgstr ""
-
-#: lib/woocommerce/woocommerce-setup.php:116
-msgid "Next Page"
-msgstr ""
-
-#. Theme Name of the plugin/theme
-msgid "Breakthrough Pro"
-msgstr ""
-
-#. Theme URI of the plugin/theme
-msgid "https://my.studiopress.com/themes/breakthrough"
-msgstr ""
-
-#. Description of the plugin/theme
-msgid ""
-"Breakthrough Pro combines a palette of beautiful colors and minimal design "
-"in a sleek, modern layout for a marketing agency to demonstrate its work, "
-"services, creativity, and more - perfect for your next breakthrough moment."
-msgstr ""
-
-#. Author of the plugin/theme
-msgid "StudioPress"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://www.studiopress.com/"
-msgstr ""
-
-#. Template Name of the plugin/theme
+#. Template Name of the theme
 msgid "Landing"
+msgstr ""
+
+#: front-page.php:96
+msgid "Main Content"
 msgstr ""

@@ -5,7 +5,7 @@ if ( 'none' != $layout ) {
 	if ( '1-col' == $layout ) {
 		echo '<div class="' . FLLayout::get_col_classes( array( 'md' => 12 ) ) . ' text-center clearfix">';
 	} else {
-		echo '<div class="' . FLLayout::get_col_classes( array( 'sm' => 6, 'md' => 6 ) ) . ' text-left clearfix">';
+		echo '<div class="' . FLLayout::get_col_classes( array( 'sm' => 6, 'md' => 6 ) ) . ' text-left clearfix">'; // @codingStandardsIgnoreLine
 	}
 
 	do_action( 'fl_footer_col1_open' );
@@ -23,9 +23,9 @@ if ( 'none' != $layout ) {
 	if ( 'menu' == $col_layout ) {
 		wp_nav_menu(array(
 			'theme_location' => 'footer',
-			'items_wrap' => '<ul id="%1$s" class="fl-page-footer-nav nav navbar-nav %2$s">%3$s</ul>',
-			'container' => false,
-			'fallback_cb' => 'FLTheme::nav_menu_fallback',
+			'items_wrap'     => '<ul id="%1$s" class="fl-page-footer-nav nav navbar-nav %2$s">%3$s</ul>',
+			'container'      => false,
+			'fallback_cb'    => 'FLTheme::nav_menu_fallback',
 		));
 	}
 

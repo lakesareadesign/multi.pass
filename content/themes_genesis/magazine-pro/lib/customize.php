@@ -6,7 +6,7 @@
  *
  * @package Magazine
  * @author  StudioPress
- * @license GPL-2.0+
+ * @license GPL-2.0-or-later
  * @link    http://my.studiopress.com/themes/magazine/
  */
 
@@ -57,7 +57,7 @@ function magazine_customizer_register( $wp_customize ) {
 			$wp_customize,
 			'magazine_accent_color',
 			array(
-				'description' => __( 'Change the front page featured post date backgrounds, hover color for Before Header Menu links, the button hover background color, and more.', 'magazine-pro' ),
+				'description' => __( 'Change the front page featured post date backgrounds, the button hover background color, and more.', 'magazine-pro' ),
 				'label'       => __( 'Accent Color', 'magazine-pro' ),
 				'section'     => 'colors',
 				'settings'    => 'magazine_accent_color',

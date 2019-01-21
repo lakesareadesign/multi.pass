@@ -5,6 +5,7 @@
 				<div class="<?php FLLayout::col_classes( array( 'sm' => 12 ) ); ?>">
 					<div class="fl-page-header-logo" itemscope="itemscope" itemtype="https://schema.org/Organization">
 						<a href="<?php echo esc_url( home_url( '/' ) ); ?>" itemprop="url"><?php FLTheme::logo(); ?></a>
+						<?php echo FLTheme::get_tagline(); ?>
 					</div>
 				</div>
 				<div class="<?php FLLayout::col_classes( array( 'sm' => 12 ) ); ?> fl-page-nav-col">
@@ -17,9 +18,9 @@
 								<?php
 								wp_nav_menu(array(
 									'theme_location' => 'header',
-									'items_wrap' => '<ul id="%1$s" class="nav navbar-nav navbar-vertical navbar-vertical-left %2$s">%3$s</ul>',
-									'container' => false,
-									'fallback_cb' => 'FLTheme::nav_menu_fallback',
+									'items_wrap'     => '<ul id="%1$s" class="nav navbar-nav navbar-vertical navbar-vertical-left %2$s">%3$s</ul>',
+									'container'      => false,
+									'fallback_cb'    => 'FLTheme::nav_menu_fallback',
 								));
 
 								FLTheme::nav_search();

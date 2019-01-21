@@ -72,14 +72,7 @@
 
 	}
 
-	if ( ( 'relative' !== $( '.js .nav-primary' ).css( 'position' ) ) ) {
-		var headerHeight = $( '.site-header' ).height();
-		$( '.front-page .front-page-1' ).css( 'padding-top', headerHeight+'px' );
-	} else {
-			$( '.front-page .front-page-1' ).removeAttr( 'style' );
-	}
-
-	$(window).resize(function() {
+	$(window).on('resize.genesisMenu', function() {
 
 		if ( ( 'relative' !== $( '.js .nav-primary' ).css( 'position' ) ) ) {
 			var headerHeight = $( '.site-header' ).height();

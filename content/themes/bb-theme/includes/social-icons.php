@@ -8,12 +8,12 @@ foreach ( $icons as $icon ) {
 
 	if ( ! empty( $settings[ 'fl-social-' . $icon ] ) ) {
 
-		$setting = $settings[ 'fl-social-' . $icon ];
+		$setting           = $settings[ 'fl-social-' . $icon ];
 		$icon_sreen_reader = '<span class="sr-only">' . ucfirst( $icon ) . '</span>';
 		if ( 'email' == $icon ) {
-			$setting = 'mailto:' . $setting;
+			$setting     = 'mailto:' . $setting;
 			$link_target = '';
-			$icon = 'envelope';
+			$icon        = 'envelope';
 		}
 
 		$pre = ( 'envelope' == $icon || 'rss' == $icon ) ? 'fas' : 'fab';

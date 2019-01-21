@@ -37,10 +37,11 @@ Appearance > Theme Settings > Code or create a child theme.
 		.fl-page-nav {
 			ul.navbar-nav > li.menu-item-has-children > a:after{
 				font-family: @font-awesome-family;
-  			content: '\f107';
-  			font-weight: 900;
+  				content: '\f107';
+  				font-weight: 900;
 				margin-left: 5px;
-				float: right;
+				display: inline-block;
+				vertical-align: middle;
 			}
 			ul.sub-menu  {
 				li.menu-item-has-children > a:after {
@@ -80,6 +81,8 @@ Appearance > Theme Settings > Code or create a child theme.
 					content: '\f104';
 					font-weight: 900;
 					float: left;
+					margin-right: 5px;
+					margin-left: 0;
 				}
 				ul.sub-menu  {
 					li.menu-item-has-children > a:after {

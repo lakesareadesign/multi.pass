@@ -13,6 +13,11 @@
 // Start the engine.
 include_once( get_template_directory() . '/lib/init.php' );
 
+// Child theme (do not remove).
+define( 'CHILD_THEME_NAME', 'Infinity Pro' );
+define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/infinity/' );
+define( 'CHILD_THEME_VERSION', '1.2.0' );
+
 // Setup Theme.
 include_once( get_stylesheet_directory() . '/lib/theme-defaults.php' );
 
@@ -34,16 +39,25 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-output.
 // Include notice to install Genesis Connect for WooCommerce.
 include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.php' );
 
+add_action( 'after_setup_theme', 'genesis_child_gutenberg_support' );
+/**
+ * Adds Gutenberg opt-in features and styling.
+ *
+ * Allows plugins to remove support if required.
+ *
+ * @since 1.2.0
+ */
+function genesis_child_gutenberg_support() {
+
+	require_once get_stylesheet_directory() . '/lib/gutenberg/init.php';
+
+}
+
 // Set Localization (do not remove).
 add_action( 'after_setup_theme', 'infinity_localization_setup' );
 function infinity_localization_setup(){
 	load_child_theme_textdomain( 'infinity-pro', get_stylesheet_directory() . '/languages' );
 }
-
-// Child theme (do not remove).
-define( 'CHILD_THEME_NAME', 'Infinity Pro' );
-define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/infinity/' );
-define( 'CHILD_THEME_VERSION', '1.1.4' );
 
 // Enqueue scripts and styles.
 add_action( 'wp_enqueue_scripts', 'infinity_enqueue_scripts_styles' );

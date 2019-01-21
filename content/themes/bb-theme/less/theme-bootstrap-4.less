@@ -52,6 +52,10 @@ Appearance > Theme Settings > Code or create a child theme.
 .fl-page-nav-left,
 .fl-page-nav-right {
 
+	.fl-page-header-row {
+		display: flex;
+	}
+
 	.fl-page-nav .navbar-nav {
 		display: block;
 	}
@@ -95,5 +99,25 @@ Appearance > Theme Settings > Code or create a child theme.
 .fl-page-header-fixed {
 	.fl-page-nav-wrap .navbar-nav > li > a.nav-link {
 		padding: 10px @nav-item-spacing;
+	}
+}
+
+/* Content
+----------------------------------------------------------- */
+.row.fl-post-image-beside-wrap {
+	display: block;
+}
+
+/* Bootstrap-4 Woocommerce Fixes
+----------------------------------------------------------- */
+body.fl-framework-base-4,
+body.fl-framework-bootstrap-4, {
+	.woocommerce-billing-fields .form-row, .woocommerce-shipping-fields .form-row,.woocommerce form .form-row {
+		display: block;
+	}
+	.woocommerce .col2-set .col-1, .woocommerce-page .col2-set .col-1,.woocommerce .col2-set .col-2, .woocommerce-page .col2-set .col-2 {
+		max-width: unset;
+		padding-left: initial;
+		padding-right: initial;
 	}
 }

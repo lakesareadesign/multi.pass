@@ -35,3 +35,10 @@ CHANGELOG
 * Reduce mobile front page widget title font size.
 * Update widget padding on mobile views.
 * Update CSS for Custom HTML widget.
+
+= 1.1.0 =
+* PHP 7.1 compatibility.
+* Add support for Gutenberg editor styling and opt-in features.
+* Update placeholder text CSS.
+* WooCommerce: update list styling in product content and short descriptions.
+* Hide menu search field when it loses focus via tab or escape keypresses, or clicking outside the search input.

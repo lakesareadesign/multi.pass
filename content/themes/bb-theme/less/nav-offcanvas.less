@@ -19,6 +19,7 @@ Appearance > Theme Settings > Code or create a child theme.
 		-webkit-transition: left .20s ease-in-out, right .20s ease-in-out;
 		     -o-transition: left .20s ease-in-out, right .20s ease-in-out;
 		        transition: left .20s ease-in-out, right .20s ease-in-out;
+		overflow: hidden;
 	}
 
 	.fl-page-bar {
@@ -38,11 +39,15 @@ Appearance > Theme Settings > Code or create a child theme.
 		right: 0;
 
 		.fl-nav-offcanvas-collapse {
-			right: -250px;
+			right: -255px;
 		}
 
 		&.fl-nav-offcanvas-active {
 			right: 250px;
+
+			.fl-nav-offcanvas-collapse {
+				right: 0;
+			}
 		}
 
 		.fl-button-close {
@@ -55,11 +60,15 @@ Appearance > Theme Settings > Code or create a child theme.
 		left: 0;
 
 		.fl-nav-offcanvas-collapse {
-			left: -250px;
+			left: -255px;
 		}
 
 		&.fl-nav-offcanvas-active {
 			left: 250px;
+
+			.fl-nav-offcanvas-collapse {
+				left: 0;
+			}
 		}
 
 		.fl-button-close {
@@ -69,7 +78,7 @@ Appearance > Theme Settings > Code or create a child theme.
 
 	&.fl-offcanvas-overlay-left .fl-page {
 		.fl-nav-offcanvas-collapse {
-			left: -250px;
+			left: -255px;
 		}
 
 		&.fl-nav-offcanvas-active {
@@ -85,7 +94,7 @@ Appearance > Theme Settings > Code or create a child theme.
 
 	&.fl-offcanvas-overlay-right .fl-page {
 		.fl-nav-offcanvas-collapse {
-			right: -250px;
+			right: -255px;
 		}
 
 		&.fl-nav-offcanvas-active {
@@ -114,16 +123,20 @@ Appearance > Theme Settings > Code or create a child theme.
 		);
 	}
 
-	.fl-nav-offcanvas-collapse {
-		overflow-y: auto;
-		position: absolute;
+	.fl-nav-offcanvas-collapse.navbar-collapse {
+		display: block !important;
+		visibility: visible !important;
+		overflow-y: auto !important;
+		position: fixed;
 		top: 0;
+		height: 100% !important;
 		width: 250px;
-		z-index: 205;
+		z-index: 999999;
+		opacity: 0;
 
-		-webkit-transition: all .25s ease-out;
-			 -o-transition: all .25s ease-out;
-				transition: all .25s ease-out;
+		-webkit-transition: left .20s ease-in-out, right .20s ease-in-out;
+		     -o-transition: left .20s ease-in-out, right .20s ease-in-out;
+		        transition: left .20s ease-in-out, right .20s ease-in-out;
 	}
 
 	.fl-button-close {
@@ -148,22 +161,30 @@ Appearance > Theme Settings > Code or create a child theme.
 			visibility: visible !important;
 		}
 		.fl-offcanvas-opacity {
-			display: block;
+			opacity: 1;
+			width: auto;
 		}
+		.fl-nav-offcanvas-collapse.navbar-collapse {
+			opacity: 1;
+		}
+		overflow: visible;
 	}
 
 	.fl-offcanvas-opacity {
-		display: none;
+		opacity: 0;
 		position: fixed;
-		width: 100%;
+		width: 0;
 	    height: 100%;
 	    top: 0;
 	    left: 0;
 	    right: 0;
 	    bottom: 0;
 	    background-color: rgba(0,0,0,0.4);
-	    z-index: 5;
+	    z-index: 110;
 	    cursor: pointer;
+		-webkit-transition: left .20s ease-in-out, right .20s ease-in-out;
+		     -o-transition: left .20s ease-in-out, right .20s ease-in-out;
+		        transition: left .20s ease-in-out, right .20s ease-in-out;
 	}
 
 	/* Shrink Header */
@@ -226,7 +247,6 @@ Appearance > Theme Settings > Code or create a child theme.
 				.fl-page-bar {
 					padding-left: 250px;
 				}
-
 				.fl-shrink-header .navbar-toggle {
 					position: absolute;
 				}
@@ -239,7 +259,6 @@ Appearance > Theme Settings > Code or create a child theme.
 				.fl-page-bar {
 					padding-right: 250px;
 				}
-
 				.fl-shrink-header .navbar-toggle {
 					right: 270px;
 				}
@@ -249,64 +268,35 @@ Appearance > Theme Settings > Code or create a child theme.
 
 	/* Fixed Header */
 	&.fl-fixed-header {
-		.fl-page {
-			padding-top: 0!important;
-		}
-
-		.fl-page-header {
-			position: relative;
-
-			.fl-page-header-wrap {
-				background: inherit;
-				min-width: 100%;
-				max-width: 90%;
-				position: fixed;
-
-				-webkit-transition: all .25s ease-out;
-				     -o-transition: all .25s ease-out;
-				        transition: all .25s ease-out;
-			}
-		}
 
 		.navbar-toggle {
-			position: fixed;
 			top: 15px;
-		}
-
-		.fl-page-bar ~ .fl-page-header .navbar-toggle {
-			top: 45px;
-		}
-
-		&.admin-bar {
-			.fl-page-bar ~ .fl-page-header .navbar-toggle {
-				top: 80px;
-			}
-
-			.fl-page-header .navbar-toggle {
-				top: 45px;
-			}
 		}
 
 		.fl-nav-offcanvas-active {
 			.fl-offcanvas-opacity {
-				position: absolute;
 				z-index: 110;
 			}
 
 			.fl-page-bar {
 				z-index: 100;
 			}
+
+			.fl-nav-offcanvas-collapse {
+				height: 100vh !important;
+			}
 		}
 
 		&.fl-offcanvas-push-left,
 		&.fl-offcanvas-push-opacity-left {
 			.fl-nav-offcanvas-active {
-				.fl-page-bar {
-					padding-left: 250px;
-				}
 
 				.navbar-toggle {
 					position: absolute;
+				}
+
+				.fl-offcanvas-opacity {
+					left: 250px;
 				}
 			}
 		}
@@ -314,22 +304,34 @@ Appearance > Theme Settings > Code or create a child theme.
 		&.fl-offcanvas-push-right,
 		&.fl-offcanvas-push-opacity-right {
 			.fl-nav-offcanvas-active {
-				.fl-page-bar {
-					padding-right: 250px;
-				}
-
-				.navbar-toggle {
-					right: 270px;
+				.fl-offcanvas-opacity {
+					right: 250px;
 				}
 			}
+		}
+	}
+
+	/* Hide Header Until Scroll */
+	&.fl-scroll-header {
+		.fl-page-header-primary {
+			&.fl-show .fl-nav-offcanvas-collapse {
+				-webkit-transform: translateY(0) !important;
+				-ms-transform: translateY(0) !important;
+				transform: translateY(0) !important;
+			}
+		}
+	}
+
+	&.admin-bar {
+		.fl-nav-offcanvas-collapse {
+			top: 32px;
 		}
 	}
 }
 
 @media (min-width: 992px) {
 	.fl-responsive-nav-enabled {
-		&.fl-shrink-header-enabled,
-		&.fl-fixed-header {
+		&.fl-shrink-header-enabled {
 			&.admin-bar {
 				.fl-page-bar ~ .fl-page-header {
 					top: 35px!important;
@@ -339,6 +341,100 @@ Appearance > Theme Settings > Code or create a child theme.
 					top: 0;
 				}
 			}
+		}
+
+		/* Hide Header Until Scroll */
+		&.fl-scroll-header {
+			&.fl-offcanvas-push-right .fl-page,
+			&.fl-offcanvas-push-opacity-right .fl-page {
+
+				&.fl-nav-offcanvas-active {
+					.fl-nav-offcanvas-collapse {
+						right: -250px;
+					}
+
+					.fl-page-nav-bottom .fl-nav-offcanvas-collapse {
+						right: 0;
+					}
+				}
+			}
+
+			&.fl-offcanvas-push-left .fl-page,
+			&.fl-offcanvas-push-opacity-left .fl-page {
+
+				&.fl-nav-offcanvas-active {
+					.fl-nav-offcanvas-collapse {
+						left: -250px;
+					}
+
+					.fl-page-nav-bottom .fl-nav-offcanvas-collapse {
+						left: 0;
+					}
+				}
+			}
+		}
+
+		/* Fixed Header */
+		&.fl-fixed-header {
+			&.fl-offcanvas-push-left,
+			&.fl-offcanvas-push-opacity-left {
+				.fl-nav-offcanvas-active .fl-page-bar {
+					padding-left: 250px;
+				}
+			}
+
+			&.fl-offcanvas-push-right,
+			&.fl-offcanvas-push-opacity-right {
+				.fl-nav-offcanvas-active .fl-page-bar {
+					padding-right: 250px;
+				}
+			}
+		}
+
+		/* Fixed Header - Fade In */
+		.fl-page-header-fixed {
+			.fl-page-nav-collapse {
+				display: none !important;
+			}
+
+			-webkit-transition: left .20s ease-in-out, right .20s ease-in-out;
+			     -o-transition: left .20s ease-in-out, right .20s ease-in-out;
+			        transition: left .20s ease-in-out, right .20s ease-in-out;
+		}
+
+		&.fl-offcanvas-push-left,
+		&.fl-offcanvas-push-opacity-left {
+			.fl-nav-offcanvas-active {
+				.fl-page-header-fixed {
+					left: 250px;
+				}
+			}
+		}
+
+		&.fl-offcanvas-push-right,
+		&.fl-offcanvas-push-opacity-right {
+			.fl-nav-offcanvas-active {
+				.fl-page-header-fixed {
+					right: 250px;
+					left: auto;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 782px) {
+	.fl-responsive-nav-enabled.admin-bar {
+		.fl-nav-offcanvas-collapse.navbar-collapse {
+			top: 46px;
+		}
+	}
+}
+
+@media (max-width: 600px) {
+	.fl-responsive-nav-enabled.admin-bar {
+		.fl-nav-offcanvas-collapse.navbar-collapse {
+			top: 0;
 		}
 	}
 }

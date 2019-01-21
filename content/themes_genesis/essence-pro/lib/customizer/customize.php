@@ -177,19 +177,3 @@ function essence_customizer_register( $wp_customize ) {
 	);
 
 }
-
-
-add_action( 'customize_preview_init', 'essence_customizer_preview_scripts' );
-/**
- * Enqueue Customizer preview scripts.
- *
- * @return void
- *
- * @since 1.0.0
- */
-function essence_customizer_preview_scripts() {
-
-	// Include the regular customizer preview script file.
-	wp_enqueue_script( 'essence-preview-scripts', get_stylesheet_directory_uri() . '/lib/customizer/customize.js', array( 'jquery' ), '1.0.0', true );
-
-}

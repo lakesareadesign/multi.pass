@@ -1,114 +1,152 @@
-#, fuzzy
+# Copyright (C) 2018 StudioPress
+# This file is distributed under the GPL-2.0+.
 msgid ""
 msgstr ""
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
-"Project-Id-Version: Essence Pro 1.0.2\n"
-"POT-Creation-Date: 2018-06-08 10:50-0400\n"
-"PO-Revision-Date: 2018-06-08 10:50-0400\n"
+"Project-Id-Version: Essence Pro 1.1.0\n"
+"Report-Msgid-Bugs-To: StudioPress <translations@studiopress.com>\n"
 "Last-Translator: StudioPress <translations@studiopress.com>\n"
 "Language-Team: StudioPress <translations@studiopress.com>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"X-Generator: Poedit 2.0.7\n"
-"X-Poedit-Basepath: ..\n"
-"X-Poedit-Flags-xgettext: --add-comments=translators:\n"
-"X-Poedit-WPHeader: style.css\n"
-"X-Poedit-SourceCharset: UTF-8\n"
-"X-Poedit-KeywordsList: __;_e;_n:1,2;_x:1,2c;_ex:1,2c;_nx:4c,1,2;esc_attr__;"
-"esc_attr_e;esc_attr_x:1,2c;esc_html__;esc_html_e;esc_html_x:1,2c;_n_noop:1,2;"
-"_nx_noop:3c,1,2;__ngettext_noop:1,2\n"
-"X-Poedit-SearchPath-0: .\n"
-"X-Poedit-SearchPathExcluded-0: *.js\n"
+"POT-Creation-Date: 2018-12-10T14:49:06+00:00\n"
+"PO-Revision-Date: 2018-12-10T14:49:06+00:00\n"
+"X-Generator: WP-CLI 2.0.1\n"
+"X-Domain: essence-pro\n"
 
-#: front-page.php:111
-msgid "Main Content"
+#. Theme Name of the theme
+msgid "Essence Pro"
 msgstr ""
 
-#: functions.php:130
+#. Theme URI of the theme
+msgid "https://my.studiopress.com/themes/essence/"
+msgstr ""
+
+#. Description of the theme
+msgid "Beautiful, clutter-free simplicity from the outside in, allowing you and your readers to focus on the essentials."
+msgstr ""
+
+#. Author of the theme
+msgid "StudioPress"
+msgstr ""
+
+#. Author URI of the theme
+msgid "https://www.studiopress.com/"
+msgstr ""
+
+#: functions.php:144
 msgid "Menu"
 msgstr ""
 
-#: functions.php:132
+#: functions.php:146
 msgid "Submenu"
 msgstr ""
 
-#: functions.php:213
+#: functions.php:222
 msgid "Essence Header Image"
 msgstr ""
 
-#: functions.php:272
+#: functions.php:281
 msgid "Skip to content"
 msgstr ""
 
-#: functions.php:297
+#: functions.php:306
 msgid "Skip to footer"
 msgstr ""
 
-#: functions.php:307
+#: functions.php:316
 msgid "Header Menu"
 msgstr ""
 
-#: functions.php:308
+#: functions.php:317
 msgid "Footer Menu"
 msgstr ""
 
-#: functions.php:309
+#: functions.php:318
 msgid "Off Screen"
 msgstr ""
 
-#: functions.php:369
+#: functions.php:378
 msgid "Continue Reading"
 msgstr ""
 
-#: functions.php:565 lib/customizer/customize.php:75
+#: functions.php:574
+#: lib/customizer/customize.php:75
 msgid "Hero Section"
 msgstr ""
 
-#: functions.php:566
-msgid ""
-"This is the Hero widget section on the front page (must be enabled in "
-"Customizer)."
+#: functions.php:575
+msgid "This is the Hero widget section on the front page (must be enabled in Customizer)."
 msgstr ""
 
-#: functions.php:572
+#: functions.php:581
 msgid "Front Page 1"
 msgstr ""
 
-#: functions.php:573
+#: functions.php:582
 msgid "This is the front page 1 section."
 msgstr ""
 
-#: functions.php:579
+#: functions.php:588
 msgid "Front Page 2"
 msgstr ""
 
-#: functions.php:580
+#: functions.php:589
 msgid "This is the front page 2 section."
 msgstr ""
 
-#: functions.php:586
+#: functions.php:595
 msgid "Front Page Featured"
 msgstr ""
 
-#: functions.php:587
+#: functions.php:596
 msgid "This is the front page featured section."
 msgstr ""
 
-#: functions.php:593
+#: functions.php:602
 msgid "After Content Featured"
 msgstr ""
 
-#: functions.php:594
+#: functions.php:603
 msgid "This is the featured section that displays after the content area."
 msgstr ""
 
-#: functions.php:600
+#: functions.php:609
 msgid "Footer CTA"
 msgstr ""
 
-#: functions.php:601
+#: functions.php:610
 msgid "This is the call to action section above the footer."
+msgstr ""
+
+#. Template Name of the theme
+msgid "Landing"
+msgstr ""
+
+#: lib/title-functions.php:163
+msgid "404 Page Not Found"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:181
+msgid "Previous Page"
+msgstr ""
+
+#: lib/woocommerce/woocommerce-setup.php:182
+msgid "Next Page"
+msgstr ""
+
+#. translators: %s: child theme name
+#: lib/woocommerce/woocommerce-notice.php:55
+msgid "Please install and activate <a href=\"https://wordpress.org/plugins/genesis-connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> to <strong>enable WooCommerce support for %s</strong>."
+msgstr ""
+
+#: lib/woocommerce/woocommerce-notice.php:69
+msgid "install and activate Genesis Connect for WooCommerce"
+msgstr ""
+
+#. translators: 1: plugin install prompt presented as link, 2: child theme name
+#: lib/woocommerce/woocommerce-notice.php:72
+msgid "Please %1$s to <strong>enable WooCommerce support for %2$s</strong>."
 msgstr ""
 
 #: lib/customizer/customize.php:29
@@ -132,9 +170,7 @@ msgid "Enable the \"intro\" paragraph style on single posts?"
 msgstr ""
 
 #: lib/customizer/customize.php:55
-msgid ""
-"Check the box to automatically apply the \"intro\" font size and style to "
-"the first paragraph of all single posts."
+msgid "Check the box to automatically apply the \"intro\" font size and style to the first paragraph of all single posts."
 msgstr ""
 
 #: lib/customizer/customize.php:64
@@ -142,15 +178,11 @@ msgid "Header Background Image"
 msgstr ""
 
 #: lib/customizer/customize.php:65
-msgid ""
-"The default header background image is displayed on the front page and all "
-"posts and pages where a unique featured image is not available."
+msgid "The default header background image is displayed on the front page and all posts and pages where a unique featured image is not available."
 msgstr ""
 
 #: lib/customizer/customize.php:65
-msgid ""
-"A default image is included with the theme, but you may choose a different "
-"default image below."
+msgid "A default image is included with the theme, but you may choose a different default image below."
 msgstr ""
 
 #: lib/customizer/customize.php:74
@@ -182,9 +214,7 @@ msgid "Hero Intro Paragraph"
 msgstr ""
 
 #: lib/customizer/customize.php:171
-msgid ""
-"Change the default color for linked titles, buttons, post info links and "
-"more."
+msgid "Change the default color for linked titles, buttons, post info links and more."
 msgstr ""
 
 #: lib/customizer/customize.php:172
@@ -196,58 +226,45 @@ msgid "Live The Life You Deserve"
 msgstr ""
 
 #: lib/helper-functions.php:76
-msgid ""
-"Join our weekly newsletter and get our best articles about body, mind, soul, "
-"style, travel, and culture. No charge. No Spam. Only love."
+msgid "Join our weekly newsletter and get our best articles about body, mind, soul, style, travel, and culture. No charge. No Spam. Only love."
 msgstr ""
 
-#: lib/title-functions.php:163
-msgid "404 Page Not Found"
+#: lib/gutenberg/init.php:62
+msgid "Small"
 msgstr ""
 
-#: lib/woocommerce/woocommerce-notice.php:55
-#, php-format
-msgid ""
-"Please install and activate <a href=\"https://wordpress.org/plugins/genesis-"
-"connect-woocommerce/\" target=\"_blank\">Genesis Connect for WooCommerce</a> "
-"to <strong>enable WooCommerce support for %s</strong>."
+#: lib/gutenberg/init.php:63
+msgid "S"
 msgstr ""
 
-#: lib/woocommerce/woocommerce-notice.php:69
-msgid "install and activate Genesis Connect for WooCommerce"
+#: lib/gutenberg/init.php:68
+msgid "Normal"
 msgstr ""
 
-#: lib/woocommerce/woocommerce-notice.php:72
-#, php-format
-msgid "Please %1$s to <strong>enable WooCommerce support for %2$s</strong>."
+#: lib/gutenberg/init.php:69
+msgid "M"
 msgstr ""
 
-#: lib/woocommerce/woocommerce-setup.php:181
-msgid "Previous Page"
+#: lib/gutenberg/init.php:74
+msgid "Large"
 msgstr ""
 
-#: lib/woocommerce/woocommerce-setup.php:182
-msgid "Next Page"
+#: lib/gutenberg/init.php:75
+msgid "L"
 msgstr ""
 
-#. Theme Name of the plugin/theme
-msgid "Essence Pro"
+#: lib/gutenberg/init.php:80
+msgid "Larger"
 msgstr ""
 
-#. Theme URI of the plugin/theme
-msgid "https://my.studiopress.com/themes/essence/"
+#: lib/gutenberg/init.php:81
+msgid "XL"
 msgstr ""
 
-#. Description of the plugin/theme
-msgid ""
-"Beautiful, clutter-free simplicity from the outside in, allowing you and "
-"your readers to focus on the essentials."
+#: lib/gutenberg/init.php:93
+msgid "Custom color"
 msgstr ""
 
-#. Author of the plugin/theme
-msgid "StudioPress"
-msgstr ""
-
-#. Author URI of the plugin/theme
-msgid "https://www.studiopress.com/"
+#: front-page.php:111
+msgid "Main Content"
 msgstr ""

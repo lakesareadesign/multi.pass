@@ -524,16 +524,3 @@ function authority_is_portait_set() {
 	return true;
 
 }
-
-add_action( 'customize_preview_init', 'authority_customizer_preview_scripts' );
-/**
- * Enqueues Customizer preview scripts.
- *
- * @since 1.0.0
- */
-function authority_customizer_preview_scripts() {
-
-	// Include the regular customizer preview script file.
-	wp_enqueue_script( 'authority-preview-scripts', get_stylesheet_directory_uri() . '/lib/customizer/customize.js', array( 'jquery' ), '1.0.0', true );
-
-}

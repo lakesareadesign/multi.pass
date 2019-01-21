@@ -12,24 +12,24 @@ FLCustomizer::add_panel('fl-settings', array(
 			'options' => array(
 
 				/* Favicon */
-				'fl-favicon' => array(
-					'setting'   => array(
-						'default'   => '',
+				'fl-favicon'          => array(
+					'setting' => array(
+						'default' => '',
 					),
-					'control'   => array(
-						'class'     => 'WP_Customize_Image_Control',
-						'label'     => __( 'Favicon', 'fl-automator' ),
+					'control' => array(
+						'class' => 'WP_Customize_Image_Control',
+						'label' => __( 'Favicon', 'fl-automator' ),
 					),
 				),
 
 				/* Apple Touch Icon */
 				'fl-apple-touch-icon' => array(
-					'setting'   => array(
-						'default'   => '',
+					'setting' => array(
+						'default' => '',
 					),
-					'control'   => array(
-						'class'     => 'WP_Customize_Image_Control',
-						'label'     => __( 'Apple Touch Icon', 'fl-automator' ),
+					'control' => array(
+						'class' => 'WP_Customize_Image_Control',
+						'label' => __( 'Apple Touch Icon', 'fl-automator' ),
 					),
 				),
 			),

@@ -199,9 +199,9 @@
 }
 
 /* Media Queries
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 @media only screen and (max-width: 1280px) {
-	
+
 	.hero-portrait-caption {
 		right: 8px;
 	}
@@ -229,7 +229,7 @@
 }
 
 @media only screen and (max-width: 860px) {
-	
+
 	.hero-title {
 		font-size: 32px;
 		font-size: 3.2rem;
@@ -260,7 +260,7 @@
 	.hero-section-column .hero-email form {
 		margin-left: auto;
 	}
-	
+
 	.hero-section-column.right {
 		padding: 0 0 35px;
 	}

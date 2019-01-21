@@ -2,7 +2,7 @@
 
 if ( '2-cols' == $layout ) {
 
-	echo '<div class="' . FLLayout::get_col_classes( array( 'sm' => 6, 'md' => 6 ) ) . ' text-right clearfix">';
+	echo '<div class="' . FLLayout::get_col_classes( array( 'sm' => 6, 'md' => 6 ) ) . ' text-right clearfix">'; // @codingStandardsIgnoreLine
 
 	do_action( 'fl_top_bar_col2_open' );
 
@@ -12,9 +12,9 @@ if ( '2-cols' == $layout ) {
 	if ( 'menu' == $col_layout || 'menu-social' == $col_layout ) {
 		wp_nav_menu(array(
 			'theme_location' => 'bar',
-			'items_wrap' => '<ul id="%1$s" class="fl-page-bar-nav nav navbar-nav %2$s">%3$s</ul>',
-			'container' => false,
-			'fallback_cb' => 'FLTheme::nav_menu_fallback',
+			'items_wrap'     => '<ul id="%1$s" class="fl-page-bar-nav nav navbar-nav %2$s">%3$s</ul>',
+			'container'      => false,
+			'fallback_cb'    => 'FLTheme::nav_menu_fallback',
 		));
 	}
 	if ( 'social' == $col_layout || 'text-social' == $col_layout || 'menu-social' == $col_layout ) {

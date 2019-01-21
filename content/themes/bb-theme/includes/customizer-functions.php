@@ -7,7 +7,7 @@
  * @return void
  */
 function archive_post_image_sizes() {
-	$options = array();
+	$options     = array();
 	$image_sizes = get_intermediate_image_sizes();
 	if ( count( $image_sizes ) ) {
 		foreach ( $image_sizes as $image_size ) {
@@ -25,7 +25,7 @@ function archive_post_image_sizes() {
  * @return void
  */
 function single_post_image_sizes() {
-	$options = array();
+	$options     = array();
 	$image_sizes = get_intermediate_image_sizes();
 	if ( count( $image_sizes ) ) {
 		foreach ( $image_sizes as $image_size ) {

@@ -1,4 +1,4 @@
-<li <?php comment_class(); ?> id="li-comment-<?php comment_ID() ?>">
+<li <?php comment_class(); ?> id="li-comment-<?php comment_ID(); ?>">
 	<div id="comment-<?php comment_ID(); ?>" class="comment-body clearfix">
 
 		<div class="comment-meta">
@@ -14,7 +14,7 @@
 
 		<div class="comment-content clearfix">
 			<?php if ( '0' == $comment->comment_approved ) : ?>
-				<p class="comment-moderation"><?php esc_html_e( 'Your comment is awaiting moderation.', 'fl-automator' ) ?></p>
+				<p class="comment-moderation"><?php esc_html_e( 'Your comment is awaiting moderation.', 'fl-automator' ); ?></p>
 			<?php endif; ?>
 			<?php comment_text(); ?>
 			<?php edit_comment_link( esc_html_x( '(Edit)', 'Comment edit link text.', 'fl-automator' ), ' ' ); ?>

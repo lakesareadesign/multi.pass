@@ -47,6 +47,7 @@ h1, h2, h3, h4, h5, h6 {
 	font-weight: @heading-weight;
 	line-height: 1.4;
 	text-transform: @heading-transform;
+	font-style: @heading-style;
 	a {
 		color: @heading-color;
 		&:hover {
@@ -54,6 +55,7 @@ h1, h2, h3, h4, h5, h6 {
 		}
 	}
 }
+
 h1 {
 	font-size: @h1-size;
 	line-height: @h1-line-height;
@@ -61,6 +63,7 @@ h1 {
 	color: @title-color;
 	font-family: @title-font;
 	font-weight: @title-weight;
+	font-style: @custom-h1-style;
 	text-transform: @title-transform;
 	a {
 		color: @title-color;
@@ -1317,6 +1320,10 @@ img.mfp-img {
 	    bottom: 0;
 	    left: 0;
 	    width: 100%;
+	}
+
+	.fl-full-width.fl-footer-effect .fl-page {
+		z-index: 10;
 	}
 
 	/* 404 Page

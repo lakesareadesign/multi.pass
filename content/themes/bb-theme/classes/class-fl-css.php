@@ -63,13 +63,32 @@ class FLCSS {
 	*/
 	static public function compile_less( $css = '' ) {
 
+		if ( has_filter( 'fl_theme_compile_less_overide' ) ) {
+			/**
+			 * Allow devs to use custom Less compile tools.
+			 * Note: Must return compiled CSS or WP_Error object on compile error.
+			 * @since 1.7.1
+			 * @see fl_theme_compile_less_overide
+			 */
+			return apply_filters( 'fl_theme_compile_less_overide', $css );
+		}
+
+		$result = '';
+
 		if ( version_compare( PHP_VERSION, '5.3.0', '<' ) || defined( 'FL_THEME_DEPRECATED_LESSC' ) ) {
 			if ( ! class_exists( 'lessc' ) ) {
 				require_once FL_THEME_DIR . '/classes/class-lessc-deprecated.php';
 			}
-
-			$less = new lessc;
-			return $less->compile( $css );
+			try {
+				$less   = new lessc;
+				$result = $less->compile( $css );
+			} catch ( Exception $e ) {
+				$error     = $e->getMessage();
+				$error_txt = sprintf( 'Beaver Builder LESS Error: %s', $error );
+				$result    = new WP_Error( 'Guru Meditation', $error );
+				error_log( $error_txt );
+			}
+			return $result;
 		}
 
 		if ( ! class_exists( 'Less_Autoloader' ) ) {
@@ -77,13 +96,21 @@ class FLCSS {
 			Less_Autoloader::register();
 		}
 
-		$parser = new Less_Parser( array(
-			'compress' => true,
-		) );
+		$parser = new Less_Parser(
+			array(
+				'compress' => true,
+			)
+		);
 
-		$parser->parse( $css );
-
-		return $parser->getCss();
-
+		try {
+			$parser->parse( $css );
+			$result = $parser->getCss();
+		} catch ( Exception $e ) {
+			$error     = str_replace( ' in file anonymous-file-0.less in anonymous-file-0.less', '.', $e->getMessage() );
+			$error_txt = sprintf( 'Beaver Builder LESS Error: %s', $error );
+			$result    = new WP_Error( 'Guru Meditation', $error );
+			error_log( $error_txt );
+		}
+		return $result;
 	}
 }

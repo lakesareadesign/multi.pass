@@ -63,3 +63,10 @@ CHANGELOG
 
 = 1.1.4 =
 * PHP 7.1 compatibility
+
+= 1.2.0 =
+* Add support for Gutenberg editor styling and opt-in features.
+* Update placeholder text CSS.
+* WooCommerce: update list styling in product content and short descriptions.
+* Make transparent elements opaque when printing.
+* Prevent a bug where excess space could appear above the Front Page 1 area on mobile.

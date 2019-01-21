@@ -54,3 +54,10 @@ CHANGELOG
 * Adjust layout to allow more than 2 posts to display in the front-page-1 section.
 * Fix an issue with category archive description display.
 * Show off-screen menu on mobile widths if no header menu is set.
+
+= 1.1.0 =
+* Add support for Gutenberg editor styling and opt-in features.
+* Improve color and font weight contrast for accessibility.
+* Update placeholder text CSS.
+* WooCommerce: update list styling in product content and short descriptions.
+* Remove unused customize.js script.

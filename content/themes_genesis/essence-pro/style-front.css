@@ -2,7 +2,7 @@
 Loads on the front page */
 
 /* Front Page
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 .front-page .site-inner {
 	background-color: transparent;
@@ -67,6 +67,10 @@ Loads on the front page */
 .hero-section .button.more-link.text:hover {
 	border-width: 0;
 	color: #fff;
+	text-decoration: none;
+}
+
+.hero-section a.button {
 	text-decoration: none;
 }
 
@@ -148,7 +152,7 @@ Loads on the front page */
 .front-page-1 .flexible-widgets.widget-halves .featuredpage .entry-content,
 .front-page-1 .flexible-widgets.widget-halves.uneven .widget:last-of-type .entry-content,
 .front-page-1 .flexible-widgets.widget-halves.uneven .widget:last-of-type .entry-title {
-	padding: 30px 100px 20px 100px;	
+	padding: 30px 100px 20px 100px;
 }
 
 .front-page-1 .flexible-widgets.widget-full .entry-title,
@@ -197,7 +201,7 @@ Loads on the front page */
 }
 
 .front-page-featured blockquote cite {
-	color: #999;
+	color: #767676;
 	display: block;
 	font-family: 'Alegreya Sans', sans-serif;
 	font-size: 13px;
@@ -211,7 +215,7 @@ Loads on the front page */
 
 
 /* Media Queries
----------------------------------------------------------------------------------------------------- */
+---------------------------------------------------------------------------- */
 
 @media only screen and (max-width: 1360px) {}
 

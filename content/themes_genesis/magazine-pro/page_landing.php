@@ -8,7 +8,7 @@
  *
  * @package Magazine
  * @author  StudioPress
- * @license GPL-2.0+
+ * @license GPL-2.0-or-later
  * @link    http://my.studiopress.com/themes/magazine/
  */
 

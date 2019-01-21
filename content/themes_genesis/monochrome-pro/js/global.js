@@ -61,14 +61,18 @@
 
 	});
 
-	// Handler for tabbing out of the search bar when focused.
+	// Hide search when tabbing or escaping out of the search bar.
 	$hsInput.on( 'keydown', function( event ) {
 
-		if ( event.keyCode === 9 ) {
+		// Tab: 9, Esc: 27.
+		if ( event.keyCode === 9 || event.keyCode === 27 ) {
 			hideSearch( event.target );
 		}
 
 	});
+
+	// Hide search on blur, such as when clicking outside it.
+	$hsInput.on( 'blur', hideSearch );
 
 	// Helper function to show the search form.
 	function showSearch() {

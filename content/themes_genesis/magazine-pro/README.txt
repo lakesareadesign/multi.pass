@@ -35,53 +35,61 @@ Please visit http://my.studiopress.com/help/ for theme support.
 CHANGELOG
 
 = 3.0.0 =
-* Version initial release
+* Version initial release.
 
 = 3.0.1 =
-* Remove rem units
+* Remove rem units.
 
 = 3.1.0 =
-* Add theme setting defaults
-* Update responsive menu
-* Use theme supports for after entry widget
-* HTML5 Galleries
+* Add theme setting defaults.
+* Update responsive menu.
+* Use theme supports for after entry widget.
+* HTML5 Galleries.
 
 = 3.1.1 =
-* Remove obsolete comments filter
-* Remove IE8 CSS fix for images
-* Add hr tag styling
-* Add small and disabled button styles
-* Update menu names in admin
+* Remove obsolete comments filter.
+* Remove IE8 CSS fix for images.
+* Add hr tag styling.
+* Add small and disabled button styles.
+* Update menu names in admin.
 
 = 3.1.2 =
-* Update avatar sizing
-* Update Screenshot
-* Update eNews Widget styling
-* Remove deprecated theme tags
-* Update documentation
+* Update avatar sizing.
+* Update Screenshot.
+* Update eNews Widget styling.
+* Remove deprecated theme tags.
+* Update documentation.
 
 = 3.2.0 =
-* Move color selection to the customizer
-* Add accessibility
-* Add responsive menu
-* Add WooCommerce support
-* Update media queries
-* Update file structure
-* Update docs standards
-* Update text domain
-* Update logo size for retina devices
+* Move color selection to the customizer.
+* Add accessibility.
+* Add responsive menu.
+* Add WooCommerce support.
+* Update media queries.
+* Update file structure.
+* Update docs standards.
+* Update text domain.
+* Update logo size for retina devices.
 
 = 3.2.1 =
-* Standards check
-* Update mobile menu submenu label
+* Standards check.
+* Update mobile menu submenu label.
 
 = 3.2.2 =
-* Fix error thrown when WooCommerce was inactive
+* Fix error thrown when WooCommerce was inactive.
 
 = 3.2.3 =
-* Fix landing page template header
-* Standardize mobile menu customizer colors
+* Fix landing page template header.
+* Standardize mobile menu customizer colors.
 
 = 3.2.4 =
-* Fix product gallery bug in WooCommerce 3.0 update
-* Update responsive menu to 1.1.3
+* Fix product gallery bug in WooCommerce 3.0 update.
+* Update responsive menu to 1.1.3.
+
+= 3.3.0 =
+* Add support for Gutenberg editor styling and opt-in features.
+* Improve color contrast for accessibility.
+* Update placeholder text CSS.
+* Style privacy cookie comment form checkbox.
+* WooCommerce: prevent button hover color overriding footer widget buttons.
+* WooCommerce: update list styling in product content and short descriptions.

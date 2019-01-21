@@ -16,7 +16,7 @@ require_once get_template_directory() . '/lib/init.php';
 // Defines the child theme (do not remove).
 define( 'CHILD_THEME_NAME', 'Breakthrough Pro' );
 define( 'CHILD_THEME_URL', 'https://my.studiopress.com/themes/breakthrough/' );
-define( 'CHILD_THEME_VERSION', '1.0.0' );
+define( 'CHILD_THEME_VERSION', '1.1.0' );
 
 add_action( 'after_setup_theme', 'breakthrough_localization_setup' );
 /**
@@ -54,6 +54,20 @@ require_once CHILD_DIR . '/lib/woocommerce/woocommerce-notice.php';
 // Moves page headers.
 require_once CHILD_DIR . '/lib/headings.php';
 
+add_action( 'after_setup_theme', 'genesis_child_gutenberg_support' );
+/**
+ * Adds Gutenberg opt-in features and styling.
+ *
+ * Allows plugins to remove support if required.
+ *
+ * @since 1.1.0
+ */
+function genesis_child_gutenberg_support() {
+
+	require_once get_stylesheet_directory() . '/lib/gutenberg/init.php';
+
+}
+
 add_action( 'wp_head', 'breakthrough_load_images' );
 /**
  * Adjusts featured images.
@@ -82,7 +96,7 @@ add_action( 'wp_enqueue_scripts', 'breakthrough_enqueue_scripts_styles' );
  */
 function breakthrough_enqueue_scripts_styles() {
 
-	wp_enqueue_style( 'breakthrough-fonts', '//fonts.googleapis.com/css?family=Alegreya+Sans:400,400i,700|PT+Serif:400,700,700i', array(), CHILD_THEME_VERSION );
+	wp_enqueue_style( 'breakthrough-fonts', '//fonts.googleapis.com/css?family=Alegreya+Sans:400,400i,700|PT+Serif:400,400i,700,700i', array(), CHILD_THEME_VERSION );
 	wp_enqueue_style( 'ionicons', '//code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css', array(), CHILD_THEME_VERSION );
 
 	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';

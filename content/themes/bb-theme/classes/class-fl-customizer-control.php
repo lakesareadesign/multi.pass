@@ -81,31 +81,31 @@ final class FLCustomizerControl extends WP_Customize_Control {
 
 			case 'font':
 				$this->render_font();
-			break;
+				break;
 
 			case 'font-weight':
 				$this->render_font_weight();
-			break;
+				break;
 
 			case 'code':
 				$this->render_code();
-			break;
+				break;
 
 			case 'line':
 				$this->render_line();
-			break;
+				break;
 
 			case 'export-import':
 				$this->render_export_import();
-			break;
+				break;
 
 			case 'slider':
 				$this->render_slider();
-			break;
+				break;
 
 			case 'checkbox-multiple':
 				$this->render_checkbox_multiple();
-			break;
+				break;
 		}
 	}
 
@@ -244,9 +244,9 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @return void
 	 */
 	protected function render_slider() {
-		$this->choices['min']   = ( isset( $this->choices['min'] ) )   ? $this->choices['min']   : '0';
-		$this->choices['max']   = ( isset( $this->choices['max'] ) )   ? $this->choices['max']   : '100';
-		$this->choices['step']  = ( isset( $this->choices['step'] ) )  ? $this->choices['step']  : '1';
+		$this->choices['min']  = ( isset( $this->choices['min'] ) ) ? $this->choices['min'] : '0';
+		$this->choices['max']  = ( isset( $this->choices['max'] ) ) ? $this->choices['max'] : '100';
+		$this->choices['step'] = ( isset( $this->choices['step'] ) ) ? $this->choices['step'] : '1';
 
 		echo '<label>';
 		$this->render_content_title();
@@ -321,9 +321,9 @@ final class FLCustomizerControl extends WP_Customize_Control {
 	 * @return array
 	 */
 	protected function get_checkbox_choices_post_types() {
-		$ptypes = array();
+		$ptypes     = array();
 		$post_types = get_post_types(array(
-			'public'	=> true,
+			'public' => true,
 		), 'objects');
 
 		if ( $post_types ) {

@@ -1,7 +1,7 @@
 <?php
 
 $show_thumbs = FLTheme::get_setting( 'fl-posts-show-thumbs' );
-$thumb_size   = FLTheme::get_setting( 'fl-posts-thumb-size' );
+$thumb_size  = FLTheme::get_setting( 'fl-posts-thumb-size' );
 ?>
 <?php do_action( 'fl_before_post' ); ?>
 <article <?php post_class( 'fl-post' ); ?> id="fl-post-<?php the_ID(); ?>" itemscope itemtype="https://schema.org/BlogPosting">
@@ -9,7 +9,8 @@ $thumb_size   = FLTheme::get_setting( 'fl-posts-thumb-size' );
 	<?php if ( has_post_thumbnail() && ! empty( $show_thumbs ) ) : ?>
 		<?php if ( 'above-title' == $show_thumbs ) : ?>
 		<div class="fl-post-thumb">
-			<?php the_post_thumbnail( 'large', array(
+			<?php
+			the_post_thumbnail( 'large', array(
 				'itemprop' => 'image',
 			) ); ?>
 		</div>
@@ -32,7 +33,7 @@ $thumb_size   = FLTheme::get_setting( 'fl-posts-thumb-size' );
 		<?php endif; ?>
 
 		<?php if ( 'beside' == $show_thumbs ) : ?>
-			<div class="row">
+			<div class="row fl-post-image-<?php echo $show_thumbs; ?>-wrap">
 				<div class="fl-post-image-<?php echo $show_thumbs; ?>">
 					<div class="fl-post-thumb">
 						<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">

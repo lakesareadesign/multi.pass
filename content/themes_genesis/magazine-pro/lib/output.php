@@ -6,7 +6,7 @@
  *
  * @package Magazine
  * @author  StudioPress
- * @license GPL-2.0+
+ * @license GPL-2.0-or-later
  * @link    http://my.studiopress.com/themes/magazine/
  */
 
@@ -56,57 +56,20 @@ function magazine_custom_css() {
 			color: %2$s;
 		}
 
-		.menu-toggle:focus,
-		.menu-toggle:hover,
-		.nav-primary .genesis-nav-menu a:focus,
-		.nav-primary .genesis-nav-menu a:hover,
-		.nav-primary .sub-menu a:focus,
-		.nav-primary .sub-menu a:hover,
-		.nav-primary .genesis-nav-menu .current-menu-item > a,
-		.nav-primary .genesis-nav-menu .sub-menu .current-menu-item > a:focus,
-		.nav-primary .genesis-nav-menu .sub-menu .current-menu-item > a:hover,
-		.nav-primary .genesis-nav-menu a:focus,
-		.nav-primary .genesis-nav-menu a:hover,
-		.nav-primary .sub-menu a:focus,
-		.nav-primary .sub-menu a:hover,
-		.nav-primary .genesis-nav-menu .current-menu-item > a,
-		.nav-primary .sub-menu-toggle:focus,
-		.nav-primary .sub-menu-toggle:hover {
-			color: %1$s;
-		}
-
-		@media only screen and (max-width: 840px) {
-			nav.nav-primary .sub-menu-toggle:focus,
-			nav.nav-primary .sub-menu-toggle:hover,
-			nav.nav-primary.genesis-responsive-menu .genesis-nav-menu a:focus,
-			nav.nav-primary.genesis-responsive-menu .genesis-nav-menu a:hover,
-			nav.nav-primary.genesis-responsive-menu .genesis-nav-menu .sub-menu a:focus,
-			nav.nav-primary.genesis-responsive-menu .genesis-nav-menu .sub-menu a:hover,
-			#genesis-mobile-nav-primary:focus,
-			#genesis-mobile-nav-primary:hover {
-				color: %1$s;
-			}
-		}
-
 		', $color_accent, magazine_color_contrast( $color_accent ) ) : '';
 
 	$css .= ( magazine_get_default_link_color() !== $color_link ) ? sprintf( '
-
 
 		a:focus,
 		a:hover,
 		.entry-content a,
 		.entry-title a:focus,
 		.entry-title a:hover,
-		.genesis-nav-menu a:focus,
-		.genesis-nav-menu a:hover,
-		.genesis-nav-menu .current-menu-item > a,
-		.genesis-nav-menu .sub-menu .current-menu-item > a:focus,
-		.genesis-nav-menu .sub-menu .current-menu-item > a:hover,
-		.menu-toggle:focus,
-		.menu-toggle:hover,
-		.sub-menu-toggle:focus,
-		.sub-menu-toggle:hover {
+		.nav-secondary .genesis-nav-menu a:focus,
+		.nav-secondary .genesis-nav-menu a:hover,
+		.nav-secondary .genesis-nav-menu .current-menu-item > a,
+		.nav-secondary .genesis-nav-menu .sub-menu .current-menu-item > a:focus,
+		.nav-secondary .genesis-nav-menu .sub-menu .current-menu-item > a:hover {
 			color: %1$s;
 		}
 		', $color_link ) : '';

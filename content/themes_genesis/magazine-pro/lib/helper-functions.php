@@ -6,7 +6,7 @@
  *
  * @package Magazine
  * @author  StudioPress
- * @license GPL-2.0+
+ * @license GPL-2.0-or-later
  * @link    http://my.studiopress.com/themes/magazine/
  */
 
@@ -18,7 +18,7 @@
  * @return string Hex value of the accent color.
  */
 function magazine_get_default_accent_color() {
-	return '#e8554e';
+	return '#008285';
 }
 
 /**
@@ -29,7 +29,7 @@ function magazine_get_default_accent_color() {
  * @return string Hex value of the accent color.
  */
 function magazine_get_default_link_color() {
-	return '#e8554e';
+	return '#008285';
 }
 
 /**

@@ -6,12 +6,17 @@
  *
  * @package Magazine
  * @author  StudioPress
- * @license GPL-2.0+
+ * @license GPL-2.0-or-later
  * @link    http://my.studiopress.com/themes/magazine/
  */
 
 // Start the engine.
 include_once( get_template_directory() . '/lib/init.php' );
+
+// Child theme (do not remove).
+define( 'CHILD_THEME_NAME', __( 'Magazine Pro', 'magazine-pro' ) );
+define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/magazine/' );
+define( 'CHILD_THEME_VERSION', '3.3.0' );
 
 // Setup Theme.
 include_once( get_stylesheet_directory() . '/lib/theme-defaults.php' );
@@ -40,23 +45,48 @@ include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-output.
 // Include notice to install Genesis Connect for WooCommerce.
 include_once( get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.php' );
 
-// Child theme (do not remove).
-define( 'CHILD_THEME_NAME', __( 'Magazine Pro', 'magazine-pro' ) );
-define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/magazine/' );
-define( 'CHILD_THEME_VERSION', '3.2.4' );
+add_action( 'after_setup_theme', 'genesis_child_gutenberg_support' );
+/**
+ * Adds Gutenberg opt-in features and styling.
+ *
+ * Allows plugins to remove support if required.
+ *
+ * @since 3.3.0
+ */
+function genesis_child_gutenberg_support() {
+
+	require_once get_stylesheet_directory() . '/lib/gutenberg/init.php';
+
+}
 
 // Enqueue required fonts, scripts, and styles.
 add_action( 'wp_enqueue_scripts', 'magazine_enqueue_scripts' );
 function magazine_enqueue_scripts() {
 
-	wp_enqueue_script( 'magazine-entry-date', get_stylesheet_directory_uri() . '/js/entry-date.js', array( 'jquery' ), '1.0.0' );
+	wp_enqueue_script(
+		'magazine-entry-date',
+		get_stylesheet_directory_uri() . '/js/entry-date.js',
+		array( 'jquery' ),
+		'1.0.0'
+	);
 
 	wp_enqueue_style( 'dashicons' );
 
-	wp_enqueue_style( 'google-fonts', '//fonts.googleapis.com/css?family=Roboto:300,400|Raleway:400,500,900', array(), CHILD_THEME_VERSION );
+	wp_enqueue_style(
+		'google-fonts', '//fonts.googleapis.com/css?family=Roboto:300,400|Raleway:400,500,900',
+		array(),
+		CHILD_THEME_VERSION
+	);
 
 	$suffix = ( defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ) ? '' : '.min';
-	wp_enqueue_script( 'magazine-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menus' . $suffix . '.js', array( 'jquery' ), CHILD_THEME_VERSION, true );
+
+	wp_enqueue_script(
+		'magazine-responsive-menu', get_stylesheet_directory_uri() . '/js/responsive-menus' . $suffix . '.js',
+		array( 'jquery' ),
+		CHILD_THEME_VERSION,
+		true
+	);
+
 	wp_localize_script(
 		'magazine-responsive-menu',
 		'genesis_responsive_menu',
@@ -195,6 +225,7 @@ add_theme_support( 'genesis-after-entry-widget-area' );
 
 // Relocate after entry widget.
 remove_action( 'genesis_after_entry', 'genesis_after_entry_widget_area' );
+add_action( 'genesis_entry_footer', 'genesis_add_id_to_global_exclude', 9 );
 add_action( 'genesis_entry_footer', 'genesis_after_entry_widget_area' );
 
 // Register widget areas.

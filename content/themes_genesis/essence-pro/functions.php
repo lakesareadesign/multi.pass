@@ -13,6 +13,11 @@
 // Starts the engine.
 require_once get_template_directory() . '/lib/init.php';
 
+// Defines the child theme (do not remove).
+define( 'CHILD_THEME_NAME', 'Essence Pro' );
+define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/essence/' );
+define( 'CHILD_THEME_VERSION', '1.1.0' );
+
 // Sets up the Theme.
 require_once get_stylesheet_directory() . '/lib/theme-defaults.php';
 
@@ -52,10 +57,19 @@ require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-output.p
 // Includes notice to install Genesis Connect for WooCommerce.
 require_once get_stylesheet_directory() . '/lib/woocommerce/woocommerce-notice.php';
 
-// Defines the child theme (do not remove).
-define( 'CHILD_THEME_NAME', 'Essence Pro' );
-define( 'CHILD_THEME_URL', 'http://my.studiopress.com/themes/essence/' );
-define( 'CHILD_THEME_VERSION', '1.0.2' );
+add_action( 'after_setup_theme', 'genesis_child_gutenberg_support' );
+/**
+ * Adds Gutenberg opt-in features and styling.
+ *
+ * Allows plugins to remove support if required.
+ *
+ * @since 1.1.0
+ */
+function genesis_child_gutenberg_support() {
+
+	require_once get_stylesheet_directory() . '/lib/gutenberg/init.php';
+
+}
 
 add_action( 'wp_enqueue_scripts', 'essence_enqueue_scripts_styles' );
 /**
@@ -142,11 +156,6 @@ function essence_responsive_menu_settings() {
 
 	return $settings;
 
-}
-
-// Sets the content width based on the theme's design and stylesheet.
-if ( ! isset( $content_width ) ) {
-	$content_width = 800; // Pixels.
 }
 
 // Adds HTML5 markup structure.
@@ -244,7 +253,7 @@ add_action( 'genesis_theme_settings_metaboxes', 'essence_remove_genesis_metaboxe
  *
  * @since 1.0.0
  *
- * @param string $_genesis_theme_settings_pagehook The page hook name.
+ * @param string $_genesis_theme_settings The page hook name.
  */
 function essence_remove_genesis_metaboxes( $_genesis_theme_settings ) {
 

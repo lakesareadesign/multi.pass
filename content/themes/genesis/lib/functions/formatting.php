@@ -48,6 +48,7 @@ function genesis_truncate_phrase( $text, $max_characters ) {
 	return $text;
 }
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound -- Some of the earliest Genesis functions. Can't be renamed.
 /**
  * Return content stripped down and limited content.
  *
@@ -120,6 +121,7 @@ function the_content_limit( $max_characters, $more_link_text = '(more...)', $str
 
 }
 
+// phpcs:enable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedFunctionFound, WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 /**
  * Add `rel="nofollow"` attribute and value to links within string passed in.
  *
@@ -366,9 +368,13 @@ function genesis_human_time_diff( $older_date, $newer_date = false, $relative_de
 
 	$date_partials = array();
 
-	while ( count( $date_partials ) < $relative_depth && $i < count( $units ) ) {
+	$amount_date_partials = count( $date_partials );
+	$amount_units         = count( $units );
+
+	while ( $amount_date_partials < $relative_depth && $i < $amount_units ) {
 		$seconds = $units[ $i ][0];
-		if ( ( $count = floor( ( $since - $counted_seconds ) / $seconds ) ) != 0 ) {
+		$count   = floor( ( $since - $counted_seconds ) / $seconds );
+		if ( 0 !== $count ) {
 			$date_partials[]  = sprintf( translate_nooped_plural( $units[ $i ][1], $count, 'genesis' ), $count );
 			$counted_seconds += $count * $seconds;
 		}
@@ -377,7 +383,7 @@ function genesis_human_time_diff( $older_date, $newer_date = false, $relative_de
 
 	if ( empty( $date_partials ) ) {
 		$output = '';
-	} elseif ( 1 == count( $date_partials ) ) {
+	} elseif ( 1 === count( $date_partials ) ) {
 		$output = $date_partials[0];
 	} else {
 

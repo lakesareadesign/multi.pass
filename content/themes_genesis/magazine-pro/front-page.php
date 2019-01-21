@@ -6,7 +6,7 @@
  *
  * @package Magazine
  * @author  StudioPress
- * @license GPL-2.0+
+ * @license GPL-2.0-or-later
  * @link    http://my.studiopress.com/themes/magazine/
  */
 
@@ -40,7 +40,7 @@ function magazine_home_genesis_meta() {
 function magazine_body_class( $classes ) {
 
 	$classes[] = 'magazine-home';
-	
+
 	return $classes;
 
 }

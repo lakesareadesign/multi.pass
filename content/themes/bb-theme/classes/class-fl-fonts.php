@@ -86,7 +86,7 @@ final class FLFontFamilies {
 				'700',
 			),
 		),
-		'Verdana' => array(
+		'Verdana'   => array(
 			'fallback' => 'Helvetica, Arial, sans-serif',
 			'weights'  => array(
 				'300',
@@ -94,7 +94,7 @@ final class FLFontFamilies {
 				'700',
 			),
 		),
-		'Arial' => array(
+		'Arial'     => array(
 			'fallback' => 'Helvetica, Verdana, sans-serif',
 			'weights'  => array(
 				'300',
@@ -102,7 +102,7 @@ final class FLFontFamilies {
 				'700',
 			),
 		),
-		'Times' => array(
+		'Times'     => array(
 			'fallback' => 'Georgia, serif',
 			'weights'  => array(
 				'300',
@@ -110,7 +110,7 @@ final class FLFontFamilies {
 				'700',
 			),
 		),
-		'Georgia' => array(
+		'Georgia'   => array(
 			'fallback' => 'Times, serif',
 			'weights'  => array(
 				'300',
@@ -118,7 +118,7 @@ final class FLFontFamilies {
 				'700',
 			),
 		),
-		'Courier' => array(
+		'Courier'   => array(
 			'fallback' => 'monospace',
 			'weights'  => array(
 				'300',
@@ -130,7 +130,7 @@ final class FLFontFamilies {
 			'fallback' => "-apple-system, BlinkMacSystemFont,
              'Segoe UI', Roboto, 'Helvetica Neue',
              Ubuntu, Arial, sans-serif",
-			'weights' => array(
+			'weights'  => array(
 				'300',
 				'400',
 				'700',

@@ -15,7 +15,7 @@ class FLWPEditor {
 	static public function init() {
 		add_action( 'customize_preview_init', 'FLWPEditor::refresh_css' );
 		add_action( 'customize_save_after', 'FLWPEditor::refresh_css' );
-		add_action( 'after_switch_theme',    'FLWPEditor::refresh_css' );
+		add_action( 'after_switch_theme', 'FLWPEditor::refresh_css' );
 		add_action( 'enqueue_block_editor_assets', 'FLWPEditor::enqueue_styles' );
 	}
 
@@ -47,7 +47,7 @@ class FLWPEditor {
 	*/
 	static public function css_url() {
 		$cache_dir = FLCustomizer::get_cache_dir();
-		$key = get_option( self::prefix() . '-' . self::slug() );
+		$key       = get_option( self::prefix() . '-' . self::slug() );
 		return $cache_dir['url'] . self::slug() . '-' . $key . '.css';
 	}
 
@@ -58,13 +58,13 @@ class FLWPEditor {
 	* @return void
 	*/
 	static public function compile_css() {
-		$cache_dir = FLCustomizer::get_cache_dir();
-		$new_key = uniqid();
-		$slug = self::slug();
-		$prefix = self::prefix();
+		$cache_dir   = FLCustomizer::get_cache_dir();
+		$new_key     = uniqid();
+		$slug        = self::slug();
+		$prefix      = self::prefix();
 		$option_name = $prefix . '-' . $slug;
-		$filename = $cache_dir['path'] . $slug . '-' . $new_key . '.css';
-		$vars = FLCustomizer::_get_less_vars();
+		$filename    = $cache_dir['path'] . $slug . '-' . $new_key . '.css';
+		$vars        = FLCustomizer::_get_less_vars();
 
 		$paths = apply_filters( 'fl_theme_compile_editor_less_paths', array(
 			FL_THEME_DIR . '/less/mixins.less',
@@ -107,7 +107,7 @@ class FLWPEditor {
 	* @return void
 	*/
 	static public function clear_css_cache() {
-		$dir_name = basename( FL_THEME_DIR );
+		$dir_name  = basename( FL_THEME_DIR );
 		$cache_dir = FLCustomizer::get_cache_dir();
 
 		if ( ! empty( $cache_dir['path'] ) && stristr( $cache_dir['path'], $dir_name ) ) {

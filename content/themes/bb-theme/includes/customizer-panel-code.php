@@ -6,64 +6,64 @@ FLCustomizer::add_panel('fl-code', array(
 	'sections' => array(
 
 		/* CSS Section */
-		'fl-css-code-section' => array(
+		'fl-css-code-section'    => array(
 			'title'   => _x( 'CSS Code', 'Customizer section title.', 'fl-automator' ),
 			'options' => array(
 
 				/* CSS */
 				'fl-css-code' => array(
-					'setting'   => array(
+					'setting' => array(
 						'default'   => '',
 						'transport' => 'postMessage',
 					),
-					'control'   => array(
-						'description'   => __( 'CSS entered in the box below will be rendered within &lt;style&gt; tags.', 'fl-automator' ),
-						'class'         => 'FLCustomizerControl',
-						'type'          => 'code',
-						'mode'          => 'css',
+					'control' => array(
+						'description' => __( 'CSS entered in the box below will be rendered within &lt;style&gt; tags.', 'fl-automator' ),
+						'class'       => 'FLCustomizerControl',
+						'type'        => 'code',
+						'mode'        => 'css',
 					),
 				),
 			),
 		),
 
 		/* JavaScript Section */
-		'fl-js-code-section' => array(
+		'fl-js-code-section'     => array(
 			'title'   => _x( 'JavaScript Code', 'Customizer section title.', 'fl-automator' ),
 			'options' => array(
 
 				/* JavaScript */
 				'fl-js-code' => array(
-					'setting'   => array(
+					'setting' => array(
 						'default'   => '',
 						'transport' => 'postMessage',
 					),
-					'control'   => array(
-						'description'   	=> __( 'JavaScript entered in the box below will be rendered within &lt;script&gt; tags.', 'fl-automator' ),
-						'class'         	=> 'FLCustomizerControl',
-						'type'          	=> 'code',
-						'mode'          	=> 'javascript',
-						'preview_button' 	=> true,
+					'control' => array(
+						'description'    => __( 'JavaScript entered in the box below will be rendered within &lt;script&gt; tags.', 'fl-automator' ),
+						'class'          => 'FLCustomizerControl',
+						'type'           => 'code',
+						'mode'           => 'javascript',
+						'preview_button' => true,
 					),
 				),
 			),
 		),
 
 		/* Head Section */
-		'fl-head-code-section' => array(
+		'fl-head-code-section'   => array(
 			'title'   => _x( 'Head Code', 'Customizer section title.', 'fl-automator' ),
 			'options' => array(
 
 				/* Head */
 				'fl-head-code' => array(
-					'setting'   => array(
+					'setting' => array(
 						'default'   => '',
 						'transport' => 'postMessage',
 					),
-					'control'   => array(
-						'description'   	=> __( 'Code entered in the box below will be rendered within the page &lt;head&gt; tag.', 'fl-automator' ),
-						'class'         	=> 'FLCustomizerControl',
-						'type'          	=> 'code',
-						'preview_button' 	=> true,
+					'control' => array(
+						'description'    => __( 'Code entered in the box below will be rendered within the page &lt;head&gt; tag.', 'fl-automator' ),
+						'class'          => 'FLCustomizerControl',
+						'type'           => 'code',
+						'preview_button' => true,
 					),
 				),
 			),
@@ -76,15 +76,15 @@ FLCustomizer::add_panel('fl-code', array(
 
 				/* Footer */
 				'fl-header-code' => array(
-					'setting'   => array(
+					'setting' => array(
 						'default'   => '',
 						'transport' => 'postMessage',
 					),
-					'control'   => array(
-						'description'   	=> __( 'Code entered in the box below will be rendered directly after the opening &lt;body&gt; tag.', 'fl-automator' ),
-						'class'         	=> 'FLCustomizerControl',
-						'type'          	=> 'code',
-						'preview_button' 	=> true,
+					'control' => array(
+						'description'    => __( 'Code entered in the box below will be rendered directly after the opening &lt;body&gt; tag.', 'fl-automator' ),
+						'class'          => 'FLCustomizerControl',
+						'type'           => 'code',
+						'preview_button' => true,
 					),
 				),
 			),
@@ -97,15 +97,15 @@ FLCustomizer::add_panel('fl-code', array(
 
 				/* Footer */
 				'fl-footer-code' => array(
-					'setting'   => array(
+					'setting' => array(
 						'default'   => '',
 						'transport' => 'postMessage',
 					),
-					'control'   => array(
-						'description'   	=> __( 'Code entered in the box below will be rendered directly before the closing &lt;body&gt; tag.', 'fl-automator' ),
-						'class'         	=> 'FLCustomizerControl',
-						'type'          	=> 'code',
-						'preview_button' 	=> true,
+					'control' => array(
+						'description'    => __( 'Code entered in the box below will be rendered directly before the closing &lt;body&gt; tag.', 'fl-automator' ),
+						'class'          => 'FLCustomizerControl',
+						'type'           => 'code',
+						'preview_button' => true,
 					),
 				),
 			),

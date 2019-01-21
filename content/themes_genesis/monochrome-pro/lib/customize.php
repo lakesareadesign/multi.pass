@@ -34,7 +34,7 @@ function monochrome_customizer_register( $wp_customize ) {
 		'priority'    => 35,
 	) );
 
-	foreach( $images as $image ) {
+	foreach( $images as $key => $image ) {
 
 		// Add setting for front page background images.
 		$wp_customize->add_setting( $image .'-monochrome-image', array(
@@ -48,7 +48,7 @@ function monochrome_customizer_register( $wp_customize ) {
 			'label'    => sprintf( __( 'Featured Section %s Image:', 'monochrome-pro' ), $image ),
 			'section'  => 'monochrome-settings',
 			'settings' => $image .'-monochrome-image',
-			'priority' => $image+1,
+			'priority' => $key + 1,
 		) ) );
 
 	}

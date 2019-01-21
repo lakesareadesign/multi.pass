@@ -1,9 +1,9 @@
 <?php
 
 $show_thumbs = FLTheme::get_setting( 'fl-archive-show-thumbs' );
-$show_full   = apply_filters( 'fl_archive_show_full',  FLTheme::get_setting( 'fl-archive-show-full' ) );
+$show_full   = apply_filters( 'fl_archive_show_full', FLTheme::get_setting( 'fl-archive-show-full' ) );
 $more_text   = FLTheme::get_setting( 'fl-archive-readmore-text' );
-$thumb_size   = FLTheme::get_setting( 'fl-archive-thumb-size', 'large' );
+$thumb_size  = FLTheme::get_setting( 'fl-archive-thumb-size', 'large' );
 
 
 do_action( 'fl_before_post' ); ?>
@@ -13,7 +13,8 @@ do_action( 'fl_before_post' ); ?>
 		<?php if ( 'above-title' == $show_thumbs ) : ?>
 		<div class="fl-post-thumb">
 			<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">
-				<?php the_post_thumbnail( $thumb_size, array(
+				<?php
+				the_post_thumbnail( $thumb_size, array(
 					'itemprop' => 'image',
 				) ); ?>
 			</a>
@@ -39,7 +40,7 @@ do_action( 'fl_before_post' ); ?>
 		<?php endif; ?>
 
 		<?php if ( 'beside' == $show_thumbs ) : ?>
-		<div class="row">
+		<div class="row fl-post-image-<?php echo $show_thumbs; ?>-wrap">
 			<div class="fl-post-image-<?php echo $show_thumbs; ?>">
 				<div class="fl-post-thumb">
 					<a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>">

@@ -119,7 +119,7 @@ add_filter( 'body_class', 'essence_no_off_screen_menu_body_class' );
 function essence_no_off_screen_menu_body_class( $classes ) {
 
 	if ( ! has_nav_menu( 'off-screen' ) ) {
-		$classes[] = 'no-off-screen-menu';		
+		$classes[] = 'no-off-screen-menu';
 	}
 
 	return $classes;

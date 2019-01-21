@@ -91,7 +91,7 @@ function essence_remove_post_meta() {
 }
 
 /**
- * Show the Genesis Archive Description, if set.
+ * Shows the Genesis Archive Description, if set.
  * Otherwise, show the default WordPress Archive Description.
  *
  * @since 1.0.0
@@ -155,7 +155,7 @@ function essence_default_products_per_page() {
 
 add_filter( 'loop_shop_columns', 'essence_product_archive_columns' );
 /**
- * Change number of products in a row to 3.
+ * Changes number of products in a row to 3.
  *
  * @since 1.0.0
  *
@@ -169,7 +169,7 @@ function essence_product_archive_columns() {
 
 add_filter( 'woocommerce_pagination_args', 'essence_woocommerce_pagination' );
 /**
- * Update the next and previous arrows to the default Genesis style.
+ * Updates the next and previous arrows to the default Genesis style.
  *
  * @since 1.0.0
  *
@@ -206,7 +206,7 @@ function essence_woocommerce_image_dimensions_after_theme_setup() {
 
 add_action( 'activated_plugin', 'essence_woocommerce_image_dimensions_after_woo_activation', 10, 2 );
 /**
- * Define the WooCommerce image sizes on WooCommerce activation.
+ * Defines the WooCommerce image sizes on WooCommerce activation.
  *
  * @since 1.0.0
  *
