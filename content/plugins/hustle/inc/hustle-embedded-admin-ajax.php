@@ -184,6 +184,9 @@ class Hustle_Embedded_Admin_Ajax {
 		if ( isset( $settings[ $type . '_enabled' ] ) ) {
 			$settings[ $type . '_enabled' ] = $enabled;
 			try {
+				// Clear cache.
+				$module->clean_module_cache();
+
 				// try to save new settings
 				$module->update_meta( $this->_hustle->get_const_var( "KEY_SETTINGS", $module ), $settings );
 

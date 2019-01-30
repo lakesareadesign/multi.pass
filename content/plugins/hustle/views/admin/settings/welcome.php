@@ -44,6 +44,4 @@
 
 	</section>
 
-	<?php $this->render( "admin/commons/footer", array() ); ?>
-
 </main>

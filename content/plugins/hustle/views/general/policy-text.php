@@ -1,7 +1,7 @@
 <div class="wp-suggested-text">
 	<h2><?php esc_html_e( 'Which modules collect personal data?', Opt_In::TEXT_DOMAIN ); ?></h2>
 	<p class="privacy-policy-tutorial">
-		<?php esc_html_e( 'If you use Hustle to create and embed any Pop-up, Embed, Slide-in, or Social share module, you may need to mention it here to properly distinguish it from other plguins.',
+		<?php esc_html_e( 'If you use Hustle to create and embed any Pop-up, Embed, Slide-in, or Social share module, you may need to mention it here to properly distinguish it from other plugins.',
 		                  Opt_In::TEXT_DOMAIN ); ?>
 	</p>
 
@@ -24,7 +24,7 @@ depending on the form fields.',
 
 	<h2><?php esc_html_e( 'How long we retain your data', Opt_In::TEXT_DOMAIN ); ?></h2>
 	<p class="privacy-policy-tutorial">
-		<?php _e( 'By default Huslte retains all form submissions and tracking data <strong>forever</strong>. You can delete the stored data in <strong>Hustle</strong> &raquo; <strong>Settings</strong> &raquo;
+		<?php _e( 'By default Hustle retains all form submissions and tracking data <strong>forever</strong>. You can delete the stored data in <strong>Hustle</strong> &raquo; <strong>Settings</strong> &raquo;
 		<strong>Privacy Settings</strong>, and under each module\'s settings.',
 		          Opt_In::TEXT_DOMAIN );//wpcs : xss ok ?>
 	</p>
@@ -50,7 +50,7 @@ depending on the form fields.',
 		<li><?php esc_html_e( 'ActiveCampaign. Enabled when you activate and setup ActiveCampaign on Email Collection settings.' ); ?></li>
 		<li><?php esc_html_e( 'Aweber. Enabled when you activate and setup Aweber on Email Collection settings.' ); ?></li>
 		<li><?php esc_html_e( 'Campaign Monitor. Enabled when you activate and setup Campaign Monitor on Email Collection settings.' ); ?></li>
-		<li><?php esc_html_e( 'Contant Contact. Enabled when you activate and setup Contant Contact on Email Collection settings.' ); ?></li>
+		<li><?php esc_html_e( 'Constant Contact. Enabled when you activate and setup Constant Contact on Email Collection settings.' ); ?></li>
 		<li><?php esc_html_e( 'ConvertKit. Enabled when you activate and setup ConvertKit on Email Collection settings.' ); ?></li>
 		<li><?php esc_html_e( 'e-Newsletter. Enabled when you activate and setup e-Newsletter on Email Collection settings.' ); ?></li>
 		<li><?php esc_html_e( 'GetResponse. Enabled when you activate and setup GetResponse on Email Collection settings.' ); ?></li>
@@ -72,7 +72,7 @@ depending on the form fields.',
 	<p><?php esc_html_e( 'We use ActiveCampaign to manage our subscriber lists. Their privacy policy can be found here : https://www.activecampaign.com/privacy-policy/.', Opt_In::TEXT_DOMAIN ); ?></p>
 	<p><?php esc_html_e( 'We use Aweber to manage our subscriber. Their privacy policy can be found here : https://www.aweber.com/privacy.htm.', Opt_In::TEXT_DOMAIN ); ?></p>
 	<p><?php esc_html_e( 'We use Campaign Monitor to manage our subscriber. Their privacy policy can be found here : https://www.campaignmonitor.com/policies/#privacy-policy.', Opt_In::TEXT_DOMAIN ); ?></p>
-	<p><?php esc_html_e( 'We use Contant Contact to manage our subscriber. Their privacy policy can be found here : https://www.endurance.com/privacy.', Opt_In::TEXT_DOMAIN ); ?></p>
+	<p><?php esc_html_e( 'We use Constant Contact to manage our subscriber. Their privacy policy can be found here : https://www.endurance.com/privacy.', Opt_In::TEXT_DOMAIN ); ?></p>
 	<p><?php esc_html_e( 'We use ConvertKit to manage our subscriber. Their privacy policy can be found here : https://convertkit.com/privacy/.', Opt_In::TEXT_DOMAIN ); ?></p>
 	<p><?php esc_html_e( 'We use e-Newsletter to manage our subscriber. You can learn more about it here https://premium.wpmudev.org/project/e-newsletter/.', Opt_In::TEXT_DOMAIN ); ?></p>
 	<p><?php esc_html_e( 'We use GetResponse to manage our subscriber lists. Their privacy policy can be found here : https://www.getresponse.com/legal/privacy.html?lang=en.', Opt_In::TEXT_DOMAIN ); ?></p>

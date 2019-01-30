@@ -6,7 +6,7 @@
 			gdpr = $form.parents('.hustle-modal-body').find('.hustle-modal-gdpr'),
 			$icon = $('<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" preserveAspectRatio="none" class="hustle-icon hustle-i_warning"><path fill-rule="evenodd" d="M9 18c-4.97 0-9-4.03-9-9s4.03-9 9-9 9 4.03 9 9-4.03 9-9 9zm.25-3c.69 0 1.25-.56 1.25-1.25s-.56-1.25-1.25-1.25S8 13.06 8 13.75 8.56 15 9.25 15zm-.018-4C8 11 7 3.5 9.232 3.5s1.232 7.5 0 7.5z"/></svg>'),
 			errors = [];
-		
+
 		// GDPR checkbox is present but not checked.
 		if (gdpr.length > 0 && !gdpr.prop('checked')) {
 			gdpr.next().addClass('hustle-modal-optin_error')
@@ -19,11 +19,11 @@
 
 			var $this = $(this),
 				error_class = $this.attr("name") + "_" + "error";
-				
+
 			/*if (!$this.next('label').find('.hustle-i_warning').length){
 				$this.next('label').find('.hustle-modal-optin_icon').append($icon);
 			}*/
-				
+
 			if ( is_test ){
 				$this.next('label').find('.hustle-i_warning').show();
 				$this.addClass('hustle-modal-optin_error');
@@ -54,7 +54,9 @@
 			$button = $form.find("button"),
 			$modal = $form.closest( '.hustle-modal'),
 			$modal_parent = $modal.parent(),
+			g_recaptcha = $modal.find('.g-recaptcha-response').val(),
 			module_id = $modal_parent.data( 'id'),
+			gdpr = $modal.find('#hustle-modal-gdpr-' + module_id + ':checked').val(),
 			type = $modal_parent.data('type'),
 			module = _.find(Modules, function ( mod, key ) {
 				return module_id === parseInt( mod[ 'module_id' ] );
@@ -100,6 +102,8 @@
 					module_id: module_id,
 					page_type: inc_opt.page_type,
 					page_id: inc_opt.page_id,
+					recaptcha: g_recaptcha,
+					gdpr: gdpr,
 					uri: encodeURI( window.location.href ),
 					type: type
 				}
@@ -129,7 +133,7 @@
 						var $success_msg = $modal.find(".hustle-modal-success");
 						$success_msg.find(".hustle-modal-success_message").html(module.content.success_message);
 						$success_msg.addClass('hustle-modal-success_show');
-						
+
 						if ( _.isTrue( module.content.auto_close_success_message ) ) {
 							var on_success_time = parseInt( module.content.auto_close_time ),
 								on_success_unit = module.content.auto_close_unit;
@@ -163,6 +167,11 @@
 					$failure.html( message ? message : inc_opt.l10n.submit_failure );
 
 					$( $failure ).insertAfter( $form );
+					
+					if ( g_recaptcha )  {
+						var id = $modal.find( '.hustle-modal-recaptcha' ).attr( 'recaptcha-id' );
+						grecaptcha.reset( id );
+					}
 				}
 			},
 			error: function(){
@@ -186,7 +195,7 @@
 			$this.next('label').find('.hustle-i_warning').hide();
 		}
 	});
-	
+
 	$(document).on("submit", 'form.hustle-unsubscribe-form',function(e){
 		e.preventDefault();
 		var $form = $(e.target),
@@ -215,7 +224,7 @@
 					$email_holder.hide();
 
 					if ( res.data.wrapper && res.data.html ) {
-						$form.find( res.data.wrapper ).html( res.data.html );	
+						$form.find( res.data.wrapper ).html( res.data.html );
 					}
 				} else {
 					if ( res.data.html ) {

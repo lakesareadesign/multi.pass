@@ -168,7 +168,7 @@ class Hustle_Campaignmonitor extends Hustle_Provider_Abstract {
 			if( $res->was_successful() ) {
 				return array( 'success' => 'success' );
 			} else {
-				$err->add( 'request_error', __( 'Unexpeced error occurred. Please try again.', Opt_In::TEXT_DOMAIN ) );
+				$err->add( 'request_error', __( 'Unexpected error occurred. Please try again.', Opt_In::TEXT_DOMAIN ) );
 				$data['error'] = __( 'Unable to add to subscriber list.', Opt_In::TEXT_DOMAIN );
 				$module->log_error( $data );
 			}

@@ -85,6 +85,9 @@ class Hustle_SShare_Admin_Ajax {
 		if ( isset( $settings[ $type . '_enabled' ] ) ) {
 			$settings[ $type . '_enabled' ] = $enabled;
 			try {
+				// Clear cache.
+				$sshare->clean_module_cache();
+
 				// try to save new settings
 				$sshare->update_meta( self::$_hustle->get_const_var( "KEY_SETTINGS", $sshare ), $settings );
 

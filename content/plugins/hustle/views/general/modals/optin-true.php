@@ -1,20 +1,27 @@
 <?php
 $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" class="hustle-icon hustle-i_close" aria-hidden="true"><path d="M91.667 75L150 16.667 133.333 0 75 58.333 16.667 0 0 16.667 58.333 75 0 133.333 16.667 150 75 91.667 133.333 150 150 133.333 91.667 75z" fill-rule="evenodd"/></svg>';
+$recaptcha = Hustle_Module_Model::get_recaptcha_settings();
+$recaptcha_enabled = isset( $recaptcha['enabled'] ) && '1' === $recaptcha['enabled'];
+
 ?>
 
 <script id="wpmudev-hustle-modal-with-optin-tpl" type="text/template">
-
 	<#
 	var have_mc_group = !_.isEmpty( content.args ) && 'object' === typeof content.args.group,
 		has_args = !_.isEmpty( content.args ) && 'object' === typeof content.args;
+		var show_recaptcha = false;
 
 	if ( 'object' !== typeof content.form_elements && '' !== content.form_elements ) {
 		content.form_elements = JSON.parse(content.form_elements);
 	} #>
 
-	<div class="hustle-modal hustle-modal-{{design.form_layout}} {{ ( ( '' !== settings.animation_in && 'no_animation' !== settings.animation_in ) || ( '' !== settings.animation_out && 'no_animation' !== settings.animation_out ) ) ? 'hustle-animated' : 'hustle-modal-static' }}">
+	<div class="hustle-modal hustle-modal-{{design.form_layout}} {{ ( ( ( '' !== settings.animation_in && 'no_animation' !== settings.animation_in ) || ( '' !== settings.animation_out && 'no_animation' !== settings.animation_out ) ) && ( 'undefined' === typeof is_preview  || _.isFalse( is_preview ) ) ) ? 'hustle-animated' : 'hustle-modal-static' }}">
 
-		<div class="hustle-modal-close" aria-label="Close modal"><?php echo  $close_icon;  //phpcs:ignore  ?></div>
+		<# if ( 'embedded' !== module_type ) { #>
+
+			<div class="hustle-modal-close" aria-label="Close modal"><?php echo  $close_icon;  //phpcs:ignore  ?></div>
+
+		<# } #>
 
 		<# if ( "show_success" === content.after_successful_submission ) { #>
 
@@ -139,6 +146,11 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 									var element_type = element.type.toLowerCase();
 
+									if ( 'recaptcha' === element_type ) {
+										show_recaptcha = true;
+										return;
+									}
+
 									if ( 'name' === element_type || 'address' === element_type || 'phone' === element_type ) {
 										var input_type = 'text';
 									} else {
@@ -241,7 +253,9 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 						</div>
 
 					<# } #>
-
+					<# if ( show_recaptcha ) { #>
+					<?php if ( $recaptcha_enabled ) { ?><div id="hustle-modal-recaptcha{{ module_id }}" class="hustle-modal-recaptcha"></div><?php } ?>
+					<# } #>
 				</footer>
 
 			<# } #>
@@ -331,6 +345,11 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 									<# _.each( content.form_elements, function( element, key ) {
 
 										var element_type = element.type.toLowerCase();
+
+										if ( 'recaptcha' === element_type ) {
+											show_recaptcha = true;
+											return;
+										}
 
 										if ( 'name' === element_type || 'address' === element_type || 'phone' === element_type ) {
 											var input_type = 'text';
@@ -435,6 +454,9 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 						<# } #>
 
+						<# if ( show_recaptcha ) { #>
+						<?php if ( $recaptcha_enabled ) { ?><div id="hustle-modal-recaptcha{{ module_id }}" class="hustle-modal-recaptcha"></div><?php } ?>
+						<# } #>
 					</footer>
 
 				</div>
@@ -480,6 +502,11 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 										<# _.each( content.form_elements, function( element, key ) {
 
 											var element_type = element.type.toLowerCase();
+
+											if ( 'recaptcha' === element_type ) {
+												show_recaptcha = true;
+												return;
+											}
 
 											if ( 'name' === element_type || 'address' === element_type || 'phone' === element_type ) {
 												var input_type = 'text';
@@ -586,6 +613,9 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 						</div>
 
+						<# if ( show_recaptcha ) { #>
+						<?php if ( $recaptcha_enabled ) { ?><div id="hustle-modal-recaptcha{{ module_id }}" class="hustle-modal-recaptcha"></div><?php } ?>
+						<# } #>
 					</footer>
 
 				<# } #>
@@ -685,6 +715,11 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 											var element_type = element.type.toLowerCase();
 
+											if ( 'recaptcha' === element_type ) {
+												show_recaptcha = true;
+												return;
+											}
+
 											if ( 'name' === element_type || 'address' === element_type || 'phone' === element_type ) {
 												var input_type = 'text';
 											} else {
@@ -790,6 +825,9 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 						</div>
 
+						<# if ( show_recaptcha ) { #>
+						<?php if ( $recaptcha_enabled ) { ?><div id="hustle-modal-recaptcha{{ module_id }}" class="hustle-modal-recaptcha"></div><?php } ?>
+						<# } #>
 					</footer>
 
 				<# } #>
@@ -837,6 +875,11 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 											<# _.each( content.form_elements, function( element, key ) {
 
 												var element_type = element.type.toLowerCase();
+
+												if ( 'recaptcha' === element_type ) {
+													show_recaptcha = true;
+													return;
+												}
 
 												if ( 'name' === element_type || 'address' === element_type || 'phone' === element_type ) {
 													var input_type = 'text';
@@ -940,7 +983,9 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 									</div>
 
 								<# } #>
-
+								<# if ( show_recaptcha ) { #>
+								<?php if ( $recaptcha_enabled ) { ?><div id="hustle-modal-recaptcha{{ module_id }}" class="hustle-modal-recaptcha"></div><?php } ?>
+								<# } #>
 							</div>
 
 						</div>
@@ -1037,6 +1082,11 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 												var element_type = element.type.toLowerCase();
 
+												if ( 'recaptcha' === element_type ) {
+													show_recaptcha = true;
+													return;
+												}
+
 												if ( 'name' === element_type || 'address' === element_type || 'phone' === element_type ) {
 													var input_type = 'text';
 												} else {
@@ -1139,7 +1189,9 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 									</div>
 
 								<# } #>
-
+								<# if ( show_recaptcha ) { #>
+								<?php if ( $recaptcha_enabled ) { ?><div id="hustle-modal-recaptcha{{ module_id }}" class="hustle-modal-recaptcha"></div><?php } ?>
+								<# } #>
 							</div>
 
 						</div>

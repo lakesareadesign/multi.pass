@@ -108,19 +108,50 @@ class Hustle_Activecampaign_Api {
 	}
 
 	/**
+	 * Get the existing forms
+	 *
+	 * @return array
+	 */
+	public function get_forms() {
+		$res = $this->_get( "form_getforms" );
+
+		if( is_wp_error( $res ) || ! is_array( $res ) )
+			return $res;
+
+		$res2 = array();
+		foreach ( $res as $key => $value ) {
+			if( is_numeric( $key ) ) {
+				array_push( $res2, $value );
+			}
+		}
+
+		return $res2;
+	}
+
+	/**
 	 * Add new contact
 	 *
-	 * @param $data
+	 * @param string $id ID of the List or Form to which the user will be subscribed to
+	 * @param array $data with the subscription data
+	 * @param Hustle_Module_Model $module
+	 * @param array $orig_data
+	 * @param string $sign_up_to Indicates if the subscription is done to a Form or to a List
+	 *
 	 * @return array|mixed|object|WP_Error
 	 */
-	public function subscribe( $list, array $data, Hustle_Module_Model $module, $orig_data ){
-		if ( false === $this->email_exist( $data['email'], $list ) ) {
-			if ( (int) $list > 0 ) {
-				$data['p'] = array( $list => $list );
-				$data['status'] = array( $list => 1 );
-				$res = $this->_post( 'contact_sync', $data );
+	public function subscribe( $id, array $data, Hustle_Module_Model $module, $orig_data, $sign_up_to = 'list' ){
+		if ( false === $this->email_exist( $data['email'], $id, $sign_up_to ) ) {
+			if ( 'list' === $sign_up_to ) {
+				if ( (int) $id > 0 ) {
+					$data['p'] = array( $id => $id );
+					$data['status'] = array( $id => 1 );
+					$res = $this->_post( 'contact_sync', $data );
+				} else {
+					$res = $this->_post( 'contact_add', $data );
+				}
 			} else {
-				$res = $this->_post( 'contact_add', $data );
+				$data['form'] = $id;
+				$res = $this->_post( 'contact_sync', $data );
 			}
 
 			if ( is_array( $res ) && isset( $res['result_code'] ) && 'SUCCESS' === $res['result_code'] ){
@@ -144,7 +175,7 @@ class Hustle_Activecampaign_Api {
 		}
 	}
 
-	public function email_exist( $email, $list_id ) {
+	public function email_exist( $email, $id, $type = 'list' ) {
 		$res = $this->_post( 'contact_view_email', array( 'email' => $email ) );
 
 		// See if duplicate exists.
@@ -153,10 +184,17 @@ class Hustle_Activecampaign_Api {
 			&& ! empty( $res['id'])
 			&& !empty($res['lists'])
 		) {
-			// Also make sure duplicate is in active list.
-			foreach ($res['lists'] as $response_list) {
-				if ($response_list['listid'] === $list_id) {
-					// Duplicate exists.
+			if ( 'list' === $type ) {
+				// Also make sure duplicate is in active list.
+				foreach ($res['lists'] as $response_list) {
+					if ($response_list['listid'] === $id) {
+						// Duplicate exists.
+						return true;
+					}
+				}
+			} else {
+				// Or active form if checking on a form
+				if ( $id === $res['formid'] ) {
 					return true;
 				}
 			}

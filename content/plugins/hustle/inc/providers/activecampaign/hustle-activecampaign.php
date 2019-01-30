@@ -111,7 +111,11 @@ class Hustle_Activecampaign extends Hustle_Provider_Abstract {
 	public function subscribe( Hustle_Module_Model $module, array $data ){
 		$api_key    = self::_get_api_key( $module );
 		$ac_url     = self::_get_api_url( $module );
-		$list_id    = self::_get_api_list_id( $module );
+		//$list_id    = self::_get_api_list_id( $module );
+		//$form_id	= self::get_api_form_id( $module );
+		$sign_up_to = self::get_sign_up_to( $module );
+
+		$id = ( 'list' === $sign_up_to ) ? self::_get_api_list_id( $module ) : self::get_api_form_id( $module );
 
 		$api = self::api( $ac_url, $api_key );
 
@@ -137,7 +141,7 @@ class Hustle_Activecampaign extends Hustle_Provider_Abstract {
 			}
 		}
 
-		return $api->subscribe( $list_id, $data, $module, $orig_data );
+		return $api->subscribe( $id, $data, $module, $orig_data, $sign_up_to );
 	}
 
 	public static function _get_api_key( Hustle_Module_Model $module ) {
@@ -150,6 +154,35 @@ class Hustle_Activecampaign extends Hustle_Provider_Abstract {
 
 	private static function _get_api_list_id( Hustle_Module_Model $module ) {
 		return self::get_provider_details( $module, 'list_id', self::SLUG );
+	}
+
+	/**
+	 * Get the stored form_id
+	 *
+	 * @since 3.0.7
+	 *
+	 * @param Hustle_Module_Model $module
+	 * @return string
+	 */
+	private static function get_api_form_id( Hustle_Module_Model $module ) {
+		return self::get_provider_details( $module, 'form_id', self::SLUG );
+	}
+
+	/**
+	 * Get if the subscription should be related to a form or a list
+	 *
+	 * @since 3.0.7
+	 *
+	 * @param Hustle_Module_Model $module
+	 * @return string
+	 */
+	public static function get_sign_up_to( Hustle_Module_Model $module ) {
+		$sign_up_to = 'list';
+		$saved_sign_up_to = self::get_provider_details( $module, 'sign_up_to', self::SLUG );
+		if ( $saved_sign_up_to && !empty( $saved_sign_up_to ) && 'list' !== $saved_sign_up_to ) {
+			$sign_up_to = 'form';
+		}
+		return $sign_up_to;
 	}
 
 	public static function add_values_to_previous_optins( $option, $module  ){

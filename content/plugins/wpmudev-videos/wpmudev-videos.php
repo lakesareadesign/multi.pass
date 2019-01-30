@@ -4,14 +4,14 @@ Plugin Name: WPMU DEV Videos
 Plugin URI: https://premium.wpmudev.org/project/unbranded-video-tutorials/
 Description: A simple way to integrate WPMU DEV's over 40 unbranded support videos into your websites.
 Author: WPMU DEV
-Version: 1.5.8
+Version: 1.6
 Author URI: https://premium.wpmudev.org/
 Network: true
 WDP ID: 248
 */
 
 /*
-Copyright 2007-2018 Incsub (http://incsub.com)
+Copyright 2007-2019 Incsub (http://incsub.com)
 Author - Aaron Edwards
 Contributors - Jeffri, Joshua Dailey
 
@@ -35,7 +35,7 @@ class WPMUDEV_Videos {
 	//---Config---------------------------------------------------------------//
 	//------------------------------------------------------------------------//
 
-	var $version = '1.5.8';
+	var $version = '1.6';
 	var $api_url = 'https://premium.wpmudev.org/video-api-register.php';
 	var $video_list;
 	var $video_cats;
@@ -101,6 +101,10 @@ class WPMUDEV_Videos {
 			'tools'                        => __( 'Tools', 'wpmudev_vids' ),
 			'settings'                     => __( 'Settings', 'wpmudev_vids' ),
 			'playlists'                    => __( 'Creating Playlists', 'wpmudev_vids' ),
+			'gutenberg-editor-overview'    => __( 'Editor Overview', 'wpmudev_vids' ),
+			'gutenberg-reusable-blocks'    => __( 'Reusable Blocks', 'wpmudev_vids' ),
+			'gutenberg-add-page'           => __( 'Adding New Pages (Gutenberg)', 'wpmudev_vids' ),
+			'gutenberg-add-post'           => __( 'Adding New Posts (Gutenberg)', 'wpmudev_vids' ),
 		);
 		// if multisite check if non-multisite videos are enabled; defaults to "NO"
 		if ( is_multisite() ) {
@@ -112,6 +116,7 @@ class WPMUDEV_Videos {
 			$this->video_list['install-plugin']  = __( 'Install and Configure a Plugin', 'wpmudev_vids' );
 		}
 
+
 		//videos by category
 		$this->video_cats = array(
 			'dashboard'  => array(
@@ -120,14 +125,21 @@ class WPMUDEV_Videos {
 			),
 			'posts'      => array(
 				'name' => __( 'Posts', 'wpmudev_vids' ),
-				'list' => array( 'add-new-post', 'trash-post', 'restore-post', 'revisions' ),
+				'list' => array( 'gutenberg-add-post', 'trash-post', 'restore-post', 'revisions' ),
 			),
 			'pages'      => array(
 				'name' => __( 'Pages', 'wpmudev_vids' ),
-				'list' => array( 'add-new-page', 'trash-post', 'restore-page', 'pages-v-posts' ),
+				'list' => array( 'gutenberg-add-page', 'trash-post', 'restore-page', 'pages-v-posts' ),
+			),
+			'gutenberg'     => array(
+				'name' => __( 'The Gutenberg Editor', 'wpmudev_vids' ),
+				'list' => array(
+					'gutenberg-editor-overview',
+					'gutenberg-reusable-blocks',
+				),
 			),
 			'editor'     => array(
-				'name' => __( 'The Visual Editor', 'wpmudev_vids' ),
+				'name' => __( 'The Classic Editor', 'wpmudev_vids' ),
 				'list' => array(
 					'the-toolbar',
 					'edit-text',
@@ -181,6 +193,12 @@ class WPMUDEV_Videos {
 				),
 			),
 		);
+
+		// if Classic editor is installed show old add new page/post videos
+		if ( class_exists( 'Classic_Editor' ) ) {
+			$this->video_cats['posts']['list'] = array( 'add-new-post', 'trash-post', 'restore-post', 'revisions' );
+			$this->video_cats['pages']['list'] = array( 'add-new-page', 'trash-post', 'restore-page', 'pages-v-posts' );
+		}
 
 	}
 

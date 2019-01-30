@@ -1,8 +1,8 @@
-# Copyright (C) 2018 Hustle 3.0.6.1
-# This file is distributed under the same license as the Hustle 3.0.6.1 package.
+# Copyright (C) 2019 Hustle 3.0.7
+# This file is distributed under the same license as the Hustle 3.0.7 package.
 msgid ""
 msgstr ""
-"Project-Id-Version: Hustle 3.0.6.1\n"
+"Project-Id-Version: Hustle 3.0.7\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "Dismiss"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-categories.php:65, inc/display-conditions/opt-in-condition-categories.php:77, inc/hustle-module-admin.php:285
+#: inc/display-conditions/opt-in-condition-categories.php:65, inc/display-conditions/opt-in-condition-categories.php:77, inc/hustle-module-admin.php:332
 msgid "All categories"
 msgstr ""
 
@@ -41,7 +41,7 @@ msgstr ""
 msgid "%d categories"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-categories.php:69, inc/display-conditions/opt-in-condition-categories.php:78, inc/hustle-module-admin.php:286
+#: inc/display-conditions/opt-in-condition-categories.php:69, inc/display-conditions/opt-in-condition-categories.php:78, inc/hustle-module-admin.php:333
 msgid "No categories"
 msgstr ""
 
@@ -93,7 +93,7 @@ msgstr ""
 msgid "Not on mobile"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-not-on-specific-url.php:9, inc/hustle-module-admin.php:265
+#: inc/display-conditions/opt-in-condition-not-on-specific-url.php:9, inc/hustle-module-admin.php:312
 msgid "Not on specific URLs"
 msgstr ""
 
@@ -105,11 +105,11 @@ msgstr ""
 msgid "Only on mobile"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-only-on-not-found.php:14, inc/hustle-module-admin.php:232
+#: inc/display-conditions/opt-in-condition-only-on-not-found.php:14, inc/hustle-module-admin.php:279
 msgid "404 page"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-pages.php:48, inc/display-conditions/opt-in-condition-pages.php:59, inc/hustle-module-admin.php:279
+#: inc/display-conditions/opt-in-condition-pages.php:48, inc/display-conditions/opt-in-condition-pages.php:59, inc/hustle-module-admin.php:326
 msgid "All pages"
 msgstr ""
 
@@ -117,7 +117,7 @@ msgstr ""
 msgid "%d pages"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-pages.php:52, inc/display-conditions/opt-in-condition-pages.php:60, inc/hustle-module-admin.php:280
+#: inc/display-conditions/opt-in-condition-pages.php:52, inc/display-conditions/opt-in-condition-pages.php:60, inc/hustle-module-admin.php:327
 msgid "No pages"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgstr ""
 msgid "All pages except %d"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-posts.php:42, inc/display-conditions/opt-in-condition-posts.php:53, inc/hustle-module-admin.php:271
+#: inc/display-conditions/opt-in-condition-posts.php:42, inc/display-conditions/opt-in-condition-posts.php:53, inc/hustle-module-admin.php:318
 msgid "All posts"
 msgstr ""
 
@@ -133,7 +133,7 @@ msgstr ""
 msgid "%d posts"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-posts.php:46, inc/display-conditions/opt-in-condition-posts.php:54, inc/hustle-module-admin.php:274
+#: inc/display-conditions/opt-in-condition-posts.php:46, inc/display-conditions/opt-in-condition-posts.php:54, inc/hustle-module-admin.php:321
 msgid "No posts"
 msgstr ""
 
@@ -145,7 +145,7 @@ msgstr ""
 msgid "Shown less than specific number of times"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-tags.php:64, inc/display-conditions/opt-in-condition-tags.php:76, inc/hustle-module-admin.php:291
+#: inc/display-conditions/opt-in-condition-tags.php:64, inc/display-conditions/opt-in-condition-tags.php:76, inc/hustle-module-admin.php:338
 msgid "All tags"
 msgstr ""
 
@@ -153,7 +153,7 @@ msgstr ""
 msgid "%d tags"
 msgstr ""
 
-#: inc/display-conditions/opt-in-condition-tags.php:68, inc/display-conditions/opt-in-condition-tags.php:77, inc/hustle-module-admin.php:292
+#: inc/display-conditions/opt-in-condition-tags.php:68, inc/display-conditions/opt-in-condition-tags.php:77, inc/hustle-module-admin.php:339
 msgid "No tags"
 msgstr ""
 
@@ -197,359 +197,359 @@ msgstr ""
 msgid "Embed ID is empty or this ID already exists"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:154, inc/hustle-embedded-admin-ajax.php:173, inc/hustle-embedded-admin-ajax.php:213, inc/hustle-embedded-admin-ajax.php:243, inc/hustle-embedded-admin-ajax.php:269, inc/hustle-embedded-admin-ajax.php:291, inc/hustle-embedded-admin-ajax.php:322, inc/hustle-embedded-admin-ajax.php:539, inc/hustle-popup-admin-ajax.php:199, inc/hustle-popup-admin-ajax.php:229, inc/hustle-popup-admin-ajax.php:249, inc/hustle-popup-admin-ajax.php:306, inc/hustle-popup-admin-ajax.php:323, inc/hustle-popup-admin-ajax.php:399, inc/hustle-popup-admin-ajax.php:439, inc/hustle-popup-admin-ajax.php:474, inc/hustle-popup-admin.php:122, inc/hustle-slidein-admin-ajax.php:140, inc/hustle-slidein-admin-ajax.php:169, inc/hustle-slidein-admin-ajax.php:197, inc/hustle-slidein-admin-ajax.php:219, inc/hustle-slidein-admin-ajax.php:241, inc/hustle-slidein-admin-ajax.php:272, inc/hustle-slidein-admin-ajax.php:478, inc/hustle-sshare-admin-ajax.php:56, inc/hustle-sshare-admin-ajax.php:75, inc/hustle-sshare-admin-ajax.php:115, inc/hustle-sshare-admin-ajax.php:137, inc/hustle-sshare-admin-ajax.php:158, inc/hustle-sshare-admin-ajax.php:179
+#: inc/hustle-embedded-admin-ajax.php:154, inc/hustle-embedded-admin-ajax.php:173, inc/hustle-embedded-admin-ajax.php:216, inc/hustle-embedded-admin-ajax.php:246, inc/hustle-embedded-admin-ajax.php:272, inc/hustle-embedded-admin-ajax.php:294, inc/hustle-embedded-admin-ajax.php:325, inc/hustle-embedded-admin-ajax.php:542, inc/hustle-popup-admin-ajax.php:248, inc/hustle-popup-admin-ajax.php:278, inc/hustle-popup-admin-ajax.php:298, inc/hustle-popup-admin-ajax.php:355, inc/hustle-popup-admin-ajax.php:378, inc/hustle-popup-admin-ajax.php:454, inc/hustle-popup-admin-ajax.php:494, inc/hustle-popup-admin-ajax.php:529, inc/hustle-popup-admin.php:125, inc/hustle-slidein-admin-ajax.php:140, inc/hustle-slidein-admin-ajax.php:169, inc/hustle-slidein-admin-ajax.php:197, inc/hustle-slidein-admin-ajax.php:225, inc/hustle-slidein-admin-ajax.php:247, inc/hustle-slidein-admin-ajax.php:278, inc/hustle-slidein-admin-ajax.php:484, inc/hustle-sshare-admin-ajax.php:56, inc/hustle-sshare-admin-ajax.php:75, inc/hustle-sshare-admin-ajax.php:118, inc/hustle-sshare-admin-ajax.php:140, inc/hustle-sshare-admin-ajax.php:161, inc/hustle-sshare-admin-ajax.php:182
 msgid "Invalid Request"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:159, inc/hustle-embedded-admin-ajax.php:196, inc/hustle-embedded-admin-ajax.php:225, inc/hustle-embedded-admin-ajax.php:254, inc/hustle-embedded-admin-ajax.php:274, inc/hustle-embedded-admin-ajax.php:585, inc/hustle-popup-admin-ajax.php:216, inc/hustle-popup-admin-ajax.php:239, inc/hustle-popup-admin-ajax.php:287, inc/hustle-popup-admin-ajax.php:313, inc/hustle-popup-admin-ajax.php:375, inc/hustle-popup-admin-ajax.php:405, inc/hustle-slidein-admin-ajax.php:157, inc/hustle-slidein-admin-ajax.php:179, inc/hustle-slidein-admin-ajax.php:204, inc/hustle-slidein-admin-ajax.php:224, inc/hustle-slidein-admin-ajax.php:525, inc/hustle-sshare-admin-ajax.php:61, inc/hustle-sshare-admin-ajax.php:97, inc/hustle-sshare-admin-ajax.php:125, inc/hustle-sshare-admin-ajax.php:147, inc/hustle-sshare-admin-ajax.php:163, inc/hustle-sshare-admin-ajax.php:225
+#: inc/hustle-embedded-admin-ajax.php:159, inc/hustle-embedded-admin-ajax.php:199, inc/hustle-embedded-admin-ajax.php:228, inc/hustle-embedded-admin-ajax.php:257, inc/hustle-embedded-admin-ajax.php:277, inc/hustle-embedded-admin-ajax.php:588, inc/hustle-popup-admin-ajax.php:265, inc/hustle-popup-admin-ajax.php:288, inc/hustle-popup-admin-ajax.php:336, inc/hustle-popup-admin-ajax.php:362, inc/hustle-popup-admin-ajax.php:430, inc/hustle-popup-admin-ajax.php:460, inc/hustle-slidein-admin-ajax.php:157, inc/hustle-slidein-admin-ajax.php:179, inc/hustle-slidein-admin-ajax.php:204, inc/hustle-slidein-admin-ajax.php:230, inc/hustle-slidein-admin-ajax.php:531, inc/hustle-sshare-admin-ajax.php:61, inc/hustle-sshare-admin-ajax.php:100, inc/hustle-sshare-admin-ajax.php:128, inc/hustle-sshare-admin-ajax.php:150, inc/hustle-sshare-admin-ajax.php:166, inc/hustle-sshare-admin-ajax.php:228
 msgid "Successful"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:161, inc/hustle-embedded-admin-ajax.php:199, inc/hustle-embedded-admin-ajax.php:202, inc/hustle-embedded-admin-ajax.php:276, inc/hustle-popup-admin-ajax.php:218, inc/hustle-popup-admin-ajax.php:394, inc/hustle-popup-admin-ajax.php:407, inc/hustle-slidein-admin-ajax.php:159, inc/hustle-slidein-admin-ajax.php:226, inc/hustle-sshare-admin-ajax.php:63, inc/hustle-sshare-admin-ajax.php:100, inc/hustle-sshare-admin-ajax.php:103
+#: inc/hustle-embedded-admin-ajax.php:161, inc/hustle-embedded-admin-ajax.php:202, inc/hustle-embedded-admin-ajax.php:205, inc/hustle-embedded-admin-ajax.php:279, inc/hustle-popup-admin-ajax.php:267, inc/hustle-popup-admin-ajax.php:449, inc/hustle-popup-admin-ajax.php:462, inc/hustle-slidein-admin-ajax.php:159, inc/hustle-slidein-admin-ajax.php:232, inc/hustle-sshare-admin-ajax.php:63, inc/hustle-sshare-admin-ajax.php:103, inc/hustle-sshare-admin-ajax.php:106
 msgid "Failed"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:179, inc/hustle-embedded-admin-ajax.php:219, inc/hustle-embedded-admin-ajax.php:249, inc/hustle-embedded-admin-ajax.php:543, inc/hustle-popup-admin-ajax.php:234, inc/hustle-popup-admin-ajax.php:253, inc/hustle-popup-admin-ajax.php:360, inc/hustle-popup-admin.php:128, inc/hustle-slidein-admin-ajax.php:174, inc/hustle-slidein-admin-ajax.php:482, inc/hustle-sshare-admin-ajax.php:80, inc/hustle-sshare-admin-ajax.php:120, inc/hustle-sshare-admin-ajax.php:142, inc/hustle-sshare-admin-ajax.php:183
+#: inc/hustle-embedded-admin-ajax.php:179, inc/hustle-embedded-admin-ajax.php:222, inc/hustle-embedded-admin-ajax.php:252, inc/hustle-embedded-admin-ajax.php:546, inc/hustle-popup-admin-ajax.php:283, inc/hustle-popup-admin-ajax.php:302, inc/hustle-popup-admin-ajax.php:415, inc/hustle-popup-admin.php:131, inc/hustle-slidein-admin-ajax.php:174, inc/hustle-slidein-admin-ajax.php:488, inc/hustle-sshare-admin-ajax.php:80, inc/hustle-sshare-admin-ajax.php:123, inc/hustle-sshare-admin-ajax.php:145, inc/hustle-sshare-admin-ajax.php:186
 msgid "Invalid environment: %s"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:301, inc/hustle-popup-admin-ajax.php:452, inc/hustle-slidein-admin-ajax.php:251
+#: inc/hustle-embedded-admin-ajax.php:304, inc/hustle-popup-admin-ajax.php:507, inc/hustle-slidein-admin-ajax.php:257
 msgid "Failed to fetch subscriptions"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:404, inc/hustle-popup-admin-ajax.php:557, inc/hustle-slidein-admin-ajax.php:353
+#: inc/hustle-embedded-admin-ajax.php:407, inc/hustle-popup-admin-ajax.php:612, inc/hustle-slidein-admin-ajax.php:359
 msgid "Unable to add custom fields"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:478, inc/hustle-popup-admin-ajax.php:637, inc/hustle-slidein-admin-ajax.php:427, views/admin/commons/listing/error_list.php:43, views/admin/commons/listing/modal-error.php:77, views/admin/commons/listing/modal-error.php:105
+#: inc/hustle-embedded-admin-ajax.php:481, inc/hustle-popup-admin-ajax.php:692, inc/hustle-slidein-admin-ajax.php:433, views/admin/commons/listing/error_list.php:43, views/admin/commons/listing/modal-error.php:77, views/admin/commons/listing/modal-error.php:105
 msgid "Error"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:479, inc/hustle-popup-admin-ajax.php:638, inc/hustle-slidein-admin-ajax.php:428, views/admin/commons/listing/error_list.php:44, views/admin/commons/listing/modal-error.php:79, views/admin/commons/listing/modal-error.php:129
+#: inc/hustle-embedded-admin-ajax.php:482, inc/hustle-popup-admin-ajax.php:693, inc/hustle-slidein-admin-ajax.php:434, views/admin/commons/listing/error_list.php:44, views/admin/commons/listing/modal-error.php:79, views/admin/commons/listing/modal-error.php:129
 msgid "Date"
 msgstr ""
 
-#: inc/hustle-embedded-admin-ajax.php:566, inc/hustle-popup-admin-ajax.php:274, inc/hustle-slidein-admin-ajax.php:506, inc/hustle-sshare-admin-ajax.php:206
+#: inc/hustle-embedded-admin-ajax.php:569, inc/hustle-popup-admin-ajax.php:323, inc/hustle-slidein-admin-ajax.php:512, inc/hustle-sshare-admin-ajax.php:209
 msgid " (copy)"
 msgstr ""
 
-#: inc/hustle-embedded-admin.php:32, inc/hustle-embedded-admin.php:32, views/admin/dashboard/modules/module-shortcode.php:12
+#: inc/hustle-embedded-admin.php:32, inc/hustle-embedded-admin.php:32, inc/providers/gutenberg/blocks/block-embeds.php:117, views/admin/dashboard/modules/module-shortcode.php:12
 msgid "Embeds"
 msgstr ""
 
-#: inc/hustle-embedded-admin.php:33, inc/hustle-embedded-admin.php:33, views/admin/dashboard/modules/module-shortcode.php:138, views/admin/embedded/listing.php:26, views/admin/embedded/welcome.php:7, views/admin/embedded/wizard.php:13
+#: inc/hustle-embedded-admin.php:33, inc/hustle-embedded-admin.php:33, views/admin/dashboard/modules/module-shortcode.php:138, views/admin/embedded/listing.php:26, views/admin/embedded/welcome.php:7, views/admin/embedded/wizard.php:15
 msgid "New Embed"
 msgstr ""
 
-#: inc/hustle-model.php:639
+#: inc/hustle-model.php:655
 msgid "Invalid user type provided"
 msgstr ""
 
-#: inc/hustle-module-admin.php:171
-msgid "ALL POSTS"
-msgstr ""
-
-#: inc/hustle-module-admin.php:184
-msgid "ALL PAGES"
-msgstr ""
-
-#: inc/hustle-module-admin.php:211
-msgid "ALL "
-msgstr ""
-
-#: inc/hustle-module-admin.php:219
-msgid " number of IPs removed from database successfully."
-msgstr ""
-
-#: inc/hustle-module-admin.php:220
-msgid "Settings saved."
-msgstr ""
-
-#: inc/hustle-module-admin.php:221
-msgid "Changes are not saved, are you sure you want to navigate away?"
-msgstr ""
-
-#: inc/hustle-module-admin.php:222
-msgid "Ok"
-msgstr ""
-
-#: inc/hustle-module-admin.php:223, inc/providers/constantcontact/hustle-constantcontact.php:164, inc/providers/convertkit/hustle-convertkit.php:169, inc/providers/mailchimp/hustle-mailchimp.php:241
-msgid "Something went wrong. Please try again."
-msgstr ""
-
-#: inc/hustle-module-admin.php:225, views/admin/settings/widget-modules.php:50, views/admin/sshare/wizard/boxes/box-shortcode.php:40
-msgid "Pop-up"
-msgstr ""
-
-#: inc/hustle-module-admin.php:226, views/admin/settings/widget-modules.php:52, views/admin/sshare/wizard/boxes/box-shortcode.php:44
-msgid "Slide-in"
+#: inc/hustle-module-admin.php:217
+msgid "All Posts"
 msgstr ""
 
 #: inc/hustle-module-admin.php:227
-msgid "Magic Bar"
+msgid "All Pages"
 msgstr ""
 
-#: inc/hustle-module-admin.php:228, views/admin/embedded/listing.php:211, views/admin/sshare/wizard/boxes/box-shortcode.php:36
-msgid "After Content"
+#: inc/hustle-module-admin.php:258, inc/hustle-popup-admin-ajax.php:143
+msgid "All Items"
 msgstr ""
 
-#: inc/hustle-module-admin.php:229, views/admin/sshare/listing.php:170
-msgid "Floating Social"
+#: inc/hustle-module-admin.php:266
+msgid " number of IPs removed from database successfully."
 msgstr ""
 
-#: inc/hustle-module-admin.php:233
-msgid "Visitor is logged in"
-msgstr ""
-
-#: inc/hustle-module-admin.php:234
-msgid "Visitor not logged in"
-msgstr ""
-
-#: inc/hustle-module-admin.php:235
-msgid "{type_name} shown less than"
-msgstr ""
-
-#: inc/hustle-module-admin.php:236, inc/hustle-module-admin.php:258
-msgid "Only on mobile devices"
-msgstr ""
-
-#: inc/hustle-module-admin.php:237, inc/hustle-module-admin.php:259
-msgid "Not on mobile devices"
-msgstr ""
-
-#: inc/hustle-module-admin.php:238, inc/hustle-module-admin.php:260
-msgid "From a specific referrer"
-msgstr ""
-
-#: inc/hustle-module-admin.php:239, inc/hustle-module-admin.php:261
-msgid "Not from a specific referrer"
-msgstr ""
-
-#: inc/hustle-module-admin.php:240, inc/hustle-module-admin.php:262
-msgid "Not from an internal link"
-msgstr ""
-
-#: inc/hustle-module-admin.php:241, inc/hustle-module-admin.php:263
-msgid "From a search engine"
-msgstr ""
-
-#: inc/hustle-module-admin.php:242
-msgid "On specific URL"
-msgstr ""
-
-#: inc/hustle-module-admin.php:243
-msgid "Not on specific URL"
-msgstr ""
-
-#: inc/hustle-module-admin.php:244, inc/hustle-module-admin.php:266
-msgid "Visitor has commented before"
-msgstr ""
-
-#: inc/hustle-module-admin.php:245, inc/hustle-module-admin.php:267
-msgid "Visitor has never commented"
-msgstr ""
-
-#: inc/hustle-module-admin.php:246
-msgid "In a specific Country"
-msgstr ""
-
-#: inc/hustle-module-admin.php:247
-msgid "Not in a specific Country"
-msgstr ""
-
-#: inc/hustle-module-admin.php:248
-msgid "Posts"
-msgstr ""
-
-#: inc/hustle-module-admin.php:249
-msgid "Pages"
-msgstr ""
-
-#: inc/hustle-module-admin.php:250
-msgid "Categories"
-msgstr ""
-
-#: inc/hustle-module-admin.php:251
-msgid "Tags"
-msgstr ""
-
-#: inc/hustle-module-admin.php:254
-msgid "Only on 404 page"
-msgstr ""
-
-#: inc/hustle-module-admin.php:255
-msgid "Only when visitor has logged in"
-msgstr ""
-
-#: inc/hustle-module-admin.php:256
-msgid "Only when visitor has not logged in"
-msgstr ""
-
-#: inc/hustle-module-admin.php:257
-msgid "{type_name} shown less than a certain times"
-msgstr ""
-
-#: inc/hustle-module-admin.php:264
-msgid "On specific URLs"
+#: inc/hustle-module-admin.php:267
+msgid "Settings saved."
 msgstr ""
 
 #: inc/hustle-module-admin.php:268
-msgid "In specific countries"
+msgid "Changes are not saved, are you sure you want to navigate away?"
 msgstr ""
 
 #: inc/hustle-module-admin.php:269
-msgid "Not in specific countries"
+msgid "Ok"
 msgstr ""
 
-#: inc/hustle-module-admin.php:270
-msgid "On certain posts"
+#: inc/hustle-module-admin.php:270, inc/providers/constantcontact/hustle-constantcontact.php:164, inc/providers/convertkit/hustle-convertkit.php:169, inc/providers/mailchimp/hustle-mailchimp.php:246
+msgid "Something went wrong. Please try again."
 msgstr ""
 
-#: inc/hustle-module-admin.php:272
-msgid "All"
+#: inc/hustle-module-admin.php:272, views/admin/settings/widget-modules.php:50, views/admin/sshare/wizard/boxes/box-shortcode.php:40
+msgid "Pop-up"
 msgstr ""
 
-#: inc/hustle-module-admin.php:273, views/admin/commons/listing/delete-confirmation.php:19, views/admin/commons/listing/error_list.php:27, views/admin/commons/listing/modal-error.php:49, views/admin/commons/listing/modal-import.php:44
-msgid "No"
+#: inc/hustle-module-admin.php:273, views/admin/settings/widget-modules.php:52, views/admin/sshare/wizard/boxes/box-shortcode.php:44
+msgid "Slide-in"
 msgstr ""
 
-#: inc/hustle-module-admin.php:275
-msgid "Only {number} posts"
+#: inc/hustle-module-admin.php:274
+msgid "Magic Bar"
 msgstr ""
 
-#: inc/hustle-module-admin.php:276
-msgid "{number} posts"
+#: inc/hustle-module-admin.php:275, views/admin/embedded/listing.php:207, views/admin/sshare/wizard/boxes/box-shortcode.php:36
+msgid "After Content"
 msgstr ""
 
-#: inc/hustle-module-admin.php:277
-msgid "All posts except {number}"
+#: inc/hustle-module-admin.php:276, views/admin/sshare/listing.php:166
+msgid "Floating Social"
 msgstr ""
 
-#: inc/hustle-module-admin.php:278
-msgid "On certain pages"
+#: inc/hustle-module-admin.php:280
+msgid "Visitor is logged in"
 msgstr ""
 
 #: inc/hustle-module-admin.php:281
-msgid "Only {number} pages"
+msgid "Visitor not logged in"
 msgstr ""
 
 #: inc/hustle-module-admin.php:282
-msgid "{number} pages"
+msgid "{type_name} shown less than"
 msgstr ""
 
-#: inc/hustle-module-admin.php:283
-msgid "All pages except {number}"
+#: inc/hustle-module-admin.php:283, inc/hustle-module-admin.php:305
+msgid "Only on mobile devices"
 msgstr ""
 
-#: inc/hustle-module-admin.php:284
-msgid "On certain categories"
+#: inc/hustle-module-admin.php:284, inc/hustle-module-admin.php:306
+msgid "Not on mobile devices"
 msgstr ""
 
-#: inc/hustle-module-admin.php:287
-msgid "Only {number} categories"
+#: inc/hustle-module-admin.php:285, inc/hustle-module-admin.php:307
+msgid "From a specific referrer"
 msgstr ""
 
-#: inc/hustle-module-admin.php:288
-msgid "{number} categories"
+#: inc/hustle-module-admin.php:286, inc/hustle-module-admin.php:308
+msgid "Not from a specific referrer"
+msgstr ""
+
+#: inc/hustle-module-admin.php:287, inc/hustle-module-admin.php:309
+msgid "Not from an internal link"
+msgstr ""
+
+#: inc/hustle-module-admin.php:288, inc/hustle-module-admin.php:310
+msgid "From a search engine"
 msgstr ""
 
 #: inc/hustle-module-admin.php:289
-msgid "All categories except {number}"
+msgid "On specific URL"
 msgstr ""
 
 #: inc/hustle-module-admin.php:290
-msgid "On certain tags"
+msgid "Not on specific URL"
+msgstr ""
+
+#: inc/hustle-module-admin.php:291, inc/hustle-module-admin.php:313
+msgid "Visitor has commented before"
+msgstr ""
+
+#: inc/hustle-module-admin.php:292, inc/hustle-module-admin.php:314
+msgid "Visitor has never commented"
 msgstr ""
 
 #: inc/hustle-module-admin.php:293
-msgid "Only {number} tags"
+msgid "In a specific Country"
 msgstr ""
 
 #: inc/hustle-module-admin.php:294
-msgid "{number} tags"
+msgid "Not in a specific Country"
 msgstr ""
 
 #: inc/hustle-module-admin.php:295
-msgid "All tags except {number}"
+msgid "Posts"
 msgstr ""
 
-#: inc/hustle-module-admin.php:296, inc/hustle-module-decorator.php:683
-msgid "Show everywhere"
+#: inc/hustle-module-admin.php:296
+msgid "Pages"
 msgstr ""
 
-#: inc/hustle-module-admin.php:299
-msgid "Shows the {type_name} on the 404 page."
+#: inc/hustle-module-admin.php:297
+msgid "Categories"
 msgstr ""
 
-#: inc/hustle-module-admin.php:300
-msgid "Shows the {type_name} if the user has already left a comment. You may want to combine this condition with either \"Visitor is logged in\" or \"Visitor is not logged in\"."
+#: inc/hustle-module-admin.php:298
+msgid "Tags"
 msgstr ""
 
 #: inc/hustle-module-admin.php:301
-msgid "Shows the {type_name} if the user has never left a comment. You may want to combine this condition with either \"Visitor is logged in\" or \"Visitor is not logged in\"."
+msgid "Only on 404 page"
 msgstr ""
 
 #: inc/hustle-module-admin.php:302
-msgid "Shows the {type_name} if the user arrived via a search engine."
+msgid "Only when visitor has logged in"
 msgstr ""
 
 #: inc/hustle-module-admin.php:303
-msgid "Shows the {type_name} if the user did not arrive on this page via another page on your site."
+msgid "Only when visitor has not logged in"
 msgstr ""
 
 #: inc/hustle-module-admin.php:304
-msgid "Shows the {type_name} to visitors that are using a normal computer or laptop (i.e. not a Phone or Tablet)."
-msgstr ""
-
-#: inc/hustle-module-admin.php:305
-msgid "<label class=\"wph-label--alt\">Shows the {type_name} to visitors that are using a mobile device (Phone or Tablet).</label>"
-msgstr ""
-
-#: inc/hustle-module-admin.php:306
-msgid "<label class=\"wph-label--alt\">Shows the {type_name} if the user is not logged in to your site.</label>"
-msgstr ""
-
-#: inc/hustle-module-admin.php:307
-msgid "<label class=\"wph-label--alt\">Shows the {type_name} if the user is logged in to your site.</label>"
+msgid "{type_name} shown less than a certain times"
 msgstr ""
 
 #: inc/hustle-module-admin.php:311
-msgid "Custom fields are not supported by the active provider"
+msgid "On specific URLs"
 msgstr ""
 
 #: inc/hustle-module-admin.php:315
-msgid "Select or Upload Image"
+msgid "In specific countries"
 msgstr ""
 
 #: inc/hustle-module-admin.php:316
-msgid "Use this image"
+msgid "Not in specific countries"
+msgstr ""
+
+#: inc/hustle-module-admin.php:317
+msgid "On certain posts"
 msgstr ""
 
 #: inc/hustle-module-admin.php:319
+msgid "All"
+msgstr ""
+
+#: inc/hustle-module-admin.php:320, views/admin/commons/listing/delete-confirmation.php:19, views/admin/commons/listing/error_list.php:27, views/admin/commons/listing/modal-error.php:49, views/admin/commons/listing/modal-import.php:44
+msgid "No"
+msgstr ""
+
+#: inc/hustle-module-admin.php:322
+msgid "Only {number} posts"
+msgstr ""
+
+#: inc/hustle-module-admin.php:323
+msgid "{number} posts"
+msgstr ""
+
+#: inc/hustle-module-admin.php:324
+msgid "All posts except {number}"
+msgstr ""
+
+#: inc/hustle-module-admin.php:325
+msgid "On certain pages"
+msgstr ""
+
+#: inc/hustle-module-admin.php:328
+msgid "Only {number} pages"
+msgstr ""
+
+#: inc/hustle-module-admin.php:329
+msgid "{number} pages"
+msgstr ""
+
+#: inc/hustle-module-admin.php:330
+msgid "All pages except {number}"
+msgstr ""
+
+#: inc/hustle-module-admin.php:331
+msgid "On certain categories"
+msgstr ""
+
+#: inc/hustle-module-admin.php:334
+msgid "Only {number} categories"
+msgstr ""
+
+#: inc/hustle-module-admin.php:335
+msgid "{number} categories"
+msgstr ""
+
+#: inc/hustle-module-admin.php:336
+msgid "All categories except {number}"
+msgstr ""
+
+#: inc/hustle-module-admin.php:337
+msgid "On certain tags"
+msgstr ""
+
+#: inc/hustle-module-admin.php:340
+msgid "Only {number} tags"
+msgstr ""
+
+#: inc/hustle-module-admin.php:341
+msgid "{number} tags"
+msgstr ""
+
+#: inc/hustle-module-admin.php:342
+msgid "All tags except {number}"
+msgstr ""
+
+#: inc/hustle-module-admin.php:343, inc/hustle-module-decorator.php:687
+msgid "Show everywhere"
+msgstr ""
+
+#: inc/hustle-module-admin.php:346
+msgid "Shows the {type_name} on the 404 page."
+msgstr ""
+
+#: inc/hustle-module-admin.php:347
+msgid "Shows the {type_name} if the user has already left a comment. You may want to combine this condition with either \"Visitor is logged in\" or \"Visitor is not logged in\"."
+msgstr ""
+
+#: inc/hustle-module-admin.php:348
+msgid "Shows the {type_name} if the user has never left a comment. You may want to combine this condition with either \"Visitor is logged in\" or \"Visitor is not logged in\"."
+msgstr ""
+
+#: inc/hustle-module-admin.php:349
+msgid "Shows the {type_name} if the user arrived via a search engine."
+msgstr ""
+
+#: inc/hustle-module-admin.php:350
+msgid "Shows the {type_name} if the user did not arrive on this page via another page on your site."
+msgstr ""
+
+#: inc/hustle-module-admin.php:351
+msgid "Shows the {type_name} to visitors that are using a normal computer or laptop (i.e. not a Phone or Tablet)."
+msgstr ""
+
+#: inc/hustle-module-admin.php:352
+msgid "<label class=\"wph-label--alt\">Shows the {type_name} to visitors that are using a mobile device (Phone or Tablet).</label>"
+msgstr ""
+
+#: inc/hustle-module-admin.php:353
+msgid "<label class=\"wph-label--alt\">Shows the {type_name} if the user is not logged in to your site.</label>"
+msgstr ""
+
+#: inc/hustle-module-admin.php:354
+msgid "<label class=\"wph-label--alt\">Shows the {type_name} if the user is logged in to your site.</label>"
+msgstr ""
+
+#: inc/hustle-module-admin.php:358
+msgid "Custom fields are not supported by the active provider"
+msgstr ""
+
+#: inc/hustle-module-admin.php:362
+msgid "Select or Upload Image"
+msgstr ""
+
+#: inc/hustle-module-admin.php:363
+msgid "Use this image"
+msgstr ""
+
+#: inc/hustle-module-admin.php:366
 msgid "There is no enough data yet, please try again later."
 msgstr ""
 
-#: inc/hustle-module-admin.php:547, inc/hustle-settings-admin.php:38, views/admin/settings.php:17, views/admin/settings/welcome.php:5
+#: inc/hustle-module-admin.php:626, inc/hustle-settings-admin.php:38, views/admin/settings.php:17, views/admin/settings/welcome.php:5
 msgid "Settings"
 msgstr ""
 
-#: inc/hustle-module-admin.php:562
+#: inc/hustle-module-admin.php:641
 msgid "Upgrade to Hustle Pro"
 msgstr ""
 
-#: inc/hustle-module-admin.php:562, inc/hustle-module-admin.php:589, inc/hustle-upgrade-free-admin.php:27, inc/hustle-upgrade-free-admin.php:27, inc/hustle-upgrade-free-admin.php:48
+#: inc/hustle-module-admin.php:641, inc/hustle-module-admin.php:668
 msgid "Upgrade"
 msgstr ""
 
-#: inc/hustle-module-admin.php:597
+#: inc/hustle-module-admin.php:676
 msgid "%s, it appears you have an active WPMU DEV membership but haven't upgraded Hustle to the pro version. You won't lose an any settings upgrading, go for it!"
 msgstr ""
 
-#: inc/hustle-module-decorator.php:549
+#: inc/hustle-module-decorator.php:553
 msgid " and "
 msgstr ""
 
-#: inc/hustle-module-decorator.php:632
+#: inc/hustle-module-decorator.php:636
 msgid "Test Mode"
 msgstr ""
 
@@ -557,91 +557,99 @@ msgstr ""
 msgid "Invalid email address"
 msgstr ""
 
-#: inc/hustle-module-front-ajax.php:59
+#: inc/hustle-module-front-ajax.php:48
+msgid "You have to agree to our terms and conditions."
+msgstr ""
+
+#: inc/hustle-module-front-ajax.php:73
+msgid "reCAPTCHA validation failed. Please try again."
+msgstr ""
+
+#: inc/hustle-module-front-ajax.php:92
 msgid "This conversion was stored in your module's local list because the selected provider (%s) is not available. "
 msgstr ""
 
-#: inc/hustle-module-front-ajax.php:68
+#: inc/hustle-module-front-ajax.php:101
 msgid "Invalid provider"
 msgstr ""
 
-#: inc/hustle-module-front-ajax.php:265
+#: inc/hustle-module-front-ajax.php:299
 msgid "Invalid Request!"
 msgstr ""
 
-#: inc/hustle-module-front-ajax.php:275, inc/hustle-module-front-ajax.php:323, inc/hustle-module-front-ajax.php:353
+#: inc/hustle-module-front-ajax.php:309, inc/hustle-module-front-ajax.php:357, inc/hustle-module-front-ajax.php:387
 msgid "Error saving stats"
 msgstr ""
 
-#: inc/hustle-module-front-ajax.php:277, inc/hustle-module-front-ajax.php:325, inc/hustle-module-front-ajax.php:355
+#: inc/hustle-module-front-ajax.php:311, inc/hustle-module-front-ajax.php:359, inc/hustle-module-front-ajax.php:389
 msgid "Stats Successfully saved"
 msgstr ""
 
-#: inc/hustle-module-front-ajax.php:291
+#: inc/hustle-module-front-ajax.php:325
 msgid "Invalid Request: Invalid Social Sharing "
 msgstr ""
 
-#: inc/hustle-module-front-ajax.php:337
+#: inc/hustle-module-front-ajax.php:371
 msgid "Invalid Request: Module id invalid"
 msgstr ""
 
-#: inc/hustle-module-front.php:87
+#: inc/hustle-module-front.php:96
 msgid "Never see this message again"
 msgstr ""
 
-#: inc/hustle-module-front.php:88
+#: inc/hustle-module-front.php:97
 msgid "Congratulations! You have been subscribed to {name}"
 msgstr ""
 
-#: inc/hustle-module-front.php:89
+#: inc/hustle-module-front.php:98
 msgid "Something went wrong, please try again."
 msgstr ""
 
-#: inc/hustle-module-front.php:90
+#: inc/hustle-module-front.php:99
 msgid "Form can't be submitted in test mode."
 msgstr ""
 
-#: inc/hustle-module-model.php:146, inc/providers/activecampaign/hustle-activecampaign-api.php:142, inc/providers/aweber/hustle-aweber.php:181, inc/providers/campaignmonitor/hustle-campaignmonitor.php:159, inc/providers/constantcontact/hustle-constantcontact.php:123, inc/providers/convertkit/hustle-convertkit.php:124, inc/providers/getresponse/hustle-get-response.php:198, inc/providers/infusionsoft/hustle-infusion-soft-api.php:185, inc/providers/madmimi/hustle-mad-mimi.php:123, inc/providers/mailerlite/hustle-mailerlite.php:123, inc/providers/mautic/hustle-mautic.php:131, inc/providers/sendgrid/hustle-sendgrid.php:104, inc/providers/sendinblue/hustle-sendinblue.php:162, inc/providers/sendy/hustle-sendy.php:138
+#: inc/hustle-module-model.php:218, inc/providers/activecampaign/hustle-activecampaign-api.php:173, inc/providers/aweber/hustle-aweber.php:181, inc/providers/campaignmonitor/hustle-campaignmonitor.php:159, inc/providers/constantcontact/hustle-constantcontact.php:123, inc/providers/convertkit/hustle-convertkit.php:124, inc/providers/getresponse/hustle-get-response.php:198, inc/providers/infusionsoft/hustle-infusion-soft-api.php:185, inc/providers/madmimi/hustle-mad-mimi.php:123, inc/providers/mailerlite/hustle-mailerlite.php:123, inc/providers/mautic/hustle-mautic.php:131, inc/providers/sendgrid/hustle-sendgrid.php:104, inc/providers/sendinblue/hustle-sendinblue.php:162, inc/providers/sendy/hustle-sendy.php:138
 msgid "This email address has already subscribed."
 msgstr ""
 
-#: inc/hustle-module-model.php:474
+#: inc/hustle-module-model.php:546
 msgid "Get Lists"
 msgstr ""
 
-#: inc/hustle-module-model.php:475
+#: inc/hustle-module-model.php:547
 msgid "Unsubscribe!"
 msgstr ""
 
-#: inc/hustle-module-model.php:476
+#: inc/hustle-module-model.php:548
 msgid "Please enter a valid email address."
 msgstr ""
 
-#: inc/hustle-module-model.php:477
+#: inc/hustle-module-model.php:549
 msgid "Looks like you're not in our list!"
 msgstr ""
 
-#: inc/hustle-module-model.php:478
+#: inc/hustle-module-model.php:550
 msgid "The unsubscription data doesn't seem to be correct."
 msgstr ""
 
-#: inc/hustle-module-model.php:479
+#: inc/hustle-module-model.php:551
 msgid "Please check your email to confirm your unsubscription."
 msgstr ""
 
-#: inc/hustle-module-model.php:480
+#: inc/hustle-module-model.php:552
 msgid "You've been successfully unsubscribed."
 msgstr ""
 
-#: inc/hustle-module-model.php:481
+#: inc/hustle-module-model.php:553
 msgid "Something went wrong submitting the email. Please make sure a list is selected."
 msgstr ""
 
-#: inc/hustle-module-model.php:508
+#: inc/hustle-module-model.php:580
 msgid "We are sorry to see you go! %1$s Click on the link below to unsubscribe: %2$s %3$sUnsubscribe.%4$s"
 msgstr ""
 
-#: inc/hustle-module-model.php:514, views/admin/settings/widget-unsubscribe.php:5
+#: inc/hustle-module-model.php:586, views/admin/settings/widget-unsubscribe.php:5
 msgid "Unsubscribe"
 msgstr ""
 
@@ -673,27 +681,27 @@ msgstr ""
 msgid "A widget to add Hustle Embeds and Social Sharing."
 msgstr ""
 
-#: inc/hustle-popup-admin-ajax.php:51
+#: inc/hustle-popup-admin-ajax.php:55
 msgid "Please check the required fields."
 msgstr ""
 
-#: inc/hustle-popup-admin-ajax.php:64
+#: inc/hustle-popup-admin-ajax.php:68
 msgid "Provider not found"
 msgstr ""
 
-#: inc/hustle-popup-admin-ajax.php:70
+#: inc/hustle-popup-admin-ajax.php:74
 msgid "This Provider does not have form settings available"
 msgstr ""
 
-#: inc/hustle-popup-admin-ajax.php:334
+#: inc/hustle-popup-admin-ajax.php:389
 msgid "File is required"
 msgstr ""
 
-#: inc/hustle-popup-admin-ajax.php:336
+#: inc/hustle-popup-admin-ajax.php:391
 msgid "Error: %s"
 msgstr ""
 
-#: inc/hustle-popup-admin-ajax.php:355
+#: inc/hustle-popup-admin-ajax.php:410
 msgid "Invalid JSON"
 msgstr ""
 
@@ -701,11 +709,11 @@ msgstr ""
 msgid "Pop-ups"
 msgstr ""
 
-#: inc/hustle-popup-admin.php:34, inc/hustle-popup-admin.php:34, views/admin/dashboard/modules/module-popup.php:75, views/admin/popup/listing.php:26, views/admin/popup/welcome.php:7, views/admin/popup/wizard.php:12
+#: inc/hustle-popup-admin.php:34, inc/hustle-popup-admin.php:34, views/admin/dashboard/modules/module-popup.php:75, views/admin/popup/listing.php:26, views/admin/popup/welcome.php:7, views/admin/popup/wizard.php:14
 msgid "New Pop-up"
 msgstr ""
 
-#: inc/hustle-settings-admin-ajax.php:154
+#: inc/hustle-settings-admin-ajax.php:160
 msgid "Successfully toggled for user type %s"
 msgstr ""
 
@@ -717,11 +725,11 @@ msgstr ""
 msgid "Slide-ins"
 msgstr ""
 
-#: inc/hustle-slidein-admin.php:33, inc/hustle-slidein-admin.php:33, views/admin/dashboard/modules/module-slidein.php:76, views/admin/slidein/listing.php:26, views/admin/slidein/welcome.php:7, views/admin/slidein/wizard.php:12
+#: inc/hustle-slidein-admin.php:33, inc/hustle-slidein-admin.php:33, views/admin/dashboard/modules/module-slidein.php:76, views/admin/slidein/listing.php:26, views/admin/slidein/welcome.php:7, views/admin/slidein/wizard.php:14
 msgid "New Slide-in"
 msgstr ""
 
-#: inc/hustle-sshare-admin-ajax.php:165
+#: inc/hustle-sshare-admin-ajax.php:168
 msgid "Error deleting"
 msgstr ""
 
@@ -758,7 +766,7 @@ msgstr ""
 msgid "Retry"
 msgstr ""
 
-#: inc/opt-in-wpmudev-api.php:87, inc/provider/hustle-provider-form-settings-abstract.php:230, views/admin/commons/wizard/manage-form-fields.php:57, views/admin/embedded/wizard.php:116, views/admin/popup/wizard.php:114, views/admin/settings/providers-edit-modal.php:33, views/admin/slidein/wizard.php:115, views/admin/sshare/wizard.php:87
+#: inc/opt-in-wpmudev-api.php:87, inc/provider/hustle-provider-form-settings-abstract.php:230, views/admin/commons/wizard/manage-form-fields.php:57, views/admin/embedded/wizard.php:123, views/admin/popup/wizard.php:121, views/admin/settings/providers-edit-modal.php:33, views/admin/slidein/wizard.php:122, views/admin/sshare/wizard.php:87
 msgid "Cancel"
 msgstr ""
 
@@ -766,43 +774,51 @@ msgstr ""
 msgid "Hustle failure notice."
 msgstr ""
 
-#: inc/providers/activecampaign/hustle-activecampaign-api.php:127, inc/providers/activecampaign/hustle-activecampaign-api.php:129, inc/providers/convertkit/hustle-convertkit-api.php:138, inc/providers/getresponse/hustle-get-response-api.php:111, inc/providers/icontact/hustle-icontact-api.php:307, inc/providers/madmimi/hustle-mad-mimi-api.php:122, inc/providers/mailchimp/hustle-mailchimp-api.php:202
+#: inc/providers/activecampaign/hustle-activecampaign-api.php:158, inc/providers/activecampaign/hustle-activecampaign-api.php:160, inc/providers/convertkit/hustle-convertkit-api.php:138, inc/providers/getresponse/hustle-get-response-api.php:111, inc/providers/icontact/hustle-icontact-api.php:307, inc/providers/madmimi/hustle-mad-mimi-api.php:122, inc/providers/mailchimp/hustle-mailchimp-api.php:202
 msgid "Successful subscription"
 msgstr ""
 
-#: inc/providers/activecampaign/hustle-activecampaign-api.php:134
+#: inc/providers/activecampaign/hustle-activecampaign-api.php:165
 msgid "Unexpected error occurred."
 msgstr ""
 
-#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:121
+#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:80, inc/providers/icontact/hustle-icontact-form-settings.php:127, views/admin/embedded/wizard.php:148, views/admin/popup/wizard.php:146, views/admin/slidein/wizard.php:148, views/admin/sshare/wizard.php:113
+msgid "Continue"
+msgstr ""
+
+#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:126
 msgid "Enter your ActiveCampaign URL:"
 msgstr ""
 
-#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:143, inc/providers/getresponse/hustle-get-response-form-settings.php:118, inc/providers/madmimi/hustle-mad-mimi-form-settings.php:141, inc/providers/sendgrid/hustle-sendgrid-form-settings.php:118, inc/providers/sendy/hustle-sendy-form-settings.php:122
+#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:148, inc/providers/getresponse/hustle-get-response-form-settings.php:118, inc/providers/madmimi/hustle-mad-mimi-form-settings.php:141, inc/providers/sendgrid/hustle-sendgrid-form-settings.php:118, inc/providers/sendy/hustle-sendy-form-settings.php:122
 msgid "Enter your API key:"
 msgstr ""
 
-#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:163, inc/providers/aweber/hustle-aweber-form-settings.php:142, inc/providers/campaignmonitor/hustle-campaignmonitor-form-settings.php:138, inc/providers/getresponse/hustle-get-response-form-settings.php:138, inc/providers/hubspot/hustle-hubspot-form-settings.php:144, inc/providers/icontact/hustle-icontact-form-settings.php:217, inc/providers/madmimi/hustle-mad-mimi-form-settings.php:161, inc/providers/mailchimp/hustle-mailchimp-form-settings.php:169, inc/providers/mailerlite/hustle-mailerlite-form-settings.php:138, inc/providers/mautic/hustle-mautic-form-settings.php:168, inc/providers/sendgrid/hustle-sendgrid-form-settings.php:138, inc/providers/sendinblue/hustle-sendinblue-form-settings.php:138
-msgid "Fetch Lists"
-msgstr ""
-
-#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:176
+#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:170
 msgid "Log in to your <a href='http://www.activecampaign.com/login/' target='_blank'>ActiveCampaign account</a> to get your URL and API Key."
 msgstr ""
 
-#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:230, inc/providers/convertkit/hustle-convertkit-form-settings.php:230, inc/providers/getresponse/hustle-get-response-form-settings.php:204, inc/providers/infusionsoft/hustle-infusion-soft-form-settings.php:233, inc/providers/madmimi/hustle-mad-mimi-form-settings.php:229, inc/providers/mailerlite/hustle-mailerlite-form-settings.php:208, inc/providers/mautic/hustle-mautic-form-settings.php:252, inc/providers/sendgrid/hustle-sendgrid-form-settings.php:209, inc/providers/sendinblue/hustle-sendinblue-form-settings.php:230
-msgid "There was an error retrieving the options."
+#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:208
+msgid "Enable to choose from your existing Forms instead of your existing Lists."
 msgstr ""
 
-#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:237, inc/providers/infusionsoft/hustle-infusion-soft-form-settings.php:240, inc/providers/madmimi/hustle-mad-mimi-form-settings.php:236, inc/providers/mailerlite/hustle-mailerlite-form-settings.php:215, inc/providers/mautic/hustle-mautic-form-settings.php:259, inc/providers/sendgrid/hustle-sendgrid-form-settings.php:216, inc/providers/sendinblue/hustle-sendinblue-form-settings.php:237
+#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:218
+msgid "Double opt-in is only available when using Forms."
+msgstr ""
+
+#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:296, inc/providers/activecampaign/hustle-activecampaign-form-settings.php:351, inc/providers/infusionsoft/hustle-infusion-soft-form-settings.php:283, inc/providers/madmimi/hustle-mad-mimi-form-settings.php:236, inc/providers/mailerlite/hustle-mailerlite-form-settings.php:215, inc/providers/mautic/hustle-mautic-form-settings.php:259, inc/providers/sendgrid/hustle-sendgrid-form-settings.php:216, inc/providers/sendinblue/hustle-sendinblue-form-settings.php:237
 msgid "No audience list defined for this account. Please double check your settings are okay."
 msgstr ""
 
-#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:272, inc/providers/icontact/hustle-icontact-form-settings.php:322, inc/providers/mailerlite/hustle-mailerlite-form-settings.php:248
+#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:324, inc/providers/icontact/hustle-icontact-form-settings.php:322, inc/providers/mailerlite/hustle-mailerlite-form-settings.php:248
 msgid "Choose list:"
 msgstr ""
 
-#: inc/providers/activecampaign/hustle-activecampaign.php:184, inc/providers/madmimi/hustle-mad-mimi.php:246
+#: inc/providers/activecampaign/hustle-activecampaign-form-settings.php:373
+msgid "Choose form:"
+msgstr ""
+
+#: inc/providers/activecampaign/hustle-activecampaign.php:217, inc/providers/madmimi/hustle-mad-mimi.php:246
 msgid "Selected audience list: %s (Press the GET LISTS button to update value)"
 msgstr ""
 
@@ -816,6 +832,10 @@ msgstr ""
 
 #: inc/providers/aweber/hustle-aweber-form-settings.php:137
 msgid "Please enter authorization code"
+msgstr ""
+
+#: inc/providers/aweber/hustle-aweber-form-settings.php:142, inc/providers/campaignmonitor/hustle-campaignmonitor-form-settings.php:138, inc/providers/getresponse/hustle-get-response-form-settings.php:138, inc/providers/hubspot/hustle-hubspot-form-settings.php:144, inc/providers/icontact/hustle-icontact-form-settings.php:217, inc/providers/madmimi/hustle-mad-mimi-form-settings.php:161, inc/providers/mailchimp/hustle-mailchimp-form-settings.php:169, inc/providers/mailerlite/hustle-mailerlite-form-settings.php:138, inc/providers/mautic/hustle-mautic-form-settings.php:168, inc/providers/sendgrid/hustle-sendgrid-form-settings.php:138, inc/providers/sendinblue/hustle-sendinblue-form-settings.php:138
+msgid "Fetch Lists"
 msgstr ""
 
 #: inc/providers/aweber/hustle-aweber-form-settings.php:187, inc/providers/aweber/hustle-aweber-form-settings.php:314
@@ -875,7 +895,7 @@ msgid "There was an error retrieving the options. Please make sure your API key 
 msgstr ""
 
 #: inc/providers/campaignmonitor/hustle-campaignmonitor.php:171
-msgid "Unexpeced error occurred. Please try again."
+msgid "Unexpected error occurred. Please try again."
 msgstr ""
 
 #: inc/providers/campaignmonitor/hustle-campaignmonitor.php:172
@@ -907,7 +927,7 @@ msgid "Constant Contact requires your site to have SSL certificate."
 msgstr ""
 
 #: inc/providers/constantcontact/hustle-constantcontact.php:105
-msgid "API Class coul not be initialized"
+msgid "API Class could not be initialized"
 msgstr ""
 
 #: inc/providers/convertkit/hustle-convertkit-api.php:123
@@ -928,6 +948,10 @@ msgstr ""
 
 #: inc/providers/convertkit/hustle-convertkit-form-settings.php:166
 msgid "Fetch Forms"
+msgstr ""
+
+#: inc/providers/convertkit/hustle-convertkit-form-settings.php:230, inc/providers/getresponse/hustle-get-response-form-settings.php:204, inc/providers/infusionsoft/hustle-infusion-soft-form-settings.php:276, inc/providers/madmimi/hustle-mad-mimi-form-settings.php:229, inc/providers/mailerlite/hustle-mailerlite-form-settings.php:208, inc/providers/mautic/hustle-mautic-form-settings.php:252, inc/providers/sendgrid/hustle-sendgrid-form-settings.php:209, inc/providers/sendinblue/hustle-sendinblue-form-settings.php:230
+msgid "There was an error retrieving the options."
 msgstr ""
 
 #: inc/providers/convertkit/hustle-convertkit-form-settings.php:234
@@ -976,6 +1000,102 @@ msgstr ""
 
 #: inc/providers/getresponse/hustle-get-response-form-settings.php:238
 msgid "Choose campaign:"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-embeds.php:85, inc/providers/gutenberg/blocks/block-popup-trigger.php:102, inc/providers/gutenberg/blocks/block-slidein-trigger.php:102, inc/providers/gutenberg/blocks/block-social-share.php:85
+msgid "Choose module name"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-embeds.php:111, inc/providers/gutenberg/blocks/block-popup-trigger.php:119, inc/providers/gutenberg/blocks/block-slidein-trigger.php:119, inc/providers/gutenberg/blocks/block-social-share.php:113, views/admin/commons/wizard/manage-form-fields.php:36, views/admin/commons/wizard/manage-form-fields.php:133, views/admin/dashboard/modules/module-popup.php:27, views/admin/dashboard/modules/module-shortcode.php:28, views/admin/dashboard/modules/module-slidein.php:28, views/admin/settings/providers-edit.php:20
+msgid "Name"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-embeds.php:112, inc/providers/gutenberg/blocks/block-popup-trigger.php:114, inc/providers/gutenberg/blocks/block-slidein-trigger.php:114, inc/providers/gutenberg/blocks/block-social-share.php:112
+msgid "Additional CSS Classes"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-embeds.php:113, inc/providers/gutenberg/blocks/block-popup-trigger.php:117, inc/providers/gutenberg/blocks/block-slidein-trigger.php:117, inc/providers/gutenberg/blocks/block-social-share.php:111
+msgid "Advanced"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-embeds.php:114, inc/providers/gutenberg/blocks/block-popup-trigger.php:113, inc/providers/gutenberg/blocks/block-slidein-trigger.php:113, inc/providers/gutenberg/blocks/block-social-share.php:114
+msgid "Module"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-embeds.php:115
+msgid "Customize embed"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-embeds.php:116, inc/providers/gutenberg/blocks/block-popup-trigger.php:121, inc/providers/gutenberg/blocks/block-slidein-trigger.php:121, inc/providers/gutenberg/blocks/block-social-share.php:116
+msgid "Rendering..."
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-embeds.php:118
+msgid "Display your Hustle Embed module in this block."
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-popup-trigger.php:39, inc/providers/gutenberg/blocks/block-popup-trigger.php:115, inc/providers/gutenberg/blocks/block-slidein-trigger.php:39, inc/providers/gutenberg/blocks/block-slidein-trigger.php:115
+msgid "Click here"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-popup-trigger.php:102, inc/providers/gutenberg/blocks/block-slidein-trigger.php:102
+msgid "No modules were found"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-popup-trigger.php:116, inc/providers/gutenberg/blocks/block-slidein-trigger.php:116
+msgid "Add the clickable text that will trigger the module."
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-popup-trigger.php:118, inc/providers/gutenberg/blocks/block-slidein-trigger.php:118
+msgid "Trigger Content"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-popup-trigger.php:120
+msgid "Customize Popup"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-popup-trigger.php:122
+msgid "Popup Trigger"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-popup-trigger.php:123
+msgid "Embed the trigger button for a popup module."
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-popup-trigger.php:124
+msgid "Note: the Trigger property of the Popup should be set to Click to embed the trigger button for the module."
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-slidein-trigger.php:120
+msgid "Customize Slidein"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-slidein-trigger.php:122
+msgid "Slidein Trigger"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-slidein-trigger.php:123
+msgid "Embed the trigger button for a slidein module."
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-slidein-trigger.php:124
+msgid "Note: the Trigger property of the Slidein should be set to Click to embed the trigger button for the module."
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-social-share.php:115
+msgid "Customize Social Share"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-social-share.php:117
+msgid "Social Share"
+msgstr ""
+
+#: inc/providers/gutenberg/blocks/block-social-share.php:118
+msgid "Display your Hustle Social Share module in this block."
+msgstr ""
+
+#: inc/providers/gutenberg/gutenberg.php:70
+msgid "Blocks"
 msgstr ""
 
 #: inc/providers/hubspot/hustle-hubspot-api.php:72
@@ -1058,10 +1178,6 @@ msgstr ""
 msgid "The list"
 msgstr ""
 
-#: inc/providers/icontact/hustle-icontact-form-settings.php:127, views/admin/embedded/wizard.php:141, views/admin/popup/wizard.php:139, views/admin/slidein/wizard.php:141, views/admin/sshare/wizard.php:113
-msgid "Continue"
-msgstr ""
-
 #: inc/providers/icontact/hustle-icontact-form-settings.php:173
 msgid "Enter your API APP-ID"
 msgstr ""
@@ -1090,11 +1206,15 @@ msgstr ""
 msgid "Choose message:"
 msgstr ""
 
-#: inc/providers/icontact/hustle-icontact.php:143, inc/providers/mailchimp/hustle-mailchimp-api.php:224, inc/providers/mailchimp/hustle-mailchimp.php:228
+#: inc/providers/icontact/hustle-icontact.php:143, inc/providers/mailchimp/hustle-mailchimp-api.php:229, inc/providers/mailchimp/hustle-mailchimp.php:233
 msgid "This email address has already subscribed"
 msgstr ""
 
-#: inc/providers/infusionsoft/hustle-infusion-soft-api.php:346
+#: inc/providers/infusionsoft/hustle-infusion-soft-api.php:206
+msgid "The existing contact could not be updated."
+msgstr ""
+
+#: inc/providers/infusionsoft/hustle-infusion-soft-api.php:405
 msgid "Invalid app name, please check app name and try again"
 msgstr ""
 
@@ -1114,16 +1234,16 @@ msgstr ""
 msgid "Log in to your infusion account to get <a target=\"_blank\" href=\"%1$s\">API ( encrypted ) key </a> and <a href=\"%2$s\" target=\"_blank\" >account name</a>"
 msgstr ""
 
-#: inc/providers/infusionsoft/hustle-infusion-soft-form-settings.php:256
+#: inc/providers/infusionsoft/hustle-infusion-soft-form-settings.php:217
+msgid "Allow already subscribed users to sign-up again."
+msgstr ""
+
+#: inc/providers/infusionsoft/hustle-infusion-soft-form-settings.php:299
 msgid "Choose Tag:"
 msgstr ""
 
-#: inc/providers/infusionsoft/hustle-infusion-soft.php:184
+#: inc/providers/infusionsoft/hustle-infusion-soft.php:188
 msgid "Contact successfully added"
-msgstr ""
-
-#: inc/providers/infusionsoft/hustle-infusion-soft.php:223
-msgid "Selected tag: %s (Press the GET TAGS button to update value) "
 msgstr ""
 
 #: inc/providers/madmimi/hustle-mad-mimi-form-settings.php:119
@@ -1135,10 +1255,18 @@ msgid "Log in to your <a href='%s' target='_blank'>Mad Mimi account</a> to get y
 msgstr ""
 
 #: inc/providers/mailchimp/hustle-mailchimp-api.php:205
+msgid "This contact was previously removed from this list via MailChimp dashboard. To rejoin, they'll need to sign up using a MailChimp native form."
+msgstr ""
+
+#: inc/providers/mailchimp/hustle-mailchimp-api.php:206
+msgid "Subscriber email: "
+msgstr ""
+
+#: inc/providers/mailchimp/hustle-mailchimp-api.php:209
 msgid "Something went wrong."
 msgstr ""
 
-#: inc/providers/mailchimp/hustle-mailchimp-api.php:227
+#: inc/providers/mailchimp/hustle-mailchimp-api.php:232
 msgid "You have been added to the new group"
 msgstr ""
 
@@ -1358,7 +1486,7 @@ msgstr ""
 msgid "Close"
 msgstr ""
 
-#: inc/provider/hustle-provider-form-settings-abstract.php:211, views/admin/embedded/wizard.php:123, views/admin/popup/wizard.php:121, views/admin/slidein/wizard.php:122, views/admin/sshare/wizard.php:94
+#: inc/provider/hustle-provider-form-settings-abstract.php:211, views/admin/embedded/wizard.php:130, views/admin/popup/wizard.php:128, views/admin/slidein/wizard.php:129, views/admin/sshare/wizard.php:94
 msgid "Back"
 msgstr ""
 
@@ -1843,7 +1971,7 @@ msgid "Cape Verde"
 msgstr ""
 
 #: opt-in-static.php:587
-msgid "Cayman Is"
+msgid "Cayman Islands"
 msgstr ""
 
 #: opt-in-static.php:588
@@ -2726,7 +2854,7 @@ msgstr ""
 msgid "Get unlimited Popups, Slide-ins, Embeds and social sharing widgets with the Pro version of Hustle. Get it as part of a WPMU DEV membership including Smush Pro, Hummingbird Pro and other popular professional plugins."
 msgstr ""
 
-#: views/admin/commons/listing/modal-upgrade.php:25
+#: views/admin/commons/listing/modal-upgrade.php:25, views/admin/footer/footer-large.php:68
 msgid "Learn more"
 msgstr ""
 
@@ -2750,15 +2878,15 @@ msgstr ""
 msgid "Wait a bit, content is being loaded..."
 msgstr ""
 
-#: views/admin/commons/wizard/add-new-service.php:73, views/admin/embedded/wizard/boxes/box-form_elements.php:39, views/admin/embedded/wizard/boxes/box-form_elements.php:59, views/admin/popup/wizard/boxes/box-form_elements.php:39, views/admin/popup/wizard/boxes/box-form_elements.php:59, views/admin/slidein/wizard/boxes/box-form_elements.php:39, views/admin/slidein/wizard/boxes/box-form_elements.php:59
+#: views/admin/commons/wizard/add-new-service.php:73, views/admin/embedded/wizard/boxes/box-form_elements.php:39, views/admin/embedded/wizard/boxes/box-form_elements.php:60, views/admin/popup/wizard/boxes/box-form_elements.php:39, views/admin/popup/wizard/boxes/box-form_elements.php:60, views/admin/slidein/wizard/boxes/box-form_elements.php:39, views/admin/slidein/wizard/boxes/box-form_elements.php:60
 msgid "Form Element"
 msgstr ""
 
-#: views/admin/commons/wizard/add-new-service.php:74, views/admin/embedded/wizard/boxes/box-form_elements.php:60, views/admin/popup/wizard/boxes/box-form_elements.php:60, views/admin/slidein/wizard/boxes/box-form_elements.php:60
+#: views/admin/commons/wizard/add-new-service.php:74, views/admin/embedded/wizard/boxes/box-form_elements.php:64, views/admin/popup/wizard/boxes/box-form_elements.php:63, views/admin/slidein/wizard/boxes/box-form_elements.php:64
 msgid "Form Type"
 msgstr ""
 
-#: views/admin/commons/wizard/add-new-service.php:75, views/admin/embedded/wizard/boxes/box-form_elements.php:41, views/admin/embedded/wizard/boxes/box-form_elements.php:61, views/admin/popup/wizard/boxes/box-form_elements.php:41, views/admin/popup/wizard/boxes/box-form_elements.php:61, views/admin/slidein/wizard/boxes/box-form_elements.php:41, views/admin/slidein/wizard/boxes/box-form_elements.php:61
+#: views/admin/commons/wizard/add-new-service.php:75, views/admin/embedded/wizard/boxes/box-form_elements.php:41, views/admin/embedded/wizard/boxes/box-form_elements.php:65, views/admin/popup/wizard/boxes/box-form_elements.php:41, views/admin/popup/wizard/boxes/box-form_elements.php:64, views/admin/slidein/wizard/boxes/box-form_elements.php:41, views/admin/slidein/wizard/boxes/box-form_elements.php:65
 msgid "Default Text"
 msgstr ""
 
@@ -2934,10 +3062,6 @@ msgstr ""
 msgid "Label"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:36, views/admin/commons/wizard/manage-form-fields.php:132, views/admin/dashboard/modules/module-popup.php:27, views/admin/dashboard/modules/module-shortcode.php:28, views/admin/dashboard/modules/module-slidein.php:28, views/admin/settings/providers-edit.php:20
-msgid "Name"
-msgstr ""
-
 #: views/admin/commons/wizard/manage-form-fields.php:37, views/admin/embedded/wizard/boxes/box-border.php:47, views/admin/embedded/wizard/boxes/box-form_elements.php:40, views/admin/embedded/wizard/boxes/box-shapes.php:47, views/admin/embedded/wizard/boxes/box-shapes.php:107, views/admin/embedded/wizard/boxes/box-shapes.php:167, views/admin/embedded/wizard/boxes/box-shapes.php:227, views/admin/popup/wizard/boxes/box-border.php:47, views/admin/popup/wizard/boxes/box-form_elements.php:40, views/admin/popup/wizard/boxes/box-shapes.php:47, views/admin/popup/wizard/boxes/box-shapes.php:107, views/admin/popup/wizard/boxes/box-shapes.php:167, views/admin/popup/wizard/boxes/box-shapes.php:227, views/admin/slidein/wizard/boxes/box-border.php:47, views/admin/slidein/wizard/boxes/box-form_elements.php:40, views/admin/slidein/wizard/boxes/box-shapes.php:47, views/admin/slidein/wizard/boxes/box-shapes.php:106, views/admin/slidein/wizard/boxes/box-shapes.php:166, views/admin/slidein/wizard/boxes/box-shapes.php:226
 msgid "Type"
 msgstr ""
@@ -2962,67 +3086,71 @@ msgstr ""
 msgid "Field Placeholder"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:107
+#: views/admin/commons/wizard/manage-form-fields.php:108
 msgid "Field label"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:109
+#: views/admin/commons/wizard/manage-form-fields.php:110
 msgid "Type label..."
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:115
+#: views/admin/commons/wizard/manage-form-fields.php:116
 msgid "Field name"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:117
+#: views/admin/commons/wizard/manage-form-fields.php:118
 msgid "Type name..."
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:127
+#: views/admin/commons/wizard/manage-form-fields.php:128
 msgid "Field type"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:131
+#: views/admin/commons/wizard/manage-form-fields.php:132
 msgid "Choose field type"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:133
+#: views/admin/commons/wizard/manage-form-fields.php:134
 msgid "Address"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:134
+#: views/admin/commons/wizard/manage-form-fields.php:135
 msgid "Phone"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:135
+#: views/admin/commons/wizard/manage-form-fields.php:136
 msgid "Text"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:136
+#: views/admin/commons/wizard/manage-form-fields.php:137
 msgid "Number"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:137
+#: views/admin/commons/wizard/manage-form-fields.php:138
 msgid "Email"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:138, views/admin/embedded/wizard/boxes/box-cta.php:39, views/admin/popup/wizard/boxes/box-cta.php:39, views/admin/slidein/wizard/boxes/box-cta.php:39
+#: views/admin/commons/wizard/manage-form-fields.php:139, views/admin/embedded/wizard/boxes/box-cta.php:39, views/admin/popup/wizard/boxes/box-cta.php:39, views/admin/slidein/wizard/boxes/box-cta.php:39
 msgid "URL"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:140
+#: views/admin/commons/wizard/manage-form-fields.php:141
+msgid "reCaptcha"
+msgstr ""
+
+#: views/admin/commons/wizard/manage-form-fields.php:144
 msgid "Button"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:148
+#: views/admin/commons/wizard/manage-form-fields.php:152
 msgid "Field placeholder"
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:150
+#: views/admin/commons/wizard/manage-form-fields.php:154
 msgid "Type placeholder..."
 msgstr ""
 
-#: views/admin/commons/wizard/manage-form-fields.php:182, views/admin/commons/wizard/manage-form-fields.php:184
+#: views/admin/commons/wizard/manage-form-fields.php:186, views/admin/commons/wizard/manage-form-fields.php:188
 msgid "Delete field"
 msgstr ""
 
@@ -3054,7 +3182,7 @@ msgstr ""
 msgid "Cumulative Shares"
 msgstr ""
 
-#: views/admin/dashboard/modules/module-popup.php:29, views/admin/dashboard/modules/module-popup.php:59, views/admin/dashboard/modules/module-shortcode.php:32, views/admin/dashboard/modules/module-shortcode.php:124, views/admin/dashboard/modules/module-slidein.php:30, views/admin/dashboard/modules/module-slidein.php:60, views/admin/embedded/listing.php:183, views/admin/embedded/listing.php:260, views/admin/popup/listing.php:91, views/admin/popup/listing.php:149, views/admin/slidein/listing.php:91, views/admin/slidein/listing.php:149, views/admin/sshare/listing.php:142, views/admin/sshare/listing.php:219
+#: views/admin/dashboard/modules/module-popup.php:29, views/admin/dashboard/modules/module-popup.php:59, views/admin/dashboard/modules/module-shortcode.php:32, views/admin/dashboard/modules/module-shortcode.php:124, views/admin/dashboard/modules/module-slidein.php:30, views/admin/dashboard/modules/module-slidein.php:60, views/admin/embedded/listing.php:179, views/admin/embedded/listing.php:256, views/admin/popup/listing.php:91, views/admin/popup/listing.php:149, views/admin/slidein/listing.php:91, views/admin/slidein/listing.php:149, views/admin/sshare/listing.php:138, views/admin/sshare/listing.php:215
 msgid "Views"
 msgstr ""
 
@@ -3066,15 +3194,15 @@ msgstr ""
 msgid "Status"
 msgstr ""
 
-#: views/admin/dashboard/modules/module-popup.php:63, views/admin/dashboard/modules/module-slidein.php:64, views/admin/embedded/listing.php:291, views/admin/popup/listing.php:183, views/admin/slidein/listing.php:183, views/admin/sshare/listing.php:251
+#: views/admin/dashboard/modules/module-popup.php:63, views/admin/dashboard/modules/module-slidein.php:64, views/admin/embedded/listing.php:287, views/admin/popup/listing.php:183, views/admin/slidein/listing.php:183, views/admin/sshare/listing.php:247
 msgid "Off"
 msgstr ""
 
-#: views/admin/dashboard/modules/module-popup.php:63, views/admin/dashboard/modules/module-slidein.php:64, views/admin/embedded/listing.php:296, views/admin/popup/listing.php:188, views/admin/slidein/listing.php:188, views/admin/sshare/listing.php:256
+#: views/admin/dashboard/modules/module-popup.php:63, views/admin/dashboard/modules/module-slidein.php:64, views/admin/embedded/listing.php:292, views/admin/popup/listing.php:188, views/admin/slidein/listing.php:188, views/admin/sshare/listing.php:252
 msgid "Test"
 msgstr ""
 
-#: views/admin/dashboard/modules/module-popup.php:63, views/admin/dashboard/modules/module-slidein.php:64, views/admin/embedded/listing.php:301, views/admin/popup/listing.php:193, views/admin/slidein/listing.php:193, views/admin/sshare/listing.php:261
+#: views/admin/dashboard/modules/module-popup.php:63, views/admin/dashboard/modules/module-slidein.php:64, views/admin/embedded/listing.php:297, views/admin/popup/listing.php:193, views/admin/slidein/listing.php:193, views/admin/sshare/listing.php:257
 msgid "Live"
 msgstr ""
 
@@ -3135,7 +3263,7 @@ msgid "Shortcode is %s"
 msgstr ""
 
 #: views/admin/dashboard/modules/module-shortcode.php:146
-msgid "Here you can create an Embed module with your custom content, or for collectiong users' emails. Embed modules can then be appended to posts or pages, or displayed inside widgets and shortcodes."
+msgid "Here you can create an Embed module with your custom content, or for collecting users' emails. Embed modules can then be appended to posts or pages, or displayed inside widgets and shortcodes."
 msgstr ""
 
 #: views/admin/dashboard/modules/module-shortcode.php:148
@@ -3230,59 +3358,59 @@ msgstr ""
 msgid "View Email List"
 msgstr ""
 
-#: views/admin/embedded/listing.php:133, views/admin/popup/listing.php:229, views/admin/slidein/listing.php:229, views/admin/sshare/listing.php:93
+#: views/admin/embedded/listing.php:129, views/admin/popup/listing.php:225, views/admin/slidein/listing.php:225, views/admin/sshare/listing.php:89
 msgid "Duplicate"
 msgstr ""
 
-#: views/admin/embedded/listing.php:152, views/admin/popup/listing.php:248, views/admin/slidein/listing.php:248, views/admin/sshare/listing.php:112
+#: views/admin/embedded/listing.php:148, views/admin/popup/listing.php:244, views/admin/slidein/listing.php:244, views/admin/sshare/listing.php:108
 msgid "Export module settings"
 msgstr ""
 
-#: views/admin/embedded/listing.php:153, views/admin/popup/listing.php:249, views/admin/slidein/listing.php:249, views/admin/sshare/listing.php:113
+#: views/admin/embedded/listing.php:149, views/admin/popup/listing.php:245, views/admin/slidein/listing.php:245, views/admin/sshare/listing.php:109
 msgid "Import module settings"
 msgstr ""
 
-#: views/admin/embedded/listing.php:154
+#: views/admin/embedded/listing.php:150
 msgid "Delete Embed"
 msgstr ""
 
-#: views/admin/embedded/listing.php:171
+#: views/admin/embedded/listing.php:167
 msgid "Please activate this opt-in to configure it's settings."
 msgstr ""
 
-#: views/admin/embedded/listing.php:179, views/admin/embedded/listing.php:203, views/admin/sshare/listing.php:138, views/admin/sshare/listing.php:162
+#: views/admin/embedded/listing.php:175, views/admin/embedded/listing.php:199, views/admin/sshare/listing.php:134, views/admin/sshare/listing.php:158
 msgid "Module type"
 msgstr ""
 
-#: views/admin/embedded/listing.php:181, views/admin/embedded/listing.php:241, views/admin/popup/listing.php:89, views/admin/popup/listing.php:141, views/admin/slidein/listing.php:89, views/admin/slidein/listing.php:141, views/admin/sshare/listing.php:140, views/admin/sshare/listing.php:200
+#: views/admin/embedded/listing.php:177, views/admin/embedded/listing.php:237, views/admin/popup/listing.php:89, views/admin/popup/listing.php:141, views/admin/slidein/listing.php:89, views/admin/slidein/listing.php:141, views/admin/sshare/listing.php:136, views/admin/sshare/listing.php:196
 msgid "Display conditions"
 msgstr ""
 
-#: views/admin/embedded/listing.php:185, views/admin/embedded/listing.php:268, views/admin/popup/listing.php:93, views/admin/popup/listing.php:157, views/admin/slidein/listing.php:93, views/admin/slidein/listing.php:157, views/admin/sshare/listing.php:144, views/admin/sshare/listing.php:227
+#: views/admin/embedded/listing.php:181, views/admin/embedded/listing.php:264, views/admin/popup/listing.php:93, views/admin/popup/listing.php:157, views/admin/slidein/listing.php:93, views/admin/slidein/listing.php:157, views/admin/sshare/listing.php:140, views/admin/sshare/listing.php:223
 msgid "Conversions"
 msgstr ""
 
-#: views/admin/embedded/listing.php:187
+#: views/admin/embedded/listing.php:183
 msgid "Conversion rate"
 msgstr ""
 
-#: views/admin/embedded/listing.php:189, views/admin/embedded/listing.php:284, views/admin/sshare/listing.php:148, views/admin/sshare/listing.php:243
+#: views/admin/embedded/listing.php:185, views/admin/embedded/listing.php:280, views/admin/sshare/listing.php:144, views/admin/sshare/listing.php:239
 msgid "Module status"
 msgstr ""
 
-#: views/admin/embedded/listing.php:191, views/admin/embedded/listing.php:312, views/admin/sshare/listing.php:150, views/admin/sshare/listing.php:272
+#: views/admin/embedded/listing.php:187, views/admin/embedded/listing.php:308, views/admin/sshare/listing.php:146, views/admin/sshare/listing.php:268
 msgid "Tracking"
 msgstr ""
 
-#: views/admin/embedded/listing.php:221, views/admin/sshare/listing.php:180
+#: views/admin/embedded/listing.php:217, views/admin/sshare/listing.php:176
 msgid "Widget"
 msgstr ""
 
-#: views/admin/embedded/listing.php:231, views/admin/sshare/listing.php:190, views/admin/sshare/wizard/boxes/box-shortcode.php:67
+#: views/admin/embedded/listing.php:227, views/admin/sshare/listing.php:186, views/admin/sshare/wizard/boxes/box-shortcode.php:67
 msgid "Shortcode"
 msgstr ""
 
-#: views/admin/embedded/listing.php:276, views/admin/sshare/listing.php:235
+#: views/admin/embedded/listing.php:272, views/admin/sshare/listing.php:231
 msgid "Conversions rate"
 msgstr ""
 
@@ -3302,39 +3430,39 @@ msgstr ""
 msgid "Create"
 msgstr ""
 
-#: views/admin/embedded/wizard.php:13
+#: views/admin/embedded/wizard.php:15
 msgid "Edit Embed"
 msgstr ""
 
-#: views/admin/embedded/wizard.php:27, views/admin/embedded/wizard.php:35, views/admin/embedded/wizard.php:61, views/admin/popup/wizard.php:26, views/admin/popup/wizard.php:34, views/admin/popup/wizard.php:60, views/admin/slidein/wizard.php:26, views/admin/slidein/wizard.php:34, views/admin/slidein/wizard.php:60
+#: views/admin/embedded/wizard.php:29, views/admin/embedded/wizard.php:37, views/admin/embedded/wizard.php:68, views/admin/popup/wizard.php:28, views/admin/popup/wizard.php:36, views/admin/popup/wizard.php:67, views/admin/slidein/wizard.php:28, views/admin/slidein/wizard.php:36, views/admin/slidein/wizard.php:67
 msgid "Content"
 msgstr ""
 
-#: views/admin/embedded/wizard.php:28, views/admin/embedded/wizard.php:36, views/admin/embedded/wizard.php:67, views/admin/popup/wizard.php:27, views/admin/popup/wizard.php:35, views/admin/popup/wizard.php:66, views/admin/slidein/wizard.php:27, views/admin/slidein/wizard.php:35, views/admin/slidein/wizard.php:66, views/admin/sshare/wizard.php:20, views/admin/sshare/wizard.php:28, views/admin/sshare/wizard.php:49
+#: views/admin/embedded/wizard.php:30, views/admin/embedded/wizard.php:38, views/admin/embedded/wizard.php:74, views/admin/popup/wizard.php:29, views/admin/popup/wizard.php:37, views/admin/popup/wizard.php:73, views/admin/slidein/wizard.php:29, views/admin/slidein/wizard.php:37, views/admin/slidein/wizard.php:73, views/admin/sshare/wizard.php:20, views/admin/sshare/wizard.php:28, views/admin/sshare/wizard.php:49
 msgid "Design"
 msgstr ""
 
-#: views/admin/embedded/wizard.php:29, views/admin/embedded/wizard.php:37, views/admin/embedded/wizard.php:73, views/admin/popup/wizard.php:28, views/admin/popup/wizard.php:36, views/admin/popup/wizard.php:72, views/admin/slidein/wizard.php:28, views/admin/slidein/wizard.php:36, views/admin/slidein/wizard.php:72, views/admin/sshare/wizard.php:21, views/admin/sshare/wizard.php:29, views/admin/sshare/wizard.php:55
+#: views/admin/embedded/wizard.php:31, views/admin/embedded/wizard.php:39, views/admin/embedded/wizard.php:80, views/admin/popup/wizard.php:30, views/admin/popup/wizard.php:38, views/admin/popup/wizard.php:79, views/admin/slidein/wizard.php:30, views/admin/slidein/wizard.php:38, views/admin/slidein/wizard.php:79, views/admin/sshare/wizard.php:21, views/admin/sshare/wizard.php:29, views/admin/sshare/wizard.php:55
 msgid "Display Settings"
 msgstr ""
 
-#: views/admin/embedded/wizard.php:47
+#: views/admin/embedded/wizard.php:54
 msgid "Preview Embed"
 msgstr ""
 
-#: views/admin/embedded/wizard.php:136, views/admin/popup/wizard.php:134, views/admin/slidein/wizard.php:135, views/admin/sshare/wizard.php:107
+#: views/admin/embedded/wizard.php:143, views/admin/embedded/wizard.php:163, views/admin/popup/wizard.php:141, views/admin/popup/wizard.php:161, views/admin/slidein/wizard.php:142, views/admin/slidein/wizard.php:163, views/admin/sshare/wizard.php:107, views/admin/sshare/wizard.php:128
 msgid "Save Changes"
 msgstr ""
 
-#: views/admin/embedded/wizard.php:151, views/admin/popup/wizard.php:149, views/admin/slidein/wizard.php:151, views/admin/sshare/wizard.php:123
+#: views/admin/embedded/wizard.php:158, views/admin/popup/wizard.php:156, views/admin/slidein/wizard.php:158, views/admin/sshare/wizard.php:123
 msgid "Save Draft"
 msgstr ""
 
-#: views/admin/embedded/wizard.php:159, views/admin/popup/wizard.php:157, views/admin/settings/widget-gdpr.php:23, views/admin/slidein/wizard.php:160, views/admin/sshare/wizard.php:132
+#: views/admin/embedded/wizard.php:171, views/admin/popup/wizard.php:169, views/admin/settings/widget-gdpr.php:23, views/admin/slidein/wizard.php:172, views/admin/sshare/wizard.php:137
 msgid "Update"
 msgstr ""
 
-#: views/admin/embedded/wizard.php:161, views/admin/popup/wizard.php:159, views/admin/slidein/wizard.php:162, views/admin/sshare/wizard.php:134
+#: views/admin/embedded/wizard.php:173, views/admin/popup/wizard.php:171, views/admin/slidein/wizard.php:174, views/admin/sshare/wizard.php:139
 msgid "Publish"
 msgstr ""
 
@@ -3354,19 +3482,19 @@ msgstr ""
 msgid "Expires (after expiry, user will see the Embed again)"
 msgstr ""
 
-#: views/admin/embedded/wizard/boxes/box-additional.php:26, views/admin/popup/wizard/boxes/box-additional.php:28, views/admin/slidein/wizard/boxes/box-closing.php:70
+#: views/admin/embedded/wizard/boxes/box-additional.php:26, views/admin/popup/wizard/boxes/box-additional.php:29, views/admin/slidein/wizard/boxes/box-closing.php:70
 msgid "days"
 msgstr ""
 
-#: views/admin/embedded/wizard/boxes/box-additional.php:27, views/admin/popup/wizard/boxes/box-additional.php:29, views/admin/slidein/wizard/boxes/box-closing.php:69
+#: views/admin/embedded/wizard/boxes/box-additional.php:27, views/admin/popup/wizard/boxes/box-additional.php:30, views/admin/slidein/wizard/boxes/box-closing.php:69
 msgid "weeks"
 msgstr ""
 
-#: views/admin/embedded/wizard/boxes/box-additional.php:28, views/admin/popup/wizard/boxes/box-additional.php:30, views/admin/slidein/wizard/boxes/box-closing.php:68
+#: views/admin/embedded/wizard/boxes/box-additional.php:28, views/admin/popup/wizard/boxes/box-additional.php:31, views/admin/slidein/wizard/boxes/box-closing.php:68
 msgid "months"
 msgstr ""
 
-#: views/admin/embedded/wizard/boxes/box-additional.php:29, views/admin/popup/wizard/boxes/box-additional.php:31
+#: views/admin/embedded/wizard/boxes/box-additional.php:29, views/admin/popup/wizard/boxes/box-additional.php:32
 msgid "years"
 msgstr ""
 
@@ -3550,7 +3678,7 @@ msgstr ""
 msgid "Required form elements marked with %s"
 msgstr ""
 
-#: views/admin/embedded/wizard/boxes/box-form_elements.php:69, views/admin/popup/wizard/boxes/box-form_elements.php:69, views/admin/slidein/wizard/boxes/box-form_elements.php:69
+#: views/admin/embedded/wizard/boxes/box-form_elements.php:75, views/admin/popup/wizard/boxes/box-form_elements.php:74, views/admin/slidein/wizard/boxes/box-form_elements.php:75
 msgid "Edit Form"
 msgstr ""
 
@@ -3743,7 +3871,7 @@ msgid "Colors Palette"
 msgstr ""
 
 #: views/admin/embedded/wizard/boxes/box-palette.php:7
-msgid "Choose a pre-made palette for your Embed and further customize it’s appearance."
+msgid "Choose a pre-made palette for your Embed and further customize its appearance."
 msgstr ""
 
 #: views/admin/embedded/wizard/boxes/box-palette.php:13, views/admin/popup/wizard/boxes/box-palette.php:13, views/admin/slidein/wizard/boxes/box-palette.php:13
@@ -3875,7 +4003,7 @@ msgid "Colors & Design"
 msgstr ""
 
 #: views/admin/embedded/wizard/boxes/box-style.php:7
-msgid "Choose a pre-made style for your Embed and further customize it’s appearance."
+msgid "Choose a pre-made style for your Embed and further customize its appearance."
 msgstr ""
 
 #: views/admin/embedded/wizard/boxes/box-style.php:13, views/admin/popup/wizard/boxes/box-style.php:13, views/admin/slidein/wizard/boxes/box-style.php:13
@@ -3994,7 +4122,7 @@ msgstr ""
 msgid "minutes"
 msgstr ""
 
-#: views/admin/embedded/wizard/boxes/box-triggers.php:80, views/admin/embedded/wizard/boxes/box-triggers.php:214, views/admin/popup/wizard/boxes/box-triggers.php:80, views/admin/popup/wizard/boxes/box-triggers.php:198, views/admin/popup/wizard/boxes/box-triggers.php:236, views/admin/slidein/wizard/boxes/box-closing.php:34, views/admin/slidein/wizard/boxes/box-closing.php:71, views/admin/slidein/wizard/boxes/box-triggers.php:80, views/admin/slidein/wizard/boxes/box-triggers.php:198, views/admin/slidein/wizard/boxes/box-triggers.php:236
+#: views/admin/embedded/wizard/boxes/box-triggers.php:80, views/admin/embedded/wizard/boxes/box-triggers.php:214, views/admin/popup/wizard/boxes/box-additional.php:28, views/admin/popup/wizard/boxes/box-triggers.php:80, views/admin/popup/wizard/boxes/box-triggers.php:198, views/admin/popup/wizard/boxes/box-triggers.php:236, views/admin/slidein/wizard/boxes/box-closing.php:34, views/admin/slidein/wizard/boxes/box-closing.php:71, views/admin/slidein/wizard/boxes/box-triggers.php:80, views/admin/slidein/wizard/boxes/box-triggers.php:198, views/admin/slidein/wizard/boxes/box-triggers.php:236
 msgid "hours"
 msgstr ""
 
@@ -4032,6 +4160,50 @@ msgstr ""
 
 #: views/admin/embedded/wizard/boxes/box-triggers.php:198, views/admin/popup/wizard/boxes/box-triggers.php:220, views/admin/settings/display-triggers.php:183, views/admin/slidein/wizard/boxes/box-triggers.php:220
 msgid "Trigger when AdBlock is detected"
+msgstr ""
+
+#: views/admin/footer/footer-large.php:8
+msgid "Check out our other free wordpress.org plugins!"
+msgstr ""
+
+#: views/admin/footer/footer-large.php:18
+msgid "Hummingbird Page Speed Optimization"
+msgstr ""
+
+#: views/admin/footer/footer-large.php:19
+msgid "Performance Tests, File Optimization & Compression, Page, Browser  & Gravatar Caching, GZIP Compression, CloudFlare Integration & more."
+msgstr ""
+
+#: views/admin/footer/footer-large.php:23, views/admin/footer/footer-large.php:38, views/admin/footer/footer-large.php:53
+msgid "View features"
+msgstr ""
+
+#: views/admin/footer/footer-large.php:33
+msgid "Defender Security, Monitoring, and Hack Protection"
+msgstr ""
+
+#: views/admin/footer/footer-large.php:34
+msgid "Security Tweaks & Recommendations, File & Malware Scanning, Login & 404 Lockout Protection, Two-Factor Authentication & more."
+msgstr ""
+
+#: views/admin/footer/footer-large.php:48
+msgid "SmartCrawl Search Engine Optimization"
+msgstr ""
+
+#: views/admin/footer/footer-large.php:49
+msgid "Customize Titles & Meta Data, OpenGraph, Twitter & Pinterest Support, Auto-Keyword Linking, SEO & Readability Analysis, Sitemaps, URL Crawler & more."
+msgstr ""
+
+#: views/admin/footer/footer-large.php:63
+msgid "WPMU DEV - Your WordPress Toolkit"
+msgstr ""
+
+#: views/admin/footer/footer-large.php:64
+msgid "Pretty much everything you need for developing and managing WordPress based websites, and then some."
+msgstr ""
+
+#: views/admin/footer/footer-large.php:73
+msgid "Try pro features for free!"
 msgstr ""
 
 #: views/admin/new-optin_success.php:18
@@ -4098,7 +4270,7 @@ msgstr ""
 msgid "Email service"
 msgstr ""
 
-#: views/admin/popup/listing.php:95, views/admin/popup/listing.php:165, views/admin/slidein/listing.php:95, views/admin/slidein/listing.php:165, views/admin/sshare/listing.php:146
+#: views/admin/popup/listing.php:95, views/admin/popup/listing.php:165, views/admin/slidein/listing.php:95, views/admin/slidein/listing.php:165, views/admin/sshare/listing.php:142
 msgid "Conv. rate"
 msgstr ""
 
@@ -4110,27 +4282,27 @@ msgstr ""
 msgid "%s status"
 msgstr ""
 
-#: views/admin/popup/listing.php:220
+#: views/admin/popup/listing.php:216
 msgid "Edit Pop-Up"
 msgstr ""
 
-#: views/admin/popup/listing.php:222, views/admin/slidein/listing.php:222
+#: views/admin/popup/listing.php:218, views/admin/slidein/listing.php:218
 msgid "View email list"
 msgstr ""
 
-#: views/admin/popup/listing.php:226, views/admin/slidein/listing.php:226
+#: views/admin/popup/listing.php:222, views/admin/slidein/listing.php:222
 msgid "View error log"
 msgstr ""
 
-#: views/admin/popup/listing.php:228, views/admin/slidein/listing.php:228
+#: views/admin/popup/listing.php:224, views/admin/slidein/listing.php:224
 msgid "Disable tracking"
 msgstr ""
 
-#: views/admin/popup/listing.php:228, views/admin/slidein/listing.php:228
+#: views/admin/popup/listing.php:224, views/admin/slidein/listing.php:224
 msgid "Enable tracking"
 msgstr ""
 
-#: views/admin/popup/listing.php:250
+#: views/admin/popup/listing.php:246
 msgid "Delete Pop-Up"
 msgstr ""
 
@@ -4138,11 +4310,11 @@ msgstr ""
 msgid "You currently don't have any pop-ups. Create a new pop-up with any kind of content e.g. An advert or a promotion. You can also create pop-ups for collecting your customers' emails."
 msgstr ""
 
-#: views/admin/popup/wizard.php:12
+#: views/admin/popup/wizard.php:14
 msgid "Edit Pop-up"
 msgstr ""
 
-#: views/admin/popup/wizard.php:46
+#: views/admin/popup/wizard.php:53
 msgid "Preview Pop-up"
 msgstr ""
 
@@ -4154,11 +4326,11 @@ msgstr ""
 msgid "Expires (after expiry, user will see the Pop-up again)"
 msgstr ""
 
-#: views/admin/popup/wizard/boxes/box-additional.php:50
+#: views/admin/popup/wizard/boxes/box-additional.php:51
 msgid "Allow page to be scrolled while Pop-up is visible"
 msgstr ""
 
-#: views/admin/popup/wizard/boxes/box-additional.php:68
+#: views/admin/popup/wizard/boxes/box-additional.php:69
 msgid "Clicking on the background does not close Pop-up"
 msgstr ""
 
@@ -4231,7 +4403,7 @@ msgid "Oops, you need to name your pop-up before you proceed."
 msgstr ""
 
 #: views/admin/popup/wizard/boxes/box-palette.php:7
-msgid "Choose a pre-made palette for your Pop-up and further customize it's appearance."
+msgid "Choose a pre-made palette for your Pop-up and further customize its appearance."
 msgstr ""
 
 #: views/admin/popup/wizard/boxes/box-shapes.php:21
@@ -4243,7 +4415,7 @@ msgid "Custom pop-up size"
 msgstr ""
 
 #: views/admin/popup/wizard/boxes/box-style.php:7
-msgid "Choose a pre-made style for your Pop-up and further customize it’s appearance."
+msgid "Choose a pre-made style for your Pop-up and further customize its appearance."
 msgstr ""
 
 #: views/admin/popup/wizard/boxes/box-submit.php:7
@@ -4506,7 +4678,7 @@ msgstr ""
 msgid "Sender email address"
 msgstr ""
 
-#: views/admin/settings/widget-mail.php:45, views/admin/settings/widget-unsubscribe.php:154, views/admin/settings/widget-unsubscribe.php:413
+#: views/admin/settings/widget-mail.php:45, views/admin/settings/widget-recaptcha.php:40, views/admin/settings/widget-unsubscribe.php:151, views/admin/settings/widget-unsubscribe.php:410
 msgid "Save"
 msgstr ""
 
@@ -4526,6 +4698,22 @@ msgstr ""
 msgid "Embed"
 msgstr ""
 
+#: views/admin/settings/widget-recaptcha.php:3
+msgid "reCAPTCHA options"
+msgstr ""
+
+#: views/admin/settings/widget-recaptcha.php:13
+msgid "Site key"
+msgstr ""
+
+#: views/admin/settings/widget-recaptcha.php:27
+msgid "Secret key"
+msgstr ""
+
+#: views/admin/settings/widget-recaptcha.php:51
+msgid "Use reCAPTCHA"
+msgstr ""
+
 #: views/admin/settings/widget-unsubscribe.php:13
 msgid "By default, the Unsubscribe form works for all the modules. If you want to let visitors unsubscribe from specific modules only, add the comma separated module IDs in the ID attribute."
 msgstr ""
@@ -4534,51 +4722,51 @@ msgstr ""
 msgid "You can find the module's ID in the URL of the module's wizard page: %s"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:37
+#: views/admin/settings/widget-unsubscribe.php:34
 msgid "Edit unsubscribe messages"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:49
+#: views/admin/settings/widget-unsubscribe.php:46
 msgid "Submit button text"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:63
+#: views/admin/settings/widget-unsubscribe.php:60
 msgid "Search lists button text"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:77
+#: views/admin/settings/widget-unsubscribe.php:74
 msgid "Invalid email error message"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:90
+#: views/admin/settings/widget-unsubscribe.php:87
 msgid "Email not found message"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:103
+#: views/admin/settings/widget-unsubscribe.php:100
 msgid "Data not valid message"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:116
+#: views/admin/settings/widget-unsubscribe.php:113
 msgid "Email couldn't be submitted message"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:129
+#: views/admin/settings/widget-unsubscribe.php:126
 msgid "Check your email for confirmation message"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:142
+#: views/admin/settings/widget-unsubscribe.php:139
 msgid "Successful unsubscription message"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:182
+#: views/admin/settings/widget-unsubscribe.php:179
 msgid "Edit unsubscribe email"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:194
+#: views/admin/settings/widget-unsubscribe.php:191
 msgid "Email subject"
 msgstr ""
 
-#: views/admin/settings/widget-unsubscribe.php:208
+#: views/admin/settings/widget-unsubscribe.php:205
 msgid "Email body. Use %s to add the unsubscription link."
 msgstr ""
 
@@ -4594,11 +4782,11 @@ msgstr ""
 msgid "Slide-in status"
 msgstr ""
 
-#: views/admin/slidein/listing.php:220, views/admin/slidein/wizard.php:12
+#: views/admin/slidein/listing.php:216, views/admin/slidein/wizard.php:14
 msgid "Edit Slide-in"
 msgstr ""
 
-#: views/admin/slidein/listing.php:250
+#: views/admin/slidein/listing.php:246
 msgid "Delete Slide-in"
 msgstr ""
 
@@ -4606,7 +4794,7 @@ msgstr ""
 msgid "You currently don't have any slide-ins. Create a new slide-in with any kind of content e.g. An advert or a promotion. You can also create slide-in for collecting your customers' emails."
 msgstr ""
 
-#: views/admin/slidein/wizard.php:46
+#: views/admin/slidein/wizard.php:53
 msgid "Preview Slide-in"
 msgstr ""
 
@@ -4675,7 +4863,7 @@ msgid "Oops, you need to name your slide-in before you proceed."
 msgstr ""
 
 #: views/admin/slidein/wizard/boxes/box-palette.php:7
-msgid "Choose a pre-made palette for your Slide-in and further customize it’s appearance."
+msgid "Choose a pre-made palette for your Slide-in and further customize its appearance."
 msgstr ""
 
 #: views/admin/slidein/wizard/boxes/box-shapes.php:21
@@ -4691,7 +4879,7 @@ msgid "Style & Colors"
 msgstr ""
 
 #: views/admin/slidein/wizard/boxes/box-style.php:7
-msgid "Choose a pre-made style for your Slide-in and further customize it’s appearance."
+msgid "Choose a pre-made style for your Slide-in and further customize its appearance."
 msgstr ""
 
 #: views/admin/slidein/wizard/boxes/box-submit.php:7
@@ -4742,11 +4930,11 @@ msgstr ""
 msgid "New Sharing Module"
 msgstr ""
 
-#: views/admin/sshare/listing.php:114
+#: views/admin/sshare/listing.php:110
 msgid "Delete Social Share"
 msgstr ""
 
-#: views/admin/sshare/listing.php:130
+#: views/admin/sshare/listing.php:126
 msgid "Please activate this social sharing to configure it's settings."
 msgstr ""
 
@@ -5003,7 +5191,7 @@ msgid "Which modules collect personal data?"
 msgstr ""
 
 #: views/general/policy-text.php:4
-msgid "If you use Hustle to create and embed any Pop-up, Embed, Slide-in, or Social share module, you may need to mention it here to properly distinguish it from other plguins."
+msgid "If you use Hustle to create and embed any Pop-up, Embed, Slide-in, or Social share module, you may need to mention it here to properly distinguish it from other plugins."
 msgstr ""
 
 #: views/general/policy-text.php:8
@@ -5012,7 +5200,7 @@ msgstr ""
 
 #: views/general/policy-text.php:10
 msgid ""
-"By default, Hustle captures the <strong>IP Address</strong> for each conversion and for each view only if the \"tracking\" functionality is enabled. Other personal data such as your <strong>name</strong> and <strong>email address</strong> may also be captured, \n"
+"By default, Hustle captures the <strong>IP Address</strong> for each conversion and for each view only if the \"tracking\" functionality is enabled. Other personal data such as your <strong>name</strong> and <strong>email address</strong> may also be captured,\n"
 "depending on the form fields."
 msgstr ""
 
@@ -5034,7 +5222,7 @@ msgstr ""
 
 #: views/general/policy-text.php:27
 msgid ""
-"By default Huslte retains all form submissions and tracking data <strong>forever</strong>. You can delete the stored data in <strong>Hustle</strong> &raquo; <strong>Settings</strong> &raquo;\n"
+"By default Hustle retains all form submissions and tracking data <strong>forever</strong>. You can delete the stored data in <strong>Hustle</strong> &raquo; <strong>Settings</strong> &raquo;\n"
 "		<strong>Privacy Settings</strong>, and under each module's settings."
 msgstr ""
 
@@ -5075,7 +5263,7 @@ msgid "Campaign Monitor. Enabled when you activate and setup Campaign Monitor on
 msgstr ""
 
 #: views/general/policy-text.php:53
-msgid "Contant Contact. Enabled when you activate and setup Contant Contact on Email Collection settings."
+msgid "Constant Contact. Enabled when you activate and setup Constant Contact on Email Collection settings."
 msgstr ""
 
 #: views/general/policy-text.php:54
@@ -5147,7 +5335,7 @@ msgid "We use Campaign Monitor to manage our subscriber. Their privacy policy ca
 msgstr ""
 
 #: views/general/policy-text.php:75
-msgid "We use Contant Contact to manage our subscriber. Their privacy policy can be found here : https://www.endurance.com/privacy."
+msgid "We use Constant Contact to manage our subscriber. Their privacy policy can be found here : https://www.endurance.com/privacy."
 msgstr ""
 
 #: views/general/policy-text.php:76

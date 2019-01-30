@@ -14,6 +14,7 @@
 			if ( 'function' === typeof Optin.render_hustle_sshare_module_embeds ) {
 				Optin.render_hustle_sshare_module_embeds( false );
 			}
+
 		}
 	});
 }(jQuery, document, window));

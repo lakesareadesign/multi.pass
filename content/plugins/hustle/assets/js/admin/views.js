@@ -626,6 +626,7 @@
 				$rows.each(function(){
 					var $this = $(this),
 						$plus = $this.find('.wpmudev-preview-item-manage'),
+						$select = $this.find('select[name="type"]'),
 						$delete = $this.find('.wpmudev-icon-delete');
 
 					$plus.on('click', function(e){
@@ -636,6 +637,16 @@
 						e.preventDefault();
 						e.stopPropagation();
 						me.delete_form_field($(this));
+					});
+					$select.on( 'change', function(e){
+						if ( 'recaptcha' === $(this).val() ) {
+							$this.find('.wpmudev-switch-labeled, .wpmudev-row:first, .wpmudev-row:eq(1) div:eq(1)').addClass('wpmudev-hidden');
+							$this.find('.wpmudev-preview-item-label, .wpmudev-preview-item-name, .wpmudev-preview-item-placeholder').text('');
+							$this.find('.wpmudev-preview-item-required').html('<span class="wpdui-fi wpdui-fi-check"></span>');
+						} else {
+							$this.find('.wpmudev-switch-labeled, .wpmudev-row:first, .wpmudev-row:eq(1) div:eq(1)').removeClass('wpmudev-hidden');
+							$this.find('input[name="label"],input[name="name"],input[name="placeholder"],input[name="required"]').trigger('change');
+						}
 					});
 				});
 				$close.on('click', function(e){
@@ -688,6 +699,8 @@
 				} ) ));
 
 				var $plus = table.find('.wpmudev-preview-item-manage:first'),
+					$select = table.find('select[name="type"]:first'),
+					$new = table.find('.wph-field-row:first'),
 					$delete = table.find('.wpmudev-icon-delete');
 
 				$plus.on('click', function(e){
@@ -699,6 +712,18 @@
 					e.preventDefault();
 					e.stopPropagation();
 					me.delete_form_field($(this));
+				});
+
+				$select.on( 'change', function(e){
+					if ( 'recaptcha' === $(this).val() ) {
+						$new.find('.wpmudev-switch-labeled, .wpmudev-row:first, .wpmudev-row:eq(1) div:eq(1)').addClass('wpmudev-hidden');
+						$new.find('input[name="label"],input[name="name"]').val('recaptcha');
+						$new.find('input[name="placeholder"]').val('');
+						$new.find('.wpmudev-preview-item-required').html('<span class="wpdui-fi wpdui-fi-check"></span>');
+					} else {
+						$new.find('.wpmudev-switch-labeled, .wpmudev-row:first, .wpmudev-row:eq(1) div:eq(1)').removeClass('wpmudev-hidden');
+					}
+					$new.find('input[name="label"],input[name="name"],input[name="placeholder"],input[name="required"]').trigger('change');
 				});
 
 				me.form_fields_header(table.find('.wpmudev-table-body-row:first'));

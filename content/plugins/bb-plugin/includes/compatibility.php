@@ -634,3 +634,27 @@ if ( isset( $_GET['fl_builder'] ) ) {
 		add_filter( "option_siteground_optimizer_$option", '__return_false' );
 	}
 }
+
+/**
+ * Enlighter stops builder from loading.
+ * @since 2.2
+ */
+add_filter( 'enlighter_startup', 'fl_enlighter_frontend_editing' );
+function fl_enlighter_frontend_editing( $enabled ) {
+	if ( isset( $_GET['fl_builder'] ) ) {
+		return false;
+	}
+	return $enabled;
+}
+
+/**
+ * Set sane settings for SSL
+ * @since 2.2.1
+ */
+function fl_set_curl_safe_opts( $handle ) {
+	curl_setopt( $handle, CURLOPT_SSL_VERIFYPEER, 1 );
+	curl_setopt( $handle, CURLOPT_SSL_VERIFYHOST, 2 );
+	curl_setopt( $handle, CURLOPT_CAINFO, ABSPATH . WPINC . '/certificates/ca-bundle.crt' );
+	return $handle;
+}
+

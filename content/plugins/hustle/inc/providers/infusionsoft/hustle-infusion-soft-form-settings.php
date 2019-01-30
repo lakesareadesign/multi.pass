@@ -55,10 +55,7 @@ class Hustle_Infusion_Soft_Form_Settings extends Hustle_Provider_Form_Settings_A
 
 		$options = $this->first_step_options( $submitted_data );
 
-		$html = '';
-		foreach( $options as $key =>  $option ) {
-			$html .= Hustle_Api_Utils::static_render("general/option", array_merge( $option, array( "key" => $key ) ), true);
-		}
+		$html = $this->get_html_for_options( $options );
 
 		if( empty( $error_message ) ) {
 			$step_html = $html;
@@ -106,12 +103,15 @@ class Hustle_Infusion_Soft_Form_Settings extends Hustle_Provider_Form_Settings_A
 			$module = Hustle_Module_Model::instance()->get( $module_id );
 			$saved_account_name =  Hustle_Infusion_Soft::_get_account_name( $module );
 			$saved_api_key = Hustle_Infusion_Soft::_get_api_key( $module );
+			$saved_allow_subscribed_users = Hustle_Infusion_Soft::get_allow_subscribed_users( $module );
 		} else {
 			$saved_account_name = '';
 			$saved_api_key = '';
+			$saved_allow_subscribed_users = '';
 		}
 		$account_name   = ! isset( $submitted_data['account_name'] ) ? $saved_account_name : $submitted_data['account_name'];
 		$api_key        = ! isset( $submitted_data['api_key'] ) ? $saved_api_key : $submitted_data['api_key'];
+		$allow_subscribed_users = ! isset( $submitted_data['allow_subscribed_users'] ) ? $saved_allow_subscribed_users : $submitted_data['allow_subscribed_users'];
 
 		return array(
 			"optin_client_id_label" => array(
@@ -178,6 +178,49 @@ class Hustle_Infusion_Soft_Form_Settings extends Hustle_Provider_Form_Settings_A
 					"http://help.mobit.com/infusionsoft-integration/how-to-find-your-infusionsoft-account-name"
 					),
 				"type" => "small",
+			),
+			"allow_subscribed_users_setup" => array(
+				"id"    => "",
+				"class" => "wpmudev-switch-labeled",
+				"type"  => "wrapper",
+				"elements" => array(
+					"allow_subscribed_users" => array(
+						"id"    => "",
+						"class" => "wpmudev-switch",
+						"type"  => "wrapper",
+						"elements" => array(
+							"toggle" => array(
+								"type"          => 'checkbox',
+								'name'          => "allow_subscribed_users",
+								'id'            => "allow_subscribed_users",
+								"default"       => "",
+								'value'         => "allow",
+								"attributes"    => array(
+									'class'   => "toggle-checkbox",
+									'checked' => ( 'allow' === $allow_subscribed_users ) ? 'checked' : ''
+								)
+							),
+							"label" => array(
+								"id"            => "allow_subscribed_users_label",
+								"for"           => "allow_subscribed_users",
+								"value"         => "",
+								"type"          => "label",
+								"attributes"    => array(
+									'class'     => "wpmudev-switch-design"
+								)
+							)
+						),
+					),
+					"switch_instructions" => array(
+						"id"            => "allow_subscribed_users_instructions",
+						"for"           => "allow_subscribed_users",
+						"value"         => __("Allow already subscribed users to sign-up again.", Opt_In::TEXT_DOMAIN),
+						"type"          => "label",
+						"attributes"    => array(
+							'class'     => "wpmudev-switch-label"
+						)
+					),
+				)
 			),
 		);
 	}

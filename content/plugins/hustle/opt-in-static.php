@@ -584,7 +584,7 @@ if ( ! class_exists( 'Opt_In_Static', false ) ) {
 					'CM' => __( 'Cameroon', Opt_In::TEXT_DOMAIN ),
 					'CA' => __( 'Canada', Opt_In::TEXT_DOMAIN ),
 					'CV' => __( 'Cape Verde', Opt_In::TEXT_DOMAIN ),
-					'KY' => __( 'Cayman Is', Opt_In::TEXT_DOMAIN ),
+					'KY' => __( 'Cayman Islands', Opt_In::TEXT_DOMAIN ),
 					'CF' => __( 'Central African Republic', Opt_In::TEXT_DOMAIN ),
 					'TD' => __( 'Chad', Opt_In::TEXT_DOMAIN ),
 					'CL' => __( 'Chile', Opt_In::TEXT_DOMAIN ),

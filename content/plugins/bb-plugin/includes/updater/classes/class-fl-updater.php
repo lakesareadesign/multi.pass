@@ -124,6 +124,7 @@ final class FLUpdater {
 
 					$transient->response[ $plugin ]              = new stdClass();
 					$transient->response[ $plugin ]->slug        = $response->slug;
+					$transient->response[ $plugin ]->plugin      = $plugin;
 					$transient->response[ $plugin ]->new_version = $response->new_version;
 					$transient->response[ $plugin ]->url         = $response->homepage;
 					$transient->response[ $plugin ]->package     = $response->package;
@@ -144,6 +145,7 @@ final class FLUpdater {
 
 					$transient->response[ $this->settings['slug'] ] = array(
 						'new_version' => $response->new_version,
+						'theme'       => $this->settings['slug'],
 						'url'         => $response->homepage,
 						'package'     => $response->package,
 						'tested'      => $response->tested,

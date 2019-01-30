@@ -38,7 +38,6 @@ class Hustle_Module_Admin {
 			add_filter("wp_default_editor", array( $this, 'set_editor_to_tinymce' ));
 			add_filter("tiny_mce_plugins", array( $this, 'remove_despised_editor_plugins' ));
 
-
 			// Show upgrade notice only if this is free, and Hustle Pro is not already installed.
 			if ( Opt_In_Utils::_is_free() && ! file_exists( WP_PLUGIN_DIR . '/hustle/opt-in.php' ) ) {
 				add_action( 'admin_notices', array( $this, 'show_hustle_pro_available_notice' ) );
@@ -119,11 +118,31 @@ class Hustle_Module_Admin {
 	}
 
 	/**
+	 *
+	 * @since 3.0.7
+	 * @param array $settings Display settings
+	 * @param string $type posts|pages|tags|categories|{cpt}
+	 * @return array
+	 */
+	private function get_conditions_ids( $settings, $type ) {
+		if ( !empty( $settings['conditions'] ) && !empty( $settings['conditions'][ $type ] ) &&
+				( !empty( $settings['conditions'][ $type ][ $type ] ) || !empty( $settings['conditions'][ $type ][ 'selected_cpts' ] ) ) ) {
+			$ids = !empty( $settings['conditions'][ $type ][ $type ] ) ? $settings['conditions'][ $type ][ $type ]
+					: $settings['conditions'][ $type ][ 'selected_cpts' ];
+		} else {
+			$ids = array();
+		}
+
+		return $ids;
+	}
+
+
+	/**
 	 * Register scripts for the admin page
 	 *
 	 * @since 1.0
 	 */
-	public function register_scripts(){
+	public function register_scripts( $page_slug ){
 
 		/**
 		 * Register popup requirements
@@ -147,41 +166,65 @@ class Hustle_Module_Admin {
 		wp_enqueue_script(  'optin_admin_select2' );
 
 		wp_enqueue_script(  'optin_admin_fitie' );
+
+		/**
+		 * reCAPTCHA
+		 * @since 3.0.7
+		 */
+		$recaptcha_settings = Hustle_Module_Model::get_recaptcha_settings();
+		$is_wizard_page = preg_match( '/hustle_(popup|slidein|embedded)$/', $page_slug );
+		if ( $is_wizard_page && isset( $recaptcha_settings['enabled'] ) && '1' === $recaptcha_settings['enabled'] ) {
+			wp_enqueue_script( 'recaptcha', 'https://www.google.com/recaptcha/api.js?render=explicit' );
+		}
+
 		add_filter( 'script_loader_tag', array($this, "handle_specific_script"), 10, 2 );
 		add_filter( 'style_loader_tag', array($this, "handle_specific_style"), 10, 2 );
 
+		$is_edit =  self::is_edit();
+		$post_ids = array();
+		$page_ids = array();
+		$tag_ids = array();
+		$cat_ids = array();
+		if ( $is_edit ) {
+			$module = Hustle_Module_Model::instance()->get( filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT) );
+			$settings = $module->get_display_settings()->to_array();
+
+			$post_ids = $this->get_conditions_ids( $settings, 'posts' );
+			$page_ids = $this->get_conditions_ids( $settings, 'pages' );
+			$tag_ids = $this->get_conditions_ids( $settings, 'tags' );
+			$cat_ids = $this->get_conditions_ids( $settings, 'categories' );
+		}
+
 		$tags = array_map(array($this, "terms_to_select2_data"), get_categories(array(
 			"hide_empty" =>false,
+			'include' => $tag_ids,
 			'taxonomy' => 'post_tag'
 		)));
 
 		$cats = array_map(array($this, "terms_to_select2_data"), get_categories(array(
+			'include' => $cat_ids,
 			"hide_empty" =>false,
 		)));
 
 
-		$posts = array_map(array($this, "posts_to_select2_data"), get_posts(array(
-				'numberposts' => -1
-		 )));
+		$posts = $this->get_select2_data( 'post', $post_ids );
+
 		/**
 		 * Add all posts
 		 */
 		$all_posts = new stdClass();
 		$all_posts->id = "all";
-		$all_posts->text = __("ALL POSTS", Opt_In::TEXT_DOMAIN);
+		$all_posts->text = __("All Posts");
 		array_unshift($posts, $all_posts);
 
-		$pages = array_map(array($this, "posts_to_select2_data"), get_posts(array(
-			'numberposts' => -1,
-			'post_type' => 'page'
-		)));
+		$pages = $this->get_select2_data( 'page', $page_ids );
 
 		/**
 		 * Add all pages
 		 */
 		$all_pages = new stdClass();
 		$all_pages->id = "all";
-		$all_pages->text = __("ALL PAGES", Opt_In::TEXT_DOMAIN);
+		$all_pages->text = __("All Pages");
 		array_unshift($pages, $all_pages);
 
 		/**
@@ -198,17 +241,21 @@ class Hustle_Module_Admin {
 			if ( 'ms_invoice' === $cpt->name ) {
 				continue;
 			}
+			if ( $is_edit ) {
+				$cpt_ids = $this->get_conditions_ids( $settings, $cpt->label );
+			} else {
+				$cpt_ids = array();
+			}
 
 			$cpt_array['name'] = $cpt->name;
 			$cpt_array['label'] = $cpt->label;
-			$cpt_array['data'] = array_map(array($this, "posts_to_select2_data"), get_posts(array(
-				'numberposts' => -1,
-				'post_type' => $cpt->name
-			)));
+			$cpt_array['data'] = $this->get_select2_data( $cpt->name, $cpt_ids );
+
 			// all posts under this custom post type
 			$all_cpt_posts = new stdClass();
 			$all_cpt_posts->id = "all";
-			$all_cpt_posts->text = __("ALL ", Opt_In::TEXT_DOMAIN) . $cpt->label;
+			$all_cpt_posts->text = !empty( $cpt->labels ) && !empty( $cpt->labels->all_items )
+					? $cpt->labels->all_items : __( "All Items", Opt_In::TEXT_DOMAIN );
 			array_unshift($cpt_array['data'], $all_cpt_posts);
 
 			$post_types[$cpt->name] = $cpt_array;
@@ -328,7 +375,7 @@ class Hustle_Module_Admin {
 			'posts' => $posts,
 			'post_types' => $post_types,
 			'pages' => $pages,
-			'is_edit' => self::is_edit(),
+			'is_edit' => $is_edit,
 			'current' => array(),
 			'is_admin' => (int) is_admin(),
 			// 'get_module_field_nonce' => wp_create_nonce( 'optin_add_module_field' ),
@@ -421,6 +468,10 @@ class Hustle_Module_Admin {
 	 *
 	 */
 	public function register_styles(){
+
+		$sanitize_version = str_replace( '.', '-', HUSTLE_SUI_VERSION );
+		$sui_body_class   = "sui-$sanitize_version";
+
 		wp_enqueue_style('thickbox');
 
 		wp_register_style( 'optin_admin_select2', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/vendor/select2/css/select2.min.css', array(), $this->_hustle->get_const_var( "VERSION" ));
@@ -440,6 +491,13 @@ class Hustle_Module_Admin {
 		wp_enqueue_style( 'hstl-opensans' );
 		wp_enqueue_style( 'hstl-source' );
 
+		wp_enqueue_style(
+			'sui_styles',
+			$this->_hustle->get_static_var( 'plugin_url' ) . 'assets/css/shared-ui.min.css',
+			array(),
+			$sui_body_class
+		);
+
 	}
 
 	/**
@@ -447,7 +505,7 @@ class Hustle_Module_Admin {
 	 * @param $term Term
 	 * @return stdClass
 	 */
-	public function terms_to_select2_data( $term ){
+	public static function terms_to_select2_data( $term ){
 		$obj = new stdClass();
 		$obj->id = $term->term_id;
 		$obj->text = $term->name;
@@ -455,16 +513,22 @@ class Hustle_Module_Admin {
 	}
 
 	/**
-	 * Converts post object to usable object for select2
+	 * Get usable objects for select2
 	 *
-	 * @param $post WP_Post
-	 * @return stdClass
+	 * @param string $post_type post type
+	 * @param array $include_ids IDs
+	 * @return array
 	 */
-	public function posts_to_select2_data($post){
-		$obj = new stdClass();
-		$obj->id = $post->ID;
-		$obj->text = $post->post_title;
-		return $obj;
+	private function get_select2_data( $post_type, $include_ids ) {
+		if ( empty( $include_ids ) ) {
+			$data = array();
+		} else {
+			global $wpdb;
+			$data = $wpdb->get_results( $wpdb->prepare( "SELECT ID as id, post_title as text FROM {$wpdb->posts} "
+			. "WHERE post_type = %s AND post_status = 'publish' AND ID IN ('" . implode( "','", $include_ids ) . "')", $post_type ) ); //phpcs:ignore
+		}
+
+		return $data;
 	}
 
 
@@ -490,15 +554,30 @@ class Hustle_Module_Admin {
 
 	}
 
-
 	/**
 	 * Modify admin body class to our own advantage!
 	 *
 	 * @param $classes
 	 * @return mixed
 	 */
-	public function admin_body_class( $classes ){
-		return str_replace(array("wpmud ", "wpmud"), "", $classes);
+	public function admin_body_class( $classes ) {
+
+		$sanitize_version = str_replace( '.', '-', HUSTLE_SUI_VERSION );
+		$sui_body_class   = "sui-$sanitize_version";
+
+		$screen = get_current_screen();
+
+		$classes = ' wpmud ';
+
+		// Do nothing if not a hustle page
+		if ( strpos( $screen->base, '_page_hustle' ) === false ) {
+			return $classes;
+		}
+
+		$classes .= $sui_body_class;
+
+		return $classes;
+
 	}
 
 	/**

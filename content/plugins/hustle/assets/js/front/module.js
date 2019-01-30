@@ -185,6 +185,8 @@
 			// Prepare display
 			this.prepare_display();
 
+			this.maybeRenderRecaptcha();
+
 			// Trigger display
 			if (typeof this[this.appear_after + '_trigger'] === 'function') {
 			  this[this.appear_after + '_trigger']();
@@ -193,8 +195,50 @@
 			return this;
 		},
 
-		prepare_display: function() {
+		maybeRenderRecaptcha: function() {
+
+			if ( 'false' === this.data.content.use_email_collection || '0' === this.data.content.use_email_collection ) {
+				return;
+			}
+
+			/**
+			 * reCAPTCHA
+			 *
+			 * @since 3.0.7
+			 */
 			var me = this;
+
+			if (
+				'undefined' !== typeof inc_opt.recaptcha
+				&& 'undefined' !== typeof inc_opt.recaptcha.enabled
+				&& 'undefined' !== typeof inc_opt.recaptcha.sitekey
+				&& '1' === inc_opt.recaptcha.enabled
+				&& 'undefined' !== typeof this.data.content.form_elements.recaptcha
+			) {
+				if ( typeof this.unique_id === 'undefined' )
+					this.unique_id = '';
+
+				var id = 'hustle-modal-recaptcha' + this.module_id + this.unique_id;
+				this.$el.find('.hustle-modal-recaptcha').attr('id', id);
+
+				this.$el.find('.hustle-modal-body button').prop('disabled', true );
+
+				grecaptcha.ready( function() {
+					var recaptcha_id = grecaptcha.render( id, {
+						'sitekey' : inc_opt.recaptcha.sitekey,
+						'callback': function() {
+							me.$el.find('.hustle-modal-body button').removeProp('disabled' );
+						}
+					});
+
+					me.$el.find('.hustle-modal-recaptcha').attr('recaptcha-id', recaptcha_id);
+
+					me.apply_custom_size();
+				});
+			}
+		},
+
+		prepare_display: function() {
 
 			// Marked viewed when display is triggered
 			this.viewed = true;

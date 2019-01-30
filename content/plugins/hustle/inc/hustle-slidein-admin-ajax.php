@@ -200,10 +200,16 @@ class Hustle_Slidein_Admin_Ajax {
 
 		$result = $module->change_test_mode( true );
 
-		if( $result && !is_wp_error( $result ) )
+		if ( $result && !is_wp_error( $result ) ) {
 			wp_send_json_success( __("Successful", Opt_In::TEXT_DOMAIN) );
-		else
-			wp_send_json_error( $result->get_error_message() );
+		} else {
+			if ( is_wp_error( $result ) ) {
+				$message = $result->get_error_message();
+			} else {
+				$message = false === $result ? 'There was an error updating.' : 'No updated rows.';
+			}
+			wp_send_json_error( $message );
+		}
 	}
 
 	/**

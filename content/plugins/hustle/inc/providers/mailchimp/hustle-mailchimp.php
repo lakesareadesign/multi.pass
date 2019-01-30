@@ -211,13 +211,18 @@ if( !class_exists("Hustle_Mailchimp") ):
 					if ( 'pending' === $existing_member->status ) {
 						$can_subscribe = true;
 					}
-					//if ( isset( $subscribe_data['interests'] ) && $can_subscribe ) {
+					if ( 'unsubscribed' === $existing_member->status ) {
+						//resend Confirm Subscription Email even if `Automatically opt-in new users to the mailing list` is set
+						$subscribe_data['status'] = 'pending';
+						$can_subscribe = true;
+					} else {
+						unset( $subscribe_data['status'] );
+					}
 					if ( isset( $subscribe_data['interests'] ) || $can_subscribe ) {
 						unset( $subscribe_data['email_address'] );
 						if ( 'allow' !== $allow_subscribed ) {
 							unset( $subscribe_data['merge_fields'] );
 						}
-						unset( $subscribe_data['status'] );
 						$response = $api->update_subscription( $list_id, $email, $subscribe_data );
 						return array(
 							'message' => $response,

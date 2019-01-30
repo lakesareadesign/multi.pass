@@ -3,6 +3,8 @@
  * @var Hustle_Embedded_Admin $this
  * @var bool $is_edit if it's in edit mode
  */
+$recaptcha_settings = Hustle_Module_Model::get_recaptcha_settings();
+$recaptcha_key = isset( $recaptcha_settings['sitekey'] ) && '1' === $recaptcha_settings['enabled'] ? $recaptcha_settings['sitekey'] : '';
 ?>
 
 
@@ -40,7 +42,12 @@
 
 				<div class="wpmudev-preview-anchor" aria-hidden="true"></div>
 
-				<div class="wpmudev-preview" aria-hidden="true" data-nonce="<?php echo esc_attr( $shortcode_render_nonce ); ?>" data-custom-css-nonce="<?php echo esc_attr( wp_create_nonce('hustle_module_prepare_custom_css') ); ?>">
+				<div
+					class="wpmudev-preview"
+					aria-hidden="true"
+					data-sitekey="<?php echo esc_attr( $recaptcha_key ); ?>"
+					data-nonce="<?php echo esc_attr( $shortcode_render_nonce ); ?>"
+					data-custom-css-nonce="<?php echo esc_attr( wp_create_nonce('hustle_module_prepare_custom_css') ); ?>">
 
 					<?php $this->render( "general/icons/icon-preview", array() ); ?>
 
@@ -151,7 +158,12 @@
 											<span class="wpmudev-loading-text"><?php esc_html_e( "Save Draft", Opt_In::TEXT_DOMAIN ); ?></span>
 											<span class="wpmudev-loading"></span>
 										</a>
-									<?php } ?>
+									<?php } else { ?>
+										<a class="wpmudev-button wpmudev-button-save" data-nonce="<?php echo esc_attr( $save_nonce ); ?>" data-id="<?php echo esc_attr( $module_id ); ?>">
+											<span class="wpmudev-loading-text"><?php esc_html_e( "Save Changes", Opt_In::TEXT_DOMAIN ); ?></span>
+											<span class="wpmudev-loading"></span>
+										</a>
+								<?php } ?>
 
 									<a class="wpmudev-button wpmudev-button-blue wpmudev-button-finish" data-nonce="<?php echo esc_attr( $save_nonce ); ?>" data-id="<?php echo esc_attr( $module_id ); ?>">
 										<?php
@@ -161,6 +173,7 @@
 												esc_html_e( "Publish", Opt_In::TEXT_DOMAIN );
 											}
 										?>
+										<span class="wpmudev-loading"></span>
 									</a>
 
 								<?php } ?>
@@ -179,8 +192,6 @@
 
 	</section>
 
-	<?php $this->render( "admin/commons/footer", array() ); ?>
-
     <?php
 	$this->render( "admin/commons/wizard/add-new-service", array(
         'module' => $module,
@@ -190,6 +201,7 @@
 
 	<?php
 	$this->render( "admin/commons/wizard/manage-form-fields", array(
+		'recaptcha_enabled' => $recaptcha_enabled,
 		'module' => $module,
 		'default_form_fields' => $default_form_fields
 	) );
@@ -200,3 +212,5 @@
     <?php $this->render("admin/settings/conditions"); ?>
 
 </main>
+
+<?php $this->render( 'admin/footer/footer-simple' ); ?>

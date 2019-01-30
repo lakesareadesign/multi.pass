@@ -1,14 +1,14 @@
-# Copyright (C) 2018 WPMU DEV Videos
+# Copyright (C) 2019 WPMU DEV Videos
 # This file is distributed under the same license as the WPMU DEV Videos package.
 msgid ""
 msgstr ""
-"Project-Id-Version: WPMU DEV Videos 1.5.7\n"
+"Project-Id-Version: WPMU DEV Videos 1.5.8\n"
 "Report-Msgid-Bugs-To: https://premium.wpmudev.org/\n"
-"POT-Creation-Date: 2018-08-02 17:04:43+00:00\n"
+"POT-Creation-Date: 2019-01-23 16:18:51+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"PO-Revision-Date: 2018-MO-DA HO:MI+ZONE\n"
+"PO-Revision-Date: 2019-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 
@@ -17,19 +17,27 @@ msgid "install"
 msgstr ""
 
 #: includes/dash-notice/wpmudev-dash-notification.php:230
-msgid "Important updates are available for <strong>%s</strong>. Install the free WPMU DEV Dashboard plugin now for updates and support!"
+msgid ""
+"Important updates are available for <strong>%s</strong>. Install the free "
+"WPMU DEV Dashboard plugin now for updates and support!"
 msgstr ""
 
 #: includes/dash-notice/wpmudev-dash-notification.php:232
-msgid "<strong>%s</strong> is almost ready - install the free WPMU DEV Dashboard plugin for updates and support!"
+msgid ""
+"<strong>%s</strong> is almost ready - install the free WPMU DEV Dashboard "
+"plugin for updates and support!"
 msgstr ""
 
 #: includes/dash-notice/wpmudev-dash-notification.php:236
-msgid "Important updates are available for your WPMU DEV plugins/themes. Install the free WPMU DEV Dashboard plugin now for updates and support!"
+msgid ""
+"Important updates are available for your WPMU DEV plugins/themes. Install "
+"the free WPMU DEV Dashboard plugin now for updates and support!"
 msgstr ""
 
 #: includes/dash-notice/wpmudev-dash-notification.php:238
-msgid "Almost ready - install the free WPMU DEV Dashboard plugin for updates and support!"
+msgid ""
+"Almost ready - install the free WPMU DEV Dashboard plugin for updates and "
+"support!"
 msgstr ""
 
 #: includes/dash-notice/wpmudev-dash-notification.php:244
@@ -51,19 +59,26 @@ msgid "activate"
 msgstr ""
 
 #: includes/dash-notice/wpmudev-dash-notification.php:271
-msgid "Important updates are available for <strong>%s</strong>. Activate the WPMU DEV Dashboard to update now!"
+msgid ""
+"Important updates are available for <strong>%s</strong>. Activate the WPMU "
+"DEV Dashboard to update now!"
 msgstr ""
 
 #: includes/dash-notice/wpmudev-dash-notification.php:273
-msgid "Just one more step to enable updates and support for <strong>%s</strong>!"
+msgid ""
+"Just one more step to enable updates and support for <strong>%s</strong>!"
 msgstr ""
 
 #: includes/dash-notice/wpmudev-dash-notification.php:277
-msgid "Important updates are available for your WPMU DEV plugins/themes. Activate the WPMU DEV Dashboard to update now!"
+msgid ""
+"Important updates are available for your WPMU DEV plugins/themes. Activate "
+"the WPMU DEV Dashboard to update now!"
 msgstr ""
 
 #: includes/dash-notice/wpmudev-dash-notification.php:279
-msgid "Just one more step - activate the WPMU DEV Dashboard plugin and you're all done!"
+msgid ""
+"Just one more step - activate the WPMU DEV Dashboard plugin and you're all "
+"done!"
 msgstr ""
 
 #: includes/dash-notice/wpmudev-dash-notification.php:285
@@ -146,11 +161,11 @@ msgstr ""
 msgid "Changing Your Password"
 msgstr ""
 
-#: wpmudev-videos.php:75 wpmudev-videos.php:169
+#: wpmudev-videos.php:75 wpmudev-videos.php:181
 msgid "Managing Comments"
 msgstr ""
 
-#: wpmudev-videos.php:76 wpmudev-videos.php:118
+#: wpmudev-videos.php:76 wpmudev-videos.php:123
 msgid "The Dashboard"
 msgstr ""
 
@@ -262,183 +277,221 @@ msgstr ""
 msgid "Creating Playlists"
 msgstr ""
 
-#: wpmudev-videos.php:110
+#: wpmudev-videos.php:104
+msgid "Editor Overview"
+msgstr ""
+
+#: wpmudev-videos.php:105
+msgid "Reusable Blocks"
+msgstr ""
+
+#: wpmudev-videos.php:106
+msgid "Adding New Pages (Gutenberg)"
+msgstr ""
+
+#: wpmudev-videos.php:107
+msgid "Adding New Posts (Gutenberg)"
+msgstr ""
+
+#: wpmudev-videos.php:114
 msgid "Running Updates"
 msgstr ""
 
-#: wpmudev-videos.php:111
+#: wpmudev-videos.php:115
 msgid "Install a Theme"
 msgstr ""
 
-#: wpmudev-videos.php:112
+#: wpmudev-videos.php:116
 msgid "Install and Configure a Plugin"
 msgstr ""
 
-#: wpmudev-videos.php:122
+#: wpmudev-videos.php:127
 msgid "Posts"
 msgstr ""
 
-#: wpmudev-videos.php:126
+#: wpmudev-videos.php:131
 msgid "Pages"
 msgstr ""
 
-#: wpmudev-videos.php:130
-msgid "The Visual Editor"
+#: wpmudev-videos.php:135
+msgid "The Gutenberg Editor"
 msgstr ""
 
-#: wpmudev-videos.php:144
+#: wpmudev-videos.php:142
+msgid "The Classic Editor"
+msgstr ""
+
+#: wpmudev-videos.php:156
 msgid "Working With Images"
 msgstr ""
 
-#: wpmudev-videos.php:157
+#: wpmudev-videos.php:169
 msgid "Media Library"
 msgstr ""
 
-#: wpmudev-videos.php:161
+#: wpmudev-videos.php:173
 msgid "Appearance"
 msgstr ""
 
-#: wpmudev-videos.php:165
+#: wpmudev-videos.php:177
 msgid "Organizing Content"
 msgstr ""
 
-#: wpmudev-videos.php:173
+#: wpmudev-videos.php:185
 msgid "Users, Tools, and Settings"
 msgstr ""
 
-#: wpmudev-videos.php:212 wpmudev-videos.php:217
+#. #-#-#-#-#  wpmudev_vids-default.pot (WPMU DEV Videos 1.5.8)  #-#-#-#-#
+#. Plugin Name of the plugin/theme
+#: wpmudev-videos.php:230 wpmudev-videos.php:235
 msgid "WPMU DEV Videos"
 msgstr ""
 
-#: wpmudev-videos.php:384
+#: wpmudev-videos.php:404
 msgid "Settings saved."
 msgstr ""
 
-#: wpmudev-videos.php:390
+#: wpmudev-videos.php:410
 msgid "WPMU DEV Video Settings"
 msgstr ""
 
-#: wpmudev-videos.php:393
-msgid "Please install and login to the <a href=\"https://premium.wpmudev.org/project/wpmu-dev-dashboard/\" target=\"_blank\">WPMU DEV Dashboard plugin</a> to enable video tutorials."
-msgstr ""
-
-#: wpmudev-videos.php:401
-msgid "Display Settings"
-msgstr ""
-
-#: wpmudev-videos.php:407
-msgid "Register This Domain"
-msgstr ""
-
-#: wpmudev-videos.php:412
-msgid "Whoops, your server is having trouble connecting to the WPMU DEV API! If this problem continues, please contact your host and ask them to \"make sure php and any firewall is configured to allow an HTTP GET call via curl or fsockopen to %s."
-msgstr ""
-
-#: wpmudev-videos.php:416
-msgid "Please register this domain \"%s\" below: "
+#: wpmudev-videos.php:413
+msgid ""
+"Please install and login to the <a href=\"https://premium.wpmudev.org/"
+"project/wpmu-dev-dashboard/\" target=\"_blank\">WPMU DEV Dashboard plugin</"
+"a> to enable video tutorials."
 msgstr ""
 
 #: wpmudev-videos.php:421
-msgid "Now Confirm Registration"
+msgid "Display Settings"
 msgstr ""
 
-#: wpmudev-videos.php:428
-msgid "Please install and login to the <a href=\"https://premium.wpmudev.org/project/wpmu-dev-dashboard/\" target=\"_blank\">WPMU DEV Dashboard plugin</a> to finish enabling video tutorials."
+#: wpmudev-videos.php:427
+msgid "Register This Domain"
 msgstr ""
 
-#: wpmudev-videos.php:430
-msgid "Successfully Registered! Video Site ID: %s"
+#: wpmudev-videos.php:432
+msgid ""
+"Whoops, your server is having trouble connecting to the WPMU DEV API! If "
+"this problem continues, please contact your host and ask them to \"make sure "
+"php and any firewall is configured to allow an HTTP GET call via curl or "
+"fsockopen to %s."
 msgstr ""
 
 #: wpmudev-videos.php:436
+msgid "Please register this domain \"%s\" below: "
+msgstr ""
+
+#: wpmudev-videos.php:441
+msgid "Now Confirm Registration"
+msgstr ""
+
+#: wpmudev-videos.php:449
+msgid ""
+"Please install and login to the <a href=\"https://premium.wpmudev.org/"
+"project/wpmu-dev-dashboard/\" target=\"_blank\">WPMU DEV Dashboard plugin</"
+"a> to finish enabling video tutorials."
+msgstr ""
+
+#: wpmudev-videos.php:451
+msgid "Successfully Registered! Video Site ID: %s"
+msgstr ""
+
+#: wpmudev-videos.php:457
 msgid "Add Videos to Contextual Help"
 msgstr ""
 
-#: wpmudev-videos.php:439 wpmudev-videos.php:453
+#: wpmudev-videos.php:460 wpmudev-videos.php:474
 msgid "Yes"
 msgstr ""
 
-#: wpmudev-videos.php:442 wpmudev-videos.php:456
+#: wpmudev-videos.php:463 wpmudev-videos.php:477
 msgid "No"
 msgstr ""
 
-#: wpmudev-videos.php:445
-msgid "This will add the appropriate video tutorials to the help dropdowns on WordPress admin screens."
+#: wpmudev-videos.php:466
+msgid ""
+"This will add the appropriate video tutorials to the help dropdowns on "
+"WordPress admin screens."
 msgstr ""
 
-#: wpmudev-videos.php:450
+#: wpmudev-videos.php:471
 msgid "Enable non-Multisite videos?"
 msgstr ""
 
-#: wpmudev-videos.php:459
+#: wpmudev-videos.php:480
 msgid "Should videos that are not relevant to Multisite be enabled anyway?."
 msgstr ""
 
-#: wpmudev-videos.php:464
+#: wpmudev-videos.php:485
 msgid "Menu Location"
 msgstr ""
 
-#: wpmudev-videos.php:468
+#: wpmudev-videos.php:489
 msgid "Dashboard"
 msgstr ""
 
-#: wpmudev-videos.php:470
+#: wpmudev-videos.php:491
 msgid "Top Level"
 msgstr ""
 
-#: wpmudev-videos.php:473
+#: wpmudev-videos.php:494
 msgid "Support System Plugin"
 msgstr ""
 
-#: wpmudev-videos.php:476
+#: wpmudev-videos.php:497
 msgid "No Menu"
 msgstr ""
 
-#: wpmudev-videos.php:479
+#: wpmudev-videos.php:500
 msgid "What part of the admin menu should the video tutorial page be added?"
 msgstr ""
 
-#: wpmudev-videos.php:483
+#: wpmudev-videos.php:504
 msgid "Menu Title"
 msgstr ""
 
-#: wpmudev-videos.php:489
+#: wpmudev-videos.php:510
 msgid "Sets the menu title for the video tutorial page."
 msgstr ""
 
-#: wpmudev-videos.php:493
+#: wpmudev-videos.php:514
 msgid "Hide Videos"
 msgstr ""
 
-#: wpmudev-videos.php:496
-msgid "Check any videos here that you want to hide from users on the videos page or in group shortcodes."
+#: wpmudev-videos.php:517
+msgid ""
+"Check any videos here that you want to hide from users on the videos page or "
+"in group shortcodes."
 msgstr ""
 
-#: wpmudev-videos.php:514
+#: wpmudev-videos.php:535
 msgid "Save Changes"
 msgstr ""
 
-#: wpmudev-videos.php:521
+#: wpmudev-videos.php:542
 msgid "Shortcodes"
 msgstr ""
 
-#: wpmudev-videos.php:525
-msgid "These shortcodes allow you to easily embed video tutorials in posts and pages on your sites. Simply type or paste them into your post or page content where you would like them to appear. Also properly handles SSL protected pages. You may also pass \"width\" and/or \"height\" arguments to customize the size of the videos."
+#: wpmudev-videos.php:546
+msgid ""
+"These shortcodes allow you to easily embed video tutorials in posts and "
+"pages on your sites. Simply type or paste them into your post or page "
+"content where you would like them to appear. Also properly handles SSL "
+"protected pages. You may also pass \"width\" and/or \"height\" arguments to "
+"customize the size of the videos."
 msgstr ""
 
-#: wpmudev-videos.php:538
+#: wpmudev-videos.php:559
 msgid "Group Shortcodes"
 msgstr ""
 
-#: wpmudev-videos.php:539
+#: wpmudev-videos.php:560
 msgid "These shortcodes allow you to embed a whole group of videos at a time."
 msgstr ""
 
-#: wpmudev-videos.php:658
+#: wpmudev-videos.php:675
 msgid "Select a Video Tutorial"
-msgstr ""
-#. Plugin Name of the plugin/theme
-msgid "WPMU DEV Videos"
 msgstr ""
 
 #. Plugin URI of the plugin/theme
@@ -446,7 +499,9 @@ msgid "https://premium.wpmudev.org/project/unbranded-video-tutorials/"
 msgstr ""
 
 #. Description of the plugin/theme
-msgid "A simple way to integrate WPMU DEV's over 40 unbranded support videos into your websites."
+msgid ""
+"A simple way to integrate WPMU DEV's over 40 unbranded support videos into "
+"your websites."
 msgstr ""
 
 #. Author of the plugin/theme

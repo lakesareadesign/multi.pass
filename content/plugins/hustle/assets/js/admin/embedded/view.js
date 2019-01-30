@@ -165,8 +165,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 			}
 			var me = this,
 				main_content = me.content_view.model.get('main_content'),
-				nonce = $(".wpmudev-preview").data("nonce")
-				;
+				nonce = $(".wpmudev-preview").data("nonce");
 
 			if (main_content.search(/\[/g) === -1) {
 
@@ -207,6 +206,8 @@ Hustle.define("Embedded.View", function($, doc, win){
 		render_preview: function( content_model ) {
 
 			var me = this,
+				sitekey = $(".wpmudev-preview").data("sitekey"),
+				$preview_modal = me.$('#wph-preview-modal'),
 				is_optin_active = this.content_view.model.get('use_email_collection'),
 				template = ( _.isTrue( is_optin_active ) )
 						? Optin.template("wpmudev-hustle-modal-with-optin-tpl")
@@ -223,8 +224,29 @@ Hustle.define("Embedded.View", function($, doc, win){
 			;
 			data.unique_id = '';
 			// Append to preview after content updated.
-			me.$('#wph-preview-modal').append(template(data));
-			me.$('#wph-preview-modal').addClass('hui-module-type--popup');
+			$preview_modal.append(template(data));
+			$preview_modal.addClass('hui-module-type--popup');
+
+			/**
+			 * reCAPTCHA
+			 * @since 3.0.7
+			 */
+			if (
+				'1' === content_model.use_email_collection
+				&& 'undefined' !== typeof content_model.form_elements.recaptcha
+				&& sitekey
+			) {
+				$preview_modal.find('.hustle-modal-body button').attr('disabled', true );
+
+				grecaptcha.ready( function() {
+					grecaptcha.render('hustle-modal-recaptcha' + data.module_id, {
+						'sitekey' : sitekey,
+						'callback': function() {
+							$preview_modal.find('.hustle-modal-body button').removeAttr('disabled' );
+						}
+					});
+				});
+			}
 
 			// Apply custom CSS and preview styles after content is appended.
 			me.apply_custom_css();
@@ -948,8 +970,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 
 		//remove loading icon
 		remove_loading_icon: function(me) {
-
-			me.$('.wpmudev-button-save, .wpmudev-button-continue').removeClass('wpmudev-button-onload').prop('disabled', false);
+			me.$('.wpmudev-button-save, .wpmudev-button-continue, .wpmudev-button-finish').removeClass('wpmudev-button-onload').prop('disabled', false);
 			return this;
 
 		},
@@ -961,10 +982,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 			var me = this,
 				$btn = $(e.currentTarget);
 
-			me.$('.wpmudev-button-save, .wpmudev-button-continue').addClass('wpmudev-button-onload').prop('disabled', true);
-
-			//this.model.set( 'active', 0, { silent:true } );
-
+			me.$('.wpmudev-button-save, .wpmudev-button-continue, .wpmudev-button-finish').addClass('wpmudev-button-onload').prop('disabled', true);
 			var save = this.save($btn);
 			var obj = this;
 
@@ -990,7 +1008,9 @@ Hustle.define("Embedded.View", function($, doc, win){
 						var current = optin_vars.current.section || false;
 						if ( 'settings' === current ) {
 							var module_id = resp.data;
-							return window.location.replace( '?page=' + optin_vars.current.listing_page + '&module=' + module_id );
+							if ( $btn.hasClass( 'wpmudev-button-finish' ) ) {
+								return window.location.replace( '?page=' + optin_vars.current.listing_page + '&module=' + module_id );
+							}
 						}
 					} else {
 						obj.show_error(resp);
@@ -1056,7 +1076,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 			var me = this;
 
 			// Disable buttons during save.
-			me.$('.wpmudev-button-save, .wpmudev-button-continue').addClass('wpmudev-button-onload').prop('disabled', true);
+			me.$('.wpmudev-button-save, .wpmudev-button-continue, .wpmudev-button-finish').addClass('wpmudev-button-onload').prop('disabled', true);
 
 			this.model.set( 'active', 1, { silent:true } );
 			var save = this.save($(e.currentTarget));
@@ -1659,9 +1679,12 @@ Hustle.define("Embedded.View", function($, doc, win){
 			var $target_email = this.$('#wph-wizard-content-email'),
 				$target_email_options = this.$('#wph-wizard-content-email-options'),
 				$target_form_elements = this.$('#wph-wizard-content-form_elements'),
+				$target_gdpr = this.$('#wph-wizard-content-gdpr'),
+				$target_gdpr_message = this.$('#wph-wizard-content-gdpr-message'),
 				$target_form_submission = this.$('#wph-wizard-content-form_submission'),
 				$target_message = this.$('#wph-wizard-content-form_message'),
-				$target_message_options = this.$('#wph-wizard-content-form_success');
+				$target_message_options = this.$('#wph-wizard-content-form_success'),
+				$target_recaptcha = this.$('#wph-wizard-content-recaptcha');
 
 			if ( parseInt(value) ) {
 
@@ -1669,7 +1692,10 @@ Hustle.define("Embedded.View", function($, doc, win){
 				$target_email_options.removeClass('wpmudev-hidden_table');
 				$target_email_options.addClass('wpmudev-show_table');
 				$target_form_elements.show();
+				$target_gdpr.show();
+				$target_gdpr_message.show();
 				$target_form_submission.show();
+				$target_recaptcha.show();
 				this.after_successful_submission_changed(this.content_view.model.get('after_successful_submission'));
 
 				// set default style for embedded with optin
@@ -1681,9 +1707,12 @@ Hustle.define("Embedded.View", function($, doc, win){
 				$target_email_options.removeClass('wpmudev-show_table');
 				$target_email_options.addClass('wpmudev-hidden_table');
 				$target_form_elements.hide();
+				$target_gdpr.hide();
+				$target_gdpr_message.hide();
 				$target_form_submission.hide();
 				$target_message.hide();
 				$target_message_options.hide();
+				$target_recaptcha.hide();
 
 				// set default style for embedded with no optin
 				this.design_view.model.set( 'style', 'cabriolet' );

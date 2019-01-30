@@ -233,6 +233,8 @@ $this->render( "admin/embedded/wizard/boxes/box-form_elements", array(
 ) );
 ?>
 
+<?php $this->render( "admin/embedded/wizard/boxes/box-gdpr", array() ); ?>
+
 <?php $this->render( "admin/embedded/wizard/boxes/box-form_submission", array() ); ?>
 
 

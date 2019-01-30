@@ -18,6 +18,7 @@
 			this.$el.addClass( cLass );
 
 			Optin.Module.prototype.render.apply( this, arguments );
+
 		},
 
 		convert_to_microseconds: function(value, unit) {

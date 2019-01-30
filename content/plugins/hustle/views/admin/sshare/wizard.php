@@ -123,6 +123,11 @@
 											<span class="wpmudev-loading-text"><?php esc_html_e( "Save Draft", Opt_In::TEXT_DOMAIN ); ?></span>
 											<span class="wpmudev-loading"></span>
 										</a>
+									<?php } else { ?>
+										<a class="wpmudev-button wpmudev-button-save" data-nonce="<?php echo esc_attr( $save_nonce ); ?>" data-id="<?php echo esc_attr( $module_id ); ?>">
+											<span class="wpmudev-loading-text"><?php esc_html_e( "Save Changes", Opt_In::TEXT_DOMAIN ); ?></span>
+											<span class="wpmudev-loading"></span>
+										</a>
 									<?php } ?>
 
 
@@ -134,6 +139,7 @@
 												esc_html_e( "Publish", Opt_In::TEXT_DOMAIN );
 											}
 										?>
+										<span class="wpmudev-loading"></span>
 									</a>
 
 								<?php } ?>
@@ -152,8 +158,8 @@
 
 	</section>
 
-	<?php $this->render( "admin/commons/footer", array() ); ?>
-
     <?php $this->render("admin/settings/conditions"); ?>
 
 </main>
+
+<?php $this->render( 'admin/footer/footer-simple' ); ?>

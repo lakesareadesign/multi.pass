@@ -60,7 +60,7 @@ class Hustle_Mailchimp_Api {
 				return json_decode(  wp_remote_retrieve_body( $res ) );
 
 			$err = new WP_Error();
-			$err->add($res['response']['code'], $res['response']['message'] );
+			$err->add($res['response']['code'], $res['response']['message'], $res['body'] );
 			return  $err;
 		}
 
@@ -201,8 +201,13 @@ class Hustle_Mailchimp_Api {
 		if ( !is_wp_error( $res ) ) {
 			return __("Successful subscription", Opt_In::TEXT_DOMAIN);
 		} else {
-			$error = implode( ', ', $res->get_error_messages() );
-			$error .= __( "Something went wrong.", Opt_In::TEXT_DOMAIN);
+			if ( strpos( $res->get_error_data(), '"Forgotten Email Not Subscribed"' ) ) {
+				$error = __("This contact was previously removed from this list via MailChimp dashboard. To rejoin, they'll need to sign up using a MailChimp native form.", Opt_In::TEXT_DOMAIN);
+				$error .= ' ' . __( 'Subscriber email: ', Opt_In::TEXT_DOMAIN ) . $data['email_address'];
+			} else {
+				$error = implode( ', ', $res->get_error_messages() );
+				$error .= __( "Something went wrong.", Opt_In::TEXT_DOMAIN);
+			}
 			throw new Exception($error);
 		}
 	}

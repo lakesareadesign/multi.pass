@@ -100,7 +100,7 @@ class Minify_HTML {
 
         // replace dynamic tags
         $this->_html = preg_replace_callback(
-        	'~(<!--\s*m(func|clude)(.*)-->\s*<!--\s*/m(func|clude)\s*-->)~is'
+            '~(<!--\s*m(func|clude)(.*)-->\s*<!--\s*/m(func|clude)\s*-->)~is'
             ,array($this, '_removeComment')
             ,$this->_html);
 
@@ -146,9 +146,15 @@ class Minify_HTML {
 
         // remove ws outside of all elements
         $this->_html = preg_replace(
-            '/>(\\s(?:\\s*))?([^<]+)(\\s(?:\s*))?</'
-            ,'>$1$2$3<'
+            '/(^|>)\\s+\\b([^<]+)\\b\\s+?(<|$)/'
+            ,'$1 $2 $3'
             ,$this->_html);
+
+        // remove ws before end of all empty elements
+		$this->_html = preg_replace(
+			'/\\s*\\/>/'
+			,'/>'
+			,$this->_html);
 
         // use newlines before 1st attribute in open tags (to limit line lengths)
         $this->_html = preg_replace('/(<[a-z\\-]+)\\s+([^>]+>)/i', "$1\n$2", $this->_html);
@@ -171,6 +177,28 @@ class Minify_HTML {
             ,array_values($this->_placeholders)
             ,$this->_html
         );
+
+		// remove trailing slash from void elements
+		$this->_html = preg_replace(
+			'/<(area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)([^>]+)\\s*\\/>/i'
+			,'<$1$2>'
+			,$this->_html);
+
+		// in HTML5, type attribute is unnecessary for JavaScript resources
+		// in HTML5, type attribute for style element is not needed and should be omitted
+		if (false !== stripos($this->_html, '<!doctype html>')) {
+			$this->_html = preg_replace(
+				'/<(script|style)([^>]*)\\stype=[\'"]?(text\\/javascript|text\\/css|application\\/javascript)[\'"]?([^>]*)>/i'
+				,'<$1$2$4>'
+				,$this->_html);
+		}
+
+		// unquote attribute values without spaces
+		$this->_html = preg_replace_callback(
+			'/(<[a-z\\-]+\\s)\\s*([^>]+>)/m'
+			,array($this, '_removeAttributeQuotes')
+			,$this->_html);
+
         return $this->_html;
     }
 
@@ -244,6 +272,13 @@ class Minify_HTML {
         $openScript = "<script{$m[2]}";
         $js = $m[3];
 
+        $script_tag = "<script{$m[2]}>{$js}</script>";
+
+        $type = '';
+        if (preg_match('#type="([^"]+)"#i', $m[2], $matches)) {
+            $type = strtolower($matches[1]);
+        }
+
         // whitespace surrounding? preserve at least one space
         $ws1 = ($m[1] === '') ? '' : ' ';
         $ws2 = ($m[4] === '') ? '' : ' ';
@@ -253,22 +288,33 @@ class Minify_HTML {
             $js = preg_replace('/(?:^\\s*<!--\\s*|\\s*(?:\\/\\/)?\\s*-->\\s*$)/', '', $js);
         }
 
-		// remove CDATA section markers
-		$js_old = $js;
-		$js = $this->_removeCdata($js);
-		$needsCdata = ( $js_old != $js );
+        // minify
+        $minifier = $this->_jsMinifier
+            ? $this->_jsMinifier
+            : 'trim';
 
-		// minify
-		$minifier = $this->_jsMinifier
-			? $this->_jsMinifier
-			: 'trim';
-		$js = call_user_func($minifier, $js);
+        if (in_array($type, array('text/template', 'text/x-handlebars-template'))) {
+            $minifier = '';
+        }
 
-		return $this->_reservePlace($needsCdata && $this->_needsCdata($js)
-			? "{$ws1}{$openScript}/*<![CDATA[*/{$js}/*]]>*/</script>{$ws2}"
-			: "{$ws1}{$openScript}{$js}</script>{$ws2}"
-		);
-	}
+        $minifier = apply_filters('w3tc_minify_html_script_minifier', $minifier, $type, $script_tag);
+
+        if (empty($minifier)) {
+            $needsCdata = false;
+        } else {
+            // remove CDATA section markers
+            $js_old = $js;
+            $js = $this->_removeCdata($js);
+            $needsCdata = ( $js_old != $js );
+
+            $js = call_user_func($minifier, $js);
+        }
+
+        return $this->_reservePlace($needsCdata && $this->_needsCdata($js)
+            ? "{$ws1}{$openScript}/*<![CDATA[*/{$js}/*]]>*/</script>{$ws2}"
+            : "{$ws1}{$openScript}{$js}</script>{$ws2}"
+        );
+    }
 
     protected function _removeCdata($str)
     {
@@ -295,4 +341,11 @@ class Minify_HTML {
     {
         return ($this->_isXhtml && preg_match('/(?:[<&]|\\-\\-|\\]\\]>)/', $str));
     }
+
+    protected function _removeAttributeQuotes($m) {
+    	$m[2] = preg_replace('/([a-z0-9]=)[\'"]([^\'"\\s=]+)[\'"](?!\\/)/i', '$1$2', $m[2]);
+    	$m[2] = preg_replace('/([a-z0-9]=)[\'"]([^\'"\\s=]+)[\'"]\\//i', '$1$2 /', $m[2]);
+    	$m[2] = preg_replace('/([a-z0-9])=[\'"][\'"]/i', '$1', $m[2]);
+		return $m[1] . $m[2];
+	}
 }

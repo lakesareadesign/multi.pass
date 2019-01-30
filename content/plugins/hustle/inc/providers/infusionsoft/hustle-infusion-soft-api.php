@@ -187,6 +187,42 @@ class Opt_In_Infusionsoft_Api {
 		}
 	}
 
+	/**
+	 * Updates an existing contact.
+	 *
+	 * @since 3.0.7
+	 *
+	 * @param array $contact Array of contact details to be updated.
+	 * @return integer|WP_Error Contact ID if everything went well, WP_Error otherwise.
+	 *
+	 */
+	public function update_contact( $contact ) {
+
+		$this->optInEmail( $contact['Email'] ); //First optin the email
+
+		$contact_id = $this->get_contact_id( $contact['Email'] );
+
+		if ( ! $contact_id ) {
+			return new WP_Error( 'contact_not_found', __( 'The existing contact could not be updated.', Opt_In::TEXT_DOMAIN ) );
+		}
+
+		$this->set_method( 'ContactService.update' );
+
+		$this->set_param( $contact_id, 'int' );
+		foreach ( $contact as $key => $value ) {
+			$this->set_member( $key, $value );
+		}
+
+		$res = $this->_request( $this->xml->asXML() );
+
+		if ( is_wp_error( $res ) ) {
+			return $res;
+		}
+
+		return $res->get_value( 'i4' );
+
+	}
+
 	public function email_exist( $email ) {
 		$this->set_method( 'ContactService.findByEmail' );
 		$this->set_param( $email );
@@ -199,6 +235,29 @@ class Opt_In_Infusionsoft_Api {
 			$subscriber_id = $res->get_value( 'array.data.value.struct.member.value.i4' );
 
 			return (int) $subscriber_id > 0;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Get the ID of an existing contact
+	 *
+	 * @param string $email
+	 * @return integer|boolean The ID of the existing contact, false on error. An ID of 0 or less means the contact does not exist.
+	 */
+	public function get_contact_id( $email ) {
+		$this->set_method( 'ContactService.findByEmail' );
+		$this->set_param( $email );
+		$data = $this->params->addChild( 'param' )->addChild( 'value' )->addChild( 'array' )->addChild( 'data' );
+		$data->addChild( 'value' )->addChild( 'string', 'Id' );
+
+		$res = $this->_request( $this->xml->asXML() );
+
+		if ( ! is_wp_error( $res ) ) {
+			$subscriber_id = $res->get_value( 'array.data.value.struct.member.value.i4' );
+
+			return (int) $subscriber_id;
 		}
 
 		return false;

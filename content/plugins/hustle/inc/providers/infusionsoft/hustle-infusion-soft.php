@@ -7,7 +7,6 @@ include_once "hustle-infusion-soft-api.php";
 class Hustle_Infusion_Soft extends Hustle_Provider_Abstract {
 
 	const SLUG = "infusionsoft";
-	//const NAME = "Infusionsoft";
 
 	const CLIENT_ID = "inc_opt_infusionsoft_clientid";
 	const CLIENT_SECRET = "inc_opt_infusionsoft_clientsecret";
@@ -113,6 +112,7 @@ class Hustle_Infusion_Soft extends Hustle_Provider_Abstract {
 		$api_key        = self::_get_api_key( $module );
 		$account_name   = self::_get_account_name( $module );
 		$list_id        = self::_get_email_list( $module );
+		$allow_subscribed = self::get_allow_subscribed_users( $module );
 
 		$api = self::api( $api_key, $account_name );
 
@@ -174,13 +174,17 @@ class Hustle_Infusion_Soft extends Hustle_Provider_Abstract {
 			$module->log_error( $data );
 		}
 
-		$contact_id = $api->add_contact( $contact );
+		$email_exists = $api->email_exist( $contact['Email'] );
 
-		if( !is_wp_error( $contact_id ) ){
-			$contact_id = $api->add_tag_to_contact( $contact_id, $list_id );
+		// If the email is already subscribed and subscribed users are allowed, update the contact.
+		if ( 'allow' === $allow_subscribed && $email_exists ) {
+			$contact_id = $api->update_contact( $contact );
+		} else {
+			$contact_id = $api->add_contact( $contact );
 		}
 
 		if( !is_wp_error( $contact_id ) ) {
+			$contact_id = $api->add_tag_to_contact( $contact_id, $list_id );
 			return __("Contact successfully added", Opt_In::TEXT_DOMAIN) ;
 		} else {
 			$error_code = $contact_id->get_error_code();
@@ -206,21 +210,13 @@ class Hustle_Infusion_Soft extends Hustle_Provider_Abstract {
 		return self::get_provider_details( $module, 'account_name', self::SLUG );
 	}
 
-	 /**
-	 * @param $module Hustle_Module_Model
-	 * @return bool
-	 */
-	public static function show_selected_list( $val, $module ){
-		if( self::SLUG === $module->content->active_email_service )
-			return false;
-
-		return true;
-	}
-
-	public static function render_selected_tag( $module ) {
-		$list_id 	= self::_get_email_list( $module );
-		if( self::SLUG !== $module->content->active_email_service || !$list_id ) return;
-		printf( esc_attr__("Selected tag: %s (Press the GET TAGS button to update value) ", Opt_In::TEXT_DOMAIN), esc_attr( $list_id ) );
+	public static function get_allow_subscribed_users( Hustle_Module_Model $module ) {
+		$allow_subscribed = 'not-allow';
+		$saved_allow_subscribed = self::get_provider_details( $module, 'allow_subscribed_users', self::SLUG );
+		if ( $saved_allow_subscribed && !empty( $saved_allow_subscribed ) && 'not-allow' !== $saved_allow_subscribed ) {
+			$allow_subscribed = 'allow';
+		}
+		return $allow_subscribed;
 	}
 
 	public static function add_custom_field( $fields, $module_id ) {
@@ -264,6 +260,4 @@ class Hustle_Infusion_Soft extends Hustle_Provider_Abstract {
 	}
 }
 
-	add_filter("wpoi_optin_infusionsoft_show_selected_list", array("Hustle_Infusion_Soft", "show_selected_list"), 10, 2);
-	add_action("wph_optin_show_selected_list_after", array("Hustle_Infusion_Soft", "render_selected_tag"), 10, 2);
 endif;

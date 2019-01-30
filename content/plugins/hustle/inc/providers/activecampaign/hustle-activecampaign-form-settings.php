@@ -23,6 +23,11 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 				'callback'     => array( $this, 'first_step_callback' ),
 				'is_completed' => array( $this, 'first_step_is_completed' ),
 			),
+			// 1
+			array(
+				'callback'     => array( $this, 'second_step_callback' ),
+				'is_completed' => array( $this, 'first_step_is_completed' ),
+			),
 		);
 	}
 
@@ -55,10 +60,7 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 
 		$options = $this->first_step_options( $submitted_data );
 
-		$html = '';
-		foreach( $options as $key =>  $option ) {
-			$html .= Hustle_Api_Utils::static_render("general/option", array_merge( $option, array( "key" => $key ) ), true);
-		}
+		$html = $this->get_html_for_options( $options );
 
 		if( empty( $error_message ) ) {
 			$step_html = $html;
@@ -68,14 +70,14 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 			$step_html .= $html;
 			$has_errors = true;
 		}
-		$step_html .= $this->get_current_list_name_markup();
+		//$step_html .= $this->get_current_list_name_markup();
 
 		$buttons = array(
 			'cancel' => array(
 				'markup' => $this->get_cancel_button_markup(),
 			),
 			'save' => array(
-				'markup' => $this->get_next_button_markup(),
+				'markup' => $this->get_next_button_markup( __( 'Continue', Opt_In::TEXT_DOMAIN ) ),
 			),
 		);
 
@@ -106,13 +108,16 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 			$module = Hustle_Module_Model::instance()->get( $module_id );
 			$saved_api_key = Hustle_Activecampaign::_get_api_key( $module );
 			$saved_ac_url = Hustle_Activecampaign::_get_api_url( $module );
+			$saved_sign_up_to = Hustle_Activecampaign::get_sign_up_to( $module );
 		} else {
 			$saved_api_key = '';
 			$saved_ac_url = '';
+			$saved_sign_up_to = '';
 		}
 
 		$api_key = ! isset( $submitted_data['api_key'] ) ? $saved_api_key : $submitted_data['api_key'];
 		$ac_url = ! isset( $submitted_data['url'] ) ? $saved_ac_url : $submitted_data['url'];
+		$sign_up_to = ! isset( $submitted_data['sign_up_to'] ) ? $saved_sign_up_to : $submitted_data['sign_up_to'];
 
 		return array(
 			"url_label" => array(
@@ -157,17 +162,6 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 						"placeholder"   => "",
 						"class"         => "wpmudev-input_text",
 					),
-					'refresh' => array(
-						"id"    => "refresh-lists",
-						"type"  => "ajax_button",
-						"value" => "<span class='wpmudev-loading-text'>" . __( "Fetch Lists", Opt_In::TEXT_DOMAIN ) . "</span><span class='wpmudev-loading'></span>",
-						'class' => "wpmudev-button wpmudev-button-sm hustle_provider_on_click_ajax",
-						"attributes" => array(
-							"data-action" => "hustle_activecampaign_refresh_lists",
-							"data-nonce"  => wp_create_nonce("hustle_activecampaign_refresh_lists"),
-							"data-dom_wrapper"  => "#optin-provider-account-options"
-						)
-					),
 				)
 			),
 			"instructions" => array(
@@ -176,128 +170,224 @@ class Hustle_Activecampaign_Form_Settings extends Hustle_Provider_Form_Settings_
 				"value" => __("Log in to your <a href='http://www.activecampaign.com/login/' target='_blank'>ActiveCampaign account</a> to get your URL and API Key.", Opt_In::TEXT_DOMAIN),
 				"type"  => "small",
 			),
+			"subscription_setup" => array(
+				"id"    => "",
+				"class" => "wpmudev-switch-labeled",
+				"type"  => "wrapper",
+				"elements" => array(
+					"subscription_mode" => array(
+						"id"    => "",
+						"class" => "wpmudev-switch",
+						"type"  => "wrapper",
+						"elements" => array(
+							"opt_in" => array(
+								"type"          => 'checkbox',
+								'name'          => "sign_up_to",
+								'id'            => "sign_up_to",
+								"default"       => "",
+								'value'         => "form",
+								"attributes"    => array(
+									'class'   => "toggle-checkbox",
+									'checked' => ( 'form' === $sign_up_to ) ? 'checked' : ''
+								)
+							),
+							"label" => array(
+								"id"            => "sign_up_to_label",
+								"for"           => "sign_up_to",
+								"value"         => "",
+								"type"          => "label",
+								"attributes"    => array(
+									'class'     => "wpmudev-switch-design"
+								)
+							)
+						),
+					),
+					"switch_instructions" => array(
+						"id"            => "sign_up_to_instructions",
+						"for"           => "sign_up_to",
+						"value"         => __("Enable to choose from your existing Forms instead of your existing Lists.", Opt_In::TEXT_DOMAIN),
+						"type"          => "label",
+						"attributes"    => array(
+							'class'     => "wpmudev-switch-label"
+						)
+					),
+				),
+			),
+			"more_switch_instructions" => array(
+				"for"           => "sign_up_to",
+				"value"         => __("Double opt-in is only available when using Forms.", Opt_In::TEXT_DOMAIN),
+				"type"          => "label",
+			),
 		);
 	}
 
+
 	/**
-	 * Returns array with $html to be inserted into the $wrapper DOM object
+	 * Second step callback
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.7
 	 *
+	 * @param array $submitted_data
+	 * @param boolean $validate
 	 * @return array
 	 */
-	public function ajax_refresh_lists() {
-		Hustle_Api_Utils::validate_ajax_call( 'hustle_activecampaign_refresh_lists' );
+	public function second_step_callback( $submitted_data, $validate ) {
+		$error_message = '';
 
-		$submitted_data = Hustle_Api_Utils::validate_and_sanitize_fields( $_REQUEST );
-		$response = array(
-			'html' => $this->refresh_lists_html( $submitted_data ),
-			'wrapper' => $submitted_data['dom_wrapper'],
+		$options = $this->second_step_options( $submitted_data );
+
+		$html = $this->get_html_for_options( $options );
+
+		if( empty( $error_message ) ) {
+			$step_html = $html;
+			$has_errors = false;
+		} else {
+			$step_html = '<label class="wpmudev-label--notice"><span>' . $error_message . '</span></label>';
+			$step_html .= $html;
+			$has_errors = true;
+		}
+
+		$buttons = array(
+			'previous' => array(
+				'markup' => $this->get_previous_button_markup(),
+			),
+			'save' => array(
+				'markup' => $this->get_next_button_markup(),
+			),
 		);
-		wp_send_json_success( $response );
+
+		$response = array(
+			'html'       => $step_html,
+			'buttons'    => $buttons,
+			'has_errors' => $has_errors,
+		);
+
+		if( $validate ) {
+			$response['data_to_save'] = $submitted_data;
+		}
+		return $response;
 	}
 
 	/**
-	 * Returns HTML for when refreshing lists
+	 * Returns array with options for second step
 	 *
-	 * @since 3.0.5
+	 * @since 3.0.7
 	 *
 	 * @param string $submitted_data
-	 * @return string
+	 * @return array
 	 */
-	private function refresh_lists_html( $submitted_data ){
+	private function second_step_options( $submitted_data ) {
+
+		$sign_up_to = $submitted_data['sign_up_to'];
 		$url = $submitted_data['url'];
 		$api_key = $submitted_data['api_key'];
 
-		// Check if API key is valid
-		$_lists = Hustle_Activecampaign::api( $url, $api_key )->get_lists();
+		// Retrieve lists if "sign_up_to" is not set to "forms".
+		if ( 'form' !== $sign_up_to ) {
+			$_lists = Hustle_Activecampaign::api( $url, $api_key )->get_lists();
 
-		if( ! is_wp_error( $_lists ) && ! empty( $_lists ) ) {
-			$options = $this->refresh_lists_options( $_lists );
-
-			if ( !is_wp_error( $options ) ) {
-				$html = '';
-				if ( !empty( $options ) ) {
-					foreach( $options as $key =>  $option ){
-						$html .= Hustle_Api_Utils::static_render("general/option", array_merge( $option, array( "key" => $key ) ), true);
-					}
-				}
-				return $html;
-
-			} else {
-				Hustle_Api_Utils::maybe_log( implode( "; ", $options->get_error_messages() ) );
-
-				return '<label class="wpmudev-label--notice"><span>' . __( 'There was an error retrieving the options.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
-			}
-
-		} else {
-			if( is_wp_error( $_lists ) )
+			if( is_wp_error( $_lists ) || empty( $_lists ) ) {
+				if( is_wp_error( $_lists ) )
 				Hustle_Api_Utils::maybe_log( implode( "; ", $_lists->get_error_messages() ) );
 
-			return '<label class="wpmudev-label--notice"><span>' . __( 'No audience list defined for this account. Please double check your settings are okay.' , Opt_In::TEXT_DOMAIN ) . '</span></label>';
+				return array(
+					"label" => array(
+						"class"   => "wpmudev-label--notice",
+						"value" => '<span>' . __( 'No audience list defined for this account. Please double check your settings are okay.' , Opt_In::TEXT_DOMAIN ) . '</span>',
+						"type"  => "label",
+					),
+				);
+			}
 
-		}
-	}
+			if( !is_array( $_lists )  )
+				$_lists = array( $_lists );
 
-	/**
-	 * Retrieves options of the ActiveCampaign account with the given api_key
-	 *
-	 * @param string $submitted_data
-	 * @return array
-	 */
-	private function refresh_lists_options( $_lists ) {
+			$lists = array();
+			foreach(  ( array) $_lists as $list ){
+				$list = (object) (array) $list;
 
-		if( !is_array( $_lists )  )
-			$_lists = array( $_lists );
+				$lists[ $list->id ] = array(
+					'value' => $list->id,
+					'label' => $list->name,
+				);
 
-		$lists = array();
-		foreach(  ( array) $_lists as $list ){
-			$list = (object) (array) $list;
+			}
 
-			$lists[ $list->id ] = array(
-				'value' => $list->id,
-				'label' => $list->name,
+			$first = count( $lists ) > 0 ? reset( $lists ) : "";
+			if( !empty( $first ) )
+				$first = $first['value'];
+
+			return  array(
+				"label" => array(
+					"id"    => "list_id_label",
+					"for"   => "list_id",
+					"value" => __("Choose list:", Opt_In::TEXT_DOMAIN),
+					"type"  => "label",
+				),
+				"choose_email_list" => array(
+					"type"          => 'select',
+					'name'          => "list_id",
+					'id'            => "wph-email-provider-lists",
+					"default"       => "",
+					'options'       => $lists,
+					'value'         => $first,
+					'selected'      => $first,
+					'class' 		=> 'wpmudev-select',
+				)
+			);
+
+		} else {
+			// Retrieve forms otherwise
+
+			$_forms = Hustle_Activecampaign::api( $url, $api_key )->get_forms();
+
+			if( is_wp_error( $_forms ) || empty( $_forms ) ) {
+				if( is_wp_error( $_forms ) )
+				Hustle_Api_Utils::maybe_log( implode( "; ", $_forms->get_error_messages() ) );
+
+				return array(
+					"label" => array(
+						"class"   => "wpmudev-label--notice",
+						"value" => '<span>' . __( 'No audience list defined for this account. Please double check your settings are okay.' , Opt_In::TEXT_DOMAIN ) . '</span>',
+						"type"  => "label",
+					),
+				);
+			}
+
+			$forms = array();
+			foreach( $_forms as $form => $data ) {
+				$forms[ $data['id'] ] = array(
+					'value' => $data['id'],
+					'label' => $data['name'],
+				);
+			}
+
+			$first = count( $forms ) > 0 ? reset( $forms ) : "";
+			if( !empty( $first ) )
+				$first = $first['value'];
+
+			return  array(
+				"label" => array(
+					"id"    => "form_id_label",
+					"for"   => "form_id",
+					"value" => __("Choose form:", Opt_In::TEXT_DOMAIN),
+					"type"  => "label",
+				),
+				"choose_email_form" => array(
+					"type"          => 'select',
+					'name'          => "form_id",
+					'id'            => "wph-email-provider-lists",
+					"default"       => "",
+					'options'       => $forms,
+					'value'         => $first,
+					'selected'      => $first,
+					"class"			=> "wpmudev-select",
+				)
 			);
 
 		}
-
-		$first = count( $lists ) > 0 ? reset( $lists ) : "";
-		if( !empty( $first ) )
-			$first = $first['value'];
-
-		return  array(
-			"label" => array(
-				"id"    => "list_id_label",
-				"for"   => "list_id",
-				"value" => __("Choose list:", Opt_In::TEXT_DOMAIN),
-				"type"  => "label",
-			),
-			"choose_email_list" => array(
-				"type"          => 'select',
-				'name'          => "list_id",
-				'id'            => "wph-email-provider-lists",
-				"default"       => "",
-				'options'       => $lists,
-				'value'         => $first,
-				'selected'      => $first,
-				"attributes"    => array(
-					"data-nonce"    => wp_create_nonce("activecampaign_choose_campaign"),
-					'class'         => "wpmudev-select activecampaign_choose_campaign"
-				)
-			)
-		);
 	}
 
-	/**
-	 * Registers AJAX endpoints for provider's custom actions
-	 *
-	 */
-	public function register_ajax_endpoints(){
-		add_action( "wp_ajax_hustle_activecampaign_refresh_lists", array( $this , "ajax_refresh_lists" ) );
-	}
-}
-if ( is_admin() ) {
-	Hustle_Api_Utils::register_ajax_endpoints( 'Hustle_Activecampaign' );
 }
 
 endif;

@@ -30,7 +30,6 @@ class Hustle_Provider_Container implements ArrayAccess, Countable {
 			return $this->providers[ $offset ];
 		}
 
-
 		return null;
 	}
 
@@ -80,7 +79,7 @@ class Hustle_Provider_Container implements ArrayAccess, Countable {
 			// in case a hook is added
 			$provider = $this[ $slug ];
 
-			$providers[$provider->get_slug()] = $provider->to_array();
+			$providers[ $provider->get_slug() ] = $provider->to_array();
 		}
 
 		return $providers;
@@ -95,15 +94,33 @@ class Hustle_Provider_Container implements ArrayAccess, Countable {
 	 */
 	public function to_array() {
 		$providers = array();
-
 		foreach ( $this->providers as $slug => $provider_members ) {
 			// force to offsetGet: enable when needed
 			// in case a hook is added
 			$provider = $this[ $slug ];
-
 			$providers[ $provider->get_slug() ] = $provider->to_array();
 		}
-
+		/**
+		 * Sort elements by title
+		 * @since 3.0.7
+		 */
+		uasort( $providers, array( $this, 'helper_sort_by_title' ) );
 		return $providers;
+	}
+
+	/**
+	 * Private helper to sort services by name.
+	 *
+	 * @since 3.0.7
+	 *
+	 * @param array $a First array to compare.
+	 * @param array $b Second array to compare.
+	 * @return integer sort order
+	 */
+	private function helper_sort_by_title( $a, $b ) {
+		if ( ! isset( $a['title'] ) || ! isset( $b['title'] ) ) {
+			return 0;
+		}
+		return strcasecmp( $a['title'], $b['title'] );
 	}
 }

@@ -530,7 +530,7 @@ body .fl-builder-bar .fl-builder-bar-content.is-muted > *:not(.fl-builder-publis
 .fl-builder-layout-title,
 .fl-theme-builder-preview-select .fl-theme-builder-preview-select-title span {
 	font-size: 16px;
-    font-weight: 400;
+	font-weight: 400;
 	line-height: 1.3;
 	color: #161B20;
 	white-space: nowrap;
@@ -544,6 +544,7 @@ body .fl-builder-bar .fl-builder-bar-content.is-muted > *:not(.fl-builder-publis
 	font-weight: 500;
 	line-height: 1.3;
 	color: #656d77;
+	text-align: left;
 	white-space: nowrap;
 	text-overflow: ellipsis;
 	overflow: hidden;
@@ -625,7 +626,8 @@ body .fl-builder-bar .fl-builder-bar-content.is-muted > *:not(.fl-builder-publis
 	padding: 4px 0 !important;
 	border-bottom: none !important;
 	display: flex;
-    flex-direction: column;
+	flex-direction: column;
+	text-align: initial;
 }
 .fl-theme-builder-preview-select-item:hover {
     text-decoration: none;

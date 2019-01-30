@@ -92,11 +92,16 @@ abstract class Hustle_Model extends Hustle_Data {
 	public function get_by_shortcode( $shortcode_id, $enforce_type = true ){
 
 		$cache_group = 'hustle_shortcode_data';
-		$this->_data  = wp_cache_get( $shortcode_id, $cache_group );
+		//$key = "hustle_shortcode_data_" . $shortcode_id;
+		$this->_data = wp_cache_get( $shortcode_id, $cache_group );
+		$prefix = $this->_wpdb->base_prefix;
+		$blog_id = get_current_blog_id();
 
 		// If not cached.
-		if( false === $this->_data ){
+		if( false === $this->_data ) {
+
 			$prefix = $this->_wpdb->base_prefix;
+
 			if ( $enforce_type ) {
 				// Enforce embedded/social_sharing type.
 				$sql = $this->_wpdb->prepare( "
@@ -104,7 +109,8 @@ abstract class Hustle_Model extends Hustle_Data {
 			 	 	 ON modules.`module_id`=meta.`module_id`
 			 	 	 WHERE `meta_key`='shortcode_id'
 			 	 	 AND (`module_type` = 'embedded' OR `module_type` = 'social_sharing')
-			 	 	 AND `meta_value`=%s", trim( $shortcode_id )
+					 AND `blog_id` = %d
+			 	 	 AND `meta_value`=%s", $blog_id, trim( $shortcode_id )
 				);
 			} else {
 				// Do not enforce embedded/social_sharing type.
@@ -112,7 +118,8 @@ abstract class Hustle_Model extends Hustle_Data {
 					SELECT * FROM  `" . $this->get_table() . "` as modules JOIN `{$prefix}hustle_modules_meta` as meta
 			 	 	 ON modules.`module_id`=meta.`module_id`
 			 	 	 WHERE `meta_key`='shortcode_id'
-			 	 	 AND `meta_value`=%s", trim( $shortcode_id )
+					 AND `blog_id` = %d
+			 	 	 AND `meta_value`=%s", $blog_id, trim( $shortcode_id )
 				);
 			}
 
@@ -144,13 +151,33 @@ abstract class Hustle_Model extends Hustle_Data {
 		if( empty( $this->id ) ){
 			$this->_wpdb->insert($table, $this->_sanitize_model_data( $data ), array_values( $this->get_format() ));
 			$this->id = $this->_wpdb->insert_id;
+
+			/**
+			 * Action Hustle after creation module
+			 *
+			 * @since 3.0.7
+			 *
+			 * @param string $module_type module type
+			 * @param array $data module data
+			 * @param int $id module id
+			 */
+			do_action( 'hustle_after_create_module', $this->module_type, $data, $this->id );
 		}else{
 			$this->_wpdb->update($table, $this->_sanitize_model_data( $data ), array( "module_id" => $this->id ), array_values( $this->get_format() ), array("%d") );
+
+			/**
+			 * Action Hustle after updating module
+			 *
+			 * @since 3.0.7
+			 *
+			 * @param string $module_type module type
+			 * @param array $data module data
+			 */
+			do_action( 'hustle_after_update_module', $this->module_type, $data );
 		}
 
 		// Clear cache as well.
 		$this->clean_module_cache();
-		//$this->clear_object_cache();
 
 		return $this->id;
 	}
@@ -158,7 +185,7 @@ abstract class Hustle_Model extends Hustle_Data {
 	/**
 	 * Clean all the cache related to a module.
 	 *
-	 * @since 3.0.6
+	 * @since 3.0.7
 	 *
 	 * @todo handle failure
 	 * @return void
@@ -166,8 +193,9 @@ abstract class Hustle_Model extends Hustle_Data {
 	public function clean_module_cache() {
 
 		$id = $this->id;
+		$shortcode_id = $this->get_shortcode_id();
 		$shortcode_group = 'hustle_shortcode_data';
-		wp_cache_delete( $id, $shortcode_group );
+		wp_cache_delete( $shortcode_id, $shortcode_group );
 
 		$module_group = 'hustle_model_data';
 		wp_cache_delete( $id, $module_group );
@@ -175,26 +203,6 @@ abstract class Hustle_Model extends Hustle_Data {
 		$module_meta_group = 'hustle_module_meta';
 		wp_cache_delete( $id, $module_meta_group );
 
-	}
-
-	/*
- 	 * Clear object cache on save to prevent stale settings.
- 	 *
- 	 * return mixed (bool or string)
- 	 */
-	public function clear_object_cache() {
-		global $wp_object_cache;
-		// Confirm object cache object exists to prevent errors.
-		if ( $wp_object_cache && is_object( $wp_object_cache ) ) {
-			try {
-				// Clear object cache.
-				wp_cache_flush();
-				return true;
-			} catch ( Exception $exception ) {
-				// If error, pass that on.
-				return "Object Cache Error:" . $exception->getMessage();
-			}
-		}
 	}
 
 	/**
@@ -291,7 +299,7 @@ abstract class Hustle_Model extends Hustle_Data {
 	 * @param mixed $default
 	 * @return null|string|$default
 	 */
-	public function get_meta( $meta_key, $default = null ) {
+	public function get_meta( $meta_key, $default = null ){
 		$cache_group = 'hustle_module_meta';
 
 		$module_meta = wp_cache_get( $this->id, $cache_group );
@@ -329,8 +337,6 @@ abstract class Hustle_Model extends Hustle_Data {
 	public function toggle_state( $environment = null ){
 		// Clear cache.
 		$this->clean_module_cache(); // TODO: maybe remove just what's related.
-
-		//$this->clear_object_cache();
 
 		if( is_null( $environment ) ){ // so we are toggling state of the optin
 			return $this->_wpdb->update( $this->get_table(), array(
@@ -387,6 +393,15 @@ abstract class Hustle_Model extends Hustle_Data {
 			'page_type' => "",
 			'page_id'   => 0
 		));
+
+		/**
+		 * Filter Hustle tracking data
+		 *
+		 * @since 3.0.7
+		 *
+		 * @param array $data current tracking data
+		 */
+		$data = apply_filters( 'hustle_tracking_data', $data );
 
 		return $this->add_meta( $type, $data );
 	}
@@ -492,6 +507,9 @@ abstract class Hustle_Model extends Hustle_Data {
 	 * @return bool
 	 */
 	public function is_test_type_active( $type ){
+		if ( 'slidein' === $this->module_type || 'popup' === $this->module_type ) {
+			return (bool) $this->test_mode;
+		}
 		return isset( $this->_test_types[ $type ] );
 	}
 
@@ -539,8 +557,6 @@ abstract class Hustle_Model extends Hustle_Data {
 		// Clear cache.
 		$this->clean_module_cache(); // TODO: maybe remove just what's related.
 
-		//$this->clear_object_cache();
-
 		if ( true === $action ) {
 			$mode = 1;
 		} elseif ( false === $action ) {
@@ -578,9 +594,7 @@ abstract class Hustle_Model extends Hustle_Data {
 		}
 
 		// Clear cache.
-		$this->clean_module_cache(); // TODO: maybe remove just what's related.
-
-		//$this->clear_object_cache();
+		$this->clean_module_cache();
 
 		return $this->update_meta( self::TEST_TYPES, $this->_test_types );
 	}
@@ -598,6 +612,8 @@ abstract class Hustle_Model extends Hustle_Data {
 		} else {
 			$this->_track_types[ $type ] = true;
 		}
+		// Clear cache.
+		$this->clean_module_cache();
 
 		return $this->update_meta( self::TRACK_TYPES, $this->_track_types );
 	}

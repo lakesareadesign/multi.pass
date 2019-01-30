@@ -37,7 +37,7 @@ class FLHeadingModule extends FLBuilderModule {
 		}
 
 		// Handle old font settings.
-		if ( isset( $settings->font ) ) {
+		if ( isset( $settings->font ) && is_array( $settings->font ) && isset( $settings->font['family'] ) && isset( $settings->font['weight'] ) ) {
 			$settings->typography['font_family'] = $settings->font['family'];
 			$settings->typography['font_weight'] = $settings->font['weight'];
 		}

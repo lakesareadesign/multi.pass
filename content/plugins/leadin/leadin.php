@@ -3,7 +3,7 @@
 Plugin Name: Contact Form Builder for WordPress – Conversion Tools by HubSpot
 Plugin URI: http://www.hubspot.com/products/wordpress/contact-form
 Description: Whether you’re just getting started with HubSpot or already a HubSpot power user, Contact Form Builder for WordPress and Conversion Tools by HubSpot will let you use HubSpot tools on your WordPress website and connect the two platforms without dealing with code.
-Version: 7.0.1
+Version: 7.0.2
 Author: HubSpot
 Author URI: http://www.hubspot.com
 License: GPL2
@@ -33,7 +33,7 @@ if ( ! defined( 'LEADIN_DB_VERSION' ) ) {
 }
 
 if ( ! defined( 'LEADIN_PLUGIN_VERSION' ) ) {
-	define( 'LEADIN_PLUGIN_VERSION', '7.0.1' );
+	define( 'LEADIN_PLUGIN_VERSION', '7.0.2' );
 }
 
 if ( ! defined( 'LEADIN_SOURCE' ) ) {

@@ -19,6 +19,12 @@ class Hustle_Settings_Admin_Ajax {
 		add_action("wp_ajax_hustle_toggle_unsubscribe_email_settings", array( $this, "toggle_unsubscription_custom_email" ));
 		// This is used in wizards. Should be moved into popup-admin-ajax instead, since there's where common ajax actions from wizards are.
 		add_action("wp_ajax_hustle_shortcode_render", array( $this, "shortcode_render" ));
+		/**
+		 * Save reCAPTCHA options
+		 *
+		 * @since 3.0.7
+		 */
+		add_action( 'wp_ajax_hustle_save_global_recaptcha_settings', array( $this, 'save_recaptcha' ) );
 	}
 
 	/**
@@ -282,4 +288,27 @@ class Hustle_Settings_Admin_Ajax {
 			"content" => $rendered_content
 		));
 	}
+
+	/**
+	 * Save reCAPTCHA options
+	 *
+	 * @since 3.0.7
+	 */
+	public function save_recaptcha() {
+		Opt_In_Utils::validate_ajax_call('hustle_save_global_recaptcha_settings');
+		parse_str( $_POST['data'], $data ); // WPCS: CSRF ok.
+		$enabled = isset( $data['enabled'] ) ? filter_var( $data['enabled'], FILTER_SANITIZE_STRING ) : '0';
+		$sitekey = filter_var( $data['sitekey'], FILTER_SANITIZE_STRING );
+		$secret = filter_var( $data['secret'], FILTER_SANITIZE_STRING );
+		$data_to_save = array(
+			'enabled' => $enabled,
+			'sitekey' => $sitekey,
+			'secret' => $secret,
+		);
+		$settings = get_option( 'hustle_settings', array() );
+		$settings['recaptcha'] = $data_to_save;
+		update_option( 'hustle_settings', $settings );
+		wp_send_json_success();
+	}
+
 }

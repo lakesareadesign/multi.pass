@@ -1,3 +1,16 @@
+<h4>2.2.0.6 - 01/24/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Update Font Awesome to 5.6.3</li>
+	<li>Fixed PHP warnings in Heading module if non existent font is selected when upgrading to 2.2</li>
+	<li>Fixed theme white labeling not escaping apostrophes.</li>
+	<li>Fixed Themer Preview menu being incorrectly centered.</li>
+	<li>Fixed Content Slider button alignment.</li>
+	<li>Fixed margin/padding placeholders not showing as zero when the global settings are empty.</li>
+	<li>Fixed posts not being converted to the BB block when updating to 5.0</li>
+	<li>Fixed Builder link missing on new page when classic editor plugin is active.</li>
+</ul>
+
 <h4>2.2.0.5 - 01/14/2019</h4>
 <p><strong>Bug Fixes</strong></p>
 <ul>

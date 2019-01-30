@@ -6,7 +6,7 @@
 function wpmudev_copy_field($field_value) {
 
     echo '<div class="wpmudev-copy">
-        <input class="wpmudev-input_text" type="text" value="' . esc_attr( $field_value ) . '" disabled>
+        <input class="wpmudev-input_text" type="text" value="' . esc_attr( $field_value ) . '" readonly>
         <button class="wpmudev-button wpmudev-button-sm">' . esc_attr__( "Copy", Opt_In::TEXT_DOMAIN ) . '</button>
     </div>';
 

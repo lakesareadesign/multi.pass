@@ -69,10 +69,23 @@
 
 			</div><?php // .wpmudev-row ?>
 
-		</section>
+			<div class="wpmudev-row">
 
-		<?php $this->render( 'admin/commons/footer', array() ); ?>
+				<div id="wpmudev-settings-recaptcha" class="wpmudev-col col-12 col-sm-6">
+					<?php
+					$this->render( 'admin/settings/widget-recaptcha', array(
+						'enabled' => $recaptcha_enabled,
+						'sitekey' => $recaptcha_sitekey,
+						'secret' => $recaptcha_secret,
+					) );
+					?>
+				</div><?php // #wpmudev-settings-recaptcha ?>
+
+			</div><?php // .wpmudev-row ?>
+		</section>
 
 	</main>
 
 <?php endif; ?>
+
+<?php $this->render( 'admin/footer/footer-simple' ); ?>

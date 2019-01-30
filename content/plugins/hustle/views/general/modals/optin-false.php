@@ -4,11 +4,15 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 <script id="wpmudev-hustle-modal-without-optin-tpl" type="text/template">
 
-<div class="hustle-modal hustle-modal-{{ design.style }}<# if ( ( _.isTrue( content.use_feature_image ) && 'none' === design.feature_image_fit ) && _.isFalse( content.has_title ) && '' === content.main_content && _.isFalse( content.show_gdpr ) && _.isFalse( content.show_cta ) ) { #> hustle-modal-image_only<# } #> {{ ( ( '' !== settings.animation_in && 'no_animation' !== settings.animation_in ) || ( '' !== settings.animation_out && 'no_animation' !== settings.animation_out ) ) ? 'hustle-animated' : 'hustle-modal-static' }}">
+<div class="hustle-modal hustle-modal-{{ ( 'simple' === design.style || 'minimal' === design.style ) ? design.style : 'cabriolet' }}<# if ( ( _.isTrue( content.use_feature_image ) && 'none' === design.feature_image_fit ) && _.isFalse( content.has_title ) && '' === content.main_content && _.isFalse( content.show_cta ) ) { #> hustle-modal-image_only<# } #> {{ ( ( ( '' !== settings.animation_in && 'no_animation' !== settings.animation_in ) || ( '' !== settings.animation_out && 'no_animation' !== settings.animation_out ) )  && ( 'undefined' === typeof is_preview  || _.isFalse( is_preview ) ) ) ? 'hustle-animated' : 'hustle-modal-static' }}">
 
 	<# if ( 'simple' === design.style ) { #>
 
+		<# if ( 'embedded' !== module_type ) { #>
+
 		<div class="hustle-modal-close" aria-hidden="true"><?php echo $close_icon; //phpcs:ignore ?></div>
+
+		<# } #>
 
 		<div class="hustle-modal-body hustle-modal-image_{{ design.feature_image_position }}">
 
@@ -70,34 +74,13 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 						<# } #>
 
-						<# if (
-							( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) ||
-							( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) )
-						) { #>
+						<# if ( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) ) { #>
 
 							<div class="hustle-modal-footer">
 
 								<# if ( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) ) { #>
 
 									<a target="_{{ content.cta_target }}" href="{{ content.cta_url }}" class="hustle-modal-cta">{{ content.cta_label }}</a>
-
-								<# } #>
-
-								<# if ( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) { #>
-
-									<div class="hustle-gdpr-box">
-
-										<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
-
-											<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
-
-											<span aria-hidden="true"></span>
-
-										</label>
-
-										<div class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
-
-									</div>
 
 								<# } #>
 
@@ -132,14 +115,15 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 				</div>
 
 			<# } #>
-
 		</div>
 
-	<# } #>
+	<# } else if ( 'minimal' === design.style ) { #>
 
-	<# if ( 'minimal' === design.style ) { #>
+		<# if ( 'embedded' !== module_type ) { #>
 
-		<div class="hustle-modal-close" aria-hidden="true"><?php echo $close_icon; //phpcs:ignore ?></div>
+			<div class="hustle-modal-close" aria-hidden="true"><?php echo $close_icon; //phpcs:ignore ?></div>
+
+		<# } #>
 
 		<div class="hustle-modal-body hustle-modal-image_{{ design.feature_image_position }}">
 
@@ -224,30 +208,9 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 			<# } #>
 
-			<# if (
-				( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) ||
-				( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) )
-			) { #>
+			<# if ( _.isTrue( content.show_cta ) && '' !== content.cta_label && '' !== content.cta_url ) { #>
 
 				<footer class="hustle-modal-footer">
-
-					<# if ( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) { #>
-
-						<div class="hustle-gdpr-box">
-
-							<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
-
-								<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
-
-								<span aria-hidden="true"></span>
-
-							</label>
-
-							<div class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
-
-						</div>
-
-					<# } #>
 
 					<# if ( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) ) { #>
 
@@ -261,15 +224,17 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 		</div>
 
-	<# } #>
-
-	<# if ( 'cabriolet' === design.style ) { #>
+	<# } else { // ( 'cabriolet' === design.style ) #>
 
 		<div class="hustle-modal-body hustle-modal-image_{{ design.feature_image_position }}">
 
 			<# if ( _.isTrue( content.has_title ) && ( '' !== content.title || '' !== content.sub_title ) ) { #><header class="hustle-modal-header hustle-modal-with-title"><# } else { #><header class="hustle-modal-header"><# } #>
 
-				<div class="hustle-modal-close" aria-hidden="true"><?php echo $close_icon; //phpcs:ignore ?></div>
+				<# if ( 'embedded' !== module_type ) { #>
+
+					<div class="hustle-modal-close" aria-hidden="true"><?php echo $close_icon; //phpcs:ignore ?></div>
+
+				<# } #>
 
 				<# if ( _.isTrue( content.has_title ) && '' !== content.title ) { #>
 					<h1 class="hustle-modal-title">{{ content.title }}</h1>
@@ -283,7 +248,6 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 			<# if (
 				'' !== content.main_content ||
-				( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) ||
 				( _.isTrue( content.use_feature_image ) && '' !== content.feature_image ) ||
 				( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) )
 			) { #>
@@ -314,7 +278,6 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 					<# if (
 						'' !== content.main_content ||
-						( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) ||
 						( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) )
 					) { #>
 
@@ -328,34 +291,13 @@ $close_icon = '<svg width="150" height="150" viewBox="0 0 150 150" xmlns="http:/
 
 								<# } #>
 
-								<# if (
-									( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) ||
-									( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) )
-								) { #>
+								<# if ( _.isTrue( content.show_cta ) && '' !== content.cta_label && '' !== content.cta_url ) { #>
 
 									<div class="hustle-modal-footer">
 
 										<# if ( _.isTrue( content.show_cta ) && ( '' !== content.cta_label && '' !== content.cta_url ) ) { #>
 
 											<a target="_{{ content.cta_target }}" href="{{ content.cta_url }}" class="hustle-modal-cta">{{ content.cta_label }}</a>
-
-										<# } #>
-
-										<# if ( _.isTrue( content.show_gdpr ) && '' !== content.gdpr_message ) { #>
-
-											<div class="hustle-gdpr-box">
-
-												<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
-
-													<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
-
-													<span aria-hidden="true"></span>
-
-												</label>
-
-												<div class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
-
-											</div>
 
 										<# } #>
 

@@ -25,6 +25,7 @@
                 <input type="number" value="{{expiration}}" class="wpmudev-input_number" data-attribute="expiration" >
 
                 <select class="wpmudev-select" data-attribute="expiration_unit" >
+                    <option value="hours" {{ ( 'hours' === expiration_unit ) ? 'selected' : '' }} ><?php esc_attr_e( "hours", Opt_In::TEXT_DOMAIN ); ?></option>
                     <option value="days" {{ ( 'days' === expiration_unit ) ? 'selected' : '' }} ><?php esc_attr_e( "days", Opt_In::TEXT_DOMAIN ); ?></option>
                     <option value="weeks" {{ ( 'weeks' === expiration_unit ) ? 'selected' : '' }} ><?php esc_attr_e( "weeks", Opt_In::TEXT_DOMAIN ); ?></option>
                     <option value="months" {{ ( 'months' === expiration_unit ) ? 'selected' : '' }} ><?php esc_attr_e( "months", Opt_In::TEXT_DOMAIN ); ?></option>

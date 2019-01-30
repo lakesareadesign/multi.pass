@@ -28,9 +28,9 @@ FLBuilder::register_settings_form('module_advanced', array(
 							'responsive' => $global_settings->module_margins_responsive_unit,
 						),
 						'placeholder' => array(
-							'default'    => $global_settings->module_margins,
-							'medium'     => $global_settings->module_margins_medium,
-							'responsive' => $global_settings->module_margins_responsive,
+							'default'    => empty( $global_settings->module_margins ) ? '0' : $global_settings->module_margins,
+							'medium'     => empty( $global_settings->module_margins_medium ) ? '0' : $global_settings->module_margins_medium,
+							'responsive' => empty( $global_settings->module_margins_responsive ) ? '0' : $global_settings->module_margins_responsive,
 						),
 					),
 				),

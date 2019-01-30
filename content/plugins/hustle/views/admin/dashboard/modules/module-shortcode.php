@@ -143,7 +143,7 @@ $content_hide = false;
 
         <?php } else { ?>
 
-            <p><?php esc_attr_e("Here you can create an Embed module with your custom content, or for collectiong users' emails. Embed modules can then be appended to posts or pages, or displayed inside widgets and shortcodes.", Opt_In::TEXT_DOMAIN); ?></p>
+            <p><?php esc_attr_e("Here you can create an Embed module with your custom content, or for collecting users' emails. Embed modules can then be appended to posts or pages, or displayed inside widgets and shortcodes.", Opt_In::TEXT_DOMAIN); ?></p>
 
             <p><a href="<?php echo esc_url( admin_url( "admin.php?page=" . Hustle_Module_Admin::EMBEDDED_WIZARD_PAGE ) ); ?>" class="wpmudev-button wpmudev-button-sm wpmudev-button-ghost"><?php esc_attr_e("Create Embed Module", Opt_In::TEXT_DOMAIN); ?></a></p>
 

@@ -74,6 +74,8 @@ class Hustle_Embedded_Admin {
 		$module_id = filter_input( INPUT_GET, "id", FILTER_VALIDATE_INT );
 		$provider = filter_input( INPUT_GET, "provider" );
 		$current_section = Hustle_Module_Admin::get_current_section();
+		$recaptcha_settings = Hustle_Module_Model::get_recaptcha_settings();
+		$recaptcha_enabled = isset( $recaptcha_settings['enabled'] ) && '1' === $recaptcha_settings['enabled'];
 
 		$this->_hustle->render( "/admin/embedded/wizard", array(
 			"section" => ( !$current_section ) ? 'content' : $current_section,
@@ -87,6 +89,7 @@ class Hustle_Embedded_Admin {
 			"save_nonce" => wp_create_nonce("hustle_save_embedded_module"),
 			"shortcode_render_nonce" => wp_create_nonce("hustle_shortcode_render"),
 			'default_form_fields' => $this->_hustle->get_default_form_fields(),
+			'recaptcha_enabled' => $recaptcha_enabled,
 		));
 	}
 

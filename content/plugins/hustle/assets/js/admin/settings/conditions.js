@@ -74,7 +74,7 @@
 				.removeClass( "wph-conditions--open" )
 				.addClass( "wph-conditions--closed" );
 			$('.wph-conditions--box .wph-conditions--item:not(:last-child) section').hide();
-			
+
 			if( this.rendered && typeof this.rendered === "function")
 				this.rendered.apply(this, arguments);
 
@@ -180,7 +180,7 @@
 			posts: []
 		},
 		on_init: function(){
-			this.listenTo(this.model, "change", this.render );
+//			this.listenTo(this.model, "change", this.render );
 			this.update_label();
 		},
 		get_header: function(){
@@ -213,6 +213,27 @@
 			this.$('.js-wpoi-select').wpmuiSelect({
 				tags: "true",
 				width : "100%",
+				ajax: {
+					url: ajaxurl,
+					delay: 250, // wait 250 milliseconds before triggering the request
+					dataType: 'json',
+					type: "POST",
+					data: function(params) {
+						var query = {
+							action: 'get_new_condition_ids',
+							search: params.term,
+							post_type: 'post'
+						};
+
+						return query;
+					},
+					processResults: function (data) {
+						return {
+						  results: data.data
+						};
+					},
+					cache: true
+				},
 				createTag: function(){ return false; }
 			})
 			.on('select2:selecting', either_all_or_others )
@@ -234,7 +255,7 @@
 			pages: []
 		},
 		on_init: function(){
-			this.listenTo(this.model, "change", this.render );
+//			this.listenTo(this.model, "change", this.render );
 			this.update_label();
 		},
 		get_header: function(){
@@ -265,9 +286,30 @@
 		},
 		rendered: function(){
 			this.$('.js-wpoi-select').wpmuiSelect({
-					tags: "true",
-					width : "100%",
-					createTag: function(){ return false; }
+				tags: "true",
+				width : "100%",
+				ajax: {
+					url: ajaxurl,
+					delay: 250, // wait 250 milliseconds before triggering the request
+					dataType: 'json',
+					type: "POST",
+					data: function(params) {
+						var query = {
+							action: 'get_new_condition_ids',
+							search: params.term,
+							post_type: 'page'
+						};
+
+						return query;
+					},
+					processResults: function (data) {
+						return {
+						  results: data.data
+						};
+					},
+					cache: true
+				},
+				createTag: function(){ return false; }
 				})
 			.on('select2:selecting', either_all_or_others )
 			.on('select2:selecting', reenable_scroll )
@@ -293,7 +335,7 @@
 				post_type_label: cpt_details.label,
 			},
 			on_init: function(){
-				this.listenTo(this.model, "change", this.render );
+//				this.listenTo(this.model, "change", this.render );
 				this.update_label();
 			},
 			get_header: function(){
@@ -326,6 +368,27 @@
 				this.$('.js-wpoi-select').wpmuiSelect({
 					tags: "true",
 					width : "100%",
+					ajax: {
+						url: ajaxurl,
+						delay: 250, // wait 250 milliseconds before triggering the request
+						dataType: 'json',
+						type: "POST",
+						data: function(params) {
+							var query = {
+								action: 'get_new_condition_ids',
+								search: params.term,
+								post_type: cpt
+							};
+
+							return query;
+						},
+						processResults: function (data) {
+							return {
+							  results: data.data
+							};
+						},
+						cache: true
+					},
 					createTag: function(){ return false; }
 				})
 				.on('select2:selecting', either_all_or_others )
@@ -347,7 +410,7 @@
 			categories: []
 		},
 		on_init: function(){
-			this.listenTo(this.model, "change", this.render );
+//			this.listenTo(this.model, "change", this.render );
 			this.update_label();
 		},
 		get_header: function(){
@@ -381,6 +444,27 @@
 			this.$('.js-wpoi-select').wpmuiSelect({
 					tags: "true",
 					width : "100%",
+					ajax: {
+						url: ajaxurl,
+						delay: 250, // wait 250 milliseconds before triggering the request
+						dataType: 'json',
+						type: "POST",
+						data: function(params) {
+							var query = {
+								action: 'get_new_condition_ids',
+								search: params.term,
+								post_type: 'category'
+							};
+
+							return query;
+						},
+						processResults: function (data) {
+							return {
+							  results: data.data
+							};
+						},
+						cache: true
+					},
 					createTag: function(){ return false; }
 			})
 			.on('select2:selecting', reenable_scroll )
@@ -400,7 +484,7 @@
 			tags: []
 		},
 		on_init: function(){
-			this.listenTo(this.model, "change", this.render );
+//			this.listenTo(this.model, "change", this.render );
 			this.update_label();
 		},
 		get_header: function(){
@@ -433,6 +517,27 @@
 			this.$('.js-wpoi-select').wpmuiSelect({
 					tags: "true",
 					width : "100%",
+					ajax: {
+						url: ajaxurl,
+						delay: 250, // wait 250 milliseconds before triggering the request
+						dataType: 'json',
+						type: "POST",
+						data: function(params) {
+							var query = {
+								action: 'get_new_condition_ids',
+								search: params.term,
+								post_type: 'tag'
+							};
+
+							return query;
+						},
+						processResults: function (data) {
+							return {
+							  results: data.data
+							};
+						},
+						cache: true
+					},
 					createTag: function(){ return false; }
 			})
 			.on('select2:selecting', reenable_scroll )

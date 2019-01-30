@@ -90,7 +90,7 @@ final class FL_Debug {
 
 	private static function prepare_tests() {
 
-		global $wpdb, $wp_version;
+		global $wpdb, $wp_version, $wp_json;
 
 		$args = array(
 			'name' => 'WordPress',
@@ -221,6 +221,12 @@ final class FL_Debug {
 			'data' => php_sapi_name(),
 		);
 		self::register( 'php_sapi', $args );
+
+		$args = array(
+			'name' => 'PHP JSON Support',
+			'data' => ( $wp_json instanceof Services_JSON ) ? '*** NO JSON MODULE ***' : 'yes',
+		);
+		self::register( 'php_json', $args );
 
 		$args = array(
 			'name' => 'PHP Memory Limit',

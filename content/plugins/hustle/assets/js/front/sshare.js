@@ -70,7 +70,8 @@
 			var parent_container = this.parent,
 				location_align_x = this.model_json.location_align_x,
 				location_align_y = this.model_json.location_align_y,
-				current_tpl_settings = _.templateSettings;
+				current_tpl_settings = _.templateSettings,
+                $this = this;
 				
 			// if needs compatibility e.g. upfront which uses another _.templateSettings
 			if ( this.is_compat ) {
@@ -92,14 +93,38 @@
 					parent_container = $('#content');
 				} else if ( this.model_json.location_type === 'selector' ) {
 					parent_container = $( this.model_json.location_target );
+					parent_container.parent().css({
+						'position': 'relative'
+					});
 				} else {
 					parent_container = $('body');
 				}
 			}
 			
-			if ( parent_container.length == 0 ) return;
-			this.$el.appendTo(parent_container);
-			
+			if ( parent_container.length == 0 ) {
+				/**
+				 * Add counter to load try
+				 */
+				if ( "undefined" === typeof window.sshare_load_try ) {
+					window.sshare_load_try = 0;
+				}
+				/**
+				 * Try to load in the future, after 1s
+				 */
+				window.setTimeout( function() {
+					/**
+					 * try 5 times to load
+					 */
+					if ( 5 < window.sshare_load_try ) {
+						return;
+					}
+					window.sshare_load_try += 1;
+					$this.render();
+				}, 1000 );
+				return;
+			}
+			this.$el.appendTo( parent_container );
+
 			// location align for floating social
 			if ( this.module_display_type === 'floating_social' ) {
 				var $floating_social_container = $('.hustle-sshare-module-id-' + this.model_json.module_id);

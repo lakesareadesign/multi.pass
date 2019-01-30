@@ -220,6 +220,7 @@ if ( $is_edit && $module ) {
 			</tfoot>
 		</table>
 
+
 	</div>
 
 </div><?php // #wph-wizard-content-email ?>
@@ -231,6 +232,7 @@ $this->render( "admin/popup/wizard/boxes/box-form_elements", array(
 ) );
 ?>
 
+<?php $this->render( "admin/popup/wizard/boxes/box-gdpr", array() ); ?>
 
 <?php $this->render( "admin/popup/wizard/boxes/box-form_submission", array() ); ?>
 

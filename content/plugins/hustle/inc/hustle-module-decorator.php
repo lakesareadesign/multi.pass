@@ -179,10 +179,14 @@ class Hustle_Module_Decorator extends Opt_In {
 			}
 
 			// Colors Palette: Opt-in Form
-			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . '{ background-color: ' . $colors['optin_input_static_bg'] . '; }'; // Input field background
-			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . ':hover { background-color: ' . $colors['optin_input_hover_bg'] . '; }'; // Input field background (hover)
-			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . ' input { color: ' . $colors['optin_form_field_text_static_color'] . '; }'; // Input field text
-			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . ' input:hover { color: ' . $colors['optin_form_field_text_hover_color'] . '; }'; // Input field text (hover)
+			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . '{
+				background-color: ' . $colors['optin_input_static_bg'] . ';
+				color: ' . $colors['optin_form_field_text_static_color'] . ';
+			}'; // Input field
+			$styles .= ' ' . $prefix . $stylable_elements['optin_input'] . ':hover {
+				background-color: ' . $colors['optin_input_hover_bg'] . ';
+				color: ' . $colors['optin_form_field_text_hover_color'] . ';
+			}'; // Input field (hover)
 			$styles .= ' ' . $prefix . $stylable_elements['optin_input_icon'] . '{ fill: ' . $colors['optin_input_icon'] . '; }'; // Input field icon color
 			$styles .= ' ' . $prefix . $stylable_elements['optin_placeholder'] . '{ color: ' . $colors['optin_placeholder_color'] . '; }'; // Input placeholder color
 			$styles .= ' ' . $prefix . $stylable_elements['optin_button'] . '{'
@@ -471,7 +475,7 @@ class Hustle_Module_Decorator extends Opt_In {
 			'optin_button'                    => '.hustle-modal form .hustle-modal-optin_button button',
 			'optin_success_content'           => '.hustle-modal .hustle-modal-success .hustle-modal-success_message, .hustle-modal .hustle-modal-success .hustle-modal-success_message *',
 			'optin_success_tick'              => '.hustle-modal .hustle-modal-success .hustle-modal-success_icon .hustle-icon path',
-			'optin_submit_failure'            => '.hustle-modal .hustle-modal-optin_form .wpoi-submit-failure',
+			'optin_submit_failure'            => '.hustle-modal .wpoi-submit-failure',
 			'optin_checkbox'                  => '.hustle-modal .hustle-modal-mc_checkbox input+label',
 			'optin_checkbox_checked'          => '.hustle-modal .hustle-modal-mc_checkbox input:checked+label',
 			'optin_radio'                     => '.hustle-modal .hustle-modal-mc_radio input+label',

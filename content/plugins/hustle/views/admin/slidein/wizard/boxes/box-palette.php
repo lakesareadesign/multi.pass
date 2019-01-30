@@ -4,7 +4,7 @@
 
 		<h4><strong><?php esc_attr_e( "Colors Palette", Opt_In::TEXT_DOMAIN ); ?></strong></h4>
 
-		<label class="wpmudev-helper"><?php esc_attr_e( "Choose a pre-made palette for your Slide-in and further customize it’s appearance.", Opt_In::TEXT_DOMAIN ); ?></label>
+		<label class="wpmudev-helper"><?php esc_attr_e( "Choose a pre-made palette for your Slide-in and further customize its appearance.", Opt_In::TEXT_DOMAIN ); ?></label>
 
 	</div>
 

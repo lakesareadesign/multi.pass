@@ -57,8 +57,6 @@
 
     </section>
 
-    <?php $this->render("admin/commons/footer" ); ?>
-
     <?php
 	$this->render( "admin/dashboard/modals/cumulative-shares", array(
 		'ss_share_stats_data' => $ss_share_stats_data,
@@ -68,3 +66,5 @@
 	?>
 
 </main>
+
+<?php $this->render( 'admin/footer/footer-large' ); ?>

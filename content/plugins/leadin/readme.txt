@@ -2,8 +2,8 @@
 Contributors: HubSpotDev, leadin
 Tags: form, forms, form builder, contact form, email
 Requires at least: 3.7
-Tested up to: 4.9
-Stable tag: 7.0.1
+Tested up to: 5.0
+Stable tag: 7.0.2
 
 The Contact Form Builder plugin, a part of HubSpot's Conversion Tools, allows you to create WordPress forms using <a href="https://hubspot.com/products/marketing/forms?utm_source=wordpress-plugin-listing&utm_campaign=wordpress&utm_medium=marketplaces" target="_blank">HubSpot's drag & drop Form Builder</a> in a few clicks to start capturing leads on your website.
 
@@ -201,8 +201,12 @@ Please <a href="https://community.hubspot.com?utm_source=wordpress-plugin-listin
 
 == Changelog ==
 
-- Current version: 7.0.1
-- Current version release: 2018-10-12
+- Current version: 7.0.2
+- Current version release: 2019-01-22
+
+= 7.0.2 (2019.01.22) =
+- Plugin readme update
+- Fix wrong settings link
 
 = 7.0.1 (2018.10.12) =
 - Send page analytics data into HubSpot

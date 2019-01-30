@@ -5,6 +5,11 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+1.6 - 2019-1-29
+----------------------------------------------------------------------
+- New: Add new Gutenberg editor videos and show them in Gutenberg sidebar
+- New: Revert to old visual editor videos when Classic Editor plugin is installed
+
 1.5.8 - 08/05/2018
 ----------------------------------------------------------------------
 - Fix: Bug from bad git merge breaking group shortcodes
@@ -153,4 +158,4 @@ Change Log:
 - Initial Release
 
 
-133620-1534734147-au
+133620-1548827454-au

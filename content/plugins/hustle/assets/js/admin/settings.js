@@ -5,12 +5,16 @@
 	var Modules_Activity = Hustle.get("Settings.Modules_Activity"),
 		Mail_Settings = Hustle.get( 'Settings.Mail_Settings' ),
 		Unsubscribe_Settings = Hustle.get( 'Settings.Unsubscribe_Settings' ),
-		Gdpr_Settings = Hustle.get("Settings.Gdpr_Settings");
+		Gdpr_Settings = Hustle.get("Settings.Gdpr_Settings"),
+		reCAPTCHA_Settings = Hustle.get( 'Settings.reCAPTCHA_Settings' );
+		//Services = Hustle.get("Settings.Services");
 
 	var m_activity = new Modules_Activity(),
 		mail = new Mail_Settings(),
 		unsubscribe = new Unsubscribe_Settings(),
-		gdpr_settings = new Gdpr_Settings();
+		gdpr_settings = new Gdpr_Settings(),
+		recaptcha = new reCAPTCHA_Settings();
+	//var service = new Services();
 
 	// Accordion functionality.
 	$(".wpmudev-box .wpmudev-box-head").on('click', function(e) {

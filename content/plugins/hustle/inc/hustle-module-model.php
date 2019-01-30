@@ -97,6 +97,78 @@ class Hustle_Module_Model extends Hustle_Model {
 	}
 
 	/**
+	 * Get the module's data. Used to display it.
+	 *
+	 * @since 3.0.7
+	 *
+	 * @param bool is_preview
+	 * @return array
+	 */
+	public function get_module_data_to_display( $is_preview = false ) {
+
+		if ( 'social_sharing' === $this->module_type ) {
+			global $post;
+
+			$data = array(
+				'content' => $this->get_sshare_content()->to_array(),
+				'design' => $this->get_sshare_design()->to_array(),
+				'settings' => $this->get_sshare_display_settings()->to_array(),
+				'tracking_types' => $this->get_tracking_types(),
+				'test_types' => $this->get_test_types()
+			);
+
+			$data = wp_parse_args( $this->get_data(), $data );
+
+			if( ! $is_preview && $this->is_click_counter_type_enabled( 'native' ) && is_object( $post ) ) {
+				$data = $this->set_network_shares( $data, $post->ID );
+			}
+
+			// backwards compatibility for new counter types from 3.0.3
+			if ( isset( $data['content']['click_counter'] ) ) {
+				if ( '1' === $data['content']['click_counter'] ) {
+					$data['content']['click_counter'] = 'click';
+				} elseif ( '0' === $data['content']['click_counter'] ) {
+					$data['content']['click_counter'] = 'none';
+				}
+			}
+		} else {
+
+			$data = array(
+				'content' => $this->get_content()->to_array(),
+				'design' => $this->get_design()->to_array(),
+				'settings' => $this->get_display_settings()->to_array(),
+				'tracking_types' => $this->get_tracking_types(),
+				'test_types' => $this->get_test_types()
+			);
+
+			$data = wp_parse_args( $this->get_data(), $data );
+
+			if ( isset( $data['content']['main_content'] ) && ! empty( $data['content']['main_content'] ) ) {
+				$data['content']['main_content'] = do_shortcode( $data['content']['main_content'] );
+			}
+
+			// handle provider args
+			if ( isset( $data['content']['active_email_service'] ) ) {
+				$provider = Opt_In_Utils::get_provider_by_slug( $data['content']['active_email_service'] );
+				if( is_callable( array( $provider, 'get_args' ) ) ) {
+					$data['content']['args'] = $provider->get_args( $data['content'] );
+					if ( ! empty( $data['content']['args'] ) ) {
+						$data['content']['args']['module_id'] = $data['module_id'];
+					}
+				}
+			}
+
+			// remove provider credentials
+			if ( isset( $data['content']['email_services'] ) ) {
+				unset($data['content']['email_services']);
+			}
+
+		}
+
+		return $data;
+	}
+
+	/**
 	 * Save log to DB for every failed subscription.
 	 *
 	 * @param (array) $data			Submitted field data.
@@ -535,6 +607,24 @@ class Hustle_Module_Model extends Hustle_Model {
 		$email_settings = wp_parse_args( $saved_email_settings, $default_email_settings );
 
 		return apply_filters( 'hustle_get_email_settings', $email_settings );
+	}
+
+	/**
+	 * Gets the saved or default global reCaptcha settings.
+	 *
+	 * @since 3.0.5
+	 * @return array
+	 */
+	public static function get_recaptcha_settings() {
+		$default = array(
+			'enabled' => '0',
+			'sitekey' => '',
+			'secret' => '',
+		);
+		$saved_settings = get_option( 'hustle_settings', array() );
+		$saved_recaptcha = !empty( $saved_settings['recaptcha'] ) ? $saved_settings['recaptcha'] : array();
+		$recaptcha_settings = wp_parse_args( $saved_recaptcha, $default );
+		return apply_filters( 'hustle_get_recaptcha_settings', $recaptcha_settings );
 	}
 
 }

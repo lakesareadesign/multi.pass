@@ -10,8 +10,6 @@
 
     <?php $this->render( "admin/embedded/wizard/boxes/box-cta", array() ); ?>
 
-    <?php $this->render( "admin/embedded/wizard/boxes/box-gdpr", array() ); ?>
-
     <?php $this->render( "admin/embedded/wizard/boxes/box-email", array(
         'is_edit' => $is_edit,
         'module' => $module,

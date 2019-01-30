@@ -82,11 +82,7 @@
 
 	<div class="wpmudev-dots-dropdown">
 
-		<button class="wpmudev-dots-button"><svg height="4" width="16">
-			<circle cx="2" cy="2" r="2" fill="#B5BBBB" />
-			<circle cx="8" cy="2" r="2" fill="#B5BBBB" />
-			<circle cx="14" cy="2" r="2" fill="#B5BBBB" />
-		</svg></button>
+		<button class="wpmudev-dots-button"><span></span></button>
 
 		<ul class="wpmudev-dots-nav wpmudev-hide">
 
@@ -305,8 +301,6 @@
 
         </section>
 
-        <?php $this->render( "admin/commons/footer", array() ); ?>
-
         <?php $this->render("admin/commons/listing/delete-confirmation"); ?>
 
 		<?php $this->render("admin/commons/listing/modal-import"); ?>
@@ -316,30 +310,4 @@
 
 <?php } ?>
 
-<!--<script>
-(function($) {
-
-	var item       = $('.wpmudev-list .wpmudev-list--element'),
-		totalItems = item.length,
-		itemCount  = totalItems;
-
-	item.each(function() {
-
-		$(this).css('z-index', itemCount);
-		itemCount--;
-
-		var dropdown	= $(this).find('.wpmudev-dots-dropdown'),
-			button		= dropdown.find('.wpmudev-dots-button'),
-			droplist	= dropdown.find('.wpmudev-dots-nav');
-
-		droplist.addClass('wpmudev-hide');
-
-		button.on('click', function(){
-			$(this).toggleClass('wpmudev-active');
-			droplist.toggleClass('wpmudev-hide');
-		});
-
-	});
-
-}(jQuery));
-</script> -->
+<?php $this->render( 'admin/footer/footer-simple' ); ?>

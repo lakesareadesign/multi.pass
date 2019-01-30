@@ -157,7 +157,7 @@
 
                     <label class="wpmudev-helper"><?php esc_attr_e( "Use shortcode to render clickable button", Opt_In::TEXT_DOMAIN ); ?></label>
 
-                    <input type="text" value="[wd_hustle id='new-hustle' type='aftercontent']Click here[/wd_hustle]" data-attribute="" class="wpmudev-shortcode" disabled>
+                    <input type="text" value="[wd_hustle id='new-hustle' type='aftercontent']Click here[/wd_hustle]" data-attribute="" class="wpmudev-shortcode" readonly="readonly" />
 
                     <label class="wpmudev-helper"><?php esc_attr_e( "Trigger after user clicks on existing element with this ID or Class", Opt_In::TEXT_DOMAIN ); ?></label>
 

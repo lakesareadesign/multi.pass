@@ -227,6 +227,7 @@ $this->render( "admin/slidein/wizard/boxes/box-form_elements", array(
 ) );
 ?>
 
+<?php $this->render( "admin/slidein/wizard/boxes/box-gdpr", array() ); ?>
 
 <?php $this->render( "admin/slidein/wizard/boxes/box-form_submission", array() ); ?>
 

@@ -209,11 +209,7 @@
 
 											<div class="wpmudev-dots-dropdown">
 
-												<button class="wpmudev-dots-button"><svg height="4" width="16">
-													<circle cx="2" cy="2" r="2" fill="#B5BBBB" />
-													<circle cx="8" cy="2" r="2" fill="#B5BBBB" />
-													<circle cx="14" cy="2" r="2" fill="#B5BBBB" />
-												</svg></button>
+												<button class="wpmudev-dots-button"><span></span></button>
 
 												<ul class="wpmudev-dots-nav wpmudev-hide">
 
@@ -269,8 +265,6 @@
 
 		</section>
 
-		<?php $this->render( "admin/commons/footer", array() ); ?>
-
 		<?php $this->render("admin/commons/listing/modal-error"); ?>
 
 		<?php $this->render("admin/commons/listing/modal-email"); ?>
@@ -283,3 +277,5 @@
 	</main>
 
 <?php } ?>
+
+<?php $this->render( 'admin/footer/footer-simple' ); ?>

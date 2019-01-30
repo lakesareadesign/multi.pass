@@ -65,11 +65,11 @@
 <script id="wpmudev-hustle-modal-add-form-fields-tpl" type="text/template">
 
 	<#
-	var field_label = ( 'undefined' !== typeof field.label ) ? field.label : '<?php esc_attr_e( 'Field Label', Opt_In::TEXT_DOMAIN ); ?>',
-		field_name = ( 'undefined' !== typeof field.name ) ? field.name : '<?php esc_attr_e( 'Field Name', Opt_In::TEXT_DOMAIN ); ?>',
-		field_type = ( 'undefined' !== typeof field.type ) ? field.type : '<?php esc_attr_e( 'Field Type', Opt_In::TEXT_DOMAIN ); ?>',
-		field_placeholder = ( 'undefined' !== typeof field.placeholder ) ? field.placeholder : '<?php esc_attr_e( 'Field Placeholder', Opt_In::TEXT_DOMAIN ); ?>',
-        field_delete = ( 'undefined' !== typeof field.delete ) ? field.delete : true;
+		var field_label = ( 'undefined' !== typeof field.label ) ? field.label : '<?php esc_attr_e( 'Field Label', Opt_In::TEXT_DOMAIN ); ?>',
+			field_name = ( 'undefined' !== typeof field.name ) ? field.name : '<?php esc_attr_e( 'Field Name', Opt_In::TEXT_DOMAIN ); ?>',
+			field_type = ( 'undefined' !== typeof field.type ) ? field.type : '<?php esc_attr_e( 'Field Type', Opt_In::TEXT_DOMAIN ); ?>',
+			field_placeholder = ( 'undefined' !== typeof field.placeholder ) ? field.placeholder : '<?php esc_attr_e( 'Field Placeholder', Opt_In::TEXT_DOMAIN ); ?>',
+			field_delete = ( 'undefined' !== typeof field.delete ) ? field.delete : true;
 	#>
 
 	<div class="wph-field-row wpmudev-table-body-row {{ ( _.isTrue(new_field) ) ? 'wpmudev-open' : 'wpmudev-close' }}" data-id="{{field_name}}">
@@ -78,29 +78,30 @@
 
             <div class="wpmudev-table-preview-item wpmudev-preview-item-drag"><?php $this->render( "general/icons/icon-drag" ); ?></div>
 
-            <div class="wpmudev-table-preview-item wpmudev-preview-item-label">{{field_label}}</div>
+            <div class="wpmudev-table-preview-item wpmudev-preview-item-label">{{ field_label }}</div>
 
-            <div class="wpmudev-table-preview-item wpmudev-preview-item-name">{{field_name}}</div>
+            <div class="wpmudev-table-preview-item wpmudev-preview-item-name">{{ field_name }}</div>
 
             <div class="wpmudev-table-preview-item wpmudev-preview-item-type">{{field_type}}</div>
 
             <div class="wpmudev-table-preview-item wpmudev-preview-item-required wph-form-field-required-">
 
-				<# if ( 'undefined' !== typeof field.required && _.isTrue( field.required ) ) { #>
+				<# if ( 'undefined' !== typeof field.required && _.isTrue( field.required ) || 'recaptcha' === field_type ) { #>
 					<span class="wpdui-fi wpdui-fi-check"></span>
 				<# } #>
 
 			</div>
 
-            <div class="wpmudev-table-preview-item wpmudev-preview-item-placeholder">{{field_placeholder}}</div>
+            <div class="wpmudev-table-preview-item wpmudev-preview-item-placeholder">{{ field_placeholder }}</div>
 
             <div class="wpmudev-table-preview-item wpmudev-preview-item-manage"><?php $this->render("general/icons/icon-plus" ); ?></div>
 
         </div>
 
         <div class="wpmudev-table-body-content">
+			<# var recaptcha_class = 'recaptcha' === field_type ? ' wpmudev-hidden' : ''; #>
 
-            <div class="wpmudev-row">
+            <div class="wpmudev-row{{ recaptcha_class }}">
 
                 <div class="wpmudev-col col-12 col-sm-6">
 
@@ -136,14 +137,17 @@
                         <option value="number" {{ ( 'number' === field_type ) ? 'selected="selected"' : '' }} ><?php esc_attr_e( "Number", Opt_In::TEXT_DOMAIN ); ?></option>
                         <option value="email" {{ ( 'email' === field_type ) ? 'selected="selected"' : '' }} ><?php esc_attr_e( "Email", Opt_In::TEXT_DOMAIN ); ?></option>
                         <option value="url" {{ ( 'url' === field_type ) ? 'selected="selected"' : '' }} ><?php esc_attr_e( "URL", Opt_In::TEXT_DOMAIN ); ?></option>
-                        <# if ( 'submit' === field_type ) { #>
+                        <?php if ( $recaptcha_enabled ) { ?>
+							<option value="recaptcha" {{ ( 'recaptcha' === field_type ) ? 'selected="selected"' : '' }} ><?php esc_attr_e( "reCaptcha", Opt_In::TEXT_DOMAIN ); ?></option>
+						<?php } ?>
+						<# if ( 'submit' === field_type ) { #>
                             <option value="submit" selected="selected" ><?php esc_attr_e( "Button", Opt_In::TEXT_DOMAIN ); ?></option>
                         <# } #>
                     </select>
 
                 </div>
 
-                <div class="wpmudev-col col-12 col-sm-6">
+                <div class="wpmudev-col col-12 col-sm-6{{ recaptcha_class }}">
 
                     <label><?php esc_attr_e('Field placeholder', Opt_In::TEXT_DOMAIN); ?></label>
 
@@ -159,7 +163,7 @@
 
                     <div class="wpmudev-col col-12 col-sm-6">
 
-                        <div class="wpmudev-switch-labeled">
+                        <div class="wpmudev-switch-labeled{{ recaptcha_class }}">
 
                             <div class="wpmudev-switch">
 

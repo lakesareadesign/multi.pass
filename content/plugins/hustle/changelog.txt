@@ -4,10 +4,23 @@ Author: Danae Millan (Incsub), Daniel Shepard (Incsub), Paul Kevin (Incsub), Lei
 Change Log:
 ----------------------------------------------------------------------
 
-3.0.6.1 - 2018-12-12
+3.0.7 - 2019-01-23
 ----------------------------------------------------------------------
-- Fix style conflict with WPMU Dev dashboard.
-- Fix edge case php error on upgrade.
+- Add Gutenberg blocks.
+- Add reCAPTCHA for opt-in forms.
+- Support double opt-in for ActiveCampaign.
+- Allow users to subscribe again when using Mailchimp.
+- Fix error when opening the modules' wizard in big sites.
+- Fix embedded shortcodes not showing in multisite.
+- Improve export/import in multisite.
+- Fix floating social sharing module always showing relative to the screen.
+- Improve UI and UX details.
+- Fix floating social sharing module not showing when the selector is in certain places.
+- Add hooks for when the modules are created.
+- Improve Visual Composer and Forminator compatibility.
+- Improve compatibility with WPMU Dev host.
+- Add "hours" option to "After module is closed" setting.
+- Removed redundant GDPR checkbox on informational popups due to this feature not being requested, and no data is stored as a result of showing it in an informational popup.
 
 3.0.6 - 2018-12-10
 ----------------------------------------------------------------------
@@ -377,4 +390,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1545065694-au
+133620-1548827435-au

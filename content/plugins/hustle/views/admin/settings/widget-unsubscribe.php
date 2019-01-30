@@ -13,10 +13,7 @@
 		<label class="wpmudev-helper"><?php esc_html_e( 'By default, the Unsubscribe form works for all the modules. If you want to let visitors unsubscribe from specific modules only, add the comma separated module IDs in the ID attribute.', Opt_In::TEXT_DOMAIN ); ?></label>
 		<label class="wpmudev-helper"><?php printf( esc_html__( 'You can find the module\'s ID in the URL of the module\'s wizard page: %s', Opt_In::TEXT_DOMAIN ), '<br>/wp-admin/admin.php?page=hustle_popup&<b>id=58</b>' ); ?></label>
 
-		<input type="text"
-			class="wpmudev-shortcode"
-			value='[wd_hustle_unsubscribe id="" ]'
-			disabled >
+		<input type="text" class="wpmudev-shortcode" value='[wd_hustle_unsubscribe id="" ]' readonly="readonly" />
 
 
 		<form id="wpmudev-settings-unsubscribe-messages" data-nonce="<?php echo esc_attr( wp_create_nonce( 'hustle_save_unsubscribe_messages_settings' ) ); ?>">

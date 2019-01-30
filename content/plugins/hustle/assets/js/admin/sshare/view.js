@@ -140,7 +140,9 @@ Hustle.define("SShare.View", function($, doc, win){
 						var current = optin_vars.current.section || false;
 						if ( 'settings' === current ) {
 							var module_id = resp.data;
-							return window.location.replace( '?page=' + optin_vars.current.listing_page + '&module=' + module_id );
+							if ( $btn.hasClass( 'wpmudev-button-finish' ) ) {
+								return window.location.replace( '?page=' + optin_vars.current.listing_page + '&module=' + module_id );
+							}
 						}
 					}
 				} ).always( function() {

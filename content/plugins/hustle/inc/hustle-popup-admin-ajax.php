@@ -34,10 +34,14 @@ class Hustle_Popup_Admin_Ajax {
 		add_action( "wp_ajax_clear_logs", array( $this, "clear_logs" ) );
 		add_action( "wp_ajax_inc_optin_export_error_logs", array( $this, "export_error_logs" ) );
 		add_action( "wp_ajax_sshare_show_page_content", array( $this, "sshare_show_page_content" ) );
+		add_action( "wp_ajax_get_new_condition_ids", array( $this, "get_new_condition_ids" ) );
 
 		if ( Opt_In_Utils::_is_free() && ! file_exists( WP_PLUGIN_DIR . '/hustle/opt-in.php' ) ) {
 			add_action( 'wp_ajax_hustle_dismiss_admin_notice', array( $this, 'dismiss_admin_notice' ) );
 		}
+
+		add_action( "wp_ajax_hustle_get_module_id_by_shortcode", array( $this, "get_module_id_by_shortcode" ) );
+		add_action( "wp_ajax_hustle_render_module", array( $this, "render_module" ) );
 	}
 
 	public function get_provider_form_settings() {
@@ -105,6 +109,51 @@ class Hustle_Popup_Admin_Ajax {
 		$styles = Opt_In::prepare_css($cssString, "");
 
 		wp_send_json_success( $styles );
+	}
+
+	/**
+	 * Finds and repares select2 options
+	 *
+	 * @global type $wpdb
+	 * @since 3.0.7
+	 */
+	public function get_new_condition_ids() {
+		$post_type = filter_input( INPUT_POST, 'post_type', FILTER_SANITIZE_STRING );
+		$search = filter_input( INPUT_POST, 'search' );
+		$result = array();
+		$limit = 30;
+		if ( !empty( $post_type ) ) {
+			if ( in_array( $post_type, array( 'tag', 'category' ), true ) ) {
+				$args = array(
+					'hide_empty' =>false,
+					'search' => $search,
+					'number' => $limit,
+				);
+				if ( 'tag' === $post_type ) {
+					$args['taxonomy'] = 'post_tag';
+				}
+				$result = array_map(array( 'Hustle_Module_Admin', "terms_to_select2_data"), get_categories( $args ));
+			} else {
+				global $wpdb;
+				$result = $wpdb->get_results( $wpdb->prepare( "SELECT ID as id, post_title as text FROM {$wpdb->posts} "
+				. "WHERE post_type = %s AND post_status = 'publish' AND post_title LIKE %s LIMIT " . intval( $limit ), $post_type, '%'. $search . '%' ) );
+
+				$obj = get_post_type_object( $post_type );
+				$all_items = !empty( $obj ) && !empty( $obj->labels->all_items )
+						? $obj->labels->all_items : __( "All Items", Opt_In::TEXT_DOMAIN );
+				/**
+				 * Add ALL Items option
+				 */
+				$all = new stdClass();
+				$all->id = "all";
+				$all->text = $all_items;
+				if ( empty( $search ) || false !== stripos( $all_items, $search ) ) {
+					array_unshift($result, $all);
+				}
+			}
+		}
+
+		wp_send_json_success( $result );
 	}
 
 	/**
@@ -309,10 +358,16 @@ class Hustle_Popup_Admin_Ajax {
 
 		$result = $module->change_test_mode( true );
 
-		if( false !== $result && !is_wp_error( $result ) )
+		if ( $result && !is_wp_error( $result ) ) {
 			wp_send_json_success( __("Successful", Opt_In::TEXT_DOMAIN) );
-		else
-			wp_send_json_error( $result->get_error_message() );
+		} else {
+			if ( is_wp_error( $result ) ) {
+				$message = $result->get_error_message();
+			} else {
+				$message = false === $result ? 'There was an error updating.' : 'No updated rows.';
+			}
+			wp_send_json_error( $message );
+		}
 	}
 
 	public function import_module() {
@@ -700,6 +755,95 @@ class Hustle_Popup_Admin_Ajax {
 		}
 
 		wp_send_json_success();
+	}
+
+	/**
+	 * Get the module_id by the shortcode_id provided.
+	 * Used by Gutenberg to create blocks.
+	 *
+	 * @since 3.0.7
+	 *
+	 * @return void
+	 */
+	public function get_module_id_by_shortcode() {
+		Opt_In_Utils::validate_ajax_call( "hustle_gutenberg_get_module" );
+
+		$shortcode_id = filter_input( INPUT_GET, 'shortcode_id', FILTER_SANITIZE_STRING );
+		$module_type = filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING );
+
+		$enforce_type = ( 'embedded' === $module_type || 'social_sharing' === $module_type ) ? true : false;
+		$module = Hustle_Module_Model::instance()->get_by_shortcode( $shortcode_id, $enforce_type );
+
+		wp_send_json_success( array( 'module_id' => $module->id ) );
+	}
+
+	/**
+	 * Send the module's data to be rendered in Gutenberg.
+	 *
+	 * @since 3.0.7
+	 *
+	 */
+	public function render_module() {
+		Opt_In_Utils::validate_ajax_call( "hustle_gutenberg_get_module" );
+
+		$module_id = filter_input( INPUT_GET, 'module_id', FILTER_SANITIZE_STRING );
+		$shortcode_id = filter_input( INPUT_GET, 'shortcode_id', FILTER_SANITIZE_STRING );
+		$module_type = filter_input( INPUT_GET, 'type', FILTER_SANITIZE_STRING );
+
+		if ( $module_id ) {
+			$module = Hustle_Module_Model::instance()->get( $module_id );
+
+		} elseif ( $shortcode_id ) {
+			$enforce_type = ( 'embedded' === $module_type || 'social_sharing' === $module_type ) ? true : false;
+			$module = Hustle_Module_Model::instance()->get_by_shortcode( $shortcode_id, $enforce_type );
+
+		}
+
+		if ( ( ! $module_id && ! $shortcode_id ) || ! $module->id ) {
+			wp_send_json_error();
+		}
+
+		if ( 'social_sharing' === $module->module_type ) {
+			$module = Hustle_SShare_Model::instance()->get( $module->id );
+		}
+
+		$data = $module->get_module_data_to_display( true );
+
+
+		if ( 'social_sharing' === $module->module_type ) {
+			$shortcode_class = Hustle_Module_Front::SSHARE_SHORTCODE_CSS_CLASS;
+
+			$html = $this->_hustle->render( 'general/sshare', array(), true );
+
+		} else {
+			$shortcode_class = Hustle_Module_Front::SHORTCODE_CSS_CLASS;
+
+			$is_optin = ( ! $data['content']['use_email_collection'] || 'false' === $data['content']['use_email_collection'] ) ? false : true;
+
+			if ( $is_optin ) {
+				$html = $this->_hustle->render( 'general/modals/optin-true', array(), true );
+
+			} else {
+				$html = $this->_hustle->render( 'general/modals/optin-false', array(), true );
+
+			}
+		}
+
+		$data['shortcode_id'] = $shortcode_id;
+
+		$class =  $shortcode_class . ' hustle_module_' . esc_attr( $module->id ) . ' module_id_' . esc_attr( $module->id );
+		$opening_wrapper = '<div class="' . $class . '" data-type="shortcode" data-id="' . $module->id . '">';
+
+		$style = '<style type="text/css" class="hustle-module-styles-' . $module->id . '">' . $module->get_decorated()->get_module_styles( $module->module_type ) . '</style>';
+
+		$response = array(
+			'data' => $data,
+			'html' => $html,
+			'style' => $style,
+			'opening_wrapper' => $opening_wrapper
+		);
+
+		wp_send_json_success( $response );
 	}
 }
 endif;

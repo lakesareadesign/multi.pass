@@ -14,7 +14,7 @@
 
 			</div>
 
-			<div style="height:210px;" id="hustle_custom_css" data-nonce="<?php echo esc_attr( wp_create_nonce('hustle_module_prepare_custom_css') ); ?>">{{custom_css}}</div>
+			<div style="height:210px;" id="hustle_custom_css">{{custom_css}}</div>
 
         </div>
 

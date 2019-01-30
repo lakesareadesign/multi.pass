@@ -64,15 +64,15 @@
 		_.each( form_fields , function( form_field ) {
 			var required = '',
 				asterisk = '';
-			if ( 'true' == form_field.required || true == form_field.required ){
+			if ( 'true' == form_field.required || true == form_field.required || 'recaptcha' === form_field.type ){
 				required = 'class="wpmudev-field-required"';
 				asterisk = '<span class="wpdui-fi wpdui-fi-asterisk"></span>';
 			}
 			#>
 			<tr>
-				<td {{{required}}} data-text="<?php esc_attr_e( "Form Element", Opt_In::TEXT_DOMAIN ); ?>">{{{asterisk}}} {{form_field.label}}</td>
+				<td {{{required}}} data-text="<?php esc_attr_e( "Form Element", Opt_In::TEXT_DOMAIN ); ?>">{{{asterisk}}} {{ 'recaptcha' === form_field.type ? '' : form_field.label }}</td>
 				<td data-text="<?php esc_attr_e( "Form Type", Opt_In::TEXT_DOMAIN ); ?>">{{form_field.type}}</td>
-				<td data-text="<?php esc_attr_e( "Default Text", Opt_In::TEXT_DOMAIN ); ?>">{{form_field.placeholder}}</td>
+				<td data-text="<?php esc_attr_e( "Default Text", Opt_In::TEXT_DOMAIN ); ?>">{{ 'recaptcha' === form_field.type ? '' : form_field.placeholder }}</td>
 			</tr>
 			<#
 		});

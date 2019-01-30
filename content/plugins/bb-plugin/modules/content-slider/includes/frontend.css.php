@@ -184,6 +184,10 @@ for ( $i = 0; $i < count( $settings->slides ); $i++ ) {
 
 	// Button Styles
 	if ( 'button' == $slide->cta_type ) {
-		FLBuilder::render_module_css( 'button', $id . ' .fl-slide-' . $i, $module->get_button_settings( $slide ) );
+		FLBuilderCSS::typography_field_rule( array(
+			'settings'     => $slide,
+			'setting_name' => 'btn_typography',
+			'selector'     => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap",
+		) );
 	}
 }

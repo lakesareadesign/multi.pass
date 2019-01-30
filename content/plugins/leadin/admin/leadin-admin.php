@@ -51,12 +51,13 @@ class WPLeadInAdmin {
 		add_action( 'admin_menu', array( &$this, 'leadin_add_menu_items' ) );
 		add_action( 'admin_print_scripts', array( &$this, 'add_leadin_admin_scripts' ) );
 		add_filter( 'plugin_action_links_' . 'leadin/leadin.php', array( $this, 'leadin_plugin_settings_link' ) );
-		
+
 		if ($affiliate = $this->get_affiliate_code()) {
 		    add_option( 'hubspot_affiliate_code', $affiliate );
 		}
+		$this->hydrate_acquisition_attribution();
 	}
-	
+
 	function get_affiliate_code() {
 	    $affiliate = get_option( 'hubspot_affiliate_code');
 	    if (!$affiliate && file_exists(LEADIN_PLUGIN_DIR . '/hs_affiliate.txt' )) {
@@ -66,6 +67,21 @@ class WPLeadInAdmin {
 	        return $affiliate;
 	    }
 	    return false;
+	}
+
+	function get_acquisition_attribution_option() {
+		return get_option('hubspot_acquisition_attribution');
+	}
+
+	function hydrate_acquisition_attribution() {
+		if ($this->get_acquisition_attribution_option()) {
+			return;
+		}
+
+		if (file_exists(LEADIN_PLUGIN_DIR . '/hs_attribution.txt' )) {
+			$acquisition_attribution = trim(file_get_contents(LEADIN_PLUGIN_DIR . '/hs_attribution.txt'));
+			add_option('hubspot_acquisition_attribution', $acquisition_attribution);
+		}
 	}
 
 	function leadin_update_check() {
@@ -131,7 +147,13 @@ class WPLeadInAdmin {
 	 * @return  array
 	 */
 	function leadin_plugin_settings_link( $links ) {
-		$url           = get_admin_url( get_current_blog_id(), 'admin.php?page=leadin' );
+		$oAuthMode = get_option('leadin_oauth_mode');
+		if ($oAuthMode && $oAuthMode == '1') {
+			$page = "leadin_settings";
+		} else {
+			$page = "leadin";
+		}
+		$url           = get_admin_url( get_current_blog_id(), "admin.php?page=$page" );
 		$settings_link = '<a href="' . $url . '">Settings</a>';
 		array_unshift( $links, $settings_link );
 		return $links;
@@ -170,6 +192,7 @@ class WPLeadInAdmin {
 		$leadin_config = array(
 			'portalId'              => get_option( 'leadin_portalId' ),
 			'affiliateCode'         => get_option( 'hubspot_affiliate_code' ),
+			'acquisitionAttributionParams' => $this->get_acquisition_attribution_option(),
 			'slumberMode'           => get_option( 'leadin_slumber_mode' ),
 			'env'                   => constant( 'LEADIN_ENV' ),
 			'user'                  => $this->leadin_get_user_for_tracking(),

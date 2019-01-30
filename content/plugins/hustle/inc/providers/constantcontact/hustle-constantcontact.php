@@ -102,7 +102,7 @@ class Hustle_ConstantContact extends Hustle_Provider_Abstract {
 			$api = new Hustle_ConstantContact_Api();
 			return $api;
 		} else {
-			return new WP_Error( 'error', __( "API Class coul not be initialized", Opt_In::TEXT_DOMAIN )  );
+			return new WP_Error( 'error', __( "API Class could not be initialized", Opt_In::TEXT_DOMAIN )  );
 		}
 
 

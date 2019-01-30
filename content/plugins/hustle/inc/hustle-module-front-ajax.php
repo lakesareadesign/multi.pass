@@ -40,6 +40,39 @@ class Hustle_Module_Front_Ajax {
 			wp_send_json_error( __("Invalid email address", Opt_In::TEXT_DOMAIN) );
 
 		$module = Hustle_Module_Model::instance()->get( $data['module_id'] );
+		$module_content = $module->get_content();
+
+		//check GDPR
+		$show_gdpr = $module_content->show_gdpr;
+		if ( !empty( $show_gdpr ) && empty( $data['gdpr'] ) ) {
+			wp_send_json_error( __( 'You have to agree to our terms and conditions.', Opt_In::TEXT_DOMAIN ) );
+		}
+
+		$form_elements = is_array( $module_content->form_elements ) ? $module_content->form_elements : json_decode( $module_content->form_elements );
+		$recaptcha_settings = Hustle_Module_Model::get_recaptcha_settings();
+		$recaptcha_secret = isset( $recaptcha_settings['secret'] ) && !empty( $recaptcha_settings['enabled'] ) ? $recaptcha_settings['secret'] : '';
+
+		if ( $recaptcha_secret && key_exists( 'recaptcha', $form_elements ) ) {
+			if ( empty( $data['recaptcha'] ) ) {
+				$failed = true;
+			} else {
+				# Verify captcha
+				$response = wp_remote_get( add_query_arg( array(
+					'secret'   => $recaptcha_secret,
+					'response' => $data['recaptcha'],
+					'remoteip' => isset($_SERVER['HTTP_X_FORWARDED_FOR']) ? $_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR']
+				), 'https://www.google.com/recaptcha/api/siteverify' ) );
+
+				$json = !empty( $response['body'] ) ? json_decode( $response['body'] ) : '';
+				if( is_wp_error( $response ) || ! $json  || ! $json->success ) {
+					$failed = true;
+				}
+			}
+
+			if ( !empty( $failed ) ) {
+				wp_send_json_error( __( 'reCAPTCHA validation failed. Please try again.', Opt_In::TEXT_DOMAIN ) );
+			}
+		}
 
 		$module_type = $data['type'];
 		$provider = false;
@@ -90,6 +123,7 @@ class Hustle_Module_Front_Ajax {
 		}
 
 		if( $provider ) {
+			$form_data = apply_filters( 'hustle_form_data_before_subscription', $form_data, $module, $provider );
 			$api_result = $provider->subscribe( $module, $form_data );
 		}
 
