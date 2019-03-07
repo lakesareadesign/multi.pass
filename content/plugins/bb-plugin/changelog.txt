@@ -1,3 +1,85 @@
+<h4>2.2.1.4 - 03/05/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed PHP notice in WPML global node filter.</li>
+	<li>Fixed fatal JS error with SumoMe plugin.</li>
+	<li>Fixed PHP notice if a deleted font is registered.</li>
+	<li>Run fl_builder_cache_cleared after plugin update.</li>
+</ul>
+
+<h4>2.2.1.3 - 02/27/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Updated translations, introduced de_formal and finally fixed de_de.</li>
+	<li>Fixed the form filter for settings presets throwing an error when sections or fields aren't defined.</li>
+	<li>Fixed a recursion bug when rendering WPML translated global columns.</li>
+	<li>Fixed more issues with SiteGround plugin.</li>
+</ul>
+
+<h4>2.2.1.2 - 02/20/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed Prebuilt Rows on multisite.</li>
+	<li>Fixed Text Editor links and relative urls on images.</li>
+	<li>Fixed Content Slider button colors.</li>
+</ul>
+
+<h4>2.2.1.1 - 02/14/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed JS issue on module setting.</li>
+	<li>Fixed background overlay z-index issues.</li>
+</ul>
+
+<h4>2.2.1 - 02/13/2019</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Allow admin post type list to be sorted by builder enabled.</li>
+	<li>Add support for vw units for font-size in the Typography settings for modules.</li>
+	<li>Show recently used fonts in font selector.</li>
+	<li>Filter <code>fl_get_fa5_url</code> added to change the actual URL enqueued for FA5.</li>
+	<li>Added new filter to Map Module <code>fl_builder_map_args</code>.</li>
+	<li>Updated jQuery.validate to 1.18 to allow for customizable error messages.</li>
+	<li>Updated Flyout Menu icon to use FA5.</li>
+	<li>Changed Template taxonomy label from Categories to Categories ( Beaver Builder ) to avoid confusion in CPT plugins.</li>
+	<li>Allow modules to only display certain parts of the typography settings.</li>
+	<li>Add optional limit for multiple setting types, when limit is reached user can not add/copy.</li>
+	<li>Pass Youtube Embed Parameters StartTime and EndTime to Youtube Player API.</li>
+	<li>Convert notifications to use native WP cron.</li>
+	<li>Updated inline action and filter docs for use on hooks.wpbeaverbuilder.com</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed relative urls issue when adding images to rich-text module.</li>
+	<li>Fixed an issue with IE11 in layout css.</li>
+	<li>Fixed submenu issue in IE11 caused by z-index.</li>
+	<li>Fixed subject field connections not working with insert.</li>
+	<li>Fixed custom svg icons and groups not working for module aliases.</li>
+	<li>Fixed select fields not displaying selected value if all values are numbers.</li>
+	<li>Fixed modules ordering and sorted alphabetically.</li>
+	<li>Fixed Number Counter issue with Firefox and decimal numbers.</li>
+	<li>Fixed PHP notice when no image is selected but lightbox is used in Photo Module.</li>
+	<li>Fixed mega-menu issue with hide-heading on mobile menu.</li>
+	<li>Fixed fatal error in MailPoet 3 integration.</li>
+	<li>Fixed HTML module RTL language layout issue.</li>
+	<li>Fixed below row style in menu module when animation is enabled.</li>
+	<li>Fixed content slider buttons CSS not being applied.</li>
+	<li>Fixed invalid css if text color happens to be empty.</li>
+	<li>Fixed heading color not working when editing saved heading module.</li>
+	<li>Fixed auto spacing issue on mobile for columns.</li>
+	<li>Fixed rich-text module dropdowns being transparent if white text is selected in theme.</li>
+	<li>Changed row overlay background pseudo selector to :before to prevent z-index issues.</li>
+	<li>Posts module - Feed layout - hide image width option when it doesn't apply.</li>
+	<li>Fixed unnecessary large queries being used for demo usage stats data.</li>
+</ul>
+
+<h4>2.2.0.7 - 02/06/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Multisite saved rows templates issue fixed.</li>
+	<li>Font Awesome updated to 5.7.1</li>
+</ul>
+
 <h4>2.2.0.6 - 01/24/2019</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

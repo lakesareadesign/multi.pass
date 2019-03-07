@@ -1,10 +1,10 @@
 === WordPress Share Buttons, Related Posts, Google Analytics - Shareaholic ===
 Contributors: shareaholic
 Tags:  buttons, related posts, google analytics, share buttons, social sharing, image sharing, related content, woocommerce, typepad, amazon, analytics, arto, baidu, bitly, blogger, buffer, cookie compliance, cookie consent, delicious, digg, diigo, disqus, email button, eu cookie law, evernote, facebook, facebook sharing, fancy, fark, feedly, flipboard, floated share buttons, floating share buttons, follow buttons, GDPR, gmail, google bookmarks, google classroom, google plus, hootsuite, hotmail, houzz, inbound.org, instagram, instagram sharing, instapaper, kik, kindle, line, linkedin, livejournal, meneame, mister wong, mix, mixi, odnoklassniki, box.net, onenote, pinboard.in, pinterest, pinterest sharing, plurk, pocket, printfriendly, recommendations, reddit, sexybookmarks, share buttons, share image, shareaholic, shareholic, sms, social bookmarking, social media, social plugin, social share buttons, spotify, stumbleupon, stumpedia, symphony, tinyurl, tumblr, twitter, viadeo, vk, wanelo, wechat, weheartit, weibo, whatsapp, wykop, xing, yahoo, yammer, ycombinator, hacker news, youtube, yummly, zillow
-Requires at least: 3.0
-Tested up to: 5.0
+Requires at least: 3.3
+Tested up to: 5.1
 Requires PHP: 5.2
-Stable tag: 8.10.7
+Stable tag: 8.11.0
 
 
 Improve Audience Engagement with Award Winning Site-Speed Optimized Social Tools: Share Buttons, Related Posts, Monetization & Google Analytics.
@@ -267,6 +267,9 @@ The default Shareaholic thumbnail width is 640px with dynamic height and no crop
 Each time you change Shareaholic's thumbnail dimensions like this, you will probably want to have WordPress regenerate appropriate sized thumbnails for all of your images. We highly recommend the [Regenerate Thumbnails](https://wordpress.org/plugins/regenerate-thumbnails/) plugin for this purpose.
 
 == Changelog ==
+= 8.11.0 (2019-01-31) =
+* Enhancement: Massive page speed gains = 50% faster load times on your site!
+* Bugfix: Fixed issue with some themes rendering Shareaholic Apps multiple times
 
 = 8.10.7 (2019-01-17) =
 * Enhancement: W3C validation
@@ -867,8 +870,11 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Show Related Posts data status
 
 == Upgrade Notice ==
+= 8.11.0 =
+Massive page speed gains = 50% faster load times on your site!  This update also fixes issue with some themes rendering Shareaholic Apps multiple times. This one is a must upgrade!
+
 = 8.10.7 =
-* W3C validation improvements
+W3C validation improvements
 
 = 8.10.6 =
 WeChat Share and Follow Buttons and Twitter Card bug fixes

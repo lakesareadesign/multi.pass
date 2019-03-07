@@ -1,4 +1,4 @@
-<div class="fl-subscribe-form fl-subscribe-form-<?php echo $settings->layout; ?> fl-subscribe-form-name-<?php echo $settings->show_name; ?> fl-form fl-clearfix" <?php if ( isset( $module->template_id ) ) { echo 'data-template-id="' . $module->template_id . '" data-template-node-id="' . $module->template_node_id . '"';} ?>>
+<div class="fl-subscribe-form fl-subscribe-form-<?php echo $settings->layout; ?> fl-subscribe-form-name-<?php echo $settings->show_name; ?> fl-form fl-clearfix" <?php if ( isset( $module->template_id ) ) { echo 'data-template-id="' . $module->template_id . '" data-template-node-id="' . $module->template_node_id . '"';} ?>><?php // @codingStandardsIgnoreLine ?>
 
 	<?php if ( 'show' == $settings->show_name ) : ?>
 	<div class="fl-form-field">
@@ -22,14 +22,14 @@
 					<input type="checkbox" id="fl-terms-checkbox-<?php echo $id; ?>" name="fl-terms-checkbox" value="1" />
 					<label for="fl-terms-checkbox-<?php echo $id; ?>"><?php echo $settings->terms_checkbox_text; ?></label>
 				</div>
-				<div class="fl-form-error-message"><?php _e( 'You must accept the Terms and Conditions.', 'fl-builder' );?></div>
+				<div class="fl-form-error-message"><?php _e( 'You must accept the Terms and Conditions.', 'fl-builder' ); ?></div>
 			</div>
 		<?php endif; ?>
 
-		<?php if ( 'show' == $settings->show_recaptcha && (isset( $settings->recaptcha_site_key ) && ! empty( $settings->recaptcha_site_key )) ) : ?>
+		<?php if ( 'show' == $settings->show_recaptcha && ( isset( $settings->recaptcha_site_key ) && ! empty( $settings->recaptcha_site_key ) ) ) : ?>
 		<div class="fl-form-field fl-form-recaptcha">
 			<div class="fl-form-error-message"><?php _e( 'Please check the captcha to verify you are not a robot.', 'fl-builder' ); ?></div>
-			<div id="<?php echo $id; ?>-fl-grecaptcha" class="fl-grecaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"<?php if ( isset( $settings->recaptcha_validate_type ) ) { echo ' data-validate="' . $settings->recaptcha_validate_type . '"';} ?><?php if ( isset( $settings->recaptcha_theme ) ) { echo ' data-theme="' . $settings->recaptcha_theme . '"';} ?>></div>
+			<div id="<?php echo $id; ?>-fl-grecaptcha" class="fl-grecaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"<?php if ( isset( $settings->recaptcha_validate_type ) ) { echo ' data-validate="' . $settings->recaptcha_validate_type . '"';} ?><?php if ( isset( $settings->recaptcha_theme ) ) { echo ' data-theme="' . $settings->recaptcha_theme . '"';} ?>></div><?php // @codingStandardsIgnoreLine ?>
 		</div>
 		<?php endif; ?>
 	<?php endif; ?>
@@ -48,14 +48,14 @@
 					<input type="checkbox" id="fl-terms-checkbox-<?php echo $id; ?>" name="fl-terms-checkbox" value="1" />
 					<label for="fl-terms-checkbox-<?php echo $id; ?>"><?php echo $settings->terms_checkbox_text; ?></label>
 				</div>
-				<div class="fl-form-error-message"><?php _e( 'You must accept the Terms and Conditions.', 'fl-builder' );?></div>
+				<div class="fl-form-error-message"><?php _e( 'You must accept the Terms and Conditions.', 'fl-builder' ); ?></div>
 			</div>
 		<?php endif; ?>
 
-		<?php if ( 'show' == $settings->show_recaptcha && (isset( $settings->recaptcha_site_key ) && ! empty( $settings->recaptcha_site_key )) ) : ?>
+		<?php if ( 'show' == $settings->show_recaptcha && ( isset( $settings->recaptcha_site_key ) && ! empty( $settings->recaptcha_site_key ) ) ) : ?>
 		<div class="fl-form-field fl-form-recaptcha">
 			<div class="fl-form-error-message"><?php _e( 'Please check the captcha to verify you are not a robot.', 'fl-builder' ); ?></div>
-			<div id="<?php echo $id; ?>-fl-grecaptcha" class="fl-grecaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"<?php if ( isset( $settings->recaptcha_validate_type ) ) { echo ' data-validate="' . $settings->recaptcha_validate_type . '"';} ?><?php if ( isset( $settings->recaptcha_theme ) ) { echo ' data-theme="' . $settings->recaptcha_theme . '"';} ?>></div>
+			<div id="<?php echo $id; ?>-fl-grecaptcha" class="fl-grecaptcha" data-sitekey="<?php echo $settings->recaptcha_site_key; ?>"<?php if ( isset( $settings->recaptcha_validate_type ) ) { echo ' data-validate="' . $settings->recaptcha_validate_type . '"';} ?><?php if ( isset( $settings->recaptcha_theme ) ) { echo ' data-theme="' . $settings->recaptcha_theme . '"';} ?>></div><?php // @codingStandardsIgnoreLine ?>
 		</div>
 		<?php endif; ?>
 	<?php endif; ?>

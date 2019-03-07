@@ -19,9 +19,9 @@ class FLbuilder_WPCLI_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 * 1. wp beaver clearcache
-	 * 		- Clears the page builder cache for all the posts on the site.
+	 *      - Clears the page builder cache for all the posts on the site.
 	 * 2. wp beaver clearcache --network
-	 * 		- Clears the page builder cache for all the posts on a network.
+	 *      - Clears the page builder cache for all the posts on a network.
 	*/
 	public function clearcache( $args, $assoc_args ) {
 
@@ -77,6 +77,10 @@ class FLbuilder_WPCLI_Command extends WP_CLI_Command {
 					WP_CLI::success( __( 'Rebuilt the theme cache', 'fl-builder' ) );
 				}
 			}
+			/**
+			 * After cache is cleared.
+			 * @see fl_builder_cache_cleared
+			 */
 			do_action( 'fl_builder_cache_cleared' );
 		}
 	}
@@ -96,9 +100,9 @@ class FLbuilder_WPCLI_Command extends WP_CLI_Command {
 	 * ## EXAMPLES
 	 *
 	 * 1. wp beaver register --license=01234567890
-	 * 		- Register this domain using license 01234567890
+	 *      - Register this domain using license 01234567890
 	 * 2. wp beaver register --deactivate
-	 * 		- Removes domain from domain manager and clears saved license info.
+	 *      - Removes domain from domain manager and clears saved license info.
 	 * 3. wp beaver register
 	 *    - If license is defined in wp-config.php using FL_LICENSE_KEY global.
 	*/

@@ -15,7 +15,7 @@ class McryptRandomStringGenerator implements RandomStringGeneratorInterface
      *
      * @const string
      */
-    const ERROR_MESSAGE = 'Unable to generate a cryptographically secure pseudo-random string from mcrypt_create_iv(). ';	     	 	 				 	 	
+    const ERROR_MESSAGE = 'Unable to generate a cryptographically secure pseudo-random string from mcrypt_create_iv(). ';
 
     /**
      * Create a new McryptRandomStringGenerator instance

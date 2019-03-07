@@ -21,11 +21,11 @@ class FLPhotoModule extends FLBuilderModule {
 	 */
 	public function __construct() {
 		parent::__construct(array(
-			'name'          	=> __( 'Photo', 'fl-builder' ),
-			'description'   	=> __( 'Upload a photo or display one from the media library.', 'fl-builder' ),
-			'category'      	=> __( 'Basic', 'fl-builder' ),
-			'icon'				=> 'format-image.svg',
-			'partial_refresh'	=> true,
+			'name'            => __( 'Photo', 'fl-builder' ),
+			'description'     => __( 'Upload a photo or display one from the media library.', 'fl-builder' ),
+			'category'        => __( 'Basic', 'fl-builder' ),
+			'icon'            => 'format-image.svg',
+			'partial_refresh' => true,
 		));
 	}
 
@@ -180,11 +180,11 @@ class FLPhotoModule extends FLBuilderModule {
 
 			// Photo source is set to "url".
 			if ( 'url' == $this->settings->photo_source ) {
-				$this->data = new stdClass();
-				$this->data->alt = $this->settings->caption;
-				$this->data->caption = $this->settings->caption;
-				$this->data->link = $this->settings->photo_url;
-				$this->data->url = $this->settings->photo_url;
+				$this->data                = new stdClass();
+				$this->data->alt           = $this->settings->caption;
+				$this->data->caption       = $this->settings->caption;
+				$this->data->link          = $this->settings->photo_url;
+				$this->data->url           = $this->settings->photo_url;
 				$this->settings->photo_src = $this->settings->photo_url;
 			} elseif ( is_object( $this->settings->photo ) ) {
 				$this->data = $this->settings->photo;
@@ -249,11 +249,9 @@ class FLPhotoModule extends FLBuilderModule {
 				$src = $cropped_path['url'];
 			} elseif ( stristr( $src, FL_BUILDER_DEMO_URL ) && ! stristr( FL_BUILDER_DEMO_URL, $_SERVER['HTTP_HOST'] ) ) {
 				$src = $this->_get_cropped_demo_url();
-			} // It doesn't, check if this is a OLD demo image.
-			elseif ( stristr( $src, FL_BUILDER_OLD_DEMO_URL ) ) {
+			} elseif ( stristr( $src, FL_BUILDER_OLD_DEMO_URL ) ) { // It doesn't, check if this is a OLD demo image.
 				$src = $this->_get_cropped_demo_url();
-			} // A cropped photo doesn't exist, try to create one.
-			else {
+			} else { // A cropped photo doesn't exist, try to create one.
 
 				$url = $this->crop();
 
@@ -274,11 +272,11 @@ class FLPhotoModule extends FLBuilderModule {
 
 		if ( 'url' == $this->settings->link_type ) {
 			$link = $this->settings->link_url;
-		} elseif ( 'lightbox' == $this->settings->link_type ) {
+		} elseif ( isset( $photo ) && 'lightbox' == $this->settings->link_type ) {
 			$link = $photo->url;
-		} elseif ( 'file' == $this->settings->link_type ) {
+		} elseif ( isset( $photo ) && 'file' == $this->settings->link_type ) {
 			$link = $photo->url;
-		} elseif ( 'page' == $this->settings->link_type ) {
+		} elseif ( isset( $photo ) && 'page' == $this->settings->link_type ) {
 			$link = $photo->link;
 		} else {
 			$link = '';
@@ -375,12 +373,12 @@ class FLPhotoModule extends FLBuilderModule {
 	 * @protected
 	 */
 	protected function _get_cropped_path() {
-		$crop        = empty( $this->settings->crop ) ? 'none' : $this->settings->crop;
-		$url         = $this->_get_uncropped_url();
-		$cache_dir   = FLBuilderModel::get_cache_dir();
+		$crop      = empty( $this->settings->crop ) ? 'none' : $this->settings->crop;
+		$url       = $this->_get_uncropped_url();
+		$cache_dir = FLBuilderModel::get_cache_dir();
 
 		if ( empty( $url ) ) {
-			$filename    = uniqid(); // Return a file that doesn't exist.
+			$filename = uniqid(); // Return a file that doesn't exist.
 		} else {
 
 			if ( stristr( $url, '?' ) ) {
@@ -458,120 +456,120 @@ class FLPhotoModule extends FLBuilderModule {
  * Register the module and its form settings.
  */
 FLBuilder::register_module('FLPhotoModule', array(
-	'general'       => array( // Tab
-		'title'         => __( 'General', 'fl-builder' ), // Tab title
-		'sections'      => array( // Tab Sections
-			'general'       => array( // Section
-				'title'         => '', // Section Title
-				'fields'        => array( // Section Fields
-					'photo_source'  => array(
-						'type'          => 'select',
-						'label'         => __( 'Photo Source', 'fl-builder' ),
-						'default'       => 'library',
-						'options'       => array(
-							'library'       => __( 'Media Library', 'fl-builder' ),
-							'url'           => __( 'URL', 'fl-builder' ),
+	'general' => array( // Tab
+		'title'    => __( 'General', 'fl-builder' ), // Tab title
+		'sections' => array( // Tab Sections
+			'general' => array( // Section
+				'title'  => '', // Section Title
+				'fields' => array( // Section Fields
+					'photo_source' => array(
+						'type'    => 'select',
+						'label'   => __( 'Photo Source', 'fl-builder' ),
+						'default' => 'library',
+						'options' => array(
+							'library' => __( 'Media Library', 'fl-builder' ),
+							'url'     => __( 'URL', 'fl-builder' ),
 						),
-						'toggle'        => array(
-							'library'       => array(
-								'fields'        => array( 'photo' ),
+						'toggle'  => array(
+							'library' => array(
+								'fields' => array( 'photo' ),
 							),
-							'url'           => array(
-								'fields'        => array( 'photo_url', 'caption' ),
+							'url'     => array(
+								'fields' => array( 'photo_url', 'caption' ),
 							),
 						),
-						'preview'		=> array(
-							'type'			=> 'none',
+						'preview' => array(
+							'type' => 'none',
 						),
 					),
-					'photo'         => array(
-						'type'          => 'photo',
-						'label'         => __( 'Photo', 'fl-builder' ),
-						'connections'   => array( 'photo' ),
-						'show_remove'   => true,
-						'preview'		=> array(
-							'type'			=> 'none',
+					'photo'        => array(
+						'type'        => 'photo',
+						'label'       => __( 'Photo', 'fl-builder' ),
+						'connections' => array( 'photo' ),
+						'show_remove' => true,
+						'preview'     => array(
+							'type' => 'none',
 						),
 					),
-					'photo_url'     => array(
-						'type'          => 'text',
-						'label'         => __( 'Photo URL', 'fl-builder' ),
-						'placeholder'   => __( 'http://www.example.com/my-photo.jpg', 'fl-builder' ),
-						'preview'		=> array(
-							'type'			=> 'none',
+					'photo_url'    => array(
+						'type'        => 'text',
+						'label'       => __( 'Photo URL', 'fl-builder' ),
+						'placeholder' => __( 'http://www.example.com/my-photo.jpg', 'fl-builder' ),
+						'preview'     => array(
+							'type' => 'none',
 						),
 					),
 				),
 			),
-			'caption'       => array(
-				'title'         => __( 'Caption', 'fl-builder' ),
-				'fields'        => array(
-					'show_caption'  => array(
-						'type'          => 'select',
-						'label'         => __( 'Show Caption', 'fl-builder' ),
-						'default'       => '0',
-						'options'       => array(
-							'0'             => __( 'Never', 'fl-builder' ),
-							'hover'         => __( 'On Hover', 'fl-builder' ),
-							'below'         => __( 'Below Photo', 'fl-builder' ),
+			'caption' => array(
+				'title'  => __( 'Caption', 'fl-builder' ),
+				'fields' => array(
+					'show_caption' => array(
+						'type'    => 'select',
+						'label'   => __( 'Show Caption', 'fl-builder' ),
+						'default' => '0',
+						'options' => array(
+							'0'     => __( 'Never', 'fl-builder' ),
+							'hover' => __( 'On Hover', 'fl-builder' ),
+							'below' => __( 'Below Photo', 'fl-builder' ),
 						),
 
-						'toggle'        => array(
-							''              => array(),
-							'hover'           => array(
-								'fields'        => array( 'caption_typography' ),
+						'toggle'  => array(
+							''      => array(),
+							'hover' => array(
+								'fields' => array( 'caption_typography' ),
 							),
 
-							'below'           => array(
-								'fields'        => array( 'caption_typography' ),
+							'below' => array(
+								'fields' => array( 'caption_typography' ),
 							),
 						),
-						'preview'		=> array(
-							'type'			=> 'none',
+						'preview' => array(
+							'type' => 'none',
 						),
 					),
-					'caption'       => array(
-						'type'          => 'text',
-						'label'         => __( 'Caption', 'fl-builder' ),
-						'preview'		=> array(
-							'type'			=> 'none',
+					'caption'      => array(
+						'type'    => 'text',
+						'label'   => __( 'Caption', 'fl-builder' ),
+						'preview' => array(
+							'type' => 'none',
 						),
 					),
 				),
 			),
-			'link'          => array(
-				'title'         => __( 'Link', 'fl-builder' ),
-				'fields'        => array(
-					'link_type'     => array(
-						'type'          => 'select',
-						'label'         => __( 'Link Type', 'fl-builder' ),
-						'options'       => array(
-							''              => _x( 'None', 'Link type.', 'fl-builder' ),
-							'url'           => __( 'URL', 'fl-builder' ),
-							'lightbox'      => __( 'Lightbox', 'fl-builder' ),
-							'file'          => __( 'Photo File', 'fl-builder' ),
-							'page'          => __( 'Photo Page', 'fl-builder' ),
+			'link'    => array(
+				'title'  => __( 'Link', 'fl-builder' ),
+				'fields' => array(
+					'link_type' => array(
+						'type'    => 'select',
+						'label'   => __( 'Link Type', 'fl-builder' ),
+						'options' => array(
+							''         => _x( 'None', 'Link type.', 'fl-builder' ),
+							'url'      => __( 'URL', 'fl-builder' ),
+							'lightbox' => __( 'Lightbox', 'fl-builder' ),
+							'file'     => __( 'Photo File', 'fl-builder' ),
+							'page'     => __( 'Photo Page', 'fl-builder' ),
 						),
-						'toggle'        => array(
-							''              => array(),
-							'url'           => array(
-								'fields'        => array( 'link_url' ),
+						'toggle'  => array(
+							''     => array(),
+							'url'  => array(
+								'fields' => array( 'link_url' ),
 							),
-							'file'          => array(),
-							'page'          => array(),
+							'file' => array(),
+							'page' => array(),
 						),
-						'help'          => __( 'Link type applies to how the image should be linked on click. You can choose a specific URL, the individual photo or a separate page with the photo.', 'fl-builder' ),
-						'preview'         => array(
-							'type'            => 'none',
+						'help'    => __( 'Link type applies to how the image should be linked on click. You can choose a specific URL, the individual photo or a separate page with the photo.', 'fl-builder' ),
+						'preview' => array(
+							'type' => 'none',
 						),
 					),
-					'link_url'     => array(
+					'link_url'  => array(
 						'type'          => 'link',
 						'label'         => __( 'Link URL', 'fl-builder' ),
-						'show_target'	=> true,
-						'show_nofollow'	=> true,
+						'show_target'   => true,
+						'show_nofollow' => true,
 						'preview'       => array(
-							'type'            => 'none',
+							'type' => 'none',
 						),
 						'connections'   => array( 'url' ),
 					),
@@ -579,78 +577,78 @@ FLBuilder::register_module('FLPhotoModule', array(
 			),
 		),
 	),
-	'style'       => array( // Tab
-		'title'         => __( 'Style', 'fl-builder' ), // Tab title
-		'sections'      => array( // Tab Sections
-			'general'       => array( // Section
-				'title'         => '', // Section Title
-				'fields'        => array( // Section Fields
-					'crop'          => array(
-						'type'          => 'select',
-						'label'         => __( 'Crop', 'fl-builder' ),
-						'default'       => '',
-						'options'       => array(
-							''              => _x( 'None', 'Photo Crop.', 'fl-builder' ),
-							'landscape'     => __( 'Landscape', 'fl-builder' ),
-							'panorama'      => __( 'Panorama', 'fl-builder' ),
-							'portrait'      => __( 'Portrait', 'fl-builder' ),
-							'square'        => __( 'Square', 'fl-builder' ),
-							'circle'        => __( 'Circle', 'fl-builder' ),
+	'style'   => array( // Tab
+		'title'    => __( 'Style', 'fl-builder' ), // Tab title
+		'sections' => array( // Tab Sections
+			'general' => array( // Section
+				'title'  => '', // Section Title
+				'fields' => array( // Section Fields
+					'crop'               => array(
+						'type'    => 'select',
+						'label'   => __( 'Crop', 'fl-builder' ),
+						'default' => '',
+						'options' => array(
+							''          => _x( 'None', 'Photo Crop.', 'fl-builder' ),
+							'landscape' => __( 'Landscape', 'fl-builder' ),
+							'panorama'  => __( 'Panorama', 'fl-builder' ),
+							'portrait'  => __( 'Portrait', 'fl-builder' ),
+							'square'    => __( 'Square', 'fl-builder' ),
+							'circle'    => __( 'Circle', 'fl-builder' ),
 						),
 					),
-					'width' 		=> array(
-						'type'			=> 'unit',
-						'label'			=> __( 'Width', 'fl-builder' ),
-						'responsive'	=> true,
-						'units'			=> array(
+					'width'              => array(
+						'type'       => 'unit',
+						'label'      => __( 'Width', 'fl-builder' ),
+						'responsive' => true,
+						'units'      => array(
 							'px',
 							'vw',
 							'%',
 						),
-						'slider'		=> array(
-							'px'			=> array(
-								'min'			=> 0,
-								'max'			=> 1000,
-								'step'			=> 10,
+						'slider'     => array(
+							'px' => array(
+								'min'  => 0,
+								'max'  => 1000,
+								'step' => 10,
 							),
 						),
-						'preview'       => array(
-							'type'          => 'css',
-							'selector'		=> '.fl-photo-img',
-							'property'		=> 'width',
-							'important'		=> true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => '.fl-photo-img',
+							'property'  => 'width',
+							'important' => true,
 						),
 					),
-					'align'         => array(
-						'type'          => 'align',
-						'label'         => __( 'Align', 'fl-builder' ),
-						'default'       => 'center',
-						'responsive'	=> true,
-						'preview'		=> array(
-							'type'			=> 'css',
-							'selector'		=> '.fl-photo',
-							'property'		=> 'text-align',
-							'important'		=> true,
+					'align'              => array(
+						'type'       => 'align',
+						'label'      => __( 'Align', 'fl-builder' ),
+						'default'    => 'center',
+						'responsive' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => '.fl-photo',
+							'property'  => 'text-align',
+							'important' => true,
 						),
 					),
-					'border' 		=> array(
-						'type'          => 'border',
-						'label'         => __( 'Border', 'fl-builder' ),
-						'responsive'	=> true,
-						'preview'       => array(
-							'type'          => 'css',
-							'selector'		=> '.fl-photo-img',
+					'border'             => array(
+						'type'       => 'border',
+						'label'      => __( 'Border', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'     => 'css',
+							'selector' => '.fl-photo-img',
 						),
 					),
 
-					'caption_typography'    => array(
-						'type'        	=> 'typography',
-						'label'       	=> __( 'Caption Typography', 'fl-builder' ),
-						'responsive'  	=> true,
-						'preview'		=> array(
-							'type'			=> 'css',
-							'selector'		=> '{node}.fl-module-photo .fl-photo-caption',
-							'important'		  => true,
+					'caption_typography' => array(
+						'type'       => 'typography',
+						'label'      => __( 'Caption Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => '{node}.fl-module-photo .fl-photo-caption',
+							'important' => true,
 						),
 					),
 				),

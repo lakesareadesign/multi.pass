@@ -28,7 +28,7 @@ abstract class Smartcrawl_Renderable {
 	 * @return mixed (string)View output on success, (bool)false on failure
 	 */
 	protected function _load( $view, $args = array() ) {
-		$view = preg_replace( '/[^-_a-z0-9\/]/i', '', $view );
+		$view = preg_replace( '/[^\-_a-z0-9\/]/i', '', $view );
 		if ( empty( $view ) ) {
 			return false;
 		}

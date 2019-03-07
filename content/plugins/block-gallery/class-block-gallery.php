@@ -5,10 +5,10 @@
  * Description: The most advanced suite of gallery blocks for the Gutenberg block editor. Create stunning <strong>masonry</strong>, <strong>carousel</strong> and <strong>stacked</strong> galleries in seconds, with the brilliantly intuitive interface. Block Gallery is absolutely the best collection of native editor gallery blocks in the world.
  * Author: Rich Tabor
  * Author URI: https://richtabor.com
- * Version: 1.1.5
+ * Version: 1.1.6
  * Text Domain: block-gallery
  * Domain Path: languages
- * Tested up to: 5.0.0
+ * Tested up to: 5.1
  *
  * Block Gallery is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -110,7 +110,7 @@ if ( ! class_exists( 'Block_Gallery' ) ) :
 		 */
 		private function constants() {
 			$this->define( 'BLOCKGALLERY_DEBUG', false );
-			$this->define( 'BLOCKGALLERY_VERSION', '1.1.5' );
+			$this->define( 'BLOCKGALLERY_VERSION', '1.1.6' );
 			$this->define( 'BLOCKGALLERY_HAS_PRO', false );
 			$this->define( 'BLOCKGALLERY_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 			$this->define( 'BLOCKGALLERY_PLUGIN_URL', plugin_dir_url( __FILE__ ) );

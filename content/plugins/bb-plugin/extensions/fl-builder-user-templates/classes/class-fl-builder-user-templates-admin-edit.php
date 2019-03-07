@@ -15,13 +15,13 @@ final class FLBuilderUserTemplatesAdminEdit {
 	 */
 	static public function init() {
 		/* Actions */
-		add_action( 'plugins_loaded',                   __CLASS__ . '::redirect' );
-		add_action( 'admin_enqueue_scripts',          	__CLASS__ . '::admin_enqueue_scripts' );
-		add_action( 'edit_form_after_title',            __CLASS__ . '::render_global_node_message' );
-		add_action( 'add_meta_boxes',                   __CLASS__ . '::add_meta_boxes', 1 );
+		add_action( 'plugins_loaded', __CLASS__ . '::redirect' );
+		add_action( 'admin_enqueue_scripts', __CLASS__ . '::admin_enqueue_scripts' );
+		add_action( 'edit_form_after_title', __CLASS__ . '::render_global_node_message' );
+		add_action( 'add_meta_boxes', __CLASS__ . '::add_meta_boxes', 1 );
 
 		/* Filters */
-		add_filter( 'fl_builder_render_admin_edit_ui',  __CLASS__ . '::remove_builder_edit_ui' );
+		add_filter( 'fl_builder_render_admin_edit_ui', __CLASS__ . '::remove_builder_edit_ui' );
 	}
 
 	/**
@@ -34,7 +34,7 @@ final class FLBuilderUserTemplatesAdminEdit {
 		global $pagenow;
 
 		$post_type = isset( $_GET['post_type'] ) ? $_GET['post_type'] : null;
-		$args = $_GET;
+		$args      = $_GET;
 
 		if ( 'post-new.php' == $pagenow && 'fl-builder-template' == $post_type ) {
 
@@ -54,7 +54,7 @@ final class FLBuilderUserTemplatesAdminEdit {
 		global $pagenow;
 		global $post;
 
-		$screen = get_current_screen();
+		$screen  = get_current_screen();
 		$slug    = 'fl-builder-user-templates-admin-';
 		$url     = FL_BUILDER_USER_TEMPLATES_URL;
 		$version = FL_BUILDER_VERSION;

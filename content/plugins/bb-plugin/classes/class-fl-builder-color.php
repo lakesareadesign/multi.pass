@@ -63,15 +63,15 @@ final class FLBuilderColor {
 		// Get rgb vars.
 		if ( $is_rgb ) {
 			$rgb = explode( ',', preg_replace( '/[a-z\(\)]/', '', $value ) );
-			$r = $rgb[0];
-			$g = $rgb[1];
-			$b = $rgb[2];
-			$a = count( $rgb ) > 3 ? $rgb[3] : false;
+			$r   = $rgb[0];
+			$g   = $rgb[1];
+			$b   = $rgb[2];
+			$a   = count( $rgb ) > 3 ? $rgb[3] : false;
 		} else {
 			$rgb = self::hex_to_rgb( $value );
-			$r = $rgb['r'];
-			$g = $rgb['g'];
-			$b = $rgb['b'];
+			$r   = $rgb['r'];
+			$g   = $rgb['g'];
+			$b   = $rgb['b'];
 		}
 
 		// Should we darken the color?
@@ -83,9 +83,9 @@ final class FLBuilderColor {
 
 		// Adjustr the rgb values.
 		$steps = max( -255, min( 255, $steps ) );
-		$r = max( 0, min( 255, $r + $steps ) );
-		$g = max( 0, min( 255, $g + $steps ) );
-		$b = max( 0, min( 255, $b + $steps ) );
+		$r     = max( 0, min( 255, $r + $steps ) );
+		$g     = max( 0, min( 255, $g + $steps ) );
+		$b     = max( 0, min( 255, $b + $steps ) );
 
 		// Return the adjusted color value.
 		if ( $is_rgb ) {
@@ -110,7 +110,7 @@ final class FLBuilderColor {
 	 */
 	static public function gradient( $setting ) {
 		$gradient = '';
-		$values = array();
+		$values   = array();
 
 		if ( ! is_array( $setting ) ) {
 			return $gradient;
@@ -175,7 +175,7 @@ final class FLBuilderColor {
 				$setting['color'] = '#' . $setting['color'];
 			}
 
-			$shadow = $setting['horizontal'] . 'px ';
+			$shadow  = $setting['horizontal'] . 'px ';
 			$shadow .= $setting['vertical'] . 'px ';
 			$shadow .= $setting['blur'] . 'px ';
 
@@ -202,25 +202,25 @@ final class FLBuilderColor {
 		// Get rgb vars.
 		if ( $is_rgb ) {
 			$rgb = explode( ',', preg_replace( '/[a-z\(\)]/', '', $value ) );
-			$r = $rgb[0];
-			$g = $rgb[1];
-			$b = $rgb[2];
-			$a = count( $rgb ) > 3 ? $rgb[3] : false;
+			$r   = $rgb[0];
+			$g   = $rgb[1];
+			$b   = $rgb[2];
+			$a   = count( $rgb ) > 3 ? $rgb[3] : false;
 		} else {
 			$rgb = self::hex_to_rgb( $value );
-			$r = $rgb['r'];
-			$g = $rgb['g'];
-			$b = $rgb['b'];
-			$a = 1;
+			$r   = $rgb['r'];
+			$g   = $rgb['g'];
+			$b   = $rgb['b'];
+			$a   = 1;
 		}
 		if ( count( $rgb ) === 4 ) {
 			$rgb = array_slice( $rgb, 0, 3 );
 		}
 		return array(
-			'r' => $r,
-			'g' => $g,
-			'b' => $b,
-			'a' => $a,
+			'r'   => $r,
+			'g'   => $g,
+			'b'   => $b,
+			'a'   => $a,
 			'rgb' => 'rgb(' . implode( ',', $rgb ) . ')',
 		);
 	}

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="12px" height="16px" viewBox="0 0 12 16" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <defs>
+        <rect id="path-1" x="0" y="0" width="16" height="16"></rect>
+    </defs>
+    <g id="Front-end" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Login-Screen---Active---Design---background" transform="translate(-744.000000, -1413.000000)">
+            <g id="front-end/login-screen/design/-collapsed" transform="translate(440.000000, 838.000000)">
+                <g id="front-end/login-screen/sections/collapsed" transform="translate(230.000000, 0.000000)">
+                    <g id="Group" transform="translate(0.000000, 61.000000)">
+                        <g id="advanced-settings" transform="translate(60.000000, 378.000000)">
+                            <g id="x-position" transform="translate(0.000000, 97.000000)">
+                                <g id="tabs" transform="translate(0.000000, 27.000000)">
+                                    <g id="icon-/-align---left" transform="translate(12.000000, 12.000000)">
+                                        <g>
+                                            <mask id="mask-2" fill="white">
+                                                <use xlink:href="#path-1"></use>
+                                            </mask>
+                                            <g id="mask" fill-rule="nonzero"></g>
+                                            <path d="M7,4 L13,4 C13.5522847,4 14,4.44771525 14,5 L14,11 C14,11.5522847 13.5522847,12 13,12 L7,12 C6.44771525,12 6,11.5522847 6,11 L6,5 C6,4.44771525 6.44771525,4 7,4 Z M3,0 C3.55228475,-1.01453063e-16 4,0.44771525 4,1 L4,15 C4,15.5522847 3.55228475,16 3,16 C2.44771525,16 2,15.5522847 2,15 L2,1 C2,0.44771525 2.44771525,1.01453063e-16 3,0 Z" id="Combined-Shape" fill="#666666" mask="url(#mask-2)"></path>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

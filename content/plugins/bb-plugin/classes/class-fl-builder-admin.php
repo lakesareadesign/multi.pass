@@ -17,14 +17,14 @@ final class FLBuilderAdmin {
 		$basename = plugin_basename( FL_BUILDER_FILE );
 
 		// Activation
-		register_activation_hook( FL_BUILDER_FILE,           __CLASS__ . '::activate' );
+		register_activation_hook( FL_BUILDER_FILE, __CLASS__ . '::activate' );
 
 		// Actions
-		add_action( 'admin_init',                            __CLASS__ . '::show_activate_notice' );
-		add_action( 'admin_init',                            __CLASS__ . '::sanity_checks' );
+		add_action( 'admin_init', __CLASS__ . '::show_activate_notice' );
+		add_action( 'admin_init', __CLASS__ . '::sanity_checks' );
 
 		// Filters
-		add_filter( 'plugin_action_links_' . $basename,      __CLASS__ . '::render_plugin_action_links' );
+		add_filter( 'plugin_action_links_' . $basename, __CLASS__ . '::render_plugin_action_links' );
 	}
 
 	/**
@@ -43,7 +43,10 @@ final class FLBuilderAdmin {
 			self::show_activate_error( __( 'The <strong>Page Builder</strong> plugin requires WordPress version 3.5 or greater. Please update WordPress before activating the plugin.', 'fl-builder' ) );
 		}
 
-		// Allow extensions to hook activation.
+		/**
+		 * Allow extensions to hook activation.
+		 * @see fl_builder_activate
+		 */
 		$activate = apply_filters( 'fl_builder_activate', true );
 
 		// Should we continue with activation?
@@ -52,8 +55,8 @@ final class FLBuilderAdmin {
 			// Check for multisite.
 			if ( is_multisite() ) {
 				$url = FLBuilderModel::get_upgrade_url( array(
-					'utm_medium' => 'bb-pro',
-					'utm_source' => 'plugins-admin-page',
+					'utm_medium'   => 'bb-pro',
+					'utm_source'   => 'plugins-admin-page',
 					'utm_campaign' => 'no-multisite-support',
 				) );
 				self::show_activate_error( sprintf( __( 'This version of the <strong>Page Builder</strong> plugin is not compatible with WordPress Multisite. <a%s>Please upgrade</a> to the Multisite version of this plugin.', 'fl-builder' ), ' href="' . $url . '" target="_blank"' ) );
@@ -65,7 +68,10 @@ final class FLBuilderAdmin {
 			// Trigger the activation notice.
 			self::trigger_activate_notice();
 
-			// Allow add-ons to hook into activation.
+			/**
+			 * Allow add-ons to hook into activation.
+			 * @see fl_builder_activated
+			 */
 			do_action( 'fl_builder_activated' );
 
 			// Flush the rewrite rules.
@@ -216,18 +222,18 @@ final class FLBuilderAdmin {
 	 */
 	static public function render_plugin_action_links( $actions ) {
 		if ( FL_BUILDER_LITE === true ) {
-			$url = FLBuilderModel::get_upgrade_url( array(
-				'utm_medium' => 'bb-lite',
-				'utm_source' => 'plugins-admin-page',
+			$url       = FLBuilderModel::get_upgrade_url( array(
+				'utm_medium'   => 'bb-lite',
+				'utm_source'   => 'plugins-admin-page',
 				'utm_campaign' => 'plugins-admin-upgrade',
 			) );
 			$actions[] = '<a href="' . $url . '" style="color:#3db634;" target="_blank">' . _x( 'Upgrade', 'Plugin action link label.', 'fl-builder' ) . '</a>';
 		}
 
 		if ( ! FLBuilderModel::is_white_labeled() ) {
-			$url = FLBuilderModel::get_store_url( 'change-logs', array(
-				'utm_medium' => 'bb-pro',
-				'utm_source' => 'plugins-admin-page',
+			$url       = FLBuilderModel::get_store_url( 'change-logs', array(
+				'utm_medium'   => 'bb-pro',
+				'utm_source'   => 'plugins-admin-page',
 				'utm_campaign' => 'plugins-admin-changelog',
 			) );
 			$actions[] = '<a href="' . $url . '" target="_blank">' . _x( 'Change Log', 'Plugin action link label.', 'fl-builder' ) . '</a>';

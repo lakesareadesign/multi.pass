@@ -152,5 +152,4 @@ class Genesis_Dambuster_News {
 		unset($rss);
 		return $results;		
 	}
-
 }

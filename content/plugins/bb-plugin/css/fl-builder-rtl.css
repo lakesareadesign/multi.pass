@@ -472,3 +472,11 @@ body .fl-dimension-field-units > *:last-child > * {
 .fl-photo-field .fl-photo-replace, .fl-photo-field .fl-photo-remove {
 	margin: 0 8px 0 0;
 }
+
+/* HTML editor
+------------------------------------------------------ */
+
+.fl-lightbox .ace_editor {
+	direction: ltr;
+	text-align: left;
+}

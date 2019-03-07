@@ -56,7 +56,7 @@ Class MetaSlider_Tour {
 				),
 				'step2a' => array(
 					'title' => __("Select Slide Type", "ml-slider"),
-					'message' => metaslider_pro_is_active() ? 'Thanks for activating the Add-on Pack! Premium users can choose from any of these slide types' : __("Premium users that have the Add-on Pack activated can access additional slide types!", "ml-slider")
+					'message' => metaslider_pro_is_active() ? 'Thanks for activating the Add-on Pack! Premium users can choose from any of these slide types' : __("Access the various slide types from here.", "ml-slider")
 				),
 				'step2b' => array(
 					'title' => __("Select Media", "ml-slider"),

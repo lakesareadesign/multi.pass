@@ -3305,6 +3305,11 @@ form.fl-builder-settings {
 .fl-lightbox .mce-top-part::before {
 	box-shadow:none !important;
 }
+
+.mce-container .mce-stack-layout span {
+	color: initial;
+}
+
 .fl-lightbox div.mce-toolbar-grp {
 	background: transparent;
 	border:none;
@@ -4860,8 +4865,7 @@ span.select2-container.select2-container--open {
 .fl-field-connections-toggle {
 	padding: 10px 0px;
 }
-.fl-field[data-type="editor"] .fl-field-connections-toggle,
-.fl-field[data-type="code"] .fl-field-connections-toggle {
+.fl-field[data-type="editor"] .fl-field-connections-toggle {
 	align-items: flex-start;
 }
 .fl-field[data-type="link"] .fl-field-connections-toggle {
@@ -5664,8 +5668,7 @@ body > .fl-builder-tour-dimmed {
 .fl-field-connections-menu {
 	z-index: 999999;
 }
-.fl-field[data-type="editor"] .fl-field-connections-toggle,
-.fl-field[data-type="code"] .fl-field-connections-toggle {
+.fl-field[data-type="editor"] .fl-field-connections-toggle {
 	right: 5px !important;
 }
 .fl-field-connections-inline-toggle {

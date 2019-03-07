@@ -22,7 +22,7 @@ class Smartcrawl_Checkup_Service extends Smartcrawl_Service {
 		} else {
 			$this->_implementation = new Smartcrawl_Checkup_Rest_Service();
 			if ( ! has_filter( $this->get_filter( 'api-namespace' ), array( $this, 'fix_namespace' ) ) ) {
-				add_filter( $this->get_filter( 'api-namespace' ), array( $this, 'fix_namespace' ) );	     	 	 	  		 		
+				add_filter( $this->get_filter( 'api-namespace' ), array( $this, 'fix_namespace' ) );
 			}
 		}
 	}

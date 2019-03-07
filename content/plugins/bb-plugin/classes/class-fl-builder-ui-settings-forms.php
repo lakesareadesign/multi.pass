@@ -66,7 +66,7 @@ class FLBuilderUISettingsForms {
 				wp_raise_memory_limit( 'bb-plugin' );
 			}
 
-			$type = sanitize_key( $_GET['fl_builder_load_settings_config'] );
+			$type    = sanitize_key( $_GET['fl_builder_load_settings_config'] );
 			$handler = 'FLBuilderUISettingsForms::compress_settings_config';
 
 			if ( 'modules' === $type ) {
@@ -128,19 +128,19 @@ class FLBuilderUISettingsForms {
 	 */
 	static public function get_js_config() {
 		return array(
-			'forms'   		=> self::prep_forms_for_js_config( FLBuilderModel::$settings_forms ),
-			'editables'   	=> self::prep_editables_for_js_config(),
-			'nodes'  		=> self::prep_node_settings_for_js_config(),
-			'attachments'   => self::prep_attachments_for_js_config(),
-			'settings'		=> array(
-				'global'		=> FLBuilderModel::get_global_settings(),
-				'layout'		=> FLBuilderModel::get_layout_settings(),
+			'forms'       => self::prep_forms_for_js_config( FLBuilderModel::$settings_forms ),
+			'editables'   => self::prep_editables_for_js_config(),
+			'nodes'       => self::prep_node_settings_for_js_config(),
+			'attachments' => self::prep_attachments_for_js_config(),
+			'settings'    => array(
+				'global' => FLBuilderModel::get_global_settings(),
+				'layout' => FLBuilderModel::get_layout_settings(),
 			),
-			'defaults'		=> array(
-				'row'			=> FLBuilderModel::get_row_defaults(),
-				'column'		=> FLBuilderModel::get_col_defaults(),
-				'modules'		=> FLBuilderModel::get_module_defaults(),
-				'forms'   		=> self::prep_form_defaults_for_js_config( FLBuilderModel::$settings_forms ),
+			'defaults'    => array(
+				'row'     => FLBuilderModel::get_row_defaults(),
+				'column'  => FLBuilderModel::get_col_defaults(),
+				'modules' => FLBuilderModel::get_module_defaults(),
+				'forms'   => self::prep_form_defaults_for_js_config( FLBuilderModel::$settings_forms ),
 			),
 		);
 	}
@@ -165,8 +165,8 @@ class FLBuilderUISettingsForms {
 	 */
 	static public function get_node_js_config() {
 		return array(
-			'nodes'  		=> self::prep_node_settings_for_js_config(),
-			'attachments'   => self::prep_attachments_for_js_config(),
+			'nodes'       => self::prep_node_settings_for_js_config(),
+			'attachments' => self::prep_attachments_for_js_config(),
 		);
 	}
 
@@ -219,8 +219,8 @@ class FLBuilderUISettingsForms {
 
 					if ( isset( $section['file'] ) && FL_BUILDER_DIR . 'includes/service-settings.php' === $section['file'] ) {
 						$section['template'] = array(
-							'id' 	=> 'fl-builder-service-settings',
-							'file' 	=> FL_BUILDER_DIR . 'includes/ui-service-settings.php',
+							'id'   => 'fl-builder-service-settings',
+							'file' => FL_BUILDER_DIR . 'includes/ui-service-settings.php',
 						);
 						unset( $section['file'] );
 					}
@@ -299,9 +299,9 @@ class FLBuilderUISettingsForms {
 			$js  = '';
 
 			$css_file_path = apply_filters( "fl_builder_module_settings_css_file_path_{$module->slug}", "{$module->dir}css/settings.css", $module );
-			$css_file_uri = apply_filters( "fl_builder_module_settings_css_file_uri_{$module->slug}", "{$module->url}css/settings.css", $module );
-			$js_file_path = apply_filters( "fl_builder_module_settings_js_file_path_{$module->slug}", "{$module->dir}js/settings.js", $module );
-			$js_file_uri = apply_filters( "fl_builder_module_settings_js_file_uri_{$module->slug}", "{$module->url}js/settings.js", $module );
+			$css_file_uri  = apply_filters( "fl_builder_module_settings_css_file_uri_{$module->slug}", "{$module->url}css/settings.css", $module );
+			$js_file_path  = apply_filters( "fl_builder_module_settings_js_file_path_{$module->slug}", "{$module->dir}js/settings.js", $module );
+			$js_file_uri   = apply_filters( "fl_builder_module_settings_js_file_uri_{$module->slug}", "{$module->url}js/settings.js", $module );
 
 			if ( file_exists( $css_file_path ) ) {
 				$css .= '<link class="fl-builder-settings-css" rel="stylesheet" href="' . $css_file_uri . '" />';
@@ -314,8 +314,8 @@ class FLBuilderUISettingsForms {
 				'title'  => $module->name,
 				'tabs'   => $module->form,
 				'assets' => array(
-					'css'	 => $css,
-					'js'	 => $js,
+					'css' => $css,
+					'js'  => $js,
 				),
 			);
 		}
@@ -363,10 +363,10 @@ class FLBuilderUISettingsForms {
 
 				$editables[ $module->slug ][ $key ] = array(
 					'selector' => $field['preview']['selector'],
-					'field'	   => array(
-						'name'		=> $key,
-						'type'		=> $field['type'],
-						'toolbar'	=> isset( $field['inline_editor'] ) ? $field['inline_editor'] : null,
+					'field'    => array(
+						'name'    => $key,
+						'type'    => $field['type'],
+						'toolbar' => isset( $field['inline_editor'] ) ? $field['inline_editor'] : null,
 					),
 				);
 			}
@@ -487,16 +487,16 @@ class FLBuilderUISettingsForms {
 			return false;
 		}
 
-		$post			= get_post( $id );
-		$filename 		= wp_basename( $url );
-		$base_url 		= str_replace( $filename, '', $url );
-		$meta     		= wp_get_attachment_metadata( $id );
-		$sizes    		= array();
+		$post           = get_post( $id );
+		$filename       = wp_basename( $url );
+		$base_url       = str_replace( $filename, '', $url );
+		$meta           = wp_get_attachment_metadata( $id );
+		$sizes          = array();
 		$possible_sizes = apply_filters( 'image_size_names_choose', array(
-			'thumbnail' 	=> __( 'Thumbnail' ),
-			'medium'    	=> __( 'Medium' ),
-			'large'     	=> __( 'Large' ),
-			'full'      	=> __( 'Full Size' ),
+			'thumbnail' => __( 'Thumbnail' ),
+			'medium'    => __( 'Medium' ),
+			'large'     => __( 'Large' ),
+			'full'      => __( 'Full Size' ),
 		) );
 
 		if ( isset( $meta['sizes'] ) ) {
@@ -523,11 +523,11 @@ class FLBuilderUISettingsForms {
 		}
 
 		return array(
-			'id'		=> $id,
-			'url'   	=> $url,
-			'filename' 	=> $filename,
-			'caption'	=> $post->post_excerpt,
-			'sizes' 	=> apply_filters( 'fl_builder_photo_sizes_select', $sizes ),
+			'id'       => $id,
+			'url'      => $url,
+			'filename' => $filename,
+			'caption'  => $post->post_excerpt,
+			'sizes'    => apply_filters( 'fl_builder_photo_sizes_select', $sizes ),
 		);
 	}
 
@@ -581,12 +581,12 @@ class FLBuilderUISettingsForms {
 	 * @return array
 	 */
 	static public function pre_render_legacy_module_settings( $type, $settings ) {
-		$data = array(
-			'tabs'	 	=> array(),
-			'sections'	=> array(),
-			'fields'	=> array(),
-			'settings'	=> $settings,
-			'node_id'	=> null,
+		$data   = array(
+			'tabs'     => array(),
+			'sections' => array(),
+			'fields'   => array(),
+			'settings' => $settings,
+			'node_id'  => null,
 		);
 		$custom = apply_filters( 'fl_builder_custom_fields', array() );
 
@@ -603,7 +603,7 @@ class FLBuilderUISettingsForms {
 
 				if ( isset( $section['file'] ) ) {
 					$data['sections'][] = array(
-						'tab' 	  => $tab_id,
+						'tab'     => $tab_id,
 						'section' => $section_id,
 					);
 				}
@@ -613,7 +613,7 @@ class FLBuilderUISettingsForms {
 
 				foreach ( $section['fields'] as $field_id => $field ) {
 
-					$is_core = file_exists( FL_BUILDER_DIR . 'includes/ui-field-' . $field['type'] . '.php' );
+					$is_core   = file_exists( FL_BUILDER_DIR . 'includes/ui-field-' . $field['type'] . '.php' );
 					$is_custom = isset( $custom[ $field['type'] ] );
 
 					if ( ! $is_core && ! $is_custom ) {
@@ -638,11 +638,11 @@ class FLBuilderUISettingsForms {
 	 */
 	static public function render_legacy_settings( $data, $form, $group, $lightbox ) {
 		$response = array(
-			'lightbox'	=> $lightbox,
-			'tabs'	 	=> array(),
-			'sections'	=> array(),
-			'fields'	=> array(),
-			'extras'	=> array(),
+			'lightbox' => $lightbox,
+			'tabs'     => array(),
+			'sections' => array(),
+			'fields'   => array(),
+			'extras'   => array(),
 		);
 
 		// Get the form tabs.
@@ -658,7 +658,7 @@ class FLBuilderUISettingsForms {
 		// Get the settings.
 		if ( $data['node_id'] ) {
 			$layout_data = FLBuilderModel::get_layout_data();
-			$settings = $layout_data[ $data['node_id'] ]->settings;
+			$settings    = $layout_data[ $data['node_id'] ]->settings;
 		} else {
 			$settings = isset( $data['settings'] ) ? (object) $data['settings'] : new stdClass();
 		}
@@ -682,12 +682,12 @@ class FLBuilderUISettingsForms {
 				continue;
 			}
 
-			$value = isset( $settings->$name ) ? $settings->$name : '';
+			$value       = isset( $settings->$name ) ? $settings->$name : '';
 			$is_multiple = isset( $field['multiple'] ) ? $field['multiple'] : false;
 
 			if ( $is_multiple && is_array( $value ) ) {
 				$before = array();
-				$after = array();
+				$after  = array();
 				foreach ( $value as $repeater_item_value ) {
 					ob_start();
 					do_action( 'fl_builder_before_control', $name, $repeater_item_value, $field, $settings );
@@ -714,8 +714,8 @@ class FLBuilderUISettingsForms {
 			if ( ! empty( $before ) || ! empty( $after ) ) {
 				$response['extras'][ $name ] = array(
 					'multiple' => $is_multiple,
-					'before' => $before,
-					'after'  => $after,
+					'before'   => $before,
+					'after'    => $after,
 				);
 			}
 		}
@@ -768,16 +768,19 @@ class FLBuilderUISettingsForms {
 	 */
 	static public function render_settings( $form = array(), $settings ) {
 		$defaults = array(
-			'class'     => '',
-			'attrs'     => '',
-			'title'     => '',
-			'badges'	=> array(),
-			'tabs'      => array(),
-			'buttons'	=> array(),
-			'settings'	=> $settings,
+			'class'    => '',
+			'attrs'    => '',
+			'title'    => '',
+			'badges'   => array(),
+			'tabs'     => array(),
+			'buttons'  => array(),
+			'settings' => $settings,
 		);
 
-		// Legacy filter for the config.
+		/**
+		 * Legacy filter for the config.
+		 * @see fl_builder_settings_form_config
+		 */
 		$form = apply_filters( 'fl_builder_settings_form_config', array_merge( $defaults, $form ) );
 
 		// Setup the class var to be safe in JS.
@@ -825,8 +828,8 @@ class FLBuilderUISettingsForms {
 		}
 
 		return self::render_settings(array(
-			'title' 	=> $form['title'],
-			'tabs'  	=> $form['tabs'],
+			'title' => $form['title'],
+			'tabs'  => $form['tabs'],
 		), $settings);
 	}
 
@@ -850,25 +853,25 @@ class FLBuilderUISettingsForms {
 		 * @link https://kb.wpbeaverbuilder.com/article/117-plugin-filter-reference
 		 * @since 2.0
 		 */
-		$field              = apply_filters( 'fl_builder_render_settings_field', $field, $name, $settings ); // Allow field settings filtering first
+		$field = apply_filters( 'fl_builder_render_settings_field', $field, $name, $settings ); // Allow field settings filtering first
 
 		if ( ! isset( $field['type'] ) ) {
 			return;
 		}
 
-		$i                  = null;
-		$is_multiple        = isset( $field['multiple'] ) && true === (bool) $field['multiple'];
-		$supports_multiple  = 'editor' != $field['type'] && 'service' != $field['type'];
-		$settings           = ! $settings ? new stdClass() : $settings;
-		$preview            = isset( $field['preview'] ) ? json_encode( $field['preview'] ) : json_encode( array(
+		$i                 = null;
+		$is_multiple       = isset( $field['multiple'] ) && true === (bool) $field['multiple'];
+		$supports_multiple = 'editor' != $field['type'] && 'service' != $field['type'];
+		$settings          = ! $settings ? new stdClass() : $settings;
+		$preview           = isset( $field['preview'] ) ? json_encode( $field['preview'] ) : json_encode( array(
 			'type' => 'refresh',
 		) );
-		$row_class          = isset( $field['row_class'] ) ? ' ' . $field['row_class'] : '';
-		$responsive         = false;
-		$responsive_fields  = array( 'unit' );
-		$root_name          = $name;
-		$global_settings    = FLBuilderModel::get_global_settings();
-		$value              = isset( $settings->$name ) ? $settings->$name : '';
+		$row_class         = isset( $field['row_class'] ) ? ' ' . $field['row_class'] : '';
+		$responsive        = false;
+		$responsive_fields = array( 'unit' );
+		$root_name         = $name;
+		$global_settings   = FLBuilderModel::get_global_settings();
+		$value             = isset( $settings->$name ) ? $settings->$name : '';
 
 		// Use a default value if not set in the settings.
 		if ( ! isset( $settings->$name ) && isset( $field['default'] ) ) {
@@ -890,9 +893,9 @@ class FLBuilderUISettingsForms {
 			// Render old calls to *custom* fields with PHP.
 			if ( $is_multiple && $supports_multiple ) {
 
-				$values     = $value;
-				$arr_name   = $name;
-				$name      .= '[]';
+				$values   = $value;
+				$arr_name = $name;
+				$name    .= '[]';
 
 				echo '<tbody id="fl-field-' . $root_name . '" class="fl-field fl-builder-field-multiples" data-type="form" data-preview=\'' . $preview . '\'>';
 

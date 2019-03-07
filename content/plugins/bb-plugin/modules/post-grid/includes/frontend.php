@@ -10,8 +10,8 @@ if ( $query->have_posts() ) :
 
 	$paged = ( FLBuilderLoop::get_paged() > 0 ) ? ' fl-paged-scroll-to' : '';
 
-?>
-<div class="fl-post-<?php echo $module->get_layout_slug() . $paged; ?>" itemscope="itemscope" itemtype="https://schema.org/Blog">
+	?>
+	<div class="fl-post-<?php echo $module->get_layout_slug() . $paged; ?>" itemscope="itemscope" itemtype="https://schema.org/Blog">
 	<?php
 
 	if ( 'li' == $module->get_posts_container() ) :
@@ -53,17 +53,17 @@ do_action( 'fl_builder_posts_module_after_posts', $settings, $query );
 // Render the pagination.
 if ( 'none' != $settings->pagination && $query->have_posts() && $query->max_num_pages > 1 ) :
 
-?>
-<div class="fl-builder-pagination"<?php if ( in_array( $settings->pagination, array( 'scroll', 'load_more' ) ) ) { echo ' style="display:none;"';} ?>>
-	<?php FLBuilderLoop::pagination( $query ); ?>
-</div>
-<?php if ( 'load_more' == $settings->pagination && $query->max_num_pages > 1 ) : ?>
-<div class="fl-builder-pagination-load-more">
-	<?php
-
-	FLBuilder::render_module_html( 'button', $module->get_button_settings() );
-
 	?>
+	<div class="fl-builder-pagination"<?php echo ( in_array( $settings->pagination, array( 'scroll', 'load_more' ) ) ) ? ' style="display:none;"' : ''; ?>>
+	<?php FLBuilderLoop::pagination( $query ); ?>
+	</div>
+	<?php if ( 'load_more' == $settings->pagination && $query->max_num_pages > 1 ) : ?>
+		<div class="fl-builder-pagination-load-more">
+			<?php
+
+			FLBuilder::render_module_html( 'button', $module->get_button_settings() );
+
+			?>
 </div>
 <?php endif; ?>
 <?php endif; ?>
@@ -74,18 +74,16 @@ do_action( 'fl_builder_posts_module_after_pagination', $settings, $query );
 // Render the empty message.
 if ( ! $query->have_posts() ) :
 
-?>
+	?>
 <div class="fl-post-grid-empty">
 	<p><?php echo $settings->no_results_message; ?></p>
 	<?php if ( $settings->show_search ) : ?>
-	<?php get_search_form(); ?>
+		<?php get_search_form(); ?>
 	<?php endif; ?>
 </div>
 
-<?php
+	<?php
 
 endif;
 
 wp_reset_postdata();
-
-?>

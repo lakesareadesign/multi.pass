@@ -49,5 +49,4 @@ class Genesis_Dambuster_Tooltip {
 		}
 		return $content;
 	}
-
 }

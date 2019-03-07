@@ -1,7 +1,7 @@
 <?php
 /*
 Plugin Name: Snapshot Pro
-Version: 3.2.0
+Version: 3.2.0.2
 Description: This plugin allows you to take quick on-demand backup snapshots of your working WordPress database. You can select from the default WordPress tables as well as custom plugin tables within the database structure. All snapshots are logged, and you can restore the snapshot as needed.
 Author: WPMU DEV
 Author URI: https://premium.wpmudev.org/
@@ -38,7 +38,7 @@ WDP ID: 257
  *
  */
 
-define('SNAPSHOT_VERSION', '3.2.0');
+define('SNAPSHOT_VERSION', '3.2.0.2');
 
 if ( ! defined( 'SNAPSHOT_I18N_DOMAIN' ) ) {
 	define( 'SNAPSHOT_I18N_DOMAIN', 'snapshot' );
@@ -124,7 +124,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 
 			$this->_settings['options_key'] = "wpmudev_snapshot";
 
-			$this->_settings['recover_table_prefix'] = "_snapshot_recover_";
+			$this->_settings['recover_table_prefix'] = "_snap_rcv_";
 
 			$this->_settings['backupBaseFolderFull'] = ""; // Will be set during page load in $this->set_backup_folder();
 			$this->_settings['backupBackupFolderFull'] = ""; // Will be set during page load in $this->set_backup_folder();
@@ -341,19 +341,23 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 				}
 			} else {
 				if ( is_main_site() && ( ! isset ( $this->config_data['transitioned_sdk'] ) || ! $this->config_data['transitioned_sdk'] ) ) {
-					// Update the regions of the existing AWS destinations to the new SDK format.
-					$current_destinations = $this->config_data['destinations'];
-					if ( ! empty( $current_destinations ) ) {
-						foreach ( $current_destinations as $key => $destination ) {
-							if ( 'aws' !== $destination['type']) {
-								continue;
-							}
-							$destination_object = $this->_settings['destinationClasses'][ $destination['type'] ];
-							$updated_region = $destination_object->get_updated_region( $destination );
+					// Before instantiate the S3MultiRegionClient, we check the setup to see if there are older versions of the libs used in the SDK.
+					if ( ( ! class_exists( 'GuzzleHttp\Client' ) || class_exists( 'GuzzleHttp\Psr7\Response' ) )  && ( ! class_exists( 'Aws\S3\S3Client' ) || class_exists( 'Aws\S3\S3MultiRegionClient' ) ) ) {
 
-							if ( $updated_region ) {
-								$this->config_data['destinations'][ $key ]['region'] = $updated_region;
-								$this->save_config();
+						// Update the regions of the existing AWS destinations to the new SDK format.
+						$current_destinations = $this->config_data['destinations'];
+						if ( ! empty( $current_destinations ) ) {
+							foreach ( $current_destinations as $key => $destination ) {
+								if ( 'aws' !== $destination['type']) {
+									continue;
+								}
+								$destination_object = $this->_settings['destinationClasses'][ $destination['type'] ];
+								$updated_region = $destination_object->get_updated_region( $destination );
+
+								if ( $updated_region ) {
+									$this->config_data['destinations'][ $key ]['region'] = $updated_region;
+									$this->save_config();
+								}
 							}
 						}
 					}
@@ -5277,13 +5281,25 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 						$source_table_name = $_POST['snapshot_table'];
 						$dest_table_name = $table_set['table_name_restore'];
 
+						if ( $dest_table_name !== $this->_settings['recover_table_prefix'] . $source_table_name ) {
+							$subsite_migration = true;
+						} else {
+							$subsite_migration = false;
+						}
+
 						if ( ( ! empty( $source_table_name ) ) && ( ! empty( $dest_table_name ) ) ) {
 							$backup_file_content = str_replace( "`" . $source_table_name . "`", "`" . $dest_table_name . "`", $backup_file_content );
 						}
 
 						@set_time_limit( 300 ); // phpcs:ignore
 						$backup_db = new Snapshot_Model_Database_Backup();
-						$backup_db->restore_databases( $backup_file_content );
+						$restore_logs = $backup_db->restore_databases( $backup_file_content, $source_table_name, $subsite_migration );
+
+						if ( ! empty( $restore_logs ) ) {
+							foreach ( $restore_logs as $log ) {
+								$this->snapshot_logger->log_message( $log );
+							}
+						}
 
 						// Check if there were any processing errors during the backup
 						if ( count( $backup_db->errors ) ) {
@@ -5567,6 +5583,10 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 			}
 			flush_rewrite_rules();
 
+
+			Snapshot_Helper_Utility::remove_sql_files( $this->_session->data['restoreFolder'] );
+			Snapshot_Helper_Utility::remove_manifest( $this->_session->data['restoreFolder'] );
+
 			$error_status = array();
 			$error_status['errorStatus'] = false;
 			$error_status['errorText'] = "";
@@ -5602,6 +5622,7 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 					}
 				}
 			}
+			$wpdb->query( 'SET foreign_key_checks = 0' );
 
 			foreach ( $this->_session->data['MANIFEST']['TABLES'] as $table_set ) {
 
@@ -5619,6 +5640,8 @@ if ( ! class_exists( 'WPMUDEVSnapshot' ) ) {
 				$this->snapshot_logger->log_message( 'rename restored table: ' . $sql_str );
 				$wpdb->query( esc_sql( "ALTER TABLE `{$table_set['table_name_restore']}` RENAME `{$table_set['table_name_dest']}`;" ) );
 			}
+
+			$wpdb->query( 'SET foreign_key_checks = 1' );
 		}
 
 		public function snapshot_ajax_restore_convert_db_content( $table_data ) {

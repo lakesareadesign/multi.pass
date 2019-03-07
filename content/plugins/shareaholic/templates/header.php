@@ -1,6 +1,6 @@
 <!-- Header - start -->
 <div id="shr-header-container"></div>
-<script type="text/javascript" src="<?php echo ShareaholicUtilities::asset_url_admin('ui-header/loader.js') ?>"></script>
+<script src="<?php echo ShareaholicUtilities::asset_url_admin('ui-header/loader.js') ?>"></script>
 <!-- Header - end -->
 
 <script>

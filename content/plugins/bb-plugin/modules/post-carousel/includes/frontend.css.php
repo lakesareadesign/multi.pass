@@ -1,10 +1,10 @@
 <?php
 
-	$layout		      = isset( $settings->layout ) ? $settings->layout : 'grid';
-	$posts_per_view   = ! empty( $settings->posts_per_view ) ? $settings->posts_per_view : 3;
-	$icon_position    = isset( $settings->post_icon_position ) ? $settings->post_icon_position : 'above';
+	$layout         = isset( $settings->layout ) ? $settings->layout : 'grid';
+	$posts_per_view = ! empty( $settings->posts_per_view ) ? $settings->posts_per_view : 3;
+	$icon_position  = isset( $settings->post_icon_position ) ? $settings->post_icon_position : 'above';
 
-	?>
+?>
 
 <?php if ( isset( $settings->equal_height ) && 'yes' == $settings->equal_height && 'grid' == $layout ) : ?>
 	.fl-node-<?php echo $id; ?> .fl-post-carousel-wrapper{
@@ -15,10 +15,10 @@
 <?php endif; ?>
 
 .fl-node-<?php echo $id; ?> .fl-post-carousel .fl-post-carousel-post {
-	width: <?php echo round( ( 100 / $posts_per_view ), 2 ) ?>%;
+	width: <?php echo round( ( 100 / $posts_per_view ), 2 ); ?>%;
 }
 
-.fl-node-<?php echo $id; ?> .fl-post-carousel .fl-post-carousel-post:nth-child(-n+<?php echo $posts_per_view ?>) {
+.fl-node-<?php echo $id; ?> .fl-post-carousel .fl-post-carousel-post:nth-child(-n+<?php echo $posts_per_view; ?>) {
 	position: relative;
 }
 
@@ -64,7 +64,7 @@
 <?php if ( isset( $settings->navigation ) && 'yes' == $settings->navigation ) : ?>
 
 	<?php if ( 'grid' == $layout ) : ?>
-	.fl-node-<?php echo $id ?> .fl-post-carousel {
+	.fl-node-<?php echo $id; ?> .fl-post-carousel {
 		padding: 0 48px;
 	}
 	<?php endif; ?>
@@ -106,7 +106,7 @@
 
 	<?php if ( 'gallery' == $layout ) : ?>
 
-		.fl-node-<?php echo $id ?> .fl-post-carousel-gallery .fl-carousel-icon{
+		.fl-node-<?php echo $id; ?> .fl-post-carousel-gallery .fl-carousel-icon{
 		<?php if ( 'above' == $icon_position ) : ?>
 			margin-bottom: 10px;
 		<?php else : ?>
@@ -115,12 +115,12 @@
 		}
 
 		<?php if ( ! empty( $settings->post_icon_size ) || ! empty( $settings->post_icon_color ) ) : ?>
-			.fl-node-<?php echo $id ?> .fl-post-carousel-gallery .fl-carousel-icon i,
-			.fl-node-<?php echo $id ?> .fl-post-carousel-gallery .fl-carousel-icon i:before {
+			.fl-node-<?php echo $id; ?> .fl-post-carousel-gallery .fl-carousel-icon i,
+			.fl-node-<?php echo $id; ?> .fl-post-carousel-gallery .fl-carousel-icon i:before {
 			<?php if ( ! empty( $settings->post_icon_size ) ) : ?>
-				width: <?php echo $settings->post_icon_size ?>px;
-				height: <?php echo $settings->post_icon_size ?>px;
-				font-size: <?php echo $settings->post_icon_size ?>px;
+				width: <?php echo $settings->post_icon_size; ?>px;
+				height: <?php echo $settings->post_icon_size; ?>px;
+				font-size: <?php echo $settings->post_icon_size; ?>px;
 			<?php endif; ?>
 			<?php if ( ! empty( $settings->post_icon_color ) ) : ?>
 				color: <?php echo FLBuilderColor::hex_or_rgb( $settings->post_icon_color ); ?>;
@@ -133,25 +133,25 @@
 <?php endif; ?>
 
 <?php if ( isset( $settings->hover_transition ) && 'fade' != $settings->hover_transition && 'gallery' == $layout ) : ?>
-	.fl-node-<?php echo $id ?> .fl-post-carousel-gallery .fl-post-carousel-text{
+	.fl-node-<?php echo $id; ?> .fl-post-carousel-gallery .fl-post-carousel-text{
 	<?php if ( 'slide-up' == $settings->hover_transition ) : ?>
 		-webkit-transform: translate3d(-50%,-30%,0);
-		   -moz-transform: translate3d(-50%,-30%,0);
+			-moz-transform: translate3d(-50%,-30%,0);
 			-ms-transform: translate(-50%,-30%);
 				transform: translate3d(-50%,-30%,0);
 	<?php elseif ( 'slide-down' == $settings->hover_transition ) : ?>
 		-webkit-transform: translate3d(-50%,-70%,0);
-		   -moz-transform: translate3d(-50%,-70%,0);
+			-moz-transform: translate3d(-50%,-70%,0);
 			-ms-transform: translate(-50%,-70%);
 				transform: translate3d(-50%,-70%,0);
 	<?php elseif ( 'scale-up' == $settings->hover_transition ) : ?>
 		-webkit-transform: translate3d(-50%,-50%,0) scale(.7);
-		   -moz-transform: translate3d(-50%,-50%,0) scale(.7);
+			-moz-transform: translate3d(-50%,-50%,0) scale(.7);
 			-ms-transform: translate(-50%,-50%) scale(.7);
 				transform: translate3d(-50%,-50%,0) scale(.7);
 	<?php elseif ( 'scale-down' == $settings->hover_transition ) : ?>
 		-webkit-transform: translate3d(-50%,-50%,0) scale(1.3);
-		   -moz-transform: translate3d(-50%,-50%,0) scale(1.3);
+			-moz-transform: translate3d(-50%,-50%,0) scale(1.3);
 			-ms-transform: translate(-50%,-50%) scale(1.3);
 				transform: translate3d(-50%,-50%,0) scale(1.3);
 	<?php endif; ?>

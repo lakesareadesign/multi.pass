@@ -5,7 +5,7 @@ if ( !defined( 'ABSPATH' ) ) {
 }
 
 define( 'W3TC', true );
-define( 'W3TC_VERSION', '0.9.7.1' );
+define( 'W3TC_VERSION', '0.9.7.2' );
 define( 'W3TC_POWERED_BY', 'W3 Total Cache' );
 define( 'W3TC_EMAIL', 'w3tc@w3-edge.com' );
 define( 'W3TC_TEXT_DOMAIN', 'w3-total-cache' );
@@ -639,6 +639,10 @@ function w3tc_er( $key, $default_value ) {
 	$v = get_site_option( 'w3tc_generic_widgetservices' );
 	try {
 		$v = json_decode( $v, true );
+		if ( !isset( $v['content'] ) ) {
+			return $default_value;
+		}
+
 		$v = $v['content'];
 	} catch ( \Exception $e ) {
 		return $default_value;

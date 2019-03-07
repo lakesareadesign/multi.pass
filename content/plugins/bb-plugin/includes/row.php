@@ -2,7 +2,7 @@
 <<?php echo $container_element; ?><?php FLBuilder::render_row_attributes( $row ); ?>>
 	<div class="fl-row-content-wrap">
 		<?php FLBuilder::render_row_bg( $row ); ?>
-		<?php do_action( 'fl_builder_render_node_layers', $row ) ?>
+		<?php do_action( 'fl_builder_render_node_layers', $row ); ?>
 		<div class="<?php FLBuilder::render_row_content_class( $row ); ?>">
 		<?php
 		// $groups received as a magic variable from template loading.

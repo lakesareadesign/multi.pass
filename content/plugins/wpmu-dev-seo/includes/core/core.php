@@ -756,7 +756,19 @@ function smartcrawl_kill_stuck_transient( $key ) {
  * @return bool
  */
 function smartcrawl_is_switch_active( $switch ) {
-	return defined( $switch ) ? constant( $switch ) : false;
+	$result = defined( $switch ) ? constant( $switch ) : false;
+
+	/**
+	 * Checks if a define switch is toggled on
+	 *
+	 * Used in tests.
+	 *
+	 * @param bool $result Whether the switch is turned on.
+	 * @param string $switch Switch name.
+	 *
+	 * @return bool
+	 */
+	return (bool) apply_filters( 'smartcrawl_switch_active', $result, $switch );
 }
 
 /**

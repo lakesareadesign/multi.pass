@@ -37,21 +37,24 @@
 								the free version. Upgrade to Pro to smush unlimited images, or click resume to
 								smush another 50 attachments.",
 							'wp-smushit'
-						);
+						);								 	 	   		   
 						?>
 					</p>
 				</div>
 
 				<div class="sui-progress-block sui-progress-can-close">
 					<div class="sui-progress">
-						<div class="sui-progress-text sui-icon-loader sui-loading">
+						<span class="sui-progress-icon" aria-hidden="true">
+							<i class="sui-icon-loader sui-loading"></i>
+						</span>
+						<div class="sui-progress-text">
 							<span>0%</span>
 						</div>
-						<div class="sui-progress-bar">
+						<div class="sui-progress-bar" aria-hidden="true">
 							<span style="width: 0"></span>
 						</div>
 					</div>
-					<button class="sui-progress-close sui-tooltip" id="cancel-directory-smush" type="button" data-tooltip="<?php esc_attr_e( 'Cancel', 'wp-smushit' ); ?>">
+					<button class="sui-button-icon sui-tooltip" id="cancel-directory-smush" type="button" data-tooltip="<?php esc_attr_e( 'Cancel', 'wp-smushit' ); ?>">
 						<i class="sui-icon-close"></i>
 					</button>
 				</div>

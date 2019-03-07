@@ -125,7 +125,7 @@ if ( ( Array.isArray( field.options ) && field.options.length === 1 ) || 'string
 				if ( 'object' === typeof value && jQuery.inArray( groupKey, value ) != -1 ) {
 					// Multi select
 					selected = ' selected="selected"';
-				} else if ( 'string' === typeof value && groupKey == value ) {
+				} else if ( groupKey == value ) {
 					// Single select
 					selected = ' selected="selected"';
 				}
@@ -150,7 +150,7 @@ if ( ( Array.isArray( field.options ) && field.options.length === 1 ) || 'string
 			if ( 'object' === typeof value && jQuery.inArray( optionKey, value ) != -1 ) {
 				// Multi select
 				selected = ' selected="selected"';
-			} else if ( 'string' === typeof value && optionKey == value ) {
+			} else if ( optionKey == value ) {
 				// Single select
 				selected = ' selected="selected"';
 			}

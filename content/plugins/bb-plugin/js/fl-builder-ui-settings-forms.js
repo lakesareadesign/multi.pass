@@ -74,9 +74,10 @@
 					buttons	  : [],
 					settings  : {},
 					legacy    : null,
-					rules	  : null,
+					rules	    : null,
 					preview   : null,
-					helper 	  : null
+					helper 	  : null,
+					messages  : null
 				};
 
 			// Load settings from the server if we have a node but no settings.
@@ -202,7 +203,7 @@
 				FLBuilder._initSettingsForms();
 
 				if ( config.rules ) {
-					FLBuilder._initSettingsValidation( config.rules );
+					FLBuilder._initSettingsValidation( config.rules, config.messages );
 				}
 				if ( config.preview ) {
 					FLBuilder.preview = new FLBuilderPreview( config.preview );

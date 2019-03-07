@@ -217,7 +217,7 @@ class MetaSliderImageHelper {
      * @param bool $force_resize Force resize of image
      * @return string resized image URL
      */
-    function get_image_url($force_resize = false) {
+    public function get_image_url($force_resize = false) {
         // Get the image file path
         if (!strlen($this->path)) {
             return apply_filters('metaslider_resized_image_url', $this->url, $this->url);

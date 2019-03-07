@@ -655,36 +655,50 @@ if (!class_exists('ALTER')) {
   }
 
   function get_admin_users() {
-    if(isset($_POST) && isset($_POST['aof_options_save'])) {
+    //if(isset($_POST) && isset($_POST['aof_options_save'])) {
+
       $admin_users = array();
-      $admin_user_query = new WP_User_Query( array( 'meta_key' => 'wp_user_level', 'meta_value' => '10' ) );
-      if(empty($admin_user_query) && !is_array($admin_user_query)) {
+      $admin_user_query = null;
+
+      if ( is_multisite() ) {
+        $admin_user_query = get_super_admins();
+      }
+      if(empty($admin_user_query)) {
+        $admin_user_query = new WP_User_Query( array( 'meta_key' => 'wp_user_level', 'meta_value' => '10' ) );
+      }
+      if(empty($admin_user_query)) {
         $admin_user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
       }
 
-      foreach ($admin_user_query->results as $admin_data) {
-        if(!empty($admin_data->data->display_name)) {
-          $user_display_name = $admin_data->data->display_name;
-        }
-        else {
-          $user_display_name = $admin_data->data->user_login;
-        }
-        $admin_users[$admin_data->ID] = $user_display_name;
-      }
+      if ( is_multisite() ) {
 
-      // $user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
-      // if(isset($user_query) && !empty($user_query)) {
-      //     if ( ! empty( $user_query->results ) ) {
-      //         foreach ( $user_query->results as $user_detail ) {
-      //             $admin_users[$user_detail->ID] = $user_detail->display_name;
-      //         }
-      //     }
-      // }
+        if(!empty($admin_user_query) && is_array($admin_user_query)) {
+          foreach ($admin_user_query as $admin_user_name) {
+            $admin_user_id = get_user_by('login', $admin_user_name);
+            $admin_user_id = $admin_user_id->ID;
+            $admin_users[$admin_user_id] = $admin_user_name;
+          }
+        }
+
+      }
+      else {
+
+        foreach ($admin_user_query->results as $admin_data) {
+          if(!empty($admin_data->data->display_name)) {
+            $user_display_name = $admin_data->data->display_name;
+          }
+          else {
+            $user_display_name = $admin_data->data->user_login;
+          }
+          $admin_users[$admin_data->ID] = $user_display_name;
+        }
+
+      }
 
       if(!empty($admin_users)) {
         update_option(ALTER_ADMIN_USERS_SLUG, $admin_users);
       }
-    }
+    //}
   }
 
 	function frontendActions()

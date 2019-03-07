@@ -82,6 +82,9 @@ if ( ! defined( 'SMARTCRAWL_WHITELABEL_ON' ) ) {
 if ( ! defined( 'SMARTCRAWL_OMIT_PORT_MATCHES' ) ) {
 	define( 'SMARTCRAWL_OMIT_PORT_MATCHES', false );
 }
+if ( ! defined( 'SMARTCRAWL_ANALYSIS_REQUEST_TIMEOUT' ) ) {
+	define( 'SMARTCRAWL_ANALYSIS_REQUEST_TIMEOUT', 5 );
+}
 
 /**
  * Setup plugin path and url.

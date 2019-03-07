@@ -112,7 +112,7 @@ div.action-links {
 	opacity: 0.8;
 	transition: all 0.4s ease-in-out;
 }
-#availableplugins .active-plugin .available-plugin-inner, .available-plugin:hover .available-plugin-inner, #availableplugins .active-plugin img, .available-plugin:hover img {
+#availableplugins .active-plugin .available-plugin-inner, .available-plugin:hover .available-plugin-inner, #availableplugins .active-plugin img, .available-plugin:hover img {				    	 					 			 
 	opacity: 1 !important;
 }
 #availableplugins .active-plugin .screenshot:hover img, #availableplugins .active-plugin .active img {
@@ -189,4 +189,4 @@ color: #999;
 }
 
 
-/* 133620-1522104885-au */
+/* 133620-1551987248-au */

@@ -73,7 +73,7 @@
 		<?php if ( $settings->show_content || $settings->show_more_link ) : ?>
 		<div class="fl-post-grid-content">
 			<?php if ( $settings->show_content ) : ?>
-			<?php $module->render_excerpt(); ?>
+				<?php $module->render_excerpt(); ?>
 			<?php endif; ?>
 			<?php if ( $settings->show_more_link ) : ?>
 			<a class="fl-post-grid-more" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php echo $settings->more_link_text; ?></a>

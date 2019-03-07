@@ -7,14 +7,14 @@ function fl_welcome_utm( $campaign ) {
 		'utm_campaign' => $campaign,
 	);
 }
-$blog_post_url     = FLBuilderModel::get_store_url( 'beaver-builder-2-2-falcon-new-prebuilt-rows-unit-selectors-and-much-more', fl_welcome_utm( 'settings-welcome-blog-post' ) );
-$change_logs_url   = FLBuilderModel::get_store_url( 'change-logs', fl_welcome_utm( 'settings-welcome-change-logs' ) );
-$upgrade_url       = FLBuilderModel::get_upgrade_url( fl_welcome_utm( 'settings-welcome-upgrade' ) );
-$support_url       = FLBuilderModel::get_store_url( 'beaver-builder-support', fl_welcome_utm( 'settings-welcome-support' ) );
-$faqs_url          = FLBuilderModel::get_store_url( 'frequently-asked-questions', fl_welcome_utm( 'settings-welcome-faqs' ) );
-$forums_url        = FLBuilderModel::get_store_url( 'support', fl_welcome_utm( 'settings-welcome-forums' ) );
-$docs_url          = 'https://kb.wpbeaverbuilder.com/';
-$fb_url            = 'https://www.facebook.com/groups/beaverbuilders/';
+$blog_post_url   = FLBuilderModel::get_store_url( 'beaver-builder-2-2-falcon-new-prebuilt-rows-unit-selectors-and-much-more', fl_welcome_utm( 'settings-welcome-blog-post' ) );
+$change_logs_url = FLBuilderModel::get_store_url( 'change-logs', fl_welcome_utm( 'settings-welcome-change-logs' ) );
+$upgrade_url     = FLBuilderModel::get_upgrade_url( fl_welcome_utm( 'settings-welcome-upgrade' ) );
+$support_url     = FLBuilderModel::get_store_url( 'beaver-builder-support', fl_welcome_utm( 'settings-welcome-support' ) );
+$faqs_url        = FLBuilderModel::get_store_url( 'frequently-asked-questions', fl_welcome_utm( 'settings-welcome-faqs' ) );
+$forums_url      = FLBuilderModel::get_store_url( 'support', fl_welcome_utm( 'settings-welcome-forums' ) );
+$docs_url        = 'https://kb.wpbeaverbuilder.com/';
+$fb_url          = 'https://www.facebook.com/groups/beaverbuilders/';
 
 ?>
 <div id="fl-welcome-form" class="fl-settings-form">
@@ -26,9 +26,9 @@ $fb_url            = 'https://www.facebook.com/groups/beaverbuilders/';
 		<p><?php _e( 'Thank you for choosing Beaver Builder and welcome to the colony! Find some helpful information below. Also, to the left are the Page Builder settings options.', 'fl-builder' ); ?>
 
 			<?php if ( true === FL_BUILDER_LITE ) : ?>
-			<?php printf( __( 'For more time-saving features and access to our expert support team, <a href="%s" target="_blank">upgrade today</a>.', 'fl-builder' ), $upgrade_url ); ?>
+				<?php printf( __( 'For more time-saving features and access to our expert support team, <a href="%s" target="_blank">upgrade today</a>.', 'fl-builder' ), $upgrade_url ); ?>
 			<?php else : ?>
-			<?php _e( 'Be sure to add your license key for access to updates and new features.', 'fl-builder' ); ?>
+				<?php _e( 'Be sure to add your license key for access to updates and new features.', 'fl-builder' ); ?>
 			<?php endif; ?>
 
 		</p>
@@ -85,13 +85,13 @@ $fb_url            = 'https://www.facebook.com/groups/beaverbuilders/';
 
 			<div class="fl-welcome-col">
 
-				<h4><?php _e( 'Need Some Help?', 'fl-builder' );  ?></h4>
+				<h4><?php _e( 'Need Some Help?', 'fl-builder' ); ?></h4>
 
-				<p><?php _e( 'We take pride in offering outstanding support.', 'fl-builder' );  ?></p>
+				<p><?php _e( 'We take pride in offering outstanding support.', 'fl-builder' ); ?></p>
 
-				<p><?php _e( 'The fastest way to find an answer to a question is to see if someone\'s already answered it!', 'fl-builder' );  ?></p>
+				<p><?php _e( 'The fastest way to find an answer to a question is to see if someone\'s already answered it!', 'fl-builder' ); ?></p>
 
-				<p><?php printf( __( 'For that, check our <a href="%1$s" target="_blank">Knowledge Base</a> or try searching <a href="%2$s" target="_blank">the Beaver Builders Facebook group</a>.', 'fl-builder' ), $docs_url, $fb_url );  ?></p>
+				<p><?php printf( __( 'For that, check our <a href="%1$s" target="_blank">Knowledge Base</a> or try searching <a href="%2$s" target="_blank">the Beaver Builders Facebook group</a>.', 'fl-builder' ), $docs_url, $fb_url ); ?></p>
 
 				<?php if ( true === FL_BUILDER_LITE ) : ?>
 				<p><?php printf( __( 'If you can\'t find an answer, consider upgrading to a premium version of Beaver Builder. Our expert support team is waiting to answer your questions and help you build your website. <a href="%s" target="_blank">Learn More</a>.', 'fl-builder' ), $upgrade_url ); ?></p>

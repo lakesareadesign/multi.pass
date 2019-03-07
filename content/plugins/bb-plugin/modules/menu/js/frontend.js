@@ -155,7 +155,7 @@
 					$subMenu 		= $link.children( '.sub-menu' ).first(),
 					$href	 		= $link.children('.fl-has-submenu-container').first().find('> a').attr('href'),
 					$subMenuParents = $( e.target ).parents( '.sub-menu' ),
-					$activeParent 	= $( e.target ).closest( '.fl-has-submenu.fl-active' );
+					$activeParents 	= $( e.target ).parents( '.fl-has-submenu.fl-active' );
 
 				if( !$subMenu.is(':visible') || $(e.target).hasClass('fl-menu-toggle')
 					|| ($subMenu.is(':visible') && (typeof $href === 'undefined' || $href == '#')) ){
@@ -172,7 +172,7 @@
 						$('.menu .fl-active', this.wrapperClass).not($link).removeClass('fl-active');
 					}
 					else if ($link.parents('.menu-item').hasClass('fl-active') && $link.parent('.sub-menu').length) {
-						$('.menu .fl-active', this.wrapperClass).not($link).not($activeParent).removeClass('fl-active');
+						$('.menu .fl-active', this.wrapperClass).not($link).not($activeParents).removeClass('fl-active');
 					}
 
 					$('.sub-menu', this.wrapperClass).not($subMenu).not($subMenuParents).slideUp('normal');
@@ -451,6 +451,11 @@
 			clone.find( '.fl-menu-mobile-toggle' ).remove();
 			col.after( clone );
 
+			// Removes animation when enabled.
+			if ( module.hasClass( 'fl-animation' ) ) {
+				clone.removeClass( 'fl-animation' );
+			}
+
 			this._menuOnClick();
 		},
 
@@ -493,7 +498,7 @@
 
 			if ( 0 === wrapper.find( '.fl-menu-mobile-close' ).length ) {
 				wrapper.find( '.fl-menu-mobile-flyout' )
-					   .prepend( '<button class="fl-menu-mobile-close"><i class="fa fa-times"></i></button>' );
+					   .prepend( '<button class="fl-menu-mobile-close"><i class="fas fa-times"></i></button>' );
 			}
 
 			// Push with opacity

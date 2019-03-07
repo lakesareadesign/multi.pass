@@ -555,7 +555,7 @@ class Snapshot_Controller_Full_Ajax extends Snapshot_Controller_Full {
 			die;
 		}
 
-		$error_response = array( 'error' => esc_html__( 'Backup failed to upload to WPMU server. You can check logs to debug the cause of this error or try resetting your snapshot key.', 'snapshot' ) );
+		$error_response = array( 'error' => esc_html__( 'Your backup failed to upload to the Hub. This can happen for a number of reasons, we recommend checking the error logs to see if you can uncover the issue, or try resetting your Snapshot API Key to see if that fixes the issue. If you get stuck, please contact our support team for help.', 'snapshot' ) );
 		if ( ! Snapshot_Model_Full_Remote_Api::get()->connect() ) {
 			wp_send_json( $error_response );
 			die;

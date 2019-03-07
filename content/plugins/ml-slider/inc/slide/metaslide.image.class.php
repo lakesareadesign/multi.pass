@@ -636,9 +636,9 @@ class MetaImageSlide extends MetaSlide {
      * @param  string $slide html
      * @return string slide html
      */
-    private function get_coin_slider_markup( $slide ) {
+    private function get_coin_slider_markup($slide) {
 
-        $attributes = apply_filters( 'metaslider_coin_slider_image_attributes', array(
+        $attributes = apply_filters('metaslider_coin_slider_image_attributes', array(
                 'src' => $slide['src'],
                 'height' => $slide['height'],
                 'width' => $slide['width'],
@@ -647,22 +647,22 @@ class MetaImageSlide extends MetaSlide {
                 'class' => $slide['class'],
                 'title' => $slide['title'],
                 'style' => 'display: none;'
-            ), $slide, $this->slider->ID );
+            ), $slide, $this->slider->ID);
 
-        $html = $this->build_image_tag( $attributes );
+        $html = $this->build_image_tag($attributes);
 
-        if ( strlen( $slide['caption'] ) ) {
+        if (strlen($slide['caption'])) {
             $html .= "<span>{$slide['caption']}</span>";
         }
 
-        $attributes = apply_filters( 'metaslider_coin_slider_anchor_attributes', array(
-                'href' => strlen( $slide['url'] ) ? $slide['url'] : 'javascript:void(0)'
-            ), $slide, $this->slider->ID );
+        $attributes = apply_filters('metaslider_coin_slider_anchor_attributes', array(
+				'href' => strlen($slide['url']) ? $slide['url'] : 'javascript:void(0)',
+				'target' => strlen($slide['url']) ? $slide['target'] : '_self'
+			), $slide, $this->slider->ID);
 
-        $html = $this->build_anchor_tag( $attributes, $html );
+        $html = $this->build_anchor_tag($attributes, $html);
 
-        return apply_filters( 'metaslider_image_coin_slider_markup', $html, $slide, $this->settings );
-
+        return apply_filters('metaslider_image_coin_slider_markup', $html, $slide, $this->settings);
     }
 
     /**

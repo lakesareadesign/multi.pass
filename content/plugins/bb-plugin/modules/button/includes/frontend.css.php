@@ -2,31 +2,31 @@
 
 // Alignment
 FLBuilderCSS::responsive_rule( array(
-	'settings'		=> $settings,
-	'setting_name'	=> 'align',
-	'selector'		=> ".fl-node-$id .fl-button-wrap",
-	'prop'			=> 'text-align',
+	'settings'     => $settings,
+	'setting_name' => 'align',
+	'selector'     => ".fl-node-$id .fl-button-wrap",
+	'prop'         => 'text-align',
 ) );
 
 // Padding
 FLBuilderCSS::dimension_field_rule( array(
-	'settings'		=> $settings,
-	'setting_name' 	=> 'padding',
-	'selector' 		=> ".fl-builder-content .fl-node-$id a.fl-button",
-	'unit'			=> 'px',
-	'props'			=> array(
-		'padding-top' 		=> 'padding_top',
-		'padding-right' 	=> 'padding_right',
-		'padding-bottom' 	=> 'padding_bottom',
-		'padding-left' 		=> 'padding_left',
+	'settings'     => $settings,
+	'setting_name' => 'padding',
+	'selector'     => ".fl-builder-content .fl-node-$id a.fl-button",
+	'unit'         => 'px',
+	'props'        => array(
+		'padding-top'    => 'padding_top',
+		'padding-right'  => 'padding_right',
+		'padding-bottom' => 'padding_bottom',
+		'padding-left'   => 'padding_left',
 	),
 ) );
 
 // Typography
 FLBuilderCSS::typography_field_rule( array(
-	'settings'		=> $settings,
-	'setting_name' 	=> 'typography',
-	'selector' 		=> ".fl-builder-content .fl-node-$id a.fl-button, .fl-builder-content .fl-node-$id a.fl-button:visited",
+	'settings'     => $settings,
+	'setting_name' => 'typography',
+	'selector'     => ".fl-builder-content .fl-node-$id a.fl-button, .fl-builder-content .fl-node-$id a.fl-button:visited",
 ) );
 
 // Default background hover color
@@ -50,8 +50,8 @@ if ( ! empty( $settings->bg_hover_color ) ) {
 // Border - Default
 FLBuilderCSS::rule( array(
 	'selector' => ".fl-builder-content .fl-node-$id a.fl-button, .fl-builder-content .fl-node-$id a.fl-button:visited",
-	'enabled' => ! empty( $settings->bg_color ),
-	'props' => array(
+	'enabled'  => ! empty( $settings->bg_color ),
+	'props'    => array(
 		'border' => '1px solid ' . FLBuilderColor::hex_or_rgb( FLBuilderColor::adjust_brightness( $settings->bg_color, 12, 'darken' ) ),
 	),
 ) );
@@ -59,17 +59,17 @@ FLBuilderCSS::rule( array(
 // Border - Hover Default
 FLBuilderCSS::rule( array(
 	'selector' => ".fl-builder-content .fl-node-$id a.fl-button:hover, .fl-builder-content .fl-node-$id a.fl-button:focus",
-	'enabled' => ! empty( $settings->bg_hover_color ),
-	'props' => array(
+	'enabled'  => ! empty( $settings->bg_hover_color ),
+	'props'    => array(
 		'border' => '1px solid ' . FLBuilderColor::hex_or_rgb( FLBuilderColor::adjust_brightness( $settings->bg_hover_color, 12, 'darken' ) ),
 	),
 ) );
 
 // Border - Settings
 FLBuilderCSS::border_field_rule( array(
-	'settings' 		=> $settings,
-	'setting_name' 	=> 'border',
-	'selector' 		=> ".fl-builder-content .fl-node-$id a.fl-button, .fl-builder-content .fl-node-$id a.fl-button:visited",
+	'settings'     => $settings,
+	'setting_name' => 'border',
+	'selector'     => ".fl-builder-content .fl-node-$id a.fl-button, .fl-builder-content .fl-node-$id a.fl-button:visited",
 ) );
 
 // Border - Hover Settings
@@ -78,9 +78,9 @@ if ( ! empty( $settings->border_hover_color ) && is_array( $settings->border ) )
 }
 
 FLBuilderCSS::border_field_rule( array(
-	'settings' 		=> $settings,
-	'setting_name' 	=> 'border',
-	'selector' 		=> ".fl-builder-content .fl-node-$id a.fl-button:hover, .fl-builder-content .fl-node-$id a.fl-button:focus",
+	'settings'     => $settings,
+	'setting_name' => 'border',
+	'selector'     => ".fl-builder-content .fl-node-$id a.fl-button:hover, .fl-builder-content .fl-node-$id a.fl-button:focus",
 ) );
 
 ?>
@@ -135,8 +135,10 @@ FLBuilderCSS::border_field_rule( array(
 }
 <?php endif; ?>
 
-<?php // Transition
-if ( 'enable' == $settings->button_transition ) : ?>
+<?php
+// Transition
+if ( 'enable' == $settings->button_transition ) :
+	?>
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-button,
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-button * {
 	transition: all 0.2s linear !important;
@@ -163,7 +165,8 @@ if ( 'enable' == $settings->button_transition ) : ?>
 
 // Click action - lightbox
 if ( isset( $settings->click_action ) && 'lightbox' == $settings->click_action ) :
-	if ( 'html' == $settings->lightbox_content_type ) : ?>
+	if ( 'html' == $settings->lightbox_content_type ) :
+		?>
 	.fl-node-<?php echo $id; ?>.fl-button-lightbox-content {
 		background: #fff none repeat scroll 0 0;
 		margin: 20px auto;

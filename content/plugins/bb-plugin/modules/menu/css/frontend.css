@@ -49,6 +49,10 @@
 .fl-menu .fl-menu-accordion .fl-has-submenu > .sub-menu{
 	display: none;
 }
+.fl-menu .fl-menu-accordion .fl-has-submenu.fl-active .hide-heading > .sub-menu {
+	box-shadow: none;
+	display: block !important;
+}
 
 /* Toggle - General */
 .fl-menu .fl-menu-toggle{
@@ -107,7 +111,9 @@
 
 /* Mega menu general */
 li.mega-menu .hide-heading > a,
-li.mega-menu .hide-heading > .fl-has-submenu-container > a {
+li.mega-menu .hide-heading > .fl-has-submenu-container,
+li.mega-menu-disabled .hide-heading > a,
+li.mega-menu-disabled .hide-heading > .fl-has-submenu-container {
 	display: none;
 }
 
@@ -173,4 +179,9 @@ ul.fl-menu-horizontal li.mega-menu > ul.sub-menu ul.sub-menu {
 	color: inherit;
 	font-size: 18px;
 	padding: 10px 6px 10px 14px;
+}
+
+/* IE Fixes */
+.fl-builder-ie-11 .fl-module-menu .fl-menu-horizontal .fl-has-submenu:hover > .sub-menu {
+	z-index: 60;
 }

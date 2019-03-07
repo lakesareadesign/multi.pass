@@ -17,9 +17,9 @@
 
     <div id="root" class="shr-site-settings"></div>
 
-    <script type="text/javascript" src="<?php echo ShareaholicUtilities::asset_url_admin('ui-site-settings/loader.js') ?>"></script>
+    <script src="<?php echo ShareaholicUtilities::asset_url_admin('ui-site-settings/loader.js') ?>"></script>
   </div>
 
 <?php } ?>
 
-<?php ShareaholicAdmin::include_snapengage(); ?>
+<?php ShareaholicAdmin::include_chat(); ?>

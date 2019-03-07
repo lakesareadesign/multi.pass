@@ -8,6 +8,21 @@ h3 { color: <?php echo $this->aof_options['h3_color']; ?>; }
 h4 { color: <?php echo $this->aof_options['h4_color']; ?>; }
 h5 { color: <?php echo $this->aof_options['h5_color']; ?>; }
 /* Admin Bar */
+<?php
+if(empty($this->aof_options['default_adminbar_height'])) { ?>
+  #wpadminbar {height:50px;}
+  @media only screen and (max-width: 782px){
+    #wpadminbar .quicklinks .ab-empty-item, #wpadminbar .quicklinks a, #wpadminbar .shortlink-input {
+        height: 46px;
+    }
+  }
+  @media only screen and (min-width:782px) {
+    html.wp-toolbar {padding-top: 50px;}
+    #wpadminbar .quicklinks>ul>li>a, div.ab-empty-item { padding: 9px !important }
+  }
+<?php
+}
+?>
 <?php if(!empty($this->aof_options['admin_bar_shadow'])) { ?>
 div#wpadminbar {
   box-shadow: 0 1px 3px 0 rgba(0,0,0,.3),0 1px 1px 0 rgba(0,0,0,.14),0px 3px 1px -1px rgba(0,0,0,.2);
@@ -63,8 +78,10 @@ if(!empty($adminbar_logo)){
 
 /* Buttons */
 .wp-core-ui .button,.wp-core-ui .button-secondary{color:<?php echo $this->aof_options['sec_button_text_color']; ?>;background:<?php echo $this->aof_options['sec_button_color']; ?>;}
+.wp-core-ui .button a {color:<?php echo $this->aof_options['sec_button_text_color']; ?>}
 .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover { color:<?php echo $this->aof_options['sec_button_hover_text_color']; ?>;background:<?php echo $this->aof_options['sec_button_hover_color']; ?>;text-shadow: none;-webkit-box-shadow: none;moz-box-shadow: none;box-shadow: none;}
 .wp-core-ui .button-primary, .wp-core-ui .button-primary-disabled, .wp-core-ui .button-primary.disabled, .wp-core-ui .button-primary:disabled, .wp-core-ui .button-primary[disabled] { background: <?php echo $this->aof_options['pry_button_color']; ?>;  color: <?php echo $this->aof_options['pry_button_text_color']; ?>;text-shadow: none;-webkit-box-shadow: none;moz-box-shadow: none;box-shadow: none;}
+.wp-core-ui .button-primary a {color: <?php echo $this->aof_options['pry_button_text_color']; ?>}
 .wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button-primary.active,.wp-core-ui .button-primary.active:focus,.wp-core-ui .button-primary.active:hover,.wp-core-ui .button-primary:active {background: <?php echo $this->aof_options['pry_button_hover_color']; ?> !important; color: <?php echo $this->aof_options['pry_button_hover_text_color']; ?> !important;text-shadow: none;-webkit-box-shadow: none;moz-box-shadow: none;box-shadow: none;}
 
 <?php if($this->aof_options['design_type'] == 2) { ?>
@@ -217,7 +234,6 @@ if(is_rtl()) {
    }
  }
 
-?>
 <?php if($this->aof_options['design_type'] == 1) { ?>
 .wp-core-ui .button-primary, .postbox,.wp-core-ui .button-primary.focus, .wp-core-ui .button-primary.hover, .wp-core-ui .button-primary:focus, .wp-core-ui .button-primary:hover, .wp-core-ui .button, .wp-core-ui .button-secondary, .wp-core-ui .button-secondary:focus, .wp-core-ui .button-secondary:hover, .wp-core-ui .button.focus, .wp-core-ui .button.hover, .wp-core-ui .button:focus, .wp-core-ui .button:hover, #wpadminbar .menupop .ab-sub-wrapper, #wpadminbar .shortlink-input, .theme-browser .theme, .wrap .add-new-h2, .wrap .page-title-action,.wrap .add-new-h2:hover, .wrap .page-title-action:hover, .wrap .add-new-h2:active {
 	-webkit-box-shadow: none !important;

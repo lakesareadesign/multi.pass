@@ -21,7 +21,10 @@ class Smartcrawl_Yoast_Importer extends Smartcrawl_Importer {
 			return false;
 		}
 
-		return strpos( $version, '9.' ) === 0;
+		return apply_filters(
+			'wds-import-yoast-data-exists',
+			strpos( $version, '9.' ) === 0
+		);
 	}
 
 	public function import_options() {

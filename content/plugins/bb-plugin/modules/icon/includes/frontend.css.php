@@ -2,56 +2,56 @@
 
 // Font Size
 FLBuilderCSS::responsive_rule( array(
-	'settings'		=> $settings,
-	'setting_name'	=> 'size',
-	'selector'		=> ".fl-node-$id .fl-module-content .fl-icon i, .fl-node-$id .fl-module-content .fl-icon i:before",
-	'prop'			=> 'font-size',
+	'settings'     => $settings,
+	'setting_name' => 'size',
+	'selector'     => ".fl-node-$id .fl-module-content .fl-icon i, .fl-node-$id .fl-module-content .fl-icon i:before",
+	'prop'         => 'font-size',
 ) );
 
 foreach ( array( '', 'medium', 'responsive' ) as $device ) {
 
-	$key = empty( $device ) ? 'size' : "size_{$device}";
+	$key      = empty( $device ) ? 'size' : "size_{$device}";
 	$unit_key = "{$key}_unit";
 
 	if ( isset( $settings->{ $key } ) && ! empty( $settings->{ $key } ) ) {
 
 		FLBuilderCSS::rule( array(
-			'media' => $device,
+			'media'    => $device,
 			'selector' => ".fl-node-$id .fl-module-content .fl-icon-text",
-			'props' => array(
+			'props'    => array(
 				'height' => array(
 					'value' => $settings->{ $key } * 1.75,
-					'unit' => $settings->{ $unit_key },
+					'unit'  => $settings->{ $unit_key },
 				),
 			),
 		) );
 
 		if ( $settings->bg_color ) {
 			FLBuilderCSS::rule( array(
-				'media' => $device,
+				'media'    => $device,
 				'selector' => ".fl-node-$id .fl-module-content .fl-icon i",
-				'props' => array(
+				'props'    => array(
 					'line-height' => array(
 						'value' => $settings->{ $key } * 1.75,
-						'unit' => $settings->{ $unit_key },
+						'unit'  => $settings->{ $unit_key },
 					),
-					'height' => array(
+					'height'      => array(
 						'value' => $settings->{ $key } * 1.75,
-						'unit' => $settings->{ $unit_key },
+						'unit'  => $settings->{ $unit_key },
 					),
-					'width' => array(
+					'width'       => array(
 						'value' => $settings->{ $key } * 1.75,
-						'unit' => $settings->{ $unit_key },
+						'unit'  => $settings->{ $unit_key },
 					),
 				),
 			) );
 			FLBuilderCSS::rule( array(
-				'media' => $device,
+				'media'    => $device,
 				'selector' => ".fl-node-$id .fl-module-content .fl-icon i::before",
-				'props' => array(
+				'props'    => array(
 					'line-height' => array(
 						'value' => $settings->{ $key } * 1.75,
-						'unit' => $settings->{ $unit_key },
+						'unit'  => $settings->{ $unit_key },
 					),
 				),
 			) );
@@ -61,19 +61,19 @@ foreach ( array( '', 'medium', 'responsive' ) as $device ) {
 
 // Overall Alignment
 FLBuilderCSS::responsive_rule( array(
-	'settings'		=> $settings,
-	'setting_name'	=> 'align',
-	'selector'		=> ".fl-node-$id.fl-module-icon",
-	'prop'			=> 'text-align',
+	'settings'     => $settings,
+	'setting_name' => 'align',
+	'selector'     => ".fl-node-$id.fl-module-icon",
+	'prop'         => 'text-align',
 ) );
 
 // Text Spacing
 FLBuilderCSS::rule( array(
 	'selector' => ".fl-node-$id .fl-icon-text",
-	'props' => array(
+	'props'    => array(
 		'padding-left' => array(
 			'value' => $settings->text_spacing,
-			'unit' => 'px',
+			'unit'  => 'px',
 		),
 	),
 ) );
@@ -81,26 +81,26 @@ FLBuilderCSS::rule( array(
 // Text Color
 FLBuilderCSS::rule( array(
 	'selector' => ".fl-node-$id .fl-icon-text, .fl-node-$id .fl-icon-text-link",
-	'props' => array(
+	'props'    => array(
 		'color' => $settings->text_color,
 	),
 ) );
 
 // Text Typography
 FLBuilderCSS::typography_field_rule( array(
-	'selector' 		=> ".fl-node-$id .fl-icon-text, .fl-node-$id .fl-icon-text-link",
-	'setting_name' 	=> 'text_typography',
-	'settings'		=> $settings,
+	'selector'     => ".fl-node-$id .fl-icon-text, .fl-node-$id .fl-icon-text-link",
+	'setting_name' => 'text_typography',
+	'settings'     => $settings,
 ) );
 
 // Background and border colors
 if ( $settings->three_d ) {
 	$bg_grad_start = FLBuilderColor::adjust_brightness( $settings->bg_color, 30, 'lighten' );
-	$border_color = FLBuilderColor::adjust_brightness( $settings->bg_color, 20, 'darken' );
+	$border_color  = FLBuilderColor::adjust_brightness( $settings->bg_color, 20, 'darken' );
 }
 if ( $settings->three_d && ! empty( $settings->bg_hover_color ) ) {
 	$bg_hover_grad_start = FLBuilderColor::adjust_brightness( $settings->bg_hover_color, 30, 'lighten' );
-	$border_hover_color = FLBuilderColor::adjust_brightness( $settings->bg_hover_color, 20, 'darken' );
+	$border_hover_color  = FLBuilderColor::adjust_brightness( $settings->bg_hover_color, 20, 'darken' );
 }
 
 ?>

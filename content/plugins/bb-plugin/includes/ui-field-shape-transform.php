@@ -5,8 +5,8 @@ var defaults = {
 	translateY: '0',
 	skew: '',
 	rotate: '',
-    scaleX: '1',
-    scaleXSign: '',
+	scaleX: '1',
+	scaleXSign: '',
 	scaleYSign: ''
 };
 
@@ -40,7 +40,7 @@ var xOrientation = wp.template( 'fl-builder-field-button-group' )( {
 	name: data.name + '[][scaleXSign]',
 	value: value.scaleXSign,
 	field: {
-		label: '<?php _e( 'Horizontal Orientation', 'fl-builder' ) ?>',
+		label: '<?php _e( 'Horizontal Orientation', 'fl-builder' ); ?>',
 		options: {
 			'invert': '<i class="dashicons dashicons-image-flip-horizontal"></i>',
 		},
@@ -51,7 +51,7 @@ var yOrientation = wp.template( 'fl-builder-field-button-group' )( {
 	name: data.name + '[][scaleYSign]',
 	value: value.scaleYSign,
 	field: {
-		label: '<?php _e( 'Vertical Orientation', 'fl-builder' ) ?>',
+		label: '<?php _e( 'Vertical Orientation', 'fl-builder' ); ?>',
 		options: {
 			'invert': '<i class="dashicons dashicons-image-flip-vertical"></i>',
 		},
@@ -67,7 +67,7 @@ var yOrientation = wp.template( 'fl-builder-field-button-group' )( {
 					{{{xOrientation}}}
 					{{{yOrientation}}}
 				</span>
-				<label><?php _e( 'Orientation', 'fl-builder' ) ?></label>
+				<label><?php _e( 'Orientation', 'fl-builder' ); ?></label>
 			</span>
 			<span class="fl-compound-field-cell">
 				<div class="fl-dimension-field-units">

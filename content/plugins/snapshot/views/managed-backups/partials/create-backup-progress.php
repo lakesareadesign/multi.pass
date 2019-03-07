@@ -54,7 +54,7 @@
 
 							<div class="wps-auth-message success">
 
-								<p><?php esc_html_e('Your backup has been successfully created and uploaded to WPMU DEV servers!.', SNAPSHOT_I18N_DOMAIN); ?></p>
+								<p><?php esc_html_e('Your backup has been successfully created and uploaded to WPMU DEV servers!', SNAPSHOT_I18N_DOMAIN); ?></p>
 
 							</div>
 
@@ -95,7 +95,7 @@
 							</div>
 
 							<div class="wps-auth-message warning">
-								<p><?php esc_html_e( 'You need to keep this page open until we revert the partially uploaded backup from WPMU Server.', SNAPSHOT_I18N_DOMAIN ) ?></p>
+								<p><?php esc_html_e( 'Please don\'t close this page while we remove your partially uploaded backup from the Hub. This should only take a few moments.', SNAPSHOT_I18N_DOMAIN ); ?></p>
 							</div>
 
 							<p>

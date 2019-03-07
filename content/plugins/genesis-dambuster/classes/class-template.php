@@ -7,6 +7,7 @@ class Genesis_Dambuster_Template {
         'enabled' => false,
         'disabled' => false,
         'always_on' => false,
+        'front_page' => false,
         'remove_header' => false,
 		'remove_primary_navigation' => false,
 		'remove_secondary_navigation' => false,
@@ -33,7 +34,7 @@ class Genesis_Dambuster_Template {
 	protected $plugin;
 	protected $utils;
 	protected $options;
-	protected $post_options;
+	protected $page_options;
 	protected $post_id = false;
 	protected $is_html5 = false;
 	protected $is_landing = false;
@@ -80,30 +81,37 @@ class Genesis_Dambuster_Template {
         && $this->plugin->is_post_type_enabled(get_post_type())
         && ($this->post_id = $this->utils->get_post_id()) //get post/page id
 		&& ($meta = $this->utils->get_post_meta($this->post_id,  self::DAMBUSTER_METAKEY))
-		&& ($this->post_options = $this->options->validate_options($this->defaults, $meta))	      
-		&& $this->is_enabled($this->post_options['enabled'],$this->post_options['disabled'] )) {  //we are tweaking this page
+		&& ($this->page_options = $this->options->validate_options($this->get_options(), $meta))	      
+		&& $this->is_enabled($this->page_options['enabled'],$this->page_options['disabled'] )) {  //we are tweaking this page
+            $this->apply_tweaks();
+		} else if (is_front_page() && $this->get_option('front_page' )) {
+            $this->page_options = $this->get_options();
+	       	$this->apply_tweaks();            
+		}
+	}
+
+    function apply_tweaks() {
             $this->is_html5 = $this->utils->is_html5();
             $this->is_landing = $this->utils->is_landing_page();
-			if ($this->post_options['remove_header']) $this->remove_header();	    
- 			if ($this->post_options['remove_primary_navigation']) $this->remove_primary_navigation();
-			if ($this->post_options['remove_secondary_navigation']) $this->remove_secondary_navigation();
-			if ($this->post_options['remove_entry_header']) $this->remove_entry_header();
-			if ($this->post_options['remove_post_title']) $this->remove_post_title();
-			if ($this->post_options['remove_post_image']) $this->remove_post_image();
-			if ($this->post_options['remove_post_info']) $this->remove_post_info();
-			if ($this->post_options['remove_edit_link']) $this->remove_edit_link();
-			if ($this->post_options['remove_breadcrumbs']) $this->remove_breadcrumbs();
-			if ($this->post_options['remove_entry_footer']) $this->remove_entry_footer();
-			if ($this->post_options['remove_post_meta']) $this->remove_post_meta();
-			if ($this->post_options['remove_author_box']) $this->remove_author_box();
-			if ($this->post_options['remove_comments']) $this->remove_comments();
-			if ($this->post_options['remove_after_entry']) $this->remove_after_entry(); 
-			if ($this->post_options['remove_footer_widgets']) $this->remove_footer_widgets();
-            if ($this->post_options['remove_footer']) $this->remove_footer();
-			if ($this->post_options['remove_background']) $this->remove_background();
-			if ($this->post_options['full_width']) $this->full_width();
-			if ($this->post_options['enable_helpers']) $this->enable_helpers();
-		}
+		if ($this->page_options['remove_header']) $this->remove_header();	    
+		if ($this->page_options['remove_primary_navigation']) $this->remove_primary_navigation();
+		if ($this->page_options['remove_secondary_navigation']) $this->remove_secondary_navigation();
+		if ($this->page_options['remove_entry_header']) $this->remove_entry_header();
+		if ($this->page_options['remove_post_title']) $this->remove_post_title();
+		if ($this->page_options['remove_post_image']) $this->remove_post_image();
+		if ($this->page_options['remove_post_info']) $this->remove_post_info();
+		if ($this->page_options['remove_edit_link']) $this->remove_edit_link();
+		if ($this->page_options['remove_breadcrumbs']) $this->remove_breadcrumbs();
+		if ($this->page_options['remove_entry_footer']) $this->remove_entry_footer();
+		if ($this->page_options['remove_post_meta']) $this->remove_post_meta();
+		if ($this->page_options['remove_author_box']) $this->remove_author_box();
+		if ($this->page_options['remove_comments']) $this->remove_comments();
+		if ($this->page_options['remove_after_entry']) $this->remove_after_entry(); 
+		if ($this->page_options['remove_footer_widgets']) $this->remove_footer_widgets();
+        if ($this->page_options['remove_footer']) $this->remove_footer();
+		if ($this->page_options['remove_background']) $this->remove_background();
+		if ($this->page_options['full_width']) $this->full_width();
+		if ($this->page_options['enable_helpers']) $this->enable_helpers();       
     }
 
     function is_enabled($enabled, $disabled) {
@@ -133,6 +141,7 @@ class Genesis_Dambuster_Template {
         remove_action( 'genesis_header', 'genesis_do_nav' ); 
         remove_action( 'genesis_header', 'genesis_do_nav', 5 );
         remove_action( 'genesis_header', 'genesis_do_nav', 12 );
+        remove_action( 'genesis_header', 'genesis_do_nav', 13 );
         remove_action( 'genesis_header', 'genesis_do_nav', 14 );
         remove_action( 'genesis_after_header', 'genesis_do_nav' ); 
         remove_action( 'genesis_before_content_sidebar_wrap', 'genesis_do_nav' );        
@@ -288,9 +297,9 @@ class Genesis_Dambuster_Template {
 	} 
 
 	function inline_helper_styles() {
-		$max_content_width = $this->post_options['max_content_width'];
+		$max_content_width = $this->page_options['max_content_width'];
 		if ( empty($max_content_width) ) $max_content_width = 'none';
-		$content_padding = $this->post_options['content_padding'];
+		$content_padding = $this->page_options['content_padding'];
 		if ( empty($content_padding) ) $content_padding = '0';
 		return sprintf( '.gd-full-width .entry .inner { max-width: %1$spx; padding:%2$s; }', $max_content_width, $content_padding ); 	
     }

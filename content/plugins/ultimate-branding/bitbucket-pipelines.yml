@@ -1,0 +1,7 @@
+pipelines:
+  default:
+    - step:
+        name: RIPS Security Scan
+        image: rips/rips-cli:3
+        script:
+          - rips-cli -vvv rips:scan:start -a $RIPS_APP_ID -p $BITBUCKET_CLONE_DIR -t 1

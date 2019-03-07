@@ -2287,7 +2287,7 @@ body.wpmud {
 @font-face {
 	font-family: 'wpmudev-plugin-icons';
 	src: url("../fonts/wpmudev-plugin-icons.eot?2.3.6");
-	src: url("../fonts/wpmudev-plugin-icons.eot?2.3.6") format("embedded-opentype"), url("../fonts/wpmudev-plugin-icons.ttf?2.3.6") format("truetype"), url("../fonts/wpmudev-plugin-icons.woff?2.3.6") format("woff"), url("../fonts/wpmudev-plugin-icons.woff2?2.3.6") format("woff2"), url("../fonts/wpmudev-plugin-icons.svg?2.3.6") format("svg");
+	src: url("../fonts/wpmudev-plugin-icons.eot?2.3.6") format("embedded-opentype"), url("../fonts/wpmudev-plugin-icons.ttf?2.3.6") format("truetype"), url("../fonts/wpmudev-plugin-icons.woff?2.3.6") format("woff"), url("../fonts/wpmudev-plugin-icons.woff2?2.3.6") format("woff2"), url("../fonts/wpmudev-plugin-icons.svg?2.3.6") format("svg");	     	 	  		 	 		
 	font-weight: normal;
 	font-style: normal;
 }
@@ -2323,4 +2323,4 @@ body.wpmud {
 }
 
 
-/* 133620-1543595883-au */
+/* 133620-1551987274-au */

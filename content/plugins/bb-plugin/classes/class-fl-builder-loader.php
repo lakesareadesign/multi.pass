@@ -29,8 +29,8 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 				deactivate_plugins( array( $lite_dirname . '/fl-builder.php' ), false, is_network_admin() );
 				return;
 			} elseif ( class_exists( 'FLBuilder' ) ) {
-				add_action( 'admin_notices',           __CLASS__ . '::double_install_admin_notice' );
-				add_action( 'network_admin_notices',   __CLASS__ . '::double_install_admin_notice' );
+				add_action( 'admin_notices', __CLASS__ . '::double_install_admin_notice' );
+				add_action( 'network_admin_notices', __CLASS__ . '::double_install_admin_notice' );
 				return;
 			}
 
@@ -46,7 +46,7 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 		 * @return void
 		 */
 		static private function define_constants() {
-			define( 'FL_BUILDER_VERSION', '2.2.0.6' );
+			define( 'FL_BUILDER_VERSION', '2.2.1.4' );
 			define( 'FL_BUILDER_FILE', trailingslashit( dirname( dirname( __FILE__ ) ) ) . 'fl-builder.php' );
 			define( 'FL_BUILDER_DIR', plugin_dir_path( FL_BUILDER_FILE ) );
 			define( 'FL_BUILDER_URL', plugins_url( '/', FL_BUILDER_FILE ) );
@@ -140,8 +140,8 @@ if ( ! class_exists( 'FLBuilderLoader' ) ) {
 				$bb_upload_dir = FLBuilderModel::get_upload_dir();
 
 				if ( ! fl_builder_filesystem()->is_writable( $wp_upload_dir['basedir'] ) || ! fl_builder_filesystem()->is_writable( $bb_upload_dir['path'] ) ) {
-					add_action( 'admin_notices',           __CLASS__ . '::permissions_admin_notice' );
-					add_action( 'network_admin_notices',   __CLASS__ . '::permissions_admin_notice' );
+					add_action( 'admin_notices', __CLASS__ . '::permissions_admin_notice' );
+					add_action( 'network_admin_notices', __CLASS__ . '::permissions_admin_notice' );
 				}
 			}
 		}

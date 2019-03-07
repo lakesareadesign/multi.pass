@@ -4,6 +4,7 @@ $sitemap_tab_name = __( 'Sitemap', 'wds' );
 $url_crawler_tab_id = 'tab_url_crawler';
 $url_crawler_tab_name = __( 'URL Crawler', 'wds' );
 $crawl_url = Smartcrawl_Sitemap_Settings::crawl_url();
+$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SEO );
 ?>
 
 <div id="container" class="wrap wrap-wds wds-page wds-sitemap-settings">
@@ -13,7 +14,6 @@ $crawl_url = Smartcrawl_Sitemap_Settings::crawl_url();
 		<div class="actions">
 			<?php if ( Smartcrawl_Settings::get_setting( 'sitemap' ) ) { ?>
 				<?php
-				$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SEO );
 				$end = $service->get_last_run_timestamp();
 				$end = ! empty( $end ) && is_numeric( $end )
 					? date_i18n( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ), $end )

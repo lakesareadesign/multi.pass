@@ -1,52 +1,53 @@
 <?php
 
 FLBuilder::render_module_css('icon', $id, array(
-	'align'          		=> '',
-	'bg_color'       		=> $settings->bg_color,
-	'bg_hover_color' 		=> $settings->bg_hover_color,
-	'color'          		=> $settings->color,
-	'hover_color'    		=> $settings->hover_color,
-	'icon'           		=> '',
-	'link'           		=> '',
-	'link_target'    		=> '',
-	'size'           		=> $settings->size,
-	'size_unit'      		=> $settings->size_unit,
-	'size_medium'           => $settings->size_medium,
-	'size_medium_unit'      => $settings->size_medium_unit,
-	'size_responsive'       => $settings->size_responsive,
-	'size_responsive_unit'  => $settings->size_responsive_unit,
-	'text'           		=> '',
-	'three_d'        		=> $settings->three_d,
+	'align'                => '',
+	'bg_color'             => $settings->bg_color,
+	'bg_hover_color'       => $settings->bg_hover_color,
+	'color'                => $settings->color,
+	'hover_color'          => $settings->hover_color,
+	'icon'                 => '',
+	'link'                 => '',
+	'link_target'          => '',
+	'size'                 => $settings->size,
+	'size_unit'            => $settings->size_unit,
+	'size_medium'          => $settings->size_medium,
+	'size_medium_unit'     => $settings->size_medium_unit,
+	'size_responsive'      => $settings->size_responsive,
+	'size_responsive_unit' => $settings->size_responsive_unit,
+	'text'                 => '',
+	'three_d'              => $settings->three_d,
 ));
 
 ?>
-<?php foreach ( $settings->icons as $i => $icon ) :
+<?php
+foreach ( $settings->icons as $i => $icon ) :
 	$index = $i + 1;
 
 	if ( ! empty( $icon->bg_color ) ) {
 
 		foreach ( array( '', 'medium', 'responsive' ) as $device ) {
 
-			$key = empty( $device ) ? 'size' : "size_{$device}";
+			$key      = empty( $device ) ? 'size' : "size_{$device}";
 			$unit_key = "{$key}_unit";
 
 			if ( isset( $settings->{ $key } ) && ! empty( $settings->{ $key } ) ) {
 
 				FLBuilderCSS::rule( array(
-					'media' => $device,
+					'media'    => $device,
 					'selector' => ".fl-node-$id .fl-module-content .fl-icon:nth-child($index) i",
-					'props' => array(
+					'props'    => array(
 						'line-height' => array(
 							'value' => $settings->{ $key } * 1.75,
-							'unit' => $settings->{ $unit_key },
+							'unit'  => $settings->{ $unit_key },
 						),
-						'height' => array(
+						'height'      => array(
 							'value' => $settings->{ $key } * 1.75,
-							'unit' => $settings->{ $unit_key },
+							'unit'  => $settings->{ $unit_key },
 						),
-						'width' => array(
+						'width'       => array(
 							'value' => $settings->{ $key } * 1.75,
-							'unit' => $settings->{ $unit_key },
+							'unit'  => $settings->{ $unit_key },
 						),
 					),
 				) );
@@ -61,7 +62,7 @@ FLBuilder::render_module_css('icon', $id, array(
 		color: <?php echo FLBuilderColor::hex_or_rgb( $icon->color ); ?>;
 	}
 	<?php endif; ?>
-	<?php if ( isset( $icon->bg_color )  && ! empty( $icon->bg_color ) ) : ?>
+	<?php if ( isset( $icon->bg_color ) && ! empty( $icon->bg_color ) ) : ?>
 	.fl-node-<?php echo $id; ?> .fl-module-content .fl-icon:nth-child(<?php echo $index; ?>) i {
 		background: <?php echo FLBuilderColor::hex_or_rgb( $icon->bg_color ); ?>;
 		border-radius: 100%;

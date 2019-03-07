@@ -5,6 +5,19 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+3.2.0.2
+----------------------------------------------------------------------
+- Fix: Files not cleaned up after restore with Snapshots
+- Fix: Issue with restoring WooCommerce tables with Snapshots
+
+3.2.0.1
+----------------------------------------------------------------------
+- Improve: Disable local backups email triggering and update the copy
+- Improve: Handle gracefully incompatibilities with the new AWS SDK
+- Fix: Change icon for automated backups that failed to upload
+- Fix: Import snapshot from directory URL and see size showing 0
+- Fix: Dropbox Import showing error
+
 3.2.0
 ----------------------------------------------------------------------
 - Improve: Update AWS SDK
@@ -558,4 +571,4 @@ http://premium.wpmudev.org/forums/topic/need-to-turn-off-zlib-compression-for-it
 - Initial stable release
 
 
-133620-1548091589-au
+133620-1550173508-au

@@ -6,7 +6,7 @@ Donate link:
 Tags: community, member, membership, user-profile, user-registration
 Requires at least: 4.7
 Tested up to: 5.0
-Stable tag: 2.0.38
+Stable tag: 2.0.39
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -132,6 +132,24 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 == Changelog ==
 
 = Important: UM2.0+ is a significant update to the code base from 1.3.88. Please make sure you take a full-site backup with restore point before updating the plugin =
+
+= 2.0.39: February 11, 2019 =
+
+* Enhancements:
+  - Restored option for disable users cache
+  - Transposh plugin integration
+
+* Bugfixes:
+  - Fixed delete users handlers on single/multisite installs
+  - Fixed fields labels on member directory
+  - Fixed profile form cover photo ratio value
+  - Fixed profile and registration form default field's values
+  - Fixed "is_selected" function with empty value and default value option
+  - Fixed member directory notices with disabled metadata
+  - Fixed textarea profile field formatting
+  - Fixed registration without username field
+  - Fixed flush password reset limit after successfully login
+  - Fixed upload files handlers for avoid the conflicts with other plugins
 
 = 2.0.38: January 10, 2019 =
 

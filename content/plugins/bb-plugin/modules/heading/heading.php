@@ -11,11 +11,11 @@ class FLHeadingModule extends FLBuilderModule {
 	 */
 	public function __construct() {
 		parent::__construct(array(
-			'name'          	=> __( 'Heading', 'fl-builder' ),
-			'description'   	=> __( 'Display a title/page heading.', 'fl-builder' ),
-			'category'      	=> __( 'Basic', 'fl-builder' ),
-			'partial_refresh'	=> true,
-			'icon'				=> 'text.svg',
+			'name'            => __( 'Heading', 'fl-builder' ),
+			'description'     => __( 'Display a title/page heading.', 'fl-builder' ),
+			'category'        => __( 'Basic', 'fl-builder' ),
+			'partial_refresh' => true,
+			'icon'            => 'text.svg',
 		));
 	}
 
@@ -31,8 +31,8 @@ class FLHeadingModule extends FLBuilderModule {
 
 		// Make sure we have a typography array.
 		if ( ! isset( $settings->typography ) || ! is_array( $settings->typography ) ) {
-			$settings->typography = array();
-			$settings->typography_medium = array();
+			$settings->typography            = array();
+			$settings->typography_medium     = array();
 			$settings->typography_responsive = array();
 		}
 
@@ -54,13 +54,13 @@ class FLHeadingModule extends FLBuilderModule {
 		if ( isset( $settings->font_size ) && 'custom' === $settings->font_size ) {
 			$settings->typography['font_size'] = array(
 				'length' => $settings->custom_font_size,
-				'unit' => 'px',
+				'unit'   => 'px',
 			);
 		}
 		if ( isset( $settings->r_font_size ) && 'custom' === $settings->r_font_size ) {
 			$settings->typography_responsive['font_size'] = array(
 				'length' => $settings->r_custom_font_size,
-				'unit' => 'px',
+				'unit'   => 'px',
 			);
 		}
 
@@ -68,13 +68,13 @@ class FLHeadingModule extends FLBuilderModule {
 		if ( isset( $settings->line_height ) && 'custom' === $settings->line_height ) {
 			$settings->typography['line_height'] = array(
 				'length' => $settings->custom_line_height,
-				'unit' => '',
+				'unit'   => '',
 			);
 		}
 		if ( isset( $settings->r_line_height ) && 'custom' === $settings->r_line_height ) {
 			$settings->typography_responsive['line_height'] = array(
 				'length' => $settings->r_custom_line_height,
-				'unit' => '',
+				'unit'   => '',
 			);
 		}
 
@@ -82,13 +82,13 @@ class FLHeadingModule extends FLBuilderModule {
 		if ( isset( $settings->letter_spacing ) && 'custom' === $settings->letter_spacing ) {
 			$settings->typography['letter_spacing'] = array(
 				'length' => $settings->custom_letter_spacing,
-				'unit' => 'px',
+				'unit'   => 'px',
 			);
 		}
 		if ( isset( $settings->r_letter_spacing ) && 'custom' === $settings->r_letter_spacing ) {
 			$settings->typography_responsive['letter_spacing'] = array(
 				'length' => $settings->r_custom_letter_spacing,
-				'unit' => 'px',
+				'unit'   => 'px',
 			);
 		}
 
@@ -141,42 +141,42 @@ class FLHeadingModule extends FLBuilderModule {
  * Register the module and its form settings.
  */
 FLBuilder::register_module('FLHeadingModule', array(
-	'general'       => array(
-		'title'         => __( 'General', 'fl-builder' ),
-		'sections'      => array(
-			'general'       => array(
-				'title'         => '',
-				'fields'        => array(
-					'heading'        => array(
-						'type'            => 'text',
-						'label'           => __( 'Heading', 'fl-builder' ),
-						'default'         => '',
-						'preview'         => array(
-							'type'            => 'text',
-							'selector'        => '.fl-heading-text',
+	'general' => array(
+		'title'    => __( 'General', 'fl-builder' ),
+		'sections' => array(
+			'general' => array(
+				'title'  => '',
+				'fields' => array(
+					'heading' => array(
+						'type'        => 'text',
+						'label'       => __( 'Heading', 'fl-builder' ),
+						'default'     => '',
+						'preview'     => array(
+							'type'     => 'text',
+							'selector' => '.fl-heading-text',
 						),
-						'connections'     => array( 'string' ),
+						'connections' => array( 'string' ),
 					),
-					'tag'           => array(
-						'type'          => 'select',
-						'label'         => __( 'HTML Tag', 'fl-builder' ),
-						'default'       => 'h2',
-						'options'       => array(
-							'h1'            => 'h1',
-							'h2'            => 'h2',
-							'h3'            => 'h3',
-							'h4'            => 'h4',
-							'h5'            => 'h5',
-							'h6'            => 'h6',
+					'tag'     => array(
+						'type'    => 'select',
+						'label'   => __( 'HTML Tag', 'fl-builder' ),
+						'default' => 'h2',
+						'options' => array(
+							'h1' => 'h1',
+							'h2' => 'h2',
+							'h3' => 'h3',
+							'h4' => 'h4',
+							'h5' => 'h5',
+							'h6' => 'h6',
 						),
 					),
-					'link'          => array(
+					'link'    => array(
 						'type'          => 'link',
 						'label'         => __( 'Link', 'fl-builder' ),
-						'show_target'	=> true,
-						'show_nofollow'	=> true,
+						'show_target'   => true,
+						'show_nofollow' => true,
 						'preview'       => array(
-							'type'            => 'none',
+							'type' => 'none',
 						),
 						'connections'   => array( 'url' ),
 					),
@@ -184,33 +184,33 @@ FLBuilder::register_module('FLHeadingModule', array(
 			),
 		),
 	),
-	'style'         => array(
-		'title'         => __( 'Style', 'fl-builder' ),
-		'sections'      => array(
-			'colors'        => array(
-				'title'         => '',
-				'fields'        => array(
-					'color'          => array(
-						'type'          => 'color',
-						'connections'	=> array( 'color' ),
-						'show_reset'    => true,
-						'show_alpha'    => true,
-						'label'         => __( 'Color', 'fl-builder' ),
-						'preview'         => array(
-							'type'            => 'css',
-							'selector'        => '.fl-module-content *',
-							'property'        => 'color',
-							'important'		  => true,
+	'style'   => array(
+		'title'    => __( 'Style', 'fl-builder' ),
+		'sections' => array(
+			'colors' => array(
+				'title'  => '',
+				'fields' => array(
+					'color'      => array(
+						'type'        => 'color',
+						'connections' => array( 'color' ),
+						'show_reset'  => true,
+						'show_alpha'  => true,
+						'label'       => __( 'Color', 'fl-builder' ),
+						'preview'     => array(
+							'type'      => 'css',
+							'selector'  => '.fl-module-content *',
+							'property'  => 'color',
+							'important' => true,
 						),
 					),
-					'typography'    => array(
-						'type'        	=> 'typography',
-						'label'       	=> __( 'Typography', 'fl-builder' ),
-						'responsive'  	=> true,
-						'preview'		=> array(
-							'type'			=> 'css',
-							'selector'		=> '{node}.fl-module-heading .fl-heading',
-							'important'		  => true,
+					'typography' => array(
+						'type'       => 'typography',
+						'label'      => __( 'Typography', 'fl-builder' ),
+						'responsive' => true,
+						'preview'    => array(
+							'type'      => 'css',
+							'selector'  => '{node}.fl-module-heading .fl-heading',
+							'important' => true,
 						),
 					),
 				),

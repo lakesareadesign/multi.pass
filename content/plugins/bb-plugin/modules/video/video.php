@@ -163,12 +163,12 @@ FLBuilder::register_module('FLVideoModule', array(
 						'show_remove' => true,
 					),
 					'video_webm' => array(
-						'type'    		=> 'video',
-						'show_remove'   => true,
-						'label'   		=> __( 'Video (WebM)', 'fl-builder' ),
-						'help'    		=> __( 'A video in the WebM format to use as fallback. This format is required to support browsers such as FireFox and Opera.', 'fl-builder' ),
-						'preview' 		=> array(
-							'type' 			=> 'none',
+						'type'        => 'video',
+						'show_remove' => true,
+						'label'       => __( 'Video (WebM)', 'fl-builder' ),
+						'help'        => __( 'A video in the WebM format to use as fallback. This format is required to support browsers such as FireFox and Opera.', 'fl-builder' ),
+						'preview'     => array(
+							'type' => 'none',
 						),
 					),
 					'poster'     => array(

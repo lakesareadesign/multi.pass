@@ -5258,6 +5258,7 @@
 				legacy    : data.legacy,
 				helper    : FLBuilder._moduleHelpers[ data.type ],
 				rules     : FLBuilder._moduleHelpers[ data.type ] ? FLBuilder._moduleHelpers[ data.type ].rules : null,
+				messages  : FLBuilder._moduleHelpers[ data.type ] ? FLBuilder._moduleHelpers[ data.type ].messages : null,
 				preview   : {
 					type     : 'module',
 					layout   : data.layout,
@@ -7119,7 +7120,16 @@
 				multiple  = null,
 				fields    = null,
 				i         = 0,
-				cursorAt  = FLBuilderConfig.isRtl ? { left: 10 } : { right: 10 };
+				cursorAt  = FLBuilderConfig.isRtl ? { left: 10 } : { right: 10 },
+				limit     = $('#fl-field-testimonials').attr( 'data-limit' ) || 0,
+				count     = $('tbody.fl-builder-field-multiples').find('tr').length || 0
+
+			if( parseInt(limit) > 0 && count -1 >= parseInt( limit ) ) {
+				$('.fl-builder-field-copy').hide()
+				$('.fl-builder-field-add').fadeOut()
+			} else {
+				$('.fl-builder-field-copy, .fl-builder-field-add').show()
+			}
 
 			for( ; i < multiples.length; i++) {
 
@@ -8429,11 +8439,26 @@
 		_getFontWeights: function( currentFont ){
 			var selectWeight = currentFont.closest( '.fl-font-field' ).find( '.fl-font-field-weight' ),
 				font         = currentFont.val(),
-				weight 	 	 = selectWeight.val(),
+				weight 	 	   = selectWeight.val(),
 				weightMap    = FLBuilderConfig.FontWeights,
-				weights      = {};
+				weights      = {},
+				recentList   = currentFont.closest( '.fl-font-field' ).find( '.recent-fonts option' )
 
 			selectWeight.html( '' );
+
+			if( recentList.length > 0 ) {
+				var exists = $(recentList)
+					.filter(function (i, o) { return o.value === font; })
+					.length > 0;
+
+				if ( false === exists ) {
+						currentFont.closest( '.fl-font-field' ).find( '.recent-fonts' ).append( $('<option>', {
+							value: font,
+							text: font
+						}));
+				}
+			}
+
 
 			if ( 'undefined' != typeof FLBuilderFontFamilies.system[ font ] ) {
 				weights = FLBuilderFontFamilies.system[ font ].weights;
@@ -8508,6 +8533,13 @@
 			if ( undefined !== typeof tinymce && undefined !== config.mceInit[ editorId ] ) {
 
 				init = config.mceInit[ editorId ];
+
+				init.setup = function (editor) {
+					editor.on('SaveContent', function (e) {
+						e.content = e.content.replace(/src="(\.\.\/){1,2}/g, 'src="' + FLBuilderConfig.homeUrl + '/' );
+					});
+				}
+
 				wrap = tinymce.$( '#wp-' + editorId + '-wrap' );
 				wrap.find( 'textarea' ).attr( 'rows', rows );
 

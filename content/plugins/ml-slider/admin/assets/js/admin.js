@@ -688,11 +688,6 @@ jQuery(function($) {
             }
         });
     
-        // show the confirm dialogue
-        $(".metaslider").on('click', '.delete-slider', function() {
-            return confirm(metaslider.confirm);
-        });
-    
 	// AJAX save & preview
 	$(".metaslider form").find("button[type=submit]").on("click", function(e) {
 		e.preventDefault()

@@ -9,16 +9,16 @@ class Plugin {
 	private static $plugins = array();
 
 	private $actions = array(
-			'fl_builder_cache_cleared',
-			'fl_builder_after_save_layout',
-			'fl_builder_after_save_user_template',
-			'upgrader_process_complete',
+		'fl_builder_cache_cleared',
+		'fl_builder_after_save_layout',
+		'fl_builder_after_save_user_template',
+		'upgrader_process_complete',
 	);
 
 	function __construct() {
 
-		add_action( 'plugins_loaded',                 array( $this, 'unload_helper_plugin' ) );
-		add_action( 'plugins_loaded',                 array( $this, 'load_files' ) );
+		add_action( 'plugins_loaded', array( $this, 'unload_helper_plugin' ) );
+		add_action( 'plugins_loaded', array( $this, 'load_files' ) );
 		add_action( 'fl_builder_admin_settings_save', array( $this, 'save_settings' ) );
 	}
 
@@ -65,11 +65,11 @@ class Plugin {
 		if ( class_exists( 'FL_Cache_Buster' ) ) {
 			$settings = self::get_settings();
 			if ( $settings['enabled'] ) {
-				remove_action( 'upgrader_process_complete',           array( 'FL_Cache_Buster', 'clear_caches' ) );
-				remove_action( 'fl_builder_after_save_layout',        array( 'FL_Cache_Buster', 'clear_caches' ) );
+				remove_action( 'upgrader_process_complete', array( 'FL_Cache_Buster', 'clear_caches' ) );
+				remove_action( 'fl_builder_after_save_layout', array( 'FL_Cache_Buster', 'clear_caches' ) );
 				remove_action( 'fl_builder_after_save_user_template', array( 'FL_Cache_Buster', 'clear_caches' ) );
-				remove_action( 'fl_builder_cache_cleared',            array( 'FL_Cache_Buster', 'clear_caches' ) );
-				remove_action( 'template_redirect',                   array( 'FL_Cache_Buster', 'donotcache' ) );
+				remove_action( 'fl_builder_cache_cleared', array( 'FL_Cache_Buster', 'clear_caches' ) );
+				remove_action( 'template_redirect', array( 'FL_Cache_Buster', 'donotcache' ) );
 			}
 		}
 	}

@@ -2871,7 +2871,7 @@ if ( is_multisite() ) {
 }
 // collect author stats on single post views, excluding pages.
 if ( is_single() ) {
-	echo '	_paq.push([\'setCustomDimension\', 1, \'{"ID":' . get_the_author_meta( 'ID' ) . ',"name":"' . esc_js( get_the_author_meta( 'display_name' ) ) . '","avatar":"' . md5( get_the_author_meta( 'user_email' ) ) . '"}\']);' . PHP_EOL;	     	 	  		 	 		
+	echo '	_paq.push([\'setCustomDimension\', 1, \'{"ID":' . get_the_author_meta( 'ID' ) . ',"name":"' . esc_js( get_the_author_meta( 'display_name' ) ) . '","avatar":"' . md5( get_the_author_meta( 'user_email' ) ) . '"}\']);' . PHP_EOL;
 }
 ?>
 _paq.push(['trackPageView']);

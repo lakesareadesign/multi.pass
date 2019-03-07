@@ -356,29 +356,47 @@ class ShareaholicPublic {
    * @return string          the content
    */
   public static function draw_canvases($content) {
-    $settings = ShareaholicUtilities::get_settings();
-    $page_type = ShareaholicUtilities::page_type();
-    foreach (array('share_buttons', 'recommendations') as $app) {
+    global $wp_current_filter;
+    if (is_main_query()) {
+      $settings = ShareaholicUtilities::get_settings();
+      $page_type = ShareaholicUtilities::page_type();
       
-      // check Excerpt prefs
-      if ('the_excerpt' == current_filter() && isset($settings["{$app}_display_on_excerpts"]) && $settings["{$app}_display_on_excerpts"] == 'off') {
-        return $content; 
-      }
-        
-      // check individual post prefs
-      if (!get_post_meta(get_the_ID(), "shareaholic_disable_{$app}", true)) {
-        // check if ABOVE location is turned on
-        if (isset($settings[$app]["{$page_type}_above_content"]) && $settings[$app]["{$page_type}_above_content"] == 'on') {
-          $id = $settings['location_name_ids'][$app]["{$page_type}_above_content"];
-          $content = self::canvas($id, $app, "{$page_type}_above_content") . $content;
+      // Don't allow this function to run more than once for a page load (prevent infinite loops)
+      $has_run = false;
+      foreach ( $wp_current_filter as $filter ) {
+        if ( 'the_content' == $filter ) {
+          if ( $has_run ) {
+            // has already run once
+            return $content;
+          } else {
+            // first run, set flag!
+            $has_run = true;
+          }
         }
-        // check if BELOW location is turned on
-        if (isset($settings[$app]["{$page_type}_below_content"]) && $settings[$app]["{$page_type}_below_content"] == 'on') {
-          $id = $settings['location_name_ids'][$app]["{$page_type}_below_content"];
-          $content .= self::canvas($id, $app, "{$page_type}_below_content");
+      }
+      
+      foreach (array('share_buttons', 'recommendations') as $app) {
+        // check Excerpt prefs
+        if ('the_excerpt' == current_filter() && isset($settings["{$app}_display_on_excerpts"]) && $settings["{$app}_display_on_excerpts"] == 'off') {
+          return $content;
+        }
+        
+        // check individual post prefs
+        if (!get_post_meta(get_the_ID(), "shareaholic_disable_{$app}", true)) {
+          // check if ABOVE location is turned on
+          if (isset($settings[$app]["{$page_type}_above_content"]) && $settings[$app]["{$page_type}_above_content"] == 'on') {            
+            $id = $settings['location_name_ids'][$app]["{$page_type}_above_content"];
+            $content = self::canvas($id, $app, "{$page_type}_above_content") . $content;
+          }
+          // check if BELOW location is turned on
+          if (isset($settings[$app]["{$page_type}_below_content"]) && $settings[$app]["{$page_type}_below_content"] == 'on') {              
+            $id = $settings['location_name_ids'][$app]["{$page_type}_below_content"];
+            $content .= self::canvas($id, $app, "{$page_type}_below_content");
+          }
         }
       }
     }
+    
     // something that uses the_content hook must return the $content
     return $content;
   }

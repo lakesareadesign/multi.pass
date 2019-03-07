@@ -11,8 +11,12 @@
 			i	   = 0;
 
 		data.name += '[]';
-	#>
-	<tbody id="fl-field-{{data.rootName}}" class="fl-field fl-builder-field-multiples" data-type="form" data-preview='{{{data.preview}}}' data-connections="{{{connections}}}">
+
+		var limit = 0;
+		if ( 'undefined' !== typeof data.field.limit ) {
+			limit = data.field.limit
+		} #>
+	<tbody id="fl-field-{{data.rootName}}" class="fl-field fl-builder-field-multiples" data-limit="{{limit}}" data-type="form" data-preview='{{{data.preview}}}' data-connections="{{{connections}}}">
 		<# for( ; i < values.length; i++ ) {
 			data.index = i;
 			data.value = values[ i ];

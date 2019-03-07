@@ -82,7 +82,7 @@ class FLBuilderImportParserRegex extends WXR_Parser_Regex {
 					continue;
 				}
 				if ( false !== strpos( $importline, '<item>' ) ) {
-					$post = '';
+					$post    = '';
 					$in_post = true;
 					continue;
 				}
@@ -120,13 +120,13 @@ class FLBuilderImportParserRegex extends WXR_Parser_Regex {
 		}
 
 		return array(
-			'authors' => $this->authors,
-			'posts' => $this->posts,
+			'authors'    => $this->authors,
+			'posts'      => $this->posts,
 			'categories' => $this->categories,
-			'tags' => $this->tags,
-			'terms' => $this->terms,
-			'base_url' => $this->base_url,
-			'version' => $wxr_version,
+			'tags'       => $this->tags,
+			'terms'      => $this->terms,
+			'base_url'   => $this->base_url,
+			'version'    => $wxr_version,
 		);
 	}
 
@@ -209,7 +209,7 @@ final class FLBuilderImporterDataFix {
 	 */
 	static private function unescape_mysql( $value ) {
 		return str_replace( array( '\\\\', "\\0", "\\n", "\\r", '\Z', "\'", '\"' ),
-			array( '\\',   "\0",  "\n",  "\r",  "\x1a", "'", '"' ),
+			array( '\\', "\0", "\n", "\r", "\x1a", "'", '"' ),
 		$value );
 	}
 

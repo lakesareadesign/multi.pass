@@ -12,20 +12,23 @@ jQuery(document).ready ( function() {
 			} else {
 	       		content.children('div.' + thisTab).hide();
 			}
-         	jQuery(this).click(function(){
+         	jQuery(this).click(function(ev){
+				ev.preventDefault();
          		content.children('div').hide();
 				content.children('div.active').removeClass('active');
 				tabs.find('li a.active').removeClass('active');
  	       		selectedTab.val(thisTab);
 				tabs.find('li.'+thisTab+' a').addClass('active');
 				content.children('div.'+thisTab).addClass('active').show();
-				boxes = jQuery('.postbox, .termbox');
-				jQuery.post(ajaxurl, {
-					action: 'genesis_dambuster_tab',
-					box: tabs.closest(boxes).attr('id'),
-					tabselect: thisTab,
-					tabnonce: jQuery('#genesisdambustertabnonce').val()
-				});
+				if (jQuery('#poststuff').length == 0) {
+					boxes = jQuery('.postbox, .termbox');
+					jQuery.post(ajaxurl, {
+						action: 'genesis_dambuster_tab',
+						box: tabs.closest(boxes).attr('id'),
+						tabselect: thisTab,
+						tabnonce: jQuery('#genesisdambustertabnonce').val()
+					});
+				}
 				return false;
 			});
 	   		tabs.show();

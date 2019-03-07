@@ -12,7 +12,7 @@
 </div>
 
 <!-- Start of Async HubSpot Analytics -->
-<script type="text/javascript">
+<script>
 var _hsq = _hsq || [];
 _hsq.push(["setContentType", "standard-page"]);
 	(function(d,s,i,r) {

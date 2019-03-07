@@ -5,7 +5,6 @@ class Snapshot_Local_Backups {
 
 	const OPTION_SHOW_NOTICE = 'snapshot-local-backups-notification-pending';
 	const OPTION_NOTICE_DISMISSED = 'snapshot-local-backups-notice-dismissed';
-	const OPTION_EMAILS_SENT = 'snapshot-local-backups-emails-sent';
 	const MANAGED_BACKUPS_QUERY_VAR = 'snapshot_pro_managed_backups';
 	const HOURLY_SCHEDULED_EVENT = 'snapshot_local_backup_check';
 
@@ -41,6 +40,7 @@ class Snapshot_Local_Backups {
 			$this,
 			'snapshot_ajax_dismiss_local_backups_notice',
 		) );
+		add_action( 'admin_head', array( $this, 'snapshot_backups_notice_style' ) );
 		add_action( 'admin_footer', array( $this, 'print_dismiss_notice_script' ) );
 
 		$this->schedule_event();
@@ -69,7 +69,9 @@ class Snapshot_Local_Backups {
 		}
 
 		$this->set_local_backup_notice_flag( $timestamps );
-		$this->send_local_backup_email( $timestamps );
+
+		// @TODO Replace the following line with a line firing up the sending of appropriate info to the Hub.
+		// $this->send_local_backup_email( $timestamps );
 	}
 
 	private function set_local_backup_notice_flag( $timestamps ) {
@@ -82,24 +84,6 @@ class Snapshot_Local_Backups {
 		update_option( self::OPTION_SHOW_NOTICE, true );
 	}
 
-	private function send_local_backup_email( $timestamps ) {
-		$email_sent_timestamps = get_option( self::OPTION_EMAILS_SENT, array() );
-		$unhandled_timestamps = array_diff( $timestamps, $email_sent_timestamps );
-		if ( empty( $unhandled_timestamps ) ) {
-			return;
-		}
-
-		$user_info = $this->get_user_data();
-		add_filter( 'wp_mail_content_type', array( $this, 'enable_html_emails' ) );
-		wp_mail(
-			$user_info->user_email,
-			esc_html__( 'Snapshot -  Scheduled backup failed to upload to WPMU server', SNAPSHOT_I18N_DOMAIN ),
-			$this->get_email_body( $user_info->user_login )
-		);
-		remove_filter( 'wp_mail_content_type', array( $this, 'enable_html_emails' ) );
-		update_option( self::OPTION_EMAILS_SENT, $timestamps );
-	}
-
 	public function display_local_backups_warning() {
 		// phpcs:ignore
 		if ( isset( $_GET['page'] ) && self::MANAGED_BACKUPS_QUERY_VAR === $_GET['page'] ) {
@@ -109,12 +93,15 @@ class Snapshot_Local_Backups {
 		if ( ! $this->show_notice() ) {
 			return;
 		}
-		$message_text = $this->format_text(
-			esc_html__( "Your backup failed to upload to WPMU server. You can't use this backup from HUB in case your server is crashed. %s to see more details.", SNAPSHOT_I18N_DOMAIN )
+
+		$user_info = $this->get_user_data();
+		$message_text = sprintf(
+			__( "Hi %s, you have <strong>one or more full site backups that have failed to upload to The Hub</strong>. Locally hosted backups aren't very handy in the event you need to restore a website that's been taken down. <strong>We recommend visiting your managed backups and using the \"Retry Uploading\" option for any that are locally stored</strong>.", SNAPSHOT_I18N_DOMAIN ), $user_info
 		);
 		?>
 		<div class="snapshot-notice-local-backups notice-error notice is-dismissible">
 			<p><?php echo wp_kses_post( $message_text ); ?></p>
+			<a class="button button-primary" href="<?php echo esc_url( $this->get_managed_backups_url() ); ?>"><?php esc_html_e('Manage Backups', SNAPSHOT_I18N_DOMAIN); ?></a>
 		</div>
 		<?php
 	}
@@ -164,6 +151,62 @@ class Snapshot_Local_Backups {
 		<?php
 	}
 
+	public function snapshot_backups_notice_style() {
+		echo
+'<style type="text/css">
+	.toplevel_page_snapshot_pro_dashboard .snapshot-notice-local-backups, .snapshot_page_snapshot_pro_snapshots .snapshot-notice-local-backups, .snapshot_page_snapshot_pro_destinations .snapshot-notice-local-backups,
+	.snapshot_page_snapshot_pro_import .snapshot-notice-local-backups, .snapshot_page_snapshot_pro_settings .snapshot-notice-local-backups {
+		max-width: 980px;
+		margin: 15px 10px 2px;
+	}
+	.snapshot-notice-local-backups a.button-primary{
+		margin: 7px 0 12px;
+		background: #0085ba;
+		border-color: #0073aa #006799 #006799;
+		box-shadow: 0 1px 0 #006799;
+		color: #fff;
+		text-decoration: none;
+		text-shadow: 0 -1px 1px #006799, 1px 0 1px #006799, 0 1px 1px #006799, -1px 0 1px #006799;
+		font: inherit;
+		font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+		font-size: 13px!important;
+		text-transform: none;
+		line-height: 26px;
+		height: 28px;
+		padding: 0 10px 1px;
+		cursor: pointer;
+		border-width: 1px;
+		border-style: solid;
+		border-radius: 3px;
+		box-sizing: border-box;
+	}
+	.snapshot-notice-local-backups a.button-primary:hover{
+		box-shadow: 0 1px 0 #006799!important;
+		background: #008ec2;
+		background-color: #008ec2!important;
+    	border-color: #006799;
+	}
+	.snapshot-notice-local-backups .notice-dismiss{
+		border: none!important;
+		margin: 0!important;
+		padding: 9px!important;
+		background: 0 0!important;
+		color: #72777c!important;
+	}
+	.snapshot-notice-local-backups .notice-dismiss:before{
+		font: 400 20px/24px dashicons;
+	}
+	.snapshot-notice-local-backups p{
+		margin: .5em 0!important;
+		padding: 2px!important;
+		font-size: 13px!important;
+		line-height: 1.5!important;
+		color: #4e4e4d!important;
+	}
+</style>
+';
+	}
+
 	private function get_local_backup_timestamps() {
 		$local_model = new Snapshot_Model_Full_Local();
 		$backups = $local_model->get_backups();
@@ -199,49 +242,14 @@ class Snapshot_Local_Backups {
 	}
 
 	private function get_user_data() {
-		if ( class_exists( 'WPMUDEV_Dashboard' )
-		     && isset( WPMUDEV_Dashboard::$site )
-		     && is_callable( array( WPMUDEV_Dashboard::$site, 'get_option' ) )
-		) {
-			$profile_data = WPMUDEV_Dashboard::$site->get_option( 'profile_data' );
-			$name = empty( $profile_data['profile']['name'] )
-				? ''
-				: $profile_data['profile']['name'];
-			$email = empty( $profile_data['profile']['user_name'] )
-				? ''
-				: sanitize_email( $profile_data['profile']['user_name'] );
+		$current_user = wp_get_current_user();
 
-			if ( $name && $email ) {
-				return (object) array(
-					'user_login' => $name,
-					'user_email' => $email,
-				);
-			}
+		if ( ! $current_user->exists() ) {
+			return;
 		}
 
-		return get_userdata( 1 );
-	}
+		return ( $current_user->user_firstname ) ? $current_user->user_firstname : $current_user->display_name;
 
-	public function enable_html_emails() {
-		return "text/html";
-	}
-
-	private function get_email_body( $user ) {
-		$email_body = sprintf(
-			esc_html__( "Hi %1\$s\n\nSnapshot has found a local backup on your server. The backup was created but failed to upload to WPMU server. Local backups are not helpful in case your server gets compromised as they don’t appear on HUB until uploaded to WPMU server. %2\$s to open the managed backups and retry uploading the local backups to WPMU server.\n\nCheers,\nSnapshot", SNAPSHOT_I18N_DOMAIN ),
-			$user, '%s'
-		);
-		$email_body = $this->format_text( $email_body );
-		return nl2br( $email_body );
-	}
-
-	private function format_text( $text ) {
-		$click_here = sprintf( '<a href="%s" target="_blank">%s</a>',
-			$this->get_managed_backups_url(),
-			esc_html__( 'Click here', SNAPSHOT_I18N_DOMAIN )
-		);
-
-		return sprintf( $text, $click_here );
 	}
 
 	private function get_managed_backups_url() {
@@ -249,7 +257,9 @@ class Snapshot_Local_Backups {
 	}
 
 	private function show_notice() {
+		$timestamps = $this->get_local_backup_timestamps();
 		return get_option( self::OPTION_SHOW_NOTICE, false )
-		       && current_user_can( 'manage_options' );
+				&& ! empty( $timestamps )
+				&& current_user_can( 'manage_options' );
 	}
 }

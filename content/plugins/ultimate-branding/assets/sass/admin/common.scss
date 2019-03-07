@@ -1,0 +1,174 @@
+@import '../mixin';
+.branda-admin-page {
+    .sui-wrap-branda {
+        .simple-option-select2,
+        .simple-option-select2-ajax {
+            select {
+                min-width: 300px;
+                width: 40%;
+            }
+        }
+        .ub-empty {
+            padding: 0 10px 30px;
+            text-align: center;
+            h2 {
+                &.branda-image {
+                    margin-top: 0;
+                    &:before {
+                        content: "";
+                        display: block;
+                        width: 128px;
+                        height: 128px;
+                        background: transparent none no-repeat 50%;
+                        margin: 30px auto;
+                    }
+                    &.branda-image-confused {
+                        &:before {
+                            background-image: url(../images/branda/confused@1x.png);
+                        }
+                    }
+                }
+            }
+        }
+        .branda-divider {
+            border-bottom: 1px solid $gray_e6;
+            margin: 21px 15px 0;
+        }
+        .branda-accordion-body {
+            .sui-row {
+                &:last-child {
+                    .branda-divider {
+                        display: none;
+                    }
+                }
+            }
+        }
+        .branda-images-images-override {
+            max-width: 500px;
+        }
+        .sui-actions-left {
+            &.top {
+                .select-container {
+                    margin-right: 10px;
+                }
+            }
+        }
+        .sui-accordion-item-header {
+            .check-column {
+                max-width: 55px;
+            }
+        }
+        canvas {
+            &.branda-focal {
+                width: 302px;
+                height: 202px;
+                border: 1px solid $gray_e6;
+                margin-top: 10px;
+                background: {
+                    color: #ddd;
+                    size: 150%;
+                    repeat: no-repeat;
+                }
+            }
+        }
+        .branda-not-affected {
+            opacity: .5;
+        }
+        .check-column {
+            max-width: 12px;
+        }
+        .sui-dialog {
+            &.sui-dialog-sm {
+                &.branda-test-email {
+                    .sui-box {
+                        .sui-box-header {
+                            padding-bottom: 0;
+                        }
+                        .sui-box-body {
+                            padding-bottom: 7px;
+                        }
+                        .sui-box-footer {
+                            padding-bottom: 210px;
+                            background: {
+                                image: url(../images/branda/happy@2x.png);
+                                repeat: no-repeat;
+                                position: 50% 100%;
+                                size: 140px auto;
+                            }
+                            .sui-button {
+                                .sui-icon-loader {
+                                    position: static;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .sui-dialog {
+            &#branda-copy-settings-db-error-page,
+            &.branda-test-email {
+                .sui-box {
+                    .sui-box-body {
+                        .sui-label {
+                            color: #aaa;
+                            font-size: 12px;
+                        }
+                    }
+                }
+            }
+        }
+        .ace_emptyMessage {
+            color: $gray_a;
+        }
+        .simple-option {
+            .sui-tab-item {
+                &.branda-icon {
+                    line-height: 1;
+                    i {
+                        display: block;
+                        width: 16px;
+                        height: 22px;
+                        background-color: $gray_6;
+                        &:hover {
+                            background-color: $gray_6;
+                        }
+                        -webkit-mask: {
+                            repeat: no-repeat;
+                            position: 50%;
+                        }
+                        mask: {
+                            repeat: no-repeat;
+                            position: 50%;
+                        }
+                    }
+                    &.active {
+                        i {
+                            background-color: $blue_1;
+                        }
+                    }
+                    &.branda-background_position_x-left   i { @include mask_image( 'icons/x-left' ); }
+                    &.branda-background_position_x-center i { @include mask_image( 'icons/x-center' ); }
+                    &.branda-background_position_x-right  i { @include mask_image( 'icons/x-right' ); }
+                    &.branda-background_position_y-top    i { @include mask_image( 'icons/y-top' ); }
+                    &.branda-background_position_y-center i { @include mask_image( 'icons/y-center' ); }
+                    &.branda-background_position_y-bottom i { @include mask_image( 'icons/y-bottom' ); }
+                }
+            }
+            .sui-tabs-menu {
+                .sui-form-control {
+                    padding: 9px 14px;
+                    margin-left: 10px;
+                    @include border-radius( 4px );
+                    font-size: 15px;
+                }
+            }
+            &.simple-option-sui-tab-icon {
+                div[for=simple_options_design_background_position_x],
+                div[for=simple_options_design_background_position_y] {
+                    max-width: 355px;
+                }
+            }
+        }
+    }
+}

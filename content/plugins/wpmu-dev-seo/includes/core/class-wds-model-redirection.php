@@ -21,6 +21,14 @@ class Smartcrawl_Model_Redirection extends Smartcrawl_Model {
 	public function get_redirection( $source, $fallback = false ) {
 		$redirections = $this->get_all_redirections();
 
+		$source = in_array( trailingslashit( $source ), array_keys( $redirections ) )
+			? trailingslashit( $source )
+			: ( in_array( untrailingslashit( $source ), array_keys( $redirections ) )
+				? untrailingslashit( $source )
+				: $source
+			)
+		;
+
 		return ! empty( $redirections[ $source ] )
 			? $redirections[ $source ]
 			: $fallback;
@@ -209,18 +217,12 @@ class Smartcrawl_Model_Redirection extends Smartcrawl_Model {
 		$protocol = is_ssl() ? 'https:' : 'http:';
 		$domain = $_SERVER['HTTP_HOST'];
 
-		$port = (int) $_SERVER['SERVER_PORT'] ? ':' . (int) $_SERVER['SERVER_PORT'] : '';
-		if ( is_ssl() && 443 === (int) $_SERVER['SERVER_PORT'] ) {
-			$port = '';
-		}
-		if ( ! is_ssl() && 80 === (int) $_SERVER['SERVER_PORT'] ) {
-			$port = '';
-		}
-		if ( smartcrawl_is_switch_active( 'SMARTCRAWL_OMIT_PORT_MATCHES' ) ) {
-			$port = '';
-		}
+		$port = smartcrawl_is_switch_active( 'SMARTCRAWL_OMIT_PORT_MATCHES' )
+			? ''
+			: $this->get_current_request_port()
+		;
 
-		$request = $_SERVER['REQUEST_URI'];
+		$request = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
 
 		$source = $protocol . '//' . $domain . $port . $request;
 
@@ -228,6 +230,22 @@ class Smartcrawl_Model_Redirection extends Smartcrawl_Model {
 			$this->get_filter( 'current_url' ),
 			$source
 		);
+	}
+
+	/**
+	 * Fetches the current request port
+	 *
+	 * @return int|string Port number or empty string
+	 */
+	public function get_current_request_port() {
+		$port = (int) $_SERVER['SERVER_PORT'] ? ':' . (int) $_SERVER['SERVER_PORT'] : '';
+		if ( is_ssl() && 443 === (int) $_SERVER['SERVER_PORT'] ) {
+			$port = '';
+		}
+		if ( ! is_ssl() && 80 === (int) $_SERVER['SERVER_PORT'] ) {
+			$port = '';
+		}
+		return $port;
 	}
 
 	public function get_type() {

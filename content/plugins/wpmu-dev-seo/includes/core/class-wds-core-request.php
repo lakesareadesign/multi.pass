@@ -63,14 +63,15 @@ class Smartcrawl_Core_Request {
 			}
 			$hasher = new PasswordHash( 8, true );
 			$cookies[] = new WP_Http_Cookie( array(
-				'name' => 'wp-postpass_' . COOKIEHASH,
+				'name'  => 'wp-postpass_' . COOKIEHASH,
 				'value' => $hasher->HashPassword( $post->post_password ),
-			));
+			) );
 		}
 
 		if ( ! empty( $cookies ) ) {
 			$params['cookies'] = $cookies;
 		}
+		$params['timeout'] = $this->get_timeout();
 
 		$response = wp_remote_get( $url, $params );
 
@@ -87,5 +88,11 @@ class Smartcrawl_Core_Request {
 		$bits = Smartcrawl_Html::find( '.wds-frontend-content-check', $content );
 
 		return (string) trim( join( "\n", $bits ) );
+	}
+
+	private function get_timeout() {
+		return defined( 'SMARTCRAWL_ANALYSIS_REQUEST_TIMEOUT' )
+			? SMARTCRAWL_ANALYSIS_REQUEST_TIMEOUT
+			: 5;
 	}
 }

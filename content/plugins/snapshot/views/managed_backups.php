@@ -296,12 +296,13 @@ $model = new Snapshot_Model_Full_Backup();
 														if ( Snapshot_Helper_Backup::is_automated_backup( $backup['name'] ) ) {
 															$backup_type_class = 'wps-typecon automated';
 														} else {
-															if ( ! empty( $backup['local'] ) ) {
-																$backup_type_class = 'i-cloud-error';
-																$backup_type_tooltip = esc_html__( "Backup is stored locally and failed to upload to WPMU Server. You can't use this backup from HUB in case your server crashes. We recommend you retry uploading this backup.", SNAPSHOT_I18N_DOMAIN );
-															} else {
-																$backup_type_class = 'i-cloud-upload';
-															}
+															$backup_type_class = 'i-cloud-upload';
+														}
+
+														if ( ! empty( $backup['local'] ) ) {
+															$backup_type_class .= ' upload-error';
+															$backup_type_tooltip = esc_html__( "This backup failed to upload to the Hub and is only being stored locally. We recommend you retry uploading this backup from the options menu to the right so that it's available in the event you need to restore your website.", SNAPSHOT_I18N_DOMAIN );
+
 														}
 
 														?>

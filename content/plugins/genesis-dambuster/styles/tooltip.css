@@ -22,7 +22,10 @@ border-top: 8px solid #ddd;border-left: 8px solid transparent;border-right: 8px 
 .diy-tooltip .dashicons-editor-help { font-weight: lighter; font-size: 16px; font-family: dashicons; }
 .diy-fieldset {display: inline-block; margin: 0 5px; }
 .diy-fieldset label { min-width: 70px; margin: 3px 15px 3px 5px; vertical-align:middle; }
-.diy-fieldset input { margin: 3px 0; }
+.diy-fieldset input, .diy-fieldset textarea { margin: 3px 0; padding-top:0;vertical-align: top;}
+.wrapfieldset > label {display: block; margin-bottom: 10px;}
+.wrapfieldset > .diy-fieldset  {display: block; width:100%;}
+.wrapfieldset .diy-fieldset ul {display: block; width:100%;}
 .diy-fieldset ul, .wrapfieldset .diy-fieldset ul { margin: 0; }
 .diy-fieldset li { display: inline; }
 .diy-checkbox { margin-left: 3px;}
@@ -30,11 +33,27 @@ border-top: 8px solid #ddd;border-left: 8px solid transparent;border-right: 8px 
 .diy-wrap { margin: 10px 0; }
 .diy-wrap h4 { margin: 10px 0;}
 .diy-wrap p { margin: 5px 0 0; }
-tr.diy-row th, tr.diy-row td { margin: 0; padding: 5px;}
-div.diy-row { margin-bottom: 5px; padding: 0px;}
-.diy-row input, .diy-row textarea  { margin-top: 0; max-width: 99%;}
-.diy-row .wp-picker-container {display: inline-block;}
 .widgets-holder-wrap .diy-wrap .diy-row .diy-label { margin-top: 5px;}
 .widgets-holder-wrap .diy-label { min-width: 150px; }
 .widgets-holder-wrap .diy-wrap .diy-label { min-width: 100px;}
 .widgets-holder-wrap .diy-fieldset label { min-width: 30px; }
+.diy-row > input, .diy-row > textarea  { margin-top: 0; max-width: 99%;}
+.diy-row .wp-picker-container {display: inline-block;}
+tr.diy-row th, tr.diy-row td { margin: 0; padding: 5px;}
+div.diy-row { margin-bottom: 5px; padding: 0px;}
+.diy-fieldset.incols li{ display:list-item;}
+.diy-keypair {width:95%; -webkit-box-sizing: border-box;-moz-box-sizing: border-box;box-sizing: border-box;}
+.diy-keypair textarea{width:100%;}
+@media only screen and (min-width: 480px) {
+.diy-fieldset.incols ul{ column-count: 2; -webkit-column-count: 2; -moz-column-count: 3; }
+}
+@media only screen and (min-width: 640px) {
+.diy-fieldset.incols ul{ column-count: 3; -webkit-column-count: 3; -moz-column-count: 3; }
+.diy-keypair input {width:35%;}
+.diy-keypair textarea{width:60%;}
+}
+@media only screen and (min-width: 960px) {
+.diy-fieldset.incols ul{ column-count: 5; -webkit-column-count: 5; -moz-column-count: 5; }
+.diy-keypair input {width:25%;}
+.diy-keypair textarea{width:70%;}
+}

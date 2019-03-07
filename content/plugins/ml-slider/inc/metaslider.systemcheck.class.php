@@ -7,7 +7,7 @@ if (!defined('ABSPATH')) die('No direct access.');
  */
 class MetaSliderSystemCheck {
 
-    var $options = array();
+    private $options = array();
 
     /**
      * Constructor

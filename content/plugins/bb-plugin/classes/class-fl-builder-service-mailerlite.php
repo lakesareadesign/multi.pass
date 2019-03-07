@@ -65,8 +65,8 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 	 */
 	public function connect( $fields = array() ) {
 		$response = array(
-			'error'  => false,
-			'data'   => array(),
+			'error' => false,
+			'data'  => array(),
 		);
 
 		// Make sure we have an API token.
@@ -101,13 +101,13 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 		ob_start();
 
 		FLBuilder::render_settings_field( 'api_key', array(
-			'row_class'     => 'fl-builder-service-connect-row',
-			'class'         => 'fl-builder-service-connect-input',
-			'type'          => 'text',
-			'label'         => __( 'API Key', 'fl-builder' ),
-			'help'          => __( 'Found in your MailerLite account under Integrations > Developer API.', 'fl-builder' ),
-			'preview'       => array(
-				'type'          => 'none',
+			'row_class' => 'fl-builder-service-connect-row',
+			'class'     => 'fl-builder-service-connect-input',
+			'type'      => 'text',
+			'label'     => __( 'API Key', 'fl-builder' ),
+			'help'      => __( 'Found in your MailerLite account under Integrations > Developer API.', 'fl-builder' ),
+			'preview'   => array(
+				'type' => 'none',
 			),
 		));
 
@@ -126,19 +126,19 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 	 * }
 	 */
 	public function render_fields( $account, $settings ) {
-		$account_data   = $this->get_account_data( $account );
-		$api 			= $this->get_api( $account_data['api_key'] );
+		$account_data = $this->get_account_data( $account );
+		$api          = $this->get_api( $account_data['api_key'] );
 		$api->setPath( 'groups' );
 		$get_lists = json_decode( $api->getAll() );
-		$lists = array();
+		$lists     = array();
 
 		if ( $get_lists && count( $get_lists ) > 0 ) {
 			$lists = $get_lists;
 		}
 
-		$response       = array(
-			'error'         => false,
-			'html'          => $this->render_list_field( $lists, $settings ),
+		$response = array(
+			'error' => false,
+			'html'  => $this->render_list_field( $lists, $settings ),
 		);
 
 		return $response;
@@ -166,13 +166,13 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 		}
 
 		FLBuilder::render_settings_field( 'list_id', array(
-			'row_class'     => 'fl-builder-service-field-row',
-			'class'         => 'fl-builder-service-list-select',
-			'type'          => 'select',
-			'label'         => _x( 'Group', 'An email list from a third party provider.', 'fl-builder' ),
-			'options'       => $options,
-			'preview'       => array(
-				'type'          => 'none',
+			'row_class' => 'fl-builder-service-field-row',
+			'class'     => 'fl-builder-service-list-select',
+			'type'      => 'select',
+			'label'     => _x( 'Group', 'An email list from a third party provider.', 'fl-builder' ),
+			'options'   => $options,
+			'preview'   => array(
+				'type' => 'none',
 			),
 		), $settings);
 
@@ -191,8 +191,8 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 	 * }
 	 */
 	public function subscribe( $settings, $email, $name = '' ) {
-		$account_data 	= $this->get_account_data( $settings->service_account );
-		$response     	= array(
+		$account_data = $this->get_account_data( $settings->service_account );
+		$response     = array(
 			'error' => false,
 		);
 

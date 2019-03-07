@@ -260,7 +260,7 @@ class Smartcrawl_String {
 	 *             -2 for encoding issue
 	 */
 	public static function syllables_count( $text ) {
-		$syls = array();
+		$syls = 0;
 
 		if ( empty( $text ) ) {
 			return - 1;
@@ -268,21 +268,73 @@ class Smartcrawl_String {
 		$words = self::words( $text );
 
 		foreach ( $words as $word ) {
-			$word = preg_replace( '/[^a-z]/', '', $word );
-			if ( empty( $word ) ) {
-				continue;
-			} // Nothing here.
-			$word = preg_replace( '/^[aeiouy]|[aeiouy]$/', '', $word );
-			$tmp = preg_split( '/[aeiouy]+/', $word, null, PREG_SPLIT_NO_EMPTY );
-			if ( 2 === count( $tmp ) && strlen( $word ) <= 4 ) {
-				$tmp = array( $word );
-			} // Simple threshold approximation.
-			$syls = array_merge( $syls, $tmp );
+			$syllables_count_word = self::syllables_count_word( $word );
+			$syls += $syllables_count_word;
 		}
-		if ( count( $syls ) === 0 /*|| count($syls) === count($words)*/ ) {
+		if ( $syls === 0 ) {
 			return - 2;
 		} // Well that didn't work...
-		return count( $syls );
+
+		return $syls;
+	}
+
+	/**
+	 * Uses the method on https://howmanysyllables.com/howtocountsyllables
+	 *
+	 * @param $word
+	 *
+	 * @return int
+	 */
+	private static function syllables_count_word( $word ) {
+		$word = trim( $word );
+		$unacceptable = (boolean) preg_match_all( '/[^a-zA-Z]/', $word );
+		if ( $unacceptable ) {
+			return 0;
+		}
+
+		$length = strlen( $word );
+		if ( $length < 3 ) {
+			// e.g. we, to, a
+			return 1;
+		}
+
+		// Count the number of vowels (A, E, I, O, U) in the word.
+		//      Add 1 every time the letter 'y' makes the sound of a vowel
+		$syllables = preg_match_all( '/[aeiouy]/', $word );
+
+		//      Subtract 1 for each silent vowel (like the silent 'e' at the end of a word).
+		$ends_with_e = self::ends_with( $word, 'e' );
+		$syllables -= $ends_with_e ? 1 : 0;
+
+		if ( $ends_with_e && $length === 3 ) {
+			// e.g. the, eve, axe
+			return 1;
+		}
+
+		// Subtract 1 for each diphthong
+		$diphthongs = preg_match_all( '/[aeiouy]{2}/', $word );
+		$syllables -= $diphthongs;
+
+		// Subtract 1 for each triphthong
+		$triphthongs = preg_match_all( '/[aeiouy]{3}/', $word );
+		$syllables -= $triphthongs;
+
+		// Does the word end with "le" or "les?" Add 1 only if the letter before the "le" is a consonant.
+		$ends_with_le = (boolean) preg_match_all( '/[^aeiouy]le|les$/', $word );
+		$syllables += $ends_with_le ? 1 : 0;
+
+		return $syllables <= 0
+			? 0
+			: $syllables;
+	}
+
+	public static function ends_with( $haystack, $needle ) {
+		$length = strlen( $needle );
+		if ( $length == 0 ) {
+			return true;
+		}
+
+		return ( substr( $haystack, - $length ) === $needle );
 	}
 
 	/**

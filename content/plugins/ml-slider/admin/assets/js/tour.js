@@ -3,23 +3,6 @@
  * This should always show when the user has no slideshows
  */
 
-var no_slideshows = new Shepherd.Tour({
-    defaults: {
-        classes: 'shepherd-theme-arrows shepherd-no-slideshows'
-    }
-});
-no_slideshows.addStep('welcome', {
-    title: metaslider_tour.no_slideshows.title,
-    text: metaslider_tour.no_slideshows.message,
-    attachTo: '#create_new_tab bottom',
-    tetherOptions: {
-        offset: '-5px 0'
-    },
-    buttons: []
-});
-      
-metaslider_tour.no_slideshows.show && no_slideshows.start();
-
 // Main tour to introduce the plugin
 var main_tour = new Shepherd.Tour();
 
@@ -179,13 +162,6 @@ main_tour.on('cancel', function() {
         },
         success: function(response) {
 
-            // We will show a final ad to lite users only when they cancel
-            // and there are no errors (don't want to annoy them if there's a bug)
-            if (!metaslider_tour.main_tour.is_pro) {
-                jQuery('#wpwrap, .media-modal').addClass('blurred-out');
-                main_tour.show('step_show_ad');
-            }
-
         }
     });
 });
@@ -195,19 +171,6 @@ jQuery(function($) {
         metaslider_tour.main_tour.show && main_tour.start();
     });
 });
-
-// Specifics for lite users (i.e. ads)
-if (!metaslider_tour.main_tour.is_pro) {
-    
-    // Add a CTA button to this step if add-on pack is disabled
-    main_tour.getById('step_show_slide_types').options.buttons.unshift({
-        text: metaslider_tour.main_tour.learn_more_language,
-        action: function() {
-            window.open(metaslider_tour.main_tour.upgrade_link, '_blank').focus();
-        },
-        classes: 'btn-cta-gradient'
-    });
-}
 
 // Load jQuery events after DOM load
 jQuery(function($) {

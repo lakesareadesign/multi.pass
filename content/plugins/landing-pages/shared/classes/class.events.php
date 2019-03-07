@@ -206,7 +206,7 @@ class Inbound_Events {
         global $wp_query;
 
 
-        $args['event_name'] = 'inbound_email_click';
+        $args['event_name'] = 'wpmail_click';
 
         self::store_event($args);
     }
@@ -433,6 +433,9 @@ class Inbound_Events {
             $table_name,
             $args
         );
+
+        /* run action hook */
+        do_action('inbound-pro/events/page_view' , $args );
 
     }
 
@@ -1456,7 +1459,7 @@ class Inbound_Events {
 
         $table_name = $wpdb->prefix . "inbound_events";
 
-        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "inbound_email_click" ORDER BY `datetime` DESC';
+        $query = 'SELECT * FROM '.$table_name.' WHERE `lead_id` = "'.$lead_id.'" AND `event_name` = "wpmail_click" ORDER BY `datetime` DESC';
         $results = $wpdb->get_results( $query , ARRAY_A );
 
         return $results;

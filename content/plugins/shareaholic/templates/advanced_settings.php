@@ -115,4 +115,4 @@
 </div>
 
 <?php ShareaholicAdmin::show_footer(); ?>
-<?php ShareaholicAdmin::include_snapengage(); ?>
+<?php ShareaholicAdmin::include_chat(); ?>

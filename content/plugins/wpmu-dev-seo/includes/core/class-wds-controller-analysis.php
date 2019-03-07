@@ -445,13 +445,17 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 			return;
 		}
 
+		$is_dirty = (boolean) smartcrawl_get_array_value( $data, 'is_dirty' );
+		$post_id = (int) smartcrawl_get_array_value( $data, 'post_id' );
+		$post = get_post( $post_id );
 		/**
-		 * Since this code might be running as a result of an auto-save, we will use the latest post revision
-		 * to run a fresh analysis.
+		 * If there is_dirty flag is set i.e. are unsaved changes in the editor then we
+		 * will fetch the latest post revision and analyze that.
 		 */
-		$latest_post_version = smartcrawl_get_latest_post_version( (int) $data['post_id'] );
-		$this->analyze_post( $latest_post_version->ID );
-		$post = get_post( (int) $data['post_id'] );
+		$post_to_analyze = $is_dirty
+			? smartcrawl_get_latest_post_version( $post_id )
+			: $post;
+		$this->analyze_post( $post_to_analyze->ID );
 
 		$out = array();
 		ob_start();

@@ -1,5 +1,4 @@
 <?php
-
 class AC_Connector {
 
 	public $url;

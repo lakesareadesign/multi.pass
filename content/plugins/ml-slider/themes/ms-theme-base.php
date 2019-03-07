@@ -122,7 +122,7 @@ class MetaSlider_Theme_Base {
 		}
 
 		if ($this->id == $theme_id) {
-			return wp_parse_args(apply_filters('metaslider_theme_' . $this->id . '_slider_parameters', $this->slider_parameters), $options);
+			return array_merge($options, apply_filters('metaslider_theme_' . $this->id . '_slider_parameters', $this->slider_parameters));
 		}
 
 		return $options;

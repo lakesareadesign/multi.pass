@@ -12,7 +12,7 @@ class Smartcrawl_Check_Slug_Keywords extends Smartcrawl_Check_Post_Abstract {
 
 	public function apply() {
 		$text = $this->get_markup();
-		$subject = join( ' ', preg_split( '/[-_]/', $text ) );
+		$subject = join( ' ', preg_split( '/[\-_]/', $text ) );
 
 		$this->_state = $this->has_focus( $subject );
 

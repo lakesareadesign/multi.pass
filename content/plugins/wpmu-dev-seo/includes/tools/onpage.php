@@ -670,7 +670,7 @@ class Smartcrawl_OnPage {
 		// News keywords.
 		$resolver = $this->get_resolver();
 		$news_meta = $resolver->is_singular() ? stripslashes( smartcrawl_get_value( 'news_keywords' ) ) : false;
-		$news_meta = trim( preg_replace( '/\s\s+/', ' ', preg_replace( '/[^-_,a-z0-9 ]/i', ' ', $news_meta ) ) );
+		$news_meta = trim( preg_replace( '/\s\s+/', ' ', preg_replace( '/[^\-_,a-z0-9 ]/i', ' ', $news_meta ) ) );
 		if ( $news_meta ) {
 			echo '<meta name="news_keywords" content="' . esc_attr( $news_meta ) . '" />' . "\n";
 		}

@@ -316,7 +316,7 @@ final class FL_Debug {
 		$cache = FLBuilderModel::get_cache_dir();
 
 		$args = array(
-			'name' => 'Beaver Builder Path',
+			'name' => 'Beaver Builder Cache Path',
 			'data' => $cache['path'],
 		);
 		self::register( 'bb_cache_path', $args );
@@ -331,7 +331,7 @@ final class FL_Debug {
 			$cache = FLCustomizer::get_cache_dir();
 
 			$args = array(
-				'name' => 'Beaver Theme Path',
+				'name' => 'Beaver Theme Cache Path',
 				'data' => $cache['path'],
 			);
 			self::register( 'bb_theme_cache_path', $args );
@@ -342,6 +342,12 @@ final class FL_Debug {
 			);
 			self::register( 'bb_theme_cache_path_writable', $args );
 		}
+
+		$args = array(
+			'name' => 'WordPress Content Path',
+			'data' => WP_CONTENT_DIR,
+		);
+		self::register( 'bb_content_path', $args );
 
 		$args = array(
 			'name' => 'License',

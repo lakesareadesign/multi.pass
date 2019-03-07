@@ -81,10 +81,10 @@ class FLBuilderSettingsCompatHelper {
 		}
 
 		$keys = array(
-			'slide-left' => 'fade-right',
+			'slide-left'  => 'fade-right',
 			'slide-right' => 'fade-left',
-			'slide-up' => 'fade-up',
-			'slide-down' => 'fade-down',
+			'slide-up'    => 'fade-up',
+			'slide-down'  => 'fade-down',
 		);
 
 		if ( isset( $keys[ $settings->animation ] ) ) {
@@ -145,10 +145,10 @@ class FLBuilderSettingsCompatHelper {
 					'style' => isset( $settings->{ "border_type$breakpoint" } ) ? $settings->{ "border_type$breakpoint" } : '',
 					'color' => isset( $settings->{ "border_color$breakpoint" } ) ? $settings->{ "border_color$breakpoint" } : '',
 					'width' => array(
-						'top' => $settings->{ "border_top$breakpoint" },
-						'right' => $settings->{ "border_right$breakpoint" },
+						'top'    => $settings->{ "border_top$breakpoint" },
+						'right'  => $settings->{ "border_right$breakpoint" },
 						'bottom' => $settings->{ "border_bottom$breakpoint" },
-						'left' => $settings->{ "border_left$breakpoint" },
+						'left'   => $settings->{ "border_left$breakpoint" },
 					),
 				);
 

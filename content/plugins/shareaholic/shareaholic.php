@@ -3,14 +3,14 @@
  * The main file!
  *
  * @package shareaholic
- * @version 8.10.7
+ * @version 8.11.0
  */
 
 /*
 Plugin Name: Fast Share Buttons, Analytics, Related Posts and More - Shareaholic
 Plugin URI: https://www.shareaholic.com/website-tools/
 Description: The award winning all-in-one Social Media and Related Posts solution for WordPress. Get found on social and grow your following. See <a href="admin.php?page=shareaholic-settings">configuration panel</a> for settings.
-Version: 8.10.7
+Version: 8.11.0
 Author: Shareaholic
 Author URI: https://www.shareaholic.com
 Text Domain: shareaholic
@@ -61,7 +61,7 @@ if (!class_exists('Shareaholic')) {
     const API_URL = 'https://web.shareaholic.com'; // uses static IPs for firewall whitelisting
     const CM_API_URL = 'https://cm-web.shareaholic.com'; // uses static IPs for firewall whitelisting
 
-    const VERSION = '8.10.7';
+    const VERSION = '8.11.0';
 
     /**
      * Starts off as false so that ::get_instance() returns
@@ -101,8 +101,8 @@ if (!class_exists('Shareaholic')) {
 
       add_action('wp_loaded',                         array('ShareaholicPublic', 'init'));
       add_action('after_setup_theme',                 array('ShareaholicPublic', 'after_setup_theme'));
-      add_action('the_content',                       array('ShareaholicPublic', 'draw_canvases'));
-      add_action('the_excerpt',                       array('ShareaholicPublic', 'draw_canvases'));
+      
+      add_action('pre_get_posts',                     array($this, 'shareaholic_draw_canvas'));
       
       add_action('wp_head',                           array('ShareaholicPublic', 'wp_head'), 6);
       add_filter('wp_resource_hints',                 array('ShareaholicPublic', 'shareaholic_resource_hints'), 10, 2);
@@ -162,14 +162,21 @@ if (!class_exists('Shareaholic')) {
       add_filter('rocket_minify_excluded_external_js', array('ShareaholicUtilities', 'rocket_exclude_js') );
     }
 
+    public static function shareaholic_draw_canvas($query) {
+      if ( $query->is_main_query() ) {        
+        add_filter('the_content', array('ShareaholicPublic', 'draw_canvases'), 98);
+        add_filter('the_excerpt', array('ShareaholicPublic', 'draw_canvases'), 98);
+      }
+    }
+
     public static function remove_apps() {
-      remove_filter('the_content', array('ShareaholicPublic', 'draw_canvases'));
-      remove_filter('the_excerpt', array('ShareaholicPublic', 'draw_canvases'));
+      remove_filter('the_content', array('ShareaholicPublic', 'draw_canvases'), 98);
+      remove_filter('the_excerpt', array('ShareaholicPublic', 'draw_canvases'), 98);
     }
 
     public static function return_apps() {
-      add_filter('the_content', array('ShareaholicPublic', 'draw_canvases'));
-      add_filter('the_excerpt', array('ShareaholicPublic', 'draw_canvases'));
+      add_filter('the_content', array('ShareaholicPublic', 'draw_canvases'), 98);
+      add_filter('the_excerpt', array('ShareaholicPublic', 'draw_canvases'), 98);
     }
 
     /**

@@ -13,6 +13,7 @@ class Smartcrawl_AIOSEOP_Importer extends Smartcrawl_Importer {
 		'aioseop_options/modules/aiosp_opengraph_options/aiosp_opengraph_hometitle'   => 'home_og_fields_enabled',
 		'aioseop_options/modules/aiosp_opengraph_options/aiosp_opengraph_description' => 'home_og_fields_enabled',
 	);
+
 	// phpcs:enable
 
 	public function data_exists() {
@@ -23,7 +24,10 @@ class Smartcrawl_AIOSEOP_Importer extends Smartcrawl_Importer {
 			return false;
 		}
 
-		return strpos( $version, '2.9' ) === 0;
+		return apply_filters(
+			'wds-import-aioseop-data-exists',
+			strpos( $version, '2.11' ) === 0
+		);
 	}
 
 	public function import_options() {

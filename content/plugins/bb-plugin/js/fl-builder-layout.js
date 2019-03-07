@@ -488,12 +488,13 @@
 		_initYoutubeBgVideo: function()
 		{
 			var playerWrap	= $(this),
-				videoId 	= playerWrap.data('video-id'),
+				videoId 		= playerWrap.data('video-id'),
 				videoPlayer = playerWrap.find('.fl-bg-video-player'),
 				enableAudio = playerWrap.data('enable-audio'),
 				audioButton = playerWrap.find('.fl-bg-video-audio'),
-				startTime 	= 'undefined' !== typeof playerWrap.data('t') ? playerWrap.data('t') : 0,
-				loop 		= 'undefined' !== typeof playerWrap.data('loop') ? playerWrap.data('loop') : 1,
+				startTime 	= 'undefined' !== typeof playerWrap.data('start') ? playerWrap.data('start') : 0,
+				endTime 		= 'undefined' !== typeof playerWrap.data('end') ? playerWrap.data('end') : 0,
+				loop 				= 'undefined' !== typeof playerWrap.data('loop') ? playerWrap.data('loop') : 1,
 				vidPlayed   = false,
 				didUnmute   = false,
 				stateCount  = 0,
@@ -558,6 +559,7 @@
 								showinfo: 0,
 								rel : 0,
 								start: startTime,
+								end: endTime,
 							}
 						} );
 					}, 1 );

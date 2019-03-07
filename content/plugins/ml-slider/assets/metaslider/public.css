@@ -287,5 +287,8 @@ div.metaslider .slider-wrapper .nivo-controlNav a {
 }
 .metaslider .coin-slider .cs-buttons a,
 .metaslider .coin-slider > a {
-    box-shadow: none !important;
+	box-shadow: none !important;
+}
+.metaslider .coin-slider a[href="javascript:void(0)"] {
+	cursor: default !important;
 }

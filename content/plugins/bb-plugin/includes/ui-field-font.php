@@ -18,7 +18,7 @@ data.value = JSON.stringify( data.value );
 		<label for="{{names.family}}"><?php _e( 'Family', 'fl-builder' ); ?></label>
 		<# } #>
 		<select name="{{names.family}}" class="fl-font-field-font">
-			<?php FLBuilderFonts::display_select_font( 'Default' ) ?>
+			<?php FLBuilderFonts::display_select_font( 'Default' ); ?>
 		</select>
 	</div>
 	<div class="fl-font-field-weight-wrapper">
@@ -26,7 +26,7 @@ data.value = JSON.stringify( data.value );
 		<label for="{{names.weight}}"><?php _e( 'Weight', 'fl-builder' ); ?></label>
 		<# } #>
 		<select name="{{names.weight}}" class="fl-font-field-weight">
-			<?php FLBuilderFonts::display_select_weight( 'Default', '' ) ?>
+			<?php FLBuilderFonts::display_select_weight( 'Default', '' ); ?>
 		</select>
 	</div>
 </div>

@@ -16,9 +16,9 @@ final class FLBuilderUsage {
 		add_action( 'admin_init', array( 'FLBuilderUsage', 'enable_disable' ) );
 		add_action( 'init', array( 'FLBuilderUsage', 'set_schedule' ) );
 		add_action( $hook, array( 'FLBuilderUsage', 'render_notification' ) );
-		add_action( 'admin_enqueue_scripts', array( 'FLBuilderUsage', 'scripts' ) );
 		add_action( 'fl_builder_usage_event', array( 'FLBuilderUsage', 'send_stats' ) );
 		add_action( 'wp_ajax_fl_usage_toggle', array( 'FLBuilderUsage', 'callback' ) );
+
 	}
 
 	public static function callback() {
@@ -39,7 +39,6 @@ final class FLBuilderUsage {
 	}
 
 	public static function scripts() {
-
 		wp_enqueue_style( 'fl-builder-admin-usage', FL_BUILDER_URL . 'css/fl-builder-admin-usage.css', array(), FL_BUILDER_VERSION );
 		wp_enqueue_script( 'fl-builder-admin-usage', FL_BUILDER_URL . 'js/fl-builder-admin-usage.js', array( 'jquery' ), FL_BUILDER_VERSION );
 	}
@@ -92,8 +91,6 @@ final class FLBuilderUsage {
 		if ( ! self::notification_enabled() ) {
 			return false;
 		}
-
-		wp_enqueue_script( 'jquery' );
 
 		$btn = sprintf( '<div class="buttons"><span class="button button-primary enable-stats">%s</span>&nbsp;<span class="button disable-stats">%s</span>%s</div>',
 			__( "Sure, I'll help", 'fl-builder' ),
@@ -183,6 +180,8 @@ final class FLBuilderUsage {
 	 */
 	public static function data_demo() {
 
+		self::scripts();
+
 		$data     = self::get_data( true );
 		$output   = '';
 		$txt      = '';
@@ -247,26 +246,26 @@ final class FLBuilderUsage {
 			require_once ABSPATH . 'wp-admin/includes/plugin.php';
 		}
 
-		 $data                   = array(
-			 'modules' => array(),
-			 'license' => array(),
-			 'themer'  => array(
-				 'header'   => 0,
-				 'footer'   => 0,
-				 'part'     => 0,
-				 '404'      => 0,
-				 'singular' => 0,
-			 ),
-			 'pinned'  => array(
-				 'left'     => 0,
-				 'right'    => 0,
-				 'unpinned' => 0,
-			 ),
-		 );
-		 $users                  = count_users();
-		 $plugins_data           = get_plugins();
-		 $data['plugins']        = count( $plugins_data );
-		 $data['plugins_active'] = 0;
+		$data                   = array(
+			'modules' => array(),
+			'license' => array(),
+			'themer'  => array(
+				'header'   => 0,
+				'footer'   => 0,
+				'part'     => 0,
+				'404'      => 0,
+				'singular' => 0,
+			),
+			'pinned'  => array(
+				'left'     => 0,
+				'right'    => 0,
+				'unpinned' => 0,
+			),
+		);
+		$users                  = count_users();
+		$plugins_data           = get_plugins();
+		$data['plugins']        = count( $plugins_data );
+		$data['plugins_active'] = 0;
 
 		foreach ( (array) $plugins_data as $plugin_slug => $plugin ) {
 			if ( is_plugin_active( $plugin_slug ) ) {
@@ -274,135 +273,138 @@ final class FLBuilderUsage {
 			}
 		}
 
-		/**
-		* Setup an array of post types to query
-		*/
-		$post_types = get_post_types( array(
-			'public'   => true,
-			'_builtin' => true,
-		) );
+		if ( false === $demo ) {
+			/**
+			* Setup an array of post types to query
+			*/
+			$post_types = get_post_types( array(
+				'public'   => true,
+				'_builtin' => true,
+			) );
 
-		if ( isset( $post_types['attachment'] ) ) {
-			unset( $post_types['attachment'] );
-		}
-		//	$post_types['fl-builder-template'] = 'fl-builder-template';
+			if ( isset( $post_types['attachment'] ) ) {
+				unset( $post_types['attachment'] );
+			}
+			//	$post_types['fl-builder-template'] = 'fl-builder-template';
 
-		/**
-		* Get a count of all posts/pages that are *not* builder enabled.
-		*/
-		$args                = array(
-			'post_type'      => $post_types,
-			'post_status'    => 'publish',
-			'meta_query'     => array(
-				'key'     => '_fl_builder_enabled',
-				'value'   => '1',
-				'compare' => '!=',
-			),
-			'posts_per_page' => -1,
-		);
-		$query               = new WP_Query( $args );
-		$data['not-enabled'] = count( $query->posts );
+			/**
+			* Get a count of all posts/pages that are *not* builder enabled.
+			*/
+			$args                = array(
+				'post_type'      => $post_types,
+				'post_status'    => 'publish',
+				'meta_query'     => array(
+					'key'     => '_fl_builder_enabled',
+					'value'   => '1',
+					'compare' => '!=',
+				),
+				'posts_per_page' => -1,
+			);
+			$query               = new WP_Query( $args );
+			$data['not-enabled'] = count( $query->posts );
 
-		/**
-		* Get a count of all posts pages that are using the builder.
-		*/
-		$args = array(
-			'post_type'      => $post_types,
-			'post_status'    => 'publish',
-			'meta_key'       => '_fl_builder_enabled',
-			'meta_value'     => '1',
-			'posts_per_page' => -1,
-		);
+			/**
+			* Get a count of all posts pages that are using the builder.
+			*/
+			$args = array(
+				'post_type'      => $post_types,
+				'post_status'    => 'publish',
+				'meta_key'       => '_fl_builder_enabled',
+				'meta_value'     => '1',
+				'posts_per_page' => -1,
+			);
 
-		$query           = new WP_Query( $args );
-		$data['enabled'] = count( $query->posts );
+			$query           = new WP_Query( $args );
+			$data['enabled'] = count( $query->posts );
 
-		/**
-		* Using the array of pages/posts using builder get a list of all used modules
-		*/
-		if ( is_array( $query->posts ) && ! empty( $query->posts ) ) {
-			foreach ( $query->posts as $post ) {
-				$meta = get_post_meta( $post->ID, '_fl_builder_data', true );
-				foreach ( (array) $meta as $node_id => $node ) {
-					if ( @isset( $node->type ) && 'module' == $node->type ) { // @codingStandardsIgnoreLine
-						if ( ! isset( $data['modules'][ $node->settings->type ] ) ) {
-							$data['modules'][ $node->settings->type ] = 1;
-						} else {
-							$data['modules'][ $node->settings->type ] ++;
+			/**
+			* Using the array of pages/posts using builder get a list of all used modules
+			*/
+			if ( is_array( $query->posts ) && ! empty( $query->posts ) ) {
+				foreach ( $query->posts as $post ) {
+					$meta = get_post_meta( $post->ID, '_fl_builder_data', true );
+					foreach ( (array) $meta as $node_id => $node ) {
+						if ( @isset( $node->type ) && 'module' == $node->type ) { // @codingStandardsIgnoreLine
+							if ( ! isset( $data['modules'][ $node->settings->type ] ) ) {
+								$data['modules'][ $node->settings->type ] = 1;
+							} else {
+								$data['modules'][ $node->settings->type ] ++;
+							}
 						}
 					}
 				}
 			}
-		}
 
-		// themer settings.
-		$args                    = array(
-			'post_type'      => 'fl-theme-layout',
-			'post_status'    => 'publish',
-			'meta_key'       => '_fl_builder_enabled',
-			'meta_value'     => '1',
-			'posts_per_page' => -1,
-		);
-		$query                   = new WP_Query( $args );
-		$data['themer']['total'] = count( $query->posts );
-		if ( is_array( $query->posts ) && ! empty( $query->posts ) ) {
-			foreach ( $query->posts as $post ) {
-				$meta = get_post_meta( $post->ID );
-				if ( isset( $meta['_fl_theme_layout_type'] ) ) {
-					if ( ! isset( $data['themer'][ $meta['_fl_theme_layout_type'][0] ] ) ) {
-						$data['themer'][ $meta['_fl_theme_layout_type'][0] ] = 1;
-					} else {
-						$data['themer'][ $meta['_fl_theme_layout_type'][0] ] ++;
+			// themer settings.
+			$args                    = array(
+				'post_type'      => 'fl-theme-layout',
+				'post_status'    => 'publish',
+				'meta_key'       => '_fl_builder_enabled',
+				'meta_value'     => '1',
+				'posts_per_page' => -1,
+			);
+			$query                   = new WP_Query( $args );
+			$data['themer']['total'] = count( $query->posts );
+			if ( is_array( $query->posts ) && ! empty( $query->posts ) ) {
+				foreach ( $query->posts as $post ) {
+					$meta = get_post_meta( $post->ID );
+					if ( isset( $meta['_fl_theme_layout_type'] ) ) {
+						if ( ! isset( $data['themer'][ $meta['_fl_theme_layout_type'][0] ] ) ) {
+							$data['themer'][ $meta['_fl_theme_layout_type'][0] ] = 1;
+						} else {
+							$data['themer'][ $meta['_fl_theme_layout_type'][0] ] ++;
+						}
 					}
 				}
 			}
-		}
 
-		/**
-		* Find all users that are using the builder.
-		*/
-		$args          = array(
-			'meta_key'     => 'fl_builder_user_settings',
-			'meta_value'   => 'null',
-			'meta_compare' => '!=',
-		);
-		$query         = new WP_User_Query( $args );
-		$user_settings = array();
-		foreach ( $query->results as $user ) {
-			$meta                       = get_user_meta( $user->ID, 'fl_builder_user_settings', true );
-			$user_settings[ $user->ID ] = $meta;
-		}
+			/**
+			* Find all users that are using the builder.
+			*/
+			$args          = array(
+				'meta_key'     => 'fl_builder_user_settings',
+				'meta_value'   => 'null',
+				'meta_compare' => '!=',
+			);
+			$query         = new WP_User_Query( $args );
+			$user_settings = array();
+			foreach ( $query->results as $user ) {
+				$meta                       = get_user_meta( $user->ID, 'fl_builder_user_settings', true );
+				$user_settings[ $user->ID ] = $meta;
+			}
 
-		$args  = array(
-			'meta_key'     => 'fl_builder_browser_stats',
-			'meta_value'   => 'null',
-			'meta_compare' => '!=',
-		);
-		$query = new WP_User_Query( $args );
+			$data['user_settings'] = $user_settings;
 
-		$browsers = array();
+			$args  = array(
+				'meta_key'     => 'fl_builder_browser_stats',
+				'meta_value'   => 'null',
+				'meta_compare' => '!=',
+			);
+			$query = new WP_User_Query( $args );
 
-		foreach ( $query->results as $user ) {
-			$meta                  = get_user_meta( $user->ID, 'fl_builder_browser_stats', true );
-			$browsers[ $user->ID ] = $meta;
+			$browsers = array();
+
+			foreach ( $query->results as $user ) {
+				$meta                  = get_user_meta( $user->ID, 'fl_builder_browser_stats', true );
+				$browsers[ $user->ID ] = $meta;
+			}
+			$data['browsers'] = $browsers;
 		}
 
 		/**
 		* General data
 		*/
-		$data['server']        = $_SERVER['SERVER_SOFTWARE'];
-		$data['database']      = ( ! empty( $wpdb->is_mysql ) ? $wpdb->db_version() : 'Unknown' );
-		$data['multisite']     = is_multisite() ? 'Yes' : 'No';
-		$data['subsites']      = is_multisite() ? get_blog_count() : '';
-		$data['locale']        = get_locale();
-		$data['users']         = $users['total_users'];
-		$data['php']           = phpversion();
-		$data['wp']            = $wp_version;
-		$data['fl-builder']    = FL_BUILDER_VERSION;
-		$data['fl-theme']      = ( defined( 'FL_THEME_VERSION' ) ) ? FL_THEME_VERSION : false;
-		$data['fl-themer']     = ( defined( 'FL_THEME_BUILDER_VERSION' ) ) ? FL_THEME_BUILDER_VERSION : false;
-		$data['browsers']      = $browsers;
-		$data['user_settings'] = $user_settings;
+		$data['server']     = $_SERVER['SERVER_SOFTWARE'];
+		$data['database']   = ( ! empty( $wpdb->is_mysql ) ? $wpdb->db_version() : 'Unknown' );
+		$data['multisite']  = is_multisite() ? 'Yes' : 'No';
+		$data['subsites']   = is_multisite() ? get_blog_count() : '';
+		$data['locale']     = get_locale();
+		$data['users']      = $users['total_users'];
+		$data['php']        = phpversion();
+		$data['wp']         = $wp_version;
+		$data['fl-builder'] = FL_BUILDER_VERSION;
+		$data['fl-theme']   = ( defined( 'FL_THEME_VERSION' ) ) ? FL_THEME_VERSION : false;
+		$data['fl-themer']  = ( defined( 'FL_THEME_BUILDER_VERSION' ) ) ? FL_THEME_BUILDER_VERSION : false;
 
 		$settings_orig = FLBuilderModel::get_global_settings();
 

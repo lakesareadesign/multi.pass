@@ -2,6 +2,23 @@ Plugin Name: SmartCrawl SEO
 
 Change Log:
 ----------------------------------------------------------------------
+2.2.5 - 2019-02-18
+----------------------------------------------------------------------
+- Add: New filters for modifying OpenGraph values
+- Add: Improved accuracy of readability analysis
+
+- Fix: Missing columns on the post list page
+- Fix: Certain websites throwing 404 error on redirection
+- Fix: SEO metabox shown for non-public posts
+- Fix: Better Gutenberg compatibility
+- Fix: Warning on sitemap settings page
+- Fix: Added ability to increase analysis request timeout
+- Fix: Improved autoloader performance
+- Fix: Warning in metabox placeholder loader
+- Fix: Inaccurate preview when more recent post revision available
+- Fix: Update the AIOSEOP importer to include the latest version
+- Fix: Stylesheet URL incorrect in sub-site sitemaps
+
 2.2.4.1 - 2018-12-11
 ----------------------------------------------------------------------
 - Fix: Show the WP.org rating request to admins only
@@ -605,4 +622,4 @@ exist yet
 - Initial Release.
 
 
-133620-1548091585-au
+133620-1551987253-au

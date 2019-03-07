@@ -1,6 +1,9 @@
 <script>
 <?php
-
+/**
+ * Filter main UI JS config.
+ * @see fl_builder_ui_js_config
+ */
 echo 'FLBuilderConfig              = ' . json_encode( apply_filters('fl_builder_ui_js_config', array(
 	'adminUrl'                   => admin_url(),
 	'ajaxNonce'                  => wp_create_nonce( 'fl_ajax_update' ),
@@ -55,12 +58,16 @@ echo 'FLBuilderConfig              = ' . json_encode( apply_filters('fl_builder_
 	'inlineEnabled'              => FLBuilderModel::is_inline_enabled(),
 	'CheckCodeErrors'            => FLBuilderModel::is_codechecking_enabled(),
 	'AceEditorSettings'          => FLBuilderModel::ace_editor_settings(),
-	'optionSets'				 => apply_filters( 'fl_builder_shared_option_sets', array() ),
-	'presets'					 => FLBuilderSettingsPresets::get_presets(),
+	'optionSets'                 => apply_filters( 'fl_builder_shared_option_sets', array() ),
+	'presets'                    => FLBuilderSettingsPresets::get_presets(),
 	'FontWeights'                => FLBuilderFonts::get_font_weight_strings(),
 	'statsEnabled'               => get_site_option( 'fl_builder_usage_enabled', false ),
 ) ) ) . ';';
 
+/**
+ * Filter UI JS Strings.
+ * @see fl_builder_ui_js_strings
+ */
 echo 'FLBuilderStrings             = ' . json_encode( apply_filters('fl_builder_ui_js_strings', array(
 	'actionsLightboxTitle'           => esc_attr__( 'What would you like to do?', 'fl-builder' ),
 	'addField'                       => esc_attr_x( 'Add %s', 'Field name to add.', 'fl-builder' ),

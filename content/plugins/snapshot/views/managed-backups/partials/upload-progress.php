@@ -1,6 +1,6 @@
 <div id="wps-upload-progress">
 
-	<p><?php esc_html_e( 'Your upload is in progress. If your site is small, this will only take a few minutes, but could take a couple of hours for larger sites.', SNAPSHOT_I18N_DOMAIN ); ?></p>
+	<p><?php echo wp_kses_post( __( 'Your backup is being uploaded. <strong>You need to keep this page open for the backup to complete.</strong> If your site is small, this will only take a few minutes, but could take a couple of hours for larger sites', SNAPSHOT_I18N_DOMAIN ) ); ?></p>
 
 	<div class="wpmud-box-gray">
 		<div class="wps-loading-status wps-total-status wps-spinner">

@@ -7,13 +7,14 @@
 // Loop through and style each pricing box
 for ( $i = 0; $i < count( $settings->pricing_columns ); $i++ ) :
 
-	if ( ! is_object( $settings->pricing_columns[ $i ] ) ) { continue;
+	if ( ! is_object( $settings->pricing_columns[ $i ] ) ) {
+		continue;
 	}
 
 	// Pricing Box Settings
 	$pricing_column = $settings->pricing_columns[ $i ];
 
-?>
+	?>
 
 /*Pricing Box Style*/
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> {
@@ -33,7 +34,7 @@ for ( $i = 0; $i < count( $settings->pricing_columns ); $i++ ) :
 }
 
 /*Pricing Box Highlight*/
-<?php if ( 'price' == $settings->highlight ) : ?>
+	<?php if ( 'price' == $settings->highlight ) : ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table .fl-pricing-table-column-<?php echo $i; ?> .fl-pricing-table-price {
 	background: <?php echo FLBuilderColor::hex_or_rgb( $pricing_column->column_background ); ?>;
 	color: <?php echo FLBuilderColor::hex_or_rgb( $pricing_column->column_color ); ?>;
@@ -47,7 +48,7 @@ for ( $i = 0; $i < count( $settings->pricing_columns ); $i++ ) :
 <?php endif; ?>
 
 /*Fix when price is NOT highlighted*/
-<?php if ( 'title' == $settings->highlight || 'none' == $settings->highlight ) : ?>
+	<?php if ( 'title' == $settings->highlight || 'none' == $settings->highlight ) : ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> .fl-pricing-table-price {
 	margin-bottom: 0;
 	padding-bottom: 0;
@@ -58,7 +59,7 @@ for ( $i = 0; $i < count( $settings->pricing_columns ); $i++ ) :
 <?php endif; ?>
 
 /*Fix when NOTHING is highlighted*/
-<?php if ( 'none' == $settings->highlight ) : ?>
+	<?php if ( 'none' == $settings->highlight ) : ?>
 .fl-builder-content .fl-node-<?php echo $id; ?> .fl-pricing-table-column-<?php echo $i; ?> .fl-pricing-table-title {
 	padding-bottom: 0;
 }
@@ -76,11 +77,11 @@ for ( $i = 0; $i < count( $settings->pricing_columns ); $i++ ) :
 	<?php endif; ?>
 
 	<?php if ( empty( $pricing_column->btn_width ) ) : ?>
-		 display:block;
-		 margin: 0 30px 5px;
+		display:block;
+		margin: 0 30px 5px;
 	<?php endif; ?>
 }
 
-<?php FLBuilder::render_module_css( 'button', $id . ' .fl-pricing-table-column-' . $i , $module->get_button_settings( $pricing_column ) ); ?>
+	<?php FLBuilder::render_module_css( 'button', $id . ' .fl-pricing-table-column-' . $i, $module->get_button_settings( $pricing_column ) ); ?>
 
 <?php endfor; ?>

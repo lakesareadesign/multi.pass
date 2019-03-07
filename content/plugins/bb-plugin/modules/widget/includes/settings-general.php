@@ -13,11 +13,11 @@ if ( isset( $settings->widget ) ) {
 if ( isset( $widget_class ) && class_exists( $widget_class ) ) {
 
 	// Widget instance
-	$widget_instance    = new $widget_class();
+	$widget_instance = new $widget_class();
 
 	// Widget settings
-	$settings_key       = 'widget-' . $widget_instance->id_base;
-	$widget_settings    = array();
+	$settings_key    = 'widget-' . $widget_instance->id_base;
+	$widget_settings = array();
 
 	if ( isset( $settings->$settings_key ) ) {
 		$widget_settings = (array) $settings->$settings_key;

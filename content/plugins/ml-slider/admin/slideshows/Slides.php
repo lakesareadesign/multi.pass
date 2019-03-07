@@ -42,33 +42,15 @@ class MetaSlider_Slides {
 	public static function all() {}
 
 	/**
-	 * Method to import image slides from a theme
+	 * Method to create slides, single or multiple
 	 * 
 	 * @param string $slideshow_id - The id of the slideshow
-	 * @param string $theme_id 	   - The folder name of a theme
+	 * @param array  $data		   - The data for the slide
+	 * @see make_image_slide_data()
 	 * 
 	 * @return WP_Error|array - The array of ids that were uploaded
 	 */
-	public function import($slideshow_id, $theme_id = null) {
-
-		// Check for the images folder
-		if (!file_exists(METASLIDER_THEMES_PATH . 'images')) {
-			return new WP_Error('images_not_found', __('We could not find any images to import.', 'ml-slider'), array('status' => 404));
-		}
-
-		$images = array();
-		// Check for the manifest, and load theme specific images
-		if (!is_null($theme_id) && file_exists(METASLIDER_THEMES_PATH . 'manifest.php')) {
-			$themes = (include METASLIDER_THEMES_PATH . 'manifest.php');
-
-			// Check if the theme is available and has images set
-			foreach ($themes as $theme) {
-				if (!empty($theme['images']) && $theme_id === $theme['folder']) {
-					$images = $theme['images'];
-				}
-			}
-		}
-		
+	public function create($slideshow_id, $data) {
 		if (!class_exists('MetaImageSlide')) {
 			require_once(METASLIDER_PATH . 'inc/slide/metaslide.image.class.php');
 		}
@@ -78,15 +60,39 @@ class MetaSlider_Slides {
 		$slide = new MetaImageSlide;
 
 		// This uploads the images then creates the slides
-        $slide_ids = $slide->create_slides(
-			$slideshow_id, array_map(array($this, 'make_image_slide_data'), $this->upload_theme_images($images))
+		$slide_ids = $slide->create_slides(
+			$slideshow_id, $data
 		);
 
 		// If there were errors creating slides, we can still attempt to crop
-		foreach($slide_ids as $slide_id) {
+		foreach ($slide_ids as $slide_id) {
 			$slide->resize_slide($slide_id, $slideshow_id);
 		}
 		return $slide_ids;
+	}
+
+	/**
+	 * Method to import image slides from an image or a theme (using default images)
+	 * 
+	 * @param string $slideshow_id - The id of the slideshow
+	 * @param string $theme_id 	   - The folder name of a theme
+	 * @param array  $images 	   - Images to upload, if any
+	 * 
+	 * @return WP_Error|array - The array of ids that were uploaded
+	 */
+	public function import($slideshow_id, $theme_id = null, $images = array()) {
+
+		// If we are provided images, they should be formatted already
+		$images = !empty($images) ? $images : $this->get_theme_images($theme_id);
+		if (is_wp_error($images)) return $images;
+			
+		// Get an array or sucessful image ids
+		$image_ids = $this->upload_images($images);
+	
+		// After import we need to create the slide. Currently only image slides
+		// TODO: support other slide types, or a way to convert image to layer 
+		return $this->create($slideshow_id, array_map(array($this, 'make_image_slide_data'), $image_ids));
+
 	}
 
 	/**
@@ -103,65 +109,143 @@ class MetaSlider_Slides {
 	}
 
 	/**
-	 * Method to import image slides from a theme
+	 * Method to import images from a theme
 	 *
-	 * @param array $images_to_use - The full path to the image dir in the theme folder
+	 * @param array|null $theme_id - the name of a theme
+	 * 
+	 * @return array - a formatted image array
 	 */
-	private function upload_theme_images($images_to_use = array())
-	{
-		if (!function_exists('media_handle_upload')) {
-			require_once(ABSPATH . 'wp-admin/includes/image.php');
-			require_once(ABSPATH . 'wp-admin/includes/file.php');
-			require_once(ABSPATH . 'wp-admin/includes/media.php');
+	public function get_theme_images($theme_id) {
+
+		// To use local images, the folder must exist
+		if (!file_exists($theme_image_directory = METASLIDER_THEMES_PATH . 'images/')) {
+			return new WP_Error('images_not_found', __('We could not find any images to import.', 'ml-slider'), array('status' => 404));
 		}
 
-		// The images directory in the themes folder
-		$directory = METASLIDER_THEMES_PATH . 'images/';
+		// Check for the manifest, and load theme specific images for a theme (if a theme is set)
+		if (empty($images) && !is_null($theme_id) && file_exists(METASLIDER_THEMES_PATH . 'manifest.php')) {
+			$themes = (include METASLIDER_THEMES_PATH . 'manifest.php');
 
-		// Get list of images in the folder
-		$images = array_filter(scandir($directory), array($this, 'filter_images'));
+			// Check if the theme is available and has images set
+			foreach ($themes as $theme) {
+				if (!empty($theme['images']) && $theme_id === $theme['folder']) {
+					$images = $theme['images'];
+				}
+			}
+		}
 
-		// If images are specified, make sure they exist and use them. if not, use 4 at random
-		$images = !empty($images_to_use) ? $this->pluck_images($images_to_use, $images) : array_rand(array_flip($images), 4);
+        // Get list of images in the folder
+		$all_images = array_filter(scandir($theme_image_directory), array($this, 'filter_images'));
 
-		// Upload and attach images to WP
-		$wp_upload_dir = wp_upload_dir();
-		$successful_uploads = array();
+        // If images are specified, make sure they exist and use them. if not, use 4 at random
+		$images = !empty($images) ? $this->pluck_images($images, $all_images) : array_rand(array_flip($all_images), 4);
+
+		$images_formatted = array();
 		foreach ($images as $filedata) {
-
-			// $filedata might be an array with filename, caption, alt and title, 
-			// or it might be just a string with the filename
-			$filename = $filedata;
 			$data = array();
-			if (is_array($filedata) && !empty($filedata['filename'])) {
+
+			// Only process strings or arrays
+			if (!is_string($filedata) && !is_array($filedata)) continue;
+
+			// If a string, convert it to an array with the string as the key (filename)
+			if (is_string($filedata)) {
+				$data[$filedata] = array();
+				$filename = $filedata;
+			}
+
+			// If it was an array, the filename needs to become the key
+			if (!empty($filedata['filename'])) {
 				$filename = $filedata['filename'];
-				
-				// Theme developers can override the caption, etc
+				unset($filedata['filename']);
 				$data = $filedata;
 			}
 
-			$source = trailingslashit($directory) . $filename;
-			if (file_exists($source)) {
-				$filename = wp_unique_filename(trailingslashit($wp_upload_dir['path']), $filename);
-				$destination = trailingslashit($wp_upload_dir['path']) . $filename;
-				if (copy($source, $destination)) {
-					if ($attach_id = $this->attach_image_to_media_library($destination, $data)) {
-						array_push($successful_uploads, $attach_id);
-					}
-				}
+			// Set the local images dir as the source
+			$data['source'] = trailingslashit($theme_image_directory) . $filename;
+			
+			/*
+			It should look like this, possibly without the meta data
+			$images_formatted[$filename] = array(
+				'source' => $tmp_name,
+				'caption' => '',
+				'title' => '',
+				'description' => '',
+				'alt' => ''
+			);
+			*/
+			$images_formatted[$filename] = $data;
+		}
+
+		return $images_formatted;
+	}
+
+	/**
+	 * Method to import images from a theme
+	 *
+	 * @param array $images - The full path to the local image or an array that includes the path
+	 */
+	private function upload_images($images) {
+
+		$successful_uploads = array();
+		foreach ($images as $filename => $image) {
+			if ($image_id = $this->upload_image($filename, $image['source'], $image)) {
+				array_push($successful_uploads, $image_id);
 			}
 		}
 		return $successful_uploads;
 	}
 
 	/**
+     * Method to upload a single image, you should provide a local location on the server
+     *
+     * @param string $filename  - The preferred name of the file
+     * @param string $source    - The current location of the file without the file name
+     * @param array  $meta_data - Extra data like caption, description, etc
+	 * 
+	 * @return int|boolean - returns the ID of the new image, or false
+     */
+	private function upload_image($filename, $source, $meta_data = array()) {
+		if (!function_exists('media_handle_upload')) {
+			require_once(ABSPATH . 'wp-admin/includes/image.php');
+			require_once(ABSPATH . 'wp-admin/includes/file.php');
+			require_once(ABSPATH . 'wp-admin/includes/media.php');
+		}
+
+		if (file_exists($source)) {
+			$wp_upload_dir = wp_upload_dir();
+
+			// Create a new filename if needed
+			$filename = wp_unique_filename(trailingslashit($wp_upload_dir['path']), $filename);
+
+			// Get the file path of the target destination
+			$destination = trailingslashit($wp_upload_dir['path']) . $filename;
+
+			// We want these both return true
+			if (copy($source, $destination)) {
+				if ((bool) $image_id = $this->attach_image_to_media_library($destination, $meta_data)) {
+					return $image_id;
+				}
+			}
+
+			// TODO: we might want to provide a specific error message if an image 
+			// fails to upload.
+			return false;
+		}
+
+		// If we make it this far then the file doesn't exit
+		return false;
+	}
+
+	/**
      * Method to use filter out non-images
      *
-     * @param array $string - a filename scanned from the images dir
+     * @param string $string - a filename scanned from the images dir
 	 * 
 	 * @return boolean
      */
 	private function filter_images($string) {
+
+		// TODO: allow all image types (this is currently used in the themes folder only)
 		return preg_match('/jpg$/i', $string);
 	}
 
@@ -240,5 +324,43 @@ class MetaSlider_Slides {
 		}
 
 		return $attach_id;
+	}
+
+	/**
+     * Method to disassociate slides from a slideshow and mark them as trashed
+	 * TODO: Maybe we can save old slides for later use?
+     *
+     * @param int $slideshow_id - the id of the slideshow
+	 * 
+	 * @return int
+     */
+	public function delete_from_slideshow($slideshow_id) {
+		$args = array(
+			'force_no_custom_order' => true,
+			'orderby' => 'menu_order',
+			'order' => 'ASC',
+			'post_type' => array('ml-slide'),
+			'post_status' => array('publish'),
+			'lang' => '', // polylang, ingore language filter
+			'suppress_filters' => 1, // wpml, ignore language filter
+			'posts_per_page' => -1,
+			'tax_query' => array(
+				array(
+					'taxonomy' => 'ml-slider',
+					'field' => 'slug',
+					'terms' => $slideshow_id
+				)
+			)
+		);
+
+		// I believe if this fails there's no real harm done
+		// because slides don't really need to be linked to their parent slideshow
+		$query = new WP_Query($args);
+		while ($query->have_posts()) {
+			$query->next_post();
+			wp_trash_post($query->post->ID);
+		}
+
+		return $slideshow_id;
 	}
 }

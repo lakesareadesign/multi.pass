@@ -14,8 +14,8 @@ final class FLBuilderRevisions {
 	 * @return void
 	 */
 	static public function init() {
-		add_filter( 'fl_builder_ui_js_config',		 __CLASS__ . '::ui_js_config' );
-		add_filter( 'fl_builder_main_menu', 		 __CLASS__ . '::main_menu_config' );
+		add_filter( 'fl_builder_ui_js_config', __CLASS__ . '::ui_js_config' );
+		add_filter( 'fl_builder_main_menu', __CLASS__ . '::main_menu_config' );
 	}
 
 	/**
@@ -44,8 +44,8 @@ final class FLBuilderRevisions {
 		) );
 		$current_time = current_time( 'timestamp' );
 		$config       = array(
-			'posts'   	 => array(),
-			'authors' 	 => array(),
+			'posts'   => array(),
+			'authors' => array(),
 		);
 
 		$current_data = serialize( get_post_meta( $post_id, '_fl_builder_data', true ) );
@@ -70,11 +70,11 @@ final class FLBuilderRevisions {
 				$timestamp = strtotime( $revision->post_date );
 
 				$config['posts'][] = array(
-					'id'   	 => $revision->ID,
+					'id'     => $revision->ID,
 					'author' => $revision->post_author,
 					'date'   => array(
-						'published'	=> date( 'F j', $timestamp ),
-						'diff' 		=> human_time_diff( $timestamp, $current_time ),
+						'published' => date( 'F j', $timestamp ),
+						'diff'      => human_time_diff( $timestamp, $current_time ),
 					),
 				);
 
@@ -100,15 +100,15 @@ final class FLBuilderRevisions {
 	static public function main_menu_config( $config ) {
 		$config['main']['items'][35] = array(
 			'label' => __( 'Revisions', 'fl-builder' ),
-			'type' => 'view',
-			'view' => 'revisions',
+			'type'  => 'view',
+			'view'  => 'revisions',
 		);
 
 		$config['revisions'] = array(
-			'name' 		 => __( 'Revisions', 'fl-builder' ),
+			'name'       => __( 'Revisions', 'fl-builder' ),
 			'isShowing'  => false,
 			'isRootView' => false,
-			'items' 	 => array(),
+			'items'      => array(),
 		);
 
 		return $config;

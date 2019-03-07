@@ -1,0 +1,26 @@
+/* debug */
+/* $gray_3: yellow; */
+/* $gray_6: green; */
+/* $gray_8: blue; */
+/* $gray_d: lime; */
+/* $gray_e6: red; */
+/* $gray_fa: blue; */
+body.branda-admin-page .sui-wrap.sui-wrap-branda .sui-dialog.branda-welcome-step1 .sui-dialog-content .sui-box-header {
+  padding-top: 60px;
+  padding-bottom: 5px;
+}
+body.branda-admin-page .sui-wrap.sui-wrap-branda .sui-dialog .sui-box .sui-box-footer.branda-welcome-footer-close {
+  padding-top: 10px;
+  padding-bottom: 30px;
+}
+body.branda-admin-page .sui-wrap.sui-wrap-branda .sui-dialog .sui-box .sui-box-footer.branda-welcome-footer-close .sui-form-field {
+  line-height: 13px;
+}
+body.branda-admin-page .sui-wrap.sui-wrap-branda .sui-dialog .sui-box .sui-box-footer.branda-welcome-footer-close .sui-form-field a {
+  color: #888;
+  font-size: 13px;
+  font-weight: normal;
+}
+
+
+/* 133620-1551987165-au */

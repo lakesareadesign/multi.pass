@@ -1,11 +1,20 @@
-html.wp-toolbar {
-  /* padding-top: 56px; */
+/* Clears shit */
+.clearfix:before,
+.clearfix:after {
+    clear: both;
+    content: " ";
+    display: table;
 }
-body.wp-admin {
-  margin-top: 24px;
+.left {
+  float: left;
 }
-#wpadminbar, #wpadminbar li#wp-admin-bar-alter_admin_title {
-    height: 56px;
+.col-6 {
+  width: 50%;
+}
+@media screen and (min-width: 992px) {
+  body.wp-admin {
+    margin-top: 24px;
+  }
 }
 #wpadminbar .quicklinks {
     border: none !important;
@@ -19,7 +28,7 @@ body.wp-admin {
     border: none;
 }
 li#wp-admin-bar-my-account a {
-        font-weight: 600;
+    font-weight: 600;
 }
 #wpadminbar #wp-admin-bar-comments .count-0 {opacity: 1}
 #wpadminbar .quicklinks li a .blavatar, #wpadminbar .quicklinks li a:hover .blavatar { display: none}
@@ -27,11 +36,8 @@ li#wp-admin-bar-my-account a {
         height: 32px;
 }
 #collapse-button {
-        margin:10px 21px 20px;
+  margin:10px 21px 20px;
 }
-ul#wp-admin-bar-root-default, ul.ab-top-menu {}
-#wpadminbar .quicklinks>ul>li>a, div.ab-empty-item { padding: 12px !important }
-
 #adminmenu .wp-not-current-submenu .wp-submenu { width: 210px; }
 
 .folded #adminmenu, .folded #adminmenu li.menu-top, .folded #adminmenuback, .folded #adminmenuwrap {
@@ -63,6 +69,33 @@ ul#wp-admin-bar-root-default, ul.ab-top-menu {}
         width: 450px;
 }
 
+@media screen and (max-width: 782px){
+  ul#wp-admin-bar-root-default, ul.ab-top-menu {
+          margin-top: 0;
+  }
+  .auto-fold #adminmenu, .auto-fold #adminmenuback, .auto-fold #adminmenuwrap {
+          width: 190px;
+  }
+  .auto-fold #adminmenu li.menu-top {
+          width: 100%;
+  }
+  #adminmenu .wp-not-current-submenu .wp-submenu, .folded #adminmenu .wp-has-current-submenu .wp-submenu {
+          width: 190px;
+  }
+  .auto-fold #wpcontent {
+          margin-left: 0;
+  }
+  #wpadminbar .quicklinks>ul>li>a {
+      padding: 0;
+  }
+  #wpadminbar .quicklinks>ul>li>a, div.ab-empty-item {
+      padding: 0 !important;
+  }
+  #wpadminbar .quicklinks .ab-empty-item, #wpadminbar .quicklinks a, #wpadminbar .shortlink-input {
+          height: 46px;
+  }
+}
+
 .button, .button-primary, .button-secondary { outline: none}
 .redirect-users { padding-bottom: 20px; border-bottom: 3px solid #939dc1;}
 .redirect_users_to h5 { background: #ea4242; color: #fff; font-size: 12px; padding: 5px 10px}
@@ -73,20 +106,6 @@ div.updated {margin-left:0;}
 .alter-icon-selected .wp-menu-image.svg, .alter-icon-selected .wp-menu-image img {
   background: none!important;
   display: none!important;
-}
-
-/* Clears shit */
-.clearfix:before,
-.clearfix:after {
-    clear: both;
-    content: " ";
-    display: table;
-}
-.left {
-  float: left;
-}
-.col-6 {
-  width: 50%;
 }
 
 @media only screen and (min-width:782px) and (max-width: 960px) {
@@ -249,4 +268,15 @@ Vendors scripts and css corrrections
 */
 .vc_subnav-fixed {
     top: 56px !important;
+}
+.wf-options-controls {
+  position:relative;
+  left:auto;
+}
+.wbcr-dan-hide-notices {
+  background: transparent!important
+}
+.notice .wf-btn-default {
+  background-color: rgba(0, 0, 0, 0.38)!important;
+  border: none;
 }

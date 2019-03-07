@@ -12,15 +12,17 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 	}
 
 	public function get_title() {
-		return $this->title;
+		return apply_filters( 'wds_custom_og_title', $this->title );
 	}
 
 	public function get_description() {
-		return $this->description;
+		return apply_filters( 'wds_custom_og_description', $this->description );
 	}
 
 	public function get_images() {
-		return array_unique( array_map( 'trim', $this->images ) );
+		$images = array_unique( array_map( 'trim', $this->images ) );
+
+		return apply_filters( 'wds_custom_og_image', $images );
 	}
 
 	public function is_enabled() {
@@ -67,7 +69,7 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 
 		// Add featured image as the last resort
 		if ( has_post_thumbnail( $post ) ) {
-			$this->images[] = get_the_post_thumbnail_url($post);
+			$this->images[] = get_the_post_thumbnail_url( $post );
 		}
 
 		$this->enabled = ! $disabled;

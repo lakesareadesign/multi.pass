@@ -1,0 +1,246 @@
+.wpl-tab-display
+{
+	background-color:#fff;
+}
+#wplead_metabox_main .handlediv {
+	display: none;
+}
+#lead-main-image {
+	max-width:150px;
+}
+#postbox-container-1 {
+	margin-bottom: 50px;
+	margin-top:78px;
+}
+#misc-publishing-actions {
+padding: 0px;
+}
+#poststuff {
+	display: none;
+}
+#wplead_metabox_main.postbox {
+	box-shadow: none !important;
+}
+.lead-comment-div p {
+	margin-top: 0px;
+}
+.lead-notice {
+	margin-left: 40px;
+	margin-bottom: 20px;
+	margin-top: 10px
+}
+#publishing-action {
+text-align: right;
+float: left;}
+#delete-action {
+float: right;
+}
+#postcustom {
+}
+.lead-timeline-img img, .updated.inbound-shortcode-trigger {
+	display: none !important;
+}
+.add-new-h2:nth-of-type(2) {
+	display: none;
+}
+.lead-timeline-img:before {
+	display: inline-block;
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	content: "\f006";
+	/*content: "\f05d"; */
+
+	display: inline-block;
+	text-align: right;
+	margin-right: 10px;
+	width: 50px;
+	font-size: 54px;
+}
+
+
+.lead-comment-conversion .lead-timeline-img:before{
+	/*content: "\f0e6"; */
+	content: "\f0e5";
+	font-size: 45px;
+
+	position: absolute;
+	left: 4px;
+	padding-right: 0px;
+
+}
+.landing-page-conversion .lead-timeline-img:hover, .landing-page-conversion .lead-timeline-img.active-hover{
+	color: rgb(0, 177, 0);
+}
+.lead-comment-conversion .lead-timeline-img {
+
+}
+.landing-page-conversion .lead-timeline-img {
+	color: green;
+}
+#lead-activity-toggles{
+	margin-top: 5px;
+}
+.landing-page-conversion .lead-timeline-img:before {
+	/*content: "\f006"; */
+	content: "\f046"; /* checkbox */
+	font-size: 49px;
+	position: absolute;
+	left: 6px;
+
+
+}
+.lead-search-conversion .lead-timeline-img:before {
+	content: "\f002";
+	font-size: 45px;
+	color: #525252;
+}
+.lead-search-conversion .lead-timeline-img.active-hover:before  {
+	color: #000;
+}
+#lead-searches .lead-timeline {
+	margin-left: 10px !important;
+}
+
+#lead-searches #search-error-count{
+    width: 92%;
+    margin-left: 10px;
+}
+
+#lead-searches .search-error-icon{
+    font-size: 54px;
+    position: absolute;
+    left: 30px;
+    margin-top: 10px;
+}
+
+#lead-searches .search-error-message{
+    padding: 26px 10px 26px 10px;
+    border: 1px solid #e5e5e5;
+    border-radius: 5px;
+    background: #fff;
+    margin-top: 3px;
+    margin-left: 83px;
+}
+#conversions-data-display .nav-container {
+margin-top: 5px;
+}
+
+.lead-comment-conversion .lead-timeline-img.active-hover,  .page-view-item .lead-timeline-img.active-hover {
+	color: #2ea2cc;
+}
+.page-view-item .lead-timeline-img:before {
+	/* content: "\f06e"; */
+	content: "\f016";
+}
+
+
+#show-edit-user, #toggle-lead-fields {
+	margin-right: 10px;
+	width: 97%;
+	text-align: center;
+}
+
+#show-edit-user a, #toggle-lead-fields a {
+	margin-bottom:5px;
+	width:95%;
+}
+
+/* Portrait and Landscape */
+@media only screen
+and (min-device-width: 100px)
+and (max-device-width: 1024px)
+and (-webkit-min-device-pixel-ratio: 1) {
+
+	#wpleads_main_container {
+		margin:0px !important;
+		padding:0px !important;
+		width:90% !important;
+	}
+
+	#lead_image {
+		display:flex !important;
+		margin-left:auto !important;
+		margin-right:auto !important;
+		margin-bottom:15px !important;
+		padding:0px !important;
+		width:80%;
+	}
+
+	h2 .nav-tab {
+		font-size:14px !important;
+	}
+
+	#toggle-lead-fields {
+		text-align:center !important;
+	}
+
+	#toggle-lead-fields a, #toggle-lead-fields a {
+		float:none;
+		margin-right: auto;
+		margin-left: auto;
+	}
+}
+
+body .metabox-holder .postbox-container .empty-container {
+	border:none !important;
+}
+
+#lead-social-profiles {
+	padding-left: 0px;
+	display: inline-block;
+}
+
+#lead-header h1 {
+	margin-bottom: 0px;
+	margin-top: 5px;
+}
+
+#lead-social-profiles h4, #lead-websites h4, #lead-demographics h4, #lead-topics h4, #lead-tag-cloud h4 {
+	margin-top: 5px;
+	margin-bottom: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
+	font-size: 15px;
+	font-weight: 300;
+}
+
+#lead-social-profiles h4 {
+	font-size: 12px;
+}
+
+.primary-work-org {
+	display: inline-block;
+}
+
+.lead-work-label, #show-work-history {
+	display: block;
+}
+
+
+#toggle-lead-fields a {
+	text-align:center;
+	font-size: 12px;
+	width: 95%;
+}
+
+
+#toggle-lead-fields {
+	margin-right: 10px;
+	margin-bottom: 10px;
+	text-align: center;
+}
+
+#full-contact-table .wpleads-td {
+	padding-top:13px;
+}
+#full-contact-table .wpleads-th {
+	width:116px;
+}
+
+#full-contact-icon  {
+	vertical-align:middle;
+}

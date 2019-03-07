@@ -4,18 +4,18 @@ var defaults = {
 	font_family: 'Default',
 	font_weight: 'default',
 	font_size: {
-        length: '',
-        unit: 'px',
-    },
+		length: '',
+		unit: 'px',
+	},
 	line_height: {
-        length: '',
-        unit: '',
-    },
+		length: '',
+		unit: '',
+	},
 	text_align: '',
 	letter_spacing: {
-        length: '',
-        unit: 'px',
-    },
+		length: '',
+		unit: 'px',
+	},
 	text_transform: '',
 	text_decoration: '',
 	font_style: '',
@@ -28,8 +28,39 @@ var defaults = {
 	},
 };
 
-var value = '' === data.value ? defaults : jQuery.extend( true, defaults, data.value );
-var device = data.device ? data.device : 'default';
+disabled_defaults = {
+	default: {},
+	medium: {},
+	responsive: {}
+}
+
+var value           = '' === data.value ? defaults : jQuery.extend( true, defaults, data.value );
+var device          = data.device ? data.device : 'default';
+var disabled_fields = {}
+var disabled        = []
+
+
+
+if (typeof data.field.disabled !== 'undefined') {
+	disabled_fields = jQuery.extend( true, disabled_defaults, data.field.disabled )
+} else {
+	disabled_fields = disabled_defaults
+}
+
+jQuery.each(disabled_fields[device], function(i,v){
+	disabled.push(v)
+})
+
+/**
+ * Helper function to check if a field is enabled.
+ */
+var fl_typography_enabled = function( field ) {
+
+	if( jQuery.inArray(field, disabled ) !== -1 ) {
+		return false
+	}
+	return true;
+}
 
 var fontFamily = wp.template( 'fl-builder-field-font' )( {
 	names: {
@@ -51,7 +82,7 @@ var fontSize = wp.template( 'fl-builder-field-unit' )( {
 	unit_name: data.name + '[][font_size][unit]',
 	unit_value: value.font_size.unit,
 	field: {
-		units: [ 'px', 'em', 'rem' ],
+		units: [ 'px', 'em', 'rem', 'vw' ],
 		slider: true,
 	},
 } );
@@ -158,28 +189,36 @@ var textShadow = wp.template( 'fl-builder-field-shadow' )( {
 		<# if ( 'default' === device ) { #>
 		<div class="fl-compound-field-row">
 			<div class="fl-compound-field-setting fl-typography-field-family" data-property="font-family">
+				<# if ( fl_typography_enabled( 'font_family' ) ) { #>
 				{{{fontFamily}}}
+				<# } #>
 			</div>
 		</div>
 		<# } #>
 		<div class="fl-compound-field-row">
 			<div class="fl-compound-field-setting fl-typography-field-size" data-property="font-size">
+				<# if ( fl_typography_enabled( 'font_size' ) ) { #>
 				<label class="fl-compound-field-label">
 					<?php _e( 'Size', 'fl-builder' ); ?>
 				</label>
 				{{{fontSize}}}
+				<# } #>
 			</div>
 			<div class="fl-compound-field-setting fl-typography-field-line-height" data-property="line-height">
+			<# if ( fl_typography_enabled( 'line_height' ) ) { #>
 				<label class="fl-compound-field-label">
 					<?php _e( 'Line Height', 'fl-builder' ); ?>
 				</label>
 				{{{lineHeight}}}
+				<# } #>
 			</div>
 			<div class="fl-compound-field-setting fl-typography-field-align" data-property="text-align">
+			<# if ( fl_typography_enabled( 'text_align' ) ) { #>
 				<label class="fl-compound-field-label">
 					<?php _e( 'Align', 'fl-builder' ); ?>
 				</label>
 				{{{textAlign}}}
+				<# } #>
 			</div>
 		</div>
 	</div>
@@ -190,40 +229,51 @@ var textShadow = wp.template( 'fl-builder-field-shadow' )( {
 		</div>
 		<div class="fl-compound-field-row">
 			<div class="fl-compound-field-setting fl-typography-field-spacing" data-property="letter-spacing">
+				<# if ( fl_typography_enabled( 'letter_spacing' ) ) { #>
 				<label class="fl-compound-field-label">
 					<?php _e( 'Spacing', 'fl-builder' ); ?>
 				</label>
 				{{{letterSpacing}}}
+				<# } #>
 			</div>
 			<div class="fl-compound-field-setting fl-typography-field-transform" data-property="text-transform">
+			<# if ( fl_typography_enabled( 'text_transform' ) ) { #>
 				<label class="fl-compound-field-label">
 					<?php _e( 'Transform', 'fl-builder' ); ?>
 				</label>
 				{{{textTransform}}}
+				<# } #>
 			</div>
 		</div>
 		<div class="fl-compound-field-row">
 			<div class="fl-compound-field-setting fl-typography-field-decoration" data-property="text-decoration">
+			<# if ( fl_typography_enabled( 'text_decoration' ) ) { #>
 				<label class="fl-compound-field-label">
 					<?php _e( 'Decoration', 'fl-builder' ); ?>
 				</label>
 				{{{textDecoration}}}
+				<# } #>
 			</div>
 			<div class="fl-compound-field-setting fl-typography-field-style" data-property="font-style">
+			<# if ( fl_typography_enabled( 'font_style' ) ) { #>
 				<label class="fl-compound-field-label">
 					<?php _e( 'Style', 'fl-builder' ); ?>
 				</label>
 				{{{fontStyle}}}
+				<# } #>
 			</div>
 			<div class="fl-compound-field-setting fl-typography-field-variant" data-property="font-variant">
+				<# if ( fl_typography_enabled( 'font_variant' ) ) { #>
 				<label class="fl-compound-field-label">
 					<?php _e( 'Variant', 'fl-builder' ); ?>
 				</label>
 				{{{fontVariant}}}
+				<# } #>
 			</div>
 		</div>
 	</div>
 	<div class="fl-compound-field-section fl-compound-field-section-shadow">
+		<# if ( fl_typography_enabled( 'text_shadow' ) ) { #>
 		<div class="fl-compound-field-section-toggle">
 			<i class="dashicons dashicons-arrow-right-alt2"></i>
 			<?php _e( 'Text Shadow', 'fl-builder' ); ?>
@@ -233,5 +283,6 @@ var textShadow = wp.template( 'fl-builder-field-shadow' )( {
 				{{{textShadow}}}
 			</div>
 		</div>
+		<# } #>
 	</div>
 </div>

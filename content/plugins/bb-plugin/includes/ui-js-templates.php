@@ -366,7 +366,7 @@
 <!-- #tmpl-fl-search-results-panel -->
 
 <script type="text/html" id="tmpl-fl-search-no-results">
-	<div class="fl-builder--no-results"><?php _ex( 'No Results Found', 'No content panel search results found', 'fl-builder' ) ?></div>
+	<div class="fl-builder--no-results"><?php _ex( 'No Results Found', 'No content panel search results found', 'fl-builder' ); ?></div>
 </script>
 <!-- #tmpl-fl-search-no-results -->
 
@@ -439,7 +439,7 @@
 <!-- #tmpl-fl-main-menu-panel-view -->
 
 <script type="text/html" id="tmpl-fl-toolbar">
-<?php include FL_BUILDER_DIR . 'includes/ui-bar.php' ?>
+<?php include FL_BUILDER_DIR . 'includes/ui-bar.php'; ?>
 </script>
 <!-- #tmpl-fl-toolbar -->
 
@@ -495,7 +495,7 @@
 						</svg>
 					</button>
 					<div class="fl-builder-panel-search-input">
-						<input name="search-term" placeholder="<?php _e( 'Search Modules', 'fl-builder' ) ?>" />
+						<input name="search-term" placeholder="<?php _e( 'Search Modules', 'fl-builder' ); ?>" />
 						<button class="fl-builder-dismiss-panel-search">
 							<svg viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
 								<g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
@@ -576,7 +576,7 @@
 	<div class="fl-builder--category-select">
 		<div class="fl-builder--selector-display">
 			<button class="fl-builder--selector-display-label">
-				<span class="fl-builder--group-label"><?php _e( 'Group', 'fl-builder' ) ?></span>
+				<span class="fl-builder--group-label"><?php _e( 'Group', 'fl-builder' ); ?></span>
 				<span class="fl-builder--current-view-name">{{{activeViewName}}}</span>
 			</button>
 		</div>
@@ -667,6 +667,14 @@
 		for( var title in groupedModules.categorized) {
 			var modules = groupedModules.categorized[title],
 				slug = title.replace(/\s+/g, '-').toLowerCase();
+
+				modules.sort(function(a, b) {
+					if (a.name < b.name)
+						return -1;
+					if (a.name > b.name)
+						return 1;
+					return 0;
+				});
 			#>
 			<div id="fl-builder-blocks-{{slug}}" class="fl-builder-blocks-section">
 				<div class="fl-builder-blocks-section-header">
@@ -731,7 +739,7 @@
 		}
 	}
 	if (FLBuilderConfig.lite) { #>
-	<div class="fl-builder--panel-cta"><a href="https://www.wpbeaverbuilder.com/?utm_medium=bb-lite&amp;utm_source=builder-ui&amp;utm_campaign=modules-panel-cta" target="_blank"><i class="fas fa-external-link-alt"></i> <?php _e( 'Get more time-saving features, modules, and expert support.', 'fl-builder' ) ?></a></div>
+	<div class="fl-builder--panel-cta"><a href="https://www.wpbeaverbuilder.com/?utm_medium=bb-lite&amp;utm_source=builder-ui&amp;utm_campaign=modules-panel-cta" target="_blank"><i class="fas fa-external-link-alt"></i> <?php _e( 'Get more time-saving features, modules, and expert support.', 'fl-builder' ); ?></a></div>
 	<# } #>
 </script>
 <!-- #tmpl-fl-content-panel-modules-view -->
@@ -764,7 +772,7 @@
 		<# } #>
 
 		<# if (FLBuilderConfig.lite) { #>
-		<div class="fl-builder--panel-cta"><a href="https://www.wpbeaverbuilder.com/?utm_medium=bb-lite&amp;utm_source=builder-ui&amp;utm_campaign=modules-panel-cta" target="_blank"><i class="fas fa-external-link-alt"></i> <?php _e( 'Get more time-saving features, modules, and expert support.', 'fl-builder' ) ?></a></div>
+		<div class="fl-builder--panel-cta"><a href="https://www.wpbeaverbuilder.com/?utm_medium=bb-lite&amp;utm_source=builder-ui&amp;utm_campaign=modules-panel-cta" target="_blank"><i class="fas fa-external-link-alt"></i> <?php _e( 'Get more time-saving features, modules, and expert support.', 'fl-builder' ); ?></a></div>
 		<# } #>
 	</div>
 </script>
@@ -773,8 +781,8 @@
 <script type="text/html" id="tmpl-fl-content-panel-templates-view">
 	<# if (FLBuilderConfig.lite) { #>
 	<div class="fl-builder--panel-message">
-		<p><?php _ex( 'Save and reuse your layouts or kick-start your creativity with dozens of professionally designed templates.', 'Upgrade message that displays in the templates tab in lite installs.', 'fl-builder' ) ?></p>
-		<a class="fl-builder-upgrade-button fl-builder-button" href="{{FLBuilderConfig.upgradeUrl}}" target="_blank"><?php _ex( 'Learn More', 'Link to learn more about premium page builder', 'fl-builder' )?> <i class="fas fa-external-link-alt"></i></a>
+		<p><?php _ex( 'Save and reuse your layouts or kick-start your creativity with dozens of professionally designed templates.', 'Upgrade message that displays in the templates tab in lite installs.', 'fl-builder' ); ?></p>
+		<a class="fl-builder-upgrade-button fl-builder-button" href="{{FLBuilderConfig.upgradeUrl}}" target="_blank"><?php _ex( 'Learn More', 'Link to learn more about premium page builder', 'fl-builder' ); ?> <i class="fas fa-external-link-alt"></i></a>
 	</div>
 	<# } #>
 	<#
@@ -943,22 +951,22 @@
 
 <script type="text/html" id="tmpl-fl-content-panel-no-view">
 	<div class="fl-builder--panel-message">
-		<?php _ex( 'Sorry, no content was found!', 'Message that displays when a panel tab has no view to display', 'fl-builder' ) ?>
+		<?php _ex( 'Sorry, no content was found!', 'Message that displays when a panel tab has no view to display', 'fl-builder' ); ?>
 	</div>
 </script>
 <!-- #tmpl-fl-content-panel-no-view -->
 
 <script type="text/html" id="tmpl-fl-content-panel-no-templates-view">
 	<div class="fl-builder--panel-message">
-		<?php _ex( 'Sorry, no templates were found!', 'Message that displays when there are no templates to display', 'fl-builder' ) ?>
+		<?php _ex( 'Sorry, no templates were found!', 'Message that displays when there are no templates to display', 'fl-builder' ); ?>
 	</div>
 </script>
 <!-- #tmpl-fl-content-panel-no-templates-view -->
 
 <script type="text/html" id="tmpl-fl-content-lite-templates-upgrade-view">
 	<div class="fl-builder--panel-message">
-		<p><?php _ex( 'Save and reuse your layouts or kick-start your creativity with dozens of professionally designed templates.', 'Upgrade message that displays in the templates tab in lite installs.', 'fl-builder' ) ?></p>
-		<a class="fl-builder-upgrade-button fl-builder-button" href="{{FLBuilderConfig.upgradeUrl}}" target="_blank"><?php _ex( 'Learn More', 'Link to learn more about premium page builder', 'fl-builder' )?> <i class="fas fa-external-link-alt"></i></a>
+		<p><?php _ex( 'Save and reuse your layouts or kick-start your creativity with dozens of professionally designed templates.', 'Upgrade message that displays in the templates tab in lite installs.', 'fl-builder' ); ?></p>
+		<a class="fl-builder-upgrade-button fl-builder-button" href="{{FLBuilderConfig.upgradeUrl}}" target="_blank"><?php _ex( 'Learn More', 'Link to learn more about premium page builder', 'fl-builder' ); ?> <i class="fas fa-external-link-alt"></i></a>
 	</div>
 </script>
 <!-- #tmpl-fl-content-lite-templates-upgrade-view -->
@@ -1008,7 +1016,7 @@
 			<# } #>
 
 			<div class="fl-builder-ui-keyboard-shortcust-footer">
-				<button class="dismiss-shortcut-ui"><?php _e( 'Close', 'fl-builder' ) ?></button>
+				<button class="dismiss-shortcut-ui"><?php _e( 'Close', 'fl-builder' ); ?></button>
 			</div>
 		</div>
 	</div>

@@ -1,21 +1,88 @@
-Plugin Name: Ultimate Branding
+Plugin Name: Branda
 Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve Bailovity (Incsub), Sam Najian (Incsub), Joseph Fusco (Incsub), Marcin Pietrzak (Incsub)
 
 Change Log:
 ----------------------------------------------------------------------
 
+DATE: 20 February, 2019  - VERSION: 3.0.5.1
+==================================
+- Hide Admin Bar for non logged users by default.
+
+DATE: 14 February, 2019  - VERSION: 3.0.5
+==================================
+- Fixed a problem with settings lost. Affected modules was: Author Box, Color Schemes, Login Screen, Site Status Pages and Website Mode.
+
+DATE: 13 February, 2019  - VERSION: 3.0.4
+==================================
+- Fixed a related library problem.
+
+DATE: 13 February, 2019  - VERSION: 3.0.3
+==================================
+- Fixed a problem with data migration in "Cookie Notice" module - the background was set as the text colour.
+
+DATE: 12 February, 2019  - VERSION: 3.0.2
+==================================
+- Fixed a problem with sites with non-default language - in some configuration it cause white screen on whole site.
+
+DATE: 12 February, 2019  - VERSION: 3.0.1
+==================================
+- Fixed a problem with too early admin object call.
+
+DATE: 11 February, 2019  - VERSION: 3.0.0
+==================================
+- Rename plugin from Ultimate Branding to Branda.
+- Completely new admin design.
+- Added high contrast mode for the admin UI to improve accessibility.
+- Added the ability to bulk activate/deactivate modules from anywhere in the plugin using the "Manage All Modules" option available on every page.
+- Added the ability to override the "Image Filesize Limit" in your preferred unit.
+- Added ability to customize size and position for background images.
+- Added "Custom CSS" field to all front-end modules.
+- Added ability to choose units "px", "%", "em" and "rem" on a few settings in few modules.
+- Added ability to choose case sensitivity for user/blog signup code. Props for Ian.
+- Added new section "Data" on "Settings" module allows plugin data reset and manage what should happen with plugin data when the plugin will be uninstalled.
+- Added "Border width" to cookie accept button on "Cookie Notice" module.
+- Added three new Login Screen Themes - "AbstractTag", "Blue Tree" and "Ballons".
+- Added new module "Blog Description" which allows to set description during site registration process.
+- Added the ability to import configurations of specific modules only from a config file.
+- Allowed to use "Comments Control" module in a single site installation.
+- Better integration with Hummingbird" Plugin in "Tracking Codes" module - now cache is clear when you change any tracking code.
+- Better integration with Hustle Plugin in the "Site Generator" module.
+- "Comments Control" module now can be used on single site installations.
+- Fixed a problem with an image on "media Library" page when "Admin Tips" module is used and images display is a grid.
+- Fixed a problem with escaping special characters in CSS. Props for Bryant.
+- Fixed a problem with missing formatting in "Admin Footer" module.
+- Fixed a problem with tips on the Media Library page - in "grid" mode tip include the first image.
+- Fixed few typos.
+- Improved module "Admin Help" - now WP shortcodes are parsed during saving and display correctly.
+- Modules "Admin Panel Tips", "Link Manager", "Remove WP Dashboard Link for users without site" and "Remove Permalinks Menu Item" were moved to one module "Admin Menu".
+- Modules "Dashboard Text Widgets", "Rebranded Meta Widget" and "Remove WP Dashboard Widgets" was moved ￼to one module "Dashboard Widget".
+- Modules "Favicons" and "Image Upload Size" were moved to one module "Images".
+- Modules "Import" and "Export" were moved to "Settings".
+- New configuration options in the module "Footer Content".
+- New configuration options in the module "Header Content".
+- New Dashboard.
+- New Dashboard option - it shows frequently used modules.
+- New Dashboard option - it shows the last activated module.
+- New Dashboard option - it shows the last deactivated module.
+- New dashboard screen - it shows the last export time.
+- New dashboard screen - it shows the last import time.
+- New dashboard screen - Manage All Modules - allow you to turn on/off all modules on one simple screen.
+- On single site installations, we add "Branda" link under "Customize" on the Admin Bar menu.
+- Removed transfer settings from 1.x versions.
+- The new main menu, now submenu contains groups of modules.
+- Updated HTML/CSS editor.
+- Update footer to accommodate white labelling.
+
 DATE: 7 November, 2018  - VERSION: 2.3.0
 ==================================
+- Added a simple collection of modules usage statistics.
 - Added ability to copy settings for sections: "Logo", "Background" and "Social Media".
-- Added ability to force a language on login/register form on "Custom Login Screen" module.
 - Added ability to hide "Privacy Policy" link on the login screen.
 - Added an option to allow opens the policy page in a new tab or window on "Cookie Notice" module.
 - Added new module "Document" which allows adding text at the beginning and at the end of an entry. It allows set defaults for the gallery shortcode.
 - Added new module "Signup code" which allows set passcode to create account or/and site.
 - Added new module "Tracking Codes" which allows adding some code to all pages.
-- Added new module "Tracking Codes" which allows adding some code to all pages.
-- Added simple collection of modules usage statistics.
-- Added simple collection of modules usage statistics.
+- Added the ability to force a language on login/register form on "Custom Login Screen" module.
 - Added "Till date" to "Admin Tips" module.
 - Decrease DB usage for favicon module - now sites info is getting only on config screen.
 - Fixed a problem with custom CSS characters entries.
@@ -579,4 +646,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 
 
 
-133620-1541616643-au
+133620-1551987165-au

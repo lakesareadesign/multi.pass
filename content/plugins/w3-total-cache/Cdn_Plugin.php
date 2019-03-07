@@ -72,7 +72,7 @@ class Cdn_Plugin {
 				array( $this, 'delete_attachment' ) );
 
 			add_filter( 'wp_insert_attachment_data',
-				array( $this, 'check_inserting_new_attachment' ) );
+				array( $this, 'check_inserting_new_attachment' ), 10, 2 );
 
 			add_filter( 'update_attached_file',
 				array( $this, 'update_attached_file' ) );

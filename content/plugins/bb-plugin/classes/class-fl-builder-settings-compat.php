@@ -90,7 +90,7 @@ final class FLBuilderSettingsCompat {
 
 		// Filter with a module specific helper if one is available.
 		if ( 'module' === $type && isset( FLBuilderModel::$modules[ $settings->type ] ) ) {
-			$module = FLBuilderModel::$modules[ $settings->type ];
+			$module   = FLBuilderModel::$modules[ $settings->type ];
 			$settings = $module->filter_settings( $settings, self::$helpers['module'] );
 		}
 

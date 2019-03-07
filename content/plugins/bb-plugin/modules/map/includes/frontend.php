@@ -1,17 +1,25 @@
 <?php
-
-$q     = empty( $settings->address ) ? 'United Kingdom' : do_shortcode( $settings->address );
 $class = 'fl-map';
 
 if ( ! empty( $settings->height_responsive ) ) {
 	$class .= ' fl-map-auto-responsive-disabled';
 }
 
+/**
+ * Allow users to filter map args, perhaps to change location based on language or to use their own keys.
+ * @since 2.2
+ * @see fl_builder_map_args
+ */
+$params = apply_filters( 'fl_builder_map_args', array(
+	'q'   => empty( $settings->address ) ? 'United Kingdom' : urlencode( do_shortcode( $settings->address ) ),
+	'key' => 'AIzaSyD09zQ9PNDNNy9TadMuzRV_UsPUoWKntt8',
+), $settings );
+$url    = add_query_arg( $params, 'https://www.google.com/maps/embed/v1/place' );
 // ACF Google map passes back an iframe so we need to sanitize it.
-if ( false !== strpos( $q, 'iframe' ) ) {
-	$iframe = preg_replace( '#\s?style=\'.+\'#', '', $q );
+if ( false !== strpos( $params['q'], 'iframe' ) ) {
+	$iframe = preg_replace( '#\s?style=\'.+\'#', '', $params['q'] );
 } else {
-	$iframe = sprintf( '<iframe src="https://www.google.com/maps/embed/v1/place?key=AIzaSyD09zQ9PNDNNy9TadMuzRV_UsPUoWKntt8&q=%s"></iframe>', urlencode( $q ) );
+	$iframe = sprintf( '<iframe src="%s"></iframe>', $url );
 }
 
 ?>

@@ -197,6 +197,7 @@ class Cdnfsd_CacheFlush {
 	 * @param unknown $url
 	 */
 	static public function w3tc_flush_url( $url, $extras = null ) {
+		$config = Dispatcher::config();
 		if ( $config->get_boolean( 'cdn.flush_manually' ) ) {
 			// in this mode flush only on purge button clicks
 			if ( !isset( $extras['ui_action'] ) ) {

@@ -2,30 +2,30 @@
 
 // Border
 FLBuilderCSS::border_field_rule( array(
-	'settings' 		=> $settings,
-	'setting_name' 	=> 'border',
-	'selector' 		=> ".fl-node-$id .fl-post-feed-post",
+	'settings'     => $settings,
+	'setting_name' => 'border',
+	'selector'     => ".fl-node-$id .fl-post-feed-post",
 ) );
 
 // Title Typography
 FLBuilderCSS::typography_field_rule( array(
-	'settings'		=> $settings,
-	'setting_name' 	=> 'title_typography',
-	'selector' 		=> ".fl-node-$id h2.fl-post-feed-title",
+	'settings'     => $settings,
+	'setting_name' => 'title_typography',
+	'selector'     => ".fl-node-$id h2.fl-post-feed-title",
 ) );
 
 // Info Typography
 FLBuilderCSS::typography_field_rule( array(
-	'settings'		=> $settings,
-	'setting_name' 	=> 'info_typography',
-	'selector' 		=> ".fl-node-$id .fl-post-feed-meta, .fl-node-$id .fl-post-feed-meta a",
+	'settings'     => $settings,
+	'setting_name' => 'info_typography',
+	'selector'     => ".fl-node-$id .fl-post-feed-meta, .fl-node-$id .fl-post-feed-meta a",
 ) );
 
 // Content Typography
 FLBuilderCSS::typography_field_rule( array(
-	'settings'		=> $settings,
-	'setting_name' 	=> 'content_typography',
-	'selector' 		=> ".fl-node-$id .fl-post-feed-content, .fl-node-$id .fl-post-feed-content p",
+	'settings'     => $settings,
+	'setting_name' => 'content_typography',
+	'selector'     => ".fl-node-$id .fl-post-feed-content, .fl-node-$id .fl-post-feed-content p",
 ) );
 
 ?>

@@ -1,9 +1,9 @@
 <?php
 /*
-Plugin Name: Contact Form Builder for WordPress – Conversion Tools by HubSpot
-Plugin URI: http://www.hubspot.com/products/wordpress/contact-form
-Description: Whether you’re just getting started with HubSpot or already a HubSpot power user, Contact Form Builder for WordPress and Conversion Tools by HubSpot will let you use HubSpot tools on your WordPress website and connect the two platforms without dealing with code.
-Version: 7.0.2
+Plugin Name: HubSpot All-In-One Marketing - Forms, Popups, Live Chat
+Plugin URI: http://www.hubspot.com/integrations/wordpress
+Description: HubSpot’s official WordPress plugin allows you to add forms, popups, and live chat to your website and integrate with the best WordPress CRM.
+Version: 7.0.5
 Author: HubSpot
 Author URI: http://www.hubspot.com
 License: GPL2
@@ -33,7 +33,7 @@ if ( ! defined( 'LEADIN_DB_VERSION' ) ) {
 }
 
 if ( ! defined( 'LEADIN_PLUGIN_VERSION' ) ) {
-	define( 'LEADIN_PLUGIN_VERSION', '7.0.2' );
+	define( 'LEADIN_PLUGIN_VERSION', '7.0.5' );
 }
 
 if ( ! defined( 'LEADIN_SOURCE' ) ) {
@@ -215,7 +215,7 @@ function addHubspotShortcode($attributes) {
     switch ($parsedAttributes['type']) {
         case 'form':
             return '
-                <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/shell.js"></script>
+                <script charset="utf-8" type="text/javascript" src="//js.hsforms.net/forms/v2.js"></script>
                 <script>
                   hbspt.forms.create({
                     portalId: '. $portalId . ',

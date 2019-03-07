@@ -309,9 +309,13 @@ function um_submit_form_register( $args ) {
 
 		// if full name exists
 		$count = 1;
-		while ( username_exists( $user_login ) ) {
-			$user_login .= $count;
+		$temp_user_login = $user_login;
+		while ( username_exists( $temp_user_login ) ) {
+			$temp_user_login = $user_login . $count;
 			$count++;
+		}
+		if ( $temp_user_login !== $user_login ) {
+			$user_login = $temp_user_login;
 		}
 	}
 
@@ -634,7 +638,9 @@ function um_registration_save_files( $user_id, $args ) {
 	$files = apply_filters( 'um_user_pre_updating_files_array', $files );
 
 	if ( ! empty( $files ) ) {
+		UM()->uploader()->replace_upload_dir = true;
 		UM()->uploader()->move_temporary_files( $user_id, $files );
+		UM()->uploader()->replace_upload_dir = false;
 	}
 }
 add_action( 'um_registration_set_extra_data', 'um_registration_save_files', 10, 2 );

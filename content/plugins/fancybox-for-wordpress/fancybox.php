@@ -1,25 +1,41 @@
 <?php
-
-/*
-Plugin Name: FancyBox for WordPress
-Plugin URI: https://wordpress.org/plugins/fancybox-for-wordpress/
-Description: Integrates <a href="http://fancyapps.com/fancybox/3/">FancyBox 3</a> into WordPress.
-Version: 3.1.8
-Author: Colorlib
-Author URI: https://colorlib.com/wp/
-
- * FancyBox is Copyright (c) 2008 - 2010 Janis Skarnelis
- * Dual licensed under the MIT and GPL licenses:
- * http://www.opensource.org/licenses/mit-license.php
- * http://www.gnu.org/licenses/gpl.html
-
- */
+/**
+* Plugin Name: FancyBox for WordPress
+* Plugin URI: https://wordpress.org/plugins/fancybox-for-wordpress/
+* Description: Integrates <a href="http://fancyapps.com/fancybox/3/">FancyBox 3</a> into WordPress.
+* Version: 3.1.9
+* Author: Colorlib
+* Author URI: https://colorlib.com/wp/
+* Tested up to: 5.0.3
+* Requires: 4.6 or higher
+* License: GPLv3 or later
+* License URI: http://www.gnu.org/licenses/gpl-3.0.html
+* Requires PHP: 5.6
+* Text Domain: colorlib-login-customizer
+* Domain Path: /languages
+*
+* Copyright 2008-2016 	Janis Skarnelis 	http://twitter.com/moskis/
+* Copyright 2016-2019 	Colorlib 			support@colorlib.com
+*
+* This program is free software; you can redistribute it and/or modify
+* it under the terms of the GNU General Public License, version 3, as
+* published by the Free Software Foundation.
+*
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
+*
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, write to the Free Software
+* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+*/
 
 /**
  * Plugin Init
  */
 // Constants
-define( 'FBFW_VERSION', '3.1.8' );
+define( 'FBFW_VERSION', '3.1.9' );
 define( 'FBFW_PATH', plugin_dir_path( __FILE__ ) );
 define( 'FBFW_URL', plugin_dir_url( __FILE__ ) );
 define( 'FBFW_PLUGIN_BASE', plugin_basename( __FILE__ ) );

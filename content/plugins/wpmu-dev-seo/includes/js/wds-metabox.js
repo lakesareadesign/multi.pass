@@ -5,51 +5,110 @@
 	 *
 	 * @param {Object} e Event object (optional)
 	 */
-	function render_fields_change (e) {
+	function classic_post_fields_change_handler (e) {
 		var $currentTarget = $(e.currentTarget),
-			field = false,
-			value = false;
-
-		if($currentTarget.is('#title')) {
-			field = 'title';
-		} else if($currentTarget.is('#content') || $currentTarget.is('#excerpt')) {
-			field = 'desc';
-		}
+			field = $currentTarget.is('#title')
+				|| $currentTarget.is('#content')
+				|| $currentTarget.is('#excerpt');
 
 		if( field ){
-			$.post(ajaxurl, {
-				id: wp.autosave.getPostData().post_id,
-				action: "wds_metabox_update",
-				post: wp.autosave.getPostData(),
-                _wds_nonce: _wds_metabox.nonce
-			}, 'json').done(function (rsp) {
-				var description = (rsp || {}).description || '',
-					title = (rsp || {}).title || '';
-				$('#wds_title').attr('placeholder',title);
-				$('#wds_metadesc').attr('placeholder',description);
-			});
+			refresh_meta_field_placeholders_ajax();
 		}
 
+	}
+
+	function refresh_meta_field_placeholders_ajax() {
+		$.post(ajaxurl, {
+			id: get_post_data().post_id,
+			action: "wds_metabox_update",
+			post: get_post_data(),
+			_wds_nonce: _wds_metabox.nonce
+		}, 'json').done(function (rsp) {
+			var description = (rsp || {}).description || '',
+				title = (rsp || {}).title || '';
+
+			$('#wds_title').attr('placeholder', title);
+			$('#wds_metadesc').attr('placeholder', description);
+		});
+	}
+
+	function is_classic_editor_active() {
+		return $('input#title').length && (wp || {}).autosave;
+	}
+
+	function is_gutenberg_active() {
+		var data = (wp || {}).data;
+		return data && data.select && data.dispatch;
+	}
+
+	function get_post_data() {
+		if (is_gutenberg_active()) {
+			return get_gutenberg_data();
+		} else if (is_classic_editor_active()) {
+			return wp.autosave.getPostData();
+		}
+
+		return {};
+	}
+
+	function get_gutenberg_data() {
+		var fields = ['content', 'excerpt', 'post_author', 'post_id', 'post_title', 'post_type'],
+			data = {};
+
+		_.each(fields, function (field) {
+			data[field] = wp.data.select("core/editor").getEditedPostAttribute(field.replace('post_', '')) || '';
+		});
+
+		if (!data.post_id) {
+			data.post_id = $('#post_ID').val() || 0;
+		}
+
+		return data;
 	}
 
 	function refresh_meta_field_placeholders() {
-		// The following line will trigger a call to ajax wds_metabox_update
-		$('input#title').trigger('input');
+		if (is_classic_editor_active()) {
+			// The following line will trigger a call to ajax wds_metabox_update
+			$('input#title').trigger('input');
+		} else {
+			refresh_meta_field_placeholders_ajax();
+		}
 	}
 
-	function init () {
+	function hook_classic_editor_listeners() {
 		window.setTimeout( function() {
 			var editor = typeof tinymce !== 'undefined' && tinymce.get('content');
 			if( editor ) {
 				editor.on('change', function(e) {
 					e.currentTarget = $('#content');
-					_.debounce(render_fields_change.bind(e), 1000);
+					_.debounce(classic_post_fields_change_handler.bind(e), 1000);
 				});
 			}
 		}, 1000 );
-		$(document).on("input","input#title,textarea#content,textarea#excerpt",_.debounce(render_fields_change, 1000)).trigger('input');
+		$(document).on("input","input#title,textarea#content,textarea#excerpt",_.debounce(classic_post_fields_change_handler, 1000)).trigger('input');
+	}
 
-		$('.wds-horizontal-tab-nav').on('click', '.wds-nav-item', function(){
+	function hook_gutenberg_listeners() {
+		if (!is_gutenberg_active()) {
+			return;
+		}
+
+		var debounced = _.debounce(refresh_meta_field_placeholders_ajax, 5000);
+		wp.data.subscribe(function () {
+			if (wp.data.select("core/editor").isEditedPostDirty()) {
+				debounced();
+			}
+		});
+	}
+
+	function init() {
+		if (is_gutenberg_active()) {
+			hook_gutenberg_listeners();
+		} else if (is_classic_editor_active()) {
+			hook_classic_editor_listeners();
+		}
+
+		$('.wds-horizontal-tab-nav').on('click', '.wds-nav-item', function () {
 			$('.wds-horizontal-tab-nav .active').removeClass('active');
 			$(this).addClass('active');
 		});
@@ -66,6 +125,14 @@
 	// Boot
 	$(init);
 
+	function is_edited_post_dirty() {
+		if (is_gutenberg_active()) {
+			return wp.data.select("core/editor").isEditedPostDirty();
+		} else {
+			return wp.autosave.server.postChanged();
+		}
+	}
+
 	/**
 	 * Deal with SEO analysis updates
 	 */
@@ -80,7 +147,8 @@
 
 		var data = $.extend({
 			action: 'wds-analysis-get-editor-analysis',
-			post_id: wp.autosave.getPostData().post_id,
+			post_id: get_post_data().post_id,
+			is_dirty: is_edited_post_dirty() ? 1 : 0,
 			wds_title: title,
 			wds_description: description,
 			wds_focus_keywords: focus_keywords,
@@ -132,24 +200,43 @@
 
 	function handle_refresh_click() {
 		before_ajax_request_blocking();
+		if (is_classic_editor_active()) {
+			hook_to_heartbeat();
+			trigger_tinymce_save();
+		}
+		trigger_autosave();
+	}
 
-		var cback = function () {
+	function hook_to_heartbeat() {
+		var handle_heartbeat = function () {
 			handle_autosave();
 			// Re-hook our regular autosave handler
 			$(document).on('after-autosave.smartcrawl', handle_autosave);
 		};
+
+		// We are already hooked to autosave so let's disable our regular autosave handler momentarily to avoid multiple calls ...
+		$(document).off('after-autosave.smartcrawl');
+		// hook a new handler to heartbeat-tick.autosave
+		$(document).one('heartbeat-tick.autosave', handle_heartbeat);
+	}
+
+	function trigger_tinymce_save() {
 		var editorSync = (tinyMCE || {}).triggerSave;
 		if (editorSync) {
 			editorSync();
 		}
-		var save = (((wp || {}).autosave || {}).server || {}).triggerSave;
-		if (save) {
-			// We are already hooked to autosave so let's disable our regular autosave handler momentarily to avoid multiple calls ...
-			$(document).off('after-autosave.smartcrawl');
-			// hook a new handler to heartbeat-tick.autosave
-			$(document).one('heartbeat-tick.autosave', cback);
+	}
+
+	function trigger_autosave() {
+		if (is_gutenberg_active()) {
+			if (wp.data.select("core/editor").isEditedPostAutosaveable()) {
+				wp.data.dispatch("core/editor").autosave();
+			} else {
+				trigger_custom_autosave_event();
+			}
+		} else if (is_classic_editor_active()) {
 			wp.autosave.server.triggerSave();
-		} else cback();
+		}
 	}
 
 	function before_ajax_request_blocking() {
@@ -243,7 +330,7 @@
 		;
 		return $.post(ajaxurl, {
 			action: action,
-			post_id: wp.autosave.getPostData().post_id,
+			post_id: get_post_data().post_id,
 			check_id: check_id,
             _wds_nonce: _wds_metabox.nonce
 		}, 'json');
@@ -299,6 +386,7 @@
 			wds_title: title,
 			wds_description: description,
 			post_id: post_id,
+			is_dirty: is_edited_post_dirty() ? 1 : 0,
             _wds_nonce: _wds_metabox.nonce
 		}, 'json').done(function (data) {
 			if ((data || {}).success) {
@@ -311,12 +399,50 @@
 		});
 	}
 
+	function register_api_fetch_middleware() {
+		if (!(wp || {}).apiFetch) {
+			return;
+		}
+
+		wp.apiFetch.use(function (options, next) {
+			var result = next(options);
+			result.then(function () {
+				if (is_autosave_request(options) || is_post_save_request(options)) {
+					trigger_custom_autosave_event();
+				}
+			});
+
+			return result;
+		});
+	}
+	
+	function is_autosave_request(request) {
+		return request && request.path
+			&& request.path.includes('/autosaves');
+	}
+
+	function is_post_save_request(request) {
+		var post = get_post_data(),
+			post_id = post.post_id,
+			post_type = post.post_type;
+
+		return request && request.path
+			&& request.method === 'PUT'
+			&& request.path.includes('/' + post_id)
+			&& request.path.includes('/' + post_type);
+	}
+
+	function trigger_custom_autosave_event() {
+		$(document).trigger('wds-after-autosave');
+	}
+
 	function init_analysis () {
 		window.render_update = render_update;
 		window.Wds.dismissible_message();
 
 		$(document)
-			.on('after-autosave.smartcrawl', handle_autosave)
+			.on('after-autosave.smartcrawl', trigger_custom_autosave_event)
+			.on('wds-after-autosave', handle_autosave)
 			.on('click', '#wds-wds-meta-box .wds-ignore', handle_ignore_toggle)
 			.on('click', '#wds-wds-meta-box .wds-unignore', handle_ignore_toggle)
 			.on('click', '#wds-wds-meta-box a[href="#reload"]', handle_update)
@@ -340,7 +466,10 @@
 			}
 		});
 
-		handle_page_load();
+		$(window)
+			.on('load', handle_page_load)
+			.on('load', register_api_fetch_middleware)
+		;
 
 		// Set metabox state on page load based on cookie value.
 		// Fixes: https://app.asana.com/0/0/580085427092951/f

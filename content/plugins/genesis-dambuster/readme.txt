@@ -3,9 +3,9 @@ Contributors: powerblogservice
 Donate link: https://www.diywebmastery.com/donate/
 Tags: genesis plugin, full width templates, beaver builder
 Requires at least: 3.5
-Tested up to: 4.9.8
+Tested up to: 5.1
 Requires PHP: 5.3.6
-Stable tag: 1.8
+Stable tag: 1.9
 License: GPLv3
 License URI: https://www.gnu.org/licenses/gpl-3.0.html
 
@@ -50,6 +50,7 @@ The full width setting allows you to have edge-to-edge backgrounds so you can ma
 
 == Changelog ==
 
+* 1.9 - Updated for latest News Pro and Essence Pro
 * 1.8 - Updated to show Dambuster post meta box in Gutenberg Editor
 * 1.7 - Added option to have dambuster enabled on all pages and posts by default and added support for more themes
 * For full change history see https://www.genesisdambuster.com/changelog/
@@ -57,7 +58,7 @@ The full width setting allows you to have edge-to-edge backgrounds so you can ma
 
 == Upgrade Notice ==
 
-= 1.8 - Optional - Updated to show Dambuster post meta box in Gutenberg Editor
+= 1.9 - Optional - Updated for latest News Pro and Essence Pro
 
 == How to Use The Plugin ==
 

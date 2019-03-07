@@ -98,10 +98,17 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 			return;
 		}
 
-		$latest_post_version = smartcrawl_get_latest_post_version( $post_id );
+		$is_dirty = (boolean) smartcrawl_get_array_value( $data, 'is_dirty' );
+		/**
+		 * If there is_dirty flag is set i.e. are unsaved changes in the editor then we
+		 * will fetch the latest post revision and preview that.
+		 */
+		$post_to_preview = $is_dirty
+			? smartcrawl_get_latest_post_version( $post_id )
+			: get_post( $post_id );
 		$result['success'] = true;
 		$result['markup'] = $this->_load( 'metabox/metabox-preview', array(
-			'post' => $latest_post_version,
+			'post' => $post_to_preview,
 		) );
 
 		wp_send_json( $result );
@@ -127,8 +134,8 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 		) );
 		Smartcrawl_Settings_Admin::register_global_admin_scripts();
 		wp_enqueue_script( 'wds_metabox_onpage', SMARTCRAWL_PLUGIN_URL . '/js/wds-metabox.js', array(
+			'underscore',
 			'wds-select2',
-			'autosave',
 		), $version );
 		wp_localize_script( 'wds_metabox_onpage', '_wds_metabox', array(
 			'nonce' => wp_create_nonce( 'wds-metabox-nonce' ),
@@ -160,7 +167,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	/**
 	 * Handles actual metabox rendering
 	 */
-	public function smartcrawl_meta_boxes($post) {
+	public function smartcrawl_meta_boxes( $post ) {
 		$robots_noindex_value = (int) smartcrawl_get_value( 'meta-robots-noindex' );
 		$robots_nofollow_value = (int) smartcrawl_get_value( 'meta-robots-nofollow' );
 		$robots_index_value = (int) smartcrawl_get_value( 'meta-robots-index' );
@@ -206,11 +213,14 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 		if ( function_exists( 'add_meta_box' ) ) {
 			// Show branding for singular installs.
 			$metabox_title = is_multisite() ? __( 'SmartCrawl', 'wds' ) : 'SmartCrawl';
-			$post_types = get_post_types(array(
+			$post_types = get_post_types( array(
 				'show_ui' => true, // Only if it actually supports WP UI.
-			));
+				'public'  => true, // ... and is public
+			) );
 			foreach ( $post_types as $posttype ) {
-				if ( 'attachment' === $posttype ) { continue; }
+				if ( 'attachment' === $posttype ) {
+					continue;
+				}
 				if ( $show ) {
 					add_meta_box( 'wds-wds-meta-box', $metabox_title, array(
 						&$this,
@@ -408,10 +418,12 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	 * @return array
 	 */
 	public function smartcrawl_page_title_column_heading( $columns ) {
+		$title_idx = array_search( 'title', array_keys( $columns ) );
+		$title_idx = ! empty( $title_idx ) ? $title_idx + 1 : 2;
 		return array_merge(
-			array_slice( $columns, 0, 2 ),
+			array_slice( $columns, 0, $title_idx ),
 			array( 'page-title' => __( 'Title Tag', 'wds' ) ),
-			array_slice( $columns, 2, 6 ),
+			array_slice( $columns, $title_idx, count( $columns ) ),
 			array( 'page-meta-robots' => __( 'Robots Meta', 'wds' ) )
 		);
 	}
@@ -553,29 +565,32 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	 * Handle metabox live update requests
 	 */
 	public function smartcrawl_metabox_live_update() {
+		$response = array();
 		$data = $this->get_request_data();
-		$id = (int) $data['id'];
-		$post = get_post( $id );
+		$id = (int) smartcrawl_get_array_value( $data, 'id' );
+		if ( $id ) {
+			$post = get_post( $id );
 
-		$post_data = sanitize_post( $data['post'] );
+			$post_data = sanitize_post( $data['post'] );
 
-		/* Merge live post data with currently saved post data */
-		$post->post_author = $post_data['post_author'];
-		$post->post_title = $post_data['post_title'];
-		$post->post_excerpt = $post_data['excerpt'];
-		$post->post_content = $post_data['content'];
-		$post->post_type = $post_data['post_type'];
+			/* Merge live post data with currently saved post data */
+			$post->post_author = $post_data['post_author'];
+			$post->post_title = $post_data['post_title'];
+			$post->post_excerpt = $post_data['excerpt'];
+			$post->post_content = $post_data['content'];
+			$post->post_type = $post_data['post_type'];
 
-		$title = smartcrawl_get_seo_title( $post );
-		$description = smartcrawl_get_seo_desc( $post );
+			$title = smartcrawl_get_seo_title( $post );
+			$description = smartcrawl_get_seo_desc( $post );
+			$response = array(
+				'title'       => $title,
+				'description' => $description,
+				'focus'       => smartcrawl_get_value( 'focus-keywords', $id ),
+				'keywords'    => smartcrawl_get_value( 'keywords', $id ),
+			);
+		}
 
-		wp_send_json( array(
-			'title'       => $title,
-			'description' => $description,
-			'focus'       => smartcrawl_get_value( 'focus-keywords', $id ),
-			'keywords'    => smartcrawl_get_value( 'keywords', $id ),
-		) );
-
+		wp_send_json( $response );
 		die();
 	}
 

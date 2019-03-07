@@ -4,7 +4,7 @@
 <div id="wps-upload-success" class="hidden">
 	<div class="wps-auth-message success">
 		<p>
-			<?php echo esc_html__( 'Your backup has been successfully uploaded to the WPMU server.', SNAPSHOT_I18N_DOMAIN ); ?>
+			<?php echo esc_html__( 'Your backup has been successfully uploaded to the Hub.', SNAPSHOT_I18N_DOMAIN ); ?>
 		</p>
 	</div>
 

@@ -15,9 +15,9 @@
 
 // Border
 FLBuilderCSS::border_field_rule( array(
-	'settings' 		=> $settings,
-	'setting_name' 	=> 'photo_border',
-	'selector' 		=> ".fl-node-$id .fl-photo-img",
+	'settings'     => $settings,
+	'setting_name' => 'photo_border',
+	'selector'     => ".fl-node-$id .fl-photo-img",
 ) );
 
 ?>

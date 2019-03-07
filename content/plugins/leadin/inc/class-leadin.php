@@ -80,7 +80,7 @@ class WPLeadIn {
 
 	/* HubSpot page analytics */
 	function add_page_analytics() {
-		echo "\n".'<!-- DO NOT COPY THIS SNIPPET! Start of Page Analytics Tracking for HubSpot WordPress plugin -->'."\n";
+		echo "\n".'<!-- DO NOT COPY THIS SNIPPET! Start of Page Analytics Tracking for HubSpot WordPress plugin v'.LEADIN_PLUGIN_VERSION.' -->'."\n";
 		echo '<script type="text/javascript">'."\n";
 
 		echo 'var _hsq = _hsq || [];'."\n";
@@ -117,11 +117,9 @@ class WPLeadIn {
 			}
 		}
 
-		$leadin_icon = '<img src="' . LEADIN_PATH . '/images/leadin-icon-16x16-white.png' . '">';
-
 		$args = array(
 			'id'     => 'leadin-admin-menu',
-			'title'  => '<span class="ab-icon" ' . ( $wp_version < 3.8 && ! is_plugin_active( 'mp6/mp6.php' ) ? ' style="margin-top: 3px;"' : '' ) . '>' . $leadin_icon . '</span><span class="ab-label">HubSpot</span>', // alter the title of existing node
+			'title'  => "<span class='ab-icon'></span><span class='ab-label'>HubSpot</span>", // alter the title of existing node
 			'parent' => false,   // set parent to false to make it a top level (parent) node
 			'href'   => get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=leadin',
 			'meta'   => array( 'title' => 'HubSpot' ),

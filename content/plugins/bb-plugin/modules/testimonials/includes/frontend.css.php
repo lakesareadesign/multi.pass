@@ -2,15 +2,15 @@
 
 FLBuilderCSS::rule( array(
 	'selector' => ".fl-node-$id .fl-testimonial",
-	'props' => array(
+	'props'    => array(
 		'color' => $settings->text_color,
 	),
 ) );
 
 FLBuilderCSS::typography_field_rule( array(
-	'settings'		=> $settings,
-	'setting_name' 	=> 'text_typography',
-	'selector' 		=> ".fl-node-$id .fl-testimonial",
+	'settings'     => $settings,
+	'setting_name' => 'text_typography',
+	'selector'     => ".fl-node-$id .fl-testimonial",
 ) );
 
 ?>

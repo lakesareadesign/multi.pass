@@ -213,10 +213,10 @@ JQUERY;
   }
 
   /**
-   * Renders SnapEngage
+   * Renders Chat
    */
-  public static function include_snapengage() {
-    ShareaholicUtilities::load_template('script_snapengage');
+  public static function include_chat() {
+    ShareaholicUtilities::load_template('script_chat');
   }
 
   /**

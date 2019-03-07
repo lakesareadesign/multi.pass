@@ -50,13 +50,14 @@ function get_aof_options() {
   */
  $admin_users_array = (is_serialized(get_option(ALTER_ADMIN_USERS_SLUG))) ? unserialize(get_option(ALTER_ADMIN_USERS_SLUG)) : get_option(ALTER_ADMIN_USERS_SLUG);
 
- if(empty($admin_users_array) && !is_array($admin_users_array)) {
-   $users_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
-   if(isset($users_query) && !empty($users_query)) {
-       if ( ! empty( $users_query->results ) ) {
-           foreach ( $users_query->results as $user_detail ) {
+ if(empty($admin_users_array) || !is_array($admin_users_array)) {
+   $alter_get_admins = new WP_User_Query( array( 'role' => 'Administrator' ) );
+   if(isset($alter_get_admins) && !empty($alter_get_admins)) {
+       if ( ! empty( $alter_get_admins->results ) ) {
+           foreach ( $alter_get_admins->results as $user_detail ) {
                $admin_users_array[$user_detail->ID] = $user_detail->data->display_name;
            }
+           update_option(ALTER_ADMIN_USERS_SLUG, $admin_users_array);
        }
    }
  }
@@ -587,6 +588,14 @@ function get_aof_options() {
   );
 
   $panel_fields[] = array(
+    'name' => __( 'Set default adminbar height.', 'alter' ),
+    'id' => 'default_adminbar_height',
+    'type' => 'checkbox',
+    'default' => false,
+    'desc' => __( 'Select this option to set default admin bar height.', 'alter' ),
+  );
+
+  $panel_fields[] = array(
       'name' => __( 'External Logo url', 'alter' ),
       'id' => 'admin_external_logo_url',
       'type' => 'text',
@@ -1040,7 +1049,7 @@ function get_aof_options() {
       'id' => 'admin_menu_width',
       'type' => 'number',
       'default' => '230',
-      'min' => '180',
+      'min' => '160',
       'max' => '400',
       );
 

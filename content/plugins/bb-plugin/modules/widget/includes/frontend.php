@@ -15,11 +15,11 @@ if ( isset( $widget_class ) && class_exists( $widget_class ) ) {
 	global $wp_widget_factory;
 
 	// Widget instance
-	$widget_instance    = new $widget_class();
+	$widget_instance = new $widget_class();
 
 	// Widget settings
-	$settings_key       = 'widget-' . $widget_instance->id_base;
-	$widget_settings    = isset( $settings->$settings_key ) ? (array) $settings->$settings_key : array();
+	$settings_key    = 'widget-' . $widget_instance->id_base;
+	$widget_settings = isset( $settings->$settings_key ) ? (array) $settings->$settings_key : array();
 
 	// Check to see if $widget_class key does not exist and registered it as lowercase instead.
 	if ( ! isset( $wp_widget_factory->widgets[ $widget_class ] ) && isset( $wp_widget_factory->widgets[ strtolower( $widget_class ) ] ) ) {

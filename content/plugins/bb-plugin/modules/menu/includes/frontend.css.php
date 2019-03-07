@@ -2,16 +2,16 @@
 
 $toggle_spacing = $settings->link_spacing_right > 10 ? $settings->link_spacing_right : 10;
 $toggle_padding = ! empty( $settings->link_spacing_right ) ? $settings->link_spacing_right : 0;
-$toggle_width 	= ( $toggle_padding + 14 );
-$toggle_height 	= ceil( ( ( $toggle_padding * 2 ) + 14 ) * 0.65 );
+$toggle_width   = ( $toggle_padding + 14 );
+$toggle_height  = ceil( ( ( $toggle_padding * 2 ) + 14 ) * 0.65 );
 
 /**
  * Overall menu styling
  */
 FLBuilderCSS::typography_field_rule( array(
-	'settings'		=> $settings,
-	'setting_name' 	=> 'typography',
-	'selector' 		=> ".fl-node-$id .fl-menu .menu, .fl-node-$id .fl-menu .menu > li",
+	'settings'     => $settings,
+	'setting_name' => 'typography',
+	'selector'     => ".fl-node-$id .fl-menu .menu, .fl-node-$id .fl-menu .menu > li",
 ) );
 
 ?>
@@ -32,30 +32,30 @@ FLBuilderCSS::typography_field_rule( array(
 if ( 'horizontal' === $settings->menu_layout ) {
 
 	FLBuilderCSS::responsive_rule( array(
-		'settings'		=> $settings,
-		'setting_name'	=> 'menu_align',
-		'selector'		=> ".fl-node-$id .fl-menu",
-		'prop'			=> 'text-align',
+		'settings'     => $settings,
+		'setting_name' => 'menu_align',
+		'selector'     => ".fl-node-$id .fl-menu",
+		'prop'         => 'text-align',
 	) );
 
 	FLBuilderCSS::responsive_rule( array(
-		'settings'			=> $settings,
-		'setting_name'		=> 'menu_align',
-		'selector'			=> ".fl-node-$id .fl-menu .menu",
-		'prop'				=> 'float',
-		'ignore' 			=> array( 'center' ),
+		'settings'     => $settings,
+		'setting_name' => 'menu_align',
+		'selector'     => ".fl-node-$id .fl-menu .menu",
+		'prop'         => 'float',
+		'ignore'       => array( 'center' ),
 	) );
 
 	FLBuilderCSS::responsive_rule( array(
-		'settings'			=> $settings,
-		'setting_name'		=> 'menu_align',
-		'selector'			=> ".fl-node-$id .fl-menu .menu",
-		'props' 			=> array(
-			'float'				=> 'none',
-			'display' 			=> 'inline-block',
-			'vertical-align' 	=> 'top',
+		'settings'     => $settings,
+		'setting_name' => 'menu_align',
+		'selector'     => ".fl-node-$id .fl-menu .menu",
+		'props'        => array(
+			'float'          => 'none',
+			'display'        => 'inline-block',
+			'vertical-align' => 'top',
 		),
-		'ignore'	 		=> array( 'left', 'right' ),
+		'ignore'       => array( 'left', 'right' ),
 	) );
 }
 
@@ -65,10 +65,10 @@ if ( 'horizontal' === $settings->menu_layout ) {
  */
 ?>
 .fl-node-<?php echo $id; ?> .menu a{
-	padding-left: <?php echo ! empty( $settings->link_spacing_left ) ? $settings->link_spacing_left . $settings->link_spacing_unit : '0' ?>;
-	padding-right: <?php echo ! empty( $settings->link_spacing_right ) ? $settings->link_spacing_right . $settings->link_spacing_unit : '0' ?>;
-	padding-top: <?php echo ! empty( $settings->link_spacing_top ) ? $settings->link_spacing_top . $settings->link_spacing_unit : '0' ?>;
-	padding-bottom: <?php echo ! empty( $settings->link_spacing_bottom ) ? $settings->link_spacing_bottom . $settings->link_spacing_unit : '0' ?>;
+	padding-left: <?php echo ! empty( $settings->link_spacing_left ) ? $settings->link_spacing_left . $settings->link_spacing_unit : '0'; ?>;
+	padding-right: <?php echo ! empty( $settings->link_spacing_right ) ? $settings->link_spacing_right . $settings->link_spacing_unit : '0'; ?>;
+	padding-top: <?php echo ! empty( $settings->link_spacing_top ) ? $settings->link_spacing_top . $settings->link_spacing_unit : '0'; ?>;
+	padding-bottom: <?php echo ! empty( $settings->link_spacing_bottom ) ? $settings->link_spacing_bottom . $settings->link_spacing_unit : '0'; ?>;
 }
 
 <?php if ( ! empty( $settings->link_color ) ) : ?>
@@ -76,9 +76,9 @@ if ( 'horizontal' === $settings->menu_layout ) {
 .fl-builder-content .fl-node-<?php echo $id; ?> .menu > li > .fl-has-submenu-container > a,
 .fl-builder-content .fl-node-<?php echo $id; ?> .sub-menu > li > a,
 .fl-builder-content .fl-node-<?php echo $id; ?> .sub-menu > li > .fl-has-submenu-container > a{
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ) ?>;
+	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ); ?>;
 	<?php if ( ! empty( $settings->link_bg_color ) ) : ?>
-		background-color: #<?php echo $settings->link_bg_color ?>;
+		background-color: #<?php echo $settings->link_bg_color; ?>;
 	<?php endif; ?>
 }
 
@@ -87,22 +87,24 @@ if ( 'horizontal' === $settings->menu_layout ) {
 		<?php if ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && in_array( $settings->submenu_hover_toggle, array( 'arrows', 'none' ) ) ) || ( 'accordion' == $settings->menu_layout && 'arrows' == $settings->submenu_click_toggle ) ) : ?>
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-arrows .fl-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-none .fl-menu-toggle:before {
-			border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ) ?>;
+			border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ); ?>;
 		}
 	<?php elseif ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && 'plus' == $settings->submenu_hover_toggle ) || ( 'accordion' == $settings->menu_layout && 'plus' == $settings->submenu_click_toggle ) ) : ?>
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus .fl-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus .fl-menu-toggle:after{
-			border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ) ?>;
+			border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ); ?>;
 		}
 		<?php endif; ?>
 	<?php endif; ?>
 
-<?php endif;
+	<?php
+endif;
 
 /**
  * Links - hover / active
  */
-if ( ! empty( $settings->link_hover_bg_color ) || $settings->link_hover_color ) : ?>
+if ( ! empty( $settings->link_hover_bg_color ) || $settings->link_hover_color ) :
+	?>
 .fl-node-<?php echo $id; ?> .menu > li > a:hover,
 .fl-node-<?php echo $id; ?> .menu > li > a:focus,
 .fl-node-<?php echo $id; ?> .menu > li > .fl-has-submenu-container:hover > a,
@@ -134,7 +136,7 @@ if ( ! empty( $settings->link_hover_bg_color ) || $settings->link_hover_color ) 
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-none .fl-has-submenu-container:hover > .fl-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-none .fl-has-submenu-container.focus > .fl-menu-toggle:before,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-none li.current-menu-item >.fl-has-submenu-container > .fl-menu-toggle:before{
-			border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ) ?>;
+			border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ); ?>;
 		}
 	<?php elseif ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && 'plus' == $settings->submenu_hover_toggle ) || ( 'accordion' == $settings->menu_layout && 'plus' == $settings->submenu_click_toggle ) ) : ?>
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus .fl-has-submenu-container:hover > .fl-menu-toggle:before,
@@ -143,22 +145,26 @@ if ( ! empty( $settings->link_hover_bg_color ) || $settings->link_hover_color ) 
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus .fl-has-submenu-container:hover > .fl-menu-toggle:after,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus .fl-has-submenu-container.focus > .fl-menu-toggle:after,
 		.fl-node-<?php echo $id; ?> .fl-menu .fl-toggle-plus li.current-menu-item > .fl-has-submenu-container > .fl-menu-toggle:after{
-			border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ) ?>;
+			border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_hover_color ); ?>;
 		}
 	<?php endif; ?>
 
-<?php endif;
+	<?php
+endif;
 
 /**
  * Overall submenu styling
  */
-if ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) ) : ?>
+if ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) ) :
+	?>
 	.fl-node-<?php echo $id; ?> .menu .fl-has-submenu .sub-menu{
 		display: none;
 	}
-<?php endif;
+	<?php
+endif;
 
-if ( ! empty( $settings->submenu_bg_color ) || 'yes' == $settings->drop_shadow ) : ?>
+if ( ! empty( $settings->submenu_bg_color ) || 'yes' == $settings->drop_shadow ) :
+	?>
 .fl-node-<?php echo $id; ?> .fl-menu .sub-menu {
 	<?php
 
@@ -173,12 +179,14 @@ if ( ! empty( $settings->submenu_bg_color ) || 'yes' == $settings->drop_shadow )
 
 	?>
 }
-<?php endif;
+	<?php
+endif;
 
 /**
  * Toggle - Arrows / None
  */
-if ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && in_array( $settings->submenu_hover_toggle, array( 'arrows', 'none' ) ) ) || ( 'accordion' == $settings->menu_layout && 'arrows' == $settings->submenu_click_toggle  ) ) : ?>
+if ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && in_array( $settings->submenu_hover_toggle, array( 'arrows', 'none' ) ) ) || ( 'accordion' == $settings->menu_layout && 'arrows' == $settings->submenu_click_toggle ) ) :
+	?>
 	.fl-node-<?php echo $id; ?> .fl-menu .fl-menu-toggle:before{
 		content: '';
 		position: absolute;
@@ -203,12 +211,13 @@ if ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && 
 			-ms-transform: rotate( -180deg );
 				transform: rotate( -180deg );
 	}
-<?php
+	<?php
 
-/**
- * Toggle - Plus
- */
-elseif ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && 'plus' == $settings->submenu_hover_toggle ) || ( 'accordion' == $settings->menu_layout && 'plus' == $settings->submenu_click_toggle ) ) : ?>
+	/**
+	 * Toggle - Plus
+	 */
+elseif ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && 'plus' == $settings->submenu_hover_toggle ) || ( 'accordion' == $settings->menu_layout && 'plus' == $settings->submenu_click_toggle ) ) :
+	?>
 	.fl-node-<?php echo $id; ?> .fl-menu .fl-menu-toggle:before,
 	.fl-node-<?php echo $id; ?> .fl-menu .fl-menu-toggle:after{
 		content: '';
@@ -238,46 +247,49 @@ elseif ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) )
 	.fl-node-<?php echo $id; ?> .fl-menu .fl-has-submenu.fl-active > .fl-has-submenu-container .fl-menu-toggle:after{
 		display: none;
 	}
-<?php endif;
+	<?php
+endif;
 
 /**
  * Submenu toggle
  */
-if ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && in_array( $settings->submenu_hover_toggle, array( 'arrows', 'none' ) ) ) || ( 'accordion' == $settings->menu_layout && 'arrows' == $settings->submenu_click_toggle ) ) : ?>
-	.fl-node-<?php echo $id; ?> .fl-menu-<?php echo $settings->menu_layout ?>.fl-toggle-arrows .fl-has-submenu-container a{
-		padding-right: <?php echo $toggle_width ?>px;
+if ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && in_array( $settings->submenu_hover_toggle, array( 'arrows', 'none' ) ) ) || ( 'accordion' == $settings->menu_layout && 'arrows' == $settings->submenu_click_toggle ) ) :
+	?>
+	.fl-node-<?php echo $id; ?> .fl-menu-<?php echo $settings->menu_layout; ?>.fl-toggle-arrows .fl-has-submenu-container a{
+		padding-right: <?php echo $toggle_width; ?>px;
 	}
-	.fl-node-<?php echo $id; ?> .fl-menu-<?php echo $settings->menu_layout ?>.fl-toggle-arrows .fl-menu-toggle,
-	.fl-node-<?php echo $id; ?> .fl-menu-<?php echo $settings->menu_layout ?>.fl-toggle-none .fl-menu-toggle{
-		width: <?php echo $toggle_height ?>px;
-		height: <?php echo $toggle_height ?>px;
-		margin: -<?php echo $toggle_height / 2 ?>px 0 0;
+	.fl-node-<?php echo $id; ?> .fl-menu-<?php echo $settings->menu_layout; ?>.fl-toggle-arrows .fl-menu-toggle,
+	.fl-node-<?php echo $id; ?> .fl-menu-<?php echo $settings->menu_layout; ?>.fl-toggle-none .fl-menu-toggle{
+		width: <?php echo $toggle_height; ?>px;
+		height: <?php echo $toggle_height; ?>px;
+		margin: -<?php echo $toggle_height / 2; ?>px 0 0;
 	}
 	.fl-node-<?php echo $id; ?> .fl-menu-horizontal.fl-toggle-arrows .fl-menu-toggle,
 	.fl-node-<?php echo $id; ?> .fl-menu-horizontal.fl-toggle-none .fl-menu-toggle,
 	.fl-node-<?php echo $id; ?> .fl-menu-vertical.fl-toggle-arrows .fl-menu-toggle,
 	.fl-node-<?php echo $id; ?> .fl-menu-vertical.fl-toggle-none .fl-menu-toggle{
-		width: <?php echo $toggle_width ?>px;
-		height: <?php echo $toggle_height ?>px;
-		margin: -<?php echo $toggle_height / 2 ?>px 0 0;
+		width: <?php echo $toggle_width; ?>px;
+		height: <?php echo $toggle_height; ?>px;
+		margin: -<?php echo $toggle_height / 2; ?>px 0 0;
 	}
 <?php elseif ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && 'plus' == $settings->submenu_hover_toggle ) || ( 'accordion' == $settings->menu_layout && 'plus' == $settings->submenu_click_toggle ) ) : ?>
-	.fl-node-<?php echo $id; ?> .fl-menu-<?php echo $settings->menu_layout ?>.fl-toggle-plus .fl-has-submenu-container a{
-		padding-right: <?php echo $toggle_width ?>px;
+	.fl-node-<?php echo $id; ?> .fl-menu-<?php echo $settings->menu_layout; ?>.fl-toggle-plus .fl-has-submenu-container a{
+		padding-right: <?php echo $toggle_width; ?>px;
 	}
 
 	.fl-node-<?php echo $id; ?> .fl-menu-accordion.fl-toggle-plus .fl-menu-toggle{
-		width: <?php echo $toggle_height ?>px;
-		height: <?php echo $toggle_height ?>px;
-		margin: -<?php echo $toggle_height / 2 ?>px 0 0;
+		width: <?php echo $toggle_height; ?>px;
+		height: <?php echo $toggle_height; ?>px;
+		margin: -<?php echo $toggle_height / 2; ?>px 0 0;
 	}
 	.fl-node-<?php echo $id; ?> .fl-menu-horizontal.fl-toggle-plus .fl-menu-toggle,
 	.fl-node-<?php echo $id; ?> .fl-menu-vertical.fl-toggle-plus .fl-menu-toggle{
-		width: <?php echo $toggle_width ?>px;
-		height: <?php echo $toggle_height ?>px;
-		margin: -<?php echo $toggle_height / 2 ?>px 0 0;
+		width: <?php echo $toggle_width; ?>px;
+		height: <?php echo $toggle_height; ?>px;
+		margin: -<?php echo $toggle_height / 2; ?>px 0 0;
 	}
-<?php endif;
+	<?php
+endif;
 
 /**
  * Separators
@@ -290,17 +302,19 @@ if ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && 
 	border-top: none;
 }
 <?php if ( isset( $settings->show_separator ) && 'yes' == $settings->show_separator && ! empty( $settings->separator_color ) ) : ?>
-	.fl-node-<?php echo $id; ?> .menu.fl-menu-<?php echo $settings->menu_layout ?> li,
+	.fl-node-<?php echo $id; ?> .menu.fl-menu-<?php echo $settings->menu_layout; ?> li,
 	.fl-node-<?php echo $id; ?> .menu.fl-menu-horizontal li li{
 		border-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->separator_color ); ?>;
 	}
-<?php endif;
+	<?php
+endif;
 
 /**
  * Responsive Layout
  */
-if ( 'always' != $module->get_media_breakpoint() ) : ?>
-	@media ( max-width: <?php echo $module->get_media_breakpoint() ?>px ) {
+if ( 'always' != $module->get_media_breakpoint() ) :
+	?>
+	@media ( max-width: <?php echo $module->get_media_breakpoint(); ?>px ) {
 <?php endif; ?>
 
 	<?php if ( $module->is_responsive_menu_flyout() ) : ?>
@@ -368,7 +382,7 @@ if ( 'always' != $module->get_media_breakpoint() ) : ?>
 
 	<?php endif; ?>
 
-	<?php if ( (isset( $settings->mobile_full_width ) && 'no' != $settings->mobile_full_width ) && (isset( $settings->mobile_toggle ) && 'expanded' != $settings->mobile_toggle ) ) : ?>
+	<?php if ( ( isset( $settings->mobile_full_width ) && 'no' != $settings->mobile_full_width ) && ( isset( $settings->mobile_toggle ) && 'expanded' != $settings->mobile_toggle ) ) : ?>
 
 		<?php if ( 'yes' == $settings->mobile_full_width ) : ?>
 			.fl-node-<?php echo $id; ?> .fl-menu .menu {
@@ -404,6 +418,11 @@ if ( 'always' != $module->get_media_breakpoint() ) : ?>
 		box-shadow: none;
 	}
 
+	.fl-node-<?php echo $id; ?> .mega-menu.fl-active .hide-heading > .sub-menu,
+	.fl-node-<?php echo $id; ?> .mega-menu-disabled.fl-active .hide-heading > .sub-menu {
+		display: block !important;
+	}
+
 <?php if ( 'always' != $module->get_media_breakpoint() ) : ?>
 	} <?php // close media max-width ?>
 
@@ -417,7 +436,7 @@ if ( 'always' != $module->get_media_breakpoint() ) : ?>
 <?php endif; ?>
 
 <?php if ( 'always' != $module->get_media_breakpoint() ) : ?>
-@media ( min-width: <?php echo ( $module->get_media_breakpoint() ) + 1 ?>px ) {
+@media ( min-width: <?php echo ( $module->get_media_breakpoint() ) + 1; ?>px ) {
 
 	<?php // if menu is horizontal ?>
 	<?php if ( 'horizontal' == $settings->menu_layout ) : ?>
@@ -451,7 +470,7 @@ if ( 'always' != $module->get_media_breakpoint() ) : ?>
 			left: 100%;
 		}
 
-	<?php // if menu is vertical ?>
+		<?php // if menu is vertical ?>
 	<?php elseif ( 'vertical' == $settings->menu_layout ) : ?>
 
 		.fl-node-<?php echo $id; ?> .menu .fl-has-submenu .sub-menu{
@@ -549,30 +568,32 @@ if ( 'always' != $module->get_media_breakpoint() ) : ?>
 		}
 	<?php endif; ?>
 }
-<?php endif;
+	<?php
+endif;
 
 /**
  * Mobile toggle button
  */
-if ( isset( $settings->mobile_toggle ) && 'expanded' != $settings->mobile_toggle ) : ?>
+if ( isset( $settings->mobile_toggle ) && 'expanded' != $settings->mobile_toggle ) :
+	?>
 	<?php if ( 'horizontal' == $settings->menu_layout && ! empty( $settings->menu_align ) ) : ?>
 		<?php
 		FLBuilderCSS::responsive_rule( array(
-			'settings'			=> $settings,
-			'setting_name'		=> 'menu_align',
-			'selector'			=> ".fl-node-$id .fl-menu-mobile-toggle",
-			'prop'				=> 'float',
-			'ignore' => array( 'center' ),
+			'settings'     => $settings,
+			'setting_name' => 'menu_align',
+			'selector'     => ".fl-node-$id .fl-menu-mobile-toggle",
+			'prop'         => 'float',
+			'ignore'       => array( 'center' ),
 		) );
 
 		FLBuilderCSS::responsive_rule( array(
-			'settings'			=> $settings,
-			'setting_name'		=> 'menu_align',
-			'selector'			=> ".fl-node-$id .fl-menu-mobile-toggle",
-			'props' 			=> array(
-				'float'				=> 'none',
+			'settings'     => $settings,
+			'setting_name' => 'menu_align',
+			'selector'     => ".fl-node-$id .fl-menu-mobile-toggle",
+			'props'        => array(
+				'float' => 'none',
 			),
-			'ignore' => array( 'left', 'right' ),
+			'ignore'       => array( 'left', 'right' ),
 		) );
 
 		?>
@@ -594,10 +615,10 @@ if ( isset( $settings->mobile_toggle ) && 'expanded' != $settings->mobile_toggle
 		}
 
 		?>
-		padding-left: <?php echo ! empty( $settings->link_spacing_left ) ? $settings->link_spacing_left . $settings->link_spacing_unit : '0' ?>;
-		padding-right: <?php echo ! empty( $settings->link_spacing_right ) ? $settings->link_spacing_right . $settings->link_spacing_unit : '0' ?>;
-		padding-top: <?php echo ! empty( $settings->link_spacing_top ) ? $settings->link_spacing_top . $settings->link_spacing_unit : '0' ?>;
-		padding-bottom: <?php echo ! empty( $settings->link_spacing_bottom ) ? $settings->link_spacing_bottom . $settings->link_spacing_unit : '0' ?>;
+		padding-left: <?php echo ! empty( $settings->link_spacing_left ) ? $settings->link_spacing_left . $settings->link_spacing_unit : '0'; ?>;
+		padding-right: <?php echo ! empty( $settings->link_spacing_right ) ? $settings->link_spacing_right . $settings->link_spacing_unit : '0'; ?>;
+		padding-top: <?php echo ! empty( $settings->link_spacing_top ) ? $settings->link_spacing_top . $settings->link_spacing_unit : '0'; ?>;
+		padding-bottom: <?php echo ! empty( $settings->link_spacing_bottom ) ? $settings->link_spacing_bottom . $settings->link_spacing_unit : '0'; ?>;
 		border-color: rgba( 0,0,0,0.1 );
 	}
 	.fl-node-<?php echo $id; ?> .fl-menu-mobile-toggle rect{
@@ -627,18 +648,21 @@ if ( isset( $settings->mobile_toggle ) && 'expanded' != $settings->mobile_toggle
 		}
 		?>
 	}
-<?php endif;
+	<?php
+endif;
 
-if ( isset( $settings->mobile_button_label ) && 'no' == $settings->mobile_button_label ) : ?>
+if ( isset( $settings->mobile_button_label ) && 'no' == $settings->mobile_button_label ) :
+	?>
 	.fl-node-<?php echo $id; ?> .fl-menu .fl-menu-mobile-toggle.hamburger .fl-menu-mobile-toggle-label{
 		display: none;
 	}
-<?php endif;
+	<?php
+endif;
 
 /**
  * Mega menus
  */
 ?>
 .fl-node-<?php echo $id; ?> ul.fl-menu-horizontal li.mega-menu > ul.sub-menu > li > .fl-has-submenu-container a:hover {
-	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ) ?>;
+	color: <?php echo FLBuilderColor::hex_or_rgb( $settings->link_color ); ?>;
 }

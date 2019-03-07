@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the SmartCrawl package.
 msgid ""
 msgstr ""
-"Project-Id-Version: SmartCrawl 2.2.4.1\n"
+"Project-Id-Version: SmartCrawl 2.2.5\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/smartcrawl-regular\n"
-"POT-Creation-Date: 2019-01-15 07:09:25+00:00\n"
+"POT-Creation-Date: 2019-02-18 06:43:22+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -44,84 +44,84 @@ msgstr ""
 msgid "You can fix this here"
 msgstr ""
 
-#: includes/admin/metabox.php:119
+#: includes/admin/metabox.php:126
 msgid "{TOTAL_LEFT} characters left"
 msgstr ""
 
-#: includes/admin/metabox.php:120
+#: includes/admin/metabox.php:127
 msgid "Over {MAX_COUNT} characters ({CURRENT_COUNT})"
 msgstr ""
 
-#: includes/admin/metabox.php:121
+#: includes/admin/metabox.php:128
 msgid ""
 "Over {MAX_COUNT} characters ({CURRENT_COUNT}) - make sure your SEO title is "
 "shorter"
 msgstr ""
 
-#: includes/admin/metabox.php:137
+#: includes/admin/metabox.php:144
 #: includes/admin/templates/metabox/analysis-readability.php:67
 #: includes/admin/templates/metabox/analysis-seo-analysis.php:24
 msgid "Analyzing content, please wait a few moments"
 msgstr ""
 
-#: includes/admin/metabox.php:170
+#: includes/admin/metabox.php:177
 msgid "NO ODP (Block Open Directory Project description of the page)"
 msgstr ""
 
-#: includes/admin/metabox.php:171
+#: includes/admin/metabox.php:178
 msgid "NO YDIR (Don't display the Yahoo! Directory titles and abstracts)"
 msgstr ""
 
-#: includes/admin/metabox.php:172 includes/admin/metabox.php:457
+#: includes/admin/metabox.php:179 includes/admin/metabox.php:469
 msgid "No Archive"
 msgstr ""
 
-#: includes/admin/metabox.php:173 includes/admin/metabox.php:458
+#: includes/admin/metabox.php:180 includes/admin/metabox.php:470
 msgid "No Snippet"
 msgstr ""
 
-#: includes/admin/metabox.php:176
+#: includes/admin/metabox.php:183
 msgid "Automatic prioritization"
 msgstr ""
 
-#: includes/admin/metabox.php:177
+#: includes/admin/metabox.php:184
 msgid "1 - Highest priority"
 msgstr ""
 
-#: includes/admin/metabox.php:179
+#: includes/admin/metabox.php:186
 msgid "High priority (root pages default)"
 msgstr ""
 
-#: includes/admin/metabox.php:181
+#: includes/admin/metabox.php:188
 msgid "Secondary priority (subpages default)"
 msgstr ""
 
-#: includes/admin/metabox.php:182
+#: includes/admin/metabox.php:189
 msgid "Medium priority"
 msgstr ""
 
-#: includes/admin/metabox.php:186
+#: includes/admin/metabox.php:193
 msgid "Lowest priority"
 msgstr ""
 
-#: includes/admin/metabox.php:413
+#: includes/admin/metabox.php:425
 #: includes/admin/templates/quick-edit-title.php:5
 msgid "Title Tag"
 msgstr ""
 
-#: includes/admin/metabox.php:415
+#: includes/admin/metabox.php:427
 msgid "Robots Meta"
 msgstr ""
 
-#: includes/admin/metabox.php:436
+#: includes/admin/metabox.php:448
 msgid "Redirects to %s"
 msgstr ""
 
-#: includes/admin/metabox.php:455
+#: includes/admin/metabox.php:467
 msgid "No ODP"
 msgstr ""
 
-#: includes/admin/metabox.php:456
+#: includes/admin/metabox.php:468
 msgid "No YDIR"
 msgstr ""
 
@@ -1187,7 +1187,7 @@ msgstr ""
 #: includes/admin/templates/dashboard/dashboard-content-analysis-seo-overview.php:32
 #: includes/admin/templates/dashboard/dashboard-content-analysis-seo-overview.php:57
 #: includes/admin/templates/post-list/post-seo-analysis-good.php:2
-#: includes/core/class-wds-controller-analysis.php:638
+#: includes/core/class-wds-controller-analysis.php:642
 msgid "Good"
 msgstr ""
 
@@ -3988,19 +3988,19 @@ msgstr ""
 msgid "N/A"
 msgstr ""
 
-#: includes/core/class-wds-controller-analysis.php:632
+#: includes/core/class-wds-controller-analysis.php:636
 msgid "No Focus Keyword"
 msgstr ""
 
-#: includes/core/class-wds-controller-analysis.php:635
+#: includes/core/class-wds-controller-analysis.php:639
 msgid "Needs Improvement"
 msgstr ""
 
-#: includes/core/class-wds-controller-analysis.php:657
+#: includes/core/class-wds-controller-analysis.php:661
 msgid "SEO:"
 msgstr ""
 
-#: includes/core/class-wds-controller-analysis.php:664
+#: includes/core/class-wds-controller-analysis.php:668
 msgid "Readability:"
 msgstr ""
 

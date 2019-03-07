@@ -35,29 +35,29 @@ final class FLBuilderCSS {
 	 * @return void
 	 */
 	static public function responsive_rule( $args = array() ) {
-		$global_settings = FLBuilderModel::get_global_settings();
-		$default_args = array(
-			'settings' 			=> null,
-			'setting_name' 		=> '',
+		$global_settings   = FLBuilderModel::get_global_settings();
+		$default_args      = array(
+			'settings'          => null,
+			'setting_name'      => '',
 			'setting_base_name' => '',
-			'selector' 			=> '',
-			'prop' 				=> '',
-			'props' 			=> array(),
-			'unit'				=> '',
-			'enabled' 			=> true,
+			'selector'          => '',
+			'prop'              => '',
+			'props'             => array(),
+			'unit'              => '',
+			'enabled'           => true,
 			'ignore'            => array(),
 		);
-		$args = wp_parse_args( $args, $default_args );
-		$settings = $args['settings'];
-		$setting_name = $args['setting_name'];
+		$args              = wp_parse_args( $args, $default_args );
+		$settings          = $args['settings'];
+		$setting_name      = $args['setting_name'];
 		$setting_base_name = $args['setting_base_name'];
-		$selector = $args['selector'];
-		$prop = $args['prop'];
-		$props = $args['props'];
-		$default_unit = $args['unit'];
-		$enabled = $args['enabled'];
-		$breakpoints = array( '', 'medium', 'responsive' );
-		$ignore = $args['ignore'];
+		$selector          = $args['selector'];
+		$prop              = $args['prop'];
+		$props             = $args['props'];
+		$default_unit      = $args['unit'];
+		$enabled           = $args['enabled'];
+		$breakpoints       = array( '', 'medium', 'responsive' );
+		$ignore            = $args['ignore'];
 
 		if ( ! $settings || empty( $setting_name ) || empty( $selector ) ) {
 			return;
@@ -69,10 +69,10 @@ final class FLBuilderCSS {
 				continue;
 			}
 
-			$suffix = empty( $breakpoint ) ? '' : "_{$breakpoint}";
-			$name = $setting_name . $suffix;
+			$suffix    = empty( $breakpoint ) ? '' : "_{$breakpoint}";
+			$name      = $setting_name . $suffix;
 			$base_name = empty( $setting_base_name ) ? $name : $setting_base_name . $suffix;
-			$setting = isset( $settings->{$name} ) ? $settings->{$name} : null;
+			$setting   = isset( $settings->{$name} ) ? $settings->{$name} : null;
 
 			if ( null === $setting ) {
 				continue;
@@ -83,14 +83,14 @@ final class FLBuilderCSS {
 				if ( ! empty( $prop ) ) {
 					$props[ $prop ] = array(
 						'value' => $setting,
-						'unit'	=> FLBuilderCSS::get_unit( $base_name, $settings, $default_unit ),
+						'unit'  => FLBuilderCSS::get_unit( $base_name, $settings, $default_unit ),
 					);
 				}
 
 				self::$rules[] = array(
-					'media' => $breakpoint,
+					'media'    => $breakpoint,
 					'selector' => $selector,
-					'props' => $props,
+					'props'    => $props,
 				);
 			}
 		}
@@ -104,18 +104,18 @@ final class FLBuilderCSS {
 	 * @return void
 	 */
 	static public function dimension_field_rule( $args = array() ) {
-		$args = wp_parse_args( $args, array(
-			'settings' 		=> null,
-			'setting_name'	=> '',
-			'selector' 		=> '',
-			'props' 		=> array(),
-			'unit'			=> '',
+		$args              = wp_parse_args( $args, array(
+			'settings'     => null,
+			'setting_name' => '',
+			'selector'     => '',
+			'props'        => array(),
+			'unit'         => '',
 		) );
-		$settings = $args['settings'];
+		$settings          = $args['settings'];
 		$setting_base_name = $args['setting_name'];
-		$selector = $args['selector'];
-		$props = $args['props'];
-		$unit = $args['unit'];
+		$selector          = $args['selector'];
+		$props             = $args['props'];
+		$unit              = $args['unit'];
 
 		if ( ! $settings || empty( $setting_base_name ) || empty( $selector ) ) {
 			return;
@@ -123,12 +123,12 @@ final class FLBuilderCSS {
 
 		foreach ( $props as $prop => $settings_name ) {
 			$rules = self::responsive_rule( array(
-				'settings' 			=> $settings,
-				'setting_name' 		=> $settings_name,
+				'settings'          => $settings,
+				'setting_name'      => $settings_name,
 				'setting_base_name' => $setting_base_name,
-				'selector' 			=> $selector,
-				'prop' 				=> $prop,
-				'unit'				=> $unit,
+				'selector'          => $selector,
+				'prop'              => $prop,
+				'unit'              => $unit,
 			) );
 
 			if ( ! empty( $rules ) ) {
@@ -146,17 +146,17 @@ final class FLBuilderCSS {
 	 */
 	static public function compound_field_rule( $args = array() ) {
 		$global_settings = FLBuilderModel::get_global_settings();
-		$args = wp_parse_args( $args, array(
-			'type'			=> '',
-			'selector' 		=> '',
-			'settings' 		=> null,
-			'setting_name' 	=> '',
+		$args            = wp_parse_args( $args, array(
+			'type'         => '',
+			'selector'     => '',
+			'settings'     => null,
+			'setting_name' => '',
 		) );
-		$type = $args['type'];
-		$selector = $args['selector'];
-		$settings = $args['settings'];
-		$setting_name = $args['setting_name'];
-		$breakpoints = array( '', 'medium', 'responsive' );
+		$type            = $args['type'];
+		$selector        = $args['selector'];
+		$settings        = $args['settings'];
+		$setting_name    = $args['setting_name'];
+		$breakpoints     = array( '', 'medium', 'responsive' );
 
 		if ( empty( $type ) || empty( $selector ) || ! $settings || empty( $setting_name ) ) {
 			return;
@@ -168,10 +168,10 @@ final class FLBuilderCSS {
 				continue;
 			}
 
-			$name = empty( $breakpoint ) ? $setting_name : "{$setting_name}_{$breakpoint}";
-			$setting = isset( $settings->{$name} ) ? $settings->{$name} : null;
+			$name     = empty( $breakpoint ) ? $setting_name : "{$setting_name}_{$breakpoint}";
+			$setting  = isset( $settings->{$name} ) ? $settings->{$name} : null;
 			$callback = "{$type}_field_props";
-			$props = array();
+			$props    = array();
 
 			// Settings must be an array. Settings in nested forms can become objects when encoded.
 			if ( is_object( $setting ) ) {
@@ -191,9 +191,9 @@ final class FLBuilderCSS {
 			}
 
 			self::$rules[] = array(
-				'media' => $breakpoint,
+				'media'    => $breakpoint,
 				'selector' => $selector,
-				'props' => $props,
+				'props'    => $props,
 			);
 		}
 	}
@@ -221,8 +221,8 @@ final class FLBuilderCSS {
 		$props = array();
 
 		if ( isset( $setting['style'] ) && ! empty( $setting['style'] ) ) {
-			$props['border-style'] = $setting['style'];
-			$props['border-width'] = '0'; // Default to zero.
+			$props['border-style']    = $setting['style'];
+			$props['border-width']    = '0'; // Default to zero.
 			$props['background-clip'] = 'padding-box';
 		}
 		if ( isset( $setting['color'] ) && ! empty( $setting['color'] ) ) {
@@ -283,7 +283,8 @@ final class FLBuilderCSS {
 	 * @return array
 	 */
 	static public function typography_field_props( $setting = array() ) {
-		$props = array();
+		$props    = array();
+		$settings = FLBuilderModel::get_global_settings();
 
 		if ( isset( $setting['font_family'] ) && 'Default' !== $setting['font_family'] ) {
 			$fallback             = FLBuilderFonts::get_font_fallback( $setting['font_family'] );
@@ -297,7 +298,11 @@ final class FLBuilderCSS {
 			$props['font-weight'] = $setting['font_weight'];
 		}
 		if ( isset( $setting['font_size'] ) && ! empty( $setting['font_size']['length'] ) ) {
-			$props['font-size'] = $setting['font_size']['length'] . $setting['font_size']['unit'];
+			if ( 'vw' == $setting['font_size']['unit'] && isset( $settings->responsive_base_fontsize ) ) {
+				$props['font-size'] = sprintf( 'calc(%spx + %svw)', $settings->responsive_base_fontsize, $setting['font_size']['length'] );
+			} else {
+				$props['font-size'] = $setting['font_size']['length'] . $setting['font_size']['unit'];
+			}
 		}
 		if ( isset( $setting['line_height'] ) && ! empty( $setting['line_height']['length'] ) ) {
 			$props['line-height'] = $setting['line_height']['length'] . $setting['line_height']['unit'];
@@ -336,20 +341,20 @@ final class FLBuilderCSS {
 	 */
 	static public function render() {
 		$rendered = array();
-		$css = '';
+		$css      = '';
 
 		foreach ( self::$rules as $args ) {
 			$defaults = array(
-				'media' => '',
+				'media'    => '',
 				'selector' => '',
-				'enabled' => true,
-				'props' => array(),
+				'enabled'  => true,
+				'props'    => array(),
 			);
 
-			$args = array_merge( $defaults, $args );
-			$media = self::media_value( $args['media'] );
+			$args     = array_merge( $defaults, $args );
+			$media    = self::media_value( $args['media'] );
 			$selector = $args['selector'];
-			$props = self::properties( $args['props'] );
+			$props    = self::properties( $args['props'] );
 
 			if ( ! $args['enabled'] || empty( $selector ) || empty( $props ) ) {
 				continue;
@@ -370,7 +375,7 @@ final class FLBuilderCSS {
 
 			if ( ! empty( $media ) ) {
 				$css .= "@media($media) {\n";
-				$tab = "\t";
+				$tab  = "\t";
 			} else {
 				$tab = '';
 			}
@@ -401,10 +406,10 @@ final class FLBuilderCSS {
 	 * @return string
 	 */
 	static public function properties( $props ) {
-		$css = '';
+		$css      = '';
 		$defaults = array(
-			'value' => '',
-			'unit'  => '',
+			'value'   => '',
+			'unit'    => '',
 			'enabled' => true,
 		);
 
@@ -416,9 +421,9 @@ final class FLBuilderCSS {
 				);
 			}
 
-			$args = array_merge( $defaults, $args );
+			$args  = array_merge( $defaults, $args );
 			$value = $args['value'];
-			$type = self::property_type( $name );
+			$type  = self::property_type( $name );
 
 			if ( '' === $value || ! $args['enabled'] ) {
 				continue;
@@ -432,12 +437,12 @@ final class FLBuilderCSS {
 					} else {
 						$css .= "\t$name: #$value;\n";
 						if ( isset( $args['opacity'] ) && '' !== $args['opacity'] ) {
-							$rgb = implode( ',', FLBuilderColor::hex_to_rgb( $value ) );
-							$a = $args['opacity'] / 100;
+							$rgb  = implode( ',', FLBuilderColor::hex_to_rgb( $value ) );
+							$a    = $args['opacity'] / 100;
 							$css .= "\t$name: rgba($rgb,$a);\n";
 						}
 					}
-				break;
+					break;
 
 				case 'image':
 					if ( stristr( $value, 'gradient(' ) ) {
@@ -445,7 +450,7 @@ final class FLBuilderCSS {
 					} else {
 						$css .= "\t$name: url($value);\n";
 					}
-				break;
+					break;
 
 				default:
 					$css .= "\t$name: $value";

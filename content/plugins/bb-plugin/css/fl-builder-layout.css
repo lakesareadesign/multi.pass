@@ -227,7 +227,7 @@
 .fl-builder-ie-11 .fl-row-full-height.fl-row-align-top .fl-row-content,
 .fl-builder-ie-11 .fl-row-full-height.fl-row-align-bottom .fl-row-content,
 .fl-builder-ie-11 .fl-row-custom-height.fl-row-align-top .fl-row-content,
-.fl-builder-ie-11 .fl-row-custom-height.fl-row-align-bottom .fl-row-content, {
+.fl-builder-ie-11 .fl-row-custom-height.fl-row-align-bottom .fl-row-content {
     margin: 0 auto;
 }
 

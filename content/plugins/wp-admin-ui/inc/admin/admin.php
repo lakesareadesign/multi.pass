@@ -1782,7 +1782,7 @@ class wpui_options
     public function sanitize( $input )
     {	
         if( !empty( $input['wpui_login_custom_css'] ) )
-            $input['wpui_login_custom_css'] = sanitize_text_field( $input['wpui_login_custom_css'] );
+            $input['wpui_login_custom_css'] = sanitize_textarea_field( $input['wpui_login_custom_css'] );
 
         if( !empty( $input['wpui_login_logo'] ) )
             $input['wpui_login_logo'] = sanitize_text_field( $input['wpui_login_logo'] );
@@ -1797,7 +1797,7 @@ class wpui_options
             $input['wpui_login_custom_bg_img'] = sanitize_text_field( $input['wpui_login_custom_bg_img'] );
 
         if( !empty( $input['wpui_global_custom_css'] ) )
-            $input['wpui_global_custom_css'] = sanitize_text_field( $input['wpui_global_custom_css'] );
+            $input['wpui_global_custom_css'] = sanitize_textarea_field( $input['wpui_global_custom_css'] );
 
         if( !empty( $input['wpui_global_edit_per_page'] ) )
             $input['wpui_global_edit_per_page'] = sanitize_text_field( $input['wpui_global_edit_per_page'] );

@@ -625,9 +625,12 @@ function fl_fix_seopress() {
 if ( isset( $_GET['fl_builder'] ) ) {
 	$options = array(
 		'optimize_html',
+		'optimize_javascript',
+		'optimize_javascript_async',
 		'remove_query_strings',
 		'fix_insecure_content',
 		'optimize_css',
+		'combine_css',
 		'optimize_javascript',
 	);
 	foreach ( $options as $option ) {
@@ -658,3 +661,14 @@ function fl_set_curl_safe_opts( $handle ) {
 	return $handle;
 }
 
+/**
+ * Remove Sumo JS when builder is open.
+ * @since 2.2.1
+ */
+add_filter( 'option_sumome_site_id', 'fl_fix_sumo' );
+function fl_fix_sumo( $option ) {
+	if ( isset( $_GET['fl_builder'] ) ) {
+		return false;
+	}
+	return $option;
+}

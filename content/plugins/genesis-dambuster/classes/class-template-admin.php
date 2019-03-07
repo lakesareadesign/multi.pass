@@ -5,6 +5,7 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
 	private $tips = array(
         'enabled' => array('heading' => 'Enable Tweaks', 'tip' => 'Click to enable for this page'),
         'disabled' => array('heading' => 'Disable Tweaks', 'tip' => 'Click to disable for this page - setting for site is always on'),
+        'front_page' => array('heading' => 'Front Page', 'tip' => 'Click to enable Dambuster on the front page'),
         'always_on' => array('heading' => 'Always On', 'tip' => 'Click to enable Dambuster for all pages and posts on the site. Also note that it can be disabled on individual pages and posts in the editor'),
         'remove_header' => array('heading' => 'Remove Header', 'tip' => 'Remove the entire header area'),
 		'remove_primary_navigation' => array('heading' => 'Remove Prim. Nav', 'tip' => 'Remove the primary navigation area'),
@@ -262,6 +263,7 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
 
 	function advanced_panel($options) {
         return 
+            $this->fetch_form_field('front_page', $options['front_page'], 'checkbox').
             $this->fetch_form_field('always_on', $options['always_on'], 'checkbox');
     }
 

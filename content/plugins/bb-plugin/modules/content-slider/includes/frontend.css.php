@@ -9,7 +9,7 @@
 <?php
 if ( $settings->arrows ) :
 	if ( isset( $settings->arrows_bg_color ) && ! empty( $settings->arrows_bg_color ) ) :
-?>
+		?>
 	.fl-node-<?php echo $id; ?> .fl-content-slider-svg-container {
 		background-color: <?php echo FLBuilderColor::hex_or_rgb( $settings->arrows_bg_color ); ?>;
 		width: 40px;
@@ -28,15 +28,15 @@ if ( $settings->arrows ) :
 		width: 100%;
 		padding: 5px;
 	}
-	<?php
+		<?php
 	endif;
 
 	if ( isset( $settings->arrows_text_color ) && ! empty( $settings->arrows_text_color ) ) :
-	?>
+		?>
 	.fl-node-<?php echo $id; ?> .fl-content-slider-navigation path {
 		fill: <?php echo FLBuilderColor::hex_or_rgb( $settings->arrows_text_color ); ?>;
 	}
-	<?php
+		<?php
 	endif;
 endif;
 
@@ -184,10 +184,145 @@ for ( $i = 0; $i < count( $settings->slides ); $i++ ) {
 
 	// Button Styles
 	if ( 'button' == $slide->cta_type ) {
+
+		if ( ! isset( $slide->btn_style ) ) {
+			$slide->btn_style = 'flat';
+		}
+
+		FLBuilderCSS::responsive_rule( array(
+			'settings'     => $slide,
+			'unit'         => 'px',
+			'setting_name' => 'btn_padding_top',
+			'selector'     => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap",
+			'prop'         => 'padding-top',
+		) );
+
+		FLBuilderCSS::responsive_rule( array(
+			'settings'     => $slide,
+			'unit'         => 'px',
+			'setting_name' => 'btn_padding_right',
+			'selector'     => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap",
+			'prop'         => 'padding-right',
+		) );
+		FLBuilderCSS::responsive_rule( array(
+			'settings'     => $slide,
+			'unit'         => 'px',
+			'setting_name' => 'btn_padding_bottom',
+			'selector'     => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap",
+			'prop'         => 'padding-bottom',
+		) );
+		FLBuilderCSS::responsive_rule( array(
+			'settings'     => $slide,
+			'unit'         => 'px',
+			'setting_name' => 'btn_padding_left',
+			'selector'     => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap",
+			'prop'         => 'padding-left',
+		) );
+
+		FLBuilderCSS::rule( array(
+			'selector' => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button",
+			'enabled'  => ! empty( $slide->btn_bg_color ),
+			'props'    => array(
+				'background-color' => $slide->btn_bg_color,
+			),
+		) );
+
+		FLBuilderCSS::rule( array(
+			'selector' => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button:hover",
+			'enabled'  => ! empty( $slide->btn_bg_hover_color ),
+			'props'    => array(
+				'background-color' => $slide->btn_bg_hover_color,
+			),
+		) );
+
+		FLBuilderCSS::rule( array(
+			'selector' => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button span.fl-button-text",
+			'enabled'  => ! empty( $slide->btn_text_color ),
+			'props'    => array(
+				'color' => $slide->btn_text_color,
+			),
+		) );
+
+		FLBuilderCSS::rule( array(
+			'selector' => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button:hover span.fl-button-text",
+			'enabled'  => ! empty( $slide->btn_text_hover_color ),
+			'props'    => array(
+				'color' => $slide->btn_text_hover_color,
+			),
+		) );
+
+		if ( 'gradient' == $slide->btn_style ) {
+			$bg_grad_start       = '';
+			$bg_hover_grad_start = '';
+			if ( ! empty( $slide->btn_bg_color ) ) {
+				$bg_grad_start = FLBuilderColor::adjust_brightness( $slide->btn_bg_color, 30, 'lighten' );
+			}
+			if ( ! empty( $slide->btn_bg_hover_color ) ) {
+				$bg_hover_grad_start = FLBuilderColor::adjust_brightness( $slide->btn_bg_hover_color, 30, 'lighten' );
+			}
+
+			FLBuilderCSS::rule( array(
+				'selector' => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button",
+				'enabled'  => isset( $bg_grad_start ),
+				'props'    => array(
+					'background' => 'linear-gradient(to bottom, ' . FLBuilderColor::hex_or_rgb( $bg_grad_start ) . ' 0%,' . FLBuilderColor::hex_or_rgb( $slide->btn_bg_color ) . ' 100%)',
+				),
+			) );
+
+			FLBuilderCSS::rule( array(
+				'selector' => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button:hover",
+				'enabled'  => isset( $bg_hover_grad_start ),
+				'props'    => array(
+					'background' => 'linear-gradient(to bottom, ' . FLBuilderColor::hex_or_rgb( $bg_hover_grad_start ) . ' 0%,' . FLBuilderColor::hex_or_rgb( $slide->btn_bg_color ) . ' 100%)',
+				),
+			) );
+
+		}
+
+		FLBuilderCSS::rule( array(
+			'selector' => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button *",
+			'enabled'  => ( isset( $slide->btn_button_transition ) && 'enable' == $slide->btn_button_transition ),
+			'props'    => array(
+				'transition'         => 'all 0.2s linear !important',
+				'-moz-transition'    => 'all 0.2s linear !important',
+				'-webkit-transition' => 'all 0.2s linear !important',
+				'-o-transition'      => 'all 0.2s linear !important',
+			),
+		) );
+
 		FLBuilderCSS::typography_field_rule( array(
 			'settings'     => $slide,
 			'setting_name' => 'btn_typography',
 			'selector'     => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap",
+		) );
+
+		FLBuilderCSS::typography_field_rule( array(
+			'settings'     => $slide,
+			'setting_name' => 'btn_typography',
+			'selector'     => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button",
+		) );
+
+		FLBuilderCSS::border_field_rule( array(
+			'settings'     => $slide,
+			'setting_name' => 'btn_border',
+			'selector'     => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button, .fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button:hover",
+		) );
+
+
+		FLBuilderCSS::rule( array(
+			'enabled'  => ! empty( $slide->btn_border_hover_color ),
+			'selector' => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button:hover",
+			'props'    => array(
+				'border-color' => $slide->btn_border_hover_color,
+			),
+		) );
+
+		FLBuilderCSS::rule( array(
+			'selector' => ".fl-slide-$i .fl-slide-cta-button .fl-button-wrap a.fl-button i.fl-button-icon",
+			'enabled'  => ! empty( $slide->btn_text_color ),
+			'props'    => array(
+				'color' => $slide->btn_text_color,
+			),
 		) );
 	}
 }

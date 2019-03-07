@@ -40,7 +40,7 @@
 		<div id="fl-builder-blocks-saved-rows" class="fl-builder-blocks-section fl-builder-blocks-node-template">
 
 			<div class="fl-builder-blocks-section-header">
-				<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Rows', 'fl-builder' ) ?></span>
+				<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Rows', 'fl-builder' ); ?></span>
 			</div>
 			<div class="fl-builder-blocks-section-content fl-builder-saved-rows">
 			<# if (rows.length === 0) { #>
@@ -85,7 +85,7 @@
 		<div id="fl-builder-blocks-saved-columns" class="fl-builder-blocks-section fl-builder-blocks-node-template">
 
 			<div class="fl-builder-blocks-section-header">
-				<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Columns', 'fl-builder' ) ?></span>
+				<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Columns', 'fl-builder' ); ?></span>
 			</div>
 			<div class="fl-builder-blocks-section-content fl-builder-saved-columns">
 				<# if (columns.length === 0) { #>
@@ -129,7 +129,7 @@
 		<div id="fl-builder-blocks-saved-modules" class="fl-builder-blocks-section fl-builder-blocks-node-template">
 
 			<div class="fl-builder-blocks-section-header">
-				<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Modules', 'fl-builder' ) ?></span>
+				<span class="fl-builder-blocks-section-title"><?php _e( 'Saved Modules', 'fl-builder' ); ?></span>
 			</div>
 			<div class="fl-builder-blocks-section-content fl-builder-saved-modules">
 			<# if (modules.length === 0) { #>
@@ -369,8 +369,8 @@
 						<div class="fl-builder--template-thumbnail"></div>
 					</div>
 					<div class="fl-save-control">
-						<input name="template-name" placeholder="<?php _e( 'Save New Template', 'fl-builder' ) ?>" type="text">
-						<button class="fl-button"><?php _e( 'Save', 'fl-builder' ) ?></button>
+						<input name="template-name" placeholder="<?php _e( 'Save New Template', 'fl-builder' ); ?>" type="text">
+						<button class="fl-button"><?php _e( 'Save', 'fl-builder' ); ?></button>
 						<input type="hidden" name="template-category" value="{{categoryHandle}}" >
 					</div>
 				</div>

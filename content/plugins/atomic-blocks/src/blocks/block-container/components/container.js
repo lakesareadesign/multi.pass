@@ -21,23 +21,28 @@ export default class Container extends Component {
 		// Setup the attributes
 		const { attributes: { containerBackgroundColor, containerAlignment, containerPaddingTop, containerPaddingRight, containerPaddingBottom, containerPaddingLeft, containerMarginTop, containerMarginBottom, containerWidth, containerMaxWidth }  } = this.props;
 
-		return (	
+		const styles = {
+			backgroundColor: containerBackgroundColor ? containerBackgroundColor : undefined,
+			textAlign: containerAlignment ? containerAlignment : undefined,
+			paddingLeft: containerPaddingLeft ? `${containerPaddingLeft}%` : undefined,
+			paddingRight: containerPaddingRight ? `${containerPaddingRight}%` : undefined,
+			paddingBottom: containerPaddingBottom ? `${containerPaddingBottom}%` : undefined,
+			paddingTop: containerPaddingTop ? `${containerPaddingTop}%` : undefined,
+			marginTop: containerMarginTop ? `${containerMarginTop}%` : undefined,
+			marginBottom: containerMarginBottom ? `${containerMarginBottom}%` : undefined,
+		};
+
+		const className = classnames( [
+			this.props.className,
+			'ab-block-container',
+		], {
+			[ 'align' + containerWidth ]: containerWidth,
+		} )
+
+		return (
 			<div
-				style={ {
-					backgroundColor: containerBackgroundColor,
-					textAlign: containerAlignment,
-					paddingLeft: `${containerPaddingLeft}%`,
-					paddingRight: `${containerPaddingRight}%`,
-					paddingBottom: `${containerPaddingBottom}%`,
-					paddingTop: `${containerPaddingTop}%`,
-					marginTop: `${containerMarginTop}%`,
-					marginBottom: `${containerMarginBottom}%`,
-				} }
-				className={ classnames(
-					this.props.className,
-					`align${containerWidth}`,
-					'ab-block-container',
-				) }
+				style={ styles }
+				className={ className ? className : undefined }
 			>{ this.props.children }</div>
 		);
 	}

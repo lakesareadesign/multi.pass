@@ -4,9 +4,9 @@ Plugin URI: https://wpblockgallery.com
 Contributors: richtabor, thatplugincompany, themebeans
 Tags: blocks, gutenberg, gallery, page builder, gutenberg blocks, editor, photo gallery, masonry, block, slider, carousel
 Requires at least: 4.9.0
-Tested up to: 5.0.2
+Tested up to: 5.1
 Requires PHP: 5.2.4
-Stable tag: 1.1.5
+Stable tag: 1.1.6
 License: GPL-3.0
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -41,6 +41,9 @@ We've built a highly interactive and intuitive experience with a focus on speed 
 ## From a trusted developer
 This plugin is created and maintained by [Rich Tabor](https://richtabor.com?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=block-gallery) from [ThemeBeans](https://themebeans.com?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=block-gallery) and open for contributions on [GitHub](https://github.com/thatplugincompany/block-gallery).
 
+## Works with CoBlocks
+If you enjoy Block Gallery, check out [CoBlocks](https://wordpress.org/plugins/coblocks), a suite of page builder WordPress blocks and tools for the Gutenberg editor — also built by Rich. It's fantastic!
+
 == Screenshots ==
 
 1. Masonry Grid block
@@ -63,9 +66,6 @@ To get the full experience of the next-generation WordPress block editor,  you'l
 = What themes work with Block Gallery =
 Most WordPress themes that have baked in Gutenberg support will work with Block Gallery. If you’re looking for exceptional themes, check out my theme catalogue at [ThemeBeans](https://themebeans.com?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=block-gallery).
 
-= Should I use Gutenberg on my live site? =
-The new block editor is still very much in active development and is not recommended for production websites just yet.
-
 = Is Block Gallery free? =
 Yes! Block Gallery's core features are absolutely free. I am working on a a Pro version of Block Gallery, which will include more gallery blocks and enhanced features. [Subscribe here](https://wpblockgallery.com?utm_medium=wp.org&utm_source=wordpressorg&utm_campaign=readme&utm_content=subscribe-here) and I'll let you know when it's ready.
 
@@ -73,6 +73,10 @@ Yes! Block Gallery's core features are absolutely free. I am working on a a Pro 
 Please reach out via the official [support forum on WordPress.org](https://wordpress.org/support/plugin/block-gallery/).
 
 == Changelog ==
+
+= 1.1.6, February 15, 2019 =
+* New: Block Gallery now supports WordPress 5.1 and Gutenberg 5.0
+* Tweak: Add Block Gallery color to icons within the block inserter
 
 = 1.1.5, January 1, 2019 =
 * Tweak: Use the MediaUploadCheck component to make sure the current user has upload permissions

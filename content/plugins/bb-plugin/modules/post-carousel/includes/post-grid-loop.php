@@ -1,10 +1,10 @@
 <div class="fl-post-carousel-post" itemscope="itemscope" itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
-	
+
 	<?php FLPostGridModule::schema_meta(); ?>
-	
+
 	<?php if ( has_post_thumbnail() && $settings->show_image ) : ?>
 	<div class="fl-post-carousel-image">
-		<?php $module->render_img( get_the_id() ) ?>
+		<?php $module->render_img( get_the_id() ); ?>
 	</div>
 	<?php endif; ?>
 
@@ -42,7 +42,7 @@
 		<?php if ( $settings->show_content || $settings->show_more_link ) : ?>
 		<div class="fl-post-carousel-content">
 			<?php if ( $settings->show_content ) : ?>
-			<?php the_excerpt(); ?>
+				<?php the_excerpt(); ?>
 			<?php endif; ?>
 			<?php if ( $settings->show_more_link ) : ?>
 			<a class="fl-post-carousel-more" href="<?php the_permalink(); ?>" title="<?php the_title_attribute(); ?>"><?php echo $settings->more_link_text; ?></a>

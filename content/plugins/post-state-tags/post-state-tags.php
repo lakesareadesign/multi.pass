@@ -3,7 +3,7 @@
  * Plugin Name: Post State Tags
  * Plugin URI:  http://wordpress.org/plugins/post-state-tags/
  * Description: Make your WordPress post state list stand out with colors and color tags (draft, pending, sticky, etc)
- * Version:     2.0.3
+ * Version:     2.0.4
  * Author:      BRANDbrilliance
  * Author URI:  http://www.brandbrilliance.co.za/
  * License:     GPL-2.0+
@@ -715,10 +715,12 @@ class Post_State_Tags {
 		foreach ($default as $status) 
 		{
 
-			$color = $this->get_option( $status['option_handle'] , $section , $this->colors[$status['name']] ); 
+			$defcolor = array_key_exists($status['name'], $this->colors) ? $this->colors[$status['name']] :  '';
+			$color = $this->get_option( $status['option_handle'] , $section , $defcolor ); 
 	    $css .= $this->color_builder($status['name'], $color);
 
-			$icon = $this->get_option( $status['option_handle'] . $this->icon, $section , $this->icons[$status['name']] ); 
+			$deficon = array_key_exists($status['name'], $this->icons) ? $this->icons[$status['name']] :  '';
+			$icon = $this->get_option( $status['option_handle'] . $this->icon, $section,  $deficon); 
 	    $css .= $this->tag_builder($status['name'], $color, $icon);
 
 		}
@@ -728,10 +730,12 @@ class Post_State_Tags {
 		$special = $this->get_post_statuses_special();
 		foreach ($special as $status) 
 		{
-			$color = $this->get_option( $status['option_handle'] , $section , $this->colors[$status['name']] ); 
+			$defcolor = array_key_exists($status['name'], $this->colors) ? $this->colors[$status['name']] :  '';
+			$color = $this->get_option( $status['option_handle'] , $section , $defcolor ); 
 	    $css .= $this->color_builder($status['name'], $color);
 
-			$icon = $this->get_option( $status['option_handle'] . $this->icon, $section , $this->icons[$status['name']] ); 
+			$deficon = array_key_exists($status['name'], $this->icons) ? $this->icons[$status['name']] :  '';
+			$icon = $this->get_option( $status['option_handle'] . $this->icon, $section,  $deficon); 
 	    $css .= $this->tag_builder($status['name'], $color, $icon);
 		}
 
@@ -742,10 +746,12 @@ class Post_State_Tags {
 	  {
 			foreach ($custom as $status) 
 			{
-				$color = $this->get_option( $status['option_handle'] , $section , $this->colors[$status['name']] ); 
+				$defcolor = array_key_exists($status['name'], $this->colors) ? $this->colors[$status['name']] :  '';
+				$color = $this->get_option( $status['option_handle'] , $section , $defcolor ); 
 		    $css .= $this->color_builder($status['name'], $color);
 	
-				$icon = $this->get_option( $status['option_handle'] . $this->icon, $section, $this->icons[$status['name']] ); 
+				$deficon = array_key_exists($status['name'], $this->icons) ? $this->icons[$status['name']] :  '';
+				$icon = $this->get_option( $status['option_handle'] . $this->icon, $section,  $deficon); 
 		    $css .= $this->tag_builder($status['name'], $color, $icon);
 			}
 		}
@@ -826,7 +832,8 @@ class Post_State_Tags {
 		$default = $this->get_post_statuses_default();
 		foreach ($default as $status) 
 		{
-			$icon_list[ $status['option_handle'] . $this->icon ] = $this->get_option( $status['option_handle'] . $this->icon, $section , $this->icons[$status['name']] );	
+			$deficon = array_key_exists($status['name'], $this->icons) ? $this->icons[$status['name']] :  '';
+			$icon_list[ $status['option_handle'] . $this->icon ] = $this->get_option( $status['option_handle'] . $this->icon, $section, $deficon );	
 		}
 
 		// special post statuses
@@ -834,7 +841,8 @@ class Post_State_Tags {
 		$special = $this->get_post_statuses_special();
 		foreach ($special as $status) 
 		{
-			$icon_list[ $status['option_handle'] . $this->icon] = $this->get_option( $status['option_handle'] . $this->icon, $section , $this->icons[$status['name']] );
+			$deficon = array_key_exists($status['name'], $this->icons) ? $this->icons[$status['name']] :  '';
+			$icon_list[ $status['option_handle'] . $this->icon] = $this->get_option( $status['option_handle'] . $this->icon, $section, $deficon );
 		}
 
 		// custom post statuses
@@ -844,7 +852,8 @@ class Post_State_Tags {
 	  {
 			foreach ($custom as $status) 
 			{
-				$icon_list[ $status['option_handle'] . $this->icon] = $this->get_option( $status['option_handle'] . $this->icon, $section , $this->icons[$status['name']] );
+				$deficon = array_key_exists($status['name'], $this->icons) ? $this->icons[$status['name']] :  '';
+				$icon_list[ $status['option_handle'] . $this->icon] = $this->get_option( $status['option_handle'] . $this->icon, $section, $deficon );
 			}
 		}
 
@@ -858,6 +867,10 @@ class Post_State_Tags {
 		if ( $this->get_option( $this->pfx . 'setting-enabled', $this->pfx . 'advanced' ) != 'on' ) 
 			return $post_states;
 	
+//debug
+//print_r($post_states);
+
+
 		if ( !empty($post_states) ) {
 			
 			$icon_list = $this->get_icons();

@@ -317,10 +317,11 @@ if (!class_exists('AcmeeFramework')) {
                         $data = array_merge($saved_data, $save_data);
                         $saved = $this->aofsaveOptions($data);
 
-                        //action processed after data saved.
-                        do_action('alter_data_saved');
-
                         if($saved) {
+
+                            //action processed after data saved.
+                            do_action('alter_data_saved');
+                            
                             wp_safe_redirect( admin_url( 'admin.php?page=' . ALTER_MENU_SLUG . '&status=updated' ) );
                             exit();
                         }

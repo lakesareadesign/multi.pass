@@ -18,8 +18,8 @@ if ( ! defined( 'LEADIN_ADMIN_PATH' ) ) {
 require_once ABSPATH . 'wp-admin/includes/plugin.php';
 
 function action_required_notice(){
-    $leadin_icon = LEADIN_PATH . '/images/leadin-icon-16x16.png';
-    echo '<div class="notice notice-warning is-dismissible"><p><img src="' . $leadin_icon . '" /> The HubSpot plugin isn’t connected right now. To use HubSpot tools on your WordPress site, <a href="admin.php?page=leadin">connect the plugin now</a>.</p></div>';
+    $leadin_icon = LEADIN_PATH . '/images/sprocket.svg';
+    echo '<div class="notice notice-warning is-dismissible"><p><img src="' . $leadin_icon . '" height="16" style="margin-bottom: -3px" /> The HubSpot plugin isn’t connected right now. To use HubSpot tools on your WordPress site, <a href="admin.php?page=leadin">connect the plugin now</a>.</p></div>';
 }
 
 // =============================================
@@ -50,6 +50,7 @@ class WPLeadInAdmin {
 
 		add_action( 'admin_menu', array( &$this, 'leadin_add_menu_items' ) );
 		add_action( 'admin_print_scripts', array( &$this, 'add_leadin_admin_scripts' ) );
+		add_action( 'admin_enqueue_scripts', array( &$this, 'add_leadin_global_admin_style' ) );
 		add_filter( 'plugin_action_links_' . 'leadin/leadin.php', array( $this, 'leadin_plugin_settings_link' ) );
 
 		if ($affiliate = $this->get_affiliate_code()) {
@@ -120,14 +121,13 @@ class WPLeadInAdmin {
 			}
 		}
 
-		$leadin_icon = LEADIN_PATH . '/images/leadin-icon-16x16-white.png';
-		$notificationIcon = '';
-	    if ( ! get_option( 'leadin_portalId' ) ) {
-    		$notificationIcon = ' <span class="update-plugins count-1"><span class="plugin-count">!</span></span>';
-    		add_action('admin_notices', 'action_required_notice');
-	    }
+    $notificationIcon = '';
+    if ( ! get_option( 'leadin_portalId' ) ) {
+      $notificationIcon = ' <span class="update-plugins count-1"><span class="plugin-count">!</span></span>';
+      add_action('admin_notices', 'action_required_notice');
+    }
 
-		add_menu_page( 'HubSpot', 'HubSpot'.$notificationIcon, $capability, 'leadin', array( $this, 'leadin_build_app' ), $leadin_icon, '25.100713' );
+		add_menu_page( 'HubSpot', 'HubSpot'.$notificationIcon, $capability, 'leadin', array( $this, 'leadin_build_app' ), 'dashicons-sprocket', '25.100713' );
 
 		$oAuthMode = get_option('leadin_oauth_mode');
 		if ($oAuthMode && $oAuthMode == '1') {
@@ -168,8 +168,8 @@ class WPLeadInAdmin {
 
 		echo '<div id="leadin" class="wrap ' . ( $wp_version < 3.8 && ! is_plugin_active( 'mp6/mp6.php' ) ? 'pre-mp6' : '' ) . '"></div>';
 
-		wp_enqueue_style( 'leadin-css' );
-		wp_enqueue_script( 'leadin-app' );
+		wp_enqueue_style( 'leadin-bridge-css' );
+		wp_enqueue_script( 'leadin-bridge-app' );
 
 	}
 
@@ -188,6 +188,7 @@ class WPLeadInAdmin {
 		global $wp_version;
 
 		$ajaxUrl = get_admin_url( get_current_blog_id(), 'admin-ajax.php' );
+		$wpUser = wp_get_current_user();
 
 		$leadin_config = array(
 			'portalId'              => get_option( 'leadin_portalId' ),
@@ -213,6 +214,9 @@ class WPLeadInAdmin {
 			'refreshToken'          => get_option( 'leadin_refreshToken' ),
 			'userId'                => get_option( 'leadin_userId' ),
 			'connectionTimeInMs'    => get_option( 'leadin_connectionTimeInMs' ),
+			'wpUserFirstName'       => $wpUser->user_firstname,
+			'wpUserLastName'        => $wpUser->user_lastname,
+			'wpUserEmail'       		=> $wpUser->user_email,
 		);
 
 		if ( ( $pagenow == 'admin.php' && isset( $_GET['page'] ) && strstr( $_GET['page'], 'leadin' ) ) ) { // WPCS: CSRF ok.
@@ -220,9 +224,14 @@ class WPLeadInAdmin {
 			wp_localize_script( 'leadin-head-js', 'leadin_config', $leadin_config );
 			wp_enqueue_script( 'leadin-head-js' );
 
-			wp_register_script( 'leadin-app', leadin_get_resource_url( '/bundle/app.js' ), array( 'backbone' ), false, true );
-			wp_register_style( 'leadin-css', leadin_get_resource_url( '/bundle/app.css' ) );
+			wp_register_script( 'leadin-bridge-app', leadin_get_resource_url( '/bundle/app.js' ), array( 'backbone' ), false, true );
+			wp_register_style( 'leadin-bridge-css', leadin_get_resource_url( '/bundle/app.css' ) );
 		}
+	}
+
+	function add_leadin_global_admin_style() {
+		wp_register_style( 'leadin-css', LEADIN_PATH.'/assets/leadin.css' );
+		wp_enqueue_style( 'leadin-css' );
 	}
 
 	// =============================================

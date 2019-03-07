@@ -1,13 +1,26 @@
 <?php
 class Genesis_Dambuster_Utils {     
 
-    protected $prefix = '_genesis_dambuster_';
+    protected $slug = 'genesis_dambuster';
+    protected $prefix = '';
 	protected $is_html5 = null;
 
+    function __construct($slug='') {
+        if (!empty($slug)) $this->slug = $slug;
+        $this->prefix = sprintf('_%1$s_', $this->slug);
+    }
+
+ 	function get_code($code='') {
+ 		$format = empty($code) ? '%1$s' : '%1$s-%2$s';	
+		return sprintf($format, $this->slug, $code);
+	}
+
     function get_prefix() { return $this->prefix;}
-	function get_home_meta_key() { return sprintf('%1$shome_meta', $this->prefix); }
-	function get_post_meta_key() { return sprintf('%1$spost_meta', $this->prefix); }
-	function get_term_meta_key() { return sprintf('%1$sterm_meta', $this->prefix); }
+    function get_metakey($fld) { return $this->prefix . $fld;}
+	function get_home_meta_key() { return $this->get_metakey('home_meta'); }
+	function get_post_meta_key() { return $this->get_metakey('post_meta'); }
+	function get_term_meta_key() { return $this->get_metakey('term_meta'); }
+	function get_user_meta_key() { return $this->get_metakey('user_meta'); }
 
 	function is_html5() {
 		if ($this->is_html5 == null)
@@ -59,16 +72,13 @@ class Genesis_Dambuster_Utils {
 			return false;
 	}
 
-    function get_metakey($fld) {
-        return $this->prefix . $fld;
-    }
-
     function get_meta($type, $id, $key = false, $result= false) {
         switch ($type) {
             case 'home': return $this->get_home_meta($key, $result); break;
-            case 'post': return $this->get_post_meta($id, $key, $result); break;
-            case 'term': return $this->get_term_meta($id, $key, true, $result); break;
-            case 'user': return $this->get_user_meta($id, $key, true, $result); break;
+            case 'term': return $this->get_term_meta($id, $key, $result); break;
+            case 'user': return $this->get_user_meta($id, $key, $result); break;
+            case 'post': 
+            default: 	return $this->get_post_meta($id, $key, $result); break;
         }
         return $result;
     }
@@ -83,9 +93,10 @@ class Genesis_Dambuster_Utils {
         }
 		switch ($type) { 
 		  case 'home': return $this->update_home_meta( $metakey, $vals ); break;
-          case 'post': return $this->update_post_meta( $id, $metakey, $vals ); break;		
 		  case 'term': return $this->update_term_meta( $id, $metakey, $vals ); break;
           case 'user': return $this->update_user_meta( $id, $metakey, $vals ); break;	
+          case 'post': 
+          default:	return $this->update_post_meta( $id, $metakey, $vals ); break;		
         }
 	}
 
@@ -100,7 +111,7 @@ class Genesis_Dambuster_Utils {
     }
 
     function update_home_meta( $key, $vals) {
-        $meta = self::get_home_meta();
+        $meta = $this->get_home_meta();
         if ($key && ($key != $this->get_home_meta_key()))
             $meta[$key] = $vals;
         else
@@ -135,7 +146,7 @@ class Genesis_Dambuster_Utils {
         if (!$term_id) $term_id = $this->get_term_id();
         if (function_exists('get_term_meta')) {
             if (!$key) $key = $this->get_term_meta_key();
-            if ($vals = get_term_meta( $term_id, $key, true)) return $vals;            
+            if ($vals = get_term_meta( $term_id, $key, true)) return maybe_unserialize($vals);            
         } else {
              $meta = get_option($this->get_term_meta_key());           
              if (!$meta) return $result; 
@@ -149,23 +160,23 @@ class Genesis_Dambuster_Utils {
     }
 
     function update_term_meta( $term_id, $key = false, $values = false) {
-
+		$default_metakey = $this->get_term_meta_key();
         if (function_exists('update_term_meta')) {
-            if (!$key) $key = self::TERM_META_KEY;            
+            if (!$key) $key = $default_metakey;            
             return update_term_meta( $term_id, $key, $values);
         } else {
-            $meta = get_option(self::TERM_META_KEY);
+            $meta = get_option($default_metakey);
             if (!$meta) $meta = array(); 
-            if ($key && ($key != self::TERM_META_KEY))               
+            if ($key && ($key != $default_metakey))               
                 $meta[$term_id][$key] = $values;
             else
                 $meta[$term_id] = $values;               
-            update_option(self::TERM_META_KEY, $meta);
+            update_option($default_metakey, $meta);
         }
     }
 
 	function get_user_meta ($user_id, $key= false, $result = false) {
-        if (!$key) $key = self::USER_META_KEY;
+        if (!$key) $key = $this->get_user_meta_key();
 		if ($user_id && $key
 		&& ($meta = get_user_meta($user_id, $key, true))
 		&& ($options = (is_serialized($meta) ? @unserialize($meta) : $meta))
@@ -176,7 +187,7 @@ class Genesis_Dambuster_Utils {
 	}
 
     function update_user_meta( $user_id, $key = false, $values = false) {
-        if (!$key) $key = self::USER_META_KEY;
+        if (!$key) $key = $this->get_user_meta_key();
         return update_user_meta( $user_id, $key, $values);
     }
 
@@ -277,8 +288,10 @@ class Genesis_Dambuster_Utils {
 		switch ($type) {
 			case 'number':
 			case 'password':
+			case 'range':
 			case 'text':
-				$input .= sprintf('<input type="%1$s" id="%2$s" name="%3$s" value="%4$s" %5$s%6$s%7$s%8$s%9$s%10$s%11$s /> %12$s',
+			case 'url':
+				$input .= sprintf('<input type="%1$s" id="%2$s" name="%3$s" value="%4$s" %5$s%6$s%7$s%8$s%9$s%10$s%11$s%12$s /> %13$s',
 					$type, $fld_id, $fld_name, $value, 
 					isset($readonly) ? (' readonly="'.$readonly.'"') : '',
 					isset($size) ? (' size="'.$size.'"') : '', 
@@ -286,6 +299,7 @@ class Genesis_Dambuster_Utils {
 					isset($class) ? (' class="'.$class.'"') : '', 
 					isset($min) ? (' min="'.$min.'"') : '', 
 					isset($max) ? (' max="'.$max.'"') : '', 
+					isset($step) ? (' step="'.$step.'"') : '', 
 					isset($pattern) ? (' pattern="'.$pattern.'"') : '',
 					isset($suffix) ? $suffix : '');
 				break;
@@ -330,6 +344,49 @@ class Genesis_Dambuster_Utils {
 				$input = sprintf('<fieldset class="diy-fieldset%2$s"><ul>%1$s</ul></fieldset>',$input, isset($class) ? (' '.$class) : ''); 						
 		
 				break;
+				
+			case 'keypairs': 
+                $keypairs = (array) $value;
+                $i=0;
+                $lines = array();
+                $spares = isset($args['spares']) ? $args['spares'] : 0;
+			    if (isset($legend))
+                    $input .= sprintf('<legend class="screen-reader-text"><span>%1$s</span></legend>', $legend);
+                foreach ($keypairs as $key => $value){
+    				$i++;
+                    $lines[] = 
+                        sprintf('<div class="diy-keypair"><input type="text" id="%1$s" name="%2$s" value="%3$s" %4$s%5$s%6$s /> ',
+					       $fld_id.'key'.$i, sprintf('%1$s[key][%2$s]', $fld_name, $i), $key, 
+					       isset($size) ? (' size="'.$size.'"') : '', 
+					       isset($maxlength) ? (' maxlength="'.$maxlength.'"') : '',
+					       isset($pattern) ? (' pattern="'.$pattern.'"') : '') .
+                        sprintf('<textarea id="%1$s" name="%2$s"%3$s%4$s%5$s>%6$s</textarea></div>',
+					       $fld_id.'val'.$i, sprintf('%1$s[val][%2$s]', $fld_name, $i), 
+					       isset($rows) ? (' rows="'.$rows.'"') : '', 
+					       isset($cols) ? (' cols="'.$cols.'"') : '',
+					       isset($class) ? (' class="'.$class.'"') : '', stripslashes($value));
+	
+				}
+				for ($j = 1; $j <= $spares; $j++) {
+				    $r = $i+$j;
+                    $lines[] = 
+                        sprintf('<div class="diy-keypair"><input id="%1$s" name="%2$s" value="%3$s" %4$s%5$s%6$s%7$s/> ',
+		                   $fld_id.'key'.($r), sprintf('%1$s[key][%2$s]', $fld_name, $r), '', 
+					       isset($size) ? (' size="'.$size.'"') : '', 
+					       isset($maxlength) ? (' maxlength="'.$maxlength.'"') : '',
+					       isset($placeholder) ? (' placeholder="'.$placeholder.'"') : '',
+					       isset($pattern) ? (' pattern="'.$pattern.'"') : '') .
+                        sprintf('<textarea id="%1$s" name="%2$s"%3$s%4$s%5$s>%6$s</textarea></div>',
+					       $fld_id.'value'.($r), sprintf('%1$s[val][%2$s]', $fld_name, $r),
+					       isset($rows) ? (' rows="'.$rows.'"') : '', 
+					       isset($cols) ? (' cols="'.$cols.'"') : '',
+					       isset($class) ? (' class="'.$class.'"') : '','');
+				}
+				
+				$input = sprintf('<fieldset class="diy-fieldset%2$s">%1$s</fieldset>',implode('',$lines), isset($class) ? (' '.$class) : ''); 						
+		
+				break;
+
 			case 'radio': 
 				if (is_array($options) && (count($options) > 0)) {
 					if (isset($legend))
@@ -362,14 +419,82 @@ class Genesis_Dambuster_Utils {
 		return sprintf($format, $label, $input);
 	}
 
+    function sanitize_post_keypairs($lexicon) {
+        if (isset($_POST[$lexicon]['key']) && isset($_POST[$lexicon]['val']) ) {
+			foreach ( $_POST[$lexicon]['key'] as $i => $key ){
+				if ( empty($key) ){ 
+					unset( $_POST[$lexicon]['val'][$i] );
+				} else {
+				    $_POST[$lexicon][$key] = $_POST[$lexicon]['val'][$i];                    
+				}
+			}
+			unset($_POST[$lexicon]['key']);
+			unset($_POST[$lexicon]['val']);
+        }
+    }
+
+    function get_image_sizes() {
+    	global $_wp_additional_image_sizes;
+    	$sizes = array();
+    	foreach ( get_intermediate_image_sizes() as $_size ) {
+    		if ( in_array( $_size, array( 'thumbnail', 'medium', 'medium_large', 'large' ) ) ) {
+    			$sizes[ $_size ]['width']  = get_option( "{$_size}_size_w" );
+    			$sizes[ $_size ]['height'] = get_option( "{$_size}_size_h" );
+    			$sizes[ $_size ]['crop']   = (bool) get_option( "{$_size}_crop" );
+    		} elseif ( isset( $_wp_additional_image_sizes[ $_size ] ) ) {
+    			$sizes[ $_size ] = array(
+    				'width'  => $_wp_additional_image_sizes[ $_size ]['width'],
+    				'height' => $_wp_additional_image_sizes[ $_size ]['height'],
+    				'crop'   => $_wp_additional_image_sizes[ $_size ]['crop'],
+    			);
+    		}
+    	}
+    	return $sizes;
+    }
+
+    function is_gutenberg_page() {
+            return  function_exists( 'is_gutenberg_page' ) && is_gutenberg_page() ;        
+    }
+
+    function truncate_last_space($text, $max_chars ) {
+    	if ( ! $max_chars ) return '';
+    	$text = trim( $text );
+    	if ( mb_strlen( $text ) > $max_chars ) {
+    		$text = mb_substr( $text, 0, $max_chars + 1 );
+    		$text_trim = trim( mb_substr( $text, 0, mb_strrpos( $text, ' ' ) ) );
+    		$text = empty( $text_trim ) ? $text : $text_trim;
+        }
+	   return $text;
+    }
+
+
+	function maybe_enqueue_tooltip_styles() {
+      if ( class_exists('FLBuilderModel')
+      && is_callable(array('FLBuilderModel', 'is_builder_active')) 
+      && FLBuilderModel::is_builder_active() ) {
+         add_action('wp_enqueue_scripts', array($this, 'register_tooltip_styles'));
+         add_action('wp_enqueue_scripts', array($this, 'enqueue_tooltip_styles'));
+      }
+	}
+
 	function late_inline_styles($css) {
 		if (empty($css)) return;
-		$wrap = "$('<style type=\"text/css\">%1$s</style>').appendTo('head');";
+		$wrap = '$("<style type=\"text/css\">%1$s</style>").appendTo("head");';
         $this->print_script(sprintf($wrap, $css));
 	}
 
 	function print_immediate_script($script) {
 	    $this->print_script($script, false);
+	}
+	
+	function append_css($css){
+  		if (empty($css)) return false;
+  		print <<< CUSTOM_CSS
+<style type="text/css">
+{$css}
+</style>
+CUSTOM_CSS;
+
 	}
 	
 	function print_script($script, $ready = true) {
@@ -383,6 +508,66 @@ class Genesis_Dambuster_Utils {
 {$ready_end}
 //]]>
 </script>	
+	
+SCRIPT;
+	}
+
+
+    function print_late_stylesheet($url) {
+ 		print <<< STYLES
+
+<script>
+//<![CDATA[
+(function(d) {
+	var wf = d.createElement('link'), s = d.scripts[0];
+	wf.href = '{$url}';
+	wf.rel = 'stylesheet';
+	s.parentNode.insertBefore(wf, s);
+})(document);
+//]]>
+</script>
+
+STYLES;
+    }
+    
+	function print_async_script($url, $config='') {
+		print <<< SCRIPT
+
+<script>
+//<![CDATA[
+{$config}
+(function(d) {
+	var wf = d.createElement('script'), s = d.scripts[0];
+	wf.src = '{$url}';
+	wf.async = true;
+	s.parentNode.insertBefore(wf, s);
+})(document);
+//]]>
+</script>
+
+SCRIPT;
+	}
+
+	function print_async_script_with_callback($url, $callback='') {
+		print <<< SCRIPT
+
+<script>
+//<![CDATA[
+(function(d) {
+	var wf = d.createElement('script'), s = d.scripts[0], loaded = false;
+	wf.src = '{$url}';
+	wf.async = true;
+    wf.onreadystatechange = wf.onload = function() { 
+        if (!loaded) {
+            {$callback}
+          }
+        loaded = true;
+    };	
+	s.parentNode.insertBefore(wf, s);
+})(document);
+//]]>
+</script>
+
 SCRIPT;
 	}
 	

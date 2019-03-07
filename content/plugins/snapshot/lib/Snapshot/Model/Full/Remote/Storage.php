@@ -425,12 +425,25 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		if ( ! file_exists( $lib_path ) ) {
 			return false;
 		}
-		if ( ! class_exists( 'Aws\S3\S3Client' ) ) {
+
+		// Before loading the AWS SDK, we check the setup to see if there are older versions of the libs used in the SDK.
+		if ( class_exists( 'GuzzleHttp\Client' ) ) {
+			if ( ! class_exists( 'GuzzleHttp\Psr7\Response' ) ) {
+				return false;
+			}
+		}
+
+		if ( class_exists( 'Aws\S3\S3Client' ) ) {
+			if ( ! class_exists( 'Aws\Sdk' ) ) {
+				return false;
+			}
+		} else {
 			require_once $lib_path ;
 			if ( ! class_exists( 'Aws\S3\S3Client' ) ) {
 				return false;
 			}
 		}
+
 		if ( ! Snapshot_Model_Full_Remote_Api::get()->connect() ) {
 			return false;
 		}
@@ -463,6 +476,8 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		}
 
 		$s3 = $this->get_remote_storage_handler();
+		Snapshot_Helper_Utility::spawned_S3_handler( $s3 );
+
 		$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 
 		if ( ! empty( $nfo ) ) {
@@ -496,6 +511,9 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		}
 
 		$s3 = $this->get_remote_storage_handler();
+		if ( ! Snapshot_Helper_Utility::spawned_S3_handler( $s3 ) ) {
+			return false;
+		}
 		$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 		if ( empty( $nfo ) ) {
 			return false;
@@ -552,6 +570,10 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		}
 
 		$s3 = $this->get_remote_storage_handler();
+		if ( ! Snapshot_Helper_Utility::spawned_S3_handler( $s3 ) ) {
+			return false;
+		}
+
 		$info = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 		$upload = new Snapshot_Model_Transfer_Upload( $path );
 
@@ -757,6 +779,9 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		}
 
 		$s3 = $this->get_remote_storage_handler();
+		if ( ! Snapshot_Helper_Utility::spawned_S3_handler( $s3 ) ) {
+			return false;
+		}
 		$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 		$is_done = true;
 
@@ -805,7 +830,10 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		}
 
 		$s3 = $this->get_remote_storage_handler();
-		if ( ! is_object( $s3 ) ) {
+		$spawned_S3_handler = Snapshot_Helper_Utility::spawned_S3_handler( $s3 );
+
+		if ( ! is_object( $s3 ) || false === $spawned_S3_handler ) {
+			$this->_set_error( __( 'Error spawning the S3 request handler, most probably due to a plugin conflict.', SNAPSHOT_I18N_DOMAIN ) );
 			return $download;
 		}
 
@@ -846,6 +874,12 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 
 			$destination = $local_path . basename( $backup );
 			$download = $this->get_initialized_download( $destination );
+
+			if ( false === $download) {
+				$this->_set_error( __( 'Could not initialize the backup file download', SNAPSHOT_I18N_DOMAIN ) );
+				Snapshot_Helper_Log::warn( "Could not initialize the backup file download", "Remote" );
+				return false;
+			}
 
 			if ( ! $download->is_done() ) {
 				$s3 = $this->get_remote_storage_handler();
@@ -913,6 +947,9 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		$destination = false;
 		if ( Snapshot_Model_Full_Remote_Api::get()->connect() ) {
 			$s3 = $this->get_remote_storage_handler();
+			if ( ! Snapshot_Helper_Utility::spawned_S3_handler( $s3 ) ) {
+				return false;
+			}
 			$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 
 			$cmd = $s3->getCommand( 'getObject', array(
@@ -944,6 +981,9 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 
 		if ( Snapshot_Model_Full_Remote_Api::get()->connect() ) {
 			$s3 = $this->get_remote_storage_handler();
+			if ( ! Snapshot_Helper_Utility::spawned_S3_handler( $s3 ) ) {
+				return false;
+			}
 			$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 
 			$resp = $s3->deleteObject(array(
@@ -978,6 +1018,9 @@ class Snapshot_Model_Full_Remote_Storage extends Snapshot_Model_Full {
 		$error = Snapshot_View_Full_Backup::get_message( 'backup_list_fetch_error' );
 
 		$s3 = $this->get_remote_storage_handler();
+		if ( ! Snapshot_Helper_Utility::spawned_S3_handler( $s3 ) ) {
+			return $raw;
+		}
 		$nfo = Snapshot_Model_Full_Remote_Api::get()->get_api_info();
 
 		if ( $s3 ) {

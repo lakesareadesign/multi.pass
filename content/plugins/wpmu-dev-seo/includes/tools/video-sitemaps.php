@@ -280,7 +280,7 @@ class Smartcrawl_Xml_VideoSitemap {
 			}
 
 			$post = get_post( $post_id );
-			$src = preg_match( '#(http://wordpress.tv/[-_/.a-z0-9]+)#i', $post->post_content, $matches );
+			$src = preg_match( '#(http://wordpress.tv/[\-_/.a-z0-9]+)#i', $post->post_content, $matches );
 			if ( empty( $matches[1] ) ) {
 				return false;
 			}

@@ -3,8 +3,9 @@ Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image slider,flexslider,flex slider,nivoslider,nivo slider,responsive,responsive slides,coinslider,coin slider,slideshow,carousel,responsive slider,vertical slides
 Donate link: https://david.dw-perspective.org.uk/donate
 Requires at least: 3.5
-Stable tag: 3.10.3
-Tested up to: 5.0
+Stable tag: 3.11.1
+Requires PHP: 5.2
+Tested up to: 5.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -160,9 +161,25 @@ See https://www.metaslider.com/documentation/image-cropping/
 
 == Changelog ==
 
-= 3.10.3 - 2018/Dec/4 =
-
+= 3.11.1 - 2019/Jan/30 =
 * FIX: Update Gutenberg compatibility
+
+= 3.11.0 - 2019/Jan/30 =
+
+* FEATURE: Adds drag and drop module
+* FEATURE: Adds a convenient start page for new users
+* FIX: Fixes layout issue with notices served by other plugins
+* FIX: Updates Gutenberg container styles
+* FIX: Fixes issue where Coin Slider wouldn't open in a new window
+* FIX: Updates support for Elementor page builder
+* TWEAK: Updates various UI elements
+* TWEAK: Removes fonts to reduce package size
+* TWEAK: Adds an escape output of slideshow titles 
+* REFACTOR: Removes defunct preview method
+
+= 3.10.3 - 2018/Dec/04 =
+
+* FIX: Updates Gutenberg compatibility
 
 = 3.10.2 - 2018/Nov/21 =
 
@@ -727,4 +744,4 @@ More info/Comments: http://www.metaslider.com/coming-soon-meta-slider-2-6-free/
 * Initial version
 
 == Upgrade Notice ==
-* 3.10.3 : Upgrade now if your Gutenberg blocks disappeared
+* 3.11.1 : Update now if the Gutenberg block loading animation is stuck.
