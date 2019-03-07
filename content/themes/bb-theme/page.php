@@ -9,7 +9,8 @@
 					the_post();
 					get_template_part( 'content', 'page' );
 				endwhile;
-			endif; ?>
+			endif;
+			?>
 		</div>
 	</div>
 </div>

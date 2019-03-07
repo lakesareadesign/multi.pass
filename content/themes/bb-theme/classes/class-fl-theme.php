@@ -316,6 +316,7 @@ final class FLTheme {
 		// Footer Widgets
 		if ( 'disabled' != $footer_widgets_display ) {
 			register_sidebars( 4, array(
+				/* translators: %d: order number of the auto-created sidebar */
 				'name'          => _x( 'Footer Column %d', 'Sidebar title. %d stands for the order number of the auto-created sidebar, 4 in total.', 'fl-automator' ),
 				'id'            => 'footer-col',
 				'before_widget' => '<aside id="%1$s" class="fl-widget %2$s">',
@@ -1155,16 +1156,22 @@ final class FLTheme {
 		if ( is_category() ) {
 			$page_title = single_cat_title( '', false );
 		} elseif ( is_tag() ) {
+			/* translators: %s: Archive title tag */
 			$page_title = sprintf( _x( 'Posts Tagged &#8216;%s&#8217;', 'Archive title: tag.', 'fl-automator' ), single_tag_title( '', false ) );
 		} elseif ( is_day() ) { // Day
+			/* translators: %s: Archive title day */
 			$page_title = sprintf( _x( 'Archive for %s', 'Archive title: day.', 'fl-automator' ), get_the_date() );
 		} elseif ( is_month() ) { // Month
+			/* translators: %s: Archive title month */
 			$page_title = sprintf( _x( 'Archive for %s', 'Archive title: month.', 'fl-automator' ), single_month_title( ' ', false ) );
 		} elseif ( is_year() ) { // Year
+			/* translators: %s: Archive title year */
 			$page_title = sprintf( _x( 'Archive for %s', 'Archive title: year.', 'fl-automator' ), get_the_time( 'Y' ) );
 		} elseif ( is_author() ) { // Author
+			/* translators: %s: Archive title author */
 			$page_title = sprintf( _x( 'Posts by %s', 'Archive title: author.', 'fl-automator' ), get_the_author() );
 		} elseif ( is_search() ) { // Search
+			/* translators: %s: Search results title */
 			$page_title = sprintf( _x( 'Search results for: %s', 'Search results title.', 'fl-automator' ), get_search_query() );
 		} elseif ( isset( $_GET['paged'] ) && ! empty( $_GET['paged'] ) ) { // Paged
 			$page_title = _x( 'Archives', 'Archive title: paged archive.', 'fl-automator' );

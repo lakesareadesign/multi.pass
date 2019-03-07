@@ -12,7 +12,8 @@ $thumb_size  = FLTheme::get_setting( 'fl-posts-thumb-size' );
 			<?php
 			the_post_thumbnail( 'large', array(
 				'itemprop' => 'image',
-			) ); ?>
+			) );
+			?>
 		</div>
 		<?php endif; ?>
 	<?php endif; ?>

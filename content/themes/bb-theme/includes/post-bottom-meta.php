@@ -20,13 +20,16 @@ if ( $show_full || is_single() ) {
 		echo '<div class="fl-post-cats-tags">';
 
 		if ( $show_cats && $cats ) {
+			/* translators: %s: Post Meta Category */
 			printf( _x( 'Posted in %s', 'Post meta info: category.', 'fl-automator' ), $cats );
 		}
 
 		if ( $show_tags && $tags ) {
 			if ( $show_cats && $cats ) {
+				/* translators: %s: Continuing of the sentence started with Posted in Category */
 				printf( _x( ' and tagged %s', 'Post meta info: tags. Continuing of the sentence started with "Posted in Category".', 'fl-automator' ), $tags );
 			} else {
+				/* translators: %s: Post meta info tags */
 				printf( _x( 'Tagged %s', 'Post meta info: tags.', 'fl-automator' ), $tags );
 			}
 		}

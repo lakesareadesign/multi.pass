@@ -366,17 +366,17 @@ function genesis_human_time_diff( $older_date, $newer_date = false, $relative_de
 
 	$counted_seconds = 0;
 
-	$date_partials = array();
-
-	$amount_date_partials = count( $date_partials );
+	$date_partials        = array();
+	$amount_date_partials = 0;
 	$amount_units         = count( $units );
 
 	while ( $amount_date_partials < $relative_depth && $i < $amount_units ) {
 		$seconds = $units[ $i ][0];
-		$count   = floor( ( $since - $counted_seconds ) / $seconds );
+		$count   = (int) floor( ( $since - $counted_seconds ) / $seconds );
 		if ( 0 !== $count ) {
-			$date_partials[]  = sprintf( translate_nooped_plural( $units[ $i ][1], $count, 'genesis' ), $count );
-			$counted_seconds += $count * $seconds;
+			$date_partials[]      = sprintf( translate_nooped_plural( $units[ $i ][1], $count, 'genesis' ), $count );
+			$counted_seconds     += $count * $seconds;
+			$amount_date_partials = count( $date_partials );
 		}
 		$i++;
 	}

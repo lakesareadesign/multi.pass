@@ -147,8 +147,14 @@ class Genesis_Featured_Post extends WP_Widget {
 				);
 
 				if ( $image && $instance['show_image'] ) {
-					$role = empty( $instance['show_title'] ) ? '' : 'aria-hidden="true" tabindex="-1"';
-					printf( '<a href="%s" class="%s" %s>%s</a>', esc_url( get_permalink() ), esc_attr( $instance['image_alignment'] ), esc_attr( $role ), wp_make_content_images_responsive( $image ) );
+					$role = empty( $instance['show_title'] ) ? '' : ' aria-hidden="true" tabindex="-1"';
+					printf(
+						'<a href="%s" class="%s"%s>%s</a>',
+						esc_url( get_permalink() ),
+						esc_attr( $instance['image_alignment'] ),
+						$role, // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaping breaks output here
+						wp_make_content_images_responsive( $image )
+					);
 				}
 
 				if ( ! empty( $instance['show_gravatar'] ) ) {

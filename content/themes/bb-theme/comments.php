@@ -23,6 +23,7 @@ if ( post_password_required() ) {
 			if ( $num_comments ) {
 
 				printf(
+					/* translators: 1: Coments list title */
 					esc_html( _nx( '%1$s Comment', '%1$s Comments', get_comments_number(), 'Comments list title.', 'fl-automator' ) ),
 					number_format_i18n( $num_comments )
 				);
@@ -40,7 +41,8 @@ if ( post_password_required() ) {
 		<?php
 		wp_list_comments( array(
 			'callback' => 'FLTheme::display_comment',
-		) ); ?>
+		) );
+		?>
 		</ol>
 
 		<?php if ( get_comment_pages_count() > 1 ) : ?>
@@ -68,11 +70,10 @@ if ( post_password_required() ) {
 		'comment_notes_before' => '',
 		'comment_notes_after'  => '',
 
-		'comment_field'        => '<label for="comment">' . _x( 'Comment', 'Comment form label: comment content.', 'fl-automator' ) . '</label>
-									<textarea name="comment" class="form-control" cols="60" rows="8" tabindex="4"></textarea><br />',
-
+		'comment_field'        => '<label for="comment">' . _x( 'Comment', 'Comment form label: comment content.', 'fl-automator' ) . '</label><textarea name="comment" class="form-control" cols="60" rows="8" tabindex="4"></textarea><br />',
+		/* translators: %s: Please, keep the HTML tags */
 		'must_log_in'          => '<p>' . sprintf( _x( 'You must be <a%s>logged in</a> to post a comment.', 'Please, keep the HTML tags.', 'fl-automator' ), ' href="' . esc_url( home_url( '/wp-login.php' ) ) . '?redirect_to=' . urlencode( get_permalink() ) . '"' ) . '</p>',
-
+		/* translators: %s: user name */
 		'logged_in_as'         => '<p>' . sprintf( __( 'Logged in as %s.', 'fl-automator' ), '<a href="' . esc_url( home_url( '/wp-admin/profile.php' ) ) . '">' . $user_identity . '</a>' ) . ' <a href="' . wp_logout_url( get_permalink() ) . '" title="' . __( 'Log out of this account', 'fl-automator' ) . '">' . __( 'Log out &raquo;', 'fl-automator' ) . '</a></p>',
 
 

@@ -16,7 +16,8 @@ do_action( 'fl_before_post' ); ?>
 				<?php
 				the_post_thumbnail( $thumb_size, array(
 					'itemprop' => 'image',
-				) ); ?>
+				) );
+				?>
 			</a>
 		</div>
 		<?php endif; ?>

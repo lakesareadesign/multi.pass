@@ -56,8 +56,16 @@ Appearance > Theme Settings > Code or create a child theme.
 		display: flex;
 	}
 
-	.fl-page-nav .navbar-nav {
-		display: block;
+	.fl-page-nav {
+		flex-direction: column;
+
+		.navbar-nav {
+			display: block;
+		}
+	}
+
+	&.fl-page-nav-toggle-visible-always .fl-page-header-row > div {
+		max-width: 100%;
 	}
 
 	@media (min-width: 992px) {
@@ -106,6 +114,23 @@ Appearance > Theme Settings > Code or create a child theme.
 ----------------------------------------------------------- */
 .row.fl-post-image-beside-wrap {
 	display: block;
+}
+
+/* Footer
+----------------------------------------------------------- */
+.fl-page-footer {
+	.text-right .fl-page-footer-nav {
+		justify-content: end;
+	}
+
+	.fl-page-footer-nav {
+		flex-direction: row;
+		> li .nav-link {
+			line-height: 20px;
+			padding: 0 15px 15px 15px;
+			position: relative;
+		}
+	}
 }
 
 /* Bootstrap-4 Woocommerce Fixes

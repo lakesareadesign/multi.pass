@@ -239,6 +239,7 @@ FLCustomizer::add_panel('fl-footer', array(
 					),
 					'control' => array(
 						'class'   => 'WP_Customize_Control',
+						/* translators: %d: Column order number */
 						'label'   => sprintf( _x( 'Column %d Layout', '%d stands for column order number.', 'fl-automator' ), 1 ),
 						'type'    => 'select',
 						'choices' => array(
@@ -258,6 +259,7 @@ FLCustomizer::add_panel('fl-footer', array(
 					),
 					'control' => array(
 						'class' => 'WP_Customize_Control',
+						/* translators: %d: Column order number */
 						'label' => sprintf( _x( 'Column %d Text', '%d stands for column order number.', 'fl-automator' ), 1 ),
 						'type'  => 'textarea',
 					),
@@ -278,6 +280,7 @@ FLCustomizer::add_panel('fl-footer', array(
 					),
 					'control' => array(
 						'class'   => 'WP_Customize_Control',
+						/* translators: %d: Column order number */
 						'label'   => sprintf( _x( 'Column %d Layout', '%d stands for column order number.', 'fl-automator' ), 2 ),
 						'type'    => 'select',
 						'choices' => array(
@@ -297,6 +300,7 @@ FLCustomizer::add_panel('fl-footer', array(
 					),
 					'control' => array(
 						'class' => 'WP_Customize_Control',
+						/* translators: %d: Column order number */
 						'label' => sprintf( _x( 'Column %d Text', '%d stands for column order number.', 'fl-automator' ), 2 ),
 						'type'  => 'textarea',
 					),

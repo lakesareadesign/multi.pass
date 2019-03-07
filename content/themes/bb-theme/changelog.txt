@@ -1,4 +1,18 @@
-<h4>1.7.1.3 01/07/2019</h4>
+<h4>1.7.1.5 02/21/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Update Bootstrap to versions 3.4.1 and 4.3.1</li>
+	<li>Fixed menu items layout in the footer when using BS4 layout.</li>
+	<li>Fixed mobile nav in BS4 layout.</li>
+</ul>
+
+<h4>1.7.1.4 01/21/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Updated Less library to include fixes for PHP 7.2</li>
+	<li>Fixed responsive dropdown menus when minimal Bootstrap 4 is enabled.</li>
+</ul>
+
 <p><strong>Hot Fix</strong></p>
 <ul>
 	<li>Various Bootstrap 4 issues fixed:</li>
@@ -130,7 +144,7 @@
 <p><strong>Enhancements</strong></p>
 <ul>
 	<li>New shortcode <code>[fl_year]</code> added, full details in the kb: https://kb.wpbeaverbuilder.com/article/639-beaver-builder-theme-shortcode-for-current-date</li>
-	<li>Use <code>WP_Filesystem<code> class to write cache files.</li>
+	<li>Use <code>WP_Filesystem</code> class to write cache files.</li>
 	<li>Add rel nofollow to default footer link.</li>
 </ul>
 <p><strong>Bug Fixes</strong></p>

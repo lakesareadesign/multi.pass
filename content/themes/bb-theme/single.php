@@ -12,7 +12,8 @@
 					the_post();
 					get_template_part( 'content', 'single' );
 				endwhile;
-			endif; ?>
+			endif;
+			?>
 		</div>
 
 		<?php FLTheme::sidebar( 'right' ); ?>

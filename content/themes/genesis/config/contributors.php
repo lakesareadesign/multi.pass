@@ -165,7 +165,7 @@ return array(
 		'name'     => 'Mike Hemberger',
 		'twitter'  => 'jivedig',
 		'gravatar' => '371c8693fa81eb43dadc28eaaba367f8',
-		// 'role'     => 'contributor',
+		'role'     => 'contributor',
 	),
 	'christophherr'    => array(
 		'name'     => 'Christoph Herr',

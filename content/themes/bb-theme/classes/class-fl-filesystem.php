@@ -9,7 +9,8 @@ class FL_Theme_Filesystem {
 
 	public static function instance() {
 		if ( is_null( self::$_instance ) ) {
-			self::$_instance = new self();
+			$filtered        = apply_filters( 'fl_filesystem_instance', null );
+			self::$_instance = $filtered instanceof FL_Filesystem ? $filtered : new self();
 		}
 		return self::$_instance;
 	}
@@ -22,6 +23,16 @@ class FL_Theme_Filesystem {
 
 		$wp_filesystem = $this->get_filesystem();
 		return $wp_filesystem->get_contents( $path );
+	}
+
+	/**
+	 * is_writable using wp_filesystem.
+	 * @since 2.1.2
+	 */
+	function is_writable( $path ) {
+
+		$wp_filesystem = $this->get_filesystem();
+		return $wp_filesystem->is_writable( $path );
 	}
 
 	/**
@@ -65,7 +76,7 @@ class FL_Theme_Filesystem {
 	}
 
 	/**
-	 * dirlist using wp_filesystem.
+	 * move using wp_filesystem.
 	 * @since 2.0.6
 	 */
 	function move( $old, $new ) {
@@ -119,18 +130,28 @@ class FL_Theme_Filesystem {
 
 		global $wp_filesystem;
 
-		if ( ! $wp_filesystem ) {
+		if ( ! $wp_filesystem || 'direct' != $wp_filesystem->method ) {
 			require_once ABSPATH . '/wp-admin/includes/file.php';
+
+			$context = apply_filters( 'request_filesystem_credentials_context', false );
 
 			add_filter( 'filesystem_method', array( $this, 'filesystem_method' ) );
 			add_filter( 'request_filesystem_credentials', array( $this, 'request_filesystem_credentials' ) );
 
-			$creds = request_filesystem_credentials( site_url(), '', true, false, null );
+			$creds = request_filesystem_credentials( site_url(), '', true, $context, null );
 
-			WP_Filesystem( $creds );
+			WP_Filesystem( $creds, $context );
 
 			remove_filter( 'filesystem_method', array( $this, 'filesystem_method' ) );
 			remove_filter( 'request_filesystem_credentials', array( $this, 'FLBuilderUtils::request_filesystem_credentials' ) );
+		}
+
+		// Set the permission constants if not already set.
+		if ( ! defined( 'FS_CHMOD_DIR' ) ) {
+			define( 'FS_CHMOD_DIR', 0755 );
+		}
+		if ( ! defined( 'FS_CHMOD_FILE' ) ) {
+			define( 'FS_CHMOD_FILE', 0644 );
 		}
 
 		return $wp_filesystem;
@@ -151,4 +172,5 @@ class FL_Theme_Filesystem {
 	function request_filesystem_credentials() {
 		return true;
 	}
+
 }

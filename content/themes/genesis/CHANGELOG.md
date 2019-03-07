@@ -6,6 +6,11 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 Up until release 2.7.0, this project did _not_ follow semantic versioning. It followed the WordPress policy where updates of x and y in an x.y.z version number means a major release, and updates to z means a patch release.
 
+## [2.8.1] - 2019-01-30
+### Fixed
+- Fixed `genesis_human_time_diff()` to display accurate relative dates.
+- Fixed a problem with `aria-hidden` and `tabindex` attributes were being escaped, causing the quotes to be unintentionally encoded.
+
 ## [2.8.0] - 2019-01-16
 ### Added
 - Add a `genesis_get_config()` function, to locate and load config files from Genesis and a child theme.
@@ -1090,6 +1095,7 @@ _Requires WordPress 3.1.0._
 
 First public release.
 
+[2.8.1]: https://github.com/studiopress/genesis/compare/2.8.0...2.8.1
 [2.8.0]: https://github.com/studiopress/genesis/compare/2.7.3...2.8.0
 [2.7.3]: https://github.com/studiopress/genesis/compare/2.7.2...2.7.3
 [2.7.2]: https://github.com/studiopress/genesis/compare/2.7.1...2.7.2

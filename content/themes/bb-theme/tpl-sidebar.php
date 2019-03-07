@@ -20,7 +20,8 @@ get_header();
 					the_post();
 					get_template_part( 'content', 'page' );
 				endwhile;
-			endif; ?>
+			endif;
+			?>
 		</div>
 
 		<?php FLTheme::sidebar( 'right' ); ?>

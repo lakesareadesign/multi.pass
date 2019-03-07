@@ -11,6 +11,7 @@ if ( $show_author || $show_date || $comments ) {
 // Author
 if ( $show_author ) {
 	echo '<span class="fl-post-author">';
+	/* translators: %s: Post Meta Author */
 	printf( _x( 'By %s', 'Post meta info: author.', 'fl-automator' ), '<a href="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '"><span>' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span></a>' );
 	echo '</span>';
 }

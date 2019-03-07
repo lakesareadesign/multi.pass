@@ -30,7 +30,7 @@
 		_bind: function()
 		{
 			// Base Framework Nav Toggles
-			$( '.fl-framework-base .navbar-toggle' ).on( 'click', this.navbarToggleClick );
+			$( '.fl-framework-base .navbar-toggle, .fl-framework-base-4 .navbar-toggle' ).on( 'click', this.navbarToggleClick );
 
 			// Mobile Logo
 			if ( ! ( $( 'html.fl-builder-edit' ).length != 0 ) ) {
@@ -1311,6 +1311,9 @@
 
 			// Base Framework Nav Toggles
 			$( '.fl-framework-base.fl-nav-mobile-offcanvas .navbar-toggle' ).on( 'click', function() {
+				$( '.fl-page' ).toggleClass( 'fl-nav-offcanvas-active' );
+			} );
+			$( '.fl-framework-base-4.fl-nav-mobile-offcanvas .navbar-toggle' ).on( 'click', function() {
 				$( '.fl-page' ).toggleClass( 'fl-nav-offcanvas-active' );
 			} );
 		},
