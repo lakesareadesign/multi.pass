@@ -74,6 +74,7 @@ function get_wps_options() {
       'footer' => __( 'Footer Options', 'wps' ),
       'email' => __( 'Email Options', 'wps' ),
       'privilege_users' => __( 'Set Privilege users', 'wps' ),
+      'admin_notices' => __( 'Admin notices', 'wps' ),
       );
 
   $panel_fields = array();
@@ -1408,6 +1409,25 @@ if(defined('POWERBOX_PATH')) {
       'default' => '1',
   );
 }
+
+	//admin notices
+    $panel_fields[] = array(
+        'name' => __( 'Admin notices', 'wps' ),
+        'type' => 'openTab'
+    );
+
+    $panel_fields[] = array(
+            'name' => __( 'Show admin notices for', 'wps' ),
+            'id' => 'show_admin_notices_for',
+            'type' => 'radio',
+        'options' => array(
+            '1' => __( 'Show admin notices for all users', 'wps' ),
+            '2' => __( 'Show admin notices for all admin users', 'wps' ),
+            '3' => __( 'Show admin notices for specific admin users', 'wps' ),
+            '4' => __( 'Hide admin notices for specific admin users also', 'wps' ),
+        ),
+        'default' => '4',
+    );
 
   $output = array('wps_tabs' => $panel_tabs, 'wps_fields' => $panel_fields);
   return $output;

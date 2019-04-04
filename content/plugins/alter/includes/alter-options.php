@@ -46,21 +46,9 @@ function get_aof_options() {
 
   /**
   * @since 2.0
-  * get all admin users method rewritten
+  * get all admin users
   */
  $admin_users_array = (is_serialized(get_option(ALTER_ADMIN_USERS_SLUG))) ? unserialize(get_option(ALTER_ADMIN_USERS_SLUG)) : get_option(ALTER_ADMIN_USERS_SLUG);
-
- if(empty($admin_users_array) || !is_array($admin_users_array)) {
-   $alter_get_admins = new WP_User_Query( array( 'role' => 'Administrator' ) );
-   if(isset($alter_get_admins) && !empty($alter_get_admins)) {
-       if ( ! empty( $alter_get_admins->results ) ) {
-           foreach ( $alter_get_admins->results as $user_detail ) {
-               $admin_users_array[$user_detail->ID] = $user_detail->data->display_name;
-           }
-           update_option(ALTER_ADMIN_USERS_SLUG, $admin_users_array);
-       }
-   }
- }
 
   $blog_email = get_option('admin_email');
   $blog_from_name = get_option('blogname');
@@ -235,7 +223,8 @@ function get_aof_options() {
         'name' => __( 'Select Privilege users', 'alter' ),
         'id' => 'privilege_users',
         'type' => 'multicheck',
-        'desc' => __( 'Select admin users who can have access to all menu items.', 'alter' ),
+        'desc' => __( 'Select admin users who can have access to all menu items.', 'alter' ) .
+        '<br /><a class="button reload-priv-users" href="'. admin_url( 'admin.php?page=' . ALTER_MENU_SLUG . '&action=reload-priv-users' ) .'">' . __( 'Reload Privilege users data.', 'alter' ) . '</a>',
         'options' => $admin_users_array,
         );
   }

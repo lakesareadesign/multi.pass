@@ -664,10 +664,10 @@ if (!class_exists('ALTER')) {
         $admin_user_query = get_super_admins();
       }
       if(empty($admin_user_query)) {
-        $admin_user_query = new WP_User_Query( array( 'meta_key' => 'wp_user_level', 'meta_value' => '10' ) );
+        $admin_user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
       }
       if(empty($admin_user_query)) {
-        $admin_user_query = new WP_User_Query( array( 'role' => 'Administrator' ) );
+        $admin_user_query = new WP_User_Query( array( 'meta_key' => 'wp_user_level', 'meta_value' => '10' ) );
       }
 
       if ( is_multisite() ) {

@@ -156,3 +156,6 @@ div.alter_kb_link a {
     border-radius: 3px;
     margin-right: 10px;
 }
+.button.reload-priv-users {
+  margin-top: 15px;
+}

@@ -3,7 +3,7 @@ Contributors: wpninjasllc, kstover, jameslaws, kbjohnson90, klhall1987, krmoorho
 Tags: form, forms, contact form, custom form, form builder, form creator, form manager, form creation, contact forms, custom forms, forms builder, forms creator, forms manager, forms creation, form administration,
 Requires at least: 4.9
 Tested up to: 5.1
-Stable tag: 3.4.7
+Stable tag: 3.4.8
 License: GPLv2 or later
 
 Drag and drop fields in an intuitive UI to create contact forms, email subscription forms, order forms, payment forms, send emails and more!
@@ -111,7 +111,7 @@ For help and video tutorials, please visit our website: [Ninja Forms Documentati
 
 == Upgrade Notice ==
 
-= 3.4.7 (3 April 2019) =
+= 3.4.8 (4 April 2019) =
 
 *Bugs:*
 
@@ -119,12 +119,19 @@ For help and video tutorials, please visit our website: [Ninja Forms Documentati
 * Changed the priority of the redirect action so that it should always fire last.
 * Calculations should now have more consistent results when numbers are input in international formats.
 * Resolved an error that was causing form submission to fail on some php versions.
+* Corrected an issue that sometimes caused forms with large calculations to not display properly.
 
 *Changes:*
 
 * The following field types have been deprecated: Product, Quantity, Shipping, Total.
 
 == Changelog ==
+
+= 3.4.8 (4 April 2019) =
+
+*Bugs:*
+
+* Corrected an issue that sometimes caused forms with large calculations to not display properly.
 
 = 3.4.7 (3 April 2019) =
 
