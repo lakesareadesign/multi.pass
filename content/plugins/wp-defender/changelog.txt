@@ -4,6 +4,10 @@ Tested up to: 4.7.4
 
 Change Log:
 
+2.1.1.1 - 2019-20-03
+----------------------------------------------------------------------
+- Fix: Two-Factor Authentication QR code not being displayed on new device registration.
+
 2.1.1 - 2019-18-02
 ----------------------------------------------------------------------
 - Fix: Prevent Information Disclosure corrupts htaccess code
@@ -281,4 +285,4 @@ Fixed: Scanning was sometimes slow or getting stuck
 - First release
 
 
-133620-1551987189-au
+133620-1554389289-au

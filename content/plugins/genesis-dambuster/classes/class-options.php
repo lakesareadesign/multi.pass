@@ -73,21 +73,16 @@ class Genesis_Dambuster_Options {
     		return false;		
     }
 
-	function upgrade_options() {
-      /* Remove old options and set defaults for new options */ 
-		$new_options = array();
-		$defaults = $this->get_defaults();
+	function upgrade_options($upgrade_options= array()) {
+		/* Merge in old options and upgrade options */ 
+		$new_options = $this->get_defaults();
 		$old_options = get_option($this->get_option_name());
 
-		if (is_array($old_options)) {
-			foreach ($defaults as $key => $subdefaults) 
-				if (array_key_exists($key, $old_options)) 
-					if (is_array($old_options[$key]) && is_array($subdefaults)) 
-						$new_options[$key] = shortcode_atts($subdefaults, $old_options[$key]);
-					else
-						$new_options[$key] = $old_options[$key];
-		} else {		
-			$new_options = $defaults;
+		foreach ($new_options as $key => $subdefaults) {
+			if (is_array($old_options) && array_key_exists($key, $old_options)) 
+				$new_options[$key] = $this->validate_options($subdefaults, $old_options[$key]);
+			if (is_array($upgrade_options) && array_key_exists($key, $upgrade_options)) 
+				$new_options[$key] = $this->validate_options($new_options[$key], $upgrade_options[$key]);
 		}
 		$this->save_options($new_options);
 	}

@@ -3,7 +3,7 @@ Contributors: matchalabs, DavidAnderson, dnutbourne, kbat82
 Tags: wordpress slideshow,seo,slideshow,slider,widget,wordpress slider,image slider,flexslider,flex slider,nivoslider,nivo slider,responsive,responsive slides,coinslider,coin slider,slideshow,carousel,responsive slider,vertical slides
 Donate link: https://david.dw-perspective.org.uk/donate
 Requires at least: 3.5
-Stable tag: 3.11.1
+Stable tag: 3.12.1
 Requires PHP: 5.2
 Tested up to: 5.1
 License: GPLv2 or later
@@ -16,6 +16,8 @@ Easy to use WordPress slider plugin. Create SEO-optimized responsive slideshows 
 Create powerful, SEO-optimized slideshows in minutes with the world's #1 slider plugin!
 
 With WordPress’ most popular slider plugin, enhancing your blog or website couldn’t be easier: simply select images from your WordPress Media Library, drag and drop them into place, and then set the slide captions, links and SEO fields all from one page.
+
+** NEW: Easily search and download free images to your slideshow from Unsplash.com**
 
 Choose one of 4 different slideshow types, and use our provided short-code or template to embed the slideshows.
 
@@ -33,6 +35,7 @@ Apply one of our professional slidehow designs to really make your website stand
 **Features**
 
 * Simple, easy to use interface - perfect for individual users, developers & clients!
+* Access to millions of free photos via Unsplash.com
 * Create Responsive, SEO-optimized slideshows in seconds
 * Unrestricted support for image slides (supports caption, link, title text, alt text)
 * Full width slideshow support
@@ -161,7 +164,17 @@ See https://www.metaslider.com/documentation/image-cropping/
 
 == Changelog ==
 
+= 3.12.1 - 2019/Mar/18 =
+* FIX: Fixes a bug where Nivo and Coin Sliderdid not ship with the plugin
+
+= 3.12.0 - 2019/Mar/18 =
+
+* TWEAK: Sets a default theme on a newly created slideshow
+* TWEAK: Adds various trivial code quality fixes 
+* FEATURE: Adds access to the Unsplash.com image library
+
 = 3.11.1 - 2019/Jan/30 =
+
 * FIX: Update Gutenberg compatibility
 
 = 3.11.0 - 2019/Jan/30 =
@@ -744,4 +757,4 @@ More info/Comments: http://www.metaslider.com/coming-soon-meta-slider-2-6-free/
 * Initial version
 
 == Upgrade Notice ==
-* 3.11.1 : Update now if the Gutenberg block loading animation is stuck.
+* 3.12.1 : Update now if your slideshow stopped working in 3.12.0

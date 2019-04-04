@@ -132,7 +132,10 @@ jQuery(function($) {
             var slide_ids = [];
             create_slides.state().get('selection').map(function(media) {
                 slide_ids.push(media.toJSON().id);
-            });
+			});
+			
+			// Remove the events for image APIs
+			remove_image_apis()
     
             var data = {
                 action: 'create_image_slide',
@@ -164,7 +167,7 @@ jQuery(function($) {
 					$(document).trigger('metaslider/slides-added')
 				}
             });
-        });
+		});
 
         /**
          * Starts to watch the media library for changes 
@@ -173,7 +176,19 @@ jQuery(function($) {
             if (!media_library_events.loaded) {
                 media_library_events.attach_event(create_slides);
             }
-        });
+		});
+		
+		/**
+		 * Fire events when the modal is opened
+		 * Available events: create_slides.on('all', function (e) { console.log(e) })
+		 */
+		// This is also a little "hack-ish" but necessary since we are accessing the UI indirectly
+		create_slides.on('open activate uploader:ready', function() {
+			add_image_apis()
+		})
+		create_slides.on('deactivate close', function() {
+			remove_image_apis()
+		})
 
         /**
          * I for changing slide image. Managed through the WP media upload UI
@@ -192,7 +207,7 @@ jQuery(function($) {
             // TODO investigate if this is needed
             $(".media-menu a:contains('Media Library')").remove();
         });
-    
+
         /**
          * Handles changing an image when edited by the user.
          */
@@ -204,7 +219,7 @@ jQuery(function($) {
             /**
              * Opens up a media window showing images
              */
-            update_slide_frame = wp.media.frames.file_frame = wp.media({
+			update_slide_frame = window.update_slide_frame = wp.media.frames.file_frame = wp.media({
                 title: MetaSlider_Helpers.capitalize(metaslider.update_image),
                 library: {type: 'image'},
                 button: {
@@ -218,7 +233,10 @@ jQuery(function($) {
             update_slide_frame.on('open', function() {
                 if (current_id) {
                     var selection = update_slide_frame.state().get('selection');
-                    selection.reset([wp.media.attachment(current_id)]);
+					selection.reset([wp.media.attachment(current_id)]);
+
+					// Add various image APIs
+					add_image_apis($this.data('slideType'), $this.data('slideId'))
                 }
             });
 
@@ -245,8 +263,11 @@ jQuery(function($) {
                     attachment = attachment.toJSON();
                     new_image_id = attachment.id;
                     selected_item = attachment;
-                });
-    
+				});
+				
+				// Remove the events for image APIs
+				remove_image_apis()
+
                 /**
                  * Updates the meta information on the slide
                  */
@@ -291,8 +312,99 @@ jQuery(function($) {
                         $(".metaslider table#metaslider-slides-list").trigger('resizeSlides');
                     }
                 });
-            });
-        });
+			});
+
+			update_slide_frame.on('close', function() {
+				remove_image_apis()
+			})
+			create_slides.on('close', function() {
+				remove_image_apis()
+			})
+		})
+
+	/**
+	 * Add all the image APIs. Add events everytime the modal is open
+	 * TODO: refactor out hard-coded unsplash (can wait until we add a second service)
+	 * TODO: right now this replaces the content pane. It might take some time but look for more native integration
+	 * TODO: It gets a little bit buggy when someone triggers a download and clicks around. Maybe not important.
+	 */
+	var unsplash_api_events = function(event) {
+		event.preventDefault()
+
+		// Some things shouldn't happen when we're about to reload
+		if (window.metaslider.about_to_reload) return
+
+		// Set this tab as active
+		$(this).addClass('active').siblings().removeClass('active')
+
+		// If the image api container exists we don't want to create it again
+		if ($('#image-api-container').length) return
+
+		// Move the content and trigger vue to fetch the data
+		// Add a container to house the content
+		$(this).parents('.media-frame-router').siblings('.media-frame-content').append('<div id="image-api-container"></div>')
+
+		// Add content to the container
+		$('#image-api-container').append('<metaslider-external source="unsplash" :slideshow-id="' + window.parent.metaslider_slider_id + '" :slide-id="' + window.metaslider.slide_id + '" slide-type="' + (window.metaslider.slide_type || 'image') + '"></metaslider-external>')
+		
+		// Tell our app to render a new component
+		$(window).trigger('metaslider/initialize_external_api', {
+			'selector': '#image-api-container'
+		})
+
+		// Discard these
+		delete window.metaslider.slide_id
+		delete window.metaslider.slide_type
+	}
+	var add_image_apis = function (slide_type, slide_id) {
+
+		// This is the pro layer screen (not currently used)
+		if ($('.media-menu-item.active:contains("Layer")').length) {
+			// If this is the layer slide screen and pro isnt installed, exit
+			if (!window.metaslider.pro_supports_imports) return
+			window.metaslider.slide_type = 'layer'
+		}
+
+		// If slide type is set then override the above because we're just updating an image
+		if (slide_type) {
+			window.metaslider.slide_type = slide_type
+		}
+
+		window.metaslider.slide_id = slide_id
+
+		// Unsplash - First remove potentially leftover tabs in case the WP close event doesn't fire
+		$('.unsplash-tab').remove()
+		$('.media-frame-router .media-router').append('<a href="#" id="unsplash-tab" class="unsplash-tab">Unsplash Library</a>')
+		$('.toplevel_page_metaslider').on('click', '.unsplash-tab', unsplash_api_events)
+
+		// Each API will fake the container, so if we click on a native WP container, we should delete the API container
+		$('.media-frame-router .media-router .media-menu-item').on('click', function() {
+
+			// Destroy the component (does clean up)
+			$(window).trigger('metaslider/destroy_external_api')
+
+			// Additionally set the active tab
+			$(this).addClass('active').siblings().removeClass('active')
+		})
+	}
+	
+	/**
+	 * Remove tab and events for api type images. Add this when a modal closes to avoid duplicate events
+	 */
+	var remove_image_apis = function() {
+
+		// Some things shouldn't happen when we're about to reload
+		if (window.metaslider.about_to_reload) return
+
+		// Tell tell components they are about to be removed
+		$(window).trigger('metaslider/destroy_external_api')
+
+		$('.toplevel_page_metaslider').off('click', '.unsplash-tab', unsplash_api_events)
+		$('.unsplash-tab').remove()
+
+		// Since we will destroy the container each time we should add the active class to whatever is first
+		$('.media-frame-router .media-router > a').first().trigger('click')
+	}
 
         /** 
         * Handles changing caption mode
@@ -776,7 +888,7 @@ jQuery(function($) {
             var dropdownselectedoption = dropdown.options[dropdown.selectedIndex];
             dropdownselectedoption.text = $(this).val();
         }
-    });
+	});
 });
 
 /**

@@ -5,5 +5,4 @@ class Genesis_Dambuster_Centric extends Genesis_Dambuster_Template {
 	  remove_action( 'genesis_before', 'centric_post_title' );  
 	  parent::remove_post_title() ;    
 	}	
-
 }

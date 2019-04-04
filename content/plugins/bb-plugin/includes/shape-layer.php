@@ -1,4 +1,4 @@
-<div class="fl-builder-layer fl-builder-shape-layer fl-builder-<?php echo $position; ?>-edge-layer">
+<div class="fl-builder-layer fl-builder-shape-layer fl-builder-<?php echo $position; ?>-edge-layer fl-builder-shape-<?php echo esc_attr( $shape_name ); ?>">
 	<svg class="<?php echo $svg_class; ?>" viewBox="<?php echo $view_box; ?>" preserveAspectRatio="<?php echo $preserve_aspect_ratio; ?>">
 
 		<defs>

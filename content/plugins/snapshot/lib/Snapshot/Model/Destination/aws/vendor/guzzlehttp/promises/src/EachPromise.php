@@ -107,7 +107,7 @@ class EachPromise implements PromisorInterface
 
         // Clear the references when the promise is resolved.
         $clearFn = function () {
-            $this->iterable = $this->concurrency = $this->pending = null;
+            $this->iterable = $this->concurrency = $this->pending = null;	     	 	 				 	 	
             $this->onFulfilled = $this->onRejected = null;
         };
 

@@ -53,6 +53,7 @@ final class FLBuilderServiceConstantContact extends FLBuilderService {
 			$request = json_decode( wp_remote_retrieve_body( wp_remote_get( $url ) ) );
 
 			if ( ! is_array( $request ) || ( isset( $request[0] ) && isset( $request[0]->error_message ) ) ) {
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'Error: Could not connect to Constant Contact. %s', 'fl-builder' ), $request[0]->error_message );
 			} else {
 				$response['data'] = array(
@@ -91,6 +92,7 @@ final class FLBuilderServiceConstantContact extends FLBuilderService {
 			'type'        => 'text',
 			'label'       => __( 'Access Token', 'fl-builder' ),
 			'help'        => __( 'Your Constant Contact access token.', 'fl-builder' ),
+			/* translators: 1: account link: 2: api key link */
 			'description' => sprintf( __( 'You must register a <a%1$s>Developer Account</a> with Constant Contact to obtain an API key and access token. Please see <a%2$s>Getting an API key</a> for complete instructions.', 'fl-builder' ), ' href="https://constantcontact.mashery.com/member/register" target="_blank"', ' href="https://developer.constantcontact.com/home/api-keys.html" target="_blank"' ),
 			'preview'     => array(
 				'type' => 'none',
@@ -123,6 +125,7 @@ final class FLBuilderServiceConstantContact extends FLBuilderService {
 		);
 
 		if ( ! is_array( $request ) || ( isset( $request[0] ) && isset( $request[0]->error_message ) ) ) {
+			/* translators: %s: error */
 			$response['error'] = sprintf( __( 'Error: Could not connect to Constant Contact. %s', 'fl-builder' ), $request[0]->error_message );
 		} else {
 			$response['html'] = $this->render_list_field( $request, $settings );
@@ -233,6 +236,7 @@ final class FLBuilderServiceConstantContact extends FLBuilderService {
 				$res                               = json_decode( wp_remote_retrieve_body( $update ) );
 
 				if ( isset( $res->error_key ) ) {
+					/* translators: %s: error */
 					$response['error'] = sprintf( __( 'There was an error subscribing to Constant Contact. %s', 'fl-builder' ), $res->error_key );
 				}
 			} else {
@@ -265,6 +269,7 @@ final class FLBuilderServiceConstantContact extends FLBuilderService {
 				$create                            = wp_remote_post( $url, $args );
 
 				if ( isset( $create->error_key ) ) {
+					/* translators: %s: error */
 					$response['error'] = sprintf( __( 'There was an error subscribing to Constant Contact. %s', 'fl-builder' ), $create->error_key );
 				}
 			}

@@ -131,11 +131,14 @@ final class NF_Database_FieldsController
             $settings = array();
 
             foreach( $this->db_columns as $column_name => $setting_name ) {
-                // If the setting value is numeric, make sure it's intval'd.
-                if ( is_numeric( $field_data[ 'settings' ][ $setting_name ] ) ) {
-                    $value = intval( $field_data[ 'settings' ][ $setting_name ]  );
-                } else {
-                    $value = $field_data[ 'settings' ][ $setting_name ];
+                $value = '';
+                if( isset( $field_data[ 'settings' ][ $setting_name ] ) ) {
+                    // If the setting value is numeric, make sure it's intval'd.
+                    if ( is_numeric( $field_data[ 'settings' ][ $setting_name ] ) ) {
+                        $value = intval( $field_data[ 'settings' ][ $setting_name ]  );
+                    } else {
+                        $value = $field_data[ 'settings' ][ $setting_name ];
+                    }
                 }
 
                 if ( in_array( $column_name, $this->db_bit_columns ) ) {
@@ -226,12 +229,13 @@ final class NF_Database_FieldsController
         ");
         $field_meta = array();
         foreach( $results as $meta ){
+            $meta_value = '';
             if( ! isset( $field_meta[ $meta->parent_id ] ) ) $field_meta[ $meta->parent_id ] = array();
             $field_meta[ $meta->parent_id ][ $meta->key ] = $meta->value;
-            if ( is_null( $meta->meta_value ) ) {
-                $meta_value = '';
-            } else {
-                $meta_value = $meta->meta_value;
+            if ( property_exists( $meta, 'meta_value' ) ) {
+                if ( ! is_null( $meta->meta_value ) ) {
+                    $meta_value = $meta->meta_value;
+                }
             }
             $field_meta[ $meta->parent_id ]['meta_key'][ $meta->key ] = $meta_value;
         }
@@ -322,7 +326,11 @@ final class NF_Database_FieldsController
                 $line .= "'{$value}' ";
             }
             
-            $this->update_fields[ $setting ] .= $line;
+            if( isset( $this->update_field[ $setting ] ) ) {
+                $this->update_fields[ $setting ] .= $line;
+            } else {
+                $this->update_fields[ $setting ] = $line;
+            }
         }
     }
     public function get_update_fields_query()

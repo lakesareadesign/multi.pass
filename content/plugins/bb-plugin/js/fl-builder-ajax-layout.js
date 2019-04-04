@@ -8,7 +8,8 @@
 	 */
 	FLBuilderAJAXLayout = function( data, callback )
 	{
-		this._data 					= $.extend( {}, this._defaults, typeof data == 'string' ? JSON.parse( data ) : data );
+
+		this._data      = $.extend( {}, this._defaults, typeof data == 'string' ? FLBuilder._jsonParse( data ) : data );
 		this._callback				= callback;
 		this._post    				= FLBuilderConfig.postId;
 		this._head    				= $('head').eq(0);
@@ -554,6 +555,7 @@
 		 */
 		_addNewScriptsStyles: function()
 		{
+
 			if ( this._data.scriptsStyles && '' !== this._data.scriptsStyles ) {
 				this._body.append( this._data.scriptsStyles );
 			}

@@ -57,6 +57,9 @@ abstract class Smartcrawl_Type_Traverser {
 			case Smartcrawl_Endpoint_Resolver::L_SINGULAR:
 				$this->handle_singular();
 				break;
+
+			default:
+				break;
 		}
 	}
 

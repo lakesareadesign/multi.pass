@@ -237,8 +237,22 @@ class Smartcrawl_Settings_Dashboard extends Smartcrawl_Settings_Admin {
 			wp_send_json_error( $result );
 		}
 
-		$source = esc_url( $data['source'] );
-		$redirect = esc_url( $data['redirect'] );
+		$source = (string) smartcrawl_get_array_value( $data, 'source' );
+		$source = trim( esc_url( $source ) );
+
+		$redirect = (string) smartcrawl_get_array_value( $data, 'redirect' );
+		$redirect = trim( esc_url( $redirect ) );
+
+		if ( ! $source || ! $redirect ) {
+			wp_send_json_error( $result );
+		}
+		if ( ! preg_match( '/^https?:\/\//', $source ) ) {
+			$source = home_url( $source );
+		}
+		if ( ! preg_match( '/^https?:\/\//', $redirect ) ) {
+			$redirect = home_url( $redirect );
+		}
+
 		$rmodel = new Smartcrawl_Model_Redirection();
 
 		$status_code = $rmodel->get_default_redirection_status_type();

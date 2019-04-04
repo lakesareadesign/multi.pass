@@ -362,6 +362,9 @@ class Smartcrawl_Onpage_Settings extends Smartcrawl_Settings_Admin {
 				$link = bp_loggedin_user_domain();
 				$updated = true;
 				break;
+
+			default:
+				break;
 		}
 
 		// Custom post type?

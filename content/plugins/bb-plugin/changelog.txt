@@ -1,3 +1,56 @@
+<h4>2.2.2.1 - 04/03/2019</h4>
+<p><strong>Enhancements</strong></p>
+<ul>
+	<li>Updated Font Awesome to 5.8.1</li>
+	<li>Added popup with link to support when a fatal error is detected in AJAX.</li>
+	<li>Removed references to Font Awesome 4, if its still needed by a module or the theme a shim will load to map icons to FA5.</li>
+	<li>Added option to set placeholder text in Subscribe Module.</li>
+	<li>Added order by random option to Content Slider Module.</li>
+	<li>Added santization to global settings on save.</li>
+	<li>New filter <code>fl_post_grid_disable_schema</code> to disable all schema in Post Grid Module.</li>
+	<li>When restoring a layout revision the JS and CSS are now included in the revision.</li>
+	<li>Added general post counts to debug info page.</li>
+	<li>Title bar now shows what you are editing, row/module/page etc.</li>
+	<li>Added setting for responsive menu label in Menu Module.</li>
+	<li>Added support for youtu.be links in jQuery.magnificpopup.</li>
+	<li>Added shape name as a CSS class to shape layer for easier styling.</li>
+	<li>Added <code>nav</code> markup and schema to Menu Module.</li>
+	<li>Added more WPCLI support, you can now control Themer layouts.</li>
+	<li>Added indicators to main UI menu if there are revisions and css/js for the current layout.</li>
+</ul>
+<p><strong>Bug Fixes</strong></p>
+<ul>
+	<li>Fixed rare save error caused by broken zlib server PHP settings.</li>
+	<li>Fixed internal templates showing in the link dropdown when using tinymce.</li>
+	<li>Fixed several browser jQuery deprecation warnings.</li>
+	<li>Fixed UI glitch with colorpicker in Firefox, X to reset was misaligned.</li>
+	<li>Fixed incorrect order of media queries rendered with FLBuilderCSS.</li>
+	<li>Fixed a bug where unable to add new module when editing a saved column.</li>
+	<li>Fixed laggy module settings caused by updated jQuery.validate library.</li>
+	<li>Fixed Youtube background no longer auto-playing in Safari when audio is On.</li>
+	<li>Fixed text editor module styles overriding individual styles set in TinyMCE.</li>
+	<li>Fixed functions being stripped from tiny_mce_before_init because of JSON.Stringify().</li>
+	<li>Fixed jQuery migrate warning in _initTimezoneField().</li>
+	<li>Make sure submenu icon won’t display on mobile if sets to None in Menu Module.</li>
+	<li>Removed all frameborder=0 as it is not needed in modern browsers.</li>
+	<li>Removed focus CSS from tinymce textarea.</li>
+	<li>Removed Caldera Forms Widget fix added in 2.2.1.5, Caldera Forms 1.8.4 fixed the issue.</li>
+</ul>
+
+<h4>2.2.1.5 - 03/20/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Updated Font Awesome to 5.8.0!</li>
+	<li>Patched bxslider to fix link problem in latest Chrome release.</li>
+	<li>Fixed issue with Caldera Forms widget.</li>
+	<li>Fixed undefined height/width in photo module if using non images like SVGs.</li>
+	<li>Fixed issue with disappearing content when switching from the Builder to Gutenberg.</li>
+	<li>Fixed CSS issue with connections toggle being hidden.</li>
+	<li>Fixed white label issue with template categories.</li>
+	<li>Updated jQuery Mosaic to fix Gallery Module issue.</li>
+	<li>Fixed PHP notices in Infusionsoft and Mailerlite subscribe services.</li>
+</ul>
+
 <h4>2.2.1.4 - 03/05/2019</h4>
 <p><strong>Hot Fix</strong></p>
 <ul>

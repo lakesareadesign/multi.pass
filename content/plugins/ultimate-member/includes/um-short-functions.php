@@ -620,7 +620,7 @@ function um_js_redirect( $url ) {
  * @return string
  */
 function um_get_snippet( $str, $wordCount = 10 ) {
-	if (str_word_count( $str ) > $wordCount) {
+	if (str_word_count( $str, 0, "éèàôù" ) > $wordCount) {
 		$str = implode(
 			'',
 			array_slice(
@@ -2131,7 +2131,7 @@ function um_get_default_cover_uri() {
  * @param $data
  * @param null $attrs
  *
- * @return string
+ * @return string|array
  */
 function um_user( $data, $attrs = null ) {
 

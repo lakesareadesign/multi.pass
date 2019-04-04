@@ -5,6 +5,15 @@ Build Time:  BUILDTIME
 CHANGELOG
 =================================================
 
+= 2.2.2 =
+-------------------------------------------------
+- Fixed: problem CoursePress Theme directory.
+
+= 2.2.1 =
+-------------------------------------------------
+- Fixed: problem with saving course.
+- Fixed: WooCommerce integration problem with cart.
+
 = 2.2.0 =
 -------------------------------------------------
 - Fixed: Ability to duplicate a course for an instructor.
@@ -801,4 +810,4 @@ Fixed: Preview button.
 * 1.0 First Release.
 
 
-133620-1528232136-au
+133620-1554389271-au

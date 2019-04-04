@@ -30,11 +30,6 @@ class MetaSlider_Slideshows {
 			require_once plugin_dir_path(__FILE__) . 'Themes.php';
 		}
 		$this->themes = MetaSlider_Themes::get_instance();
-
-		if (!class_exists('MetaSlider_Slides')) {
-			require_once plugin_dir_path(__FILE__) . 'Slides.php';
-		}
-		$this->slides = MetaSlider_Slides::get_instance();
 	}
 
 	/**
@@ -98,11 +93,50 @@ class MetaSlider_Slideshows {
 			'post_status' => 'trash'
 		));
 
-		$this->slides->delete_from_slideshow($slideshow_id);
+		$this->delete_all_slides($slideshow_id);
 
 		$recent_slideshow = $this->get_recent_slideshow();
 		return !empty($recent_slideshow) ? $recent_slideshow['id'] : false;
 	}
+
+
+	/**
+     * Method to disassociate slides from a slideshow
+     *
+     * @param int $slideshow_id - the id of the slideshow
+	 * 
+	 * @return int
+     */
+	public function delete_all_slides($slideshow_id) {
+		$args = array(
+			'force_no_custom_order' => true,
+			'orderby' => 'menu_order',
+			'order' => 'ASC',
+			'post_type' => array('ml-slide'),
+			'post_status' => array('publish'),
+			'lang' => '', // polylang, ingore language filter
+			'suppress_filters' => 1, // wpml, ignore language filter
+			'posts_per_page' => -1,
+			'tax_query' => array(
+				array(
+					'taxonomy' => 'ml-slider',
+					'field' => 'slug',
+					'terms' => $slideshow_id
+				)
+			)
+		);
+
+		// I believe if this fails there's no real harm done
+		// because slides don't really need to be linked to their parent slideshow
+		$query = new WP_Query($args);
+		while ($query->have_posts()) {
+			$query->next_post();
+			wp_trash_post($query->post->ID);
+		}
+
+		return $slideshow_id;
+	}
+
 
 	/**
 	 * Method to get the most recently modified slideshow

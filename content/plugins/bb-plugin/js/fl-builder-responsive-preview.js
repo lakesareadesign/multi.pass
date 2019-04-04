@@ -62,7 +62,7 @@
 				src 	= FLBuilderConfig.previewUrl,
 				last	= $( '#fl-builder-preview-mask, #fl-builder-preview-frame' ),
 				mask	= $( '<div id="fl-builder-preview-mask"></div>' ),
-				frame 	= $( '<iframe id="fl-builder-preview-frame" src="' + src + '" frameborder="0"></iframe>' );
+				frame 	= $( '<iframe id="fl-builder-preview-frame" src="' + src + '"></iframe>' );
 
 			last.remove();
 			body.append( mask );

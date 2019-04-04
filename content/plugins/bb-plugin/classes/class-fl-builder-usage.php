@@ -99,6 +99,7 @@ final class FLBuilderUsage {
 		);
 
 		$message = sprintf(
+			/* translators: %s: branded builder name */
 			__( 'Would you like to help us improve %s by sending anonymous usage data?', 'fl-builder' ),
 			FLBuilderModel::get_branding()
 		);

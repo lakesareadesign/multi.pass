@@ -23,7 +23,40 @@ final class FLBuilderAdminSettings {
 	 * @return void
 	 */
 	static public function init() {
-		add_action( 'after_setup_theme', __CLASS__ . '::init_hooks', 11 );
+		add_action( 'init', __CLASS__ . '::init_hooks', 11 );
+		add_action( 'wp_ajax_fl_welcome_submit', array( 'FLBuilderAdminSettings', 'welcome_submit' ) );
+	}
+
+	/**
+	 * AJAX callback for welcome email subscription form.
+	 * @since 2.2.2
+	 */
+	static public function welcome_submit() {
+
+		if ( ! empty( $_POST ) && wp_verify_nonce( $_POST['_wpnonce'], 'welcome_submit' ) ) {
+
+			$url = 'http://services.wpbeaverbuilder.com/drip/subscribe.php';
+
+			$url = add_query_arg( array(
+				'name'  => $_POST['name'],
+				'email' => $_POST['email'],
+			), $url );
+
+			$response = wp_remote_get( $url );
+			$body     = $response['body'];
+			if ( '1' === $body ) {
+				$args = array(
+					'message' => __( 'Thank you!', 'fl-builder' ),
+				);
+				update_user_meta( get_current_user_id(), '_fl_welcome_subscribed', '1' );
+				wp_send_json_success( $args );
+			}
+		} else {
+			$args = array(
+				'message' => __( 'Error submitting.', 'fl-builder' ),
+			);
+			wp_send_json_error( $args );
+		}
 	}
 
 	/**
@@ -125,7 +158,7 @@ final class FLBuilderAdminSettings {
 		if ( ! empty( $icon ) ) {
 			echo '<img role="presentation" src="' . $icon . '" />';
 		}
-
+		/* translators: %s: builder branded name */
 		echo '<span>' . sprintf( _x( '%s Settings', '%s stands for custom branded "Page Builder" name.', 'fl-builder' ), FLBuilderModel::get_branding() ) . '</span>';
 	}
 
@@ -432,12 +465,6 @@ final class FLBuilderAdminSettings {
 				$enabled_icons = array_map( 'sanitize_text_field', $_POST['fl-enabled-icons'] );
 			}
 
-			// we cant have fa4 and fa5 active at same time.
-			if ( in_array( 'font-awesome', $enabled_icons ) && (bool) array_intersect( array( 'font-awesome-5-brands', 'font-awesome-5-regular', 'font-awesome-5-solid' ), $enabled_icons ) ) {
-				self::add_error( __( 'Use either Font Awesome 4 or Font Awesome 5. They are not compatible. Modules already in use will continue to use Font Awesome 4 regardless of your choice here.', 'fl-builder' ) );
-				return;
-			}
-
 			// Update the enabled sets.
 			self::update_enabled_icons( $enabled_icons );
 
@@ -482,6 +509,7 @@ final class FLBuilderAdminSettings {
 
 				// unzip returned a WP_Error
 				if ( is_wp_error( $unzipped ) ) {
+					/* translators: %s: unzip error message */
 					self::add_error( sprintf( __( 'Unzip Error: %s', 'fl-builder' ), $unzipped->get_error_message() ) );
 					return;
 				}
@@ -721,6 +749,7 @@ final class FLBuilderAdminSettings {
 
 		$wporg = '<a target="_blank" href="https://wordpress.org/plugins/beaver-builder-lite-version/">wordpress.org</a>';
 
+		/* translators: 1: stars link: 2: link to wporg page */
 		return sprintf( __( 'Add your %1$s on %2$s to spread the love.', 'fl-builder' ), $stars, $wporg );
 	}
 }

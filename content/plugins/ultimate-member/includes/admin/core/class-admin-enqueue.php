@@ -83,6 +83,8 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 
 			add_action( 'load-post-new.php', array( &$this, 'enqueue_cpt_scripts' ) );
 			add_action( 'load-post.php', array( &$this, 'enqueue_cpt_scripts' ) );
+
+			add_filter( 'block_categories', array( &$this, 'blocks_category' ), 10, 2 );
 		}
 
 
@@ -424,6 +426,100 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 
 
 		/**
+		 * Load Gutenberg blocks js
+		 */
+		function load_gutenberg_shortcode_blocks() {
+			if ( ! function_exists( 'register_block_type' ) ) {
+				// Gutenberg is not active.
+				return;
+			}
+
+			//disable Gutenberg scripts to avoid the conflicts
+			$disable_script = apply_filters( 'um_disable_blocks_script', false );
+			if ( $disable_script ) {
+				return;
+			}
+
+			$enable_blocks = UM()->options()->get( 'enable_blocks' );
+			if ( empty( $enable_blocks ) ) {
+				return;
+			}
+
+			wp_register_script( 'um-blocks-shortcode-js', $this->js_url . 'um-admin-blocks-shortcode.js', array( 'wp-i18n', 'wp-blocks', 'wp-components', 'rich-text' ), ultimatemember_version, true );
+			wp_set_script_translations( 'um-blocks-shortcode-js', 'ultimate-member' );
+			wp_enqueue_script( 'um-blocks-shortcode-js' );
+
+			$account_settings = array(
+				'password'      => array(
+					'label'     => __( 'Password', 'ultimate-member' ),
+					'enabled'   => UM()->options()->get( 'account_tab_password' ),
+				),
+				'privacy'       => array(
+					'label'     => __( 'Privacy', 'ultimate-member' ),
+					'enabled'   => UM()->options()->get( 'account_tab_privacy' ),
+				),
+				'notifications' => array(
+					'label'     => __( 'Notifications', 'ultimate-member' ),
+					'enabled'   => UM()->options()->get( 'account_tab_notifications' ),
+				),
+				'delete'        => array(
+					'label'     => __( 'Delete', 'ultimate-member' ),
+					'enabled'   => UM()->options()->get( 'account_tab_delete' ),
+				),
+			);
+			wp_localize_script( 'um-blocks-shortcode-js', 'um_account_settings', $account_settings );
+
+			/**
+			 * create gutenberg blocks
+			 */
+			register_block_type( 'um-block/um-user-profile-wall', array(
+				'editor_script' => 'um-blocks-shortcode-js',
+			) );
+
+			register_block_type( 'um-block/um-forms', array(
+				'editor_script' => 'um-blocks-shortcode-js',
+			) );
+
+			register_block_type( 'um-block/um-member-directories', array(
+				'editor_script' => 'um-blocks-shortcode-js',
+			) );
+
+			register_block_type( 'um-block/um-password-reset', array(
+				'editor_script' => 'um-blocks-shortcode-js',
+			) );
+
+			register_block_type( 'um-block/um-account', array(
+				'editor_script' => 'um-blocks-shortcode-js',
+			) );
+		}
+
+
+		/**
+		 * Add Gutenberg category for UM shortcodes
+		 *
+		 * @param array $categories
+		 * @param $post
+		 *
+		 * @return array
+		 */
+		 function blocks_category( $categories, $post ) {
+			 $enable_blocks = UM()->options()->get( 'enable_blocks' );
+			 if ( empty( $enable_blocks ) ) {
+				 return $categories;
+			 }
+
+		 	return array_merge(
+				 $categories,
+				 array(
+					 array(
+						 'slug'     => 'um-blocks',
+						 'title'    => __( 'Ultimate Member Blocks', 'ultimate-member' ),
+					 ),
+				 )
+			 );
+		 }
+
+		/**
 		 * Load localize scripts
 		 */
 		function load_localize_scripts() {
@@ -518,6 +614,7 @@ if ( ! class_exists( 'um\admin\core\Admin_Enqueue' ) ) {
 			global $wp_version;
 			if ( version_compare( $wp_version, '5.0', '>=' ) && ! empty( $this->post_page ) ) {
 				$this->load_gutenberg_js();
+				$this->load_gutenberg_shortcode_blocks();
 			}
 
 		}

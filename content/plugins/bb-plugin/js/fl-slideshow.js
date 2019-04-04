@@ -2568,7 +2568,7 @@ Y.namespace('FL').SlideshowImage = Y.Base.create('fl-slideshow-image', Y.Widget,
 	 */
 	_getIframeVideoEmbed: function(imageInfo, autoPlay)
 	{
-		var code 	= '<iframe width="100%" height="100%" frameborder="0" allowfullscreen ',
+		var code 	= '<iframe width="100%" height="100%" allowfullscreen ',
 			url	 	= imageInfo.iframe;
 
 		if(autoPlay) {
@@ -4117,7 +4117,7 @@ Y.namespace('FL').SlideshowSocial = Y.Base.create('fl-slideshow-social', Y.Widge
 		src += '&colorscheme=light';
 		src += '&height=21';
 
-		this._buttons.like = Y.Node.create('<iframe src="'+ src +'" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
+		this._buttons.like = Y.Node.create('<iframe src="'+ src +'" scrolling="no" allowTransparency="true"></iframe>');
 
 		this._buttons.like.setStyles({
 			overflow: 'hidden',
@@ -4147,7 +4147,7 @@ Y.namespace('FL').SlideshowSocial = Y.Base.create('fl-slideshow-social', Y.Widge
 		src += 'url=' + encodeURIComponent(imageInfo.largeURL);
 		src += '&count=none';
 
-		this._buttons.tweet = Y.Node.create('<iframe src="'+ src +'" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
+		this._buttons.tweet = Y.Node.create('<iframe src="'+ src +'" scrolling="no" allowTransparency="true"></iframe>');
 
 		this._buttons.tweet.setStyles({
 			overflow: 'hidden',

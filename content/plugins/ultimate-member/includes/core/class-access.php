@@ -556,10 +556,11 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 				$restriction = get_post_meta( $post->ID, 'um_content_restriction', true );
 
 				if ( ! empty( $restriction['_um_custom_access_settings'] ) ) {
-					if ( ! isset( $restriction['_um_accessible'] ) )
+					if ( ! isset( $restriction['_um_accessible'] ) ) {
 						return false;
-					else
+					} else {
 						return $restriction;
+					}
 				}
 			}
 
@@ -573,8 +574,9 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 			$terms = array();
 			if ( ! empty( $taxonomies ) ) {
 				foreach ( $taxonomies as $taxonomy ) {
-					if ( empty( $restricted_taxonomies[$taxonomy] ) )
+					if ( empty( $restricted_taxonomies[ $taxonomy ] ) ) {
 						continue;
+					}
 
 					$terms = array_merge( $terms, wp_get_post_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) ) );
 				}
@@ -585,10 +587,11 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 				$restriction = get_term_meta( $term_id, 'um_content_restriction', true );
 
 				if ( ! empty( $restriction['_um_custom_access_settings'] ) ) {
-					if ( ! isset( $restriction['_um_accessible'] ) || '0' == $restriction['_um_accessible'] )
+					if ( ! isset( $restriction['_um_accessible'] ) || '0' == $restriction['_um_accessible'] ) {
 						continue;
-					else
+					} else {
 						return $restriction;
+					}
 				}
 			}
 
@@ -610,10 +613,17 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 			$filtered_posts = array();
 
 			//if empty
-			if ( empty( $posts ) )
+			if ( empty( $posts ) ) {
 				return $posts;
+			}
 
 			$restricted_global_message = UM()->options()->get( 'restricted_access_message' );
+
+			if ( is_object( $query ) ) {
+				$is_singular = $query->is_singular();
+			} else {
+				$is_singular = ! empty( $query->is_singular ) ? true : false;
+			}
 
 			//other filter
 			foreach ( $posts as $post ) {
@@ -629,12 +639,6 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 				if ( ! $restriction ) {
 					$filtered_posts[] = $post;
 					continue;
-				}
-
-				if ( is_object( $query ) ) {
-					$is_singular = $query->is_singular();
-				} else {
-					$is_singular = ! empty( $query->is_singular ) ? true : false;
 				}
 
 				//post is private
@@ -706,6 +710,8 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 								 * ?>
 								 */
 								do_action( 'um_access_fix_external_post_content' );
+
+								add_filter( 'single_template', array( &$this, 'woocommerce_template' ), 9999999, 1 );
 
 								$filtered_posts[] = $post;
 								continue;
@@ -821,6 +827,8 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 								 */
 								do_action( 'um_access_fix_external_post_content' );
 
+								add_filter( 'single_template', array( &$this, 'woocommerce_template' ), 9999999, 1 );
+
 								$filtered_posts[] = $post;
 								continue;
 							} elseif ( '1' == $restriction['_um_noaccess_action'] ) {
@@ -846,6 +854,7 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 						}
 
 					} else {
+
 						if ( empty( $is_singular ) ) {
 							if ( empty( $restriction['_um_access_hide_from_queries'] ) ) {
 
@@ -907,6 +916,8 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 								 */
 								do_action( 'um_access_fix_external_post_content' );
 
+								add_filter( 'single_template', array( &$this, 'woocommerce_template' ), 9999999, 1 );
+
 								$filtered_posts[] = $post;
 								continue;
 							} elseif ( '1' == $restriction['_um_noaccess_action'] ) {
@@ -934,6 +945,24 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 			}
 
 			return $filtered_posts;
+		}
+
+
+		/**
+		 * @param string $single_template
+		 *
+		 * @return string
+		 */
+		function woocommerce_template( $single_template ) {
+			if ( ! UM()->dependencies()->woocommerce_active_check() ) {
+				return $single_template;
+			}
+
+			if ( is_product() ) {
+				remove_filter( 'template_include', array( 'WC_Template_Loader', 'template_loader' ) );
+			}
+
+			return $single_template;
 		}
 
 
@@ -1008,57 +1037,57 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 		/**
 		 * Disable comments if user has not permission to access this post
 		 *
-		 * @param mixed $open
+		 * @param int $count
 		 * @param int $post_id
 		 * @return boolean
 		 */
-		public function disable_comments_open_number( $open, $post_id ) {
+		public function disable_comments_open_number( $count, $post_id ) {
 			static $cache_number = array();
 
 			if ( isset( $cache_number[ $post_id ] ) ) {
-				return $cache_number[ $post_id ] ? $open : false;
+				return $cache_number[ $post_id ];
 			}
 
 			$post = get_post( $post_id );
 			$restriction = $this->get_post_privacy_settings( $post );
 
 			if ( ! $restriction ) {
-				$cache_number[ $post_id ] = $open;
-				return $open;
+				$cache_number[ $post_id ] = $count;
+				return $count;
 			}
 
 			if ( '1' == $restriction['_um_accessible'] ) {
 
 				if ( is_user_logged_in() ) {
 					if ( ! current_user_can( 'administrator' ) ) {
-						$open = false;
+						$count = 0;
 					}
 				}
 
 			} elseif ( '2' == $restriction['_um_accessible'] ) {
 				if ( ! is_user_logged_in() ) {
-					$open = false;
+					$count = 0;
 				} else {
 					if ( ! current_user_can( 'administrator' ) ) {
 						$custom_restrict = $this->um_custom_restriction( $restriction );
 
 						if ( empty( $restriction['_um_access_roles'] ) || false === array_search( '1', $restriction['_um_access_roles'] ) ) {
 							if ( ! $custom_restrict ) {
-								$open = false;
+								$count = 0;
 							}
 						} else {
 							$user_can = $this->user_can( get_current_user_id(), $restriction['_um_access_roles'] );
 
 							if ( ! isset( $user_can ) || ! $user_can || ! $custom_restrict ) {
-								$open = false;
+								$count = 0;
 							}
 						}
 					}
 				}
 			}
 
-			$cache_number[ $post_id ] = $open;
-			return $open;
+			$cache_number[ $post_id ] = $count;
+			return $count;
 		}
 
 

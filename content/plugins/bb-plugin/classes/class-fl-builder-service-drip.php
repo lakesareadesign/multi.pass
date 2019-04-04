@@ -84,12 +84,14 @@ final class FLBuilderServiceDrip extends FLBuilderService {
 					}
 				} catch ( Exception $e ) {
 					$response['error'] = sprintf(
+						/* translators: %s: error */
 						__( 'Error: Please check your Account ID. %s', 'fl-builder' ),
 						$e->getMessage()
 					);
 				}
 			} catch ( Exception $e ) {
 				$response['error'] = sprintf(
+					/* translators: %s: error */
 					__( 'Error: Please check your API token. %s', 'fl-builder' ),
 					$e->getMessage()
 				);
@@ -113,6 +115,7 @@ final class FLBuilderServiceDrip extends FLBuilderService {
 			'class'       => 'fl-builder-service-connect-input',
 			'type'        => 'text',
 			'label'       => __( 'API Token', 'fl-builder' ),
+			/* translators: %s: api url */
 			'description' => sprintf( __( 'Your API Token can be found in your Drip account under Settings > My User Settings. Or, you can click this <a%s>direct link</a>.', 'fl-builder' ), ' href="https://www.getdrip.com/user/edit" target="_blank"' ),
 			'preview'     => array(
 				'type' => 'none',
@@ -255,6 +258,7 @@ final class FLBuilderServiceDrip extends FLBuilderService {
 				}
 			} catch ( Exception $e ) {
 				$response['error'] = sprintf(
+					/* translators: %s: error */
 					__( 'There was an error searching contact from Drip. %s', 'fl-builder' ),
 					$e->getMessage()
 				);
@@ -287,6 +291,7 @@ final class FLBuilderServiceDrip extends FLBuilderService {
 				}
 			} catch ( Exception $e ) {
 				$response['error'] = sprintf(
+					/* translators: %s: error */
 					__( 'There was an error subscribing to Drip. %s', 'fl-builder' ),
 					$e->getMessage()
 				);

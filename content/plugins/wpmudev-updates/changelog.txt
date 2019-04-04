@@ -5,6 +5,12 @@ Change Log:
 ----------------------------------------------------------------------
 ----------------------------------------------------------------------
 
+4.7 - 10/19/2018 - Aaron, Leighton, Hendrawan
+----------------------------------------------------------------------
+- Improvement: Brand new UI/UX
+- Improvement: Better Onboarding process
+- Add: Displayed analytics metrics configuration
+
 4.6.1 - 02/26/2019 - Aaron, Hendrawan
 ----------------------------------------------------------------------
 - Fix: Automate WP core update from 5.0.x to 5.1+
@@ -504,4 +510,4 @@ Added option to disable admin notices.
 Initial Release.
 
 
-133620-1551987274-au
+133620-1554389718-au

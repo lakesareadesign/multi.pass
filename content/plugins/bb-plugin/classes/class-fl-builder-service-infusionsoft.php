@@ -44,6 +44,7 @@ final class FLBuilderServiceInfusionsoft extends FLBuilderService {
 		} catch ( iSDKException $e ) {
 			$this->api_instance        = new stdClass();
 			$this->api_instance->error = sprintf(
+				/* translators: %s: error */
 				__( 'There was an error connecting to Infusionsoft. %s', 'fl-builder' ),
 				$e->getMessage()
 			);
@@ -196,6 +197,10 @@ final class FLBuilderServiceInfusionsoft extends FLBuilderService {
 		);
 
 		foreach ( $lists as $list ) {
+			if ( ! isset( $list['GroupName'] ) ) {
+				continue;
+			}
+
 			$options[ $list['Id'] ] = $list['GroupName'];
 		}
 
@@ -277,6 +282,7 @@ final class FLBuilderServiceInfusionsoft extends FLBuilderService {
 					}
 				} catch ( iSDKException $e ) {
 					$response['error'] = sprintf(
+						/* translators: %s: error */
 						__( 'There was an error subscribing to Infusionsoft. %s', 'fl-builder' ),
 						$e->getMessage()
 					);

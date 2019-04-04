@@ -502,7 +502,8 @@ class TheLib_Debug extends TheLib  {
 				$type_label .= ' [' . get_class( $data ) . ']';
 			}
 
-			$last_key = end( (array_keys( $dump_data )) );
+			$keys = array_keys( $dump_data );
+			$last_key = end( $keys );
 			reset( $dump_data );
 
 			foreach ( $dump_data as $key => $value ) {
@@ -772,6 +773,7 @@ class TheLib_Debug extends TheLib  {
 			cursor: default;
 			padding: 0;
 			border: 0;
+			word-break: normal!important;
 		}
 		.wdev-debug .wdev-dump tr:hover td {
 			background-color: #FFF;
@@ -808,6 +810,7 @@ class TheLib_Debug extends TheLib  {
 			padding: 1px 2px !important;
 			font-size: 12px;
 			vertical-align: top;
+			word-break: normal!important;
 		}
 		.wdev-trace {
 			margin: 4px 0 0 0;

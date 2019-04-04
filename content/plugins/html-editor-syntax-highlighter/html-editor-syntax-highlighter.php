@@ -1,26 +1,14 @@
 <?php
-
-
 /**
- * @since              0.0.1
- * @package            HESH_plugin
- *
- * Plugin Name:        HTML Editor Syntax Highlighter
- * Plugin URI:         http://wordpress.org/extend/plugins/html-editor-syntax-highlighter/
+ * Plugin Name:        HTML Editor Syntax Highlighter 
  * Description:        Add syntax highlighting to the all WordPress code editors using Codemirror.js
- * Text Domain:        html-editor-syntax-highlighter
  * Author:             James Bradford
  * Author URI:         http://bradford.digital/
  * Author:             Petr Mukhortov
  * Author URI:         http://mukhortov.com/
- * License:            GPL-2.0+
- * License URI:        http://www.gnu.org/licenses/gpl-2.0.txt
- * GitHub Branch:      master
- * GitHub Plugin URI:  https://github.com/mukhortov/HESH-WordPress-Plugin
- * Version:            2.3.2
- * Requires at least:  4.0.15
- * Tested up to:       5.1.0
- * Stable tag:         2.3.2
+ * Version:            2.4.1
+ * 
+ * @package            HESH_plugin
 **/
 
 // Check for required PHP version
@@ -32,26 +20,28 @@ if ( preg_match( '#' . basename(__FILE__) . '#', $_SERVER['PHP_SELF'] ) ) {
 	die('You are not allowed to call this page directly.');
 }
 
-define( 'HESH_LIBS', plugins_url( '/dist/', __FILE__ ) );
+define( 'HESH_LIBS', plugins_url( '/', __FILE__ ) );
 
-class wp_html_editor_syntax {
+class Wp_Html_Editor_Syntax_Highlighter {
 	
 	public function __construct () {
 		add_action( 'admin_init', array(&$this, 'hesh_set_options') );
-		add_action( 'admin_enqueue_scripts', array(&$this, 'hesh_admin_enqueue_scripts' ) );
 		add_action( 'wp_ajax_'.$this->formProcessName, array(&$this, 'hesh_options_form_process'));
-		add_action( 'admin_footer', array(&$this, 'hesh_output_form') );
-	}
-		
-	// Enqueued scripts and styles for hesh.js
-	public function hesh_admin_enqueue_scripts () {
-		
+
 		// Load only on certain pages
 		if (
 			!strstr($_SERVER['SCRIPT_NAME'], 'post.php') && 
 			!strstr($_SERVER['SCRIPT_NAME'], 'post-new.php') &&
 			!strstr($_SERVER['SCRIPT_NAME'], 'editor.php')
 		) return;
+
+		add_action( 'admin_enqueue_scripts', array(&$this, 'hesh_admin_enqueue_scripts' ) );
+		add_action( 'admin_footer', array(&$this, 'hesh_output_form') );
+		add_action( 'admin_notices', array(&$this, 'display_survey_notice' ));
+	}
+		
+	// Enqueued scripts and styles for hesh.js
+	public function hesh_admin_enqueue_scripts () {
 		
 		// get the plugin version number for cache busting purposes
 		$plugData = get_plugin_data( __FILE__ ); // need this temporary var to support versions of php < 5.4
@@ -75,11 +65,13 @@ class wp_html_editor_syntax {
 		// this shows up in js as window.heshOptions
 		$heshOptions = array(
 			'ajaxUrl' => admin_url( 'admin-ajax.php' ),
+			// 'nonce' => wp_create_nonce( $this->formProcessName ) // TODO: use this instead of the hidden field?
 		);
 
 		// place all the userPreferences into the heshOptions object
 		foreach ($this->userPreferences as $id => $value) {
 			$heshOptions[$id] = $value['current'];
+			// error_log( $id . ': ' . $heshOptions[$id] . ' type: ' . gettype($heshOptions[$id]) ); // for debug
 		}
 		wp_localize_script(
 			'heshJs',        // for hesh.js
@@ -89,13 +81,24 @@ class wp_html_editor_syntax {
 		
 	}
 
+	private $surveyLink = 'https://goo.gl/forms/xvaHgd7sZEbBbFAL2';
 	private $formProcessName = 'hesh_options_form';
 	private $nonceSecretCode = 'secret-code';
 	private $prefix = 'hesh_';
-	private $userPreferences; // added to the primary bar
+	private $userPreferences = array(); // added to the primary bar
 	public function hesh_set_options() {
 		$this->userPreferences = array(
 
+			// HIDDEN OPTIONS // added in the primary settings bar
+			'surveyNoticeDismissedB' => array(
+				'title' => 'UX Survey Notice Dismissed',
+				'type' => 'hidden',
+				// 'current' => false, // reset for debug
+				'current' => get_user_meta( get_current_user_id(), $this->prefix.'surveyNoticeDismissedB' , true),
+				'default' => false,
+				'set' => 'hidden',
+			),
+			
 			// PRIMARY OPTIONS // added in the primary settings bar
 			'theme' => array(
 				'title' => 'Theme',
@@ -229,6 +232,7 @@ class wp_html_editor_syntax {
 				if ($setting === 'true') $setting = true;
 				if ($setting === 'false') $setting = false;
 				if (is_numeric($setting)) $setting = floatval($setting);
+				// error_log( $id . ': ' . $setting . ' type: ' . gettype($setting) ); // for debug
 				update_user_meta( get_current_user_id(), $this->prefix.$id, $setting);
 			}
 		}
@@ -356,8 +360,22 @@ class wp_html_editor_syntax {
 		endforeach; 
 		$this->hesh_output_fieldset(); 
 	}
+
+	private function hesh_output_hidden($id, $config) {
+		extract($config);
+		?>
+			<input 
+				type="hidden" 
+				id="<?php echo $id; ?>" 
+				name="<?php echo $id; ?>"
+				value="<?php echo $current; ?>"
+				class="CodeMirror-settings__option"
+			/>
+		<?php 
+	}
 		
 	public function hesh_output_form() {
+		// ob_start();
 		?>
 			<div class="CodeMirror-settings closed" id="CodeMirror-settings" style="display:none;">
 				<form
@@ -369,8 +387,10 @@ class wp_html_editor_syntax {
 					<header class="CodeMirror-settings__header CodeMirror-settings__docked">
 						<?php
 							foreach ($this->userPreferences as $id => $value) {
-								if ( $value['set'] === 'advanced' ) continue;
-								$this->hesh_output_option($id,$value);
+								if ( $value['set'] === 'primary' )
+									$this->hesh_output_option($id,$value);
+								if ( $value['set'] === 'hidden' )
+									$this->hesh_output_hidden($id,$value);
 							}
 						?>
 						<a 
@@ -387,7 +407,12 @@ class wp_html_editor_syntax {
 									Advanced Options
 								</h1>
 								<!-- <small>These features are experimental and may have bugs</small> -->
-							</td></tr>
+								<small>
+									<strong>HELP!</strong>
+									Please consider taking a short <a href="<?php echo $this->surveyLink; ?>" target="_blank" >User Experience Survey</a> 
+									to provide feedback that will help shape the new version 3.0 of this plugin.
+								</small>
+								</td></tr>
 							<?php
 
 							$this->hesh_output_fieldset('Highlighting'); 
@@ -413,7 +438,10 @@ class wp_html_editor_syntax {
 					</div>
 					<footer class="CodeMirror-settings__footer CodeMirror-settings__docked">
 						<p class="CodeMirror-settings__foot-content CodeMirror-settings__feedback">
-							<small>Leave a 
+							<small>
+								Provide
+								<a href="<?php echo $this->surveyLink; ?>" target="_blank" >feedback</a>,
+								Leave a 
 								<a href="https://wordpress.org/support/plugin/html-editor-syntax-highlighter/reviews/#new-post" target="_blank">review</a>,
 								fork on
 								<a href="https://github.com/mukhortov/HESH-WordPress-Plugin/" target="_blank">Github</a>, 
@@ -434,6 +462,25 @@ class wp_html_editor_syntax {
 				<div class="CodeMirror-settings__toggle" id="CodeMirror-settings__toggle"></div>
 			</div>
 		<?php 
+		// return ob_get_clean();
+	}
+
+	public function display_survey_notice() {
+		if ( $this->userPreferences['surveyNoticeDismissedB']['current'] ) return; // TODO: this line
+		// https://codex.wordpress.org/Plugin_API/Action_Reference/admin_notices
+		?>
+		<div class="notice notice-info is-dismissible notice-hesh">
+			<p>
+				<strong style="font-size:1.5em;">Please Take A Short Syntax Highlighter UX Survey</strong>
+				<br/>
+				A new version of the HTML Editor Syntax Highlighter Is Coming!
+				Please take this 5 minute user experience survey, and share your opinion to help shape new features in the v3.0 update. 
+				A survey link is also available in the <em>Advanced Options</em>.
+				<br/><br/>
+				<a href="<?php echo $this->surveyLink; ?>" target="_blank" class="button button-primary">Take the UX Survey</a>
+			</p>
+		</div>
+		<?php
 	}
 
 	private $cssThemes = array( 
@@ -494,7 +541,7 @@ class wp_html_editor_syntax {
 }
 
 if ( is_admin() ) {
-	$hesh = new wp_html_editor_syntax();
+	$hesh = new Wp_Html_Editor_Syntax_Highlighter();
 }
 
 ?>

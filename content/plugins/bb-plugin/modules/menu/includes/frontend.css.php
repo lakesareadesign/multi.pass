@@ -185,7 +185,7 @@ endif;
 /**
  * Toggle - Arrows / None
  */
-if ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && in_array( $settings->submenu_hover_toggle, array( 'arrows', 'none' ) ) ) || ( 'accordion' == $settings->menu_layout && 'arrows' == $settings->submenu_click_toggle ) ) :
+if ( ( in_array( $settings->menu_layout, array( 'horizontal', 'vertical' ) ) && 'arrows' == $settings->submenu_hover_toggle ) || ( 'accordion' == $settings->menu_layout && 'arrows' == $settings->submenu_click_toggle ) ) :
 	?>
 	.fl-node-<?php echo $id; ?> .fl-menu .fl-menu-toggle:before{
 		content: '';

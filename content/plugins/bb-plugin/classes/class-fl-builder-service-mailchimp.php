@@ -338,6 +338,7 @@ final class FLBuilderServiceMailChimp extends FLBuilderService {
 
 				if ( $api->getLastError() ) {
 					$response['error'] = sprintf(
+						/* translators: %s: error */
 						__( 'There was an error subscribing to MailChimp. %s', 'fl-builder' ),
 						$api->getLastError()
 					);

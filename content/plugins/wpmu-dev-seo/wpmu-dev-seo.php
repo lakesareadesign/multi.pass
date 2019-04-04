@@ -3,7 +3,7 @@
  * Plugin Name: SmartCrawl
  * Plugin URI: http://premium.wpmudev.org/project/wpmu-dev-seo/
  * Description: Every SEO option that a site requires, in one easy bundle.
- * Version: 2.2.5
+ * Version: 2.2.6
  * Network: true
  * Text Domain: wds
  * Author: WPMU DEV
@@ -30,7 +30,7 @@
 */
 
 
-define( 'SMARTCRAWL_VERSION', '2.2.5' );
+define( 'SMARTCRAWL_VERSION', '2.2.6' );
 
 class Smartcrawl_Loader {
 

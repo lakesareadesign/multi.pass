@@ -1,7 +1,7 @@
 <?php if ( 'columns' == $settings->layout ) : ?>
 <div class="fl-post-column">
 <?php endif; ?>
-<<?php echo $module->get_posts_container(); ?> <?php $module->render_post_class(); ?> itemscope itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+<<?php echo $module->get_posts_container(); ?> <?php $module->render_post_class(); ?><?php FLPostGridModule::print_schema( ' itemscope itemtype="' . FLPostGridModule::schema_itemtype() . '"' ); ?>>
 
 	<?php FLPostGridModule::schema_meta(); ?>
 	<?php $module->render_featured_image( 'above-title' ); ?>
@@ -21,6 +21,7 @@
 				<?php
 
 				printf(
+					/* translators: %s: author name */
 					_x( 'By %s', '%s stands for author name.', 'fl-builder' ),
 					'<a href="' . get_author_posts_url( get_the_author_meta( 'ID' ) ) . '"><span>' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span></a>'
 				);

@@ -11,15 +11,18 @@
       serviceHost: "<?php echo Shareaholic::URL ?>",
       assetHost: "<?php echo ShareaholicUtilities::asset_url_admin() ?>",
       assetFolders: true,
-      origin: "wp_plugin"
+      origin: "wp_plugin",
+      language: "<?php echo strtolower(get_bloginfo('language')) ?>"
     };
     </script>
 
     <div id="root" class="shr-site-settings"></div>
 
-    <script src="<?php echo ShareaholicUtilities::asset_url_admin('ui-site-settings/loader.js') ?>"></script>
+    <script class="shr-app-loader__site-settings" src="<?php echo ShareaholicUtilities::asset_url_admin('ui-site-settings/loader.js') ?>"></script>
   </div>
 
 <?php } ?>
 
 <?php ShareaholicAdmin::include_chat(); ?>
+
+<script src="https://dsms0mj1bbhn4.cloudfront.net/assets/pub/loader-reachable.js" async></script>

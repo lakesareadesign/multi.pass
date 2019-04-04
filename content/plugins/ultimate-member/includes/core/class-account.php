@@ -65,13 +65,15 @@ if ( ! class_exists( 'um\core\Account' ) ) {
 
 				foreach ( $arr as $id => $info ) {
 
-					if ( ! empty( $args['tab'] ) && $id != $args['tab'] )
+					if ( ! empty( $args['tab'] ) && $id != $args['tab'] ) {
 						continue;
+					}
 
 					$output = $this->get_tab_fields( $id, $args );
 
-					if ( ! empty( $output ) )
-						$tabs_structed[$id] = $info;
+					if ( ! empty( $output ) ) {
+						$tabs_structed[ $id ] = $info;
+					}
 
 				}
 
@@ -226,6 +228,8 @@ if ( ! class_exists( 'um\core\Account' ) ) {
 
 				$this->init_tabs( $args );
 
+				$this->current_tab = apply_filters( 'um_change_default_tab', $this->current_tab, $args );
+
 				/**
 				 * UM hook
 				 *
@@ -362,14 +366,13 @@ if ( ! class_exists( 'um\core\Account' ) ) {
 				 */
 				do_action( 'um_submit_account_errors_hook', UM()->form()->post_form );
 
+				if ( um_is_core_page( 'account' ) && get_query_var( 'um_tab' ) ) {
+					$this->current_tab = get_query_var( 'um_tab' );
+				} else {
+					$this->current_tab = UM()->form()->post_form['_um_account_tab'];
+				}
+
 				if ( ! isset( UM()->form()->errors ) ) {
-
-					if ( um_is_core_page( 'account' ) && get_query_var( 'um_tab' ) ) {
-						$this->current_tab = get_query_var( 'um_tab' );
-					} else {
-						$this->current_tab = UM()->form()->post_form['_um_account_tab'];
-					}
-
 					/**
 					 * UM hook
 					 *
@@ -391,6 +394,25 @@ if ( ! class_exists( 'um\core\Account' ) ) {
 					 */
 					do_action( 'um_submit_account_details', UM()->form()->post_form );
 
+				} elseif ( UM()->form()->has_error( 'um_account_security' ) ) {
+					$url = '';
+					if ( um_is_core_page( 'account' ) ) {
+
+						$url = UM()->account()->tab_link( $this->current_tab );
+
+						$url = add_query_arg( 'err', 'account', $url );
+
+						if ( function_exists( 'icl_get_current_language' ) ) {
+							if ( icl_get_current_language() != icl_get_default_language() ) {
+								$url = UM()->permalinks()->get_current_url( true );
+								$url = add_query_arg( 'err', 'account', $url );
+
+								exit( wp_redirect( $url ) );
+							}
+						}
+					}
+
+					exit( wp_redirect( $url ) );
 				}
 
 			}
@@ -498,8 +520,9 @@ if ( ! class_exists( 'um\core\Account' ) ) {
 			UM()->fields()->editing = true;
 
 			if ( ! empty( $this->tab_output[$id]['content'] ) && ! empty( $this->tab_output[$id]['hash'] ) &&
-			     $this->tab_output[$id]['hash'] == md5( json_encode( $shortcode_args ) ) )
+			     $this->tab_output[$id]['hash'] == md5( json_encode( $shortcode_args ) ) ) {
 				return $this->tab_output[$id]['content'];
+			}
 
 			switch ( $id ) {
 
@@ -528,7 +551,7 @@ if ( ! class_exists( 'um\core\Account' ) ) {
 					 * ?>
 					 */
 					$args = apply_filters( 'um_account_tab_privacy_fields', $args, $shortcode_args );
-					
+
 					$fields = UM()->builtin()->get_specific_fields( $args );
 					$fields = $this->account_secure_fields( $fields, $id );
 					$fields = $this->filter_fields_by_attrs( $fields, $shortcode_args );
@@ -585,6 +608,10 @@ if ( ! class_exists( 'um\core\Account' ) ) {
 
 					if ( ! UM()->options()->get( 'account_email' ) && ! um_user( 'can_edit_everyone' ) ) {
 						$args = str_replace(',user_email','', $args );
+					}
+
+					if ( UM()->options()->get( 'account_general_password' ) ) {
+						$args .= ',single_user_password';
 					}
 
 					/**
@@ -757,7 +784,9 @@ if ( ! class_exists( 'um\core\Account' ) ) {
 
 					<div class="um-col-alt um-col-alt-b">
 						<div class="um-left">
-							<input type="submit" name="um_account_submit" id="um_account_submit_<?php echo $tab_id ?>"  class="um-button" value="<?php echo ! empty( $tab_data['submit_title'] ) ? $tab_data['submit_title'] : $tab_data['title']; ?>" />
+							<?php $submit_title = ! empty( $tab_data['submit_title'] ) ? $tab_data['submit_title'] : $tab_data['title']; ?>
+							<input type="hidden" name="um_account_nonce_<?php echo esc_attr( $tab_id ) ?>" value="<?php echo esc_attr( wp_create_nonce( 'um_update_account_' . $tab_id ) ) ?>" />
+							<input type="submit" name="um_account_submit" id="um_account_submit_<?php echo $tab_id ?>"  class="um-button" value="<?php echo esc_attr( $submit_title ) ?>" />
 						</div>
 
 						<?php

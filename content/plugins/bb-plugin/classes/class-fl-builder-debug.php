@@ -159,6 +159,31 @@ final class FL_Debug {
 		self::register( 'wp_max_mem', $args );
 
 		$args = array(
+			'name' => 'Post Counts',
+			'data' => self::divider(),
+		);
+		self::register( 'post_counts', $args );
+
+		$templates = wp_count_posts( 'fl-builder-template' );
+
+		$post_types = get_post_types( null, 'object' );
+
+		foreach ( $post_types as $type => $type_object ) {
+
+			if ( in_array( $type, array( 'wp_block', 'user_request', 'oembed_cache', 'customize_changeset', 'custom_css', 'nav_menu_item' ) ) ) {
+				continue;
+			}
+
+			$count = wp_count_posts( $type );
+
+			$args = array(
+				'name' => ( 'fl-builder-template' == $type ) ? 'Builder Templates' : 'WordPress ' . $type_object->label,
+				'data' => ( $count->inherit > 0 ) ? $count->inherit : $count->publish,
+			);
+			self::register( 'wp_type_count_' . $type, $args );
+		}
+
+		$args = array(
 			'name' => 'Themes',
 			'data' => self::divider(),
 		);
@@ -366,7 +391,7 @@ final class FL_Debug {
 			$subscription = FLUpdater::get_subscription_info();
 			$args         = array(
 				'name' => 'Beaver Builder License',
-				'data' => ( $subscription->active ) ? 'Active' : 'Not Active',
+				'data' => ( isset( $subscription->active ) ) ? 'Active' : 'Not Active',
 			);
 			self::register( 'bb_sub', $args );
 

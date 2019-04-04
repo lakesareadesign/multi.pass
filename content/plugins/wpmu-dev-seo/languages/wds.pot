@@ -2,10 +2,10 @@
 # This file is distributed under the same license as the SmartCrawl package.
 msgid ""
 msgstr ""
-"Project-Id-Version: SmartCrawl 2.2.5\n"
+"Project-Id-Version: SmartCrawl 2.2.6\n"
 "Report-Msgid-Bugs-To: "
 "https://wordpress.org/support/plugin/smartcrawl-regular\n"
-"POT-Creation-Date: 2019-02-18 06:43:22+00:00\n"
+"POT-Creation-Date: 2019-03-26 10:37:47+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -235,162 +235,162 @@ msgstr ""
 msgid "Your description seems to be a bit on the long side, consider trimming it"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:526
+#: includes/admin/settings/onpage.php:529
 #: includes/admin/templates/sitemap/sitemap-crawl-issues-group.php:41
 msgid "No"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:527
+#: includes/admin/settings/onpage.php:530
 #: includes/admin/settings/sitemap.php:224
 #: includes/admin/settings/sitemap.php:351
 msgid "Yes"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:531
+#: includes/admin/settings/onpage.php:534
 #: includes/admin/settings/sitemap.php:347
 msgid "Google"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:532
+#: includes/admin/settings/onpage.php:535
 #: includes/admin/settings/sitemap.php:348
 msgid "Bing"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:552
+#: includes/admin/settings/onpage.php:555
 #: includes/admin/templates/onpage/onpage-section-settings.php:5
 msgid "Separator"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:553
+#: includes/admin/settings/onpage.php:556
 msgid "Date of the post/page"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:554
+#: includes/admin/settings/onpage.php:557
 msgid "Title of the post/page"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:555
+#: includes/admin/settings/onpage.php:558
 msgid "Site's name"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:556
+#: includes/admin/settings/onpage.php:559
 msgid "Site's tagline / description"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:557
+#: includes/admin/settings/onpage.php:560
 msgid "Post/page excerpt (or auto-generated if it does not exist)"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:558
+#: includes/admin/settings/onpage.php:561
 msgid "Post/page excerpt (without auto-generation)"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:559
+#: includes/admin/settings/onpage.php:562
 msgid "Current tag/tags"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:560
+#: includes/admin/settings/onpage.php:563
 msgid "Post categories (comma separated)"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:561
+#: includes/admin/settings/onpage.php:564
 msgid "Category description"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:562
+#: includes/admin/settings/onpage.php:565
 msgid "Tag description"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:563
+#: includes/admin/settings/onpage.php:566
 msgid "Term description"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:564
+#: includes/admin/settings/onpage.php:567
 msgid "Term name"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:565
+#: includes/admin/settings/onpage.php:568
 msgid "Post/page modified time"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:566
+#: includes/admin/settings/onpage.php:569
 msgid "Post/page ID"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:567
+#: includes/admin/settings/onpage.php:570
 msgid "Post/page author's 'nicename'"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:568
+#: includes/admin/settings/onpage.php:571
 msgid "Post/page author's userid"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:569
+#: includes/admin/settings/onpage.php:572
 msgid "Current search phrase"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:570
+#: includes/admin/settings/onpage.php:573
 msgid "Current time"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:571
+#: includes/admin/settings/onpage.php:574
 msgid "Current date"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:572
+#: includes/admin/settings/onpage.php:575
 msgid "Current month"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:573
+#: includes/admin/settings/onpage.php:576
 msgid "Current year"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:574
+#: includes/admin/settings/onpage.php:577
 msgid "Current page number (i.e. page 2 of 4)"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:575
+#: includes/admin/settings/onpage.php:578
 msgid "Current page total"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:576
+#: includes/admin/settings/onpage.php:579
 msgid "Current page number"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:577
+#: includes/admin/settings/onpage.php:580
 msgid "Attachment caption"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:578
-#: includes/admin/settings/onpage.php:580
+#: includes/admin/settings/onpage.php:581
+#: includes/admin/settings/onpage.php:583
 msgid "Current page number, spelled out as numeral in English"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:579
+#: includes/admin/settings/onpage.php:582
 msgid "Current page total, spelled out as numeral in English"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:581
+#: includes/admin/settings/onpage.php:584
 msgid "Post type label plural"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:582
+#: includes/admin/settings/onpage.php:585
 msgid "Post type label singular"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:586
+#: includes/admin/settings/onpage.php:589
 msgid "BuddyPress group name"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:587
+#: includes/admin/settings/onpage.php:590
 msgid "BuddyPress group description"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:588
+#: includes/admin/settings/onpage.php:591
 msgid "BuddyPress username"
 msgstr ""
 
-#: includes/admin/settings/onpage.php:589
+#: includes/admin/settings/onpage.php:592
 msgid "BuddyPress user's full name"
 msgstr ""
 
@@ -4070,7 +4070,7 @@ msgstr ""
 msgid "Invalid parameters. Try refreshing the page and attempting again."
 msgstr ""
 
-#: includes/core/class-wds-controller-onboard.php:162
+#: includes/core/class-wds-controller-onboard.php:164
 msgid "All done, please hold on..."
 msgstr ""
 
@@ -4088,7 +4088,7 @@ msgstr ""
 msgid "The missing items have been added to your sitemap as extra URLs."
 msgstr ""
 
-#: includes/core/class-wds-controller-sitemap.php:192
+#: includes/core/class-wds-controller-sitemap.php:195
 msgid "The sitemap file was not found."
 msgstr ""
 

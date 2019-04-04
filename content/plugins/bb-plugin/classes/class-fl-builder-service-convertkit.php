@@ -72,6 +72,7 @@ final class FLBuilderServiceConvertKit extends FLBuilderService {
 					'api_key' => $fields['api_key'],
 				);
 			} else {
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'Error: Please check your API key. %s', 'fl-builder' ), $api::$response['error_message'] );
 			}
 		}
@@ -202,6 +203,7 @@ final class FLBuilderServiceConvertKit extends FLBuilderService {
 			if ( isset( $result->error ) ) {
 				$message           = isset( $result->message ) ? $result->message : '';
 				$response['error'] = sprintf(
+					/* translators: %s: error */
 					__( 'There was an error subscribing to ConvertKit. Error: %s', 'fl-builder' ),
 					$message
 				);

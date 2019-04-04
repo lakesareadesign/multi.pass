@@ -1437,7 +1437,6 @@ class ShareaholicUtilities {
     
     if ($new_status == 'publish') {
       // Post was just published
-     ShareaholicUtilities::clear_fb_opengraph(get_permalink($post->ID));
      ShareaholicUtilities::notify_content_manager_singlepage($post);
     }
     if ($old_status == 'publish' && $new_status != 'publish') {
@@ -1446,15 +1445,6 @@ class ShareaholicUtilities {
     }
   }
   
-  /**
-   * Clears Facebook Open Graph cache for provided URL
-   *
-   * @param string $url
-   */
-  public static function clear_fb_opengraph($url) {
-    $fb_graph_url = "https://graph.facebook.com/?id=". urlencode($url) ."&scrape=true";
-    $result = wp_remote_post ($fb_graph_url);
-  }
 
   /**
    * Server Connectivity check

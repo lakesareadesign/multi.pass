@@ -38,7 +38,10 @@
 
 	function is_gutenberg_active() {
 		var data = (wp || {}).data;
-		return data && data.select && data.dispatch;
+
+		return data
+			&& data.select && data.select("core/editor")
+			&& data.dispatch && data.dispatch("core/editor");
 	}
 
 	function get_post_data() {

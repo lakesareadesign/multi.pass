@@ -86,6 +86,7 @@ final class FLBuilderServiceOntraport extends FLBuilderService {
 				);
 			} else {
 				$response['error'] = sprintf(
+					/* translators: %s: error code */
 					__( 'Error: Please check your API token. Code: %s', 'fl-builder' ),
 					$status_code
 				);
@@ -247,6 +248,7 @@ final class FLBuilderServiceOntraport extends FLBuilderService {
 
 			if ( 200 !== $api->getLastStatusCode() ) {
 				$response['error'] = sprintf(
+					/* translators: %s: error code */
 					__( 'There was an error subscribing to Ontraport. Code: %s', 'fl-builder' ),
 					$api->getLastStatusCode()
 				);

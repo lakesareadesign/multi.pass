@@ -7,5 +7,6 @@ if (!defined('ABSPATH')) die('No direct access.');
  */
 require_once(dirname(__FILE__) . '/Settings.php');
 require_once(dirname(__FILE__) . '/Slideshows.php');
-require_once(dirname(__FILE__) . '/Slides.php');
+require_once(dirname(__FILE__) . '/slides/Slide.php');
 require_once(dirname(__FILE__) . '/Themes.php');
+require_once(dirname(__FILE__) . '/Image.php');

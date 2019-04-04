@@ -132,7 +132,7 @@
 				action 	 : 'get_node_settings',
 				node_id  : config.nodeId,
 			}, function( response ) {
-				config.settings = JSON.parse( response );
+				config.settings = FLBuilder._jsonParse( response );
 				FLBuilderSettingsConfig.nodes[ config.nodeId ] = config.settings;
 				FLBuilderSettingsForms.render( config, callback );
 				FLBuilder.hideAjaxLoader();
@@ -418,7 +418,7 @@
 		 * @param {String} response
 		 */
 		renderLegacySettingsComplete: function( response ) {
-			var data 	 = 'object' === typeof response ? response : JSON.parse( response ),
+			var data 	 = 'object' === typeof response ? response : FLBuilder._jsonParse( response ),
 				lightbox = null,
 				form  	 = null,
 				name 	 = '',

@@ -3,7 +3,7 @@
 Plugin Name: Appointments+
 Description: Lets you accept appointments from front end and manage or create them from admin side.
 Plugin URI: http://premium.wpmudev.org/project/appointments-plus/
-Version: 2.4.1
+Version: 2.4.2
 Author: WPMU DEV
 Author URI: http://premium.wpmudev.org/
 Textdomain: appointments
@@ -33,7 +33,7 @@ if ( ! class_exists( 'Appointments' ) ) {
 
 	class Appointments {
 
-		public $version = '2.4.1';
+		public $version = '2.4.2';
 		public $db_version;
 
 		public $timetables = array();
@@ -2057,11 +2057,9 @@ if ( ! class_exists( 'Appointments' ) ) {
 			$blogname = strip_tags( wp_specialchars_decode( get_option( 'blogname' ), ENT_QUOTES ) );
 			$content_type = apply_filters( 'app-emails-content_type', 'text/plain' );
 			if ( ! (defined( 'APP_EMAIL_DROP_LEGACY_HEADERS' ) && APP_EMAIL_DROP_LEGACY_HEADERS) ) {
-				$message_headers = "MIME-Version: 1.0\n" . "From: {$blogname}" .  " <{$admin_email}>\n" . "Content-Type: {$content_type}; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
+				$message_headers = "From: {$blogname}" .  " <{$admin_email}>\n" . "Content-Type: {$content_type}; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
 			} else {
-				$message_headers = "MIME-Version: 1.0\n" .
-				"Content-Type: {$content_type}; charset=\"" . get_option( 'blog_charset' ) . "\"\n"
-				;
+				$message_headers = "Content-Type: {$content_type}; charset=\"" . get_option( 'blog_charset' ) . "\"\n";
 				add_filter( 'wp_mail_from', create_function( '', "return '{$admin_email}';" ) );
 				add_filter( 'wp_mail_from_name', create_function( '', "return '{$blogname}';" ) );
 			}

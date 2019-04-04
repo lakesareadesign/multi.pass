@@ -102,7 +102,7 @@ Class MetaSlider_Admin_Pages extends MetaSliderPlugin {
 		// $can_use_rest = class_exists('WP_REST_Controller') ? (200 === wp_remote_retrieve_response_code(wp_remote_get(rest_url()))) : false;
 		// Add extra data
 		wp_localize_script('metaslider-admin-components', 'metaslider_api', array(
-			'root' => $can_use_rest ? esc_url_raw(rest_url()) : false,
+			'root' => $can_use_rest ? esc_url_raw(rest_url("metaslider/v1/")) : false,
 			'nonce' => wp_create_nonce('wp_rest'),
 			'ajaxurl' => admin_url('admin-ajax.php'),
 			'proUser' => metaslider_pro_is_active(),

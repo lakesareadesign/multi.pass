@@ -231,14 +231,14 @@ table h1,table h2,table h3, table h4, table h5, table h6, table p, table ul, tab
   text-align: center;
   color: #414042;
   font-size: 14px;
-  line-height: 16pt;
+  line-height: 1.6em;
   box-shadow: 0px 0px 52px rgba(0,0,0,0.32);
   padding: 0;
   height: 495px;
 }
 
 .api-key-modal {
-  height: 320px;
+  height: auto;
 }
 
 h4 {
@@ -271,7 +271,7 @@ h4 {
   margin: 10px;
   font-size: 12px;
   line-height: 1.6em;
-  padding: 0px 20px 0px 20px;
+  padding: 0px 10px 0px 10px;
 }
 
 .blocking-modal img {

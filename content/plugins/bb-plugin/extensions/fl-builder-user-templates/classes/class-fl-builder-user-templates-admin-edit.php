@@ -85,10 +85,13 @@ final class FLBuilderUserTemplatesAdminEdit {
 		$action = __( 'Edit', 'fl-builder' );
 
 		if ( 'row' == $type ) {
+			/* translators: %s: add/edit or view */
 			$label = sprintf( _x( '%s Saved Row', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action );
 		} elseif ( 'module' == $type ) {
+			/* translators: %s: add/edit or view */
 			$label = sprintf( _x( '%s Saved Module', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action );
 		} else {
+			/* translators: %s: add/edit or view */
 			$label = sprintf( _x( '%s Template', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action );
 		}
 
@@ -147,21 +150,26 @@ final class FLBuilderUserTemplatesAdminEdit {
 		global $post;
 
 		$type = FLBuilderModel::get_user_template_type( $post->ID );
+		/* translators: %s: branded builder name */
 		$edit = sprintf( _x( 'Launch %s', '%s stands for custom branded "Page Builder" name.', 'fl-builder' ), FLBuilderModel::get_branding() );
 		$view = __( 'View', 'fl-builder' );
 
 		if ( 'fl-builder-template' == $post->post_type ) {
 
 			if ( 'row' == $type ) {
+				/* translators: %s: add/edit or view */
 				$view = sprintf( _x( '%s Saved Row', '%s is an action like Add, Edit or View.', 'fl-builder' ), $view );
 			} elseif ( 'module' == $type ) {
+				/* translators: %s: add/edit or view */
 				$view = sprintf( _x( '%s Saved Module', '%s is an action like Add, Edit or View.', 'fl-builder' ), $view );
 			} else {
+				/* translators: %s: add/edit or view */
 				$view = sprintf( _x( '%s Template', '%s is an action like Add, Edit or View.', 'fl-builder' ), $view );
 			}
 		} else {
 			$object = get_post_type_object( $post->post_type );
-			$view   = sprintf( _x( '%1$s %2$s', '%1$s is an action like Add, Edit or View. %2$s is post type label.', 'fl-builder' ), $view, $object->labels->singular_name );
+			/* translators: 1: add/edit or view: 2: post type label */
+			$view = sprintf( _x( '%1$s %2$s', '%1$s is an action like Add, Edit or View. %2$s is post type label.', 'fl-builder' ), $view, $object->labels->singular_name );
 
 		}
 

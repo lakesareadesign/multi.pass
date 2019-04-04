@@ -92,6 +92,7 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 					'api_key'  => $fields['api_key'],
 				);
 			} else {
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'Error: Could not connect to Mailrelay. %s', 'fl-builder' ), $result['error'] );
 			}
 		}
@@ -157,6 +158,7 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 		);
 
 		if ( isset( $result['error'] ) ) {
+			/* translators: %s: error */
 			$response['error'] = sprintf( __( 'Error: Please check your API key. %s', 'fl-builder' ), $result['error'] );
 		} else {
 			$response['html'] = $this->render_list_field( $result['data'], $settings );
@@ -230,6 +232,7 @@ final class FLBuilderServiceMailrelay extends FLBuilderService {
 			) );
 
 			if ( isset( $result['error'] ) ) {
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'There was an error subscribing to Mailrelay. %s', 'fl-builder' ), $result['error'] );
 			}
 		}

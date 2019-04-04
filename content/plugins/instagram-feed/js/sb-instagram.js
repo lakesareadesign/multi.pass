@@ -212,7 +212,7 @@ if(!sbi_js_exists){
                         morePosts = [], //Used to determine whether to show the Load More button when displaying posts from more than one id/hashtag. If one of the ids/hashtags has more posts then still show button.
                         sbiHeaderCache = feedOptions.sbiHeaderCache,
                         media = 'all';
-                        //media = feedOptions.media;
+                    //media = feedOptions.media;
 
                     feedOptions.disablecache = (feedOptions.disablecache == 'true');
                     feedOptions.media = 'all';
@@ -234,7 +234,7 @@ if(!sbi_js_exists){
                         user_id = userIDs.join(',');
                         userIDs = userIDs.join(',');
                     } else {
-                         accessTokens.push(sb_instagram_js_options.sb_instagram_at);
+                        accessTokens.push(sb_instagram_js_options.sb_instagram_at);
                     }
                     var ids_arr = user_id.replace(/ /g,'').split(",");
                     var looparray = ids_arr;
@@ -481,7 +481,7 @@ if(!sbi_js_exists){
                             var videoIsFirstCarouselItem = false;
                             if ( item.type === 'carousel' && typeof item.carousel_media !== 'undefined') {
                                 jQuery.each(item.carousel_media,function(index,value) {
-                                     if (typeof value.videos !== 'undefined') {
+                                    if (typeof value.videos !== 'undefined') {
                                         if (index === 0) {
                                             videoIsFirstCarouselItem = true;
                                         }
@@ -530,11 +530,11 @@ if(!sbi_js_exists){
 
                             //TEMPLATE:
                             imagesHTML += '<div class="sbi_item sbi_type_'+item.type+' sbi_new sbi_transition" id="sbi_'+item.id+'" data-date="'+created_time_raw+'">' +
-                                    '<div class="sbi_photo_wrap">'+
-                                        '<a class="sbi_photo" href="'+item.link+'" target="_blank" rel="noopener" data-full-res="'+item.images.standard_resolution.url+'">' + carouselTypeIcon + playBtnHtml +
-                                        '<img src="'+data_image+'" alt="'+captionText.replace(/<>/g, " ")+'" width="200" height="200" />' +
-                                        '</a>' +
-                                    '</div>' +
+                                '<div class="sbi_photo_wrap">'+
+                                '<a class="sbi_photo" href="'+item.link+'" target="_blank" rel="noopener" data-full-res="'+item.images.standard_resolution.url+'">' + carouselTypeIcon + playBtnHtml +
+                                '<img src="'+data_image+'" alt="'+captionText.replace(/<>/g, " ")+'" width="200" height="200" />' +
+                                '</a>' +
+                                '</div>' +
                                 '</div>';
                         }); //End images.data forEach loop
 
@@ -940,8 +940,8 @@ if(!sbi_js_exists){
                                                     }
                                                 }); // ajax
                                                 return;
-                                                
-                                            //Retired endpoint
+
+                                                //Retired endpoint
                                             } else if( sbiErrorResponse.indexOf('retired') > -1 ){
 
                                                 sbiErrorMsg += '<p><b>No longer possible to display this feed</b><br /><span>This error message is only visible to WordPress admins</span></p>';
@@ -949,7 +949,7 @@ if(!sbi_js_exists){
                                                 jQuery('#sb_instagram').empty().append( '<p style="text-align: center;">Unable to show Instagram photos</p><div id="sbi_mod_error">' + sbiErrorMsg + sbiErrorDir + '</div>');
                                                 return;
 
-                                            //requests per hour
+                                                //requests per hour
                                             } else if( typeof data.code !== 'undefined' && data.code == '429' ){
                                                 window.sbiFeedMeta[$i].error = {
                                                     errorMsg    : '<p><b>Error: Rate Limit Reached</b><br /><span>This error is only visible to WordPress admins</span>',

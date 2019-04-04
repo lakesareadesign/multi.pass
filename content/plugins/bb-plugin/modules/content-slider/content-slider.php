@@ -301,6 +301,15 @@ FLBuilder::register_module('FLContentSliderModule', array(
 							),
 						),
 					),
+					'shuffle'    => array(
+						'type'    => 'select',
+						'label'   => __( 'Shuffle', 'fl-builder' ),
+						'default' => '0',
+						'options' => array(
+							'0' => __( 'No', 'fl-builder' ),
+							'1' => __( 'Yes', 'fl-builder' ),
+						),
+					),
 					'auto_hover' => array(
 						'type'    => 'select',
 						'label'   => __( 'Pause On Hover', 'fl-builder' ),

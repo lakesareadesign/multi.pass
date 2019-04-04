@@ -191,6 +191,7 @@ final class FLBuilderServiceMailPoet extends FLBuilderService {
 				$errors     = $subscribed->getErrors();
 
 				if ( false !== $errors ) {
+					/* translators: %s: error */
 					$response['error'] = sprintf( __( 'There was an error subscribing to MailPoet. %s', 'fl-builder' ), $errors[0] );
 				}
 			}

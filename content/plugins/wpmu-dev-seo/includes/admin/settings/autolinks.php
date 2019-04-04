@@ -84,15 +84,15 @@ class Smartcrawl_Autolinks_Settings extends Smartcrawl_Settings_Admin {
 			// Boolean Arrays.
 			$post_type_names = array_keys( self::get_post_types() );
 			foreach ( array_merge( $post_type_names, array( 'comment' ) ) as $post_type ) {
-				$result[ $post_type ] = in_array( $post_type, $input, true );
+				$result[ $post_type ] = (boolean) smartcrawl_get_array_value( $input, $post_type );
 			}
 			foreach ( $post_type_names as $post_type ) {
-				$result["l{$post_type}"] = in_array( "l{$post_type}", $input, true );
+				$result["l{$post_type}"] = (boolean) smartcrawl_get_array_value( $input, "l{$post_type}" );
 			}
 			foreach ( get_taxonomies() as $taxonomy ) {
 				$tax = get_taxonomy( $taxonomy );
 				$key = strtolower( $tax->labels->name );
-				$result["l{$key}"] = in_array( "l{$key}", $input, true );
+				$result["l{$key}"] = (boolean) smartcrawl_get_array_value( $input, "l{$key}" );
 			}
 
 			// Numerics.

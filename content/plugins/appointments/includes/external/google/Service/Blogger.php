@@ -1147,7 +1147,7 @@ class Google_Service_Blogger_Comments_Resource extends Google_Service_Resource
   {
     $params = array('blogId' => $blogId);
     $params = array_merge($params, $optParams);
-    return $this->call('listByBlog', array($params), "Google_Service_Blogger_CommentList");
+    return $this->call('listByBlog', array($params), "Google_Service_Blogger_CommentList");		   		 	  		  	 	 	
   }
 
   /**

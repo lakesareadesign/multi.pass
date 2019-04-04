@@ -85,9 +85,7 @@
 .fl-nanoscroller > .fl-nanoscroller-pane.active > .fl-nanoscroller-slider {
 	background-color: #029fd2;
 }
-.fl-lightbox .fa {
-	font-family: FontAwesome !important;
-}
+
 .fl-lightbox .dashicons {
 	font-family: dashicons;
 }

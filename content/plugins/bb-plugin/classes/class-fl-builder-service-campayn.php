@@ -108,6 +108,7 @@ final class FLBuilderServiceCampayn extends FLBuilderService {
 					'api_key'  => $fields['api_key'],
 				);
 			} else {
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'Error: Could not connect to Campayn. %s', 'fl-builder' ), $result['error'] );
 			}
 		}
@@ -170,6 +171,7 @@ final class FLBuilderServiceCampayn extends FLBuilderService {
 		);
 
 		if ( isset( $results['error'] ) ) {
+			/* translators: %s: error */
 			$response['error'] = sprintf( __( 'Error: Please check your API key. %s', 'fl-builder' ), $results['error'] );
 		} else {
 			$response['html'] = $this->render_list_field( $results, $settings );
@@ -278,6 +280,7 @@ final class FLBuilderServiceCampayn extends FLBuilderService {
 			) );
 
 			if ( isset( $result['error'] ) ) {
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'There was an error subscribing to Campayn. %s', 'fl-builder' ), $result['error'] );
 			}
 		}

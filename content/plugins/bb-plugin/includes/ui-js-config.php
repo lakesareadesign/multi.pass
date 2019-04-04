@@ -70,11 +70,15 @@ echo 'FLBuilderConfig              = ' . json_encode( apply_filters('fl_builder_
  */
 echo 'FLBuilderStrings             = ' . json_encode( apply_filters('fl_builder_ui_js_strings', array(
 	'actionsLightboxTitle'           => esc_attr__( 'What would you like to do?', 'fl-builder' ),
+	/* translators: %s: field name */
 	'addField'                       => esc_attr_x( 'Add %s', 'Field name to add.', 'fl-builder' ),
+	/* translators: %s: preset color code */
 	'alreadySaved'                   => esc_attr_x( '%s is already a saved preset.', '%s is the preset hex color code.', 'fl-builder' ),
 	'audioSelected'                  => esc_attr__( 'Audio File Selected', 'fl-builder' ),
+	/* translators: %d: number of files selected */
 	'audioSelectedNum'               => esc_attr__( '%d Audio File Selected', 'fl-builder' ),
 	'audiosSelected'                 => esc_attr__( 'Audio Files Selected', 'fl-builder' ),
+	/* translators: %d: number of files selected (plural) */
 	'audiosSelectedNum'              => esc_attr__( '%d Audio Files Selected', 'fl-builder' ),
 	'blank'                          => esc_attr__( 'Blank', 'fl-builder' ),
 	'cancel'                         => esc_attr__( 'Cancel', 'fl-builder' ),
@@ -102,6 +106,7 @@ echo 'FLBuilderStrings             = ' . json_encode( apply_filters('fl_builder_
 	'draft'                          => esc_attr__( 'Save Changes and Exit', 'fl-builder' ),
 	'duplicate'                      => esc_attr__( 'Duplicate', 'fl-builder' ),
 	'duplicateLayout'                => esc_attr_x( 'Duplicate Layout', 'Duplicate page/post action label.', 'fl-builder' ),
+	/* translators: %s: form field label */
 	'editFormField'                  => esc_attr_x( 'Edit %s', '%s stands for form field label.', 'fl-builder' ),
 	'editGlobalSettings'             => esc_attr__( 'Global Settings', 'fl-builder' ),
 	'editLayoutSettings'             => esc_attr__( 'Layout CSS / Javascript', 'fl-builder' ),
@@ -132,16 +137,21 @@ echo 'FLBuilderStrings             = ' . json_encode( apply_filters('fl_builder_
 	'ok'                             => esc_attr__( 'OK', 'fl-builder' ),
 	'photoPage'                      => esc_attr__( 'Photo Page', 'fl-builder' ),
 	'photoSelected'                  => esc_attr__( 'Photo Selected', 'fl-builder' ),
+	/* translators: %d: number of selected */
 	'photoSelectedNum'               => esc_attr__( '%d Photo Selected', 'fl-builder' ),
 	'photosSelected'                 => esc_attr__( 'Photos Selected', 'fl-builder' ),
+	/* translators: %d: number of selected (plural) */
 	'photosSelectedNum'              => esc_attr__( '%d Photos Selected', 'fl-builder' ),
 	'placeholder'                    => esc_attr__( 'Paste color here...', 'fl-builder' ),
 	'pleaseWait'                     => esc_attr__( 'Please Wait...', 'fl-builder' ),
+	/* translators: %s: preset color code */
 	'presetAdded'                    => esc_attr_x( '%s added to presets!', '%s is the preset hex color code.', 'fl-builder' ),
 	'publish'                        => esc_attr__( 'Publish Changes', 'fl-builder' ),
 	'remove'                         => esc_attr__( 'Remove', 'fl-builder' ),
 	'removePresetConfirm'            => esc_attr__( 'Are you sure?', 'fl-builder' ),
+	/* translators: %s: time diff - 1 day/2 weeks */
 	'revisionDate'                   => esc_attr_x( '%s ago', '%s is a time diff such as 1 day or 2 weeks.', 'fl-builder' ),
+	/* translators: %s: author name */
 	'revisionAuthor'                 => esc_attr_x( 'By %s', '%s is the author name.', 'fl-builder' ),
 	'row'                            => esc_attr__( 'Row', 'fl-builder' ),
 	'rowSettings'                    => esc_attr__( 'Row Settings', 'fl-builder' ),

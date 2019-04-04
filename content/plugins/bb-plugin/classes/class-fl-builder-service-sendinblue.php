@@ -71,6 +71,7 @@ final class FLBuilderServiceSendinBlue extends FLBuilderService {
 			if ( ! is_array( $result ) ) {
 				$response['error'] = __( 'There was an error connecting to SendinBlue. Please try again.', 'fl-builder' );
 			} elseif ( isset( $result['code'] ) && 'failure' == $result['code'] ) {
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'Error: Could not connect to SendinBlue. %s', 'fl-builder' ), $result['message'] );
 			} else {
 				$response['data'] = array(
@@ -129,6 +130,7 @@ final class FLBuilderServiceSendinBlue extends FLBuilderService {
 		if ( ! is_array( $result ) ) {
 			$response['error'] = __( 'There was an error connecting to SendinBlue. Please try again.', 'fl-builder' );
 		} elseif ( isset( $result['code'] ) && 'failure' == $result['code'] ) {
+			/* translators: %s: error */
 			$response['error'] = sprintf( __( 'Error: Could not connect to SendinBlue. %s', 'fl-builder' ), $result['message'] );
 		} else {
 			$response['html'] = $this->render_list_field( $result['data']['lists'], $settings );
@@ -222,6 +224,7 @@ final class FLBuilderServiceSendinBlue extends FLBuilderService {
 			if ( ! is_array( $result ) ) {
 				$response['error'] = __( 'There was an error subscribing to SendinBlue. Please try again.', 'fl-builder' );
 			} elseif ( isset( $result['code'] ) && 'failure' == $result['code'] ) {
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'Error: Could not subscribe to SendinBlue. %s', 'fl-builder' ), $result['message'] );
 			}
 		}

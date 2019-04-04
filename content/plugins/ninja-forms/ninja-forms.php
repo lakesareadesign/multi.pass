@@ -3,7 +3,7 @@
 Plugin Name: Ninja Forms
 Plugin URI: http://ninjaforms.com/
 Description: Ninja Forms is a webform builder with unparalleled ease of use and features.
-Version: 3.4.4
+Version: 3.4.7
 Author: The WP Ninjas
 Author URI: http://ninjaforms.com
 Text Domain: ninja-forms
@@ -17,6 +17,7 @@ require_once dirname( __FILE__ ) . '/lib/NF_Tracking.php';
 require_once dirname( __FILE__ ) . '/lib/NF_Conversion.php';
 require_once dirname( __FILE__ ) . '/lib/NF_ExceptionHandlerJS.php';
 require_once dirname( __FILE__ ) . '/lib/Conversion/Calculations.php';
+require_once dirname( __FILE__ ) . '/includes/Integrations/sendwp.php';
 
 // Services require PHP v5.6+
 if( version_compare( PHP_VERSION, '5.6', '>=' ) ) {
@@ -58,14 +59,14 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
          * @since 3.0
          */
 
-        const VERSION = '3.4.4';
+        const VERSION = '3.4.7';
         
         /**
          * @since 3.4.0
          */
         const DB_VERSION = '1.4';
 
-        const WP_MIN_VERSION = '4.8';
+        const WP_MIN_VERSION = '4.9';
 
         /**
          * @var Ninja_Forms
@@ -491,11 +492,14 @@ if( get_option( 'ninja_forms_load_deprecated', FALSE ) && ! ( isset( $_POST[ 'nf
             $sql = "SELECT COUNT( `id` ) AS total FROM `{$wpdb->prefix}nf3_forms`;";
             $result = $wpdb->get_results( $sql, 'ARRAY_A' );
             $threshold = 10; // Threshold percentage for our required updates.
+            if ( get_transient( 'ninja_forms_prevent_updates' ) ) {
+                update_option( 'ninja_forms_needs_updates', 0 );
+            }
             // If we got back a list of updates...
             // AND If we have any forms on the site...
             // AND If the gate is open...
             // To avoid errors on older upgrades, ignore the gatekeeper if the db version is the baseline (1.0)...
-            if ( ! empty( $required_updates ) 
+            elseif ( ! empty( $required_updates ) 
                 && 0 < $result[ 0 ][ 'total' ]
                 &&  ( WPN_Helper::gated_release( $threshold )
                 || '1.0' == self::$db_version ) ) {

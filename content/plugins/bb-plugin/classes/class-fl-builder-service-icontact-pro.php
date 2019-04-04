@@ -103,7 +103,8 @@ final class FLBuilderServiceIContactPro extends FLBuilderService {
 					'profile_id'   => $fields['profile_id'],
 				);
 			} catch ( Exception $e ) {
-				$errors            = $api->getErrors();
+				$errors = $api->getErrors();
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'Error: Could not connect to iContact Pro. %s', 'fl-builder' ), $errors[0] );
 			}
 		}
@@ -148,6 +149,7 @@ final class FLBuilderServiceIContactPro extends FLBuilderService {
 			'type'        => 'text',
 			'label'       => __( 'App Password', 'fl-builder' ),
 			'help'        => __( 'Your iContact Pro app password.', 'fl-builder' ),
+			/* translators: 1: create app url: 2: register url */
 			'description' => sprintf( __( 'You must <a%1$s>create an app</a> in iContact Pro to obtain an app ID and password. Please see <a%2$s>the iContact docs</a> for complete instructions.', 'fl-builder' ), ' href="https://app.icontactpro.com/MKT/Settings/Api?returnUrl=/MKT/Settings" target="_blank"', ' href="http://www.icontact.com/developerportal/api-documentation/vocus-register-your-app/" target="_blank"' ),
 			'preview'     => array(
 				'type' => 'none',
@@ -171,6 +173,7 @@ final class FLBuilderServiceIContactPro extends FLBuilderService {
 			'type'        => 'text',
 			'label'       => __( 'Profile ID', 'fl-builder' ),
 			'help'        => __( 'Your iContact Pro Profile ID.', 'fl-builder' ),
+			/* translators: 1: api link */
 			'description' => sprintf( __( 'Your Company and Profile ID can also be found in the <a%1$s>iContact Pro API settings</a> under Account Information.', 'fl-builder' ), ' href="https://app.icontactpro.com/MKT/Settings/Api?returnUrl=/MKT/Settings" target="_blank"' ),
 			'preview'     => array(
 				'type' => 'none',
@@ -209,7 +212,8 @@ final class FLBuilderServiceIContactPro extends FLBuilderService {
 			$lists            = $api->getLists();
 			$response['html'] = $this->render_list_field( $lists, $settings );
 		} catch ( Exception $e ) {
-			$errors            = $api->getErrors();
+			$errors = $api->getErrors();
+			/* translators: %s: error */
 			$response['error'] = sprintf( __( 'Error: Could not connect to iContact Pro. %s', 'fl-builder' ), $errors[0] );
 		}
 
@@ -304,7 +308,8 @@ final class FLBuilderServiceIContactPro extends FLBuilderService {
 
 				$api->subscribeContactToList( $result->contactId, $settings->list_id ); // @codingStandardsIgnoreLine
 			} catch ( Exception $e ) {
-				$errors            = $api->getErrors();
+				$errors = $api->getErrors();
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'There was an error subscribing to iContact Pro. %s', 'fl-builder' ), $errors[0] );
 			}
 		}

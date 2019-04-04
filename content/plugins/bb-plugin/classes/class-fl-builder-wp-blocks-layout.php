@@ -145,7 +145,7 @@ final class FLBuilderWPBlocksLayout {
 	 * @return string
 	 */
 	static public function filter_migrated_post_content( $content ) {
-		$content = preg_replace( '/<!-- \/?wp:fl-builder\/layout \/?-->/', '', $content );
+		$content = preg_replace( '/<!--\s\/?wp(.|\s)*?-->/', '', $content );
 		return $content;
 	}
 

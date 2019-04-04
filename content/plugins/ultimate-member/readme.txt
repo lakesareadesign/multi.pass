@@ -5,8 +5,8 @@ Contributors: ultimatemember, champsupertramp, nsinelnikov
 Donate link: 
 Tags: community, member, membership, user-profile, user-registration
 Requires at least: 4.7
-Tested up to: 5.0
-Stable tag: 2.0.39
+Tested up to: 5.1
+Stable tag: 2.0.43
 License: GNU Version 2 or Any Later Version
 License URI: http://www.gnu.org/licenses/gpl-3.0.txt
 
@@ -132,6 +132,48 @@ The plugin works with popular caching plugins by automatically excluding Ultimat
 == Changelog ==
 
 = Important: UM2.0+ is a significant update to the code base from 1.3.88. Please make sure you take a full-site backup with restore point before updating the plugin =
+
+= 2.0.43: March 29, 2019 =
+
+* Bugfixes:
+  - Fixed Last Login order in Member Directory
+
+= 2.0.42: March 28, 2019 =
+
+* Enhancements:
+  - Added option for enable/disable Gutenberg blocks
+
+* Bugfixes:
+  - Fixed conflicts with themes, which not support custom Gutenberg blocks via the option
+
+= 2.0.41: March 27, 2019 =
+
+* Enhancements:
+  - Added Gutenberg blocks section with Ultimate Member shortcodes
+  - Clear temp directory on upload process 1 day files old
+  - Updated custom scrollbar JS library to jQuery 3 support
+
+* Bugfixes:
+  - Fixed vulnerability with Reset Password form
+  - Fixed Edit Row settings
+  - Fixed save profile fields with 0 values
+  - Fixed upload photo base URL for Windows servers
+  - Fixed displaying user Posts at Profile/Posts tab
+  - Fixed unique filename issue, upload avatar with high case extension
+  - Fixed member directory filter title
+  - Fixed duplicate delete user handler
+  - Fixed sorting by Last Login date for users without meta
+  - Fixed hook after password reset (issue #532)
+  - Fixed member directory user role filter
+  - Fixed restriction content WC Products integration
+  - Fixed words count for French in user description field
+  - Fixed is_selected function for dropdown/multi-select/checkbox profile fields
+  - Fixed disable email field at Edit Profile form via filter (disabled by default)
+
+= 2.0.40: March 12, 2019 =
+
+* Bugfixes:
+  - Fixed security issue on user Account Update
 
 = 2.0.39: February 11, 2019 =
 

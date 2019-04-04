@@ -1752,7 +1752,7 @@
 		 */
 		_initDefaultFieldPreviews: function( fields )
 		{
-			var fields      = ! _.isUndefined( fields ) ? fields : this.elements.settings.find('.fl-field'),
+			var fields      = ! FLBuilder.isUndefined(fields) ? fields : this.elements.settings.find('.fl-field'),
 				field       = null,
 				fieldType   = null,
 				preview     = null,

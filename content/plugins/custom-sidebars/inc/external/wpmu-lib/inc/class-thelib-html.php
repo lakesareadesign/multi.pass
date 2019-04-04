@@ -79,36 +79,56 @@ class TheLib_Html extends TheLib  {
 		if ( ! is_admin() ) {
 			return;
 		}
-
+		$classes = array(
+			'wpmui-pointer-handler',
+			'prepared',
+		);
 		if ( is_array( $args ) ) {
-			if ( isset( $args['target'] ) && ! isset( $args['html_el'] ) ) {
-				$args['html_el'] = $args['target'];
+			if ( ! isset( $args['schema'] ) || 'wp' !== $args['schema'] ) {
+				$classes[] = 'wpmui-pointer';
 			}
-			if ( isset( $args['id'] ) && ! isset( $args['pointer_id'] ) ) {
-				$args['pointer_id'] = $args['id'];
+			$elements = array(
+				'target' => 'html_el',
+				'id' => 'pointer_id',
+				'title' => 'title',
+				'body' => 'body',
+				'classes' => 'classes',
+			);
+			foreach ( $elements as $from => $to ) {
+				if ( isset( $args[ $to ] ) ) {
+					continue;
+				}
+				if ( isset( $args[ $from ] ) ) {
+					$args[ $to ] = $args[ $from ];
+				}
+				if ( empty( $args[ $to ] ) && isset( $$to ) ) {
+					$args[ $to ] = $$to;
+				}
 			}
 			if ( isset( $args['modal'] ) && ! isset( $args['blur'] ) ) {
 				$args['blur'] = $args['modal'];
 			}
-			if ( ! isset( $args['once'] ) ) {
-				$args['once'] = true;
+			$elements = array( 'once', 'modal', 'blur' );
+			foreach ( $elements as $key ) {
+				if ( ! isset( $args[ $key ] ) ) {
+					$args[ $key ] = true;
+				}
 			}
-
 			self::$core->array->equip( $args, 'pointer_id', 'html_el', 'title', 'body', 'once', 'modal', 'blur' );
-
 			extract( $args );
 		} else {
 			$pointer_id = $args;
 			$once = true;
 			$modal = true;
 			$blur = true;
+			$classes[] = 'wpmui-pointer';
 		}
 
 		$once = self::$core->is_true( $once );
 		$modal = self::$core->is_true( $modal );
 		$blur = self::$core->is_true( $blur );
 
-		$this->_add( 'init_pointer', compact( 'pointer_id', 'html_el', 'title', 'body', 'once', 'modal', 'blur' ) );
+		$this->_add( 'init_pointer', compact( 'pointer_id', 'html_el', 'title', 'body', 'once', 'modal', 'blur', 'classes' ) );
 		$this->add_action( 'init', '_init_pointer' );
 
 		return $this;

@@ -86,11 +86,14 @@ function um_remove_special_users_from_list( $query_args, $args ) {
 
 		if ( ! empty( $roles ) ) {
 			if ( ! empty( $query_args['role__in'] ) ) {
-				$query_args['role__in'] = array_intersect( $query_args['role__in'], $roles );
+				$roles_intersect = array_intersect( $query_args['role__in'], $roles );
+				if( ! empty( $roles_intersect ) ){
+					$query_args['role__in'] = $roles_intersect;
+				}
 			} else {
 				$query_args['role__in'] = $roles;
 			}
-		}
+		}		
 
 	}
 
@@ -376,7 +379,6 @@ function um_prepare_user_query_args( $query_args, $args ) {
 
 	if ( isset( $sortby ) ) {
 
-
 		if ( $sortby == 'other' && $sortby_custom ) {
 
 			$query_args['meta_key'] = $sortby_custom;
@@ -448,9 +450,18 @@ add_filter( 'um_prepare_user_query_args', 'um_prepare_user_query_args', 10, 2 );
  */
 function um_sortby_last_login( $query_args, $sortby ) {
 	if ( $sortby == 'last_login' ) {
-		$query_args['orderby'] = 'meta_value_num';
-		$query_args['order'] = 'desc';
-		$query_args['meta_key'] = '_um_last_login';
+		$query_args['orderby'] = array( 'um_last_login' => 'DESC' );
+		$query_args['meta_query'][] = array(
+			'relation' => 'OR',
+			array(
+				'key'   => '_um_last_login',
+				'compare'   => 'EXISTS',
+			),
+			'um_last_login' => array(
+				'key'   => '_um_last_login',
+				'compare'   => 'NOT EXISTS',
+			),
+		);
 	}
 	return $query_args;
 }

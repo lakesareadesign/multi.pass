@@ -120,7 +120,7 @@ class MetaSlider {
 			'thumb_height' => 100,
 			'responsive_thumbs' => true,
 			'thumb_min_width' => 100,
-			'fullWidth' => false,
+			'fullWidth' => true,
 			'noConflict' => true
 		);
 		return apply_filters('metaslider_default_parameters', $params);

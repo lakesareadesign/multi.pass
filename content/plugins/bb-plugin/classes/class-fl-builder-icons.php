@@ -130,10 +130,6 @@ final class FLBuilderIcons {
 	static private function register_core_sets() {
 		$enabled_icons = FLBuilderModel::get_enabled_icons();
 		$core_sets     = apply_filters( 'fl_builder_core_icon_sets', array(
-			'font-awesome'           => array(
-				'name'   => 'Font Awesome 4',
-				'prefix' => 'fa',
-			),
 			'font-awesome-5-solid'   => array(
 				'name'   => 'Font Awesome 5 Solid',
 				'prefix' => 'fas',

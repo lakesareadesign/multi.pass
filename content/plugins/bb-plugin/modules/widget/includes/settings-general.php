@@ -40,6 +40,7 @@ if ( isset( $widget_class ) && class_exists( $widget_class ) ) {
 	// Widget form
 	ob_start();
 	echo '<div class="fl-builder-widget-missing">';
+	/* translators: %s: widget slug */
 	printf( _x( '%s no longer exists.', '%s stands for widget slug.', 'fl-builder' ), $widget_class );
 	echo '</div>';
 	$widget_form = ob_get_clean();

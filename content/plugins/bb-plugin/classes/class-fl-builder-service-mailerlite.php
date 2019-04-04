@@ -84,6 +84,7 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 					'api_key' => $fields['api_key'],
 				);
 			} else {
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'Error: Could not connect to MailerLite. %s', 'fl-builder' ), $get_api_response['http_code'] );
 			}
 		}
@@ -132,7 +133,7 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 		$get_lists = json_decode( $api->getAll() );
 		$lists     = array();
 
-		if ( $get_lists && count( $get_lists ) > 0 ) {
+		if ( $get_lists && ! isset( $get_lists->error ) && count( $get_lists ) > 0 ) {
 			$lists = $get_lists;
 		}
 
@@ -235,6 +236,7 @@ final class FLBuilderServiceMailerLite extends FLBuilderService {
 			$result = $api->getResponseInfo();
 
 			if ( 200 !== $result['http_code'] ) {
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'There was an error subscribing to MailerLite. Code: %s', 'fl-builder' ), $result['http_code'] );
 			}
 		}

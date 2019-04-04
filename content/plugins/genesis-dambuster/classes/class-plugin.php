@@ -13,14 +13,16 @@ class Genesis_Dambuster_Plugin {
 
 	private $modules = array(
 //		'template' => array('class'=> 'Genesis_Dambuster_Template',  'theme' => 'Genesis'),
-		'agency' => array('class'=> 'Genesis_Dambuster_Agency',   'theme' => 'Agency Pro'),
+		'academy' => array('class'=> 'Genesis_Dambuster_Academy', 'theme' => 'Academy Pro'),
+		'agency' => array('class'=> 'Genesis_Dambuster_Agency', 'theme' => 'Agency Pro'),
 		'altitude' => array('class'=> 'Genesis_Dambuster_Altitude', 'theme' => 'Altitude Pro' ),
-		'ambiance' => array('class'=> 'Genesis_Dambuster_Ambiance',  'theme' => 'Ambiance Pro'),
-		'aspire' => array('class'=> 'Genesis_Dambuster_Aspire',  'theme' => 'Aspire Pro'),
-		'author' => array('class'=> 'Genesis_Dambuster_Author',  'theme' => 'Author Pro'),
-		'beautiful' => array('class'=> 'Genesis_Dambuster_Beautiful',  'theme' => 'Beautiful Pro'),
-		'cafe' => array('class'=> 'Genesis_Dambuster_Cafe',  'theme' => 'Cafe Pro'),
-		'centric' => array('class'=> 'Genesis_Dambuster_Centric',  'theme' => 'Centric'),
+		'ambiance' => array('class'=> 'Genesis_Dambuster_Ambiance', 'theme' => 'Ambiance Pro'),
+		'aspire' => array('class'=> 'Genesis_Dambuster_Aspire', 'theme' => 'Aspire Pro'),
+		'author' => array('class'=> 'Genesis_Dambuster_Author', 'theme' => 'Author Pro'),
+		'beautiful' => array('class'=> 'Genesis_Dambuster_Beautiful', 'theme' => 'Beautiful Pro'),
+		'breakthrough' => array('class'=> 'Genesis_Dambuster_Breakthrough', 'theme' => 'Breakthrough Pro'),
+		'cafe' => array('class'=> 'Genesis_Dambuster_Cafe', 'theme' => 'Cafe Pro'),
+		'centric' => array('class'=> 'Genesis_Dambuster_Centric',  'theme' => 'Centric Pro'),
 		'community' => array('class'=> 'Genesis_Dambuster_Community', 'theme' => 'Community Pro'),
 		'daily-dish' => array('class'=> 'Genesis_Dambuster_DailyDish', 'theme' => 'Daily Dish Pro'),
 		'decor' => array('class'=> 'Genesis_Dambuster_Decor', 'theme' => 'Decor'),
@@ -46,12 +48,15 @@ class Genesis_Dambuster_Plugin {
 		'outreach' => array('class'=> 'Genesis_Dambuster_Outreach', 'theme' => 'Outreach Pro'),
 		'pretty-chic' => array('class'=> 'Genesis_Dambuster_Pretty_Chic', 'theme' => 'Pretty Chic'),
 		'prose' => array('class'=> 'Genesis_Dambuster_Prose', 'theme' => 'Prose'),
+		'revolution' => array('class'=> 'Genesis_Dambuster_Revolution', 'theme' => 'Revolution Pro'),
 		'showcase' => array('class'=> 'Genesis_Dambuster_Showcase', 'theme' => 'Showcase Pro'),
 		'sixteen-nine' => array('class'=> 'Genesis_Dambuster_SixteenNine', 'theme' => 'Sixteen Nine Pro'),
+		'smart-passive-income' => array('class'=> 'Genesis_Dambuster_Smart_Passive_Income', 'theme' => 'Smart Passive Income Pro'),
 		'streamline' => array('class'=> 'Genesis_Dambuster_Streamline', 'theme' => 'Streamline Pro'),
 		'swank' => array('class'=> 'Genesis_Dambuster_Swank', 'theme' => 'Swank'),
 		'the-411' => array('class'=> 'Genesis_Dambuster_The411', 'theme' => 'The 411 Pro'),		
 		'wintersong' => array('class'=> 'Genesis_Dambuster_Wintersong', 'theme' => 'Wintersong Pro'),	
+		'wellness' => array('class'=> 'Genesis_Dambuster_Wellness', 'theme' => 'Wellness Pro'),	
 		'workstation' => array('class'=> 'Genesis_Dambuster_Workstation', 'theme' => 'Workstation Pro'),	
 	);
 	
@@ -180,19 +185,18 @@ class Genesis_Dambuster_Plugin {
 	}
 
 	public function upgrade() { //apply any upgrades
-		$this->options->upgrade_options();
-		$this->template_admin->upgrade();
+	    $upgrade_options = array();
+        $options_exist = get_option($this->options->get_option_name());
+        if (! $options_exist) $upgrade_options = array(Genesis_Dambuster_Template::OPTION_NAME => $this->template_admin->tweaks_on()) ;  //first installation defaults
+		$this->options->upgrade_options( $upgrade_options);
 		$this->unset_activation_key();
 	}
-
 
     public function match_theme_name($theme_name, $module_theme_names) {
         $theme_name = str_replace(array(' Child Theme', ' Theme'), '', $theme_name);
         $theme_names = (array) $module_theme_names;
         return in_array( $theme_name, $theme_names);
     }
-
-
 
 	private function deactivate($path ='') {
 		if (empty($path)) $path = $this->path;
@@ -228,7 +232,6 @@ class Genesis_Dambuster_Plugin {
        return is_array($cpt) && (count($cpt) > 0);
 	}
 
-
 	public function is_genesis_present() {
 		return substr(basename( TEMPLATEPATH ), 0,7) == 'genesis' ; //is genesis the current parent theme
 	}
@@ -236,9 +239,6 @@ class Genesis_Dambuster_Plugin {
 	public function is_genesis_loaded() {
 		return defined('GENESIS_SETTINGS_FIELD'); //is genesis actually loaded? (ie not been nobbled by another plugin) 
 	}
-
-
-	
 
 	private function abort() {
 		$this->deactivate(); //deactivate this plugin

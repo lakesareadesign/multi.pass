@@ -2,6 +2,15 @@ Plugin Name: SmartCrawl SEO
 
 Change Log:
 ----------------------------------------------------------------------
+2.2.6 - 2019-03-26
+----------------------------------------------------------------------
+- Add: Support for Yoast v10 and AIOSEO v2.12 in third-party importer
+
+- Fix: Redirects added from sitemap crawl report not converted to absolute
+- Fix: Sitemap can't be removed while SC is active
+- Fix: Import not working for Automatic linking settings
+- Fix: Metabox conflict in classic editor
+
 2.2.5 - 2019-02-18
 ----------------------------------------------------------------------
 - Add: New filters for modifying OpenGraph values
@@ -622,4 +631,4 @@ exist yet
 - Initial Release.
 
 
-133620-1551987253-au
+133620-1554389688-au

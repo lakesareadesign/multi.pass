@@ -71,7 +71,7 @@ class MetaImageSlide extends MetaSlide {
      *
      * @return string | WP_Error The status message and if success, echo string for now
      */
-    protected function add_slide($slideshow_id, $data) {
+    public function add_slide($slideshow_id, $data) {
         
         // For now this only handles images, so check it's an image
         if (!wp_attachment_is_image($data['id'])) {
@@ -150,6 +150,25 @@ class MetaImageSlide extends MetaSlide {
 			'id'   => absint($image_id)
 		);
 	}
+	
+	/**
+     * Updates the slide data.
+     *
+     * @param int $slide_id     The id of the slide being updated
+     * @param int $image_id     The id of the new image to use
+     * @param int $slideshow_id The id of the slideshow
+     *
+     * @return array|WP_error The status message and if success, details
+     */
+    public function update_slide($slide_id, $image_id, $slideshow_id = null) {
+		// Currently only the image
+		$image_data = $this->update_slide_image($slide_id, $image_id, $slideshow_id);
+		if (is_wp_error($image_data)) return $image_data;
+		
+		return array(
+			'image' => $image_data
+		);
+	}
 
     /**
      * Ajax wrapper to create new cropped images.
@@ -224,7 +243,8 @@ class MetaImageSlide extends MetaSlide {
 
         // get some slide settings
         $thumb       = $this->get_thumb();
-        $slide_label = apply_filters("metaslider_image_slide_label", __("Image Slide", "ml-slider"), $this->slide, $this->settings);
+		$slide_label = apply_filters("metaslider_image_slide_label", __("Image Slide", "ml-slider"), $this->slide, $this->settings);
+		$slide_type = get_post_meta($this->slide->ID, 'ml-slider_type', true);
         $attachment_id = $this->get_attachment_id();
 
         ob_start();
@@ -249,7 +269,7 @@ class MetaImageSlide extends MetaSlide {
                         }
             $row .= "</div>
                         <div class='metaslider-ui-inner'>
-                            <button class='update-image image-button' data-button-text='" . __("Update slide image", "ml-slider") . "' title='" . __("Update slide image", "ml-slider") . "' data-slide-id='{$this->slide->ID}' data-attachment-id='{$attachment_id}'>
+                            <button class='update-image image-button' data-slide-type='{$slide_type}' data-button-text='" . __("Update slide image", "ml-slider") . "' title='" . esc_attr__("Update slide image", "ml-slider") . "' data-slide-id='{$this->slide->ID}' data-attachment-id='{$attachment_id}'>
                                 <div class='thumb' style='background-image: url({$thumb})'></div>
                             </button>
                         </div>

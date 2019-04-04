@@ -142,6 +142,7 @@ do_action( 'fl_builder_loop_settings_before_form', $settings );
 				'action'   => 'fl_as_posts',
 				'data'     => $slug,
 				'label'    => $type->label,
+				/* translators: %s: type label */
 				'help'     => sprintf( __( 'Enter a list of %1$s.', 'fl-builder' ), $type->label ),
 				'matching' => true,
 			), $settings );
@@ -156,6 +157,7 @@ do_action( 'fl_builder_loop_settings_before_form', $settings );
 					'action'   => 'fl_as_terms',
 					'data'     => $tax_slug,
 					'label'    => $tax->label,
+					/* translators: %s: tax label */
 					'help'     => sprintf( __( 'Enter a list of %1$s.', 'fl-builder' ), $tax->label ),
 					'matching' => true,
 				), $settings );

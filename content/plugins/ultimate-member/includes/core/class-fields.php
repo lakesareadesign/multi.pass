@@ -188,7 +188,7 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 				$condition_fields = get_option( 'um_fields' );
 
 				if( ! is_array( $condition_fields ) ) $condition_fields = array();
-				
+
 				foreach ( $condition_fields as $key => $value ) {
 					$deleted_field = array_search( $id, $value );
 
@@ -843,6 +843,9 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 				if ( ! isset( UM()->form()->post_form[ $key ] ) ) {
 
 					$field_value = um_user( $key );
+					if ( ! $field_value ) {
+						$field_value = 0;
+					}
 
 					if ( $key == 'role' ) {
 
@@ -906,11 +909,15 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 						return true;
 					}
 
+					if ( $field_value == 0 && $this->editing == true && ! is_array( $field_value ) && $field_value === $value ) {
+						return true;
+					}
+
 					if ( $field_value && $this->editing == true && ! is_array( $field_value ) && $field_value == $value ) {
 						return true;
 					}
 
-					if ( $field_value && $this->editing == true && ! is_array( $field_value ) && html_entity_decode( $field_value ) == html_entity_decode( $value )) {
+					if ( $field_value && $this->editing == true && ! is_array( $field_value ) && html_entity_decode( $field_value ) == html_entity_decode( $value ) ) {
 						return true;
 					}
 
@@ -1669,25 +1676,26 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 						$disabled = '';
 					}
 				}
-
 			}
 
 			if ( ! isset( $data['autocomplete'] ) ) {
 				$autocomplete = 'off';
 			}
+
 			um_fetch_user( get_current_user_id() );
-			if (!um_can_view_field( $data )) return;
-			if (!um_can_edit_field( $data )) return;
+			if ( ! um_can_view_field( $data ) ) {
+				return;
+			}
+			if ( ! um_can_edit_field( $data ) ) {
+				return;
+			}
 			um_fetch_user( $_um_profile_id );
 
 			// fields that need to be disabled in edit mode (profile)
 			$arr_restricted_fields = array( 'user_email', 'username', 'user_login', 'user_password' );
+			$arr_restricted_fields = apply_filters( 'um_user_profile_restricted_edit_fields', $arr_restricted_fields, $key, $data, $_um_profile_id );
 
-			if ( UM()->options()->get( 'editable_primary_email_in_profile' ) == 1 ) {
-				unset( $arr_restricted_fields[0] ); // remove user_email
-			}
-
-			if (in_array( $key, $arr_restricted_fields ) && $this->editing == true && $this->set_mode == 'profile') {
+			if ( in_array( $key, $arr_restricted_fields ) && $this->editing == true && $this->set_mode == 'profile' ) {
 				return;
 			}
 
@@ -4012,46 +4020,67 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 			$css_text_color = '';
 
 			// row css rules
-			if ($padding) $css_padding = 'padding: ' . $padding . ';';
-			if ($margin) {
+			if ( $padding ) {
+				$css_padding = 'padding: ' . $padding . ';';
+			}
+			if ( $margin ) {
 				$css_margin = 'margin: ' . $margin . ';';
 			} else {
 				$css_margin = 'margin: 0 0 30px 0;';
 			}
 
-			if ($background) $css_background = 'background-color: ' . $background . ';';
-			if ($borderradius) $css_borderradius = 'border-radius: 0px 0px ' . $borderradius . ' ' . $borderradius . ';';
-			if ($border) $css_border = 'border-width: ' . $border . ';';
-			if ($bordercolor) $css_bordercolor = 'border-color: ' . $bordercolor . ';';
-			if ($borderstyle) $css_borderstyle = 'border-style: ' . $borderstyle . ';';
-			if ($text_color) $css_text_color = 'color: ' . $text_color . ' !important;';
+			if ( $background ) {
+				$css_background = 'background-color: ' . $background . ';';
+			}
+			if ( $borderradius ) {
+				$css_borderradius = 'border-radius: 0px 0px ' . $borderradius . ' ' . $borderradius . ';';
+			}
+			if ( $border ) {
+				$css_border = 'border-width: ' . $border . ';';
+			}
+			if ( $bordercolor ) {
+				$css_bordercolor = 'border-color: ' . $bordercolor . ';';
+			}
+			if ( $borderstyle ) {
+				$css_borderstyle = 'border-style: ' . $borderstyle . ';';
+			}
+			if ( $text_color ) {
+				$css_text_color = 'color: ' . $text_color . ' !important;';
+				$css_class .= ' um-customized-row';
+			}
 
 			// show the heading
-			if ($heading) {
+			if ( $heading ) {
 
-				$heading_background_color = ( isset( $heading_background_color ) ) ? $heading_background_color : '';
-				$heading_text_color = ( isset( $heading_text_color ) ) ? $heading_text_color : '';
-
-				if ($heading_background_color) {
-					$css_heading_background_color = 'background-color: ' . $heading_background_color . ';';
+				if ( ! empty( $heading_background_color ) ) {
+					$css_heading_background_color = "background-color: $heading_background_color;";
 					$css_heading_padding = 'padding: 10px 15px;';
 				}
 
-				if ($heading_text_color) $css_heading_text_color = 'color: ' . $heading_text_color . ';';
-				if ($borderradius) $css_heading_borderradius = 'border-radius: ' . $borderradius . ' ' . $borderradius . ' 0px 0px;';
+				$css_heading_borderradius = empty( $borderradius ) ? '' : "border-radius: $borderradius $borderradius 0px 0px;";
+				$css_heading_border = $css_border . $css_borderstyle . $css_bordercolor . $css_heading_borderradius . 'border-bottom-width: 0px;';
+				$css_heading_margin = $css_margin . 'margin-bottom: 0px;';
+				$css_heading_text_color = empty( $heading_text_color ) ? '' : "color: $heading_text_color;";
+				$css_icon_color = empty( $icon_color ) ?  '' : "color: $icon_color;";
 
-				$output .= '<div class="um-row-heading" style="' . $css_heading_background_color . $css_heading_padding . $css_heading_text_color . $css_heading_borderradius . '">';
+				$output .= '<div class="um-row-heading" style="' . $css_heading_margin . $css_heading_padding . $css_heading_border . $css_heading_background_color . $css_heading_text_color . '">';
 
-				if (isset( $icon )) {
-					$output .= '<span class="um-row-heading-icon"><i class="' . $icon . '"></i></span>';
+				if ( ! empty( $icon ) ) {
+					$output .= '<span class="um-row-heading-icon" style="' . $css_icon_color . '"><i class="' . $icon . '"></i></span>';
+				}
+				if ( ! empty( $heading_text ) ) {
+					$output .= htmlspecialchars( $heading_text );
 				}
 
-				$output .= ( !empty( $heading_text ) ? $heading_text : '' ) . '</div>';
+				$output .= '</div>';
+
+				$css_border .= 'border-top-width: 0px;';
+				$css_margin .= 'margin-top: 0px;';
 
 			} else {
 
 				// no heading
-				if ($borderradius) $css_borderradius = 'border-radius: ' . $borderradius . ';';
+				$css_borderradius = empty( $borderradius ) ? '' : "border-radius: $borderradius;";
 
 			}
 

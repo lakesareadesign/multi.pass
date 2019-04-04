@@ -74,4 +74,7 @@ switch ( $crawl_status ) {
 			) );
 		}
 		break;
+
+	default:
+		break;
 }

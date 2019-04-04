@@ -59,6 +59,7 @@ final class FLBuilderAdmin {
 					'utm_source'   => 'plugins-admin-page',
 					'utm_campaign' => 'no-multisite-support',
 				) );
+				/* translators: %s: upgrade url */
 				self::show_activate_error( sprintf( __( 'This version of the <strong>Page Builder</strong> plugin is not compatible with WordPress Multisite. <a%s>Please upgrade</a> to the Multisite version of this plugin.', 'fl-builder' ), ' href="' . $url . '" target="_blank"' ) );
 			}
 
@@ -123,7 +124,7 @@ final class FLBuilderAdmin {
 			$folder = rtrim( FLBuilderModel::plugin_basename(), '/fl-builder.php' );
 
 			if ( 'bb-plugin' != $folder ) {
-
+				/* translators: %s: folder path */
 				$error = sprintf( __( 'Install Error! We detected that Beaver Builder appears to be installed in a folder called <kbd>%s</kbd>.<br />For automatic updates to work the plugin must be installed in the folder <kbd>bb-plugin</kbd>.', 'fl-builder' ), $folder );
 				FLBuilderAdminSettings::add_error( $error );
 			}
@@ -180,10 +181,12 @@ final class FLBuilderAdmin {
 	 */
 	static public function activate_notice() {
 		if ( FL_BUILDER_LITE !== true ) {
-			$hash    = '#license';
+			$hash = '#license';
+			/* translators: %s: link to licence page */
 			$message = __( 'Page Builder activated! <a%s>Click here</a> to enable remote updates.', 'fl-builder' );
 		} else {
-			$hash    = '#welcome';
+			$hash = '#welcome';
+			/* translators: %s: link to welcome page */
 			$message = __( 'Page Builder activated! <a%s>Click here</a> to get started.', 'fl-builder' );
 		}
 

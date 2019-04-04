@@ -160,7 +160,7 @@
          */
         showStatusMessage: function(message, toolTip) {
             this.$savingIndicator.html(message);
-            if (!_.isUndefined(toolTip)) {
+            if (! FLBuilder.isUndefined(toolTip)) {
                 this.$savingIndicator.attr('title', toolTip);
                 $('.fl-builder--saving-indicator').tipTip({
 					defaultPosition: 'bottom',

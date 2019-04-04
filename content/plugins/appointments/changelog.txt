@@ -1,3 +1,9 @@
+2019-xx-xx - 2.4.2
+-------------------------------
+- Fixed a problem with custom confirmation email.
+- Fixed a problem with slot availability.
+- Added plugin specific text to privacy policy page (only during creation a policy page).
+
 2018-11-26 - 2.4.1
 -------------------------------
 - Fixed a problem with Service Provider shortcode param name.
@@ -963,4 +969,4 @@ V1.0.0:
 - Initial release
 
 
-133620-1543295358-au
+133620-1554389249-au

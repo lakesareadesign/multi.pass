@@ -1,6 +1,6 @@
 <?php
 class Genesis_Dambuster_Template {
-	const OPTIONS_NAME = 'tweaks';
+	const OPTION_NAME = 'tweaks';
 	const DAMBUSTER_METAKEY = '_genesis_dambuster_template';
 
 	protected $defaults  = array(
@@ -50,14 +50,15 @@ class Genesis_Dambuster_Template {
         $this->plugin = Genesis_Dambuster_Plugin::get_instance();
         $this->utils = $this->plugin->get_utils();
         $this->options = $this->plugin->get_options();
-		$this->options->add_defaults(array( self::OPTIONS_NAME => $this->defaults));		
+		$this->options->add_defaults(array( self::OPTION_NAME => $this->defaults));		
 		if (! is_admin() ) {
 			add_action('wp', array($this,'prepare'));
 		}
+        
 	}	
 
 	function get_defaults() {
-    	return $this->defaults;
+    	return array_diff_key($this->defaults, array_fill_keys(array('always_on','front_page','custom_post_types'), false)); ;
     }
 
 	function get_option($option_name, $cache = true) {
@@ -69,30 +70,38 @@ class Genesis_Dambuster_Template {
     }
 
 	function get_options($cache = true) {
-        return $this->options->get_option(self::OPTIONS_NAME, $cache);
+        return $this->options->get_option(self::OPTION_NAME, $cache);
     }
 	
     function save_options($options) {
-        return $this->options->save_options(array(self::OPTIONS_NAME => $options)) ;
+        return $this->options->save_options(array(self::OPTION_NAME => $options)) ;
     }
 	
     function prepare() {
+        if (is_front_page()) {            
+            if ($this->get_option('front_page' )) {
+                $this->page_options = $this->get_options();
+                $this->apply_tweaks();
+            }
+		}
         if (is_singular()  
         && $this->plugin->is_post_type_enabled(get_post_type())
-        && ($this->post_id = $this->utils->get_post_id()) //get post/page id
-		&& ($meta = $this->utils->get_post_meta($this->post_id,  self::DAMBUSTER_METAKEY))
-		&& ($this->page_options = $this->options->validate_options($this->get_options(), $meta))	      
-		&& $this->is_enabled($this->page_options['enabled'],$this->page_options['disabled'] )) {  //we are tweaking this page
-            $this->apply_tweaks();
-		} else if (is_front_page() && $this->get_option('front_page' )) {
-            $this->page_options = $this->get_options();
-	       	$this->apply_tweaks();            
-		}
+        && ($this->post_id = $this->utils->get_post_id())) {
+            $meta = $this->utils->get_post_meta($this->post_id,  self::DAMBUSTER_METAKEY);
+            if ($meta)
+                $this->page_options = $this->options->validate_options($this->get_defaults(), $meta);
+            else
+                $this->page_options = $this->get_options();
+        	      
+            if($this->is_enabled($this->page_options['enabled'],$this->page_options['disabled'] )) {  //we are tweaking this page
+                $this->apply_tweaks();
+            }
+		} 
 	}
 
     function apply_tweaks() {
-            $this->is_html5 = $this->utils->is_html5();
-            $this->is_landing = $this->utils->is_landing_page();
+        $this->is_html5 = $this->utils->is_html5();
+        $this->is_landing = $this->utils->is_landing_page();
 		if ($this->page_options['remove_header']) $this->remove_header();	    
 		if ($this->page_options['remove_primary_navigation']) $this->remove_primary_navigation();
 		if ($this->page_options['remove_secondary_navigation']) $this->remove_secondary_navigation();
@@ -307,4 +316,6 @@ class Genesis_Dambuster_Template {
 	function inline_specific_styles() {
 		return false;
     }
+
+
 }

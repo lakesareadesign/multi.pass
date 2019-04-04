@@ -10,7 +10,7 @@
 						'#edit'   => "{{- Wds.l10n('keywords', 'Edit') }}",
 						'#remove' => "{{- Wds.l10n('keywords', 'Remove') }}",
 					),
-				));	     	 	 	  		 		
+				));
 			?>
 		{{ } }}
 	</td>

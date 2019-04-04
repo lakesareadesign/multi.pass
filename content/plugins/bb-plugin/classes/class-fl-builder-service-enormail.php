@@ -77,6 +77,7 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 					'api_key' => $fields['api_key'],
 				);
 			} else {
+				/* translators: %s: error */
 				$response['error'] = sprintf(__( 'Error: Could not connect to Enormail. %s', 'fl-builder' ),
 					'(' . $api_response->error->http_code . ': ' . $api_response->error->message . ')'
 				);
@@ -215,6 +216,7 @@ final class FLBuilderServiceEnormail extends FLBuilderService {
 			$get_results = json_decode( $result );
 
 			if ( isset( $get_results->status ) && 'error' === $get_results->status ) {
+				/* translators: %s: error */
 				$response['error'] = sprintf(__( 'There was an error subscribing to Enormail. %s', 'fl-builder' ),
 					'(' . $get_results->code . ': ' . $get_results->message . ')'
 				);

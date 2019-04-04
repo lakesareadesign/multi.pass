@@ -337,6 +337,7 @@ class FLBuilderArt {
 
 			// Preset & Shape Section
 			$sections[ $prefix . 'shape' ] = array(
+				/* translators: %s: position label */
 				'title'  => sprintf( __( '%s Shape', 'fl-builder' ), $position_label ),
 				'fields' => array(
 					$prefix . 'shape' => array(
@@ -463,6 +464,7 @@ class FLBuilderArt {
 
 			// Shape Styles
 			$sections[ $prefix . 'style' ] = array(
+				/* translators: %s: position label */
 				'title'  => sprintf( __( '%s Shape Style', 'fl-builder' ), $position_label ),
 				'fields' => array(
 					$prefix . 'fill_style'    => array(

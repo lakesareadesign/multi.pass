@@ -336,7 +336,7 @@
 				}
 				else {
 					$wrapper = $( this.wrapperClass );
-					$menu    = $wrapper.children( '.menu' );
+					$menu    = $wrapper.find( '.menu' );
 				}
 
 				if( !$wrapper.find( '.fl-menu-mobile-toggle' ).hasClass( 'fl-active' ) && ! self.mobileFlyout ){

@@ -15,7 +15,12 @@
  *   - $blur
  */
 
-$class = 'wpmui-pointer prepared';
+/**
+ * Filter pointer classes
+ *
+ * @since 3.1.0
+ */
+$class = implode( ' ', apply_filters( 'wpmui_pointer_classes', $classes ) );
 if ( ! empty( $title ) ) {
 	$title = '<h3>' . $title . '</h3>';
 } else {
@@ -31,14 +36,20 @@ $code = sprintf(
 );
 
 // Remove linebreaks to avoid JS errors
-$code = str_replace( array("\r", "\n"), '', $code );
+$code = str_replace( array( "\r", "\n" ), '', $code );
 
 ?>
-<script>
+<script type="text/javascript">
 	jQuery(document).ready(function() {
 		var wpcontent = jQuery( '#wpbody' ),
 			body = jQuery( 'body' );
 
+		/**
+		 * Avoid block editor
+		 */
+		if ( body.hasClass( 'block-editor-page' ) ) {
+			return;
+		}
 		if ( jQuery().pointer !== undefined ) {
 			var target = jQuery( '<?php echo $html_el; ?>' );
 			if ( ! target.length ) { return; }
@@ -89,12 +100,12 @@ $code = str_replace( array("\r", "\n"), '', $code );
 			}).pointer('open');
 
 			// Modify the default pointer style
-			jQuery( '.wpmui-pointer.prepared' ).each(function() {
+			jQuery( '.wpmui-pointer-handler.prepared' ).each(function() {
 				var me = jQuery(this),
 					ptr = me.closest('.wp-pointer');
 				me.removeClass('prepared');
 				ptr.addClass( me.attr( 'class' ) );
-				me.removeClass('wpmui-pointer');
+				me.removeClass('wpmui-pointer-handler');
 			});
 		}
 	});

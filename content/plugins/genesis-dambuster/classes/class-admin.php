@@ -283,7 +283,7 @@ abstract class Genesis_Dambuster_Admin {
 			   if (is_array($val)) {
 				  foreach ($val as $k => $v) if (!is_array($v)) $val[$k] = stripslashes(trim($v));
        				//Delete postmeta if empty array
-            		if (!array_filter($val)) {
+            		if (count(array_filter($val)) == 0) {
                 		delete_post_meta( $post_id, $metakey);
                 		return true;
             		}

@@ -2752,6 +2752,7 @@ final class FLBuilderModel {
 
 			// Log an error if a module with this slug already exists.
 			if ( isset( self::$modules[ $instance->slug ] ) ) {
+				/* translators: %s: module filename */
 				error_log( sprintf( _x( 'A module with the filename %s.php already exists! Please namespace your module filenames to ensure compatibility with Beaver Builder.', '%s stands for the module filename', 'fl-builder' ), $instance->slug ) );
 				return;
 			}
@@ -2787,6 +2788,7 @@ final class FLBuilderModel {
 	 */
 	static public function register_module_alias( $alias, $config ) {
 		if ( isset( self::$module_aliases[ $alias ] ) ) {
+			/* translators: %s: module alias key */
 			_doing_it_wrong( __CLASS__ . '::register_module_alias', sprintf( _x( 'The module alias %s already exists! Please namespace your module aliases to ensure compatibility with Beaver Builder.', '%s stands for the module alias key', 'fl-builder' ), $alias ), '1.10' );
 			return;
 		}
@@ -4045,6 +4047,9 @@ final class FLBuilderModel {
 	 */
 	static public function save_global_settings( $settings = array() ) {
 		$old_settings = self::get_global_settings();
+
+		$settings = self::sanitize_global( $settings );
+
 		$new_settings = (object) array_merge( (array) $old_settings, (array) $settings );
 
 		self::delete_asset_cache_for_all_posts();
@@ -4053,6 +4058,24 @@ final class FLBuilderModel {
 		update_option( '_fl_builder_settings', $new_settings );
 
 		return self::get_global_settings();
+	}
+
+	/**
+	 * Sanitize global options on save.
+	 * @since 2.2.2
+	 */
+	static public function sanitize_global( $settings ) {
+
+		$fields = self::get_settings_form_fields( 'global', 'general' );
+
+		foreach ( $settings as $name => $value ) {
+			if ( ! isset( $fields[ $name ] ) ) {
+				continue;
+			} elseif ( isset( $fields[ $name ]['sanitize'] ) ) {
+				$settings[ $name ] = call_user_func_array( $fields[ $name ]['sanitize'], array( $value ) );
+			}
+		}
+		return $settings;
 	}
 
 	/**
@@ -4080,6 +4103,7 @@ final class FLBuilderModel {
 			'post_parent'    => $post->post_parent,
 			'post_password'  => $post->post_password,
 			'post_status'    => 'draft',
+			/* translators: %s: post/page title */
 			'post_title'     => sprintf( _x( 'Copy of %s', '%s stands for post/page title.', 'fl-builder' ), $post->post_title ),
 			'post_type'      => $post->post_type,
 			'to_ping'        => $post->to_ping,
@@ -6344,7 +6368,7 @@ final class FLBuilderModel {
 			'enabled'            => true,
 			'tour'               => true,
 			'video'              => true,
-			'video_embed'        => '<iframe src="https://player.vimeo.com/video/240550556?autoplay=1" width="420" height="315" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',
+			'video_embed'        => '<iframe src="https://player.vimeo.com/video/240550556?autoplay=1" width="420" height="315" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>',
 			'knowledge_base'     => true,
 			'knowledge_base_url' => self::get_store_url( 'knowledge-base', array(
 				'utm_medium'   => ( true === FL_BUILDER_LITE ? 'bb-lite' : 'bb-pro' ),

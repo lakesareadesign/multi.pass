@@ -49,7 +49,7 @@ class CoursePress_View_Admin_Setting_Capabilities {
 	}
 
 	public static function return_content( $content, $slug, $tab ) {
-		$instructor_capabilities = CoursePress_Data_Capabilities::get_instructor_capabilities();									   	 	   		
+		$instructor_capabilities = CoursePress_Data_Capabilities::get_instructor_capabilities();
 		$boxes = self::_capability_boxes();
 
 		ob_start();

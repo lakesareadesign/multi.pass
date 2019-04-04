@@ -340,8 +340,15 @@ final class FLBuilderCSS {
 	 * @return void
 	 */
 	static public function render() {
-		$rendered = array();
-		$css      = '';
+		$rendered    = array();
+		$breakpoints = array( 'default', 'medium', 'responsive' );
+		$css         = '';
+
+		// Setup system breakpoints here to ensure proper order.
+		foreach ( $breakpoints as $breakpoint ) {
+			$media              = self::media_value( $breakpoint );
+			$rendered[ $media ] = array();
+		}
 
 		foreach ( self::$rules as $args ) {
 			$defaults = array(

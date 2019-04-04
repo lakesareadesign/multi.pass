@@ -25,6 +25,7 @@ class FLBuilderUISettingsForms {
 		add_action( 'wp_enqueue_scripts', __CLASS__ . '::enqueue_settings_config', 11 );
 		add_action( 'wp_footer', __CLASS__ . '::init_js_config', 1 );
 		add_action( 'wp_footer', __CLASS__ . '::render_js_templates', 11 );
+		add_filter( 'fl_builder_ui_js_config', __CLASS__ . '::layout_css_js' );
 	}
 
 	/**
@@ -66,8 +67,7 @@ class FLBuilderUISettingsForms {
 				wp_raise_memory_limit( 'bb-plugin' );
 			}
 
-			$type    = sanitize_key( $_GET['fl_builder_load_settings_config'] );
-			$handler = 'FLBuilderUISettingsForms::compress_settings_config';
+			$type = sanitize_key( $_GET['fl_builder_load_settings_config'] );
 
 			if ( 'modules' === $type ) {
 				$settings = FLBuilderUISettingsForms::get_modules_js_config();
@@ -75,13 +75,9 @@ class FLBuilderUISettingsForms {
 				$settings = FLBuilderUISettingsForms::get_js_config();
 			}
 
-			if ( @ini_get( 'zlib.output_compression' ) ) { // @codingStandardsIgnoreLine
-				@ini_set( 'zlib.output_compression', 'Off' ); // @codingStandardsIgnoreLine
-				$handler = null;
-			}
 			header( 'Content-Type: application/javascript' );
 
-			ob_start( $handler );
+			ob_start();
 			include FL_BUILDER_DIR . 'includes/ui-settings-config.php';
 			ob_end_flush();
 
@@ -93,7 +89,7 @@ class FLBuilderUISettingsForms {
 	 * Attempts to use the output buffer gzip handler to compress
 	 * the settings config. We have to do it this way to prevent
 	 * errors we were running into on some hosts.
-	 *
+	 * @deprecated 2.2.2
 	 * @since 2.1.0.2
 	 * @param string $buffer $mode
 	 * @return string
@@ -314,8 +310,9 @@ class FLBuilderUISettingsForms {
 				'title'  => $module->name,
 				'tabs'   => $module->form,
 				'assets' => array(
-					'css' => $css,
-					'js'  => $js,
+					'css'   => $css,
+					'js'    => $js,
+					'jsurl' => $js_file_uri,
 				),
 			);
 		}
@@ -918,7 +915,7 @@ class FLBuilderUISettingsForms {
 				} else {
 					echo '<td>&nbsp;</td><td>';
 				}
-
+				/* translators: %s: field name to add */
 				echo '<a href="javascript:void(0);" onclick="return false;" class="fl-builder-field-add fl-builder-button" data-field="' . $arr_name . '">' . sprintf( _x( 'Add %s', 'Field name to add.', 'fl-builder' ), $field['label'] ) . '</a>';
 				echo '</td>';
 				echo '</tr>';
@@ -947,6 +944,15 @@ class FLBuilderUISettingsForms {
 		return array(
 			'html' => $html,
 		);
+	}
+
+	static public function layout_css_js( $config ) {
+
+		$post_id  = $config['postId'];
+		$settings = get_post_meta( $post_id, '_fl_builder_data_settings', true );
+
+		$config['layout_css_js'] = ( ( isset( $settings->css ) && '' !== $settings->css ) || ( isset( $settings->js ) && '' !== $settings->js ) ) ? true : false;
+		return $config;
 	}
 }
 

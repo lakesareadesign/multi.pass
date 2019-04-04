@@ -34,6 +34,8 @@ if ( $module->is_responsive_menu_flyout() ) {
 
 		$layout = isset( $settings->menu_layout ) ? 'fl-menu-' . $settings->menu_layout : 'fl-menu-horizontal';
 
+		printf( '<nav aria-label="%s" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">', esc_attr( $module->get_menu_label() ) );
+
 		$defaults = array(
 			'menu'         => $settings->menu,
 			'container'    => false,
@@ -44,6 +46,8 @@ if ( $module->is_responsive_menu_flyout() ) {
 		add_filter( 'wp_nav_menu_objects', 'FLMenuModule::sort_nav_objects', 10, 2 );
 		wp_nav_menu( $defaults );
 		remove_filter( 'wp_nav_menu_objects', 'FLMenuModule::sort_nav_objects' );
+
+		echo '</nav>';
 	}
 	?>
 </div>

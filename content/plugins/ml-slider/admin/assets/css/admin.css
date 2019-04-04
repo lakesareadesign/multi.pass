@@ -1755,3 +1755,13 @@ input.no_last_pass {
 .ms-delete-save .ms-delete-slideshow:hover {
 	text-decoration: underline;
 }
+
+#image-api-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 99999999;
+    background: white;
+}

@@ -99,9 +99,6 @@ if ( ! class_exists( 'um\core\User' ) ) {
 		 * @param $user_id
 		 */
 		function delete_user_handler( $user_id ) {
-			error_log( '----------------' );
-			error_log( $user_id );
-
 			um_fetch_user( $user_id );
 
 			/**
@@ -1378,8 +1375,6 @@ if ( ! class_exists( 'um\core\User' ) ) {
 				$this->send_mail_on_delete = false;
 			}
 
-			$this->delete_user_handler( um_user( 'ID' ) );
-
 			// remove user
 			if ( is_multisite() ) {
 
@@ -1672,7 +1667,11 @@ if ( ! class_exists( 'um\core\User' ) ) {
 
 			foreach ( $changes as $key => $value ) {
 				if ( ! in_array( $key, $this->update_user_keys ) ) {
-					update_user_meta( $this->id, $key, $value );
+					if( $value === 0 ){
+						update_user_meta( $this->id, $key, '0' );
+					} else {
+						update_user_meta( $this->id, $key, $value );
+					}
 				} else {
 					$args[ $key ] = esc_attr( $changes[ $key ] );
 				}

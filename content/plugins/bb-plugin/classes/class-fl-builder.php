@@ -67,8 +67,8 @@ final class FLBuilder {
 	 * Font awesome urls.
 	 * @since 2.1
 	 */
-	static public $fa4_url     = 'https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css';
-	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.7.1/css/all.css';
+	static public $fa4_url     = '';
+	static public $fa5_pro_url = 'https://pro.fontawesome.com/releases/v5.8.1/css/all.css';
 
 	/**
 	 * Initializes hooks.
@@ -100,6 +100,7 @@ final class FLBuilder {
 		add_filter( 'tiny_mce_before_init', __CLASS__ . '::editor_font_sizes' );
 		add_filter( 'the_content', __CLASS__ . '::render_content' );
 		add_filter( 'wp_handle_upload_prefilter', __CLASS__ . '::wp_handle_upload_prefilter_filter' );
+		add_filter( 'wp_link_query_args', __CLASS__ . '::wp_link_query_args_filter' );
 	}
 
 	/**
@@ -389,19 +390,20 @@ final class FLBuilder {
 		wp_register_style( 'yui3', $css_url . 'yui3.css', array(), $ver );
 
 		// Register icon CDN CSS
-		wp_register_style( 'font-awesome', self::$fa4_url, array(), $ver );
 		wp_register_style( 'font-awesome-5', self::get_fa5_url(), array(), $ver );
+		wp_register_style( 'font-awesome', plugins_url( '/fonts/fontawesome/css/v4-shims.min.css', FL_BUILDER_FILE ), array( 'font-awesome-5' ), $ver );
+
 		wp_register_style( 'foundation-icons', 'https://cdnjs.cloudflare.com/ajax/libs/foundicons/3.0.0/foundation-icons.css', array(), $ver );
 
 		// Register additional JS
 		wp_register_script( 'fl-slideshow', $js_url . 'fl-slideshow' . $min . '.js', array( 'yui3' ), $ver, true );
 		wp_register_script( 'fl-gallery-grid', $js_url . 'fl-gallery-grid.js', array( 'jquery' ), $ver, true );
-		wp_register_script( 'jquery-bxslider', $js_url . 'jquery.bxslider.js', array( 'jquery-easing', 'jquery-fitvids' ), $ver, true );
+		wp_register_script( 'jquery-bxslider', $js_url . 'jquery.bxslider' . $min . '.js', array( 'jquery-easing', 'jquery-fitvids' ), $ver, true );
 		wp_register_script( 'jquery-easing', $js_url . 'jquery.easing.min.js', array( 'jquery' ), '1.4', true );
 		wp_register_script( 'jquery-fitvids', $js_url . 'jquery.fitvids.min.js', array( 'jquery' ), '1.2', true );
 		wp_register_script( 'jquery-infinitescroll', $js_url . 'jquery.infinitescroll.min.js', array( 'jquery' ), $ver, true );
-		wp_register_script( 'jquery-magnificpopup', $js_url . 'jquery.magnificpopup.min.js', array( 'jquery' ), $ver, true );
-		wp_register_script( 'jquery-mosaicflow', $js_url . 'jquery.mosaicflow.min.js', array( 'jquery' ), $ver, true );
+		wp_register_script( 'jquery-magnificpopup', $js_url . 'jquery.magnificpopup' . $min . '.js', array( 'jquery' ), $ver, true );
+		wp_register_script( 'jquery-mosaicflow', $js_url . 'jquery.mosaicflow' . $min . '.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'jquery-waypoints', $js_url . 'jquery.waypoints.min.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'jquery-wookmark', $js_url . 'jquery.wookmark.min.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'yui3', $js_url . 'yui3.min.js', array(), $ver, true );
@@ -658,13 +660,6 @@ final class FLBuilder {
 
 			/* Frontend builder styles */
 			wp_enqueue_style( 'dashicons' );
-
-			/**
-			 * FA4 css and FA5 css do not mix well and actually break some of the icvons in the selector.
-			 */
-			if ( in_array( 'font-awesome', FLBuilderModel::get_enabled_icons() ) ) {
-				wp_enqueue_style( 'font-awesome' );
-			}
 			wp_enqueue_style( 'font-awesome-5' );
 			wp_enqueue_style( 'foundation-icons' );
 			wp_enqueue_style( 'jquery-nanoscroller', $css_url . 'jquery.nanoscroller.css', array(), $ver );
@@ -738,7 +733,8 @@ final class FLBuilder {
 				wp_enqueue_script( 'fl-lightbox', $js_url . 'fl-lightbox.js', array(), $ver );
 				wp_enqueue_script( 'fl-icon-selector', $js_url . 'fl-icon-selector.js', array(), $ver );
 				wp_enqueue_script( 'fl-stylesheet', $js_url . 'fl-stylesheet.js', array(), $ver );
-				wp_enqueue_script( 'fl-builder', $js_url . 'fl-builder.js', array(), $ver );
+				wp_enqueue_script( 'fl-builder', $js_url . 'fl-builder.js', array( 'jquery' ), $ver );
+				wp_enqueue_script( 'fl-builder-libs', $js_url . 'fl-builder-libs.js', array( 'fl-builder' ), $ver );
 				wp_enqueue_script( 'fl-builder-ajax-layout', $js_url . 'fl-builder-ajax-layout.js', array(), $ver );
 				wp_enqueue_script( 'fl-builder-preview', $js_url . 'fl-builder-preview.js', array(), $ver );
 				wp_enqueue_script( 'fl-builder-simulate-media-query', $js_url . 'fl-builder-simulate-media-query.js', array(), $ver );
@@ -1323,10 +1319,16 @@ final class FLBuilder {
 		if ( '' == $icon_url ) {
 			$wrapper_classes[] = 'fl-builder-bar-title-no-icon';
 		}
+		$type = FLBuilderModel::get_user_template_type( $post->ID );
+		if ( $type && 'layout' !== $type ) {
+			$edited_object_label = ucfirst( $type );
+		} else {
+			$edited_object_label = get_post_type_object( $post->post_type )->labels->singular_name;
+		}
 
-		$edited_object_label = get_post_type_object( $post->post_type )->labels->singular_name;
-		$pretitle            = sprintf( _x( 'Currently Editing %s', 'Currently editing message', 'fl-builder' ), $edited_object_label );
-		$pretitle            = apply_filters( 'fl_builder_ui_bar_pretitle', $pretitle );
+		/* translators: %s: post label */
+		$pretitle = sprintf( _x( 'Currently Editing %s', 'Currently editing message', 'fl-builder' ), $edited_object_label );
+		$pretitle = apply_filters( 'fl_builder_ui_bar_pretitle', $pretitle );
 
 		// Render the bar title.
 		include FL_BUILDER_DIR . 'includes/ui-bar-title-area.php';
@@ -1476,7 +1478,7 @@ final class FLBuilder {
 				self::enqueue_layout_styles_scripts_by_id( $query_post->ID );
 
 				// Print the styles if we are outside of the head tag.
-				if ( did_action( 'wp_enqueue_scripts' ) && 'wp_enqueue_scripts' !== current_filter() ) {
+				if ( did_action( 'wp_enqueue_scripts' ) && ! doing_filter( 'wp_enqueue_scripts' ) ) {
 					wp_print_styles();
 				}
 
@@ -3390,6 +3392,7 @@ final class FLBuilder {
 		$regex = apply_filters( 'fl_module_upload_regex', $regex, $type, $ext, $file );
 
 		if ( ! preg_match( $regex[ $type ], $ext ) ) {
+			/* translators: %s: extension type */
 			$file['error'] = sprintf( __( 'The uploaded file is not a valid %s extension.', 'fl-builder' ), $type );
 		}
 
@@ -3441,6 +3444,18 @@ final class FLBuilder {
 		 * @since 2.2.1
 		 */
 		return apply_filters( 'fl_get_fa5_url', $url );
+	}
+
+	/**
+	 * Remove template type from wp-link suggestions.
+	 * @since 2.2.2
+	 */
+	static public function wp_link_query_args_filter( $query ) {
+
+		if ( array_search( 'fl-builder-template', $query['post_type'] ) ) {
+			unset( $query['post_type'][ array_search( 'fl-builder-template', $query['post_type'] ) ] );
+		}
+		return $query;
 	}
 
 	/**

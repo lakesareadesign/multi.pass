@@ -81,8 +81,39 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
 	}
 
 	function save_post_tweaks($post_id, $post) {
-        $this->save_postmeta($post_id, self::DAMBUSTER_TWEAKS, Genesis_Dambuster_Template::DAMBUSTER_METAKEY, $this->template->get_defaults()); 
+        $metakey = Genesis_Dambuster_Template::DAMBUSTER_METAKEY;
+        $default_post_options = $this->template->get_options();
+        unset($default_post_options['custom_post_types']);
+        unset($default_post_options['always_on']);
+        unset($default_post_options['front_page']);
+        $this->sanitize_post_tweaks($metakey, $default_post_options);
+        $this->save_postmeta($post_id, self::DAMBUSTER_TWEAKS, $metakey, $this->template->get_defaults()); 
 	}
+
+	function sanitize_post_tweaks($metakey, $defaults) {
+        if (!empty($_POST[self::DAMBUSTER_TWEAKS]) 
+        && empty($_POST[$metakey]['enabled']) 
+        && empty($_POST[$metakey]['disabled'])) {
+            if ( $this->arrays_the_same($defaults, $_POST[$metakey])) {
+                $_POST[$metakey] = array();  //if the setting is not active and it just the default values then the content is unchanged                
+            }
+        }
+	}
+
+	function arrays_the_same($options, $values) {
+	   $combined = array_diff_assoc(array_filter($options),array_filter($values));
+	   return count($combined) == 0;
+	}
+
+    function tweaks_on() {
+        $defaults = $this->template->get_defaults();
+        foreach ($defaults as $key => $val) {
+            if ((strpos($key, 'remove_') !== FALSE) 
+            || (strpos($key, 'full_') !== FALSE)) 
+                $defaults[$key] = true;
+        } 
+        return $defaults;
+    }
 
 	function add_meta_boxes( $post_type, $post) {
         if ($this->plugin->is_post_type_enabled($post_type)) {
@@ -97,22 +128,6 @@ class Genesis_Dambuster_Template_Admin extends Genesis_Dambuster_Admin {
 <p>In the <b>Genesis Dambuster</b> section below you can choose to remove certain elements from the page and make it full width.</p>')) );
 		}
 	}
-
-   function upgrade() {
-        $defaults = $this->template->get_defaults();
-        $options = $this->template->get_options(false);
-        if (isset($options['max_content_width'])) unset($options['max_content_width']); 
-        if (isset($options['content_padding'])) unset($options['content_padding']); 
-        if (isset($options['custom_post_types'])) unset($options['custom_post_types']);
-        if (array_sum(array_values($options))  == 0) { //if all fields are false then enable full width and "remove" options
-            foreach ($options as $key => $val) {
-                if ((strpos($key, 'remove_') !== FALSE) 
-                || (strpos($key, 'full_') !== FALSE)) 
-                    $options[$key] = true;
-            }
-            return $this->template->save_options($options);      
-        }
-    }
 
 	function control_panel($post,$metabox) {
         $options = $metabox['args']['options'];

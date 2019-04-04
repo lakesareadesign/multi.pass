@@ -30,3 +30,7 @@
 .dashicons-sprocket:before {
   content: "\61";
 }
+
+#leadin-bridge-container {
+  display: none;
+}

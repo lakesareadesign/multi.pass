@@ -104,7 +104,7 @@ final class FLBuilderServiceMautic extends FLBuilderService {
 				if ( isset( $get_response['errors'] ) && count( $get_response['errors'] ) > 0 ) {
 					$error_message = '[' . $get_response['errors'][0]['code'] . '] ' . $get_response['errors'][0]['message'];
 				}
-
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'Error: Could not connect to Mautic. %s', 'fl-builder' ), $error_message );
 			}
 		}
@@ -277,6 +277,7 @@ final class FLBuilderServiceMautic extends FLBuilderService {
 
 			if ( isset( $get_api_response['errors'] ) && count( $get_api_response['errors'] ) > 0 ) {
 				$response['error'] = sprintf(
+					/* translators: %s: error */
 					__( 'There was an error subscribing to Mautic. %s', 'fl-builder' ),
 					'[' . $get_api_response['errors'][0]['code'] . '] ' . $get_api_response['errors'][0]['message']
 				);

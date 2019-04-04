@@ -326,6 +326,34 @@ class FLPostGridModule extends FLBuilderModule {
 	}
 
 	/**
+	 * prints schema if enabled.
+	 * @since 2.2.2
+	 */
+	static public function print_schema( $schema ) {
+
+		if ( self::schema_enabled() ) {
+			echo $schema;
+		}
+	}
+
+	/**
+	 * Is schema enabled
+	 * @since 2.2.2
+	 */
+	static public function schema_enabled() {
+
+		/**
+		 * Disable all post-grid schema markup
+		 * @see fl_post_grid_disable_schema
+		 */
+		if ( false !== apply_filters( 'fl_post_grid_disable_schema', false ) ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/**
 	 * Renders the schema structured data for the current
 	 * post in the loop.
 	 *
@@ -334,6 +362,13 @@ class FLPostGridModule extends FLBuilderModule {
 	 */
 	static public function schema_meta() {
 
+		/**
+		 * Disable all post-grid schema markup
+		 * @see fl_post_grid_disable_schema
+		 */
+		if ( ! self::schema_enabled() ) {
+			return false;
+		}
 		/**
 		 * Before schema meta
 		 * @see fl_before_schema_meta
@@ -404,11 +439,17 @@ class FLPostGridModule extends FLBuilderModule {
 
 			$image = wp_get_attachment_image_src( get_post_thumbnail_id( get_the_ID() ), 'full' );
 			if ( is_array( $image ) ) {
+				ob_start();
 				echo '<div itemscope itemprop="image" itemtype="https://schema.org/ImageObject">';
 				echo '<meta itemprop="url" content="' . $image[0] . '" />';
 				echo '<meta itemprop="width" content="' . $image[1] . '" />';
 				echo '<meta itemprop="height" content="' . $image[2] . '" />';
 				echo '</div>';
+				/**
+				 * Image meta.
+				 * @see fl_schema_meta_thumbnail
+				 */
+				echo apply_filters( 'fl_schema_meta_thumbnail', ob_get_clean() );
 			}
 		}
 
@@ -440,6 +481,10 @@ class FLPostGridModule extends FLBuilderModule {
 	 */
 	static public function schema_itemtype() {
 		global $post;
+
+		if ( ! self::schema_enabled() ) {
+			return false;
+		}
 
 		if ( ! is_object( $post ) || ! isset( $post->post_type ) || 'post' != $post->post_type ) {
 			echo 'https://schema.org/CreativeWork';

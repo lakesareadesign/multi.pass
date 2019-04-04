@@ -42,7 +42,7 @@ class CoursePress_Admin_SampleCourses {
 			if ( is_readable( $filename ) ) {
 				$file_content = file_get_contents( $filename );
 				$courses = json_decode( $file_content );
-				CoursePress_Admin_Import::course_importer( $courses, 0, true, false, false );
+				CoursePress_Admin_Import::course_importer( $courses, 0, true, false, false );									   	 	   		
 			}
 		} catch( Exception $e ) {
 			// Do nothing, it log the error when DEBUG is on

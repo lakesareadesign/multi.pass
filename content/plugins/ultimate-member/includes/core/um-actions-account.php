@@ -9,8 +9,13 @@ if ( ! defined( 'ABSPATH' ) ) exit;
  */
 function um_submit_account_errors_hook( $args ) {
 
-	if ( ! isset( $_POST['um_account_submit'] ) )
+	if ( ! isset( $_POST['um_account_submit'] ) ) {
 		return;
+	}
+
+	if ( ! wp_verify_nonce( $_POST[ 'um_account_nonce_' . $_POST['_um_account_tab'] ], 'um_update_account_' . $_POST['_um_account_tab'] ) ) {
+		UM()->form()->add_error('um_account_security', __( 'Are you hacking? Please try again!', 'ultimate-member' ) );
+	}
 
 	$user = get_user_by( 'login', um_user( 'user_login' ) );
 
@@ -19,10 +24,10 @@ function um_submit_account_errors_hook( $args ) {
 			case 'delete': {
 				// delete account
 				if ( strlen(trim( $_POST['single_user_password'] ) ) == 0 ) {
-					UM()->form()->add_error('single_user_password', __('You must enter your password','ultimate-member') );
+					UM()->form()->add_error( 'single_user_password', __( 'You must enter your password', 'ultimate-member' ) );
 				} else {
 					if ( ! wp_check_password( $_POST['single_user_password'], $user->data->user_pass, $user->data->ID ) ) {
-						UM()->form()->add_error('single_user_password', __('This is not your password','ultimate-member') );
+						UM()->form()->add_error( 'single_user_password', __( 'This is not your password', 'ultimate-member' ) );
 					}
 				}
 
@@ -90,14 +95,29 @@ function um_submit_account_errors_hook( $args ) {
 				}
 
 				if ( isset( $_POST['user_email'] ) ) {
-					if ( strlen( trim( $_POST['user_email'] ) ) == 0 )
+
+					if ( strlen( trim( $_POST['user_email'] ) ) == 0 ) {
 						UM()->form()->add_error( 'user_email', __( 'You must provide your e-mail', 'ultimate-member' ) );
+					}
 
-					if ( ! is_email( $_POST['user_email'] ) )
+					if ( ! is_email( $_POST['user_email'] ) ) {
 						UM()->form()->add_error( 'user_email', __( 'Please provide a valid e-mail', 'ultimate-member' ) );
+					}
 
-					if ( email_exists( $_POST['user_email'] ) && email_exists( $_POST['user_email'] ) != get_current_user_id() )
+					if ( email_exists( $_POST['user_email'] ) && email_exists( $_POST['user_email'] ) != get_current_user_id() ) {
 						UM()->form()->add_error( 'user_email', __( 'Email already linked to another account', 'ultimate-member' ) );
+					}
+				}
+
+				// check account password
+				if ( UM()->options()->get( 'account_general_password' ) ) {
+					if ( strlen( trim( $_POST['single_user_password'] ) ) == 0 ) {
+						UM()->form()->add_error('single_user_password', __( 'You must enter your password', 'ultimate-member' ) );
+					} else {
+						if ( ! wp_check_password( $_POST['single_user_password'], $user->data->user_pass, $user->data->ID ) ) {
+							UM()->form()->add_error('single_user_password', __( 'This is not your password', 'ultimate-member' ) );
+						}
+					}
 				}
 
 				break;

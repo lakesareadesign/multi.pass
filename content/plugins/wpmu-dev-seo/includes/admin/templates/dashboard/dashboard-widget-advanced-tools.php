@@ -13,7 +13,7 @@ $options = $_view['options'];
 $autolinking_enabled = smartcrawl_get_array_value( $options, 'autolinks' );
 $service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
 $is_member = $service->is_member();
-$moz_connected = ! empty( $options['access-id'] ) && ! empty( $options['secret-key'] );
+$moz_connected = ! empty( $options['access-id'] ) && ! empty( $options['secret-key'] );	     	 	 	  		 		
 ?>
 
 <section id="<?php echo esc_attr( Smartcrawl_Settings_Dashboard::BOX_ADVANCED_TOOLS ); ?>" class="dev-box">

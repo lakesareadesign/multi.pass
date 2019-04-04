@@ -15,7 +15,7 @@ class CoursePress {
 	 *
 	 * @var string
 	 */
-	public static $version = '2.2.0';
+	public static $version = '2.2.2';
 
 	/**
 	 * Plugin name, this reflects the Pro/Standard version.
@@ -254,7 +254,7 @@ class CoursePress {
 	 **/
 	private static function register_cp_theme_directory() {
 		$theme_directories = apply_filters( 'coursepress_theme_directory_array', array(
-				self::$path . 'themes/'
+				self::$path . 'themes'
 			)
 		);
 		foreach ( $theme_directories as $theme_directory ) {

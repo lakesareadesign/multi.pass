@@ -91,7 +91,8 @@ final class FLBuilderServiceIContact extends FLBuilderService {
 					'app_password' => $fields['app_password'],
 				);
 			} catch ( Exception $e ) {
-				$errors            = $api->getErrors();
+				$errors = $api->getErrors();
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'Error: Could not connect to iContact. %s', 'fl-builder' ), $errors[0] );
 			}
 		}
@@ -136,6 +137,7 @@ final class FLBuilderServiceIContact extends FLBuilderService {
 			'type'        => 'text',
 			'label'       => __( 'App Password', 'fl-builder' ),
 			'help'        => __( 'Your iContact app password.', 'fl-builder' ),
+			/* translators: 1: create app url: 2: docs url */
 			'description' => sprintf( __( 'You must <a%1$s>create an app</a> in iContact to obtain an app ID and password. Please see <a%2$s>the iContact docs</a> for complete instructions.', 'fl-builder' ), ' href="https://app.icontact.com/icp/core/registerapp/" target="_blank"', ' href="http://www.icontact.com/developerportal/api-documentation/vocus-register-your-app/" target="_blank"' ),
 			'preview'     => array(
 				'type' => 'none',
@@ -172,7 +174,8 @@ final class FLBuilderServiceIContact extends FLBuilderService {
 			$lists            = $api->getLists();
 			$response['html'] = $this->render_list_field( $lists, $settings );
 		} catch ( Exception $e ) {
-			$errors            = $api->getErrors();
+			$errors = $api->getErrors();
+			/* translators: %s: error */
 			$response['error'] = sprintf( __( 'Error: Could not connect to iContact. %s', 'fl-builder' ), $errors[0] );
 		}
 
@@ -267,7 +270,8 @@ final class FLBuilderServiceIContact extends FLBuilderService {
 				// @codingStandardsIgnoreLine
 				$api->subscribeContactToList( $result->contactId, $settings->list_id );
 			} catch ( Exception $e ) {
-				$errors            = $api->getErrors();
+				$errors = $api->getErrors();
+				/* translators: %s: error */
 				$response['error'] = sprintf( __( 'There was an error subscribing to iContact. %s', 'fl-builder' ), $errors[0] );
 			}
 		}

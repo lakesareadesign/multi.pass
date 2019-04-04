@@ -87,7 +87,8 @@ final class FLBuilderUserTemplatesPostType {
 		 */
 		$args = apply_filters( 'fl_builder_register_template_category_args', array(
 			'labels'            => array(
-				'name'              => _x( 'Categories ( Beaver Builder )', 'Custom taxonomy label.', 'fl-builder' ),
+				/* translators: %s: branded builder name */
+				'name'              => sprintf( _x( '%s Categories', 'Custom taxonomy label.', 'fl-builder' ), FLBuilderModel::get_branding() ),
 				'singular_name'     => _x( 'Category', 'Custom taxonomy label.', 'fl-builder' ),
 				'search_items'      => _x( 'Search Categories', 'Custom taxonomy label.', 'fl-builder' ),
 				'all_items'         => _x( 'All Categories', 'Custom taxonomy label.', 'fl-builder' ),

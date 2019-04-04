@@ -26,7 +26,7 @@ class Smartcrawl_AIOSEOP_Importer extends Smartcrawl_Importer {
 
 		return apply_filters(
 			'wds-import-aioseop-data-exists',
-			strpos( $version, '2.11' ) === 0
+			strpos( $version, '2.12' ) === 0
 		);
 	}
 

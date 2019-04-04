@@ -534,7 +534,7 @@
 									}
 
 									// Comply with the audio policy in some browsers like Chrome and Safari.
-									if ( stateCount > 1 && -1 === event.data && "yes" === enableAudio ) {
+									if ( stateCount > 1 && (-1 === event.data || 2 === event.data) && "yes" === enableAudio ) {
 										player.mute();
 										player.playVideo();
 										audioButton.show();

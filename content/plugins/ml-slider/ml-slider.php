@@ -6,7 +6,7 @@
  * Plugin Name: MetaSlider
  * Plugin URI:  https://www.metaslider.com
  * Description: Easy to use slideshow plugin. Create SEO optimised responsive slideshows with Nivo Slider, Flex Slider, Coin Slider and Responsive Slides.
- * Version:     3.11.1
+ * Version:     3.12.1
  * Author:      Team Updraft
  * Author URI:  https://www.metaslider.com
  * License:     GPL-2.0+
@@ -28,11 +28,18 @@ if (!class_exists('MetaSliderPlugin')) :
 class MetaSliderPlugin {
 
     /**
-     * Meta slider version number
+     * MetaSlider version number
      *
      * @var string
      */
-    public $version = '3.11.1';
+    public $version = '3.12.1';
+
+	/**
+     * Pro installed version number
+     *
+     * @var string
+     */
+    public $installed_pro_version = '';
 
     /**
      * Specific SLider
@@ -75,6 +82,7 @@ class MetaSliderPlugin {
         $this->setup_actions();
         $this->setup_filters();
 		$this->setup_shortcode();
+		$this->check_dependencies();
 		
 		// Load in slideshow admin relates classes.
         $this->register_slide_types();
@@ -103,18 +111,17 @@ class MetaSliderPlugin {
 	private function define_constants() {
 		if (!defined('METASLIDER_VERSION')) {
 			define('METASLIDER_VERSION', $this->version);
-			define('METASLIDER_BASE_URL', trailingslashit(plugin_dir_url(metaslider_plugin_is_installed('ml-slider'))));
-			define('METASLIDER_ASSETS_URL', trailingslashit(METASLIDER_BASE_URL . 'assets'));
-			define('METASLIDER_ADMIN_URL', trailingslashit(METASLIDER_BASE_URL . 'admin'));
+			define('METASLIDER_BASE_URL', plugin_dir_url(metaslider_plugin_is_installed('ml-slider')));
+			define('METASLIDER_ASSETS_URL', METASLIDER_BASE_URL . 'assets/');
+			define('METASLIDER_ADMIN_URL', METASLIDER_BASE_URL . 'admin/');
 			
 			// Use the themes in the plugin dir if it's there (useful for developing)
-			if (file_exists(trailingslashit(WP_PLUGIN_DIR) . 'ml-slider-themes/manifest.php')) {
-				define('METASLIDER_THEMES_PATH', trailingslashit(WP_PLUGIN_DIR) . 'ml-slider-themes/');
-				define('METASLIDER_THEMES_URL', trailingslashit(plugins_url('ml-slider-themes/')));
-			} else {
-				define('METASLIDER_THEMES_PATH', trailingslashit(METASLIDER_PATH . 'themes/'));
-				define('METASLIDER_THEMES_URL', trailingslashit(METASLIDER_BASE_URL . 'themes/'));
-			}
+			$has_themes_repo = file_exists(trailingslashit(WP_PLUGIN_DIR) . 'ml-slider-themes/manifest.php');
+			$themes_path = $has_themes_repo ? trailingslashit(WP_PLUGIN_DIR) . 'ml-slider-themes/' : METASLIDER_PATH . 'themes/';
+			$themes_url = $has_themes_repo ? trailingslashit(plugins_url('ml-slider-themes/')) : METASLIDER_BASE_URL . 'themes/';
+
+			define('METASLIDER_THEMES_PATH', $themes_path);
+			define('METASLIDER_THEMES_URL', $themes_url);
 		}
 	}
 
@@ -137,7 +144,9 @@ class MetaSliderPlugin {
             'metaslider_notices'     => METASLIDER_PATH . 'admin/Notices.php',
             'metaslider_admin_pages' => METASLIDER_PATH . 'admin/Pages.php',
 			'metaslider_slideshows'  => METASLIDER_PATH . 'admin/Slideshows/Slideshows.php',
+			'metaslider_slide'  	 => METASLIDER_PATH . 'admin/Slideshows/slides/Slide.php',
 			'metaslider_themes'  	 => METASLIDER_PATH . 'admin/Slideshows/Themes.php',
+			'metaslider_image'  	 => METASLIDER_PATH . 'admin/Slideshows/Image.php',
             'metaslider_tour'        => METASLIDER_PATH . 'admin/Tour.php',
             'metaslider_gutenberg'   => METASLIDER_PATH . 'admin/Gutenberg.php'
         );
@@ -171,7 +180,40 @@ class MetaSliderPlugin {
         }
 
     }
+	
+	/**
+	 * Display a warning on the plugins page if a dependancy
+	 * is missing or a conflict might exist.
+	 *
+	 * @return void
+	 */
+	public function check_dependencies() {
+		// MetaSlider pro is active but pre 2.13.0 (2.13.0 includes its own notice system)
+		$slug = metaslider_plugin_is_installed('ml-slider-pro');
+		if (is_plugin_active($slug)) {
+			$pro_data = get_file_data(trailingslashit(WP_PLUGIN_DIR) . $slug, array('Version' => 'Version'));
+			$this->installed_pro_version = $pro_data['Version'];
+			if ($this->installed_pro_version && version_compare($this->installed_pro_version, '2.13.0', '<')) {
+				add_action('admin_notices', array($this, 'show_pro_is_outdated'), 10, 3);
+			}
+		}		
+	}
 
+	/**
+	 * The warning message that is displayed
+	 * 
+	 * @return void
+	 */
+	public function show_pro_is_outdated() { 
+		global $pagenow;
+		$page = isset($_GET['page']) ? $_GET['page'] : '';
+		if ('update-core.php' !== $pagenow && 'plugins.php' !== $pagenow && 'metaslider' !== $page) return;
+		?>
+		<div class='notice notice-error metaslider-pro-outdated-notice'>
+			<p><?php printf(__('MetaSlider Pro is installed but is out of date. You may update it <a target="_blank" href="%s">here</a>. Learn more about this notice <a href="%s">here</a>', 'ml-slider'), self_admin_url('plugins.php'), 'https://www.metaslider.com/pro-is-installed-but-out-of-date')?></p>
+		</div>
+		<?php
+	}
 
     /**
      * Autoload MetaSlider classes to reduce memory consumption
@@ -828,7 +870,16 @@ class MetaSliderPlugin {
         if ( empty( $defaults ) ) {
             $slider = new MetaSlider( $id, array() );
             $defaults = $slider->get_default_parameters();
-        }
+		}
+		
+		// Set a default slideshow theme
+		// If there is a theme on the most recent
+		if ($theme = get_post_meta($last_modified, 'metaslider_slideshow_theme', true));
+		if (!isset($theme['folder'])) {
+			$theme = $this->themes->get_theme_object(null, $this->themes->random());
+		}
+		
+		if (isset($theme['folder'])) update_post_meta($id, 'metaslider_slideshow_theme', $theme);
 
         // insert the post meta
         add_post_meta( $id, 'ml-slider_settings', $defaults, true );
@@ -1275,10 +1326,12 @@ class MetaSliderPlugin {
                                 </div>
 							<?php } else {?>
                                 <div class="ms-postbox" id="metaslider_configuration">
-                                    <div class='configuration metaslider-actions'>
+									<div class='configuration metaslider-actions'>
+									<?php $theme = metaslider_themes::get_instance()->get_current_theme($this->slider->id); ?>
 										<metaslider-preview
 											slideshow-id="<?php echo $this->slider->id; ?>"
 											:keyboard-control="[18, 80]"
+											theme-identifier="<?php echo $theme['folder']; ?>"
 										></metaslider-preview>
                                         <button class='alignright button button-primary' type='submit' name='save' id='ms-save'>
                                             <?php _e("Save", "ml-slider"); ?>
@@ -1921,7 +1974,7 @@ class MetaSliderPlugin {
     /**
      * Upgrade to pro Iframe - Render
      *
-     * @param string $content The HTML to render
+     * @param array $content The HTML to render
      */
     public function upgrade_to_pro_iframe($content) {
         wp_enqueue_style('metaslider-admin-styles', METASLIDER_ADMIN_URL . 'assets/css/admin.css', false, METASLIDER_VERSION);

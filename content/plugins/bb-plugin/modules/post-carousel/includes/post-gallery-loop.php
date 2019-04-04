@@ -4,7 +4,7 @@
 	$post_icon_position = isset( $settings->post_icon_position ) ? $settings->post_icon_position : 'above';
 
 ?>
-<div class="fl-post-carousel-post<?php echo $no_thumb; ?>" itemscope="itemscope" itemtype="<?php FLPostGridModule::schema_itemtype(); ?>">
+<div class="fl-post-carousel-post<?php echo $no_thumb; ?>"<?php FLPostGridModule::print_schema( ' itemscope itemtype="' . FLPostGridModule::schema_itemtype() . '"' ); ?>>
 
 	<?php FLPostGridModule::schema_meta(); ?>
 
@@ -35,8 +35,8 @@
 					<?php if ( $settings->show_author ) : ?>
 						<span class="fl-post-carousel-author">
 						<?php
-
 							printf(
+								/* translators: %s: author name */
 								_x( 'By %s', '%s stands for author name.', 'fl-builder' ),
 								'<span>' . get_the_author_meta( 'display_name', get_the_author_meta( 'ID' ) ) . '</span>'
 							);

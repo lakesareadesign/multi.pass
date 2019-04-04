@@ -23,6 +23,13 @@ class MetaSlider_Themes {
 	public $theme_id;
 
 	/**
+	 * List of supported slide types
+	 * 
+	 * @var array
+	 */
+	public $supported_slideshow_libraries = array('flex', 'responsive', 'nivo', 'coin');
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {}
@@ -38,7 +45,7 @@ class MetaSlider_Themes {
 	/**
 	 * Method to get all the free themes from the theme directory
 	 * 
-	 * @return bool|WP_Error whether the file was included, or error class
+	 * @return array|WP_Error whether the file was included, or error class
 	 */
 	public function get_all_free_themes() {
 		if (!file_exists(METASLIDER_THEMES_PATH . 'manifest.php')) {
@@ -106,6 +113,32 @@ class MetaSlider_Themes {
 		}
 
 		return $theme;
+    }
+
+
+	/**
+	 * Method to get a random theme
+	 *
+	 * @param bool $all - Whether to include themes that arent fully supported
+	 * 
+	 * @return bool|array - The theme object or false if no theme
+	 */
+	public function random($all = false) {
+		if (is_wp_error($free_themes = $this->get_all_free_themes())) {
+			return false;
+		}
+		if ($all) return array_rand($free_themes);
+
+		$themes = array();
+		foreach($free_themes as $id => $theme) {
+
+			// Be sure the theme supports all slider libraries
+			if (count($this->supported_slideshow_libraries) === count($theme['supports'])) {
+				$themes[$id] = $theme;
+			}
+		}
+
+		return array_rand($themes);
 	}
 
 	/**
@@ -223,8 +256,8 @@ class MetaSlider_Themes {
 	public function load_theme($slideshow_id, $theme_id = null) {
 
 		// Don't load a theme on the editor page.
-		if (is_admin() && function_exists('get_current_screen')) {
-			if ('metaslider-pro_page_metaslider-theme-editor' === get_current_screen()->id) return false;
+		if (is_admin() && function_exists('get_current_screen') && $screen = get_current_screen()) {
+			if ('metaslider-pro_page_metaslider-theme-editor' === $screen->id) return false;
 		}
 
 		$theme = (is_null($theme_id)) ? $this->get_current_theme($slideshow_id) : $this->get_theme_object($slideshow_id, $theme_id);

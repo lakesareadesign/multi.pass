@@ -5,13 +5,12 @@
  * Description: A beautiful collection of handy Gutenberg blocks to help you get started with the new WordPress editor.
  * Author: atomicblocks
  * Author URI: http://arraythemes.com
- * Version: 1.5.3
+ * Version: 1.6.0
  * License: GPL2+
  * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  *
  * @package ATOMIC BLOCKS
  */
-
 
 /**
  * Exit if accessed directly
@@ -20,11 +19,15 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-
 /**
  * Initialize the blocks
  */
 function atomic_blocks_loader() {
+
+	$atomic_blocks_includes_dir = plugin_dir_path( __FILE__ ) . 'includes/';
+	$atomic_blocks_src_dir      = plugin_dir_path( __FILE__ ) . 'src/';
+	$atomic_blocks_dist_dir     = plugin_dir_path( __FILE__ ) . 'dist/';
+
 	/**
 	 * Load the blocks functionality
 	 */
@@ -44,6 +47,27 @@ function atomic_blocks_loader() {
 	 * Load Post Grid PHP
 	 */
 	require_once plugin_dir_path( __FILE__ ) . 'src/blocks/block-post-grid/index.php';
+
+	/**
+	 * Load the newsletter block and related dependencies.
+	 */
+	if ( PHP_VERSION_ID >= 50600 ) {
+		if ( ! class_exists( '\DrewM\MailChimp\MailChimp' ) ) {
+			require_once $atomic_blocks_includes_dir . 'libraries/drewm/mailchimp-api/MailChimp.php';
+		}
+
+		require_once $atomic_blocks_includes_dir . 'exceptions/class-api-error-exception.php';
+		require_once $atomic_blocks_includes_dir . 'exceptions/class-mailchimp-api-error-exception.php';
+		require_once $atomic_blocks_includes_dir . 'interfaces/newsletter-provider-interface.php';
+		require_once $atomic_blocks_includes_dir . 'classes/class-mailchimp.php';
+		require_once $atomic_blocks_includes_dir . 'newsletter/newsletter-functions.php';
+		require_once $atomic_blocks_src_dir . 'blocks/block-newsletter/index.php';
+	}
+
+	/**
+	 * Compatibility functionality.
+	 */
+	require_once $atomic_blocks_includes_dir . 'compat.php';
 }
 add_action( 'plugins_loaded', 'atomic_blocks_loader' );
 
@@ -61,7 +85,7 @@ add_action( 'init', 'atomic_blocks_init' );
  * Add a check for our plugin before redirecting
  */
 function atomic_blocks_activate() {
-    add_option( 'atomic_blocks_do_activation_redirect', true );
+	add_option( 'atomic_blocks_do_activation_redirect', true );
 }
 register_activation_hook( __FILE__, 'atomic_blocks_activate' );
 
@@ -70,12 +94,14 @@ register_activation_hook( __FILE__, 'atomic_blocks_activate' );
  * Redirect to the Atomic Blocks Getting Started page on single plugin activation
  */
 function atomic_blocks_redirect() {
-    if ( get_option( 'atomic_blocks_do_activation_redirect', false ) ) {
-        delete_option( 'atomic_blocks_do_activation_redirect' );
-        if( !isset( $_GET['activate-multi'] ) ) {
-            wp_redirect( "admin.php?page=atomic-blocks" );
-        }
-    }
+	if ( get_option( 'atomic_blocks_do_activation_redirect', false ) ) {
+		delete_option( 'atomic_blocks_do_activation_redirect' );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Only used to do a redirect. False positive.
+		if ( ! isset( $_GET['activate-multi'] ) ) {
+			wp_safe_redirect( 'admin.php?page=atomic-blocks' );
+			exit;
+		}
+	}
 }
 add_action( 'admin_init', 'atomic_blocks_redirect' );
 
@@ -84,8 +110,17 @@ add_action( 'admin_init', 'atomic_blocks_redirect' );
  * Add image sizes
  */
 function atomic_blocks_image_sizes() {
-	// Post Grid Block
+	// Post Grid Block.
 	add_image_size( 'ab-block-post-grid-landscape', 600, 400, true );
 	add_image_size( 'ab-block-post-grid-square', 600, 600, true );
 }
 add_action( 'after_setup_theme', 'atomic_blocks_image_sizes' );
+
+/**
+ * Returns the full path and filename of the main Atomic Blocks plugin file.
+ *
+ * @return string
+ */
+function atomic_blocks_main_plugin_file() {
+	return __FILE__;
+}

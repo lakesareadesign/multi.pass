@@ -157,27 +157,33 @@ class FLMenuModule extends FLBuilderModule {
 
 	}
 
+	public function get_menu_label() {
+		return isset( $this->settings->mobile_title ) && '' !== $this->settings->mobile_title ? $this->settings->mobile_title : __( 'Menu', 'fl-builder' );
+	}
+
 	public function render_toggle_button() {
 
 		$toggle = $this->settings->mobile_toggle;
+
+		$menu_title = $this->get_menu_label();
 
 		if ( isset( $toggle ) && 'expanded' != $toggle ) {
 
 			if ( in_array( $toggle, array( 'hamburger', 'hamburger-label' ) ) ) {
 
-				echo '<button class="fl-menu-mobile-toggle ' . $toggle . '" aria-label="' . __( 'Menu', 'fl-builder' ) . '"><span class="svg-container">';
+				echo '<button class="fl-menu-mobile-toggle ' . $toggle . '" aria-label="' . esc_attr( $menu_title ) . '"><span class="svg-container">';
 				include FL_BUILDER_DIR . 'img/svg/hamburger-menu.svg';
 				echo '</span>';
 
 				if ( 'hamburger-label' == $toggle ) {
-					echo '<span class="fl-menu-mobile-toggle-label">' . __( 'Menu', 'fl-builder' ) . '</span>';
+					echo '<span class="fl-menu-mobile-toggle-label">' . esc_attr( $menu_title ) . '</span>';
 				}
 
 				echo '</button>';
 
 			} elseif ( 'text' == $toggle ) {
 
-				echo '<button class="fl-menu-mobile-toggle text"><span class="fl-menu-mobile-toggle-label" aria-label="' . __( 'Menu', 'fl-builder' ) . '">' . __( 'Menu', 'fl-builder' ) . '</span></button>';
+				echo '<button class="fl-menu-mobile-toggle text"><span class="fl-menu-mobile-toggle-label" aria-label="' . esc_attr( $menu_title ) . '">' . esc_attr( $menu_title ) . '</span></button>';
 
 			}
 		}
@@ -346,12 +352,17 @@ FLBuilder::register_module('FLMenuModule', array(
 								'fields' => array( 'mobile_full_width', 'mobile_breakpoint' ),
 							),
 							'hamburger-label' => array(
-								'fields' => array( 'mobile_full_width', 'mobile_breakpoint' ),
+								'fields' => array( 'mobile_full_width', 'mobile_breakpoint', 'mobile_title' ),
 							),
 							'text'            => array(
-								'fields' => array( 'mobile_full_width', 'mobile_breakpoint' ),
+								'fields' => array( 'mobile_full_width', 'mobile_breakpoint', 'mobile_title' ),
 							),
 						),
+					),
+					'mobile_title'      => array(
+						'label'   => __( 'Responsive Menu Label', 'fl-builder' ),
+						'type'    => 'text',
+						'default' => __( 'Menu', 'fl-builder' ),
 					),
 					'mobile_full_width' => array(
 						'type'    => 'select',

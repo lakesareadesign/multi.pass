@@ -4,7 +4,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Appointments +\n"
 "Report-Msgid-Bugs-To: https://wpmudev.org\n"
-"POT-Creation-Date: 2018-11-21 15:15:54+00:00\n"
+"POT-Creation-Date: 2019-03-18 08:13:04+00:00\n"
 "PO-Revision-Date: 2017-07-03 09:11:12+0000\n"
 "Language: sv_SE\n"
 "MIME-Version: 1.0\n"
@@ -1507,7 +1507,7 @@ msgid "Add new Service Provider"
 msgstr "Lägg till ny tjänsteleverantör"
 
 #: admin/pages/class-admin-settings-page.php:96
-#: admin/pages/class-admin-settings-page.php:587
+#: admin/pages/class-admin-settings-page.php:595
 msgid "Please, select at least one service provided"
 msgstr "Vänligen välj minst en tjänst som tillhandahålls"
 
@@ -1536,14 +1536,12 @@ msgid "Settings updated"
 msgstr "Inställningarna uppdaterade"
 
 #: admin/pages/class-admin-settings-page.php:233
-#, fuzzy
 msgid "Number of services per page"
-msgstr "Köposter per sida"
+msgstr ""
 
 #: admin/pages/class-admin-settings-page.php:245
-#, fuzzy
 msgid "Number of service providers per page"
-msgstr "Filtrera via tjänsteutövare"
+msgstr ""
 
 #: admin/pages/class-admin-transactions-page.php:18
 #: admin/pages/class-admin-transactions-page.php:19
@@ -2185,9 +2183,8 @@ msgid "Auto erase after"
 msgstr ""
 
 #: admin/views/page-settings-tab-main-section-gdpr.php:31
-#, fuzzy
 msgid "Completed appointments will be deleted after."
-msgstr "Avklarade bokningar"
+msgstr ""
 
 #: admin/views/page-settings-tab-main-section-gdpr.php:35
 #: includes/class-app-appointment.php:224
@@ -2911,9 +2908,8 @@ msgid "Not registered user"
 msgstr "Inte registrerad användare"
 
 #: includes/class-app-ajax.php:330
-#, fuzzy
 msgid "Error while fetching working hours."
-msgstr "%s  redigera din arbetstid."
+msgstr ""
 
 #: includes/class-app-ajax.php:362
 msgid ""
@@ -3080,7 +3076,7 @@ msgid ""
 "Client Name: CLIENT\n"
 "Service Name: SERVICE\n"
 "Service Provider Name: SERVICE_PROVIDER\n"
-msgstr "\n"
+msgstr ""
 
 #: includes/class-app-gdpr.php:147
 msgid ""
@@ -3120,25 +3116,55 @@ msgid_plural "We do not deleted %d appointments"
 msgstr[0] ""
 msgstr[1] ""
 
-#: includes/class-app-gdpr.php:418
-msgid "Plugin: Appointments"
+#: includes/class-app-gdpr.php:422
+msgid "What personal data do we collect and why?"
 msgstr ""
 
-#: includes/class-app-gdpr.php:420
+#: includes/class-app-gdpr.php:424
 msgid ""
-"When visitors book an appointment on the site we collect the data shown in "
-"the appointments form to allow future contact with a client."
+"When visitors book an appointment on your site using Appointments+ the data "
+"is stored. If you use the Additional Fields add-on make sure to update your "
+"privacy policy to reflect any additional information you have requested from "
+"your clients."
 msgstr ""
 
-#: includes/class-app-gdpr.php:421
-msgid ""
-"All collected data is not shown publicly but we can send it to our workers "
-"or contractors who will perform ordered services."
+#: includes/class-app-gdpr.php:427 includes/class-app-gdpr.php:435
+#: includes/class-app-gdpr.php:443
+msgid "Suggested text: "
 msgstr ""
 
-#: includes/class-app-gdpr.php:425
+#: includes/class-app-gdpr.php:428
 msgid ""
-"All collected data will be automatically erased %s after appointment date."
+"We collect your Name, E-Mail and Phone Number for your Appointments. The "
+"information is not shared and will be deleted on request."
+msgstr ""
+
+#: includes/class-app-gdpr.php:430
+msgid "How long Appointments+ retains your data"
+msgstr ""
+
+#: includes/class-app-gdpr.php:432
+msgid ""
+"Manually remove user information on an erasure request or use he Appointments"
+"+ GDPR settings to automatically delete information after an allotted time."
+msgstr ""
+
+#: includes/class-app-gdpr.php:436
+msgid "Your data will be automatically erased after 20 days."
+msgstr ""
+
+#: includes/class-app-gdpr.php:438
+msgid "Third Parties"
+msgstr ""
+
+#: includes/class-app-gdpr.php:440
+msgid "If you choose to, you can sync Appointments+ with your Google Calendar."
+msgstr ""
+
+#: includes/class-app-gdpr.php:444
+msgid ""
+"We are using Google Calendar to sync our appointments. Your Name, E-Mail, "
+"Phone will be synced with our private Google Calendar account."
 msgstr ""
 
 #: includes/class-app-service.php:56
@@ -4220,10 +4246,6 @@ msgid ""
 "been sent to your client:"
 msgstr ""
 
-#: includes/notifications/class-app-notification-confirmation.php:161
-msgid "New Appointment"
-msgstr "Ny bokning"
-
 #. Translators: First %s is for appointment ID and the second one is for date
 #. and time of the appointment
 #: includes/notifications/class-app-notification-notification.php:71
@@ -4506,9 +4528,8 @@ msgstr ""
 
 #: includes/pro/includes/addons/app-locations-locations_on_google_maps.php:247
 #: includes/pro/includes/addons/app-locations-locations_on_google_maps.php:257
-#, fuzzy
 msgid "Do not insert"
-msgstr "Omdirigera ej"
+msgstr ""
 
 #: includes/pro/includes/addons/app-locations-locations_on_google_maps.php:257
 msgid "After All Appointments shortcode output"
@@ -4552,15 +4573,13 @@ msgid ""
 msgstr ""
 
 #: includes/pro/includes/addons/app-locations-service_locations.php:394
-#, fuzzy
 msgid "Service Location"
-msgstr "Tjänstens varaktighet"
+msgstr ""
 
 #: includes/pro/includes/addons/app-locations-service_locations.php:444
 #: includes/pro/includes/addons/app-locations-worker_locations.php:346
-#, fuzzy
 msgid "No Location"
-msgstr "Plats"
+msgstr ""
 
 #: includes/pro/includes/addons/app-locations-worker_locations.php:69
 msgid ""
@@ -4796,19 +4815,16 @@ msgid "Paddings"
 msgstr "Mellanrum"
 
 #: includes/pro/includes/addons/app-schedule-paddings.php:613
-#, fuzzy
 msgid "Before: %s"
-msgstr "Före"
+msgstr ""
 
 #: includes/pro/includes/addons/app-schedule-paddings.php:623
-#, fuzzy
 msgid "After: %s"
-msgstr "Efter"
+msgstr ""
 
 #: includes/pro/includes/addons/app-schedule-paddings.php:643
-#, fuzzy
 msgid "No paddings"
-msgstr "Mellanrum"
+msgstr ""
 
 #: includes/pro/includes/addons/app-schedule-shared_resources.php:53
 #: includes/pro/includes/addons/app-schedule-shared_resources.php:74
@@ -4820,19 +4836,16 @@ msgid "Share with \"%s\""
 msgstr ""
 
 #: includes/pro/includes/addons/app-schedule-shared_resources.php:84
-#, fuzzy
 msgid "Do not share"
-msgstr "Omdirigera ej"
+msgstr ""
 
 #: includes/pro/includes/addons/app-schedule-shared_resources.php:208
-#, fuzzy
 msgid "Shared resources"
-msgstr "Delar resurser med"
+msgstr ""
 
 #: includes/pro/includes/addons/app-schedule-shared_resources.php:239
-#, fuzzy
 msgid "No shared resources"
-msgstr "Delar resurser med"
+msgstr ""
 
 #: includes/pro/includes/addons/app-users-additional_fields.php:101
 msgid "The field %s is required"
@@ -4909,18 +4922,16 @@ msgid "Show login buttons"
 msgstr ""
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:72
-#, fuzzy
 msgid "Show %s login button"
-msgstr "Använd %s för login-knappen"
+msgstr ""
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:78
 msgid "Show"
 msgstr ""
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:84
-#, fuzzy
 msgid "Name for login button"
-msgstr "Använd %s för login-knappen"
+msgstr ""
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:87
 msgid "Use %s name for login button"
@@ -4935,19 +4946,16 @@ msgid "site"
 msgstr "webbsida"
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:92
-#, fuzzy
 msgid "Use"
-msgstr "Användare"
+msgstr ""
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:92
-#, fuzzy
 msgid "Do not use"
-msgstr "Omdirigera ej"
+msgstr ""
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:104
-#, fuzzy
 msgid "Facebook"
-msgstr "Facebook App ID"
+msgstr ""
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:105
 msgid "Twitter"
@@ -4958,9 +4966,8 @@ msgid "Google"
 msgstr ""
 
 #: includes/pro/includes/addons/app-users-limit_services_login.php:107
-#, fuzzy
 msgid "WordPress"
-msgstr "Din adress:"
+msgstr ""
 
 #: includes/pro/includes/addons/lib/app_service_locations_shortcode.php:9
 msgid "Service Locations"
@@ -6298,13 +6305,6 @@ msgctxt "Pro plugin name in personal data exporter."
 msgid "Appointments+ Plugin"
 msgstr ""
 
-#: includes/class-app-gdpr.php:424
-msgctxt "policy page days string"
-msgid "%d day"
-msgid_plural "%d days"
-msgstr[0] ""
-msgstr[1] ""
-
 #: includes/class-app-notifications-manager.php:46
 msgctxt "%s contains filter name in pre tag"
 msgid "Every 10 minutes or you can filter it with the %s filter."
@@ -6368,10 +6368,3 @@ msgstr ""
 msgctxt "Discard existing info"
 msgid "Cancel"
 msgstr "Avbryt"
-
-#, fuzzy
-#~ msgid "Services & Workers"
-#~ msgstr "Tjänsteutövare"
-
-#~ msgid "Services Provided*"
-#~ msgstr "Tjänst(er) som erhålls*"

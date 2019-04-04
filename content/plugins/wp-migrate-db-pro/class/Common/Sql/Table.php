@@ -518,6 +518,8 @@ class Table {
 
 		$state_data = $state_data = $this->migration_state_manager->set_post_data();
 
+		// Setup form data
+		$this->form_data->setup_form_data();
 		$form_data = $this->form_data->getFormData();
 
 		$temp_prefix       = ( isset( $state_data['temp_prefix'] ) ? $state_data['temp_prefix'] : $this->props->temp_prefix );

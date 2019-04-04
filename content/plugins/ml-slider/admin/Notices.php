@@ -183,7 +183,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	/**
 	 * Premium user notices, if any. 
      *
-	 * @return string
+	 * @return array
 	 */
     protected function pro_notices() {
 
@@ -201,7 +201,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
      * An empty string for 'hide_time' will show "Dismiss" instead of "Dismiss (12 weeks)"
      * Each year the key and dismiss time should be updated
      *
-	 * @return string
+	 * @return array
 	 */
     protected function seasonal_notices() {
 
@@ -642,7 +642,7 @@ class MetaSlider_Notices extends Updraft_Notices_1_0 {
 	/**
      * Returns all possible ads or the specified identifier
      *
-     * @param string $ad_identifier Ad Identifier
+     * @param string|null $ad_identifier Ad Identifier
 	 * @return string|null the data of the ad
 	 */
 	public function get_ad($ad_identifier = null) {

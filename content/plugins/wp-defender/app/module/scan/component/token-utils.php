@@ -3,7 +3,7 @@
  * Author: Hoang Ngo
  */
 
-namespace WP_Defender\Module\Scan\Component;
+namespace WP_Defender\Module\Scan\Component;	  	 	   	 		 		 				
 
 
 use Hammer\Base\Component;

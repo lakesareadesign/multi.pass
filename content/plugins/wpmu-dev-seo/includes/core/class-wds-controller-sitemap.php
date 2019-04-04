@@ -163,9 +163,12 @@ class Smartcrawl_Controller_Sitemap extends Smartcrawl_Renderable {
 	 */
 	public function serve_sitemap() {
 		if ( ! function_exists( 'smartcrawl_get_sitemap_path' ) ) {
-			return false;
+			return;
 		}
-		$smartcrawl_options = Smartcrawl_Settings::get_options();
+		if ( ! Smartcrawl_Settings::get_setting( 'sitemap' ) ) {
+			return;
+		}
+
 		$url_path = $this->get_url_part( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
 
 		$path = smartcrawl_get_sitemap_path();

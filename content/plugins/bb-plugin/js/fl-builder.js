@@ -521,10 +521,15 @@
 			moduleConnections = '';
 
 			// Module Connections.
-			if ( 'row' == FLBuilderConfig.userTemplateType || 'column' == FLBuilderConfig.userTemplateType )  {
+			if ( 'row' == FLBuilderConfig.userTemplateType )  {
 				moduleConnections = FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-group-drop-target, ' +
 									FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-drop-target, ' +
 							  		FLBuilder._contentClass + ' .fl-row:not(.fl-builder-node-loading) .fl-col-content';
+			}
+			else if ( 'column' == FLBuilderConfig.userTemplateType ) {
+				moduleConnections = FLBuilder._contentClass + ' .fl-col-group-drop-target, ' +
+			                        FLBuilder._contentClass + ' .fl-col-drop-target, ' +
+			                        FLBuilder._contentClass + ' .fl-col-content';
 			}
 			else {
 				moduleConnections = FLBuilder._contentClass + ' .fl-row-drop-target, ' +
@@ -1700,7 +1705,7 @@
 		 */
 		_saveGlobalSettingsComplete: function( response )
 		{
-			FLBuilderConfig.global = JSON.parse( response );
+			FLBuilderConfig.global = FLBuilder._jsonParse( response );
 
 			FLBuilder.triggerHook( 'didSaveGlobalSettingsComplete', FLBuilderConfig.global );
 
@@ -1882,7 +1887,7 @@
 		 */
 		_applyTemplateComplete:  function( response )
 		{
-			var data = JSON.parse( response );
+			var data = FLBuilder._jsonParse( response );
 
 			FLBuilder._renderLayout( data.layout );
 			FLBuilder.triggerHook( 'didApplyTemplateComplete', data.config );
@@ -1898,7 +1903,7 @@
 		 */
 		_applyUserTemplateComplete: function( response )
 		{
-			var data = JSON.parse( response );
+			var data = FLBuilder._jsonParse( response );
 
 			if ( null !== data.layout_css ) {
 				$( '#fl-builder-layout-css' ).html( data.layout_css );
@@ -1966,7 +1971,7 @@
 		_saveUserTemplateSettingsComplete: function(data)
 		{
 			if ( !data ) return;
-			var data = JSON.parse(data);
+			var data = FLBuilder._jsonParse(data);
 
 			FLBuilderConfig.contentItems.template.push(data);
 			FLBuilder.triggerHook('contentItemsChanged');
@@ -2247,7 +2252,7 @@
 				action  : 'render_node',
 				node_id : nodeId
 			}, function( response ) {
-				FLBuilder._renderLayout( JSON.parse( response ), callback );
+				FLBuilder._renderLayout( FLBuilder._jsonParse( response ), callback );
 			}.bind( this ) );
 		},
 
@@ -3346,7 +3351,7 @@
 		 */
 		_addRowComplete: function(response)
 		{
-			var data 	= 'object' === typeof response ? response : JSON.parse(response),
+			var data 	= 'object' === typeof response ? response : FLBuilder._jsonParse(response),
 				content = $(FLBuilder._contentClass),
 				rowId   = $(data.html).data('node');
 
@@ -3454,7 +3459,7 @@
 				settings: settings,
 				settings_id: formNodeId
 			}, function( response ) {
-				var data = JSON.parse( response );
+				var data = FLBuilder._jsonParse( response );
 				data.nodeParent = $( FLBuilder._contentClass );
 				data.nodePosition = $( FLBuilder._contentClass + ' > .fl-row' ).index( clone );
 				data.duplicatedRow = nodeId;
@@ -4189,7 +4194,7 @@
 				settings: settings,
 				settings_id: formNodeId
 			}, function( response ){
-				var data = JSON.parse( response );
+				var data = FLBuilder._jsonParse( response );
 				data.nodeParent = group;
 				data.nodePosition = clone.index();
 				data.duplicatedColumn = nodeId;
@@ -4371,7 +4376,7 @@
 		 */
 		_addColsComplete: function( response )
 		{
-			var data = 'object' === typeof response ? response : JSON.parse( response ),
+			var data = 'object' === typeof response ? response : FLBuilder._jsonParse( response ),
 				col = null;
 
 			data.nodeParent   = FLBuilder._newColParent;
@@ -4437,7 +4442,7 @@
 		 */
 		_addColGroupComplete: function(response)
 		{
-			var data    = JSON.parse(response),
+			var data    = FLBuilder._jsonParse(response),
 				html    = $(data.html),
 				groupId = html.data('node'),
 				colId   = html.find('.fl-col').data('node');
@@ -5151,7 +5156,7 @@
 				node_id: nodeId,
 				settings: settings
 			}, function( response ) {
-				var data = JSON.parse( response );
+				var data = FLBuilder._jsonParse( response );
 				data.nodeParent   = parent;
 				data.nodePosition = parent.find( ' > .fl-col-group, > .fl-module' ).index( clone );
 				data.duplicatedModule = nodeId;
@@ -5240,7 +5245,13 @@
 					head.append( config.assets.css );
 				}
 				if ( '' !== config.assets.js ) {
-					head.append( config.assets.js );
+					/**
+					 * Use pure JS as jQuery append cause browser warnings.
+					 */
+					script = document.createElement("script");
+					script.src = config.assets.jsurl;
+					script.setAttribute( 'class', 'fl-builder-settings-js' );
+					document.head.append(script);
 				}
 				FLBuilder._loadedModuleAssets.push( data.type );
 			}
@@ -5354,7 +5365,7 @@
 		 */
 		_addModuleComplete: function( response )
 		{
-			var data = JSON.parse( response );
+			var data = FLBuilder._jsonParse( response );
 
 			// Setup a preview layout if we have one.
 			if ( data.layout ) {
@@ -5502,7 +5513,7 @@
 		 */
 		_saveNodeTemplateComplete: function( response )
 		{
-			var data 		   = JSON.parse( response ),
+			var data 		   = FLBuilder._jsonParse( response ),
 				panel 		   = $( '.fl-builder-saved-' + data.type + 's' ),
 				blocks 		   = panel.find( '.fl-builder-block' ),
 				block   	   = null,
@@ -5717,11 +5728,11 @@
 				position 	  : position
 			}, function( response ) {
 				if ( action.indexOf( 'row' ) > -1 ) {
-					var data = JSON.parse( response );
+					var data = FLBuilder._jsonParse( response );
 					FLBuilder.triggerHook( 'didApplyRowTemplateComplete', data.config );
 					callback( data.layout );
 				} else if ( action.indexOf( 'col' ) > -1 ) {
-					var data = JSON.parse( response );
+					var data = FLBuilder._jsonParse( response );
 					FLBuilder.triggerHook( 'didApplyColTemplateComplete', data.config );
 					callback( data.layout );
 				} else {
@@ -5843,7 +5854,7 @@
 			FLBuilder._lightbox._resizeEditors();
 
 			$( '.fl-builder-settings-fields' ).css( 'visibility', 'visible' );
-
+			$( '.fl-builder-settings button' ).on( 'click', function( e ) { e.preventDefault() } )
 			/**
 		     * Hook for settings form init.
 		     */
@@ -6100,7 +6111,8 @@
 				existingNodes  = null,
 				previewModule  = null,
 				previewCol     = null,
-				existingCol    = null;
+				existingCol    = null,
+				isRootCol      = 'column' == FLBuilderConfig.userTemplateType;
 
 			// Close a nested settings lightbox.
 			if ( nestedLightbox.length > 0 ) {
@@ -6115,7 +6127,7 @@
 				previewCol    = previewModule.closest('.fl-col');
 				existingCol   = existingNodes.find('.fl-node-' + previewCol.data('node'));
 
-				if(existingCol.length > 0) {
+				if(existingCol.length > 0 || isRootCol) {
 					FLBuilder._deleteModule(previewModule);
 				}
 				else {
@@ -6406,7 +6418,7 @@
 			if ( nodeId && config[ nodeId ] ) {
 				original = config[ nodeId ];
 			} else if ( formJSON.length ) {
-				original = JSON.parse( formJSON.val().replace( /&#39;/g, "'" ) );
+				original = FLBuilder._jsonParse( formJSON.val().replace( /&#39;/g, "'" ) );
 			}
 
 			if ( original ) {
@@ -6470,12 +6482,12 @@
 				preview   = FLBuilder.preview;
 
 			// Default to true for render.
-			if ( _.isUndefined( render ) || ! _.isBoolean( render ) ) {
+			if ( FLBuilder.isUndefined( render ) || ! FLBuilder.isBoolean( render ) ) {
 				render = true;
 			}
 
 			// Only proceed if the settings have changed.
-			if ( preview && ! preview._settingsHaveChanged() && _.isUndefined( newModule ) ) {
+			if ( preview && ! preview._settingsHaveChanged() && FLBuilder.isUndefined( newModule ) ) {
 				FLBuilder._lightbox.close();
 				return;
 			}
@@ -6516,7 +6528,7 @@
 		 */
 		_saveSettingsComplete: function( render, preview, response )
 		{
-			var data 	 = JSON.parse( response ),
+			var data 	 = FLBuilder._jsonParse( response ),
 				callback = function() {
 					if( preview && data.layout.partial && data.layout.nodeId === preview.nodeId ) {
 						preview.clear();
@@ -6923,7 +6935,7 @@
 					action: 'get_autosuggest_values',
 					fields: data
 				}, function( response ) {
-					values = JSON.parse( response );
+					values = FLBuilder._jsonParse( response );
 					for ( name in values ) {
 						$( '.fl-suggest-field[name="' + name + '"]' ).attr( 'data-value', values[ name ] );
 					}
@@ -7338,7 +7350,7 @@
 			// TOGGLE sections, fields or tabs.
 			if(typeof toggle !== 'undefined') {
 
-				toggle = JSON.parse(toggle);
+				toggle = FLBuilder._jsonParse(toggle);
 
 				for(i in toggle) {
 					FLBuilder._settingsSelectToggle(toggle[i].fields, 'hide', '#fl-field-');
@@ -7356,7 +7368,7 @@
 			// HIDE sections, fields or tabs.
 			if(typeof hide !== 'undefined') {
 
-				hide = JSON.parse(hide);
+				hide = FLBuilder._jsonParse(hide);
 
 				for(i in hide) {
 					FLBuilder._settingsSelectToggle(hide[i].fields, 'show', '#fl-field-');
@@ -7374,7 +7386,7 @@
 			// TRIGGER select inputs.
 			if(typeof trigger !== 'undefined') {
 
-				trigger = JSON.parse(trigger);
+				trigger = FLBuilder._jsonParse(trigger);
 
 				if(typeof trigger[val] !== 'undefined') {
 					if(typeof trigger[val].fields !== 'undefined') {
@@ -7730,7 +7742,7 @@
 			var wrap           = $(this).closest('.fl-multiple-photos-field'),
 				photosField    = wrap.find('input[type=hidden]'),
 				photosFieldVal = photosField.val(),
-				parsedVal      = photosFieldVal === '' ? '' : JSON.parse(photosFieldVal),
+				parsedVal      = photosFieldVal === '' ? '' : FLBuilder._jsonParse(photosFieldVal),
 				defaultPostId  = wp.media.gallery.defaults.id,
 				content        = '[gallery ids="-1"]',
 				shortcode      = null,
@@ -7933,7 +7945,7 @@
 			var wrap           = $(this).closest('.fl-multiple-audios-field'),
 				audiosField    = wrap.find('input[type=hidden]'),
 				audiosFieldVal = audiosField.val(),
-				content        = audiosFieldVal == '' ? '[playlist ids="-1"]' : '[playlist ids="'+ JSON.parse(audiosFieldVal).join() +'"]',
+				content        = audiosFieldVal == '' ? '[playlist ids="-1"]' : '[playlist ids="'+ FLBuilder._jsonParse(audiosFieldVal).join() +'"]',
 				shortcode      = wp.shortcode.next('playlist', content).shortcode,
 				defaultPostId  = wp.media.playlist.defaults.id,
 				attachments    = null,
@@ -8060,7 +8072,7 @@
 				return;
 			}
 
-			show = JSON.parse( show );
+			show = FLBuilder._jsonParse( show );
 
 			FLBuilder._settingsSelectToggle( show.fields, 'hide', '#fl-field-' );
 			FLBuilder._settingsSelectToggle( show.sections, 'hide', '#fl-builder-settings-section-' );
@@ -8161,7 +8173,7 @@
 				id        		: type,
 				nodeId    		: form.attr( 'data-node' ),
 				nodeSettings	: FLBuilder._getSettings( form ),
-				settings  		: JSON.parse( settings.replace( /&#39;/g, "'" ) ),
+				settings  		: FLBuilder._jsonParse( settings.replace( /&#39;/g, "'" ) ),
 				lightbox		: lightbox,
 				helper			: helper,
 				rules 			: helper ? helper.rules : null
@@ -8227,7 +8239,7 @@
 				oldSettings = link.siblings('input').val().replace(/&#39;/g, "'");
 
 				if ( '' != oldSettings ) {
-					settings = $.extend( JSON.parse( oldSettings ), settings );
+					settings = $.extend( FLBuilder._jsonParse( oldSettings ), settings );
 				}
 
 				link.siblings('input').val(JSON.stringify(settings)).trigger('change');
@@ -8418,7 +8430,7 @@
 
 			if ( value.indexOf( 'family' ) > -1 ) {
 
-				value = JSON.parse( value );
+				value = FLBuilder._jsonParse( value );
 				font.val( value.family );
 				font.trigger( 'change' );
 
@@ -8525,7 +8537,9 @@
 				wrap     = null;
 
 			html = html.replace( /flbuildereditor/g , editorId );
-			config = JSON.parse( JSON.stringify( config ).replace( /flbuildereditor/g , editorId ) );
+			config = FLBuilder._jsonParse( JSON.stringify( config ).replace( /flbuildereditor/g , editorId ) );
+
+			config = JSONfn.parse( JSONfn.stringify( config ).replace( /flbuildereditor/g , editorId ) );
 
 			textarea.after( html ).remove();
 			$( 'textarea#' + editorId ).val( textarea.val() )
@@ -8866,7 +8880,7 @@
 			var select = $( this ).find( 'select' ),
 				value  = select.attr( 'data-value' );
 
-			select.find( 'option[value="' + value + '"]' ).attr( 'selected', 'selected' );
+			select.find( 'option[value="' + value + '"]' ).prop('selected', true);
 		},
 
 		/* Dimension Fields
@@ -9649,6 +9663,22 @@
 			alert.open( template( { message : message } ) );
 		},
 
+		crashMessage: function(debug)
+		{
+			var alert = new FLLightbox({
+					className: 'fl-builder-alert-lightbox fl-builder-crash-lightbox',
+					destroyOnClose: true
+				}),
+				template = wp.template( 'fl-crash-lightbox' );
+
+				heading  = 'Well Dam!'
+				message  = "Beaver Builder has encountered an unrecoverable JavaScript error.<br />"
+				info     = "Please help us by disabling all plugins and testing Beaver Builder while reactivating each to determine if the issue is related to a third party plugin.<br />Press Command+Option+J (Mac) or Control+Shift+J for more information.<br /><strong>Please include a copy of the error messages when you <a class='link' target='_blank' href='https://www.wpbeaverbuilder.com/contact/'>contact support</a>.</strong>"
+				debug    = false
+
+			alert.open( template( { message : message, heading : heading, info: info, debug: debug } ) );
+		},
+
 		/**
 		 * Closes the alert lightbox when a child element is clicked.
 		 *
@@ -9759,7 +9789,7 @@
 		 * @method logError
 		 * @param {String} error The error to log.
 		 */
-		logError: function( error )
+		logError: function( error, data )
 		{
 			var message = null;
 
@@ -9777,7 +9807,15 @@
 				FLBuilder.log( '************************************************************************' );
 				FLBuilder.log( FLBuilderStrings.errorMessage );
 				FLBuilder.log( message );
+				if ( 'undefined' != typeof data && data ) {
+						FLBuilder.log( "Debug Info" );
+						console.log( data );
+				}
 				FLBuilder.log( '************************************************************************' );
+				if ( 'undefined' != typeof data && data ) {
+					message = data + "\n" + message
+				}
+				FLBuilder.crashMessage(message)
 			}
 		},
 
@@ -9800,9 +9838,55 @@
 
 			if ( 'undefined' != typeof error && 'undefined' != typeof error.stack ) {
 				FLBuilder.log( error.stack );
-				FLBuilder.log( '************************************************************************' );
 			}
+			FLBuilder.log( '************************************************************************' );
 		},
+
+		/**
+		 * Parse JSON with try/catch and print useful debug info on error.
+		 * @since 2.2.2
+		 * @param {string} data JSON data
+		 */
+		_jsonParse: function( data ) {
+			try {
+					data = JSON.parse( data );
+	        } catch (e) {
+	            FLBuilder.logError( e, FLBuilder._parseError( data ) );
+	        }
+					return data;
+		},
+
+		/**
+		 * Parse data for php error on 1st line.
+		 * @since 2.2.2
+		 * @param {string} data the JSON containing error(s)
+		 */
+		_parseError: function( data ) {
+			php = data.match(/^<.*/gm) || false;
+			if ( php && php.length > 0 ) {
+				var txt = '';
+				$.each( php, function(i,t) {
+					txt += t
+				})
+				return $(txt).text();
+			}
+			return false;
+		},
+		/**
+		 * Helper taken from lodash
+		 * @since 2.2.2
+		 */
+		isUndefined: function(obj) {
+			return obj === void 0;
+		},
+
+		/**
+		 * Helper taken from lodash
+		 * @since 2.2.2
+		 */
+		isBoolean: function(value) {
+			return value === true || value === false
+		}
 	};
 
 	/* Start the party!!! */

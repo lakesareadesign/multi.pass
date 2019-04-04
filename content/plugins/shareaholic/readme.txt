@@ -4,7 +4,7 @@ Tags:  buttons, related posts, google analytics, share buttons, social sharing, 
 Requires at least: 3.3
 Tested up to: 5.1
 Requires PHP: 5.2
-Stable tag: 8.11.0
+Stable tag: 8.12.1
 
 
 Improve Audience Engagement with Award Winning Site-Speed Optimized Social Tools: Share Buttons, Related Posts, Monetization & Google Analytics.
@@ -267,7 +267,16 @@ The default Shareaholic thumbnail width is 640px with dynamic height and no crop
 Each time you change Shareaholic's thumbnail dimensions like this, you will probably want to have WordPress regenerate appropriate sized thumbnails for all of your images. We highly recommend the [Regenerate Thumbnails](https://wordpress.org/plugins/regenerate-thumbnails/) plugin for this purpose.
 
 == Changelog ==
-= 8.11.0 (2019-01-31) =
+= 8.12.1 (2019-03-23) =
+* Bugfix: Fixes broken links to helpdesk
+* Enhancement: Improves auth with Shareaholic Cloud
+
+= 8.12.0 (2019-03-21) =
+* Enhancement: Representing months of hardwork, this release introduces a brand-new unified Shareaholic Admin UI (in beta)! In addition to the regular App Manager tab, you will notice a brand new secondary App Manager tab in your sidebar labed _beta_. For the first time, all Shareaholic Cloud settings are now available to view and configure right from your WordPress Admin Dashboard. Please do try it out and let us know if it works well for you. This is in beta, so please do send us any and all feedback either via Live Chat or via our [helpdesk contact](https://www.shareaholic.com/help/message).
+* Bugfix: Fixes edge cases where Facebook tried to cache preview meta data before a post was live 
+* Bugfix: Yummly Share Counts
+
+= 8.11.0 (2019-02-15) =
 * Enhancement: Massive page speed gains = 50% faster load times on your site!
 * Bugfix: Fixed issue with some themes rendering Shareaholic Apps multiple times
 
@@ -870,8 +879,8 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Show Related Posts data status
 
 == Upgrade Notice ==
-= 8.11.0 =
-Massive page speed gains = 50% faster load times on your site!  This update also fixes issue with some themes rendering Shareaholic Apps multiple times. This one is a must upgrade!
+= 8.12.1 =
+Introduces a brand-new unified Shareaholic Admin UI (in beta) and massive page speed gains = 50% faster load times on your site! This update also fixes issue with some themes rendering Shareaholic Apps multiple times. This one is a must upgrade!
 
 = 8.10.7 =
 W3C validation improvements
@@ -888,32 +897,16 @@ New themes, improved content syncing for more accurate Related Content and Analy
 = 8.10.3 =
 New option to include <code>%author%</code> tag for Share Count Recovery
 
-= 8.10.2 =
-
-Various reliablity improvements
-
-= 8.10.1 =
-
-Various reliablity improvements
-
-= 8.10.0 =
-
-Various reliablity improvements
-
 = 8.9.1 =
-
 Critical fix for bug introduced in last release; fixes JS references
 
 = 8.9.0 =
-
 Various speed improvements and bug fixes
 
 = 8.8.4 =
-
 Adds support for additional Structure Tags for Share Count Recovery
 
 = 8.8.3 =
-
 New Share and Follow Buttons! Plus compatability with WP Rocket
 
 = 8.8.2 =
@@ -924,12 +917,6 @@ General maintenance release
 
 = 8.8.0 =
 Fixed Share Buttons configurator. Icon drag and drop now works. Update also includes new theme options for Related Posts.
-
-= 8.7.2 =
-Various performance updates and bug fixes
-
-= 8.7.1 =
-Various performance updates and bug fixes
 
 = 8.7.0 =
 * Several performance upgrades to make Shareaholic EVEN FASTER!!
@@ -954,12 +941,6 @@ Huge localization update!
 = 8.5.3 =
 Some hosting companies are incorrectly flagging "index.html" as malware. This is a standard file and there is absolutely no reason to panic or be concerned. This update fixes the cause of the false positive. Please upgrade ASAP as a precaution.
 
-= 8.5.2 =
-Various performance updates and bug fixes
-
-= 8.5.1 =
-Various performance updates and bug fixes
-
 = 8.5.0 =
 Various enhancements and Social Share Count Recovery in cases where permalink structure changes 
 
@@ -974,15 +955,6 @@ More robust cache busting. Added support for WPEngine cache engine (Memcached, M
 
 = 8.4.1 =
 Critical bugfix for older versions of PHP
-
-= 8.4.0 =
-Various bug fixes and enhancements
-
-= 8.3.1 =
-Various bug fixes and enhancements
-
-= 8.3.0 =
-Various bug fixes and enhancements
 
 = 8.2.0 =
 * Must Upgrade! Enhancements to Social Share Count Recovery - adds support for case where permalink structure changes, Share Buttons for Images (Image Sharer) and introducing Teams.

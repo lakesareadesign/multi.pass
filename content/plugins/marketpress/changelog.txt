@@ -4,6 +4,12 @@ Author: Marko Miljus (Incsub), Aaron Edwards (Incsub), Hoang Ngo (Incsub), Jonat
 Change Log:
 ----------------------------------------------------------------------
 
+3.3.0
+----------------------------------------------------------------------
+- Added: Added new filter mp_media_buttons to disable/enable shortcode buttons in visual editor.
+- Fix: Always do TLS verification when making curl calls.
+- Fix: Fix conflict with Branda.
+
 3.2.9
 ----------------------------------------------------------------------
 - Fix: Conflict with plugins WDP ID header and Dashboard 4.7
@@ -1114,4 +1120,4 @@ Adding notice for deprecated gateways Cubepoints, Bitpay, iDEAL, Skrill, Google 
 - Initial Release
 
 
-133620-1545065713-au
+133620-1554389665-au

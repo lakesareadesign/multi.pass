@@ -110,6 +110,7 @@ final class FLBuilderServiceGoDaddyEmailMarketing extends FLBuilderService {
 			'type'        => 'text',
 			'label'       => __( 'API Key', 'fl-builder' ),
 			'help'        => __( 'Your API key from your GoDaddy Email Marketing account.', 'fl-builder' ),
+			/* translators: 1: Godaddy account page: 2: Godaddy signup page */
 			'description' => sprintf( __( '<a%1$s>Sign in</a> to get your username and API key. <a%2$s>Signup</a> if you don\'t have a GoDaddy Email Marketing account.', 'fl-builder' ), ' href="https://gem.godaddy.com/mwp/accounts" target="_blank"', ' href="https://sso.godaddy.com/account/create?path=/wordpress_plugin&app=gem&realm=idp&ssoreturnpath=/%3Fpath%3D%2Fwordpress_plugin%26app%3Dgem%26realm%3Didp" target="_blank"' ),
 			'preview'     => array(
 				'type' => 'none',

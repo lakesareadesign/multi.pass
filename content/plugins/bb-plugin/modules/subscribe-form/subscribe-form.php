@@ -243,6 +243,21 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 							'show' => __( 'Show', 'fl-builder' ),
 							'hide' => __( 'Hide', 'fl-builder' ),
 						),
+						'toggle'  => array(
+							'show' => array(
+								'fields' => array( 'name_field_text' ),
+							),
+						),
+					),
+					'name_field_text'     => array(
+						'type'    => 'text',
+						'label'   => __( 'Name Field Text', 'fl-builder' ),
+						'default' => __( 'Name', 'fl-builder' ),
+					),
+					'email_field_text'    => array(
+						'type'    => 'text',
+						'label'   => __( 'Email Field Text', 'fl-builder' ),
+						'default' => __( 'Email Address', 'fl-builder' ),
 					),
 					'terms_checkbox'      => array(
 						'type'    => 'select',
@@ -574,6 +589,7 @@ FLBuilder::register_module( 'FLSubscribeFormModule', array(
 				),
 			),
 		),
+		/* translators: %s: Google admin url */
 		'description' => sprintf( __( 'Please register keys for your website at the <a%s>Google Admin Console</a>', 'fl-builder' ), ' href="https://www.google.com/recaptcha/admin" target="_blank" rel="noopener"' ),
 	),
 ));

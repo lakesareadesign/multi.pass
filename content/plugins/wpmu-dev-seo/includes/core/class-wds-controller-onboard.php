@@ -142,9 +142,11 @@ class Smartcrawl_Controller_Onboard extends Smartcrawl_Renderable {
 				wp_send_json_success();
 
 				return;
-		}
 
-		wp_send_json_error();
+			default:
+				wp_send_json_error();
+				return;
+		}
 	}
 
 	public function add_onboarding() {

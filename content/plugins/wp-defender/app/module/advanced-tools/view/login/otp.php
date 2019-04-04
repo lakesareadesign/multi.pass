@@ -133,7 +133,7 @@ $separator = is_rtl() ? ' &rsaquo; ' : ' &lsaquo; ';
 			$classes[] = 'interim-login-success';
 		}
 	}
-	$classes[] = ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );	  	 	   	 		 		 				
+	$classes[] = ' locale-' . sanitize_html_class( strtolower( str_replace( '_', '-', get_locale() ) ) );
 
 	/**
 	 * Filters the login page body classes.

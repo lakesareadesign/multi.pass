@@ -116,6 +116,7 @@ final class FLBuilderServiceAWeber extends FLBuilderService {
 			'class'       => 'fl-builder-service-connect-input',
 			'type'        => 'text',
 			'label'       => __( 'Authorization Code', 'fl-builder' ),
+			/* translators: %s: register url */
 			'description' => sprintf( __( 'Please register this website with AWeber to get your Authorization Code. <a%s>Register Now</a>', 'fl-builder' ), ' href="https://auth.aweber.com/1.0/oauth/authorize_app/baa1f131" target="_blank"' ),
 			'preview'     => array(
 				'type' => 'none',
@@ -283,6 +284,7 @@ final class FLBuilderServiceAWeber extends FLBuilderService {
 						}
 					} catch ( AWeberAPIException $e ) {
 						$response['error'] = sprintf(
+							/* translators: %s: error */
 							__( 'There was an error subscribing to AWeber. %s', 'fl-builder' ),
 							$e->getMessage()
 						);
@@ -301,6 +303,7 @@ final class FLBuilderServiceAWeber extends FLBuilderService {
 				}
 			} catch ( AWeberAPIException $e ) {
 				$response['error'] = sprintf(
+					/* translators: %s: error */
 					__( 'There was an error subscribing to AWeber. %s', 'fl-builder' ),
 					$e->getMessage()
 				);

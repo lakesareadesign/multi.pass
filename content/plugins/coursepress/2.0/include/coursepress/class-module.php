@@ -360,7 +360,7 @@ class CoursePress_Module {
 								$grade = CoursePress_Helper_Utility::get_array_val( $grades, 'grade' );
 								$pass = (int) $grade >= (int) $minimum_grade;
 
-								if ( false === $pass && false == $can_update_course ) {
+								if ( false === $pass && false == $can_update_course && $validate ) {
 									$has_error = true;
 									self::$error_message = ( $module_type == 'input-form' ) ?
 										__( 'You did not complete the form!', 'coursepress' )
@@ -509,7 +509,7 @@ class CoursePress_Module {
 					'type' => $type,
 					'is_reload' => $reload,
 				);
-				$json_data = array( 'success' => true, 'data' => $json_data );
+				$json_data = apply_filters( 'coursepress_module_submit_atts',  array( 'success' => true, 'data' => $json_data ) );
 
 				header('Content-type: text/plain');
 				echo json_encode( $json_data );

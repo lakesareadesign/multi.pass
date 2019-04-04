@@ -2876,12 +2876,30 @@ button.fl-builder-button.fl-builder-bar-title-caret:focus {
 .fl-builder-alert-lightbox .fl-lightbox-content-wrap {
 	display: block;
 }
-.fl-builder-alert-lightbox .fl-lightbox-message {
+.fl-builder-alert-lightbox .fl-lightbox-message,
+.fl-builder-alert-lightbox .fl-lightbox-message-info {
 	color: #333 !important;
 	font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 	font-size: 16px !important;
 	line-height: 24px;
 	padding: 30px;
+}
+.fl-builder-alert-lightbox .fl-builder-crash-title {
+	text-align: center;
+	font-size: 24px;
+	padding: 20px;
+}
+.fl-builder-alert-lightbox.fl-builder-crash-lightbox .fl-lightbox-message {
+	padding: 10px 20px;
+}
+.fl-builder-alert-lightbox.fl-builder-crash-lightbox .link {
+	color: #428bca;
+	text-decoration: underline;
+}
+
+.fl-builder-alert-lightbox .fl-lightbox-message-info {
+	padding: 5px 20px;
+	font-size: 12px !important;
 }
 /* @endgroup Alert Lightbox */
 
@@ -3720,7 +3738,7 @@ body .fl-lightbox-has-tab-overflow .fl-builder-settings-tabs-more {
 .fl-builder-settings-fields input[type=number] {
 	width: 70px;
 }
-.fl-builder-lightbox .fl-builder-settings-fields textarea:focus,
+.fl-builder-lightbox .fl-builder-settings-fields textarea:not(.wp-editor-area):focus,
 .fl-builder-lightbox .fl-builder-settings-fields input[type=text]:focus,
 .fl-builder-lightbox .fl-builder-settings-fields input[type=password]:focus,
 .fl-builder-lightbox .fl-builder-settings-fields input[type=file]:focus,
@@ -3976,6 +3994,7 @@ i.fl-field-responsive-toggle:hover {
 }
 .fl-color-picker .fl-color-picker-clear {
 	box-sizing: border-box;
+	display: inline-block;
 }
 .fl-color-picker .fl-color-picker-clear:hover {
 	background-color: #ededed;
@@ -5038,6 +5057,14 @@ span.select2-container.select2-container--open {
 .has-scrollbar .fl-field-connections-toggle {
 	right: -22px;
 }
+.fl-lightbox-width-slim tr[data-type='code'] .fl-field-connections-toggle {
+	right: 10px;
+}
+
+.fl-lightbox-width-slim .fl-code-field {
+	width: 90%;
+}
+
 .fl-field-connections-toggle-open {
 	transform: none !important;
 }
@@ -5566,6 +5593,18 @@ body > .fl-builder-tour-dimmed {
 	opacity:1;
 	text-transform: none;
 }
+
+.fl-builder--menu-item .menu-view.view-revisions {
+	opacity: 0.5;
+	padding-left: 5px;
+}
+
+.fl-builder--menu-item .menu-event.event-showLayoutSettings,
+.fl-builder--menu-item .menu-event.event-showGlobalSettings{
+	color: #6bc373;
+	padding-left: 5px;
+}
+
 .fl-builder--menu-item:hover {
 	background: #eaf1f8;
 	border:none;

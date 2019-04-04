@@ -27,7 +27,6 @@ class MetaSLider_Api {
 	public function setup() {
 		$this->slideshows = new MetaSlider_Slideshows();
 		$this->themes = MetaSlider_Themes::get_instance();
-		$this->slides = MetaSlider_Slides::get_instance();
 	}
 
 	/**
@@ -292,11 +291,15 @@ class MetaSLider_Api {
 		if (method_exists($request, 'get_param')) {
 			$slideshow_id = $request->get_param('slideshow_id');
 			$theme_id = $request->get_param('theme_id');
+			$slide_id = $request->get_param('slide_id');
+			$image_data = $request->get_param('image_data');
 		} else {
 
 			// Support for admin-ajax
 			$slideshow_id = isset($_POST['slideshow_id']) ? $_POST['slideshow_id'] : null;
 			$theme_id = isset($_POST['theme_id']) ? $_POST['theme_id'] : 'none';
+			$slide_id = isset($_POST['slide_id']) ? $_POST['slide_id'] : null;
+			$image_data = isset($_POST['image_data']) ? $_POST['image_data'] : null;
 		}
 
 		$user = wp_get_current_user();
@@ -317,30 +320,42 @@ class MetaSLider_Api {
                     'message' => $slideshow_id->get_error_message()
                 ), 400);
             }
-        }
+		}
 
 		// If there are files here, then we need to prepare them
 		// Dont use get_file_params() as it's WP4.4
-		$images = isset($_FILES['files']) ? $this->process_uploads($_FILES['files']) : array();
+		$images = isset($_FILES['files']) ? $this->process_uploads($_FILES['files'], $image_data) : array();
 
+		// $images should be an array of image data at this point
 		// Capture the slide markup that is typically echoed from legacy code
 		ob_start();
 
-		// $mport should be an array of ids after this
-		// TODO: consider returning the URL so a page refresh isnt needed
-		// Perhaps it will require a vuejs slide component
-		$slide_ids = $this->slides->import(absint($slideshow_id), $theme_id, $images);
+		$image_ids = MetaSlider_Image::instance()->import($images, $theme_id);
+		if (is_wp_error($image_ids)) {
+            return wp_send_json_error(array(
+                'message' => $image_ids->get_error_message()
+            ), 400);
+        }
+		
+		$errors = array();
+		$method = is_null($slide_id) ? 'create_slide' : 'update';
+		foreach ($image_ids as $image_id) {
+			$slide = new MetaSlider_Slide(absint($slideshow_id), $slide_id);
+			$slide->add_image($image_id)->$method();
+			if (is_wp_error($slide->error)) array_push($errors, $slide->error);
+		}
 
 		// Disregard the output. It's not needed for imports
 		ob_get_clean();
 
-		if (is_wp_error($slide_ids)) {
-			return wp_send_json_error(array(
-				'message' => $slide_ids->get_error_message()
-			), 400);
-		}
+        // Send back the first error, if any
+        if (isset($errors[0])) {
+            return wp_send_json_error(array(
+                'message' => $errors[0]->get_error_message()
+            ), 400);
+        }
 
-		return wp_send_json_success($slide_ids, 200);
+		return wp_send_json_success(wp_get_attachment_thumb_url($slide->slide_data['id']), 200);
 	}
 
 
@@ -349,10 +364,11 @@ class MetaSLider_Api {
 	 * For now only handles images.
 	 * 
 	 * @param array $files An array of the images
+	 * @param array $data  Data for the image, keys should match
 	 *
 	 * @return array An array with image data
 	 */
-	public function process_uploads($files) {
+	public function process_uploads($files, $data = null) {
 		$images = array();
 		foreach($files['tmp_name'] as $index => $tmp_name) {
 
@@ -378,10 +394,10 @@ class MetaSLider_Api {
 			$filename = $files['name'][$index];
 			$images[$filename] = array(
 				'source' => $tmp_name,
-				'caption' => '',
-				'title' => '',
-				'description' => '',
-				'alt' => ''
+				'caption' => isset($data[$filename]['caption']) ? $data[$filename]['caption'] : '',
+				'title' => isset($data[$filename]['title']) ? $data[$filename]['title'] : '',
+				'description' => isset($data[$filename]['description']) ? $data[$filename]['description'] : '',
+				'alt' => isset($data[$filename]['alt']) ? $data[$filename]['alt'] : ''
 			);
 		}
 		return $images;

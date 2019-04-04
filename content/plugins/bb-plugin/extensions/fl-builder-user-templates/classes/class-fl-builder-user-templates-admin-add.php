@@ -45,8 +45,11 @@ final class FLBuilderUserTemplatesAdminAdd {
 				'strings' => array(
 					'addButton' => array(
 						'add'    => _x( 'Add', 'Generic add button label for adding new content.', 'fl-builder' ),
+						/* translators: %s: add/edit or view */
 						'layout' => sprintf( _x( '%s Saved Template', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action ),
+						/* translators: %s: add/edit or view */
 						'row'    => sprintf( _x( '%s Saved Row', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action ),
+						/* translators: %s: add/edit or view */
 						'module' => sprintf( _x( '%s Saved Module', '%s is an action like Add, Edit or View.', 'fl-builder' ), $action ),
 					),
 				),

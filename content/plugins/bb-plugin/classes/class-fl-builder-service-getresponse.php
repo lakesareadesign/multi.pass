@@ -243,6 +243,7 @@ final class FLBuilderServiceGetResponse extends FLBuilderService {
 				}
 			} catch ( Exception $e ) {
 				$response['error'] = sprintf(
+					/* translators: %s: error */
 					__( 'There was an error subscribing to GetResponse. %s', 'fl-builder' ),
 					$e->getMessage()
 				);

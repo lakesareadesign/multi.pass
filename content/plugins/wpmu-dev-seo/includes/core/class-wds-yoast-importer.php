@@ -23,7 +23,7 @@ class Smartcrawl_Yoast_Importer extends Smartcrawl_Importer {
 
 		return apply_filters(
 			'wds-import-yoast-data-exists',
-			strpos( $version, '9.' ) === 0
+			strpos( $version, '10.' ) === 0
 		);
 	}
 

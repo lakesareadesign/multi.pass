@@ -23,3 +23,6 @@ _hsq.push(["setContentType", "standard-page"]);
 	})(document, "script", "hs-analytics",300000);
 </script>
 <!-- End of Async HubSpot Analytics Code -->
+
+<script src="<?php echo ShareaholicUtilities::asset_url_admin('media/js/platforms/wordpress/wordpress-admin.js') ?>"></script>
+<script src="<?php echo ShareaholicUtilities::asset_url_admin('assets/pub/loader-reachable.js') ?>" async></script>
