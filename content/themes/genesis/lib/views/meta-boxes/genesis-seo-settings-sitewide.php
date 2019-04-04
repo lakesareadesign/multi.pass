@@ -17,12 +17,12 @@
 
 	<?php if ( genesis_html5() && $this->get_field_value( 'semantic_headings' ) ) : ?>
 	<tr valign="top">
-		<th scope="row"><?php _e( 'Section Headings', 'genesis' ); ?></th>
+		<th scope="row"><?php esc_html_e( 'Section Headings', 'genesis' ); ?></th>
 		<td>
-			<p><span class="description"><?php _e( 'This setting has been deprecated because it is no longer recommended. If you uncheck this box, the setting will disappear.', 'genesis' ); ?></span></p>
+			<p><span class="description"><?php esc_html_e( 'This setting has been deprecated because it is no longer recommended. If you uncheck this box, the setting will disappear.', 'genesis' ); ?></span></p>
 			<p>
 				<label for="<?php $this->field_id( 'semantic_headings' ); ?>"><input type="checkbox" name="<?php $this->field_name( 'semantic_headings' ); ?>" id="<?php $this->field_id( 'semantic_headings' ); ?>" value="1" <?php checked( $this->get_field_value( 'semantic_headings' ) ); ?> />
-				<?php _e( 'Use semantic HTML5 page and section headings throughout site?', 'genesis' ); ?></label>
+				<?php esc_html_e( 'Use semantic HTML5 page and section headings throughout site?', 'genesis' ); ?></label>
 			</p>
 		</td>
 	</tr>
@@ -36,11 +36,12 @@
 				<?php
 				/* translators: %s: Escaped title tag. */
 				printf( esc_html__( 'Add site name to %s on inner pages?', 'genesis' ), genesis_code( '<title>' ) );
-				?> </label>
+				?>
+				</label>
 			</p>
 
 			<p>
-				<label for="<?php $this->field_id( 'doctitle_sep' ); ?>"><?php _e( 'Document Title Separator', 'genesis' ); ?></label>
+				<label for="<?php $this->field_id( 'doctitle_sep' ); ?>"><?php esc_html_e( 'Document Title Separator', 'genesis' ); ?></label>
 				<input type="text" name="<?php $this->field_name( 'doctitle_sep' ); ?>" class="small-text" id="<?php echo esc_attr( $this->get_field_id( 'doctitle_sep' ) ); ?>" value="<?php echo esc_attr( $this->get_field_value( 'doctitle_sep' ) ); ?>" /><br />
 				<span class="description"><?php esc_html_e( 'If the title consists of two parts (original title and optional addition), then the separator will go in between them.', 'genesis' ); ?></span>
 			</p>

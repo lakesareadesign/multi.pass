@@ -7,6 +7,7 @@ const docs = {
 const menu = {
 	element: '',
 	button: '',
+	screenWidth: 'wide',
 	setup: function() {
 		menu.element = document.querySelector('.nav');
 		menu.button = document.querySelector('#menu-button');
@@ -27,10 +28,18 @@ const menu = {
 			menu.button.setAttribute('aria-expanded', true);
 			menu.button.hidden = true;
 			menu.element.hidden = false;
-		} else {
+			menu.screenWidth = 'wide';
+			return;
+		}
+
+		// Hide menu only on load and if screen changed from wide state
+		// to narrow. Prevents issue with iOS collapsing open menus on scroll,
+		// due to Mobile Safari firing resize events when scrolling down.
+		if (menu.screenWidth == 'wide') {
 			menu.button.setAttribute('aria-expanded', false);
 			menu.button.hidden = false;
 			menu.element.hidden = true;
+			menu.screenWidth = 'narrow';
 		}
 	}
 }

@@ -17,17 +17,17 @@
 
 	<tr valign="top">
 		<th scope="row"><?php esc_html_e( 'Version', 'genesis' ); ?></th>
-		<td><?php echo PARENT_THEME_VERSION; ?></td>
+		<td><?php echo esc_html( PARENT_THEME_VERSION ); ?></td>
 	</tr>
 
 	<tr valign="top">
 		<th scope="row"><?php esc_html_e( 'Released', 'genesis' ); ?></th>
 		<td>
-			<?php echo PARENT_THEME_RELEASE_DATE; ?>
+			<?php echo esc_html( PARENT_THEME_RELEASE_DATE ); ?>
 			<p><span class="description">
 				<?php
 				/* translators: Open and close anchor tags. */
-				printf( esc_html__( 'This can be helpful for diagnosing problems with your theme when seeking assistance at the %shelp page%s.', 'genesis' ), '<a href="https://my.studiopress.com/support/" target="_blank" rel="noopener noreferrer">', '</a>' );
+				printf( esc_html__( 'This can be helpful for diagnosing problems with your theme when seeking assistance at the %1$shelp page%2$s.', 'genesis' ), '<a href="https://my.studiopress.com/support/" target="_blank" rel="noopener noreferrer">', '</a>' );
 				?>
 			</span></p>
 		</td>
@@ -40,7 +40,7 @@
 			<p><label for="<?php $this->field_id( 'update' ); ?>"><input type="checkbox" name="<?php $this->field_name( 'update' ); ?>" id="<?php $this->field_id( 'update' ); ?>" value="1"<?php checked( $this->get_field_value( 'update' ) ) . disabled( is_super_admin(), 0 ); ?> />
 			<?php esc_html_e( 'Check For Updates', 'genesis' ); ?></label></p>
 
-			<p><input type="text" name="<?php $this->field_name( 'update_email_address' ); ?>" id="<?php $this->field_id( 'update_email_address' ); ?>" value="<?php echo esc_attr( $this->get_field_value( 'update_email_address' ) ); ?>" placeholder="<?php _e( 'Email address', 'genesis' ); ?>" size="30"<?php disabled( 0, is_super_admin() ); ?> /><br />
+			<p><input type="text" name="<?php $this->field_name( 'update_email_address' ); ?>" id="<?php $this->field_id( 'update_email_address' ); ?>" value="<?php echo esc_attr( $this->get_field_value( 'update_email_address' ) ); ?>" placeholder="<?php esc_html_e( 'Email address', 'genesis' ); ?>" size="30"<?php disabled( 0, is_super_admin() ); ?> /><br />
 			<span class="description"><label for="<?php $this->field_id( 'update_email_address' ); ?>"><?php esc_html_e( 'If you provide an email address above, you will be notified via email when a new version of Genesis is available.', 'genesis' ); ?></label></span></p>
 		</td>
 	</tr>

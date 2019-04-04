@@ -73,12 +73,12 @@ function genesis_update_check() {
 	// Use cache.
 	static $genesis_update = null;
 
-	// If cache is empty, pull transient.
+	// If cache is empty, pull setting.
 	if ( ! $genesis_update ) {
-		$genesis_update = get_transient( 'genesis-update' );
+		$genesis_update = genesis_get_expiring_setting( 'update' );
 	}
 
-	// If transient has expired, do a fresh update check.
+	// If setting has expired, do a fresh update check.
 	if ( ! $genesis_update ) {
 
 		$update_config = require GENESIS_CONFIG_DIR . '/update-check.php';
@@ -102,15 +102,15 @@ function genesis_update_check() {
 			$genesis_update = array(
 				'new_version' => PARENT_THEME_VERSION,
 			);
-			set_transient( 'genesis-update', $genesis_update, HOUR_IN_SECONDS );
+			genesis_set_expiring_setting( 'update', $genesis_update, HOUR_IN_SECONDS );
 			return array();
 		}
 
 		// Else, unserialize.
 		$genesis_update = $update_check->get_update();
 
-		// And store in transient for 24 hours.
-		set_transient( 'genesis-update', $genesis_update, DAY_IN_SECONDS );
+		// And store in setting for 24 hours.
+		genesis_set_expiring_setting( 'update', $genesis_update, DAY_IN_SECONDS );
 
 	}
 
@@ -1009,7 +1009,7 @@ add_action( 'load-themes.php', 'genesis_clear_update_transient' );
  */
 function genesis_clear_update_transient() {
 
-	delete_transient( 'genesis-update' );
+	genesis_delete_expiring_setting( 'update' );
 	remove_action( 'admin_notices', 'genesis_update_nag' );
 
 }

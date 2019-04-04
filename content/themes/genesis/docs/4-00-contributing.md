@@ -20,7 +20,7 @@ To report bugs or make a feature request, contact our friendly support teams or 
 
 - <a href="{{ '/contribute/community/#genesiswp-slack-workspace' | url }}">GenesisWP Slack workspace</a>
 - [StudioPress customer support](https://my.studiopress.com/help/)
-- [WPEngine customer support](https://my.wpengine.com/support)
+- [WP Engine customer support](https://my.wpengine.com/support)
 
 ## Genesis core
 

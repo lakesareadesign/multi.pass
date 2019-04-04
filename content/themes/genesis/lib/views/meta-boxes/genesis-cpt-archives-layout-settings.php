@@ -11,7 +11,7 @@
  * @link    https://my.studiopress.com/themes/genesis/
  */
 
-$layout = $this->get_field_value( 'layout' );
+$genesis_layout = $this->get_field_value( 'layout' );
 ?>
 <table class="form-table">
 <tbody>
@@ -22,11 +22,11 @@ $layout = $this->get_field_value( 'layout' );
 			<fieldset class="genesis-layout-selector">
 				<legend class="screen-reader-text"><?php esc_html_e( 'Layout Settings', 'genesis' ); ?></legend>
 
-				<p><input type="radio" class="default-layout" name="<?php $this->field_name( 'layout' ); ?>" id="default-layout" value="" <?php checked( $layout, '' ); ?> />
+				<p><input type="radio" class="default-layout" name="<?php $this->field_name( 'layout' ); ?>" id="default-layout" value="" <?php checked( $genesis_layout, '' ); ?> />
 					<label class="default" for="default-layout">
 					<?php
 					/* translators: 1: Open anchor tag to theme settings, 2: Close anchor tag to theme settings. */
-					printf( esc_html__( 'Default Layout set in %1$sTheme Settings%2$s', 'genesis' ), '<a href="' . menu_page_url( 'genesis', 0 ) . '">', '</a>' );
+					printf( esc_html__( 'Default Layout set in %1$sTheme Settings%2$s', 'genesis' ), '<a href="' . esc_url( menu_page_url( 'genesis', 0 ) ) . '">', '</a>' );
 					?>
 					</label>
 				</p>
@@ -35,7 +35,7 @@ $layout = $this->get_field_value( 'layout' );
 				genesis_layout_selector(
 					array(
 						'name'     => $this->get_field_name( 'layout' ),
-						'selected' => $layout,
+						'selected' => $genesis_layout,
 						'type'     => array( 'archive', 'post-type-archive-' . $this->post_type->name ),
 					)
 				);

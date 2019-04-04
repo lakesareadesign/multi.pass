@@ -331,6 +331,10 @@ function genesis_formatting_kses( $string ) {
  */
 function genesis_human_time_diff( $older_date, $newer_date = false, $relative_depth = 2 ) {
 
+	if ( ! is_int( $older_date ) ) {
+		return '';
+	}
+
 	// If no newer date is given, assume now.
 	$newer_date = $newer_date ? $newer_date : time();
 

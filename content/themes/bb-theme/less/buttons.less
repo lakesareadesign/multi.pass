@@ -16,7 +16,7 @@ Appearance > Theme Settings > Code or create a child theme.
 	a.fl-button,
 	a.fl-button:visited {
 		color: @button-color;
-		background: @button-bg-color;
+		background-color: @button-bg-color;
 
 		font-family: @button-font-family;
 		font-weight: @button-font-weight;
@@ -43,7 +43,7 @@ Appearance > Theme Settings > Code or create a child theme.
 	input[type=button]:hover,
 	input[type=submit]:hover,
 	a.fl-button:hover {
-		background: @button-bg-hover-color;
+		background-color: @button-bg-hover-color;
 		color: @button-hover-color;
 
 	    border-style: @button-border-style;
@@ -57,5 +57,10 @@ Appearance > Theme Settings > Code or create a child theme.
 	input[type=submit]:hover *,
 	a.fl-button:hover * {
 		color: @button-hover-color;
+	}
+
+	.mejs-controls button,
+	.mejs-controls button:hover {
+		background-color: transparent;
 	}
 }

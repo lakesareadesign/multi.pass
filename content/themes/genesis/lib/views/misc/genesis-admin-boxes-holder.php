@@ -26,7 +26,7 @@ global $wp_meta_boxes;
 		do_action( 'genesis_admin_before_metaboxes', $this->pagehook );
 		do_meta_boxes( $this->pagehook, 'main', null );
 		if ( isset( $wp_meta_boxes[ $this->pagehook ]['column2'] ) ) {
-			do_meta_boxes($this->pagehook, 'column2', null);
+			do_meta_boxes( $this->pagehook, 'column2', null );
 		}
 
 		/**

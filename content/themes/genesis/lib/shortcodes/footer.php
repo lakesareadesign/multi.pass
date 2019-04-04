@@ -109,12 +109,15 @@ add_shortcode( 'footer_childtheme_link', 'genesis_footer_childtheme_link_shortco
  * @since 1.1.0
  *
  * @param array|string $atts Shortcode attributes. Empty string if no attributes.
- * @return null|string Return empty string early if not a child theme, or `CHILD_THEME_NAME` or `CHILD_THEME_URL`
- *                     are not defined. Otherwise return output for `footer_childtheme_link` shortcode.
+ * @return null|string Return empty string early if not a child theme, or if child theme doesn't have a name or URI.
+ *                     Otherwise return output for `footer_childtheme_link` shortcode.
  */
 function genesis_footer_childtheme_link_shortcode( $atts ) {
 
-	if ( ! defined( 'CHILD_THEME_NAME' ) || ! defined( 'CHILD_THEME_URL' ) || ! is_child_theme() ) {
+	$name = wp_get_theme()->get( 'Name' );
+	$url  = wp_get_theme()->get( 'ThemeURI' );
+
+	if ( ! $name || ! $url || ! is_child_theme() ) {
 		return null;
 	}
 
@@ -124,7 +127,7 @@ function genesis_footer_childtheme_link_shortcode( $atts ) {
 	);
 	$atts     = shortcode_atts( $defaults, $atts, 'footer_childtheme_link' );
 
-	$output = sprintf( '%s<a href="%s">%s</a>%s', $atts['before'], esc_url( CHILD_THEME_URL ), esc_html( CHILD_THEME_NAME ), $atts['after'] );
+	$output = sprintf( '%s<a href="%s">%s</a>%s', $atts['before'], esc_url( $url ), esc_html( $name ), $atts['after'] );
 
 	return apply_filters( 'genesis_footer_childtheme_link_shortcode', $output, $atts );
 

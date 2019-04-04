@@ -33,6 +33,8 @@ class Genesis_Settings_Sanitizer {
 	 * The sanitizer object.
 	 *
 	 * @since 2.6.1
+	 *
+	 * @var Genesis_Sanitizer Sanitizer object.
 	 */
 	public $sanitizer;
 

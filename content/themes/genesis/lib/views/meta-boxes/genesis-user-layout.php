@@ -11,8 +11,8 @@
  * @link    https://my.studiopress.com/themes/genesis/
  */
 
-$layout = get_the_author_meta( 'layout', $object->ID );
-$layout = $layout ? $layout : '';
+$genesis_layout = get_the_author_meta( 'layout', $object->ID );
+$genesis_layout = $genesis_layout ? $genesis_layout : '';
 ?>
 <h2><?php esc_html_e( 'Layout Settings', 'genesis' ); ?></h2>
 <p><span class="description"><?php esc_html_e( 'These settings apply to this author\'s archive pages.', 'genesis' ); ?></span></p>
@@ -22,20 +22,25 @@ $layout = $layout ? $layout : '';
 			<th scope="row"><?php esc_html_e( 'Choose Layout', 'genesis' ); ?></th>
 			<td>
 				<fieldset class="genesis-layout-selector">
-					<legend class="screen-reader-text"><?php _e( 'Choose Layout', 'genesis' ); ?></legend>
-
-					<p><input type="radio" name="genesis-meta[layout]" class="default-layout" id="default-layout" value="" <?php checked( $layout, '' ); ?> /> <label class="default" for="default-layout">						<?php
-					/* translators: %s: Theme settings admin screen link. */
-					printf( esc_html__( 'Default Layout set in %s', 'genesis' ), '<a href="' . esc_url( menu_page_url( 'genesis', 0 ) ) . '">' . esc_html__( 'Theme Settings', 'genesis' ) . '</a>' );
-					?>
-					</label></p>
+					<legend class="screen-reader-text"><?php esc_html_e( 'Choose Layout', 'genesis' ); ?></legend>
+					<p>
+						<input type="radio" name="genesis-meta[layout]" class="default-layout" id="default-layout" value="" <?php checked( $genesis_layout, '' ); ?> />
+						<label class="default" for="default-layout">
+							<?php
+							/* translators: %s: Theme settings admin screen link. */
+							printf( esc_html__( 'Default Layout set in %s', 'genesis' ), '<a href="' . esc_url( menu_page_url( 'genesis', 0 ) ) . '">' . esc_html__( 'Theme Settings', 'genesis' ) . '</a>' );
+							?>
+						</label>
+					</p>
 
 					<?php
-					genesis_layout_selector( array(
-						'name'     => 'genesis-meta[layout]',
-						'selected' => $layout,
-						'type'     => array( 'archive', 'author', $object->ID ),
-					) );
+					genesis_layout_selector(
+						array(
+							'name'     => 'genesis-meta[layout]',
+							'selected' => $genesis_layout,
+							'type'     => array( 'archive', 'author', $object->ID ),
+						)
+					);
 					?>
 
 				</fieldset>

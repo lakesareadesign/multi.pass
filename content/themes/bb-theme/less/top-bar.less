@@ -27,7 +27,36 @@ Appearance > Theme Settings > Code or create a child theme.
 		@topbar-bg-attachment,
 		@topbar-bg-size
 	);
+	nav {
+		display: inline-block;
+	}
+	.fl-social-icons-stacked {
+		font-size: 1em;
+		.fas {
+			color: @topbar-icon-bg-color;
+		}
+		.fab {
+			color: @topbar-icon-fg-color;
+			transition: opacity 0.2s ease-in-out;
+    	opacity: 0.8;
+			&:hover {
+				color: @topbar-icon-hover-color;
+				opacity: 1;
+			}
+		}
+
+		.fab, .fas {
+			vertical-align: inherit;
+			width: inherit;
+			height: inherit;
+			line-height: inherit;
+		}
+	}
 }
+
+
+
+
 .fl-page-bar-container {
 	padding-bottom: 5px;
 	padding-top: 5px;
@@ -98,6 +127,7 @@ Appearance > Theme Settings > Code or create a child theme.
 	padding: 5px 0;
 	text-align: center;
 }
+
 
 /* Bar Social */
 .fl-page-bar .fl-social-icons {

@@ -144,7 +144,7 @@ return array(
 					),
 					'breadcrumb_front_page' => array(
 						'active_callback' => 'genesis_page_show_on_front',
-						'label'           => __( 'Breadcrumbs on Front page', 'genesis' ),
+						'label'           => __( 'Breadcrumbs on Homepage', 'genesis' ),
 						'section'         => 'genesis_breadcrumbs',
 						'type'            => 'checkbox',
 						'settings'        => array(

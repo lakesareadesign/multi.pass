@@ -26,7 +26,7 @@ Genesis includes tooling to help you build this site locally, open it in a brows
 
 1. **Familiarity with the git version control system** and GitHub code hosting service. The [git&nbsp;handbook](https://guides.github.com/introduction/git-handbook/) from GitHub and [this free git course](https://www.git-tower.com/learn/) from Tower are good places to start if you're new to git.
 2. **Access to the <a href="{{ '/contribute/genesis-core/#join-the-genesis-github-repository' | url }}">private Genesis GitHub repository</a>**, where Genesis developer documentation lives.
-3. **[Node.js](https://nodejs.org/en/) installed on your computer**. The “node.js package manager” (npm) comes with Node.js. npm is what we use to “build” the documentation website from the documentation files.
+3. **[Node.js](https://nodejs.org/en/) installed on your computer**. The “Node.js package manager” (npm) comes with Node.js. npm is what we use to “build” the documentation website from the documentation files.
 4. **Basic command line knowledge**. You will need to open a command prompt on your computer, change directories with `cd`, and type the commands below to run the documentation development server.
 
 <p class="notice-small">

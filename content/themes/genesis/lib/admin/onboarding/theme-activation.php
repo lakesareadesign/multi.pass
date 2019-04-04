@@ -30,8 +30,7 @@ function genesis_theme_activation_redirect() {
 		return;
 	}
 
-	// @todo use genesis_get_config() here.
-	if ( ! is_readable( locate_template( '/config/onboarding.php' ) ) ) {
+	if ( ! genesis_get_config( 'onboarding' ) ) {
 		return;
 	}
 
@@ -39,4 +38,34 @@ function genesis_theme_activation_redirect() {
 	exit;
 }
 
+add_action( 'after_switch_theme', 'genesis_import_child_theme_settings' );
+/**
+ * Import settings needed by a child theme to look correct and function properly.
+ *
+ * Search for `child-theme-settings.php` in child theme's config directory. If one exists, use it as the basis for importing custom settings.
+ *
+ * @since 2.9.0
+ *
+ * @return bool True if settings saved. False otherwise.
+ */
+function genesis_import_child_theme_settings() {
+	$settings_saved = false;
+	$config         = genesis_get_config( 'child-theme-settings' );
 
+	if ( ! $config ) {
+		return false;
+	}
+
+	// Validate all settings keys are strings.
+	$all_keys    = array_keys( $config );
+	$string_keys = array_filter( $all_keys, 'is_string' );
+	if ( count( $string_keys ) === 0 || count( $all_keys ) !== count( $string_keys ) ) {
+		return false;
+	}
+
+	foreach ( (array) $config as $key => $value ) {
+		$settings_saved = is_array( $value ) ? genesis_update_settings( $value, $key ) : update_option( $key, $value );
+	}
+
+	return $settings_saved;
+}

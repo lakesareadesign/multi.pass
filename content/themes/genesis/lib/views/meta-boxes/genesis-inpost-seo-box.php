@@ -25,7 +25,7 @@ wp_nonce_field( 'genesis_inpost_seo_save', 'genesis_inpost_seo_nonce' );
 			<p><span class="hide-if-no-js description">
 				<?php
 				/* translators: Title string length */
-				printf( esc_html__( 'Characters Used: %s', 'genesis' ), '<span id="genesis_title_chars">'. mb_strlen( genesis_get_custom_field( '_genesis_title' ) ) .'</span>' );
+				printf( esc_html__( 'Characters Used: %s', 'genesis' ), '<span id="genesis_title_chars">' . esc_html( mb_strlen( genesis_get_custom_field( '_genesis_title' ) ) ) . '</span>' );
 				?>
 			</span></p>
 		</td>
@@ -39,7 +39,7 @@ wp_nonce_field( 'genesis_inpost_seo_save', 'genesis_inpost_seo_nonce' );
 			<p><span class="hide-if-no-js description">
 				<?php
 				/* translators: Description string length */
-				printf( __( 'Characters Used: %s', 'genesis' ), '<span id="genesis_description_chars">'. mb_strlen( genesis_get_custom_field( '_genesis_description' ) ) .'</span>' );
+				printf( esc_html__( 'Characters Used: %s', 'genesis' ), '<span id="genesis_description_chars">' . esc_html( mb_strlen( genesis_get_custom_field( '_genesis_description' ) ) ) . '</span>' );
 				?>
 			</span></p>
 		</td>

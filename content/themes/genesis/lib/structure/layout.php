@@ -223,7 +223,7 @@ function genesis_get_sidebar_alt() {
 	$site_layout = genesis_site_layout();
 
 	// Don't load sidebar-alt on pages that don't need it.
-	if ( in_array( $site_layout, array( 'content-sidebar', 'sidebar-content', 'full-width-content' ) ) ) {
+	if ( in_array( $site_layout, array( 'content-sidebar', 'sidebar-content', 'full-width-content' ), true ) ) {
 		return;
 	}
 

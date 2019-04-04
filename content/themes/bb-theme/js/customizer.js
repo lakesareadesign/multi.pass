@@ -370,10 +370,22 @@
 		_initResponsiveControls: function() {
 			$( '.fl-responsive-customize-control' ).not('.desktop').hide();
 
+			var sendPreviewedDevice = function () {
+				var previewedDevice = api.previewedDevice.get(),
+					newDevice       = 'tablet' == previewedDevice ? 'medium' : previewedDevice;
+
+				api.previewer.send( 'previewed-device', newDevice );
+	        }
+
+			// Send the initial previewed device when preview is ready.
+			api.previewer.bind( 'ready', sendPreviewedDevice );
+
 			api.previewedDevice.bind( function( new_device ) {
 				new_device = 'tablet' == new_device ? 'medium' : new_device;
 				$( '.fl-responsive-customize-control' ).hide();
 				$( '.fl-responsive-customize-control.' + new_device ).show();
+
+				sendPreviewedDevice();
 			});
 		},
 	};

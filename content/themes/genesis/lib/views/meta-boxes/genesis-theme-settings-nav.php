@@ -33,14 +33,14 @@
 				<p><span class="description">
 					<?php
 					/* translators: Opening and closing link tags to custom menu editor. */
-					printf( esc_html__( 'In order to view the Primary navigation menu settings, you must build a %scustom menu%s, then assign it to the Primary Menu Location.', 'genesis' ), '<a href="' . admin_url( 'nav-menus.php' ) . '">', '</a>' );
+					printf( esc_html__( 'In order to view the Primary navigation menu settings, you must build a %1$scustom menu%2$s, then assign it to the Primary Menu Location.', 'genesis' ), '<a href="' . esc_url( admin_url( 'nav-menus.php' ) ) . '">', '</a>' );
 					?>
 				</span></p>
 			<?php else : ?>
 				<div id="genesis_nav_extras_settings">
 					<p>
 						<select name="<?php $this->field_name( 'nav_extras' ); ?>" id="<?php $this->field_id( 'nav_extras' ); ?>">
-							<option value=""><?php esc_html_e( 'None', 'genesis' ) ?></option>
+							<option value=""><?php esc_html_e( 'None', 'genesis' ); ?></option>
 							<option value="date"<?php selected( $this->get_field_value( 'nav_extras' ), 'date' ); ?>><?php esc_html_e( 'Today\'s date', 'genesis' ); ?></option>
 							<option value="rss"<?php selected( $this->get_field_value( 'nav_extras' ), 'rss' ); ?>><?php esc_html_e( 'RSS feed links', 'genesis' ); ?></option>
 							<option value="search"<?php selected( $this->get_field_value( 'nav_extras' ), 'search' ); ?>><?php esc_html_e( 'Search form', 'genesis' ); ?></option>

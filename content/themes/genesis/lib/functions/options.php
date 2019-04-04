@@ -290,6 +290,74 @@ function genesis_save_custom_fields( array $data, $nonce_action, $nonce_name, $p
 }
 
 /**
+ * Get an expiring database setting.
+ *
+ * Checks the associate expiration timestamp before returning the setting value.
+ *
+ * If the setting has expired, delete the setting and expiration.
+ *
+ * @since 2.9.0
+ *
+ * @param string $setting The setting key.
+ * @param int    $current_time The current timestamp. `time()` if null.
+ * @return mixed The value of the setting, or false if setting is expired.
+ */
+function genesis_get_expiring_setting( $setting, $current_time = null ) {
+	if ( is_null( $current_time ) ) {
+		$current_time = time();
+	}
+
+	// Prefix the setting, so we're not messing with non-expiring settings.
+	$setting = 'genesis_expiring_setting_' . $setting;
+
+	if ( (int) $current_time >= (int) get_option( $setting . '_expiration' ) ) {
+		delete_option( $setting );
+		delete_option( $setting . '_expiration' );
+		return false;
+	}
+
+	return get_option( $setting );
+}
+
+/**
+ * Set an expiring database setting.
+ *
+ * Updates the value and expiration timestamp for an expiring setting.
+ *
+ * @since 2.9.0
+ *
+ * @param string $setting  The setting key.
+ * @param mixed  $value    The value to save.
+ * @param int    $duration The duration this setting should remain active.
+ * @return mixed The result of `update_option( $setting )`.
+ */
+function genesis_set_expiring_setting( $setting, $value, $duration ) {
+	// Prefix the setting, so we're not messing with non-expiring settings.
+	$setting = 'genesis_expiring_setting_' . $setting;
+
+	update_option( $setting . '_expiration', time() + $duration, false );
+	return update_option( $setting, $value, false );
+}
+
+/**
+ * Delete an expiring database setting.
+ *
+ * Deletes the database settings for both the $setting and the associated expiration timestamp.
+ *
+ * @since 2.9.0
+ *
+ * @param string $setting  The setting key.
+ * @return mixed The result of `delete_option( $setting )`.
+ */
+function genesis_delete_expiring_setting( $setting ) {
+	// Prefix the setting, so we're not messing with non-expiring settings.
+	$setting = 'genesis_expiring_setting_' . $setting;
+
+	delete_option( $setting . '_expiration' );
+	return delete_option( $setting );
+}
+
+/**
  * Takes an array of new settings, merges them with the old settings, and pushes them into the database.
  *
  * @since 2.1.0

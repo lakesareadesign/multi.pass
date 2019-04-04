@@ -15,7 +15,7 @@
 <table class="form-table">
 <tbody>
 	<?php if ( ! genesis_html5() || ! $this->get_field_value( 'semantic_headings' ) ) : ?>
-	<tr valign="top" <?php echo genesis_html5() ? 'id="genesis_seo_h1_wrap"' : '';?>>
+	<tr valign="top" <?php echo genesis_html5() ? 'id="genesis_seo_h1_wrap"' : ''; ?>>
 		<th scope="row">
 			<?php
 			/* translators: Escaped H1 tag. */

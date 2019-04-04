@@ -19,16 +19,39 @@
  * @return array
  */
 function genesis_onboarding_plugins() {
-
-	$config_file = locate_template( '/config/onboarding.php' );
-
-	if ( ! is_readable( $config_file ) ) {
-		return array();
-	}
-
-	$config = require $config_file;
+	$config = genesis_get_config( 'onboarding' );
 
 	return isset( $config['dependencies']['plugins'] ) ? $config['dependencies']['plugins'] : array();
+}
+
+/**
+ * Returns an unordered list of valid onboarding plugins provided by Genesis or the child theme.
+ *
+ * @since 2.9.0
+ *
+ * @return string An unordered list of plugins, or empty string if no valid plugins in list.
+ */
+function genesis_onboarding_plugins_list() {
+	$plugins = genesis_onboarding_plugins();
+
+	if ( ! $plugins ) {
+		return '';
+	}
+
+	$plugin_list = '';
+
+	$link_pattern = '<a href="%s" target="_blank" rel="noopener noreferrer">%s <span class="screen-reader-text">(%s)</span></a>';
+	$new_window   = __( 'new window', 'genesis' );
+
+	foreach ( (array) $plugins as $plugin ) {
+		if ( empty( $plugin['name'] ) || empty( $plugin['slug'] ) ) {
+			continue;
+		}
+		$plugin_list_item = isset( $plugin['public_url'] ) ? sprintf( $link_pattern, esc_url( $plugin['public_url'] ), esc_html( $plugin['name'] ), esc_html( $new_window ) ) : esc_html( $plugin['name'] );
+		$plugin_list     .= sprintf( '<li>%s</li>', $plugin_list_item );
+	}
+
+	return $plugin_list ? sprintf( '<ul>%s</ul>', $plugin_list ) : '';
 }
 
 /**
@@ -39,14 +62,7 @@ function genesis_onboarding_plugins() {
  * @return array
  */
 function genesis_onboarding_content() {
-
-	$config_file = locate_template( '/config/onboarding.php' );
-
-	if ( ! is_readable( $config_file ) ) {
-		return array();
-	}
-
-	$config = require $config_file;
+	$config = genesis_get_config( 'onboarding' );
 
 	return isset( $config['content'] ) ? $config['content'] : array();
 }
@@ -68,4 +84,301 @@ function genesis_onboarding_install_language_packs() {
 
 	$lp_upgrader = new Language_Pack_Upgrader( new Genesis_Silent_Upgrader_Skin() );
 	$lp_upgrader->bulk_upgrade( $language_updates );
+}
+
+/**
+ * Returns an array of onboarding navigation menu configuration data
+ * provided by Genesis or the child theme.
+ *
+ * @since 2.9.0
+ * @return array
+ */
+function genesis_onboarding_navigation_menus() {
+	$config = genesis_get_config( 'onboarding' );
+
+	return isset( $config['navigation_menus'] ) ? $config['navigation_menus'] : array();
+}
+
+/**
+ * Creates the navigation menus based on the configuration
+ * provided in the child theme.
+ *
+ * @since 2.9.0
+ * @return array Empty array if successful, an array of error messages if not.
+ */
+function genesis_onboarding_create_navigation_menus() {
+
+	$errors = array();
+	$config = genesis_onboarding_navigation_menus();
+	if ( ! $config ) {
+		return $errors;
+	}
+	$menu_locations   = get_theme_mod( 'nav_menu_locations' );
+	$registered_menus = (array) get_theme_support( 'genesis-menus' );
+	$registered_menus = reset( $registered_menus );
+
+	foreach ( $registered_menus as $registered_menu => $menu_label ) {
+		if ( empty( $menu_label ) || empty( $config[ $registered_menu ] ) ) {
+			continue;
+		}
+
+		$menu_id = false;
+
+		$menu_object = wp_get_nav_menu_object( $menu_label );
+
+		if ( ! $menu_object ) {
+			$menu_id = wp_create_nav_menu( $menu_label );
+		}
+
+		if ( is_wp_error( $menu_id ) ) {
+			/* translators: 1: Title of the menu, 2: The error message. */
+			$errors[] = sprintf( esc_html__( 'There was an error creating the %1$s menu. Error: %2$s', 'genesis' ), $menu_label, $menu_id->get_error_message() );
+			continue;
+		}
+
+		if ( ! $menu_id && is_object( $menu_object ) ) {
+			$menu_id = $menu_object->term_id;
+		}
+
+		$menu_locations[ $registered_menu ] = $menu_id;
+
+		set_theme_mod( 'nav_menu_locations', $menu_locations );
+	}
+
+	return $errors;
+}
+
+/**
+ * Creates the navigation menu items based on the configuration
+ * provided in the child theme.
+ *
+ * @since 2.9.0
+ * @return array Empty array if successful, an array of error messages if not.
+ */
+function genesis_onboarding_create_navigation_menu_items() {
+	$errors         = array();
+	$menus_config   = genesis_onboarding_navigation_menus();
+	$menu_locations = get_nav_menu_locations();
+	$imported_posts = get_option( 'genesis_onboarding_imported_post_ids', array() );
+
+	foreach ( $menus_config as $menu_location => $menu_location_config ) {
+		if ( ! isset( $menu_locations[ $menu_location ] ) ) {
+			continue;
+		}
+
+		$menu_id = $menu_locations[ $menu_location ];
+
+		$new_menu_item = array();
+
+		foreach ( $menu_location_config as $slug => $menu_item ) {
+
+			$new_menu_item[ $slug ] = array();
+
+			if ( ! empty( $menu_item['parent'] ) ) {
+				$new_menu_item[ $slug ]['parent'] = $menu_item['parent'];
+			}
+
+			$post_object = get_post( $imported_posts[ $slug ] );
+
+			if ( empty( $post_object ) ) {
+				continue;
+			}
+
+			$menu_item_parent_id = ! empty( $menu_item['parent'] ) && ! empty( $new_menu_item[ $menu_item['parent'] ] ) && ! empty( $new_menu_item[ $menu_item['parent'] ]['id'] ) ? $new_menu_item[ $menu_item['parent'] ]['id'] : 0;
+
+			$nav_menu_item_id = wp_update_nav_menu_item(
+				$menu_id,
+				0,
+				array(
+					'menu-item-title'     => $menu_item['title'],
+					'menu-item-status'    => 'publish',
+					'menu-item-type'      => 'post_type',
+					'menu-item-object'    => $post_object->post_type,
+					'menu-item-object-id' => $post_object->ID,
+					'menu-item-parent-id' => $menu_item_parent_id,
+				)
+			);
+
+			if ( is_wp_error( $nav_menu_item_id ) ) {
+				/* translators: 1: Title of the menu item, 2: The error message. */
+				$errors[] = sprintf( esc_html__( 'There was an error creating the %1$s menu item. Error: %2$s', 'genesis' ), $menu_item['title'], $nav_menu_item_id->get_error_message() );
+				continue;
+			}
+
+			$new_menu_item[ $slug ]['id'] = $nav_menu_item_id;
+		}
+	}
+
+	return $errors;
+}
+
+
+/**
+ * Installs the plugin dependencies during onboarding.
+ *
+ * @param array $dependencies The dependencies config array.
+ * @param int   $step The current step being processed.
+ * @since 2.9.0
+ *
+ * @return void|WP_Error
+ */
+function genesis_onboarding_install_dependencies( array $dependencies, $step = 0 ) {
+
+	if ( empty( $dependencies ) ) {
+		return;
+	}
+
+	$step = absint( $step );
+
+	$existing_plugins = get_plugins();
+
+	require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
+
+	require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
+
+	$upgrader = new Plugin_Upgrader( new Genesis_Silent_Upgrader_Skin() );
+
+	$onboarding_plugin = $dependencies[ $step ];
+
+	if ( ! array_key_exists( $onboarding_plugin['slug'], $existing_plugins ) ) {
+
+		remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
+
+		add_action( 'upgrader_process_complete', 'genesis_onboarding_install_language_packs', 20 );
+
+		$short_slug = strtok( $onboarding_plugin['slug'], '/' );
+
+		$api = plugins_api( 'plugin_information', array( 'slug' => $short_slug ) );
+
+		if ( is_wp_error( $api ) ) {
+			/**
+			 * Error object from API communication.
+			 *
+			 * @var WP_Error
+			 */
+			return $api;
+		}
+
+		$installed = $upgrader->install( $api->download_link );
+
+		if ( is_wp_error( $installed ) ) {
+			/**
+			 * Error object from installation process.
+			 *
+			 * @var WP_Error
+			 */
+			return $installed;
+		}
+	}
+
+	activate_plugin( $onboarding_plugin['slug'], false, false, true );
+}
+
+/**
+ * Imports the demo content during onboarding.
+ *
+ * @param array $content The content config array.
+ * @since 2.9.0
+ *
+ * @return array
+ */
+function genesis_onboarding_import_content( array $content ) {
+
+	$errors = array();
+
+	$homepage_edit_link = false;
+
+	$post_defaults = array(
+		'post_content'   => '',
+		'post_excerpt'   => '',
+		'post_status'    => 'publish',
+		'post_title'     => '',
+		'post_type'      => 'post',
+		'comment_status' => 'closed',
+		'ping_status'    => 'closed',
+	);
+
+	if ( ! empty( $content ) ) {
+
+		$imported_post_ids = array();
+
+		foreach ( $content as $key => $post ) {
+
+			$post = wp_parse_args( $post, $post_defaults );
+
+			$post_id = wp_insert_post(
+				array(
+					'post_content'   => $post['post_content'],
+					'post_excerpt'   => $post['post_excerpt'],
+					'post_status'    => $post['post_status'],
+					'post_title'     => $post['post_title'],
+					'post_type'      => $post['post_type'],
+					'comment_status' => $post['comment_status'],
+				)
+			);
+
+			if ( is_wp_error( $post_id ) ) {
+				/* translators: 1: Title of the page, 2: The error message. */
+				$errors[] = sprintf( esc_html__( 'There was an error importing the %1$s page. Error: %2$s', 'genesis' ), $post['post_title'], $post_id->get_error_message() );
+				continue;
+			}
+
+			$imported_post_ids[ $key ] = $post_id;
+
+			if ( 'homepage' === $key ) {
+				update_option( 'show_on_front', 'page' );
+				update_option( 'page_on_front', $post_id );
+				$homepage_edit_link = esc_url_raw( admin_url( 'post.php?action=edit&post=' . $post_id ) );
+			}
+
+			if ( 'blog' === $key ) {
+				update_option( 'page_for_posts', $post_id );
+			}
+
+			if ( ! empty( $post['page_template'] ) ) {
+				update_post_meta( $post_id, '_wp_page_template', sanitize_text_field( $post['page_template'] ) );
+			}
+
+			if ( ! empty( $post['featured_image'] ) ) {
+
+				$featured_image_url = esc_url_raw( $post['featured_image'] );
+
+				$tmp_name = download_url( $featured_image_url );
+
+				if ( is_wp_error( $tmp_name ) ) {
+					/* translators: 1: URL of the image, 2: The error message. */
+					$errors[] = sprintf( esc_html__( 'There was an error downloading the featured image from %1$s. Error: %2$s', 'genesis' ), $featured_image_url, $tmp_name->get_error_message() );
+					continue;
+				}
+
+				$file = array(
+					'name'     => basename( $featured_image_url ),
+					'tmp_name' => $tmp_name,
+				);
+
+				$attachment_id = media_handle_sideload( $file, $post_id );
+
+				if ( is_wp_error( $attachment_id ) ) {
+					/* translators: 1: Name of the image, 2: The error message. */
+					$errors[] = sprintf( esc_html__( 'There was an error importing the %1$s image. Error: %2$s', 'genesis' ), $file['name'], $attachment_id->get_error_message() );
+					continue;
+				}
+
+				set_post_thumbnail( $post_id, $attachment_id );
+
+				if ( is_readable( $tmp_name ) ) {
+					unlink( $tmp_name );
+				}
+			}
+		}
+
+		// Save the imported post IDs for use during menu item creation.
+		update_option( 'genesis_onboarding_imported_post_ids', $imported_post_ids, false );
+
+	}
+
+	return array(
+		'homepage_edit_link' => $homepage_edit_link,
+		'errors'             => $errors,
+	);
 }

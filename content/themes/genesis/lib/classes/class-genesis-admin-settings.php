@@ -324,10 +324,10 @@ class Genesis_Admin_Settings extends Genesis_Admin_Boxes {
 
 		printf(
 			'<div class="notice notice-info"><p>%s</p><p>%s</p></div>',
-			__( 'Hey there! Did you know that theme settings can now be configured with a live preview in the Customizer?', 'genesis' ),
+			esc_html__( 'Hey there! Did you know that theme settings can now be configured with a live preview in the Customizer?', 'genesis' ),
 			sprintf(
 				/* translators: %s: Customizer admin URL */
-				__( 'Eventually, settings pages like this one will no longer be available, and everything will be configured in the Customizer, so go ahead and <a href="%s">start using it now</a>!', 'genesis' ),
+				wp_kses_post( __( 'Eventually, settings pages like this one will no longer be available, and everything will be configured in the Customizer, so go ahead and <a href="%s">start using it now</a>!', 'genesis' ) ),
 				esc_url( admin_url( 'customize.php?autofocus[panel]=genesis' ) )
 			)
 		);
@@ -349,9 +349,9 @@ class Genesis_Admin_Settings extends Genesis_Admin_Boxes {
 			return;
 		}
 
-		printf( '<input type="hidden" name="%s" value="%s" />', $this->get_field_name( 'theme_version' ), esc_attr( $this->get_field_value( 'theme_version' ) ) );
-		printf( '<input type="hidden" name="%s" value="%s" />', $this->get_field_name( 'db_version' ), esc_attr( $this->get_field_value( 'db_version' ) ) );
-		printf( '<input type="hidden" name="%s" value="%s" />', $this->get_field_name( 'first_version' ), esc_attr( $this->get_field_value( 'first_version' ) ) );
+		printf( '<input type="hidden" name="%s" value="%s" />', esc_attr( $this->get_field_name( 'theme_version' ) ), esc_attr( $this->get_field_value( 'theme_version' ) ) );
+		printf( '<input type="hidden" name="%s" value="%s" />', esc_attr( $this->get_field_name( 'db_version' ) ), esc_attr( $this->get_field_value( 'db_version' ) ) );
+		printf( '<input type="hidden" name="%s" value="%s" />', esc_attr( $this->get_field_name( 'first_version' ) ), esc_attr( $this->get_field_value( 'first_version' ) ) );
 
 	}
 
@@ -377,13 +377,12 @@ class Genesis_Admin_Settings extends Genesis_Admin_Boxes {
 		// Validate AdSense publisher id format.
 		if ( isset( $new_value['adsense_id'] ) && 23 > strlen( $new_value['adsense_id'] ) ) {
 
-			// Remove all but numbers
+			// Remove all but numbers.
 			$adsense = preg_replace( '/[^0-9]/', '', $new_value['adsense_id'] );
 
 			if ( 16 === strlen( $adsense ) ) {
 				$new_value['adsense_id'] = 'ca-pub-' . $adsense;
-			}
-			else {
+			} else {
 				$new_value['adsense_id'] = '';
 			}
 

@@ -14,9 +14,9 @@
 ?>
 <p>
 	<?php
-	$archive = '<a href="' . get_post_type_archive_link( $this->post_type->name ) . '">';
-	/* translators: Opn and close post type archive link, post type name. */
-	printf( esc_html__( 'View the %1$s%3$s archive%2$s.', 'genesis' ), $archive, '</a>', $this->post_type->name );
+	$genesis_archive = '<a href="' . esc_url( get_post_type_archive_link( $this->post_type->name ) ) . '">';
+	/* translators: Open and close post type archive link, post type name. */
+	printf( esc_html__( 'View the %1$s%3$s archive%2$s.', 'genesis' ), $genesis_archive, '</a>', esc_html( $this->post_type->name ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped.
 	?>
 </p>
 
@@ -44,11 +44,11 @@
 		<td>
 			<?php
 			wp_editor(
-					$this->get_field_value( 'intro_text' ),
-					$this->settings_field . '-intro-text',
-					array(
-						'textarea_name' => $this->get_field_name( 'intro_text' ),
-					)
+				$this->get_field_value( 'intro_text' ),
+				$this->settings_field . '-intro-text',
+				array(
+					'textarea_name' => $this->get_field_name( 'intro_text' ),
+				)
 			);
 			?>
 			<p class="description"><?php esc_html_e( 'Leave empty if you do not want to display any intro text.', 'genesis' ); ?></p>

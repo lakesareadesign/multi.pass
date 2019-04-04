@@ -11,6 +11,7 @@
  * @link    https://my.studiopress.com/themes/genesis/
  */
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Variables are used in function scope.
 $current = $this->get_field_value( 'style_selection' );
 $styles  = get_theme_support( 'genesis-style-selector' );
 ?>
@@ -25,8 +26,10 @@ $styles  = get_theme_support( 'genesis-style-selector' );
 				<?php
 				if ( ! empty( $styles ) ) {
 					$styles = array_shift( $styles );
-					foreach ( (array) $styles as $style => $title ) {
-						?><option value="<?php echo esc_attr( $style ); ?>"<?php selected( $current, $style ); ?>><?php echo esc_html( $title ); ?></option><?php
+					foreach ( (array) $styles as $style => $style_title ) {
+						?>
+						<option value="<?php echo esc_attr( $style ); ?>"<?php selected( $current, $style ); ?>><?php echo esc_html( $style_title ); ?></option>
+						<?php
 					}
 				}
 				?>

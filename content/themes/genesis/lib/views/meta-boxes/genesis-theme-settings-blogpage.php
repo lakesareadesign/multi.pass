@@ -20,14 +20,19 @@
 		<th scope="row"><?php esc_html_e( 'Display Category', 'genesis' ); ?></th>
 		<td>
 			<p><label for="<?php $this->field_id( 'blog_cat' ); ?>" class="screen-reader-text"><?php esc_html_e( 'Display which category', 'genesis' ); ?></label>
-			<?php wp_dropdown_categories( array(
-	'selected' => $this->get_field_value( 'blog_cat' ),
-	'name' => $this->get_field_name( 'blog_cat' ),
-	'orderby' => 'Name',
-	'hierarchical' => 1,
-	'show_option_all' => __( 'All Categories', 'genesis' ),
-	'hide_empty' => '0',
-) ); ?></p>
+			<?php
+			wp_dropdown_categories(
+				array(
+					'selected'        => $this->get_field_value( 'blog_cat' ),
+					'name'            => $this->get_field_name( 'blog_cat' ),
+					'orderby'         => 'Name',
+					'hierarchical'    => 1,
+					'show_option_all' => __( 'All Categories', 'genesis' ),
+					'hide_empty'      => '0',
+				)
+			);
+			?>
+			</p>
 		</td>
 	</tr>
 

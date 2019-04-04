@@ -11,6 +11,25 @@
  * @link    http://my.studiopress.com/themes/genesis/
  */
 
+$genesis_enable_auto_ads = sprintf(
+	// translators: Url to enable Auto Ads in the Adwords Account.
+	esc_html__( 'Auto Ads must be enabled in your AdSense account for this feature to work properly. %s', 'genesis' ),
+	sprintf(
+		'<a href="%s">%s</a>',
+		esc_url( 'https://www.google.com/adsense/new/myads/auto-ads/' ),
+		esc_html__( 'Click here to enable.', 'genesis' )
+	)
+);
+
+$genesis_signup_for_adsense = sprintf(
+	// translators: Url to sign up for an Adwords Account.
+	esc_html__( "Don't have AdSense? %s to sign up!", 'genesis' ),
+	sprintf(
+		'<a href="%s" target="_blank" rel="noopener noreferrer">%s</a>',
+		esc_url( 'https://www.google.com/adsense/start/?utm_source=Genesis&utm_medium=partnerships&utm_campaign=GenesisThemeSettings' ),
+		esc_html__( 'Click here', 'genesis' )
+	)
+);
 ?>
 <table class="form-table">
 <tbody>
@@ -18,8 +37,10 @@
 	<tr valign="top">
 		<th scope="row"><?php esc_html_e( 'Google AdSense Publisher ID', 'genesis' ); ?></th>
 		<td>
-			<p><span class="description"><?php printf( __('Auto Ads must be enabled in your AdSense account for this feature to work properly. <a href="%s">Click here to enable.</a>', 'genesis' ), 'https://www.google.com/adsense/new/myads/auto-ads/' ); ?></span></p>
-			<p><span class="description"><?php printf( __( 'Don\'t have AdSense? <a href="%s" target="_blank" rel="noopener noreferrer">Click here</a> to sign up!', 'genesis' ), 'https://www.google.com/adsense/start/?utm_source=Genesis&utm_medium=partnerships&utm_campaign=GenesisThemeSettings' ); ?></span></p>
+			<?php // phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped above. ?>
+			<p><span class="description"><?php echo $genesis_enable_auto_ads; ?></span></p>
+			<p><span class="description"><?php echo $genesis_signup_for_adsense; ?></span></p>
+			<?php // phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped ?>
 			<p><span class="description"><label for="<?php $this->field_id( 'adsense_id' ); ?>"><?php esc_html_e( 'AdSense publisher ID', 'genesis' ); ?></label></span></p>
 			<p><input type="text" name="<?php $this->field_name( 'adsense_id' ); ?>" class="regular-text" id="<?php $this->field_id( 'adsense_id' ); ?>" value="<?php echo esc_attr( $this->get_field_value( 'adsense_id' ) ); ?>" placeholder="ca-pub-xxxxxxxxxxxxx" /></p>
 			<p><span class="description"><?php esc_html_e( 'Enter your AdSense publisher ID (ca-pub-xxxxxxxxxxxxx or pub-xxxxxxxxxxxxx) to enable AdSense.', 'genesis' ); ?></span></p>

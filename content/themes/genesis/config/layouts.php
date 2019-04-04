@@ -11,8 +11,9 @@
  * @link    https://my.studiopress.com/themes/genesis/
  */
 
- // Common path to default layout images.
- $url = GENESIS_ADMIN_IMAGES_URL . '/layouts/';
+// Common path to default layout images.
+// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound
+$url = GENESIS_ADMIN_IMAGES_URL . '/layouts/';
 
 /**
  * The Layouts config. Sets the default layouts for use by Genesis.

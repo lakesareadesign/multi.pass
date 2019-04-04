@@ -14,10 +14,10 @@
 ?>
 <p><span class="description">
 	<?php
-	$abbrev = sprintf( '<abbr title="%s">%s</abbr>', __( 'Search engine optimization', 'genesis' ), __( 'SEO', 'genesis' ) );
+	$genesis_abbrev = sprintf( '<abbr title="%s">%s</abbr>', esc_attr__( 'Search engine optimization', 'genesis' ), esc_html__( 'SEO', 'genesis' ) );
 
 	/* translators: Escaped HTML head tag, abbreviation expansion for SEO. */
-	printf( esc_html__( 'By default, WordPress places several tags in your document %1$s. Most of these tags are completely unnecessary, and provide no %2$s value whatsoever; they just make your site slower to load. Choose which tags you would like included in your document %1$s. If you do not know what something is, leave it unchecked.', 'genesis' ), genesis_code( '<head>' ), $abbrev );
+	printf( esc_html__( 'By default, WordPress places several tags in your document %1$s. Most of these tags are completely unnecessary, and provide no %2$s value whatsoever; they just make your site slower to load. Choose which tags you would like included in your document %1$s. If you do not know what something is, leave it unchecked.', 'genesis' ), genesis_code( '<head>' ), $genesis_abbrev ); // phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped.
 	?>
 </span></p>
 
@@ -59,8 +59,9 @@
 				<span class="description">
 				<?php
 					/* translators: Open and close span tags, abbreviation expansion for SEO. */
-					printf( esc_html__( '%sNote:%s The shortlink tag might have some use for 3rd party service discoverability, but it has no %s value whatsoever.', 'genesis' ), '<span class="genesis-admin-note">', '</span>', $abbrev );
-				?></span>
+					printf( esc_html__( '%1$sNote:%2$s The shortlink tag might have some use for 3rd party service discoverability, but it has no %3$s value whatsoever.', 'genesis' ), '<span class="genesis-admin-note">', '</span>', $genesis_abbrev ); // phpcs:ignore  WordPress.Security.EscapeOutput.OutputNotEscaped -- Already escaped.
+				?>
+				</span>
 			</p>
 		</td>
 	</tr>

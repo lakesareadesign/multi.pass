@@ -141,7 +141,7 @@ add_theme_support(
     <td>Add an additional heading and adjust heading levels on the 404 page.</td>
   </tr>
   <tr>
-    <td>genesis-scripts</td>
+    <td>drop-down-menu</td>
     <td>Add scripts to improve accessibility of drop-down menus.</td>
   </tr>
   <tr>

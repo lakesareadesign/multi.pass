@@ -10,3 +10,5 @@
  * @license GPL-2.0-or-later
  * @link    https://my.studiopress.com/themes/genesis/
  */
+
+// Moved to lib/classes/class-search-searchform.php.

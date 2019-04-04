@@ -142,7 +142,7 @@ function genesis_featured_image_post_class( $classes ) {
 
 	$image = genesis_get_image();
 
-	if ( $image && ! is_singular() && genesis_get_option( 'content_archive_thumbnail' ) && ! in_array( 'has-post-thumbnail', $classes ) ) {
+	if ( $image && ! is_singular() && genesis_get_option( 'content_archive_thumbnail' ) && ! in_array( 'has-post-thumbnail', $classes, true ) ) {
 		$classes[] = 'has-post-thumbnail';
 	}
 
@@ -173,10 +173,10 @@ function genesis_do_post_format_image() {
 
 	if ( $post_format && file_exists( sprintf( '%s/images/post-formats/%s.png', CHILD_DIR, $post_format ) ) ) {
 		// If post format is set, look for post format image.
-		printf( '<a href="%s" rel="bookmark"><img src="%s" class="post-format-image" alt="%s" /></a>', get_permalink(), sprintf( '%s/images/post-formats/%s.png', CHILD_URL, $post_format ), $post_format );
+		printf( '<a href="%s" rel="bookmark"><img src="%s" class="post-format-image" alt="%s" /></a>', esc_url( get_permalink() ), sprintf( '%s/images/post-formats/%s.png', esc_url( CHILD_URL ), esc_html( $post_format ) ), esc_html( $post_format ) );
 	} elseif ( file_exists( sprintf( '%s/images/post-formats/default.png', CHILD_DIR ) ) ) {
 		// Else, look for the default post format image.
-		printf( '<a href="%s" rel="bookmark"><img src="%s/images/post-formats/default.png" class="post-format-image" alt="%s" /></a>', get_permalink(), CHILD_URL, 'post' );
+		printf( '<a href="%s" rel="bookmark"><img src="%s/images/post-formats/default.png" class="post-format-image" alt="%s" /></a>', esc_url( get_permalink() ), esc_url( CHILD_URL ), 'post' );
 	}
 
 }
@@ -223,13 +223,15 @@ function genesis_do_post_title() {
 
 	// Link it, if necessary.
 	if ( ! is_singular() && apply_filters( 'genesis_link_post_title', true ) ) {
-		$title = genesis_markup( array(
-			'open'    => '<a %s>',
-			'close'   => '</a>',
-			'content' => $title,
-			'context' => 'entry-title-link',
-			'echo'    => false,
-		) );
+		$title = genesis_markup(
+			array(
+				'open'    => '<a %s>',
+				'close'   => '</a>',
+				'content' => $title,
+				'context' => 'entry-title-link',
+				'echo'    => false,
+			)
+		);
 	}
 
 	// Wrap in H1 on singular pages.
@@ -250,16 +252,18 @@ function genesis_do_post_title() {
 	$wrap = apply_filters( 'genesis_entry_title_wrap', $wrap );
 
 	// Build the output.
-	$output = genesis_markup( array(
-		'open'    => "<{$wrap} %s>",
-		'close'   => "</{$wrap}>",
-		'content' => $title,
-		'context' => 'entry-title',
-		'params'  => array(
-			'wrap' => $wrap,
-		),
-		'echo'    => false,
-	) );
+	$output = genesis_markup(
+		array(
+			'open'    => "<{$wrap} %s>",
+			'close'   => "</{$wrap}>",
+			'content' => $title,
+			'context' => 'entry-title',
+			'params'  => array(
+				'wrap' => $wrap,
+			),
+			'echo'    => false,
+		)
+	);
 
 	echo apply_filters( 'genesis_post_title_output', $output, $wrap, $title ) . "\n"; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 
@@ -288,16 +292,18 @@ function genesis_post_info() {
 
 	$filtered = apply_filters( 'genesis_post_info', '[post_date] ' . __( 'by', 'genesis' ) . ' [post_author_posts_link] [post_comments] [post_edit]' );
 
-	if ( false == trim( $filtered ) ) {
+	if ( false === trim( $filtered ) ) {
 		return;
 	}
 
-	genesis_markup( array(
-		'open'    => '<p %s>',
-		'close'   => '</p>',
-		'content' => genesis_strip_p_tags( $filtered ),
-		'context' => 'entry-meta-before-content',
-	) );
+	genesis_markup(
+		array(
+			'open'    => '<p %s>',
+			'close'   => '</p>',
+			'content' => genesis_strip_p_tags( $filtered ),
+			'context' => 'entry-meta-before-content',
+		)
+	);
 
 }
 
@@ -314,20 +320,24 @@ add_action( 'genesis_post_content', 'genesis_do_post_image' );
 function genesis_do_post_image() {
 
 	if ( ! is_singular() && genesis_get_option( 'content_archive_thumbnail' ) ) {
-		$img = genesis_get_image( array(
-			'format'  => 'html',
-			'size'    => genesis_get_option( 'image_size' ),
-			'context' => 'archive',
-			'attr'    => genesis_parse_attr( 'entry-image', array() ),
-		) );
+		$img = genesis_get_image(
+			array(
+				'format'  => 'html',
+				'size'    => genesis_get_option( 'image_size' ),
+				'context' => 'archive',
+				'attr'    => genesis_parse_attr( 'entry-image', array() ),
+			)
+		);
 
 		if ( ! empty( $img ) ) {
-			genesis_markup( array(
-				'open'    => '<a %s>',
-				'close'   => '</a>',
-				'content' => wp_make_content_images_responsive( $img ),
-				'context' => 'entry-image-link',
-			) );
+			genesis_markup(
+				array(
+					'open'    => '<a %s>',
+					'close'   => '</a>',
+					'content' => wp_make_content_images_responsive( $img ),
+					'context' => 'entry-image-link',
+				)
+			);
 		}
 	}
 
@@ -396,23 +406,25 @@ add_action( 'genesis_post_content', 'genesis_do_post_content_nav' );
  */
 function genesis_do_post_content_nav() {
 
-	wp_link_pages( array(
-		'before'      => genesis_markup(
-			array(
-				'open'    => '<div %s>',
-				'context' => 'entry-pagination',
-				'echo'    => false,
-			)
-		) . __( 'Pages:', 'genesis' ),
-		'after'       => genesis_markup(
-			array(
-				'close'   => '</div>',
-				'context' => 'entry-pagination',
-				'echo'    => false,
-			)
-		),
-		'link_before' => genesis_a11y( 'screen-reader-text' ) ? '<span class="screen-reader-text">' . __( 'Page ', 'genesis' ) . '</span>' : '',
-	) );
+	wp_link_pages(
+		array(
+			'before'      => genesis_markup(
+				array(
+					'open'    => '<div %s>',
+					'context' => 'entry-pagination',
+					'echo'    => false,
+				)
+			) . __( 'Pages:', 'genesis' ),
+			'after'       => genesis_markup(
+				array(
+					'close'   => '</div>',
+					'context' => 'entry-pagination',
+					'echo'    => false,
+				)
+			),
+			'link_before' => genesis_a11y( 'screen-reader-text' ) ? '<span class="screen-reader-text">' . __( 'Page ', 'genesis' ) . '</span>' : '',
+		)
+	);
 
 }
 
@@ -505,16 +517,18 @@ function genesis_post_meta() {
 
 	$filtered = apply_filters( 'genesis_post_meta', '[post_categories] [post_tags]' );
 
-	if ( false == trim( $filtered ) ) {
+	if ( false === trim( $filtered ) ) {
 		return;
 	}
 
-	genesis_markup( array(
-		'open'    => '<p %s>',
-		'close'   => '</p>',
-		'content' => genesis_strip_p_tags( $filtered ),
-		'context' => 'entry-meta-after-content',
-	) );
+	genesis_markup(
+		array(
+			'open'    => '<p %s>',
+			'close'   => '</p>',
+			'content' => genesis_strip_p_tags( $filtered ),
+			'context' => 'entry-meta-after-content',
+		)
+	);
 
 }
 
@@ -663,13 +677,14 @@ function genesis_get_author_box_by_user( $user_id, $context = '' ) {
 function genesis_author_box( $context = '', $deprecated = null ) {
 
 	if ( null !== $deprecated ) {
-		$message = 'The default is true, so remove the second argument.';
+		$message = __( 'The default is true, so remove the second argument.', 'genesis' );
 
 		if ( false === (bool) $deprecated ) {
-			$message = 'Use `genesis_get_author_box()` instead.';
+			$message = __( 'Use `genesis_get_author_box()` instead.', 'genesis' );
 		}
 
-		_deprecated_argument( __FUNCTION__, '2.7.0', $message );
+		_deprecated_argument( __FUNCTION__, '2.7.0', esc_html( $message ) );
+
 	}
 
 	$output = genesis_get_author_box( $context );
@@ -699,10 +714,13 @@ function genesis_after_entry_widget_area() {
 		return;
 	}
 
-	genesis_widget_area( 'after-entry', array(
-		'before' => '<div class="after-entry widget-area">',
-		'after'  => '</div>',
-	) );
+	genesis_widget_area(
+		'after-entry',
+		array(
+			'before' => '<div class="after-entry widget-area">',
+			'after'  => '</div>',
+		)
+	);
 
 }
 
@@ -741,12 +759,14 @@ function genesis_prev_next_posts_nav() {
 		$pagination  = $prev_link ? sprintf( '<div class="pagination-previous alignleft">%s</div>', $prev_link ) : '';
 		$pagination .= $next_link ? sprintf( '<div class="pagination-next alignright">%s</div>', $next_link ) : '';
 
-		genesis_markup( array(
-			'open'    => '<div %s>',
-			'close'   => '</div>',
-			'content' => $pagination,
-			'context' => 'archive-pagination',
-		) );
+		genesis_markup(
+			array(
+				'open'    => '<div %s>',
+				'close'   => '</div>',
+				'content' => $pagination,
+				'context' => 'archive-pagination',
+			)
+		);
 
 	}
 
@@ -805,10 +825,12 @@ function genesis_numeric_posts_nav() {
 		$links[] = $paged + 1;
 	}
 
-	genesis_markup( array(
-		'open'    => '<div %s>',
-		'context' => 'archive-pagination',
-	) );
+	genesis_markup(
+		array(
+			'open'    => '<div %s>',
+			'context' => 'archive-pagination',
+		)
+	);
 
 	$before_number = genesis_a11y( 'screen-reader-text' ) ? '<span class="screen-reader-text">' . __( 'Page ', 'genesis' ) . '</span>' : '';
 
@@ -820,12 +842,12 @@ function genesis_numeric_posts_nav() {
 	}
 
 	// Link to first page, plus ellipses if necessary.
-	if ( ! in_array( 1, $links ) ) {
-		$class = 1 == $paged ? ' class="active"' : '';
+	if ( ! in_array( 1, $links, true ) ) {
+		$class = 1 === $paged ? ' class="active"' : '';
 
 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( 1 ) ), $before_number . '1' );
 
-		if ( ! in_array( 2, $links ) ) {
+		if ( ! in_array( 2, $links, true ) ) {
 			echo '<li class="pagination-omission">&#x02026;</li>' . "\n";
 		}
 	}
@@ -842,21 +864,23 @@ function genesis_numeric_posts_nav() {
 
 		printf(
 			'<li%s><a href="%s"%s>%s</a></li>' . "\n",
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Value is hardcoded and safe, not set via input.
 			$class,
 			esc_url( get_pagenum_link( $link ) ),
+			// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Value is hardcoded and safe, not set via input.
 			$aria,
 			$before_number . $link
 		);
 	}
 
 	// Link to last page, plus ellipses if necessary.
-	if ( ! in_array( $max, $links ) ) {
+	if ( ! in_array( $max, $links, true ) ) {
 
-		if ( ! in_array( $max - 1, $links ) ) {
+		if ( ! in_array( $max - 1, $links, true ) ) {
 			echo '<li class="pagination-omission">&#x02026;</li>' . "\n";
 		}
 
-		$class = $paged == $max ? ' class="active"' : '';
+		$class = $paged === $max ? ' class="active"' : '';
 		printf( '<li%s><a href="%s">%s</a></li>' . "\n", $class, esc_url( get_pagenum_link( $max ) ), $before_number . $max );
 
 	}
@@ -867,10 +891,12 @@ function genesis_numeric_posts_nav() {
 	}
 
 	echo '</ul>';
-	genesis_markup( array(
-		'close'   => '</div>',
-		'context' => 'archive-pagination',
-	) );
+	genesis_markup(
+		array(
+			'close'   => '</div>',
+			'context' => 'archive-pagination',
+		)
+	);
 
 	echo "\n";
 

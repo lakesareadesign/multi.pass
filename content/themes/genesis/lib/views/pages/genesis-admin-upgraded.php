@@ -11,61 +11,82 @@
  * @link    https://my.studiopress.com/themes/genesis/
  */
 
-$people = require GENESIS_CONFIG_DIR . '/contributors.php';
-$genesis_contributors = new Genesis_Contributors( $people );
-$genesis_allowed_code = array(
-		'code' => array(),
-		'a'    => array( 'href' => array() ),
+$genesis_contributors_list = require GENESIS_CONFIG_DIR . '/contributors.php';
+$genesis_contributors      = new Genesis_Contributors( $genesis_contributors_list );
+$genesis_allowed_code      = array(
+	'code' => array(),
+	'a'    => array( 'href' => array() ),
 );
 ?>
 <div class="wrap about-wrap">
 
 <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 
-<p class="about-text"><?php esc_html_e( 'Genesis 2.8 provides developers with new tools to make Genesis themes with less code and better user experience!', 'genesis' ); ?></p>
+<p class="about-text"><?php esc_html_e( 'Genesis 2.9 adds new import options to the onboarding feature, and continues to improve child theme efficiency.', 'genesis' ); ?></p>
 
 <div class="changelog">
+	<div class="feature-section">
+		<h2 class="screen-reader-text"><?php esc_html_e( 'Changes', 'genesis' ); ?></h2>
 
-		<h2 class="screen-reader-text"><?php _e( 'Changes', 'genesis' ); ?></h2>
+		<h3><?php esc_html_e( 'Child theme efficiency improvements', 'genesis' ); ?></h3>
+		<p><?php esc_html_e( 'Child themes should ideally be as lean as possible. So, Genesis can now do a couple of things that child themes used to have to do on their own.', 'genesis' ); ?></p>
+		<p><?php esc_html_e( 'Genesis will now use the child theme data from the header of the style.css file, rather than the CHILD_THEME_* constants it used previously.', 'genesis' ); ?></p>
+		<p><?php esc_html_e( 'Child themes can also now use a config file to import ideal default settings during activation.', 'genesis' ); ?></p>
 
-		<h3><?php esc_html_e( 'Child themes, now config driven', 'genesis' ); ?></h3>
-		<p><?php esc_html_e( "Child themes should be simple. But lately, they've been getting more and more complicated. So in Genesis 2.8, we're introducing a new function to locate and load config files to enable and configure Genesis features – features such as a new onboarding experience, custom header images, default editor colors, and font size selections, using the new block editor in WordPress 5.0.", 'genesis' ) ; ?></p>
-		<p><?php esc_html_e( 'This new configuration-driven approach will allow us to build more features into Genesis, while only loading the ones your child theme needs.', 'genesis' ) ; ?></p>
+		<h3><?php esc_html_e( 'New child theme onboarding options', 'genesis' ); ?></h3>
+		<p><?php esc_html_e( 'In Genesis 2.8, we introduced an onboarding API that child themes could use to import a demo/sample homepage with content pre-populated.', 'genesis' ); ?></p>
+		<p><?php esc_html_e( 'And while homepage content is definitely a good start, we know importing other types of content is important too.', 'genesis' ); ?></p>
+		<p><?php esc_html_e( 'So, if a child theme supports it, you can now import content like a sample menu, blog posts, and featured images after you activate the theme.', 'genesis' ); ?></p>
 
-		<h3><?php esc_html_e( 'New child theme onboarding experience', 'genesis' ); ?></h3>
-		<p><?php esc_html_e( 'Have you ever activated a WordPress theme and been disappointed by that first impression?', 'genesis' ); ?></p>
-		<p><?php esc_html_e( 'Sometimes starting from scratch is too intimidating – or too time consuming.', 'genesis' ); ?></p>
-		<p><?php esc_html_e( 'Genesis 2.8, when running on WordPress 5.0 or later, includes a new "onboarding" tool. This allows Genesis theme users to import some homepage demo content, just to help get things started.', 'genesis' ); ?></p>
-		<p><?php esc_html_e( 'Of course, the homepage can also be built using the new block editor released with WordPress 5.0.', 'genesis' ); ?></p>
-		<p><?php esc_html_e( 'Just install the theme as you normally would, and the onboarding tool will walk you through the process.', 'genesis' ); ?></p>
-		<p><?php esc_html_e( 'This new feature only requires a config file (loaded using the new config loader), and no special code!', 'genesis' ); ?></p>
-		<p><?php printf( wp_kses( __( 'You can see the onboarding feature in action by using the <a href="%s">Genesis Sample child theme</a>, currently available on our Github.', 'genesis' ), $genesis_allowed_code ), 'https://github.com/studiopress/genesis-sample/' ); ?></p>
+		<p>
+		<?php
+		printf(
+			wp_kses(
+				// Translators: Link to the Genesis Sample Github Repository.
+				__( 'You can see the onboarding feature in action by using the <a href="%s">Genesis Sample child theme</a>, currently available on our Github.', 'genesis' ),
+				$genesis_allowed_code
+			),
+			'https://github.com/studiopress/genesis-sample/'
+		);
+		?>
+		</p>
 
 		<h3><?php esc_html_e( 'The Details', 'genesis' ); ?></h3>
-		<p><?php printf( wp_kses( __( 'We keep a detailed changelog for each release. The changelog for Genesis 2.8 can be found <a href="%s">here</a>.', 'genesis' ), $genesis_allowed_code ), 'https://studiopress.github.io/genesis/changelog/2.8.0' ); ?></p>
+		<p>
+		<?php
+		printf(
+			wp_kses(
+				// Translators: Link to the changelog.
+				__( 'We keep a detailed changelog for each release. The changelog for Genesis 2.8 can be found <a href="%s">here</a>.', 'genesis' ),
+				$genesis_allowed_code
+			),
+			'https://studiopress.github.io/genesis/changelog/2.8.0'
+		);
+		?>
+		</p>
 
 </div>
 
 <div class="project-leads">
 
-	<h2><?php _e( 'Project Leads', 'genesis' ); ?></h2>
+	<h2><?php esc_html_e( 'Project Leads', 'genesis' ); ?></h2>
 
 	<ul class="wp-people-group " id="wp-people-group-project-leaders">
 		<?php
-		$lead_developers = $genesis_contributors->find_by_role( 'lead-developer' );
-		array_walk( $lead_developers, function( Genesis_Contributor $person ) {
+		$genesis_lead_developers = $genesis_contributors->find_by_role( 'lead-developer' );
+		foreach ( $genesis_lead_developers as $genesis_lead_developer ) {
 			printf(
 				'<li class="wp-person">' .
 				'<a href="%1$s"><img src="%2$s" alt="%3$s" class="gravatar" /></a><a class="web" href="%1$s">%4$s</a>' .
 				'<span class="title">%5$s</span>' .
 				'</li>' . "\n",
-				esc_url( $person->get_profile_url() ),
-				esc_url( $person->get_avatar_url() ),
-				esc_attr( $person->get_name() ),
-				esc_html( $person->get_name() ),
-				esc_html( $person->get_named_role() )
+				esc_url( $genesis_lead_developer->get_profile_url() ),
+				esc_url( $genesis_lead_developer->get_avatar_url() ),
+				esc_attr( $genesis_lead_developer->get_name() ),
+				esc_html( $genesis_lead_developer->get_name() ),
+				esc_html( $genesis_lead_developer->get_named_role() )
 			);
-		});
+		}
 		?>
 	</ul>
 
@@ -73,33 +94,33 @@ $genesis_allowed_code = array(
 
 <div class="contributors">
 
-	<h2><?php _e( 'Contributors', 'genesis' ); ?></h2>
+	<h2><?php esc_html_e( 'Contributors', 'genesis' ); ?></h2>
 
 	<ul class="wp-people-group" id="wp-people-group-contributing-developers">
 		<?php
-		$contributors = $genesis_contributors->find_contributors();
-		array_walk( $contributors, function( Genesis_Contributor $person ) {
+		$genesis_current_contributors = $genesis_contributors->find_contributors();
+		foreach ( $genesis_current_contributors as $genesis_current_contributor ) {
 			printf(
 				'<li class="wp-person">' .
 				'<a href="%1$s"><img src="%2$s" alt="%3$s" class="gravatar" /></a><a class="web" href="%1$s">%4$s</a>' .
 				'<span class="title">%5$s</span>' .
 				'</li>' . "\n",
-				esc_url( $person->get_profile_url() ),
-				esc_url( $person->get_avatar_url() ),
-				esc_attr( $person->get_name() ),
-				esc_html( $person->get_name() ),
-				esc_html( $person->get_named_role() )
+				esc_url( $genesis_current_contributor->get_profile_url() ),
+				esc_url( $genesis_current_contributor->get_avatar_url() ),
+				esc_attr( $genesis_current_contributor->get_name() ),
+				esc_html( $genesis_current_contributor->get_name() ),
+				esc_html( $genesis_current_contributor->get_named_role() )
 			);
-		});
+		}
 		?>
 	</ul>
 
 </div>
 
 <div class="return-to-dashboard">
-	<p><a href="<?php echo esc_url( menu_page_url( 'genesis', 0 ) ); ?>"><?php _e( 'Go to Theme Settings &rarr;', 'genesis' ); ?></a></p>
+	<p><a href="<?php echo esc_url( menu_page_url( 'genesis', 0 ) ); ?>"><?php esc_html_e( 'Go to Theme Settings &rarr;', 'genesis' ); ?></a></p>
 	<?php if ( ! genesis_seo_disabled() ) : ?>
-	<p><a href="<?php echo esc_url( menu_page_url( 'seo-settings', 0 ) ); ?>"><?php _e( 'Go to SEO Settings &rarr;', 'genesis' ); ?></a></p>
+	<p><a href="<?php echo esc_url( menu_page_url( 'seo-settings', 0 ) ); ?>"><?php esc_html_e( 'Go to SEO Settings &rarr;', 'genesis' ); ?></a></p>
 	<?php endif; ?>
 
 </div>

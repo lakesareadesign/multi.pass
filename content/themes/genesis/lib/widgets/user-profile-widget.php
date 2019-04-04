@@ -100,11 +100,11 @@ class Genesis_User_Profile_Widget extends WP_Widget {
 		echo wpautop( $text );
 
 		// If posts link option checked, add posts link to output.
-		$display_name = get_the_author_meta( 'display_name', $instance['user'] );
+		$display_name = esc_html( get_the_author_meta( 'display_name', $instance['user'] ) );
 		$user_name    = ( ! empty( $display_name ) && genesis_a11y( 'screen-reader-text' ) ) ? '<span class="screen-reader-text">' . $display_name . ': </span>' : '';
 
 		if ( $instance['posts_link'] ) {
-			printf( '<div class="posts_link posts-link"><a href="%s">%s%s</a></div>', esc_url( get_author_posts_url( $instance['user'] ) ), esc_html( $user_name ), esc_html__( 'View My Blog Posts', 'genesis' ) );
+			printf( '<div class="posts_link posts-link"><a href="%s">%s%s</a></div>', esc_url( get_author_posts_url( $instance['user'] ) ), $user_name, esc_html__( 'View My Blog Posts', 'genesis' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $user_name escaped above
 		}
 
 		echo $args['after_widget']; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Need to build the widget HTML.

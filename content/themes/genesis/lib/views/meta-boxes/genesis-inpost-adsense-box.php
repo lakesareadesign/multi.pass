@@ -14,18 +14,16 @@
 wp_nonce_field( 'genesis_inpost_adsense_save', 'genesis_inpost_adsense_nonce' );
 ?>
 <table class="form-table">
-    <tbody>
-
-    <tr valign="top">
-        <th scope="row">
-            <strong><?php esc_html_e( 'AdSense Output', 'genesis' ); ?></strong>
-        </th>
-        <td>
+	<tbody>
+	<tr valign="top">
+		<th scope="row">
+			<strong><?php esc_html_e( 'AdSense Output', 'genesis' ); ?></strong>
+		</th>
+		<td>
 			<input type="hidden" name="genesis_adsense[key]" value="1" />
 			<input type="checkbox" name="genesis_adsense[_disable_adsense]" id="genesis_adsense[_disable_adsense]" value="1" <?php checked( genesis_get_custom_field( '_disable_adsense' ) ); ?> />
 			<label for="genesis_adsense[_disable_adsense]"><?php esc_html_e( 'Disable AdSense output for this entry?', 'genesis' ); ?></label>
-        </td>
-    </tr>
-
-    </tbody>
+		</td>
+	</tr>
+	</tbody>
 </table>

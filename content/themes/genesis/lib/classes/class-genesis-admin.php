@@ -137,7 +137,13 @@ abstract class Genesis_Admin {
 		// Check to make sure there we are only creating one menu per subclass.
 		if ( isset( $this->menu_ops['submenu'] ) && ( isset( $this->menu_ops['main_menu'] ) || isset( $this->menu_ops['first_submenu'] ) ) ) {
 			/* translators: %s: Genesis_Admin class name. */
-			wp_die( sprintf( __( 'You cannot use %s to create two menus in the same subclass. Please use separate subclasses for each menu.', 'genesis' ), 'Genesis_Admin' ) );
+			wp_die(
+				sprintf(
+					/* translators: %s: Genesis_Admin class name. */
+					esc_html__( 'You cannot use %s to create two menus in the same subclass. Please use separate subclasses for each menu.', 'genesis' ),
+					'Genesis_Admin'
+				)
+			);
 		}
 
 		// Create the menu(s). Conditional logic happens within the separate methods.
@@ -181,7 +187,7 @@ abstract class Genesis_Admin {
 			);
 
 			if ( $sep['sep_position'] && $sep['sep_capability'] ) {
-				$GLOBALS['menu'][ $sep['sep_position'] ] = array( '', $sep['sep_capability'], 'separator', '', 'genesis-separator wp-menu-separator' );
+				$GLOBALS['menu'][ $sep['sep_position'] ] = array( '', $sep['sep_capability'], 'separator', '', 'genesis-separator wp-menu-separator' ); // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited -- Intentionally overriding the global here.
 			}
 		}
 
@@ -273,7 +279,9 @@ abstract class Genesis_Admin {
 		}
 
 		register_setting(
-			$this->settings_field, $this->settings_field, array(
+			$this->settings_field,
+			$this->settings_field,
+			array(
 				'default' => $this->default_settings,
 			)
 		);
@@ -289,13 +297,15 @@ abstract class Genesis_Admin {
 		if ( genesis_get_option( 'reset', $this->settings_field ) ) {
 			if ( update_option( $this->settings_field, $this->default_settings ) ) {
 				genesis_admin_redirect(
-					$this->page_id, array(
+					$this->page_id,
+					array(
 						'reset' => 'true',
 					)
 				);
 			} else {
 				genesis_admin_redirect(
-					$this->page_id, array(
+					$this->page_id,
+					array(
 						'error' => 'true',
 					)
 				);
@@ -318,13 +328,15 @@ abstract class Genesis_Admin {
 			return;
 		}
 
+		// phpcs:disable WordPress.Security.NonceVerification.NoNonceVerification -- We don't need nonce verification here
 		if ( isset( $_REQUEST['settings-updated'] ) && 'true' === $_REQUEST['settings-updated'] ) {
-			echo '<div id="message" class="updated"><p><strong>' . $this->page_ops['saved_notice_text'] . '</strong></p></div>';
+			printf( '<div id="message" class="updated"><p><strong>%s</strong></p></div>', esc_html( $this->page_ops['saved_notice_text'] ) );
 		} elseif ( isset( $_REQUEST['reset'] ) && 'true' === $_REQUEST['reset'] ) {
-			echo '<div id="message" class="updated"><p><strong>' . $this->page_ops['reset_notice_text'] . '</strong></p></div>';
+			printf( '<div id="message" class="updated"><p><strong>%s</strong></p></div>', esc_html( $this->page_ops['reset_notice_text'] ) );
 		} elseif ( isset( $_REQUEST['error'] ) && 'true' === $_REQUEST['error'] ) {
-			echo '<div id="message" class="updated"><p><strong>' . $this->page_ops['error_notice_text'] . '</strong></p></div>';
+			printf( '<div id="message" class="updated"><p><strong>%s</strong></p></div>', esc_html( $this->page_ops['error_notice_text'] ) );
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.NoNonceVerification
 
 	}
 
@@ -496,7 +508,7 @@ abstract class Genesis_Admin {
 	 */
 	protected function field_name( $name ) {
 
-		echo $this->get_field_name( $name );
+		echo $this->get_field_name( $name ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We escape later.
 
 	}
 
@@ -523,7 +535,7 @@ abstract class Genesis_Admin {
 	 */
 	protected function field_id( $id ) {
 
-		echo $this->get_field_id( $id );
+		echo $this->get_field_id( $id ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We escape later.
 
 	}
 
@@ -551,7 +563,7 @@ abstract class Genesis_Admin {
 	 */
 	protected function field_value( $key ) {
 
-		echo $this->get_field_value( $key );
+		echo $this->get_field_value( $key ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We escape later.
 
 	}
 

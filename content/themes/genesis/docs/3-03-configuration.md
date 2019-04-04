@@ -203,5 +203,5 @@ Moving your configuration data to the `config` folder in this way is optional. Y
 - **It opens the door to new tooling.** This includes theme generators (where a website generates a custom build of a theme by writing new config files that match user preferences), as well as marketing pages that can automatically generate a list of theme features by skimming content from each theme's config folder. Although these tools are already possible with configuration spread throughout a theme, centralizing config makes this easier.
 
 <p class="notice-small">
-The <a href="#override-genesis-features">parent theme config file names</a> are reserved for use by Genesis. You should not name a config file <code>breadcrumbs.php</code>, for example, unless you intend to override Genesis breadcrumbs configuration.
+The <a href="#override-genesis-features">parent theme config file names</a> are reserved for use by Genesis. You should not name a config file <code>breadcrumbs.php</code>, for example, unless you intend to override Genesis breadcrumbs configuration. The <code>onboarding.php</code> filename is also reserved for use in the <a href="{{ '/developer-features/onboarding/' | url }}">Onboarding API</a>.
 </p>

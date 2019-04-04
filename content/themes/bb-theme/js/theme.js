@@ -346,8 +346,13 @@
 				subToggles = nav.find('> li').has('> ul.sub-menu').find('> a');
 
 			if ( FLTheme._isMobile() ) {
-				navItems.hover(function(){}, FLTheme._navItemMouseout);
-				subToggles.on('click', FLTheme._navSubMenuToggleClick);
+				if( false !== /iPhone|iPad/i.test( navigator.userAgent ) ) {
+					navItems.hover(FLTheme._navItemMouseover, FLTheme._navItemMouseout);
+				}
+				else {
+					navItems.hover(function(){}, FLTheme._navItemMouseout);
+					subToggles.on('click', FLTheme._navSubMenuToggleClick);
+				}
 			}
 			else {
 				navItems.hover(FLTheme._navItemMouseover, FLTheme._navItemMouseout);
@@ -606,7 +611,6 @@
 			var li = $( this ).closest( 'li' ).eq( 0 );
 
 			if ( ! li.hasClass( 'fl-sub-menu-open' ) ) {
-
 				FLTheme._navItemMouseover.apply( li[0] );
 
 				e.preventDefault();
@@ -752,6 +756,10 @@
 		{
 			$( 'body' ).addClass( 'fl-shrink-header-enabled' );
 
+			if ('scrollRestoration' in history) {
+				history.scrollRestoration = 'manual';
+			}
+
 			$( window ).load(function() {
 				var logo = $( '.fl-logo-img' );
 				logo.css( 'max-height', logo.height() );
@@ -821,19 +829,13 @@
 		{
 			var distanceY = $( this ).scrollTop(),
 				shrinkOn  = 250,
-				header    = $( '.fl-page-header' ),
-				logo      = $( '.fl-logo-img' );
+				header    = $( '.fl-page-header' );
 
 			if ( distanceY > shrinkOn ) {
 				header.addClass( 'fl-shrink-header' );
 			}
 			else {
 				header.removeClass( 'fl-shrink-header' );
-
-				if ( logo.length ) {
-					logo.css( 'max-height', logo[0].naturalHeight );
-				}
-
 			}
 
 			if ( 'undefined' !== typeof header.data( 'original-top' ) ) {

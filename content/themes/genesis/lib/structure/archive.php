@@ -206,7 +206,7 @@ function genesis_do_blog_template_heading() {
 	if (
 		! is_page_template( 'page_blog.php' )
 		|| ! genesis_a11y( 'headings' )
-		|| get_queried_object_id() == get_option( 'page_for_posts' )
+		|| get_queried_object_id() === get_option( 'page_for_posts' )
 	) {
 		return;
 	}
@@ -263,10 +263,12 @@ function genesis_do_archive_headings_open( $heading = '', $intro_text = '', $con
 
 	if ( $heading || $intro_text ) {
 
-		genesis_markup( array(
-			'open'    => '<div %s>',
-			'context' => $context,
-		) );
+		genesis_markup(
+			array(
+				'open'    => '<div %s>',
+				'context' => $context,
+			)
+		);
 
 	}
 }
@@ -285,10 +287,12 @@ function genesis_do_archive_headings_close( $heading = '', $intro_text = '', $co
 
 	if ( $heading || $intro_text ) {
 
-		genesis_markup( array(
-			'close'   => '</div>',
-			'context' => $context,
-		) );
+		genesis_markup(
+			array(
+				'close'   => '</div>',
+				'context' => $context,
+			)
+		);
 
 	}
 }
@@ -306,7 +310,7 @@ add_action( 'genesis_archive_title_descriptions', 'genesis_do_archive_headings_h
 function genesis_do_archive_headings_headline( $heading = '', $intro_text = '', $context = '' ) {
 
 	if ( $context && $heading ) {
-		printf( '<h1 %s>%s</h1>', genesis_attr( 'archive-title' ), wp_strip_all_tags( $heading ) );
+		printf( '<h1 %s>%s</h1>', genesis_attr( 'archive-title' ), esc_html( wp_strip_all_tags( $heading ) ) );
 	}
 
 }

@@ -10,7 +10,7 @@ Genesis Filters are currently documented in your StudioPress account area:
 
 <a href="https://my.studiopress.com/documentation/filters/genesis-filters/filter-reference/" class="button">View Genesis Filters</a>
 
-WP Engine customers who do not have a StudioPress account can find filter documentation in the [WP Engine User Portal](https://my.wpengine.com/).
+WP Engine customers who do not have a StudioPress account can find filter documentation in the [WP Engine User Portal](https://my.wpengine.com/themes/docs/filters/genesis-filters/filter-reference/).
 
 We intend to migrate filter information here and ensure all filters are documented.
 

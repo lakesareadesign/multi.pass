@@ -21,7 +21,7 @@ Start using Genesis to make WordPress theme development consistent, fast, and fu
 This site contains technical documentation to help developers build themes and plugins for Genesis.
 </p>
 
-**For setup and usage advice about StudioPress themes and plugins**, refer to the [support documentation](https://my.studiopress.com/support/) or contact [StudioPress&nbsp;support](https://my.studiopress.com/help/) (these links require a StudioPress account). WP&nbsp;Engine customers can get theme documentation and support via the [WP&nbsp;Engine User Portal](https://my.wpengine.com/).
+**For setup and usage advice about StudioPress themes and plugins**, refer to the [support documentation](https://my.studiopress.com/support/) or contact [StudioPress&nbsp;support](https://my.studiopress.com/help/) (these links require a StudioPress account). WP&nbsp;Engine customers can get theme documentation and support via the [WP&nbsp;Engine User Portal](https://my.wpengine.com/themes/docs/customization).
 
 **For help with theme alterations or code customization**, join the <a href="{{ '/contribute/community/' | url }}">online Genesis community groups</a> and put your questions to the thriving Genesis community.
 

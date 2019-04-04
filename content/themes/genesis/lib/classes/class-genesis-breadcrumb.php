@@ -88,7 +88,7 @@ class Genesis_Breadcrumb {
 	 */
 	public function output( $args = array() ) {
 
-		echo $this->get_output( $args );
+		echo $this->get_output( $args ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- We need raw output here.
 
 	}
 
@@ -746,7 +746,7 @@ class Genesis_Breadcrumb {
 			return '';
 		}
 
-		if ( $parent->parent && ( $parent->parent != $parent->term_id ) && ! in_array( $parent->parent, $visited ) ) {
+		if ( $parent->parent && ( $parent->parent !== $parent->term_id ) && ! in_array( $parent->parent, $visited, true ) ) {
 			$visited[] = $parent->parent;
 			$chain[]   = $this->get_term_parents( $parent->parent, $taxonomy, true, $visited );
 		}
@@ -770,7 +770,7 @@ class Genesis_Breadcrumb {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string The content to be wrapped.
+	 * @param string $content The content to be wrapped.
 	 * @return string HTML markup for wrapped link text.
 	 */
 	protected function get_breadcrumb_link_text( $content ) {
@@ -811,7 +811,7 @@ class Genesis_Breadcrumb {
 	 *
 	 * @since 2.7.0
 	 *
-	 * @param string The content to be wrapped.
+	 * @param string $content The content to be wrapped.
 	 * @return string HTML markup for link wrap.
 	 */
 	protected function get_breadcrumb_link_wrap( $content ) {

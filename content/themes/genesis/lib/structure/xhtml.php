@@ -43,7 +43,7 @@ function genesis_markup_open_xhtml( $open, $args ) {
 
 	}
 
-	if ( 'entry-content' == $args['context'] && ! is_main_query() && ! genesis_is_blog_template() ) {
+	if ( 'entry-content' === $args['context'] && ! is_main_query() && ! genesis_is_blog_template() ) {
 		return '';
 	}
 
@@ -153,7 +153,7 @@ function genesis_markup_open_xhtml( $open, $args ) {
 
 		case 'search-form-submit':
 			$button_value = apply_filters( 'genesis_search_button_text', esc_attr__( 'Search', 'genesis' ) );
-			$open = sprintf( '<input type="submit" class="searchsubmit search-submit" value="%s" />', $button_value );
+			$open         = sprintf( '<input type="submit" class="searchsubmit search-submit" value="%s" />', $button_value );
 			break;
 
 		case 'sidebar-primary':
@@ -241,11 +241,11 @@ function genesis_markup_close_xhtml( $close, $args ) {
 		return $close;
 	}
 
-	if ( substr( $args['context'], 0, 4 ) == 'nav-' ) {
-		return 'nav-link-wrap' == $args['context'] ? '' : '</div>';
+	if ( substr( $args['context'], 0, 4 ) === 'nav-' ) {
+		return 'nav-link-wrap' === $args['context'] ? '' : '</div>';
 	}
 
-	if ( 'entry-content' == $args['context'] && ! is_main_query() && ! genesis_is_blog_template() ) {
+	if ( 'entry-content' === $args['context'] && ! is_main_query() && ! genesis_is_blog_template() ) {
 		return '';
 	}
 
@@ -314,12 +314,12 @@ function _genesis_builtin_sidebar_params() {
 
 	foreach ( $wp_registered_sidebars as $id => $params ) {
 
-		if ( ! isset( $params['_genesis_builtin'] ) && '<section id="%1$s" class="widget %2$s"><div class="widget-wrap">' != $wp_registered_sidebars[ $id ]['before_widget'] ) {
+		if ( ! isset( $params['_genesis_builtin'] ) && '<section id="%1$s" class="widget %2$s"><div class="widget-wrap">' !== $wp_registered_sidebars[ $id ]['before_widget'] ) {
 			continue;
 		}
 
-		$wp_registered_sidebars[ $id ]['before_widget'] = '<div id="%1$s" class="widget %2$s"><div class="widget-wrap">';
-		$wp_registered_sidebars[ $id ]['after_widget']  = '</div></div>';
+		$wp_registered_sidebars[ $id ]['before_widget'] = '<div id="%1$s" class="widget %2$s"><div class="widget-wrap">'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited -- Intentionally changing the markup.
+		$wp_registered_sidebars[ $id ]['after_widget']  = '</div></div>'; // phpcs:ignore WordPress.WP.GlobalVariablesOverride.OverrideProhibited -- Intentionally changing the markup.
 
 	}
 

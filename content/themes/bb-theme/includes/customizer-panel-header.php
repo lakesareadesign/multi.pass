@@ -918,6 +918,21 @@ FLCustomizer::add_panel('fl-header', array(
 					),
 				),
 
+				/* Mobile Nav Text */
+				'fl-mobile-nav-text'            => array(
+					'setting' => array(
+						'default' => _x( 'Menu', 'Mobile navigation toggle button text.', 'fl-automator' ),
+					),
+					'control' => array(
+						'class'       => 'WP_Customize_Control',
+						'label'       => __( 'Menu Button Text', 'fl-automator' ),
+						'type'        => 'text',
+						'input_attrs' => array(
+							'placeholder' => _x( 'Menu', 'Mobile navigation toggle button text.', 'fl-automator' ),
+						),
+					),
+				),
+
 				/* Responsive Nav Breakpoint */
 				'fl-nav-breakpoint'             => array(
 					'setting' => array(

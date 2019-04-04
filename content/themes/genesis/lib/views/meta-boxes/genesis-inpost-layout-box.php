@@ -18,15 +18,15 @@ wp_nonce_field( 'genesis_inpost_layout_save', 'genesis_inpost_layout_nonce' );
 
 <?php
 if ( genesis_has_multiple_layouts() ) :
-	$layout = genesis_get_custom_field( '_genesis_layout' );
-?>
+	$genesis_layout = genesis_get_custom_field( '_genesis_layout' );
+	?>
 	<tr valign="top">
 		<th scope="row"><?php esc_html_e( 'Select Layout', 'genesis' ); ?></th>
 		<td>
 			<fieldset class="genesis-layout-selector">
 				<legend class="screen-reader-text"><?php esc_html_e( 'Layout Settings', 'genesis' ); ?></legend>
 
-				<p><input type="radio" name="genesis_layout[_genesis_layout]" class="default-layout" id="default-layout" value="" <?php checked( $layout, '' ); ?> /> <label class="default" for="default-layout">
+				<p><input type="radio" name="genesis_layout[_genesis_layout]" class="default-layout" id="default-layout" value="" <?php checked( $genesis_layout, '' ); ?> /> <label class="default" for="default-layout">
 					<?php
 					/* translators: %s: Theme settings admin screen link. */
 					printf( esc_html__( 'Default Layout set in %s', 'genesis' ), '<a href="' . esc_url( menu_page_url( 'genesis', 0 ) ) . '">' . esc_html__( 'Theme Settings', 'genesis' ) . '</a>' );
@@ -37,7 +37,7 @@ if ( genesis_has_multiple_layouts() ) :
 				genesis_layout_selector(
 					array(
 						'name'     => 'genesis_layout[_genesis_layout]',
-						'selected' => $layout,
+						'selected' => $genesis_layout,
 						'type'     => array( 'singular', get_post_type(), get_the_ID() ),
 					)
 				);

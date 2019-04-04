@@ -82,13 +82,15 @@ function genesis_footer_widget_areas() {
 
 		$_inside .= genesis_get_structural_wrap( 'footer-widgets', 'close' );
 
-		$output .= genesis_markup( array(
-			'open'    => '<div %s>' . genesis_sidebar_title( 'Footer' ),
-			'close'   => '</div>',
-			'content' => $_inside,
-			'context' => 'footer-widgets',
-			'echo'    => false,
-		) );
+		$output .= genesis_markup(
+			array(
+				'open'    => '<div %s>' . genesis_sidebar_title( 'Footer' ),
+				'close'   => '</div>',
+				'content' => $_inside,
+				'context' => 'footer-widgets',
+				'echo'    => false,
+			)
+		);
 
 	}
 
@@ -116,10 +118,12 @@ add_action( 'genesis_footer', 'genesis_footer_markup_open', 5 );
  */
 function genesis_footer_markup_open() {
 
-	genesis_markup( array(
-		'open'    => '<footer %s>',
-		'context' => 'site-footer',
-	) );
+	genesis_markup(
+		array(
+			'open'    => '<footer %s>',
+			'context' => 'site-footer',
+		)
+	);
 	genesis_structural_wrap( 'footer', 'open' );
 
 }
@@ -135,10 +139,12 @@ add_action( 'genesis_footer', 'genesis_footer_markup_close', 15 );
 function genesis_footer_markup_close() {
 
 	genesis_structural_wrap( 'footer', 'close' );
-	genesis_markup( array(
-		'close'   => '</footer>',
-		'context' => 'site-footer',
-	) );
+	genesis_markup(
+		array(
+			'close'   => '</footer>',
+			'context' => 'site-footer',
+		)
+	);
 
 }
 
@@ -198,7 +204,7 @@ function genesis_footer_scripts() {
 		return;
 	}
 
-	if ( 'top' != genesis_get_custom_field( '_genesis_scripts_body_position' ) ) {
+	if ( 'top' !== genesis_get_custom_field( '_genesis_scripts_body_position' ) ) {
 		genesis_custom_field( '_genesis_scripts_body' );
 	}
 

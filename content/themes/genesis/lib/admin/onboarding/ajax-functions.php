@@ -37,13 +37,6 @@ function genesis_do_onboarding_process() {
 	 */
 	if ( 'dependencies' === $task ) {
 
-		require_once ABSPATH . 'wp-admin/includes/plugin-install.php';
-
-		require_once ABSPATH . 'wp-admin/includes/class-wp-upgrader.php';
-
-		$upgrader = new Plugin_Upgrader( new Genesis_Silent_Upgrader_Skin() );
-
-		$existing_plugins         = get_plugins();
 		$onboarding_plugins       = genesis_onboarding_plugins();
 		$total_onboarding_plugins = count( $onboarding_plugins );
 
@@ -59,40 +52,21 @@ function genesis_do_onboarding_process() {
 			);
 		}
 
-		$onboarding_plugin = $onboarding_plugins[ $step ];
+		$installed = genesis_onboarding_install_dependencies( $onboarding_plugins, $step );
 
-		if ( ! array_key_exists( $onboarding_plugin['slug'], $existing_plugins ) ) {
-
-			remove_action( 'upgrader_process_complete', array( 'Language_Pack_Upgrader', 'async_upgrade' ), 20 );
-
-			add_action( 'upgrader_process_complete', 'genesis_onboarding_install_language_packs', 20 );
-
-			$short_slug = strtok( $onboarding_plugin['slug'], DIRECTORY_SEPARATOR );
-
-			$api = plugins_api( 'plugin_information', array( 'slug' => $short_slug ) );
-
-			if ( is_wp_error( $api ) ) {
-				$errors[] = $api->get_error_message();
-				$next_step++;
-				wp_send_json_success(
-					array(
-						'percent_complete' => $percent_complete,
-						'next_step'        => $next_step,
-						'task'             => $task,
-						'complete'         => $complete,
-						'errors'           => $errors,
-					)
-				);
-			}
-
-			$installed = $upgrader->install( $api->download_link );
-
-			if ( is_wp_error( $installed ) ) {
-				$errors[] = $installed->get_error_message();
-			}
+		if ( is_wp_error( $installed ) ) {
+			$errors[] = $installed->get_error_message();
+			$next_step++;
+			wp_send_json_success(
+				array(
+					'percent_complete' => $percent_complete,
+					'next_step'        => $next_step,
+					'task'             => $task,
+					'complete'         => $complete,
+					'errors'           => $errors,
+				)
+			);
 		}
-
-		activate_plugin( $onboarding_plugin['slug'], false, false, true );
 
 		$step++;
 
@@ -124,39 +98,22 @@ function genesis_do_onboarding_process() {
 
 		$content = genesis_onboarding_content();
 
-		$homepage_edit_link = false;
+		$imported = genesis_onboarding_import_content( $content, $step );
 
-		if ( ! empty( $content ) ) {
+		if ( ! empty( $imported['errors'] ) ) {
+			$errors[] = $imported['errors'];
+		}
 
-			foreach ( $content as $key => $post ) {
+		$menus = genesis_onboarding_create_navigation_menus();
 
-				$post_id = wp_insert_post(
-					array(
-						'post_content'   => $post['post_content'],
-						'post_status'    => $post['post_status'],
-						'post_title'     => $post['post_title'],
-						'post_name'      => $post['post_name'],
-						'post_type'      => $post['post_type'],
-						'comment_status' => $post['comment_status'],
-					)
-				);
+		if ( ! empty( $menus ) ) {
+			$errors[] = $menus;
+		}
 
-				if ( is_wp_error( $post_id ) ) {
-					/* translators: 1: Title of the page, 2: The error message. */
-					$errors[] = sprintf( esc_html__( 'There was an error importing the %1$s page. Error: %2$s', 'genesis' ), $post['post_title'], $post_id->get_error_message() );
-					continue;
-				}
+		$menu_items = genesis_onboarding_create_navigation_menu_items();
 
-				if ( 'homepage' === $key ) {
-					update_option( 'show_on_front', 'page' );
-					update_option( 'page_on_front', $post_id );
-					$homepage_edit_link = esc_url_raw( admin_url( 'post.php?action=edit&post=' . $post_id ) );
-				}
-
-				if ( ! empty( $post['page_template'] ) ) {
-					update_post_meta( $post_id, '_wp_page_template', sanitize_text_field( $post['page_template'] ) );
-				}
-			}
+		if ( ! empty( $menu_items ) ) {
+			$errors[] = $menu_items;
 		}
 
 		wp_send_json_success(
@@ -165,7 +122,7 @@ function genesis_do_onboarding_process() {
 				'task'               => 'content',
 				'next_step'          => 0,
 				'complete'           => true,
-				'homepage_edit_link' => $homepage_edit_link,
+				'homepage_edit_link' => isset( $imported['homepage_edit_link'] ) ? $imported['homepage_edit_link'] : false,
 				'errors'             => $errors,
 			)
 		);

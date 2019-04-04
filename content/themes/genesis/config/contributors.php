@@ -57,7 +57,7 @@ return array(
 		'name'     => 'Tonya Mork',
 		'twitter'  => 'hellofromTonya',
 		'gravatar' => 'cd9217f16a69ad83496f5e182caf0649',
-		'role'     => 'contributor',
+		//'role'     => 'contributor',
 	),
 	'ronrennick'       => array(
 		'name'     => 'Ron Rennick',
@@ -88,6 +88,12 @@ return array(
 		'twitter'  => 'brianbourn',
 		'gravatar' => 'fd5093291ce465911f8a2d5aa2045de6',
 		// 'role'     => 'contributor',
+	),
+	'jonbrown'         => array(
+		'name'     => 'Jon Brown',
+		'twitter'  => 'jb510',
+		'gravatar' => 'f1c8858594659f20b4e99d65d0855f7c',
+		'role'     => 'contributor',
 	),
 	'chriscochran'     => array(
 		'name'     => 'Chris Cochran',
@@ -123,7 +129,7 @@ return array(
 		'name'     => 'David Decker',
 		'twitter'  => 'deckerweb',
 		'gravatar' => '28d02f8d09fc32fccc0282efdc23a4e5',
-		// 'role'     => 'contributor',
+		'role'     => 'contributor',
 	),
 	'remkusdevries'    => array(
 		'name'     => 'Remkus de Vries',
@@ -249,7 +255,7 @@ return array(
 		'name'     => 'Jeremy Pry',
 		'twitter'  => 'JPry',
 		'gravatar' => '84552f74b71a1a3e6aae380aa9ab3bd3',
-		'role'     => 'contributor',
+		//'role'     => 'contributor',
 	),
 	'gregrickaby'      => array(
 		'name'     => 'Greg Rickaby',

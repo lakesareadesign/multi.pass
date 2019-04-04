@@ -6,6 +6,35 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 Up until release 2.7.0, this project did _not_ follow semantic versioning. It followed the WordPress policy where updates of x and y in an x.y.z version number means a major release, and updates to z means a patch release.
 
+## [2.3.1] - 2019-03-20
+
+### Fixed
+- Fixed issue where `get_comment_author_link()` was being escaped improperly.
+
+[2.9.1]: https://github.com/studiopress/genesis/compare/2.9.0...2.9.1
+
+
+## [2.9.0] - 2019-03-13
+### Added
+* Added menu support to onboarding process.
+* Added featured image support to onboarding process.
+* Added support for assigning static Posts page to onboarding process.
+* Added post excerpt support to onboarding process.
+* Added dynamic support for child theme constants.
+* Added support for importing specified settings on theme activation via a config file.
+* Added functions to get, set, and delete settings that eventually expire.
+
+### Changed
+* Improved the onboarding process for screen readers.
+* Update Superfish to 1.7.10.
+* Changed references of "Front Page" to "Homepage" where appropriate.
+* Use the post type's label as linked text in the metabox on CPT archive settings.
+* Changed the Genesis update storage to an expiring setting rather than a transient.
+
+### Removed
+* Removed several Grunt dev tools and replaced with node scripts.
+* Removed sitemap from 404 template (performance and security).
+
 ## [2.8.1] - 2019-01-30
 ### Fixed
 - Fixed `genesis_human_time_diff()` to display accurate relative dates.
@@ -1095,6 +1124,8 @@ _Requires WordPress 3.1.0._
 
 First public release.
 
+[2.9.1]: https://github.com/studiopress/genesis/compare/2.9.0...2.9.1
+[2.9.0]: https://github.com/studiopress/genesis/compare/2.8.1...2.9.0
 [2.8.1]: https://github.com/studiopress/genesis/compare/2.8.0...2.8.1
 [2.8.0]: https://github.com/studiopress/genesis/compare/2.7.3...2.8.0
 [2.7.3]: https://github.com/studiopress/genesis/compare/2.7.2...2.7.3

@@ -122,6 +122,7 @@ class Genesis_Update_Check {
 	/**
 	 * Validate the format and data of the update response.
 	 *
+	 * @param array $response The response to validate.
 	 * @return bool Empty array if invalid, otherwise unaltered response.
 	 */
 	protected function validate_response( $response ) {

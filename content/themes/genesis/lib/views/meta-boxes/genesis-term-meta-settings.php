@@ -11,9 +11,9 @@
  * @link    https://my.studiopress.com/themes/genesis/
  */
 
-$tax = get_taxonomy( $object->taxonomy );
+$genesis_tax = get_taxonomy( $object->taxonomy );
 ?>
-<h2><?php echo esc_html( $tax->labels->singular_name ) . ' ' . esc_html__( 'Archive Settings', 'genesis' ); ?></h2>
+<h2><?php echo esc_html( $genesis_tax->labels->singular_name ) . ' ' . esc_html__( 'Archive Settings', 'genesis' ); ?></h2>
 <table class="form-table">
 	<tbody>
 		<tr class="form-field">
@@ -34,9 +34,15 @@ $tax = get_taxonomy( $object->taxonomy );
 		<tr class="form-field">
 			<th scope="row"><label for="genesis-meta-intro-text"><?php esc_html_e( 'Archive Intro Text', 'genesis' ); ?></label></th>
 			<td>
-				<?php wp_editor( get_term_meta( $object->term_id, 'intro_text', true ), 'genesis-meta-intro-text', array(
-	'textarea_name' => 'genesis-meta[intro_text]',
-) ); ?>
+				<?php
+				wp_editor(
+					get_term_meta( $object->term_id, 'intro_text', true ),
+					'genesis-meta-intro-text',
+					array(
+						'textarea_name' => 'genesis-meta[intro_text]',
+					)
+				);
+				?>
 				<p class="description"><?php esc_html_e( 'Leave empty if you do not want to display any intro text.', 'genesis' ); ?></p>
 			</td>
 		</tr>

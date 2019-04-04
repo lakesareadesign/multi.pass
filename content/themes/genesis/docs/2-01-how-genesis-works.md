@@ -119,7 +119,7 @@ Or to add an ID attribute to the `site-container` div element, you can do this:
 ```php
 add_filter( 'genesis_attr_site-container', 'theme_prefix_container_attributes' );
 /**
- * Modifiy the site-container div attributes.
+ * Modify the site-container div attributes.
  *
  * @param array $attr The original attributes.
  * @return array The modified attributes.

@@ -52,27 +52,39 @@ function genesis_do_sidebar_alt() {
  */
 function genesis_default_widget_area_content( $name ) {
 
-	genesis_markup( array(
-		'open'    => '<section class="widget widget_text">',
-		'context' => 'default-widget-content-wrap',
-	) );
+	genesis_markup(
+		array(
+			'open'    => '<section class="widget widget_text">',
+			'context' => 'default-widget-content-wrap',
+		)
+	);
 
 	echo '<div class="widget-wrap">';
 
-		$heading = ( genesis_a11y( 'headings' ) ? 'h3' : 'h4' );
+		$genesis_heading = ( genesis_a11y( 'headings' ) ? 'h3' : 'h4' );
 
-		echo sprintf( '<%1$s class="widgettitle">%2$s</%1$s>', $heading, esc_html( $name ) );
+		echo sprintf( '<%1$s class="widgettitle">%2$s</%1$s>', esc_attr( $genesis_heading ), esc_html( $name ) );
 		echo '<div class="textwidget"><p>';
-			/* translators: 1: Widget name, 2: URL to widgets admin page. */
-			printf( __( 'This is the %1$s. You can add content to this area by visiting your <a href="%2$s">Widgets Panel</a> and adding new widgets to this area.', 'genesis' ), $name, admin_url( 'widgets.php' ) );
+			printf(
+				/* translators: 1: Widget name, 2: URL to widgets admin page. */
+				esc_html__( 'This is the %1$s. You can add content to this area by visiting your %2$s and adding new widgets to this area.', 'genesis' ),
+				esc_html( $name ),
+				sprintf(
+					'<a href="%1$s">%2$s</a>',
+					esc_url( admin_url( 'widgets.php' ) ),
+					esc_html__( 'Widgets Panel', 'genesis' )
+				)
+			);
 
 		echo '</p></div>';
 
 	echo '</div>';
 
-	genesis_markup( array(
-		'close'   => '</section>',
-		'context' => 'default-widget-content-wrap',
-	) );
+	genesis_markup(
+		array(
+			'close'   => '</section>',
+			'context' => 'default-widget-content-wrap',
+		)
+	);
 
 }

@@ -96,11 +96,13 @@ class Genesis_Admin_Import_Export extends Genesis_Admin_Basic {
 			return;
 		}
 
+		// phpcs:disable WordPress.Security.NonceVerification.NoNonceVerification -- We don't need nonce verification here
 		if ( isset( $_REQUEST['imported'] ) && 'true' === $_REQUEST['imported'] ) {
-			echo '<div id="message" class="updated" role="alert"><p><strong>' . __( 'Settings successfully imported.', 'genesis' ) . '</strong></p></div>';
+			printf( '<div id="message" class="updated" role="alert"><p><strong>%s</strong></p></div>', esc_html__( 'Settings successfully imported.', 'genesis' ) );
 		} elseif ( isset( $_REQUEST['error'] ) && 'true' === $_REQUEST['error'] ) {
-			echo '<div id="message" class="error" role="alert"><p><strong>' . __( 'There was a problem importing your settings. Please try again.', 'genesis' ) . '</strong></p></div>';
+			printf( '<div id="message" class="error" role="alert"><p><strong>%s</strong></p></div>', esc_html__( 'There was a problem importing your settings. Please try again.', 'genesis' ) );
 		}
+		// phpcs:enable WordPress.Security.NonceVerification.NoNonceVerification
 
 	}
 
@@ -140,9 +142,11 @@ class Genesis_Admin_Import_Export extends Genesis_Admin_Basic {
 	 */
 	protected function export_checkboxes() {
 
-		if ( ! $options = $this->get_export_options() ) {
+		$options = $this->get_export_options();
+
+		if ( ! $options ) {
 			// Not even the Genesis theme / seo export options were returned from the filter.
-			printf( '<p><em>%s</em></p>', __( 'No export options available.', 'genesis' ) );
+			printf( '<p><em>%s</em></p>', esc_html__( 'No export options available.', 'genesis' ) );
 			return;
 		}
 
@@ -187,6 +191,8 @@ class Genesis_Admin_Import_Export extends Genesis_Admin_Basic {
 
 		check_admin_referer( 'genesis-export', 'genesis-export-nonce' );
 
+		$export_data = $_REQUEST['genesis-export'];
+
 		/**
 		 * Fires before export happens, after admin referer has been checked.
 		 *
@@ -194,7 +200,7 @@ class Genesis_Admin_Import_Export extends Genesis_Admin_Basic {
 		 *
 		 * @param string Value of `genesis-export` request variable, containing a list of which settings to export.
 		 */
-		do_action( 'genesis_export', $_REQUEST['genesis-export'] );
+		do_action( 'genesis_export', $export_data );
 
 		$options = $this->get_export_options();
 
@@ -204,7 +210,7 @@ class Genesis_Admin_Import_Export extends Genesis_Admin_Basic {
 		$prefix = array( 'genesis' );
 
 		// Loop through set(s) of options.
-		foreach ( (array) $_REQUEST['genesis-export'] as $export => $value ) {
+		foreach ( (array) $export_data as $export => $value ) {
 			// Grab settings field name (key).
 			$settings_field = $options[ $export ]['settings-field'];
 
@@ -231,7 +237,7 @@ class Genesis_Admin_Import_Export extends Genesis_Admin_Basic {
 		header( 'Content-Type: text/plain' );
 		header( 'Content-Disposition: attachment; filename="' . $prefix . '-' . date( 'Ymd-His' ) . '.json"' );
 		header( 'Content-Length: ' . mb_strlen( $output ) );
-		echo $output;
+		echo $output; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
 		exit;
 
 	}
@@ -282,7 +288,8 @@ class Genesis_Admin_Import_Export extends Genesis_Admin_Basic {
 		// Check for errors.
 		if ( ! $options || $_FILES['genesis-import-upload']['error'] ) {
 			genesis_admin_redirect(
-				'genesis-import-export', array(
+				'genesis-import-export',
+				array(
 					'error' => 'true',
 				)
 			);
@@ -298,14 +305,15 @@ class Genesis_Admin_Import_Export extends Genesis_Admin_Basic {
 
 		// Cycle through data, import Genesis settings.
 		foreach ( (array) $options as $key => $settings ) {
-			if ( in_array( $key, $importable_keys ) ) {
+			if ( in_array( $key, $importable_keys, true ) ) {
 				update_option( $key, $settings );
 			}
 		}
 
 		// Redirect, add success flag to the URI.
 		genesis_admin_redirect(
-			'genesis-import-export', array(
+			'genesis-import-export',
+			array(
 				'imported' => 'true',
 			)
 		);

@@ -52,6 +52,10 @@ return array(
 				'name' => __( 'Atomic Blocks', 'your-theme-slug' ),
 				'slug' => 'atomic-blocks/atomicblocks.php',
 			),
+			array(
+				'name' => __( 'WooCommerce', 'your-theme-slug' ),
+				'slug' => 'woocommerce/woocommerce.php',
+			),
 		),
 	),
 	'content' => array(

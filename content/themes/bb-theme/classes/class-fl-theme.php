@@ -22,7 +22,7 @@ final class FLTheme {
 	 * @since 1.7
 	 * @var string $fa5_url
 	 */
-	static public $fa5_url = 'https://use.fontawesome.com/releases/v5.3.1/css/all.css';
+	static public $fa5_url = 'https://use.fontawesome.com/releases/v5.8.1/css/all.css';
 
 	/**
 	 * Font Awesome 4 CDN URL.
@@ -189,7 +189,7 @@ final class FLTheme {
 				self::enqueue_fontawesome();
 				break;
 			case 'fa4':
-				wp_enqueue_style( 'font-awesome', self::$fa4_url, array(), FL_THEME_VERSION );
+				self::enqueue_fontawesome_legacy();
 				break;
 		}
 
@@ -285,12 +285,28 @@ final class FLTheme {
 	 * @return void
 	 */
 	static public function enqueue_fontawesome() {
-		if ( class_exists( '' ) && method_exists( 'FLBuilder', 'get_fa5_url' ) ) {
-			$url = FLBuilder::get_fa5_url();
+		if ( class_exists( 'FLBuilder' ) && method_exists( 'FLBuilder', 'get_fa5_url' ) ) {
+			wp_enqueue_style( 'font-awesome-5' );
 		} else {
 			$url = self::$fa5_url;
+			wp_enqueue_style( 'font-awesome-5', $url, array(), FL_THEME_VERSION );
 		}
-		wp_enqueue_style( 'font-awesome-5', $url, array(), FL_THEME_VERSION );
+	}
+
+	/**
+	 * Enqueues Font Awesome 5.
+	 *
+	 * @since 1.7
+	 * @return void
+	 */
+	static public function enqueue_fontawesome_legacy() {
+		if ( class_exists( 'FLBuilder' ) && method_exists( 'FLBuilder', 'get_fa5_url' ) ) {
+			if ( isset( FLBuilder::$fa4_url ) && '' == FLBuilder::$fa4_url ) {
+				wp_enqueue_style( 'font-awesome' );
+				return;
+			}
+		}
+		wp_enqueue_style( 'font-awesome', self::$fa4_url, array(), FL_THEME_VERSION );
 	}
 
 	/**
@@ -586,6 +602,7 @@ final class FLTheme {
 
 		// Submenu Indicator
 		if ( self::get_setting( 'fl-nav-submenu-indicator' ) == 'enable' ) {
+			FLTheme::enqueue_fontawesome();
 			$classes[] = 'fl-submenu-indicator';
 		}
 
@@ -860,12 +877,13 @@ final class FLTheme {
 	 */
 	static public function nav_toggle_text() {
 		$type = self::get_setting( 'fl-mobile-nav-toggle' );
+		$menu = self::get_setting( 'fl-mobile-nav-text' );
 
 		if ( 'icon' == $type ) {
 			FLTheme::enqueue_fontawesome();
 			$text = '<i class="fas fa-bars"></i>';
 		} else {
-			$text = _x( 'Menu', 'Mobile navigation toggle button text.', 'fl-automator' );
+			$text = '' != $menu ? $menu : _x( 'Menu', 'Mobile navigation toggle button text.', 'fl-automator' );
 		}
 
 		echo apply_filters( 'fl_nav_toggle_text', $text );

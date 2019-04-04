@@ -49,6 +49,28 @@ Appearance > Theme Settings > Code or create a child theme.
 			line-height: 24px;
 		}
 	}
+	.fl-social-icons-stacked {
+		font-size: 1em;
+		.fas {
+			color: @topbar-icon-bg-color;
+		}
+		.fab {
+			color: @topbar-icon-fg-color;
+			transition: opacity 0.2s ease-in-out;
+    	opacity: 0.8;
+			&:hover {
+				color: @topbar-icon-hover-color;
+				opacity: 1;
+			}
+		}
+
+		.fab, .fas {
+			vertical-align: inherit;
+			width: inherit;
+			height: inherit;
+			line-height: inherit;
+		}
+	}
 }
 
 /* Footer Menu */

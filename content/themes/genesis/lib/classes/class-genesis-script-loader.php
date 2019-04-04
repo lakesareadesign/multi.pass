@@ -60,7 +60,7 @@ class Genesis_Script_Loader {
 			$this->suffix = '';
 		}
 
-		wp_register_script( 'superfish', GENESIS_JS_URL . "/menu/superfish{$this->suffix}.js", array( 'jquery', 'hoverIntent' ), '1.7.5', true );
+		wp_register_script( 'superfish', GENESIS_JS_URL . "/menu/superfish{$this->suffix}.js", array( 'jquery', 'hoverIntent' ), '1.7.10', true );
 		wp_register_script( 'superfish-args', apply_filters( 'genesis_superfish_args_url', GENESIS_JS_URL . "/menu/superfish.args{$this->suffix}.js" ), array( 'superfish' ), PARENT_THEME_VERSION, true );
 		wp_register_script( 'superfish-compat', GENESIS_JS_URL . "/menu/superfish.compat{$this->suffix}.js", array( 'jquery' ), PARENT_THEME_VERSION, true );
 		wp_register_script( 'skip-links', GENESIS_JS_URL . "/skip-links{$this->suffix}.js", array(), PARENT_THEME_VERSION, true );
@@ -81,7 +81,7 @@ class Genesis_Script_Loader {
 			$this->suffix = '';
 		}
 
-		wp_register_script( 'genesis_admin_js', GENESIS_JS_URL . "/admin{$this->suffix}.js", array( 'jquery' ), PARENT_THEME_VERSION, true );
+		wp_register_script( 'genesis_admin_js', GENESIS_JS_URL . "/admin{$this->suffix}.js", array( 'jquery', 'wp-a11y' ), PARENT_THEME_VERSION, true );
 
 	}
 
@@ -168,7 +168,6 @@ class Genesis_Script_Loader {
 
 		}
 
-
 		// If we're viewing an edit post page, make sure we need Genesis SEO JS.
 		if (
 			in_array( $hook_suffix, array( 'post-new.php', 'post.php' ), true )
@@ -216,6 +215,14 @@ class Genesis_Script_Loader {
 
 		$onboarding = array(
 			'nonce' => wp_create_nonce( 'genesis-onboarding' ),
+			'l10n'  => array(
+				'a11y' => array(
+					'onboarding_started'  => esc_html__( 'The website setup process has started.', 'genesis' ),
+					'onboarding_complete' => esc_html__( 'The website setup process has completed.', 'genesis' ),
+					'step_started'        => esc_html__( 'A setup step has started.', 'genesis' ),
+					'step_completed'      => esc_html__( 'A setup step has completed.', 'genesis' ),
+				),
+			),
 		);
 
 		wp_localize_script( 'genesis_admin_js', 'genesis_onboarding', $onboarding );

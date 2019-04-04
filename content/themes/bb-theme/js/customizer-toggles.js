@@ -380,6 +380,13 @@
 			}
 		}],
 
+		'fl-mobile-nav-toggle': [{
+			controls: [ 'fl-mobile-nav-text'],
+			callback: function( val ) {
+				return ( 'button' === val )
+			}
+		}],
+
 		'fl-heading-style': [{
 			controls: [
 				'fl-title-text-color',
@@ -392,6 +399,18 @@
 				return 'title' === val;
 			}
 		}],
+		'fl-social-icons-color': [{
+			controls: [
+				'fl-social-icons-bg-shape',
+				'fl-social-icons-bg-color',
+				'fl-social-icons-fg-color',
+				'fl-social-icons-hover-color',
+				'fl-social-icons-size'
+			],
+			callback: function( val ) {
+				return 'custom' === val;
+			}
+		}]
 	};
 
 })( jQuery );

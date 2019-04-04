@@ -127,7 +127,7 @@ FLCustomizer::add_panel('fl-general', array(
 				/* Font Awesome */
 				'fl-awesome'             => array(
 					'setting' => array(
-						'default' => 'fa4',
+						'default' => 'none',
 					),
 					'control' => array(
 						'class'       => 'WP_Customize_Control',
@@ -137,7 +137,7 @@ FLCustomizer::add_panel('fl-general', array(
 						__( 'Select which icon library to load on all pages. If unsure choose None.', 'fl-automator' ),
 						'choices'     => array(
 							'none' => __( 'None', 'fl-automator' ),
-							'fa4'  => __( 'Font Awesome 4', 'fl-automator' ),
+							'fa4'  => __( 'Font Awesome 4 Shim', 'fl-automator' ),
 							'fa5'  => __( 'Font Awesome 5', 'fl-automator' ),
 						),
 					),
@@ -516,15 +516,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Font Size', '%s stands for HTML heading tag.', 'fl-automator' ), 'H2' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Font Size', '%s stands for HTML heading tag.', 'fl-automator' ), 'H2' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 10,
 							'max'  => 72,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -535,15 +536,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Line Height', '%s stands for HTML heading tag.', 'fl-automator' ), 'H2' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Line Height', '%s stands for HTML heading tag.', 'fl-automator' ), 'H2' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 1,
 							'max'  => 2.5,
 							'step' => 0.05,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -554,15 +556,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Letter Spacing', '%s stands for HTML heading tag.', 'fl-automator' ), 'H2' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Letter Spacing', '%s stands for HTML heading tag.', 'fl-automator' ), 'H2' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => -3,
 							'max'  => 10,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -581,15 +584,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Font Size', '%s stands for HTML heading tag.', 'fl-automator' ), 'H3' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Font Size', '%s stands for HTML heading tag.', 'fl-automator' ), 'H3' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 10,
 							'max'  => 72,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -600,15 +604,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Line Height', '%s stands for HTML heading tag.', 'fl-automator' ), 'H3' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Line Height', '%s stands for HTML heading tag.', 'fl-automator' ), 'H3' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 1,
 							'max'  => 2.5,
 							'step' => 0.05,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -619,15 +624,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Letter Spacing', '%s stands for HTML heading tag.', 'fl-automator' ), 'H3' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Letter Spacing', '%s stands for HTML heading tag.', 'fl-automator' ), 'H3' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => -3,
 							'max'  => 10,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -646,15 +652,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Font Size', '%s stands for HTML heading tag.', 'fl-automator' ), 'H4' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Font Size', '%s stands for HTML heading tag.', 'fl-automator' ), 'H4' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 10,
 							'max'  => 72,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -665,15 +672,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Line Height', '%s stands for HTML heading tag.', 'fl-automator' ), 'H4' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Line Height', '%s stands for HTML heading tag.', 'fl-automator' ), 'H4' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 1,
 							'max'  => 2.5,
 							'step' => 0.05,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -684,15 +692,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Letter Spacing', '%s stands for HTML heading tag.', 'fl-automator' ), 'H4' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Letter Spacing', '%s stands for HTML heading tag.', 'fl-automator' ), 'H4' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => -3,
 							'max'  => 10,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -711,15 +720,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Font Size', '%s stands for HTML heading tag.', 'fl-automator' ), 'H5' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Font Size', '%s stands for HTML heading tag.', 'fl-automator' ), 'H5' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 10,
 							'max'  => 72,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -730,15 +740,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Line Height', '%s stands for HTML heading tag.', 'fl-automator' ), 'H5' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Line Height', '%s stands for HTML heading tag.', 'fl-automator' ), 'H5' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 1,
 							'max'  => 2.5,
 							'step' => 0.05,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -749,15 +760,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Letter Spacing', '%s stands for HTML heading tag.', 'fl-automator' ), 'H5' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Letter Spacing', '%s stands for HTML heading tag.', 'fl-automator' ), 'H5' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => -3,
 							'max'  => 10,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -776,15 +788,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Font Size', '%s stands for HTML heading tag.', 'fl-automator' ), 'H6' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Font Size', '%s stands for HTML heading tag.', 'fl-automator' ), 'H6' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 10,
 							'max'  => 72,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -795,15 +808,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Line Height', '%s stands for HTML heading tag.', 'fl-automator' ), 'H6' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Line Height', '%s stands for HTML heading tag.', 'fl-automator' ), 'H6' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 1,
 							'max'  => 2.5,
 							'step' => 0.05,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -814,15 +828,16 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
+						'class'      => 'FLCustomizerControl',
 						/* translators: %s: HTML heading tag */
-						'label'   => sprintf( _x( '%s Letter Spacing', '%s stands for HTML heading tag.', 'fl-automator' ), 'H6' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'label'      => sprintf( _x( '%s Letter Spacing', '%s stands for HTML heading tag.', 'fl-automator' ), 'H6' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => -3,
 							'max'  => 10,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 			),
@@ -877,14 +892,15 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
-						'label'   => __( 'Font Size', 'fl-automator' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'class'      => 'FLCustomizerControl',
+						'label'      => __( 'Font Size', 'fl-automator' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 10,
 							'max'  => 72,
 							'step' => 1,
 						),
+						'responsive' => true,
 					),
 				),
 
@@ -895,14 +911,15 @@ FLCustomizer::add_panel('fl-general', array(
 						'transport' => 'postMessage',
 					),
 					'control' => array(
-						'class'   => 'FLCustomizerControl',
-						'label'   => __( 'Line Height', 'fl-automator' ),
-						'type'    => 'slider',
-						'choices' => array(
+						'class'      => 'FLCustomizerControl',
+						'label'      => __( 'Line Height', 'fl-automator' ),
+						'type'       => 'slider',
+						'choices'    => array(
 							'min'  => 1,
 							'max'  => 2.5,
 							'step' => 0.05,
 						),
+						'responsive' => true,
 					),
 				),
 			),
@@ -1011,7 +1028,7 @@ FLCustomizer::add_panel('fl-general', array(
 
 				'fl-button-font-size'              => array(
 					'setting' => array(
-						'default' => 'auto',
+						'default' => '16',
 					),
 					'control' => array(
 						'class'   => 'FLCustomizerControl',
@@ -1106,7 +1123,7 @@ FLCustomizer::add_panel('fl-general', array(
 				),
 				'fl-button-border-color'           => array(
 					'setting' => array(
-						'default'   => 'transparent',
+						'default'   => '',
 						'transport' => 'postMessage',
 					),
 					'control' => array(
@@ -1138,7 +1155,7 @@ FLCustomizer::add_panel('fl-general', array(
 			'options' => array(
 
 				/* Social Icons Color */
-				'fl-social-icons-color' => array(
+				'fl-social-icons-color'       => array(
 					'setting' => array(
 						'default' => 'mono',
 					),
@@ -1149,126 +1166,195 @@ FLCustomizer::add_panel('fl-general', array(
 						'choices' => array(
 							'branded' => __( 'Branded', 'fl-automator' ),
 							'mono'    => __( 'Monochrome', 'fl-automator' ),
+							'custom'  => __( 'Custom', 'fl-automator' ),
 						),
 					),
 				),
 
+				/* Social Icons bg Shape */
+				'fl-social-icons-bg-shape'    => array(
+					'setting' => array(
+						'default' => 'circle',
+					),
+					'control' => array(
+						'class'   => 'WP_Customize_Control',
+						'label'   => __( 'Background Shape', 'fl-automator' ),
+						'type'    => 'select',
+						'choices' => array(
+							'circle' => __( 'Round', 'fl-automator' ),
+							'square' => __( 'Square', 'fl-automator' ),
+						),
+					),
+				),
+
+				/* Social Icons bg Color */
+				'fl-social-icons-bg-color'    => array(
+					'setting' => array(
+						'default' => '#000',
+					),
+					'control' => array(
+						'class' => 'WP_Customize_Color_Control',
+						'label' => __( 'Background Color', 'fl-automator' ),
+					),
+				),
+
+				/* Social Icons fg Color */
+				'fl-social-icons-fg-color'    => array(
+					'setting' => array(
+						'default' => '#FFF',
+					),
+					'control' => array(
+						'class' => 'WP_Customize_Color_Control',
+						'label' => __( 'Icon Color', 'fl-automator' ),
+					),
+				),
+
+				/* Social Icons hover Color */
+				'fl-social-icons-hover-color' => array(
+					'setting' => array(
+						'default' => '#666',
+					),
+					'control' => array(
+						'class' => 'WP_Customize_Color_Control',
+						'label' => __( 'Hover Color', 'fl-automator' ),
+					),
+				),
+
+				/* Drop Shadow Size */
+				'fl-social-icons-size'        => array(
+					'setting' => array(
+						'default' => '2',
+					),
+					'control' => array(
+						'class'   => 'FLCustomizerControl',
+						'label'   => __( 'Icon Size', 'fl-automator' ),
+						'type'    => 'slider',
+						'choices' => array(
+							'min'  => 1,
+							'max'  => 8,
+							'step' => 1,
+						),
+					),
+				),
+
+
+
 				/* Social Links (no need to translate brand names) */
-				'fl-social-facebook'    => array(
+				'fl-social-facebook'          => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Facebook',
 					),
 				),
-				'fl-social-twitter'     => array(
+				'fl-social-twitter'           => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Twitter',
 					),
 				),
-				'fl-social-google'      => array(
+				'fl-social-google'            => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Google',
 					),
 				),
-				'fl-social-snapchat'    => array(
+				'fl-social-snapchat'          => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Snapchat',
 					),
 				),
-				'fl-social-linkedin'    => array(
+				'fl-social-linkedin'          => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'LinkedIn',
 					),
 				),
-				'fl-social-yelp'        => array(
+				'fl-social-yelp'              => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Yelp',
 					),
 				),
-				'fl-social-xing'        => array(
+				'fl-social-xing'              => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Xing',
 					),
 				),
-				'fl-social-pinterest'   => array(
+				'fl-social-pinterest'         => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Pinterest',
 					),
 				),
-				'fl-social-tumblr'      => array(
+				'fl-social-tumblr'            => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Tumblr',
 					),
 				),
-				'fl-social-vimeo'       => array(
+				'fl-social-vimeo'             => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Vimeo',
 					),
 				),
-				'fl-social-youtube'     => array(
+				'fl-social-youtube'           => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'YouTube',
 					),
 				),
-				'fl-social-flickr'      => array(
+				'fl-social-flickr'            => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Flickr',
 					),
 				),
-				'fl-social-instagram'   => array(
+				'fl-social-instagram'         => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Instagram',
 					),
 				),
-				'fl-social-skype'       => array(
+				'fl-social-skype'             => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Skype',
 					),
 				),
-				'fl-social-dribbble'    => array(
+				'fl-social-dribbble'          => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Dribbble',
 					),
 				),
-				'fl-social-500px'       => array(
+				'fl-social-500px'             => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => '500px',
 					),
 				),
-				'fl-social-blogger'     => array(
+				'fl-social-blogger'           => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'Blogger',
 					),
 				),
-				'fl-social-github'      => array(
+				'fl-social-github'            => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => 'GitHub',
 					),
 				),
-				'fl-social-rss'         => array(
+				'fl-social-rss'               => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => __( 'RSS', 'fl-automator' ),
 					),
 				),
-				'fl-social-email'       => array(
+				'fl-social-email'             => array(
 					'control' => array(
 						'class' => 'WP_Customize_Control',
 						'label' => __( 'Email', 'fl-automator' ),

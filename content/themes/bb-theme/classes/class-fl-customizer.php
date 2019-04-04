@@ -1027,8 +1027,6 @@ final class FLCustomizer {
 
 		// Fonts
 		$vars['text-font']   = self::_get_font_family_string( $mods['fl-body-font-family'] );
-		$vars['text-size']   = $mods['fl-body-font-size'] . 'px';
-		$vars['line-height'] = $mods['fl-body-line-height'];
 		$vars['text-weight'] = self::_sanitize_weight( $mods['fl-body-font-weight'] );
 
 		$vars['heading-font']      = self::_get_font_family_string( $mods['fl-heading-font-family'] );
@@ -1048,54 +1046,108 @@ final class FLCustomizer {
 			$vars['title-weight']    = self::_sanitize_weight( $mods['fl-heading-font-weight'] );
 			$vars['title-transform'] = $mods['fl-heading-font-format'];
 		}
+
 		// Responsive controls style
 		$responsive_mods = array(
+			'text-size'         => array(
+				'key'    => 'fl-body-font-size',
+				'format' => 'px',
+			),
+			'line-height'       => array(
+				'key' => 'fl-body-line-height',
+			),
 			'h1-size'           => array(
 				'key'    => 'fl-h1-font-size',
 				'format' => 'px',
 			),
 			'h1-line-height'    => array(
-				'key'    => 'fl-h1-line-height',
-				'format' => '',
+				'key' => 'fl-h1-line-height',
 			),
 			'h1-letter-spacing' => array(
 				'key'    => 'fl-h1-letter-spacing',
 				'format' => 'px',
 			),
+			'h2-size'           => array(
+				'key'    => 'fl-h2-font-size',
+				'format' => 'px',
+			),
+			'h2-line-height'    => array(
+				'key' => 'fl-h2-line-height',
+			),
+			'h2-letter-spacing' => array(
+				'key'    => 'fl-h2-letter-spacing',
+				'format' => 'px',
+			),
+			'h3-size'           => array(
+				'key'    => 'fl-h3-font-size',
+				'format' => 'px',
+			),
+			'h3-line-height'    => array(
+				'key' => 'fl-h3-line-height',
+			),
+			'h3-letter-spacing' => array(
+				'key'    => 'fl-h3-letter-spacing',
+				'format' => 'px',
+			),
+			'h4-size'           => array(
+				'key'    => 'fl-h4-font-size',
+				'format' => 'px',
+			),
+			'h4-line-height'    => array(
+				'key' => 'fl-h4-line-height',
+			),
+			'h4-letter-spacing' => array(
+				'key'    => 'fl-h4-letter-spacing',
+				'format' => 'px',
+			),
+			'h5-size'           => array(
+				'key'    => 'fl-h5-font-size',
+				'format' => 'px',
+			),
+			'h5-line-height'    => array(
+				'key' => 'fl-h5-line-height',
+			),
+			'h5-letter-spacing' => array(
+				'key'    => 'fl-h5-letter-spacing',
+				'format' => 'px',
+			),
+			'h6-size'           => array(
+				'key'    => 'fl-h6-font-size',
+				'format' => 'px',
+			),
+			'h6-line-height'    => array(
+				'key' => 'fl-h6-line-height',
+			),
+			'h6-letter-spacing' => array(
+				'key'    => 'fl-h6-letter-spacing',
+				'format' => 'px',
+			),
 		);
-		foreach ( $responsive_mods as $var => $mod_data ) {
-			foreach ( array( 'medium', 'mobile' ) as $device ) {
-				$option_key = $mod_data['key'] . '_' . $device;
 
-				if ( isset( $mods[ $option_key ] ) ) {
-					$vars[ $device . '-' . $var ] = $mods[ $option_key ] . $mod_data['format'];
+		foreach ( $responsive_mods as $var => $mod_data ) {
+			foreach ( array( 'desktop', 'medium', 'mobile' ) as $device ) {
+				if ( 'desktop' != $device ) {
+					$option_key = $mod_data['key'] . '_' . $device;
+					$var_key    = 'desktop' != $device ? $device . '-' . $var : '';
 				} else {
-					$vars[ $device . '-' . $var ] = $defaults[ $option_key ] . $mod_data['format'];
+					$option_key = $mod_data['key'];
+					$var_key    = $var;
 				}
+
+				if ( ! isset( $mods[ $option_key ] ) ) {
+					$mod_value = $defaults[ $option_key ];
+				} else {
+					$mod_value = $mods[ $option_key ];
+				}
+
+				$unit             = isset( $mod_data['format'] ) ? $mod_data['format'] : '';
+				$vars[ $var_key ] = $mod_value . $unit;
 			}
 		}
 
-		$vars['h1-size']           = $mods['fl-h1-font-size'] . 'px';
-		$vars['h1-line-height']    = $mods['fl-h1-line-height'];
-		$vars['h1-letter-spacing'] = $mods['fl-h1-letter-spacing'] . 'px';
-		$vars['h2-size']           = $mods['fl-h2-font-size'] . 'px';
-		$vars['h2-line-height']    = $mods['fl-h2-line-height'];
-		$vars['h2-letter-spacing'] = $mods['fl-h2-letter-spacing'] . 'px';
-		$vars['h3-size']           = $mods['fl-h3-font-size'] . 'px';
-		$vars['h3-line-height']    = $mods['fl-h3-line-height'];
-		$vars['h3-letter-spacing'] = $mods['fl-h3-letter-spacing'] . 'px';
-		$vars['h4-size']           = $mods['fl-h4-font-size'] . 'px';
-		$vars['h4-line-height']    = $mods['fl-h4-line-height'];
-		$vars['h4-letter-spacing'] = $mods['fl-h4-letter-spacing'] . 'px';
-		$vars['h5-size']           = $mods['fl-h5-font-size'] . 'px';
-		$vars['h5-line-height']    = $mods['fl-h5-line-height'];
-		$vars['h5-letter-spacing'] = $mods['fl-h5-letter-spacing'] . 'px';
-		$vars['h6-size']           = $mods['fl-h6-font-size'] . 'px';
-		$vars['h6-line-height']    = $mods['fl-h6-line-height'];
-		$vars['h6-letter-spacing'] = $mods['fl-h6-letter-spacing'] . 'px';
-		$vars['logo-font']         = self::_get_font_family_string( $mods['fl-logo-font-family'] );
-		$vars['logo-weight']       = self::_sanitize_weight( $mods['fl-logo-font-weight'] );
-		$vars['logo-size']         = $mods['fl-logo-font-size'] . 'px';
+		$vars['logo-font']   = self::_get_font_family_string( $mods['fl-logo-font-family'] );
+		$vars['logo-weight'] = self::_sanitize_weight( $mods['fl-logo-font-weight'] );
+		$vars['logo-size']   = $mods['fl-logo-font-size'] . 'px';
 
 		// Button Styles
 		$vars['button-color']          = $mods['fl-button-color'] ? $mods['fl-button-color'] : $defaults['fl-button-color'];
@@ -1109,7 +1161,7 @@ final class FLCustomizer {
 		$vars['button-text-transform'] = $mods['fl-button-text-transform'];
 		$vars['button-border-style']   = $mods['fl-button-border-style'];
 		$vars['button-border-width']   = $mods['fl-button-border-width'] . 'px';
-		$vars['button-border-color']   = $mods['fl-button-border-color'];
+		$vars['button-border-color']   = $mods['fl-button-border-color'] ? $mods['fl-button-border-color'] : 'transparent';
 		$vars['button-border-radius']  = $mods['fl-button-border-radius'] . 'px';
 
 		// Top Bar Background Image
@@ -1128,6 +1180,9 @@ final class FLCustomizer {
 		$vars['topbar-fg-link-color']     = FLColor::hex( array( $mods['fl-topbar-link-color'], $vars['topbar-fg-color'] ) );
 		$vars['topbar-fg-hover-color']    = FLColor::hex( array( $mods['fl-topbar-hover-color'], $vars['topbar-fg-color'] ) );
 		$vars['topbar-dropdown-bg-color'] = FLColor::hex( array( $mods['fl-topbar-bg-color'], $vars['body-bg-color'] ) );
+		$vars['topbar-icon-bg-color']     = FLColor::hex( $mods['fl-social-icons-bg-color'] );
+		$vars['topbar-icon-fg-color']     = FLColor::hex( $mods['fl-social-icons-fg-color'] );
+		$vars['topbar-icon-hover-color']  = FLColor::hex( $mods['fl-social-icons-hover-color'] );
 
 		// Header Background Image
 		$vars['header-bg-image']      = empty( $mods['fl-header-bg-image'] ) ? 'none' : 'url(' . $mods['fl-header-bg-image'] . ')';

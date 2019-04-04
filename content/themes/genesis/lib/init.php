@@ -142,7 +142,6 @@ function genesis_theme_support() {
 		add_theme_support(
 			'genesis-accessibility',
 			array(
-				'404-page',
 				'drop-down-menu',
 				'headings',
 				'rems',
@@ -202,10 +201,10 @@ function genesis_constants() {
 	// Define Theme Info Constants.
 	// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedConstantFound
 	define( 'PARENT_THEME_NAME', 'Genesis' );
-	define( 'PARENT_THEME_VERSION', '2.8.1' );
-	define( 'PARENT_THEME_BRANCH', '2.8' );
-	define( 'PARENT_DB_VERSION', '2800' );
-	define( 'PARENT_THEME_RELEASE_DATE', date_i18n( 'F j, Y', strtotime( '30 January 2019' ) ) );
+	define( 'PARENT_THEME_VERSION', '2.9.1' );
+	define( 'PARENT_THEME_BRANCH', '2.9' );
+	define( 'PARENT_DB_VERSION', '2900' );
+	define( 'PARENT_THEME_RELEASE_DATE', date_i18n( 'F j, Y', strtotime( '20 March 2019' ) ) );
 
 	// Define Parent and Child Directory Location and URL Constants.
 	define( 'PARENT_DIR', get_template_directory() );

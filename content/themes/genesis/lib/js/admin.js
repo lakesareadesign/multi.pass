@@ -356,10 +356,12 @@ window[ 'genesis' ] = {
 
 			case 'processing':
 				current_task.addClass( 'genesis-onboarding-list-processing' );
+				wp.a11y.speak( genesis_onboarding.l10n.a11y.step_started, 'polite' );
 				break;
 
 			case 'done':
 				current_task.addClass( 'genesis-onboarding-list-done' ).removeClass( 'genesis-onboarding-list-processing' );
+				wp.a11y.speak( genesis_onboarding.l10n.a11y.step_completed, 'polite' );
 				break;
 
 		}
@@ -372,6 +374,7 @@ window[ 'genesis' ] = {
 		window.setTimeout( function() {
 			jQuery( '.genesis-onboarding-task-final' ).addClass( 'genesis-onboarding-list-done' );
 		}, 300 );
+		wp.a11y.speak( genesis_onboarding.l10n.a11y.onboarding_complete, 'polite' );
 	},
 
 	/**
@@ -413,6 +416,8 @@ window[ 'genesis' ] = {
 		// Bind onboarding start button.
 		jQuery( '#genesis-onboarding-start' ).on( 'click', function ( event ) {
 			jQuery( this ).prop( 'disabled', true ).addClass( 'genesis-onboarding-button-disabled' );
+			jQuery( '#genesis-onboarding-settings-link' ).prop( 'disabled', true ).prop( 'tabindex', '-1' );
+			wp.a11y.speak( genesis_onboarding.l10n.a11y.onboarding_started, 'polite' );
 			genesis.doOnboardingTask( event.target.dataset.task, event.target.dataset.step );
 		} );
 
@@ -422,7 +427,6 @@ window[ 'genesis' ] = {
 
 jQuery( genesis.ready );
 
-/* jshint ignore:start */
 /**
  * Helper function for confirming a user action.
  *
@@ -436,4 +440,3 @@ function genesis_confirm( text ) {
 	'use strict';
 	return genesis.confirm( text );
 }
-/* jshint ignore:end */

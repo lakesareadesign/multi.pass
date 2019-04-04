@@ -23,7 +23,7 @@
 
 				<?php if ( 'page' === get_option( 'show_on_front' ) ) : ?>
 					<p><label for="<?php $this->field_id( 'breadcrumb_front_page' ); ?>"><input type="checkbox" name="<?php $this->field_name( 'breadcrumb_front_page' ); ?>" id="<?php $this->field_id( 'breadcrumb_front_page' ); ?>" value="1"<?php checked( $this->get_field_value( 'breadcrumb_front_page' ) ); ?> />
-					<?php esc_html_e( 'Front page', 'genesis' ); ?></label></p>
+					<?php esc_html_e( 'Homepage', 'genesis' ); ?></label></p>
 
 					<p><label for="<?php $this->field_id( 'breadcrumb_posts_page' ); ?>"><input type="checkbox" name="<?php $this->field_name( 'breadcrumb_posts_page' ); ?>" id="<?php $this->field_id( 'breadcrumb_posts_page' ); ?>" value="1"<?php checked( $this->get_field_value( 'breadcrumb_posts_page' ) ); ?> />
 					<?php esc_html_e( 'Posts page', 'genesis' ); ?></label></p>

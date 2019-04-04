@@ -50,7 +50,7 @@ class Genesis_Admin_CPT_Archive_Settings extends Genesis_Admin_Boxes {
 		 *
 		 * @param bool $enable_layout Enable CPT archive layout setting. Default true.
 		 */
-		$this->layout_enabled = apply_filters( "genesis_cpt_archive_layout_setting_enable-{$this->post_type->name}", true );
+		$this->layout_enabled = apply_filters( "genesis_cpt_archive_layout_setting_enable-{$this->post_type->name}", true ); //phpcs:ignore WordPress.NamingConventions.ValidHookName.UseUnderscores
 
 		$page_id = 'genesis-cpt-archive-' . $this->post_type->name;
 

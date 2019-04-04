@@ -11,6 +11,7 @@
  * @link    https://my.studiopress.com/themes/genesis/
  */
 
+// phpcs:disable WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedVariableFound -- Variables are used in function scope.
 ?>
 <table class="form-table">
 <tbody>
@@ -56,7 +57,7 @@
 					<?php
 					$sizes = genesis_get_image_sizes();
 					foreach ( (array) $sizes as $name => $size ) {
-						echo '<option value="' . esc_attr($name) . '"' . selected($this->get_field_value('image_size'), $name, FALSE) . '>' . esc_html($name) . ' (' . absint($size['width']) . ' &#x000D7; ' . absint($size['height']) . ')</option>' . "\n";
+						echo '<option value="' . esc_attr( $name ) . '"' . selected( $this->get_field_value( 'image_size' ), $name, false ) . '>' . esc_html( $name ) . ' (' . absint( $size['width'] ) . ' &#x000D7; ' . absint( $size['height'] ) . ')</option>' . "\n";
 					}
 					?>
 					</select>
@@ -65,10 +66,10 @@
 				<p>
 					<label for="<?php $this->field_id( 'image_alignment' ); ?>"><?php esc_html_e( 'Image Alignment:', 'genesis' ); ?></label>
 					<select name="<?php $this->field_name( 'image_alignment' ); ?>" id="<?php $this->field_id( 'image_alignment' ); ?>">
-						<option value=""><?php esc_html_e( 'None', 'genesis' ) ?></option>
-						<option value="alignleft" <?php selected( $this->get_field_value( 'image_alignment' ), 'alignleft' ); ?>><?php esc_html_e( 'Left', 'genesis' ) ?></option>
-						<option value="alignright" <?php selected( $this->get_field_value( 'image_alignment' ), 'alignright' ); ?>><?php esc_html_e( 'Right', 'genesis' ) ?></option>
-                <option value="aligncenter" <?php selected( $this->get_field_value( 'image_alignment' ), 'aligncenter' ); ?>><?php _e( 'Center', 'genesis' ) ?></option>
+						<option value=""><?php esc_html_e( 'None', 'genesis' ); ?></option>
+						<option value="alignleft" <?php selected( $this->get_field_value( 'image_alignment' ), 'alignleft' ); ?>><?php esc_html_e( 'Left', 'genesis' ); ?></option>
+						<option value="alignright" <?php selected( $this->get_field_value( 'image_alignment' ), 'alignright' ); ?>><?php esc_html_e( 'Right', 'genesis' ); ?></option>
+						<option value="aligncenter" <?php selected( $this->get_field_value( 'image_alignment' ), 'aligncenter' ); ?>><?php esc_html_e( 'Center', 'genesis' ); ?></option>
 					</select>
 				</p>
 			</div>

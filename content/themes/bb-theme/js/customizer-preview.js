@@ -30,6 +30,15 @@
 		_headingStyleValue: '',
 
 		/**
+		 * A reference of responsive controls.
+		 *
+		 * @since 1.7.2
+		 * @access private
+		 * @property String _responsiveControls
+		 */
+		_responsiveControls: {},
+
+		/**
 		 * Initializes all live Customizer previews.
 		 *
 		 * @since 1.2.0
@@ -50,12 +59,12 @@
 			this._css( 'fl-title-text-color', 'h1, h1 a', 'color' );
 			this._css( 'fl-title-font-format', 'h1', 'text-transform');
 
-			this._css( 'fl-h1-font-size', 'h1', 'font-size', '{val}px', '36px', 'int' );
-			this._css( 'fl-h2-font-size', 'h2', 'font-size', '{val}px', '30px', 'int' );
-			this._css( 'fl-h3-font-size', 'h3', 'font-size', '{val}px', '24px', 'int' );
-			this._css( 'fl-h4-font-size', 'h4', 'font-size', '{val}px', '18px', 'int' );
-			this._css( 'fl-h5-font-size', 'h5', 'font-size', '{val}px', '14px', 'int' );
-			this._css( 'fl-h6-font-size', 'h6', 'font-size', '{val}px', '12px', 'int' );
+			this._css( 'fl-h1-font-size', 'h1', 'font-size', '{val}px', '36px', 'int', true );
+			this._css( 'fl-h2-font-size', 'h2', 'font-size', '{val}px', '30px', 'int', true );
+			this._css( 'fl-h3-font-size', 'h3', 'font-size', '{val}px', '24px', 'int', true );
+			this._css( 'fl-h4-font-size', 'h4', 'font-size', '{val}px', '18px', 'int', true );
+			this._css( 'fl-h5-font-size', 'h5', 'font-size', '{val}px', '14px', 'int', true );
+			this._css( 'fl-h6-font-size', 'h6', 'font-size', '{val}px', '12px', 'int', true );
 			this._css( 'fl-topbar-bg-repeat', '.fl-page-bar', 'background-repeat' );
 			this._css( 'fl-topbar-bg-position', '.fl-page-bar', 'background-position' );
 			this._css( 'fl-topbar-bg-attachment', '.fl-page-bar', 'background-attachment' );
@@ -96,20 +105,20 @@
 			this._css( 'fl-header-logo-top-spacing', '.fl-nav-vertical .fl-page-header-vertical .fl-page-header-container', 'padding-top', '{val}px', '50px', 'int' );
 			this._css( 'fl-nav-item-spacing', '.fl-page-header-vertical .fl-page-nav-collapse ul.navbar-nav > li > a', 'padding-bottom', '{val}px', '15px', 'int' );
 			this._css( 'fl-nav-menu-top-spacing', '.fl-page-header-vertical .fl-page-nav-collapse ul.navbar-nav', 'padding-top', '{val}px', '30px', 'int' );
-			this._css( 'fl-body-font-size', 'body', 'font-size', '{val}px', '14px', 'int' );
-			this._css( 'fl-body-line-height', 'body', 'line-height', '{val}', '1.45' );
-			this._css( 'fl-h1-line-height', 'h1', 'line-height', '{val}', '1.4' );
-			this._css( 'fl-h1-letter-spacing', 'h1', 'letter-spacing', '{val}px', '0' );
-			this._css( 'fl-h2-line-height', 'h2', 'line-height', '{val}', '1.4' );
-			this._css( 'fl-h2-letter-spacing', 'h2', 'letter-spacing', '{val}px', '0' );
-			this._css( 'fl-h3-line-height', 'h3', 'line-height', '{val}', '1.4' );
-			this._css( 'fl-h3-letter-spacing', 'h3', 'letter-spacing', '{val}px', '0' );
-			this._css( 'fl-h4-line-height', 'h4', 'line-height', '{val}', '1.4' );
-			this._css( 'fl-h4-letter-spacing', 'h4', 'letter-spacing', '{val}px', '0' );
-			this._css( 'fl-h5-line-height', 'h5', 'line-height', '{val}', '1.4' );
-			this._css( 'fl-h5-letter-spacing', 'h5', 'letter-spacing', '{val}px', '0' );
-			this._css( 'fl-h6-line-height', 'h6', 'line-height', '{val}', '1.4' );
-			this._css( 'fl-h6-letter-spacing', 'h6', 'letter-spacing', '{val}px', '0' );
+			this._css( 'fl-body-font-size', 'body', 'font-size', '{val}px', '14px', 'int', true );
+			this._css( 'fl-body-line-height', 'body', 'line-height', '{val}', '1.45', false, true );
+			this._css( 'fl-h1-line-height', 'h1', 'line-height', '{val}', '1.4', false, true );
+			this._css( 'fl-h1-letter-spacing', 'h1', 'letter-spacing', '{val}px', '0', false, true );
+			this._css( 'fl-h2-line-height', 'h2', 'line-height', '{val}', '1.4', false, true  );
+			this._css( 'fl-h2-letter-spacing', 'h2', 'letter-spacing', '{val}px', '0', false, true  );
+			this._css( 'fl-h3-line-height', 'h3', 'line-height', '{val}', '1.4', false, true  );
+			this._css( 'fl-h3-letter-spacing', 'h3', 'letter-spacing', '{val}px', '0', false, true  );
+			this._css( 'fl-h4-line-height', 'h4', 'line-height', '{val}', '1.4', false, true  );
+			this._css( 'fl-h4-letter-spacing', 'h4', 'letter-spacing', '{val}px', '0', false, true  );
+			this._css( 'fl-h5-line-height', 'h5', 'line-height', '{val}', '1.4', false, true  );
+			this._css( 'fl-h5-letter-spacing', 'h5', 'letter-spacing', '{val}px', '0', false, true  );
+			this._css( 'fl-h6-line-height', 'h6', 'line-height', '{val}', '1.4', false, true  );
+			this._css( 'fl-h6-letter-spacing', 'h6', 'letter-spacing', '{val}px', '0', false, true  );
 			this._css( 'fl-layout-spacing', 'body', 'padding', '{val}px 0', '0' );
 			this._css( 'fl-header-padding', '.fl-page-nav-centered-inline-logo .fl-page-header-container, .fl-page-nav-bottom .fl-page-header-container, .fl-page-nav-right .fl-page-header-container, .fl-page-nav-left .fl-page-header-container, .fl-page-nav-centered .fl-page-header-container', 'padding', '{val}px 0', '30' );
 			this._css( 'fl-nav-item-spacing', '.fl-page-header-vertical .navbar-nav > li > a', 'padding-botom', '{val}px', '0' );
@@ -128,6 +137,12 @@
 
 			// Setup Button Styles Preview
 			this._initButtonStyles();
+
+			// Bind responsive controls callback.
+			this._initResponsiveStyles();
+
+			// Setup responsive controls preview.
+			this._initResponsivePreview();
 		},
 
 		/**
@@ -160,8 +175,9 @@
 		 * @param {String} format (Optional) A format in brackets for the value such as "{val}px".
 		 * @param {String} fallback (Optional) A fallback value if the value is empty.
 		 * @param {String} sanitizeCallback (Optional) The type of sanitization function to call on the value.
+		 * @param {Boolean} responsive (Optional) If a control is responsive, then add CSS property for each device.
 		 */
-		_css: function( key, selector, property, format, fallback, sanitizeCallback )
+		_css: function( key, selector, property, format, fallback, sanitizeCallback, responsive )
 		{
 			api( key, function( val ) {
 
@@ -183,6 +199,16 @@
 					FLCustomizerPreview._styleSheet.updateRule( selector, property, newVal );
 				});
 			});
+
+			if ( 'undefined' !== typeof responsive && false !== responsive ) {
+				FLCustomizerPreview._responsiveControls[ key ] = {
+					selector: selector,
+					property: property,
+					format  : format,
+					fallback: fallback,
+					sanitizeCallback: sanitizeCallback,
+				};
+			}
 		},
 
 		/**
@@ -285,9 +311,9 @@
 			this._css( 'fl-button-hover-color', hoverSelector, 'color' );
 			this._css( 'fl-button-hover-color', hoverInsideSelector, 'color' );
 			// Background Color
-			this._css( 'fl-button-background-color', mainSelector, 'background' );
+			this._css( 'fl-button-background-color', mainSelector, 'background-color' );
 			// Background Hover
-			this._css( 'fl-button-background-hover-color', hoverSelector, 'background' );
+			this._css( 'fl-button-background-hover-color', hoverSelector, 'background-color' );
 			// Border Color
 			this._css( 'fl-button-border-color', mainSelector, 'border-color' );
 			this._css( 'fl-button-border-color', hoverSelector, 'border-color' );
@@ -302,6 +328,71 @@
 			this._css( 'fl-button-border-radius', hoverSelector, 'border-radius', '{val}px' );
 			// Text Transform
 			this._css( 'fl-button-text-transform', mainSelector, 'text-transform' );
+		},
+
+		/**
+		 * Callback for when the responsive controls are changed.
+		 *
+		 * @since 1.7.2
+		 * @access private
+		 * @method _initResponsiveStyles
+		 */
+		_initResponsiveStyles: function() {
+			var controls 	= FLCustomizerPreview._responsiveControls,
+				breakpoints = ['medium', 'mobile'];
+
+			if ( ! $.isEmptyObject( controls ) ) {
+				for (i = 0; i < breakpoints.length; i++ ) {
+					$.each( controls, function( key, data ) {
+						FLCustomizerPreview._css( key + '_' + breakpoints[i], data.selector, data.property, data.format, data.fallback, data.sanitizeCallback );
+					});
+				}
+			}
+		},
+
+		/**
+		 * Adds preview for responsive controls.
+		 *
+		 * @since 1.7.2
+		 * @access private
+		 * @method _initResponsivePreview
+		 */
+		_initResponsivePreview: function() {
+			var controls = FLCustomizerPreview._responsiveControls,
+			    newVal = '',
+				controlValues = [];
+
+			// Listen for a previewed-device message.
+    		api.preview.bind( 'previewed-device', function( newDevicePreview ) {
+				controlValues = api.get();
+
+				if ( ! $.isEmptyObject( controls ) ) {
+					$.each( controls, function( key, data ) {
+						if ( 'desktop' != newDevicePreview ) {
+							newVal = controlValues[ key + '_' + newDevicePreview ];
+						}
+						else {
+							newVal = controlValues[ key ];
+						}
+
+						switch ( data.sanitizeCallback ) {
+							case 'int':
+							newVal = FLCustomizerPreview._sanitizeInt( newVal );
+							break;
+						}
+
+						if ( 'undefined' != typeof data.fallback && null != data.fallback && '' == newVal ) {
+							newVal = data.fallback;
+						}
+						else if ( 'undefined' != typeof data.format && null != data.format ) {
+							newVal = data.format.replace( '{val}', newVal );
+						}
+
+						FLCustomizerPreview._styleSheet.updateRule( data.selector, data.property, newVal );
+					});
+				}
+
+			});
 		},
 	};
 
