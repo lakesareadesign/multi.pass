@@ -54,13 +54,19 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 			 *
 			 * @since 3.0.0
 			 */
-			add_action( 'wp_ajax_branda_admin_help_save', array( $this, 'ajax_save' ) );
+			add_action( 'wp_ajax_branda_admin_help_save', array( $this, 'ajax_save_item' ) );
 			/**
 			 * Delete item.
 			 *
 			 * @since 3.0.0
 			 */
-			add_action( 'wp_ajax_branda_admin_help_delete', array( $this, 'ajax_delete' ) );
+			add_action( 'wp_ajax_branda_admin_help_delete', array( $this, 'ajax_delete_item' ) );
+			/**
+			 * Get Item
+			 *
+			 * @since 3.1.0
+			 */
+			add_action( 'wp_ajax_branda_admin_help_content_get', array( $this, 'ajax_get_item' ) );
 			/**
 			 * Upgrade options.
 			 *
@@ -172,8 +178,10 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 						'list' => array(
 							'type' => 'callback',
 							'callback' => array( $this, 'get_list' ),
-							'description' => __( 'Reorder the help items by dragging and dropping.', 'ub' ),
-							'description-position' => 'bottom',
+							'description' => array(
+								'content' => __( 'Reorder the help items by dragging and dropping.', 'ub' ),
+								'position' => 'bottom',
+							),
 						),
 					),
 				),
@@ -193,17 +201,21 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 					'fields' => array(
 						'prevent_network' => array(
 							'checkbox_label' => __( 'Hide new help panels in Network Admin area', 'ub' ),
-							'description' => __( 'Hide the new help panels added in the Network Admin area and show a generic guide on Branda Dashboard instead.', 'ub' ),
+							'description' => array(
+								'content' => __( 'Hide the new help panels added in the Network Admin area and show a generic guide on Branda Dashboard instead.', 'ub' ),
+								'position' => 'bottom',
+							),
 							'type' => 'checkbox',
 							'classes' => array( 'switch-button' ),
-							'description-position' => 'bottom',
 						),
 						'merge_panels' => array(
 							'checkbox_label' => __( 'Keep the default help items', 'ub' ),
-							'description' => __( 'Merge the new help items with the default items instead of deleting them.', 'ub' ),
+							'description' => array(
+								'content' => __( 'Merge the new help items with the default items instead of deleting them.', 'ub' ),
+								'position' => 'bottom',
+							),
 							'type' => 'checkbox',
 							'classes' => array( 'switch-button' ),
-							'description-position' => 'bottom',
 							'default' => 'on',
 						),
 					),
@@ -271,49 +283,22 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 		 * @since 3.0.0
 		 */
 		public function get_list() {
-			$content = '';
-			// Top button.
-			$args = array(
-				'data' => array(
-					'a11y-dialog-show' => $this->get_name( 'add' ),
-				),
-				'icon' => 'plus',
-				'text' => __( 'Add Help Item', 'ub' ),
-				'sui' => 'magenta',
-			);
-			$content .= '<div class="sui-box-builder">';
-			$content .= '<div class="sui-box-builder-header">';
-			$content .= $this->button( $args );
-			$content .= '</div>'; // Box Builder Header
-			// List.
+			$template = $this->get_template_name( 'list' );
 			$tabs = $this->get_value( 'items' );
-			$content .= '<div class="sui-box-builder-body">';
-			$content .= '<div class="sui-box-builder-fields">';
-			$dialogs = '';
+			$items = array();
 			if ( is_array( $tabs ) ) {
-				$delete_dialog_configuration = array(
-					'title' => __( 'Delete Help Item', 'ub' ),
-					'description' => __( 'Are you sure you wish to permanently delete this help item?', 'ub' ),
-				);
-				// Get lines by order.
 				$order = $this->get_value( 'order' );
-				$template = sprintf( '/admin/modules/%s/row', $this->module );
 				if ( is_array( $order ) ) {
 					foreach ( $order as $id ) {
 						if ( ! isset( $tabs[ $id ] ) ) {
 							continue;
 						}
 						$tab = $tabs[ $id ];
-						unset( $tabs[ $id ] );
 						$args = array(
 							'id' => $id,
 							'title' => $tab['title'],
-							'dialog_edit' => $this->get_nonce_action( 'edit', $id ),
-							'dialog_delete' => $this->get_nonce_action( $id, 'delete' ),
 						);
-						$content .= $this->render( $template, $args, true );
-						$dialogs .= $this->get_dialog( $id, array( 'item' => $tab ), 'edit' );
-						$dialogs .= $this->get_dialog_delete( $id, $delete_dialog_configuration );
+						$items[ $id ] = $tab;
 					}
 				}
 				// Get lines which has not order.
@@ -321,28 +306,42 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 					$args = array(
 						'id' => $id,
 						'title' => $tab['title'],
-						'dialog_edit' => $this->get_nonce_action( 'edit', $id ),
-						'dialog_delete' => $this->get_nonce_action( $id, 'delete' ),
 					);
-					$content .= $this->render( $template, $args, true );
-					$dialogs .= $this->get_dialog( $id, array( 'item' => $tab ), 'edit' );
-					$dialogs .= $this->get_dialog_delete( $id, $delete_dialog_configuration );
+						$items[ $id ] = $tab;
+				}
+				foreach ( $items as $key => $data ) {
+					$items[ $key ]['nonce'] = $this->get_nonce_value( $key );
 				}
 			}
-			$content .= '</div>'; // Box Builder Fields
+			$nonce = $this->get_nonce_value( 'new' );
 			$args = array(
-				'data' => array(
-					'a11y-dialog-show' => $this->get_name( 'add' ),
+				'button' => $this->button(
+					array(
+						'data' => array(
+							'a11y-dialog-show' => $this->get_name( 'edit' ),
+							'nonce' => $nonce,
+						),
+						'icon' => 'plus',
+						'text' => __( 'Add Help Item', 'ub' ),
+						'sui' => 'magenta',
+					)
 				),
-				'icon' => 'plus',
-				'text' => __( 'Add Help Item', 'ub' ),
-				'sui' => 'dashed',
+				'order' => $this->get_value( 'order' ),
+				'template' => $this->get_template_name( 'row' ),
+				'items' => $items,
+				'button_plus' => $this->button(
+					array(
+						'data' => array(
+							'a11y-dialog-show' => $this->get_name( 'edit' ),
+							'nonce' => $nonce,
+						),
+						'icon' => 'plus',
+						'text' => __( 'Add Help Item', 'ub' ),
+						'sui' => 'dashed',
+					)
+				),
 			);
-			$content .= $this->button( $args );
-			$content .= '</div>'; // Box Builder Body
-			$content .= '</div>'; // Box Builder
-			$content .= $dialogs;
-			return $content;
+			return $this->render( $template, $args, true );
 		}
 
 		/**
@@ -359,7 +358,39 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 			if ( $this->module !== $module['module'] ) {
 				return $content;
 			}
-			$content .= $this->get_dialog();
+			/**
+			 * Dialog ID
+			 */
+			$dialog_id = $this->get_name( 'edit' );
+			/**
+			 * Custom Item Row
+			 */
+			$template = $this->get_template_name( 'tmpl/row' );
+			$args = array(
+				'template' => $this->get_template_name( 'row' ),
+				'dialog_id' => $dialog_id,
+			);
+			$content .= $this->render( $template, $args, true );
+			/**
+			 * Dialog delete
+			 */
+			$content .= $this->get_dialog_delete(
+				null,
+				array(
+					'title' => __( 'Delete Custom Help Item', 'ub' ),
+					'description' => __( 'Are you sure you wish to permanently delete this custom help item?', 'ub' ),
+				)
+			);
+			/**
+			 * Dialog settings
+			 */
+			$args = array(
+				'dialog_id' => $dialog_id,
+				'nonce_edit' => $this->get_nonce_value( 'edit' ),
+				'nonce_restore' => $this->get_nonce_value( 'restore' ),
+			);
+			$template = $this->get_template_name( 'dialogs/edit' );
+			$content .= $this->render( $template, $args, true );
 			return $content;
 		}
 
@@ -447,11 +478,11 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 		 *
 		 * @since 3.0.0
 		 */
-		public function ajax_save() {
+		public function ajax_save_item() {
 			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
 			$nonce_action = $this->get_nonce_action( $id );
-			$message = __( 'Item was updated.', 'ub' );
 			$this->check_input_data( $nonce_action, array( 'id', 'title', 'content' ) );
+			$message = __( 'Item was updated.', 'ub' );
 			$tabs = $this->get_value( 'items' );
 			if ( empty( $tabs ) || ! is_array( $tabs ) ) {
 				$tabs = array();
@@ -462,10 +493,11 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 				'updated' => time(),
 			);
 			$item['content_meta'] = do_shortcode( $item['content'] );
-			if ( '0' === $id ) {
+			if ( 'new' === $id ) {
 				$message = sprintf( 'Item was added.', 'ub' );
 				$item['created'] = time();
 				$id = $this->generate_id( $item );
+				$item['nonce'] = $this->get_nonce_value( $id );
 			}
 			$item['id'] = $id;
 			$tabs[ $id ] = $item;
@@ -473,13 +505,8 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 			$value = $this->get_value();
 			$value['items'] = $tabs;
 			$this->update_value( $value );
-			// Response array.
-			$message = array(
-				'class' => 'success',
-				'message' => $message,
-			);
-			$this->uba->add_message( $message );
-			wp_send_json_success();
+			$item['message'] = $message;
+			wp_send_json_success( $item );
 		}
 
 		/**
@@ -487,9 +514,9 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 		 *
 		 * @since 3.0.0
 		 */
-		public function ajax_delete() {
+		public function ajax_delete_item() {
 			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
-			$nonce_action = $this->get_nonce_action( $id, 'delete' );
+			$nonce_action = $this->get_nonce_action( $id );
 			$this->check_input_data( $nonce_action, array( 'id' ) );
 			$value = $this->get_value();
 			if (
@@ -497,14 +524,15 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 				&& is_array( $value['items'] )
 				&& isset( $value['items'][ $id ] )
 			) {
+				$item = $value['items'][ $id ];
 				unset( $value['items'][ $id ] );
 				$this->update_value( $value );
-				$message = array(
-					'class' => 'success',
-					'message' => __( 'Item was deleted.', 'ub' ),
+				wp_send_json_success(
+					array(
+						'id' => $id,
+						'message' => __( 'Item was deleted.', 'ub' ),
+					)
 				);
-				$this->uba->add_message( $message );
-				wp_send_json_success();
 			}
 			$this->json_error();
 		}
@@ -521,6 +549,23 @@ if ( ! class_exists( 'Branda_Admin_Help_Content' ) ) {
 		 */
 		public function add_preserve_fields() {
 			return array( 'items' => null );
+		}
+
+		/**
+		 * AJAX get single item
+		 *
+		 * @since 3.1.0
+		 */
+		public function ajax_get_item() {
+			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+			$nonce_action = $this->get_nonce_action( $id );
+			$this->check_input_data( $nonce_action, array( 'id' ) );
+			$items = $this->get_value( 'items' );
+			if ( isset( $items[ $id ] ) ) {
+				$item = $items[ $id ];
+				wp_send_json_success( $item );
+			}
+			wp_send_json_error( array( 'message' => __( 'Selected item does not exists!', 'ub' ) ) );
 		}
 	}
 }

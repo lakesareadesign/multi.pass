@@ -1,3 +1,55 @@
+<h4>2.2.2.6 - 04/25/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed issue with Grammerly, LastPass and Keeper browser extensions all breaking AJAX save actions.</li>
+	<li>Fixed schema output in post-grid module.</li>
+	<li>Dont show Beaver Builder enabled post count on our own post type pages.</li>
+	<li>Show warning on license settings page if Curl is not installed.</li>
+	<li>Debug mode will now auto turn off after 48 hours.</li>
+	<li>New filter <code>fl_render_content_by_id_attrs</code> in render_content_by_id function to filter the html attributes for the container.</li>
+	<li>New filters added for the UI Bar buttons text:</li>
+	<ul>
+		<li><code>fl_builder_ui_bar_discard</code></li>
+		<li><code>fl_builder_ui_bar_draft</code></li>
+		<li><code>fl_builder_ui_bar_review</code></li>
+		<li><code>fl_builder_ui_bar_publish</code></li>
+		<li><code>fl_builder_ui_bar_cancel</code></li>
+	</ul>
+</ul>
+
+<h4>2.2.2.5 - 04/16/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed some Google fonts not rendering correctly if they have numbers in the font name.</li>
+	<li>Updated the crash error message popup text.</li>
+	<li>Update checks now use SSL urls.</li>
+	<li>Fixed preview issue. Type unit was using the number value intead of the unit value.</li>
+	<li>Fixed WPCLI issue when using PHP5.</li>
+	<li>Fixed issue with Maps module and ACF map field connection.</li>
+	<li>Fixed undefined index warning on some Woocommerce pages.</li>
+	<li>Reverted text editor module styles overriding individual styles set in TinyMCE added in 2.2.2.1</li>
+</ul>
+
+<h4>2.2.2.4 - 04/08/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed settings.js not being executed in 3rd party plugins.</li>
+</ul>
+
+<h4>2.2.2.3 - 04/06/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Fixed Javascript error in Post Grid.</li>
+	<li>Fixed incorrect schema markup in Post Grid.</li>
+</ul>
+
+<h4>2.2.2.2 - 04/04/2019</h4>
+<p><strong>Hot Fix</strong></p>
+<ul>
+	<li>Added missing debounce dependency for Post Grid Module if scroll is used for pagination.</li>
+	<li>Fixed an issue where deleting a Global Saved Module affects the other globals in a layout.</li>
+</ul>
+
 <h4>2.2.2.1 - 04/03/2019</h4>
 <p><strong>Enhancements</strong></p>
 <ul>

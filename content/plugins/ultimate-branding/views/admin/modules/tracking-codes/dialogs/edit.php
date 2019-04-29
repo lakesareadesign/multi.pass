@@ -25,7 +25,7 @@
 			</div>
 		</div>
 		<div>
-			<div class="sui-form-field branda-Location-place">
+			<div class="sui-form-field branda-location-place">
 				<label class="sui-label"><?php esc_attr_e( 'Insert Position', 'ub' ); ?></label>
 				<div class="sui-side-tabs sui-tabs">
 					<div class="sui-tabs-menu">

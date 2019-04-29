@@ -47,8 +47,14 @@ class RBM_FH_Field_TimePicker extends RBM_FH_Field {
 
 		// Cannot use function in property declaration
 		$this->defaults['format'] = get_option( 'time_format', 'g:i a' );
+		
+		$this->defaults['timepicker_args']['timeFormat'] = RBM_FH_Field_DateTimePicker::php_date_to_jquery_ui( $this->defaults['format'] );
 
 		$args['default'] = current_time( $this->defaults['format'] );
+		
+		if ( ! isset( $args['timepicker_args'] ) ) {
+			$args['timepicker_args'] = array();
+		}
 
 		// Default options
 		$args['timepicker_args'] = wp_parse_args( $args['timepicker_args'], $this->defaults['timepicker_args'] );
@@ -66,6 +72,9 @@ class RBM_FH_Field_TimePicker extends RBM_FH_Field {
 	 * @param array $args Field arguments.
 	 */
 	public static function field( $name, $value, $args = array() ) {
+		
+		wp_enqueue_script( 'rbm-fh-jquery-ui-datetimepicker' );
+		wp_enqueue_style( 'rbm-fh-jquery-ui-datetimepicker' );
 
 		// Get preview format
 		$args['preview'] = date( $args['format'], strtotime( $value ? $value : $args['default'] ) );

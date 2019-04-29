@@ -3,7 +3,6 @@
 Class Name: Simple Options
 Class URI: http://iworks.pl/
 Description: Simple option class to manage options.
-Version: 2.0.0
 Author: Marcin Pietrzak
 Author URI: http://iworks.pl/
 License: GPLv2 or later
@@ -27,7 +26,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 == CHANGELOG ==
 
-= 2.0.0 =
+= 3.0.7 =
+- Added "notice" field type.
+
+= 3.0.0 =
 - Implement Shared UI.
 - Added "callback" field type.
 - Added "raw" field type.
@@ -94,7 +96,18 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 
 	class Simple_Options {
 
+		/**
+		 * Are some modules loaded? Helper semaphore array.
+		 *
+		 * @since 2.1.0
+		 */
 		private $loaded = array();
+
+		/**
+		 * Is Network Admin
+		 *
+		 * @since 3.0.0
+		 */
 		private $is_network = false;
 
 		public function __construct() {
@@ -349,13 +362,12 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 						$group_classes = array();
 						if ( isset( $data['master'] ) && is_string( $data['master'] ) ) {
 							$group_classes[] = $data['master'];
-							if ( isset( $masters[ $data['master'] ] ) ) {
-								switch ( $masters[ $data['master'] ]['type'] ) {
-									case 'checkbox':
-										if ( 'off' === $masters[ $data['master'] ]['value'] ) {
-											$group_classes[] = 'hidden';
-										}
-								}
+							if (
+								isset( $masters[ $data['master'] ] )
+								&& 'checkbox' === $masters[ $data['master'] ]['type']
+								&& 'off' === $masters[ $data['master'] ]['value']
+							) {
+								$group_classes[] = 'hidden';
 							}
 						}
 						// Add group classes.
@@ -516,13 +528,12 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 							}
 							$master = 'simple-option-complex-master'.$simple_master;
 						} else if ( is_string( $master ) ) {
-							if ( isset( $masters[ $master ] ) ) {
-								switch ( $masters[ $master ]['type'] ) {
-									case 'checkbox':
-										if ( 'off' === $masters[ $master ]['value'] ) {
-											$master .= ' hidden';
-										}
-								}
+							if (
+								isset( $masters[ $master ] )
+								&& 'checkbox' === $masters[ $master ]['type']
+								&& 'off' === $masters[ $master ]['value']
+							) {
+								$master .= ' hidden';
 							}
 						}
 						/**
@@ -548,6 +559,15 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 								$classes = array_merge( $classes, $data['container-classes'] );
 							} else {
 								$classes[] = $data['container-classes'];
+							}
+						}
+						/**
+						 * remove sui-form-field from sui-tab container
+						 */
+						if ( 'sui-tab' === $data['type'] ) {
+							$del_val = 'sui-form-field';
+							if ( false !== ( $key = array_search( $del_val, $classes ) ) ) {
+								unset( $classes[ $key ] );
 							}
 						}
 						$content .= sprintf(
@@ -684,12 +704,6 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 							$data['description'] = array();
 					}
 					/**
-					 * Set position from old settings
-					 */
-					if ( isset( $data['description-position'] ) ) {
-						$data['description']['position'] = $data['description-position'];
-					}
-					/**
 					 * sanitize
 					 */
 					if ( ! isset( $data['description']['content'] ) ) {
@@ -802,7 +816,7 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 										isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
 										checked( 1, array_key_exists( $checkbox_value, $value ), false )
 									);
-							        $content .= '<span></span>';
+									$content .= '<span></span>';
 									$content .= sprintf(
 										'<span class="sui-description">%s</span>',
 										esc_html( $checkbox_label )
@@ -856,7 +870,10 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 									$data['classes'] = array( 'master-field' );
 								}
 							}
-							if ( in_array( 'switch-button', $data['classes'] ) ) {
+							if (
+								is_array( $data['classes'] )
+								&& in_array( 'switch-button', $data['classes'] )
+							) {
 								if ( 'on' == $value ) {
 									$value = 1;
 								}
@@ -918,6 +935,12 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 							if ( ! is_string( $value ) ) {
 								$value = '';
 							}
+							/**
+							 * Disable MarketPress media buttons to editors.
+							 *
+							 * @since 3.1.0
+							 */
+							add_filter( 'mp_media_buttons', '__return_false' );
 							$editor_id = $this->get_editor_id( $module );
 							$args = array(
 								'textarea_name' => $field_name,
@@ -957,6 +980,10 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 										$selected = in_array( $option_value, $value );
 									} elseif ( $value === $option_value ) {
 										$selected = true;
+									} else {
+										$temp1 = (string) $value;
+										$temp2 = (string) $option_value;
+										$selected = $temp1 === $temp2;
 									}
 									$select_options .= sprintf(
 										'<option value="%s" %s>%s</option>',
@@ -1070,6 +1097,14 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 							);
 							break;
 
+							/**
+							 * SUI notice
+							 */
+						case 'notice':
+							$uba = ub_get_uba_object();
+							$notice_type = isset( $data['sui'] )? $data['sui']:'info';
+							$content .= $uba->get_inline_sui_notice( $value, $notice_type );
+							break;
 						/**
 						 * SUI tab
 						 */
@@ -1142,10 +1177,24 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 								) {
 									$content .= esc_html( $radio_label );
 								} else {
-									$content .= sprintf(
-										'<i class="sui-icon-%s" aria-hidden="true"></i>',
-										esc_attr( $radio_label )
-									);
+									$use_file = false;
+									if (
+										isset( $radio_data['classes'] )
+										&& in_array( 'branda-icon', $radio_data['classes'] )
+									) {
+										$file = ub_dir( 'assets/images/icons/' );
+										$file .= sprintf( '%s.svg', $radio_data['label'] );
+										if ( is_file( $file ) ) {
+											$content .= file_get_contents( $file );
+											$use_file = true;
+										}
+									}
+									if ( ! $use_file ) {
+										$content .= sprintf(
+											'<i class="sui-icon-%s" aria-hidden="true"></i>',
+											esc_attr( $radio_label )
+										);
+									}
 								}
 								$content .= '</label>';
 								$content .= $after;
@@ -1167,7 +1216,9 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 											case 'contain':
 											case 'fill':
 												$local_value = 'focal';
-											break;
+												break;
+											default:
+												$local_value = $value;
 										}
 									}
 									$content .= sprintf(
@@ -1235,7 +1286,7 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 									if ( ! isset( $data['data'] ) ) {
 										$data['data'] = array();
 									}
-									$alt = 'datepicker-'.md5( serialize( $data ) );
+									$alt = 'datepicker-'.crc32( serialize( $data ) );
 									$extra[] = sprintf( 'data-alt="%s"', esc_attr( $alt ) );
 									if ( ! isset( $data['after'] ) ) {
 										$data['after'] = '';
@@ -1295,7 +1346,6 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 										$extra[] = 'disabled="disabled"';
 									}
 									break;
-
 								default:
 									if ( isset( $data['value'] ) && empty( $value ) ) {
 										$value = $data['value'];
@@ -1312,16 +1362,25 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 							 */
 							if ( 'link' === $data['type'] ) {
 								/**
+								 * target?
+								 *
+								 * @since 3.1.0
+								 */
+								if ( isset( $data['target'] ) && $data['target'] ) {
+									$extra[] = sprintf( 'target="%s"', esc_attr( $data['target'] ) );
+								}
+								/**
 								 * since 1.2.1
 								 */
 								$content .= sprintf(
-									'<a href="%s" id="%s" name="%s" class="%s" id="%s" %s >%s</a>',
+									'<a href="%s" id="%s" name="%s" class="%s" id="%s" %s >%s%s</a>',
 									isset( $data['href'] )? esc_attr( $data['href'] ):'',
 									esc_attr( $html_id ),
 									esc_attr( $field_name ),
 									isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
 									esc_attr( $html_id ),
 									implode( ' ', $extra ),
+									$this->get_sui_icon( $data ),
 									esc_html( stripslashes( $value ) )
 								);
 							} else if ( 'focal' === $data['type'] ) {
@@ -1355,13 +1414,6 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 								$template = 'admin/common/options/focal';
 								$content .= $this->render( $template, $args, true );
 							} else if ( preg_match( '/^(button|submit)$/', $data['type'] ) ) {
-								$icon = '';
-								if ( isset( $data['icon'] ) ) {
-									$icon = sprintf(
-										'<i class="sui-icon-%s" aria-hidden="true"></i> ',
-										esc_attr( $data['icon'] )
-									);
-								}
 								$content .= sprintf(
 									'<button type="%s" id="%s" name="%s" class="%s" id="%s" %s />%s%s</button>',
 									esc_attr( $data['type'] ),
@@ -1370,17 +1422,19 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 									isset( $data['classes'] ) ? esc_attr( implode( ' ', $data['classes'] ) ) : '',
 									esc_attr( $html_id ),
 									implode( ' ', $extra ),
-									$icon,
+									$this->get_sui_icon( $data ),
 									$value
 								);
 							} else {
+								if ( 'password' === $data['type'] ) {
+									$content .= '<div class="sui-with-button sui-with-button-icon">';
+								}
 								/**
 								 * field before
 								 */
 								if ( isset( $data['field_before'] ) ) {
 									$content .= $data['field_before'];
 								}
-
 								$content .= sprintf(
 									'<input type="%s" id="%s" name="%s" value="%s" class="%s" id="%s" %s />',
 									esc_attr( $data['type'] ),
@@ -1396,6 +1450,20 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 								 */
 								if ( isset( $data['field_after'] ) ) {
 									$content .= $data['field_after'];
+								}
+								if ( 'password' === $data['type'] ) {
+									$content .= '<button type="button" class="sui-button-icon">';
+									$content .= '<i aria-hidden="true" class="sui-icon-eye"></i>';
+									$content .= sprintf(
+										'<span class="sui-password-text sui-screen-reader-text">%s</span>',
+										esc_html__( 'Show Password', 'ub' )
+									);
+									$content .= sprintf(
+										'<span class="sui-password-text sui-screen-reader-text sui-hidden">%s</span>',
+										esc_html__( 'Hide Password', 'ub' )
+									);
+									$content .= '</button>';
+									$content .= '</div>';
 								}
 							}
 						break;
@@ -1415,7 +1483,10 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 					if ( isset( $data['after'] ) ) {
 						$content .= $data['after'];
 					}
-					if ( in_array( 'ui-slider', $data['classes'] ) ) {
+					if (
+						is_array( $data['classes'] )
+						&& in_array( 'ui-slider', $data['classes'] )
+					) {
 						$ui_slider_data = array(
 							'data-target-id' => esc_attr( $html_id ),
 						);
@@ -1568,7 +1639,7 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 						} else {
 							$table_footer .= '<span class="simple-option-reset-section">';
 						}
-						global $uba;
+						$uba = ub_get_uba_object();
 						$args = array(
 							'text' => __( 'Reset', 'ub' ),
 							'data' => array(
@@ -1623,7 +1694,7 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 							&& isset( $option['notice']['position'] )
 							&& 'bottom' === $option['notice']['position']
 						) {
-							global $uba;
+							$uba = ub_get_uba_object();
 							$content .= $uba->get_inline_sui_notice( $option['notice']['message'], $option['notice']['class'] );
 						}
 					}
@@ -1646,23 +1717,25 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 				 */
 				$footer = '';
 				if ( isset( $options['reset-module'] ) && true === $options['reset-module'] ) {
-					global $uba;
-					$module = $uba->get_current_module();
-					$footer .= '<div class="sui-box-settings-row">';
-					$args = array(
-						'text' => __( 'Reset to Default', 'ub' ),
-						'data' => array(
-							'module' => $module,
-							'nonce' => wp_create_nonce( 'reset-module-' . $module ),
-						),
-						'icon' => 'undo',
-						'sui' => 'ghost',
-						'class' => 'branda-reset-module',
-					);
-					$footer .= $uba->button( $args );
-					$footer .= '</div>';
-					if ( ! empty( $footer ) ) {
-						$footer = sprintf( '<div class="sui-box-footer">%s</div>', $footer );
+					$uba = ub_get_uba_object();
+					$show_reset_module_button = apply_filters( 'branda_options_show_reset_module_button', true, $module );
+					if ( $show_reset_module_button ) {
+						$footer .= '<div class="sui-box-settings-row">';
+						$args = array(
+							'text' => __( 'Reset to Default', 'ub' ),
+							'data' => array(
+								'module' => $module,
+								'nonce' => wp_create_nonce( 'reset-module-' . $module ),
+							),
+							'icon' => 'undo',
+							'sui' => 'ghost',
+							'class' => 'branda-reset-module',
+						);
+						$footer .= $uba->button( $args );
+						$footer .= '</div>';
+						if ( ! empty( $footer ) ) {
+							$footer = sprintf( '<div class="sui-box-footer">%s</div>', $footer );
+						}
 					}
 				}
 				/**
@@ -1692,11 +1765,14 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 			/**
 			 * actions with "do"
 			 */
+
 			if ( isset( $_REQUEST['do'] ) && isset( $_REQUEST['nonce'] ) ) {
 				switch ( $_REQUEST['do'] ) {
 					case 'copy':
 						$data = $this->helper_ajax_copy();
 					break;
+					default:
+						wp_send_json_error( array( 'message' => __( 'Wrong action!', 'ub' ) ) );
 				}
 			}
 			wp_send_json_error( array( 'message' => __( 'Something went wrong!', 'ub' ) ) );
@@ -1757,7 +1833,7 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 				}
 			}
 			if ( $success ) {
-				global $uba;
+				$uba = ub_get_uba_object();
 				$message = array(
 					'class' => 'info',
 					'message' => __( 'Section data was reset.', 'ub' ),
@@ -1832,7 +1908,7 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 			}
 			$result = ub_update_option( $to, $to_data );
 			if ( $result ) {
-				global $uba;
+				$uba = ub_get_uba_object();
 				$message = array(
 					'class' => 'info',
 					'message' => __( 'Section data was copied successfully.', 'ub' ),
@@ -1902,7 +1978,7 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 				$image_id = $image_src = $disabled = '';
 				if ( empty( $image ) ) {
 					if ( isset( $data['meta'] ) ) {
-						$image_id = 'file-'.md5( serialize( $data['meta'] ) );
+						$image_id = 'file-'.crc32( serialize( $data['meta'] ) );
 						$image = $image_src = $data['meta'][0];
 						$add = true;
 					} else {
@@ -1912,11 +1988,11 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 					}
 				} else if ( preg_match( '/^\d+$/', $image ) ) {
 					$image_id = 'attachment-id-'.$image;
-					$image_src = wp_get_attachment_image_url( $image );
+					$image_src = wp_get_attachment_image_url( $image, 'full' );
 					$add = true;
 				} else if ( is_string( $image ) ) {
 					$image_src = $image;
-					$image_id = 'file-'.md5( $image );
+					$image_id = 'file-'.crc32( $image );
 					$add = true;
 				}
 				$output['images'][] = array(
@@ -2033,12 +2109,16 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 				$field_name = $data['units']['name'];
 			}
 			$value = $this->get_single_value( array(), $input, $section_key, $field_name );
-			if ( ! in_array( $value, $units ) ) {
+			if (
+				! is_array( $units )
+				|| ! in_array( $value, $units )
+			) {
 				$value = false;
 			}
 			if (
 				empty( $value )
 				&& isset( $data['units']['default'] )
+				&& is_array( $units )
 				&& in_array( $data['units']['default'], $units )
 			) {
 				$value = $data['units']['default'];
@@ -2105,8 +2185,11 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 			if ( empty( $data['description']['content'] ) ) {
 				return $content;
 			}
-			if ( in_array( 'sui-notice', $data['description']['classes'] ) ) {
-				global $uba;
+			if (
+				is_array( $data['description']['classes'] )
+				&& in_array( 'sui-notice', $data['description']['classes'] )
+			) {
+				$uba = ub_get_uba_object();
 				$content .= $uba->get_inline_sui_notice(
 					$data['description']['content'],
 					$data['description']['classes']
@@ -2125,16 +2208,27 @@ if ( ! class_exists( 'Simple_Options' ) ) {
 		 * @since 3.0.0
 		 */
 		private function get_editor_id( $module, $key = 'wp' ) {
-			$md5 = serialize( $module );
-			$md5 .= time();
-			$md5 .= rand();
-			$md5 = md5( $md5 );
+			$id = serialize( $module );
+			$id .= time();
+			$id .= rand();
+			$id = crc32( $id );
 			$editor_id = sprintf(
 				'branda-%s-%s',
 				esc_attr( $key ),
-				esc_attr( $md5 )
+				esc_attr( $id )
 			);
 			return $editor_id;
+		}
+
+		private function get_sui_icon( $data ) {
+			$icon = '';
+			if ( isset( $data['icon'] ) ) {
+				$icon = sprintf(
+					'<i class="sui-icon-%s" aria-hidden="true"></i> ',
+					esc_attr( $data['icon'] )
+				);
+			}
+			return $icon;
 		}
 	}
 }

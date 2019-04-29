@@ -11,7 +11,7 @@
 	<div class="sui-dialog-content" aria-labelledby="dialogTitle" aria-describedby="dialogDescription" role="dialog">
 		<div class="sui-box" role="document">
 			<div class="sui-box-header">
-			<h3 class="sui-box-title" id="dialogTitle"><?php esc_html_e( 'Documentation', 'ub' ); ?></h3>
+				<h3 class="sui-box-title" id="dialogTitle"><?php esc_html_e( 'Documentation', 'ub' ); ?></h3>
 				<div class="sui-actions-right">
 					<button data-a11y-dialog-hide class="sui-dialog-close" aria-label="<?php esc_attr_e( 'Close this dialog window', 'ub' ); ?>"></button>
 				</div>

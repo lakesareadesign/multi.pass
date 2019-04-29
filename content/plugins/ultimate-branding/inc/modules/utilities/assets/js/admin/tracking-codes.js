@@ -45,6 +45,67 @@
         });
     });
     /**
+     * reset
+     */
+    $( '.branda-tracking-codes-reset' ).on( 'click', function() {
+        var id = $(this).data( 'id' );
+        var dialog = $( '#branda-tracking-codes-' + id );
+        var args = {
+            action: 'branda_admin_panel_tips_reset',
+            id: id,
+            _wpnonce: $(this).data( 'nonce' )
+        };
+        $.post(
+            ajaxurl,
+            args,
+            function ( response ) {
+                if (
+                    'undefined' !== typeof response.success &&
+                    response.success &&
+                    'undefined' !== typeof response.data
+                ) {
+                    var data = response.data;
+                    if ( 'undefined' !== typeof data.active ) {
+                        $('.branda-general-active input[value='+data.active+']', dialog ).click();
+                    }
+                    if ( 'undefined' !== typeof data.title ) {
+                        $('[name="branda[title]"]', dialog ).val( data.title );
+                    }
+                    if ( 'undefined' !== typeof data.code ) {
+                        var editor_id = 'branda-general-code-' + id;
+                        var all = document.querySelectorAll('.ace_editor');
+                        for (var i = 0; i < all.length; i++) {
+                            if (
+                                all[i].env &&
+                                all[i].env.editor &&
+                                all[i].env.textarea &&
+                                all[i].env.textarea.id &&
+                                editor_id === all[i].env.textarea.id
+                            ) {
+                                all[i].env.editor.setValue( data.code );
+                            }
+                        }
+                    }
+                    if ( 'undefined' !== typeof data.place ) {
+                        $('.branda-location-place input[value='+data.place+']', dialog ).click();
+                    }
+                    if ( 'undefined' !== typeof data.filter ) {
+                        $('.branda-location-filter input[value='+data.filter+']', dialog ).click();
+                    }
+                    if ( 'undefined' !== typeof data.users ) {
+                        $('select[name="branda[users]"]', dialog ).SUIselect2( 'val', [ data.users ] );
+                    }
+                    if ( 'undefined' !== typeof data.authors ) {
+                        $('select[name="branda[authors]"]', dialog ).SUIselect2( 'val', [ data.authors ] );
+                    }
+                    if ( 'undefined' !== typeof data.archives ) {
+                        $('select[name="branda[archives]"]', dialog ).SUIselect2( 'val', [ data.archives ] );
+                    }
+                }
+            }
+        );
+    });
+    /**
      * delete item/bulk
      */
     $( '.branda-tracking-codes-delete' ).on( 'click', function() {

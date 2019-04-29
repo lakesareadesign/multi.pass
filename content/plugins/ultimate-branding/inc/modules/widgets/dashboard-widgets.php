@@ -18,6 +18,20 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 		private $priorities = array( 'core', 'low', 'high' );
 		private $types = array( 'dashboard', 'dashboard-network' );
 
+		/**
+		 * Single item defaults
+		 *
+		 * @since 3.1.0
+		 */
+		private $item_defaults = array(
+			'id' => 'new',
+			'title' => '',
+			'content' => '',
+			'content_meta' => '',
+			'site' => 'on',
+			'network' => 'on',
+		);
+
 		public function __construct() {
 			parent::__construct();
 			$this->set_options();
@@ -66,12 +80,24 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 			 */
 			add_filter( 'branda_get_module_content', array( $this, 'add_dialog' ), 10, 2 );
 			/**
-			 * Handla AJAX actions
+			 * Handle AJAX actions
 			 *
 			 * @since 3.0.0
 			 */
-			add_action( 'wp_ajax_branda_dashboard_widget_save', array( $this, 'ajax_save' ) );
-			add_action( 'wp_ajax_branda_dashboard_widget_delete', array( $this, 'ajax_delete' ) );
+			add_action( 'wp_ajax_branda_dashboard_widget_save', array( $this, 'ajax_save_item' ) );
+			add_action( 'wp_ajax_branda_dashboard_widget_delete', array( $this, 'ajax_delete_item' ) );
+			/**
+			 * AJAX get single item
+			 *
+			 * @since 3.1.0
+			 */
+			add_action( 'wp_ajax_branda_dashboard_widgets_get', array( $this, 'ajax_get_item' ) );
+			/**
+			 * AJAX reset visibility
+			 *
+			 * @since 3.1.0
+			 */
+			add_action( 'wp_ajax_branda_dashboard_widget_visibility_reset', array( $this, 'ajax_visibility_reset' ) );
 			/**
 			 * text widgets
 			 */
@@ -82,6 +108,12 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 				add_action( 'wp_user_dashboard_setup', array( $this, 'add_dashboard_widgets' ), 467 );
 				add_action( 'admin_print_styles', array( $this, 'admin_print_styles' ) );
 			}
+			/**
+			 * delete widget
+			 *
+			 * @since 3.1.0
+			 */
+			add_action( 'branda_delete_available_widget', array( $this, 'delete_available_widget' ), 10, 1 );
 		}
 
 		/**
@@ -139,7 +171,7 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 			if ( ! empty( $options ) ) {
 				$data = array();
 				foreach ( $options as $one ) {
-					$id = md5( serialize( $one ) );
+					$id = $this->generate_id( $one );
 					$data[ $id ] = array(
 						'id' => $id,
 						'title' => isset( $one['title'] )? $one['title']:'',
@@ -168,7 +200,10 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 		 * @since 2.0.0
 		 */
 		protected function set_options() {
-			$available_widgets = ub_get_option( $this->available_widgets );
+			if ( ! is_admin() ) {
+				return;
+			}
+			$available_widgets = ub_get_option_filtered( $this->available_widgets );
 			$options = array(
 				'visibility' => array(
 					'title' => __( 'Widget Visibility', 'ub' ),
@@ -177,8 +212,6 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 						'wp_widgets' => array(
 							'type' => 'checkboxes',
 							'options' => $available_widgets,
-							'description' => __( 'Note: If you do not see a desired widget on this list, please visit Dashboard page and come back on this page.', 'ub' ),
-							'description-position' => 'bottom',
 						),
 					),
 				),
@@ -222,6 +255,17 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 						'type' => 'description',
 						'value' => __( 'If you do not see any widget here, please visit Dashboard page and come back on this page.', 'ub' ),
 						'classes' => array( 'sui-notice', 'sui-notice-info' ),
+					),
+				);
+			} else {
+				$options['visibility']['fields']['reset'] = array(
+					'type' => 'button',
+					'value' => __( 'Reset list', 'ub' ),
+					'sui' => array(
+						'ghost',
+					),
+					'data' => array(
+						'a11y-dialog-show' => $this->get_name( 'visibility-reset' ),
 					),
 				);
 			}
@@ -338,60 +382,42 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 		 * @since 3.0.0
 		 */
 		public function get_list() {
-			$content = '';
-			/**
-			 * top button
-			 */
-			$args = array(
-				'data' => array(
-					'a11y-dialog-show' => $this->get_name( 'text-add' ),
-				),
-				'icon' => 'plus',
-				'text' => __( 'Add Text Widget', 'ub' ),
-				'sui' => 'magenta',
-			);
-			/**
-			 * Box builder header
-			 */
-			$content .= '<div class="sui-box-builder">';
-			$content .= '<div class="sui-box-builder-header">';
-			$content .= $this->button( $args );
-			$content .= '</div>'; // Box Builder Header
-			/**
-			 * list
-			 */
+			$template = $this->get_template_name( 'list' );
+			$nonce = $this->get_nonce_value( 'new' );
 			$items = ub_get_option( $this->items_name );
-			$content .= '<div class="sui-box-builder-body">';
-			$content .= '<div class="sui-box-builder-fields">';
-			$dialogs = '';
 			if ( is_array( $items ) ) {
-				$delete_dialog_configuration = array(
-					'title' => __( 'Delete Text Widget', 'ub' ),
-					'description' => __( 'Are you sure you wish to permanently delete this text widget?', 'ub' ),
-				);
-				foreach ( $items as $id => $item  ) {
-					$content .= $this->get_list_one_row( $id, $item );
-					$dialogs .= $this->get_dialog( $id, $item, 'edit' );
-					$dialogs .= $this->get_dialog_delete( $id, $delete_dialog_configuration );
+				foreach ( $items as $key => $data ) {
+					$items[ $key ]['nonce'] = $this->get_nonce_value( $key );
 				}
 			}
-			$content .= '</div>'; // Box Builder Fields
 			$args = array(
-				'data' => array(
-					'a11y-dialog-show' => $this->get_name( 'text-add' ),
+				'button' => $this->button(
+					array(
+						'data' => array(
+							'a11y-dialog-show' => $this->get_name( 'edit' ),
+							'nonce' => $nonce,
+						),
+						'icon' => 'plus',
+						'text' => __( 'Add Text Widget', 'ub' ),
+						'sui' => 'magenta',
+					)
 				),
-				'icon' => 'plus',
-				'text' => __( 'Add Text Widget', 'ub' ),
-				'sui' => 'dashed',
+				'order' => $this->get_value( 'order' ),
+				'template' => $this->get_template_name( 'row' ),
+				'items' => $items,
+				'button_plus' => $this->button(
+					array(
+						'data' => array(
+							'a11y-dialog-show' => $this->get_name( 'edit' ),
+							'nonce' => $nonce,
+						),
+						'icon' => 'plus',
+						'text' => __( 'Add Text Widget', 'ub' ),
+						'sui' => 'dashed',
+					)
+				),
 			);
-			$content .= $this->button( $args );
-			if ( empty( $items ) || ! count( $items ) ) {
-				$content .= '<span class="sui-box-builder-message">' . __( 'No text widget has been added yet. Click on “+ Add Text Widget” to add your first text widget using a simple wizard.', 'ub' ) . '</span>';
-			}
-			$content .= '</div>'; // Box Builder Body
-			$content .= '</div>'; // Box Builder
-			$content .= $dialogs;
-			return $content;
+			return $this->render( $template, $args, true );
 		}
 
 		/**
@@ -406,68 +432,55 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 			if ( $this->module !== $module['module'] ) {
 				return $content;
 			}
-			$content .= $this->get_dialog();
+			/**
+			 * Dialog ID
+			 */
+			$dialog_id = $this->get_name( 'edit' );
+			/**
+			 * Custom Item Row
+			 */
+			$template = $this->get_template_name( 'tmpl/row' );
+			$args = array(
+				'template' => $this->get_template_name( 'row' ),
+				'dialog_id' => $dialog_id,
+			);
+			$content .= $this->render( $template, $args, true );
+			/**
+			 * Dialog Reset List
+			 */
+			$template = $this->get_template_name( 'dialogs/visibility-reset' );
+			$args = array(
+				'dialog_id' => $this->get_name( 'visibility-reset' ),
+				'nonce' => $this->get_nonce_value( 'visibility-reset' ),
+			);
+			$content .= $this->render( $template, $args, true );
+			/**
+			 * Dialog delete
+			 */
+			$content .= $this->get_dialog_delete(
+				null,
+				array(
+					'title' => __( 'Delete Text Widget', 'ub' ),
+					'description' => __( 'Are you sure you wish to permanently delete this text widget?', 'ub' ),
+				)
+			);
+			/**
+			 * Dialog settings
+			 */
+			$args = array(
+				'dialog_id' => $dialog_id,
+				'nonce_edit' => $this->get_nonce_value( 'edit' ),
+				'nonce_restore' => $this->get_nonce_value( 'restore' ),
+				'is_network' => $this->is_network,
+			);
+			$template = $this->get_template_name( 'dialogs/edit' );
+			$content .= $this->render( $template, $args, true );
+			$panes = array( 'visibility' );
+			foreach ( $panes as $pane ) {
+				$template = $this->get_template_name( 'tmpl/panes/' . $pane );
+				$content .= $this->render( $template, $args, true );
+			}
 			return $content;
-		}
-
-		/**
-		 * SUI: get dialog
-		 *
-		 * @since 3.0.0
-		 */
-		private function get_dialog( $id = 0, $data = array(), $type = 'add' ) {
-			/**
-			 * add defaults
-			 */
-			$defaults = array(
-				'title' => '',
-				'content' => '',
-				'site' => 'on',
-				'network' => 'on',
-			);
-			$data = wp_parse_args( $data, $defaults );
-			$config = $this->get_sui_tabs_config( $data );
-			$dialog = $this->sui_tabs( $config, $id, true );
-			/**
-			 * Footer
-			 */
-			$footer = '';
-			$args = array(
-				'icon' => 'undo',
-				'text' => __( 'Reset', 'ub' ),
-				'sui' => 'ghost',
-				'classes' => array(
-					$this->get_name( 'reset' ),
-					'branda-dialog-reset',
-				),
-			);
-			$footer .= $this->button( $args );
-			$nonce_action = $this->get_nonce_action( $id );
-			$args = array(
-				'data' => array(
-					'nonce' => wp_create_nonce( $nonce_action ),
-					'id' => $id,
-					'state' => 'add' === $type? 'add':'edit',
-				),
-				'icon' => 'check',
-				'text' => __( 'Apply', 'ub' ),
-				'sui' => '',
-				'class' => $this->get_name( 'text-add' ),
-			);
-			$footer .= $this->button( $args );
-			/**
-			 * Dialog
-			 */
-			$args = array(
-				'id' => $this->get_name( 'add' === $type? 'text-add':sprintf( 'edit-%s', $id ) ),
-				'content' => $dialog,
-				'title' => 'add' === $type? __( 'Add Text Widget', 'ub' ):__( 'Edit Text Widget', 'ub' ),
-				'footer' => array(
-					'content' => $footer,
-					'classes' => array( 'sui-space-between' ),
-				),
-			);
-			return $this->sui_dialog( $args );
 		}
 
 		/**
@@ -475,33 +488,33 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 		 *
 		 * @since 3.0.0
 		 */
-		public function ajax_save() {
-			$uba = ub_get_uba_object();
+		public function ajax_save_item() {
 			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
 			$nonce_action = $this->get_nonce_action( $id );
 			$message = __( 'Dashboard Widget was created.', 'ub' );
 			$this->check_input_data( $nonce_action, array( 'id', 'title', 'content' ) );
 			$items = ub_get_option( $this->items_name );
-			if ( '0' === $id ) {
-				$id = md5( serialize( $_POST ) );
+			if ( 'new' === $id ) {
+				$id = $this->generate_id( $_POST );
 			}
 			if ( isset( $items[ $id ] ) ) {
 				$message = __( 'Dashboard Widget was updated.', 'ub' );
 			}
-			$items[ $id ] = array(
-				'id' => $id,
-				'title' => filter_input( INPUT_POST, 'title', FILTER_SANITIZE_STRING ),
-				'content' => $_POST['content'],
-				'content_meta' => apply_filters( 'the_content', $_POST['content'] ),
-				'site' => filter_input( INPUT_POST, 'site', FILTER_SANITIZE_STRING ),
-				'network' => filter_input( INPUT_POST, 'network', FILTER_SANITIZE_STRING ),
+			$item = wp_parse_args(
+				array(
+					'id' => $id,
+					'title' => filter_input( INPUT_POST, 'title', FILTER_SANITIZE_STRING ),
+					'content' => $_POST['content'],
+					'content_meta' => apply_filters( 'the_content', $_POST['content'] ),
+					'site' => filter_input( INPUT_POST, 'site', FILTER_SANITIZE_STRING ),
+					'network' => filter_input( INPUT_POST, 'network', FILTER_SANITIZE_STRING ),
+				),
+				$this->item_defaults
 			);
+			$items[ $id ] = $item;
 			ub_update_option( $this->items_name, $items );
-			$message = array(
-				'class' => 'success',
-				'message' => $message,
-			);
-			$uba->add_message( $message );
+			$item['nonce'] = $this->get_nonce_value( $id );
+			$item['message'] = $message;
 			/**
 			 * add/update $available_widgets
 			 */
@@ -513,7 +526,10 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 			$available_widgets[ $branda_id ] = $items[ $id ]['title'];
 			asort( $available_widgets );
 			ub_update_option( $this->available_widgets, $available_widgets );
-			wp_send_json_success();
+			/**
+			 * Send it back
+			 */
+			wp_send_json_success( $item );
 		}
 
 		/**
@@ -570,7 +586,7 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 			global $wp_version;
 			$version_compare = version_compare( $wp_version, '3.7.1' );
 			$widget_items = array();
-			$items = ub_get_option( $this->items_name );
+			$items = ub_get_option_filtered( $this->items_name );
 			if ( empty( $items ) || ! is_array( $items ) ) {
 				return;
 			}
@@ -604,35 +620,38 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 		 *
 		 * @since 3.0.0
 		 */
-		public function ajax_delete() {
-			$nonce_action = 0;
-			if ( isset( $_POST['id'] ) ) {
-				$nonce_action = $this->get_nonce_action( $_POST['id'], 'delete' );
-			}
+		public function ajax_delete_item() {
+			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+			$nonce_action = $this->get_nonce_action( $id );
 			$this->check_input_data( $nonce_action, array( 'id' ) );
 			$items = ub_get_option( $this->items_name );
-			if ( isset( $items[ $_POST['id'] ] ) ) {
-				$uba = ub_get_uba_object();
-				unset( $items[ $_POST['id'] ] );
-				ub_update_option( $this->items_name, $items );
-				$message = array(
-					'class' => 'success',
-					'message' => sprintf( 'Widget was deleted.', 'ub' ),
-				);
-				$uba->add_message( $message );
+			if ( isset( $items[ $id ] ) ) {
 				/**
-				 * remove widget
+				 * remove widget from DB
+				 */
+				unset( $items[ $id ] );
+				ub_update_option( $this->items_name, $items );
+				/**
+				 * remove widget from available widgets list
 				 */
 				$available_widgets = ub_get_option( $this->available_widgets );
-				$id = $this->get_name( $_POST['id'] );
+				$widget_id = $this->get_name( $id );
 				if (
 					is_array( $available_widgets )
-					&& isset( $available_widgets[ $id ] )
+					&& isset( $available_widgets[ $widget_id ] )
 				) {
-					unset( $available_widgets[ $id ] );
+					unset( $available_widgets[ $widget_id ] );
 					ub_update_option( $this->available_widgets, $available_widgets );
 				}
-				wp_send_json_success();
+				/**
+				 * Send Message
+				 */
+				wp_send_json_success(
+					array(
+						'id' => $id,
+						'message' => __( 'Dashboard Widget was deleted.', 'ub' ),
+					)
+				);
 			}
 			wp_send_json_error( array( 'message' => __( 'Selected widget does not exists!', 'ub' ) ) );
 		}
@@ -715,7 +734,56 @@ if ( ! class_exists( 'Branda_Dashboard_Widgets' ) ) {
 			);
 			$this->render( $template, $args );
 		}
+
+		/**
+		 * AJAX get single item
+		 *
+		 * @since 3.1.0
+		 */
+		public function ajax_get_item() {
+			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+			$nonce_action = $this->get_nonce_action( $id );
+			$this->check_input_data( $nonce_action, array( 'id' ) );
+			$items = ub_get_option( $this->items_name );
+			if ( isset( $items[ $id ] ) ) {
+				/**
+				 * add defaults
+				 */
+				$item = wp_parse_args( $items[ $id ], $this->item_defaults );
+				$item['is_network'] = $this->is_network;
+				$item['message'] = __( 'Selected item was successfully restored!', 'ub' );
+				wp_send_json_success( $item );
+			}
+			wp_send_json_error( array( 'message' => __( 'Selected item does not exists!', 'ub' ) ) );
+		}
+
+		/**
+		 * Delete available widget by ID
+		 *
+		 * @since 3.1.0
+		 */
+		public function delete_available_widget( $id ) {
+			$value = ub_get_option( $this->available_widgets );
+			if ( isset( $value[ $id ] ) ) {
+				unset( $value[ $id ] );
+				ub_update_option( $this->available_widgets, $value );
+			}
+		}
+
+		/**
+		 * AJAX reset visibility
+		 *
+		 * @since 3.1.0
+		 */
+		public function ajax_visibility_reset() {
+			$nonce_action = $this->get_nonce_action( 'visibility-reset' );
+			$this->check_input_data( $nonce_action );
+			$result = ub_delete_option( $this->available_widgets );
+			if ( $result ) {
+				wp_send_json_success();
+			}
+			wp_send_json_error( array( 'message' => __( 'Whoops! Something went wrong.', 'ub' ) ) );
+		}
 	}
 }
-
 new Branda_Dashboard_Widgets;

@@ -7,6 +7,19 @@
     display: block;
     clear: both;
 }
+.admin-panel-tips h4 + .apt-content {
+    padding-top: 0;
+}
+.admin-panel-tips .apt-content {
+    padding-top: 12px;
+    padding-bottom: 12px;
+}
+.admin-panel-tips .apt-content p:first-child {
+    margin-top: 0;
+}
+.admin-panel-tips .apt-content p:last-child {
+    margin-bottom: 0;
+}
 
 
-/* 133620-1551987165-au */
+/* 133620-1556565898-au */

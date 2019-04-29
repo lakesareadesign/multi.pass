@@ -285,10 +285,13 @@ final class FLBuilderCSS {
 	static public function typography_field_props( $setting = array() ) {
 		$props    = array();
 		$settings = FLBuilderModel::get_global_settings();
-
+		$pattern  = '%s, %s';
 		if ( isset( $setting['font_family'] ) && 'Default' !== $setting['font_family'] ) {
-			$fallback             = FLBuilderFonts::get_font_fallback( $setting['font_family'] );
-			$props['font-family'] = sprintf( '%s, %s', $setting['font_family'], $fallback );
+			$fallback = FLBuilderFonts::get_font_fallback( $setting['font_family'] );
+			if ( preg_match( '#[0-9]#', $setting['font_family'] ) ) {
+				$pattern = '"%s", %s';
+			}
+			$props['font-family'] = sprintf( $pattern, $setting['font_family'], $fallback );
 		}
 		if ( isset( $setting['font_weight'] ) && 'i' == substr( $setting['font_weight'], -1 ) ) {
 			$props['font-weight'] = substr( $setting['font_weight'], 0, -1 );

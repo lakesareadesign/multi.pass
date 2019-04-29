@@ -5587,9 +5587,11 @@ final class FLBuilderModel {
 
 			// Remove template info from the layout data.
 			foreach ( $layout_data as $node_id => $node ) {
-				unset( $layout_data[ $node_id ]->template_id );
-				unset( $layout_data[ $node_id ]->template_node_id );
-				unset( $layout_data[ $node_id ]->template_root_node );
+				if ( isset( $node->template_id ) && $node->template_id == $template_id ) {
+					unset( $layout_data[ $node_id ]->template_id );
+					unset( $layout_data[ $node_id ]->template_node_id );
+					unset( $layout_data[ $node_id ]->template_root_node );
+				}
 			}
 
 			// Update the layout data.

@@ -34,25 +34,10 @@ abstract class ShareaholicShareCount {
   public static function get_services_config() {
     return array(
       'facebook' => array(
-        'url' => 'https://graph.facebook.com/?id=%s',
+        'url' => 'https://graph.facebook.com/?fields=og_object{engagement{count}}&id=%s',
         'method' => 'GET',
         'timeout' => 3,  // in number of seconds
         'callback' => 'facebook_count_callback',
-      ),
-      'linkedin' => array(
-        'url' => 'https://www.linkedin.com/countserv/count/share?format=json&url=%s',
-        'method' => 'GET',
-        'timeout' => 3,
-        'callback' => 'linkedin_count_callback',
-      ),
-      'google_plus' => array(
-        'url' => 'https://clients6.google.com/rpc?key=AIzaSyCKSbrvQasunBoV16zDH9R33D88CeLr9gQ',
-        'method' => 'POST',
-        'timeout' => 2,
-        'headers' => array('Content-Type' => 'application/json'),
-        'body' => NULL,
-        'prepare' => 'google_plus_prepare_request',
-        'callback' => 'google_plus_count_callback',
       ),
       'pinterest' => array(
         'url' => 'https://api.pinterest.com/v1/urls/count.json?url=%s&callback=f',
@@ -66,23 +51,23 @@ abstract class ShareaholicShareCount {
         'timeout' => 1,
         'callback' => 'buffer_count_callback',
       ),
-      'stumbleupon' => array(
-        'url' => 'https://www.stumbleupon.com/services/1.01/badge.getinfo?url=%s',
-        'method' => 'GET',
-        'timeout' => 1,
-        'callback' => 'stumbleupon_count_callback',
-      ),
       'reddit' => array(
-        'url' => 'https://buttons.reddit.com/button_info.json?url=%s',
+        'url' => 'https://www.reddit.com/button_info.json?url=%s',
         'method' => 'GET',
         'timeout' => 1,
         'callback' => 'reddit_count_callback',
       ),
       'vk' => array(
-        'url' => 'http://vk.com/share.php?act=count&url=%s',
+        'url' => 'https://vk.com/share.php?act=count&url=%s',
         'method' => 'GET',
         'timeout' => 1,
         'callback' => 'vk_count_callback',
+      ),
+      'tumblr' => array(
+        'url' => 'https://api.tumblr.com/v2/share/stats?url=%s',
+        'method' => 'GET',
+        'timeout' => 1,
+        'callback' => 'tumblr_count_callback',
       ),
       'odnoklassniki' => array(
         'url' => 'https://connect.ok.ru/dk?st.cmd=extLike&uid=odklcnt0&ref=%s',
@@ -90,15 +75,14 @@ abstract class ShareaholicShareCount {
         'timeout' => 1,
         'callback' => 'odnoklassniki_count_callback',
       ),
-
       'fancy' => array(
-        'url' => 'http://fancy.com/fancyit/count?ItemURL=%s',
+        'url' => 'https://fancy.com/fancyit/count?ItemURL=%s',
         'method' => 'GET',
         'timeout' => 1,
         'callback' => 'fancy_count_callback',
       ),
       'yummly' => array(
-        'url' => 'http://www.yummly.com/services/yum-count?url=%s',
+        'url' => 'https://www.yummly.com/services/yum-count?url=%s',
         'method' => 'GET',
         'timeout' => 1,
         'callback' => 'yummly_count_callback',
@@ -177,82 +161,7 @@ abstract class ShareaholicShareCount {
       return false;
     }
     $body = json_decode($response['body'], true);
-    return isset($body['share']['share_count']) ? intval($body['share']['share_count']) : false;
-  }
-
-
-  /**
-   * Callback function for linkedin count API
-   * Gets the linkedin counts from response
-   *
-   * @param Array $response The response from calling the API
-   * @return mixed The counts from the API or false if error
-   */
-  public function linkedin_count_callback($response) {
-    if($this->has_http_error($response)) {
-      return false;
-    }
-    $body = json_decode($response['body'], true);
-    return isset($body['count']) ? intval($body['count']) : false;
-  }
-
-
-  /**
-   * A preprocess function to be called necessary to prepare
-   * the request to the service.
-   *
-   * One may customize the headers or body to their liking
-   * before the request is sent. The customization should
-   * update the services config where it will be read by
-   * the get_counts() function
-   *
-   * @param $url The url needed by google_plus to be passed in to the body
-   * @param $config The services configuration object to be updated
-   */
-  public function google_plus_prepare_request($url, &$config) {
-    if ($this->is_url_encoded($url)) {
-      $url = urldecode($url);
-    }
-    $post_fields = array(
-      array(
-        'method' => 'pos.plusones.get',
-        'id' => 'p',
-        'params' => array(
-          'nolog' => true,
-          'id' => $url,
-          'source' => 'widget',
-          'userId' => '@viewer',
-          'groupId' => '@self',
-        ),
-        'jsonrpc' => '2.0',
-        'key' => 'p',
-        'apiVersion' => 'v1',
-      )
-    );
-
-    $ip = $this->get_client_ip();
-    if ($ip && !empty($ip)) {
-      $post_fields[0]['params']['userIp'] = $ip;
-    }
-
-    $config['google_plus']['body'] = $post_fields;
-  }
-
-
-  /**
-   * Callback function for google plus count API
-   * Gets the google plus counts from response
-   *
-   * @param Array $response The response from calling the API
-   * @return mixed The counts from the API or false if error
-   */
-  public function google_plus_count_callback($response) {
-    if($this->has_http_error($response)) {
-       return false;
-    }
-    $body = json_decode($response['body'], true);
-    // special case: do not return false if the count is not set because the api can return without counts
-    return isset($body[0]['result']['metadata']['globalCounts']['count']) ? intval($body[0]['result']['metadata']['globalCounts']['count']) : 0;
+    return isset($body['og_object']['engagement']['count']) ? intval($body['og_object']['engagement']['count']) : false;
   }
 
 
@@ -286,23 +195,6 @@ abstract class ShareaholicShareCount {
     }
     $body = json_decode($response['body'], true);
     return isset($body['shares']) ? intval($body['shares']) : false;
-  }
-
-
-  /**
-   * Callback function for stumbleupon count API
-   * Gets the stumbleupon counts from response
-   *
-   * @param Array $response The response from calling the API
-   * @return mixed The counts from the API or false if error
-   */
-  public function stumbleupon_count_callback($response) {
-    if($this->has_http_error($response)) {
-      return false;
-    }
-    $body = json_decode($response['body'], true);
-    // special case: do not return false if views is not set because the api can return it not set
-    return isset($body['result']['views']) ? intval($body['result']['views']) : 0;
   }
 
 
@@ -384,6 +276,21 @@ abstract class ShareaholicShareCount {
     $body = json_decode($response['body'], true);
     return isset($body['count']) ? intval($body['count']) : false;
   }
+  
+  /**
+   * Callback function for Tumblr count API
+   * Gets the Tumblr counts from response
+   *
+   * @param Array $response The response from calling the API
+   * @return mixed The counts from the API or false if error
+   */
+  public function tumblr_count_callback($response) {
+    if($this->has_http_error($response)) {
+      return false;
+    }
+    $body = json_decode($response['body'], true);
+    return isset($body['response']['note_count']) ? intval($body['response']['note_count']) : false;
+  }
 
   /**
    * Callback function for Yummly count API
@@ -409,7 +316,7 @@ abstract class ShareaholicShareCount {
    * the keys and the counts as the value.
    *
    * Example:
-   * array('facebook' => 12, 'google_plus' => 0, 'twitter' => 14, ...);
+   * array('facebook' => 12, 'pinterest' => 0, 'twitter' => 14, ...);
    *
    * @return Array an associative array of service => counts
    */

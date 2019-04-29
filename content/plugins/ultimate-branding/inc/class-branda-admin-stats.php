@@ -152,10 +152,8 @@ if ( ! class_exists( 'Branda_Admin_Stats' ) ) {
 			if ( ! isset( $stats['modules'][ $id ]['read'] ) ) {
 				$stats['modules'][ $id ]['read'] = 0;
 			}
-			if ( isset( $_POST['action'] ) && 'process' === $_POST['action'] ) {
-				// $stats['modules'][ $id ]['write']++;
-				// $stats['modules'][ $id ]['last_write'] = time();
-			} else {
+			$action = filter_input( INPUT_POST, 'action', FILTER_SANITIZE_STRING );
+			if ( 'process' !== $action ) {
 				$stats['modules'][ $id ]['read']++;
 				$stats['modules'][ $id ]['last_read'] = time();
 			}

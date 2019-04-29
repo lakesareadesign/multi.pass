@@ -83,7 +83,7 @@ if ( ! class_exists( 'Branda_List_Table' ) ) {
 		 * @param object $item The current item
 		 */
 		protected function single_row_columns( $item ) {
-			global $uba;
+			$uba = ub_get_uba_object();
 			list( $columns, $hidden, $sortable, $primary ) = $this->get_column_info();
 			foreach ( $columns as $column_name => $column_display_name ) {
 				$classes = "$column_name column-$column_name";
@@ -131,10 +131,13 @@ if ( ! class_exists( 'Branda_List_Table' ) ) {
 			if ( 'top' === $which ) {
 				wp_nonce_field( 'bulk-' . $this->_args['plural'] );
 			}
-			printf( '<div class="sui-margin-left sui-margin-top sui-margin-bottom %s">', esc_attr( $which ) );
+            printf( '<div class="%s">', esc_attr( $which ) );
+            echo '<div class="sui-row sui-margin">';
 			if ( $this->has_items() ) {
 				$this->bulk_actions( $which );
-			}
+            }
+            $this->pagination( $which );
+			echo '</div>';
 			echo '</div>';
 		}
 
@@ -161,7 +164,7 @@ if ( ! class_exists( 'Branda_List_Table' ) ) {
 				echo "\t" . '<option value="' . $name . '"' . $class . '>' . $title . "</option>\n";
 			}
 			echo "</select>\n";
-			global $uba;
+			$uba = ub_get_uba_object();
 			$args = array(
 				'text' => __( 'Apply', 'ub' ),
 				'sui' => 'ghost',
@@ -218,6 +221,109 @@ if ( ! class_exists( 'Branda_List_Table' ) ) {
 				esc_attr( $id )
 			);
 			return $content;
+		}
+
+		/**
+		 * Display the pagination.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $which
+		 */
+		protected function pagination( $which ) {
+			if ( empty( $this->_pagination_args ) ) {
+				return;
+			}
+			$total_items = $this->_pagination_args['total_items'];
+			$total_pages = $this->_pagination_args['total_pages'];
+			$infinite_scroll = false;
+			if ( isset( $this->_pagination_args['infinite_scroll'] ) ) {
+				$infinite_scroll = $this->_pagination_args['infinite_scroll'];
+			}
+			if ( 'top' === $which && $total_pages > 1 ) {
+				$this->screen->render_screen_reader_content( 'heading_pagination' );
+			}
+			$output = '<span class="sui-pagination-results">' . sprintf( _n( '%s item', '%s items', $total_items, 'ub' ), number_format_i18n( $total_items ) ) . '</span>';
+			$current = $this->get_pagenum();
+			$removable_query_args = wp_removable_query_args();
+			$current_url = set_url_scheme( 'http://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'] );
+			$current_url = remove_query_arg( $removable_query_args, $current_url );
+			$page_links = array();
+			$total_pages_before = '<span class="paging-input">';
+			$total_pages_after = '</span></span>';
+			$disable_first = $disable_last = $disable_prev = $disable_next = false;
+			if ( $current == 1 ) {
+				$disable_first = true;
+				$disable_prev = true;
+			}
+			if ( $current == 2 ) {
+				$disable_first = true;
+			}
+			if ( $current == $total_pages ) {
+				$disable_last = true;
+				$disable_next = true;
+			}
+			if ( $current == $total_pages - 1 ) {
+				$disable_last = true;
+			}
+			/**
+			 * First
+			 */
+			$page_links[] = sprintf(
+				'<li><a href="%s"%s><i class="sui-icon-arrow-skip-start" aria-hidden="true"></i></a></li>',
+				esc_url( remove_query_arg( 'paged', $current_url ) ),
+				$disable_first? ' disabled="disabled"':''
+			);
+			/**
+			 * Prev
+			 */
+			$page_links[] = sprintf(
+				'<li><a href="%s"%s><i class="sui-icon-chevron-left" aria-hidden="true"></i></a></li>',
+				esc_url( add_query_arg( 'paged', max( 1, $current - 1 ), $current_url ) ),
+				$disable_prev? ' disabled="disabled"':''
+			);
+			/**
+			 * Pages
+			 */
+			for ( $i = 1; $i <= $total_pages; $i++ ) {
+				$page_links[] = sprintf(
+					'<li%s><a href="%s">%d</a></li>',
+					$current === $i? ' class="active"':'',
+					esc_url( add_query_arg( 'paged', max( 1, $i ), $current_url ) ),
+					esc_html( $i )
+				);
+			}
+			/**
+			 * Next
+			 */
+			$page_links[] = sprintf(
+				'<li><a href="%s"%s><i class="sui-icon-chevron-right" aria-hidden="true"></i></a></li>',
+				esc_url( add_query_arg( 'paged', min( $total_pages, $current + 1 ), $current_url ) ),
+				$disable_next? ' disabled="disabled"':''
+			);
+			/**
+			 * Last
+			 */
+			$page_links[] = sprintf(
+				'<li><a href="%s"%s><i class="sui-icon-arrow-skip-end" aria-hidden="true"></i></a></li>',
+				esc_url( add_query_arg( 'paged', $total_pages, $current_url ) ),
+				$disable_last? ' disabled="disabled"':''
+			);
+			$output .= sprintf(
+				'<ul class="sui-pagination">%s</ul>',
+				join( '', $page_links )
+			);
+			if ( $total_pages ) {
+				$page_class = $total_pages < 2 ? ' one-page' : '';
+			} else {
+				$page_class = ' no-pages';
+			}
+			$this->_pagination = sprintf(
+				'<div class="sui-actions-right"><div class="sui-pagination-wrap%s">%s</div></div>',
+				esc_attr( $page_class ),
+				$output
+			);
+			echo $this->_pagination;
 		}
 	}
 

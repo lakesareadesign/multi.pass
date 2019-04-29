@@ -15,6 +15,13 @@ if ( ! class_exists( 'Branda_Color_Schemes' ) ) {
 		protected $defaults = array();
 
 		/**
+		 * Custom Scheme Slug
+		 *
+		 * @since 3.1.0
+		 */
+		private $slug = 'wpi_custom_scheme';
+
+		/**
 		 * Ultimate_Color_Schemes constructor.
 		 */
 		public function __construct() {
@@ -60,6 +67,10 @@ if ( ! class_exists( 'Branda_Color_Schemes' ) ) {
 			 * @since 3.0.0
 			 */
 			add_action( 'init', array( $this, 'upgrade_options' ) );
+			/**
+			 * Change Admin Bar Logo CSS
+			 */
+			add_filter( 'branda_admin_bar_logo_css_args', array( $this, 'bar_logo_args' ), 10, 1 );
 		}
 
 		/**
@@ -347,13 +358,22 @@ if ( ! class_exists( 'Branda_Color_Schemes' ) ) {
 				exit;
 			}
 			$url = add_query_arg( 'custom-color-scheme', $this->getv( 'last_update' ), admin_url() );
-			// Custom scheme.
-			wp_admin_css_color( 'wpi_custom_scheme', $this->getv( 'scheme_name' ), $url, array(
+			/**
+			 *  Custom scheme.
+			 */
+			$name = $this->getv( 'scheme_name' );
+			$colors = array(
 				$this->getv( 'general_background' ),
 				$this->getv( 'admin_menu_background' ),
 				$this->getv( 'admin_menu_background_curent' ),
 				$this->getv( 'admin_menu_bubble_background' ),
-			) );
+			);
+			$icons = array(
+				'base' => $this->getv( 'admin_menu_icon_color' ),
+				'focus' => $this->getv( 'admin_menu_icon_color_focus' ),
+				'current' => $this->getv( 'admin_menu_icon_color_current' ),
+			);
+			wp_admin_css_color( $this->slug, $name, $url, $colors, $icons );
 		}
 
 		/**
@@ -396,7 +416,7 @@ if ( ! class_exists( 'Branda_Color_Schemes' ) ) {
 					'<span class="sui-description">%s</span>',
 					esc_html( $color_info->name )
 				);
-				if ( 'wpi_custom_scheme' == $color ) {
+				if ( $this->slug === $color ) {
 					$args = array(
 						'only-icon' => true,
 						'icon' => 'pencil',
@@ -557,6 +577,7 @@ if ( ! class_exists( 'Branda_Color_Schemes' ) ) {
 				'admin_menu_color_current_hover' => '#fff',
 				'admin_menu_background_curent' => '#efc94c',
 				'admin_menu_icon_color' => '#fff',
+				'admin_menu_icon_color_focus' => '#00a0d2',
 				'admin_menu_icon_color_current' => '#fff',
 				'admin_menu_submenu_background' => '#334d5c',
 				'admin_menu_submenu_link' => '#cbc5d3',
@@ -694,6 +715,17 @@ if ( ! class_exists( 'Branda_Color_Schemes' ) ) {
 			);
 			$this->uba->add_message( $message );
 			wp_send_json_success();
+		}
+
+		/**
+		 * Change admin bar logo args
+		 *
+		 * @since 3.1.0
+		 */
+		public function bar_logo_args( $args ) {
+			$colors = array_merge( $this->defaults, $this->get_value( 'settings', 'ultimate' ) );
+			$args['base'] = $colors['admin_bar_icon_color'];
+			return $args;
 		}
 	}
 }

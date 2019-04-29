@@ -30,8 +30,14 @@ if ( ! class_exists( 'Branda_Site_Status_Pages' ) ) {
 			add_filter( 'ultimatebranding_settings_ms_site_check', array( $this, 'admin_options_page' ) );
 			if ( $this->is_ready ) {
 				add_filter( 'ultimatebranding_settings_ms_site_check_process', array( $this, 'update' ), 10, 1 );
-				add_filter( 'ultimatebranding_settings_ms_site_check_process', array( $this, 'update_files' ), 999, 1 );
 			}
+			/**
+			 * Regenerate file after value update.
+			 *
+			 * @since 3.1.0
+			 */
+			add_action( 'update_option_'.$this->option_name, array( $this, 'update_option_action' ), 10, 3 );
+			add_action( 'update_site_option_'.$this->option_name, array( $this, 'update_site_option_action' ), 10, 4 );
 			/**
 			 * add related config
 			 *
@@ -113,7 +119,25 @@ if ( ! class_exists( 'Branda_Site_Status_Pages' ) ) {
 				}
 			}
 			$this->update_value( $data );
-			$this->update_files( true );
+			$this->update_files( $data );
+		}
+
+		/**
+		 * Regenerate file after value update for single site.
+		 *
+		 * @since 3.1.0
+		 */
+		public function update_option_action( $old_value, $value, $option_name ) {
+			$this->update_files( $value );
+		}
+
+		/**
+		 * Regenerate file after value update for multisite.
+		 *
+		 * @since 3.1.0
+		 */
+		public function update_site_option_action( $option_name, $value, $old_value, $network_id ) {
+			$this->update_files( $value );
 		}
 
 		/**
@@ -121,13 +145,13 @@ if ( ! class_exists( 'Branda_Site_Status_Pages' ) ) {
 		 *
 		 * @since 2.0.0
 		 */
-		public function update_files( $state ) {
+		private function update_files( $value ) {
+			$this->data = $value;
 			/**
 			 * set data
 			 */
 			$template_master = $this->get_template();
 			$classes = array( 'ultimate-branding-settings-ms-site-check' );
-			$this->set_data();
 			foreach ( $this->error_files as $slug => $f ) {
 				$file = $this->db_error_dir.'/'.$f;
 				$value = $this->get_value( 'show', $slug );
@@ -230,13 +254,17 @@ if ( ! class_exists( 'Branda_Site_Status_Pages' ) ) {
 										case 'suspended_title':
 										case 'deleted_title':
 											$value = sprintf( '<h1>%s</h1>', esc_html( $value ) );
-										break;
+											break;
 										case 'suspended_content_meta':
 										case 'deleted_content_meta':
 											$value = sprintf( '<div class="content">%s</div>', $value );
-										break;
+											break;
+										default:
+											break;
 									}
-								break;
+									break;
+								default:
+									break;
 							}
 						}
 						$re = sprintf( '/{%s_%s}/', $section, $name );
@@ -284,11 +312,15 @@ if ( ! class_exists( 'Branda_Site_Status_Pages' ) ) {
 				 */
 				$template = preg_replace( '/{php}/', $php, $template );
 				/**
+				 * After body tag
+				 */
+				$content = $this->html_background_common( false );
+				$template = preg_replace( '/{after_body_tag}/', $content, $template );
+				/**
 				 * write
 				 */
 				$result = file_put_contents( $file, $template );
 			}
-			return $state;
 		}
 
 		/**
@@ -418,9 +450,9 @@ if ( ! class_exists( 'Branda_Site_Status_Pages' ) ) {
 					'group' => array(
 						'begin' => true,
 					),
-					'panes'     => array(
-						'begin'      => true,
-						'title'      => __( 'Archived/Suspended', 'ub' ),
+					'panes' => array(
+						'begin' => true,
+						'title' => __( 'Archived/Suspended', 'ub' ),
 						'begin_pane' => true,
 					),
 				),
@@ -428,15 +460,15 @@ if ( ! class_exists( 'Branda_Site_Status_Pages' ) ) {
 					'type' => 'wp_editor',
 					'label' => __( 'Content (optional)', 'ub' ),
 					'placeholder' => __( 'You can write description for the page here…', 'ub' ),
-					'panes'   => array(
+					'panes' => array(
 						'end_pane' => true,
 					),
 				),
 				'deleted_title' => array(
 					'label' => __( 'Title (optional)', 'ub' ),
 					'default' => __( 'This site has been archived or deleted.', 'ub' ),
-					'panes'     => array(
-						'title'      => __( 'Deleted', 'ub' ),
+					'panes' => array(
+						'title' => __( 'Deleted', 'ub' ),
 						'begin_pane' => true,
 					),
 				),
@@ -450,9 +482,9 @@ if ( ! class_exists( 'Branda_Site_Status_Pages' ) ) {
 					'group' => array(
 						'end' => true,
 					),
-					'panes'   => array(
+					'panes' => array(
 						'end_pane' => true,
-						'end'      => true,
+						'end' => true,
 					),
 				),
 			);

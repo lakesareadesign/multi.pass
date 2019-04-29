@@ -26,7 +26,7 @@ class ShareaholicCurlMultiShareCount extends ShareaholicShareCount {
    * the keys and the counts as the value.
    *
    * Example:
-   * array('facebook' => 12, 'google_plus' => 0, 'twitter' => 14, ...);
+   * array('facebook' => 12, 'pinterest' => 0, 'twitter' => 14, ...);
    *
    * @return Array an associative array of service => counts
    */

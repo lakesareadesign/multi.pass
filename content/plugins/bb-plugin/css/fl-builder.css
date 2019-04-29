@@ -2884,13 +2884,23 @@ button.fl-builder-button.fl-builder-bar-title-caret:focus {
 	line-height: 24px;
 	padding: 30px;
 }
-.fl-builder-alert-lightbox .fl-builder-crash-title {
-	text-align: center;
-	font-size: 24px;
+
+.fl-builder-alert-lightbox.fl-builder-crash-lightbox .fl-lightbox{
+	max-width: 60%;
+}
+.fl-builder-alert-lightbox.fl-builder-crash-lightbox .fl-lightbox-content {
 	padding: 20px;
 }
+
 .fl-builder-alert-lightbox.fl-builder-crash-lightbox .fl-lightbox-message {
 	padding: 10px 20px;
+}
+.fl-builder-alert-lightbox.fl-builder-crash-lightbox .fl-lightbox-message h1 {
+	font-size: 20px;
+}
+.fl-builder-alert-lightbox.fl-builder-crash-lightbox .fl-lightbox-message p {
+	font-size: 14px;
+	padding-top: 5px;
 }
 .fl-builder-alert-lightbox.fl-builder-crash-lightbox .link {
 	color: #428bca;
@@ -2898,8 +2908,15 @@ button.fl-builder-button.fl-builder-bar-title-caret:focus {
 }
 
 .fl-builder-alert-lightbox .fl-lightbox-message-info {
-	padding: 5px 20px;
-	font-size: 12px !important;
+	padding: 0 20px;
+	font-size: 14px !important;
+}
+.fl-builder-alert-lightbox .fl-lightbox-message-info p {
+	line-height: 20px;
+	padding: 10px 0 0 10px;
+}
+.fl-builder-alert-lightbox .fl-lightbox-message-info a {
+	font-size: 14px;
 }
 /* @endgroup Alert Lightbox */
 

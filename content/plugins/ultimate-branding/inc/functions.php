@@ -73,6 +73,20 @@ function ub_get_option( $option, $default = false, $mode = 'normal' ) {
 	return $value;
 }
 
+/**
+ * UB Get Option filtered to remove some options.
+ *
+ * @since 3.1.0
+ */
+function ub_get_option_filtered( $option ) {
+	$value = ub_get_option( $option );
+	if ( is_array( $value ) ) {
+		unset( $value['imported'] );
+		unset( $value['plugin_version'] );
+	}
+	return $value;
+}
+
 function ub_update_option( $option, $value = null ) {
 	global $branda_network;
 	do_action( 'branda_admin_stats_write', $option );
@@ -326,6 +340,8 @@ function ub_register_activation_hook() {
  * Set required Branda defaults.
  *
  * @since 1.9.5
+ * @since 3.1.0 Try to turn off active plugin inside a netweork and when it is
+ *              already network activated.
  */
 function set_ultimate_branding( $base ) {
 	global $branda_dir, $branda_url, $branda_network, $uba, $ubp;
@@ -347,7 +363,21 @@ function set_ultimate_branding( $base ) {
 	/**
 	 * set $branda_network
 	 */
+	if ( ! function_exists( 'is_plugin_active_for_network' ) ) {
+		require_once( ABSPATH . '/wp-admin/includes/plugin.php' );
+	}
 	$branda_network = is_multisite() && is_plugin_active_for_network( plugin_basename( $base ) );
+	if ( $branda_network ) {
+		/**
+		 * Check is activated on network and subsite
+		 *
+		 * @since 3.1.0
+		 */
+		$is_single = is_plugin_active( plugin_basename( $base ) );
+		if ( $is_single ) {
+			deactivate_plugins( basename( $base ) );
+		}
+	}
 	/**
 	 * include dir
 	 */

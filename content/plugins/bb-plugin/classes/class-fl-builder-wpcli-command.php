@@ -280,8 +280,10 @@ class FLThemer_List_WPCLI_Command extends WP_CLI_Command {
 	 *
 	 * 1. wp beaver themer list
 	 *      - Returns list of all themer layouts.
-	*/
-	public function list( $args, $assoc_args ) {
+	 *
+	 * @subcommand list
+	 */
+	public function themer_list( $args, $assoc_args ) {
 
 		$this->is_themer();
 

@@ -155,6 +155,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'description' => __( 'Rebrand the default meta widget in all multisite blogs with one that has the "Powered By" link branded for your site. It will replace the “WordPress.org” link in the meta widget with your website’s title that links back to your site.', 'ub' ),
 			'public' => true,
 			'group' => 'widgets',
+			'status-indicator' => 'hide',
 		),
 		/**
 		 * Site Generator
@@ -194,6 +195,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 				 */
 				'translation_table',
 			),
+			'status-indicator' => 'hide',
 		),
 		/**
 		 * Admin Custom CSS
@@ -353,6 +355,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 		'emails/registration.php' => array(
 			'module' => 'registration-emails',
 			'network-only' => true,
+			'main-blog-only' => true,
 			'menu_title' => __( 'Registration Email', 'ub' ),
 			'name' => __( 'MultiSite Registration Emails', 'ub' ),
 			'description' => __( 'Customize the content of new blog notification email, new user signup email or the welcome email sent after site activation in your multisite network.', 'ub' ),
@@ -435,8 +438,8 @@ function ub_get_modules_list( $mode = 'full' ) {
 				 * @since 3.0.0
 				 */
 				'wpmudev_df_widget_options',
-
 			),
+			'status-indicator' => 'hide',
 		),
 		/**
 		 * Website Mode
@@ -503,6 +506,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 		 */
 		'front-end/db-error-page.php' => array(
 			'module' => 'db-error-page',
+			'main-blog-only' => true,
 			'since' => '2.0.0',
 			'name' => __( 'DB Error Page', 'ub' ),
 			'description' => __( 'Create a custom database error page so next time your visitors don’t just see the “Error Establishing a Database Connection” text error.', 'ub' ),
@@ -517,6 +521,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 		'front-end/site-status-page.php' => array(
 			'module' => 'ms-site-check',
 			'network-only' => true,
+			'main-blog-only' => true,
 			'since' => '2.0.0',
 			'name' => __( 'Site Status Pages', 'ub' ),
 			'description' => __( 'Create custom pages for deleted, inactive, archived, or spammed blogs.', 'ub' ),
@@ -578,6 +583,7 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'group' => 'utilities',
 			'public' => true,
 			'options' => array( 'ub_tracking_codes' ),
+			'status-indicator' => 'hide',
 		),
 		/**
 		 * Dashboard Widgets
@@ -589,7 +595,6 @@ function ub_get_modules_list( $mode = 'full' ) {
 			'since' => '3.0.0',
 			'name' => __( 'Dashboard Widgets', 'ub' ),
 			'description' => __( 'Remove default widgets from the dashboard, customize the dashboard welcome message or add new text widgets in the dashboard.', 'ub' ),
-			'public' => true,
 			'group' => 'widgets',
 			'options' => array(
 				'ub_dashboard_widgets',

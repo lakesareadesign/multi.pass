@@ -1,7 +1,136 @@
 /**
+ * Branda: Admin Bar
+ * http://premium.wpmudev.org/
+ *
+ * Copyright (c) 2018-2019 Incsub
+ * Licensed under the GPLv2 +  license.
+ */
+/* global window, SUI, ajaxurl */
+/**
+ * Globals
+ */
+var Branda = Branda || {};
+Branda.admin_bar_dialog_edit = 'branda-admin-bar-edit';
+Branda.admin_bar_dialog_delete = 'branda-admin-bar-delete';
+var $branda_admin_bar_entries_parent;
+jQuery( document ).ready( function( $ ) {
+    $branda_admin_bar_entries_parent = $( '.branda-settings-tab-content-admin-bar .branda-admin-bar-items-custom-entries' );
+});
+/**
+ * Bind row buttons
+ */
+Branda.admin_bar_row_buttons_bind = function( container ) {
+    $( '[data-a11y-dialog-show=' + Branda.admin_bar_dialog_edit + ']', container ).on( 'click', function( e ) {
+        var $button = $(this);
+        var $dialog = $( '#' + Branda.admin_bar_dialog_edit );
+        var $parent = $button.closest( '.sui-builder-field' );
+        var data = {
+            id: 'undefined' !== typeof $parent.data( 'id' )? $parent.data( 'id' ):'new'
+        };
+        var template, nonce;
+        e.preventDefault();
+        /**
+         * Dialog class
+         */
+        if ( 'new' === data.id ) {
+            $dialog.addClass( 'branda-dialog-new' );
+            nonce = $button.data( 'nonce' );
+        } else {
+            $dialog.removeClass( 'branda-dialog-new' );
+            nonce = $parent.data( 'nonce' );
+        }
+        /**
+         * fetch data
+         */
+        var args = {
+            action: 'branda_admin_bar_get',
+            _wpnonce: nonce,
+            id: data.id
+        };
+        $('.sui-box-title span.edit', $dialog ).show();
+        $.ajax({
+            url: ajaxurl,
+            method: 'POST',
+            data: args,
+            async: false
+        }).success( function( response ) {
+            if ( ! response.success ) {
+                window.ub_sui_notice( response.data.message, 'error' );
+            }
+            data = response.data;
+        });
+        if ( 'undefined' === typeof data.title ) {
+            return false;
+        }
+        /**
+         * set ID
+         */
+        $( 'input[name="branda[id]"]', $dialog ).val( data.id );
+        $( 'input[name="branda[nonce]"]', $dialog ).val( $parent.data( 'nonce' ) );
+        /**
+         * General
+         */
+        template = wp.template( Branda.admin_bar_dialog_edit + '-pane-general' );
+        $( '.' + Branda.admin_bar_dialog_edit + '-pane-general', $dialog ).html( template( data ) );
+        /**
+         * submenu
+         */
+        template = wp.template( Branda.admin_bar_dialog_edit + '-pane-submenu' );
+        $( '.' + Branda.admin_bar_dialog_edit + '-pane-submenu', $dialog ).html( template( data ) );
+        /**
+         * visibility
+         */
+        template = wp.template( Branda.admin_bar_dialog_edit + '-pane-visibility' );
+        $( '.' + Branda.admin_bar_dialog_edit + '-pane-visibility', $dialog ).html( template( data ) );
+        /**
+         * Re-init elements
+         */
+        branda_admin_bar_redirect_bind();
+        branda_admin_bar_dashicons_bind();
+        branda_admin_bar_submenu_bind();
+        if ( 'undefined' !== typeof data.icon ) {
+            branda_admin_bar_set_dashicon( data.icon );
+        }
+        if ( 'undefined' !== typeof data.submenu ) {
+            $.each( data.submenu, function( id, args )  {
+                branda_admin_bar_submenu_add( args );
+            });
+        }
+        SUI.suiTabs();
+        SUI.brandaSideTabs();
+        $( '.sui-accordion', $dialog ).each( function() {
+            SUI.suiAccordion( this );
+        });
+        $( '.sui-tabs-flushed .branda-first-tab', $dialog ).trigger( 'click' );
+    });
+    /**
+     * Set data on delete modal
+     */
+    $( '[data-a11y-dialog-show=' + Branda.admin_bar_dialog_delete + ']', container ).on( 'click', function( e ) {
+        var $parent = $(this).closest( '.sui-builder-field' );
+        $( 'button.branda-admin-bar-delete', $('#'+ $(this).data( 'a11yDialogShow' ) ) )
+            .data( 'nonce', $parent.data( 'nonce' ) )
+            .data( 'id', $parent.data( 'id' ) )
+        ;
+    });
+};
+/**
+ * Dashicon: show selected
+ */
+function branda_admin_bar_set_dashicon( code ) {
+    var $dialog = $( '#' + Branda.admin_bar_dialog_edit );
+    var $parent = $( '.branda-general-icon', $dialog );
+    var html = '<span class="dashicons dashicons-' + code +  '"></span>';
+    $( '[name="branda[icon]"]', $parent ).val( code );
+    $( '.sui-accordion-col span', $parent ).html( html );
+    $( '.branda-admin-bar-selected .branda-admin-bar-dashicon-preview', $parent ).html( html );
+    $( '.branda-admin-bar-selected' ).show();
+    $( '.branda-visibility-mobile', $dialog ).show();
+}
+/**
  * Search icons
  */
-jQuery(document).ready(function($){
+function branda_admin_bar_dashicons_bind() {
     $('.branda-general-icon-search')
         .on( 'change keydown keyup blur reset copy paste cut input', function() {
             var search = $(this).val();
@@ -29,20 +158,39 @@ jQuery(document).ready(function($){
                 }
             });
         });
-});
+    /**
+     * Submenu: select dashicon
+     */
+    $('.branda-dashicons span.dashicons').on( 'click', function() {
+        branda_admin_bar_set_dashicon( $(this).data('code') );
+    });
+    /**
+     * Submenu: clear dashicon
+     */
+    $('.branda-admin-bar-selected .branda-admin-bar-clear').on( 'click', function() {
+        var $dialog = $( '#' + Branda.admin_bar_dialog_edit );
+        var parent = $(this).closest('.sui-form-field');
+        $('[name="branda[icon]"]', parent ).val( '' );
+        $('.sui-accordion-col span', parent ).html( '' );
+        $('.branda-admin-bar-selected .branda-admin-bar-dashicon-preview', parent ).html( '' );
+        $('.branda-admin-bar-selected' ).hide();
+        $( '.branda-visibility-mobile', $dialog ).hide();
+        return false;
+    });
+}
 
 jQuery(document).ready(function($){
     var Branda_Ordering = {
         children : function(hide){
             hide = typeof hide === "undefined" ? true : false;
             if( hide ){
-                $("#ub_admin_bar_wrap ul#wp-admin-bar-root-default > li").css({
+                $("#wpadminbar ul#wp-admin-bar-root-default > li").css({
                     cursor : "move"
                 }).find(".ab-sub-wrapper").css({
                     visibility : "hidden"
                 });
             }else{
-                $("#ub_admin_bar_wrap ul#wp-admin-bar-root-default > li").css({
+                $("#wpadminbar ul#wp-admin-bar-root-default > li").css({
                     cursor : "default"
                 }).find(".ab-sub-wrapper").css({
                     visibility : "visible"
@@ -53,8 +201,8 @@ jQuery(document).ready(function($){
         sortable : function( make ) {
             make = typeof make === "undefined" ? true : false;
             if( make ){
-                $("#ub_admin_bar_wrap ul#wp-admin-bar-root-default .ab-item").addClass("click_disabled");
-                $("#ub_admin_bar_wrap ul#wp-admin-bar-root-default").sortable({
+                $("#wpadminbar ul#wp-admin-bar-root-default .ab-item").addClass("click_disabled");
+                $("#wpadminbar ul#wp-admin-bar-root-default").sortable({
                     axis: "x",
                     forceHelperSize: true,
                     forcePlaceholderSize: true,
@@ -64,14 +212,15 @@ jQuery(document).ready(function($){
                     cursor: "move"
                 }).sortable( "enable" );
             }else{
-                $("#ub_admin_bar_wrap ul#wp-admin-bar-root-default .ab-item").removeClass("click_disabled");
-                $("#ub_admin_bar_wrap ul#wp-admin-bar-root-default").sortable( "disable" );
+                $("#wpadminbar ul#wp-admin-bar-root-default .ab-item").removeClass("click_disabled");
+                $("#wpadminbar ul#wp-admin-bar-root-default").sortable( "disable" );
             }
         },
         wiggle : function(wiggle) {
             wiggle = typeof wiggle === "undefined" ? true : false;
-            var $el = $("#ub_admin_bar_wrap ul#wp-admin-bar-root-default > li");
+            var $el = $("#wpadminbar ul#wp-admin-bar-root-default > li");
             if( wiggle ){
+                $( document ).scrollTop( 0 );
                 $el.ClassyWiggle("start", {
                     degrees: ['2', '4', '2', '0', '-2', '-4', '-2', '0'],
                     delay : 90
@@ -82,7 +231,7 @@ jQuery(document).ready(function($){
         },
         add_save_button : function(){
             $("#ub_admin_bar_save_ordering").remove();
-            $("#wp-admin-bar-root-default").after('<button id="ub_admin_bar_save_ordering" class="sui-button sui-button-blue" type="button"><span class="sui-loading-text"><i class="sui-icon-save"></i>'+ub_admin.buttons.save_changes+'</span</button>' );
+            $("#wp-admin-bar-root-default").after('<div class="sui-wrap"><button id="ub_admin_bar_save_ordering" class="sui-button sui-button-blue" type="button"><span class="sui-loading-text"><i class="sui-icon-save"></i>'+ub_admin.buttons.save_changes+'</span</button></div>' );
         },
         start : function(){
             this.children();
@@ -102,7 +251,7 @@ jQuery(document).ready(function($){
             var self = this, $button = $( "#ub_admin_bar_save_ordering" );
             $button.attr("disabled", true).addClass("ub_loading");
             order = [];
-            $("#ub_admin_bar_wrap #wp-admin-bar-root-default > li").each(function(){
+            $("#wpadminbar #wp-admin-bar-root-default > li").each(function(){
                 if( typeof this.id === "string" &&  this.is !== "" ){
                     order.push( this.id.replace( "wp-admin-bar-", "" ) );
                 }
@@ -111,9 +260,9 @@ jQuery(document).ready(function($){
                 url      : ajaxurl,
                 type     : 'post',
                 data     : {
-                    action   : 'branda_admin_bar_order_save',
+                    action: 'branda_admin_bar_order_save',
                     _wpnonce: $('#branda-admin-bar-reorder-nonce').val(),
-                    order    : order
+                    order: order
                 },
                 success  : function( response ) {
                     if ( "undefined" !== typeof response.data.message ) {
@@ -183,7 +332,21 @@ jQuery( window.document ).ready( function( $ ){
         });
         $.post( ajaxurl, data, function( response ) {
             if ( response.success ) {
-                window.location.reload();
+                var $row = $('[data-id=' + response.data.id + ']', $branda_admin_bar_entries_parent );
+                if ( 0 < $row.length ) {
+                    $( '.sui-builder-field-label', $row ).html( response.data.title_to_show );
+                    $( '.sui-builder-field', $row ).data( 'nonce', response.data.nonce );
+                } else {
+                    var template = wp.template( Branda.admin_bar_dialog_edit + '-row' );
+                    $('.sui-box-builder-fields', $branda_admin_bar_entries_parent ).append( template( response.data ) );
+                    $.fn.branda_sui_dialog_rebind([
+                        Branda.admin_bar_dialog_edit,
+                        Branda.admin_bar_dialog_delete
+                    ]);
+                    $row = $('[data-id=' + response.data.id + ']', $branda_admin_bar_entries_parent );
+                    Branda.admin_bar_row_buttons_bind( $row );
+                }
+                SUI.dialogs[ parent.closest( '.sui-dialog' ).attr('id') ].hide();
             } else {
                 window.ub_sui_notice( response.data.message, 'error' );
             }
@@ -193,6 +356,7 @@ jQuery( window.document ).ready( function( $ ){
      * Delete feed
      */
     $('.branda-admin-bar-delete').on( 'click', function() {
+        var dialog_id = $(this).closest('.sui-dialog').attr( 'id' );
         var data = {
             action: 'branda_admin_bar_delete',
             _wpnonce: $(this).data('nonce'),
@@ -200,7 +364,9 @@ jQuery( window.document ).ready( function( $ ){
         };
         $.post( ajaxurl, data, function( response ) {
             if ( response.success ) {
-                window.location.reload();
+                $( '[data-id=' + data.id + ']', $branda_admin_bar_entries_parent ).detach();
+                SUI.dialogs[ dialog_id ].hide();
+                window.ub_sui_notice( response.data.message, 'success' );
             } else {
                 window.ub_sui_notice( response.data.message, 'error' );
             }
@@ -222,63 +388,52 @@ jQuery( window.document ).ready( function( $ ){
             }
         });
     });
-    /**
-     * Submenu: select dashicon
-     */
-    $('.branda-dashicons span.dashicons').on( 'click', function() {
-        var code = $(this).data('code');
-        var parent = $(this).closest('.sui-form-field');
-        var html = '<span class="dashicons dashicons-' + code +  '"></span>';
-        $('[name="branda[icon]"]', parent ).val( code );
-        $('.sui-accordion-col span', parent ).html( html );
-        $('.branda-admin-bar-selected .branda-admin-bar-dashicon-preview', parent ).html( html );
-        $('.branda-admin-bar-selected' ).show();
+});
+/**
+ * Submenu: add
+ */
+function bind_branda_submenu_title( parent ) {
+    $('.branda-admin-bar-submenu-title input[type=text]', parent ).on( 'change paste cut keydown keyup keypress', function( event ) {
+        $('.sui-accordion-item-title', $(this).closest('.sui-accordion-item')).html(
+            '<i class="sui-icon-drag" aria-hidden="true"></i>' + $(this).val()
+        );
     });
-    $('.branda-admin-bar-selected .branda-admin-bar-clear').on( 'click', function() {
-        var parent = $(this).closest('.sui-form-field');
-        $('[name="branda[icon]"]', parent ).val( '' );
-        $('.sui-accordion-col span', parent ).html( '' );
-        $('.branda-admin-bar-selected .branda-admin-bar-dashicon-preview', parent ).html( '' );
-        $('.branda-admin-bar-selected' ).hide();
-        return false;
+}
+
+function branda_admin_bar_submenu_add( args ) {
+    var $button = $('.branda-admin-bar-submenu-add', $( '#' + Branda.admin_bar_dialog_edit ) );
+    var target = $('.sui-box-builder-body', $button.closest('.sui-form-field') );
+    var template = wp.template( $button.data('template') );
+    var submenu;
+    $('.sui-accordion', target ).append( template( args ) );
+    SUI.brandaSideTabs();
+    $('.branda-admin-bar-no-submenu').hide();
+    submenu = $( '#branda-admin-bar-submenu-' + args.id );
+    bind_branda_submenu_title( submenu );
+    $('.branda-admin-bar-submenu-delete', submenu ).on( 'click', function() {
+        var parent = $(this).closest( '.sui-box-builder-body' );
+        $(this).closest('.sui-accordion-item').detach();
+        if ( 1 > $( '.sui-accordion-item', parent ).length ) {
+            $( '.branda-admin-bar-no-submenu', parent ).show();
+        }
     });
-    /**
-     * Submenu: add
-     */
-    function bind_branda_submenu_title( parent ) {
-        $('.branda-admin-bar-submenu-title input[type=text]', parent ).on( 'change paste cut keydown keyup keypress', function( event ) {
-            $('.sui-accordion-item-title', $(this).closest('.sui-accordion-item')).html(
-                '<i class="sui-icon-drag" aria-hidden="true"></i>' + $(this).val()
-            );
-        });
-    }
+    $( '.branda-sui-accordion-sortable' ).sortable({
+        items: '.ui-sortable-handle'
+    });
+}
+
+function branda_admin_bar_submenu_bind() {
     bind_branda_submenu_title( $('body') );
     $('.branda-admin-bar-submenu-add').on( 'click', function() {
-        var target = $('.sui-box-builder-body', $(this).closest('.sui-form-field') );
-        var template = wp.template( $(this).data('template') );
-        var id = Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
         var args = {
-            id: id,
+            id: Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15),
             target: 'current',
             url: 'admin',
             url_admin: '',
             url_site: '',
             url_custom: ''
         };
-        var submenu;
-        $('.sui-accordion', target ).append( template( args ) );
-        SUI.brandaSideTabs();
-        $('.branda-admin-bar-no-submenu').hide();
-        submenu = $('#branda-admin-bar-submenu-'+id );
-        bind_branda_submenu_title( submenu );
-        $('.branda-admin-bar-submenu-delete', submenu ).on( 'click', function() {
-            var parent = $(this).closest( '.sui-box-builder-body');
-            var length = $('.sui-accordion-item', parent ).length;
-            $(this).closest('.sui-accordion-item').detach();
-            if ( 2 > length ) {
-                $('.branda-admin-bar-no-submenu', parent).show();
-            }
-        });
+        branda_admin_bar_submenu_add( args );
     });
     /**
      * Submenu: delete
@@ -286,118 +441,37 @@ jQuery( window.document ).ready( function( $ ){
     $('.branda-admin-bar-submenu-delete').on( 'click', function() {
         $(this).closest('.sui-accordion-item').detach();
     });
-    /**
-     * Submenu: restore
-     */
-    $('.branda-admin-bar-submenu-restore').on( 'click', function() {
-        var parent = $(this).closest( '.sui-box' );
-        var data = {
-            action: 'branda_admin_bar_submenu_restore',
-            _wpnonce: $(this).data('nonce'),
-            id: $(this).data('id')
-        };
-        $.post( ajaxurl, data, function( response ) {
-            if ( response.success ) {
-                var value = response.data[0];
-                /**
-                 * Menu title
-                 */
-                $('[name="branda[title]"]', parent ).val( value.title );
-                /**
-                 * Icon
-                 */
-                var icon = $('[name="branda[icon]"]', parent );
-                icon.val( value.icon );
-                $('.sui-accordion-item-header span.dashicons', icon.parent() ).attr( 'class', 'dashicons dashicons-' + value.icon );
-                /**
-                 * Redirect users to
-                 */
-                $('[name="branda[url]"][value="'+value.url+'"]', parent).trigger( 'click' );
-                /**
-                 * Open link in
-                 */
-                $('[name="branda[target]"][value="'+value.target+'"]', parent ).trigger( 'click' );
-                /**
-                 * User Roles
-                 */
-                $('.branda-visibility-roles input[type="checkbox"]', parent ).each( function() {
-                    if ( 'undefined' === typeof value.roles[ $(this).val() ] ) {
-                        $(this).removeProp( 'checked' );
-                    } else {
-                        $(this).prop( 'checked', 'checked' );
-                    }
-                });
-                /**
-                 * Submenu Items
-                 */
-                var target = $('.sui-box-builder-body', parent );
-                var template = wp.template( $('.branda-admin-bar-submenu-add', parent ).data('template') );
-                $('.sui-accordion-item', target).detach();
-                $.each( value.submenu, function( id, args ) {
-                    $('.sui-accordion', target ).append( template( args ) );
-                });
-                SUI.suiTabs();
-                $('.branda-admin-bar-no-submenu').hide();
-            } else {
-                window.ub_sui_notice( response.data.message, 'error' );
-            }
-        });
+    $( '.branda-sui-accordion-sortable' ).sortable({
+        items: '.ui-sortable-handle'
     });
-});
+}
 /**
- * "Redirect user to" section
+ * change custom element visibility
  */
-jQuery( window.document ).ready( function( $ ) {
-    var ids = [
-        'branda-admin-bar-add'
-    ];
-    $('.branda-settings-tab-content-admin-bar .sui-dialog').each( function() {
-        if ( $(this).attr('id' ).match( /^branda-admin-bar-edit-/ ) ) {
-            ids.push( $(this).attr('id' ) );
-        }
-    });
-    function branda_admin_bar_dialog_change( dialog ) {
-        var value = $('.branda-general-url input:checked', dialog ).val();
+function branda_admin_bar_redirect_bind() {
+    var $dialog = $( '#' + Branda.admin_bar_dialog_edit );
+    $( 'input[name="branda[url]"]', $dialog ).on( 'change', function() {
+        var value = $('.branda-general-url input:checked', $dialog ).val();
         if ( undefined === value ) {
-            value = $('.branda-general-url .active input', dialog ).val();
+            value = $('.branda-general-url .active input', $dialog ).val();
         }
         switch( value ) {
             case 'custom':
-                $('.branda-general-custom', dialog ).show();
-                $('.branda-admin-bar-url-options', dialog ).show();
+                $('.branda-general-custom', $dialog ).show();
+                $('.branda-admin-bar-url-options', $dialog ).show();
                 break;
             case 'main':
             case 'current':
             case 'wp-admin':
-                $('.branda-general-custom', dialog ).hide();
-                $('.branda-admin-bar-url-options', dialog ).show();
+                $('.branda-general-custom', $dialog ).hide();
+                $('.branda-admin-bar-url-options', $dialog ).show();
                 break;
             default:
-                $('.branda-general-custom', dialog ).hide();
-                $('.branda-admin-bar-url-options', dialog ).hide();
+                $('.branda-general-custom', $dialog ).hide();
+                $('.branda-admin-bar-url-options', $dialog ).hide();
         }
-    }
-    function branda_admin_bar_dialog_add_bind( ids ) {
-        if (
-            'undefined' === typeof SUI ||
-            'undefined' === typeof SUI.dialogs
-        ) {
-            window.setTimeout( branda_admin_bar_dialog_add_bind, 100, ids );
-        } else if ( 'object' === typeof SUI.dialogs['branda-admin-bar-add'] ) {
-            $.each( ids, function( index, id ) {
-                SUI.dialogs[id].on( 'show', function() {
-                    var dialog = $( '#' + id );
-                    if ( dialog.hasClass( 'branda-alredy-bind' ) ) {
-                        return;
-                    }
-                    branda_admin_bar_dialog_change( dialog );
-                    dialog.addClass( 'branda-alredy-bind' );
-                    $('.branda-general-url input', dialog ).on( 'change', function() {
-                        branda_admin_bar_dialog_change( dialog );
-                    });
-                });
-            });
-        }
-    }
-    branda_admin_bar_dialog_add_bind( ids );
+    });
+}
+jQuery( window.document ).ready( function( $ ) {
+    Branda.admin_bar_row_buttons_bind( $( '.branda-admin-page' ) );
 });

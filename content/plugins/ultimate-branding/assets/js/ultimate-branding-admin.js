@@ -1,4 +1,4 @@
-/*! Branda - v3.0.5.1
+/*! Branda - v3.1.1
  * https://premium.wpmudev.org/project/ultimate-branding/
  * Copyright (c) 2019; * Licensed GPLv2+ */
 /* global window, jQuery  */
@@ -440,8 +440,10 @@ jQuery( window.document ).ready(function($){
 
 /* global window, jQuery, ajaxurl, ub_admin, wp, tinyMCE, SUI, ace */
 
+
 jQuery( window.document ).ready(function($){
     "use strict";
+
     /**
      * add editor content
      */
@@ -453,6 +455,43 @@ jQuery( window.document ).ready(function($){
                 content = editor.getContent();
             }
             return content;
+        },
+        branda_flag_status: function( element ) {
+            var $header = $('[data-tab=' + $( element ).closest('.sui-box.branda-settings-tab').data( 'tab' ) + '] .sui-box-status');
+            /**
+             * Avoid to flag dialog changes!
+             */
+            if ( 0 < $( element ).closest( '.sui-dialog' ).length ) {
+                return;
+            }
+            /**
+             * Avoid to flag unnecessary!
+             */
+            if ( 0 < $( element ).closest( '.branda-avoid-flag' ).length ) {
+                return;
+            }
+            window.branda_has_changed = 'unsaved';
+            $( '.branda-status-changes-saved', $header ).hide();
+            $( '.branda-status-changes-unsaved', $header ).show();
+        },
+        branda_sui_dialog_rebind: function( names ) {
+            if ( 'string' === typeof names ) {
+                names = [ names];
+            }
+            $.each( names, function( i, key ) {
+                if ( 'undefined' !== typeof SUI.dialogs[ key ] ) {
+                    SUI.dialogs[ key ].destroy();
+                    SUI.dialogs[ key ].create();
+                }
+            });
+        },
+        branda_generate_id: function() {
+            var text = "";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+            for (var i = 0; i < 10; i++) {
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            }
+            return text;
         }
     });
     /**
@@ -559,7 +598,6 @@ jQuery( window.document ).ready(function($){
         }
         $( '[name="simple_options[' + section + '][' + field + ']' )
             .on( 'change', function() {
-                window.console.log($(this));
                 if ( $(this).val() === value ) {
                     $this.show();
                 } else {
@@ -642,6 +680,9 @@ jQuery( window.document ).ready(function($){
             });
             branda_ace_editor_placeholder( id, $(this).attr( 'placeholder' ) ); 
         }
+        $(this).on( 'change', function() {
+            $.fn.branda_flag_status( this );
+        });
     });
 
     /**
@@ -705,6 +746,39 @@ jQuery( window.document ).ready(function($){
     $('.branda-module-save').on( 'click', function() {
         var form = $('[data-tab=' + $(this).closest('.sui-box').data('tab') + '] form');
         if ( 'undefined' !== typeof form ) {
+            var error = false;
+            $( 'input[type=number]', form ).each( function() {
+                var val = $(this).val();
+                if ( 'undefined' !== typeof val ) {
+                    var min = $(this).attr( 'min' );
+                    var max = $(this).attr( 'max' );
+                    var $parent = $(this).closest( '.sui-form-field' );
+                    $('.sui-error-message', $parent ).detach();
+                    $parent.removeClass( 'sui-form-field-error' );
+                    val = parseInt( val );
+                    if ( 'undefined' !== typeof min ) {
+                        min = parseInt( min );
+                        if ( val < min ) {
+                            $parent.addClass( 'sui-form-field-error' );
+                            $parent.append( '<span class="sui-error-message">'+ub_admin.messages.form.number.min+'</span>' );
+                            error = true;
+                            return;
+                        }
+                    }
+                    if ( 'undefined' !== typeof min ) {
+                        max = parseInt( max );
+                        if ( val > max ) {
+                            $parent.addClass( 'sui-form-field-error' );
+                            $parent.append( '<span class="sui-error-message">' + ub_admin.messages.form.number.max + '</span>' );
+                            error = true;
+                            return;
+                        }
+                    }
+                }
+            });
+            if ( error ) {
+                return;
+            }
             form.submit();
         }
     });
@@ -712,22 +786,40 @@ jQuery( window.document ).ready(function($){
      * reset whole module
      */
     $(' .branda-reset-module' ).on( 'click', function() {
-        if ( window.confirm( ub_admin.messages.reset.module ) ) {
-            var args = {
-                action: 'branda_reset_module',
-                module: $(this).data('module'),
-                _wpnonce: $(this).data('nonce')
-            };
-            $.post( ajaxurl, args, function( response ) {
-                window.console.log( response );
-                if ( response.success ) {
-                    window.location.reload();
-                } else {
-                    window.ub_sui_notice( response.data.message, 'error' );
-                }
-            });
+        var dialog_id = 'branda-dialog-reset-module-' + $(this).data('module');
+        if ( 'undefined' === typeof SUI.dialogs[ dialog_id ] ) {
+            if ( window.confirm( ub_admin.messages.reset.module ) ) {
+                var args = {
+                    action: 'branda_reset_module',
+                    module: $(this).data('module'),
+                    _wpnonce: $(this).data('nonce')
+                };
+                $.post( ajaxurl, args, function( response ) {
+                    if ( response.success ) {
+                        window.location.reload();
+                    } else {
+                        window.ub_sui_notice( response.data.message, 'error' );
+                    }
+                });
+            }
+        } else {
+            SUI.dialogs[ dialog_id ].show();
         }
         return false;
+    });
+    $( '.branda-dialog-reset-module button.branda-reset' ).on( 'click', function() {
+        var args = {
+            action: 'branda_reset_module',
+            module: $(this).data('module'),
+            _wpnonce: $(this).data('nonce')
+        };
+        $.post( ajaxurl, args, function( response ) {
+            if ( response.success ) {
+                window.location.reload();
+            } else {
+                window.ub_sui_notice( response.data.message, 'error' );
+            }
+        });
     });
     /**
      * show hide slaves
@@ -883,6 +975,23 @@ jQuery( window.document ).ready(function($){
             });
         }
     });
+
+    /**
+     * Indicator
+     */
+    window.branda_has_changed = 'saved';
+    window.onbeforeunload = function() {
+        if ( 'unsaved' === window.branda_has_changed ) {
+            return ub_admin.messages.unsaved;
+        }
+    };
+    $( '.branda-module-save' ).on( 'click', function() {
+        window.branda_has_changed = 'saving';
+    });
+    $( '.branda-settings-tab-content input, .branda-settings-tab-content textarea, .branda-settings-tab-content select' ).on( 'change', function() {
+        $.fn.branda_flag_status( this );
+    });
+
 });
 
 /* global window, jQuery, switch_button */
@@ -999,7 +1108,7 @@ function ub_sui_notice( message, notice_class ) {
         jQuery( '.sui-notice-dismiss', m ).hide();
     } else {
         m.addClass( 'sui-can-dismiss' );
-        jQuery( '.sui-notice-dismiss', m ).show();
+        jQuery( '.sui-notice-dismiss', m ).css( { display: 'flex' } );
     }
     jQuery( '.sui-notice-content', m ).html( '<p>' + message + '</p>' );
     m.show();

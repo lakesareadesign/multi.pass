@@ -16,10 +16,12 @@
         }
         .branda-settings-tab-tracking-codes {
             .sui-dialog {
-                label {
-                    &.sui-label {
-                        @include sui_12;
-                        margin-bottom: 5px;
+                .sui-tabs {
+                    label {
+                        &.sui-label {
+                            @include sui_12;
+                            margin-bottom: 5px;
+                        }
                     }
                 }
             }

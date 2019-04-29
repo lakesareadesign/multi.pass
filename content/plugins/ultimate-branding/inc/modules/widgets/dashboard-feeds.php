@@ -45,6 +45,11 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 			add_action( 'wp_ajax_branda_dashboard_feed_delete', array( $this, 'ajax_delete' ) );
 			add_action( 'wp_ajax_branda_dashboard_feed_delete_bulk', array( $this, 'ajax_delete_bulk' ) );
 			/**
+			 *
+			 * @since 3.0.1
+			 */
+			add_action( 'wp_ajax_branda_get_site_data', array( $this, 'ajax_get_site_data' ) );
+			/**
 			 * upgrade options
 			 *
 			 * @since 3.0.0
@@ -123,6 +128,8 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 								$one[ $key ] = 'full';
 							}
 						break;
+						default:
+							break;
 					}
 				}
 				$id = $this->get_max_feed_id() + 1;
@@ -242,21 +249,49 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 		 * @return array $config Configuration of modal window.
 		 */
 		public function get_sui_tabs_config( $item = array() ) {
+			$id = isset( $item['id'] )? $item['id']:0;
+
+			$after = '<button type="button" class="sui-button-icon"><i aria-hidden="true" class="sui-icon-magnifying-glass-search"></i></button>';
+			$after .= sprintf( '<div class="%s">', $this->get_name( 'list' ) );
+			$after .= sprintf(
+				'<div class="sui-notice sui-notice-loading hidden"><p>%s</p></div>',
+				esc_html__( 'Try to fetch feeds data, please wait...', 'ub' )
+			);
+			$after .= sprintf(
+				'<div class="sui-notice sui-notice-warning hidden"><p>%s</p></div>',
+				esc_html__( 'No feed found, try to another site or enter data manually.', 'ub' )
+			);
+			$after .= '<ul class="branda-list hidden"></ul>';
+			$after .= '</div>';
+			$after .= '</div>';
 			$config = array(
 				array(
 					'tab' => __( 'General', 'ub' ),
 					'fields' => array(
-						'title' => array(
-							'label' => __( 'Feed title (optional)', 'ub' ),
-							'label_after' => __( '(options)', 'ub' ),
-							'placeholder' => __( 'E.g. Daily Jobs Feed.', 'ub' ),
-							'value' => isset( $item['title'] )? $item['title']:'',
-						),
 						'link' => array(
 							'type' => 'url',
 							'label' => __( 'Site URL', 'ub' ),
 							'placeholder' => __( 'E.g. http://www.example.com', 'ub' ),
 							'value' => isset( $item['link'] )? $item['link']:'',
+							'classes' => array(
+								$this->get_name( 'url' ),
+							),
+							'data' => array(
+								'nonce' => $this->get_nonce_value( 'link', $id ),
+								'id' => $id,
+								'tmpl' => $this->get_name( 'select' ),
+								'target' => $this->get_name( 'list' ),
+							),
+							'field' => array(
+								'before' => '<div class="sui-with-button sui-with-button-icon">',
+								'after' => $after,
+							),
+						),
+						'title' => array(
+							'label' => __( 'Feed title (optional)', 'ub' ),
+							'label_after' => __( '(options)', 'ub' ),
+							'placeholder' => __( 'E.g. Daily Jobs Feed.', 'ub' ),
+							'value' => isset( $item['title'] )? $item['title']:'',
 						),
 						'url' => array(
 							'type' => 'url',
@@ -362,12 +397,10 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 			 */
 			$footer = '';
 			$args = array(
-				'icon' => 'undo',
-				'text' => __( 'Reset', 'ub' ),
+				'text' => __( 'Cancel', 'ub' ),
 				'sui' => 'ghost',
-				'classes' => array(
-					$this->get_name( 'reset' ),
-					'branda-dialog-reset',
+				'data' => array(
+					'a11y-dialog-hide' => '',
 				),
 			);
 			$footer .= $this->button( $args );
@@ -405,7 +438,7 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 		 * @since 3.0.0
 		 */
 		public function get_feed_form( $item ) {
-			$id = isset( $item['id'] )? $item['id']:md5( serialize( $item ) );
+			$id = isset( $item['id'] )? $item['id']:$this->generate_id( serialize( $item ) );
 			$config = $this->get_sui_tabs_config( $item );
 			$content = $this->sui_tabs( $config, $id, true );
 			/**
@@ -413,12 +446,10 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 			 */
 			$footer = '';
 			$args = array(
-				'icon' => 'undo',
-				'text' => __( 'Reset', 'ub' ),
+				'text' => __( 'Cancel', 'ub' ),
 				'sui' => 'ghost',
-				'classes' => array(
-					$this->get_name( 'reset' ),
-					'branda-dialog-reset',
+				'data' => array(
+					'a11y-dialog-hide' => '',
 				),
 			);
 			$footer .= $this->button( $args );
@@ -427,10 +458,10 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 					'nonce' => wp_create_nonce( $this->get_nonce_action( $item['id'] ) ),
 					'id' => $id,
 				),
-				'icon' => 'check',
-				'text' => __( 'Apply', 'ub' ),
-				'sui' => '',
-				'class' => $this->get_name( 'save' ),
+				'text' => __( 'Update', 'ub' ),
+				'classes' => array(
+					$this->get_name( 'save' ),
+				),
 			);
 			$footer .= $this->button( $args );
 			/**
@@ -438,7 +469,7 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 			 */
 			$args = array(
 				'id' => $this->get_nonce_action( $item['id'], 'edit' ),
-				'title' => __( 'Dashboard Feed', 'ub' ),
+				'title' => __( 'Edit Dashboard Feed', 'ub' ),
 				'content' => $content,
 				'footer' => array(
 					'content' => $footer,
@@ -461,6 +492,8 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 			if ( isset( $_POST['id'] ) ) {
 				$nonce_action = $this->get_nonce_action( $_POST['id'], 'delete' );
 			}
+			$widget_id = 'wpmudev_dashboard_item_'. $_POST['id'];
+			do_action( 'branda_delete_available_widget', $widget_id );
 			$this->check_input_data( $nonce_action, array( 'id' ) );
 			$items = ub_get_option( $this->items_name, array() );
 			if ( isset( $items[ $_POST['id'] ] ) ) {
@@ -490,6 +523,8 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 				foreach ( $_POST['ids'] as $id ) {
 					if ( isset( $items[ $id ] ) ) {
 						unset( $items[ $id ] );
+						$widget_id = 'wpmudev_dashboard_item_'. $id;
+						do_action( 'branda_delete_available_widget', $widget_id );
 						$update = true;
 						continue;
 					}
@@ -565,6 +600,7 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 						break;
 						case 'items':
 							$value = filter_input( INPUT_POST, $key, FILTER_SANITIZE_NUMBER_INT );
+						break;
 						default:
 							$value = filter_input( INPUT_POST, $key, FILTER_SANITIZE_STRING );
 						break;
@@ -623,6 +659,14 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 				return $content;
 			}
 			$content .= $this->get_dialog_delete( 'bulk' );
+			/**
+			 * Add js templates
+			 */
+			$template = sprintf( '/admin/modules/%s/js/templates', $this->module );
+			$args = array(
+				'id' => $this->get_name( 'select' ),
+			);
+			$content .= $this->render( $template, $args, true );
 			return $content;
 		}
 
@@ -639,6 +683,75 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds' ) ) {
 				}
 			}
 			return $args;
+		}
+
+		/**
+		 * AJAX: try to get site data by url
+		 *
+		 * @since 3.0.1
+		 */
+		public function ajax_get_site_data() {
+			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+			$this->check_input_data( $this->get_nonce_action( 'link', $id ), array( 'id', 'url' ) );
+			$url = filter_input( INPUT_POST, 'url', FILTER_VALIDATE_URL );
+			if ( false === $url ) {
+				wp_send_json_error();
+			}
+			$response = wp_remote_get( $url );
+			if ( ! is_array( $response ) ) {
+				wp_send_json_error();
+			}
+			$code = wp_remote_retrieve_response_code( $response );
+			if ( 200 !== $code ) {
+				wp_send_json_error();
+			}
+			$content = wp_remote_retrieve_body( $response );
+			if ( empty( $content ) ) {
+				wp_send_json_error();
+			}
+			$data = $this->find_feed( $content );
+			wp_send_json_success( $data );
+		}
+
+		/**
+		 * Get feed data from content helper
+		 *
+		 * @since 3.0.1
+		 */
+		private function find_feed( $content ) {
+			$data = array();
+			if ( ! preg_match_all( '@<link[^>]+>@', $content, $matches ) ) {
+				return $data;
+			}
+			foreach ( $matches[0] as $one ) {
+				if ( preg_match_all( '/ (\w+)="([^"]+)"/', $one, $value ) ) {
+					$rels = array();
+					foreach ( $value[0] as $index => $v ) {
+						$rels[ $value[1][ $index ] ] = $value[2][ $index ];
+					}
+					if ( ! isset( $rels['rel'] ) ) {
+						continue;
+					}
+					if ( ! isset( $rels['href'] ) ) {
+						continue;
+					}
+					if ( 'alternate' !== $rels['rel'] ) {
+						continue;
+					}
+					if (
+						isset( $rels['type'] )
+						&& 'application/rss+xml' === $rels['type']
+					) {
+						$one = array();
+						$one['href'] = $rels['href'];
+						if ( isset( $rels['title'] ) ) {
+							$one['title'] = html_entity_decode( $rels['title'] );
+						}
+						$data[] = $one;
+					}
+				}
+			}
+			return $data;
 		}
 	}
 }

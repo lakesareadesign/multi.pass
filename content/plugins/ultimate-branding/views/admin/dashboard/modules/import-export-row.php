@@ -14,7 +14,7 @@
 			'page' => sprintf( 'branding_group_%s', $module['group'] ),
 			'module' => $module['module'],
 			),
-			network_admin_url( 'admin.php' )
+			is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' )
 		);
 ?>" class="sui-button-icon sui-tooltip sui-tooltip-top-right-mobile" data-tooltip="<?php esc_attr_e( 'Edit Module', 'ub' ); ?>">
 			<i class="sui-icon-pencil" aria-hidden="true"></i>

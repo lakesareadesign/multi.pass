@@ -323,6 +323,12 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 					'show-as' => 'accordion',
 					'fields' => $this->get_options_fields( 'colors', array( 'name_and_bio', 'avatar', 'latest_entries', 'social', 'container', 'reset' ) ),
 				),
+				'css' => $this->get_custom_css_array(
+					array(
+						'extra_description' => __( 'This will be added to the header of every Login page.', 'ub' ),
+						'ace_selectors' => $this->get_ace_selectors(),
+					)
+				),
 			);
 			/**
 			 * return options/
@@ -364,30 +370,30 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 			if ( ! $show ) {
 				return;
 			}
-			$content = '';
-			$value = get_user_meta( $profileuser->ID, 'ub_author_box', true );
+			$value = get_user_meta( $profileuser->ID, $this->option_name, true );
 			$social_media = $this->get_options_social_media();
+			$fields = array();
 			foreach ( $data as $key ) {
 				if ( ! isset( $social_media[ $key ] ) ) {
 					continue;
 				}
-				$content .= sprintf( '<tr class="user-author-box user-author-box-%s">', esc_attr( $key ) );
-				$content .= sprintf( '<th><label for="user-author-box-%s">%s</label></th>', esc_attr( $key ), esc_html( $social_media[ $key ]['label'] ) );
-				$content .= sprintf(
-					'<td><input type="text" id="user-author-box-%s" class="regular-text" value="%s" name="ub_author_box[%s]" /></td>',
-					esc_attr( $key ),
-					esc_attr( isset( $value[ $key ] )? $value[ $key ]:'' ),
-					esc_attr( $key )
+				$label = $social_media[ $key ]['label'];
+				$fields[ $key ] = array(
+					'id' => $this->get_name( $key ),
+					'label' => $label,
+					'value' => isset( $value[ $key ] )? $value[ $key ]:'',
+					'option_name' => $this->option_name,
+					'placeholder' => sprintf( __( 'Enter %s URL here…', 'ub' ), $label ),
 				);
-				$content .= '</tr>';
 			}
-			if ( empty( $content ) ) {
+			if ( empty( $fields ) ) {
 				return;
 			}
-			printf( '<h2>%s</h2>', esc_html__( 'Social Media profiles', 'ub' ) );
-			echo '<table class="form-table"><tbody>';
-			echo $content;
-			echo '</tbody></table>';
+			$args = array(
+				'fields' => $fields,
+			);
+			$template = $this->get_template_name( 'profile' );
+			$this->render( $template, $args );
 		}
 
 		/**
@@ -396,11 +402,21 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 		 * @since 1.9.7
 		 */
 		public function save_user_profile( $user_id ) {
-			if ( current_user_can( 'edit_user', $user_id ) && isset( $_POST['ub_author_box'] ) ) {
-				$value = array_filter( $_POST['ub_author_box'] );
-				$result = add_user_meta( $user_id, 'ub_author_box', $value, true );
+			if ( current_user_can( 'edit_user', $user_id ) && isset( $_POST[ $this->option_name ] ) ) {
+				$value = array_filter( $_POST[ $this->option_name ] );
+				foreach ( $value as $key => $v ) {
+					$is_url = filter_var( $v, FILTER_VALIDATE_URL );
+					if ( ! $is_url ) {
+						unset( $value[ $key ] );
+					}
+				}
+				if ( empty( $value ) ) {
+					delete_user_meta( $user_id, $this->option_name );
+					return;
+				}
+				$result = add_user_meta( $user_id, $this->option_name, $value, true );
 				if ( false === $result ) {
-					update_user_meta( $user_id, 'ub_author_box', $value );
+					update_user_meta( $user_id, $this->option_name, $value );
 				}
 			}
 		}
@@ -453,7 +469,7 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 			$show = $this->get_value( 'design', 'avatar_show', false );
 			if ( 'on' == $show ) {
 				$size = $this->get_value( 'design', 'avatar_size', 96 );
-				$box_content .= sprintf( '<div class="ub-author-box-avatar" style="min-width: %dpx;">', $size );
+				$box_content .= sprintf( '<div class="branda-author-box-avatar" style="min-width: %dpx;">', $size );
 				$box_content .= get_avatar( $user_id, $size );
 				if ( 'under-avatar' === $social_media_position ) {
 					$box_content .= $social_media;
@@ -525,18 +541,25 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 					$target = ( 'on' === $target )? ' target="_blank"':'';
 					while ( $the_query->have_posts() ) {
 						$the_query->the_post();
+						$title = get_the_title();
+						if ( empty( $title ) ) {
+							$title = sprintf(
+								'<small>[%s]</small>',
+								esc_html__( 'entry has no title', 'ub' )
+							);
+						}
 						$entries .= sprintf(
 							'<li><a href="%s"%s>%s</a></li>',
 							get_the_permalink(),
 							$target,
-							get_the_title()
+							$title
 						);
 					}
 					wp_reset_postdata();
 				}
 				wp_reset_query();
 				if ( ! empty( $entries ) ) {
-					$part .= '<div class="ub-author-box-more">';
+					$part .= '<div class="branda-author-box-more">';
 					$title = $this->get_value( 'design', 'latests_entries_title', '' );
 					if ( ! empty( $title ) ) {
 						$part .= sprintf( '<h4>%s</h4>', $title );
@@ -549,13 +572,13 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 			 * wrap description
 			 */
 			if ( ! empty( $part ) ) {
-				$box_content .= sprintf( '<div class="ub-author-box-desc">%s</div>', $part );
+				$box_content .= sprintf( '<div class="branda-author-box-desc">%s</div>', $part );
 			}
 			/**
 			 * wrap box content
 			 */
 			if ( ! empty( $box_content ) ) {
-				$box_content = sprintf( '<div class="ub-author-box-content">%s</div>', $box_content );
+				$box_content = sprintf( '<div class="branda-author-box-content">%s</div>', $box_content );
 			}
 			/**
 			 * social_media
@@ -564,16 +587,19 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 				switch ( $social_media_position ) {
 					case 'top':
 						$box_content = $social_media . $box_content;
-					break;
+						break;
 					case 'bottom':
 						$box_content .= $social_media;
+						break;
+					default:
+						break;
 				}
 			}
 			/**
 			 * wrap all
 			 */
 			if ( ! empty( $box_content ) ) {
-				$content .= sprintf( '<div class="ub-author-box">%s</div>', $box_content );
+				$content .= sprintf( '<div class="branda-author-box">%s</div>', $box_content );
 			}
 			return $content;
 		}
@@ -589,7 +615,7 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 			if ( 'off' === $value ) {
 				return $content;
 			}
-			$profiles = get_the_author_meta( 'ub_author_box' );
+			$profiles = get_the_author_meta( $this->option_name );
 			if ( empty( $profiles ) ) {
 				return $content;
 			}
@@ -627,6 +653,8 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 						case 'mail':
 							$value = 'mailto:'.$value;
 						break;
+						default:
+							break;
 					}
 					$content .= sprintf(
 						'<li class="ub-social-%s"><a href="%s"%s><span class="%s" title="%s"></span></a></li>',
@@ -662,137 +690,76 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 			if ( ! $is_allowed_post_type ) {
 				return;
 			}
-			printf( '<style type="text/css" id="%s">', $this->get_name() );
-			echo PHP_EOL;
 			/**
-			 * box border
+			 * social media radius
 			 */
-			echo '.ub-author-box {';
-			$value = intval( $this->get_value( 'design', 'container_border_width', 0 ) );
-			if ( 0 < $value ) {
-				printf( 'border-width: %dpx;', $value );
-			}
-			$value = $this->get_value( 'design', 'container_border_style', false );
-			if ( ! empty( $value ) ) {
-				printf( 'border-style: %s;', $value );
-			}
-			$value = intval( $this->get_value( 'design', 'container_border_radius', 0 ) );
-			if ( 0 < $value ) {
-				echo $this->css_radius( $value );
-			}
-			$value = $this->get_value( 'colors', 'container_border_color', false );
-			if ( ! empty( $value ) ) {
-				printf( 'border-color: %s;', $value );
-			}
-			$value = $this->get_value( 'colors', 'container_background_color', false );
-			if ( ! empty( $value ) ) {
-				echo $this->css_background_color( $value );
-			}
-			echo '}';
-			echo PHP_EOL;
-			/**
-			 * avatar
-			 */
-			echo '.ub-author-box .ub-author-box-content img {';
-			$value = intval( $this->get_value( 'design', 'avatar_border_width', 0 ) );
-			if ( 0 < $value ) {
-				printf( 'border-width: %dpx;', $value );
-			}
-			$value = $this->get_value( 'design', 'avatar_border_style', 'solid' );
-			if ( ! empty( $value ) ) {
-				printf( 'border-style: %s;', $value );
-			}
-			$value = intval( $this->get_value( 'design', 'avatar_border_radius', 0 ) );
-			if ( 0 < $value ) {
-				echo $this->css_radius( $value );
-			}
-			$value = $this->get_value( 'colors', 'avatar_border_color', false );
-			if ( ! empty( $value ) ) {
-				printf( 'border-color: %s;', $value );
-			}
-			echo '}';
-			echo PHP_EOL;
-			/**
-			 * latests_entries
-			 */
-			echo '.ub-author-box .ub-author-box-content .ub-author-box-more ul a {';
-			$value = $this->get_value( 'colors', 'latest_entries_entry_color', false );
-			if ( ! empty( $value ) ) {
-				echo $this->css_color( $value );
-			}
-			echo '}';
-			echo PHP_EOL;
-			echo '.ub-author-box .ub-author-box-content .ub-author-box-more h4 {';
-			$value = $this->get_value( 'colors', 'latest_entries_title_color', false );
-			if ( ! empty( $value ) ) {
-				echo $this->css_color( $value );
-			}
-			echo '}';
-			echo PHP_EOL;
-			/**
-			 * social media
-			 */
-			echo '.ub-author-box .social-media {';
-			$value = $this->get_value( 'colors', 'social_background_color', false );
-			if ( ! empty( $value ) ) {
-				echo $this->css_background_color( $value );
-			}
+			$social_media_radius = null;
 			$value = intval( $this->get_value( 'design', 'container_border_radius', 0 ) );
 			if ( 0 < $value ) {
 				$position  = $this->get_value( 'design', 'social_media_position', false );
 				switch ( $position ) {
 					case 'top':
-						$radius = sprintf( '%1$spx %1$spx 0 0', $value );
-						echo $this->css_radius( $radius, '' );
+						$social_media_radius  = sprintf( '%1$spx %1$spx 0 0', $value );
 					break;
 					case 'bottom':
-						$radius = sprintf( '0 0 %1$spx %1$spx', $value );
-						echo $this->css_radius( $radius, '' );
+						$social_media_radius = sprintf( '0 0 %1$spx %1$spx', $value );
+					break;
+					default:
 					break;
 				}
 			}
-			echo '}';
-			echo PHP_EOL;
-			echo '.ub-author-box .social-media a {';
-			echo 'text-decoration: none;';
+			/**
+			 * Social Media Color
+			 */
+			$social_media_color = null;
 			$value = $this->get_value( 'design', 'social_media_colors', 'color' );
 			if ( 'monochrome' === $value ) {
-				$value = $this->get_value( 'colors', 'social_monochrome', false );
-				if ( ! empty( $value ) ) {
-					echo $this->css_color( $value );
-				}
+				$social_media_color = $this->get_value( 'colors', 'social_monochrome', false );
 			}
-			echo '}';
-			echo PHP_EOL;
 			/**
-			 * Colors: author title
+			 * template
 			 */
-			echo '.ub-author-box .ub-author-box-desc h4, ';
-			echo '.ub-author-box .ub-author-box-desc h4 a ';
-			echo '{';
-			$value = $this->get_value( 'colors', 'name_and_bio_name_color', false );
-			if ( ! empty( $value ) ) {
-				echo $this->css_color( $value );
-			}
-			echo '}';
-			echo PHP_EOL;
-			/**
-			 * Colors: author description
-			 */
-			echo '.ub-author-box .ub-author-box-desc .description, ';
-			echo '.ub-author-box .ub-author-box-desc .description p';
-			echo '{';
-			$value = $this->get_value( 'colors', 'name_and_bio_bio_color', false );
-			if ( ! empty( $value ) ) {
-				echo $this->css_color( $value );
-			}
-			echo '}';
-			echo PHP_EOL;
-			/**
-			 * End!
-			 */
-			echo '</style>';
-			echo PHP_EOL;
+			$template = sprintf( '/front-end/modules/%s/css', $this->module );
+			$args = array(
+				'id' => $this->get_name( 'css' ),
+				/**
+				 * Container
+				 */
+				'container_border_width' => intval( $this->get_value( 'design', 'container_border_width', 0 ) ),
+				'container_border_style' => $this->get_value( 'design', 'container_border_style', false ),
+				'container_border_radius' => intval( $this->get_value( 'design', 'container_border_radius', 0 ) ),
+				'container_border_color' => $this->get_value( 'colors', 'container_border_color', false ),
+				'container_background_color' => $this->get_value( 'colors', 'container_background_color', false ),
+				/**
+				 * Avatar
+				 */
+				'avatar_size' => intval( $this->get_value( 'design', 'avatar_size', 0 ) ),
+				'avatar_border_width' => intval( $this->get_value( 'design', 'avatar_border_width', 0 ) ),
+				'avatar_border_style' => $this->get_value( 'design', 'avatar_border_style', 'solid' ),
+				'avatar_border_radius' => intval( $this->get_value( 'design', 'avatar_border_radius', 0 ) ),
+				'avatar_border_color' => $this->get_value( 'colors', 'avatar_border_color', false ),
+				/**
+				 * latests_entries
+				 */
+				'latest_entries_entry_color' => $this->get_value( 'colors', 'latest_entries_entry_color', false ),
+				'latest_entries_title_color' => $this->get_value( 'colors', 'latest_entries_title_color', false ),
+				/**
+				 * social media
+				 */
+				'social_background_color' => $this->get_value( 'colors', 'social_background_color', false ),
+				'social_media_radius' => $social_media_radius,
+				'social_media_color' => $social_media_color,
+				/**
+				 * Colors: author title
+				 */
+				'name_and_bio_name_color' => $this->get_value( 'colors', 'name_and_bio_name_color', false ),
+				'name_and_bio_bio_color' => $this->get_value( 'colors', 'name_and_bio_bio_color', false ),
+				/**
+				 * Custom
+				 */
+				'custom' => $this->get_value( 'css', 'css', '' ),
+			);
+			$this->render( $template, $args );
 		}
 
 		/**
@@ -837,8 +804,10 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 				'name_and_bio_link_name' => array(
 					'type' => 'sui-tab',
 					'label' => __( 'Link name', 'ub' ),
-					'description' => __( 'Enable this to link author’s name to author archive.', 'ub' ),
-					'description-position' => 'bottom',
+					'description' => array(
+						'content' => __( 'Enable this to link author’s name to author archive.', 'ub' ),
+						'position' => 'bottom',
+					),
 					'options' => array(
 						'off' => __( 'Disable', 'ub' ),
 						'on' => __( 'Enable', 'ub' ),
@@ -858,8 +827,10 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 				'name_and_bio_show_counter' => array(
 					'type' => 'sui-tab',
 					'label' => __( 'Number of posts', 'ub' ),
-					'description' => __( 'This will show the number of posts of author along with the name.', 'ub' ),
-					'description-position' => 'bottom',
+					'description' => array(
+						'content' => __( 'This will show the number of posts of author along with the name.', 'ub' ),
+						'position' => 'bottom',
+					),
 					'options' => array(
 						'off' => __( 'Hide', 'ub' ),
 						'on' => __( 'Show', 'ub' ),
@@ -1016,8 +987,10 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 				'latests_entries_type' => array(
 					'type' => 'sui-tab',
 					'label' => __( 'Entries type', 'ub' ),
-					'description' => __( 'If a viewer is on a post, only the posts from the author will be shown. Pages and Media type will not be included.', 'ub' ),
-					'description-position' => 'bottom',
+					'description' => array(
+						'content' => __( 'If a viewer is on a post, only the posts from the author will be shown. Pages and Media type will not be included.', 'ub' ),
+						'position' => 'bottom',
+					),
 					'options' => array(
 						'on' => __( 'Same as the current post type', 'ub' ),
 						'off' => __( 'All', 'ub' ),
@@ -1053,8 +1026,10 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 				),
 				'latests_entries_title' => array(
 					'label' => __( 'Entries title (optional)', 'ub' ),
-					'description' => __( 'Leave this field blank if you don’t want to show any title.', 'ub' ),
-					'description-position' => 'bottom',
+					'description' => array(
+						'content' => __( 'Leave this field blank if you don’t want to show any title.', 'ub' ),
+						'position' => 'bottom',
+					),
 					'default' => __( 'Read more from the same author:', 'ub' ),
 					'master' => $this->get_name( 'entries' ),
 					'master-value' => 'on',
@@ -1389,6 +1364,14 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 			$template = sprintf( '/admin/modules/%s/row-social-media', $this->module );
 			if ( ! empty( $value ) && is_array( $value ) ) {
 				foreach ( $value as $key ) {
+					/**
+					 * Check is available - it can be wrong, when we saved
+					 * data before 3.1.0 with G+ profile, which was removed in
+					 * 3.1.0
+					 */
+					if ( ! isset( $social_media[ $key ] ) ) {
+						continue;
+					}
 					$one = $social_media[ $key ];
 					$one['type'] = 'raw';
 					$args = array(
@@ -1544,6 +1527,27 @@ if ( ! class_exists( 'Branda_Author_Box' ) ) {
 		 */
 		protected function get_options_fields_content_reset( $defaults = array() ) {
 			return $this->get_options_fields_reset( 'profile', $defaults );
+		}
+
+		/**
+		 * Get ACE editor buttons
+		 *
+		 * @since 3.1.0
+		 */
+		private function get_ace_selectors() {
+			$selectors = array(
+				'general' => array(
+						'selectors' => array(
+							'.branda-author-box-more' => __( 'Box', 'ub' ),
+							'.branda-author-box-desc h4' => __( 'Author Name', 'ub' ),
+							'.branda-author-box-content' => __( 'Box content', 'ub' ),
+							'.branda-author-box-more' => __( 'List', 'ub' ),
+							'.branda-author-box-avatar' => __( 'Avatar', 'ub' ),
+							'.branda-author-box .social-media' => __( 'Social Media', 'ub' ),
+						),
+				),
+			);
+			return $selectors;
 		}
 	}
 }

@@ -232,6 +232,13 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 			$value = $this->get_value( 'design', 'form_style' );
 			if ( 'flat' === $value ) {
 				echo 'box-shadow: none;';
+			} else {
+				$vertical = intval( $this->get_value( 'design', 'form_shadow_x_offset' ) );
+				$horizontal = intval( $this->get_value( 'design', 'form_shadow_y_offset' ) );
+				$blur = intval( $this->get_value( 'design', 'form_shadow_blur_offset' ) );
+				$spread = intval( $this->get_value( 'design', 'form_shadow_spread_offset' ) );
+				$color = $this->get_value( 'colors', 'form_shadow', 'rgba(0,0,0,0.13)' );
+				$this->css_box_shadow( $vertical, $horizontal, $blur, $spread, $color );
 			}
 			$positions = array( 'top', 'right', 'bottom', 'left' );
 			$margins = $padings = array();
@@ -404,7 +411,7 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 			$this->css_color_from_data( 'colors', 'error_messages_link_focus', '.login #login #login_error a:focus' );
 			//$this->css_opacity( $v, 'login_error_transarency', '.login #login #login_error' );
 			// Below form elements.
-			$value = $module_value['content'];
+			$value = isset( $module_value['content'] )? $module_value['content']:'';
 			// Show register link and forgot pass link.
 			$this->css_hide( $value, 'content_show_register', '.login #nav' );
 			// Link colors.
@@ -589,11 +596,15 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 					'description' => __( 'Choose where do you want to redirect users after the successful login or logout.', 'ub' ),
 					'fields' => array(
 						'login_url' => array(
-							'type' => 'text',
+							'type' => 'url',
 							'label' => __( 'After login redirect URL', 'ub' ),
 							'master' => $this->get_name( 'login-related' ),
 							'master-value' => 'on',
 							'display' => 'sui-tab-content',
+							'description' => array(
+								'content' => __( ' Branda automatically adds http:// to the beginning of the URL if no protocol is specified.', 'ub' ),
+								'position' => 'bottom',
+							),
 						),
 						'login' => array(
 							'type' => 'sui-tab',
@@ -612,6 +623,10 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 							'master' => $this->get_name( 'logout-related' ),
 							'master-value' => 'on',
 							'display' => 'sui-tab-content',
+							'description' => array(
+								'content' => __( ' Branda automatically adds http:// to the beginning of the URL if no protocol is specified.', 'ub' ),
+								'position' => 'bottom',
+							),
 						),
 						'logout' => array(
 							'type' => 'sui-tab',
@@ -826,7 +841,8 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 		private function set_theme( $id ) {
 			$themes = $this->get_themes();
 			$theme = $themes[ $id ];
-			$data = include_once $theme['theme_root'] . $id . '/index.php';
+			$theme_root = dirname( __FILE__ ) . '/themes/';
+			$data = include_once $theme_root . $id . '/index.php';
 			if ( empty( $data ) ) {
 				$message = sprintf(
 					__( 'Failed to load "%s" template configuration!', 'ub' ),
@@ -870,7 +886,7 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 			if ( 'on' === $value ) {
 				$value = $this->get_value( 'redirect', 'login_url' );
 				if ( ! empty( $value ) ) {
-					$redirect_to = $value;
+					$redirect_to = $this->add_http_if_is_missing( $value );
 				}
 			}
 			return $redirect_to;
@@ -890,7 +906,7 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 			if ( 'on' === $value ) {
 				$value = $this->get_value( 'redirect', 'logout_url' );
 				if ( ! empty( $value ) ) {
-					$redirect_to = $value;
+					$redirect_to = $this->add_http_if_is_missing( $value );
 				}
 			}
 			return $redirect_to;
@@ -904,6 +920,9 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 		public function upgrade_options() {
 			$update = false;
 			$value = $this->get_value();
+			if ( empty( $value ) ) {
+				return;
+			}
 			/**
 			 * Check we have plugin_version in saved data
 			 */
@@ -1536,6 +1555,8 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 		 * @return array
 		 */
 		public function get_options_fields_design_form( $defaults = array() ) {
+			$value = $this->get_value( 'design', 'form_style' );
+			$hidden = 'shadow' === $value? '':' hidden';
 			$data = array(
 				'form_style' => array(
 					'type' => 'sui-tab',
@@ -1552,6 +1573,49 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 					'group' => array(
 						'begin' => true,
 					),
+					'classes' => array(
+						$this->get_name( 'form-style' ),
+					),
+				),
+				'form_shadow_x_offset' => array(
+					'type' => 'number',
+					'label' => __( 'X offset', 'ub' ),
+					'default' => 0,
+					'min' => 0,
+					'after_label' => __( 'px', 'ub' ),
+					'before_field' => sprintf(
+						'<div class="sui-row %s%s"><div class="sui-col">',
+						$this->get_name( 'form-style' ),
+						esc_attr( $hidden )
+					),
+					'after_field' => '</div>',
+				),
+				'form_shadow_y_offset' => array(
+					'type' => 'number',
+					'label' => __( 'Y offset', 'ub' ),
+					'default' => 1,
+					'min' => 0,
+					'after_label' => __( 'px', 'ub' ),
+					'before_field' => '<div class="sui-col">',
+					'after_field' => '</div>',
+				),
+				'form_shadow_blur' => array(
+					'type' => 'number',
+					'label' => __( 'Blur', 'ub' ),
+					'default' => 3,
+					'min' => 0,
+					'after_label' => __( 'px', 'ub' ),
+					'before_field' => '<div class="sui-col">',
+					'after_field' => '</div>',
+				),
+				'form_shadow_spread' => array(
+					'type' => 'number',
+					'label' => __( 'Spread', 'ub' ),
+					'default' => 0,
+					'min' => 0,
+					'after_label' => __( 'px', 'ub' ),
+					'before_field' => '<div class="sui-col">',
+					'after_field' => '</div></div>',
 				),
 				'form_rounded' => array(
 					'type' => 'number',
@@ -2070,10 +2134,19 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 						'alpha' => true,
 					),
 				),
+				'form_shadow' => array(
+					'type' => 'color',
+					'label' => __( 'Form box shadow', 'ub' ),
+					'default' => 'rgba(0,0,0,0.13)',
+					'data' => array(
+						'alpha' => true,
+					),
+				),
+
 				'form_container_background' => array(
 					'type' => 'color',
 					'label' => __( 'Form container background', 'ub' ),
-					'default' => '#fff',
+					'default' => 'transparent',
 					'data' => array(
 						'alpha' => true,
 					),
@@ -2408,6 +2481,7 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 		public function get_template_configuration() {
 			$id_name = $this->get_nonce_action( 'choose', 'predefined', 'template' );
 			$content = '';
+			$has_configuration = $this->has_configuration();
 			$config = array(
 				'add' => array(
 					'type' => 'button',
@@ -2416,6 +2490,7 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 					'sui' => 'ghost',
 					'data' => array(
 						'a11y-dialog-show' => $id_name,
+						'has-configuration' => $has_configuration? 'yes':'no',
 					),
 					'classes' => array(
 						'branda-big-button',
@@ -2499,6 +2574,7 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 			 */
 			if ( 'start-from-scratch' === $id ) {
 				ub_delete_option( $this->option_name );
+				$this->update_value( array( 'theme' => 'start-from-scratch' ) );
 				$message = array(
 					'class' => 'success',
 					'message' => __( 'You can now start from scratch!', 'ub' ),
@@ -2538,6 +2614,7 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 		 * @since 3.0.0
 		 */
 		public function add_login_header() {
+			$this->html_background_common();
 			echo '<div class="branda-login">';
 		}
 
@@ -2580,6 +2657,21 @@ if ( ! class_exists( 'Branda_Login_Screen' ) ) {
 			return array(
 				'theme' => null,
 			);
+		}
+
+		/**
+		 * add http:// to a URL
+		 *
+		 * add http:// to a URL if it doesn't already include a protocol (e.g.
+		 * http://, https:// or ftp://)?
+		 *
+		 * @since 3.0.1
+		 */
+		private function add_http_if_is_missing( $value ) {
+			if ( ! preg_match( '~^(?:f|ht)tps?://~i', $value ) ) {
+				$value = 'http://'.$value;
+			}
+			return $value;
 		}
 	}
 }

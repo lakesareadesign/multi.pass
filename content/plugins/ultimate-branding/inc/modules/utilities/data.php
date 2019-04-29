@@ -133,8 +133,10 @@ if ( ! class_exists( 'Branda_Data' ) ) {
 							'value' => __( 'Reset', 'ub' ),
 							'icon' => 'undo',
 							'sui' => 'ghost',
-							'description' => __( 'Note: This will instantly revert all settings to their default states but will leave your data intact.', 'ub' ),
-							'description-position' => 'bottom',
+							'description' => array(
+								'content' => __( 'Note: This will instantly revert all settings to their default states but will leave your data intact.', 'ub' ),
+								'position' => 'bottom',
+							),
 							'data' => array(
 								'a11y-dialog-show' => $this->get_name( 'confirm-reset' ),
 							),
@@ -298,12 +300,18 @@ if ( ! class_exists( 'Branda_Data' ) ) {
 				}
 				global $wpdb;
 				$query = sprintf(
-					'DELETE a,b,c FROM %s a LEFT JOIN %s b ON ( a.ID = b.object_id ) LEFT JOIN %s c ON ( a.ID = c.post_id ) WHERE a.post_type = \'%s\'',
+					'DELETE a,b,c FROM %s a LEFT JOIN %s b ON ( a.ID = b.object_id ) LEFT JOIN %s c ON ( a.ID = c.post_id ) WHERE a.post_type = %%s',
 					$wpdb->posts,
 					$wpdb->term_relationships,
-					$wpdb->postmeta,
-					'admin_panel_tip'
+					$wpdb->postmeta
 				);
+				$query = $wpdb->prepare( $query, 'admin_panel_tip' );
+				$wpdb->query( $query );
+				$query = sprintf(
+					'DELETE FROM %s WHERE `meta_key` = %%s',
+					$wpdb->usermeta
+				);
+				$query = $wpdb->prepare( $query, 'show_welcome_dialog' );
 				$wpdb->query( $query );
 			}
 			return true;

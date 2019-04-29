@@ -81,31 +81,53 @@ if ( ! class_exists( 'Branda_Export' ) ) {
 				die( $this->messages['security'] );
 			}
 			$options_names = apply_filters( 'ultimate_branding_options_names', array() );
+			/**
+			 * get modules
+			 */
+			$modules = get_ub_activated_modules( 'raw' );
+			$remove = array(
+				'utilities/data.php',
+				'utilities/export.php',
+				'utilities/import.php',
+				'utilities/accessibility.php',
+			);
+			foreach ( $remove as $key ) {
+				if ( isset( $modules[ $key ] ) ) {
+					unset( $modules[ $key ] );
+				}
+			}
+			/**
+			 * Data to export
+			 */
 			$data = array(
 				'name' => 'Branda',
 				'url' => 'https://premium.wpmudev.org/plugins/ultimate-branding',
 				'version' => apply_filters( 'branda_version', 0 ),
 				'timestamp' => time(),
 				'date' => date( 'c' ),
-				'activate_module' => get_ub_activated_modules( 'raw' ),
+				'activate_module' => $modules,
 				'modules' => array(),
 			);
 			$data = apply_filters( 'ultimate_branding_export_data', $data );
-			foreach ( $options_names as $name ) {
-				$data['modules'][ $name ] = ub_get_option( $name );
-			}
-			$sitename = sanitize_key( get_bloginfo( 'name' ) );
-			if ( empty( $sitename ) ) {
-				$sitename = 'website';
-			}
 			/**
-			 * Remove stats
+			 * options to remove
 			 */
-			if (
-				isset( $data['modules'] )
-				&& isset( $data['modules']['ultimate_branding_stats'] )
-			) {
-				unset( $data['modules']['ultimate_branding_stats'] );
+			$remove = array(
+				'ultimate_branding_stats',
+				'ub_stats',
+			);
+			foreach ( $options_names as $name ) {
+				if ( in_array( $name, $remove ) ) {
+					continue;
+				}
+				$option_value = ub_get_option( $name );
+				/**
+				 * there is senseless to export empty value
+				 */
+				if ( empty( $option_value ) ) {
+					continue;
+				}
+				$data['modules'][ $name ] = $option_value;
 			}
 			/**
 			 * add debug information
@@ -124,11 +146,30 @@ if ( ! class_exists( 'Branda_Export' ) ) {
 				}
 				$site['is_rtl'] = is_rtl();
 				$site['is_multisite'] = is_multisite();
+				$themes_data = wp_get_themes();
+				$themes = array();
+				$headers = array( 'Name', 'Description', 'Author', 'Version', 'ThemeURI', 'AuthorURI', 'Status', 'Tags' );
+				$current_theme = wp_get_theme();
+				$current_theme = $current_theme->get( 'Name' );
+				foreach ( $themes_data as $name => $theme ) {
+					$themes[ $name ] = array();
+					foreach ( $headers as $header ) {
+						$themes[ $name ][ $header ] = $theme->get( $header );
+					}
+					$themes[ $name ]['active'] = $current_theme === $themes[ $name ]['Name']? 'active':'inactive';
+				}
 				$data['debug'] = array(
 					'site' => $site,
 					'plugins' => get_plugins(),
-					'themes' => wp_get_themes(),
+					'themes' => $themes,
 				);
+			}
+			/**
+			 * site name
+			 */
+			$sitename = sanitize_key( get_bloginfo( 'name' ) );
+			if ( empty( $sitename ) ) {
+				$sitename = 'website';
 			}
 			/**
 			 * filename
@@ -174,8 +215,10 @@ if ( ! class_exists( 'Branda_Export' ) ) {
 					'add_debug_information' => array(
 						'type' => 'checkbox',
 						'checkbox_label' => __( 'Include debug info', 'ub' ),
-						'description' => __( 'Checking this will include debug information of the installed themes and plugins in the export file.', 'ub' ),
-						'description-position' => 'bottom',
+						'description' => array(
+							'content' => __( 'Checking this will include debug information of the installed themes and plugins in the export file.', 'ub' ),
+							'position' => 'bottom',
+						),
 						'group' => array(
 							'begin' => true,
 							'end' => true,
@@ -187,6 +230,9 @@ if ( ! class_exists( 'Branda_Export' ) ) {
 						'value' => __( 'Export', 'ub' ),
 						'sui' => array(
 							'blue',
+						),
+						'classes' => array(
+							'branda-module-save',
 						),
 						'icon' => 'download-cloud',
 					),

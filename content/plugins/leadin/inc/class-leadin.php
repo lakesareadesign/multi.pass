@@ -11,10 +11,6 @@ class WPLeadIn {
   function __construct() {
     global $pagenow;
 
-    if ( is_user_logged_in() ) {
-      add_action( 'admin_bar_menu', array( $this, 'add_leadin_link_to_admin_bar' ), 999 );
-    }
-
     add_action( 'wp_enqueue_scripts', array($this, 'add_common_frontend_scripts' ) );
     add_action( 'admin_enqueue_scripts', array($this, 'add_common_frontend_scripts' ) );
 
@@ -82,7 +78,7 @@ class WPLeadIn {
 
   function add_common_frontend_scripts() {
     if ( is_user_logged_in() ) {
-      wp_register_style( 'leadin-css', LEADIN_PATH.'/assets/leadin.css' );
+      wp_register_style( 'leadin-css', LEADIN_PATH.'/style/leadin.css' );
       wp_enqueue_style( 'leadin-css' );
     }
   }
@@ -112,29 +108,6 @@ class WPLeadIn {
     } else {
       return $tag;
     }
-  }
-
-  /**
-   * Adds Leadin link to top-level admin bar
-   */
-  function add_leadin_link_to_admin_bar( $wp_admin_bar ) {
-    global $wp_version;
-
-    if ( ! current_user_can( 'activate_plugins' ) ) {
-      if ( ! array_key_exists( 'li_grant_access_to_' . leadin_get_user_role(), get_option( 'leadin_options' ) ) ) {
-        return false;
-      }
-    }
-
-    $args = array(
-      'id'     => 'leadin-admin-menu',
-      'title'  => "<span class='ab-icon'></span><span class='ab-label'>HubSpot</span>", // alter the title of existing node
-      'parent' => false,   // set parent to false to make it a top level (parent) node
-      'href'   => get_bloginfo( 'wpurl' ) . '/wp-admin/admin.php?page=leadin',
-      'meta'   => array( 'title' => 'HubSpot' ),
-    );
-
-    $wp_admin_bar->add_node( $args );
   }
 
   public static function leadin_is_login_or_register_page() {

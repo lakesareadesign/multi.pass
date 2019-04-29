@@ -191,6 +191,18 @@ body .ms-options-wrap > .ms-options > ul input[type="checkbox"] {
 	display: inline-block;
 }
 
+.curl-alert {
+	padding: 16px 25px 16px 20px;
+	background-color: #fde8e8;
+	border-left: 5px solid #e7aaaa;
+	margin-bottom: 2em;
+}
+.curl-alert p {
+	font-size: 1rem;
+	color: #333;
+}
+
+
 /* Templates
 ----------------------------------------------------------- */
 

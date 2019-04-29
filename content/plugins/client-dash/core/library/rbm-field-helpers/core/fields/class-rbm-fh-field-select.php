@@ -24,6 +24,7 @@ class RBM_FH_Field_Select extends RBM_FH_Field {
 	 * @var array
 	 */
 	public $defaults = array(
+		'input_class'                => 'regular-text',
 		'options'                    => array(),
 		'opt_groups'                 => false,
 		'multiple'                   => false,
@@ -81,6 +82,11 @@ class RBM_FH_Field_Select extends RBM_FH_Field {
 				'noResults'       => $args['l10n']['no_results'],
 				'searching'       => $args['l10n']['searching'],
 			);
+		}
+
+		if ( ! isset( $args['options'] ) ) {
+
+			$args['options'] = array();
 		}
 
 		$args['options'] = $this->legacy_options_support(

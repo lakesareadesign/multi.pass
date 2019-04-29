@@ -351,16 +351,8 @@ We hope you enjoy your new site. Thanks!
 			if ( false === $is_open ) {
 				return $data;
 			}
-			$url = network_admin_url( 'settings.php' );
 			$data['wpmu_signup_user_notification']['classes'] = array( 'branda-not-affected' );
-			$data['wpmu_signup_user_notification']['notice'] = array(
-				'position' => 'bottom',
-				'class' => 'error',
-				'message' => sprintf(
-					__( 'User registration has been disabled. Click <a href="%s">here</a> to enable the user registration for your site.', 'ub' ),
-					$url
-				),
-			);
+			$data['wpmu_signup_user_notification']['notice'] = $this->get_users_can_register_notice();
 			return $data;
 		}
 	}

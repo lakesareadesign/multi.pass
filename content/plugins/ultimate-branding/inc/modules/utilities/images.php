@@ -9,7 +9,6 @@ if ( ! class_exists( 'Branda_Images' ) ) {
 
 	class Branda_Images extends Branda_Helper {
 		protected $option_name = 'ub_images';
-		private $roles = array();
 		private $filesize = array();
 		private $quant = array();
 		/**
@@ -76,6 +75,12 @@ if ( ! class_exists( 'Branda_Images' ) ) {
 			 * @since 3.0,0
 			 */
 			add_filter( 'branda_get_module_content', array( $this, 'add_template' ), 10, 2 );
+			/**
+			 * Remove "Site Icon' from Customizer
+			 *
+			 * @since 3.1.0
+			 */
+			add_action( 'customize_register', array( $this, 'remove_styles_sections' ), 33, 1 );
 		}
 
 		/**
@@ -159,14 +164,14 @@ if ( ! class_exists( 'Branda_Images' ) ) {
 		 * @since 3.0.0
 		 */
 		protected function set_options() {
+			$this->set_roles( false, false );
 			$this->module = 'images';
-			$this->roles = wp_roles()->get_names();
 			$this->quant = array(
 				'TB' => TB_IN_BYTES,
 				'GB' => GB_IN_BYTES,
 				'MB' => MB_IN_BYTES,
 				'KB' => KB_IN_BYTES,
-				'B'  => 1,
+				'B' => 1,
 			);
 			$this->_default_fav = admin_url() . 'images/w-logo-blue.png';
 			$button_add_args = array(
@@ -184,78 +189,114 @@ if ( ! class_exists( 'Branda_Images' ) ) {
 				$container_class[] = 'hidden';
 			}
 			/**
+			 * Override Description
+			 */
+			$override_description = __( 'Choose whether the favicon defined here should override the site icon defined in <b>Appearance &gt; Customize</b>.', 'ub' );
+			if ( ! $this->is_network ) {
+				$uba = ub_get_uba_object();
+				$module_data = $uba->get_module_by_module( $this->module );
+				$images = add_query_arg(
+					array(
+						'page' => 'branding_group_'.$module_data['group'],
+						'module' => $this->module,
+					),
+					'admin.php'
+				);
+				$override_description = sprintf(
+					__( 'Choose whether the favicon defined here should override the site icon defined in <b><a href="%s">Appearance</a> &gt; <a href="%s">Customize</a></b>.', 'ub' ),
+					admin_url( 'themes.php' ),
+					admin_url( add_query_arg( 'return', urlencode( $images ), 'customize.php' ) )
+				);
+			}
+			/**
 			 * Options
 			 */
 			$options = array(
 				'favicon' => array(
-					'title'       => __( 'Favicon', 'ub' ),
+					'title' => __( 'Favicon', 'ub' ),
 					'description' => $this->is_network ? __( 'You can override the favicons of all the websites on your network.', 'ub' ) : __( 'You can override the favicon of your website defined in <strong>Appearance &gt; Customization</strong>.', 'ub' ),
-					'fields'      => array(
-						'favicon'  => array(
-							'label'                => $this->is_network ? __( 'Main Site', 'ub' ) : __( 'Favicon', 'ub' ),
-							'type'                 => 'media',
-							'master'               => $this->get_name( 'favicons-override' ),
-							'description'          => $this->is_network ? __( 'Override the favicon of your main site here. Preferred size of favicon is 32x32px.', 'ub' ) : __( 'Preferred size of favicon is 32x32px.', 'ub' ),
-							'description-position' => $this->is_network ? 'top' : 'bottom',
+					'fields' => array(
+						'favicon' => array(
+							'label' => $this->is_network ? __( 'Main Site', 'ub' ) : __( 'Favicon', 'ub' ),
+							'type' => 'media',
+							'master' => $this->get_name( 'favicons-override' ),
+							'description' => array(
+								'content' => $this->is_network ? __( 'Override the favicon of your main site here. Preferred size of favicon is 32x32px.', 'ub' ) : __( 'Preferred size of favicon is 32x32px.', 'ub' ),
+								'position' => $this->is_network ? 'top' : 'bottom',
+							),
 						),
-						'search'   => array(
-							'id'           => $this->get_name( 'search' ),
-							'type'         => 'select2-ajax',
+						'search' => array(
+							'id' => $this->get_name( 'search' ),
+							'type' => 'select2-ajax',
 							'small-select' => true,
-							'master'       => $this->get_name( 'subsites' ),
+							'master' => $this->get_name( 'subsites' ),
 							'master-value' => 'custom',
-							'display'      => 'sui-tab-content',
-							'before'       => '<div class="sui-row"><div class="sui-col-sm-9">',
-							'after'        => '</div><div class="sui-col-sm-3">' . $this->button( $button_add_args ) . '</div></div>',
-							'placeholder'  => __( 'Search the subsite', 'ub' ),
-							'data'         => array(
+							'display' => 'sui-tab-content',
+							'before' => '<div class="sui-row"><div class="sui-col-sm-9">',
+							'after' => '</div><div class="sui-col-sm-3">' . $this->button( $button_add_args ) . '</div></div>',
+							'placeholder' => __( 'Search the subsite', 'ub' ),
+							'data' => array(
 								'user-id' => get_current_user_id(),
-								'nonce'   => wp_create_nonce( $this->get_nonce_action_name( 'search' ) ),
-								'action'  => 'branda_images_search_sites',
-								'extra'   => 'branda_images_add_already_used_sites',
+								'nonce' => wp_create_nonce( $this->get_nonce_action_name( 'search' ) ),
+								'action' => 'branda_images_search_sites',
+								'extra' => 'branda_images_add_already_used_sites',
 							),
 							'network-only' => true,
 						),
-						'list'     => array(
-							'type'                 => 'callback',
-							'callback'             => array( $this, 'get_list' ),
-							'description-position' => 'bottom',
-							'master'               => $this->get_name( 'subsites' ),
-							'master-value'         => 'custom',
-							'display'              => 'sui-tab-content',
-							'network-only'         => true,
-							'classes'              => array( 'branda-images-subsite-add' ),
+						'list' => array(
+							'type' => 'callback',
+							'callback' => array( $this, 'get_list' ),
+							'master' => $this->get_name( 'subsites' ),
+							'master-value' => 'custom',
+							'display' => 'sui-tab-content',
+							'network-only' => true,
+							'classes' => array( 'branda-images-subsite-add' ),
 						),
 						'subsites' => array(
-							'type'         => 'sui-tab',
-							'description'  => __( 'Choose whether to use the main site’s favicon as a default favicon for all the subsites or add a custom favicon for each subsite.', 'ub' ),
-							'label'        => __( 'Subsites', 'ub' ),
-							'options'      => array(
-								'force'  => __( 'Main Site’s Favicon', 'ub' ),
+							'type' => 'sui-tab',
+							'description' => array(
+								'content' => __( 'Choose whether to use the main site’s favicon as a default favicon for all the subsites or add a custom favicon for each subsite.', 'ub' ),
+							),
+							'label' => __( 'Subsites', 'ub' ),
+							'options' => array(
+								'force' => __( 'Main Site’s Favicon', 'ub' ),
 								'custom' => __( 'Custom', 'ub' ),
 							),
-							'default'      => 'force',
-							'slave-class'  => $this->get_name( 'subsites' ),
+							'default' => 'force',
+							'slave-class' => $this->get_name( 'subsites' ),
 							'network-only' => true,
+						),
+						'override' => array(
+							'type' => 'sui-tab',
+							'label' => __( 'Override customizer icon', 'ub' ),
+							'options' => array(
+								'disabled' => __( 'Leave it', 'ub' ),
+								'enabled' => __( 'Override', 'ub' ),
+							),
+							'default' => 'disabled',
+							'description' => array(
+								'content' => $override_description,
+								'position' => 'bottom',
+							),
 						),
 					),
 				),
-				'images'  => array(
-					'title'       => __( 'Image Filesize Limit', 'ub' ),
+				'images' => array(
+					'title' => __( 'Image Filesize Limit', 'ub' ),
 					'description' => sprintf( __( 'Override the default WordPress upload limit of %dMb for different user roles.', 'ub' ), round( $this->get_wp_limit() / 1000 ) ),
-					'fields'      => array(
+					'fields' => array(
 						'override' => array(
 							'checkbox_label' => __( 'Override upload limit', 'ub' ),
-							'type'           => 'checkbox',
-							'classes'        => array( 'switch-button' ),
-							'slave-class'    => $this->get_name( 'images-override' ),
+							'type' => 'checkbox',
+							'classes' => array( 'switch-button' ),
+							'slave-class' => $this->get_name( 'images-override' ),
 						),
-						'limits'   => array(
-							'type'              => 'callback',
-							'callback'          => array( $this, 'limits' ),
-							'master'            => $this->get_name( 'images-override' ),
+						'limits' => array(
+							'type' => 'callback',
+							'callback' => array( $this, 'limits' ),
+							'master' => $this->get_name( 'images-override' ),
 							'container-classes' => $container_class,
-							'description'    => array(
+							'description' => array(
 								'position' => 'top',
 								'content' => __( 'Set your own limit on the upload size of images for different user roles.', 'ub' ),
 							),
@@ -353,6 +394,10 @@ if ( ! class_exists( 'Branda_Images' ) ) {
 		 * @return mixed
 		 */
 		public function get_site_icon_url( $url, $size, $blog_id ) {
+			$value = $this->get_value( 'favicon', 'override', 'enabled' );
+			if ( 'disabled' === $value ) {
+				return $url;
+			}
 			$meta = $favicon = null;
 			if ( $this->is_network ) {
 				/**
@@ -696,7 +741,7 @@ if ( ! class_exists( 'Branda_Images' ) ) {
 				$amount = filter_var( $_POST['limits'][ $slug ]['amount'], FILTER_SANITIZE_NUMBER_INT );
 				$quant = filter_var( $_POST['limits'][ $slug ]['quantity'], FILTER_SANITIZE_STRING );
 				$value = $amount * $this->quant[ $quant ];
-				if ( $max === $value ) {
+				if ( $max <= $value ) {
 					continue;
 				}
 				$raw[ $slug ] = array(
@@ -807,6 +852,7 @@ if ( ! class_exists( 'Branda_Images' ) ) {
 				if ( isset( $limits_raw[ $slug ] ) ) {
 					$raw = $limits_raw[ $slug ];
 				}
+				$content .= '<div class="sui-form-field">';
 				$content .= sprintf(
 					'<input type="number" name="limits[%s][amount]" value="%d" min="0" max="%d" data-real-value="%d" class="sui-form-control %s" />',
 					esc_attr( $slug ),
@@ -815,6 +861,7 @@ if ( ! class_exists( 'Branda_Images' ) ) {
 					$value,
 					esc_attr( $this->get_name( 'amount' ) )
 				);
+				$content .= '</div>';
 				$content .= '</div>';
 				$content .= '<div class="sui-col-xs-5">';
 				$content .= '<span class="sui-label">&nbsp;</span>';
@@ -865,6 +912,19 @@ if ( ! class_exists( 'Branda_Images' ) ) {
 			}
 			$content .= '</select>';
 			return $content;
+		}
+
+		/**
+		 * Remove "Site Icon' from Customizer
+		 *
+		 * @since 3.1.0
+		 */
+		public function remove_styles_sections( $wp_customize ) {
+			$value = $this->get_value( 'favicon', 'override', 'enabled' );
+			if ( 'enabled' === $value ) {
+				return;
+			}
+			$wp_customize->remove_control( 'site_icon' );
 		}
 	}
 }

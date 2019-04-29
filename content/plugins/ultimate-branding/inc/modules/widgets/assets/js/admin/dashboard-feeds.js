@@ -2,7 +2,7 @@
  * Branda: Dashboard Feeds
  * http://premium.wpmudev.org/
  *
- * Copyright (c) 2018 Incsub
+ * Copyright (c) 2018-2019 Incsub
  * Licensed under the GPLv2 +  license.
  */
 /* global window, SUI, ajaxurl */
@@ -91,6 +91,82 @@ jQuery( window.document ).ready( function( $ ){
                 window.location.reload();
             } else {
                 window.ub_sui_notice( response.data.message, 'error' );
+            }
+        });
+    });
+    /**
+     * Try to fetch site name and feed
+     */
+    $( '.branda-dashboard-feeds-url button' ).on( 'click', function() {
+        var $parent = $(this).closest( '.sui-tabs' );
+        var $input = $('input', $parent );
+        var $target = $( '.'+$input.data('target'), $parent );
+        var field;
+        var data = {
+            action: 'branda_get_site_data',
+            _wpnonce: $input.data('nonce'),
+            id: $input.data('id'),
+            url: $input.val(),
+        }
+        $( '.sui-notice', $target ).hide();
+        $( '.sui-notice-loading', $target ).show();
+        $( '.branda-list', $target ).html('').hide();
+        $.post( ajaxurl, data, function( response ) {
+            if (
+                response.success &&
+                'undefined' !== response.data
+            ) {
+                if ( 0 === response.data.length ) {
+                    $( '.sui-notice', $target ).hide();
+                    $( '.sui-notice-warning', $target ).show();
+                    return;
+                }
+                if ( 1 === response.data.length ) {
+                    /**
+                     * Title
+                     */
+                    field = $('.branda-general-title input', $parent );
+                    if (
+                        '' === field.val() &&
+                        'undefined' !== response.data[0].title
+                    ) {
+                        field.val( response.data[0].title );
+                    }
+                    /**
+                     * href
+                     */
+                    field = $('.branda-general-url input', $parent );
+                    if (
+                        '' === field.val() &&
+                        'undefined' !== response.data[0].href
+                    ) {
+                        field.val( response.data[0].href );
+                    }
+                } else {
+                    var row = wp.template( $input.data('tmpl') + '-row' );
+                    var list = '';
+                    $.each( response.data, function( index, value ) {
+                        list += row( value );
+                    });
+                    $('.sui-notice', $target ).hide();
+                    $('.branda-list', $target ).html( list ).show();
+                    $( 'label', $target ).on( 'click', function() {
+                        /**
+                         * Title
+                         */
+                        field = $('.branda-general-title input', $parent );
+                        field.val( $('.branda-title', $(this) ).html() );
+                        /**
+                         * href
+                         */
+                        field = $('.branda-general-url input', $parent );
+                        field.val( $('.branda-href', $(this) ).html() );
+                    });
+                }
+                $('.sui-notice-loading', $target ).hide();
+            } else {
+                $( '.sui-notice', $target ).hide();
+                $( '.sui-notice-warning', $target ).show();
             }
         });
     });

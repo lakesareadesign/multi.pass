@@ -406,6 +406,7 @@ final class FLBuilder {
 		wp_register_script( 'jquery-mosaicflow', $js_url . 'jquery.mosaicflow' . $min . '.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'jquery-waypoints', $js_url . 'jquery.waypoints.min.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'jquery-wookmark', $js_url . 'jquery.wookmark.min.js', array( 'jquery' ), $ver, true );
+		wp_register_script( 'jquery-throttle', $js_url . 'jquery.ba-throttle-debounce.min.js', array( 'jquery' ), $ver, true );
 		wp_register_script( 'yui3', $js_url . 'yui3.min.js', array(), $ver, true );
 		wp_register_script( 'youtube-player', 'https://www.youtube.com/iframe_api', array(), $ver, true );
 		wp_register_script( 'vimeo-player', 'https://player.vimeo.com/api/player.js', array(), $ver, true );
@@ -1515,6 +1516,11 @@ final class FLBuilder {
 
 		// Build the attributes string.
 		$attr_string = '';
+		/**
+		 * Change attributes for container.
+		 * @see fl_render_content_by_id_attrs
+		 */
+		$attrs = apply_filters( 'fl_render_content_by_id_attrs', $attrs, $post_id );
 
 		foreach ( $attrs as $attr_key => $attr_value ) {
 			$attr_string .= ' ' . $attr_key . '="' . $attr_value . '"';
@@ -2111,7 +2117,7 @@ final class FLBuilder {
 			'data-node' => $group->node,
 		);
 
-		if ( 'column' == $parent->type ) {
+		if ( isset( $parent->type ) && 'column' == $parent->type ) {
 			$attrs['class'][] = 'fl-col-group-nested';
 		}
 

@@ -4,13 +4,92 @@ Author: Marko Miljus (Incsub), Barry (Incsub), Andrew Billits, Ulrich Sossou, Ve
 Change Log:
 ----------------------------------------------------------------------
 
+DATE: 16 March, 2019  - VERSION: 3.1.1
+==================================
+- Fixed a problem with logo height.
+
+DATE: 15 March, 2019  - VERSION: 3.1.0
+==================================
+- Added an ability to disable override favicon.
+- Added an ability to fetch data of Site title and feed URL on "Dashboard Feeds" module.
+- Added an ability to force user role with signup codes.
+- Added an ability to hide custom admin bar items on mobile.
+- Added an ability to preview saved DB Error Page.
+- Added an ability to reset the Widget Visibility list on "Dashboard Widgets" module.
+- Added an ability to set login form shadow.
+- Added auto-open "Choose a Template" on "Login Screen" module, when is no configuration.
+- Added auto-regeneration `db-error.php` file "DB Error Page" module is imported.
+- Added auto-regeneration site status files when "Site Status Pages" module is imported.
+- Added check `is_admin_bar_showing()` to avoid load "Admin Bar".
+- Added checking another SMTP plugins to show a warning and to allow import settings from a few of them.
+- Added "Custom CSS" field to "Author Box" module.
+- Added import "Logo", "Background" and "Favicon" images to current WordPress installation during import data process for modules: "Admin Bar", "DB Error Page", "Login Screen" "Site Status Pages" and "Website Mode".
+- Added missing pagination for few modules.
+- Added multiple signup codes.
+- Added paddings to tips box.
+- Added "Return-Path Header" to "From Headers" module.
+- Added URL validation for social media profiles on "Author Box" module.
+- Added WPMUDEV white-label settings.
+- Changed background animation into pure CSS3 animation.
+- Changed default state for "Custom entries" on "Admin Bar" module - now the default state is "Show".
+- Confirmation button for sensitive actions was moved to the right.
+- Deactivate Branda on subsites when it is network activated.
+- Fixed a conflict with Divi Theme Visual Builder.
+- Fixed a problem (only some themes) with avatar design configuration on "Author Box" module.
+- Fixed a problem with case insensitive text replacement.
+- Fixed a problem with changing tab after save.
+- Fixed a problem with dashboard links to modules on MU install when Branda is activated on sub-site.
+- Fixed a problem with data migration on "Cookie Notice" module. As a background was set to text colour.
+- Fixed a problem with default image size in "Logo" field.
+- Fixed a problem with dismissing/hide admin panel tips.
+- Fixed a problem with entries without a title on entries list on "Author Box" module.
+- Fixed a problem with external fonts.
+- Fixed a problem with flashed backgrounds on the login screen.
+- Fixed a problem with icon preview on mobiles.
+- Fixed a problem with icons background in IE browser.
+- Fixed a problem with images alignment on "Admin Message" module.
+- Fixed a problem with login screen template chooses on IE.
+- Fixed a problem with menu items visibility on "Admin Bar" module.
+- Fixed a problem with missing menu bar items on mobile.
+- Fixed a problem with missing settings during dialogue operation.
+- Fixed a problem with no-proper login/out redirect, now Branda tries to add HTTP if there is not defined a protocol.
+- Fixed a problem with regex on Windows path, added `wp_normalize_path()` function.
+- Fixed a problem with reset single Tracking Code form.
+- Fixed a problem with search site, the main site was excluded in modules "Images" and "Website Mode".
+- Fixed a problem with showing correct, saved cookie expiration time value.
+- Fixed a problem with the custom link on "Admin Bar".
+- Fixed a problem with the link to WordPress registration settings for single site installation.
+- Fixed a problem with wrong values on "Image Filesize Limit" fields.
+- Fixed "Guest" access in "Admin Bar" module.
+- Fixed icon colours on admin menu in "Color Schemes" module.
+- Fixed incorrect number of available modules.
+- Fixed missing functionality in the "Admin Bar" module, when a title is a URL, we should display it as an image.
+- Fixed warning on a profile page, when module "Tips" is active.
+- Improved "Add Custom Item" form on "Admin Bar" module - now the new item is visible for every role.
+- Improved dialogue "Welcome Message" - it will be shown only once.
+- Improved export file.
+- Improved logo & background management, now it is removed when the user delete it from the media library.
+- Improved module SMTP reset confirmation dialogue.
+- Improved "Reset to default" button - it shows only when a module is not in the default state.
+- Modules "Registration Email", "DB Error Page" & "Site Status Pages" on multisite are allowed now only on network activation.
+- Moved messages into user options instead of site options.
+- Prevented module "Dashboard Widgets" to load on front-end.
+- Refactored code for field description.
+- Refactored code on user edit profile for "Author Box" module.
+- Refactored colour edit dialogue in "Color Schemes" module.
+- Refactored display of single entry on "Dashboard Feeds" feed list.
+- Removed deleted dashboard feed from available Dashboard Widgets.
+- Removed G+ from available social accounts.
+- Removed "Path Traversal" server-side vulnerability.
+- Updated Shared UI to version 2.3.22.
+
 DATE: 20 February, 2019  - VERSION: 3.0.5.1
 ==================================
-- Hide Admin Bar for non logged users by default.
+- Hide Admin Bar for non-logged users by default.
 
 DATE: 14 February, 2019  - VERSION: 3.0.5
 ==================================
-- Fixed a problem with settings lost. Affected modules was: Author Box, Color Schemes, Login Screen, Site Status Pages and Website Mode.
+- Fixed a problem with settings lost. Affected modules were: Author Box, Color Schemes, Login Screen, Site Status Pages and Website Mode.
 
 DATE: 13 February, 2019  - VERSION: 3.0.4
 ==================================
@@ -48,7 +127,7 @@ DATE: 11 February, 2019  - VERSION: 3.0.0
 - Better integration with Hummingbird" Plugin in "Tracking Codes" module - now cache is clear when you change any tracking code.
 - Better integration with Hustle Plugin in the "Site Generator" module.
 - "Comments Control" module now can be used on single site installations.
-- Fixed a problem with an image on "media Library" page when "Admin Tips" module is used and images display is a grid.
+- Fixed a problem with an image on "Media Library" page when "Admin Tips" module is used and images display is a grid.
 - Fixed a problem with escaping special characters in CSS. Props for Bryant.
 - Fixed a problem with missing formatting in "Admin Footer" module.
 - Fixed a problem with tips on the Media Library page - in "grid" mode tip include the first image.
@@ -646,4 +725,4 @@ DATE: 09 JUN, 2012 - VERSION: 1
 
 
 
-133620-1551987165-au
+133620-1556565898-au

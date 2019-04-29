@@ -1,28 +1,13 @@
-<?xml version="1.0" encoding="UTF-8"?>
 <svg width="16px" height="12px" viewBox="0 0 16 12" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: sketchtool 52.5 (67469) - http://www.bohemiancoding.com/sketch -->
-    <title>5D262D36-D7F6-44E8-936B-F8662EEB1D2C</title>
-    <desc>Created with sketchtool.</desc>
-    <defs>
-        <rect id="path-1" x="0" y="0" width="16" height="16"></rect>
-    </defs>
-    <g id="Front-end" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Login-Screen---Active---Design---background" transform="translate(-742.000000, -1524.000000)">
-            <g id="front-end/login-screen/design/-collapsed" transform="translate(440.000000, 838.000000)">
-                <g id="front-end/login-screen/sections/collapsed" transform="translate(230.000000, 0.000000)">
-                    <g id="Group" transform="translate(0.000000, 61.000000)">
-                        <g id="advanced-settings" transform="translate(60.000000, 378.000000)">
-                            <g id="y-position" transform="translate(0.000000, 206.000000)">
-                                <g id="tabs" transform="translate(0.000000, 27.000000)">
-                                    <g id="icon-/-align---bottom" transform="translate(12.000000, 12.000000)">
-                                        <g>
-                                            <mask id="mask-2" fill="white">
-                                                <use xlink:href="#path-1"></use>
-                                            </mask>
-                                            <g id="mask" fill-rule="nonzero"></g>
-                                            <path d="M1,12 L15,12 C15.5522847,12 16,12.4477153 16,13 C16,13.5522847 15.5522847,14 15,14 L1,14 C0.44771525,14 6.76353751e-17,13.5522847 0,13 C-6.76353751e-17,12.4477153 0.44771525,12 1,12 Z M5,2 L11,2 C11.5522847,2 12,2.44771525 12,3 L12,9 C12,9.55228475 11.5522847,10 11,10 L5,10 C4.44771525,10 4,9.55228475 4,9 L4,3 C4,2.44771525 4.44771525,2 5,2 Z" id="Combined-Shape" fill="#666666" mask="url(#mask-2)"></path>
-                                        </g>
-                                    </g>
+    <g transform="translate(-742, -1524)">
+        <g transform="translate(440, 838)">
+            <g transform="translate(230, 0)">
+                <g transform="translate(0, 61)">
+                    <g transform="translate(60, 378)">
+                        <g transform="translate(0, 206)">
+                            <g transform="translate(0, 27)">
+                                <g transform="translate(12, 12)">
+                                    <path d="M1,12 L15,12 C15.5522847,12 16,12.4477153 16,13 C16,13.5522847 15.5522847,14 15,14 L1,14 C0.44771525,14 6.76353751e-17,13.5522847 0,13 C-6.76353751e-17,12.4477153 0.44771525,12 1,12 Z M5,2 L11,2 C11.5522847,2 12,2.44771525 12,3 L12,9 C12,9.55228475 11.5522847,10 11,10 L5,10 C4.44771525,10 4,9.55228475 4,9 L4,3 C4,2.44771525 4.44771525,2 5,2 Z" fill="#666"></path>
                                 </g>
                             </g>
                         </g>

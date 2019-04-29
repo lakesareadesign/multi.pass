@@ -46,7 +46,7 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds_Table' ) ) {
 			$title = isset( $item['title'] ) && ! empty( $item['title'] )?  $item['title']:__( '[no title]', 'ub' );
 			if ( isset( $item['link'] ) && ! empty( $item['link'] ) ) {
 				printf(
-					'<a data-a11y-dialog-show="%s">%s</a>',
+					'<a class="branda-feed-ellipsis" data-a11y-dialog-show="%s">%s</a>',
 					$this->module_class->get_nonce_action( $item['id'], 'edit' ),
 					esc_html( $title )
 				);
@@ -84,43 +84,13 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds_Table' ) ) {
 		public function column_meta( $item ) {
 			echo '<div class="sui-box">';
 			echo '<div class="sui-box-body branda-accordion-body">';
+			$template = sprintf( '/admin/modules/%s/elements/row', $this->module_class->get_module_name() );
 			foreach ( $this->config as $one ) {
-				echo '<div class="sui-row">';
-				/**
-				 * title
-				 */
-				printf( '<h3 class="sui-col-md-12">%s</h3>', $one['tab'] );
-				/**
-				 * content
-				 */
-				foreach ( $one['fields'] as $id => $data ) {
-					echo '<div class="sui-col-md-4">';
-					printf( '<span class="branda-list-title">%s</span>', $data['label'] );
-					echo '</div>';
-					echo '<div class="sui-col-md-8">';
-					if ( isset( $data['type'] ) && 'sui-tab' === $data['type'] ) {
-						echo isset( $item[ $id ] ) && isset( $data['options'][ $item[ $id ] ] )? '<span class="branda-list-detail">' . $data['options'][ $item[ $id ] ] . '</span>' : '&ndash;';
-					} else if ( isset( $item[ $id ] ) ) {
-						$value = $item[ $id ];
-						if (
-							'title' === $id
-							&& isset( $item['link'] )
-							&& ! empty( $item['link'] )
-						) {
-							$value = sprintf(
-								'<a href="%s">%s</a>',
-								esc_url( $item['link'] ),
-								$value
-							);
-						}
-						echo '<span class="branda-list-detail">' . $value . '</span>';
-					} else {
-						echo '&ndash;';
-					}
-					echo '</div>';
-				}
-				echo '<div class="sui-col branda-divider"></div>';
-				echo '</div>';
+				$args = array(
+					'one' => $one,
+					'item' => $item,
+				);
+				$this->module_class->render( $template, $args );
 			}
 			echo '</div>';
 			/**
@@ -173,10 +143,7 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds_Table' ) ) {
 					$df_items[ $df_key ]['number'] = $df_key;
 				}
 			}
-			$per_page = get_user_meta( get_current_user_id(), 'wpmudev_dashboard_feeds_items_per_page', true );
-			if ( ( ! $per_page) || ($per_page < 1) ) {
-				$per_page = 15;
-			}
+			$per_page = get_option( 'posts_per_page' );
 			$current_page = $this->get_pagenum();
 			if ( count( $df_items ) > $per_page ) {
 				$this->items = array_slice( $df_items, (($current_page - 1) * intval( $per_page )), intval( $per_page ), true );
@@ -205,7 +172,7 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds_Table' ) ) {
 			$singular = $this->_args['singular'];
 			$this->display_tablenav( 'top' );
 			$this->screen->render_screen_reader_content( 'heading_list' );
-			?>
+?>
 			<div class="sui-accordion sui-accordion-flushed">
 				<div class="sui-accordion-header">
 					<?php $this->print_column_headers(); ?>
@@ -329,9 +296,7 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds_Table' ) ) {
 				// Comments column uses HTML in the display name with screen reader text.
 				// Instead of using esc_attr(), we strip tags to get closer to a user-friendly string.
 				$data = 'data-colname="' . wp_strip_all_tags( $column_display_name ) . '"';
-
 				$attributes = "class='$classes' $data";
-
 				if ( 'cb' === $column_name ) {
 					echo '<div scope="row" class="check-column">';
 					echo $this->column_cb( $item );
@@ -370,22 +335,6 @@ if ( ! class_exists( 'Branda_Dashboard_Feeds_Table' ) ) {
 				'button' => $this->module_class->button_add(),
 			);
 			$this->module_class->no_items( $args );
-		}
-
-		protected function display_tablenav( $which ) {
-			if ( 'top' === $which ) {
-				wp_nonce_field( 'bulk-' . $this->_args['plural'] );
-			}
-?>
-<div class="sui-box-header">
-    <div class="sui-actions-left sui-no-margin-left <?php echo esc_attr( $which ); ?>">
-<?php
-if ( $this->has_items() ) {
-	$this->bulk_actions( $which );
-}
-?></div>
-</div>
-<?php
 		}
 
 		/**

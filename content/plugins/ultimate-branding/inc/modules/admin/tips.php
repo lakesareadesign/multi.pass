@@ -41,6 +41,16 @@ if ( ! class_exists( 'Branda_Admin_Panel_Tips' ) ) {
 		private $meta_field_name_till = '_ub_till';
 
 		/**
+		 * User meta "Show Tips" name.
+		 * It can be changed on profile page.
+		 *
+		 * @since 3.0.6
+		 *
+		 * @var string
+		 */
+		private $profile_show_tips_name = 'show_tips';
+
+		/**
 		 * Branda_Admin_Panel_Tips constructor.
 		 */
 		public function __construct() {
@@ -152,29 +162,35 @@ if ( ! class_exists( 'Branda_Admin_Panel_Tips' ) ) {
 		 * panel tips for the user.
 		 */
 		public function ajax_save_dissmissed() {
-			$keys = array( 'what', 'nonce', 'id', 'user_id' );
+			$keys = array( 'nonce', 'id', 'user_id' );
 			foreach ( $keys as $key ) {
 				if ( ! isset( $_POST[ $key ] ) ) {
 					wp_send_json_error();
 				}
 			}
-			// Security check.
-			$nonce_action = $this->get_nonce_action( $_POST['id'], $_POST['what'], $_POST['user_id'] );
-			if ( wp_verify_nonce( $_POST['nonce'], $nonce_action ) ) {
-				switch ( $_POST['what'] ) {
-					case 'hide':
-						// Hide tip.
-						update_user_meta( $_POST['user_id'], 'show_tips', 'no' );
-						wp_send_json_success();
-						break;
-					case 'dismiss':
-						// Dismiss tip.
-						$dismissed_tips = get_user_meta( $_POST['user_id'], 'tips_dismissed', true, array() );
-						$dismissed_tips[] = $_POST['id'];
-						update_user_meta( $_POST['user_id'], 'tips_dismissed', $dismissed_tips );
-						wp_send_json_success();
-						break;
-				}
+			/**
+			 * Sanitize input
+			 */
+			$nonce = filter_input( INPUT_POST, 'nonce', FILTER_SANITIZE_STRING );
+			$user_id = filter_input( INPUT_POST, 'user_id', FILTER_SANITIZE_NUMBER_INT );
+			$post_id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_NUMBER_INT );
+			/**
+			 * Dismiss
+			 */
+			$nonce_action = $this->get_nonce_action( $post_id, 'dismiss' );
+			if ( wp_verify_nonce( $nonce, $nonce_action ) ) {
+				$dismissed_tips = (array) get_user_meta( $user_id, 'tips_dismissed', true );
+				$dismissed_tips[] = $post_id;
+				update_user_meta( $user_id, 'tips_dismissed', $dismissed_tips );
+				wp_send_json_success();
+			}
+			/**
+			 * Hide it all
+			 */
+			$nonce_action = $this->get_nonce_action( $post_id, 'hide' );
+			if ( wp_verify_nonce( $nonce, $nonce_action ) ) {
+				update_user_meta( $user_id, $this->profile_show_tips_name, 'no' );
+				wp_send_json_success();
 			}
 			// Show json error.
 			wp_send_json_error();
@@ -201,9 +217,9 @@ if ( ! class_exists( 'Branda_Admin_Panel_Tips' ) ) {
 		 */
 		public function profile_option_update() {
 			global $user_id;
-			if ( '' !== $_POST['show_tips'] ) {
-				update_user_meta( $user_id, 'show_tips', $_POST['show_tips'] );
-			}
+			$show_tips = intval( filter_input( INPUT_POST, $this->profile_show_tips_name, FILTER_SANITIZE_STRING ) );
+			$show_tips = 0 === $show_tips? 'no':'yes';
+			update_user_meta( $user_id, $this->profile_show_tips_name, $show_tips );
 		}
 
 		/**
@@ -217,17 +233,16 @@ if ( ! class_exists( 'Branda_Admin_Panel_Tips' ) ) {
 				return;
 			}
 			// Do not show tips on Branda pages.
-			$screen = get_current_screen();
-			if ( 'branding' === $screen->parent_base ) {
+			$current_screen = get_current_screen();
+			if ( 'branding' === $current_screen->parent_base ) {
 				return;
 			}
 			global $wpdb, $current_site, $current_user;
 			// Hide if turned off.
-			$show_tips = get_user_meta( $current_user->ID, 'show_tips', true );
+			$show_tips = get_user_meta( $current_user->ID, $this->profile_show_tips_name, true );
 			if ( 'no' === $show_tips ) {
 				return;
 			}
-			$current_screen = get_current_screen();
 			$meta_query = array(
 				'relation' => 'AND',
 				array(
@@ -277,13 +292,13 @@ if ( ! class_exists( 'Branda_Admin_Panel_Tips' ) ) {
 				if ( is_a( $post, 'WP_Post' ) ) {
 					printf( '<div class="updated admin-panel-tips" data-id="%d" data-user-id="%d">', esc_attr( $post->ID ), esc_attr( get_current_user_id() ) );
 					printf(
-						'<p class="apt-action" data-what="dismiss" data-nonce="%s">[ <a href="#" >%s</a> ]</p>',
-						esc_attr( wp_create_nonce( $this->get_nonce_action( $post->ID, 'dismiss' ) ) ),
+						'<p class="apt-action" data-nonce="%s">[ <a href="#" >%s</a> ]</p>',
+						esc_attr( $this->get_nonce_value( $post->ID, 'dismiss' ) ),
 						esc_html__( 'Dismiss', 'ub' )
 					);
 					printf(
-						'<p class="apt-action" data-what="hide" data-nonce="%s">[ <a href="#" >%s</a> ]</p>',
-						esc_attr( wp_create_nonce( $this->get_nonce_action( $post->ID, 'hide' ) ) ),
+						'<p class="apt-action" data-nonce="%s">[ <a href="#" >%s</a> ]</p>',
+						esc_attr( $this->get_nonce_value( $post->ID, 'hide' ) ),
 						esc_html__( 'Hide', 'ub' )
 					);
 					$title = $post->post_title;
@@ -291,8 +306,10 @@ if ( ! class_exists( 'Branda_Admin_Panel_Tips' ) ) {
 						printf( '<h4>%s</h4>', apply_filters( 'the_title', $title ) );
 					}
 					$content = $post->post_content;
+					$content = do_shortcode( $content );
+					$content = wpautop( $content );
 					if ( ! empty( $content ) ) {
-						printf( '<div class="apt-content">%s</div>', do_shortcode( $content ) );
+						printf( '<div class="apt-content">%s</div>', $content );
 					}
 					echo '</div>';
 				}
@@ -307,9 +324,20 @@ if ( ! class_exists( 'Branda_Admin_Panel_Tips' ) ) {
 		 * edit page.
 		 */
 		public function profile_option_output() {
+			if ( is_network_admin() ) {
+				return;
+			}
 			$user_id = get_current_user_id();
+			$show_tips = get_user_meta( $user_id, $this->profile_show_tips_name, true );
+			if ( null === $show_tips ) {
+				$show_tips = true;
+			} else if ( preg_match( '/^(false|hidden|no)$/', $show_tips ) ) {
+				$show_tips = false;
+			} else {
+				$show_tips = true;
+			}
 			$args = array(
-				'show_tips' => get_user_meta( $user_id, 'show_tips', true ),
+				$this->profile_show_tips_name => $show_tips,
 			);
 			$template = sprintf( '/admin/modules/%s/profile-option', $this->module );
 			$this->render( $template, $args );
@@ -466,7 +494,7 @@ if ( ! class_exists( 'Branda_Admin_Panel_Tips' ) ) {
 			if ( ! empty( $current ) ) {
 				$current = date_i18n( get_option( 'date_format' ), $current );
 			}
-			$alt = sprintf( '%s_%s', $this->meta_field_name_till, md5( $current ) );
+			$alt = sprintf( '%s_%s', $this->meta_field_name_till, $this->generate_id( $current ) );
 			printf(
 				'<input type="text" class="datepicker" name="%s[human]" value="%s" data-alt="%s" data-min="%s" />',
 				esc_attr( $this->meta_field_name_till ),
@@ -483,7 +511,12 @@ if ( ! class_exists( 'Branda_Admin_Panel_Tips' ) ) {
 			// Styles and scripts for the date picker.
 			wp_enqueue_script( 'jquery-ui-datepicker' );
 			wp_localize_jquery_ui_datepicker();
-			wp_enqueue_style( 'ub-jquery-ui', ub_url( 'assets/css/vendor/jquery-ui.min.css' ), array(), '1.12.1' );
+			wp_enqueue_style(
+				$this->get_name( 'ui', 'jquery' ),
+				ub_url( 'assets/css/vendor/jquery-ui.min.css' ),
+				array(),
+				'1.12.1'
+			);
 		}
 
 		/**

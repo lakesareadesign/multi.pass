@@ -1782,7 +1782,7 @@ class GFFormsModel {
 	 * @static
 	 * @param  int $form_id Form ID to duplicate.
 	 *
-	 * @return int $new_id New form ID.
+	 * @return int|WP_Error
 	 */
 	public static function duplicate_form( $form_id ) {
 

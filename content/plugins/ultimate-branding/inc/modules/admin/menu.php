@@ -53,48 +53,50 @@ if ( ! class_exists( 'Branda_Admin_Menu' ) ) {
 			$options = array(
 				'dashboard-link' => array(
 					'network-only' => true,
-					'title'        => __( 'Dashboard Link', 'ub' ),
-					'description'  => __( 'Remove "Dashboard" link from admin panel for users without site (in WP Multisite).', 'ub' ),
-					'fields'       => array(
+					'title' => __( 'Dashboard Link', 'ub' ),
+					'description' => __( 'Remove "Dashboard" link from admin panel for users without site (in WP Multisite).', 'ub' ),
+					'fields' => array(
 						'status' => array(
 							'checkbox_label' => __( 'Remove link for users without site', 'ub' ),
-							'type'           => 'checkbox',
-							'classes'        => array( 'switch-button' ),
+							'type' => 'checkbox',
+							'classes' => array( 'switch-button' ),
 						),
 					),
 				),
-				'link-manager'   => array(
-					'title'       => __( 'Link Manager', 'ub' ),
+				'link-manager' => array(
+					'title' => __( 'Link Manager', 'ub' ),
 					'description' => __( 'Enables the Link Manager that existed in WordPress until version 3.5.', 'ub' ),
-					'fields'      => array(
+					'fields' => array(
 						'status' => array(
 							'checkbox_label' => __( 'Enable link manager', 'ub' ),
-							'type'           => 'checkbox',
-							'classes'        => array( 'switch-button' ),
+							'type' => 'checkbox',
+							'classes' => array( 'switch-button' ),
 						),
 					),
 				),
-				'tips'           => array(
-					'title'       => __( 'Admin Tips', 'ub' ),
+				'tips' => array(
+					'title' => __( 'Admin Tips', 'ub' ),
 					'description' => __( 'Provide your users with helpful random tips, or promotions/news in their admin panels.', 'ub' ),
-					'fields'      => array(
+					'fields' => array(
 						'status' => array(
-							'checkbox_label'       => __( 'Enable Admin Tips', 'ub' ),
-							'type'                 => 'checkbox',
-							'description'          => __( 'Add a custom post type “Tips” in the WordPress menu and start adding tips for the users.', 'ub' ),
-							'description-position' => 'bottom',
-							'classes'              => array( 'switch-button' ),
+							'checkbox_label' => __( 'Enable Admin Tips', 'ub' ),
+							'type' => 'checkbox',
+							'description' => array(
+								'content' => __( 'Add a custom post type “Tips” in the WordPress menu and start adding tips for the users.', 'ub' ),
+								'position' => 'bottom',
+							),
+							'classes' => array( 'switch-button' ),
 						),
 					),
 				),
-				'permalink'      => array(
-					'title'       => __( 'Permalink', 'ub' ),
+				'permalink' => array(
+					'title' => __( 'Permalink', 'ub' ),
 					'description' => __( 'Choose whether you want to removes the "permalinks" configuration options.', 'ub' ),
-					'fields'      => array(
+					'fields' => array(
 						'status' => array(
 							'checkbox_label' => __( 'Remove permalinks menu item', 'ub' ),
-							'type'           => 'checkbox',
-							'classes'        => array( 'switch-button' ),
+							'type' => 'checkbox',
+							'classes' => array( 'switch-button' ),
 						),
 					),
 				),
@@ -115,21 +117,21 @@ if ( ! class_exists( 'Branda_Admin_Menu' ) ) {
 				'dashboard-link' => array(
 					'status' => 'off',
 				),
-				'link-manager'   => array(
+				'link-manager' => array(
 					'status' => 'off',
 				),
-				'tips'           => array(
+				'tips' => array(
 					'status' => 'off',
 				),
-				'permalink'      => array(
+				'permalink' => array(
 					'status' => 'off',
 				),
 			);
 			$m = array(
-				'admin-panel-tips/admin-panel-tips.php'            => 'tips',
-				'link-manager.php'                                 => 'link-manager',
+				'admin-panel-tips/admin-panel-tips.php' => 'tips',
+				'link-manager.php' => 'link-manager',
 				'remove-dashboard-link-for-users-without-site.php' => 'dashboard-link',
-				'remove-permalinks-menu-item.php'                  => 'permalink',
+				'remove-permalinks-menu-item.php' => 'permalink',
 			);
 			foreach ( $m as $module => $option_name ) {
 				if (

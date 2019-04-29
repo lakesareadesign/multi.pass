@@ -7,7 +7,7 @@
 				<p><?php esc_html_e( 'Select the modules which should be active. The checked modules are already active. You can use this section to activate/deactivate modules in bulk instead of doing so one by one.', 'ub' ); ?></p>
 			</div>
 			<div class="sui-box-body">
-				<section id="sui-branda-content" class="sui-container">
+				<section id="sui-branda-content" class="sui-container branda-avoid-flag">
 					<div class="sui-row">
 <?php
 foreach ( $groups as $group_key => $group ) {

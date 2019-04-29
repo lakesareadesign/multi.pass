@@ -58,6 +58,19 @@ if ( ! class_exists( 'Branda_Admin_Css' ) ) {
 						'css' => array(
 							'type' => 'css_editor',
 							'label' => __( 'Cascading Style Sheets', 'ub' ),
+							'ace_selectors' => array(
+								array(
+									'title' => '',
+									'selectors' => array(
+										'#wpadminbar' => __( 'Bar', 'ub' ),
+										'#wpcontent' => __( 'Content', 'ub' ),
+										'#wpbody' => __( 'Body', 'ub' ),
+										'#wpfooter' => __( 'Footer', 'ub' ),
+										'#adminmenumain' => __( 'Menu', 'ub' ),
+										'#adminmenuwrap' => __( 'Menu Wrap', 'ub' ),
+									),
+								),
+							),
 						),
 					),
 				),

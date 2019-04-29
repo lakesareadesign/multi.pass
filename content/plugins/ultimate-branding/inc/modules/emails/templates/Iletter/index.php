@@ -6,7 +6,7 @@ return array(
     'BUILDER_DEFAULT_BG_IMAGE' => '',
     'BUILDER_DEFAULT_BODY_COLOR' => '#333',
     'BUILDER_DEFAULT_EMAIL_TITLE' => __( 'Default E-mail Title', 'ub' ),
-    'BUILDER_DEFAULT_HEADER_IMAGE' => 'https://picsum.photos/800/200?random',
+    'BUILDER_DEFAULT_HEADER_IMAGE' => 'https://loremflickr.com/800/200?random',
     'BUILDER_DEFAULT_LINK_COLOR' => '#999',
     'BUILDER_DEFAULT_TITLE_COLOR' => '#000',
     /* You can define settings for this template here */

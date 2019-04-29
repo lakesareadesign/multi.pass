@@ -12,7 +12,8 @@ body {
   text-decoration: none;
 }
 
-.update-nag {
+/* Hides WP Nag Screen */
+#update-nag, .update-nag {
   display: none !important;
 }
 

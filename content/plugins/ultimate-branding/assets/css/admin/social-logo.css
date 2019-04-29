@@ -173,6 +173,8 @@
   display: flex;
   margin: 10px 0 0;
   padding: 20px;
+  max-width: 100%;
+  overflow: hidden;
 }
 .branda-admin-page .sui-wrap.sui-wrap-branda .branda-social-logo-preview li {
   margin: 0;
@@ -183,4 +185,4 @@
 }
 
 
-/* 133620-1551987165-au */
+/* 133620-1556565898-au */

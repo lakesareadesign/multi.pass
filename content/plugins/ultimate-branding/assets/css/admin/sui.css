@@ -230,6 +230,10 @@
 .branda-admin-page .sui-wrap.sui-wrap-branda .sui-box-body .sui-dialog.branda-choose-template-dialog .branda-login-screen-template-scratch .branda-template-container span {
   display: block;
 }
+.branda-admin-page .sui-wrap.sui-wrap-branda .sui-box-body .sui-dialog.branda-choose-template-dialog.branda-login-screen-choose-template-dialog .branda-login-screen-li {
+  flex: 0;
+  min-width: 240px;
+}
 .branda-admin-page .sui-wrap.sui-wrap-branda .sui-box-body .sui-dialog.branda-choose-template-dialog .sui-notice p {
   text-align: left;
 }
@@ -304,52 +308,6 @@
 .branda-admin-page .sui-wrap.sui-wrap-branda .simple-option-sui-tab .sui-tabs-content .sui-label {
   font-size: 12px;
 }
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .branda-feed-ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .branda-accordion-body {
-  padding-bottom: 22px;
-  padding-top: 26px;
-  font-size: 13px;
-  color: #888;
-}
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .branda-accordion-body h3.sui-col-md-12 {
-  line-height: 22px;
-  margin-bottom: 14px;
-  margin-top: 0;
-  font-size: 15px;
-  font-weight: bold;
-}
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .branda-accordion-body .sui-row {
-  margin-bottom: 18px;
-}
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .branda-accordion-body .sui-row:last-child {
-  margin-bottom: 0;
-}
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .branda-accordion-body .sui-row .sui-col-md-4,
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .branda-accordion-body .sui-row .sui-col-md-8 {
-  padding-top: 4px;
-  padding-bottom: 4px;
-}
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .branda-accordion-body .branda-list-title {
-  font-weight: 500;
-}
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .sui-accordion-item-header .column-title {
-  padding-left: 0;
-}
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .sui-accordion-header .check-column {
-  min-width: 55px;
-}
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .sui-accordion-header .column-title {
-  padding-left: 0;
-}
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .sui-accordion-item.sui-accordion-item--open .sui-accordion-item-body .sui-box {
-  margin-bottom: 3px;
-}
-.branda-admin-page .sui-wrap.sui-wrap-branda .module-widgets-dashboard-feeds-php .sui-accordion-item.sui-accordion-item--open .sui-accordion-item-body .sui-box .branda-divider {
-  margin: 22px 15px 7px;
-}
 .branda-admin-page .sui-wrap.sui-wrap-branda .module-front-end-author-box-php .branda-author-box-avatar-border .sui-row {
   margin-bottom: 0;
 }
@@ -375,11 +333,20 @@
   font-weight: bold;
   margin-bottom: 0;
 }
+.branda-admin-page .sui-wrap.sui-wrap-branda .module-admin-help-content-php .branda-admin-help-content-items .sui-builder-field {
+  transition: none;
+}
 .branda-admin-page .sui-wrap.sui-wrap-branda .branda-settings-tab-content-dashboard-widgets .module-widgets-dashboard-widgets-php .branda-section-visibility .sui-checkbox .sui-description {
   color: #333;
   font-size: 15px;
   font-weight: 500;
   color: #666;
+}
+.branda-admin-page .sui-wrap.sui-wrap-branda .branda-settings-tab-content-dashboard-widgets .module-widgets-dashboard-widgets-php .branda-dashboard-widgets-items .sui-builder-field {
+  transition: none;
+}
+.branda-admin-page .sui-wrap.sui-wrap-branda .branda-settings-tab-content-dashboard-widgets .sui-box-builder-message.hidden {
+  display: none;
 }
 .branda-admin-page .sui-wrap.sui-wrap-branda .branda-settings-tab-content-dashboard-widgets .sui-dialog .branda-general-title .sui-label,
 .branda-admin-page .sui-wrap.sui-wrap-branda .branda-settings-tab-content-dashboard-widgets .sui-dialog .branda-general-content .sui-label {
@@ -430,6 +397,10 @@
 .branda-admin-page .sui-wrap.sui-wrap-branda .sui-row-with-sidenav .branda-settings-vertical-tab-fixed {
   position: fixed;
   z-index: 12;
+}
+.branda-admin-page .sui-wrap.sui-wrap-branda .sui-row-with-sidenav .sui-box-header .sui-box-status {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 .branda-admin-page .sui-wrap.sui-wrap-branda .sui-dialog.branda-choose-template-dialog .sui-box .sui-box-selectors {
   padding: 20px;
@@ -544,9 +515,36 @@
   border-width: 2px;
   top: 1px;
 }
+.branda-admin-page .sui-wrap.sui-wrap-branda .sui-pagination-wrap.one-page .sui-pagination {
+  display: none;
+}
 .branda-admin-page.branda-import #wpwrap {
   background-color: #fff;
 }
+.branda-admin-page .sui-dialog .sui-box-header .sui-box-title span.branda-edit {
+  display: inline;
+}
+.branda-admin-page .sui-dialog .sui-box-header .sui-box-title span.branda-new {
+  display: none;
+}
+.branda-admin-page .sui-dialog .sui-box-footer button.branda-save span.branda-edit {
+  display: inline;
+}
+.branda-admin-page .sui-dialog .sui-box-footer button.branda-save span.branda-new {
+  display: none;
+}
+.branda-admin-page .sui-dialog.branda-dialog-new .sui-box-header .sui-box-title span.branda-edit {
+  display: none;
+}
+.branda-admin-page .sui-dialog.branda-dialog-new .sui-box-header .sui-box-title span.branda-new {
+  display: inline;
+}
+.branda-admin-page .sui-dialog.branda-dialog-new .sui-box-footer button.branda-save span.branda-edit {
+  display: none;
+}
+.branda-admin-page .sui-dialog.branda-dialog-new .sui-box-footer button.branda-save span.branda-new {
+  display: inline;
+}
 
 
-/* 133620-1551987165-au */
+/* 133620-1556565898-au */

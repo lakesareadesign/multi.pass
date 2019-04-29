@@ -15,6 +15,13 @@ if ( ! class_exists( 'Branda_Import' ) ) {
 	class Branda_Import extends Branda_Helper {
 
 		/**
+		 * Already imported
+		 *
+		 * @since 3.1.0
+		 */
+		private $imported = array();
+
+		/**
 		 * Branda_Import constructor.
 		 */
 		public function __construct() {
@@ -25,13 +32,13 @@ if ( ! class_exists( 'Branda_Import' ) ) {
 			add_filter( 'ultimatebranding_settings_import', array( $this, 'admin_options_page' ) );
 			add_filter( 'ultimatebranding_settings_import_process', array( $this, 'update' ) );
 			add_filter( 'branda_handle_group_page', array( $this, 'steps' ), 10, 2 );
-			add_filter( 'branda_handle_group_container_classes', array( $this, 'container_classes' ), 10, 2 );
+			add_filter( 'branda_sui_wrap_class', array( $this, 'container_classes' ), 10, 2 );
 			/**
 			 *Hooks on error page
 			 */
 			add_filter( 'branda_change_footer', array( $this, 'hide_footer_links' ), 10, 2 );
 			add_filter( 'branda_footer_text', array( $this, 'change_footer_text' ), 10, 2 );
-			add_filter( 'branda_handle_group_container_classes', array( $this, 'add_error_class' ), 10, 2 );
+			add_filter( 'branda_sui_wrap_class', array( $this, 'add_error_class' ), 10, 2 );
 		}
 
 		/**
@@ -108,7 +115,9 @@ if ( ! class_exists( 'Branda_Import' ) ) {
 						case 'invalid-file':
 						case 'no-configuration':
 							$template = sprintf( 'admin/modules/import/errors/%s', $data['error'] );
-						break;
+							break;
+						default:
+							break;
 					}
 				}
 				$content = $this->render( $template, $args, true );
@@ -221,10 +230,16 @@ if ( ! class_exists( 'Branda_Import' ) ) {
 				return $this->uba->messages['security'];
 			}
 			$number = 0;
-			if ( isset( $_POST['modules'] )
-			     && ! empty( $_POST['modules'] )
+			if (
+				isset( $_POST['modules'] )
+				&& ! empty( $_POST['modules'] )
 			) {
 				$configuration = $this->uba->get_configuration();
+				/**
+				 * KM_Download_Remote_Image
+				 */
+				$file = ub_files_dir( 'class-download-remote-image.php' );
+				include_once $file;
 				foreach ( $configuration as $key => $module ) {
 					if ( array_key_exists( $module['module'], $_POST['modules'] ) ) {
 						$number ++;
@@ -235,7 +250,16 @@ if ( ! class_exists( 'Branda_Import' ) ) {
 									isset( $data['modules'] )
 									&& isset( $data['modules'][ $option_name ] )
 								) {
-									ub_update_option( $option_name, $data['modules'][ $option_name ] );
+									$value = $this->maybe_fetch_attachments(
+										$data['modules'][ $option_name ],
+										$module
+									);
+									$value['plugin_version'] = $this->build;
+									$value['imported'] = array(
+									'time' => time(),
+									'version' => isset( $data['version'] ) ? $data['version'] : 'unknown',
+									);
+									ub_update_option( $option_name, $value );
 								}
 							}
 						}
@@ -316,7 +340,7 @@ if ( ! class_exists( 'Branda_Import' ) ) {
 			/**
 			 *  Delete file.
 			 */
-			wp_delete_file( $filename );
+			wp_delete_attachment( $import_id );
 			/**
 			 * User ID && option name
 			 */
@@ -365,7 +389,7 @@ if ( ! class_exists( 'Branda_Import' ) ) {
 			$options['timestamp_import'] = time();
 			$options['version_import'] = $this->build;
 			// Put in user options.
-			$id = md5( serialize( $options ) );
+			$id = $this->generate_id( $options );
 			$data = get_user_option( $name, $user_id );
 			if ( empty( $data ) || ! is_array( $data ) ) {
 				$data = array();
@@ -397,8 +421,10 @@ if ( ! class_exists( 'Branda_Import' ) ) {
 						'file' => array(
 							'type' => 'file',
 							'name' => 'import',
-							'description' => __( 'Choose a JSON (.json) file to import the configurations.', 'ub' ),
-							'description-position' => 'bottom',
+							'description' => array(
+								'content' => __( 'Choose a JSON (.json) file to import the configurations.', 'ub' ),
+								'position' => 'bottom',
+							),
 						),
 						'button' => array(
 							'type' => 'submit',
@@ -410,6 +436,7 @@ if ( ! class_exists( 'Branda_Import' ) ) {
 							'icon' => 'upload-cloud',
 							'classes' => array(
 								$this->get_name( 'import' ),
+								'branda-module-save',
 							),
 						),
 						'_wpnonce' => array(
@@ -498,6 +525,90 @@ if ( ! class_exists( 'Branda_Import' ) ) {
 				$classes[] = $this->get_name( 'error' );
 			}
 			return $classes;
+		}
+
+		/**
+		 * Try to fetch logos and backgrounds.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array $value
+		 * @param string $module Module.
+		 */
+		private function maybe_fetch_attachments( $value, $module ) {
+			foreach ( $value as $group => $group_data ) {
+				if ( ! is_array( $group_data ) ) {
+					continue;
+				}
+				foreach ( $group_data as $key => $field ) {
+					if ( ! is_array( $field ) ) {
+						continue;
+					}
+					switch ( $key ) {
+						/**
+						 * Single image
+						 */
+						case 'favicon_meta':
+						case 'logo_image_meta':
+						case 'logo_meta':
+							$image = $this->image( $field[0] );
+							if ( ! is_wp_error( $image ) ) {
+								$id_key = preg_replace( '/_meta/', '', $key );
+								$value[ $group ][ $id_key ] = $image['id'];
+								$value[ $group ][ $key ][0] = $image['url'];
+							}
+							break;
+						/**
+						 * Background
+						 */
+						case 'content_background':
+							$new = array();
+							foreach ( $field as $one ) {
+								if (
+									isset( $one['meta'] )
+									&& is_array( $one['meta'] )
+								) {
+									$image = $this->image( $one['meta'][0] );
+									if ( ! is_wp_error( $image ) ) {
+										$one['value'] = $image['id'];
+										$one['meta'][0] = $image['url'];
+									}
+								}
+								$new[] = $one;
+							}
+							$value[ $group ][ $key ] = $new;
+							break;
+
+						default:
+					}
+				}
+			}
+			return $value;
+		}
+
+		/**
+		 * Import image to local WordPress
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $url URL to resource.
+		 *
+		 * @return array/WP error result.
+		 */
+		private function image( $url ) {
+			if ( isset( $this->imported[ $url ] ) ) {
+				return $this->imported[ $url ];
+			}
+			$download_remote_image = new KM_Download_Remote_Image( $url );
+			$attachment_id = $download_remote_image->download();
+			if ( false !== $attachment_id ) {
+				$this->imported[ $url ] = array(
+					'id' => $attachment_id,
+					'url' => wp_get_attachment_url( $attachment_id ),
+				);
+				return $this->imported[ $url ];
+			}
+			return new WP_Error( 'broke', __( 'Branda failed to import a image.', 'ub' ) );
 		}
 	}
 

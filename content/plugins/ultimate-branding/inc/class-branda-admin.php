@@ -35,6 +35,18 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 		 */
 		private $show_welcome_dialog = false;
 
+		/**
+		 * Top page slug
+		 */
+		private $top_page_slug;
+
+		/**
+		 * Messages storing
+		 *
+		 * @since 3.1.0
+		 */
+		private $messages_option_name = 'branda_messages';
+
 		public function __construct() {
 			parent::__construct();
 			/**
@@ -51,7 +63,8 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			$debug = defined( 'WP_DEBUG' ) && WP_DEBUG && defined( 'WPMUDEV_BETATEST' ) && WPMUDEV_BETATEST;
 			$this->debug = apply_filters( 'ultimatebranding_debug', $debug );
 			foreach ( $this->configuration as $key => $data ) {
-				if ( ! is_multisite() && isset( $data['network-only'] ) && $data['network-only'] ) {
+				$is_avaialble = $this->can_load_module( $data );
+				if ( ! $is_avaialble ) {
 					continue;
 				}
 				if ( isset( $data['disabled'] ) && $data['disabled'] ) {
@@ -67,7 +80,7 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			 * @param array $modules available modules array.
 			 */
 			$this->modules = apply_filters( 'ultimatebranding_available_modules', $this->modules );
-			add_action( 'plugins_loaded', array( $this, 'load_modules' ), 5 );
+			add_action( 'plugins_loaded', array( $this, 'load_modules' ), 11 );
 			add_action( 'plugins_loaded', array( $this, 'setup_translation' ) );
 			add_action( 'init', array( $this, 'initialise_ub' ) );
 			add_action( 'network_admin_menu', array( $this, 'network_admin_page' ) );
@@ -104,7 +117,7 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			/**
 			 * Add branda class to admin body
 			 */
-			add_filter( 'admin_body_class', array( $this, 'add_branda_admin_body_class' ) );
+			add_filter( 'admin_body_class', array( $this, 'add_branda_admin_body_class' ), PHP_INT_MAX );
 			/**
 			 * Add import/export modules instantly on
 			 */
@@ -115,6 +128,18 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			 * @since 1.8.9
 			 */
 			add_filter( 'upload_mimes', array( $this, 'add_svg_to_allowed_mime_types' ) );
+			/**
+			 * Add sui-wrap classes
+			 *
+			 * @since 3.0.6
+			 */
+			add_filter( 'branda_sui_wrap_class', array( $this, 'add_sui_wrap_classes' ) );
+			/**
+			 * Delete image from modules, when it is deleted from WordPress
+			 *
+			 * @since 3.1.0
+			 */
+			add_action( 'delete_attachment', array( $this, 'delete_attachment_from_configs' ), 10, 1 );
 		}
 
 		/**
@@ -178,10 +203,14 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 		 * Add message to show
 		 */
 		public function add_message( $message ) {
-			$messages = ub_get_option( 'ultimatebranding_messages', array() );
+			$messages = get_user_option( $this->messages_option_name );
+			if ( empty( $messages ) ) {
+				$messages = array();
+			}
 			if ( ! in_array( $message, $messages ) ) {
+				$user_id = get_current_user_id();
 				$messages[] = $message;
-				ub_update_option( 'ultimatebranding_messages', $messages );
+				update_user_option( $user_id, $this->messages_option_name, $messages, false );
 			}
 		}
 
@@ -195,14 +224,16 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			if ( ! preg_match( '/_page_branding/', $screen->id ) ) {
 				return;
 			}
-			$messages = ub_get_option( 'ultimatebranding_messages', array() );
+			$messages = get_user_option( $this->messages_option_name );
 			if ( empty( $messages ) ) {
 				return;
 			}
+			$fire_delete = false;
 			foreach ( $messages as $message ) {
 				if ( ! isset( $message['message'] ) || empty( $message['message'] ) ) {
 					continue;
 				}
+				$fire_delete = true;
 				echo $this->sui_notice(
 					$message['message'],
 					isset( $message['class'] )? $message['class']:'success',
@@ -212,7 +243,19 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 					isset( $message['no-dissmiss'] )? false:null
 				);
 			}
-			ub_delete_option( 'ultimatebranding_messages' );
+			if ( $fire_delete ) {
+				add_action( 'shutdown', array( $this, 'delete_messages' ) );
+			}
+		}
+
+		/**
+		 * delete messages
+		 *
+		 * @since 3.1.0
+		 */
+		public function delete_messages() {
+			$user_id = get_current_user_id();
+			delete_user_option( $user_id, $this->messages_option_name, false );
 		}
 
 		public function initialise_ub() {
@@ -306,6 +349,13 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 					'welcome' => array(
 						'empty' => __( 'Please select some modules first or skip this step.', 'ub' ),
 					),
+					'form' => array(
+						'number' => array(
+							'max' => __( 'Entered value is above field limit!', 'ub' ),
+							'min' => __( 'Entered value is bellow field limit!', 'ub' ),
+						),
+					),
+					'unsaved' => __( 'Changes are not saved, are you sure you want to navigate away?', 'ub' ),
 				),
 				'buttons' => array(
 					'save_changes' => __( 'Save Changes', 'ub' ),
@@ -445,7 +495,10 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			// Load our remaining modules here
 			foreach ( $this->modules as $module => $plugin ) {
 				if ( ub_is_active_module( $module ) ) {
-					if ( $this->should_be_module_off( $module ) ) {
+					if ( ! isset( $this->configuration[ $module ] ) ) {
+						continue;
+					}
+					if ( $this->should_be_module_off( $this->configuration[ $module ] ) ) {
 						continue;
 					}
 					ub_load_single_module( $module );
@@ -487,7 +540,7 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 		 */
 		private function menu( $capability ) {
 			// Add in our menu page
-			$hook = add_menu_page(
+			$this->top_page_slug = add_menu_page(
 				__( 'Branda', 'ub' ),
 				__( 'Branda', 'ub' ),
 				$capability,
@@ -495,6 +548,8 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 				array( $this, 'handle_main_page' ),
 				$this->get_u_logo()
 			);
+
+			add_filter( 'load-'.$this->top_page_slug, array( $this, 'add_action_hooks' ) );
 		}
 
 		/**
@@ -638,7 +693,7 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 					'page' => sprintf( 'branding_group_%s', $module['group'] ),
 					'module' => $module['module'],
 				),
-				network_admin_url( 'admin.php' )
+				is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' )
 			);
 			$link = sprintf(
 				'<a href="%s" class="branda-module branda-module-%s" data-group="%s">%s</a>',
@@ -658,6 +713,9 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 		private function get_modules_stats() {
 			$modules = array();
 			foreach ( $this->configuration as $key => $module ) {
+				if ( ! array_key_exists( $key, $this->modules ) ) {
+					continue;
+				}
 				if ( ! isset( $modules[ $module['group'] ] ) ) {
 					$modules[ $module['group'] ] = array();
 				}
@@ -709,6 +767,9 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			);
 			if ( $args['stats']['modules'] ) {
 				foreach ( $args['stats']['modules'] as $key => $value ) {
+					if ( ! array_key_exists( $key, $this->modules ) ) {
+						continue;
+					}
 					if ( isset( $this->configuration[ $key ] ) ) {
 						$args['stats']['modules'][ $key ] = $this->configuration[ $key ];
 						$args['stats']['modules'][ $key ]['status'] = 'inactive';
@@ -724,13 +785,16 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			 * Count
 			 */
 			foreach ( $this->configuration as $key => $module ) {
-				$args['stats']['total']++;
+				if ( ! array_key_exists( $key, $this->modules ) ) {
+					continue;
+				}
 				if ( ub_is_active_module( $key ) ) {
 					if ( isset( $module['instant'] ) && $module['instant'] ) {
 						continue;
 					}
 					$args['stats']['active']++;
 				}
+				$args['stats']['total']++;
 			}
 			/**
 			 * Modules Status
@@ -743,14 +807,7 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			/**
 			 * render
 			 */
-			$classes = array(
-				'sui-wrap',
-				'sui-wrap-branda',
-			);
-			// Add high contrast mode.
-			if ( $this->high_contrast_mode() ) {
-				$classes[] = 'sui-color-accessible';
-			}
+			$classes = apply_filters( 'branda_sui_wrap_class', array(), $this->module );
 			$template = 'admin/dashboard';
 			printf(
 				'<main class="%s">',
@@ -781,15 +838,9 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 		 */
 		public function handle_group() {
 			$classes = array(
-				'sui-wrap',
-				'sui-wrap-branda',
 				sprintf( 'sui-wrap-branda-module-%s', $this->module ),
 			);
-			// Add high contrast mode.
-			if ( $this->high_contrast_mode() ) {
-				$classes[] = 'sui-color-accessible';
-			}
-			$classes = apply_filters( 'branda_handle_group_container_classes', $classes, $this->module );
+			$classes = apply_filters( 'branda_sui_wrap_class', $classes, $this->module );
 			printf( '<main class="%s">', implode( ' ', $classes ) );
 			$content = apply_filters( 'branda_handle_group_page', '', $this->module );
 			if ( ! empty( $content ) ) {
@@ -837,6 +888,8 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 				case 'content':
 					$content = $this->group_tabs_content( $modules, $current );
 				break;
+				default:
+					break;
 			}
 			echo $content;
 		}
@@ -887,6 +940,7 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 
 		private function group_tabs_content( $modules, $current ) {
 			$content = '';
+			$some_module_is_active = false;
 			foreach ( $modules as $id => $module ) {
 				$slug = $module['module'];
 				$is_active = ub_is_active_module( $module['key'] );
@@ -901,28 +955,15 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 					$show_module_header = false;
 				}
 				if ( $show_module_header ) {
-					/**
-					 * title
-					 */
 					$classes = array(
 						'sui-box',
+						'branda-settings-tab',
 						sprintf( 'branda-settings-tab-%s', sanitize_title( $slug ) ),
 						sprintf( 'branda-settings-tab-title-%s', sanitize_title( $slug ) ),
 						'branda-settings-tab-title',
 					);
-					$content .= sprintf(
-						'<div class="%s" data-tab="%s"%s>',
-						esc_attr( implode( ' ', $classes ) ),
-						esc_attr( sanitize_title( $slug ) ),
-						$current === $slug ? '':' style="display: none;"'
-					);
-					$content .= '<div class="sui-box-header">';
-					$box_title = isset( $module['name_alt'] ) ? $module['name_alt'] : $module['name'];
-					$content .= sprintf( '<h2 class="sui-box-title">%s</h2>', esc_html( $box_title ) );
+					$buttons = '';
 					if ( $is_active ) {
-						$content .= apply_filters( 'branda_settings_after_box_title', '', $module );
-						$content .= $this->get_copy_button( $module );
-						$content .= '<div class="sui-actions-right">';
 						/**
 						 * deactivate button
 						 */
@@ -936,7 +977,7 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 								'text' => __( 'Deactivate', 'ub' ),
 								'sui' => 'ghost',
 							);
-							$content .= $this->button( $args );
+							$buttons .= $this->button( $args );
 						}
 						/**
 						 * submit button
@@ -952,15 +993,9 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 								'icon' => 'save',
 								'class' => 'branda-module-save',
 							);
-							$content .= $this->button( $args );
+							$buttons .= $this->button( $args );
 						}
-						$content .= apply_filters( 'branda_settings_after_box_title_after_actions', '', $module );
-						$content .= '</div>'; // sui-actions-right
-					}
-					$content .= '</div>'; // sui-box-header
-					if ( ! $is_active ) {
-						$content .= '<div class="sui-box-body">';
-						$content .= sprintf( '<p>%s</p>', $module['description'] );
+					} else {
 						/**
 						 * activate button
 						 */
@@ -973,10 +1008,21 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 							'sui' => 'blue',
 							'text' => __( 'Activate', 'ub' ),
 						);
-						$content .= $this->button( $args );
-						$content .= '</div>'; // sui-box-body
+						$buttons = $this->button( $args );
 					}
-					$content .= '</div>'; // sui-box
+					$template = 'admin/common/module-header';
+					$args = array(
+						'box_title' => isset( $module['name_alt'] ) ? $module['name_alt'] : $module['name'],
+						'classes' => $classes,
+						'is_active' => $is_active,
+						'module' => $module,
+						'copy_button' => $this->get_copy_button( $module ),
+						'buttons' => $buttons,
+						'slug' => $slug,
+						'current' => $current,
+						'status_indicator' => isset( $module['status-indicator'] )? $module['status-indicator']:'show',
+					);
+					$content .= $this->render( $template, $args, true );
 				}
 				/**
 				 * body
@@ -984,7 +1030,9 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 				if ( $is_active  ) {
 					$classes = array(
 						'sui-box',
+						'branda-settings-tab',
 						sprintf( 'branda-settings-tab-%s', sanitize_title( $slug ) ),
+						'branda-settings-tab-content',
 						sprintf( 'branda-settings-tab-content-%s', sanitize_title( $slug ) ),
 					);
 					$classes = apply_filters( 'branda_settings_tab_content_classes', $classes, $module );
@@ -1004,6 +1052,13 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 					}
 					$content .= '</div>'; // sui-box
 				}
+				if ( $current === $slug ) {
+					$some_module_is_active = true;
+				}
+			}
+			if ( ! $some_module_is_active ) {
+				$template = 'admin/common/no-module';
+				$content .= $this->render( $template, array(), true );
 			}
 			return $content;
 		}
@@ -1161,6 +1216,9 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			}
 			$modules = array();
 			foreach ( $this->configuration as $key => $module ) {
+				if ( ! array_key_exists( $key, $this->modules ) ) {
+					continue;
+				}
 				if ( ! isset( $module['group'] ) ) {
 					continue;
 				}
@@ -1239,10 +1297,15 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			/**
 			 * module
 			 */
-			if ( isset( $_REQUEST['module'] ) ) {
-				if ( 'dashboard' !== $_REQUEST['module'] ) {
+			$input_module = filter_input( INPUT_POST, 'module', FILTER_SANITIZE_STRING );
+			if ( empty( $input_module ) ) {
+				$input_module = filter_input( INPUT_GET, 'module', FILTER_SANITIZE_STRING );
+			}
+			$is_empty = empty( $input_module );
+			if ( ! $is_empty ) {
+				if ( 'dashboard' !== $input_module ) {
 					foreach ( $this->configuration as $module ) {
-						if ( isset( $module['module'] ) && $_REQUEST['module'] == $module['module'] ) {
+						if ( isset( $module['module'] ) && $input_module === $module['module'] ) {
 							$this->module = $module['module'];
 							return;
 						}
@@ -1423,7 +1486,7 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 					/**
 					 * nonce
 					 */
-					$content .= wp_nonce_field( $action, '_wpnonce', true, false );
+					$content .= wp_nonce_field( $action, '_wpnonce', false, false );
 				}
 				$content .= apply_filters( $action, '' );
 				/**
@@ -1666,7 +1729,7 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 					wp_send_json_success();
 				}
 			}
-			wp_send_json_error( $this->messages['fail'] );
+			wp_send_json_error( array( 'message' => $this->messages['wrong'] ) );
 		}
 
 		/**
@@ -2118,7 +2181,13 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 		public function load_dashboard() {
 			$modules = get_ub_activated_modules( 'raw' );
 			if ( empty( $modules ) ) {
-				$this->show_welcome_dialog = true;
+				$user_id = get_current_user_id();
+				$show = get_user_meta( $user_id, 'show_welcome_dialog', true );
+				$show = empty( $show );
+				if ( $show  ) {
+					$this->show_welcome_dialog = true;
+					update_user_meta( $user_id, 'show_welcome_dialog', 'hide' );
+				}
 			}
 		}
 
@@ -2145,7 +2214,7 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 			$args = array(
 				'content' => $this->render( $template, $args, true ),
 				'title' => esc_html__( 'Activate Modules', 'ub' ),
-				'description' => esc_html__( 'Choose the modules you want to activate. Each module helps you while-label a specific part of your website. If you’re not sure or forget to activate any module now, you can always do that later.', 'ub' ),
+				'description' => esc_html__( 'Choose the modules you want to activate. Each module helps you white-label a specific part of your website. If you’re not sure or forget to activate any module now, you can always do that later.', 'ub' ),
 			);
 			wp_send_json_success( $args );
 		}
@@ -2168,6 +2237,151 @@ if ( ! class_exists( 'Branda_Admin' ) ) {
 				return true;
 			}
 			return false;
+		}
+
+		/**
+		 * Common hooks for all screens
+		 *
+		 * @since 3.0.1
+		 */
+		public function add_action_hooks() {
+			// Filter built-in wpmudev branding script.
+			add_filter( 'wpmudev_whitelabel_plugin_pages', array( $this, 'builtin_wpmudev_branding' ) );
+		}
+
+		/**
+		 * Add more pages to builtin wpmudev branding.
+		 *
+		 * @since 3.0.1
+		 *
+		 * @param array $plugin_pages Nextgen pages is not introduced in built in wpmudev branding.
+		 *
+		 * @return array
+		 */
+		public function builtin_wpmudev_branding( $plugin_pages ) {
+			$plugin_pages[ $this->top_page_slug ] = array(
+				'wpmudev_whitelabel_sui_plugins_branding',
+				'wpmudev_whitelabel_sui_plugins_footer',
+				'wpmudev_whitelabel_sui_plugins_doc_links',
+			);
+			return $plugin_pages;
+		}
+
+		/**
+		 * Handle Branda SUI wrapper container classes.
+		 *
+		 * @since 3.0.6
+		 */
+		public function add_sui_wrap_classes( $classes ) {
+			if ( is_string( $classes ) ) {
+				$classes = array( $classes );
+			}
+			if ( ! is_array( $classes ) ) {
+				$classes = array();
+			}
+			$classes[] = 'sui-wrap';
+			$classes[] = 'sui-wrap-branda';
+			/**
+			 * Add high contrast mode.
+			 */
+			$is_high_contrast_mode = $this->high_contrast_mode();
+			if ( $is_high_contrast_mode ) {
+				$classes[] = 'sui-color-accessible';
+			}
+			/**
+			 * Set hide branding
+			 *
+			 * @since 3.0.6
+			 */
+			$hide_branding = apply_filters( 'wpmudev_branding_hide_branding', $this->hide_branding );
+			if ( $hide_branding ) {
+				$classes[] = 'no-branda';
+			}
+			/**
+			 * hero image
+			 */
+			$image = apply_filters( 'wpmudev_branding_hero_image', 'branda-default' );
+			if ( empty( $image ) ) {
+				$classes[] = 'no-branda-hero';
+			}
+			return $classes;
+		}
+
+		/**
+		 * Delete image from modules, when it is deleted from WordPress
+		 *
+		 * @since 3.1.0
+		 */
+		public function delete_attachment_from_configs( $attachemnt_id ) {
+			$affected_modules = array(
+				'admin-bar',
+				'db-error-page',
+				'login-screen',
+				'ms-site-check',
+				'images',
+				'maintenance',
+			);
+			foreach ( $this->configuration as $module ) {
+				if ( ! in_array( $module['module'], $affected_modules ) ) {
+					continue;
+				}
+				if ( ! isset( $module['options'] ) ) {
+					continue;
+				}
+				foreach ( $module['options'] as $option_name ) {
+					$value = ub_get_option( $option_name );
+					if ( empty( $value ) ) {
+						continue;
+					}
+
+					$update = false;
+					foreach ( $value as $group => $group_data ) {
+						if ( ! is_array( $group_data ) ) {
+							continue;
+						}
+						foreach ( $group_data as $key => $field ) {
+							switch ( $key ) {
+								/**
+								 * Single image
+								 */
+								case 'favicon':
+								case 'logo_image':
+								case 'logo':
+									$field = intval( $field );
+									if ( $attachemnt_id === $field ) {
+										$update = true;
+										unset( $value[ $group ][ $key ] );
+										$key .= '_meta';
+										if ( isset( $value[ $group ][ $key ] ) ) {
+											unset( $value[ $group ][ $key ] );
+										}
+									}
+								break;
+								/**
+								 * Background
+								 */
+								case 'content_background':
+									if ( is_array( $field ) ) {
+										foreach ( $field as $index => $one ) {
+											$id = intval( $one['value'] );
+											if ( $attachemnt_id === $id ) {
+												if ( isset( $value[ $group ][ $key ] ) ) {
+													$update = true;
+													unset( $value[ $group ][ $key ][ $index ] );
+												}
+											}
+										}
+									}
+								break;
+								default:
+							}
+						}
+					}
+					if ( $update ) {
+						ub_update_option( $option_name, $value );
+					}
+				}
+			}
 		}
 	}
 }

@@ -215,8 +215,9 @@ ul.striped>:nth-child(odd) {
 }
 
 #adminmenu li.menu-top:hover div.wp-menu-image:before,
-#adminmenu li.opensub > a.menu-top div.wp-menu-image:before {
-    color: <?php echo esc_attr( $admin_menu_icon_color ); ?>;
+#adminmenu li.opensub > a.menu-top div.wp-menu-image:before,
+#adminmenu #collapse-menu:hover .collapse-button-icon:after {
+    color: <?php echo esc_attr( $admin_menu_icon_color_focus ); ?>;
 }
 
 /* Active tabs use a bottom border color that matches the page background color. */

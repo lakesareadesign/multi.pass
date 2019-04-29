@@ -126,8 +126,12 @@ jQuery( document ).ready( function($) {
                     theme_id: $('#simple_options_theme_id').val()
                 };
                 jQuery.post(ajaxurl, param, function (res) {
-                    if (res.success == true) {
+                    if ( res.success ) {
                         $( '.sui-box-body', dialogEl ).html( res.data );
+                    } else {
+                        $( '.sui-box-body', dialogEl ).html(
+                            '<div class="sui-notice sui-notice-error"><p>'+ res.data + '</p></div>'
+                        );
                     }
                 });
             });

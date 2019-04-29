@@ -1,10 +1,10 @@
 $grey_2: #eee;
 
-.ub-author-box {
+.branda-author-box {
     margin-top: 20px;
-    .ub-author-box-content {
+    .branda-author-box-content {
         display: flex;
-        .ub-author-box-avatar {
+        .branda-author-box-avatar {
             margin {
                 right: 20px;
             }
@@ -18,7 +18,7 @@ $grey_2: #eee;
                 }
             }
         }
-        .ub-author-box-more {
+        .branda-author-box-more {
             ul {
                 list: {
                     style: none;
@@ -30,7 +30,7 @@ $grey_2: #eee;
         }
     }
     @media screen and (max-width: 501px) {
-        .ub-author-box-content {
+        .branda-author-box-content {
             display: block;
             img {
                 display: block;

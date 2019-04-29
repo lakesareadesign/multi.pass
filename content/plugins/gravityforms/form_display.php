@@ -2109,11 +2109,11 @@ class GFFormDisplay {
 			wp_enqueue_script( $script );
 		}
 
-		wp_print_scripts( $scripts );
-
 		if ( wp_script_is( 'gform_gravityforms' ) ) {
 			wp_localize_script( 'gform_gravityforms', 'gf_global', GFCommon::gf_global( false, true ) );
 		}
+
+		wp_print_scripts( $scripts );
 
 	}
 

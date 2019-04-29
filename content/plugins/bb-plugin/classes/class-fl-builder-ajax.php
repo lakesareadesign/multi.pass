@@ -233,6 +233,13 @@ final class FLBuilderAJAX {
 		 */
 		do_action( 'fl_ajax_after_' . $action['action'], $keys_args );
 
+		/**
+		 * Set header for JSON if headers have not been sent.
+		 */
+		if ( ! headers_sent() ) {
+			header( 'Content-Type:text/plain' );
+		}
+
 		// JSON encode the result.
 		echo json_encode( $result );
 

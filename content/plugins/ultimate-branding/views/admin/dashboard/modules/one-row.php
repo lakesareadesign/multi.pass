@@ -1,14 +1,14 @@
 <?php
 $status = __( 'Inactive', 'ub' );
 if ( 'active' === $module['status'] ) {
-    $status = __( 'Active', 'ub' );
+	$status = __( 'Active', 'ub' );
 }
 $url = add_query_arg(
-    array(
-        'page' => sprintf( 'branding_group_%s', $module['group'] ),
-        'module' => $module['module'],
-    ),
-    network_admin_url( 'admin.php' )
+	array(
+		'page' => sprintf( 'branding_group_%s', $module['group'] ),
+		'module' => $module['module'],
+	),
+	is_network_admin()? network_admin_url( 'admin.php' ):admin_url( 'admin.php' )
 );
 ?>
 <tr data-id="<?php echo esc_attr( $module['module'] ); ?>">

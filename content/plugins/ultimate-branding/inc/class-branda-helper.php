@@ -39,6 +39,15 @@ if ( ! class_exists( 'Branda_Helper' ) ) {
 		 */
 		protected $is_network = false;
 
+		/**
+		 * User roles.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @var array
+		 */
+		protected $roles = array();
+
 		public function __construct() {
 			global $branda_network;
 			$this->is_network = $branda_network;
@@ -110,6 +119,13 @@ if ( ! class_exists( 'Branda_Helper' ) ) {
 			 * Enqueue module group assets.
 			 */
 			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_group_admin_assets' ) );
+
+			/**
+			 * Check has module configuration to allow reset module button.
+			 *
+			 * @since 3.1.0
+			 */
+			add_filter( 'branda_options_show_reset_module_button', array( $this, 'show_reset_module_button' ), 10, 2 );
 		}
 
 		public function add_option_name( $options ) {
@@ -319,8 +335,17 @@ if ( ! class_exists( 'Branda_Helper' ) ) {
 						 * save extra data if field is a wp_editor
 						 */
 						case 'wp_editor':
-							$value[ $section_key ][ $key.'_meta' ] = wpautop( do_shortcode( stripslashes( $value[ $section_key ][ $key ] ) ) );
-						break;
+							$v = do_shortcode( $value[ $section_key ][ $key ] );
+							$v = wpautop( $v );
+							$value[ $section_key ][ $key . '_meta' ] = $v;
+							break;
+						case 'url':
+							if ( ! preg_match( '~^(?:f|ht)tps?://~i', $value[ $section_key ][ $key ] ) ) {
+								$value[ $section_key ][ $key ] = 'http://' . $value[ $section_key ][ $key ];
+							}
+							break;
+						default:
+							break;
 					}
 				}
 			}
@@ -570,7 +595,6 @@ if ( ! class_exists( 'Branda_Helper' ) ) {
 				'foursquare'  => array( 'label' => __( 'Foursquare', 'ub' ) ),
 				'ghost'       => array( 'label' => __( 'Ghost', 'ub' ) ),
 				'github'      => array( 'label' => __( 'Github', 'ub' ) ),
-				'google'      => array( 'label' => __( 'Google Plus', 'ub' ) ),
 				'instagram'   => array( 'label' => __( 'Instagram', 'ub' ) ),
 				'linkedin'    => array( 'label' => __( 'LinkedIn', 'ub' ) ),
 				'mail'        => array( 'label' => __( 'Mail', 'ub' ) ),
@@ -782,6 +806,35 @@ if ( ! class_exists( 'Branda_Helper' ) ) {
 		}
 
 		/**
+		 * CSS Box Shadow
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param integer $horizontal Horizontal Length
+		 * @param integer $vertical Vertical Length
+		 * @param integer $blur Blur Radius
+		 * @param integer $spread Spread Radius
+		 * @param string $color Shadow Color
+		 * @param boolean $echo Print or return data, default true
+		 */
+		protected function css_box_shadow( $horizontal, $vertical, $blur, $spread, $color, $echo = true ) {
+			$css = sprintf(
+				'-webkit-box-shadow: %1$dpx %2$dpx %3$dpx %4$dpx %5$s;-moz-box-shadow: %1$dpx %2$dpx %3$dpx %4$dpx %5$s;box-shadow: %1$dpx %2$dpx %3$dpx %4$dpx %5$s;',
+				$horizontal,
+				$vertical,
+				$blur,
+				$spread,
+				$color
+			);
+			if ( $echo ) {
+				echo $css;
+				echo PHP_EOL;
+				return;
+			}
+			return $css;
+		}
+
+		/**
 		 * Produce common CSS for document settings.
 		 *
 		 * @input string $section Section of data.
@@ -846,6 +899,36 @@ if ( ! class_exists( 'Branda_Helper' ) ) {
 		}
 
 		/**
+		 * HTML for background slider
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param boolean $echo Print or return.
+		 *
+		 * Based on:
+		 * https://tympanus.net/codrops/2012/01/02/fullscreen-background-image-slideshow-with-css3/
+		 */
+		protected function html_background_common( $echo = true ) {
+			$value = $this->get_value( 'content', 'content_background' );
+			if ( ! is_array( $value ) ) {
+				return;
+			}
+			if ( 2 > count( $value ) ) {
+				return;
+			}
+			$content = '<ul class="cb-slideshow">';
+			foreach ( $value as $v ) {
+				$content .= '<li><span></span></li>';
+			}
+			$content .= '</ul>';
+			if ( $echo ) {
+				echo $content;
+				return;
+			}
+			return $content;
+		}
+
+		/**
 		 * Prepare COMMON css background!
 		 *
 		 * @since 2.3.0
@@ -854,7 +937,17 @@ if ( ! class_exists( 'Branda_Helper' ) ) {
 		 */
 		protected function css_background_common( $selector = 'html' ) {
 			$data = $this->get_value( 'content' );
-			$javascript = $css = '';
+
+			$args = array(
+				'id' => $this->get_name(),
+				'selector' => $selector,
+				'selector2' => sprintf( '%s, .branda-background-mask', $selector ),
+				'background_color' => $this->get_value( 'colors', 'background_color' ),
+				'background_position_x' => 'center',
+				'background_position_y' => 'center',
+				'background_size' => array( 'auto', 'auto' ),
+			);
+			$css = '';
 			$selector2 = sprintf( '%s, .branda-background-mask', $selector );
 			/**
 			 * background-color
@@ -867,7 +960,7 @@ if ( ! class_exists( 'Branda_Helper' ) ) {
 			$v = $this->get_value( 'content', 'content_background' );
 			if ( $show && is_array( $v ) && 0 < count( $v ) ) {
 				if ( 0 < count( $v ) && isset( $v[0]['meta'] ) ) {
-				    $css .= sprintf( '%s {', $selector2 );
+					$css .= sprintf( '%s {', $selector2 );
 					/**
 					 * Background Size
 					 */
@@ -889,11 +982,15 @@ if ( ! class_exists( 'Branda_Helper' ) ) {
 					switch ( $mode ) {
 						case 'cover':
 						case 'contain':
+							$args['background_size'] = $mode;
 							$css .= sprintf( '-webkit-background-size: %1$s; -moz-background-size: %1$s; -o-background-size: %1$s; background-size: %1$s;', $mode );
 						break;
 						case 'manual':
+							$args['background_size'] = array( $width, $height );
 							$css .= sprintf( 'background-size: %s %s;', $width, $height );
 						break;
+						default:
+							break;
 					}
 					/**
 					 * Background: X
@@ -903,13 +1000,17 @@ if ( ! class_exists( 'Branda_Helper' ) ) {
 						case 'left':
 						case 'right':
 						case 'center':
+							$args['background_position_x'] = $value;
 							$css .= sprintf( 'background-position-x: %s;', $value );
 						break;
 						case 'custom':
 							$unit = $this->get_value( 'design', 'background_position_x_units', '%' );
 							$value = $this->get_value( 'design', 'background_position_x_custom', 0 );
 							$css .= sprintf( 'background-position-x: %d%s;', $value, $unit );
+							$args['background_position_x'] = $value.$unit;
 						break;
+						default:
+							break;
 					}
 					/**
 					 * Background: Y
@@ -920,77 +1021,47 @@ if ( ! class_exists( 'Branda_Helper' ) ) {
 						case 'bottom':
 						case 'center':
 							$css .= sprintf( 'background-position-y: %s;', $value );
+							$args['background_position_y'] = $value;
 						break;
 						case 'custom':
 							$unit = $this->get_value( 'design', 'background_position_y_units', '%' );
 							$value = $this->get_value( 'design', 'background_position_y_custom', 0 );
 							$css .= sprintf( 'background-position-y: %d%s;', $value, $unit );
+							$args['background_position_y'] = $value.$unit;
 						break;
+						default:
+							break;
 					}
 					/**
 					 * Background Mode
 					 */
+					$mode = $this->get_value( 'design', 'background_mode' );
 					$id = 0;
-					do {
-						$id = rand( 0, count( $v ) - 1 );
-					} while ( ! isset( $v[ $id ]['meta'] ) );
+					if ( 'slideshow' !== $mode ) {
+						do {
+							$id = rand( 0, count( $v ) - 1 );
+						} while ( ! isset( $v[ $id ]['meta'] ) );
+					}
 					$meta = $v[ $id ]['meta'];
 					$css .= sprintf( 'background-image: url(%s);', $this->make_relative_url( esc_url( $meta[0] ) ) );
 					$css .= 'background-repeat: no-repeat;';
 					$css .= 'background-attachment: fixed;';
 					$css .= '}';
 					$css .= PHP_EOL;
-					$mode = $this->get_value( 'design', 'background_mode' );
 					if ( 'slideshow' === $mode && 1 < count( $v ) ) {
-						$css .= '.branda-background-mask{ position: absolute; bottom: 0; left: 0; right: 0; top: 0; z-index: -1; background-repeat: no-repeat; }';
-						$css .= PHP_EOL;
 						$images = array();
 						foreach ( $v as $one ) {
 							if ( isset( $one['meta'] ) ) {
 								$images[] = $this->make_relative_url( $one['meta'][0] );
 							}
 						}
-						if ( count( $images ) ) {
-							$duration = intval( $this->get_value( 'design', 'background_duration' ) );
-							if ( 0 > $duration ) {
-								$duration = 10;
-							}
-							$duration = $duration * 1000;
-							$javascript .= PHP_EOL;
-							$javascript .= sprintf( 'var imgs = %s;', json_encode( $images ) );
-							$javascript .= PHP_EOL;
-							$javascript .= '
-var opacity, branda_fade;
-var duration = '.intval( $duration ).';
-var branda_animate_background = setInterval( function( ) {
-    var imgUrl = imgs[Math.floor(Math.random()*imgs.length)];
-    var mask = document.getElementsByClassName(\'branda-background-mask\')[0];
-    var background_element = document.getElementsByTagName(\''.$selector.'\')[0];
-    if ( "undefined" === typeof mask ) {
-        var parent = document.getElementsByTagName(\'body\')[0];
-        var m = document.createElement("div");
-        m.classList.add( "branda-background-mask" );
-        parent.insertBefore( m, parent.childNodes[0] );
-        mask = document.getElementsByClassName(\'branda-background-mask\')[0];
-    }
-    if ( "" === background_element.style.backgroundImage ) {
-        background_element.style.backgroundImage = \'url(\' + imgs[0] + \')\';
-    }
-    mask.style.backgroundImage = background_element.style.backgroundImage;
-    background_element.style.backgroundImage = \'url(\' + imgUrl + \')\';
-    mask.style.opacity = opacity = 1;
-    branda_fade = setInterval( function() {
-        if ( 0.1 > opacity ) {
-            clearTimeout( branda_fade );
-            opacity = 1;
-            mask.style.opacity = 0;
-            return;
-        }
-        opacity -= .01;
-        mask.style.opacity = opacity;
-    }, '.max( 20, intval( $duration / 250 ) ).');
-}, duration );
-';
+						if ( 1 < count( $images ) ) {
+							$args['id'] = $this->get_name( 'slideshow' );
+							$args['duration'] = intval( $this->get_value( 'design', 'background_duration' ) );
+							$args['images'] = $images;
+							$template = 'front-end/common/css/slideshow';
+							$this->render( $template, $args );
+							return;
 						}
 					}
 				}
@@ -999,11 +1070,6 @@ var branda_animate_background = setInterval( function( ) {
 				echo '<style id="branda-background-css" type="text/css">';
 				echo $css;
 				echo '</style>';
-			}
-			if ( ! empty( $javascript ) ) {
-				echo '<script id="branda-background-js" type="text/javascript">';
-				echo $javascript;
-				echo '</script>';
 			}
 		}
 
@@ -1063,6 +1129,7 @@ var branda_animate_background = setInterval( function( ) {
 				echo $selector.' a {';
 				printf( 'background-image: url(%s);', $this->make_relative_url( $src ) );
 				echo 'background-size: 100%;';
+				echo 'background-repeat: no-repeat%;';
 				echo 'margin: 0 auto;';
 				echo 'overflow: hidden;';
 				echo 'text-indent: -9999px;';
@@ -1075,8 +1142,9 @@ var branda_animate_background = setInterval( function( ) {
 				echo '}';
 				echo PHP_EOL;
 			} else if ( 0 < $data['width'] ) {
-				echo $selector.' a{';
+				echo $selector.' a {';
 				echo 'background-size: 100%;';
+				echo 'background-repeat: no-repeat%;';
 				echo 'margin: 0 auto;';
 				if ( 'auto' !== $data['width'] ) {
 					printf( 'height: %dpx;', $data['width'] );
@@ -1123,6 +1191,8 @@ var branda_animate_background = setInterval( function( ) {
 						$margin['left'] = 'auto';
 						$margin['right'] = 'auto';
 					break;
+					default:
+						break;
 				}
 			}
 			if ( ! empty( $margin ) ) {
@@ -1692,7 +1762,7 @@ var branda_animate_background = setInterval( function( ) {
 				'logo_margin_bottom' => array(
 					'type' => 'number',
 					'label' => __( 'Bottom', 'ub' ),
-					'default' => intval( isset( $defaults['logo_margin_bottom'] )? $defaults['logo_margin_bottom']:0 ),
+					'default' => intval( isset( $defaults['logo_margin_bottom'] )? $defaults['logo_margin_bottom']: 25 ),
 					'min' => 0,
 					'before_field' => '<div class="sui-col">',
 					'after_field' => '</div>',
@@ -2513,7 +2583,9 @@ var branda_animate_background = setInterval( function( ) {
 				$related[ $section ] = array();
 			}
 			$uba = ub_get_uba_object();
-			$re = sprintf( '@%s@', ub_files_dir( 'modules/' ) );
+			$dir = ub_files_dir( 'modules/' );
+			$dir = wp_normalize_path( $dir );
+			$re = sprintf( '@%s@', $dir );
 			$module = preg_replace( $re, '', $this->file );
 			$configuration = $uba->get_configuration();
 			$title = __( 'Unknown', 'ub' );
@@ -2717,10 +2789,7 @@ var branda_animate_background = setInterval( function( ) {
 		 */
 		public function button( $args ) {
 			$uba = ub_get_uba_object();
-			if ( is_object( $uba ) ) {
-				return $uba->button( $args );
-			}
-			return '';
+			return $uba->button( $args );
 		}
 
 		/**
@@ -2924,10 +2993,13 @@ var branda_animate_background = setInterval( function( ) {
 				) {
 					$classes = array_merge( $classes, $data['classes'] );
 				}
-				$content .= sprintf(
-					'<div class="%s">',
-					esc_attr( implode( ' ', $classes ) )
-				);
+				$show = isset( $data['hide-th'] ) && true === $data['hide-th'] ? false : true;
+				if ( $show ) {
+					$content .= sprintf(
+						'<div class="%s">',
+						esc_attr( implode( ' ', $classes ) )
+					);
+				}
 				if ( isset( $data['label'] ) ) {
 					$content .= sprintf(
 						'<label for="%s" class="sui-label">%s</label>',
@@ -2938,13 +3010,7 @@ var branda_animate_background = setInterval( function( ) {
 				/**
 				 * description
 				 */
-				$description_position = isset( $data['description-position'] )? $data['description-position']:'top';
-				if ( isset( $data['description'] ) && 'top' === $description_position ) {
-					$content .= sprintf(
-						'<span class="sui-description">%s</span>',
-						$data['description']
-					);
-				}
+				$content .= $this->get_description( $data, 'top' );
 				$extra = array();
 				/**
 				 * style
@@ -2961,6 +3027,29 @@ var branda_animate_background = setInterval( function( ) {
 				$type = isset( $data['type'] )? $data['type']:'text';
 				if ( 'number' === $type ) {
 					$extra[] = 'min="1"';
+				}
+				/**
+				 * data
+				 */
+				if ( isset( $data['data'] ) ) {
+					foreach ( $data['data'] as $data_key => $data_value ) {
+						$extra[] = sprintf(
+							'data-%s="%s"',
+							sanitize_title( $data_key ),
+							esc_attr( $data_value )
+						);
+					}
+				}
+				/**
+				 * Before field
+				 *
+				 * @since 2.0.7
+				 */
+				if (
+					isset( $data['field'] )
+					&& isset( $data['field']['before'] )
+				) {
+					$content .= $data['field']['before'];
 				}
 				switch ( $type ) {
 					case 'text':
@@ -3099,6 +3188,19 @@ var branda_animate_background = setInterval( function( ) {
 							$content .= __( 'Something went wrong!', 'ub' );
 						}
 					break;
+					default:
+						break;
+				}
+				/**
+				 * After field
+				 *
+				 * @since 2.0.7
+				 */
+				if (
+					isset( $data['field'] )
+					&& isset( $data['field']['after'] )
+				) {
+					$content .= $data['field']['after'];
 				}
 				if ( isset( $data['required'] ) && $data['required'] ) {
 					$content .= sprintf(
@@ -3109,13 +3211,10 @@ var branda_animate_background = setInterval( function( ) {
 				/**
 				 * description
 				 */
-				if ( isset( $data['description'] ) && 'bottom' === $description_position ) {
-					$content .= sprintf(
-						'<span class="sui-description">%s</span>',
-						$data['description']
-					);
+				$content .= $this->get_description( $data, 'bottom' );
+				if ( $show ) {
+					$content .= '</div>';
 				}
-				$content .= '</div>';
 				if ( $row ) {
 					$content .= '</div>';
 				}
@@ -3200,6 +3299,9 @@ var branda_animate_background = setInterval( function( ) {
 		 */
 		public function get_nonce_action( $id = 0, $action = 'save', $third = 0 ) {
 			$sufix = sprintf( '%s-%s', $action, $id );
+			if ( null === $id ) {
+				$sufix = $action;
+			}
 			if ( ! empty( $third ) ) {
 				$sufix = sprintf( '%s-%s', $sufix, $third );
 			}
@@ -3238,6 +3340,18 @@ var branda_animate_background = setInterval( function( ) {
 				'<span class="sui-description">%s</span>',
 				esc_html( $attr['description'] )
 			);
+			/**
+			 * Footer
+			 */
+			$footer = '';
+			$args = array(
+				'text' => __( 'Cancel', 'ub' ),
+				'sui' => 'ghost',
+				'data' => array(
+					'a11y-dialog-hide' => '',
+				),
+			);
+			$footer .= $this->button( $args );
 			$args = array(
 				'text' => __( 'Delete', 'ub' ),
 				'sui' => array( 'red', 'ghost' ),
@@ -3248,21 +3362,16 @@ var branda_animate_background = setInterval( function( ) {
 					'id' => $id,
 				),
 			);
-			$footer = $this->button( $args );
-			$args = array(
-				'text' => __( 'Cancel', 'ub' ),
-				'sui' => 'ghost',
-				'data' => array(
-					'a11y-dialog-hide' => '',
-				),
-			);
 			$footer .= $this->button( $args );
+			/**
+			 * SUI Dialog
+			 */
 			$args = array(
 				'id' => $this->get_nonce_action( $id, 'delete' ),
 				'content' => $content,
 				'footer' => array(
 					'content' => $footer,
-					'classes' => array( 'sui-space-between' ),
+					'classes' => array( 'sui-actions-center' ),
 				),
 				'classes' => array( 'sui-dialog-sm' ),
 				'title' => $attr['title'],
@@ -3280,9 +3389,13 @@ var branda_animate_background = setInterval( function( ) {
 		protected function get_url_valid_shema( $url ) {
 			$image = $url;
 			$v_image_url = parse_url( $url );
+			/**
+			 * Allow http sites to load https favicons
+			 */
 			if ( isset( $v_image_url['scheme'] ) && 'https' === $v_image_url['scheme'] ) {
-				// Allow http sites to load https favicons
-			} else if ( is_ssl() ) {
+				return $image;
+			}
+			if ( is_ssl() ) {
 				$image = str_replace( 'http', 'https', $image );
 			}
 			return $image;
@@ -3411,6 +3524,12 @@ var branda_animate_background = setInterval( function( ) {
 				$file = ub_files_url( $filename );
 				wp_enqueue_style( $handler, $file, array(), $this->build );
 			}
+			/**
+			 * Run action to enqueue modules relted screipts.
+			 *
+			 * @since 3.1.0
+			 */
+			do_action( 'branda_admin_enqueue_module_admin_assets', $module );
 		}
 
 		/**
@@ -3538,6 +3657,8 @@ var branda_animate_background = setInterval( function( ) {
 							case 'background':
 								$css_name = 'background-color';
 							break;
+							default:
+								break;
 						}
 						$k = sprintf( '%s_%s_%s', $key, $name, $subkey );
 						if ( '' === $subkey ) {
@@ -3621,7 +3742,7 @@ var branda_animate_background = setInterval( function( ) {
 		 *
 		 * @since 3.0.0
 		 */
-		private function get_module_by_module( $module ) {
+		protected function get_module_by_module( $module ) {
 			$configuration = array();
 			if ( ! is_a( $this->uba, 'Branda_Admin' ) ) {
 				$this->uba = new Branda_Admin;
@@ -3651,9 +3772,10 @@ var branda_animate_background = setInterval( function( ) {
 			if ( empty( $q ) ) {
 				$this->json_error();
 			}
-			$exclude = array(
-				ub_get_main_site_id(),
-			);
+			$exclude = array();
+			if ( 'images' === $this->module ) {
+				$exclude[] = ub_get_main_site_id();
+			}
 			if (
 				isset( $_REQUEST['extra'] )
 				&& is_array( $_REQUEST['extra'] )
@@ -3953,10 +4075,15 @@ var branda_animate_background = setInterval( function( ) {
 		 * Helper for no items function, show nice notice.
 		 *
 		 * @since 3.0.0
+		 * @since 3.7.0 Added param $echo
 		 */
-		public function no_items( $args ) {
+		public function no_items( $args, $echo = true ) {
 			$template = 'admin/common/no-items';
-			$this->uba->render( $template, $args );
+			if ( $echo ) {
+				$this->uba->render( $template, $args );
+			} else {
+				return $this->uba->render( $template, $args, true );
+			}
 		}
 
 		/**
@@ -3967,7 +4094,7 @@ var branda_animate_background = setInterval( function( ) {
 		 * @param bool|false $return
 		 * @return string
 		 */
-		protected function render( $file, $params = array(), $return = false ) {
+		public function render( $file, $params = array(), $return = false ) {
 			$content = '';
 			if ( array_key_exists( 'this', $params ) ) {
 				unset( $params['this'] );
@@ -3982,6 +4109,13 @@ var branda_animate_background = setInterval( function( ) {
 			} else if ( $this->debug ) {
 				error_log( __( 'Template file does not exists!', 'ub' ) );
 				error_log( $template_file );
+				if ( current_user_can( 'manage_options' ) ) {
+					$message = sprintf(
+						__( 'Template file %s does not exists!', 'ub' ),
+						$this->bold( $template_file )
+					);
+					$content .= $this->sui_notice( $message, 'warning' );
+				}
 			}
 			if ( $return ) {
 				return $content;
@@ -4028,8 +4162,127 @@ var branda_animate_background = setInterval( function( ) {
 			}
 			$value .= time();
 			$value .= rand();
-			$id = sprintf( 'branda-%s', md5( $value ) );
+			/**
+			 * get algorithm
+			 */
+			$algoritm = apply_filters( 'branda_get_id_algoritm', 'crc32' );
+			$allowed = hash_algos();
+			if ( ! in_array( $allowed, $allowed ) ) {
+				$allowed = 'crc32';
+			}
+			$id = sprintf(
+				'branda_%s_%s',
+				preg_replace( '/[^\d]/', '', $this->build ),
+				hash( $algoritm, $value )
+			);
 			return $id;
+		}
+
+		/**
+		 * get description helper
+		 *
+		 * @since 3.0.1
+		 *
+		 * @param array $data Data.
+		 * @param string $position Position for description.
+		 *
+		 * @return string $content Wraped description.
+		 */
+		private function get_description( $data, $position ) {
+			$content = '';
+			if ( ! isset( $data['description'] ) ) {
+				return $content;
+			}
+			$description = $data['description'];
+			$description_position = 'top';
+			if ( is_array( $data['description'] ) ) {
+				if ( isset( $data['description']['content'] ) ) {
+					$description = $data['description']['content'];
+				} else {
+					return $content;
+				}
+				if ( isset( $data['description']['position'] ) ) {
+					$description_position = $data['description']['position'];
+				}
+			}
+			if ( $position !== $description_position ) {
+				return $content;
+			}
+			$content .= sprintf(
+				'<span class="sui-description">%s</span>',
+				$description
+			);
+			return $content;
+		}
+
+		/**
+		 * Get User registration is not allowed notice
+		 *
+		 * @since 3.0.1
+		 */
+		protected function get_users_can_register_notice() {
+			$url = admin_url( 'options-general.php' );
+			if ( $this->is_network ) {
+				$url = network_admin_url( 'settings.php' );
+				$url .= '#users_can_register';
+			}
+			$notice = array(
+				'position' => 'bottom',
+				'class' => 'error',
+				'message' => sprintf(
+					__( 'User registration has been disabled. Click <a href="%s">here</a> to enable the user registration for your site.', 'ub' ),
+					$url
+				),
+			);
+			return $notice;
+		}
+
+		/**
+		 * Get module name.
+		 *
+		 * Public read-only access to $this->module variable.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @return string $this->module Internal module name.
+		 */
+		public function get_module_name() {
+			return $this->module;
+		}
+
+		/**
+		 * Set Roles, to avoid double get.
+		 *
+		 * @since 3.1.0
+		 */
+		protected function set_roles( $sort = true, $add_super = true ) {
+			if ( ! empty( $this->roles ) ) {
+				return;
+			}
+			$roles = wp_roles()->get_names();
+			if ( $add_super = $this->is_network ) {
+				$roles['super'] = __( 'Network Administrator', 'ub' );
+			}
+			if ( $sort ) {
+				asort( $roles );
+			}
+			$this->roles = $roles;
+			return $roles;
+		}
+
+		/**
+		 * Check has module configuration to allow reset module button.
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param boolean $show show or not, this is filter
+		 * @param string $module Module name.
+		 */
+		public function show_reset_module_button( $show, $module ) {
+			if ( $module !== $this->module ) {
+				return $show;
+			}
+			return $this->has_configuration();
 		}
 	}
 }

@@ -62,7 +62,7 @@ class MultisiteToolsAddon extends AddonAbstract {
 	 */
 	private $form_data_class;
 
-	const MDB_VERSION_REQUIRED = '1.9.3b1';
+	const MDB_VERSION_REQUIRED = '1.9.6';
 	protected $blog_id;
 	private $container;
 
@@ -1368,8 +1368,9 @@ class MultisiteToolsAddon extends AddonAbstract {
 	 */
 	protected function update_usermeta_for_imported_users( $queries, $user_ids, $temp_source_usermeta_table, $target_usermeta_table, $blog_id ) {
 		global $wpdb;
+		$prefix = $wpdb->prefix;
 
-		$blog_id_string = 1 === (int) $blog_id ? 'wp_' : "wp_{$blog_id}_";
+		$blog_id_string = 1 === (int) $blog_id ? $prefix : "{$prefix}{$blog_id}_";
 
 		$sql = "SELECT meta_value as value
 			FROM `{$temp_source_usermeta_table}`

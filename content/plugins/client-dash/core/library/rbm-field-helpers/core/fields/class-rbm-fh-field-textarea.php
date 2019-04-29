@@ -24,6 +24,7 @@ class RBM_FH_Field_TextArea extends RBM_FH_Field {
 	 * @var array
 	 */
 	public $defaults = array(
+		'input_class'     => 'regular-text',
 		'rows'            => 4,
 		'wysiwyg'         => false,
 		'wysiwyg_options' => array(
@@ -60,11 +61,12 @@ class RBM_FH_Field_TextArea extends RBM_FH_Field {
 	 * @param array $args Field arguments.
 	 */
 	public static function field( $name, $value, $args = array() ) {
-		
+
 		// This will only run once, so no worries
 		if ( $args['wysiwyg'] ) {
-			
+
 			wp_enqueue_editor();
+			$args['input_class'] = trim( $args['input_class'] . ' wp-editor-area' ); // Fixes sizing problems on the Text Tab
 		}
 
 		do_action( "{$args['prefix']}_fieldhelpers_do_field", 'textarea', $args, $name, $value );

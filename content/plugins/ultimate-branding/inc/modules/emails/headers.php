@@ -25,12 +25,20 @@ if ( ! class_exists( 'Branda_Email_Headers' ) ) {
 		public function __construct() {
 			parent::__construct();
 			$this->set_options();
-			// Register hooks.
+			/**
+			 * Register hooks.
+			 */
 			add_filter( 'ultimatebranding_settings_emails_header', array( $this, 'admin_options_page' ) );
 			add_filter( 'ultimatebranding_settings_emails_header_process', array( $this, 'update' ), 10, 1 );
 			add_filter( 'wp_mail_from', array( $this, 'from_email' ) );
 			add_filter( 'wp_mail_from_name', array( $this, 'from_email_name' ) );
 			add_action( 'init', array( $this, 'upgrade_options' ) );
+			/**
+			 * Add Return-Path header
+			 *
+			 * @since 3.1.0
+			 */
+			add_action( 'phpmailer_init', array( $this, 'add_return_path' ), 10, 1 );
 		}
 
 		/**
@@ -50,7 +58,7 @@ if ( ! class_exists( 'Branda_Email_Headers' ) ) {
 			$data = array(
 				'headers' => array(
 					'email' => $ub_from_email,
-					'name'  => $ub_from_name,
+					'name' => $ub_from_name,
 				),
 			);
 			$this->update_value( $data );
@@ -67,15 +75,37 @@ if ( ! class_exists( 'Branda_Email_Headers' ) ) {
 			$this->module = 'emails-headers';
 			$options = array(
 				'headers' => array(
-					'title'       => __( 'Email From', 'ub' ),
+					'title' => __( 'Email From', 'ub' ),
 					'description' => __( 'Choose the default sender email and sender name for all of your WordPress outgoing emails.', 'ub' ),
-					'fields'      => array(
+					'fields' => array(
 						'email' => array(
 							'label' => __( 'Sender email address', 'ub' ),
-							'type'  => 'email',
+							'type' => 'email',
 						),
-						'name'  => array(
+						'name' => array(
 							'label' => __( 'Sender name', 'ub' ),
+						),
+					),
+				),
+				'return-path' => array(
+					'title' => __( 'Return-Path', 'ub' ),
+					'description' => __( 'Choose whether you want to add as `Return-Path` header.', 'ub' ),
+					'fields' => array(
+						'email' => array(
+							'type' => 'email',
+							'master' => $this->get_name( 'return-path' ),
+							'master-value' => 'different',
+							'display' => 'sui-tab-content',
+						),
+						'choice' => array(
+							'type' => 'sui-tab',
+							'label' => __( 'Return-Path value', 'ub' ),
+							'options' => array(
+								'same' => __( 'Same', 'ub' ),
+								'different' => __( 'Different', 'ub' ),
+							),
+							'default' => 'same',
+							'slave-class' => $this->get_name( 'return-path' ),
 						),
 					),
 				),
@@ -84,6 +114,7 @@ if ( ! class_exists( 'Branda_Email_Headers' ) ) {
 			if ( is_a( $current_user, 'WP_User' ) ) {
 				$options['headers']['fields']['email']['placeholder'] = $current_user->user_email;
 				$options['headers']['fields']['name']['placeholder'] = $current_user->display_name;
+				$options['return-path']['fields']['email']['placeholder'] = $current_user->user_email;
 			}
 			$this->options = $options;
 		}
@@ -116,6 +147,23 @@ if ( ! class_exists( 'Branda_Email_Headers' ) ) {
 				return $value;
 			}
 			return $from;
+		}
+
+		/**
+		 * Set Return-Path email header
+		 *
+		 * @since 3.1.0
+		 */
+		public function add_return_path( $phpmailer ) {
+			$value = $this->get_value( 'return-path', 'choice', 'same' );
+			if ( 'different' === $value ) {
+				$value = $this->get_value( 'return-path', 'email' );
+				if ( ! empty( $value ) ) {
+					$phpmailer->ReturnPath = $value;
+					return;
+				}
+			}
+			$phpmailer->ReturnPath = $phpmailer->From;
 		}
 	}
 }

@@ -544,12 +544,12 @@ function fl_fix_woo_short_description( $content ) {
 	global $post, $fl_woo_description_fix;
 
 	// if there is a short description no need to carry on.
-	if ( '' != $content ) {
+	if ( '' !== $content ) {
 		return $content;
 	}
 
 	// if the product content contains a layout shortcode then extract any css to add to footer later.
-	if ( false !== strpos( $post->post_content, '[fl_builder_insert_layout' ) ) {
+	if ( isset( $post->post_content ) && false !== strpos( $post->post_content, '[fl_builder_insert_layout' ) ) {
 		$dummy   = do_shortcode( $post->post_content );
 		$scripts = preg_match_all( "#<link rel='stylesheet'.*#", $dummy, $out );
 		if ( is_array( $out ) ) {

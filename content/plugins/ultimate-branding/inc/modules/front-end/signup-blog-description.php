@@ -23,7 +23,7 @@ if ( ! class_exists( 'Branda_Signup_Blog_Description' ) ) {
 		}
 
 		protected function set_options() {
-			$description   = $this->sui_notice( __( 'There are no settings for this module. It simply added ability to setup site tagline during creation.', 'ub' ) );	   	 		 		 	   		
+			$description   = $this->sui_notice( __( 'There are no settings for this module. It simply added ability to setup site tagline during creation.', 'ub' ) );
 			$options = array(
 				'description' => array(
 					'title'       => '', // Not title needed.

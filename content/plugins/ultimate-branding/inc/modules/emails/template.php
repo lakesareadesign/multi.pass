@@ -48,6 +48,23 @@ if ( ! class_exists( 'Branda_Email_Template' ) ) {
 		 */
 		private $variables = array();
 
+		/**
+		 * Allowed ID
+		 *
+		 * @since 3.0.6
+		 */
+		private $allowed_ids = array(
+			'disco' => 'disco',
+			'handwritten' => 'handwritten',
+			'hero' => 'hero',
+			'iletter' => 'iletter',
+			'minimise' => 'minimise',
+			'promy' => 'promy',
+			'sidebar' => 'sidebar',
+			'simplicity-dark' => 'simplicity-dark',
+			'simplicity-light' => 'simplicity-light',
+		);
+
 		public function __construct() {
 			parent::__construct();
 			$this->set_options();
@@ -197,7 +214,7 @@ if ( ! class_exists( 'Branda_Email_Template' ) ) {
 				'content' => array(
 					'no-sui-columns' => true,
 					'title' => __( 'HTML Editor', 'ub' ),
-					'description' => __( 'Start editing your chosen e-mail template or writing a new one. You can use the variables provided on top of the editor to insert dynamic data such as email message.', 'ub' ),
+					'description' => __( 'Start editing your chosen email template or writing a new one. You can use the variables provided on top of the editor to insert dynamic data such as email message.', 'ub' ),
 					'fields' => array(
 						'email' => array(
 							'type' => 'html_editor',
@@ -346,6 +363,9 @@ if ( ! class_exists( 'Branda_Email_Template' ) ) {
 			return '';
 		}
 
+		/**
+		 * Get theme data
+		 */
 		private function get_theme_data( $theme_name ) {
 			$theme_data = array();
 			if ( empty( $theme_name ) ) {
@@ -354,13 +374,49 @@ if ( ! class_exists( 'Branda_Email_Template' ) ) {
 			$theme_name = explode( ' ', $theme_name );
 			$theme_name = implode( '', $theme_name );
 			$theme_name = ucfirst( strtolower( $theme_name ) );
+			$theme_data = array();
+			/**
+			 * Get manaualy name to avoid "Path Traversal" Server-side
+			 * Vulnerability
+			 */
+			switch ( $theme_name ) {
+				case 'Disco':
+					$dir = 'Disco';
+					break;
+				case 'Handwritten':
+					$dir = 'Handwritten';
+					break;
+				case 'Hero':
+					$dir = 'Hero';
+					break;
+				case 'Iletter':
+					$dir = 'Iletter';
+					break;
+				case 'Minimise':
+					$dir = 'Minimise';
+					break;
+				case 'Promy':
+					$dir = 'Promy';
+					break;
+				case 'Sidebar':
+					$dir = 'Sidebar';
+					break;
+				case 'Simplicity-dark':
+					$dir = 'Simplicity-dark';
+					break;
+				case 'Simplicity-light':
+					$dir = 'Simplicity-light';
+					break;
+				default:
+					return $theme_name;
+			}
 			/**
 			 * Get Default Variables
 			 */
 			$filename = sprintf(
 				'%s%s/index.php',
 				$this->template_directory,
-				$theme_name
+				$dir
 			);
 			if ( is_file( $filename ) ) {
 				$theme_data = include( $filename );
@@ -386,7 +442,7 @@ if ( ! class_exists( 'Branda_Email_Template' ) ) {
 			}
 			$contents = array();
 			//Get Default Variables
-			$theme_data = $this->get_theme_data( $theme_name );;
+			$theme_data = $this->get_theme_data( $theme_name );
 			//Template Files
 			$build_htmls['header'][] = $theme_data['path'] . '/header.html';
 			$build_htmls['content'][] = $theme_data['path'] . '/template.html';
@@ -407,15 +463,37 @@ if ( ! class_exists( 'Branda_Email_Template' ) ) {
 				$build_styles['default_style'][] = $this->template_directory . 'default_style.css';
 			}
 			$build_theme = array_merge( $build_htmls, $build_styles );
+			$dirname = dirname( __FILE__ );
+			$contents_parts = array(
+				'header' => null,
+				'content' => null,
+				'footer' => null,
+				'style_header' => null,
+			);
 			foreach ( $build_theme as $type => $possible_files ) {
 				foreach ( $possible_files as $possible_file ) {
 					if ( isset( $contents_parts[ $type ] ) && ! empty( $contents_parts[ $type ] ) ) {
 						continue;
 					}
+					/**
+					 * Apply realpath
+					 */
+					$possible_file = realpath( $possible_file );
+					if ( empty( $possible_file ) ) {
+						continue;
+					}
+					if ( ! preg_match( '/\.(css|html)$/', $possible_file ) ) {
+						continue;
+					}
+					/**
+					 * Check is file inside our directory
+					 */
+					$position = strpos( $possible_file, $dirname );
+					if ( 0 !== $position ) {
+						continue;
+					}
 					if ( file_exists( $possible_file ) ) {
-						$handle = fopen( $possible_file, 'r' );
-						$contents_parts[ $type ] = fread( $handle, filesize( $possible_file ) );
-						fclose( $handle );
+						$contents_parts[ $type ] = file_get_contents( $possible_file );
 						if ( strpos( $type, 'style' ) !== false ) {
 							$contents_parts[ $type ] = preg_replace( '/^\s*\/\*[^(\*\/)]*\*\//m', '', $contents_parts[ $type ] );
 						}
@@ -470,7 +548,7 @@ if ( ! class_exists( 'Branda_Email_Template' ) ) {
 			foreach ( $possible_settings as $possible_setting ) {
 				$id = 'BUILDER_DEFAULT_' . $possible_setting;
 				if (
-					isset( $theme_data[$id] )
+					isset( $theme_data[ $id ] )
 				) {
 					$this->settings[] = $possible_setting;
 				}
@@ -478,15 +556,16 @@ if ( ! class_exists( 'Branda_Email_Template' ) ) {
 			foreach ( $this->settings as $setting ) {
 				$value = '';
 				$id = 'BUILDER_DEFAULT_' . $setting;
-				if ( isset( $theme_data[ $id ] )) {
+				if ( isset( $theme_data[ $id ] ) ) {
+					$value = $theme_data[ $id ];
 					if (
 						'BG_IMAGE' == $setting
-						&& !empty( $theme_data[ $id ] )
+						&& ! empty( $theme_data[ $id ] )
 					) {
 						$value = sprintf(
 							'%s/%s',
 							$theme_data['url'],
-							$theme_data[$id]
+							$theme_data[ $id ]
 						);
 					}
 				}
@@ -1063,10 +1142,14 @@ if ( ! class_exists( 'Branda_Email_Template' ) ) {
 			$nonce_action = $this->get_nonce_action( 'template' );
 			$this->check_input_data( $nonce_action, array( 'id' ) );
 			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+			if ( ! isset( $this->allowed_ids[ $id ] )  ) {
+				wp_send_json_error();
+			}
+			$theme_id = $this->allowed_ids[ $id ];
 			$data = array(
-				'id' => $id,
-				'content' => $this->get_contents_elements( $id ),
-				'screenshot' => $this->get_theme_screenshot( $id ),
+				'id' => $theme_id,
+				'content' => $this->get_contents_elements( $theme_id ),
+				'screenshot' => $this->get_theme_screenshot( $theme_id ),
 			);
 			wp_send_json_success( $data );
 		}

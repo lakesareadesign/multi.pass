@@ -75,8 +75,14 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 			// If module ready, register hooks.
 			if ( $this->is_ready ) {
 				add_filter( 'ultimatebranding_settings_db_error_page_process', array( $this, 'update' ) );
-				add_filter( 'ultimatebranding_settings_db_error_page_process', array( $this, 'update_file' ), PHP_INT_MAX );
 			}
+			/**
+			 * Regenerate `db-error.php` file after value update.
+			 *
+			 * @since 3.1.0
+			 */
+			add_action( 'update_option_'.$this->option_name, array( $this, 'update_option_action' ), 10, 3 );
+			add_action( 'update_site_option_'.$this->option_name, array( $this, 'update_site_option_action' ), 10, 4 );
 			/**
 			 * Add related config.
 			 *
@@ -101,6 +107,9 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 				return;
 			}
 			if ( isset( $value['design'] ) ) {
+				return;
+			}
+			if ( isset( $value['plugin_version'] ) ) {
 				return;
 			}
 			// Get default options.
@@ -225,6 +234,24 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 		}
 
 		/**
+		 * Regenerate file after value update for single site.
+		 *
+		 * @since 3.1.0
+		 */
+		public function update_option_action( $old_value, $value, $option_name ) {
+			$this->update_file( $value );
+		}
+
+		/**
+		 * Regenerate file after value update for multisite.
+		 *
+		 * @since 3.1.0
+		 */
+		public function update_site_option_action( $option_name, $value, $old_value, $network_id ) {
+			$this->update_file( $value );
+		}
+
+		/**
 		 * Create or update `wp-content/db-error.php` is possible.
 		 *
 		 * @param bool $state Current state.
@@ -233,12 +260,12 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 		 *
 		 * @return bool
 		 */
-		public function update_file( $state ) {
+		private function update_file( $value ) {
+			$this->data = $value;
 			$javascript = $php = $css = $head = $logo = '';
 			// Set data.
-			$template     = $this->get_template();
+			$template = $this->get_template();
 			$body_classes = array( 'ultimate-branding-settings-db-error-page' );
-			$this->set_data();
 			/**
 			 * Title
 			 */
@@ -256,6 +283,7 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 			if ( empty( $content ) ) {
 				$content = wpautop( __( 'We\'re currently experiencing technical issues &mdash; Please check back soon...', 'ub' ) );
 			}
+			$content = $this->html_background_common( false ) . $content;
 			// Template.
 			$php = '<?php';
 			$php .= PHP_EOL;
@@ -311,7 +339,7 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 				$css .= $logo_css;
 			}
 			// Common: Social Media.
-			$result       = $this->common_options_social_media();
+			$result = $this->common_options_social_media();
 			$social_media = $result['social_media'];
 			$body_classes = array_merge( $body_classes, $result['body_classes'] );
 			$head .= $result['head'];
@@ -376,10 +404,6 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 			$template = '/admin/modules/db-error-page/template';
 			$template = $this->render( $template, $args, true );
 			$result = file_put_contents( $this->db_error_file, $template );
-			if ( false === $result ) {
-				return $result;
-			}
-			return $state;
 		}
 
 		/**
@@ -388,7 +412,7 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 		 * @since 2.0.0
 		 */
 		private function check() {
-			$this->db_error_dir  = dirname( get_theme_root() );
+			$this->db_error_dir = dirname( get_theme_root() );
 			$this->db_error_file = $this->db_error_dir . '/db-error.php';
 			if ( ! is_dir( $this->db_error_dir ) || ! is_writable( $this->db_error_dir ) ) {
 				return;
@@ -398,7 +422,7 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 				return;
 			}
 			$this->is_ready_file = true;
-			$this->is_ready      = true;
+			$this->is_ready = true;
 		}
 
 		/**
@@ -422,13 +446,13 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 						sprintf( '<code>%s</code>', $this->db_error_file )
 					);
 				}
-				$options       = array(
+				$options = array(
 					'settings' => array(
 						'fields' => array(
 							'message' => array(
 								'hide-th' => true,
-								'type'    => 'description',
-								'value'   => $uba->get_inline_sui_notice( $value, 'error' ),
+								'type' => 'description',
+								'value' => $uba->get_inline_sui_notice( $value, 'error' ),
 							),
 						),
 					),
@@ -437,39 +461,56 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 				return;
 			}
 			// Defaults.
-			$defaults     = array(
+			$defaults = array(
 				'error_message' => array(
-					'content_title'   => __( '503 Service Temporarily Unavailable', 'ub' ),
+					'content_title' => __( '503 Service Temporarily Unavailable', 'ub' ),
 					'content_content' => wpautop( __( 'We\'re currently experiencing technical issues connecting to the database. Please check back soon.', 'ub' ) ),
 				),
 			);
 			$current_user = wp_get_current_user();
 			// Options.
 			$options = array(
+				'preview' => array(
+					'title' => __( 'Preview', 'ub' ),
+					'description' => __( 'You can preview your custom error page here. Note that the preview keeps updating as you save your changes.', 'ub' ),
+					'fields' => array(
+						'preview' => array(
+							'type' => 'link',
+							'href' => content_url( 'db-error.php' ),
+							'value' => __( 'Preview', 'ub' ),
+							'icon' => 'eye',
+							'classes' => array(
+								'sui-button',
+								$this->get_name( 'preview' ),
+							),
+							'target' => $this->get_name( 'preview' ),
+						),
+					),
+				),
 				'content' => array(
-					'title'       => __( 'Content', 'ub' ),
+					'title' => __( 'Content', 'ub' ),
 					'description' => __( 'Choose the behaviour when a visitor encounters DB Error while browsing your website.', 'ub' ),
-					'show-as'     => 'accordion',
-					'fields'      => $this->get_options_fields(
+					'show-as' => 'accordion',
+					'fields' => $this->get_options_fields(
 						'content',
 						array( 'logo', 'error_message', 'social', 'reset' ),
 						$defaults
 					),
 				),
-				'design'  => array(
-					'title'       => __( 'Design', 'ub' ),
+				'design' => array(
+					'title' => __( 'Design', 'ub' ),
 					'description' => __( 'Customize the design of each element of your DB Error screen.', 'ub' ),
-					'show-as'     => 'accordion',
-					'fields'      => $this->get_options_fields(
+					'show-as' => 'accordion',
+					'fields' => $this->get_options_fields(
 						'design',
 						array( 'logo', 'background', 'error_message', 'social', 'document', 'reset' )
 					),
 				),
-				'colors'  => array(
-					'title'       => __( 'Colors', 'ub' ),
+				'colors' => array(
+					'title' => __( 'Colors', 'ub' ),
 					'description' => __( 'Adjust the default colour combinations as per your liking.', 'ub' ),
-					'show-as'     => 'accordion',
-					'fields'      => $this->get_options_fields(
+					'show-as' => 'accordion',
+					'fields' => $this->get_options_fields(
 						'colors',
 						array( 'logo', 'error_message', 'document', 'reset' )
 					),
@@ -487,31 +528,46 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 				/**
 				 * Settings
 				 */
-				'mail'    => array(
-					'title'       => __( 'Behaviour', 'ub' ),
+				'mail' => array(
+					'title' => __( 'Behaviour', 'ub' ),
 					'description' => __( 'Choose the behaviour when a visitor encounters DB Error while browsing your website.', 'ub' ),
-					'fields'      => array(
-						'to'   => array(
-							'label'        => __( 'Email address', 'ub' ),
-							'display'      => 'sui-tab-content',
-							'master'       => $this->get_name( 'send' ),
+					'fields' => array(
+						'to' => array(
+							'label' => __( 'Email address', 'ub' ),
+							'display' => 'sui-tab-content',
+							'master' => $this->get_name( 'send' ),
 							'master-value' => 'on',
-							'default'      => $current_user->user_email,
+							'default' => $current_user->user_email,
 						),
 						'send' => array(
-							'type'        => 'sui-tab',
-							'label'       => __( 'Send alert email', 'ub' ),
+							'type' => 'sui-tab',
+							'label' => __( 'Send alert email', 'ub' ),
 							'description' => __( 'Send an alert email regarding the occurrence of db error on the website.', 'ub' ),
-							'options'     => array(
+							'options' => array(
 								'off' => __( 'Disable', 'ub' ),
-								'on'  => __( 'Enable', 'ub' ),
+								'on' => __( 'Enable', 'ub' ),
 							),
-							'default'     => 'off',
+							'default' => 'off',
 							'slave-class' => $this->get_name( 'send' ),
 						),
 					),
 				),
 			);
+			/**
+			 * Check db-error.php exists
+			 */
+
+			$file = WP_CONTENT_DIR . '/db-error.php';
+			if ( ! is_file( $file ) || ! is_readable( $file ) ) {
+				$options['preview']['fields']['preview'] = array(
+					'type' => 'description',
+					'value' => __( 'Preview is not availability. Save settings first!', 'ub' ),
+					'classes' => array(
+						'sui-notice',
+						'inline',
+					),
+				);
+			}
 			$this->options = $options;
 		}
 
@@ -527,22 +583,22 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 		public function get_options_fields_design_error_message( $defaults = array() ) {
 			$data = array(
 				'text_aligment' => array(
-					'type'      => 'sui-tab-icon',
-					'label'     => __( 'Title text alignment', 'ub' ),
-					'options'   => array(
-						'left'   => 'align-left',
+					'type' => 'sui-tab-icon',
+					'label' => __( 'Title text alignment', 'ub' ),
+					'options' => array(
+						'left' => 'align-left',
 						'center' => 'align-center',
-						'right'  => 'align-right',
+						'right' => 'align-right',
 					),
-					'default'   => is_rtl() ? 'right' : 'left',
+					'default' => is_rtl() ? 'right' : 'left',
 					'accordion' => array(
 						'begin' => true,
 						'title' => __( 'Error Message', 'ub' ),
-						'end'   => true,
+						'end' => true,
 					),
-					'group'     => array(
+					'group' => array(
 						'begin' => true,
-						'end'   => true,
+						'end' => true,
 					),
 				),
 			);
@@ -569,26 +625,26 @@ if ( ! class_exists( 'Branda_DB_Error_Page' ) ) {
 		 */
 		public function get_options_fields_colors_error_message( $defaults = array() ) {
 			$data = array(
-				'content_title'   => array(
-					'type'      => 'color',
-					'label'     => __( 'Title', 'ub' ),
-					'default'   => '#000',
+				'content_title' => array(
+					'type' => 'color',
+					'label' => __( 'Title', 'ub' ),
+					'default' => '#000',
 					'accordion' => array(
 						'begin' => true,
 						'title' => __( 'Error Message', 'ub' ),
 					),
-					'group'     => array(
+					'group' => array(
 						'begin' => true,
 					),
 				),
 				'content_content' => array(
-					'type'      => 'color',
-					'label'     => __( 'Description', 'ub' ),
-					'default'   => '#888',
+					'type' => 'color',
+					'label' => __( 'Description', 'ub' ),
+					'default' => '#888',
 					'accordion' => array(
 						'end' => true,
 					),
-					'group'     => array(
+					'group' => array(
 						'end' => true,
 					),
 				),

@@ -173,7 +173,19 @@ class WPLeadInAdmin {
    */
   function leadin_add_iframe() {
     global $wp_version;
-    echo '<div id="leadin" class="' . ( $wp_version < 3.8 && ! is_plugin_active( 'mp6/mp6.php' ) ? 'pre-mp6' : '' ) . '"></div>';
+    $error_message = "";
+
+    if ( version_compare( phpversion(), LEADIN_REQUIRED_PHP_VERSION, '<' ) ) {
+      $error_message = "HubSpot All-In-One Marketing ".LEADIN_PLUGIN_VERSION." requires PHP ".LEADIN_REQUIRED_PHP_VERSION." or higher. Please upgrade WordPress first.";
+    } else if ( version_compare( $wp_version, LEADIN_REQUIRED_WP_VERSION, '<' ) ) {
+      $error_message = "HubSpot All-In-One Marketing ".LEADIN_PLUGIN_VERSION." requires PHP ".LEADIN_REQUIRED_WP_VERSION." or higher. Please upgrade WordPress first.";
+    }
+
+    if ($error_message) {
+      echo "<div class='notice notice-warning'><p>$error_message</p></div>";
+    } else {
+      echo '<div id="leadin"></div>';
+    }
   }
 
   // =============================================
@@ -227,8 +239,10 @@ class WPLeadInAdmin {
 
     wp_register_script( 'leadin-bridge-app', leadin_get_resource_url( '/bundle/app.js' ), array( 'backbone' ), false, true );
     wp_register_style( 'leadin-bridge-css', leadin_get_resource_url( '/bundle/app.css' ) );
+    wp_register_script( 'leadin-js', LEADIN_PATH.'/scripts/leadin.js', false, false, true );
 
     wp_enqueue_script( 'leadin-bridge-app' );
+    wp_enqueue_script( 'leadin-js' );
   }
 
   // =============================================

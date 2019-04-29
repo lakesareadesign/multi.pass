@@ -1,46 +1,44 @@
 <?php
-/*
-Plugin Name: Genesis Simple Share
-Plugin URI:
+/**
+ * Plugin Name: Genesis Simple Share
+ * Plugin URI: https://wordpress.org/plugins/genesis-simple-share/
+ * Description: A simple sharing plugin using the Share script.
+ * Version: 1.1.3
+ * Author: StudioPress
+ * Author URI: https://www.studiopress.com
+ *
+ * Text Domain: genesis-simple-share
+ * Domain Path /languages/
+ *
+ * @package genesis-simple-share
+ */
 
-Description: A simple sharing plugin using the Share script.
-
-Version: 1.1.1
-
-Author: StudioPress
-Author URI: http://www.studiopress.com
-
-Text Domain: genesis-simple-share
-Domain Path /languages/
-*/
-
-//* Prevent direct access to the plugin
 if ( ! defined( 'ABSPATH' ) ) {
-    die( __( 'Sorry, you are not allowed to access this page directly.', 'genesis-simple-share' ) );
+	die( esc_html__( 'Sorry, you are not allowed to access this page directly.', 'genesis-simple-share' ) );
 }
 
-define( 'GENESIS_SIMPLE_SHARE_LIB', dirname( __FILE__ ) . '/lib/' );
+define( 'GENESIS_SIMPLE_SHARE_VERSION', '1.1.2' );
+define( 'GENESIS_SIMPLE_SHARE_PATH', plugin_dir_path( __FILE__ ) );
+define( 'GENESIS_SIMPLE_SHARE_INC', plugin_dir_path( __FILE__ ) . '/includes/' );
+define( 'GENESIS_SIMPLE_SHARE_URL', plugins_url( '', __FILE__ ) );
 
 add_action( 'genesis_init', 'genesis_simple_share_init', 99 );
+
 /**
  * Loads plugin text domain and required files. Uses genesis_init to ensure Genesis functions are available
  *
  * @since 0.1.0
  *
- * @uses GENESIS_SIMPLE_SHArE_LIB
- *
+ * @uses GENESIS_SIMPLE_SHARE_INC
  */
 function genesis_simple_share_init() {
 
-	//* Load textdomain for translation
-    load_plugin_textdomain( 'genesis-simple-share', false, basename( dirname( __FILE__ ) ) . '/languages/' );
+	load_plugin_textdomain( 'genesis-simple-share', false, GENESIS_SIMPLE_SHARE_PATH . '/languages/' );
 
 	if ( is_admin() && class_exists( 'Genesis_Admin_Boxes' ) ) {
-		require_once( GENESIS_SIMPLE_SHARE_LIB . 'admin.php' );
-		require_once( GENESIS_SIMPLE_SHARE_LIB . 'post-meta.php' );
+		require_once GENESIS_SIMPLE_SHARE_INC . 'class-genesis-simple-share-boxes.php';
+		require_once GENESIS_SIMPLE_SHARE_INC . 'class-genesis-simple-share-entry-meta.php';
+	} else {
+		require_once GENESIS_SIMPLE_SHARE_INC . 'class-genesis-simple-share-front-end.php';
 	}
-	else {
-		require_once( GENESIS_SIMPLE_SHARE_LIB . 'front-end.php' );
-	}
-
 }

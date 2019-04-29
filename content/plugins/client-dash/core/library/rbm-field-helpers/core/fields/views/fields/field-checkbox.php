@@ -29,7 +29,7 @@ defined( 'ABSPATH' ) || die();
                            id="<?php echo "{$args['id']}_{$i}"; ?>"
                            value="<?php echo $check_value; ?>"
                            class="<?php echo $args['input_class']; ?>"
-						<?php echo in_array( $check_value, $value ) ? 'checked' : ''; ?>
+						<?php echo is_array( $value ) && in_array( $check_value, $value ) ? 'checked' : ''; ?>
 						<?php RBM_FH_Field::input_atts( $args ); ?>
                     />
                 </div>

@@ -54,41 +54,9 @@
 .branda-admin-page #branda-dashboard-widget-modules span.branda-module-status.module-status-active {
   background-color: #17a8e3;
 }
-.branda-admin-page #branda-dashboard-search-no-results .ub-empty {
+.branda-admin-page #branda-dashboard-search-no-results .branda-empty {
   padding-top: 50px;
   padding-bottom: 60px;
-}
-.branda-admin-page #branda-welcome.branda-welcome-step1 .sui-box {
-  padding-bottom: 160px;
-  background-image: url(../images/branda/happy@2x.png);
-  background-repeat: no-repeat;
-  background-position: 50% 100%;
-  background-size: 127px 163px;
-}
-.branda-admin-page #branda-welcome.branda-welcome-step1 .sui-box .sui-box-footer {
-  padding-bottom: 20px;
-}
-.branda-admin-page #branda-welcome.branda-welcome-step1 .sui-box .sui-box-footer .sui-modal-close {
-  text-transform: none;
-  border: 0;
-}
-.branda-admin-page #branda-welcome.branda-welcome-step1 .branda-welcome-footer-step2 {
-  display: none;
-}
-.branda-admin-page #branda-welcome.branda-welcome-step2 .sui-box .sui-box-header {
-  background-image: url(../../assets/images/branda/circle-thumb@2x.png);
-}
-.branda-admin-page #branda-welcome.branda-welcome-step2 .sui-box-footer .sui-actions {
-  margin-left: auto;
-  margin-right: auto;
-}
-.branda-admin-page #branda-welcome.branda-welcome-step2 .sui-box-body .sui-row {
-  border: 1px solid #e6e6e6;
-  border-radius: 4px;
-  padding: 30px;
-}
-.branda-admin-page #branda-welcome.branda-welcome-step2 .branda-welcome-footer-step1 {
-  display: none;
 }
 .branda-admin-page #branda-manage-all-modules .sui-box-header,
 .branda-admin-page #branda-welcome.branda-welcome-step2 .sui-box-header {
@@ -174,6 +142,22 @@
 .branda-admin-page .sui-wrap.sui-wrap-branda.sui-color-accessible #branda-dashboard-widget-modules span.branda-module-status.module-status-active {
   background-color: #000000;
 }
+.branda-admin-page .sui-wrap.sui-wrap-branda.no-branda #branda-manage-all-modules .sui-box-header,
+.branda-admin-page .sui-wrap.sui-wrap-branda.no-branda #branda-welcome.branda-welcome-step2 .sui-box-header {
+  background-image: none;
+  padding-top: 15px;
+}
+.branda-admin-page .sui-wrap.sui-wrap-branda.no-branda.branda-import-import .sui-header {
+  background-image: none;
+  padding-top: 15px;
+}
+.branda-admin-page .sui-wrap.sui-wrap-branda.no-branda.branda-import-import .sui-header.branda-import-error {
+  background-image: none;
+  padding-top: 15px;
+}
+.branda-admin-page #wpbody-content .sui-wrap.sui-wrap-branda.no-branda .sui-unbranded .sui-summary-segment {
+  padding-left: 15px;
+}
 
 
-/* 133620-1551987165-au */
+/* 133620-1556565898-au */

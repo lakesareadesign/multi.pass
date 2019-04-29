@@ -44,8 +44,14 @@ class RBM_FH_Field_DatePicker extends RBM_FH_Field {
 
 		// Cannot use function in property declaration
 		$this->defaults['format'] = get_option( 'date_format', 'F j, Y' );
+		
+		$this->defaults['datepicker_args']['dateFormat'] = RBM_FH_Field_DateTimePicker::php_date_to_jquery_ui( $this->defaults['format'] );
 
 		$args['default'] = current_time( $this->defaults['format'] );
+		
+		if ( ! isset( $args['datepicker_args'] ) ) {
+			$args['datepicker_args'] = array();
+		}
 
 		// Default options
 		$args['datepicker_args'] = wp_parse_args( $args['datepicker_args'], $this->defaults['datepicker_args'] );

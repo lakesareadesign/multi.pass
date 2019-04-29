@@ -324,11 +324,11 @@ function fl_export_wp( $post_ids = array() ) {
 		$wp_query->in_the_loop = true;
 
 		// Fetch 20 posts at a time rather than loading the entire table into memory.
+		// @codingStandardsIgnoreStart
 		while ( $next_posts = array_splice( $post_ids, 0, 20 ) ) {
 			$where = 'WHERE ID IN (' . join( ',', $next_posts ) . ')';
-		// @codingStandardsIgnoreStart
-		$posts = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} $where" );
-		// @codingStandardsIgnoreEnd
+			$posts = $wpdb->get_results( "SELECT * FROM {$wpdb->posts} $where" );
+			// @codingStandardsIgnoreEnd
 
 			// Begin Loop.
 			foreach ( $posts as $post ) {

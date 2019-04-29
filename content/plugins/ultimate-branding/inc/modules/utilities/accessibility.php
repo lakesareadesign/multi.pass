@@ -53,20 +53,22 @@ if ( ! class_exists( 'Branda_Accessibility' ) ) {
 		 */
 		protected function set_options() {
 			$options = array(
-				'description'   => array(
+				'description' => array(
 					'content' => __( 'Enable support for any accessibility enhancements available in the plugin interface.', 'ub' ),
 				),
 				'accessibility' => array(
-					'title'       => __( 'High Contrast Mode', 'ub' ),
+					'title' => __( 'High Contrast Mode', 'ub' ),
 					'description' => __( 'Increase the visibility and accessibility of the elements and components of the plugin to meet WCAG AAA requirements.', 'ub' ),
-					'fields'      => array(
+					'fields' => array(
 						'high_contrast' => array(
-							'checkbox_label'       => __( 'Enable high contrast mode', 'ub' ),
-							'description'          => '',
-							'type'                 => 'checkbox',
-							'classes'              => array( 'switch-button' ),
-							'description-position' => 'bottom',
-							'default'              => 'off',
+							'checkbox_label' => __( 'Enable high contrast mode', 'ub' ),
+							'description' => array(
+								'content' => '',
+								'position' => 'bottom',
+							),
+							'type' => 'checkbox',
+							'classes' => array( 'switch-button' ),
+							'default' => 'off',
 						),
 					),
 				),

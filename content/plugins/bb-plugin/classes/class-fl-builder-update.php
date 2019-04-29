@@ -90,6 +90,11 @@ final class FLBuilderUpdate {
 			self::v_1_10();
 		}
 
+		// Update to 1.10 or greater.
+		if ( version_compare( $saved_version, '2.2.2.6', '<' ) ) {
+			self::v_2226();
+		}
+
 		// Clear all asset cache.
 		FLBuilderModel::delete_asset_cache_for_all_posts();
 
@@ -561,6 +566,15 @@ final class FLBuilderUpdate {
 		}
 
 		return $data;
+	}
+
+	static private function v_2226() {
+
+		if ( false !== get_option( 'fl_debug_mode', false ) ) {
+			$current = get_option( 'fl_debug_mode' );
+			set_transient( 'fl_debug_mode', $current, 172800 ); // 48 hours
+			delete_option( 'fl_debug_mode' );
+		}
 	}
 }
 

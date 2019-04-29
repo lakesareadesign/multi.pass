@@ -1,4 +1,16 @@
 <?php ShareaholicAdmin::show_header(); ?>
+
+<script>
+window.ShareaholicConfig = {
+  apiHost: "<?php echo Shareaholic::API_URL ?>",
+  serviceHost: "<?php echo Shareaholic::URL ?>",
+  assetHost: "<?php echo ShareaholicUtilities::asset_url_admin() ?>",
+  assetFolders: true,
+  origin: "wp_plugin",
+  language: "<?php echo strtolower(get_bloginfo('language')) ?>"
+};
+</script>
+
 <div class='wrap'>
 <h2><?php echo sprintf(__('App Manager', 'shareaholic')); ?></h2>
 

@@ -650,12 +650,12 @@ final class FLBuilderAdminSettings {
 		if ( ! FLBuilderAdmin::current_user_can_access_settings() ) {
 			return;
 		} elseif ( isset( $_POST['fl-debug-nonce'] ) && wp_verify_nonce( $_POST['fl-debug-nonce'], 'debug' ) ) {
-			$debugmode = get_option( 'fl_debug_mode', false );
+			$debugmode = get_transient( 'fl_debug_mode' );
 
 			if ( ! $debugmode ) {
-				update_option( 'fl_debug_mode', md5( rand() ) );
+				set_transient( 'fl_debug_mode', md5( rand() ), 172800 ); // 48 hours 172800
 			} else {
-				delete_option( 'fl_debug_mode' );
+				delete_transient( 'fl_debug_mode' );
 			}
 		}
 	}

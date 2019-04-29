@@ -14,7 +14,7 @@ final class FLUpdater {
 	 * @access private
 	 * @var string $_updates_api_url
 	 */
-	static private $_updates_api_url = 'http://updates.wpbeaverbuilder.com/';
+	static private $_updates_api_url = 'https://updates.wpbeaverbuilder.com/';
 
 	/**
 	 * An internal array of data for each product.

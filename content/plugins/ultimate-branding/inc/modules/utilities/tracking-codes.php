@@ -22,10 +22,16 @@ if ( ! class_exists( 'Branda_Tracking_Codes' ) ) {
 			add_filter( 'ultimatebranding_settings_tracking_codes', array( $this, 'admin_options_page' ) );
 			/**
 			 * AJAX
+			 *
+			 * @since 3.0.0
 			 */
 			add_action( 'wp_ajax_branda_tracking_codes_save', array( $this, 'ajax_save' ) );
 			add_action( 'wp_ajax_branda_tracking_codes_delete', array( $this, 'ajax_delete' ) );
 			add_action( 'wp_ajax_branda_tracking_codes_bulk_delete', array( $this, 'ajax_bulk_delete' ) );
+			/**
+			 * @since 3.0.1
+			 */
+			add_action( 'wp_ajax_branda_admin_panel_tips_reset', array( $this, 'ajax_reset' ) );
 			/**
 			 * frontend
 			 */
@@ -86,7 +92,7 @@ if ( ! class_exists( 'Branda_Tracking_Codes' ) ) {
 					 */
 					if ( 'filters_active' === $subkey ) {
 						$subkey = 'filters_filter';
-                    }
+					}
 					$subkey = preg_replace( '/^(filters|tracking|sites)_/', '', $subkey );
 					$new[ $subkey ] = $value;
 				}
@@ -470,16 +476,18 @@ if ( ! class_exists( 'Branda_Tracking_Codes' ) ) {
 				$default_taxonomies[] = $taxonomy->labels->singular_name;
 				switch ( $taxonomy->name ) {
 					case 'post_format':
-					break;
+						break;
 					case 'post_tag':
 						/**
-					 * this a legacy and backward compatibility
-					 */
+						* this a legacy and backward compatibility
+						*/
 						$archive_type['tags'] = sprintf( __( '%s Archives', 'ub' ), $taxonomy->labels->singular_name );
-					break;
+						break;
 					case 'category':
 						$archive_type[ $taxonomy->name ] = sprintf( __( '%s Archives', 'ub' ), $taxonomy->labels->singular_name );
-					break;
+						break;
+					default:
+						break;
 				}
 			}
 			/**
@@ -501,6 +509,9 @@ if ( ! class_exists( 'Branda_Tracking_Codes' ) ) {
 			}
 			if ( isset( $codes['plugin_version'] ) ) {
 				unset( $codes['plugin_version'] );
+			}
+			if ( isset( $codes['imported'] ) ) {
+				unset( $codes['imported'] );
 			}
 			/**
 			 * sanitize
@@ -557,7 +568,7 @@ if ( ! class_exists( 'Branda_Tracking_Codes' ) ) {
 					'a11y-dialog-show' => $this->get_name( 'new' ),
 				),
 				'icon' => 'plus',
-				'text' => __( 'Insert Code', 'ub' ),
+				'text' => _x( 'Add Tracking Code', 'button', 'ub' ),
 				'sui' => 'blue',
 			);
 			return $this->button( $args );
@@ -647,35 +658,30 @@ if ( ! class_exists( 'Branda_Tracking_Codes' ) ) {
 			 */
 			$footer = '';
 			$button_args = array(
-				'icon' => 'undo',
-				'text' => __( 'Reset', 'ub' ),
 				'sui' => 'ghost',
-				'class' => $this->get_name( 'reset' ),
+				'text' => __( 'Cancel', 'ub' ),
+				'data' => array(
+					'a11y-dialog-hide' => $this->get_name( 'new' ),
+				),
 			);
-			if ( 'new' === $args['id'] ) {
-				$button_args = array(
-					'sui' => 'ghost',
-					'text' => __( 'Cancel', 'ub' ),
-					'data' => array(
-						'a11y-dialog-hide' => $this->get_name( 'new' ),
-					),
-				);
-			}
 			$footer .= $this->button( $button_args );
 			$button_args = array(
 				'data' => array(
 					'nonce' => $this->get_nonce_value(),
 				),
-				'text' => 'new' === $args['id'] ? __( 'Insert', 'ub' ):__( 'Save', 'ub' ),
+				'text' => 'new' === $args['id'] ? __( 'Add', 'ub' ):__( 'Update', 'ub' ),
 				'class' => $this->get_name( 'save' ),
 			);
+			if ( 'new' === $args['id'] ) {
+				$button_args['icon'] = 'check';
+			}
 			$footer .= $this->button( $button_args );
 			/**
 			 * Dialog
 			 */
 			$dialog_args = array(
 				'id' => $this->get_name( $args['id'] ),
-				'title' => 'new' === $args['id']? __( 'Insert Code', 'ub' ) : __( 'Edit Code', 'ub' ),
+				'title' => 'new' === $args['id']? __( 'Add Tracking Code', 'ub' ) : __( 'Edit Tracking Code', 'ub' ),
 				'content' => $content,
 				'footer' => array(
 					'content' => $footer,
@@ -725,7 +731,7 @@ if ( ! class_exists( 'Branda_Tracking_Codes' ) ) {
 			$message = esc_html__( 'Tracking Code %s was updated.', 'ub' );
 			if ( 'new' === $id ) {
 				$message = esc_html__( 'Tracking Code %s was created.', 'ub' );
-				$id = md5( serialize( $branda ).time() );
+				$id = $this->generate_id( $branda );
 			}
 			$this->uba->add_message(
 				array(
@@ -850,6 +856,22 @@ if ( ! class_exists( 'Branda_Tracking_Codes' ) ) {
 				}
 			}
 			return $args;
+		}
+
+		/**
+		 * Save code
+		 *
+		 * @since 3.0.1
+		 */
+		public function ajax_reset() {
+			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+			$nonce_action = $this->get_nonce_action( 'reset', $id );
+			$this->check_input_data( $nonce_action );
+			$data = $this->local_get_value();
+			if ( isset( $data[ $id ] ) ) {
+				wp_send_json_success( $data[ $id ] );
+			}
+			wp_send_json_error();
 		}
 	}
 }

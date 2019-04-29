@@ -55,4 +55,3 @@ class Login_Duration_Service extends Rule_Service implements IRule_Service {
 		}
 	}
 }
-?>

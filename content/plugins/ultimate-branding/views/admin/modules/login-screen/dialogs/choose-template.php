@@ -7,7 +7,7 @@
 <?php
 foreach ( $elements as $k => $value ) {
 	$classes = array(
-		'branda-login-screen-li'.
+		'branda-login-screen-li',
 	   sprintf( 'branda-login-screen-template-%s', $k ),
 	);
 	if ( $current === $value['id'] ) {

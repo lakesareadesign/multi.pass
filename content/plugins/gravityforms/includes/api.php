@@ -299,9 +299,9 @@ class GFAPI {
 	 * @uses GFFormsModel::get_form_table_name()
 	 * @uses GFFormsModel::get_form_db_columns()
 	 *
-	 * @param array $form_ids     The IDs of the forms to update.
-	 * @param array $property_key The name of the column in the database e.g. is_trash, is_active, title.
-	 * @param array $value        The new value.
+	 * @param array  $form_ids     The IDs of the forms to update.
+	 * @param string $property_key The name of the column in the database e.g. is_trash, is_active, title.
+	 * @param mixed  $value        The new value.
 	 *
 	 * @return mixed Either a WP_Error instance or the result of the query
 	 */

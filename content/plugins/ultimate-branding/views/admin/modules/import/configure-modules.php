@@ -5,7 +5,7 @@
 	</div>
 </div>
 <form method="post" action="<?php echo esc_url( $action ); ?>">
-	<section id="sui-branda-content" class="sui-container">
+	<section id="sui-branda-content" class="sui-container branda-avoid-flag">
 		<input type="hidden" name="page" value="branding_group_data"/>
 		<input type="hidden" name="module" value="import"/>
 		<input type="hidden" name="step" value="confirm"/>

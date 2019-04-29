@@ -11,7 +11,7 @@ if ( $query->have_posts() ) :
 	$paged = ( FLBuilderLoop::get_paged() > 0 ) ? ' fl-paged-scroll-to' : '';
 
 	?>
-	<div class="fl-post-<?php echo $module->get_layout_slug() . $paged; ?>"<?php echo FLPostGridModule::print_schema( ' itemscope="itemscope" itemtype="https://schema.org/Blog")' ); ?>>
+	<div class="fl-post-<?php echo $module->get_layout_slug() . $paged; ?>"<?php echo FLPostGridModule::print_schema( ' itemscope="itemscope" itemtype="https://schema.org/Blog"' ); ?>>
 	<?php
 
 	if ( 'li' == $module->get_posts_container() ) :

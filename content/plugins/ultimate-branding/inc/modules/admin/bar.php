@@ -22,11 +22,20 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		protected $option_name = 'ub_admin_bar';
 
 		/**
-		 * User roles.
+		 * Single item defaults
 		 *
-		 * @var array
+		 * @since 3.1.0
 		 */
-		private $roles = array();
+		private $item_defaults = array(
+			'id' => 'new',
+			'title' => '',
+			'icon' => '',
+			'url' => 'none',
+			'custom' => '',
+			'target' => 'current',
+			'roles' => array(),
+			'mobile' => 'show',
+		);
 
 		/**
 		 * Branda_Admin_Bar constructor.
@@ -35,16 +44,29 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 			parent::__construct();
 			// Set module options.
 			$this->set_options();
+			/**
+			 * check visibility & stop doing if it is not needed.
+			 *
+			 * @since 3.1.0
+			 */
+			$value = is_admin();
+			if ( ! $value ) {
+				global $show_admin_bar;
+				if ( ! $show_admin_bar ) {
+					$value = $this->get_value( 'visibility', 'visibility' );
+					if ( 'hidden' === $value ) {
+						return;
+					}
+				}
+			}
 			// Common module hooks.
 			add_filter( 'ultimatebranding_settings_admin_bar', array( $this, 'admin_options_page' ) );
 			add_filter( 'ultimatebranding_settings_admin_bar_process', array( $this, 'update' ), 10 );
-			add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_scripts' ) );
 			add_filter( 'ultimatebranding_settings_admin_bar_preserve', array( $this, 'add_preserve_fields' ) );
 			// Grab admin menu elements.
 			add_action( 'admin_bar_menu', array( $this, 'get_admin_bar_menu_nodes' ), PHP_INT_MAX );
 			add_action( 'activate_plugin', array( $this, 'delete_admin_bar_menu_nodes' ) );
 			// Render admin bar.
-			add_action( 'wp_before_admin_bar_render', array( $this, 'before_admin_bar_render' ) );
 			add_action( 'wp_after_admin_bar_render', array( $this, 'after_admin_bar_render' ) );
 			// Remove from admin bar.
 			add_action( 'admin_bar_menu', array( $this, 'remove_menus_from_admin_bar' ), PHP_INT_MAX - 10 );
@@ -57,10 +79,16 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 			// Save ordering via ajax.
 			add_action( 'wp_ajax_branda_admin_bar_order_save', array( $this, 'ajax_order_save' ) );
 			add_action( 'wp_ajax_branda_admin_bar_order_reset', array( $this, 'ajax_order_reset' ) );
-			// Admin bar item.
-			add_action( 'wp_ajax_branda_admin_bar_menu_save', array( $this, 'ajax_save_menu_item' ) );
-			add_action( 'wp_ajax_branda_admin_bar_delete', array( $this, 'ajax_delete' ) );
+			/**
+			 * Admin bar items
+			 */
+			add_action( 'wp_ajax_branda_admin_bar_menu_save', array( $this, 'ajax_save_item' ) );
+			add_action( 'wp_ajax_branda_admin_bar_delete', array( $this, 'ajax_delete_item' ) );
 			add_action( 'wp_ajax_branda_admin_bar_submenu_restore', array( $this, 'ajax_submenu_restore' ) );
+			/**
+			 * Since 3.0.7
+			 */
+			add_action( 'wp_ajax_branda_admin_bar_get', array( $this, 'ajax_get_item' ) );
 			// Admin bar custom CSS.
 			add_action( 'wp_head', array( $this, 'print_style_tag' ) );
 			add_action( 'admin_head', array( $this, 'print_style_tag' ) );
@@ -69,6 +97,18 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 			add_action( 'wp_head', array( $this, 'logo_output' ) );
 			// Upgrade options to new.
 			add_action( 'init', array( $this, 'upgrade_options' ) );
+			/**
+			 * Add dialog
+			 *
+			 * @since 3.1.0
+			 */
+			add_filter( 'branda_get_module_content', array( $this, 'add_dialog' ), 10, 2 );
+			/**
+			 * Branda admin enqueue scripts
+			 *
+			 * @since 3.1.0
+			 */
+			add_action( 'branda_admin_enqueue_module_admin_assets', array( $this, 'enqueue_scripts' ) );
 		}
 
 		/**
@@ -78,6 +118,9 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		 */
 		public function upgrade_options() {
 			$value = $this->get_value();
+			if ( isset( $value['plugin_version'] ) ) {
+				return;
+			}
 			if ( ! isset( $value['settings'] ) ) {
 				$value['settings'] = array();
 			}
@@ -112,7 +155,7 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 						ub_delete_option( $option_name );
 						continue;
 					}
-					$id = md5( serialize( $menu ) );
+					$id = $this->generate_id( $menu );
 					$link_type = isset( $menu['url'] ) ? $menu['url'] : '';
 					switch ( $link_type ) {
 						case '#':
@@ -142,7 +185,7 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 					);
 					if ( isset( $menu['links'] ) && is_array( $menu['links'] ) ) {
 						foreach ( $menu['links'] as $link ) {
-							$link_id = md5( serialize( $link ) );
+							$link_id = $this->generate_id( $link );
 							$type = isset( $link['url_type'] ) ? $link['url_type'] : 'custom';
 							if ( 'external' === $type ) {
 								$type = 'custom';
@@ -281,7 +324,7 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		 */
 		public function ajax_submenu_restore() {
 			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
-			$nonce_action = $this->get_nonce_action( $id, 'submenu', 'restore' );
+			$nonce_action = $this->get_nonce_action( $id );
 			$this->check_input_data( $nonce_action );
 			$items = $this->get_value( 'settings', 'items', array() );
 			$item = array();
@@ -341,12 +384,7 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		 * @uses  wp_enqueue_script()
 		 * @uses  wp_register_script()
 		 */
-		public function enqueue_scripts() {
-			global $uba;
-			if ( ! is_object( $uba ) ) {
-				return;
-			}
-			$module = $uba->get_current_module();
+		public function enqueue_scripts( $module ) {
 			if ( $this->module !== $module ) {
 				return;
 			}
@@ -403,11 +441,8 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 			/**
 			 * User roles
 			 */
-			$this->roles = wp_roles()->get_names();
-			if ( $this->is_network ) {
-				$this->roles['super'] = __( 'Network Administrator', 'ub' );
-			}
-			asort( $this->roles );
+			$this->set_roles();
+			$this->roles['guest'] = __( 'Guest', 'ub' );
 			/**
 			 * Disabled menus
 			 */
@@ -480,7 +515,6 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 						'list' => array(
 							'type' => 'callback',
 							'callback' => array( $this, 'get_list' ),
-							'description-position' => 'bottom',
 							'master' => $this->get_name( 'items-custom-entries' ),
 							'master-value' => 'show',
 							'display' => 'sui-tab-content',
@@ -493,7 +527,7 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 								'hide' => __( 'Hide', 'ub' ),
 								'show' => __( 'Show', 'ub' ),
 							),
-							'default' => 'hide',
+							'default' => 'show',
 							'slave-class' => $this->get_name( 'items-custom-entries' ),
 						),
 						'reorder' => array(
@@ -537,11 +571,6 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 			if ( empty( $value ) ) {
 				return;
 			}
-			// Admin Bar visibility.
-			$show = $this->get_value( 'visibility', 'visibility' );
-			if ( 'visible' !== $show ) {
-				return;
-			}
 			// Logo.
 			$src = '';
 			if ( isset( $value['logo_meta'] ) ) {
@@ -558,12 +587,39 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 			/**
 			 * CSS template
 			 */
-			$template = sprintf( '/admin/modules/%s/css-logo', $this->module );
+			$template = $this->get_template_name( 'css/logo' );
 			$args = array(
 				'id' => $this->get_name( 'logo' ),
 				'src' => esc_url( $src ),
+				'is_svg' => preg_match( '/svg$/i', $src ),
+				'base' => '#a0a5aa',
+				'focus' => '#00a0d2',
+				'current' => '#fff',
 			);
-			$this->render( $template, $args );
+			global $_wp_admin_css_colors;
+			$color_scheme = get_user_option( 'admin_color' );
+			if ( ! empty( $_wp_admin_css_colors[ $color_scheme ]->icon_colors ) ) {
+				$icon_colors = $_wp_admin_css_colors[ $color_scheme ]->icon_colors;
+				$args = wp_parse_args( $icon_colors, $args );
+			} elseif ( ! empty( $_wp_admin_css_colors['fresh']->icon_colors ) ) {
+				$icon_colors = $_wp_admin_css_colors['fresh']->icon_colors;
+				$args = wp_parse_args( $icon_colors, $args );
+			}
+			/**
+			 * Allow to change logo css args
+			 *
+			 * @since 3.1.0
+			 */
+			$args = apply_filters( 'branda_admin_bar_logo_css_args', $args );
+			/**
+			 * Allow to change logo css
+			 *
+			 * @since 3.1.0
+			 */
+			echo apply_filters( 'branda_admin_bar_logo_css',
+				$this->render( $template, $args, true ),
+				$args
+			);
 		}
 
 		/**
@@ -587,16 +643,10 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 			);
 			$content .= $this->button( $args );
 			$content .= '</div>';
-			// Footer.
-			$args = array(
-				'data' => array(
-					'nonce' => $this->get_nonce_value( 'order', 'reset' ),
-				),
-				'text' => __( 'Yes, reset!', 'ub' ),
-				'sui' => '',
-				'class' => $this->get_name( 'reset' ),
-			);
-			$footer = $this->button( $args );
+			/**
+			 * Footer.
+			 */
+			$footer = '';
 			$args = array(
 				'data' => array(
 					'a11y-dialog-hide' => true,
@@ -606,13 +656,25 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 			);
 			$footer .= $this->button( $args );
 			$args = array(
+				'data' => array(
+					'nonce' => $this->get_nonce_value( 'order', 'reset' ),
+				),
+				'text' => __( 'Yes, reset!', 'ub' ),
+				'sui' => array(
+					'ghost',
+					'red',
+				),
+				'class' => $this->get_name( 'reset' ),
+			);
+			$footer .= $this->button( $args );
+			$args = array(
 				'id' => $this->get_name( 'reset' ),
 				'title' => __( 'Are you sure?', 'ub' ),
 				'content' => __( 'Are you sure to reset custom order?', 'ub' ),
 				'footer' => array(
 					'content' => $footer,
 					'classes' => array(
-						'sui-space-between',
+						'sui-actions-center',
 					),
 				),
 				'classes' => array( 'sui-dialog-sm' ),
@@ -630,10 +692,12 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		 */
 		public function get_list() {
 			$content = '';
+			$nonce = $this->get_nonce_value( 'new' );
 			// Top button.
 			$args = array(
 				'data' => array(
-					'a11y-dialog-show' => $this->get_name( 'add' ),
+					'a11y-dialog-show' => $this->get_name( 'edit' ),
+					'nonce' => $nonce,
 				),
 				'icon' => 'plus',
 				'text' => __( 'Add Custom Item', 'ub' ),
@@ -652,28 +716,22 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 			$content .= '<div class="sui-box-builder-fields">';
 			$dialogs = '';
 			if ( is_array( $items ) ) {
-				$dialogs = '';
-				$delete_dialog_configuration = array(
-					'title' => __( 'Delete Custom Menu Item', 'ub' ),
-					'description' => __( 'Are you sure you wish to permanently delete this custom menu item?', 'ub' ),
-				);
-				$template = sprintf( '/admin/modules/%s/row', $this->module );
+				$template = $this->get_template_name( 'row' );
 				foreach ( $items as $id => $item ) {
 					$args = array(
 						'id' => $id,
 						'title' => $item['title'],
-						'dialog_delete' => $this->get_nonce_action( $id, 'delete' ),
-						'dialog_edit' => $this->get_nonce_action( $id, 'edit' ),
+						'icon' => $item['icon'],
+						'nonce' => $this->get_nonce_value( $id ),
 					);
 					$content .= $this->render( $template, $args, true );
-					$dialogs .= $this->get_dialog( $id, $item, 'edit' );
-					$dialogs .= $this->get_dialog_delete( $id, $delete_dialog_configuration );
 				}
 			}
 			$content .= '</div>'; // Box Builder Fields.
 			$args = array(
 				'data' => array(
-					'a11y-dialog-show' => $this->get_name( 'add' ),
+					'a11y-dialog-show' => $this->get_name( 'edit' ),
+					'nonce' => $nonce,
 				),
 				'icon' => 'plus',
 				'text' => __( 'Add Custom Item', 'ub' ),
@@ -681,72 +739,13 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 			);
 			$content .= $this->button( $args );
 			$content .= sprintf(
-				'<div class="sui-description">%s</div>',
+				'<div class="sui-description %s">%s</div>',
+				is_array( $items ) && 0 < count( $items )? 'sui-hidden':'',
 				esc_html__( 'No custom menu item added yet. Click on “+ Add custom Item” to add your first custom menu item using a simple wizard.', 'ub' )
 			);
 			$content .= '</div>'; // Box Builder Body.
 			$content .= '</div>'; // Box Builder.
-			$content .= $dialogs;
-			$content .= $this->get_dialog();
-
 			return $content;
-		}
-
-		/**
-		 * SUI: get dialog html.
-		 *
-		 * @param int    $id   ID.
-		 * @param array  $data Data.
-		 * @param string $type Modal dialog type.
-		 *
-		 * @since 3.0.0
-		 *
-		 * @return string
-		 */
-		private function get_dialog( $id = 0, $data = array(), $type = 'add' ) {
-			$config = $this->get_sui_tabs_config( $data );
-			$dialog = $this->sui_tabs( $config, $id, true );
-			/**
-			 * Footer
-			 */
-			$footer = '';
-			$nonce = $this->get_nonce_value( $id, 'submenu', 'restore' );
-			$args = array(
-				'icon' => 'undo',
-				'text' => __( 'Discard Changes', 'ub' ),
-				'sui' => 'ghost',
-				'class' => $this->get_name( 'submenu-restore' ),
-				'data' => array(
-					'nonce' => $nonce,
-					'id' => $id,
-				),
-			);
-			$footer .= $this->button( $args );
-			$nonce = $this->get_nonce_value( $id );
-			$args = array(
-				'data' => array(
-					'nonce' => $nonce,
-					'id' => $id,
-					'state' => 'add' === $type ? 'add' : 'edit',
-				),
-				'icon' => 'check',
-				'text' => __( 'Apply', 'ub' ),
-				'class' => $this->get_name( 'save' ),
-			);
-			$footer .= $this->button( $args );
-			/**
-			 * Dialog
-			 */
-			$args = array(
-				'id' => 'add' === $type ? $this->get_name( 'add' ) : $this->get_nonce_action( $id, 'edit' ),
-				'content' => $dialog,
-				'title' => 'add' === $type ? __( 'Add Custom Item', 'ub' ) : __( 'Edit Custom Item', 'ub' ),
-				'footer' => array(
-					'content' => $footer,
-					'classes' => array( 'sui-space-between' ),
-				),
-			);
-			return $this->sui_dialog( $args );
 		}
 
 		/**
@@ -766,9 +765,11 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 						'title' => array(
 							'label' => __( 'Menu title', 'ub' ),
 							'value' => isset( $item['title'] ) ? $item['title'] : '',
-							'description' => __( 'You can also paste the full URL of an image instead of text title. For e.g. http://example.com/img.png', 'ub' ),
+							'description' => array(
+								'content' => __( 'You can also paste the full URL of an image instead of text title. For e.g. http://example.com/img.png', 'ub' ),
+								'position' => 'bottom',
+							),
 							'sui-row' => 'begin',
-							'description-position' => 'bottom',
 							'required' => 'required',
 						),
 						'icon' => array(
@@ -776,8 +777,10 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 							'label' => __( 'Icon', 'ub' ),
 							'callback' => array( $this, 'dashicons' ),
 							'sui-row' => 'end',
-							'description' => __( 'Choose an icon for your custom menu item.', 'ub' ),
-							'description-position' => 'bottom',
+							'description' => array(
+								'content' => __( 'Choose an icon for your custom menu item.', 'ub' ),
+								'position' => 'bottom',
+							),
 							'value' => isset( $item['icon'] ) ? $item['icon'] : '',
 						),
 						'url' => array(
@@ -854,15 +857,15 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		/**
 		 * Select dashicon from WP.
 		 *
-		 * @param int    $id    ID.
+		 * @param integer $id ID.
 		 * @param string $value Value.
 		 *
 		 * @since 3.0.0
 		 *
 		 * @return string
 		 */
-		public function dashicons( $id, $value = '' ) {
-			$template = sprintf( '/admin/modules/%s/dashicons', $this->module );
+		public function dashicons( $id = '{{data.id}}', $value = '' ) {
+			$template = $this->get_template_name( 'dashicons' );
 			$args = array(
 				'id' => $id,
 				'value' => $value,
@@ -889,7 +892,6 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 					'label' => __( 'Title', 'ub' ),
 					'value' => isset( $item['title'] ) ? $item['title'] : '',
 					'sui-row' => 'begin',
-					'description-position' => 'bottom',
 					'required' => 'required',
 					'classes' => array(
 						$this->get_name( 'submenu-title' ),
@@ -1056,18 +1058,6 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		}
 
 		/**
-		 * Renders before admin bad renderer.
-		 *
-		 * @hook   wp_before_admin_bar_render
-		 *
-		 * @since  1.6
-		 * @access public
-		 */
-		public function before_admin_bar_render() {
-			echo '<div id="ub_admin_bar_wrap">';
-		}
-
-		/**
 		 * Renders after admin bad renderer.
 		 *
 		 * @hook   wp_after_admin_bar_render
@@ -1076,13 +1066,20 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		 * @access public
 		 */
 		public function after_admin_bar_render() {
-			if ( is_object( $this->uba ) ) {
-				$module = $this->uba->get_current_module();
-				if ( $this->module === $module ) {
-					wp_nonce_field( $this->get_nonce_action(), $this->get_name( 'reorder-nonce' ), false );
-				}
+			/**
+			 * On front-end we do not have $uba object
+			 */
+			if ( ! is_object( $this->uba ) ) {
+				return;
 			}
-			echo '</div>';
+			/**
+			 * Check current module
+			 */
+			$module = $this->uba->get_current_module();
+			if ( $this->module !== $module ) {
+				return;
+			}
+			wp_nonce_field( $this->get_nonce_action(), $this->get_name( 'reorder-nonce' ), false );
 		}
 
 		/**
@@ -1095,43 +1092,80 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		 */
 		public function remove_menus_from_admin_bar() {
 			global $current_user, $wp_admin_bar;
-			// We need only keys.
+			$visibility = $this->get_value( 'items', 'visibility' );
+			if ( 'hide' !== $visibility ) {
+				return;
+			}
+			/**
+			 * Roles to hide.
+			 */
 			$roles = array_keys( (array) $this->get_value( 'items', 'wp_menu_roles' ) );
+			/**
+			 * elements to hide
+			 */
 			$menus = array_keys( (array) $this->get_value( 'items', 'disabled_menus' ) );
-			$hide_from_subscriber = count( $current_user->roles ) === 0 && in_array( 'subscriber', $roles );
-			// If not logged in, remove.
-			if (
-				// Check for logged in users.
-				( ! is_user_logged_in() && in_array( 'guest', $roles ) )
-				||
-				// Check for logged in users with roles.
-				(
-					is_user_logged_in() && (
-						! isset( $roles )
-						|| ( isset( $roles, $current_user )
-						     && is_array( $roles )
-						     && ( ! current_user_can( 'manage_network' )
-						          && ( $hide_from_subscriber || count( array_intersect( $roles, (array) $current_user->roles ) ) )
-						     ) || ( current_user_can( 'manage_network' ) && in_array( 'super', $roles ) ) )
-					)
-				)
-			) {
-				foreach ( $menus as $id ) {
-					$wp_admin_bar->remove_node( $id );
+			/**
+			 * We are clear! nothing to hide!
+			 */
+			if ( empty( $menus ) ) {
+				return;
+			}
+			/**
+			 * proceed
+			 */
+			$hide = false;
+			/**
+			 * Always hide for non-logged users
+			 */
+			if ( is_user_logged_in() ) {
+				$user = wp_get_current_user();
+				$user_roles = (array) $user->roles;
+				foreach ( $roles as $role ) {
+					if ( in_array( $role, $user_roles ) ) {
+						$hide = true;
+						break;
+					}
 				}
+				/**
+				 * check super!
+				 */
+				if ( $this->is_network && ! $hide  && in_array( 'super', $roles )
+				) {
+					$hide = current_user_can( 'manage_network' );
+				}
+			} else {
+				$hide = true;
+			}
+			/**
+			 * Not hide, we should go now!
+			 */
+			if ( ! $hide ) {
+				return;
+			}
+			/**
+			 * remove selected nodes
+			 */
+			foreach ( $menus as $id ) {
+				$wp_admin_bar->remove_node( $id );
 			}
 		}
 
 		/**
 		 * Save item using ajax.
 		 */
-		public function ajax_save_menu_item() {
-			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
-			$nonce_action = $this->get_nonce_action( $id );
+		public function ajax_save_item() {
+			$nonce_action = $this->get_nonce_action( 'edit' );
 			$this->check_input_data( $nonce_action, array( 'branda' ) );
 			$data = $_POST['branda'];
-			if ( '0' === $id ) {
-				$id = md5( serialize( $data ) );
+			/**
+			 * remove nonce
+			 */
+			if ( isset( $data['nonce'] ) ) {
+				unset( $data['nonce'] );
+			}
+			$id = isset( $data['id'] )? $data['id']:$this->generate_id( $data );
+			if ( 'new' === $id ) {
+				$id = $this->generate_id( $data );
 			}
 			$data['id'] = $id;
 			if ( isset( $data['submenu'] ) ) {
@@ -1146,9 +1180,44 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 				$before = $items[ $id ];
 			}
 			$items[ $id ] = wp_parse_args( $data, $before );
+			/**
+			 * Check deleted keys
+			 */
+			foreach ( $items[ $id ] as $key => $value ) {
+				if ( isset( $data[ $key ] ) ) {
+					continue;
+				}
+				unset( $items[ $id ][ $key ] );
+			}
 			$this->set_value( 'settings', 'items', $items );
-			// Send response in json.
-			wp_send_json_success();
+			/**
+			 * Send response in json.
+			 */
+			$title = $items[ $id ]['title'];
+			$is_url = filter_var( $title, FILTER_VALIDATE_URL );
+			if ( $is_url ) {
+				$title = sprintf(
+					'<img src="%s" class="branda-image" title="%s" />',
+					esc_url( $title ),
+					esc_attr( $title )
+				);
+			} else if ( ! empty( $items[ $id ]['icon'] ) ) {
+				$title = sprintf(
+					'<span class="dashicons dashicons-%s"></span>%s',
+					esc_attr( $items[ $id ]['icon'] ),
+					$title
+				);
+			}
+			/**
+			 * Compose return data
+			 */
+			$data = array(
+				'id' => $id,
+				'title' => $items[ $id ]['title'],
+				'title_to_show' => $title,
+				'nonce' => $this->get_nonce_value( $id ),
+			);
+			wp_send_json_success( $data );
 		}
 
 		/**
@@ -1156,9 +1225,9 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		 *
 		 * @since 3.0.0
 		 */
-		public function ajax_delete() {
+		public function ajax_delete_item() {
 			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
-			$nonce_action = $this->get_nonce_action( $id, 'delete' );
+			$nonce_action = $this->get_nonce_action( $id );
 			$this->check_input_data( $nonce_action, array( 'id' ) );
 			$items = $this->get_value( 'settings', 'items', array() );
 			if ( isset( $items[ $id ] ) ) {
@@ -1170,7 +1239,12 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 						'message' => sprintf( 'Item was deleted.', 'ub' ),
 					);
 					$this->uba->add_message( $message );
-					wp_send_json_success();
+					wp_send_json_success(
+						array(
+							'id' => $id,
+							'message' => __( 'Selected item was successfully deleted', 'ub' ),
+						)
+					);
 				}
 			}
 			// Send ajax response.
@@ -1191,7 +1265,7 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 				return false;
 			}
 			if ( ! $keys && ( ! current_user_can( 'manage_network' ) && array_intersect( $roles, $user->roles ) )
-			     || current_user_can( 'manage_network' ) && in_array( 'super', $roles )
+				|| current_user_can( 'manage_network' ) && in_array( 'super', $roles )
 			) {
 				return true;
 			} elseif ( $keys ) {
@@ -1200,7 +1274,7 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 					$roles[ $key ] = $val;
 				}
 				if ( ( ! current_user_can( 'manage_network' ) && array_intersect( $roles, $user->roles ) )
-				     || current_user_can( 'manage_network' ) && in_array( 'super', $roles )
+					|| current_user_can( 'manage_network' ) && in_array( 'super', $roles )
 				) {
 					return true;
 				}
@@ -1222,7 +1296,7 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		 */
 		public function add_custom_menus() {
 			global $wp_admin_bar, $current_user;
-			$enabled = $this->get_value( 'items', 'custom-entries', 'no' );
+			$enabled = $this->get_value( 'items', 'custom-entries', 'show' );
 			if ( 'show' !== $enabled ) {
 				return;
 			}
@@ -1242,7 +1316,7 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 					if (
 						( is_user_logged_in() && $this->user_has_access( $menu_roles, true ) )
 						||
-						( ! is_user_logged_in() && isset( $menu_roles['guest'] ) && 'on' == $menu_roles['guest'] )
+						( ! is_user_logged_in() && isset( $menu_roles['guest'] ) )
 					) {
 						$args = array(
 							'id' => $this->get_name( $menu['id'] ),
@@ -1284,19 +1358,28 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 		 */
 		private function get_title_image( $item ) {
 			$class = 'ub_adminbar_text';
+			$title = isset( $item['title'] ) ? esc_html( $item['title'] ) : '';
 			$icon = '';
-			if ( isset( $item['icon'] ) ) {
+			if ( isset( $item['icon'] ) && ! empty( $item['icon'] ) ) {
 				$icon = sprintf(
 					'<span class="ab-icon ub-menu-item dashicons dashicons-%s"></span>',
 					$item['icon']
 				);
-				$class .= ' has_icon';
+				$class .= ' has_icon screen-reader-text';
+			} else {
+				$is_valid_url = filter_var( $title , FILTER_VALIDATE_URL );
+				if ( $is_valid_url ) {
+					$title = sprintf(
+						'<img src="%s" class="ub_admin_bar_image" alt="" />',
+						$title
+					);
+				}
 			}
 			$title = sprintf(
 				'%s<span class="%s">%s</span>',
 				$icon,
 				esc_attr( $class ),
-				isset( $item['title'] ) ? $item['title'] : ''
+				$title
 			);
 			return $title;
 		}
@@ -1321,7 +1404,10 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 				case 'current':
 					return site_url();
 				case 'custom':
-					return isset( $item['url_custom'] ) ? $item['url_custom'] : '';
+					if ( isset( $item['url_custom'] ) ) {
+						return $item['url_custom'];
+					}
+					return isset( $item['custom'] ) ? $item['custom'] : '';
 				case 'main':
 					return network_site_url();
 				case 'none':
@@ -1358,9 +1444,29 @@ if ( ! class_exists( 'Branda_Admin_Bar' ) ) {
 					return;
 				}
 			}
-			printf( '<style type="text/css" id="%s">', $this->get_name( 'custom-css' ) );
-			echo $this->styles();
-			echo '</style>';
+			/**
+			 * CSS
+			 */
+			$mobile = array();
+			$items = $this->get_value( 'settings', 'items', array() );
+			foreach ( $items as $id => $data ) {
+				$item = wp_parse_args( $data, $this->item_defaults );
+				if ( empty( $item['icon'] ) ) {
+					continue;
+				}
+				if ( 'show' === $item['mobile'] ) {
+					$mobile[] = sprintf( '#wpadminbar ul#wp-admin-bar-root-default>li#wp-admin-bar-%s', $this->get_name( $id ) );
+					// $mobile[] = sprintf( '#%s', $this->get_name( $id ) );
+				}
+			}
+
+			$template = $this->get_template_name( 'css/common' );
+			$args = array(
+				'id' => $this->get_name(),
+				'styles' => $this->styles(),
+				'mobile' => implode( ','.PHP_EOL, $mobile ),
+			);
+			$this->render( $template, $args );
 		}
 
 		/**
@@ -1394,7 +1500,7 @@ UBSTYLE;
 		}
 
 		/**
-		 * Adds #ub_admin_bar_wrap prefix to the define styles
+		 * Adds prefix to the define styles
 		 *
 		 * @param string $styles Styles.
 		 *
@@ -1442,7 +1548,11 @@ UBSTYLE;
 					$output = array();
 					foreach ( $styles as $style ) {
 						if ( trim( $style ) !== '' ) {
-							$output[] = '#ub_admin_bar_wrap ' . $style . '}';
+							if ( ! preg_match( '/#wpadminbar/', $style ) ) {
+								$output[] = '#wpadminbar ' . $style . '}';
+							} else {
+								$output[] = $style . '}';
+							}
 						}
 					}
 					$media_chunk = implode( '', $output );
@@ -1454,13 +1564,97 @@ UBSTYLE;
 				$output = array();
 				foreach ( $styles as $style ) {
 					if ( trim( $style ) !== '' ) {
-						$output[] = '#ub_admin_bar_wrap ' . $style . '}';
+						if ( ! preg_match( '/\#wpadminbar/', $style ) ) {
+							$output[] = '#wpadminbar ' . $style . '}';
+						} else {
+							$output[] = $style . '}';
+						}
 					}
 				}
 				$css = implode( '', $output );
 				$style_normilized = $css . $style_normilized;
 			}
 			return $style_normilized;
+		}
+
+		/**
+		 * Add SUI dialog
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param string $content Current module content.
+		 * @param array $module Current module.
+		 */
+		public function add_dialog( $content, $module ) {
+			if ( $this->module !== $module['module'] ) {
+				return $content;
+			}
+			/**
+			 * Dialog ID
+			 */
+			$dialog_id = $this->get_name( 'edit' );
+			/**
+			 * Custom Item Row
+			 */
+			$template = $this->get_template_name( 'tmpl/row' );
+			$args = array(
+				'template' => $this->get_template_name( 'row' ),
+				'dialog_id' => $dialog_id,
+			);
+			$content .= $this->render( $template, $args, true );
+			/**
+			 * Dialog delete
+			 */
+			$content .= $this->get_dialog_delete(
+				null,
+				array(
+					'title' => __( 'Delete Custom Menu Item', 'ub' ),
+					'description' => __( 'Are you sure you wish to permanently delete this custom menu item?', 'ub' ),
+				)
+			);
+			/**
+			 * Dialog settings
+			 */
+			$args = array(
+				'dialog_id' => $dialog_id,
+				'nonce_edit' => $this->get_nonce_value( 'edit' ),
+				'nonce_restore' => $this->get_nonce_value( 'restore' ),
+				'icons' => $this->dashicons(),
+			);
+			$template = $this->get_template_name( 'dialogs/edit' );
+			$content .= $this->render( $template, $args, true );
+			$panes = array( 'general', 'submenu', 'visibility' );
+			foreach ( $panes as $pane ) {
+				$template = $this->get_template_name( 'tmpl/panes/'.$pane );
+				$content .= $this->render( $template, $args, true );
+			}
+			return $content;
+		}
+
+		/**
+		 * Get menu item
+		 *
+		 * @since 3.1.0
+		 */
+		public function ajax_get_item() {
+			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+			$nonce_action = $this->get_nonce_action( $id );
+			$this->check_input_data( $nonce_action, array( 'id' ) );
+			$items = $this->get_value( 'settings', 'items', array() );
+			/**
+			 * new
+			 */
+			if ( 'new' === $id ) {
+				$item = $this->item_defaults;
+				$item['available_roles'] = $this->roles;
+				$item['roles'] = array_combine( array_keys( $this->roles ), array_keys( $this->roles ) );
+				wp_send_json_success( $item );
+			} else if ( isset( $items[ $id ] ) ) {
+				$item = wp_parse_args( $items[ $id ], $this->item_defaults );
+				$item['available_roles'] = $this->roles;
+				wp_send_json_success( $item );
+			}
+			wp_send_json_error( array( 'message' => __( 'Selected item does not exists!', 'ub' ) ) );
 		}
 	}
 }

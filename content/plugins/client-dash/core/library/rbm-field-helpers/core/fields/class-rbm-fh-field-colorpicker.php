@@ -25,6 +25,7 @@ class RBM_FH_Field_ColorPicker extends RBM_FH_Field {
 	 */
 	public $defaults = array(
 		'default' => '#fff',
+		'colorpicker_options' => array(),
 	);
 
 	/**
@@ -51,6 +52,8 @@ class RBM_FH_Field_ColorPicker extends RBM_FH_Field {
 	 * @param array $args Field arguments.
 	 */
 	public static function field( $name, $value, $args = array() ) {
+		
+		wp_enqueue_script( 'wp-color-picker' );
 
 		do_action( "{$args['prefix']}_fieldhelpers_do_field", 'colorpicker', $args, $name, $value );
 	}

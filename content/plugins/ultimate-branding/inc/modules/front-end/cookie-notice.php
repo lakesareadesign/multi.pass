@@ -70,6 +70,7 @@ if ( ! class_exists( 'Branda_Cookie_Notice' ) ) {
 			if ( ! isset( $value['privacy_policy'] ) ) {
 				return;
 			}
+
 			$data = array(
 				'content'       => array(),
 				'design'        => array(),
@@ -180,7 +181,11 @@ if ( ! class_exists( 'Branda_Cookie_Notice' ) ) {
 		 */
 		public function delete_user_data() {
 			global $wpdb;
-			$sql = $wpdb->prepare( "delete from {$wpdb->usermeta} where meta_key = %s", $this->user_meta_name );
+			$sql = sprintf(
+				'delete from %s where meta_key = %%s',
+				$wpdb->usermeta
+			);
+			$sql = $wpdb->prepare( $sql, $this->user_meta_name );
 			$wpdb->query( $sql );
 		}
 

@@ -15,9 +15,10 @@ $params = apply_filters( 'fl_builder_map_args', array(
 	'key' => 'AIzaSyD09zQ9PNDNNy9TadMuzRV_UsPUoWKntt8',
 ), $settings );
 $url    = add_query_arg( $params, 'https://www.google.com/maps/embed/v1/place' );
+
 // ACF Google map passes back an iframe so we need to sanitize it.
-if ( false !== strpos( $params['q'], 'iframe' ) ) {
-	$iframe = preg_replace( '#\s?style=\'.+\'#', '', $params['q'] );
+if ( false !== strpos( do_shortcode( $settings->address ), 'iframe' ) ) {
+	$iframe = preg_replace( '#\s?style=\'.+\'#', '', do_shortcode( $settings->address ) );
 } else {
 	$iframe = sprintf( '<iframe src="%s"></iframe>', $url );
 }

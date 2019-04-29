@@ -39,7 +39,7 @@ foreach ( $set as $one ) {
 	</div>
 </div><?php // #sui-dashboard-widget-modules ?>
 <div class="sui-box hidden" id="branda-dashboard-search-no-results">
-	<div class="ub-empty">
+	<div class="branda-empty">
 		<h2 class="branda-image branda-image-confused">
 	<?php _ex( 'No results for "<span></span>"', '&lt;span&gt; tag is the placeholder for searching string.', 'ub' ); ?></h2>
 		<p><?php _e( 'We couldn\'t find any modules matching your search. Perhaps try again?', 'ub' ); ?></p>

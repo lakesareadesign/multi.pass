@@ -17,6 +17,17 @@ defined( 'ABSPATH' ) || die();
 class RBM_FH_Field_Text extends RBM_FH_Field {
 
 	/**
+	 * Field defaults.
+	 *
+	 * @since 1.4.6
+	 *
+	 * @var array
+	 */
+	public $defaults = array(
+		'input_class' => 'regular-text',
+	);
+
+	/**
 	 * RBM_FH_Field_Text constructor.
 	 *
 	 * @since 1.1.0

@@ -5,11 +5,11 @@ final class FL_Debug {
 	static private $tests = array();
 
 	public static function init() {
-		if ( isset( $_GET['fldebug'] ) && get_option( 'fl_debug_mode', false ) === $_GET['fldebug'] ) {
+		if ( isset( $_GET['fldebug'] ) && get_transient( 'fl_debug_mode', false ) === $_GET['fldebug'] ) {
 			add_action( 'init', array( 'FL_Debug', 'display_tests' ) );
 		}
 
-		if ( get_option( 'fl_debug_mode', false ) ) {
+		if ( get_transient( 'fl_debug_mode' ) ) {
 			self::enable_logging();
 		}
 	}

@@ -11,6 +11,13 @@ if ( ! class_exists( 'Branda_SMTP' ) ) {
 		protected $option_name = 'ub_smtp';
 		private $is_ready = false;
 
+		/**
+		 * Conflicted plugins list
+		 *
+		 * @since 3.1.0
+		 */
+		private $plugins_list = array();
+
 		public function __construct() {
 			parent::__construct();
 			$this->check();
@@ -27,7 +34,14 @@ if ( ! class_exists( 'Branda_SMTP' ) ) {
 			add_filter( 'ultimatebranding_settings_smtp', array( $this, 'admin_options_page' ) );
 			add_filter( 'ultimatebranding_settings_smtp_process', array( $this, 'update' ) );
 			add_filter( 'ultimatebranding_settings_smtp_reset', array( $this, 'reset_module' ) );
+			/**
+			 * AJAX
+			 */
 			add_action( 'wp_ajax_'.$this->get_name( 'send' ), array( $this, 'ajax_send_test_email' ) );
+			/**
+			 * @since 3.1.0
+			 */
+			add_action( 'wp_ajax_'.$this->get_name( 'deactivate' ), array( $this, 'ajax_deactivate_coflicted_plugin' ) );
 			/**
 			 * upgrade options
 			 *
@@ -336,6 +350,7 @@ if ( ! class_exists( 'Branda_SMTP' ) ) {
 			$this->module = 'smtp';
 			$options = array(
 				'reset-module' => true,
+				'plugins' => array(),
 				'header' => array(
 					'title' => __( 'From Headers', 'ub' ),
 					'description' => __( 'Choose the default from email id and from name for all of your WordPress outgoing emails.', 'ub' ),
@@ -348,8 +363,10 @@ if ( ! class_exists( 'Branda_SMTP' ) ) {
 						'from_name' => array(
 							'label' => __( 'Sender name', 'ub' ),
 							'placeholder' => __( 'Enter the sender email', 'ub' ),
-							'description' => __( 'For example, you can use your website’s title as the default sender name.', 'ub' ),
-							'description-position' => 'bottom',
+							'description' => array(
+								'content' => __( 'For example, you can use your website’s title as the default sender name.', 'ub' ),
+								'position' => 'bottom',
+							),
 							'master' => 'from-name',
 							'master-value' => 'on',
 							'display' => 'sui-tab-content',
@@ -438,6 +455,31 @@ if ( ! class_exists( 'Branda_SMTP' ) ) {
 					),
 				),
 			);
+			/**
+			 * check other SMTP plugin, only on admin page
+			 *
+			 * @since 3.1.0
+			 */
+			if ( is_admin() ) {
+				$this->check_plugins();
+				if ( ! empty( $this->plugins_list ) ) {
+					$options['plugins'] = array(
+						'title' => __( 'Conflicted Plugins', 'ub' ),
+						'description' => __( 'Branda has detected the following plugins are activated. Please deactivate them to prevent conflicts.', 'ub' ),
+						'fields' => array(
+							'message' => array(
+								'type' => 'notice',
+								'sui' => 'error',
+								'value' => __( 'Branda has detected the following plugins are activated. Please deactivate them to prevent conflicts.', 'ub' ),
+							),
+							'plugins' => array(
+								'type' => 'callback',
+								'callback' => array( $this, 'get_list_of_active_plugins' ),
+							),
+						),
+					);
+				}
+			}
 			$this->options = $options;
 		}
 
@@ -498,7 +540,150 @@ if ( ! class_exists( 'Branda_SMTP' ) ) {
 				'action' => $this->get_name( 'send' ),
 			);
 			$content .= $this->render( $template, $args, true );
+			/**
+			 * reset module
+			 */
+			$template = '/admin/common/dialogs/reset-module';
+			$title = __( 'Unknown', 'ub' );
+			if ( isset( $module['name_alt'] ) ) {
+				$title = $module['name_alt'];
+			} else if ( isset( $module['name'] ) ) {
+				$title = $module['name'];
+			}
+			$args = array(
+				'module' => $this->module,
+				'title' => $title,
+				'nonce' => wp_create_nonce( 'reset-module-' . $this->module ),
+			);
+			$content .= $this->render( $template, $args, true );
 			return $content;
+		}
+
+		private function check_plugins() {
+			if ( ! current_user_can( 'activate_plugins' ) ) {
+				return;
+			}
+			$list = array(
+				'wp-smtp/wp-smtp.php' => array(
+					'name' => 'WP SMTP',
+					'class' => 'Branda_SMTP_Importer_WP_SMTP',
+				),
+				'wp-mail-smtp/wp_mail_smtp.php' => array(
+					'name' => 'WP Mail SMTP by WPForms',
+					'class' => 'Branda_SMTP_Importer_WP_Mail_SMTP',
+				),
+				'post-smtp/postman-smtp.php' => array(
+					'name' => 'Post SMTP Mailer/Email Log',
+				),
+				'easy-wp-smtp/easy-wp-smtp.php' => array(
+					'name' => 'Easy WP SMTP',
+					'class' => 'Branda_SMTP_Importer_Easy_WP_SMTP',
+				),
+				'gmail-smtp/main.php' => array(
+					'name' => 'Gmail SMTP',
+				),
+				'smtp-mailer/main.php' => array(
+					'name' => 'SMTP Mailer',
+				),
+				'wp-email-smtp/wp_email_smtp.php' => array(
+					'name' => 'WP Email SMTP',
+				),
+				'bws-smtp/bws-smtp.php' => array(
+					'name' => 'SMTP by BestWebSoft',
+				),
+				'wp-sendgrid-smtp/wp-sendgrid-smtp.php' => array(
+					'name' => 'WP SendGrid SMTP',
+				),
+				'cimy-swift-smtp/cimy_swift_smtp.php' => array(
+					'name' => 'Cimy Swift SMTP',
+				),
+				'sar-friendly-smtp/sar-friendly-smtp.php' => array(
+					'name' => 'SAR Friendly SMTP',
+				),
+				'wp-easy-smtp/wp-easy-smtp.php' => array(
+					'name' => 'WP Easy SMTP',
+				),
+				'wp-gmail-smtp/wp-gmail-smtp.php' => array(
+					'name' => 'WP Gmail SMTP',
+				),
+				'email-log/email-log.php' => array(
+					'name' => 'Email Log',
+				),
+				'sendgrid-email-delivery-simplified/wpsendgrid.php' => array(
+					'name' => 'SendGrid',
+				),
+				'mailgun/mailgun.php' => array(
+					'name' => 'Mailgun for WordPress',
+				),
+				'wp-mail-bank/wp-mail-bank.php' => array(
+					'name' => 'WP Mail Bank',
+					'class' => 'Branda_SMTP_Importer_WP_Mail_Bank',
+				),
+			);
+			foreach ( $list as $path => $data ) {
+				if ( is_plugin_active( $path ) ) {
+					$data['file'] = basename( $path );
+					$this->plugins_list[ $path ] = $data;
+				}
+			}
+			return;
+		}
+
+		public function get_list_of_active_plugins() {
+			foreach ( $this->plugins_list as $path => $data ) {
+				$this->plugins_list[ $path ]['nonce'] = $this->get_nonce_value( $path );
+			}
+			$template = sprintf( '/admin/modules/%s/plugins-list', $this->module );
+			$args = array(
+				'plugins' => $this->plugins_list,
+				'action' => $this->get_name( 'deactivate' ),
+			);
+			$content = $this->render( $template, $args, true );
+			return $content;
+		}
+
+		public function ajax_deactivate_coflicted_plugin() {
+			$id = filter_input( INPUT_POST, 'id', FILTER_SANITIZE_STRING );
+			$nonce_action = $this->get_nonce_action( $id );
+			$this->check_input_data( $nonce_action, array( 'mode' ) );
+			$mode = filter_input( INPUT_POST, 'mode', FILTER_SANITIZE_STRING );
+			switch ( $mode ) {
+				case 'deactivate':
+					$plugin = wp_unslash( $id );
+					deactivate_plugins( $plugin );
+					wp_send_json_success();
+					break;
+				case 'import':
+					if ( ! isset( $this->plugins_list[ $id ] ) ) {
+						$this->json_error();
+					}
+					$plugin = $this->plugins_list[ $id ];
+					$file = dirname( __FILE__ ) . '/importers/' . $plugin['file'];
+					if ( ! is_file( $file ) ) {
+						$this->json_error();
+					}
+					include_once $file;
+					if ( ! class_exists( $plugin['class'] ) ) {
+						$this->json_error();
+					}
+					$importer = new $plugin['class'];
+					$importer->import( $this );
+					$plugin = wp_unslash( $id );
+					deactivate_plugins( $plugin );
+					wp_send_json_success();
+					break;
+				default:
+					break;
+			}
+			$this->json_error();
+		}
+
+		public function smtp_get_value() {
+			return $this->get_value();
+		}
+
+		public function smtp_update_value( $value ) {
+			return $this->update_value( $value );
 		}
 	}
 }

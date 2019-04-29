@@ -22,9 +22,11 @@ final class FLBuilderAdmin {
 		// Actions
 		add_action( 'admin_init', __CLASS__ . '::show_activate_notice' );
 		add_action( 'admin_init', __CLASS__ . '::sanity_checks' );
+		add_action( 'fl_after_license_form', __CLASS__ . '::check_curl', 11 );
 
 		// Filters
 		add_filter( 'plugin_action_links_' . $basename, __CLASS__ . '::render_plugin_action_links' );
+
 	}
 
 	/**
@@ -224,6 +226,14 @@ final class FLBuilderAdmin {
 	 * @return array
 	 */
 	static public function render_plugin_action_links( $actions ) {
+
+		/**
+		 * Some bad plugins set $actions to '' or false to remove all plugin actions
+		 * when it should be an empty array, in later PHP versions this results in a fatal error.
+		 */
+		if ( ! is_array( $actions ) ) {
+			$actions = array();
+		}
 		if ( FL_BUILDER_LITE === true ) {
 			$url       = FLBuilderModel::get_upgrade_url( array(
 				'utm_medium'   => 'bb-lite',
@@ -243,6 +253,22 @@ final class FLBuilderAdmin {
 		}
 
 		return $actions;
+	}
+
+	/**
+	 * If Curl module is not installed, inform user on license page as updates are likely to not work.
+	 * @since 2.2.2
+	 */
+	static public function check_curl() {
+
+		$curl = ( function_exists( 'curl_version' ) ) ? true : false;
+
+		if ( ! $curl ) {
+			$text     = __( 'We’ve detected that your server does not have the PHP cURL extension installed. Ask your hosting provider to install it so you’ll be able to perform automatic updates without error.', 'fl-builder' );
+			$link     = 'https://kb.wpbeaverbuilder.com/article/740-troubleshooting-error-when-trying-to-install-update';
+			$link_txt = __( 'See our Knowledge Base for more info.', 'fl-builder' );
+			printf( '<div class="curl-alert"><p>%s</p><p><a target="_blank" href="%s">%s</a></p></div>', $text, $link, $link_txt );
+		}
 	}
 
 	/**

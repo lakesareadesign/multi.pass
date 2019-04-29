@@ -5245,13 +5245,8 @@
 					head.append( config.assets.css );
 				}
 				if ( '' !== config.assets.js ) {
-					/**
-					 * Use pure JS as jQuery append cause browser warnings.
-					 */
-					script = document.createElement("script");
-					script.src = config.assets.jsurl;
-					script.setAttribute( 'class', 'fl-builder-settings-js' );
-					document.head.append(script);
+
+					head.append( config.assets.js );
 				}
 				FLBuilder._loadedModuleAssets.push( data.type );
 			}
@@ -9671,12 +9666,12 @@
 				}),
 				template = wp.template( 'fl-crash-lightbox' );
 
-				heading  = 'Well Dam!'
-				message  = "Beaver Builder has encountered an unrecoverable JavaScript error.<br />"
-				info     = "Please help us by disabling all plugins and testing Beaver Builder while reactivating each to determine if the issue is related to a third party plugin.<br />Press Command+Option+J (Mac) or Control+Shift+J for more information.<br /><strong>Please include a copy of the error messages when you <a class='link' target='_blank' href='https://www.wpbeaverbuilder.com/contact/'>contact support</a>.</strong>"
+				message  = "Beaver Builder has detected a plugin conflict that is preventing the page from saving.<p>( In technical terms there’s probably a PHP error in Ajax. )</p>"
+				info     = "If you contact Beaver Builder Support, we need to know what the error is in the JavaScript console in your browser.<p>To open the JavaScript console:<br />Chrome: View > Developer > JavaScript Console<br />Firefox: Tools > Web Developer > Browser Console<br />Safari: Develop > Show JavaScript console</p>Copy the errors you find there and submit them with your Support ticket. It saves us having to ask you that as a second step.<br /><br />If you want to troubleshoot further, you can check our <a class='link' target='_blank' href='https://kb.wpbeaverbuilder.com/article/42-known-beaver-builder-incompatibilities'>Knowledge Base</a> for plugins we know to be incompatible. Then deactivate your plugins one by one while you try to save the page in the Beaver Builder editor. When the page saves normally, you have identified the plugin causing the conflict. <a class='link' target='_blank' href='https://www.wpbeaverbuilder.com/beaver-builder-support/'>Contact Support</a> if you need further help."
+
 				debug    = false
 
-			alert.open( template( { message : message, heading : heading, info: info, debug: debug } ) );
+			alert.open( template( { message : message, info: info, debug: debug } ) );
 		},
 
 		/**
@@ -9850,9 +9845,9 @@
 		_jsonParse: function( data ) {
 			try {
 					data = JSON.parse( data );
-	        } catch (e) {
-	            FLBuilder.logError( e, FLBuilder._parseError( data ) );
-	        }
+					} catch (e) {
+						FLBuilder.logError( e, FLBuilder._parseError( data ) );
+					}
 					return data;
 		},
 

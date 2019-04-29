@@ -117,7 +117,7 @@ class FLPostGridModule extends FLBuilderModule {
 		if ( FLBuilderModel::is_builder_active() || 'grid' == $this->settings->layout ) {
 			$this->add_js( 'imagesloaded' );
 			$this->add_js( 'jquery-masonry' );
-
+			$this->add_js( 'jquery-throttle' );
 		}
 		if ( FLBuilderModel::is_builder_active() || 'gallery' == $this->settings->layout ) {
 			$this->add_js( 'fl-gallery-grid' );
@@ -486,11 +486,12 @@ class FLPostGridModule extends FLBuilderModule {
 			return false;
 		}
 
+		$schema = 'https://schema.org/BlogPosting';
 		if ( ! is_object( $post ) || ! isset( $post->post_type ) || 'post' != $post->post_type ) {
-			echo 'https://schema.org/CreativeWork';
-		} else {
-			echo 'https://schema.org/BlogPosting';
+			$schema = 'https://schema.org/CreativeWork';
 		}
+
+		return $schema;
 	}
 
 	/**

@@ -53,6 +53,12 @@ if ( ! class_exists( 'Brenda_Maintenance' ) ) {
 			 * @since 3.0,0
 			 */
 			add_filter( 'branda_get_module_content', array( $this, 'add_template' ), 10, 2 );
+			/**
+			 * Remove some color options
+			 *
+			 * @since 3.1.0
+			 */
+			add_filter( 'branda_get_options_fields_colors_error_messages', array( $this, 'remove_colors' ), 10, 3 );
 		}
 
 		/**
@@ -423,7 +429,7 @@ if ( ! class_exists( 'Brenda_Maintenance' ) ) {
 				define( 'DONOTCACHEOBJECT', true );
 			}
 			header( 'Cache-Control: max-age=0; private' );
-			$template = $this->get_template();
+            $template = $this->get_template();
 			$this->set_data();
 			/**
 			 * Add defaults.
@@ -444,8 +450,7 @@ if ( ! class_exists( 'Brenda_Maintenance' ) ) {
 				foreach ( $data as $name => $value ) {
 					if ( empty( $value ) ) {
 						$value = '';
-					}
-					if ( ! is_string( $value ) ) {
+					} else if ( ! is_string( $value ) ) {
 						$value = '';
 					}
 					if ( ! empty( $value ) ) {
@@ -457,13 +462,18 @@ if ( ! class_exists( 'Brenda_Maintenance' ) ) {
 											$value = sprintf( '<h1>%s</h1>', esc_html( $value ) );
 										}
 									break;
+									case 'content':
 									case 'content_meta':
 										if ( ! empty( $value ) ) {
 											$value = sprintf( '<div class="content">%s</div>', $value );
 										}
 									break;
+									default:
+										break;
 								}
 							break;
+							default:
+								break;
 						}
 					}
 					$re = sprintf( '/{%s_%s}/', $section, $name );
@@ -597,6 +607,8 @@ if ( ! class_exists( 'Brenda_Maintenance' ) ) {
 						$language = strtolower( substr( get_bloginfo( 'language' ), 0, 2 ) );
 						$timer_template = preg_replace( '/{language}/', $language, $timer_template );
 					break;
+					default:
+						break;
 				}
 			}
 			$template = preg_replace( '/{countdown}/', $timer_template, $template );
@@ -626,6 +638,11 @@ if ( ! class_exists( 'Brenda_Maintenance' ) ) {
 			 * body classes
 			 */
 			$template = preg_replace( '/{body_class}/', implode( ' ', $body_classes ), $template );
+			/**
+			 * After body tag
+			 */
+			$content = $this->html_background_common( false );
+			$template = preg_replace( '/{after_body_tag}/', $content, $template );
 			echo $template;
 			exit();
 		}
@@ -1029,6 +1046,21 @@ jQuery(document).ready(function($) {
 				),
 			);
 			return $selectors;
+		}
+
+		/**
+		 * Remove some color options
+		 *
+		 * @since 3.1.0
+		 */
+		public function remove_colors( $data, $defaults, $module ) {
+			if ( $module !== $this->module ) {
+				return $data;
+			}
+			if ( isset( $data['error_messages_border'] ) ) {
+				unset( $data['error_messages_border'] );
+			}
+			return $data;
 		}
 	}
 }

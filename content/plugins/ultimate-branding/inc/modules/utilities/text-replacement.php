@@ -134,8 +134,10 @@ if ( ! class_exists( 'Branda_Text_Replacement' ) ) {
 		public function get_list() {
 			include_once dirname( __FILE__ ) . '/text-replacement-list-table.php';
 			$data = $this->get_value( 'list' );
-			if ( empty( $data ) ) {
+			if ( empty( $data ) || !is_array( $data )) {
 				$data = array();
+			} else {
+				uasort( $data, array( $this, 'sort_by_find' ) );
 			}
 			ob_start();
 			$list_table = new Branda_Text_Replacement_List_Table();
@@ -302,16 +304,19 @@ if ( ! class_exists( 'Branda_Text_Replacement' ) ) {
 					'nonce' => $this->get_nonce_value( $id ),
 					'id' => $id,
 				),
-				'text' => __( 'Replace', 'ub' ),
+				'text' => 'new' === $name? __( 'Add', 'ub' ) : __( 'Update', 'ub' ),
 				'class' => $this->get_name( $name ),
 			);
+			if ( 'new' === $name ) {
+				$args['icon'] = 'check';
+			}
 			$footer .= $this->button( $args );
 			/**
 			 * Dialog
 			 */
 			$args = array(
 				'id' => $this->get_name( $id ),
-				'title' => __( 'Text Replacement Rule', 'ub' ),
+				'title' => 'new' === $name? __( 'Add Text Replacement Rule', 'ub' ) : __( 'Edit Text Replacement Rule', 'ub' ),
 				'content' => $content,
 				'footer' => array(
 					'content' => $footer,
@@ -356,8 +361,10 @@ if ( ! class_exists( 'Branda_Text_Replacement' ) ) {
 							'label' => __( 'Text domain (optional)', 'ub' ),
 							'placeholder' => __( ' E.g. ub', 'ub' ),
 							'value' => isset( $item['domain'] )? $item['domain']:'',
-							'description' => $domain_description,
-							'description-position' => 'bottom',
+							'description' => array(
+								'content' => $domain_description,
+								'position' => 'bottom',
+							),
 						),
 						'scope' => array(
 							'label' => __( 'Scope', 'ub' ),
@@ -388,8 +395,10 @@ if ( ! class_exists( 'Branda_Text_Replacement' ) ) {
 								'exclude' => __( 'Exclude', 'ub' ),
 							),
 							'value' => isset( $item['exclude_url'] ) && ! empty( $item['exclude_url'] )? $item['exclude_url']:'exclude',
-							'description' => __( 'Choose whether to replace the text of links. For example, change change Posts link test to Blog Articles.', 'ub' ),
-							'description-position' => 'bottom',
+							'description' => array(
+								'content' => __( 'Choose whether to replace the text within the &lt;a&gt; tag.', 'ub' ),
+								'position' => 'bottom',
+							),
 							'default' => 'exclude',
 						),
 					),
@@ -425,7 +434,7 @@ if ( ! class_exists( 'Branda_Text_Replacement' ) ) {
 				}
 			}
 			if ( '0' == $id ) {
-				$id = md5( serialize( $data ) );
+				$id = $this->generate_id( $data );
 			}
 			$data['id'] = $id;
 			$data['re'] = $this->calculate_regexp( $data );
@@ -445,12 +454,12 @@ if ( ! class_exists( 'Branda_Text_Replacement' ) ) {
 		 */
 		private function calculate_regexp( $data ) {
 			$exclude_url = 'exclude' === $data['exclude_url'];
-			$ignorecase = ( 'insensitive' !== $data['ignorecase'] );
+			$ignorecase = ( 'sensitive' !== $data['ignorecase'] );
 			if ( $exclude_url ) {
 				if ( $ignorecase ) {
-					return '~(?i)<a.*?</a>(*SKIP)(*F)|\b' . stripslashes( $data['find'] ) . '\b/i~';
+					return '~(?i)<a.*?</a>(*SKIP)(*F)|\b' . stripslashes( $data['find'] ) . '\b~';
 				}
-				return '~(?i)<a.*?</a>(*SKIP)(*F)|\b' . stripslashes( $data['find'] ) . '\b~';
+				return '~(?)<a.*?</a>(*SKIP)(*F)|\b' . stripslashes( $data['find'] ) . '\b~';
 			}
 			if ( $ignorecase ) {
 				return '/' . str_replace( '/','\/', stripslashes( $data['find'] ) ) . '/i';
@@ -515,6 +524,27 @@ if ( ! class_exists( 'Branda_Text_Replacement' ) ) {
 				}
 			}
 			return $args;
+		}
+
+		/**
+		 * Sort items
+		 *
+		 * @since 3.1.0
+		 */
+		private function sort_by_find( $a, $b ) {
+			if (
+				isset( $a['find'] )
+				&& isset( $b['find'] )
+			) {
+				return strcasecmp( $a['find'], $b['find'] );
+			}
+			if (
+				isset( $a['replace'] )
+				&& isset( $b['replace'] )
+			) {
+				return strcasecmp( $a['replace'], $b['replace'] );
+			}
+			return 0;
 		}
 	}
 }

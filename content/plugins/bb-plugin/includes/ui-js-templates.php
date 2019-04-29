@@ -264,7 +264,6 @@
 <!-- #tmpl-fl-alert-lightbox -->
 
 <script type="text/html" id="tmpl-fl-crash-lightbox">
-	<h2 class="fl-builder-crash-title">{{{data.heading}}}</h2>
 	<div class="fl-lightbox-message">{{{data.message}}}</div>
 	<# if ( data.debug ) { #>
 		<div class="fl-lightbox-message-info">Here is the message reported in your browser’s JavaScript console.<pre>{{{data.debug}}}</pre></div>

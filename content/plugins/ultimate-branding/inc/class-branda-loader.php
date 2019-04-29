@@ -59,36 +59,40 @@ if ( ! class_exists( 'Branda_Loader' ) ) {
 		protected function should_be_module_off( $module ) {
 			global $wp_version;
 			/**
+			 * get module key
+			 */
+			$key = $module;
+			if ( is_array( $key ) ) {
+				$key = $key['key'];
+			}
+			/**
 			 * is module disabled by configuration?
 			 *
 			 * @since 2.3.0
 			 */
+
 			if (
-				isset( $this->configuration[ $module ] )
-				&& isset( $this->configuration[ $module ]['disabled'] )
-				&& $this->configuration[ $module ]['disabled']
+				isset( $this->configuration[ $key ] )
+				&& isset( $this->configuration[ $key ]['disabled'] )
+				&& $this->configuration[ $key ]['disabled']
 			) {
 				return true;
 			}
 			/**
 			 * is module allowed only for multisite?
 			 */
-			if (
-				! is_multisite()
-				&& isset( $this->configuration[ $module ] )
-				&& isset( $this->configuration[ $module ]['network-only'] )
-				&& $this->configuration[ $module ]['network-only']
-			) {
+			$is_avaialble = $this->can_load_module( $module );
+			if ( ! $is_avaialble ) {
 				return true;
 			}
 			/**
 			 * check WP version
 			 */
 			if (
-				isset( $this->configuration[ $module ] )
-				&& isset( $this->configuration[ $module ]['wp'] )
+				isset( $this->configuration[ $key ] )
+				&& isset( $this->configuration[ $key ]['wp'] )
 			) {
-				$compare = version_compare( $wp_version, $this->configuration[ $module ]['wp'] );
+				$compare = version_compare( $wp_version, $this->configuration[ $key ]['wp'] );
 				if ( 0 > $compare ) {
 					return true;
 				}
@@ -101,12 +105,12 @@ if ( ! class_exists( 'Branda_Loader' ) ) {
 				return false;
 			}
 			if (
-				isset( $this->configuration[ $module ] )
-				&& isset( $this->configuration[ $module ]['deprecated'] )
-				&& $this->configuration[ $module ]['deprecated']
-				&& isset( $this->configuration[ $module ]['deprecated_version'] )
+				isset( $this->configuration[ $key ] )
+				&& isset( $this->configuration[ $key ]['deprecated'] )
+				&& $this->configuration[ $key ]['deprecated']
+				&& isset( $this->configuration[ $key ]['deprecated_version'] )
 			) {
-				$compare = version_compare( $this->configuration[ $module ]['deprecated_version'], $this->build );
+				$compare = version_compare( $this->configuration[ $key ]['deprecated_version'], $this->build );
 				if ( 1 > $compare ) {
 					return true;
 				}
@@ -126,10 +130,11 @@ if ( ! class_exists( 'Branda_Loader' ) ) {
 			 * add key to data
 			 */
 			foreach ( $this->configuration as $key => $data ) {
+				$data['key'] = $this->configuration[ $key ]['key'] = $key;
 				/**
 				 * check is module deprecated
 				 */
-				if ( $this->should_be_module_off( $key ) ) {
+				if ( $this->should_be_module_off( $data ) ) {
 					unset( $this->configuration[ $key ] );
 					continue;
 				}
@@ -165,7 +170,6 @@ if ( ! class_exists( 'Branda_Loader' ) ) {
 				/**
 				 * fix menu_title
 				 */
-				$this->configuration[ $key ]['key'] = $key;
 				if ( isset( $data['page_title'] ) && ! isset( $data['menu_title'] ) ) {
 					$this->configuration[ $key ]['menu_title'] = $data['page_title'];
 				}

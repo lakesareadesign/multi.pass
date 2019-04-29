@@ -120,7 +120,7 @@ if ( ! class_exists( 'Branda_Tracking_Codes_List_Table' ) ) {
 							$one = $value[ $id ];
 							$one['title'] .= esc_html__( ' (copy)', 'ub' );
 							$one['tracking_active'] = 'off';
-							$new_id = md5( serialize( $one ) . time() );
+							$new_id = $this->generate_id( $one );
 							$one['id'] = $new_id;
 							$value[ $new_id ] = $one;
 						}
@@ -178,7 +178,7 @@ if ( ! class_exists( 'Branda_Tracking_Codes_List_Table' ) ) {
 			/**
 			 * First, lets decide how many records per page to show
 			 */
-			$per_page = 20;
+			$per_page = get_option('posts_per_page');
 			/**
 			 * REQUIRED. Now we need to define our column headers. This includes a complete
 			 * array of columns to be displayed (slugs & titles), a list of columns

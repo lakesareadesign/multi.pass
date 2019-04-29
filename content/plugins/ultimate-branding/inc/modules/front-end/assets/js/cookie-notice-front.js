@@ -3,11 +3,38 @@
      * bind
      */
     $( document ).ready( function () {
+        var value;
         $( ub_cookie_notice.id ).on( 'click', '.ub-cn-set-cookie', function ( e ) {
             e.preventDefault();
             $( this ).setUBCookieNotice();
         } );
+        /**
+         * it ws already shown
+         */
+        value = $.fn.BrandaGetCookieValue( ub_cookie_notice.cookie.name + '_close' );
+        if ( 'hide' === value ) {
+            $( ub_cookie_notice.id ).hide();
+        }
     } );
+
+    /**
+     * get cookie value
+     */
+    $.fn.BrandaGetCookieValue = function( cname ) {
+        var name = cname + "=";
+        var decodedCookie = decodeURIComponent(document.cookie);
+        var ca = decodedCookie.split(';');
+        for(var i = 0; i <ca.length; i++) {
+            var c = ca[i];
+            while (c.charAt(0) == ' ') {
+                c = c.substring(1);
+            }
+            if (c.indexOf(name) == 0) {
+                return c.substring(name.length, c.length);
+            }
+        }
+        return "";
+    }
 
     /**
      * set Cookie Notice
@@ -17,7 +44,10 @@
         var expires = new Date();
         var value = parseInt( expires.getTime() );
         var cookie = '';
-
+        /**
+         * set time
+         */
+        value = parseInt( expires.getTime() );
         /**
          * add time
          */
@@ -31,10 +61,23 @@
          */
         expires.setTime( value + 2 * 24 * 60 * 60 * 1000 );
         /**
-         * add cookie
+         * add cookie timestamp
          */
         cookie = ub_cookie_notice.cookie.name + '=' + value/1000 + ';';
         cookie += ' expires=' + expires.toUTCString() + ';';
+        if ( ub_cookie_notice.cookie.domain ) {
+            cookie += ' domain=' + ub_cookie_notice.cookie.domain + ';';
+        }
+        /**
+         * Add cookie now (fix cache issue)
+         */
+        cookie += ' path=' + ub_cookie_notice.cookie.path + ';';
+        if ( 'on' === ub_cookie_notice.cookie.secure ) {
+            cookie += ' secure;'
+        }
+        document.cookie = cookie;
+        cookie = ub_cookie_notice.cookie.name + '_close=hide;';
+        cookie += ' expires=;';
         if ( ub_cookie_notice.cookie.domain ) {
             cookie += ' domain=' + ub_cookie_notice.cookie.domain + ';';
         }

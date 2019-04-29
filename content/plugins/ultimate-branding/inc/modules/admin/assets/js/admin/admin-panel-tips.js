@@ -7,8 +7,7 @@ jQuery( document ).ready( function () {
 			action: 'branda_admin_panel_tips',
 			id: parent2.data( 'id' ),
 			nonce: parent1.data( 'nonce' ),
-			user_id: parent2.data( 'user-id' ),
-			what: parent1.data( 'what' )
+			user_id: parent2.data( 'user-id' )
 		};
 		jQuery( this ).parent().html( branda_admin_panel_tips.saving );
 		jQuery.post( ajaxurl, args, function ( response ) {

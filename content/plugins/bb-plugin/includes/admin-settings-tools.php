@@ -24,7 +24,13 @@
 		include FL_BUILDER_CACHE_HELPER_DIR . 'includes/admin-settings-cache-plugins.php';
 	}
 
-	$debug = get_option( 'fl_debug_mode', false );
+	$debug = get_transient( 'fl_debug_mode' );
+	if ( $debug ) {
+		$expire_opt = get_option( '_transient_timeout_fl_debug_mode' );
+		$datetime1  = new DateTime( 'now' );
+		$datetime2  = new DateTime( date( 'Y-m-d H:i:s', $expire_opt ) );
+		$interval   = $datetime1->diff( $datetime2 );
+	}
 	?>
 	<?php $header = ( $debug ) ? __( 'Debug Mode Enabled', 'fl-builder' ) : __( 'Debug Mode Disabled', 'fl-builder' ); ?>
 	<h3 class="fl-settings-form-header"><?php echo $header; ?></h3>
@@ -43,7 +49,7 @@
 				), site_url() );
 				?>
 				<p><?php printf( '<code>%s</code>', $url ); ?></p>
-
+				<p><?php printf( 'Link will expire in <strong>%s</strong>', $interval->format( '%d days %h hours %i minutes' ) ); ?></p>
 			<?php endif; ?>
 		</div>
 		<p class="submit">

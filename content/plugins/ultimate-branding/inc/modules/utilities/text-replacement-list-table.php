@@ -51,10 +51,7 @@ if ( ! class_exists( 'Branda_Text_Replacement_List_Table' ) ) {
 					$text_replacement_items[ $text_replacement_key ]['number'] = $text_replacement_key;
 				}
 			}
-			$per_page = get_user_meta( get_current_user_id(), 'wpmudev_text_replacement_items_per_page', true );
-			if ( ( ! $per_page) || ($per_page < 1) ) {
-				$per_page = 15;
-			}
+			$per_page = get_option('posts_per_page');
 			$current_page = $this->get_pagenum();
 			if ( count( $text_replacement_items ) > $per_page ) {
 				$this->items = array_slice( $text_replacement_items, (($current_page - 1) * intval( $per_page )), intval( $per_page ), true );

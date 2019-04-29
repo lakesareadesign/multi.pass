@@ -338,4 +338,4 @@ $_branda_dashicons_list = array(
 	),
 );
 
-return $_branda_dashicons_list;
+return $_branda_dashicons_list;	   	 		 		 	   		

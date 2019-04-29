@@ -9,25 +9,33 @@ defined( 'ABSPATH' ) || die();
 
 if ( ! class_exists( 'RBM_FieldHelpers' ) ) {
 
-	define( 'RBM_FIELD_HELPERS_VER', '1.4.3' );
+	define( 'RBM_FIELD_HELPERS_VER', '1.4.12' );
 	
-	if ( strpos( __FILE__, WP_PLUGIN_DIR ) !== false ) {
+	if ( strpos( wp_normalize_path( __FILE__ ), wp_normalize_path( WP_PLUGIN_DIR ) ) !== false ) {
 	
 		define( 'RBM_FIELD_HELPERS_URI', plugins_url( '', __FILE__ ) );
 		define( 'RBM_FIELD_HELPERS_DIR', plugin_dir_path( __FILE__ ) );
 		
 	}
 	else {
+
+		// Default to Parent Theme
+		$theme_uri = get_template_directory_uri();
+		$theme_dir = get_template_directory();
 		
-		$theme_dir = get_stylesheet_directory();
+		// Load from Child Theme if appropriate
+		if ( strpos( wp_normalize_path( dirname( __FILE__ ) ), wp_normalize_path( get_stylesheet_directory() ) ) !== false ) {
+			$theme_uri = get_stylesheet_directory_uri();
+			$theme_dir = get_stylesheet_directory();
+		}
 		
 		// Relative path from the Theme Directory to the directory holding RBM FH
-		$relative_from_theme_dir = dirname( str_replace( $theme_dir, '', __FILE__ ) );
+		$relative_from_theme_dir = dirname( str_replace( wp_normalize_path( $theme_dir ), '', wp_normalize_path( __FILE__ ) ) );
 		
 		// Build out our Constants for DIR and URI
 		// DIR could have been made using just dirname( __FILE__ ), but we needed the difference to create the URI anyway
-		define( 'RBM_FIELD_HELPERS_URI', get_stylesheet_directory_uri() . $relative_from_theme_dir );
-		define( 'RBM_FIELD_HELPERS_DIR', $theme_dir . $relative_from_theme_dir );
+		define( 'RBM_FIELD_HELPERS_URI', $theme_uri . $relative_from_theme_dir );
+		define( 'RBM_FIELD_HELPERS_DIR', wp_normalize_path( $theme_dir . $relative_from_theme_dir ) );
 		
 	}
 
@@ -176,7 +184,7 @@ if ( ! class_exists( 'RBM_FieldHelpers' ) ) {
 			wp_register_script(
 				'rbm-fh-admin',
 				RBM_FIELD_HELPERS_URI . '/assets/dist/js/rbm-field-helpers-admin.min.js',
-				array( 'jquery', 'rbm-fh-jquery-repeater' ),
+				array( 'jquery', 'jquery-ui-core', 'jquery-ui-datepicker' ),
 				RBM_FIELD_HELPERS_VER,
 				true
 			);
@@ -184,42 +192,17 @@ if ( ! class_exists( 'RBM_FieldHelpers' ) ) {
 			// Select2
 			wp_register_style(
 				'rbm-fh-select2',
-				'https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/css/select2.min.css',
+				RBM_FIELD_HELPERS_URI . "/assets/dist/css/rbm-fh-select2.min.css",
 				array(),
 				RBM_FIELD_HELPERS_VER
 			);
 
 			wp_register_script(
 				'rbm-fh-select2',
-				"https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.4/js/select2.full{$min}.js",
+				RBM_FIELD_HELPERS_URI . "/assets/dist/js/rbm-fh-select2.js",
 				array( 'jquery' ),
 				RBM_FIELD_HELPERS_VER,
 				true
-			);
-
-			// jQuery Repeater
-			wp_register_script(
-				'rbm-fh-jquery-repeater',
-				RBM_FIELD_HELPERS_URI . "/vendor/jquery-repeater/jquery.repeater{$min}.js",
-				array( 'jquery' ),
-				'1.2.1',
-				true
-			);
-
-			// jQuery UI Datetimepicker
-			wp_register_script(
-				'rbm-fh-jquery-ui-datetimepicker',
-				RBM_FIELD_HELPERS_URI . '/vendor/jQuery-Timepicker-Addon/jquery-ui-timepicker-addon.js',
-				array( 'jquery', 'jquery-ui-datepicker' ),
-				'0.1.4',
-				true
-			);
-
-			wp_register_style(
-				'rbm-fh-jquery-ui-datetimepicker',
-				RBM_FIELD_HELPERS_URI . '/vendor/jQuery-Timepicker-Addon/jquery-ui-timepicker-addon.css',
-				array(),
-				RBM_FIELD_HELPERS_VER
 			);
 
 			// get registered script object for jquery-ui
@@ -243,21 +226,6 @@ if ( ! class_exists( 'RBM_FieldHelpers' ) ) {
 		 */
 		function enqueue_scripts() {
 
-			wp_enqueue_script( 'rbm-fh-jquery-repeater' );
-
-			/**
-			 * Load or don't load the Date/Time Picker scripts.
-			 *
-			 * @since 1.4.0
-			 */
-			$load_datetimepicker = apply_filters( 'rbm_fieldhelpers_load_datetimepicker', false );
-
-			if ( $load_datetimepicker ) {
-
-				wp_enqueue_script( 'rbm-fh-jquery-ui-datetimepicker' );
-				wp_enqueue_style( 'rbm-fh-jquery-ui-datetimepicker' );
-			}
-
 			/**
 			 * Load or don't load the Select2 scripts.
 			 *
@@ -273,6 +241,8 @@ if ( ! class_exists( 'RBM_FieldHelpers' ) ) {
 				wp_enqueue_script( 'rbm-fh-select2' );
 				wp_enqueue_style( 'rbm-fh-select2' );
 			}
+			
+			wp_enqueue_script( 'jquery-ui-datepicker' );
 
 			wp_enqueue_script( 'rbm-fh-admin' );
 			wp_enqueue_style( 'rbm-fh-admin' );
@@ -288,18 +258,33 @@ if ( ! class_exists( 'RBM_FieldHelpers' ) ) {
 		 */
 		function localize_data() {
 
-			global $wp_version;
-
 			// Localize data
-			$data = apply_filters( "rbm_field_helpers_admin_data", array(
+			$data = $this->get_localized_data();
+
+			wp_localize_script( 'rbm-fh-admin', 'RBM_FieldHelpers', $data );
+		}
+		
+		/**
+		 * Returns the localized data
+		 *
+		 * This is useful if you need to return the localized data in a non-WP standard way
+		 *
+		 * @since 1.4.9
+		 * @access public
+		 */
+		function get_localized_data() {
+			
+			global $wp_version;
+			
+			return apply_filters( "rbm_field_helpers_admin_data", array(
 				'nonce'       => wp_create_nonce( 'rbm-field-helpers' ),
 				'wp_version'  => $wp_version,
 				'instance_id' => $this->instance['ID'],
 				'l10n'        => $this->instance['l10n'],
 			) );
-
-			wp_localize_script( 'rbm-fh-admin', 'RBM_FieldHelpers', $data );
+			
 		}
+		
 	}
 
 	require_once __DIR__ . '/core/deprecated/rbm-fh-deprecated-functions.php';

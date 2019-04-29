@@ -4,10 +4,10 @@ Tags:  buttons, related posts, google analytics, share buttons, social sharing, 
 Requires at least: 3.3
 Tested up to: 5.1
 Requires PHP: 5.2
-Stable tag: 8.12.1
+Stable tag: 8.12.4
 
 
-Improve Audience Engagement with Award Winning Site-Speed Optimized Social Tools: Share Buttons, Related Posts, Monetization & Google Analytics.
+Boost Audience Engagement with Award Winning Site-Speed Optimized Social Tools: Share Buttons, Related Posts, Monetization & Google Analytics.
 
 
 == Description ==
@@ -26,11 +26,11 @@ Make it easy for your visitors to share social content with their friends with S
 
 [Share Buttons](https://www.shareaholic.com/website-tools/social-share-buttons/) demo
 
-* [Free] Official Share Counters and Share Buttons for Twitter, Facebook, LinkedIn, Pinterest, Buffer, Google Plus, and more
-* [Free] [Automatic & official integration](https://support.shareaholic.com/hc/en-us/articles/205181045-) with Google Analytics and URL shortener
+* [Free] Official Share Counters and Share Buttons for Facebook, Pinterest, and more
+* [Free] [Automatic & official integration](https://support.shareaholic.com/hc/en-us/articles/205181045-) with Google Analytics
 * [Free] Full support for: Facebook share sharing, Twitter sharing, Pinterest sharing, Instagram sharing, Google Plus sharing, Reddit sharing, LinkedIn sharing, Gmail sharing, Delicious sharing, OneNote sharing, Evernote sharing, Stumbleupon sharing, Digg sharing, Tumblr sharing, Hootsuite sharing, Buffer sharing, Fancy sharing, Wanelo sharing, Yummly sharing, WeHeartIt sharing, Flipboard sharing, Printfriendly sharing, Amazon Wishlist sharing, Instapaper sharing, Pocket sharing, Odnoklassniki sharing, Houzz sharing, Hacker News sharing, Inbound.org sharing, Vk sharing, etc
 * [Free] Supports theme features such as HTML5 & XHTML, widgets, plugins, infinite scroll, post formats, and mobile optimization
-* [Free] Supported URL Shorteners: Bitly (including custom tracking), J.mp, TinyURL, Goo.gl, Shr.lc
+* [Free] Supported URL Shorteners: Bitly (including custom tracking), J.mp, TinyURL, Shr.lc
 * [Free] Vector share buttons & follow buttons (SVG icons)
 * Learn more about [Share Buttons](https://www.shareaholic.com/website-tools/social-share-buttons/)
 
@@ -267,6 +267,16 @@ The default Shareaholic thumbnail width is 640px with dynamic height and no crop
 Each time you change Shareaholic's thumbnail dimensions like this, you will probably want to have WordPress regenerate appropriate sized thumbnails for all of your images. We highly recommend the [Regenerate Thumbnails](https://wordpress.org/plugins/regenerate-thumbnails/) plugin for this purpose.
 
 == Changelog ==
+= 8.12.4 (2019-04-19) =
+* Enhancement: Header now consistent and language localized across all menus
+* Fix: Facebook changed their [Share Count API](https://www.shareaholic.com/sharecounter/?url=https://www.amazon.com/). So, we adapted.
+* Fix: Various updates to Server Side Share Counts service
+
+= 8.12.3 (2019-04-10) =
+* Enhancement: New Admin UI (Beta) is now localized in Dutch (nl), French (fr), German (de), Italian (it), Japanese (jp), Polish (pl), Portugese (pt), Russian (ru) and Spanish (es)
+* Bugfix: All-share panel was hidding icons on the last row
+* Remove Google+ Share & Follow Buttons and Goo.gl URL shortener because Google is shutting them down
+
 = 8.12.1 (2019-03-23) =
 * Bugfix: Fixes broken links to helpdesk
 * Enhancement: Improves auth with Shareaholic Cloud
@@ -879,6 +889,9 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Show Related Posts data status
 
 == Upgrade Notice ==
+= 8.12.4 =
+We update this plugin regularly so we can make it better for you. Update to the latest version for all of the available features and improvements. Thanks for using Shareaholic!
+
 = 8.12.1 =
 Introduces a brand-new unified Shareaholic Admin UI (in beta) and massive page speed gains = 50% faster load times on your site! This update also fixes issue with some themes rendering Shareaholic Apps multiple times. This one is a must upgrade!
 

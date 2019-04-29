@@ -11,7 +11,8 @@
 			</div>
 			<div class="sui-box-footer">
 				<div class="sui-form-field sui-actions-center">
-					<button type="button" class="sui-button sui-button-ghost sui-button-red sui-button-icon branda-data-reset-confirm"><i class="sui-icon-undo" aria-hidden="true"></i><?php echo esc_html_x( 'Reset', 'button', 'ub' ); ?></button><button type="button" class="sui-modal-close sui-button sui-button-ghost" data-a11y-dialog-hide><?php echo esc_html_x( 'Cancel', 'button', 'ub' ); ?></button>
+					<button type="button" class="sui-modal-close sui-button sui-button-ghost" data-a11y-dialog-hide><?php echo esc_html_x( 'Cancel', 'button', 'ub' ); ?></button>
+					<button type="button" class="sui-button sui-button-ghost sui-button-red sui-button-icon branda-data-reset-confirm"><i class="sui-icon-undo" aria-hidden="true"></i><?php echo esc_html_x( 'Reset', 'button', 'ub' ); ?></button>
 				</div>
 			</div>
 		</div>

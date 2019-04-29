@@ -21,15 +21,19 @@ if ( ! class_exists( 'Branda_Admin_Message' ) ) {
 			/**
 			 * Render module's output for admin pages
 			 */
-			add_action( 'admin_notices', array( $this, 'admin_message_output' ) );
+			add_action( 'admin_notices', array( $this, 'output' ) );
 			/**
 			 * Render module's output for network admin pages
 			 */
-			add_action( 'network_admin_notices', array( $this, 'admin_message_output' ) );
+			add_action( 'network_admin_notices', array( $this, 'output' ) );
 			/**
 			 * upgrade option
 			 */
 			add_action( 'init', array( $this, 'upgrade_options' ) );
+			/**
+			 * css output
+			 */
+			add_action( 'admin_head', array( $this, 'css' ) );
 		}
 
 		/**
@@ -86,24 +90,49 @@ if ( ! class_exists( 'Branda_Admin_Message' ) ) {
 		 *
 		 * @since 1.8
 		 */
-		public function admin_message_output() {
-			$v = $this->get_value( 'admin' );
-			if ( empty( $v ) || ! is_array( $v ) ) {
+		public function output() {
+			$message = $this->get_message();
+			if ( empty( $message ) ) {
 				return;
 			}
-			$admin_message = '';
-			if ( isset( $v['message_meta'] ) ) {
-				$admin_message = $v['message_meta'];
-			} else if ( isset( $v['message'] ) ) {
-				$admin_message = $v['message'];
-			}
-			if ( empty( $admin_message ) ) {
-				return;
-			}
+			$message = stripslashes( $message );
+			$message = wpautop( $message );
 			printf(
-				'<div id="ub-message" class="updated"><p>%s</p></div>',
-				stripslashes( $admin_message )
+				'<div id="branda-message" class="updated"><div class="branda-content">%s</div></div>',
+				$message
 			);
+		}
+
+		/**
+		 * Print CSS if there is some message.
+		 *
+		 * @since 3.0.6
+		 */
+		public function css() {
+			$message = $this->get_message();
+			if ( empty( $message ) ) {
+				return;
+			}
+			printf( '<style type="text/css" id="%s">', esc_attr( $this->get_name() ) );
+			echo '#branda-message .branda-content:after{content:"";display:block;clear:both}';
+			echo '#branda-message .branda-content{padding:12px 0}';
+			echo '#branda-message .branda-content p:first-child{margin-top:0}';
+			echo '#branda-message .branda-content p:last-child{margin-bottom:0}';
+			echo '</style>';
+			echo PHP_EOL;
+		}
+
+		/**
+		 * Get content common finction (DRY).
+		 *
+		 * @since 3.0.6
+		 */
+		private function get_message() {
+			$value = $this->get_value( 'admin', 'message_meta' );
+			if ( ! empty( $value ) ) {
+				return $value;
+			}
+			return $this->get_value( 'admin', 'message' );
 		}
 	}
 }

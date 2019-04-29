@@ -85,11 +85,14 @@ class RBM_FH_Field_Repeater extends RBM_FH_Field {
 		if ( $args['collapsable'] ) {
 
 			$args['wrapper_classes'][] = 'fieldhelpers-field-repeater-collapsable';
+			
 		}
 
 		if ( $args['sortable'] ) {
 
 			$args['wrapper_classes'][] = 'fieldhelpers-field-repeater-sortable';
+			wp_enqueue_script( 'jquery-ui-sortable' );
+			
 		}
 
 		if ( ! $value ) {

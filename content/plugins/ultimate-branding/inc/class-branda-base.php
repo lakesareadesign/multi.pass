@@ -28,6 +28,13 @@ if ( ! class_exists( 'Branda_Base' ) ) {
 		 */
 		protected $group = 'dashboard';
 
+		/**
+		 * Hide Branding
+		 *
+		 * @since 3.0.6
+		 */
+		protected $hide_branding = false;
+
 		public function __construct() {
 			parent::__construct();
 			ub_set_ub_version();
@@ -190,6 +197,41 @@ if ( ! class_exists( 'Branda_Base' ) ) {
 				return $content;
 			}
 			echo $content;
+		}
+
+		/**
+		 * Can module be loaded?
+		 *
+		 * @since 3.1.0
+		 *
+		 * @param array $module Module data.
+		 *
+		 */
+		protected function can_load_module( $module ) {
+			if (
+				is_multisite()
+				&& isset( $module['main-blog-only'] )
+				&& true === $module['main-blog-only']
+				&& ! is_main_site()
+			) {
+				/**
+				 * Filter allow to change module availability.
+				 *
+				 * @since 3.1.0
+				 *
+				 * @param boolean
+				 * @param array $module Module data.
+				 */
+				return apply_filters( 'branda_can_load_module', false, $module );
+			}
+			if (
+				! $this->is_network
+				&& isset( $module['network-only'] )
+				&& true === $module['network-only']
+			) {
+				return apply_filters( 'branda_can_load_module', false, $module );
+			}
+			return apply_filters( 'branda_can_load_module', true, $module );
 		}
 	}
 }

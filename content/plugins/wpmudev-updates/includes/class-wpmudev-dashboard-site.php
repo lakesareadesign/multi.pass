@@ -156,6 +156,9 @@ class WPMUDEV_Dashboard_Site {
 			add_action( "wp_ajax_$action", array( $this, 'process_ajax' ) );
 		}
 
+		// AUTO login ajax (no nonce, its called by our auto install server)
+		add_action( "wp_ajax_wdp-dashboard-autologin", array( $this, 'dashboard_autologin' ) );
+
 		$this->ajax_allowed_bypasses = array( 'changelog', 'analytics' );
 
 		$nopriv_ajax_actions = array(
@@ -732,7 +735,7 @@ class WPMUDEV_Dashboard_Site {
 				$status = isset( $_REQUEST['status'] ) ? $_REQUEST['status'] : ''; // wpcs CSRF ok. already validated on process_ajax
 				switch ( $status ) {
 					case 'settings':
-						$auto_update = isset( $_REQUEST['autoupdate_dashboard'] ) ? filter_var( $_REQUEST['autoupdate_dashboard'], FILTER_VALIDATE_BOOLEAN ) : false;
+						$auto_update = isset( $_REQUEST['autoupdate_dashboard'] ) ? filter_var( $_REQUEST['autoupdate_dashboard'], FILTER_VALIDATE_BOOLEAN ) : false;	     	 	  		 	 		
 						$this->set_option( 'autoupdate_dashboard', $auto_update );
 						$success = true;
 						break;
@@ -1120,6 +1123,7 @@ class WPMUDEV_Dashboard_Site {
 						$result = WPMUDEV_Dashboard::$api->hub_sync( false, true );
 						if ( ! $result || empty( $result['membership'] ) ) {
 
+							WPMUDEV_Dashboard::$api->set_key( '' );
 							if ( false === $result ) {
 								$this->send_json_error(
 									array(
@@ -1131,7 +1135,6 @@ class WPMUDEV_Dashboard_Site {
 								);
 							}
 
-							WPMUDEV_Dashboard::$api->set_key( '' );
 							$this->send_json_error(
 								array(
 									'redirect' => add_query_arg(
@@ -3651,12 +3654,15 @@ class WPMUDEV_Dashboard_Site {
 	 *
 	 * Since 4.7
 	 *
-	 * @param int $project_id
+	 * @param int  $project_id
+	 * @param null $doing_ajax force enable/disable ajax-ify response, if `null` it will check `DOING_AJAX` constant
 	 *
 	 * @return bool
 	 */
-	public function maybe_replace_free_with_pro( $project_id ) {
-		$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+	public function maybe_replace_free_with_pro( $project_id, $doing_ajax = null ) {
+		if ( null === $doing_ajax ) {
+			$doing_ajax = defined( 'DOING_AJAX' ) && DOING_AJAX;
+		}
 
 		$pid           = (int) $project_id;
 		$project_infos = $this->get_project_infos( $pid );
@@ -3837,6 +3843,93 @@ class WPMUDEV_Dashboard_Site {
 		}
 
 		return $installed_free_projects;
+	}
+
+	/**
+	 * Autologin to dashbaord
+	 * - Hub sync
+	 * - Auto upgrade free plugins to pro
+	 */
+	public function dashboard_autologin() {
+
+		$key               = isset( $_REQUEST['apikey'] ) ? trim( $_REQUEST['apikey'] ) : false;
+		$skip_free_upgrade = isset( $_REQUEST['skip_upgrade_free_plugins'] ) ? true : false;
+
+		if ( ! $key ) {
+			$this->send_json_error(
+				array(
+					'type'    => 'invalid_key',
+					'message' => __( 'Your API Key was invalid.', 'wpmudev' ),
+				)
+			);
+		}
+
+		$previous_key = '';
+		if ( WPMUDEV_Dashboard::$api->has_key() ) {
+			$previous_key = WPMUDEV_Dashboard::$api->get_key();
+		}
+		WPMUDEV_Dashboard::$api->set_key( $key );
+		$result = WPMUDEV_Dashboard::$api->hub_sync( false, true );
+		if ( ! $result || empty( $result['membership'] ) ) {
+			// return to previous key to avoid logout
+			WPMUDEV_Dashboard::$api->set_key( $previous_key );
+			if ( false === $result ) {
+				$this->send_json_error(
+					array(
+						'type'    => 'connection_error',
+						'message' => __( 'Your server had a problem connecting to WPMU DEV.', 'wpmudev' ),
+					)
+				);
+			}
+			$this->send_json_error(
+				array(
+					'type'    => 'invalid_key',
+					'message' => __( 'Your API Key was invalid.', 'wpmudev' ),
+				)
+			);
+		}
+
+		// valid key
+		global $current_user;
+		WPMUDEV_Dashboard::$site->set_option( 'limit_to_user', $current_user->ID );
+		WPMUDEV_Dashboard::$api->refresh_profile();
+
+		// in case timeout use ?skip_upgrade_free_plugins
+		if ( $skip_free_upgrade ) {
+			$this->send_json_success(
+				array(
+					'skip_upgrade_free_plugins' => true,
+				)
+			);
+		}
+
+		// sync free plugins!, time execution will vary depends on installed plugins and server connection
+		$upgraded_plugins = array();
+		$type             = WPMUDEV_Dashboard::$api->get_membership_type( $project_id );
+		if ( 'full' === $type ) {
+			$installed_free_projects = WPMUDEV_Dashboard::$site->get_installed_free_projects();
+
+			foreach ( $installed_free_projects as $installed_free_project ) {
+				$upgraded_plugin = array(
+					'pid'         => $installed_free_project['id'],
+					'name'        => $installed_free_project['name'],
+					'is_upgraded' => false,
+				);
+				if ( $this->maybe_replace_free_with_pro( $installed_free_project['id'], false ) ) {
+					$upgraded_plugin['is_upgraded'] = true;
+				}
+
+				$upgraded_plugins[] = $upgraded_plugin;
+			}
+		}
+
+		$this->send_json_success(
+			array(
+				'skip_upgrade_free_plugins' => false,
+				'upgrade_free_plugins'      => $upgraded_plugins,
+			)
+		);
+
 	}
 }
 

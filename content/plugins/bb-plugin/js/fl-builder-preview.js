@@ -1886,7 +1886,7 @@
 						args.unitSelect = field.find( '.fl-field-unit-select' );
 						args.getValues = function() {
 							var inputVal = args.input.val(),
-								unitVal = args.input.val(),
+								unitVal = args.unitSelect.val(),
 								values = {
 									value: inputVal,
 									unit: unitVal,
@@ -2323,14 +2323,23 @@
 				weight     = parent.find( '.fl-font-field-weight' ),
 				uniqueID   = preview.id + '-' + this.nodeId,
 				selector = this._getPreviewSelector( this.classes.node, preview.selector ),
-				important = preview.important ? ' !important' : '';
+				important = preview.important ? ' !important' : '',
+				val = ''
 
 			// If the selected font is a Google Font, build the font stylesheet
 			if( fontGroup == 'Google' ){
 				this._buildFontStylesheet( uniqueID, font.val(), weight.val() );
 			}
 
-			this.updateCSSRule( selector, 'font-family', 'Default' === font.val() ? '' : font.val() + important );
+			val = font.val();
+
+			// Some google fonts that end with numbers need to be wrapped in quotes.
+			var checkNum = new RegExp('[0-9]');
+			if( checkNum.test( font.val() ) ){
+				val = '"' + font.val() + '"';
+			}
+
+			this.updateCSSRule( selector, 'font-family', 'Default' === font.val() ? '' : val + important );
 			this.updateCSSRule( selector, 'font-weight', 'default' === weight.val() ? '' : weight.val() + important );
 		},
 
