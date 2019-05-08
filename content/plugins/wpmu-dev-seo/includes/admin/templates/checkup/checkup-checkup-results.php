@@ -1,83 +1,36 @@
 <?php
 $service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
 $results = $service->result();
-$show_upsell_message = isset( $show_upsell_message ) ? $show_upsell_message : true;
+$counts = smartcrawl_get_array_value( $results, 'counts' );
+$issue_count = intval( smartcrawl_get_array_value( $counts, 'warning' ) ) + intval( smartcrawl_get_array_value( $counts, 'critical' ) );
+$has_errors = smartcrawl_get_array_value( $results, 'error' );
+$has_items = smartcrawl_get_array_value( $results, 'items' );
 ?>
 
-<?php if ( ! empty( $results['error'] ) ) : ?>
-	<!--
-		We have encountered an error. So let's show that.
-	-->
-	<div class="wds-notice wds-notice-error">
-		<p><?php echo esc_html( $results['error'] ); ?></p>
-	</div>
-<?php endif; ?>
-
-<?php if ( ! empty( $results['items'] ) ) { ?>
+<?php if ( $has_items && ! $has_errors ): ?>
 	<p><?php esc_html_e( 'Here are your outstanding SEO issues. We recommend actioning as many as possible to ensure your site is as search engine and social media friendly as possible.', 'wds' ); ?></p>
-	<!--
-		This is where we store the actual result items.
-		Let's iterate through them.
-	-->
-	<div class="wds-accordion">
-		<?php foreach ( $results['items'] as $idx => $item ) : ?>
-			<?php
-			$item_id = "wds-checkup-item-{$idx}";
-			$type_class = ! empty( $item['type'] )
-				? sanitize_html_class( $item['type'] )
-				: '';
-			$custom_class = ! empty( $item['class'] )
-				? sanitize_html_class( $item['class'] )
-				: '';
-			$style_class_map = array(
-				'ok'       => 'wds-check-success',
-				'info'     => 'wds-check-invalid',
-				'warning'  => 'wds-check-warning',
-				'critical' => 'wds-check-error',
-			);
-			$style_class = isset( $style_class_map[ $item['type'] ] ) ? $style_class_map[ $item['type'] ] : '';
-			$details = ! empty( $item['tooltip'] ) ? $item['tooltip'] : '';
-			$title = ! empty( $item['title'] ) ? $item['title'] : '';
-			$body = ! empty( $item['body'] ) ? $item['body'] : '';
-			$fix = ! empty( $item['fix'] ) ? $item['fix'] : '';
-			?>
-			<div
-				class="wds-accordion-section wds-check-item <?php echo esc_attr( $type_class ); ?> <?php echo esc_attr( $custom_class ); ?> <?php echo esc_attr( $style_class ); ?>"
-				id="<?php echo esc_attr( $item_id ); ?>">
-				<div class="wds-accordion-handle">
-					<?php echo esc_html( $title ); ?>
-				</div>
-				<div class="wds-accordion-content">
-					<?php if ( $body || $fix ) : ?>
-						<div class="wds-recommendation">
-							<strong><?php esc_html_e( 'Recommendation', 'wds' ); ?></strong>
 
-							<?php echo wp_kses_post( $body ); ?>
-							<?php echo wp_kses_post( $fix ); ?>
-						</div>
-					<?php endif; ?>
-
-					<?php if ( $details ) : ?>
-						<div class="wds-more-info">
-							<strong><?php esc_html_e( 'More Info', 'wds' ); ?></strong>
-							<p><?php echo esc_html( $details ); ?></p>
-						</div>
-					<?php endif; ?>
-				</div>
-			</div>
-		<?php endforeach; ?>
-	</div>
-	<?php if ( ! $service->is_member() && $show_upsell_message ) { ?>
-		<?php
-		$this->_render( 'mascot-message', array(
-			'key'         => 'seo-checkup-upsell',
-			'dismissible' => false,
-			'message'     => sprintf(
-				'%s <a href="#upgrade-to-pro">%s</a>',
-				esc_html__( 'Grab the Pro version of SmartCrawl to unlock unlimited SEO Checkups plus automated scheduled reports to always stay on top of any issues. These features are included in a WPMU DEV membership along with 100+ plugins, 24/7 support and lots of handy site management tools.', 'wds' ),
-				esc_html__( '- Try it all FREE today', 'wds' )
+	<?php
+	if ( $issue_count > 0 ) {
+		$this->_render( 'notice', array(
+			'message' => sprintf(
+				_n( 'You have %d SEO recommendation.', 'You have %d SEO recommendations.', $issue_count, 'wds' ),
+				$issue_count
 			),
 		) );
-		?>
-	<?php } ?>
-<?php } ?>
+	} else {
+		$this->_render( 'notice', array(
+			'message' => esc_html__( "You don't have any SEO checkup recommendations – Google is loving it.", 'wds' ),
+			'class'   => 'sui-notice-success',
+		) );
+	}
+	?>
+<?php endif; ?>
+
+<?php $this->_render( 'checkup/checkup-results-inner', array( 'results' => $results ) ); ?>
+
+<?php if ( $has_items && ! $has_errors ): ?>
+	<p class="wds-centre">
+		<small><?php esc_html_e( 'Remember, these are recommendations only to help Google index your content effectively. SEO requires constant tweaking and improvement alongside good quality content on your website.', 'wds' ); ?></small>
+	</p>
+<?php endif; ?>

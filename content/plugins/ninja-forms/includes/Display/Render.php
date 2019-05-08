@@ -2,6 +2,8 @@
 
 final class NF_Display_Render
 {
+    protected static $render_instance_count = 0;
+
     protected static $loaded_templates = array(
         'app-layout',
         'app-before-form',
@@ -251,6 +253,8 @@ final class NF_Display_Render
                 }
 
                 $settings = $field[ 'settings' ];
+                // Scrub any values that might be stored in data. Defaults will set these later.
+                $settings['value'] = '';
                 foreach ($settings as $key => $setting) {
                     if (is_numeric($setting) && 'custom_mask' != $key )
                     	$settings[$key] =
@@ -352,6 +356,18 @@ final class NF_Display_Render
 
         $fields = apply_filters( 'ninja_forms_display_fields', $fields );
 
+        if(!isset($_GET['nf_preview_form'])){
+            /* Render Instance Fix */
+            if(self::$render_instance_count) {
+                $form_id .= '_' . self::$render_instance_count;
+                foreach( $fields as $id => $field ) {
+                    $fields[$id]['id'] .= '_' . self::$render_instance_count;
+                }
+            }
+            self::$render_instance_count++;
+            /* END Render Instance Fix */
+        }
+
         // Output Form Container
         do_action( 'ninja_forms_before_container', $form_id, $form->get_settings(), $form_fields );
         Ninja_Forms::template( 'display-form-container.html.php', compact( 'form_id' ) );
@@ -416,6 +432,8 @@ final class NF_Display_Render
             foreach ($form['fields'] as $field_id => $field) {
 
                 $field_type = $field['settings']['type'];
+                // Scrub any values that might be stored in data. Defaults will set these later.
+                $field['settings']['value'] = '';
 
                 if( ! isset( Ninja_Forms()->fields[ $field_type ] ) ) continue;
                 if( ! apply_filters( 'ninja_forms_preview_display_type_' . $field_type, TRUE ) ) continue;

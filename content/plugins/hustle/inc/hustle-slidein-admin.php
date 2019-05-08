@@ -45,24 +45,27 @@ class Hustle_Slidein_Admin {
 
 	public function register_current_json( $current_array ){
 
-		if( Hustle_Module_Admin::is_edit() && isset( $_GET['page'] ) && Hustle_Module_Admin::SLIDEIN_WIZARD_PAGE === $_GET['page'] ){
+		if ( isset( $_GET['page'] ) && Hustle_Module_Admin::SLIDEIN_WIZARD_PAGE === $_GET['page'] ) {
 
-			$module = Hustle_Module_Model::instance()->get( filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT) );
-			// $ss = Hustle_Social_Sharing_Model::instance()->get( filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT) );
-			// $all_ss = Hustle_Social_Sharing_Collection::instance()->get_all( null );
-			// $total_ss = count($all_ss);
-			$current_array['current'] = array(
-				'listing_page' => Hustle_Module_Admin::SLIDEIN_LISTING_PAGE,
-				'wizard_page' => Hustle_Module_Admin::SLIDEIN_WIZARD_PAGE,
-				'data' => $module->get_data(),
-				'content' => $module->get_content()->to_array(),
-				'design' => $module->get_design()->to_array(),
-				'settings' => $module->get_display_settings()->to_array(),
-				'shortcode_id' => $module->get_shortcode_id(),
-				'section' => Hustle_Module_Admin::get_current_section(),
-				'providers' => $this->_hustle->get_providers(),
+			$current_array['current'] = array();
 
-			);
+			if ( Hustle_Module_Admin::is_edit() ) {
+				$module = Hustle_Module_Model::instance()->get( filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT) );
+				$current_array['current'] = array(
+					'wizard_page' => Hustle_Module_Admin::SLIDEIN_WIZARD_PAGE,
+					'data' => $module->get_data(),
+					'content' => $module->get_content()->to_array(),
+					'design' => $module->get_design()->to_array(),
+					'settings' => $module->get_display_settings()->to_array(),
+					'shortcode_id' => $module->get_shortcode_id(),
+					'section' => Hustle_Module_Admin::get_current_section(),
+					'providers' => $this->_hustle->get_providers(),
+
+				);
+			}
+
+			$current_array['current']['listing_page'] = Hustle_Module_Admin::SLIDEIN_LISTING_PAGE;
+
 		}
 
 		return $current_array;

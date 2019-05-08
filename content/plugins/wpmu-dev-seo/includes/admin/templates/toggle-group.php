@@ -5,15 +5,15 @@ $items = empty( $items ) ? array() : $items;
 $view_option_name = empty( $_view['option_name'] ) ? '' : $_view['option_name'];
 ?>
 
-<div class="wds-table-fields <?php echo isset( $separator ) && $separator ? 'wds-separator-top' : ''; ?>">
-	<div class="label">
-		<label class="wds-label"><?php echo esc_html( $label ); ?></label>
-		<p class="wds-label-description">
+<div class="sui-box-settings-row <?php echo isset( $separator ) && $separator ? '' : 'wds-no-separator'; ?>">
+	<div class="sui-box-settings-col-1">
+		<label class="sui-settings-label"><?php echo esc_html( $label ); ?></label>
+		<p class="sui-description">
 			<?php echo esc_html( $description ); ?>
 		</p>
 	</div>
 
-	<div class="fields">
+	<div class="sui-box-settings-col-2">
 		<?php foreach ( $items as $item => $details ) : ?>
 			<?php
 			$option_name = $view_option_name;

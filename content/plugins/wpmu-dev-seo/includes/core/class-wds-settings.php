@@ -243,7 +243,7 @@ abstract class Smartcrawl_Settings extends Smartcrawl_Renderable {
 	 * Updates component-specific options
 	 *
 	 * @param string $option_key Specific options key we're after.
-	 * @param array $options Specific options we want to save.
+	 * @param mixed $options Specific options we want to save.
 	 */
 	public static function update_specific_options( $option_key, $options ) {
 		return is_multisite() && smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' )
@@ -251,26 +251,16 @@ abstract class Smartcrawl_Settings extends Smartcrawl_Renderable {
 			: update_option( $option_key, $options );
 	}
 
-	/**
-	 * Filter name getter
-	 *
-	 * @param string $suffix Action suffix.
-	 *
-	 * @return string Final filter name
-	 */
-	public function get_filter( $suffix ) {
-		if ( empty( $suffix ) ) {
-			return false;
-		}
-		if ( ! is_string( $suffix ) ) {
-			return false;
-		}
+	public static function delete_specific_options( $option_key ) {
+		return is_multisite() && smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' )
+			? delete_site_option( $option_key )
+			: delete_option( $option_key );
+	}
 
-		$component = ! empty( $this->name ) || ! in_array( $this->name, array_keys( self::get_known_components() ), true )
-			? $this->name
-			: 'general';
-
-		return "wds-settings-{$component}-{$suffix}";
+	public static function deactivate_component( $component ) {
+		$options = self::get_specific_options( 'wds_settings_options' );
+		$options[ $component ] = 0;
+		self::update_specific_options( 'wds_settings_options', $options );
 	}
 
 	/**
@@ -287,5 +277,4 @@ abstract class Smartcrawl_Settings extends Smartcrawl_Renderable {
 			self::COMP_CHECKUP   => __( 'SEO Checkup', 'wds' ),
 		);
 	}
-
 }

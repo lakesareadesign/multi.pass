@@ -128,8 +128,8 @@ class Smartcrawl_OpenGraph_Printer {
 	}
 
 	private function inject_url() {
-		$onpage = Smartcrawl_OnPage::get();
-		$canonical_url = $onpage->get_canonical_url();
+		$helper = new Smartcrawl_Canonical_Value_Helper();
+		$canonical_url = $helper->get_canonical();
 
 		if ( ! empty( $canonical_url ) && ! is_wp_error( $canonical_url ) ) {
 			$this->print_og_tag( 'og:url', $canonical_url );
@@ -199,8 +199,8 @@ class Smartcrawl_OpenGraph_Printer {
 		$allowed_tags = array(
 			'meta' => array(
 				'property' => array(),
-				'content'  => array()
-			)
+				'content'  => array(),
+			),
 		);
 
 		return $allowed_tags;

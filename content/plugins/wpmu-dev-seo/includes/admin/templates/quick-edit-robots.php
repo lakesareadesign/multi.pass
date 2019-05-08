@@ -1,31 +1,38 @@
+<?php
+$onpage_allowed = smartcrawl_is_allowed_tab( Smartcrawl_Settings::TAB_ONPAGE );
+?>
 <fieldset class="inline-edit-col-left">
-	<div class="inline-edit-col">
-		<label>
-			<span class="title metadesc"><?php esc_html_e( 'Meta Description', 'wds' ); ?></span>
-			<textarea class="ptitle smartcrawl_metadesc" name="wds_metadesc"></textarea>
-		</label>
-	</div>
-	<div class="inline-edit-col long-label">
-		<label>
-			<span class="title"><?php esc_html_e( 'Focus keywords', 'wds' ); ?></span>
-			<span class="input-text-wrap">
-				<input class="ptitle smartcrawl_focus" type="text" value="" name="wds_focus"/>
-			</span>
-		</label>
-	</div>
-	<div class="inline-edit-col long-label">
-		<label>
-			<span class="title"><?php esc_html_e( 'Other Keywords', 'wds' ); ?></span>
-			<span class="input-text-wrap">
-				<input class="ptitle smartcrawl_keywords" type="text" value="" name="wds_keywords"/>
-			</span>
-		</label>
-	</div>
+	<?php if ( $onpage_allowed ): ?>
+		<div class="inline-edit-col long-label">
+			<h4></h4>
+			<label>
+				<span class="title"><?php esc_html_e( 'Title Tag', 'wds' ); ?></span>
+				<span class="input-text-wrap">
+					<input class="ptitle smartcrawl_title" type="text" value="" name="wds_title"/>
+				</span>
+			</label>
+		</div>
+		<div class="inline-edit-col long-label">
+			<label>
+				<span class="title metadesc"><?php esc_html_e( 'Meta Description', 'wds' ); ?></span>
+				<span class="input-text-wrap">
+					<textarea class="ptitle smartcrawl_metadesc" name="wds_metadesc"></textarea>
+				</span>
+			</label>
+		</div>
+		<div class="inline-edit-col long-label">
+			<label>
+				<span class="title"><?php esc_html_e( 'Other Keywords', 'wds' ); ?></span>
+				<span class="input-text-wrap">
+					<input class="ptitle smartcrawl_keywords" type="text" value="" name="wds_keywords"/>
+				</span>
+			</label>
+		</div>
+	<?php endif; ?>
 </fieldset>
 <style>
 	.inline-edit-col .title.metadesc {
 		display: block;
-		margin-top: 20px;
 		width: 100%;
 	}
 

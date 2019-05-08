@@ -1,77 +1,39 @@
 <?php
 $service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
-$checkup_url = Smartcrawl_Checkup_Settings::checkup_url();
-$last_checked = $service->get_last_checked( get_option( 'date_format' ) . ' ' . get_option( 'time_format' ) );
+$last_checked_timestamp = $service->get_last_checked_timestamp();
+$active_tab = empty( $active_tab ) ? '' : $active_tab;
+$this->_render( 'before-page-container' );
+$email_recipients = empty( $email_recipients ) ? array() : $email_recipients;
+$in_progress = $service->in_progress();
 ?>
+
 <div id="container"
-     class="wrap wrap-wds wds-page wds-checkup-settings <?php echo $service->is_member() ? 'wds-is-member' : 'wds-is-not-member'; ?>">
+     class="sui-wrap wrap wrap-wds wds-page wds-checkup-settings">
 
-	<section id="header">
-		<?php $this->_render( 'settings-message-top' ); ?>
-		<div class="actions">
-			<?php
-			printf(
-				esc_html__( 'Last checked: %s', 'wds' ),
-				esc_html( $last_checked )
-			);
-			?>
-			<a href="<?php echo esc_attr( $checkup_url ); ?>" class="button button-small">
-				<?php esc_html_e( 'Run checkup', 'wds' ); ?>
-			</a>
-			<a target="_blank" class="button button-small button-light actions-button"
-			   href="https://premium.wpmudev.org/docs/wpmu-dev-plugins/smartcrawl/#chapter-1">
-				<i class="wds-icon-academy"></i>
-				<?php esc_html_e( 'View Documentation', 'wds' ); ?>
-			</a>
-		</div>
-		<h1><?php esc_html_e( 'SEO Checkup', 'wds' ); ?></h1>
-	</section><!-- end header -->
+	<?php $this->_render( 'page-header', array(
+		'title'                 => esc_html__( 'SEO Checkup', 'wds' ),
+		'documentation_chapter' => 'seo-checkup',
+		'extra_actions'         => 'checkup/checkup-header-actions',
+		'extra_actions_args'    => array(
+			'in_progress' => $in_progress,
+		),
+	) ); ?>
 
-	<div class="wds-seo-checkup-stats-container">
-		<?php $this->_render( 'checkup/checkup-top' ); ?>
-	</div>
+	<?php if ( empty( $last_checked_timestamp ) || $in_progress ): ?>
+		<?php if ( $in_progress ): ?>
+			<?php $this->_render( 'checkup/checkup-progress-modal' ); ?>
+		<?php endif; ?>
 
-	<form action='<?php echo esc_attr( $_view['action_url'] ); ?>' method='post' class="wds-form">
-		<?php settings_fields( $_view['option_name'] ); ?>
+		<?php $this->_render( 'checkup/checkup-get-started', array(
+			'in_progress' => $in_progress,
+		) ); ?>
+	<?php else: ?>
+		<?php $this->_render( 'checkup/checkup-settings-inner', array(
+			'active_tab'       => $active_tab,
+			'email_recipients' => $email_recipients,
+		) ); ?>
+	<?php endif; ?>
 
-		<input type="hidden"
-		       name='<?php echo esc_attr( $_view['option_name'] ); ?>[<?php echo esc_attr( $_view['slug'] ); ?>-setup]'
-		       value="1">
-
-		<div class="vertical-tabs" id="checkup-settings-tabs">
-			<?php
-			$this->_render( 'report-vertical-tab', array(
-				'tab_id'       => 'tab_checkup',
-				'tab_name'     => __( 'Checkup', 'wds' ),
-				'is_active'    => 'tab_checkup' === $active_tab,
-				'tab_sections' => array(
-					array(
-						'section_template' => 'checkup/checkup-checkup',
-					),
-				),
-			) );
-			?>
-			<?php
-			$is_member = $service->is_member();
-			$this->_render(
-				$is_member ? 'vertical-tab' : 'report-vertical-tab',
-				array(
-					'tab_id'       => 'tab_settings',
-					'tab_name'     => __( 'Reporting', 'wds' ),
-					'is_active'    => 'tab_settings' === $active_tab,
-					'title_button' => 'upgrade',
-					'tab_sections' => array(
-						array(
-							'section_description' => esc_html__( 'Set up SmartCrawl to automatically run a comprehensive checkup daily, weekly or monthly and receive an email report.', 'wds' ),
-							'section_template'    => 'checkup/checkup-reporting',
-						),
-					),
-				)
-			);
-			?>
-
-		</div>
-	</form>
-
+	<?php $this->_render( 'footer' ); ?>
 	<?php $this->_render( 'upsell-modal' ); ?>
 </div>

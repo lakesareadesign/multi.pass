@@ -21,21 +21,7 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 	 * @return array Validated input
 	 */
 	public function validate( $input ) {
-		$result = array();
-		$saving_user_roles = isset( $input['saving_user_roles'] ) && $input['saving_user_roles'];
-
-		// The options page is broken down into two parts. The following operation fills in option values from the missing part.
-		if ( $saving_user_roles ) {
-			$input = wp_parse_args(
-				$input,
-				self::get_specific_options( $this->option_name )
-			);
-		} else {
-			$input = wp_parse_args(
-				$input,
-				$this->get_old_user_role_options()
-			);
-		}
+		$result = self::get_specific_options( $this->option_name );
 
 		if ( ! empty( $input['wds_settings-setup'] ) ) {
 			$result['wds_settings-setup'] = true;
@@ -78,7 +64,7 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 			'secret-key',
 		);
 		foreach ( $strings as $str ) {
-			if ( ! empty( $input[ $str ] ) ) {
+			if ( isset( $input[ $str ] ) ) {
 				$result[ $str ] = sanitize_text_field( $input[ $str ] );
 			}
 		}
@@ -105,26 +91,6 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 		}
 
 		return $result;
-	}
-
-	private function get_old_user_role_options() {
-		$option_keys = array(
-			'seo_metabox_permission_level',
-			'seo_metabox_301_permission_level',
-			'urlmetrics_metabox_permission_level',
-		);
-
-		$old_options = self::get_specific_options( $this->option_name );
-
-		$user_role_options = array();
-		foreach ( $option_keys as $option_key ) {
-			$option_value = smartcrawl_get_array_value( $old_options, $option_key );
-			if ( $option_value ) {
-				$user_role_options[ $option_key ] = $option_value;
-			}
-		}
-
-		return $user_role_options;
 	}
 
 	/**
@@ -245,7 +211,6 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 		$this->name = 'settings';
 		$this->slug = Smartcrawl_Settings::TAB_SETTINGS;
 		$this->action_url = admin_url( 'options.php' );
-		$this->title = __( 'Settings', 'wds' );
 		$this->page_title = __( 'SmartCrawl Wizard: Settings', 'wds' );
 
 		add_action( 'admin_init', array( $this, 'activate_component' ) );
@@ -262,6 +227,10 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 		Smartcrawl_Controller_IO::serve();
 
 		parent::init();
+	}
+
+	public function get_title() {
+		return __( 'Settings', 'wds' );
 	}
 
 	private function display_single_site_import_notice() {
@@ -308,8 +277,6 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 
 		$arguments['default_roles'] = $this->_get_filtered_roles();
 
-		$arguments['active_components'] = Smartcrawl_Settings::get_known_components();
-
 		$arguments['slugs'] = array(
 			Smartcrawl_Settings::TAB_CHECKUP   => __( 'SEO Checkup', 'wds' ),
 			Smartcrawl_Settings::TAB_ONPAGE    => __( 'Title & Meta', 'wds' ),
@@ -332,7 +299,6 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 
 		$arguments['wds_sitewide_mode'] = smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' ) || (bool) get_site_option( 'wds_sitewide_mode' );
 
-		$smartcrawl_options = Smartcrawl_Settings::get_options();
 		$sitemap_settings = Smartcrawl_Sitemap_Settings::get_instance();
 		$arguments['sitemap_option_name'] = $sitemap_settings->option_name;
 
@@ -341,9 +307,9 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 			'home' => __( 'Home page', 'wds' ),
 		);
 
-		$arguments['active_tab'] = $this->_get_last_active_tab( 'tab_general_settings' );
+		$arguments['active_tab'] = $this->_get_active_tab( 'tab_general_settings' );
 
-		wp_enqueue_script( 'wds-admin-settings' );
+		wp_enqueue_script( Smartcrawl_Controller_Assets::SETTINGS_PAGE_JS );
 		$this->_render_page( 'settings/settings', $arguments );
 	}
 
@@ -397,10 +363,6 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 		$this->options = self::get_specific_options( $this->option_name );
 
 		if ( empty( $this->options ) ) {
-			if ( empty( $this->options['onpage'] ) ) {
-				$this->options['onpage'] = 1;
-			}
-
 			if ( empty( $this->options['autolinks'] ) ) {
 				$this->options['autolinks'] = 0;
 			}
@@ -413,12 +375,16 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 				$this->options['sitemap'] = 0;
 			}
 
-			if ( empty( $this->options['social'] ) ) {
-				$this->options['social'] = 1;
+			if ( empty( $this->options['onpage'] ) ) {
+				$this->options['onpage'] = 1;
 			}
 
 			if ( empty( $this->options['checkup'] ) ) {
 				$this->options['checkup'] = 0;
+			}
+
+			if ( empty( $this->options['social'] ) ) {
+				$this->options['social'] = 1;
 			}
 		}
 
@@ -488,7 +454,7 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 
 		$auto_import_url = sprintf(
 			'<a href="%s">%s</a>',
-			Smartcrawl_Settings_Admin::admin_url( Smartcrawl_Settings::TAB_SETTINGS ) . '#tab_import_export',
+			Smartcrawl_Settings_Admin::admin_url( Smartcrawl_Settings::TAB_SETTINGS ) . '&tab=tab_import_export',
 			esc_html__( 'auto-import', 'wds' )
 		);
 		$message = sprintf(
@@ -507,7 +473,7 @@ class Smartcrawl_Settings_Settings extends Smartcrawl_Settings_Admin {
 		?>
 		<div class="notice-warning notice is-dismissible wds-native-dismissible-notice"
 		     data-message-key="<?php echo esc_attr( $message_key ); ?>">
-			<p><?php echo wp_kses_post($message); ?></p>
+			<p><?php echo wp_kses_post( $message ); ?></p>
 		</div>
 		<?php
 	}

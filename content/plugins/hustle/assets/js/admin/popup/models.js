@@ -1,12 +1,12 @@
 Hustle.define( "Pop_Up.Models",  function(){
 	"use strict";
-	
+
 	var Base = Module.Model.extend({
-		defaults: _.extend( Module.Model.prototype.defaults, {
+		defaults: _.extend( {}, Module.Model.prototype.defaults, {
 			module_type: 'popup'
 		})
 	});
-	
+
 	var Content = Hustle.get("Models.M").extend({
 		defaults: {
 			module_name: '',
@@ -39,7 +39,7 @@ Hustle.define( "Pop_Up.Models",  function(){
 			redirect_url: '',
 		}
 	});
-	
+
 	var Design = Hustle.get("Models.M").extend({
 		defaults: {
 			form_layout: "one",
@@ -51,7 +51,7 @@ Hustle.define( "Pop_Up.Models",  function(){
 			feature_image_vertical_px: "-100",
 			style: "cabriolet",
 			customize_colors: false,
-			
+
 			main_bg_color: "rgba(56,69,78,1)",
 			image_container_bg: "rgba(53,65,74,1)",
 			form_area_bg: "rgba(93,115,128,1)",
@@ -59,7 +59,7 @@ Hustle.define( "Pop_Up.Models",  function(){
 			title_color: "rgba(253,253,253,1)",
 			subtitle_color: "rgba(253,253,253,1)",
 			content_color: "rgba(173,181,183,1)",
-			
+
 			link_static_color: "rgba(56,197,181,1)",
 			link_hover_color: "rgba(73,226,209,1)",
 			link_active_color: "rgba(73,226,209,1)",
@@ -112,11 +112,11 @@ Hustle.define( "Pop_Up.Models",  function(){
 			optin_success_content_color: "rgba(253,253,253,1)",
 
 			overlay_bg: "rgba(51,51,51,0.9)",
-			
+
 			close_button_static_color: "rgba(56,197,181,1)",
 			close_button_hover_color: "rgba(73,226,209,1)",
 			close_button_active_color: "rgba(73,226,209,1)",
-			
+
 			border: false,
 			border_radius: 5,
 			border_weight: 3,
@@ -152,7 +152,7 @@ Hustle.define( "Pop_Up.Models",  function(){
 			custom_css: "",
 		}
 	});
-	
+
 	var Triggers = Hustle.get("Models.Trigger");
 	var Display_Settings = Hustle.get("Models.M").extend({
 		defaults:{

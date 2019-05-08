@@ -61,9 +61,9 @@ class ShareaholicPublic {
     if ('dns-prefetch' === $relation_type) {
       if ($hints) {
         array_push($hints,
-          '//dsms0mj1bbhn4.cloudfront.net',
-          '//apps.shareaholic.com',
-          '//grace.shareaholic.com',
+          '//k4z6w9b5.stackpathcdn.com',
+          '//cdn.shareaholic.net',
+          '//www.shareaholic.net',
           '//analytics.shareaholic.com',
           '//recs.shareaholic.com',
           '//go.shareaholic.com',

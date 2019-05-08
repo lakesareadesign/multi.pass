@@ -179,14 +179,17 @@ function um_user_edit_profile( $args ) {
 	$to_update = null;
 	$files = array();
 
+	$user_id = null;
 	if ( isset( $args['user_id'] ) ) {
-		if ( UM()->roles()->um_current_user_can( 'edit', $args['user_id'] ) ) {
-			UM()->user()->set( $args['user_id'] );
-		} else {
-			wp_die( __( 'You are not allowed to edit this user.', 'ultimate-member' ) );
-		}
+		$user_id = $args['user_id'];
 	} elseif ( isset( $args['_user_id'] ) ) {
-		UM()->user()->set( $args['_user_id'] );
+		$user_id = $args['_user_id'];
+	}
+
+	if ( UM()->roles()->um_current_user_can( 'edit', $user_id ) ) {
+		UM()->user()->set( $user_id );
+	} else {
+		wp_die( __( 'You are not allowed to edit this user.', 'ultimate-member' ) );
 	}
 
 	$userinfo = UM()->user()->profile;
@@ -223,6 +226,39 @@ function um_user_edit_profile( $args ) {
 
 			if ( ! um_can_edit_field( $array ) && isset( $array['editable'] ) && ! $array['editable'] ) {
 				continue;
+			}
+
+			//the same code in class-validation.php validate_fields_values for registration form
+			//rating field validation
+			if ( $array['type'] == 'rating' && isset( $args['submitted'][ $key ] ) ) {
+				if ( ! is_numeric( $args['submitted'][ $key ] ) ) {
+					continue;
+				} else {
+					if ( $array['number'] == 5 ) {
+						if ( ! in_array( $args['submitted'][ $key ], range( 1, 5 ) ) ) {
+							continue;
+						}
+					} elseif ( $array['number'] == 10 ) {
+						if ( ! in_array( $args['submitted'][ $key ], range( 1, 10 ) ) ) {
+							continue;
+						}
+					}
+				}
+			}
+
+			//validation of correct values from options in wp-admin
+			if ( in_array( $array['type'], array( 'select', 'radio' ) ) &&
+			     isset( $args['submitted'][ $key ] ) && ! empty( $array['options'] ) &&
+			     ! in_array( $args['submitted'][ $key ], $array['options'] ) ) {
+				continue;
+			}
+
+			//validation of correct values from options in wp-admin
+			//the user cannot set invalid value in the hidden input at the page
+			if ( in_array( $array['type'], array( 'multiselect', 'checkbox' ) ) &&
+			     isset( $args['submitted'][ $key ] ) && ! empty( $array['options'] ) ) {
+
+				$args['submitted'][ $key ] = array_intersect( $args['submitted'][ $key ], $array['options'] );
 			}
 
 			if ( $array['type'] == 'multiselect' || $array['type'] == 'checkbox' && ! isset( $args['submitted'][ $key ] ) ) {
@@ -482,8 +518,8 @@ function um_profile_dynamic_meta_desc() {
 
 		$content = um_convert_tags( UM()->options()->get( 'profile_desc' ) );
 		$user_id = um_user( 'ID' );
-		$url = um_user_profile_url();
 
+		$url = um_user_profile_url();
         $avatar = um_get_user_avatar_url( $user_id, 'original' );
 
 		um_reset_user(); ?>

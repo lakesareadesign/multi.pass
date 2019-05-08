@@ -118,15 +118,18 @@ class Hustle_ConstantContact_Form_Settings extends Hustle_Provider_Form_Settings
 
 	    $access_token = $api->get_token( 'access_token' );
 
+		$note =  ' ' . __( 'You will be asked to give us access to your selected account and will be redirected back to this page.', Opt_In::TEXT_DOMAIN )
+				. ' ' . __( 'NOTE:', Opt_In::TEXT_DOMAIN ) . ' ' . __( 'Any unsaved changes will be lost.', Opt_In::TEXT_DOMAIN );
+
 		if ( !$access_token ) {
 
 	        $default_options = array(
 		        'auth_code_label' => array(
 			        "id"    => "auth_code_label",
 			        "value" => sprintf(
-				        __('Please <a href="#" class="hustle_provider_on_click_ajax" data-current_page="%1$s" data-action="update_constantcontact_referrer" data-nonce="%2$s">click here</a> to connect to ConstantContact. You will be asked to give us access to your ConstantContact account and then be redirected back to this screen.', Opt_In::TEXT_DOMAIN),
+				        __('Please <a href="#" class="hustle_provider_on_click_ajax" data-current_page="%1$s" data-action="update_constantcontact_referrer" data-nonce="%2$s">click here</a> to connect to ConstantContact.', Opt_In::TEXT_DOMAIN),
 				        $this->provider->current_page, wp_create_nonce('update_constantcontact_referrer')
-			        ),
+			        ) . $note,
 			        "type" => "label",
 		        ),
 				'notice' => array(
@@ -152,14 +155,16 @@ class Hustle_ConstantContact_Form_Settings extends Hustle_Provider_Form_Settings
 		}
 
 		$list = $this->first_step_get_lists( $api );
+		$info = __( "You're successfully connected to your Hubspot account. Please, choose the list to which you want to send data below or %s to reconnect to another Hubspot account.", Opt_In::TEXT_DOMAIN );
 
 		$default_options =  array(
 			"auth_label" => array(
 				"id" => "auth_code_label",
 			    "value" => sprintf(
-			    	__('Please <a href="#" class="hustle_provider_on_click_ajax" data-current_page="%1$s" data-action="update_constantcontact_referrer" data-nonce="%2$s">click here</a> to reconnect to ConstantContact. You will be asked to give us access to your ConstantContact account and then be redirected back to this screen.', Opt_In::TEXT_DOMAIN),
-				    $this->provider->current_page, wp_create_nonce('update_constantcontact_referrer')
-			    ),
+					__( "You're successfully connected to your ConstantContact account. Please, choose the list to which you want to send data below or %s to reconnect to another ConstantContact account.", Opt_In::TEXT_DOMAIN ),
+						'<a href="#" class="hustle_provider_on_click_ajax" data-current_page="' . $this->provider->current_page .
+						'" data-action="update_constantcontact_referrer" data-nonce="' . wp_create_nonce('update_constantcontact_referrer') . '">' . __( 'click here', Opt_In::TEXT_DOMAIN ) . '</a>'
+			    ) . $note,
 			    "type" => "label",
 			),
 			"notice" => array(

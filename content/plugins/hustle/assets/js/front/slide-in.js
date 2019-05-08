@@ -18,7 +18,10 @@
 			this.$el.addClass( cLass );
 
 			Optin.Module.prototype.render.apply( this, arguments );
-
+			
+			if ( 'function' === typeof Optin.render_hustle_sshare_module_embeds ) {
+				Optin.render_hustle_sshare_module_embeds( false );
+			}
 		},
 
 		convert_to_microseconds: function(value, unit) {

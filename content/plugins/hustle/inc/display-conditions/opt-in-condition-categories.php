@@ -46,14 +46,12 @@ class Opt_In_Condition_Categories extends Opt_In_Condition_Abstract implements O
 	private function _get_current_categories(){
 		global $post;
 		if( !isset( $post ) ) return array();
-		// If PHP <5.3 as 5.2 does not support anonymous functions.
-		if ( ! function_exists( '_get_term_id' ) ) {
-			function _get_term_id ($obj) {
-				return (string) $obj->term_id;
-			};
-		}
+
 		$terms = get_the_terms( $post, "category" );
-		return array_map( "_get_term_id", empty( $terms ) ? array() : $terms );
+		$terms = is_wp_error( $terms ) || empty( $terms ) ? array() : $terms;
+		$ids = wp_list_pluck( $terms, 'term_id' );
+
+		return $ids;
 	}
 
 	public function label(){

@@ -171,7 +171,7 @@ class Smartcrawl_Checks extends Smartcrawl_WorkUnit {
 	 */
 	public function get_focus() {
 		$post = get_post( $this->_post_id );
-		$keywords = Smartcrawl_OnPage::get()->get_focus_keywords( $post );
+		$keywords = Smartcrawl_Meta_Value_Helper::get()->get_focus_keywords( $post );
 
 		return (array) $this->apply_filters(
 			'focus',

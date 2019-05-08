@@ -14,7 +14,7 @@ if ( $query->have_posts() ) :
 
 	?>
 
-	<div class="fl-post-slider" itemscope="itemscope" itemtype="https://schema.org/Blog">
+	<div class="fl-post-slider"<?php FLBuilder::print_schema( ' itemscope="itemscope" itemtype="https://schema.org/Blog"' ); ?>>
 		<div class="fl-post-slider-wrapper">
 
 			<?php

@@ -28,20 +28,46 @@ class Smartcrawl_Settings_Dashboard extends Smartcrawl_Settings_Admin {
 
 	public function init() {
 		$this->slug = Smartcrawl_Settings::TAB_DASHBOARD;
-		$this->title = __( 'SmartCrawl', 'wds' );
-		$this->sub_title = __( 'Dashboard', 'wds' );
 		$this->page_title = __( 'SmartCrawl Wizard: Dashboard', 'wds' );
 
 		add_action( 'wp_ajax_wds-service-redirect', array( $this, 'json_service_redirect' ) );
 		add_action( 'wp_ajax_wds-service-ignore', array( $this, 'json_service_ignore' ) );
 		add_action( 'wp_ajax_wds-service-unignore', array( $this, 'json_service_unignore' ) );
 		add_action( 'wp_ajax_wds-service-ignores-purge', array( $this, 'json_service_ignores_purge' ) );
+		add_action( 'wp_ajax_wds-load-issue-occurrences', array( $this, 'json_load_issue_occurrences' ) );
 
 		add_action( 'wp_ajax_wds-service-update_sitemap', array( $this, 'json_service_update_sitemap' ) );
 		add_action( 'wp_ajax_wds-activate-component', array( $this, 'json_activate_component' ) );
 		add_action( 'wp_ajax_wds-reload-box', array( $this, 'json_reload_component' ) );
 
 		parent::init();
+	}
+
+	public function json_load_issue_occurrences() {
+		$seo_service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SEO );
+		$report = $seo_service->get_report();
+		$data = $this->get_request_data();
+		if ( empty( $data ) || empty( $data['issue_id'] ) ) {
+			Smartcrawl_Logger::error( 'Issue occurrences could not be loaded. Request data invalid.' );
+			wp_send_json_error();
+		}
+
+		$issue_id = smartcrawl_get_array_value( $data, 'issue_id' );
+		$issue = $report->get_issue( $issue_id );
+		if ( empty( $issue ) ) {
+			Smartcrawl_Logger::error( 'Issue occurrences could not be loaded. Issue not found.' );
+			wp_send_json_error();
+		}
+
+		$occurrences = array();
+		foreach ( $issue['origin'] as $origin ) {
+			$issue_origin = is_array( $origin ) && ! empty( $origin[0] ) ? $origin[0] : $origin;
+			$occurrences[] = $issue_origin;
+		}
+
+		wp_send_json_success( array(
+			'occurrences' => $occurrences,
+		) );
 	}
 
 	/**
@@ -157,7 +183,7 @@ class Smartcrawl_Settings_Dashboard extends Smartcrawl_Settings_Admin {
 			: 0;
 
 		// Update sitemap
-		$controller->update_sitemap();
+		Smartcrawl_Xml_Sitemap::get()->set_sitemap_pristine( false );
 
 		// Get fresh count
 		$data = $controller->get_sitemap_stats();
@@ -360,7 +386,7 @@ class Smartcrawl_Settings_Dashboard extends Smartcrawl_Settings_Admin {
 	 * Add admin settings page
 	 */
 	public function options_page() {
-		wp_enqueue_script( 'wds-admin-dashboard' );
+		wp_enqueue_script( Smartcrawl_Controller_Assets::DASHBOARD_PAGE_JS );
 
 		$uptime = $this->_get_uptime_service();
 
@@ -390,7 +416,7 @@ class Smartcrawl_Settings_Dashboard extends Smartcrawl_Settings_Admin {
 
 		$this->smartcrawl_page_hook = add_menu_page(
 			$this->page_title,
-			$this->title,
+			$this->get_title(),
 			$this->capability,
 			$this->slug,
 			array( &$this, 'options_page' ),
@@ -400,7 +426,7 @@ class Smartcrawl_Settings_Dashboard extends Smartcrawl_Settings_Admin {
 		$this->smartcrawl_page_hook = add_submenu_page(
 			$this->slug,
 			$this->page_title,
-			$this->sub_title,
+			$this->get_sub_title(),
 			$this->capability,
 			$this->slug,
 			array( &$this, 'options_page' )
@@ -413,7 +439,14 @@ class Smartcrawl_Settings_Dashboard extends Smartcrawl_Settings_Admin {
 		}
 
 		add_action( "admin_print_styles-{$this->smartcrawl_page_hook}", array( &$this, 'admin_styles' ) );
-		add_action( "admin_print_scripts-{$this->smartcrawl_page_hook}", array( &$this, 'admin_scripts' ) );
+	}
+
+	public function get_title() {
+		return __( 'SmartCrawl', 'wds' );
+	}
+
+	public function get_sub_title() {
+		return __( 'Dashboard', 'wds' );
 	}
 
 	/**

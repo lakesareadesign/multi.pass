@@ -16,11 +16,11 @@ class Smartcrawl_Canonical_Value_Helper extends Smartcrawl_Type_Traverser {
 	}
 
 	public function handle_bp_groups() {
-		$this->canonical = bp_get_group_link( bp_get_group_id() );
+		$this->canonical = bp_get_group_permalink( new BP_Groups_Group( bp_get_group_id() ) );
 	}
 
 	public function handle_bp_profile() {
-		$this->canonical = bp_get_displayed_user_link();
+		$this->canonical = bp_displayed_user_domain();
 	}
 
 	public function handle_woo_shop() {
@@ -92,6 +92,10 @@ class Smartcrawl_Canonical_Value_Helper extends Smartcrawl_Type_Traverser {
 		$post = $post_id ? get_post( $post_id ) : null;
 		if ( ! $post ) {
 			$post = $this->get_context();
+		}
+		if ( empty( $post->ID ) ) {
+			$query = $this->get_resolver()->get_query_context();
+			$post = $query->get_queried_object();
 		}
 
 		$canonical = smartcrawl_get_value( 'canonical', $post->ID );

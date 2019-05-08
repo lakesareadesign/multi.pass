@@ -59,6 +59,10 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 			add_filter( 'get_pages', array( &$this, 'filter_protected_posts' ), 99, 2 );
 			//filter menu items
 			add_filter( 'wp_nav_menu_objects', array( &$this, 'filter_menu' ), 99, 2 );
+			
+			//filter attachment
+			add_filter( 'wp_get_attachment_url', array( &$this, 'filter_attachment' ), 99, 2 );
+			add_filter( 'has_post_thumbnail', array( &$this, 'filter_post_thumbnail' ), 99, 3 );
 
 
 			//check the site's accessible more priority have Individual Post/Term Restriction settings
@@ -557,6 +561,36 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 
 				if ( ! empty( $restriction['_um_custom_access_settings'] ) ) {
 					if ( ! isset( $restriction['_um_accessible'] ) ) {
+						$restricted_taxonomies = UM()->options()->get( 'restricted_access_taxonomy_metabox' );
+
+						//get all taxonomies for current post type
+						$taxonomies = get_object_taxonomies( $post );
+
+						//get all post terms
+						$terms = array();
+						if ( ! empty( $taxonomies ) ) {
+							foreach ( $taxonomies as $taxonomy ) {
+								if ( empty( $restricted_taxonomies[ $taxonomy ] ) ) {
+									continue;
+								}
+
+								$terms = array_merge( $terms, wp_get_post_terms( $post->ID, $taxonomy, array( 'fields' => 'ids' ) ) );
+							}
+						}
+
+						//get restriction options for first term with privacy settigns
+						foreach ( $terms as $term_id ) {
+							$restriction = get_term_meta( $term_id, 'um_content_restriction', true );
+
+							if ( ! empty( $restriction['_um_custom_access_settings'] ) ) {
+								if ( ! isset( $restriction['_um_accessible'] ) ) {
+									continue;
+								} else {
+									return $restriction;
+								}
+							}
+						}
+
 						return false;
 					} else {
 						return $restriction;
@@ -587,7 +621,7 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 				$restriction = get_term_meta( $term_id, 'um_content_restriction', true );
 
 				if ( ! empty( $restriction['_um_custom_access_settings'] ) ) {
-					if ( ! isset( $restriction['_um_accessible'] ) || '0' == $restriction['_um_accessible'] ) {
+					if ( ! isset( $restriction['_um_accessible'] ) ) {
 						continue;
 					} else {
 						return $restriction;
@@ -629,7 +663,7 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 			foreach ( $posts as $post ) {
 
 				//Woocommerce AJAX fixes....remove filtration on wc-ajax which goes to Front Page
-				if ( ! empty( $_GET['wc-ajax'] ) /*&& $query->is_front_page()*/ ) {
+				if ( ! empty( $_GET['wc-ajax'] ) && defined('WC_DOING_AJAX') && WC_DOING_AJAX  /*&& $query->is_front_page()*/ ) {
 					$filtered_posts[] = $post;
 					continue;
 				}
@@ -984,7 +1018,7 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 		 * @param int $post_id
 		 * @return boolean
 		 */
-		public function disable_comments_open( $open, $post_id ) {
+		function disable_comments_open( $open, $post_id ) {
 			static $cache = array();
 
 			if ( isset( $cache[ $post_id ] ) ) {
@@ -1041,7 +1075,7 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 		 * @param int $post_id
 		 * @return boolean
 		 */
-		public function disable_comments_open_number( $count, $post_id ) {
+		function disable_comments_open_number( $count, $post_id ) {
 			static $cache_number = array();
 
 			if ( isset( $cache_number[ $post_id ] ) ) {
@@ -1088,6 +1122,105 @@ if ( ! class_exists( 'um\core\Access' ) ) {
 
 			$cache_number[ $post_id ] = $count;
 			return $count;
+		}
+		
+		
+		/**
+		 * Is post restricted?
+		 *
+		 * @param int $post_id
+		 * @return boolean
+		 */
+		function is_restricted( $post_id ) {
+
+			$restricted = true;
+
+			$post = get_post( $post_id );
+			$restriction = $this->get_post_privacy_settings( $post );
+
+			if ( ! $restriction ) {
+				$restricted = false;
+			} else {
+
+				if ( '0' == $restriction[ '_um_accessible' ] ) {
+					//post is private
+					$restricted = false;
+				} elseif ( '1' == $restriction[ '_um_accessible' ] ) {
+					//if post for not logged in users and user is not logged in
+					if ( !is_user_logged_in() ) {
+						$restricted = false;
+					} else {
+
+						if ( current_user_can( 'administrator' ) ) {
+							$restricted = false;
+						}
+					}
+				} elseif ( '2' == $restriction[ '_um_accessible' ] ) {
+					//if post for logged in users and user is not logged in
+					if ( is_user_logged_in() ) {
+
+						if ( current_user_can( 'administrator' ) ) {
+							$restricted = false;
+						}
+
+						$custom_restrict = $this->um_custom_restriction( $restriction );
+
+						if ( empty( $restriction[ '_um_access_roles' ] ) || false === array_search( '1', $restriction[ '_um_access_roles' ] ) ) {
+							if ( $custom_restrict ) {
+								$restricted = false;
+							}
+						} else {
+							$user_can = $this->user_can( get_current_user_id(), $restriction[ '_um_access_roles' ] );
+
+							if ( isset( $user_can ) && $user_can && $custom_restrict ) {
+								$restricted = false;
+							}
+						}
+					}
+				}
+			}
+
+			return $restricted;
+		}
+
+
+		/**
+		 * Hide attachment if the post is restricted
+		 *
+		 * @param string $url
+		 * @param int $attachment_id
+		 *
+		 * @return boolean|string
+		 */
+		function filter_attachment( $url, $attachment_id ) {
+			return ( $attachment_id && $this->is_restricted( $attachment_id ) ) ? false : $url;
+		}
+
+
+		/**
+		 * Hide attachment if the post is restricted
+		 *
+		 * @param $has_thumbnail
+		 * @param $post
+		 * @param $thumbnail_id
+		 *
+		 * @return bool
+		 */
+		function filter_post_thumbnail( $has_thumbnail, $post, $thumbnail_id ) {
+			if ( $this->is_restricted( $thumbnail_id ) ) {
+				$has_thumbnail = false;
+			} elseif ( ! empty( $post ) ) {
+				if ( $this->is_restricted( $post ) ) {
+					$has_thumbnail = false;
+				}
+			} else {
+				$post_id = get_the_ID();
+				if ( $this->is_restricted( $post_id ) ) {
+					$has_thumbnail = false;
+				}
+			}
+
+			return $has_thumbnail;
 		}
 
 

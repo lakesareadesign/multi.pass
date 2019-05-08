@@ -63,7 +63,8 @@ class Hustle_ConstantContact extends Hustle_Provider_Abstract {
 	 * Hustle_ConstantContact constructor.
 	 */
 	public function __construct() {
-		$this->_icon = plugin_dir_path( __FILE__ ) . 'views/icon.php';
+		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
+		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 
 		if ( ! class_exists( 'Hustle_ConstantContact_Api' ) ) {
 			require_once 'hustle-constantcontact-api.php';
@@ -118,8 +119,9 @@ class Hustle_ConstantContact extends Hustle_Provider_Abstract {
 				return $api;
 			}
 			$email_list = self::_get_email_list( $module );
-			$existing_contact = $api->email_exist( $data['email'], $email_list );
-			if ( true === (bool)$existing_contact ) {
+			$existing_contact = $api->get_account( $data['email'] );
+			$exists = $api->contact_exist( $existing_contact, $email_list );
+			if ( $exists ) {
 				$err->add( 'email_exist', __( 'This email address has already subscribed.', Opt_In::TEXT_DOMAIN ) );
 				return $err;
 			}

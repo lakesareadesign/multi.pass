@@ -388,19 +388,19 @@ JQUERY;
     );
     add_submenu_page(
       'shareaholic-settings',
-      __('App Manager', 'shareaholic'),
-      __('App Manager', 'shareaholic'),
+      __('App Manager [beta]', 'shareaholic'),
+      __('App Manager [beta]', 'shareaholic'),
       'manage_options',
       'shareaholic-settings',
       array('ShareaholicAdmin', 'admin')
     );
     add_submenu_page(
       'shareaholic-settings',
-      __('New App Manager [beta]', 'shareaholic'),
-      __('New App Manager [beta]', 'shareaholic'),
+      __('App Manager [legacy]', 'shareaholic'),
+      __('App Manager [legacy]', 'shareaholic'),
       'manage_options',
-      'shareaholic-settings-beta',
-      array('ShareaholicAdmin', 'admin_beta')
+      'shareaholic-settings-legacy',
+      array('ShareaholicAdmin', 'admin_legacy')
     );
     add_submenu_page(
       'shareaholic-settings',
@@ -423,7 +423,7 @@ JQUERY;
   /**
    * Updates the information if passed in and sets save message.
    */
-  public static function admin() {
+  public static function admin_legacy() {
     $settings = ShareaholicUtilities::get_settings();
     $action = str_replace( '%7E', '~', $_SERVER['REQUEST_URI']);
     if(isset($_POST['already_submitted']) && $_POST['already_submitted'] == 'Y' &&
@@ -493,7 +493,7 @@ JQUERY;
   /**
    * The function for the admin beta section
    */
-  public static function admin_beta() {
+  public static function admin() {
     
     if (!ShareaholicUtilities::has_accepted_terms_of_service()) {
       ShareaholicUtilities::load_template('terms_of_service_modal', array(

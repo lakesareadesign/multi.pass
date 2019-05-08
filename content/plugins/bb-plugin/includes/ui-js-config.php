@@ -20,6 +20,7 @@ echo 'FLBuilderConfig              = ' . json_encode( apply_filters('fl_builder_
 	'isUserTemplate'             => false,
 	'lite'                       => true === FL_BUILDER_LITE,
 	'modSecFix'                  => ( defined( 'FL_BUILDER_MODSEC_FIX' ) && FL_BUILDER_MODSEC_FIX ),
+	'MaxInputVars'               => FL_Debug::safe_ini_get( 'max_input_vars' ),
 	'moduleGroups'               => FLBuilderModel::get_module_groups(),
 	'nestedColumns'              => ( ! defined( 'FL_BUILDER_NESTED_COLUMNS' ) || FL_BUILDER_NESTED_COLUMNS ),
 	'newUser'                    => FLBuilderModel::is_new_user(),

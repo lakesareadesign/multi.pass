@@ -50,6 +50,20 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
 
         $this->_form_id = $this->_form_data['id'];
 
+        /* Render Instance Fix */
+        if(strpos($this->_form_id, '_')){
+            $this->_form_instance_id = $this->_form_id;
+            list($this->_form_id, $this->_instance_id) = explode('_', $this->_form_id);
+            $updated_fields = array();
+            foreach($this->_form_data['fields'] as $field_id => $field ){
+                list($field_id) = explode('_', $field_id);
+                list($field['id']) = explode('_', $field['id']);
+                $updated_fields[$field_id] = $field;
+            }
+            $this->_form_data['fields'] = $updated_fields;
+        }
+        /* END Render Instance Fix */
+
         // If we don't have a numeric form ID...
         if ( ! is_numeric( $this->_form_id ) ) {
             // Kick the request out without processing.
@@ -80,6 +94,14 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
             }
         } else {
             $this->_form_cache = WPN_Helper::get_nf_cache( $this->_form_id );
+        }
+
+        // Add Field Keys to _form_data
+        if(! $this->is_preview()){
+            $form_fields = Ninja_Forms()->form($this->_form_id)->get_fields();
+            foreach ($form_fields as $id => $field) {
+                $this->_form_data['fields'][$id]['key'] = $field->get_setting('key');
+            }
         }
 
         // TODO: Update Conditional Logic to preserve field ID => [ Settings, ID ] structure.
@@ -509,6 +531,20 @@ class NF_AJAX_Controllers_Submission extends NF_Abstracts_Controller
      */
     protected function _respond( $data = array() )
     {
+        // Restore form instance ID.
+        if($this->_form_instance_id){
+            $this->_data[ 'form_id' ] = $this->_form_instance_id;
+
+            // Maybe update IDs for field errors, if there are field errors.
+            if(isset($this->_errors['fields']) && $this->_errors['fields']){
+                $field_errors = array();
+                foreach($this->_errors['fields'] as $field_id => $error){
+                    $field_errors[$field_id . '_' . $this->_instance_id] = $error;
+                }
+                $this->_errors['fields'] = $field_errors;
+            }
+        }
+
         // Set a content type of JSON for the purpose of previnting XSS attacks.
         header( 'Content-Type: application/json' );
         // Call the parent method.

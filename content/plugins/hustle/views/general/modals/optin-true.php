@@ -240,15 +240,15 @@ $recaptcha_enabled = isset( $recaptcha['enabled'] ) && '1' === $recaptcha['enabl
 
 						<div class="hustle-gdpr-box">
 
-							<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
+							<label for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-checkbox">
 
-								<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
+								<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-modal-gdpr">
 
 								<span aria-hidden="true"></span>
 
 							</label>
 
-							<div for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
+							<div for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
 
 						</div>
 
@@ -440,15 +440,15 @@ $recaptcha_enabled = isset( $recaptcha['enabled'] ) && '1' === $recaptcha['enabl
 
 							<div class="hustle-gdpr-box">
 
-								<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
+								<label for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-checkbox">
 
-									<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
+									<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-modal-gdpr">
 
 									<span aria-hidden="true"></span>
 
 								</label>
 
-								<div for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
+								<div for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
 
 							</div>
 
@@ -597,15 +597,15 @@ $recaptcha_enabled = isset( $recaptcha['enabled'] ) && '1' === $recaptcha['enabl
 
 								<div class="hustle-gdpr-box">
 
-									<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
+									<label for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-checkbox">
 
-										<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
+										<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-modal-gdpr">
 
 										<span aria-hidden="true"></span>
 
 									</label>
 
-									<div for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
+									<div for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
 
 								</div>
 
@@ -809,15 +809,15 @@ $recaptcha_enabled = isset( $recaptcha['enabled'] ) && '1' === $recaptcha['enabl
 
 								<div class="hustle-gdpr-box">
 
-									<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
+									<label for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-checkbox">
 
-										<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
+										<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-modal-gdpr">
 
 										<span aria-hidden="true"></span>
 
 									</label>
 
-									<div for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
+									<div for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
 
 								</div>
 
@@ -970,15 +970,15 @@ $recaptcha_enabled = isset( $recaptcha['enabled'] ) && '1' === $recaptcha['enabl
 
 									<div class="hustle-gdpr-box">
 
-										<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
+										<label for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-checkbox">
 
-											<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
+											<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-modal-gdpr">
 
 											<span aria-hidden="true"></span>
 
 										</label>
 
-										<div for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
+										<div for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
 
 									</div>
 
@@ -1176,15 +1176,15 @@ $recaptcha_enabled = isset( $recaptcha['enabled'] ) && '1' === $recaptcha['enabl
 
 									<div class="hustle-gdpr-box">
 
-										<label for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-checkbox">
+										<label for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-checkbox">
 
-											<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}" class="hustle-modal-gdpr">
+											<input type="checkbox" id="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-modal-gdpr">
 
 											<span aria-hidden="true"></span>
 
 										</label>
 
-										<div for="hustle-modal-gdpr-{{{module_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
+										<div for="hustle-modal-gdpr-{{{module_id}}}-{{{unique_id}}}" class="hustle-gdpr-content">{{{ content.gdpr_message }}}</div>
 
 									</div>
 

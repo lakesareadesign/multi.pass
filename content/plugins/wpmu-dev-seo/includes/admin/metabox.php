@@ -8,7 +8,7 @@
 /**
  * Metabox rendering / handling class
  */
-class Smartcrawl_Metabox extends Smartcrawl_Renderable {
+class Smartcrawl_Metabox extends Smartcrawl_Base_Controller {
 
 	/**
 	 * Static instance
@@ -17,31 +17,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	 */
 	private static $_instance;
 
-	/**
-	 * State flag
-	 *
-	 * @var bool
-	 */
-	private $_is_running = false;
-
-	/**
-	 * Constructor
-	 */
-	public function __construct() {
-	}
-
-	/**
-	 * Boot the hooking part
-	 */
-	public static function run() {
-		self::get()->_add_hooks();
-	}
-
-	public function _add_hooks() {
-		if ( $this->_is_running ) {
-			return false;
-		}
-
+	protected function init() {
 		// WPSC integration.
 		add_action( 'wpsc_edit_product', array( $this, 'rebuild_sitemap' ) );
 		add_action( 'wpsc_rate_product', array( $this, 'rebuild_sitemap' ) );
@@ -70,7 +46,21 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 		 * since they are used together so frequently
 		 */
 
-		$this->_is_running = true;
+		/*
+		 * When running analysis in metabox, or rendering metabox preview,
+		 * always use overriding values passed in the request before values saved in the DB.
+		 *
+		 * This is done by filtering the metadata.
+		 */
+		add_filter( 'get_post_metadata', array( $this, 'filter_meta_title' ), 10, 3 );
+		add_filter( 'get_post_metadata', array( $this, 'filter_meta_desc' ), 10, 3 );
+		add_filter( 'get_post_metadata', array( $this, 'filter_focus_keyword' ), 10, 3 );
+
+		/**
+		 * Similar for taxonomy meta
+		 */
+		add_filter( 'wds-taxonomy-meta-wds_title', array( $this, 'filter_term_meta_title' ) );
+		add_filter( 'wds-taxonomy-meta-wds_desc', array( $this, 'filter_term_meta_desc' ) );
 	}
 
 	/**
@@ -107,7 +97,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 			? smartcrawl_get_latest_post_version( $post_id )
 			: get_post( $post_id );
 		$result['success'] = true;
-		$result['markup'] = $this->_load( 'metabox/metabox-preview', array(
+		$result['markup'] = Smartcrawl_Simple_Renderer::load( 'metabox/metabox-preview', array(
 			'post' => $post_to_preview,
 		) );
 
@@ -118,39 +108,15 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	 * Enqueues frontend dependencies
 	 */
 	public function js_load_scripts() {
-		$options = Smartcrawl_Settings::get_options();
-		$version = Smartcrawl_Loader::get_version();
+		if ( $this->is_editing_private_post_type() ) {
+			return;
+		}
 
-		wp_enqueue_script( 'wds_metabox_counter', SMARTCRAWL_PLUGIN_URL . '/js/wds-metabox-counter.js', array(), $version );
-		wp_localize_script( 'wds_metabox_counter', 'l10nWdsCounters', array(
-			'title_length'      => __( '{TOTAL_LEFT} characters left', 'wds' ),
-			'title_longer'      => __( 'Over {MAX_COUNT} characters ({CURRENT_COUNT})', 'wds' ),
-			'main_title_longer' => __( 'Over {MAX_COUNT} characters ({CURRENT_COUNT}) - make sure your SEO title is shorter', 'wds' ),
-
-			'title_limit'        => SMARTCRAWL_TITLE_LENGTH_CHAR_COUNT_LIMIT,
-			'metad_limit'        => SMARTCRAWL_METADESC_LENGTH_CHAR_COUNT_LIMIT,
-			'main_title_warning' => ! ( defined( 'SMARTCRAWL_MAIN_TITLE_LENGTH_WARNING_HIDE' ) && SMARTCRAWL_MAIN_TITLE_LENGTH_WARNING_HIDE ),
-			'lax_enforcement'    => ( isset( $options['metabox-lax_enforcement'] ) ? ! ! $options['metabox-lax_enforcement'] : false ),
-		) );
-		Smartcrawl_Settings_Admin::register_global_admin_scripts();
-		wp_enqueue_script( 'wds_metabox_onpage', SMARTCRAWL_PLUGIN_URL . '/js/wds-metabox.js', array(
-			'underscore',
-			'wds-select2',
-		), $version );
-		wp_localize_script( 'wds_metabox_onpage', '_wds_metabox', array(
-			'nonce' => wp_create_nonce( 'wds-metabox-nonce' ),
-		) );
-		wp_localize_script( 'wds_metabox_onpage', 'l10nWdsMetabox', array(
-			'content_analysis_working' => __( 'Analyzing content, please wait a few moments', 'wds' ),
-		) );
-
-		Smartcrawl_Settings_Admin::enqueue_shared_ui( false );
+		wp_enqueue_script( Smartcrawl_Controller_Assets::METABOX_JS );
 
 		wp_enqueue_media();
-		wp_enqueue_script( 'wds-admin-opengraph' );
-		wp_enqueue_style( 'wds-admin-opengraph' );
-		wp_enqueue_style( 'wds-select2' );
-		wp_enqueue_style( 'wds-app' );
+
+		wp_enqueue_style( Smartcrawl_Controller_Assets::APP_CSS );
 	}
 
 	/**
@@ -166,42 +132,12 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 
 	/**
 	 * Handles actual metabox rendering
+	 *
+	 * @param $post
 	 */
 	public function smartcrawl_meta_boxes( $post ) {
-		$robots_noindex_value = (int) smartcrawl_get_value( 'meta-robots-noindex' );
-		$robots_nofollow_value = (int) smartcrawl_get_value( 'meta-robots-nofollow' );
-		$robots_index_value = (int) smartcrawl_get_value( 'meta-robots-index' );
-		$robots_follow_value = (int) smartcrawl_get_value( 'meta-robots-follow' );
-		$advanced_value = explode( ',', smartcrawl_get_value( 'meta-robots-adv' ) );
-		$advanced_options = array(
-			'noodp'     => __( 'NO ODP (Block Open Directory Project description of the page)', 'wds' ),
-			'noydir'    => __( 'NO YDIR (Don\'t display the Yahoo! Directory titles and abstracts)', 'wds' ),
-			'noarchive' => __( 'No Archive', 'wds' ),
-			'nosnippet' => __( 'No Snippet', 'wds' ),
-		);
-		$sitemap_priority_options = array(
-			''    => __( 'Automatic prioritization', 'wds' ),
-			'1'   => __( '1 - Highest priority', 'wds' ),
-			'0.9' => '0.9',
-			'0.8' => '0.8 - ' . __( 'High priority (root pages default)', 'wds' ),
-			'0.7' => '0.7',
-			'0.6' => '0.6 - ' . __( 'Secondary priority (subpages default)', 'wds' ),
-			'0.5' => '0.5 - ' . __( 'Medium priority', 'wds' ),
-			'0.4' => '0.4',
-			'0.3' => '0.3',
-			'0.2' => '0.2',
-			'0.1' => '0.1 - ' . __( 'Lowest priority', 'wds' ),
-		);
-
-		$this->_render( 'metabox/metabox-main', array(
-			'post'                     => $post,
-			'robots_noindex_value'     => $robots_noindex_value,
-			'robots_nofollow_value'    => $robots_nofollow_value,
-			'robots_index_value'       => $robots_index_value,
-			'robots_follow_value'      => $robots_follow_value,
-			'advanced_value'           => $advanced_value,
-			'advanced_options'         => $advanced_options,
-			'sitemap_priority_options' => $sitemap_priority_options,
+		Smartcrawl_Simple_Renderer::render( 'metabox/metabox-main', array(
+			'post' => $post,
 		) );
 	}
 
@@ -218,7 +154,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 				'public'  => true, // ... and is public
 			) );
 			foreach ( $post_types as $posttype ) {
-				if ( 'attachment' === $posttype ) {
+				if ( $this->is_private_post_type( $posttype ) ) {
 					continue;
 				}
 				if ( $show ) {
@@ -301,10 +237,10 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 				$result['disabled'] = true;
 			}
 			if ( ! empty( $input['title'] ) ) {
-				$result['title'] = sanitize_text_field( $input['title'] );
+				$result['title'] = smartcrawl_sanitize_preserve_macros( $input['title'] );
 			}
 			if ( ! empty( $input['description'] ) ) {
-				$result['description'] = sanitize_text_field( $input['description'] );
+				$result['description'] = smartcrawl_sanitize_preserve_macros( $input['description'] );
 			}
 			if ( ! empty( $input['images'] ) && is_array( $input['images'] ) ) {
 				$result['images'] = array();
@@ -330,10 +266,10 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 				$twitter['disabled'] = true;
 			}
 			if ( ! empty( $input['title'] ) ) {
-				$twitter['title'] = sanitize_text_field( $input['title'] );
+				$twitter['title'] = smartcrawl_sanitize_preserve_macros( $input['title'] );
 			}
 			if ( ! empty( $input['description'] ) ) {
-				$twitter['description'] = sanitize_text_field( $input['description'] );
+				$twitter['description'] = smartcrawl_sanitize_preserve_macros( $input['description'] );
 			}
 			if ( ! empty( $input['images'] ) && is_array( $input['images'] ) ) {
 				$twitter['images'] = array();
@@ -355,7 +291,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 			if ( trim( $focus ) === '' ) {
 				delete_post_meta( $post_id, '_wds_focus-keywords' );
 			} else {
-				update_post_meta( $post_id, '_wds_focus-keywords', sanitize_text_field( $focus ) );
+				update_post_meta( $post_id, '_wds_focus-keywords', smartcrawl_sanitize_preserve_macros( $focus ) );
 			}
 		}
 
@@ -376,7 +312,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 			if ( $data ) {
 				$value = in_array( $key, array( 'wds_canonical', 'wds_redirect' ), true )
 					? esc_url_raw( $data )
-					: sanitize_text_field( $data );
+					: smartcrawl_sanitize_preserve_macros( $data );
 				update_post_meta( $post_id, $id, $value );
 			} else {
 				delete_post_meta( $post_id, $id );
@@ -418,7 +354,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	 * @return array
 	 */
 	public function smartcrawl_page_title_column_heading( $columns ) {
-		$title_idx = array_search( 'title', array_keys( $columns ) );
+		$title_idx = array_search( 'title', array_keys( $columns ), true );
 		$title_idx = ! empty( $title_idx ) ? $title_idx + 1 : 2;
 		return array_merge(
 			array_slice( $columns, 0, $title_idx ),
@@ -491,17 +427,13 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	 */
 	public function smartcrawl_page_title( $postid ) {
 		$post = get_post( $postid );
-		$fixed_title = smartcrawl_get_value( 'title', $post->ID );
-		if ( $fixed_title ) {
-			return smartcrawl_replace_vars( $fixed_title, (array) $post );
-		} else {
-			$smartcrawl_options = Smartcrawl_Settings::get_options();
-			if ( ! empty( $smartcrawl_options[ 'title-' . $post->post_type ] ) ) {
-				return smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post );
-			} else {
-				return '';
-			}
-		}
+		$resolver = Smartcrawl_Endpoint_Resolver::resolve();
+
+		$resolver->simulate_post( $post );
+		$title = Smartcrawl_Meta_Value_Helper::get()->get_title();
+		$resolver->stop_simulation();
+
+		return $title;
 	}
 
 	/**
@@ -516,6 +448,8 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 				return $this->_title_qe_box( $type );
 			case 'page-meta-robots':
 				return $this->_robots_qe_box();
+			default:
+				break;
 		}
 	}
 
@@ -524,7 +458,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	 */
 	private function _title_qe_box() {
 		global $post;
-		$this->_render( 'quick-edit-title', array(
+		Smartcrawl_Simple_Renderer::render( 'quick-edit-title', array(
 			'post' => $post,
 		) );
 	}
@@ -534,7 +468,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	 */
 	private function _robots_qe_box() {
 		global $post;
-		$this->_render( 'quick-edit-robots', array(
+		Smartcrawl_Simple_Renderer::render( 'quick-edit-robots', array(
 			'post' => $post,
 		) );
 	}
@@ -543,7 +477,7 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	 * Inject the quick editing javascript
 	 */
 	public function smartcrawl_quick_edit_javascript() {
-		$this->_render( 'quick-edit-javascript' );
+		Smartcrawl_Simple_Renderer::render( 'quick-edit-javascript' );
 	}
 
 	/**
@@ -554,8 +488,8 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 		$id = (int) $data['id'];
 		$post = get_post( $id );
 		die( wp_json_encode( array(
-			'title'       => smartcrawl_replace_vars( smartcrawl_get_value( 'title', $id ), (array) $post ),
-			'description' => smartcrawl_replace_vars( smartcrawl_get_value( 'metadesc', $id ), (array) $post ),
+			'title'       => smartcrawl_get_value( 'title', $id ),
+			'description' => smartcrawl_get_value( 'metadesc', $id ),
 			'focus'       => smartcrawl_get_value( 'focus-keywords', $id ),
 			'keywords'    => smartcrawl_get_value( 'keywords', $id ),
 		) ) );
@@ -595,13 +529,68 @@ class Smartcrawl_Metabox extends Smartcrawl_Renderable {
 	}
 
 	/**
-	 * Sattisfy interface
+	 * When we are rendering a preview, or refreshing analysis,
+	 * we want to use the latest values from the request.
 	 */
-	protected function _get_view_defaults() {
-		return array();
+	public function filter_meta_title( $original, $post_id, $meta_key ) {
+		if ( $meta_key !== '_wds_title' ) {
+			return $original;
+		}
+
+		return $this->use_request_param_value( 'wds_title', $original );
+	}
+
+	public function filter_meta_desc( $original, $post_id, $meta_key ) {
+		if ( $meta_key !== '_wds_metadesc' ) {
+			return $original;
+		}
+
+		return $this->use_request_param_value( 'wds_description', $original );
+	}
+
+	public function filter_focus_keyword( $original, $post_id, $meta_key ) {
+		if ( $meta_key !== '_wds_focus-keywords' ) {
+			return $original;
+		}
+
+		return $this->use_request_param_value( 'wds_focus_keywords', $original );
+	}
+
+	public function filter_term_meta_title( $original ) {
+		return $this->use_request_param_value( 'wds_title', $original );
+	}
+
+	public function filter_term_meta_desc( $original ) {
+		return $this->use_request_param_value( 'wds_description', $original );
+	}
+
+	private function use_request_param_value( $request_param, $default ) {
+		$overridden = smartcrawl_get_array_value( $this->get_request_data(), $request_param );
+		if ( is_null( $overridden ) ) {
+			return $default;
+		}
+
+		return Smartcrawl_Replacement_Helper::replace( $overridden );
 	}
 
 	private function get_request_data() {
 		return isset( $_POST['_wds_nonce'] ) && wp_verify_nonce( $_POST['_wds_nonce'], 'wds-metabox-nonce' ) ? stripslashes_deep( $_POST ) : array();
+	}
+
+	private function is_private_post_type( $post_type_name ) {
+		$post_type = get_post_type_object( $post_type_name );
+
+		return $post_type->name === 'attachment'
+		       || ! $post_type->show_ui
+		       || ! $post_type->public;
+	}
+
+	private function is_editing_private_post_type() {
+		$current_screen = get_current_screen();
+		if ( empty( $current_screen->post_type ) ) {
+			return false;
+		}
+
+		return $this->is_private_post_type( $current_screen->post_type );
 	}
 }

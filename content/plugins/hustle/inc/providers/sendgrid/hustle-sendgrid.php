@@ -53,7 +53,8 @@ class Hustle_SendGrid extends Hustle_Provider_Abstract {
 	protected $_form_settings = 'Hustle_SendGrid_Form_Settings';
 
 	public function __construct() {
-		$this->_icon = plugin_dir_path( __FILE__ ) . 'views/icon.php';
+		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
+		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 
 		if( ! class_exists( 'Hustle_SendGrid_Api' ) ) {
 			include_once 'hustle-sendgrid-api.php';

@@ -79,7 +79,7 @@ final class FL_Debug {
 		return $plugins;
 	}
 
-	private static function safe_ini_get( $ini ) {
+	public static function safe_ini_get( $ini ) {
 		return @ini_get( $ini ); // @codingStandardsIgnoreLine
 	}
 

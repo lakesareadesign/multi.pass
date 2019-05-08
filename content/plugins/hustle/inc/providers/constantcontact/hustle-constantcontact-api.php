@@ -99,7 +99,8 @@ if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
 					* Store $referer to use after retrieving the access token
 					*/
 					$referer       = add_query_arg( array( 'page' => $page,
-			                                       'id'   => $module_id
+						'message' => 'constant_contact_new_integration',
+						'id'   => $module_id
 			        ), admin_url( 'admin.php' ) );
 					$update_option = is_multisite() ? 'update_site_option' : 'update_option';
 					$update_option( self::REFERER, $referer );
@@ -195,31 +196,46 @@ if ( version_compare( PHP_VERSION, '5.3', '>=' ) ) {
 			}
 
 			/**
-			* Check if email exists
-			* If it exists just return the contact
+			* Check if contact exists in certain list
 			*
-			* @return bool|Object
+			* @param object $contact \Ctct\Components\Contacts\Contact
+			* @param string $list_id
+			* @return bool
 			*/
-			public function email_exist( $email, $list_id ) {
+			public function contact_exist( $contact, $list_id ) {
 				$exists = false;
+				if ( $contact instanceof Ctct\Components\Contacts\Contact ) {
+					$lists = $contact->lists;
+					foreach ( $lists as $list ) {
+						$list = (array) $list;
+						if ( (string)$list_id === (string)$list['id']  ) {
+							$exists = true;
+							break;
+						}
+					}
+				}
+				return $exists;
+			}
+
+
+			/**
+			 * Get account data
+			 *
+			 * @param string $email
+			 * @return false|\Ctct\Components\Contacts\Contact
+			 */
+			public function get_account( $email ) {
+				$account = false;
 				$cc_api = new Ctct\ConstantContact(self::APIKEY);
 				$access_token = $this->get_token( 'access_token' );
 				$res = $cc_api->contactService->getContacts( $access_token, array( 'email' => $email ) ); // phpcs:ignore
 				if ( is_object( $res ) && ! empty( $res->results ) ) {
 					$contact = $res->results[0];
 					if ( $contact instanceof Ctct\Components\Contacts\Contact ) {
-						$lists = $contact->lists;
-						$exists = $contact;
-						foreach ( $lists as $list ) {
-							$list = (array) $list;
-							if ( (string)$list_id === (string)$list['id']  ) {
-								$exists = true;
-								break;
-							}
-						}
+						$account = $contact;
 					}
 				}
-				return $exists;
+				return $account;
 			}
 
 

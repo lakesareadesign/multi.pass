@@ -1,3 +1,13 @@
+= 7.4.1 (2019.05.07) =
+- Implement faster navigation
+- Fix signup url
+- Use i18n on PHP
+
+= 7.4.0 (2019.04.30) =
+- Improve performances
+- Remove dependencies from HubSpot's CDN
+- Update license
+
 = 7.3.2 (2019.04.24) =
 - Move assets to /assets folder
 - New settings page

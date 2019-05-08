@@ -15,32 +15,29 @@ foreach ( $attributes as $attribute => $attribute_value ) {
 }
 ?>
 <div class="wds-toggle-table">
-	<span class="toggle wds-toggle <?php echo $inverted ? esc_attr( 'wds-inverted-toggle' ) : ''; ?>">
-		<input
-			type="checkbox"
-			class="toggle-checkbox"
-			value='<?php echo esc_attr( $item_value ); ?>'
-			name="<?php echo esc_attr( $field_name ); ?>"
-			id="<?php echo esc_attr( $field_id ); ?>"
-			<?php echo esc_html( $checked ); ?>
-			<?php echo $attr_string; // phpcs:ignore -- Built escaped. ?>>
-		<label
-			class="toggle-label"
-			for="<?php echo esc_attr( $field_id ); ?>">
+	<div class="wds-toggle">
+		<label class="sui-toggle <?php echo $inverted ? esc_attr( 'wds-inverted-toggle' ) : ''; ?>">
+			<input type="checkbox"
+			       value='<?php echo esc_attr( $item_value ); ?>'
+			       name="<?php echo esc_attr( $field_name ); ?>"
+			       id="<?php echo esc_attr( $field_id ); ?>"
+				<?php echo esc_html( $checked ); ?>
+				<?php echo $attr_string; // phpcs:ignore -- Built escaped. ?>>
+			<span class="sui-toggle-slider"></span>
 		</label>
-	</span>
+	</div>
 
 	<div class="wds-toggle-description">
 		<label
-			for="<?php echo esc_attr( $field_id ); ?>"
-			class="wds-label">
+				for="<?php echo esc_attr( $field_id ); ?>"
+				class="sui-toggle-label">
 			<?php echo esc_html( $item_label ); ?>
 		</label>
 
 		<?php if ( $item_description ) : ?>
-			<p class="wds-label-description">
+			<span class="sui-description">
 				<?php echo esc_html( $item_description ); ?>
-			</p>
+			</span>
 		<?php endif; ?>
 
 		<?php if ( $html_description ) : ?>

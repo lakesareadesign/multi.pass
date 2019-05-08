@@ -129,7 +129,7 @@ class Smartcrawl_Schema_Printer extends Smartcrawl_WorkUnit {
 
 		$data['publisher'] = $this->get_owner_schema_data( false );
 
-		$keywords = Smartcrawl_OnPage::get()->get_keywords( Smartcrawl_Endpoint_Resolver::L_BLOG_HOME );
+		$keywords = $this->get_keywords( Smartcrawl_Endpoint_Resolver::L_BLOG_HOME );
 		if ( ! empty( $keywords ) ) {
 			$data['keywords'] = join( ',', $keywords );
 		}
@@ -286,10 +286,10 @@ class Smartcrawl_Schema_Printer extends Smartcrawl_WorkUnit {
 		$post_title = get_the_title( $post );
 		$data['name'] = (string) $this->apply_filters( 'post-data-name', $post_title, $post );
 
-		$title = Smartcrawl_OnPage::get()->get_title( $post_title );
+		$title = Smartcrawl_Meta_Value_Helper::get()->get_title( $post_title );
 		$data['headline'] = (string) $this->apply_filters( 'post-data-headline', $title, $post );
 
-		$keywords = Smartcrawl_OnPage::get()->get_keywords( Smartcrawl_Endpoint_Resolver::L_SINGULAR, $post );
+		$keywords = $this->get_keywords( Smartcrawl_Endpoint_Resolver::L_SINGULAR, $post );
 		if ( ! empty( $keywords ) ) {
 			$data['keywords'] = join( ',', $keywords );
 		}
@@ -318,12 +318,21 @@ class Smartcrawl_Schema_Printer extends Smartcrawl_WorkUnit {
 		}
 
 		$fallback = smartcrawl_get_trimmed_excerpt( $post->post_excerpt, $post->post_content );
-		$description = Smartcrawl_OnPage::get()->get_description( $fallback );
+		$description = Smartcrawl_Meta_Value_Helper::get()->get_description( $fallback );
 		$data['description'] = ! empty( $description ) ? $description : $fallback;
 
 		$data['url'] = get_the_permalink( $post->ID );
 
 		return (array) $this->create_schema( self::ARTICLE, $this->apply_filters( 'post-data', $data, $post ) );
+	}
+
+	private function get_keywords( $location, $context = null ) {
+		$resolver = Smartcrawl_Endpoint_Resolver::resolve();
+		$resolver->simulate( $location, $context );
+		$keywords = Smartcrawl_Meta_Value_Helper::get()->get_keywords();
+		$resolver->stop_simulation();
+
+		return $keywords;
 	}
 
 	/**

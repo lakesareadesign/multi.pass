@@ -537,7 +537,7 @@ class Hustle_Mailchimp_Form_Settings extends Hustle_Provider_Form_Settings_Abstr
 				if ( count( $_lists ) >= $total ) {
 					$offset = 0; //We have reached the end. No more pagination
 				} else {
-					$offset = $offset++;
+					$offset++;
 				}
 
 				$list_pages['offset'] = $offset;

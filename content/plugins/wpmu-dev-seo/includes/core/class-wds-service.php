@@ -16,7 +16,7 @@ abstract class Smartcrawl_Service {
 	 *
 	 * @param string $type Requested service type
 	 *
-	 * @return object Smartcrawl_Service Service instance
+	 * @return Smartcrawl_Uptime_Service|Smartcrawl_Checkup_Service|Smartcrawl_Site_Service|Smartcrawl_Seo_Service Smartcrawl_Service Service instance
 	 */
 	public static function get( $type ) {
 		$type = ! empty( $type ) && in_array( $type, array(

@@ -90,23 +90,29 @@ class Hustle_SShare_Admin extends Opt_In {
 	}
 
 	public function register_current_json( $current_array ){
-		if( Hustle_Module_Admin::is_edit() && isset( $_GET['page'] ) && Hustle_Module_Admin::SOCIAL_SHARING_WIZARD_PAGE === $_GET['page'] ){
 
-			$ss = Hustle_SShare_Model::instance()->get( filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT) );
-			$all_ss = Hustle_Module_Collection::instance()->get_all( null, array( 'module_type' => 'social_sharing' ) );
-			$total_ss = count($all_ss);
-			$current_section = Hustle_Module_Admin::get_current_section();
-			$current_array['current'] = array(
-				'listing_page' => Hustle_Module_Admin::SOCIAL_SHARING_LISTING_PAGE,
-				'wizard_page' => Hustle_Module_Admin::SOCIAL_SHARING_WIZARD_PAGE,
-				'data' => $ss->get_data(),
-				'content' => $ss->get_sshare_content()->to_array(),
-				'design' => $ss->get_sshare_design()->to_array(),
-				'settings' => $ss->get_sshare_display_settings()->to_array(),
-				'types' => $ss->get_sshare_display_types()->to_array(),
-				'section' => ( !$current_section ) ? 'services' : $current_section,
-				'is_ss_limited' => (int) ( Opt_In_Utils::_is_free() && '-1' === $_GET['id'] && $total_ss >= 3 )
-			);
+		if ( isset( $_GET['page'] ) && Hustle_Module_Admin::SOCIAL_SHARING_WIZARD_PAGE === $_GET['page'] ) {
+
+			$current_array['current'] = array();
+
+			if ( Hustle_Module_Admin::is_edit() ) {
+				$ss = Hustle_SShare_Model::instance()->get( filter_input(INPUT_GET, "id", FILTER_VALIDATE_INT) );
+				$all_ss = Hustle_Module_Collection::instance()->get_all( null, array( 'module_type' => 'social_sharing' ) );
+				$total_ss = count($all_ss);
+				$current_section = Hustle_Module_Admin::get_current_section();
+				$current_array['current'] = array(
+					'wizard_page' => Hustle_Module_Admin::SOCIAL_SHARING_WIZARD_PAGE,
+					'data' => $ss->get_data(),
+					'content' => $ss->get_sshare_content()->to_array(),
+					'design' => $ss->get_sshare_design()->to_array(),
+					'settings' => $ss->get_sshare_display_settings()->to_array(),
+					'types' => $ss->get_sshare_display_types()->to_array(),
+					'section' => ( !$current_section ) ? 'services' : $current_section,
+					'is_ss_limited' => (int) ( Opt_In_Utils::_is_free() && '-1' === $_GET['id'] && $total_ss >= 3 )
+				);
+			}
+			$current_array['current']['listing_page'] = Hustle_Module_Admin::SOCIAL_SHARING_LISTING_PAGE;
+
 		}
 
 		// backwards compatibility for new counter types from 3.0.3

@@ -87,7 +87,11 @@ class Smartcrawl_Core_Request {
 
 		$bits = Smartcrawl_Html::find( '.wds-frontend-content-check', $content );
 
-		return (string) trim( join( "\n", $bits ) );
+		return apply_filters(
+			'wds-analysis-content',
+			(string) trim( join( "\n", $bits ) ),
+			$post_id
+		);
 	}
 
 	private function get_timeout() {

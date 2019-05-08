@@ -263,7 +263,7 @@ abstract class Smartcrawl_Importer {
 	protected function get_taxonomies() {
 		return array_merge(
 			array( 'post_tag', 'category' ),
-			get_taxonomies( array( '_builtin' => false ) )
+			get_taxonomies( array( '_builtin' => false, 'public' => true ) )
 		);
 	}
 

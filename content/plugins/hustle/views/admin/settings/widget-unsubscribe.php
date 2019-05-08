@@ -226,7 +226,7 @@
 							-moz-box-shadow: none;
 							-webkit-box-shadow: none;
 							color: #6E6E6E;
-							font: 500 13px/24px "Roboto", "Open Sans", Arial, sans-serif;
+							font: 500 13px/24px "Roboto", "Open Sans", Arial, sans-serif;	  	 			 			  	      
 							text-align: center;
 						}
 						#wp-main_content-editor-tools .wp-media-buttons .insert-media:hover,

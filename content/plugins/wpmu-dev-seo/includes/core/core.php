@@ -25,11 +25,8 @@ function smartcrawl_get_value( $val, $post_id = false ) {
 		return false;
 	}
 
-	$custom = get_post_custom( $post_id );
-
-	return ( ! empty( $custom[ '_wds_' . $val ][0] ) )
-		? maybe_unserialize( $custom[ '_wds_' . $val ][0] )
-		: false;
+	$meta_value = get_post_meta( $post_id, '_wds_' . $val, true );
+	return empty( $meta_value ) ? false : $meta_value;
 }
 
 /**
@@ -43,150 +40,6 @@ function smartcrawl_get_value( $val, $post_id = false ) {
  */
 function smartcrawl_set_value( $meta, $val, $post_id ) {
 	update_post_meta( $post_id, "_wds_{$meta}", $val );
-}
-
-/**
- * Macro expansion helper
- *
- * @param string $string String to process.
- * @param array $args Expansion vars.
- *
- * @return string
- */
-function smartcrawl_replace_vars( $string, $args = array() ) {
-	global $wp_query;
-
-	$defaults = array(
-		'ID'            => '',
-		'name'          => '',
-		'post_author'   => '',
-		'post_content'  => '',
-		'post_date'     => '',
-		'post_excerpt'  => '',
-		'post_modified' => '',
-		'post_title'    => '',
-		'post_type'     => '',
-		'taxonomy'      => '',
-		'description'   => '',
-		'username'      => '',
-		'full_name'     => '',
-	);
-
-	$pagenum = get_query_var( 'paged' );
-	if ( 0 === $pagenum ) {
-		$pagenum = ( $wp_query->max_num_pages > 1 ) ? 1 : '';
-	}
-
-	$r = wp_parse_args( $args, $defaults );
-
-	$smartcrawl_options = Smartcrawl_Settings::get_options();
-	$preset_sep = ! empty( $smartcrawl_options['preset-separator'] ) ? $smartcrawl_options['preset-separator'] : 'pipe';
-	$separator = ! empty( $smartcrawl_options['separator'] ) ? $smartcrawl_options['separator'] : smartcrawl_get_separators( $preset_sep );
-
-	$replacements = array(
-		'%%date%%'                 => smartcrawl_get_current_date( $r ),
-		'%%title%%'                => stripslashes( $r['post_title'] ),
-		'%%sitename%%'             => get_bloginfo( 'name' ),
-		'%%sitedesc%%'             => get_bloginfo( 'description' ),
-		'%%excerpt%%'              => smartcrawl_get_trimmed_excerpt( $r['post_excerpt'], $r['post_content'] ),
-		'%%excerpt_only%%'         => $r['post_excerpt'],
-		'%%category%%'             => get_the_category_list( ', ', '', $r['ID'] ) !== '' ? strip_tags( get_the_category_list( ', ', '', $r['ID'] ) ) : $r['name'],
-		'%%category_description%%' => ! empty( $r['taxonomy'] ) ? trim( strip_tags( get_term_field( 'description', $r['term_id'], $r['taxonomy'] ) ) ) : '',
-		'%%tag_description%%'      => ! empty( $r['taxonomy'] ) ? trim( strip_tags( get_term_field( 'description', $r['term_id'], $r['taxonomy'] ) ) ) : '',
-		'%%term_description%%'     => ! empty( $r['taxonomy'] ) ? trim( strip_tags( get_term_field( 'description', $r['term_id'], $r['taxonomy'] ) ) ) : '',
-		'%%term_title%%'           => $r['name'],
-		'%%tag%%'                  => $r['name'],
-		'%%modified%%'             => $r['post_modified'],
-		'%%id%%'                   => $r['ID'],
-		'%%name%%'                 => get_the_author_meta( 'display_name', ! empty( $r['post_author'] ) ? $r['post_author'] : get_query_var( 'author' ) ),
-		'%%userid%%'               => ! empty( $r['post_author'] ) ? $r['post_author'] : get_query_var( 'author' ),
-		'%%searchphrase%%'         => esc_html( get_query_var( 's' ) ),
-		'%%currenttime%%'          => date_i18n( get_option( 'time_format' ) ),
-		'%%currentdate%%'          => date_i18n( get_option( 'date_format' ) ),
-		'%%currentmonth%%'         => date_i18n( 'F' ),
-		'%%currentyear%%'          => date_i18n( 'Y' ),
-		'%%page%%'                 => ( intval( get_query_var( 'paged' ) ) !== 0 ) ? 'Page ' . get_query_var( 'paged' ) . ' of ' . $wp_query->max_num_pages : '',
-		'%%spell_page%%'           => ( intval( get_query_var( 'paged' ) ) !== 0 ) ? 'Page ' . smartcrawl_spell_number( get_query_var( 'paged' ) ) . ' of ' . smartcrawl_spell_number( $wp_query->max_num_pages ) : '',
-		'%%pagetotal%%'            => ( $wp_query->max_num_pages > 1 ) ? $wp_query->max_num_pages : '',
-		'%%spell_pagetotal%%'      => ( $wp_query->max_num_pages > 1 ) ? smartcrawl_spell_number( $wp_query->max_num_pages ) : '',
-		'%%pagenumber%%'           => $pagenum,
-		'%%spell_pagenumber%%'     => smartcrawl_spell_number( $pagenum ),
-		'%%caption%%'              => $r['post_excerpt'],
-		'%%bp_group_name%%'        => $r['name'],
-		'%%bp_group_description%%' => smartcrawl_get_trimmed_excerpt( '', $r['description'] ),
-		'%%bp_user_username%%'     => $r['username'],
-		'%%bp_user_full_name%%'    => $r['full_name'],
-		'%%sep%%'                  => $separator,
-		'%%pt_plural%%'            => is_a( $args, 'WP_Post_Type' ) ? $args->labels->name : '',
-		'%%pt_single%%'            => is_a( $args, 'WP_Post_Type' ) ? $args->labels->singular_name : '',
-	);
-
-	$replacements = array_combine(
-		apply_filters( 'wds-known_macros-keys', array_keys( $replacements ) ),
-		apply_filters( 'wds-known_macros-values', array_values( $replacements ) )
-	);
-	$replacements = apply_filters(
-		'wds-known_macros',
-		$replacements
-	);
-
-	$context_object = null;
-	if ( isset( $r['ID'] ) ) {
-		$post_object = get_post( $r['ID'] );
-		if ( is_a( $post_object, 'WP_Post' ) ) {
-			$context_object = $post_object;
-		}
-	}
-	if ( isset( $r['term_id'] ) ) {
-		$term_object = get_term( $r['term_id'] );
-		if ( is_a( $term_object, 'WP_Term' ) ) {
-			$context_object = $term_object;
-		}
-	}
-	if ( $context_object ) {
-		$dynamic_replacements = Smartcrawl_Replacement_Helper::get_dynamic_replacements(
-			$string,
-			$context_object
-		);
-		$replacements = array_merge(
-			$replacements,
-			empty( $dynamic_replacements ) || ! is_array( $dynamic_replacements ) ? array() : $dynamic_replacements
-		);
-	}
-
-	foreach ( $replacements as $var => $repl ) {
-		if ( ! is_scalar( $repl ) ) {
-			$repl_value = '';
-			if ( ! empty( $repl['callback'] ) && is_callable( $repl['callback'] ) ) {
-				$repl_value = call_user_func( $repl['callback'], $var, $r );
-			}
-			$repl = $repl_value;
-		}
-		$repl = apply_filters( 'wds-macro-variable_replacement', $repl, $var );
-		$string = str_replace( $var, $repl, $string );
-	}
-
-	return $string;
-}
-
-function smartcrawl_get_current_date( $args ) {
-	$date = null;
-
-	if ( '' !== $args['post_date'] ) {
-		$date = mysql2date( get_option( 'date_format' ), $args['post_date'], true );
-	} else {
-		if ( get_query_var( 'day' ) && get_query_var( 'day' ) !== '' ) {
-			$date = get_the_date();
-		} else {
-			if ( single_month_title( ' ', false ) && single_month_title( ' ', false ) !== '' ) {
-				$date = single_month_title( ' ', false );
-			} elseif ( get_query_var( 'year' ) !== '' ) {
-				$date = get_query_var( 'year' );
-			}
-		}
-	}
-
-	return trim( $date );
 }
 
 /**
@@ -239,7 +92,7 @@ function smartcrawl_get_seo_title( $post = false ) {
 	}
 
 	if ( ! empty( $post->post_type ) && isset( $smartcrawl_options[ 'title-' . $post->post_type ] ) && ! empty( $smartcrawl_options[ 'title-' . $post->post_type ] ) ) {
-		return smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post );
+		return Smartcrawl_Replacement_Helper::replace( $smartcrawl_options[ 'title-' . $post->post_type ], $post );
 	}
 
 	return false;
@@ -263,7 +116,7 @@ function smartcrawl_get_seo_desc( $post = false ) {
 	}
 
 	if ( ! empty( $post->post_type ) && isset( $smartcrawl_options[ 'metadesc-' . $post->post_type ] ) && ! empty( $smartcrawl_options[ 'metadesc-' . $post->post_type ] ) ) {
-		return smartcrawl_replace_vars( $smartcrawl_options[ 'metadesc-' . $post->post_type ], (array) $post );
+		return Smartcrawl_Replacement_Helper::replace( $smartcrawl_options[ 'metadesc-' . $post->post_type ], $post );
 	}
 
 	return false;
@@ -459,7 +312,7 @@ function smartcrawl_extract_shortcode_contents( $matches ) {
 	$omitted = apply_filters( 'wds-omitted-shortcodes', array() );
 	if (
 		! empty( $matches[5] )
-		&& ! in_array( $matches[2], $omitted )
+		&& ! in_array( $matches[2], $omitted, true )
 	) {
 		// Call the removal method on the content nested in the current shortcode
 		// This will continue recursively until we have removed all shortcodes
@@ -499,8 +352,9 @@ function smartcrawl_truncare_meta( $string, $limit ) {
 function smartcrawl_get_term_meta( $term, $taxonomy, $meta ) {
 	$term = ( is_object( $term ) ) ? $term->term_id : get_term_by( 'slug', $term, $taxonomy );
 	$tax_meta = get_option( 'wds_taxonomy_meta' );
+	$meta_value = ( isset( $tax_meta[ $taxonomy ][ $term ][ $meta ] ) ) ? $tax_meta[ $taxonomy ][ $term ][ $meta ] : false;
 
-	return ( isset( $tax_meta[ $taxonomy ][ $term ][ $meta ] ) ) ? $tax_meta[ $taxonomy ][ $term ][ $meta ] : false;
+	return apply_filters( "wds-taxonomy-meta-{$meta}", $meta_value, $term, $taxonomy );
 }
 
 /**
@@ -1080,8 +934,9 @@ function smartcrawl_file_put_contents( $file, $contents, $flags = 0 ) {
 function smartcrawl_get_latest_post_version( $post_id ) {
 	$post = get_post( $post_id );
 	$post_revisions = wp_get_post_revisions( $post_id, array(
-		'orderby' => 'modified',
-		'order'   => 'DESC',
+		'orderby'       => 'modified',
+		'order'         => 'DESC',
+		'check_enabled' => false,
 	) );
 	if ( count( $post_revisions ) ) {
 		$revision = array_shift( $post_revisions );
@@ -1110,4 +965,80 @@ function smartcrawl_is_valid_meta_tag( $string ) {
 	}
 
 	return true;
+}
+
+function smartcrawl_get_dash_profile_data( $default = null ) {
+	if (
+		class_exists( 'WPMUDEV_Dashboard' )
+		&& isset( WPMUDEV_Dashboard::$site )
+		&& is_callable( array( WPMUDEV_Dashboard::$site, 'get_option' ) )
+	) {
+		$profile_data = WPMUDEV_Dashboard::$site->get_option( 'profile_data' );
+		$name = empty( $profile_data['profile']['name'] )
+			? ''
+			: $profile_data['profile']['name'];
+		$email = empty( $profile_data['profile']['user_name'] )
+			? ''
+			: sanitize_email( $profile_data['profile']['user_name'] );
+
+		if ( $name && $email ) {
+			return (object) array(
+				'user_login' => $name,
+				'user_email' => $email,
+			);
+		}
+	}
+
+	return $default;
+}
+
+function smartcrawl_sui_class() {
+	$classes[] = defined( 'SMARTCRAWL_SUI_VERSION' ) && SMARTCRAWL_SUI_VERSION
+		? 'sui-' . str_replace( '.', '-', SMARTCRAWL_SUI_VERSION )
+		: '';
+
+	$hide_branding = Smartcrawl_White_Label::get()->is_hide_wpmudev_branding();
+	if ( $hide_branding ) {
+		$classes[] = 'wds-no-branding';
+	}
+
+	return implode( ' ', $classes );
+}
+
+function smartcrawl_format_link( $text, $url, $anchor = '' ) {
+	if ( empty( $anchor ) ) {
+		$anchor = esc_html__( 'click here' );
+	}
+
+	return sprintf(
+		$text,
+		sprintf(
+			'<a href="%s">%s</a>',
+			esc_url_raw( $url ),
+			$anchor
+		)
+	);
+}
+
+function smartcrawl_sanitize_preserve_macros( $str ) {
+	if ( empty( $str ) ) {
+		return $str;
+	}
+
+	$rpl = '__SMARTCRAWL_MACRO_QUOTES_REPLACEMENT__';
+	$str = preg_replace( '/%%/', $rpl, $str );
+
+	$str = sanitize_text_field( $str );
+
+	$str = preg_replace( '/' . preg_quote( $rpl, '/' ) . '/', '%%', $str );
+
+	return $str;
+}
+
+/**
+ * @deprecated 2.3.0 Use the method Smartcrawl_Replacement_Helper::replace
+ */
+function smartcrawl_replace_vars( $string, $args = array() ) {
+	_deprecated_function( __FUNCTION__, '2.3.0', 'Smartcrawl_Replacement_Helper::replace()' );
+	return Smartcrawl_Replacement_Helper::replace( $string, $args );
 }

@@ -58,7 +58,7 @@ class Smartcrawl_Check_Links_Count extends Smartcrawl_Check_Abstract {
 
 		<?php printf(
 			"%s <a href='https://moz.com/learn/seo/internal-link' target='_blank'>https://moz.com/learn/seo/internal-link</a>",
-			esc_html__( "External links don't benefit your SEO by having them in your own content, but you'll want to try and get as many other websites linking to your articles and pages as possible. Search engines treat links to your website as a 'third party vote' in favour of your website - like a vote of confience. Since these the hardest form of 'validation' to get (another website has to endorse you!) search engines weigh them heavily when considering page rank. For more info:", 'wds' )
+			esc_html__( "External links don't benefit your SEO by having them in your own content, but you'll want to try and get as many other websites linking to your articles and pages as possible. Search engines treat links to your website as a 'third party vote' in favour of your website - like a vote of confidence. Since these the hardest form of 'validation' to get (another website has to endorse you!) search engines weigh them heavily when considering page rank. For more info:", 'wds' )
 		); ?>
 		<br/><br/>
 

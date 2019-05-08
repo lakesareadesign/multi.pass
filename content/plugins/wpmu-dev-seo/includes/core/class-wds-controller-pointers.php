@@ -1,37 +1,12 @@
 <?php
 
-class Smartcrawl_Controller_Pointers {
+class Smartcrawl_Controller_Pointers extends Smartcrawl_Base_Controller {
 	/**
 	 * Singleton instance holder
 	 *
 	 * @var Smartcrawl_Controller_Pointers
 	 */
 	private static $_instance;
-
-	/**
-	 * Controller state flag
-	 *
-	 * @var bool
-	 */
-	private $_is_running = false;
-
-	/**
-	 * Boot controller listeners
-	 *
-	 * Do it only once, if they're already up do nothing
-	 *
-	 * @return bool Status
-	 */
-	public static function run() {
-		$me = self::get();
-		if ( $me->is_running() ) {
-			return false;
-		}
-
-		$me->_add_hooks();
-
-		return true;
-	}
 
 	/**
 	 * Obtain instance without booting up
@@ -47,18 +22,9 @@ class Smartcrawl_Controller_Pointers {
 	}
 
 	/**
-	 * Check if we already have the actions bound
-	 *
-	 * @return bool Status
-	 */
-	public function is_running() {
-		return $this->_is_running;
-	}
-
-	/**
 	 * Bind listening actions
 	 */
-	private function _add_hooks() {
+	public function init() {
 		if ( get_bloginfo( 'version' ) < '3.3' ) {
 			return;
 		}
@@ -66,8 +32,6 @@ class Smartcrawl_Controller_Pointers {
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue' ) );
 		add_action( 'admin_footer', array( $this, 'print_styles' ) );
 		// add_action( 'wds_admin_pointers-plugins', array( $this, 'smartcrawl_activation_pointer' ) );
-
-		$this->_is_running = true;
 	}
 
 	public function enqueue() {
@@ -79,7 +43,7 @@ class Smartcrawl_Controller_Pointers {
 		wp_enqueue_style( 'wp-pointer' );
 		wp_enqueue_script(
 			'wds-admin-pointers',
-			SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-pointers.js',
+			SMARTCRAWL_PLUGIN_URL . 'assets/js/wds-admin-pointers.js',
 			array( 'jquery' ),
 			Smartcrawl_Loader::get_version()
 		);
@@ -99,7 +63,7 @@ class Smartcrawl_Controller_Pointers {
 		foreach ( $pointers as $pointer_id => $pointer ) {
 
 			// Sanity check
-			if ( in_array( $pointer_id, $dismissed ) || empty( $pointer ) || empty( $pointer_id ) || empty( $pointer['target'] ) || empty( $pointer['options'] ) ) {
+			if ( in_array( $pointer_id, $dismissed, true ) || empty( $pointer ) || empty( $pointer_id ) || empty( $pointer['target'] ) || empty( $pointer['options'] ) ) {
 				continue;
 			}
 
@@ -125,7 +89,10 @@ class Smartcrawl_Controller_Pointers {
 					esc_html__( 'Optimize your SEO', 'wds' ),
 					esc_html__( 'Configure your SEO Titles & Meta, enable OpenGraph and activate readability analysis here.', 'wds' )
 				),
-				'position' => array( 'edge' => 'left', 'align' => 'right' ),
+				'position' => array(
+					'edge'  => 'left',
+					'align' => 'right',
+				),
 			),
 		);
 

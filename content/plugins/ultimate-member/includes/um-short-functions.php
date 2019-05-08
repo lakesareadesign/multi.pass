@@ -61,7 +61,6 @@ function um_is_session_started() {
 	return false;
 }
 
-
 /**
  * User clean basename
  *
@@ -104,15 +103,12 @@ function um_clean_user_basename( $value ) {
 
 
 /**
- * Convert template tags
+ * Getting replace placeholders array
  *
- * @param $content
- * @param array $args
- * @param bool $with_kses
- *
- * @return mixed|string
+ * @return array
  */
-function um_convert_tags( $content, $args = array(), $with_kses = true ) {
+function um_replace_placeholders() {
+
 	$search = array(
 		'{display_name}',
 		'{first_name}',
@@ -120,19 +116,10 @@ function um_convert_tags( $content, $args = array(), $with_kses = true ) {
 		'{gender}',
 		'{username}',
 		'{email}',
-		'{password}',
-		'{login_url}',
-		'{login_referrer}',
 		'{site_name}',
-		'{site_url}',
-		'{account_activation_link}',
-		'{password_reset_link}',
-		'{admin_email}',
-		'{user_profile_link}',
 		'{user_account_link}',
-		'{submitted_registration}',
-		'{user_avatar_url}',
 	);
+
 
 	/**
 	 * UM hook
@@ -164,18 +151,8 @@ function um_convert_tags( $content, $args = array(), $with_kses = true ) {
 		um_user( 'gender' ),
 		um_user( 'user_login' ),
 		um_user( 'user_email' ),
-		um_user( '_um_cool_but_hard_to_guess_plain_pw' ),
-		um_get_core_page( 'login' ),
-		um_dynamic_login_page_redirect(),
 		UM()->options()->get( 'site_name' ),
-		get_bloginfo( 'url' ),
-		um_user( 'account_activation_link' ),
-		um_user( 'password_reset_link' ),
-		um_admin_email(),
-		um_user_profile_url(),
 		um_get_core_page( 'account' ),
-		um_user_submitted_registration(),
-		um_get_user_avatar_url(),
 	);
 
 	/**
@@ -201,7 +178,23 @@ function um_convert_tags( $content, $args = array(), $with_kses = true ) {
 	 */
 	$replace = apply_filters( 'um_template_tags_replaces_hook', $replace );
 
-	$content = str_replace( $search, $replace, $content );
+	return array_combine( $search, $replace );
+}
+
+
+/**
+ * Convert template tags
+ *
+ * @param $content
+ * @param array $args
+ * @param bool $with_kses
+ *
+ * @return mixed|string
+ */
+function um_convert_tags( $content, $args = array(), $with_kses = true ) {
+	$placeholders = um_replace_placeholders();
+
+	$content = str_replace( array_keys( $placeholders ), array_values( $placeholders ), $content );
 	if ( $with_kses ) {
 		$content = wp_kses_decode_entities( $content );
 	}
@@ -220,8 +213,32 @@ function um_convert_tags( $content, $args = array(), $with_kses = true ) {
 			$content = str_replace( '{' . $match . '}', um_user( $strip_key ), $content );
 		}
 	}
-
 	return $content;
+}
+
+
+/**
+ * UM Placeholders for activation link in email
+ *
+ * @param $placeholders
+ *
+ * @return array
+ */
+function account_activation_link_tags_patterns( $placeholders ) {
+	$placeholders[] = '{account_activation_link}';
+	return $placeholders;
+}
+
+/**
+ * UM Replace Placeholders for activation link in email
+ *
+ * @param $replace_placeholders
+ *
+ * @return array
+ */
+function account_activation_link_tags_replaces( $replace_placeholders ) {
+	$replace_placeholders[] = um_user( 'account_activation_link' );
+	return $replace_placeholders;
 }
 
 
@@ -710,7 +727,7 @@ function um_user_submitted_registration( $style = false ) {
 				}
 
 				if ( ! empty( $filedata['original_name'] ) ) {
-					$v = '<a href="' . esc_attr( $baseurl . um_user( 'ID' ) . '/' . $file ) . '">' . $filedata['original_name'] . '</a>';
+					$v = '<a href="' . esc_attr( $baseurl . um_user( 'ID' ) . '/' . $file ) . '">' . esc_html( $filedata['original_name'] ) . '</a>';
 				} else {
 					$v = $baseurl . um_user( 'ID' ) . '/' . $file;
 				}
@@ -807,7 +824,7 @@ function um_filtered_value( $key, $data = false ) {
 	 * }
 	 * ?>
 	 */
-	$value = apply_filters( "um_profile_field_filter_hook__", $value, $data, $type );
+	$value = apply_filters( 'um_profile_field_filter_hook__', $value, $data, $type );
 
 	/**
 	 * UM hook
@@ -2143,8 +2160,8 @@ function um_user( $data, $attrs = null ) {
 
 			$value = maybe_unserialize( $value );
 
-			if (in_array( $data, array( 'role', 'gender' ) )) {
-				if (is_array( $value )) {
+			if ( in_array( $data, array( 'role', 'gender' ) ) ) {
+				if ( is_array( $value ) ) {
 					$value = implode( ",", $value );
 				}
 
@@ -2157,8 +2174,20 @@ function um_user( $data, $attrs = null ) {
 		case 'user_email':
 
 			$user_email_in_meta = get_user_meta( um_user( 'ID' ), 'user_email', true );
-			if ($user_email_in_meta) {
+			if ( $user_email_in_meta ) {
 				delete_user_meta( um_user( 'ID' ), 'user_email' );
+			}
+
+			$value = um_profile( $data );
+
+			return $value;
+			break;
+
+		case 'user_login':
+
+			$user_login_in_meta = get_user_meta( um_user( 'ID' ), 'user_login', true );
+			if ( $user_login_in_meta ) {
+				delete_user_meta( um_user( 'ID' ), 'user_login' );
 			}
 
 			$value = um_profile( $data );
@@ -2203,7 +2232,7 @@ function um_user( $data, $attrs = null ) {
 
 		case 'full_name':
 
-			if (um_user( 'first_name' ) && um_user( 'last_name' )) {
+			if ( um_user( 'first_name' ) && um_user( 'last_name' ) ) {
 				$full_name = um_user( 'first_name' ) . ' ' . um_user( 'last_name' );
 			} else {
 				$full_name = um_user( 'display_name' );
@@ -2212,7 +2241,7 @@ function um_user( $data, $attrs = null ) {
 			$full_name = UM()->validation()->safe_name_in_url( $full_name );
 
 			// update full_name changed
-			if (um_profile( $data ) !== $full_name) {
+			if ( um_profile( $data ) !== $full_name ) {
 				update_user_meta( um_user( 'ID' ), 'full_name', $full_name );
 			}
 
@@ -2224,7 +2253,7 @@ function um_user( $data, $attrs = null ) {
 
 			$f_and_l_initial = '';
 
-			if (um_user( 'first_name' ) && um_user( 'last_name' )) {
+			if ( um_user( 'first_name' ) && um_user( 'last_name' ) ) {
 				$initial = um_user( 'last_name' );
 				$f_and_l_initial = um_user( 'first_name' ) . ' ' . $initial[0];
 			} else {
@@ -2249,47 +2278,46 @@ function um_user( $data, $attrs = null ) {
 
 			$name = '';
 
-
-			if ($op == 'default') {
+			if ( $op == 'default' ) {
 				$name = um_profile( 'display_name' );
 			}
 
-			if ($op == 'nickname') {
+			if ( $op == 'nickname' ) {
 				$name = um_profile( 'nickname' );
 			}
 
-			if ($op == 'full_name') {
-				if (um_user( 'first_name' ) && um_user( 'last_name' )) {
+			if ( $op == 'full_name' ) {
+				if ( um_user( 'first_name' ) && um_user( 'last_name' ) ) {
 					$name = um_user( 'first_name' ) . ' ' . um_user( 'last_name' );
 				} else {
 					$name = um_profile( $data );
 				}
-				if (!$name) {
+				if ( ! $name ) {
 					$name = um_user( 'user_login' );
 				}
 			}
 
-			if ($op == 'sur_name') {
-				if (um_user( 'first_name' ) && um_user( 'last_name' )) {
+			if ( $op == 'sur_name' ) {
+				if ( um_user( 'first_name' ) && um_user( 'last_name' ) ) {
 					$name = um_user( 'last_name' ) . ' ' . um_user( 'first_name' );
 				} else {
 					$name = um_profile( $data );
 				}
 			}
 
-			if ($op == 'first_name') {
-				if (um_user( 'first_name' )) {
+			if ( $op == 'first_name' ) {
+				if ( um_user( 'first_name' ) ) {
 					$name = um_user( 'first_name' );
 				} else {
 					$name = um_profile( $data );
 				}
 			}
 
-			if ($op == 'username') {
+			if ( $op == 'username' ) {
 				$name = um_user( 'user_login' );
 			}
 
-			if ($op == 'initial_name') {
+			if ( $op == 'initial_name' ) {
 				if (um_user( 'first_name' ) && um_user( 'last_name' )) {
 					$initial = um_user( 'last_name' );
 					$name = um_user( 'first_name' ) . ' ' . $initial[0];
@@ -2298,8 +2326,8 @@ function um_user( $data, $attrs = null ) {
 				}
 			}
 
-			if ($op == 'initial_name_f') {
-				if (um_user( 'first_name' ) && um_user( 'last_name' )) {
+			if ( $op == 'initial_name_f' ) {
+				if ( um_user( 'first_name' ) && um_user( 'last_name' ) ) {
 					$initial = um_user( 'first_name' );
 					$name = $initial[0] . ' ' . um_user( 'last_name' );
 				} else {
@@ -2315,7 +2343,7 @@ function um_user( $data, $attrs = null ) {
 				foreach ( $fields as $field ) {
 					if ( um_profile( $field ) ) {
 						$name .= um_profile( $field ) . ' ';
-					} elseif ( um_user( $field ) && $field != 'display_name' ) {
+					} elseif ( um_user( $field ) && $field != 'display_name' && $field != 'full_name' ) {
 						$name .= um_user( $field ) . ' ';
 					}
 				}
@@ -2426,7 +2454,9 @@ function um_user( $data, $attrs = null ) {
 			 */
 			$cover_uri = apply_filters( 'um_user_cover_photo_uri__filter', $cover_uri, $is_default, $attrs );
 
-			return $cover_uri ? '<img src="' . esc_attr( $cover_uri ) . '" alt="" />' : '';
+			$alt = um_profile( 'nickname' );
+
+			return $cover_uri ? '<img src="' . esc_attr( $cover_uri ) . '" alt="' . esc_attr( $alt ) . '" />' : '';
 			break;
 
 
@@ -2655,4 +2685,28 @@ function is_ultimatemember() {
  */
 function um_maybe_unset_time_limit() {
 	@set_time_limit( 0 );
+}
+
+
+/*
+ * Check if current user is owner of requested profile
+ * @Returns Boolean
+*/
+if ( ! function_exists( 'um_is_profile_owner' ) ) {
+	/**
+	 * @param $user_id
+	 *
+	 * @return bool
+	 */
+	function um_is_profile_owner( $user_id = false ) {
+		if ( ! is_user_logged_in() ) {
+			return false;
+		}
+
+		if ( empty( $user_id ) ) {
+			$user_id = get_current_user_id();
+		}
+
+		return ( $user_id == um_profile_id() );
+	}
 }

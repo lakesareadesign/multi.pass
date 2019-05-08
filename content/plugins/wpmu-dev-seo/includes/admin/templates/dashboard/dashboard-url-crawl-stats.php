@@ -7,18 +7,27 @@ if ( is_null( $report ) ) {
 
 $active_issues = $report->get_issues_count();
 $missing_urls = $report->get_issues_count( 'sitemap' );
+$active_issues_tooltip = _n( 'You have %s sitemap issue', 'You have %s sitemap issues', $active_issues, 'wds' );
+$active_issues_tooltip = sprintf( $active_issues_tooltip, $active_issues );
+
+$active_issues_tag = _n( '%d issue', '%d issues', $active_issues, 'wds' );
+$active_issues_tag = sprintf( $active_issues_tag, $active_issues );
+
+$missing_urls_tag = _n( '%d missing URL', '%d missing URLs', $missing_urls, 'wds' );
+$missing_urls_tag = sprintf( $missing_urls_tag, $missing_urls );
 ?>
 
 <?php if ( $active_issues > 0 ) : ?>
-	<div class="wds-box-crawl-stats">
-		<span class="wds-issues wds-issues-warning wds-has-tooltip"
-		      data-content="<?php printf( esc_attr__( 'You have %s sitemap issues', 'wds' ), intval( $active_issues ) ); ?>">
+	<div class="wds-right">
+		<span class="sui-tag sui-tag-warning sui-tooltip"
+		      data-tooltip="<?php echo esc_attr( $active_issues_tooltip ); ?>">
 
-			<?php echo intval( $active_issues ); ?><?php esc_html_e( ' issues', 'wds' ); ?>
+			<?php echo esc_html( $active_issues_tag ); ?>
 		</span>
-		<span
-			class="wds-issues wds-issues-invalid"><?php echo intval( $missing_urls ); ?><?php esc_html_e( ' missing URLs', 'wds' ); ?></span>
+		<span class="sui-tag sui-tag-inactive"><?php echo esc_html( $missing_urls_tag ); ?></span>
 	</div>
-<?php else : ?>
-	<span class="wds-box-stat-value wds-box-stat-value-success"><?php esc_html_e( 'No issues', 'wds' ); ?></span>
+<?php else: ?>
+	<div class="wds-right">
+		<small><?php esc_html_e( 'No issues', 'wds' ); ?></small>
+	</div>
 <?php endif; ?>

@@ -8,7 +8,13 @@
 /**
  * Admin handling root class
  */
-class Smartcrawl_Admin extends Smartcrawl_Renderable {
+class Smartcrawl_Admin extends Smartcrawl_Base_Controller {
+	/**
+	 * Static instance
+	 *
+	 * @var self
+	 */
+	private static $_instance;
 
 	/**
 	 * Admin page handlers
@@ -18,16 +24,20 @@ class Smartcrawl_Admin extends Smartcrawl_Renderable {
 	private $_handlers = array();
 
 	/**
-	 * Constructor
+	 * Static instance getter
 	 */
-	public function __construct() {
-		$this->init();
+	public static function get() {
+		if ( empty( self::$_instance ) ) {
+			self::$_instance = new self();
+		}
+
+		return self::$_instance;
 	}
 
 	/**
 	 * Initializing method
 	 */
-	private function init() {
+	protected function init() {
 		// Set up dash.
 		if ( file_exists( SMARTCRAWL_PLUGIN_DIR . 'external/dash/wpmudev-dash-notification.php' ) ) {
 			global $wpmudev_notices;
@@ -59,8 +69,6 @@ class Smartcrawl_Admin extends Smartcrawl_Renderable {
 		add_filter( 'load-index.php', array( $this, 'enqueue_dashboard_resources' ), 20 );
 
 		add_action( 'wp_ajax_wds_dismiss_message', array( $this, 'smartcrawl_dismiss_message' ) );
-		add_action( 'wp_ajax_wds-user-search', array( $this, 'json_user_search' ) );
-		add_action( 'wp_ajax_wds-user-search-add-user', array( $this, 'json_user_search_add_user' ) );
 
 		if ( Smartcrawl_Settings::get_setting( 'extras-admin_bar' ) ) {
 			add_action( 'admin_bar_menu', array( $this, 'add_toolbar_items' ), 99 );
@@ -68,16 +76,9 @@ class Smartcrawl_Admin extends Smartcrawl_Renderable {
 
 		add_filter( 'plugin_action_links_' . SMARTCRAWL_PLUGIN_BASENAME, array( $this, 'add_settings_link' ) );
 
-		$smartcrawl_options = Smartcrawl_Settings::get_options();
-
 		// Sanity check first!
 		if ( ! get_option( 'blog_public' ) ) {
 			add_action( 'admin_notices', array( $this, 'blog_not_public_notice' ) );
-		}
-
-		if ( ! empty( $smartcrawl_options['access-id'] ) && ! empty( $smartcrawl_options['secret-key'] ) ) {
-			Smartcrawl_Seomoz_Results::run();
-			Smartcrawl_Seomoz_Dashboard_Widget::run();
 		}
 
 		$this->_handlers['dashboard'] = Smartcrawl_Settings_Dashboard::get_instance();
@@ -95,25 +96,8 @@ class Smartcrawl_Admin extends Smartcrawl_Renderable {
 		}
 
 		$this->_handlers['sitemap'] = Smartcrawl_Sitemap_Settings::get_instance();
-		if ( Smartcrawl_Settings::get_setting( 'sitemap' ) ) {
-			Smartcrawl_Xml_Sitemap::run();
-			Smartcrawl_Sitemaps_Dashboard_Widget::run();
-		}
-
 		$this->_handlers['autolinks'] = Smartcrawl_Autolinks_Settings::get_instance();
-
 		$this->_handlers['settings'] = Smartcrawl_Settings_Settings::get_instance();
-
-		Smartcrawl_Controller_Onboard::serve();
-		Smartcrawl_Controller_Analysis::serve();
-		Smartcrawl_Controller_Pointers::run();
-
-		if ( Smartcrawl_Settings::get_setting( 'onpage' ) ) {
-			Smartcrawl_Metabox::run();
-			Smartcrawl_Taxonomy::run();
-		}
-
-		Smartcrawl_Compatibility::run();
 	}
 
 	/**
@@ -313,7 +297,7 @@ class Smartcrawl_Admin extends Smartcrawl_Renderable {
 				continue;
 			}
 
-			$optional_nodes[] = $this->create_admin_bar_node( $handler->slug, $handler->title );
+			$optional_nodes[] = $this->create_admin_bar_node( $handler->slug, $handler->get_title() );
 		}
 
 		if ( ! empty( $optional_nodes ) ) {
@@ -365,6 +349,8 @@ class Smartcrawl_Admin extends Smartcrawl_Renderable {
 	 * Validate user data for some/all of your input fields
 	 *
 	 * @param mixed $input Raw input.
+	 *
+	 * @return mixed
 	 */
 	public function validate( $input ) {
 		return $input; // return validated input.
@@ -407,104 +393,15 @@ class Smartcrawl_Admin extends Smartcrawl_Renderable {
 		wp_send_json_success();
 	}
 
-	/**
-	 * Process user search requests
-	 */
-	public function json_user_search() {
-		$result = array( 'success' => false );
-		if ( ! current_user_can( 'edit_users' ) ) {
-			wp_send_json( $result );
-			die;
-		}
-
-		$params = $this->get_request_data();
-		$query = sanitize_text_field( smartcrawl_get_array_value( $params, 'query' ) );
-
-		if ( ! $query ) {
-			wp_send_json( $result );
-			die();
-		}
-
-		$users = get_users( array(
-			'search' => '*' . $params['query'] . '*',
-			'fields' => 'all_with_meta',
-		) );
-
-		$return_users = array();
-		foreach ( $users as $user ) {
-			$return_users[] = array(
-				'id'   => $user->get( 'ID' ),
-				'text' => $user->get( 'display_name' ),
-			);
-		}
-		$result['items'] = $return_users;
-
-		wp_send_json( $result );
-	}
-
-	/**
-	 * Handles user search requests
-	 */
-	public function json_user_search_add_user() {
-		$result = array( 'success' => false );
-		if ( ! current_user_can( 'edit_users' ) ) {
-			wp_send_json( $result );
-			die;
-		}
-
-		$params = $this->get_request_data();
-
-		$option_name = sanitize_key( smartcrawl_get_array_value( $params, 'option_name' ) );
-		$users_key = sanitize_key( smartcrawl_get_array_value( $params, 'users_key' ) );
-		$new_user_key = sanitize_key( smartcrawl_get_array_value( $params, 'new_user_key' ) );
-
-		$user_search_options = smartcrawl_get_array_value( $params, $option_name );
-		$email_recipients = smartcrawl_get_array_value( $user_search_options, $users_key );
-		$new_user = sanitize_text_field( smartcrawl_get_array_value( $user_search_options, $new_user_key ) );
-
-		if ( null === $new_user ) {
-			wp_send_json( $result );
-
-			return;
-		}
-
-		if ( ! is_array( $email_recipients ) ) {
-			$email_recipients = array();
-		} else {
-			$email_recipients = array_filter( array_map( 'sanitize_text_field', $email_recipients ) );
-		}
-
-		if ( ! in_array( $new_user, $email_recipients, true ) ) {
-			$email_recipients[] = $new_user;
-		}
-
-		$new_markup = $this->_load( 'user-search', array(
-			'users'        => $email_recipients,
-			'option_name'  => $option_name,
-			'users_key'    => $users_key,
-			'new_user_key' => $new_user_key,
-		) );
-
-		$result['user_search'] = $new_markup;
-		$result['success'] = true;
-
-		wp_send_json( $result );
-	}
-
 	public function enqueue_dashboard_resources() {
-		wp_enqueue_style( 'wds-wp-dashboard', SMARTCRAWL_PLUGIN_URL . 'css/wp-dashboard.css', array(), Smartcrawl_Loader::get_version() );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_dashboard_css' ) );
 	}
 
-	/**
-	 * Gets inherited view defaults
-	 */
-	protected function _get_view_defaults() {
-		return array();
+	function enqueue_dashboard_css() {
+		wp_enqueue_style( Smartcrawl_Controller_Assets::WP_DASHBOARD_CSS );
 	}
 
 	private function get_request_data() {
 		return isset( $_POST['_wds_nonce'] ) && wp_verify_nonce( $_POST['_wds_nonce'], 'wds-admin-nonce' ) ? stripslashes_deep( $_POST ) : array();
 	}
 }
-
-$smartcrawl_admin = new Smartcrawl_Admin();

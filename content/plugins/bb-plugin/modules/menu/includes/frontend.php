@@ -34,7 +34,7 @@ if ( $module->is_responsive_menu_flyout() ) {
 
 		$layout = isset( $settings->menu_layout ) ? 'fl-menu-' . $settings->menu_layout : 'fl-menu-horizontal';
 
-		printf( '<nav aria-label="%s" itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement">', esc_attr( $module->get_menu_label() ) );
+		printf( '<nav aria-label="%s"%s>', esc_attr( $module->get_menu_label() ), FLBuilder::print_schema( ' itemscope="itemscope" itemtype="https://schema.org/SiteNavigationElement"', false ) );
 
 		$defaults = array(
 			'menu'         => $settings->menu,

@@ -643,3 +643,31 @@ function fl_fix_sumo( $option ) {
 	}
 	return $option;
 }
+
+/**
+ * Fix icon issues with Frontend Dashboard version 1.3.4+
+ * @since 2.2.3
+ */
+add_action( 'template_redirect', 'fix_frontend_dashboard_plugin', 1000 );
+function fix_frontend_dashboard_plugin() {
+	if ( FLBuilderModel::is_builder_active() ) {
+		remove_action( 'wp_enqueue_scripts', 'fed_script_front_end', 99 );
+	}
+}
+
+/**
+ * Add data-no-lazy to photo modules in themer header area.
+ * Fixes wp-rocket lazy load issue with shrink header.
+ * @since 2.2.3
+ */
+add_action( 'fl_theme_builder_before_render_header', 'fix_lazyload_header_start' );
+function fix_lazyload_header_start() {
+	add_filter( 'fl_builder_photo_attributes', 'fix_lazyload_header_attributes' );
+}
+function fix_lazyload_header_attributes( $attrs ) {
+	return $attrs . ' data-no-lazy="1"';
+}
+add_action( 'fl_theme_builder_after_render_header', 'fix_lazyload_header_end' );
+function fix_lazyload_header_end() {
+	remove_filter( 'fl_builder_photo_attributes', 'fix_lazyload_header_attributes' );
+}

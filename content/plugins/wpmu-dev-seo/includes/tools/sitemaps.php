@@ -19,6 +19,7 @@ class Smartcrawl_Xml_Sitemap {
 	const EXTRAS_STORAGE = 'wds-sitemap-extras';
 	const IGNORE_URLS_STORAGE = 'wds-sitemap-ignore_urls';
 	const IGNORE_IDS_STORAGE = 'wds-sitemap-ignore_post_ids';
+	const SITEMAP_PRISTINE_OPTION = 'wds_sitemap_cache_pristine';
 	/**
 	 * Static instance
 	 *
@@ -43,34 +44,11 @@ class Smartcrawl_Xml_Sitemap {
 	 * @var object WPDB instance
 	 */
 	private $_db;
-	/**
-	 * State flag
-	 *
-	 * @var bool
-	 */
-	private $_is_running = false;
 
 	/**
 	 * Constructor
 	 */
-	public function __construct() {
-	}
-
-	/**
-	 * Boot the hooking part
-	 */
-	public static function run() {
-		self::get()->_add_hooks();
-	}
-
-	public function _add_hooks() {
-		if ( $this->_is_running ) {
-			return false;
-		}
-
-		add_action( 'admin_init', array( $this, 'rebuild_when_sitemap_page_loaded' ) );
-
-		$this->_is_running = true;
+	private function __construct() {
 	}
 
 	/**
@@ -151,16 +129,6 @@ class Smartcrawl_Xml_Sitemap {
 		return update_option( self::IGNORE_IDS_STORAGE, array_filter( array_unique( $extras ) ) );
 	}
 
-	public function rebuild_when_sitemap_page_loaded() {
-		global $plugin_page;
-
-		if ( isset( $plugin_page ) && Smartcrawl_Settings::TAB_SITEMAP === $plugin_page ) {
-			if ( Smartcrawl_Settings::get_setting( 'sitemap' ) ) {
-				$this->generate_sitemap();
-			}
-		}
-	}
-
 	/**
 	 * Sitemap generation wrapper
 	 *
@@ -196,9 +164,12 @@ class Smartcrawl_Xml_Sitemap {
 		}
 
 		$map = '<?xml version="1.0" encoding="UTF-8"?>' . "\n";
+		$hide_branding = Smartcrawl_White_Label::get()->is_hide_wpmudev_branding();
 
 		if ( ! empty( $smartcrawl_options['sitemap-stylesheet'] ) ) {
-			$map .= $this->_get_stylesheet( 'xml-sitemap' );
+			$map .= $hide_branding
+				? $this->_get_stylesheet( 'xml-sitemap-whitelabel' )
+				: $this->_get_stylesheet( 'xml-sitemap' );
 		}
 
 		$image_schema_url = 'http://www.google.com/schemas/sitemap-image/1.1';
@@ -313,7 +284,9 @@ class Smartcrawl_Xml_Sitemap {
 		if ( ! $this->_items ) {
 			$this->_init_items();
 		}
-		$time = $time ? $time : time();
+		$time = intval( $time ) > 0
+			? $time
+			: time();
 		$offset = date( 'O', $time );
 
 		$ignore_urls = self::get_ignore_urls();
@@ -583,7 +556,7 @@ class Smartcrawl_Xml_Sitemap {
 		$groups = ! empty( $groups['groups'] ) ? $groups['groups'] : array();
 
 		foreach ( $groups as $group ) {
-			if ( ! empty( $smartcrawl_options["exclude-buddypress-group-{$group->slug}"] ) ) {
+			if ( ! empty( $smartcrawl_options["sitemap-buddypress-exclude-buddypress-group-{$group->slug}"] ) ) {
 				continue;
 			}
 
@@ -621,7 +594,7 @@ class Smartcrawl_Xml_Sitemap {
 		foreach ( $users as $user ) {
 			$wp_user = new WP_User( $user->id );
 			$role = ! empty( $wp_user->roles[0] ) ? $wp_user->roles[0] : false;
-			if ( ! empty( $smartcrawl_options["exclude-profile-role-{$role}"] ) ) {
+			if ( ! empty( $smartcrawl_options["sitemap-buddypress-roles-exclude-profile-role-{$role}"] ) ) {
 				continue;
 			}
 
@@ -788,5 +761,48 @@ class Smartcrawl_Xml_Sitemap {
 	 */
 	private function _is_admin_mapped() {
 		return (bool) ( is_multisite() && ( is_admin() || is_network_admin() ) && class_exists( 'domain_map' ) );
+	}
+
+	public function set_sitemap_pristine( $value ) {
+		$pristine = $this->get_sitemap_pristine_option();
+		$current_site_id = get_current_blog_id();
+
+		if ( $value ) {
+			if ( ! in_array( $current_site_id, $pristine ) ) {
+				$pristine[] = $current_site_id;
+				$this->update_sitemap_pristine_option( $pristine );
+			}
+		} else {
+			if ( ! is_multisite() || smartcrawl_is_switch_active( 'SMARTCRAWL_SITEWIDE' ) ) {
+				// The whole network (or single site) is out of date now so drop everything
+				$this->delete_sitemap_pristine_option();
+			} else {
+				$this->update_sitemap_pristine_option(
+					array_diff( $pristine, array( $current_site_id ) )
+				);
+			}
+		}
+	}
+
+	public function is_sitemap_pristine() {
+		return in_array(
+			get_current_blog_id(),
+			$this->get_sitemap_pristine_option()
+		);
+	}
+
+	private function get_sitemap_pristine_option() {
+		$value = get_site_option( self::SITEMAP_PRISTINE_OPTION, array() );
+		return is_array( $value )
+			? $value
+			: array();
+	}
+
+	private function update_sitemap_pristine_option( $value ) {
+		return update_site_option( self::SITEMAP_PRISTINE_OPTION, $value );
+	}
+
+	private function delete_sitemap_pristine_option() {
+		return delete_site_option( self::SITEMAP_PRISTINE_OPTION );
 	}
 }

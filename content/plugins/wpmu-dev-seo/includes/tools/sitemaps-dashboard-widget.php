@@ -3,7 +3,7 @@
 /**
  * Init WDS Sitemaps Dashboard Widget
  */
-class Smartcrawl_Sitemaps_Dashboard_Widget {
+class Smartcrawl_Sitemaps_Dashboard_Widget extends Smartcrawl_Base_Controller {
 
 	/**
 	 * Static instance
@@ -12,36 +12,13 @@ class Smartcrawl_Sitemaps_Dashboard_Widget {
 	 */
 	private static $_instance;
 
-	/**
-	 * State flag
-	 *
-	 * @var bool
-	 */
-	private $_is_running = false;
-
-	public function __construct() {
+	public function should_run() {
+		return Smartcrawl_Settings::get_setting( 'sitemap' )
+		       && smartcrawl_is_allowed_tab( Smartcrawl_Settings::TAB_SITEMAP );
 	}
 
-	/**
-	 * Boot the hooking part
-	 */
-	public static function run() {
-		self::get()->init();
-	}
-
-	/**
-	 * Init
-	 *
-	 * @return  void
-	 */
-	private function init() {
-		if ( $this->_is_running ) {
-			return;
-		}
-
+	protected function init() {
 		add_action( 'wp_dashboard_setup', array( &$this, 'dashboard_widget' ) );
-
-		$this->_is_running = true;
 	}
 
 	/**

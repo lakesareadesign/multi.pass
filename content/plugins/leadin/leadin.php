@@ -1,27 +1,46 @@
 <?php
-/*
-Plugin Name: HubSpot All-In-One Marketing - Forms, Popups, Live Chat
-Plugin URI: http://www.hubspot.com/integrations/wordpress
-Description: HubSpot’s official WordPress plugin allows you to add forms, popups, and live chat to your website and integrate with the best WordPress CRM.
-Version: 7.3.2
-Author: HubSpot
-Author URI: http://www.hubspot.com
-License: GPL2
-*/
+/**
+ * Plugin Name: HubSpot All-In-One Marketing - Forms, Popups, Live Chat
+ * Plugin URI: http://www.hubspot.com/integrations/wordpress
+ * Description: HubSpot’s official WordPress plugin allows you to add forms, popups, and live chat to your website and integrate with the best WordPress CRM.
+ * Version: 7.4.1
+ * Author: HubSpot
+ * Author URI: http://www.hubspot.com
+ * License: GPL v3
+ * Text Domain: leadin
+ * Domain Path: /languages/
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
 
 // =============================================
 // Define Constants
 // =============================================
+if ( ! defined( 'LEADIN_BASE_PATH' ) ) {
+  define( 'LEADIN_BASE_PATH', __FILE__ );
+}
+
 if ( ! defined( 'LEADIN_PATH' ) ) {
-  define( 'LEADIN_PATH', untrailingslashit( plugins_url( '', __FILE__ ) ) );
+  define( 'LEADIN_PATH', untrailingslashit( plugins_url( '', LEADIN_BASE_PATH ) ) );
 }
 
 if ( ! defined( 'LEADIN_PLUGIN_DIR' ) ) {
-  define( 'LEADIN_PLUGIN_DIR', untrailingslashit( dirname( __FILE__ ) ) );
+  define( 'LEADIN_PLUGIN_DIR', untrailingslashit( dirname( LEADIN_BASE_PATH ) ) );
 }
 
 if ( ! defined( 'LEADIN_PLUGIN_SLUG' ) ) {
-  define( 'LEADIN_PLUGIN_SLUG', basename( dirname( __FILE__ ) ) );
+  define( 'LEADIN_PLUGIN_SLUG', basename( dirname( LEADIN_BASE_PATH ) ) );
 }
 
 if ( file_exists( LEADIN_PLUGIN_DIR . '/inc/leadin-overrides.php' ) ) {
@@ -41,23 +60,31 @@ if ( ! defined( 'LEADIN_DB_VERSION' ) ) {
 }
 
 if ( ! defined( 'LEADIN_PLUGIN_VERSION' ) ) {
-  define( 'LEADIN_PLUGIN_VERSION', '7.3.2' );
+  define( 'LEADIN_PLUGIN_VERSION', '7.4.1' );
 }
 
 if ( ! defined( 'LEADIN_SOURCE' ) ) {
   define( 'LEADIN_SOURCE', 'leadin.com' );
 }
 
-if ( ! defined( 'LEADIN_ADMIN_ASSETS_BASE_URL' ) ) {
-  define( 'LEADIN_ADMIN_ASSETS_BASE_URL', 'https://app.hubspot.com/leadin_admin_static_live' );
-}
-
 if ( ! defined( 'LEADIN_SCRIPT_LOADER_DOMAIN' ) ) {
   define( 'LEADIN_SCRIPT_LOADER_DOMAIN', 'js.hs-scripts.com' );
 }
 
+if ( ! defined( 'LEADIN_FORMS_SCRIPT_URL' ) ) {
+  define( 'LEADIN_FORMS_SCRIPT_URL', '//js.hsforms.net/forms/v2.js' );
+}
+
+if ( ! defined( 'LEADIN_FORMS_PAYLOAD' ) ) {
+  define( 'LEADIN_FORMS_PAYLOAD', '' );
+}
+
 if ( ! defined( 'LEADIN_ENV' ) ) {
   define( 'LEADIN_ENV', 'prod' );
+}
+
+if ( ! defined( 'LEADIN_BASE_URL' ) ) {
+  define( 'LEADIN_BASE_URL', 'https://app.hubspot.com' );
 }
 
 // =============================================
@@ -219,26 +246,16 @@ function addHubspotShortcode($attributes) {
     $portalId = $parsedAttributes['portal'];
     $id = $parsedAttributes['id'];
 
-    if (LEADIN_ENV != 'prod') {
-      $formsUrlSuffix = 'qa';
-      $formsPayloadQA = 'env: "qa",';
-    } else {
-      $formsUrlSuffix = '';
-      $formsPayloadQA = '';
-    }
-
-    $formsUrl = "//js.hsforms$formsUrlSuffix.net/forms/v2.js";
-
     switch ($parsedAttributes['type']) {
         case 'form':
             return '
-                <script charset="utf-8" type="text/javascript" src="'.$formsUrl.'"></script>
+                <script charset="utf-8" type="text/javascript" src="'.LEADIN_FORMS_SCRIPT_URL.'"></script>
                 <script>
                   hbspt.forms.create({
                     portalId: '. $portalId . ',
                     formId: "' . $id . '",
                     shortcode: "wp",
-                    ' . $formsPayloadQA . '
+                    ' . LEADIN_FORMS_PAYLOAD . '
                   });
                 </script>
             ';
@@ -269,6 +286,7 @@ function addHubspotShortcode($attributes) {
  */
 function leadin_init()
 {
+    load_plugin_textdomain( 'leadin', false, '/leadin/languages' );
     $leadin_wp = new WPLeadIn();
     add_shortcode('hubspot', 'addHubspotShortcode');
 }

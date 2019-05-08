@@ -11,6 +11,7 @@
 		display: -webkit-flex;
 		display: -ms-flexbox;
 		display: flex;
+		height: 100%;
 	}
 <?php endif; ?>
 

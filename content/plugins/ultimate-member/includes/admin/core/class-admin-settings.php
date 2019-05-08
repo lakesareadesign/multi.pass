@@ -1074,6 +1074,16 @@ if ( ! class_exists( 'um\admin\core\Admin_Settings' ) ) {
 							'tooltip'   => __( 'Check this box if you would like to use Ultimate Member blocks in Gutenberg editor. Important some themes have the conflicts with Gutenberg editor.', 'ultimate-member' ),
 						),
 						array(
+							'id'        => 'rest_api_version',
+							'type'      => 'select',
+							'label'     => __( 'REST API version','ultimate-member' ),
+							'tooltip'   => __( 'This controls the REST API version, we recommend to use the last version', 'ultimate-member' ),
+							'options'   => array(
+								'1.0'   => __( '1.0 version', 'ultimate-member' ),
+								'2.0'   => __( '2.0 version', 'ultimate-member' ),
+							),
+						),
+						array(
 							'id'       		=> 'uninstall_on_delete',
 							'type'     		=> 'checkbox',
 							'label'   		=> __( 'Remove Data on Uninstall?', 'ultimate-member' ),
@@ -1722,8 +1732,9 @@ if ( ! class_exists( 'um\admin\core\Admin_Settings' ) ) {
 			$email_key = empty( $_GET['email'] ) ? '' : urldecode( $_GET['email'] );
 			$emails = UM()->config()->email_notifications;
 
-			if ( empty( $email_key ) || empty( $emails[$email_key] ) )
+			if ( empty( $email_key ) || empty( $emails[ $email_key ] ) ) {
 				include_once um_path . 'includes/admin/core/list-tables/emails-list-table.php';
+			}
 		}
 
 
@@ -2579,7 +2590,9 @@ Use Only Cookies:         			<?php echo ini_get( 'session.use_only_cookies' ) ? 
 
 			$theme_template_path = UM()->mail()->get_template_file( 'theme', $template );
 
-			UM()->mail()->copy_email_template( $template );
+			if ( ! file_exists( $theme_template_path ) ) {
+				UM()->mail()->copy_email_template( $template );
+			}
 
 			$fp = fopen( $theme_template_path, "w" );
 			$result = fputs( $fp, $content );

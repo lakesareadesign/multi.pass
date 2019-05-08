@@ -14,6 +14,12 @@ class Smartcrawl_Yoast_Importer extends Smartcrawl_Importer {
 	);
 
 	public function data_exists() {
+		// Go ahead with the import if ...
+		return $this->version_supported()               // ... current yoast version is explicitly marked as supported
+		       || $this->mapped_options_available();    // ... or we have all the options we need in the right places
+	}
+
+	private function version_supported() {
 		$options = get_option( 'wpseo' );
 		$version = smartcrawl_get_array_value( $options, 'version' );
 
@@ -23,8 +29,16 @@ class Smartcrawl_Yoast_Importer extends Smartcrawl_Importer {
 
 		return apply_filters(
 			'wds-import-yoast-data-exists',
-			strpos( $version, '10.' ) === 0
+			strpos( $version, '11.' ) === 0
 		);
+	}
+
+	private function mapped_options_available() {
+		$mappings = $this->expand_mappings( $this->load_option_mappings() );
+		$source_options = $this->get_yoast_options();
+		$difference = array_diff_key( $mappings, $source_options );
+
+		return empty( $difference );
 	}
 
 	public function import_options() {
@@ -61,6 +75,21 @@ class Smartcrawl_Yoast_Importer extends Smartcrawl_Importer {
 
 	private function load_option_mappings() {
 		return $this->load_mapping_file( 'yoast-mappings.php' );
+	}
+
+	protected function expand_mappings( $mappings ) {
+		$mappings = parent::expand_mappings( $mappings );
+
+		/**
+		 * ptarchive settings are for custom post types only so let's remove the mappings for builtin post types
+		 */
+		$post_types = get_post_types( array( 'public' => true, '_builtin' => true ) );
+		foreach ( $post_types as $post_type ) {
+			unset( $mappings["wpseo_titles/title-ptarchive-$post_type"] );
+			unset( $mappings["wpseo_titles/metadesc-ptarchive-$post_type"] );
+		}
+
+		return $mappings;
 	}
 
 	private function get_yoast_options() {
@@ -100,8 +129,8 @@ class Smartcrawl_Yoast_Importer extends Smartcrawl_Importer {
 	}
 
 	private function activate_modules( $target_options ) {
-		smartcrawl_put_array_value( true, $target_options, array( 'wds_settings_options', 'onpage' ) );
 		smartcrawl_put_array_value( true, $target_options, array( 'wds_settings_options', 'social' ) );
+		smartcrawl_put_array_value( true, $target_options, array( 'wds_settings_options', 'onpage' ) );
 
 		return $target_options;
 	}

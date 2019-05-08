@@ -20,6 +20,76 @@ if ( ! class_exists( 'um\core\Validation' ) ) {
 		function __construct() {
 			$this->regex_safe = '/\A[\w\-\.]+\z/';
 			$this->regex_phone_number = '/\A[\d\-\.\+\(\)\ ]+\z/';
+
+
+			add_filter( 'um_user_pre_updating_files_array', array( $this, 'validate_files' ), 10, 1 );
+			add_filter( 'um_before_save_filter_submitted', array( $this, 'validate_fields_values' ), 10, 2 );
+		}
+
+
+		/**
+		 * Validate files before upload
+		 *
+		 * @param $files
+		 *
+		 * @return mixed
+		 */
+		function validate_files( $files ) {
+			if ( ! empty( $files ) ) {
+				foreach ( $files as $key => $filename ) {
+					if ( validate_file( $filename ) !== 0 ) {
+						unset( $files[ $key ] );
+					}
+				}
+			}
+
+			return $files;
+		}
+
+
+
+		function validate_fields_values( $changes, $args ) {
+			$fields = array();
+			if ( ! empty( $args['custom_fields'] ) ) {
+				$fields = unserialize( $args['custom_fields'] );
+			}
+
+			foreach ( $changes as $key => $value ) {
+				//rating field validation
+				if ( isset( $fields[ $key ]['type'] ) && $fields[ $key ]['type'] == 'rating' ) {
+					if ( ! is_numeric( $value ) ) {
+						unset( $changes[ $key ] );
+					} else {
+						if ( $fields[ $key ]['number'] == 5 ) {
+							if ( ! in_array( $value, range( 1, 5 ) ) ) {
+								unset( $changes[ $key ] );
+							}
+						} elseif ( $fields[ $key ]['number'] == 10 ) {
+							if ( ! in_array( $value, range( 1, 10 ) ) ) {
+								unset( $changes[ $key ] );
+							}
+						}
+					}
+				}
+
+				//validation of correct values from options in wp-admin
+				if ( in_array( $fields[ $key ]['type'], array( 'select', 'radio' ) ) &&
+				     isset( $value ) && ! empty( $fields[ $key ]['options'] ) &&
+				     ! in_array( $value, $fields[ $key ]['options'] ) ) {
+					unset( $changes[ $key ] );
+				}
+
+				//validation of correct values from options in wp-admin
+				//the user cannot set invalid value in the hidden input at the page
+				if ( in_array( $fields[ $key ]['type'], array( 'multiselect', 'checkbox' ) ) &&
+				     isset( $value ) && ! empty( $fields[ $key ]['options'] ) ) {
+
+					$changes[ $key ] = array_intersect( $value, $fields[ $key ]['options'] );
+				}
+
+			}
+
+			return $changes;
 		}
 
 

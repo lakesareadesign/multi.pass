@@ -67,8 +67,8 @@ final class FLBuilderUserTemplates {
 		FLBuilderUserAccess::register_setting( 'global_node_editing', array(
 			'default'     => 'all',
 			'group'       => __( 'Frontend', 'fl-builder' ),
-			'label'       => __( 'Global Rows and Modules Editing', 'fl-builder' ),
-			'description' => __( 'The selected roles will be able to edit global rows and modules.', 'fl-builder' ),
+			'label'       => __( 'Global Rows, Columns and Modules Editing', 'fl-builder' ),
+			'description' => __( 'The selected roles will be able to edit global rows, columns and modules.', 'fl-builder' ),
 			'order'       => '10',
 		) );
 	}
@@ -257,23 +257,23 @@ final class FLBuilderUserTemplates {
 						'categorized' => true,
 					),
 				);
-			}
 
-			if ( count( $saved_cols['categorized'] ) > 1 ) {
-				foreach ( $saved_cols['categorized'] as $handle => $category ) {
-					$data['tabs']['columns']['views'][] = array(
-						'handle'       => 'user-' . $handle,
-						'name'         => $category['name'],
-						'templateName' => 'fl-content-panel-saved-columns',
-						'isSubItem'    => true,
-						'parent'       => 'savedColumns',
-						'query'        => array(
-							'kind'     => 'template',
-							'type'     => 'user',
-							'content'  => 'column',
-							'category' => $handle,
-						),
-					);
+				if ( count( $saved_cols['categorized'] ) > 1 ) {
+					foreach ( $saved_cols['categorized'] as $handle => $category ) {
+						$data['tabs']['rows']['views'][] = array(
+							'handle'       => 'user-' . $handle . '-savedColumns',
+							'name'         => $category['name'],
+							'templateName' => 'fl-content-panel-saved-columns',
+							'isSubItem'    => true,
+							'parent'       => 'savedColumns',
+							'query'        => array(
+								'kind'     => 'template',
+								'type'     => 'user',
+								'content'  => 'column',
+								'category' => $handle,
+							),
+						);
+					}
 				}
 			}
 

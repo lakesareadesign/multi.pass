@@ -112,6 +112,7 @@ class Smartcrawl_Seo_Service extends Smartcrawl_Service { // phpcs:ignore -- We 
 	 */
 	public function start() {
 		if ( $this->in_progress() ) {
+			Smartcrawl_Logger::debug( 'Crawl already in progress. Doing nothing.' );
 			return true; // Already in progress
 		}
 		Smartcrawl_Logger::debug( 'Starting a new crawl' );
@@ -132,6 +133,7 @@ class Smartcrawl_Seo_Service extends Smartcrawl_Service { // phpcs:ignore -- We 
 				// and mark ourselves as ready to receive status updates
 				$this->_clear_result();
 				$this->set_progress_flag( true );
+				update_option( $this->get_filter( 'seo-service-start' ), true );
 				Smartcrawl_Logger::debug( 'Crawl started' );
 			}
 		} else {
@@ -141,18 +143,27 @@ class Smartcrawl_Seo_Service extends Smartcrawl_Service { // phpcs:ignore -- We 
 		return $result;
 	}
 
+	public function is_started() {
+		return (bool) get_option( $this->get_filter( 'seo-service-start' ), false );
+	}
+
 	/**
 	 * Checks whether a call is currently being processed
 	 *
 	 * @return bool
 	 */
 	public function in_progress() {
-		$flag = $this->get_progress_flag();
+		if ( ! $this->is_started() ) {
+			return false;
+		}
 
-		$expected_timeout = intval( $flag ) + ( HOUR_IN_SECONDS / 4 );
+		$flag = $this->get_progress_flag();
+		$update_timeout = HOUR_IN_SECONDS;
+
+		$expected_timeout = intval( $flag ) + $update_timeout;
 		if ( ! empty( $flag ) && is_numeric( $flag ) && time() > $expected_timeout ) {
 			// Over timeout threshold, clear flag forcefully
-			$this->stop();
+			$this->set_progress_flag( false );
 		}
 
 		return ! ! $flag;
@@ -173,6 +184,7 @@ class Smartcrawl_Seo_Service extends Smartcrawl_Service { // phpcs:ignore -- We 
 	 * @return bool
 	 */
 	public function stop() {
+		delete_option( $this->get_filter( 'seo-service-start' ) );
 		$this->set_progress_flag( false );
 
 		return true;
@@ -226,6 +238,30 @@ class Smartcrawl_Seo_Service extends Smartcrawl_Service { // phpcs:ignore -- We 
 		return $result;
 	}
 
+	/**
+	 * @return Smartcrawl_SeoReport
+	 */
+	public function get_report() {
+		// Start with an empty report
+		$report = new Smartcrawl_SeoReport();
+		if ( ! $this->is_member() ) {
+			return $report;
+		}
+
+		// Call result first so it can perform cleanup in case of timeout
+		$result = $this->result();
+		if ( $this->in_progress() ) {
+			$report->set_in_progress( true );
+			$report->set_progress(
+				empty( $result['percentage'] ) ? 0 : $result['percentage']
+			);
+		} else {
+			$report->build( $result );
+		}
+
+		return $report;
+	}
+
 	private function _clear_result() {
 		return ! ! delete_option( $this->get_filter( 'seo-service-result' ) );
 	}
@@ -236,17 +272,7 @@ class Smartcrawl_Seo_Service extends Smartcrawl_Service { // phpcs:ignore -- We 
 	 * @return mixed Service response hash on success, (bool)false on failure
 	 */
 	public function status() {
-		$result = false;
-
-		Smartcrawl_Logger::debug( 'Requesting crawl status' );
-		$result = $this->request( 'status' );
-		// On success, extend the ping time a bit
-		if ( ! empty( $result ) ) {
-			Smartcrawl_Logger::debug( 'Got status, extending run time' );
-			$this->set_progress_flag( true );
-		}
-
-		return $result;
+		return $this->result();
 	}
 
 	/**
@@ -255,26 +281,28 @@ class Smartcrawl_Seo_Service extends Smartcrawl_Service { // phpcs:ignore -- We 
 	 * @return mixed Service response hash on success, (bool)false on failure
 	 */
 	public function result() {
-		$result = false;
+		$result = $this->get_result();
 
 		if ( $this->in_progress() ) {
-			Smartcrawl_Logger::debug( 'Requesting live crawl result' );
-			$result = $this->request( 'result' );
-			if ( ! empty( $result ) ) {
-				$this->set_result( $result );
-				$this->set_progress_flag( false );
-				$this->set_last_run_timestamp();
-				Smartcrawl_Logger::debug( 'Live crawl result obtained. Stopping.' );
-			}
-		} else {
-			Smartcrawl_Logger::debug( 'Requesting cached crawl result' );
-			$result = $this->get_result();
-			if ( empty( $result ) ) {
-				Smartcrawl_Logger::debug( 'No cached crawl result. Extending runtime and trying again.' );
-				$this->set_progress_flag( true );
-
-				return $this->result();
-			}
+			$percentage = empty( $result['percentage'] )
+				? 0
+				: $result['percentage']
+			;
+			$result['percentage'] = $percentage;
+		} else if ( $this->is_started() && empty( $result['end'] ) ) {
+			// Force timeout.
+			$result = array(
+				'issues' => array(
+					'messages' => array(
+						__( 'The crawl timed out', 'wds' ),
+					),
+				),
+				'end' => time(),
+			);
+			$this->set_result( $result );
+			$this->stop();
+			$this->set_last_run_timestamp();
+			Smartcrawl_Logger::debug( 'Forced timeout on sitemap crawl' );
 		}
 
 		return $result;

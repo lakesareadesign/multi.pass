@@ -46,7 +46,7 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 			$(document).off( 'click', '.wph-reset-color-palette', $.proxy( this.reset_color_palette, this ) );
 
 			// Get rid of escape key listener.
-			$(document).off( 'keydown', $.proxy( this.escape_key, this ) );
+			$(document).off( 'keydown.hustle.escKey', $.proxy( this.escape_key, this ) );
 			//Hustle.Events.off( 'popup.preview.prepare', $.proxy( this.handle_preview, this ) );
 
 			// set listeners
@@ -73,7 +73,7 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 			$(document).on( 'change keyup keypress', 'input[name=module_name]', $.proxy( this.validate_modal_name, this ) );
 
 			// Add escape key listener.
-			$(document).on( 'keydown', $.proxy( this.escape_key, this ) );
+			$(document).on( 'keydown.hustle.escKey', $.proxy( this.escape_key, this ) );
 
 			// Success Message Autoclosing.
 			Hustle.Events.on( 'modules.view.preview.success', $.proxy( this.preview_success_message_delay, this ) );
@@ -143,7 +143,7 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 				this.content_view.model.set( 'gdpr_message', gdpr_message, {silent: keep_silent} );
 			}
 		},
-		
+
 		open_preview: function(e) {
 
 			e.preventDefault();
@@ -194,7 +194,7 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 							var content_model = _.extend( me.content_view.model.toJSON(), {
 								main_content: res.data.content
 							} );
-							
+
 							me.render_preview( content_model );
 
 						}
@@ -222,7 +222,8 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 				}
 			);
 			data.unique_id = '';
-			
+			data.module_id = '';
+
 			// Append to preview after content updated.
 			$preview_modal.append(template(data));
 			$preview_modal.addClass('hui-module-type--popup');
@@ -246,7 +247,7 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 					});
 				});
 			}
-			
+
 			// Apply custom CSS and preview styles after content is appended.
 			me.apply_custom_css();
 			me.apply_preview_styles();
@@ -256,7 +257,7 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 		},
 
 		after_preview_render: function() {
-			
+
 			var me = this,
 				$preview = this.$( '#wph-preview-modal' ).addClass( 'wpmudev-modal-active' ),
 				$modal = $preview.find( '.hustle-modal' ),
@@ -272,7 +273,7 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 			if ($modal.hasClass( 'hustle-animated' )) {
 
 				setTimeout(function(){
-					
+
 					$modal.addClass( 'hustle-animate-' + animation_in ); // hustle-animate-{animate_in}
 					me.apply_custom_size();
 
@@ -789,7 +790,7 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 				if ( _.isEmpty(custom_css) || typeof nonce === 'undefined' ) {
 					return;
 				}
-				
+
 				$.ajax({
 					type: "POST",
 					url: ajaxurl,
@@ -868,12 +869,12 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 		provider_add_custom_fields: function(id, nonce, changed, me) {
 			var active_email_service = me.content_view.model.get('active_email_service');
 			if (
-				Module.Utils.service_supports_fields( 0, active_email_service ) !== true || 
+				Module.Utils.service_supports_fields( 0, active_email_service ) !== true ||
 				(
-					! ('form_elements' in changed) && 
+					! ('form_elements' in changed) &&
 					! ('email_services' in changed) &&
 					! ('active_email_service' in changed)
-				) 
+				)
 			) {
 				return;
 			}
@@ -904,7 +905,7 @@ Hustle.define("Pop_Up.View", function($, doc, win){
 
 			this.set_content_from_tinymce(true);
 			this.sanitize_data();
-	
+
 			// preparing the data
 			var me = this,
 				id = ( !$btn.data('id') ) ? '-1' : $btn.data('id'),

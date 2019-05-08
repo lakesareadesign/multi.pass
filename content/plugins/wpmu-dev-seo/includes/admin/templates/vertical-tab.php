@@ -1,72 +1,68 @@
-<section class="tab">
-	<?php
-	// Required
-	$tab_id = empty( $tab_id ) ? '' : $tab_id;
-	$tab_name = empty( $tab_name ) ? '' : $tab_name;
-	$is_active = empty( $is_active ) ? false : $is_active;
-	$tab_sections = ! empty( $tab_sections ) && is_array( $tab_sections ) ? $tab_sections : array();
-	$option_name = empty( $_view['option_name'] ) ? '' : $_view['option_name'];
+<?php
+// Required
+$tab_id = empty( $tab_id ) ? '' : $tab_id;
+$tab_name = empty( $tab_name ) ? '' : $tab_name;
+$is_active = empty( $is_active ) ? false : $is_active;
+$tab_sections = ! empty( $tab_sections ) && is_array( $tab_sections ) ? $tab_sections : array();
+$title_actions_left = empty($title_actions_left) ? false : $title_actions_left;
+$title_actions_right = empty($title_actions_right) ? false : $title_actions_right;
 
-	// Optional
-	$button_text = isset( $button_text ) ? $button_text : __( 'Save Settings', 'wds' );
-	$before_output = isset( $before_output ) ? $before_output : null;
-	$after_output = isset( $after_output ) ? $after_output : null;
+// Optional
+$button_text = isset( $button_text ) ? $button_text : esc_html__( 'Save Settings', 'wds' );
 
-	// Variables
-	$is_singular = count( $tab_sections ) === 1;
-	$smartcrawl_options = Smartcrawl_Settings::get_options();
-	$first_section = true;
-	?>
-	<input
-		type="radio"
-		name="wds-admin-active-tab"
-		id="<?php echo esc_attr( $tab_id ); ?>"
-		value="<?php echo esc_attr( $tab_id ); ?>"
-		<?php checked( $is_active ); ?> />
+// Variables
+$is_singular = count( $tab_sections ) === 1;
+$first_section = true;
+?>
+<div class="wds-vertical-tab-section sui-box <?php echo esc_attr( $tab_id ); ?> <?php echo $is_active ? '' : 'hidden'; ?>"
+     id="<?php echo esc_attr( $tab_id ); ?>">
 
-	<label for="<?php echo esc_attr( $tab_id ); ?>">
-		<?php echo esc_html( $tab_name ); ?>
-	</label>
-
-	<div
-		class="content wds-content-tabs <?php echo esc_attr( $tab_id ); ?> <?php echo $is_singular ? '' : 'wds-accordion'; ?>">
-		<h2 class="tab-title">
+	<div class="sui-box-header">
+		<h2 class="sui-box-title">
 			<?php echo esc_html( $tab_name ); ?>
 		</h2>
 
-		<?php if ( $before_output ) : ?>
-			<?php echo wp_kses( $before_output, smartcrawl_get_allowed_html_for_forms() ); ?>
-			<input
-				type="hidden"
-				name="wds-admin-active-tab"
-				id="<?php echo esc_attr( $tab_id ); ?>"
-				value="<?php echo esc_attr( $tab_id ); ?>"/>
+		<?php if ( $title_actions_left ): ?>
+			<div class="sui-actions-left">
+				<?php $this->_render( $title_actions_left ); ?>
+			</div>
 		<?php endif; ?>
 
+		<?php if ( $title_actions_right ): ?>
+			<div class="sui-actions-right">
+				<?php $this->_render( $title_actions_right ); ?>
+			</div>
+		<?php endif; ?>
+	</div>
+
+	<div class="<?php echo $is_singular ? 'sui-box-body' : 'sui-accordion sui-accordion-flushed'; ?>">
 		<?php foreach ( $tab_sections as $section ) : ?>
 			<?php
-			$this->_render( 'vertical-tab-section', array_merge(
-				$section,
-				array(
-					'show_accordion'         => ! $is_singular,
-					'accordion_section_open' => $first_section,
+			$this->_render(
+				$is_singular ? 'vertical-tab-section' : 'vertical-tab-section-accordion',
+				array_merge(
+					$section,
+					array(
+						'show_accordion'         => ! $is_singular,
+						'accordion_section_open' => $first_section,
+					)
 				)
-			) );
+			);
 
 			$first_section = false;
 			?>
 		<?php endforeach; ?>
-
-		<?php if ( $button_text ) : ?>
-			<div class="wds-seamless-footer">
-				<input name='submit' type='submit' class='button' value='<?php echo esc_attr( $button_text ); ?>'/>
-			</div>
-		<?php endif; ?>
-
-		<?php
-		if ( $after_output ) {
-			echo wp_kses( $after_output, smartcrawl_get_allowed_html_for_forms() );
-		}
-		?>
 	</div>
-</section>
+
+	<?php if ( $button_text ) : ?>
+		<div class="sui-box-footer <?php echo $is_singular ? '' : 'wds-no-border'; ?>">
+			<button name="submit"
+			        type="submit"
+			        class="sui-button sui-button-blue">
+				<i class="sui-icon-save" aria-hidden="true"></i>
+
+				<?php echo esc_html( $button_text ); ?>
+			</button>
+		</div>
+	<?php endif; ?>
+</div>

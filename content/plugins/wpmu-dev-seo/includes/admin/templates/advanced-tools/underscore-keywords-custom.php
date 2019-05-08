@@ -2,17 +2,20 @@
 <div class="wds-keyword-pairs">
 
 	{{ if (pairs) { }}
-		<table class="wds-keyword-pairs-existing wds-list-table">
+		<table class="wds-keyword-pairs-existing sui-table">
 			<tr>
-				<th>{{- Wds.l10n('keywords', 'Keyword') }}</th>
-				<th colspan="3">{{- Wds.l10n('keywords', 'Auto-Linked URL') }}</th>
+				<th><?php esc_html_e( 'Keyword', 'wds' ); ?></th>
+				<th colspan="2"><?php esc_html_e( 'Auto-Linked URL', 'wds' ); ?></th>
 			</tr>
 			{{= pairs }}
 		</table>
 	{{ } }}
 
 	<div class="wds-keyword-pair-new">
-		<button type="button" class="button button-dark">{{- Wds.l10n('keywords', 'Add New') }}</button>
+		<button type="button" class="sui-button">
+			<i class="sui-icon-plus" aria-hidden="true"></i>
+			<?php esc_html_e('Add Link', 'wds'); ?>
+		</button>
 	</div><!-- end wds-keyword-pair-new -->
 
 </div>

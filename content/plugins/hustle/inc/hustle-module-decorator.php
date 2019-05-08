@@ -545,6 +545,10 @@ class Hustle_Module_Decorator extends Opt_In {
 				case 'cat':
 					$title = sprintf( '<a target="_blank" href="%s">%s</a>', get_category_link( $id ), get_cat_name( $id ) );
 					break;
+
+				default:
+					$title = '';
+					break;
 			}
 
 			if ( $index > 0 ) {

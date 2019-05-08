@@ -51,8 +51,10 @@
 					<i class="fl-block-copy fl-block-col-copy far fa-clone fl-tip" title="<?php _e( 'Duplicate', 'fl-builder' ); ?>"></i>
 					<# } #>
 				<# } #>
+				<?php endif; ?>
 				<span class="fl-builder-has-submenu">
 					<i class="fl-block-settings fas fa-columns fl-tip" title="<?php _e( 'Edit Column', 'fl-builder' ); ?>"></i>
+					<?php if ( ! $simple_ui ) : ?>
 					<# if ( ! data.global || ( data.global && FLBuilderConfig.userTemplateType ) ) { #>
 					<ul class="fl-builder-submenu fl-block-col-submenu">
 						<li><a class="fl-block-col-edit" href="javascript:void(0);"><?php _e( 'Column Settings', 'fl-builder' ); ?></a></li>
@@ -71,7 +73,9 @@
 						<# } #>
 					</ul>
 					<# } #>
+					<?php endif; ?>
 				</span>
+				<?php if ( ! $simple_ui ) : ?>
 				<# if ( ! data.isRootCol ) { #>
 				<i class="fl-block-remove fas fa-times fl-tip" title="<?php _e( 'Remove', 'fl-builder' ); ?>"></i>
 				<# } #>

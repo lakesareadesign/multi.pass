@@ -29,12 +29,16 @@ class Hustle_SShare_Admin_Ajax {
 	public function save() {
 		Opt_In_Utils::validate_ajax_call( "hustle_save_sshare_module" );
 
-		$_POST = stripslashes_deep( $_POST );
+		$_post = stripslashes_deep( $_POST );
 
-		if( "-1" === $_POST['id']  )
-			$res = self::$_admin->save_new( $_POST );
+		// filter shortcode_id
+		if ( !empty( $_post['shortcode_id'] ) ) {
+			$_post['shortcode_id'] = self::$_hustle->sanitize_shortcode_id( $_post['shortcode_id'] );
+		}
+		if( "-1" === $_post['id']  )
+			$res = self::$_admin->save_new( $_post );
 		else
-			$res = self::$_admin->update_module( $_POST );
+			$res = self::$_admin->update_module( $_post );
 
 		if( 'native' === $_POST['content']['click_counter'] && $res ) {
 			Hustle_SShare_Model::refresh_all_counters();
@@ -221,7 +225,8 @@ class Hustle_SShare_Admin_Ajax {
 			$sshare->add_meta( self::$_hustle->get_const_var( 'KEY_CONTENT', $sshare ), $content );
 			$sshare->add_meta( self::$_hustle->get_const_var( 'KEY_DESIGN', $sshare ), $design );
 			$sshare->add_meta( self::$_hustle->get_const_var( 'KEY_SETTINGS', $sshare ), $settings );
-			$sshare->add_meta( self::$_hustle->get_const_var( 'KEY_SHORTCODE_ID', $sshare ),  $shortcode_id );
+			$new_shortcode_id = $sshare->get_new_shortcode_id( $shortcode_id );
+			$sshare->add_meta( self::$_hustle->get_const_var( 'KEY_SHORTCODE_ID', $sshare ),  $new_shortcode_id );
 			/**
 			 * success
 			 */

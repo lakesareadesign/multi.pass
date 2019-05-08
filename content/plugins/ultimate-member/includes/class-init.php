@@ -32,7 +32,10 @@ if ( ! class_exists( 'UM' ) ) {
 	 * @method UM_User_Location_API User_Location_API()
 	 * @method UM_Photos_API Photos_API()
 	 * @method UM_Groups Groups()
-	 *
+	 * @method UM_Frontend_Posting Frontend_Posting()
+	 * @method UM_Notes Notes()
+	 * @method UM_User_Bookmarks User_Bookmarks()
+	 * @method UM_Unsplash Unsplash()
 	 */
 	final class UM extends UM_Functions {
 
@@ -437,14 +440,18 @@ if ( ! class_exists( 'UM' ) ) {
 		 */
 		function activation() {
 			if ( is_multisite() ) {
-				//get all blogs
-				$blogs = get_sites();
-				if ( ! empty( $blogs ) ) {
-					foreach( $blogs as $blog ) {
-						switch_to_blog( $blog->blog_id );
-						//make activation script for each sites blog
-						$this->single_site_activation();
-						restore_current_blog();
+				if ( ! is_plugin_active_for_network( um_plugin ) ) {
+					$this->single_site_activation();
+				} else {
+					//get all blogs
+					$blogs = get_sites();
+					if ( ! empty( $blogs ) ) {
+						foreach( $blogs as $blog ) {
+							switch_to_blog( $blog->blog_id );
+							//make activation script for each sites blog
+							$this->single_site_activation();
+							restore_current_blog();
+						}
 					}
 				}
 			} else {
@@ -468,6 +475,8 @@ if ( ! class_exists( 'UM' ) ) {
 				if ( ! get_option( 'show_avatars' ) ) {
 					update_option( 'show_avatars', 1 );
 				}
+			} else {
+				UM()->options()->update( 'rest_api_version', '1.0' );
 			}
 
 			if ( $version != ultimatemember_version ) {
@@ -509,6 +518,7 @@ if ( ! class_exists( 'UM' ) ) {
 				$this->columns();
 				$this->notices();
 				$this->admin_navmenu();
+				$this->theme_updater();
 			} elseif ( $this->is_request( 'admin' ) ) {
 				$this->admin();
 				$this->admin_menu();
@@ -523,6 +533,7 @@ if ( ! class_exists( 'UM' ) ) {
 				$this->plugin_updater();
 				$this->admin_gdpr();
 				$this->admin_navmenu();
+				$this->theme_updater();
 			} elseif ( $this->is_request( 'frontend' ) ) {
 				$this->enqueue();
 				$this->account();
@@ -551,6 +562,12 @@ if ( ! class_exists( 'UM' ) ) {
 			$this->mobile();
 			$this->external_integrations();
 			$this->gdpr();
+
+			//if multisite networks active
+			if ( is_multisite() ) {
+				$this->multisite();
+			}
+
 		}
 
 
@@ -642,6 +659,18 @@ if ( ! class_exists( 'UM' ) ) {
 				$this->classes['plugin_updater'] = new um\core\Plugin_Updater();
 			}
 			return $this->classes['plugin_updater'];
+		}
+
+
+		/**
+		 * @since 2.0.45
+		 * @return um\admin\core\Admin_Theme_Updater()
+		 */
+		function theme_updater() {
+			if ( empty( $this->classes['theme_updater'] ) ) {
+				$this->classes['theme_updater'] = new um\admin\core\Admin_Theme_Updater();
+			}
+			return $this->classes['theme_updater'];
 		}
 
 
@@ -936,11 +965,20 @@ if ( ! class_exists( 'UM' ) ) {
 		/**
 		 * @since 2.0
 		 *
-		 * @return um\core\REST_API
+		 * @return um\core\rest\API_v1|um\core\rest\API_v2
 		 */
 		function rest_api() {
+
+			$api_version = $this->options()->get( 'rest_api_version' );
+
 			if ( empty( $this->classes['rest_api'] ) ) {
-				$this->classes['rest_api'] = new um\core\REST_API();
+				if ( '1.0' === $api_version ) {
+					$this->classes['rest_api'] = new um\core\rest\API_v1();
+				} elseif ( '2.0' === $api_version ) {
+					$this->classes['rest_api'] = new um\core\rest\API_v2();
+				} else {
+					$this->classes['rest_api'] = new um\core\rest\API_v1();
+				}
 			}
 
 			return $this->classes['rest_api'];
@@ -1379,6 +1417,19 @@ if ( ! class_exists( 'UM' ) ) {
 			return $this->classes['mobile'];
 		}
 
+		/**
+		 * @since 2.0.44
+		 *
+		 * @return um\lib\mobiledetect\Um_Mobile_Detect
+		 */
+		function multisite() {
+
+			if ( empty( $this->classes['multisite'] ) ) {
+				$this->classes['multisite'] = new um\core\Multisite();
+			}
+
+			return $this->classes['multisite'];
+		}
 
 		/**
 		 * Include files with hooked filters/actions
@@ -1427,7 +1478,6 @@ if ( ! class_exists( 'UM' ) ) {
 		function widgets_init() {
 			register_widget( 'um\widgets\UM_Search_Widget' );
 		}
-
 	}
 }
 

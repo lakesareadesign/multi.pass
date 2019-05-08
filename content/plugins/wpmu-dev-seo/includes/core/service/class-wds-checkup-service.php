@@ -14,6 +14,11 @@ class Smartcrawl_Checkup_Service extends Smartcrawl_Service {
 	const IMPL_REST = 'implementation::rest';
 
 	/**
+	 * @var Smartcrawl_Checkup_Service_Implementation
+	 */
+	private $_implementation;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct() {
@@ -142,7 +147,7 @@ class Smartcrawl_Checkup_Service extends Smartcrawl_Service {
 	/**
 	 * Gets last checked timestamp
 	 *
-	 * @return mixed|void
+	 * @return mixed
 	 */
 	public function get_last_checked_timestamp() {
 		return get_option( $this->get_filter( 'checkup-last' ), false );
@@ -155,10 +160,13 @@ class Smartcrawl_Checkup_Service extends Smartcrawl_Service {
 	 */
 	public function start() {
 		if ( $this->in_progress() ) {
+			Smartcrawl_Logger::debug( 'Checkup already in progress. Doing nothing.' );
 			return true;
 		}
 
-		if ( $this->get_cached_error( 'checkup' ) ) {
+		$cached_error = $this->get_cached_error( 'checkup' );
+		if ( $cached_error ) {
+			Smartcrawl_Logger::debug( 'Checkup could not be started because a cached error was found: [$cached_error]' );
 			return false;
 		}
 
@@ -168,11 +176,13 @@ class Smartcrawl_Checkup_Service extends Smartcrawl_Service {
 		$verb = $this->_implementation->get_result_verb();
 		$this->set_cached( "checkup-{$verb}", false );
 		delete_option( $this->get_filter( "checkup-{$verb}" ) );
+
+		Smartcrawl_Logger::debug( 'Sending start request to remote checkup service' );
 		$result = $this->request( $this->_implementation->get_start_verb() );
 
-		$data = ! empty( $result['data'] ) ? $result['data'] : array();
+		$data = ! empty( $result['seo'] ) ? $result['seo'] : array();
 		if ( empty( $data ) ) {
-			// Log error ...
+			Smartcrawl_Logger::error( 'Response from remote checkup service has no data' );
 			return false;
 		}
 

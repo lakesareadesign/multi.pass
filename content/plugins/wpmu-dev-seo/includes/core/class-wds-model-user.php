@@ -184,4 +184,8 @@ class Smartcrawl_Model_User extends Smartcrawl_Model {
 	public function get_type() {
 		return 'user';
 	}
+
+	public function get_email() {
+		return $this->_user->user_email;
+	}
 }

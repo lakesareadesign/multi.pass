@@ -198,14 +198,14 @@ class Hustle_SendinBlue_Form_Settings extends Hustle_Provider_Form_Settings_Abst
 				}
 				$_lists = $api->get_lists( array(
 					"page" => ( 1 * $offset ),
-					"page_limit" => 10
+					"page_limit" => 50
 				));
 
 				$offset = $offset++;
 			} else {
 				$_lists = $api->get_lists( array(
 					"page" => 1,
-					"page_limit" => 10
+					"page_limit" => 50
 				));
 				delete_site_transient( Hustle_SendinBlue::LIST_PAGES ); //clear pagination
 				delete_site_transient( Hustle_SendinBlue::CURRENT_LISTS ); //clear the lists we have

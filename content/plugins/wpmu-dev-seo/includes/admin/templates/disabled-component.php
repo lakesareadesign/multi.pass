@@ -2,14 +2,14 @@
 $content = empty( $content ) ? '' : $content;
 $image = empty( $image ) ? '' : $image;
 $component = empty( $component ) ? '' : $component;
-$button_text = empty( $button_text ) ? '' : $button_text;
+$button_text = empty( $button_text ) ? '' : $button_text;	     	 	 	  		 		
 ?>
 <form method='post'>
-	<section class="dev-box">
-		<div class="box-title">
-			<h3><?php esc_html_e( 'Get Started', 'wds' ); ?></h3>
+	<div class="sui-box">
+		<div class="sui-box-header">
+			<h2 class="sui-box-title"><?php esc_html_e( 'Get Started', 'wds' ); ?></h2>
 		</div>
-		<div class="box-content">
+		<div class="sui-box-body">
 			<?php
 			$this->_render( 'disabled-component-inner', array(
 				'content'     => $content,
@@ -19,5 +19,5 @@ $button_text = empty( $button_text ) ? '' : $button_text;
 			) );
 			?>
 		</div>
-	</section>
+	</div>
 </form>

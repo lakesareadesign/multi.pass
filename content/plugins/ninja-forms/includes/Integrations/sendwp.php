@@ -59,19 +59,3 @@ function wp_ajax_ninja_forms_sendwp_remote_install_handler () {
     ) );
     exit;
 }
-
-add_filter( 'ninja-forms-dashboard-promotions', 'ninja_forms_sendwp_remove_promotion' );
-
-function ninja_forms_sendwp_remove_promotion( $promotions ){
-    if( ninja_forms_sendwp_is_service_connected() || class_exists('\\NinjaMail\\Plugin') ){
-      unset( $promotions[ 'sendwp' ] );
-    }
-    return $promotions;
-  }
-
-function ninja_forms_sendwp_is_service_connected() {
-
-    if( ! class_exists('\\SendWP\\Mailer') ) return false;
-    return sendwp_client_connected();
-
-}

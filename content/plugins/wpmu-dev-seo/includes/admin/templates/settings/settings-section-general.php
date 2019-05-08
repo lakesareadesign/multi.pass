@@ -10,6 +10,7 @@ $verification_pages = empty( $verification_pages ) ? array() : $verification_pag
 $smartcrawl_options = Smartcrawl_Settings::get_options();
 $sitemap_options = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_SITEMAP );
 $plugin_modules = empty( $plugin_modules ) ? array() : $plugin_modules;
+$option_name = empty( $_view['option_name'] ) ? '' : $_view['option_name'];
 ?>
 
 <?php
@@ -22,55 +23,36 @@ $this->_render( 'toggle-group', array(
 
 <?php if ( is_multisite() && is_network_admin() ) : ?>
 	<input type="hidden" name="<?php echo esc_attr( $_view['option_name'] ); ?>[save_blog_tabs]" value="1"/>
-	<div class="wds-table-fields wds-separator-top">
-		<div class="label">
-			<label class="wds-label"><?php esc_html_e( 'Site Owner Permissions', 'wds' ); ?></label>
-			<p class="wds-label-description">
+	<div class="sui-box-settings-row">
+		<div class="sui-box-settings-col-1">
+			<label class="sui-settings-label"><?php esc_html_e( 'Site Owner Permissions', 'wds' ); ?></label>
+			<p class="sui-description">
 				<?php esc_html_e( 'Use this section to choose what sections of this plugin will be accessible to Site Admins on your Network.', 'wds' ); ?>
 			</p>
 		</div>
 
-		<div class="fields">
-			<div class="wds-toggle-table">
-				<span class="toggle wds-toggle">
-					<input type="checkbox"
-					       class="toggle-checkbox"
-					       value="yes"
-					       name="<?php echo esc_attr( $_view['option_name'] ); ?>[wds_sitewide_mode]"
-					       id="wds_sitewide_mode"
-						<?php echo isset( $wds_sitewide_mode ) ? checked( $wds_sitewide_mode, true, false ) : ''; ?>
-					/>
-					<label class="toggle-label" for="wds_sitewide_mode"></label>
-				</span>
+		<div class="sui-box-settings-col-2">
+			<?php $this->_render( 'toggle-item', array(
+				'item_value' => 'yes',
+				'field_name' => sprintf( '%s[wds_sitewide_mode]', $option_name ),
+				'field_id'   => sprintf( '%s[wds_sitewide_mode]', $option_name ),
+				'item_label' => esc_html__( 'Sitewide mode (network level changes only)', 'wds' ),
+				'checked'    => isset( $wds_sitewide_mode ) ? checked( $wds_sitewide_mode, true, false ) : '',
+			) );
 
-				<div class="wds-toggle-description">
-					<label
-						class="wds-label"
-						for="wds_sitewide_mode"><?php esc_html_e( 'Sitewide mode (network level changes only)', 'wds' ); ?>
-					</label>
-				</div>
-			</div>
-			<?php
 			foreach ( $slugs as $item => $label ) {
 				$checked = ( ! empty( $blog_tabs[ $item ] ) ) ? 'checked' : '';
 				$presence_slug = preg_replace( '/^wds_/', '', $item );
 				?>
-				<div class="wds-toggle-table">
-				<span class="toggle wds-toggle">
-					<input type="checkbox"
-					       class="toggle-checkbox"
-					       value="yes"
-					       data-prereq="<?php echo esc_attr( $presence_slug ); ?>"
-					       name="<?php echo esc_attr( $_view['option_name'] ); ?>[wds_blog_tabs][<?php echo esc_attr( $item ); ?>]"
-					       id="wds_blog_tabs-<?php echo esc_attr( $item ); ?>"
-						<?php echo esc_attr( $checked ); ?>
-					/>
-					<label class="toggle-label" for="wds_blog_tabs-<?php echo esc_attr( $item ); ?>"></label>
-				</span>
-					<div class="wds-toggle-description">
-						<label class="wds-label"
-						       for="wds_blog_tabs-<?php echo esc_attr( $item ); ?>"><?php echo esc_html( $label ); ?></label>
-					</div>
+
+				<div data-prereq="<?php echo esc_attr( $presence_slug ); ?>">
+					<?php $this->_render( 'toggle-item', array(
+						'item_value' => 'yes',
+						'field_name' => sprintf( '%s[wds_blog_tabs][%s]', $option_name, $item ),
+						'field_id'   => sprintf( '%s[wds_blog_tabs][%s]', $option_name, $item ),
+						'item_label' => $label,
+						'checked'    => $checked,
+					) ); ?>
 				</div>
 				<?php
 			}
@@ -123,80 +105,91 @@ $this->_render( 'toggle-group', array(
 ) );
 ?>
 
-<div class="wds-table-fields wds-separator-top">
-	<div class="label">
-		<label class="wds-label"><?php esc_html_e( 'Search engines', 'wds' ); ?></label>
-		<p class="wds-label-description"><?php esc_html_e( 'This tool will add the meta tags required by search engines to verify your site with their SEO management tools to your websites <head> tag.', 'wds' ); ?></p>
+<div class="sui-box-settings-row wds-verification-tags">
+	<div class="sui-box-settings-col-1">
+		<label class="sui-settings-label"><?php esc_html_e( 'Search engines', 'wds' ); ?></label>
+		<p class="sui-description"><?php esc_html_e( 'This tool will add the meta tags required by search engines to verify your site with their SEO management tools to your websites <head> tag.', 'wds' ); ?></p>
 	</div>
-	<div class="fields">
-		<?php
-		$value = isset( $sitemap_options['verification-google-meta'] ) ? $sitemap_options['verification-google-meta'] : '';
-		?>
-		<label for="verification-google" class="wds-label"><?php esc_html_e( 'Google Verification', 'wds' ); ?></label>
-		<div class="wds-label-description">
-			<?php esc_html_e( 'Paste the full meta tag from Google. The value looks like this:', 'wds' ); ?>
-			<pre
-				class="wds-meta-tags-example"><?php echo esc_html( '<meta name="google-site-verification" content="+nxGUDJ4QpAZ5l9Bsjdi102tLVC21AIh5d1Nl23908vVuFHs34=" />' ); ?></pre>
+	<div class="sui-box-settings-col-2">
+		<div class="sui-form-field">
+			<?php
+			$value = isset( $sitemap_options['verification-google-meta'] ) ? $sitemap_options['verification-google-meta'] : '';
+			?>
+			<label for="verification-google"
+			       class="sui-settings-label"><?php esc_html_e( 'Google Verification', 'wds' ); ?></label>
+			<div class="sui-description">
+				<?php esc_html_e( 'Paste the full meta tag from Google.', 'wds' ); ?>
+			</div>
+			<input id='verification-google'
+			       name='<?php echo esc_attr( $_view['option_name'] ); ?>[verification-google-meta]'
+			       type='text'
+			       placeholder="<?php echo esc_attr( 'E.g. <meta name="google-site-verification" content="...' ); ?>"
+			       class='sui-form-control'
+			       value='<?php echo esc_attr( $value ); ?>'>
 		</div>
-		<input
-			id='verification-google'
-			name='<?php echo esc_attr( $_view['option_name'] ); ?>[verification-google-meta]'
-			type='text'
-			class='wds-field'
-			value='<?php echo esc_attr( $value ); ?>'>
 
-		<?php
-		$value = isset( $sitemap_options['verification-bing-meta'] ) ? $sitemap_options['verification-bing-meta'] : '';
-		?>
-		<label for="verification-bing" class="wds-label"><?php esc_html_e( 'Bing Verification', 'wds' ); ?></label>
-		<div class="wds-label-description">
-			<?php esc_html_e( 'Paste the full meta tag from Bing. The value looks like this:', 'wds' ); ?>
-			<pre
-				class="wds-meta-tags-example"><?php echo esc_html( '<meta name="msvalidate.01" content="J3P85HC9105H840J1U8117603269HA13" />' ); ?></pre>
+		<div class="sui-form-field">
+			<?php
+			$value = isset( $sitemap_options['verification-bing-meta'] ) ? $sitemap_options['verification-bing-meta'] : '';
+			?>
+			<label for="verification-bing"
+			       class="sui-settings-label"><?php esc_html_e( 'Bing Verification', 'wds' ); ?></label>
+			<div class="sui-description">
+				<?php esc_html_e( 'Paste the full meta tag from Bing.', 'wds' ); ?>
+			</div>
+			<input id='verification-bing'
+			       name='<?php echo esc_attr( $_view['option_name'] ); ?>[verification-bing-meta]'
+			       type='text'
+			       class='sui-form-control'
+			       placeholder="<?php echo esc_attr( 'E.g. <meta name="msvalidate.01" content="...' ); ?>"
+			       value='<?php echo esc_attr( $value ); ?>'>
 		</div>
-		<input
-			id='verification-bing'
-			name='<?php echo esc_attr( $_view['option_name'] ); ?>[verification-bing-meta]'
-			type='text'
-			class='wds-field'
-			value='<?php echo esc_attr( $value ); ?>'>
 
-		<label for="verification-pages"
-		       class="wds-label"><?php esc_html_e( 'Add verification code to', 'wds' ); ?></label>
-		<select id="verification-pages"
-		        name="<?php echo esc_attr( $_view['option_name'] ); ?>[verification-pages]"
-		        class="select-container"
-		        style="width: 100%;">
-			<?php foreach ( $verification_pages as $item => $label ) : ?>
-				<?php
-				$selected = isset( $sitemap_options['verification-pages'] ) && $sitemap_options['verification-pages'] === $item ? 'selected' : '';
-				?>
-				<option
-					value="<?php echo esc_attr( $item ); ?>"
-					<?php echo esc_attr( $selected ); ?>>
-					<?php echo esc_html( $label ); ?>
-				</option>
-			<?php endforeach; ?>
-		</select>
+		<div class="sui-form-field">
+			<label for="verification-pages"
+			       class="sui-settings-label"><?php esc_html_e( 'Add verification code to', 'wds' ); ?></label>
+			<select id="verification-pages"
+			        data-minimum-results-for-search="-1"
+			        name="<?php echo esc_attr( $_view['option_name'] ); ?>[verification-pages]"
+			        class="sui-select">
+				<?php foreach ( $verification_pages as $item => $label ) : ?>
+					<?php
+					$selected = isset( $sitemap_options['verification-pages'] ) && $sitemap_options['verification-pages'] === $item ? 'selected' : '';
+					?>
+					<option
+							value="<?php echo esc_attr( $item ); ?>"
+						<?php echo esc_attr( $selected ); ?>>
+						<?php echo esc_html( $label ); ?>
+					</option>
+				<?php endforeach; ?>
+			</select>
+		</div>
 
-		<div class="wds-custom-meta-tags">
-			<label for="verification-google" class="wds-label"><?php esc_html_e( 'Custom meta tags', 'wds' ); ?></label>
-			<p class="wds-label-description"><?php esc_html_e( 'Have more meta tags you want to add? Add as many as you like.', 'wds' ); ?></p>
+		<div class="sui-form-field">
+			<div class="wds-custom-meta-tags">
+				<label for="verification-google"
+				       class="sui-settings-label"><?php esc_html_e( 'Custom meta tags', 'wds' ); ?></label>
+				<span class="sui-description"><?php esc_html_e( 'Have more meta tags you want to add? Add as many as you like.', 'wds' ); ?></span>
 
-			<?php if ( ! empty( $sitemap_options['additional-metas'] ) && is_array( $sitemap_options['additional-metas'] ) ) : ?>
-				<?php
-				foreach ( $sitemap_options['additional-metas'] as $custom_value ) {
-					$this->_render( 'settings/settings-custom-meta-tag', array(
-						'value' => $custom_value,
-					) );
-				}
-				?>
-			<?php endif; ?>
+				<?php if ( ! empty( $sitemap_options['additional-metas'] ) && is_array( $sitemap_options['additional-metas'] ) ) : ?>
+					<?php
+					foreach ( $sitemap_options['additional-metas'] as $custom_value ) {
+						$this->_render( 'settings/settings-custom-meta-tag', array(
+							'value' => $custom_value,
+						) );
+					}
+					?>
+				<?php endif; ?>
 
-			<?php $this->_render( 'settings/settings-custom-meta-tag' ); ?>
+				<?php $this->_render( 'settings/settings-custom-meta-tag' ); ?>
 
-			<button type="button"
-			        class="button button-dark button-dark-o"><?php esc_html_e( 'Add Another', 'wds' ); ?></button>
+				<button type="button"
+				        class="sui-button sui-button-ghost">
+					<i class="sui-icon-plus" aria-hidden="true"></i>
+
+					<?php esc_html_e( 'Add Another', 'wds' ); ?>
+				</button>
+			</div>
 		</div>
 	</div>
 </div>

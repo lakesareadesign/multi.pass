@@ -470,7 +470,6 @@ class Smartcrawl_AIOSEOP_Importer extends Smartcrawl_Importer {
 			'fb.com'        => 'facebook_url',
 			'instagram.com' => 'instagram_url',
 			'linkedin.com'  => 'linkedin_url',
-			'plus.google'   => 'gplus_url',
 			'pinterest.com' => 'pinterest_url',
 			'youtu.be'      => 'youtube_url',
 			'youtube.com'   => 'youtube_url',

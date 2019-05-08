@@ -11,7 +11,7 @@
 /**
  * On-page (title, meta etc) stuff processing class
  */
-class Smartcrawl_OnPage {
+class Smartcrawl_OnPage extends Smartcrawl_Base_Controller {
 
 	/**
 	 * Static instance
@@ -19,24 +19,6 @@ class Smartcrawl_OnPage {
 	 * @var Smartcrawl_OnPage
 	 */
 	private static $_instance;
-
-	/**
-	 * State flag
-	 *
-	 * @var bool
-	 */
-	private $_is_running = false;
-
-	/**
-	 * Constructor
-	 */
-	private function __construct() {
-		if ( defined( 'SF_PREFIX' ) && function_exists( 'sf_get_option' ) ) {
-			add_action( 'template_redirect', array( $this, 'postpone_for_simplepress' ), 1 );
-
-			return;
-		}
-	}
 
 	/**
 	 * Static instance getter
@@ -49,14 +31,16 @@ class Smartcrawl_OnPage {
 		return self::$_instance;
 	}
 
+	public function should_run() {
+		return Smartcrawl_Settings::get_setting( 'onpage' )
+		       && smartcrawl_is_allowed_tab( Smartcrawl_Settings::TAB_ONPAGE )
+		       && $this->run_on_simplepress();
+	}
+
 	/**
 	 * Binds processing actions
 	 */
-	public function run() {
-		if ( $this->_is_running ) {
-			return false;
-		}
-
+	protected function init() {
 		$options = Smartcrawl_Settings::get_options();
 
 		remove_action( 'wp_head', 'rel_canonical' );
@@ -88,7 +72,6 @@ class Smartcrawl_OnPage {
 				define( 'SMARTCRAWL_SUPPRESS_REDUNDANT_CANONICAL', true );
 			}
 		}
-		$this->_is_running = true;
 	}
 
 	/**
@@ -96,11 +79,17 @@ class Smartcrawl_OnPage {
 	 * For non-forum pages, do our thing all the way.
 	 * For forum pages, do nothing.
 	 */
-	public function postpone_for_simplepress() {
+	private function run_on_simplepress() {
 		global $wp_query;
-		if ( (int) sf_get_option( 'sfpage' ) !== $wp_query->post->ID ) {
-			$this->_init();
+
+		if (
+			defined( 'SF_PREFIX' )
+			&& function_exists( 'sf_get_option' )
+		) {
+			return (int) sf_get_option( 'sfpage' ) !== $wp_query->post->ID;
 		}
+
+		return true;
 	}
 
 	/**
@@ -142,175 +131,22 @@ class Smartcrawl_OnPage {
 	 * Gets the processed HTML title
 	 *
 	 * @param string $title Original title.
-	 * @param string $sep Separator to use.
-	 * @param string $seplocation deprecated.
-	 * @param string $postid deprecated.
 	 *
 	 * @return string
 	 */
-	public function smartcrawl_title( $title, $sep = '', $seplocation = '', $postid = '' ) {
-		$title = $this->get_title( $title );
+	public function smartcrawl_title( $title ) {
+		$title = Smartcrawl_Meta_Value_Helper::get()->get_title( $title );
 
-		return esc_html( strip_tags( stripslashes( apply_filters( 'wds_title', $title ) ) ) );
-	}
-
-	/**
-	 * Gets resolved title
-	 *
-	 * @param string $title Optional seed title.
-	 *
-	 * @return string Resolved title
-	 */
-	public function get_title( $title = '' ) {
-		$resolver = $this->get_resolver();
-		$post = $resolver->get_context();
-		$wp_query = $resolver->get_query_context();
-		$request_title = $this->get_request_param( 'wds_title' );
-		if ( ! empty( $request_title ) ) {
-			return smartcrawl_replace_vars( $request_title, $post );
-		}
-
-		$smartcrawl_options = Smartcrawl_Settings::get_options();
-
-		$location = $resolver->get_location();
-		if ( empty( $title ) ) {
-			if ( Smartcrawl_Endpoint_Resolver::L_PT_ARCHIVE === $location ) {
-				$title = post_type_archive_title( '', false );
-			} elseif ( Smartcrawl_Endpoint_Resolver::L_ARCHIVE === $location ) {
-				$title = get_the_archive_title();
-			} else {
-				$title = get_the_title( $post );
-			}
-		}
-
-		if ( Smartcrawl_Endpoint_Resolver::L_BLOG_HOME === $location ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-home'], (array) $post );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_STATIC_HOME === $location ) {
-			$post = get_post( get_option( 'page_for_posts' ) );
-			$fixed_title = smartcrawl_get_value( 'title', ! empty( $post->ID ) ? $post->ID : 0 );
-			if ( $fixed_title ) {
-				$title = smartcrawl_replace_vars( $fixed_title, (array) $post );
-			} elseif ( ! empty( $post->post_type ) && isset( $smartcrawl_options[ 'title-' . $post->post_type ] ) && ! empty( $smartcrawl_options[ 'title-' . $post->post_type ] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post );
-			}
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_TAX_ARCHIVE === $location ) {
-			$term = $wp_query->get_queried_object();
-			$title = smartcrawl_get_term_meta( $term, $term->taxonomy, 'wds_title' );
-			if ( ! $title && isset( $smartcrawl_options[ 'title-' . $term->taxonomy ] ) && ! empty( $smartcrawl_options[ 'title-' . $term->taxonomy ] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $term->taxonomy ], (array) $term );
-			}
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_SEARCH === $location && ! empty( $smartcrawl_options['title-search'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-search'], (array) $wp_query->get_queried_object() );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_AUTHOR_ARCHIVE === $location ) {
-			$author_id = get_query_var( 'author' );
-			$title = get_the_author_meta( 'wds_title', $author_id );
-			if ( empty( $title ) && isset( $smartcrawl_options['title-author'] ) && ! empty( $smartcrawl_options['title-author'] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options['title-author'], array() );
-			}
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_DATE_ARCHIVE === $location && ! empty( $smartcrawl_options['title-date'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-date'], array( 'post_title' => $title ) );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_PT_ARCHIVE === $location ) {
-			$title = $this->get_pt_archive_meta_setting( $smartcrawl_options, 'title-', $title );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_ARCHIVE === $location && ! empty( $smartcrawl_options['title-archive'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-archive'], array( 'post_title' => $title ) );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_404 === $location && ! empty( $smartcrawl_options['title-404'] ) ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-404'], array( 'post_title' => $title ) );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_BP_GROUPS === $location ) {
-			$bp = buddypress();
-			$group = $bp->groups->current_group;
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-bp_groups'], array(
-				'name'        => $group->name,
-				'description' => $group->description,
-			) );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_BP_PROFILE === $location ) {
-			$title = smartcrawl_replace_vars( $smartcrawl_options['title-bp_profile'], array(
-				'full_name' => bp_get_displayed_user_fullname(),
-				'username'  => bp_get_displayed_user_username(),
-			) );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_SINGULAR === $location ) {
-			$object = get_queried_object();
-			$post_id = ! empty( $post->ID )
-				? $post->ID
-				: ( ! empty( $object->ID ) ? $object->ID : false );
-			$fixed_title = smartcrawl_get_value( 'title', $post_id );
-			if ( $fixed_title ) {
-				$title = smartcrawl_replace_vars( $fixed_title, (array) $post );
-			} elseif ( ! empty( $post->post_type ) && isset( $smartcrawl_options[ 'title-' . $post->post_type ] ) && ! empty( $smartcrawl_options[ 'title-' . $post->post_type ] ) ) {
-				$title = smartcrawl_replace_vars( $smartcrawl_options[ 'title-' . $post->post_type ], (array) $post );
-			}
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_WOO_SHOP === $location ) { // WooCommerce shop page.
-			$shop_page = get_post( wc_get_page_id( 'shop' ) );
-			if ( is_a( $shop_page, 'WP_Post' ) ) {
-				$fixed_shop_title = smartcrawl_get_value( 'title', $shop_page->ID );
-				if ( $fixed_shop_title ) {
-					$title = smartcrawl_replace_vars( $fixed_shop_title, (array) $shop_page );
-				} elseif ( isset( $smartcrawl_options['title-page'] ) && ! empty( $smartcrawl_options['title-page'] ) ) {
-					$title = smartcrawl_replace_vars( $smartcrawl_options['title-page'], (array) $shop_page );
-				}
-			}
-		}
-
-		return $title;
-	}
-
-	/**
-	 * Gets a parameter from POST array
-	 *
-	 * @param string $key Parameter key to fetch.
-	 *
-	 * @return mixed
-	 */
-	private function get_request_param( $key ) {
-		$data = $this->get_request_data();
-
-		return sanitize_text_field(
-			smartcrawl_get_array_value( $data, $key )
-		);
-	}
-
-	private function get_request_data() {
-		return isset( $_POST['_wds_nonce'] ) && wp_verify_nonce( $_POST['_wds_nonce'], 'wds-metabox-nonce' ) ? stripslashes_deep( $_POST ) : array();
-	}
-
-	/**
-	 * Spawn endpoint resolver
-	 *
-	 * @return Smartcrawl_Endpoint_Resolver
-	 */
-	public function get_resolver() {
-		return Smartcrawl_Endpoint_Resolver::resolve();
-	}
-
-	/**
-	 * @param $smartcrawl_options
-	 *
-	 * @return string
-	 */
-	private function get_pt_archive_meta_setting( $smartcrawl_options, $setting_prefix, $default_value ) {
-		$post_type = get_queried_object();
-		if ( is_a( $post_type, 'WP_Post_Type' ) ) {
-			$pt_archive_key = $setting_prefix . Smartcrawl_Onpage_Settings::PT_ARCHIVE_PREFIX . $post_type->name;
-
-			if ( ! empty( $smartcrawl_options[ $pt_archive_key ] ) ) {
-				return smartcrawl_replace_vars( $smartcrawl_options[ $pt_archive_key ], $post_type );
-			}
-		}
-
-		return $default_value;
+		return esc_html( strip_tags( stripslashes( $title ) ) );
 	}
 
 	/**
 	 * Processes the stuff that goes into the HTML head
 	 */
 	public function smartcrawl_head() {
-		global $wp_query, $paged;
-		$smartcrawl_options = Smartcrawl_Settings::get_options();
-
 		if ( $this->force_rewrite_title() ) {
 			$this->smartcrawl_stop_title_buffer(); // STOP processing the buffer.
 		}
-
-		$robots = '';
 
 		if ( ! smartcrawl_is_switch_active( 'SMARTCRAWL_WHITELABEL_ON' ) ) {
 			$project = defined( 'SMARTCRAWL_PROJECT_TITLE' )
@@ -364,8 +200,10 @@ class Smartcrawl_OnPage {
 				'target'          => array(),
 				'frame_name'      => array(),
 				'type'            => array(),
-			)
+			),
 		) );
+
+		return true;
 	}
 
 	/**
@@ -399,6 +237,7 @@ class Smartcrawl_OnPage {
 			&& // ... and
 			! ( bp_is_blog_page() || is_404() ) // ... we're on a BP page.
 		) {
+			// Because apparently BP prints it's own canonical URLs
 			return false;
 		}
 
@@ -438,7 +277,6 @@ class Smartcrawl_OnPage {
 	 */
 	private function smartcrawl_rel_links() {
 		global $wp_query, $paged;
-		$smartcrawl_options = Smartcrawl_Settings::get_options();
 
 		if ( ! $wp_query->max_num_pages ) {
 			return false;
@@ -489,6 +327,8 @@ class Smartcrawl_OnPage {
 				$this->print_html_tag( "<link rel='next' href='{$next}' />\n" );
 			}
 		}
+
+		return true;
 	}
 
 	/**
@@ -526,6 +366,8 @@ class Smartcrawl_OnPage {
 		if ( '' !== $robots && 1 === (int) get_option( 'blog_public' ) ) {
 			$this->print_html_tag( '<meta name="robots" content="' . esc_attr( $robots ) . '"/>' . "\n" );
 		}
+
+		return true;
 	}
 
 	private function get_robot_value_helper() {
@@ -540,113 +382,19 @@ class Smartcrawl_OnPage {
 			return false;
 		}
 
-		$metadesc = $this->get_description();
+		$metadesc = Smartcrawl_Meta_Value_Helper::get()->get_description();
+		$metadesc = wp_kses(
+			strip_tags( stripslashes( $metadesc ) ),
+			array(), array()
+		);
 
 		if ( ! empty( $metadesc ) ) {
 			echo '<meta name="description" content="' .
-			     esc_attr( strip_tags( stripslashes( apply_filters( 'wds_metadesc', $metadesc ) ) ) )
+			     esc_attr( $metadesc )
 			     . '" />' . "\n";
 		}
-	}
 
-	/**
-	 * Gets resolved description
-	 *
-	 * @param string $metadesc Optional seed metadesc.
-	 *
-	 * @return string Resolved description
-	 */
-	public function get_description( $metadesc = '' ) {
-		$resolver = $this->get_resolver();
-		$post = $resolver->get_context();
-		$wp_query = $resolver->get_query_context();
-		$request_description = $this->get_request_param( 'wds_description' );
-		if ( ! empty( $request_description ) ) {
-			return smartcrawl_replace_vars( $request_description, $post );
-		}
-
-		if ( empty( $metadesc ) && is_object( $post ) ) {
-			$metadesc = smartcrawl_get_trimmed_excerpt( $post->post_excerpt, $post->post_content );
-		}
-		$location = $resolver->get_location();
-		$smartcrawl_options = Smartcrawl_Settings::get_options();
-
-		if ( Smartcrawl_Endpoint_Resolver::L_BP_GROUPS === $location ) { // BP group?
-			$optvar = ! empty( $smartcrawl_options['metadesc-bp_groups'] ) ? $smartcrawl_options['metadesc-bp_groups'] : '';
-			$bp = buddypress();
-			$group = $bp->groups->current_group;
-			$metadesc = smartcrawl_replace_vars( $optvar, array(
-				'name'        => $group->name,
-				'description' => $group->description,
-			) );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_BP_PROFILE === $location ) {
-			$optvar = ! empty( $smartcrawl_options['metadesc-bp_profile'] ) ? $smartcrawl_options['metadesc-bp_profile'] : '';
-			$metadesc = smartcrawl_replace_vars( $optvar, array(
-				'full_name' => bp_get_displayed_user_fullname(),
-				'username'  => bp_get_displayed_user_username(),
-			) );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_SINGULAR === $location ) {
-			$object = get_queried_object();
-			$post_id = ! empty( $post->ID )
-				? $post->ID
-				: ( ! empty( $object->ID ) ? $object->ID : false );
-			$stored = smartcrawl_get_value( 'metadesc', $post_id );
-			if ( empty( $stored ) && is_object( $post ) ) {
-				$optvar = ! empty( $smartcrawl_options[ 'metadesc-' . $post->post_type ] ) ? $smartcrawl_options[ 'metadesc-' . $post->post_type ] : '';
-				$stored = smartcrawl_replace_vars( $optvar, (array) $post );
-			} elseif ( ! empty( $stored ) ) {
-				$stored = smartcrawl_replace_vars( $stored, (array) $post );
-			}
-			if ( ! empty( $stored ) ) {
-				$metadesc = $stored;
-			}
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_WOO_SHOP === $location ) { // WooCommerce shop page.
-			$shop_page = get_post( wc_get_page_id( 'shop' ) );
-			if ( is_a( $shop_page, 'WP_Post' ) ) {
-				$fixed_shop_desc = smartcrawl_get_value( 'metadesc', $shop_page->ID );
-				if ( $fixed_shop_desc ) {
-					$metadesc = smartcrawl_replace_vars( $fixed_shop_desc, (array) $shop_page );
-				} elseif ( isset( $smartcrawl_options['metadesc-page'] ) && ! empty( $smartcrawl_options['metadesc-page'] ) ) {
-					$metadesc = smartcrawl_replace_vars( $smartcrawl_options['metadesc-page'], (array) $shop_page );
-				}
-			}
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_BLOG_HOME === $location && isset( $smartcrawl_options['metadesc-home'] ) ) {
-			$metadesc = smartcrawl_replace_vars( $smartcrawl_options['metadesc-home'], array() );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_STATIC_HOME === $location ) {
-			$npost = get_post( get_option( 'page_for_posts' ) );
-			$metadesc = is_object( $npost ) && ! empty( $npost->ID )
-				? smartcrawl_get_value( 'metadesc', $npost->ID )
-				: smartcrawl_get_value( 'metadesc' );
-			if ( is_object( $npost ) ) {
-				$metadesc = smartcrawl_replace_vars( $metadesc, (array) $npost );
-			}
-			if ( ( '' === $metadesc || ! $metadesc ) && is_object( $npost ) && isset( $smartcrawl_options[ 'metadesc-' . $npost->post_type ] ) ) {
-				$metadesc = smartcrawl_replace_vars( $smartcrawl_options[ 'metadesc-' . $npost->post_type ], (array) $npost );
-			}
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_TAX_ARCHIVE === $location ) {
-			$term = $wp_query->get_queried_object();
-
-			$metadesc = smartcrawl_get_term_meta( $term, $term->taxonomy, 'wds_desc' );
-			if ( ! $metadesc && isset( $smartcrawl_options[ 'metadesc-' . $term->taxonomy ] ) ) {
-				$metadesc = smartcrawl_replace_vars( $smartcrawl_options[ 'metadesc-' . $term->taxonomy ], (array) $term );
-			}
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_AUTHOR_ARCHIVE === $location ) {
-			$author_id = get_query_var( 'author' );
-			$metadesc = get_the_author_meta( 'wds_metadesc', $author_id );
-			if ( empty( $metadesc ) && isset( $smartcrawl_options['metadesc-author'] ) && ! empty( $smartcrawl_options['metadesc-author'] ) ) {
-				$metadesc = smartcrawl_replace_vars( $smartcrawl_options['metadesc-author'], array() );
-			}
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_DATE_ARCHIVE === $location && ! empty( $smartcrawl_options['metadesc-date'] ) ) {
-			$metadesc = smartcrawl_replace_vars( $smartcrawl_options['metadesc-date'] );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_PT_ARCHIVE === $location ) {
-			$metadesc = $this->get_pt_archive_meta_setting( $smartcrawl_options, 'metadesc-', $metadesc );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_SEARCH === $location && ! empty( $smartcrawl_options['metadesc-search'] ) ) {
-			$metadesc = smartcrawl_replace_vars( $smartcrawl_options['metadesc-search'] );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_404 === $location && ! empty( $smartcrawl_options['metadesc-404'] ) ) {
-			$metadesc = smartcrawl_replace_vars( $smartcrawl_options['metadesc-404'] );
-		}
-
-		return strip_tags( stripslashes( $metadesc ) );
+		return true;
 	}
 
 	/**
@@ -654,150 +402,35 @@ class Smartcrawl_OnPage {
 	 */
 	private function smartcrawl_meta_keywords() {
 		if ( is_admin() ) {
-			return;
+			return false;
 		}
 
 		if ( ! apply_filters( 'wds_process_keywords', true ) ) {
 			return false;
 		} // Allow optional filtering out.
-		$keywords = $this->get_keywords();
+		$helper = Smartcrawl_Meta_Value_Helper::get();
+		$keywords = $helper->get_keywords();
 		if ( empty( $keywords ) ) {
 			return false;
 		}
+		$escaped_keywords = wp_kses(
+			stripslashes( join( ',', $keywords ) ),
+			array(), array()
+		);
 
-		echo '<meta name="keywords" content="' . esc_attr( stripslashes( join( ',', $keywords ) ) ) . '" />' . "\n";
+		echo '<meta name="keywords" content="' . esc_attr( $escaped_keywords ) . '" />' . "\n";
 
 		// News keywords.
-		$resolver = $this->get_resolver();
-		$news_meta = $resolver->is_singular() ? stripslashes( smartcrawl_get_value( 'news_keywords' ) ) : false;
-		$news_meta = trim( preg_replace( '/\s\s+/', ' ', preg_replace( '/[^\-_,a-z0-9 ]/i', ' ', $news_meta ) ) );
-		if ( $news_meta ) {
-			echo '<meta name="news_keywords" content="' . esc_attr( $news_meta ) . '" />' . "\n";
-		}
-	}
-
-	/**
-	 * Gets a list of keywords for current resolved endpoint
-	 *
-	 * @param string $location Resolved location to get keywords for.
-	 * @param WP_Post $post Post context for location.
-	 *
-	 * @return array A list of keywords
-	 */
-	public function get_keywords( $location = false, $post = false ) {
-		$resolver = $this->get_resolver();
-		$smartcrawl_options = Smartcrawl_Settings::get_options();
-
-		if ( empty( $location ) ) {
-			$location = $resolver->get_location();
-		}
-		if ( empty( $post ) ) {
-			$post = $resolver->get_context();
-		}
-
-		$metakey = '';
-		$extra = array();
-
-		if ( Smartcrawl_Endpoint_Resolver::L_BLOG_HOME === $location && isset( $smartcrawl_options['keywords-home'] ) ) {
-			$metakey = smartcrawl_replace_vars( $smartcrawl_options['keywords-home'], (array) $post );
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_WOO_SHOP === $location ) {
-			$post_id = wc_get_page_id( 'shop' );
-			$metakey = smartcrawl_get_value( 'keywords', $post_id );
-			$use_tags = smartcrawl_get_value( 'tags_to_keywords', $post_id );
-			$metakey = $use_tags ? $this->_tags_to_keywords( $metakey ) : $metakey;
-		} elseif ( Smartcrawl_Endpoint_Resolver::L_STATIC_HOME === $location ) {
-			$posts_page = get_post( get_option( 'page_for_posts' ) );
-			if ( is_object( $posts_page ) && ! empty( $posts_page->ID ) ) {
-				$metakey = smartcrawl_get_value( 'keywords', $posts_page->ID );
-				if ( smartcrawl_get_value( 'tags_to_keywords', $posts_page->ID ) ) {
-					$extra = array_merge( $extra, $this->get_tag_keywords( $posts_page ) );
-				}
-				$extra = array_merge( $extra, $this->get_focus_keywords( $posts_page ) );
-			}
-		} else {
-			$metakey = $resolver->is_singular( $location ) ? smartcrawl_get_value( 'keywords', $post->ID ) : false;
-			if ( $resolver->is_singular( $location ) ) {
-				if ( smartcrawl_get_value( 'tags_to_keywords', $post->ID ) ) {
-					$extra = array_merge( $extra, $this->get_tag_keywords( $post ) );
-				}
-				$extra = array_merge( $extra, $this->get_focus_keywords( $post ) );
+		$news_keywords = $helper->get_news_keywords();
+		if ( ! empty( $news_keywords ) ) {
+			$news_meta = stripslashes( join( ',', $news_keywords ) );
+			$news_meta = trim( preg_replace( '/\s\s+/', ' ', preg_replace( '/[^\-_,a-z0-9 ]/i', ' ', $news_meta ) ) );
+			if ( $news_meta ) {
+				echo '<meta name="news_keywords" content="' . esc_attr( $news_meta ) . '" />' . "\n";
 			}
 		}
 
-		$keywords = array_filter( array_unique( array_merge(
-			$this->keywords_string_to_array( $metakey ),
-			$extra
-		) ) );
-
-		return $keywords;
-	}
-
-	/**
-	 * Gets list of post tags
-	 *
-	 * Defaults to currently resolved post if no post given.
-	 *
-	 * @param WP_Post $post Post object instance.
-	 *
-	 * @return array List of tags
-	 */
-	public function get_tag_keywords( $post = false ) {
-		$tags = array();
-		if ( empty( $post ) ) {
-			$post = $this->get_resolver()->get_context();
-		}
-		if ( ! is_object( $post ) || ! ( $post instanceof WP_Post ) ) {
-			return $tags;
-		}
-
-		$raw_tags = get_the_tags( $post->ID );
-		if ( $raw_tags ) {
-			foreach ( $raw_tags as $tag ) {
-				$tags[] = $tag->name;
-			}
-		}
-
-		return $tags;
-	}
-
-	/**
-	 * Gets a list of focus keywords for a given post
-	 *
-	 * Defaults to currently resolved post if no post given.
-	 *
-	 * @param WP_Post $post Optional post.
-	 *
-	 * @return array A list of focus keywords
-	 */
-	public function get_focus_keywords( $post = false ) {
-		$result = array();
-		if ( empty( $post ) ) {
-			$post = $this->get_resolver()->get_context();
-		}
-		if ( ! is_object( $post ) || ! ( $post instanceof WP_Post ) ) {
-			return $result;
-		}
-
-		$request_keywords = $this->get_request_param( 'wds_focus_keywords' );
-		$focus_keywords = ! empty( $request_keywords ) ? $request_keywords : smartcrawl_get_value( 'focus-keywords', $post->ID );
-		$result = $this->keywords_string_to_array( $focus_keywords );
-
-		return $result;
-	}
-
-	/**
-	 * Converts a comma-separated string of keywords into an array
-	 *
-	 * @param string $kws Keywords string.
-	 *
-	 * @return array List of keywords
-	 */
-	public function keywords_string_to_array( $kws ) {
-		$kw_array = $kws ? explode( ',', trim( $kws ) ) : array();
-		$kw_array = is_array( $kw_array ) ? $kw_array : array();
-		$kw_array = array_map( 'trim', $kw_array );
-
-		return array_filter( array_unique( $kw_array ) );
+		return true;
 	}
 
 	/**
@@ -847,10 +480,8 @@ class Smartcrawl_OnPage {
 
 	/**
 	 * Performs page redirect
-	 *
-	 * @param mixed $input Not used.
 	 */
-	public function smartcrawl_page_redirect( $input ) {
+	public function smartcrawl_page_redirect() {
 		global $post;
 
 		// Fix redirection on archive pages - do not redirect if not singular.
@@ -865,9 +496,11 @@ class Smartcrawl_OnPage {
 
 		$redir = smartcrawl_get_value( 'redirect', $post->ID );
 		if ( $post && $redir ) {
-			wp_redirect( $redir, 301 );
+			wp_safe_redirect( $redir, 301 );
 			exit;
 		}
+
+		return true;
 	}
 
 	private function force_rewrite_title() {

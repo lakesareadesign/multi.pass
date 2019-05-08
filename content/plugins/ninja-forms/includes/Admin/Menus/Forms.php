@@ -82,6 +82,8 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             }
         }
 
+
+
         /* DISABLE OLD FORMS TABLE IN FAVOR OF NEW DASHBOARD */
 //        $this->table = new NF_Admin_AllFormsTable();
     }
@@ -203,7 +205,14 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
             $current_user = wp_get_current_user();
             wp_localize_script( 'nf-dashboard', 'nfi18n', Ninja_Forms::config( 'i18nDashboard' ) );
-            wp_localize_script( 'nf-dashboard', 'nfPromotions', array_values( Ninja_Forms::config( 'DashboardPromotions' ) ) );
+
+            $promotions = get_option( 'nf_active_promotions' );
+            $promotions = json_decode( $promotions, true );
+
+            if( ! empty( $promotions ) ) {
+                wp_localize_script( 'nf-dashboard', 'nfPromotions', array_values( $promotions[ 'dashboard' ] ) );
+            }
+            
             wp_localize_script( 'nf-dashboard', 'nfAdmin', array(
                 'ajaxNonce'         => wp_create_nonce( 'ninja_forms_dashboard_nonce' ),
                 'batchNonce'        => wp_create_nonce( 'ninja_forms_batch_nonce' ),
@@ -318,6 +327,25 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
 
         $home_url = parse_url( home_url() );
 
+        global $wp_rewrite;
+        if($wp_rewrite->permalink_structure) {
+            $public_link_structure = site_url() . '/ninja-forms/[FORM_ID]';
+        } else {
+            $public_link_structure = site_url('?nf_public_link=[FORM_ID]');
+        }
+
+        if(isset($_GET['nf_dev_mode']) && $_GET['nf_dev_mode']){
+            $dev_mode = absint($_GET['nf_dev_mode']);
+        } else {
+            // @NOTE Check the settings array to avoid a default value in place of zero.
+            $settings = Ninja_Forms()->get_settings();
+            if( ! isset($settings['builder_dev_mode'])){
+                $dev_mode = 1;
+            } else {
+                $dev_mode = $settings['builder_dev_mode'];
+            }
+        }
+
         wp_localize_script( 'nf-builder', 'nfAdmin', array(
             'ajaxNonce'         => wp_create_nonce( 'ninja_forms_builder_nonce' ),
             'batchNonce'        => wp_create_nonce( 'ninja_forms_batch_nonce' ),
@@ -329,7 +357,9 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
             'currencySymbols'   => array_merge( array( '' => Ninja_Forms()->get_setting( 'currency_symbol' ) ), Ninja_Forms::config( 'CurrencySymbol' ) ),
             'dateFormat'        => Ninja_Forms()->get_setting( 'date_format' ),
             'formID'            => isset( $_GET[ 'form_id' ] ) ? absint( $_GET[ 'form_id' ] ) : 0,
-            'home_url_host'     => $home_url[ 'host' ]
+            'home_url_host'     => $home_url[ 'host' ],
+            'publicLinkStructure' => $public_link_structure,
+            'devMode'           => (bool) $dev_mode,
         ));
 
         do_action( 'nf_admin_enqueue_scripts' );
@@ -535,6 +565,7 @@ final class NF_Admin_Menus_Forms extends NF_Abstracts_Menu
         foreach( $saved_fields as $saved_field ){
 
             $settings = $saved_field->get_settings();
+            unset( $settings['cellcid'] );
 
             $id     = $saved_field->get_id();
             $type   = $settings[ 'type' ];

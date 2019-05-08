@@ -16,17 +16,18 @@ $path = empty( $path ) ? $url : $path;
 
 <tr data-issue-id="<?php echo esc_attr( $issue_id ); ?>" data-path="<?php echo esc_url( $url ); ?>">
 	<td>
-		<a href="<?php echo esc_attr( $url ); ?>">
-			<?php echo esc_html( $path ); ?>
-		</a>
+		<i aria-hidden="true" class="sui-icon-warning-alert"></i>
+		<small>
+			<strong><?php echo esc_html( $path ); ?></strong>
+		</small>
 	</td>
 	<td>
 		<?php
 		$this->_render( 'links-dropdown', array(
 			'label' => esc_html__( 'Options', 'wds' ),
 			'links' => array(
-				'#add-to-sitemap' => esc_html__( 'Add to Sitemap', 'wds' ),
-				'#ignore'         => esc_html__( 'Ignore', 'wds' ),
+				'#add-to-sitemap' => '<i class="sui-icon-plus" aria-hidden="true"></i> ' . esc_html__( 'Add to Sitemap', 'wds' ),
+				'#ignore'         => '<i class="sui-icon-eye-hide" aria-hidden="true"></i> ' . esc_html__( 'Ignore', 'wds' ),
 			),
 		) );
 		?>

@@ -203,6 +203,8 @@ abstract class Hustle_Model extends Hustle_Data {
 		$module_meta_group = 'hustle_module_meta';
 		wp_cache_delete( $id, $module_meta_group );
 
+		update_post_meta( $id, Hustle_SShare_Model::COUNTER_META_KEY, '' );
+
 	}
 
 	/**

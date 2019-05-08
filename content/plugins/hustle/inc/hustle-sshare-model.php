@@ -96,9 +96,11 @@ class Hustle_SShare_Model extends Hustle_Module_Model {
 	 * @return array
 	 */
 	public function get_network_shares( $post_id ) {
-		if( $this->check_if_use_stored( $post_id ) ) {
+		if( $this->check_if_use_stored( $post_id, true ) ) {
 			$stored_counters = get_post_meta( $post_id, self::COUNTER_META_KEY, true );
 			return $stored_counters;
+		} elseif ( empty( $post_id ) ) {
+			return $this->retrieve_network_shares( $post_id );
 		} else {
 			return array();
 		}
@@ -232,7 +234,7 @@ class Hustle_SShare_Model extends Hustle_Module_Model {
 				return 'https://graph.facebook.com/?fields=og_object{likes.summary(true).limit(0)},share&id=' . $current_link;
 			case 'twitter':
 				// There's no official twitter api for doing this. This alternative also requires signing in https://opensharecount.com/
-				return 'http://public.newsharecounts.com/count.json?url=' . $current_link;
+				return 'https://counts.twitcount.com/counts.php?url=' . $current_link;
 			case 'pinterest':
 				return 'https://api.pinterest.com/v1/urls/count.json?url=' . $current_link;
 			case 'reddit':

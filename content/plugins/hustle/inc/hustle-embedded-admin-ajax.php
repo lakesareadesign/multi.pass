@@ -122,6 +122,11 @@ class Hustle_Embedded_Admin_Ajax {
 			$do_sync = $this->check_enews_sync();
 		}
 
+		// filter shortcode_id
+		if ( !empty( $_post['shortcode_id'] ) ) {
+			$_post['shortcode_id'] = $this->_hustle->sanitize_shortcode_id( $_post['shortcode_id'] );
+		}
+
 		if( "-1" === $_post['id']  )
 			$res = $this->_admin->save_new( $_post );
 		else
@@ -341,6 +346,8 @@ class Hustle_Embedded_Admin_Ajax {
 			$subscriber_data = array();
 
 			foreach ( $fields as $key => $label ) {
+				$key = str_replace( ' ', '_', $key );
+
 				// Check for legacy
 				if ( isset( $row->f_name ) && 'first_name' === $key )
 					$key = 'f_name';
@@ -581,7 +588,8 @@ class Hustle_Embedded_Admin_Ajax {
 			$module->add_meta( $this->_hustle->get_const_var( 'KEY_CONTENT', $module ), $content );
 			$module->add_meta( $this->_hustle->get_const_var( 'KEY_DESIGN', $module ), $design );
 			$module->add_meta( $this->_hustle->get_const_var( 'KEY_SETTINGS', $module ), $settings );
-			$module->add_meta( $this->_hustle->get_const_var( 'KEY_SHORTCODE_ID', $module ),  $shortcode_id );
+			$new_shortcode_id = $module->get_new_shortcode_id( $shortcode_id );
+			$module->add_meta( $this->_hustle->get_const_var( 'KEY_SHORTCODE_ID', $module ),  $new_shortcode_id );
 			/**
 			 * success
 			 */

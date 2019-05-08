@@ -3895,7 +3895,7 @@ body .fl-lightbox-has-tab-overflow .fl-builder-settings-tabs-more {
 }
 
 .wp-core-ui #media-attachment-date-filters {
-	width: 275px;
+	width: auto;
 }
 
 .wp-core-ui input[type=search]::placeholder{
@@ -5371,6 +5371,7 @@ body > .fl-builder-tour-dimmed {
 
 .fl-builder-shortcode-mask-wrap {
 	position: relative;
+	pointer-events: none;
 }
 .fl-builder-shortcode-mask {
 	bottom: -1px;

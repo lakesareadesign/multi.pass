@@ -284,7 +284,8 @@ if( !class_exists("Hustle_HubSpot_Api") ):
 				* Store $referer to use after retrieving the access token
 				*/
 				$referer       = add_query_arg( array( 'page' => $page,
-													'id'   => $module_id
+					'message' => 'hubspot_new_integration',
+					'id'   => $module_id
 				), admin_url( 'admin.php' ) );
 				$update_option = is_multisite() ? 'update_site_option' : 'update_option';
 
@@ -307,7 +308,7 @@ if( !class_exists("Hustle_HubSpot_Api") ):
 				'count' => 200,
 				'offset' => 0,
 			);
-			$res = $this->send_authenticated_get( 'contacts/v1/lists/static', $args );
+			$res = $this->send_authenticated_get( 'contacts/v1/lists', $args );
 
 			if ( ! is_wp_error( $res ) && ! empty( $res->lists ) )
 				foreach ( $res->lists as $list )

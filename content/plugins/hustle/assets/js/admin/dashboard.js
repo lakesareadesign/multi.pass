@@ -128,6 +128,7 @@ Hustle.define("Dashboard.View", function($, doc, win){
 			$(".can-hide .wpmudev-box-action").on('click', this.hide);
 			$("a#sshare_view_all_stats").on('click', this.toggle_sshare_modal);
 			$("#wpmudev-dashboard-widget-modules .wpmudev-box-head").on('click', this.toggle_module_accordion);
+			$('#wph-welcome .wpmudev-box-head svg').on( 'click', this.close_welcome_message );
 			this.handle_sshare_modal_pagination();
 
 			var canvas = $("#conversions_chart");
@@ -367,7 +368,22 @@ Hustle.define("Dashboard.View", function($, doc, win){
 					$table_items.html(items_html);
 				}
 			});
+		},
+
+		close_welcome_message: function( e ) {
+			var $target = $(e.target).closest( '.wpmudev-row' );
+			var nonce = $('#wph-welcome', $target ).data('nonce');
+			$target.detach();
+			$.ajax({
+				url: ajaxurl,
+				type: 'POST',
+				data: {
+					action: 'hustle_close_welcome_message',
+					_ajax_nonce: nonce
+				}
+			});
 		}
+
 	});
 
 	var dash_view = new dashboard_view();

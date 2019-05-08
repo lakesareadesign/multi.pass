@@ -68,7 +68,7 @@
 
 			</div>
 
-		<label class="wpmudev-label--notice hustle-twitter-notice {{ ( 'native' !== click_counter ) ? 'wpmudev-hidden' : '' }}"><span><?php printf( esc_attr__( 'Twitter deprecated its native counter functionality. Sign-up to %1$s this service %2$s in order to retrieve your Twitter stats. Keep in mind that this only tracks new shares after you register your site. Linkedin and Google+ do not support counters.', Opt_In::TEXT_DOMAIN ), '<a href="http://newsharecounts.com/" target="_blank">', '</a>' ); ?></span></label>
+		<label class="wpmudev-label--notice hustle-twitter-notice {{ ( 'native' !== click_counter ) ? 'wpmudev-hidden' : '' }}"><span><?php printf( esc_attr__( 'Twitter deprecated its native counter functionality. Sign-up to %1$s this service %2$s in order to retrieve your Twitter stats. Keep in mind that this only tracks new shares after you register your site. Linkedin and Google+ do not support counters.', Opt_In::TEXT_DOMAIN ), '<a href="http://www.twitcount.com/" target="_blank">', '</a>' ); ?></span></label>
 
 		</div>
 

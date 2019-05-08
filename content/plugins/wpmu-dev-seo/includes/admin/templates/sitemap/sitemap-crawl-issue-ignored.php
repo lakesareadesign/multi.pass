@@ -15,12 +15,18 @@ $path = empty( $path ) ? $url : $path;
 
 <tr data-issue-id="<?php echo esc_attr( $issue_id ); ?>">
 	<td>
-		<a href="<?php echo esc_attr( $url ); ?>">
-			<?php echo esc_html( $path ); ?>
-		</a>
+		<small>
+			<strong><?php echo esc_html( $path ); ?></strong>
+		</small>
 	</td>
 	<td>
-		<button
-			class="wds-unignore wds-button-with-loader wds-button-with-left-loader wds-disabled-during-request button button-small button-dark button-dark-o"><?php esc_html_e( 'Restore', 'wds' ); ?></button>
+		<button class="wds-unignore wds-disabled-during-request sui-button sui-button-ghost">
+			<span class="sui-loading-text">
+				<i class="sui-icon-plus"
+				   aria-hidden="true"></i> <?php esc_html_e( 'Restore', 'wds' ); ?>
+			</span>
+
+			<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+		</button>
 	</td>
 </tr>

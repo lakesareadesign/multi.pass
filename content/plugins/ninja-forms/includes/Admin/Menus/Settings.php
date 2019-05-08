@@ -229,6 +229,14 @@ final class NF_Admin_Menus_Settings extends NF_Abstracts_Submenu
             $settings[ 'currency_symbol' ] = ( isset( $currency_symbols[ $currency ] ) ) ? $currency_symbols[ $currency ] : '';
         }
 
+        if(isset($settings['builder_dev_mode'])){
+            $builder_dev_mode = sanitize_text_field( $settings['builder_dev_mode'] );
+            $has_builder_dev_mode_changed = ($builder_dev_mode !== Ninja_Forms()->get_setting('builder_dev_mode'));
+            if($builder_dev_mode && $has_builder_dev_mode_changed){
+                Ninja_Forms()->dispatcher()->send( 'builder_dev_mode', $builder_dev_mode );
+            }
+        }
+
         foreach( $settings as $id => $value ){
             $value = sanitize_text_field( $value );
             $value = apply_filters( 'ninja_forms_update_setting_' . $id, $value );

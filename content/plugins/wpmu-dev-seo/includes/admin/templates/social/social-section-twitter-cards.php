@@ -1,51 +1,59 @@
 <?php
 $options = empty( $options ) ? $_view['options'] : $options;
+$card_type = smartcrawl_get_array_value( $options, 'twitter-card-type' );
+$card_type_summary = Smartcrawl_Twitter_Printer::CARD_SUMMARY === $card_type;
+$card_type_image = empty( $card_type ) // Image card used by default in twitter printer
+                   || Smartcrawl_Twitter_Printer::CARD_IMAGE === $card_type;
 ?>
 
-<div class="wds-table-fields wds-separator-top">
-	<div class="label">
-		<label class="wds-label"><?php esc_html_e( 'Twitter Cards', 'wds' ); ?></label>
-		<p class="wds-label-description"><?php esc_html_e( 'With Twitter Cards, you can attach rich photos, videos and media experiences to Tweets, helping to drive traffic to your website.', 'wds' ); ?></p>
+<div class="sui-box-settings-row wds-separator-top">
+	<div class="sui-box-settings-col-1">
+		<label class="sui-settings-label"><?php esc_html_e( 'Twitter Cards', 'wds' ); ?></label>
+		<p class="sui-description"><?php esc_html_e( 'With Twitter Cards, you can attach rich photos, videos and media experiences to Tweets, helping to drive traffic to your website.', 'wds' ); ?></p>
 	</div>
 
 	<?php $twitter_card_enabled = $options['twitter-card-enable']; ?>
-	<div class="fields wds-toggleable <?php echo $twitter_card_enabled ? '' : 'inactive'; ?>">
-		<div class="wds-toggle-table">
-			<span class="toggle wds-toggle">
-				<input
-					class="toggle-checkbox"
-					value="1"
-					id="twitter-card-enable"
-					name="<?php echo esc_attr( $_view['option_name'] ); ?>[twitter-card-enable]"
-					autocomplete="off"
-					type="checkbox"
-					<?php checked( $twitter_card_enabled ); ?>/>
-				<label class="toggle-label" for="twitter-card-enable"></label>
-			</span>
+	<div class="sui-box-settings-col-2 wds-toggleable <?php echo $twitter_card_enabled ? '' : 'inactive'; ?>">
+		<?php
+		$this->_render( 'toggle-item', array(
+			'item_label' => esc_html__( 'Enable Twitter Cards', 'wds' ),
+			'checked'    => checked( true, $twitter_card_enabled, false ),
+			'field_name' => $_view['option_name'] . '[twitter-card-enable]',
+		) );
+		?>
 
-			<div class="wds-toggle-description">
-				<label for="twitter-card-enable"
-				       class="wds-label"><?php esc_html_e( 'Enable Twitter Cards', 'wds' ); ?></label>
-			</div>
-		</div>
-
-		<div class="wds-toggleable-inside wds-conditional">
+		<div class="wds-toggleable-inside wds-conditional sui-toggle-content">
 			<p></p>
-			<select name="<?php echo esc_attr( $_view['option_name'] ); ?>[twitter-card-type]"
-                    id="twitter-card-type"
-			        class="select-container" style="width: 100%">
-				<option
-					<?php selected( $options['twitter-card-type'], Smartcrawl_Twitter_Printer::CARD_SUMMARY ); ?>
-					value="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_SUMMARY ); ?>">
-					<?php esc_html_e( 'Summary Card', 'wds' ); ?>
-				</option>
+			<label style="display: none">
+				<select name="<?php echo esc_attr( $_view['option_name'] ); ?>[twitter-card-type]"
+				        id="twitter-card-type"
+				        class="none-sui">
+					<option
+						<?php selected( $card_type_summary ); ?>
+							value="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_SUMMARY ); ?>">
+						<?php esc_html_e( 'Summary Card', 'wds' ); ?>
+					</option>
 
-				<option
-					<?php selected( $options['twitter-card-type'], Smartcrawl_Twitter_Printer::CARD_IMAGE ); ?>
-					value="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_IMAGE ); ?>">
-					<?php esc_html_e( 'Summary Card with Large Image', 'wds' ); ?>
-				</option>
-			</select>
+					<option
+						<?php selected( $card_type_image ); ?>
+							value="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_IMAGE ); ?>">
+						<?php esc_html_e( 'Summary Card with Large Image', 'wds' ); ?>
+					</option>
+				</select>
+			</label>
+
+			<div class="sui-side-tabs sui-tabs">
+				<div data-tabs>
+					<div class="<?php echo $card_type_image ? 'active' : ''; ?>"
+					     data-card-type="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_IMAGE ); ?>">
+						<?php esc_html_e( 'Image', 'wds' ); ?>
+					</div>
+					<div class="<?php echo $card_type_summary ? 'active' : ''; ?>"
+					     data-card-type="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_SUMMARY ); ?>">
+						<?php esc_html_e( 'No Image', 'wds' ); ?>
+					</div>
+				</div>
+			</div>
 
 			<div class="wds-conditional-inside"
 			     data-conditional-val="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_SUMMARY ); ?>">
@@ -59,12 +67,12 @@ $options = empty( $options ) ? $_view['options'] : $options;
 			     data-conditional-val="<?php echo esc_attr( Smartcrawl_Twitter_Printer::CARD_IMAGE ); ?>">
 				<?php
 				$this->_render( 'social/social-twitter-embed', array(
-					'tweet_url' => 'https://twitter.com/Twitter/status/593828669740584960',
+					'tweet_url' => 'https://twitter.com/NatGeo/status/1087380060473049091',
 					'large'     => true,
 				) );
 				?>
 			</div>
-			<p class="wds-field-legend"><?php esc_html_e( 'A preview of how your Homepage will appear as a Twitter Card.', 'wds' ); ?></p>
+			<p class="sui-description"><?php esc_html_e( 'A preview of how your Homepage will appear as a Twitter Card.', 'wds' ); ?></p>
 		</div>
 
 	</div>

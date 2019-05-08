@@ -580,8 +580,9 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 		 * @return mixed
 		 */
 		function field_value( $key, $default = false, $data = null ) {
-			if ( isset( $_SESSION ) && isset( $_SESSION['um_social_profile'][ $key ] ) && isset( $this->set_mode ) && $this->set_mode == 'register' )
+			if ( isset( $_SESSION ) && isset( $_SESSION['um_social_profile'][ $key ] ) && isset( $this->set_mode ) && $this->set_mode == 'register' ) {
 				return $_SESSION['um_social_profile'][ $key ];
+			}
 
 			$type = ( isset( $data['type'] ) ) ? $data['type'] : '';
 
@@ -785,9 +786,26 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 				 */
 				$value = apply_filters( "um_edit_{$key}_field_value", $default, $key );
 
+			} elseif ( ! isset( $value ) ) {
+				$value = '';
 			}
 
-			return isset( $value ) ? $value : '';
+
+			/**
+			 * UM hook
+			 *
+			 * @type filter
+			 * @title um_field_value
+			 * @description Change field value
+			 * @input_vars
+			 * [{"var":"$value","type":"string","desc":"Field Value"},
+			 * {"var":"$key","type":"string","desc":"Field Key"},,
+			 * {"var":"$type","type":"string","desc":"Field Type"}
+			 * {"var":"$default","type":"string","desc":"Field Default Value"},
+			 * {"var":"$data","type":"array","desc":"Field Data"}]
+			 * @usage add_filter( 'um_field_value', 'function_name', 10, 5 );
+			 */
+			return apply_filters( 'um_field_value', $value, $default, $key, $type, $data );
 		}
 
 
@@ -2257,13 +2275,13 @@ if ( ! class_exists( 'um\core\Fields' ) ) {
 				/* Single Image Upload */
 				case 'image':
 					$output .= '<div class="um-field' . $classes . '"' . $conditional . ' data-key="' . $key . '">';
-					if (in_array( $key, array( 'profile_photo', 'cover_photo' ) )) {
+					if ( in_array( $key, array( 'profile_photo', 'cover_photo' ) ) ) {
 						$field_value = '';
 					} else {
 						$field_value = $this->field_value( $key, $default, $data );
 					}
 					$output .= '<input type="hidden" name="' . $key . UM()->form()->form_suffix . '" id="' . $key . UM()->form()->form_suffix . '" value="' . $field_value . '" />';
-					if (isset( $data['label'] )) {
+					if ( isset( $data['label'] ) ) {
 						$output .= $this->field_label( $label, $key, $data );
 					}
 					$modal_label = ( isset( $data['label'] ) ) ? $data['label'] : __( 'Upload Photo', 'ultimate-member' );

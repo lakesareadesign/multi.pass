@@ -14,7 +14,7 @@ function um_dynamic_user_profile_pagetitle( $title, $sep = '' ) {
 
 	$profile_title = UM()->options()->get( 'profile_title' );
 
-	if ( um_is_core_page('user') && um_get_requested_user() ) {
+	if ( um_is_core_page( 'user' ) && um_get_requested_user() ) {
 
 		um_fetch_user( um_get_requested_user() );
 

@@ -32,37 +32,38 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		return self::$_instance;
 	}
 
-	public static function replace( $subject, $context_object = null ) {
+	public static function replace( $subject, $context = null ) {
 		if ( ! is_string( $subject ) ) {
 			return $subject;
 		}
 
-		$instance = self::get();
-		$instance->subject = $subject;
-		$resolver = $instance->get_resolver();
+		$me = self::get();
+		$me->subject = $subject;
+		$me->specific_replacements = array();
 
-		if ( $context_object ) {
-			if ( $instance->is_post_object( $context_object ) ) {
-				$resolver->simulate_post( $context_object );
-			} elseif ( $instance->is_term_object( $context_object ) ) {
-				$resolver->simulate_taxonomy_term( $context_object );
-			} elseif ( $instance->is_post_type_object( $context_object ) ) {
-				$resolver->simulate_post_type( $context_object );
-			}
+		if ( $context ) {
+			$me->dispatch_handler( $context );
+		} else {
+			$me->traverse();
 		}
 
-		$instance->traverse();
 		$replacements = array_merge(
-			$instance->get_general_replacements(),
-			$instance->get_specific_replacements()
+			$me->get_general_replacements(),
+			$me->get_specific_replacements()
+		);
+
+		$replacements = apply_filters(
+			'wds-known_macros',
+			array_combine(
+				apply_filters( 'wds-known_macros-keys', array_keys( $replacements ) ),
+				apply_filters( 'wds-known_macros-values', array_values( $replacements ) )
+			)
 		);
 
 		foreach ( $replacements as $macro => $replacement ) {
-			$subject = str_replace( $macro, $instance->process_replacement_value( $replacement ), $subject );
-		}
+			$replacement = apply_filters( 'wds-macro-variable_replacement', $replacement, $macro );
 
-		if ( $context_object ) {
-			$resolver->stop_simulation();
+			$subject = str_replace( $macro, $me->process_replacement_value( $replacement ), $subject );
 		}
 
 		return preg_replace( '/%%[a-zA-Z_]*%%/', '', $subject );
@@ -72,24 +73,45 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		if ( ! is_string( $subject ) ) {
 			return array();
 		}
-		$instance = self::get();
 
-		return $instance->find_dynamic_replacements( $subject, $context_object );
+		return self::get()->find_dynamic_replacements( $subject, $context_object );
 	}
 
-	private function is_post_type_object( $object ) {
-		return is_a( $object, 'WP_Post_Type' );
+	private function dispatch_handler( $context ) {
+		if ( $this->is_term( $context ) ) {
+			$this->handle_tax_archive( $context );
+		} elseif ( $this->is_pt( $context ) ) {
+			$this->handle_pt_archive( $context );
+		} elseif ( $this->is_post( $context ) ) {
+			$this->handle_singular( $context );
+		} elseif ( $this->is_bp_group( $context ) ) {
+			$this->handle_bp_groups( $context );
+		} elseif ( $this->is_bp_profile( $context ) ) {
+			$this->handle_bp_profile( $context );
+		}
 	}
 
-	private function is_term_object( $context_object ) {
-		return is_a( $context_object, 'WP_Term' );
+	private function is_pt( $context ) {
+		return is_a( $context, 'WP_Post_Type' );
 	}
 
-	private function is_post_object( $context_object ) {
-		return is_a( $context_object, 'WP_Post' );
+	private function is_term( $context ) {
+		return is_a( $context, 'WP_Term' );
+	}
+
+	private function is_post( $context ) {
+		return is_a( $context, 'WP_Post' );
+	}
+
+	private function is_bp_group( $context ) {
+		return is_a( $context, 'BP_Groups_Group' );
 	}
 
 	private function process_replacement_value( $replacement ) {
+		if ( ! is_scalar( $replacement ) ) {
+			return '';
+		}
+
 		return wp_strip_all_tags( $replacement );
 	}
 
@@ -125,8 +147,8 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		return array(
 			'%%sitename%%'         => get_bloginfo( 'name' ),
 			'%%sitedesc%%'         => get_bloginfo( 'description' ),
-			'%%page%%'             => $paged !== 0 ? sprintf( $page_x_of_y, $paged, $max_num_pages ) : '',
-			'%%spell_page%%'       => $paged !== 0 ? sprintf( $page_x_of_y, smartcrawl_spell_number( $paged ), smartcrawl_spell_number( $max_num_pages ) ) : '',
+			'%%page%%'             => 0 !== $paged ? sprintf( $page_x_of_y, $paged, $max_num_pages ) : '',
+			'%%spell_page%%'       => 0 !== $paged ? sprintf( $page_x_of_y, smartcrawl_spell_number( $paged ), smartcrawl_spell_number( $max_num_pages ) ) : '',
 			'%%pagetotal%%'        => $max_num_pages > 1 ? $max_num_pages : '',
 			'%%spell_pagetotal%%'  => $max_num_pages > 1 ? smartcrawl_spell_number( $max_num_pages ) : '',
 			'%%pagenumber%%'       => empty( $pagenum ) ? '' : $pagenum,
@@ -139,9 +161,11 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		);
 	}
 
-	public function handle_bp_groups() {
-		$bp = $this->get_bp_data();
-		$current_group = empty( $bp->groups->current_group ) ? null : $bp->groups->current_group;
+	public function handle_bp_groups( $current_group = null ) {
+		if ( ! $this->is_bp_group( $current_group ) ) {
+			$bp = $this->get_bp_data();
+			$current_group = empty( $bp->groups->current_group ) ? null : $bp->groups->current_group;
+		}
 
 		$this->specific_replacements = array(
 			'%%bp_group_name%%'        => $current_group ? $current_group->name : '',
@@ -149,17 +173,19 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		);
 	}
 
-	public function handle_bp_profile() {
-		$bp_active = function_exists( 'buddypress' );
+	public function handle_bp_profile( $profile = array() ) {
+		if ( ! $this->is_bp_profile( $profile ) ) {
+			$profile = $this->get_current_bp_profile_data();
+		}
 
 		$this->specific_replacements = array(
-			'%%bp_user_username%%'  => $bp_active ? bp_get_displayed_user_username() : '',
-			'%%bp_user_full_name%%' => $bp_active ? bp_get_displayed_user_fullname() : '',
+			'%%bp_user_username%%'  => (string) smartcrawl_get_array_value( $profile, 'bp_user_username' ),
+			'%%bp_user_full_name%%' => (string) smartcrawl_get_array_value( $profile, 'bp_user_full_name' ),
 		);
 	}
 
 	public function handle_woo_shop() {
-		// TODO: Implement handle_woo_shop() method.
+		$this->handle_singular( get_post( wc_get_page_id( 'shop' ) ) );
 	}
 
 	public function handle_blog_home() {
@@ -167,7 +193,7 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 	}
 
 	public function handle_static_home() {
-		$this->handle_singular();
+		$this->handle_singular( get_post( get_option( 'page_for_posts' ) ) );
 	}
 
 	public function handle_search() {
@@ -188,9 +214,11 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		);
 	}
 
-	public function handle_pt_archive() {
-		$post_type = $this->get_queried_object();
-		$is_pt_archive = $this->is_post_type_object( $post_type );
+	public function handle_pt_archive( $post_type = null ) {
+		if ( ! $this->is_pt( $post_type ) ) {
+			$post_type = $this->get_queried_object();
+		}
+		$is_pt_archive = $this->is_pt( $post_type );
 
 		$this->specific_replacements = array(
 			'%%pt_plural%%' => $is_pt_archive ? $post_type->labels->name : '',
@@ -198,10 +226,14 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		);
 	}
 
-	public function handle_tax_archive() {
-		$term = $this->get_queried_object();
-		$term_data = $this->is_term_object( $term ) ? (array) $term : array();
-		$term_data = wp_parse_args( $term_data, $this->get_term_defaults() );
+	public function handle_tax_archive( $term = null ) {
+		if ( ! $this->is_term( $term ) ) {
+			$term = $this->get_queried_object();
+		}
+		$term_data = wp_parse_args(
+			$this->is_term( $term ) ? (array) $term : array(),
+			$this->get_term_defaults()
+		);
 
 		$this->specific_replacements = array(
 			'%%id%%'               => $term_data['term_id'],
@@ -212,10 +244,10 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		$custom_replacements = $this->find_dynamic_replacements( $this->subject, $term );
 		$this->specific_replacements = wp_parse_args( $this->specific_replacements, $custom_replacements );
 
-		if ( $term_data['taxonomy'] === 'category' ) {
+		if ( 'category' === $term_data['taxonomy'] ) {
 			$this->specific_replacements['%%category%%'] = $term_data['name'];
 			$this->specific_replacements['%%category_description%%'] = $term_data['description'];
-		} elseif ( $term_data['taxonomy'] === 'post_tag' ) {
+		} elseif ( 'post_tag' === $term_data['taxonomy'] ) {
 			$this->specific_replacements['%%tag%%'] = $term_data['name'];
 			$this->specific_replacements['%%tag_description%%'] = $term_data['description'];
 		}
@@ -235,10 +267,18 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		// No context specific values available on the archive page
 	}
 
-	public function handle_singular() {
-		$post = $this->get_context();
-		$post_data = $this->is_post_object( $post ) ? (array) $post : array();
-		$post_data = wp_parse_args( $post_data, $this->get_post_defaults() );
+	public function handle_singular( $post = null ) {
+		if ( ! $this->is_post( $post ) ) {
+			$post = $this->get_context();
+		}
+		if ( empty( $post->ID ) ) {
+			$query = $this->get_resolver()->get_query_context();
+			$post = $query->get_queried_object();
+		}
+		$post_data = wp_parse_args(
+			$this->is_post( $post ) ? (array) $post : array(),
+			$this->get_post_defaults()
+		);
 
 		$this->specific_replacements = array(
 			'%%date%%'         => mysql2date( get_option( 'date_format' ), $post_data['post_date'] ),
@@ -254,9 +294,9 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		$custom_replacements = $this->find_dynamic_replacements( $this->subject, $post );
 		$this->specific_replacements = wp_parse_args( $this->specific_replacements, $custom_replacements );
 
-		if ( $post_data['post_type'] === 'attachment' ) {
+		if ( 'attachment' === $post_data['post_type'] ) {
 			$this->specific_replacements['%%caption%%'] = $post_data['post_excerpt'];
-		} elseif ( $post_data['post_type'] === 'post' ) {
+		} elseif ( 'post' === $post_data['post_type'] ) {
 			$this->specific_replacements['%%category%%'] = get_the_category_list( ', ', '', $post_data['ID'] );
 		}
 	}
@@ -344,19 +384,19 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		return $date;
 	}
 
-	private function find_dynamic_replacements( $subject, $context_object ) {
-		$term_desc_replacements = $this->find_term_field_replacements( $subject, $context_object, 'ct_desc_', 'description' );
+	private function find_dynamic_replacements( $subject, $context ) {
+		$term_desc_replacements = $this->find_term_field_replacements( $subject, $context, 'ct_desc_', 'description' );
 		$subject = str_replace( array_keys( $term_desc_replacements ), '', $subject );
 
-		$term_name_replacements = $this->find_term_field_replacements( $subject, $context_object, 'ct_', 'name' );
+		$term_name_replacements = $this->find_term_field_replacements( $subject, $context, 'ct_', 'name' );
 		$subject = str_replace( array_keys( $term_name_replacements ), '', $subject );
 
-		$meta_replacements = $this->find_meta_replacements( $subject, $context_object );
+		$meta_replacements = $this->find_meta_replacements( $subject, $context );
 
 		return array_merge( $term_desc_replacements, $term_name_replacements, $meta_replacements );
 	}
 
-	private function find_term_field_replacements( $subject, $context_object, $prefix, $term_field ) {
+	private function find_term_field_replacements( $subject, $context, $prefix, $term_field ) {
 		$pattern = "/(%%{$prefix}[a-z_]+%%)/";
 		$matches = array();
 		$replacements = array();
@@ -371,7 +411,7 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 					continue;
 				}
 
-				$terms = $this->get_linked_terms( $context_object, $taxonomy_name );
+				$terms = $this->get_linked_terms( $context, $taxonomy_name );
 				if ( ! empty( $terms ) ) {
 					$term = array_shift( $terms );
 					$replacements[ $placeholder ] = wp_strip_all_tags( get_term_field( $term_field, $term, $taxonomy_name ) );
@@ -382,7 +422,7 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		return $replacements;
 	}
 
-	private function find_meta_replacements( $subject, $context_object ) {
+	private function find_meta_replacements( $subject, $context ) {
 		$prefix = 'cf_';
 		$pattern = "/(%%{$prefix}[a-z_]+%%)/";
 		$matches = array();
@@ -393,7 +433,7 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 			foreach ( array_unique( $placeholders ) as $placeholder ) {
 				$meta_key = str_replace( array( "%%$prefix", '%%' ), '', $placeholder );
 
-				$meta_value = $this->get_meta( $context_object, $meta_key );
+				$meta_value = $this->get_meta( $context, $meta_key );
 				if ( ! empty( $meta_value ) && ! is_array( $meta_value ) && ! is_object( $meta_value ) ) {
 					$replacements[ $placeholder ] = wp_strip_all_tags( $meta_value );
 				}
@@ -403,23 +443,36 @@ class Smartcrawl_Replacement_Helper extends Smartcrawl_Type_Traverser {
 		return $replacements;
 	}
 
-	private function get_meta( $context_object, $meta_key ) {
-		if ( $this->is_post_object( $context_object ) ) {
-			return get_post_meta( $context_object->ID, $meta_key, true );
-		} elseif ( $this->is_term_object( $context_object ) ) {
-			return get_term_meta( $context_object->term_id, $meta_key, true );
+	private function get_meta( $context, $meta_key ) {
+		if ( $this->is_post( $context ) ) {
+			return get_post_meta( $context->ID, $meta_key, true );
+		} elseif ( $this->is_term( $context ) ) {
+			return get_term_meta( $context->term_id, $meta_key, true );
 		}
 
 		return array();
 	}
 
-	private function get_linked_terms( $context_object, $taxonomy_name ) {
-		if ( $this->is_post_object( $context_object ) ) {
-			return get_the_terms( $context_object->ID, $taxonomy_name );
-		} elseif ( $this->is_term_object( $context_object ) && $context_object->taxonomy === $taxonomy_name ) {
-			return array( $context_object );
+	private function get_linked_terms( $context, $taxonomy_name ) {
+		if ( $this->is_post( $context ) ) {
+			return get_the_terms( $context->ID, $taxonomy_name );
+		} elseif ( $this->is_term( $context ) && $context->taxonomy === $taxonomy_name ) {
+			return array( $context );
 		}
 
 		return array();
+	}
+
+	private function get_current_bp_profile_data() {
+		$bp_active = function_exists( 'buddypress' );
+
+		return array(
+			'bp_user_username'  => $bp_active ? bp_get_displayed_user_username() : '',
+			'bp_user_full_name' => $bp_active ? bp_get_displayed_user_fullname() : '',
+		);
+	}
+
+	private function is_bp_profile( $context ) {
+		return is_array( $context ) && ! empty( $context['bp_user_username'] );
 	}
 }

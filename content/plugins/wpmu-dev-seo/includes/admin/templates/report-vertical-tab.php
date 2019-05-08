@@ -1,5 +1,6 @@
 <section class="tab wds-report-vertical-tab">
 	<?php
+	// TODO: DO we still need a separate report-vertical-tab?
 	// Required
 	$tab_id = empty( $tab_id ) ? '' : $tab_id;
 	$tab_name = empty( $tab_name ) ? '' : $tab_name;
@@ -17,12 +18,6 @@
 	$is_singular = count( $tab_sections ) === 1;
 	$smartcrawl_options = Smartcrawl_Settings::get_options();
 	?>
-	<input
-		type="radio"
-		name="wds-admin-active-tab"
-		id="<?php echo esc_attr( $tab_id ); ?>"
-		value="<?php echo esc_attr( $tab_id ); ?>"
-		<?php checked( $is_active ); ?> />
 
 	<label for="<?php echo esc_attr( $tab_id ); ?>">
 		<?php echo esc_html( $tab_name ); ?>
@@ -53,11 +48,6 @@
 
 		<?php if ( $before_output ) : ?>
 			<?php echo wp_kses( $before_output, smartcrawl_get_allowed_html_for_forms() ); ?>
-			<input
-				type="hidden"
-				name="wds-admin-active-tab"
-				id="<?php echo esc_attr( $tab_id ); ?>"
-				value="<?php echo esc_attr( $tab_id ); ?>"/>
 		<?php endif; ?>
 
 		<?php foreach ( $tab_sections as $section ) : ?>

@@ -3787,7 +3787,7 @@
 				template 		= wp.template( 'fl-col-overlay' ),
 				overlay			= null;
 
-			if ( FLBuilderConfig.simpleUi ) {
+			if ( FLBuilderConfig.simpleUi && ! global ) {
 				return;
 			}
 			else if ( global && parentGlobal && hasModules && ! isColTemplate ) {
@@ -9290,6 +9290,13 @@
 				data.node_settings = FLBuilder._ajaxModSecFix( $.extend( true, {}, data.node_settings ) );
 			}
 
+			data.settings      = FLBuilder._inputVarsCheck( data.settings );
+			data.node_settings = FLBuilder._inputVarsCheck( data.node_settings );
+
+			if ( 'error' === data.settings || 'error' === data.node_settings ) {
+				return 0;
+			}
+
 			// Store the data in a single variable to avoid conflicts.
 			data = { fl_builder_data: data };
 
@@ -9305,6 +9312,22 @@
 			}).always( FLBuilder._ajaxComplete );
 
 			return FLBuilder._ajaxRequest;
+		},
+
+		_inputVarsCheck: function( o ) {
+
+			var maxInput = FLBuilderConfig.MaxInputVars || 0;
+			window.InputError = false;
+			if ( 'undefined' != typeof o && maxInput > 0 ) {
+				count = $.map( o, function(n, i) { return i; }).length;
+				if ( count > maxInput ) {
+					FLBuilder.alert( '<h1 style="font-size:2em;text-align:center">Critical Issue</h1><br />The number of settings being saved (' + count + ') exceeds the PHP Max Input Vars setting (' + maxInput + ').<br />Please contact your host to have this value increased, the default is 1000.' );
+					console.log( 'Vars Count: ' + count );
+					console.log( 'Max Input: ' + maxInput );
+					return 'error';
+				}
+			}
+			return o;
 		},
 
 		/**
@@ -9660,18 +9683,24 @@
 
 		crashMessage: function(debug)
 		{
+			FLLightbox.closeAll();
 			var alert = new FLLightbox({
 					className: 'fl-builder-alert-lightbox fl-builder-crash-lightbox',
 					destroyOnClose: true
 				}),
-				template = wp.template( 'fl-crash-lightbox' );
+				template  = wp.template( 'fl-crash-lightbox' ),
+				product   = window.crash_vars.product,
+				labeled   = window.crash_vars.white_label,
+				label_txt = window.crash_vars.labeled_txt;
 
-				message  = "Beaver Builder has detected a plugin conflict that is preventing the page from saving.<p>( In technical terms there’s probably a PHP error in Ajax. )</p>"
+				message  = product + " has detected a plugin conflict that is preventing the page from saving.<p>( In technical terms there’s probably a PHP error in Ajax. )</p>"
 				info     = "If you contact Beaver Builder Support, we need to know what the error is in the JavaScript console in your browser.<p>To open the JavaScript console:<br />Chrome: View > Developer > JavaScript Console<br />Firefox: Tools > Web Developer > Browser Console<br />Safari: Develop > Show JavaScript console</p>Copy the errors you find there and submit them with your Support ticket. It saves us having to ask you that as a second step.<br /><br />If you want to troubleshoot further, you can check our <a class='link' target='_blank' href='https://kb.wpbeaverbuilder.com/article/42-known-beaver-builder-incompatibilities'>Knowledge Base</a> for plugins we know to be incompatible. Then deactivate your plugins one by one while you try to save the page in the Beaver Builder editor. When the page saves normally, you have identified the plugin causing the conflict. <a class='link' target='_blank' href='https://www.wpbeaverbuilder.com/beaver-builder-support/'>Contact Support</a> if you need further help."
 
 				debug    = false
-
-			alert.open( template( { message : message, info: info, debug: debug } ) );
+				if ( labeled ) {
+					info = label_txt
+				}
+				alert.open( template( { message : message, info: info, debug: debug } ) );
 		},
 
 		/**

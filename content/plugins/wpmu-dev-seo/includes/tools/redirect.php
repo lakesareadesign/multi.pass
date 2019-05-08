@@ -1,19 +1,21 @@
 <?php
 
-class Smartcrawl_Redirection_Front {
+class Smartcrawl_Redirection_Front extends Smartcrawl_Base_Controller {
 
 	private static $_instance;
+
+	/**
+	 * @var Smartcrawl_Model_Redirection
+	 */
 	private $_model;
 
-	private function __construct() {
+	public function should_run() {
+		return smartcrawl_is_allowed_tab( Smartcrawl_Settings::TAB_AUTOLINKS );
+	}
+
+	protected function init() {
 		$this->_model = new Smartcrawl_Model_Redirection();
-	}
 
-	public static function serve() {
-		self::get()->_add_hooks();
-	}
-
-	private function _add_hooks() {
 		add_action( 'wp', array( $this, 'intercept' ) );
 
 		$opts = Smartcrawl_Settings::get_options();

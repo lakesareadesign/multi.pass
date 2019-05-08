@@ -392,27 +392,27 @@ if ( ! class_exists( 'um\core\Builtin' ) ) {
 						),
 						'_max_size' => array(
 							'mode' => 'numeric',
-							'error' => __('Please enter a valid size','ultimate-member')
+							'error' => __( 'Please enter a valid size', 'ultimate-member' )
 						),
 					)
 				),
 
 				'date' => array(
 					'name' => 'Date Picker',
-					'col1' => array('_title','_metakey','_help','_range','_years','_years_x','_range_start','_range_end','_visibility'),
+					'col1' => array('_title','_metakey','_help','_default','_range','_years','_years_x','_range_start','_range_end','_visibility'),
 					'col2' => array('_label','_placeholder','_public','_roles','_format','_pretty_format','_disabled_weekdays'),
 					'col3' => array('_required','_editable','_icon'),
 					'validate' => array(
 						'_title' => array(
 							'mode' => 'required',
-							'error' => __('You must provide a title','ultimate-member')
+							'error' => __( 'You must provide a title', 'ultimate-member' )
 						),
 						'_metakey' => array(
 							'mode' => 'unique',
 						),
 						'_years' => array(
 							'mode' => 'numeric',
-							'error' => __('Number of years is not valid','ultimate-member')
+							'error' => __( 'Number of years is not valid', 'ultimate-member' )
 						),
 						'_range_start' => array(
 							'mode' => 'range-start',
@@ -426,12 +426,12 @@ if ( ! class_exists( 'um\core\Builtin' ) ) {
 				'time' => array(
 					'name' => 'Time Picker',
 					'col1' => array('_title','_metakey','_help','_format','_visibility'),
-					'col2' => array('_label','_placeholder','_public','_roles','_intervals'),
+					'col2' => array('_label','_placeholder','_default','_public','_roles','_intervals'),
 					'col3' => array('_required','_editable','_icon'),
 					'validate' => array(
 						'_title' => array(
 							'mode' => 'required',
-							'error' => __('You must provide a title','ultimate-member')
+							'error' => __( 'You must provide a title', 'ultimate-member' )
 						),
 						'_metakey' => array(
 							'mode' => 'unique',
@@ -663,6 +663,11 @@ if ( ! class_exists( 'um\core\Builtin' ) ) {
 				'Only me'   => __( 'Only me', 'ultimate-member' )
 			) );
 
+			/*
+			 * it's important create key for array equals value of 'metakey'.
+			 *
+			 */
+
 			$this->predefined_fields = array(
 
 				'user_login' => array(
@@ -755,7 +760,7 @@ if ( ! class_exists( 'um\core\Builtin' ) ) {
 					'edit_forbidden' => 1,
 				),
 
-				'last_login' => array(
+				'_um_last_login' => array(
 					'title' => __('Last Login','ultimate-member'),
 					'metakey' => '_um_last_login',
 					'type' => 'text',
@@ -980,7 +985,7 @@ if ( ! class_exists( 'um\core\Builtin' ) ) {
 					'match' => 'https://soundcloud.com/',
 				),
 
-				'vk' => array(
+				'vkontakte' => array(
 					'title' => __('VKontakte','ultimate-member'),
 					'metakey' => 'vkontakte',
 					'type' => 'url',

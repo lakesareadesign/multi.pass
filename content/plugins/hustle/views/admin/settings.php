@@ -10,7 +10,7 @@
 
 <?php else : ?>
 
-	<main id="wpmudev-hustle" class="wpmudev-ui wpmudev-hustle-popup-wizard-view">
+	<main id="wpmudev-hustle" class="sui-wrap wpmudev-ui wpmudev-hustle-popup-wizard-view">
 
 		<header id="wpmudev-hustle-title">
 

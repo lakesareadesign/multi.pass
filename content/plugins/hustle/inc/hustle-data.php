@@ -136,4 +136,29 @@ abstract class Hustle_Data {
 			return $this->_data->{$field};
 
 	}
+
+	/**
+	 * Generate a new shortcode is based on provided one
+	 *
+	 * @param string $shortcode_id
+	 * @return string New shortcode id based on the current one
+	 */
+	public function get_new_shortcode_id( $shortcode_id ) {
+		$shortcode_id = trim( $shortcode_id );
+		$i = 1;
+
+		do {
+			++$i;
+			$new_shortcode_id = $shortcode_id . '-' . $i;
+
+			$meta_id = $this->_wpdb->get_var( $this->_wpdb->prepare( "
+				SELECT meta_id FROM `" . $this->get_meta_table() . "`
+					WHERE `meta_key`='shortcode_id'
+					AND `meta_value`=%s", $new_shortcode_id
+			));
+
+		} while ( $meta_id );
+
+		return $new_shortcode_id;
+	}
 }

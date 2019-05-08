@@ -1,13 +1,13 @@
 Hustle.define( "SShare.Models",  function(){
 	"use strict";
-	
-	
+
+
 	var Base = Module.Model.extend({
-		defaults: _.extend( Module.Model.prototype.defaults, {
+		defaults: _.extend( {}, Module.Model.prototype.defaults, {
 			module_type: 'social_sharing'
 		})
 	});
-	
+
 	var Content = Hustle.get("Models.M").extend({
 		defaults: {
 			module_name: '',
@@ -18,7 +18,7 @@ Hustle.define( "SShare.Models",  function(){
 			social_icons: ''
 		}
 	});
-	
+
 	var Design = Hustle.get("Models.M").extend({
 		defaults: {
 			icon_style: 'squared',
@@ -88,14 +88,14 @@ Hustle.define( "SShare.Models",  function(){
 
 		}
 	});
-	
+
 	var Types = Hustle.get("Models.M").extend({
 		defaults: {
 			widget: '',
 			shortcode: '',
 		}
 	});
-	
+
 
 	return {
 		Base: Base,

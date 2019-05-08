@@ -1,8 +1,8 @@
 (function($, doc, win){
 	"use strict";
-	
+
 	var Optin = window.Optin || {};
-	
+
 	Optin.SS_log_view = Backbone.Model.extend({
 		url: inc_opt.ajaxurl + '?action=module_viewed',
 		defaults: {
@@ -21,17 +21,9 @@
 		}
 	});
 	Optin.SS_log_conversion = Optin.SS_log_view.extend({ url: inc_opt.ajaxurl + '?action=hustle_sshare_converted' });
-	
-	Optin.SShare_native_share_enpoints = {
-		'facebook': 'https://www.facebook.com/sharer/sharer.php?u=',
-		'twitter': 'https://twitter.com/intent/tweet?url=',
-		'google': 'https://plus.google.com/share?url=',
-		'pinterest': 'https://www.pinterest.com/pin/create/button/?url=',
-		'reddit': 'https://www.reddit.com/submit?url=',
-		'linkedin': 'https://www.linkedin.com/shareArticle?mini=true&url=',
-		'vkontakte': 'https://vk.com/share.php?url=',
-	};
-	
+
+	Optin.SShare_native_share_enpoints = inc_opt.native_share_enpoints;
+
 	Optin.SShare = Backbone.View.extend({
 		template: Optin.template("hustle-sshare-front-tpl"),
 		events: {
@@ -45,14 +37,14 @@
 			this.content = opts.content;
 			this.design = opts.design;
 			this.settings = opts.settings;
-			this.is_compat = ( typeof opts.is_compat !== 'undefined' ) 
+			this.is_compat = ( typeof opts.is_compat !== 'undefined' )
 				? true
 				: false;
-			
+
 			if ( typeof opts.parent !== 'undefined' ) {
 				this.parent = opts.parent;
 			}
-			
+
 			this.model_json = _.extend(
 				{
 					module_id: this.module_id,
@@ -62,7 +54,7 @@
 				this.design,
 				this.settings
 			);
-			
+
 			this.render();
 		},
 
@@ -72,7 +64,7 @@
 				location_align_y = this.model_json.location_align_y,
 				current_tpl_settings = _.templateSettings,
                 $this = this;
-				
+
 			// if needs compatibility e.g. upfront which uses another _.templateSettings
 			if ( this.is_compat ) {
 				Optin.global_mixin();
@@ -83,24 +75,24 @@
 					escape:      /\{\{([^\}]+?)\}\}(?!\})/g
 				};
 			}
-			
+
 			this._handle_icons_order();
-			
+
 			this.setElement( this.template( _.extend( {}, this.model_json ) ) );
-			
-			if ( this.module_display_type === 'floating_social' ) {                    
+
+			if ( this.module_display_type === 'floating_social' ) {
 				if ( this.model_json.location_type === 'content' ) {
 					parent_container = $('#content');
 				} else if ( this.model_json.location_type === 'selector' ) {
 					parent_container = $( this.model_json.location_target );
-					parent_container.parent().css({
+					parent_container.css({
 						'position': 'relative'
 					});
 				} else {
 					parent_container = $('body');
 				}
 			}
-			
+
 			if ( parent_container.length == 0 ) {
 				/**
 				 * Add counter to load try
@@ -140,12 +132,12 @@
 					$floating_social_container.css( 'bottom', this.model_json.location_bottom + 'px' );
 				}
 			}
-			
+
 			// after getting the template, revert back to previous _.templateSettings
 			if ( this.is_compat ) {
 				_.templateSettings = current_tpl_settings;
 			}
-			
+
 			this.html = this.$el.html();
 			this.log_view(this.module_display_type, this.opts);
 			this.update_network_shares();
@@ -168,7 +160,7 @@
 				social_icons = this.model_json.social_icons,
 				icons_order = this.model_json.icons_order,
 				icons_order_arr = icons_order.split(',');
-			
+
 			if ( icons_order && icons_order_arr.length ) {
 				_.each(icons_order_arr, function( data, key ) {
 					if ( typeof social_icons[data] !== 'undefined' ) {
@@ -180,7 +172,7 @@
 						});
 					}
 				});
-				
+
 				// if still have some, append those
 				if ( Object.keys(social_icons).length ) {
 					reordered = _.extend( reordered, _.pick(social_icons, function(val, index) {
@@ -189,7 +181,7 @@
 						}
 					}) );
 				}
-				
+
 				this.model_json.social_icons = reordered;
 			}
 		},
@@ -203,12 +195,12 @@
 		},
 		click_social_native: function(e) {
 			e.preventDefault();
-			
+
 			var me = this,
 				$this = this.$(e.target),
 				$anchor = $this.closest('a.hustle-social-icon-native'),
-				social = $anchor.data('social');	
-			
+				social = $anchor.data('social');
+
 			if ( !$anchor.hasClass('hustle-social-icon-counter-native') ) {
 				this._update_social_counter($anchor);
 				// update other module with same social icon
@@ -228,7 +220,7 @@
 
 			if ( social && typeof Optin.SShare_native_share_enpoints[social] != 'undefined' ) {
 				window.open(
-					Optin.SShare_native_share_enpoints[social]+ inc_opt.current_url,
+					Optin.SShare_native_share_enpoints[social],
 					'MsgWindow',
 					'menubar=no,toolbar=no,resizable=yes,scrollbars=yes'
 				);
@@ -238,7 +230,7 @@
 			var $this = this.$(e.target),
 				$anchor = $this.closest('a.linked-social-share'),
 				social = $anchor.data('social');
-				
+
 			// log conversion only if allowed
 			if ( this.opts.tracking_types != null && _.isTrue( this.opts.tracking_types[this.module_display_type] ) ) {
 				this.log_conversion(this.module_display_type, this.opts, social, 'linked');
@@ -283,7 +275,7 @@
 			var track_conversion = ( ss.tracking_types != null && _.isTrue( ss.tracking_types[type] ) )
 				? true
 				: false;
-				
+
 			if ( typeof Optin.SS_log_conversion != 'undefined' ) {
 				var logConversion = new Optin.SS_log_conversion();
 				logConversion.set( 'type', type );
@@ -295,22 +287,22 @@
 			}
 		}
 	});
-	
+
 	Optin.SShare_floating = Optin.SShare.extend({
 		module_display_type: 'floating_social',
 		display_type: 'column'
 	});
-	
+
 	Optin.SShare_widget = Optin.SShare.extend({
 		module_display_type: 'widget',
 		display_type: 'row'
 	});
-	
+
 	Optin.SShare_shortcode = Optin.SShare.extend({
 		module_display_type: 'shortcode',
 		display_type: 'row'
 	});
-	
+
 	/**
 	 * Render inline sshare ( widget )
 	 */
@@ -321,41 +313,41 @@
 				type = $this.data('type'),
 				//is_admin = hustle_vars.is_admin === '1';
 				is_admin = inc_opt.is_admin === '1';
-				
+
 				if( !id ) return;
-				
+
 				var module = _.find(Modules, function ( mod, key ) {
 					return id === parseInt( mod[ 'module_id' ] );
 				});
-				
+
 				if (!module) return;
-				
+
 				var type_enabled = type + '_enabled';
-				
+
 				// if not admin and test mode enabled
-				if ( typeof module.test_types !== 'undefined' 
-						&& module.test_types !== null 
+				if ( typeof module.test_types !== 'undefined'
+						&& module.test_types !== null
 						&& typeof module.test_types[type] !== 'undefined'
 						&& ( module.test_types[type] || module.test_types[type] === 'true' )
 						&& !is_admin ) {
 					return;
-					
-				} else if ( typeof module.test_types !== 'undefined' 
-						&& module.test_types !== null 
+
+				} else if ( typeof module.test_types !== 'undefined'
+						&& module.test_types !== null
 						&& typeof module.test_types[type] !== 'undefined'
 						&& ( module.test_types[type] || module.test_types[type] === 'true' )
 						&& is_admin ) {
 					// bypass the enabled settings
 					module.settings[ type_enabled ] = 'true';
 				}
-				
+
 				if ( !_.isTrue( module.settings[type_enabled] ) ) return;
-				
+
 				module.parent = $this;
 				if ( typeof use_compat !== 'undefined' && use_compat ) {
 					module.is_compat = true;
 				}
-				
+
 				$this.html('');
 				if ( type === 'widget' ) {
 					new Optin.SShare_widget(module);
@@ -364,9 +356,9 @@
 				}
 		});
 	};
-	
+
 	Optin.render_hustle_sshare_module_embeds(false);
-	
+
 	Hustle.Events.on("upfront:editor:widget:render", function(widget) {
 		Optin.render_hustle_sshare_module_embeds(true);
 	});

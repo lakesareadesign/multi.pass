@@ -1,5 +1,5 @@
 <div class="wds-metabox-preview">
-	<label class="wds-label"><?php esc_html_e( 'Google Preview' ); ?></label>
+	<label class="sui-label"><?php esc_html_e( 'Google Preview' ); ?></label>
 
 	<?php
 	if ( apply_filters( 'wds-metabox-visible_parts-preview_area', true ) ) {

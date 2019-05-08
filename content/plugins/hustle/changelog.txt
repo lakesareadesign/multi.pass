@@ -4,6 +4,30 @@ Author: Danae Millan (Incsub), Daniel Shepard (Incsub), Paul Kevin (Incsub), Lei
 Change Log:
 ----------------------------------------------------------------------
 
+3.0.8 - 2019-05-06
+----------------------------------------------------------------------
+- Fix Constant Contact check so the email is searched in the current list only.
+- Accept active lists besides the static ones in Constant Contact. 
+- Fix InfusionSoft status being saved as "Non Marketable".
+- Improve process to connect to Hubspot.
+- Load more than 20 lists in Mailchimp.
+- Allow removing the module's styles via hooks.
+- GDPR checkbox not working properly if there's more than one instance of the module.
+- Improve PlanSo Forms and Gravity Forms compatibility.
+- Keep shortcode IDs unique when duplicating modules.
+- Fix Social Sharing modules always showing relative to "screen".
+- Fix Social Sharing shortcodes not working properly in MU.
+- Fix social icons going beyond the box in IE.
+- Fix bug with the modules' "Test" status.
+- Fix the modules showing in the 404 page when using any display condition.
+- Improve several UI and UX details.
+- Fix shortcode ID containing quotation marks.
+- Remove static version on enqueued script.
+- Improve Popup responsiveness.
+- Follow the link even when the link is a module trigger.
+- Fix Social Sharing counter, and behavior in WPMU Dev host.
+- Fix small styling conflict between BuddyPresss and Social Sharing modules.
+
 3.0.7 - 2019-01-23
 ----------------------------------------------------------------------
 - Add Gutenberg blocks.
@@ -21,6 +45,11 @@ Change Log:
 - Improve compatibility with WPMU Dev host.
 - Add "hours" option to "After module is closed" setting.
 - Removed redundant GDPR checkbox on informational popups due to this feature not being requested, and no data is stored as a result of showing it in an informational popup.
+
+3.0.6.1 - 2018-12-12
+----------------------------------------------------------------------
+- Fix style conflict with WPMU Dev dashboard.
+- Fix edge case php error on upgrade.
 
 3.0.6 - 2018-12-10
 ----------------------------------------------------------------------
@@ -390,4 +419,4 @@ Fix: Pop Up and Slide In closing-opening animations
 - First public release
 
 
-133620-1548827435-au
+133620-1557359299-au

@@ -1,13 +1,15 @@
 <?php $separators = empty( $separators ) ? array() : $separators; ?>
-<div class="wds-table-fields-group">
-	<div class="wds-table-fields">
-		<div class="label">
-			<label for="separator" class="wds-label"><?php esc_html_e( 'Separator', 'wds' ); ?></label>
-			<p class="wds-label-description">
-				<?php esc_html_e( 'The separator refers to the break between variables which you can use by referencing the %%sep%% tag. You can choose a preset one or bake your own.', 'wds' ); ?>
+	<div class="sui-box-settings-row">
+		<div class="sui-box-settings-col-1">
+			<label for="separator" class="sui-settings-label"><?php esc_html_e( 'Separator', 'wds' ); ?></label>
+			<p class="sui-description">
+				<?php echo sprintf(
+					esc_html__( 'The separator refers to the break between variables which you can use by referencing the %s tag. You can choose a preset one or bake your own.', 'wds' ),
+					'%%sep%%'
+				); ?>
 			</p>
 		</div>
-		<div class="fields">
+		<div class="sui-box-settings-col-2">
 			<div class="wds-preset-separators">
 				<?php foreach ( $separators as $key => $separator ) : ?>
 					<input
@@ -28,8 +30,7 @@
 				placeholder="<?php esc_attr_e( 'Enter custom separator', 'wds' ); ?>"
 				name='<?php echo esc_attr( $_view['option_name'] ); ?>[separator]'
 				type='text'
-				class='wds-field'
+				class='sui-form-control'
 				value='<?php echo esc_attr( $_view['options']['separator'] ); ?>'/>
 		</div>
 	</div>
-</div>

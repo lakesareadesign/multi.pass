@@ -21,13 +21,12 @@ class Smartcrawl_Model_Redirection extends Smartcrawl_Model {
 	public function get_redirection( $source, $fallback = false ) {
 		$redirections = $this->get_all_redirections();
 
-		$source = in_array( trailingslashit( $source ), array_keys( $redirections ) )
+		$source = in_array( trailingslashit( $source ), array_keys( $redirections ), true )
 			? trailingslashit( $source )
-			: ( in_array( untrailingslashit( $source ), array_keys( $redirections ) )
+			: ( in_array( untrailingslashit( $source ), array_keys( $redirections ), true )
 				? untrailingslashit( $source )
 				: $source
-			)
-		;
+			);
 
 		return ! empty( $redirections[ $source ] )
 			? $redirections[ $source ]
@@ -219,8 +218,7 @@ class Smartcrawl_Model_Redirection extends Smartcrawl_Model {
 
 		$port = smartcrawl_is_switch_active( 'SMARTCRAWL_OMIT_PORT_MATCHES' )
 			? ''
-			: $this->get_current_request_port()
-		;
+			: $this->get_current_request_port();
 
 		$request = parse_url( $_SERVER['REQUEST_URI'], PHP_URL_PATH );
 

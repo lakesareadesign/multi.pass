@@ -40,10 +40,17 @@ class FLBuilderUISettingsForms {
 
 		if ( FLBuilderModel::is_builder_active() ) {
 
-			$url     = FLBuilderModel::get_edit_url( $wp_the_query->post->ID ) . '&fl_builder_load_settings_config';
-			$script  = 'var s = document.createElement("script");s.type = "text/javascript";s.src = "%s";document.head.appendChild(s);';
-			$config  = sprintf( $script, $url );
-			$modules = sprintf( $script, $url . '=modules' );
+			$script_url  = add_query_arg( array(
+				'fl_builder_load_settings_config' => true,
+				'ver'                             => rand(),
+			), FLBuilderModel::get_edit_url( $wp_the_query->post->ID ) );
+			$modules_url = add_query_arg( array(
+				'fl_builder_load_settings_config' => 'modules',
+				'ver'                             => rand(),
+			), FLBuilderModel::get_edit_url( $wp_the_query->post->ID ) );
+			$script      = 'var s = document.createElement("script");s.type = "text/javascript";s.src = "%s";document.head.appendChild(s);';
+			$config      = sprintf( $script, $script_url );
+			$modules     = sprintf( $script, $modules_url );
 
 			wp_add_inline_script( 'fl-builder', $config );
 			wp_add_inline_script( 'fl-builder-min', $config );

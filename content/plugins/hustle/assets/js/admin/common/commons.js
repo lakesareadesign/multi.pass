@@ -173,7 +173,9 @@
 				if ($success.length) {
 					$submit.on('click', function(e){
 						e.preventDefault();
-						$success.addClass('hustle-modal-success_show');
+						$success.addClass('hustle-modal-success_show').css({
+							'height': $modal.find('.hustle-modal-body').height() + 'px'
+						});
 						Hustle.Events.trigger("modules.view.preview.success", view);
 					});
 				} else {

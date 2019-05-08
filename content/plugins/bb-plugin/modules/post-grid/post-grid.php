@@ -204,8 +204,8 @@ class FLPostGridModule extends FLBuilderModule {
 		$render   = false;
 		$position = ! is_array( $position ) ? array( $position ) : $position;
 		$layout   = $this->get_layout_slug();
-
-		if ( has_post_thumbnail() && $settings->show_image ) {
+		$fallback = ! has_post_thumbnail() && '' !== $settings->image_fallback && $settings->show_image ? true : false;
+		if ( ( has_post_thumbnail() || $fallback ) && $settings->show_image ) {
 
 			if ( 'feed' == $settings->layout && in_array( $settings->image_position, $position ) ) {
 				$render = true;
@@ -214,9 +214,12 @@ class FLPostGridModule extends FLBuilderModule {
 			} elseif ( 'grid' == $settings->layout && in_array( $settings->grid_image_position, $position ) ) {
 				$render = true;
 			}
-
 			if ( $render ) {
-				include $this->dir . 'includes/featured-image.php';
+				if ( $fallback ) {
+					include $this->dir . 'includes/featured-image-fallback.php';
+				} else {
+					include $this->dir . 'includes/featured-image.php';
+				}
 			}
 		}
 	}
@@ -233,7 +236,7 @@ class FLPostGridModule extends FLBuilderModule {
 		$result   = false;
 		$position = ! is_array( $position ) ? array( $position ) : $position;
 
-		if ( has_post_thumbnail() && $settings->show_image ) {
+		if ( ( has_post_thumbnail() && $settings->show_image ) || ( $settings->image_fallback && $settings->show_image ) ) {
 
 			if ( 'feed' == $settings->layout && in_array( $settings->image_position, $position ) ) {
 				$result = true;
@@ -349,7 +352,7 @@ class FLPostGridModule extends FLBuilderModule {
 		if ( false !== apply_filters( 'fl_post_grid_disable_schema', false ) ) {
 			return false;
 		} else {
-			return true;
+			return FLBuilder::is_schema_enabled();
 		}
 	}
 
@@ -545,18 +548,19 @@ FLBuilder::register_module('FLPostGridModule', array(
 						'toggle'  => array(
 							'columns' => array(
 								'sections' => array( 'posts', 'image', 'content', 'terms', 'post_style', 'text_style' ),
-								'fields'   => array( 'match_height', 'post_columns', 'post_spacing', 'post_padding', 'grid_image_position', 'grid_image_spacing', 'show_author', 'show_comments_grid', 'info_separator' ),
+								'fields'   => array( 'match_height', 'post_columns', 'post_spacing', 'post_padding', 'image', 'grid_image_position', 'grid_image_spacing', 'show_author', 'show_comments_grid', 'info_separator', 'image_size', 'image_fallback', 'show_image' ),
 							),
 							'grid'    => array(
 								'sections' => array( 'posts', 'image', 'content', 'terms', 'post_style', 'text_style' ),
-								'fields'   => array( 'match_height', 'post_width', 'post_spacing', 'post_padding', 'grid_image_position', 'grid_image_spacing', 'show_author', 'show_comments_grid', 'info_separator' ),
+								'fields'   => array( 'match_height', 'post_width', 'post_spacing', 'post_padding', 'grid_image_position', 'grid_image_spacing', 'show_author', 'show_comments_grid', 'info_separator', 'image_fallback', 'image_size', 'show_image' ),
 							),
 							'gallery' => array(
-								'sections' => array( 'gallery_general', 'overlay_style', 'icons' ),
+								'sections' => array( 'gallery_general', 'overlay_style', 'icons', 'image' ),
+								'fields'   => array( 'image_fallback' ),
 							),
 							'feed'    => array(
 								'sections' => array( 'posts', 'image', 'content', 'terms', 'post_style', 'text_style' ),
-								'fields'   => array( 'feed_post_spacing', 'feed_post_padding', 'image_position', 'image_spacing', 'image_width', 'show_author', 'show_comments', 'info_separator', 'content_type' ),
+								'fields'   => array( 'feed_post_spacing', 'feed_post_padding', 'image_position', 'image_spacing', 'image_width', 'show_author', 'show_comments', 'info_separator', 'content_type', 'image_fallback', 'show_image' ),
 							),
 						),
 					),
@@ -737,6 +741,12 @@ FLBuilder::register_module('FLPostGridModule', array(
 						'default' => '33',
 						'units'   => array( '%' ),
 						'slider'  => true,
+					),
+					'image_fallback'      => array(
+						'default'     => '',
+						'type'        => 'photo',
+						'show_remove' => true,
+						'label'       => __( 'Fallback Image', 'fl-builder' ),
 					),
 				),
 			),

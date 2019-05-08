@@ -10,103 +10,116 @@ $redirection_count = count( $redirection_model->get_all_redirections() );
 
 $option_name = Smartcrawl_Settings::TAB_SETTINGS . '_options';
 $options = $_view['options'];
-$autolinking_enabled = smartcrawl_get_array_value( $options, 'autolinks' );
+$autolinking_enabled = Smartcrawl_Settings::get_setting( 'autolinks' );
 $service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
 $is_member = $service->is_member();
-$moz_connected = ! empty( $options['access-id'] ) && ! empty( $options['secret-key'] );	     	 	 	  		 		
+$moz_connected = Smartcrawl_Settings::get_setting( 'access-id' )
+                 && Smartcrawl_Settings::get_setting( 'secret-key' );
+$footer_class = $is_member ? 'sui-box-footer' : 'sui-box-body'; // Because the mascot message needs to be inside box body
 ?>
 
-<section id="<?php echo esc_attr( Smartcrawl_Settings_Dashboard::BOX_ADVANCED_TOOLS ); ?>" class="dev-box">
-	<div class="box-title">
-		<div class="buttons buttons-icon">
-			<a href="<?php echo esc_attr( $page_url ); ?>" class="wds-settings-link">
-				<i class="wds-icon-arrow-right-carats"></i>
-			</a>
-		</div>
-		<h3>
-			<i class="wds-icon-wand-magic"></i> <?php esc_html_e( 'Advanced Tools', 'wds' ); ?>
+<section id="<?php echo esc_attr( Smartcrawl_Settings_Dashboard::BOX_ADVANCED_TOOLS ); ?>"
+         class="sui-box wds-dashboard-widget">
+	<div class="sui-box-header">
+		<h3 class="sui-box-title">
+			<i class="sui-icon-wand-magic" aria-hidden="true"></i> <?php esc_html_e( 'Advanced Tools', 'wds' ); ?>
 		</h3>
 	</div>
 
-	<div class="box-content">
+	<div class="sui-box-body">
 		<p><?php esc_html_e( 'Advanced tools focus on the finer details of SEO including internal linking, redirections and Moz analysis.', 'wds' ); ?></p>
 
-		<div class="wds-separator-top">
-			<span class="wds-small-text"><strong><?php esc_html_e( 'URL Redirects', 'wds' ); ?></strong></span>
-			<span class="wds-box-stat-value"><?php echo esc_html( $redirection_count ); ?>
+		<div class="wds-separator-top wds-draw-left-padded">
+			<small><strong><?php esc_html_e( 'URL Redirects', 'wds' ); ?></strong></small>
+			<?php if ( empty( $redirection_count ) ): ?>
+				<p>
+					<small><?php esc_html_e( 'Automatically redirect traffic from one URL to another.', 'wds' ); ?></small>
+				</p>
+				<a href="<?php echo esc_attr( $page_url ); ?>&tab=tab_url_redirection"
+				   class="sui-button sui-button-blue">
+					<?php esc_html_e( 'Add Redirect', 'wds' ); ?>
+				</a>
+			<?php else: ?>
+				<span class="wds-right"><small><?php echo esc_html( $redirection_count ); ?></small></span>
+			<?php endif; ?>
 		</div>
 
-		<div class="wds-separator-top cf">
-			<span class="wds-small-text"><strong><?php esc_html_e( 'Moz Integration', 'wds' ); ?></strong></span>
+		<div class="wds-separator-top wds-draw-left-padded <?php echo $moz_connected ? 'wds-space-between' : ''; ?>">
+			<small><strong><?php esc_html_e( 'Moz Integration', 'wds' ); ?></strong></small>
 
 			<?php if ( $moz_connected ) : ?>
-				<span class="wds-box-stat-value">
-					<a href="<?php echo esc_attr( $page_url ); ?>#tab_moz"
-					   class="button button-small button-dark button-dark-o">
+				<a href="<?php echo esc_attr( $page_url ); ?>&tab=tab_moz"
+				   class="sui-button sui-button-ghost">
 
-						<?php esc_html_e( 'View Report', 'wds' ); ?>
-					</a>
-				</span>
+					<i class="sui-icon-eye" aria-hidden="true"></i> <?php esc_html_e( 'View Report', 'wds' ); ?>
+				</a>
 			<?php else : ?>
-				<p class="wds-small-text">
-					<?php esc_html_e( 'Moz provides reports that tell you how your site stacks up against the competition with all of the important SEO measurement tools.', 'wds' ); ?>
+				<p>
+					<small><?php esc_html_e( 'Moz provides reports that tell you how your site stacks up against the competition with all of the important SEO measurement tools.', 'wds' ); ?></small>
 				</p>
-				<a href="<?php echo esc_attr( $page_url ); ?>#tab_moz"
-				   class="button button-small">
+				<a href="<?php echo esc_attr( $page_url ); ?>&tab=tab_moz"
+				   class="sui-button sui-button-blue">
 
 					<?php esc_html_e( 'Connect', 'wds' ); ?>
 				</a>
 			<?php endif; ?>
 		</div>
 
-		<div
-			class="wds-separator-top wds-autolinking-section <?php echo ! $is_member ? 'wds-box-blocked-area' : ''; ?>">
-			<span class="wds-small-text"><strong><?php esc_html_e( 'Automatic Linking', 'wds' ); ?></strong></span>
+		<div class="wds-separator-top <?php echo ! $is_member ? 'wds-box-blocked-area wds-draw-down wds-draw-left' : 'wds-draw-left-padded'; ?>">
+			<small><strong><?php esc_html_e( 'Automatic Linking', 'wds' ); ?></strong></small>
+			<?php if ( ! $is_member ) : ?>
+				<a href="https://premium.wpmudev.org/project/smartcrawl-wordpress-seo/?utm_source=smartcrawl&utm_medium=plugin&utm_campaign=smartcrawl_dash_autolinking_pro_tag"
+				   target="_blank">
+					<span class="sui-tag sui-tag-pro sui-tooltip"
+					      data-tooltip="<?php esc_attr_e( 'Get SmartCrawl Pro today Free', 'wds' ); ?>">
+						<?php esc_html_e( 'Pro', 'wds' ); ?>
+					</span>
+				</a>
+			<?php endif; ?>
 			<?php if ( $autolinking_enabled && $is_member ) : ?>
-				<span
-					class="wds-box-stat-value wds-box-stat-value-success"><?php esc_html_e( 'Active', 'wds' ); ?></span>
+				<div class="wds-right">
+					<small><?php esc_html_e( 'Active', 'wds' ); ?></small>
+				</div>
 			<?php else : ?>
-				<p class="wds-small-text">
-					<?php esc_html_e( 'Configure SmartCrawl to automatically link certain key words to a page on your blog or even a whole new site all together.', 'wds' ); ?>
+				<p>
+					<small><?php esc_html_e( 'Configure SmartCrawl to automatically link certain key words to a page on your blog or even a whole new site all together.', 'wds' ); ?></small>
 				</p>
 				<button type="button"
 				        data-option-id="<?php echo esc_attr( $option_name ); ?>"
 				        data-flag="<?php echo 'autolinks'; ?>"
-				        class="wds-activate-component button button-small wds-button-with-loader wds-button-with-right-loader wds-disabled-during-request">
+				        class="wds-activate-component wds-disabled-during-request sui-button sui-button-blue">
 
-					<?php esc_html_e( 'Activate', 'wds' ); ?>
+					<span class="sui-loading-text"><?php esc_html_e( 'Activate', 'wds' ); ?></span>
+					<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 				</button>
-				<?php if ( ! $is_member ) : ?>
-					<button class="wds-upgrade-button button-pro wds-has-tooltip"
-					        data-content="<?php esc_attr_e( 'Get SmartCrawl Pro today Free', 'wds' ); ?>"
-					        type="button">
-						<?php esc_html_e( 'Pro feature', 'wds' ); ?>
-					</button>
-				<?php endif; ?>
 			<?php endif; ?>
 		</div>
+	</div>
 
-		<div class="wds-box-footer" style="margin-top: 0;">
+	<div class="<?php echo esc_attr( $footer_class ); ?>">
+		<div>
 			<a href="<?php echo esc_attr( $page_url ); ?>"
-			   class="button button-small button-dark button-dark-o wds-dash-configure-button">
+			   class="sui-button sui-button-ghost">
 
-				<?php esc_html_e( 'Configure', 'wds' ); ?>
+				<i class="sui-icon-wrench-tool"
+				   aria-hidden="true"></i> <?php esc_html_e( 'Configure', 'wds' ); ?>
 			</a>
-
-			<?php
-			if ( ! $is_member ) {
-
-				$this->_render( 'mascot-message', array(
-					'key'         => 'seo-checkup-upsell',
-					'dismissible' => false,
-					'message'     => sprintf(
-						'%s <a href="#upgrade-to-pro">%s</a>',
-						esc_html__( 'Upgrade to Pro and automatically link your articles both internally and externally with automatic linking - a favourite among SEO pros.', 'wds' ),
-						esc_html__( '- Try SmartCrawl Pro FREE today!', 'wds' )
-					),
-				) );
-			}
-			?>
 		</div>
+
+		<?php
+		if ( ! $is_member ) {
+
+			$this->_render( 'mascot-message', array(
+				'key'         => 'seo-checkup-upsell',
+				'dismissible' => false,
+				'image_name'  => 'mascot-message-advanced-tools',
+				'message'     => sprintf(
+					'%s <a target="_blank" href="https://premium.wpmudev.org/project/smartcrawl-wordpress-seo/?utm_source=smartcrawl&utm_medium=plugin&utm_campaign=smartcrawl_dash_reports_upsell_notice">%s</a>',
+					esc_html__( 'Upgrade to Pro and automatically link your articles both internally and externally with automatic linking - a favourite among SEO pros.', 'wds' ),
+					esc_html__( '- Try SmartCrawl Pro FREE today!', 'wds' )
+				),
+			) );
+		}
+		?>
 	</div>
 </section>

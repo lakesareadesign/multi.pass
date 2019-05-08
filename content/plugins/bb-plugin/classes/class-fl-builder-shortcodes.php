@@ -26,7 +26,7 @@ final class FLBuilderShortcodes {
 	 * @return string
 	 */
 	static public function insert_layout( $attrs ) {
-		$builder_active = in_the_loop() && FLBuilderModel::is_builder_active();
+		$builder_active = FLBuilderModel::is_builder_active();
 		$post_type      = isset( $attrs['type'] ) ? $attrs['type'] : get_post_types();
 		$site_id        = isset( $attrs['site'] ) ? absint( $attrs['site'] ) : null;
 		$args           = array(

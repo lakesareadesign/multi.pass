@@ -2,6 +2,40 @@ Plugin Name: SmartCrawl SEO
 
 Change Log:
 ----------------------------------------------------------------------
+2.3.0 - 2019-05-08
+----------------------------------------------------------------------
+- Add: New, exciting, mobile-friendly UI in the admin area
+- Add: Support for whitelabel features
+- Add: Improved performance and reliability of SEO checkup and sitemap crawler
+- Add: Code improvements for the display of meta values
+- Add: New filter for addition of extra SEO and readability content
+- Add: Yoast importer now less likely to show "No compatible data ..." error
+- Add: New BuddyPress settings on Title & Meta page
+- Fix: Redirect attachment settings getting overwritten
+- Fix: Errors on Woocommerce shop page
+- Fix: Category titles incorrect in certain situations
+- Fix: Port matching issues in redirection module
+- Fix: Multisite always showing "Homepage set to static page" message
+- Fix: Sitewide sitemap settings not applied to network sub-sites
+- Fix: Branda not able to change Smartcrawl admin bar text
+- Fix: Non-public taxonomies listed on Title & Meta page
+- Fix: Autolinks module causing styling issues
+- Fix: Readability analysis compatibility issue with PHP 5.3
+- Fix: Macros can not be added to term title and description
+- Fix: JS console error on WP attachment editor page
+- Fix: UI bugs when focus keyword ignored in SEO analysis
+- Fix: Autolinking module showing self-links
+- Fix: SEO analysis not working with autosaves disabled
+- Fix: Sitemap showing invalid timestamps for certain post types
+- Fix: Links on Title & Meta page pointing to incorrect tab on the social page
+- Fix: Google plus field on social accounts page
+- Fix: Visual issue (tooltip getting cut off) on sitemap reporting page
+- Fix: Social account URLs with whitespaces not saved
+- Fix: Untranslatable string in separator settings on Title & Meta page
+- Fix: Fields losing focus while typing
+- Fix: Visual issues on small screens
+- Fix: Settings pages pointing to old documentation
+
 2.2.6 - 2019-03-26
 ----------------------------------------------------------------------
 - Add: Support for Yoast v10 and AIOSEO v2.12 in third-party importer
@@ -631,4 +665,4 @@ exist yet
 - Initial Release.
 
 
-133620-1554389688-au
+133620-1557359321-au

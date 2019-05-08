@@ -681,6 +681,12 @@
 			// Abort an existing preview request.
 			this._cancelPreview();
 
+			settings      = FLBuilder._inputVarsCheck( settings );
+
+			if ( 'error' === settings  ) {
+				return 0;
+			}
+
 			// Make a new preview request.
 			this._xhr = FLBuilder.ajax({
 				action          : 'render_layout',

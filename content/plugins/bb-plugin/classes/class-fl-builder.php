@@ -771,6 +771,17 @@ final class FLBuilder {
 			}
 		}
 		wp_add_inline_style( 'admin-bar', '#wp-admin-bar-fl-builder-frontend-edit-link .ab-icon:before { content: "\f116" !important; top: 2px; margin-right: 3px; }' );
+		$args = array(
+			'product'     => FLBuilderModel::get_branding(),
+			'white_label' => FLBuilderModel::is_white_labeled(),
+			/**
+			 * Custom info text for crash popup.
+			 * @see fl_builder_crash_white_label_text
+			 */
+			'labeled_txt' => apply_filters( 'fl_builder_crash_white_label_text', '' ),
+		);
+		wp_localize_script( 'fl-builder-min', 'crash_vars', $args );
+		wp_localize_script( 'fl-builder', 'crash_vars', $args );
 	}
 
 	/**
@@ -2505,6 +2516,8 @@ final class FLBuilder {
 	 */
 
 	static public function render_css( $include_global = true ) {
+		global $wp_the_query;
+
 		$active          = FLBuilderModel::is_builder_active();
 		$nodes           = FLBuilderModel::get_categorized_nodes();
 		$node_status     = FLBuilderModel::get_node_status();
@@ -2627,7 +2640,7 @@ final class FLBuilder {
 		$css .= self::render_global_nodes_custom_code( 'css' );
 
 		// Custom Layout CSS
-		if ( 'published' == $node_status ) {
+		if ( 'published' == $node_status || $post_id !== $wp_the_query->post->ID ) {
 			$css .= FLBuilderModel::get_layout_settings()->css;
 		}
 
@@ -3462,6 +3475,35 @@ final class FLBuilder {
 			unset( $query['post_type'][ array_search( 'fl-builder-template', $query['post_type'] ) ] );
 		}
 		return $query;
+	}
+
+	/**
+	 * @since 2.2.3
+	 */
+	static public function is_schema_enabled() {
+
+		/**
+		 * Disable all schema.
+		 * @see fl_builder_disable_schema
+		 */
+		if ( false !== apply_filters( 'fl_builder_disable_schema', false ) ) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	/**
+	 * @since 2.2.3
+	 */
+	static public function print_schema( $schema, $echo = true ) {
+		if ( self::is_schema_enabled() ) {
+			if ( $echo ) {
+				echo $schema;
+			} else {
+				return $schema;
+			}
+		}
 	}
 
 	/**

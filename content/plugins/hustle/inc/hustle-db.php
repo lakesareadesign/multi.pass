@@ -31,8 +31,17 @@ if ( ! class_exists( 'Hustle_Db' ) ) :
 		 */
 		private function _create_tables() {
 			$db_version = get_site_option( self::DB_VERSION_KEY );
+
 			// check if current version is equal to database version
-			if ( version_compare( $db_version, Opt_In::VERSION, '=' ) ) { return; }
+			if ( version_compare( $db_version, Opt_In::VERSION, '=' ) ) {
+				// Check if 4.0 was installed.
+				if ( get_option( self::DB_VERSION_KEY, false ) ) {
+					delete_option( self::DB_VERSION_KEY );
+				} else {
+					return;
+				}
+			}
+
 			foreach ( $this->_get_tables() as $name => $columns ) {
 				$sql = $this->_create_table_sql( $name, $columns );
 				dbDelta( $sql );
@@ -51,17 +60,27 @@ if ( ! class_exists( 'Hustle_Db' ) ) :
 		 * @return string The sql script for table creation.
 		 */
 		private function _create_table_sql( $name, array $columns ) {
+
 			global $wpdb;
 			$charset = '';
 			if ( ! empty( $wpdb->charset ) ) {
-				$charset = ' DEFAULT CHARACTER SET ' . $wpdb->charset;
+				$charset = 'DEFAULT CHARACTER SET ' . $wpdb->charset;
 			}
 			$collate = '';
 			if ( ! empty( $wpdb->collate ) ) {
 				$collate .= ' COLLATE ' . $wpdb->collate;
 			}
 			$name = $wpdb->base_prefix . $name;
-			return sprintf( 'CREATE TABLE IF NOT EXISTS `%s` (%s)%s%s', $name, implode( ', ', $columns ), $charset, $collate );
+
+			return sprintf(
+				'CREATE TABLE %s (%s%s%s)%s%s',
+				$name,
+				PHP_EOL,
+				implode( ','.PHP_EOL, $columns ),
+				PHP_EOL,
+				$charset,
+				$collate
+			);
 		}
 
 		/**
@@ -79,15 +98,15 @@ if ( ! class_exists( 'Hustle_Db' ) ) :
 			}
 			return array(
 				self::TABLE_HUSTLE_MODULES  => array(
-					'`module_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT',
-					"`blog_id` bigint(20) unsigned NOT NULL DEFAULT '0'",
-					'`module_name` VARCHAR(255) NOT NULL',
-					'`module_type` VARCHAR(100) NOT NULL',
-					'`active` TINYINT DEFAULT 1',
-					'`test_mode` TINYINT DEFAULT 0',
-					'PRIMARY KEY (`module_id`)',
-					'KEY `blog_id` (`blog_id`)',
-					'KEY `active` (`active`)',
+					'module_id bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT',
+					"blog_id bigint(20) UNSIGNED NOT NULL DEFAULT '0'",
+					'module_name varchar(255) NOT NULL',
+					'module_type varchar(100) NOT NULL',
+					'active tinyint DEFAULT 1',
+					'test_mode tinyint DEFAULT 0',
+					'PRIMARY KEY  (module_id)',
+					'KEY blog_id (blog_id)',
+					'KEY active (active)',
 				),
 				self::TABLE_HUSTLE_MODULES_META => array(
 					'`meta_id` bigint(20) unsigned NOT NULL AUTO_INCREMENT',

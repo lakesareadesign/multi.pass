@@ -25,7 +25,7 @@ class Smartcrawl_Check_Metadesc_Keywords extends Smartcrawl_Check_Post_Abstract 
 			$resolver = Smartcrawl_Endpoint_Resolver::resolve();
 			$resolver->simulate_post( $post->ID );
 
-			$subject = Smartcrawl_OnPage::get()->get_description();
+			$subject = Smartcrawl_Meta_Value_Helper::get()->get_description();
 		}
 		if ( $resolver ) {
 			$resolver->stop_simulation();

@@ -54,6 +54,14 @@ final class FLBuilderLoop {
 	static private $_rewrote_taxonomy = false;
 
 	/**
+	 * Set random seed to avoid duplicate posts in pagination.
+	 *
+	 * @since 2.2.3
+	 * @var int
+	 */
+	static private $rand_seed = 0;
+
+	/**
 	 * Initializes hooks.
 	 *
 	 * @since 1.8
@@ -98,6 +106,17 @@ final class FLBuilderLoop {
 
 		// Count how many times this method has been called
 		self::$loop_counter++;
+
+		// Set random order seed for load_more and scroll paginations.
+		if ( isset( $settings->order_by ) && 'rand' == $settings->order_by ) {
+			if ( in_array( $settings->pagination, array( 'scroll', 'load_more' ) ) ) {
+				if ( ! isset( $_GET['fl_rand_seed'] ) ) {
+					self::$rand_seed = rand();
+				} else {
+					self::$rand_seed = $_GET['fl_rand_seed'];
+				}
+			}
+		}
 
 		if ( isset( $settings->data_source ) && 'main_query' == $settings->data_source ) {
 			$query = self::main_query();
@@ -205,6 +224,11 @@ final class FLBuilderLoop {
 		// Order by meta value arg.
 		if ( strstr( $order_by, 'meta_value' ) ) {
 			$args['meta_key'] = $settings->order_by_meta_key;
+		}
+
+		// Random order seed.
+		if ( 'rand' == $order_by && self::$rand_seed > 0 ) {
+			$args['orderby'] = 'RAND(' . self::$rand_seed . ')';
 		}
 
 		// Order by author
@@ -755,6 +779,11 @@ final class FLBuilderLoop {
 						'flpaging' => 1,
 					);
 				}
+			}
+
+			// Add random order seed for scroll and load more.
+			if ( self::$rand_seed > 0 ) {
+				$add_args['fl_rand_seed'] = self::$rand_seed;
 			}
 
 			echo paginate_links(array(

@@ -34,17 +34,22 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 			'instagram_url',
 			'linkedin_url',
 			'pinterest_url',
-			'gplus_url',
 			'youtube_url',
 		);
 		foreach ( $urls as $type ) {
 			if ( empty( $input[ $type ] ) ) {
 				continue;
 			}
-			if ( ! preg_match( '/^https?:\/\//', $input[ $type ] ) ) {
+			$social_url = trim( $input[ $type ] );
+			if ( ! preg_match( '/^https?:\/\//', $social_url ) ) {
+				add_settings_error(
+					$this->option_name,
+					'social_url_invalid',
+					esc_html__( 'Some social URLs could not be saved. Please try again.', 'wds' )
+				);
 				continue;
 			}
-			$result[ $type ] = $input[ $type ];
+			$result[ $type ] = $social_url;
 		}
 
 		if ( ! empty( $input['sitename'] ) ) {
@@ -142,10 +147,13 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 		$this->name = Smartcrawl_Settings::COMP_SOCIAL;
 		$this->slug = Smartcrawl_Settings::TAB_SOCIAL;
 		$this->action_url = admin_url( 'options.php' );
-		$this->title = __( 'Social', 'wds' );
 		$this->page_title = __( 'SmartCrawl Wizard: Social', 'wds' );
 
 		parent::init();
+	}
+
+	public function get_title() {
+		return __( 'Social', 'wds' );
 	}
 
 	/**
@@ -163,8 +171,8 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 		$arguments = array(
 			'options' => $options,
 		);
-		$arguments['active_tab'] = $this->_get_last_active_tab( 'tab_accounts' );
-		wp_enqueue_script( 'wds-admin-social' );
+		$arguments['active_tab'] = $this->_get_active_tab( 'tab_accounts' );
+		wp_enqueue_script( Smartcrawl_Controller_Assets::SOCIAL_PAGE_JS );
 		wp_enqueue_media();
 
 		$this->_render_page( 'social/social-settings', $arguments );
@@ -189,7 +197,6 @@ class Smartcrawl_Social_Settings extends Smartcrawl_Settings_Admin {
 			'instagram_url'       => '',
 			'linkedin_url'        => '',
 			'pinterest_url'       => '',
-			'gplus_url'           => '',
 			'youtube_url'         => '',
 			// Twitter
 			'twitter-card-enable' => false,

@@ -6333,6 +6333,15 @@ final class FLBuilderModel {
 	static public function get_enabled_icons() {
 		$value = self::get_admin_settings_option( '_fl_builder_enabled_icons', true );
 
+		/**
+		 * font-awesome should not be a key in this array, if it is it can cause issues.
+		 */
+		if ( is_array( $value ) ) {
+			$key = array_search( 'font-awesome', $value, true );
+			if ( false !== $key ) {
+				unset( $value[ $key ] );
+			}
+		}
 		return ! $value ? array( 'font-awesome-5-regular', 'font-awesome-5-solid', 'font-awesome-5-brands', 'foundation-icons', 'dashicons' ) : $value;
 	}
 

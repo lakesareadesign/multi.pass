@@ -43,13 +43,13 @@ class Smartcrawl_Check_Title_Length extends Smartcrawl_Check_Post_Abstract {
 			$resolver = Smartcrawl_Endpoint_Resolver::resolve();
 			$resolver->simulate_post( $parent_post_id );
 			$parent_title = get_the_title( $parent_post_id );
-			$parent_subject = Smartcrawl_OnPage::get()->get_title( $post->post_title );
+			$parent_subject = Smartcrawl_Meta_Value_Helper::get()->get_title( $post->post_title );
 			$subject = preg_replace( '/' . preg_quote( $parent_title, '/' ) . '/', $post->post_title, $parent_subject );
 		} else {
 			$resolver = Smartcrawl_Endpoint_Resolver::resolve();
 			$resolver->simulate_post( $post->ID );
 
-			$subject = Smartcrawl_OnPage::get()->get_title();
+			$subject = Smartcrawl_Meta_Value_Helper::get()->get_title();
 		}
 
 		if ( $resolver ) {

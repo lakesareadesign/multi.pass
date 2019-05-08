@@ -4,4 +4,3 @@ $this->_render( 'progress-bar', array(
 	'progress' => 0,
 ) );
 ?>
-<div class="processing-item-desc"></div>

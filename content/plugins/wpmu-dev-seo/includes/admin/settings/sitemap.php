@@ -17,6 +17,8 @@ class Smartcrawl_Sitemap_Settings extends Smartcrawl_Settings_Admin {
 	 */
 	private static $_instance;
 
+	private $view_defaults = array();
+
 	/**
 	 * Singleton instance getter
 	 *
@@ -104,10 +106,10 @@ class Smartcrawl_Sitemap_Settings extends Smartcrawl_Settings_Admin {
 
 		// Meta tags.
 		if ( ! empty( $input['verification-google-meta'] ) ) {
-			$result['verification-google-meta'] = smartcrawl_is_valid_meta_tag($input['verification-google-meta']) ? $input['verification-google-meta'] : '';
+			$result['verification-google-meta'] = smartcrawl_is_valid_meta_tag( $input['verification-google-meta'] ) ? $input['verification-google-meta'] : '';
 		}
 		if ( ! empty( $input['verification-bing-meta'] ) ) {
-			$result['verification-bing-meta'] = smartcrawl_is_valid_meta_tag($input['verification-bing-meta']) ? $input['verification-bing-meta'] : '';
+			$result['verification-bing-meta'] = smartcrawl_is_valid_meta_tag( $input['verification-bing-meta'] ) ? $input['verification-bing-meta'] : '';
 		}
 
 		$custom_values_key = 'additional-metas';
@@ -287,12 +289,33 @@ class Smartcrawl_Sitemap_Settings extends Smartcrawl_Settings_Admin {
 		$this->name = Smartcrawl_Settings::COMP_SITEMAP;
 		$this->slug = Smartcrawl_Settings::TAB_SITEMAP;
 		$this->action_url = admin_url( 'options.php' );
-		$this->title = __( 'Sitemap', 'wds' );
 		$this->page_title = __( 'SmartCrawl Wizard: Sitemap', 'wds' );
 
-		add_action( 'wp_ajax_wds-toggle-sitemap-status', array( $this, 'json_toggle_sitemap_status' ) );
+		add_action( 'admin_init', array( $this, 'deactivate_sitemap_component' ) );
+		add_action( 'all_admin_notices', array( $this, 'add_crawl_status_message' ), 10 );
 
 		parent::init();
+	}
+
+	public function get_title() {
+		return __( 'Sitemap', 'wds' );
+	}
+
+	public function deactivate_sitemap_component() {
+		$data = $this->get_request_data();
+		if ( isset( $data['deactivate-sitemap-component'] ) ) {
+			Smartcrawl_Settings::deactivate_component( 'sitemap' );
+			$sitemaps_urls = wp_get_referer();
+
+			wp_redirect( esc_url_raw( add_query_arg( array(), $sitemaps_urls ) ) );
+			die();
+		}
+	}
+
+	private function get_request_data() {
+		return isset( $_POST['_wpnonce'] ) && wp_verify_nonce( $_POST['_wpnonce'], $this->option_name . '-options' )
+			? stripslashes_deep( $_POST )
+			: array();
 	}
 
 	/**
@@ -321,16 +344,50 @@ class Smartcrawl_Sitemap_Settings extends Smartcrawl_Settings_Admin {
 	 * Runs SEO Audit crawl
 	 */
 	public function run_crawl() {
+		$error = '';
 		if ( current_user_can( 'manage_options' ) ) {
 			$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SEO );
-			$service->start();
+			$response = $service->start();
+			$error = $this->get_error( $response );
 		}
-		$url = remove_query_arg( array( 'run-crawl', '_wds_nonce' ) );
-		if ( preg_match( '/page=wds_sitemap/', $url ) && ! preg_match( '/#tab_url_crawler/', $url ) ) {
-			$url .= '#tab_url_crawler';
-		}
-		wp_safe_redirect( esc_url( $url ) );
+		$url = add_query_arg(
+			array(
+				'tab'               => 'tab_url_crawler',
+				'crawl-in-progress' => empty( $error ) ? '1' : '0',
+				'message'           => $error,
+			),
+			Smartcrawl_Settings_Admin::admin_url( Smartcrawl_Settings::TAB_SITEMAP )
+		);
+		wp_safe_redirect( esc_url_raw( $url ) );
 		die;
+	}
+
+	private function get_error( $response ) {
+		if ( ! empty( $response['data']['status'] ) && (int) $response['data']['status'] > 399 ) {
+			return (string) smartcrawl_get_array_value( $response, 'message' );
+		}
+
+		return '';
+	}
+
+	public function add_crawl_status_message() {
+		$crawl_in_progress = smartcrawl_get_array_value( $_GET, 'crawl-in-progress' );
+		if ( is_null( $crawl_in_progress ) ) {
+			return;
+		}
+
+		$crawl_in_progress = (boolean) $crawl_in_progress;
+		if ( $crawl_in_progress ) {
+			$class = 'sui-notice-info';
+			$message = esc_html__( 'Crawl started successfully', 'wds' );
+		} else {
+			$class = 'sui-notice-error';
+			$message = (string) smartcrawl_get_array_value( $_GET, 'message' );
+		}
+
+		if ( $message ) {
+			$this->_render( 'floating-message', array( 'class' => $class, 'message' => $message ) );
+		}
 	}
 
 	/**
@@ -363,9 +420,9 @@ class Smartcrawl_Sitemap_Settings extends Smartcrawl_Settings_Admin {
 			$arguments['taxonomies'][ $opt ] = $taxonomy;
 		}
 
-		$arguments['wds_buddypress'] = $this->_get_buddyress_template_values();
+		$arguments['smartcrawl_buddypress'] = $this->_get_buddyress_template_values();
 
-		$arguments['active_tab'] = $this->_get_last_active_tab( 'tab_sitemap' );
+		$arguments['active_tab'] = $this->_get_active_tab( 'tab_sitemap' );
 
 		$extra_urls = Smartcrawl_Xml_Sitemap::get_extra_urls();
 		if ( is_array( $extra_urls ) ) {
@@ -388,7 +445,7 @@ class Smartcrawl_Sitemap_Settings extends Smartcrawl_Settings_Admin {
 				: '';
 		}
 
-		wp_enqueue_script( 'wds-admin-sitemaps' );
+		wp_enqueue_script( Smartcrawl_Controller_Assets::SITEMAPS_PAGE_JS );
 		$this->_render_page( 'sitemap/sitemap-settings', $arguments );
 	}
 
@@ -478,28 +535,24 @@ class Smartcrawl_Sitemap_Settings extends Smartcrawl_Settings_Admin {
 	}
 
 	/**
-	 * Handles sitemap active toggle request
+	 * TODO make this caching a part of Smartcrawl_Renderable
 	 */
-	public function json_toggle_sitemap_status() {
-		$data = $this->get_request_data();
-		$status = (bool) smartcrawl_get_array_value( $data, 'sitemap_active' );
-		$return = array( 'success' => false );
-
-		if ( null === $status ) {
-			wp_send_json( $return );
-
-			return;
+	protected function _get_view_defaults() {
+		if ( empty( $this->view_defaults ) ) {
+			$this->view_defaults = $this->populate_view_defaults();
 		}
 
-		$options = self::get_specific_options( 'wds_settings_options' );
-		$options['sitemap'] = $status;
-		self::update_specific_options( 'wds_settings_options', $options );
-
-		$return['success'] = true;
-		wp_send_json( $return );
+		return $this->view_defaults;
 	}
 
-	private function get_request_data() {
-		return isset( $_POST['_wds_nonce'] ) && wp_verify_nonce( $_POST['_wds_nonce'], 'wds-nonce' ) ? stripslashes_deep( $_POST ) : array();
+	protected function populate_view_defaults() {
+		$args = parent::_get_view_defaults();
+
+		$view = smartcrawl_get_array_value( $args, '_view' );
+		$view = empty( $view ) ? array() : $view;
+		$seo_service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SEO );
+		$view['crawl_report'] = $seo_service->get_report();
+
+		return array( '_view' => $view );
 	}
 }

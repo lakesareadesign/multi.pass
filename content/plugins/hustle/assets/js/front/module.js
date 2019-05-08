@@ -263,7 +263,7 @@
 			this.add_mask();
 			this.$el.trigger( 'hustle_show', this );
 			// Add escape key listener.
-			$(document).on( 'keydown', $.proxy( this.escape_key, this ) );
+			$(document).on( 'keydown.hustle.escKey', $.proxy( this.escape_key, this ) );
 
 			// only use the `on_submit` for module with no collection,
 			// meaning a form shortcode was added on the module content
@@ -347,7 +347,9 @@
 
 				if( $clickable.length ) {
 					$(doc).on( 'click', selector, function(e) {
-						e.preventDefault();
+						//commented because of https://app.asana.com/0/1103916574828903/895473570955468
+						//if it generates other issues - think about all cases
+						//e.preventDefault();
 						me.display();
 					} );
 				}
@@ -557,10 +559,16 @@
 				}
 
 				setTimeout(function(){
+					// Allow scrolling if previously disabled.
+					$('html').removeClass('hustle-no-scroll');
+
 					me.$el.removeClass('wph-modal-active');
 					$modal.removeClass(animation_out_class);
 				}, time_out);
 
+			} else {
+				// Allow scrolling if previously disabled.
+				$('html').removeClass('hustle-no-scroll');
 			}
 
 			if ($modal.hasClass('hustle-modal-static')) {
@@ -570,10 +578,8 @@
 				}, 0);
 			}
 
-			// Allow scrolling if previously disabled.
-			$('html').removeClass('hustle-no-scroll');
 			// Get rid of escape key listener.
-			$(document).off( 'keydown', $.proxy( me.escape_key, this ) );
+			$(document).off( 'keydown.hustle.escKey', $.proxy( me.escape_key, this ) );
 
 			// save cookies for 'after_close' property
 			if ( this.settings.after_close === 'no_show_on_post' ) {

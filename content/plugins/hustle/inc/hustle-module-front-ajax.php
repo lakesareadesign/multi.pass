@@ -265,7 +265,7 @@ class Hustle_Module_Front_Ajax {
 	public function update_network_shares() {
 		$post_id = filter_input( INPUT_POST, 'page_id', FILTER_VALIDATE_INT );
 
-		if ( !$post_id ) {
+		if ( ! $post_id ) {
 			wp_send_json_success();
 		}
 		$modules = Hustle_Module_Collection::instance()->get_all(true);
@@ -353,10 +353,12 @@ class Hustle_Module_Front_Ajax {
 			// update meta for social sharing share stats
 			$ss->log_share_stats($data['page_id']);
 
-		if( is_wp_error( $res ) || empty( $data ) )
+		if( is_wp_error( $res ) || empty( $data ) ) {
 			wp_send_json_error( __("Error saving stats", Opt_In::TEXT_DOMAIN) );
-		else
+		} else {
+			$ss->clean_module_cache();
 			wp_send_json_success( __("Stats Successfully saved", Opt_In::TEXT_DOMAIN) );
+		}
 	}
 
 	public function module_viewed(){

@@ -271,7 +271,7 @@ class Smartcrawl_String {
 			$syllables_count_word = self::syllables_count_word( $word );
 			$syls += $syllables_count_word;
 		}
-		if ( $syls === 0 ) {
+		if ( 0 === $syls ) {
 			return - 2;
 		} // Well that didn't work...
 
@@ -287,7 +287,7 @@ class Smartcrawl_String {
 	 */
 	private static function syllables_count_word( $word ) {
 		$word = trim( $word );
-		$unacceptable = (boolean) preg_match_all( '/[^a-zA-Z]/', $word );
+		$unacceptable = (boolean) self::preg_match_all( '/[^a-zA-Z]/', $word );
 		if ( $unacceptable ) {
 			return 0;
 		}
@@ -300,27 +300,27 @@ class Smartcrawl_String {
 
 		// Count the number of vowels (A, E, I, O, U) in the word.
 		//      Add 1 every time the letter 'y' makes the sound of a vowel
-		$syllables = preg_match_all( '/[aeiouy]/', $word );
+		$syllables = self::preg_match_all( '/[aeiouy]/', $word );
 
 		//      Subtract 1 for each silent vowel (like the silent 'e' at the end of a word).
 		$ends_with_e = self::ends_with( $word, 'e' );
 		$syllables -= $ends_with_e ? 1 : 0;
 
-		if ( $ends_with_e && $length === 3 ) {
+		if ( $ends_with_e && 3 === $length ) {
 			// e.g. the, eve, axe
 			return 1;
 		}
 
 		// Subtract 1 for each diphthong
-		$diphthongs = preg_match_all( '/[aeiouy]{2}/', $word );
+		$diphthongs = self::preg_match_all( '/[aeiouy]{2}/', $word );
 		$syllables -= $diphthongs;
 
 		// Subtract 1 for each triphthong
-		$triphthongs = preg_match_all( '/[aeiouy]{3}/', $word );
+		$triphthongs = self::preg_match_all( '/[aeiouy]{3}/', $word );
 		$syllables -= $triphthongs;
 
 		// Does the word end with "le" or "les?" Add 1 only if the letter before the "le" is a consonant.
-		$ends_with_le = (boolean) preg_match_all( '/[^aeiouy]le|les$/', $word );
+		$ends_with_le = (boolean) self::preg_match_all( '/[^aeiouy]le|les$/', $word );
 		$syllables += $ends_with_le ? 1 : 0;
 
 		return $syllables <= 0
@@ -328,9 +328,29 @@ class Smartcrawl_String {
 			: $syllables;
 	}
 
+	/**
+	 * In PHP versions 5.3 and below preg_match_all requires a third $matches argument which seems to affect performance.
+	 *
+	 * This wrapper method only passes this argument when necessary.
+	 *
+	 * @param $pattern
+	 * @param $subject
+	 *
+	 * @return int
+	 */
+	private static function preg_match_all( $pattern, $subject ) {
+		$matches_required = version_compare( PHP_VERSION, '5.4', '<' );
+		if ( $matches_required ) {
+			$matches = array();
+			return preg_match_all( $pattern, $subject, $matches );
+		}
+
+		return preg_match_all( $pattern, $subject );
+	}
+
 	public static function ends_with( $haystack, $needle ) {
 		$length = strlen( $needle );
-		if ( $length == 0 ) {
+		if ( 0 === $length ) {
 			return true;
 		}
 

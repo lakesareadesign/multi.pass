@@ -11,24 +11,25 @@ $issue = $report->get_issue( $issue_id );
 $url = ! empty( $issue['path'] ) ? $issue['path'] : '';
 $path = preg_replace( '/' . preg_quote( home_url(), '/' ) . '/', '', $url );
 $path = empty( $path ) ? $url : $path;
+
+$rmodel = new Smartcrawl_Model_Redirection();
+$redirections = $rmodel->get_all_redirections();
+$redirection_target = ! empty( $redirections[ $path ] ) ? esc_url( $redirections[ $path ] ) : '';
 ?>
 
-<tr data-issue-id="<?php echo esc_attr( $issue_id ); ?>">
+<tr data-issue-id="<?php echo esc_attr( $issue_id ); ?>"
+    data-path="<?php echo esc_attr( $path ); ?>"
+    data-redirect-path="<?php echo esc_attr( $redirection_target ); ?>">
+
 	<td>
-		<a href="<?php echo esc_attr( $url ); ?>">
-			<?php echo esc_html( $path ); ?>
-		</a>
+		<i aria-hidden="true" class="sui-warning sui-icon-warning-alert"></i>
+		<small>
+			<strong><?php echo esc_html( $path ); ?></strong>
+		</small>
 	</td>
 	<td>
-		<?php
-		if ( isset( $issue['response'] ) && $issue['response'] ) {
-			echo esc_html( $issue['response'] );
-		}
-		?>
-	</td>
-	<td>
-		<span class="wds-issues wds-issues-warning">
-			<span><?php echo count( $issue['origin'] ); ?></span>
+		<span class="sui-tag sui-tag-warning">
+			<?php echo count( $issue['origin'] ); ?>
 		</span>
 	</td>
 	<td>
@@ -36,22 +37,10 @@ $path = empty( $path ) ? $url : $path;
 		$this->_render( 'links-dropdown', array(
 			'label' => esc_html__( 'Options', 'wds' ),
 			'links' => array(
-				'#ignore'      => esc_html__( 'Ignore', 'wds' ),
-				'#occurrences' => esc_html__( 'List Occurrences', 'wds' ),
-				'#redirect'    => esc_html__( 'Redirect', 'wds' ),
+				'#occurrences' => '<i class="sui-icon-list-bullet" aria-hidden="true"></i> ' . esc_html__( 'List Occurrences', 'wds' ),
+				'#redirect'    => '<i class="sui-icon-arrow-right" aria-hidden="true"></i> ' . esc_html__( 'Redirect', 'wds' ),
+				'#ignore'      => '<i class="sui-icon-eye-hide" aria-hidden="true"></i> ' . esc_html__( 'Ignore', 'wds' ),
 			),
-		) );
-		?>
-		<?php
-		$this->_render( 'sitemap/sitemap-occurrences-overlay', array(
-			'issue_id' => $issue_id,
-			'issue'    => $issue,
-		) );
-		?>
-		<?php
-		$this->_render( 'sitemap/sitemap-redirect-overlay', array(
-			'issue_id' => $issue_id,
-			'issue'    => $issue,
 		) );
 		?>
 	</td>

@@ -1,4 +1,4 @@
-<div class="box-content modal">
+<div class="wds-import-body">
 	<p><?php printf( esc_html__( "Choose what you'd like to import from %s.", 'wds' ), '{{- plugin_name }}' ); ?></p>
 
 	<div class="wds-separator-top wds-import-item">
@@ -50,12 +50,15 @@
 	</div>
 </div>
 
-<div class="action wds-box-footer">
-	<button type="button" class="button wds-import-main-action wds-import-start">
-		<?php esc_html_e( 'Begin Import', 'wds' ); ?>
-	</button>
+<div class="wds-import-footer">
+	<div class="cf">
+		<button type="button" class="sui-button sui-button-blue wds-import-main-action wds-import-start">
+			<?php esc_html_e( 'Begin Import', 'wds' ); ?>
+		</button>
+	</div>
 
-	<span class="wds-box-footer-description" type="button">
-		<?php esc_html_e( 'Note: Importing can take a while if you have a large amount of content on your website.', 'wds' ); ?>
-	</span>
+	<?php $this->_render( 'notice', array(
+		'class'   => 'sui-notice-info',
+		'message' => esc_html__( 'Note: Importing can take a while if you have a large amount of content on your website.', 'wds' ),
+	) ); ?>
 </div>

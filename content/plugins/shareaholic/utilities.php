@@ -423,7 +423,7 @@ class ShareaholicUtilities {
     } elseif ($env === 'staging') {
       return '//d2062rwknz205x.cloudfront.net/' . $asset;
     } else {
-      return '//dsms0mj1bbhn4.cloudfront.net/' . $asset;
+      return '//cdn.shareaholic.net/' . $asset;
     }
   }
 
@@ -449,7 +449,7 @@ class ShareaholicUtilities {
     } elseif (preg_match('/stageaholic/', Shareaholic::URL)) {
       return 'https://d2062rwknz205x.cloudfront.net/' . $asset;
     } else {
-      return 'https://dsms0mj1bbhn4.cloudfront.net/' . $asset;
+      return 'https://cdn.shareaholic.net/' . $asset;
     }
   }
 
@@ -1319,8 +1319,8 @@ class ShareaholicUtilities {
     */
     function rocket_exclude_js($excluded_external) {
       if (defined('WP_ROCKET_VERSION')) {
-        $excluded_external[] = 'apps.shareaholic.com';
-        $excluded_external[] = 'dsms0mj1bbhn4.cloudfront.net';
+        $excluded_external[] = 'cdn.shareaholic.net';
+        $excluded_external[] = 'k4z6w9b5.stackpathcdn.com';
         
         return $excluded_external;
       }

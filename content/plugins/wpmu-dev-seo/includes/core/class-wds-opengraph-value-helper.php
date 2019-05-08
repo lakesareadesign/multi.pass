@@ -41,11 +41,11 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 		$images = smartcrawl_get_array_value( $options, 'og-images-' . $location );
 		$enabled = smartcrawl_get_array_value( $options, 'og-active-' . $location );
 
-		$title = smartcrawl_replace_vars( wp_strip_all_tags( strval( $title ) ), $this->get_queried_object() );
-		$description = smartcrawl_replace_vars( wp_strip_all_tags( strval( $description ) ), $this->get_queried_object() );
+		$title = $this->prepare_value( $title );
+		$description = $this->prepare_value( $description );
 
-		$this->title = empty( $title ) ? Smartcrawl_OnPage::get()->get_title() : $title;
-		$this->description = empty( $description ) ? Smartcrawl_OnPage::get()->get_description() : $description;
+		$this->title = empty( $title ) ? Smartcrawl_Meta_Value_Helper::get()->get_title() : $title;
+		$this->description = empty( $description ) ? Smartcrawl_Meta_Value_Helper::get()->get_description() : $description;
 		$this->images = is_array( $images ) ? $images : array();
 		$this->enabled = (bool) $enabled;
 	}
@@ -58,10 +58,10 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 		$disabled = smartcrawl_get_array_value( $post_meta, 'disabled' );
 
 		if ( ! empty( $title ) ) {
-			$this->title = $title;
+			$this->title = $this->prepare_value( $title );
 		}
 		if ( ! empty( $description ) ) {
-			$this->description = $description;
+			$this->description = $this->prepare_value( $description );
 		}
 		if ( is_array( $images ) && ! empty( $images ) ) {
 			$this->images = $images;
@@ -83,10 +83,10 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 		$disabled = smartcrawl_get_array_value( $term_meta, 'disabled' );
 
 		if ( ! empty( $title ) ) {
-			$this->title = $title;
+			$this->title = $this->prepare_value( $title );
 		}
 		if ( ! empty( $description ) ) {
-			$this->description = $description;
+			$this->description = $this->prepare_value( $description );
 		}
 		if ( is_array( $images ) && ! empty( $images ) ) {
 			$this->images = $images;
@@ -95,11 +95,11 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 	}
 
 	public function handle_bp_groups() {
-		// TODO: Implement handle_bp_groups() method.
+		$this->from_options( 'bp_groups' );
 	}
 
 	public function handle_bp_profile() {
-		// TODO: Implement handle_bp_profile() method.
+		$this->from_options( 'bp_profile' );
 	}
 
 	public function handle_woo_shop() {
@@ -159,6 +159,12 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 		if ( ! $post ) {
 			$post = $this->get_context();
 		}
+		if ( empty( $post->ID ) ) {
+			// Apparently the $post global has empty values on some BuddyPress pages
+			// In such cases use the queried object from $wp_query global
+			$query = $this->get_resolver()->get_query_context();
+			$post = $query->get_queried_object();
+		}
 		if ( is_a( $post, 'WP_Post' ) ) {
 			$this->from_options( $post->post_type );
 
@@ -167,5 +173,11 @@ class Smartcrawl_OpenGraph_Value_Helper extends Smartcrawl_Type_Traverser {
 				$this->from_post_meta( $post );
 			}
 		}
+	}
+
+	private function prepare_value( $value ) {
+		$value = wp_strip_all_tags( trim( strval( $value ) ) );
+
+		return Smartcrawl_Replacement_Helper::replace( $value );
 	}
 }

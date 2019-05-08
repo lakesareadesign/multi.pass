@@ -15,5 +15,3 @@ if ( ! defined( 'LEADIN_UTM_CONTENT' ) ) {
 if ( ! defined( 'LEADIN_UTM_CAMPAIGN' ) ) {
   define( 'LEADIN_UTM_CAMPAIGN', 'one%20click%20updater' );
 }
-
-

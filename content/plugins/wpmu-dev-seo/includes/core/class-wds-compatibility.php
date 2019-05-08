@@ -5,42 +5,13 @@
  *
  * Fixes third-party compatibility issues
  */
-class Smartcrawl_Compatibility {
+class Smartcrawl_Compatibility extends Smartcrawl_Base_Controller {
 	/**
 	 * Singleton instance
 	 *
 	 * @var Smartcrawl_Compatibility
 	 */
 	private static $_instance;
-
-	/**
-	 * Currently running state flag
-	 *
-	 * @var bool
-	 */
-	private $_is_running = false;
-
-	/**
-	 * Constructor
-	 */
-	private function __construct() {
-	}
-
-	/**
-	 * Boot controller listeners
-	 *
-	 * Do it only once, if they're already up do nothing
-	 *
-	 * @return bool Status
-	 */
-	public static function run() {
-		$me = self::get();
-		if ( $me->is_running() ) {
-			return false;
-		}
-
-		return $me->_add_hooks();
-	}
 
 	/**
 	 * Obtain instance without booting up
@@ -55,29 +26,13 @@ class Smartcrawl_Compatibility {
 		return self::$_instance;
 	}
 
-	/**
-	 * Check if we already have the actions bound
-	 *
-	 * @return bool Status
-	 */
-	public function is_running() {
-		return $this->_is_running;
-	}
-
-	/**
-	 * Bind listening actions
-	 *
-	 * @return bool
-	 */
-	private function _add_hooks() {
+	protected function init() {
 		add_action( 'init', array( $this, 'load_divi_in_ajax' ), - 10 );
 		add_action( 'init', array( $this, 'load_wp_bakery_shortcodes' ), - 10 );
 		add_filter( 'wds-omitted-shortcodes', array( $this, 'avada_omitted_shortcodes' ) );
 		add_filter( 'wds-omitted-shortcodes', array( $this, 'divi_omitted_shortcodes' ) );
 		add_filter( 'wds-omitted-shortcodes', array( $this, 'wpbakery_omitted_shortcodes' ) );
 		add_filter( 'wds-omitted-shortcodes', array( $this, 'swift_omitted_shortcodes' ) );
-
-		$this->_is_running = true;
 
 		return true;
 	}

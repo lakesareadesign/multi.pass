@@ -14,99 +14,100 @@ $pinterest_tag = smartcrawl_get_array_value( $options, 'pinterest-verify' );
 $social_page_url = Smartcrawl_Settings_Admin::admin_url( Smartcrawl_Settings::TAB_SOCIAL );
 $social_option_name = Smartcrawl_Settings::TAB_SOCIAL . '_options';
 $settings_option_name = Smartcrawl_Settings::TAB_SETTINGS . '_options';
-$social_enabled = smartcrawl_get_array_value( $options, 'social' );
+$social_enabled = Smartcrawl_Settings::get_setting( 'social' );
 ?>
-<section id="<?php echo esc_attr( Smartcrawl_Settings_Dashboard::BOX_SOCIAL ); ?>" class="dev-box">
-	<div class="box-title">
-		<?php if ( $social_enabled ) : ?>
-			<div class="buttons buttons-icon">
-				<a href="<?php echo esc_attr( $social_page_url ); ?>" class="wds-settings-link">
-					<i class="wds-icon-arrow-right-carats"></i>
-				</a>
-			</div>
-		<?php endif; ?>
-		<h3>
-			<i class="wds-icon-social-twitter"></i> <?php esc_html_e( 'Social', 'wds' ); ?>
+<section id="<?php echo esc_attr( Smartcrawl_Settings_Dashboard::BOX_SOCIAL ); ?>" class="sui-box wds-dashboard-widget">
+	<div class="sui-box-header">
+		<h3 class="sui-box-title">
+			<i class="sui-icon-social-twitter"></i> <?php esc_html_e( 'Social', 'wds' ); ?>
 		</h3>
 	</div>
 
-	<div class="box-content">
+	<div class="sui-box-body">
 		<p><?php esc_html_e( 'Control and optimize how your website appears when shared on social platforms like Facebook and Twitter.', 'wds' ); ?></p>
 
 		<?php if ( $social_enabled ) : ?>
-			<div class="wds-separator-top">
-				<span class="wds-small-text"><strong><?php esc_html_e( 'OpenGraph', 'wds' ); ?></strong></span>
+			<div class="wds-separator-top wds-draw-left-padded">
+				<small><strong><?php esc_html_e( 'OpenGraph', 'wds' ); ?></strong></small>
 				<?php if ( ! $og_enabled ) : ?>
-					<p class="wds-small-text">
-						<?php esc_html_e( 'Add meta data to your pages to make them look great when shared platforms such as Facebook and other popular social networks.', 'wds' ); ?>
+					<p>
+						<small><?php esc_html_e( 'Add meta data to your pages to make them look great when shared platforms such as Facebook and other popular social networks.', 'wds' ); ?></small>
 					</p>
 					<button
-						type="button"
-						data-option-id="<?php echo esc_attr( $social_option_name ); ?>"
-						data-flag="<?php echo 'og-enable'; ?>"
-						class="wds-activate-component button button-small wds-button-with-loader wds-button-with-right-loader wds-disabled-during-request">
+							type="button"
+							data-option-id="<?php echo esc_attr( $social_option_name ); ?>"
+							data-flag="<?php echo 'og-enable'; ?>"
+							class="wds-activate-component wds-disabled-during-request sui-button sui-button-blue">
 
-						<?php esc_html_e( 'Activate', 'wds' ); ?>
+						<span class="sui-loading-text"><?php esc_html_e( 'Activate', 'wds' ); ?></span>
+						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 					</button>
 				<?php else : ?>
-					<span
-						class="wds-box-stat-value wds-box-stat-value-success"><?php esc_html_e( 'Active', 'wds' ); ?></span>
+					<div class="wds-right">
+						<small><?php esc_html_e( 'Active', 'wds' ); ?></small>
+					</div>
 				<?php endif; ?>
 			</div>
 
-			<div class="wds-separator-top">
-				<span class="wds-small-text"><strong><?php esc_html_e( 'Twitter Cards', 'wds' ); ?></strong></span>
+			<div class="wds-separator-top wds-draw-left-padded">
+				<small><strong><?php esc_html_e( 'Twitter Cards', 'wds' ); ?></strong></small>
 				<?php if ( ! $twitter_card_enabled ) : ?>
-					<p class="wds-small-text">
-						<?php esc_attr_e( 'With Twitter Cards, you can attach rich photos, videos and media experiences to Tweets, helping to drive traffic to your website.', 'wds' ); ?>
+					<p>
+						<small><?php esc_attr_e( 'With Twitter Cards, you can attach rich photos, videos and media experiences to Tweets, helping to drive traffic to your website.', 'wds' ); ?></small>
 					</p>
 					<button type="button"
 					        data-option-id="<?php echo esc_attr( $social_option_name ); ?>"
 					        data-flag="<?php echo 'twitter-card-enable'; ?>"
-					        class="wds-activate-component button button-small wds-button-with-loader wds-button-with-right-loader wds-disabled-during-request">
+					        class="wds-activate-component wds-disabled-during-request sui-button sui-button-blue">
 
-						<?php esc_html_e( 'Activate', 'wds' ); ?>
+						<span class="sui-loading-text"><?php esc_html_e( 'Activate', 'wds' ); ?></span>
+						<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 					</button>
 				<?php else : ?>
-					<span class="wds-box-stat-value wds-box-stat-value-success">
-						<?php echo esc_html( $twitter_card_status_text ); ?>
-					</span>
+					<div class="wds-right">
+						<small><?php echo esc_html( $twitter_card_status_text ); ?></small>
+					</div>
 				<?php endif; ?>
 			</div>
 
-			<div class="wds-separator-top">
-				<span class="wds-small-text">
+			<div class="wds-separator-top wds-draw-left-padded">
+				<small>
 					<strong><?php esc_html_e( 'Pinterest Verification', 'wds' ); ?></strong>
-				</span>
+				</small>
 				<?php if ( ! $pinterest_tag || 'fail' === $pinterest_verification_status ) : ?>
-					<p class="wds-small-text">
-						<?php esc_html_e( 'Verify your website with Pinterest to attribute your website when your website content is pinned to the platform.', 'wds' ); ?>
+					<p>
+						<small><?php esc_html_e( 'Verify your website with Pinterest to attribute your website when your website content is pinned to the platform.', 'wds' ); ?></small>
 					</p>
-					<a href="<?php echo esc_attr( $social_page_url ); ?>#tab_pinterest_verification"
-					   class="button button-small">
+					<a href="<?php echo esc_attr( $social_page_url ); ?>&tab=tab_pinterest_verification"
+					   class="sui-button sui-button-blue">
+						<i class="sui-icon-plus" aria-hidden="true"></i>
 
 						<?php esc_html_e( 'Connect', 'wds' ); ?>
 					</a>
 				<?php else : ?>
-					<span
-						class="wds-box-stat-value wds-box-stat-value-success"><?php esc_html_e( 'Verification tag added' ); ?></span>
+					<div class="wds-right">
+						<small><?php esc_html_e( 'Verification tag added' ); ?></small>
+					</div>
 				<?php endif; ?>
 			</div>
+		<?php endif; ?>
+	</div>
 
-			<div class="wds-box-footer">
-				<a href="<?php echo esc_attr( $social_page_url ); ?>"
-				   class="button button-small button-dark button-dark-o wds-dash-configure-button">
-
-					<?php esc_html_e( 'Configure', 'wds' ); ?>
-				</a>
-			</div>
+	<div class="sui-box-footer">
+		<?php if ( $social_enabled ) : ?>
+			<a href="<?php echo esc_attr( $social_page_url ); ?>"
+			   class="sui-button sui-button-ghost">
+				<i class="sui-icon-wrench-tool"
+				   aria-hidden="true"></i> <?php esc_html_e( 'Configure', 'wds' ); ?>
+			</a>
 		<?php else : ?>
 			<button type="button"
 			        data-option-id="<?php echo esc_attr( $settings_option_name ); ?>"
 			        data-flag="<?php echo esc_attr( 'social' ); ?>"
-			        class="wds-activate-component button button-small wds-button-with-loader wds-button-with-right-loader wds-disabled-during-request">
+			        class="wds-activate-component wds-disabled-during-request sui-button sui-button-blue">
 
-				<?php esc_html_e( 'Activate', 'wds' ); ?>
+				<span class="sui-loading-text"><?php esc_html_e( 'Activate', 'wds' ); ?></span>
+				<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 			</button>
 		<?php endif; ?>
 	</div>

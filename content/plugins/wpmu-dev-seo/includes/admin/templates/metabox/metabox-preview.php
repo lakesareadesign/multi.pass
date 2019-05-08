@@ -14,12 +14,12 @@ $post_parent = wp_is_post_revision( $post->ID );
 $link = empty( $post_parent ) ? get_permalink( $post->ID ) : get_permalink( $post_parent );
 $resolver = Smartcrawl_Endpoint_Resolver::resolve();
 $resolver->simulate_post( $post->ID );
-$title = Smartcrawl_OnPage::get()->get_title();
-$description = Smartcrawl_OnPage::get()->get_description();
+$title = Smartcrawl_Meta_Value_Helper::get()->get_title();
+$description = Smartcrawl_Meta_Value_Helper::get()->get_description();
 $resolver->stop_simulation();
 ?>
 <div class="wds-metabox-preview">
-	<label class="wds-label"><?php esc_html_e( 'Google Preview' ); ?></label>
+	<label class="sui-label"><?php esc_html_e( 'Google Preview' ); ?></label>
 
 	<?php
 	if ( apply_filters( 'wds-metabox-visible_parts-preview_area', true ) ) {

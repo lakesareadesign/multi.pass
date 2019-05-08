@@ -28,7 +28,11 @@
 		if ( '' !== $image ) {
 			echo $image;
 		} else {
-			echo FLBuilder::default_image_html( 'fl-post-gallery-img fl-post-gallery-img-horiz wp-post-image' );
+			if ( '' !== $settings->image_fallback_src ) {
+				printf( '<img src="%s" class="fl-post-gallery-img fl-post-gallery-img-horiz wp-post-image" />', $settings->image_fallback_src );
+			} else {
+				echo FLBuilder::default_image_html( 'fl-post-gallery-img fl-post-gallery-img-horiz wp-post-image' );
+			}
 		}
 
 		?>

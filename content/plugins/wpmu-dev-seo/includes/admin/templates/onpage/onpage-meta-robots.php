@@ -8,8 +8,8 @@ if ( ! $items ) {
 
 <?php
 $this->_render( 'toggle-group', array(
-	'label'       => __( 'Indexing', 'wds' ),
-	'description' => __( 'Choose whether you want your website to appear in search results.', 'wds' ),
+	'label'       => esc_html__( 'Indexing', 'wds' ),
+	'description' => esc_html__( 'Choose whether you want your website to appear in search results.', 'wds' ),
 	'separator'   => true,
 	'items'       => $items,
 ) );

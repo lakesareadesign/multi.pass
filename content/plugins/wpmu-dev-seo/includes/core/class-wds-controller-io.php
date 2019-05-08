@@ -70,6 +70,7 @@ class Smartcrawl_Controller_IO extends Smartcrawl_WorkUnit {
 	private function _add_hooks() {
 
 		add_action( 'admin_init', array( $this, 'dispatch_actions' ) );
+		add_action( 'all_admin_notices', array( $this, 'show_notice' ), 10 );
 		add_action( 'wp_ajax_import_yoast_data', array( $this, 'import_yoast_data' ) );
 		add_action( 'wp_ajax_import_aioseop_data', array( $this, 'import_aioseop_data' ) );
 
@@ -357,5 +358,30 @@ class Smartcrawl_Controller_IO extends Smartcrawl_WorkUnit {
 		$options['force-restart'] = (boolean) smartcrawl_get_array_value( $request_data, 'restart' );
 
 		return empty( $options ) ? array() : $options;
+	}
+
+	public function show_notice() {
+		$settings_errors = self::get()->get_errors();
+
+		if (
+			! empty( $_GET['import'] )
+			&& 'success' === $_GET['import']
+		) {
+			$class = 'sui-notice-info';
+			$message = esc_html__( 'Settings successfully imported', 'wds' );
+		} else {
+			// TODO: when SUI adds support for stacked errors, show all of the following instead of just the first
+			$class = 'sui-notice-error';
+			$message = ! empty( $settings_errors )
+				? array_shift( $settings_errors )
+				: '';
+		}
+
+		if ( $message ) {
+			Smartcrawl_Simple_Renderer::render( 'floating-message', array(
+				'class'   => $class,
+				'message' => $message,
+			) );
+		}
 	}
 }

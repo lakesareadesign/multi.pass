@@ -35,19 +35,35 @@ class Hustle_Module_Admin {
 			add_filter( 'admin_body_class', array( $this, 'admin_body_class' ), 99 );
 			add_filter("user_can_richedit", '__return_true'); // allow rich editor in
 			add_filter( 'tiny_mce_before_init', array( $this, 'set_tinymce_settings' ) );
+			add_filter("gform_display_add_form_button", array( $this, 'add_gravity_mce_button' ));
 			add_filter("wp_default_editor", array( $this, 'set_editor_to_tinymce' ));
 			add_filter("tiny_mce_plugins", array( $this, 'remove_despised_editor_plugins' ));
+			add_filter("mce_external_plugins", array( $this, 'remove_all_mce_external_plugins' ), -1);
 
 			// Show upgrade notice only if this is free, and Hustle Pro is not already installed.
 			if ( Opt_In_Utils::_is_free() && ! file_exists( WP_PLUGIN_DIR . '/hustle/opt-in.php' ) ) {
 				add_action( 'admin_notices', array( $this, 'show_hustle_pro_available_notice' ) );
 			}
+
+			add_action( 'admin_notices', array( $this, 'show_integration_success_message' ) );
 		}
 
 		add_filter( 'w3tc_save_options', array( $this, 'filter_w3tc_save_options' ), 10, 1 );
 		add_filter('plugin_action_links', array( $this, 'add_plugin_action_links' ), 10, 5 );
 		add_filter('network_admin_plugin_action_links', array( $this, 'add_plugin_action_links' ), 10, 5 );
 
+	}
+
+	/**
+	 * Removing all MCE external plugins which often break our pages
+	 *
+	 * @since 3.0.8
+	 * @param array $external_plugins External plugins
+	 * @return array
+	 */
+	public function remove_all_mce_external_plugins($external_plugins) {
+		remove_all_filters("mce_external_plugins");
+		return array();
 	}
 
 	// force reject minify for hustle js and css
@@ -81,6 +97,17 @@ class Hustle_Module_Admin {
 		$config['new_config']->set("minify.reject.files.css", $defined_rejected_css);
 
 		return $config;
+	}
+
+	/**
+	 * Add Gravity Form MCE button to our admin pages
+	 *
+	 * @since 3.0.8
+	 * @param bool $bool
+	 * @return boolean
+	 */
+	public function add_gravity_mce_button( $bool ) {
+		return true;
 	}
 
 	/**
@@ -477,9 +504,9 @@ class Hustle_Module_Admin {
 		wp_register_style( 'optin_admin_select2', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/vendor/select2/css/select2.min.css', array(), $this->_hustle->get_const_var( "VERSION" ));
 		wp_register_style( 'wpoi_admin', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/admin.min.css', array(), $this->_hustle->get_const_var( "VERSION" ));
 		wp_register_style( 'hustle_admin_ie', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/css/ie-admin.min.css', array(), $this->_hustle->get_const_var( "VERSION" ));
-		wp_register_style( 'hstl-roboto', 'https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i', $this->_hustle->get_const_var( "VERSION" ) );
-		wp_register_style( 'hstl-opensans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i', $this->_hustle->get_const_var( "VERSION" ) );
-		wp_register_style( 'hstl-source', 'https://fonts.googleapis.com/css?family=Source+Code+Pro', $this->_hustle->get_const_var( "VERSION" ) );
+		wp_register_style( 'hstl-roboto', 'https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i', array(), $this->_hustle->get_const_var( "VERSION" ) );
+		wp_register_style( 'hstl-opensans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i', array(), $this->_hustle->get_const_var( "VERSION" ) );
+		wp_register_style( 'hstl-source', 'https://fonts.googleapis.com/css?family=Source+Code+Pro', array(), $this->_hustle->get_const_var( "VERSION" ) );
 
 		wp_enqueue_style( 'optin_admin_select2' );
 		wp_enqueue_style( 'wp-color-picker' );
@@ -644,6 +671,28 @@ class Hustle_Module_Admin {
 		}
 
 		return $actions;
+	}
+
+
+	/**
+	 * Show success admin notice after integration to Hubspot or ConstantContact
+	 */
+	public function show_integration_success_message() {
+
+		$message = filter_input ( INPUT_GET, 'message', FILTER_SANITIZE_STRING );
+
+		if ( 'hubspot_new_integration' === $message ) {
+			$provider = 'Hubspot';
+		}
+		if ( 'constant_contact_new_integration' === $message ) {
+			$provider = 'ConstantContact';
+		}
+		if ( !empty( $provider ) ) {
+			$message = sprintf( __( "You're successfully connected to your %s account and you need to choose the list to which you want to send data.", Opt_In::TEXT_DOMAIN ), $provider );
+			$html = '<div class="notice notice-success is-dismissible"><p>' . $message . '</p></div>';
+
+			echo $html; // WPCS: XSS ok.
+		}
 	}
 
 	/**

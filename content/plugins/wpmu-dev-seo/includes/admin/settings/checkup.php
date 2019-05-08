@@ -38,35 +38,39 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 	 * @return array Validated input
 	 */
 	public function validate( $input ) {
-		if ( ! empty( $input['email-recipients'] ) && is_array( $input['email-recipients'] ) ) {
-			$result['email-recipients'] = array();
-			foreach ( $input['email-recipients'] as $user ) {
-				if ( ! is_numeric( $user ) ) {
-					$user_obj = get_user_by( 'login', $user );
-					$user = $user_obj->ID;
-				}
+		$result = array();
+		$email_recipients = smartcrawl_get_array_value( $input, 'checkup-email-recipients' );
+		if ( ! empty( $email_recipients ) ) {
+			$sanitized_recipients = array();
+			foreach ( $email_recipients as $recipient ) {
+				$recipient_name = smartcrawl_get_array_value( $recipient, 'name' );
+				$recipient_email = smartcrawl_get_array_value( $recipient, 'email' );
 
-				if ( is_numeric( $user ) ) {
-					$result['email-recipients'][] = (int) $user;
+				if (
+					$recipient_name && $recipient_email
+					&& sanitize_text_field( $recipient_name ) === $recipient_name
+					&& sanitize_email( $recipient_email ) === $recipient_email
+					&& ! self::recipient_exists( $recipient, $sanitized_recipients )
+				) {
+					$sanitized_recipients[] = $recipient;
+				} else {
+					add_settings_error(
+						$this->option_name,
+						'email-recipients-invalid',
+						esc_html__( 'Some email recipients could not be saved.', 'wds' )
+					);
 				}
 			}
-			$result['email-recipients'] = array_values( array_filter( array_unique( $result['email-recipients'] ) ) );
+			$result['checkup-email-recipients'] = $sanitized_recipients;
 		}
-		if ( empty( $result['email-recipients'] ) ) {
+
+		if ( empty( $email_recipients ) ) {
 			$defaults = $this->get_default_options();
-			$result['email-recipients'] = $defaults['email-recipients'];
-
-			add_settings_error(
-				$this->option_name,
-				'email-recipients-required',
-				esc_html__( 'There has to be at least one email recipient. The default recipient has been added back.', 'wds' )
-			);
+			$result['checkup-email-recipients'] = $defaults['checkup-email-recipients'];
 		}
 
-		if ( empty( $input['checkup-cron-enable'] ) ) {
+		if ( empty( $input['checkup-cron-enable'] ) || empty( $email_recipients ) ) {
 			$result['checkup-cron-enable'] = false;
-
-			return $result;
 		} else {
 			$result['checkup-cron-enable'] = true;
 		}
@@ -96,11 +100,11 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 	 */
 	public function get_default_options() {
 		return array(
-			'checkup-cron-enable' => false,
-			'checkup-frequency'   => 'weekly',
-			'checkup-dow'         => rand( 0, 6 ),
-			'checkup-tod'         => rand( 0, 23 ),
-			'email-recipients'    => array( get_current_user_id() ),
+			'checkup-cron-enable'      => false,
+			'checkup-frequency'        => 'weekly',
+			'checkup-dow'              => rand( 0, 6 ),
+			'checkup-tod'              => rand( 0, 23 ),
+			'checkup-email-recipients' => array( self::get_email_recipient( get_current_user_id() ) ),
 		);
 	}
 
@@ -112,23 +116,13 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 		$this->name = Smartcrawl_Settings::COMP_CHECKUP;
 		$this->slug = Smartcrawl_Settings::TAB_CHECKUP;
 		$this->action_url = admin_url( 'options.php' );
-		$this->title = __( 'SEO Checkup', 'wds' );
 		$this->page_title = __( 'SmartCrawl Wizard: SEO Checkup', 'wds' );
 
 		parent::init();
-
-		add_action( 'wp_ajax_wds-checkup-status', array( $this, 'ajax_checkup_status' ) );
 	}
 
-	/**
-	 * Checks checkup service status and sends back percentage.
-	 */
-	public function ajax_checkup_status() {
-		$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
-		$percentage = $service->status();
-		wp_send_json_success( array(
-			'percentage' => $percentage,
-		) );
+	public function get_title() {
+		return __( 'SEO Checkup', 'wds' );
 	}
 
 	/**
@@ -162,12 +156,13 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 		);
 
 		$arguments = array(
-			'options'    => $options,
-			'active_tab' => $this->_get_last_active_tab( 'tab_checkup' ),
+			'options'          => $options,
+			'active_tab'       => $this->_get_active_tab( 'tab_checkup' ),
+			'email_recipients' => self::get_email_recipients(),
 		);
 
 		$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_CHECKUP );
-		wp_enqueue_script( 'wds-admin-checkup' );
+		wp_enqueue_script( Smartcrawl_Controller_Assets::CHECKUP_PAGE_JS );
 
 		$this->_render_page( 'checkup/checkup-settings', $arguments );
 	}
@@ -192,4 +187,53 @@ class Smartcrawl_Checkup_Settings extends Smartcrawl_Settings_Admin {
 		}
 	}
 
+	/**
+	 * Since 2.3.0 email recipients are stored as simple Name, Email pairs.
+	 * Prior to this recipients were stored as an array of user IDs. This method merges the two formats into a single array.
+	 *
+	 * @return array
+	 */
+	public static function get_email_recipients() {
+		$email_recipients = array();
+		$options = Smartcrawl_Settings::get_component_options( self::COMP_CHECKUP );
+		$new_recipients = empty( $options['checkup-email-recipients'] )
+			? array()
+			: $options['checkup-email-recipients'];
+		$old_recipients = empty( $options['email-recipients'] )
+			? array()
+			: $options['email-recipients'];
+
+		foreach ( $old_recipients as $user_id ) {
+			if ( ! is_numeric( $user_id ) ) {
+				continue;
+			}
+			$old_recipient = self::get_email_recipient( $user_id );
+			if ( self::recipient_exists( $old_recipient, $new_recipients ) ) {
+				continue;
+			}
+
+			$email_recipients[] = $old_recipient;
+		}
+
+		return array_merge(
+			$email_recipients,
+			$new_recipients
+		);
+	}
+
+	private static function recipient_exists( $recipient, $recipient_array ) {
+		$emails = array_column( $recipient_array, 'email' );
+		$needle = (string) smartcrawl_get_array_value( $recipient, 'email' );
+
+		return in_array( $needle, $emails, true );
+	}
+
+	private static function get_email_recipient( $user_id ) {
+		$user = Smartcrawl_Model_User::get( $user_id );
+		$email_details = array(
+			'name'  => $user->get_display_name(),
+			'email' => $user->get_email(),
+		);
+		return $email_details;
+	}
 }

@@ -76,6 +76,9 @@
 
 
 				me.maybeRenderRecaptcha( module, $this );
+				if ( 'function' === typeof Optin.render_hustle_sshare_module_embeds ) {
+					Optin.render_hustle_sshare_module_embeds( false );
+				}
 
 				// supply with provider args
 				if ( typeof module.content.args !== 'undefined' && module.content.args !== null && typeof module.content.active_email_service !== 'undefined' ) {

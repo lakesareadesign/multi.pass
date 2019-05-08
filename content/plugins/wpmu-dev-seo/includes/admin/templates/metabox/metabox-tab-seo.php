@@ -1,25 +1,12 @@
 <?php
-$post = empty( $post ) ? null : $post;
+$seo_sections = empty( $seo_sections ) ? array() : $seo_sections;
+if ( empty( $seo_sections ) ) {
+	return;
+}
 ?>
 
 <div class="wds-form">
-	<div class="wds-metabox-section">
-		<?php
-		$this->_render( 'metabox/metabox-dummy-preview' );
-		?>
-
-		<?php $this->_render( 'metabox/metabox-meta-edit-form', array(
-			'post' => $post,
-		) ); ?>
-	</div>
-
-	<?php if ( Smartcrawl_Settings::get_setting( 'analysis-seo' ) ) { ?>
-		<div class="wds-metabox-section">
-			<?php
-			$this->_render( 'metabox/metabox-seo-analysis-container', array(
-				'post' => $post,
-			) );
-			?>
-		</div>
-	<?php } ?>
+	<?php foreach ( $seo_sections as $template => $args ) {
+		$this->_render( $template, $args );
+	} ?>
 </div>

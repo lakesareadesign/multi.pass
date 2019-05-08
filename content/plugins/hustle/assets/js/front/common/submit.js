@@ -49,14 +49,15 @@
 
 	$(document).on("submit", 'form.hustle-modal-optin_form',function(e){
 		e.preventDefault();
-
+			// obtain unique_id and append to gdpr 
 		var $form = $(e.target),
 			$button = $form.find("button"),
 			$modal = $form.closest( '.hustle-modal'),
 			$modal_parent = $modal.parent(),
 			g_recaptcha = $modal.find('.g-recaptcha-response').val(),
 			module_id = $modal_parent.data( 'id'),
-			gdpr = $modal.find('#hustle-modal-gdpr-' + module_id + ':checked').val(),
+			unique_id = $modal_parent.data( 'unique_id'),
+			gdpr = $modal.find('#hustle-modal-gdpr-' + module_id + '-' + unique_id + ':checked').val(),
 			type = $modal_parent.data('type'),
 			module = _.find(Modules, function ( mod, key ) {
 				return module_id === parseInt( mod[ 'module_id' ] );
@@ -90,7 +91,7 @@
 		$form.addClass("hustle-onload");
 
 		$form.data("sending", true);
-
+		
 		$.ajax({
 			type: "POST",
 			url: inc_opt.ajaxurl,

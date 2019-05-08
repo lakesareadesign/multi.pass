@@ -157,8 +157,8 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 			$saved_username = Hustle_Icontact::_get_username( $module );
 			$saved_password = Hustle_Icontact::_get_password( $module );
 		} else {
-			$saved_api_key = '';
-			$saved_ac_url = '';
+			$saved_app_id = '';
+			$saved_username = '';
 			$saved_password = '';
 		}
 		$app_id     = ! isset( $submitted_data['app_id'] ) ? $saved_app_id : $submitted_data['app_id'];
@@ -415,14 +415,11 @@ class Hustle_Icontact_Form_Settings extends Hustle_Provider_Form_Settings_Abstra
 		if ( isset( $submitted_data['module_id'] ) ) {
 			$module_id = $submitted_data['module_id'];
 			$module = Hustle_Module_Model::instance()->get( $module_id );
-			//$saved_api_key = Hustle_Icontact::_get_api_key( $module );
 			$saved_auto_optin = Hustle_Icontact::_get_auto_optin( $module );
 		} else {
-			//$saved_api_key = '';
 			$saved_auto_optin = '';
 		}
 
-		//$api_key    = ! isset( $submitted_data['api_key'] ) ? $saved_api_key : $submitted_data['api_key'];
 		$checked = ! isset( $submitted_data['auto_optin'] ) ? $saved_auto_optin : $submitted_data['auto_optin'];
 		$is_double_optin_enabled = ( 'pending' === $checked || '1' === $checked ) ? true : false;
 

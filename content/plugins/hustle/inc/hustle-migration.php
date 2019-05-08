@@ -1459,7 +1459,8 @@ class Hustle_Migration {
 	 */
 	private function _get_trigger_settings( WP_Post $popup ){
 		$popup_id = $popup->ID;
-		$saved_settings = (array) maybe_unserialize( get_post_meta( $popup_id, "po_display_data", true ) );
+		$raw_settings = get_post_meta( $popup_id, "po_display_data", true );
+		$saved_settings = is_serialized( $raw_settings ) ? json_decode( $raw_settings, true ) : (array) $raw_settings;
 		$triggers = array();
 
 		$display = get_post_meta( $popup_id, 'po_display', true );
@@ -1494,8 +1495,10 @@ class Hustle_Migration {
 	private function _get_conditions_settings( WP_Post $popup ){
 		$conditions = array();
 		$popup_id = $popup->ID;
-		$rules = (array) maybe_unserialize( get_post_meta( $popup_id, "po_rule", true ) );
-		$rules_data = (array) maybe_unserialize( get_post_meta( $popup_id, "po_rule_data", true ) );
+		$raw_rules = get_post_meta( $popup_id, "po_rule", true );
+		$rules = is_serialized( $raw_rules ) ? json_decode( $raw_rules, true ) : (array) $raw_rules;
+		$raw_rules_data = get_post_meta( $popup_id, "po_rule_data", true );
+		$rules_data = is_serialized( $raw_rules_data ) ? json_decode( $raw_rules_data, true ) : (array) $raw_rules_data;
 
 		$map = array(
 			"login" => "visitor_logged_in",

@@ -103,8 +103,7 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 
 		add_action( 'init', array( $this, 'defaults' ), 999 );
 		add_action( 'admin_body_class', array( $this, 'add_body_class' ), 20 );
-
-		add_action( 'admin_init', array( $this, 'save_last_active_tab' ) );
+		add_action( 'all_admin_notices', array( $this, 'add_settings_message' ), 10 );
 
 		if ( is_multisite() ) {
 			add_action( 'network_admin_menu', array( $this, 'add_page' ) );
@@ -113,6 +112,37 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 			add_action( 'admin_menu', array( $this, 'add_page' ) );
 		}
 
+	}
+
+	private function is_current_screen() {
+		$screen = get_current_screen();
+		return ! empty( $screen->id )
+		       && ! empty( $this->smartcrawl_page_hook )
+		       && strpos( $screen->id, $this->smartcrawl_page_hook ) === 0;
+	}
+
+	public function add_settings_message() {
+		$settings_errors = empty( $this->option_name ) ? array() : get_settings_errors( $this->option_name );
+		if ( ! $this->is_current_screen() ) {
+			return;
+		}
+		if ( empty( $settings_errors ) && empty( $_GET['settings-updated'] ) ) {
+			return;
+		}
+
+		if ( empty( $settings_errors ) ) {
+			$class = 'sui-notice-info';
+			$message = esc_html__( 'Settings updated', 'wds' );
+		} else {
+			$settings_error = array_shift( $settings_errors );
+			$class = 'sui-notice-error';
+			$message = $settings_error['message'];
+		}
+
+		$this->_render( 'floating-message', array(
+			'class'   => $class,
+			'message' => $message,
+		) );
 	}
 
 	/**
@@ -175,7 +205,7 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 		$this->smartcrawl_page_hook = add_submenu_page(
 			'wds_wizard',
 			$this->page_title,
-			$this->title,
+			$this->get_title(),
 			$this->capability,
 			$this->slug,
 			array( $this, 'options_page' )
@@ -186,12 +216,10 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 			add_action( 'load-' . $this->smartcrawl_page_hook, array( $this, 'process_run_action' ) );
 		}
 
-		add_action( 'admin_enqueue_scripts', array( $this, 'register_admin_scripts' ) );
-
 		add_action( "admin_print_styles-{$this->smartcrawl_page_hook}", array( $this, 'admin_styles' ) );
-		add_action( "admin_print_scripts-{$this->smartcrawl_page_hook}", array( $this, 'admin_scripts' ) );
-
 	}
+
+	abstract public function get_title();
 
 	/**
 	 * Check if the current tab (settings page) is allowed for access
@@ -235,334 +263,24 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 			return false;
 		}
 
+		// SEO checkup not supported on sub-sites
+		if ( $tab === self::TAB_CHECKUP && ! is_main_site() ) {
+			return false;
+		}
+
+		// Dashboard shown on all sub-sites
+		if ( $tab === self::TAB_DASHBOARD ) {
+			return true;
+		}
+
 		return in_array( $tab, array_keys( $allowed ), true ) && ! empty( $allowed[ $tab ] );
-	}
-
-	/**
-	 * Registers the known scripts on admin side.
-	 */
-	public function register_admin_scripts() {
-		// Do the globals first.
-		self::register_global_admin_scripts();
-
-		$version = Smartcrawl_Loader::get_version();
-		if ( class_exists( 'Smartcrawl_Onpage_Settings' ) && ! wp_script_is( 'wds-admin-macros', 'registered' ) ) {
-			wp_register_script( 'wds-admin-macros', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-macros.js', array(
-				'underscore',
-				'jquery',
-				'wds-admin',
-			), $version );
-			wp_localize_script( 'wds-admin-macros', '_wds_macros', array(
-				'macros'    => Smartcrawl_Onpage_Settings::get_macros(),
-				'templates' => array(
-					'list' => $this->_load( 'onpage/underscore-macros-list' ),
-				),
-				'strings'   => array(
-					'Insert dynamic macro' => __( 'Insert dynamic macro', 'wds' ),
-				),
-			) );
-		}
-
-		if ( ! wp_script_is( 'wds-admin-keywords', 'registered' ) ) {
-			wp_register_script( 'wds-admin-keywords', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-keywords.js', array(
-				'underscore',
-				'jquery',
-				'wds-admin',
-			), $version );
-			wp_localize_script( 'wds-admin-keywords', '_wds_keywords', array(
-				'templates' => array(
-					'custom' => $this->_load( 'advanced-tools/underscore-keywords-custom' ),
-					'pairs'  => $this->_load( 'advanced-tools/underscore-keywords-pairs' ),
-					'form'   => $this->_load( 'advanced-tools/underscore-keywords-form' ),
-				),
-				'strings'   => array(
-					'Keyword'                           => __( 'Keyword', 'wds' ),
-					'Auto-Linked URL'                   => __( 'Auto-Linked URL', 'wds' ),
-					'Add New'                           => __( 'Add New', 'wds' ),
-					'Add Custom Keywords'               => __( 'Add Custom Keywords', 'wds' ),
-					'Update Custom Keywords'            => __( 'Update Custom Keywords', 'wds' ),
-					'Add'                               => __( 'Add', 'wds' ),
-					'Update'                            => __( 'Update', 'wds' ),
-					'Edit'                              => __( 'Edit', 'wds' ),
-					'Remove'                            => __( 'Remove', 'wds' ),
-					'E.g. Cats, Kittens, Felines'       => __( 'E.g. Cats, Kittens, Felines', 'wds' ),
-					'E.g. /cats'                        => __( 'E.g. /cats', 'wds' ),
-					'Keyword group'                     => __( 'Keyword group', 'wds' ),
-					'- Usually related terms'           => __( '- Usually related terms', 'wds' ),
-					'Link URL'                          => __( 'Link URL', 'wds' ),
-					'internal-external-links-supported' => __( '- Both internal and external links are supported', 'wds' ),
-					'choose-your-keywords-and-url'      => __( 'Choose your keywords, and then specify the URL to auto-link to.', 'wds' ),
-					'url-formats-explanation'           => __( 'Formats include relative (E.g. <b>/cats</b>) or absolute URLs (E.g. <b>www.website.com/cats</b> or <b>https://website.com/cats</b>).', 'wds' ),
-					'Cancel'                            => __( 'Cancel', 'wds' ),
-				),
-			) );
-		}
-
-		if ( class_exists( 'Smartcrawl_Autolinks_Settings' ) && ! wp_script_is( 'wds-admin-postlist', 'registered' ) ) {
-			wp_register_script( 'wds-admin-postlist', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-postlist.js', array(
-				'underscore',
-				'jquery',
-				'wds-admin',
-			), $version );
-			wp_localize_script( 'wds-admin-postlist', '_wds_postlist', array(
-				'templates'  => array(
-					'exclude'            => $this->_load( 'advanced-tools/underscore-postlist-exclusion' ),
-					'exclude-item'       => $this->_load( 'advanced-tools/underscore-postlist-exclusion-item' ),
-					'selector'           => $this->_load( 'advanced-tools/underscore-postlist-selector' ),
-					'selector-list'      => $this->_load( 'advanced-tools/underscore-postlist-selector-list' ),
-					'selector-list-item' => $this->_load( 'advanced-tools/underscore-postlist-selector-list-item' ),
-				),
-				'post_types' => Smartcrawl_Autolinks_Settings::get_post_types(),
-				'strings'    => array(
-					'Add Posts'                          => __( 'Add Posts', 'wds' ),
-					'Remove'                             => __( 'Remove', 'wds' ),
-					'Post'                               => __( 'Post', 'wds' ),
-					'Post Type'                          => __( 'Post Type', 'wds' ),
-					'Loading post items, please hold on' => __( 'Loading post items, please hold on...', 'wds' ),
-					'Jump to page'                       => __( 'Jump to page:', 'wds' ),
-					'Total Pages'                        => __( 'Total Pages:', 'wds' ),
-				),
-				'nonce'      => wp_create_nonce( 'wds-autolinks-nonce' ),
-			) );
-		}
-
-		if ( class_exists( 'Smartcrawl_Autolinks_Settings' ) && ! wp_script_is( 'wds-admin-autolinks', 'registered' ) ) {
-			wp_register_script( 'wds-admin-autolinks', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-autolinks.js', array(
-				'underscore',
-				'jquery',
-				'wds-admin',
-				'wds-select2',
-				'wds-select2-admin',
-				'wds-admin-keywords',
-				'wds-admin-postlist',
-			), $version );
-		}
-
-		if ( 'Smartcrawl_Autolinks_Settings' === get_class( $this ) && ! wp_script_is( 'wds-admin-redirects', 'registered' ) ) {
-			wp_register_script( 'wds-admin-redirects', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-redirects.js', array(
-				'underscore',
-				'jquery',
-				'wds-admin',
-				'wds-select2',
-				'wds-select2-admin',
-			), $version );
-
-			wp_localize_script( 'wds-admin-redirects', '_wds_redirects', array(
-				'templates' => array(
-					'redirect-item' => $this->_load( 'advanced-tools/underscore-redirect-item' ),
-					'update-form'   => $this->_load( 'advanced-tools/underscore-bulk-update-form' ),
-				),
-				'strings'   => array(
-					'Permanent (301)'                        => __( 'Permanent (301)', 'wds' ),
-					'Temporary (302)'                        => __( 'Temporary (302)', 'wds' ),
-					'Options'                                => __( 'Options', 'wds' ),
-					'Remove'                                 => __( 'Remove', 'wds' ),
-					'Cancel'                                 => __( 'Cancel', 'wds' ),
-					'Update'                                 => __( 'Update', 'wds' ),
-					'Redirect Type'                          => __( 'Redirect Type', 'wds' ),
-					'New URL'                                => __( 'New URL', 'wds' ),
-					'Bulk Update'                            => __( 'Bulk Update', 'wds' ),
-					'Please select some items to edit them.' => __( 'Please select some items to edit them.', 'wds' ),
-				),
-			) );
-		}
-
-		if ( class_exists( 'Smartcrawl_Onpage_Settings' ) && ! wp_script_is( 'wds-admin-onpage', 'registered' ) ) {
-			wp_register_script( 'wds-admin-onpage', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-onpage.js', array(
-				'wds-admin-macros',
-				'wds-admin-opengraph',
-				'wds-qtip2-script',
-				'jquery',
-			), $version );
-
-			wp_localize_script( 'wds-admin-onpage', '_wds_onpage', array(
-				'nonce' => wp_create_nonce( 'wds-onpage-nonce' ),
-			) );
-		}
-
-		if ( class_exists( 'Smartcrawl_Sitemap_Settings' ) && ! wp_script_is( 'wds-admin-sitemaps', 'registered' ) ) {
-			wp_register_script( 'wds-admin-sitemaps', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-sitemaps.js', array(
-				'wds-admin',
-				'wds-qtip2-script',
-				'jquery',
-			), $version );
-
-			wp_localize_script( 'wds-admin-sitemaps', '_wds_sitemaps', array(
-				'nonce' => wp_create_nonce( 'wds-nonce' ),
-			) );
-		};
-
-		if ( class_exists( 'Smartcrawl_Settings_Dashboard' ) && ! wp_script_is( 'wds-admin-dashboard', 'registered' ) ) {
-			wp_register_script( 'wds-admin-dashboard', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-dashboard.js', array(
-				'wds-admin',
-				'wds-qtip2-script',
-				'jquery',
-			), $version );
-
-			wp_localize_script( 'wds-admin-dashboard', '_wds_dashboard', array(
-				'nonce' => wp_create_nonce( 'wds-nonce' ),
-			) );
-		};
-
-		if ( class_exists( 'Smartcrawl_Checkup_Settings' ) && ! wp_script_is( 'wds-admin-checkup', 'registered' ) ) {
-			wp_register_script( 'wds-admin-checkup', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-checkup.js', array(
-				'wds-admin',
-				'wds-qtip2-script',
-				'jquery',
-			), $version );
-		};
-
-		if ( class_exists( 'Smartcrawl_Social_Settings' ) && ! wp_script_is( 'wds-admin-social', 'registered' ) ) {
-			wp_register_script( 'wds-admin-social', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-social.js', array(
-				'wds-admin',
-				'wds-qtip2-script',
-				'jquery',
-			), $version );
-		};
-
-		if ( class_exists( 'Smartcrawl_Settings_Settings' ) && ! wp_script_is( 'wds-admin-settings', 'registered' ) ) {
-			wp_register_script( 'wds-third-party-import', SMARTCRAWL_PLUGIN_URL . 'js/wds-third-party-import.js', array(
-				'wds-admin',
-				'underscore',
-				'jquery',
-			), $version );
-
-			wp_localize_script( 'wds-third-party-import', '_wds_import', array(
-				'templates' => array(
-					'import-options'        => $this->_load( 'settings/underscore-import-options' ),
-					'import-error'          => $this->_load( 'settings/underscore-import-error' ),
-					'import-progress'       => $this->_load( 'settings/underscore-import-progress' ),
-					'import-progress-reset' => $this->_load( 'settings/underscore-progress-reset' ),
-					'import-success'        => $this->_load( 'settings/underscore-import-success' ),
-				),
-				'strings'   => array(
-					'Yoast'          => esc_html__( 'Yoast', 'wds' ),
-					'All In One SEO' => esc_html__( 'All In One SEO', 'wds' ),
-				),
-				'nonce'     => wp_create_nonce( 'wds-io-nonce' ),
-			) );
-
-			wp_register_script( 'wds-admin-settings', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-settings.js', array(
-				'wds-admin',
-				'wds-third-party-import',
-				'wds-qtip2-script',
-				'jquery',
-			), $version );
-		};
-	}
-
-	/**
-	 * Registers the scripts with global admin functionality
-	 */
-	public static function register_global_admin_scripts() {
-		$version = Smartcrawl_Loader::get_version();
-		if ( ! wp_script_is( 'wds-admin', 'registered' ) ) {
-			wp_register_script( 'wds-admin', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin.js', array( 'jquery' ), $version );
-
-			wp_localize_script( 'wds-admin', '_wds_admin', array(
-				'nonce' => wp_create_nonce( 'wds-admin-nonce' ),
-			) );
-		}
-
-		if ( ! wp_script_is( 'wds-admin-opengraph', 'registered' ) ) {
-			wp_register_script( 'wds-admin-opengraph', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-opengraph.js', array(
-				'underscore',
-				'jquery',
-				'wds-admin',
-			), $version );
-		}
-
-		if ( ! wp_script_is( 'wds-select2', 'registered' ) ) {
-			wp_register_script( 'wds-select2', SMARTCRAWL_PLUGIN_URL . 'js/external/select2.min.js', array( 'jquery' ), $version );
-		}
-
-		if ( ! wp_script_is( 'wds-qtip2-script', 'registered' ) ) {
-			wp_register_script( 'wds-qtip2-script', SMARTCRAWL_PLUGIN_URL . 'js/external/jquery.qtip.min.js', array( 'jquery' ), $version );
-		}
-
-		wp_register_style( 'wds-admin-opengraph', SMARTCRAWL_PLUGIN_URL . '/css/wds-opengraph.css', null, $version );
-
-		wp_register_style( 'wds-qtip2-style', SMARTCRAWL_PLUGIN_URL . '/css/external/jquery.qtip.min.css', null, $version );
-
-		wp_register_style( 'wds-select2', SMARTCRAWL_PLUGIN_URL . 'css/external/select2.min.css', null, $version );
-
-		wp_register_style( 'wds-app', SMARTCRAWL_PLUGIN_URL . 'css/app.css', array( 'wds-qtip2-style' ), $version );
 	}
 
 	/**
 	 * Enqueue styles
 	 */
 	public function admin_styles() {
-		$version = Smartcrawl_Loader::get_version();
-
-		$this->enqueue_shared_ui();
-
-		wp_enqueue_style( 'wds-qtip2-style' );
-		wp_enqueue_style( 'wds-select2' );
-		wp_enqueue_style( 'wds-app' );
-
-		if ( file_exists( SMARTCRAWL_PLUGIN_DIR . 'css/' . $this->name . '.css' ) ) {
-			wp_enqueue_style( $this->slug, SMARTCRAWL_PLUGIN_URL . 'css/' . $this->name . '.css', array( 'wds' ), $version );
-		}
-	}
-
-	/**
-	 * Sets up and enqueues shared UI library
-	 *
-	 * @param bool $add_class Whether to add admin body class to the current page.
-	 */
-	public static function enqueue_shared_ui( $add_class = true ) {
-		$version = Smartcrawl_Loader::get_version();
-		if ( $add_class ) {
-			add_filter(
-				'admin_body_class',
-				array( 'WDEV_Plugin_Ui', 'admin_body_class' )
-			);
-		}
-
-		/**
-		 * Enqueue Dashboard UI Shared Lib.
-		 * We are doing it this way instead of calling WDEV_Plugin_Ui::load because we want to clear out the cache
-		 * by changing the version.
-		 */
-		$shared_ui_url = SMARTCRAWL_PLUGIN_URL . 'admin/shared-ui';
-		wp_enqueue_style(
-			'wdev-plugin-google_fonts',
-			'https://fonts.googleapis.com/css?family=Roboto+Condensed:400,700|Roboto:400,500,300,300italic',
-			false,
-			$version
-		);
-
-		wp_enqueue_style(
-			'wdev-plugin-ui',
-			$shared_ui_url . '/wdev-ui.css',
-			array( 'wdev-plugin-google_fonts' ),
-			$version
-		);
-
-		wp_enqueue_script(
-			'wdev-plugin-ui',
-			$shared_ui_url . '/wdev-ui.js',
-			array( 'jquery' ),
-			$version
-		);
-	}
-
-	/**
-	 * Enqueue scripts
-	 */
-	public function admin_scripts() {
-		$version = Smartcrawl_Loader::get_version();
-
-		wp_enqueue_script( 'wds' );
-
-		wp_enqueue_script( 'wds-select2' );
-		wp_enqueue_script( 'wds-select2-admin', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-select2.js', array( 'wds-select2' ), $version );
-
-		if ( file_exists( SMARTCRAWL_PLUGIN_DIR . 'js/' . $this->name . '.js' ) ) {
-			wp_enqueue_script( $this->slug, SMARTCRAWL_PLUGIN_URL . 'js/' . $this->name . '.js', array( 'wds' ), $version );
-		}
-
+		wp_enqueue_style( Smartcrawl_Controller_Assets::APP_CSS );
 	}
 
 	/**
@@ -621,33 +339,17 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 	/**
 	 * Adds body class
 	 *
-	 * @TODO: Apparently a no-op?
-	 *
-	 * @param string $class Class that's being processed.
+	 * @param string $classes Class that's being processed.
 	 *
 	 * @return string
 	 */
-	public function add_body_class( $class ) {
-		global $current_screen;
-
-		if ( str_replace( '-network', '', $current_screen->id ) === $this->smartcrawl_page_hook ) {
-			return $class;
-		} else {
-			return $class;
+	public function add_body_class( $classes ) {
+		$sui_class = smartcrawl_sui_class();
+		if ( $this->is_current_screen() && strpos( $classes, $sui_class ) === false ) {
+			$classes .= " {$sui_class} ";
 		}
-	}
 
-	/**
-	 * On form submission, this method saves the last active tab in a transient so that it can be opened when the page is refreshed.
-	 */
-	public function save_last_active_tab() {
-		$data = isset( $_POST['_wpnonce'], $_POST['option_page'] ) && wp_verify_nonce( $_POST['_wpnonce'], $_POST['option_page'] . '-options' )
-			? stripslashes_deep( $_POST )
-			: array();
-
-		if ( isset( $data['wds-admin-active-tab'] ) ) {
-			set_transient( 'wds-admin-active-tab', sanitize_key( $data['wds-admin-active-tab'] ), 10 );
-		}
+		return $classes;
 	}
 
 	/**
@@ -661,10 +363,15 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 	 * @return bool
 	 */
 	protected function _render_page( $view, $args = array() ) {
-		WDEV_Plugin_Ui::output();
 		$this->_render( $view, $args );
 
 		return true;
+	}
+
+	protected function settings_fields( $option_group ) {
+		echo "<input type='hidden' name='option_page' value='" . esc_attr( $option_group ) . "' />";
+		echo '<input type="hidden" name="action" value="update" />';
+		wp_nonce_field( "$option_group-options", "_wpnonce", false );
 	}
 
 	/**
@@ -675,6 +382,7 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 	protected function _get_view_defaults() {
 		$errors = get_transient( 'wds-settings-save-errors' );
 		$errors = ! empty( $errors ) ? $errors : array();
+		$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SITE );
 
 		return array(
 			'_view' => array(
@@ -685,6 +393,7 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 				'action_url'  => $this->action_url,
 				'msg'         => $this->msg,
 				'errors'      => $errors,
+				'is_member'   => $service->is_member(),
 			),
 		);
 	}
@@ -696,10 +405,9 @@ abstract class Smartcrawl_Settings_Admin extends Smartcrawl_Settings {
 	 *
 	 * @return string The last active tab.
 	 */
-	protected function _get_last_active_tab( $default = '' ) {
-		$active_tab = get_transient( 'wds-admin-active-tab' );
-		delete_transient( 'wds-admin-active-tab' );
-
-		return $active_tab ? $active_tab : $default;
+	protected function _get_active_tab( $default = '' ) {
+		return empty( $_GET['tab'] )
+			? $default
+			: $_GET['tab'];
 	}
 }

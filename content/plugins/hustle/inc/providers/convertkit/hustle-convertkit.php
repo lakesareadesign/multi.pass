@@ -70,7 +70,8 @@ class Hustle_ConvertKit extends Hustle_Provider_Abstract {
 	 * Provider constructor.
 	 */
 	public function __construct() {
-		$this->_icon = plugin_dir_path( __FILE__ ) . 'views/icon.php';
+		$this->_icon = plugin_dir_url( __FILE__ ) . 'images/logo.png';
+		$this->_icon_x2 = plugin_dir_url( __FILE__ ) . 'images/logo.png';
 	}
 
 	/**

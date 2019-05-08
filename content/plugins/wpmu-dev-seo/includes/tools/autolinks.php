@@ -15,7 +15,7 @@
  * @package SmartCrawl
  * @since 0.1
  */
-class Smartcrawl_Autolinks {
+class Smartcrawl_Autolinks extends Smartcrawl_Base_Controller { // phpcs:ignore -- We have two versions of this class
 
 	/**
 	 * Singleton instance
@@ -30,19 +30,18 @@ class Smartcrawl_Autolinks {
 	 */
 	private $settings = array();
 
-	/**
-	 * Constructor
-	 */
-	private function __construct() {
-		if ( Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SITE )->is_member() ) {
-			$this->init();
-		}
+	private $backup_links = array();
+
+	public function should_run() {
+		return Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SITE )->is_member()
+		       && Smartcrawl_Settings::get_setting( 'autolinks' )
+		       && smartcrawl_is_allowed_tab( Smartcrawl_Settings::TAB_AUTOLINKS );
 	}
 
 	/**
 	 * Initialization method
 	 */
-	public function init() {
+	protected function init() {
 		$smartcrawl_options = Smartcrawl_Settings::get_options();
 
 		$this->settings = $smartcrawl_options;
@@ -62,11 +61,6 @@ class Smartcrawl_Autolinks {
 		add_action( 'save_post', array( $this, 'delete_cache' ) );
 	}
 
-	/**
-	 * Singleton instance getter
-	 *
-	 * @return Smartcrawl_Autolinks
-	 */
 	public static function get() {
 		if ( ! self::$_instance ) {
 			self::$_instance = new self();
@@ -137,8 +131,9 @@ class Smartcrawl_Autolinks {
 	}
 
 	private function is_utf8_matching_enabled() {
+		$utf8_variations = array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' );
 		$is_utf8_site = ( ! defined( 'DB_CHARSET' ) || strpos( DB_CHARSET, 'utf8' ) !== false )
-		                && in_array( get_option( 'blog_charset', '' ), array( 'utf8', 'utf-8', 'UTF8', 'UTF-8' ) );
+		                && in_array( get_option( 'blog_charset', '' ), $utf8_variations, true );
 
 		return apply_filters( 'wds-autolinks-utf8-matching-enabled', $is_utf8_site );
 	}
@@ -177,6 +172,35 @@ class Smartcrawl_Autolinks {
 		return $result;
 	}
 
+	private function backup_links( $text ) {
+		$this->backup_links = array();
+		$utf = $this->is_utf8_matching_enabled() ? 'u' : '';
+
+		return preg_replace_callback(
+			"/<\s*a[^>]*>.*?<\s*\/a\s*>/is$utf",
+			array( $this, 'replace_link_with_placeholder' ),
+			$text
+		);
+	}
+
+	private function restore_links( $text ) {
+		return str_replace(
+			array_keys( $this->backup_links ),
+			array_values( $this->backup_links ),
+			$text
+		);
+	}
+
+	private function replace_link_with_placeholder( $matches ) {
+		$link = $matches[0];
+		$link_hash = md5( $link );
+		$placeholder = "WDS_LINK_PLACEHOLDER_$link_hash";
+
+		$this->backup_links[ $placeholder ] = $link;
+
+		return $placeholder;
+	}
+
 	/**
 	 * Text processing method
 	 *
@@ -194,7 +218,8 @@ class Smartcrawl_Autolinks {
 
 		$links = 0;
 
-		if ( is_feed() && ! $options['allowfeed'] ) {
+		$allow_feed = (boolean) smartcrawl_get_array_value( $options, 'allowfeed' );
+		if ( is_feed() && ! $allow_feed ) {
 			return $text;
 		} elseif ( isset( $options['onlysingle'] ) && ! ( is_single() || is_page() ) ) {
 			return $text;
@@ -230,7 +255,8 @@ class Smartcrawl_Autolinks {
 
 		$urls = array();
 
-		$arrignore = $this->explode_trim( ',', ( $options['ignore'] ) );
+		$ignores = (string) smartcrawl_get_array_value( $options, 'ignore' );
+		$arrignore = $this->explode_trim( ',', $ignores );
 		if ( empty( $options['casesens'] ) ) {
 			$arrignore = array_map( 'strtolower', $arrignore );
 		}
@@ -241,11 +267,24 @@ class Smartcrawl_Autolinks {
 			), $text );
 		}
 
-		// Fix by Daniel Speichert.
-		$reg_post = ! empty( $options['casesens'] )
-			? '/(?!(?:[^<]+[>]+|[^>]+<\/a>|[^>]+<\/script>|[\[\]]+))(^|\b|[^<\p{L}\/>])($name)([^\p{L}\/>]|\b|$)/msU'
-			: '/(?!(?:[^<]+[>]+|[^>]+<\/a>|[^>]+<\/script>|[\[\]]+))(^|\b|[^<\p{L}\/>])($name)([^\p{L}\/>]|\b|$)/imsU';
+		// Backup any existing links because we don't want to mess those up
+		$text = $this->backup_links( $text );
 
+		// Don't match ...
+		$lookahead_parts = array(
+			'[^<]+[>]+',        // ... name of HTML tags e.g. block in <blockquote>
+			'[^>]+<\/a>',       // ... text that is already linked e.g. hello in <a>hello</a>
+			'[^>]+<\/script>',  // ... anything in script tags e.g. hello in <script>alert('hello');</script>
+			'[^>]+<\/style>',   // ... anything in style tags e.g. hello in <style>.hello {display:none}</style>
+			'[\[\]]+',          // ... TODO see what this one does
+		);
+		$negative_lookahead = join( '|', $lookahead_parts );
+		$negative_lookahead = "(?!(?:$negative_lookahead))";
+
+		$reg_post = "/$negative_lookahead(^|\b|[^<\p{L}\/>])(KEYWORD)([^\p{L}\/>]|\b|$)/msU";
+		if ( empty( $options['casesens'] ) ) {
+			$reg_post .= 'i';
+		}
 		if ( $this->is_utf8_matching_enabled() ) {
 			// Enable UTF-8 flag in the regex
 			$reg_post .= 'u';
@@ -267,7 +306,7 @@ class Smartcrawl_Autolinks {
 					$keywords = substr( $line, 0, $last_delimiter_pos );
 
 					if ( ! empty( $keywords ) && ! empty( $url ) ) {
-						$kw_array[ $keywords ] = $url;
+						$kw_array[ $keywords ] = trim( $url );
 					}
 
 					$keywords = '';
@@ -316,7 +355,7 @@ class Smartcrawl_Autolinks {
 			// prevent duplicate links.
 			foreach ( $kw_array as $name => $url ) {
 
-				if ( ( ! $maxlinks || ( $links < $maxlinks ) ) && ( trailingslashit( $url ) !== $thisurl ) && ! in_array( ! empty( $options['casesens'] ) ? $name : strtolower( $name ), $arrignore, true ) && ( ! $maxsingleurl || $urls[ $url ] < $maxsingleurl ) ) {
+				if ( ( ! $maxlinks || ( $links < $maxlinks ) ) && ( $this->get_absolute_url( $url ) !== $thisurl ) && ! in_array( ! empty( $options['casesens'] ) ? $name : strtolower( $name ), $arrignore, true ) && ( ! $maxsingleurl || $urls[ $url ] < $maxsingleurl ) ) {
 
 					if ( ! empty( $options['customkey_preventduplicatelink'] ) || $strpos_fnc( $text, $name ) !== false ) {
 						$name = preg_quote( $name, '/' );
@@ -332,7 +371,7 @@ class Smartcrawl_Autolinks {
 						'rel'    => empty( $options['rel_nofollow'] ) ? '' : 'nofollow',
 					);
 					$replace = '$1<a title="$2" ' . smartcrawl_autolinks_construct_attributes( $arguments ) . ' href="' . $url . '">$2</a>$3';
-					$regexp = str_replace( '$name', $name, $reg_post );
+					$regexp = str_replace( 'KEYWORD', $name, $reg_post );
 
 					if ( ( defined( 'SMARTCRAWL_AUTOLINKS_ON_THE_FLY_CHECK' ) && SMARTCRAWL_AUTOLINKS_ON_THE_FLY_CHECK ) && ! preg_match( $regexp, strip_shortcodes( $text ) ) ) {
 						continue;
@@ -381,7 +420,7 @@ class Smartcrawl_Autolinks {
 					if ( $strpos_fnc( $text, $postitem->post_title ) !== false ) {
 						$name = preg_quote( $postitem->post_title, '/' );
 
-						$regexp = str_replace( '$name', $name, $reg_post );
+						$regexp = str_replace( 'KEYWORD', $name, $reg_post );
 
 						if ( ! empty( $options['customkey_preventduplicatelink'] ) ) {
 							$maxsingle = 1;
@@ -466,7 +505,7 @@ class Smartcrawl_Autolinks {
 					}
 
 					$name = preg_quote( $term->name, '/' );
-					$regexp = str_replace( '$name', $name, $reg_post );
+					$regexp = str_replace( 'KEYWORD', $name, $reg_post );
 					$arguments = array(
 						'target' => empty( $options['target_blank'] ) ? '' : '_blank',
 						'rel'    => empty( $options['rel_nofollow'] ) ? '' : 'nofollow',
@@ -505,7 +544,18 @@ class Smartcrawl_Autolinks {
 			$text = stripslashes( $text );
 		}
 
+		// Restore the links that we backed up before getting started
+		$text = $this->restore_links( $text );
+
 		return trim( $text );
+	}
+
+	private function get_absolute_url( $url ) {
+		$is_relative = strpos( $url, '/' ) === 0;
+
+		return $is_relative
+			? trailingslashit( home_url( $url ) )
+			: $url;
 	}
 
 	/**
@@ -578,4 +628,11 @@ class Smartcrawl_Autolinks {
 		return $this->_special_chars_callback( $matches, 'remove_special_case_delimiters' );
 	}
 
+	public function get_settings() {
+		return $this->settings;
+	}
+
+	public function set_settings( $settings ) {
+		$this->settings = $settings;
+	}
 }

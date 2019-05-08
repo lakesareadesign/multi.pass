@@ -157,11 +157,17 @@ class Smartcrawl_Robots_Value_Helper extends Smartcrawl_Type_Traverser {
 	}
 
 	public function handle_bp_groups() {
-		// TODO: Implement handle_bp_groups() method.
+		$noindex = $this->is_noindex( 'bp_groups' ) ? 'noindex' : 'index';
+		$nofollow = $this->is_nofollow( 'bp_groups' ) ? 'nofollow' : 'follow';
+
+		$this->value = "{$noindex},{$nofollow}";
 	}
 
 	public function handle_bp_profile() {
-		// TODO: Implement handle_bp_profile() method.
+		$noindex = $this->is_noindex( 'bp_profile' ) ? 'noindex' : 'index';
+		$nofollow = $this->is_nofollow( 'bp_profile' ) ? 'nofollow' : 'follow';
+
+		$this->value = "{$noindex},{$nofollow}";
 	}
 
 	public function handle_woo_shop() {
@@ -171,6 +177,11 @@ class Smartcrawl_Robots_Value_Helper extends Smartcrawl_Type_Traverser {
 	public function handle_singular( $post_id = 0 ) {
 		if ( ! $post_id ) {
 			$post = $this->get_context();
+			$post_id = $post->ID;
+		}
+		if ( ! $post_id ) {
+			$query = $this->get_resolver()->get_query_context();
+			$post = $query->get_queried_object();
 			$post_id = $post->ID;
 		}
 

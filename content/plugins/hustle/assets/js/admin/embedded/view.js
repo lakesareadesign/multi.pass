@@ -46,7 +46,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 			$(document).off( 'click', '.wph-reset-color-palette', $.proxy( this.reset_color_palette, this ) );
 
 			// Get rid of escape key listener.
-			$(document).off( 'keydown', $.proxy( this.escape_key, this ) );
+			$(document).off( 'keydown.hustle.escKey', $.proxy( this.escape_key, this ) );
 			//Hustle.Events.off( 'embedded.preview.prepare', $.proxy( this.handle_preview, this ) );
 
 			// set listeners
@@ -73,7 +73,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 			$(document).on( 'change keyup keypress', 'input[name=module_name]', $.proxy( this.validate_modal_name, this ) );
 
 			// Add escape key listener.
-			$(document).on( 'keydown', $.proxy( this.escape_key, this ) );
+			$(document).on( 'keydown.hustle.escKey', $.proxy( this.escape_key, this ) );
 			Hustle.Events.on( 'modules.view.preview.success', $.proxy( this.preview_success_message_delay, this ) );
 			//Hustle.Events.on( 'embedded.preview.prepare', $.proxy( this.handle_preview, this ) );
 
@@ -223,9 +223,10 @@ Hustle.define("Embedded.View", function($, doc, win){
 				)
 			;
 			data.unique_id = '';
+			data.module_id = '';
 			// Append to preview after content updated.
 			$preview_modal.append(template(data));
-			$preview_modal.addClass('hui-module-type--popup');
+			$preview_modal.addClass('hui-module-type--embedded');
 
 			/**
 			 * reCAPTCHA
@@ -272,7 +273,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 			});
 
 			if ( $modal.hasClass('hustle-animated') ) {
-				
+
 				setTimeout( function(){
 					$modal.addClass('hustle-animate-' + animation_in ); // hustle-animate-{animate_in}
 					me.apply_custom_size();
@@ -794,7 +795,7 @@ Hustle.define("Embedded.View", function($, doc, win){
 				var custom_css = this.design_view.model.get('custom_css'),
 					nonce = $("#hustle_custom_css").data("nonce"),
 					nonce2 = $('.wpmudev-preview').data('customCssNonce');
-			
+
 				if ( _.isEmpty(custom_css) || typeof nonce === 'undefined' ) {
 					if ( "undefined" !== nonce2 ) {
 						nonce = nonce2;

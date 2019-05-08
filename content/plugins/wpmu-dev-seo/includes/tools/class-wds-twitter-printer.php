@@ -98,7 +98,14 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 		$disabled_for_object = (bool) $this->get_twitter_meta( 'disabled' );
 		$enabled_for_type = (bool) $this->get_twitter_setting( 'active' );
 
-		return ! $disabled_for_object && $enabled_for_type;
+		return $this->is_globally_enabled()
+		       && $enabled_for_type
+		       && ! $disabled_for_object;
+	}
+
+	private function is_globally_enabled() {
+		$settings = Smartcrawl_Settings::get_options();
+		return ! empty( $settings['twitter-card-enable'] );
 	}
 
 	private function get_twitter_meta( $key ) {
@@ -189,13 +196,13 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 		// Check the object meta for required value
 		$value_from_meta = $this->get_twitter_meta( $key );
 		if ( ! empty( $value_from_meta ) ) {
-			return $value_from_meta;
+			return Smartcrawl_Replacement_Helper::replace( $value_from_meta );
 		}
 
 		// Check the plugin settings for required value
 		$value_from_settings = $this->get_twitter_setting( $key );
 		if ( ! empty( $value_from_settings ) ) {
-			return smartcrawl_replace_vars( $value_from_settings, $this->get_queried_object() );
+			return Smartcrawl_Replacement_Helper::replace( $value_from_settings );
 		}
 
 		return $default;
@@ -239,7 +246,7 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 	 * @return string Title
 	 */
 	public function get_title_content() {
-		return $this->get_tag_content( 'title', Smartcrawl_OnPage::get()->get_title() );
+		return $this->get_tag_content( 'title', Smartcrawl_Meta_Value_Helper::get()->get_title() );
 	}
 
 	/**
@@ -248,7 +255,7 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 	 * @return string Description
 	 */
 	public function get_description_content() {
-		return $this->get_tag_content( 'description', Smartcrawl_OnPage::get()->get_description() );
+		return $this->get_tag_content( 'description', Smartcrawl_Meta_Value_Helper::get()->get_description() );
 	}
 
 	public function get_filter_prefix() {
@@ -259,8 +266,8 @@ class Smartcrawl_Twitter_Printer extends Smartcrawl_WorkUnit {
 		$allowed_tags = array(
 			'meta' => array(
 				'name'    => array(),
-				'content' => array()
-			)
+				'content' => array(),
+			),
 		);
 
 		return $allowed_tags;

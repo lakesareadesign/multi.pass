@@ -271,6 +271,18 @@ abstract class Hustle_Provider_Abstract implements Hustle_Provider_Interface{
 	 * @return string
 	 */
 	final public function get_icon() {
+		$icon = strtolower( $this->_icon );
+		$data = explode( '.', $icon );
+		$type = end( $data );
+		$supported_types = array( 'png', 'jpg', 'jpeg' );
+		$providers_dir = Opt_In::$plugin_path . 'inc/providers/';
+		$hustle_provider = 0 === stripos( $icon, $providers_dir ) || 0 === stripos( $icon, Opt_In::$plugin_url );
+		if ( !$hustle_provider && !in_array( $icon, $supported_types, true ) ) {
+			// it does not use translatable functions intentionally
+			$message = 'Providers will only use jpg/png file types for their icons in 4.0. Please, change icon file for ' . $this->_title . ' provider.';
+			_deprecated_argument( __METHOD__, '4.0', $message ); //WPCS: XSS ok.
+		}
+
 		return $this->_icon;
 	}
 

@@ -62,6 +62,8 @@ class Hustle_Module_Model extends Hustle_Model {
 				return new Hustle_Slidein_Content( $data, $this );
 			case 'embedded':
 				return new Hustle_Embedded_Content( $data, $this );
+			default:
+				return false;
 		}
 	}
 
@@ -120,7 +122,7 @@ class Hustle_Module_Model extends Hustle_Model {
 			$data = wp_parse_args( $this->get_data(), $data );
 
 			if( ! $is_preview && $this->is_click_counter_type_enabled( 'native' ) && is_object( $post ) ) {
-				$data = $this->set_network_shares( $data, $post->ID );
+				$data = $this->set_network_shares( $data, get_queried_object_id() );
 			}
 
 			// backwards compatibility for new counter types from 3.0.3
@@ -283,6 +285,7 @@ class Hustle_Module_Model extends Hustle_Model {
 	 * @return bool
 	 */
 	public function is_allowed_to_display( $settings, $type ) {
+		$conditions = isset( $settings['conditions'] ) ? (array)$settings['conditions'] : array();
 
 		// if Disabled for current user type or test mode, do not display
 		if (
@@ -293,32 +296,30 @@ class Hustle_Module_Model extends Hustle_Model {
 		) {
 			return false;
 		}
+
+		$s = is_archive();
+
+		if ( is_404() ) {
+			if ( empty( $conditions['only_on_not_found'] ) ) {
+				return false;
+			} else {
+				return true;
+			}
+		} else {
+			// If not 404 page, remove 404 condition.
+			// Functionality has been changed so this condition only affects 404 pages.
+			// Unset "not found" condition so it displays on other pages.
+			unset($conditions['only_on_not_found']);
+		}
+
 		// If no conditions are set, display.
-		if ( !isset( $settings['conditions'] ) || empty( $settings['conditions'] ) ) {
-			// If 404 page and no conditions, do not display.
-			if (is_404()) return false;
-			// Otherwise display.
+		if ( empty( $conditions ) ) {
 			return true;
 		}
 
 		global $post;
-		$conditions = $settings['conditions'];
 		$skip_all_cpt = false;
 		$display = true;
-
-		// If not 404 page, remove 404 condition.
-		// Functionality has been changed so this condition only affects 404 pages.
-		if ( !is_404() ) {
-			// Unset "not found" condition so it displays on other pages.
-			unset($conditions['only_on_not_found']);
-			// If conditions are now empty, display module.
-			if (empty($conditions)) {
-				return true;
-			}
-		} else {
-			// Prevent categories condition from overriding 404 page condition.
-			unset($conditions['categories']);
-		}
 
 		// If this is a single page or home page is posts.
 		if ( is_singular() || (is_home() && is_front_page())) {

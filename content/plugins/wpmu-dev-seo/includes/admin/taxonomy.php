@@ -1,34 +1,14 @@
 <?php
 
-class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
+class Smartcrawl_Taxonomy extends Smartcrawl_Base_Controller {
 	/**
 	 * Static instance
 	 *
-	 * @var Smartcrawl_Taxonomy
+	 * @var self
 	 */
 	private static $_instance;
-	/**
-	 * State flag
-	 *
-	 * @var bool
-	 */
-	private $_is_running = false;
 
-	public function __construct() {
-	}
-
-	/**
-	 * Boot the hooking part
-	 */
-	public static function run() {
-		self::get()->_add_hooks();
-	}
-
-	public function _add_hooks() {
-		if ( $this->_is_running ) {
-			return false;
-		}
-
+	protected function init() {
 		$taxonomy = smartcrawl_get_array_value( $_GET, 'taxonomy' ); // phpcs:ignore -- Can't add nonce to the request
 		if ( is_admin() && ! empty( $taxonomy ) ) {
 			add_action( sanitize_key( $taxonomy ) . '_edit_form', array(
@@ -38,8 +18,30 @@ class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
 		}
 
 		add_action( 'edit_term', array( &$this, 'update_term' ), 10, 3 );
+		add_action( 'wp_ajax_wds-term-form-preview', array( $this, 'json_create_preview' ) );
+	}
 
-		$this->_is_running = true;
+	public function json_create_preview() {
+		$data = $this->get_request_data();
+		$term_id = (int) smartcrawl_get_array_value( $data, 'term_id' );
+		$result = array( 'success' => false );
+
+		if ( empty( $term_id ) ) {
+			wp_send_json( $result );
+
+			return;
+		}
+
+		$result['success'] = true;
+		$result['markup'] = Smartcrawl_Simple_Renderer::load( 'term/term-google-preview', array(
+			'term' => get_term( $term_id ),
+		) );
+
+		wp_send_json( $result );
+	}
+
+	private function get_request_data() {
+		return isset( $_POST['_wds_nonce'] ) && wp_verify_nonce( $_POST['_wds_nonce'], 'wds-metabox-nonce' ) ? stripslashes_deep( $_POST ) : array();
 	}
 
 	/**
@@ -53,14 +55,12 @@ class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
 		return self::$_instance;
 	}
 
-	public function form_row( $id, $label, $desc, $tax_meta, $type = 'text' ) {
-		$val = ! empty( $tax_meta[ $id ] ) ? stripslashes( $tax_meta[ $id ] ) : '';
-
-		include SMARTCRAWL_PLUGIN_DIR . 'admin/templates/taxonomy-form-row.php';
-
-	}
-
 	public function term_additions_form( $term, $taxonomy ) {
+		$taxonomy_object = get_taxonomy( $taxonomy );
+		if ( ! $taxonomy_object->public ) {
+			return;
+		}
+
 		$smartcrawl_options = Smartcrawl_Settings::get_options();
 		$tax_meta = get_option( 'wds_taxonomy_meta' );
 
@@ -68,7 +68,6 @@ class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
 			$tax_meta = $tax_meta[ $taxonomy ][ $term->term_id ];
 		}
 
-		$taxonomy_object = get_taxonomy( $taxonomy );
 		$taxonomy_labels = $taxonomy_object->labels;
 
 		$global_noindex = ! empty( $smartcrawl_options[ 'meta_robots-noindex-' . $term->taxonomy ] )
@@ -78,31 +77,26 @@ class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
 			? $smartcrawl_options[ 'meta_robots-nofollow-' . $term->taxonomy ]
 			: false;
 
-		$version = Smartcrawl_Loader::get_version();
-		Smartcrawl_Settings_Admin::enqueue_shared_ui( false );
-
-		wp_enqueue_style( 'wds-admin-opengraph', SMARTCRAWL_PLUGIN_URL . '/css/wds-opengraph.css', null, $version );
-		wp_enqueue_style( 'wds-qtip2-style', SMARTCRAWL_PLUGIN_URL . '/css/external/jquery.qtip.min.css', null, $version );
-		wp_enqueue_style( 'wds-app', SMARTCRAWL_PLUGIN_URL . 'css/app.css', array( 'wds-qtip2-style' ), $version );
-
+		wp_enqueue_style( Smartcrawl_Controller_Assets::APP_CSS );
+		wp_enqueue_script( Smartcrawl_Controller_Assets::TERM_FORM_JS );
 		wp_enqueue_media();
 
-		wp_enqueue_script( 'wds-admin', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin.js', array( 'jquery' ), $version );
-
-		wp_localize_script( 'wds-admin', '_wds_admin', array(
-			'nonce' => wp_create_nonce( 'wds-admin-nonce' ),
+		Smartcrawl_Simple_Renderer::render( 'term/term-form', array(
+			'taxonomy_object' => $taxonomy_object,
+			'taxonomy_labels' => $taxonomy_labels,
+			'term'            => $term,
+			'global_noindex'  => $global_noindex,
+			'global_nofollow' => $global_nofollow,
+			'tax_meta'        => $tax_meta,
 		) );
-		wp_enqueue_script( 'wds-admin-opengraph', SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-opengraph.js', array(
-			'underscore',
-			'jquery',
-			'wds-admin',
-		), $version );
-
-		include SMARTCRAWL_PLUGIN_DIR . 'admin/templates/term-additions-form.php';
-
 	}
 
 	public function update_term( $term_id, $tt_id, $taxonomy ) {
+		$taxonomy_object = get_taxonomy( $taxonomy );
+		if ( ! $taxonomy_object->public ) {
+			return;
+		}
+
 		$smartcrawl_options = Smartcrawl_Settings::get_options();
 
 		$tax_meta = get_option( 'wds_taxonomy_meta' );
@@ -117,7 +111,7 @@ class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
 			if ( 'canonical' === $key ) {
 				$value = esc_url_raw( $value );
 			} else {
-				$value = sanitize_text_field( $value );
+				$value = smartcrawl_sanitize_preserve_macros( $value );
 			}
 			$tax_meta[ $taxonomy ][ $term_id ]["wds_{$key}"] = $value;
 		}
@@ -140,10 +134,10 @@ class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
 			$data = is_array( $post_data['wds-opengraph'] ) ? stripslashes_deep( $post_data['wds-opengraph'] ) : array();
 			$tax_meta[ $taxonomy ][ $term_id ]['opengraph'] = array();
 			if ( ! empty( $data['title'] ) ) {
-				$tax_meta[ $taxonomy ][ $term_id ]['opengraph']['title'] = sanitize_text_field( $data['title'] );
+				$tax_meta[ $taxonomy ][ $term_id ]['opengraph']['title'] = smartcrawl_sanitize_preserve_macros( $data['title'] );
 			}
 			if ( ! empty( $data['description'] ) ) {
-				$tax_meta[ $taxonomy ][ $term_id ]['opengraph']['description'] = sanitize_text_field( $data['description'] );
+				$tax_meta[ $taxonomy ][ $term_id ]['opengraph']['description'] = smartcrawl_sanitize_preserve_macros( $data['description'] );
 			}
 			if ( ! empty( $data['images'] ) && is_array( $data['images'] ) ) {
 				$tax_meta[ $taxonomy ][ $term_id ]['opengraph']['images'] = array();
@@ -152,16 +146,17 @@ class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
 					$tax_meta[ $taxonomy ][ $term_id ]['opengraph']['images'][] = $img;
 				}
 			}
+			$tax_meta[ $taxonomy ][ $term_id ]['opengraph']['disabled'] = ! empty( $data['disabled'] );
 		}
 
 		if ( ! empty( $post_data['wds-twitter'] ) ) {
 			$data = is_array( $post_data['wds-twitter'] ) ? stripslashes_deep( $post_data['wds-twitter'] ) : array();
 			$tax_meta[ $taxonomy ][ $term_id ]['twitter'] = array();
 			if ( ! empty( $data['title'] ) ) {
-				$tax_meta[ $taxonomy ][ $term_id ]['twitter']['title'] = sanitize_text_field( $data['title'] );
+				$tax_meta[ $taxonomy ][ $term_id ]['twitter']['title'] = smartcrawl_sanitize_preserve_macros( $data['title'] );
 			}
 			if ( ! empty( $data['description'] ) ) {
-				$tax_meta[ $taxonomy ][ $term_id ]['twitter']['description'] = sanitize_text_field( $data['description'] );
+				$tax_meta[ $taxonomy ][ $term_id ]['twitter']['description'] = smartcrawl_sanitize_preserve_macros( $data['description'] );
 			}
 			if ( ! empty( $data['images'] ) && is_array( $data['images'] ) ) {
 				$tax_meta[ $taxonomy ][ $term_id ]['twitter']['images'] = array();
@@ -170,6 +165,7 @@ class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
 					$tax_meta[ $taxonomy ][ $term_id ]['twitter']['images'][] = $img;
 				}
 			}
+			$tax_meta[ $taxonomy ][ $term_id ]['twitter']['disabled'] = ! empty( $data['disabled'] );
 		}
 
 		update_option( 'wds_taxonomy_meta', $tax_meta );
@@ -185,9 +181,5 @@ class Smartcrawl_Taxonomy extends Smartcrawl_Renderable {
 			$w3_objectcache->flush();
 		}
 
-	}
-
-	protected function _get_view_defaults() {
-		return array();
 	}
 }

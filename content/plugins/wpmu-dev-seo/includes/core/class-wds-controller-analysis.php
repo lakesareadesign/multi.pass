@@ -10,7 +10,7 @@
  *
  * At the same time, some rendering duties.
  */
-class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
+class Smartcrawl_Controller_Analysis extends Smartcrawl_Base_Controller {
 
 	const DATA_ANALYSIS = 'analysis';
 	const DATA_READABILITY = 'readability';
@@ -21,35 +21,6 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	 * @var Smartcrawl_Controller_Analysis
 	 */
 	private static $_instance;
-
-	/**
-	 * Currently running state flag
-	 *
-	 * @var bool
-	 */
-	private $_is_running = false;
-
-	/**
-	 * Constructor
-	 */
-	private function __construct() {
-	}
-
-	/**
-	 * Boot controller listeners
-	 *
-	 * Do it only once, if they're already up do nothing
-	 *
-	 * @return bool Status
-	 */
-	public static function serve() {
-		$me = self::get();
-		if ( $me->is_running() ) {
-			return false;
-		}
-
-		return $me->_add_hooks();
-	}
 
 	/**
 	 * Obtain instance without booting up
@@ -65,20 +36,11 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	}
 
 	/**
-	 * Check if we already have the actions bound
-	 *
-	 * @return bool Status
-	 */
-	public function is_running() {
-		return $this->_is_running;
-	}
-
-	/**
 	 * Bind listening actions
 	 *
 	 * @return bool
 	 */
-	private function _add_hooks() {
+	protected function init() {
 		// Fetch analysis data via AJAX POST request.
 		add_action( 'wp_ajax_wds-analysis-get-data', array( $this, 'json_get_post_analysis_data' ) );
 		add_action( 'wp_ajax_wds-analysis-get-markup', array( $this, 'json_get_post_analysis_markup' ) );
@@ -102,23 +64,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 
 		add_action( 'admin_enqueue_scripts', array( $this, 'inject_script_dependencies' ) );
 
-		$this->_is_running = true;
-
 		return true;
-	}
-
-	/**
-	 * Stop and remove action listeners
-	 *
-	 * @return bool
-	 */
-	public static function stop() {
-		$me = self::get();
-		if ( ! $me->is_running() ) {
-			return false;
-		}
-
-		return $me->_remove_hooks();
 	}
 
 	/**
@@ -126,7 +72,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	 *
 	 * @return bool
 	 */
-	private function _remove_hooks() {
+	protected function terminate() {
 		remove_action( 'wp_ajax_wds-analysis-get-data', array( $this, 'json_get_post_analysis_data' ) );
 		remove_action( 'wp_ajax_wds-analysis-get-markup', array( $this, 'json_get_post_analysis_markup' ) );
 		remove_action( 'wp_ajax_wds-analysis-recheck', array( $this, 'json_get_post_analysis_recheck' ) );
@@ -142,9 +88,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 			'add_readability_analysis_metabox_content',
 		) );
 
-		$this->_is_running = false;
-
-		return ! $this->_is_running;
+		return true;
 	}
 
 	/**
@@ -239,25 +183,9 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 		if ( 'edit.php' !== $hook ) {
 			return false;
 		}
-		Smartcrawl_Settings_Admin::register_global_admin_scripts();
-		$version = Smartcrawl_Loader::get_version();
 
-		wp_enqueue_script(
-			'wds-admin-analysis-postlist',
-			SMARTCRAWL_PLUGIN_URL . 'js/wds-admin-analysis-postlist.js',
-			array( 'jquery', 'wds-admin', 'wds-qtip2-script' ),
-			$version
-		);
-		wp_localize_script( 'wds-admin-analysis-postlist', '_wds_analysis', array(
-			'nonce' => wp_create_nonce( 'wds-metabox-nonce' ),
-		) );
-
-		wp_enqueue_style(
-			'wds-admin-analysis-postlist-styling',
-			SMARTCRAWL_PLUGIN_URL . 'css/wds-admin-analysis-postlist.css',
-			array( 'wds-qtip2-style' ),
-			$version
-		);
+		wp_enqueue_script( Smartcrawl_Controller_Assets::WP_POSTLIST_ANALYSIS_JS );
+		wp_enqueue_style( Smartcrawl_Controller_Assets::WP_POSTLIST_ANALYSIS_CSS );
 
 		return true;
 	}
@@ -345,16 +273,16 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 			$focus_keywords = smartcrawl_get_value( 'focus-keywords', $post_id );
 			$focus_keywords_available = ! empty( $focus_keywords );
 			if ( ! $focus_keywords_available ) {
-				$result['seo'] = $this->_load( 'post-list/post-seo-analysis-errors', array(
+				$result['seo'] = Smartcrawl_Simple_Renderer::load( 'post-list/post-seo-analysis-errors', array(
 					'status_class' => 'wds-status-invalid',
 					'errors'       => array(
 						'focus-keyword-missing' => esc_html__( 'You need to add focus keywords to see recommendations for this article.', 'wds' ),
 					),
 				) );
 			} elseif ( empty( $data['errors'] ) ) {
-				$result['seo'] = $this->_load( 'post-list/post-seo-analysis-good' );
+				$result['seo'] = Smartcrawl_Simple_Renderer::load( 'post-list/post-seo-analysis-good' );
 			} else {
-				$result['seo'] = $this->_load( 'post-list/post-seo-analysis-errors', array(
+				$result['seo'] = Smartcrawl_Simple_Renderer::load( 'post-list/post-seo-analysis-errors', array(
 					'percentage' => empty( $data['percentage'] ) ? '' : $data['percentage'],
 					'errors'     => $data['errors'],
 				) );
@@ -383,7 +311,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	/**
 	 * Handles check ignoring front-end requests
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public function json_set_ignore_check() {
 		$data = $this->get_request_data();
@@ -409,7 +337,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	/**
 	 * Handles check de-ignoring front-end requests
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public function json_unset_ignore_check() {
 		$data = $this->get_request_data();
@@ -497,9 +425,10 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 			$result = Smartcrawl_Checks::apply( $post->ID );
 			$checks = $result->get_applied_checks();
 		}
-		$focus_keywords_available = (bool) smartcrawl_get_array_value( $checks, array( 'focus', 'status' ) );
+		$focus_keywords = Smartcrawl_Meta_Value_Helper::get()->get_focus_keywords( $post );
+		$focus_keywords_available = ! empty( $focus_keywords );
 
-		$this->_render( 'metabox/analysis-seo-analysis', array(
+		Smartcrawl_Simple_Renderer::render( 'metabox/analysis-seo-analysis', array(
 			'checks'                   => $checks,
 			'error_count'              => count( $errors ),
 			'focus_keywords_available' => $focus_keywords_available,
@@ -527,7 +456,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 		$readability_data = $model->get_post_data( Smartcrawl_Model_Analysis::DATA_READABILITY );
 		$readability_ignored = Smartcrawl_Checks::is_readability_ignored( $post->ID );
 
-		$this->_render( 'metabox/analysis-readability', array(
+		Smartcrawl_Simple_Renderer::render( 'metabox/analysis-readability', array(
 			'model'               => $model,
 			'readability_data'    => $readability_data,
 			'readability_ignored' => $readability_ignored,
@@ -539,7 +468,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	private function post_type_requires_analysis( $post_id ) {
 		$post_type = get_post_type_object( get_post_type( $post_id ) );
 
-		return $post_type->name === 'revision' || $post_type->public;
+		return 'revision' === $post_type->name || $post_type->public;
 	}
 
 	/**
@@ -613,10 +542,12 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	 */
 	public function add_postbox_fields( $post ) {
 		$model = new Smartcrawl_Model_Analysis( $post->ID );
+		$focus_keywords = Smartcrawl_Meta_Value_Helper::get()->get_focus_keywords( $post );
+		$focus_keywords_available = ! empty( $focus_keywords );
+
 		if ( in_array( get_post_status( $post ), array( 'draft', 'auto-draft' ), true ) ) {
 			$result = Smartcrawl_Checks::apply( $post->ID );
 			$checks = $result->get_applied_checks();
-			$focus_keywords_available = isset( $checks['focus']['status'] ) ? $checks['focus']['status'] : false;
 			$has_errors = false;
 			foreach ( $checks as $title => $chk ) {
 				if ( empty( $chk['status'] ) && empty( $chk['ignored'] ) ) {
@@ -625,8 +556,6 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 				}
 			}
 		} else {
-			$focus_keywords = smartcrawl_get_value( 'focus-keywords', $post->ID );
-			$focus_keywords_available = ! empty( $focus_keywords );
 			$seo_data = $model->get_post_data( Smartcrawl_Model_Analysis::DATA_ANALYSIS );
 			$has_errors = ! empty( $seo_data['errors'] );
 		}
@@ -677,7 +606,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	 *
 	 * As a side-effect, updates the analysis if needed
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public function json_get_post_analysis_data() {
 		$data = $this->get_request_data();
@@ -703,7 +632,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	 *
 	 * As a side-effect, updates the analysis if needed
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public function json_get_post_analysis_markup() {
 		$data = $this->get_request_data();
@@ -722,7 +651,7 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 	/**
 	 * Force analysis recheck and respond with column markup data
 	 *
-	 * @return bool
+	 * @return void
 	 */
 	public function json_get_post_analysis_recheck() {
 		$data = $this->get_request_data();
@@ -735,13 +664,6 @@ class Smartcrawl_Controller_Analysis extends Smartcrawl_Renderable {
 		$this->analyze_post( (int) $data['post_id'] );
 		$result = $this->get_post_analysis_result_markup( (int) $data['post_id'] );
 		wp_send_json_success( $result );
-	}
-
-	/**
-	 * View defaults implementation.
-	 */
-	protected function _get_view_defaults() {
-		return array();
 	}
 
 	private function get_request_data() {

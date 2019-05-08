@@ -1,27 +1,45 @@
 <?php
-$service = Smartcrawl_Service::get( Smartcrawl_Service::SERVICE_SEO );
 $cron = Smartcrawl_Controller_Cron::get();
 $option_name = $_view['option_name'];
 
 // This does the actual rescheduling
 $cron->set_up_schedule();
-$crawler_cron_enabled = $_view['options']['crawler-cron-enable'];
+$is_member = empty( $_view['is_member'] ) ? false : true;
+$crawler_cron_enabled = ! empty( $_view['options']['crawler-cron-enable'] ) && $is_member;
 $toggle_field_name = $option_name . '[crawler-cron-enable]';
+$dash_profile_data = smartcrawl_get_dash_profile_data();
+$crawler_freq = empty( $_view['options']['crawler-frequency'] ) ? false : $_view['options']['crawler-frequency'];
+$frequencies = $cron->get_frequencies();
 ?>
 
-<?php if ( ! $service->is_member() ) : ?>
-	<div class="wds-obfuscate-section"></div>
-<?php endif; ?>
+<div class="wds-upsell-tab-description">
+	<div>
+		<p><?php esc_html_e( 'Set up SmartCrawl to automatically crawl your URLs daily, weekly or monthly and send an email report to your inbox.', 'wds' ); ?></p>
+	</div>
 
-<div class="wds-table-fields wds-toggleable">
-	<div class="label">
-		<label class="wds-label"
+	<?php if ( $crawler_cron_enabled && $dash_profile_data && $crawler_freq ): ?>
+		<?php $this->_render( 'notice', array(
+			'message' => sprintf(
+				'Automatic crawls are enabled and sending %s to 1 recipient.',
+				smartcrawl_get_array_value( $frequencies, $crawler_freq )
+			),
+			'class'   => 'sui-notice-info',
+		) ); ?>
+	<?php endif; ?>
+</div>
+<div class="sui-box-settings-row <?php echo $is_member ? '' : 'sui-disabled'; ?>">
+	<div class="sui-box-settings-col-1">
+		<label class="sui-settings-label"
 		       for="<?php echo esc_attr( $toggle_field_name ); ?>">
 
-			<?php esc_html_e( 'Schedule Crawl', 'wds' ); ?>
+			<?php esc_html_e( 'Schedule automatic crawls', 'wds' ); ?>
 		</label>
+
+		<span class="sui-description">
+			<?php esc_html_e( 'Enable automated sitemap crawl reports for this website.', 'wds' ); ?>
+		</span>
 	</div>
-	<div class="fields wds-toggleable <?php echo $crawler_cron_enabled ? '' : 'inactive'; ?>">
+	<div class="sui-box-settings-col-2 wds-toggleable <?php echo $crawler_cron_enabled ? '' : 'inactive'; ?>">
 		<?php
 		$this->_render( 'toggle-item', array(
 			'field_name' => $toggle_field_name,
@@ -30,74 +48,38 @@ $toggle_field_name = $option_name . '[crawler-cron-enable]';
 			'item_label' => esc_html__( 'Run regular URL crawls', 'wds' ),
 		) );
 		?>
-		<div class="wds-toggleable-inside wds-toggleable-inside-box">
-			<div class="wds-table-fields wds-table-fields-stacked">
-				<div class="label">
-					<label for="wds-crawler-frequency"
-					       class="wds-label"><?php esc_html_e( 'Frequency', 'wds' ); ?></label>
-				</div>
-				<div class="fields">
-					<select class="select-container wds-conditional-parent"
-					        id="wds-crawler-frequency"
-					        name="<?php echo esc_attr( $_view['option_name'] ); ?>[crawler-frequency]"
-					        style="width: 100%">
+		<div class="wds-toggleable-inside sui-border-frame sui-toggle-content">
+			<?php if ( $dash_profile_data ): ?>
+				<small><strong><?php esc_html_e( 'Recipient', 'wds' ); ?></strong></small>
+				<?php $this->_render( 'email-recipients', array(
+					'id'               => 'wds-sitemap-email-recipients',
+					'disable_addition' => true,
+					'email_recipients' => array(
+						array(
+							'name'  => $dash_profile_data->user_login,
+							'email' => $dash_profile_data->user_email,
+						),
+					),
+				) ); ?>
+				<p></p>
+			<?php endif; ?>
 
-						<?php foreach ( $cron->get_frequencies() as $key => $label ) : ?>
-							<option
-								value="<?php echo esc_attr( $key ); ?>" <?php selected( $key, $_view['options']['crawler-frequency'] ); ?>>
-								<?php echo esc_html( $label ); ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
-				</div>
-			</div>
+			<small><strong><?php esc_html_e( 'Schedule', 'wds' ); ?></strong></small>
 
-			<div class="wds-table-fields wds-table-fields-stacked wds-conditional-child"
-			     data-parent="wds-crawler-frequency"
-			     data-parent-val="weekly,monthly">
-
-				<div class="label">
-					<label for="wds-crawler-dow"
-					       class="wds-label"><?php esc_html_e( 'Day of the week', 'wds' ); ?></label>
-				</div>
-				<div class="fields">
-					<select class="select-container"
-					        id="wds-crawler-dow"
-					        name="<?php echo esc_attr( $_view['option_name'] ); ?>[crawler-dow]"
-					        style="width: 100%">
-
-						<?php $monday = strtotime( 'this Monday' ); ?>
-						<?php foreach ( range( 0, 6 ) as $dow ) : ?>
-							<option value="<?php echo esc_attr( $dow ); ?>"
-								<?php selected( $dow, $_view['options']['crawler-dow'] ); ?>>
-								<?php echo esc_html( date_i18n( 'l', $monday + ( $dow * DAY_IN_SECONDS ) ) ); ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
-				</div>
-			</div>
-
-			<div class="wds-table-fields wds-table-fields-stacked">
-				<div class="label">
-					<label for="wds-crawler-tod" class="wds-label"><?php esc_html_e( 'Time of day', 'wds' ); ?></label>
-				</div>
-				<div class="fields">
-					<select class="select-container"
-					        id="wds-crawler-tod"
-					        name="<?php echo esc_attr( $_view['option_name'] ); ?>[crawler-tod]"
-					        style="width: 100%">
-
-						<?php $midnight = strtotime( 'today' ); ?>
-						<?php foreach ( range( 0, 23 ) as $tod ) : ?>
-							<option value="<?php echo esc_attr( $tod ); ?>"
-								<?php selected( $tod, $_view['options']['crawler-tod'] ); ?>>
-								<?php echo esc_html( date_i18n( get_option( 'time_format' ), $midnight + ( $tod * HOUR_IN_SECONDS ) ) ); ?>
-							</option>
-						<?php endforeach; ?>
-					</select>
-				</div>
-			</div>
+			<?php $this->_render( 'sitemap/sitemap-reporting-schedule' ); ?>
 		</div>
 	</div>
 
 </div>
+
+<?php if ( ! $is_member ): ?>
+	<?php $this->_render( 'mascot-message', array(
+		'key'         => 'seo-checkup-upsell',
+		'dismissible' => false,
+		'message'     => sprintf(
+			'%s <a target="_blank" href="https://premium.wpmudev.org/project/smartcrawl-wordpress-seo/?utm_source=smartcrawl&utm_medium=plugin&utm_campaign=smartcrawl_sitemap_reporting_upsell_notice">%s</a>',
+			esc_html__( 'Unlock automated crawls of your URLs to always stay on top of any issues with SmartCrawl Pro. Get Sitemap Reports as part of a WPMU DEV membership along with other pro plugins and services, 24/7 support and much more', 'wds' ),
+			esc_html__( '- Try it all FREE today', 'wds' )
+		),
+	) ); ?>
+<?php endif; ?>

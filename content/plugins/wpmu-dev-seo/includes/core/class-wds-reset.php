@@ -24,8 +24,15 @@ class Smartcrawl_Reset extends Smartcrawl_Model_IO {
 		delete_option( 'wds_engine_notification' );
 		delete_option( 'wds_sitemap_dashboard' );
 
+		delete_option( Smartcrawl_Controller_Checkup_Progress::FAKE_PROGRESS_OPTION );
+		delete_option( Smartcrawl_Controller_Checkup_Progress::CHECKUP_PROGRESS_OPTION );
+		delete_site_option( Smartcrawl_Controller_Checkup_Progress::FAKE_PROGRESS_OPTION );
+		delete_site_option( Smartcrawl_Controller_Checkup_Progress::CHECKUP_PROGRESS_OPTION );
+
 		delete_site_option( 'wds-onboarding-done' );
 		delete_site_option( 'wds-free-install-date' );
+
+		delete_site_option( Smartcrawl_Xml_Sitemap::SITEMAP_PRISTINE_OPTION );
 
 		return Smartcrawl_Settings::reset_options();
 	}

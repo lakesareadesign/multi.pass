@@ -4,13 +4,15 @@ $label = empty( $label ) ? '' : $label;
 $links = empty( $links ) ? array() : $links;
 ?>
 
-<div class="wds-links-dropdown">
-	<a class="wds-links-dropdown-anchor" href="#">&hellip;</a>
-	<ul>
-		<?php if ( $label ) : ?>
-			<li class="wds-links-dropdown-label"><?php echo $label; ?></li>
-		<?php endif; ?>
+<div class="sui-dropdown wds-links-dropdown">
+	<button class="sui-button-icon sui-dropdown-anchor" aria-label="Dropdown">
+		<span class="sui-loading-text">
+			<i class="sui-icon-widget-settings-config" aria-hidden="true"></i>
+		</span>
 
+		<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
+	</button>
+	<ul>
 		<?php foreach ( $links as $href => $text ) : ?>
 			<li><a href="<?php echo esc_attr( $href ); ?>"><?php echo $text; ?></a></li>
 		<?php endforeach; ?>

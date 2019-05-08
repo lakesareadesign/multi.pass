@@ -118,9 +118,11 @@ class Hustle_HubSpot_Form_Settings extends Hustle_Provider_Form_Settings_Abstrac
 		$is_authorize = $api && ! $api->is_error && $api->is_authorized();
 		$link 	= sprintf( '<a href="#" class="hustle_provider_on_click_ajax" data-current_page="%s" data-action="update_hubspot_referrer" data-nonce="%s">%3$s</a>', $this->provider->current_page, wp_create_nonce('update_hubspot_referrer'), __( 'click here', Opt_In::TEXT_DOMAIN ) );
 
+		$note =  ' ' . __( 'You will be asked to give us access to your selected account and will be redirected back to this page.', Opt_In::TEXT_DOMAIN )
+				. ' ' . __( 'NOTE:', Opt_In::TEXT_DOMAIN ) . ' ' . __( 'Any unsaved changes will be lost.', Opt_In::TEXT_DOMAIN );
 		if ( $api && ! $api->is_error ) {
 			if ( ! $is_authorize ) {
-				$info = __( 'Please %s to connect to your Hubspot account. You will be asked to give us access to your selected account and will be redirected back to this page.', Opt_In::TEXT_DOMAIN );
+				$info = __( 'Please %s to connect to your Hubspot account.', Opt_In::TEXT_DOMAIN ) . $note;
 				$info = sprintf( $info, $link );
 				$options['info'] = array(
 					'type' 	=> 'label',
@@ -128,7 +130,7 @@ class Hustle_HubSpot_Form_Settings extends Hustle_Provider_Form_Settings_Abstrac
 					'for' 	=> '',
 				);
 			} else {
-				$info = __( 'Please %s to reconnect to your Hubspot account. You will be asked to give us access to your selected account and will be redirected back to this page.', Opt_In::TEXT_DOMAIN );
+				$info = __( "You're successfully connected to your Hubspot account. Please, choose the list to which you want to send data below or %s to reconnect to another Hubspot account.", Opt_In::TEXT_DOMAIN ) . $note;
 				$info = sprintf( $info, $link );
 				$list = $api->get_contact_list();
 				$options = array(

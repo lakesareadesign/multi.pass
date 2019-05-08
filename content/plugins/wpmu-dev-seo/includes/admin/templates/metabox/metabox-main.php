@@ -6,95 +6,73 @@
  */
 
 $post = empty( $post ) ? null : $post;
-$robots_noindex_value = empty( $robots_noindex_value ) ? false : $robots_noindex_value;
-$robots_nofollow_value = empty( $robots_nofollow_value ) ? false : $robots_nofollow_value;
-$robots_index_value = empty( $robots_index_value ) ? false : $robots_index_value;
-$robots_follow_value = empty( $robots_follow_value ) ? false : $robots_follow_value;
-$advanced_value = empty( $advanced_value ) ? array() : $advanced_value;
-$advanced_options = empty( $advanced_options ) ? array() : $advanced_options;
-$sitemap_priority_options = empty( $sitemap_priority_options ) ? array() : $sitemap_priority_options;
-$all_options = Smartcrawl_Settings::get_options();
-$og_setting_enabled = (bool) smartcrawl_get_array_value( $all_options, 'og-enable' );
-$og_post_type_enabled = (bool) smartcrawl_get_array_value( $all_options, 'og-active-' . get_post_type( $post ) );
-$twitter_post_type_enabled = (bool) smartcrawl_get_array_value( $all_options, 'twitter-active-' . get_post_type( $post ) );
-$twitter_setting_enabled = (bool) smartcrawl_get_array_value( $all_options, 'twitter-card-enable' );
-$post_type_noindexed = (bool) smartcrawl_get_array_value( $all_options, sprintf( 'meta_robots-noindex-%s', get_post_type( $post ) ) );
-$post_type_nofollowed = (bool) smartcrawl_get_array_value( $all_options, sprintf( 'meta_robots-nofollow-%s', get_post_type( $post ) ) );
-$show_social_tab = ( $og_setting_enabled && $og_post_type_enabled ) || ( $twitter_setting_enabled && $twitter_post_type_enabled );
-
-$tabs['wds_seo'] = esc_html__( 'SEO', 'wds' ) . '<span class="wds-issues"><span></span></span>';
-$tabs['wds_readability'] = esc_html__( 'Readability', 'wds' ) . '<span class="wds-issues"><span></span></span>';
-if ( $show_social_tab ) {
-	$tabs['wds_social'] = esc_html__( 'Social', 'wds' );
-}
-$tabs['wds_advanced'] = esc_html__( 'Advanced', 'wds' );
-
-if ( ! Smartcrawl_Settings::get_setting( 'analysis-readability' ) ) {
-	unset( $tabs['wds_readability'] );
-}
+$seo_sections = apply_filters( 'wds-sections-metabox-seo', array(), $post );
+$readability_sections = apply_filters( 'wds-sections-metabox-readability', array(), $post );
+$social_sections = apply_filters( 'wds-sections-metabox-social', array(), $post );
+$advanced_sections = apply_filters( 'wds-sections-metabox-advanced', array(), $post );
+$is_active = true;
 ?>
-<div class="wpmud wds-metabox">
-	<div id="container" class="wds-horizontal-tabs">
-		<?php wp_nonce_field( 'wds-metabox-nonce', '_wds_nonce' ); ?>
-		<?php
-		$this->_render( 'metabox/horizontal-tab-nav', array( 'tabs' => $tabs ) );
-		?>
-		<?php
-		$this->_render( 'metabox/horizontal-tab', array(
-			'tab_id'           => 'wds_seo',
-			'is_active'        => true,
-			'content_template' => 'metabox/metabox-tab-seo',
-			'content_args'     => array(
-				'post' => $post,
-			),
-		) );
-		?>
+<div class="<?php echo esc_attr( smartcrawl_sui_class() ); ?>">
+	<div class="sui-wrap wds-page wrap wrap-wds wds-metabox">
+		<div class="sui-tabs">
+			<?php wp_nonce_field( 'wds-metabox-nonce', '_wds_nonce' ); ?>
+			<?php $this->_render( 'metabox/horizontal-tab-nav', array(
+				'seo_sections'         => $seo_sections,
+				'readability_sections' => $readability_sections,
+				'social_sections'      => $social_sections,
+				'advanced_sections'    => $advanced_sections,
+			) ); ?>
+			<div data-panes>
+				<?php
+				if ( $seo_sections ) {
+					$this->_render( 'metabox/horizontal-tab', array(
+						'tab_id'           => 'wds_seo',
+						'is_active'        => $is_active,
+						'content_template' => 'metabox/metabox-tab-seo',
+						'content_args'     => array(
+							'seo_sections' => $seo_sections,
+						),
+					) );
+					$is_active = false;
+				}
 
-		<?php
-		if ( Smartcrawl_Settings::get_setting( 'analysis-readability' ) ) {
-			$this->_render( 'metabox/horizontal-tab', array(
-				'tab_id'           => 'wds_readability',
-				'content_template' => 'metabox/metabox-tab-readability',
-				'content_args'     => array(
-					'post' => $post,
-				),
-			) );
-		}
-		?>
+				if ( $readability_sections ) {
+					$this->_render( 'metabox/horizontal-tab', array(
+						'tab_id'           => 'wds_readability',
+						'is_active'        => $is_active,
+						'content_template' => 'metabox/metabox-tab-readability',
+						'content_args'     => array(
+							'readability_sections' => $readability_sections,
+						),
+					) );
+					$is_active = false;
+				}
 
-		<?php
-		if ( $show_social_tab ) {
-			$this->_render( 'metabox/horizontal-tab', array(
-				'tab_id'           => 'wds_social',
-				'content_template' => 'metabox/metabox-tab-social',
-				'content_args'     => array(
-					'post'                      => $post,
-					'og_setting_enabled'        => $og_setting_enabled,
-					'og_post_type_enabled'      => $og_post_type_enabled,
-					'twitter_setting_enabled'   => $twitter_setting_enabled,
-					'twitter_post_type_enabled' => $twitter_post_type_enabled,
-				),
-			) );
-		}
-		?>
+				if ( $social_sections ) {
+					$this->_render( 'metabox/horizontal-tab', array(
+						'tab_id'           => 'wds_social',
+						'is_active'        => $is_active,
+						'content_template' => 'metabox/metabox-tab-social',
+						'content_args'     => array(
+							'social_sections' => $social_sections,
+						),
+					) );
+					$is_active = false;
+				}
 
-		<?php
-		$this->_render( 'metabox/horizontal-tab', array(
-			'tab_id'           => 'wds_advanced',
-			'content_template' => 'metabox/metabox-tab-advanced',
-			'content_args'     => array(
-				'post'                     => $post,
-				'robots_noindex_value'     => $robots_noindex_value,
-				'robots_nofollow_value'    => $robots_nofollow_value,
-				'robots_index_value'       => $robots_index_value,
-				'robots_follow_value'      => $robots_follow_value,
-				'advanced_value'           => $advanced_value,
-				'advanced_options'         => $advanced_options,
-				'sitemap_priority_options' => $sitemap_priority_options,
-				'post_type_noindexed'      => $post_type_noindexed,
-				'post_type_nofollowed'     => $post_type_nofollowed,
-			),
-		) );
-		?>
+				if ( $advanced_sections ) {
+					$this->_render( 'metabox/horizontal-tab', array(
+						'tab_id'           => 'wds_advanced',
+						'is_active'        => $is_active,
+						'content_template' => 'metabox/metabox-tab-advanced',
+						'content_args'     => array(
+							'advanced_sections' => $advanced_sections,
+						),
+					) );
+					$is_active = false;
+				}
+				?>
+			</div>
+		</div>
 	</div>
 </div>

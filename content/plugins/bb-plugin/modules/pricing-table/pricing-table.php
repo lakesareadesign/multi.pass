@@ -269,6 +269,7 @@ FLBuilder::register_settings_form('pricing_column_form', array(
 							'label'         => __( 'Button URL', 'fl-builder' ),
 							'show_target'   => true,
 							'show_nofollow' => true,
+							'connections'   => array( 'url' ),
 						),
 					),
 				),

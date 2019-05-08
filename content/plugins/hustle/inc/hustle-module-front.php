@@ -78,17 +78,30 @@ class Hustle_Module_Front {
 		 * Register popup requirements
 		 */
 
-		wp_register_script('hustle_front', $this->_hustle->get_static_var(  "plugin_url" ) . 'assets/js/front.min.js', array('jquery', 'underscore'), '1.1',  $this->_hustle->get_const_var(  "VERSION" ), false);
+		wp_register_script('hustle_front', $this->_hustle->get_static_var(  "plugin_url" ) . 'assets/js/front.min.js', array('jquery', 'underscore'), $this->_hustle->get_const_var(  "VERSION" ), true );
 		wp_register_script( 'hustle_front_fitie', $this->_hustle->get_static_var( "plugin_url" ) . 'assets/js/vendor/fitie/fitie.js', array(), $this->_hustle->get_const_var( "VERSION" ), false );
 
 		$modules = apply_filters("hustle_front_modules", $this->_modules);
 		wp_localize_script('hustle_front', 'Modules', $modules);
+		$current_url = esc_url( home_url( $wp->request ) );
+		$title = rawurlencode( html_entity_decode( esc_html( get_the_title() ) ) );
+
+		$native_share_enpoints = apply_filters( 'hustle_native_share_enpoints', array(
+			'facebook' => 'https://www.facebook.com/sharer/sharer.php?u=' . $current_url,
+			'twitter' => 'https://twitter.com/intent/tweet?url=' . $current_url . '&text=' . $title,
+			'google' => 'https://plus.google.com/share?url=' . $current_url,
+			'pinterest' => 'https://www.pinterest.com/pin/create/button/?url=' . $current_url,
+			'reddit' => 'https://www.reddit.com/submit?url=' . $current_url,
+			'linkedin' => 'https://www.linkedin.com/shareArticle?mini=true&url=' . $current_url,
+			'vkontakte' => 'https://vk.com/share.php?url=' . $current_url,
+		), $current_url );
+
 		$vars = apply_filters("hustle_front_vars", array(
 			"ajaxurl" => admin_url("admin-ajax.php", is_ssl() ? 'https' : 'http'),
 			'page_id' => get_queried_object_id(),
 			'page_type' => $this->_hustle->current_page_type(),
-			'current_url' => esc_url( home_url( $wp->request ) ),
 			'is_admin' => (int) current_user_can('administrator'),
+			'native_share_enpoints' => $native_share_enpoints,
 			'is_upfront' => class_exists( "Upfront" ) && isset( $_GET['editmode'] ) && "true" === $_GET['editmode'] ,
 			'is_caldera_active' => class_exists( "Caldera_Forms" ),
 			'adblock_detector_js' => $this->_hustle->get_static_var(  "plugin_url" ) . 'assets/js/ads.js',
@@ -101,7 +114,7 @@ class Hustle_Module_Front {
 			'recaptcha' => $recaptcha_settings
 		) );
 		wp_localize_script('hustle_front', 'inc_opt', $vars );
-		wp_localize_script('hustle_front', 'hustle_vars', $vars );
+//		wp_localize_script('hustle_front', 'hustle_vars', $vars );
 
 		do_action("hustle_register_scripts");
 		wp_enqueue_script('hustle_front');
@@ -116,7 +129,7 @@ class Hustle_Module_Front {
 	 *
 	 */
 	public function handle_specific_script( $tag, $handle ) {
-		if ( 'hustle_front_fitie' === $handle ) {
+		if ( 'hustle_front_fitie' === $handle && isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
 			$user_agent = $_SERVER['HTTP_USER_AGENT'];
 			$is_ie = (
 				// IE 10 or older
@@ -138,7 +151,7 @@ class Hustle_Module_Front {
 	 *
 	 */
 	public function handle_specific_style( $tag, $handle ) {
-		if ( 'hustle_front_ie' === $handle ) {
+		if ( 'hustle_front_ie' === $handle && isset( $_SERVER['HTTP_USER_AGENT'] ) ) {
 			$user_agent = $_SERVER['HTTP_USER_AGENT'];
 			$is_ie = (
 				// IE 10 or older
@@ -164,13 +177,15 @@ class Hustle_Module_Front {
 			}
 		}
 
-		wp_register_style( 'hstl-roboto', 'https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i', $this->_hustle->get_const_var(  "VERSION" ) );
-		wp_register_style( 'hstl-opensans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i', $this->_hustle->get_const_var(  "VERSION" ) );
+		wp_register_style( 'hstl-roboto', 'https://fonts.googleapis.com/css?family=Roboto+Condensed:300,300i,400,400i,700,700i|Roboto:300,300i,400,400i,500,500i,700,700i', array(), $this->_hustle->get_const_var(  "VERSION" ) );
+		wp_register_style( 'hstl-opensans', 'https://fonts.googleapis.com/css?family=Open+Sans:400,400i,700,700i', array(), $this->_hustle->get_const_var(  "VERSION" ) );
 		wp_register_style( 'hustle_front', $this->_hustle->get_static_var(  "plugin_url" )  . 'assets/css/front.min.css', array( 'dashicons' ), $this->_hustle->get_const_var(  "VERSION" ) );
 		wp_register_style( 'hustle_front_ie', $this->_hustle->get_static_var(  "plugin_url" )  . 'assets/css/ie-front.min.css', array( 'dashicons' ), $this->_hustle->get_const_var(  "VERSION" ) );
-		wp_register_style( 'hstl-source-code-pro', 'https://fonts.googleapis.com/css?family=Source+Code+Pro', $this->_hustle->get_const_var(  "VERSION" ) );
+		wp_register_style( 'hstl-source-code-pro', 'https://fonts.googleapis.com/css?family=Source+Code+Pro', array(), $this->_hustle->get_const_var(  "VERSION" ) );
 
 		$load_google_fonts = apply_filters( 'hustle_load_google_fonts', true );
+		$disable_styles = apply_filters( 'hustle_disable_front_styles', false );
+
 		if ( $load_google_fonts ) {
 			wp_enqueue_style( 'hstl-roboto' );
 			wp_enqueue_style( 'hstl-opensans' );
@@ -179,7 +194,9 @@ class Hustle_Module_Front {
 		wp_enqueue_style( 'hustle_front' );
 		wp_enqueue_style( 'hustle_front_ie' );
 
-		$this->_inject_styles();
+		if ( !$disable_styles ) {
+			$this->_inject_styles();
+		}
 	}
 
 	/**
@@ -258,7 +275,7 @@ class Hustle_Module_Front {
 		$this->_modules = $module_front_data;
 		// Look for adblocker.
 		if( $enqueue_adblock_detector ) {
-			wp_enqueue_script('hustle_front_ads', $this->_hustle->get_static_var(  "plugin_url" ) . 'assets/js/ads.js', array(), '1.0', $this->_hustle->get_const_var(  "VERSION" ), false);
+			wp_enqueue_script('hustle_front_ads', $this->_hustle->get_static_var(  "plugin_url" ) . 'assets/js/ads.js', array(), $this->_hustle->get_const_var(  "VERSION" ), true);
 		}
 	}
 
@@ -439,7 +456,7 @@ class Hustle_Module_Front {
 		 * Maybe add trigger link (For popups and slideins).
 		 */
 		if( !empty( $content ) && ( "popup" === $type || "slidein" === $type ) )
-			return sprintf("<a href='#' class='%s' data-id='%s' data-type='%s'>%s</a>", self::SHORTCODE_TRIGGER_CSS_CLASS . " hustle_module_" . $module->id . " " . $custom_classes, $module->id, esc_attr( $type ),  $content );
+			return sprintf("<a href='#' class='%s' data-id='%s' data-type='%s'>%s</a>", self::SHORTCODE_TRIGGER_CSS_CLASS . " hustle_module_" . esc_attr( $module->id ) . " " . esc_attr( $custom_classes ), esc_attr( $module->id ), esc_attr( $type ), esc_html( $content ) );
 
 		//unique id for the same optins on one page
 		$unique_id = wp_rand();

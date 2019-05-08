@@ -151,6 +151,8 @@
 
                 <div id="wpmudev-display-trigger-exit_intent" class="wpmudev-tabs-content_item {{ ( 'exit_intent' === triggers.trigger ) ? 'current' : '' }}">
 
+					<label class="wpmudev-helper"><?php $this->get_exitintent_description(); ?></label>
+
                     <div class="wpmudev-switch-labeled">
 
                         <div class="wpmudev-switch">

@@ -179,6 +179,12 @@ class Opt_In_Infusionsoft_Api {
 				return $res;
 			}
 
+			// make email marketable
+			$this->set_method( 'APIEmailService.optIn' );
+			$this->set_param( $contact['Email'] );
+			$this->set_param( 'Customer opted-in through webform' );
+			$optin = $this->_request( $this->xml->asXML() );
+
 			return $res->get_value( 'i4' );
 		} else {
 			$err = new WP_Error();

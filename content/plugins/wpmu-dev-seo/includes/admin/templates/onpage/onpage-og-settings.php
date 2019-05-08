@@ -5,7 +5,9 @@
 $section_enabled_field_id = 'og-active-' . $for_type;
 $section_enabled = ! empty( $_view['options'][ $section_enabled_field_id ] ) ? $_view['options'][ $section_enabled_field_id ] : false;
 $section_title = __( 'Enable OpenGraph', 'wds' );
-$section_description = __( 'OpenGraph support enhances how your content appears when shared on social networks such as Facebook.', 'wds' );
+$section_description = empty( $section_description )
+	? esc_html__( 'OpenGraph support enhances how your content appears when shared on social networks such as Facebook.', 'wds' )
+	: $section_description;
 $option_name = empty( $_view['option_name'] ) ? '' : $_view['option_name'];
 $title_field_id = 'og-title-' . $for_type;
 $current_title = ! empty( $_view['options']["og-title-{$for_type}"] )

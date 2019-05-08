@@ -16,6 +16,7 @@ foreach ( $settings->icons as $icon ) {
 		'icon'            => $icon->icon,
 		'link'            => $icon->link,
 		'link_target'     => isset( $icon->link_target ) ? $icon->link_target : '_blank',
+		'link_nofollow'   => isset( $icon->link_nofollow ) ? $icon->link_nofollow : 'nofollow',
 		'size'            => $settings->size,
 		'text'            => '',
 		'three_d'         => $settings->three_d,

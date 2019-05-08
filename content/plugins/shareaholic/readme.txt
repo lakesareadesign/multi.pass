@@ -2,9 +2,9 @@
 Contributors: shareaholic
 Tags:  buttons, related posts, google analytics, share buttons, social sharing, image sharing, related content, woocommerce, typepad, amazon, analytics, arto, baidu, bitly, blogger, buffer, cookie compliance, cookie consent, delicious, digg, diigo, disqus, email button, eu cookie law, evernote, facebook, facebook sharing, fancy, fark, feedly, flipboard, floated share buttons, floating share buttons, follow buttons, GDPR, gmail, google bookmarks, google classroom, google plus, hootsuite, hotmail, houzz, inbound.org, instagram, instagram sharing, instapaper, kik, kindle, line, linkedin, livejournal, meneame, mister wong, mix, mixi, odnoklassniki, box.net, onenote, pinboard.in, pinterest, pinterest sharing, plurk, pocket, printfriendly, recommendations, reddit, sexybookmarks, share buttons, share image, shareaholic, shareholic, sms, social bookmarking, social media, social plugin, social share buttons, spotify, stumbleupon, stumpedia, symphony, tinyurl, tumblr, twitter, viadeo, vk, wanelo, wechat, weheartit, weibo, whatsapp, wykop, xing, yahoo, yammer, ycombinator, hacker news, youtube, yummly, zillow
 Requires at least: 3.3
-Tested up to: 5.1
+Tested up to: 5.2
 Requires PHP: 5.2
-Stable tag: 8.12.4
+Stable tag: 8.12.6
 
 
 Boost Audience Engagement with Award Winning Site-Speed Optimized Social Tools: Share Buttons, Related Posts, Monetization & Google Analytics.
@@ -267,6 +267,13 @@ The default Shareaholic thumbnail width is 640px with dynamic height and no crop
 Each time you change Shareaholic's thumbnail dimensions like this, you will probably want to have WordPress regenerate appropriate sized thumbnails for all of your images. We highly recommend the [Regenerate Thumbnails](https://wordpress.org/plugins/regenerate-thumbnails/) plugin for this purpose.
 
 == Changelog ==
+= 8.12.6 (2019-05-06) =
+* Updated Admin Submenu order
+* Updated CDN path
+
+= 8.12.5 (2019-05-02) =
+* Tested up to WordPress 5.2
+
 = 8.12.4 (2019-04-19) =
 * Enhancement: Header now consistent and language localized across all menus
 * Fix: Facebook changed their [Share Count API](https://www.shareaholic.com/sharecounter/?url=https://www.amazon.com/). So, we adapted.
@@ -889,7 +896,7 @@ Each time you change Shareaholic's thumbnail dimensions like this, you will prob
 * Show Related Posts data status
 
 == Upgrade Notice ==
-= 8.12.4 =
+= 8.12.6 =
 We update this plugin regularly so we can make it better for you. Update to the latest version for all of the available features and improvements. Thanks for using Shareaholic!
 
 = 8.12.1 =

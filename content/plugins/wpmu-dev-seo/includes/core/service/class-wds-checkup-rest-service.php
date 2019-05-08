@@ -112,11 +112,7 @@ class Smartcrawl_Checkup_Rest_Service extends Smartcrawl_Checkup_Service_Impleme
 			return $this->get_emails_request_arguments();
 		}
 
-		$key = $this->get_dashboard_api_key();
-		if ( empty( $key ) ) {
-			return false;
-		}
-
+		$key = (string) $this->get_dashboard_api_key();
 		$args = array(
 			'method'    => 'GET',
 			'timeout'   => 40,
@@ -140,12 +136,11 @@ class Smartcrawl_Checkup_Rest_Service extends Smartcrawl_Checkup_Service_Impleme
 			return false;
 		}
 
-		$opts = Smartcrawl_Settings::get_component_options( Smartcrawl_Settings::COMP_CHECKUP );
+		$email_recipients = Smartcrawl_Checkup_Settings::get_email_recipients();
 		$emails = array();
-		if ( ! empty( $opts['email-recipients'] ) && is_array( $opts['email-recipients'] ) ) {
-			foreach ( $opts['email-recipients'] as $user_id ) {
-				$user = new WP_User( $user_id );
-				$email = $user->user_email;
+		if ( ! empty( $email_recipients ) && is_array( $email_recipients ) ) {
+			foreach ( $email_recipients as $email_recipient ) {
+				$email = smartcrawl_get_array_value( $email_recipient, 'email' );
 				if ( ! empty( $email ) ) {
 					$emails[] = $email;
 				}

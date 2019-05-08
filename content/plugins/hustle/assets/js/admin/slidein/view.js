@@ -22,7 +22,7 @@ Hustle.define("Slidein.View", function($, doc, win){
 			this.content_view = opts.content_view;
 			this.design_view = opts.design_view;
 			this.settings_view = opts.settings_view;
-			
+
 			// unset listeners
 			this.stopListening( this.content_view.model, 'change', this.update_base_model );
 			this.stopListening( this.content_view.model, 'change', this.content_view_changed );
@@ -46,7 +46,7 @@ Hustle.define("Slidein.View", function($, doc, win){
 			$(document).off( 'click', '.wph-reset-color-palette', $.proxy( this.reset_color_palette, this ) );
 
 			// Get rid of escape key listener.
-			$(document).off( 'keydown', $.proxy( this.escape_key, this ) );
+			$(document).off( 'keydown.hustle.escKey', $.proxy( this.escape_key, this ) );
 			//Hustle.Events.off( 'slidein.preview.prepare', $.proxy( this.handle_preview, this ) );
 
 
@@ -74,11 +74,11 @@ Hustle.define("Slidein.View", function($, doc, win){
 			$(document).on( 'change keyup keypress', 'input[name=module_name]', $.proxy( this.validate_modal_name, this ) );
 
 			// Add escape key listener.
-			$(document).on( 'keydown', $.proxy( this.escape_key, this ) );
+			$(document).on( 'keydown.hustle.escKey', $.proxy( this.escape_key, this ) );
 
 			Hustle.Events.on( 'modules.view.preview.success', $.proxy( this.preview_success_message_delay, this ) );
 			//Hustle.Events.on( 'slidein.preview.prepare', $.proxy( this.handle_preview, this ) );
-			
+
 			return this.render();
 
 		},
@@ -201,7 +201,7 @@ Hustle.define("Slidein.View", function($, doc, win){
 				var custom_css = this.design_view.model.get('custom_css'),
 					nonce = $("#hustle_custom_css").data("nonce"),
 					nonce2 = $('.wpmudev-preview').data('customCssNonce');
-			
+
 				if ( _.isEmpty(custom_css) || typeof nonce === 'undefined' ) {
 					if ( "undefined" !== nonce2 ) {
 						nonce = nonce2;
@@ -241,7 +241,7 @@ Hustle.define("Slidein.View", function($, doc, win){
 		close_preview: function(e) {
 
 			e.stopPropagation();
-			
+
 			var $preview = this.$('#wph-preview-modal'),
 				$modal = $preview.find('.hustle-modal'),
 				direction = this.get_slide_in_direction(this.settings_view.model.get('display_position'), 'out'),
@@ -292,7 +292,7 @@ Hustle.define("Slidein.View", function($, doc, win){
 
 				return 'Down';
 
-			}		
+			}
 		},
 
 		provider_add_custom_fields: function(id, nonce, changed, me) {
@@ -394,9 +394,9 @@ Hustle.define("Slidein.View", function($, doc, win){
 				$btn = $(e.currentTarget);
 
 			me.$('.wpmudev-button-save, .wpmudev-button-continue, .wpmudev-button-finish').addClass('wpmudev-button-onload').prop('disabled', true);
-			
+
 			var save = this.save($btn);
-			
+
 			if ( save ) {
 
 				save.done( function(resp) {
@@ -420,12 +420,12 @@ Hustle.define("Slidein.View", function($, doc, win){
 
 							});
 						}
-						
+
 						$btn.data( 'id', resp.data );
 						$btn.siblings().data( 'id', resp.data );
 
 						Module.hasChanges = false;
-						
+
 						// redirect from the last page
 						var current = optin_vars.current.section || false;
 
@@ -564,7 +564,7 @@ Hustle.define("Slidein.View", function($, doc, win){
 			var current = optin_vars.current.section;
 
 			window.onbeforeunload = null;
-			
+
 			if ( current === 'design' ) {
 
 				window.location.replace( this.$('.wpmudev-menu-content-link a').attr('href') );
@@ -1517,6 +1517,7 @@ Hustle.define("Slidein.View", function($, doc, win){
 				settings: me.settings_view.model.toJSON()
 			} );
 			data.unique_id = '';
+			data.module_id = '';
 
 			// Append to preview after content updated.
 			$preview_modal.append(template(data));

@@ -77,7 +77,44 @@ class Smartcrawl_Controller_Hub { // phpcs:ignore -- We have two versions of thi
 		$actions['wds-sync-extras'] = array( $this, 'json_sync_extras_list' );
 		$actions['wds-purge-extras'] = array( $this, 'json_purge_extras_list' );
 
+		$actions['wds-audit-data'] = array(
+			$this,
+			'json_receive_audit_data'
+		);
+
 		return $actions;
+	}
+
+	public function obj_to_array( $data ) {
+		return json_decode(
+			json_encode( $data ),
+			true
+		);
+	}
+
+	/**
+	 * Receives the SEO Audit data pushes from the Hub
+	 *
+	 * Updates the crawl state.
+	 *
+	 * @param object $params Hub-provided parameters
+	 * @param string $action Action called
+	 */
+	public function json_receive_audit_data( $params = array(), $action = '' ) {
+		$status = true;
+
+		$service = Smartcrawl_Service::get(
+			Smartcrawl_Service::SERVICE_SEO
+		);
+		$data = $this->obj_to_array( $params );
+		$service->set_result( $data );
+		$service->set_progress_flag( empty( $data['end'] ) );
+		$service->set_last_run_timestamp();
+		Smartcrawl_Logger::debug('Received sitemap crawl data from remote');
+
+		return ! empty( $status )
+			? wp_send_json_success()
+			: wp_send_json_error();
 	}
 
 	/**

@@ -326,7 +326,7 @@ final class NF_Database_FieldsController
                 $line .= "'{$value}' ";
             }
             
-            if( isset( $this->update_field[ $setting ] ) ) {
+            if( isset( $this->update_fields[ $setting ] ) ) {
                 $this->update_fields[ $setting ] .= $line;
             } else {
                 $this->update_fields[ $setting ] = $line;

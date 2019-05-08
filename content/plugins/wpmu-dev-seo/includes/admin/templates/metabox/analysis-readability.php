@@ -1,8 +1,4 @@
 <?php
-if ( ! Smartcrawl_Settings::get_setting( 'analysis-seo' ) ) {
-	return false;
-}
-
 /**
  * @var $model \Smartcrawl_Model_Analysis
  */
@@ -21,112 +17,96 @@ $readability_levels_map = $model->get_readability_levels_map();
 $readability_strategy = Smartcrawl_String::get_readability_strategy();
 
 if ( $readability_ignored ) {
-	$classes_array[] = 'disabled';
+	$accordion_item_classes_array[] = 'disabled';
 }
 
 $total_possible_score = Smartcrawl_String::READABILITY_KINCAID === $readability_strategy ? '100' : '';
 $readability_level_description = $model->get_readability_level_description( $readability_level );
 $readability_state = $model->get_kincaid_readability_state( $readability_score, $readability_ignored );
-$classes_array[] = sprintf(
+$state_class = sprintf(
+	'sui-%s',
+	$readability_state
+);
+$accordion_item_classes_array[] = $state_class;
+$accordion_item_classes_array[] = sprintf(
 	'wds-check-%s',
 	$readability_state
 );
-$score_class = sprintf(
-	'wds-score-%s',
+$accordion_item_classes = implode( ' ', $accordion_item_classes_array );
+$refresh_analysis_disabled = 'auto-draft' === get_post_status() ? 'disabled' : '';
+$icon_class = 'success' === $readability_state
+	? $state_class . ' sui-icon-check-tick'
+	: $state_class . ' sui-icon-info';
+$tag_class = sprintf(
+	'sui-tag-%s',
 	$readability_state
 );
-$classes = implode( ' ', $classes_array );
-$refresh_analysis_disabled = 'auto-draft' === get_post_status() ? 'disabled' : '';
+$whitelabel_class = Smartcrawl_White_Label::get()->summary_class();
 ?>
 
 <div class="wds-readability-report wds-report"
      data-readability-state="<?php echo esc_attr( $readability_state ); ?>">
 
-	<div class="wds-readability-stats wds-report-stats">
-		<div class="wds-report-score">
-			<div class="wds-score <?php echo esc_attr( $score_class ); ?>">
-                <span><?php echo esc_html( $readability_score ); ?></span><?php if ( $total_possible_score ) : ?><span
-                        class="wds-total">/<?php echo esc_html( $total_possible_score ); ?></span><?php endif; ?>
+	<div id="wds-readability-stats" class="sui-summary sui-summary-sm <?php echo esc_attr( $whitelabel_class ); ?>">
+		<div class="sui-summary-image-space"></div>
+
+		<div class="sui-summary-segment">
+			<div class="sui-summary-details">
+				<span class="sui-summary-large"><?php echo esc_html( $readability_score ); ?></span>
+				<i class="<?php echo esc_attr( $icon_class ); ?>"></i>
+				<?php if ( $total_possible_score ) : ?>
+					<span class="sui-summary-percent">/<?php echo esc_html( $total_possible_score ); ?></span>
+				<?php endif; ?>
+				<span class="sui-summary-sub"><?php esc_html_e( 'Readability score', 'wds' ); ?></span>
 			</div>
-			<span class="wds-small-text"><?php esc_html_e( 'Readability score', 'wds' ); ?></span>
 		</div>
 
-		<div class="wds-readability-level-description wds-small-text">
-			<?php echo wp_kses( $readability_level_description, array( 'strong' => array() ) ); ?>
+		<div class="sui-summary-segment">
+			<?php if ( $readability_level_description ): ?>
+				<small><?php echo wp_kses( $readability_level_description, array( 'strong' => array() ) ); ?></small>
+				<br/>
+			<?php endif; ?>
 
-			<br/>
-			<button class="button button-small button-dark button-dark-o wds-refresh-analysis wds-analysis-readability wds-disabled-during-request"
-				<?php echo esc_attr( $refresh_analysis_disabled ); ?> type="button">
-				<span><?php esc_html_e( 'Refresh', 'wds' ); ?></span>
+			<button class="sui-button sui-button-ghost wds-refresh-analysis wds-analysis-readability wds-disabled-during-request"
+			        type="button" <?php echo esc_attr( $refresh_analysis_disabled ); ?>>
+				<span class="sui-loading-text">
+					<i class="sui-icon-update" aria-hidden="true"></i>
+
+					<?php esc_html_e( 'Refresh', 'wds' ); ?>
+				</span>
+
+				<i class="sui-icon-loader sui-loading" aria-hidden="true"></i>
 			</button>
 		</div>
 	</div>
 
-	<div class="wds-analysis-working">
-		<p>
-			<?php esc_html_e( 'Analyzing content, please wait a few moments', 'wds' ); ?>
-		</p>
-	</div>
+	<p class="wds-interstitial-text">
+		<small>
+			<strong><?php esc_html_e( 'Difficult', 'wds' ); ?></strong> <?php esc_html_e( '= Less than 60', 'wds' ); ?>
+		</small>
+		<small>
+			<strong><?php esc_html_e( 'OK', 'wds' ); ?></strong> <?php esc_html_e( '= 60 to 70', 'wds' ); ?>
+		</small>
+		<small>
+			<strong><?php esc_html_e( 'Easy', 'wds' ); ?></strong> <?php esc_html_e( '= 70+', 'wds' ); ?>
+		</small>
+	</p>
 
-	<div class="wds-report-inner">
-		<div class="wds-accordion">
-			<div class="wds-check-item wds-accordion-section <?php echo esc_attr( $classes ); ?>">
-				<div class="wds-accordion-handle">
-					<div class="wds-accordion-handle-part">
-						<?php esc_html_e( 'Flesch-Kincaid Test', 'wds' ); ?>
-					</div>
+	<?php $this->_render( 'notice', array(
+		'class'   => 'wds-analysis-working',
+		'message' => esc_html__( 'Analyzing content, please wait a few moments', 'wds' ),
+	) ); ?>
 
-					<?php if ( $readability_ignored ) : ?>
-						<div class="wds-unignore-container wds-accordion-handle-part">
-							<button type="button"
-							        class="wds-unignore wds-button-with-loader wds-button-with-left-loader wds-disabled-during-request button button-small button-dark-o"
-							        data-check_id="readability">
-								<?php esc_html_e( 'Restore', 'wds' ); ?>
-							</button>
-						</div>
-					<?php else : ?>
-						<div class="wds-readability-level wds-accordion-handle-part">
-							<span class="wds-check-item-indicator"><?php echo esc_html( $readability_level ); ?></span>
-						</div>
-					<?php endif; ?>
-				</div>
-				<div class="wds-accordion-content">
-					<div class="wds-small-text"><strong><?php esc_html_e( 'Overview', 'wds' ); ?></strong></div>
-					<p class="wds-small-text"><?php esc_html_e( 'The Flesch-Kincaid readability tests are readability tests designed to indicate how difficult a passage in English is to understand. Here are the benchmarks.', 'wds' ); ?></p>
-					<table class="wds-list-table">
-						<tbody>
-						<tr>
-							<th><?php esc_html_e( 'Score', 'wds' ); ?></th>
-							<th><?php esc_html_e( 'Description', 'wds' ); ?></th>
-						</tr>
+	<?php $this->_render( 'metabox/metabox-readability-report-inner', array(
+		'accordion_item_classes' => $accordion_item_classes,
+		'readability_ignored'    => $readability_ignored,
+		'icon_class'             => $icon_class,
+		'tag_class'              => $tag_class,
+		'readability_level'      => $readability_level,
+		'readability_levels_map' => $readability_levels_map,
+	) ); ?>
 
-						<?php foreach ( $readability_levels_map as $label => $level ) : ?>
-							<tr>
-								<?php
-								if ( ! is_array( $level ) || ! isset( $level['max'] ) || ! isset( $level['min'] ) ) {
-									continue;
-								}
-								?>
-								<td><?php echo esc_html( (int) ceil( $level['min'] ) ); ?>
-									- <?php echo esc_html( (int) ceil( $level['max'] ) ); ?></td>
-								<td><?php echo esc_html( $label ); ?></td>
-							</tr>
-						<?php endforeach; ?>
-						</tbody>
-					</table>
-
-					<div class="wds-small-text"><strong><?php esc_html_e( 'How to fix', 'wds' ); ?></strong></div>
-					<p class="wds-small-text"><?php esc_html_e( 'Try to use shorter sentences, with less difficult words to improve readability.', 'wds' ); ?></p>
-
-					<div class="wds-ignore-container">
-						<button type="button"
-						        class="wds-ignore wds-button-with-loader wds-button-with-right-loader wds-disabled-during-request button button-small button-dark button-dark-o"
-						        data-check_id="readability">
-							<?php esc_html_e( 'Ignore', 'wds' ); ?>
-						</button>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
+	<p class="wds-interstitial-text">
+		<small><?php esc_html_e( 'More advanced readability tests coming soon.', 'wds' ); ?></small>
+	</p>
 </div>

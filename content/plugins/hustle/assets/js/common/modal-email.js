@@ -50,7 +50,8 @@ Hustle.define("Modal_Email", function($){
 
 						// We only need the name and label in listing template
 						_.each( module_fields, function( field ) {
-							fields.push( {name: field.name, label: field.label} );
+							var field_name = field.name.replace( / /g, '_' );
+							fields.push( {name: field_name, label: field.label} );
 						});
 					}
  

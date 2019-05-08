@@ -3,62 +3,30 @@ $homepage_title = empty( $homepage_title ) ? '' : $homepage_title;
 $homepage_description = empty( $homepage_description ) ? '' : $homepage_description;
 $show_homepage_options = empty( $show_homepage_options ) ? '' : $show_homepage_options;
 $meta_robots_main_blog_archive = empty( $meta_robots_main_blog_archive ) ? '' : $meta_robots_main_blog_archive;
-$option_name = empty( $_view['option_name'] ) ? '' : '';
 ?>
 
-<?php $this->_render('onpage/onpage-preview'); ?>
+<?php $this->_render( 'onpage/onpage-preview' ); ?>
 
 <?php if ( $show_homepage_options ) : ?>
 
-	<div class="wds-table-fields-group">
-		<div class="wds-table-fields">
-			<div class="label">
-				<label for="title-homepage" class="wds-label"><?php esc_html_e( 'Page Title', 'wds' ); ?></label>
-			</div>
-			<div class="fields wds-allow-macros">
-				<input id='title-homepage' name='<?php echo esc_attr( $_view['option_name'] ); ?>[title-home]'
-				       type='text' class='wds-field' value='<?php echo esc_attr( $_view['options']['title-home'] ); ?>'>
-			</div>
-		</div>
-	</div>
-
-	<div class="wds-table-fields-group">
-		<div class="wds-table-fields">
-			<div class="label">
-				<label for="metadesc-homepage"
-				       class="wds-label"><?php esc_html_e( 'Page Description', 'wds' ); ?></label>
-			</div>
-			<div class="fields wds-allow-macros">
-				<textarea id='metadesc-homepage' name='<?php echo esc_attr( $_view['option_name'] ); ?>[metadesc-home]'
-				          type='text'
-				          class='wds-field'><?php echo esc_textarea( $_view['options']['metadesc-home'] ); ?></textarea>
-			</div>
-		</div>
-	</div>
-
-	<div class="wds-table-fields-group">
-		<div class="wds-table-fields">
-			<div class="label">
-				<label for="metakeywords-homepage"
-				       class="wds-label"><?php esc_html_e( 'Page Keywords', 'wds' ); ?></label>
-			</div>
-			<div class="fields fields-with-legend">
-				<input id='metakeywords-homepage' name='<?php echo esc_attr( $_view['option_name'] ); ?>[keywords-home]'
-				       type='text' class='wds-field'
-				       value='<?php echo esc_attr( $_view['options']['keywords-home'] ); ?>'>
-				<span
-					class="wds-field-legend"><?php echo sprintf( '%s <pre class="wds-pre wds-pre-inline">%s</pre>', esc_html__( 'Comma-separated keywords, e.g.', 'wds' ), esc_html__( 'word1, word2', 'wds' ) ); ?></span>
-			</div>
-		</div>
-	</div>
-
 	<?php
-	$this->_render( 'onpage/onpage-og-twitter', array(
-		'for_type' => 'home',
+	$this->_render( 'onpage/onpage-general-settings', array(
+		'title_key'        => 'title-home',
+		'title_label_desc' => esc_html__( 'Define the main title of your website that Google will index.', 'wds' ),
+		'title_field_desc' => esc_html__( 'This is generally your brand name, sometimes with a tagline.', 'wds' ),
+
+		'description_key' => 'metadesc-home',
+		'meta_label_desc' => esc_html__( 'Set the default description that will accompany your SEO title in search engine results.', 'wds' ),
+		'meta_field_desc' => esc_html__( 'Remember to keep it simple, to the point, and include a bit about what your website can offer potential visitors.', 'wds' ),
+
+		'keywords_key' => 'keywords-home',
 	) );
-	?>
 
-	<?php
+	$this->_render( 'onpage/onpage-og-twitter', array(
+		'for_type'          => 'home',
+		'social_label_desc' => esc_html__( 'Enable or disable support for social platforms when your homepage is shared on them.', 'wds' ),
+	) );
+
 	$this->_render( 'onpage/onpage-meta-robots', array(
 		'items' => $meta_robots_main_blog_archive,
 	) );
@@ -68,21 +36,19 @@ $option_name = empty( $_view['option_name'] ) ? '' : '';
 
 	<?php
 	$front_page = (int) get_option( 'page_on_front' );
-	$edit_link = sprintf(
-		'<a href="' . get_edit_post_link( $front_page ) . '">%s</a>',
-		__( 'here', 'wds' )
-	);
 	?>
-	<div class="wds-notice wds-notice-info">
+	<div class="wds-notice sui-notice">
 		<p>
 			<?php
+			esc_html_e( 'Your homepage is set to a static page. Configure your homepage SEO via the page itself.', 'wds' );
 			if ( $front_page ) {
-				printf(
-					esc_html__( 'Your homepage is set to a static page. Configure your homepage SEO via the page itself %s.', 'wds' ),
-					wp_kses_post( $edit_link )
-				);
-			} else {
-				esc_html_e( 'Your homepage is set to a static page. Configure your homepage SEO via the page itself.', 'wds' );
+				?>
+				<br/>
+				<a type="button"
+				   href="<?php echo esc_attr( get_edit_post_link( $front_page ) ); ?>"
+				   class="sui-button">
+					<?php esc_html_e( 'Go To Homepage', 'wds' ); ?></a>
+				<?php
 			}
 			?>
 		</p>

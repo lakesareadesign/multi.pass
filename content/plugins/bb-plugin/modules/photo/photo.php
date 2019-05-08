@@ -331,7 +331,12 @@ class FLPhotoModule extends FLBuilderModule {
 			$attrs .= 'onerror="this.style.display=\'none\'" ';
 		}
 
-		return $attrs;
+		/**
+		 * Filter image attributes as a string.
+		 * @since 2.2.3
+		 * @see fl_builder_photo_attributes
+		 */
+		return apply_filters( 'fl_builder_photo_attributes', $attrs );
 	}
 
 	/**

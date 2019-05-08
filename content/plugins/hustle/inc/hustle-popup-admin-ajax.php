@@ -207,17 +207,22 @@ class Hustle_Popup_Admin_Ajax {
 
 		Opt_In_Utils::validate_ajax_call( "hustle_save_popup_module" );
 
-		$_POST = stripslashes_deep( $_POST );
+		$_post = stripslashes_deep( $_POST );
 
 		//check if e-Newsletter sync should be done and set new "Synced" value
-		if( isset($_POST['content']['email_services']['e_newsletter']) ){
+		if( isset($_post['content']['email_services']['e_newsletter']) ){
 			$do_sync = $this->check_enews_sync();
 		}
 
-		if( "-1" === $_POST['id']  )
-			$res = $this->_admin->save_new( $_POST );
+		// filter shortcode_id
+		if ( !empty( $_post['shortcode_id'] ) ) {
+			$_post['shortcode_id'] = $this->_hustle->sanitize_shortcode_id( $_post['shortcode_id'] );
+		}
+
+		if( "-1" === $_post['id']  )
+			$res = $this->_admin->save_new( $_post );
 		else
-			$res = $this->_admin->update_module( $_POST );
+			$res = $this->_admin->update_module( $_post );
 
 		//do sync with e-Newsletter after saving because we need the ID
 		if( isset($do_sync) && $do_sync ) {
@@ -330,7 +335,8 @@ class Hustle_Popup_Admin_Ajax {
 			$module->add_meta( $this->_hustle->get_const_var( "KEY_CONTENT", $module ), $content );
 			$module->add_meta( $this->_hustle->get_const_var( "KEY_DESIGN", $module ), $design );
 			$module->add_meta( $this->_hustle->get_const_var( "KEY_SETTINGS", $module ), $settings );
-			$module->add_meta( $this->_hustle->get_const_var( "KEY_SHORTCODE_ID", $module ),  $shortcode_id );
+			$new_shortcode_id = $module->get_new_shortcode_id( $shortcode_id );
+			$module->add_meta( $this->_hustle->get_const_var( "KEY_SHORTCODE_ID", $module ),  $new_shortcode_id );
 		}
 		if( $result && !is_wp_error( $result ) )
 			wp_send_json_success( __("Successful", Opt_In::TEXT_DOMAIN) );
@@ -546,6 +552,8 @@ class Hustle_Popup_Admin_Ajax {
 			$subscriber_data = array();
 
 			foreach ( $fields as $key => $label ) {
+				$key = str_replace( ' ', '_', $key );
+
 				// Check for legacy
 				if ( isset( $row->f_name ) && 'first_name' === $key )
 					$key = 'f_name';

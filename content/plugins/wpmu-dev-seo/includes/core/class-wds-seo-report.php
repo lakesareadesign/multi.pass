@@ -2,8 +2,8 @@
 
 class Smartcrawl_SeoReport {
 
-	private static $_instance;
-
+	private $_in_progress = false;
+	private $_progress = 0;
 	private $_items = array();
 	private $_by_type = array();
 
@@ -14,7 +14,7 @@ class Smartcrawl_SeoReport {
 
 	private $_sitemap_issues = 0;
 
-	private function __construct() {
+	public function __construct() {
 	}
 
 	/**
@@ -22,13 +22,12 @@ class Smartcrawl_SeoReport {
 	 *
 	 * @param array $raw Raw crawl report, as returned by service
 	 *
-	 * @return object Smartcrawl_SeoReport instance
+	 * @return Smartcrawl_SeoReport instance
 	 */
-	public static function build( $raw ) {
+	public function build( $raw ) {
 		if ( ! is_array( $raw ) ) {
 			$raw = array();
 		}
-		$me = self::get();
 
 		$issues = ! empty( $raw['issues'] )
 			? $raw['issues']
@@ -37,18 +36,10 @@ class Smartcrawl_SeoReport {
 			$issues = $issues['issues'];
 		}
 
-		$me->build_meta( $raw );
-		$me->build_issues( $issues );
+		$this->build_meta( $raw );
+		$this->build_issues( $issues );
 
-		return $me;
-	}
-
-	public static function get() {
-		if ( empty( self::$_instance ) ) {
-			self::$_instance = new self();
-		}
-
-		return self::$_instance;
+		return $this;
 	}
 
 	/**
@@ -367,5 +358,28 @@ class Smartcrawl_SeoReport {
 	private function __clone() {
 	}
 
+	public function is_in_progress() {
+		return $this->_in_progress;
+	}
+
+	public function set_in_progress( $in_progress ) {
+		$this->_in_progress = $in_progress;
+	}
+
+	public function get_progress() {
+		return $this->_progress;
+	}
+
+	public function set_progress( $progress ) {
+		$this->_progress = $progress;
+	}
+
+	public function has_data() {
+		// Check if the meta has been set already or we have some error messages to show
+		return (boolean) (
+			array_filter( $this->_meta )
+			|| array_filter( $this->_state_messages )
+		);
+	}
 
 }

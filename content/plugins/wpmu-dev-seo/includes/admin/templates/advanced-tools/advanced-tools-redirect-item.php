@@ -3,69 +3,52 @@
 // phpcs:ignoreFile
 $source = empty( $source ) ? '' : $source;
 $destination = empty( $destination ) ? '' : $destination;
+$selected_type = empty( $selected_type ) ? '' : $selected_type;
 $index = empty( $index ) ? 0 : $index;
-$maybe_permanent_selected = empty( $maybe_permanent_selected ) ? '' : $maybe_permanent_selected;
-$maybe_temporary_selected = empty( $maybe_temporary_selected ) ? '' : $maybe_temporary_selected;
 
-$string_permanent = empty( $string_permanent ) ? '' : $string_permanent;
-$string_temporary = empty( $string_temporary ) ? '' : $string_temporary;
-$string_options = empty( $string_options ) ? '' : $string_options;
-$string_remove = empty( $string_remove ) ? '' : $string_remove;
-
-$option_name = empty( $_view['option_name'] ) ? '' : $_view['option_name'];
+$option_name = 'wds_autolinks_options';
 ?>
 
-<tr data-index="<?php echo $index; ?>">
-	<td>
+<div data-index="<?php echo esc_attr( $index ); ?>"
+     class="sui-builder-field wds-redirect-item">
+
+	<label class="sui-checkbox">
 		<input type="checkbox"
-		       autocomplete="off"
-		       class="wds-checkbox"
-		       name="<?php echo $option_name; ?>[bulk][]"
-		       value="<?php echo $index; ?>" title=""/>
-	</td>
+		       name="<?php echo esc_attr( $option_name ); ?>[bulk][]"
+		       value="<?php echo esc_attr( $index ); ?>"/>
+		<span aria-hidden="true"></span>
+	</label>
 
-	<td>
-		<div class="wds-redirection_item-source">
-			<input type="text"
-			       class="wds-field"
-			       placeholder="<?php esc_html_e( 'E.g. /cats', 'wds' ); ?>"
-			       value="<?php echo $source; ?>"
-			       name="<?php echo $option_name; ?>[urls][<?php echo $index; ?>][source]"
-			       title=""/>
-		</div>
-	</td>
+	<div class="sui-builder-field-label">
+		<span><?php echo esc_html( $source ); ?></span>
+	</div>
 
-	<td>
-		<div class="wds-redirection_item-destination">
-			<input id="<?php echo $option_name; ?>"
-			       name="<?php echo $option_name; ?>[urls][<?php echo $index; ?>][destination]"
-			       type="text"
-			       placeholder="<?php esc_html_e( 'E.g. /cats-new', 'wds' ); ?>"
-			       class="wds-field"
-			       value="<?php echo $destination; ?>"
-			       title=""/>
-		</div>
-	</td>
+	<small><?php echo esc_html( $destination ); ?></small>
+	<span class="wds-redirect-type-label wds-redirect-type-label-<?php echo esc_attr( $selected_type ); ?>">
+        <small><?php esc_html_e( 'Permanent', 'wds' ); ?></small>
+        <small><?php esc_html_e( 'Temporary', 'wds' ); ?></small>
+    </span>
 
-	<td>
-		<div class="wds-redirection_item-type select-container select-container-no-style">
-			<select title=""
-			        style="width: 100%;"
-			        name="<?php echo $option_name; ?>[urls][<?php echo $index; ?>][type]">
-				<option <?php echo $maybe_permanent_selected; ?> value="301"><?php echo $string_permanent; ?></option>
-				<option <?php echo $maybe_temporary_selected; ?> value="302"><?php echo $string_temporary; ?></option>
-			</select>
-		</div>
-	</td>
+	<?php $this->_render( 'links-dropdown', array(
+		'label' => esc_html__( 'Options', 'wds' ),
+		'links' => array(
+			'#edit'   => '<i class="sui-icon-pencil" aria-hidden="true"></i> ' . esc_html__( 'Edit', 'wds' ),
+			'#remove' => '<i class="sui-icon-trash" aria-hidden="true"></i> ' . esc_html__( 'Remove', 'wds' ),
+		),
+	) ); ?>
 
-	<td>
-		<?php
-		$this->_render( 'links-dropdown', array(
-			'label' => $string_options,
-			'links' => array(
-				'#remove' => $string_remove,
-			),
-		) );
-		?>
-	</td>
-</tr>
+	<input value="<?php echo esc_attr( $source ); ?>"
+	       type="hidden"
+	       class="wds-source-url"
+	       name="<?php echo esc_attr( $option_name ); ?>[urls][<?php echo esc_attr( $index ); ?>][source]"/>
+
+	<input value="<?php echo esc_attr( $destination ); ?>"
+	       type="hidden"
+	       class="wds-destination-url"
+	       name="<?php echo esc_attr( $option_name ); ?>[urls][<?php echo esc_attr( $index ); ?>][destination]"/>
+
+	<input value="<?php echo esc_attr( $selected_type ); ?>"
+	       type="hidden"
+	       class="wds-redirect-type"
+	       name="<?php echo esc_attr( $option_name ); ?>[urls][<?php echo esc_attr( $index ); ?>][type]"/>
+</div>
