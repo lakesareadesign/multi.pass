@@ -1303,6 +1303,23 @@ function genesis_attributes_comment_author_link( $attributes ) {
 
 }
 
+add_filter( 'genesis_attr_comment-author-name', 'genesis_attributes_comment_author_name' );
+/**
+ * Add attributes for comment author name element.
+ *
+ * @since 2.10.0
+ *
+ * @param array $attributes Existing attributes for comment author name element.
+ * @return array Amended attributes for comment author name element.
+ */
+function genesis_attributes_comment_author_name( $attributes ) {
+
+	$attributes['itemprop'] = 'name';
+
+	return $attributes;
+
+}
+
 add_filter( 'genesis_attr_comment-time', 'genesis_attributes_comment_time' );
 /**
  * Add attributes for comment time element.
@@ -1321,17 +1338,19 @@ function genesis_attributes_comment_time( $attributes ) {
 
 }
 
-add_filter( 'genesis_attr_comment-time-link', 'genesis_attributes_comment_time_link' );
+add_filter( 'genesis_attr_comment-time-link', 'genesis_attributes_comment_time_link', 10, 3 );
 /**
  * Add attributes for comment time link element.
  *
  * @since 2.1.0
  *
  * @param array $attributes Existing attributes for comment time link element.
- * @return array Amended attributes for comment time link element.
+ * @param array $context Not used. Markup context (ie. `footer-widget-area`).
+ * @return array Amended attributes for comment time link.
  */
-function genesis_attributes_comment_time_link( $attributes ) {
-
+function genesis_attributes_comment_time_link( $attributes, $context, $args ) {
+	$comment                = $args['params']['comment'];
+	$attributes['href']     = get_comment_link( $comment->comment_ID );
 	$attributes['itemprop'] = 'url';
 
 	return $attributes;

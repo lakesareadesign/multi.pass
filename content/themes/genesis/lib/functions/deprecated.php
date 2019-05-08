@@ -12,6 +12,29 @@
  */
 
 /**
+ * Deprecated. Displays the notice that the theme settings were successfully updated to the latest version.
+ *
+ * Currently only used for pre-release update notices.
+ *
+ * @since 1.2.0
+ * @deprecated 2.10.1
+ */
+function genesis_upgraded_notice() {
+	 _deprecated_function( __FUNCTION__, '2.10.1' );
+}
+
+/**
+ * Deprecated. Redirect the user back to the "What's New" page, refreshing the data and notifying the user that they have
+ * successfully updated.
+ *
+ * @since 1.6.0
+ * @deprecated 2.10.1
+ */
+function genesis_upgrade_redirect() {
+	_deprecated_function( __FUNCTION__, '2.10.1' );
+}
+
+/**
  * Deprecated. Replace the default search form with a Genesis-specific form.
  *
  * `get_search_form()` suggested as replacement.

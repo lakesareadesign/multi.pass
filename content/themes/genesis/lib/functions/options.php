@@ -374,7 +374,7 @@ function genesis_update_settings( $new = '', $setting = GENESIS_SETTINGS_FIELD )
 
 	// Allow settings to be deleted.
 	foreach ( $settings as $key => $value ) {
-		if ( 'unset' == $value ) {
+		if ( 'unset' === $value ) {
 			unset( $settings[ $key ] );
 		}
 	}

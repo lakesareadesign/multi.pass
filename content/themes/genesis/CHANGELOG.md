@@ -6,12 +6,52 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 
 Up until release 2.7.0, this project did _not_ follow semantic versioning. It followed the WordPress policy where updates of x and y in an x.y.z version number means a major release, and updates to z means a patch release.
 
-## [2.3.1] - 2019-03-20
+## [2.10.1] - 2019-05-07
+
+### Added
+* Added action links (via filter) to the end of the update completed screen.
+
+### Removed
+* Removed automatic redirect to Theme Settings after an update.
+* Removed the function that output a "success" notice after database upgrade. Upgrades are now silent.
+
+### Fixed
+* Fixed issue on Genesis Plugins page that resulted in a fatal error on WP 5.x or older.
+* Fixed issue with the database upgrade that would cause it not to run in certain circumstances.
+
+## [2.10.0] - 2019-05-01
+
+### Added
+* Added `wp genesis core upgrade` WP-CLI Command.
+* Added `wp genesis core version` WP-CLI Command.
+* Added `wp genesis db upgrade` WP-CLI Command.
+* Added `wp genesis db version` WP-CLI Command.
+* Added `wp genesis setting get` WP-CLI Command.
+* Added `wp genesis setting update` WP-CLI Command.
+* Added child theme version to data sent to update server.
+* Added Genesis Plugins page, to allow Genesis plugins to be discovered and installed easily.
+* Added actions hooks before and after content import during Theme Setup.
+* Added `wp_body_open()` to the header template, directly after the opening `<body>` tag.
+* Added ability for Genesis to run a database upgrade after an update.
+
+### Changed
+* Pass all comment markup through the Markup API.
+* Process shortcodes and embeds in archive intro text.
+* Allow for the import of local images during Theme Setup.
+* Made output of the Theme Setup screen conditional based on the content in the onboarding config file.
+* Pass comment author name through Markup API.
+
+### Fixed
+* Fixed broken comment author link in xHTML.
+* Fixed empty H1 on Theme Setup page.
+* Fixed many WordPress code standards warnings and errors.
+* Fixed multiple home links in breadcrumbs under certain circumstances.
+* Fixed instances where users who can't install plugins are sent to onboarding screen.
+
+## [2.9.1] - 2019-03-20
 
 ### Fixed
 - Fixed issue where `get_comment_author_link()` was being escaped improperly.
-
-[2.9.1]: https://github.com/studiopress/genesis/compare/2.9.0...2.9.1
 
 
 ## [2.9.0] - 2019-03-13
@@ -1124,6 +1164,8 @@ _Requires WordPress 3.1.0._
 
 First public release.
 
+[2.10.1]: https://github.com/studiopress/genesis/compare/2.10.0...2.10.1
+[2.10.0]: https://github.com/studiopress/genesis/compare/2.9.1...2.10.0
 [2.9.1]: https://github.com/studiopress/genesis/compare/2.9.0...2.9.1
 [2.9.0]: https://github.com/studiopress/genesis/compare/2.8.1...2.9.0
 [2.8.1]: https://github.com/studiopress/genesis/compare/2.8.0...2.8.1

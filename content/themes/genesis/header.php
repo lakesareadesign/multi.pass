@@ -43,8 +43,12 @@ genesis_markup(
 	)
 );
 
+if ( function_exists( 'wp_body_open' ) ) {
+	wp_body_open();
+}
+
 /**
- * Fires immediately after the body element opening markup.
+ * Fires immediately after the `wp_body_open` action hook.
  *
  * @since 1.0.0
  */

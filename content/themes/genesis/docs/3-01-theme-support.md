@@ -15,6 +15,7 @@ add_theme_support( 'menus' );
 add_theme_support( 'post-thumbnails' );
 add_theme_support( 'title-tag' );
 add_theme_support( 'automatic-feed-links' );
+add_theme_support( 'body-open' );
 add_theme_support( 'genesis-inpost-layouts' );
 add_theme_support( 'genesis-archive-layouts' );
 add_theme_support( 'genesis-admin-menu' );
@@ -48,6 +49,10 @@ These enable the following features:
   <tr>
     <td>automatic-feed-links</td>
     <td>See <a href="https://codex.wordpress.org/Automatic_Feed_Links">automatic feed links</a>.</td>
+  </tr>
+  <tr>
+    <td>body-open</td>
+    <td>Show plugin developers that the theme uses the <br><a href="https://make.wordpress.org/themes/2019/03/29/addition-of-new-wp_body_open-hook/">wp_body_open</a> function.</td>
   </tr>
   <tr>
     <td>genesis-inpost-layouts</td>
@@ -122,9 +127,8 @@ Add support for Genesis accessibility features (also strongly recommended).
 add_theme_support(
 	'genesis-accessibility',
 	array(
-		'404-page',
 		'drop-down-menu',
-		'headings',		
+		'headings',
 		'search-form',
 		'skip-links',
 	)
@@ -135,10 +139,6 @@ add_theme_support(
   <tr>
     <th>Option</th>
     <th>Description</th> 
-  </tr>
-  <tr>
-    <td>404-page</td>
-    <td>Add an additional heading and adjust heading levels on the 404 page.</td>
   </tr>
   <tr>
     <td>drop-down-menu</td>

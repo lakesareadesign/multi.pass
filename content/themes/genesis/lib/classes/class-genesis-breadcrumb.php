@@ -109,7 +109,7 @@ class Genesis_Breadcrumb {
 			$crumbs[] = $this->get_search_crumb();
 		} elseif ( is_404() ) {
 			$crumbs[] = $this->get_404_crumb();
-		} elseif ( is_page() ) {
+		} elseif ( is_page() && ! is_front_page() ) {
 			$crumbs[] = $this->get_page_crumb();
 		} elseif ( is_archive() ) {
 			$crumbs[] = $this->get_archive_crumb();
@@ -127,7 +127,7 @@ class Genesis_Breadcrumb {
 		 */
 		$crumbs = apply_filters( 'genesis_build_crumbs', $crumbs, $this->args );
 
-		return implode( $this->args['sep'], array_filter( array_unique( $crumbs ) ) );
+		return implode( $this->args['sep'], array_filter( $crumbs ) );
 
 	}
 

@@ -11,7 +11,6 @@
  * @link    https://my.studiopress.com/themes/genesis/
  */
 
-add_filter( 'genesis_term_intro_text_output', 'wpautop' );
 add_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 );
 /**
  * Add custom heading and / or description to category / tag / taxonomy archive pages.
@@ -21,17 +20,20 @@ add_action( 'genesis_before_loop', 'genesis_do_taxonomy_title_description', 15 )
  *
  * If there's a title to display, it is marked up as a level 1 heading.
  *
- * If there's a description to display, it runs through `wpautop()` before being added to a div.
+ * If there's a description to display, it runs through `wpautop()`,
+ * `do_shortcode()` and `autoembed()` before being added to a div.
  *
+ * @since 2.10.0 Filter intro text with `do_shortcode()` and `autoembed()`.
  * @since 1.3.0
  *
  * @global WP_Query $wp_query Query object.
+ * @global WP_Embed $wp_embed Embed object.
  *
  * @return void Return early if not the correct archive page, or no term is found.
  */
 function genesis_do_taxonomy_title_description() {
 
-	global $wp_query;
+	global $wp_query, $wp_embed;
 
 	if ( ! is_category() && ! is_tag() && ! is_tax() ) {
 		return;
@@ -49,6 +51,17 @@ function genesis_do_taxonomy_title_description() {
 	}
 
 	$intro_text = get_term_meta( $term->term_id, 'intro_text', true );
+	$intro_text = wpautop( $intro_text );
+	$intro_text = $wp_embed->autoembed( $intro_text );
+	$intro_text = do_shortcode( $intro_text );
+
+	/**
+	 * Filter the archive intro text.
+	 *
+	 * @since 1.9.0
+	 *
+	 * @param string $intro_text The current archive intro text.
+	 */
 	$intro_text = apply_filters( 'genesis_term_intro_text_output', $intro_text ? $intro_text : '' );
 
 	/**

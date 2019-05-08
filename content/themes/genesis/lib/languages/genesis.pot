@@ -2,9 +2,9 @@
 # This file is distributed under the GPL-2.0-or-later.=!>
 msgid ""
 msgstr ""
-"Project-Id-Version: Genesis 2.9.0\n"
+"Project-Id-Version: Genesis 2.10.1\n"
 "Report-Msgid-Bugs-To: StudioPress <translations@studiopress.com>\n"
-"POT-Creation-Date: 2019-03-12 18:13:53+00:00\n"
+"POT-Creation-Date: 2019-05-07 11:12:42+00:00\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
@@ -27,7 +27,7 @@ msgstr ""
 msgid "Not found, error 404"
 msgstr ""
 
-#: 404.php:50
+#: 404.php:43
 #. translators: %s: URL for current website.
 msgid ""
 "The page you are looking for no longer exists. Perhaps you can return back "
@@ -43,7 +43,7 @@ msgstr ""
 msgid "Reader Interactions"
 msgstr ""
 
-#: config/breadcrumbs.php:22 lib/functions/deprecated.php:313
+#: config/breadcrumbs.php:22 lib/functions/deprecated.php:336
 msgid "Home"
 msgstr ""
 
@@ -54,8 +54,8 @@ msgstr ""
 #: config/breadcrumbs.php:43 config/breadcrumbs.php:44
 #: config/breadcrumbs.php:45 config/breadcrumbs.php:46
 #: config/breadcrumbs.php:48 config/breadcrumbs.php:49
-#: lib/structure/archive.php:181 lib/structure/archive.php:183
-#: lib/structure/archive.php:185
+#: lib/structure/archive.php:194 lib/structure/archive.php:196
+#: lib/structure/archive.php:198
 msgid "Archives for "
 msgstr ""
 
@@ -298,10 +298,10 @@ msgstr ""
 
 #: config/customizer-theme-settings.php:23
 #: lib/classes/class-genesis-admin-import-export.php:123
-#: lib/classes/class-genesis-admin-settings.php:50
-#: lib/classes/class-genesis-admin-settings.php:51
-#: lib/classes/class-genesis-admin-settings.php:229
-#: lib/views/help/genesis-theme-settings.php:15
+#: lib/classes/class-genesis-admin-settings.php:53
+#: lib/classes/class-genesis-admin-settings.php:54
+#: lib/classes/class-genesis-admin-settings.php:232
+#: lib/functions/upgrade.php:824 lib/views/help/genesis-theme-settings.php:15
 #: lib/views/meta-boxes/genesis-inpost-layout-box.php:32
 #: lib/views/meta-boxes/genesis-term-meta-layout.php:28
 #: lib/views/meta-boxes/genesis-user-layout.php:31
@@ -338,8 +338,8 @@ msgid ""
 msgstr ""
 
 #: config/customizer-theme-settings.php:60
-#: lib/classes/class-genesis-admin-settings.php:233
-#: lib/classes/class-genesis-admin-settings.php:282
+#: lib/classes/class-genesis-admin-settings.php:236
+#: lib/classes/class-genesis-admin-settings.php:285
 #: lib/views/help/genesis-header.php:15
 msgid "Header"
 msgstr ""
@@ -358,7 +358,7 @@ msgid "Image logo"
 msgstr ""
 
 #: config/customizer-theme-settings.php:78
-#: lib/classes/class-genesis-admin-settings.php:275
+#: lib/classes/class-genesis-admin-settings.php:278
 msgid "Google AdSense"
 msgstr ""
 
@@ -403,8 +403,8 @@ msgid "Select Site Layout"
 msgstr ""
 
 #: config/customizer-theme-settings.php:132
-#: lib/classes/class-genesis-admin-settings.php:239
-#: lib/classes/class-genesis-admin-settings.php:290
+#: lib/classes/class-genesis-admin-settings.php:242
+#: lib/classes/class-genesis-admin-settings.php:293
 #: lib/views/help/genesis-breadcrumbs.php:15
 msgid "Breadcrumbs"
 msgstr ""
@@ -443,8 +443,8 @@ msgid "Breadcrumbs on Attachment/Media"
 msgstr ""
 
 #: config/customizer-theme-settings.php:206
-#: lib/classes/class-genesis-admin-settings.php:240
-#: lib/classes/class-genesis-admin-settings.php:293
+#: lib/classes/class-genesis-admin-settings.php:243
+#: lib/classes/class-genesis-admin-settings.php:296
 #: lib/views/help/genesis-comments.php:15
 msgid "Comments and Trackbacks"
 msgstr ""
@@ -466,8 +466,8 @@ msgid "Enable Trackbacks on Pages"
 msgstr ""
 
 #: config/customizer-theme-settings.php:244
-#: lib/classes/class-genesis-admin-settings.php:241
-#: lib/classes/class-genesis-admin-settings.php:294
+#: lib/classes/class-genesis-admin-settings.php:244
+#: lib/classes/class-genesis-admin-settings.php:297
 #: lib/views/help/genesis-archives.php:15
 msgid "Content Archives"
 msgstr ""
@@ -695,8 +695,8 @@ msgstr ""
 #: lib/classes/class-genesis-admin-cpt-archive-settings.php:152
 #: lib/classes/class-genesis-admin-cpt-archive-settings.php:178
 #: lib/classes/class-genesis-admin-import-export.php:127
-#: lib/classes/class-genesis-admin-seo-settings.php:40
-#: lib/classes/class-genesis-admin-seo-settings.php:165
+#: lib/classes/class-genesis-admin-seo-settings.php:43
+#: lib/classes/class-genesis-admin-seo-settings.php:168
 #: lib/views/help/cpt-archive-seo.php:15 lib/views/help/seo-settings.php:15
 msgid "SEO Settings"
 msgstr ""
@@ -741,76 +741,81 @@ msgstr ""
 msgid "Getting Started"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-seo-settings.php:39
+#: lib/classes/class-genesis-admin-plugins.php:32
+#: lib/classes/class-genesis-admin-plugins.php:33
+msgid "Genesis Plugins"
+msgstr ""
+
+#: lib/classes/class-genesis-admin-seo-settings.php:42
 msgid "Genesis - SEO Settings"
-msgstr ""
-
-#: lib/classes/class-genesis-admin-seo-settings.php:45
-#: lib/classes/class-genesis-admin-settings.php:60
-#: lib/classes/class-genesis-admin.php:129
-msgid "Save Changes"
-msgstr ""
-
-#: lib/classes/class-genesis-admin-seo-settings.php:46
-#: lib/classes/class-genesis-admin-settings.php:61
-#: lib/classes/class-genesis-admin.php:130
-msgid "Reset Settings"
-msgstr ""
-
-#: lib/classes/class-genesis-admin-seo-settings.php:47
-#: lib/classes/class-genesis-admin-settings.php:62
-#: lib/classes/class-genesis-admin.php:131
-msgid "Settings saved."
 msgstr ""
 
 #: lib/classes/class-genesis-admin-seo-settings.php:48
 #: lib/classes/class-genesis-admin-settings.php:63
-#: lib/classes/class-genesis-admin.php:132
-msgid "Settings reset."
+#: lib/classes/class-genesis-admin.php:147
+msgid "Save Changes"
 msgstr ""
 
 #: lib/classes/class-genesis-admin-seo-settings.php:49
 #: lib/classes/class-genesis-admin-settings.php:64
-#: lib/classes/class-genesis-admin.php:133
+#: lib/classes/class-genesis-admin.php:148
+msgid "Reset Settings"
+msgstr ""
+
+#: lib/classes/class-genesis-admin-seo-settings.php:50
+#: lib/classes/class-genesis-admin-settings.php:65
+#: lib/classes/class-genesis-admin.php:149
+msgid "Settings saved."
+msgstr ""
+
+#: lib/classes/class-genesis-admin-seo-settings.php:51
+#: lib/classes/class-genesis-admin-settings.php:66
+#: lib/classes/class-genesis-admin.php:150
+msgid "Settings reset."
+msgstr ""
+
+#: lib/classes/class-genesis-admin-seo-settings.php:52
+#: lib/classes/class-genesis-admin-settings.php:67
+#: lib/classes/class-genesis-admin.php:151
 msgid "Error saving settings."
 msgstr ""
 
-#: lib/classes/class-genesis-admin-seo-settings.php:166
+#: lib/classes/class-genesis-admin-seo-settings.php:169
 #: lib/views/help/seo-doctitle.php:15
 msgid "Doctitle Settings"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-seo-settings.php:167
-#: lib/classes/class-genesis-admin-seo-settings.php:186
+#: lib/classes/class-genesis-admin-seo-settings.php:170
+#: lib/classes/class-genesis-admin-seo-settings.php:189
 #: lib/views/help/seo-homepage.php:15
 msgid "Homepage Settings"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-seo-settings.php:168
-#: lib/classes/class-genesis-admin-seo-settings.php:187
+#: lib/classes/class-genesis-admin-seo-settings.php:171
+#: lib/classes/class-genesis-admin-seo-settings.php:190
 #: lib/views/help/seo-dochead.php:15
 msgid "Document Head Settings"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-seo-settings.php:169
-#: lib/classes/class-genesis-admin-seo-settings.php:188
+#: lib/classes/class-genesis-admin-seo-settings.php:172
+#: lib/classes/class-genesis-admin-seo-settings.php:191
 #: lib/views/help/seo-robots.php:15
 #: lib/views/meta-boxes/genesis-inpost-seo-box.php:67
 msgid "Robots Meta Settings"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-seo-settings.php:185
+#: lib/classes/class-genesis-admin-seo-settings.php:188
 msgid "Site-wide Settings"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-seo-settings.php:207
+#: lib/classes/class-genesis-admin-seo-settings.php:210
 msgid ""
 "Hey there! Did you know that SEO settings can now be configured with a live "
 "preview in the Customizer?"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-seo-settings.php:210
-#: lib/classes/class-genesis-admin-settings.php:330
+#: lib/classes/class-genesis-admin-seo-settings.php:213
+#: lib/classes/class-genesis-admin-settings.php:333
 #. translators: %s: Customizer admin URL
 msgid ""
 "Eventually, settings pages like this one will no longer be available, and "
@@ -818,59 +823,59 @@ msgid ""
 "href=\"%s\">start using it now</a>!"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-settings.php:82
+#: lib/classes/class-genesis-admin-settings.php:85
 msgid "Follow me on Twitter"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-settings.php:230
-#: lib/classes/class-genesis-admin-settings.php:265
+#: lib/classes/class-genesis-admin-settings.php:233
+#: lib/classes/class-genesis-admin-settings.php:268
 #: lib/views/help/genesis-information.php:15
 msgid "Information"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-settings.php:231
-#: lib/classes/class-genesis-admin-settings.php:272
+#: lib/classes/class-genesis-admin-settings.php:234
+#: lib/classes/class-genesis-admin-settings.php:275
 #: lib/views/help/genesis-feeds.php:15
 msgid "Custom Feeds"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-settings.php:232
-#: lib/classes/class-genesis-admin-settings.php:278
+#: lib/classes/class-genesis-admin-settings.php:235
+#: lib/classes/class-genesis-admin-settings.php:281
 #: lib/views/help/genesis-layout.php:15
 #: lib/views/meta-boxes/genesis-theme-settings-layout.php:22
 msgid "Default Layout"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-settings.php:236
-#: lib/classes/class-genesis-admin-settings.php:286
+#: lib/classes/class-genesis-admin-settings.php:239
+#: lib/classes/class-genesis-admin-settings.php:289
 #: lib/views/help/genesis-navigation.php:15
 msgid "Navigation"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-settings.php:242
+#: lib/classes/class-genesis-admin-settings.php:245
 #: lib/views/help/genesis-blog.php:15
 msgid "Blog Page"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-settings.php:243
-#: lib/classes/class-genesis-admin-settings.php:298
+#: lib/classes/class-genesis-admin-settings.php:246
+#: lib/classes/class-genesis-admin-settings.php:301
 #: lib/views/help/genesis-scripts.php:15
 msgid "Header and Footer Scripts"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-settings.php:244
+#: lib/classes/class-genesis-admin-settings.php:247
 msgid "Home Pages"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-settings.php:268
+#: lib/classes/class-genesis-admin-settings.php:271
 msgid "Color Style"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-settings.php:295
+#: lib/classes/class-genesis-admin-settings.php:298
 msgid "Blog Page Template"
 msgstr ""
 
-#: lib/classes/class-genesis-admin-settings.php:327
+#: lib/classes/class-genesis-admin-settings.php:330
 msgid ""
 "Hey there! Did you know that theme settings can now be configured with a "
 "live preview in the Customizer?"
@@ -881,35 +886,43 @@ msgstr ""
 msgid "Welcome to Genesis %s"
 msgstr ""
 
-#: lib/classes/class-genesis-admin.php:143
+#: lib/classes/class-genesis-admin.php:161
 #. translators: %s: Genesis_Admin class name.
 msgid ""
 "You cannot use %s to create two menus in the same subclass. Please use "
 "separate subclasses for each menu."
 msgstr ""
 
-#: lib/classes/class-genesis-admin.php:442
+#: lib/classes/class-genesis-admin.php:490
 msgid "Link opens in a new window."
 msgstr ""
 
-#: lib/classes/class-genesis-admin.php:444
+#: lib/classes/class-genesis-admin.php:492
 msgid "For more information:"
 msgstr ""
 
-#: lib/classes/class-genesis-admin.php:445
+#: lib/classes/class-genesis-admin.php:493
 msgid "Get Support"
 msgstr ""
 
-#: lib/classes/class-genesis-admin.php:446
+#: lib/classes/class-genesis-admin.php:494
 msgid "Genesis Snippets"
 msgstr ""
 
-#: lib/classes/class-genesis-admin.php:447
+#: lib/classes/class-genesis-admin.php:495
 msgid "Genesis Tutorials"
 msgstr ""
 
-#: lib/classes/class-genesis-cli-command.php:44
+#: lib/classes/class-genesis-cli-db-command.php:43
 msgid "Genesis database upgraded."
+msgstr ""
+
+#: lib/classes/class-genesis-cli-settings-command.php:91
+msgid "Setting saved."
+msgstr ""
+
+#: lib/classes/class-genesis-cli-settings-command.php:95
+msgid "It appears something went wrong. Please check your command and try again."
 msgstr ""
 
 #: lib/classes/class-genesis-contributor.php:120
@@ -967,17 +980,17 @@ msgstr ""
 msgid "Search"
 msgstr ""
 
-#: lib/functions/deprecated.php:282
+#: lib/functions/deprecated.php:305
 msgid ""
 "The argument, \"context\", has been replaced with \"theme_location\" in the "
 "$args array."
 msgstr ""
 
-#: lib/functions/deprecated.php:434
+#: lib/functions/deprecated.php:457
 msgid "data in style sheet files"
 msgstr ""
 
-#: lib/functions/deprecated.php:468
+#: lib/functions/deprecated.php:491
 msgid "decimal or hexidecimal entities"
 msgstr ""
 
@@ -1025,39 +1038,44 @@ msgstr ""
 msgid "Secondary"
 msgstr ""
 
-#: lib/functions/markup.php:1390 lib/functions/widgetize.php:146
+#: lib/functions/markup.php:1409 lib/functions/widgetize.php:146
 msgid "Primary Sidebar"
 msgstr ""
 
-#: lib/functions/markup.php:1411 lib/functions/widgetize.php:157
+#: lib/functions/markup.php:1430 lib/functions/widgetize.php:157
 msgid "Secondary Sidebar"
 msgstr ""
 
-#: lib/functions/onboarding.php:44
+#: lib/functions/onboarding.php:84
 msgid "new window"
 msgstr ""
 
-#: lib/functions/onboarding.php:135
+#: lib/functions/onboarding.php:175
 #. translators: 1: Title of the menu, 2: The error message.
 msgid "There was an error creating the %1$s menu. Error: %2$s"
 msgstr ""
 
-#: lib/functions/onboarding.php:204
+#: lib/functions/onboarding.php:244
 #. translators: 1: Title of the menu item, 2: The error message.
 msgid "There was an error creating the %1$s menu item. Error: %2$s"
 msgstr ""
 
-#: lib/functions/onboarding.php:322
+#: lib/functions/onboarding.php:360
 #. translators: 1: Title of the page, 2: The error message.
 msgid "There was an error importing the %1$s page. Error: %2$s"
 msgstr ""
 
-#: lib/functions/onboarding.php:350
+#: lib/functions/onboarding.php:392
 #. translators: 1: URL of the image, 2: The error message.
 msgid "There was an error downloading the featured image from %1$s. Error: %2$s"
 msgstr ""
 
-#: lib/functions/onboarding.php:363
+#: lib/functions/onboarding.php:398
+#. translators: 1: Path to local image file.
+msgid "Could not read the file: %1$s."
+msgstr ""
+
+#: lib/functions/onboarding.php:411
 #. translators: 1: Name of the image, 2: The error message.
 msgid "There was an error importing the %1$s image. Error: %2$s"
 msgstr ""
@@ -1066,43 +1084,30 @@ msgstr ""
 msgid "Edit Archive Settings"
 msgstr ""
 
-#: lib/functions/upgrade.php:791
-#. translators: 1: Genesis version, 2: URL for What's New admin page.
-msgid "Congratulations, you are now rocking Genesis %1$s! %2$s"
+#: lib/functions/upgrade.php:819 lib/functions/upgrade.php:860
+#. translators: 1: URL for change log, 2: class attribute for anchor, 3: call
+#. to action.
+msgid "Check out what's new"
 msgstr ""
 
-#: lib/functions/upgrade.php:796
-msgid "See what's new in"
-msgstr ""
-
-#: lib/functions/upgrade.php:830
-msgid "Click here to complete the upgrade"
-msgstr ""
-
-#: lib/functions/upgrade.php:860
+#: lib/functions/upgrade.php:853
 #. translators: 1: Genesis version, 2: URL for change log, 3: URL for updating
 #. Genesis.
 msgid "Genesis %1$s is available. %2$s or %3$s."
 msgstr ""
 
 #: lib/functions/upgrade.php:867
-#. translators: 1: URL for change log, 2: class attribute for anchor, 3: call
-#. to action.
-msgid "Check out what's new"
-msgstr ""
-
-#: lib/functions/upgrade.php:874
 #. translators: 1: URL for updating Genesis, 2: class attribute for anchor, 3:
 #. call to action.
 msgid "update now"
 msgstr ""
 
-#: lib/functions/upgrade.php:918
+#: lib/functions/upgrade.php:911
 #. translators: 1: Genesis version, 2: URL for current website.
 msgid "Genesis %1$s is available for %2$s"
 msgstr ""
 
-#: lib/functions/upgrade.php:921
+#: lib/functions/upgrade.php:914
 #. translators: %s: Genesis version.
 msgid ""
 "Genesis %s is now available. We have provided 1-click updates for this "
@@ -1155,11 +1160,11 @@ msgstr ""
 msgid "Widgets in this widget area will display after single entries."
 msgstr ""
 
-#: lib/init.php:103
+#: lib/init.php:104
 msgid "Primary Navigation Menu"
 msgstr ""
 
-#: lib/init.php:104
+#: lib/init.php:105
 msgid "Secondary Navigation Menu"
 msgstr ""
 
@@ -1204,7 +1209,7 @@ msgid "Filed Under: "
 msgstr ""
 
 #: lib/shortcodes/post.php:615 lib/structure/comments.php:280
-#: lib/structure/comments.php:392 lib/structure/post.php:372
+#: lib/structure/comments.php:429 lib/structure/post.php:372
 msgid "(Edit)"
 msgstr ""
 
@@ -1220,32 +1225,28 @@ msgstr ""
 msgid "says"
 msgstr ""
 
-#: lib/structure/comments.php:279
+#: lib/structure/comments.php:279 lib/structure/comments.php:400
 #. translators: 1: Comment date, 2: Comment time.
 msgid "%1$s at %2$s"
 msgstr ""
 
-#: lib/structure/comments.php:286 lib/structure/comments.php:408
+#: lib/structure/comments.php:286 lib/structure/comments.php:445
 msgid "Your comment is awaiting moderation."
 msgstr ""
 
-#: lib/structure/comments.php:388
-msgid "at"
-msgstr ""
-
-#: lib/structure/comments.php:499
+#: lib/structure/comments.php:536
 msgid "Name"
 msgstr ""
 
-#: lib/structure/comments.php:505
+#: lib/structure/comments.php:542
 msgid "Email"
 msgstr ""
 
-#: lib/structure/comments.php:511
+#: lib/structure/comments.php:548
 msgid "Website"
 msgstr ""
 
-#: lib/structure/comments.php:520
+#: lib/structure/comments.php:557
 msgid "Speak Your Mind"
 msgstr ""
 
@@ -2689,100 +2690,104 @@ msgstr ""
 msgid "Download Export File"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:24
+#: lib/views/pages/genesis-admin-onboarding.php:25
 #. translators: %s: Theme name
 msgid "Get started with %s."
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:30
+#: lib/views/pages/genesis-admin-onboarding.php:31
 #. translators: %s: Theme name
 msgid ""
-"%s supports automatic set up and import of demo content and recommended "
+"%s supports automatic set up and import of demo content and/or recommended "
 "plugins."
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:35
+#: lib/views/pages/genesis-admin-onboarding.php:36
 msgid ""
 "Use the \"Set Up Your Website\" button to get started. None of your "
 "existing content will be lost."
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:42
+#: lib/views/pages/genesis-admin-onboarding.php:43
 msgid "Set up your website"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:43
+#: lib/views/pages/genesis-admin-onboarding.php:44
 msgid "Or go to Theme Settings"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:62
+#: lib/views/pages/genesis-admin-onboarding.php:64
 msgid "Recommended plugins"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:63
+#: lib/views/pages/genesis-admin-onboarding.php:65
 msgid ""
 "The following plugins will be automatically installed and activated with "
 "this theme (links open in new window):"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:83
+#: lib/views/pages/genesis-admin-onboarding.php:87
 msgid "Demo content"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:86
+#: lib/views/pages/genesis-admin-onboarding.php:90
 msgid ""
 "Sample content for the theme will be added to make your theme look like the "
-"demo. This will change your default homepage."
+"demo."
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:107
+#: lib/views/pages/genesis-admin-onboarding.php:93
+msgid "This will change your default homepage."
+msgstr ""
+
+#: lib/views/pages/genesis-admin-onboarding.php:116
 msgid "All done!"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:108
+#: lib/views/pages/genesis-admin-onboarding.php:117
 msgid ""
 "Your website setup is complete! View or edit your homepage using the "
 "buttons below."
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:110
+#: lib/views/pages/genesis-admin-onboarding.php:119
 msgid "View your homepage"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:111
+#: lib/views/pages/genesis-admin-onboarding.php:120
 msgid "Edit your homepage"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:118
+#: lib/views/pages/genesis-admin-onboarding.php:127
 msgid "Helpful Links"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:119
+#: lib/views/pages/genesis-admin-onboarding.php:128
 msgid ""
 "Learn about the new WordPress editor (Gutenberg) and building with content "
 "blocks by using these resources below."
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:121
+#: lib/views/pages/genesis-admin-onboarding.php:130
 msgid "Gutenberg Intro"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:122
+#: lib/views/pages/genesis-admin-onboarding.php:131
 msgid "StudioPress Blog"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:123
+#: lib/views/pages/genesis-admin-onboarding.php:132
 msgid "Gutenberg News"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-onboarding.php:124
+#: lib/views/pages/genesis-admin-onboarding.php:133
 msgid "Atomic Blocks"
 msgstr ""
 
 #: lib/views/pages/genesis-admin-upgraded.php:25
 msgid ""
-"Genesis 2.9 adds new import options to the onboarding feature, and "
-"continues to improve child theme efficiency."
+"Genesis 2.10 adds new WP-CLI commands and a new Genesis Plugins page that "
+"helps you discover and install Genesis plugins."
 msgstr ""
 
 #: lib/views/pages/genesis-admin-upgraded.php:29
@@ -2790,81 +2795,93 @@ msgid "Changes"
 msgstr ""
 
 #: lib/views/pages/genesis-admin-upgraded.php:31
-msgid "Child theme efficiency improvements"
+msgid "New WP-CLI Commands"
 msgstr ""
 
 #: lib/views/pages/genesis-admin-upgraded.php:32
 msgid ""
-"Child themes should ideally be as lean as possible. So, Genesis can now do "
-"a couple of things that child themes used to have to do on their own."
+"If you are a developer who loves Genesis and also enjoys using WP-CLI to "
+"manage your site, things are about to get a whole lot easier."
 msgstr ""
 
 #: lib/views/pages/genesis-admin-upgraded.php:33
 msgid ""
-"Genesis will now use the child theme data from the header of the style.css "
-"file, rather than the CHILD_THEME_* constants it used previously."
+"Genesis 2.10 introduces a few key WP-CLI commands that should help you with "
+"common tasks like checking the current version of Genesis, upgrading, and "
+"managing theme settings."
 msgstr ""
 
 #: lib/views/pages/genesis-admin-upgraded.php:34
-msgid ""
-"Child themes can also now use a config file to import ideal default "
-"settings during activation."
+msgid "For a list of new commands, see the updated documentation."
 msgstr ""
 
 #: lib/views/pages/genesis-admin-upgraded.php:36
-msgid "New child theme onboarding options"
+msgid "Install Genesis Plugins"
 msgstr ""
 
 #: lib/views/pages/genesis-admin-upgraded.php:37
 msgid ""
-"In Genesis 2.8, we introduced an onboarding API that child themes could use "
-"to import a demo/sample homepage with content pre-populated."
+"Chances are, you have probably used one of the many Genesis plugins "
+"available on WordPress.org. But the process for finding official plugins "
+"from the StudioPress team and installing them on your site has been a "
+"little difficult in the past."
 msgstr ""
 
 #: lib/views/pages/genesis-admin-upgraded.php:38
 msgid ""
-"And while homepage content is definitely a good start, we know importing "
-"other types of content is important too."
+"In Genesis 2.10, if you look under the Genesis admin menu, you will see a "
+"new link, \"Genesis Plugins\"."
 msgstr ""
 
 #: lib/views/pages/genesis-admin-upgraded.php:39
 msgid ""
-"So, if a child theme supports it, you can now import content like a sample "
-"menu, blog posts, and featured images after you activate the theme."
+"This new link will allow you to view and install, right from your "
+"dashboard, the most popular plugins StudioPress has created."
 msgstr ""
 
-#: lib/views/pages/genesis-admin-upgraded.php:46
-#. Translators: Link to the Genesis Sample Github Repository.
+#: lib/views/pages/genesis-admin-upgraded.php:41
+msgid "Moving to the Customizer"
+msgstr ""
+
+#: lib/views/pages/genesis-admin-upgraded.php:42
 msgid ""
-"You can see the onboarding feature in action by using the <a "
-"href=\"%s\">Genesis Sample child theme</a>, currently available on our "
-"Github."
+"Genesis 2.10 will begin the process of moving our settings management to "
+"the WordPress Customizer. The Genesis Settings and SEO Settings admin menu "
+"links now take you to the appropriate Customizer panel, where you can "
+"manage your settings just as before."
 msgstr ""
 
-#: lib/views/pages/genesis-admin-upgraded.php:54
+#: lib/views/pages/genesis-admin-upgraded.php:43
+msgid ""
+"We think this move will help make your Genesis experience more consistent "
+"with the way you are already managing your WordPress site, as well as "
+"making the process for registering and exposing settings far more simple."
+msgstr ""
+
+#: lib/views/pages/genesis-admin-upgraded.php:45
 msgid "The Details"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-upgraded.php:60
+#: lib/views/pages/genesis-admin-upgraded.php:51
 #. Translators: Link to the changelog.
 msgid ""
-"We keep a detailed changelog for each release. The changelog for Genesis "
-"2.8 can be found <a href=\"%s\">here</a>."
+"We keep a detailed changelog for each release, which can be found <a "
+"href=\"%s\">here</a>."
 msgstr ""
 
-#: lib/views/pages/genesis-admin-upgraded.php:72
+#: lib/views/pages/genesis-admin-upgraded.php:63
 msgid "Project Leads"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-upgraded.php:97
+#: lib/views/pages/genesis-admin-upgraded.php:88
 msgid "Contributors"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-upgraded.php:121
+#: lib/views/pages/genesis-admin-upgraded.php:112
 msgid "Go to Theme Settings &rarr;"
 msgstr ""
 
-#: lib/views/pages/genesis-admin-upgraded.php:123
+#: lib/views/pages/genesis-admin-upgraded.php:114
 msgid "Go to SEO Settings &rarr;"
 msgstr ""
 

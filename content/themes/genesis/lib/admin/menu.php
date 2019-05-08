@@ -116,6 +116,9 @@ function genesis_add_admin_submenus() {
 
 	}
 
+	// Add the plugin menu (redirects to plugin install screen).
+	new Genesis_Admin_Plugins();
+
 	// Add the upgraded page (no menu).
 	new Genesis_Admin_Upgraded();
 

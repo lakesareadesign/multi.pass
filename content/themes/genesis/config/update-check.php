@@ -29,6 +29,7 @@ return array(
 			'php_version'     => phpversion(),
 			'uri'             => home_url(),
 			'stylesheet'      => get_stylesheet(),
+			'theme_version'   => wp_get_theme()->get( 'Version' ),
 			'user-agent'      => "WordPress/$wp_version;",
 			'wp_version'      => $wp_version,
 		),

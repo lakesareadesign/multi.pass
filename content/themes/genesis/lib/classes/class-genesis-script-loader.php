@@ -225,6 +225,20 @@ class Genesis_Script_Loader {
 			),
 		);
 
+		if ( genesis_is_menu_page( 'genesis-getting-started' ) ) {
+			$genesis_onboarding_plugins = genesis_onboarding_plugins();
+			$genesis_onboarding_content = genesis_onboarding_content();
+			$onboarding['tasks']        = array();
+
+			if ( ! empty( $genesis_onboarding_plugins ) ) {
+				$onboarding['tasks'][] = 'dependencies';
+			}
+
+			if ( ! empty( $genesis_onboarding_content ) ) {
+				$onboarding['tasks'][] = 'content';
+			}
+		}
+
 		wp_localize_script( 'genesis_admin_js', 'genesis_onboarding', $onboarding );
 	}
 

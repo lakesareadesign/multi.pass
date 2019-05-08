@@ -30,6 +30,9 @@ class Genesis_Admin_Settings extends Genesis_Admin_Boxes {
 	 */
 	public function __construct() {
 
+		$this->redirect_to     = admin_url( 'customize.php?autofocus[panel]=genesis' );
+		$this->redirect_bypass = 'noredirect';
+
 		$page_id = 'genesis';
 
 		$menu_ops = apply_filters(

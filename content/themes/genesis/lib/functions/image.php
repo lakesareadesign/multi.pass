@@ -176,6 +176,19 @@ function genesis_image( $args = array() ) {
 function genesis_get_image_sizes() {
 	global $_wp_additional_image_sizes;
 
+	/**
+	 * Allows controlling the image sizes before running the get_intermediate_image_sizes() logic.
+	 *
+	 * The return value must be false or a two-dimensional array with `width`, `height`, and `crop` subkeys.
+	 *
+	 * @param bool|array $pre False or genesis_get_image_sizes compatible array.
+	 */
+	$pre = apply_filters( 'genesis_pre_get_image_sizes', false );
+
+	if ( $pre ) {
+		return $pre;
+	}
+
 	$sizes = array();
 
 	foreach ( get_intermediate_image_sizes() as $size ) {
@@ -194,7 +207,12 @@ function genesis_get_image_sizes() {
 		}
 	}
 
-	return $sizes;
+	/**
+	 * Allows filtering the genesis_get_image_sizes() output.
+	 *
+	 * @param array $sizes Two-dimensional, with `width`, `height` and `crop` sub-keys.
+	 */
+	return apply_filters( 'genesis_get_image_sizes', $sizes );
 }
 
 /**

@@ -38,25 +38,28 @@ function genesis_404() {
 		)
 	);
 
-	genesis_markup(
-		array(
-			'open'    => '<div %s>',
-			'context' => 'entry-content',
-		)
-	);
-
 	$genesis_404_content = sprintf(
 		/* translators: %s: URL for current website. */
 		__( 'The page you are looking for no longer exists. Perhaps you can return back to the <a href="%s">homepage</a> and see if you can find what you are looking for. Or, you can try finding it by using the search form below.', 'genesis' ),
 		esc_url( trailingslashit( home_url() ) )
 	);
 
-	echo apply_filters( 'genesis_404_entry_content', '<p>' . $genesis_404_content . '</p>' );
-	get_search_form();
+	$genesis_404_content = sprintf( '<p>%s</p>', $genesis_404_content );
+
+	/**
+	 * The 404 content (wrapped in paragraph tags).
+	 *
+	 * @since 2.2.0
+	 *
+	 * @param string $genesis_404_content The content.
+	 */
+	$genesis_404_content = apply_filters( 'genesis_404_entry_content', $genesis_404_content );
 
 	genesis_markup(
 		array(
+			'open'    => '<div %s>',
 			'close'   => '</div>',
+			'content' => $genesis_404_content . get_search_form( 0 ),
 			'context' => 'entry-content',
 		)
 	);

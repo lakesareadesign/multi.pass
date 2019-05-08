@@ -11,23 +11,24 @@
  * @link    https://my.studiopress.com/themes/genesis/
  */
 
-$genesis_active_theme = wp_get_theme();
+$genesis_active_theme         = wp_get_theme();
+$genesis_onboarding_plugins   = genesis_onboarding_plugins();
+$genesis_onboarding_content   = genesis_onboarding_content();
+$genesis_onboarding_nav_menus = genesis_onboarding_navigation_menus();
 ?>
 <div class="wrap">
-	<h1 class="genesis-onboarding-page-title"><?php echo esc_html( get_admin_page_title() ); ?></h1>
-
 	<div class="genesis-onboarding-page-wrap">
 		<main class="genesis-onboarding-main">
-			<h2 class="genesis-onboarding-intro-title">
+			<h1 class="genesis-onboarding-intro-title">
 				<?php
 				/* translators: %s: Theme name */
 				echo esc_html( sprintf( __( 'Get started with %s.', 'genesis' ), $genesis_active_theme['Name'] ) );
 				?>
-			</h2>
+			</h1>
 			<p class="genesis-onboarding-intro-text">
 				<?php
 				/* translators: %s: Theme name */
-				echo esc_html( sprintf( __( '%s supports automatic set up and import of demo content and recommended plugins.', 'genesis' ), esc_html( $genesis_active_theme['Name'] ) ) );
+				echo esc_html( sprintf( __( '%s supports automatic set up and import of demo content and/or recommended plugins.', 'genesis' ), esc_html( $genesis_active_theme['Name'] ) ) );
 				?>
 			</p>
 			<p class="genesis-onboarding-intro-text">
@@ -43,6 +44,7 @@ $genesis_active_theme = wp_get_theme();
 			<a id="genesis-onboarding-settings-link" class="genesis-onboarding-button genesis-onboarding-button-alt" href="<?php echo esc_url( admin_url( 'customize.php?return=' . admin_url( 'admin.php?page=genesis-getting-started' ) ) ); ?>"><?php esc_html_e( 'Or go to Theme Settings', 'genesis' ); ?></a>
 
 			<ul class="genesis-onboarding-list">
+				<?php if ( $genesis_onboarding_plugins ) : ?>
 				<li class="genesis-onboarding-task-dependencies">
 					<div class="genesis-onboarding-task-steps">
 						<div class="genesis-onboarding-step-one"></div>
@@ -63,7 +65,9 @@ $genesis_active_theme = wp_get_theme();
 					<p><?php esc_html_e( 'The following plugins will be automatically installed and activated with this theme (links open in new window):', 'genesis' ); ?></p>
 					<?php echo wp_kses_post( genesis_onboarding_plugins_list() ); ?>
 				</li>
+				<?php endif; ?>
 
+				<?php if ( $genesis_onboarding_content || $genesis_onboarding_nav_menus ) : ?>
 				<li class="genesis-onboarding-task-content">
 					<div class="genesis-onboarding-task-steps">
 						<div class="genesis-onboarding-step-one"></div>
@@ -83,10 +87,15 @@ $genesis_active_theme = wp_get_theme();
 					<h3><?php esc_html_e( 'Demo content', 'genesis' ); ?></h3>
 					<p>
 						<?php
-						esc_html_e( 'Sample content for the theme will be added to make your theme look like the demo. This will change your default homepage.', 'genesis' );
+						esc_html_e( 'Sample content for the theme will be added to make your theme look like the demo.', 'genesis' );
+						if ( isset( $genesis_onboarding_content['homepage'] ) ) {
+							echo ' ';
+							esc_html_e( 'This will change your default homepage.', 'genesis' );
+						}
 						?>
 					</p>
 				</li>
+				<?php endif; ?>
 
 				<li class="genesis-onboarding-task-final">
 					<div class="genesis-onboarding-task-steps">

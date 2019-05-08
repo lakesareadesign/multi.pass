@@ -41,6 +41,24 @@ abstract class Genesis_Admin {
 	public $page_id;
 
 	/**
+	 * The page to redirect to when menu page is accessed.
+	 *
+	 * @since 2.10.0
+	 *
+	 * @var string
+	 */
+	public $redirect_to;
+
+	/**
+	 * The query flag to check for to bypass the redirect setting.
+	 *
+	 * @since 2.10.0
+	 *
+	 * @var string
+	 */
+	public $redirect_bypass;
+
+	/**
 	 * Name of the settings field in the options table.
 	 *
 	 * @since 1.8.0
@@ -150,6 +168,9 @@ abstract class Genesis_Admin {
 		add_action( 'admin_menu', array( $this, 'maybe_add_main_menu' ), 5 );
 		add_action( 'admin_menu', array( $this, 'maybe_add_first_submenu' ), 5 );
 		add_action( 'admin_menu', array( $this, 'maybe_add_submenu' ) );
+
+		// Redirect to location on access, if specified.
+		add_action( 'admin_init', array( $this, 'maybe_redirect' ), 1000 );
 
 		// Set up settings and notices.
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
@@ -261,6 +282,33 @@ abstract class Genesis_Admin {
 
 			$this->pagehook = add_submenu_page( $menu['parent_slug'], $menu['page_title'], $menu['menu_title'], $menu['capability'], $this->page_id, array( $this, 'admin' ) );
 		}
+
+	}
+
+	/**
+	 * If specified, redirect when accessing this page's menu URL.
+	 *
+	 * @since 2.10.0
+	 *
+	 * @return void Return early if no redirect destination is set, or if a special query flag is set, or if we're not on this menu page URL.
+	 */
+	public function maybe_redirect() {
+
+		if ( ! $this->redirect_to ) {
+			return;
+		}
+
+		// Allow users to access the page if a special query flag is set.
+		if ( $this->redirect_bypass && isset( $_REQUEST[ $this->redirect_bypass ] ) ) { // phpcs:ignore WordPress.Security.NonceVerification.NoNonceVerification -- We don't need nonce verification here
+			return;
+		}
+
+		if ( ! genesis_is_menu_page( $this->page_id ) ) {
+			return;
+		}
+
+		wp_safe_redirect( esc_url_raw( $this->redirect_to ) );
+		exit;
 
 	}
 

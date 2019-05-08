@@ -30,6 +30,9 @@ class Genesis_Admin_SEO_Settings extends Genesis_Admin_Boxes {
 	 */
 	public function __construct() {
 
+		$this->redirect_to     = admin_url( 'customize.php?autofocus[panel]=genesis-seo' );
+		$this->redirect_bypass = 'noredirect';
+
 		$page_id         = 'seo-settings';
 		$this->help_base = GENESIS_VIEWS_DIR . '/help/seo-';
 

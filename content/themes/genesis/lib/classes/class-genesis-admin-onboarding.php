@@ -28,7 +28,7 @@ final class Genesis_Admin_Onboarding extends Genesis_Admin_Basic {
 
 		$menu_ops = array(
 			'submenu' => array(
-				'parent_slug' => null,
+				'parent_slug' => 'admin.php',
 				'page_title'  => __( 'Genesis - Getting Started', 'genesis' ),
 				'menu_title'  => __( 'Getting Started', 'genesis' ),
 			),

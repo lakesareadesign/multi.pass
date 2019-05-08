@@ -12,6 +12,46 @@
  */
 
 /**
+ * Return a cached onboarding config.
+ *
+ * @since 2.10.0
+ *
+ * @return array $config The onboarding config.
+ */
+function genesis_onboarding_config() {
+	static $config = null;
+
+	if ( null === $config ) {
+		$config = genesis_get_config( 'onboarding' );
+	}
+
+	return $config;
+}
+
+/**
+ * Determine if the onboarding feature is properly enabled (via config) in a child theme.
+ *
+ * @since 2.10.0
+ *
+ * @return bool True if config exists and at least one feature is configured. False otherwise.
+ */
+function genesis_onboarding_active() {
+	if ( ! current_user_can( 'install_plugins' ) ) {
+		return false;
+	}
+
+	if ( ! genesis_onboarding_config() ) {
+		return false;
+	}
+
+	if ( genesis_onboarding_plugins() || genesis_onboarding_content() || genesis_onboarding_navigation_menus() ) {
+		return true;
+	}
+
+	return false;
+}
+
+/**
  * Returns an array of onboarding plugins provided by Genesis or the child theme.
  *
  * @since 2.8.0
@@ -19,7 +59,7 @@
  * @return array
  */
 function genesis_onboarding_plugins() {
-	$config = genesis_get_config( 'onboarding' );
+	$config = genesis_onboarding_config();
 
 	return isset( $config['dependencies']['plugins'] ) ? $config['dependencies']['plugins'] : array();
 }
@@ -62,7 +102,7 @@ function genesis_onboarding_plugins_list() {
  * @return array
  */
 function genesis_onboarding_content() {
-	$config = genesis_get_config( 'onboarding' );
+	$config = genesis_onboarding_config();
 
 	return isset( $config['content'] ) ? $config['content'] : array();
 }
@@ -94,7 +134,7 @@ function genesis_onboarding_install_language_packs() {
  * @return array
  */
 function genesis_onboarding_navigation_menus() {
-	$config = genesis_get_config( 'onboarding' );
+	$config = genesis_onboarding_config();
 
 	return isset( $config['navigation_menus'] ) ? $config['navigation_menus'] : array();
 }
@@ -300,22 +340,20 @@ function genesis_onboarding_import_content( array $content ) {
 
 	if ( ! empty( $content ) ) {
 
+		/**
+		 * Fire before content is imported.
+		 *
+		 * @since  2.10.0
+		 */
+		do_action( 'genesis_onboarding_before_import_content', $content );
+
 		$imported_post_ids = array();
 
 		foreach ( $content as $key => $post ) {
 
 			$post = wp_parse_args( $post, $post_defaults );
 
-			$post_id = wp_insert_post(
-				array(
-					'post_content'   => $post['post_content'],
-					'post_excerpt'   => $post['post_excerpt'],
-					'post_status'    => $post['post_status'],
-					'post_title'     => $post['post_title'],
-					'post_type'      => $post['post_type'],
-					'comment_status' => $post['comment_status'],
-				)
-			);
+			$post_id = wp_insert_post( $post );
 
 			if ( is_wp_error( $post_id ) ) {
 				/* translators: 1: Title of the page, 2: The error message. */
@@ -341,19 +379,29 @@ function genesis_onboarding_import_content( array $content ) {
 
 			if ( ! empty( $post['featured_image'] ) ) {
 
-				$featured_image_url = esc_url_raw( $post['featured_image'] );
+				$featured_image_url  = esc_url_raw( $post['featured_image'] );
+				$remote_image_import = wp_http_validate_url( $featured_image_url );
+				$local_image_path    = $featured_image_url;
 
-				$tmp_name = download_url( $featured_image_url );
+				if ( $remote_image_import ) {
+					$local_image_path = download_url( $featured_image_url );
+				}
 
-				if ( is_wp_error( $tmp_name ) ) {
+				if ( is_wp_error( $local_image_path ) ) {
 					/* translators: 1: URL of the image, 2: The error message. */
-					$errors[] = sprintf( esc_html__( 'There was an error downloading the featured image from %1$s. Error: %2$s', 'genesis' ), $featured_image_url, $tmp_name->get_error_message() );
+					$errors[] = sprintf( esc_html__( 'There was an error downloading the featured image from %1$s. Error: %2$s', 'genesis' ), $featured_image_url, $local_image_path->get_error_message() );
+					continue;
+				}
+
+				if ( ! is_readable( $local_image_path ) ) {
+					/* translators: 1: Path to local image file. */
+					$errors[] = sprintf( esc_html__( 'Could not read the file: %1$s.', 'genesis' ), $local_image_path );
 					continue;
 				}
 
 				$file = array(
 					'name'     => basename( $featured_image_url ),
-					'tmp_name' => $tmp_name,
+					'tmp_name' => $local_image_path,
 				);
 
 				$attachment_id = media_handle_sideload( $file, $post_id );
@@ -366,11 +414,19 @@ function genesis_onboarding_import_content( array $content ) {
 
 				set_post_thumbnail( $post_id, $attachment_id );
 
-				if ( is_readable( $tmp_name ) ) {
-					unlink( $tmp_name );
+				if ( $remote_image_import && is_readable( $local_image_path ) ) {
+					unlink( $local_image_path );
 				}
+
 			}
 		}
+
+		/**
+		 * Fire after content is imported.
+		 *
+		 * @since  2.10.0
+		 */
+		do_action( 'genesis_onboarding_after_import_content', $content, $imported_post_ids );
 
 		// Save the imported post IDs for use during menu item creation.
 		update_option( 'genesis_onboarding_imported_post_ids', $imported_post_ids, false );

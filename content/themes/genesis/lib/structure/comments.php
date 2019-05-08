@@ -363,10 +363,19 @@ function genesis_html5_comment_callback( $comment, array $args, $depth ) {
 				$comment_author_says_text = apply_filters( 'comment_author_says_text', __( 'says', 'genesis' ) ); // phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 
 				if ( ! empty( $comment_author_says_text ) ) {
-					$comment_author_says_text = '<span class="says">' . $comment_author_says_text . '</span>';
+					$comment_author_says_text = ' <span class="says">' . $comment_author_says_text . '</span>';
 				}
 
-				printf( '<span itemprop="name">%s</span> %s', $author, $comment_author_says_text );
+				genesis_markup(
+					array(
+						'open'    => '<span %s>',
+						'close'   => '</span>',
+						'content' => $author,
+						'context' => 'comment-author-name',
+					)
+				);
+
+				echo $comment_author_says_text;
 				?>
 			</p>
 
@@ -382,11 +391,39 @@ function genesis_html5_comment_callback( $comment, array $args, $depth ) {
 			$comment_date = apply_filters( 'genesis_show_comment_date', true, get_post_type() );
 
 			if ( $comment_date ) {
-				printf( '<p %s>', genesis_attr( 'comment-meta' ) );
-				printf( '<time %s>', genesis_attr( 'comment-time' ) );
-				printf( '<a href="%s" %s>', esc_url( get_comment_link( $comment->comment_ID ) ), genesis_attr( 'comment-time-link' ) );
-				echo esc_html( get_comment_date() ) . ' ' . esc_html__( 'at', 'genesis' ) . ' ' . esc_html( get_comment_time() );
-				echo '</a></time></p>';
+				$comment_time_link = genesis_markup(
+					array(
+						'open'    => '<a %s>',
+						'context' => 'comment-time-link',
+						'content' => esc_html(
+							sprintf(
+								__( '%1$s at %2$s', 'genesis' ),
+								get_comment_date(),
+								get_comment_time()
+							)
+						),
+						'close'   => '</a>',
+						'params'  => array(
+							'comment' => $comment
+						),
+					)
+				);
+				$comment_time = genesis_markup(
+					array(
+						'open'    => '<time %s>',
+						'context' => 'comment-time',
+						'content' => $comment_time_link,
+						'close'   => '</time>',
+					)
+				);
+				genesis_markup(
+					array(
+						'open'    => '<p %s>',
+						'context' => 'comment-meta',
+						'content' => $comment_time,
+						'close'   => '</p>'
+					)
+				);
 			}
 
 			edit_comment_link( __( '(Edit)', 'genesis' ), ' ' );

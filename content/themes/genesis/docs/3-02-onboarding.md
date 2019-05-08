@@ -3,7 +3,7 @@ title: Genesis Onboarding
 menuTitle: Onboarding
 layout: layouts/base.njk
 permalink: developer-features/onboarding/index.html
-minVersion: Genesis 2.8.0+ and WordPress 5.0.0+
+minVersion: Genesis 2.9.0+ and WordPress 5.0.0+
 tags: docs
 ---
 
@@ -31,43 +31,110 @@ Add an `onboarding.php` file to your Genesis child theme's `config` folder.
 Create the <code>config</code> folder in the root of your child theme (at the same level as <code>style.css</code>) if it does not exist already.
 </p>
 
-The `onboarding.php` file must return an array with this structure:
+The `onboarding.php` file must return an array with a specific structure. Check out the `onboarding.php` file from the Genesis Sample theme as an example:
 
 ```php
 <?php
 /**
- * Your Theme Name
+ * Genesis Sample.
  *
- * Onboarding config to load plugins and content on theme activation.
+ * Onboarding config to load plugins and homepage content on theme activation.
  *
- * @package Theme Name
- * @author  Your Name
+ * @package Genesis Sample
+ * @author  StudioPress
  * @license GPL-2.0-or-later
- * @link    https://example.com/
+ * @link    https://www.studiopress.com/
  */
 return array(
-	'dependencies' => array(
+	'dependencies'     => array(
 		'plugins' => array(
 			array(
-				'name' => __( 'Atomic Blocks', 'your-theme-slug' ),
-				'slug' => 'atomic-blocks/atomicblocks.php',
+				'name'       => __( 'Atomic Blocks', 'genesis-sample' ),
+				'slug'       => 'atomic-blocks/atomicblocks.php',
+				'public_url' => 'https://atomicblocks.com/',
 			),
 			array(
-				'name' => __( 'WooCommerce', 'your-theme-slug' ),
-				'slug' => 'woocommerce/woocommerce.php',
+				'name'       => __( 'WPForms Lite', 'genesis-sample' ),
+				'slug'       => 'wpforms-lite/wpforms.php',
+				'public_url' => 'https://wordpress.org/plugins/wpforms-lite/',
+			),
+			array(
+				'name'       => __( 'Genesis eNews Extended', 'genesis-sample' ),
+				'slug'       => 'genesis-enews-extended/plugin.php',
+				'public_url' => 'https://wordpress.org/plugins/genesis-enews-extended/',
+			),
+			array(
+				'name'       => __( 'Simple Social Icons', 'genesis-sample' ),
+				'slug'       => 'simple-social-icons/simple-social-icons.php',
+				'public_url' => 'https://wordpress.org/plugins/simple-social-icons/',
 			),
 		),
 	),
-	'content' => array(
+	'content'          => array(
 		'homepage' => array(
 			'post_title'     => 'Homepage',
-			'post_name'      => 'homepage-blocks',
-			'post_content'   => require dirname( __FILE__ ) . '/homepage.php',
+			'post_content'   => require dirname( __FILE__ ) . '/import/content/homepage.php',
 			'post_type'      => 'page',
 			'post_status'    => 'publish',
-			'page_template'  => 'template-blocks.php',
+			'page_template'  => 'page-templates/blocks.php',
 			'comment_status' => 'closed',
 			'ping_status'    => 'closed',
+		),
+		'blocks'   => array(
+			'post_title'     => 'Block Content Examples',
+			'post_content'   => require dirname( __FILE__ ) . '/import/content/block-examples.php',
+			'post_type'      => 'page',
+			'post_status'    => 'publish',
+			'page_template'  => 'page-templates/blocks.php',
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+		),
+		'about'    => array(
+			'post_title'     => 'About Us',
+			'post_content'   => require dirname( __FILE__ ) . '/import/content/about.php',
+			'post_type'      => 'page',
+			'post_status'    => 'publish',
+			'page_template'  => 'page-templates/blocks.php',
+			'featured_image' => get_stylesheet_directory_uri() . '/config/import/images/about.jpg',
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+		),
+		'contact'  => array(
+			'post_title'     => 'Contact Us',
+			'post_content'   => require dirname( __FILE__ ) . '/import/content/contact.php',
+			'post_type'      => 'page',
+			'post_status'    => 'publish',
+			'featured_image' => get_stylesheet_directory() . '/config/import/images/contact.jpg',
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+		),
+		'landing'  => array(
+			'post_title'     => 'Landing Page',
+			'post_content'   => require dirname( __FILE__ ) . '/import/content/landing-page.php',
+			'post_type'      => 'page',
+			'post_status'    => 'publish',
+			'page_template'  => 'page-templates/landing.php',
+			'comment_status' => 'closed',
+			'ping_status'    => 'closed',
+		),
+	),
+	'navigation_menus' => array(
+		'primary' => array(
+			'homepage' => array(
+				'title' => 'Home',
+			),
+			'about'    => array(
+				'title' => 'About Us',
+			),
+			'contact'  => array(
+				'title' => 'Contact Us',
+			),
+			'blocks'   => array(
+				'title' => 'Block Examples',
+			),
+			'landing'  => array(
+				'title' => 'Landing Page',
+			),
 		),
 	),
 );
@@ -78,8 +145,10 @@ return array(
 - **The `content` array contains one or more posts and pages**. You can use any unique value for the array keys. The special 'homepage' key tells Genesis that the imported page should be set as the site's static homepage.
 - **The `page_template` key and value can be omitted** if you do not wish to use a page template for a given page.
 - **The value of `post_content` should be a string containing the raw HTML of the page content you wish to import**, obtained from viewing the Text or Source of your page content in the WordPress editor. As this string is likely to be long, we recommend storing it in a separate file as [described below](#using-a-separate-file-for-your-post_content).
-- **If a `post_name` you use already exists, WordPress will create the page but automatically append a number to the slug.** You do not need to worry about slug collisions, and no existing content will be overwritten.
 - **Specifying a plugin as a dependency will cause it to be installed and activated.** If your theme uses plugin-specific code you should still check for plugin classes and functions before using them, because users might skip the Onboarding process. You can use the [`class_exists()`](http://php.net/manual/en/function.class-exists.php) or [`function_exists()`](http://php.net/manual/en/function.function-exists.php) functions for this.
+- **You can use the `onboarding.php` config file to set up a default navigation menu.** By specifying the `navigation_menus` key with an array of values, you can create and assign menus to a menu location. In the example above, the Genesis Sample theme is setting up a navigation menu that is to be assigned to the `primary` menu location. Each item in the menu is set up using the slug from a page that is imported in the `content` array.
+- **To set a manual excerpt**, add a `post_excerpt` key to any content item array.
+- **To add post meta to posts and pages**, set a `meta_input key`. For example: `'meta_input' => array( '_genesis_layout' => 'sidebar-content' ),`
 
 ### Using a separate file for your `post_content`
 
@@ -135,7 +204,7 @@ Your raw page content should be copied from the code editor. The code editor is 
 
 <p class="notice-small">
 The opening <code>&lt;&lt;&lt;CONTENT</code> and closing <code>CONTENT;</code> string delimiters in the <code>homepage.php</code> code snippet are a PHP feature called the <a href="http://php.net/manual/en/language.types.string.php#language.types.string.syntax.heredoc">heredoc syntax</a>.
-<br><br>The heredoc syntax is an alternative to wrapping multi-line strings with quote marks. It prevents you from having to escape single or double quotes within your string. PHP will also process internal variables such as <code>$my_var</code> or <code>{$my_array['key']}</code>. 
+<br><br>The heredoc syntax is an alternative to wrapping multi-line strings with quote marks. It prevents you from having to escape single or double quotes within your string. PHP will also process internal variables such as <code>$my_var</code> or <code>{$my_array['key']}</code>.
 <br><br>You can replace the <code>CONTENT</code> identifier with your own delimiter if you wish, as long as you use the same for the starting and ending one. The line with the ending <code>CONTENT;</code> delimiter must contain no other characters aside from the identifier and the semicolon, and no white space at the start of the line.
 </p>
 
@@ -150,14 +219,69 @@ Each page or post you create can import the same sample content, or you can crea
 
 You can repeat the Onboarding process by leaving your theme active and visiting `/wp-admin/admin.php?page=genesis-getting-started` instead of deactivating and reactivating your theme. Note that new pages will be created each time. Pages are not deleted or overwritten during Onboarding.
 
+### Running code before and after importing content
+
+<p class="notice">
+Requires Genesis 2.10.0+.
+</p>
+
+To run code before content is imported during onboarding, use the `genesis_onboarding_before_import_content` action:
+
+```php
+add_action( 'genesis_onboarding_before_import_content', 'theme_prefix_onboarding_before_import_content' );
+/**
+ * Runs code before content is imported during onboarding.
+ *
+ * @since 1.0.0
+ *
+ * @param array $content The content data from the `onboarding.php` file.
+ */
+function theme_prefix_onboarding_before_import_content( $content ) {
+
+	// Code you would like to run before content is imported.
+
+}
+```
+
+To run code after content is imported during onboarding, use the `genesis_onboarding_after_import_content` action:
+
+```php
+add_action( 'genesis_onboarding_after_import_content', 'theme_prefix_onboarding_after_import_content', 10, 2 );
+/**
+ * Runs code after content is imported during onboarding.
+ *
+ * @since 1.0.0
+ *
+ * @param array $content The content data from the `onboarding.php` file.
+ * @param array $imported_post_ids Content keys and created post IDs. Example: `[ "homepage" => 123 ]`.
+ */
+function theme_prefix_onboarding_after_import_content( $content, $imported_post_ids ) {
+
+	// Code you would like to run after content is imported.
+
+}
+```
+
+This code should live outside your `onboarding.php` file.
+
+### Onboarding order
+
+The order of operation for the onboarding process is:
+
+1. Dependencies (plugins) are installed.
+2. Actions hooked to `genesis_onboarding_before_import_content` run.
+3. Content is imported.
+4. Actions hooked to `genesis_onboarding_after_import_content` run. 
+5. Menu items are set and assigned to menu areas.
+
 ## Points to note
 
 <p class="notice">
 The Onboarding feature is new and will continue to improve, but there are some things to be aware of at present.
 </p>
 
-1. **Onboarding requires WordPress 5.0.0+ and Genesis 2.8.0+**. The onboarding config file has no effect if both of these requirements are not met.
-2. **Widgets, menus, and media cannot yet be imported.**
+1. **Onboarding requires WordPress 5.0.0+ and Genesis 2.9.0+**. The onboarding config file has no effect if both of these requirements are not met.
+2. **Widgets and media cannot yet be imported.**
 3. **The redirect to the onboarding page occurs when themes are activated via the Appearance → Themes screen only**. A redirect will not occur when activating themes via the Customizer or WP-CLI. You are welcome to direct people to `/wp-admin/admin.php?page=genesis-getting-started` to complete the theme onboarding process in your support documentation or elsewhere. Running the setup process multiple times will create additional pages, but is otherwise not destructive.
 4. **The text used on the onboarding admin screen is not currently filterable,** including the “Create your new homepage” title. We expect to add the ability to change this via your config file in the future.
 5. **Only plugins from the [WordPress.org plugins repository](https://wordpress.org/plugins/) are currently supported** as dependencies.

@@ -30,7 +30,7 @@ function genesis_theme_activation_redirect() {
 		return;
 	}
 
-	if ( ! genesis_get_config( 'onboarding' ) ) {
+	if ( ! genesis_onboarding_active() ) {
 		return;
 	}
 

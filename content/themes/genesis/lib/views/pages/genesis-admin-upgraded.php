@@ -22,34 +22,25 @@ $genesis_allowed_code      = array(
 
 <h1><?php echo esc_html( get_admin_page_title() ); ?></h1>
 
-<p class="about-text"><?php esc_html_e( 'Genesis 2.9 adds new import options to the onboarding feature, and continues to improve child theme efficiency.', 'genesis' ); ?></p>
+<p class="about-text"><?php esc_html_e( 'Genesis 2.10 adds new WP-CLI commands and a new Genesis Plugins page that helps you discover and install Genesis plugins.', 'genesis' ); ?></p>
 
 <div class="changelog">
 	<div class="feature-section">
 		<h2 class="screen-reader-text"><?php esc_html_e( 'Changes', 'genesis' ); ?></h2>
 
-		<h3><?php esc_html_e( 'Child theme efficiency improvements', 'genesis' ); ?></h3>
-		<p><?php esc_html_e( 'Child themes should ideally be as lean as possible. So, Genesis can now do a couple of things that child themes used to have to do on their own.', 'genesis' ); ?></p>
-		<p><?php esc_html_e( 'Genesis will now use the child theme data from the header of the style.css file, rather than the CHILD_THEME_* constants it used previously.', 'genesis' ); ?></p>
-		<p><?php esc_html_e( 'Child themes can also now use a config file to import ideal default settings during activation.', 'genesis' ); ?></p>
+		<h3><?php esc_html_e( 'New WP-CLI Commands', 'genesis' ); ?></h3>
+		<p><?php esc_html_e( 'If you are a developer who loves Genesis and also enjoys using WP-CLI to manage your site, things are about to get a whole lot easier.', 'genesis' ); ?></p>
+		<p><?php esc_html_e( 'Genesis 2.10 introduces a few key WP-CLI commands that should help you with common tasks like checking the current version of Genesis, upgrading, and managing theme settings.', 'genesis' ); ?></p>
+		<p><?php esc_html_e( 'For a list of new commands, see the updated documentation.', 'genesis' ); ?></p>
 
-		<h3><?php esc_html_e( 'New child theme onboarding options', 'genesis' ); ?></h3>
-		<p><?php esc_html_e( 'In Genesis 2.8, we introduced an onboarding API that child themes could use to import a demo/sample homepage with content pre-populated.', 'genesis' ); ?></p>
-		<p><?php esc_html_e( 'And while homepage content is definitely a good start, we know importing other types of content is important too.', 'genesis' ); ?></p>
-		<p><?php esc_html_e( 'So, if a child theme supports it, you can now import content like a sample menu, blog posts, and featured images after you activate the theme.', 'genesis' ); ?></p>
+		<h3><?php esc_html_e( 'Install Genesis Plugins', 'genesis' ); ?></h3>
+		<p><?php esc_html_e( 'Chances are, you have probably used one of the many Genesis plugins available on WordPress.org. But the process for finding official plugins from the StudioPress team and installing them on your site has been a little difficult in the past.', 'genesis' ); ?></p>
+		<p><?php esc_html_e( 'In Genesis 2.10, if you look under the Genesis admin menu, you will see a new link, "Genesis Plugins".', 'genesis' ); ?></p>
+		<p><?php esc_html_e( 'This new link will allow you to view and install, right from your dashboard, the most popular plugins StudioPress has created.', 'genesis' ); ?></p>
 
-		<p>
-		<?php
-		printf(
-			wp_kses(
-				// Translators: Link to the Genesis Sample Github Repository.
-				__( 'You can see the onboarding feature in action by using the <a href="%s">Genesis Sample child theme</a>, currently available on our Github.', 'genesis' ),
-				$genesis_allowed_code
-			),
-			'https://github.com/studiopress/genesis-sample/'
-		);
-		?>
-		</p>
+		<h3><?php esc_html_e( 'Moving to the Customizer', 'genesis' ); ?></h3>
+		<p><?php esc_html_e( 'Genesis 2.10 will begin the process of moving our settings management to the WordPress Customizer. The Genesis Settings and SEO Settings admin menu links now take you to the appropriate Customizer panel, where you can manage your settings just as before.', 'genesis' ); ?></p>
+		<p><?php esc_html_e( 'We think this move will help make your Genesis experience more consistent with the way you are already managing your WordPress site, as well as making the process for registering and exposing settings far more simple.', 'genesis' ); ?></p>
 
 		<h3><?php esc_html_e( 'The Details', 'genesis' ); ?></h3>
 		<p>
@@ -57,10 +48,10 @@ $genesis_allowed_code      = array(
 		printf(
 			wp_kses(
 				// Translators: Link to the changelog.
-				__( 'We keep a detailed changelog for each release. The changelog for Genesis 2.8 can be found <a href="%s">here</a>.', 'genesis' ),
+				__( 'We keep a detailed changelog for each release, which can be found <a href="%s">here</a>.', 'genesis' ),
 				$genesis_allowed_code
 			),
-			'https://studiopress.github.io/genesis/changelog/2.8.0'
+			'https://genesischangelog.com/'
 		);
 		?>
 		</p>

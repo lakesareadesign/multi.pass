@@ -57,7 +57,7 @@ return array(
 		'name'     => 'Tonya Mork',
 		'twitter'  => 'hellofromTonya',
 		'gravatar' => 'cd9217f16a69ad83496f5e182caf0649',
-		//'role'     => 'contributor',
+		// 'role'     => 'contributor',
 	),
 	'ronrennick'       => array(
 		'name'     => 'Ron Rennick',
@@ -81,7 +81,7 @@ return array(
 		'name'     => 'Jen Baumann',
 		'twitter'  => 'dreamwhisper',
 		'gravatar' => 'eb9c6d91d77db908473131160e71ef6f',
-		// 'role'     => 'contributor',
+		'role'     => 'contributor',
 	),
 	'brianbourn'       => array(
 		'name'     => 'Brian Bourn',
@@ -93,7 +93,7 @@ return array(
 		'name'     => 'Jon Brown',
 		'twitter'  => 'jb510',
 		'gravatar' => 'f1c8858594659f20b4e99d65d0855f7c',
-		'role'     => 'contributor',
+		// 'role'     => 'contributor',
 	),
 	'chriscochran'     => array(
 		'name'     => 'Chris Cochran',
@@ -117,7 +117,7 @@ return array(
 		'name'     => 'Robin Cornett',
 		'twitter'  => 'robincornett',
 		'gravatar' => '92f90103972341af5dcf421661209729',
-		'role'     => 'contributor',
+		// 'role'     => 'contributor',
 	),
 	'nickcroft'        => array(
 		'name'     => 'Nick Croft',
@@ -129,7 +129,7 @@ return array(
 		'name'     => 'David Decker',
 		'twitter'  => 'deckerweb',
 		'gravatar' => '28d02f8d09fc32fccc0282efdc23a4e5',
-		'role'     => 'contributor',
+		// 'role'     => 'contributor',
 	),
 	'remkusdevries'    => array(
 		'name'     => 'Remkus de Vries',
@@ -177,7 +177,7 @@ return array(
 		'name'     => 'Christoph Herr',
 		'twitter'  => 'Christoph_Herr',
 		'gravatar' => '16e62c03133d8068dac42352fd3a9909',
-		'role'     => 'contributor',
+		// 'role'     => 'contributor',
 	),
 	'jayhill'          => array(
 		'name'     => 'Jay Hill',
@@ -237,7 +237,7 @@ return array(
 		'name'     => 'Mike McAlister',
 		'twitter'  => 'mikemcalister',
 		'gravatar' => '0aeecce7f483aa2b409fe65c352d034a',
-		'role'     => 'contributor',
+		// 'role'     => 'contributor',
 	),
 	'andrewnorcross'   => array(
 		'name'     => 'Andrew Norcross',
@@ -255,7 +255,7 @@ return array(
 		'name'     => 'Jeremy Pry',
 		'twitter'  => 'JPry',
 		'gravatar' => '84552f74b71a1a3e6aae380aa9ab3bd3',
-		//'role'     => 'contributor',
+		// 'role'     => 'contributor',
 	),
 	'gregrickaby'      => array(
 		'name'     => 'Greg Rickaby',
@@ -268,6 +268,12 @@ return array(
 		'twitter'  => 'RianRietveld',
 		'gravatar' => '54b6a8a47f9d6f1a93f33be5909c59a5',
 		// 'role'     => 'contributor',
+	),
+	'marcosschratz'    => array(
+		'name'     => 'Marcos Schratzenstaller',
+		'twitter'  => 'marksabbath',
+		'gravatar' => '24a3f43146b18fc5c7a70ba233aa4c6b',
+		'role'     => 'contributor',
 	),
 	'travissmith'      => array(
 		'name'     => 'Travis Smith',

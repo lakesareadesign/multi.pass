@@ -23,7 +23,7 @@ window[ 'genesis' ] = {
 
 	settingsChanged: false,
 
-	onboardingTasks: [ 'dependencies', 'content' ],
+	onboardingTasks: genesis_onboarding.tasks,
 
 	/**
 	 * Inserts a category checklist toggle button and binds the behaviour.
